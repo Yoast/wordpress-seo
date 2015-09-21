@@ -154,7 +154,7 @@ class Yoast_Dashboard_Widget {
 	/**
 	 * Filter items if they have a count of zero
 	 *
-	 * @param array $item
+	 * @param array $item Data array.
 	 *
 	 * @return bool
 	 */

@@ -167,7 +167,12 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		if ( is_array( $post_types ) && $post_types !== array() ) {
 			foreach ( $post_types as $post_type ) {
 				if ( $this->is_metabox_hidden( $post_type ) === false ) {
-					add_meta_box( 'wpseo_meta', 'Yoast SEO', array(
+					$product_title = 'Yoast SEO';
+					if ( file_exists( WPSEO_PATH . 'premium/' ) ) {
+						$product_title .= ' Premium';
+					}
+
+					add_meta_box( 'wpseo_meta', $product_title, array(
 						$this,
 						'meta_box',
 					), $post_type, 'normal', apply_filters( 'wpseo_metabox_prio', 'high' ) );
@@ -519,7 +524,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 *
 	 * @internal $_POST parameters are validated via sanitize_post_meta()
 	 *
-	 * @param  int $post_id
+	 * @param int $post_id Post ID.
 	 *
 	 * @return  bool|void   Boolean false if invalid save post request
 	 */

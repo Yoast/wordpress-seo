@@ -1,0 +1,2287 @@
+# Translation of Yoast SEO (for WordPress) in Swedish
+# This file is distributed under the same license as the Yoast SEO (for WordPress) package.
+msgid ""
+msgstr ""
+"PO-Revision-Date: 2015-09-08 02:59:26+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: GlotPress/1.0-alpha-1100\n"
+"Project-Id-Version: Yoast SEO (for WordPress)\n"
+
+#: admin/google_search_console/class-gsc.php:72
+msgid "Don't miss your crawl errors: %1$sconnect with Google Search Console here%2$s."
+msgstr "Missa inte dina genomsökningsfel: %1$sanslut till Google Search Console här%2$s."
+
+#. translators: %1$s expands to Yoast SEO, %2$s expands to Google Analytics by
+#. Yoast
+#: admin/google_search_console/class-gsc-service.php:146
+msgid "%1$s detected you’re using a version of %2$s which is not compatible with %1$s. Please update %2$s to the latest version to use this feature."
+msgstr "%1$s upptäckte att du använder en version av %2$s som inte är kompatibel med %1$s. Vänligen uppdatera %2$s till den senaste versionen för att använda denna funktion."
+
+#. Translators: %s: expands to Yoast SEO Premium
+#: admin/google_search_console/views/gsc-create-redirect.php:60
+msgid "Creating redirects is a %s feature"
+msgstr "Att skapa omdirigeringar är en  %s-funktion"
+
+#. translators: %1$s expands to Yoast SEO, %2$s expands to 5.4.3, %3$s expands
+#. to Google Analytics by Yoast
+#: admin/class-admin-init.php:157
+msgid "%1$s detected you are using version %2$s of %3$s, please update to the latest version to prevent compatibility issues."
+msgstr "%1$s upptäckte att du använder version %2$s av %3$s, vänligen uppdatera till den senaste versionen för att förhindra kompatibilitetsproblem."
+
+#: admin/views/about.php:216
+msgid "Recent Rockstars"
+msgstr "Senaste rockstjärnorna"
+
+#. translators: %1$s and %2$s expand to a link to the Yoast Knowledge Base
+#: admin/class-social-facebook.php:323
+msgid "If you don't know where to find the needed ID, see %1$sthis knowledge base article%2$s."
+msgstr "Om du inte vet hur du hittar det ID som behövs, se %1$sdenna artikel i vår kunskapsdatabas%2$s."
+
+#: admin/google_search_console/views/gsc-create-redirect.php:46
+msgid "Error: a redirect for this URL already exists"
+msgstr "Fel: en omdirigering för denna URL existerar redan"
+
+#: admin/google_search_console/views/gsc-create-redirect.php:21
+msgid "Redirect this broken URL and fix the error"
+msgstr "Omdirigera denna trasiga URL och fixa felet"
+
+#. translators: %s expands to <code>noindex</code>
+#: admin/class-yoast-dashboard-widget.php:147
+msgid "Posts that are set to %s"
+msgstr "Inlägg som är satta till %s"
+
+#. translators: %s is the plugin name
+#: admin/class-yoast-dashboard-widget.php:41
+msgid "%s Posts Overview"
+msgstr "%s inläggsöversikt"
+
+#: admin/class-customizer.php:221
+msgid "Prefix for search result pages:"
+msgstr "Prefix för sökresultatssidor:"
+
+#: admin/class-customizer.php:196
+msgid "Prefix for archive pages:"
+msgstr "Prefix för arkivsidor:"
+
+#: admin/class-customizer.php:171
+msgid "Prefix for breadcrumbs:"
+msgstr "Prefix för brödsmulor:"
+
+#: admin/class-customizer.php:146
+msgid "Anchor text for the homepage:"
+msgstr "Länktext för startsidan:"
+
+#: admin/class-customizer.php:86
+msgid "Remove blog page from breadcrumbs"
+msgstr "Ta bort bloggsida från brödsmulor"
+
+#: admin/class-admin.php:162
+msgid "Search Console"
+msgstr "Sökkonsol"
+
+#. translators: %1$s expands to Yoast SEO
+#: admin/views/tool-import-export.php:129
+msgid "Export your %1$s settings"
+msgstr "Exportera dina inställningar för %1$s"
+
+#. translators: %1$s expands to Yoast SEO
+#: admin/views/user-profile.php:10
+msgid "%1$s settings"
+msgstr "Inställningar för %1$s"
+
+#. Plugin Name of the plugin/theme
+msgid "Yoast SEO"
+msgstr "Yoast SEO"
+
+#: admin/views/dashboard-widget.php:16
+msgid "Below are your published posts&#8217; SEO scores. Now is as good a time as any to start improving some of your posts!"
+msgstr "Nedan ser du SEO-graden för dina publicerade inlägg. Nu är en lika god tid som någon att börja förbättra några av dina inlägg!"
+
+#: admin/views/tab-permalinks.php:40
+msgid "If you use Google Analytics campaign parameters starting with %s, check this box. However, you're advised not to use these. Instead, use the version with a hash."
+msgstr "Om du använder Google Analytics-kampanjparametrar som börjar med %s, bocka i den här rutan. Du rekommenderas dock inte att använda dessa. Använd istället versionen med en hash."
+
+#: admin/google_search_console/views/gsc-display.php:16
+msgid "Reload crawl issues"
+msgstr ""
+
+#. Translators: %1$s: expands to 'Yoast SEO', %2$s expands to Google Search
+#. Console.
+#: admin/google_search_console/views/gsc-display.php:31
+msgid "To allow %1$s to fetch your %2$s information, please enter your Google Authorization Code."
+msgstr "För att tillåta att %1$s hämtar din %2$s-information, vänligen ange din Google-autentiseringskod."
+
+#: admin/google_search_console/views/gsc-display.php:34
+msgid "Get Google Authorization Code"
+msgstr "Hämta auktoriseringskod från Google"
+
+#: admin/google_search_console/views/gsc-display.php:36
+msgid "Please enter the Google Authorization Code in the field below and press the Authenticate button."
+msgstr "Ange Google autentiseringskod i fältet nedan och tryck på autentiseringsknappen."
+
+#: admin/google_search_console/views/gsc-display.php:40
+msgid "Authenticate"
+msgstr "Autentisera"
+
+#: admin/google_search_console/views/gsc-display.php:44
+msgid "Reauthenticate with Google "
+msgstr "Återautentisera med Google"
+
+#: admin/google_search_console/views/gsc-display.php:45
+#: admin/google_search_console/views/gsc-display.php:48
+msgid "Current profile"
+msgstr "Aktuell profil"
+
+#: admin/google_search_console/views/gsc-display.php:67
+#: admin/google_search_console/views/gsc-display.php:71
+msgid "Profile"
+msgstr "Profil"
+
+#: admin/google_search_console/views/gsc-display.php:72
+msgid "There were no profiles found"
+msgstr "Inga profiler hittades"
+
+#: admin/google_search_console/views/gsc-display.php:80
+msgid "Save Profile"
+msgstr "Spara profil"
+
+#: admin/google_search_console/views/gsc-display.php:80
+msgid "or"
+msgstr "eller"
+
+#. translators: %1$s expands to Yoast SEO
+#: admin/pages/dashboard.php:243
+msgid "Disable the Advanced part of the %1$s meta box"
+msgstr "Inaktivera den avancerade del av %1$s metabox"
+
+#. translators: %1$s expands to Yoast SEO
+#: admin/pages/licenses.php:73
+msgid "%1$s Extensions"
+msgstr "Tillägg för %1$s"
+
+#: admin/pages/metas.php:105 admin/pages/metas.php:165
+msgid "%1$s Meta Box"
+msgstr "%1$s Metabox"
+
+#. translators: %1$s expands to Yoast SEO
+#: admin/pages/network.php:94
+msgid "Who should have access to the %1$s settings"
+msgstr "Vilka ska ha access till %1$s -inställningarna"
+
+#. translators: %1$s expands to Yoast SEO
+#: admin/pages/tools.php:37
+msgid "%1$s comes with some very powerful built-in tools:"
+msgstr "%1$s innehåller en del väldigt effektiva inbyggda verktyg:"
+
+#: admin/pages/xml-sitemaps.php:41
+msgid "Excluded Posts"
+msgstr "Uteslutna inlägg"
+
+#. Translators: %1$s: expands to '<code>1,2,99,100</code>'
+#: admin/pages/xml-sitemaps.php:109
+msgid "You can exclude posts from the sitemap by entering a comma separated string with the Post ID's. The format will become something like: %1$s."
+msgstr "Du kan utesluta inlägg från webbplatskartan genom att ange en kommaseparerad sträng med inläggs-ID'n. Formatet blir i still med: %1$s"
+
+#: admin/pages/xml-sitemaps.php:110
+msgid "Posts to exclude"
+msgstr "Inlägg att utesluta"
+
+#. translators: %1$s expands to Yoast SEO
+#: admin/views/about.php:32
+msgid "Thank you for updating %1$s!"
+msgstr "Tack för att du uppdaterar %1$s!"
+
+#. Translators: %1$s: expands to the current url and %2$s expands to url the
+#. redirects points to.
+#: admin/google_search_console/views/gsc-create-redirect.php:51
+msgid "You do not have to create a redirect for URL %1$s because a redirect already exists. The existing redirect points to %2$s. If this is fine you can mark this issue as fixed. If not, please go to the redirects page and change the target URL."
+msgstr "Du behöver inte omdirigera adressen %1$s eftersom en omdirigering redan finns. Den existerande omdirigering pekar till %2$s. Om du tycker det är rätt kan du markera detta som klart. Om inte, gå till omdirigeringssidan och ändra mål-adressen."
+
+#. Translators: %1$s: expands to 'Yoast SEO Premium', %2$s: links to Yoast SEO
+#. Premium plugin page.
+#: admin/google_search_console/views/gsc-create-redirect.php:64
+msgid "To be able to create a redirect and fix this issue, you need %1$s. You can buy the plugin, including one year support and updates, on %2$s."
+msgstr "För att kunna skapa en omdirigering och åtgärda detta problem behöver du %1$s. Du kan köpa tillägget, inkluderande ett års support och uppdateringar,  på %2$s."
+
+#: admin/google_search_console/class-gsc-service.php:137
+msgid "Yoast plugins share some code between them to make your site faster. As a result of that, we need all Yoast plugins to be up to date. We've detected this isn't the case, so please update the Yoast plugins that aren't up to date yet."
+msgstr "Yoast-tilläggen delar viss kod mellan sig för att göra din sajt snabbare. Därför måste alla tillägg från Yoast vara uppdaterade. Vi har upptäckt att detta inte är fallet nu och ber dig därför uppdatera dessa tillägg till senaste version."
+
+#: admin/google_search_console/class-gsc-table.php:107
+msgid "URL"
+msgstr "Webbadress"
+
+#: admin/google_search_console/class-gsc-table.php:108
+msgid "Last crawled"
+msgstr "Senast genomsökt"
+
+#: admin/google_search_console/class-gsc-table.php:109
+msgid "First detected"
+msgstr "Upptäcktes först"
+
+#: admin/google_search_console/class-gsc-table.php:110
+msgid "Response code"
+msgstr "Svarskod"
+
+#: admin/google_search_console/class-gsc-table.php:139
+#: admin/google_search_console/class-gsc-table.php:210
+msgid "Mark as fixed"
+msgstr "Markera som åtgärdat"
+
+#: admin/google_search_console/class-gsc-table.php:206
+#: admin/google_search_console/views/gsc-create-redirect.php:40
+msgid "Create redirect"
+msgstr "Skapa omdirigering"
+
+#: admin/google_search_console/class-gsc.php:111
+msgid "Search"
+msgstr "Sök"
+
+#: admin/google_search_console/class-gsc.php:121
+msgid "Crawl errors per page"
+msgstr "Genomsökningsfel per sida"
+
+#. Translators: %1$s: expands to Google Search Console.
+#: admin/google_search_console/class-gsc.php:172
+msgid "The %1$s data has been removed. You will have to reauthenticate if you want to retrieve the data again."
+msgstr ""
+
+#: admin/google_search_console/class-gsc.php:185
+msgid "The issues have been successfully reloaded!"
+msgstr "Ärendena har laddats om!"
+
+#: admin/google_search_console/class-gsc.php:216
+msgid "Incorrect Google Authorization Code."
+msgstr ""
+
+#: admin/google_search_console/class-gsc.php:273
+msgid "Issue categories"
+msgstr ""
+
+#: admin/google_search_console/class-gsc.php:274
+msgid "Errors that occurred when your site was crawled by Googlebot."
+msgstr "Fel som uppstod när din sida blev genomsökt av Googlebot."
+
+#: admin/google_search_console/class-gsc.php:275
+msgid "Errors that occurred only when your site was crawled by Googlebot-Mobile (errors didn't appear for desktop)."
+msgstr "Fel som endast uppstod när din sida blev genomsökt av Googlebot (felen uppstod inte för desktop)."
+
+#: admin/google_search_console/class-gsc.php:276
+msgid "Errors that only occurred when your site was crawled by Googlebot for feature phones (errors didn't appear for desktop)."
+msgstr "Fel som endast uppstod när din sida blev genomsökt av Googlebot för nyare mobiltelefoner (felen uppstod inte för desktop)."
+
+#: admin/google_search_console/class-gsc-table.php:206
+msgid "Create a redirect"
+msgstr "Skapa en omdirigering"
+
+#: admin/google_search_console/views/gsc-create-redirect.php:24
+msgid "Current URL:"
+msgstr "Aktuell webbadress"
+
+#: admin/google_search_console/views/gsc-create-redirect.php:28
+msgid "New URL:"
+msgstr "Ny webbadress:"
+
+#: admin/google_search_console/views/gsc-create-redirect.php:32
+msgid "Mark as fixed:"
+msgstr "Markera som åtgärdat:"
+
+#. Translators: %1$s: expands to 'Google Search Console'.
+#: admin/google_search_console/views/gsc-create-redirect.php:36
+msgid "Mark this issue as fixed in %1$s."
+msgstr "Markera detta som åtgärdat i %1$s."
+
+#: admin/google_search_console/class-gsc-category-filters.php:121
+msgid "The target URL doesn't exist, but your server is not returning a 404 (file not found) error."
+msgstr "Mål-URL:en existerar inte, men din server returnerar inte ett 404-fel (filen hittades ej)."
+
+#: admin/google_search_console/class-gsc-platform-tabs.php:43
+#: admin/google_search_console/class-gsc.php:274
+msgid "Desktop"
+msgstr "Stationär dator"
+
+#: admin/google_search_console/class-gsc-platform-tabs.php:44
+#: admin/google_search_console/class-gsc.php:275
+msgid "Smartphone"
+msgstr "Smarttelefon"
+
+#: admin/google_search_console/class-gsc-platform-tabs.php:45
+#: admin/google_search_console/class-gsc.php:276
+msgid "Feature phone"
+msgstr "Mobiltelefon"
+
+#. translators: %1$s expands to Yoast SEO
+#: admin/class-taxonomy.php:185
+msgid "%1$s Settings"
+msgstr "Inställningar för %1$s"
+
+#: admin/class-yoast-dashboard-widget.php:116
+msgid "Posts with good SEO score"
+msgstr "Inlägg med bra SEO poäng"
+
+#: admin/class-yoast-dashboard-widget.php:122
+msgid "Posts with OK SEO score"
+msgstr "Inlägg med OK SEO poäng"
+
+#: admin/class-yoast-dashboard-widget.php:128
+msgid "Posts with poor SEO score"
+msgstr "Inlägg med svaga SEO-poäng"
+
+#: admin/class-yoast-dashboard-widget.php:134
+msgid "Posts with bad SEO score"
+msgstr "Inlägg med dålig SEO-poäng"
+
+#: admin/class-yoast-dashboard-widget.php:140
+msgid "Posts without focus keyword"
+msgstr "Inlägg utan fokusnyckelord"
+
+#. translators: %1$s expands to Yoast SEO Premium
+#: admin/class-yoast-form.php:230
+msgid "Upgrade to %1$s &raquo;"
+msgstr "Uppgradera till %1$s &raquo;"
+
+#. translators: %1$s: 'Facebook & Open Graph' plugin name(s) of possibly
+#. conflicting plugin(s), %2$s to Yoast SEO
+#: admin/class-yoast-plugin-conflict.php:163
+msgid "The %1$s plugin(s) might cause issues when used in conjunction with %2$s."
+msgstr "%1$s tillägg(en) kan orsaka problem vid användning tillsammans med %2$s."
+
+#. translators: %1$s expands to Yoast SEO
+#: admin/class-yoast-plugin-conflict.php:176
+msgid "This warning is generated by %1$s."
+msgstr "Den här varningen genererades av %1$s."
+
+#: admin/google_search_console/class-gsc-category-filters.php:113
+msgid "Access denied"
+msgstr "Åtkomst nekad "
+
+#: admin/google_search_console/class-gsc-category-filters.php:113
+msgid "Server requires authentication or is blocking Googlebot from accessing the site."
+msgstr "Servern kräver auktorisering  eller blockerar Googlebot från tillgång till sidan."
+
+#: admin/google_search_console/class-gsc-category-filters.php:114
+msgid "Faulty redirects"
+msgstr "Felaktig omdirigering"
+
+#: admin/google_search_console/class-gsc-category-filters.php:115
+msgid "Not followed"
+msgstr "Inte följd"
+
+#: admin/google_search_console/class-gsc-category-filters.php:116
+msgid "Not found"
+msgstr "Kunde inte hittas"
+
+#: admin/google_search_console/class-gsc-category-filters.php:116
+msgid "URL points to a non-existent page."
+msgstr "Webbadressen pekar mot en icke existerande sida."
+
+#: admin/google_search_console/class-gsc-category-filters.php:117
+msgid "Google was unable to crawl this URL due to an undetermined issue."
+msgstr "Google kunde inte genomsöka denna URL på grund av ett oväntat fel."
+
+#. Translators: %1$s: expands to '<code>robots.txt</code>'.
+#: admin/google_search_console/class-gsc-category-filters.php:119
+msgid "Blocked"
+msgstr "Blockerad"
+
+#: admin/google_search_console/class-gsc-category-filters.php:119
+msgid "Googlebot could access your site, but certain URLs are blocked for Googlebot in your %1$s file. This block could either be for all Googlebots or even specifically for Googlebot-mobile."
+msgstr "Googlebot kunde komma åt din webbplats, men vissa URL:er är blockerade för Googlebot i din %1$s-fil. Denna blockering kan vara för alla Googlebots eller specifikt för Googlebot för mobiler."
+
+#: admin/google_search_console/class-gsc-category-filters.php:120
+msgid "Server Error"
+msgstr "Serverfel"
+
+#: admin/google_search_console/class-gsc-category-filters.php:120
+msgid "Request timed out or site is blocking Google."
+msgstr "Begäran tog för lång tid, eller webbplatsen blockerar Google."
+
+#: admin/google_search_console/class-gsc-category-filters.php:121
+msgid "Soft 404"
+msgstr "Mjuk 404"
+
+#. translators: %1$s expands to Yoast SEO
+#: admin/class-pointers.php:247
+msgid "More %1$s"
+msgstr "Mer %1$s"
+
+#. translators: %s is the name of the plugin
+#: admin/class-customizer.php:52
+msgid "%s Breadcrumbs"
+msgstr "%s-brödsmulor"
+
+#: admin/class-customizer.php:121
+msgid "Breadcrumbs separator:"
+msgstr "Avskiljare för brödsmulor:"
+
+#: admin/class-customizer.php:246
+msgid "Breadcrumb for 404 pages:"
+msgstr ""
+
+#. translators: %1$s expands to Yoast SEO
+#: admin/class-export.php:71
+msgid "Error creating %1$s export: "
+msgstr "Fel uppstod vid export av %1$s: "
+
+#. translators: %1$s expands to Yoast SEO
+#: admin/class-plugin-conflict.php:132
+msgid "Configure %1$s's OpenGraph settings"
+msgstr "Konfigurera %1$ss OpenGraph-inställningar"
+
+#. translators: %1$s expands to Yoast SEO
+#: admin/class-plugin-conflict.php:139
+msgid "Configure %1$s's XML Sitemap settings"
+msgstr "Konfigurera inställningarna för %1$ss XML-webbplatskarta"
+
+#. translators: %1$s expands to Yoast SEO, $2%s to the version number, %3$s and
+#. %4$s to anchor tags with link to intro page
+#: admin/class-admin-init.php:71
+msgid "%1$s has been updated to version %2$s. %3$sClick here%4$s to find out what's new!"
+msgstr "%1$s har uppdaterats till version %2$s. %3$sKlicka här%4$s för att se vad som är nytt!"
+
+#: admin/class-admin-init.php:115
+msgid "You still have the default WordPress tagline, even an empty one is probably better. %1$sYou can fix this in the customizer%2$s."
+msgstr "Du har fortfarande förvald WordPress-slogan, till och med en tom sådan är troligtvis bättre. %1$sDu kan fixa detta i anpassaren%2$s."
+
+#: admin/class-admin-init.php:136
+msgid "Just another WordPress site"
+msgstr "Bara en annan WordPress sida"
+
+#: admin/pages/dashboard.php:168
+msgid "Latest Changes"
+msgstr "Senaste ändringarna"
+
+#. translators: %s expands to Yoast SEO
+#: admin/pages/dashboard.php:171
+msgid "We've summarized the most recent changes in %s."
+msgstr "Summering av de senaste ändringarna i %s."
+
+#: admin/pages/dashboard.php:176
+msgid "View Changes"
+msgstr "Visa ändringar"
+
+#: admin/views/tab-permalinks.php:48
+msgid "Clean up the %s"
+msgstr "Rensa upp %s"
+
+#: admin/pages/dashboard.php:197
+msgid "Google shows your website's name in the search results, we will default to your site name but you can adapt it here. You can also provide an alternate website name you want Google to consider."
+msgstr "Google visar din webbsidas namn i sökresultatet, som standard anger vi din webbplats namn men du kan anpassa det här. Du kan även ange ett alternativt namn för webbsidan som Google kan överväga."
+
+#: admin/pages/dashboard.php:202
+msgid "Alternate name"
+msgstr "Alternativt namn"
+
+#: admin/pages/metas.php:188
+msgid "Duplicate content prevention"
+msgstr "Förhindra duplicerat innehåll"
+
+#. translators: %1$s / %2$s: links to an article about duplicate content on
+#. yoast.com
+#: admin/pages/metas.php:191
+msgid "If you're running a one author blog, the author archive will be exactly the same as your homepage. This is what's called a %1$sduplicate content problem%2$s."
+msgstr "Om du är ensam författare på din blogg så kommer författararkivet bli identiskt med hemsidan. Detta är vad som kallas ett %1$sproblem med duplicerat innehåll%2$s."
+
+#. translators: %s expands to <code>noindex, follow</code>
+#: admin/pages/metas.php:194
+msgid "If this is the case on your site, you can choose to either disable it (which makes it redirect to the homepage), or to add %s to it so it doesn't show up in the search results."
+msgstr "Om detta är fallet på din sajt så kan du antingen inaktivera det (vilket pekar om det till hemsidan), eller addera %s till det så det inte syns i sökresultaten."
+
+#. translators: %s expands to <code>noindex, follow</code>
+#: admin/pages/metas.php:197
+msgid "Add %s to the author archives"
+msgstr "Lägg %s till författararkiven"
+
+#: admin/pages/metas.php:200
+msgid "Date-based archives could in some cases also be seen as duplicate content."
+msgstr "Databasarkiv kan under vissa omständigheter även visas som duplicerat innehåll."
+
+#. translators: %s expands to <code>noindex, follow</code>
+#: admin/pages/metas.php:203
+msgid "Add %s to the date-based archives"
+msgstr "Lägg %s till de datumbaserade arkiven"
+
+#: admin/pages/metas.php:221
+msgid "Sitewide meta settings"
+msgstr "Övergripande metainställningar"
+
+#: admin/pages/metas.php:228
+msgid "Use meta keywords tag?"
+msgstr "Använd metanyckelordstaggar?"
+
+#. translators: %s expands to <code>noodp</code>
+#. translators: %s expands to <code>noydir</code>
+#: admin/pages/metas.php:232 admin/pages/metas.php:236
+msgid "Add %s meta robots tag sitewide"
+msgstr ""
+
+#. translators: %s expands to <code>&lt;head&gt;</code>
+#: admin/pages/social.php:50
+msgid "Add Open Graph meta data to your site's %s section, Facebook and other social networks use this data when your pages are shared."
+msgstr "Lägg till metadata för Open Graph i din webbplats %s-sektion, Facebook och andra sociala medier använder denna data när dina sidor delas."
+
+#. translators: %s expands to <code>&lt;head&gt;</code>
+#: admin/pages/social.php:86
+msgid "Add Twitter card meta data to your site's %s section."
+msgstr "Lägg till metadata för Twitterkort i din webbplats %s-sektion."
+
+#: admin/views/tab-breadcrumbs.php:36
+msgid "Taxonomy to show in breadcrumbs for post types"
+msgstr "Taxonomi att visa i brödsmulor för inläggstyper"
+
+#: admin/views/tab-breadcrumbs.php:55
+msgid "Post type archive to show in breadcrumbs for taxonomies"
+msgstr "Arkiv för inläggstyper att visa i brödsmulor för taxonomier."
+
+#. translators: %1$s / %2$s: links to the breadcrumbs implementation page on
+#. the Yoast knowledgebase
+#: admin/views/tab-breadcrumbs.php:83
+msgid "Usage of this breadcrumbs feature is explained in %1$sour knowledge-base article on breadcrumbs implementation%2$s."
+msgstr "Användning av denna funktion för brödsmulor är förklarad i %1$svår kunskapsdatabas om tillämpning av brödsmulor%2$s."
+
+#: inc/class-wpseo-replace-vars.php:897
+msgid "Page %1$d of %2$d"
+msgstr "Sida %1$d av %2$d"
+
+#: inc/wpseo-non-ajax-functions.php:382
+msgid "Mobile-Friendly Test"
+msgstr ""
+
+#. translators: %1$s expands to Yoast SEO, %2$s / %3$s: links to the
+#. installation manual in the Readme for the Yoast SEO code repository on
+#. GitHub
+#: wp-seo-main.php:390
+msgid "The %1$s plugin installation is incomplete. Please refer to %2$sinstallation instructions%3$s."
+msgstr "Installationen av tillägget %1$s är inte färdig. Se %2$sinstallationsinstruktionerna%3$s."
+
+#: admin/class-social-facebook.php:113
+msgid "Please make sure both fields are filled."
+msgstr "Se till att båda fälten är ifyllda."
+
+#: admin/class-social-facebook.php:116
+msgid "Your input contains invalid characters. Please make sure both fields are filled in correctly."
+msgstr "Din inmatning innehåller ogiltiga tecken. Se till att båda fälten är korrekt ifyllda."
+
+#: admin/class-social-facebook.php:119
+msgid "This Facebook user has already been added as an admin."
+msgstr "Denna Facebookanvändare är redan tillagd som administratör."
+
+#. translators: %1$s and %2$s expand to a link to the Yoast Knowledge Base
+#: admin/class-social-facebook.php:302
+msgid "More info can be found %1$son our knowledge base%2$s."
+msgstr "Mer information finns %1$si vår kunskapsdatabas%2$s."
+
+#: admin/class-social-facebook.php:335 admin/class-social-facebook.php:349
+msgid "Add Facebook admin"
+msgstr "Lägg till Facebook-administratör"
+
+#. translators: %1$s and %2$s expand to a link to Facebook Insights
+#: admin/class-social-facebook.php:319
+msgid "To be able to access %1$sFacebook Insights%2$s, you need to add a user here. The name is used for reference only, the ID is used for verification."
+msgstr "För att få tillgång till%1$s Facebook Insights%2$s, måste du lägga till en användare. Namnet används endast för referens, ID används för kontroll. "
+
+#: admin/class-social-facebook.php:326
+msgid "Admin's name:"
+msgstr "Administratörens namn:"
+
+#: admin/class-social-facebook.php:330
+msgid "Admin's Facebook user ID:"
+msgstr ""
+
+#: admin/pages/dashboard.php:194 admin/pages/dashboard.php:201
+msgid "Website name"
+msgstr "Webbplatsnamn"
+
+#. translators: %1$s expands to the social network, %2$s to the recommended
+#. image size
+#: admin/class-opengraph-admin.php:36
+msgid "The recommended image size for %1$s is %2$spx."
+msgstr "Den rekommenderade bildstorleken för %1$s är %2$spx"
+
+#. translators: %s: '%%term_title%%' variable used in titles and meta's
+#. template that's not compatible with the given template
+#: admin/class-config.php:109
+msgid "Warning: the variable %s cannot be used in this template."
+msgstr "Varning: variabeln %s kan inte användas i den här mallen."
+
+#: vendor/yoast/license-manager/views/form.php:15
+msgid "We couldn't create a connection to our API to verify your license key(s). Please ask your hosting company to allow outgoing connections from your server to %s."
+msgstr "Vi kunde inte skapa en anslutning till vårt API för att verifiera din/dina licensnyckel/licensnycklar. Be ditt webbhotell att tillåta utgående anslutningar från din server till %s."
+
+#: vendor/yoast/license-manager/views/form.php:19
+msgid "Your server has an outdated version of the PHP module cURL (Version: %s). Please ask your hosting company to update this to a recent version of cURL. You can read more about that in our %sKnowledge base%s."
+msgstr "Din server har en gammal version av PHP-modulen cURL (version: %s). Be ditt webbhotell uppdatera denna till en senare version av cURL. Du kan läsa mer om detta i vår %skunskapsdatabas%s."
+
+#: admin/class-metabox.php:555
+msgid "The featured image should be at least 200x200 pixels to be picked up by Facebook and other social media sites."
+msgstr "Din utvalda bild bör vara minst 200x200 pixlar för att fungera på Facebook och i andra sociala medier."
+
+#: admin/class-config.php:109
+msgid "See the help tab for more info."
+msgstr "Se hjälpfliken för mer info."
+
+#: admin/class-admin.php:223
+msgid "Note that not all variables can be used in every template."
+msgstr "Notera att alla variablar inte kan användas i alla mallar"
+
+#. translators: %1$s expands to Yoast SEO, %2%s: 'Facebook' plugin name of
+#. possibly conflicting plugin with regard to creating OpenGraph output
+#: admin/class-plugin-conflict.php:128
+msgid "Both %1$s and %2$s create OpenGraph output, which might make Facebook, Twitter, LinkedIn and other social networks use the wrong texts and images when your pages are being shared."
+msgstr "Både  %1$s och %2$s skapar innehåll i OpenGraph, vilket kan leda till att Facebook, Twitter, Linkedin och andra sociala nätverk använder fel text och bilder när din sida delas."
+
+#. translators: %1$s expands to Yoast SEO, %2$s: 'Google XML Sitemaps' plugin
+#. name of possibly conflicting plugin with regard to the creation of sitemaps
+#: admin/class-plugin-conflict.php:135
+msgid "Both %1$s and %2$s can create XML sitemaps. Having two XML sitemaps is not beneficial for search engines, yet might slow down your site."
+msgstr ""
+
+#: admin/class-social-facebook.php:294
+msgid "To be able to access %sFacebook Insights%s for your site, you need to specify a Facebook Admin. This can be a user. If you have an app for your site, you could use that as well."
+msgstr "För att använda %sFacebook Insights%s på din hemsida, behöver du specificera en Facebook administratör. Det kan vara en användare. Om du använder en app för din hemsida kan du använda den med. "
+
+#: admin/class-yoast-plugin-conflict.php:160
+msgid "Warning!"
+msgstr "Varning!"
+
+#: admin/class-yoast-plugin-conflict.php:165
+msgid "Recommended solution"
+msgstr "Rekommenderad lösning"
+
+#. translators: %1$s: 'Facebook & Open Graph' plugin name(s) of possibly
+#. conflicting plugin(s). %2$s to Yoast SEO
+#: admin/class-yoast-plugin-conflict.php:168
+msgid "We recommend you deactivate %1$s and have another look at your %2$s configuration using the button above."
+msgstr "Vi rekommenderar dig att avaktivera %1$s och försöka använda konfigurationen för %2$s via knappen ovan."
+
+#. translators: %s: 'Facebook' plugin name of possibly conflicting plugin
+#: admin/class-yoast-plugin-conflict.php:172
+msgid "Deactivate %s"
+msgstr "Inaktivera %s"
+
+#. translators: %s: '2.3' version number
+#: admin/views/about.php:43
+msgid "What’s new in %s"
+msgstr "Vad är nytt i %s"
+
+#: wp-seo-main.php:424
+msgid "Activation failed:"
+msgstr "Aktiveringen misslyckades:"
+
+#: admin/class-export.php:66
+msgid "Export created: %1$sdownload your export file here%2$s."
+msgstr "Export skapad: %1$shämta din export fil här%2$s."
+
+#: admin/class-export.php:97
+msgid "Could not zip settings-file."
+msgstr "Kunde inte komprimera inställningsfilen."
+
+#: admin/class-export.php:102
+msgid "Could not write settings to file."
+msgstr "Kunde inte spara inställningarna till fil."
+
+#: admin/class-export.php:114
+msgid "This export includes taxonomy metadata"
+msgstr "Denna export inkluderar taxonomi-metadata"
+
+#: admin/class-export.php:181
+msgid "No taxonomy metadata found"
+msgstr "Ingen taxonomi-metadata hittad"
+
+#: admin/class-import-external.php:120
+msgid "Error: no Robots Meta data found to import."
+msgstr "Fel: Ingen Robots-metadata hittad att importera."
+
+#: admin/views/tool-import-export.php:107
+msgid "Import settings by locating <em>settings.zip</em> and clicking \"Import settings\""
+msgstr "Importera inställningar genom att lokalisera <em>settings.zip</em> och klicka \"Importera inställningar\""
+
+#: wp-seo-main.php:414
+msgid "The filter extension seem to be unavailable. Please ask your web host to enable it."
+msgstr ""
+
+#: admin/pages/dashboard.php:147
+msgid "Company Info"
+msgstr "Företagsinformation"
+
+#: admin/pages/dashboard.php:147
+msgid "Your Info"
+msgstr "Din information"
+
+#: admin/class-yoast-form.php:424
+msgid "Upload Image"
+msgstr "Ladda upp bild"
+
+#: admin/pages/advanced.php:16
+msgid "Breadcrumbs"
+msgstr "Brödsmulor"
+
+#: admin/class-metabox.php:451
+msgid "SEO:"
+msgstr "SEO:"
+
+#. translators: %1$s expands to Yoast SEO
+#: admin/class-pointers.php:241
+msgid "These are the General settings for %1$s, here you can restart this tour or revert the %1$s settings to default."
+msgstr "Detta är de generella inställningarna för %1$s. Här kan du starta om den här genomgången eller återställa inställningarna för %1$s till de förvalda."
+
+#: admin/class-pointers.php:242
+msgid "Tab: Your Info / Company Info"
+msgstr "Flik: Din information / Företagsinformation"
+
+#: admin/class-pointers.php:242
+msgid "Add some info here needed for Google's Knowledge Graph."
+msgstr "Lägg till lite info här som behövs för Googles Knowledge Graph."
+
+#: admin/class-pointers.php:243
+msgid "Tab: Webmaster Tools"
+msgstr "Flik: Verktyg för webbansvarig"
+
+#: admin/class-pointers.php:243
+msgid "You can add the verification codes for the different Webmaster Tools programs here. We highly encourage you to check out both Google and Bing&#8217;s Webmaster Tools."
+msgstr "Du kan lägga till verifieringskoder för de olika Webmaster Tools programmen här. Vi rekommenderar med fördel både Google och Bing&#8217;s Webmaster Tools."
+
+#: admin/class-pointers.php:244
+msgid "Tab: Security"
+msgstr "Flik: Säkerhet"
+
+#: admin/class-pointers.php:244
+msgid "Determine who has access to the plugins advanced settings on the post edit screen."
+msgstr "Bestäm vilka som har tillgång till tilläggets avancerade inställningar i postens redigeringsvy."
+
+#: admin/class-pointers.php:252
+msgid "Subscribe to our Newsletter"
+msgstr "Prenumerera på vårt nyhetsbrev"
+
+#: admin/class-pointers.php:275
+msgid "The first tab will show you site-wide settings for titles, normally you'll only need to change the Title Separator."
+msgstr ""
+
+#: admin/class-pointers.php:277
+msgid "On the archives tab you can set templates for specific pages like author archives, search results and more."
+msgstr ""
+
+#: admin/class-pointers.php:278
+msgid "On the Other tab you can change sitewide meta settings, like enable meta keywords."
+msgstr ""
+
+#: admin/class-pointers.php:295
+msgid "On this tab you can verify your site with Pinterest and enter your Pinterest account."
+msgstr ""
+
+#: admin/class-pointers.php:297
+msgid "On this tab you can enter some more of your social accounts, mostly used for Google's Knowledge Graph."
+msgstr ""
+
+#: admin/class-pointers.php:312
+msgid "This plugin adds XML sitemaps to your site. The sitemaps are automatically updated when you publish a new post, page or custom post and Google and Bing will be automatically notified."
+msgstr ""
+
+#: admin/class-pointers.php:327
+msgid "Advanced Settings"
+msgstr "Avancerade inställningar"
+
+#: admin/class-pointers.php:327
+msgid "All of the options on these tabs are for advanced users only, if you don&#8217;t know whether you should check any, don&#8217;t touch them."
+msgstr "Alla inställningar under dessa flikar riktar sig bara till erfarna användare. Om du är osäker på om du borde markera något av valen är det bästa att inte röra dem över huvud taget."
+
+#. translators: %1$s expands to Yoast SEO, %2$s to Yoast SEO Premium, %3$s and
+#. %4$s to an anchor with link about our premium plugins
+#: admin/class-pointers.php:343
+msgid "The powerful functions of %1$s can be extended with %3$sYoast premium plugins%4$s. These premium plugins require the installation of %1$s or %2$s and add specific functionality. You can read all about the Yoast Premium Plugins %3$shere%4$s."
+msgstr ""
+
+#: admin/class-pointers.php:350
+msgid "Thank you for using our plugin and good luck with your SEO!<br/><br/>Best,<br/>Team Yoast - %1$sYoast.com%2$s"
+msgstr "Tack för att du använder vårt tillägg och lycka till med din SEO!<br/><br/>Mvh,<br/>Team Yoast - %1$sYoast.com%2$s"
+
+#: admin/pages/dashboard.php:156
+msgid "Introduction Tour"
+msgstr "Introduktionsgenomgång"
+
+#: admin/pages/dashboard.php:182 admin/pages/dashboard.php:190
+msgid "Restore Default Settings"
+msgstr "Återställ standardinställningar"
+
+#: admin/pages/dashboard.php:208
+msgid "This data is shown as metadata in your site. It is intended to appear in Google's Knowledge Graph. You can be either a company, or a person, choose either:"
+msgstr ""
+
+#: admin/pages/dashboard.php:204 admin/pages/dashboard.php:212
+msgid "Company or person"
+msgstr "Företag eller person"
+
+#: admin/pages/dashboard.php:213
+msgid "Choose whether you're a company or person"
+msgstr "Välj om du är ett företag eller person"
+
+#: admin/pages/dashboard.php:214 admin/pages/dashboard.php:219
+msgid "Company"
+msgstr "Företag"
+
+#: admin/pages/dashboard.php:215 admin/pages/dashboard.php:226
+msgid "Person"
+msgstr "Person"
+
+#: admin/pages/dashboard.php:221
+msgid "Company Name"
+msgstr "Företagsnamn"
+
+#: admin/pages/dashboard.php:222
+msgid "Company Logo"
+msgstr "Företagslogotyp"
+
+#: admin/pages/dashboard.php:227
+msgid "Your name"
+msgstr "Ditt namn"
+
+#: admin/pages/licenses.php:117
+msgid "This is where you would enter the license keys for one of our premium plugins, should you activate one."
+msgstr "Det är här du ska fylla i din licens-nyckel för en av våra premiumtillägg, om du skulle vilja aktivera ett."
+
+#: admin/pages/metas.php:37
+msgid "Enable force rewrite titles"
+msgstr "Aktivera tvingade omskrivningar av titlar"
+
+#: admin/pages/social.php:20
+msgid "Accounts"
+msgstr "Konton"
+
+#: admin/pages/social.php:29
+msgid "To inform Google about your social profiles, we need to know their URLs."
+msgstr "För att ange dina sociala profiler för Google måste vi veta dess adresser."
+
+#: admin/pages/social.php:30
+msgid "For each, pick the main account associated with this site and please enter them below:"
+msgstr "För varje alternativ, välj det huvudkonto som associeras med denna webbsida och fyll i dom nedan:"
+
+#: admin/pages/social.php:34
+msgid "Twitter Username"
+msgstr "Twitter-användarnamn"
+
+#: admin/pages/social.php:35
+msgid "Instagram URL"
+msgstr "URL för Instagram"
+
+#: admin/pages/social.php:36
+msgid "LinkedIn URL"
+msgstr "URL för LinkedIn"
+
+#: admin/pages/social.php:37
+msgid "MySpace URL"
+msgstr "URL för MySpace"
+
+#: admin/pages/social.php:38
+msgid "Pinterest URL"
+msgstr "URL för Pinterest"
+
+#: admin/pages/social.php:39
+msgid "YouTube URL"
+msgstr "URL för YouTube"
+
+#: admin/pages/social.php:40
+msgid "Google+ URL"
+msgstr "URL för Google+"
+
+#: admin/pages/social.php:100
+msgid "Pinterest uses Open Graph metadata just like Facebook, so be sure to keep the Open Graph checkbox on the Facebook tab checked if you want to optimize your site for Pinterest."
+msgstr ""
+
+#: admin/pages/social.php:109
+msgid "Pinterest verification"
+msgstr "Verifikation för Pinterest"
+
+#. translators: %1$s / %2$s expands to a link to pinterest.com's help page.
+#: admin/pages/social.php:105
+msgid "To %1$sverify your site with Pinterest%2$s, add the meta tag here:"
+msgstr "Lägg till meta-taggen här för att %1$sbekräfta din webbplats hos Pinterest%2$s:"
+
+#: admin/pages/tools.php:21
+msgid "Bulk editor"
+msgstr "Massredigerare"
+
+#: admin/pages/tools.php:22
+msgid "This tool allows you to quickly change titles and descriptions of your posts and pages without having to go into the editor for each page."
+msgstr "Detta verktyg låter dig snabbt ändra titlar och beskrivningar för dina inlägg och sidor utan att du behöver gå in i redigeraren för respektive sida."
+
+#: admin/pages/tools.php:25
+msgid "Import and Export"
+msgstr "Importera och exportera"
+
+#: admin/pages/tools.php:26
+msgid "Import settings from other SEO plugins and export your settings for re-use on (another) blog."
+msgstr "Importera inställningar från andra SEO-tillägg och exportera dina inställningar för återanvändning på (annan) blogg."
+
+#: admin/pages/tools.php:31
+msgid "File editor"
+msgstr "Filredigerare"
+
+#: admin/pages/tools.php:32
+msgid "This tool allows you to quickly change important files for your SEO, like your robots.txt and, if you have one, your .htaccess file."
+msgstr "Detta verktyg låter dig snabbt ändra viktiga fler för din SEO, t.ex. din robots.txt och, om du har en,  .htaccess."
+
+#: admin/pages/tools.php:52
+msgid "&laquo; Back to Tools page"
+msgstr ""
+
+#: admin/pages/xml-sitemaps.php:68
+msgid "Max entries per sitemap"
+msgstr "Maximalt antal poster per webbplatskarta"
+
+#: admin/views/about.php:46
+msgid "Credits"
+msgstr "Erkännanden"
+
+#: admin/views/about.php:159
+msgid "More Translations"
+msgstr "Fler översättningar"
+
+#. translators: %1$s expands to Yoast SEO, %2$s and %3$s to the anchor tags to
+#. the translate.yoast.com link, %4$d to the number of translations, %5$d to
+#. the number of translations,
+#: admin/views/about.php:164
+msgid "%1$s ships, at time of release, with %4$d translations, of which %5$d are complete. That's a huge improvement from last time, and we're improving every week. Join us at %2$stranslate.yoast.com%3$s!"
+msgstr "%1$s levereras, vid releasedatumet, med %4$d översättningar, varav %5$d är kompletta. Det är en stor förbättring sedan senast, och vi blir ännu bättre för varje vecka som går. Hjälp oss, även du på %2$stranslate.yoast.com%3$s!"
+
+#: admin/views/about.php:172
+msgid "Go to The General settings page →"
+msgstr "Gå till sidan för Allmäna Inställningar →"
+
+#. translators: %1$s and %2$s expands to anchor tags, %3$s expands to Yoast SEO
+#: admin/views/about.php:181
+msgid "While most of the development team is at %1$sYoast%2$s in the Netherlands, %3$s is created by a worldwide team."
+msgstr "Medan de flesta i utvecklingsgruppen finns hos %1$sYoast%2$s i Nederländerna, så har %3$s skapats av ett världsomspännande team."
+
+#: admin/views/about.php:183
+msgid "Want to help us develop? Read our %1$scontribution guidelines%2$s!"
+msgstr "Vill du hjälpa oss med utvecklingen? Läs våra %1$sriktlinjer för bidrag%2$s!"
+
+#: admin/views/about.php:187
+msgid "Project Leaders"
+msgstr "Projektledare"
+
+#: admin/views/about.php:193
+msgid "Project Lead"
+msgstr "Projektledare"
+
+#: admin/views/about.php:198 admin/views/about.php:203
+msgid "Lead Developer"
+msgstr "Ansvarig utvecklare"
+
+#: admin/views/about.php:208
+msgid "QA & Translations Manager"
+msgstr "QA & översättingsansvarig"
+
+#: admin/views/about.php:245
+msgid "Contributing Developers"
+msgstr "Bidragande utvecklare"
+
+#: admin/views/about.php:251 admin/views/about.php:256
+#: admin/views/about.php:261
+msgid "Developer"
+msgstr "Utvecklare"
+
+#: admin/views/about.php:269
+msgid "Contributors to this release"
+msgstr "Bidragslämnare till denna utgåva"
+
+#: admin/views/tab-permalinks.php:15
+msgid "Change URLs"
+msgstr "Ändra URLer"
+
+#: admin/views/tab-permalinks.php:21
+msgid "Clean up permalinks"
+msgstr "Städa upp permalänkar"
+
+#: admin/views/tool-import-export.php:95
+msgid "Import from other SEO plugins"
+msgstr "Importera från andra SEO-tillägg"
+
+#: admin/views/tool-import-export.php:97
+msgid "Import from other plugins"
+msgstr "Importera från andra tillägg"
+
+#: admin/views/tool-import-export.php:163
+msgid "If you want to import data from (by now ancient) Yoast plugins, you can do so here:"
+msgstr "Om du vill importera data från (numera uråldriga) Yoast-tillägg, så kan du göra det här:"
+
+#: inc/wpseo-non-ajax-functions.php:562
+msgid "The plugin All-In-One-SEO has been detected. Do you want to %simport its settings%s?"
+msgstr "Tillägget All-In-One-SEO har upptäckts. Vill du %simportera dess inställningar%s?"
+
+#: admin/class-bulk-editor-list-table.php:133
+msgid "You are not allowed to access this page."
+msgstr "Du har inte behörighet till denna sida."
+
+#: admin/class-admin.php:153
+msgid "Tools"
+msgstr "Verktyg"
+
+#: vendor/yoast/license-manager/class-license-manager.php:179
+msgid "Your %s license has been activated. "
+msgstr "Din %s licens har aktiverats."
+
+#: vendor/yoast/license-manager/class-license-manager.php:183
+msgid "You have an unlimited license. "
+msgstr "Du har en obegränsad licens."
+
+#: vendor/yoast/license-manager/class-license-manager.php:185
+msgid "You have used %d/%d activations. "
+msgstr "Du har använt %d/%d aktiveringar."
+
+#. translators: this should be an array of stopwords for your language,
+#. separated by comma's.
+#: admin/class-admin.php:528
+msgid "a,about,above,after,again,against,all,am,an,and,any,are,as,at,be,because,been,before,being,below,between,both,but,by,could,did,do,does,doing,down,during,each,few,for,from,further,had,has,have,having,he,he'd,he'll,he's,her,here,here's,hers,herself,him,himself,his,how,how's,i,i'd,i'll,i'm,i've,if,in,into,is,it,it's,its,itself,let's,me,more,most,my,myself,nor,of,on,once,only,or,other,ought,our,ours,ourselves,out,over,own,same,she,she'd,she'll,she's,should,so,some,such,than,that,that's,the,their,theirs,them,themselves,then,there,there's,these,they,they'd,they'll,they're,they've,this,those,through,to,too,under,until,up,very,was,we,we'd,we'll,we're,we've,were,what,what's,when,when's,where,where's,which,while,who,who's,whom,why,why's,with,would,you,you'd,you'll,you're,you've,your,yours,yourself,yourselves"
+msgstr ""
+
+#: admin/class-metabox.php:44
+msgid "The SEO title defaults to what is generated based on this sites title template for this posttype."
+msgstr "SEO-titeln sätts som standard till vad som genereras baserat på den här webbplatsens titelexempel för den här inläggstypen. "
+
+#. translators: %s expands to the social network's name
+#: admin/class-opengraph-admin.php:30
+msgid "If you don't want to use the post title for sharing the post on %s but instead want another title there, write it here."
+msgstr "Om du inte vill använda inläggets titel för att dela inlägget på %s utan istället vill använda en annan titel, ange den här."
+
+#. translators: %s expands to the social network's name
+#: admin/class-opengraph-admin.php:32
+msgid "If you don't want to use the meta description for sharing the post on %s but want another description there, write it here."
+msgstr "Om du inte vill använda meta-beskrivningen för att dela inlägget på %s utan istället vill använda en annan beskrivning, ange den här."
+
+#. translators: %s expands to the social network's name
+#: admin/class-opengraph-admin.php:34
+msgid "If you want to override the image used on %s for this post, upload / choose an image or add the URL here."
+msgstr "Om du vill ändra bilden som används på %s för det här inlägget, ladda upp / välj en bild eller ange webbadressen till bilden här."
+
+#: admin/class-opengraph-admin.php:59
+msgid "%s Title"
+msgstr ""
+
+#: admin/class-opengraph-admin.php:62
+msgid "%s Description"
+msgstr ""
+
+#: admin/class-opengraph-admin.php:65
+msgid "%s Image"
+msgstr "%s bild"
+
+#. translators: %1$s expands to Yoast SEO
+#: admin/class-pointers.php:254
+msgid "If you would like us to keep you up-to-date regarding %1$s and other plugins by Yoast, subscribe to our newsletter:"
+msgstr "Om du vill att vi ska hålla dig uppdaterad om %1$s och andra av Yoast-tillägg, prenumerera på vårt nyhetsbrev:"
+
+#: vendor/yoast/i18n-module/i18n-module.php:170
+msgid "As you can see, there is a translation of this plugin in %1$s. This translation is currently %3$d%% complete. We need your help to make it complete and to fix any errors. Please register at %4$s to help complete the translation to %1$s!"
+msgstr "Som du kan se så finns det en översättning för detta tillägg till %1$s. Denna översättning är just nu %3$d%% komplett. Vi behöver din hjälp med att färdigställa den och rätta till eventuella fel. Var vänlig registrera dig på %4$s för att hjälpa till med översättningen av %1$s!"
+
+#: vendor/yoast/i18n-module/i18n-module.php:172
+msgid "You're using WordPress in %1$s. While %2$s has been translated to %1$s for %3$d%%, it's not been shipped with the plugin yet. You can help! Register at %4$s to help complete the translation to %1$s!"
+msgstr "Du använder WordPress på %1$s. Även om %2$s har översatts till %1$s för %3$d%%, så har översättningen ännu inte börjat levereras med tillägget. Du kan hjälpa oss! Registrera dig på%4$s för att hjälpa till med att göra färdigt översättningen till %1$s!"
+
+#: vendor/yoast/i18n-module/i18n-module.php:174
+msgid "You're using WordPress in a language we don't support yet. We'd love for %2$s to be translated in that language too, but unfortunately, it isn't right now. You can change that! Register at %4$s to help translate it!"
+msgstr "Du använder WordPress på ett språk som vi inte har stöd för ännu. Vi skulle gärna se %2$s översatt till det språket också, vilket det tyvärr inte är just nu. Du kan ändra på det genom att registrera dig på %4$s för att hjälpa till med översättningen!"
+
+#: vendor/yoast/i18n-module/i18n-module.php:194
+msgid "Translation of %s"
+msgstr "Översättning av %s"
+
+#: vendor/yoast/i18n-module/i18n-module.php:199
+msgid "Register now &raquo;"
+msgstr "Registrera nu &raquo;"
+
+#: admin/views/tool-import-export.php:80
+msgid "The old data of the imported plugin was deleted successfully."
+msgstr "Gammal data för det importerade tillägget togs bort."
+
+#: admin/views/tab-rss.php:22
+msgid "Content to put after each post in the feed"
+msgstr "Innehåll att placera efter varje inlägg i flödet"
+
+#: admin/pages/xml-sitemaps.php:82
+msgid "Exclude user roles"
+msgstr "Exkludera användarroller"
+
+#: inc/wpseo-non-ajax-functions.php:347
+msgid "Pinterest Rich Pins Validator"
+msgstr "Validering för Pinterest Rich Pins"
+
+#: inc/wpseo-non-ajax-functions.php:354
+msgid "HTML Validator"
+msgstr ""
+
+#: inc/wpseo-non-ajax-functions.php:361
+msgid "CSS Validator"
+msgstr ""
+
+#: inc/wpseo-non-ajax-functions.php:368
+msgid "Google Page Speed Test"
+msgstr "Google Page Speed Test"
+
+#: inc/wpseo-non-ajax-functions.php:375
+msgid "Modern IE Site Scan"
+msgstr "Skanna webbplatsen med Modern IE"
+
+#: admin/class-metabox.php:541
+msgid "Focus keyword usage"
+msgstr "Nyckelordanvändning"
+
+#: admin/ajax.php:248
+msgid "You have used HTML in your value which is not allowed."
+msgstr "Du har använt HTML i ditt värde vilket är otillåtet."
+
+#: admin/views/user-profile.php:48
+msgid "Exclude user from Author-sitemap"
+msgstr "Uteslut användare från författar-webbplatskarta"
+
+#: admin/class-metabox.php:554
+msgid "(no parent)"
+msgstr "(ingen förälder)"
+
+#: admin/class-pointers.php:250
+msgid "There&#8217;s more to learn about WordPress &amp; SEO than just using this plugin. A great start is our article %1$sthe definitive guide to WordPress SEO%2$s."
+msgstr "Det finns mer att lära sig om Wordpress  och SEO än att bara använda detta tillägg. En mycket god start är vår artikel %1$sDen definitiva guiden till WordPress SEO%2$s."
+
+#: admin/class-pointers.php:273
+msgid "Title &amp; Metas settings"
+msgstr "Titel &amp; meta-inställningar"
+
+#: admin/class-pointers.php:274
+msgid "This is where you\tset the titles and meta-information for all your post types, taxonomies, archives, special pages and for your homepage. The page is divided into different tabs. Make sure you check &#8217;em all out!"
+msgstr "Det är här du anger titlarna och meta-informationen för alla dina posttyper, taxonomier, arkiv, specialsidor och för din startsida. Sidan är uppdelad i olika flikar - se till att gå igenom alla!"
+
+#: admin/class-pointers.php:276
+msgid "Templates and settings"
+msgstr "Mallar och inställningar"
+
+#: admin/class-pointers.php:276
+msgid "Now click on the &#8216;%1$sPost Types%2$s&#8217;-tab, as this will be our example."
+msgstr "Klicka nu på &#8216;%1$sPosttyper%2$s&#8217;-fliken, då detta kommer vara vårt exempel."
+
+#: admin/class-pointers.php:276
+msgid "The templates are built using variables. You can find all these variables in the help tab (in the top-right corner of the page). The settings allow you to set specific behavior for the post types."
+msgstr "Mallarna är byggda med hjälp av variabler. Du kan hitta dessa variabler under fliken för hjälp (i övre högra hörnet på sidan). Dessa inställningar tillåter dig att sätta specifika inställningar för dessa posttyper."
+
+#: admin/class-pointers.php:223
+msgid "Previous"
+msgstr "Föregående"
+
+#: admin/class-pointers.php:292
+msgid "On this tab you can enable the %1$sFacebook Open Graph%2$s functionality from this plugin, as well as assign a Facebook user or Application to be the admin of your site, so you can view the Facebook insights."
+msgstr "Under den här fliken kan du aktivera tilläggets %1$sFacebook Open Graph%2$s-funktionalitet samt ange en Facebookanvändare eller -applikation som ska fungera som webbplatsens admin, så att du kan se Facebookstatistik."
+
+#: admin/class-pointers.php:293
+msgid "The frontpage settings allow you to set meta-data for your homepage, whereas the default settings allow you to set a fallback for all posts/pages without images. "
+msgstr "Startsideinställningarna låter dig ange metadata specifikt för startsidan, medan standardinställningarna låter dig ange värden för alla sidor/inlägg som saknar bilder."
+
+#: admin/class-pointers.php:294
+msgid "With %1$sTwitter Cards%2$s, you can attach rich photos, videos and media experience to tweets that drive traffic to your website. Simply check the box, sign up for the service, and users who Tweet links to your content will have a &#8220;Card&#8221; added to the tweet that&#8217;s visible to all of their followers."
+msgstr "Med %1$sTwitter Cards%2$s, kan du lägga till foton, videor och mediaupplevelser till tweets som skickar trafik till din webbplats. Klicka i rutan, registrera dig för tjänsten, så får användare som Tweetar länkar till ditt innehåll ett &#8221;Kort&#8221;  bifogat med tweeten som visas för deras följare!"
+
+#: admin/class-pointers.php:296
+msgid "This tab allows you to add specific post meta data for Google+. And if you have a Google+ page for your business, add that URL here and link it on your %1$sGoogle+%2$s page&#8217;s about page."
+msgstr "Den här fliken ger dig möjligheten att lägga till metadata specifikt för Google+. Har du en Google+-sida för ditt företag, lägg till länken här och länka den på din %1$sGoogle+%2$s 'om-sida'."
+
+#: admin/class-pointers.php:311
+msgid "What are XML sitemaps?"
+msgstr "Vad är XML-webbplatskartor?"
+
+#: admin/class-pointers.php:311
+msgid "A Sitemap is an XML file that lists the URLs for a site. It allows webmasters to include additional information about each URL: when it was last updated, how often it changes, and how important it is in relation to other URLs in the site. This allows search engines to crawl the site more intelligently."
+msgstr "En webbplatskarta är en XML-fil som listar webbadresser för en webbplats. Det gör att webbansvariga kan inkludera ytterligare information om varje webbadress: när den uppdaterades senast, hur ofta den förändras, och hur viktigt den är i förhållande till andra webbadresser på webbplatsen. Detta gör att sökmotorer kan genomsöka webbplatsen mer intelligent."
+
+#: admin/class-pointers.php:312
+msgid "What does the plugin do with XML Sitemaps?"
+msgstr "Vad gör tillägget med XML-webbplatskartor?"
+
+#: admin/class-pointers.php:313
+msgid "If you want to exclude certain post types and/or taxonomies, you can also set that on this page."
+msgstr "Om du vill utesluta vissa posttyper och / eller taxonomier, kan du även ställa in det på denna sida."
+
+#: admin/class-pointers.php:314
+msgid "Is your webserver low on memory? Decrease the entries per sitemap (default: 1000) to reduce load."
+msgstr "Har din webbserver lite minne? Minska antalet adresser per sidkarta (standard är 1000) för att använda mindre resurser."
+
+#: admin/class-pointers.php:340
+msgid "Extensions and Licenses"
+msgstr "Tillägg och licenser"
+
+#. translators: %1$s expands to Yoast SEO Premium
+#: admin/class-pointers.php:347
+msgid "Once you&#8217;ve purchased %1$s or any other premium Yoast plugin, you&#8217;ll have to enter a license key. You can do so on the Licenses-tab. Once you&#8217;ve activated your premium plugin, you can use all its powerful features."
+msgstr "När du har köpt %1$s eller något annat av Yoasts premiumtillägg behöver du ange en licensnyckel. Detta gör du under fliken \"Licenser\". Så snart du har aktiverat ditt premiumtillägg kan du börja dra nytta av alla dess kraftfulla funktioner."
+
+#: admin/class-pointers.php:349
+msgid "So, we&#8217;ve come to the end of the tour. If you like the plugin, please %srate it 5 stars on WordPress.org%s!"
+msgstr "Nu har vi kommit till slutet av genomgången. Om du gillar det här tillägget får du gärna %sge det fem stjärnor på WordPress.org%s!"
+
+#. translators: %1$s expands to Yoast SEO
+#: admin/class-pointers.php:185
+msgid "You&#8217;ve just installed %1$s! Click &#8220;Start Tour&#8221; to view a quick introduction of this plugin&#8217;s core functionality."
+msgstr "Du har installerat %1$s! Klicka på &rdquo;Börja rundturen&rdquo; för att se en översikt av tilläggs huvudsakliga funktioner."
+
+#: admin/pages/social.php:118
+msgid "Add Google+ specific post meta data"
+msgstr "Lägg till metadata specifikt för Google+"
+
+#: admin/pages/xml-sitemaps.php:77
+msgid "Exclude users without posts"
+msgstr "Exkludera användare utan inlägg"
+
+#: admin/pages/xml-sitemaps.php:78
+msgid "Disable all users with zero posts"
+msgstr "Inaktivera alla användare med noll inlägg"
+
+#: admin/pages/xml-sitemaps.php:83
+msgid "Please check the appropriate box below if there's a user role that you do <strong>NOT</strong> want to include in your sitemap:"
+msgstr "Markera tillämpliga rutor nedan om det finns någon användarroll som du <strong>INTE</strong> vill inkludera i din webbplatskarta:"
+
+#: inc/class-wpseo-replace-vars.php:1113
+msgid "Replaced with the post/page author's 'Biographical Info'"
+msgstr "Ersatt med biografin från profilen för inläggets eller sidans författare"
+
+#. Author of the plugin/theme
+msgid "Team Yoast"
+msgstr "Team Yoast"
+
+#: admin/class-bulk-editor-list-table.php:923
+msgid "Publication date"
+msgstr "Publiceringsdatum"
+
+#: admin/class-metabox.php:48
+msgid "The meta description is often shown as the black text under the title in a search result. For this to work it has to contain the keyword that was searched for.<br/><br/>Read %sthis post%s for more info."
+msgstr "Metabeskrivningen visas ofta som den svarta texten under titeln i ett sökresultat. För att detta ska fungera måste den innehålla nyckelordet som söktes efter. <br/><br/>Läs %sdetta inlägg%s för mer information."
+
+#: admin/class-metabox.php:72
+msgid "No Image Index"
+msgstr "Inget bild-index"
+
+#: admin/pages/dashboard.php:190
+msgid "Are you sure you want to reset your SEO settings?"
+msgstr "Vill du verkligen återställa dina SEO-inställningar?"
+
+#: admin/pages/metas.php:45
+msgid "Title Separator"
+msgstr "Titelavskiljare"
+
+#: admin/pages/metas.php:50
+msgid "Choose the symbol to use as your title separator. This will display, for instance, between your post title and site name."
+msgstr "Välj symbol att använda som &rdquo;titelavskiljare&rdquo;. Detta kommer visas t.ex. mellan inläggets titel och webbplatsens namn."
+
+#: admin/pages/metas.php:50
+msgid "Symbols are shown in the size they'll appear in in search results."
+msgstr "Symboler visas i den storlek som de visas i sökresultaten."
+
+#: admin/pages/metas.php:91 admin/pages/network.php:115
+msgid "Take note:"
+msgstr "Notera:"
+
+#: admin/pages/metas.php:93
+msgid "As you are redirecting attachment URLs to parent post URLs, these settings will currently only have an effect on <strong>unattached</strong> media items!"
+msgstr "Eftersom du omdirigerar bilagors URL till respektive inläggs URL kommer dom här inställningarna bara gälla för media som <strong>inte</strong> har bifogats någonstans!"
+
+#: admin/pages/metas.php:94
+msgid "So remember: If you change the %sattachment redirection setting%s in the future, the below settings will take effect for *all* media items."
+msgstr "Kom ihåg: Om du ändrar %sinställningarna för omdirigering av bilagor%s i framtiden kommer nedanstående inställningar att börja gälla för *all* media."
+
+#: admin/pages/network.php:61
+msgid "public"
+msgstr "publik"
+
+#: admin/pages/network.php:64
+msgid "archived"
+msgstr "arkiverat"
+
+#: admin/pages/network.php:67
+msgid "mature"
+msgstr "vuxet"
+
+#: admin/pages/network.php:70
+msgid "spam"
+msgstr "skräppost"
+
+#: admin/pages/network.php:105 admin/pages/network.php:112
+msgid "New sites in the network inherit their SEO settings from this site"
+msgstr "Nya webbplatser i detta nätverk ärver sina SEO-inställningar från denna webbplats"
+
+#: admin/pages/network.php:109
+msgid "Choose the site whose settings you want to use as default for all sites that are added to your network. If you choose 'None', the normal plugin defaults will be used."
+msgstr "Välj webbplats vars inställningar du vill använda som standard för alla webbplatser som är kopplade till ditt nätverk. Om du väljer \"Ingen\" används tilläggets standardinställningar."
+
+#: admin/pages/network.php:113
+msgid "Enter the %sSite ID%s for the site whose settings you want to use as default for all sites that are added to your network. Leave empty for none (i.e. the normal plugin defaults will be used)."
+msgstr ""
+
+#: admin/pages/network.php:115
+msgid "Privacy sensitive (FB admins and such), theme specific (title rewrite) and a few very site specific settings will not be imported to new blogs."
+msgstr "Känsliga uppgifter (Facebookadministratörer och sånt), temaspecifika uppgifter (omskrivning av titlar) och ett fåtal väldigt webbplatsspecifika inställningar kommer inte att importeras till nya bloggar."
+
+#: admin/pages/network.php:130
+msgid "Site ID"
+msgstr "Webbplats-ID"
+
+#: admin/pages/social.php:67
+msgid "Copy home meta description"
+msgstr "Kopiera meta-beskrivningen för startsidan"
+
+#: admin/pages/social.php:58
+msgid "These are the title, description and image used in the Open Graph meta tags on the front page of your site."
+msgstr "Detta är titeln, beskrivningen och bilden som används i Open Graph-metataggar på framsidan av din webbplats."
+
+#: inc/class-wpseo-replace-vars.php:106
+msgid "A replacement variable can only contain alphanumeric characters, an underscore or a dash. Try renaming your variable."
+msgstr "En ersättningsvariabel kan bara innehålla alfanumeriska tecken, ett understreck eller ett streck. Försök att döpa om din variabel."
+
+#: admin/class-admin.php:238 admin/class-admin.php:239
+msgid "Advanced Variables"
+msgstr "Avancerade variabler"
+
+#: admin/class-admin.php:439
+msgid "Premium Support"
+msgstr "Premiumsupport"
+
+#: admin/class-admin.php:443
+msgid "FAQ"
+msgstr "Vanliga frågor"
+
+#: admin/class-yoast-form.php:227
+msgid "Remove these ads?"
+msgstr "Ta bort den här reklamen?"
+
+#: admin/class-metabox.php:37
+msgid "This is a rendering of what this post might look like in Google's search results.<br/><br/>Read %sthis post%s for more info."
+msgstr "Detta är ett exempel på hur detta inlägg kommer se ut i Googles sökresultat. <br/><br/>Läs %sdetta inlägg%s för mer info."
+
+#: admin/class-metabox.php:43
+msgid "Warning:"
+msgstr "Varning:"
+
+#: admin/class-metabox.php:43
+msgid "Title display in Google is limited to a fixed width, yours is too long."
+msgstr "Visningen av titel i Google är begränsad till en fast bredd, din är för lång."
+
+#: admin/class-metabox.php:56 admin/class-taxonomy.php:211
+msgid "Warning: even though you can set the meta robots setting here, the entire site is set to noindex in the sitewide privacy settings, so these settings won't have an effect."
+msgstr ""
+
+#: vendor/yoast/license-manager/class-license-manager.php:138
+msgid "<b>Warning!</b> You're blocking external requests which means you won't be able to get %s updates. Please add %s to %s."
+msgstr "<b>Varning!</b> Du blockerar externa förfrågningar vilket innebär att du inte kommer kunna få %s uppdateringar. Vänligen lägg till %s i %s."
+
+#: vendor/yoast/license-manager/class-license-manager.php:206
+msgid "Your license has expired. You must <a href=\"%s\">extend your license</a> in order to use it again."
+msgstr "Din licens har gått ut. Du måste  <a href=\"%s\">förlänga din licens</a> för att använda den igen."
+
+#: vendor/yoast/license-manager/class-license-manager.php:271
+msgid "Request error: \"%s\" (%scommon license notices%s)"
+msgstr "Fel vid förfrågan: \"%s\" (%svanliga licensmeddelanden%s)"
+
+#: vendor/yoast/license-manager/class-plugin-license-manager.php:73
+msgid "%s is network activated, you can manage your license in the <a href=\"%s\">network admin license page</a>."
+msgstr "%s är nätverksaktiverad. Du kan hantera din licens på <a href=\"%s\">nätverkets licenssida</a>."
+
+#: vendor/yoast/license-manager/class-plugin-license-manager.php:75
+msgid "%s is network activated, please contact your site administrator to manage the license."
+msgstr "%s är nätverksaktiverad, var god kontakt din sajtadmininstratör för licenshantering."
+
+#: vendor/yoast/license-manager/class-update-manager.php:153
+msgid "This site has not been activated properly on yoast.com and thus cannot check for future updates. Please activate your site with a valid license key."
+msgstr "Den här webbplatsen har inte aktiverats som den ska på yoast.com och kan därför inte kolla efter framtida uppdateringar. Vänligen aktivera din webbplats med en giltig licensnyckel."
+
+#: vendor/yoast/license-manager/views/form.php:81
+msgid "Your %s license will expire on %s."
+msgstr "Din %s licens går ut %s."
+
+#: vendor/yoast/license-manager/views/form.php:84
+msgid "%sRenew your license now%s."
+msgstr "%sFörnya din licens nu%s."
+
+#. translators: %1$s expands to Yoast SEO
+#: admin/pages/licenses.php:18
+msgid "The premium version of %1$s with more features & support."
+msgstr "Premiumversionen av %1$s med fler funktioner och dedikerad support."
+
+#: admin/pages/licenses.php:24
+msgid "Optimize your videos to show them off in search results and get more clicks!"
+msgstr "Optimera dina videos för att visa upp dem i sökresultat och få mer klick!"
+
+#: admin/pages/licenses.php:30
+msgid "Are you in Google News? Increase your traffic from Google News by optimizing for it!"
+msgstr "Är du på Google News? Öka din trafik från Google News genom att optimera din webbplats!"
+
+#: admin/pages/licenses.php:36
+msgid "Rank better locally and in Google Maps, without breaking a sweat!"
+msgstr "Ranka bättre lokalt och i Google Maps, utan att lyfta ett finger!"
+
+#. translators: %1$s expands to Yoast SEO
+#: admin/pages/licenses.php:43
+msgid "Seamlessly integrate WooCommerce with %1$s and get extra features!"
+msgstr "Integrera smidigt WooCommerce med  %1$s och få tillgång till extra funktioner!"
+
+#: admin/pages/licenses.php:99
+msgid "Get this extension"
+msgstr "Skaffa detta tillägg"
+
+#: admin/views/tab-permalinks.php:41
+msgid "Prevent cleaning out Google Analytics Campaign & Google AdWords Parameters."
+msgstr "Förhindra att Google Analytics-kampanjer och Google AdWords-parameterar rensas bort."
+
+#: inc/class-wpseo-replace-vars.php:109
+msgid "A replacement variable can not start with \"%%cf_\" or \"%%ct_\" as these are reserved for the WPSEO standard variable variables for custom fields and custom taxonomies. Try making your variable name unique."
+msgstr "En ersättningsvariabel kan inte starta med \"%%cf_\" eller \"%%ct_\" då dessa är reserverade för standardvariablarna i WPSEO och dess användarfält. Försök göra dina variabler mer unika."
+
+#: inc/class-wpseo-replace-vars.php:118
+msgid "A replacement variable with the same name has already been registered. Try making your variable name more unique."
+msgstr "En ersättningsvariabel med samma namn har redan registrerats. Försök att göra variabelns namn lite mer unik."
+
+#: inc/class-wpseo-replace-vars.php:122
+msgid "You cannot overrule a WPSEO standard variable replacement by registering a variable with the same name. Use the \"wpseo_replacements\" filter instead to adjust the replacement value."
+msgstr "Du kan inte skriva över en ersättare för en WPSEO standard variabel genom att registrera en variabel med samma namn. Använd filtret \"wpseo_replacements\"  istället för att anpassa ersättningsvärdet,"
+
+#: inc/class-wpseo-replace-vars.php:1087
+msgid "Replaced with the title of the parent page of the current page"
+msgstr "Ersatt med titeln på föräldrasidan för den aktuella sidan."
+
+#: inc/class-wpseo-replace-vars.php:1089
+msgid "The site's tag line / description"
+msgstr "Webbplatsens slogan / beskrivning"
+
+#: inc/class-wpseo-replace-vars.php:1120
+msgid "Replaced with the current page number with context (i.e. page 2 of 4)"
+msgstr "Ersatt med nuvarande sidans nummer i ordning (t ex sid 2 av 4)"
+
+#: inc/wpseo-non-ajax-functions.php:333
+msgid "Check Rich Snippets"
+msgstr "Kontrollera s.k. Rich Snippets (koncentrerad meta-data för sökresultatsidor)"
+
+#: inc/wpseo-non-ajax-functions.php:340
+msgid "Facebook Debugger"
+msgstr "Facebook Debugger"
+
+#: wp-seo-main.php:368
+msgid "The Standard PHP Library (SPL) extension seem to be unavailable. Please ask your web host to enable it."
+msgstr "Tillägget standardbibliotek för PHP (SPL) verkar inte kunna nås. Be ditt webbhotell att aktivera det."
+
+#. Plugin URI of the plugin/theme
+msgid "https://yoast.com/wordpress/plugins/seo/#utm_source=wpadmin&utm_medium=plugin&utm_campaign=wpseoplugin"
+msgstr "https://yoast.com/wordpress/plugins/seo/#utm_source=wpadmin&utm_medium=plugin&utm_campaign=wpseoplugin"
+
+#. Description of the plugin/theme
+msgid "The first true all-in-one SEO solution for WordPress, including on-page content analysis, XML sitemaps and much more."
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "https://yoast.com/"
+msgstr "https://yoast.com/"
+
+#: inc/options/class-wpseo-option-internallinks.php:165
+msgid "Please select a valid taxonomy for post type \"%s\""
+msgstr "Var vänlig välj en korrekt taxanomi för posttypen \"%s\""
+
+#: admin/ajax.php:215
+msgid "Post doesn't exist."
+msgstr "Inlägget existerar ej."
+
+#: admin/ajax.php:224
+msgid "Post has an invalid Post Type: %s."
+msgstr "Inlägget har en ogiltig posttyp: %s."
+
+#: admin/ajax.php:232
+msgid "You can't edit %s."
+msgstr "Du kan inte redigera %s."
+
+#: admin/ajax.php:240
+msgid "You can't edit %s that aren't yours."
+msgstr "Du kan inte redigera %s som inte är dina."
+
+#: admin/class-admin.php:174 admin/class-admin.php:264
+#: admin/class-pointers.php:341 admin/pages/licenses.php:77
+#: inc/wpseo-non-ajax-functions.php:436
+msgid "Extensions"
+msgstr "Tillägg"
+
+#. translators: %1$s expands to Yoast SEO
+#: admin/class-admin.php:223
+msgid "The title &amp; metas settings for %1$s are made up of variables that are replaced by specific values from the page when the page is displayed. The tabs on the left explain the available variables."
+msgstr "Inställningarna för rubrik och metadata för %1$s byggs upp av variabler som ersätts med specifika värden från sidan när sidan visas. Flikarna på vänster sida förklarar de tillgängliga variablerna."
+
+#: admin/class-bulk-editor-list-table.php:294
+msgctxt "posts"
+msgid "All <span class=\"count\">(%s)</span>"
+msgid_plural "All <span class=\"count\">(%s)</span>"
+msgstr[0] "Alla <span class=\"count\">(%s)</span>"
+msgstr[1] "Alla <span class=\"count\">(%s)</span>"
+
+#: admin/class-bulk-editor-list-table.php:337
+msgctxt "posts"
+msgid "Trash <span class=\"count\">(%s)</span>"
+msgid_plural "Trash <span class=\"count\">(%s)</span>"
+msgstr[0] "Papperskorg <span class=\"count\">(%s)</span>"
+msgstr[1] "Papperskorg <span class=\"count\">(%s)</span>"
+
+#: admin/class-bulk-editor-list-table.php:387
+msgid "Filter"
+msgstr "Filtrera"
+
+#: admin/class-bulk-editor-list-table.php:920
+msgid "WP Page Title"
+msgstr "WP-sidtitel"
+
+#: admin/class-bulk-editor-list-table.php:921
+msgid "Post Type"
+msgstr "Post-typ"
+
+#: admin/class-bulk-editor-list-table.php:922
+msgid "Post Status"
+msgstr "Inläggsstatus"
+
+#: admin/class-bulk-editor-list-table.php:924
+msgid "Page URL/Slug"
+msgstr "Sid-url"
+
+#: admin/class-bulk-description-editor-list-table.php:43
+msgid "Existing Yoast Meta Description"
+msgstr "Nuvarande Yoast Meta-beskrivning"
+
+#: admin/class-bulk-description-editor-list-table.php:44
+msgid "New Yoast Meta Description"
+msgstr "Ny Yoast Metabeskrivning"
+
+#: admin/class-bulk-editor-list-table.php:929
+msgid "Action"
+msgstr "Åtgärd"
+
+#: admin/class-bulk-editor-list-table.php:748
+msgid "Edit this item"
+msgstr "Redigera detta objekt"
+
+#: admin/class-bulk-editor-list-table.php:748
+msgid "Edit"
+msgstr "Redigera"
+
+#: admin/class-bulk-editor-list-table.php:754
+msgid "Preview &#8220;%s&#8221;"
+msgstr "Förhandsgranska &#8221;%s&#8221;"
+
+#: admin/class-bulk-editor-list-table.php:754
+msgid "Preview"
+msgstr "Förhandsgranskning"
+
+#: admin/class-bulk-editor-list-table.php:758
+msgid "View &#8220;%s&#8221;"
+msgstr "Visa &#8220;%s&#8221;"
+
+#: admin/class-bulk-editor-list-table.php:758
+#: admin/google_search_console/class-gsc-table.php:209
+msgid "View"
+msgstr "Visa"
+
+#: admin/class-bulk-title-editor-list-table.php:45
+msgid "Existing Yoast SEO Title"
+msgstr ""
+
+#: admin/class-bulk-title-editor-list-table.php:46
+msgid "New Yoast SEO Title"
+msgstr "Ny Yoast SEO-titel"
+
+#: admin/class-yoast-form.php:130
+msgid "Debug Information"
+msgstr "Felsökningsinformation"
+
+#: admin/class-yoast-form.php:132
+msgid "Current option:"
+msgstr "Nuvarande alternativ:"
+
+#: admin/class-metabox.php:68
+msgid "Site-wide default: %s"
+msgstr "Standard för hela webbplatsen: %s"
+
+#: admin/class-metabox.php:1365
+msgid "No post content to analyse."
+msgstr "Inget postinnehåll att analysera."
+
+#: vendor/yoast/license-manager/class-license-manager.php:190
+msgid "<a href=\"%s\">Did you know you can upgrade your license?</a>"
+msgstr "<a href=\"%s\">Visste du att du kan uppgradera din licens?</a>"
+
+#: vendor/yoast/license-manager/class-license-manager.php:194
+msgid "<a href=\"%s\">Your license is expiring in %d days, would you like to extend it?</a>"
+msgstr "<a href=\"%s\">Din licens upphör om %d dagar, vill du förnya den?</a>"
+
+#: vendor/yoast/license-manager/class-license-manager.php:203
+msgid "You've reached your activation limit. You must <a href=\"%s\">upgrade your license</a> to use it on this site."
+msgstr "Du har nått gränsen för aktiveringar. Du behöver <a href=\"%s\">uppgradera din licens</a> för att använda den på denna webbplats."
+
+#: vendor/yoast/license-manager/class-license-manager.php:209
+msgid "Failed to activate your license, your license key seems to be invalid."
+msgstr "Det gick inte att aktivera din licens, din licensnyckel verkar vara ogiltig."
+
+#: vendor/yoast/license-manager/class-license-manager.php:233
+msgid "Your %s license has been deactivated."
+msgstr "Din %s licens har inaktiverats."
+
+#: vendor/yoast/license-manager/class-license-manager.php:235
+msgid "Failed to deactivate your %s license."
+msgstr "Misslyckades med att aktivera %s-licensen."
+
+#: vendor/yoast/license-manager/class-theme-license-manager.php:34
+#: vendor/yoast/license-manager/samples/sample-plugin.php:53
+msgid "%s License"
+msgstr "%s Licens"
+
+#: vendor/yoast/license-manager/class-theme-license-manager.php:34
+msgid "Theme License"
+msgstr "Temalicens"
+
+#: vendor/yoast/license-manager/class-theme-update-manager.php:96
+msgid "Updating this theme will lose any customizations you have made. 'Cancel' to stop, 'OK' to update."
+msgstr "Uppdatering av detta tema gör att du förlorar anpassningar du gjort. 'Avbryt' för att stoppa, 'OK' för att uppdatera."
+
+#: vendor/yoast/license-manager/class-theme-update-manager.php:101
+msgid "<strong>%s version %s</strong> is available. <a href=\"%s\" class=\"thickbox\" title=\"%s\">Check out what's new</a> or <a href=\"%s\" %s>update now</a>."
+msgstr "<strong>%s version %s</strong> är tillgänglig. <a href=\"%s\" class=\"thickbox\" title=\"%s\">Kolla in vad som är nytt</a> eller <a href=\"%s\" %s>uppdatera nu</a>."
+
+#: vendor/yoast/license-manager/class-update-manager.php:83
+msgid "%s failed to check for updates because of the following error: <em>%s</em>"
+msgstr "%s Misslyckades med att kontrollera uppdateringar på grund följande fel: <em>%s</em>"
+
+#: vendor/yoast/license-manager/class-license-manager.php:430
+msgid "%s: License Settings"
+msgstr "%s: Licensinställningar"
+
+#: vendor/yoast/license-manager/views/form.php:31
+msgid "License status"
+msgstr "Licensstatus"
+
+#: vendor/yoast/license-manager/views/form.php:41
+msgid "Toggle license status"
+msgstr "Visa/dölj licensstatus"
+
+#: vendor/yoast/license-manager/views/form.php:45
+msgid "Deactivate License"
+msgstr "Inaktivera licens"
+
+#: vendor/yoast/license-manager/views/form.php:46
+msgid "(deactivate your license so you can activate it on another WordPress site)"
+msgstr "(inaktivera din licens så att du kan aktivera den på en annan WordPress-sida)"
+
+#: vendor/yoast/license-manager/views/form.php:50
+msgid "Activate License"
+msgstr "Aktivera licens"
+
+#: vendor/yoast/license-manager/views/form.php:52
+msgid "Please enter a license key in the field below first."
+msgstr "Ange din licens nyckel i fältet nedan först."
+
+#: vendor/yoast/license-manager/views/form.php:60
+msgid "License Key"
+msgstr "Licensnyckel"
+
+#: vendor/yoast/license-manager/views/form.php:62
+msgid "Paste your %s license key here.."
+msgstr "Klistra in din %s licens-nyckel här.."
+
+#: vendor/yoast/license-manager/views/form.php:64
+msgid "You defined your license key using the %s PHP constant."
+msgstr "Du definierade din licensnyckel genom att använda PHP konstanten %s ."
+
+#: admin/pages/dashboard.php:65
+msgid "Failed to remove hardcoded meta description."
+msgstr "Misslyckades med att ta bort hårdkodad metabeskrivning."
+
+#: admin/pages/dashboard.php:72
+msgid "Earlier found meta description was not found in file. Renewed the description test data."
+msgstr "Tidigare funnen metabeskrivning kan inte hittas i filen. Beskrivningens testdata har förnyats."
+
+#: admin/class-pointers.php:295 admin/pages/social.php:23
+msgid "Pinterest"
+msgstr "Pinterest"
+
+#: admin/pages/dashboard.php:236
+msgid "Yandex Webmaster Tools"
+msgstr "Yandex Webmaster Tools"
+
+#: admin/views/tool-file-editor.php:17
+msgid "You cannot create a robots.txt file."
+msgstr "Du kan inte skapa en robots.txt-fil."
+
+#: admin/views/tool-file-editor.php:83
+msgid "You don't have a robots.txt file, create one here:"
+msgstr "Du saknar filen robots.txt, skapa en här:"
+
+#: admin/views/tool-file-editor.php:84
+msgid "Create robots.txt file"
+msgstr "Skapa filen robots.txt"
+
+#: admin/class-import.php:173
+msgid "Setting \"%s\" is no longer used and has been discarded."
+msgstr "Inställningen \"%s\" används inte längre och förkastats."
+
+#: admin/class-import.php:151
+msgid "No settings found in file."
+msgstr "Inga inställningar funna i fil."
+
+#: admin/class-import.php:127
+msgid "Unzipping failed - file settings.ini not found."
+msgstr "Uppackning misslyckades - filen settings.ini hittades ej."
+
+#: admin/class-import.php:120
+msgid "Unzipping failed with error \"%s\"."
+msgstr "Uppackning misslyckades med felmeddelande \"%s\"."
+
+#: admin/class-pointers.php:345 admin/pages/licenses.php:78
+msgid "Licenses"
+msgstr "Licenser"
+
+#: admin/class-metabox.php:50 admin/class-taxonomy.php:192
+#: admin/pages/metas.php:137
+msgid "Meta keywords"
+msgstr "Meta-nyckelord"
+
+#: admin/pages/network.php:35
+msgid "%s restored to default SEO settings."
+msgstr "%s återställd till ursprungliga SEO-inställningar."
+
+#: admin/pages/network.php:38
+msgid "Blog %s not found."
+msgstr "Blogg %s hittades inte"
+
+#: admin/views/tab-permalinks.php:43
+msgid "You might have extra variables you want to prevent from cleaning out, add them here, comma separated."
+msgstr "Du kanske har extra variabler som du vill förhindra att rensas ut. Lägg till dom här separerade med kommatecken."
+
+#: admin/pages/social.php:93
+msgid "The default card type to use"
+msgstr "Standardkorttyp att använda"
+
+#: admin/pages/xml-sitemaps.php:64
+msgid "Please enter the maximum number of entries per sitemap page (defaults to %s, you might want to lower this to prevent memory issues on some installs):"
+msgstr "Fyll i maximalt antal poster per sida i webbplatskartan. (Standardvärdet är %s). Du kan behöva sänka detta värde på vissa webbplatser för att undvika problem med arbetsminnets storlek:"
+
+#: inc/options/class-wpseo-option.php:296
+msgid "%s does not seem to be a valid %s verification string. Please correct."
+msgstr ""
+
+#: inc/options/class-wpseo-option-internallinks.php:204
+msgid "Please select a valid post type for taxonomy \"%s\""
+msgstr "Var vänlig välj en giltig posttyp för taxonomi \"%s\""
+
+#: inc/options/class-wpseo-option-xml.php:166
+msgid "\"Max entries per sitemap page\" should be a positive number, which %s is not. Please correct."
+msgstr "\"Max antal inlägg per webbplatskarta\" ska vara ett positivt nummer, vilket %s inte är. Vänligen korrigera detta."
+
+#: inc/options/class-wpseo-option-social.php:103
+msgid "Summary"
+msgstr "Sammanfattning"
+
+#: inc/options/class-wpseo-option-social.php:104
+msgid "Summary with large image"
+msgstr "Sammanfattning med stor bild"
+
+#: inc/options/class-wpseo-option.php:331
+msgid "%s does not seem to be a valid url. Please correct."
+msgstr "%s verkar inte vara en giltig url. Vänligen korrigera."
+
+#: inc/options/class-wpseo-option-social.php:240
+msgid "%s does not seem to be a valid Twitter user-id. Please correct."
+msgstr "%s ser inte ut att vara ett korrekt användar-id för Twitter. Var vänlig korrigera."
+
+#. translators: %1$s expands to the option name and %2$sexpands to Yoast SEO
+#: inc/options/class-wpseo-option-ms.php:153
+msgid "%1$s is not a valid choice for who should be allowed access to the %2$s settings. Value reset to the default."
+msgstr "%1$s är inte ett giltigt val för vem som ska ha tillgång till inställningarna för %2$s. Värdet har återställts till det ursprungliga."
+
+#: inc/options/class-wpseo-option-ms.php:173
+#: inc/options/class-wpseo-option-ms.php:183
+msgid "The default blog setting must be the numeric blog id of the blog you want to use as default."
+msgstr "Inställningen för standard-bloggens ID måste vara det numeriska blogg-ID:et för den blogg du vill ha som standard-blogg."
+
+#: inc/options/class-wpseo-option-ms.php:173
+msgid "This must be an existing blog. Blog %s does not exist or has been marked as deleted."
+msgstr "Detta måste vara en existerande blogg. Bloggen %s finns inte eller har markerats som borttagen."
+
+#: inc/options/class-wpseo-option-ms.php:183
+msgid "No numeric value was received."
+msgstr "Inget numeriskt värde mottogs."
+
+#: admin/class-admin.php:214
+msgid "Title optimization"
+msgstr "Titeloptimering"
+
+#: admin/class-admin.php:213
+msgid "For more information:"
+msgstr "För mer information:"
+
+#: admin/class-metabox.php:2078
+msgid "There are %d words contained in the body copy, this is slightly below the %d word recommended minimum, add a bit more copy."
+msgstr ""
+
+#: admin/class-config.php:95 admin/class-metabox.php:547
+#: admin/class-metabox.php:931
+msgid "Use Image"
+msgstr "Använd bild"
+
+#: admin/class-metabox.php:2077
+msgid "There are %d words contained in the body copy, this is below the %d word recommended minimum. Add more useful content on this topic for readers."
+msgstr ""
+
+#: admin/class-metabox.php:2076
+msgid "There are %d words contained in the body copy, this is more than the %d word recommended minimum."
+msgstr ""
+
+#: admin/views/tab-permalinks.php:22
+msgid "This helps you to create cleaner URLs by automatically removing the stopwords from them."
+msgstr "Detta hjälper dig att skapa renare länkar genom att automatiskt ta bort stoppord från dem."
+
+#: admin/views/tab-permalinks.php:23
+msgid "Remove stop words from slugs."
+msgstr "Ta bort stoppord från permalänkar."
+
+#: admin/class-admin.php:215
+msgid "Why Google won't display the right page title"
+msgstr "Varför Google inte visar den korrekta sidtiteln"
+
+#: admin/class-admin.php:221
+msgid "Template explanation"
+msgstr "Mallförklaring"
+
+#: admin/class-admin.php:230 admin/class-admin.php:231
+msgid "Basic Variables"
+msgstr "Grundläggande variabler"
+
+#: admin/class-admin.php:407
+msgid "SEO Issue:"
+msgstr "SEO-problem:"
+
+#. translators: %1$s expands to Yoast SEO, %2$s to opening anchor and %3$s the
+#. anchor closing tag
+#: admin/class-admin.php:409
+msgid "Your theme contains a meta description, which blocks %1$s from working properly. Please visit the %2$sSEO Dashboard%3$s to fix this."
+msgstr ""
+
+#: admin/class-admin.php:469 admin/class-opengraph-admin.php:43
+#: admin/class-pointers.php:296 admin/pages/social.php:24
+msgid "Google+"
+msgstr "Google+"
+
+#: admin/class-admin.php:473
+msgid "Facebook profile URL"
+msgstr "URL till Facebookprofil"
+
+#: admin/class-metabox.php:453
+msgid "Check"
+msgstr "Kolla"
+
+#: admin/class-metabox.php:40
+msgid "Pick the main keyword or keyphrase that this post/page is about.<br/><br/>Read %sthis post%s for more info."
+msgstr "Välj huvudnyckelord eller huvudnyckelfras som denna post/sida handlar om. <br/><br/>Läs %sthis post%s för mer info."
+
+#: admin/class-metabox.php:59
+msgid "index"
+msgstr "index"
+
+#: admin/class-metabox.php:60
+msgid "noindex"
+msgstr "noindex"
+
+#: admin/class-metabox.php:541
+msgid "Your focus keyword was found in:"
+msgstr "Ditt fokusnyckelord hittades i:"
+
+#: admin/class-metabox.php:542
+msgid "Article Heading: "
+msgstr "Artikelrubrik:"
+
+#: admin/class-metabox.php:543
+msgid "Page title: "
+msgstr "Sidrubrik:"
+
+#: admin/class-metabox.php:544
+msgid "Page URL: "
+msgstr "SidURL:"
+
+#: admin/class-metabox.php:545
+msgid "Content: "
+msgstr "Innehåll:"
+
+#: admin/class-metabox.php:546
+msgid "Meta description: "
+msgstr "Metadeskription:"
+
+#: admin/class-metabox.php:956
+msgid "All SEO Scores"
+msgstr "Alla SEO-poäng"
+
+#: admin/class-metabox.php:1377
+msgid "Page Analysis has been disabled."
+msgstr "Page Analysis har inaktiverats."
+
+#: admin/pages/dashboard.php:59
+msgid "Removed hardcoded meta description."
+msgstr "Tog bort hårdkodad metadeskription."
+
+#: admin/pages/dashboard.php:120
+msgid "Re-check theme."
+msgstr "Dubbelkolla tema."
+
+#: inc/wpseo-non-ajax-functions.php:581
+msgid "The plugin Robots-Meta has been detected. Do you want to %simport its settings%s."
+msgstr "Pluginnen Robots-Meta har upptäckts. Vill du %simport its settings%s."
+
+#: inc/wpseo-non-ajax-functions.php:590
+msgid "Robots-Meta has been deactivated"
+msgstr "Robots-Meta har inaktiverats."
+
+#: inc/wpseo-non-ajax-functions.php:571
+msgid "All-In-One-SEO has been deactivated"
+msgstr "All-In-One-SEO har inaktiverats."
+
+#: admin/class-admin.php:257
+msgid "Edit Files"
+msgstr "Redigera filer"
+
+#: inc/class-wpseo-replace-vars.php:1125
+msgid "Replaced with the slug which caused the 404"
+msgstr "Ersatte med sluggen som resulterade i 404an"
+
+#: inc/class-wpseo-replace-vars.php:1128
+msgid "Replaced with a custom taxonomies description"
+msgstr "Ersatt med en egen beskrivning av klassificering"
+
+#: admin/class-opengraph-admin.php:41 admin/class-pointers.php:292
+#: admin/pages/social.php:21
+msgid "Facebook"
+msgstr "Facebook"
+
+#: admin/pages/social.php:53
+msgid "Add Open Graph meta data"
+msgstr "Lägg till Open Graph-metadata"
+
+#: admin/pages/social.php:33
+msgid "Facebook Page URL"
+msgstr "URL till Facebook Page"
+
+#: admin/pages/xml-sitemaps.php:38
+msgid "User sitemap"
+msgstr "Sitemap för användare"
+
+#: admin/pages/xml-sitemaps.php:74
+msgid "Disable author/user sitemap"
+msgstr "Inaktivera sitemap för författare/användare"
+
+#: inc/class-wpseo-utils.php:203
+msgid "N/A"
+msgstr "Otillgänglig"
+
+#: inc/class-wpseo-utils.php:208
+msgid "Poor"
+msgstr "Tunn"
+
+#: inc/class-wpseo-utils.php:219
+msgid "Good"
+msgstr "Bra"
+
+#: inc/class-wpseo-utils.php:223
+msgid "Bad"
+msgstr "Dålig"
+
+#: admin/class-admin.php:330
+msgid "Posts"
+msgstr "Poster"
+
+#: admin/class-metabox.php:1614
+msgid "You've never used this focus keyword before, very good."
+msgstr "Du har aldrig använt detta fokus-nyckelord tidigare, mycket bra."
+
+#: admin/class-metabox.php:1617
+msgid "You've used this focus keyword %1$sonce before%2$s, be sure to make very clear which URL on your site is the most important for this keyword."
+msgstr "Du har använt detta fokus-nyckelord %1$sen gång tidigare%2$s. Du bör vara tydlig med vilken URL på sajten som är viktigast för detta nyckelord."
+
+#: admin/class-metabox.php:1626
+msgid "You've used this focus keyword %3$s%4$d times before%2$s, it's probably a good idea to read %1$sthis post on cornerstone content%2$s and improve your keyword strategy."
+msgstr "Du har använt detta fokus-nyckelord %3$s%4$d gånger tidigare%2$s. Det är förmodligen en god idé att läsa %1$sdetta inlägg om \"Cornerstone content%2$s och förbättra din nyckelordstrategi."
+
+#: admin/class-admin.php:374
+msgid "You must %sgo to your Reading Settings%s and uncheck the box for Search Engine Visibility."
+msgstr "Du måste %sgo to your Reading Settings%s och klicka ur rutan för Search Engine Visibility."
+
+#: inc/class-wpseo-replace-vars.php:1117
+msgid "Replaced with the current day"
+msgstr "Ersätts med aktuell dag"
+
+#: admin/pages/xml-sitemaps.php:63
+msgid "Entries per page"
+msgstr "Inlägg per sida"
+
+#: admin/views/tool-file-editor.php:138
+msgid "If you had a .htaccess file and it was editable, you could edit it from here."
+msgstr "Om du hade haft en .htaccess-fil och om den varit redigerbar så hade du kunnat redigera den här."
+
+#: admin/views/tool-file-editor.php:88
+msgid "If you had a robots.txt file and it was editable, you could edit it from here."
+msgstr "Om du hade haft en robots.txt-fil och om den varit redigerbar så hade du kunnat redigera den här."
+
+#: admin/class-import-woothemes-seo.php:29
+msgid "WooThemes SEO framework settings &amp; data successfully imported."
+msgstr "Importen av inställningar och data från WooThemes SEO framework lyckades."
+
+#: admin/class-import-external.php:108
+msgid "HeadSpace2 data successfully imported"
+msgstr "Importen av data från HeadSpace2 lyckades"
+
+#: admin/views/tool-import-export.php:148
+msgid "Import from WooThemes SEO framework?"
+msgstr "Importera från WooThemes SEO framework?"
+
+#: admin/class-metabox.php:2120
+msgid "Your keyphrase is over 10 words, a keyphrase should be shorter and there can be only one keyphrase."
+msgstr "Din nyckelfras är längre än tio ord. En nyckelfras bör vara kortare än så och det får bara finnas en nyckelfras."
+
+#: admin/pages/social.php:121
+msgid "If you have a Google+ page for your business, add that URL here and link it on your Google+ page's about page."
+msgstr "Om du har en Google+-sida för ditt företag kan du ange URLen till den här. Länka sedan till den på Om-sidan i Google+."
+
+#. translators: %1$s expands to Yoast SEO
+#: admin/pages/dashboard.php:122
+msgid "Your theme contains a meta description, which blocks %1$s from working properly, please delete the following line, or press fix it:"
+msgstr "Ditt tema innehåller en metabeskrivning, något som hindrar %1$s att fungera som det ska. Var god ta bort följande rad, eller klicka på &rdquo;fixa detta&rdquo;:"
+
+#: admin/pages/social.php:123
+msgid "Google Publisher Page"
+msgstr "Googles utgivare-sida"
+
+#: admin/pages/metas.php:103
+msgid "Date in Snippet Preview"
+msgstr "Datum i förhandvisning"
+
+#: admin/class-admin.php:471
+msgid "Twitter username (without @)"
+msgstr "Användarnamn på Twitter (utan @)"
+
+#: admin/pages/metas.php:103
+msgid "Show date in snippet preview?"
+msgstr "Visa datum i förhandsvisning?"
+
+#: admin/class-metabox.php:949
+msgid "SEO: OK"
+msgstr "SEO: OK"
+
+#: admin/class-metabox.php:948
+msgid "SEO: Poor"
+msgstr "SEO: Tveksam"
+
+#: admin/class-metabox.php:947
+msgid "SEO: Bad"
+msgstr "SEO: Dålig"
+
+#: admin/class-metabox.php:946
+msgid "SEO: No Focus Keyword"
+msgstr "SEO: Inget fokus-nyckelord"
+
+#: admin/class-metabox.php:950
+msgid "SEO: Good"
+msgstr "SEO: Bra"
+
+#: admin/class-metabox.php:951
+msgid "SEO: Post Noindexed"
+msgstr "SEO: Inlägg har noindex"
+
+#: admin/class-metabox.php:984
+msgid "Meta Desc."
+msgstr "Metabeskr."
+
+#: admin/class-metabox.php:985
+msgid "Focus KW"
+msgstr "Fokus-NO"
+
+#: inc/options/class-wpseo-option-titles.php:178
+msgid "%s, Author at %s"
+msgstr "%s, utgivare på %s"
+
+#: admin/views/tab-permalinks.php:26
+msgid "Remove the <code>?replytocom</code> variables."
+msgstr "Ta bort variablerna för <code>?replytocom</code>."
+
+#: admin/pages/metas.php:22 admin/pages/xml-sitemaps.php:40
+msgid "Post Types"
+msgstr "Post types"
+
+#: admin/views/tab-permalinks.php:25
+msgid "This prevents threaded replies from working when the user has JavaScript disabled, but on a large site can mean a <em>huge</em> improvement in crawl efficiency for search engines when you have a lot of comments."
+msgstr "Detta förhindrar trådade svar att fungera när användaren har stängt av JavaScript, men på en stor sajt kan det innebära <em>enorma</em> förbättringar i hur effektivt sökmotorer indexerar när du har många kommentarer."
+
+#: inc/class-wpseo-replace-vars.php:1108
+msgid "Replaced with the post type single label"
+msgstr "Ersatt med entalsetiketten för aktuell post type"
+
+#: admin/class-pointers.php:278 admin/class-pointers.php:297
+#: admin/google_search_console/class-gsc-category-filters.php:117
+#: admin/pages/metas.php:25
+msgid "Other"
+msgstr "Annan"
+
+#: inc/class-wpseo-replace-vars.php:1109
+msgid "Replaced with the post type plural label"
+msgstr "Ersatt med flertalsetiketten för aktuell post type"
+
+#: inc/options/class-wpseo-option-titles.php:212
+msgid "%s Archive"
+msgstr "%s arkiv"
+
+#: admin/class-pointers.php:291
+msgid "Social settings"
+msgstr "Inställningar för sociala medier"
+
+#: admin/class-pointers.php:275
+msgid "Sitewide settings"
+msgstr "Inställningar för hela sajten"
+
+#: frontend/class-frontend.php:514 frontend/class-frontend.php:517
+#: frontend/class-frontend.php:520 frontend/class-frontend.php:535
+#: frontend/class-frontend.php:538 frontend/class-frontend.php:541
+#: inc/options/class-wpseo-option-titles.php:228
+msgid "%s Archives"
+msgstr "%s-arkiv"
+
+#: admin/class-taxonomy.php:77
+msgid "Always index"
+msgstr "Indexera alltid"
+
+#: admin/class-metabox.php:1370
+msgid "No focus keyword was set for this %s. If you do not set a focus keyword, no score can be calculated."
+msgstr "Inga fokusnyckelord har valts för denna %s. Om du inte gör det kan poängen inte beräknas."
+
+#: admin/class-metabox.php:1335
+msgid "To update this page analysis, save as draft or update and check this tab again"
+msgstr "Spara som utkast eller uppdatera din publicerade sida och återkom hit för att uppdatera analysen"
+
+#: admin/class-metabox.php:1956
+msgid "No subheading tags (like an H2) appear in the copy."
+msgstr "Inga taggar för underrubriker (som t.ex. H2) återfinns i brödtexten."
+
+#: admin/class-metabox.php:2082
+msgid "The keyword density is %s%%, which is over the advised 4.5%% maximum, the keyword was found %s times."
+msgstr "Nyckelordsdensiteten är %s%% vilket är högre än den rekommenderade maximinivån på 4,5%%. Nyckelorden återfanns %s gånger."
+
+#. translators: %1$s expands to Yoast SEO
+#: admin/pages/metas.php:39
+msgid "%1$s has auto-detected whether it needs to force rewrite the titles for your pages, if you think it's wrong and you know what you're doing, you can change the setting here."
+msgstr ""
+
+#: inc/class-wpseo-replace-vars.php:1127
+msgid "Replaced with a posts custom taxonomies, comma separated."
+msgstr "Ersatt med ett inläggs anpassade taxonomier, kommaseparerat."
+
+#: inc/class-wpseo-replace-vars.php:1126
+msgid "Replaced with a posts custom field value"
+msgstr "Ersatt med värde i ett anpassat fält för ett inlägg"
+
+#: admin/pages/dashboard.php:157
+msgid "Take this tour to quickly learn about the use of this plugin."
+msgstr "Gå denna genomgång för att snabbt lära dig att använda denna plugin."
+
+#: admin/pages/metas.php:208
+msgid "Special Pages"
+msgstr "Specialsidor"
+
+#: admin/pages/metas.php:227
+msgid "I don't know why you'd want to use meta keywords, but if you want to, check this box."
+msgstr "Jag vet inte varför du skulle vilja använda meta-nyckelord, men kryssa i denna ruta om så ändå är fallet."
+
+#: admin/pages/dashboard.php:241
+msgid "Unchecking this box allows authors and editors to redirect posts, noindex them and do other things you might not want if you don't trust your authors."
+msgstr "Genom att kryssa ur denna ruta tillåts författare och redaktörer att peka om inlägg, ange noindex för dem och göra andra saker som du kanske inte vill att de ska kunna om du inte har stort förtroende för dem."
+
+#: admin/class-metabox.php:417 admin/class-metabox.php:1004
+msgid "Post is set to noindex."
+msgstr "Inlägget har getts noindex."
+
+#: admin/class-taxonomy.php:76
+msgid "Use %s default (Currently: %s)"
+msgstr "Använd %s förvalda (för närvarande: %s)"
+
+#: admin/class-taxonomy.php:209
+msgid "This %s follows the indexation rules set under Metas and Titles, you can override it here."
+msgstr "Denna/detta %s följer de indexeringsregler som är angivna under Meta och titlar. Du kan åsidosätta dem här."
+
+#: admin/class-admin.php:117 inc/wpseo-non-ajax-functions.php:412
+msgid "Titles &amp; Metas"
+msgstr "Titlar &amp; meta"
+
+#: admin/class-metabox.php:58
+msgid "Default for post type, currently: %s"
+msgstr "Standard för post type, för närvarande: %s"
+
+#: admin/class-metabox.php:1018
+msgid "Focus keyword not set."
+msgstr "Fokusnyckelord har inte angetts."
+
+#: frontend/class-frontend.php:455
+msgid "Search for \"%s\""
+msgstr "Sök efter \"%s\""
+
+#: admin/class-taxonomy.php:78
+msgid "Always noindex"
+msgstr "Ange alltid noindex"
+
+#: admin/pages/metas.php:225
+msgid "Noindex subpages of archives"
+msgstr "Ange noindex för undersidor till arkiv"
+
+#: admin/pages/metas.php:224
+msgid "If you want to prevent /page/2/ and further of any archive to show up in the search results, enable this."
+msgstr "Aktivera detta om du vill förhindra att sökvägar som /page/2 och liknande dyker upp i sökresultat."
+
+#: admin/views/tab-permalinks.php:49
+msgid "Hide RSD Links"
+msgstr "Göm RSD-länkar"
+
+#: admin/views/tab-permalinks.php:50
+msgid "Hide WLW Manifest Links"
+msgstr "Göm länkar till WLW Manifest"
+
+#: admin/views/tab-permalinks.php:51
+msgid "Hide Shortlink for posts"
+msgstr "Göm kortlänk för inlägg"
+
+#: admin/views/tab-permalinks.php:52
+msgid "Hide RSS Links"
+msgstr "Göm RSS-länkar"
+
+#: admin/pages/metas.php:102 admin/pages/metas.php:142
+#: admin/pages/metas.php:163
+msgid "Meta Robots"
+msgstr "Meta för robotar"
+
+#. translators: %1$s expands to Yoast SEO
+#: admin/pages/metas.php:105 admin/pages/metas.php:165
+msgid "Hide"
+msgstr "Göm"
+
+#. translators: %s expands to <code>noindex, follow</code>
+#: admin/pages/metas.php:210
+msgid "These pages will be %s by default, so they will never show up in search results."
+msgstr "Dessa sidor kommer som standard att markeras som %s, så de kommer aldrig att synas i sökresultat."
+
+#: inc/class-wpseo-replace-vars.php:1099
+msgid "The separator defined in your theme's <code>wp_title()</code> tag."
+msgstr "Den separator som är definierad i ditt temas <code>wp_title()</code>."
+
+#. translators: %s expands to Yoast SEO
+#: admin/pages/dashboard.php:185
+msgid "If you want to restore a site to the default %s settings, press this button."
+msgstr "Klicka på denna knapp om du vill återställa en webbplats till standardinställningarna för %s."
+
+#: admin/pages/dashboard.php:150
+msgid "Security"
+msgstr "Säkerhet"
+
+#: admin/pages/social.php:74
+msgid "This image is used if the post/page being shared does not contain any images."
+msgstr "Denna bild används om inlägget/sidan som delas inte innehåller några bilder."
+
+#: admi

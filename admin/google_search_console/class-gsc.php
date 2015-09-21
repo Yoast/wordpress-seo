@@ -42,8 +42,13 @@ class WPSEO_GSC {
 	 * Constructor for the page class. This will initialize all GSC related stuff
 	 */
 	public function __construct() {
-		// Settings.
-		add_action( 'admin_init', array( $this, 'register_settings' ) );
+		add_action( 'init', array( $this, 'init' ) );
+	}
+
+	/**
+	 * Run init logic.
+	 */
+	public function init() {
 
 		// Setting the screen option.
 		if ( filter_input( INPUT_GET, 'page' ) === 'wpseo_search_console' ) {
@@ -60,6 +65,8 @@ class WPSEO_GSC {
 		elseif ( current_user_can( 'manage_options' ) && WPSEO_GSC_Settings::get_profile() === '' && get_user_option( 'wpseo_dismissed_gsc_notice', get_current_user_id() ) !== '1' ) {
 			add_action( 'admin_init', array( $this, 'register_gsc_notification' ) );
 		}
+
+		add_action( 'admin_init', array( $this, 'register_settings' ) );
 	}
 
 	/**
@@ -131,9 +138,9 @@ class WPSEO_GSC {
 	/**
 	 * Set the screen options
 	 *
-	 * @param string $status
-	 * @param string $option
-	 * @param string $value
+	 * @param string $status Status string.
+	 * @param string $option Option key.
+	 * @param string $value  Value to return.
 	 *
 	 * @return mixed
 	 */
@@ -225,8 +232,8 @@ class WPSEO_GSC {
 	/**
 	 * Adding notification to the yoast notification center
 	 *
-	 * @param string $message
-	 * @param string $type
+	 * @param string $message Message string.
+	 * @param string $type    Message type.
 	 */
 	private function add_notification( $message, $type ) {
 		Yoast_Notification_Center::get()->add_notification(
