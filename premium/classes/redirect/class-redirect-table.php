@@ -212,8 +212,8 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	 */
 	private function handle_bulk_action() {
 		if ( filter_input( INPUT_POST, 'action' ) === 'delete' || filter_input( INPUT_POST, 'action2' ) === 'delete' ) {
-			if ( ( $redirects_bulk_delete = filter_input( INPUT_POST, 'wpseo_redirects_bulk_delete', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY ) ) && count( $redirects_bulk_delete ) > 0 ) {
-				$this->redirect_manager->delete_redirect( $redirects_bulk_delete );
+			if ( ( $bulk_delete = filter_input( INPUT_POST, 'wpseo_redirects_bulk_delete', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY ) ) && count( $bulk_delete ) > 0 ) {
+				$this->redirect_manager->delete_redirect( $bulk_delete );
 			}
 		}
 
