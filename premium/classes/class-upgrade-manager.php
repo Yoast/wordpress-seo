@@ -118,7 +118,7 @@ class WPSEO_Upgrade_Manager {
 	public function import_redirects_2_3() {
 		$wp_query  = new WP_Query( 'post_type=any&meta_key=_yoast_wpseo_redirect&order=ASC' );
 
-		if ( ! empty( $wp_query->posts) ) {
+		if ( ! empty( $wp_query->posts ) ) {
 			$redirect_manager = new WPSEO_URL_Redirect_Manager();
 
 			foreach ( $wp_query->posts as $post ) {

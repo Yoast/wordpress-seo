@@ -203,18 +203,18 @@ class WPSEO_Redirect_Handler {
 	 * @param string $redirect_type
 	 */
 	private function do_redirect( $redirect_url, $redirect_type ) {
-		if ( 410 !== $redirect_type ) {
-			if ( ! function_exists( 'wp_redirect' ) ) {
-				require_once( ABSPATH . 'wp-includes/pluggable.php' );
-			}
-
-			header( 'X-Redirect-By: Yoast SEO Premium' );
-			wp_redirect( $redirect_url, $redirect_type );
-
-			exit;
+		if ( 410 === $redirect_type ) {
+			$this->do_410();
+			return;
 		}
 
-		$this->do_410();
+		if ( ! function_exists( 'wp_redirect' ) ) {
+			require_once( ABSPATH . 'wp-includes/pluggable.php' );
+		}
+
+		header( 'X-Redirect-By: Yoast SEO Premium' );
+		wp_redirect( $redirect_url, $redirect_type );
+		exit;
 	}
 
 	/**

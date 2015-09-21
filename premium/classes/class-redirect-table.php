@@ -3,11 +3,6 @@
  * @package WPSEO\Premium\Classes
  */
 
-if ( ! defined( 'WPSEO_VERSION' ) ) {
-	header( 'HTTP/1.0 403 Forbidden' );
-	die;
-}
-
 if ( ! class_exists( 'WP_List_Table' ) ) {
 	require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
 }
@@ -20,57 +15,27 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	/**
 	 * @var string
 	 */
-	private $search_string;
-
-	/**
-	 * @var string
-	 */
 	private $type;
 
 	/**
-	 * @var mixed
+	 * @var WPSEO_Redirect_Manager
 	 */
 	private $redirect_manager;
 
 	/**
 	 * WPSEO_Redirect_Table constructor
 	 *
-	 * @param string $type
+	 * @param string                 $type
+	 * @param WPSEO_Redirect_Manager $redirect_manager
 	 */
-	public function __construct( $type ) {
+	public function __construct( $type, WPSEO_Redirect_Manager $redirect_manager ) {
 		parent::__construct( array( 'plural' => $type ) );
 
 		$this->type             = $type;
-		$class_name             = 'WPSEO_' . strtoupper( $this->type ) . '_Redirect_Manager';
-		$this->redirect_manager = new $class_name();
+		$this->redirect_manager = $redirect_manager;
 
 		$this->handle_bulk_action();
-
-		if ( ( $search_string = filter_input( INPUT_GET, 's' ) ) != '' ) {
-			$this->search_string = $search_string;
-		}
-	}
-
-	/**
-	 * Search through the items
-	 *
-	 * @param array $items
-	 *
-	 * @return array
-	 */
-	private function do_search( $items ) {
-		$results = array();
-
-		if ( is_array( $items ) ) {
-
-			foreach ( $items as $old => $redirect ) {
-				if ( false !== stripos( $old, $this->search_string ) || false !== stripos( $redirect['url'], $this->search_string ) ) {
-					$results[ $old ] = $redirect;
-				}
-			}
-		}
-
-		return $results;
+		$this->set_items();
 	}
 
 	/**
@@ -88,43 +53,17 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 
 		return $columns;
 	}
-
 	/**
 	 * Setup the table variables, fetch the items from the database, search, sort and format the items.
 	 * Set the items as the WPSEO_Redirect_Table items variable.
 	 */
 	public function prepare_items() {
-
 		// Setup the columns.
-		$columns               = $this->get_columns();
-		$hidden                = array();
-		$sortable              = $this->get_sortable_columns();
-		$this->_column_headers = array( $columns, $hidden, $sortable );
-
-		// Get the items.
-		$redirect_items = $this->redirect_manager->get_redirects();
-
-		// Handle the search.
-		if ( null != $this->search_string ) {
-			$redirect_items = $this->do_search( $redirect_items );
-		}
-
-		// Format the data.
-		$formatted_items = array();
-		if ( is_array( $redirect_items ) && count( $redirect_items ) > 0 ) {
-			foreach ( $redirect_items as $old => $redirect ) {
-				$formatted_items[] = array( 'old' => $old, 'new' => $redirect['url'], 'type' => $redirect['type'] );
-			}
-		}
-
-		// Sort the results.
-		if ( count( $formatted_items ) > 0 ) {
-			usort( $formatted_items, array( $this, 'do_reorder' ) );
-		}
+		$this->_column_headers = array( $this->get_columns(), array(), $this->get_sortable_columns() );
 
 		// Get variables needed for pagination.
 		$per_page    = $this->get_items_per_page( 'redirects_per_page', 25 );
-		$total_items = count( $formatted_items );
+		$total_items = count( $this->items );
 
 		// Set pagination.
 		$this->set_pagination_args( array(
@@ -142,7 +81,7 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 		}
 
 		// Apply 'pagination'.
-		$formatted_items = array_slice( $formatted_items, ( $slice_start * $per_page ), $per_page );
+		$formatted_items = array_slice( $this->items, ( $slice_start * $per_page ), $per_page );
 
 		// Set items.
 		$this->items = $formatted_items;
@@ -173,13 +112,13 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	 */
 	public function do_reorder( $a, $b ) {
 		// If no sort, default to title.
-		$orderby = ( ( $orderby = filter_input( INPUT_GET, 'orderby' ) ) != '' ) ? $orderby : 'old';
+		$orderby = filter_input( INPUT_GET, 'orderby', FILTER_VALIDATE_REGEXP, array( 'options' => array( 'default' => 'old', 'regexp' => '/^(old|new|type)$/' ) ) );
 
 		// If no order, default to asc.
-		$order = ( ( $order = filter_input( INPUT_GET, 'order') ) != '' ) ? $order : 'asc';
+		$order   = filter_input( INPUT_GET, 'order', FILTER_VALIDATE_REGEXP, array( 'options' => array( 'default' => 'asc', 'regexp' => '/^(asc|desc)$/' ) ) );
 
 		// Determine sort order.
-		$result = strcmp( $a[ $orderby ], $b[ $orderby ] );
+		$result   = strcmp( $a[ $orderby ], $b[ $orderby ] );
 
 		// Send final sort direction to usort.
 		return ( $order === 'asc' ) ? $result : ( - $result );
@@ -206,16 +145,13 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Checkbox column
+	 * Checkbox columns
 	 *
 	 * @param array $item
-	 *
 	 * @return string
 	 */
 	public function column_cb( $item ) {
-		return sprintf(
-			'<input type="checkbox" name="wpseo_redirects_bulk_delete[]" value="%s" />', $item['old']
-		);
+		return sprintf( '<input type="checkbox" name="wpseo_redirects_bulk_delete[]" value="%s" />', $item['old'] );
 	}
 
 	/**
@@ -239,7 +175,6 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 				return $item[ $column_name ];
 		}
 	}
-
 	/**
 	 * Return available bulk actions
 	 *
@@ -263,6 +198,59 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 			}
 		}
 
+	}
+
+	/**
+	 * Setting the items
+	 */
+	private function set_items() {
+		// Getting the items.
+		$this->items = $this->redirect_manager->get_redirects();
+
+		if ( ! is_array( $this->items ) ) {
+			$this->items = array();
+		}
+
+		if ( ( $search_string = filter_input( INPUT_GET, 's', FILTER_DEFAULT, array( 'options' => array( 'default' => '' ) ) ) ) !== '' ) {
+			$this->do_search( $search_string );
+		}
+
+		$this->format_items();
+
+		// Sort the results.
+		if ( count( $this->items ) > 0 ) {
+			usort( $this->items, array( $this, 'do_reorder' ) );
+		}
+	}
+
+	/**
+	 * Format the items
+	 */
+	private function format_items() {
+		// Format the data.
+		$formatted_items = array();
+		foreach ( $this->items as $old => $redirect ) {
+			$formatted_items[] = array( 'old' => $old, 'new' => $redirect['url'], 'type' => $redirect['type'] );
+		}
+
+		$this->items = $formatted_items;
+	}
+
+	/**
+	 * Search through the items
+	 *
+	 * @param string $search_string
+	 */
+	private function do_search( $search_string ) {
+		$results = array();
+
+		foreach ( $this->items as $old => $redirect ) {
+			if ( false !== stripos( $old, $search_string ) || false !== stripos( $redirect['url'], $search_string ) ) {
+				$results[ $old ] = $redirect;
+			}
+		}
+
+		$this->items = $results;
 	}
 
 }

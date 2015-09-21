@@ -3,89 +3,133 @@
  * @package WPSEO\Premium\Classes
  */
 
-if ( ! defined( 'WPSEO_VERSION' ) ) {
-	header( 'HTTP/1.0 403 Forbidden' );
-	die;
-}
-
-/**
- * Interface iWPSEO_Redirect_File
- */
-interface IWPSEO_Redirect_File {
-	/**
-	 * Formatting the URL redirect
-	 *
-	 * @param string $old_url
-	 * @param string $new_url
-	 * @param int    $type
-	 *
-	 * @return mixed
-	 */
-	public function format_url_redirect( $old_url, $new_url, $type );
-
-	/**
-	 * Formating the regex redirect
-	 *
-	 * @param string $old_url
-	 * @param string $new_url
-	 * @param int    $type
-	 *
-	 * @return mixed
-	 */
-	public function format_regex_redirect( $old_url, $new_url, $type );
-}
-
 /**
  * Class WPSEO_Redirect_File
  */
-abstract class WPSEO_Redirect_File implements IWPSEO_Redirect_File {
+abstract class WPSEO_Redirect_File {
+
+	/**
+	 * @var string
+	 */
+	protected $url_format = '';
+
+	/**
+	 * @var string
+	 */
+	protected $regex_format = '';
+
+	/**
+	 * @var string
+	 */
+	protected $current_type;
+
+	/**
+	 * Save the redirect file
+	 *
+	 * @param array $url_redirects
+	 * @param array $regex_redirects
+	 *
+	 * @return bool
+	 */
+	public function save( array $url_redirects, array $regex_redirects ) {
+
+		// Generate file content.
+		$file_content = $this->generate_content( $url_redirects, $regex_redirects );
+
+		// Check if the file content isset.
+		if ( '' === $file_content ) {
+			return false;
+		}
+
+		// Save the actual file.
+		if ( is_writable( WPSEO_Redirect_File_Util::get_file_path() ) ) {
+			WPSEO_Redirect_File_Util::write_file( WPSEO_Redirect_File_Util::get_file_path(), $file_content );
+		}
+
+
+		return true;
+	}
 
 	/**
 	 * Generate file content
 	 *
+	 * @param array $url_redirects
+	 * @param array $regex_redirects
+	 *
 	 * @return string
 	 */
-	protected function generate_file_content() {
+	protected function generate_content( array $url_redirects, array $regex_redirects ) {
 		$file_content = '';
 
-		// Generate URL redirects.
-		$url_redirect_manager = new WPSEO_URL_Redirect_Manager();
-		$url_redirects        = $url_redirect_manager->get_redirects();
-		if ( count( $url_redirects ) > 0 ) {
-			foreach ( $url_redirects as $old_url => $redirect ) {
-				$file_content .= $this->format_url_redirect( $old_url, $redirect['url'], $redirect['type'] ) . "\n";
-			}
-		}
+		// Formatting the url_redirects.
+		$this->format_url_redirects( $file_content, $url_redirects );
 
-		// Generate REGEX redirects.
-		$regex_redirect_manager = new WPSEO_REGEX_Redirect_Manager();
-		$regex_redirects        = $regex_redirect_manager->get_redirects();
-		if ( count( $regex_redirects ) > 0 ) {
-			foreach ( $regex_redirects as $regex => $redirect ) {
-				$file_content .= $this->format_regex_redirect( $regex, $redirect['url'], $redirect['type'] ) . "\n";
-			}
-		}
+		// Formatting the regex_redirects.
+		$this->format_regex_redirects( $file_content, $regex_redirects );
 
 		return $file_content;
 	}
 
 	/**
-	 * Save the redirect file
+	 * Formatting the URL redirects
+	 *
+	 * @param string $file_content
+	 * @param array  $redirects
 	 *
 	 * @return bool
 	 */
-	public function save_file() {
+	protected function format_url_redirects( &$file_content, $redirects ) {
+		$this->current_type = 'url';
 
-		// Generate file content.
-		$file_content = $this->generate_file_content();
+		return $this->format_redirects( $file_content, $redirects, $this->url_format );
+	}
 
-		// Check if the file content isset.
-		if ( null == $file_content ) {
+	/**
+	 * Formatting the regex redirects
+	 *
+	 * @param string $file_content
+	 * @param array  $redirects
+	 *
+	 * @return bool
+	 */
+	protected function format_regex_redirects( &$file_content, $redirects ) {
+		$this->current_type = 'regex';
+
+		return $this->format_redirects( $file_content, $redirects, $this->regex_format );
+	}
+
+	/**
+	 * Format the redirects based on given params
+	 *
+	 * @param string $file_content
+	 * @param array  $redirects
+	 * @param string $redirect_format
+	 *
+	 * @return bool
+	 */
+	protected function format_redirects( &$file_content, array $redirects, $redirect_format ) {
+		if ( count( $redirects ) === 0 ) {
 			return false;
 		}
 
-		// Save the actual file.
-		@file_put_contents( WPSEO_Redirect_File_Manager::get_file_path(), $file_content );
+		foreach ( $redirects as $redirect_key => $redirect ) {
+			$file_content .= $this->format_redirect( $redirect_format, $redirect_key, $redirect ) . PHP_EOL;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Formatting the redirect by given redirect format. The right values will placed in the format by sprintf.
+	 *
+	 * @param string $redirect_format
+	 * @param string $redirect_key
+	 * @param array  $redirect
+	 *
+	 * @return string
+	 */
+	protected function format_redirect( $redirect_format, $redirect_key, array $redirect ) {
+		return sprintf( $redirect_format, $redirect_key, $redirect['url'], $redirect['type'] );
 	}
 
 }
