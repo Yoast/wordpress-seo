@@ -14,15 +14,15 @@ abstract class WPSEO_Redirect_Manager {
 	protected $option_redirects = null;
 
 	/**
-	 * @var array
+	 * @var WPSEO_Redirect_Model
 	 */
-	private $redirects = array();
+	protected $redirect_model;
 
 	/**
 	 * Setting the property with the redirects
 	 */
 	public function __construct() {
-		$this->set_redirects();
+		$this->redirect_model = new WPSEO_Redirect_Model( $this->option_redirects );
 	}
 
 	/**
@@ -31,7 +31,7 @@ abstract class WPSEO_Redirect_Manager {
 	 * @return array
 	 */
 	public function get_redirects() {
-		return ( is_array( $this->redirects ) ) ? $this->redirects : array();
+		return $this->redirect_model->get();
 	}
 
 	/**
@@ -65,22 +65,12 @@ abstract class WPSEO_Redirect_Manager {
 	 * @todo fix this method to work with the new redirect setup
 	 *
 	 * @param array $old_redirect_arr
-	 * @param array $new_redirect_arr
+	 * @param array $new_redirect
 	 */
-	public function save_redirect( array $old_redirect_arr, array $new_redirect_arr ) {
-		// Remove old redirect.
-		if ( isset( $this->redirects[ $old_redirect_arr['key'] ] ) ) {
-			unset( $this->redirects[ $old_redirect_arr['key'] ] );
+	public function save_redirect( array $old_redirect_arr, array $new_redirect ) {
+		if ($this->redirect_model->update( $old_redirect_arr['key'], $new_redirect['key'], $new_redirect['value'], $new_redirect['type'] ) ) {
+			$this->save_redirects();
 		}
-
-		// Add new redirect.
-		$this->redirects[ $new_redirect_arr['key'] ] = array(
-			'url'  => $new_redirect_arr['value'],
-			'type' => $new_redirect_arr['type'],
-		);
-
-		// Save redirects.
-		$this->save_redirects();
 	}
 
 	/**
@@ -93,19 +83,13 @@ abstract class WPSEO_Redirect_Manager {
 	 * @return bool
 	 */
 	public function create_redirect( $old_value, $new_value, $type ) {
-		// Don't add redirect if already exists.
-		if ( isset( $this->redirects[ $old_value ] ) ) {
-			return false;
+		if ( $this->redirect_model->add( $old_value, $new_value, $type ) ) {
+			$this->save_redirects();
+
+			return true;
 		}
 
-		// Add new redirect.
-		$this->redirects[ $old_value ] = array( 'url' => $new_value, 'type' => $type );
-
-		// Save redirects.
-		$this->save_redirects();
-
-		// Return true if success.
-		return true;
+		return false;
 	}
 
 	/**
@@ -115,12 +99,12 @@ abstract class WPSEO_Redirect_Manager {
 	 *
 	 * @return bool
 	 */
-	public function delete_redirects( $delete_redirects ) {
+	public function delete_redirects( array $delete_redirects ) {
 		$redirects_deleted = false;
 
-		if ( count( $this->redirects ) > 0 && is_array( $delete_redirects ) && count( $delete_redirects ) > 0 ) {
+		if ( is_array( $delete_redirects ) && count( $delete_redirects ) > 0 ) {
 			foreach ( $delete_redirects as $delete_redirect ) {
-				$this->delete_redirect( $delete_redirect );
+				$redirects_deleted = $this->redirect_model->delete( $delete_redirect );
 			}
 
 			$this->save_redirects();
@@ -130,57 +114,32 @@ abstract class WPSEO_Redirect_Manager {
 	}
 
 	/**
-	 * Delete the redirects
-	 *
-	 * @param string $delete_redirect
-	 *
-	 * @return bool
-	 */
-	public function delete_redirect( $delete_redirect ) {
-		$delete_redirect = trim( $delete_redirect );
-		if ( !empty( $this->redirects[ $delete_redirect ] ) ) {
-			unset( $this->redirects[ $delete_redirect ] );
-
-			return true;
-		}
-
-		return false;
-	}
-
-	/**
 	 * Upgrade routine from Yoast SEO premium 1.2.0
 	 */
 	public function upgrade_1_2_0() {
+		// Getting the redirects.
+		$redirects = $this->redirect_model->get();
+
 		// Loop through the redirects.
-		foreach ( $this->redirects as $old_url => $redirect ) {
+		foreach ( $redirects as $old_url => $redirect ) {
 			// Check if the redirect is not an array yet.
 			if ( ! is_array( $redirect ) ) {
-				$this->redirects[ $old_url ] = array( 'url' => $redirect, 'type' => '301' );
+				$redirects[ $old_url ] = $this->redirect_model->format( $redirect, '301' );
 			}
 		}
+		// Set the redirect value with the reformated redirects
+		$this->redirect_model->set( $redirects );
 
 		// Save the URL redirects.
 		$this->save_redirects();
 	}
 
 	/**
-	 * Setting the redirects property
-	 */
-	protected function set_redirects() {
-		$redirects = apply_filters( 'wpseo_premium_get_redirects', get_option( $this->option_redirects ) );
-		if ( ! is_array( $redirects ) ) {
-			$redirects = array();
-		}
-
-		$this->redirects =  $redirects;
-	}
-
-	/**
 	 * Save the redirect
 	 */
-	protected function save_redirects() {
+	public function save_redirects() {
 		// Update the database option.
-		update_option( $this->option_redirects, apply_filters( 'wpseo_premium_save_redirects', $this->redirects ) );
+		$this->redirect_model->save();
 
 		// Save the redirect file.
 		$this->save_redirect_file();

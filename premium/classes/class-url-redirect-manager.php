@@ -9,11 +9,6 @@
 class WPSEO_URL_Redirect_Manager extends WPSEO_Redirect_Manager {
 
 	/**
-	 * @var array
-	 */
-	protected $redirects;
-
-	/**
 	 * @var string
 	 */
 	protected $option_redirects = 'wpseo-premium-redirects';
