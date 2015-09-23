@@ -409,7 +409,14 @@ YoastSEO.App.prototype.runAnalyzer = function() {
 	}
 
 	this.pageAnalyzer.runQueue();
-	this.scoreFormatter = new YoastSEO.ScoreFormatter( this );
+	this.scoreFormatter = new YoastSEO.ScoreFormatter(
+		this.pageAnalyzer.analyzeScorer.__score,
+		this.pageAnalyzer.analyzeScorer.__totalScore,
+		this.config.targets.output,
+		this.config.targets.overall,
+		this.rawData.keyword,
+		this.callbacks
+	);
 
 	if ( this.config.dynamicDelay ) {
 		this.endTime();

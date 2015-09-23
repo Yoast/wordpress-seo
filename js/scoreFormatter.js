@@ -9,13 +9,14 @@ YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
  * @param {YoastSEO.App} args
  * @constructor
  */
-YoastSEO.ScoreFormatter = function( args ) {
-	this.scores = args.pageAnalyzer.analyzeScorer.__score;
-	this.overallScore = args.pageAnalyzer.analyzeScorer.__totalScore;
-	this.outputTarget = args.config.targets.output;
-	this.overallTarget = args.config.targets.overall;
+YoastSEO.ScoreFormatter = function( scores, overallScore, outputTarget, overallTarget, keyword, callbacks ) {
+	this.scores = scores;
+	this.overallScore = overallScore;
+	this.outputTarget = outputTarget;
+	this.overallTarget = overallTarget;
 	this.totalScore = 0;
-	this.refObj = args;
+	this.keyword = keyword;
+	this.callbacks = callbacks;
 	this.outputScore();
 	this.outputOverallScore();
 };
