@@ -607,7 +607,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			else {
 				$json = array();
 			}
-			wp_localize_script( 'wp-seo-wordpressScraper.js', 'wpseoL10n', $json );
+			wp_localize_script( 'wp-seo-wordpressScraper-Config.js', 'wpseoL10n', $json );
 			wp_localize_script( 'wp-seo-replacevar-plugin.js', 'wpseoReplaceVarsL10n', $this->localize_replace_vars_script() );
 
 			// Text strings to pass to shortcode plugin for keyword analysis.
