@@ -113,8 +113,7 @@ jQuery( document ).ready(function() {
 				parentReplace: wordpressScraper.parentReplace,
 				doubleSepReplace: wordpressScraper.doubleSepReplace,
 				excerptReplace: wordpressScraper.excerptReplace,
-				setDataFromSnippet: wordpressScraper.setDataFromSnippet,
-				setRawData: wordpressScraper.setRawData
+				setDataFromSnippet: wordpressScraper.setDataFromSnippet
 			};
 
 			YoastSEO.app = new YoastSEO.App( YoastSEO.analyzerArgs );
