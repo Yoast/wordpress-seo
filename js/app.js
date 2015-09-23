@@ -443,9 +443,8 @@ YoastSEO.App.prototype.pluginsLoaded = function() {
  * Runs a queue with tests where no keyword is required.
  */
 YoastSEO.App.prototype.noKeywordQueue = function() {
-	var data = this.rawData;
-	data.queue = [ "keyWordCheck", "wordCount", "fleschReading", "pageTitleLength", "urlStopwords" ];
-	this.runAnalyzer( data );
+	this.rawData.queue = [ "keyWordCheck", "wordCount", "fleschReading", "pageTitleLength", "urlStopwords", "metaDescription" ];
+	this.runAnalyzer( this.rawData );
 };
 
 /**

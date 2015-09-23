@@ -15,6 +15,7 @@ YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
  */
 YoastSEO.SnippetPreview = function( refObj ) {
 	this.refObj = refObj;
+	this.unformattedText = {};
 	this.init();
 };
 
@@ -97,7 +98,7 @@ YoastSEO.SnippetPreview.prototype.formatCite = function() {
  * @returns formatted metatext
  */
 YoastSEO.SnippetPreview.prototype.formatMeta = function() {
-	var meta = this.refObj.rawData.snippetMeta;
+	var meta = this.refObj.rawData.meta;
 	if ( meta === "" ) {
 		meta = this.getMetaText();
 	}
@@ -268,7 +269,7 @@ YoastSEO.SnippetPreview.prototype.checkTextLength = function( ev ) {
 	switch ( ev.currentTarget.id ) {
 		case "snippet_meta":
 			if ( text.length > YoastSEO.analyzerConfig.maxMeta ) {
-				ev.currentTarget.__unformattedText = ev.currentTarget.textContent;
+				YoastSEO.app.snippetPreview.unformattedText.snippet_meta = ev.currentTarget.textContent;
 				ev.currentTarget.textContent = text.substring(
 					0,
 					YoastSEO.analyzerConfig.maxMeta
@@ -278,7 +279,7 @@ YoastSEO.SnippetPreview.prototype.checkTextLength = function( ev ) {
 			break;
 		case "snippet_title":
 			if ( text.length > 40 ) {
-				ev.currentTarget.__unformattedText = ev.currentTarget.textContent;
+				YoastSEO.app.snippetPreview.unformattedText.snippet_title = ev.currentTarget.textContent;
 				ev.currentTarget.textContent = text.substring( 0, 40 );
 				ev.currentTarget.className = "title";
 			}
@@ -286,6 +287,26 @@ YoastSEO.SnippetPreview.prototype.checkTextLength = function( ev ) {
 		default:
 			break;
 	}
+};
+
+/**
+ * when clicked on an element in the snippet, checks fills the textContent with the data from the unformatted text.
+ * This removes the keyword highlighting and modified data so the original content can be editted.
+ * @param ev {event}
+ */
+YoastSEO.SnippetPreview.prototype.getUnformattedText = function( ev ) {
+	var currentElement = ev.currentTarget.firstChild.id;
+	ev.currentTarget.firstChild.textContent = YoastSEO.app.snippetPreview.unformattedText[ currentElement ];
+};
+
+/**
+ * when text is entered into the snippetPreview elements, the text is set in the unformattedText object.
+ * This allows the visible data to be editted in the snippetPreview.
+ * @param ev
+ */
+YoastSEO.SnippetPreview.prototype.setUnformattedText = function( ev ) {
+	var currentElement = ev.currentTarget.firstChild.id;
+	YoastSEO.app.snippetPreview.unformattedText[ currentElement ] =  ev.currentTarget.firstChild.textContent;
 };
 
 /**
@@ -347,30 +368,5 @@ YoastSEO.SnippetPreview.prototype.setFocus = function( ev ) {
 			targetElem = targetElem.nextSibling;
 		}
 	}
-	targetElem.refObj.snippetPreview.setFocusToEnd( targetElem );
 };
 
-/**
- * this function is needed for placing the caret at the end of the input when the text is changed
- * at focus.
- * Otherwise the cursor could end at the beginning of the text.
- * @param elem
- */
-YoastSEO.SnippetPreview.prototype.setFocusToEnd = function( elem ) {
-	if (
-		typeof window.getSelection !== "undefined" &&
-		typeof document.createRange !== "undefined"
-	) {
-		var range = document.createRange();
-		range.selectNodeContents( elem );
-		range.collapse( false );
-		var selection = window.getSelection();
-		selection.removeAllRanges();
-		selection.addRange( range );
-	} else if ( typeof document.body.createTextRange !== "undefined" ) {
-		var textRange = document.body.createTextRange();
-		textRange.moveToElementText( elem );
-		textRange.collapse( false );
-		textRange.select();
-	}
-};
