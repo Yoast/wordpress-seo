@@ -8,7 +8,8 @@ require("../js/stringhelper.js");
 var urlArgs = {
     keyword: "keyword",
     queue: ["urlKeyword","urlLength","urlStopwords"],
-    url: "https://yoast.com/keyword-yoast",
+    url: "https://yoast.com/",
+	snippetCite: "keyword-yoast",
     text: ""
 };
 
@@ -26,7 +27,8 @@ describe("a test matching the keywords in the url", function(){
 var urlArgs2 = {
     keyword: "sample",
     queue: ["urlKeyword"],
-    url: "https://yoast.com/keyword-yoast",
+	url: "https://yoast.com/",
+	snippetCite: "keyword-yoast",
     text: ""
 };
 
