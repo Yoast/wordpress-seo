@@ -584,10 +584,9 @@ YoastSEO.Analyzer.prototype.metaDescription = function() {
  */
 YoastSEO.Analyzer.prototype.urlKeyword = function() {
 	var result = [ { test: "urlKeyword", result: 0 } ];
-	if ( typeof this.config.url !== "undefined" && typeof this.config.snippetCite !== "undefined" ) {
-		var url = this.config.url + this.config.snippetCite;
+	if ( typeof this.config.url !== "undefined" ) {
 		result[ 0 ].result = this.stringHelper.countMatches(
-			url, this.keywordRegexInverse
+			this.config.url, this.keywordRegexInverse
 		);
 	}
 	return result;
