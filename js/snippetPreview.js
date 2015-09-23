@@ -206,7 +206,7 @@ YoastSEO.SnippetPreview.prototype.getPeriodMatches = function() {
 YoastSEO.SnippetPreview.prototype.formatKeyword = function( textString ) {
 
 	//matches case insensitive and global
-	var replacer = new RegExp( this.refObj.rawData.keyword, "ig" );
+	var replacer = new RegExp( "\\b" + this.refObj.rawData.keyword + "\\b", "ig" );
 	return textString.replace( replacer, function( str ) {
 		return "<strong>" + str + "</strong>";
 	} );
