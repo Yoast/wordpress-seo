@@ -108,29 +108,6 @@ YoastSEO.WordPressScraper.prototype.setDataFromSnippet = function( value, type )
 };
 
 /**
- * when the snippet is updated, set this data in rawData.
- * @param {string} value
- * @param {string} type
- */
-YoastSEO.WordPressScraper.prototype.setRawData = function( value, type ) {
-	'use strict';
-
-	switch ( type ) {
-		case 'snippet_meta':
-			YoastSEO.app.rawData.snippetMeta = value;
-			break;
-		case 'snippet_cite':
-			YoastSEO.app.rawData.snippetCite = value;
-			break;
-		case 'snippet_title':
-			YoastSEO.app.rawData.snippetTitle = value;
-			break;
-		default:
-			break;
-	}
-};
-
-/**
  * feeds data to the loader that is required for the analyzer
  */
 YoastSEO.WordPressScraper.prototype.getAnalyzerInput = function() {
@@ -159,34 +136,6 @@ YoastSEO.WordPressScraper.prototype.getContentTinyMCE = function() {
 };
 
 /**
- * gets data from hidden input fields. Is triggered on click in the snippet preview. Fetches data and inserts into snippetPreview
- * @param {Object} ev
- */
-YoastSEO.WordPressScraper.prototype.getInputFieldsData = function( ev ) {
-	'use strict';
-
-	var inputType = ev.currentTarget.id.replace( /snippet_/i, '' );
-	switch ( inputType ) {
-		case 'title':
-			document.getElementById( 'snippet_title' ).textContent = document.getElementById( 'yoast_wpseo_title' ).value;
-			document.getElementById( 'snippet_title' ).focus();
-			break;
-		case 'meta':
-			document.getElementById( 'snippet_meta' ).focus();
-			document.getElementById( 'snippet_meta' ).textContent = document.getElementById( 'yoast_wpseo_metadesc' ).value;
-
-			break;
-		case 'url':
-			var newUrl = document.getElementById( 'snippet_cite' ).textContent;
-			document.getElementById( 'editable-post-name' ).textContent = newUrl;
-			document.getElementById( 'editable-post-name' ).focus();
-			break;
-		default:
-			break;
-	}
-};
-
-/**
  * Calls the eventbinders.
  */
 YoastSEO.WordPressScraper.prototype.bindElementEvents = function() {
@@ -207,7 +156,6 @@ YoastSEO.WordPressScraper.prototype.snippetPreviewEventBinder = function( snippe
 
 	var elems = [ 'snippet_cite', 'snippet_meta', 'snippet_title' ];
 	for ( var i = 0; i < elems.length; i++ ) {
-		document.getElementById( elems[ i ] ).addEventListener( 'focus', this.getInputFieldsData );
 		document.getElementById( elems[ i ] ).addEventListener( 'keydown', snippetPreview.disableEnter );
 		document.getElementById( elems[ i ] ).addEventListener( 'blur', snippetPreview.checkTextLength );
 		//textFeedback is given on input (when user types or pastests), but also on focus. If a string that is too long is being recalled
@@ -223,14 +171,15 @@ YoastSEO.WordPressScraper.prototype.snippetPreviewEventBinder = function( snippe
 		document.getElementById( elems[ i ] ).addEventListener( 'keyup', snippetPreview.hideEditIcon );
 	}
 	elems = [ 'title_container', 'url_container', 'meta_container' ];
-	//when clicked on the
 	for ( i = 0; i < elems.length; i++ ) {
+		document.getElementById( elems[ i ] ).addEventListener( 'click', snippetPreview.getUnformattedText );
+		document.getElementById( elems[ i ] ).addEventListener( 'keyup', snippetPreview.setUnformattedText );
 		document.getElementById( elems[ i ] ).addEventListener( 'click', snippetPreview.setFocus );
 	}
 };
 
 /**
- * bins the renewData function on the change of inputelements.
+ * binds the renewData function on the change of inputelements.
  */
 YoastSEO.WordPressScraper.prototype.inputElementEventBinder = function() {
 	'use strict';
@@ -258,7 +207,7 @@ YoastSEO.WordPressScraper.prototype.resetQueue = function() {
 
 /**
  * Updates the snippet values, is bound by the loader when generating the elements for the snippet.
- * Uses the __unformattedText if the textFeedback function has put a string there (if text was too long).
+ * Uses the unformattedText object of the if the textFeedback function has put a string there (if text was too long).
  * clears this after use.
  *
  * @param {Object} ev
@@ -267,15 +216,12 @@ YoastSEO.WordPressScraper.prototype.updateSnippetValues = function( ev ) {
 	'use strict';
 
 	var dataFromSnippet = ev.currentTarget.textContent;
-	if ( typeof ev.currentTarget.__unformattedText !== 'undefined' ) {
-		if ( ev.currentTarget.__unformattedText !== '' ) {
-			dataFromSnippet = ev.currentTarget.__unformattedText;
-			ev.currentTarget.__unformattedText = '';
-		}
+	var currentElement = ev.currentTarget.id;
+	if ( typeof ev.currentTarget.refObj.snippetPreview.unformattedText[ currentElement ] !== 'undefined' ) {
+		ev.currentTarget.textContent = ev.currentTarget.refObj.snippetPreview.unformattedText[ currentElement ];
 	}
-	ev.currentTarget.refObj.callbacks.setRawData( dataFromSnippet, ev.currentTarget.id);
 	ev.currentTarget.refObj.callbacks.setDataFromSnippet( dataFromSnippet, ev.currentTarget.id );
-	ev.currentTarget.refObj.callbacks.getData();
+	this.refObj.rawData = ev.currentTarget.refObj.callbacks.getData();
 	ev.currentTarget.refObj.callbacks.getAnalyzerInput();
 };
 
