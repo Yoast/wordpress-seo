@@ -1316,9 +1316,8 @@ YoastSEO.App.prototype.pluginsLoaded = function() {
  * Runs a queue with tests where no keyword is required.
  */
 YoastSEO.App.prototype.noKeywordQueue = function() {
-	var data = this.rawData;
-	data.queue = [ "keyWordCheck", "wordCount", "fleschReading", "pageTitleLength", "urlStopwords" ];
-	this.runAnalyzer( data );
+	this.rawData.queue = [ "keyWordCheck", "wordCount", "fleschReading", "pageTitleLength", "urlStopwords", "metaDescription" ];
+	this.runAnalyzer( this.rawData );
 };
 
 /**
@@ -1936,8 +1935,13 @@ YoastSEO.PreProcessor.prototype.textFormat = function() {
 YoastSEO.PreProcessor.prototype.countStore = function() {
 
 	/*wordcounters*/
-	this.__store.wordcount = this.__store.cleanText.split( " " ).length;
-	this.__store.wordcountNoTags = this.__store.cleanTextNoTags.split( " " ).length;
+	this.__store.wordcount = this.__store.cleanText === "" ?
+		0 :
+		this.__store.cleanText.split( " " ).length;
+
+	this.__store.wordcountNoTags = this.__store.cleanTextNoTags === "" ?
+		0 :
+		this.__store.cleanTextNoTags.split( " " ).length;
 
 	/*sentencecounters*/
 	this.__store.sentenceCount = this.sentenceCount( this.__store.cleanText );
@@ -2237,6 +2241,7 @@ YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
  */
 YoastSEO.SnippetPreview = function( refObj ) {
 	this.refObj = refObj;
+	this.unformattedText = {};
 	this.init();
 };
 
@@ -2319,7 +2324,7 @@ YoastSEO.SnippetPreview.prototype.formatCite = function() {
  * @returns formatted metatext
  */
 YoastSEO.SnippetPreview.prototype.formatMeta = function() {
-	var meta = this.refObj.rawData.snippetMeta;
+	var meta = this.refObj.rawData.meta;
 	if ( meta === "" ) {
 		meta = this.getMetaText();
 	}
@@ -2427,7 +2432,7 @@ YoastSEO.SnippetPreview.prototype.getPeriodMatches = function() {
 YoastSEO.SnippetPreview.prototype.formatKeyword = function( textString ) {
 
 	//matches case insensitive and global
-	var replacer = new RegExp( this.refObj.rawData.keyword, "ig" );
+	var replacer = new RegExp( "\\b" + this.refObj.rawData.keyword + "\\b", "ig" );
 	return textString.replace( replacer, function( str ) {
 		return "<strong>" + str + "</strong>";
 	} );
@@ -2490,7 +2495,7 @@ YoastSEO.SnippetPreview.prototype.checkTextLength = function( ev ) {
 	switch ( ev.currentTarget.id ) {
 		case "snippet_meta":
 			if ( text.length > YoastSEO.analyzerConfig.maxMeta ) {
-				ev.currentTarget.__unformattedText = ev.currentTarget.textContent;
+				YoastSEO.app.snippetPreview.unformattedText.snippet_meta = ev.currentTarget.textContent;
 				ev.currentTarget.textContent = text.substring(
 					0,
 					YoastSEO.analyzerConfig.maxMeta
@@ -2500,7 +2505,7 @@ YoastSEO.SnippetPreview.prototype.checkTextLength = function( ev ) {
 			break;
 		case "snippet_title":
 			if ( text.length > 40 ) {
-				ev.currentTarget.__unformattedText = ev.currentTarget.textContent;
+				YoastSEO.app.snippetPreview.unformattedText.snippet_title = ev.currentTarget.textContent;
 				ev.currentTarget.textContent = text.substring( 0, 40 );
 				ev.currentTarget.className = "title";
 			}
@@ -2508,6 +2513,26 @@ YoastSEO.SnippetPreview.prototype.checkTextLength = function( ev ) {
 		default:
 			break;
 	}
+};
+
+/**
+ * when clicked on an element in the snippet, checks fills the textContent with the data from the unformatted text.
+ * This removes the keyword highlighting and modified data so the original content can be editted.
+ * @param ev {event}
+ */
+YoastSEO.SnippetPreview.prototype.getUnformattedText = function( ev ) {
+	var currentElement = ev.currentTarget.firstChild.id;
+	ev.currentTarget.firstChild.textContent = YoastSEO.app.snippetPreview.unformattedText[ currentElement ];
+};
+
+/**
+ * when text is entered into the snippetPreview elements, the text is set in the unformattedText object.
+ * This allows the visible data to be editted in the snippetPreview.
+ * @param ev
+ */
+YoastSEO.SnippetPreview.prototype.setUnformattedText = function( ev ) {
+	var currentElement = ev.currentTarget.firstChild.id;
+	YoastSEO.app.snippetPreview.unformattedText[ currentElement ] =  ev.currentTarget.firstChild.textContent;
 };
 
 /**
@@ -2569,33 +2594,8 @@ YoastSEO.SnippetPreview.prototype.setFocus = function( ev ) {
 			targetElem = targetElem.nextSibling;
 		}
 	}
-	targetElem.refObj.snippetPreview.setFocusToEnd( targetElem );
 };
 
-/**
- * this function is needed for placing the caret at the end of the input when the text is changed
- * at focus.
- * Otherwise the cursor could end at the beginning of the text.
- * @param elem
- */
-YoastSEO.SnippetPreview.prototype.setFocusToEnd = function( elem ) {
-	if (
-		typeof window.getSelection !== "undefined" &&
-		typeof document.createRange !== "undefined"
-	) {
-		var range = document.createRange();
-		range.selectNodeContents( elem );
-		range.collapse( false );
-		var selection = window.getSelection();
-		selection.removeAllRanges();
-		selection.addRange( range );
-	} else if ( typeof document.body.createTextRange !== "undefined" ) {
-		var textRange = document.body.createTextRange();
-		textRange.moveToElementText( elem );
-		textRange.collapse( false );
-		textRange.select();
-	}
-};
 ;/* global YoastSEO: true */
 YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 
