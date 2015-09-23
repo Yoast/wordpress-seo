@@ -70,7 +70,7 @@ YoastSEO.SnippetPreview.prototype.formatTitle = function() {
  * @returns formatted url
  */
 YoastSEO.SnippetPreview.prototype.formatUrl = function() {
-	var url = this.refObj.rawData.url;
+	var url = this.refObj.rawData.baseUrl;
 
 	//removes the http(s) part of the url
 	url.replace( /https?:\/\//ig, "" );
