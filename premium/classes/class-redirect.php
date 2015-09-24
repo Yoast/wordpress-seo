@@ -84,7 +84,7 @@ class WPSEO_Redirect {
 
 	/**
 	 * Get the Yoast SEO options
-	 **
+	 *
 	 * @return array
 	 */
 	public static function get_options() {

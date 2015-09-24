@@ -1,5 +1,11 @@
 <?php
+/**
+ * @package WPSEO\Premium\Classes
+ */
 
+/**
+ * Class WPSEO_Redirect_Model
+ */
 class WPSEO_Redirect_Model {
 
 	/**
@@ -15,7 +21,7 @@ class WPSEO_Redirect_Model {
 	/**
 	 * Constructing the model
 	 *
-	 * @param string $option_name The target option name where the redirects are stored
+	 * @param string $option_name The target option name where the redirects are stored.
 	 */
 	public function __construct( $option_name ) {
 		$this->option_name = $option_name;
@@ -34,7 +40,7 @@ class WPSEO_Redirect_Model {
 	/**
 	 * Setting the redirect property with a new value
 	 *
-	 * @param array $redirects
+	 * @param array $redirects The array with all the redirects.
 	 */
 	public function set( array $redirects ) {
 
@@ -43,9 +49,9 @@ class WPSEO_Redirect_Model {
 	/**
 	 * Check if the old redirect doesn't exist already, if not it will be added
 	 *
-	 * @param string $old_redirect
-	 * @param string $new_redirect
-	 * @param string $type
+	 * @param string $old_redirect The old redirect value.
+	 * @param string $new_redirect The value of the new redirect.
+	 * @param string $type		   The redirect type.
 	 *
 	 * @return bool
 	 */
@@ -62,10 +68,10 @@ class WPSEO_Redirect_Model {
 	/**
 	 * Check if the $current_redirect exists and remove it if so.
 	 *
-	 * @param string $current_redirect
-	 * @param string $old_redirect
-	 * @param string $new_redirect
-	 * @param string $type
+	 * @param string $current_redirect The current redirect value.
+	 * @param string $old_redirect	   The old redirect target.
+	 * @param string $new_redirect	   The target where the old redirect will point to.
+	 * @param string $type			   Redirect type.
 	 *
 	 * @return bool
 	 */
@@ -83,7 +89,7 @@ class WPSEO_Redirect_Model {
 	/**
 	 * Deletes the given redirect from the array
 	 *
-	 * @param string $redirect
+	 * @param string $redirect The redirect that will be removed.
 	 *
 	 * @return bool
 	 */
@@ -123,8 +129,8 @@ class WPSEO_Redirect_Model {
 	/**
 	 * Formats the given params to the required array
 	 *
-	 * @param string $redirect
-	 * @param string $type
+	 * @param string $redirect The target redirect.
+	 * @param string $type     The redirect type.
 	 *
 	 * @return array
 	 */
@@ -137,6 +143,7 @@ class WPSEO_Redirect_Model {
 
 	/**
 	 * Setting the redirects property
+	 * 
 	 * @return array|mixed|void
 	 */
 	protected function get_from_option() {

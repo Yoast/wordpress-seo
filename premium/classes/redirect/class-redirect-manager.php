@@ -68,7 +68,7 @@ abstract class WPSEO_Redirect_Manager {
 	 * @param array $new_redirect
 	 */
 	public function save_redirect( array $old_redirect_arr, array $new_redirect ) {
-		if ($this->redirect_model->update( $old_redirect_arr['key'], $new_redirect['key'], $new_redirect['value'], $new_redirect['type'] ) ) {
+		if ( $this->redirect_model->update( $old_redirect_arr['key'], $new_redirect['key'], $new_redirect['value'], $new_redirect['type'] ) ) {
 			$this->save_redirects();
 		}
 	}
@@ -127,7 +127,7 @@ abstract class WPSEO_Redirect_Manager {
 				$redirects[ $old_url ] = $this->redirect_model->format( $redirect, '301' );
 			}
 		}
-		// Set the redirect value with the reformated redirects
+		// Set the redirect value with the reformated redirects.
 		$this->redirect_model->set( $redirects );
 
 		// Save the URL redirects.
