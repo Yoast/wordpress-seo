@@ -560,22 +560,23 @@ YoastSEO.Analyzer.prototype.paragraphChecker = function( textString, regexp ) {
  * @returns {{name: string, count: number}}
  */
 YoastSEO.Analyzer.prototype.metaDescription = function() {
-	var result = [ { test: "metaDescriptionLength", result: 0 }, {
-		test: "metaDescriptionKeyword",
-		result: 0
-	} ];
-	if ( typeof this.config.meta !== "undefined" ) {
-		result[ 0 ].result = this.config.meta.length;
-
-		//if the meta length is 0, the returned result is -1 for the matches.
-		result[ 1 ].result = -1;
-		if ( this.config.meta.length > 0 ) {
-			result[ 1 ].result = this.stringHelper.countMatches(
-				this.config.meta, this.keywordRegex
-			);
-		}
+	var result = [ { test: "metaDescriptionKeyword", result: 0	} ];
+	if ( typeof this.config.meta !== "undefined" && this.config.meta.length > 0 ) {
+		result[ 0 ].result = this.stringHelper.countMatches(
+			this.config.meta, this.keywordRegex
+		);
 	}
 	return result;
+};
+
+/**
+ * returns the length of the metadescription
+ * @returns {{test: string, result: Number}[]}
+ */
+YoastSEO.Analyzer.prototype.metaDescriptionLength = function() {
+	if ( typeof this.config.meta !== "undefined" ) {
+		return [ { test: "metaDescriptionLength", result: this.config.meta.length } ];
+	}
 };
 
 /**
