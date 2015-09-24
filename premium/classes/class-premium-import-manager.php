@@ -44,7 +44,7 @@ class WPSEO_Premium_Import_Manager {
 	/**
 	 * Apache import success message
 	 *
-	 * @param string $message Unused
+	 * @param string $message Unused.
 	 *
 	 * @return string
 	 */
@@ -56,7 +56,7 @@ class WPSEO_Premium_Import_Manager {
 	/**
 	 * Apache import no redirects found message
 	 *
-	 * @param string $message Unused
+	 * @param string $message Unused.
 	 *
 	 * @return string
 	 */
@@ -257,7 +257,6 @@ class WPSEO_Premium_Import_Manager {
 		}
 
 		// Display the form.
-
 		echo '<div id="import-htaccess" class="wpseotab">' . PHP_EOL;
 		/* translators: %s: '.htaccess' file name */
 		echo '<h2>' . sprintf( __( 'Import redirects from %s', 'wordpress-seo-premium' ), '<code>.htaccess</code>' ). '</h2>' . PHP_EOL;

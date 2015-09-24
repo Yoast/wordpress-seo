@@ -64,7 +64,7 @@ class WPSEO_Premium {
 
 		if ( is_admin() ) {
 
-			// Disable Yoast SEO
+			// Disable Yoast SEO.
 			add_action( 'admin_init', array( $this, 'disable_wordpress_seo' ), 1 );
 
 			// Add Sub Menu page and add redirect page to admin page array.
@@ -101,7 +101,7 @@ class WPSEO_Premium {
 			// Catch option save.
 			add_action( 'admin_init', array( $this, 'catch_option_redirect_save' ) );
 
-			// Screen options
+			// Screen options.
 			$query_var = ( $page = filter_input( INPUT_GET, 'page' ) ) ? $page : '';
 
 			switch ( $query_var ) {
@@ -149,10 +149,10 @@ class WPSEO_Premium {
 			if ( get_option( 'permalink_structure' ) ) {
 				add_action( 'admin_init', array( $this, 'init_watchers' ) );
 
-				// Check if we need to display an admin message
+				// Check if we need to display an admin message.
 				if ( $redirect_created = filter_input( INPUT_GET, 'yoast-redirect-created' ) ) {
 
-					// Message object
+					// Message object.
 					$message = new WPSEO_Message_Redirect_Created( $redirect_created );
 					add_action( 'all_admin_notices', array( $message, 'display' ) );
 				}
@@ -514,30 +514,30 @@ class WPSEO_Premium {
 	public function list_table_search_post_to_get() {
 		if ( ( $search_string = trim( filter_input( INPUT_POST, 's' ) ) ) != '' ) {
 
-			// Check if the POST is on one of our pages
+			// Check if the POST is on one of our pages.
 			$current_page = filter_input( INPUT_GET, 'page' );
 			if ( ! in_array( $current_page, array( 'wpseo_redirects' ) )  ) {
 				return;
 			}
 
-			// Check if there isn't a bulk action post, bulk action post > search post
+			// Check if there isn't a bulk action post, bulk action post > search post.
 			if ( filter_input( INPUT_POST, 'create_redirects' ) || filter_input( INPUT_POST, 'wpseo_redirects_bulk_delete' ) ) {
 				return;
 			}
 
-			// Base URL
+			// Base URL.
 			$url = get_admin_url() . 'admin.php?page=' . $current_page;
 
-			// Add search or reset it
+			// Add search or reset it.
 			$url .= '&s=' . $search_string;
 
-			// Orderby
+			// Orderby.
 			if ( $orderby = filter_input( INPUT_GET, 'orderby') ) {
 				$url .= '&orderby=' . $orderby;
 			}
 
-			// Order
-			if ( $order = filter_input( INPUT_GET, 'order') ) {
+			// Order.
+			if ( $order = filter_input( INPUT_GET, 'order' ) ) {
 				$url .= '&order=' . $order;
 			}
 
