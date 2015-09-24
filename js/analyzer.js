@@ -559,7 +559,7 @@ YoastSEO.Analyzer.prototype.paragraphChecker = function( textString, regexp ) {
  * empty or not set.
  * @returns {{name: string, count: number}}
  */
-YoastSEO.Analyzer.prototype.metaDescription = function() {
+YoastSEO.Analyzer.prototype.metaDescriptionKeyword = function() {
 	var result = [ { test: "metaDescriptionKeyword", result: 0	} ];
 	if ( typeof this.config.meta !== "undefined" && this.config.meta.length > 0 ) {
 		result[ 0 ].result = this.stringHelper.countMatches(
@@ -574,9 +574,11 @@ YoastSEO.Analyzer.prototype.metaDescription = function() {
  * @returns {{test: string, result: Number}[]}
  */
 YoastSEO.Analyzer.prototype.metaDescriptionLength = function() {
+	var result = [ { test: "metaDescriptionLength", result: 0 } ];
 	if ( typeof this.config.meta !== "undefined" ) {
-		return [ { test: "metaDescriptionLength", result: this.config.meta.length } ];
+		result[0].result = this.config.meta.length;
 	}
+	return result;
 };
 
 /**

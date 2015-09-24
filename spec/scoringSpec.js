@@ -11,7 +11,7 @@ scoreArgs = {
     url: "https://yoast.com/keyword-search",
     pageTitle: "the pagetitle",
     meta: "the metadescription of the page",
-    queue: ["wordCount","keywordDensity","fleschReading","firstParagraph","metaDescription","stopwords","subHeadings","pageTitleLength","pageTitleKeyword","urlKeyword","urlLength","urlStopwords","imageCount","linkCount"]
+    queue: ["wordCount","keywordDensity","fleschReading","firstParagraph","metaDescriptionLength","metaDescriptionKeyword","stopwords","subHeadings","pageTitleLength","pageTitleKeyword","urlKeyword","urlLength","urlStopwords","imageCount","linkCount"]
 };
 
 describe("a test for the scoring function of all functions in the analyzer", function(){
