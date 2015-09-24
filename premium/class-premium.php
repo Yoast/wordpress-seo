@@ -532,7 +532,7 @@ class WPSEO_Premium {
 			$url .= '&s=' . $search_string;
 
 			// Orderby.
-			if ( $orderby = filter_input( INPUT_GET, 'orderby') ) {
+			if ( $orderby = filter_input( INPUT_GET, 'orderby' ) ) {
 				$url .= '&orderby=' . $orderby;
 			}
 
