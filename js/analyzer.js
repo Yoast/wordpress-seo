@@ -264,31 +264,31 @@ YoastSEO.Analyzer.prototype.stopwords = function() {
  * @returns {result object}
  */
 YoastSEO.Analyzer.prototype.fleschReading = function() {
-	if(this.preProcessor.__store.wordcountNoTags.length > 0) {
+	if(this.preProcessor.__store.wordcountNoTags > 0) {
 		var score = (
-		206.835 -
-		(
-		1.015 *
-		(
-		this.preProcessor.__store.wordcountNoTags /
-		this.preProcessor.__store.sentenceCountNoTags
+			206.835 -
+				(
+					1.015 *
+						(
+							this.preProcessor.__store.wordcountNoTags /
+							this.preProcessor.__store.sentenceCountNoTags
+						)
+					) -
+						(
+							84.6 *
+						(
+					this.preProcessor.__store.syllablecount /
+					this.preProcessor.__store.wordcountNoTags
+				)
+			)
 		)
-		) -
-		(
-		84.6 *
-		(
-		this.preProcessor.__store.syllablecount /
-		this.preProcessor.__store.wordcountNoTags
-		)
-		)
-		)
-			.toFixed(1);
+		.toFixed(1);
 		if (score < 0) {
 			score = 0;
 		} else if (score > 100) {
 			score = 100;
 		}
-		return [{test: "fleschReading", result: score}];
+		return [ { test: "fleschReading", result: score } ];
 	}
 };
 
