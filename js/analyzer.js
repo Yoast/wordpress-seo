@@ -264,7 +264,7 @@ YoastSEO.Analyzer.prototype.stopwords = function() {
  * @returns {result object}
  */
 YoastSEO.Analyzer.prototype.fleschReading = function() {
-	if(this.preProcessor.__store.wordcountNoTags > 0) {
+	if ( this.preProcessor.__store.wordcountNoTags > 0 ) {
 		var score = (
 			206.835 -
 				(
@@ -282,10 +282,10 @@ YoastSEO.Analyzer.prototype.fleschReading = function() {
 				)
 			)
 		)
-		.toFixed(1);
-		if (score < 0) {
+		.toFixed( 1 );
+		if ( score < 0 ) {
 			score = 0;
-		} else if (score > 100) {
+		} else if ( score > 100 ) {
 			score = 100;
 		}
 		return [ { test: "fleschReading", result: score } ];
@@ -428,7 +428,7 @@ YoastSEO.Analyzer.prototype.linkResult = function( obj ) {
  * @returns {{name: string, result: {total: number, alt: number, noAlt: number}}}
  */
 YoastSEO.Analyzer.prototype.imageCount = function() {
-	var imageCount = { total: 0, alt: 0, noAlt: 0, altKeyword: 0 };
+	var imageCount = { total: 0, alt: 0, noAlt: 0, altKeyword: 0, altNaKeyword: 0 };
 
 	//matches everything in the <img>-tag, case insensitive and global
 	var imageMatches = this.preProcessor.__store.originalText.match( /<img(?:[^>]+)?>/ig );
@@ -439,12 +439,15 @@ YoastSEO.Analyzer.prototype.imageCount = function() {
 			//matches everything in the alt attribute, case insensitive and global.
 			var alttag = imageMatches[ i ].match( /alt=([\'\"])(.*?)\1/ig );
 			if ( this.imageAlttag( alttag ) ) {
-				if ( this.imageAlttagKeyword( alttag ) ) {
-					imageCount.altKeyword++;
+				if ( this.config.keyword !== "" ) {
+					if ( this.imageAlttagKeyword( alttag ) ) {
+						imageCount.altKeyword++;
+					} else {
+						imageCount.alt++;
+					}
 				} else {
-					imageCount.alt++;
+					imageCount.altNaKeyword++;
 				}
-
 			} else {
 				imageCount.noAlt++;
 			}

@@ -386,7 +386,18 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
                     score: 3,
                     text: i18n.dgettext('js-text-analysis', "No images appear in this page, consider adding some as appropriate.")
                 },
-                {matcher: "noAlt", min: 1, score: 5, text: i18n.dgettext('js-text-analysis', "The images on this page are missing alt tags.")},
+                {
+					matcher: "noAlt",
+					min: 1,
+					score: 5,
+					text: i18n.dgettext('js-text-analysis', "The images on this page are missing alt tags.")
+				},
+				{
+					matcher: "altNaKeyword",
+					min: 1,
+					score: 5,
+					text: i18n.dgettext('js-text-analysis', "The images on this page contain alt tags")
+				},
                 {
                     matcher: "alt",
                     min: 1,
