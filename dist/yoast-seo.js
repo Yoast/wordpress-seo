@@ -264,30 +264,32 @@ YoastSEO.Analyzer.prototype.stopwords = function() {
  * @returns {result object}
  */
 YoastSEO.Analyzer.prototype.fleschReading = function() {
-	var score = (
+	if ( this.preProcessor.__store.wordcountNoTags > 0 ) {
+		var score = (
 			206.835 -
-			(
-				1.015 *
 				(
-					this.preProcessor.__store.wordcountNoTags /
-					this.preProcessor.__store.sentenceCountNoTags
-				)
-			) -
-			(
-				84.6 *
-				(
+					1.015 *
+						(
+							this.preProcessor.__store.wordcountNoTags /
+							this.preProcessor.__store.sentenceCountNoTags
+						)
+					) -
+						(
+							84.6 *
+						(
 					this.preProcessor.__store.syllablecount /
 					this.preProcessor.__store.wordcountNoTags
 				)
 			)
 		)
 		.toFixed( 1 );
-	if ( score < 0 ) {
-		score = 0;
-	} else if ( score > 100 ) {
-		score = 100;
+		if ( score < 0 ) {
+			score = 0;
+		} else if ( score > 100 ) {
+			score = 100;
+		}
+		return [ { test: "fleschReading", result: score } ];
 	}
-	return [ { test: "fleschReading", result: score } ];
 };
 
 /**
@@ -318,6 +320,7 @@ YoastSEO.Analyzer.prototype.linkCount = function() {
 	);
 	var linkCount = {
 		total: 0,
+		totalNaKeyword: 0,
 		totalKeyword: 0,
 		internalTotal: 0,
 		internalDofollow: 0,
@@ -334,7 +337,11 @@ YoastSEO.Analyzer.prototype.linkCount = function() {
 		for ( var i = 0; i < linkMatches.length; i++ ) {
 			var linkKeyword = this.linkKeyword( linkMatches[ i ] );
 			if ( linkKeyword ) {
-				linkCount.totalKeyword++;
+				if ( this.config.keyword !== "" ) {
+					linkCount.totalKeyword++;
+				} else {
+					linkCount.totalNaKeyword++;
+				}
 			}
 			var linkType = this.linkType( linkMatches[ i ] );
 			linkCount[ linkType + "Total" ]++;
@@ -426,7 +433,7 @@ YoastSEO.Analyzer.prototype.linkResult = function( obj ) {
  * @returns {{name: string, result: {total: number, alt: number, noAlt: number}}}
  */
 YoastSEO.Analyzer.prototype.imageCount = function() {
-	var imageCount = { total: 0, alt: 0, noAlt: 0, altKeyword: 0 };
+	var imageCount = { total: 0, alt: 0, noAlt: 0, altKeyword: 0, altNaKeyword: 0 };
 
 	//matches everything in the <img>-tag, case insensitive and global
 	var imageMatches = this.preProcessor.__store.originalText.match( /<img(?:[^>]+)?>/ig );
@@ -437,12 +444,15 @@ YoastSEO.Analyzer.prototype.imageCount = function() {
 			//matches everything in the alt attribute, case insensitive and global.
 			var alttag = imageMatches[ i ].match( /alt=([\'\"])(.*?)\1/ig );
 			if ( this.imageAlttag( alttag ) ) {
-				if ( this.imageAlttagKeyword( alttag ) ) {
-					imageCount.altKeyword++;
+				if ( this.config.keyword !== "" ) {
+					if ( this.imageAlttagKeyword( alttag ) ) {
+						imageCount.altKeyword++;
+					} else {
+						imageCount.alt++;
+					}
 				} else {
-					imageCount.alt++;
+					imageCount.altNaKeyword++;
 				}
-
 			} else {
 				imageCount.noAlt++;
 			}
@@ -559,21 +569,24 @@ YoastSEO.Analyzer.prototype.paragraphChecker = function( textString, regexp ) {
  * empty or not set.
  * @returns {{name: string, count: number}}
  */
-YoastSEO.Analyzer.prototype.metaDescription = function() {
-	var result = [ { test: "metaDescriptionLength", result: 0 }, {
-		test: "metaDescriptionKeyword",
-		result: 0
-	} ];
-	if ( typeof this.config.meta !== "undefined" ) {
-		result[ 0 ].result = this.config.meta.length;
+YoastSEO.Analyzer.prototype.metaDescriptionKeyword = function() {
+	var result = [ { test: "metaDescriptionKeyword", result: 0	} ];
+	if ( typeof this.config.meta !== "undefined" && this.config.meta.length > 0 ) {
+		result[ 0 ].result = this.stringHelper.countMatches(
+			this.config.meta, this.keywordRegex
+		);
+	}
+	return result;
+};
 
-		//if the meta length is 0, the returned result is -1 for the matches.
-		result[ 1 ].result = -1;
-		if ( this.config.meta.length > 0 ) {
-			result[ 1 ].result = this.stringHelper.countMatches(
-				this.config.meta, this.keywordRegex
-			);
-		}
+/**
+ * returns the length of the metadescription
+ * @returns {{test: string, result: Number}[]}
+ */
+YoastSEO.Analyzer.prototype.metaDescriptionLength = function() {
+	var result = [ { test: "metaDescriptionLength", result: 0 } ];
+	if ( typeof this.config.meta !== "undefined" ) {
+		result[0].result = this.config.meta.length;
 	}
 	return result;
 };
@@ -1317,7 +1330,7 @@ YoastSEO.App.prototype.pluginsLoaded = function() {
  */
 YoastSEO.App.prototype.noKeywordQueue = function() {
 	var data = this.rawData;
-	data.queue = [ "keyWordCheck", "wordCount", "fleschReading", "pageTitleLength", "urlStopwords" ];
+	data.queue = [ "keyWordCheck", "wordCount", "fleschReading", "pageTitleLength", "urlStopwords", "imageCount", "linkCount" ];
 	this.runAnalyzer( data );
 };
 
@@ -1936,8 +1949,13 @@ YoastSEO.PreProcessor.prototype.textFormat = function() {
 YoastSEO.PreProcessor.prototype.countStore = function() {
 
 	/*wordcounters*/
-	this.__store.wordcount = this.__store.cleanText.split( " " ).length;
-	this.__store.wordcountNoTags = this.__store.cleanTextNoTags.split( " " ).length;
+	this.__store.wordcount = this.__store.cleanText === "" ?
+		0 :
+		this.__store.cleanText.split( " " ).length;
+
+	this.__store.wordcountNoTags = this.__store.cleanTextNoTags === "" ?
+		0 :
+		this.__store.cleanTextNoTags.split( " " ).length;
 
 	/*sentencecounters*/
 	this.__store.sentenceCount = this.sentenceCount( this.__store.cleanText );
@@ -3754,7 +3772,7 @@ return parser;
 }.call(YoastSEO));YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 
 YoastSEO.analyzerConfig = {
-	queue: [ "wordCount", "keywordDensity", "subHeadings", "stopwords", "fleschReading", "linkCount", "imageCount", "urlKeyword", "urlLength", "metaDescription", "pageTitleKeyword", "pageTitleLength", "firstParagraph" ],
+	queue: [ "wordCount", "keywordDensity", "subHeadings", "stopwords", "fleschReading", "linkCount", "imageCount", "urlKeyword", "urlLength", "metaDescriptionLength", "metaDescriptionKeyword", "pageTitleKeyword", "pageTitleLength", "firstParagraph" ],
 	stopWords: [ "a", "about", "above", "after", "again", "against", "all", "am", "an", "and", "any", "are", "as", "at", "be", "because", "been", "before", "being", "below", "between", "both", "but", "by", "could", "did", "do", "does", "doing", "down", "during", "each", "few", "for", "from", "further", "had", "has", "have", "having", "he", "he'd", "he'll", "he's", "her", "here", "here's", "hers", "herself", "him", "himself", "his", "how", "how's", "i", "i'd", "i'll", "i'm", "i've", "if", "in", "into", "is", "it", "it's", "its", "itself", "let's", "me", "more", "most", "my", "myself", "nor", "of", "on", "once", "only", "or", "other", "ought", "our", "ours", "ourselves", "out", "over", "own", "same", "she", "she'd", "she'll", "she's", "should", "so", "some", "such", "than", "that", "that's", "the", "their", "theirs", "them", "themselves", "then", "there", "there's", "these", "they", "they'd", "they'll", "they're", "they've", "this", "those", "through", "to", "too", "under", "until", "up", "very", "was", "we", "we'd", "we'll", "we're", "we've", "were", "what", "what's", "when", "when's", "where", "where's", "which", "while", "who", "who's", "whom", "why", "why's", "with", "would", "you", "you'd", "you'll", "you're", "you've", "your", "yours", "yourself", "yourselves" ],
 	wordsToRemove: [ " a", " in", " an", " on", " for", " the", " and" ],
 	maxSlugLength: 20,
@@ -3985,7 +4003,12 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
                     max: 0,
                     score: 6,
                     text: i18n.dgettext('js-text-analysis', "No outbound links appear in this page, consider adding some as appropriate.")
-                },
+                },{
+					matcher: "totalNaKeyword",
+					min: 1,
+					score: 2,
+					text: i18n.dgettext('js-text-analysis', "Outbound links appear in this page")
+				},
                 {
                     matcher: "totalKeyword",
                     min: 1,
@@ -4256,7 +4279,18 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
                     score: 3,
                     text: i18n.dgettext('js-text-analysis', "No images appear in this page, consider adding some as appropriate.")
                 },
-                {matcher: "noAlt", min: 1, score: 5, text: i18n.dgettext('js-text-analysis', "The images on this page are missing alt tags.")},
+                {
+					matcher: "noAlt",
+					min: 1,
+					score: 5,
+					text: i18n.dgettext('js-text-analysis', "The images on this page are missing alt tags.")
+				},
+				{
+					matcher: "altNaKeyword",
+					min: 1,
+					score: 5,
+					text: i18n.dgettext('js-text-analysis', "The images on this page contain alt tags")
+				},
                 {
                     matcher: "alt",
                     min: 1,
