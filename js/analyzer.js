@@ -320,6 +320,7 @@ YoastSEO.Analyzer.prototype.linkCount = function() {
 	);
 	var linkCount = {
 		total: 0,
+		totalNaKeyword: 0,
 		totalKeyword: 0,
 		internalTotal: 0,
 		internalDofollow: 0,
@@ -336,7 +337,11 @@ YoastSEO.Analyzer.prototype.linkCount = function() {
 		for ( var i = 0; i < linkMatches.length; i++ ) {
 			var linkKeyword = this.linkKeyword( linkMatches[ i ] );
 			if ( linkKeyword ) {
-				linkCount.totalKeyword++;
+				if ( this.config.keyword !== "" ) {
+					linkCount.totalKeyword++;
+				} else {
+					linkCount.totalNaKeyword++;
+				}
 			}
 			var linkType = this.linkType( linkMatches[ i ] );
 			linkCount[ linkType + "Total" ]++;
