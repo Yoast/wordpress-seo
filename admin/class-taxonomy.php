@@ -53,7 +53,7 @@ class WPSEO_Taxonomy {
 	}
 
 	/**
-	 * Add our admin css file
+	 * Adding the admin frontend assets.
 	 */
 	public function admin_enqueue_scripts() {
 		if ( $GLOBALS['pagenow'] === 'edit-tags.php' && filter_input( INPUT_GET, 'action' ) === 'edit' ) {
