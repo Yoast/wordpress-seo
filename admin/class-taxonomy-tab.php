@@ -62,4 +62,21 @@ abstract class WPSEO_Taxonomy_Tab {
 		);
 	}
 
+	/**
+	 * Filter the hidden fields.
+	 *
+	 * @param array $fields
+	 *
+	 * @return array
+	 */
+	protected function filter_hidden_fields( array $fields ) {
+		foreach ( $fields as $field_name => $field_options ) {
+			if ( ! empty( $field_options['hide'] ) ) {
+				unset( $fields[ $field_name ] );
+			}
+		}
+
+		return $fields;
+	}
+
 }

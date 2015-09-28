@@ -34,7 +34,7 @@ class WPSEO_Taxonomy_General_Tab extends WPSEO_Taxonomy_Tab {
 	 * @return array
 	 */
 	public function get_fields() {
-		 return array(
+		 $fields = array(
 			'title' => $this->get_field_config(
 				__( 'SEO Title', 'wordpress-seo' ),
 				esc_html__( 'The SEO title is used on the archive page for this term.', 'wordpress-seo' )
@@ -77,6 +77,8 @@ class WPSEO_Taxonomy_General_Tab extends WPSEO_Taxonomy_Tab {
 				$this->sitemap_include_options
 			),
 		);
+
+		return $this->filter_hidden_fields($fields);
 	}
 
 	/**

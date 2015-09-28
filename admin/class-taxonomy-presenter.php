@@ -29,9 +29,7 @@ class WPSEO_Taxonomy_Presenter {
 	 */
 	public function display_fields( array $fields ) {
 		foreach ( $fields as $field_name => $field_options ) {
-			if ( empty( $field_options['hide'] ) ) {
-				$this->form_row( 'wpseo_' . $field_name, $field_options );
-			}
+			$this->form_row( 'wpseo_' . $field_name, $field_options );
 		}
 	}
 

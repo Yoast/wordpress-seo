@@ -58,7 +58,7 @@ class WPSEO_Taxonomy_Social_Tab extends WPSEO_Taxonomy_Tab {
 			$fields = array_merge( $fields, $fields_to_push );
 		}
 
-		return $fields;
+		return $this->filter_hidden_fields($fields);
 	}
 
 	/**
