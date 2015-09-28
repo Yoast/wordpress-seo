@@ -9,39 +9,17 @@
 class WPSEO_Taxonomy_Presenter {
 
 	/**
-	 * @var array
-	 */
-	private $options = array();
-
-	/**
+	 * The taxonomy meta data for the current term
+	 *
 	 * @var bool|mixed
 	 */
 	private $tax_meta;
 
 	/**
-	 * @var stdClass
-	 */
-	private $term;
-
-	/**
-	 * @var array   Options array for the no-index options, including translated labels
-	 */
-	private $no_index_options = array();
-
-	/**
-	 * @var array   Options array for the sitemap_include options, including translated labels
-	 */
-	private $sitemap_include_options = array();
-
-	/**
 	 * @param stdClass $term
 	 */
 	public function __construct( $term ) {
-		$this->term     = $term;
 		$this->tax_meta = WPSEO_Taxonomy_Meta::get_term_meta( (int) $term->term_id, $term->taxonomy );
-		$this->options  = WPSEO_Options::get_all();
-
-		$this->translate_meta_options();
 	}
 
 	/**
@@ -55,164 +33,6 @@ class WPSEO_Taxonomy_Presenter {
 				$this->form_row( 'wpseo_' . $field_name, $field_options['label'], $field_options['description'], $field_options['type'], $field_options['options'] );
 			}
 		}
-	}
-
-	/**
-	 * Getting the fields for the general tab
-	 *
-	 * @return array
-	 */
-	public function general_fields() {
-
-		$current = 'index';
-		if ( isset( $options[ 'noindex-tax-' . $this->term->taxonomy ] ) && $this->options[ 'noindex-tax-' . $this->term->taxonomy ] === true ) {
-			$current = 'noindex';
-		}
-
-		$noindex_options['options']            = $this->no_index_options;
-		$noindex_options['options']['default'] = sprintf( $noindex_options['options']['default'], $this->term->taxonomy, $current );
-
-		if ( '0' === get_option( 'blog_public' ) ) {
-			$noindex_options['description'] = '<br /><span class="error-message">' . esc_html__( 'Warning: even though you can set the meta robots setting here, the entire site is set to noindex in the sitewide privacy settings, so these settings won\'t have an effect.', 'wordpress-seo' ) . '</span>';
-		}
-
-		$fields = array(
-			'title' => array(
-				'label'       => __( 'SEO Title', 'wordpress-seo' ),
-				'description' => esc_html__( 'The SEO title is used on the archive page for this term.', 'wordpress-seo' ),
-				'type'        => 'text',
-				'options'     => '',
-			),
-			'desc' => array(
-				'label'       => __( 'SEO Description', 'wordpress-seo' ),
-				'description' => esc_html__( 'The SEO description is used for the meta description on the archive page for this term.', 'wordpress-seo' ),
-				'type'        => 'text',
-				'options'     => '',
-			),
-			'metakey'  => array(
-				'label'       => __( 'Meta keywords', 'wordpress-seo' ),
-				'description' => esc_html__( 'Meta keywords used on the archive page for this term.', 'wordpress-seo' ),
-				'type'        => 'text',
-				'options'     => '',
-				'hide'        => $this->options['usemetakeywords'] !== true,
-			),
-			'canonical'  => array(
-				'label'       => __( 'Canonical', 'wordpress-seo' ),
-				'description' => esc_html__( 'The canonical link is shown on the archive page for this term.', 'wordpress-seo' ),
-				'type'        => 'text',
-				'options'     => '',
-			),
-			'bctitle'  => array(
-				'label'       => __( 'Breadcrumbs title', 'wordpress-seo' ),
-				'description' => sprintf( esc_html__( 'The Breadcrumbs title is used in the breadcrumbs where this %s appears.', 'wordpress-seo' ), $this->term->taxonomy ),
-				'type'        => 'text',
-				'options'     => '',
-				'hide'        => $this->options['breadcrumbs-enable'] !== true,
-			),
-			'noindex'  => array(
-				'label'       => sprintf( __( 'Noindex this %s', 'wordpress-seo' ), $this->term->taxonomy ),
-				'description' => sprintf( esc_html__( 'This %s follows the indexation rules set under Metas and Titles, you can override it here.', 'wordpress-seo' ), $this->term->taxonomy ),
-				'type'        => 'select',
-				'options'     => $noindex_options,
-			),
-			'sitemap_include'  => array(
-				'label'       => sprintf( __( 'Include in sitemap?', 'wordpress-seo' ), $this->term->taxonomy ),
-				'description' => '',
-				'type'        => 'select',
-				'options'     => $this->sitemap_include_options,
-			),
-		);
-
-		unset( $current, $no_index_options );
-
-		return $fields;
-	}
-
-	/**
-	 * Returning the fields for the social media tab
-	 *
-	 * @return array
-	 */
-	public function social_fields() {
-		$social_networks = array(
-			'opengraph'  => array(
-				'network' => 'opengraph',
-				'label'   => __( 'Facebook', 'wordpress-seo' ),
-				'size'    => '1200 x 628',
-			),
-			'twitter'    => array(
-				'network' => 'twitter',
-				'label'   => __( 'Twitter', 'wordpress-seo' ),
-				'size'    => '1024 x 512',
-			),
-			'googleplus' => array(
-				'network' => 'google-plus',
-				'label'   => __( 'Google+', 'wordpress-seo' ),
-				'size'    => '800 x 1200',
-			),
-		);
-
-		$fields = array();
-		foreach ( $social_networks as $option => $settings ) {
-			if ( true === $this->options[ $option ] ) {
-				$fields_to_push = array(
-					$settings['network'] . '-title' => array(
-						'label' 	  => sprintf( __( '%s Title', 'wordpress-seo' ), $settings['label'] ),
-						'description' => sprintf( esc_html__( 'If you don\'t want to use the title for sharing on %1$s  but instead want another title there, write it here.', 'wordpress-seo' ), $settings['label'] ),
-						'type'        => 'text',
-						'options'     => array( 'class' => 'large-text' ),
-					),
-					$settings['network'] . '-description' => array(
-						'label'       => sprintf( __( '%s Description', 'wordpress-seo' ), $settings['label'] ),
-						'description' => sprintf( esc_html__( 'If you don\'t want to use the meta description for sharing on %1$s but want another description there, write it here.', 'wordpress-seo' ), $settings['label'] ),
-						'type'        => 'textarea',
-						'options'     => '',
-
-					),
-					$settings['network'] . '-image' => array(
-						'label'       => sprintf( __( '%s Image', 'wordpress-seo' ), $settings['label'] ),
-						'description' => sprintf( esc_html__( 'If you want to use an image for sharing on %1$s, you can upload / choose an image or add the image URL here.', 'wordpress-seo' ), $settings['label'] ) . '<br />' .
-							sprintf( __( 'The recommended image size for %1$s is %2$spx.', 'wordpress-seo' ), $settings['label'], $settings['size'] ),
-						'type'        => 'upload',
-						'options'     => '',
-
-					),
-				);
-
-				$fields = array_merge( $fields, $fields_to_push );
-
-			}
-		}
-
-		return $fields;
-	}
-
-	/**
-	 * Returns a bool to determine if the social tab has to be visible
-	 *
-	 * @return bool
-	 */
-	public function show_social() {
-		return ( $this->options['opengraph'] === true || $this->options['twitter'] === true || $this->options['googleplus'] === true );
-	}
-
-	/**
-	 * Translate options text strings for use in the select fields
-	 *
-	 * @internal IMPORTANT: if you want to add a new string (option) somewhere, make sure you add
-	 * that array key to the main options definition array in the class WPSEO_Taxonomy_Meta() as well!!!!
-	 */
-	private function translate_meta_options() {
-		$this->no_index_options        = WPSEO_Taxonomy_Meta::$no_index_options;
-		$this->sitemap_include_options = WPSEO_Taxonomy_Meta::$sitemap_include_options;
-
-		$this->no_index_options['default'] = __( 'Use %s default (Currently: %s)', 'wordpress-seo' );
-		$this->no_index_options['index']   = __( 'Always index', 'wordpress-seo' );
-		$this->no_index_options['noindex'] = __( 'Always noindex', 'wordpress-seo' );
-
-		$this->sitemap_include_options['-']      = __( 'Auto detect', 'wordpress-seo' );
-		$this->sitemap_include_options['always'] = __( 'Always include', 'wordpress-seo' );
-		$this->sitemap_include_options['never']  = __( 'Never include', 'wordpress-seo' );
 	}
 
 	/**
