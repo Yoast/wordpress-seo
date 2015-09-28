@@ -569,8 +569,8 @@ jQuery( document ).ready( function() {
 			else {
 				active_tab = active_tab.replace( '#wpseo_', '' );
 			}
-			jQuery( '.' + active_tab ).addClass( 'active' );
 
+			jQuery( '.' + active_tab ).addClass( 'active' );
 
 			jQuery( 'a.wpseo_tablink' ).click( function() {
 					jQuery( '.wpseo-metabox-tabs li' ).removeClass( 'active' );
@@ -598,36 +598,35 @@ jQuery( document ).ready( function() {
 		var focuskwHelpTriggered = false;
 
 		if ( typeof wpseoMetaboxL10n !== 'undefined' ) {
-
 			var descElm = jQuery('#' + wpseoMetaboxL10n.field_prefix + 'metadesc');
 			var desc = jQuery.trim(ystClean(descElm.val()));
 			desc = jQuery('<div />').html(desc).text();
 			descElm.val(desc);
 
-			jQuery('#' + wpseoMetaboxL10n.field_prefix + 'title').keyup(function () {
+			jQuery('#' + wpseoMetaboxL10n.field_prefix + 'title').keyup(function() {
 					ystUpdateTitle();
 				}
 			);
-			jQuery('#title').keyup(function () {
-					ystUpdateTitle();
-					ystUpdateDesc();
-				}
-			);
-			jQuery('#parent_id').change(function () {
+			jQuery('#title').keyup(function() {
 					ystUpdateTitle();
 					ystUpdateDesc();
 				}
 			);
-			// DON'T 'optimize' this to use descElm! descElm might not be defined and will cause js errors (Soliloquy issue)
-			jQuery('#' + wpseoMetaboxL10n.field_prefix + 'metadesc').keyup(function () {
+			jQuery('#parent_id').change(function() {
+					ystUpdateTitle();
 					ystUpdateDesc();
 				}
 			);
 
+			// DON'T 'optimize' this to use descElm! descElm might not be defined and will cause js errors (Soliloquy issue)
+			jQuery('#' + wpseoMetaboxL10n.field_prefix + 'metadesc').keyup(function() {
+					ystUpdateDesc();
+				}
+			);
 
 			// Set time out because of tinymce is initialized later then this is done
 			setTimeout(
-				function () {
+				function() {
 					ystUpdateSnippet();
 
 					// Adding events to content and excerpt
@@ -642,7 +641,7 @@ jQuery( document ).ready( function() {
 				500
 			);
 
-			jQuery(document).on('change', '#' + wpseoMetaboxL10n.field_prefix + 'focuskw', function () {
+			jQuery(document).on('change', '#' + wpseoMetaboxL10n.field_prefix + 'focuskw', function() {
 					var focuskwhelpElm = jQuery('#focuskwhelp');
 					if (jQuery('#' + wpseoMetaboxL10n.field_prefix + 'focuskw').val().search(',') !== -1) {
 						focuskwhelpElm.click();
