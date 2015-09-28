@@ -197,7 +197,7 @@ class WPSEO_Pointers {
 	/**
 	 * Shows a pointer on the proper pages
 	 *
-	 * @param string $page
+	 * @param string $page Admin page key.
 	 */
 	private function do_page_pointer( $page ) {
 		$selector = '#wpseo-title';

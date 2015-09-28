@@ -571,6 +571,7 @@ jQuery( document ).ready( function() {
 			}
 			jQuery( '.' + active_tab ).addClass( 'active' );
 
+
 			jQuery( 'a.wpseo_tablink' ).click( function() {
 					jQuery( '.wpseo-metabox-tabs li' ).removeClass( 'active' );
 					jQuery( '.wpseotab' ).removeClass( 'active' );
@@ -594,62 +595,39 @@ jQuery( document ).ready( function() {
 		jQuery( '.wpseo-metabox-tabs' ).show();
 		// End Tabs code
 
-		var cache = {}, lastXhr, focuskwHelpTriggered = false;
+		var focuskwHelpTriggered = false;
 
 		if ( typeof wpseoMetaboxL10n !== 'undefined' ) {
-			var descElm = jQuery( '#' + wpseoMetaboxL10n.field_prefix + 'metadesc' );
-			var desc = jQuery.trim( ystClean( descElm.val() ) );
-			desc = jQuery( '<div />' ).html( desc ).text();
-			descElm.val( desc );
 
-			jQuery('#' + wpseoMetaboxL10n.field_prefix + 'focuskw').autocomplete({
-					minLength: 3,
-					formatResult: function(row) {
-						return jQuery('<div/>').html(row).html();
-					},
-					source: function(request, response) {
-						var term = request.term;
-						if (term in cache) {
-							response(cache[term]);
-							return;
-						}
-						request._ajax_nonce = wpseoMetaboxL10n.wpseo_keyword_suggest_nonce;
-						request.action = 'wpseo_get_suggest';
+			var descElm = jQuery('#' + wpseoMetaboxL10n.field_prefix + 'metadesc');
+			var desc = jQuery.trim(ystClean(descElm.val()));
+			desc = jQuery('<div />').html(desc).text();
+			descElm.val(desc);
 
-						lastXhr = jQuery.getJSON(ajaxurl, request, function(data, status, xhr) {
-								cache[term] = data;
-								if (xhr === lastXhr) {
-									response(data);
-								}
-							}
-						);
-					}
-				}
-			);
-
-			jQuery('#' + wpseoMetaboxL10n.field_prefix + 'title').keyup(function() {
+			jQuery('#' + wpseoMetaboxL10n.field_prefix + 'title').keyup(function () {
 					ystUpdateTitle();
 				}
 			);
-			jQuery('#title').keyup(function() {
+			jQuery('#title').keyup(function () {
 					ystUpdateTitle();
 					ystUpdateDesc();
 				}
 			);
-			jQuery('#parent_id').change(function() {
+			jQuery('#parent_id').change(function () {
 					ystUpdateTitle();
 					ystUpdateDesc();
 				}
 			);
 			// DON'T 'optimize' this to use descElm! descElm might not be defined and will cause js errors (Soliloquy issue)
-			jQuery('#' + wpseoMetaboxL10n.field_prefix + 'metadesc').keyup(function() {
+			jQuery('#' + wpseoMetaboxL10n.field_prefix + 'metadesc').keyup(function () {
 					ystUpdateDesc();
 				}
 			);
 
+
 			// Set time out because of tinymce is initialized later then this is done
 			setTimeout(
-				function() {
+				function () {
 					ystUpdateSnippet();
 
 					// Adding events to content and excerpt
@@ -664,7 +642,7 @@ jQuery( document ).ready( function() {
 				500
 			);
 
-			jQuery(document).on('change', '#' + wpseoMetaboxL10n.field_prefix + 'focuskw', function() {
+			jQuery(document).on('change', '#' + wpseoMetaboxL10n.field_prefix + 'focuskw', function () {
 					var focuskwhelpElm = jQuery('#focuskwhelp');
 					if (jQuery('#' + wpseoMetaboxL10n.field_prefix + 'focuskw').val().search(',') !== -1) {
 						focuskwhelpElm.click();

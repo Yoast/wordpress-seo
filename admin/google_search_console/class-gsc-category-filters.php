@@ -37,7 +37,7 @@ class WPSEO_GSC_Category_Filters {
 	 *
 	 * Setting the hook to create the issues categories as the links
 	 *
-	 * @param array $platform_counts
+	 * @param array $platform_counts Set of issue counts by platform.
 	 */
 	public function __construct( array $platform_counts ) {
 		if ( ! empty( $platform_counts ) ) {
@@ -100,7 +100,7 @@ class WPSEO_GSC_Category_Filters {
 	/**
 	 * Setting the view counts based on the saved data. The info will be used to display the category filters
 	 *
-	 * @param array $platform_counts
+	 * @param array $platform_counts Set of counts by platform.
 	 */
 	private function set_counts( array $platform_counts ) {
 		$this->category_counts = $this->parse_counts( $platform_counts );
@@ -123,9 +123,10 @@ class WPSEO_GSC_Category_Filters {
 
 	/**
 	 * Add new filter value to the filter_values
-	 * @param string $key
-	 * @param string $value
-	 * @param string $description
+	 *
+	 * @param string $key         Filter key.
+	 * @param string $value       Filter value.
+	 * @param string $description Optional description string.
 	 */
 	private function set_filter_value( $key, $value, $description = '' ) {
 		$this->filter_values[ $key ] = array(
@@ -137,31 +138,32 @@ class WPSEO_GSC_Category_Filters {
 	/**
 	 * Creates a filter link
 	 *
-	 * @param string  $key
-	 * @param integer $count
+	 * @param string  $category Issue type.
+	 * @param integer $count    Count for the type.
 	 *
 	 * @return string
 	 */
-	private function create_view_link( $key, $count ) {
-		$href  = add_query_arg( array( 'category' => $key, 'paged' => 1 ) );
+	private function create_view_link( $category, $count ) {
+		$href  = add_query_arg( array( 'category' => $category, 'paged' => 1 ) );
 
 		$class = 'gsc_category';
 
-		if ( $this->category == $key ) {
+		if ( $this->category === $category ) {
 			$class .= ' current';
 		}
 
 		$title = '';
-		if ( $this->filter_values[ $key ]['description'] !== '' ) {
-			$title = " title='" . esc_attr( $this->filter_values[ $key ]['description'] ) . "'";
+		if ( $this->filter_values[ $category ]['description'] !== '' ) {
+			$title = " title='" . esc_attr( $this->filter_values[ $category ]['description'] ) . "'";
 		}
 
 		return sprintf(
-			'<a href="%1$s" class="%2$s" %3$s>%4$s</a> (%5$s)',
+			'<a href="%1$s" class="%2$s" %3$s>%4$s</a> (<span id="gsc_count_%5$s">%6$s</span>)',
 			esc_attr( $href ),
 			$class,
 			$title,
-			$this->filter_values[ $key ]['value'],
+			$this->filter_values[ $category ]['value'],
+			$category,
 			$count
 		);
 	}
@@ -169,7 +171,7 @@ class WPSEO_GSC_Category_Filters {
 	/**
 	 * Parsing the category counts. When there are 0 issues for a specific category, just remove that one from the array
 	 *
-	 * @param array $category_counts
+	 * @param array $category_counts Set of counts for categories.
 	 *
 	 * @return mixed
 	 */

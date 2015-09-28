@@ -127,9 +127,9 @@ class WPSEO_Twitter {
 	/**
 	 * Output the metatag
 	 *
-	 * @param string $name
-	 * @param string $value
-	 * @param bool   $escaped
+	 * @param string $name    Tag name string.
+	 * @param string $value   Tag value string.
+	 * @param bool   $escaped Force escape flag.
 	 */
 	private function output_metatag( $name, $value, $escaped = false ) {
 
@@ -182,7 +182,7 @@ class WPSEO_Twitter {
 	/**
 	 * Returns the description for a singular page
 	 *
-	 * @param int $post_id
+	 * @param int $post_id Post ID.
 	 *
 	 * @return string
 	 */
@@ -264,7 +264,7 @@ class WPSEO_Twitter {
 	/**
 	 * Returns the Twitter title for a single post
 	 *
-	 * @param int $post_id
+	 * @param int $post_id Post ID.
 	 *
 	 * @return string
 	 */
@@ -444,11 +444,13 @@ class WPSEO_Twitter {
 	 * Outputs a Twitter image tag for a given image
 	 *
 	 * @param string $img The source URL to the image.
-	 * @param string $tag The tag to output, defaults to <code>image:src</code> but can be altered for use in galleries.
+	 * @param string $tag The tag to output, defaults to <code>image</code>.
+	 *
+	 * TODO deprecate tag argument altogether later with gallery card type. R.
 	 *
 	 * @return bool
 	 */
-	protected function image_output( $img, $tag = 'image:src' ) {
+	protected function image_output( $img, $tag = 'image' ) {
 		/**
 		 * Filter: 'wpseo_twitter_image' - Allow changing the Twitter Card image
 		 *

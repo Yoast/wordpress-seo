@@ -11,7 +11,7 @@ class WPSEO_GSC_Settings {
 	/**
 	 * Clear all data from the database
 	 *
-	 * @param WPSEO_GSC_Service $service
+	 * @param WPSEO_GSC_Service $service Service class instance.
 	 */
 	public static function clear_data( WPSEO_GSC_Service $service ) {
 		// Remove issue and issue counts.
@@ -35,8 +35,8 @@ class WPSEO_GSC_Settings {
 	/**
 	 * When authorization is successful return true, otherwise false
 	 *
-	 * @param string                  $authorization_code
-	 * @param Yoast_Api_Google_Client $client
+	 * @param string                  $authorization_code Code to validate.
+	 * @param Yoast_Api_Google_Client $client             Client object instance.
 	 *
 	 * @return bool
 	 */

@@ -81,7 +81,7 @@ class Yoast_Plugin_Conflict {
 	/**
 	 * Check if there are conflicting plugins for given $plugin_section
 	 *
-	 * @param string $plugin_section
+	 * @param string $plugin_section Type of plugin conflict (such as Open Graph or sitemap).
 	 *
 	 * @return bool
 	 */
@@ -109,7 +109,7 @@ class Yoast_Plugin_Conflict {
 	 * This method will loop through all conflicting plugins to get the details of each plugin. The plugin name
 	 * will be taken from the details to parse a comma separated string, which can be use for by example a notice
 	 *
-	 * @param string $plugin_section
+	 * @param string $plugin_section Plugin conflict type (such as Open Graph or sitemap).
 	 *
 	 * @return string
 	 */
@@ -137,7 +137,7 @@ class Yoast_Plugin_Conflict {
 	/**
 	 * Checks for given $plugin_sections for conflicts
 	 *
-	 * @param array $plugin_sections
+	 * @param array $plugin_sections Set of sections.
 	 */
 	public function check_plugin_conflicts( $plugin_sections ) {
 		foreach ( $plugin_sections as $plugin_section => $readable_plugin_section ) {
@@ -151,7 +151,7 @@ class Yoast_Plugin_Conflict {
 	/**
 	 * Setting an error on the screen
 	 *
-	 * @param string $plugin_section
+	 * @param string $plugin_section          Type of conflict group (such as Open Graph or sitemap).
 	 * @param string $readable_plugin_section This is the value for the translation.
 	 */
 	protected function set_error( $plugin_section, $readable_plugin_section ) {
@@ -203,8 +203,8 @@ class Yoast_Plugin_Conflict {
 	/**
 	 * Loop through plugins and check if each plugin is active
 	 *
-	 * @param array  $plugins
-	 * @param string $plugin_section
+	 * @param array  $plugins        Set of plugins.
+	 * @param string $plugin_section Type of conflict group (such as Open Graph or sitemap).
 	 */
 	protected function check_plugins_active( $plugins, $plugin_section ) {
 		$plugins = $this->filter_already_dismissed( $plugin_section, $plugins );
@@ -218,8 +218,8 @@ class Yoast_Plugin_Conflict {
 	/**
 	 * Filter the already dismissed plugins
 	 *
-	 * @param string $plugin_section
-	 * @param array  $plugins
+	 * @param string $plugin_section Type of conflict group (such as Open Graph or sitemap).
+	 * @param array  $plugins        Set of plugins.
 	 *
 	 * @return array
 	 */
@@ -240,7 +240,7 @@ class Yoast_Plugin_Conflict {
 	/**
 	 * Check if given plugin exists in array with all_active_plugins
 	 *
-	 * @param string $plugin
+	 * @param string $plugin Plugin basename string.
 	 *
 	 * @return bool
 	 */
@@ -254,8 +254,8 @@ class Yoast_Plugin_Conflict {
 	 * This method will check first if key $plugin_section exists, if not it will create an empty array
 	 * If $plugin itself doesn't exist it will be added.
 	 *
-	 * @param string $plugin_section
-	 * @param string $plugin
+	 * @param string $plugin_section Type of conflict group (such as Open Graph or sitemap).
+	 * @param string $plugin         Plugin basename string.
 	 */
 	protected function add_active_plugin( $plugin_section, $plugin ) {
 
@@ -273,7 +273,7 @@ class Yoast_Plugin_Conflict {
 	 *
 	 * If there is a result it will return the plugin category
 	 *
-	 * @param string $plugin
+	 * @param string $plugin Plugin basename string.
 	 *
 	 * @return int|string
 	 */

@@ -26,7 +26,7 @@ class Yoast_Form {
 	/**
 	 * Get the singleton instance of this class
 	 *
-	 * @return object
+	 * @return Yoast_Form
 	 */
 	public static function get_instance() {
 		if ( ! ( self::$instance instanceof self ) ) {
@@ -42,7 +42,7 @@ class Yoast_Form {
 	 * @param bool   $form             Whether or not the form start tag should be included.
 	 * @param string $option           The short name of the option to use for the current page.
 	 * @param bool   $contains_files   Whether the form should allow for file uploads.
-	 * @param bool   $option_long_name
+	 * @param bool   $option_long_name Group name of the option.
 	 */
 	public function admin_header( $form = true, $option = 'wpseo', $contains_files = false, $option_long_name = false ) {
 		if ( ! $option_long_name ) {
@@ -73,7 +73,7 @@ class Yoast_Form {
 	/**
 	 * Set the option used in output for form elements
 	 *
-	 * @param string $option_name
+	 * @param string $option_name Option key.
 	 */
 	public function set_option( $option_name ) {
 		$this->option_name = $option_name;
@@ -220,7 +220,7 @@ class Yoast_Form {
 			if ( $i == 2 ) {
 				break;
 			}
-			echo '<a target="_blank" href="' . esc_url( $banner['url'] ) . '"><img width="261" height="130" src="' . plugins_url( 'images/' . $banner['img'], WPSEO_FILE ) . '" alt="' . esc_attr( $banner['alt'] ) . '"/></a><br/><br/>';
+			echo '<a target="_blank" href="' . esc_url( $banner['url'] ) . '"><img width="261" height="152" src="' . plugins_url( 'images/' . $banner['img'], WPSEO_FILE ) . '" alt="' . esc_attr( $banner['alt'] ) . '"/></a><br/><br/>';
 			$i ++;
 		}
 		?>
@@ -236,8 +236,8 @@ class Yoast_Form {
 	/**
 	 * Output a label element
 	 *
-	 * @param string $text
-	 * @param array  $attr
+	 * @param string $text Label text string.
+	 * @param array  $attr HTML attributes set.
 	 */
 	public function label( $text, $attr ) {
 		$attr = wp_parse_args( $attr, array(
@@ -408,8 +408,8 @@ class Yoast_Form {
 	/**
 	 * Media input
 	 *
-	 * @param string $var
-	 * @param string $label
+	 * @param string $var   Option name.
+	 * @param string $label Label message.
 	 */
 	public function media_input( $var, $label ) {
 		$val = '';

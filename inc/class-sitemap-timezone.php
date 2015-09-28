@@ -18,8 +18,10 @@ class WPSEO_Sitemap_Timezone {
 	/**
 	 * Get the datetime object, in site's time zone, if the datetime string was valid
 	 *
+	 * @todo This is messed up, output type changed, doc wrong. Revert, add new method for formatted. R.
+	 *
 	 * @param string $datetime_string The datetime string in UTC time zone, that needs to be converted to a DateTime object.
-	 * @param string $format
+	 * @param string $format          Date format to use.
 	 *
 	 * @return DateTime|null in site's time zone
 	 */

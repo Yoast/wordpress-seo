@@ -4,9 +4,9 @@ Donate link: https://yoast.com/
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: seo, SEO, Yoast SEO, google, meta, meta description, search engine optimization, xml sitemap, xml sitemaps, google sitemap, sitemap, sitemaps, robots meta, rss, rss footer, yahoo, bing, news sitemaps, XML News Sitemaps, WordPress SEO, WordPress SEO by Yoast, yoast, multisite, canonical, nofollow, noindex, keywords, meta keywords, description, webmaster tools, google webmaster tools, seo pack
-Requires at least: 3.9
-Tested up to: 4.2
-Stable tag: 2.3.2
+Requires at least: 4.0
+Tested up to: 4.3
+Stable tag: 2.3.5
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using Yoast SEO plugin.
 
@@ -119,6 +119,43 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 7. The advanced section of the Yoast SEO meta box.
 
 == Changelog ==
+
+= 2.3.5 =
+
+Release Date: September 16th, 2015
+
+* Bugfixes:
+	* Fixes the Twitter image metatag that was invalidated after a recent API change by Twitter. Thanks [Andy Piper](https://github.com/andypiper) for notifying us.
+	* Removes all tests directories from the release. Props [Edward Beckett](https://github.com/EdwardBeckett) for reporting.
+	* Updated the minimum required version of WordPress to 4.0.
+
+= 2.3.4 =
+
+Release Date: August 6th, 2015
+
+* Bugfixes:
+	* Fixes a bug where the focus keyword test in the Yoast SEO metabox was broken as a regression of removing the autocomplete functionality.
+
+= 2.3.3 =
+
+Release Date: August 6th, 2015
+
+* Removes the autocomplete functionality from the focus keyword field in the Yoast SEO metabox because Google is shutting down its autocomplete API [as of August 10th](http://googlewebmastercentral.blogspot.nl/2015/07/update-on-autocomplete-api.html).
+
+* Enhancements:
+	* Introduces a dismissible notice encouraging users to connect with Google Search Console.
+	* Improves the dashboard widget to only show posts which are actually editable by the current user.
+	* Makes the plugin conflict notices persistent and dismissible. Once dismissed, it will no longer be shown for the specific set of conflicting plugins the notice has been dismissed for.
+	* Contains a few textual improvements.
+	* Makes sure the counts are updated correctly and intuitively when marking a Search Console issue as fixed.
+
+* Bugfixes:
+	* Fixes a bug where current_user_can was called before init, props [Claudio Sanches](https://github.com/claudiosmweb).
+	* Fixes a bug where the article:publisher metatag was also included on pages that were not of type 'article'.
+	* Fixes a bug where the link to the list of posts with the same focus keyword was broken for focus keywords containing a space.
+	* Fixes a bug where a h3 header was being closed with a h2 closing tag.
+	* Fixes a bug where the Google Search Console issues table was giving errors on installs running on PHP 5.2.
+	* Fixes a bug where the sitemap caches were no longer being cleared when running Yoast SEO in the upcoming 4.3 release of WordPress.
 
 = 2.3.2 =
 
