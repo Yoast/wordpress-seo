@@ -552,11 +552,11 @@ class WPSEO_OpenGraph {
 				$ogdesc = $frontend->metadesc( false );
 			}
 
-			if ( '' === $ogdesc ) {
+			if ( $ogdesc === '' ) {
 				$ogdesc = trim( strip_tags( term_description() ) );
 			}
 
-			if ( '' === $ogdesc ) {
+			if ( $ogdesc === '' ) {
 				$ogdesc = WPSEO_Taxonomy_Meta::get_meta_without_term( 'desc' );
 			}
 		}
@@ -781,8 +781,6 @@ class WPSEO_OpenGraph_Image {
 		$ogimg = WPSEO_Meta::get_value( 'opengraph-image' );
 		if ( $ogimg !== '' ) {
 			$this->add_image( $ogimg );
-
-			return true;
 		}
 	}
 
