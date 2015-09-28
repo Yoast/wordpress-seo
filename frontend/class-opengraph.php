@@ -781,7 +781,11 @@ class WPSEO_OpenGraph_Image {
 		$ogimg = WPSEO_Meta::get_value( 'opengraph-image' );
 		if ( $ogimg !== '' ) {
 			$this->add_image( $ogimg );
+
+			return true;
 		}
+
+		return false;
 	}
 
 	/**
