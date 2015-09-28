@@ -114,12 +114,12 @@ class WPSEO_Taxonomy_Presenter {
 	/**
 	 * Parsing question mark with the help-text
 	 *
-	 * @param string $esc_var
-	 * @param string $desc
+	 * @param string $field_name
+	 * @param string $help_text
 	 *
 	 * @return string
 	 */
-	private function parse_help( $esc_var, $desc ) {
+	private function parse_help( $field_name, $help_text ) {
 		static $image_src;
 
 		if ( $image_src === null ) {
@@ -129,8 +129,8 @@ class WPSEO_Taxonomy_Presenter {
 		return  sprintf(
 			'<img src="%1$s" class="alignright yoast_help" id="%2$s" alt="%3$s" />',
 			$image_src,
-			esc_attr( $esc_var . 'help' ),
-			esc_attr( $desc )
+			esc_attr( $field_name . 'help' ),
+			esc_attr( $help_text )
 		);
 	}
 
