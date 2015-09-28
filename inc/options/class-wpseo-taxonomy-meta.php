@@ -458,7 +458,7 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 	/**
 	 * Get the current queried object and return the meta value
 	 *
-	 * @param string $meta
+	 * @param string $meta The meta field that is needed.
 	 *
 	 * @return bool|mixed
 	 */

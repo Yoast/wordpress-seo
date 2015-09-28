@@ -21,7 +21,7 @@ class WPSEO_Taxonomy_General_Tab extends WPSEO_Taxonomy_Tab {
 	private $sitemap_include_options = array();
 
 	/**
-	 * @param stdClass $term
+	 * @param stdClass $term The currenct taxonomy.
 	 */
 	public function __construct( $term ) {
 		parent::__construct( $term );
@@ -34,7 +34,7 @@ class WPSEO_Taxonomy_General_Tab extends WPSEO_Taxonomy_Tab {
 	 * @return array
 	 */
 	public function get_fields() {
-		 $fields = array(
+		$fields = array(
 			'title' => $this->get_field_config(
 				__( 'SEO Title', 'wordpress-seo' ),
 				esc_html__( 'The SEO title is used on the archive page for this term.', 'wordpress-seo' )
@@ -63,7 +63,7 @@ class WPSEO_Taxonomy_General_Tab extends WPSEO_Taxonomy_Tab {
 				$this->options['breadcrumbs-enable'] !== true
 			),
 			'noindex'  => $this->get_field_config(
-			/* translators: %s expands to taxonomy name  */
+				/* translators: %s expands to taxonomy name  */
 				sprintf( __( 'Noindex this %s', 'wordpress-seo' ), $this->term->taxonomy ),
 				/* translators: %s expands to taxonomy name  */
 				sprintf( esc_html__( 'This %s follows the indexation rules set under Metas and Titles, you can override it here.', 'wordpress-seo' ), $this->term->taxonomy ),
@@ -78,7 +78,7 @@ class WPSEO_Taxonomy_General_Tab extends WPSEO_Taxonomy_Tab {
 			),
 		);
 
-		return $this->filter_hidden_fields($fields);
+		return $this->filter_hidden_fields( $fields );
 	}
 
 	/**

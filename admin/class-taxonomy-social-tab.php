@@ -42,7 +42,6 @@ class WPSEO_Taxonomy_Social_Tab extends WPSEO_Taxonomy_Tab {
 					/* translators: %1$s expands to the social network name */
 					sprintf( esc_html__( 'If you don\'t want to use the meta description for sharing on %1$s but want another description there, write it here.', 'wordpress-seo' ), $settings['label'] ),
 					'textarea'
-
 				),
 				$settings['network'] . '-image'       => $this->get_field_config(
 					/* translators: %s expands to the social network name */
@@ -58,7 +57,7 @@ class WPSEO_Taxonomy_Social_Tab extends WPSEO_Taxonomy_Tab {
 			$fields = array_merge( $fields, $fields_to_push );
 		}
 
-		return $this->filter_hidden_fields($fields);
+		return $this->filter_hidden_fields( $fields );
 	}
 
 	/**
@@ -81,9 +80,9 @@ class WPSEO_Taxonomy_Social_Tab extends WPSEO_Taxonomy_Tab {
 	/**
 	 * Returns array with the config fields for the social network
 	 *
-	 * @param string $network
-	 * @param string $label
-	 * @param string $image_size
+	 * @param string $network    The name of the social network.
+	 * @param string $label		 The label for the social network
+	 * @param string $image_size The image dimensions.
 	 *
 	 * @return array
 	 */
@@ -91,21 +90,21 @@ class WPSEO_Taxonomy_Social_Tab extends WPSEO_Taxonomy_Tab {
 		return array(
 			'network' => $network,
 			'label'   => $label,
-			'size'    => $image_size
+			'size'    => $image_size,
 		);
 	}
 
 	/**
 	 * Filter the social networks which are disabled in the configuration
 	 *
-	 * @param array $social_networks
+	 * @param array $social_networks Array with the social networks that has to be filtered.
 	 *
 	 * @return array
 	 */
 	private function filter_social_networks( array $social_networks ) {
 		foreach ( $social_networks as $social_network => $settings ) {
-			if ( $this->options[$social_network] !== true ) {
-				unset( $social_networks[$social_network] );
+			if ( $this->options[ $social_network ] !== true ) {
+				unset( $social_networks[ $social_network ] );
 			}
 		}
 

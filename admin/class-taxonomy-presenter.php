@@ -16,7 +16,7 @@ class WPSEO_Taxonomy_Presenter {
 	private $tax_meta;
 
 	/**
-	 * @param stdClass $term
+	 * @param stdClass $term The current term.
 	 */
 	public function __construct( $term ) {
 		$this->tax_meta = WPSEO_Taxonomy_Meta::get_term_meta( (int) $term->term_id, $term->taxonomy );
@@ -51,7 +51,7 @@ class WPSEO_Taxonomy_Presenter {
 
 	/**
 	 * Generates the html for the the given field config
-	 * 
+	 *
 	 * @param string $field_type  The fieldtype, e.g: text, checkbox, etc.
 	 * @param string $field_name  The name of the field.
 	 * @param string $field_value The value of the field.
@@ -112,7 +112,7 @@ class WPSEO_Taxonomy_Presenter {
 	/**
 	 * Getting the value for given field_name
 	 *
-	 * @param string $field_name
+	 * @param string $field_name The fieldname to get the value for.
 	 *
 	 * @return string
 	 */
@@ -127,7 +127,7 @@ class WPSEO_Taxonomy_Presenter {
 	/**
 	 * Getting the class attributes if $options contains a class key
 	 *
-	 * @param array $options
+	 * @param array $options The array with field options.
 	 *
 	 * @return string
 	 */
@@ -142,8 +142,8 @@ class WPSEO_Taxonomy_Presenter {
 	/**
 	 * Getting the label HTML
 	 *
-	 * @param string $label
-	 * @param string $field_name
+	 * @param string $label	     The label value.
+	 * @param string $field_name The target field.
 	 *
 	 * @return string
 	 */

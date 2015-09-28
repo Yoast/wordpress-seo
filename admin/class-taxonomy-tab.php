@@ -27,7 +27,7 @@ abstract class WPSEO_Taxonomy_Tab {
 	/**
 	 * Setting the class properties
 	 *
-	 * @param stdClass $term
+	 * @param stdClass $term The current taxonomy.
 	 */
 	public function __construct( $term ) {
 		$this->term     = $term;
@@ -48,7 +48,7 @@ abstract class WPSEO_Taxonomy_Tab {
 	 * @param string       $description Description which will explain the field.
 	 * @param string       $type        The field type, for example: input, select.
 	 * @param string|array $options		Optional array with additional attributes for the field.
-	 * @param bool         $hide		Should the field be hidden?
+	 * @param bool         $hide		Should the field be hidden.
 	 *
 	 * @return array
 	 */
@@ -65,7 +65,7 @@ abstract class WPSEO_Taxonomy_Tab {
 	/**
 	 * Filter the hidden fields.
 	 *
-	 * @param array $fields
+	 * @param array $fields Array with the form fields that has will be filtered.
 	 *
 	 * @return array
 	 */
