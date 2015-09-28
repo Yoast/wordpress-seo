@@ -81,7 +81,7 @@ class WPSEO_Taxonomy_Social_Tab extends WPSEO_Taxonomy_Tab {
 	 * Returns array with the config fields for the social network
 	 *
 	 * @param string $network    The name of the social network.
-	 * @param string $label		 The label for the social network
+	 * @param string $label		 The label for the social network.
 	 * @param string $image_size The image dimensions.
 	 *
 	 * @return array

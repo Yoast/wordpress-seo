@@ -25,7 +25,7 @@ class WPSEO_Taxonomy_Presenter {
 	/**
 	 * Displaying the form fields
 	 *
-	 * @param array $fields
+	 * @param array $fields Array with the fields that will be displayed.
 	 */
 	public function display_fields( array $fields ) {
 		foreach ( $fields as $field_name => $field_options ) {

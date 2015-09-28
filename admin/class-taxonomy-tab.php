@@ -58,7 +58,7 @@ abstract class WPSEO_Taxonomy_Tab {
 			'description' => $description,
 			'type'        => $type,
 			'options'     => $options,
-			'hide'        => $hide
+			'hide'        => $hide,
 		);
 	}
 
