@@ -75,6 +75,11 @@ class WPSEO_Sitemaps_Admin {
 			wp_schedule_single_event( ( time() + 300 ), 'wpseo_hit_sitemap_index' );
 		}
 
+		// Exit if pinging is disabled
+		if ( defined( 'YOAST_DISABLE_SEO_PING' ) && YOAST_DISABLE_SEO_PING ) {
+			return;
+		}
+
 		// Allow the pinging to happen slightly after the hit sitemap index so the sitemap is fully regenerated when the ping happens.
 		$excluded_posts = explode( ',', $options['excluded-posts'] );
 		if ( ! in_array( $post->ID, $excluded_posts ) ) {

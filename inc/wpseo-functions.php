@@ -216,6 +216,11 @@ add_action( 'init', 'wpseo_xml_sitemaps_init', 1 );
  * @param string|null $sitemapurl Optional URL to make the ping for.
  */
 function wpseo_ping_search_engines( $sitemapurl = null ) {
+	// Check if pinging is disabled since a ping was scheduled
+	if ( defined( 'YOAST_DISABLE_SEO_PING' ) && YOAST_DISABLE_SEO_PING ) {
+		return;
+	}
+	
 	// Don't ping if blog is not public.
 	if ( '0' == get_option( 'blog_public' ) ) {
 		return;
