@@ -75,8 +75,8 @@ class WPSEO_Sitemaps_Admin {
 			wp_schedule_single_event( ( time() + 300 ), 'wpseo_hit_sitemap_index' );
 		}
 
-		// Exit if pinging is disabled
-		if ( defined( 'YOAST_DISABLE_SEO_PING' ) && YOAST_DISABLE_SEO_PING ) {
+		// Exit if pinging is not allowed (allowed by default) 
+		if ( apply_filters( 'wpseo_allow_xml_sitemap_ping', true ) === false ) {
 			return;
 		}
 
