@@ -52,10 +52,6 @@ class WPSEO_Premium {
 		if ( ! empty( $query_redirects->posts ) ) {
 			WPSEO_Premium::autoloader();
 
-			// Load the Redirect File Manager.
-			require_once( WPSEO_PREMIUM_PATH . 'classes/class-redirect-manager.php' );
-			require_once( WPSEO_PREMIUM_PATH . 'classes/class-url-redirect-manager.php' );
-
 			$redirect_manager = new WPSEO_URL_Redirect_Manager();
 
 			foreach ( $query_redirects->posts as $post ) {
