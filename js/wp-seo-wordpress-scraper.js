@@ -21,6 +21,7 @@ YoastSEO.WordPressScraper.prototype.getData = function() {
 		pageTitle: this.getDataFromInput( 'pageTitle' ),
 		title: this.getDataFromInput( 'title' ),
 		url: this.getDataFromInput( 'url' ),
+		baseUrl: this.getDataFromInput( 'baseUrl' ),
 		excerpt: this.getDataFromInput( 'excerpt' ),
 		snippetTitle: this.getDataFromInput( 'snippetTitle' ),
 		snippetMeta: this.getDataFromInput( 'meta' ),
@@ -44,7 +45,19 @@ YoastSEO.WordPressScraper.prototype.getDataFromInput = function( inputType ) {
 			break;
 		case 'url':
 			if ( document.getElementById( 'sample-permalink' ) !== null ) {
-				val = document.getElementById( 'sample-permalink' ).innerHTML.split( '<span' )[ 0 ];
+				val = document.getElementById( 'sample-permalink' ).textContent;
+			}
+			break;
+		case 'baseUrl':
+			if ( document.getElementById( 'sample-permalink' ) !== null ) {
+				var url = document.getElementById( 'sample-permalink' ).getElementsByTagName( 'a' )[0];
+
+				if ( url !== null ) {
+					val = url.innerHTML.split( '<span' )[0];
+				}
+				else {
+					val = '';
+				}
 			}
 			break;
 		case 'cite':
@@ -170,7 +183,7 @@ YoastSEO.WordPressScraper.prototype.snippetPreviewEventBinder = function( snippe
 		document.getElementById( elems[ i ] ).addEventListener( 'focus', snippetPreview.hideEditIcon );
 		document.getElementById( elems[ i ] ).addEventListener( 'keyup', snippetPreview.hideEditIcon );
 	}
-	elems = [ 'title_container', 'url_container', 'meta_container' ];
+	elems = [ 'snippet_title', 'snippet_cite', 'snippet_meta' ];
 	for ( i = 0; i < elems.length; i++ ) {
 		document.getElementById( elems[ i ] ).addEventListener( 'click', snippetPreview.getUnformattedText );
 		document.getElementById( elems[ i ] ).addEventListener( 'keyup', snippetPreview.setUnformattedText );
