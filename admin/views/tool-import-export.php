@@ -21,44 +21,47 @@ $yform = Yoast_Form::get_instance();
 
 $replace = false;
 
-if ( isset( $_POST['import'] ) || isset( $_GET['import'] ) ) {
+/**
+ * The import method is used to dermine if there should be something imported.
+ *
+ * In case of POST the user is on the Yoast SEO import page and in case of the GET the user sees a notice from
+ * Yoast SEO that we can import stuff for that plugin.
+ */
+if ( filter_input( INPUT_POST, 'import' ) || filter_input( INPUT_GET, 'import' ) ) {
 
 	check_admin_referer( 'wpseo-import' );
 
-	if ( isset( $_POST['wpseo']['deleteolddata'] ) && $_POST['wpseo']['deleteolddata'] == 'on' ) {
-		$replace = true;
-	}
+	$post_wpseo = filter_input( INPUT_POST, 'wpseo', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY );
+	$replace    = ( ! empty( $post_wpseo['deleteolddata'] ) && $post_wpseo['deleteolddata'] === 'on' );
 
-	if ( isset( $_POST['wpseo']['importwoo'] ) ) {
+	if ( ! empty( $post_wpseo['importwoo'] ) ) {
 		$import = new WPSEO_Import_WooThemes_SEO( $replace );
 	}
 
-	if ( isset( $_POST['wpseo']['importaioseo'] ) || isset( $_GET['importaioseo'] ) ) {
+	if ( ! empty( $post_wpseo['importaioseo'] )  || filter_input( INPUT_GET, 'importaioseo' ) ) {
 		$import = new WPSEO_Import_AIOSEO( $replace );
 	}
 
-	if ( isset( $_POST['wpseo']['importheadspace'] ) ) {
+	if ( ! empty( $post_wpseo['importheadspace'] ) ) {
 		$import = new WPSEO_Import_External( $replace );
 		$import->import_headspace();
 	}
 
-	$post_wpseo = filter_input( INPUT_POST, 'wpseo', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY );
-
-	if ( ! empty( $post_wpseo['importwpseo'] ) || filter_input( INPUT_GET, 'importwpseo' ) ) {
+	if ( ! empty( $post_wpseo['importwpseo'] ) ) {
 		$import = new WPSEO_Import_WPSEO( $replace );
 	}
 
-	if ( isset( $_POST['wpseo']['importrobotsmeta'] ) || isset( $_GET['importrobotsmeta'] ) ) {
+	if ( ! empty( $post_wpseo['importrobotsmeta'] ) || filter_input( INPUT_GET, 'importrobotsmeta' ) ) {
 		$import = new WPSEO_Import_External( $replace );
 		$import->import_robots_meta();
 	}
 
-	if ( isset( $_POST['wpseo']['importrssfooter'] ) ) {
+	if ( ! empty( $post_wpseo['importrssfooter'] ) ) {
 		$import = new WPSEO_Import_External( $replace );
 		$import->import_rss_footer();
 	}
 
-	if ( isset( $_POST['wpseo']['importbreadcrumbs'] ) ) {
+	if ( ! empty( $post_wpseo['importbreadcrumbs'] ) ) {
 		$import = new WPSEO_Import_External( $replace );
 		$import->import_yoast_breadcrumbs();
 	}
