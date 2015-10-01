@@ -38,7 +38,7 @@ function wpseo_gsc_post_redirect() {
 		function() {
 			if( is_checked === true ) {
 				// Remove the row with old url
-				jQuery('span:contains(' + old_url + ')').closest('tr').remove();
+				jQuery('span:contains("' + old_url + '")').closest('tr').remove();
 			}
 
 			// Remove the thickbox
@@ -76,7 +76,7 @@ function wpseo_mark_as_fixed(url) {
 		function(response) {
 			if ('true' === response) {
 				wpseo_update_category_count(jQuery('#field_category').val());
-				jQuery('span:contains(' + url + ')').closest('tr').remove();
+				jQuery('span:contains("' + url + '")').closest('tr').remove();
 			}
 		}
 	);
