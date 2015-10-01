@@ -11,15 +11,20 @@
 class WPSEO_Import_WPSEO extends WPSEO_Import_External {
 
 	/**
+	 * The values 1 - 6 are the configured values from wpSEO. This array will map the values of wpSEO to our values.
+	 *
+	 * There are some double array like 1-6 and 3-4. The reason is they only set the index value. The follow value is
+	 * the default we use in the cases there isn't a follow value present.
+	 *
 	 * @var array
 	 */
 	private $robot_values = array(
-		1 => array( 'index' => 2, 'follow' => 0 ),
-		2 => array( 'index' => 2, 'follow' => 1 ),
-		3 => array( 'index' => 1, 'follow' => 0 ),
-		4 => array( 'index' => 1, 'follow' => 0 ),
-		5 => array( 'index' => 1, 'follow' => 1 ),
-		6 => array( 'index' => 2, 'follow' => 0 ),
+		1 => array( 'index' => 2, 'follow' => 0 ), // wpSEO: index, follow
+		2 => array( 'index' => 2, 'follow' => 1 ), // wpSEO: index, nofollow
+		3 => array( 'index' => 1, 'follow' => 0 ), // wpSEO: noindex
+		4 => array( 'index' => 1, 'follow' => 0 ), // wpSEO: noindex, follow
+		5 => array( 'index' => 1, 'follow' => 1 ), // wpSEO: noindex, nofollow
+		6 => array( 'index' => 2, 'follow' => 0 ), // wpSEO: index
 	);
 
 
