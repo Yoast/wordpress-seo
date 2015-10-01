@@ -176,7 +176,7 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 		$orderby = ( ( $orderby = filter_input( INPUT_GET, 'orderby' ) ) != '' ) ? $orderby : 'old';
 
 		// If no order, default to asc.
-		$order = ( ( $order = filter_input( INPUT_GET, 'order') ) != '' ) ? $order : 'asc';
+		$order = ( ( $order = filter_input( INPUT_GET, 'order' ) ) != '' ) ? $order : 'asc';
 
 		// Determine sort order.
 		$result = strcmp( $a[ $orderby ], $b[ $orderby ] );

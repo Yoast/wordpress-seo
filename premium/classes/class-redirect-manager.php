@@ -228,7 +228,7 @@ abstract class WPSEO_Redirect_Manager {
 		$redirects = $this->get_redirects();
 
 		// Don't add redirect if already exists.
-		if ( isset ( $redirects[ $old_value ] ) ) {
+		if ( isset( $redirects[ $old_value ] ) ) {
 			return false;
 		}
 
