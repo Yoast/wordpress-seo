@@ -32,7 +32,7 @@ YoastSEO.analyzerArgs = {
 	},
 	//sample texts for snippetPreview
 	sampleText: {
-		baseUrl: wpseoMetaboxL10n.home_url.replace( /https?:\/\//ig, "" ),
+		baseUrl: wpseoMetaboxL10n.home_url.replace( /https?:\/\//ig, '' ),
 		snippetCite: 'example-post/',
 		title: 'This is an example title - edit by clicking here',
 		keyword: 'Choose a focus keyword',

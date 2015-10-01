@@ -49,10 +49,13 @@ YoastSEO.WordPressScraper.prototype.getDataFromInput = function( inputType ) {
 			}
 			break;
 		case 'baseUrl':
+			val = YoastSEO.app.config.sampleText.baseUrl;
 			if ( document.getElementById( 'sample-permalink' ) !== null ) {
 				var url = document.getElementById( 'sample-permalink' ).getElementsByTagName( 'a' )[0];
-
-				if ( url !== null ) {
+				if ( typeof url === 'undefined' ) {
+					url = document.getElementById( 'sample-permalink' );
+				}
+				if ( typeof url !== 'undefined' ) {
 					val = url.innerHTML.split( '<span' )[0];
 				}
 				else {
@@ -197,7 +200,7 @@ YoastSEO.WordPressScraper.prototype.snippetPreviewEventBinder = function( snippe
 YoastSEO.WordPressScraper.prototype.inputElementEventBinder = function() {
 	'use strict';
 
-	var elems = [ 'excerpt', 'content', 'editable-post-name', 'yoast_wpseo_focuskw' ];
+	var elems = [ 'excerpt', 'content', 'editable-post-name', 'yoast_wpseo_focuskw', 'title' ];
 	for ( var i = 0; i < elems.length; i++ ) {
 		var elem = document.getElementById( elems[ i ] );
 		if ( elem !== null ) {
