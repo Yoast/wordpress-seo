@@ -1,4 +1,4 @@
-/* global YoastSEO: true, wpseoL10n */
+/* global YoastSEO: true, wpseoL10n, wpseoMetaboxL10n */
 YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 
 YoastSEO.analyzerArgs = {
@@ -32,7 +32,8 @@ YoastSEO.analyzerArgs = {
 	},
 	//sample texts for snippetPreview
 	sampleText: {
-		url: 'http://example.com/example-post/',
+		baseUrl: wpseoMetaboxL10n.home_url.replace( /https?:\/\//ig, "" ),
+		snippetCite: 'example-post/',
 		title: 'This is an example title - edit by clicking here',
 		keyword: 'Choose a focus keyword',
 		meta: 'Modify your meta description by editing it right here',
