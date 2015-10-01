@@ -86,11 +86,9 @@ YoastSEO.SnippetPreview.prototype.formatCite = function() {
 	var cite = this.refObj.rawData.snippetCite;
 	cite = this.refObj.stringHelper.stripAllTags( cite );
 	if ( cite === "" ) {
-		cite = this.refObj.config.sampleText.url;
-		return cite;
-	} else {
-		return this.formatKeywordUrl( cite );
+		cite = this.refObj.config.sampleText.snippetCite;
 	}
+	return this.formatKeywordUrl( cite );
 };
 
 /**
@@ -295,8 +293,8 @@ YoastSEO.SnippetPreview.prototype.checkTextLength = function( ev ) {
  * @param ev {event}
  */
 YoastSEO.SnippetPreview.prototype.getUnformattedText = function( ev ) {
-	var currentElement = ev.currentTarget.firstChild.id;
-	ev.currentTarget.firstChild.textContent = YoastSEO.app.snippetPreview.unformattedText[ currentElement ];
+	var currentElement = ev.currentTarget.id;
+	ev.currentTarget.textContent = YoastSEO.app.snippetPreview.unformattedText[ currentElement ];
 };
 
 /**
@@ -305,8 +303,8 @@ YoastSEO.SnippetPreview.prototype.getUnformattedText = function( ev ) {
  * @param ev
  */
 YoastSEO.SnippetPreview.prototype.setUnformattedText = function( ev ) {
-	var currentElement = ev.currentTarget.firstChild.id;
-	YoastSEO.app.snippetPreview.unformattedText[ currentElement ] =  ev.currentTarget.firstChild.textContent;
+	var currentElement = ev.currentTarget.id;
+	YoastSEO.app.snippetPreview.unformattedText[ currentElement ] =  ev.currentTarget.textContent;
 };
 
 /**
