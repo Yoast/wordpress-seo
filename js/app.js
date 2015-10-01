@@ -208,11 +208,12 @@ YoastSEO.App.prototype.createSnippetPreviewUrl = function( target ) {
 	var baseUrl = document.createElement( "cite" );
 	baseUrl.className = "url urlBase";
 	baseUrl.id = "snippet_citeBase";
+	baseUrl.textContent = this.config.sampleText.baseUrl;
 	elem.appendChild( baseUrl );
 	var cite = document.createElement( "cite" );
 	cite.className = "url";
 	cite.id = "snippet_cite";
-	cite.textContent = this.config.sampleText.url;
+	cite.textContent = this.config.sampleText.snippetCite;
 	cite.contentEditable = true;
 	elem.appendChild( cite );
 };
