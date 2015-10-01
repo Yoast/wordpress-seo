@@ -55,7 +55,7 @@ class WPSEO_Import_WPSEO extends WPSEO_Import_External {
 	private function import_post_robot( $post_id ) {
 		$wpseo_robots = get_post_meta( $post_id, '_wpseo_edit_robots', true );
 
-		// Does the value exists in our mapping
+		// Does the value exists in our mapping.
 		if ( $robot_value = $this->get_robot_value( $wpseo_robots ) ) {
 			// Saving the new meta values for Yoast SEO.
 			WPSEO_Meta::set_value( $robot_value['index'], 'meta-robots-noindex', $post_id );
@@ -71,9 +71,7 @@ class WPSEO_Import_WPSEO extends WPSEO_Import_External {
 	 * @param integer $post_id The post id of the current post.
 	 */
 	private function delete_post_robot( $post_id ) {
-		// Should the post
 		if ( $this->replace ) {
-			// Remove post meta value.
 			delete_post_meta( $post_id, '_wpseo_edit_robots' );
 		}
 	}
@@ -159,12 +157,12 @@ class WPSEO_Import_WPSEO extends WPSEO_Import_External {
 			 * @var array
 			 */
 			$robot_values = array(
-				1 => array( 'index' => 2, 'follow' => 0 ), // wpSEO: index, follow
-				2 => array( 'index' => 2, 'follow' => 1 ), // wpSEO: index, nofollow
-				3 => array( 'index' => 1, 'follow' => 0 ), // wpSEO: noindex
-				4 => array( 'index' => 1, 'follow' => 0 ), // wpSEO: noindex, follow
-				5 => array( 'index' => 1, 'follow' => 1 ), // wpSEO: noindex, nofollow
-				6 => array( 'index' => 2, 'follow' => 0 ), // wpSEO: index
+				1 => array( 'index' => 2, 'follow' => 0 ), // In wpSEO: index, follow.
+				2 => array( 'index' => 2, 'follow' => 1 ), // In wpSEO: index, nofollow.
+				3 => array( 'index' => 1, 'follow' => 0 ), // In wpSEO: noindex.
+				4 => array( 'index' => 1, 'follow' => 0 ), // In wpSEO: noindex, follow.
+				5 => array( 'index' => 1, 'follow' => 1 ), // In wpSEO: noindex, nofollow.
+				6 => array( 'index' => 2, 'follow' => 0 ), // In wpSEO: index.
 			);
 		}
 
