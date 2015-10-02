@@ -1521,7 +1521,7 @@ class WPSEO_Frontend {
 		global $wp_query;
 
 		// Recreate current URL.
-		$cururl = home_url( sanitize_text_field( $_SERVER['REQUEST_URI'] ) );
+		$cururl = home_url( sanitize_text_field( filter_input( INPUT_SERVER, 'REQUEST_URI' ) ) );
 		$properurl = '';
 
 		if ( is_singular() ) {
