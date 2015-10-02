@@ -58,7 +58,7 @@ class Yoast_Form {
 		 */
 		require_once( ABSPATH . 'wp-admin/options-head.php' );
 		?>
-		<h2 id="wpseo-title"><?php echo esc_html( get_admin_page_title() ); ?></h2>
+		<h1 id="wpseo-title"><?php echo esc_html( get_admin_page_title() ); ?></h1>
 		<div class="wpseo_content_wrapper">
 		<div class="wpseo_content_cell" id="wpseo_content_top">
 		<?php

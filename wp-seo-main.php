@@ -13,7 +13,7 @@ if ( ! function_exists( 'add_filter' ) ) {
  * @internal Nobody should be able to overrule the real version number as this can cause serious issues
  * with the options, so no if ( ! defined() )
  */
-define( 'WPSEO_VERSION', '2.3.4' );
+define( 'WPSEO_VERSION', '2.3.5' );
 
 if ( ! defined( 'WPSEO_PATH' ) ) {
 	define( 'WPSEO_PATH', plugin_dir_path( WPSEO_FILE ) );
@@ -318,6 +318,9 @@ if ( ( ! defined( 'WP_INSTALLING' ) || WP_INSTALLING === false ) && ( $spl_autol
 			// Plugin conflict ajax hooks.
 			new Yoast_Plugin_Conflict_Ajax();
 
+			if ( filter_input( INPUT_POST, 'action' ) === 'inline-save' ) {
+				add_action( 'plugins_loaded', 'wpseo_admin_init', 15 );
+			}
 		}
 		else {
 			add_action( 'plugins_loaded', 'wpseo_admin_init', 15 );

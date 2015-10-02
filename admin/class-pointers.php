@@ -94,17 +94,7 @@ class WPSEO_Pointers {
 				'function' => '',
 			),
 		);
-		$this->button_array          = wp_parse_args( $this->button_array, $button_array_defaults );
-
-		if ( function_exists( 'wp_json_encode' ) ) {
-			$json_options = wp_json_encode( $options );
-		}
-		else {
-			// @codingStandardsIgnoreStart
-			$json_options = json_encode( $options );
-			// @codingStandardsIgnoreEnd
-		}
-
+		$this->button_array = wp_parse_args( $this->button_array, $button_array_defaults );
 		?>
 		<script type="text/javascript">
 			//<![CDATA[
@@ -114,7 +104,7 @@ class WPSEO_Pointers {
 					return;
 				}
 
-				var wpseo_pointer_options = <?php echo $json_options; ?>, setup;
+				var wpseo_pointer_options = <?php echo WPSEO_Utils::json_encode( $options ); ?>, setup;
 
 				wpseo_pointer_options = $.extend(wpseo_pointer_options, {
 					buttons: function (event, t) {
