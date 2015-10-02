@@ -359,6 +359,10 @@ class WPSEO_Admin {
 			return;
 		}
 
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
+
 		if ( $this->options['ignore_blog_public_warning'] === true ) {
 			return;
 		}
