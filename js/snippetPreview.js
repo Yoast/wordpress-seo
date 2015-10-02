@@ -294,7 +294,9 @@ YoastSEO.SnippetPreview.prototype.checkTextLength = function( ev ) {
  */
 YoastSEO.SnippetPreview.prototype.getUnformattedText = function( ev ) {
 	var currentElement = ev.currentTarget.id;
-	ev.currentTarget.textContent = YoastSEO.app.snippetPreview.unformattedText[ currentElement ];
+	if ( typeof YoastSEO.app.snippetPreview.unformattedText[ currentElement ] !== "undefined" ) {
+		ev.currentTarget.textContent = YoastSEO.app.snippetPreview.unformattedText[currentElement];
+	}
 };
 
 /**
