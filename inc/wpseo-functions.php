@@ -216,7 +216,11 @@ add_action( 'init', 'wpseo_xml_sitemaps_init', 1 );
  * @param string|null $sitemapurl Optional URL to make the ping for.
  */
 function wpseo_ping_search_engines( $sitemapurl = null ) {
-	// Check if pinging is not allowed since a ping was scheduled (allowed by default)
+	/**
+	 * Filter: 'wpseo_allow_xml_sitemap_ping' - Check if pinging is not allowed (allowed by default) 
+	 *
+	 * @api boolean $allow_ping The boolean that is set to true by default.
+	 */
 	if ( apply_filters( 'wpseo_allow_xml_sitemap_ping', true ) === false ) {
 		return;
 	}
