@@ -80,7 +80,7 @@ class WPSEO_Sitemaps_Admin {
          *
          * @api boolean $allow_ping The boolean that is set to true by default.
          */
-		 if ( apply_filters( 'wpseo_allow_xml_sitemap_ping', true ) === false ) {
+		if ( apply_filters( 'wpseo_allow_xml_sitemap_ping', true ) === false ) {
 			return;
 		}
 
