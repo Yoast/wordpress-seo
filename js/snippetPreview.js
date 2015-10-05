@@ -15,7 +15,11 @@ YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
  */
 YoastSEO.SnippetPreview = function( refObj ) {
 	this.refObj = refObj;
-	this.unformattedText = {};
+	this.unformattedText = {
+		snippet_cite: "",
+		snippet_meta: "",
+		snippet_title: ""
+	};
 	this.init();
 };
 
@@ -27,8 +31,18 @@ YoastSEO.SnippetPreview.prototype.init = function() {
 		this.refObj.rawData.pageTitle !== null &&
 		this.refObj.rawData.cite !== null
 	) {
+		this.checkCiteAvailable();
 		this.output = this.htmlOutput();
 		this.renderOutput();
+	}
+};
+
+/**
+ * checks if the snippetCite is available
+ */
+YoastSEO.SnippetPreview.prototype.checkCiteAvailable = function() {
+	if ( typeof this.refObj.callbacks.citeAvailable !== "undefined" ) {
+		this.refObj.callbacks.citeAvailable();
 	}
 };
 
@@ -299,14 +313,20 @@ YoastSEO.SnippetPreview.prototype.getUnformattedText = function( ev ) {
 	}
 };
 
+YoastSEO.SnippetPreview.prototype.setUnformattedElemText = function( elem ) {
+	YoastSEO.app.snippetPreview.unformattedText[ elem ] = document.getElementById( elem ).textContent;
+};
+
 /**
  * when text is entered into the snippetPreview elements, the text is set in the unformattedText object.
  * This allows the visible data to be editted in the snippetPreview.
  * @param ev
  */
 YoastSEO.SnippetPreview.prototype.setUnformattedText = function( ev ) {
-	var currentElement = ev.currentTarget.id;
-	YoastSEO.app.snippetPreview.unformattedText[ currentElement ] =  ev.currentTarget.textContent;
+	ev.currentTarget.refObj.snippetPreview.setUnformattedElemText ( ev.currentTarget.id );
+
+	//var currentElement = ev.currentTarget.id;
+	//YoastSEO.app.snippetPreview.unformattedText[ currentElement ] =  ev.currentTarget.textContent;
 };
 
 /**
