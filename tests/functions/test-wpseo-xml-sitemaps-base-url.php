@@ -21,7 +21,7 @@ class WPSEO_XML_Sitemaps_Base_URL extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * * Setting the home url to a https link and check if the result is the same as the parse sitemaps base url
+	 * Setting the home url to a https link and check if the result is the same as the parse sitemaps base url
 	 */
 	public function test_with_https() {
 		update_option( 'home', 'https://example.org' );
