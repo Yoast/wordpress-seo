@@ -15,6 +15,10 @@
 	cursor: pointer;
 }
 
+#snippet_preview *[contenteditable="false"]:hover {
+	cursor: auto;
+}
+
 #snippet_preview *[contenteditable="true"]:focus {
 	background-color: #bbdefb;
 	cursor: text;
@@ -28,7 +32,7 @@
 	width: 95%;
 }
 
-.snippet_container:hover {
+.showIcon:hover {
 	background: url("../images/editicon.png") no-repeat right top;
 	cursor: pointer;
 }

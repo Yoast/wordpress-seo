@@ -170,27 +170,32 @@ YoastSEO.WordPressScraper.prototype.bindElementEvents = function() {
 YoastSEO.WordPressScraper.prototype.snippetPreviewEventBinder = function( snippetPreview ) {
 	'use strict';
 
-	var elems = [ 'snippet_cite', 'snippet_meta', 'snippet_title' ];
+	var elems = [ 'snippet_meta', 'snippet_title' ];
+	if ( document.getElementById( 'editable-post-name' ) !== null ) {
+		elems.push ( 'snippet_cite' );
+	}
 	for ( var i = 0; i < elems.length; i++ ) {
-		document.getElementById( elems[ i ] ).addEventListener( 'keydown', snippetPreview.disableEnter );
-		document.getElementById( elems[ i ] ).addEventListener( 'blur', snippetPreview.checkTextLength );
+		var curElem = document.getElementById( elems [ i ] );
+		curElem.addEventListener( 'keydown', snippetPreview.disableEnter );
+		curElem.addEventListener( 'blur', snippetPreview.checkTextLength );
 		//textFeedback is given on input (when user types or pastests), but also on focus. If a string that is too long is being recalled
 		//from the saved values, it gets the correct classname right away.
-		document.getElementById( elems[ i ] ).addEventListener( 'input', snippetPreview.textFeedback );
-		document.getElementById( elems[ i ] ).addEventListener( 'focus', snippetPreview.textFeedback );
+		curElem.addEventListener( 'input', snippetPreview.textFeedback );
+		curElem.addEventListener( 'focus', snippetPreview.textFeedback );
 		//shows edit icon by hovering over element
-		document.getElementById( elems[ i ] ).addEventListener( 'mouseover', snippetPreview.showEditIcon );
+		curElem.addEventListener( 'mouseover', snippetPreview.showEditIcon );
 		//hides the edit icon onmouseout, on focus and on keyup. If user clicks or types AND moves his mouse, the edit icon could return while editting
 		//by binding to these 3 events
-		document.getElementById( elems[ i ] ).addEventListener( 'mouseout', snippetPreview.hideEditIcon );
-		document.getElementById( elems[ i ] ).addEventListener( 'focus', snippetPreview.hideEditIcon );
-		document.getElementById( elems[ i ] ).addEventListener( 'keyup', snippetPreview.hideEditIcon );
-	}
-	elems = [ 'snippet_title', 'snippet_cite', 'snippet_meta' ];
-	for ( i = 0; i < elems.length; i++ ) {
-		document.getElementById( elems[ i ] ).addEventListener( 'click', snippetPreview.getUnformattedText );
-		document.getElementById( elems[ i ] ).addEventListener( 'keyup', snippetPreview.setUnformattedText );
-		document.getElementById( elems[ i ] ).addEventListener( 'click', snippetPreview.setFocus );
+		curElem.addEventListener( 'mouseout', snippetPreview.hideEditIcon );
+		curElem.addEventListener( 'focus', snippetPreview.hideEditIcon );
+		curElem.addEventListener( 'keyup', snippetPreview.hideEditIcon );
+
+		curElem.addEventListener( 'focus', snippetPreview.getUnformattedText );
+		curElem.addEventListener( 'keyup', snippetPreview.setUnformattedText );
+		curElem.addEventListener( 'click', snippetPreview.setFocus );
+
+		//adds the showIcon class to show the editIcon;
+		curElem.className = curElem.className + ' showIcon' ;
 	}
 };
 
