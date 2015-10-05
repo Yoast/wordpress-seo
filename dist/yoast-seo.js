@@ -1081,11 +1081,12 @@ YoastSEO.App.prototype.createSnippetPreviewUrl = function( target ) {
 	var baseUrl = document.createElement( "cite" );
 	baseUrl.className = "url urlBase";
 	baseUrl.id = "snippet_citeBase";
+	baseUrl.textContent = this.config.sampleText.baseUrl;
 	elem.appendChild( baseUrl );
 	var cite = document.createElement( "cite" );
 	cite.className = "url";
 	cite.id = "snippet_cite";
-	cite.textContent = this.config.sampleText.url;
+	cite.textContent = this.config.sampleText.snippetCite;
 	cite.contentEditable = true;
 	elem.appendChild( cite );
 };
@@ -2241,7 +2242,11 @@ YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
  */
 YoastSEO.SnippetPreview = function( refObj ) {
 	this.refObj = refObj;
-	this.unformattedText = {};
+	this.unformattedText = {
+		snippet_cite: "",
+		snippet_meta: "",
+		snippet_title: ""
+	};
 	this.init();
 };
 
@@ -2253,8 +2258,18 @@ YoastSEO.SnippetPreview.prototype.init = function() {
 		this.refObj.rawData.pageTitle !== null &&
 		this.refObj.rawData.cite !== null
 	) {
+		this.checkCiteAvailable();
 		this.output = this.htmlOutput();
 		this.renderOutput();
+	}
+};
+
+/**
+ * checks if the snippetCite is available
+ */
+YoastSEO.SnippetPreview.prototype.checkCiteAvailable = function() {
+	if ( typeof this.refObj.callbacks.citeAvailable !== "undefined" ) {
+		this.refObj.callbacks.citeAvailable();
 	}
 };
 
@@ -2312,11 +2327,9 @@ YoastSEO.SnippetPreview.prototype.formatCite = function() {
 	var cite = this.refObj.rawData.snippetCite;
 	cite = this.refObj.stringHelper.stripAllTags( cite );
 	if ( cite === "" ) {
-		cite = this.refObj.config.sampleText.url;
-		return cite;
-	} else {
-		return this.formatKeywordUrl( cite );
+		cite = this.refObj.config.sampleText.snippetCite;
 	}
+	return this.formatKeywordUrl( cite );
 };
 
 /**
@@ -2521,8 +2534,14 @@ YoastSEO.SnippetPreview.prototype.checkTextLength = function( ev ) {
  * @param ev {event}
  */
 YoastSEO.SnippetPreview.prototype.getUnformattedText = function( ev ) {
-	var currentElement = ev.currentTarget.firstChild.id;
-	ev.currentTarget.firstChild.textContent = YoastSEO.app.snippetPreview.unformattedText[ currentElement ];
+	var currentElement = ev.currentTarget.id;
+	if ( typeof YoastSEO.app.snippetPreview.unformattedText[ currentElement ] !== "undefined" ) {
+		ev.currentTarget.textContent = YoastSEO.app.snippetPreview.unformattedText[currentElement];
+	}
+};
+
+YoastSEO.SnippetPreview.prototype.setUnformattedElemText = function( elem ) {
+	YoastSEO.app.snippetPreview.unformattedText[ elem ] = document.getElementById( elem ).textContent;
 };
 
 /**
@@ -2531,8 +2550,10 @@ YoastSEO.SnippetPreview.prototype.getUnformattedText = function( ev ) {
  * @param ev
  */
 YoastSEO.SnippetPreview.prototype.setUnformattedText = function( ev ) {
-	var currentElement = ev.currentTarget.firstChild.id;
-	YoastSEO.app.snippetPreview.unformattedText[ currentElement ] =  ev.currentTarget.firstChild.textContent;
+	ev.currentTarget.refObj.snippetPreview.setUnformattedElemText ( ev.currentTarget.id );
+
+	//var currentElement = ev.currentTarget.id;
+	//YoastSEO.app.snippetPreview.unformattedText[ currentElement ] =  ev.currentTarget.textContent;
 };
 
 /**
