@@ -70,6 +70,7 @@ YoastSEO.SnippetPreview.prototype.formatTitle = function() {
 	if ( title === "" ) {
 		title = this.refObj.rawData.pageTitle;
 	}
+	this.unformattedText.snippet_title = title;
 	if ( title === "" ) {
 		title = this.refObj.config.sampleText.title;
 	}
@@ -99,6 +100,7 @@ YoastSEO.SnippetPreview.prototype.formatUrl = function() {
 YoastSEO.SnippetPreview.prototype.formatCite = function() {
 	var cite = this.refObj.rawData.snippetCite;
 	cite = this.refObj.stringHelper.stripAllTags( cite );
+	this.unformattedText.snippet_cite = cite;
 	if ( cite === "" ) {
 		cite = this.refObj.config.sampleText.snippetCite;
 	}
@@ -111,6 +113,7 @@ YoastSEO.SnippetPreview.prototype.formatCite = function() {
  */
 YoastSEO.SnippetPreview.prototype.formatMeta = function() {
 	var meta = this.refObj.rawData.meta;
+	this.unformattedText.snippet_meta = meta;
 	if ( meta === "" ) {
 		meta = this.getMetaText();
 	}
