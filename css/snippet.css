@@ -32,6 +32,10 @@
 	width: 95%;
 }
 
+#snippet_cite {
+	min-width: 20px;
+}
+
 .showIcon:hover {
 	background: url("../images/editicon.png") no-repeat right top;
 	cursor: pointer;
