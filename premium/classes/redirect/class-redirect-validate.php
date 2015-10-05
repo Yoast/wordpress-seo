@@ -14,11 +14,16 @@ class WPSEO_Redirect_Validate {
 	private $redirects = array();
 
 	/**
+	 * @var bool|string
+	 */
+	private $validation_error = false;
+
+	/**
 	 * Converting the redirects into a readable format
 	 *
 	 * @param array $redirects
 	 */
-	public function __construct( array $redirects ) {
+	public function __construct( array $redirects = array() ) {
 		foreach ( $redirects as $redirect_url => $redirect ) {
 			$this->redirects[ $this->sanitize_slashes( $redirect_url ) ] = $this->sanitize_slashes( $redirect['url'] );
 		}
@@ -27,29 +32,74 @@ class WPSEO_Redirect_Validate {
 	/**
 	 * Validates the old and the new url
 	 *
-	 * @param string $old_url
-	 * @param string $new_url
+	 * @param string $old_url      The url that has to be redirect.
+	 * @param string $new_url      The target url.
+	 * @param string $type         The type of redirect.
+	 * @param bool   $unique_check Should the uniqueness being checked.
 	 *
 	 * @return bool|string
 	 */
-	public function validate( $old_url, $new_url ) {
+	public function validate( $old_url, $new_url, $type = '', $unique_check = false ) {
+
+		// Check if there is already an error.
+		if ( $unique_check && $this->redirect_exists( $old_url ) ) {
+			return $this->set_error( __( 'The old url already exists as a redirect', 'wordpress-seo-premium' ) );
+		}
+
+		if ( ! $this->validate_filled( $old_url, $new_url, $type ) ) {
+			return $this->set_error( __( 'Not all the required fields are filled', 'wordpress-seo-premium' ) );
+		}
+
 		if ( $endpoint = $this->search_end_point( $new_url, $old_url ) ) {
 			if ( in_array( $endpoint, array( $old_url, $new_url ) ) ) {
 				// There might be a redirect loop.
-				return __( 'There might be a redirect loop.', 'wordpress-seo-premium' );
+				return $this->set_error( __( 'There might be a redirect loop.', 'wordpress-seo-premium' ) );
 			}
 
 			if ( $new_url !== $endpoint ) {
 				// The current redirect will be redirected to ... Maybe it's worth considering to create a direct redirect to ...
-				return sprintf(
-					__( '%1$s will be redirected to %2$s. Maybe it\'s worth considering to create a direct redirect to %2$s.', 'wordpress-seo-premium' ),
-					$new_url,
-					$endpoint
+				return $this->set_error(
+					sprintf(
+						__( '%1$s will be redirected to %2$s. Maybe it\'s worth considering to create a direct redirect to %2$s.', 'wordpress-seo-premium' ),
+						$new_url,
+						$endpoint
+					)
 				);
 			}
 		}
 
 		return false;
+	}
+
+	/**
+	 * Check if the validation error property is filled
+	 *
+	 * @return bool
+	 */
+	public function has_error() {
+		return ! empty( $this->validation_error );
+	}
+
+	/**
+	 * Sanitize the URL for displaying on the window
+	 *
+	 * @param string $url
+	 *
+	 * @return string
+	 */
+	public function sanitize_url( $url ) {
+		return trim( htmlspecialchars_decode( urldecode( $url ) ) );
+	}
+
+	/**
+	 * Check if the $url exist as a redirect
+	 *
+	 * @param string $url
+	 *
+	 * @return bool
+	 */
+	public function redirect_exists( $url ) {
+		return array_key_exists( $this->sanitize_slashes( $url ), $this->redirects );
 	}
 
 
@@ -100,6 +150,36 @@ class WPSEO_Redirect_Validate {
 	 */
 	private function sanitize_slashes( $url ) {
 		return trim( $url, '/' );
+	}
+
+	/**
+	 * Validate if all the fields are filled
+	 *
+	 * @param string $old_url
+	 * @param string $new_url
+	 * @param string $type
+	 *
+	 * @return bool
+	 */
+	private function validate_filled( $old_url, $new_url, $type ) {
+		if ( $old_url !== '' && $new_url !== '' && $type !== '' ) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Setting the validation error message
+	 *
+	 * @param string $error_message
+	 *
+	 * @return bool
+	 */
+	private function set_error( $error_message ) {
+		$this->validation_error = $error_message;
+
+		return true;
 	}
 
 }
