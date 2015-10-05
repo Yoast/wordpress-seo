@@ -1096,7 +1096,11 @@ class WPSEO_Replace_Vars {
 			'term_description'     => __( 'Replaced with the term description', 'wordpress-seo' ),
 			'term_title'           => __( 'Replaced with the term name', 'wordpress-seo' ),
 			'searchphrase'         => __( 'Replaced with the current search phrase', 'wordpress-seo' ),
-			'sep'                  => __( 'The separator defined in your theme\'s <code>wp_title()</code> tag.', 'wordpress-seo' ),
+			'sep'                  => sprintf(
+										/* translators: %s: wp_title() function */
+										__( 'The separator defined in your theme\'s %s tag.', 'wordpress-seo' ),
+										'<code>wp_title()</code>'
+									),
 		);
 	}
 
