@@ -2366,6 +2366,9 @@ YoastSEO.SnippetPreview.prototype.getMetaText = function() {
 	if ( typeof this.refObj.rawData.excerpt !== "undefined" ) {
 		metaText = this.refObj.rawData.excerpt;
 	}
+	if ( typeof this.refObj.rawData.text !== "undefined" ) {
+		metaText = this.refObj.rawData.text;
+	}
 	if ( metaText === "" ) {
 		metaText = this.refObj.config.sampleText.meta;
 	}
