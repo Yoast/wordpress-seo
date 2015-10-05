@@ -2297,6 +2297,7 @@ YoastSEO.SnippetPreview.prototype.formatTitle = function() {
 	if ( title === "" ) {
 		title = this.refObj.rawData.pageTitle;
 	}
+	this.unformattedText.snippet_title = title;
 	if ( title === "" ) {
 		title = this.refObj.config.sampleText.title;
 	}
@@ -2326,6 +2327,7 @@ YoastSEO.SnippetPreview.prototype.formatUrl = function() {
 YoastSEO.SnippetPreview.prototype.formatCite = function() {
 	var cite = this.refObj.rawData.snippetCite;
 	cite = this.refObj.stringHelper.stripAllTags( cite );
+	this.unformattedText.snippet_cite = cite;
 	if ( cite === "" ) {
 		cite = this.refObj.config.sampleText.snippetCite;
 	}
@@ -2338,6 +2340,10 @@ YoastSEO.SnippetPreview.prototype.formatCite = function() {
  */
 YoastSEO.SnippetPreview.prototype.formatMeta = function() {
 	var meta = this.refObj.rawData.meta;
+	if ( meta === this.refObj.config.sampleText.snippetMeta ) {
+		meta = "";
+	}
+	this.unformattedText.snippet_meta = meta;
 	if ( meta === "" ) {
 		meta = this.getMetaText();
 	}
@@ -2507,20 +2513,22 @@ YoastSEO.SnippetPreview.prototype.checkTextLength = function( ev ) {
 	var text = ev.currentTarget.textContent;
 	switch ( ev.currentTarget.id ) {
 		case "snippet_meta":
+			ev.currentTarget.className = "desc";
 			if ( text.length > YoastSEO.analyzerConfig.maxMeta ) {
 				YoastSEO.app.snippetPreview.unformattedText.snippet_meta = ev.currentTarget.textContent;
 				ev.currentTarget.textContent = text.substring(
 					0,
 					YoastSEO.analyzerConfig.maxMeta
 				);
-				ev.currentTarget.className = "desc";
+
 			}
 			break;
 		case "snippet_title":
+			ev.currentTarget.className = "title";
 			if ( text.length > 40 ) {
 				YoastSEO.app.snippetPreview.unformattedText.snippet_title = ev.currentTarget.textContent;
 				ev.currentTarget.textContent = text.substring( 0, 40 );
-				ev.currentTarget.className = "title";
+
 			}
 			break;
 		default:
