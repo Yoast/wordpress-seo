@@ -16,7 +16,7 @@ jQuery( function() {
 	);
 });
 
-function wpseo_gsc_post_redirect( ) {
+function wpseo_gsc_post_redirect() {
 	'use strict';
 
 	var target_form = jQuery( '#TB_ajaxContent' );
@@ -38,7 +38,7 @@ function wpseo_gsc_post_redirect( ) {
 		function() {
 			if( is_checked === true ) {
 				// Remove the row with old url
-				jQuery('span:contains(' + old_url + ')').closest('tr').remove();
+				jQuery('span:contains("' + old_url + '")').closest('tr').remove();
 			}
 
 			// Remove the thickbox
@@ -47,6 +47,18 @@ function wpseo_gsc_post_redirect( ) {
 	);
 
 	return false;
+}
+
+function wpseo_update_category_count(category) {
+	'use strict';
+
+	var count_element = jQuery('#gsc_count_' + category + '');
+	var new_count     = parseInt( count_element.text() , 10) - 1;
+	if(new_count < 0) {
+		new_count = 0;
+	}
+
+	count_element.text(new_count);
 }
 
 function wpseo_mark_as_fixed(url) {
@@ -63,7 +75,8 @@ function wpseo_mark_as_fixed(url) {
 		},
 		function(response) {
 			if ('true' === response) {
-				jQuery('span:contains(' + url + ')').closest('tr').remove();
+				wpseo_update_category_count(jQuery('#field_category').val());
+				jQuery('span:contains("' + url + '")').closest('tr').remove();
 			}
 		}
 	);
@@ -73,25 +86,24 @@ jQuery( document ).ready( function() {
 	'use strict';
 	jQuery('a.gsc_category').qtip(
 		{
-			content : {
+			content: {
 				attr: 'title'
 			},
 			position: {
 				my: 'bottom left',
 				at: 'top center'
 			},
-			style   : {
-				tip    : {
+			style: {
+				tip: {
 					corner: true
 				},
 				classes: 'yoast-qtip qtip-rounded qtip-blue'
 			},
-			show    : 'mouseenter',
-			hide    : {
+			show: 'mouseenter',
+			hide: {
 				fixed: true,
 				delay: 500
 			}
-
 		}
 	);
 });

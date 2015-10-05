@@ -29,18 +29,16 @@ class WPSEO_GSC_Count {
 	/**
 	 * Fetching the counts
 	 *
-	 * @param WPSEO_GSC_Service $service
+	 * @param WPSEO_GSC_Service $service Service class instance.
 	 */
 	public function __construct( WPSEO_GSC_Service $service ) {
 		$this->service = $service;
-
-		$this->fetch_counts();
 	}
 
 	/**
 	 * Getting the counts for given platform and return them as an array
 	 *
-	 * @param string $platform
+	 * @param string $platform Platform (desktop, mobile, feature phone).
 	 *
 	 * @return array
 	 */
@@ -65,8 +63,8 @@ class WPSEO_GSC_Count {
 	/**
 	 * Listing the issues an gives them back as fetched issues
 	 *
-	 * @param string $platform
-	 * @param string $category
+	 * @param string $platform Platform (desktop, mobile, feature phone).
+	 * @param string $category Issue category.
 	 */
 	public function list_issues( $platform, $category ) {
 		$counts = $this->get_counts();
@@ -80,9 +78,44 @@ class WPSEO_GSC_Count {
 	}
 
 	/**
+	 * Getting the counts for given platform and category.
+	 *
+	 * @param string $platform Platform (desktop, mobile, feature phone).
+	 * @param string $category Issue type.
+	 *
+	 * @return integer
+	 */
+	public function get_issue_count( $platform, $category ) {
+		$counts = $this->get_counts();
+
+		if ( ! empty( $counts[ $platform ][ $category ]['count'] ) ) {
+			return $counts[ $platform ][ $category ]['count'];
+		}
+
+		return 0;
+	}
+
+	/**
+	 * Update the count of the issues
+	 *
+	 * @param string  $platform  Platform (desktop, mobile, feature phone).
+	 * @param string  $category  Issue type.
+	 * @param integer $new_count Updated count.
+	 */
+	public function update_issue_count( $platform, $category, $new_count ) {
+		$counts = $this->get_counts();
+
+		if ( ! empty( $counts[ $platform ][ $category ] ) && is_array( $counts[ $platform ][ $category ] ) ) {
+			$counts[ $platform ][ $category ]['count'] = $new_count;
+		}
+
+		$this->set_counts( $counts );
+	}
+
+	/**
 	 * Fetching the counts from the GSC API
 	 */
-	private function fetch_counts() {
+	public function fetch_counts() {
 		if ( WPSEO_GSC_Settings::get_profile() && $this->get_last_fetch() <= strtotime( '-12 hours' ) ) {
 			// Remove the timestamp.
 			$this->remove_last_fetch();
@@ -101,7 +134,7 @@ class WPSEO_GSC_Count {
 	/**
 	 * Parsing the received counts from the API and map the keys to plugin friendly values
 	 *
-	 * @param array $fetched_counts
+	 * @param array $fetched_counts Set of retrieved counts.
 	 *
 	 * @return array
 	 */
@@ -122,9 +155,9 @@ class WPSEO_GSC_Count {
 	/**
 	 * Listing the issues for current category.
 	 *
-	 * @param array  $counts
-	 * @param string $platform
-	 * @param string $category
+	 * @param array  $counts   Set of counts.
+	 * @param string $platform Platform (desktop, mobile, feature phone).
+	 * @param string $category Issue type.
 	 *
 	 * @return array
 	 */
@@ -134,6 +167,9 @@ class WPSEO_GSC_Count {
 			if ( $issues = $this->service->fetch_category_issues( WPSEO_GSC_Mapper::platform_to_api( $platform ), WPSEO_GSC_Mapper::category_to_api( $category ) ) ) {
 				$this->issues = $issues;
 			}
+
+			// Be sure the total count is correct.
+			$counts[ $category ]['count'] = count( $this->issues );
 
 			// Set last fetch.
 			$counts[ $category ]['last_fetch'] = time();
@@ -154,7 +190,7 @@ class WPSEO_GSC_Count {
 	/**
 	 * Fetching the counts from the service and store them in an option
 	 *
-	 * @param array $counts
+	 * @param array $counts Set of counts.
 	 */
 	private function set_counts( array $counts ) {
 		update_option( self::OPTION_CI_COUNTS, $counts );

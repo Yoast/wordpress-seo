@@ -103,7 +103,7 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 	 *
 	 * When fields are changed, the facebook cache will be purge.
 	 *
-	 * @param object $post
+	 * @param WP_Post $post Post instance.
 	 */
 	public function og_data_compare( $post ) {
 
@@ -150,7 +150,7 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 	 * @deprecated use WPSEO_Meta::get_meta_field_defs()
 	 * @see        WPSEO_Meta::get_meta_field_defs()
 	 *
-	 * @param    string $post_type
+	 * @param string $post_type Optional post type string.
 	 *
 	 * @return    array    Array containing the meta boxes
 	 */

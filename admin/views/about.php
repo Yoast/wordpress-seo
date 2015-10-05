@@ -12,7 +12,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 /**
  * Display a list of contributors
  *
- * @param array $contributors
+ * @param array $contributors Contributors' data, associative by GitHub username.
  */
 function wpseo_display_contributors( $contributors ) {
 	foreach ( $contributors as $username => $dev ) {
@@ -130,7 +130,7 @@ function wpseo_display_contributors( $contributors ) {
 					</ul>
 					<p>
 						Everyone already did it, so we finally caved. The plugin formerly known as WordPress SEO by
-						Yoast, will know officially be called Yoast SEO. for WordPress.
+						Yoast, will now officially be called Yoast SEO. for WordPress.
 					</p>
 				</div>
 

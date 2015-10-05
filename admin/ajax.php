@@ -14,12 +14,12 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
  */
 
 /**
- * Convenience function to JSON encode and echo resuls and then die
+ * Convenience function to JSON encode and echo results and then die
  *
- * @param array $results
+ * @param array $results Results array for encoding.
  */
 function wpseo_ajax_json_echo_die( $results ) {
-	echo json_encode( $results );
+	echo WPSEO_Utils::json_encode( $results );
 	die();
 }
 
@@ -134,32 +134,6 @@ function wpseo_kill_blocking_files() {
 add_action( 'wp_ajax_wpseo_kill_blocking_files', 'wpseo_kill_blocking_files' );
 
 /**
- * Retrieve the suggestions from the Google Suggest API and return them to be
- * used in the suggest box within the plugin. Dies on exit.
- */
-function wpseo_get_suggest() {
-	check_ajax_referer( 'wpseo-get-suggest' );
-
-	$term   = urlencode( filter_input( INPUT_GET, 'term' ) );
-	$result = wp_remote_get( 'https://www.google.com/complete/search?output=toolbar&q=' . $term );
-
-	$return_arr = array();
-
-	if ( ! is_wp_error( $result ) ) {
-		preg_match_all( '`suggestion data="([^"]+)"/>`u', $result['body'], $matches );
-
-		if ( isset( $matches[1] ) && ( is_array( $matches[1] ) && $matches[1] !== array() ) ) {
-			foreach ( $matches[1] as $match ) {
-				$return_arr[] = html_entity_decode( $match, ENT_COMPAT, 'UTF-8' );
-			}
-		}
-	}
-	wpseo_ajax_json_echo_die( $return_arr );
-}
-
-add_action( 'wp_ajax_wpseo_get_suggest', 'wpseo_get_suggest' );
-
-/**
  * Used in the editor to replace vars for the snippet preview
  */
 function wpseo_ajax_replace_vars() {
@@ -195,7 +169,7 @@ add_action( 'wp_ajax_wpseo_save_metadesc', 'wpseo_save_description' );
 /**
  * Save titles & descriptions
  *
- * @param string $what
+ * @param string $what Type of item to save (title, description).
  */
 function wpseo_save_what( $what ) {
 	check_ajax_referer( 'wpseo-bulk-editor' );
@@ -213,11 +187,11 @@ function wpseo_save_what( $what ) {
  * Helper function to update a post's meta data, returning relevant information
  * about the information updated and the results or the meta update.
  *
- * @param int    $post_id
- * @param string $new_meta_value
- * @param string $orig_meta_value
- * @param string $meta_key
- * @param string $return_key
+ * @param int    $post_id         Post ID.
+ * @param string $new_meta_value  New meta value to record.
+ * @param string $orig_meta_value Original meta value.
+ * @param string $meta_key        Meta key string.
+ * @param string $return_key      Return key string to use in results.
  *
  * @return string
  */
@@ -305,7 +279,7 @@ add_action( 'wp_ajax_wpseo_save_all_descriptions', 'wpseo_save_all_descriptions'
 /**
  * Utility function to save values
  *
- * @param string $what
+ * @param string $what Type of item so save.
  */
 function wpseo_save_all( $what ) {
 	check_ajax_referer( 'wpseo-bulk-editor' );
@@ -328,10 +302,10 @@ function wpseo_save_all( $what ) {
 /**
  * Insert a new value
  *
- * @param string $what
- * @param int    $post_id
- * @param string $new
- * @param string $original
+ * @param string $what     Item type (such as title).
+ * @param int    $post_id  Post ID.
+ * @param string $new      New value to record.
+ * @param string $original Original value.
  *
  * @return string
  */

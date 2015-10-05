@@ -74,12 +74,43 @@ class Yoast_Dashboard_Widget {
 	 * @return array
 	 */
 	private function statistic_items() {
+		$transient = get_transient( self::CACHE_TRANSIENT_KEY );
+		$user_id   = get_current_user_id();
 
-		if ( false !== ( $items = get_transient( self::CACHE_TRANSIENT_KEY ) ) ) {
-			return $items;
+		if ( isset( $transient[ $user_id ][1] ) ) {
+			return $transient[ $user_id ];
 		}
 
-		$items = array(
+		return $this->set_statistic_items_for_this_user( $transient );
+	}
+
+	/**
+	 * Set the cache for a specific user
+	 *
+	 * @param array|boolean $transient The current stored transient with the cached data.
+	 *
+	 * @return mixed
+	 */
+	private function set_statistic_items_for_this_user( $transient ) {
+		if ( $transient === false ) {
+			$transient = array();
+		}
+
+		$user_id                  = get_current_user_id();
+		$filtered_items[ $user_id ] = array_filter( $this->get_seo_scores_with_post_count(), array( $this, 'filter_items' ) );
+
+		set_transient( self::CACHE_TRANSIENT_KEY, array_merge( $filtered_items, $transient ), DAY_IN_SECONDS );
+
+		return $filtered_items[ $user_id ];
+	}
+
+	/**
+	 * Set the SEO scores belonging to their SEO score result
+	 *
+	 * @return array
+	 */
+	private function get_seo_scores_with_post_count() {
+		return array(
 			array(
 				'seo_rank' => 'good',
 				'title'    => __( 'Posts with good SEO score', 'wordpress-seo' ),
@@ -118,18 +149,12 @@ class Yoast_Dashboard_Widget {
 				'count'    => $this->statistics->get_no_index_post_count(),
 			),
 		);
-
-		$items = array_filter( $items, array( $this, 'filter_items' ) );
-
-		set_transient( self::CACHE_TRANSIENT_KEY, $items, DAY_IN_SECONDS );
-
-		return $items;
 	}
 
 	/**
 	 * Filter items if they have a count of zero
 	 *
-	 * @param array $item
+	 * @param array $item Data array.
 	 *
 	 * @return bool
 	 */

@@ -3,7 +3,7 @@
 /* global wpseo_export_nonce */
 jQuery( document ).ready( function( $ ) {
 		'use strict';
-		$( '#export-button' ).click( function() {
+		$( '#export-button' ).click( function( ev ) {
 				$.post( ajaxurl, {
 						action: 'wpseo_export',
 						_wpnonce: wpseo_export_nonce,
@@ -17,7 +17,7 @@ jQuery( document ).ready( function( $ ) {
 						$( '#wpseo-title' ).append( '<div class="' + dclass + ' settings-error"><p><strong>' + resp.msg + '</strong></p></div>' );
 					}
 				);
-				event.preventDefault();
+				ev.preventDefault();
 			}
 		);
 	}

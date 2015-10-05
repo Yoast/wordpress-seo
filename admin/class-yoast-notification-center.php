@@ -122,14 +122,14 @@ class Yoast_Notification_Center {
 			}
 
 			// Set the cookie with notifications.
-			set_transient( self::TRANSIENT_KEY, json_encode( $arr_notifications ), ( MINUTE_IN_SECONDS * 10 ) );
+			set_transient( self::TRANSIENT_KEY, WPSEO_Utils::json_encode( $arr_notifications ), ( MINUTE_IN_SECONDS * 10 ) );
 		}
 	}
 
 	/**
 	 * Add notification to the cookie
 	 *
-	 * @param Yoast_Notification $notification
+	 * @param Yoast_Notification $notification Notification object instance.
 	 */
 	public function add_notification( Yoast_Notification $notification ) {
 		$this->notifications[] = $notification;
