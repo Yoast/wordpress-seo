@@ -18,7 +18,7 @@ class WPSEO_Redirect {
 	 */
 	public function __construct() {
 		// Setting the autoloader.
-		$autoloader = new WPSEO_Premium_Autoloader( 'WPSEO_Redirect_', 'redirect/', 'WPSEO_' );
+		new WPSEO_Premium_Autoloader( 'WPSEO_Redirect_', 'redirect/', 'WPSEO_' );
 
 		if ( is_admin() ) {
 			$this->initialize_admin();
@@ -41,7 +41,7 @@ class WPSEO_Redirect {
 	/**
 	 * Catch the redirects search post and redirect it to a search get
 	 */
-	public function list_table_search_post_to_get() {
+	public function list_table_search() {
 		if ( ( $search_string = filter_input( INPUT_POST, 's' ) ) !== null ) {
 			$url = ( $search_string !== '' ) ? add_query_arg( 's', $search_string ) : remove_query_arg( 's' );
 
@@ -54,11 +54,15 @@ class WPSEO_Redirect {
 	/**
 	 * Load the admin redirects scripts
 	 */
-	public function page_scripts() {
+	public function enqueue_assets() {
 		wp_enqueue_script( 'jquery-qtip', plugins_url( 'js/jquery.qtip.min.js', WPSEO_FILE ), array( 'jquery' ), '1.0.0-RC3', true );
 		wp_enqueue_script( 'wpseo-premium-yoast-overlay', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/js/wpseo-premium-yoast-overlay' . WPSEO_CSSJS_SUFFIX . '.js', array( 'jquery' ), WPSEO_VERSION );
-		wp_enqueue_script( 'wp-seo-premium-admin-redirects', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/js/wp-seo-premium-admin-redirects' . WPSEO_CSSJS_SUFFIX . '.js', array( 'jquery' ), WPSEO_VERSION );
+		// wp_enqueue_script( 'wp-seo-premium-admin-redirects', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/js/wp-seo-premium-admin-redirects' . WPSEO_CSSJS_SUFFIX . '.js', array( 'jquery', 'jquery-ui-dialog' ), WPSEO_VERSION );
+		wp_enqueue_script( 'wp-seo-premium-admin-redirects', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/js/wp-seo-premium-admin-redirects.js', array( 'jquery', 'jquery-ui-dialog' ), WPSEO_VERSION );
 		wp_localize_script( 'wp-seo-premium-admin-redirects', 'wpseo_premium_strings', WPSEO_Premium_Javascript_Strings::strings() );
+
+		wp_enqueue_script( 'jquery-ui-dialog' );
+		wp_enqueue_style( 'wp-jquery-ui-dialog' );
 
 		add_screen_option( 'per_page', array(
 			'label'   => __( 'Redirects per page', 'wordpress-seo-premium' ),
@@ -114,15 +118,17 @@ class WPSEO_Redirect {
 		$this->redirect_manager = $this->get_redirect_manager();
 
 
+		// Maybe the autoload for the option have to be changed.
+		$this->change_option_autoload();
 
 		// Setting the handling of the redirect option.
-		$redirect_option = new WPSEO_Redirect_Settings( $this->redirect_manager );
+		new WPSEO_Redirect_Settings_Hooks( $this->redirect_manager );
 
 		// Convert post into get on search and loading the page scripts.
 		if ( filter_input( INPUT_GET, 'page' ) === 'wpseo_redirects' ) {
-			add_action( 'admin_init', array( $this, 'list_table_search_post_to_get' ) );
+			add_action( 'admin_init', array( $this, 'list_table_search' ) );
 
-			add_action( 'admin_enqueue_scripts', array( $this, 'page_scripts' ) );
+			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets' ) );
 			add_filter( 'set-screen-option', array( $this, 'set_screen_option' ), 11, 3 );
 		}
 	}
@@ -180,7 +186,7 @@ class WPSEO_Redirect {
 			return true;
 		}
 
-		$options = WPSEO_Redirect::get_options( 'disable_php_redirect' );
+		$options = WPSEO_Redirect::get_options();
 
 		// If the disable_php_redirect option is not enabled we should enable auto loading redirects.
 		if ( 'off' === $options['disable_php_redirect'] ) {

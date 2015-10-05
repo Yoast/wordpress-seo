@@ -57,7 +57,7 @@ class WPSEO_Redirect_Model {
 	 */
 	public function add( $old_redirect, $new_redirect, $type ) {
 		if ( ! $this->search( $old_redirect ) ) {
-			$this->redirects[$old_redirect] = $this->format( $new_redirect, $type );
+			$this->redirects[ $old_redirect ] = $this->format( $new_redirect, $type );
 
 			return true;
 		}
@@ -80,7 +80,7 @@ class WPSEO_Redirect_Model {
 			// First we will delete the current redirect.
 			$this->delete( $current_redirect );
 
-			return $this->add($old_redirect, $new_redirect, $type );
+			return $this->add( $old_redirect, $new_redirect, $type );
 		}
 
 		return false;
@@ -136,14 +136,14 @@ class WPSEO_Redirect_Model {
 	 */
 	public function format( $redirect, $type ) {
 		return array(
-			'url' => $redirect,
-			'type' => $type
+			'url'  => $redirect,
+			'type' => $type,
 		);
 	}
 
 	/**
 	 * Setting the redirects property
-	 * 
+	 *
 	 * @return array|mixed|void
 	 */
 	protected function get_from_option() {

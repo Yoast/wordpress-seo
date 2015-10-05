@@ -21,8 +21,8 @@ class WPSEO_Redirect_Presenter {
 	/**
 	 * Constructor
 	 *
-	 * @param string                 $current_tab
-	 * @param WPSEO_Redirect_Manager $redirect_manager
+	 * @param string                 $current_tab 	   The tab which is active at the moment.
+	 * @param WPSEO_Redirect_Manager $redirect_manager The redirect manager for getting the data.
 	 */
 	public function __construct( $current_tab, WPSEO_Redirect_Manager $redirect_manager ) {
 		$this->current_tab      = $current_tab;
@@ -37,7 +37,7 @@ class WPSEO_Redirect_Presenter {
 			case 'url' :
 			case 'regex' :
 				$view_vars                   = $this->get_view_vars();
-				$view_vars['redirect_table'] = new WPSEO_Redirect_Table( $this->current_tab, $this->redirect_manager );
+				$view_vars['redirect_table'] = new WPSEO_Redirect_Table( $this->current_tab, $this->get_first_column_value(), $this->redirect_manager );
 
 				$tab_presenter = new WPSEO_Redirect_Table_Presenter( $this->current_tab, $view_vars );
 				break;
@@ -49,6 +49,19 @@ class WPSEO_Redirect_Presenter {
 		$redirect_tabs = $this->navigation_tabs();
 
 		require_once( WPSEO_PATH . 'premium/classes/redirect/views/redirects.php' );
+	}
+
+	/**
+	 * Return the value of the first column based on the table type
+	 *
+	 * @return string|void
+	 */
+	private function get_first_column_value() {
+		if ( $this->current_tab === 'regex' ) {
+			return  __( 'Regular Expression', 'wordpress-seo-premium' );
+		}
+
+		return __( 'Old URL', 'wordpress-seo-premium' );
 	}
 
 	/**

@@ -10,7 +10,6 @@
 	<?php echo $redirect_tabs; ?>
 </h2>
 
-
 	<?php
 	if ( ! empty( $tab_presenter ) ) :
 		$tab_presenter->display();

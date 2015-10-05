@@ -18,13 +18,11 @@ class WPSEO_URL_Redirect_Manager extends WPSEO_Redirect_Manager {
 	 *
 	 * @param string $url
 	 *
-	 * @return mixed
+	 * @return string|bool
 	 */
 	public function search_url( $url ) {
-		$this->redirects = $this->get_redirects();
-
-		if ( isset( $this->redirects[ $url ] ) ) {
-			return $this->redirects[ $url ]['url'];
+		if ( $redirect = $this->redirect_model->search( $url ) ) {
+			return $redirect['url'];
 		}
 
 		return false;
@@ -34,13 +32,13 @@ class WPSEO_URL_Redirect_Manager extends WPSEO_Redirect_Manager {
 	 * Save the redirect
 	 *
 	 * @param array $old_redirect_arr
-	 * @param array $new_redirect_arr
+	 * @param array $new_redirect
 	 */
-	public function save_redirect( array $old_redirect_arr, array $new_redirect_arr ) {
+	public function save_redirect( array $old_redirect_arr, array $new_redirect ) {
 		// Format the URL if it's an URL.
-		$new_redirect_arr['key'] = WPSEO_Utils::format_url( $new_redirect_arr['key'] );
+		$new_redirect['key'] = WPSEO_Utils::format_url( $new_redirect['key'] );
 
-		parent::save_redirect( $old_redirect_arr, $new_redirect_arr );
+		parent::save_redirect( $old_redirect_arr, $new_redirect );
 	}
 
 	/**

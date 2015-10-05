@@ -13,20 +13,21 @@ if ( ! class_exists( 'WP_List_Table' ) ) {
 class WPSEO_Redirect_Table extends WP_List_Table {
 
 	/**
-	 * @var string
+	 * @var The name of the first column
 	 */
-	private $type;
+	private $current_column;
 
 	/**
 	 * WPSEO_Redirect_Table constructor
 	 *
-	 * @param string                 $type
+	 * @param array|string           $type
+	 * @param string                 $current_column
 	 * @param WPSEO_Redirect_Manager $redirect_manager
 	 */
-	public function __construct( $type, WPSEO_Redirect_Manager $redirect_manager ) {
+	public function __construct( $type, $current_column, WPSEO_Redirect_Manager $redirect_manager ) {
 		parent::__construct( array( 'plural' => $type ) );
 
-		$this->type = $type;
+		$this->current_column = $current_column;
 
 		$this->handle_bulk_action( $redirect_manager );
 		$this->set_items( $redirect_manager->get_redirects() );
@@ -42,7 +43,7 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	public function get_columns() {
 		$columns = array(
 			'cb'   => '<input type="checkbox" />',
-			'old'  => $this->type,
+			'old'  => $this->current_column,
 			'new'  => __( 'New URL', 'wordpress-seo-premium' ),
 			'type' => _x( 'Type', 'noun', 'wordpress-seo-premium' ),
 		);
