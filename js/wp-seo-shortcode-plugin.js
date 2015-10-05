@@ -83,6 +83,8 @@
 		var unparsedShortcodes = this.getUnparsedShortcodes( this.getShortcodes( this.getContentTinyMCE() ) );
 		if ( unparsedShortcodes.length > 0 ) {
 			this.parseShortcodes( unparsedShortcodes, callback );
+		} else {
+			callback();
 		}
 	};
 
