@@ -453,9 +453,9 @@ YoastSEO.App.prototype.noKeywordQueue = function() {
  */
 YoastSEO.App.prototype.showLoadingDialog = function() {
 	var dialogDiv = document.createElement( "div" );
-	dialogDiv.className = "wpseo_msg";
-	dialogDiv.id = "wpseo-plugin-loading";
-	document.getElementById( "wpseo_meta" ).appendChild( dialogDiv );
+	dialogDiv.className = "YoastSEO_msg";
+	dialogDiv.id = "YoastSEO-plugin-loading";
+	document.getElementById( this.config.targets.output ).appendChild( dialogDiv );
 };
 
 /**
@@ -463,7 +463,7 @@ YoastSEO.App.prototype.showLoadingDialog = function() {
  * @param plugins
  */
 YoastSEO.App.prototype.updateLoadingDialog = function( plugins ) {
-	var dialog = document.getElementById( "wpseo-plugin-loading" );
+	var dialog = document.getElementById( "YoastSEO-plugin-loading" );
 	dialog.textContent = "";
 	for ( var plugin in this.pluggable.plugins ) {
 		dialog.innerHTML += plugin + plugins[ plugin ].status + "<br />";
@@ -474,7 +474,7 @@ YoastSEO.App.prototype.updateLoadingDialog = function( plugins ) {
  * removes the pluging load dialog.
  */
 YoastSEO.App.prototype.removeLoadingDialog = function() {
-	document.getElementById( "wpseo_meta" ).removeChild( document.getElementById( "wpseo-plugin-loading" ) );
+	document.getElementById( this.config.targets.output ).removeChild( document.getElementById( "YoastSEO-plugin-loading" ) );
 };
 
 /**
