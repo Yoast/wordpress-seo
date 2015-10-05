@@ -256,6 +256,18 @@ YoastSEO.WordPressScraper.prototype.saveScores = function( score ) {
 };
 
 /**
+ * checks if the editable-post-name is present on page, so we can use this to disable
+ * the snippet url field.
+ * @returns {boolean}
+ */
+YoastSEO.WordPressScraper.prototype.citeAvailable = function() {
+	'use strict';
+	if ( document.getElementById( 'editable-post-name' ) ===  null ) {
+		document.getElementById( 'snippet_cite' ).contentEditable = false;
+	}
+};
+
+/**
  * binds to the WordPress jQuery function to put the permalink on the page.
  * If the response matches with permalinkstring, the snippet can be rerendered.
  */
