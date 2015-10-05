@@ -9,14 +9,14 @@ YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
  * @param {YoastSEO.App} args
  * @constructor
  */
-YoastSEO.ScoreFormatter = function( scores, overallScore, outputTarget, overallTarget, keyword, callbacks ) {
+YoastSEO.ScoreFormatter = function( scores, overallScore, outputTarget, overallTarget, keyword, saveScores ) {
 	this.scores = scores;
 	this.overallScore = overallScore;
 	this.outputTarget = outputTarget;
 	this.overallTarget = overallTarget;
 	this.totalScore = 0;
 	this.keyword = keyword;
-	this.callbacks = callbacks;
+	this.saveScores = saveScores;
 	this.outputScore();
 	this.outputOverallScore();
 };
@@ -69,7 +69,7 @@ YoastSEO.ScoreFormatter.prototype.outputOverallScore = function() {
 	if ( this.keyword === "" ) {
 		overallTarget.className = "overallScore " + this.scoreRating( "na" );
 	}
-	this.callbacks.saveScores( this.overallScore );
+	this.saveScores( this.overallScore );
 };
 
 /**

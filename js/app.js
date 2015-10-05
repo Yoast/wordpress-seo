@@ -415,7 +415,7 @@ YoastSEO.App.prototype.runAnalyzer = function() {
 		this.config.targets.output,
 		this.config.targets.overall,
 		this.rawData.keyword,
-		this.callbacks
+		this.callbacks.saveScores
 	);
 
 	if ( this.config.dynamicDelay ) {
