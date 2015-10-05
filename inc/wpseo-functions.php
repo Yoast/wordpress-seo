@@ -181,6 +181,7 @@ function wpseo_xml_sitemaps_base_url( $page ) {
 	 */
 	$base = apply_filters( 'wpseo_sitemaps_base_url', $base );
 
+	// Get the scheme from the configured home url instead of letting WordPress determine the scheme based on the requested URI.
 	return home_url( $base . $page, parse_url( get_option( 'home' ), PHP_URL_SCHEME ) );
 }
 
