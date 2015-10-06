@@ -16,9 +16,9 @@ YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 YoastSEO.SnippetPreview = function( refObj ) {
 	this.refObj = refObj;
 	this.unformattedText = {
-		snippet_cite: "",
-		snippet_meta: "",
-		snippet_title: ""
+		snippet_cite: this.refObj.rawData.snippetCite || "",
+		snippet_meta: this.refObj.rawData.snippetMeta || "",
+		snippet_title: this.refObj.rawData.snippetTitle || ""
 	};
 	this.init();
 };
