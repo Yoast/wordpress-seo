@@ -270,7 +270,7 @@ jQuery( document ).on( 'ajaxComplete', function( ev, response ) {
 
 	if ( response.responseText.match( 'Permalink:' ) !== null ) {
 		YoastSEO.app.callbacks.getData();
-		YoastSEO.app.callbacks.getAnalyzerInput();
+		YoastSEO.app.runAnalyzer();
 		YoastSEO.app.snippetPreview.reRender();
 	}
 } );
