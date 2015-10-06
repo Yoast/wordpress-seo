@@ -94,13 +94,13 @@ YoastSEO.App = function( args ) {
  * @type {Object}
  */
 YoastSEO.App.defaultConfig = {
-	sampleText : {
-		baseUrl: 'example.org/',
-		snippetCite: 'example-post/',
-		title: 'This is an example title - edit by clicking here',
-		keyword: 'Choose a focus keyword',
-		meta: 'Modify your meta description by editing it right here',
-		text: 'Start writing your text!'
+	sampleText: {
+		baseUrl: "example.org/",
+		snippetCite: "example-post/",
+		title: "This is an example title - edit by clicking here",
+		keyword: "Choose a focus keyword",
+		meta: "Modify your meta description by editing it right here",
+		text: "Start writing your text!"
 	}
 };
 
@@ -110,7 +110,7 @@ YoastSEO.App.defaultConfig = {
  * @param {Object} args
  * @returns {Object} args
  */
-YoastSEO.App.prototype.extendConfig = function ( args ) {
+YoastSEO.App.prototype.extendConfig = function( args ) {
 	args.sampleText = this.extendSampleText( args.sampleText );
 
 	return args;
@@ -122,13 +122,12 @@ YoastSEO.App.prototype.extendConfig = function ( args ) {
  * @param {Object} sampleText
  * @returns {Object} sampleText
  */
-YoastSEO.App.prototype.extendSampleText = function ( sampleText ) {
+YoastSEO.App.prototype.extendSampleText = function( sampleText ) {
 	var defaultSampleText = YoastSEO.App.defaultConfig.sampleText;
 
 	if ( sampleText === undefined ) {
 		sampleText = defaultSampleText;
-	}
-	else {
+	} else {
 		for ( var key in sampleText ) {
 			if ( sampleText[ key ] === undefined ) {
 				sampleText[ key ] = defaultSampleText[ key ];
