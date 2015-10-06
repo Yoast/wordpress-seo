@@ -23,7 +23,8 @@ YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
  * @property plugins			{object} The plugins that have been registered.
  * @property modifications 		{object} The modifications that have been registered. Every modification contains an array with callables.
  */
-YoastSEO.Pluggable = function() {
+YoastSEO.Pluggable = function( app ) {
+	this.app = app;
 	this.loaded = false;
 	this.preloadThreshold = 3000;
 	this.plugins = {};
@@ -106,7 +107,7 @@ YoastSEO.Pluggable.prototype._registerPlugin = function( pluginName, options ) {
 	}
 
 	this.plugins[pluginName] = options;
-	YoastSEO.app.updateLoadingDialog( this.plugins );
+	this.app.updateLoadingDialog( this.plugins );
 	return true;
 };
 
@@ -128,7 +129,7 @@ YoastSEO.Pluggable.prototype._ready = function( pluginName ) {
 	}
 
 	this.plugins[pluginName].status = "ready";
-	YoastSEO.app.updateLoadingDialog( this.plugins );
+	this.app.updateLoadingDialog( this.plugins );
 	return true;
 };
 
@@ -149,7 +150,7 @@ YoastSEO.Pluggable.prototype._reloaded = function( pluginName ) {
 		return false;
 	}
 
-	YoastSEO.app.runAnalyzer( YoastSEO.app.rawData );
+	this.app.runAnalyzer( this.app.rawData );
 	return true;
 };
 
@@ -218,7 +219,7 @@ YoastSEO.Pluggable.prototype._pollLoadingPlugins = function( pollTime ) {
 	pollTime = pollTime === undefined ? 0 : pollTime;
 	if ( this._allReady() === true ) {
 		this.loaded = true;
-		YoastSEO.app.pluginsLoaded();
+		this.app.pluginsLoaded();
 	} else if ( pollTime >= this.preloadThreshold ) {
 		this._pollTimeExceeded();
 	} else {
@@ -255,7 +256,7 @@ YoastSEO.Pluggable.prototype._pollTimeExceeded = function() {
 		}
 	}
 	this.loaded = true;
-	YoastSEO.app.pluginsLoaded();
+	this.app.pluginsLoaded();
 };
 
 /**
