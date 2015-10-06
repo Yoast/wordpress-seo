@@ -212,7 +212,6 @@ YoastSEO.App.prototype.createSnippetPreviewTitle = function( target ) {
 	var elem = document.createElement( "div" );
 	elem.className = "snippet_container";
 	elem.id = "title_container";
-	elem.__refObj = this;
 	target.appendChild( elem );
 	var title;
 	title = document.createElement( "span" );
@@ -232,7 +231,6 @@ YoastSEO.App.prototype.createSnippetPreviewUrl = function( target ) {
 	var elem = document.createElement( "div" );
 	elem.className = "snippet_container";
 	elem.id = "url_container";
-	elem.__refObj = this;
 	target.appendChild( elem );
 	var baseUrl = document.createElement( "cite" );
 	baseUrl.className = "url urlBase";
@@ -256,7 +254,6 @@ YoastSEO.App.prototype.createSnippetPreviewMeta = function( target ) {
 	var elem = document.createElement( "div" );
 	elem.className = "snippet_container";
 	elem.id = "meta_container";
-	elem.__refObj = this;
 	target.appendChild( elem );
 	var meta = document.createElement( "span" );
 	meta.className = "desc";
@@ -302,13 +299,10 @@ YoastSEO.App.prototype.bindInputEvent = function() {
  */
 YoastSEO.App.prototype.bindSnippetEvents = function() {
 	var snippetElem = document.getElementById( this.config.targets.snippet );
-	snippetElem.refObj = this;
 	var elems = [ "meta", "cite", "title" ];
 	for ( var i = 0; i < elems.length; i++ ) {
 		var targetElement = document.getElementById( "snippet_" + elems[ i ] );
-		targetElement.refObj = this;
 		targetElement.addEventListener( "blur", this.callbacks.updateSnippetValues );
-
 	}
 };
 
@@ -390,6 +384,8 @@ YoastSEO.App.prototype.runAnalyzer = function() {
 	if ( this.config.dynamicDelay ) {
 		this.endTime();
 	}
+
+	this.snippetPreview.reRender();
 };
 
 /**
