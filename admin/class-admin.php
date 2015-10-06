@@ -337,9 +337,9 @@ class WPSEO_Admin {
 	/**
 	 * Saves the posts per page limit for bulk edit pages.
 	 *
-	 * @param int    $status
-	 * @param string $option
-	 * @param int    $value
+	 * @param int    $status Status value to pass through.
+	 * @param string $option Option name.
+	 * @param int    $value  Count value to check.
 	 *
 	 * @return int
 	 */
@@ -356,6 +356,10 @@ class WPSEO_Admin {
 	 */
 	function blog_public_warning() {
 		if ( ( function_exists( 'is_network_admin' ) && is_network_admin() ) || WPSEO_Utils::grant_access() !== true ) {
+			return;
+		}
+
+		if ( ! current_user_can( 'manage_options' ) ) {
 			return;
 		}
 

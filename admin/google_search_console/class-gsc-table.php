@@ -49,11 +49,11 @@ class WPSEO_GSC_Table extends WP_List_Table {
 	);
 
 	/**
-	 * The constructor
+	 * Search Console table class constructor (subclasses list table).
 	 *
-	 * @param string $platform
-	 * @param string $category
-	 * @param array  $items
+	 * @param string $platform Platform (desktop, mobile, feature phone).
+	 * @param string $category Type of the issues.
+	 * @param array  $items    Set of the issues to display.
 	 */
 	public function __construct( $platform, $category, array $items ) {
 		parent::__construct();
@@ -143,8 +143,8 @@ class WPSEO_GSC_Table extends WP_List_Table {
 	/**
 	 * Default method to display a column
 	 *
-	 * @param array  $item
-	 * @param string $column_name
+	 * @param array  $item        Data array.
+	 * @param string $column_name Column name key.
 	 *
 	 * @return mixed
 	 */
@@ -155,7 +155,7 @@ class WPSEO_GSC_Table extends WP_List_Table {
 	/**
 	 * Checkbox column
 	 *
-	 * @param array $item
+	 * @param array $item Item data array.
 	 *
 	 * @return string
 	 */
@@ -168,7 +168,7 @@ class WPSEO_GSC_Table extends WP_List_Table {
 	/**
 	 * Formatting the output of the column last crawled into a dateformat
 	 *
-	 * @param array $item
+	 * @param array $item Item data array.
 	 *
 	 * @return string
 	 */
@@ -179,7 +179,7 @@ class WPSEO_GSC_Table extends WP_List_Table {
 	/**
 	 * Formatting the output of the column first detected into a dateformat
 	 *
-	 * @param array $item
+	 * @param array $item Item data array.
 	 *
 	 * @return string
 	 */
@@ -190,7 +190,7 @@ class WPSEO_GSC_Table extends WP_List_Table {
 	/**
 	 * URL column
 	 *
-	 * @param array $item
+	 * @param array $item Item data array.
 	 *
 	 * @return string
 	 */
@@ -234,8 +234,8 @@ class WPSEO_GSC_Table extends WP_List_Table {
 	/**
 	 * Setting the table navigation
 	 *
-	 * @param int $total_items
-	 * @param int $posts_per_page
+	 * @param int $total_items    Total number of items.
+	 * @param int $posts_per_page Number of items per page.
 	 */
 	private function set_pagination( $total_items, $posts_per_page ) {
 		$this->set_pagination_args( array(
@@ -304,8 +304,8 @@ class WPSEO_GSC_Table extends WP_List_Table {
 	/**
 	 * Doing the sorting of the issues
 	 *
-	 * @param array $a
-	 * @param array $b
+	 * @param array $a First data set for comparison.
+	 * @param array $b Second data set for comparison.
 	 *
 	 * @return int
 	 */
@@ -331,7 +331,7 @@ class WPSEO_GSC_Table extends WP_List_Table {
 	/**
 	 * Modal box
 	 *
-	 * @param string $url
+	 * @param string $url URL string.
 	 *
 	 * @return string
 	 */
@@ -347,8 +347,8 @@ class WPSEO_GSC_Table extends WP_List_Table {
 	/**
 	 * Determine which model box type should be rendered
 	 *
-	 * @param string $url
-	 * @param string $current_redirect
+	 * @param string $url              URL string.
+	 * @param string $current_redirect Current redirect by reference.
 	 *
 	 * @return string
 	 */
@@ -374,7 +374,7 @@ class WPSEO_GSC_Table extends WP_List_Table {
 	/**
 	 * Showing the hidden fields used by the AJAX requests
 	 *
-	 * @param string $platform
+	 * @param string $platform Platform (desktop, mobile, feature phone).
 	 */
 	private function show_fields( $platform ) {
 		echo "<input type='hidden' name='wpseo_gsc_nonce' value='" . wp_create_nonce( 'wpseo_gsc_nonce' ) . "' />";

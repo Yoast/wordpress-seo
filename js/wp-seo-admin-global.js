@@ -60,8 +60,8 @@ function wpseoMakeDismissible() {
 
 			$notice.append( $button );
 
-			$button.on( 'click.wp-dismiss-notice', function( event ) {
-				event.preventDefault();
+			$button.on( 'click.wp-dismiss-notice', function( ev ) {
+				ev.preventDefault();
 				$notice.fadeTo( 100 , 0, function() {
 					jQuery(this).slideUp( 100, function() {
 						jQuery(this).remove();

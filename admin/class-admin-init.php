@@ -36,13 +36,13 @@ class WPSEO_Admin_Init {
 		add_action( 'admin_init', array( $this, 'after_update_notice' ), 15 );
 		add_action( 'admin_init', array( $this, 'tagline_notice' ), 15 );
 		add_action( 'admin_init', array( $this, 'ga_compatibility_notice' ), 15 );
+		add_action( 'admin_init', array( $this, 'ignore_tour' ) );
+		add_action( 'admin_init', array( $this, 'load_tour' ) );
 
 		$this->load_meta_boxes();
 		$this->load_taxonomy_class();
 		$this->load_admin_page_class();
 		$this->load_admin_user_class();
-		$this->ignore_tour();
-		$this->load_tour();
 		$this->load_xml_sitemaps_admin();
 	}
 
@@ -184,6 +184,10 @@ class WPSEO_Admin_Init {
 	 * Determine whether we should load the meta box class and if so, load it.
 	 */
 	private function load_meta_boxes() {
+
+		$is_editor      = in_array( $this->pagenow, array( 'edit.php', 'post.php', 'post-new.php' ) );
+		$is_inline_save = filter_input( INPUT_POST, 'action' ) === 'inline-save';
+
 		/**
 		 * Filter: 'wpseo_always_register_metaboxes_on_admin' - Allow developers to change whether
 		 * the WPSEO metaboxes are only registered on the typical pages (lean loading) or always
@@ -191,13 +195,10 @@ class WPSEO_Admin_Init {
 		 *
 		 * @api bool Whether to always register the metaboxes or not. Defaults to false.
 		 */
-		if ( in_array( $this->pagenow, array(
-				'edit.php',
-				'post.php',
-				'post-new.php',
-			) ) || apply_filters( 'wpseo_always_register_metaboxes_on_admin', false )
-		) {
+		if ( $is_editor || $is_inline_save || apply_filters( 'wpseo_always_register_metaboxes_on_admin', false ) ) {
+
 			$GLOBALS['wpseo_metabox'] = new WPSEO_Metabox;
+
 			if ( $this->options['opengraph'] === true || $this->options['twitter'] === true || $this->options['googleplus'] === true ) {
 				new WPSEO_Social_Admin;
 			}
@@ -261,7 +262,7 @@ class WPSEO_Admin_Init {
 	/**
 	 * See if we should start our tour.
 	 */
-	private function load_tour() {
+	public function load_tour() {
 		$restart_tour = filter_input( INPUT_GET, 'wpseo_restart_tour' );
 		if ( $restart_tour ) {
 			delete_user_meta( get_current_user_id(), 'wpseo_ignore_tour' );
@@ -284,7 +285,7 @@ class WPSEO_Admin_Init {
 	/**
 	 * Listener for the ignore tour GET value. If this one is set, just set the user meta to true.
 	 */
-	private function ignore_tour() {
+	public function ignore_tour() {
 		if ( filter_input( INPUT_GET, 'wpseo_ignore_tour' ) && wp_verify_nonce( filter_input( INPUT_GET, 'nonce' ), 'wpseo-ignore-tour' ) ) {
 			update_user_meta( get_current_user_id(), 'wpseo_ignore_tour', true );
 		}

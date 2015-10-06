@@ -191,7 +191,7 @@ class WPSEO_Frontend {
 	/**
 	 * Override Woo's title with our own.
 	 *
-	 * @param string $title
+	 * @param string $title Title string.
 	 *
 	 * @return string
 	 */
@@ -809,8 +809,8 @@ class WPSEO_Frontend {
 	/**
 	 * Determine $robots values for a single post
 	 *
-	 * @param array      $robots
-	 * @param int|string $post_id The post ID for which to determine the $robots values, defaults to current post.
+	 * @param array $robots  Robots data array.
+	 * @param int   $post_id The post ID for which to determine the $robots values, defaults to current post.
 	 *
 	 * @return    array
 	 */
@@ -1001,7 +1001,7 @@ class WPSEO_Frontend {
 	/**
 	 * Parse the home URL setting to find the base URL for relative URLs.
 	 *
-	 * @param string $path
+	 * @param string $path Optional path string.
 	 *
 	 * @return string
 	 */
@@ -1228,7 +1228,7 @@ class WPSEO_Frontend {
 	/**
 	 * Outputs the meta description element or returns the description text.
 	 *
-	 * @param bool $echo
+	 * @param bool $echo Echo or return output flag.
 	 *
 	 * @return string
 	 */
@@ -1459,8 +1459,8 @@ class WPSEO_Frontend {
 	 *
 	 * Thanks to Mark Jaquith for this code.
 	 *
-	 * @param string $url
-	 * @param string $type
+	 * @param string $url  URL string.
+	 * @param string $type Context (such as single).
 	 *
 	 * @return string
 	 */
@@ -1816,7 +1816,7 @@ class WPSEO_Frontend {
 	/**
 	 * Function used in testing whether the title should be force rewritten or not.
 	 *
-	 * @param string $title
+	 * @param string $title Title string.
 	 *
 	 * @return string
 	 */

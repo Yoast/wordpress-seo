@@ -118,8 +118,8 @@ class WPSEO_Export {
 	/**
 	 * Writes a line to the export
 	 *
-	 * @param string  $line
-	 * @param boolean $newline_first
+	 * @param string  $line          Line string.
+	 * @param boolean $newline_first Boolean flag whether to prepend with new line.
 	 */
 	private function write_line( $line, $newline_first = false ) {
 		if ( $newline_first ) {
@@ -131,7 +131,7 @@ class WPSEO_Export {
 	/**
 	 * Writes an entire option group to the export
 	 *
-	 * @param string $opt_group
+	 * @param string $opt_group Option group name.
 	 */
 	private function write_opt_group( $opt_group ) {
 		$this->write_line( '[' . $opt_group . ']', true );
@@ -157,8 +157,8 @@ class WPSEO_Export {
 	/**
 	 * Writes a settings line to the export
 	 *
-	 * @param string $key
-	 * @param string $val
+	 * @param string $key Key string.
+	 * @param string $val Value string.
 	 */
 	private function write_setting( $key, $val ) {
 		if ( is_string( $val ) ) {
@@ -175,7 +175,7 @@ class WPSEO_Export {
 			$taxonomy_meta = get_option( 'wpseo_taxonomy_meta' );
 			if ( is_array( $taxonomy_meta ) ) {
 				$this->write_line( '[wpseo_taxonomy_meta]', true );
-				$this->write_setting( 'wpseo_taxonomy_meta', urlencode( json_encode( $taxonomy_meta ) ) );
+				$this->write_setting( 'wpseo_taxonomy_meta', urlencode( WPSEO_Utils::json_encode( $taxonomy_meta ) ) );
 			}
 			else {
 				$this->write_line( '; ' . __( 'No taxonomy metadata found', 'wordpress-seo' ), true );

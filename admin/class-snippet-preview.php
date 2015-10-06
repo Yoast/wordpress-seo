@@ -56,9 +56,9 @@ class WPSEO_Snippet_Preview {
 	 * Generates the html for the snippet preview containing dynamically generated text components.
 	 * Those components are included as properties which are set in the constructor.
 	 *
-	 * @param object $post
-	 * @param string $title
-	 * @param string $description
+	 * @param WP_Post $post        Post instance.
+	 * @param string  $title       Title string.
+	 * @param string  $description Description string.
 	 */
 	public function __construct( $post, $title, $description ) {
 		$this->options     = WPSEO_Options::get_all();
@@ -144,7 +144,7 @@ HTML;
 	/**
 	 * Sets the html for the snippet preview through a filter
 	 *
-	 * @param string $content
+	 * @param string $content Content string.
 	 */
 	protected function set_content_through_filter( $content ) {
 		$properties = get_object_vars( $this );

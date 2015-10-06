@@ -103,9 +103,7 @@ class WPSEO_Utils {
 	/**
 	 * Check whether a url is relative
 	 *
-	 * @static
-	 *
-	 * @param string $url
+	 * @param string $url URL string to check.
 	 *
 	 * @return bool
 	 */
@@ -137,9 +135,7 @@ class WPSEO_Utils {
 	 *
 	 * Replace line breaks, carriage returns, tabs with a space, then remove double spaces.
 	 *
-	 * @static
-	 *
-	 * @param string $string
+	 * @param string $string String input to standardize.
 	 *
 	 * @return string
 	 */
@@ -243,9 +239,7 @@ class WPSEO_Utils {
 	 * remove line breaks, tabs and extra white space,
 	 * strip octets - BUT DO NOT REMOVE (part of) VARIABLES WHICH WILL BE REPLACED.
 	 *
-	 * @static
-	 *
-	 * @param string $value
+	 * @param string $value String value to sanitize.
 	 *
 	 * @return string
 	 */
@@ -291,10 +285,8 @@ class WPSEO_Utils {
 	 *
 	 * @todo [JRF => whomever] check/improve url verification
 	 *
-	 * @static
-	 *
-	 * @param string $value
-	 * @param array  $allowed_protocols
+	 * @param string $value             String URL value to sanitize.
+	 * @param array  $allowed_protocols Optional set of allowed protocols.
 	 *
 	 * @return string
 	 */
@@ -307,7 +299,7 @@ class WPSEO_Utils {
 	 *
 	 * @static
 	 *
-	 * @param mixed $value
+	 * @param mixed $value Value to validate.
 	 *
 	 * @return bool
 	 */
@@ -394,7 +386,7 @@ class WPSEO_Utils {
 	 *
 	 * @static
 	 *
-	 * @param mixed $value
+	 * @param mixed $value Value to validate.
 	 *
 	 * @return int|bool int or false in case of failure to convert to int
 	 */
@@ -491,8 +483,8 @@ class WPSEO_Utils {
 	/**
 	 * Adds a hook that when given option is updated, the XML sitemap transient cache is cleared
 	 *
-	 * @param string $option
-	 * @param string $type
+	 * @param string $option Option name.
+	 * @param string $type   Sitemap type.
 	 */
 	public static function register_cache_clear_option( $option, $type = '' ) {
 		self::$cache_clear[ $option ] = $type;
@@ -518,7 +510,7 @@ class WPSEO_Utils {
 	/**
 	 * Clear entire XML sitemap cache
 	 *
-	 * @param array $types
+	 * @param array $types Set of sitemap types to invalidate cache for.
 	 */
 	public static function clear_sitemap_cache( $types = array() ) {
 		global $wpdb;
@@ -697,9 +689,11 @@ class WPSEO_Utils {
 	 *
 	 * This is used because stupidly enough, the `filter_input` function is not available on all hosts...
 	 *
-	 * @param int    $type
-	 * @param string $variable_name
-	 * @param int    $filter
+	 * @deprecated Passes through to PHP call, no longer used in code.
+	 *
+	 * @param int    $type          Input type constant.
+	 * @param string $variable_name Variable name to get.
+	 * @param int    $filter        Filter to apply.
 	 *
 	 * @return mixed
 	 */
@@ -710,7 +704,7 @@ class WPSEO_Utils {
 	/**
 	 * Trim whitespace and NBSP (Non-breaking space) from string
 	 *
-	 * @param string $string
+	 * @param string $string String input to trim.
 	 *
 	 * @return string
 	 */
@@ -725,7 +719,7 @@ class WPSEO_Utils {
 	/**
 	 * Check if a string is a valid datetime
 	 *
-	 * @param string $datetime
+	 * @param string $datetime String input to check as valid input for DateTime class.
 	 *
 	 * @return bool
 	 */
@@ -750,7 +744,7 @@ class WPSEO_Utils {
 	 *
 	 * This method will parse the URL and combine them in one string.
 	 *
-	 * @param string $url
+	 * @param string $url URL string.
 	 *
 	 * @return mixed
 	 */
@@ -779,9 +773,9 @@ class WPSEO_Utils {
 	/**
 	 * Get plugin name from file
 	 *
-	 * @param string $plugin
+	 * @param string $plugin Plugin path relative to plugins directory.
 	 *
-	 * @return bool
+	 * @return string|bool
 	 */
 	public static function get_plugin_name( $plugin ) {
 		$plugin_details = get_plugin_data( WP_PLUGIN_DIR . '/' . $plugin );
@@ -791,6 +785,25 @@ class WPSEO_Utils {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Wrapper for encoding the array as a json string. Includes a fallback if wp_json_encode doesn't exists
+	 *
+	 * @param array $array_to_encode The array which will be encoded.
+	 * @param int   $options		 Optional. Array with options which will be passed in to the encoding methods.
+	 * @param int   $depth    		 Optional. Maximum depth to walk through $data. Must be greater than 0. Default 512.
+	 *
+	 * @return false|string
+	 */
+	public static function json_encode( array $array_to_encode, $options = 0, $depth = 512 ) {
+		if ( function_exists( 'wp_json_encode' ) ) {
+			return wp_json_encode( $array_to_encode, $options, $depth );
+		}
+
+		// @codingStandardsIgnoreStart
+		return json_encode( $array_to_encode );
+		// @codingStandardsIgnoreEnd
 	}
 
 } /* End of class WPSEO_Utils */
