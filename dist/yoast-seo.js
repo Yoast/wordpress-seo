@@ -943,22 +943,17 @@ YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
  * @constructor
  */
 YoastSEO.App = function( args ) {
-	window.YoastSEO.app = this;
 	this.config = this.extendConfig( args );
-	this.inputs = {};
-	this.rawData = args.callbacks.getData();
-	this.constructI18n( args.translations );
-	this.loadQueue();
-	this.stringHelper = new YoastSEO.StringHelper();
-
-	this.pluggable = new YoastSEO.Pluggable();
-	this.showLoadingDialog();
-
 	this.callbacks = this.config.callbacks;
-	if ( !this.config.ajax ) {
-		this.defineElements();
-	}
-	this.init();
+	this.rawData = this.callbacks.getData();
+	this.inputs = this.callbacks.getAnalyzerInput();
+
+	this.i18n = this.constructI18n( this.config.translations );
+	this.stringHelper = new YoastSEO.StringHelper();
+	this.pluggable = new YoastSEO.Pluggable( this );
+
+	this.showLoadingDialog();
+	this.createSnippetPreview();
 };
 
 /**
@@ -985,6 +980,7 @@ YoastSEO.App.defaultConfig = {
  */
 YoastSEO.App.prototype.extendConfig = function( args ) {
 	args.sampleText = this.extendSampleText( args.sampleText );
+	args.queue = args.queue || YoastSEO.analyzerConfig.queue;
 
 	return args;
 };
@@ -1030,15 +1026,7 @@ YoastSEO.App.prototype.constructI18n = function( translations ) {
 	// Use default object to prevent Jed from erroring out.
 	translations = translations || defaultTranslations;
 
-	this.i18n = new YoastSEO.Jed( translations );
-};
-
-/**
- * inits YoastSEO, calls element definer and snippet preview creater
- */
-YoastSEO.App.prototype.init = function() {
-	this.defineElements();
-	this.createSnippetPreview();
+	return new YoastSEO.Jed( translations );
 };
 
 /**
@@ -1050,22 +1038,13 @@ YoastSEO.App.prototype.refresh = function() {
 };
 
 /**
- * loads the queue from the analyzer if no queue is defined.
- */
-YoastSEO.App.prototype.loadQueue = function() {
-	if ( typeof this.queue === "undefined" ) {
-		this.queue = YoastSEO.analyzerConfig.queue;
-	}
-};
-
-/**
  * Adds function to the analyzer queue. Function must be in the Analyzer prototype to be added.
  *
  * @param {String} func Name of the function to add to the queue.
  */
 YoastSEO.App.prototype.addToQueue = function( func ) {
 	if ( typeof YoastSEO.Analyzer.prototype[ func ] === "function" ) {
-		this.queue.push( func );
+		this.rawData.queue.push( func );
 	}
 };
 
@@ -1075,9 +1054,9 @@ YoastSEO.App.prototype.addToQueue = function( func ) {
  * @param {String} func Name of the function to remove from the queue.
  */
 YoastSEO.App.prototype.removeFromQueue = function( func ) {
-	var funcIndex = this.queue.indexOf( func );
+	var funcIndex = this.rawData.queue.indexOf( func );
 	if ( funcIndex > -1 ) {
-		this.queue.splice( funcIndex, 1 );
+		this.rawData.queue.splice( funcIndex, 1 );
 	}
 };
 
@@ -1161,20 +1140,6 @@ YoastSEO.App.prototype.createSnippetPreviewMeta = function( target ) {
 };
 
 /**
- * defines the target element to be used for the output on the page
- */
-YoastSEO.App.prototype.defineElements = function() {
-	this.target = document.getElementById( this.config.targets.output );
-	for ( var i = 0; i < this.config.elementTarget.length; i++ ) {
-		var elem = document.getElementById( this.config.elementTarget[ i ] );
-		if ( elem !== null ) {
-			elem.__refObj = this;
-		}
-
-	}
-};
-
-/**
  * Creates an edit icon in a element with a certain ID
  *
  * @param {HTMLElement} elem The element to append the edit icon to.
@@ -1209,7 +1174,7 @@ YoastSEO.App.prototype.bindEvent = function() {
 YoastSEO.App.prototype.bindInputEvent = function() {
 	for ( var i = 0; i < this.config.elementTarget.length; i++ ) {
 		var elem = document.getElementById( this.config.elementTarget[ i ] );
-		elem.addEventListener( "input", this.analyzeTimer );
+		elem.addEventListener( "input", this.analyzeTimer.bind( this ) );
 	}
 };
 
@@ -1243,19 +1208,8 @@ YoastSEO.App.prototype.reloadSnippetText = function() {
  * without problems with different scopes.
  */
 YoastSEO.App.prototype.analyzeTimer = function() {
-	var refObj = this.__refObj;
-
-	//if __refObj is not found (used on elements), use refObj
-	if ( typeof refObj === "undefined" ) {
-		refObj = this.refObj;
-	}
-
-	//if refObj is not found (used on objects), use this
-	if ( typeof refObj === "undefined" ) {
-		refObj = this;
-	}
 	clearTimeout( window.timer );
-	window.timer = setTimeout( refObj.checkInputs, refObj.config.typeDelay );
+	window.timer = setTimeout( this.checkInputs.bind( this ), this.config.typeDelay );
 };
 
 /**
@@ -1263,32 +1217,18 @@ YoastSEO.App.prototype.analyzeTimer = function() {
  * message, if keyword is filled, runs the analyzer
  */
 YoastSEO.App.prototype.checkInputs = function() {
-	var refObj = window.YoastSEO.app;
-	refObj.getAnalyzerInput();
+	this.getAnalyzerInput();
 };
 
 /**
  * Callback function to trigger the analyzer.
  */
 YoastSEO.App.prototype.runAnalyzerCallback = function() {
-	var refObj = window.YoastSEO.app;
-	if ( refObj.rawData.keyword === "" ) {
-		refObj.noKeywordQueue();
+	if ( this.rawData.keyword === "" ) {
+		this.noKeywordQueue();
 	} else {
-		refObj.runAnalyzer();
+		this.runAnalyzer();
 	}
-};
-
-/**
- * used when no keyword is filled in, it will display a message in the target element
- */
-YoastSEO.App.prototype.showMessage = function() {
-	this.target.innerHTML = "";
-	var messageDiv = document.createElement( "div" );
-	messageDiv.className = "wpseo_msg";
-	messageDiv.innerHTML = "<p><strong>No focus keyword was set for this page. If you do not set" +
-		" a focus keyword, no score can be calculated.</strong></p>";
-	this.target.appendChild( messageDiv );
 };
 
 /**
@@ -1314,7 +1254,7 @@ YoastSEO.App.prototype.endTime = function() {
  * inits a new pageAnalyzer with the inputs from the getInput function and calls the scoreFormatter
  * to format outputs.
  */
-YoastSEO.App.prototype.runAnalyzer = function() {
+YoastSEO.App.prototype.runAnalyzer = function( data ) {
 	if ( this.pluggable.loaded === false ) {
 		return;
 	}
@@ -1323,7 +1263,7 @@ YoastSEO.App.prototype.runAnalyzer = function() {
 		this.startTime();
 	}
 
-	this.analyzerData = this.modifyData( this.rawData );
+	this.analyzerData = this.modifyData( data );
 	this.analyzerData.i18n = this.i18n;
 
 	if ( typeof this.pageAnalyzer === "undefined" ) {
@@ -1367,8 +1307,9 @@ YoastSEO.App.prototype.pluginsLoaded = function() {
  * Runs a queue with tests where no keyword is required.
  */
 YoastSEO.App.prototype.noKeywordQueue = function() {
-	this.rawData.queue = [ "keyWordCheck", "wordCount", "fleschReading", "pageTitleLength", "urlStopwords", "metaDescription" ];
-	this.runAnalyzer( this.rawData );
+	var data = this.rawData;
+	data.queue = [ "keyWordCheck", "wordCount", "fleschReading", "pageTitleLength", "urlStopwords", "metaDescription" ];
+	this.runAnalyzer( data );
 };
 
 /**
@@ -1398,17 +1339,6 @@ YoastSEO.App.prototype.updateLoadingDialog = function( plugins ) {
  */
 YoastSEO.App.prototype.removeLoadingDialog = function() {
 	document.getElementById( this.config.targets.output ).removeChild( document.getElementById( "YoastSEO-plugin-loading" ) );
-};
-
-/**
- * run at pageload to init the App for pageAnalysis.
- */
-YoastSEO.initialize = function() {
-	if ( document.readyState === "complete" ) {
-		YoastSEO.app = new YoastSEO.App( YoastSEO.analyzerArgs );
-	} else {
-		setTimeout( YoastSEO.initialize, 50 );
-	}
 };
 ;/* jshint browser: true */
 /* global YoastSEO: true */
@@ -1628,7 +1558,8 @@ YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
  * @property plugins			{object} The plugins that have been registered.
  * @property modifications 		{object} The modifications that have been registered. Every modification contains an array with callables.
  */
-YoastSEO.Pluggable = function() {
+YoastSEO.Pluggable = function( app ) {
+	this.app = app;
 	this.loaded = false;
 	this.preloadThreshold = 3000;
 	this.plugins = {};
@@ -1711,7 +1642,7 @@ YoastSEO.Pluggable.prototype._registerPlugin = function( pluginName, options ) {
 	}
 
 	this.plugins[pluginName] = options;
-	YoastSEO.app.updateLoadingDialog( this.plugins );
+	this.app.updateLoadingDialog( this.plugins );
 	return true;
 };
 
@@ -1733,7 +1664,7 @@ YoastSEO.Pluggable.prototype._ready = function( pluginName ) {
 	}
 
 	this.plugins[pluginName].status = "ready";
-	YoastSEO.app.updateLoadingDialog( this.plugins );
+	this.app.updateLoadingDialog( this.plugins );
 	return true;
 };
 
@@ -1754,7 +1685,7 @@ YoastSEO.Pluggable.prototype._reloaded = function( pluginName ) {
 		return false;
 	}
 
-	YoastSEO.app.runAnalyzer( YoastSEO.app.rawData );
+	this.app.runAnalyzer( this.app.rawData );
 	return true;
 };
 
@@ -1823,7 +1754,7 @@ YoastSEO.Pluggable.prototype._pollLoadingPlugins = function( pollTime ) {
 	pollTime = pollTime === undefined ? 0 : pollTime;
 	if ( this._allReady() === true ) {
 		this.loaded = true;
-		YoastSEO.app.pluginsLoaded();
+		this.app.pluginsLoaded();
 	} else if ( pollTime >= this.preloadThreshold ) {
 		this._pollTimeExceeded();
 	} else {
@@ -1860,7 +1791,7 @@ YoastSEO.Pluggable.prototype._pollTimeExceeded = function() {
 		}
 	}
 	this.loaded = true;
-	YoastSEO.app.pluginsLoaded();
+	this.app.pluginsLoaded();
 };
 
 /**
