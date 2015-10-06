@@ -322,15 +322,7 @@ YoastSEO.App.prototype.reloadSnippetText = function() {
  */
 YoastSEO.App.prototype.analyzeTimer = function() {
 	clearTimeout( window.timer );
-	window.timer = setTimeout( this.checkInputs.bind( this ), this.config.typeDelay );
-};
-
-/**
- * calls the getInput function to retrieve values from inputs. If the keyword is empty calls
- * message, if keyword is filled, runs the analyzer
- */
-YoastSEO.App.prototype.checkInputs = function() {
-	this.getAnalyzerInput();
+	window.timer = setTimeout( this.refresh.bind( this ), this.config.typeDelay );
 };
 
 /**
