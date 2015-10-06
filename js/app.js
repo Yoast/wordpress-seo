@@ -298,7 +298,6 @@ YoastSEO.App.prototype.bindInputEvent = function() {
  * binds the reloadSnippetText function to the blur of the snippet inputs.
  */
 YoastSEO.App.prototype.bindSnippetEvents = function() {
-	var snippetElem = document.getElementById( this.config.targets.snippet );
 	var elems = [ "meta", "cite", "title" ];
 	for ( var i = 0; i < elems.length; i++ ) {
 		var targetElement = document.getElementById( "snippet_" + elems[ i ] );
