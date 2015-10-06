@@ -127,20 +127,6 @@ YoastSEO.WordPressScraper.prototype.setDataFromSnippet = function( value, type )
 };
 
 /**
- * feeds data to the loader that is required for the analyzer
- */
-YoastSEO.WordPressScraper.prototype.getAnalyzerInput = function() {
-	'use strict';
-
-	if ( typeof YoastSEO.app.snippetPreview === 'undefined' ) {
-		YoastSEO.app.init();
-	} else {
-		YoastSEO.app.reloadSnippetText();
-	}
-	YoastSEO.app.runAnalyzerCallback();
-};
-
-/**
  * gets content from the content field, if tinyMCE is initialized, use the getContent function to get the data from tinyMCE
  * @returns {String}
  */
