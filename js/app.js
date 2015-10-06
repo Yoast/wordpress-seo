@@ -73,7 +73,6 @@ YoastSEO.App = function( args ) {
 	this.config = this.extendConfig( args );
 	this.callbacks = this.config.callbacks;
 	this.rawData = this.callbacks.getData();
-	this.inputs = this.callbacks.getAnalyzerInput();
 
 	this.i18n = this.constructI18n( this.config.translations );
 	this.stringHelper = new YoastSEO.StringHelper();
@@ -81,6 +80,7 @@ YoastSEO.App = function( args ) {
 
 	this.showLoadingDialog();
 	this.createSnippetPreview();
+	this.runAnalyzer();
 };
 
 /**
@@ -161,7 +161,7 @@ YoastSEO.App.prototype.constructI18n = function( translations ) {
  */
 YoastSEO.App.prototype.refresh = function() {
 	this.rawData = this.callbacks.getData();
-	this.inputs = this.callbacks.getAnalyzerInput();
+	this.runAnalyzer();
 };
 
 /**
@@ -281,18 +281,10 @@ YoastSEO.App.prototype.createEditIcon = function( elem, id ) {
 };
 
 /**
- * gets the values from the inputfields. The values from these fields are used as input for the
- * analyzer.
- */
-YoastSEO.App.prototype.getAnalyzerInput = function() {
-	this.inputs = this.callbacks.getAnalyzerInput();
-};
-
-/**
  * binds the events to the generated inputs. Binds events on the snippetinputs if editable
  */
 YoastSEO.App.prototype.bindEvent = function() {
-	this.callbacks.bindElementEvents();
+	this.callbacks.bindElementEvents( this );
 };
 
 /**
@@ -348,17 +340,6 @@ YoastSEO.App.prototype.checkInputs = function() {
 };
 
 /**
- * Callback function to trigger the analyzer.
- */
-YoastSEO.App.prototype.runAnalyzerCallback = function() {
-	if ( this.rawData.keyword === "" ) {
-		this.noKeywordQueue();
-	} else {
-		this.runAnalyzer();
-	}
-};
-
-/**
  * sets the startTime timestamp
  */
 YoastSEO.App.prototype.startTime = function() {
@@ -381,7 +362,7 @@ YoastSEO.App.prototype.endTime = function() {
  * inits a new pageAnalyzer with the inputs from the getInput function and calls the scoreFormatter
  * to format outputs.
  */
-YoastSEO.App.prototype.runAnalyzer = function( data ) {
+YoastSEO.App.prototype.runAnalyzer = function() {
 	if ( this.pluggable.loaded === false ) {
 		return;
 	}
@@ -390,8 +371,12 @@ YoastSEO.App.prototype.runAnalyzer = function( data ) {
 		this.startTime();
 	}
 
-	this.analyzerData = this.modifyData( data );
+	this.analyzerData = this.modifyData( this.rawData );
 	this.analyzerData.i18n = this.i18n;
+
+	if ( this.analyzerData.keyword === "" ) {
+		this.analyzerData.queue = [ "keyWordCheck", "wordCount", "fleschReading", "pageTitleLength", "urlStopwords", "metaDescription" ];
+	}
 
 	if ( typeof this.pageAnalyzer === "undefined" ) {
 		this.pageAnalyzer = new YoastSEO.Analyzer( this.analyzerData );
@@ -423,20 +408,7 @@ YoastSEO.App.prototype.modifyData = function( data ) {
  */
 YoastSEO.App.prototype.pluginsLoaded = function() {
 	this.removeLoadingDialog();
-	if ( typeof this.rawData.keyword !== "undefined" && this.rawData.keyword !== "" ) {
-		this.runAnalyzer( this.rawData );
-	} else {
-		this.noKeywordQueue();
-	}
-};
-
-/**
- * Runs a queue with tests where no keyword is required.
- */
-YoastSEO.App.prototype.noKeywordQueue = function() {
-	var data = this.rawData;
-	data.queue = [ "keyWordCheck", "wordCount", "fleschReading", "pageTitleLength", "urlStopwords", "metaDescription" ];
-	this.runAnalyzer( data );
+	this.runAnalyzer();
 };
 
 /**
