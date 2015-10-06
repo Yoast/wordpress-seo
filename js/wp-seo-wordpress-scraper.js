@@ -165,23 +165,23 @@ YoastSEO.WordPressScraper.prototype.snippetPreviewEventBinder = function( snippe
 	}
 	for ( var i = 0; i < elems.length; i++ ) {
 		var curElem = document.getElementById( elems [ i ] );
-		curElem.addEventListener( 'keydown', snippetPreview.disableEnter );
-		curElem.addEventListener( 'blur', snippetPreview.checkTextLength );
+		curElem.addEventListener( 'keydown', snippetPreview.disableEnter.bind( snippetPreview ) );
+		curElem.addEventListener( 'blur', snippetPreview.checkTextLength.bind( snippetPreview ) );
 		//textFeedback is given on input (when user types or pastests), but also on focus. If a string that is too long is being recalled
 		//from the saved values, it gets the correct classname right away.
-		curElem.addEventListener( 'input', snippetPreview.textFeedback );
-		curElem.addEventListener( 'focus', snippetPreview.textFeedback );
+		curElem.addEventListener( 'input', snippetPreview.textFeedback.bind( snippetPreview ) );
+		curElem.addEventListener( 'focus', snippetPreview.textFeedback.bind( snippetPreview ) );
 		//shows edit icon by hovering over element
-		curElem.addEventListener( 'mouseover', snippetPreview.showEditIcon );
+		curElem.addEventListener( 'mouseover', snippetPreview.showEditIcon.bind( snippetPreview ) );
 		//hides the edit icon onmouseout, on focus and on keyup. If user clicks or types AND moves his mouse, the edit icon could return while editting
 		//by binding to these 3 events
-		curElem.addEventListener( 'mouseout', snippetPreview.hideEditIcon );
-		curElem.addEventListener( 'focus', snippetPreview.hideEditIcon );
-		curElem.addEventListener( 'keyup', snippetPreview.hideEditIcon );
+		curElem.addEventListener( 'mouseout', snippetPreview.hideEditIcon.bind( snippetPreview ) );
+		curElem.addEventListener( 'focus', snippetPreview.hideEditIcon.bind( snippetPreview ) );
+		curElem.addEventListener( 'keyup', snippetPreview.hideEditIcon.bind( snippetPreview ) );
 
-		curElem.addEventListener( 'focus', snippetPreview.getUnformattedText );
-		curElem.addEventListener( 'keyup', snippetPreview.setUnformattedText );
-		curElem.addEventListener( 'click', snippetPreview.setFocus );
+		curElem.addEventListener( 'focus', snippetPreview.getUnformattedText.bind( snippetPreview ) );
+		curElem.addEventListener( 'keyup', snippetPreview.setUnformattedText.bind( snippetPreview ) );
+		curElem.addEventListener( 'click', snippetPreview.setFocus.bind( snippetPreview ) );
 
 		//adds the showIcon class to show the editIcon;
 		curElem.className = curElem.className + ' showIcon' ;
