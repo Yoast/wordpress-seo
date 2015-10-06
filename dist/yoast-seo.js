@@ -1085,7 +1085,6 @@ YoastSEO.App.prototype.createSnippetPreviewTitle = function( target ) {
 	var elem = document.createElement( "div" );
 	elem.className = "snippet_container";
 	elem.id = "title_container";
-	elem.__refObj = this;
 	target.appendChild( elem );
 	var title;
 	title = document.createElement( "span" );
@@ -1105,7 +1104,6 @@ YoastSEO.App.prototype.createSnippetPreviewUrl = function( target ) {
 	var elem = document.createElement( "div" );
 	elem.className = "snippet_container";
 	elem.id = "url_container";
-	elem.__refObj = this;
 	target.appendChild( elem );
 	var baseUrl = document.createElement( "cite" );
 	baseUrl.className = "url urlBase";
@@ -1129,7 +1127,6 @@ YoastSEO.App.prototype.createSnippetPreviewMeta = function( target ) {
 	var elem = document.createElement( "div" );
 	elem.className = "snippet_container";
 	elem.id = "meta_container";
-	elem.__refObj = this;
 	target.appendChild( elem );
 	var meta = document.createElement( "span" );
 	meta.className = "desc";
@@ -1175,13 +1172,10 @@ YoastSEO.App.prototype.bindInputEvent = function() {
  */
 YoastSEO.App.prototype.bindSnippetEvents = function() {
 	var snippetElem = document.getElementById( this.config.targets.snippet );
-	snippetElem.refObj = this;
 	var elems = [ "meta", "cite", "title" ];
 	for ( var i = 0; i < elems.length; i++ ) {
 		var targetElement = document.getElementById( "snippet_" + elems[ i ] );
-		targetElement.refObj = this;
 		targetElement.addEventListener( "blur", this.callbacks.updateSnippetValues );
-
 	}
 };
 
@@ -1263,6 +1257,8 @@ YoastSEO.App.prototype.runAnalyzer = function() {
 	if ( this.config.dynamicDelay ) {
 		this.endTime();
 	}
+
+	this.snippetPreview.reRender();
 };
 
 /**
@@ -2250,7 +2246,6 @@ YoastSEO.SnippetPreview.prototype.formatTitle = function() {
 	if ( title === "" ) {
 		title = this.refObj.rawData.pageTitle;
 	}
-	this.unformattedText.snippet_title = title;
 	if ( title === "" ) {
 		title = this.refObj.config.sampleText.title;
 	}
@@ -2280,7 +2275,6 @@ YoastSEO.SnippetPreview.prototype.formatUrl = function() {
 YoastSEO.SnippetPreview.prototype.formatCite = function() {
 	var cite = this.refObj.rawData.snippetCite;
 	cite = this.refObj.stringHelper.stripAllTags( cite );
-	this.unformattedText.snippet_cite = cite;
 	if ( cite === "" ) {
 		cite = this.refObj.config.sampleText.snippetCite;
 	}
@@ -2296,7 +2290,6 @@ YoastSEO.SnippetPreview.prototype.formatMeta = function() {
 	if ( meta === this.refObj.config.sampleText.snippetMeta ) {
 		meta = "";
 	}
-	this.unformattedText.snippet_meta = meta;
 	if ( meta === "" ) {
 		meta = this.getMetaText();
 	}
@@ -2481,9 +2474,9 @@ YoastSEO.SnippetPreview.prototype.checkTextLength = function( ev ) {
 			break;
 		case "snippet_title":
 			ev.currentTarget.className = "title";
-			if ( text.length > 40 ) {
+			if ( text.length > 70 ) {
 				YoastSEO.app.snippetPreview.unformattedText.snippet_title = ev.currentTarget.textContent;
-				ev.currentTarget.textContent = text.substring( 0, 40 );
+				ev.currentTarget.textContent = text.substring( 0, 70 );
 
 			}
 			break;
@@ -2499,13 +2492,13 @@ YoastSEO.SnippetPreview.prototype.checkTextLength = function( ev ) {
  */
 YoastSEO.SnippetPreview.prototype.getUnformattedText = function( ev ) {
 	var currentElement = ev.currentTarget.id;
-	if ( typeof YoastSEO.app.snippetPreview.unformattedText[ currentElement ] !== "undefined" ) {
-		ev.currentTarget.textContent = YoastSEO.app.snippetPreview.unformattedText[currentElement];
+	if ( typeof this.unformattedText[ currentElement ] !== "undefined" ) {
+		ev.currentTarget.textContent = this.unformattedText[currentElement];
 	}
 };
 
 YoastSEO.SnippetPreview.prototype.setUnformattedElemText = function( elem ) {
-	YoastSEO.app.snippetPreview.unformattedText[ elem ] = document.getElementById( elem ).textContent;
+	this.unformattedText[ elem ] = document.getElementById( elem ).textContent;
 };
 
 /**
@@ -2514,10 +2507,7 @@ YoastSEO.SnippetPreview.prototype.setUnformattedElemText = function( elem ) {
  * @param ev
  */
 YoastSEO.SnippetPreview.prototype.setUnformattedText = function( ev ) {
-	ev.currentTarget.refObj.snippetPreview.setUnformattedElemText ( ev.currentTarget.id );
-
-	//var currentElement = ev.currentTarget.id;
-	//YoastSEO.app.snippetPreview.unformattedText[ currentElement ] =  ev.currentTarget.textContent;
+	this.setUnformattedElemText ( ev.currentTarget.id );
 };
 
 /**
@@ -2535,7 +2525,7 @@ YoastSEO.SnippetPreview.prototype.textFeedback = function( ev ) {
 			}
 			break;
 		case "snippet_title":
-			if ( text.length > 40 ) {
+			if ( text.length > 70 ) {
 				ev.currentTarget.className = "title tooLong";
 			} else {
 				ev.currentTarget.className = "title";
@@ -2573,7 +2563,7 @@ YoastSEO.SnippetPreview.prototype.setFocus = function( ev ) {
 	while ( targetElem !== null ) {
 		if ( targetElem.contentEditable === "true" ) {
 			targetElem.focus();
-			targetElem.refObj.snippetPreview.hideEditIcon();
+			this.hideEditIcon();
 			break;
 		} else {
 			targetElem = targetElem.nextSibling;
@@ -4153,14 +4143,14 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
             scoreArray: [
                 {max: 0, score: 1, text: i18n.dgettext('js-text-analysis', "Please create a page title.")},
                 {
-                    max: 40,
+                    max: 39,
                     score: 6,
 
                     /* translators: %3$d expands to the number of characters in the page title, %1$d to the minimum number of characters for the title */
                     text: i18n.dgettext('js-text-analysis', "The page title contains %3$d characters, which is less than the recommended minimum of %1$d characters. Use the space to add keyword variations or create compelling call-to-action copy.")
                 },
                 {
-                    min: 70,
+                    min: 71,
                     score: 6,
 
                     /* translators: %3$d expands to the number of characters in the page title, %2$d to the maximum number of characters for the title */
