@@ -1,4 +1,4 @@
-/* global YoastSEO: true, tinyMCE, wp */
+/* global YoastSEO: true, tinyMCE, wp, wpseoMetaboxL10n */
 YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 
 /**
@@ -49,7 +49,7 @@ YoastSEO.WordPressScraper.prototype.getDataFromInput = function( inputType ) {
 			}
 			break;
 		case 'baseUrl':
-			val = YoastSEO.app.config.sampleText.baseUrl;
+			val = wpseoMetaboxL10n.home_url.replace( /https?:\/\//ig, '' );
 			if ( document.getElementById( 'sample-permalink' ) !== null ) {
 				var url = document.getElementById( 'sample-permalink' ).getElementsByTagName( 'a' )[0];
 				if ( typeof url === 'undefined' ) {
