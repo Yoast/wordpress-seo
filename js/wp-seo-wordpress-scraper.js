@@ -84,7 +84,10 @@ YoastSEO.WordPressScraper.prototype.getDataFromInput = function( inputType ) {
 			val = document.getElementById( 'yoast_wpseo_title' ).value;
 			break;
 		case 'pageTitle':
-			val = document.getElementById( 'title' ).value;
+			val = document.getElementById( 'yoast_wpseo_title' ).value;
+			if ( val === '' ) {
+				val = document.getElementById( 'title' ).value;
+			}
 			break;
 		case 'excerpt':
 			if ( document.getElementById( 'excerpt' ) !== null ) {
