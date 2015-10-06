@@ -499,7 +499,8 @@ class WPSEO_Admin {
 		}
 
 		// Don't change slug if the post is a draft, this conflicts with polylang.
-		if ( 'draft' == filter_input( INPUT_POST, 'post_status' ) ) {
+		// Doesn't work with filter_input() since need current value, not originally submitted one.
+		if ( 'draft' === $_POST['post_status'] ) {
 			return $slug;
 		}
 
