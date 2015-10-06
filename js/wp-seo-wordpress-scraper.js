@@ -227,12 +227,12 @@ YoastSEO.WordPressScraper.prototype.updateSnippetValues = function( ev ) {
 
 	var dataFromSnippet = ev.currentTarget.textContent;
 	var currentElement = ev.currentTarget.id;
-	if ( typeof ev.currentTarget.refObj.snippetPreview.unformattedText[ currentElement ] !== 'undefined' ) {
-		ev.currentTarget.textContent = ev.currentTarget.refObj.snippetPreview.unformattedText[ currentElement ];
+	if ( typeof YoastSEO.app.snippetPreview.unformattedText[ currentElement ] !== 'undefined' ) {
+		ev.currentTarget.textContent = YoastSEO.app.snippetPreview.unformattedText[ currentElement ];
 	}
-	ev.currentTarget.refObj.callbacks.setDataFromSnippet( dataFromSnippet, ev.currentTarget.id );
-	this.refObj.rawData = ev.currentTarget.refObj.callbacks.getData();
-	ev.currentTarget.refObj.callbacks.getAnalyzerInput();
+	this.setDataFromSnippet( dataFromSnippet, ev.currentTarget.id );
+	YoastSEO.app.rawData = YoastSEO.app.callbacks.getData();
+	YoastSEO.app.runAnalyzer();
 };
 
 /**
