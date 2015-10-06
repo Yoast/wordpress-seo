@@ -93,53 +93,16 @@ jQuery( document ).ready(function() {
 		);
 
 		function init() {
-			var wordpressScraper = new YoastSEO.WordPressScraper( YoastSEO.analyzerArgs );
+			var wordpressScraper = new YoastSEO.WordPressScraper();
 
 			YoastSEO.analyzerArgs.callbacks = {
-				getData: wordpressScraper.getData,
-				getAnalyzerInput: wordpressScraper.getAnalyzerInput,
-				bindElementEvents: wordpressScraper.bindElementEvents,
-				updateSnippetValues: wordpressScraper.updateSnippetValues,
-				saveScores: wordpressScraper.saveScores,
-
-				// Only necessary for the above functions to function
-				replaceVariables: wordpressScraper.replaceVariables,
-				getDataFromInput: wordpressScraper.getDataFromInput,
-				getContentTinyMCE: wordpressScraper.getContentTinyMCE,
-				snippetPreviewEventBinder: wordpressScraper.snippetPreviewEventBinder,
-				inputElementEventBinder: wordpressScraper.inputElementEventBinder,
-				titleReplace: wordpressScraper.titleReplace,
-				defaultReplace: wordpressScraper.defaultReplace,
-				parentReplace: wordpressScraper.parentReplace,
-				doubleSepReplace: wordpressScraper.doubleSepReplace,
-				excerptReplace: wordpressScraper.excerptReplace,
-				setDataFromSnippet: wordpressScraper.setDataFromSnippet,
-				citeAvailable: wordpressScraper.citeAvailable
+				getData: wordpressScraper.getData.bind( wordpressScraper ),
+				bindElementEvents: wordpressScraper.bindElementEvents.bind( wordpressScraper ),
+				updateSnippetValues: wordpressScraper.updateSnippetValues.bind( wordpressScraper ),
+				saveScores: wordpressScraper.saveScores.bind( wordpressScraper )
 			};
 
-			YoastSEO.app = new YoastSEO.App( YoastSEO.analyzerArgs );
-
-			YoastSEO.app.formattedData = {};
-			YoastSEO.app.formattedData.usedKeywords = wpseoMetaboxL10n.keyword_usage;
-			YoastSEO.app.formattedData.searchUrl = '<a target="new" href=' + wpseoMetaboxL10n.search_url + '>';
-			YoastSEO.app.formattedData.postUrl = '<a target="new" href=' + wpseoMetaboxL10n.post_edit_url + '>';
-			YoastSEO.app.formattedData.queue = [ 'wordCount',
-				'keywordDensity',
-				'subHeadings',
-				'stopwords',
-				'fleschReading',
-				'linkCount',
-				'imageCount',
-				'urlKeyword',
-				'urlLength',
-				'metaDescription',
-				'pageTitleKeyword',
-				'pageTitleLength',
-				'firstParagraph',
-				'keywordDoubles' ];
-
-			YoastSEO.app.replacedVars = {};
-			YoastSEO.app.refresh();
+			window.YoastSEO.app = new YoastSEO.App( YoastSEO.analyzerArgs );
 
 			//Init Plugins
 			window.yoastReplaceVarPlugin = new YoastReplaceVarPlugin();
