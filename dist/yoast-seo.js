@@ -944,7 +944,7 @@ YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
  */
 YoastSEO.App = function( args ) {
 	window.YoastSEO.app = this;
-	this.config = args;
+	this.config = this.extendConfig( args );
 	this.inputs = {};
 	this.rawData = args.callbacks.getData();
 	this.constructI18n( args.translations );
@@ -959,6 +959,56 @@ YoastSEO.App = function( args ) {
 		this.defineElements();
 	}
 	this.init();
+};
+
+/**
+ * Default config for YoastSEO.js
+ *
+ * @type {Object}
+ */
+YoastSEO.App.defaultConfig = {
+	sampleText: {
+		baseUrl: "example.org/",
+		snippetCite: "example-post/",
+		title: "This is an example title - edit by clicking here",
+		keyword: "Choose a focus keyword",
+		meta: "Modify your meta description by editing it right here",
+		text: "Start writing your text!"
+	}
+};
+
+/**
+ * Extend the config with defaults.
+ *
+ * @param {Object} args
+ * @returns {Object} args
+ */
+YoastSEO.App.prototype.extendConfig = function( args ) {
+	args.sampleText = this.extendSampleText( args.sampleText );
+
+	return args;
+};
+
+/**
+ * Extend sample text config with defaults.
+ *
+ * @param {Object} sampleText
+ * @returns {Object} sampleText
+ */
+YoastSEO.App.prototype.extendSampleText = function( sampleText ) {
+	var defaultSampleText = YoastSEO.App.defaultConfig.sampleText;
+
+	if ( sampleText === undefined ) {
+		sampleText = defaultSampleText;
+	} else {
+		for ( var key in sampleText ) {
+			if ( sampleText[ key ] === undefined ) {
+				sampleText[ key ] = defaultSampleText[ key ];
+			}
+		}
+	}
+
+	return sampleText;
 };
 
 /**
