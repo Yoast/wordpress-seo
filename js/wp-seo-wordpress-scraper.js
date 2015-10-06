@@ -143,12 +143,12 @@ YoastSEO.WordPressScraper.prototype.getContentTinyMCE = function() {
 /**
  * Calls the eventbinders.
  */
-YoastSEO.WordPressScraper.prototype.bindElementEvents = function() {
+YoastSEO.WordPressScraper.prototype.bindElementEvents = function( app ) {
 	'use strict';
 
-	this.snippetPreviewEventBinder( YoastSEO.app.snippetPreview );
-	this.inputElementEventBinder();
-	document.getElementById( 'yoast_wpseo_focuskw' ).addEventListener( 'keydown', YoastSEO.app.snippetPreview.disableEnter );
+	this.snippetPreviewEventBinder( app.snippetPreview );
+	this.inputElementEventBinder( app );
+	document.getElementById( 'yoast_wpseo_focuskw' ).addEventListener( 'keydown', app.snippetPreview.disableEnter );
 };
 
 /**
@@ -191,14 +191,14 @@ YoastSEO.WordPressScraper.prototype.snippetPreviewEventBinder = function( snippe
 /**
  * binds the renewData function on the change of inputelements.
  */
-YoastSEO.WordPressScraper.prototype.inputElementEventBinder = function() {
+YoastSEO.WordPressScraper.prototype.inputElementEventBinder = function( app ) {
 	'use strict';
 
 	var elems = [ 'excerpt', 'content', 'editable-post-name', 'yoast_wpseo_focuskw', 'title' ];
 	for ( var i = 0; i < elems.length; i++ ) {
 		var elem = document.getElementById( elems[ i ] );
 		if ( elem !== null ) {
-			document.getElementById( elems[ i ] ).addEventListener( 'change', YoastSEO.app.refresh.bind( YoastSEO.app ) );
+			document.getElementById( elems[ i ] ).addEventListener( 'change', app.refresh.bind( app ) );
 		}
 	}
 	document.getElementById( 'yoast_wpseo_focuskw' ).addEventListener( 'blur', this.resetQueue );
