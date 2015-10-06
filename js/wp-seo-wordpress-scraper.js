@@ -198,7 +198,7 @@ YoastSEO.WordPressScraper.prototype.inputElementEventBinder = function( app ) {
 	for ( var i = 0; i < elems.length; i++ ) {
 		var elem = document.getElementById( elems[ i ] );
 		if ( elem !== null ) {
-			document.getElementById( elems[ i ] ).addEventListener( 'change', app.refresh.bind( app ) );
+			document.getElementById( elems[ i ] ).addEventListener( 'input', app.analyzeTimer.bind( app ) );
 		}
 	}
 	document.getElementById( 'yoast_wpseo_focuskw' ).addEventListener( 'blur', this.resetQueue );
