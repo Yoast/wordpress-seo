@@ -99,8 +99,7 @@ jQuery( document ).ready(function() {
 				getData: wordpressScraper.getData.bind( wordpressScraper ),
 				bindElementEvents: wordpressScraper.bindElementEvents.bind( wordpressScraper ),
 				updateSnippetValues: wordpressScraper.updateSnippetValues.bind( wordpressScraper ),
-				saveScores: wordpressScraper.saveScores.bind( wordpressScraper ),
-				citeAvailable: wordpressScraper.citeAvailable.bind ( wordpressScraper )
+				saveScores: wordpressScraper.saveScores.bind( wordpressScraper )
 			};
 
 			window.YoastSEO.app = new YoastSEO.App( YoastSEO.analyzerArgs );
