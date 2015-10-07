@@ -196,8 +196,8 @@ class WPSEO_GSC {
 	 * Catch the redirects search post and redirect it to a search get
 	 */
 	private function list_table_search_post_to_get() {
-		if ( $search_string = filter_input( INPUT_POST, 's' ) ) {
-			$url = add_query_arg( 's', $search_string );
+		if ( ( $search_string = filter_input( INPUT_POST, 's' ) ) !== null ) {
+			$url = ( $search_string !== '' ) ? add_query_arg( 's', $search_string ) : remove_query_arg( 's' );
 
 			// Do the redirect.
 			wp_redirect( $url );
