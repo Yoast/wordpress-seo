@@ -138,7 +138,7 @@ class WPSEO_Redirect {
 	 */
 	private function initialize_ajax() {
 		// Normal Redirect AJAX.
-		new WPSEO_Redirect_Ajax( new WPSEO_URL_Redirect_Manager(), 'url' );
+		new WPSEO_Redirect_Ajax( new WPSEO_URL_Redirect_Manager(), 'url', true );
 
 		// Regex Redirect AJAX.
 		new WPSEO_Redirect_Ajax( new WPSEO_REGEX_Redirect_Manager(), 'regex' );
