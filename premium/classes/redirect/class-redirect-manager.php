@@ -60,17 +60,39 @@ abstract class WPSEO_Redirect_Manager {
 	}
 
 	/**
+	 * Search for given redirect
+	 *
+	 * @param string $redirect
+	 *
+	 * @return array|bool
+	 */
+	public function search( $redirect ) {
+		if ( $found = $this->redirect_model->search( $redirect ) ) {
+			return array_merge( array( 'redirect' => $redirect ), $found );
+		}
+
+		return false;
+	}
+
+	/**
 	 * Save the redirect
 	 *
 	 * @todo fix this method to work with the new redirect setup
 	 *
-	 * @param array $old_redirect_arr
-	 * @param array $new_redirect
+	 * @param string $old_redirect_key
+	 * @param array  $new_redirect
+	 *
+	 * @return array|bool
 	 */
-	public function save_redirect( array $old_redirect_arr, array $new_redirect ) {
-		if ( $this->redirect_model->update( $old_redirect_arr['key'], $new_redirect['key'], $new_redirect['value'], $new_redirect['type'] ) ) {
+	public function update_redirect( $old_redirect_key, array $new_redirect ) {
+		if ( $this->redirect_model->update( $old_redirect_key, $new_redirect['key'], $new_redirect['value'], $new_redirect['type'] ) ) {
 			$this->save_redirects();
+
+			// Always return the updated redirect.
+			return $this->search( $new_redirect['key'] );
 		}
+
+		return false;
 	}
 
 	/**
@@ -80,13 +102,14 @@ abstract class WPSEO_Redirect_Manager {
 	 * @param string $new_value
 	 * @param int    $type
 	 *
-	 * @return bool
+	 * @return bool|array
 	 */
 	public function create_redirect( $old_value, $new_value, $type ) {
 		if ( $this->redirect_model->add( $old_value, $new_value, $type ) ) {
 			$this->save_redirects();
 
-			return true;
+			// Always return the added redirect.
+			return $this->search( $old_value );
 		}
 
 		return false;
