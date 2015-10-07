@@ -2198,18 +2198,8 @@ YoastSEO.SnippetPreview.prototype.init = function() {
 		this.refObj.rawData.pageTitle !== null &&
 		this.refObj.rawData.cite !== null
 	) {
-		this.checkCiteAvailable();
 		this.output = this.htmlOutput();
 		this.renderOutput();
-	}
-};
-
-/**
- * checks if the snippetCite is available
- */
-YoastSEO.SnippetPreview.prototype.checkCiteAvailable = function() {
-	if ( typeof this.refObj.callbacks.citeAvailable !== "undefined" ) {
-		this.refObj.callbacks.citeAvailable();
 	}
 };
 
