@@ -28,7 +28,7 @@ class Expose_WPSEO_Twitter extends WPSEO_Twitter {
 		return parent::description();
 	}
 
-	public function image_output( $img ) {
+	public function image_output( $img, $tag = false ) {
 		return parent::image_output( $img );
 	}
 
