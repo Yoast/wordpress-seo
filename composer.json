@@ -25,8 +25,8 @@
 		"composer/installers": "~1.0",
 		"yoast/license-manager": "^1.2",
 		"yoast/i18n-module": "^1.0",
-	    "yoast/api-libs": "^2.0",
-		"xrstf/composer-php52": "^1.0.17"
+		"yoast/api-libs": "^2.0",
+		"xrstf/composer-php52": "^1.0.19"
 	},
 	"require-dev": {
 		"yoast/yoastcs": "dev-master"

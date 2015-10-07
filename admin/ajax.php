@@ -19,7 +19,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
  * @param array $results Results array for encoding.
  */
 function wpseo_ajax_json_echo_die( $results ) {
-	echo json_encode( $results );
+	echo WPSEO_Utils::json_encode( $results );
 	die();
 }
 

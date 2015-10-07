@@ -68,10 +68,10 @@ elseif ( class_exists( 'Yoast_WooCommerce_SEO' ) ) {
 
 <div class="wrap wpseo_table_page">
 
-	<h2 id="wpseo-title"><?php
+	<h1 id="wpseo-title"><?php
 		/* translators: %1$s expands to Yoast SEO */
 		printf( __( '%1$s Extensions', 'wordpress-seo' ), 'Yoast SEO' );
-		?></h2>
+		?></h1>
 
 	<h2 class="nav-tab-wrapper" id="wpseo-tabs">
 		<a class="nav-tab" id="extensions-tab" href="#top#extensions"><?php _e( 'Extensions', 'wordpress-seo' ); ?></a>

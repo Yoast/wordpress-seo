@@ -57,8 +57,8 @@ var bulk_editor = function( current_table ) {
 			}
 		},
 
-		submit_all: function( event ) {
-			event.preventDefault();
+		submit_all: function( ev ) {
+			ev.preventDefault();
 
 			var data = {
 				action: save_all_method,
@@ -136,9 +136,9 @@ var bulk_editor = function( current_table ) {
 			current_table.find( '.wpseo-save-all' ).click( instance.submit_all );
 
 			current_table.find( options.new_class ).keypress(
-				function( event ) {
-					if ( event.which === 13 ) {
-						event.preventDefault();
+				function( ev ) {
+					if ( ev.which === 13 ) {
+						ev.preventDefault();
 						var id = jQuery( this ).data( 'id' );
 						instance.submit_new( id, this );
 					}
