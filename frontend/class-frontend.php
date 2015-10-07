@@ -1785,8 +1785,7 @@ class WPSEO_Frontend {
 			return false;
 		}
 
-		$content = ob_get_contents();
-		ob_end_clean();
+		$content = ob_get_clean();
 
 		$old_wp_query = $wp_query;
 
