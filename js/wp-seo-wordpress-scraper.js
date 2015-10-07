@@ -1,11 +1,34 @@
-/* global YoastSEO: true, tinyMCE, wp, wpseoMetaboxL10n */
+/* global YoastSEO: true, tinyMCE, wp, wpseoMetaboxL10n, setTimeOut */
 YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 
 /**
  * wordpress scraper to gather inputfields.
  * @constructor
  */
-YoastSEO.WordPressScraper = function() {};
+YoastSEO.WordPressScraper = function() {
+	'use strict';
+
+	if ( document.getElementById( 'editable-post-name' ) !== null ) {
+		var that = this;
+		jQuery( document ).on( 'after-autosave.update-post-slug', function() {
+			that.bindSnippetCiteEvents( 0 );
+		});
+	}
+	this.citeEventsLoaded = false;
+};
+
+YoastSEO.WordPressScraper.prototype.bindSnippetCiteEvents = function( time ) {
+	'use strict';
+
+	time = time || 0;
+	var slugElem = document.getElementById( 'editable-post-name' );
+	if ( slugElem !== null ) {
+		this.bindSnippetEvents ( document.getElemmentById( 'editable-post-name' ), YoastSEO.app.snippetPreview );
+	} else if ( time < 5000 ) {
+		time += 200;
+		setTimeOut( this.bindSnippetCiteEvents.bind( this, time ), 200 );
+	}
+};
 
 /**
  * Get data from inputfields and store them in an analyzerData object. This object will be used to fill
@@ -66,6 +89,10 @@ YoastSEO.WordPressScraper.prototype.getDataFromInput = function( inputType ) {
 		case 'cite':
 		case 'editable-post-name':
 			if ( document.getElementById( 'editable-post-name' ) !== null ) {
+				if ( this.citeEventsLoaded === false ) {
+					this.bindSnippetEvents( document.getElementById( 'snippet_cite' ), YoastSEO.app.snippetPreview );
+					this.citeEventsLoaded = true;
+				}
 				val = document.getElementById( 'editable-post-name' ).textContent;
 				var elem = document.getElementById( 'new-post-slug' );
 				if ( elem !== null && val === '' ) {
@@ -162,30 +189,41 @@ YoastSEO.WordPressScraper.prototype.snippetPreviewEventBinder = function( snippe
 	var elems = [ 'snippet_meta', 'snippet_title' ];
 	if ( document.getElementById( 'editable-post-name' ) !== null ) {
 		elems.push ( 'snippet_cite' );
+		this.citeEventsLoaded = true;
 	}
 	for ( var i = 0; i < elems.length; i++ ) {
-		var curElem = document.getElementById( elems [ i ] );
-		curElem.addEventListener( 'keydown', snippetPreview.disableEnter.bind( snippetPreview ) );
-		curElem.addEventListener( 'blur', snippetPreview.checkTextLength.bind( snippetPreview ) );
-		//textFeedback is given on input (when user types or pastests), but also on focus. If a string that is too long is being recalled
-		//from the saved values, it gets the correct classname right away.
-		curElem.addEventListener( 'input', snippetPreview.textFeedback.bind( snippetPreview ) );
-		curElem.addEventListener( 'focus', snippetPreview.textFeedback.bind( snippetPreview ) );
-		//shows edit icon by hovering over element
-		curElem.addEventListener( 'mouseover', snippetPreview.showEditIcon.bind( snippetPreview ) );
-		//hides the edit icon onmouseout, on focus and on keyup. If user clicks or types AND moves his mouse, the edit icon could return while editting
-		//by binding to these 3 events
-		curElem.addEventListener( 'mouseout', snippetPreview.hideEditIcon.bind( snippetPreview ) );
-		curElem.addEventListener( 'focus', snippetPreview.hideEditIcon.bind( snippetPreview ) );
-		curElem.addEventListener( 'keyup', snippetPreview.hideEditIcon.bind( snippetPreview ) );
-
-		curElem.addEventListener( 'focus', snippetPreview.getUnformattedText.bind( snippetPreview ) );
-		curElem.addEventListener( 'keyup', snippetPreview.setUnformattedText.bind( snippetPreview ) );
-		curElem.addEventListener( 'click', snippetPreview.setFocus.bind( snippetPreview ) );
-
-		//adds the showIcon class to show the editIcon;
-		curElem.className = curElem.className + ' showIcon' ;
+		this.bindSnippetEvents( document.getElementById( elems [ i ] ), snippetPreview );
 	}
+};
+
+/**
+ * binds the snippetEvents to a snippet element.
+ * @param { HTMLElement } elem snippet_meta, snippet_title, snippet_cite
+ * @param { YoastSEO.SnippetPreview } snippetPreview
+ */
+YoastSEO.WordPressScraper.prototype.bindSnippetEvents = function( elem, snippetPreview ) {
+	'use strict';
+
+	elem.addEventListener( 'keydown', snippetPreview.disableEnter.bind( snippetPreview ) );
+	elem.addEventListener( 'blur', snippetPreview.checkTextLength.bind( snippetPreview ) );
+	//textFeedback is given on input (when user types or pastests), but also on focus. If a string that is too long is being recalled
+	//from the saved values, it gets the correct classname right away.
+	elem.addEventListener( 'input', snippetPreview.textFeedback.bind( snippetPreview ) );
+	elem.addEventListener( 'focus', snippetPreview.textFeedback.bind( snippetPreview ) );
+	//shows edit icon by hovering over element
+	elem.addEventListener( 'mouseover', snippetPreview.showEditIcon.bind( snippetPreview ) );
+	//hides the edit icon onmouseout, on focus and on keyup. If user clicks or types AND moves his mouse, the edit icon could return while editting
+	//by binding to these 3 events
+	elem.addEventListener( 'mouseout', snippetPreview.hideEditIcon.bind( snippetPreview ) );
+	elem.addEventListener( 'focus', snippetPreview.hideEditIcon.bind( snippetPreview ) );
+	elem.addEventListener( 'keyup', snippetPreview.hideEditIcon.bind( snippetPreview ) );
+
+	elem.addEventListener( 'focus', snippetPreview.getUnformattedText.bind( snippetPreview ) );
+	elem.addEventListener( 'keyup', snippetPreview.setUnformattedText.bind( snippetPreview ) );
+	elem.addEventListener( 'click', snippetPreview.setFocus.bind( snippetPreview ) );
+
+	//adds the showIcon class to show the editIcon;
+	elem.className = elem.className + ' showIcon' ;
 };
 
 /**
@@ -231,8 +269,7 @@ YoastSEO.WordPressScraper.prototype.updateSnippetValues = function( ev ) {
 		ev.currentTarget.textContent = YoastSEO.app.snippetPreview.unformattedText[ currentElement ];
 	}
 	this.setDataFromSnippet( dataFromSnippet, ev.currentTarget.id );
-	YoastSEO.app.rawData = YoastSEO.app.callbacks.getData();
-	YoastSEO.app.runAnalyzer();
+	YoastSEO.app.refresh();
 };
 
 /**
@@ -258,6 +295,10 @@ YoastSEO.WordPressScraper.prototype.citeAvailable = function() {
 	'use strict';
 	if ( document.getElementById( 'editable-post-name' ) ===  null ) {
 		document.getElementById( 'snippet_cite' ).contentEditable = false;
+		this.citeEventsLoaded = false;
+	} else if ( typeof YoastSEO.app !== 'undefined' && !this.citeEventsLoaded ) {
+		this.snippetPreviewEventBinder( YoastSEO.app.snippetPreview );
+		this.citeEventsLoaded = true;
 	}
 };
 
