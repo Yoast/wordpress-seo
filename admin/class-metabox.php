@@ -294,13 +294,11 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	public function meta_box() {
 		$post    = $this->get_metabox_post();
 		$options = WPSEO_Options::get_all();
-
 		?>
 		<div class="wpseo-metabox-tabs-div">
 		<ul class="wpseo-metabox-tabs" id="wpseo-metabox-tabs">
 			<li class="general">
 				<a class="wpseo_tablink" href="#wpseo_general"><?php _e( 'Content', 'wordpress-seo' ); ?></a></li>
-
 			<?php if ( current_user_can( 'manage_options' ) || $options['disableadvanced_meta'] === false ) : ?>
 				<li class="advanced">
 					<a class="wpseo_tablink" href="#wpseo_advanced"><?php _e( 'Advanced', 'wordpress-seo' ); ?></a>
