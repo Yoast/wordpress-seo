@@ -6,7 +6,7 @@
 /**
  * Class WPSEO_Redirect_Validate
  */
-class WPSEO_Redirect_Validate {
+class WPSEO_Redirect_Validator {
 
 	/**
 	 * @var array
@@ -19,11 +19,21 @@ class WPSEO_Redirect_Validate {
 	private $validation_error = false;
 
 	/**
+	 * Should the input url be sanitized
+	 *
+	 * @var bool
+	 */
+	private $sanitize_slashes = false;
+
+	/**
 	 * Converting the redirects into a readable format
 	 *
+	 * @param bool  $sanitize_slashes
 	 * @param array $redirects
 	 */
-	public function __construct( array $redirects = array() ) {
+	public function __construct( $sanitize_slashes = false, array $redirects = array() ) {
+		$this->sanitize_slashes = $sanitize_slashes;
+
 		foreach ( $redirects as $redirect_url => $redirect ) {
 			$this->redirects[ $this->sanitize_slashes( $redirect_url ) ] = $this->sanitize_slashes( $redirect['url'] );
 		}
@@ -32,14 +42,16 @@ class WPSEO_Redirect_Validate {
 	/**
 	 * Validates the old and the new url
 	 *
-	 * @param string $old_url      The url that has to be redirect.
-	 * @param string $new_url      The target url.
-	 * @param string $type         The type of redirect.
-	 * @param bool   $unique_check Should the uniqueness being checked.
+	 * @param string $old_url    The url that has to be redirect.
+	 * @param string $new_url    The target url.
+	 * @param string $type       The type of redirect.
+	 * @param bool   $unique_url When there is an unique_url given, it would validate if the new one is unique.
 	 *
 	 * @return bool|string
 	 */
-	public function validate( $old_url, $new_url, $type = '', $unique_check = false ) {
+	public function validate( $old_url, $new_url, $type = '', $unique_url = false ) {
+
+		$unique_check = ( $unique_url === false || ( $unique_url !== $old_url ) );
 
 		// Check if there is already an error.
 		if ( $unique_check && $this->redirect_exists( $old_url ) ) {
@@ -81,6 +93,15 @@ class WPSEO_Redirect_Validate {
 	}
 
 	/**
+	 * Returns the validation error
+	 *
+	 * @return bool|string
+	 */
+	public function get_error() {
+		return $this->validation_error;
+	}
+
+	/**
 	 * Sanitize the URL for displaying on the window
 	 *
 	 * @param string $url
@@ -101,7 +122,6 @@ class WPSEO_Redirect_Validate {
 	public function redirect_exists( $url ) {
 		return array_key_exists( $this->sanitize_slashes( $url ), $this->redirects );
 	}
-
 
 	/**
 	 * Will check if the $new_url is redirected also and follows the trace of this redirect
@@ -149,7 +169,11 @@ class WPSEO_Redirect_Validate {
 	 * @return string
 	 */
 	private function sanitize_slashes( $url ) {
-		return trim( $url, '/' );
+		if ( $this->sanitize_slashes ) {
+			return trim( $url, '/' );
+		}
+
+		return $url;
 	}
 
 	/**
