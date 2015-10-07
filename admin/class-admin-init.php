@@ -181,6 +181,10 @@ class WPSEO_Admin_Init {
 	 * Determine whether we should load the meta box class and if so, load it.
 	 */
 	private function load_meta_boxes() {
+
+		$is_editor      = in_array( $this->pagenow, array( 'edit.php', 'post.php', 'post-new.php' ) );
+		$is_inline_save = filter_input( INPUT_POST, 'action' ) === 'inline-save';
+
 		/**
 		 * Filter: 'wpseo_always_register_metaboxes_on_admin' - Allow developers to change whether
 		 * the WPSEO metaboxes are only registered on the typical pages (lean loading) or always
@@ -188,7 +192,7 @@ class WPSEO_Admin_Init {
 		 *
 		 * @api bool Whether to always register the metaboxes or not. Defaults to false.
 		 */
-		if ( in_array( $this->pagenow, array(
+		if ( $is_editor || $is_inline_save || in_array( $this->pagenow, array(
 				'edit.php',
 				'post.php',
 				'post-new.php',
@@ -196,6 +200,7 @@ class WPSEO_Admin_Init {
 		) {
 			$GLOBALS['wpseo_metabox']      = new WPSEO_Metabox;
 			$GLOBALS['wpseo_meta_columns'] = new WPSEO_Meta_Columns();
+
 			if ( $this->options['opengraph'] === true || $this->options['twitter'] === true || $this->options['googleplus'] === true ) {
 				new WPSEO_Social_Admin;
 			}

@@ -49,7 +49,6 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 		$expected = '<meta name="twitter:card" content="summary"/>
 <meta name="twitter:description" content="Twitter Test Excerpt"/>
 <meta name="twitter:title" content="Twitter Test Post - Test Blog"/>
-<meta name="twitter:domain" content="Test Blog"/>
 ';
 		$this->expectOutput( $expected );
 	}
@@ -67,8 +66,8 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 		$this->expectOutput( $expected );
 
 		// test valid option
-		self::$class_instance->options['twitter_card_type'] = 'photo';
-		$expected                                           = $this->metatag( 'card', 'photo' );
+		self::$class_instance->options['twitter_card_type'] = 'summary_large_image';
+		$expected                                           = $this->metatag( 'card', 'summary_large_image' );
 
 		self::$class_instance->type();
 		$this->expectOutput( $expected );
@@ -99,18 +98,7 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @covers WPSEO_Twitter::site_domain
-	 */
-	public function test_site_domain() {
-		// test valid option
-		$expected = $this->metatag( 'domain', get_bloginfo( 'name' ) );
-
-		self::$class_instance->site_domain();
-		$this->expectOutput( $expected );
-	}
-
-	/**
-	 * @covers WPSEO_Twitter::site_domain
+	 * @covers WPSEO_Twitter::author
 	 */
 	public function test_author_twitter() {
 		// create user, create post, attach user as author
@@ -253,7 +241,7 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 		$image_url = 'http://url.jpg';
 
 		// test image url
-		$expected = $this->metatag( 'image:src', $image_url );
+		$expected = $this->metatag( 'image', $image_url );
 		$result   = self::$class_instance->image_output( $image_url );
 		$this->assertTrue( $result );
 		$this->expectOutput( $expected );
@@ -274,7 +262,7 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 		self::$class_instance->options['og_frontpage_image'] = $image_url;
 
 		$this->go_to_home();
-		$expected = $this->metatag( 'image:src', $image_url );
+		$expected = $this->metatag( 'image', $image_url );
 
 		self::$class_instance->image();
 		$this->expectOutput( $expected );
@@ -346,7 +334,7 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 		update_post_meta( $post_id, '_thumbnail_id', $attachment_id );
 		$this->go_to( get_permalink( $post_id ) );
 
-		$expected = $this->metatag( 'image:src', 'http://' . WP_TESTS_DOMAIN . "/wp-content/uploads/$filename" );
+		$expected = $this->metatag( 'image', 'http://' . WP_TESTS_DOMAIN . "/wp-content/uploads/$filename" );
 
 		self::$class_instance->image();
 		$this->expectOutput( $expected );
@@ -361,7 +349,7 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 		$post_id = $this->factory->post->create( array( 'post_content' => "Bla <img src='$url'/> bla" ) );
 		$this->go_to( get_permalink( $post_id ) );
 
-		$expected = $this->metatag( 'image:src', $url );
+		$expected = $this->metatag( 'image', $url );
 
 		self::$class_instance->image();
 		$this->expectOutput( $expected );
@@ -371,21 +359,19 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Twitter::gallery_images_output()
 	 */
 	public function test_gallery_images() {
-		$ids      = array();
-		$expected = $this->metatag( 'card', 'gallery' );
 
-		// Insert images into DB so we have something to test against
-		foreach ( range( 0, 3 ) as $i ) {
-			$filename = "image$i.jpg";
-			$ids[] = $this->factory->attachment->create_object( $filename, 0, array(
-				'post_mime_type' => 'image/jpeg',
-				'post_type'      => 'attachment',
-			) );
-			$expected .= $this->metatag( 'image' . $i, 'http://' . WP_TESTS_DOMAIN . "/wp-content/uploads/$filename" );
-		}
+		$expected = $this->metatag( 'card', 'summary_large_image' );
+
+		// Insert image into DB so we have something to test against
+		$filename = "image.jpg";
+		$id       = $this->factory->attachment->create_object( $filename, 0, array(
+			'post_mime_type' => 'image/jpeg',
+			'post_type'      => 'attachment',
+		) );
+		$expected .= $this->metatag( 'image', 'http://' . WP_TESTS_DOMAIN . "/wp-content/uploads/$filename" );
 
 		// Create and go to post
-		$content = '[gallery ids="' . join( ',', $ids ) . '"]';
+		$content = '[gallery ids="' . $id . '"]';
 		$post_id = $this->factory->post->create( array( 'post_content' => $content ) );
 		$this->go_to( get_permalink( $post_id ) );
 
