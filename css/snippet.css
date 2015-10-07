@@ -1,5 +1,6 @@
 #wpseosnippet {
 	width: auto;
+	max-width: 512px;
 	margin: 0 0 10px;
 	padding: 0 5px;
 	font-family: Arial, Helvetica, sans-serif;
@@ -15,6 +16,10 @@
 	cursor: pointer;
 }
 
+#snippet_preview *[contenteditable="false"]:hover {
+	cursor: auto;
+}
+
 #snippet_preview *[contenteditable="true"]:focus {
 	background-color: #bbdefb;
 	cursor: text;
@@ -28,7 +33,11 @@
 	width: 95%;
 }
 
-.snippet_container:hover {
+#snippet_cite {
+	min-width: 20px;
+}
+
+.showIcon:hover {
 	background: url("../images/editicon.png") no-repeat right top;
 	cursor: pointer;
 }

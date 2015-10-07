@@ -1,9 +1,7 @@
-/* global YoastSEO: true, wpseoL10n */
+/* global YoastSEO: true, wpseoL10n, wpseoMetaboxL10n */
 YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 
 YoastSEO.analyzerArgs = {
-	//source to use as feeder for the analyzer and snippetPreview
-	source: YoastSEO.WordPressScraper,
 	//if it must run the anlayzer
 	analyzer: true,
 	//if it uses ajax to get data.
@@ -30,15 +28,24 @@ YoastSEO.analyzerArgs = {
 		overall: 'wpseo-score',
 		snippet: 'wpseosnippet'
 	},
-	//sample texts for snippetPreview
-	sampleText: {
-		url: 'http://example.com/example-post/',
-		title: 'This is an example title - edit by clicking here',
-		keyword: 'Choose a focus keyword',
-		meta: 'Modify your meta description by editing it right here',
-		text: 'Start writing your text!'
-	},
-	translations: wpseoL10n
+	translations: wpseoL10n,
+	queue: [ 'wordCount',
+		'keywordDensity',
+		'subHeadings',
+		'stopwords',
+		'fleschReading',
+		'linkCount',
+		'imageCount',
+		'urlKeyword',
+		'urlLength',
+		'metaDescription',
+		'pageTitleKeyword',
+		'pageTitleLength',
+		'firstParagraph',
+		'keywordDoubles' ],
+	usedKeywords: wpseoMetaboxL10n.keyword_usage,
+	searchUrl: '<a target="new" href=' + wpseoMetaboxL10n.search_url + '>',
+	postUrl: '<a target="new" href=' + wpseoMetaboxL10n.post_edit_url + '>'
 };
 
 (function() {

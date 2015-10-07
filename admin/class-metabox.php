@@ -244,6 +244,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'keyword_usage'               => $this->get_focus_keyword_usage( $post->ID ),
 			'search_url'                  => admin_url( 'edit.php?seo_kw_filter={keyword}' ),
 			'post_edit_url'               => admin_url( 'post.php?post={id}&action=edit' ),
+			'home_url'                    => home_url( '/', null ),
 		);
 	}
 
@@ -605,7 +606,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			else {
 				$json = array();
 			}
-			wp_localize_script( 'wp-seo-wordpressScraper.js', 'wpseoL10n', $json );
+			wp_localize_script( 'wp-seo-wordpressScraper-Config.js', 'wpseoL10n', $json );
 			wp_localize_script( 'wp-seo-replacevar-plugin.js', 'wpseoReplaceVarsL10n', $this->localize_replace_vars_script() );
 
 			// Text strings to pass to shortcode plugin for keyword analysis.

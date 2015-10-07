@@ -1,308 +1,302 @@
-/* global YoastSEO: true, tinyMCE, wp */
+/* global YoastSEO: true, tinyMCE, wp, wpseoMetaboxL10n */
 YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
-
-/**
- * wordpress scraper to gather inputfields.
- * @constructor
- */
-YoastSEO.WordPressScraper = function() {};
-
-/**
- * Get data from inputfields and store them in an analyzerData object. This object will be used to fill
- * the analyzer and the snippetpreview
- */
-YoastSEO.WordPressScraper.prototype.getData = function() {
+(function() {
 	'use strict';
 
-	return {
-		keyword: this.getDataFromInput( 'keyword' ),
-		meta: this.getDataFromInput( 'meta' ),
-		text: this.getDataFromInput( 'text' ),
-		pageTitle: this.getDataFromInput( 'pageTitle' ),
-		title: this.getDataFromInput( 'title' ),
-		url: this.getDataFromInput( 'url' ),
-		excerpt: this.getDataFromInput( 'excerpt' ),
-		snippetTitle: this.getDataFromInput( 'snippetTitle' ),
-		snippetMeta: this.getDataFromInput( 'meta' ),
-		snippetCite: this.getDataFromInput( 'cite' )
+	/**
+	 * wordpress scraper to gather inputfields.
+	 * @constructor
+	 */
+	YoastSEO.WordPressScraper = function() {
+		this.prepareSlugBinding();
 	};
-};
 
-/**
- * gets the values from the given input. Returns this value
- * @param {String} inputType
- * @returns {String}
- */
-YoastSEO.WordPressScraper.prototype.getDataFromInput = function( inputType ) {
-	'use strict';
+	/**
+	 * On a new post, WordPress doesn't include the slug editor, since a post has not been given a slug yet.
+	 * As soon as a title is chosen, an `after-autosave.update-post-slug` event fires that triggers an AJAX request
+	 * to the server to generate a slug. On the response callback a slug editor is inserted into the page on which
+	 * we can bind our Snippet Preview.
+	 *
+	 * On existing posts, the slug editor is already there and we can bind immediately.
+	 */
+	YoastSEO.WordPressScraper.prototype.prepareSlugBinding = function() {
+		if ( document.getElementById( 'editable-post-name' ) === null ) {
+			var that = this;
+			jQuery( document ).on( 'after-autosave.update-post-slug', function() {
+				that.bindSnippetCiteEvents( 0 );
+			});
+		} else {
+			this.bindSlugEditor();
+		}
+	};
 
-	var val = '';
-	switch ( inputType ) {
-		case 'text':
-		case 'content':
-			val = this.getContentTinyMCE();
-			break;
-		case 'url':
-			if ( document.getElementById( 'sample-permalink' ) !== null ) {
-				val = document.getElementById( 'sample-permalink' ).innerHTML.split( '<span' )[ 0 ];
+	/**
+	 * When the `after-autosave.update-post-slug` event is triggered, this function checks to see if the slug editor has
+	 * been inserted yet. If so, it does all of the necessary event binding. If not, it retries for a maximum of 5 seconds.
+	 *
+	 * @param {int} time
+	 */
+	YoastSEO.WordPressScraper.prototype.bindSnippetCiteEvents = function( time ) {
+		time = time || 0;
+		var slugElem = document.getElementById( 'editable-post-name' );
+		var postNameElem = document.getElementById('post_name');
+
+		if ( slugElem !== null ) {
+			this.bindSlugEditor();
+
+			// If the '#post_name' input field has not been set yet, we need to set it here with the textContent of the slugElem.
+			// God knows why WordPress doesn't do this initially...
+			if ( postNameElem.value === '' ) {
+				postNameElem.value = slugElem.textContent;
 			}
-			break;
-		case 'cite':
-		case 'editable-post-name':
-			if ( document.getElementById( 'editable-post-name' ) !== null ) {
-				val = document.getElementById( 'editable-post-name' ).textContent;
-				var elem = document.getElementById( 'new-post-slug' );
-				if ( elem !== null && val === '' ) {
-					val = document.getElementById( 'new-post-slug' ).value;
+
+			YoastSEO.app.snippetPreview.unformattedText.snippet_cite = postNameElem.value;
+			YoastSEO.app.refresh();
+		} else if ( time < 5000 ) {
+			time += 200;
+			setTimeout( this.bindSnippetCiteEvents.bind( this, time ), 200 );
+		}
+	};
+
+	/**
+	 * We want to trigger an update of the snippetPreview on a slug update. Because the save button is not available yet, we need to
+	 * bind an event within the scope of a clickevent of the edit button.
+	 */
+	YoastSEO.WordPressScraper.prototype.bindSlugEditor = function() {
+		jQuery( '#edit-slug-box' ).on( 'click', '.edit-slug', function() {
+			jQuery( '#edit-slug-buttons > button.save' ).on( 'click', function() {
+				YoastSEO.app.refresh();
+				YoastSEO.app.snippetPreview.unformattedText.snippet_cite = document.getElementById('post_name').value;
+			} );
+		} );
+	};
+
+	/**
+	 * Get data from inputfields and store them in an analyzerData object. This object will be used to fill
+	 * the analyzer and the snippetpreview
+	 */
+	YoastSEO.WordPressScraper.prototype.getData = function() {
+		return {
+			keyword: this.getDataFromInput( 'keyword' ),
+			meta: this.getDataFromInput( 'meta' ),
+			text: this.getDataFromInput( 'text' ),
+			pageTitle: this.getDataFromInput( 'pageTitle' ),
+			title: this.getDataFromInput( 'title' ),
+			url: this.getDataFromInput( 'url' ),
+			baseUrl: this.getDataFromInput( 'baseUrl' ),
+			excerpt: this.getDataFromInput( 'excerpt' ),
+			snippetTitle: this.getDataFromInput( 'snippetTitle' ),
+			snippetMeta: this.getDataFromInput( 'meta' ),
+			snippetCite: this.getDataFromInput( 'cite' )
+		};
+	};
+
+	/**
+	 * gets the values from the given input. Returns this value
+	 * @param {String} inputType
+	 * @returns {String}
+	 */
+	YoastSEO.WordPressScraper.prototype.getDataFromInput = function( inputType ) {
+		var val = '';
+		switch ( inputType ) {
+			case 'text':
+			case 'content':
+				val = this.getContentTinyMCE();
+				break;
+			case 'url':
+				if ( document.getElementById( 'sample-permalink' ) !== null ) {
+					val = document.getElementById( 'sample-permalink' ).textContent;
 				}
-			}
-			break;
-		case 'meta':
-			val = document.getElementById( 'yoast_wpseo_metadesc' ).value;
-			break;
-		case 'keyword':
-			val = document.getElementById( 'yoast_wpseo_focuskw' ).value;
-			break;
-		case 'title':
-		case 'snippetTitle':
-			val = document.getElementById( 'yoast_wpseo_title' ).value;
-			break;
-		case 'pageTitle':
-			val = document.getElementById( 'title' ).value;
-			break;
-		case 'excerpt':
-			if ( document.getElementById( 'excerpt' ) !== null ) {
-				val = document.getElementById('excerpt').value;
-			}
-			break;
-		default:
-			break;
-	}
-	return val;
-};
+				break;
+			case 'baseUrl':
+				val = wpseoMetaboxL10n.home_url.replace( /https?:\/\//ig, '' );
+				break;
+			case 'cite':
+			case 'post_name':
+				val = document.getElementById( 'post_name' ).value;
+				break;
+			case 'meta':
+				val = document.getElementById( 'yoast_wpseo_metadesc' ).value;
+				break;
+			case 'keyword':
+				val = document.getElementById( 'yoast_wpseo_focuskw' ).value;
+				break;
+			case 'title':
+			case 'snippetTitle':
+				val = document.getElementById( 'yoast_wpseo_title' ).value;
+				break;
+			case 'pageTitle':
+				val = document.getElementById( 'yoast_wpseo_title' ).value;
+				if ( val === '' ) {
+					val = document.getElementById( 'title' ).value;
+				}
+				break;
+			case 'excerpt':
+				if ( document.getElementById( 'excerpt' ) !== null ) {
+					val = document.getElementById('excerpt').value;
+				}
+				break;
+			default:
+				break;
+		}
+		return val;
+	};
 
-/**
- * When the snippet is updated, update the (hidden) fields on the page
- * @param {Object} value
- * @param {String} type
- */
-YoastSEO.WordPressScraper.prototype.setDataFromSnippet = function( value, type ) {
-	'use strict';
+	/**
+	 * When the snippet is updated, update the (hidden) fields on the page
+	 * @param {Object} value
+	 * @param {String} type
+	 */
+	YoastSEO.WordPressScraper.prototype.setDataFromSnippet = function( value, type ) {
+		switch ( type ) {
+			case 'snippet_meta':
+				document.getElementById( 'yoast_wpseo_metadesc' ).value = value;
+				break;
+			case 'snippet_cite':
+				document.getElementById( 'post_name' ).value = value;
+				if ( document.getElementById( 'editable-post-name' ) !== null ) {
+					document.getElementById( 'editable-post-name' ).textContent = value;
+					document.getElementById( 'editable-post-name-full' ).textContent = value;
+				}
+				break;
+			case 'snippet_title':
+				document.getElementById( 'yoast_wpseo_title' ).value = value;
+				break;
+			default:
+				break;
+		}
+	};
 
-	switch ( type ) {
-		case 'snippet_meta':
-			document.getElementById( 'yoast_wpseo_metadesc' ).value = value;
-			break;
-		case 'snippet_cite':
-			if ( document.getElementById( 'editable-post-name' ) !== null ) {
-				document.getElementById( 'editable-post-name' ).textContent = value;
-				document.getElementById( 'editable-post-name-full' ).textContent = value;
-			}
-			break;
-		case 'snippet_title':
-			document.getElementById( 'yoast_wpseo_title' ).value = value;
-			break;
-		default:
-			break;
-	}
-};
+	/**
+	 * gets content from the content field, if tinyMCE is initialized, use the getContent function to get the data from tinyMCE
+	 * @returns {String}
+	 */
+	YoastSEO.WordPressScraper.prototype.getContentTinyMCE = function() {
+		var val = document.getElementById( 'content' ).value;
+		if ( tinyMCE.editors.length !== 0 ) {
+			val = tinyMCE.get( 'content' ).getContent();
+		}
+		return val;
+	};
 
-/**
- * when the snippet is updated, set this data in rawData.
- * @param {string} value
- * @param {string} type
- */
-YoastSEO.WordPressScraper.prototype.setRawData = function( value, type ) {
-	'use strict';
+	/**
+	 * Calls the eventbinders.
+	 */
+	YoastSEO.WordPressScraper.prototype.bindElementEvents = function( app ) {
+		this.snippetPreviewEventBinder( app.snippetPreview );
+		this.inputElementEventBinder( app );
+		document.getElementById( 'yoast_wpseo_focuskw' ).addEventListener( 'keydown', app.snippetPreview.disableEnter );
+	};
 
-	switch ( type ) {
-		case 'snippet_meta':
-			YoastSEO.app.rawData.snippetMeta = value;
-			break;
-		case 'snippet_cite':
-			YoastSEO.app.rawData.snippetCite = value;
-			break;
-		case 'snippet_title':
-			YoastSEO.app.rawData.snippetTitle = value;
-			break;
-		default:
-			break;
-	}
-};
+	/**
+	 * binds the getinputfieldsdata to the snippetelements.
+	 *
+	 * @param {YoastSEO.SnippetPreview} snippetPreview The snippet preview object to bind the events on.
+	 */
+	YoastSEO.WordPressScraper.prototype.snippetPreviewEventBinder = function( snippetPreview ) {
+		var elems = [ 'snippet_meta', 'snippet_title', 'snippet_cite' ];
 
-/**
- * feeds data to the loader that is required for the analyzer
- */
-YoastSEO.WordPressScraper.prototype.getAnalyzerInput = function() {
-	'use strict';
+		for ( var i = 0; i < elems.length; i++ ) {
+			this.bindSnippetEvents( document.getElementById( elems [ i ] ), snippetPreview );
+		}
+	};
 
-	if ( typeof YoastSEO.app.snippetPreview === 'undefined' ) {
-		YoastSEO.app.init();
-	} else {
-		YoastSEO.app.reloadSnippetText();
-	}
-	YoastSEO.app.runAnalyzerCallback();
-};
-
-/**
- * gets content from the content field, if tinyMCE is initialized, use the getContent function to get the data from tinyMCE
- * @returns {String}
- */
-YoastSEO.WordPressScraper.prototype.getContentTinyMCE = function() {
-	'use strict';
-
-	var val = document.getElementById( 'content' ).value;
-	if ( tinyMCE.editors.length !== 0 ) {
-		val = tinyMCE.get( 'content' ).getContent();
-	}
-	return val;
-};
-
-/**
- * gets data from hidden input fields. Is triggered on click in the snippet preview. Fetches data and inserts into snippetPreview
- * @param {Object} ev
- */
-YoastSEO.WordPressScraper.prototype.getInputFieldsData = function( ev ) {
-	'use strict';
-
-	var inputType = ev.currentTarget.id.replace( /snippet_/i, '' );
-	switch ( inputType ) {
-		case 'title':
-			document.getElementById( 'snippet_title' ).textContent = document.getElementById( 'yoast_wpseo_title' ).value;
-			document.getElementById( 'snippet_title' ).focus();
-			break;
-		case 'meta':
-			document.getElementById( 'snippet_meta' ).focus();
-			document.getElementById( 'snippet_meta' ).textContent = document.getElementById( 'yoast_wpseo_metadesc' ).value;
-
-			break;
-		case 'url':
-			var newUrl = document.getElementById( 'snippet_cite' ).textContent;
-			document.getElementById( 'editable-post-name' ).textContent = newUrl;
-			document.getElementById( 'editable-post-name' ).focus();
-			break;
-		default:
-			break;
-	}
-};
-
-/**
- * Calls the eventbinders.
- */
-YoastSEO.WordPressScraper.prototype.bindElementEvents = function() {
-	'use strict';
-
-	this.snippetPreviewEventBinder( YoastSEO.app.snippetPreview );
-	this.inputElementEventBinder();
-	document.getElementById( 'yoast_wpseo_focuskw' ).addEventListener( 'keydown', YoastSEO.app.snippetPreview.disableEnter );
-};
-
-/**
- * binds the getinputfieldsdata to the snippetelements.
- *
- * @param {YoastSEO.SnippetPreview} snippetPreview The snippet preview object to bind the events on.
- */
-YoastSEO.WordPressScraper.prototype.snippetPreviewEventBinder = function( snippetPreview ) {
-	'use strict';
-
-	var elems = [ 'snippet_cite', 'snippet_meta', 'snippet_title' ];
-	for ( var i = 0; i < elems.length; i++ ) {
-		document.getElementById( elems[ i ] ).addEventListener( 'focus', this.getInputFieldsData );
-		document.getElementById( elems[ i ] ).addEventListener( 'keydown', snippetPreview.disableEnter );
-		document.getElementById( elems[ i ] ).addEventListener( 'blur', snippetPreview.checkTextLength );
+	/**
+	 * binds the snippetEvents to a snippet element.
+	 * @param { HTMLElement } elem snippet_meta, snippet_title, snippet_cite
+	 * @param { YoastSEO.SnippetPreview } snippetPreview
+	 */
+	YoastSEO.WordPressScraper.prototype.bindSnippetEvents = function( elem, snippetPreview ) {
+		elem.addEventListener( 'keydown', snippetPreview.disableEnter.bind( snippetPreview ) );
+		elem.addEventListener( 'blur', snippetPreview.checkTextLength.bind( snippetPreview ) );
 		//textFeedback is given on input (when user types or pastests), but also on focus. If a string that is too long is being recalled
 		//from the saved values, it gets the correct classname right away.
-		document.getElementById( elems[ i ] ).addEventListener( 'input', snippetPreview.textFeedback );
-		document.getElementById( elems[ i ] ).addEventListener( 'focus', snippetPreview.textFeedback );
+		elem.addEventListener( 'input', snippetPreview.textFeedback.bind( snippetPreview ) );
+		elem.addEventListener( 'focus', snippetPreview.textFeedback.bind( snippetPreview ) );
 		//shows edit icon by hovering over element
-		document.getElementById( elems[ i ] ).addEventListener( 'mouseover', snippetPreview.showEditIcon );
+		elem.addEventListener( 'mouseover', snippetPreview.showEditIcon.bind( snippetPreview ) );
 		//hides the edit icon onmouseout, on focus and on keyup. If user clicks or types AND moves his mouse, the edit icon could return while editting
 		//by binding to these 3 events
-		document.getElementById( elems[ i ] ).addEventListener( 'mouseout', snippetPreview.hideEditIcon );
-		document.getElementById( elems[ i ] ).addEventListener( 'focus', snippetPreview.hideEditIcon );
-		document.getElementById( elems[ i ] ).addEventListener( 'keyup', snippetPreview.hideEditIcon );
-	}
-	elems = [ 'title_container', 'url_container', 'meta_container' ];
-	//when clicked on the
-	for ( i = 0; i < elems.length; i++ ) {
-		document.getElementById( elems[ i ] ).addEventListener( 'click', snippetPreview.setFocus );
-	}
-};
+		elem.addEventListener( 'mouseout', snippetPreview.hideEditIcon.bind( snippetPreview ) );
+		elem.addEventListener( 'focus', snippetPreview.hideEditIcon.bind( snippetPreview ) );
+		elem.addEventListener( 'keyup', snippetPreview.hideEditIcon.bind( snippetPreview ) );
 
-/**
- * bins the renewData function on the change of inputelements.
- */
-YoastSEO.WordPressScraper.prototype.inputElementEventBinder = function() {
-	'use strict';
+		elem.addEventListener( 'focus', snippetPreview.getUnformattedText.bind( snippetPreview ) );
+		elem.addEventListener( 'keyup', snippetPreview.setUnformattedText.bind( snippetPreview ) );
+		elem.addEventListener( 'click', snippetPreview.setFocus.bind( snippetPreview ) );
 
-	var elems = [ 'excerpt', 'content', 'editable-post-name', 'yoast_wpseo_focuskw' ];
-	for ( var i = 0; i < elems.length; i++ ) {
-		var elem = document.getElementById( elems[ i ] );
-		if ( elem !== null ) {
-			document.getElementById( elems[ i ] ).addEventListener( 'change', YoastSEO.app.refresh.bind( YoastSEO.app ) );
+		//adds the showIcon class to show the editIcon;
+		elem.className = elem.className + ' showIcon' ;
+	};
+
+	/**
+	 * binds the renewData function on the change of inputelements.
+	 */
+	YoastSEO.WordPressScraper.prototype.inputElementEventBinder = function( app ) {
+		var elems = [ 'excerpt', 'content', 'yoast_wpseo_focuskw', 'title' ];
+		for ( var i = 0; i < elems.length; i++ ) {
+			var elem = document.getElementById( elems[ i ] );
+			if ( elem !== null ) {
+				document.getElementById( elems[ i ] ).addEventListener( 'input', app.analyzeTimer.bind( app ) );
+			}
 		}
-	}
-	document.getElementById( 'yoast_wpseo_focuskw' ).addEventListener( 'blur', this.resetQueue );
-};
 
-/**
- * Resets the current queue if focus keyword is changed and not empty.
- */
-YoastSEO.WordPressScraper.prototype.resetQueue = function() {
-	'use strict';
+		tinyMCE.on( 'addEditor', function(e) {
+			e.editor.on( 'keyPress', function() {
+				app.analyzeTimer.call( app );
+			} );
+		});
 
-	if ( YoastSEO.app.rawData.keyword !== '' ) {
-		YoastSEO.app.runAnalyzer( this.rawData );
-	}
-};
+		document.getElementById( 'yoast_wpseo_focuskw' ).addEventListener( 'blur', this.resetQueue );
+	};
 
-/**
- * Updates the snippet values, is bound by the loader when generating the elements for the snippet.
- * Uses the __unformattedText if the textFeedback function has put a string there (if text was too long).
- * clears this after use.
- *
- * @param {Object} ev
- */
-YoastSEO.WordPressScraper.prototype.updateSnippetValues = function( ev ) {
-	'use strict';
-
-	var dataFromSnippet = ev.currentTarget.textContent;
-	if ( typeof ev.currentTarget.__unformattedText !== 'undefined' ) {
-		if ( ev.currentTarget.__unformattedText !== '' ) {
-			dataFromSnippet = ev.currentTarget.__unformattedText;
-			ev.currentTarget.__unformattedText = '';
+	/**
+	 * Resets the current queue if focus keyword is changed and not empty.
+	 */
+	YoastSEO.WordPressScraper.prototype.resetQueue = function() {
+		if ( YoastSEO.app.rawData.keyword !== '' ) {
+			YoastSEO.app.runAnalyzer( this.rawData );
 		}
-	}
-	ev.currentTarget.refObj.callbacks.setRawData( dataFromSnippet, ev.currentTarget.id);
-	ev.currentTarget.refObj.callbacks.setDataFromSnippet( dataFromSnippet, ev.currentTarget.id );
-	ev.currentTarget.refObj.callbacks.getData();
-	ev.currentTarget.refObj.callbacks.getAnalyzerInput();
-};
+	};
 
-/**
- * Saves the score to the linkdex.
- * Outputs the score in the overall target.
- *
- * @param {String} score
- */
-YoastSEO.WordPressScraper.prototype.saveScores = function( score ) {
-	'use strict';
+	/**
+	 * Updates the snippet values, is bound by the loader when generating the elements for the snippet.
+	 * Uses the unformattedText object of the if the textFeedback function has put a string there (if text was too long).
+	 * clears this after use.
+	 *
+	 * @param {Object} ev
+	 */
+	YoastSEO.WordPressScraper.prototype.updateSnippetValues = function( ev ) {
+		var dataFromSnippet = ev.currentTarget.textContent;
+		var currentElement = ev.currentTarget.id;
+		if ( typeof YoastSEO.app.snippetPreview.unformattedText[ currentElement ] !== 'undefined' ) {
+			ev.currentTarget.textContent = YoastSEO.app.snippetPreview.unformattedText[ currentElement ];
+		}
+		this.setDataFromSnippet( dataFromSnippet, ev.currentTarget.id );
+		YoastSEO.app.refresh();
+	};
 
-	var tmpl =  wp.template('score_svg');
-	document.getElementById( YoastSEO.analyzerArgs.targets.overall ).innerHTML = tmpl();
-	document.getElementById( 'yoast_wpseo_linkdex' ).value = score;
-};
+	/**
+	 * Saves the score to the linkdex.
+	 * Outputs the score in the overall target.
+	 *
+	 * @param {String} score
+	 */
+	YoastSEO.WordPressScraper.prototype.saveScores = function( score ) {
+		var tmpl =  wp.template('score_svg');
+		document.getElementById( YoastSEO.analyzerArgs.targets.overall ).innerHTML = tmpl();
+		document.getElementById( 'yoast_wpseo_linkdex' ).value = score;
+	};
 
-/**
- * binds to the WordPress jQuery function to put the permalink on the page.
- * If the response matches with permalinkstring, the snippet can be rerendered.
- */
-jQuery( document ).on( 'ajaxComplete', function( ev, response ) {
-	'use strict';
-
-	if ( response.responseText.match( 'Permalink:' ) !== null ) {
-		YoastSEO.app.callbacks.getData();
-		YoastSEO.app.callbacks.getAnalyzerInput();
-		YoastSEO.app.snippetPreview.reRender();
-	}
-} );
+	/**
+	 * binds to the WordPress jQuery function to put the permalink on the page.
+	 * If the response matches with permalinkstring, the snippet can be rerendered.
+	 */
+	jQuery( document ).on( 'ajaxComplete', function( ev, response ) {
+		if ( response.responseText.match( 'Permalink:' ) !== null ) {
+			YoastSEO.app.callbacks.getData();
+			YoastSEO.app.runAnalyzer();
+			YoastSEO.app.snippetPreview.reRender();
+		}
+	} );
+}());
