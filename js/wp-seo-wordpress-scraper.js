@@ -34,7 +34,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 	 * When the `after-autosave.update-post-slug` event is triggered, this function checks to see if the slug editor has
 	 * been inserted yet. If so, it does all of the necessary event binding. If not, it retries for a maximum of 5 seconds.
 	 *
-	 * @param time
+	 * @param {int} time
 	 */
 	YoastSEO.WordPressScraper.prototype.bindSnippetCiteEvents = function( time ) {
 		time = time || 0;
@@ -240,6 +240,13 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 				document.getElementById( elems[ i ] ).addEventListener( 'input', app.analyzeTimer.bind( app ) );
 			}
 		}
+
+		tinyMCE.on( 'addEditor', function(e) {
+			e.editor.on( 'keyPress', function() {
+				app.analyzeTimer.call( app );
+			} );
+		});
+
 		document.getElementById( 'yoast_wpseo_focuskw' ).addEventListener( 'blur', this.resetQueue );
 	};
 
