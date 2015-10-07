@@ -32,7 +32,7 @@ class WPSEO_URL_Redirect_Manager_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_URL_Redirect_Manager::search_url
 	 */
 	public function test_search_url() {
-		$this->assertEquals( 'new', $this->class_instance->search_url( 'old' ) );
+		$this->assertEquals( 'new', $this->class_instance->search_url( '/old' ) );
 	}
 
 	/**
@@ -41,7 +41,7 @@ class WPSEO_URL_Redirect_Manager_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_URL_Redirect_Manager::search_url
 	 */
 	public function test_search_none_existing_url() {
-		$this->assertFalse( $this->class_instance->search_url( 'gold' ) );
+		$this->assertFalse( $this->class_instance->search_url( '/gold' ) );
 	}
 
 	/**
@@ -50,7 +50,7 @@ class WPSEO_URL_Redirect_Manager_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_URL_Redirect_Manager::get_options
 	 */
 	public function test_get_options() {
-		$options = WPSEO_Redirect_Manager::get_options();
+		$options = WPSEO_Redirect::get_options();
 
 		$this->assertEquals( 'off', $options['disable_php_redirect'] );
 		$this->assertEquals( 'off', $options['separate_file'] );
@@ -72,9 +72,9 @@ class WPSEO_URL_Redirect_Manager_Test extends WPSEO_UnitTestCase {
 	public function test_get_redirects() {
 		$redirects = $this->class_instance->get_redirects();
 
-		$this->assertArrayHasKey( 'old', $redirects );
-		$this->assertArrayHasKey( 'older', $redirects );
-		$this->assertArrayHasKey( 'oldest', $redirects );
+		$this->assertArrayHasKey( '/old', $redirects );
+		$this->assertArrayHasKey( '/older', $redirects );
+		$this->assertArrayHasKey( '/oldest', $redirects );
 	}
 
 	/**
@@ -87,11 +87,11 @@ class WPSEO_URL_Redirect_Manager_Test extends WPSEO_UnitTestCase {
 		$is_created = $this->class_instance->create_redirect( 'add_redirect', 'added_redirect', 301 );
 		$redirects  = $this->class_instance->get_redirects();
 
-		$this->assertTrue( $is_created );
-		$this->assertArrayHasKey( 'add_redirect', $redirects );
+		$this->assertTrue( is_array( $is_created ) );
+		$this->assertArrayHasKey( '/add_redirect', $redirects );
 
-		$this->assertEquals( 'added_redirect', $redirects['add_redirect']['url'] );
-		$this->assertEquals( '301', $redirects['add_redirect']['type'] );
+		$this->assertEquals( 'added_redirect', $redirects['/add_redirect']['url'] );
+		$this->assertEquals( '301', $redirects['/add_redirect']['type'] );
 
 		/*
 		 Because of PHP 5.2, this can not be done
@@ -112,14 +112,14 @@ class WPSEO_URL_Redirect_Manager_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Test what happens if we update the redirect
 	 *
-	 * @covers WPSEO_URL_Redirect_Manager::save_redirect
+	 * @covers WPSEO_URL_Redirect_Manager::update_redirect
 	 */
 	public function test_update_redirect() {
 		// First of all create a redirect.
 		$this->class_instance->create_redirect( 'update_redirect', 'updated_redirect', 301 );
 
-		$this->class_instance->save_redirect(
-			array( 'key' => 'update_redirect', 'value' => 'updated_redirect', 'type' => 301 ),
+		$this->class_instance->update_redirect(
+			'update_redirect',
 			array( 'key' => 'redirect_update', 'value' => 'updated_redirect', 'type' => 301 )
 		);
 
@@ -145,23 +145,11 @@ class WPSEO_URL_Redirect_Manager_Test extends WPSEO_UnitTestCase {
 		$this->class_instance->create_redirect( 'delete_redirect', 'deleted_redirect', 301 );
 
 		// Remove the redirect.
-		$this->class_instance->delete_redirect( array( 'delete_redirect' ) );
+		$this->class_instance->delete_redirects( array( 'delete_redirect' ) );
 
-		$this->assertFalse( array_key_exists( 'delete_redirect', $this->class_instance->get_redirects() ) );
+		$this->assertFalse( array_key_exists( '/delete_redirect', $this->class_instance->get_redirects() ) );
 	}
-
-	/**
-	 * Saving the redirects, by just overwrite it with an empty array
-	 *
-	 * @covers WPSEO_URL_Redirect_Manager::save_redirects
-	 */
-	public function test_save_redirects() {
-		// Just overwrite the redirect with an empty array.
-		$this->class_instance->save_redirects( array() );
-
-		$this->assertTrue( array() === $this->class_instance->get_redirects() );
-	}
-
+	
 	/**
 	 * Unset the class instance
 	 */

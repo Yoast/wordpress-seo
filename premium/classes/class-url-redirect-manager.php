@@ -53,9 +53,27 @@ class WPSEO_URL_Redirect_Manager extends WPSEO_Redirect_Manager {
 	 */
 	public function update_redirect( $old_redirect_key, array $new_redirect ) {
 		// Format the URL if it's an URL.
+		$old_redirect_key    = WPSEO_Utils::format_url( $old_redirect_key );
 		$new_redirect['key'] = WPSEO_Utils::format_url( $new_redirect['key'] );
 
 		return parent::update_redirect( $old_redirect_key, $new_redirect );
+	}
+
+	/**
+	 * Delete the redirects
+	 *
+	 * @param array $delete_redirects
+	 *
+	 * @return bool
+	 */
+	public function delete_redirects( array $delete_redirects ) {
+		if ( is_array( $delete_redirects ) && count( $delete_redirects ) > 0 ) {
+			foreach ( $delete_redirects as $delete_key => $delete_redirect ) {
+				$delete_redirects[ $delete_key ] = WPSEO_Utils::format_url( $delete_redirect );
+			}
+		}
+
+		return parent::delete_redirects( $delete_redirects );
 	}
 
 	/**
@@ -70,17 +88,5 @@ class WPSEO_URL_Redirect_Manager extends WPSEO_Redirect_Manager {
 		);
 	}
 
-	/*
-	protected function validate( $old_url, $new_url ) {
-		// If the $new_url already exists, we've to check for an infinite redirect loop.
-		$validation = new WPSEO_Redirect_Validate( $this->get_redirects() );
-
-		if ( $validation->trace_loop() ) {
-
-		}
-
-
-	}
-	*/
 
 }
