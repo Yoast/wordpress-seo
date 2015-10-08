@@ -18,9 +18,9 @@ class WPSEO_Nginx_Redirect_File extends WPSEO_Redirect_File {
 	/**
 	 * Format URL redirect
 	 *
-	 * @param string $old_url
-	 * @param string $new_url
-	 * @param int    $type
+	 * @param string $old_url The url that will be redirected.
+	 * @param string $new_url The url where the old_url redirects to.
+	 * @param int    $type    The type of the redirect.
 	 *
 	 * @return string
 	 */
@@ -31,9 +31,9 @@ class WPSEO_Nginx_Redirect_File extends WPSEO_Redirect_File {
 	/**
 	 * Format REGEX redirect
 	 *
-	 * @param string $regex
-	 * @param string $url
-	 * @param int    $type
+	 * @param string $regex The regular expression that will be used to match with the requested url.
+	 * @param string $url   The url where the old_url redirects to.
+	 * @param int    $type  The type of the redirect.
 	 *
 	 * @return string
 	 */

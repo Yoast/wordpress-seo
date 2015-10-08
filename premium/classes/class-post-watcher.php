@@ -26,6 +26,8 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 
 	/**
 	 * Load needed js file
+	 *
+	 * @param string $hook The current page that is opened.
 	 */
 	public function page_scripts( $hook ) {
 		if ( $hook === 'edit.php' || $hook === 'edit-tags.php' ) {
@@ -36,7 +38,7 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	/**
 	 * Add an extra field to post edit screen so we know the old url in the 'post_updated' hook
 	 *
-	 * @param WP_Post $post
+	 * @param WP_Post $post The post object to get the ID from.
 	 */
 	public function old_url_field( $post ) {
 		// $post must be set.
@@ -51,9 +53,9 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	/**
 	 * Detect if the slug changed, hooked into 'post_updated'
 	 *
-	 * @param integer $post_id
-	 * @param WP_Post $post
-	 * @param WP_Post $post_before
+	 * @param integer $post_id     The ID of the post.
+	 * @param WP_Post $post        The post with the new values.
+	 * @param WP_Post $post_before The post with the previous values.
 	 *
 	 * @return bool
 	 */
@@ -98,7 +100,7 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	/**
 	 * Checks whether the given post is public or not
 	 *
-	 * @param integer $post_id
+	 * @param integer $post_id The current post ID.
 	 *
 	 * @return bool
 	 */
@@ -122,7 +124,7 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	/**
 	 * Offer to create a redirect from the post that is about to get trashed
 	 *
-	 * @param integer $post_id
+	 * @param integer $post_id The current post ID.
 	 */
 	public function detect_post_trash( $post_id ) {
 
@@ -147,7 +149,7 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	/**
 	 * Offer to create a redirect from the post that is about to get  restored from the trash
 	 *
-	 * @param integer $post_id
+	 * @param integer $post_id The current post ID.
 	 */
 	public function detect_post_untrash( $post_id ) {
 
@@ -172,7 +174,7 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	/**
 	 * Offer to create a redirect from the post that is about to get deleted
 	 *
-	 * @param integer $post_id
+	 * @param integer $post_id The current post ID.
 	 */
 	public function detect_post_delete( $post_id ) {
 
@@ -203,7 +205,7 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	/**
 	 * Look up if url does exists in the current redirects
 	 *
-	 * @param string $url url to search for.
+	 * @param string $url Url to search for.
 	 *
 	 * @return bool
 	 */
@@ -219,8 +221,8 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	 *
 	 * This method will check if url as redirect already exists
 	 *
-	 * @param integer $post_id
-	 * @param bool    $should_exist
+	 * @param integer $post_id      The current post ID.
+	 * @param bool    $should_exist Boolean to determine if the url should be exist as a redirect.
 	 *
 	 * @return string|void
 	 */
@@ -245,7 +247,7 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	/**
 	 * Get the URL to the post and returns it's path
 	 *
-	 * @param integer $post_id
+	 * @param integer $post_id The current post ID.
 	 *
 	 * @return string
 	 */
@@ -260,8 +262,8 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	/**
 	 * Get the old url
 	 *
-	 * @param object $post
-	 * @param object $post_before
+	 * @param object $post        The post object with the new values.
+	 * @param object $post_before The post object with the old values.
 	 *
 	 * @return bool|string
 	 */
@@ -284,8 +286,8 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	/**
 	 * Display notification
 	 *
-	 * @param string $old_url
-	 * @param string $new_url
+	 * @param string $old_url The old url to the post.
+	 * @param string $new_url Unused. The new generated redirect url.
 	 */
 	protected function set_notification( $old_url, $new_url ) {
 		$id = 'wpseo_redirect_' . md5( $old_url );

@@ -252,8 +252,8 @@ class WPSEO_Premium {
 	/**
 	 * Hooks into the `redirect_canonical` filter to catch ongoing redirects and move them to the correct spot
 	 *
-	 * @param string $redirect_url
-	 * @param string $requested_url
+	 * @param string $redirect_url  The target url where the requested url will be redirected to.
+	 * @param string $requested_url The current requested url.
 	 *
 	 * @return string
 	 */
@@ -285,7 +285,7 @@ class WPSEO_Premium {
 	/**
 	 * Enqueue post en term overview script
 	 *
-	 * @param string $hook
+	 * @param string $hook The current opened page.
 	 */
 	public function enqueue_overview_script( $hook ) {
 		if ( 'edit.php' == $hook || 'edit-tags.php' == $hook || 'post.php' == $hook ) {
@@ -333,7 +333,7 @@ class WPSEO_Premium {
 	/**
 	 * Add page analysis to array with variable array key patterns
 	 *
-	 * @param array $patterns
+	 * @param array $patterns Array with patterns for page analysis.
 	 *
 	 * @return array
 	 */
@@ -386,8 +386,8 @@ class WPSEO_Premium {
 	 * The values will be comma-seperated and will target the belonging field in the post_meta. Page analysis will
 	 * use the content of it by sticking it to the post_content.
 	 *
-	 * @param array  $wpseo_admin_pages
-	 * @param string $name
+	 * @param array  $wpseo_admin_pages Unused. Array with admin pages.
+	 * @param string $name				The name for the text input field.
 	 */
 	public function admin_page_meta_post_types_checkboxes( $wpseo_admin_pages, $name ) {
 		echo Yoast_Form::get_instance()->textinput( 'page-analyse-extra-' . $name, __( 'Add custom fields to page analysis', 'wordpress-seo-premium' ) );
@@ -396,7 +396,7 @@ class WPSEO_Premium {
 	/**
 	 * Function adds the premium pages to the Yoast SEO menu
 	 *
-	 * @param array $submenu_pages
+	 * @param array $submenu_pages Array with the configuration for the submenu pages.
 	 *
 	 * @return array
 	 */
@@ -431,7 +431,7 @@ class WPSEO_Premium {
 	/**
 	 * Add redirects to admin pages so the Yoast scripts are loaded
 	 *
-	 * @param array $admin_pages
+	 * @param array $admin_pages Array with the admin pages.
 	 *
 	 * @return array
 	 */
@@ -452,8 +452,8 @@ class WPSEO_Premium {
 	/**
 	 * Hook that runs after the 'wpseo_redirect' option is updated
 	 *
-	 * @param array $old_value
-	 * @param array $value
+	 * @param array $old_value The current redirect option values.
+	 * @param array $value     The new redirect option values.
 	 */
 	public function save_redirect_files( $old_value, $value ) {
 

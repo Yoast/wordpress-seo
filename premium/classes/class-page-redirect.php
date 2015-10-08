@@ -271,9 +271,9 @@ class WPSEO_Page_Redirect {
 	/**
 	 * Catch redirects_per_page
 	 *
-	 * @param string $status
-	 * @param string $option
-	 * @param string $value
+	 * @param string $status The current status of the page.
+	 * @param string $option The option that is called.
+	 * @param string $value  The value of the set option.
 	 *
 	 * @return string|void
 	 */

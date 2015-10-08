@@ -15,9 +15,9 @@ interface IWPSEO_Redirect_File {
 	/**
 	 * Formatting the URL redirect
 	 *
-	 * @param string $old_url
-	 * @param string $new_url
-	 * @param int    $type
+	 * @param string $old_url The url that will be redirected.
+	 * @param string $new_url The url where the old_url redirects to.
+	 * @param int    $type    The redirect type.
 	 *
 	 * @return mixed
 	 */
@@ -26,9 +26,9 @@ interface IWPSEO_Redirect_File {
 	/**
 	 * Formating the regex redirect
 	 *
-	 * @param string $old_url
-	 * @param string $new_url
-	 * @param int    $type
+	 * @param string $old_url The regular expression that will match the url.
+	 * @param string $new_url The url where the old_url redirects to.
+	 * @param int    $type    The redirect type.
 	 *
 	 * @return mixed
 	 */
