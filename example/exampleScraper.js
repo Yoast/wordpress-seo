@@ -10,7 +10,6 @@ YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 YoastSEO.ExampleScraper = function( args ) {
 	this.config = args;
 	this.analyzerData = {};
-	this.formattedData = {};
 };
 
 YoastSEO.ExampleScraper.prototype.getData = function() {
@@ -26,25 +25,6 @@ YoastSEO.ExampleScraper.prototype.getData = function() {
 		snippetMeta: this.getDataFromInput("meta"),
 		snippetCite: this.getDataFromInput("url")
 	};
-};
-
-/**
- * initializes the snippetPreview if it isn't there.
- * If it is already initialized, it get's new values from the inputs and rerenders snippet.
- */
-YoastSEO.ExampleScraper.prototype.getAnalyzerInput = function() {
-	if ( typeof YoastSEO.app.snippetPreview === "undefined" ) {
-		this.refObj.init();
-	} else {
-		this.rawData.text = this.getDataFromInput( "text" );
-		this.rawData.keyword = this.getDataFromInput( "keyword" );
-		this.rawData.pageTitle = this.getDataFromInput( "title" );
-		this.rawData.snippetMeta = this.getDataFromInput( "meta" );
-		this.rawData.snippetCite = this.getDataFromInput( "url" );
-		this.refObj.rawData = this.formattedData;
-		this.refObj.reloadSnippetText();
-	}
-	this.refObj.runAnalyzerCallback();
 };
 
 /**
@@ -119,22 +99,6 @@ YoastSEO.ExampleScraper.prototype.inputElementEventBinder = function( app ) {
 	for ( var i = 0; i < elems.length; i++ ) {
 		document.getElementById( elems[ i ] ).addEventListener( "change", app.refresh.bind( app ) );
 	}
-};
-
-/**
- * calls getAnalyzerinput function on change event from element
- * @param event
- */
-YoastSEO.ExampleScraper.prototype.renewData = function( ev ) {
-	this.getAnalyzerInput();
-};
-
-/**
- * calls getAnalyzerinput function on focus of the snippet elements;
- * @param event
- */
-YoastSEO.ExampleScraper.prototype.snippetCallback = function( ev ) {
-	this.getAnalyzerInput();
 };
 
 /**
