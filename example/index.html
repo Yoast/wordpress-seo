@@ -30,7 +30,6 @@
                 overall: "overallScore",
                 snippet: "snippet"
             },
-
             callbacks: {
                 getData: function() { return {} }
             }
@@ -44,10 +43,8 @@
                 updateSnippetValues: exampleScraper.updateSnippetValues.bind( exampleScraper ),
                 saveScores: exampleScraper.saveScores.bind( exampleScraper )
             };
-
-
             window.YoastSEO.app = new YoastSEO.App( YoastSEO.analyzerArgs );
-            //YoastSEO.app.refresh();*/
+            YoastSEO.app.refresh();
         };
     </script>
 </head>

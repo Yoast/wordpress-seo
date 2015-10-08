@@ -9,8 +9,13 @@ YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
  */
 YoastSEO.ExampleScraper = function( args ) {
 	this.config = args;
-	this.analyzerData = {};
+	//this.analyzerData = {};
+	//this.enableBaseUrl();
 };
+
+YoastSEO.ExampleScraper.prototype.enableBaseUrl = function() {
+	document.getElementById('snippet_citeBase').contentEditable = true;
+}
 
 YoastSEO.ExampleScraper.prototype.getData = function() {
 	return {
@@ -46,7 +51,11 @@ YoastSEO.ExampleScraper.prototype.getDataFromInput = function( inputType ) {
 			}
 			break;
 		case "baseUrl":
-			val = "";
+			val = this.config.sampleText.baseUrl;
+			elem = document.getElementById( "snippet_citeBase");
+			if (elem !== null) {
+				val = elem.textContent;
+			}
 			break;
 		case "meta":
 			elem = document.getElementById( "snippet_meta" );
@@ -82,7 +91,7 @@ YoastSEO.ExampleScraper.prototype.bindElementEvents = function( app ) {
  * binds the getinputfieldsdata to the snippetelements.
  */
 YoastSEO.ExampleScraper.prototype.snippetPreviewEventBinder = function( app ) {
-	var elems = [ "cite", "meta", "title" ];
+	var elems = [ "cite", "meta", "title", "citeBase" ];
 	for ( var i = 0; i < elems.length; i++ ) {
 		document.getElementById( "snippet_" + elems[ i ] ).addEventListener(
 			"blur",
@@ -95,7 +104,7 @@ YoastSEO.ExampleScraper.prototype.snippetPreviewEventBinder = function( app ) {
  * bins the renewData function on the change of inputelements.
  */
 YoastSEO.ExampleScraper.prototype.inputElementEventBinder = function( app ) {
-	var elems = [ "content", "focusKeyword", "snippet_cite", "snippet_meta", "snippet_title" ];
+	var elems = [ "content", "focusKeyword", "snippet_cite", "snippet_meta", "snippet_title", "snippet_citeBase" ];
 	for ( var i = 0; i < elems.length; i++ ) {
 		document.getElementById( elems[ i ] ).addEventListener( "change", app.refresh.bind( app ) );
 	}
