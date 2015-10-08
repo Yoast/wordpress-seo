@@ -19,6 +19,7 @@ YoastSEO.ExampleScraper.prototype.getData = function() {
 		meta: this.getDataFromInput("meta"),
 		text: this.getDataFromInput("text"),
 		title: this.getDataFromInput("title"),
+		baseUrl: this.getDataFromInput("baseUrl"),
 		url: this.getDataFromInput("url"),
 		pageTitle: this.getDataFromInput("title"),
 		snippetTitle: this.getDataFromInput("title"),
@@ -32,7 +33,7 @@ YoastSEO.ExampleScraper.prototype.getData = function() {
  * If it is already initialized, it get's new values from the inputs and rerenders snippet.
  */
 YoastSEO.ExampleScraper.prototype.getAnalyzerInput = function() {
-	if ( typeof this.refObj.snippetPreview === "undefined" ) {
+	if ( typeof YoastSEO.app.snippetPreview === "undefined" ) {
 		this.refObj.init();
 	} else {
 		this.rawData.text = this.getDataFromInput( "text" );
@@ -64,6 +65,9 @@ YoastSEO.ExampleScraper.prototype.getDataFromInput = function( inputType ) {
 				val = elem.textContent;
 			}
 			break;
+		case "baseUrl":
+			val = "";
+			break;
 		case "meta":
 			elem = document.getElementById( "snippet_meta" );
 			if (elem !== null) {
@@ -88,20 +92,21 @@ YoastSEO.ExampleScraper.prototype.getDataFromInput = function( inputType ) {
 /**
  * calls the eventbinders.
  */
-YoastSEO.ExampleScraper.prototype.bindElementEvents = function() {
-	this.inputElementEventBinder();
-	this.snippetPreviewEventBinder();
+YoastSEO.ExampleScraper.prototype.bindElementEvents = function( app ) {
+	this.inputElementEventBinder( app );
+	this.snippetPreviewEventBinder( app );
+	document.getElementById( "focusKeyword").addEventListener( 'keydown', app.snippetPreview.disableEnter );
 };
 
 /**
  * binds the getinputfieldsdata to the snippetelements.
  */
-YoastSEO.ExampleScraper.prototype.snippetPreviewEventBinder = function() {
+YoastSEO.ExampleScraper.prototype.snippetPreviewEventBinder = function( app ) {
 	var elems = [ "cite", "meta", "title" ];
 	for ( var i = 0; i < elems.length; i++ ) {
 		document.getElementById( "snippet_" + elems[ i ] ).addEventListener(
 			"blur",
-			this.snippetCallback
+			app.refresh.bind( app )
 		);
 	}
 };
@@ -109,11 +114,10 @@ YoastSEO.ExampleScraper.prototype.snippetPreviewEventBinder = function() {
 /**
  * bins the renewData function on the change of inputelements.
  */
-YoastSEO.ExampleScraper.prototype.inputElementEventBinder = function() {
-	var elems = [ "textInput", "keywordInput", "snippet_cite", "snippet_meta", "snippet_title" ];
+YoastSEO.ExampleScraper.prototype.inputElementEventBinder = function( app ) {
+	var elems = [ "content", "focusKeyword", "snippet_cite", "snippet_meta", "snippet_title" ];
 	for ( var i = 0; i < elems.length; i++ ) {
-		document.getElementById( elems[ i ] ).__refObj = this;
-		document.getElementById( elems[ i ] ).addEventListener( "change", this.renewData );
+		document.getElementById( elems[ i ] ).addEventListener( "change", app.refresh.bind( app ) );
 	}
 };
 
@@ -122,7 +126,7 @@ YoastSEO.ExampleScraper.prototype.inputElementEventBinder = function() {
  * @param event
  */
 YoastSEO.ExampleScraper.prototype.renewData = function( ev ) {
-	ev.currentTarget.__refObj.getAnalyzerInput();
+	this.getAnalyzerInput();
 };
 
 /**
@@ -130,7 +134,7 @@ YoastSEO.ExampleScraper.prototype.renewData = function( ev ) {
  * @param event
  */
 YoastSEO.ExampleScraper.prototype.snippetCallback = function( ev ) {
-	ev.currentTarget.__refObj.getAnalyzerInput();
+	this.getAnalyzerInput();
 };
 
 /**
