@@ -39,6 +39,32 @@ class WPSEO_Premium {
 
 		// Create the upload directory.
 		WPSEO_Redirect_File_Manager::create_upload_dir();
+
+		WPSEO_Premium::import_redirects_from_free();
+	}
+
+	/**
+	 * Check if redirects should be imported from the free version
+	 */
+	public static function import_redirects_from_free() {
+		$query_redirects = new WP_Query( 'post_type=any&meta_key=_yoast_wpseo_redirect&order=ASC' );
+
+		if ( ! empty( $query_redirects->posts ) ) {
+			WPSEO_Premium::autoloader();
+
+			$redirect_manager = new WPSEO_URL_Redirect_Manager();
+
+			foreach ( $query_redirects->posts as $post ) {
+				$old_url = '/' . $post->post_name . '/';
+				$new_url = get_post_meta( $post->ID, '_yoast_wpseo_redirect', true );
+
+				// Create redirect.
+				$redirect_manager->create_redirect( $old_url, $new_url, 301 );
+
+				// Remove post meta value.
+				delete_post_meta( $post->ID, '_yoast_wpseo_redirect' );
+			}
+		}
 	}
 
 	/**
@@ -53,10 +79,7 @@ class WPSEO_Premium {
 	 */
 	private function setup() {
 
-		// Setup autoloader.
-		require_once( dirname( __FILE__ ) . '/classes/class-premium-autoloader.php' );
-		$autoloader = new WPSEO_Premium_Autoloader();
-		spl_autoload_register( array( $autoloader, 'load' ) );
+		WPSEO_Premium::autoloader();
 
 		$this->load_textdomain();
 
@@ -559,5 +582,18 @@ class WPSEO_Premium {
 	 */
 	private function load_textdomain() {
 		load_plugin_textdomain( 'wordpress-seo-premium', false, dirname( plugin_basename( WPSEO_FILE ) ) . '/premium/languages/' );
+	}
+
+	/**
+	 * Loads the autoloader
+	 */
+	private static function autoloader() {
+
+		if ( ! class_exists( 'WPSEO_Premium_Autoloader', false ) ) {
+			// Setup autoloader.
+			require_once( dirname( __FILE__ ) . '/classes/class-premium-autoloader.php' );
+			$autoloader = new WPSEO_Premium_Autoloader();
+			spl_autoload_register( array( $autoloader, 'load' ) );
+		}
 	}
 }

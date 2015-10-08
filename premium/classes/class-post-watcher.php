@@ -27,10 +27,10 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	/**
 	 * Load needed js file
 	 *
-	 * @param string $hook The current page that is opened.
+	 * @param string $current_page The page that is opened at the moment.
 	 */
-	public function page_scripts( $hook ) {
-		if ( $hook === 'edit.php' || $hook === 'edit-tags.php' ) {
+	public function page_scripts( $current_page ) {
+		if ( $current_page === 'edit.php' || $current_page === 'edit-tags.php' ) {
 			wp_enqueue_script( 'wp-seo-premium-quickedit-notification', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/js/wp-seo-premium-quickedit-notification' . WPSEO_CSSJS_SUFFIX . '.js', array( 'jquery' ), WPSEO_VERSION );
 		}
 	}
