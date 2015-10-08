@@ -29,7 +29,7 @@ class WPSEO_GSC_Count {
 	/**
 	 * Fetching the counts
 	 *
-	 * @param WPSEO_GSC_Service $service
+	 * @param WPSEO_GSC_Service $service Service class instance.
 	 */
 	public function __construct( WPSEO_GSC_Service $service ) {
 		$this->service = $service;
@@ -38,7 +38,7 @@ class WPSEO_GSC_Count {
 	/**
 	 * Getting the counts for given platform and return them as an array
 	 *
-	 * @param string $platform
+	 * @param string $platform Platform (desktop, mobile, feature phone).
 	 *
 	 * @return array
 	 */
@@ -63,8 +63,8 @@ class WPSEO_GSC_Count {
 	/**
 	 * Listing the issues an gives them back as fetched issues
 	 *
-	 * @param string $platform
-	 * @param string $category
+	 * @param string $platform Platform (desktop, mobile, feature phone).
+	 * @param string $category Issue category.
 	 */
 	public function list_issues( $platform, $category ) {
 		$counts = $this->get_counts();
@@ -80,8 +80,8 @@ class WPSEO_GSC_Count {
 	/**
 	 * Getting the counts for given platform and category.
 	 *
-	 * @param string $platform
-	 * @param string $category
+	 * @param string $platform Platform (desktop, mobile, feature phone).
+	 * @param string $category Issue type.
 	 *
 	 * @return integer
 	 */
@@ -98,9 +98,9 @@ class WPSEO_GSC_Count {
 	/**
 	 * Update the count of the issues
 	 *
-	 * @param string  $platform
-	 * @param string  $category
-	 * @param integer $new_count
+	 * @param string  $platform  Platform (desktop, mobile, feature phone).
+	 * @param string  $category  Issue type.
+	 * @param integer $new_count Updated count.
 	 */
 	public function update_issue_count( $platform, $category, $new_count ) {
 		$counts = $this->get_counts();
@@ -134,7 +134,7 @@ class WPSEO_GSC_Count {
 	/**
 	 * Parsing the received counts from the API and map the keys to plugin friendly values
 	 *
-	 * @param array $fetched_counts
+	 * @param array $fetched_counts Set of retrieved counts.
 	 *
 	 * @return array
 	 */
@@ -155,9 +155,9 @@ class WPSEO_GSC_Count {
 	/**
 	 * Listing the issues for current category.
 	 *
-	 * @param array  $counts
-	 * @param string $platform
-	 * @param string $category
+	 * @param array  $counts   Set of counts.
+	 * @param string $platform Platform (desktop, mobile, feature phone).
+	 * @param string $category Issue type.
 	 *
 	 * @return array
 	 */
@@ -190,7 +190,7 @@ class WPSEO_GSC_Count {
 	/**
 	 * Fetching the counts from the service and store them in an option
 	 *
-	 * @param array $counts
+	 * @param array $counts Set of counts.
 	 */
 	private function set_counts( array $counts ) {
 		update_option( self::OPTION_CI_COUNTS, $counts );

@@ -13,7 +13,9 @@ $yform = Yoast_Form::get_instance();
 $yform->currentoption = 'wpseo_permalinks';
 
 echo '<h3>', __( 'Change URLs', 'wordpress-seo' ), '</h3>';
-$yform->checkbox( 'stripcategorybase', __( 'Strip the category base (usually <code>/category/</code>) from the category URL.', 'wordpress-seo' ) );
+
+/* translators %s expands to <code>/category/</code> */
+$yform->checkbox( 'stripcategorybase', sprintf( __( 'Strip the category base (usually %s) from the category URL.', 'wordpress-seo' ), '<code>/category/</code>' ) );
 
 echo '<p>' . __( 'Attachments to posts are stored in the database as posts, this means they\'re accessible under their own URL\'s if you do not redirect them, enabling this will redirect them to the post they were attached to.', 'wordpress-seo' ) . '</p>';
 $yform->checkbox( 'redirectattachment', __( 'Redirect attachment URL\'s to parent post URL.', 'wordpress-seo' ) );
@@ -23,7 +25,9 @@ echo '<p>' . __( 'This helps you to create cleaner URLs by automatically removin
 $yform->checkbox( 'cleanslugs', __( 'Remove stop words from slugs.', 'wordpress-seo' ) );
 
 echo '<p>' . __( 'This prevents threaded replies from working when the user has JavaScript disabled, but on a large site can mean a <em>huge</em> improvement in crawl efficiency for search engines when you have a lot of comments.', 'wordpress-seo' ) . '</p>';
-$yform->checkbox( 'cleanreplytocom', __( 'Remove the <code>?replytocom</code> variables.', 'wordpress-seo' ) );
+
+/* translators %s expands to <code>?replytocom</code> */
+$yform->checkbox( 'cleanreplytocom', sprintf( __( 'Remove the %s variables.', 'wordpress-seo' ), '<code>?replytocom</code>' ) );
 
 /* translators %s expands to <code>.html</code> */
 echo '<p>' . sprintf( __( 'If you choose a permalink for your posts with %1$s, or anything else but a %2$s at the end, this will force WordPress to add a trailing slash to non-post pages nonetheless.', 'wordpress-seo' ), '<code>.html</code>', '<code>/</code>' ) . '</p>';

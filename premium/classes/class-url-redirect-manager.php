@@ -50,7 +50,7 @@ if ( class_exists( 'WPSEO_Redirect_Manager' ) && ! class_exists( 'WPSEO_URL_Redi
 		public function search_url( $url ) {
 			$this->load_redirects();
 
-			if ( isset ( $this->redirects[ $url ] ) ) {
+			if ( isset( $this->redirects[ $url ] ) ) {
 				return $this->redirects[ $url ]['url'];
 			}
 		}
@@ -83,7 +83,7 @@ if ( class_exists( 'WPSEO_Redirect_Manager' ) && ! class_exists( 'WPSEO_URL_Redi
 		 * @return bool|string
 		 */
 		private function find_url( $url ) {
-			if ( isset ( $this->redirects[ $url ] ) ) {
+			if ( isset( $this->redirects[ $url ] ) ) {
 				return $this->redirect_url( $url );
 			}
 
@@ -103,14 +103,14 @@ if ( class_exists( 'WPSEO_Redirect_Manager' ) && ! class_exists( 'WPSEO_URL_Redi
 			// Check if last character is a slash, if so trim it.
 			if ( substr( $url, -1 ) === '/' ) {
 				$trimmed_url = rtrim( $url, '/' );
-				if ( isset ( $this->redirects[ $trimmed_url ] ) ) {
+				if ( isset( $this->redirects[ $trimmed_url ] ) ) {
 					return $this->redirect_url( $trimmed_url );
 				}
 			}
 			else {
 				// There was no trailing slash, so add this to check.
 				$slashed_url = $url . '/';
-				if ( isset ( $this->redirects[ $slashed_url ] ) ) {
+				if ( isset( $this->redirects[ $slashed_url ] ) ) {
 					return $this->redirect_url( $slashed_url );
 				}
 			}

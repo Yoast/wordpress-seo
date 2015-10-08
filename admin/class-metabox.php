@@ -463,7 +463,12 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		if ( is_array( $post_types ) && $post_types !== array() ) {
 			foreach ( $post_types as $post_type ) {
 				if ( $this->is_metabox_hidden( $post_type ) === false ) {
-					add_meta_box( 'wpseo_meta', 'Yoast SEO', array(
+					$product_title = 'Yoast SEO';
+					if ( file_exists( WPSEO_PATH . 'premium/' ) ) {
+						$product_title .= ' Premium';
+					}
+
+					add_meta_box( 'wpseo_meta', $product_title, array(
 						$this,
 						'meta_box',
 					), $post_type, 'normal', apply_filters( 'wpseo_metabox_prio', 'high' ) );
@@ -578,17 +583,21 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * Output the meta box
 	 */
 	function meta_box() {
-		$post    = $this->get_metabox_post();
-		$options = WPSEO_Options::get_all();
+
+		$post              = $this->get_metabox_post();
+		$options           = WPSEO_Options::get_all();
+		$use_page_analysis = apply_filters( 'wpseo_use_page_analysis', true ) === true;
 
 		?>
 		<div class="wpseo-metabox-tabs-div">
 		<ul class="wpseo-metabox-tabs" id="wpseo-metabox-tabs">
 			<li class="general">
 				<a class="wpseo_tablink" href="#wpseo_general"><?php _e( 'General', 'wordpress-seo' ); ?></a></li>
+			<?php if ( $use_page_analysis ) : ?>
 			<li id="linkdex" class="linkdex">
 				<a class="wpseo_tablink" href="#wpseo_linkdex"><?php _e( 'Page Analysis', 'wordpress-seo' ); ?></a>
 			</li>
+			<?php endif; ?>
 			<?php if ( current_user_can( 'manage_options' ) || $options['disableadvanced_meta'] === false ) : ?>
 				<li class="advanced">
 					<a class="wpseo_tablink" href="#wpseo_advanced"><?php _e( 'Advanced', 'wordpress-seo' ); ?></a>
@@ -606,7 +615,9 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		}
 		$this->do_tab( 'general', __( 'General', 'wordpress-seo' ), $content );
 
-		$this->do_tab( 'linkdex', __( 'Page Analysis', 'wordpress-seo' ), $this->linkdex_output( $post ) );
+		if ( $use_page_analysis ) {
+			$this->do_tab( 'linkdex', __( 'Page Analysis', 'wordpress-seo' ), $this->linkdex_output( $post ) );
+		}
 
 		if ( current_user_can( 'manage_options' ) || $options['disableadvanced_meta'] === false ) {
 			$content = '';
@@ -818,7 +829,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 *
 	 * @internal $_POST parameters are validated via sanitize_post_meta()
 	 *
-	 * @param  int $post_id
+	 * @param int $post_id Post ID.
 	 *
 	 * @return  bool|void   Boolean false if invalid save post request
 	 */
@@ -1029,7 +1040,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			echo esc_html( apply_filters( 'wpseo_title', wpseo_replace_vars( $this->page_title( $post_id ), get_post( $post_id, ARRAY_A ) ) ) );
 		}
 		if ( $column_name === 'wpseo-metadesc' ) {
-			echo esc_html( apply_filters( 'wpseo_metadesc', wpseo_replace_vars( self::get_value( 'metadesc', $post_id ), get_post( $post_id, ARRAY_A ) ) ) );
+			echo esc_html( apply_filters( 'wpseo_metadesc', wpseo_replace_vars( $this->page_description( $post_id ), get_post( $post_id, ARRAY_A ) ) ) );
 		}
 		if ( $column_name === 'wpseo-focuskw' ) {
 			$focuskw = self::get_value( 'focuskw', $post_id );
@@ -1202,9 +1213,9 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	/**
 	 * Hide the SEO Title, Meta Desc and Focus KW columns if the user hasn't chosen which columns to hide
 	 *
-	 * @param array|false $result
-	 * @param string      $option
-	 * @param WP_User     $user
+	 * @param array|false $result Result data set or false.
+	 * @param string      $option Option name string.
+	 * @param WP_User     $user   User object instance.
 	 *
 	 * @return array|false $result
 	 */
@@ -1228,7 +1239,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * Hacky way to get round the limitation that you can only have AND *or* OR relationship between
 	 * meta key clauses and not a combination - which is what we need.
 	 *
-	 * @param    string $where
+	 * @param string $where SQL for WHERE part.
 	 *
 	 * @return    string
 	 */
@@ -1273,6 +1284,35 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				return wpseo_replace_vars( '%%title%%', $post );
 			}
 		}
+	}
+
+	/**
+	 * Retrieve the page description.
+	 *
+	 * @param int $post_id Post ID to retrieve the description for.
+	 *
+	 * @return string
+	 */
+	protected function page_description( $post_id ) {
+
+		$fixed_description = self::get_value( 'metadesc', $post_id );
+
+		if ( ! empty( $fixed_description ) ) {
+			return $fixed_description;
+		}
+
+		$post    = get_post( $post_id );
+		$options = WPSEO_Options::get_all();
+
+		if ( is_object( $post ) && ! empty( $options[ 'metadesc-' . $post->post_type ] ) ) {
+
+			$description_template = $options[ 'metadesc-' . $post->post_type ];
+			$description_template = str_replace( ' %%page%% ', ' ', $description_template );
+
+			return wpseo_replace_vars( $description_template, $post );
+		}
+
+		return wpseo_replace_vars( '%%description%%', $post );
 	}
 
 	/**
@@ -1522,7 +1562,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	/**
 	 * Get sample permalink
 	 *
-	 * @param    object $post
+	 * @param WP_Post $post Post object instance.
 	 *
 	 * @return    array
 	 */
@@ -1595,8 +1635,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	/**
 	 * Check whether this focus keyword has been used for other posts before.
 	 *
-	 * @param array $job
-	 * @param array $results
+	 * @param array $job     Job data array.
+	 * @param array $results Results set by reference.
 	 */
 	function check_double_focus_keyword( $job, &$results ) {
 		$posts = get_posts(
@@ -2277,7 +2317,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @deprecated use WPSEO_Meta::get_meta_field_defs()
 	 * @see        WPSEO_Meta::get_meta_field_defs()
 	 *
-	 * @param  string $post_type
+	 * @param string $post_type Optional post type, defaults to post.
 	 *
 	 * @return  array
 	 */

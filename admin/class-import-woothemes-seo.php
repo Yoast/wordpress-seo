@@ -39,8 +39,8 @@ class WPSEO_Import_WooThemes_SEO extends WPSEO_Import_External {
 	/**
 	 * Import options.
 	 *
-	 * @param string $option
-	 * @param string $post_type
+	 * @param string $option    Option key.
+	 * @param string $post_type Post type name to import for.
 	 */
 	private function import_option( $option, $post_type ) {
 		switch ( get_option( $option ) ) {
@@ -87,8 +87,8 @@ class WPSEO_Import_WooThemes_SEO extends WPSEO_Import_External {
 	/**
 	 * Import custom descriptions and meta keys
 	 *
-	 * @param string $option
-	 * @param string $key
+	 * @param string $option Option key.
+	 * @param string $key    Internal key to import over.
 	 */
 	private function import_custom_values( $option, $key ) {
 		// Import the custom homepage description.

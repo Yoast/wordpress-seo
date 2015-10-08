@@ -292,9 +292,9 @@ class WPSEO_Admin_Pages {
 	 *
 	 * @deprecated 2.0
 	 *
-	 * @param string $var
-	 * @param string $label
-	 * @param string $option
+	 * @param string $var    Option name.
+	 * @param string $label  Label message.
+	 * @param string $option Optional option key.
 	 */
 	function media_input( $var, $label, $option = '' ) {
 		_deprecated_function( __METHOD__, 'WPSEO 2.0', 'This method is deprecated, please use the <code>Yoast_Form</code> class.' );
@@ -340,7 +340,7 @@ class WPSEO_Admin_Pages {
 
 		?>
 			<div id="<?php echo esc_attr( $id ); ?>" class="yoastbox">
-				<h2><?php echo $title; ?></h2>
+				<h1><?php echo $title; ?></h1>
 				<?php echo $content; ?>
 			</div>
 		<?php

@@ -46,6 +46,10 @@ class WPSEO_Upgrade {
 			$this->upgrade_23();
 		}
 
+		if ( version_compare( $this->options['version'], '2.4', '<' ) ) {
+			$this->upgrade_24();
+		}
+
 		/**
 		 * Filter: 'wpseo_run_upgrade' - Runs the upgrade hook which are dependent on Yoast SEO
 		 *
@@ -72,7 +76,7 @@ class WPSEO_Upgrade {
 	/**
 	 * Run the Yoast SEO 1.5 upgrade routine
 	 *
-	 * @param string $version
+	 * @param string $version Current plugin version.
 	 */
 	private function upgrade_15( $version ) {
 		// Clean up options and meta.
@@ -167,6 +171,14 @@ class WPSEO_Upgrade {
 
 		// Remove the meta fields.
 		delete_post_meta_by_key( '_yoast_wpseo_sitemap-include' );
+	}
+
+	/**
+	 * Performs upgrade functions to Yoast SEO 2.4
+	 */
+	private function upgrade_24() {
+		// Remove the meta fields for sitemap prio.
+		delete_post_meta_by_key( '_yoast_wpseo_sitemap-prio' );
 	}
 
 	/**

@@ -1,3 +1,6 @@
+### 2.3.5: September 16th, 2015
+* Merge with Yoast SEO core 2.3.5
+
 ### 2.3.4: August 6th, 2015
 * Merge with Yoast SEO core 2.3.4
 
