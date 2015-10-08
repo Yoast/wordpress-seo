@@ -285,7 +285,7 @@ class WPSEO_Premium {
 	/**
 	 * Enqueue post en term overview script
 	 *
-	 * @param string $hook
+	 * @param string $hook The current opened page.
 	 */
 	public function enqueue_overview_script( $hook ) {
 		if ( 'edit.php' == $hook || 'edit-tags.php' == $hook || 'post.php' == $hook ) {
