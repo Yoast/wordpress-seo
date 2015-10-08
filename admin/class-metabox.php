@@ -648,7 +648,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$placeholder = $meta_field_def['placeholder'];
 		}
 
-		// When choosen key is set add chosen class and determine which placeholder should shown.
+		// When chosen key is set add the chosen class and determine which placeholder should shown.
 		if ( ! empty( $meta_field_def['chosen'] ) ) {
 			$class .= ' yoast-chosen';
 
