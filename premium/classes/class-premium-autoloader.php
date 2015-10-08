@@ -11,7 +11,7 @@ class WPSEO_Premium_Autoloader {
 	/**
 	 * Autoloader load method. Load the class.
 	 *
-	 * @param string $class
+	 * @param string $class The requested class name.
 	 */
 	public function load( $class ) {
 

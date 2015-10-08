@@ -11,8 +11,8 @@ abstract class WPSEO_Watcher {
 	/**
 	 * Parses the hidden field with the old url to show in the form
 	 *
-	 * @param string $url
-	 * @param string $type
+	 * @param string $url  The old url.
+	 * @param string $type The type of the url.
 	 *
 	 * @return string
 	 */
@@ -26,8 +26,8 @@ abstract class WPSEO_Watcher {
 	/**
 	 * This method checks if it's desirable to create a redirect
 	 *
-	 * @param string $old_url
-	 * @param string $new_url
+	 * @param string $old_url The old url.
+	 * @param string $new_url The entered new url.
 	 *
 	 * @return bool
 	 */
@@ -46,9 +46,9 @@ abstract class WPSEO_Watcher {
 	 *
 	 * This method will also apply filter for $notification_type to determine if notification has to be shown
 	 *
-	 * @param string $message
-	 * @param string $notification_type
-	 * @param string $id
+	 * @param string $message           The message that will be added to the notification.
+	 * @param string $notification_type The type of the notification.
+	 * @param string $id 				ID that will be given to the notice.
 	 */
 	protected function create_notification( $message, $notification_type, $id ) {
 		$show_notification = true;
@@ -64,9 +64,9 @@ abstract class WPSEO_Watcher {
 	/**
 	 * Opens the redirect manager and create the redirect
 	 *
-	 * @param string $old_url
-	 * @param string $new_url
-	 * @param int    $header_code
+	 * @param string $old_url     The url that will be redirected.
+	 * @param string $new_url     The url where the old_url redirects to.
+	 * @param int    $header_code The redirect type.
 	 */
 	protected function create_redirect( $old_url, $new_url, $header_code = 301 ) {
 		// The URL redirect manager.
@@ -79,8 +79,8 @@ abstract class WPSEO_Watcher {
 	/**
 	 * Returns the string to the javascript method from where a new redirect can be added
 	 *
-	 * @param string $url
-	 * @param string $id
+	 * @param string $url The URL that can be redirected.
+	 * @param string $id  ID of the notice that is displayed.
 	 *
 	 * @return string
 	 */
@@ -91,8 +91,8 @@ abstract class WPSEO_Watcher {
 	/**
 	 * Returns the string to the javascript method from where the added redirect can be undone
 	 *
-	 * @param string $old_url
-	 * @param string $id
+	 * @param string $old_url The old url that can be deleted.
+	 * @param string $id      ID of the notice that is displayed.
 	 *
 	 * @return string
 	 */
@@ -103,7 +103,7 @@ abstract class WPSEO_Watcher {
 	/**
 	 * Return the url to the admin page where the just added redirect can be found
 	 *
-	 * @param string $old_url
+	 * @param string $old_url String that filters the wpseo_redirect table to the just added redirect.
 	 *
 	 * @return string
 	 */
