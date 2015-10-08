@@ -36,7 +36,7 @@ class WPSEO_Redirect_Ajax {
 	}
 
 	/**
-	 * Function that handles the AJAX 'wpseo_delete_redirect' action
+	 * Function that handles the AJAX 'wpseo_add_redirect' action
 	 */
 	public function ajax_add_redirect() {
 
@@ -121,10 +121,10 @@ class WPSEO_Redirect_Ajax {
 		$response = array();
 
 		// Delete the redirect.
-		if ( $redirect_post = filter_input( INPUT_POST, 'redirect', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY ) ) {
-			$redirect = htmlspecialchars_decode( urldecode( $redirect_post['key'] ) );
+		if ( $redirect_post = filter_input( INPUT_POST, 'redirect', FILTER_DEFAULT, $this->filter_options ) ) {
+			$redirect = $this->validator->sanitize_url( $redirect_post );
 
-//			$this->redirect_manager->delete_redirects( array( trim( $redirect ) ) );
+			$this->redirect_manager->delete_redirects( array( trim( $redirect ) ) );
 		}
 
 		// Response.
