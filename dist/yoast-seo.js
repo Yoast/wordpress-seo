@@ -1243,14 +1243,14 @@ YoastSEO.App.prototype.runAnalyzer = function() {
 	}
 
 	this.pageAnalyzer.runQueue();
-	this.scoreFormatter = new YoastSEO.ScoreFormatter(
-		this.pageAnalyzer.analyzeScorer.__score,
-		this.pageAnalyzer.analyzeScorer.__totalScore,
-		this.config.targets.output,
-		this.config.targets.overall,
-		this.rawData.keyword,
-		this.callbacks.saveScores
-	);
+	this.scoreFormatter = new YoastSEO.ScoreFormatter( {
+		scores: this.pageAnalyzer.analyzeScorer.__score,
+		overallScore: this.pageAnalyzer.analyzeScorer.__totalScore,
+		outputTarget: this.config.targets.output,
+		overallTarget: this.config.targets.overall,
+		keyword: this.rawData.keyword,
+		saveScores: this.callbacks.saveScores
+	} );
 
 	if ( this.config.dynamicDelay ) {
 		this.endTime();
@@ -2080,14 +2080,14 @@ YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
  * @param {YoastSEO.App} args
  * @constructor
  */
-YoastSEO.ScoreFormatter = function( scores, overallScore, outputTarget, overallTarget, keyword, saveScores ) {
-	this.scores = scores;
-	this.overallScore = overallScore;
-	this.outputTarget = outputTarget;
-	this.overallTarget = overallTarget;
+YoastSEO.ScoreFormatter = function( args ) {
+	this.scores = args.scores;
+	this.overallScore = args.overallScore;
+	this.outputTarget = args.outputTarget;
+	this.overallTarget = args.overallTarget;
 	this.totalScore = 0;
-	this.keyword = keyword;
-	this.saveScores = saveScores;
+	this.keyword = args.keyword;
+	this.saveScores = args.saveScores;
 	this.outputScore();
 	this.outputOverallScore();
 };

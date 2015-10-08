@@ -370,14 +370,14 @@ YoastSEO.App.prototype.runAnalyzer = function() {
 	}
 
 	this.pageAnalyzer.runQueue();
-	this.scoreFormatter = new YoastSEO.ScoreFormatter(
-		this.pageAnalyzer.analyzeScorer.__score,
-		this.pageAnalyzer.analyzeScorer.__totalScore,
-		this.config.targets.output,
-		this.config.targets.overall,
-		this.rawData.keyword,
-		this.callbacks.saveScores
-	);
+	this.scoreFormatter = new YoastSEO.ScoreFormatter( {
+		scores: this.pageAnalyzer.analyzeScorer.__score,
+		overallScore: this.pageAnalyzer.analyzeScorer.__totalScore,
+		outputTarget: this.config.targets.output,
+		overallTarget: this.config.targets.overall,
+		keyword: this.rawData.keyword,
+		saveScores: this.callbacks.saveScores
+	} );
 
 	if ( this.config.dynamicDelay ) {
 		this.endTime();
