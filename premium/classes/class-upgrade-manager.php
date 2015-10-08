@@ -11,7 +11,7 @@ class WPSEO_Upgrade_Manager {
 	/**
 	 * Check if there's a plugin update
 	 *
-	 * @param string $version_number
+	 * @param string $version_number The version number that willb e compared.
 	 */
 	public function check_update( $version_number ) {
 
@@ -32,7 +32,7 @@ class WPSEO_Upgrade_Manager {
 	/**
 	 * An update is required, do it
 	 *
-	 * @param string $current_version
+	 * @param string $current_version The current version number of the installation.
 	 */
 	private function do_update( $current_version ) {
 

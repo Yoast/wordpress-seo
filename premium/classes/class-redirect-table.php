@@ -35,7 +35,7 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	/**
 	 * WPSEO_Redirect_Table constructor
 	 *
-	 * @param string $type
+	 * @param string $type The type of the redirects page, can be URL or Regex.
 	 */
 	public function __construct( $type ) {
 		parent::__construct( array( 'plural' => $type ) );
@@ -54,7 +54,7 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	/**
 	 * Search through the items
 	 *
-	 * @param array $items
+	 * @param array $items Array with the redirects.
 	 *
 	 * @return array
 	 */
@@ -166,8 +166,8 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	/**
 	 * Reorder the items based on user input
 	 *
-	 * @param array $a
-	 * @param array $b
+	 * @param array $a Array with the values that will be sorted.
+	 * @param array $b Array with the values that will be compared.
 	 *
 	 * @return int
 	 */
@@ -188,7 +188,7 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	/**
 	 * The old column actions
 	 *
-	 * @param array $item
+	 * @param array $item Array with item details.
 	 *
 	 * @return string
 	 */
@@ -208,7 +208,7 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	/**
 	 * Checkbox column
 	 *
-	 * @param array $item
+	 * @param array $item Array with the item details.
 	 *
 	 * @return string
 	 */
@@ -221,8 +221,8 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	/**
 	 * Default method to display a column
 	 *
-	 * @param array  $item
-	 * @param string $column_name
+	 * @param array  $item        Array with the item details.
+	 * @param string $column_name The name of the column that will be showed.
 	 *
 	 * @return string
 	 */

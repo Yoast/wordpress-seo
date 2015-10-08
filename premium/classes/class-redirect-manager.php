@@ -27,6 +27,7 @@ abstract class WPSEO_Redirect_Manager {
 
 	/**
 	 * Getting array with the available redirect types
+	 *
 	 * @return array|void
 	 */
 	public static function get_redirect_types() {
@@ -43,7 +44,7 @@ abstract class WPSEO_Redirect_Manager {
 	/**
 	 * Change if the redirect option is autoloaded
 	 *
-	 * @param bool $enabled
+	 * @param bool $enabled The value of the autoloading option.
 	 */
 	public function redirects_change_autoload( $enabled ) {
 		global $wpdb;
@@ -104,7 +105,7 @@ abstract class WPSEO_Redirect_Manager {
 	/**
 	 * Save the redirect
 	 *
-	 * @param array $redirects
+	 * @param array $redirects Array with redirects that will be saved.
 	 */
 	public function save_redirects( $redirects ) {
 
@@ -183,8 +184,8 @@ abstract class WPSEO_Redirect_Manager {
 	 *
 	 * @todo fix this method to work with the new redirect setup
 	 *
-	 * @param array $old_redirect_arr
-	 * @param array $new_redirect_arr
+	 * @param array $old_redirect_arr Array with values for the old redirect.
+	 * @param array $new_redirect_arr Array with values for the new redirect.
 	 */
 	public function save_redirect( $old_redirect_arr, $new_redirect_arr ) {
 
@@ -216,9 +217,9 @@ abstract class WPSEO_Redirect_Manager {
 	/**
 	 * Create a new redirect
 	 *
-	 * @param string $old_value
-	 * @param string $new_value
-	 * @param int    $type
+	 * @param string $old_value The url that will be redirected.
+	 * @param string $new_value The url where the old_url redirects to.
+	 * @param int    $type      The type of the redirect.
 	 *
 	 * @return bool
 	 */
@@ -245,7 +246,7 @@ abstract class WPSEO_Redirect_Manager {
 	/**
 	 * Delete the redirects
 	 *
-	 * @param array $delete_redirects
+	 * @param array $delete_redirects Array with redirects that will be deleted.
 	 */
 	public function delete_redirect( $delete_redirects ) {
 
@@ -356,7 +357,7 @@ abstract class WPSEO_Redirect_Manager {
 	/**
 	 * Format the redirect url
 	 *
-	 * @param string $url
+	 * @param string $url The url that will be formatted.
 	 *
 	 * @return string
 	 */
