@@ -8,29 +8,18 @@
           href='https://cdn.yoast.com/wp-content/themes/yoast-theme/css/style.min.css?v=1431379732'/>
     <link rel='stylesheet' id='source-sans-pro-css'
           href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600&amp;subset=latin'/>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="../css/style.css">
 
-    <script type="text/javascript" src="node_modules/jed/jed.js"></script>
+    <script type="text/javascript" src="exampleScraper.js"></script>
+    <script type="text/javascript" src="../dist/yoast-seo.js"></script>
 
 
-    <script type="text/javascript" src="js/inputGenerator.js"></script>
-            <script type="text/javascript" src="js/snippetPreview.js"></script>
-            <script type="text/javascript" src="js/config/config.js"></script>
-            <script type="text/javascript" src="js/config/scoring.js"></script>
-            <script type="text/javascript" src="js/analyzer.js"></script>
-            <script type="text/javascript" src="js/analyzescorer.js"></script>
-            <script type="text/javascript" src="js/preprocessor.js"></script>
-            <script type="text/javascript" src="js/stringhelper.js"></script>
-            <script type="text/javascript" src="js/app.js"></script>
-            <script type="text/javascript" src="js/pluggable.js"></script>
-            <script type="text/javascript" src="js/scoreFormatter.js"></script>
     <script>
         YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 
         YoastSEO.analyzerArgs = {
             analyzer: true,
             snippetPreview: true,
-            elementTarget: ["inputForm"],
             typeDelay: 300,
             typeDelayStep: 100,
             maxTypeDelay: 1500,
@@ -53,17 +42,18 @@
             }
         };
 
-        YoastSEO.app = new YoastSEO.App( YoastSEO.analyzerArgs );
-        var inputGenerator = new YoastSEO.InputGenerator( YoastSEO.analyzerArgs, YoastSEO.app );
-
-        YoastSEO.analyzerArgs.callbacks = inputGenerator;
-
-        YoastSEO.app = new YoastSEO.App( YoastSEO.analyzerArgs );
-        inputGenerator.refObj = YoastSEO.app;
-
         window.onload = function() {
-            inputGenerator.createElements();
-            YoastSEO.app.refresh();
+            var exampleScraper = new YoastSEO.ExampleScraper( YoastSEO.analyzerArgs, YoastSEO.app );
+            YoastSEO.analyzerArgs.callbacks = {
+                getData: exampleScraper.getData.bind( exampleScraper ),
+                bindElementEvents: exampleScraper.bindElementEvents.bind( exampleScraper ),
+                updateSnippetValues: exampleScraper.updateSnippetValues.bind( exampleScraper ),
+                saveScores: exampleScraper.saveScores.bind( exampleScraper )
+            };
+
+
+            window.YoastSEO.app = new YoastSEO.App( YoastSEO.analyzerArgs );
+            //YoastSEO.app.refresh();*/
         };
     </script>
 </head>
@@ -129,7 +119,10 @@
                         </header>
                         <div id="input">
                             <div id="inputForm" class="inputForm">
-
+                                <label for="content">Text</label>
+                                <textarea id="content" name="content"></textarea>
+                                <label for="focusKeyword">Focus keyword</label>
+                                <input type="text" id="focusKeyword" name="focusKeyword" />
                             </div>
                         </div>
                         <label>Snippet Preview</label>
