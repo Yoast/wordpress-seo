@@ -161,6 +161,20 @@ label {
     font-family: Arial, sans-serif;
 }
 
+#snippet_preview *[contenteditable="true"]:hover {
+    background: #bbdefb;
+    cursor: pointer;
+}
+
+#snippet_preview *[contenteditable="false"]:hover {
+    cursor: auto;
+}
+
+#snippet_preview *[contenteditable="true"]:focus {
+    background-color: #bbdefb;
+    cursor: text;
+}
+
 #snippet_cite {
     min-width: 20px;
 }

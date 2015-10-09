@@ -48,19 +48,20 @@ YoastSEO.ExampleScraper.prototype.getDataFromInput = function( inputType ) {
 			elem = document.getElementById( "snippet_cite" );
 			if (elem !== null) {
 				val = elem.textContent;
+				if (val === YoastSEO.app.config.sampleText.snippetCite){
+					val = "";
+				}
 			}
 			break;
 		case "baseUrl":
-			val = this.config.sampleText.baseUrl;
-			elem = document.getElementById( "snippet_citeBase");
-			if (elem !== null) {
-				val = elem.textContent;
-			}
 			break;
 		case "meta":
 			elem = document.getElementById( "snippet_meta" );
 			if (elem !== null) {
 				val = elem.textContent;
+				if (val === YoastSEO.app.config.sampleText.meta){
+					val = "";
+				}
 			}
 			break;
 		case "keyword":
@@ -70,6 +71,9 @@ YoastSEO.ExampleScraper.prototype.getDataFromInput = function( inputType ) {
 			elem = document.getElementById( "snippet_title" );
 			if (elem !== null) {
 				val = elem.textContent;
+				if (val === YoastSEO.app.config.sampleText.title){
+					val = "";
+				}
 			}
 			break;
 		default:
