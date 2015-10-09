@@ -68,7 +68,8 @@ class WPSEO_OnPage_Status {
 	 * @return bool
 	 */
 	private function get_index_status() {
-		return ! empty( get_site_option( 'wpseo_onpage_index_status', 0 ) );
+		$option_value = get_site_option( 'wpseo_onpage_index_status', 0 );
+		return ! empty( $option_value );
 	}
 
 	/**
