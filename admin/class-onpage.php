@@ -39,7 +39,7 @@ class WPSEO_OnPage {
 	 * Fetching the data from onpage.
 	 */
 	public function fetch_from_onpage() {
-		$index_status = $this->onpage_status->fetch_new_status( 'https://yoast.com' );
+		$index_status = $this->onpage_status->fetch_new_status( home_url() );
 		$this->onpage_status->compare_index_status( $index_status );
 	}
 
