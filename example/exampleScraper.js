@@ -91,13 +91,44 @@ YoastSEO.ExampleScraper.prototype.bindElementEvents = function( app ) {
  * binds the getinputfieldsdata to the snippetelements.
  */
 YoastSEO.ExampleScraper.prototype.snippetPreviewEventBinder = function( app ) {
-	var elems = [ "cite", "meta", "title", "citeBase" ];
+	var elems = [ "snippet_cite", "snippet_meta", "snippet_title", "snippet_citeBase" ];
+
+	for ( var i = 0; i < elems.length; i++ ) {
+		this.bindSnippetEvents( document.getElementById( elems [ i ] ), app.snippetPreview );
+	}
+	/*
 	for ( var i = 0; i < elems.length; i++ ) {
 		document.getElementById( "snippet_" + elems[ i ] ).addEventListener(
 			"blur",
 			app.refresh.bind( app )
+
 		);
 	}
+	*/
+};
+
+
+YoastSEO.ExampleScraper.prototype.bindSnippetEvents = function( elem, snippetPreview ) {
+	elem.addEventListener( 'keydown', snippetPreview.disableEnter.bind( snippetPreview ) );
+	elem.addEventListener( 'blur', snippetPreview.checkTextLength.bind( snippetPreview ) );
+	//textFeedback is given on input (when user types or pastests), but also on focus. If a string that is too long is being recalled
+	//from the saved values, it gets the correct classname right away.
+	elem.addEventListener( 'input', snippetPreview.textFeedback.bind( snippetPreview ) );
+	elem.addEventListener( 'focus', snippetPreview.textFeedback.bind( snippetPreview ) );
+	//shows edit icon by hovering over element
+	elem.addEventListener( 'mouseover', snippetPreview.showEditIcon.bind( snippetPreview ) );
+	//hides the edit icon onmouseout, on focus and on keyup. If user clicks or types AND moves his mouse, the edit icon could return while editting
+	//by binding to these 3 events
+	elem.addEventListener( 'mouseout', snippetPreview.hideEditIcon.bind( snippetPreview ) );
+	elem.addEventListener( 'focus', snippetPreview.hideEditIcon.bind( snippetPreview ) );
+	elem.addEventListener( 'keyup', snippetPreview.hideEditIcon.bind( snippetPreview ) );
+
+	//elem.addEventListener( 'focus', snippetPreview.getUnformattedText.bind( snippetPreview ) );
+	//elem.addEventListener( 'keyup', snippetPreview.setUnformattedText.bind( snippetPreview ) );
+	//elem.addEventListener( 'click', snippetPreview.setFocus.bind( snippetPreview ) );
+
+	//adds the showIcon class to show the editIcon;
+	elem.className = elem.className + ' showIcon' ;
 };
 
 /**
