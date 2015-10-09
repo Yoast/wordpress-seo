@@ -95,16 +95,11 @@ YoastSEO.ExampleScraper.prototype.snippetPreviewEventBinder = function( app ) {
 
 	for ( var i = 0; i < elems.length; i++ ) {
 		this.bindSnippetEvents( document.getElementById( elems [ i ] ), app.snippetPreview );
-	}
-	/*
-	for ( var i = 0; i < elems.length; i++ ) {
-		document.getElementById( "snippet_" + elems[ i ] ).addEventListener(
+		document.getElementById( elems[ i ] ).addEventListener(
 			"blur",
 			app.refresh.bind( app )
-
 		);
 	}
-	*/
 };
 
 
@@ -123,9 +118,9 @@ YoastSEO.ExampleScraper.prototype.bindSnippetEvents = function( elem, snippetPre
 	elem.addEventListener( 'focus', snippetPreview.hideEditIcon.bind( snippetPreview ) );
 	elem.addEventListener( 'keyup', snippetPreview.hideEditIcon.bind( snippetPreview ) );
 
-	//elem.addEventListener( 'focus', snippetPreview.getUnformattedText.bind( snippetPreview ) );
-	//elem.addEventListener( 'keyup', snippetPreview.setUnformattedText.bind( snippetPreview ) );
-	//elem.addEventListener( 'click', snippetPreview.setFocus.bind( snippetPreview ) );
+	elem.addEventListener( 'focus', snippetPreview.getUnformattedText.bind( snippetPreview ) );
+	elem.addEventListener( 'keyup', snippetPreview.setUnformattedText.bind( snippetPreview ) );
+	elem.addEventListener( 'click', snippetPreview.setFocus.bind( snippetPreview ) );
 
 	//adds the showIcon class to show the editIcon;
 	elem.className = elem.className + ' showIcon' ;
