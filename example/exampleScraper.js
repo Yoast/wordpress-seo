@@ -9,14 +9,13 @@ YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
  */
 YoastSEO.ExampleScraper = function( args ) {
 	this.config = args;
-	//this.analyzerData = {};
-	//this.enableBaseUrl();
 };
 
-YoastSEO.ExampleScraper.prototype.enableBaseUrl = function() {
-	document.getElementById('snippet_citeBase').contentEditable = true;
-}
-
+/**
+ * Get data from inputfields and store them in an analyzerData object. This object will be used to fill
+ * the analyzer and the snippetpreview
+ * @returns {{keyword: *, meta: *, text: *, title: *, baseUrl: *, url: *, pageTitle: *, snippetTitle: *, snippetMeta: *, snippetCite: *}}
+ */
 YoastSEO.ExampleScraper.prototype.getData = function() {
 	return {
 		keyword: this.getDataFromInput("keyword"),
@@ -106,7 +105,11 @@ YoastSEO.ExampleScraper.prototype.snippetPreviewEventBinder = function( app ) {
 	}
 };
 
-
+/**
+ * binds the snippetEvents to a snippet element.
+ * @param { HTMLElement } elem snippet_meta, snippet_title, snippet_cite
+ * @param { YoastSEO.SnippetPreview } snippetPreview
+ */
 YoastSEO.ExampleScraper.prototype.bindSnippetEvents = function( elem, snippetPreview ) {
 	elem.addEventListener( 'keydown', snippetPreview.disableEnter.bind( snippetPreview ) );
 	elem.addEventListener( 'blur', snippetPreview.checkTextLength.bind( snippetPreview ) );
@@ -149,7 +152,9 @@ YoastSEO.ExampleScraper.prototype.saveScores = function( score ) {
 	return score;
 };
 
-
+/**
+ * refreshes the app when snippet is updated.
+ */
 YoastSEO.ExampleScraper.prototype.updateSnippetValues = function () {
-
+	YoastSEO.app.refresh();
 };
