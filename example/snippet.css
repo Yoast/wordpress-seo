@@ -78,5 +78,5 @@ desc br{
 }
 
 .editIcon{
-    background: url("editicon.png") no-repeat right top;
+    background: url("../css/editicon.png") no-repeat right top;
 }

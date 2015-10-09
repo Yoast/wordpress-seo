@@ -2,75 +2,44 @@ html {
     font-family: sans-serif;
 }
 
-#overallScore #score_circle {
-    fill: #999;
+h2{
+    color: #777;
 }
 
-#overallScore #score_circle_shadow {
-    fill: #777;
+.output-container,
+.form-container{
+    padding: 20px;
+    width: 512px;
 }
 
-#overallScore.good #score_circle {
-    fill: #9fda4f;
-}
-
-#overallScore.good #score_circle_shadow {
-    fill: #77b227;
-}
-
-#overallScore.ok #score_circle {
-    fill: #ffdc42;
-}
-
-#overallScore.ok #score_circle_shadow {
-    fill: #ffc82e;
-}
-
-#overallScore.poor #score_circle {
-    fill: #ffb81e;
-}
-
-#overallScore.poor #score_circle_shadow {
-    fill: #f49a00;
-}
-
-#overallScore.bad #score_circle {
-    fill: #ff4e47;
-}
-
-#overallScore.bad #score_circle_shadow {
-    fill: #ed261f;
-}
-
+.snippetForm label,
 .inputForm label {
     width: 250px;
-    float: left;
     color: #777;
     line-height: 20px;
     text-transform: capitalize;
 }
 
-
 .inputForm input {
-    width: 300px;
     line-height: 20px;
     margin: 5px 0;
-    float: left;
 }
 
 .inputForm textArea {
-    width: 100%;
     height: 400px;
     margin: 5px 0;
     float: left;
 }
 
-li .score{
-    list-style-type: none;
+li.score {
+    list-style-type: none !important;
 }
 
-.wpseoanalysis td {
-    vertical-align: middle;
+
+
+
+.wpseoanalysis {
+    padding-right: 0px;
 }
 .wpseo-score-text {
     display: inline-block;
@@ -85,8 +54,6 @@ li .score{
     background: #888;
     vertical-align: top;
 }
-
-
 
 .wpseo-score-icon.good {
     background-color: #7ad03a;
@@ -193,6 +160,57 @@ label {
     width:512px;
     font-family: Arial, sans-serif;
 }
+
+#snippet_cite {
+    min-width: 20px;
+}
+
+.overallScore-container{
+    position: absolute;
+    left: 640px;
+    top: 20px;
+}
+
+#overallScore #score_circle {
+    fill: #999;
+}
+
+#overallScore #score_circle_shadow {
+    fill: #777;
+}
+
+#overallScore.good #score_circle {
+    fill: #9fda4f;
+}
+
+#overallScore.good #score_circle_shadow {
+    fill: #77b227;
+}
+
+#overallScore.ok #score_circle {
+    fill: #ffdc42;
+}
+
+#overallScore.ok #score_circle_shadow {
+    fill: #ffc82e;
+}
+
+#overallScore.poor #score_circle {
+    fill: #ffb81e;
+}
+
+#overallScore.poor #score_circle_shadow {
+    fill: #f49a00;
+}
+
+#overallScore.bad #score_circle {
+    fill: #ff4e47;
+}
+
+#overallScore.bad #score_circle_shadow {
+    fill: #ed261f;
+}
+
 
 .screen-reader-text {
     clip: rect(1px, 1px, 1px, 1px);
