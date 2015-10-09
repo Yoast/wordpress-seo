@@ -37,3 +37,20 @@
 		</tr>
 	<?php endforeach; ?>
 </table>
+<?php if( WPSEO_Utils::grant_access() ) : ?>
+<div class="onpage">
+	<h4 class="hide-if-no-js">OnPage.Org status</h4>
+	<div>
+	<?php
+	if ( ! $onpage_indexable ) {
+		echo '<div class="wpseo-score-icon good"></div>';
+		_e("Your site is indexable at the moment.", 'wordpress-seo' );
+	}
+	else {
+		echo '<div class="wpseo-score-icon bad"></div>';
+		_e("Your site isn't indexable at the moment.", 'wordpress-seo' );
+	}
+	?>
+	</div>
+</div>
+<?php endif; ?>
