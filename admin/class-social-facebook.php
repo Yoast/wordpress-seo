@@ -77,7 +77,7 @@ class Yoast_Social_Facebook {
 			}
 		}
 
-		return json_encode(
+		return WPSEO_Utils::json_encode(
 			array(
 				'success' => $success,
 				'html'    => $response_body,

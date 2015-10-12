@@ -1183,6 +1183,9 @@ class WPSEO_Frontend {
 					$keywords = wpseo_replace_vars( $this->options[ 'metakey-' . $post->post_type ], $post );
 				}
 			}
+			elseif ( $this->is_posts_page() ) {
+				$keywords = $this->get_keywords( get_post( get_option( 'page_for_posts' ) ) );
+			}
 			elseif ( is_category() || is_tag() || is_tax() ) {
 				$term = $wp_query->get_queried_object();
 
@@ -1874,6 +1877,24 @@ class WPSEO_Frontend {
 	 */
 	private function is_premium() {
 		return file_exists( WPSEO_PATH . 'premium/' );
+	}
+
+	/**
+	 * Getting the keywords
+	 *
+	 * @param WP_Post $post The post object with the values.
+	 *
+	 * @return string
+	 */
+	private function get_keywords( $post ) {
+		$keywords        = WPSEO_Meta::get_value( 'metakeywords', $post->ID );
+		$option_meta_key = 'metakey-' . $post->post_type;
+
+		if ( $keywords === '' && ( is_object( $post ) && ( isset( $this->options[ $option_meta_key ] ) && $this->options[ $option_meta_key ] !== '' ) ) ) {
+			$keywords = wpseo_replace_vars( $this->options[ $option_meta_key ], $post );
+		}
+
+		return $keywords;
 	}
 
 } /* End of class */

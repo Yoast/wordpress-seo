@@ -185,7 +185,12 @@ class WPSEO_OpenGraph {
 			 */
 			$adminstr = apply_filters( 'wpseo_opengraph_admin', $adminstr );
 			if ( is_string( $adminstr ) && $adminstr !== '' ) {
-				$this->og_tag( 'fb:admins', $adminstr );
+
+				$admins = explode( ',', $adminstr );
+
+				foreach ( $admins as $admin_id ) {
+					$this->og_tag( 'fb:admins', $admin_id );
+				}
 
 				return true;
 			}

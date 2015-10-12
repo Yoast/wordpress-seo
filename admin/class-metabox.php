@@ -583,17 +583,21 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * Output the meta box
 	 */
 	function meta_box() {
-		$post    = $this->get_metabox_post();
-		$options = WPSEO_Options::get_all();
+
+		$post              = $this->get_metabox_post();
+		$options           = WPSEO_Options::get_all();
+		$use_page_analysis = apply_filters( 'wpseo_use_page_analysis', true ) === true;
 
 		?>
 		<div class="wpseo-metabox-tabs-div">
 		<ul class="wpseo-metabox-tabs" id="wpseo-metabox-tabs">
 			<li class="general">
 				<a class="wpseo_tablink" href="#wpseo_general"><?php _e( 'General', 'wordpress-seo' ); ?></a></li>
+			<?php if ( $use_page_analysis ) : ?>
 			<li id="linkdex" class="linkdex">
 				<a class="wpseo_tablink" href="#wpseo_linkdex"><?php _e( 'Page Analysis', 'wordpress-seo' ); ?></a>
 			</li>
+			<?php endif; ?>
 			<?php if ( current_user_can( 'manage_options' ) || $options['disableadvanced_meta'] === false ) : ?>
 				<li class="advanced">
 					<a class="wpseo_tablink" href="#wpseo_advanced"><?php _e( 'Advanced', 'wordpress-seo' ); ?></a>
@@ -611,7 +615,9 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		}
 		$this->do_tab( 'general', __( 'General', 'wordpress-seo' ), $content );
 
-		$this->do_tab( 'linkdex', __( 'Page Analysis', 'wordpress-seo' ), $this->linkdex_output( $post ) );
+		if ( $use_page_analysis ) {
+			$this->do_tab( 'linkdex', __( 'Page Analysis', 'wordpress-seo' ), $this->linkdex_output( $post ) );
+		}
 
 		if ( current_user_can( 'manage_options' ) || $options['disableadvanced_meta'] === false ) {
 			$content = '';
