@@ -14,7 +14,7 @@ class WPSEO_OnPage {
 	private $onpage_status;
 
 	/**
-	 *
+	 * Constructing the object
 	 */
 	public function __construct() {
 		$this->set_hooks();
@@ -25,7 +25,7 @@ class WPSEO_OnPage {
 	/**
 	 * Adding a weekly schedule to the schedules array
 	 *
-	 * @param array $schedules
+	 * @param array $schedules Array with schedules.
 	 *
 	 * @return array
 	 */
@@ -65,8 +65,5 @@ class WPSEO_OnPage {
 		// Setting the action for the OnPage fetch.
 		add_action( 'wpseo_onpage_fetch', array( $this, 'fetch_from_onpage' ) );
 	}
-
-
-
 
 }

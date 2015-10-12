@@ -26,12 +26,18 @@ class WPSEO_OnPage_Status {
 	 * Compare new index status and store the value when the current status isn't different from the new status
 	 *
 	 * @param bool $new_index_status
+	 *
+	 * @return bool
 	 */
 	public function compare_index_status( $new_index_status) {
 		// When the status isn't different from the current status, just save the new status.
 		if($this->get_index_status() !== $new_index_status ) {
 			$this->set_index_status( $new_index_status );
+
+			return true;
 		}
+
+		return false;
 	}
 
 	/**
