@@ -95,7 +95,7 @@ class WPSEO_OnPage_Status {
 	 * @return string
 	 */
 	private function get_end_url( $home_url ) {
-		$response         = wp_remote_get( $home_url, array( 'redirection' => 0 )  );
+		$response         = wp_remote_get( $home_url, array( 'redirection' => 0 ) );
 		$response_headers = wp_remote_retrieve_headers( $response );
 
 		if ( ! empty( $response_headers['location'] ) ) {

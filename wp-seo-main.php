@@ -340,7 +340,7 @@ register_deactivation_hook( WPSEO_FILE, 'wpseo_deactivate' );
 add_action( 'wpmu_new_blog', 'wpseo_on_activate_blog' );
 add_action( 'activate_blog', 'wpseo_on_activate_blog' );
 
-// Loading OnPage integration;
+// Loading OnPage integration.
 $WPSEO_OnPage = new WPSEO_OnPage();
 
 /**
