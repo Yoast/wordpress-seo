@@ -3,4 +3,5 @@ languages:
 exclude_paths:
 - "js/config/*"
 - "dist/*"
+- "example/*"
 - "grunt/**/*"
