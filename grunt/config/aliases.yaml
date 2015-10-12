@@ -2,8 +2,8 @@
 ---
 # Build everything
 build:
+  - 'build:css'
   - 'build:js'
-  - 'build:ccs'
 # Build JavaScript from assets to production
 'build:js':
   - 'concat'
