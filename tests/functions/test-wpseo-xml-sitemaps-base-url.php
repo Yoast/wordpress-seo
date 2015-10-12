@@ -29,4 +29,22 @@ class WPSEO_XML_Sitemaps_Base_URL extends WPSEO_UnitTestCase {
 		$this->assertEquals( 'https://example.org/sitemap.xml', wpseo_xml_sitemaps_base_url( 'sitemap.xml' ) );
 	}
 
+	/**
+	 * Call the http sitemap with the settings on https
+	 */
+	public function test_http_with_https() {
+		update_option( 'home', 'https://example.org' );
+
+		$this->assertNotEquals( 'http://example.org/sitemap.xml', wpseo_xml_sitemaps_base_url( 'sitemap.xml' ) );
+	}
+
+	/**
+	 * Call the https sitemap with the settings on http
+	 */
+	public function test_https_with_http() {
+		update_option( 'home', 'http://example.org' );
+
+		$this->assertNotEquals( 'https://example.org/sitemap.xml', wpseo_xml_sitemaps_base_url( 'sitemap.xml' ) );
+	}
+
 }
