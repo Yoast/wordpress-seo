@@ -94,7 +94,7 @@ YoastSEO.ExampleScraper.prototype.bindElementEvents = function( app ) {
  * binds the getinputfieldsdata to the snippetelements.
  */
 YoastSEO.ExampleScraper.prototype.snippetPreviewEventBinder = function( app ) {
-	var elems = [ "snippet_cite", "snippet_meta", "snippet_title", "snippet_citeBase" ];
+	var elems = [ "snippet_cite", "snippet_meta", "snippet_title" ];
 
 	for ( var i = 0; i < elems.length; i++ ) {
 		this.bindSnippetEvents( document.getElementById( elems [ i ] ), app.snippetPreview );
@@ -137,7 +137,7 @@ YoastSEO.ExampleScraper.prototype.bindSnippetEvents = function( elem, snippetPre
  * bins the renewData function on the change of inputelements.
  */
 YoastSEO.ExampleScraper.prototype.inputElementEventBinder = function( app ) {
-	var elems = [ "content", "focusKeyword", "snippet_cite", "snippet_meta", "snippet_title", "snippet_citeBase" ];
+	var elems = [ "content", "focusKeyword", "snippet_cite", "snippet_meta", "snippet_title" ];
 	for ( var i = 0; i < elems.length; i++ ) {
 		document.getElementById( elems[ i ] ).addEventListener( "input", app.analyzeTimer.bind( app ) );
 	}
