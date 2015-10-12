@@ -11,7 +11,7 @@ class WPSEO_OnPage_Status {
 	/**
 	 * Fetching the new status from the API for given $home_url
 	 *
-	 * @param string $home_url
+	 * @param string $home_url Target url for the indexable status lookup.
 	 *
 	 * @return bool
 	 */
@@ -25,13 +25,13 @@ class WPSEO_OnPage_Status {
 	/**
 	 * Compare new index status and store the value when the current status isn't different from the new status
 	 *
-	 * @param bool $new_index_status
+	 * @param bool $new_index_status The fetched status that will be compared with the current status.
 	 *
 	 * @return bool
 	 */
 	public function compare_index_status( $new_index_status) {
 		// When the status isn't different from the current status, just save the new status.
-		if($this->get_index_status() !== $new_index_status ) {
+		if ( $this->get_index_status() !== $new_index_status ) {
 			$this->set_index_status( $new_index_status );
 
 			return true;
@@ -52,7 +52,7 @@ class WPSEO_OnPage_Status {
 	/**
 	 * Sending a request to OnPage to check if the $home_url is indexable
 	 *
-	 * @param string $home_url
+	 * @param string $home_url The URL that will be send to the API.
 	 *
 	 * @return array|mixed|object
 	 */
@@ -81,7 +81,7 @@ class WPSEO_OnPage_Status {
 	/**
 	 * Setting a new index status
 	 *
-	 * @param bool $new_index_status
+	 * @param bool $new_index_status The status that will be saved.
 	 */
 	private function set_index_status( $new_index_status ) {
 		update_site_option( 'wpseo_onpage_index_status', $new_index_status );
@@ -90,15 +90,15 @@ class WPSEO_OnPage_Status {
 	/**
 	 * Check if the $home_url is redirected to another page.
 	 *
-	 * @param string $home_url
+	 * @param string $home_url Fetch a possible redirect url.
 	 *
 	 * @return string
 	 */
 	private function get_end_url( $home_url ) {
-		$response         = wp_remote_get( $home_url, array('redirection' => 0)  );
-		$response_headers =  wp_remote_retrieve_headers( $response );
+		$response         = wp_remote_get( $home_url, array( 'redirection' => 0 )  );
+		$response_headers = wp_remote_retrieve_headers( $response );
 
-		if ( !empty( $response_headers['location'] ) ) {
+		if ( ! empty( $response_headers['location'] ) ) {
 			return $response_headers['location'];
 		}
 
