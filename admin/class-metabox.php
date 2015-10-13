@@ -314,7 +314,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				$content .= '<div id="wpseo-pageanalysis"></div>';
 				break;
 			case 'snippetpreview':
-				$content .= '<div id="wpseosnippet"></div>';
+				$content .= '<div id="wpseosnippet" class="wpseosnippet"></div>';
 				break;
 
 			case 'text':
