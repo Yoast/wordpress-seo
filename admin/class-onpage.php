@@ -93,7 +93,7 @@ class WPSEO_OnPage {
 	 */
 	private function set_hooks() {
 		// Schedule cronjob when it doesn't exists on activation.
-		register_activation_hook( WPSEO_FILE, array( $this, 'set_cron' ) );
+		register_activation_hook( WPSEO_FILE, array( $this, 'activate_hooks' ) );
 
 		// Add weekly schedule to the cron job schedules.
 		add_filter( 'cron_schedules', array( $this, 'add_weekly_schedule' ) );
@@ -106,6 +106,12 @@ class WPSEO_OnPage {
 	}
 
 	/**
+	 * The hooks to run on plugin activation
+	 */
+	private function activate_hooks() {
+		$this->set_cron();
+		$this->fetch_from_onpage();
+	}
 	 * Send an email to the site admin
 	 *
 	 */
