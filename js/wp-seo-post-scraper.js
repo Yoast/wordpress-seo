@@ -1,4 +1,4 @@
-/* global YoastSEO: true, tinyMCE, wp, wpseoMetaboxL10n */
+/* global YoastSEO: true, tinyMCE, wp, wpseoPostScraperL10n, YoastShortcodePlugin, YoastReplaceVarPlugin */
 YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 (function() {
 	'use strict';
@@ -7,7 +7,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 	 * wordpress scraper to gather inputfields.
 	 * @constructor
 	 */
-	YoastSEO.WordPressScraper = function() {
+	YoastSEO.PostScraper = function() {
 		this.prepareSlugBinding();
 	};
 
@@ -19,7 +19,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 	 *
 	 * On existing posts, the slug editor is already there and we can bind immediately.
 	 */
-	YoastSEO.WordPressScraper.prototype.prepareSlugBinding = function() {
+	YoastSEO.PostScraper.prototype.prepareSlugBinding = function() {
 		if ( document.getElementById( 'editable-post-name' ) === null ) {
 			var that = this;
 			jQuery( document ).on( 'after-autosave.update-post-slug', function() {
@@ -36,7 +36,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 	 *
 	 * @param {int} time
 	 */
-	YoastSEO.WordPressScraper.prototype.bindSnippetCiteEvents = function( time ) {
+	YoastSEO.PostScraper.prototype.bindSnippetCiteEvents = function( time ) {
 		time = time || 0;
 		var slugElem = document.getElementById( 'editable-post-name' );
 		var postNameElem = document.getElementById('post_name');
@@ -62,7 +62,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 	 * We want to trigger an update of the snippetPreview on a slug update. Because the save button is not available yet, we need to
 	 * bind an event within the scope of a clickevent of the edit button.
 	 */
-	YoastSEO.WordPressScraper.prototype.bindSlugEditor = function() {
+	YoastSEO.PostScraper.prototype.bindSlugEditor = function() {
 		jQuery( '#edit-slug-box' ).on( 'click', '.edit-slug', function() {
 			jQuery( '#edit-slug-buttons > button.save' ).on( 'click', function() {
 				YoastSEO.app.refresh();
@@ -75,7 +75,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 	 * Get data from inputfields and store them in an analyzerData object. This object will be used to fill
 	 * the analyzer and the snippetpreview
 	 */
-	YoastSEO.WordPressScraper.prototype.getData = function() {
+	YoastSEO.PostScraper.prototype.getData = function() {
 		return {
 			keyword: this.getDataFromInput( 'keyword' ),
 			meta: this.getDataFromInput( 'meta' ),
@@ -96,7 +96,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 	 * @param {String} inputType
 	 * @returns {String}
 	 */
-	YoastSEO.WordPressScraper.prototype.getDataFromInput = function( inputType ) {
+	YoastSEO.PostScraper.prototype.getDataFromInput = function( inputType ) {
 		var val = '';
 		switch ( inputType ) {
 			case 'text':
@@ -109,7 +109,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 				}
 				break;
 			case 'baseUrl':
-				val = wpseoMetaboxL10n.home_url.replace( /https?:\/\//ig, '' );
+				val = wpseoPostScraperL10n.home_url.replace( /https?:\/\//ig, '' );
 				break;
 			case 'cite':
 			case 'post_name':
@@ -147,7 +147,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 	 * @param {Object} value
 	 * @param {String} type
 	 */
-	YoastSEO.WordPressScraper.prototype.setDataFromSnippet = function( value, type ) {
+	YoastSEO.PostScraper.prototype.setDataFromSnippet = function( value, type ) {
 		switch ( type ) {
 			case 'snippet_meta':
 				document.getElementById( 'yoast_wpseo_metadesc' ).value = value;
@@ -171,7 +171,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 	 * gets content from the content field, if tinyMCE is initialized, use the getContent function to get the data from tinyMCE
 	 * @returns {String}
 	 */
-	YoastSEO.WordPressScraper.prototype.getContentTinyMCE = function() {
+	YoastSEO.PostScraper.prototype.getContentTinyMCE = function() {
 		var val = document.getElementById( 'content' ).value;
 		if ( tinyMCE.editors.length !== 0 ) {
 			val = tinyMCE.get( 'content' ).getContent();
@@ -182,7 +182,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 	/**
 	 * Calls the eventbinders.
 	 */
-	YoastSEO.WordPressScraper.prototype.bindElementEvents = function( app ) {
+	YoastSEO.PostScraper.prototype.bindElementEvents = function( app ) {
 		this.snippetPreviewEventBinder( app.snippetPreview );
 		this.inputElementEventBinder( app );
 		document.getElementById( 'yoast_wpseo_focuskw' ).addEventListener( 'keydown', app.snippetPreview.disableEnter );
@@ -193,7 +193,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 	 *
 	 * @param {YoastSEO.SnippetPreview} snippetPreview The snippet preview object to bind the events on.
 	 */
-	YoastSEO.WordPressScraper.prototype.snippetPreviewEventBinder = function( snippetPreview ) {
+	YoastSEO.PostScraper.prototype.snippetPreviewEventBinder = function( snippetPreview ) {
 		var elems = [ 'snippet_meta', 'snippet_title', 'snippet_cite' ];
 
 		for ( var i = 0; i < elems.length; i++ ) {
@@ -206,7 +206,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 	 * @param { HTMLElement } elem snippet_meta, snippet_title, snippet_cite
 	 * @param { YoastSEO.SnippetPreview } snippetPreview
 	 */
-	YoastSEO.WordPressScraper.prototype.bindSnippetEvents = function( elem, snippetPreview ) {
+	YoastSEO.PostScraper.prototype.bindSnippetEvents = function( elem, snippetPreview ) {
 		elem.addEventListener( 'keydown', snippetPreview.disableEnter.bind( snippetPreview ) );
 		elem.addEventListener( 'blur', snippetPreview.checkTextLength.bind( snippetPreview ) );
 		//textFeedback is given on input (when user types or pastests), but also on focus. If a string that is too long is being recalled
@@ -232,7 +232,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 	/**
 	 * binds the renewData function on the change of inputelements.
 	 */
-	YoastSEO.WordPressScraper.prototype.inputElementEventBinder = function( app ) {
+	YoastSEO.PostScraper.prototype.inputElementEventBinder = function( app ) {
 		var elems = [ 'excerpt', 'content', 'yoast_wpseo_focuskw', 'title' ];
 		for ( var i = 0; i < elems.length; i++ ) {
 			var elem = document.getElementById( elems[ i ] );
@@ -253,7 +253,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 	/**
 	 * Resets the current queue if focus keyword is changed and not empty.
 	 */
-	YoastSEO.WordPressScraper.prototype.resetQueue = function() {
+	YoastSEO.PostScraper.prototype.resetQueue = function() {
 		if ( YoastSEO.app.rawData.keyword !== '' ) {
 			YoastSEO.app.runAnalyzer( this.rawData );
 		}
@@ -266,7 +266,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 	 *
 	 * @param {Object} ev
 	 */
-	YoastSEO.WordPressScraper.prototype.updateSnippetValues = function( ev ) {
+	YoastSEO.PostScraper.prototype.updateSnippetValues = function( ev ) {
 		var dataFromSnippet = ev.currentTarget.textContent;
 		var currentElement = ev.currentTarget.id;
 		if ( typeof YoastSEO.app.snippetPreview.unformattedText[ currentElement ] !== 'undefined' ) {
@@ -282,7 +282,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 	 *
 	 * @param {String} score
 	 */
-	YoastSEO.WordPressScraper.prototype.saveScores = function( score ) {
+	YoastSEO.PostScraper.prototype.saveScores = function( score ) {
 		var tmpl =  wp.template('score_svg');
 		document.getElementById( YoastSEO.analyzerArgs.targets.overall ).innerHTML = tmpl();
 		document.getElementById( 'yoast_wpseo_linkdex' ).value = score;
@@ -298,5 +298,86 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 			YoastSEO.app.runAnalyzer();
 			YoastSEO.app.snippetPreview.reRender();
 		}
+	} );
+
+	jQuery( document ).ready(function() {
+		function init() {
+			var wordpressScraper = new YoastSEO.PostScraper();
+
+			YoastSEO.analyzerArgs = {
+				//if it must run the analyzer
+				analyzer: true,
+				//if it uses ajax to get data
+				ajax: true,
+				//if it must generate snippetpreview
+				snippetPreview: true,
+				//element Target Array
+				elementTarget: ['content', 'yoast_wpseo_focuskw', 'yoast_wpseo_metadesc', 'excerpt', 'editable-post-name', 'editable-post-name-full'],
+				//replacement target array, elements that must trigger the replace variables function.
+				replaceTarget: ['yoast_wpseo_metadesc', 'excerpt', 'yoast_wpseo_title'],
+				//rest target array, elements that must be reset on focus
+				resetTarget: ['snippet_meta', 'snippet_title', 'snippet_cite'],
+				//typeDelay is used as the timeout between stopping with typing and triggering the analyzer
+				typeDelay: 300,
+				//Dynamic delay makes sure the delay is increased if the analyzer takes longer than the default, to prevent slow systems.
+				typeDelayStep: 100,
+				maxTypeDelay: 1500,
+				dynamicDelay: true,
+				//used for multiple keywords (future use)
+				multiKeyword: false,
+				//targets for the objects
+				targets: {
+					output: 'wpseo-pageanalysis',
+					overall: 'wpseo-score',
+					snippet: 'wpseosnippet'
+				},
+				translations: wpseoPostScraperL10n.translations,
+				queue: ['wordCount',
+					'keywordDensity',
+					'subHeadings',
+					'stopwords',
+					'fleschReading',
+					'linkCount',
+					'imageCount',
+					'urlKeyword',
+					'urlLength',
+					'metaDescription',
+					'pageTitleKeyword',
+					'pageTitleLength',
+					'firstParagraph',
+					'keywordDoubles'],
+				usedKeywords: wpseoPostScraperL10n.keyword_usage,
+				searchUrl: '<a target="new" href=' + wpseoPostScraperL10n.search_url + '>',
+				postUrl: '<a target="new" href=' + wpseoPostScraperL10n.post_edit_url + '>',
+				callbacks: {
+					getData: wordpressScraper.getData.bind( wordpressScraper ),
+					bindElementEvents: wordpressScraper.bindElementEvents.bind( wordpressScraper ),
+					updateSnippetValues: wordpressScraper.updateSnippetValues.bind( wordpressScraper ),
+					saveScores: wordpressScraper.saveScores.bind( wordpressScraper )
+				}
+			};
+
+			// If there are no translations let the analyzer fallback onto the english translations.
+			if (0 === wpseoPostScraperL10n.translations.length) {
+				delete( YoastSEO.analyzerArgs.translations );
+				return;
+			}
+
+			// Make sure the correct text domain is set for analyzer.
+			var translations = wpseoPostScraperL10n.translations;
+			translations.domain = 'js-text-analysis';
+			translations.locale_data['js-text-analysis'] = translations.locale_data['wordpress-seo'];
+			delete( translations.locale_data['wordpress-seo'] );
+
+			YoastSEO.analyzerArgs.translations = translations;
+
+			window.YoastSEO.app = new YoastSEO.App( YoastSEO.analyzerArgs );
+
+			//Init Plugins
+			window.yoastReplaceVarPlugin = new YoastReplaceVarPlugin();
+			window.yoastShortcodePlugin = new YoastShortcodePlugin();
+		}
+
+		jQuery( init );
 	} );
 }());

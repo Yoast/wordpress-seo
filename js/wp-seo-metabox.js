@@ -1,14 +1,8 @@
 /* browser:true */
-/* global wpseoMetaboxL10n */
-/* global YoastReplaceVarPlugin */
-/* global ajaxurl */
-/* global YoastSEO */
-/* global YoastShortcodePlugin */
-/* jshint -W097 */
-/* jshint -W003 */
-'use strict';
+(function() {
+	'use strict';
 
-jQuery( document ).ready(function() {
+	jQuery( document ).ready(function() {
 		if ( jQuery( '.wpseo-metabox-tabs-div' ).length > 0 ) {
 			var active_tab = window.location.hash;
 			if ( active_tab === '' || active_tab.search( 'wpseo' ) === -1 ) {
@@ -42,8 +36,6 @@ jQuery( document ).ready(function() {
 		jQuery( '.wpseo-metabox-tabs' ).show();
 		// End Tabs code
 
-		var cache = {}, lastXhr;
-
 		jQuery( '.yoast_help' ).qtip(
 			{
 				content: {
@@ -67,24 +59,5 @@ jQuery( document ).ready(function() {
 
 			}
 		);
-
-		function init() {
-			var wordpressScraper = new YoastSEO.WordPressScraper();
-
-			YoastSEO.analyzerArgs.callbacks = {
-				getData: wordpressScraper.getData.bind( wordpressScraper ),
-				bindElementEvents: wordpressScraper.bindElementEvents.bind( wordpressScraper ),
-				updateSnippetValues: wordpressScraper.updateSnippetValues.bind( wordpressScraper ),
-				saveScores: wordpressScraper.saveScores.bind( wordpressScraper )
-			};
-
-			window.YoastSEO.app = new YoastSEO.App( YoastSEO.analyzerArgs );
-
-			//Init Plugins
-			window.yoastReplaceVarPlugin = new YoastReplaceVarPlugin();
-			window.yoastShortcodePlugin = new YoastShortcodePlugin();
-		}
-
-		jQuery( init );
-	}
-);
+	} );
+}());

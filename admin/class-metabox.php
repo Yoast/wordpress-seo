@@ -181,72 +181,26 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		}
 	}
 
-	/**
-	 * Pass some variables to js for the edit / post page overview, snippet preview, etc.
-	 *
-	 * @return  array
-	 */
-	public function localize_script() {
-		$post = $this->get_metabox_post();
+    public function localize_post_scraper_script() {
+        $post = $this->get_metabox_post();
 
-		if ( ( ! is_object( $post ) || ! isset( $post->post_type ) ) || $this->is_metabox_hidden( $post->post_type ) === true ) {
-			return array();
-		}
+        $file = plugin_dir_path( WPSEO_FILE ) . 'languages/wordpress-seo-' . get_locale() . '.json';
+        if ( file_exists( $file ) ) {
+            $file = file_get_contents( $file );
+            $json = json_decode( $file, true );
+        }
+        else {
+            $json = array();
+        }
 
-		$options = get_option( 'wpseo_titles' );
-
-		$date = '';
-		if ( isset( $options[ 'showdate-' . $post->post_type ] ) && $options[ 'showdate-' . $post->post_type ] === true ) {
-			$date = $this->get_post_date( $post );
-
-			self::$meta_length        = ( self::$meta_length - ( strlen( $date ) + 5 ) );
-			self::$meta_length_reason = __( ' (because of date display)', 'wordpress-seo' );
-		}
-
-		self::$meta_length_reason = apply_filters( 'wpseo_metadesc_length_reason', self::$meta_length_reason, $post );
-		self::$meta_length        = apply_filters( 'wpseo_metadesc_length', self::$meta_length, $post );
-
-		unset( $date );
-
-		$title_template = '';
-		if ( isset( $options[ 'title-' . $post->post_type ] ) && $options[ 'title-' . $post->post_type ] !== '' ) {
-			$title_template = $options[ 'title-' . $post->post_type ];
-		}
-
-		// If there's no title template set, use the default, otherwise title preview won't work.
-		if ( $title_template == '' ) {
-			$title_template = '%%title%% - %%sitename%%';
-		}
-
-		$metadesc_template = '';
-		if ( isset( $options[ 'metadesc-' . $post->post_type ] ) && $options[ 'metadesc-' . $post->post_type ] !== '' ) {
-			$metadesc_template = $options[ 'metadesc-' . $post->post_type ];
-		}
-
-		$sample_permalink = get_sample_permalink( $post->ID );
-		$sample_permalink = str_replace( '%page', '%post', $sample_permalink[0] );
-
-		return array(
-			'field_prefix'                => self::$form_prefix,
-			'keyword_header'              => '<strong>' . __( 'Focus keyword usage', 'wordpress-seo' ) . '</strong><br>' . __( 'Your focus keyword was found in:', 'wordpress-seo' ),
-			'article_header_text'         => __( 'Article Heading: ', 'wordpress-seo' ),
-			'page_title_text'             => __( 'Page title: ', 'wordpress-seo' ),
-			'page_url_text'               => __( 'Page URL: ', 'wordpress-seo' ),
-			'content_text'                => __( 'Content: ', 'wordpress-seo' ),
-			'meta_description_text'       => __( 'Meta description: ', 'wordpress-seo' ),
-			'choose_image'                => __( 'Use Image', 'wordpress-seo' ),
-			'wpseo_meta_desc_length'      => self::$meta_length,
-			'wpseo_title_template'        => $title_template,
-			'wpseo_metadesc_template'     => $metadesc_template,
-			'wpseo_permalink_template'    => $sample_permalink,
-			'wpseo_keyword_suggest_nonce' => wp_create_nonce( 'wpseo-get-suggest' ),
-			'featured_image_notice'       => __( 'The featured image should be at least 200x200 pixels to be picked up by Facebook and other social media sites.', 'wordpress-seo' ),
-			'keyword_usage'               => $this->get_focus_keyword_usage( $post->ID ),
-			'search_url'                  => admin_url( 'edit.php?seo_kw_filter={keyword}' ),
-			'post_edit_url'               => admin_url( 'post.php?post={id}&action=edit' ),
-			'home_url'                    => home_url( '/', null ),
-		);
-	}
+        return array(
+            'translations'                => $json,
+            'keyword_usage'               => $this->get_focus_keyword_usage( $post->ID ),
+            'search_url'                  => admin_url( 'edit.php?seo_kw_filter={keyword}' ),
+            'post_edit_url'               => admin_url( 'post.php?post={id}&action=edit' ),
+            'home_url'                    => home_url( '/', null ),
+        );
+    }
 
 	/**
 	 * Pass some variables to js for replacing variables.
@@ -573,7 +527,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				wp_enqueue_media( array( 'post' => get_queried_object_id() ) ); // Enqueue files needed for upload functionality.
 			}
 			wp_enqueue_style( 'metabox', plugins_url( 'css/metabox' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
-			wp_enqueue_style( 'featured-image', plugins_url( 'css/featured-image' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
 			wp_enqueue_style( 'jquery-qtip.js', plugins_url( 'css/jquery.qtip' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), '2.2.1' );
 			wp_enqueue_style( 'snippet', plugins_url( 'css/snippet' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), '2.2.1' );
 			wp_enqueue_style( 'scoring', plugins_url( 'css/yst_seo_score' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), '2.2.1' );
@@ -588,27 +541,20 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			), WPSEO_VERSION, true );
 
 			wp_enqueue_script( 'yoast-seo', plugins_url( 'js/dist/yoast-seo/yoast-seo.min.js', WPSEO_FILE ), null, WPSEO_VERSION, true );
-			wp_enqueue_script( 'wp-seo-wordpressScraper-Config.js', plugins_url( 'js/wp-seo-wordpress-scraper-config' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'yoast-seo' ), WPSEO_VERSION, true );
-			wp_enqueue_script( 'wp-seo-wordpressScraper.js', plugins_url( 'js/wp-seo-wordpress-scraper' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'yoast-seo' ), WPSEO_VERSION, true );
+			wp_enqueue_script( 'wp-seo-post-scraper', plugins_url( 'js/wp-seo-post-scraper' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'yoast-seo' ), WPSEO_VERSION, true );
 			wp_enqueue_script( 'wp-seo-replacevar-plugin.js', plugins_url( 'js/wp-seo-replacevar-plugin' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'yoast-seo', 'wp-seo-metabox' ), WPSEO_VERSION, true );
 			wp_enqueue_script( 'wp-seo-shortcode-plugin.js', plugins_url( 'js/wp-seo-shortcode-plugin' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'yoast-seo', 'wp-seo-metabox' ), WPSEO_VERSION, true );
 
-			$file = plugin_dir_path( WPSEO_FILE ) . 'languages/wordpress-seo-' . get_locale() . '.json';
-			if ( file_exists( $file ) ) {
-				$file = file_get_contents( $file );
-				$json = json_decode( $file, true );
-			}
-			else {
-				$json = array();
-			}
-			wp_localize_script( 'wp-seo-wordpressScraper-Config.js', 'wpseoL10n', $json );
+            wp_localize_script( 'wp-seo-post-scraper', 'wpseoPostScraperL10n', $this->localize_post_scraper_script() );
 			wp_localize_script( 'wp-seo-replacevar-plugin.js', 'wpseoReplaceVarsL10n', $this->localize_replace_vars_script() );
-
-			// Text strings to pass to shortcode plugin for keyword analysis.
 			wp_localize_script( 'wp-seo-shortcode-plugin.js', 'wpseoShortcodePluginL10n', $this->localize_shortcode_plugin_script() );
 
 			if ( post_type_supports( get_post_type(), 'thumbnail' ) ) {
+                wp_enqueue_style( 'featured-image', plugins_url( 'css/featured-image' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
 				wp_enqueue_script( 'wp-seo-featured-image', plugins_url( 'js/wp-seo-featured-image' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'jquery' ), WPSEO_VERSION, true );
+
+                $featured_image_l10 = array( 'featured_image_notice' => __( 'The featured image should be at least 200x200 pixels to be picked up by Facebook and other social media sites.', 'wordpress-seo' ) );
+                wp_localize_script( 'wp-seo-metabox', 'wpseoFeaturedImageL10n', $featured_image_l10 );
 			}
 
 			wp_enqueue_script( 'wpseo-admin-media', plugins_url( 'js/wp-seo-admin-media' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array(
@@ -617,9 +563,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			), WPSEO_VERSION, true );
 
 			wp_localize_script( 'wpseo-admin-media', 'wpseoMediaL10n', $this->localize_media_script() );
-
-			// Text strings to pass to metabox for keyword analysis.
-			wp_localize_script( 'wp-seo-metabox', 'wpseoMetaboxL10n', $this->localize_script() );
 		}
 	}
 
