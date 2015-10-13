@@ -14,6 +14,11 @@ class WPSEO_OnPage_Status {
 	private $target_url;
 
 	/**
+	 * @var WPSEO_OnPage_Option The OnPage.org option class.
+	 */
+	private $onpage_option;
+
+	/**
 	 * @var bool The fetched status of the target url is indexable or not.
 	 */
 	private $fetched_index_status;
@@ -21,18 +26,23 @@ class WPSEO_OnPage_Status {
 	/**
 	 * Construct the status object
 	 *
-	 * @param string $target_url The URL that will be fetched.
+	 * @param string              $target_url    The URL that will be fetched.
+	 * @param WPSEO_OnPage_Option $onpage_option The option object for handling the onpage response
 	 */
-	public function __construct( $target_url = '' ) {
-		$this->target_url = $target_url;
+	public function __construct( $target_url, WPSEO_OnPage_Option $onpage_option ) {
+		$this->target_url    = $target_url;
+		$this->onpage_option = $onpage_option;
 	}
 
 	/**
 	 * Fetching the new status from the API for the set target_url
 	 */
 	public function fetch_new_status() {
-		$response           = $this->do_request( $this->target_url );
+		$response                   = $this->do_request( $this->target_url );
 		$this->fetched_index_status = ( $response['is_indexable'] === 1 );
+
+		// Updates the timestamp in the option.
+		$this->onpage_option->set( 'last_fetch', time() );
 	}
 
 	/**
@@ -42,22 +52,13 @@ class WPSEO_OnPage_Status {
 	 */
 	public function compare_index_status() {
 		// When the status isn't different from the current status, just save the new status.
-		if ( $this->get_current_index_status() !== $this->fetched_index_status ) {
-			$this->set_index_status();
+		if ( $this->onpage_option->get('status') !== $this->fetched_index_status ) {
+			$this->onpage_option->set( 'status', (int) $this->fetched_index_status );
 
 			return true;
 		}
 
 		return false;
-	}
-
-	/**
-	 * Returns the indexable status of the website.
-	 *
-	 * @return bool
-	 */
-	public function is_indexable() {
-		return ! empty( $this->get_current_index_status() );
 	}
 
 	/**
@@ -86,22 +87,6 @@ class WPSEO_OnPage_Status {
 		}
 
 		return $json_body;
-	}
-
-	/**
-	 * Getting the current saved index status.
-	 *
-	 * @return int|null
-	 */
-	private function get_current_index_status() {
-		return get_site_option( 'wpseo_onpage_index_status', null );
-	}
-
-	/**
-	 * Setting the new index status
-	 */
-	private function set_index_status() {
-		update_site_option( 'wpseo_onpage_index_status', (int) $this->fetched_index_status );
 	}
 
 	/**

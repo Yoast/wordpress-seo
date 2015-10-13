@@ -14,9 +14,9 @@ class WPSEO_OnPage {
 	const USERMETAVALUE = 'wpseo_dismiss_onpage';
 
 	/**
-	 * @var WPSEO_OnPage_Status
+	 * @var WPSEO_OnPage_Option The OnPage.org option class.
 	 */
-	private $onpage_status;
+	private $onpage_option;
 
 	/**
 	 * Constructing the object
@@ -25,7 +25,7 @@ class WPSEO_OnPage {
 
 		// Only when AJAX isn't loaded
 		if ( ! ( defined('DOING_AJAX') && DOING_AJAX === true ) ) {
-			$this->onpage_status = new WPSEO_OnPage_Status( home_url() );
+			$this->onpage_option = new WPSEO_OnPage_Option();
 
 			$this->set_hooks();
 			$this->catch_redo_listener();
@@ -49,12 +49,10 @@ class WPSEO_OnPage {
 	 * Fetching the data from onpage.
 	 */
 	public function fetch_from_onpage() {
-		$this->onpage_status->fetch_new_status();
-
-		// When the value is changed, the method will return true.
-		if ( $this->onpage_status->compare_index_status() ) {
-			$this->remove_hide_notice_user_meta();
-			$this->notify_admin_by_email();
+		if ( $this->onpage_option->can_fetch() ) {
+			new WPSEO_OnPage_Request(
+				new WPSEO_OnPage_Status( home_url(), $this->onpage_option )
+			);
 		}
 	}
 
@@ -62,7 +60,7 @@ class WPSEO_OnPage {
 	 * Show a notice when the website is not indexable
 	 */
 	public function show_notice() {
-		$show_notice = WPSEO_Utils::grant_access() && $this->user_has_not_dismissed() && ! $this->onpage_status->is_indexable();
+		$show_notice = WPSEO_Utils::grant_access() && $this->user_has_not_dismissed() && ! $this->onpage_option->is_indexable();
 		if ( $show_notice ) {
 			Yoast_Notification_Center::get()->add_notification(
 				new Yoast_Notification(
@@ -109,53 +107,6 @@ class WPSEO_OnPage {
 		if ( ! wp_next_scheduled( 'wpseo_onpage_fetch' ) ) {
 			wp_schedule_event( time(), 'weekly', 'wpseo_onpage_fetch' );
 		}
-	}
-
-	/**
-	 * Send an email to the site admin
-	 *
-	 */
-	private function notify_admin_by_email() {
-		$index_status_value = $this->get_status_value();
-
-		wp_mail(
-			get_option( 'admin_email' ),
-			__( 'OnPage.org index status', 'wordpress-seo' ),
-			sprintf(
-				__(
-					'The indexability from your website %1$s, went from %2$s to %3$s'
-				),
-				home_url(),
-				$index_status_value['old_status'],
-				$index_status_value['new_status']
-			)
-		);
-	}
-
-	/**
-	 * Returns the array with the values for the new and the old index status
-	 *
-	 * @return array
-	 */
-	private function get_status_value() {
-		$index_status  = $this->onpage_status->get_fetched_index_status();
-		$not_indexable = __( 'not indexable', 'wordpress-seo' );
-		$indexable     = __( 'indexable', 'wordpress-seo' );
-		if ( $index_status ) {
-			return [ 'old_status' => $not_indexable, 'new_status' => $indexable ];
-		}
-
-		return [ 'old_status' => $indexable, 'new_status' => $not_indexable ];
-	}
-
-	/**
-	 * Removes the hide notice state in the user meta table
-	 */
-	private function remove_hide_notice_user_meta() {
-		global $wpdb;
-
-		// Remove the user meta data
-		$wpdb->query( "DELETE FROM " . $wpdb->usermeta . " WHERE meta_key = '" . WPSEO_OnPage::USERMETAVALUE . "'" );
 	}
 
 	/**
