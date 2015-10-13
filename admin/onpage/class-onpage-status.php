@@ -11,17 +11,12 @@ class WPSEO_OnPage_Status {
 	/**
 	 * @var string Target url for the indexable status lookup.
 	 */
-	private $target_url;
+	protected $target_url;
 
 	/**
 	 * @var WPSEO_OnPage_Option The OnPage.org option class.
 	 */
 	private $onpage_option;
-
-	/**
-	 * @var bool The fetched status of the target url is indexable or not.
-	 */
-	private $fetched_index_status;
 
 	/**
 	 * @var string|null The current status before anything has been requested,
@@ -38,28 +33,50 @@ class WPSEO_OnPage_Status {
 		$this->target_url     = $target_url;
 		$this->onpage_option  = $onpage_option;
 		$this->current_status = $this->onpage_option->get( 'status' );
+
+		$this->fetch_status();
+
+		exit;
 	}
 
 	/**
 	 * Fetching the new status from the API for the set target_url
 	 */
-	public function fetch_new_status() {
-		$response                   = $this->do_request( $this->target_url );
-		$this->fetched_index_status = ( $response['is_indexable'] === 1 );
+	public function fetch_status() {
+		$response = $this->do_request();
+
+		// When the value is changed, the method will return true.
+		if ( $this->compare_index_status( $response['is_indexable'] ) ) {
+			$this->remove_hide_notice_user_meta();
+			$this->notify_admin_by_email();
+		}
 
 		// Updates the timestamp in the option.
 		$this->onpage_option->set( 'last_fetch', time() );
 	}
 
 	/**
+	 * Doing the request and return the response
+	 *
+	 * @return array
+	 */
+	private function do_request() {
+		$request = new WPSEO_OnPage_Request( $this->target_url );
+
+		return $request->get_response();
+	}
+
+	/**
 	 * Compare new index status and store the value when the current status isn't different from the new status
+	 *
+	 * @param bool $fetched_index_status
 	 *
 	 * @return bool
 	 */
-	public function compare_index_status() {
+	private function compare_index_status( $fetched_index_status ) {
 		// When the status isn't different from the current status, just save the new status.
-		if ( $this->current_status !== $this->fetched_index_status ) {
-			$this->onpage_option->set( 'status', (int) $this->fetched_index_status );
+		if ( $this->current_status !== $fetched_index_status ) {
+			$this->onpage_option->set( 'status', (int) $fetched_index_status );
 
 			return true;
 		}
@@ -68,58 +85,63 @@ class WPSEO_OnPage_Status {
 	}
 
 	/**
-	 * Returns the current status
-	 *
-	 * @return null|string
+	 * Send an email to the site admin
 	 */
-	public function get_current_status() {
-		return $this->current_status;
+	private function notify_admin_by_email() {
+		wp_mail(
+			get_option( 'admin_email' ),
+			__( 'OnPage.org index status', 'wordpress-seo' ),
+			$this->get_email_message()
+		);
 	}
 
 	/**
-	 * Returns the value of the fetched_index_status property
-	 *
-	 * @return bool
-	 */
-	public function get_fetched_index_status() {
-		return $this->fetched_index_status;
-	}
-
-	/**
-	 * Sending a request to OnPage to check if the $home_url is indexable
-	 *
-	 * @param string $home_url The URL that will be send to the API.
-	 *
-	 * @return array
-	 */
-	private function do_request( $home_url ) {
-		$response  = wp_remote_get( WPSEO_ONPAGE . $this->get_end_url( $home_url ) );
-		$json_body = json_decode( wp_remote_retrieve_body( $response ), true );
-
-		// OnPage.org recognized a redirect, fetch the data of that URL by calling this method with the value from OnPage.org.
-		if ( ! empty( $json_body['passes_juice_to'] ) ) {
-			return $this->do_request( $json_body['passes_juice_to'] );
-		}
-
-		return $json_body;
-	}
-
-	/**
-	 * Check if the $home_url is redirected to another page.
-	 *
-	 * @param string $home_url Fetch a possible redirect url.
+	 * Getting the email message based on first run and the times after the first run.
 	 *
 	 * @return string
 	 */
-	private function get_end_url( $home_url ) {
-		$response         = wp_remote_get( $home_url, array( 'redirection' => 0 ) );
-		$response_headers = wp_remote_retrieve_headers( $response );
+	private function get_email_message() {
+		$index_status_value = $this->get_status_value();
 
-		if ( ! empty( $response_headers['location'] ) ) {
-			return $response_headers['location'];
+		if ( $this->current_status !== null ) {
+			return sprintf(
+				__( 'The indexability from your website %1$s, went from %2$s to %3$s' ),
+				home_url(),
+				$index_status_value['old_status'],
+				$index_status_value['new_status']
+			);
 		}
 
-		return $home_url;
+		return sprintf(
+			__( 'The indexability from your website %1$s is %2$s at the moment.' ),
+			home_url(),
+			$index_status_value['new_status']
+		);
+	}
+
+	/**
+	 * Returns the array with the values for the new and the old index status
+	 *
+	 * @return array
+	 */
+	private function get_status_value() {
+		$not_indexable = __( 'not indexable', 'wordpress-seo' );
+		$indexable     = __( 'indexable', 'wordpress-seo' );
+		if ( $this->onpage_option->get( 'status' ) === '1' ) {
+			return array( 'old_status' => $not_indexable, 'new_status' => $indexable );
+		}
+
+		return array( 'old_status' => $indexable, 'new_status' => $not_indexable );
+	}
+
+	/**
+	 * Removes the hide notice state in the user meta table
+	 */
+	private function remove_hide_notice_user_meta() {
+		global $wpdb;
+
+		// Remove the user meta data.
+		$wpdb->query( 'DELETE FROM ' . $wpdb->usermeta . " WHERE meta_key = '" . WPSEO_OnPage::USERMETAVALUE . "'" );
 	}
 
 }

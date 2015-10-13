@@ -10,91 +10,74 @@
 class WPSEO_OnPage_Request {
 
 	/**
-	 * @var WPSEO_OnPage_Status
+	 * @var array The array that is return by the wp_remote_get request
 	 */
-	private $onpage_status;
+	private $response;
 
 	/**
-	 * @param WPSEO_OnPage_Status $onpage_status The OnPage status object.
-	 */
-	public function __construct( WPSEO_OnPage_Status $onpage_status ) {
-		$this->onpage_status = $onpage_status;
-
-		$this->fetch_data();
-	}
-
-	/**
-	 * Fetch the status from the OnPage.org API and process the result of it.
-	 */
-	private function fetch_data() {
-		// Fetch the new status.
-		$this->onpage_status->fetch_new_status();
-
-		// When the value is changed, the method will return true.
-		if ( $this->onpage_status->compare_index_status() ) {
-			$this->remove_hide_notice_user_meta();
-			$this->notify_admin_by_email();
-		}
-	}
-
-	/**
-	 * Send an email to the site admin
-	 */
-	private function notify_admin_by_email() {
-		wp_mail(
-			get_option( 'admin_email' ),
-			__( 'OnPage.org index status', 'wordpress-seo' ),
-			$this->get_email_message()
-		);
-	}
-
-	/**
-	 * Getting the email message based on first run and the times after the first run.
+	 * Setting the response by doing the request to given target_url
 	 *
-	 * @return string
+	 * @param string $target_url
 	 */
-	private function get_email_message() {
-		$index_status_value = $this->get_status_value();
-
-		if ( $this->onpage_status->get_current_status() !== null ) {
-			return sprintf(
-				__( 'The indexability from your website %1$s, went from %2$s to %3$s' ),
-				home_url(),
-				$index_status_value['old_status'],
-				$index_status_value['new_status']
-			);
-		}
-
-		return sprintf(
-			__( 'The indexability from your website %1$s is %2$s at the moment.' ),
-			home_url(),
-			$index_status_value['new_status']
-		);
+	public function __construct( $target_url ) {
+		$this->response = $this->do_request( $target_url );
 	}
 
 	/**
-	 * Returns the array with the values for the new and the old index status
+	 * Returns the fetched response
+	 * @return array
+	 */
+	public function get_response() {
+		return $this->response;
+	}
+
+	/**
+	 * Doing the remote get and returns the body
+	 *
+	 * @param string $home_url THe home url.
 	 *
 	 * @return array
 	 */
-	private function get_status_value() {
-		$index_status  = $this->onpage_status->get_fetched_index_status();
-		$not_indexable = __( 'not indexable', 'wordpress-seo' );
-		$indexable     = __( 'indexable', 'wordpress-seo' );
-		if ( $index_status ) {
-			return array( 'old_status' => $not_indexable, 'new_status' => $indexable );
-		}
-
-		return array( 'old_status' => $indexable, 'new_status' => $not_indexable );
+	protected function get_remote( $home_url ) {
+		$response      = wp_remote_get( WPSEO_ONPAGE . $this->get_end_url( $home_url ) );
+		$response_body = wp_remote_retrieve_body( $response );
+		return json_decode( $response_body, true );
 	}
 
 	/**
-	 * Removes the hide notice state in the user meta table
+	 * Sending a request to OnPage to check if the $home_url is indexable
+	 *
+	 * @param string $home_url The URL that will be send to the API.
+	 *
+	 * @return array
 	 */
-	private function remove_hide_notice_user_meta() {
-		global $wpdb;
+	private function do_request( $home_url ) {
+		$json_body = $this->get_remote( $home_url );
 
-		// Remove the user meta data.
-		$wpdb->query( 'DELETE FROM ' . $wpdb->usermeta . " WHERE meta_key = '" . WPSEO_OnPage::USERMETAVALUE . "'" );
+		// OnPage.org recognized a redirect, fetch the data of that URL by calling this method with the value from OnPage.org.
+		if ( ! empty( $json_body['passes_juice_to'] ) ) {
+			return $this->do_request( $json_body['passes_juice_to'] );
+		}
+
+		return $json_body;
 	}
+
+	/**
+	 * Check if the $home_url is redirected to another page.
+	 *
+	 * @param string $home_url Fetch a possible redirect url.
+	 *
+	 * @return string
+	 */
+	private function get_end_url( $home_url ) {
+		$response         = wp_remote_get( $home_url, array( 'redirection' => 0 ) );
+		$response_headers = wp_remote_retrieve_headers( $response );
+
+		if ( ! empty( $response_headers['location'] ) ) {
+			return $response_headers['location'];
+		}
+
+		return $home_url;
+	}
+
 }
