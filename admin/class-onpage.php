@@ -58,18 +58,6 @@ class WPSEO_OnPage {
 	}
 
 	/**
-	 * Setting the cronjob
-	 */
-	public function set_cron() {
-
-		wp_unschedule_event( 'wpseo_onpage_fetch' );
-
-		if ( ! wp_next_scheduled( 'wpseo_onpage_fetch' ) ) {
-			wp_schedule_event( time(), 'weekly', 'wpseo_onpage_fetch' );
-		}
-	}
-
-	/**
 	 * Show a notice when the website is not indexable
 	 */
 	public function show_notice() {
@@ -112,6 +100,17 @@ class WPSEO_OnPage {
 		$this->set_cron();
 		$this->fetch_from_onpage();
 	}
+
+	/**
+	 * Setting the cronjob
+	 */
+	private function set_cron() {
+		if ( ! wp_next_scheduled( 'wpseo_onpage_fetch' ) ) {
+			wp_schedule_event( time(), 'weekly', 'wpseo_onpage_fetch' );
+		}
+	}
+
+	/**
 	 * Send an email to the site admin
 	 *
 	 */
