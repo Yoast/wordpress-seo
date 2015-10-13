@@ -35,8 +35,6 @@ class WPSEO_OnPage_Status {
 		$this->current_status = $this->onpage_option->get( 'status' );
 
 		$this->fetch_status();
-
-		exit;
 	}
 
 	/**
