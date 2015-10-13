@@ -29,7 +29,7 @@ $social_tab  = new WPSEO_Taxonomy_Social_Tab( $term );
 
 			<div class="wpseotab general">
 				<table class="form-table wpseo-taxonomy-form">
-                    <div id="taxonomy_snippet"></div>
+                    <div id="taxonomy_snippet" class="wpseosnippet"></div>
                     <div id="taxonomy_analyzer_output"></div>
                     <div id="taxonomy_overall"></div>
 					<?php $taxonomy_presenter->display_fields( $general_tab->get_fields() ); ?>

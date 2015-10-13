@@ -1,15 +1,13 @@
-/* global YoastSEO: true, tinyMCE */
+/* global YoastSEO: true, wpseoTermScraperL10n */
 YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 (function() {
 	'use strict';
 
-	YoastSEO.TermScraper = function() {
-
-	};
+	YoastSEO.TermScraper = function() {};
 
 	/**
-	 *
-	 * @returns {{keyword: *, meta: *, text: *, pageTitle: *, title: *, url: *, baseUrl: *, excerpt: *, snippetTitle: *, snippetMeta: *, snippetCite: *}}
+	 * returns data fetched from inputfields.
+	 * @returns {{keyword: *, meta: *, text: *, pageTitle: *, title: *, url: *, baseUrl: *, snippetTitle: *, snippetMeta: *, snippetCite: *}}
 	 */
 	YoastSEO.TermScraper.prototype.getData = function() {
 		return {
@@ -20,7 +18,6 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 			title: this.getDataFromInput( 'title' ),
 			url: this.getDataFromInput( 'url' ),
 			baseUrl: this.getDataFromInput( 'baseUrl' ),
-			excerpt: this.getDataFromInput( 'excerpt' ),
 			snippetTitle: this.getDataFromInput( 'snippetTitle' ),
 			snippetMeta: this.getDataFromInput( 'meta' ),
 			snippetCite: this.getDataFromInput( 'cite' )
@@ -33,6 +30,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 	 */
 	YoastSEO.TermScraper.prototype.getDataFromInput = function( inputType ) {
 		var val = '';
+		var elem;
 		switch( inputType ){
 			case 'keyword':
 				val = document.getElementById( 'name' ).value;
@@ -53,23 +51,104 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 				val = document.getElementById( 'slug' ).value;
 				break;
 			case 'baseUrl':
-				val = document.getElementById( 'description' ).value;
-				break;
-			case 'excerpt':
-				val = document.getElementById( 'description' ).value;
+				val = wpseoTermScraperL10n.home_url.replace( /https?:\/\//ig, '' );
 				break;
 			case 'snippetTitle':
-				val = document.getElementById( 'description' ).value;
+				elem = document.getElementById( "snippet_title" );
+				if (elem !== null){
+					val = elem.textContent;
+				}
 				break;
 			case 'meta':
 				val = document.getElementById( 'description' ).value;
 				break;
 			case 'cite':
-				val = document.getElementById( 'description' ).value;
+				elem = document.getElementById( "snippet_cite" );
+				if (elem !== null){
+					val = elem.textContent;
+				}
 				break;
+		}
+		return val;
+	};
 
+	/**
+	 *
+	 */
+	YoastSEO.TermScraper.prototype.bindElementEvents = function( app ) {
+		document.getElementById( 'name' ).addEventListener( 'keydown', app.snippetPreview.disableEnter );
+	};
+
+	/**
+	 * binds the getinputfieldsdata to the snippetelements.
+	 *
+	 * @param {YoastSEO.SnippetPreview} snippetPreview The snippet preview object to bind the events on.
+	 */
+	YoastSEO.TermScraper.prototype.snippetPreviewEventBinder = function( snippetPreview ) {
+		var elems = [ 'snippet_meta', 'snippet_title', 'snippet_cite' ];
+
+		for ( var i = 0; i < elems.length; i++ ) {
+			this.bindSnippetEvents( document.getElementById( elems [ i ] ), snippetPreview );
 		}
 	};
+
+	/**
+	 * binds the snippetEvents to a snippet element.
+	 * @param { HTMLElement } elem snippet_meta, snippet_title, snippet_cite
+	 * @param { YoastSEO.SnippetPreview } snippetPreview
+	 */
+	YoastSEO.TermScraper.prototype.bindSnippetEvents = function( elem, snippetPreview ) {
+		elem.addEventListener( 'keydown', snippetPreview.disableEnter.bind( snippetPreview ) );
+		elem.addEventListener( 'blur', snippetPreview.checkTextLength.bind( snippetPreview ) );
+		//textFeedback is given on input (when user types or pastests), but also on focus. If a string that is too long is being recalled
+		//from the saved values, it gets the correct classname right away.
+		elem.addEventListener( 'input', snippetPreview.textFeedback.bind( snippetPreview ) );
+		elem.addEventListener( 'focus', snippetPreview.textFeedback.bind( snippetPreview ) );
+		//shows edit icon by hovering over element
+		elem.addEventListener( 'mouseover', snippetPreview.showEditIcon.bind( snippetPreview ) );
+		//hides the edit icon onmouseout, on focus and on keyup. If user clicks or types AND moves his mouse, the edit icon could return while editting
+		//by binding to these 3 events
+		elem.addEventListener( 'mouseout', snippetPreview.hideEditIcon.bind( snippetPreview ) );
+		elem.addEventListener( 'focus', snippetPreview.hideEditIcon.bind( snippetPreview ) );
+		elem.addEventListener( 'keyup', snippetPreview.hideEditIcon.bind( snippetPreview ) );
+
+		elem.addEventListener( 'focus', snippetPreview.getUnformattedText.bind( snippetPreview ) );
+		elem.addEventListener( 'keyup', snippetPreview.setUnformattedText.bind( snippetPreview ) );
+		elem.addEventListener( 'click', snippetPreview.setFocus.bind( snippetPreview ) );
+
+		//adds the showIcon class to show the editIcon;
+		elem.className = elem.className + ' showIcon' ;
+	};
+
+	/**
+	 * binds the renewData function on the change of inputelements.
+	 */
+	YoastSEO.TermScraper.prototype.inputElementEventBinder = function( app ) {
+		var elems = ['name', 'description'];
+		for (var i = 0; i < elems.length; i++) {
+			var elem = document.getElementById(elems[i]);
+			if (elem !== null) {
+				document.getElementById(elems[i]).addEventListener('input', app.analyzeTimer.bind(app));
+			}
+		}
+	};
+
+	/**
+	 *
+	 * @param scores
+	 * @returns {*}
+	 */
+	YoastSEO.TermScraper.prototype.saveScores = function( scores ) {
+		return scores;
+	};
+
+	/**
+	 * refreshes the app when snippet is updated.
+	 */
+	YoastSEO.TermScraper.prototype.updateSnippetValues = function () {
+		YoastSEO.app.refresh();
+	};
+
 
 	jQuery( document ).ready(function() {
 		function init() {
@@ -122,9 +201,9 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 				postUrl: '<a target="new" href=' + wpseoTermScraperL10n.post_edit_url + '>',
 				callbacks: {
 					getData: termScraper.getData.bind( termScraper ),
-					//bindElementEvents: termScraper.bindElementEvents.bind( termScraper ),
-					//updateSnippetValues: termScraper.updateSnippetValues.bind( termScraper ),
-					//saveScores: termScraper.saveScores.bind( termScraper )
+					bindElementEvents: termScraper.bindElementEvents.bind( termScraper ),
+					updateSnippetValues: termScraper.updateSnippetValues.bind( termScraper ),
+					saveScores: termScraper.saveScores.bind( termScraper )
 				}
 			};
 
