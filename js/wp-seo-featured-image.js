@@ -1,6 +1,6 @@
 /* global wp */
 /* global removeThumb:true */
-/* global wpseoMetaboxL10n */
+/* global wpseoFeaturedImageL10n */
 /* jshint -W097 */
 /* jshint -W003 */
 'use strict';
