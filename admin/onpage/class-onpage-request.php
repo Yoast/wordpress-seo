@@ -17,7 +17,7 @@ class WPSEO_OnPage_Request {
 	/**
 	 * Setting the response by doing the request to given target_url
 	 *
-	 * @param string $target_url
+	 * @param string $target_url The target url for requesting the status.
 	 */
 	public function __construct( $target_url ) {
 		$this->response = $this->do_request( $target_url );
@@ -25,6 +25,7 @@ class WPSEO_OnPage_Request {
 
 	/**
 	 * Returns the fetched response
+	 *
 	 * @return array
 	 */
 	public function get_response() {
@@ -34,7 +35,7 @@ class WPSEO_OnPage_Request {
 	/**
 	 * Doing the remote get and returns the body
 	 *
-	 * @param string $home_url THe home url.
+	 * @param string $home_url The home url.
 	 *
 	 * @return array
 	 */

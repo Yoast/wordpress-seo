@@ -67,7 +67,7 @@ class WPSEO_OnPage_Status {
 	/**
 	 * Compare new index status and store the value when the current status isn't different from the new status
 	 *
-	 * @param bool $fetched_index_status
+	 * @param bool $fetched_index_status The index status which is just fetched.
 	 *
 	 * @return bool
 	 */
