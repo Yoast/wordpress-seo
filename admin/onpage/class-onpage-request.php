@@ -41,9 +41,6 @@ class WPSEO_OnPage_Request {
 	 * Send an email to the site admin
 	 */
 	private function notify_admin_by_email() {
-
-
-
 		wp_mail(
 			get_option( 'admin_email' ),
 			__( 'OnPage.org index status', 'wordpress-seo' ),
@@ -53,11 +50,10 @@ class WPSEO_OnPage_Request {
 
 	/**
 	 * Getting the email message based on first run and the times after the first run.
-	 * 
+	 *
 	 * @return string
 	 */
 	private function get_email_message() {
-
 		$index_status_value = $this->get_status_value();
 
 		if ( $this->onpage_status->get_current_status() !== null ) {
