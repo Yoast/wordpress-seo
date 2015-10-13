@@ -42,7 +42,7 @@
 	<h4 class="hide-if-no-js">OnPage.Org status</h4>
 	<div>
 	<?php
-	if ( ! $onpage_indexable ) {
+	if ( $onpage_indexable ) {
 		echo '<div class="wpseo-score-icon good"></div>';
 		_e( 'Your site is indexable at the moment.', 'wordpress-seo' );
 	}
