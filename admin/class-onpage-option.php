@@ -54,7 +54,7 @@ class WPSEO_OnPage_Option {
 	 * @return bool
 	 */
 	public function can_fetch() {
-		return ( ( time() - $this->onpage_option->get('last_fetch') ) > HOUR_IN_SECONDS );
+		return ( ( time() - $this->onpage_option['last_fetch'] ) > HOUR_IN_SECONDS );
 	}
 
 	/**
@@ -63,7 +63,7 @@ class WPSEO_OnPage_Option {
 	 * @return bool
 	 */
 	public function is_indexable() {
-		return ! empty( $this->onpage_option->get('status') );
+		return ! empty( $this->onpage_option['status'] );
 	}
 
 	/**
