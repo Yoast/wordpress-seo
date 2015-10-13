@@ -67,6 +67,10 @@ class WPSEO_Taxonomy {
 				'jquery-ui-autocomplete',
 			), WPSEO_VERSION, true );
 
+            wp_enqueue_script( 'yoast-seo', plugins_url( 'js/dist/yoast-seo/yoast-seo.min.js', WPSEO_FILE ), null, WPSEO_VERSION, true );
+            wp_enqueue_script( 'wp-seo-term-scraper', plugins_url( 'js/wp-seo-term-scraper' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'yoast-seo' ), WPSEO_VERSION, true );
+            wp_localize_script( 'wp-seo-term-scraper', 'wpseoTermScraperL10n', $this->localize_term_scraper_script() );
+
 			// Always enqueue minified as it's not our code.
 			wp_enqueue_style( 'jquery-qtip.js', plugins_url( 'css/jquery.qtip' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), '2.2.1' );
 			wp_enqueue_script( 'jquery-qtip', plugins_url( 'js/jquery.qtip.min.js', WPSEO_FILE ), array( 'jquery' ), '2.2.1', true );
@@ -204,4 +208,20 @@ class WPSEO_Taxonomy {
 		return ( in_array( $this->taxonomy, $taxonomies ) );
 	}
 
+    public function localize_term_scraper_script() {
+
+        $file = plugin_dir_path( WPSEO_FILE ) . 'languages/wordpress-seo-' . get_locale() . '.json';
+        if ( file_exists( $file ) ) {
+            $file = file_get_contents( $file );
+            $json = json_decode( $file, true );
+        }
+        else {
+            $json = array();
+        }
+
+        return array(
+            'translations'                => $json,
+            'home_url'                    => home_url( '/', null ),
+        );
+    }
 } /* End of class */
