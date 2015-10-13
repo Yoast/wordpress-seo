@@ -25,9 +25,10 @@ class WPSEO_OnPage {
 
 		// Only when AJAX isn't loaded
 		if ( ! ( defined('DOING_AJAX') && DOING_AJAX === true ) ) {
-			$this->set_hooks();
-
 			$this->onpage_status = new WPSEO_OnPage_Status( home_url() );
+
+			$this->set_hooks();
+			$this->catch_redo_listener();
 		}
 	}
 
@@ -165,6 +166,14 @@ class WPSEO_OnPage {
 	private function user_has_not_dismissed() {
 		return '1' !== get_user_meta( get_current_user_id(), WPSEO_OnPage::USERMETAVALUE, true );
 	}
+
+	/**
+	 * Redo the fetch request for onpage
+	 */
+	private function catch_redo_listener() {
+		if ( filter_input( INPUT_GET, 'wpseo-redo-onpage' ) === '1' ) {
+			add_action( 'admin_init', array( $this, 'fetch_from_onpage' ) );
+		}
 	}
 
 }
