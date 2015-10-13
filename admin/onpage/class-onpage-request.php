@@ -80,6 +80,6 @@ class WPSEO_OnPage_Request {
 		global $wpdb;
 
 		// Remove the user meta data.
-		$wpdb->query( "DELETE FROM " . $wpdb->usermeta . " WHERE meta_key = '" . WPSEO_OnPage::USERMETAVALUE . "'" );
+		$wpdb->query( 'DELETE FROM ' . $wpdb->usermeta . " WHERE meta_key = '" . WPSEO_OnPage::USERMETAVALUE . "'" );
 	}
 }

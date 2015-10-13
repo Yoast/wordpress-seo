@@ -29,7 +29,7 @@ class WPSEO_OnPage_Option {
 	 * @return string
 	 */
 	public function get( $option_key, $default = '' ) {
-		if ( array_key_exists( $option_key, $this->onpage_option) ) {
+		if ( array_key_exists( $option_key, $this->onpage_option ) ) {
 			return $this->onpage_option[ $option_key ];
 		}
 
