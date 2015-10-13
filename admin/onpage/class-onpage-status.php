@@ -32,9 +32,7 @@ class WPSEO_OnPage_Status {
 	public function __construct( $target_url, WPSEO_OnPage_Option $onpage_option ) {
 		$this->target_url     = $target_url;
 		$this->onpage_option  = $onpage_option;
-		$this->current_status = $this->onpage_option->get( 'status' );
-
-		$this->fetch_status();
+		$this->current_status = $this->onpage_option->get( 'status' );;
 	}
 
 	/**
@@ -58,7 +56,7 @@ class WPSEO_OnPage_Status {
 	 *
 	 * @return array
 	 */
-	private function do_request() {
+	protected function do_request() {
 		$request = new WPSEO_OnPage_Request( $this->target_url );
 
 		return $request->get_response();

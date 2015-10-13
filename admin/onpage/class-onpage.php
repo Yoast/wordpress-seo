@@ -49,7 +49,9 @@ class WPSEO_OnPage {
 	 */
 	public function fetch_from_onpage() {
 		if ( $this->onpage_option->can_fetch() ) {
-			new WPSEO_OnPage_Status( home_url(), $this->onpage_option );
+			$onpage_status = new WPSEO_OnPage_Status( home_url(), $this->onpage_option );
+
+			$onpage_status->fetch_status();
 		}
 	}
 
