@@ -22,9 +22,8 @@ class WPSEO_OnPage {
 	 * Constructing the object
 	 */
 	public function __construct() {
-
-		// Only when AJAX isn't loaded
-		if ( ! ( defined('DOING_AJAX') && DOING_AJAX === true ) ) {
+		// Only when AJAX isn't loaded.
+		if ( ! ( defined( 'DOING_AJAX' ) && DOING_AJAX === true ) ) {
 			$this->onpage_option = new WPSEO_OnPage_Option();
 
 			$this->set_hooks();

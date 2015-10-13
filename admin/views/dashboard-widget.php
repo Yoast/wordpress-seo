@@ -46,11 +46,12 @@
 		if ( $onpage['indexable'] ) {
 			echo '<div class="wpseo-score-icon good"></div>';
 			_e( 'Your site is indexable at the moment.', 'wordpress-seo' );
-		} else {
+		}
+		else {
 			echo '<div class="wpseo-score-icon bad"></div>';
 			_e( "Your site isn't indexable at the moment.", 'wordpress-seo' );
 			if ( $onpage['can_fetch'] ) {
-				echo "<br />";
+				echo '<br />';
 				echo '<a class="fetch-status button" href="' . add_query_arg( 'wpseo-redo-onpage', '1' ) . '">' . __( 'Fetch the current status', 'wordpress-seo' ) . ' </a>';
 			}
 		}

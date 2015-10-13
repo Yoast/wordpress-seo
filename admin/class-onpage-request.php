@@ -15,7 +15,7 @@ class WPSEO_OnPage_Request {
 	private $onpage_status;
 
 	/**
-	 * @param WPSEO_OnPage_Status $onpage_status
+	 * @param WPSEO_OnPage_Status $onpage_status The OnPage status object.
 	 */
 	public function __construct( WPSEO_OnPage_Status $onpage_status ) {
 		$this->onpage_status = $onpage_status;
@@ -39,7 +39,6 @@ class WPSEO_OnPage_Request {
 
 	/**
 	 * Send an email to the site admin
-	 *
 	 */
 	private function notify_admin_by_email() {
 		$index_status_value = $this->get_status_value();
@@ -80,7 +79,7 @@ class WPSEO_OnPage_Request {
 	private function remove_hide_notice_user_meta() {
 		global $wpdb;
 
-		// Remove the user meta data
+		// Remove the user meta data.
 		$wpdb->query( "DELETE FROM " . $wpdb->usermeta . " WHERE meta_key = '" . WPSEO_OnPage::USERMETAVALUE . "'" );
 	}
 }
