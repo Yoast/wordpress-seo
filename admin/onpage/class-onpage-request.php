@@ -51,6 +51,11 @@ class WPSEO_OnPage_Request {
 		);
 	}
 
+	/**
+	 * Getting the email message based on first run and the times after the first run.
+	 * 
+	 * @return string
+	 */
 	private function get_email_message() {
 
 		$index_status_value = $this->get_status_value();

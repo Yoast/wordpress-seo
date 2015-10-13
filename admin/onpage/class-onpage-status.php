@@ -24,14 +24,20 @@ class WPSEO_OnPage_Status {
 	private $fetched_index_status;
 
 	/**
+	 * @var string|null The current status before anything has been requested,
+	 */
+	private $current_status;
+
+	/**
 	 * Construct the status object
 	 *
 	 * @param string              $target_url    The URL that will be fetched.
 	 * @param WPSEO_OnPage_Option $onpage_option The option object for handling the onpage response.
 	 */
 	public function __construct( $target_url, WPSEO_OnPage_Option $onpage_option ) {
-		$this->target_url    = $target_url;
-		$this->onpage_option = $onpage_option;
+		$this->target_url     = $target_url;
+		$this->onpage_option  = $onpage_option;
+		$this->current_status = $this->onpage_option->get( 'status' );
 	}
 
 	/**
@@ -52,13 +58,22 @@ class WPSEO_OnPage_Status {
 	 */
 	public function compare_index_status() {
 		// When the status isn't different from the current status, just save the new status.
-		if ( $this->onpage_option->get( 'status' ) !== $this->fetched_index_status ) {
+		if ( $this->current_status !== $this->fetched_index_status ) {
 			$this->onpage_option->set( 'status', (int) $this->fetched_index_status );
 
 			return true;
 		}
 
 		return false;
+	}
+
+	/**
+	 * Returns the current status
+	 *
+	 * @return null|string
+	 */
+	public function get_current_status() {
+		return $this->current_status;
 	}
 
 	/**
