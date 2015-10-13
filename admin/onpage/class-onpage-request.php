@@ -41,19 +41,33 @@ class WPSEO_OnPage_Request {
 	 * Send an email to the site admin
 	 */
 	private function notify_admin_by_email() {
-		$index_status_value = $this->get_status_value();
+
+
 
 		wp_mail(
 			get_option( 'admin_email' ),
 			__( 'OnPage.org index status', 'wordpress-seo' ),
-			sprintf(
-				__(
-					'The indexability from your website %1$s, went from %2$s to %3$s'
-				),
+			$this->get_email_message()
+		);
+	}
+
+	private function get_email_message() {
+
+		$index_status_value = $this->get_status_value();
+
+		if ( $this->onpage_status->get_current_status() !== null ) {
+			return sprintf(
+				__( 'The indexability from your website %1$s, went from %2$s to %3$s' ),
 				home_url(),
 				$index_status_value['old_status'],
 				$index_status_value['new_status']
-			)
+			);
+		}
+
+		return sprintf(
+			__( 'The indexability from your website %1$s is %2$s at the moment.' ),
+			home_url(),
+			$index_status_value['new_status']
 		);
 	}
 
