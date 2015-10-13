@@ -22,9 +22,13 @@ class WPSEO_OnPage {
 	 * Constructing the object
 	 */
 	public function __construct() {
-		$this->set_hooks();
 
-		$this->onpage_status = new WPSEO_OnPage_Status( home_url() );
+		// Only when AJAX isn't loaded
+		if ( ! ( defined('DOING_AJAX') && DOING_AJAX === true ) ) {
+			$this->set_hooks();
+
+			$this->onpage_status = new WPSEO_OnPage_Status( home_url() );
+		}
 	}
 
 	/**
