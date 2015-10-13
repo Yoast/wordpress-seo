@@ -57,3 +57,8 @@
 #wpseo-dashboard-overview .onpage > div {
 	margin-top: 5px;
 }
+
+#wpseo-dashboard-overview .onpage .fetch-status {
+	clear: both;
+	margin-top: 5px;
+}

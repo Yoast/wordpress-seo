@@ -49,6 +49,8 @@
 	else {
 		echo '<div class="wpseo-score-icon bad"></div>';
 		_e( "Your site isn't indexable at the moment.", 'wordpress-seo' );
+		echo "<br />";
+		echo '<a class="fetch-status button" href="' . add_query_arg('wpseo-redo-onpage', '1') . '">' . __( 'Fetch the current status' , 'wordpress-seo' ) . ' </a>';
 	}
 	?>
 	</div>
