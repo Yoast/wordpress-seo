@@ -163,7 +163,8 @@ class WPSEO_OnPage {
 	 * @return mixed
 	 */
 	private function user_has_not_dismissed() {
-		return '1' === ( get_user_meta( get_current_user_id(), WPSEO_OnPage::USERMETAVALUE, true ) );
+		return '1' !== get_user_meta( get_current_user_id(), WPSEO_OnPage::USERMETAVALUE, true );
+	}
 	}
 
 }
