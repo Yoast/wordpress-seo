@@ -54,8 +54,8 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 				val = wpseoTermScraperL10n.home_url.replace( /https?:\/\//ig, '' );
 				break;
 			case 'snippetTitle':
-				elem = document.getElementById( "snippet_title" );
-				if (elem !== null){
+				elem = document.getElementById( 'snippet_title' );
+				if ( elem !== null ) {
 					val = elem.textContent;
 				}
 				break;
@@ -63,8 +63,8 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 				val = document.getElementById( 'description' ).value;
 				break;
 			case 'cite':
-				elem = document.getElementById( "snippet_cite" );
-				if (elem !== null){
+				elem = document.getElementById( 'snippet_cite' );
+				if ( elem !== null ) {
 					val = elem.textContent;
 				}
 				break;
@@ -73,9 +73,32 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 	};
 
 	/**
-	 *
+	 * When the snippet is updated, update the (hidden) fields on the page
+	 * @param {Object} value
+	 * @param {String} type
+	 */
+	YoastSEO.TermScraper.prototype.setDataFromSnippet = function( value, type ) {
+		switch ( type ) {
+			case 'snippet_meta':
+				//document.getElementById( 'yoast_wpseo_metadesc' ).value = value;
+				break;
+			case 'snippet_cite':
+
+				break;
+			case 'snippet_title':
+				document.getElementById( 'name' ).value = value;
+				break;
+			default:
+				break;
+		}
+	};
+
+
+	/**
+	 * binds elements
 	 */
 	YoastSEO.TermScraper.prototype.bindElementEvents = function( app ) {
+		this.snippetPreviewEventBinder ( app.snippetPreview );
 		document.getElementById( 'name' ).addEventListener( 'keydown', app.snippetPreview.disableEnter );
 	};
 
@@ -124,7 +147,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 	 * binds the renewData function on the change of inputelements.
 	 */
 	YoastSEO.TermScraper.prototype.inputElementEventBinder = function( app ) {
-		var elems = ['name', 'description'];
+		var elems = ['name', 'description', 'slug'];
 		for (var i = 0; i < elems.length; i++) {
 			var elem = document.getElementById(elems[i]);
 			if (elem !== null) {
@@ -134,9 +157,10 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 	};
 
 	/**
-	 *
-	 * @param scores
-	 * @returns {*}
+	 * for now only return score
+	 * todo check what needs to be done with score
+	 * @param {object} scores
+	 * @returns {object}
 	 */
 	YoastSEO.TermScraper.prototype.saveScores = function( scores ) {
 		return scores;
@@ -145,10 +169,22 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 	/**
 	 * refreshes the app when snippet is updated.
 	 */
-	YoastSEO.TermScraper.prototype.updateSnippetValues = function () {
+	/**
+	 * Updates the snippet values, is bound by the loader when generating the elements for the snippet.
+	 * Uses the unformattedText object of the if the textFeedback function has put a string there (if text was too long).
+	 * clears this after use.
+	 *
+	 * @param {Object} ev
+	 */
+	YoastSEO.TermScraper.prototype.updateSnippetValues = function( ev ) {
+		var dataFromSnippet = ev.currentTarget.textContent;
+		var currentElement = ev.currentTarget.id;
+		if ( typeof YoastSEO.app.snippetPreview.unformattedText[ currentElement ] !== 'undefined' ) {
+			ev.currentTarget.textContent = YoastSEO.app.snippetPreview.unformattedText[ currentElement ];
+		}
+		this.setDataFromSnippet( dataFromSnippet, ev.currentTarget.id );
 		YoastSEO.app.refresh();
 	};
-
 
 	jQuery( document ).ready(function() {
 		function init() {
@@ -226,5 +262,4 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 
 		jQuery( init );
 	} );
-
 }());
