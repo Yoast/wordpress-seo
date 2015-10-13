@@ -49,8 +49,11 @@ class Yoast_Dashboard_Widget {
 	public function display_dashboard_widget() {
 		$statistics = $this->statistic_items();
 
-		$onpage           = new WPSEO_OnPage_Status();
-		$onpage_indexable = $onpage->is_indexable();
+		$onpage_option = new WPSEO_OnPage_Option();
+		$onpage        = array(
+			'indexable' => $onpage_option->is_indexable(),
+			'can_fetch' => $onpage_option->can_fetch(),
+		);
 
 		include WPSEO_PATH . '/admin/views/dashboard-widget.php';
 	}
