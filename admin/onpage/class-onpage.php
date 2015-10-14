@@ -46,13 +46,32 @@ class WPSEO_OnPage {
 
 	/**
 	 * Fetching the data from onpage.
+	 *
+	 * @return bool
 	 */
 	public function fetch_from_onpage() {
 		if ( $this->onpage_option->can_fetch() ) {
-			$onpage_status = new WPSEO_OnPage_Status( home_url(), $this->onpage_option );
+			// Updates the timestamp in the option.
+			$this->onpage_option->set( 'last_fetch', time() );
 
-			$onpage_status->indexability_changed();
+			// The currently indexability status.
+			$old_status = $this->onpage_option->get( 'status' );
+
+			// The requested indexability status.
+			$new_status = $this->request_indexability();
+
+			// Saving the new status
+			$this->onpage_option->set( 'status', $new_status );
+
+			// Check if the status has been changed
+			if ( $old_status !== $new_status ) {
+				$this->notify_admins( $old_status, $new_status );
+			}
+
+			return true;
 		}
+
+		return false;
 	}
 
 	/**
@@ -72,6 +91,28 @@ class WPSEO_OnPage {
 				)
 			);
 		}
+	}
+
+	/**
+	 * Sending a request to OnPage.org to get the indexability
+	 *
+	 * @return int
+	 */
+	protected function request_indexability() {
+		$request  = new WPSEO_OnPage_Request( home_url() );
+		$response = $request->get_response();
+
+		return (int) $response['is_indexable'];
+	}
+
+	/**
+	 * Notify the admins
+	 *
+	 * @param int|null $old_status The old indexable status.
+	 * @param int      $new_status The new indexable status.
+	 */
+	protected function notify_admins( $old_status, $new_status ) {
+		new WPSEO_OnPage_Notify( $old_status, $new_status );
 	}
 
 	/**
@@ -100,7 +141,7 @@ class WPSEO_OnPage {
 	}
 
 	/**
-	 * Setting the cronjob
+	 * Setting the cronjob to get the new indexibility status.
 	 */
 	private function set_cron() {
 		if ( ! wp_next_scheduled( 'wpseo_onpage_fetch' ) ) {
