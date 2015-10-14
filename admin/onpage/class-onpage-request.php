@@ -40,7 +40,7 @@ class WPSEO_OnPage_Request {
 	 * @return array
 	 */
 	protected function get_remote( $home_url ) {
-		$response      = wp_remote_get( WPSEO_ONPAGE . $this->get_end_url( $home_url ) );
+		$response      = wp_remote_get( WPSEO_ONPAGE . $home_url );
 		$response_body = wp_remote_retrieve_body( $response );
 		return json_decode( $response_body, true );
 	}
@@ -61,24 +61,6 @@ class WPSEO_OnPage_Request {
 		}
 
 		return $json_body;
-	}
-
-	/**
-	 * Check if the $home_url is redirected to another page.
-	 *
-	 * @param string $home_url Fetch a possible redirect url.
-	 *
-	 * @return string
-	 */
-	private function get_end_url( $home_url ) {
-		$response         = wp_remote_get( $home_url, array( 'redirection' => 0 ) );
-		$response_headers = wp_remote_retrieve_headers( $response );
-
-		if ( ! empty( $response_headers['location'] ) ) {
-			return $response_headers['location'];
-		}
-
-		return $home_url;
 	}
 
 }
