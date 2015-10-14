@@ -167,6 +167,12 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 				document.getElementById(elems[i]).addEventListener('input', app.analyzeTimer.bind(app));
 			}
 		}
+
+		tinyMCE.on( 'addEditor', function(e) {
+			e.editor.on( 'keyPress', function() {
+				app.analyzeTimer.call( app );
+			} );
+		});
 	};
 
 	/**
@@ -272,6 +278,11 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 
 			window.YoastSEO.app = new YoastSEO.App( YoastSEO.analyzerArgs );
 		}
+
+		//todo tinyMCE fixes
+		tinyMCE.init( { selector: '#description' } );
+		//dirty hack to temporary hide the element that is created by tinyMCE.
+		document.getElementById( 'wp-description2-wrap' ).style.display = 'none';
 
 		jQuery( init );
 	} );
