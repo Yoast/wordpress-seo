@@ -1,4 +1,4 @@
-/* global YoastSEO: true, wpseoTermScraperL10n */
+/* global YoastSEO: true, wpseoTermScraperL10n, tinyMCE */
 YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 (function() {
 	'use strict';
@@ -42,7 +42,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 				}
 				break;
 			case 'text':
-				val = document.getElementById( 'description' ).value;
+				val = this.getContentTinyMCE();
 				break;
 			case 'pageTitle':
 				val = document.getElementById( 'wpseo_title' ).value;
@@ -63,12 +63,24 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 					val = elem.textContent;
 				}
 				break;
-			/*case 'cite':
+			case 'cite':
 				elem = document.getElementById( 'snippet_cite' );
 				if ( elem !== null ) {
 					val = elem.textContent;
 				}
-				break;*/
+				break;
+		}
+		return val;
+	};
+
+	/**
+	 * gets content from the content field, if tinyMCE is initialized, use the getContent function to get the data from tinyMCE
+	 * @returns {String}
+	 */
+	YoastSEO.TermScraper.prototype.getContentTinyMCE = function() {
+		var val = document.getElementById( 'description' ).value;
+		if ( tinyMCE.editors.length !== 0 ) {
+			val = tinyMCE.get( 'description' ).getContent();
 		}
 		return val;
 	};
