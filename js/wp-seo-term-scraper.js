@@ -11,14 +11,14 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 	 */
 	YoastSEO.TermScraper.prototype.getData = function() {
 		return {
+			title: this.getDataFromInput( 'title' ),
 			keyword: this.getDataFromInput( 'keyword' ),
-			meta: this.getDataFromInput( 'meta' ),
 			text: this.getDataFromInput( 'text' ),
 			pageTitle: this.getDataFromInput( 'pageTitle' ),
-			title: this.getDataFromInput( 'title' ),
 			url: this.getDataFromInput( 'url' ),
 			baseUrl: this.getDataFromInput( 'baseUrl' ),
 			snippetTitle: this.getDataFromInput( 'snippetTitle' ),
+			meta: this.getDataFromInput( 'meta' ),
 			snippetMeta: this.getDataFromInput( 'meta' ),
 			snippetCite: this.getDataFromInput( 'cite' )
 		};
@@ -36,18 +36,22 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 				val = document.getElementById( 'name' ).value;
 				break;
 			case 'meta':
-				val = document.getElementById( 'description' ).value;
+				elem = document.getElementById( 'wpseo_desc' );
+				if ( elem !== null ) {
+					val = elem.value;
+				}
 				break;
 			case 'text':
 				val = document.getElementById( 'description' ).value;
 				break;
 			case 'pageTitle':
-				val = document.getElementById( 'description' ).value;
+				val = document.getElementById( 'wpseo_title' ).value;
 				break;
 			case 'title':
-				val = document.getElementById( 'name' ).value;
+				val = document.getElementById( 'wpseo_title' ).value;
 				break;
-			case  'url':
+			case 'url':
+			case 'cite':
 				val = document.getElementById( 'slug' ).value;
 				break;
 			case 'baseUrl':
@@ -59,15 +63,12 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 					val = elem.textContent;
 				}
 				break;
-			case 'meta':
-				val = document.getElementById( 'description' ).value;
-				break;
-			case 'cite':
+			/*case 'cite':
 				elem = document.getElementById( 'snippet_cite' );
 				if ( elem !== null ) {
 					val = elem.textContent;
 				}
-				break;
+				break;*/
 		}
 		return val;
 	};
@@ -80,25 +81,25 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 	YoastSEO.TermScraper.prototype.setDataFromSnippet = function( value, type ) {
 		switch ( type ) {
 			case 'snippet_meta':
-				//document.getElementById( 'yoast_wpseo_metadesc' ).value = value;
+				document.getElementById( 'wpseo_desc' ).value = value;
 				break;
 			case 'snippet_cite':
-
+				document.getElementById( 'slug' ).value = value;
 				break;
 			case 'snippet_title':
-				document.getElementById( 'name' ).value = value;
+				document.getElementById( 'wpseo_title' ).value = value;
 				break;
 			default:
 				break;
 		}
 	};
 
-
 	/**
 	 * binds elements
 	 */
 	YoastSEO.TermScraper.prototype.bindElementEvents = function( app ) {
 		this.snippetPreviewEventBinder ( app.snippetPreview );
+		this.inputElementEventBinder( app );
 		document.getElementById( 'name' ).addEventListener( 'keydown', app.snippetPreview.disableEnter );
 	};
 
