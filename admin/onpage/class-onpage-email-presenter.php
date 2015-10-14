@@ -33,12 +33,11 @@ class WPSEO_OnPage_Email_Presenter {
 		$this->status_values = $this->get_status_values();
 		$this->statuses      = $statuses;
 		$this->message       = $this->generate_message();
-
 	}
 
 	/**
 	 * Returns the generated message.
-	 * 
+	 *
 	 * @return string
 	 */
 	public function get_message() {
