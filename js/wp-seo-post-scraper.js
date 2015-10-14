@@ -360,17 +360,14 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 			// If there are no translations let the analyzer fallback onto the english translations.
 			if (0 === wpseoPostScraperL10n.translations.length) {
 				delete( YoastSEO.analyzerArgs.translations );
-				return;
+			} else {
+				// Make sure the correct text domain is set for analyzer.
+				var translations = wpseoPostScraperL10n.translations;
+				translations.domain = 'js-text-analysis';
+				translations.locale_data['js-text-analysis'] = translations.locale_data['wordpress-seo'];
+				delete( translations.locale_data['wordpress-seo'] );
+				YoastSEO.analyzerArgs.translations = translations;
 			}
-
-			// Make sure the correct text domain is set for analyzer.
-			var translations = wpseoPostScraperL10n.translations;
-			translations.domain = 'js-text-analysis';
-			translations.locale_data['js-text-analysis'] = translations.locale_data['wordpress-seo'];
-			delete( translations.locale_data['wordpress-seo'] );
-
-			YoastSEO.analyzerArgs.translations = translations;
-
 			window.YoastSEO.app = new YoastSEO.App( YoastSEO.analyzerArgs );
 
 			//Init Plugins
