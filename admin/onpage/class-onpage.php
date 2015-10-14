@@ -60,10 +60,10 @@ class WPSEO_OnPage {
 			// The requested indexability status.
 			$new_status = $this->request_indexability();
 
-			// Saving the new status
+			// Saving the new status.
 			$this->onpage_option->set( 'status', $new_status );
 
-			// Check if the status has been changed
+			// Check if the status has been changed.
 			if ( $old_status !== $new_status ) {
 				$this->notify_admins( $old_status, $new_status );
 			}
