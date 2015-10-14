@@ -51,7 +51,7 @@ class WPSEO_OnPage {
 		if ( $this->onpage_option->can_fetch() ) {
 			$onpage_status = new WPSEO_OnPage_Status( home_url(), $this->onpage_option );
 
-			$onpage_status->fetch_status();
+			$onpage_status->indexability_changed();
 		}
 	}
 

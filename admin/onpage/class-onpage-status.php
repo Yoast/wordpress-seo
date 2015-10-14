@@ -32,23 +32,29 @@ class WPSEO_OnPage_Status {
 	public function __construct( $target_url, WPSEO_OnPage_Option $onpage_option ) {
 		$this->target_url     = $target_url;
 		$this->onpage_option  = $onpage_option;
-		$this->current_status = $this->onpage_option->get( 'status' );;
+		$this->current_status = $this->onpage_option->get( 'status' );
 	}
 
 	/**
 	 * Fetching the new status from the API for the set target_url
+	 *
+	 * @return bool
 	 */
-	public function fetch_status() {
+	public function indexability_changed() {
 		$response = $this->do_request();
+
+		// Updates the timestamp in the option.
+		$this->onpage_option->set( 'last_fetch', time() );
 
 		// When the value is changed, the method will return true.
 		if ( $this->compare_index_status( $response['is_indexable'] ) ) {
 			$this->remove_hide_notice_user_meta();
 			$this->notify_admin_by_email();
+
+			return true;
 		}
 
-		// Updates the timestamp in the option.
-		$this->onpage_option->set( 'last_fetch', time() );
+		return false;
 	}
 
 	/**
