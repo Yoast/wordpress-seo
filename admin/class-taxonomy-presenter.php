@@ -80,7 +80,7 @@ class WPSEO_Taxonomy_Presenter {
 				break;
 			case 'upload' :
 				$field .= '<input id="' . $field_name . '" type="text" size="36" name="' . $field_name . '" value="' . esc_attr( $field_value ) . '" />';
-				$field .= '<input id="' . $field_name . '_button" class="wpseo_image_upload_button button" type="button" value="Upload Image" />';
+				$field .= '<input id="' . $field_name . '_button" class="wpseo_image_upload_button button" type="button" value="' . __( 'Upload Image', 'wordpress-seo' ) . '" />';
 				break;
 			case 'select' :
 				if ( is_array( $options ) && $options !== array() ) {

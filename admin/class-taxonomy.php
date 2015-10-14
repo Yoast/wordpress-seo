@@ -178,7 +178,7 @@ class WPSEO_Taxonomy {
 		$options    = WPSEO_Options::get_all();
 		$option_key = 'hideeditbox-tax-' . $this->taxonomy;
 
-		return ( ! isset( $options[ $option_key ] ) || $options[ $option_key ] === false );
+		return ( empty( $options[ $option_key ] ) );
 	}
 
 	/**
