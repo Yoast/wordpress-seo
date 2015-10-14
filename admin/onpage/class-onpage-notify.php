@@ -29,7 +29,7 @@ class WPSEO_OnPage_Notify {
 		$email_presenter = new WPSEO_OnPage_Email_Presenter(
 			array(
 				'old_status' => $old_status,
-				'new_status' => $new_status
+				'new_status' => $new_status,
 			)
 		);
 
@@ -50,4 +50,5 @@ class WPSEO_OnPage_Notify {
 		// Remove the user meta data.
 		$wpdb->query( 'DELETE FROM ' . $wpdb->usermeta . " WHERE meta_key = '" . WPSEO_OnPage::USERMETAVALUE . "'" );
 	}
+
 }

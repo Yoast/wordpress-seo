@@ -36,6 +36,11 @@ class WPSEO_OnPage_Email_Presenter {
 
 	}
 
+	/**
+	 * Returns the generated message.
+	 * 
+	 * @return string
+	 */
 	public function get_message() {
 		return $this->message;
 	}
@@ -45,7 +50,7 @@ class WPSEO_OnPage_Email_Presenter {
 	 */
 	private function get_status_values() {
 		return array(
-			'0' =>__( 'not indexable', 'wordpress-seo' ),
+			'0' => __( 'not indexable', 'wordpress-seo' ),
 			'1' => __( 'indexable', 'wordpress-seo' ),
 		);
 	}
