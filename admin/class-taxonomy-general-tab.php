@@ -37,11 +37,13 @@ class WPSEO_Taxonomy_General_Tab extends WPSEO_Taxonomy_Tab {
 		$fields = array(
 			'title' => $this->get_field_config(
 				__( 'SEO Title', 'wordpress-seo' ),
-				esc_html__( 'The SEO title is used on the archive page for this term.', 'wordpress-seo' )
+				esc_html__( 'The SEO title is used on the archive page for this term.', 'wordpress-seo' ),
+                'hidden'
 			),
 			'desc' => $this->get_field_config(
 				__( 'SEO Description', 'wordpress-seo' ),
-				esc_html__( 'The SEO description is used for the meta description on the archive page for this term.', 'wordpress-seo' )
+				esc_html__( 'The SEO description is used for the meta description on the archive page for this term.', 'wordpress-seo' ),
+                'hidden'
 			),
 			'metakey'  => $this->get_field_config(
 				__( 'Meta keywords', 'wordpress-seo' ),

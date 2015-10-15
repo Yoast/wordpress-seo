@@ -1,4 +1,4 @@
-/* global YoastSEO: true, wpseoTermScraperL10n, tinyMCE */
+/* global YoastSEO: true, wp, wpseoTermScraperL10n, tinyMCE */
 YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 (function() {
 	'use strict';
@@ -36,7 +36,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 				val = document.getElementById( 'name' ).value;
 				break;
 			case 'meta':
-				elem = document.getElementById( 'wpseo_desc' );
+				elem = document.getElementById( 'hidden_wpseo_desc' );
 				if ( elem !== null ) {
 					val = elem.value;
 				}
@@ -45,10 +45,10 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 				val = this.getContentTinyMCE();
 				break;
 			case 'pageTitle':
-				val = document.getElementById( 'wpseo_title' ).value;
+				val = document.getElementById( 'hidden_wpseo_title' ).value;
 				break;
 			case 'title':
-				val = document.getElementById( 'wpseo_title' ).value;
+				val = document.getElementById( 'hidden_wpseo_title' ).value;
 				break;
 			case 'url':
 			case 'cite':
@@ -93,13 +93,13 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 	YoastSEO.TermScraper.prototype.setDataFromSnippet = function( value, type ) {
 		switch ( type ) {
 			case 'snippet_meta':
-				document.getElementById( 'wpseo_desc' ).value = value;
+				document.getElementById( 'hidden_wpseo_desc' ).value = value;
 				break;
 			case 'snippet_cite':
 				document.getElementById( 'slug' ).value = value;
 				break;
 			case 'snippet_title':
-				document.getElementById( 'wpseo_title' ).value = value;
+				document.getElementById( 'hidden_wpseo_title' ).value = value;
 				break;
 			default:
 				break;
@@ -182,7 +182,8 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 	 * @returns {object}
 	 */
 	YoastSEO.TermScraper.prototype.saveScores = function( scores ) {
-		return scores;
+		var tmpl = wp.template('score_svg');
+		document.getElementById( YoastSEO.analyzerArgs.targets.overall ).innerHTML = tmpl();
 	};
 
 	/**
