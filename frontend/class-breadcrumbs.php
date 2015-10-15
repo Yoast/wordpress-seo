@@ -783,7 +783,7 @@ class WPSEO_Breadcrumbs {
 				else {
 					$link_output .= '<' . $this->element . ' rel="v:child" typeof="v:Breadcrumb">';
 				}
-                $title_attr   = $link['title'] ? ' title="' . esc_attr($link['title']) . '"' : '';
+				$title_attr   = isset($link['title']) ? ' title="' . esc_attr($link['title']) . '"' : '';
 				$link_output .= '<a href="' . esc_url( $link['url'] ) . '" rel="v:url" property="v:title"' . $title_attr . '>' . $link['text'] . '</a>';
 			}
 			else {
