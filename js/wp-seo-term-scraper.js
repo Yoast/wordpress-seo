@@ -33,7 +33,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 		var elem;
 		switch( inputType ){
 			case 'keyword':
-				val = document.getElementById( 'name' ).value;
+				val = document.getElementById( 'wpseo_keyword' ).value;
 				break;
 			case 'meta':
 				elem = document.getElementById( 'hidden_wpseo_desc' );
