@@ -113,7 +113,7 @@ class WPSEO_Taxonomy {
 		}
 		unset( $key, $default );
 
-		// Saving the values
+		// Saving the values.
 		WPSEO_Taxonomy_Meta::set_values( $term_id, $taxonomy, $new_meta_data );
 	}
 

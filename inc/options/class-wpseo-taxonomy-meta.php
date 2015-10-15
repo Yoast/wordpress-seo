@@ -482,7 +482,7 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 	 * @param int    $term_id    ID of the term to save data for.
 	 * @param string $taxonomy   The taxonomy the term belongs to.
 	 * @param string $meta_key   The target meta key to store the value in.
-	 * @param string $meta_value The value of the target meta key
+	 * @param string $meta_value The value of the target meta key.
 	 */
 	public static function set_value( $term_id, $taxonomy, $meta_key, $meta_value ) {
 
@@ -498,7 +498,7 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 	 *
 	 * @param int    $term_id  ID of the term to save data for.
 	 * @param string $taxonomy The taxonomy the term belongs to.
-	 * @param array  $clean    Array with clean values
+	 * @param array  $clean    Array with clean values.
 	 */
 	private static function save_clean_values( $term_id, $taxonomy, array $clean ) {
 		$tax_meta = self::get_tax_meta();
@@ -532,7 +532,7 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 	/**
 	 * Saving the tax meta values to the database
 	 *
-	 * @param array $tax_meta
+	 * @param array $tax_meta Array with the meta values for taxonomy.
 	 */
 	private static function save_tax_meta( $tax_meta ) {
 		update_option( self::$name, $tax_meta );
