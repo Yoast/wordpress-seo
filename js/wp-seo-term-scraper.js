@@ -233,9 +233,9 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 				multiKeyword: false,
 				//targets for the objects
 				targets: {
-					output: 'taxonomy_analyzer_output',
+					output: 'wpseo_analysis',
 					overall: 'taxonomy_overall',
-					snippet: 'taxonomy_snippet'
+					snippet: 'wpseo_snippet'
 				},
 				translations: wpseoTermScraperL10n.translations,
 				queue: ['wordCount',

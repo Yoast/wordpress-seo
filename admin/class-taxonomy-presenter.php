@@ -66,6 +66,9 @@ class WPSEO_Taxonomy_Presenter {
 		$field = '';
 
 		switch ( $field_type ) {
+            case 'div':
+                $field .= '<div id="' . $field_name . '"></div>';
+                break;
 			case 'text' :
 				$field .= '<input name="' . $field_name . '" id="' . $field_name . '" ' . $class . ' type="text" value="' . esc_attr( $field_value ) . '" size="40"/>';
 				break;
