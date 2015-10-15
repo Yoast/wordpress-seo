@@ -485,6 +485,11 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 	 * @param string $meta_value The value of the target meta key
 	 */
 	public static function set_value( $term_id, $taxonomy, $meta_key, $meta_value ) {
+
+		if ( substr( strtolower( $meta_key ), 0, 6 ) !== 'wpseo_' ) {
+			$meta_key = 'wpseo_' . $meta_key;
+		}
+
 		self::set_values( $term_id, $taxonomy, array( $meta_key => $meta_value ) );
 	}
 
