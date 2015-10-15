@@ -104,8 +104,6 @@ class WPSEO_Taxonomy {
 	 * @param string $taxonomy The taxonomy the term belongs to.
 	 */
 	public function update_term( $term_id, $tt_id, $taxonomy ) {
-		$tax_meta = get_option( 'wpseo_taxonomy_meta' );
-
 		/* Create post array with only our values */
 		$new_meta_data = array();
 		foreach ( WPSEO_Taxonomy_Meta::$defaults_per_term as $key => $default ) {
@@ -115,25 +113,8 @@ class WPSEO_Taxonomy {
 		}
 		unset( $key, $default );
 
-		/* Validate the post values */
-		$old   = WPSEO_Taxonomy_Meta::get_term_meta( $term_id, $taxonomy );
-		$clean = WPSEO_Taxonomy_Meta::validate_term_meta_data( $new_meta_data, $old );
-
-		/* Add/remove the result to/from the original option value */
-		if ( $clean !== array() ) {
-			$tax_meta[ $taxonomy ][ $term_id ] = $clean;
-		}
-		else {
-			unset( $tax_meta[ $taxonomy ][ $term_id ] );
-			if ( isset( $tax_meta[ $taxonomy ] ) && $tax_meta[ $taxonomy ] === array() ) {
-				unset( $tax_meta[ $taxonomy ] );
-			}
-		}
-
-		// Prevent complete array validation.
-		$tax_meta['wpseo_already_validated'] = true;
-
-		update_option( 'wpseo_taxonomy_meta', $tax_meta );
+		// Saving the values
+		WPSEO_Taxonomy_Meta::set_values( $term_id, $taxonomy, $new_meta_data );
 	}
 
 	/**
