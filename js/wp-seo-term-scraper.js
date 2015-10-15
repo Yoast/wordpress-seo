@@ -176,12 +176,9 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 	};
 
 	/**
-	 * for now only return score
-	 * todo check what needs to be done with score
-	 * @param {object} scores
-	 * @returns {object}
+	 * creates SVG for the overall score.
 	 */
-	YoastSEO.TermScraper.prototype.saveScores = function( scores ) {
+	YoastSEO.TermScraper.prototype.saveScores = function() {
 		var tmpl = wp.template('score_svg');
 		document.getElementById( YoastSEO.analyzerArgs.targets.overall ).innerHTML = tmpl();
 	};
