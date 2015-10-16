@@ -164,6 +164,31 @@ class WPSEO_Taxonomy_Presenter_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @covers WPSEO_Taxonomy_Presenter::display_fields
 	 */
+	public function test_display_fields_hidden() {
+
+		ob_start();
+
+		$this->class_instance->display_fields(
+			array(
+				'fieldname' => array(
+					'label'       => 'test field',
+					'type'        => 'hidden',
+					'description' => '',
+					'options'     => '',
+				)
+			)
+		);
+
+		$output = ob_get_clean();
+
+		$this->assertContains( '<input name="wpseo_fieldname" id="hidden_wpseo_fieldname" type="hidden" value="" />', $output );
+	}
+
+	/**
+	 * Test the result of the display_fields, with one field given. The given field is a select.
+	 *
+	 * @covers WPSEO_Taxonomy_Presenter::display_fields
+	 */
 	public function test_display_fields_upload() {
 
 		ob_start();
