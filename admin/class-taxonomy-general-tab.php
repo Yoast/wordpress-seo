@@ -83,19 +83,20 @@ class WPSEO_Taxonomy_General_Tab extends WPSEO_Taxonomy_Tab {
 				$this->sitemap_include_options
 			),
             'title' => $this->get_field_config(
-                __( 'SEO Title', 'wordpress-seo' ),
-                esc_html__( 'The SEO title is used on the archive page for this term.', 'wordpress-seo' ),
+                '',
+                '',
                 'hidden',
                 ''
             ),
             'desc' => $this->get_field_config(
-                __( 'SEO Description', 'wordpress-seo' ),
-                esc_html__( 'The SEO description is used for the meta description on the archive page for this term.', 'wordpress-seo' ),
+                '',
+                '',
                 'hidden',
                 ''
             ),
 		);
 
+        //return $fields;
 		return $this->filter_hidden_fields( $fields );
 	}
 
