@@ -187,7 +187,7 @@ class WPSEO_Taxonomy_Presenter {
 			$image_src = plugins_url( 'images/question-mark.png', WPSEO_FILE );
 		}
 
-		return  sprintf(
+		return sprintf(
 			'<img src="%1$s" class="alignright yoast_help" id="%2$s" alt="%3$s" />',
 			$image_src,
 			esc_attr( $field_name . 'help' ),
