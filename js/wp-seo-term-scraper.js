@@ -33,7 +33,12 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 		var elem;
 		switch( inputType ){
 			case 'keyword':
-				val = document.getElementById( 'wpseo_keyword' ).value;
+				elem = document.getElementById( 'wpseo_keyword' );
+				val = elem.value;
+				if ( val === "" ){
+					val = document.getElementById( 'name').value;
+					elem.placeholder = val;
+				}
 				break;
 			case 'meta':
 				elem = document.getElementById( 'hidden_wpseo_desc' );
@@ -45,8 +50,6 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 				val = this.getContentTinyMCE();
 				break;
 			case 'pageTitle':
-				val = document.getElementById( 'hidden_wpseo_title' ).value;
-				break;
 			case 'title':
 				val = document.getElementById( 'hidden_wpseo_title' ).value;
 				break;
