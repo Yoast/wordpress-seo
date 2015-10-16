@@ -36,7 +36,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 				elem = document.getElementById( 'wpseo_keyword' );
 				val = elem.value;
 				if ( val === "" ){
-					val = document.getElementById( 'name').value;
+					val = document.getElementById( 'name' ).value;
 					elem.placeholder = val;
 				}
 				break;
@@ -278,7 +278,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 			window.YoastSEO.app = new YoastSEO.App( YoastSEO.analyzerArgs );
 		}
 
-		tinyMCE.init( { selector: '#description' } );
+		tinyMCE.init( { selector: '#description', menubar: false  } );
 
 		jQuery( init );
 	} );
