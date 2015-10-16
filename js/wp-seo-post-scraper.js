@@ -242,7 +242,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 		}
 
 		tinyMCE.on( 'addEditor', function(e) {
-			e.editor.on( 'keyPress', function() {
+			e.editor.on( 'input', function() {
 				app.analyzeTimer.call( app );
 			} );
 		});
