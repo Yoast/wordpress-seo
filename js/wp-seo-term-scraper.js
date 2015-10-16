@@ -160,7 +160,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 	 * binds the renewData function on the change of inputelements.
 	 */
 	YoastSEO.TermScraper.prototype.inputElementEventBinder = function( app ) {
-		var elems = ['name', 'description', 'slug'];
+		var elems = [ 'name', 'description', 'slug', 'wpseo_keyword' ];
 		for (var i = 0; i < elems.length; i++) {
 			var elem = document.getElementById(elems[i]);
 			if (elem !== null) {
