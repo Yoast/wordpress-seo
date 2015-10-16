@@ -278,7 +278,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 			window.YoastSEO.app = new YoastSEO.App( YoastSEO.analyzerArgs );
 		}
 
-		tinyMCE.init( { selector: '#description', menubar: false  } );
+		tinyMCE.init( { selector: '#description', menubar: false, toolbar: ['bold', 'italic', 'underline', 'blockquote', 'strikethrough', 'bullist', 'numlist', 'alignleft', 'aligncenter', 'alignright', 'undo', 'redo', 'link', 'unlink', 'fullscreen']  } );
 
 		jQuery( init );
 	} );

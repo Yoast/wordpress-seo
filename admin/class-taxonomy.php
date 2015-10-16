@@ -62,11 +62,9 @@ class WPSEO_Taxonomy {
 			wp_enqueue_style( 'yoast-metabox-css', plugins_url( 'css/metabox' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
             wp_enqueue_style( 'snippet', plugins_url( 'css/snippet' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
             wp_enqueue_style( 'seo_score', plugins_url( 'css/yst_seo_score' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
-            wp_enqueue_style( 'wp-seo-editor',  get_option('siteurl') . '/wp-includes/css/editor.min.css', array(), WPSEO_VERSION );
+            wp_enqueue_style( 'wp-seo-editor',  get_option('siteurl') . '/wp-includes/js/tinymce/skins/content.min.css', array(), WPSEO_VERSION );
             wp_enqueue_style( 'wp-seo-editor-rtl',  get_option('siteurl') . '/wp-includes/css/editor-rtl.min.css', array(), WPSEO_VERSION );
 
-            //todo in stead of using wp_editor to include tinyMCE, load the tinyMCE script so it can be included and run on the page without
-            //the need of creating extra elements we don't need.
             wp_enqueue_script( 'wp-seo-tinymce',  get_option('siteurl') . '/wp-includes/js/tinymce/wp-tinymce.php', array( 'yoast-seo' ), WPSEO_VERSION, true );
             wp_enqueue_script( 'wp-seo-metabox', plugins_url( 'js/wp-seo-metabox' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array(
 				'jquery',
