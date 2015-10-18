@@ -411,7 +411,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		}
 		unset( $canonical );
 
-		if ( $this->options['trailingslash'] === true && $post->post_type != 'post' ) {
+		if ( $this->options['trailingslash'] === true && $post->post_type !== 'post' ) {
 			$url['loc'] = trailingslashit( $url['loc'] );
 		}
 
@@ -437,7 +437,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 		$front_id = get_option( 'page_on_front' );
 
-		if ( isset( $front_id ) && $post->ID == $front_id ) {
+		if ( isset( $front_id ) && $post->ID === $front_id ) {
 			$return = 1.0;
 		}
 

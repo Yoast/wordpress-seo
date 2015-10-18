@@ -76,7 +76,7 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 			$count = ( $max_pages > 1 ) ? ( $i + 1 ) : '';
 
-			if ( empty( $count ) || $count == $max_pages ) {
+			if ( empty( $count ) || $count === $max_pages ) {
 				$sql = $wpdb->prepare(
 					$date_query . ' ASC LIMIT 1',
 					$wpdb->get_blog_prefix() . 'user_level'
@@ -215,7 +215,7 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			}
 			elseif ( $options['disable_author_noposts'] === true ) {
 				$count_posts  = count_user_posts( $user->ID );
-				$exclude_user = ( $count_posts == 0 );
+				$exclude_user = ( $count_posts === 0 );
 				unset( $count_posts );
 			}
 			else {
@@ -253,7 +253,7 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			$second->_yoast_wpseo_profile_updated = time();
 		}
 
-		if ( $first->_yoast_wpseo_profile_updated == $second->_yoast_wpseo_profile_updated ) {
+		if ( $first->_yoast_wpseo_profile_updated === $second->_yoast_wpseo_profile_updated ) {
 			return 0;
 		}
 

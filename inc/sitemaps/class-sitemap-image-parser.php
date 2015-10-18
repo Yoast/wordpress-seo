@@ -180,7 +180,7 @@ class WPSEO_Sitemap_Image_Parser {
 				continue;
 			}
 
-			if ( $src != esc_url( $src ) ) {
+			if ( $src !== esc_url( $src ) ) {
 				continue;
 			}
 
