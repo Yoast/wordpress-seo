@@ -57,8 +57,9 @@ class WPSEO_Sitemaps_Router {
 
 		global $wp_query;
 
-		$current_url = ( isset( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] == 'on' ) ? 'https://' : 'http://';
-		$current_url .= sanitize_text_field( $_SERVER['SERVER_NAME'] ) . sanitize_text_field( $_SERVER['REQUEST_URI'] );
+		$current_url = ( filter_input( INPUT_SERVER, 'HTTPS' ) === 'on' ) ? 'https://' : 'http://';
+		$current_url .= sanitize_text_field( filter_input( INPUT_SERVER, 'SERVER_NAME' ) );
+		$current_url .= sanitize_text_field( filter_input( INPUT_SERVER, 'REQUEST_URI' ) );
 
 		if ( home_url( '/sitemap.xml' ) === $current_url && $wp_query->is_404 ) {
 			wp_redirect( home_url( '/sitemap_index.xml' ), 301 );
