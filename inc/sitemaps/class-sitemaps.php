@@ -132,17 +132,6 @@ class WPSEO_Sitemaps {
 	}
 
 	/**
-	 * Set a custom stylesheet for this sitemap. Set to empty to just remove the default stylesheet.
-	 *
-	 * @deprecated
-	 *
-	 * @param string $stylesheet Full xml-stylesheet declaration.
-	 */
-	public function set_stylesheet( $stylesheet ) {
-		$this->renderer->set_stylesheet( $stylesheet );
-	}
-
-	/**
 	 * Set as true to make the request 404. Used stop the display of empty sitemaps or invalid requests.
 	 *
 	 * @param bool $bool Is this a bad request. True or false.
@@ -357,20 +346,6 @@ class WPSEO_Sitemaps {
 	}
 
 	/**
-	 * Build the `<url>` tag for a given URL.
-	 *
-	 * @deprecated
-	 *
-	 * @param array $url Array of parts that make up this entry.
-	 *
-	 * @return string
-	 */
-	public function sitemap_url( $url ) {
-
-		return $this->renderer->sitemap_url( $url );
-	}
-
-	/**
 	 * Make a request for the sitemap index so as to cache it before the arrival of the search engines.
 	 */
 	public function hit_sitemap_index() {
@@ -427,5 +402,30 @@ class WPSEO_Sitemaps {
 	public function get_last_modified( $post_types ) {
 
 		return $this->timezone->format_date( self::get_last_modified_gmt( $post_types ) );
+	}
+
+	/**
+	 * Build the `<url>` tag for a given URL.
+	 *
+	 * @deprecated
+	 *
+	 * @param array $url Array of parts that make up this entry.
+	 *
+	 * @return string
+	 */
+	public function sitemap_url( $url ) {
+
+		return $this->renderer->sitemap_url( $url );
+	}
+
+	/**
+	 * Set a custom stylesheet for this sitemap. Set to empty to just remove the default stylesheet.
+	 *
+	 * @deprecated
+	 *
+	 * @param string $stylesheet Full xml-stylesheet declaration.
+	 */
+	public function set_stylesheet( $stylesheet ) {
+		$this->renderer->set_stylesheet( $stylesheet );
 	}
 }
