@@ -790,4 +790,23 @@ class WPSEO_Utils {
 		return false;
 	}
 
+	/**
+	 * Wrapper for encoding the array as a json string. Includes a fallback if wp_json_encode doesn't exists
+	 *
+	 * @param array $array_to_encode The array which will be encoded.
+	 * @param int   $options		 Optional. Array with options which will be passed in to the encoding methods.
+	 * @param int   $depth    		 Optional. Maximum depth to walk through $data. Must be greater than 0. Default 512.
+	 *
+	 * @return false|string
+	 */
+	public static function json_encode( array $array_to_encode, $options = 0, $depth = 512 ) {
+		if ( function_exists( 'wp_json_encode' ) ) {
+			return wp_json_encode( $array_to_encode, $options, $depth );
+		}
+
+		// @codingStandardsIgnoreStart
+		return json_encode( $array_to_encode );
+		// @codingStandardsIgnoreEnd
+	}
+
 } /* End of class WPSEO_Utils */

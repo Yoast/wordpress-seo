@@ -55,7 +55,6 @@ class WPSEO_Twitter {
 		$this->description();
 		$this->title();
 		$this->site_twitter();
-		$this->site_domain();
 		$this->image();
 		if ( is_singular() ) {
 			$this->author();
@@ -86,13 +85,13 @@ class WPSEO_Twitter {
 	 */
 	private function determine_card_type() {
 		$this->type = $this->options['twitter_card_type'];
-		if ( is_singular() ) {
-			// If the current post has a gallery, output a gallery card.
-			if ( has_shortcode( $GLOBALS['post']->post_content, 'gallery' ) ) {
-				$this->images = get_post_gallery_images();
-				if ( count( $this->images ) > 3 ) {
-					$this->type = 'gallery';
-				}
+
+		if ( is_singular() && has_shortcode( $GLOBALS['post']->post_content, 'gallery' ) ) {
+
+			$this->images = get_post_gallery_images();
+
+			if ( count( $this->images ) > 0 ) {
+				$this->type = 'summary_large_image';
 			}
 		}
 
@@ -113,11 +112,8 @@ class WPSEO_Twitter {
 		if ( ! in_array( $this->type, array(
 			'summary',
 			'summary_large_image',
-			'photo',
-			'gallery',
 			'app',
 			'player',
-			'product',
 		) )
 		) {
 			$this->type = 'summary';
@@ -297,27 +293,12 @@ class WPSEO_Twitter {
 	}
 
 	/**
-	 * Displays the domain tag for the site.
-	 */
-	protected function site_domain() {
-		/**
-		 * Filter: 'wpseo_twitter_domain' - Allow changing the Twitter domain as output in the Twitter card by Yoast SEO
-		 *
-		 * @api string $unsigned Name string
-		 */
-		$domain = apply_filters( 'wpseo_twitter_domain', get_bloginfo( 'name' ) );
-		if ( is_string( $domain ) && $domain !== '' ) {
-			$this->output_metatag( 'domain', $domain );
-		}
-	}
-
-	/**
 	 * Displays the image for Twitter
 	 *
 	 * Only used when OpenGraph is inactive or Summary Large Image card is chosen.
 	 */
 	protected function image() {
-		if ( 'gallery' === $this->type ) {
+		if ( count( $this->images ) > 0 ) {
 			$this->gallery_images_output();
 		}
 		else {
@@ -330,17 +311,11 @@ class WPSEO_Twitter {
 	}
 
 	/**
-	 * Outputs the first 4 images of a gallery as the posts gallery images
+	 * Outputs the first image of a gallery.
 	 */
 	private function gallery_images_output() {
-		$image_counter = 0;
-		foreach ( $this->images as $image ) {
-			if ( $image_counter > 3 ) {
-				return;
-			}
-			$this->image_output( $image, 'image' . $image_counter );
-			$image_counter ++;
-		}
+
+		$this->image_output( reset( $this->images ) );
 	}
 
 	/**
@@ -383,12 +358,17 @@ class WPSEO_Twitter {
 	/**
 	 * Outputs a Twitter image tag for a given image
 	 *
-	 * @param string $img The source URL to the image.
-	 * @param string $tag The tag to output, defaults to <code>image:src</code> but can be altered for use in galleries.
+	 * @param string  $img The source URL to the image.
+	 * @param boolean $tag Deprecated argument, previously used for gallery images.
 	 *
 	 * @return bool
 	 */
-	protected function image_output( $img, $tag = 'image:src' ) {
+	protected function image_output( $img, $tag = false ) {
+
+		if ( $tag ) {
+			_deprecated_argument( __METHOD__, 'WPSEO 2.4' );
+		}
+
 		/**
 		 * Filter: 'wpseo_twitter_image' - Allow changing the Twitter Card image
 		 *
@@ -403,7 +383,7 @@ class WPSEO_Twitter {
 		}
 
 		if ( is_string( $escaped_img ) && $escaped_img !== '' ) {
-			$this->output_metatag( $tag, $escaped_img, true );
+			$this->output_metatag( 'image', $escaped_img, true );
 			array_push( $this->shown_images, $escaped_img );
 
 			return true;
@@ -519,4 +499,13 @@ class WPSEO_Twitter {
 		return self::$instance;
 	}
 
+	/**
+	 * Displays the domain tag for the site.
+	 *
+	 * @deprecated 2.4
+	 */
+	protected function site_domain() {
+
+		_deprecated_function( __METHOD__, 'WPSEO 2.4' );
+	}
 } /* End of class */
