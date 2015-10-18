@@ -244,7 +244,8 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 		$links = array();
 
-		$front_id = get_option( 'page_on_front' );
+		$front_id       = get_option( 'page_on_front' );
+		$page_for_posts = get_option( 'page_for_posts' );
 
 		if ( ! $front_id && ( $post_type == 'post' || $post_type == 'page' ) ) {
 
@@ -254,21 +255,16 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 				'chf' => WPSEO_Sitemaps::filter_frequency( 'homepage', 'daily', $this->home_url ),
 			);
 		}
-		elseif ( $front_id && $post_type == 'post' ) {
+		elseif ( $front_id && $post_type === 'post' && $page_for_posts ) {
 
-			$page_for_posts = get_option( 'page_for_posts' );
+			$page_for_posts_url = get_permalink( $page_for_posts );
 
-			if ( $page_for_posts ) {
-
-				$page_for_posts_url = get_permalink( $page_for_posts );
-
-				$links[] = array(
-					'loc' => $page_for_posts_url,
-					'pri' => 1,
-					'chf' => WPSEO_Sitemaps::filter_frequency( 'blogpage', 'daily', $page_for_posts_url ),
-				);
-				unset( $page_for_posts_url );
-			}
+			$links[] = array(
+				'loc' => $page_for_posts_url,
+				'pri' => 1,
+				'chf' => WPSEO_Sitemaps::filter_frequency( 'blogpage', 'daily', $page_for_posts_url ),
+			);
+			unset( $page_for_posts_url );
 		}
 
 		$archive_url = get_post_type_archive_link( $post_type );
