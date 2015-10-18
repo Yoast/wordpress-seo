@@ -396,7 +396,6 @@ class WPSEO_Sitemaps {
 
 		if ( empty( $post_type_dates ) ) {
 
-			$post_type_dates = array();
 			$sql             = "
 				SELECT post_type, MAX(post_modified_gmt) AS date
 				FROM $wpdb->posts
