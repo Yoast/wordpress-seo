@@ -276,9 +276,18 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 				YoastSEO.analyzerArgs.translations = translations;
 			}
 			window.YoastSEO.app = new YoastSEO.App( YoastSEO.analyzerArgs );
-		}
 
-		tinyMCE.init( { selector: '#description', menubar: false, toolbar: ['bold', 'italic', 'underline', 'blockquote', 'strikethrough', 'bullist', 'numlist', 'alignleft', 'aligncenter', 'alignright', 'undo', 'redo', 'link', 'unlink', 'fullscreen']  } );
+			//add new descriptionfield to content, creates new element via wp_editor and appends this to the term-description-wrap
+			var newEditor = document.getElementById( 'wp-description-wrap' );
+			newEditor.style.display = 'none';
+			var editorContainer = document.getElementsByClassName( 'term-description-wrap' )[ 0 ];
+			var text = jQuery('.term-description-wrap').find('td').find('p');
+			//empty the TD with the old description textarea
+			jQuery('.term-description-wrap').find('td').html('');
+			//append the editor and the helptext
+			jQuery('.term-description-wrap').find('td').append(newEditor).append(text);
+			newEditor.style.display = 'block';
+		}
 
 		jQuery( init );
 	} );
