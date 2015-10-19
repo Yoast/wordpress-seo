@@ -40,7 +40,7 @@ class WPSEO_Redirect_URL_Validator extends WPSEO_Redirect_Validator {
 			return $this->set_error(
 			/* translators: %1$s expands to the returned http code  */
 				sprintf(
-					__( 'The URL you entered returned a HTTP code different than 200(OK).<br /><br />The received HTTP code is %1$s.', 'wordpress-seo-premium' ),
+					__( 'The URL you entered returned a HTTP code different than 200(OK). The received HTTP code is %1$s.', 'wordpress-seo-premium' ),
 					$error_response_code
 				)
 			);
