@@ -132,31 +132,6 @@ class WPSEO_Redirect_Ajax {
 	}
 
 	/**
-	 * Method that returns the HTTP response code of URL
-	 */
-	public function ajax_check_url() {
-
-		// Check AJAX nonce.
-		check_ajax_referer( 'wpseo-redirects-ajax-security', 'ajax_nonce' );
-
-		$url = filter_input( INPUT_POST, 'url' );
-
-		// URL must be set.
-		if ( $url === '' ) {
-			exit;
-		}
-
-		// The URL.
-		$url = rawurldecode( $url );
-
-		// Do the request.
-		$response = wp_remote_get( $url );
-
-		// Echo the response code.
-		wp_die( json_encode( array( 'response_code' => wp_remote_retrieve_response_code( $response ) ) ) );
-	}
-
-	/**
 	 * Setting the AJAX hooks
 	 *
 	 * @param string $hook_suffix

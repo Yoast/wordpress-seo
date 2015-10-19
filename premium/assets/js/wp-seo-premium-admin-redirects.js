@@ -310,35 +310,6 @@ jQuery( function($) {
 		};
 
 		/**
-		 * Request the http status code for given url
-		 *
-		 * @param {string} url
-		 */
-		this.check_url_status = function( url ) {
-			// Add the domain
-			if ( 0 === url.indexOf( encodeURIComponent( '/' ) ) ) {
-				url = encodeURIComponent( window.location.protocol + '//' + window.location.host ) + url;
-			}
-
-			// Do the AJAX call
-			that.post(
-				{
-					action: 'wpseo_check_url',
-					ajax_nonce: $( '.wpseo_redirects_ajax_nonce' ).val(),
-					url: url
-				},
-				function( response ) {
-					if ( '200' !== response.response_code ) {
-						that.dialog(
-							wpseo_premium_strings.redirect_possibly_bad,
-							wpseo_premium_strings.redirect_not_ok + ( ( response.response_code !== '' ) ? '<br/><br/><b>HTTP Code: ' + response.response_code + '</b>' : '' )
-						);
-					}
-				}
-			);
-		};
-
-		/**
 		 * Create a table row element with the new added redirect data
 		 *
 		 * @param {string} old_url
@@ -400,11 +371,6 @@ jQuery( function($) {
 				);
 
 				return false;
-			}
-
-			// Check the destination URL
-			if ( 'url' === type && '410' !== redirect_type ) {
-				that.check_url_status( encodeURIComponent( new_redirect ) );
 			}
 
 			// Do post
