@@ -6,37 +6,28 @@
 /**
  * Class WPSEO_Redirect_Validate
  */
-class WPSEO_Redirect_Validator {
+abstract class WPSEO_Redirect_Validator {
 
 	/**
 	 * @var array
 	 */
-	private $redirects = array();
+	protected $redirects = array();
 
 	/**
 	 * @var bool|string
 	 */
-	private $validation_error = false;
-
-	/**
-	 * Should the input url be sanitized
-	 *
-	 * @var bool
-	 */
-	private $sanitize_slashes = false;
+	protected $validation_error = false;
 
 	/**
 	 * Converting the redirects into a readable format
 	 *
-	 * @param bool  $sanitize_slashes
-	 * @param array $redirects
+	 * @param array $redirects         Array with the redirects.
 	 */
-	public function __construct( $sanitize_slashes = false, array $redirects = array() ) {
-		$this->sanitize_slashes = $sanitize_slashes;
-
+	public function __construct( array $redirects = array() ) {
 		foreach ( $redirects as $redirect_url => $redirect ) {
-			$this->redirects[ $this->sanitize_slashes( $redirect_url ) ] = $this->sanitize_slashes( $redirect['url'] );
+			$this->redirects[ $this->sanitize_redirect_url( $redirect_url ) ] = $this->sanitize_redirect_url( $redirect['url'] );
 		}
+
 	}
 
 	/**
@@ -60,24 +51,6 @@ class WPSEO_Redirect_Validator {
 
 		if ( ! $this->validate_filled( $old_url, $new_url, $type ) ) {
 			return $this->set_error( __( 'Not all the required fields are filled', 'wordpress-seo-premium' ) );
-		}
-
-		if ( $endpoint = $this->search_end_point( $new_url, $old_url ) ) {
-			if ( in_array( $endpoint, array( $old_url, $new_url ) ) ) {
-				// There might be a redirect loop.
-				return $this->set_error( __( 'There might be a redirect loop.', 'wordpress-seo-premium' ) );
-			}
-
-			if ( $new_url !== $endpoint ) {
-				// The current redirect will be redirected to ... Maybe it's worth considering to create a direct redirect to ...
-				return $this->set_error(
-					sprintf(
-						__( '%1$s will be redirected to %2$s. Maybe it\'s worth considering to create a direct redirect to %2$s.', 'wordpress-seo-premium' ),
-						$new_url,
-						$endpoint
-					)
-				);
-			}
 		}
 
 		return false;
@@ -119,46 +92,8 @@ class WPSEO_Redirect_Validator {
 	 *
 	 * @return bool
 	 */
-	public function redirect_exists( $url ) {
-		return array_key_exists( $this->sanitize_slashes( $url ), $this->redirects );
-	}
-
-	/**
-	 * Will check if the $new_url is redirected also and follows the trace of this redirect
-	 *
-	 * @param string $new_url
-	 * @param string $old_url
-	 *
-	 * @return bool|string
-	 */
-	private function search_end_point( $new_url, $old_url ) {
-		if ( $new_target = $this->find_url( $new_url ) ) {
-			// Unset the redirects, because it was found already.
-			unset( $this->redirects[ $new_url ] );
-
-			if ( $new_url !== $old_url && $traced_target = $this->search_end_point( $new_target, $old_url ) ) {
-				return $traced_target;
-			}
-
-			return $new_target;
-		}
-
-		return false;
-	}
-
-	/**
-	 * Search for the given $url and returns it target
-	 *
-	 * @param string $url
-	 *
-	 * @return bool
-	 */
-	public function find_url( $url ) {
-		if ( ! empty( $this->redirects[ $url ] ) ) {
-			return $this->redirects[ $url ];
-		}
-
-		return false;
+	protected function redirect_exists( $url ) {
+		return array_key_exists( $this->sanitize_redirect_url( $url ), $this->redirects );
 	}
 
 	/**
@@ -168,11 +103,7 @@ class WPSEO_Redirect_Validator {
 	 *
 	 * @return string
 	 */
-	private function sanitize_slashes( $url ) {
-		if ( $this->sanitize_slashes ) {
-			return trim( $url, '/' );
-		}
-
+	protected function sanitize_redirect_url( $url ) {
 		return $url;
 	}
 
@@ -185,7 +116,7 @@ class WPSEO_Redirect_Validator {
 	 *
 	 * @return bool
 	 */
-	private function validate_filled( $old_url, $new_url, $type ) {
+	protected function validate_filled( $old_url, $new_url, $type ) {
 		if ( $old_url !== '' && $new_url !== '' && $type !== '' ) {
 			return true;
 		}
@@ -200,7 +131,7 @@ class WPSEO_Redirect_Validator {
 	 *
 	 * @return bool
 	 */
-	private function set_error( $error_message ) {
+	protected function set_error( $error_message ) {
 		$this->validation_error = $error_message;
 
 		return true;

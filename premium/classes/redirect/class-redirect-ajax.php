@@ -26,11 +26,10 @@ class WPSEO_Redirect_Ajax {
 	/**
 	 * @param WPSEO_Redirect_Manager $redirect_manager
 	 * @param string                 $hook_suffix
-	 * @param bool                   $sanitize_slash
 	 */
-	public function __construct( WPSEO_Redirect_Manager $redirect_manager, $hook_suffix, $sanitize_slash = false ) {
+	public function __construct( WPSEO_Redirect_Manager $redirect_manager, $hook_suffix ) {
 		$this->redirect_manager = $redirect_manager;
-		$this->validator        = new WPSEO_Redirect_Validator( $sanitize_slash, $this->redirect_manager->get_redirects() );
+		$this->validator        = $redirect_manager->get_validator( $redirect_manager->get_redirects() );
 
 		$this->set_hooks( $hook_suffix );
 	}
