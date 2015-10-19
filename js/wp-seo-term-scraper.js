@@ -35,7 +35,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 			case 'keyword':
 				elem = document.getElementById( 'wpseo_keyword' );
 				val = elem.value;
-				if ( val === "" ){
+				if ( val === '' ) {
 					val = document.getElementById( 'name' ).value;
 					elem.placeholder = val;
 				}
@@ -210,15 +210,14 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 	 * add new descriptionfield to content, creates new element via wp_editor and appends this to the term-description-wrap
 	 * this way we can use the wp tinyMCE editor on the descriptionfield.
 	 */
-	var tinyMCEReplacer = function(){
+	var tinyMCEReplacer = function() {
 		var newEditor = document.getElementById( 'wp-description-wrap' );
 		newEditor.style.display = 'none';
-		var editorContainer = document.getElementsByClassName( 'term-description-wrap' )[ 0 ];
-		var text = jQuery('.term-description-wrap').find('td').find('p');
+		var text = jQuery( '.term-description-wrap' ).find( 'td' ).find( 'p' );
 		//empty the TD with the old description textarea
-		jQuery('.term-description-wrap').find('td').html('');
+		jQuery( '.term-description-wrap' ).find( 'td' ).html( '' );
 		//append the editor and the helptext
-		jQuery('.term-description-wrap').find('td').append(newEditor).append(text);
+		jQuery( '.term-description-wrap' ).find( 'td' ).append( newEditor ).append( text );
 		newEditor.style.display = 'block';
 	};
 
@@ -294,7 +293,6 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 			}
 			window.YoastSEO.app = new YoastSEO.App( YoastSEO.analyzerArgs );
 		}
-
 		jQuery( init );
 	} );
 }());
