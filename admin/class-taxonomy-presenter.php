@@ -211,7 +211,7 @@ class WPSEO_Taxonomy_Presenter {
 	 * @return string
 	 */
 	private function parse_row( $label, $help, $field ) {
-        if( $label !== '' && $help !== '') {
+        if( $label !== '' || $help !== '') {
             return '<tr><th scope="row">' . $label . $help . '</th><td>' . $field . '</td></tr>';
         }
 
