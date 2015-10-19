@@ -199,6 +199,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 		for ( var i = 0; i < elems.length; i++ ) {
 			this.bindSnippetEvents( document.getElementById( elems [ i ] ), snippetPreview );
 		}
+		document.getElementById( 'snippet_title' ).addEventListener( 'blur', snippetPreview.addSiteTitle.bind ( wpseoPostScraperL10n ) );
 	};
 
 	/**
@@ -261,7 +262,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 
 	/**
 	 * Updates the snippet values, is bound by the loader when generating the elements for the snippet.
-	 * Uses the unformattedText object of the if the textFeedback function has put a string there (if text was too long).
+	 * Uses the unformattedText object of the snippetpreview if the textFeedback function has put a string there (if text was too long).
 	 * clears this after use.
 	 *
 	 * @param {Object} ev
