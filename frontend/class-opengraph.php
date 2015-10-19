@@ -185,7 +185,12 @@ class WPSEO_OpenGraph {
 			 */
 			$adminstr = apply_filters( 'wpseo_opengraph_admin', $adminstr );
 			if ( is_string( $adminstr ) && $adminstr !== '' ) {
-				$this->og_tag( 'fb:admins', $adminstr );
+
+				$admins = explode( ',', $adminstr );
+
+				foreach ( $admins as $admin_id ) {
+					$this->og_tag( 'fb:admins', $admin_id );
+				}
 
 				return true;
 			}
@@ -791,6 +796,8 @@ class WPSEO_OpenGraph_Image {
 				return $this->add_image( $thumb[0] );
 			}
 		}
+
+		return false;
 	}
 
 	/**
@@ -820,6 +827,11 @@ class WPSEO_OpenGraph_Image {
 	 * @return bool
 	 */
 	private function check_featured_image_size( $img_data ) {
+
+		if ( ! is_array( $img_data ) ) {
+			return false;
+		}
+
 		// Get the width and height of the image.
 		if ( $img_data[1] < 200 || $img_data[2] < 200 ) {
 			return false;
