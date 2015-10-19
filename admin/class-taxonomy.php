@@ -60,20 +60,17 @@ class WPSEO_Taxonomy {
 			wp_enqueue_media(); // Enqueue files needed for upload functionality.
 
 			wp_enqueue_style( 'yoast-metabox-css', plugins_url( 'css/metabox' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
-            wp_enqueue_style( 'snippet', plugins_url( 'css/snippet' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
-            wp_enqueue_style( 'seo_score', plugins_url( 'css/yst_seo_score' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
-            wp_enqueue_style( 'wp-seo-editor',  get_option('siteurl') . '/wp-includes/js/tinymce/skins/content.min.css', array(), WPSEO_VERSION );
-            wp_enqueue_style( 'wp-seo-editor-rtl',  get_option('siteurl') . '/wp-includes/css/editor-rtl.min.css', array(), WPSEO_VERSION );
-
-            wp_enqueue_script( 'wp-seo-tinymce',  get_option('siteurl') . '/wp-includes/js/tinymce/wp-tinymce.php', array( 'yoast-seo' ), WPSEO_VERSION, true );
-            wp_enqueue_script( 'wp-seo-metabox', plugins_url( 'js/wp-seo-metabox' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array(
+			wp_enqueue_style( 'snippet', plugins_url( 'css/snippet' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
+			wp_enqueue_style( 'seo_score', plugins_url( 'css/yst_seo_score' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
+			wp_editor('', 'description');
+			wp_enqueue_script( 'wp-seo-metabox', plugins_url( 'js/wp-seo-metabox' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array(
 				'jquery',
 				'jquery-ui-core',
 				'jquery-ui-autocomplete',
 			), WPSEO_VERSION, true );
-            wp_enqueue_script( 'yoast-seo', plugins_url( 'js/dist/yoast-seo/yoast-seo.min.js', WPSEO_FILE ), null, WPSEO_VERSION, true );
-            wp_enqueue_script( 'wp-seo-term-scraper', plugins_url( 'js/wp-seo-term-scraper' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'yoast-seo' ), WPSEO_VERSION, true );
-            wp_localize_script( 'wp-seo-term-scraper', 'wpseoTermScraperL10n', $this->localize_term_scraper_script() );
+			wp_enqueue_script( 'yoast-seo', plugins_url( 'js/dist/yoast-seo/yoast-seo.min.js', WPSEO_FILE ), null, WPSEO_VERSION, true );
+			wp_enqueue_script( 'wp-seo-term-scraper', plugins_url( 'js/wp-seo-term-scraper' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'yoast-seo' ), WPSEO_VERSION, true );
+			wp_localize_script( 'wp-seo-term-scraper', 'wpseoTermScraperL10n', $this->localize_term_scraper_script() );
 
 			// Always enqueue minified as it's not our code.
 			wp_enqueue_style( 'jquery-qtip.js', plugins_url( 'css/jquery.qtip' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), '2.2.1' );
@@ -212,20 +209,20 @@ class WPSEO_Taxonomy {
 		return ( in_array( $this->taxonomy, $taxonomies ) );
 	}
 
-    public function localize_term_scraper_script() {
+	public function localize_term_scraper_script() {
 
-        $file = plugin_dir_path( WPSEO_FILE ) . 'languages/wordpress-seo-' . get_locale() . '.json';
-        if ( file_exists( $file ) ) {
-            $file = file_get_contents( $file );
-            $json = json_decode( $file, true );
-        }
-        else {
-            $json = array();
-        }
+		$file = plugin_dir_path( WPSEO_FILE ) . 'languages/wordpress-seo-' . get_locale() . '.json';
+		if ( file_exists( $file ) ) {
+			$file = file_get_contents( $file );
+			$json = json_decode( $file, true );
+		}
+		else {
+			$json = array();
+		}
 
-        return array(
-            'translations'                => $json,
-            'home_url'                    => home_url( '/', null ),
-        );
-    }
+		return array(
+			'translations'                  => $json,
+			'home_url'                      => home_url( '/', null ),
+		);
+	}
 } /* End of class */
