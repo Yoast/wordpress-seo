@@ -20,7 +20,7 @@ class WPSEO_Taxonomy_Presenter {
 	 */
 	public function __construct( $term ) {
 		$this->tax_meta = WPSEO_Taxonomy_Meta::get_term_meta( (int) $term->term_id, $term->taxonomy );
-        add_action( 'admin_footer', array( $this, 'scoring_svg' ) );
+		add_action( 'admin_footer', array( $this, 'scoring_svg' ) );
 	}
 
 	/**
@@ -217,11 +217,11 @@ class WPSEO_Taxonomy_Presenter {
 		return $field;
 	}
 
-    /**
-     * SVG for the general SEO score.
-     */
-    public function scoring_svg() {
-        echo '<script type="text/html" id="tmpl-score_svg">
+	/**
+	* SVG for the general SEO score.
+	*/
+	public function scoring_svg() {
+		echo '<script type="text/html" id="tmpl-score_svg">
 				<svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 500 500" enable-background="new 0 0 500 500" xml:space="preserve" width="50" height="50">
 					<g id="BG"></g>
 					<g id="BG_dark"></g>
@@ -243,5 +243,5 @@ class WPSEO_Taxonomy_Presenter {
 					</g>
 				</svg>
 			</script>';
-    }
+	}
 }

@@ -181,6 +181,10 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		}
 	}
 
+	/**
+	 * pass variables to js for use with the post-scraper
+	 * @return array
+	 */
 	public function localize_post_scraper_script() {
 		$post = $this->get_metabox_post();
 
@@ -550,11 +554,11 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			wp_localize_script( 'wp-seo-shortcode-plugin.js', 'wpseoShortcodePluginL10n', $this->localize_shortcode_plugin_script() );
 
 			if ( post_type_supports( get_post_type(), 'thumbnail' ) ) {
-                wp_enqueue_style( 'featured-image', plugins_url( 'css/featured-image' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
+				wp_enqueue_style( 'featured-image', plugins_url( 'css/featured-image' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
 				wp_enqueue_script( 'wp-seo-featured-image', plugins_url( 'js/wp-seo-featured-image' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'jquery' ), WPSEO_VERSION, true );
 
-                $featured_image_l10 = array( 'featured_image_notice' => __( 'The featured image should be at least 200x200 pixels to be picked up by Facebook and other social media sites.', 'wordpress-seo' ) );
-                wp_localize_script( 'wp-seo-metabox', 'wpseoFeaturedImageL10n', $featured_image_l10 );
+				$featured_image_l10 = array( 'featured_image_notice' => __( 'The featured image should be at least 200x200 pixels to be picked up by Facebook and other social media sites.', 'wordpress-seo' ) );
+				wp_localize_script( 'wp-seo-metabox', 'wpseoFeaturedImageL10n', $featured_image_l10 );
 			}
 
 			wp_enqueue_script( 'wpseo-admin-media', plugins_url( 'js/wp-seo-admin-media' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array(
