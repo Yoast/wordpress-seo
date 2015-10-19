@@ -21,6 +21,7 @@ jQuery( function($) {
 		 * @param {string} text
 		 */
 		this.dialog = function( title, text ) {
+
 			$('#YoastRedirectDialogText').html( text );
 			$('#YoastRedirectDialog')
 				.attr('title', title )
@@ -33,11 +34,14 @@ jQuery( function($) {
 						at: 'center top+10%',
 						my: 'center top+10%'
 					},
-					buttons: {
-						Ok: function() {
-							$( this ).dialog( 'close' );
+					buttons: [
+						{
+							text : wpseo_premium_strings.button_ok,
+							click: function () {
+								$(this).dialog('close');
+							}
 						}
-					}
+					]
 				}
 			);
 		};
@@ -200,7 +204,7 @@ jQuery( function($) {
 
 			// Add Save button
 			edit_actions.append(
-				create_button( 'button-primary', 4, 'Save', save_redirect_row )
+				create_button( 'button-primary', 4, wpseo_premium_strings.button_save, save_redirect_row )
 			);
 
 			// Add the cancel button
@@ -208,7 +212,7 @@ jQuery( function($) {
 				create_button(
 					'button',
 					5,
-					'Cancel',
+					wpseo_premium_strings.button_cancel,
 					function() {
 						that.restore_row(row);
 						that.restore_values(row);
