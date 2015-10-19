@@ -385,7 +385,7 @@ function wpseo_split_shared_term( $old_term_id, $new_term_id, $term_taxonomy_id,
 	}
 }
 
-add_action( 'split_shared_term', array( $this, 'wpseo_split_shared_term' ), 10, 4 );
+add_action( 'split_shared_term', 'wpseo_split_shared_term', 10, 4 );
 
 
 /********************** DEPRECATED FUNCTIONS **********************/
