@@ -208,13 +208,17 @@ YoastSEO.SnippetPreview.prototype.getPeriodMatches = function() {
 
 /**
  * formats the keyword for use in the snippetPreview by adding <strong>-tags
+ * strips unwanted characters that could break the regex or give unwanted results
  * @param textString
  * @returns textString
  */
 YoastSEO.SnippetPreview.prototype.formatKeyword = function( textString ) {
 
+	// removes characters from the keyword that could break the regex, or give unwanted results.
+	var keyword = this.refObj.rawData.keyword.replace( /[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "" );
+
 	//matches case insensitive and global
-	var replacer = new RegExp( "\\b" + this.refObj.rawData.keyword + "\\b", "ig" );
+	var replacer = new RegExp( "\\b" + keyword + "\\b", "ig" );
 	return textString.replace( replacer, function( str ) {
 		return "<strong>" + str + "</strong>";
 	} );
@@ -223,12 +227,14 @@ YoastSEO.SnippetPreview.prototype.formatKeyword = function( textString ) {
 /**
  * formats the keyword for use in the URL by accepting - and _ in stead of space and by adding
  * <strong>-tags
+ * strips unwanted characters that could break the regex or give unwanted results
  *
  * @param textString
  * @returns {XML|string|void}
  */
 YoastSEO.SnippetPreview.prototype.formatKeywordUrl = function( textString ) {
-	var replacer = this.refObj.rawData.keyword.replace( " ", "[-_]" );
+	var keyword = this.refObj.rawData.keyword.replace( /[\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "" );
+	var replacer = keyword.replace( " ", "[-_]" );
 
 	//matches case insensitive and global
 	replacer = new RegExp( replacer, "ig" );
