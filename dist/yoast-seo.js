@@ -48,22 +48,26 @@ YoastSEO.Analyzer.prototype.init = function( args ) {
 };
 
 /**
- * converts the keyword to lowercase
- */
+ * creates a regex from the keyword including /ig switch so it is case insensitive and global.
+ * replaces a number of characters that can break the regex.
+*/
 YoastSEO.Analyzer.prototype.formatKeyword = function() {
 	if ( typeof this.config.keyword !== "undefined" && this.config.keyword !== "" ) {
+
+		// removes characters from the keyword that could break the regex, or give unwanted results.
+		var keyword = this.config.keyword.replace( /[\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "" );
 
 		// Creates new regex from keyword with global and caseinsensitive option,
 		// replaces - and _ with space
 		this.keywordRegex = new RegExp(
-			this.preProcessor.replaceDiacritics( this.config.keyword.replace( /[-_]/, " " ) ),
+			this.preProcessor.replaceDiacritics( keyword.replace( /[-_]/, " " ) ),
 			"ig"
 		);
 
 		// Creates new regex from keyword with global and caseinsensitive option,
 		// replaces space with -. Used for URL matching
 		this.keywordRegexInverse = new RegExp(
-			this.preProcessor.replaceDiacritics( this.config.keyword.replace( " ", "-" ) ),
+			this.preProcessor.replaceDiacritics( keyword.replace( " ", "-" ) ),
 			"ig"
 		);
 
@@ -2182,13 +2186,17 @@ YoastSEO.SnippetPreview.prototype.getPeriodMatches = function() {
 
 /**
  * formats the keyword for use in the snippetPreview by adding <strong>-tags
+ * strips unwanted characters that could break the regex or give unwanted results
  * @param textString
  * @returns textString
  */
 YoastSEO.SnippetPreview.prototype.formatKeyword = function( textString ) {
 
+	// removes characters from the keyword that could break the regex, or give unwanted results.
+	var keyword = this.refObj.rawData.keyword.replace( /[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "" );
+
 	//matches case insensitive and global
-	var replacer = new RegExp( "\\b" + this.refObj.rawData.keyword + "\\b", "ig" );
+	var replacer = new RegExp( "\\b" + keyword + "\\b", "ig" );
 	return textString.replace( replacer, function( str ) {
 		return "<strong>" + str + "</strong>";
 	} );
@@ -2197,12 +2205,14 @@ YoastSEO.SnippetPreview.prototype.formatKeyword = function( textString ) {
 /**
  * formats the keyword for use in the URL by accepting - and _ in stead of space and by adding
  * <strong>-tags
+ * strips unwanted characters that could break the regex or give unwanted results
  *
  * @param textString
  * @returns {XML|string|void}
  */
 YoastSEO.SnippetPreview.prototype.formatKeywordUrl = function( textString ) {
-	var replacer = this.refObj.rawData.keyword.replace( " ", "[-_]" );
+	var keyword = this.refObj.rawData.keyword.replace( /[\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "" );
+	var replacer = keyword.replace( " ", "[-_]" );
 
 	//matches case insensitive and global
 	replacer = new RegExp( replacer, "ig" );
