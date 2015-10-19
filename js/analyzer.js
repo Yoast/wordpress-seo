@@ -261,6 +261,7 @@ YoastSEO.Analyzer.prototype.stopwords = function() {
 
 /**
  * calculate Flesch Reading score
+ * formula: 206.835 - 1.015 (total words / total sentences) - 84.6 ( total syllables / total words);
  * @returns {result object}
  */
 YoastSEO.Analyzer.prototype.fleschReading = function() {
@@ -298,6 +299,8 @@ YoastSEO.Analyzer.prototype.fleschReading = function() {
  * 		{
  * 			total: number, internal: {
  * 				total: number,
+ * 				totalNaKeyword: number,
+ * 				totalKeyword: number,
  * 				dofollow: number,
  * 				nofollow: number
  * 			}, external: {
@@ -448,6 +451,7 @@ YoastSEO.Analyzer.prototype.imageCount = function() {
 					if ( this.imageAlttagKeyword( alttag ) ) {
 						imageCount.altKeyword++;
 					} else {
+						//this counts all alt-tags w/o the keyword when a keyword is set.
 						imageCount.alt++;
 					}
 				} else {
@@ -571,7 +575,7 @@ YoastSEO.Analyzer.prototype.paragraphChecker = function( textString, regexp ) {
  */
 YoastSEO.Analyzer.prototype.metaDescriptionKeyword = function() {
 	var result = [ { test: "metaDescriptionKeyword", result: 0	} ];
-	if ( typeof this.config.meta !== "undefined" && this.config.meta.length > 0 ) {
+	if ( typeof this.config.meta !== "undefined" && this.config.meta.length > 0 && this.config.keyword !== "") {
 		result[ 0 ].result = this.stringHelper.countMatches(
 			this.config.meta, this.keywordRegex
 		);
