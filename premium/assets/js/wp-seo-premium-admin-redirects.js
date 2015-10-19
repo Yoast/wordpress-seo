@@ -567,8 +567,8 @@ jQuery( function($) {
 
 	$.each(
 		$( '.redirect-table-tab' ),
-		function( k, v ) {
-			$( v ).wpseo_redirects( $( v ).attr( 'id' ) );
+		function( key, element ) {
+			$( element ).wpseo_redirects( $( element ).attr( 'id' ) );
 		}
 	);
 });
