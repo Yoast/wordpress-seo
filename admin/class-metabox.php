@@ -203,6 +203,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'search_url'                  => admin_url( 'edit.php?seo_kw_filter={keyword}' ),
 			'post_edit_url'               => admin_url( 'post.php?post={id}&action=edit' ),
 			'home_url'                    => home_url( '/', null ),
+			'sep'                         => wpseo_replace_vars( '%%sep%%', $post ),
+			'sitename'                    => wpseo_replace_vars( '%%sitename%%', $post )
 		);
 	}
 
