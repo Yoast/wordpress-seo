@@ -38,7 +38,7 @@ class WPSEO_Redirect_Handler {
 	 */
 	public function __construct() {
 		// Set the requested url.
-		$this->request_url = htmlspecialchars_decode( urldecode( filter_input( INPUT_SERVER, 'REQUEST_URI' ) ) );
+		$this->request_url = htmlspecialchars_decode( rawurldecode( filter_input( INPUT_SERVER, 'REQUEST_URI' ) ) );
 
 		// Check the normal redirects.
 		$this->handle_normal_redirects();
