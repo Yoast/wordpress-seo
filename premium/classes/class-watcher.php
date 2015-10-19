@@ -70,7 +70,7 @@ abstract class WPSEO_Watcher {
 	 */
 	protected function create_redirect( $old_url, $new_url, $header_code = 301 ) {
 		// The URL redirect manager.
-		$redirect_manager = new WPSEO_URL_Redirect_Manager();
+		$redirect_manager = new WPSEO_Redirect_URL_Manager();
 
 		// Create the redirect.
 		$redirect_manager->create_redirect( $old_url, $new_url, $header_code );

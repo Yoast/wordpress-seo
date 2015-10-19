@@ -16,13 +16,13 @@ abstract class WPSEO_Redirect_Manager {
 	/**
 	 * @var WPSEO_Redirect
 	 */
-	protected $redirect_model;
+	protected $redirect;
 
 	/**
 	 * Setting the property with the redirects
 	 */
 	public function __construct() {
-		$this->redirect_model = new WPSEO_Redirect( $this->option_redirects );
+		$this->redirect = new WPSEO_Redirect( $this->option_redirects );
 	}
 
 	/**
@@ -31,7 +31,7 @@ abstract class WPSEO_Redirect_Manager {
 	 * @return array
 	 */
 	public function get_redirects() {
-		return $this->redirect_model->get();
+		return $this->redirect->get_all();
 	}
 
 	/**
@@ -67,7 +67,7 @@ abstract class WPSEO_Redirect_Manager {
 	 * @return array|bool
 	 */
 	public function search( $redirect ) {
-		if ( $found = $this->redirect_model->search( $redirect ) ) {
+		if ( $found = $this->redirect->search( $redirect ) ) {
 			return array_merge( array( 'redirect' => $redirect ), $found );
 		}
 
@@ -85,7 +85,7 @@ abstract class WPSEO_Redirect_Manager {
 	 * @return array|bool
 	 */
 	public function update_redirect( $old_redirect_key, array $new_redirect ) {
-		if ( $this->redirect_model->update( $old_redirect_key, $new_redirect['key'], $new_redirect['value'], $new_redirect['type'] ) ) {
+		if ( $this->redirect->update( $old_redirect_key, $new_redirect['key'], $new_redirect['value'], $new_redirect['type'] ) ) {
 			$this->save_redirects();
 
 			// Always return the updated redirect.
@@ -105,7 +105,7 @@ abstract class WPSEO_Redirect_Manager {
 	 * @return bool|array
 	 */
 	public function create_redirect( $old_value, $new_value, $type ) {
-		if ( $this->redirect_model->add( $old_value, $new_value, $type ) ) {
+		if ( $this->redirect->add( $old_value, $new_value, $type ) ) {
 			$this->save_redirects();
 
 			// Always return the added redirect.
@@ -127,7 +127,7 @@ abstract class WPSEO_Redirect_Manager {
 
 		if ( is_array( $delete_redirects ) && count( $delete_redirects ) > 0 ) {
 			foreach ( $delete_redirects as $delete_redirect ) {
-				$redirects_deleted = $this->redirect_model->delete( $delete_redirect );
+				$redirects_deleted = $this->redirect->delete( $delete_redirect );
 			}
 
 			$this->save_redirects();
@@ -141,17 +141,17 @@ abstract class WPSEO_Redirect_Manager {
 	 */
 	public function upgrade_1_2_0() {
 		// Getting the redirects.
-		$redirects = $this->redirect_model->get();
+		$redirects = $this->redirect->get_all();
 
 		// Loop through the redirects.
 		foreach ( $redirects as $old_url => $redirect ) {
 			// Check if the redirect is not an array yet.
 			if ( ! is_array( $redirect ) ) {
-				$redirects[ $old_url ] = $this->redirect_model->format( $redirect, '301' );
+				$redirects[ $old_url ] = $this->redirect->format( $redirect, '301' );
 			}
 		}
 		// Set the redirect value with the reformated redirects.
-		$this->redirect_model->set( $redirects );
+		$this->redirect->set( $redirects );
 
 		// Save the URL redirects.
 		$this->save_redirects();
@@ -162,7 +162,7 @@ abstract class WPSEO_Redirect_Manager {
 	 */
 	public function save_redirects() {
 		// Update the database option.
-		$this->redirect_model->save();
+		$this->redirect->save();
 
 		// Save the redirect file.
 		$this->save_redirect_file();
@@ -175,8 +175,8 @@ abstract class WPSEO_Redirect_Manager {
 	 */
 	protected function get_redirect_managers() {
 		return array(
-			'url'   => new WPSEO_URL_Redirect_Manager(),
-			'regex' => new WPSEO_REGEX_Redirect_Manager(),
+			'url'   => new WPSEO_Redirect_URL_Manager(),
+			'regex' => new WPSEO_Redirect_Regex_Manager(),
 		);
 	}
 

@@ -4,9 +4,9 @@
  */
 
 /**
- * Class WPSEO_REGEX_Redirect_Manager
+ * Class WPSEO_Redirect_Regex_Manager
  */
-class WPSEO_REGEX_Redirect_Manager extends WPSEO_Redirect_Manager {
+class WPSEO_Redirect_Regex_Manager extends WPSEO_Redirect_Manager {
 
 	/**
 	 * @var string
@@ -20,7 +20,7 @@ class WPSEO_REGEX_Redirect_Manager extends WPSEO_Redirect_Manager {
 	 */
 	protected function get_redirect_managers() {
 		return array(
-			'url'   => new WPSEO_URL_Redirect_Manager(),
+			'url'   => new WPSEO_Redirect_URL_Manager(),
 			'regex' => $this,
 		);
 	}

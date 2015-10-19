@@ -33,17 +33,8 @@ class WPSEO_Redirect {
 	 *
 	 * @return array
 	 */
-	public function get() {
+	public function get_all() {
 		return $this->redirects;
-	}
-
-	/**
-	 * Setting the redirect property with a new value
-	 *
-	 * @param array $redirects The array with all the redirects.
-	 */
-	public function set( array $redirects ) {
-
 	}
 
 	/**

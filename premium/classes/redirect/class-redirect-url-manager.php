@@ -4,9 +4,9 @@
  */
 
 /**
- * Class WPSEO_URL_Redirect_Manager
+ * Class WPSEO_Redirect_URL_Manager
  */
-class WPSEO_URL_Redirect_Manager extends WPSEO_Redirect_Manager {
+class WPSEO_Redirect_URL_Manager extends WPSEO_Redirect_Manager {
 
 	/**
 	 * @var string
@@ -21,7 +21,7 @@ class WPSEO_URL_Redirect_Manager extends WPSEO_Redirect_Manager {
 	 * @return string|bool
 	 */
 	public function search_url( $url ) {
-		if ( $redirect = $this->redirect_model->search( $url ) ) {
+		if ( $redirect = $this->redirect->search( $url ) ) {
 			return $redirect['url'];
 		}
 
@@ -84,7 +84,7 @@ class WPSEO_URL_Redirect_Manager extends WPSEO_Redirect_Manager {
 	protected function get_redirect_managers() {
 		return array(
 			'url'   => $this,
-			'regex' => new WPSEO_REGEX_Redirect_Manager(),
+			'regex' => new WPSEO_Redirect_Regex_Manager(),
 		);
 	}
 

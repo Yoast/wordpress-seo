@@ -70,11 +70,11 @@ class WPSEO_Upgrade_Manager {
 			 */
 
 			// URL Redirects.
-			$url_redirect_manager = new WPSEO_URL_Redirect_Manager();
+			$url_redirect_manager = new WPSEO_Redirect_URL_Manager();
 			$url_redirect_manager->upgrade_1_2_0();
 
 			// Regex Redirects.
-			$regex_redirect_manager = new WPSEO_REGEX_Redirect_Manager();
+			$regex_redirect_manager = new WPSEO_Redirect_Regex_Manager();
 			$regex_redirect_manager->upgrade_1_2_0();
 		}
 
@@ -96,7 +96,7 @@ class WPSEO_Upgrade_Manager {
 		$wp_query  = new WP_Query( 'post_type=any&meta_key=_yoast_wpseo_redirect&order=ASC' );
 
 		if ( ! empty( $wp_query->posts ) ) {
-			$redirect_manager = new WPSEO_URL_Redirect_Manager();
+			$redirect_manager = new WPSEO_Redirect_URL_Manager();
 
 			foreach ( $wp_query->posts as $post ) {
 				$old_url = '/' . $post->post_name . '/';

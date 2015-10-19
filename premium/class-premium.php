@@ -64,9 +64,9 @@ class WPSEO_Premium {
 
 		$this->load_textdomain();
 
-		if ( is_admin() ) {
+		$this->redirect_setup();
 
-			$this->redirect_setup();
+		if ( is_admin() ) {
 
 			// Disable Yoast SEO.
 			add_action( 'admin_init', array( $this, 'disable_wordpress_seo' ), 1 );
