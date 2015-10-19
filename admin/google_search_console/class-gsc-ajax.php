@@ -36,8 +36,8 @@ class WPSEO_GSC_Ajax {
 	 * Handling the request to create a new redirect from the issued URL
 	 */
 	public function ajax_create_redirect() {
-		if ( $this->valid_nonce() && class_exists( 'WPSEO_URL_Redirect_Manager' ) && defined( 'WPSEO_PREMIUM_PATH' ) ) {
-			$redirect_manager = new WPSEO_URL_Redirect_Manager();
+		if ( $this->valid_nonce() && class_exists( 'WPSEO_Redirect_URL_Manager' ) && defined( 'WPSEO_PREMIUM_PATH' ) ) {
+			$redirect_manager = new WPSEO_Redirect_URL_Manager();
 
 			$old_url = filter_input( INPUT_POST, 'old_url' );
 

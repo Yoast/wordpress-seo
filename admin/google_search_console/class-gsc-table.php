@@ -353,11 +353,11 @@ class WPSEO_GSC_Table extends WP_List_Table {
 	 * @return string
 	 */
 	private function modal_box_type( $url, &$current_redirect ) {
-		if ( defined( 'WPSEO_PREMIUM_FILE' ) && class_exists( 'WPSEO_URL_Redirect_Manager' ) ) {
+		if ( defined( 'WPSEO_PREMIUM_FILE' ) && class_exists( 'WPSEO_Redirect_URL_Manager' ) ) {
 			static $redirect_manager;
 
 			if ( ! $redirect_manager ) {
-				$redirect_manager = new WPSEO_URL_Redirect_Manager();
+				$redirect_manager = new WPSEO_Redirect_URL_Manager();
 			}
 
 			if ( $current_redirect = $redirect_manager->search_url( $url ) ) {
