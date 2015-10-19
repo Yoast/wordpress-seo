@@ -27,6 +27,7 @@ abstract class WPSEO_Redirect_Manager {
 
 	/**
 	 * Returns an instance of the WPSEO_Redirect_Validator
+	 *
 	 * @return WPSEO_Redirect_Validator
 	 */
 	abstract public function get_validator();
