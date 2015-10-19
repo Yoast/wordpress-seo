@@ -41,16 +41,15 @@ class WPSEO_Taxonomy_Presenter {
 	 * @param array  $field_options Array with the field configuration.
 	 */
 	private function form_row( $field_name, array $field_options )
-    {
-        $esc_field_name = esc_attr($field_name);
+	{
+		$esc_field_name = esc_attr($field_name);
 
-        $label = $this->get_label($field_options['label'], $esc_field_name);
-        $field = $this->get_field($field_options['type'], $esc_field_name, $this->get_field_value($field_name), (array)$field_options['options']);
-        $help = $this->get_help($field, $field_options['description'], $esc_field_name);
+		$label = $this->get_label($field_options['label'], $esc_field_name);
+		$field = $this->get_field($field_options['type'], $esc_field_name, $this->get_field_value($field_name), (array)$field_options['options']);
+		$help = $this->get_help($field, $field_options['description'], $esc_field_name);
 
-        echo $this->parse_row($label, $help, $field);
-
-    }
+		echo $this->parse_row($label, $help, $field);
+	}
 
 	/**
 	 * Generates the html for the the given field config
@@ -68,9 +67,9 @@ class WPSEO_Taxonomy_Presenter {
 		$field = '';
 
 		switch ( $field_type ) {
-            case 'div' :
-                $field .= '<div id="' . $field_name . '"></div>';
-                break;
+			case 'div' :
+				$field .= '<div id="' . $field_name . '"></div>';
+				break;
 			case 'text' :
 				$field .= '<input name="' . $field_name . '" id="' . $field_name . '" ' . $class . ' type="text" value="' . esc_attr( $field_value ) . '" size="40"/>';
 				break;
@@ -211,11 +210,11 @@ class WPSEO_Taxonomy_Presenter {
 	 * @return string
 	 */
 	private function parse_row( $label, $help, $field ) {
-        if( $label !== '' || $help !== '') {
-            return '<tr><th scope="row">' . $label . $help . '</th><td>' . $field . '</td></tr>';
-        }
+		if( $label !== '' || $help !== '') {
+			return '<tr><th scope="row">' . $label . $help . '</th><td>' . $field . '</td></tr>';
+		}
 
-        return $field;
+		return $field;
 	}
 
     /**

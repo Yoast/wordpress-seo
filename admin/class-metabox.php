@@ -181,26 +181,26 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		}
 	}
 
-    public function localize_post_scraper_script() {
-        $post = $this->get_metabox_post();
+	public function localize_post_scraper_script() {
+		$post = $this->get_metabox_post();
 
-        $file = plugin_dir_path( WPSEO_FILE ) . 'languages/wordpress-seo-' . get_locale() . '.json';
-        if ( file_exists( $file ) ) {
-            $file = file_get_contents( $file );
-            $json = json_decode( $file, true );
-        }
-        else {
-            $json = array();
-        }
+		$file = plugin_dir_path( WPSEO_FILE ) . 'languages/wordpress-seo-' . get_locale() . '.json';
+		if ( file_exists( $file ) ) {
+			$file = file_get_contents( $file );
+			$json = json_decode( $file, true );
+		}
+		else {
+			$json = array();
+		}
 
-        return array(
-            'translations'                => $json,
-            'keyword_usage'               => $this->get_focus_keyword_usage( $post->ID ),
-            'search_url'                  => admin_url( 'edit.php?seo_kw_filter={keyword}' ),
-            'post_edit_url'               => admin_url( 'post.php?post={id}&action=edit' ),
-            'home_url'                    => home_url( '/', null ),
-        );
-    }
+		return array(
+			'translations'                => $json,
+			'keyword_usage'               => $this->get_focus_keyword_usage( $post->ID ),
+			'search_url'                  => admin_url( 'edit.php?seo_kw_filter={keyword}' ),
+			'post_edit_url'               => admin_url( 'post.php?post={id}&action=edit' ),
+			'home_url'                    => home_url( '/', null ),
+		);
+	}
 
 	/**
 	 * Pass some variables to js for replacing variables.

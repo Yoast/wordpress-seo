@@ -82,18 +82,18 @@ class WPSEO_Taxonomy_General_Tab extends WPSEO_Taxonomy_Tab {
 				'select',
 				$this->sitemap_include_options
 			),
-            'title' => $this->get_field_config(
-                '',
-                '',
-                'hidden',
-                ''
-            ),
-            'desc' => $this->get_field_config(
-                '',
-                '',
-                'hidden',
-                ''
-            ),
+			'title' => $this->get_field_config(
+				'',
+				'',
+				'hidden',
+				''
+			),
+			'desc' => $this->get_field_config(
+				'',
+				'',
+				'hidden',
+				''
+			),
 		);
 
         //return $fields;
