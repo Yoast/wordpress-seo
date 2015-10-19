@@ -30,7 +30,7 @@ class WPSEO_Premium {
 	const EDD_PLUGIN_NAME = 'Yoast SEO Premium';
 
 	/**
-	 * @var WPSEO_Redirect
+	 * @var WPSEO_Redirect_Page
 	 */
 	private $redirects;
 
@@ -64,9 +64,9 @@ class WPSEO_Premium {
 
 		$this->load_textdomain();
 
-		$this->redirects = new WPSEO_Redirect();
-
 		if ( is_admin() ) {
+
+			$this->redirect_setup();
 
 			// Disable Yoast SEO.
 			add_action( 'admin_init', array( $this, 'disable_wordpress_seo' ), 1 );
@@ -150,6 +150,16 @@ class WPSEO_Premium {
 
 			add_filter( 'redirect_canonical', array( $this, 'redirect_canonical_fix' ), 1, 2 );
 		}
+	}
+
+	/**
+	 * Setting the autoloader for the redirects and instantiate the redirect page object
+	 */
+	private function redirect_setup() {
+		// Setting the autoloader for redirects.
+		new WPSEO_Premium_Autoloader( 'WPSEO_Redirect', 'redirect/', 'WPSEO_' );
+
+		$this->redirects = new WPSEO_Redirect_Page();
 	}
 
 	/**

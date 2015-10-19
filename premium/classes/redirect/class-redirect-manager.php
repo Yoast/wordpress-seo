@@ -14,7 +14,7 @@ abstract class WPSEO_Redirect_Manager {
 	protected $option_redirects = null;
 
 	/**
-	 * @var WPSEO_Redirect_Model
+	 * @var WPSEO_Redirect
 	 */
 	protected $redirect_model;
 
@@ -22,7 +22,7 @@ abstract class WPSEO_Redirect_Manager {
 	 * Setting the property with the redirects
 	 */
 	public function __construct() {
-		$this->redirect_model = new WPSEO_Redirect_Model( $this->option_redirects );
+		$this->redirect_model = new WPSEO_Redirect( $this->option_redirects );
 	}
 
 	/**
@@ -38,7 +38,7 @@ abstract class WPSEO_Redirect_Manager {
 	 * Saving the redirect file
 	 */
 	public function save_redirect_file() {
-		$options = WPSEO_Redirect::get_options();
+		$options = WPSEO_Redirect_Page::get_options();
 
 		if ( 'on' !== $options['disable_php_redirect'] ) {
 			$file_handler = new WPSEO_Redirect_File_Handler( $options['separate_file'] );

@@ -4,9 +4,9 @@
  */
 
 /**
- * Class WPSEO_Redirect
+ * Class WPSEO_Redirect_Page
  */
-class WPSEO_Redirect {
+class WPSEO_Redirect_Page {
 
 	/**
 	 * @var WPSEO_Redirect_Manager
@@ -17,9 +17,6 @@ class WPSEO_Redirect {
 	 * Constructing redirect module
 	 */
 	public function __construct() {
-		// Setting the autoloader.
-		new WPSEO_Premium_Autoloader( 'WPSEO_Redirect_', 'redirect/', 'WPSEO_' );
-
 		if ( is_admin() ) {
 			$this->initialize_admin();
 		}
@@ -185,7 +182,7 @@ class WPSEO_Redirect {
 			return true;
 		}
 
-		$options = WPSEO_Redirect::get_options();
+		$options = self::get_options();
 
 		// If the disable_php_redirect option is not enabled we should enable auto loading redirects.
 		if ( 'off' === $options['disable_php_redirect'] ) {

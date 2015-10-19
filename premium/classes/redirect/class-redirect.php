@@ -4,9 +4,9 @@
  */
 
 /**
- * Class WPSEO_Redirect_Model
+ * Class handling the redirect options
  */
-class WPSEO_Redirect_Model {
+class WPSEO_Redirect {
 
 	/**
 	 * @var string
