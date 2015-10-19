@@ -451,6 +451,7 @@ YoastSEO.Analyzer.prototype.imageCount = function() {
 					if ( this.imageAlttagKeyword( alttag ) ) {
 						imageCount.altKeyword++;
 					} else {
+
 						//this counts all alt-tags w/o the keyword when a keyword is set.
 						imageCount.alt++;
 					}
@@ -575,7 +576,7 @@ YoastSEO.Analyzer.prototype.paragraphChecker = function( textString, regexp ) {
  */
 YoastSEO.Analyzer.prototype.metaDescriptionKeyword = function() {
 	var result = [ { test: "metaDescriptionKeyword", result: 0	} ];
-	if ( typeof this.config.meta !== "undefined" && this.config.meta.length > 0 && this.config.keyword !== "") {
+	if ( typeof this.config.meta !== "undefined" && this.config.meta.length > 0 && this.config.keyword !== "" ) {
 		result[ 0 ].result = this.stringHelper.countMatches(
 			this.config.meta, this.keywordRegex
 		);

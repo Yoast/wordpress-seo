@@ -55,3 +55,16 @@ describe("a test matching the keyword in the metadescription", function(){
 		expect(result[0].result).toBe(0);
 	});
 });
+
+var metaArgs5 = {
+	meta: "",
+	keyword: ""
+};
+
+describe("a test matching the keyword in the metadescription", function(){
+	it("returns no matches for the keyword, since the keyword is not set and the meta is empty", function(){
+		var metaAnalyzer = Factory.buildAnalyzer(metaArgs5);
+		var result = metaAnalyzer.metaDescriptionKeyword();
+		expect(result[0].result).toBe(0);
+	});
+});
