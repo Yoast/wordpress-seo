@@ -147,13 +147,13 @@ class WPSEO_Redirect_Ajax {
 		}
 
 		// The URL.
-		$url = urldecode( $url );
+		$url = rawurldecode( $url );
 
 		// Do the request.
 		$response = wp_remote_get( $url );
 
 		// Echo the response code.
-		wp_die( json_encode( array( 'reponse_code' => wp_remote_retrieve_response_code( $response ) ) ) );
+		wp_die( json_encode( array( 'response_code' => wp_remote_retrieve_response_code( $response ) ) ) );
 	}
 
 	/**

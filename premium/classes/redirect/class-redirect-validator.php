@@ -109,7 +109,7 @@ class WPSEO_Redirect_Validator {
 	 * @return string
 	 */
 	public function sanitize_url( $url ) {
-		return trim( htmlspecialchars_decode( urldecode( $url ) ) );
+		return trim( htmlspecialchars_decode( rawurldecode( $url ) ) );
 	}
 
 	/**

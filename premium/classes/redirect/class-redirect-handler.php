@@ -226,7 +226,7 @@ class WPSEO_Redirect_Handler {
 
 	/**
 	 * Getting the redirects from the option table in the database.
-	 * 
+	 *
 	 * @return array
 	 */
 	private function get_redirects_from_options() {

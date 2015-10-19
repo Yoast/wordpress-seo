@@ -328,10 +328,10 @@ jQuery( function($) {
 					url: url
 				},
 				function( response ) {
-					if ( '200' !== response.reponse_code ) {
+					if ( '200' !== response.response_code ) {
 						that.dialog(
 							wpseo_premium_strings.redirect_possibly_bad,
-							wpseo_premium_strings.redirect_not_ok + ( ( response.reponse_code !== '' ) ? '<br/><br/><b>HTTP Code: ' + response.reponse_code + '</b>' : '' )
+							wpseo_premium_strings.redirect_not_ok + ( ( response.response_code !== '' ) ? '<br/><br/><b>HTTP Code: ' + response.response_code + '</b>' : '' )
 						);
 					}
 				}
