@@ -42,13 +42,13 @@ class WPSEO_Taxonomy_Presenter {
 	 */
 	private function form_row( $field_name, array $field_options )
 	{
-		$esc_field_name = esc_attr($field_name);
+		$esc_field_name = esc_attr( $field_name );
 
-		$label = $this->get_label($field_options['label'], $esc_field_name);
-		$field = $this->get_field($field_options['type'], $esc_field_name, $this->get_field_value($field_name), (array)$field_options['options']);
-		$help = $this->get_help($field, $field_options['description'], $esc_field_name);
+		$label = $this->get_label( $field_options[ 'label' ], $esc_field_name );
+		$field = $this->get_field( $field_options[ 'type' ], $esc_field_name, $this->get_field_value( $field_name ), ( array )$field_options[ 'options' ] );
+		$help = $this->get_help( $field, $field_options[ 'description' ], $esc_field_name );
 
-		echo $this->parse_row($label, $help, $field);
+		echo $this->parse_row( $label, $help, $field );
 	}
 
 	/**
@@ -210,7 +210,7 @@ class WPSEO_Taxonomy_Presenter {
 	 * @return string
 	 */
 	private function parse_row( $label, $help, $field ) {
-		if( $label !== '' || $help !== '') {
+		if ( $label !== '' || $help !== '') {
 			return '<tr><th scope="row">' . $label . $help . '</th><td>' . $field . '</td></tr>';
 		}
 
@@ -218,8 +218,8 @@ class WPSEO_Taxonomy_Presenter {
 	}
 
 	/**
-	* SVG for the general SEO score.
-	*/
+	 * SVG for the general SEO score.
+	 */
 	public function scoring_svg() {
 		echo '<script type="text/html" id="tmpl-score_svg">
 				<svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 500 500" enable-background="new 0 0 500 500" xml:space="preserve" width="50" height="50">
