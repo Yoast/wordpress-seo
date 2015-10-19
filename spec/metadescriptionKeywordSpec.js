@@ -20,7 +20,7 @@ describe("a test matching the keywords in the metadescription", function(){
 
 var metaArgs2 = {
 	keyword: "sample",
-	meta: "this is the metadescription that doesn't contains a keyword"
+	meta: "this is the metadescription that doesn't contain a keyword"
 };
 
 describe("a test matching the keywords in the metadescription", function(){
@@ -35,9 +35,22 @@ var metaArgs3 = {
 	keyword: "sample",
 };
 
-describe("a test matching the keywords in the metadescription", function(){
+describe("a test matching the keyword in the metadescription", function(){
 	it("returns no matches for the keyword, since there is no metadescription", function(){
 		var metaAnalyzer = Factory.buildAnalyzer(metaArgs3);
+		var result = metaAnalyzer.metaDescriptionKeyword();
+		expect(result[0].result).toBe(0);
+	});
+});
+
+var metaArgs4 = {
+	meta: "Last month, Google actually announced a change in their algorithm before it had already happened. ",
+	keyword: ""
+};
+
+describe("a test matching the keyword in the metadescription", function(){
+	it("returns no matches for the keyword, since the keyword is not set", function(){
+		var metaAnalyzer = Factory.buildAnalyzer(metaArgs4);
 		var result = metaAnalyzer.metaDescriptionKeyword();
 		expect(result[0].result).toBe(0);
 	});
