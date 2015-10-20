@@ -60,16 +60,14 @@ class WPSEO_Redirect_URL_Validator extends WPSEO_Redirect_Validator {
 			return false;
 		}
 
-		// The URL.
-		$url = rawurldecode( $url );
-
 		// Do the request.
-		$response      = wp_remote_head( $url, array( 'sslverify' => false ) );
+		$decoded_url   = rawurldecode( $url );
+		$response      = wp_remote_head( $decoded_url, array( 'sslverify' => false ) );
 		$response_code = wp_remote_retrieve_response_code( $response );
 
 		if ( $response_code !== '' && $response_code !== 200 ) {
 			return $this->set_error(
-			/* translators: %1$s expands to the returned http code  */
+				/* translators: %1$s expands to the returned http code  */
 				sprintf(
 					__( 'The URL you entered returned a HTTP code different than 200(OK).<br /><br /> The received HTTP code is %1$s.', 'wordpress-seo-premium' ),
 					$response_code
