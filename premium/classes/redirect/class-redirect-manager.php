@@ -165,7 +165,7 @@ abstract class WPSEO_Redirect_Manager {
 	}
 
 	/**
-	 * Save the redirect
+	 * This method will save the redirect option and if necessary the redirect file.
 	 */
 	public function save_redirects() {
 		// Update the database option.

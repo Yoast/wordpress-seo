@@ -38,6 +38,16 @@ class WPSEO_Redirect {
 	}
 
 	/**
+	 * Setting the value of the redirects option with the given value
+	 *
+	 * @param array $redirects Override the redirect option with a new value.
+	 */
+	public function set( array $redirects ) {
+		$this->redirects = $redirects;
+		$this->save();
+	}
+
+	/**
 	 * Check if the old redirect doesn't exist already, if not it will be added
 	 *
 	 * @param string $old_redirect The old redirect value.
