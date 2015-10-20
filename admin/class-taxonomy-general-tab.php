@@ -35,10 +35,10 @@ class WPSEO_Taxonomy_General_Tab extends WPSEO_Taxonomy_Tab {
 	 */
 	public function get_fields() {
 		$fields = array(
-		'snippet' => $this->get_field_config(
-			__( 'Snippet', 'wordpress-seo' ),
-			sprintf( __( 'This is a rendering of what this post might look like in Google\'s search results.<br/><br/>Read %sthis post%s for more info.', 'wordpress-seo' ), '<a href="https://yoast.com/snippet-preview/#utm_source=wordpress-seo-metabox&amp;utm_medium=inline-help&amp;utm_campaign=snippet-preview">', '</a>' ),
-			'div'
+			'snippet' => $this->get_field_config(
+				__( 'Snippet', 'wordpress-seo' ),
+				sprintf( __( 'This is a rendering of what this post might look like in Google\'s search results.<br/><br/>Read %sthis post%s for more info.', 'wordpress-seo' ), '<a href="https://yoast.com/snippet-preview/#utm_source=wordpress-seo-metabox&amp;utm_medium=inline-help&amp;utm_campaign=snippet-preview">', '</a>' ),
+				'div'
 			),
 			'keyword' => $this->get_field_config(
 				__( 'Focus Keyword', 'wordpress-seo' ),

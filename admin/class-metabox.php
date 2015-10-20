@@ -182,7 +182,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	}
 
 	/**
-	 * pass variables to js for use with the post-scraper
+	 * Pass variables to js for use with the post-scraper
+	 *
 	 * @return array
 	 */
 	public function localize_post_scraper_script() {
@@ -551,7 +552,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			wp_enqueue_script( 'wp-seo-replacevar-plugin.js', plugins_url( 'js/wp-seo-replacevar-plugin' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'yoast-seo', 'wp-seo-post-scraper' ), WPSEO_VERSION, true );
 			wp_enqueue_script( 'wp-seo-shortcode-plugin.js', plugins_url( 'js/wp-seo-shortcode-plugin' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'yoast-seo', 'wp-seo-post-scraper' ), WPSEO_VERSION, true );
 
-            wp_localize_script( 'wp-seo-post-scraper', 'wpseoPostScraperL10n', $this->localize_post_scraper_script() );
+			wp_localize_script( 'wp-seo-post-scraper', 'wpseoPostScraperL10n', $this->localize_post_scraper_script() );
 			wp_localize_script( 'wp-seo-replacevar-plugin.js', 'wpseoReplaceVarsL10n', $this->localize_replace_vars_script() );
 			wp_localize_script( 'wp-seo-shortcode-plugin.js', 'wpseoShortcodePluginL10n', $this->localize_shortcode_plugin_script() );
 
