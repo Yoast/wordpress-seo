@@ -220,6 +220,11 @@ YoastSEO.App.prototype.createSnippetPreviewTitle = function( target ) {
 	title.className = "title";
 	title.id = "snippet_title";
 	elem.appendChild( title );
+	var sitename;
+	sitename = document.createElement( "p" );
+	sitename.className = "title";
+	sitename.id = "snippet_sitename";
+	elem.appendChild( sitename );
 };
 
 /**
