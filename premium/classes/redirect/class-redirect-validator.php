@@ -40,14 +40,12 @@ abstract class WPSEO_Redirect_Validator {
 	 * @return bool|string
 	 */
 	public function validate( $old_url, $new_url, $type = '', $unique_url = false ) {
-
-		$unique_check = ( $unique_url === false || ( $unique_url !== $old_url ) );
-
-		// Check if there is already an error.
-		if ( $unique_check && $this->redirect_exists( $old_url ) ) {
+		// Check if the redirect already exist.
+		if ( $this->validate_redirect_exists( $old_url, $unique_url ) ) {
 			return $this->set_error( __( 'The old url already exists as a redirect', 'wordpress-seo-premium' ) );
 		}
 
+		// Validate if the required fields are filled.
 		if ( ! $this->validate_filled( $old_url, $new_url, $type ) ) {
 			return $this->set_error( __( 'Not all the required fields are filled', 'wordpress-seo-premium' ) );
 		}
@@ -85,6 +83,21 @@ abstract class WPSEO_Redirect_Validator {
 	}
 
 	/**
+	 * Check if the redirect already exists and if it should be unique.
+	 *
+	 * @param string $old_url    The url that has to be redirect.
+	 * @param bool   $unique_url When there is an unique_url given, it would validate if the new one is unique.
+	 *
+	 * @return bool
+	 */
+	protected function validate_redirect_exists( $old_url, $unique_url ) {
+		$unique_check = ( $unique_url === false || ( $unique_url !== $old_url ) );
+
+		// Check if there is already an error.
+		return $unique_check && $this->redirect_exists( $old_url );
+	}
+
+	/**
 	 * Check if the $url exist as a redirect
 	 *
 	 * @param string $url The url to check if it's redirected.
@@ -116,11 +129,7 @@ abstract class WPSEO_Redirect_Validator {
 	 * @return bool
 	 */
 	protected function validate_filled( $old_url, $new_url, $type ) {
-		if ( $old_url !== '' && $new_url !== '' && $type !== '' ) {
-			return true;
-		}
-
-		return false;
+		return ( $old_url !== '' && $new_url !== '' && $type !== '' );
 	}
 
 	/**

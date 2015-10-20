@@ -24,44 +24,13 @@ class WPSEO_Redirect_URL_Validator extends WPSEO_Redirect_Validator {
 			return true;
 		}
 
-		$unique_check = ( $unique_url === false || ( $unique_url !== $old_url ) );
-
-		// Check if there is already an error.
-		if ( $unique_check && $this->redirect_exists( $old_url ) ) {
-			return $this->set_error( __( 'The old url already exists as a redirect', 'wordpress-seo-premium' ) );
-		}
-
-		if ( ! $this->validate_filled( $old_url, $new_url, $type ) ) {
-			return $this->set_error( __( 'Not all the required fields are filled', 'wordpress-seo-premium' ) );
-		}
-
 		// Validate if the target url is accessible.
-		if ( $type !== '401' &&  $error_response_code = $this->validate_accessible( $new_url ) ) {
-			return $this->set_error(
-				/* translators: %1$s expands to the returned http code  */
-				sprintf(
-					__( 'The URL you entered returned a HTTP code different than 200(OK).<br /><br /> The received HTTP code is %1$s.', 'wordpress-seo-premium' ),
-					$error_response_code
-				)
-			);
+		if ( $this->validate_accessible( $new_url, $type ) ) {
+			return true;
 		}
 
-		if ( $endpoint = $this->search_end_point( $new_url, $old_url ) ) {
-			if ( in_array( $endpoint, array( $old_url, $new_url ) ) ) {
-				// There might be a redirect loop.
-				return $this->set_error( __( 'There might be a redirect loop.', 'wordpress-seo-premium' ) );
-			}
-
-			if ( $new_url !== $endpoint ) {
-				// The current redirect will be redirected to ... Maybe it's worth considering to create a direct redirect to ...
-				return $this->set_error(
-					sprintf(
-						__( '%1$s will be redirected to %2$s. Maybe it\'s worth considering to create a direct redirect to %2$s.', 'wordpress-seo-premium' ),
-						$new_url,
-						$endpoint
-					)
-				);
-			}
+		if ( $this->validate_end_point( $new_url, $old_url ) ) {
+			return true;
 		}
 
 		return false;
@@ -81,11 +50,16 @@ class WPSEO_Redirect_URL_Validator extends WPSEO_Redirect_Validator {
 	/**
 	 * Check if the current URL is accessible
 	 *
-	 * @param string $url URL to validate it accessibility.
+	 * @param string $url  URL to validate it accessibility.
+	 * @param string $type The type of redirect.
 	 *
 	 * @return int|string
 	 */
-	private function validate_accessible( $url ) {
+	private function validate_accessible( $url, $type ) {
+		if ( $type === '401' ) {
+			return false;
+		}
+
 		// The URL.
 		$url = rawurldecode( $url );
 
@@ -94,7 +68,48 @@ class WPSEO_Redirect_URL_Validator extends WPSEO_Redirect_Validator {
 		$response_code = wp_remote_retrieve_response_code( $response );
 
 		if ( $response_code !== '' && $response_code !== 200 ) {
-			return $response_code;
+			return $this->set_error(
+			/* translators: %1$s expands to the returned http code  */
+				sprintf(
+					__( 'The URL you entered returned a HTTP code different than 200(OK).<br /><br /> The received HTTP code is %1$s.', 'wordpress-seo-premium' ),
+					$response_code
+				)
+			);
+		}
+
+		return false;
+	}
+
+	/**
+	 * Validate if the redirect doesn't result in a redirect loop and check if the redirect can be done shorter.
+	 *
+	 * @param string $new_url The new url to search for.
+	 * @param string $old_url The current url that is redirected.
+	 *
+	 * @return bool|string
+	 */
+	private function validate_end_point( $new_url, $old_url  ) {
+		$endpoint = $this->search_end_point( $new_url, $old_url );
+
+		if ( $endpoint === false ) {
+			return false;
+		}
+
+		// Check for a redirect loop.
+		if ( in_array( $endpoint, array( $old_url, $new_url ) ) ) {
+			// There might be a redirect loop.
+			return $this->set_error( __( 'There might be a redirect loop.', 'wordpress-seo-premium' ) );
+		}
+
+		if ( $new_url !== $endpoint ) {
+			// The current redirect will be redirected to ... Maybe it's worth considering to create a direct redirect to ...
+			return $this->set_error(
+				sprintf(
+					__( '%1$s will be redirected to %2$s. Maybe it\'s worth considering to create a direct redirect to %2$s.', 'wordpress-seo-premium' ),
+					$new_url,
+					$endpoint
+				)
+			);
 		}
 
 		return false;
