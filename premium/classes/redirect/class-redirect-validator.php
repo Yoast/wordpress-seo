@@ -72,17 +72,6 @@ abstract class WPSEO_Redirect_Validator {
 	}
 
 	/**
-	 * Sanitize the URL for displaying on the window
-	 *
-	 * @param string $url The url to sanitize.
-	 *
-	 * @return string
-	 */
-	public function sanitize_url( $url ) {
-		return trim( htmlspecialchars_decode( rawurldecode( $url ) ) );
-	}
-
-	/**
 	 * Check if the redirect already exists and if it should be unique.
 	 *
 	 * @param string $old_url    The url that has to be redirect.

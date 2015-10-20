@@ -53,8 +53,8 @@ class WPSEO_Redirect_Ajax {
 
 		// When $validation is false, there is no error found.
 		if ( ! $this->validator->has_error() ) {
-			$old_url = $this->validator->sanitize_url( $old_url_post );
-			$new_url = $this->validator->sanitize_url( $new_url_post );
+			$old_url = $this->sanitize_url( $old_url_post );
+			$new_url = $this->sanitize_url( $new_url_post );
 
 			// The method always returns the added redirect.
 			$redirect = $this->redirect_manager->create_redirect( $old_url, $new_url, $type );
@@ -81,7 +81,7 @@ class WPSEO_Redirect_Ajax {
 		$this->valid_ajax_check();
 
 		// Save the redirect.
-		$old_redirect = $this->validator->sanitize_url(
+		$old_redirect = $this->sanitize_url(
 			filter_input( INPUT_POST, 'old_redirect', FILTER_DEFAULT, $this->filter_options )
 		);
 
@@ -121,7 +121,7 @@ class WPSEO_Redirect_Ajax {
 
 		// Delete the redirect.
 		if ( $redirect_post = filter_input( INPUT_POST, 'redirect', FILTER_DEFAULT, $this->filter_options ) ) {
-			$redirect = $this->validator->sanitize_url( $redirect_post );
+			$redirect = $this->sanitize_url( $redirect_post );
 
 			$this->redirect_manager->delete_redirects( array( trim( $redirect ) ) );
 		}
@@ -179,10 +179,23 @@ class WPSEO_Redirect_Ajax {
 	 */
 	private function decode_redirect( array $redirect ) {
 		return array(
-			'key'   => $this->validator->sanitize_url( $redirect['key'] ),
-			'value' => $this->validator->sanitize_url( $redirect['value'] ),
+			'key'   => $this->sanitize_url( $redirect['key'] ),
+			'value' => $this->sanitize_url( $redirect['value'] ),
 			'type'  => urldecode( $redirect['type'] ),
 		);
+	}
+
+
+
+	/**
+	 * Sanitize the URL for displaying on the window
+	 *
+	 * @param string $url The url to sanitize.
+	 *
+	 * @return string
+	 */
+	private function sanitize_url( $url ) {
+		return trim( htmlspecialchars_decode( rawurldecode( $url ) ) );
 	}
 
 }
