@@ -120,6 +120,11 @@ YoastSEO.StringHelper.prototype.stripAllTags = function( textString ) {
 	return textString;
 };
 
+YoastSEO.StringHelper.prototype.cleanRegex = function( textString ) {
+	textString = textString.replace( /[\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "" );
+	return textString;
+};
+
 /**
  * Checks if the stringhelper is already initialized. Returns stringHelper.
  *

@@ -55,7 +55,8 @@ YoastSEO.Analyzer.prototype.formatKeyword = function() {
 	if ( typeof this.config.keyword !== "undefined" && this.config.keyword !== "" ) {
 
 		// removes characters from the keyword that could break the regex, or give unwanted results.
-		var keyword = this.config.keyword.replace( /[\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "" );
+		// leaves the - since this is replaced later on in the function
+		var keyword = this.stringHelper.cleanRegex( this.config.keyword );
 
 		// Creates new regex from keyword with global and caseinsensitive option,
 		// replaces - and _ with space
