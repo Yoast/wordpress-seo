@@ -93,7 +93,7 @@ abstract class WPSEO_Redirect_Validator {
 	protected function validate_redirect_exists( $old_url, $unique_url ) {
 		$unique_check = ( $unique_url === false || ( $unique_url !== $old_url ) );
 
-		// Check if there is already an error.
+		// Check if redirect already exists.
 		return $unique_check && $this->redirect_exists( $old_url );
 	}
 
