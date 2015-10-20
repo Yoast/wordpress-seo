@@ -199,6 +199,9 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 		for ( var i = 0; i < elems.length; i++ ) {
 			this.bindSnippetEvents( document.getElementById( elems [ i ] ), snippetPreview );
 		}
+		var title = document.getElementById( 'snippet_title' );
+		title.addEventListener( 'focus', snippetPreview.setSiteName.bind ( snippetPreview ) );
+		title.addEventListener( 'blur', snippetPreview.unsetSiteName.bind ( snippetPreview ) );
 	};
 
 	/**
