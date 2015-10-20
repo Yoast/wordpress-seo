@@ -55,7 +55,8 @@ YoastSEO.Analyzer.prototype.formatKeyword = function() {
 	if ( typeof this.config.keyword !== "undefined" && this.config.keyword !== "" ) {
 
 		// removes characters from the keyword that could break the regex, or give unwanted results.
-		var keyword = this.config.keyword.replace( /[\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "" );
+		// leaves the - since this is replaced later on in the function
+		var keyword = this.stringHelper.cleanRegex( this.config.keyword );
 
 		// Creates new regex from keyword with global and caseinsensitive option,
 		// replaces - and _ with space
@@ -2192,7 +2193,7 @@ YoastSEO.SnippetPreview.prototype.getPeriodMatches = function() {
  */
 YoastSEO.SnippetPreview.prototype.formatKeyword = function( textString ) {
 
-	// removes characters from the keyword that could break the regex, or give unwanted results.
+	// removes characters from the keyword that could break the regex, or give unwanted results, includes the -
 	var keyword = this.refObj.rawData.keyword.replace( /[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "" );
 
 	//matches case insensitive and global
@@ -2211,7 +2212,7 @@ YoastSEO.SnippetPreview.prototype.formatKeyword = function( textString ) {
  * @returns {XML|string|void}
  */
 YoastSEO.SnippetPreview.prototype.formatKeywordUrl = function( textString ) {
-	var keyword = this.refObj.rawData.keyword.replace( /[\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "" );
+	var keyword = this.refObj.stringHelper.cleanRegex( this.refObj.rawData.keyword );
 	var replacer = keyword.replace( " ", "[-_]" );
 
 	//matches case insensitive and global
@@ -2488,6 +2489,11 @@ YoastSEO.StringHelper.prototype.stripAllTags = function( textString ) {
 	//remove < and > if any are used
 	textString = textString.replace( /[<>]/g, "" );
 	textString = this.stripSpaces( textString );
+	return textString;
+};
+
+YoastSEO.StringHelper.prototype.cleanRegex = function( textString ) {
+	textString = textString.replace( /[\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "" );
 	return textString;
 };
 
