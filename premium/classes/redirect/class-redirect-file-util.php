@@ -54,8 +54,8 @@ class WPSEO_Redirect_File_Util {
 	/**
 	 * Wrapper method for file_put_contents. Catches the result, if result is false add notification.
 	 *
-	 * @param string $file_path
-	 * @param string $file_content
+	 * @param string $file_path    The path to write the content to.
+	 * @param string $file_content The content that will be saved.
 	 *
 	 * @return int
 	 */

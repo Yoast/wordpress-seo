@@ -16,7 +16,7 @@ class WPSEO_Redirect_URL_Manager extends WPSEO_Redirect_Manager {
 	/**
 	 * Searches for the URL and get it's endpoint
 	 *
-	 * @param string $url
+	 * @param string $url The url to search for.
 	 *
 	 * @return string|bool
 	 */
@@ -31,9 +31,9 @@ class WPSEO_Redirect_URL_Manager extends WPSEO_Redirect_Manager {
 	/**
 	 * Create a new redirect
 	 *
-	 * @param string $old_value
-	 * @param string $new_value
-	 * @param int    $type
+	 * @param string $old_value The old value that will be redirected.
+	 * @param string $new_value The target where the old value will redirect to.
+	 * @param int    $type      Type of the redirect.
 	 *
 	 * @return bool|array
 	 */
@@ -46,8 +46,8 @@ class WPSEO_Redirect_URL_Manager extends WPSEO_Redirect_Manager {
 	/**
 	 * Save the redirect
 	 *
-	 * @param string $old_redirect_key
-	 * @param array  $new_redirect
+	 * @param string $old_redirect_key The old redirect, the value is a key in the redirects array.
+	 * @param array  $new_redirect     Array with values for the update redirect.
 	 *
 	 * @return array|bool
 	 */
@@ -62,7 +62,7 @@ class WPSEO_Redirect_URL_Manager extends WPSEO_Redirect_Manager {
 	/**
 	 * Delete the redirects
 	 *
-	 * @param array $delete_redirects
+	 * @param array $delete_redirects Array with the redirects to remove.
 	 *
 	 * @return bool
 	 */

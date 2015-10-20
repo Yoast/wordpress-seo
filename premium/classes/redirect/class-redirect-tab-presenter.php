@@ -19,8 +19,8 @@ abstract class WPSEO_Redirect_Tab_Presenter {
 	protected $view_vars = array();
 
 	/**
-	 * @param string $view
-	 * @param array  $view_vars
+	 * @param string $view      The view to display.
+	 * @param array  $view_vars Array with variables that will be passed to the view.
 	 */
 	public function __construct( $view, $view_vars ) {
 		$this->view      = $view;

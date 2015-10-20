@@ -20,9 +20,9 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	/**
 	 * WPSEO_Redirect_Table constructor
 	 *
-	 * @param array|string           $type
-	 * @param string                 $current_column
-	 * @param WPSEO_Redirect_Manager $redirect_manager
+	 * @param array|string           $type             Type of the redirects that is opened.
+	 * @param string                 $current_column   The value of the first column.
+	 * @param WPSEO_Redirect_Manager $redirect_manager The current active redirect manager.
 	 */
 	public function __construct( $type, $current_column, WPSEO_Redirect_Manager $redirect_manager ) {
 		parent::__construct( array( 'plural' => $type ) );
@@ -54,8 +54,8 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	/**
 	 * Filter for setting the primary table column
 	 *
-	 * @param string $column
-	 * @param string $screen
+	 * @param string $column The current column.
+	 * @param string $screen The current opened window.
 	 *
 	 * @return string
 	 */
@@ -119,8 +119,8 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	/**
 	 * Reorder the items based on user input
 	 *
-	 * @param array $a
-	 * @param array $b
+	 * @param array $a The current sort direction.
+	 * @param array $b The new sort direction.
 	 *
 	 * @return int
 	 */
@@ -141,7 +141,7 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	/**
 	 * The old column actions
 	 *
-	 * @param array $item
+	 * @param array $item Array with the row data.
 	 *
 	 * @return string
 	 */
@@ -161,7 +161,8 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	/**
 	 * Checkbox columns
 	 *
-	 * @param array $item
+	 * @param array $item Array with the row data.
+	 *
 	 * @return string
 	 */
 	public function column_cb( $item ) {
@@ -171,8 +172,8 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	/**
 	 * Default method to display a column
 	 *
-	 * @param array  $item
-	 * @param string $column_name
+	 * @param array  $item        Array with the row data.
+	 * @param string $column_name The name of the needed column.
 	 *
 	 * @return string
 	 */
@@ -205,7 +206,7 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	/**
 	 * Function that handles bulk action
 	 *
-	 * @param WPSEO_Redirect_Manager $redirect_manager
+	 * @param WPSEO_Redirect_Manager $redirect_manager The current active redirect manager.
 	 */
 	private function handle_bulk_action( WPSEO_Redirect_Manager $redirect_manager ) {
 		if ( filter_input( INPUT_POST, 'action' ) === 'delete' || filter_input( INPUT_POST, 'action2' ) === 'delete' ) {
@@ -219,7 +220,7 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	/**
 	 * Setting the items
 	 *
-	 * @param array $items
+	 * @param array $items The data that will be showed.
 	 */
 	private function set_items( $items ) {
 		// Getting the items.
@@ -253,7 +254,7 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	/**
 	 * Search through the items
 	 *
-	 * @param string $search_string
+	 * @param string $search_string The entered search string.
 	 */
 	private function do_search( $search_string ) {
 		$results = array();

@@ -9,27 +9,27 @@
 class WPSEO_Redirect_Handler {
 
 	/**
-	 * @var string
+	 * @var string The options where the url redirects are stored.
 	 */
 	private $normal_option_name = 'wpseo-premium-redirects';
 
 	/**
-	 * @var string
+	 * @var string The option name where the regex redirects are stored.
 	 */
 	private $regex_option_name  = 'wpseo-premium-redirects-regex';
 
 	/**
-	 * @var string
+	 * @var string The url that is called at the moment.
 	 */
 	private $request_url = '';
 
 	/**
-	 * @var array
+	 * @var array Array where there redirects will stored.
 	 */
 	private $redirects;
 
 	/**
-	 * @var array
+	 * @var array The matches parts of the url in case of a matched regex redirect.
 	 */
 	private $url_matches = array();
 
@@ -90,7 +90,7 @@ class WPSEO_Redirect_Handler {
 	/**
 	 * Check if request url matches one of the regex redirects
 	 *
-	 * @param string $regex    The reqular expresstion to match.
+	 * @param string $regex    The reqular expression to match.
 	 * @param array  $redirect The URL that might be matched with the regex.
 	 */
 	private function match_regex_redirect( $regex, array $redirect ) {
@@ -145,14 +145,18 @@ class WPSEO_Redirect_Handler {
 	}
 
 	/**
+	 * Search for the given url in the redirects array.
+	 *
 	 * @param string $url The URL to search for.
 	 *
-	 * @return mixed
+	 * @return string|bool
 	 */
 	private function search( $url ) {
 		if ( isset( $this->redirects[ $url ] ) ) {
 			return $this->redirects[ $url ];
 		}
+
+		return false;
 	}
 
 	/**
@@ -184,7 +188,7 @@ class WPSEO_Redirect_Handler {
 	 *
 	 * @param string $redirect_url The URL that have to be redirected.
 	 *
-	 * @return string mixed
+	 * @return string
 	 */
 	private function redirect_url( $redirect_url ) {
 		if ( '/' === substr( $redirect_url, 0, 1 ) ) {

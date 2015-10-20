@@ -70,9 +70,9 @@ class WPSEO_Redirect_Page {
 	/**
 	 * Catch redirects_per_page
 	 *
-	 * @param string $status
-	 * @param string $option
-	 * @param string $value
+	 * @param string $status Unused.
+	 * @param string $option The option name where the value is set for.
+	 * @param string $value  The new value for the screen option.
 	 *
 	 * @return string|void
 	 */

@@ -9,25 +9,24 @@
 abstract class WPSEO_Redirect_Validator {
 
 	/**
-	 * @var array
+	 * @var array Property with the redirects.
 	 */
 	protected $redirects = array();
 
 	/**
-	 * @var bool|string
+	 * @var bool|string The validation error.
 	 */
 	protected $validation_error = false;
 
 	/**
 	 * Converting the redirects into a readable format
 	 *
-	 * @param array $redirects         Array with the redirects.
+	 * @param array $redirects Array with the redirects.
 	 */
 	public function __construct( array $redirects = array() ) {
 		foreach ( $redirects as $redirect_url => $redirect ) {
 			$this->redirects[ $this->sanitize_redirect_url( $redirect_url ) ] = $this->sanitize_redirect_url( $redirect['url'] );
 		}
-
 	}
 
 	/**
@@ -77,7 +76,7 @@ abstract class WPSEO_Redirect_Validator {
 	/**
 	 * Sanitize the URL for displaying on the window
 	 *
-	 * @param string $url
+	 * @param string $url The url to sanitize.
 	 *
 	 * @return string
 	 */
@@ -88,7 +87,7 @@ abstract class WPSEO_Redirect_Validator {
 	/**
 	 * Check if the $url exist as a redirect
 	 *
-	 * @param string $url
+	 * @param string $url The url to check if it's redirected.
 	 *
 	 * @return bool
 	 */
@@ -99,7 +98,7 @@ abstract class WPSEO_Redirect_Validator {
 	/**
 	 * Strip the trailing slashes
 	 *
-	 * @param string $url
+	 * @param string $url The redirect url to sanitize.
 	 *
 	 * @return string
 	 */
@@ -110,9 +109,9 @@ abstract class WPSEO_Redirect_Validator {
 	/**
 	 * Validate if all the fields are filled
 	 *
-	 * @param string $old_url
-	 * @param string $new_url
-	 * @param string $type
+	 * @param string $old_url The old url that will be redirected.
+	 * @param string $new_url The target where the old url will redirect to.
+	 * @param string $type    Type of the redirect.
 	 *
 	 * @return bool
 	 */
@@ -127,7 +126,7 @@ abstract class WPSEO_Redirect_Validator {
 	/**
 	 * Setting the validation error message
 	 *
-	 * @param string $error_message
+	 * @param string $error_message String that will be saved as the validation error.
 	 *
 	 * @return bool
 	 */

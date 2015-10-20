@@ -18,7 +18,7 @@ class WPSEO_Redirect_Settings_Hooks {
 	/**
 	 * Constructing this object
 	 *
-	 * @param WPSEO_Redirect_Manager $redirect_manager
+	 * @param WPSEO_Redirect_Manager $redirect_manager Current active redirect manager.
 	 */
 	public function __construct( WPSEO_Redirect_Manager $redirect_manager ) {
 		$this->redirect_manager = $redirect_manager;
@@ -33,8 +33,8 @@ class WPSEO_Redirect_Settings_Hooks {
 	/**
 	 * Hook that runs after the 'wpseo_redirect' option is updated
 	 *
-	 * @param array $old_value
-	 * @param array $value
+	 * @param array $old_value Unused.
+	 * @param array $value     The new saved values.
 	 */
 	public function save_redirect_files( $old_value, $value ) {
 
@@ -71,8 +71,8 @@ class WPSEO_Redirect_Settings_Hooks {
 	 * The server should always be apache. And the php redirects have to be enabled or in case of a separate
 	 * file it should be disabled.
 	 *
-	 * @param boolean $disable_php_redirect
-	 * @param boolean $separate_file
+	 * @param boolean $disable_php_redirect Are the php redirects disabled.
+	 * @param boolean $separate_file        Value of the separate file.
 	 *
 	 * @return bool
 	 */

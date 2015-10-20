@@ -70,7 +70,7 @@ class WPSEO_Redirect_URL_Validator extends WPSEO_Redirect_Validator {
 	/**
 	 * Strip the trailing slashes
 	 *
-	 * @param string $url
+	 * @param string $url The url to sanitize.
 	 *
 	 * @return string
 	 */
@@ -103,8 +103,8 @@ class WPSEO_Redirect_URL_Validator extends WPSEO_Redirect_Validator {
 	/**
 	 * Will check if the $new_url is redirected also and follows the trace of this redirect
 	 *
-	 * @param string $new_url
-	 * @param string $old_url
+	 * @param string $new_url The new url to search for.
+	 * @param string $old_url The current url that is redirected.
 	 *
 	 * @return bool|string
 	 */
@@ -126,7 +126,7 @@ class WPSEO_Redirect_URL_Validator extends WPSEO_Redirect_Validator {
 	/**
 	 * Search for the given $url and returns it target
 	 *
-	 * @param string $url
+	 * @param string $url The url to search for.
 	 *
 	 * @return bool
 	 */

@@ -107,7 +107,7 @@ class WPSEO_Redirect {
 	/**
 	 * Check if the $redirect already exists as a key in the array
 	 *
-	 * @param string $redirect
+	 * @param string $redirect The redirect to search for.
 	 *
 	 * @return bool|array
 	 */

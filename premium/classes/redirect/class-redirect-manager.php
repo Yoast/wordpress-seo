@@ -9,12 +9,12 @@
 abstract class WPSEO_Redirect_Manager {
 
 	/**
-	 * @var null
+	 * @var null|string The option name to store the redirects.
 	 */
 	protected $option_redirects = null;
 
 	/**
-	 * @var WPSEO_Redirect
+	 * @var WPSEO_Redirect Model object to handle the redirects.
 	 */
 	protected $redirect;
 
@@ -56,7 +56,7 @@ abstract class WPSEO_Redirect_Manager {
 	/**
 	 * Changing the autoload value for the option
 	 *
-	 * @param bool $autoload_value
+	 * @param bool $autoload_value The autoload value (true or false).
 	 */
 	public function change_option_autoload( $autoload_value ) {
 		$redirect_managers = $this->get_redirect_managers();
@@ -69,7 +69,7 @@ abstract class WPSEO_Redirect_Manager {
 	/**
 	 * Search for given redirect
 	 *
-	 * @param string $redirect
+	 * @param string $redirect The redirect to search for.
 	 *
 	 * @return array|bool
 	 */
@@ -84,10 +84,8 @@ abstract class WPSEO_Redirect_Manager {
 	/**
 	 * Save the redirect
 	 *
-	 * @todo fix this method to work with the new redirect setup
-	 *
-	 * @param string $old_redirect_key
-	 * @param array  $new_redirect
+	 * @param string $old_redirect_key The old redirect, the value is a key in the redirects array.
+	 * @param array  $new_redirect     Array with values for the update redirect.
 	 *
 	 * @return array|bool
 	 */
@@ -105,9 +103,9 @@ abstract class WPSEO_Redirect_Manager {
 	/**
 	 * Create a new redirect
 	 *
-	 * @param string $old_value
-	 * @param string $new_value
-	 * @param int    $type
+	 * @param string $old_value The old value that will be redirected.
+	 * @param string $new_value The target where the old value will redirect to.
+	 * @param int    $type      Type of the redirect.
 	 *
 	 * @return bool|array
 	 */
@@ -125,7 +123,7 @@ abstract class WPSEO_Redirect_Manager {
 	/**
 	 * Delete the redirects
 	 *
-	 * @param array $delete_redirects
+	 * @param array $delete_redirects Array with the redirects to remove.
 	 *
 	 * @return bool
 	 */
@@ -190,7 +188,7 @@ abstract class WPSEO_Redirect_Manager {
 	/**
 	 * Change if the redirect option is autoloaded
 	 *
-	 * @param bool $enabled
+	 * @param bool $enabled Boolean to determine the autoload value that will be saved.
 	 */
 	private function redirects_change_autoload( $enabled ) {
 		global $wpdb;

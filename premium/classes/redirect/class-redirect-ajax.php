@@ -24,8 +24,8 @@ class WPSEO_Redirect_Ajax {
 	private $validator;
 
 	/**
-	 * @param WPSEO_Redirect_Manager $redirect_manager
-	 * @param string                 $hook_suffix
+	 * @param WPSEO_Redirect_Manager $redirect_manager The redirect manager to handle the redirects for.
+	 * @param string                 $hook_suffix      The suffix that will be stitched after the ajax hook names.
 	 */
 	public function __construct( WPSEO_Redirect_Manager $redirect_manager, $hook_suffix ) {
 		$this->redirect_manager = $redirect_manager;
@@ -133,7 +133,7 @@ class WPSEO_Redirect_Ajax {
 	/**
 	 * Setting the AJAX hooks
 	 *
-	 * @param string $hook_suffix
+	 * @param string $hook_suffix The piece that will be stitched after the hooknames.
 	 */
 	private function set_hooks( $hook_suffix ) {
 		// Add the new redirect.
@@ -173,7 +173,7 @@ class WPSEO_Redirect_Ajax {
 	/**
 	 * Decode the redirect data.
 	 *
-	 * @param array $redirect
+	 * @param array $redirect The redirect data that will be decoded.
 	 *
 	 * @return array
 	 */
