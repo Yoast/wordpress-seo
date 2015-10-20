@@ -1,0 +1,3391 @@
+# Translation of Yoast SEO (for WordPress) in Finnish
+# This file is distributed under the same license as the Yoast SEO (for WordPress) package.
+msgid ""
+msgstr ""
+"PO-Revision-Date: 2015-05-25 12:28:19+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: GlotPress/1.0-alpha-1100\n"
+"Project-Id-Version: Yoast SEO (for WordPress)\n"
+
+#: admin/google_search_console/class-gsc.php:72
+msgid "Don't miss your crawl errors: %1$sconnect with Google Search Console here%2$s."
+msgstr ""
+
+#. translators: %1$s expands to Yoast SEO, %2$s expands to Google Analytics by
+#. Yoast
+#: admin/google_search_console/class-gsc-service.php:146
+msgid "%1$s detected you’re using a version of %2$s which is not compatible with %1$s. Please update %2$s to the latest version to use this feature."
+msgstr ""
+
+#. Translators: %s: expands to Yoast SEO Premium
+#: admin/google_search_console/views/gsc-create-redirect.php:60
+msgid "Creating redirects is a %s feature"
+msgstr ""
+
+#. translators: %1$s expands to Yoast SEO, %2$s expands to 5.4.3, %3$s expands
+#. to Google Analytics by Yoast
+#: admin/class-admin-init.php:157
+msgid "%1$s detected you are using version %2$s of %3$s, please update to the latest version to prevent compatibility issues."
+msgstr ""
+
+#: admin/views/about.php:216
+msgid "Recent Rockstars"
+msgstr ""
+
+#. translators: %1$s and %2$s expand to a link to the Yoast Knowledge Base
+#: admin/class-social-facebook.php:323
+msgid "If you don't know where to find the needed ID, see %1$sthis knowledge base article%2$s."
+msgstr ""
+
+#: admin/google_search_console/views/gsc-create-redirect.php:46
+msgid "Error: a redirect for this URL already exists"
+msgstr ""
+
+#: admin/google_search_console/views/gsc-create-redirect.php:21
+msgid "Redirect this broken URL and fix the error"
+msgstr ""
+
+#. translators: %s expands to <code>noindex</code>
+#: admin/class-yoast-dashboard-widget.php:147
+msgid "Posts that are set to %s"
+msgstr ""
+
+#. translators: %s is the plugin name
+#: admin/class-yoast-dashboard-widget.php:41
+msgid "%s Posts Overview"
+msgstr ""
+
+#: admin/class-customizer.php:221
+msgid "Prefix for search result pages:"
+msgstr ""
+
+#: admin/class-customizer.php:196
+msgid "Prefix for archive pages:"
+msgstr ""
+
+#: admin/class-customizer.php:171
+msgid "Prefix for breadcrumbs:"
+msgstr ""
+
+#: admin/class-customizer.php:146
+msgid "Anchor text for the homepage:"
+msgstr ""
+
+#: admin/class-customizer.php:86
+msgid "Remove blog page from breadcrumbs"
+msgstr ""
+
+#: admin/class-admin.php:162
+msgid "Search Console"
+msgstr ""
+
+#. translators: %1$s expands to Yoast SEO
+#: admin/views/tool-import-export.php:129
+msgid "Export your %1$s settings"
+msgstr ""
+
+#. translators: %1$s expands to Yoast SEO
+#: admin/views/user-profile.php:10
+msgid "%1$s settings"
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+msgid "Yoast SEO"
+msgstr ""
+
+#: admin/views/dashboard-widget.php:16
+msgid "Below are your published posts&#8217; SEO scores. Now is as good a time as any to start improving some of your posts!"
+msgstr ""
+
+#: admin/views/tab-permalinks.php:40
+msgid "If you use Google Analytics campaign parameters starting with %s, check this box. However, you're advised not to use these. Instead, use the version with a hash."
+msgstr ""
+
+#: admin/google_search_console/views/gsc-display.php:16
+msgid "Reload crawl issues"
+msgstr ""
+
+#. Translators: %1$s: expands to 'Yoast SEO', %2$s expands to Google Search
+#. Console.
+#: admin/google_search_console/views/gsc-display.php:31
+msgid "To allow %1$s to fetch your %2$s information, please enter your Google Authorization Code."
+msgstr ""
+
+#: admin/google_search_console/views/gsc-display.php:34
+msgid "Get Google Authorization Code"
+msgstr ""
+
+#: admin/google_search_console/views/gsc-display.php:36
+msgid "Please enter the Google Authorization Code in the field below and press the Authenticate button."
+msgstr ""
+
+#: admin/google_search_console/views/gsc-display.php:40
+msgid "Authenticate"
+msgstr ""
+
+#: admin/google_search_console/views/gsc-display.php:44
+msgid "Reauthenticate with Google "
+msgstr ""
+
+#: admin/google_search_console/views/gsc-display.php:45
+#: admin/google_search_console/views/gsc-display.php:48
+msgid "Current profile"
+msgstr ""
+
+#: admin/google_search_console/views/gsc-display.php:67
+#: admin/google_search_console/views/gsc-display.php:71
+msgid "Profile"
+msgstr ""
+
+#: admin/google_search_console/views/gsc-display.php:72
+msgid "There were no profiles found"
+msgstr ""
+
+#: admin/google_search_console/views/gsc-display.php:80
+msgid "Save Profile"
+msgstr ""
+
+#: admin/google_search_console/views/gsc-display.php:80
+msgid "or"
+msgstr ""
+
+#. translators: %1$s expands to Yoast SEO
+#: admin/pages/dashboard.php:243
+msgid "Disable the Advanced part of the %1$s meta box"
+msgstr ""
+
+#. translators: %1$s expands to Yoast SEO
+#: admin/pages/licenses.php:73
+msgid "%1$s Extensions"
+msgstr ""
+
+#: admin/pages/metas.php:105 admin/pages/metas.php:165
+msgid "%1$s Meta Box"
+msgstr ""
+
+#. translators: %1$s expands to Yoast SEO
+#: admin/pages/network.php:94
+msgid "Who should have access to the %1$s settings"
+msgstr ""
+
+#. translators: %1$s expands to Yoast SEO
+#: admin/pages/tools.php:37
+msgid "%1$s comes with some very powerful built-in tools:"
+msgstr ""
+
+#: admin/pages/xml-sitemaps.php:41
+msgid "Excluded Posts"
+msgstr ""
+
+#. Translators: %1$s: expands to '<code>1,2,99,100</code>'
+#: admin/pages/xml-sitemaps.php:109
+msgid "You can exclude posts from the sitemap by entering a comma separated string with the Post ID's. The format will become something like: %1$s."
+msgstr ""
+
+#: admin/pages/xml-sitemaps.php:110
+msgid "Posts to exclude"
+msgstr ""
+
+#. translators: %1$s expands to Yoast SEO
+#: admin/views/about.php:32
+msgid "Thank you for updating %1$s!"
+msgstr ""
+
+#. Translators: %1$s: expands to the current url and %2$s expands to url the
+#. redirects points to.
+#: admin/google_search_console/views/gsc-create-redirect.php:51
+msgid "You do not have to create a redirect for URL %1$s because a redirect already exists. The existing redirect points to %2$s. If this is fine you can mark this issue as fixed. If not, please go to the redirects page and change the target URL."
+msgstr ""
+
+#. Translators: %1$s: expands to 'Yoast SEO Premium', %2$s: links to Yoast SEO
+#. Premium plugin page.
+#: admin/google_search_console/views/gsc-create-redirect.php:64
+msgid "To be able to create a redirect and fix this issue, you need %1$s. You can buy the plugin, including one year support and updates, on %2$s."
+msgstr ""
+
+#: admin/google_search_console/class-gsc-service.php:137
+msgid "Yoast plugins share some code between them to make your site faster. As a result of that, we need all Yoast plugins to be up to date. We've detected this isn't the case, so please update the Yoast plugins that aren't up to date yet."
+msgstr ""
+
+#: admin/google_search_console/class-gsc-table.php:107
+msgid "URL"
+msgstr ""
+
+#: admin/google_search_console/class-gsc-table.php:108
+msgid "Last crawled"
+msgstr ""
+
+#: admin/google_search_console/class-gsc-table.php:109
+msgid "First detected"
+msgstr ""
+
+#: admin/google_search_console/class-gsc-table.php:110
+msgid "Response code"
+msgstr ""
+
+#: admin/google_search_console/class-gsc-table.php:139
+#: admin/google_search_console/class-gsc-table.php:210
+msgid "Mark as fixed"
+msgstr ""
+
+#: admin/google_search_console/class-gsc-table.php:206
+#: admin/google_search_console/views/gsc-create-redirect.php:40
+msgid "Create redirect"
+msgstr ""
+
+#: admin/google_search_console/class-gsc.php:111
+msgid "Search"
+msgstr ""
+
+#: admin/google_search_console/class-gsc.php:121
+msgid "Crawl errors per page"
+msgstr ""
+
+#. Translators: %1$s: expands to Google Search Console.
+#: admin/google_search_console/class-gsc.php:172
+msgid "The %1$s data has been removed. You will have to reauthenticate if you want to retrieve the data again."
+msgstr ""
+
+#: admin/google_search_console/class-gsc.php:185
+msgid "The issues have been successfully reloaded!"
+msgstr ""
+
+#: admin/google_search_console/class-gsc.php:216
+msgid "Incorrect Google Authorization Code."
+msgstr ""
+
+#: admin/google_search_console/class-gsc.php:273
+msgid "Issue categories"
+msgstr ""
+
+#: admin/google_search_console/class-gsc.php:274
+msgid "Errors that occurred when your site was crawled by Googlebot."
+msgstr ""
+
+#: admin/google_search_console/class-gsc.php:275
+msgid "Errors that occurred only when your site was crawled by Googlebot-Mobile (errors didn't appear for desktop)."
+msgstr ""
+
+#: admin/google_search_console/class-gsc.php:276
+msgid "Errors that only occurred when your site was crawled by Googlebot for feature phones (errors didn't appear for desktop)."
+msgstr ""
+
+#: admin/google_search_console/class-gsc-table.php:206
+msgid "Create a redirect"
+msgstr ""
+
+#: admin/google_search_console/views/gsc-create-redirect.php:24
+msgid "Current URL:"
+msgstr ""
+
+#: admin/google_search_console/views/gsc-create-redirect.php:28
+msgid "New URL:"
+msgstr ""
+
+#: admin/google_search_console/views/gsc-create-redirect.php:32
+msgid "Mark as fixed:"
+msgstr ""
+
+#. Translators: %1$s: expands to 'Google Search Console'.
+#: admin/google_search_console/views/gsc-create-redirect.php:36
+msgid "Mark this issue as fixed in %1$s."
+msgstr ""
+
+#: admin/google_search_console/class-gsc-category-filters.php:121
+msgid "The target URL doesn't exist, but your server is not returning a 404 (file not found) error."
+msgstr ""
+
+#: admin/google_search_console/class-gsc-platform-tabs.php:43
+#: admin/google_search_console/class-gsc.php:274
+msgid "Desktop"
+msgstr ""
+
+#: admin/google_search_console/class-gsc-platform-tabs.php:44
+#: admin/google_search_console/class-gsc.php:275
+msgid "Smartphone"
+msgstr ""
+
+#: admin/google_search_console/class-gsc-platform-tabs.php:45
+#: admin/google_search_console/class-gsc.php:276
+msgid "Feature phone"
+msgstr ""
+
+#. translators: %1$s expands to Yoast SEO
+#: admin/class-taxonomy.php:185
+msgid "%1$s Settings"
+msgstr ""
+
+#: admin/class-yoast-dashboard-widget.php:116
+msgid "Posts with good SEO score"
+msgstr ""
+
+#: admin/class-yoast-dashboard-widget.php:122
+msgid "Posts with OK SEO score"
+msgstr ""
+
+#: admin/class-yoast-dashboard-widget.php:128
+msgid "Posts with poor SEO score"
+msgstr ""
+
+#: admin/class-yoast-dashboard-widget.php:134
+msgid "Posts with bad SEO score"
+msgstr ""
+
+#: admin/class-yoast-dashboard-widget.php:140
+msgid "Posts without focus keyword"
+msgstr ""
+
+#. translators: %1$s expands to Yoast SEO Premium
+#: admin/class-yoast-form.php:230
+msgid "Upgrade to %1$s &raquo;"
+msgstr ""
+
+#. translators: %1$s: 'Facebook & Open Graph' plugin name(s) of possibly
+#. conflicting plugin(s), %2$s to Yoast SEO
+#: admin/class-yoast-plugin-conflict.php:163
+msgid "The %1$s plugin(s) might cause issues when used in conjunction with %2$s."
+msgstr ""
+
+#. translators: %1$s expands to Yoast SEO
+#: admin/class-yoast-plugin-conflict.php:176
+msgid "This warning is generated by %1$s."
+msgstr ""
+
+#: admin/google_search_console/class-gsc-category-filters.php:113
+msgid "Access denied"
+msgstr ""
+
+#: admin/google_search_console/class-gsc-category-filters.php:113
+msgid "Server requires authentication or is blocking Googlebot from accessing the site."
+msgstr ""
+
+#: admin/google_search_console/class-gsc-category-filters.php:114
+msgid "Faulty redirects"
+msgstr ""
+
+#: admin/google_search_console/class-gsc-category-filters.php:115
+msgid "Not followed"
+msgstr ""
+
+#: admin/google_search_console/class-gsc-category-filters.php:116
+msgid "Not found"
+msgstr ""
+
+#: admin/google_search_console/class-gsc-category-filters.php:116
+msgid "URL points to a non-existent page."
+msgstr ""
+
+#: admin/google_search_console/class-gsc-category-filters.php:117
+msgid "Google was unable to crawl this URL due to an undetermined issue."
+msgstr ""
+
+#. Translators: %1$s: expands to '<code>robots.txt</code>'.
+#: admin/google_search_console/class-gsc-category-filters.php:119
+msgid "Blocked"
+msgstr ""
+
+#: admin/google_search_console/class-gsc-category-filters.php:119
+msgid "Googlebot could access your site, but certain URLs are blocked for Googlebot in your %1$s file. This block could either be for all Googlebots or even specifically for Googlebot-mobile."
+msgstr ""
+
+#: admin/google_search_console/class-gsc-category-filters.php:120
+msgid "Server Error"
+msgstr ""
+
+#: admin/google_search_console/class-gsc-category-filters.php:120
+msgid "Request timed out or site is blocking Google."
+msgstr ""
+
+#: admin/google_search_console/class-gsc-category-filters.php:121
+msgid "Soft 404"
+msgstr ""
+
+#. translators: %1$s expands to Yoast SEO
+#: admin/class-pointers.php:247
+msgid "More %1$s"
+msgstr ""
+
+#. translators: %s is the name of the plugin
+#: admin/class-customizer.php:52
+msgid "%s Breadcrumbs"
+msgstr ""
+
+#: admin/class-customizer.php:121
+msgid "Breadcrumbs separator:"
+msgstr ""
+
+#: admin/class-customizer.php:246
+msgid "Breadcrumb for 404 pages:"
+msgstr ""
+
+#. translators: %1$s expands to Yoast SEO
+#: admin/class-export.php:71
+msgid "Error creating %1$s export: "
+msgstr ""
+
+#. translators: %1$s expands to Yoast SEO
+#: admin/class-plugin-conflict.php:132
+msgid "Configure %1$s's OpenGraph settings"
+msgstr ""
+
+#. translators: %1$s expands to Yoast SEO
+#: admin/class-plugin-conflict.php:139
+msgid "Configure %1$s's XML Sitemap settings"
+msgstr ""
+
+#. translators: %1$s expands to Yoast SEO, $2%s to the version number, %3$s and
+#. %4$s to anchor tags with link to intro page
+#: admin/class-admin-init.php:71
+msgid "%1$s has been updated to version %2$s. %3$sClick here%4$s to find out what's new!"
+msgstr ""
+
+#: admin/class-admin-init.php:115
+msgid "You still have the default WordPress tagline, even an empty one is probably better. %1$sYou can fix this in the customizer%2$s."
+msgstr ""
+
+#: admin/class-admin-init.php:136
+msgid "Just another WordPress site"
+msgstr ""
+
+#: admin/pages/dashboard.php:168
+msgid "Latest Changes"
+msgstr ""
+
+#. translators: %s expands to Yoast SEO
+#: admin/pages/dashboard.php:171
+msgid "We've summarized the most recent changes in %s."
+msgstr ""
+
+#: admin/pages/dashboard.php:176
+msgid "View Changes"
+msgstr ""
+
+#: admin/views/tab-permalinks.php:48
+msgid "Clean up the %s"
+msgstr ""
+
+#: admin/pages/dashboard.php:197
+msgid "Google shows your website's name in the search results, we will default to your site name but you can adapt it here. You can also provide an alternate website name you want Google to consider."
+msgstr ""
+
+#: admin/pages/dashboard.php:202
+msgid "Alternate name"
+msgstr ""
+
+#: admin/pages/metas.php:188
+msgid "Duplicate content prevention"
+msgstr ""
+
+#. translators: %1$s / %2$s: links to an article about duplicate content on
+#. yoast.com
+#: admin/pages/metas.php:191
+msgid "If you're running a one author blog, the author archive will be exactly the same as your homepage. This is what's called a %1$sduplicate content problem%2$s."
+msgstr ""
+
+#. translators: %s expands to <code>noindex, follow</code>
+#: admin/pages/metas.php:194
+msgid "If this is the case on your site, you can choose to either disable it (which makes it redirect to the homepage), or to add %s to it so it doesn't show up in the search results."
+msgstr ""
+
+#. translators: %s expands to <code>noindex, follow</code>
+#: admin/pages/metas.php:197
+msgid "Add %s to the author archives"
+msgstr ""
+
+#: admin/pages/metas.php:200
+msgid "Date-based archives could in some cases also be seen as duplicate content."
+msgstr ""
+
+#. translators: %s expands to <code>noindex, follow</code>
+#: admin/pages/metas.php:203
+msgid "Add %s to the date-based archives"
+msgstr ""
+
+#: admin/pages/metas.php:221
+msgid "Sitewide meta settings"
+msgstr ""
+
+#: admin/pages/metas.php:228
+msgid "Use meta keywords tag?"
+msgstr ""
+
+#. translators: %s expands to <code>noodp</code>
+#. translators: %s expands to <code>noydir</code>
+#: admin/pages/metas.php:232 admin/pages/metas.php:236
+msgid "Add %s meta robots tag sitewide"
+msgstr ""
+
+#. translators: %s expands to <code>&lt;head&gt;</code>
+#: admin/pages/social.php:50
+msgid "Add Open Graph meta data to your site's %s section, Facebook and other social networks use this data when your pages are shared."
+msgstr ""
+
+#. translators: %s expands to <code>&lt;head&gt;</code>
+#: admin/pages/social.php:86
+msgid "Add Twitter card meta data to your site's %s section."
+msgstr ""
+
+#: admin/views/tab-breadcrumbs.php:36
+msgid "Taxonomy to show in breadcrumbs for post types"
+msgstr ""
+
+#: admin/views/tab-breadcrumbs.php:55
+msgid "Post type archive to show in breadcrumbs for taxonomies"
+msgstr ""
+
+#. translators: %1$s / %2$s: links to the breadcrumbs implementation page on
+#. the Yoast knowledgebase
+#: admin/views/tab-breadcrumbs.php:83
+msgid "Usage of this breadcrumbs feature is explained in %1$sour knowledge-base article on breadcrumbs implementation%2$s."
+msgstr ""
+
+#: inc/class-wpseo-replace-vars.php:897
+msgid "Page %1$d of %2$d"
+msgstr ""
+
+#: inc/wpseo-non-ajax-functions.php:382
+msgid "Mobile-Friendly Test"
+msgstr ""
+
+#. translators: %1$s expands to Yoast SEO, %2$s / %3$s: links to the
+#. installation manual in the Readme for the Yoast SEO code repository on
+#. GitHub
+#: wp-seo-main.php:390
+msgid "The %1$s plugin installation is incomplete. Please refer to %2$sinstallation instructions%3$s."
+msgstr ""
+
+#: admin/class-social-facebook.php:113
+msgid "Please make sure both fields are filled."
+msgstr ""
+
+#: admin/class-social-facebook.php:116
+msgid "Your input contains invalid characters. Please make sure both fields are filled in correctly."
+msgstr ""
+
+#: admin/class-social-facebook.php:119
+msgid "This Facebook user has already been added as an admin."
+msgstr ""
+
+#. translators: %1$s and %2$s expand to a link to the Yoast Knowledge Base
+#: admin/class-social-facebook.php:302
+msgid "More info can be found %1$son our knowledge base%2$s."
+msgstr ""
+
+#: admin/class-social-facebook.php:335 admin/class-social-facebook.php:349
+msgid "Add Facebook admin"
+msgstr ""
+
+#. translators: %1$s and %2$s expand to a link to Facebook Insights
+#: admin/class-social-facebook.php:319
+msgid "To be able to access %1$sFacebook Insights%2$s, you need to add a user here. The name is used for reference only, the ID is used for verification."
+msgstr ""
+
+#: admin/class-social-facebook.php:326
+msgid "Admin's name:"
+msgstr ""
+
+#: admin/class-social-facebook.php:330
+msgid "Admin's Facebook user ID:"
+msgstr ""
+
+#: admin/pages/dashboard.php:194 admin/pages/dashboard.php:201
+msgid "Website name"
+msgstr ""
+
+#. translators: %1$s expands to the social network, %2$s to the recommended
+#. image size
+#: admin/class-opengraph-admin.php:36
+msgid "The recommended image size for %1$s is %2$spx."
+msgstr ""
+
+#. translators: %s: '%%term_title%%' variable used in titles and meta's
+#. template that's not compatible with the given template
+#: admin/class-config.php:109
+msgid "Warning: the variable %s cannot be used in this template."
+msgstr ""
+
+#: vendor/yoast/license-manager/views/form.php:15
+msgid "We couldn't create a connection to our API to verify your license key(s). Please ask your hosting company to allow outgoing connections from your server to %s."
+msgstr ""
+
+#: vendor/yoast/license-manager/views/form.php:19
+msgid "Your server has an outdated version of the PHP module cURL (Version: %s). Please ask your hosting company to update this to a recent version of cURL. You can read more about that in our %sKnowledge base%s."
+msgstr ""
+
+#: admin/class-metabox.php:555
+msgid "The featured image should be at least 200x200 pixels to be picked up by Facebook and other social media sites."
+msgstr ""
+
+#: admin/class-config.php:109
+msgid "See the help tab for more info."
+msgstr ""
+
+#: admin/class-admin.php:223
+msgid "Note that not all variables can be used in every template."
+msgstr ""
+
+#. translators: %1$s expands to Yoast SEO, %2%s: 'Facebook' plugin name of
+#. possibly conflicting plugin with regard to creating OpenGraph output
+#: admin/class-plugin-conflict.php:128
+msgid "Both %1$s and %2$s create OpenGraph output, which might make Facebook, Twitter, LinkedIn and other social networks use the wrong texts and images when your pages are being shared."
+msgstr ""
+
+#. translators: %1$s expands to Yoast SEO, %2$s: 'Google XML Sitemaps' plugin
+#. name of possibly conflicting plugin with regard to the creation of sitemaps
+#: admin/class-plugin-conflict.php:135
+msgid "Both %1$s and %2$s can create XML sitemaps. Having two XML sitemaps is not beneficial for search engines, yet might slow down your site."
+msgstr ""
+
+#: admin/class-social-facebook.php:294
+msgid "To be able to access %sFacebook Insights%s for your site, you need to specify a Facebook Admin. This can be a user. If you have an app for your site, you could use that as well."
+msgstr ""
+
+#: admin/class-yoast-plugin-conflict.php:160
+msgid "Warning!"
+msgstr "Varoitus!"
+
+#: admin/class-yoast-plugin-conflict.php:165
+msgid "Recommended solution"
+msgstr ""
+
+#. translators: %1$s: 'Facebook & Open Graph' plugin name(s) of possibly
+#. conflicting plugin(s). %2$s to Yoast SEO
+#: admin/class-yoast-plugin-conflict.php:168
+msgid "We recommend you deactivate %1$s and have another look at your %2$s configuration using the button above."
+msgstr ""
+
+#. translators: %s: 'Facebook' plugin name of possibly conflicting plugin
+#: admin/class-yoast-plugin-conflict.php:172
+msgid "Deactivate %s"
+msgstr ""
+
+#. translators: %s: '2.3' version number
+#: admin/views/about.php:43
+msgid "What’s new in %s"
+msgstr ""
+
+#: wp-seo-main.php:424
+msgid "Activation failed:"
+msgstr "Aktivointi epäonnistui:"
+
+#: admin/class-export.php:66
+msgid "Export created: %1$sdownload your export file here%2$s."
+msgstr "Vienti luotu: %1sdownload vientitiedostosi here%2$s."
+
+#: admin/class-export.php:97
+msgid "Could not zip settings-file."
+msgstr "Asetukset-tiedostoa ei voitu pakata."
+
+#: admin/class-export.php:102
+msgid "Could not write settings to file."
+msgstr "Asetuksia ei voitu kirjoittaa tiedostoon."
+
+#: admin/class-export.php:114
+msgid "This export includes taxonomy metadata"
+msgstr "Tämä vienti sisältää taksonomiametadataa"
+
+#: admin/class-export.php:181
+msgid "No taxonomy metadata found"
+msgstr "Emme löydä taksonomiametadataa"
+
+#: admin/class-import-external.php:120
+msgid "Error: no Robots Meta data found to import."
+msgstr "Virhe:  tuontiin ei löytynyt Robots Meta dataa "
+
+#: admin/views/tool-import-export.php:107
+msgid "Import settings by locating <em>settings.zip</em> and clicking \"Import settings\""
+msgstr "Tuo asetukset paikantamalla <em>settings.zip</em> ja klikkaa \"Tuo asetukset\""
+
+#: wp-seo-main.php:414
+msgid "The filter extension seem to be unavailable. Please ask your web host to enable it."
+msgstr "Näyttää siltä, ettei suodattimen laajennusosaa ole saatavissa. Pyydä sivujen ylläpitäjää ottamaan se käyttöön."
+
+#: admin/pages/dashboard.php:147
+msgid "Company Info"
+msgstr "Yrityksesi tiedot"
+
+#: admin/pages/dashboard.php:147
+msgid "Your Info"
+msgstr "Tietosi"
+
+#: admin/class-yoast-form.php:424
+msgid "Upload Image"
+msgstr "Lataa kuva"
+
+#: admin/pages/advanced.php:16
+msgid "Breadcrumbs"
+msgstr "Murupolku"
+
+#: admin/class-metabox.php:451
+msgid "SEO:"
+msgstr "SEO:"
+
+#. translators: %1$s expands to Yoast SEO
+#: admin/class-pointers.php:241
+msgid "These are the General settings for %1$s, here you can restart this tour or revert the %1$s settings to default."
+msgstr ""
+
+#: admin/class-pointers.php:242
+msgid "Tab: Your Info / Company Info"
+msgstr "Tietosi / Yrityksesi tiedot"
+
+#: admin/class-pointers.php:242
+msgid "Add some info here needed for Google's Knowledge Graph."
+msgstr "Lisää tietoa Googlen Knowledge Graph:ia varten."
+
+#: admin/class-pointers.php:243
+msgid "Tab: Webmaster Tools"
+msgstr "Webmaster Tools"
+
+#: admin/class-pointers.php:243
+msgid "You can add the verification codes for the different Webmaster Tools programs here. We highly encourage you to check out both Google and Bing&#8217;s Webmaster Tools."
+msgstr ""
+
+#: admin/class-pointers.php:244
+msgid "Tab: Security"
+msgstr "Turvallisuus"
+
+#: admin/class-pointers.php:244
+msgid "Determine who has access to the plugins advanced settings on the post edit screen."
+msgstr "Päätä kenellä on pääsy plugineiden edistyneempiin asetuksiin post-edit -ruudulla."
+
+#: admin/class-pointers.php:252
+msgid "Subscribe to our Newsletter"
+msgstr "Tilaa uutiskirjeemme"
+
+#: admin/class-pointers.php:275
+msgid "The first tab will show you site-wide settings for titles, normally you'll only need to change the Title Separator."
+msgstr "Ensimmäinen lehti näyttää sinulle sivustonlaajuiset asetukset otsikoille. Normaalisti sinun tarvitsee vain muuttaa Title Separator."
+
+#: admin/class-pointers.php:277
+msgid "On the archives tab you can set templates for specific pages like author archives, search results and more."
+msgstr "Arkistolehdellä voit asettaa mallit sivuille kuten kirjoittaja-arkistot, hakutulokset jne."
+
+#: admin/class-pointers.php:278
+msgid "On the Other tab you can change sitewide meta settings, like enable meta keywords."
+msgstr "Muut -lehdellä voit muuttaa sivuston laajuiset meta-asetukset, kuten asettaa meta-avainsanat."
+
+#: admin/class-pointers.php:295
+msgid "On this tab you can verify your site with Pinterest and enter your Pinterest account."
+msgstr "Tällä välilehdellä voit varmentaa sivustosi Pinterestin kanssa ja asettaa Pinterest-tilisi."
+
+#: admin/class-pointers.php:297
+msgid "On this tab you can enter some more of your social accounts, mostly used for Google's Knowledge Graph."
+msgstr "Tällä lehdellä voit asettaa muita sosiaalisia tiliäsi, joita käytetään pääasiassa Googlen Knowledge Graphissa."
+
+#: admin/class-pointers.php:312
+msgid "This plugin adds XML sitemaps to your site. The sitemaps are automatically updated when you publish a new post, page or custom post and Google and Bing will be automatically notified."
+msgstr "Tämä lisäosa lisää XML sivukarttoja sivullesi. Sivukartat päivittyvät automaattisesti, kun julkaiset uuden  viestin, sivun tai artikkelin, ilmoitus menee automaattisesti Googlelle ja Bingille."
+
+#: admin/class-pointers.php:327
+msgid "Advanced Settings"
+msgstr "Lisäasetukset"
+
+#: admin/class-pointers.php:327
+msgid "All of the options on these tabs are for advanced users only, if you don&#8217;t know whether you should check any, don&#8217;t touch them."
+msgstr "Nämä vaihtoehdot ovat vain edistyneille käyttäjille. Jos et tiedä, pitäisikö sinun valita joku vaihtoehto, älä koske niihin."
+
+#. translators: %1$s expands to Yoast SEO, %2$s to Yoast SEO Premium, %3$s and
+#. %4$s to an anchor with link about our premium plugins
+#: admin/class-pointers.php:343
+msgid "The powerful functions of %1$s can be extended with %3$sYoast premium plugins%4$s. These premium plugins require the installation of %1$s or %2$s and add specific functionality. You can read all about the Yoast Premium Plugins %3$shere%4$s."
+msgstr ""
+
+#: admin/class-pointers.php:350
+msgid "Thank you for using our plugin and good luck with your SEO!<br/><br/>Best,<br/>Team Yoast - %1$sYoast.com%2$s"
+msgstr "Kiitos, kun käytät meidän lisäosaamme ja onnea SEO:si kanssa!<br/><br/>Best,<br/>Team Yoast - %1$sYoast.com%2$s"
+
+#: admin/pages/dashboard.php:156
+msgid "Introduction Tour"
+msgstr "Esittelykierros"
+
+#: admin/pages/dashboard.php:182 admin/pages/dashboard.php:190
+msgid "Restore Default Settings"
+msgstr "Palauta oletusasetukset"
+
+#: admin/pages/dashboard.php:208
+msgid "This data is shown as metadata in your site. It is intended to appear in Google's Knowledge Graph. You can be either a company, or a person, choose either:"
+msgstr "Tämä tieto näytetään metadatana sivullasi. Sen on tarkoitus näkyä Googlen tietokaaviossa. Voit olla joko yritys, tai henkilö, valitse jompikumpi:"
+
+#: admin/pages/dashboard.php:204 admin/pages/dashboard.php:212
+msgid "Company or person"
+msgstr "Yritys tai henkilö"
+
+#: admin/pages/dashboard.php:213
+msgid "Choose whether you're a company or person"
+msgstr "Valitse oletko joko yritys vai henkilö"
+
+#: admin/pages/dashboard.php:214 admin/pages/dashboard.php:219
+msgid "Company"
+msgstr "Yritys"
+
+#: admin/pages/dashboard.php:215 admin/pages/dashboard.php:226
+msgid "Person"
+msgstr "Henkilö"
+
+#: admin/pages/dashboard.php:221
+msgid "Company Name"
+msgstr "Yrityksen nimi"
+
+#: admin/pages/dashboard.php:222
+msgid "Company Logo"
+msgstr "Yrityksen logo"
+
+#: admin/pages/dashboard.php:227
+msgid "Your name"
+msgstr "Nimesi"
+
+#: admin/pages/licenses.php:117
+msgid "This is where you would enter the license keys for one of our premium plugins, should you activate one."
+msgstr "Tähän voit lisätä maksullisten lisäosiemme lisenssiavaimen , kun haluat aktivoida niistä jonkun."
+
+#: admin/pages/metas.php:37
+msgid "Enable force rewrite titles"
+msgstr ""
+
+#: admin/pages/social.php:20
+msgid "Accounts"
+msgstr "Tilit"
+
+#: admin/pages/social.php:29
+msgid "To inform Google about your social profiles, we need to know their URLs."
+msgstr "Jotta voimme informoida Googlea sosiaalisista profiileistasi, meidän täytyy tietää niiden URL-osoitteet."
+
+#: admin/pages/social.php:30
+msgid "For each, pick the main account associated with this site and please enter them below:"
+msgstr ""
+
+#: admin/pages/social.php:34
+msgid "Twitter Username"
+msgstr "Twitter käyttäjätunnus"
+
+#: admin/pages/social.php:35
+msgid "Instagram URL"
+msgstr "Instagram URL"
+
+#: admin/pages/social.php:36
+msgid "LinkedIn URL"
+msgstr "LinkedIn URL"
+
+#: admin/pages/social.php:37
+msgid "MySpace URL"
+msgstr "MySpace URL"
+
+#: admin/pages/social.php:38
+msgid "Pinterest URL"
+msgstr "Pinterest URL"
+
+#: admin/pages/social.php:39
+msgid "YouTube URL"
+msgstr "Youtube URL"
+
+#: admin/pages/social.php:40
+msgid "Google+ URL"
+msgstr "Google+ URL"
+
+#: admin/pages/social.php:100
+msgid "Pinterest uses Open Graph metadata just like Facebook, so be sure to keep the Open Graph checkbox on the Facebook tab checked if you want to optimize your site for Pinterest."
+msgstr ""
+
+#: admin/pages/social.php:109
+msgid "Pinterest verification"
+msgstr "Pinterest vahvistus"
+
+#. translators: %1$s / %2$s expands to a link to pinterest.com's help page.
+#: admin/pages/social.php:105
+msgid "To %1$sverify your site with Pinterest%2$s, add the meta tag here:"
+msgstr ""
+
+#: admin/pages/tools.php:21
+msgid "Bulk editor"
+msgstr ""
+
+#: admin/pages/tools.php:22
+msgid "This tool allows you to quickly change titles and descriptions of your posts and pages without having to go into the editor for each page."
+msgstr "Tämä työkalu sallii sinun muokata nopeasti sivujesi ja julkaisujesi otsikoita ja kuvauksia ilman, että sinun tarvitsee mennä erikseen jokaisen sivun muokkaustilaan."
+
+#: admin/pages/tools.php:25
+msgid "Import and Export"
+msgstr "Tuo ja vie"
+
+#: admin/pages/tools.php:26
+msgid "Import settings from other SEO plugins and export your settings for re-use on (another) blog."
+msgstr "Tuo asetukset toisista SEO-lisäosista ja vie asetuksesi uudelleenkäyttöä varten (toiseen) blogiin. "
+
+#: admin/pages/tools.php:31
+msgid "File editor"
+msgstr "Tiedostomuokkain"
+
+#: admin/pages/tools.php:32
+msgid "This tool allows you to quickly change important files for your SEO, like your robots.txt and, if you have one, your .htaccess file."
+msgstr "Tämä työkalu mahdollistaa SEO:n kannalta tärkeiden tiedostojen, kuten robots.txt:n ja .htaccess-tiedoston, nopean muokkauksen."
+
+#: admin/pages/tools.php:52
+msgid "&laquo; Back to Tools page"
+msgstr "&laquo; Takaisin Työkalut-sivulle. "
+
+#: admin/pages/xml-sitemaps.php:68
+msgid "Max entries per sitemap"
+msgstr "Merkintöjen enimmäismäärä per sivustokartta"
+
+#: admin/views/about.php:46
+msgid "Credits"
+msgstr "Kiitokset"
+
+#: admin/views/about.php:159
+msgid "More Translations"
+msgstr "Lisää käännöksiä"
+
+#. translators: %1$s expands to Yoast SEO, %2$s and %3$s to the anchor tags to
+#. the translate.yoast.com link, %4$d to the number of translations, %5$d to
+#. the number of translations,
+#: admin/views/about.php:164
+msgid "%1$s ships, at time of release, with %4$d translations, of which %5$d are complete. That's a huge improvement from last time, and we're improving every week. Join us at %2$stranslate.yoast.com%3$s!"
+msgstr ""
+
+#: admin/views/about.php:172
+msgid "Go to The General settings page →"
+msgstr "Mene Yleiset asetukset -sivulle →"
+
+#. translators: %1$s and %2$s expands to anchor tags, %3$s expands to Yoast SEO
+#: admin/views/about.php:181
+msgid "While most of the development team is at %1$sYoast%2$s in the Netherlands, %3$s is created by a worldwide team."
+msgstr ""
+
+#: admin/views/about.php:183
+msgid "Want to help us develop? Read our %1$scontribution guidelines%2$s!"
+msgstr "Haluatko auttaa meitä kehitystyössä? Lue %1$scontribution guidelines%2$s!"
+
+#: admin/views/about.php:187
+msgid "Project Leaders"
+msgstr "Projektin johtajat"
+
+#: admin/views/about.php:193
+msgid "Project Lead"
+msgstr "Projektin johto"
+
+#: admin/views/about.php:198 admin/views/about.php:203
+msgid "Lead Developer"
+msgstr "Pääkehittäjä"
+
+#: admin/views/about.php:208
+msgid "QA & Translations Manager"
+msgstr ""
+
+#: admin/views/about.php:245
+msgid "Contributing Developers"
+msgstr "Avustavat kehittäjät"
+
+#: admin/views/about.php:251 admin/views/about.php:256
+#: admin/views/about.php:261
+msgid "Developer"
+msgstr "Kehittäjä"
+
+#: admin/views/about.php:269
+msgid "Contributors to this release"
+msgstr "Tämän julkaisun avustajat"
+
+#: admin/views/tab-permalinks.php:15
+msgid "Change URLs"
+msgstr "Vaihda URL-osoite"
+
+#: admin/views/tab-permalinks.php:21
+msgid "Clean up permalinks"
+msgstr ""
+
+#: admin/views/tool-import-export.php:95
+msgid "Import from other SEO plugins"
+msgstr "Tuo muista SEO työkaluista"
+
+#: admin/views/tool-import-export.php:97
+msgid "Import from other plugins"
+msgstr "Tuo muista lisäosista"
+
+#: admin/views/tool-import-export.php:163
+msgid "If you want to import data from (by now ancient) Yoast plugins, you can do so here:"
+msgstr "Jos haluat tuoda tiedot vanhemmista Yoast lisäosista, voit tehdä sen täällä."
+
+#: inc/wpseo-non-ajax-functions.php:562
+msgid "The plugin All-In-One-SEO has been detected. Do you want to %simport its settings%s?"
+msgstr "Lisäosa All-In-One-SEO on löydetty. Haluatko  %simport tuoda sen asetukset%s?"
+
+#: admin/class-bulk-editor-list-table.php:133
+msgid "You are not allowed to access this page."
+msgstr "Sinulla ei ole pääsylupaa tälle sivulle."
+
+#: admin/class-admin.php:153
+msgid "Tools"
+msgstr "Työkalut"
+
+#: vendor/yoast/license-manager/class-license-manager.php:179
+msgid "Your %s license has been activated. "
+msgstr "%s lisenssisi on aktivoitu."
+
+#: vendor/yoast/license-manager/class-license-manager.php:183
+msgid "You have an unlimited license. "
+msgstr "Sinulla on rajoittamaton lisenssi."
+
+#: vendor/yoast/license-manager/class-license-manager.php:185
+msgid "You have used %d/%d activations. "
+msgstr "Olet käyttänyt %d/%d aktivointia."
+
+#. translators: this should be an array of stopwords for your language,
+#. separated by comma's.
+#: admin/class-admin.php:528
+msgid "a,about,above,after,again,against,all,am,an,and,any,are,as,at,be,because,been,before,being,below,between,both,but,by,could,did,do,does,doing,down,during,each,few,for,from,further,had,has,have,having,he,he'd,he'll,he's,her,here,here's,hers,herself,him,himself,his,how,how's,i,i'd,i'll,i'm,i've,if,in,into,is,it,it's,its,itself,let's,me,more,most,my,myself,nor,of,on,once,only,or,other,ought,our,ours,ourselves,out,over,own,same,she,she'd,she'll,she's,should,so,some,such,than,that,that's,the,their,theirs,them,themselves,then,there,there's,these,they,they'd,they'll,they're,they've,this,those,through,to,too,under,until,up,very,was,we,we'd,we'll,we're,we've,were,what,what's,when,when's,where,where's,which,while,who,who's,whom,why,why's,with,would,you,you'd,you'll,you're,you've,your,yours,yourself,yourselves"
+msgstr "aina,alla,ehkä,eivät,emme,en,enemmän,ennen,et,että,ette,hän,häneen,hänellä,hänelle,häneltä,hänen,hänessä,hänestä,hänet,häntä,he,heidän,heidät,heihin,heillä,heille,heiltä,heissä,heistä,heitä,hlö,hlöä,oikein,http,hyvin,ilman,itse,ja,jälkeen,johon,joiden,joihin,joiksi,joilla,joille,joilta,joina,joissa,joista,joita,joka,joka,joksi,jolla,jolle,jolta,jona,jonka,jos,jossa,josta,jota,jotka,kai,kaikki,kanssa,kaukana,keiden,keihin,keiksi,keillä,keille,keiltä,keinä,keissä,keistä,keitä,keneen,keneksi,kenellä,kenelle,keneltä,kenen,kenenä,kenessä,kenestä,kenet,kenties,keskellä,kesken,ketä,ketkä,ketkä,koska,koskaan,kuin,kuinka,kuka,kun,kyllä,lähellä,läpi,liian,lla,luona,me,meidän,meidät,meihin,meillä,meille,meiltä,meissä,meistä,meitä,mihin,mikä,miksi,millä,mille,milloin,milloinkaan,miltä,minä,minkä,minua,minulla,minulle,minulta,minun,minussa,minusta,minut,minuun,missä,mistä,mitä,miten,mitkä,mukaan,mutta,muut,näiden,näihin,näiksi,näillä,näille,näiltä,näinä,näissä,näistä,näitä,nämä,ne,niiden,niihin,niiksi,niillä,niille,niiltä,niin,niinä,niissä,niistä,niitä,noiden,noihin,noiksi,noilla,noille,noilta,noin,noina,noissa,noista,noita,nopeasti,nuo,nyt,oikea,oikealla,ole,olemme,olen,olet,olette,oli,olimme,olin,olisi,olisimme,olisin,olisit,olisitte,olisivat,olit,olitte,olivat,olla,olleet,ollut,on,ovat,paljon,poikki,puh,saa,saada,se,sekä,sen,siellä,siihen,siinä,siitä,siksi,sillä,sille,siltä,sinä,sinua,sinulla,sinulle,sinulta,sinun,sinussa,sinusta,sinut,sinuun,sitä,ssa,sta,suoraan,tähän,tai,takana,takia,täksi,tällä,tälle,tältä,tämä,tämän,tänä,tässä,tästä,tätä,te,teidän,teidät,teihin,teillä,teille,teiltä,teissä,teistä,teitä,tms,tuo,tuoda,tuohon,tuoksi,tuolla,tuolle,tuolta,tuon,tuona,tuossa,tuosta,tuota,vaan,vähän,vähemmän,vai,vain,vaikka,vasen,vasemmalla,vastan,vielä,vieressä,voi,voida,voit,yhdessä,yli,ylös,yms,myös,muuta,viim,asti,sis,koko,alle,joskus,paitsi,sitten,joko,ihan,saat,ei"
+
+#: admin/class-metabox.php:44
+msgid "The SEO title defaults to what is generated based on this sites title template for this posttype."
+msgstr "SEO-otsikko on oletuksena luotu tämän sivuston otsikkomallista tälle sisältötyypille."
+
+#. translators: %s expands to the social network's name
+#: admin/class-opengraph-admin.php:30
+msgid "If you don't want to use the post title for sharing the post on %s but instead want another title there, write it here."
+msgstr "Jos et halua käyttää artikkelin otsikkoa artikkelin jakamiseen %s-sivustolla vaan haluat käyttää toista otsikkoa, kirjoita se tähän."
+
+#. translators: %s expands to the social network's name
+#: admin/class-opengraph-admin.php:32
+msgid "If you don't want to use the meta description for sharing the post on %s but want another description there, write it here."
+msgstr "Jos et halua käyttää meta-kuvausta artikkelin jakamiseen %s-sivustolla vaan haluat käyttää toista meta-kuvausta, kirjoita se tähän."
+
+#. translators: %s expands to the social network's name
+#: admin/class-opengraph-admin.php:34
+msgid "If you want to override the image used on %s for this post, upload / choose an image or add the URL here."
+msgstr "Jos haluat käyttää poikkeavaa kuvaa tästä artikkelista %s-sivustolla, lataa tai valitse kuva tai lisää sen URL-osoite tähän."
+
+#: admin/class-opengraph-admin.php:59
+msgid "%s Title"
+msgstr "%s-otsikko"
+
+#: admin/class-opengraph-admin.php:62
+msgid "%s Description"
+msgstr "%s-kuvaus"
+
+#: admin/class-opengraph-admin.php:65
+msgid "%s Image"
+msgstr "%s-kuva"
+
+#. translators: %1$s expands to Yoast SEO
+#: admin/class-pointers.php:254
+msgid "If you would like us to keep you up-to-date regarding %1$s and other plugins by Yoast, subscribe to our newsletter:"
+msgstr ""
+
+#: vendor/yoast/i18n-module/i18n-module.php:170
+msgid "As you can see, there is a translation of this plugin in %1$s. This translation is currently %3$d%% complete. We need your help to make it complete and to fix any errors. Please register at %4$s to help complete the translation to %1$s!"
+msgstr "Kuten huomaat, tästä lisäosasta on käännös kielellä %1$s. Tämä käännös on tällä hetkellä  %3$d% %:sti valmis. Tarvitsemme apuasi saadaksemme sen kokonaan valmiiksi ja korjataksemme mahdolliset virheet. Rekisteröidy sivustolla %4$s ja auta kääntämään lisäosa kielelle %1$s!"
+
+#: vendor/yoast/i18n-module/i18n-module.php:172
+msgid "You're using WordPress in %1$s. While %2$s has been translated to %1$s for %3$d%%, it's not been shipped with the plugin yet. You can help! Register at %4$s to help complete the translation to %1$s!"
+msgstr "Käytät WordPressiä kielellä %1$s. Vaikka %2$s on käännetty kielelle %1$s %3$d%%:sti, sitä ei vielä ole julkaistu lisäosan yhteydessä. Sinä voit auttaa! Rekisteröidy sivustolla %4$s ja auta saamaan käännös kielellä %1$s valmiiksi!"
+
+#: vendor/yoast/i18n-module/i18n-module.php:174
+msgid "You're using WordPress in a language we don't support yet. We'd love for %2$s to be translated in that language too, but unfortunately, it isn't right now. You can change that! Register at %4$s to help translate it!"
+msgstr "Käytät WordPressiä kielellä, jota emme vielä tue. Olisi hienoa, jos %2$s olisi käännetty sillekin kielelle, mutta valitettavasti se ei vielä ole. Sinä voit muuttaa asian! Rekisteröidy sivustolla %4$s ja auta kääntämään se!"
+
+#: vendor/yoast/i18n-module/i18n-module.php:194
+msgid "Translation of %s"
+msgstr "Lisäosan %s käännös"
+
+#: vendor/yoast/i18n-module/i18n-module.php:199
+msgid "Register now &raquo;"
+msgstr "Rekisteröidy nyt &raquo;"
+
+#: admin/views/tool-import-export.php:80
+msgid "The old data of the imported plugin was deleted successfully."
+msgstr "Tuodun lisäosan vanhat tiedot poistettiin."
+
+#: admin/views/tab-rss.php:22
+msgid "Content to put after each post in the feed"
+msgstr "Sisältö, joka lisätään jokaisen kirjoituksen loppuun syötteeseen"
+
+#: admin/pages/xml-sitemaps.php:82
+msgid "Exclude user roles"
+msgstr "Ohita käyttäjäroolit"
+
+#: inc/wpseo-non-ajax-functions.php:347
+msgid "Pinterest Rich Pins Validator"
+msgstr "Pinterest Rich Pins -validaattori"
+
+#: inc/wpseo-non-ajax-functions.php:354
+msgid "HTML Validator"
+msgstr "HTML Validointi"
+
+#: inc/wpseo-non-ajax-functions.php:361
+msgid "CSS Validator"
+msgstr "CSS Validator"
+
+#: inc/wpseo-non-ajax-functions.php:368
+msgid "Google Page Speed Test"
+msgstr "Google PageSpeed -testi"
+
+#: inc/wpseo-non-ajax-functions.php:375
+msgid "Modern IE Site Scan"
+msgstr "Modern.IE-sivustoskannaus"
+
+#: admin/class-metabox.php:541
+msgid "Focus keyword usage"
+msgstr "Avainsanan käyttö"
+
+#: admin/ajax.php:248
+msgid "You have used HTML in your value which is not allowed."
+msgstr "Valitettavasti HTML -koodi ei ole sallittu."
+
+#: admin/views/user-profile.php:48
+msgid "Exclude user from Author-sitemap"
+msgstr "Jätä käyttäjä pois Julkaisijat -sivukartasta"
+
+#: admin/class-metabox.php:554
+msgid "(no parent)"
+msgstr "(ei isäntää)"
+
+#: admin/class-pointers.php:250
+msgid "There&#8217;s more to learn about WordPress &amp; SEO than just using this plugin. A great start is our article %1$sthe definitive guide to WordPress SEO%2$s."
+msgstr ""
+
+#: admin/class-pointers.php:273
+msgid "Title &amp; Metas settings"
+msgstr "Otsikon ja meta -kuvauksen asetukset"
+
+#: admin/class-pointers.php:274
+msgid "This is where you\tset the titles and meta-information for all your post types, taxonomies, archives, special pages and for your homepage. The page is divided into different tabs. Make sure you check &#8217;em all out!"
+msgstr ""
+
+#: admin/class-pointers.php:276
+msgid "Templates and settings"
+msgstr "Mallinteet ja asetukset"
+
+#: admin/class-pointers.php:276
+msgid "Now click on the &#8216;%1$sPost Types%2$s&#8217;-tab, as this will be our example."
+msgstr "Klikkaa nyt &#8216;%1$sArtikkelityypit%2$s&#8217;-välilehteä, sillä käytämme sitä esimerkkinä."
+
+#: admin/class-pointers.php:276
+msgid "The templates are built using variables. You can find all these variables in the help tab (in the top-right corner of the page). The settings allow you to set specific behavior for the post types."
+msgstr "Pohjat on tehty muuttujien avulla. Muuttujat on lueteltu Tuki-välilehdellä (sivun oikea yläkulma). Asetuksilla voit säätää artikkelityyppikohtaiset käsittelytavat."
+
+#: admin/class-pointers.php:223
+msgid "Previous"
+msgstr "Edellinen"
+
+#: admin/class-pointers.php:292
+msgid "On this tab you can enable the %1$sFacebook Open Graph%2$s functionality from this plugin, as well as assign a Facebook user or Application to be the admin of your site, so you can view the Facebook insights."
+msgstr "Tällä välilehdellä voit sallia %1$sFacebook Open Graph%2$s -toiminnot laajennuksessa, sekä asettaa Facebook käyttäjän ja sovelluksen toimimaan sivuston ylläpitäjänä, jotta pääse tarkastelemaan Facebook Insight -tietoja."
+
+#: admin/class-pointers.php:293
+msgid "The frontpage settings allow you to set meta-data for your homepage, whereas the default settings allow you to set a fallback for all posts/pages without images. "
+msgstr "Etusivun asetuksilla voit määrittää metatiedot kotisivullesi, ja oletusasetusten avulla voit asettaa oletuskuvan artikkeleille/sivuille joilla ei ole kuvaa."
+
+#: admin/class-pointers.php:294
+msgid "With %1$sTwitter Cards%2$s, you can attach rich photos, videos and media experience to tweets that drive traffic to your website. Simply check the box, sign up for the service, and users who Tweet links to your content will have a &#8220;Card&#8221; added to the tweet that&#8217;s visible to all of their followers."
+msgstr "%1$sTwitter Card%2$seilla voit liittää kuvia, videoita ja muuta mediaa tweetteihin sivuston vetovoimaisuuden kasvattamiseksi. Valitse ruutu, kirjaudu toiminnon käyttäjäksi, ja käyttäjät jotka twiittaavat linkkejäsi saavat kaikille käyttäjille näkyvän &#8220;Card&#8221;in twiittinsä oheen&#8217;s."
+
+#: admin/class-pointers.php:296
+msgid "This tab allows you to add specific post meta data for Google+. And if you have a Google+ page for your business, add that URL here and link it on your %1$sGoogle+%2$s page&#8217;s about page."
+msgstr "Tällä välilehdellä voit määrittää erityisiä metatietoja Google+:lle. Jos sinulla on Google+ sivu, lisää sen URL tähän ja linkitä sivusto %1$sGoogle+%2$s sivusi&#8217;s about-sivuun."
+
+#: admin/class-pointers.php:311
+msgid "What are XML sitemaps?"
+msgstr "Mitä XML sivukartat ovat?"
+
+#: admin/class-pointers.php:311
+msgid "A Sitemap is an XML file that lists the URLs for a site. It allows webmasters to include additional information about each URL: when it was last updated, how often it changes, and how important it is in relation to other URLs in the site. This allows search engines to crawl the site more intelligently."
+msgstr "Sivustokartta on XML-tiedosto joka listaa sivuston URL:t. Webmasterit voivat sisällyttää tietoa kustakin sivusta: päivitysajankohdan, päivitystiheyden ja kuinka tärkeä se on suhteessa muihin sivuston sivuihin. Näin hakukoneet voivat ladata sivuston sivuja älykkäämmin."
+
+#: admin/class-pointers.php:312
+msgid "What does the plugin do with XML Sitemaps?"
+msgstr "Mitä lisäosa tekee XML sivustokartoilla?"
+
+#: admin/class-pointers.php:313
+msgid "If you want to exclude certain post types and/or taxonomies, you can also set that on this page."
+msgstr "Jos haluat rajata pois joitakin artikkelityyppejä ja/tai taksonomioita, voit tehdä rajaukset tällä sivulla."
+
+#: admin/class-pointers.php:314
+msgid "Is your webserver low on memory? Decrease the entries per sitemap (default: 1000) to reduce load."
+msgstr "Onko palvelimesi muisti vähissä? Vähennä kuormaa pienentämällä sitemapien maksimikokoasetusta (oletus: 1000)."
+
+#: admin/class-pointers.php:340
+msgid "Extensions and Licenses"
+msgstr "Laajennukset ja lisenssit"
+
+#. translators: %1$s expands to Yoast SEO Premium
+#: admin/class-pointers.php:347
+msgid "Once you&#8217;ve purchased %1$s or any other premium Yoast plugin, you&#8217;ll have to enter a license key. You can do so on the Licenses-tab. Once you&#8217;ve activated your premium plugin, you can use all its powerful features."
+msgstr ""
+
+#: admin/class-pointers.php:349
+msgid "So, we&#8217;ve come to the end of the tour. If you like the plugin, please %srate it 5 stars on WordPress.org%s!"
+msgstr "No niin, kierros on päättynyt. Jos pidät laajennuksesta,  %srate it 5 stars on WordPress.org%s!"
+
+#. translators: %1$s expands to Yoast SEO
+#: admin/class-pointers.php:185
+msgid "You&#8217;ve just installed %1$s! Click &#8220;Start Tour&#8221; to view a quick introduction of this plugin&#8217;s core functionality."
+msgstr ""
+
+#: admin/pages/social.php:118
+msgid "Add Google+ specific post meta data"
+msgstr "Lisää Google+:lle kohdennettua metadataa"
+
+#: admin/pages/xml-sitemaps.php:77
+msgid "Exclude users without posts"
+msgstr "Jätä pois käyttäjät jotka eivät ole tehneet artikkeleita"
+
+#: admin/pages/xml-sitemaps.php:78
+msgid "Disable all users with zero posts"
+msgstr "Estä käyttäjät joilla ei ole yhtään artikkelia."
+
+#: admin/pages/xml-sitemaps.php:83
+msgid "Please check the appropriate box below if there's a user role that you do <strong>NOT</strong> want to include in your sitemap:"
+msgstr "Valitse alta ne käyttäjäroolit, joita <strong>ET</strong> halua sisällyttää sitemapiin."
+
+#: inc/class-wpseo-replace-vars.php:1113
+msgid "Replaced with the post/page author's 'Biographical Info'"
+msgstr "Korvattu artikkelin/sivun tekijän 'Henkilökuvan' tiedoilla"
+
+#. Author of the plugin/theme
+msgid "Team Yoast"
+msgstr "Yoast -tiimi"
+
+#: admin/class-bulk-editor-list-table.php:923
+msgid "Publication date"
+msgstr "Julkaisupäivä"
+
+#: admin/class-metabox.php:48
+msgid "The meta description is often shown as the black text under the title in a search result. For this to work it has to contain the keyword that was searched for.<br/><br/>Read %sthis post%s for more info."
+msgstr "Meta-kuvaus esitetään usein hakutuloksissa sivun otsikon alla. Tätä varten sen täytyy sisältää hakusanana käytetty avainsana..<br/><br/>%sthis Lisätietoja%s."
+
+#: admin/class-metabox.php:72
+msgid "No Image Index"
+msgstr "Ei kuvaindeksiä"
+
+#: admin/pages/dashboard.php:190
+msgid "Are you sure you want to reset your SEO settings?"
+msgstr "Oletko varma että haluat tyhentää SEO asetukset?"
+
+#: admin/pages/metas.php:45
+msgid "Title Separator"
+msgstr "Otsikon erotin"
+
+#: admin/pages/metas.php:50
+msgid "Choose the symbol to use as your title separator. This will display, for instance, between your post title and site name."
+msgstr "Valitse otsikon erottimena käytettävä symboli. Tämä tulee artikkelisi nimen ja sivusi nimen väliin erottamaan ne toisistaan."
+
+#: admin/pages/metas.php:50
+msgid "Symbols are shown in the size they'll appear in in search results."
+msgstr "Symbolit näkyy saman kokoisina kuin hakutuloksissa."
+
+#: admin/pages/metas.php:91 admin/pages/network.php:115
+msgid "Take note:"
+msgstr "Huomaa:"
+
+#: admin/pages/metas.php:93
+msgid "As you are redirecting attachment URLs to parent post URLs, these settings will currently only have an effect on <strong>unattached</strong> media items!"
+msgstr "Koska ohjaat liitteiden URLit lähdeartikkelien URLeihin, nämä asetukset vaikuttavat vain <strong>liittämättömiin</strong> mediakohteisiin!"
+
+#: admin/pages/metas.php:94
+msgid "So remember: If you change the %sattachment redirection setting%s in the future, the below settings will take effect for *all* media items."
+msgstr "Muista: Jos vaihdat %sattachment redirection setting%s -asetusta tulevaisuudessa, alla olevat asetukset muuttuvat koskemaan *kaikkia' mediakohteita."
+
+#: admin/pages/network.php:61
+msgid "public"
+msgstr "Julkinen"
+
+#: admin/pages/network.php:64
+msgid "archived"
+msgstr "Arkistoitu"
+
+#: admin/pages/network.php:67
+msgid "mature"
+msgstr "ikärajoitettu"
+
+#: admin/pages/network.php:70
+msgid "spam"
+msgstr "Spam"
+
+#: admin/pages/network.php:105 admin/pages/network.php:112
+msgid "New sites in the network inherit their SEO settings from this site"
+msgstr "Uudet sivustot perivät SEO-asetuksensa verkoston sisällä tästä sivustosta."
+
+#: admin/pages/network.php:109
+msgid "Choose the site whose settings you want to use as default for all sites that are added to your network. If you choose 'None', the normal plugin defaults will be used."
+msgstr "Valitse sivusto, jonka asetuksia haluat käyttää oletuksena kaikille sivustoille, jotka liitetään verkostoosi. Valitse 'Ei mitään' käyttääksesi pluginin oletusasetuksia."
+
+#: admin/pages/network.php:113
+msgid "Enter the %sSite ID%s for the site whose settings you want to use as default for all sites that are added to your network. Leave empty for none (i.e. the normal plugin defaults will be used)."
+msgstr "Syötä  %sSite ID%s sivustolle, jonka asetuksia haluat käyttää oletuksena kaikille sivustoille, jotka liitetään verkostoosi. Jätä tyhjäksi käyttääksesi pluginin oletusasetuksia."
+
+#: admin/pages/network.php:115
+msgid "Privacy sensitive (FB admins and such), theme specific (title rewrite) and a few very site specific settings will not be imported to new blogs."
+msgstr "Yksityisiä (FB adminit jne), teemakohtaisia (otsikon korvaus) ja muutamia sivustokohtaisia asetuksia ei siirretä uusiin blogeihin."
+
+#: admin/pages/network.php:130
+msgid "Site ID"
+msgstr "Sivuston tunniste"
+
+#: admin/pages/social.php:67
+msgid "Copy home meta description"
+msgstr "Kopioi meta-kuvaus."
+
+#: admin/pages/social.php:58
+msgid "These are the title, description and image used in the Open Graph meta tags on the front page of your site."
+msgstr "Nämä ovat otsikko, kuvaus ja kuva joita käytetään Open Graph meta-tageissa sivustosi etusivulla."
+
+#: inc/class-wpseo-replace-vars.php:106
+msgid "A replacement variable can only contain alphanumeric characters, an underscore or a dash. Try renaming your variable."
+msgstr "Korvaava muuttuja saa sisältää kirjaimia ja numeroita, ala- tai väliviivan. Koeta toista nimeä."
+
+#: admin/class-admin.php:238 admin/class-admin.php:239
+msgid "Advanced Variables"
+msgstr "Edistyneet muuttujat"
+
+#: admin/class-admin.php:439
+msgid "Premium Support"
+msgstr "Premiun tuki"
+
+#: admin/class-admin.php:443
+msgid "FAQ"
+msgstr "UKK"
+
+#: admin/class-yoast-form.php:227
+msgid "Remove these ads?"
+msgstr "Poista nämä mainokset?"
+
+#: admin/class-metabox.php:37
+msgid "This is a rendering of what this post might look like in Google's search results.<br/><br/>Read %sthis post%s for more info."
+msgstr "Esitkatselu artikkelin esitystavasta Googlen hakutuloksissa.<br/><br/>Lisätietoja %sthis artikkelissa%s."
+
+#: admin/class-metabox.php:43
+msgid "Warning:"
+msgstr "Varoitus:"
+
+#: admin/class-metabox.php:43
+msgid "Title display in Google is limited to a fixed width, yours is too long."
+msgstr "Otsikon pituus on Googlessa rajoitettu, tämä on liian pitkä."
+
+#: admin/class-metabox.php:56 admin/class-taxonomy.php:211
+msgid "Warning: even though you can set the meta robots setting here, the entire site is set to noindex in the sitewide privacy settings, so these settings won't have an effect."
+msgstr "Varoitus: Vaikka voit asettaa tässä robot-asetusten metatiedot, koko sivusto on asetettu noindec-tilaan sivuston yksityisasetuksissa, joten näillä asetuksilla ei ole vaikutusta."
+
+#: vendor/yoast/license-manager/class-license-manager.php:138
+msgid "<b>Warning!</b> You're blocking external requests which means you won't be able to get %s updates. Please add %s to %s."
+msgstr "<b>Varoitus!</b> Estät ulkoiset hakupyynnöt joten et voi saada %s päivityksiä. Lisää %s kohtaan %s."
+
+#: vendor/yoast/license-manager/class-license-manager.php:206
+msgid "Your license has expired. You must <a href=\"%s\">extend your license</a> in order to use it again."
+msgstr "Lisenssi on vanhentunut. Teidän tulee <a href=\"%s\">uusia lisenssi</a> käyttääksenne lisäosaa."
+
+#: vendor/yoast/license-manager/class-license-manager.php:271
+msgid "Request error: \"%s\" (%scommon license notices%s)"
+msgstr "Pyyntövirhe: \"%s\" (%scommon license notices%s)"
+
+#: vendor/yoast/license-manager/class-plugin-license-manager.php:73
+msgid "%s is network activated, you can manage your license in the <a href=\"%s\">network admin license page</a>."
+msgstr "%s aktivoidaan verkon kautta, voit hallita lisenssiäsi <a href=\"%s\">verkon järjestelmänvalvojan lisenssisivulla</a>."
+
+#: vendor/yoast/license-manager/class-plugin-license-manager.php:75
+msgid "%s is network activated, please contact your site administrator to manage the license."
+msgstr "%s aktivoidaan verkon kautta, ota yhteyttä sivustosi järjestelmänvalvojaan lisenssinhallintaa koskien."
+
+#: vendor/yoast/license-manager/class-update-manager.php:153
+msgid "This site has not been activated properly on yoast.com and thus cannot check for future updates. Please activate your site with a valid license key."
+msgstr "Tätä sivustoa ei ole aktivoitu osoitteessa yoast.com joten emme voi tarjota uusimpia päivityksiä tuotteelle. Ole hyvä ja aktivoi sivustosi voimassa olevalla lisenssiavaimella."
+
+#: vendor/yoast/license-manager/views/form.php:81
+msgid "Your %s license will expire on %s."
+msgstr "Lisenssi tuotteeseen %s vanhenee %s."
+
+#: vendor/yoast/license-manager/views/form.php:84
+msgid "%sRenew your license now%s."
+msgstr "%sUusi lisenssi nyt%s."
+
+#. translators: %1$s expands to Yoast SEO
+#: admin/pages/licenses.php:18
+msgid "The premium version of %1$s with more features & support."
+msgstr ""
+
+#: admin/pages/licenses.php:24
+msgid "Optimize your videos to show them off in search results and get more clicks!"
+msgstr "Optimoi videosi näyttääksesi se hakutuloksissa ja hanki lisää klikkauksia!"
+
+#: admin/pages/licenses.php:30
+msgid "Are you in Google News? Increase your traffic from Google News by optimizing for it!"
+msgstr "Näytkö Google Newsissa? Kasvata liikennettäsi Google Newsista optimoimalla!"
+
+#: admin/pages/licenses.php:36
+msgid "Rank better locally and in Google Maps, without breaking a sweat!"
+msgstr "Sijoitu paremmin paikallisesti ja Google Mapsissa, tuskatta!"
+
+#. translators: %1$s expands to Yoast SEO
+#: admin/pages/licenses.php:43
+msgid "Seamlessly integrate WooCommerce with %1$s and get extra features!"
+msgstr ""
+
+#: admin/pages/licenses.php:99
+msgid "Get this extension"
+msgstr "Hanki tämä laajennus"
+
+#: admin/views/tab-permalinks.php:41
+msgid "Prevent cleaning out Google Analytics Campaign & Google AdWords Parameters."
+msgstr "Estä Google Analytics Campaign & Google AdWords parametrien tyhjentäminen."
+
+#: inc/class-wpseo-replace-vars.php:109
+msgid "A replacement variable can not start with \"%%cf_\" or \"%%ct_\" as these are reserved for the WPSEO standard variable variables for custom fields and custom taxonomies. Try making your variable name unique."
+msgstr "Korvaava muuttuja ei voi alkaa \"%%cf_\" or \"%%ct_\" sille ne on varattu WPSEO standardi muuttujille kustomoituja kenttiä ja taksonomioita varten. Koeta nimetä muuttujasi yksilöllisesti."
+
+#: inc/class-wpseo-replace-vars.php:118
+msgid "A replacement variable with the same name has already been registered. Try making your variable name more unique."
+msgstr "Samanniminen korvaava muuttuja on rekisteröity aiemmin. Koeta nimetä muuttujasi yksilöllisemmin."
+
+#: inc/class-wpseo-replace-vars.php:122
+msgid "You cannot overrule a WPSEO standard variable replacement by registering a variable with the same name. Use the \"wpseo_replacements\" filter instead to adjust the replacement value."
+msgstr "WPSEOn standardimuuttujan korvausta ei voi ohittaa rekisteröimällä saman niminen muuttuja. Käytä sen sijaan \"wpseo_replacements\"-suodatinta säätääksesi korvaavaa arvoa."
+
+#: inc/class-wpseo-replace-vars.php:1087
+msgid "Replaced with the title of the parent page of the current page"
+msgstr "Korvattu nykyisen sivun yläsivun otsikolla"
+
+#: inc/class-wpseo-replace-vars.php:1089
+msgid "The site's tag line / description"
+msgstr "Sivuston kuvaus / tag line"
+
+#: inc/class-wpseo-replace-vars.php:1120
+msgid "Replaced with the current page number with context (i.e. page 2 of 4)"
+msgstr "Korvattu nykyisen sivun numerolla kokonaismäärn kanssa (sivu 2 / 4)"
+
+#: inc/wpseo-non-ajax-functions.php:333
+msgid "Check Rich Snippets"
+msgstr "Tarkista Rich Snippetit"
+
+#: inc/wpseo-non-ajax-functions.php:340
+msgid "Facebook Debugger"
+msgstr "Facebook virheenkorjaaja"
+
+#: wp-seo-main.php:368
+msgid "The Standard PHP Library (SPL) extension seem to be unavailable. Please ask your web host to enable it."
+msgstr "Standard PHP Library (SPL) ei vaikuta olevan käytettävissä. Pyydä palveluntarjoajaasi sallimaan sen käyttö."
+
+#. Plugin URI of the plugin/theme
+msgid "https://yoast.com/wordpress/plugins/seo/#utm_source=wpadmin&utm_medium=plugin&utm_campaign=wpseoplugin"
+msgstr "https://yoast.com/wordpress/plugins/seo/#utm_source=wpadmin&utm_medium=plugin&utm_campaign=wpseoplugin"
+
+#. Description of the plugin/theme
+msgid "The first true all-in-one SEO solution for WordPress, including on-page content analysis, XML sitemaps and much more."
+msgstr "Ensimmäinen all-in-one SEO-ratkaisu WordPressiin, sisältäe sisältöanalyysin suoraan sivulla, XML-sitemapit ja paljon muuta."
+
+#. Author URI of the plugin/theme
+msgid "https://yoast.com/"
+msgstr "https://yoast.com/"
+
+#: inc/options/class-wpseo-option-internallinks.php:165
+msgid "Please select a valid taxonomy for post type \"%s\""
+msgstr "Valitse kelvollinen taksonomia artikkelityypille \"%s\""
+
+#: admin/ajax.php:215
+msgid "Post doesn't exist."
+msgstr "Sivua ei ole olemassa."
+
+#: admin/ajax.php:224
+msgid "Post has an invalid Post Type: %s."
+msgstr "Artikkelilla on epäkelpo artikkelityyppi: %s."
+
+#: admin/ajax.php:232
+msgid "You can't edit %s."
+msgstr "Ette voi muokata kohdetta %s."
+
+#: admin/ajax.php:240
+msgid "You can't edit %s that aren't yours."
+msgstr "Et voi muokata %s jotka eivät ole sinun."
+
+#: admin/class-admin.php:174 admin/class-admin.php:264
+#: admin/class-pointers.php:341 admin/pages/licenses.php:77
+#: inc/wpseo-non-ajax-functions.php:436
+msgid "Extensions"
+msgstr "Laajennukset"
+
+#. translators: %1$s expands to Yoast SEO
+#: admin/class-admin.php:223
+msgid "The title &amp; metas settings for %1$s are made up of variables that are replaced by specific values from the page when the page is displayed. The tabs on the left explain the available variables."
+msgstr ""
+
+#: admin/class-bulk-editor-list-table.php:294
+msgctxt "posts"
+msgid "All <span class=\"count\">(%s)</span>"
+msgid_plural "All <span class=\"count\">(%s)</span>"
+msgstr[0] "Kaikki <span class=\"count\">(%s)</span>"
+msgstr[1] "Kaikki <span class=\"count\">(%s)</span>"
+
+#: admin/class-bulk-editor-list-table.php:337
+msgctxt "posts"
+msgid "Trash <span class=\"count\">(%s)</span>"
+msgid_plural "Trash <span class=\"count\">(%s)</span>"
+msgstr[0] "Laita roskakoriin <span class=\"count\">(%s)</span>"
+msgstr[1] "Laita roskakoriin <span class=\"count\">(%s)</span>"
+
+#: admin/class-bulk-editor-list-table.php:387
+msgid "Filter"
+msgstr "Suodata"
+
+#: admin/class-bulk-editor-list-table.php:920
+msgid "WP Page Title"
+msgstr "WP sivun otsikko"
+
+#: admin/class-bulk-editor-list-table.php:921
+msgid "Post Type"
+msgstr "Artikkelin tyyppi"
+
+#: admin/class-bulk-editor-list-table.php:922
+msgid "Post Status"
+msgstr "Artikkelin tila"
+
+#: admin/class-bulk-editor-list-table.php:924
+msgid "Page URL/Slug"
+msgstr "Sivun URL / Slugi"
+
+#: admin/class-bulk-description-editor-list-table.php:43
+msgid "Existing Yoast Meta Description"
+msgstr "Olemassa oleva Yoast Meta-kuvaus"
+
+#: admin/class-bulk-description-editor-list-table.php:44
+msgid "New Yoast Meta Description"
+msgstr "Uusi Yoast metakuvaus."
+
+#: admin/class-bulk-editor-list-table.php:929
+msgid "Action"
+msgstr "Toiminto"
+
+#: admin/class-bulk-editor-list-table.php:748
+msgid "Edit this item"
+msgstr "Muokkaa tätä kohdetta"
+
+#: admin/class-bulk-editor-list-table.php:748
+msgid "Edit"
+msgstr "Muokkaa"
+
+#: admin/class-bulk-editor-list-table.php:754
+msgid "Preview &#8220;%s&#8221;"
+msgstr "Esikatsele &#8220;%s&#8221;"
+
+#: admin/class-bulk-editor-list-table.php:754
+msgid "Preview"
+msgstr "Esikatsele"
+
+#: admin/class-bulk-editor-list-table.php:758
+msgid "View &#8220;%s&#8221;"
+msgstr "Katso &#8220;%s&#8221;"
+
+#: admin/class-bulk-editor-list-table.php:758
+#: admin/google_search_console/class-gsc-table.php:209
+msgid "View"
+msgstr "Katso"
+
+#: admin/class-bulk-title-editor-list-table.php:45
+msgid "Existing Yoast SEO Title"
+msgstr "Olemassa oleva Yoast SEO -otsikko."
+
+#: admin/class-bulk-title-editor-list-table.php:46
+msgid "New Yoast SEO Title"
+msgstr "Uusi Yoast SEOn otsikko"
+
+#: admin/class-yoast-form.php:130
+msgid "Debug Information"
+msgstr "Virheinformaatio"
+
+#: admin/class-yoast-form.php:132
+msgid "Current option:"
+msgstr "Nykyinen valinta:"
+
+#: admin/class-metabox.php:68
+msgid "Site-wide default: %s"
+msgstr "Sivustonlaajuinen oletus: %s"
+
+#: admin/class-metabox.php:1365
+msgid "No post content to analyse."
+msgstr "Ei artikkelisisältöä analysoitavaksi."
+
+#: vendor/yoast/license-manager/class-license-manager.php:190
+msgid "<a href=\"%s\">Did you know you can upgrade your license?</a>"
+msgstr "<a href=\"%s\">Tiesitkö, että lisenssin voi päivittää?</a>"
+
+#: vendor/yoast/license-manager/class-license-manager.php:194
+msgid "<a href=\"%s\">Your license is expiring in %d days, would you like to extend it?</a>"
+msgstr "<a href=\"%s\">Lisenssisi vanhenee %d päivän kuluttua, haluaisitko jatkaa sitä?</a>"
+
+#: vendor/yoast/license-manager/class-license-manager.php:203
+msgid "You've reached your activation limit. You must <a href=\"%s\">upgrade your license</a> to use it on this site."
+msgstr "Olet käyttänyt kaikki aktivoinnit. Aktivoidaksesi tällä sivustolla sinun pitää <a href=\"%s\">hankkia lisenssin päivitys</a>."
+
+#: vendor/yoast/license-manager/class-license-manager.php:209
+msgid "Failed to activate your license, your license key seems to be invalid."
+msgstr "Lisenssin aktivointi epäonnistui sillä lisenssiavain vaikuttaisi olevan virheellinen."
+
+#: vendor/yoast/license-manager/class-license-manager.php:233
+msgid "Your %s license has been deactivated."
+msgstr "%s lisenssi on deaktivoitu onnistuneesti."
+
+#: vendor/yoast/license-manager/class-license-manager.php:235
+msgid "Failed to deactivate your %s license."
+msgstr "%s lisenssiä ei voitu deaktivoida."
+
+#: vendor/yoast/license-manager/class-theme-license-manager.php:34
+#: vendor/yoast/license-manager/samples/sample-plugin.php:53
+msgid "%s License"
+msgstr "%s Lisenssi"
+
+#: vendor/yoast/license-manager/class-theme-license-manager.php:34
+msgid "Theme License"
+msgstr "Teeman lisenssi"
+
+#: vendor/yoast/license-manager/class-theme-update-manager.php:96
+msgid "Updating this theme will lose any customizations you have made. 'Cancel' to stop, 'OK' to update."
+msgstr "Tämän teeman päivittäminen hukkaa mahdolliset mukautukset jotka olet tehnyt. Lopeta valitsemalla 'Peruuta', jatka valitsemalla 'OK'."
+
+#: vendor/yoast/license-manager/class-theme-update-manager.php:101
+msgid "<strong>%s version %s</strong> is available. <a href=\"%s\" class=\"thickbox\" title=\"%s\">Check out what's new</a> or <a href=\"%s\" %s>update now</a>."
+msgstr "<strong>%s version %s</strong> on käyttettävissä. <a href=\"%s\" class=\"thickbox\" title=\"%s\">Katso päivityksen sisältö</a> tai <a href=\"%s\" %s>päivitä nyt</a>"
+
+#: vendor/yoast/license-manager/class-update-manager.php:83
+msgid "%s failed to check for updates because of the following error: <em>%s</em>"
+msgstr "%s ei pystynyt tarkistamaan päivityksiä virheen vuoksi: <em>%s</em>"
+
+#: vendor/yoast/license-manager/class-license-manager.php:430
+msgid "%s: License Settings"
+msgstr "%s: Lisenssiasetukset"
+
+#: vendor/yoast/license-manager/views/form.php:31
+msgid "License status"
+msgstr "Lisenssin tila"
+
+#: vendor/yoast/license-manager/views/form.php:41
+msgid "Toggle license status"
+msgstr "Vaihda lisenssin tilaa."
+
+#: vendor/yoast/license-manager/views/form.php:45
+msgid "Deactivate License"
+msgstr "Ota lisenssi pois käytöstä."
+
+#: vendor/yoast/license-manager/views/form.php:46
+msgid "(deactivate your license so you can activate it on another WordPress site)"
+msgstr "(poista lisenssi käytöstä jotta voi aktivoida sen toisella WordPress-sivustolla)"
+
+#: vendor/yoast/license-manager/views/form.php:50
+msgid "Activate License"
+msgstr "Aktivoi lisenssi"
+
+#: vendor/yoast/license-manager/views/form.php:52
+msgid "Please enter a license key in the field below first."
+msgstr "Ole hyvä ja syötä lisenssiavain alla olevaan kenttään."
+
+#: vendor/yoast/license-manager/views/form.php:60
+msgid "License Key"
+msgstr "Lisenssiavain"
+
+#: vendor/yoast/license-manager/views/form.php:62
+msgid "Paste your %s license key here.."
+msgstr "Liitä %s -lisenssisi lisenssiavain tähän."
+
+#: vendor/yoast/license-manager/views/form.php:64
+msgid "You defined your license key using the %s PHP constant."
+msgstr "Määritit lisenssiavaimesi käyttämällä %s PHP-vakiota."
+
+#: admin/pages/dashboard.php:65
+msgid "Failed to remove hardcoded meta description."
+msgstr "Kiinteän metakuvauksen poisto epäonnistui."
+
+#: admin/pages/dashboard.php:72
+msgid "Earlier found meta description was not found in file. Renewed the description test data."
+msgstr "Aikaisempaa metakuvausta ei löytynyt. Kuvauksen testaustiedot uudistettiin."
+
+#: admin/class-pointers.php:295 admin/pages/social.php:23
+msgid "Pinterest"
+msgstr "Pinterest"
+
+#: admin/pages/dashboard.php:236
+msgid "Yandex Webmaster Tools"
+msgstr "Yandex verkkovastaavan työkalut"
+
+#: admin/views/tool-file-editor.php:17
+msgid "You cannot create a robots.txt file."
+msgstr "Et voi luoda robots.txt tiedostoa."
+
+#: admin/views/tool-file-editor.php:83
+msgid "You don't have a robots.txt file, create one here:"
+msgstr "Sinulla ei ole robots.txt -tiedostoa, luo sellainen tässä:"
+
+#: admin/views/tool-file-editor.php:84
+msgid "Create robots.txt file"
+msgstr "Luo robots.txt -tiedosto"
+
+#: admin/class-import.php:173
+msgid "Setting \"%s\" is no longer used and has been discarded."
+msgstr "Asetusta \"%s\" ei enää käytetä ja se on poistettu."
+
+#: admin/class-import.php:151
+msgid "No settings found in file."
+msgstr "Tiedostosta ei löytynyt asetuksia."
+
+#: admin/class-import.php:127
+msgid "Unzipping failed - file settings.ini not found."
+msgstr "Tiedoston purkaminen epäonnistui - settings.ini-tiedostoa ei löytynyt."
+
+#: admin/class-import.php:120
+msgid "Unzipping failed with error \"%s\"."
+msgstr "Purkaminen epäonnistui, virhe: \"%s\"."
+
+#: admin/class-pointers.php:345 admin/pages/licenses.php:78
+msgid "Licenses"
+msgstr "Lisenssit"
+
+#: admin/class-metabox.php:50 admin/class-taxonomy.php:192
+#: admin/pages/metas.php:137
+msgid "Meta keywords"
+msgstr "Meta-avainsanat"
+
+#: admin/pages/network.php:35
+msgid "%s restored to default SEO settings."
+msgstr "%s palautettiin SEO-oletusasetuksille."
+
+#: admin/pages/network.php:38
+msgid "Blog %s not found."
+msgstr "Blogia %s ei löydy."
+
+#: admin/views/tab-permalinks.php:43
+msgid "You might have extra variables you want to prevent from cleaning out, add them here, comma separated."
+msgstr "Sinulla voi olla lisämuuttujia joiden poistamisen haluat estää - lisää ne tähän, käyttäen pilkkua erottimena."
+
+#: admin/pages/social.php:93
+msgid "The default card type to use"
+msgstr "Cardin oletustyyppi."
+
+#: admin/pages/xml-sitemaps.php:64
+msgid "Please enter the maximum number of entries per sitemap page (defaults to %s, you might want to lower this to prevent memory issues on some installs):"
+msgstr "Syötä sitemapin kohteiden maksimimäärä (oletus on %s, pienempi lukema voi auttaa mahdollisten muistirajoitusten kanssa)."
+
+#: inc/options/class-wpseo-option.php:296
+msgid "%s does not seem to be a valid %s verification string. Please correct."
+msgstr "%s ei näyttäisi olevan sopiva %s :n vahvistamiseen. Korjaa syöte."
+
+#: inc/options/class-wpseo-option-internallinks.php:204
+msgid "Please select a valid post type for taxonomy \"%s\""
+msgstr "Ole hyvä ja valitse artikkelityyppi taksonomialle \"%s\""
+
+#: inc/options/class-wpseo-option-xml.php:166
+msgid "\"Max entries per sitemap page\" should be a positive number, which %s is not. Please correct."
+msgstr "\"Sitemapin kohteiden maksimi\" tulisi olla positiivinen numero, toisin kuin %s. Korjaa, kiitos."
+
+#: inc/options/class-wpseo-option-social.php:103
+msgid "Summary"
+msgstr "Yhteenveto"
+
+#: inc/options/class-wpseo-option-social.php:104
+msgid "Summary with large image"
+msgstr "Yhteenveto suurella kuvalla."
+
+#: inc/options/class-wpseo-option.php:331
+msgid "%s does not seem to be a valid url. Please correct."
+msgstr "%s ei näyttäisi olevan kelvollinen URL:ksi. Korjaa, kiitos."
+
+#: inc/options/class-wpseo-option-social.php:240
+msgid "%s does not seem to be a valid Twitter user-id. Please correct."
+msgstr "%s ei näyttäisi olevan kelvollinen Twitter-tunnus. Korjaa, kiitos."
+
+#. translators: %1$s expands to the option name and %2$sexpands to Yoast SEO
+#: inc/options/class-wpseo-option-ms.php:153
+msgid "%1$s is not a valid choice for who should be allowed access to the %2$s settings. Value reset to the default."
+msgstr ""
+
+#: inc/options/class-wpseo-option-ms.php:173
+#: inc/options/class-wpseo-option-ms.php:183
+msgid "The default blog setting must be the numeric blog id of the blog you want to use as default."
+msgstr "Blogin oletusasetuksetn täytyy olla haluamasi blogin numeerinen blogi-id."
+
+#: inc/options/class-wpseo-option-ms.php:173
+msgid "This must be an existing blog. Blog %s does not exist or has been marked as deleted."
+msgstr "Tämän täytyy olla olemassa oleva blogi. Blogia nimeltä %s ei ole olemassa, tai se on poistettu."
+
+#: inc/options/class-wpseo-option-ms.php:183
+msgid "No numeric value was received."
+msgstr "Numeerista arvoa ei saatu."
+
+#: admin/class-admin.php:214
+msgid "Title optimization"
+msgstr "Otsikon optimointi"
+
+#: admin/class-admin.php:213
+msgid "For more information:"
+msgstr "Lisätietoja:"
+
+#: admin/class-metabox.php:2078
+msgid "There are %d words contained in the body copy, this is slightly below the %d word recommended minimum, add a bit more copy."
+msgstr "Leipätekstissä on %d sanaa, määrä on hiukan vähemmän kuin suositeltu %d:n minimäärä - lisää tekstiä."
+
+#: admin/class-config.php:95 admin/class-metabox.php:547
+#: admin/class-metabox.php:931
+msgid "Use Image"
+msgstr "Käytä kuvaa"
+
+#: admin/class-metabox.php:2077
+msgid "There are %d words contained in the body copy, this is below the %d word recommended minimum. Add more useful content on this topic for readers."
+msgstr "Artikkelin leipätekstissä on %d sanaa. Suositeltu minimimäärä on %d. Lisää hyödyllistä sisältöä."
+
+#: admin/class-metabox.php:2076
+msgid "There are %d words contained in the body copy, this is more than the %d word recommended minimum."
+msgstr "Artikkelin leipätekstissä on %d sanaa. Suositeltu maksimimäärä on %d."
+
+#: admin/views/tab-permalinks.php:22
+msgid "This helps you to create cleaner URLs by automatically removing the stopwords from them."
+msgstr "Tämä auttaa sinua luomaan selkeämpiä URL:iä poistamalla niistä estosanoja (stopwords),"
+
+#: admin/views/tab-permalinks.php:23
+msgid "Remove stop words from slugs."
+msgstr "Poista estosanat osoitteiden otsikko-osista."
+
+#: admin/class-admin.php:215
+msgid "Why Google won't display the right page title"
+msgstr "Syy siihen että Google ei näytä oikeaa sivuotsikkoa"
+
+#: admin/class-admin.php:221
+msgid "Template explanation"
+msgstr "Mallipohjan selitys"
+
+#: admin/class-admin.php:230 admin/class-admin.php:231
+msgid "Basic Variables"
+msgstr "Perusmuuttujat"
+
+#: admin/class-admin.php:407
+msgid "SEO Issue:"
+msgstr "SEO-ongelma:"
+
+#. translators: %1$s expands to Yoast SEO, %2$s to opening anchor and %3$s the
+#. anchor closing tag
+#: admin/class-admin.php:409
+msgid "Your theme contains a meta description, which blocks %1$s from working properly. Please visit the %2$sSEO Dashboard%3$s to fix this."
+msgstr ""
+
+#: admin/class-admin.php:469 admin/class-opengraph-admin.php:43
+#: admin/class-pointers.php:296 admin/pages/social.php:24
+msgid "Google+"
+msgstr "Google+"
+
+#: admin/class-admin.php:473
+msgid "Facebook profile URL"
+msgstr "Facebook-profiilin URL"
+
+#: admin/class-metabox.php:453
+msgid "Check"
+msgstr "Tarkista"
+
+#: admin/class-metabox.php:40
+msgid "Pick the main keyword or keyphrase that this post/page is about.<br/><br/>Read %sthis post%s for more info."
+msgstr "Valitse tärkein avainsana tai -lause tästä artikkelista.<br/><br/>Lue %sthis post%s saadaksesi lisätietoja."
+
+#: admin/class-metabox.php:59
+msgid "index"
+msgstr "index"
+
+#: admin/class-metabox.php:60
+msgid "noindex"
+msgstr "noindex"
+
+#: admin/class-metabox.php:541
+msgid "Your focus keyword was found in:"
+msgstr "Kohdistusavainsanasi on käytössä:"
+
+#: admin/class-metabox.php:542
+msgid "Article Heading: "
+msgstr "Artikkelin otsikko:"
+
+#: admin/class-metabox.php:543
+msgid "Page title: "
+msgstr "Sivun otsikko:"
+
+#: admin/class-metabox.php:544
+msgid "Page URL: "
+msgstr "Sivun URL:"
+
+#: admin/class-metabox.php:545
+msgid "Content: "
+msgstr "Sisältö: "
+
+#: admin/class-metabox.php:546
+msgid "Meta description: "
+msgstr "Meta-kuvaus:"
+
+#: admin/class-metabox.php:956
+msgid "All SEO Scores"
+msgstr "Kaikki SEO-pisteet"
+
+#: admin/class-metabox.php:1377
+msgid "Page Analysis has been disabled."
+msgstr "Sivuanalyysi on estetty."
+
+#: admin/pages/dashboard.php:59
+msgid "Removed hardcoded meta description."
+msgstr "Poistettu koodattu metakuvaus."
+
+#: admin/pages/dashboard.php:120
+msgid "Re-check theme."
+msgstr "Tarkista teema uudelleen."
+
+#: inc/wpseo-non-ajax-functions.php:581
+msgid "The plugin Robots-Meta has been detected. Do you want to %simport its settings%s."
+msgstr "Robots-Meta -plugin havaittu. Haluatko %simport its settings%s."
+
+#: inc/wpseo-non-ajax-functions.php:590
+msgid "Robots-Meta has been deactivated"
+msgstr "Robots-Meta poistettu käytöstä"
+
+#: inc/wpseo-non-ajax-functions.php:571
+msgid "All-In-One-SEO has been deactivated"
+msgstr "All-In-One-SEO poistettu käytöstä"
+
+#: admin/class-admin.php:257
+msgid "Edit Files"
+msgstr "Muokkaa tiedostoja"
+
+#: inc/class-wpseo-replace-vars.php:1125
+msgid "Replaced with the slug which caused the 404"
+msgstr "Korvattu 404-virheen aiheuttaneella URL-osalla"
+
+#: inc/class-wpseo-replace-vars.php:1128
+msgid "Replaced with a custom taxonomies description"
+msgstr "Korvattu mukautetuilla taksonomioiden kuvauksilla"
+
+#: admin/class-opengraph-admin.php:41 admin/class-pointers.php:292
+#: admin/pages/social.php:21
+msgid "Facebook"
+msgstr "Facebook"
+
+#: admin/pages/social.php:53
+msgid "Add Open Graph meta data"
+msgstr "Lisää Open Graph -metadata"
+
+#: admin/pages/social.php:33
+msgid "Facebook Page URL"
+msgstr "Facebook-sivusi URL-osoite"
+
+#: admin/pages/xml-sitemaps.php:38
+msgid "User sitemap"
+msgstr "Käytä sitemapia"
+
+#: admin/pages/xml-sitemaps.php:74
+msgid "Disable author/user sitemap"
+msgstr "Poista tekijä/käyttäjä-sitemap käytöstä"
+
+#: inc/class-wpseo-utils.php:203
+msgid "N/A"
+msgstr "tyhjä"
+
+#: inc/class-wpseo-utils.php:208
+msgid "Poor"
+msgstr "Heikko"
+
+#: inc/class-wpseo-utils.php:219
+msgid "Good"
+msgstr "Hyvä"
+
+#: inc/class-wpseo-utils.php:223
+msgid "Bad"
+msgstr "Huono"
+
+#: admin/class-admin.php:330
+msgid "Posts"
+msgstr "Artikkelit"
+
+#: admin/class-metabox.php:1614
+msgid "You've never used this focus keyword before, very good."
+msgstr "Et ole koskaan käyttänyt tätä avainsanaa aikaisemmin, erittäin hienoa."
+
+#: admin/class-metabox.php:1617
+msgid "You've used this focus keyword %1$sonce before%2$s, be sure to make very clear which URL on your site is the most important for this keyword."
+msgstr "Olet käyttänyt tätä kohdistusavainsanaa %1$skerran aikaisemmin%2$s, valitse mikä näistä URL:istä on sivustosi tärkein sivu tämän avainsanan kannalta."
+
+#: admin/class-metabox.php:1626
+msgid "You've used this focus keyword %3$s%4$d times before%2$s, it's probably a good idea to read %1$sthis post on cornerstone content%2$s and improve your keyword strategy."
+msgstr "Olet käyttänyt tätä kohdistusavainsanaa %3$s%4$d kertaa muualla%2$s, olisi ehkä hyvä lukea  %1$sthis post on cornerstone content%2$s ja korjata avainsanastrategiaasi."
+
+#: admin/class-admin.php:374
+msgid "You must %sgo to your Reading Settings%s and uncheck the box for Search Engine Visibility."
+msgstr "Sinun täytyy %sgo to your Reading Settings%s  ja poistaa valinta hakukonenäkyvyydestä."
+
+#: inc/class-wpseo-replace-vars.php:1117
+msgid "Replaced with the current day"
+msgstr "Korvattu tällä päivällä"
+
+#: admin/pages/xml-sitemaps.php:63
+msgid "Entries per page"
+msgstr "Merkintöjä per sivu"
+
+#: admin/views/tool-file-editor.php:138
+msgid "If you had a .htaccess file and it was editable, you could edit it from here."
+msgstr "Jos sinulla olisi .htaccess-tiedosto ja se olisi muokattavissa, voisit muokata sitä tässä."
+
+#: admin/views/tool-file-editor.php:88
+msgid "If you had a robots.txt file and it was editable, you could edit it from here."
+msgstr "Jos sinulla olisi robots-txt-tiedosto ja se olisi muokattavissa, voisit muokata sitä tässä."
+
+#: admin/class-import-woothemes-seo.php:29
+msgid "WooThemes SEO framework settings &amp; data successfully imported."
+msgstr "WooThemes SEO:n framework-asetukset &amp; tiedot tuotiin onnistuneesti."
+
+#: admin/class-import-external.php:108
+msgid "HeadSpace2 data successfully imported"
+msgstr "HeadSpace2-tiedot tuotiin onnistuneesti"
+
+#: admin/views/tool-import-export.php:148
+msgid "Import from WooThemes SEO framework?"
+msgstr "Tuo WooThemes SEO -kehitysympäristöstä?"
+
+#: admin/class-metabox.php:2120
+msgid "Your keyphrase is over 10 words, a keyphrase should be shorter and there can be only one keyphrase."
+msgstr "Avainsanasi on yli 10 sanaa. Avainsanan tulisi olla lyhyempi ja sinun tulisi käyttää vain yhtä avainsanaaa."
+
+#: admin/pages/social.php:121
+msgid "If you have a Google+ page for your business, add that URL here and link it on your Google+ page's about page."
+msgstr "Jos sinulla on Google+ -sivu yrityksille, lisää URL-osoite tähän ja linkitä se Google+ -sivusi Tietoja-osioon."
+
+#. translators: %1$s expands to Yoast SEO
+#: admin/pages/dashboard.php:122
+msgid "Your theme contains a meta description, which blocks %1$s from working properly, please delete the following line, or press fix it:"
+msgstr ""
+
+#: admin/pages/social.php:123
+msgid "Google Publisher Page"
+msgstr "Google Publisher -sivu"
+
+#: admin/pages/metas.php:103
+msgid "Date in Snippet Preview"
+msgstr "Päivämäärä esikatselussa"
+
+#: admin/class-admin.php:471
+msgid "Twitter username (without @)"
+msgstr "Twitter-käyttäjänimi (ilman @)"
+
+#: admin/pages/metas.php:103
+msgid "Show date in snippet preview?"
+msgstr "Näytä päivämäärä esikatselussa?"
+
+#: admin/class-metabox.php:949
+msgid "SEO: OK"
+msgstr "SEO: Kunnossa"
+
+#: admin/class-metabox.php:948
+msgid "SEO: Poor"
+msgstr "SEO: Heikko"
+
+#: admin/class-metabox.php:947
+msgid "SEO: Bad"
+msgstr "SEO: Huono"
+
+#: admin/class-metabox.php:946
+msgid "SEO: No Focus Keyword"
+msgstr "SEO: Ei avainsanaa"
+
+#: admin/class-metabox.php:950
+msgid "SEO: Good"
+msgstr "SEO: Hyvä"
+
+#: admin/class-metabox.php:951
+msgid "SEO: Post Noindexed"
+msgstr "SEO: artikkeliin asetettu noindex"
+
+#: admin/class-metabox.php:984
+msgid "Meta Desc."
+msgstr "Meta-kuvaus"
+
+#: admin/class-metabox.php:985
+msgid "Focus KW"
+msgstr "Fokussana"
+
+#: inc/options/class-wpseo-option-titles.php:178
+msgid "%s, Author at %s"
+msgstr "%s, kohteen %s tekijä"
+
+#: admin/views/tab-permalinks.php:26
+msgid "Remove the <code>?replytocom</code> variables."
+msgstr "Poista <code>?replytocom</code> muuttujat."
+
+#: admin/pages/metas.php:22 admin/pages/xml-sitemaps.php:40
+msgid "Post Types"
+msgstr "Artikkelityypit"
+
+#: admin/views/tab-permalinks.php:25
+msgid "This prevents threaded replies from working when the user has JavaScript disabled, but on a large site can mean a <em>huge</em> improvement in crawl efficiency for search engines when you have a lot of comments."
+msgstr "Tämä estää ketjutettuja kommenttja toimimasta jos käyttäjä on estänyt Javascriptin, mutta suurilla sivustoilla sillä on <em>valtava</em> tehokkuutta parantava vaikutus jos sivustollasi on paljon kommentteja."
+
+#: inc/class-wpseo-replace-vars.php:1108
+msgid "Replaced with the post type single label"
+msgstr "Korvattu artikkelityypin erillistunnisteella"
+
+#: admin/class-pointers.php:278 admin/class-pointers.php:297
+#: admin/google_search_console/class-gsc-category-filters.php:117
+#: admin/pages/metas.php:25
+msgid "Other"
+msgstr "Muut"
+
+#: inc/class-wpseo-replace-vars.php:1109
+msgid "Replaced with the post type plural label"
+msgstr "Korvattu artikkelityypin monikkotunnisteella"
+
+#: inc/options/class-wpseo-option-titles.php:212
+msgid "%s Archive"
+msgstr "%s arkisto"
+
+#: admin/class-pointers.php:291
+msgid "Social settings"
+msgstr "Sosiaaliset asetukset"
+
+#: admin/class-pointers.php:275
+msgid "Sitewide settings"
+msgstr "Sivustonlaajuiset asetukset"
+
+#: frontend/class-frontend.php:514 frontend/class-frontend.php:517
+#: frontend/class-frontend.php:520 frontend/class-frontend.php:535
+#: frontend/class-frontend.php:538 frontend/class-frontend.php:541
+#: inc/options/class-wpseo-option-titles.php:228
+msgid "%s Archives"
+msgstr "%s arkistot"
+
+#: admin/class-taxonomy.php:77
+msgid "Always index"
+msgstr "Indeksoi aina"
+
+#: admin/class-metabox.php:1370
+msgid "No focus keyword was set for this %s. If you do not set a focus keyword, no score can be calculated."
+msgstr "Avainsanaa ei ole asetettu tälle %s. Jos et aseta tavoittelemaasi avainsanaa, tuloksia ei voida laskea."
+
+#: admin/class-metabox.php:1335
+msgid "To update this page analysis, save as draft or update and check this tab again"
+msgstr "Päivittääksesi tämän sivuanalyysin, tallenna luonnoksena tai päivitä ja tarkasta tämä välilehti uudelleen"
+
+#: admin/class-metabox.php:1956
+msgid "No subheading tags (like an H2) appear in the copy."
+msgstr "Alaotsikoita kuten (H2) ei löydy tekstistä."
+
+#: admin/class-metabox.php:2082
+msgid "The keyword density is %s%%, which is over the advised 4.5%% maximum, the keyword was found %s times."
+msgstr "Avainsanatiheys on %s%%, ylittäen suositellun 4,5%% maksimin. Avainsanaa löytyi %s kpl."
+
+#. translators: %1$s expands to Yoast SEO
+#: admin/pages/metas.php:39
+msgid "%1$s has auto-detected whether it needs to force rewrite the titles for your pages, if you think it's wrong and you know what you're doing, you can change the setting here."
+msgstr ""
+
+#: inc/class-wpseo-replace-vars.php:1127
+msgid "Replaced with a posts custom taxonomies, comma separated."
+msgstr "Korvataan artikkelin muokautetuilla taksonomioilla, erotettuna pilkulla."
+
+#: inc/class-wpseo-replace-vars.php:1126
+msgid "Replaced with a posts custom field value"
+msgstr "Korvattu mukautetun kentän arvolla"
+
+#: admin/pages/dashboard.php:157
+msgid "Take this tour to quickly learn about the use of this plugin."
+msgstr "Lähde opastetulle kierrokselle oppiaksesi nopeasti tämän lisäosan käytöstä."
+
+#: admin/pages/metas.php:208
+msgid "Special Pages"
+msgstr "Erikoissivut"
+
+#: admin/pages/metas.php:227
+msgid "I don't know why you'd want to use meta keywords, but if you want to, check this box."
+msgstr "En tiedä miksi haluaisit käyttää meta-avainsanoja, mutta jos haluat tehdä niin, valitse tämä valintaruutu."
+
+#: admin/pages/dashboard.php:241
+msgid "Unchecking this box allows authors and editors to redirect posts, noindex them and do other things you might not want if you don't trust your authors."
+msgstr "Valinnan poistaminen sallii tekijöiden ja muokkaajien uudelleenohjata artikkeleita, merkitä ne noindex-tilaan ja tehdä muita asioita joita et halua sallia jos et luota heihin."
+
+#: admin/class-metabox.php:417 admin/class-metabox.php:1004
+msgid "Post is set to noindex."
+msgstr "Artikkeli on asettettu tilaan noindex."
+
+#: admin/class-taxonomy.php:76
+msgid "Use %s default (Currently: %s)"
+msgstr "Käytä oletusta %s (nykyinen: %s)"
+
+#: admin/class-taxonomy.php:209
+msgid "This %s follows the indexation rules set under Metas and Titles, you can override it here."
+msgstr "%s on asetettu indeksointisääntöjä (Meta ja Otsikot -kohdasta), voit ohittaa asetuksen tässä."
+
+#: admin/class-admin.php:117 inc/wpseo-non-ajax-functions.php:412
+msgid "Titles &amp; Metas"
+msgstr "Otsikot &amp; Meta"
+
+#: admin/class-metabox.php:58
+msgid "Default for post type, currently: %s"
+msgstr "Vakiotyyppi artikkeleille, nykyinen: %s"
+
+#: admin/class-metabox.php:1018
+msgid "Focus keyword not set."
+msgstr "Tavoittelemaasi avainsanaa ei ole asetettu."
+
+#: frontend/class-frontend.php:455
+msgid "Search for \"%s\""
+msgstr "Haku \"%s\""
+
+#: admin/class-taxonomy.php:78
+msgid "Always noindex"
+msgstr "Aseta aina noindex"
+
+#: admin/pages/metas.php:225
+msgid "Noindex subpages of archives"
+msgstr "Merkitse arkiston alasivut noindex-parametrilla."
+
+#: admin/pages/metas.php:224
+msgid "If you want to prevent /page/2/ and further of any archive to show up in the search results, enable this."
+msgstr "Jos haluat estää arkistojen jatkosivuja (/page/2/ jne) näkymästä hakutuloksissa, kytke tämä käyttöön."
+
+#: admin/views/tab-permalinks.php:49
+msgid "Hide RSD Links"
+msgstr "Piilota RSD-linkit"
+
+#: admin/views/tab-permalinks.php:50
+msgid "Hide WLW Manifest Links"
+msgstr "Piilota Windows Live Writer Manifest -linkit"
+
+#: admin/views/tab-permalinks.php:51
+msgid "Hide Shortlink for posts"
+msgstr "Piilota artikkeleista Shortlink-toiminto (lyhytosoitteet)"
+
+#: admin/views/tab-permalinks.php:52
+msgid "Hide RSS Links"
+msgstr "Piilota RSS-linkit"
+
+#: admin/pages/metas.php:102 admin/pages/metas.php:142
+#: admin/pages/metas.php:163
+msgid "Meta Robots"
+msgstr "Meta Robots"
+
+#. translators: %1$s expands to Yoast SEO
+#: admin/pages/metas.php:105 admin/pages/metas.php:165
+msgid "Hide"
+msgstr "Piilota"
+
+#. translators: %s expands to <code>noindex, follow</code>
+#: admin/pages/metas.php:210
+msgid "These pages will be %s by default, so they will never show up in search results."
+msgstr ""
+
+#: inc/class-wpseo-replace-vars.php:1099
+msgid "The separator defined in your theme's <code>wp_title()</code> tag."
+msgstr "Teemasi <code>wp_title()</code>-tagissa määritetty välimerkki."
+
+#. translators: %s expands to Yoast SEO
+#: admin/pages/dashboard.php:185
+msgid "If you want to restore a site to the default %s settings, press this button."
+msgstr ""
+
+#: admin/pages/dashboard.php:150
+msgid "Security"
+msgstr "Tietoturva"
+
+#: admin/pages/social.php:74
+msgid "This image is used if the post/page being shared does not contain any images."
+msgstr "Tätä kuvaa käytetään jos jaettavassa sivussa/artikkelissa ei ole kuvia."
+
+#: admin/class-opengraph-admin.php:42 admin/class-pointers.php:294
+#: admin/pages/social.php:22
+msgid "Twitter"
+msgstr "Twitter"
+
+#: admin/pages/social.php:90
+msgid "Add Twitter card meta data"
+msgstr "Lisää Twitter card metadata"
+
+#: admin/class-metabox.php:431
+msgid "No focus keyword set."
+msgstr "Avainsanaa ei ole asetettu."
+
+#: admin/class-metabox.php:1359
+msgid "Your hosting environment does not support PHP's %sDocument Object Model%s."
+msgstr "Palvelinympäristösi ei tue PHP:n %sDocument Object Model%s-ominaisuutta."
+
+#: admin/class-metabox.php:1957
+msgid "Keyword / keyphrase appears in %s (out of %s) subheadings in the copy. While not a major ranking factor, this is beneficial."
+msgstr "Avainsana/-lause esiintyy %s / %s väliotsikossa. Tästä voi olla hyötyä hakutuloksen sijoittumisessa, vaikka se ei ole merkittävä tekijä."
+
+#: admin/class-metabox.php:1958
+msgid "You have not used your keyword / keyphrase in any subheading (such as an H2) in your copy."
+msgstr "Et ole käyttänyt avainsanaa/-lausetta leipätekstin välitosikoissa (kuten H2)."
+
+#: inc/options/class-wpseo-option-titles.php:179
+msgid "You searched for %s"
+msgstr "Hait kohdetta %s."
+
+#: inc/options/class-wpseo-option-rss.php:47
+msgid "The post %s appeared first on %s."
+msgstr "Artikkeli %s julkaistiin ensimmäisen kerran %s."
+
+#: admin/class-social-facebook.php:178
+msgid "Successfully cleared all Facebook Data"
+msgstr "Kaikki Facebook data tyhjennettiin onnistuneesti"
+
+#: admin/class-social-facebook.php:155
+msgid "Successfully removed admin %s"
+msgstr "%s poistettiin onnistuneesti haltijoista"
+
+#: admin/pages/social.php:57
+msgid "Frontpage settings"
+msgstr "Etusivun asetukset"
+
+#: admin/class-social-facebook.php:292
+msgid "Facebook Insights and Admins"
+msgstr "Facebook Insights ja adminit"
+
+#: admin/pages/dashboard.php:233
+msgid "Alexa Verification ID"
+msgstr "Alexa Verification ID"
+
+#: admin/class-admin.php:126 admin/class-opengraph-admin.php:75
+#: admin/class-opengraph-admin.php:86 inc/wpseo-non-ajax-functions.php:418
+msgid "Social"
+msgstr "Sosiaalinen media"
+
+#: admin/class-pointers.php:257
+msgid "Email"
+msgstr "Sähköposti"
+
+#: admin/class-pointers.php:259
+msgid "Subscribe"
+msgstr "Tilaa"
+
+#: admin/class-social-facebook.php:360
+msgid "Currently connected Facebook admins:"
+msgstr "Tällä hetkellä yhdistetyt Facebook hallitsijat:"
+
+#: admin/class-social-facebook.php:355
+msgid "Add Another Facebook Admin"
+msgstr "Lisää uusi Facebook hallitsija"
+
+#: admin/class-social-facebook.php:455
+msgid "Clear all Facebook Data"
+msgstr "Tyhjennä kaikki Facebook tiedostot"
+
+#: admin/pages/social.php:60 admin/pages/social.php:72
+msgid "Image URL"
+msgstr "Kuvalinkki"
+
+#: admin/pages/social.php:62 admin/views/tool-bulk-editor.php:35
+msgid "Description"
+msgstr "Selostus"
+
+#: admin/pages/social.php:71
+msgid "Default settings"
+msgstr "Alkuperäiset asetukset"
+
+#. translators: %1$s expands to Yoast SEO
+#: admin/class-export.php:112
+msgid "This is a settings export file for the %1$s plugin by Yoast.com"
+msgstr ""
+
+#: admin/class-admin.php:100 admin/class-admin.php:251
+#: admin/class-metabox.php:982 inc/wpseo-non-ajax-functions.php:261
+msgid "SEO"
+msgstr "SEO"
+
+#: inc/wpseo-non-ajax-functions.php:267
+msgid "Keyword Research"
+msgstr "Avainsanatutkimus"
+
+#: inc/wpseo-non-ajax-functions.php:273
+msgid "AdWords External"
+msgstr "AdWordsin Ulkoiset työkalut"
+
+#: inc/wpseo-non-ajax-functions.php:280
+msgid "Google Insights"
+msgstr "Googlen Hakutilastot"
+
+#: inc/wpseo-non-ajax-functions.php:287
+msgid "SEO Book"
+msgstr "SEO Book"
+
+#: inc/wpseo-non-ajax-functions.php:299
+msgid "Analyze this page"
+msgstr "Analysoi tätä sivua"
+
+#: inc/wpseo-non-ajax-functions.php:305
+msgid "Check Inlinks (OSE)"
+msgstr "Tarkista sisääntulevat linkit (OSE)"
+
+#: inc/wpseo-non-ajax-functions.php:312
+msgid "Check Keyword Density"
+msgstr "Tarkista avainsanatiheys"
+
+#: inc/wpseo-non-ajax-functions.php:319
+msgid "Check Google Cache"
+msgstr "Tarkista Googlen välimuisti"
+
+#: inc/wpseo-non-ajax-functions.php:326
+msgid "Check Headers"
+msgstr "Tarkista headerit"
+
+#: inc/wpseo-non-ajax-functions.php:401
+msgid "SEO Settings"
+msgstr "SEO-asetukset"
+
+#: admin/class-admin.php:135 admin/class-pointers.php:310
+#: inc/wpseo-non-ajax-functions.php:424
+msgid "XML Sitemaps"
+msgstr "XML-sivukartat"
+
+#: admin/pages/advanced.php:20
+msgid "Permalinks"
+msgstr "Osoiterakenne"
+
+#: admin/pages/advanced.php:24
+msgid "RSS"
+msgstr "RSS"
+
+#: admin/pages/dashboard.php:149
+msgid "Webmaster Tools"
+msgstr "Verkkovastaavan työkalut"
+
+#: admin/class-pointers.php:217
+msgid "Next"
+msgstr "Seuraava"
+
+#: admin/class-pointers.php:349
+msgid "Like this plugin?"
+msgstr "Pidätkö tästä lisäosasta?"
+
+#: admin/class-pointers.php:183
+msgid "Congratulations!"
+msgstr "Onneksi olkoon!"
+
+#: admin/class-pointers.php:191 admin/pages/dashboard.php:161
+msgid "Start Tour"
+msgstr "Aloita tutustuminen"
+
+#: admin/class-pointers.php:121
+msgid "Close"
+msgstr "Sulje"
+
+#: admin/ajax.php:119
+msgid "Some files could not be removed. Please remove them via FTP."
+msgstr "Joitain tiedostoja ei pystytty poistamaan. Poista tiedostot manuaalisesti FTP:llä."
+
+#: admin/class-metabox.php:1359
+msgid "To enjoy all the benefits of the page analysis feature, you'll need to (get your host to) install it."
+msgstr "Jotta voisit täysin hyödyntää sivuanalysointiominaisuutta, sinun täytyy asentaa se (tai pyytää palveluntarjoajaasi auttamaan)."
+
+#: admin/class-metabox.php:1645
+msgid "The keyword for this page contains one or more %sstop words%s, consider removing them. Found '%s'."
+msgstr "Sivun avainsanassa on yksi tai useampi %sstop words%s, voisiko sen/ne poistaa? Löydetty '%s'."
+
+#: admin/class-metabox.php:1659
+msgid "The keyword / phrase appears in the URL for this page."
+msgstr "Avainsana / -ilmaus esiintyy sivun URL:issa."
+
+#: admin/class-metabox.php:1660
+msgid "The keyword / phrase does not appear in the URL for this page. If you decide to rename the URL be sure to check the old URL 301 redirects to the new one!"
+msgstr "Avainsana / -ilmaus ei esiinny sivun URL:issa. Jos muokkaat osoitetta, muista tarkistaa, että vanhasta osoitteesta tulee uudelleenohjaus 301 redirect -koodilla!"
+
+#: admin/class-metabox.php:1661
+msgid "The slug for this page contains one or more <a href=\"http://en.wikipedia.org/wiki/Stop_words\">stop words</a>, consider removing them."
+msgstr "Sivun osoite sisältää yhden tai useamman <a href=\"http://en.wikipedia.org/wiki/Stop_words\">sulkusanan (stop words)</a>. Ne voisi poistaa."
+
+#: admin/class-metabox.php:1662
+msgid "The slug for this page is a bit long, consider shortening it."
+msgstr "Sivun nimi URL:ssä on melko pitkä, voisiko sitä lyhentää?"
+
+#: admin/class-metabox.php:1697
+msgid "Please create a page title."
+msgstr "Ole hyvä ja luo sivun otsikko."
+
+#: admin/class-metabox.php:1698
+msgid "The page title is more than 40 characters and less than the recommended 70 character limit."
+msgstr "Sivun otsikko (title) on pituudeltaan enemmän kuin 40 merkkiä, mutta alle suositellun 70 merkin rajan."
+
+#: admin/class-metabox.php:1699
+msgid "The page title contains %d characters, which is less than the recommended minimum of 40 characters. Use the space to add keyword variations or create compelling call-to-action copy."
+msgstr "Sivun otsikko sisältää %d merkkiä, joka on vähemmän kuin suositeltu 40 merkin vähimmäismäärä. Käytä tilaa luodaksesi avainsanoista variaatioita tai luo houkutteleva toimitakehotus."
+
+#: admin/class-metabox.php:1700
+msgid "The page title contains %d characters, which is more than the viewable limit of 70 characters; some words will not be visible to users in your listing."
+msgstr "Sivun otsikossa on %d merkkiä, ylittäen 70 merkin esitettävän maksimimitan; kaikki sanat eivät ole näkyvissä hakutuloksessa."
+
+#: admin/class-metabox.php:1701
+msgid "The keyword / phrase %s does not appear in the page title."
+msgstr "Hakusana / hakulause %s ei esiinny sivuston otsikossa."
+
+#: admin/class-metabox.php:1702
+msgid "The page title contains keyword / phrase, at the beginning which is considered to improve rankings."
+msgstr "Sivun otsikossa on avainsana / avainlause alussa. Tätä pidetään pisteytystä parantavana tekijänä."
+
+#: admin/class-metabox.php:1703
+msgid "The page title contains keyword / phrase, but it does not appear at the beginning; try and move it to the beginning."
+msgstr "Sivun otsikko sisältää avainsanan / -ilmauksen, mutta se ei sijaitse alussa, minne se kannattaisi yrittää siirtää."
+
+#: admin/class-metabox.php:1750
+msgid "No outbound links appear in this page, consider adding some as appropriate."
+msgstr "Sivulla ei ole ulospäin suuntautuvia linkkejä. Sopivien lisääminen voisi olla hyvä idea."
+
+#: admin/class-metabox.php:1751
+msgid "You're linking to another page with the keyword you want this page to rank for, consider changing that if you truly want this page to rank."
+msgstr "Linkität toiseen sivuun jolla on sama avainsana, jonka olet määrittänyt tälle sivulle - harkitse vaihtamista, jos haluat varmistua tämän sivun hyvästä pisteyttämisestä."
+
+#: admin/class-metabox.php:1752
+msgid "This page has %s outbound link(s)."
+msgstr "Tällä sivulla on %s ulossuuntautuvaa linkkiä."
+
+#: admin/class-metabox.php:1753
+msgid "This page has %s outbound link(s), all nofollowed."
+msgstr "Tällä sivulla on %s ulossuuntautuvaa linkkiä, jotka on kaikki asetettu nofollow-tilaan."
+
+#: admin/class-metabox.php:1754
+msgid "This page has %s nofollowed link(s) and %s normal outbound link(s)."
+msgstr "Tällä sivulla on %s nofollow-määritettyä linkkiä ja %s normaalia linkkiä."
+
+#: admin/class-metabox.php:1871
+msgid "No images appear in this page, consider adding some as appropriate."
+msgstr "Sivulla ei ole kuvia. Niitä voisi mahdollisuuksien mukaan lisätä."
+
+#: admin/class-metabox.php:1872
+msgid "The images on this page are missing alt tags."
+msgstr "Tällää sivulla olevista kuvista puuttuu vaihtoehtoinen teksti."
+
+#: admin/class-metabox.php:1873
+msgid "The images on this page contain alt tags with the target keyword / phrase."
+msgstr "Tällä sivulla olevat kuvat sisältävät tavoitellun avainsanan / lauseen kuvan vaihtoehtoisessa tekstissä."
+
+#: admin/class-metabox.php:1874
+msgid "The images on this page do not have alt tags containing your keyword / phrase."
+msgstr "Kuvat tällä sivulla eivät sisällä vaihtoehtoista tekstiä joka sisältäisi avainsanasi / lauseesi."
+
+#: admin/class-metabox.php:2019
+msgid "In the specified meta description, consider: How does it compare to the competition? Could it be made more appealing?"
+msgstr "Metakuvauksen yhteydessä: harkitse miten se vertautuu kilpailijoihin? Voisiko se olla houkuttelevampi?"
+
+#: admin/class-metabox.php:2020
+msgid "The meta description is under 120 characters, however up to %s characters are available. %s"
+msgstr "Meta-kuvaus on alle 120 merkkiä. Voit kuitenkin käyttää %s merkkiä jotka ovat vapaana. %s"
+
+#: admin/class-metabox.php:2021
+msgid "The specified meta description is over %s characters, reducing it will ensure the entire description is visible. %s"
+msgstr "Asetettu metakuvaus on %s merkin pituinen, lyhyempi kuvaus näkyy varmemmin kokonaisuudessaan. %s"
+
+#: admin/class-metabox.php:2022
+msgid "No meta description has been specified, search engines will display copy from the page instead."
+msgstr "Meta-kuvausta ei ole asetettu, hakukoneet näyttävät kopion sivusta sen sijasta."
+
+#: admin/class-metabox.php:2023
+msgid "The meta description contains the primary keyword / phrase."
+msgstr "Tämä meta selostus sisältää tärkeimmän avainsanan / lauseen."
+
+#: admin/class-metabox.php:2024
+msgid "A meta description has been specified, but it does not contain the target keyword / phrase."
+msgstr "Meta-kuvaus on annettu, mutta se ei sisällä kohdennettua hakusanaa / hakulausetta."
+
+#: admin/class-metabox.php:2028
+msgid "The available space is shorter than the usual 155 characters because Google will also include the publication date in the snippet."
+msgstr "Käytettävissä oleva merkkimäär on tavallista pienempi, koska Google sisällyttää myös julkaisupäivämäärän sisältöotteeseen."
+
+#: admin/class-metabox.php:2079
+msgid "There are %d words contained in the body copy. This is far too low and should be increased."
+msgstr "Sivun leipätekstissä on %d sanaa. Se on aivan liian vähän ja määrää kannattaisi lisätä."
+
+#: admin/class-metabox.php:2081
+msgid "The keyword density is %s%%, which is a bit low, the keyword was found %s times."
+msgstr "Avainsanatiheys on %s%%, mikä on hieman alhainen määrä. Avainsana esiintyy sivulla %s kertaa."
+
+#: admin/class-metabox.php:2083
+msgid "The keyword density is %s%%, which is great, the keyword was found %s times."
+msgstr "Avainsanatiheys on %s%%. Hienoa! Avainsana esiintyy sivulla %s kertaa."
+
+#: admin/class-metabox.php:2085
+msgid "The keyword doesn't appear in the first paragraph of the copy, make sure the topic is clear immediately."
+msgstr "Avainsanaa ei ole käytetty leipätekstin ensimmäisessä kappaleessa, varmistathan että sisällön aihe on välittömästi esillä"
+
+#: admin/class-metabox.php:2086
+msgid "The keyword appears in the first paragraph of the copy."
+msgstr "Avainsana esiintyy leipätekstin ensimmäisessä kappaleessa."
+
+#: admin/class-metabox.php:2088
+msgid "Flesch Reading Ease"
+msgstr "Flesch-luettavuusarvio"
+
+#: admin/class-metabox.php:2089
+msgid "The copy scores %s in the %s test, which is considered %s to read. %s"
+msgstr "Teksti saa pisteet %s testissä %s, joten se on luettavuudeltaan '%s'. %s"
+
+#: admin/class-metabox.php:2163
+msgid "very easy"
+msgstr "erittäin helppo"
+
+#: admin/class-metabox.php:2167
+msgid "easy"
+msgstr "helppo"
+
+#: admin/class-metabox.php:2171
+msgid "fairly easy"
+msgstr "suhteellisen helppo"
+
+#: admin/class-metabox.php:2175 inc/class-wpseo-utils.php:213
+msgid "OK"
+msgstr "OK"
+
+#: admin/class-metabox.php:2179
+msgid "fairly difficult"
+msgstr "melko hankala"
+
+#: admin/class-metabox.php:2180
+msgid "Try to make shorter sentences to improve readability."
+msgstr "Lyhyemmät lauseet parantavat luettavuutta."
+
+#: admin/class-metabox.php:2184
+msgid "difficult"
+msgstr "hankala"
+
+#: admin/class-metabox.php:2185 admin/class-metabox.php:2190
+msgid "Try to make shorter sentences, using less difficult words to improve readability."
+msgstr "Lyhyemmät lauseet ja vähemmän vaikeat sanat parantavat luettavuutta."
+
+#: admin/class-metabox.php:2189
+msgid "very difficult"
+msgstr "erittäin hankala"
+
+#: admin/class-admin.php:373
+msgid "Huge SEO Issue: You're blocking access to robots."
+msgstr "Valtaisa SEO-ongelma: olet estänyt hakukoneiden (robots) pääsyn sivustolle."
+
+#: admin/class-admin.php:376 admin/class-admin.php:411
+msgid "I know, don't bug me."
+msgstr "Tiedän, älä häiritse minua tällä asialla enempää."
+
+#: admin/pages/network.php:24
+msgid "Settings Updated."
+msgstr "Asetukset on tallennettu."
+
+#: admin/pages/network.php:96
+msgid "Site Admins (default)"
+msgstr "Sivuston ylläpitäjät (oletus)"
+
+#: admin/pages/network.php:97
+msgid "Super Admins only"
+msgstr "Ainoastaan Järjestelmänvalvoja (Super Admin)"
+
+#: admin/pages/network.php:118
+msgid "Save MultiSite Settings"
+msgstr "Tallenna MultiSite-asetukset"
+
+#: admin/class-admin.php:251 admin/pages/network.php:86
+msgid "MultiSite Settings"
+msgstr "MultiSite-asetukset"
+
+#: admin/pages/network.php:124
+msgid "Using this form you can reset a site to the default SEO settings."
+msgstr "Tällä lomakkeella voit palauttaa sivuston SEO-asetukset."
+
+#: admin/pages/network.php:136
+msgid "Blog ID"
+msgstr "Blogin ID"
+
+#: admin/pages/network.php:139
+msgid "Restore site to defaults"
+msgstr "Palauta sivusto oletusasetuksiin"
+
+#: admin/pages/network.php:121
+msgid "Restore site to default settings"
+msgstr "Palauta sivu alkuperäisiin asetuksiin"
+
+#: admin/class-import-external.php:168
+msgid "RSS Footer options imported successfully."
+msgstr "RSS Footer asetukset lisätty onnistuneesti."
+
+#: admin/class-import-external.php:189
+msgid "Yoast Breadcrumbs options imported successfully."
+msgstr "Yoast-murupolun asetukset tuotiin onnistuneesti."
+
+#: admin/class-import-external.php:192
+msgid "Yoast Breadcrumbs options could not be found"
+msgstr "Yoast-murupolun asetuksia ei löytynyt"
+
+#: admin/views/tool-import-export.php:137
+msgid "No doubt you've used an SEO plugin before if this site isn't new. Let's make it easy on you, you can import the data below. If you want, you can import first, check if it was imported correctly, and then import &amp; delete. No duplicate data will be imported."
+msgstr "Jos tämä sivusto ei ole uusi, olet varmaankin käyttänyt SEO-lisäosaa. Siirtyminen on tehty helpoksi - voit tuoda tietosi allaolevalla toiminnolla. Jos haluat, voit suorittaa tuonnin ja tarkistaa datan oikeellisuuden, ja sen jälkeen suorittaa tuonnin ja poiston. Toiminto ei luo duplikaatteja."
+
+#: admin/views/tool-import-export.php:139
+msgid "If you've used another SEO plugin, try the %sSEO Data Transporter%s plugin to move your data into this plugin, it rocks!"
+msgstr "Jos olet käyttänyt toista SEO-pluginia, testaa %sSEO Data Transporter%s -pluginia siirtääksesi tietoja tähän pluginiin."
+
+#: admin/views/tool-import-export.php:146
+msgid "Import from HeadSpace2?"
+msgstr "HeadSpace2?"
+
+#: admin/views/tool-import-export.php:147
+msgid "Import from All-in-One SEO?"
+msgstr "All-in-One SEO?"
+
+#: admin/views/tool-import-export.php:152
+msgid "Delete the old data after import? (recommended)"
+msgstr "Poista vanha data lisäyksen jälkeen? (suositeltavaa)"
+
+#: admin/views/tool-import-export.php:92 admin/views/tool-import-export.php:156
+#: admin/views/tool-import-export.php:182
+msgid "Import"
+msgstr "Tuo"
+
+#: admin/views/tool-import-export.php:170
+msgid "Import from Robots Meta (by Yoast)?"
+msgstr "Robots Meta (by Yoast)?"
+
+#: admin/views/tool-import-export.php:171
+msgid "Import from RSS Footer (by Yoast)?"
+msgstr "RSS Footer (by Yoast)?"
+
+#: admin/views/tool-import-export.php:172
+msgid "Import from Yoast Breadcrumbs?"
+msgstr "Yoast Breadcrumbs?"
+
+#: admin/views/tool-import-export.php:93
+msgid "Export"
+msgstr "Vienti"
+
+#. translators: %1$s expands to Yoast SEO
+#: admin/views/tool-import-export.php:124
+msgid "Export your %1$s settings here, to import them again later or to import them on another site."
+msgstr ""
+
+#: admin/views/tool-import-export.php:126
+msgid "Include Taxonomy Metadata"
+msgstr "Sisällytä luokittelun metatiedot"
+
+#: admin/views/tool-import-export.php:117
+msgid "Import settings"
+msgstr "Tuo asetukset"
+
+#: admin/class-import.php:148
+msgid "Settings successfully imported."
+msgstr "Asetusten tuonti onnistui."
+
+#: admin/class-import.php:76 admin/class-import.php:82
+#: admin/class-import.php:88 admin/class-import.php:120
+#: admin/class-import.php:127 admin/class-import.php:151
+msgid "Settings could not be imported:"
+msgstr "Asetusten tuominen ei onnistunut."
+
+#: admin/class-import.php:88
+msgid "Upload failed."
+msgstr "Siirto epäonnistui."
+
+#: admin/pages/metas.php:33
+msgid "Force rewrite titles"
+msgstr "Pakota otsikoiden uudelleenkirjoitus"
+
+#: admin/pages/metas.php:21 admin/pages/metas.php:59
+msgid "Homepage"
+msgstr "Etusivu"
+
+#: admin/pages/metas.php:60 admin/pages/metas.php:97 admin/pages/metas.php:158
+#: admin/pages/metas.php:177 admin/pages/metas.php:184
+#: admin/pages/metas.php:212 admin/pages/metas.php:215
+msgid "Title template"
+msgstr "Otsikon muoto"
+
+#: admin/pages/metas.php:61 admin/pages/metas.php:98 admin/pages/metas.php:159
+#: admin/pages/metas.php:178 admin/pages/metas.php:185
+msgid "Meta description template"
+msgstr "Meta descriptionin muoto"
+
+#: admin/pages/metas.php:63 admin/pages/metas.php:100 admin/pages/metas.php:161
+#: admin/pages/metas.php:180
+msgid "Meta keywords template"
+msgstr "Meta keywordsin muoto"
+
+#: admin/pages/metas.php:68
+msgid "Homepage &amp; Front page"
+msgstr "Etusivu ja blogilistaus"
+
+#: admin/pages/metas.php:69
+msgid "You can determine the title and description for the front page by %sediting the front page itself &raquo;%s"
+msgstr "Voit määritellä etusivun otsikon ja kuvauksen %sediting etusivua itseään &raquo;%s"
+
+#: admin/pages/metas.php:72
+msgid "You can determine the title and description for the blog page by %sediting the blog page itself &raquo;%s"
+msgstr "Voit asettaa otsikon ja kuvauksen blogisivulle %sediting the blog page itself &raquo;%s"
+
+#: admin/pages/metas.php:23 admin/pages/xml-sitemaps.php:43
+msgid "Taxonomies"
+msgstr "Luokittelut"
+
+#: admin/pages/metas.php:176
+msgid "Author Archives"
+msgstr "Julkaisijan arkisto"
+
+#: admin/pages/metas.php:183
+msgid "Date Archives"
+msgstr "Päivämääräarkistot"
+
+#: admin/pages/metas.php:211
+msgid "Search pages"
+msgstr "Hakusivut"
+
+#: admin/pages/metas.php:214
+msgid "404 pages"
+msgstr "404-sivut"
+
+#: admin/pages/metas.php:127
+msgid "Custom Post Type Archives"
+msgstr "Mukautettujen artikkelityyppien arkistot"
+
+#: admin/pages/metas.php:128
+msgid "Note: instead of templates these are the actual titles and meta descriptions for these custom post type archive pages."
+msgstr "Huom: mallipohjien sijaan nämä ovat mukautetun artikkelityypin arkistosivun asetetut metakuvaukset ja otsikko."
+
+#: admin/pages/metas.php:134 admin/pages/social.php:61
+#: admin/views/tool-bulk-editor.php:33
+msgid "Title"
+msgstr "Otsikko"
+
+#: admin/class-metabox.php:46 admin/pages/metas.php:135
+msgid "Meta description"
+msgstr "Meta selostus"
+
+#: admin/class-metabox.php:76
+msgid "Breadcrumbs Title"
+msgstr "Murupolun otsikko"
+
+#: inc/class-wpseo-replace-vars.php:1085
+msgid "Replaced with the date of the post/page"
+msgstr "Korvattu artikkelin/sivun päiväyksellä"
+
+#: inc/class-wpseo-replace-vars.php:1086
+msgid "Replaced with the title of the post/page"
+msgstr "Korvataan artikkelin/sivun otsikolla"
+
+#: inc/class-wpseo-replace-vars.php:1088
+msgid "The site's name"
+msgstr "Sivuston nimi"
+
+#: inc/class-wpseo-replace-vars.php:1090
+msgid "Replaced with the post/page excerpt (or auto-generated if it does not exist)"
+msgstr "Korvattu artikkelin/sivun leipätekstiotteella (tai automaattisesti muodostetulla otteella, jos varsinaista otetta ei ole asetettu)"
+
+#: inc/class-wpseo-replace-vars.php:1091
+msgid "Replaced with the post/page excerpt (without auto-generation)"
+msgstr "Korvattu artikkelin/sivun leipätekstiotteella (mutta ei automaattisesti luotua otetta)"
+
+#: inc/class-wpseo-replace-vars.php:1092
+msgid "Replaced with the current tag/tags"
+msgstr "Korvattu nykyisillä tageillä"
+
+#: inc/class-wpseo-replace-vars.php:1093
+msgid "Replaced with the post categories (comma separated)"
+msgstr "Korvataan artikkelin kategorioilla (pilkulla erotettuna)"
+
+#: inc/class-wpseo-replace-vars.php:1094
+msgid "Replaced with the category description"
+msgstr "Korvataan kategorian kuvauksella"
+
+#: inc/class-wpseo-replace-vars.php:1095
+msgid "Replaced with the tag description"
+msgstr "Korvattu tagin kuvauksella"
+
+#: inc/class-wpseo-replace-vars.php:1096
+msgid "Replaced with the term description"
+msgstr "Korvattu termin kuvauksella"
+
+#: inc/class-wpseo-replace-vars.php:1097
+msgid "Replaced with the term name"
+msgstr "Korvattu termin nimellä"
+
+#: inc/class-wpseo-replace-vars.php:1110
+msgid "Replaced with the post/page modified time"
+msgstr "Korvattu artikkelin/sivun muokkauskellonajalla"
+
+#: inc/class-wpseo-replace-vars.php:1111
+msgid "Replaced with the post/page ID"
+msgstr "Korvattu artikkelin/sivun ID:llä"
+
+#: inc/class-wpseo-replace-vars.php:1112
+msgid "Replaced with the post/page author's 'nicename'"
+msgstr "Korvattu artikkelin/sivun tekijän 'lempinimellä'"
+
+#: inc/class-wpseo-replace-vars.php:1114
+msgid "Replaced with the post/page author's userid"
+msgstr "Korvattu artikkelin/sivun tekijän userid:llä"
+
+#: inc/class-wpseo-replace-vars.php:1098
+msgid "Replaced with the current search phrase"
+msgstr "Korvattu nykyisellä hakulauseella"
+
+#: inc/class-wpseo-replace-vars.php:1115
+msgid "Replaced with the current time"
+msgstr "Korvattu nykyisellä kellonajalla"
+
+#: inc/class-wpseo-replace-vars.php:1116
+msgid "Replaced with the current date"
+msgstr "Korvattu nykyisellä päivämäärällä"
+
+#: inc/class-wpseo-replace-vars.php:1118
+msgid "Replaced with the current month"
+msgstr "Korvattu kuluvalla kuukaudella"
+
+#: inc/class-wpseo-replace-vars.php:1119
+msgid "Replaced with the current year"
+msgstr "Korvattu kuluvalla vuodella"
+
+#: inc/class-wpseo-replace-vars.php:1121
+msgid "Replaced with the current page total"
+msgstr "Korvattu nykyisellä sivujen kokonaismäärällä"
+
+#: inc/class-wpseo-replace-vars.php:1122
+msgid "Replaced with the current page number"
+msgstr "Korvattu nykyisellä sivunumerolla"
+
+#: inc/class-wpseo-replace-vars.php:1123
+msgid "Attachment caption"
+msgstr "Liitekuvaus"
+
+#: inc/class-wpseo-replace-vars.php:1124
+msgid "Replaced with the posts focus keyword"
+msgstr "Korvattu artikkelin kohdeasiasanalla"
+
+#: admin/views/tab-permalinks.php:16
+msgid "Strip the category base (usually <code>/category/</code>) from the category URL."
+msgstr "Poista kategoria (yleensä <code>/category/</code>) kategorian URL:stä."
+
+#: admin/views/tab-permalinks.php:30
+msgid "Enforce a trailing slash on all category and tag URL's"
+msgstr "Käytä kategorioiden ja tagien URL:ien lopussa /-merkkiä."
+
+#: admin/views/tab-permalinks.php:29
+msgid "If you choose a permalink for your posts with %1$s, or anything else but a %2$s at the end, this will force WordPress to add a trailing slash to non-post pages nonetheless."
+msgstr ""
+
+#: admin/views/tab-permalinks.php:19
+msgid "Redirect attachment URL's to parent post URL."
+msgstr "Osoita liitteiden URL lähdeartikkelin URL:iin."
+
+#: admin/views/tab-permalinks.php:18
+msgid "Attachments to posts are stored in the database as posts, this means they're accessible under their own URL's if you do not redirect them, enabling this will redirect them to the post they were attached to."
+msgstr "Artikkelien liitteet säilytetään tietokannassa artikkeleina, joten niillä on oma URL:nsä ellet uudelleenohjaa niitä. Tämä asetus kääntää URL:n artikkeliin johon liite kuuluu."
+
+#: admin/views/tab-permalinks.php:33
+msgid "Redirect ugly URL's to clean permalinks. (Not recommended in many cases!)"
+msgstr "Uudelleenohjaa rumat URL:it siisteihin permalinkkeihin. (Ei suositeltavaa monissa tapauksissa!)"
+
+#: admin/views/tab-permalinks.php:32
+msgid "People make mistakes in their links towards you sometimes, or unwanted parameters are added to the end of your URLs, this allows you to redirect them all away. Please note that while this is a feature that is actively maintained, it is known to break several plugins, and should for that reason be the first feature you disable when you encounter issues after installing this plugin."
+msgstr "Toisinaan linkeissä sivustollesi on virheitä, tai URLin lopussa on turhia parametrejä. Tällä toiminnolla voit edelleenohjata pois. Huonaathan, että vaikka ominaisuutta ylläpidetään, se voi rikkoa useiden pluginien toiminnan. Poista ominaisuus käytöstä ensin jos havaitset ongelmia käyttöönoton jälkeen."
+
+#: admin/views/tab-permalinks.php:37
+msgid "Prevent cleaning out Google Site Search URL's."
+msgstr "Estä Google Site Search URLien puhdistaminen."
+
+#: admin/views/tab-permalinks.php:36
+msgid "Google Site Search URL's look weird, and ugly, but if you're using Google Site Search, you probably do not want them cleaned out."
+msgstr "Google Site Search URLit näyttävät oudoilta, mutta jos käytät sit sivustollasi, et todennäköisesti halua niit siivottaviksi."
+
+#: admin/views/tab-permalinks.php:44
+msgid "Other variables not to clean"
+msgstr "Muut säilytettävät parametrit"
+
+#: admin/views/tab-breadcrumbs.php:17
+msgid "Enable Breadcrumbs"
+msgstr "Ota käyttöön muropolku"
+
+#: admin/views/tab-breadcrumbs.php:21
+msgid "Separator between breadcrumbs"
+msgstr "Murupolun erotinmerkki"
+
+#: admin/views/tab-breadcrumbs.php:22
+msgid "Anchor text for the Homepage"
+msgstr "Linkkiteksti kotisivulle."
+
+#: admin/views/tab-breadcrumbs.php:23
+msgid "Prefix for the breadcrumb path"
+msgstr "Murupolun etuliite"
+
+#: admin/views/tab-breadcrumbs.php:24
+msgid "Prefix for Archive breadcrumbs"
+msgstr "Arkistobreadcumbien etuliite"
+
+#: admin/views/tab-breadcrumbs.php:25
+msgid "Prefix for Search Page breadcrumbs"
+msgstr "Etuliite hakusivun murupolussa"
+
+#: admin/views/tab-breadcrumbs.php:26
+msgid "Breadcrumb for 404 Page"
+msgstr "404-sivun murupolku"
+
+#: admin/views/tab-breadcrumbs.php:29
+msgid "Remove Blog page from Breadcrumbs"
+msgstr "Poista sivu breadcrumbeista"
+
+#: admin/class-metabox.php:69 admin/pages/network.php:53
+#: admin/views/tab-breadcrumbs.php:40 admin/views/tab-breadcrumbs.php:57
+#: inc/class-wpseo-meta.php:397
+msgid "None"
+msgstr "Ei mitään"
+
+#: admin/views/tab-breadcrumbs.php:59
+msgid "Blog"
+msgstr "Blogi"
+
+#: admin/views/tab-breadcrumbs.php:31
+msgid "Bold the last page in the breadcrumb"
+msgstr "Lihavoi breadcrumbin viimeinen sivu"
+
+#: admin/views/tab-breadcrumbs.php:79
+msgid "How to insert breadcrumbs in your theme"
+msgstr "Kuinka murupolku lisätään käytettävään teemaan."
+
+#: admin/views/tool-file-editor.php:33
+msgid "You cannot edit the robots.txt file."
+msgstr "Et voi muokata robots.txt -tiedostoa."
+
+#: admin/views/tool-file-editor.php:44
+msgid "Updated Robots.txt"
+msgstr "Robots.txt päivitetty."
+
+#: admin/views/tool-file-editor.php:51
+msgid "You cannot edit the .htaccess file."
+msgstr "Et voi muokata .htaccess -tiedostoa."
+
+#: admin/views/tool-file-editor.php:101
+msgid "If your robots.txt were writable, you could edit it from here."
+msgstr "Jos robots.txt -tiedostoon voisi kirjoittaa, sen muokkaaminen kävisi tästä."
+
+#: admin/views/tool-file-editor.php:107
+msgid "Edit the content of your robots.txt:"
+msgstr "Muokkaa robots.txt:n sisältöä:"
+
+#: admin/views/tool-file-editor.php:109
+msgid "Save changes to Robots.txt"
+msgstr "Tallenna robots.txt:n muutokset"
+
+#: admin/views/tool-file-editor.php:77
+msgid "Robots.txt"
+msgstr "Robots.txt"
+
+#: admin/views/tool-file-editor.php:125
+msgid "If your .htaccess were writable, you could edit it from here."
+msgstr "Jos .htaccess -tiedostoon voisi kirjoittaa, sen muokkaaminen onnistuisi tästä."
+
+#: admin/views/tool-file-editor.php:131
+msgid "Edit the content of your .htaccess:"
+msgstr "Muokkaa .htaccess -tiedoston sisältöä:"
+
+#: admin/views/tool-file-editor.php:133
+msgid "Save changes to .htaccess"
+msgstr "Tallenna .htaccess:in muutokset"
+
+#: admin/views/tool-file-editor.php:114
+msgid ".htaccess file"
+msgstr ".htaccess -tiedosto"
+
+#: admin/class-social-facebook.php:387
+msgid "Facebook App ID"
+msgstr "Facebook App ID"
+
+#: admin/pages/metas.php:198
+msgid "Disable the author archives"
+msgstr "Poista tekijäarkistot pois käytöstä."
+
+#: admin/pages/metas.php:204
+msgid "Disable the date-based archives"
+msgstr "Poista päivämääräpohjaiset arkistot käytöstä."
+
+#: admin/pages/metas.php:230
+msgid "Prevents search engines from using the DMOZ description for pages from this site in the search results."
+msgstr "Estää hakukoneita käyttämästä hakutuloksissa DMOZ-kuvausta tämän sivuston sivuille."
+
+#: admin/pages/metas.php:234
+msgid "Prevents search engines from using the Yahoo! directory description for pages from this site in the search results."
+msgstr "Estä hakukoneita käyttämästä hakutuloksissa sivuston Yahoo!-hakemiston kuvausta."
+
+#: admin/views/tab-rss.php:15
+msgid "This feature is used to automatically add content to your RSS, more specifically, it's meant to add links back to your blog and your blog posts, so dumb scrapers will automatically add these links too, helping search engines identify you as the original source of the content."
+msgstr "Ominaisuudella lisätään automaattisesti sisältöä RSS-syötteeseen. Tarkkaanottaen sillä on tarkoitus lisätä paluulinkiy blogiisi ja blogiartikkeleihin, jotta kerättäessä myös linkit lisätään mukaan, niin että hakukoneet löytvät alkuperäisen sisältösi helpommin."
+
+#: admin/views/tab-rss.php:21
+msgid "Content to put before each post in the feed"
+msgstr "Jokaisen artikkelin alkuun sijoitettava sisältö"
+
+#: admin/views/tab-rss.php:25
+msgid "You can use the following variables within the content, they will be replaced by the value on the right."
+msgstr "Voit käyttää näitä muuttujia sisällössä, ne korvataan vastaavilla arvoilla (oikea sarake)."
+
+#: admin/views/tab-rss.php:29
+msgid "A link to the archive for the post author, with the authors name as anchor text."
+msgstr "Linkki tekijän artikkeliarkistoon, tekijän nimi linkkitekstinä."
+
+#: admin/views/tab-rss.php:33
+msgid "A link to the post, with the title as anchor text."
+msgstr "Linkki artikkeliin, otsikko linkkitekstinä."
+
+#: admin/views/tab-rss.php:37
+msgid "A link to your site, with your site's name as anchor text."
+msgstr "Linkki sivustollesi, jossa sivuston nimi toimii ankkuritekstinä."
+
+#: admin/views/tab-rss.php:41
+msgid "A link to your site, with your site's name and description as anchor text."
+msgstr "Lisää linkki sivustoosi, linkketekstinä on sivuston nimi ja kuvaus."
+
+#: admin/pages/xml-sitemaps.php:29
+msgid "Check this box to enable XML sitemap functionality."
+msgstr "Käytä XML-sivukarttatoimintoa."
+
+#: admin/pages/xml-sitemaps.php:51
+msgid "You can find your XML Sitemap here: %sXML Sitemap%s"
+msgstr "Löydät XML-sivukarttasi täältä: %sXML-sivukartta%s"
+
+#: admin/pages/xml-sitemaps.php:54
+msgid "You do <strong>not</strong> need to generate the XML sitemap, nor will it take up time to generate after publishing a post."
+msgstr "Sinun <strong>ei</strong> tarvitse luoda XML-sivukarttaa, eikä sen luominen vie aikaa artikkelin julkaisun jälkeen."
+
+#: admin/pages/xml-sitemaps.php:58
+msgid "Save your settings to activate XML Sitemaps."
+msgstr "Tallenna asetukset aktivoidaksesi XML-sivukartat."
+
+#: admin/class-pointers.php:239
+msgid "General settings"
+msgstr "Yleiset asetukset"
+
+#: admin/pages/xml-sitemaps.php:96
+msgid "Please check the appropriate box below if there's a post type that you do <strong>NOT</strong> want to include in your sitemap:"
+msgstr "Valitse alta ne artikkelityypit joita <strong>ET</strong> halua sisällyttää sitemapiin."
+
+#: admin/pages/xml-sitemaps.php:119
+msgid "Please check the appropriate box below if there's a taxonomy that you do <strong>NOT</strong> want to include in your sitemap:"
+msgstr "Ole hyvä ja tarkista alla olevasta laatikosta onko siellä mitään luokittelua, jota <strong>ET</strong> halua sisällyttää sivukarttaasi:"
+
+#: admin/pages/dashboard.php:104 admin/pages/dashboard.php:119
+#: admin/pages/dashboard.php:130 admin/pages/dashboard.php:137
+msgid "Fix it."
+msgstr "Korjaa."
+
+#: admin/pages/dashboard.php:105
+msgid "The following file(s) is/are blocking your XML sitemaps from working properly:"
+msgstr "Seuraavat tiedostot estävät XML-sivukarttaasi toimimasta:"
+
+#. translators: %1$s expands to Yoast SEO
+#: admin/pages/dashboard.php:112
+msgid "Either delete them (this can be done with the \"Fix it\" button) or disable %1$s XML sitemaps."
+msgstr ""
+
+#: admin/pages/dashboard.php:131 admin/pages/dashboard.php:138
+msgid "Ignore."
+msgstr "Jätä huomioimatta."
+
+#: admin/pages/dashboard.php:132
+msgid "You do not have your postname in the URL of your posts and pages, it is highly recommended that you do. Consider setting your permalink structure to <strong>/%postname%/</strong>."
+msgstr "Artikkelinimeä ei näytetä artikkelien ja sivujen URL:ssä, mutta suosittelemme sitä. Harkitse voisitko asettaa permalinkkien tyypiksi <strong>/%postname%/</strong>."
+
+#: admin/pages/dashboard.php:139
+msgid "Paging comments is enabled, this is not needed in 999 out of 1000 cases, so the suggestion is to disable it, to do that, simply uncheck the box before \"Break comments into pages...\""
+msgstr "Kommenttien sivutus on sallittu - tämä ei yleensä ole tarpeen, joten suositus on  poistaa asetus. Poista tällöin käytöstä \"Jaa kommentit sivuihin...\"."
+
+#: admin/class-admin.php:100
+msgid "General Settings"
+msgstr "Yleiset asetukset"
+
+#: admin/pages/dashboard.php:232
+msgid "You can use the boxes below to verify with the different Webmaster Tools, if your site is already verified, you can just forget about these. Enter the verify meta values for:"
+msgstr "Voit käyttää näitä laatikoita vahvistaaksesi eri palveluiden verkkovastaavan työkalut. Mikäli sivustosi on jo vahvistettu, voit jättää nämä huomioimatta. Syötä vahvistuskoodit:"
+
+#: admin/pages/dashboard.php:234
+msgid "Bing Webmaster Tools"
+msgstr "Bingin Verkkovastaavan työkalut"
+
+#: admin/views/user-profile.php:16
+msgid "Title to use for Author page"
+msgstr "Tekijä-sivun otsikko"
+
+#: admin/views/user-profile.php:25
+msgid "Meta description to use for Author page"
+msgstr "Tekijä-sivun metakuvaus"
+
+#: admin/views/user-profile.php:36
+msgid "Meta keywords to use for Author page"
+msgstr "Tekijä-sivun meta-avainsanat"
+
+#: admin/class-admin.php:427
+#: admin/google_search_console/class-gsc-platform-tabs.php:40
+msgid "Settings"
+msgstr "Asetukset"
+
+#: admin/class-metabox.php:42 admin/class-metabox.php:983
+#: admin/class-taxonomy.php:188
+msgid "SEO Title"
+msgstr "SEO otsikko"
+
+#: admin/class-taxonomy.php:188
+msgid "The SEO title is used on the archive page for this term."
+msgstr "SEO-otsikkoa käytetään termin arkistosivulla."
+
+#: admin/class-taxonomy.php:189
+msgid "SEO Description"
+msgstr "SEO-kuvaus"
+
+#: admin/class-taxonomy.php:189
+msgid "The SEO description is used for the meta description on the archive page for this term."
+msgstr "SEO-kuvausta käytetään metakuvaukseen tämän termin arkistosivulla."
+
+#: admin/class-taxonomy.php:192
+msgid "Meta keywords used on the archive page for this term."
+msgstr "Meta-avainsanat joita käytetään tämän termin arkistosivulla."
+
+#: admin/class-taxonomy.php:195
+msgid "Canonical"
+msgstr "Kanoninen"
+
+#: admin/class-taxonomy.php:195
+msgid "The canonical link is shown on the archive page for this term."
+msgstr "Canonical-linkki näytetään termin arkistosivulla."
+
+#: admin/class-taxonomy.php:198
+msgid "The Breadcrumbs title is used in the breadcrumbs where this %s appears."
+msgstr "Breadcrumb-otsikkoa käytetään breadcrumbeissa joihin %s sisältyy."
+
+#: admin/class-taxonomy.php:214
+msgid "Noindex this %s"
+msgstr "Merkitse tämä %s noindex-tilaan."
+
+#: admin/class-taxonomy.php:218
+msgid "Include in sitemap?"
+msgstr "Sisällytä sivukarttaan?"
+
+#: admin/class-taxonomy.php:80
+msgid "Auto detect"
+msgstr "Tunnista automaattisesti"
+
+#: admin/class-taxonomy.php:81
+msgid "Always include"
+msgstr "Sisällytä aina"
+
+#: admin/class-taxonomy.php:82
+msgid "Never include"
+msgstr "Älä koskaan sisällytä"
+
+#: admin/class-metabox.php:494
+msgid " (because of date display)"
+msgstr "(päivämäärän esittämisen vuoksi)"
+
+#: admin/class-metabox.php:36
+msgid "Snippet Preview"
+msgstr "Otteen esikatselu"
+
+#: admin/class-metabox.php:39
+msgid "Focus Keyword"
+msgstr "Kohdeavainsana"
+
+#: admin/class-metabox.php:47
+msgid "The <code>meta</code> description will be limited to %s chars%s, %s chars left."
+msgstr "<code>Meta</code>-kuvaus on rajoitettu %s merkkiin%s, %s merkkiä jäljellä."
+
+#: admin/class-metabox.php:51
+msgid "If you type something above it will override your %smeta keywords template%s."
+msgstr "Jos kirjoitat yläpuoliseen kenttään jotain se ohittaa %smeta-avainsana mallisi%s."
+
+#: admin/class-metabox.php:54
+msgid "Meta Robots Index"
+msgstr "Meta Robots Index"
+
+#: admin/class-metabox.php:62
+msgid "Meta Robots Follow"
+msgstr "Meta Robots Follow"
+
+#: admin/class-metabox.php:63
+msgid "Follow"
+msgstr "Follow"
+
+#: admin/class-metabox.php:64
+msgid "Nofollow"
+msgstr "Nofollow"
+
+#: admin/class-metabox.php:66
+msgid "Meta Robots Advanced"
+msgstr "Meta Robots Advanced"
+
+#: admin/class-metabox.php:67
+msgid "Advanced <code>meta</code> robots settings for this page."
+msgstr "Edistyneed <code>meta</code> robots -asetukset tälle sivulle."
+
+#: admin/class-metabox.php:70
+msgid "NO ODP"
+msgstr "NO ODP"
+
+#: admin/class-metabox.php:71
+msgid "NO YDIR"
+msgstr "NO YDIR"
+
+#: admin/class-metabox.php:73
+msgid "No Archive"
+msgstr "Ei arkistointia"
+
+#: admin/class-metabox.php:74
+msgid "No Snippet"
+msgstr "Ei otetta"
+
+#: admin/class-taxonomy.php:198 admin/pages/metas.php:140
+msgid "Breadcrumbs title"
+msgstr "Murupolun otsikko"
+
+#: admin/class-metabox.php:77
+msgid "Title to use for this page in breadcrumb paths"
+msgstr "Tämän sivun otsikko breadcrumb-polussa"
+
+#: admin/class-metabox.php:79
+msgid "Canonical URL"
+msgstr "Kanoninen URL"
+
+#: admin/class-metabox.php:80
+msgid "The canonical URL that this page should point to, leave empty to default to permalink. %sCross domain canonical%s supported too."
+msgstr "Kanoninen URL-osoite, johon tämän sivun pitäisi viitata. Jätä tyhjäksi käyttääksesi oletusosoitetta (permalink). %sDomainien väliset linkit%s ovat myös mahdollisia."
+
+#: admin/class-metabox.php:82
+msgid "301 Redirect"
+msgstr "301-uudelleenohjaus"
+
+#: admin/class-metabox.php:83
+msgid "The URL that this page should redirect to."
+msgstr "URL, johon tämän sivun tulisi uudelleenohjautua."
+
+#: admin/class-admin.php:202 admin/class-metabox.php:588
+#: admin/class-metabox.php:607 admin/pages/dashboard.php:145
+#: admin/pages/metas.php:20 admin/pages/xml-sitemaps.php:36
+#: inc/wpseo-non-ajax-functions.php:406
+msgid "General"
+msgstr "Yleiset"
+
+#: admin/class-metabox.php:590 admin/class-metabox.php:609
+msgid "Page Analysis"
+msgstr "Sivuanalyysi"
+
+#: admin/class-admin.php:144 admin/class-metabox.php:594
+#: admin/class-metabox.php:617 inc/wpseo-non-ajax-functions.php:430
+msgid "Advanced"
+msgstr "Edistyneet"
+
+#: admin/class-pointers.php:277 admin/pages/metas.php:24
+#: frontend/class-frontend.php:523 frontend/class-frontend.php:544
+msgid "Archives"
+msgstr "Arkistot"
+
+#: frontend/class-frontend.php:554
+#: inc/options/class-wpseo-option-titles.php:180
+msgid "Page not found"
+msgstr "Sivua ei löytynyt"
+
+#: frontend/class-frontend.php:1245
+msgid "Admin only notice: this page doesn't show a meta description because it doesn't have one, either write it for this page specifically or go into the SEO -> Titles menu and set up a template."
+msgstr "Huomautus admineille: Tämä sivu ei näytä meta-kuvausta, koska se puuttuu - kirjoita kuvaus yksilöllisesti tälle sivulle tai aseta mallipohja kohdassa SEO -> Otsikot."
+
+#: inc/options/class-wpseo-option-internallinks.php:70
+msgid "Home"
+msgstr "Etusivu"
+
+#: inc/options/class-wpseo-option-internallinks.php:69
+msgid "Archives for"
+msgstr "Arkistot"
+
+#: inc/options/class-wpseo-option-internallinks.php:71
+msgid "You searched for"
+msgstr "Hakusi"
+
+#: inc/options/class-wpseo-option-internallinks.php:68
+msgid "Error 404: Page not found"
+msgstr "Virhe 404: Sivua ei löydy"

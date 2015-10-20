@@ -133,7 +133,7 @@ class WPSEO_Admin_Init {
 	 * @return bool
 	 */
 	public function has_default_tagline() {
-		return __( 'Just another WordPress site' ) === get_bloginfo( 'description' );
+		return __( 'Just another WordPress site', 'wordpress-seo' ) === get_bloginfo( 'description' );
 	}
 
 	/**
@@ -192,9 +192,14 @@ class WPSEO_Admin_Init {
 		 *
 		 * @api bool Whether to always register the metaboxes or not. Defaults to false.
 		 */
-		if ( $is_editor || $is_inline_save || apply_filters( 'wpseo_always_register_metaboxes_on_admin', false ) ) {
-
-			$GLOBALS['wpseo_metabox'] = new WPSEO_Metabox;
+		if ( $is_editor || $is_inline_save || in_array( $this->pagenow, array(
+				'edit.php',
+				'post.php',
+				'post-new.php',
+			) ) || apply_filters( 'wpseo_always_register_metaboxes_on_admin', false )
+		) {
+			$GLOBALS['wpseo_metabox']      = new WPSEO_Metabox;
+			$GLOBALS['wpseo_meta_columns'] = new WPSEO_Meta_Columns();
 
 			if ( $this->options['opengraph'] === true || $this->options['twitter'] === true || $this->options['googleplus'] === true ) {
 				new WPSEO_Social_Admin;

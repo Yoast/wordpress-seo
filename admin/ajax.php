@@ -141,6 +141,9 @@ function wpseo_ajax_replace_vars() {
 	check_ajax_referer( 'wpseo-replace-vars' );
 
 	$post = get_post( intval( filter_input( INPUT_POST, 'post_id' ) ) );
+	global $wp_query;
+	$wp_query->queried_object = $post;
+	$wp_query->queried_object_id = $post->ID;
 	$omit = array( 'excerpt', 'excerpt_only', 'title' );
 	echo wpseo_replace_vars( stripslashes( filter_input( INPUT_POST, 'string' ) ), $post, $omit );
 	die;
@@ -345,4 +348,12 @@ function wpseo_add_fb_admin() {
 
 add_action( 'wp_ajax_wpseo_add_fb_admin', 'wpseo_add_fb_admin' );
 
+// Crawl Issue Manager AJAX hooks.
+new WPSEO_GSC_Ajax;
+
+// SEO Score Recalculations.
+new WPSEO_Recalculate_Scores_Ajax;
+
 new Yoast_Dashboard_Widget();
+
+new WPSEO_Shortcode_Filter();

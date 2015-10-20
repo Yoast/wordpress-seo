@@ -47,6 +47,18 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 		'wpseo_bctitle'         => '',
 		'wpseo_noindex'         => 'default',
 		'wpseo_sitemap_include' => '-',
+
+		// Social fields.
+		'wpseo_opengraph-title'         => '',
+		'wpseo_opengraph-description'   => '',
+		'wpseo_opengraph-image'         => '',
+		'wpseo_twitter-title'           => '',
+		'wpseo_twitter-description'     => '',
+		'wpseo_twitter-image'           => '',
+		'wpseo_google-plus-title'       => '',
+		'wpseo_google-plus-description' => '',
+		'wpseo_google-plus-image'       => '',
+
 	);
 
 	/**
@@ -441,5 +453,19 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 				return false;
 			}
 		}
+	}
+
+	/**
+	 * Get the current queried object and return the meta value
+	 *
+	 * @param string $meta The meta field that is needed.
+	 *
+	 * @return bool|mixed
+	 */
+	public static function get_meta_without_term( $meta ) {
+		$term = $GLOBALS['wp_query']->get_queried_object();
+
+		return self::get_term_meta( $term, $term->taxonomy, $meta );
+
 	}
 }

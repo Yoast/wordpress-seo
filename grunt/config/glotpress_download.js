@@ -7,7 +7,7 @@ module.exports = {
 			file_format: '%domainPath%%textdomain%-%wp_locale%.%format%',
 			slug: '<%= pkg.plugin.textdomain %>',
 			textdomain: '<%= pkg.plugin.textdomain %>',
-			formats: [ 'mo' ],
+			formats: [ 'mo', 'po' ],
 			filter: {
 				translation_sets: false,
 				minimum_percentage: 50,

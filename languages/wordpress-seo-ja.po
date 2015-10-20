@@ -1,0 +1,3389 @@
+# Translation of Yoast SEO (for WordPress) in Japanese
+# This file is distributed under the same license as the Yoast SEO (for WordPress) package.
+msgid ""
+msgstr ""
+"PO-Revision-Date: 2015-08-07 14:21:09+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: GlotPress/1.0-alpha-1100\n"
+"Project-Id-Version: Yoast SEO (for WordPress)\n"
+
+#: admin/google_search_console/class-gsc.php:72
+msgid "Don't miss your crawl errors: %1$sconnect with Google Search Console here%2$s."
+msgstr ""
+
+#. translators: %1$s expands to Yoast SEO, %2$s expands to Google Analytics by
+#. Yoast
+#: admin/google_search_console/class-gsc-service.php:146
+msgid "%1$s detected you’re using a version of %2$s which is not compatible with %1$s. Please update %2$s to the latest version to use this feature."
+msgstr ""
+
+#. Translators: %s: expands to Yoast SEO Premium
+#: admin/google_search_console/views/gsc-create-redirect.php:60
+msgid "Creating redirects is a %s feature"
+msgstr "リダイレクトを設定するのは %s 機能です。"
+
+#. translators: %1$s expands to Yoast SEO, %2$s expands to 5.4.3, %3$s expands
+#. to Google Analytics by Yoast
+#: admin/class-admin-init.php:157
+msgid "%1$s detected you are using version %2$s of %3$s, please update to the latest version to prevent compatibility issues."
+msgstr "%1$s が %3$s のバージョン %2$s を利用していることを検出しました。互換性の問題を防ぐため、最新版に更新してください。"
+
+#: admin/views/about.php:216
+msgid "Recent Rockstars"
+msgstr "最近のロックスター"
+
+#. translators: %1$s and %2$s expand to a link to the Yoast Knowledge Base
+#: admin/class-social-facebook.php:323
+msgid "If you don't know where to find the needed ID, see %1$sthis knowledge base article%2$s."
+msgstr ""
+
+#: admin/google_search_console/views/gsc-create-redirect.php:46
+msgid "Error: a redirect for this URL already exists"
+msgstr ""
+
+#: admin/google_search_console/views/gsc-create-redirect.php:21
+msgid "Redirect this broken URL and fix the error"
+msgstr ""
+
+#. translators: %s expands to <code>noindex</code>
+#: admin/class-yoast-dashboard-widget.php:147
+msgid "Posts that are set to %s"
+msgstr ""
+
+#. translators: %s is the plugin name
+#: admin/class-yoast-dashboard-widget.php:41
+msgid "%s Posts Overview"
+msgstr "%s 投稿の概要"
+
+#: admin/class-customizer.php:221
+msgid "Prefix for search result pages:"
+msgstr ""
+
+#: admin/class-customizer.php:196
+msgid "Prefix for archive pages:"
+msgstr ""
+
+#: admin/class-customizer.php:171
+msgid "Prefix for breadcrumbs:"
+msgstr ""
+
+#: admin/class-customizer.php:146
+msgid "Anchor text for the homepage:"
+msgstr ""
+
+#: admin/class-customizer.php:86
+msgid "Remove blog page from breadcrumbs"
+msgstr ""
+
+#: admin/class-admin.php:162
+msgid "Search Console"
+msgstr "Search Console"
+
+#. translators: %1$s expands to Yoast SEO
+#: admin/views/tool-import-export.php:129
+msgid "Export your %1$s settings"
+msgstr "%1$s の設定をエクスポートする"
+
+#. translators: %1$s expands to Yoast SEO
+#: admin/views/user-profile.php:10
+msgid "%1$s settings"
+msgstr "%1$s の設定"
+
+#. Plugin Name of the plugin/theme
+msgid "Yoast SEO"
+msgstr "Yoast SEO"
+
+#: admin/views/dashboard-widget.php:16
+msgid "Below are your published posts&#8217; SEO scores. Now is as good a time as any to start improving some of your posts!"
+msgstr "以下のスコアは公開済みの投稿の SEO スコアです。さぁ、投稿の改善を始めましょう!"
+
+#: admin/views/tab-permalinks.php:40
+msgid "If you use Google Analytics campaign parameters starting with %s, check this box. However, you're advised not to use these. Instead, use the version with a hash."
+msgstr ""
+
+#: admin/google_search_console/views/gsc-display.php:16
+msgid "Reload crawl issues"
+msgstr "クロールの問題をリロード"
+
+#. Translators: %1$s: expands to 'Yoast SEO', %2$s expands to Google Search
+#. Console.
+#: admin/google_search_console/views/gsc-display.php:31
+msgid "To allow %1$s to fetch your %2$s information, please enter your Google Authorization Code."
+msgstr "%1$s が %2$s の情報を取得するのを許可するには、Google 認証コードを入力してください。"
+
+#: admin/google_search_console/views/gsc-display.php:34
+msgid "Get Google Authorization Code"
+msgstr "Google 認証コードを取得する"
+
+#: admin/google_search_console/views/gsc-display.php:36
+msgid "Please enter the Google Authorization Code in the field below and press the Authenticate button."
+msgstr "Google 認証コードを下のフィールドに入力して、認証ボタンを押してください。"
+
+#: admin/google_search_console/views/gsc-display.php:40
+msgid "Authenticate"
+msgstr "認証"
+
+#: admin/google_search_console/views/gsc-display.php:44
+msgid "Reauthenticate with Google "
+msgstr "Google で再認証"
+
+#: admin/google_search_console/views/gsc-display.php:45
+#: admin/google_search_console/views/gsc-display.php:48
+msgid "Current profile"
+msgstr "現在のプロファイル"
+
+#: admin/google_search_console/views/gsc-display.php:67
+#: admin/google_search_console/views/gsc-display.php:71
+msgid "Profile"
+msgstr "プロファイル"
+
+#: admin/google_search_console/views/gsc-display.php:72
+msgid "There were no profiles found"
+msgstr "プロファイルがありません"
+
+#: admin/google_search_console/views/gsc-display.php:80
+msgid "Save Profile"
+msgstr "プロファイルの保存"
+
+#: admin/google_search_console/views/gsc-display.php:80
+msgid "or"
+msgstr "または"
+
+#. translators: %1$s expands to Yoast SEO
+#: admin/pages/dashboard.php:243
+msgid "Disable the Advanced part of the %1$s meta box"
+msgstr "%1$s メタボックスの高度な機能を無効にする"
+
+#. translators: %1$s expands to Yoast SEO
+#: admin/pages/licenses.php:73
+msgid "%1$s Extensions"
+msgstr "%1$s 拡張機能"
+
+#: admin/pages/metas.php:105 admin/pages/metas.php:165
+msgid "%1$s Meta Box"
+msgstr "%1$s メタボックス"
+
+#. translators: %1$s expands to Yoast SEO
+#: admin/pages/network.php:94
+msgid "Who should have access to the %1$s settings"
+msgstr ""
+
+#. translators: %1$s expands to Yoast SEO
+#: admin/pages/tools.php:37
+msgid "%1$s comes with some very powerful built-in tools:"
+msgstr "%1$s はパワフルなツールをいくつか内蔵しています:"
+
+#: admin/pages/xml-sitemaps.php:41
+msgid "Excluded Posts"
+msgstr "除外する投稿"
+
+#. Translators: %1$s: expands to '<code>1,2,99,100</code>'
+#: admin/pages/xml-sitemaps.php:109
+msgid "You can exclude posts from the sitemap by entering a comma separated string with the Post ID's. The format will become something like: %1$s."
+msgstr "サイトマップから除外したい投稿の投稿 ID をコンマ区切りで入力してください。入力例: %1$s"
+
+#: admin/pages/xml-sitemaps.php:110
+msgid "Posts to exclude"
+msgstr "除外する投稿"
+
+#. translators: %1$s expands to Yoast SEO
+#: admin/views/about.php:32
+msgid "Thank you for updating %1$s!"
+msgstr "%1$s を更新してくださりありがとうございます!"
+
+#. Translators: %1$s: expands to the current url and %2$s expands to url the
+#. redirects points to.
+#: admin/google_search_console/views/gsc-create-redirect.php:51
+msgid "You do not have to create a redirect for URL %1$s because a redirect already exists. The existing redirect points to %2$s. If this is fine you can mark this issue as fixed. If not, please go to the redirects page and change the target URL."
+msgstr ""
+
+#. Translators: %1$s: expands to 'Yoast SEO Premium', %2$s: links to Yoast SEO
+#. Premium plugin page.
+#: admin/google_search_console/views/gsc-create-redirect.php:64
+msgid "To be able to create a redirect and fix this issue, you need %1$s. You can buy the plugin, including one year support and updates, on %2$s."
+msgstr ""
+
+#: admin/google_search_console/class-gsc-service.php:137
+msgid "Yoast plugins share some code between them to make your site faster. As a result of that, we need all Yoast plugins to be up to date. We've detected this isn't the case, so please update the Yoast plugins that aren't up to date yet."
+msgstr ""
+
+#: admin/google_search_console/class-gsc-table.php:107
+msgid "URL"
+msgstr "URL"
+
+#: admin/google_search_console/class-gsc-table.php:108
+msgid "Last crawled"
+msgstr "最終クロール"
+
+#: admin/google_search_console/class-gsc-table.php:109
+msgid "First detected"
+msgstr "最初の検出"
+
+#: admin/google_search_console/class-gsc-table.php:110
+msgid "Response code"
+msgstr "レスポンスコード"
+
+#: admin/google_search_console/class-gsc-table.php:139
+#: admin/google_search_console/class-gsc-table.php:210
+msgid "Mark as fixed"
+msgstr "修正済みとする"
+
+#: admin/google_search_console/class-gsc-table.php:206
+#: admin/google_search_console/views/gsc-create-redirect.php:40
+msgid "Create redirect"
+msgstr "リダイレクトの設定"
+
+#: admin/google_search_console/class-gsc.php:111
+msgid "Search"
+msgstr "検索"
+
+#: admin/google_search_console/class-gsc.php:121
+msgid "Crawl errors per page"
+msgstr "ページごとのクロールエラー"
+
+#. Translators: %1$s: expands to Google Search Console.
+#: admin/google_search_console/class-gsc.php:172
+msgid "The %1$s data has been removed. You will have to reauthenticate if you want to retrieve the data again."
+msgstr ""
+
+#: admin/google_search_console/class-gsc.php:185
+msgid "The issues have been successfully reloaded!"
+msgstr ""
+
+#: admin/google_search_console/class-gsc.php:216
+msgid "Incorrect Google Authorization Code."
+msgstr ""
+
+#: admin/google_search_console/class-gsc.php:273
+msgid "Issue categories"
+msgstr ""
+
+#: admin/google_search_console/class-gsc.php:274
+msgid "Errors that occurred when your site was crawled by Googlebot."
+msgstr ""
+
+#: admin/google_search_console/class-gsc.php:275
+msgid "Errors that occurred only when your site was crawled by Googlebot-Mobile (errors didn't appear for desktop)."
+msgstr ""
+
+#: admin/google_search_console/class-gsc.php:276
+msgid "Errors that only occurred when your site was crawled by Googlebot for feature phones (errors didn't appear for desktop)."
+msgstr ""
+
+#: admin/google_search_console/class-gsc-table.php:206
+msgid "Create a redirect"
+msgstr ""
+
+#: admin/google_search_console/views/gsc-create-redirect.php:24
+msgid "Current URL:"
+msgstr "現在の URL:"
+
+#: admin/google_search_console/views/gsc-create-redirect.php:28
+msgid "New URL:"
+msgstr "新しい URL:"
+
+#: admin/google_search_console/views/gsc-create-redirect.php:32
+msgid "Mark as fixed:"
+msgstr "修正済みとする:"
+
+#. Translators: %1$s: expands to 'Google Search Console'.
+#: admin/google_search_console/views/gsc-create-redirect.php:36
+msgid "Mark this issue as fixed in %1$s."
+msgstr "%1$s で対象のエラーに「修正済」のマークを付けます。"
+
+#: admin/google_search_console/class-gsc-category-filters.php:121
+msgid "The target URL doesn't exist, but your server is not returning a 404 (file not found) error."
+msgstr "ターゲット URL が存在しないのに、サーバーから 404（ファイルが見つかりません）エラーが返されません。"
+
+#: admin/google_search_console/class-gsc-platform-tabs.php:43
+#: admin/google_search_console/class-gsc.php:274
+msgid "Desktop"
+msgstr "デスクトップ"
+
+#: admin/google_search_console/class-gsc-platform-tabs.php:44
+#: admin/google_search_console/class-gsc.php:275
+msgid "Smartphone"
+msgstr "スマートフォン"
+
+#: admin/google_search_console/class-gsc-platform-tabs.php:45
+#: admin/google_search_console/class-gsc.php:276
+msgid "Feature phone"
+msgstr "フィーチャーフォン"
+
+#. translators: %1$s expands to Yoast SEO
+#: admin/class-taxonomy.php:185
+msgid "%1$s Settings"
+msgstr "%1$s 設定"
+
+#: admin/class-yoast-dashboard-widget.php:116
+msgid "Posts with good SEO score"
+msgstr "SEO スコアが良い投稿"
+
+#: admin/class-yoast-dashboard-widget.php:122
+msgid "Posts with OK SEO score"
+msgstr "SEO スコアが及第点な投稿"
+
+#: admin/class-yoast-dashboard-widget.php:128
+msgid "Posts with poor SEO score"
+msgstr "SEO スコアが少し悪い投稿"
+
+#: admin/class-yoast-dashboard-widget.php:134
+msgid "Posts with bad SEO score"
+msgstr "SEO スコアが悪い投稿"
+
+#: admin/class-yoast-dashboard-widget.php:140
+msgid "Posts without focus keyword"
+msgstr "フォーカスキーワードのない投稿"
+
+#. translators: %1$s expands to Yoast SEO Premium
+#: admin/class-yoast-form.php:230
+msgid "Upgrade to %1$s &raquo;"
+msgstr "%1$s へアップグレード &raquo;"
+
+#. translators: %1$s: 'Facebook & Open Graph' plugin name(s) of possibly
+#. conflicting plugin(s), %2$s to Yoast SEO
+#: admin/class-yoast-plugin-conflict.php:163
+msgid "The %1$s plugin(s) might cause issues when used in conjunction with %2$s."
+msgstr "%1$s プラグインを %2$s と併用すると問題が起きる可能性があります。"
+
+#. translators: %1$s expands to Yoast SEO
+#: admin/class-yoast-plugin-conflict.php:176
+msgid "This warning is generated by %1$s."
+msgstr "%1$s がこの警告を出しています。"
+
+#: admin/google_search_console/class-gsc-category-filters.php:113
+msgid "Access denied"
+msgstr "アクセスが拒否されました"
+
+#: admin/google_search_console/class-gsc-category-filters.php:113
+msgid "Server requires authentication or is blocking Googlebot from accessing the site."
+msgstr "Googlebot はサイトの URL をクロールできませんでした。サーバーでページのアクセスに認証が必須となっているか、Googlebot によるサイトへのアクセスがブロックされていることが原因です。"
+
+#: admin/google_search_console/class-gsc-category-filters.php:114
+msgid "Faulty redirects"
+msgstr "リダイレクトのエラー"
+
+#: admin/google_search_console/class-gsc-category-filters.php:115
+msgid "Not followed"
+msgstr "フォローされていません"
+
+#: admin/google_search_console/class-gsc-category-filters.php:116
+msgid "Not found"
+msgstr "見つかりません"
+
+#: admin/google_search_console/class-gsc-category-filters.php:116
+msgid "URL points to a non-existent page."
+msgstr "URL が存在しないページを指しています。"
+
+#: admin/google_search_console/class-gsc-category-filters.php:117
+msgid "Google was unable to crawl this URL due to an undetermined issue."
+msgstr "Googlebot は不明なエラーのためこの URL をクロールできませんでした。"
+
+#. Translators: %1$s: expands to '<code>robots.txt</code>'.
+#: admin/google_search_console/class-gsc-category-filters.php:119
+msgid "Blocked"
+msgstr "ブロック"
+
+#: admin/google_search_console/class-gsc-category-filters.php:119
+msgid "Googlebot could access your site, but certain URLs are blocked for Googlebot in your %1$s file. This block could either be for all Googlebots or even specifically for Googlebot-mobile."
+msgstr "Googlebot はサイトにアクセスできますが、一部の URL が %1$s ファイルで Googlebot をブロックしています。Googlebot すべてのブロック、Googlebot-mobile のみのブロックのどちらでも発生します。"
+
+#: admin/google_search_console/class-gsc-category-filters.php:120
+msgid "Server Error"
+msgstr "サーバーエラー"
+
+#: admin/google_search_console/class-gsc-category-filters.php:120
+msgid "Request timed out or site is blocking Google."
+msgstr "リクエストがタイムアウトしたか、サイトが Googlebot をブロックしています。"
+
+#: admin/google_search_console/class-gsc-category-filters.php:121
+msgid "Soft 404"
+msgstr "ソフト 404"
+
+#. translators: %1$s expands to Yoast SEO
+#: admin/class-pointers.php:247
+msgid "More %1$s"
+msgstr "%1$s の詳細"
+
+#. translators: %s is the name of the plugin
+#: admin/class-customizer.php:52
+msgid "%s Breadcrumbs"
+msgstr "%s パンくずリスト"
+
+#: admin/class-customizer.php:121
+msgid "Breadcrumbs separator:"
+msgstr ""
+
+#: admin/class-customizer.php:246
+msgid "Breadcrumb for 404 pages:"
+msgstr "404 ページのパンくずリスト:"
+
+#. translators: %1$s expands to Yoast SEO
+#: admin/class-export.php:71
+msgid "Error creating %1$s export: "
+msgstr ""
+
+#. translators: %1$s expands to Yoast SEO
+#: admin/class-plugin-conflict.php:132
+msgid "Configure %1$s's OpenGraph settings"
+msgstr ""
+
+#. translators: %1$s expands to Yoast SEO
+#: admin/class-plugin-conflict.php:139
+msgid "Configure %1$s's XML Sitemap settings"
+msgstr ""
+
+#. translators: %1$s expands to Yoast SEO, $2%s to the version number, %3$s and
+#. %4$s to anchor tags with link to intro page
+#: admin/class-admin-init.php:71
+msgid "%1$s has been updated to version %2$s. %3$sClick here%4$s to find out what's new!"
+msgstr "%1$s をバージョン %2$s に更新しました。%3$sここをクリック%4$sすると更新履歴を表示します!"
+
+#: admin/class-admin-init.php:115
+msgid "You still have the default WordPress tagline, even an empty one is probably better. %1$sYou can fix this in the customizer%2$s."
+msgstr ""
+
+#: admin/class-admin-init.php:136
+msgid "Just another WordPress site"
+msgstr "Just another WordPress site"
+
+#: admin/pages/dashboard.php:168
+msgid "Latest Changes"
+msgstr "最近の変更点"
+
+#. translators: %s expands to Yoast SEO
+#: admin/pages/dashboard.php:171
+msgid "We've summarized the most recent changes in %s."
+msgstr "%s の最近の変更点をまとめました。"
+
+#: admin/pages/dashboard.php:176
+msgid "View Changes"
+msgstr "変更点を表示"
+
+#: admin/views/tab-permalinks.php:48
+msgid "Clean up the %s"
+msgstr "%s を掃除する"
+
+#: admin/pages/dashboard.php:197
+msgid "Google shows your website's name in the search results, we will default to your site name but you can adapt it here. You can also provide an alternate website name you want Google to consider."
+msgstr "Google はデフォルトではウェブサイトの名前を検索結果に表示しますが、ここで好きなように変更できます。ウェブサイト名とは異なる名前を入力してもかまいません。"
+
+#: admin/pages/dashboard.php:202
+msgid "Alternate name"
+msgstr "別名"
+
+#: admin/pages/metas.php:188
+msgid "Duplicate content prevention"
+msgstr "重複コンテンツの防止"
+
+#. translators: %1$s / %2$s: links to an article about duplicate content on
+#. yoast.com
+#: admin/pages/metas.php:191
+msgid "If you're running a one author blog, the author archive will be exactly the same as your homepage. This is what's called a %1$sduplicate content problem%2$s."
+msgstr "投稿者が一人のブログの場合、投稿者アーカイブはホームページと同一になってしまうという、%1$s重複コンテンツ問題%2$sと呼ばれる問題が起きます。"
+
+#. translators: %s expands to <code>noindex, follow</code>
+#: admin/pages/metas.php:194
+msgid "If this is the case on your site, you can choose to either disable it (which makes it redirect to the homepage), or to add %s to it so it doesn't show up in the search results."
+msgstr "この問題に該当する場合、無効にする (ホームページへリダイレクトさせる) か、%sを検索結果に表示されないように追加できます。"
+
+#. translators: %s expands to <code>noindex, follow</code>
+#: admin/pages/metas.php:197
+msgid "Add %s to the author archives"
+msgstr "%s を投稿者アーカイブに追加する"
+
+#: admin/pages/metas.php:200
+msgid "Date-based archives could in some cases also be seen as duplicate content."
+msgstr "日付ベースのアーカイブも場合によっては重複コンテンツになることがあります。"
+
+#. translators: %s expands to <code>noindex, follow</code>
+#: admin/pages/metas.php:203
+msgid "Add %s to the date-based archives"
+msgstr "%s を日付ベースのアーカイブに追加する"
+
+#: admin/pages/metas.php:221
+msgid "Sitewide meta settings"
+msgstr "サイト全体のメタ設定"
+
+#: admin/pages/metas.php:228
+msgid "Use meta keywords tag?"
+msgstr "メタキーワードタグを使用する"
+
+#. translators: %s expands to <code>noodp</code>
+#. translators: %s expands to <code>noydir</code>
+#: admin/pages/metas.php:232 admin/pages/metas.php:236
+msgid "Add %s meta robots tag sitewide"
+msgstr "%s メタロボットタグをサイト全体に追加する"
+
+#. translators: %s expands to <code>&lt;head&gt;</code>
+#: admin/pages/social.php:50
+msgid "Add Open Graph meta data to your site's %s section, Facebook and other social networks use this data when your pages are shared."
+msgstr "OGP データをサイトの %s に追加する（Facebook を始めとする SNS は、ページがシェアされた時にこのデータを利用します。）"
+
+#. translators: %s expands to <code>&lt;head&gt;</code>
+#: admin/pages/social.php:86
+msgid "Add Twitter card meta data to your site's %s section."
+msgstr "Twitter カードのメタデータをサイトの %s に追加する"
+
+#: admin/views/tab-breadcrumbs.php:36
+msgid "Taxonomy to show in breadcrumbs for post types"
+msgstr "パンくずリストに表示するタクソノミー"
+
+#: admin/views/tab-breadcrumbs.php:55
+msgid "Post type archive to show in breadcrumbs for taxonomies"
+msgstr "タクソノミーのパンくずリストで表示する投稿タイプアーカイブ"
+
+#. translators: %1$s / %2$s: links to the breadcrumbs implementation page on
+#. the Yoast knowledgebase
+#: admin/views/tab-breadcrumbs.php:83
+msgid "Usage of this breadcrumbs feature is explained in %1$sour knowledge-base article on breadcrumbs implementation%2$s."
+msgstr "パンくずリスト機能の使い方は %1$sナレッジベース記事%2$sに掲載されています。"
+
+#: inc/class-wpseo-replace-vars.php:897
+msgid "Page %1$d of %2$d"
+msgstr "ページ %1$d / %2$d"
+
+#: inc/wpseo-non-ajax-functions.php:382
+msgid "Mobile-Friendly Test"
+msgstr "モバイル対応テスト"
+
+#. translators: %1$s expands to Yoast SEO, %2$s / %3$s: links to the
+#. installation manual in the Readme for the Yoast SEO code repository on
+#. GitHub
+#: wp-seo-main.php:390
+msgid "The %1$s plugin installation is incomplete. Please refer to %2$sinstallation instructions%3$s."
+msgstr "%1$s プラグインのインストールが不完全です。%2$sインストール手順%3$sに従ってください。"
+
+#: admin/class-social-facebook.php:113
+msgid "Please make sure both fields are filled."
+msgstr "すべての項目を入力してください。"
+
+#: admin/class-social-facebook.php:116
+msgid "Your input contains invalid characters. Please make sure both fields are filled in correctly."
+msgstr "使用できない文字が含まれています。両方の入力欄が正しく入力されているか確認してください。"
+
+#: admin/class-social-facebook.php:119
+msgid "This Facebook user has already been added as an admin."
+msgstr "このFacebook ユーザーはすでに管理者として追加されています。"
+
+#. translators: %1$s and %2$s expand to a link to the Yoast Knowledge Base
+#: admin/class-social-facebook.php:302
+msgid "More info can be found %1$son our knowledge base%2$s."
+msgstr "詳細は %1$sナレッジベース%2$sに掲載されています。"
+
+#: admin/class-social-facebook.php:335 admin/class-social-facebook.php:349
+msgid "Add Facebook admin"
+msgstr "Facebook の管理者を追加"
+
+#. translators: %1$s and %2$s expand to a link to Facebook Insights
+#: admin/class-social-facebook.php:319
+msgid "To be able to access %1$sFacebook Insights%2$s, you need to add a user here. The name is used for reference only, the ID is used for verification."
+msgstr "%1$sFacebook Insights%2$s にアクセスするには、ここでユーザーを追加しないといけません。名前は参照のために使われ、 ID で認証されます。"
+
+#: admin/class-social-facebook.php:326
+msgid "Admin's name:"
+msgstr "管理者名"
+
+#: admin/class-social-facebook.php:330
+msgid "Admin's Facebook user ID:"
+msgstr "管理者の Facebook ユーザー ID"
+
+#: admin/pages/dashboard.php:194 admin/pages/dashboard.php:201
+msgid "Website name"
+msgstr "ウェブサイト名"
+
+#. translators: %1$s expands to the social network, %2$s to the recommended
+#. image size
+#: admin/class-opengraph-admin.php:36
+msgid "The recommended image size for %1$s is %2$spx."
+msgstr "%1$s の推奨画像サイズは %2$spx です。"
+
+#. translators: %s: '%%term_title%%' variable used in titles and meta's
+#. template that's not compatible with the given template
+#: admin/class-config.php:109
+msgid "Warning: the variable %s cannot be used in this template."
+msgstr "警告: 変数 %s はこのテンプレートでは使用できません。"
+
+#: vendor/yoast/license-manager/views/form.php:15
+msgid "We couldn't create a connection to our API to verify your license key(s). Please ask your hosting company to allow outgoing connections from your server to %s."
+msgstr "ライセンスキーの認証のための API に接続できませんでした。サーバから %s への接続を許可するようホスティング会社に問い合わせてください。"
+
+#: vendor/yoast/license-manager/views/form.php:19
+msgid "Your server has an outdated version of the PHP module cURL (Version: %s). Please ask your hosting company to update this to a recent version of cURL. You can read more about that in our %sKnowledge base%s."
+msgstr "サーバの PHP モジュール cURL (バージョン: %s) は古すぎます。 cURL を最新版に更新するようホスティング会社に問い合わせてください。詳細は%sナレッジベース%sをご覧ください。"
+
+#: admin/class-metabox.php:555
+msgid "The featured image should be at least 200x200 pixels to be picked up by Facebook and other social media sites."
+msgstr "Facebook などのソーシャルメディアサイトで使われるようにするには、画像サイズを200x200ピクセル以上にするべきです。"
+
+#: admin/class-config.php:109
+msgid "See the help tab for more info."
+msgstr "より詳しい情報はヘルプタブをご覧ください。"
+
+#: admin/class-admin.php:223
+msgid "Note that not all variables can be used in every template."
+msgstr "一部の変数はテンプレートで使用できないことがあります。"
+
+#. translators: %1$s expands to Yoast SEO, %2%s: 'Facebook' plugin name of
+#. possibly conflicting plugin with regard to creating OpenGraph output
+#: admin/class-plugin-conflict.php:128
+msgid "Both %1$s and %2$s create OpenGraph output, which might make Facebook, Twitter, LinkedIn and other social networks use the wrong texts and images when your pages are being shared."
+msgstr "%1$s と %2$s の両方が OpenGraph コードを出力しています。ページが共有されたときに Facebook 、 Twitter 、 LinkedIn などの SNS が間違ったテキストや画像を使ってしまう可能性があります。"
+
+#. translators: %1$s expands to Yoast SEO, %2$s: 'Google XML Sitemaps' plugin
+#. name of possibly conflicting plugin with regard to the creation of sitemaps
+#: admin/class-plugin-conflict.php:135
+msgid "Both %1$s and %2$s can create XML sitemaps. Having two XML sitemaps is not beneficial for search engines, yet might slow down your site."
+msgstr "%1$s と %2$s の両方が XML サイトマップを生成できる状態です。複数のサイトマップは検索エンジンにとって良くないだけでなく、サイトの速度を遅くする原因にもなります。"
+
+#: admin/class-social-facebook.php:294
+msgid "To be able to access %sFacebook Insights%s for your site, you need to specify a Facebook Admin. This can be a user. If you have an app for your site, you could use that as well."
+msgstr "%sFacebook Insights%s にアクセスするには、ここでFacebook 管理者を追加しないといけません。ユーザー名か、サイトのアプリが使用できます。"
+
+#: admin/class-yoast-plugin-conflict.php:160
+msgid "Warning!"
+msgstr "警告！"
+
+#: admin/class-yoast-plugin-conflict.php:165
+msgid "Recommended solution"
+msgstr "推奨する解決策"
+
+#. translators: %1$s: 'Facebook & Open Graph' plugin name(s) of possibly
+#. conflicting plugin(s). %2$s to Yoast SEO
+#: admin/class-yoast-plugin-conflict.php:168
+msgid "We recommend you deactivate %1$s and have another look at your %2$s configuration using the button above."
+msgstr "%1$s を無効にして、下のボタンで %2$s の設定を見直すことを推奨します。"
+
+#. translators: %s: 'Facebook' plugin name of possibly conflicting plugin
+#: admin/class-yoast-plugin-conflict.php:172
+msgid "Deactivate %s"
+msgstr "%s を無効化する"
+
+#. translators: %s: '2.3' version number
+#: admin/views/about.php:43
+msgid "What’s new in %s"
+msgstr "%s の更新情報"
+
+#: wp-seo-main.php:424
+msgid "Activation failed:"
+msgstr "有効化に失敗しました："
+
+#: admin/class-export.php:66
+msgid "Export created: %1$sdownload your export file here%2$s."
+msgstr "エクスポートしました: %1$sファイルはここからダウンロード出来ます%2$s。"
+
+#: admin/class-export.php:97
+msgid "Could not zip settings-file."
+msgstr "設定ファイルを圧縮できませんでした。"
+
+#: admin/class-export.php:102
+msgid "Could not write settings to file."
+msgstr "設定をファイルに書き出せませんでした。"
+
+#: admin/class-export.php:114
+msgid "This export includes taxonomy metadata"
+msgstr "このエクスポートはタクソノミーのメタデータを含みます。"
+
+#: admin/class-export.php:181
+msgid "No taxonomy metadata found"
+msgstr "タクソノミーのメタデータが見つかりませんでした。"
+
+#: admin/class-import-external.php:120
+msgid "Error: no Robots Meta data found to import."
+msgstr "エラー: インポートするロボットメタデータがありません。"
+
+#: admin/views/tool-import-export.php:107
+msgid "Import settings by locating <em>settings.zip</em> and clicking \"Import settings\""
+msgstr "<em>settings.zip</em> を選んで「設定のインポート」をクリックしてください。"
+
+#: wp-seo-main.php:414
+msgid "The filter extension seem to be unavailable. Please ask your web host to enable it."
+msgstr "フィルタ拡張機能が使用できません。ホスティング会社に有効化するよう問い合わせてください。"
+
+#: admin/pages/dashboard.php:147
+msgid "Company Info"
+msgstr "会社情報"
+
+#: admin/pages/dashboard.php:147
+msgid "Your Info"
+msgstr "情報"
+
+#: admin/class-yoast-form.php:424
+msgid "Upload Image"
+msgstr "画像のアップロード"
+
+#: admin/pages/advanced.php:16
+msgid "Breadcrumbs"
+msgstr "パンくずリスト"
+
+#: admin/class-metabox.php:451
+msgid "SEO:"
+msgstr "SEO:"
+
+#. translators: %1$s expands to Yoast SEO
+#: admin/class-pointers.php:241
+msgid "These are the General settings for %1$s, here you can restart this tour or revert the %1$s settings to default."
+msgstr "%1$s の基本設定です。ツアーを開始したり、%1$s の設定を初期化したり出来ます。"
+
+#: admin/class-pointers.php:242
+msgid "Tab: Your Info / Company Info"
+msgstr "タブ: 情報/企業情報"
+
+#: admin/class-pointers.php:242
+msgid "Add some info here needed for Google's Knowledge Graph."
+msgstr "Google Knowledge Graph に必要な情報を入力します。"
+
+#: admin/class-pointers.php:243
+msgid "Tab: Webmaster Tools"
+msgstr "タブ：ウェブマスターツール"
+
+#: admin/class-pointers.php:243
+msgid "You can add the verification codes for the different Webmaster Tools programs here. We highly encourage you to check out both Google and Bing&#8217;s Webmaster Tools."
+msgstr "様々なウェブマスターツールの認証コードを追加できます。GoogleとBingのウェブマスターツールの有効化をおすすめします。"
+
+#: admin/class-pointers.php:244
+msgid "Tab: Security"
+msgstr "タブ：セキュリティ"
+
+#: admin/class-pointers.php:244
+msgid "Determine who has access to the plugins advanced settings on the post edit screen."
+msgstr "投稿の編集画面での高度な設定に誰がアクセスできるか設定します。"
+
+#: admin/class-pointers.php:252
+msgid "Subscribe to our Newsletter"
+msgstr "ニュースレターを購読する"
+
+#: admin/class-pointers.php:275
+msgid "The first tab will show you site-wide settings for titles, normally you'll only need to change the Title Separator."
+msgstr "最初のタブでサイト全体のタイトル設定やタイトルの区切り文字の変更ができます。"
+
+#: admin/class-pointers.php:277
+msgid "On the archives tab you can set templates for specific pages like author archives, search results and more."
+msgstr "アーカイブタブでは、投稿者アーカイブなどの特定のページのテンプレートを設定できます。"
+
+#: admin/class-pointers.php:278
+msgid "On the Other tab you can change sitewide meta settings, like enable meta keywords."
+msgstr "その他タブでは、メタキーワードの有効化などサイト全体のメタ設定を変更できます。"
+
+#: admin/class-pointers.php:295
+msgid "On this tab you can verify your site with Pinterest and enter your Pinterest account."
+msgstr "このタブでは、サイトを Pinterest で認証できます。"
+
+#: admin/class-pointers.php:297
+msgid "On this tab you can enter some more of your social accounts, mostly used for Google's Knowledge Graph."
+msgstr "このタブでは、主に Google's Knowledge Graph で使用される、ソーシャルアカウント情報を入力できます。"
+
+#: admin/class-pointers.php:312
+msgid "This plugin adds XML sitemaps to your site. The sitemaps are automatically updated when you publish a new post, page or custom post and Google and Bing will be automatically notified."
+msgstr "このプラグインで XML サイトマップを追加できます。サイトマップは新規投稿やカスタム投稿を公開したとき自動的に更新され、Google や Bing などに更新を通知します。"
+
+#: admin/class-pointers.php:327
+msgid "Advanced Settings"
+msgstr "高度な設定"
+
+#: admin/class-pointers.php:327
+msgid "All of the options on these tabs are for advanced users only, if you don&#8217;t know whether you should check any, don&#8217;t touch them."
+msgstr "ここの設定はすべて知識のあるユーザー向けなので、どう変更すれば良いか分からない場合は触らないでください。"
+
+#. translators: %1$s expands to Yoast SEO, %2$s to Yoast SEO Premium, %3$s and
+#. %4$s to an anchor with link about our premium plugins
+#: admin/class-pointers.php:343
+msgid "The powerful functions of %1$s can be extended with %3$sYoast premium plugins%4$s. These premium plugins require the installation of %1$s or %2$s and add specific functionality. You can read all about the Yoast Premium Plugins %3$shere%4$s."
+msgstr ""
+
+#: admin/class-pointers.php:350
+msgid "Thank you for using our plugin and good luck with your SEO!<br/><br/>Best,<br/>Team Yoast - %1$sYoast.com%2$s"
+msgstr "プラグインをご利用いただきありがとうございます。<br/><br/>Team Yoast - %1$sYoast.com%2$s<br/> より"
+
+#: admin/pages/dashboard.php:156
+msgid "Introduction Tour"
+msgstr "イントロダクション ツアー"
+
+#: admin/pages/dashboard.php:182 admin/pages/dashboard.php:190
+msgid "Restore Default Settings"
+msgstr "デフォルト設定の復元"
+
+#: admin/pages/dashboard.php:208
+msgid "This data is shown as metadata in your site. It is intended to appear in Google's Knowledge Graph. You can be either a company, or a person, choose either:"
+msgstr "このデータはメタデータとして表示されます。 Google Knowledge Graph に利用されるかもしれません。個人か法人か選んでください:"
+
+#: admin/pages/dashboard.php:204 admin/pages/dashboard.php:212
+msgid "Company or person"
+msgstr "個人 / 法人"
+
+#: admin/pages/dashboard.php:213
+msgid "Choose whether you're a company or person"
+msgstr "個人か法人か選んでください"
+
+#: admin/pages/dashboard.php:214 admin/pages/dashboard.php:219
+msgid "Company"
+msgstr "法人"
+
+#: admin/pages/dashboard.php:215 admin/pages/dashboard.php:226
+msgid "Person"
+msgstr "個人"
+
+#: admin/pages/dashboard.php:221
+msgid "Company Name"
+msgstr "法人名"
+
+#: admin/pages/dashboard.php:222
+msgid "Company Logo"
+msgstr "法人ロゴ"
+
+#: admin/pages/dashboard.php:227
+msgid "Your name"
+msgstr "自分の名前"
+
+#: admin/pages/licenses.php:117
+msgid "This is where you would enter the license keys for one of our premium plugins, should you activate one."
+msgstr "ここでプレミアムプラグインのライセンスキーを入力して有効化できます。"
+
+#: admin/pages/metas.php:37
+msgid "Enable force rewrite titles"
+msgstr "タイトルを強制的に書き換える"
+
+#: admin/pages/social.php:20
+msgid "Accounts"
+msgstr "アカウント"
+
+#: admin/pages/social.php:29
+msgid "To inform Google about your social profiles, we need to know their URLs."
+msgstr "Google にソーシャルプロフィールを通知するため、アカウント情報と URL が必要です。"
+
+#: admin/pages/social.php:30
+msgid "For each, pick the main account associated with this site and please enter them below:"
+msgstr "それぞれこのサイトと関連したメインアカウントの情報を入力してください:"
+
+#: admin/pages/social.php:34
+msgid "Twitter Username"
+msgstr "Twitter ユーザー名"
+
+#: admin/pages/social.php:35
+msgid "Instagram URL"
+msgstr "Instagram URL"
+
+#: admin/pages/social.php:36
+msgid "LinkedIn URL"
+msgstr "LinkedIn URL"
+
+#: admin/pages/social.php:37
+msgid "MySpace URL"
+msgstr "MySpace URL"
+
+#: admin/pages/social.php:38
+msgid "Pinterest URL"
+msgstr "Pinterest URL"
+
+#: admin/pages/social.php:39
+msgid "YouTube URL"
+msgstr "YouTube URL"
+
+#: admin/pages/social.php:40
+msgid "Google+ URL"
+msgstr "Google+ URL"
+
+#: admin/pages/social.php:100
+msgid "Pinterest uses Open Graph metadata just like Facebook, so be sure to keep the Open Graph checkbox on the Facebook tab checked if you want to optimize your site for Pinterest."
+msgstr "Pinterest は Facebook と同様に Open Graph のメタデータを利用するため、サイトを Pinterest に最適化するには Facebook タブにある Open Graph のチェックボックスにチェックを入れてください。"
+
+#: admin/pages/social.php:109
+msgid "Pinterest verification"
+msgstr "Pinterest を認証"
+
+#. translators: %1$s / %2$s expands to a link to pinterest.com's help page.
+#: admin/pages/social.php:105
+msgid "To %1$sverify your site with Pinterest%2$s, add the meta tag here:"
+msgstr "%1$s サイトを Pinterest で認証するには%2$s、ここにメタタグを追加してください："
+
+#: admin/pages/tools.php:21
+msgid "Bulk editor"
+msgstr "一括変更"
+
+#: admin/pages/tools.php:22
+msgid "This tool allows you to quickly change titles and descriptions of your posts and pages without having to go into the editor for each page."
+msgstr "このツールを使用すると、すべての投稿と固定ページのタイトルや説明文を一括で変更できます。"
+
+#: admin/pages/tools.php:25
+msgid "Import and Export"
+msgstr "インポート・エクスポート"
+
+#: admin/pages/tools.php:26
+msgid "Import settings from other SEO plugins and export your settings for re-use on (another) blog."
+msgstr "他の SEO プラグインの設定をインポートしたり、他のブログで再利用するために設定をエクスポートしたりできます。"
+
+#: admin/pages/tools.php:31
+msgid "File editor"
+msgstr "ファイルエディタ"
+
+#: admin/pages/tools.php:32
+msgid "This tool allows you to quickly change important files for your SEO, like your robots.txt and, if you have one, your .htaccess file."
+msgstr "このツールを使用すると robots.txt や .htaccess などの、 SEO にとって重要なファイルを簡単に編集できます。"
+
+#: admin/pages/tools.php:52
+msgid "&laquo; Back to Tools page"
+msgstr "&laquo; ツールページに戻る"
+
+#: admin/pages/xml-sitemaps.php:68
+msgid "Max entries per sitemap"
+msgstr "サイトマップ毎の最大投稿数"
+
+#: admin/views/about.php:46
+msgid "Credits"
+msgstr "謝辞"
+
+#: admin/views/about.php:159
+msgid "More Translations"
+msgstr "翻訳の追加"
+
+#. translators: %1$s expands to Yoast SEO, %2$s and %3$s to the anchor tags to
+#. the translate.yoast.com link, %4$d to the number of translations, %5$d to
+#. the number of translations,
+#: admin/views/about.php:164
+msgid "%1$s ships, at time of release, with %4$d translations, of which %5$d are complete. That's a huge improvement from last time, and we're improving every week. Join us at %2$stranslate.yoast.com%3$s!"
+msgstr "%1$s はリリース時の時点では%4$d言語に翻訳され、そのうち%5$d言語では翻訳が完成しています。前回のリリースに比べると大きな前進ですが、まだまだ改善していきます。%2$stranslate.yoast.com%3$s に参加してぜひ翻訳を手伝ってください!"
+
+#: admin/views/about.php:172
+msgid "Go to The General settings page →"
+msgstr "一般的な設定ページへ →"
+
+#. translators: %1$s and %2$s expands to anchor tags, %3$s expands to Yoast SEO
+#: admin/views/about.php:181
+msgid "While most of the development team is at %1$sYoast%2$s in the Netherlands, %3$s is created by a worldwide team."
+msgstr "%1$sYoast%2$s の開発チームの大半はオランダにいますが、%3$s は国際色豊かなチームで開発しています。"
+
+#: admin/views/about.php:183
+msgid "Want to help us develop? Read our %1$scontribution guidelines%2$s!"
+msgstr "開発に参加したければ、%1$scontribution guidelines%2$s をご覧ください!"
+
+#: admin/views/about.php:187
+msgid "Project Leaders"
+msgstr "プロジェクトリーダー"
+
+#: admin/views/about.php:193
+msgid "Project Lead"
+msgstr "プロジェクトリード"
+
+#: admin/views/about.php:198 admin/views/about.php:203
+msgid "Lead Developer"
+msgstr "リードデベロッパー"
+
+#: admin/views/about.php:208
+msgid "QA & Translations Manager"
+msgstr "品質・翻訳管理"
+
+#: admin/views/about.php:245
+msgid "Contributing Developers"
+msgstr "貢献している開発者"
+
+#: admin/views/about.php:251 admin/views/about.php:256
+#: admin/views/about.php:261
+msgid "Developer"
+msgstr "開発者"
+
+#: admin/views/about.php:269
+msgid "Contributors to this release"
+msgstr "このリリースに貢献した人"
+
+#: admin/views/tab-permalinks.php:15
+msgid "Change URLs"
+msgstr "URLを変更する"
+
+#: admin/views/tab-permalinks.php:21
+msgid "Clean up permalinks"
+msgstr "パーマリンクの掃除"
+
+#: admin/views/tool-import-export.php:95
+msgid "Import from other SEO plugins"
+msgstr "他の SEO プラグインからインポートする"
+
+#: admin/views/tool-import-export.php:97
+msgid "Import from other plugins"
+msgstr "他のプラグインからインポートする"
+
+#: admin/views/tool-import-export.php:163
+msgid "If you want to import data from (by now ancient) Yoast plugins, you can do so here:"
+msgstr "他のプラグインから Yoast プラグインにデータをインポートしたい場合は、ここで出来ます。"
+
+#: inc/wpseo-non-ajax-functions.php:562
+msgid "The plugin All-In-One-SEO has been detected. Do you want to %simport its settings%s?"
+msgstr "All-In-One-SEO プラグインを検出しました。%s設定をインポート%sしますか?"
+
+#: admin/class-bulk-editor-list-table.php:133
+msgid "You are not allowed to access this page."
+msgstr "このページにアクセスする権限がありません。"
+
+#: admin/class-admin.php:153
+msgid "Tools"
+msgstr "ツール"
+
+#: vendor/yoast/license-manager/class-license-manager.php:179
+msgid "Your %s license has been activated. "
+msgstr "%s ライセンスを有効化しました。"
+
+#: vendor/yoast/license-manager/class-license-manager.php:183
+msgid "You have an unlimited license. "
+msgstr "無制限ライセンスをお持ちです。"
+
+#: vendor/yoast/license-manager/class-license-manager.php:185
+msgid "You have used %d/%d activations. "
+msgstr "%d/%d 有効化しています。"
+
+#. translators: this should be an array of stopwords for your language,
+#. separated by comma's.
+#: admin/class-admin.php:528
+msgid "a,about,above,after,again,against,all,am,an,and,any,are,as,at,be,because,been,before,being,below,between,both,but,by,could,did,do,does,doing,down,during,each,few,for,from,further,had,has,have,having,he,he'd,he'll,he's,her,here,here's,hers,herself,him,himself,his,how,how's,i,i'd,i'll,i'm,i've,if,in,into,is,it,it's,its,itself,let's,me,more,most,my,myself,nor,of,on,once,only,or,other,ought,our,ours,ourselves,out,over,own,same,she,she'd,she'll,she's,should,so,some,such,than,that,that's,the,their,theirs,them,themselves,then,there,there's,these,they,they'd,they'll,they're,they've,this,those,through,to,too,under,until,up,very,was,we,we'd,we'll,we're,we've,were,what,what's,when,when's,where,where's,which,while,who,who's,whom,why,why's,with,would,you,you'd,you'll,you're,you've,your,yours,yourself,yourselves"
+msgstr "a,about,above,after,again,against,all,am,an,and,any,are,as,at,be,because,been,before,being,below,between,both,but,by,could,did,do,does,doing,down,during,each,few,for,from,further,had,has,have,having,he,he'd,he'll,he's,her,here,here's,hers,herself,him,himself,his,how,how's,i,i'd,i'll,i'm,i've,if,in,into,is,it,it's,its,itself,let's,me,more,most,my,myself,nor,of,on,once,only,or,other,ought,our,ours,ourselves,out,over,own,same,she,she'd,she'll,she's,should,so,some,such,than,that,that's,the,their,theirs,them,themselves,then,there,there's,these,they,they'd,they'll,they're,they've,this,those,through,to,too,under,until,up,very,was,we,we'd,we'll,we're,we've,were,what,what's,when,when's,where,where's,which,while,who,who's,whom,why,why's,with,would,you,you'd,you'll,you're,you've,your,yours,yourself,yourselves"
+
+#: admin/class-metabox.php:44
+msgid "The SEO title defaults to what is generated based on this sites title template for this posttype."
+msgstr "デフォルトの SEO タイトルはこの投稿タイプのタイトルテンプレートに基づいて生成しています。"
+
+#. translators: %s expands to the social network's name
+#: admin/class-opengraph-admin.php:30
+msgid "If you don't want to use the post title for sharing the post on %s but instead want another title there, write it here."
+msgstr "%s でこの投稿を共有されたときに、投稿のタイトルではなく他のタイトルを使って欲しい場合、ここに入力してください。"
+
+#. translators: %s expands to the social network's name
+#: admin/class-opengraph-admin.php:32
+msgid "If you don't want to use the meta description for sharing the post on %s but want another description there, write it here."
+msgstr "%s でこの投稿を共有されたときに、メタ説明文ではなく他の説明文を使って欲しい場合、ここに入力してください。"
+
+#. translators: %s expands to the social network's name
+#: admin/class-opengraph-admin.php:34
+msgid "If you want to override the image used on %s for this post, upload / choose an image or add the URL here."
+msgstr "%s で利用される画像を変更したい場合は、ここで画像をアップロード / 選択するか、URLを追加してください。"
+
+#: admin/class-opengraph-admin.php:59
+msgid "%s Title"
+msgstr "%s タイトル"
+
+#: admin/class-opengraph-admin.php:62
+msgid "%s Description"
+msgstr "%s 説明文"
+
+#: admin/class-opengraph-admin.php:65
+msgid "%s Image"
+msgstr "%s 画像"
+
+#. translators: %1$s expands to Yoast SEO
+#: admin/class-pointers.php:254
+msgid "If you would like us to keep you up-to-date regarding %1$s and other plugins by Yoast, subscribe to our newsletter:"
+msgstr "%1$s とYoast の他のプラグインの最新情報が欲しければ、ニュースレターの購読をお願いします。"
+
+#: vendor/yoast/i18n-module/i18n-module.php:170
+msgid "As you can see, there is a translation of this plugin in %1$s. This translation is currently %3$d%% complete. We need your help to make it complete and to fix any errors. Please register at %4$s to help complete the translation to %1$s!"
+msgstr "ご覧のように、このプラグインは %1$s に翻訳されています。翻訳の完成度は現在%3$d%% です。翻訳を完成させ、誤訳などを修正するにはあなたの助けが必要です。%4$s で登録して %1$s への翻訳を助けてください!"
+
+#: vendor/yoast/i18n-module/i18n-module.php:172
+msgid "You're using WordPress in %1$s. While %2$s has been translated to %1$s for %3$d%%, it's not been shipped with the plugin yet. You can help! Register at %4$s to help complete the translation to %1$s!"
+msgstr "WordPress を %1$s でお使いのようですね。%2$s は %1$s に現在%3$d%% 翻訳されていますが、プラグインには同梱されていません。翻訳を完成させ、誤訳などを修正するにはあなたの助けが必要です。%4$s で登録して %1$s への翻訳を助けてください!"
+
+#: vendor/yoast/i18n-module/i18n-module.php:174
+msgid "You're using WordPress in a language we don't support yet. We'd love for %2$s to be translated in that language too, but unfortunately, it isn't right now. You can change that! Register at %4$s to help translate it!"
+msgstr ""
+
+#: vendor/yoast/i18n-module/i18n-module.php:194
+msgid "Translation of %s"
+msgstr "%s の翻訳"
+
+#: vendor/yoast/i18n-module/i18n-module.php:199
+msgid "Register now &raquo;"
+msgstr "今すぐ登録する &raquo;"
+
+#: admin/views/tool-import-export.php:80
+msgid "The old data of the imported plugin was deleted successfully."
+msgstr "インポートしたプラグインの古いデータを削除しました。"
+
+#: admin/views/tab-rss.php:22
+msgid "Content to put after each post in the feed"
+msgstr "フィードの各投稿の後に表示するコンテンツ"
+
+#: admin/pages/xml-sitemaps.php:82
+msgid "Exclude user roles"
+msgstr "ユーザー権限グループの除外"
+
+#: inc/wpseo-non-ajax-functions.php:347
+msgid "Pinterest Rich Pins Validator"
+msgstr "Pinterest Rich Pins Validator"
+
+#: inc/wpseo-non-ajax-functions.php:354
+msgid "HTML Validator"
+msgstr "HTML Validator"
+
+#: inc/wpseo-non-ajax-functions.php:361
+msgid "CSS Validator"
+msgstr "CSS Validator"
+
+#: inc/wpseo-non-ajax-functions.php:368
+msgid "Google Page Speed Test"
+msgstr "Google PageSpeed Insights"
+
+#: inc/wpseo-non-ajax-functions.php:375
+msgid "Modern IE Site Scan"
+msgstr "Modern IE Site Scan"
+
+#: admin/class-metabox.php:541
+msgid "Focus keyword usage"
+msgstr "フォーカスキーワード使用率"
+
+#: admin/ajax.php:248
+msgid "You have used HTML in your value which is not allowed."
+msgstr "許可されていないHTMLを使用しています。"
+
+#: admin/views/user-profile.php:48
+msgid "Exclude user from Author-sitemap"
+msgstr "投稿者サイトマップからユーザーを除外する"
+
+#: admin/class-metabox.php:554
+msgid "(no parent)"
+msgstr "(親なし)"
+
+#: admin/class-pointers.php:250
+msgid "There&#8217;s more to learn about WordPress &amp; SEO than just using this plugin. A great start is our article %1$sthe definitive guide to WordPress SEO%2$s."
+msgstr "WordPress と SEO はかなり奥が深いですよ。まずは%1$sWordPress SEO ガイド%2$sを読んでみましょう。"
+
+#: admin/class-pointers.php:273
+msgid "Title &amp; Metas settings"
+msgstr "タイトルとメタ設定"
+
+#: admin/class-pointers.php:274
+msgid "This is where you\tset the titles and meta-information for all your post types, taxonomies, archives, special pages and for your homepage. The page is divided into different tabs. Make sure you check &#8217;em all out!"
+msgstr "投稿タイプ、タクソノミーやアーカイブなどのタイトルやメタ情報を設定できます。このページはいくつかのタブに分かれています。 隅から隅まで見てみましょう!"
+
+#: admin/class-pointers.php:276
+msgid "Templates and settings"
+msgstr "テンプレート・設定"
+
+#: admin/class-pointers.php:276
+msgid "Now click on the &#8216;%1$sPost Types%2$s&#8217;-tab, as this will be our example."
+msgstr "&#8216;%1$s投稿タイプ%2$s&#8217; タブをクリックすると例を表示します。"
+
+#: admin/class-pointers.php:276
+msgid "The templates are built using variables. You can find all these variables in the help tab (in the top-right corner of the page). The settings allow you to set specific behavior for the post types."
+msgstr ""
+
+#: admin/class-pointers.php:223
+msgid "Previous"
+msgstr "前へ"
+
+#: admin/class-pointers.php:292
+msgid "On this tab you can enable the %1$sFacebook Open Graph%2$s functionality from this plugin, as well as assign a Facebook user or Application to be the admin of your site, so you can view the Facebook insights."
+msgstr ""
+
+#: admin/class-pointers.php:293
+msgid "The frontpage settings allow you to set meta-data for your homepage, whereas the default settings allow you to set a fallback for all posts/pages without images. "
+msgstr ""
+
+#: admin/class-pointers.php:294
+msgid "With %1$sTwitter Cards%2$s, you can attach rich photos, videos and media experience to tweets that drive traffic to your website. Simply check the box, sign up for the service, and users who Tweet links to your content will have a &#8220;Card&#8221; added to the tweet that&#8217;s visible to all of their followers."
+msgstr ""
+
+#: admin/class-pointers.php:296
+msgid "This tab allows you to add specific post meta data for Google+. And if you have a Google+ page for your business, add that URL here and link it on your %1$sGoogle+%2$s page&#8217;s about page."
+msgstr ""
+
+#: admin/class-pointers.php:311
+msgid "What are XML sitemaps?"
+msgstr "XML サイトマップとは ?"
+
+#: admin/class-pointers.php:311
+msgid "A Sitemap is an XML file that lists the URLs for a site. It allows webmasters to include additional information about each URL: when it was last updated, how often it changes, and how important it is in relation to other URLs in the site. This allows search engines to crawl the site more intelligently."
+msgstr "サイトマップは、サイトの URL を一覧化した XML ファイルです。ウェブマスターは各 URL に、更新日時・変更頻度・サイトの他の URL と比較した重要度といった追加情報を含めることができます。これによって、検索エンジンがサイトをより知的にクロールできるようになります。"
+
+#: admin/class-pointers.php:312
+msgid "What does the plugin do with XML Sitemaps?"
+msgstr "プラグインでどう XML サイトマップをカスタマイズできるの?"
+
+#: admin/class-pointers.php:313
+msgid "If you want to exclude certain post types and/or taxonomies, you can also set that on this page."
+msgstr "一部の投稿タイプやタクソノミーを除外したければ、このページで設定できます。"
+
+#: admin/class-pointers.php:314
+msgid "Is your webserver low on memory? Decrease the entries per sitemap (default: 1000) to reduce load."
+msgstr "ウェブサーバのメモリが少ない場合、サイトマップ毎のエントリー数 (デフォルト: 1000)を減らすと負荷が低減されます。"
+
+#: admin/class-pointers.php:340
+msgid "Extensions and Licenses"
+msgstr "拡張機能とライセンス"
+
+#. translators: %1$s expands to Yoast SEO Premium
+#: admin/class-pointers.php:347
+msgid "Once you&#8217;ve purchased %1$s or any other premium Yoast plugin, you&#8217;ll have to enter a license key. You can do so on the Licenses-tab. Once you&#8217;ve activated your premium plugin, you can use all its powerful features."
+msgstr "%1$s などの Yoast プラグインのプレミアム版を購入した後は、ライセンスタブでライセンスキーを入力してください。プレミアムプラグインを有効化すると、強力な機能が使えます。"
+
+#: admin/class-pointers.php:349
+msgid "So, we&#8217;ve come to the end of the tour. If you like the plugin, please %srate it 5 stars on WordPress.org%s!"
+msgstr "これでツアーは終わりです。このプラグインが気に入りましたら、ぜひ %sWordPress.org で☆5をお願いします%s!"
+
+#. translators: %1$s expands to Yoast SEO
+#: admin/class-pointers.php:185
+msgid "You&#8217;ve just installed %1$s! Click &#8220;Start Tour&#8221; to view a quick introduction of this plugin&#8217;s core functionality."
+msgstr "%1$s をインストールしてくださりありがとうございます! 「ツアーを開始する」をクリックしてこのプラグインの機能の説明をご覧ください。"
+
+#: admin/pages/social.php:118
+msgid "Add Google+ specific post meta data"
+msgstr "Google+ 用投稿メタデータを追加する"
+
+#: admin/pages/xml-sitemaps.php:77
+msgid "Exclude users without posts"
+msgstr "投稿のないユーザーを除外する"
+
+#: admin/pages/xml-sitemaps.php:78
+msgid "Disable all users with zero posts"
+msgstr "投稿のないユーザーを無効化する"
+
+#: admin/pages/xml-sitemaps.php:83
+msgid "Please check the appropriate box below if there's a user role that you do <strong>NOT</strong> want to include in your sitemap:"
+msgstr "サイトマップに<strong>追加したくない</strong>ユーザー権限グループがある場合、下のボックスでチェックを入れてください。"
+
+#: inc/class-wpseo-replace-vars.php:1113
+msgid "Replaced with the post/page author's 'Biographical Info'"
+msgstr "投稿やページの投稿者のプロフィールに置き換えられます"
+
+#. Author of the plugin/theme
+msgid "Team Yoast"
+msgstr "Team Yoast"
+
+#: admin/class-bulk-editor-list-table.php:923
+msgid "Publication date"
+msgstr "公開日"
+
+#: admin/class-metabox.php:48
+msgid "The meta description is often shown as the black text under the title in a search result. For this to work it has to contain the keyword that was searched for.<br/><br/>Read %sthis post%s for more info."
+msgstr ""
+
+#: admin/class-metabox.php:72
+msgid "No Image Index"
+msgstr "画像 Index なし"
+
+#: admin/pages/dashboard.php:190
+msgid "Are you sure you want to reset your SEO settings?"
+msgstr "SEO 設定を初期化しますか?"
+
+#: admin/pages/metas.php:45
+msgid "Title Separator"
+msgstr "タイトル区切り文字"
+
+#: admin/pages/metas.php:50
+msgid "Choose the symbol to use as your title separator. This will display, for instance, between your post title and site name."
+msgstr "タイトルの区切り文字を選んでください。区切り文字は、例えば投稿のタイトルとサイト名の間に表示されます。"
+
+#: admin/pages/metas.php:50
+msgid "Symbols are shown in the size they'll appear in in search results."
+msgstr "記号は検索結果に表示されます。"
+
+#: admin/pages/metas.php:91 admin/pages/network.php:115
+msgid "Take note:"
+msgstr "注意:"
+
+#: admin/pages/metas.php:93
+msgid "As you are redirecting attachment URLs to parent post URLs, these settings will currently only have an effect on <strong>unattached</strong> media items!"
+msgstr ""
+
+#: admin/pages/metas.php:94
+msgid "So remember: If you change the %sattachment redirection setting%s in the future, the below settings will take effect for *all* media items."
+msgstr ""
+
+#: admin/pages/network.php:61
+msgid "public"
+msgstr "公開済み"
+
+#: admin/pages/network.php:64
+msgid "archived"
+msgstr "アーカイブ済み"
+
+#: admin/pages/network.php:67
+msgid "mature"
+msgstr "mature"
+
+#: admin/pages/network.php:70
+msgid "spam"
+msgstr "スパム"
+
+#: admin/pages/network.php:105 admin/pages/network.php:112
+msgid "New sites in the network inherit their SEO settings from this site"
+msgstr "このサイトからの SEO 設定を継承するネットワーク内の新しいサイト"
+
+#: admin/pages/network.php:109
+msgid "Choose the site whose settings you want to use as default for all sites that are added to your network. If you choose 'None', the normal plugin defaults will be used."
+msgstr "ネットワークに追加されたすべてのサイトに対してのデフォルトサイト設定を選んでください。「なし」を選ぶとプラグインのデフォルトを使います。"
+
+#: admin/pages/network.php:113
+msgid "Enter the %sSite ID%s for the site whose settings you want to use as default for all sites that are added to your network. Leave empty for none (i.e. the normal plugin defaults will be used)."
+msgstr ""
+
+#: admin/pages/network.php:115
+msgid "Privacy sensitive (FB admins and such), theme specific (title rewrite) and a few very site specific settings will not be imported to new blogs."
+msgstr ""
+
+#: admin/pages/network.php:130
+msgid "Site ID"
+msgstr "サイト ID"
+
+#: admin/pages/social.php:67
+msgid "Copy home meta description"
+msgstr "ホームのメタ説明文をコピーする"
+
+#: admin/pages/social.php:58
+msgid "These are the title, description and image used in the Open Graph meta tags on the front page of your site."
+msgstr "トップページの Open Graph メタデータで使用されるタイトル、説明文、画像です。"
+
+#: inc/class-wpseo-replace-vars.php:106
+msgid "A replacement variable can only contain alphanumeric characters, an underscore or a dash. Try renaming your variable."
+msgstr ""
+
+#: admin/class-admin.php:238 admin/class-admin.php:239
+msgid "Advanced Variables"
+msgstr "高度な変数"
+
+#: admin/class-admin.php:439
+msgid "Premium Support"
+msgstr "プレミアムサポート"
+
+#: admin/class-admin.php:443
+msgid "FAQ"
+msgstr "FAQ"
+
+#: admin/class-yoast-form.php:227
+msgid "Remove these ads?"
+msgstr "広告を無くしたいですか?"
+
+#: admin/class-metabox.php:37
+msgid "This is a rendering of what this post might look like in Google's search results.<br/><br/>Read %sthis post%s for more info."
+msgstr ""
+
+#: admin/class-metabox.php:43
+msgid "Warning:"
+msgstr "警告:"
+
+#: admin/class-metabox.php:43
+msgid "Title display in Google is limited to a fixed width, yours is too long."
+msgstr "Google で表示されるタイトルの幅は決まっており、このタイトルは長すぎます。"
+
+#: admin/class-metabox.php:56 admin/class-taxonomy.php:211
+msgid "Warning: even though you can set the meta robots setting here, the entire site is set to noindex in the sitewide privacy settings, so these settings won't have an effect."
+msgstr "警告: メタロボット設定を設定できますが、サイト全体が noindex に設定されているため、効果がありません。"
+
+#: vendor/yoast/license-manager/class-license-manager.php:138
+msgid "<b>Warning!</b> You're blocking external requests which means you won't be able to get %s updates. Please add %s to %s."
+msgstr "<b>警告!</b> 外部のリクエストをブロックしているため、 %s の更新が取得できません。%s を %s に追加してください。"
+
+#: vendor/yoast/license-manager/class-license-manager.php:206
+msgid "Your license has expired. You must <a href=\"%s\">extend your license</a> in order to use it again."
+msgstr "ライセンスの有効期限が切れました。使用を続けるには<a href=\"%s\">ライセンスを延長</a>してください。"
+
+#: vendor/yoast/license-manager/class-license-manager.php:271
+msgid "Request error: \"%s\" (%scommon license notices%s)"
+msgstr "リクエストエラー: \"%s\" (%s一般的なライセンスの注意%s)"
+
+#: vendor/yoast/license-manager/class-plugin-license-manager.php:73
+msgid "%s is network activated, you can manage your license in the <a href=\"%s\">network admin license page</a>."
+msgstr ""
+
+#: vendor/yoast/license-manager/class-plugin-license-manager.php:75
+msgid "%s is network activated, please contact your site administrator to manage the license."
+msgstr ""
+
+#: vendor/yoast/license-manager/class-update-manager.php:153
+msgid "This site has not been activated properly on yoast.com and thus cannot check for future updates. Please activate your site with a valid license key."
+msgstr ""
+
+#: vendor/yoast/license-manager/views/form.php:81
+msgid "Your %s license will expire on %s."
+msgstr "%s ライセンスは %s に期限切れになります。"
+
+#: vendor/yoast/license-manager/views/form.php:84
+msgid "%sRenew your license now%s."
+msgstr "%s今すぐライセンスを更新する%s"
+
+#. translators: %1$s expands to Yoast SEO
+#: admin/pages/licenses.php:18
+msgid "The premium version of %1$s with more features & support."
+msgstr "追加機能とサポートが得られるプレミアム版の %1$s です。"
+
+#: admin/pages/licenses.php:24
+msgid "Optimize your videos to show them off in search results and get more clicks!"
+msgstr "動画を最適化して検索結果に表示させ、もっとクリックされるようにします!"
+
+#: admin/pages/licenses.php:30
+msgid "Are you in Google News? Increase your traffic from Google News by optimizing for it!"
+msgstr "Google ニュースに表示されてますか? 最適化してGoogle ニュースからのトラフィックを増やしましょう!"
+
+#: admin/pages/licenses.php:36
+msgid "Rank better locally and in Google Maps, without breaking a sweat!"
+msgstr "Google マップのランキングで上位になりましょう!"
+
+#. translators: %1$s expands to Yoast SEO
+#: admin/pages/licenses.php:43
+msgid "Seamlessly integrate WooCommerce with %1$s and get extra features!"
+msgstr "WooCommerce を %1$s とシームレスに統合したり追加機能を使えるようにしたりします!"
+
+#: admin/pages/licenses.php:99
+msgid "Get this extension"
+msgstr "この拡張機能を取得する"
+
+#: admin/views/tab-permalinks.php:41
+msgid "Prevent cleaning out Google Analytics Campaign & Google AdWords Parameters."
+msgstr "Google Analytics のキャンペーンと Google AdWords パラメータの削除を防ぎます。"
+
+#: inc/class-wpseo-replace-vars.php:109
+msgid "A replacement variable can not start with \"%%cf_\" or \"%%ct_\" as these are reserved for the WPSEO standard variable variables for custom fields and custom taxonomies. Try making your variable name unique."
+msgstr ""
+
+#: inc/class-wpseo-replace-vars.php:118
+msgid "A replacement variable with the same name has already been registered. Try making your variable name more unique."
+msgstr ""
+
+#: inc/class-wpseo-replace-vars.php:122
+msgid "You cannot overrule a WPSEO standard variable replacement by registering a variable with the same name. Use the \"wpseo_replacements\" filter instead to adjust the replacement value."
+msgstr ""
+
+#: inc/class-wpseo-replace-vars.php:1087
+msgid "Replaced with the title of the parent page of the current page"
+msgstr "現在のページの親ページのタイトルに置き換えられます"
+
+#: inc/class-wpseo-replace-vars.php:1089
+msgid "The site's tag line / description"
+msgstr "サイトのタグライン / 説明文"
+
+#: inc/class-wpseo-replace-vars.php:1120
+msgid "Replaced with the current page number with context (i.e. page 2 of 4)"
+msgstr "現在のページ数に置き換えられます (例: ページ 2/4)"
+
+#: inc/wpseo-non-ajax-functions.php:333
+msgid "Check Rich Snippets"
+msgstr "リッチスニペットのチェック"
+
+#: inc/wpseo-non-ajax-functions.php:340
+msgid "Facebook Debugger"
+msgstr "Facebook Debugger"
+
+#: wp-seo-main.php:368
+msgid "The Standard PHP Library (SPL) extension seem to be unavailable. Please ask your web host to enable it."
+msgstr "Standard PHP Library (SPL) 拡張機能が利用できないようです。ホスティング会社に有効にするよう問い合わせてください。"
+
+#. Plugin URI of the plugin/theme
+msgid "https://yoast.com/wordpress/plugins/seo/#utm_source=wpadmin&utm_medium=plugin&utm_campaign=wpseoplugin"
+msgstr "https://yoast.com/wordpress/plugins/seo/#utm_source=wpadmin&utm_medium=plugin&utm_campaign=wpseoplugin"
+
+#. Description of the plugin/theme
+msgid "The first true all-in-one SEO solution for WordPress, including on-page content analysis, XML sitemaps and much more."
+msgstr "WordPress のオールインワン型 SEO ソリューションを提供します。ページコンテンツの解析や XML サイトマップなど様々な機能があります。"
+
+#. Author URI of the plugin/theme
+msgid "https://yoast.com/"
+msgstr "https://yoast.com/"
+
+#: inc/options/class-wpseo-option-internallinks.php:165
+msgid "Please select a valid taxonomy for post type \"%s\""
+msgstr "投稿タイプ \"%s\" の正しいタクソノミーを選んでください。"
+
+#: admin/ajax.php:215
+msgid "Post doesn't exist."
+msgstr "投稿がありません。"
+
+#: admin/ajax.php:224
+msgid "Post has an invalid Post Type: %s."
+msgstr "投稿タイプが正しくありません: %s."
+
+#: admin/ajax.php:232
+msgid "You can't edit %s."
+msgstr "%sは編集できません。"
+
+#: admin/ajax.php:240
+msgid "You can't edit %s that aren't yours."
+msgstr "%sは自分のものではないため編集できません。"
+
+#: admin/class-admin.php:174 admin/class-admin.php:264
+#: admin/class-pointers.php:341 admin/pages/licenses.php:77
+#: inc/wpseo-non-ajax-functions.php:436
+msgid "Extensions"
+msgstr "拡張機能"
+
+#. translators: %1$s expands to Yoast SEO
+#: admin/class-admin.php:223
+msgid "The title &amp; metas settings for %1$s are made up of variables that are replaced by specific values from the page when the page is displayed. The tabs on the left explain the available variables."
+msgstr "%1$s のタイトル＆メタの設定では、ページが表示されるときの特定の値に置き換えられる変数が使えます。左のタブで利用できる変数について説明しています。"
+
+#: admin/class-bulk-editor-list-table.php:294
+msgctxt "posts"
+msgid "All <span class=\"count\">(%s)</span>"
+msgid_plural "All <span class=\"count\">(%s)</span>"
+msgstr[0] "すべて <span class=\"count\">(%s)</span>"
+
+#: admin/class-bulk-editor-list-table.php:337
+msgctxt "posts"
+msgid "Trash <span class=\"count\">(%s)</span>"
+msgid_plural "Trash <span class=\"count\">(%s)</span>"
+msgstr[0] "ゴミ箱へ移動 <span class=\"count\">(%s)</span>"
+
+#: admin/class-bulk-editor-list-table.php:387
+msgid "Filter"
+msgstr "絞り込み検索"
+
+#: admin/class-bulk-editor-list-table.php:920
+msgid "WP Page Title"
+msgstr "WP ページタイトル"
+
+#: admin/class-bulk-editor-list-table.php:921
+msgid "Post Type"
+msgstr "投稿タイプ"
+
+#: admin/class-bulk-editor-list-table.php:922
+msgid "Post Status"
+msgstr "投稿ステータス"
+
+#: admin/class-bulk-editor-list-table.php:924
+msgid "Page URL/Slug"
+msgstr "ページ URL / スラッグ"
+
+#: admin/class-bulk-description-editor-list-table.php:43
+msgid "Existing Yoast Meta Description"
+msgstr "既存の Yoast メタ説明文"
+
+#: admin/class-bulk-description-editor-list-table.php:44
+msgid "New Yoast Meta Description"
+msgstr "新しい Yoast メタ説明文"
+
+#: admin/class-bulk-editor-list-table.php:929
+msgid "Action"
+msgstr "アクション"
+
+#: admin/class-bulk-editor-list-table.php:748
+msgid "Edit this item"
+msgstr "このアイテムを編集"
+
+#: admin/class-bulk-editor-list-table.php:748
+msgid "Edit"
+msgstr "編集"
+
+#: admin/class-bulk-editor-list-table.php:754
+msgid "Preview &#8220;%s&#8221;"
+msgstr "プレビュー &#8220;%s&#8221;"
+
+#: admin/class-bulk-editor-list-table.php:754
+msgid "Preview"
+msgstr "プレビュー"
+
+#: admin/class-bulk-editor-list-table.php:758
+msgid "View &#8220;%s&#8221;"
+msgstr "表示 &#8220;%s&#8221;"
+
+#: admin/class-bulk-editor-list-table.php:758
+#: admin/google_search_console/class-gsc-table.php:209
+msgid "View"
+msgstr "表示"
+
+#: admin/class-bulk-title-editor-list-table.php:45
+msgid "Existing Yoast SEO Title"
+msgstr "既存の Yoast SEO タイトル"
+
+#: admin/class-bulk-title-editor-list-table.php:46
+msgid "New Yoast SEO Title"
+msgstr "新しい Yoast SEO タイトル"
+
+#: admin/class-yoast-form.php:130
+msgid "Debug Information"
+msgstr "デバッグ情報"
+
+#: admin/class-yoast-form.php:132
+msgid "Current option:"
+msgstr "現在のオプション:"
+
+#: admin/class-metabox.php:68
+msgid "Site-wide default: %s"
+msgstr "サイト全体のデフォルト: %s"
+
+#: admin/class-metabox.php:1365
+msgid "No post content to analyse."
+msgstr "解析する投稿コンテンツがありません。"
+
+#: vendor/yoast/license-manager/class-license-manager.php:190
+msgid "<a href=\"%s\">Did you know you can upgrade your license?</a>"
+msgstr "<a href=\"%s\">ライセンスがアップグレードできると知っていましたか?</a>"
+
+#: vendor/yoast/license-manager/class-license-manager.php:194
+msgid "<a href=\"%s\">Your license is expiring in %d days, would you like to extend it?</a>"
+msgstr "<a href=\"%s\">ライセンスが%d日で期限切れになります。延長しますか?</a>"
+
+#: vendor/yoast/license-manager/class-license-manager.php:203
+msgid "You've reached your activation limit. You must <a href=\"%s\">upgrade your license</a> to use it on this site."
+msgstr "認証上限に達しました。このサイトで利用するには<a href=\"%s\">ラインセンスをアップグレード</a>してください。"
+
+#: vendor/yoast/license-manager/class-license-manager.php:209
+msgid "Failed to activate your license, your license key seems to be invalid."
+msgstr "ライセンスを有効化できませんでした。ライセンスキーが間違っているようです。"
+
+#: vendor/yoast/license-manager/class-license-manager.php:233
+msgid "Your %s license has been deactivated."
+msgstr "%s ライセンスを無効化しました。"
+
+#: vendor/yoast/license-manager/class-license-manager.php:235
+msgid "Failed to deactivate your %s license."
+msgstr "%s ライセンスの無効化が失敗しました。"
+
+#: vendor/yoast/license-manager/class-theme-license-manager.php:34
+#: vendor/yoast/license-manager/samples/sample-plugin.php:53
+msgid "%s License"
+msgstr "%s ライセンス"
+
+#: vendor/yoast/license-manager/class-theme-license-manager.php:34
+msgid "Theme License"
+msgstr "テーマのライセンス"
+
+#: vendor/yoast/license-manager/class-theme-update-manager.php:96
+msgid "Updating this theme will lose any customizations you have made. 'Cancel' to stop, 'OK' to update."
+msgstr "このテーマを更新すると、あなたが行ったすべてのカスタマイズが失われます。中止するには「キャンセル」を、更新するには「OK」をクリックしてください。"
+
+#: vendor/yoast/license-manager/class-theme-update-manager.php:101
+msgid "<strong>%s version %s</strong> is available. <a href=\"%s\" class=\"thickbox\" title=\"%s\">Check out what's new</a> or <a href=\"%s\" %s>update now</a>."
+msgstr "<strong>%s バージョン %s</strong> に更新できます。<a href=\"%s\" class=\"thickbox\" title=\"%s\">更新内容を確認</a>するか、<a href=\"%s\" %s>今すぐ更新</a>してください。"
+
+#: vendor/yoast/license-manager/class-update-manager.php:83
+msgid "%s failed to check for updates because of the following error: <em>%s</em>"
+msgstr "以下のエラーが発生したため、%s の更新の確認ができませんでした: <em>%s</em>"
+
+#: vendor/yoast/license-manager/class-license-manager.php:430
+msgid "%s: License Settings"
+msgstr "%s: ライセンス設定"
+
+#: vendor/yoast/license-manager/views/form.php:31
+msgid "License status"
+msgstr "ライセンスステータス"
+
+#: vendor/yoast/license-manager/views/form.php:41
+msgid "Toggle license status"
+msgstr "ライセンスステータスの切り替え"
+
+#: vendor/yoast/license-manager/views/form.php:45
+msgid "Deactivate License"
+msgstr "ライセンスの無効化"
+
+#: vendor/yoast/license-manager/views/form.php:46
+msgid "(deactivate your license so you can activate it on another WordPress site)"
+msgstr "(他の WordPress サイトで使えるようにするには無効化してください)"
+
+#: vendor/yoast/license-manager/views/form.php:50
+msgid "Activate License"
+msgstr "ライセンスの有効化"
+
+#: vendor/yoast/license-manager/views/form.php:52
+msgid "Please enter a license key in the field below first."
+msgstr "まず下のフィールドにライセンスキーを入力してください。"
+
+#: vendor/yoast/license-manager/views/form.php:60
+msgid "License Key"
+msgstr "ライセンスキー"
+
+#: vendor/yoast/license-manager/views/form.php:62
+msgid "Paste your %s license key here.."
+msgstr "ここに %s ライセンスキーを入力..."
+
+#: vendor/yoast/license-manager/views/form.php:64
+msgid "You defined your license key using the %s PHP constant."
+msgstr "ライセンスキーを %s PHP 定数で指定しています。"
+
+#: admin/pages/dashboard.php:65
+msgid "Failed to remove hardcoded meta description."
+msgstr "ハードコードされたメタ説明文を削除できませんでした。"
+
+#: admin/pages/dashboard.php:72
+msgid "Earlier found meta description was not found in file. Renewed the description test data."
+msgstr "最初に見つかったメタ説明文がファイルにありませんでした。説明文のテストデータを更新しました。"
+
+#: admin/class-pointers.php:295 admin/pages/social.php:23
+msgid "Pinterest"
+msgstr "Pinterest"
+
+#: admin/pages/dashboard.php:236
+msgid "Yandex Webmaster Tools"
+msgstr "Yandex ウェブマスターツール"
+
+#: admin/views/tool-file-editor.php:17
+msgid "You cannot create a robots.txt file."
+msgstr "robots.txt を作成できません。"
+
+#: admin/views/tool-file-editor.php:83
+msgid "You don't have a robots.txt file, create one here:"
+msgstr "robots.txt がありません。ここで新規作成できます:"
+
+#: admin/views/tool-file-editor.php:84
+msgid "Create robots.txt file"
+msgstr "robots.txt を作成する"
+
+#: admin/class-import.php:173
+msgid "Setting \"%s\" is no longer used and has been discarded."
+msgstr "文字列 \"%s\" は使用されていないため、破棄されました。"
+
+#: admin/class-import.php:151
+msgid "No settings found in file."
+msgstr "設定が見つかりませんでした。"
+
+#: admin/class-import.php:127
+msgid "Unzipping failed - file settings.ini not found."
+msgstr "ZIP 解凍失敗 - settings.ini がありません。"
+
+#: admin/class-import.php:120
+msgid "Unzipping failed with error \"%s\"."
+msgstr "エラー\"%s\"で ZIP 解凍が失敗しました。"
+
+#: admin/class-pointers.php:345 admin/pages/licenses.php:78
+msgid "Licenses"
+msgstr "ライセンス"
+
+#: admin/class-metabox.php:50 admin/class-taxonomy.php:192
+#: admin/pages/metas.php:137
+msgid "Meta keywords"
+msgstr "メタキーワード"
+
+#: admin/pages/network.php:35
+msgid "%s restored to default SEO settings."
+msgstr "%s SEO 設定をデフォルトに戻しました。"
+
+#: admin/pages/network.php:38
+msgid "Blog %s not found."
+msgstr "ブログ %s が見つかりませんでした。"
+
+#: admin/views/tab-permalinks.php:43
+msgid "You might have extra variables you want to prevent from cleaning out, add them here, comma separated."
+msgstr "消されたくない追加の変数がある場合は、ここに入力してください。 (コンマ区切り)"
+
+#: admin/pages/social.php:93
+msgid "The default card type to use"
+msgstr "使用するデフォルトカードタイプ"
+
+#: admin/pages/xml-sitemaps.php:64
+msgid "Please enter the maximum number of entries per sitemap page (defaults to %s, you might want to lower this to prevent memory issues on some installs):"
+msgstr "サイトマップページ1つ毎の最大投稿数を指定してください  (デフォルトは%sです。メモリを節約したい場合は引き下げてください):"
+
+#: inc/options/class-wpseo-option.php:296
+msgid "%s does not seem to be a valid %s verification string. Please correct."
+msgstr "%s は正しい %s 認証コードではないようです。修正してください。"
+
+#: inc/options/class-wpseo-option-internallinks.php:204
+msgid "Please select a valid post type for taxonomy \"%s\""
+msgstr "タクソノミー \"%s\" の正しい投稿タイプを選んでください。"
+
+#: inc/options/class-wpseo-option-xml.php:166
+msgid "\"Max entries per sitemap page\" should be a positive number, which %s is not. Please correct."
+msgstr "サイトマップ毎の最大投稿数は正の数でないといけません。%s は間違っているので修正してください。"
+
+#: inc/options/class-wpseo-option-social.php:103
+msgid "Summary"
+msgstr "Summary"
+
+#: inc/options/class-wpseo-option-social.php:104
+msgid "Summary with large image"
+msgstr "大きな画像付きのSummary"
+
+#: inc/options/class-wpseo-option.php:331
+msgid "%s does not seem to be a valid url. Please correct."
+msgstr "%s は正しい URL ではありません。修正してください。"
+
+#: inc/options/class-wpseo-option-social.php:240
+msgid "%s does not seem to be a valid Twitter user-id. Please correct."
+msgstr "%s は正しい Twitter ユーザー ID ではありません。修正してください。"
+
+#. translators: %1$s expands to the option name and %2$sexpands to Yoast SEO
+#: inc/options/class-wpseo-option-ms.php:153
+msgid "%1$s is not a valid choice for who should be allowed access to the %2$s settings. Value reset to the default."
+msgstr "%1$s は %2$s 設定へのアクセスを許可するユーザーの選択としては正しくありません。デフォルトに戻しました。"
+
+#: inc/options/class-wpseo-option-ms.php:173
+#: inc/options/class-wpseo-option-ms.php:183
+msgid "The default blog setting must be the numeric blog id of the blog you want to use as default."
+msgstr "デフォルトブログ設定は、デフォルトで使いたいブログの ID の数字でないといけません。"
+
+#: inc/options/class-wpseo-option-ms.php:173
+msgid "This must be an existing blog. Blog %s does not exist or has been marked as deleted."
+msgstr "すでにあるブログでないといけません。 ブログ %s は存在しないか、削除されています。"
+
+#: inc/options/class-wpseo-option-ms.php:183
+msgid "No numeric value was received."
+msgstr "数字の値を受け取れませんでした。"
+
+#: admin/class-admin.php:214
+msgid "Title optimization"
+msgstr "タイトルの最適化"
+
+#: admin/class-admin.php:213
+msgid "For more information:"
+msgstr "詳細はこちら:"
+
+#: admin/class-metabox.php:2078
+msgid "There are %d words contained in the body copy, this is slightly below the %d word recommended minimum, add a bit more copy."
+msgstr "ボディコピーが%d単語です。%d単語以上がおすすめなので、もう少し足してください。"
+
+#: admin/class-config.php:95 admin/class-metabox.php:547
+#: admin/class-metabox.php:931
+msgid "Use Image"
+msgstr "画像を使用する"
+
+#: admin/class-metabox.php:2077
+msgid "There are %d words contained in the body copy, this is below the %d word recommended minimum. Add more useful content on this topic for readers."
+msgstr "ボディコピーが%d単語です。%d単語以上がおすすめなので、読者にとって便利なコンテンツを足してください。"
+
+#: admin/class-metabox.php:2076
+msgid "There are %d words contained in the body copy, this is more than the %d word recommended minimum."
+msgstr "ボディコピーが%d単語です。おすすめの単語数、%d単語以上です。"
+
+#: admin/views/tab-permalinks.php:22
+msgid "This helps you to create cleaner URLs by automatically removing the stopwords from them."
+msgstr "URL の文字列を途切れさせてしまうストップワードを自動的に削除することで、きれいな URL を作成できるようにします。"
+
+#: admin/views/tab-permalinks.php:23
+msgid "Remove stop words from slugs."
+msgstr "ストップワードをスラッグから削除する"
+
+#: admin/class-admin.php:215
+msgid "Why Google won't display the right page title"
+msgstr "なぜ Google は正しいページタイトルを表示しないのか"
+
+#: admin/class-admin.php:221
+msgid "Template explanation"
+msgstr "テンプレート説明"
+
+#: admin/class-admin.php:230 admin/class-admin.php:231
+msgid "Basic Variables"
+msgstr "基本変数"
+
+#: admin/class-admin.php:407
+msgid "SEO Issue:"
+msgstr "SEO の問題:"
+
+#. translators: %1$s expands to Yoast SEO, %2$s to opening anchor and %3$s the
+#. anchor closing tag
+#: admin/class-admin.php:409
+msgid "Your theme contains a meta description, which blocks %1$s from working properly. Please visit the %2$sSEO Dashboard%3$s to fix this."
+msgstr "テーマがメタ説明文を含んでおり、%1$s が正しく動作しない可能性があります。%2$sSEO ダッシュボード%3$sで修正してください。"
+
+#: admin/class-admin.php:469 admin/class-opengraph-admin.php:43
+#: admin/class-pointers.php:296 admin/pages/social.php:24
+msgid "Google+"
+msgstr "Google+"
+
+#: admin/class-admin.php:473
+msgid "Facebook profile URL"
+msgstr "Facebook プロフィール URL"
+
+#: admin/class-metabox.php:453
+msgid "Check"
+msgstr "チェック"
+
+#: admin/class-metabox.php:40
+msgid "Pick the main keyword or keyphrase that this post/page is about.<br/><br/>Read %sthis post%s for more info."
+msgstr "この投稿・ページのメインキーワードかキーフレーズを選んでください。<br/><br/>詳しくは%sこの投稿%sをご覧ください。"
+
+#: admin/class-metabox.php:59
+msgid "index"
+msgstr "index"
+
+#: admin/class-metabox.php:60
+msgid "noindex"
+msgstr "noindex"
+
+#: admin/class-metabox.php:541
+msgid "Your focus keyword was found in:"
+msgstr "フォーカスキーワードが見つかりました:"
+
+#: admin/class-metabox.php:542
+msgid "Article Heading: "
+msgstr "投稿の見出し:"
+
+#: admin/class-metabox.php:543
+msgid "Page title: "
+msgstr "ページタイトル:"
+
+#: admin/class-metabox.php:544
+msgid "Page URL: "
+msgstr "ページURL:"
+
+#: admin/class-metabox.php:545
+msgid "Content: "
+msgstr "内容:"
+
+#: admin/class-metabox.php:546
+msgid "Meta description: "
+msgstr "メタ説明文:"
+
+#: admin/class-metabox.php:956
+msgid "All SEO Scores"
+msgstr "すべての SEO スコア"
+
+#: admin/class-metabox.php:1377
+msgid "Page Analysis has been disabled."
+msgstr "ページ解析は無効化されています。"
+
+#: admin/pages/dashboard.php:59
+msgid "Removed hardcoded meta description."
+msgstr "ハードコーディングされたメタ説明文を削除しました。"
+
+#: admin/pages/dashboard.php:120
+msgid "Re-check theme."
+msgstr "テーマを再度確認してください。"
+
+#: inc/wpseo-non-ajax-functions.php:581
+msgid "The plugin Robots-Meta has been detected. Do you want to %simport its settings%s."
+msgstr "プラグイン Robots-Meta を検出しました。%s設定をインポート%sしますか?"
+
+#: inc/wpseo-non-ajax-functions.php:590
+msgid "Robots-Meta has been deactivated"
+msgstr "Robots-Meta を無効化しました"
+
+#: inc/wpseo-non-ajax-functions.php:571
+msgid "All-In-One-SEO has been deactivated"
+msgstr "All-In-One-SEO を無効化しました"
+
+#: admin/class-admin.php:257
+msgid "Edit Files"
+msgstr "ファイルの編集"
+
+#: inc/class-wpseo-replace-vars.php:1125
+msgid "Replaced with the slug which caused the 404"
+msgstr "404の原因になるスラッグに置き換えられます"
+
+#: inc/class-wpseo-replace-vars.php:1128
+msgid "Replaced with a custom taxonomies description"
+msgstr "カスタムタクソノミー説明文に置き換えられます"
+
+#: admin/class-opengraph-admin.php:41 admin/class-pointers.php:292
+#: admin/pages/social.php:21
+msgid "Facebook"
+msgstr "Facebook"
+
+#: admin/pages/social.php:53
+msgid "Add Open Graph meta data"
+msgstr "Open Graph メタデータを追加する"
+
+#: admin/pages/social.php:33
+msgid "Facebook Page URL"
+msgstr "Facebook ページの URL"
+
+#: admin/pages/xml-sitemaps.php:38
+msgid "User sitemap"
+msgstr "ユーザーサイトマップ"
+
+#: admin/pages/xml-sitemaps.php:74
+msgid "Disable author/user sitemap"
+msgstr "投稿者 / ユーザーサイトマップを無効化する"
+
+#: inc/class-wpseo-utils.php:203
+msgid "N/A"
+msgstr "不明"
+
+#: inc/class-wpseo-utils.php:208
+msgid "Poor"
+msgstr "少し悪い"
+
+#: inc/class-wpseo-utils.php:219
+msgid "Good"
+msgstr "良い"
+
+#: inc/class-wpseo-utils.php:223
+msgid "Bad"
+msgstr "悪い"
+
+#: admin/class-admin.php:330
+msgid "Posts"
+msgstr "投稿"
+
+#: admin/class-metabox.php:1614
+msgid "You've never used this focus keyword before, very good."
+msgstr "これまで一度もこのフォーカスキーワードを使ったことがありません。良いですね。"
+
+#: admin/class-metabox.php:1617
+msgid "You've used this focus keyword %1$sonce before%2$s, be sure to make very clear which URL on your site is the most important for this keyword."
+msgstr "このフォーカスキーワードを%1$s以前にも%2$s使ったことがあります。このキーワードに対してどのURLが一番大事なのか明確にするようにしてください。"
+
+#: admin/class-metabox.php:1626
+msgid "You've used this focus keyword %3$s%4$d times before%2$s, it's probably a good idea to read %1$sthis post on cornerstone content%2$s and improve your keyword strategy."
+msgstr "このフォーカスキーワードを%3$s以前にも%4$d回%2$s使ったことがあります。キーワードの効果的な使い方について、%1$scornerstone content の投稿%2$sを読むと良いでしょう。"
+
+#: admin/class-admin.php:374
+msgid "You must %sgo to your Reading Settings%s and uncheck the box for Search Engine Visibility."
+msgstr "%s表示設定に移動%sして、「検索エンジンでの表示」のチェックボックスのチェックを外してください。"
+
+#: inc/class-wpseo-replace-vars.php:1117
+msgid "Replaced with the current day"
+msgstr "現在の日で置き換えられます"
+
+#: admin/pages/xml-sitemaps.php:63
+msgid "Entries per page"
+msgstr "ページあたりのエントリー"
+
+#: admin/views/tool-file-editor.php:138
+msgid "If you had a .htaccess file and it was editable, you could edit it from here."
+msgstr ".htaccess ファイルがあり、編集可能な場合、ここで編集できます。"
+
+#: admin/views/tool-file-editor.php:88
+msgid "If you had a robots.txt file and it was editable, you could edit it from here."
+msgstr "robots.txt ファイルがあり、編集可能な場合、ここで編集できます。"
+
+#: admin/class-import-woothemes-seo.php:29
+msgid "WooThemes SEO framework settings &amp; data successfully imported."
+msgstr "WooThemes SEO フレームワークの設定とデータをインポートしました。"
+
+#: admin/class-import-external.php:108
+msgid "HeadSpace2 data successfully imported"
+msgstr "HeadSpace2 のデータをインポートしました。"
+
+#: admin/views/tool-import-export.php:148
+msgid "Import from WooThemes SEO framework?"
+msgstr "WooThemes SEO フレームワークからインポートしますか？"
+
+#: admin/class-metabox.php:2120
+msgid "Your keyphrase is over 10 words, a keyphrase should be shorter and there can be only one keyphrase."
+msgstr "キーフレーズが10単語を超えています。キーフレーズは短く、一つだけでないといけません。"
+
+#: admin/pages/social.php:121
+msgid "If you have a Google+ page for your business, add that URL here and link it on your Google+ page's about page."
+msgstr "ビジネス用の Google+ ページがあるなら、ここにそのURLを追加してください。Google+ ページ上の基本情報ページにリンクします。"
+
+#. translators: %1$s expands to Yoast SEO
+#: admin/pages/dashboard.php:122
+msgid "Your theme contains a meta description, which blocks %1$s from working properly, please delete the following line, or press fix it:"
+msgstr "テーマがメタ説明文を含んでいるため、%1$s が正常に動作しません。次の行を削除するか、「修正する」を押してください。"
+
+#: admin/pages/social.php:123
+msgid "Google Publisher Page"
+msgstr "Google Publisher Page"
+
+#: admin/pages/metas.php:103
+msgid "Date in Snippet Preview"
+msgstr "スニペットプレビューの日付"
+
+#: admin/class-admin.php:471
+msgid "Twitter username (without @)"
+msgstr "Twitter ユーザー名 (@は不要)"
+
+#: admin/pages/metas.php:103
+msgid "Show date in snippet preview?"
+msgstr "スペニットプレビューに日付を表示する"
+
+#: admin/class-metabox.php:949
+msgid "SEO: OK"
+msgstr "SEO:OK"
+
+#: admin/class-metabox.php:948
+msgid "SEO: Poor"
+msgstr "SEO: 少し悪い"
+
+#: admin/class-metabox.php:947
+msgid "SEO: Bad"
+msgstr "SEO: 悪い"
+
+#: admin/class-metabox.php:946
+msgid "SEO: No Focus Keyword"
+msgstr "SEO: フォーカスキーワードなし"
+
+#: admin/class-metabox.php:950
+msgid "SEO: Good"
+msgstr "SEO: 良い"
+
+#: admin/class-metabox.php:951
+msgid "SEO: Post Noindexed"
+msgstr "SEO: Noindex 設定中"
+
+#: admin/class-metabox.php:984
+msgid "Meta Desc."
+msgstr "メタ説明文"
+
+#: admin/class-metabox.php:985
+msgid "Focus KW"
+msgstr "フォーカスキーワード"
+
+#: inc/options/class-wpseo-option-titles.php:178
+msgid "%s, Author at %s"
+msgstr "%s, %s 投稿者"
+
+#: admin/views/tab-permalinks.php:26
+msgid "Remove the <code>?replytocom</code> variables."
+msgstr "<code>?replytocom</code> 変数を削除する"
+
+#: admin/pages/metas.php:22 admin/pages/xml-sitemaps.php:40
+msgid "Post Types"
+msgstr "投稿タイプ"
+
+#: admin/views/tab-permalinks.php:25
+msgid "This prevents threaded replies from working when the user has JavaScript disabled, but on a large site can mean a <em>huge</em> improvement in crawl efficiency for search engines when you have a lot of comments."
+msgstr "ユーザーが JavaScript を無効化している場合に、返信がスレッドにならなくなります。大規模なサイト上では多数のコメントが有る時に検索エンジンのクロール効率が<em>大幅に</em> 向上します。"
+
+#: inc/class-wpseo-replace-vars.php:1108
+msgid "Replaced with the post type single label"
+msgstr "投稿タイプのシングルラベルに置き換えられます"
+
+#: admin/class-pointers.php:278 admin/class-pointers.php:297
+#: admin/google_search_console/class-gsc-category-filters.php:117
+#: admin/pages/metas.php:25
+msgid "Other"
+msgstr "その他"
+
+#: inc/class-wpseo-replace-vars.php:1109
+msgid "Replaced with the post type plural label"
+msgstr "投稿タイプの複数ラベルに置き換えられます"
+
+#: inc/options/class-wpseo-option-titles.php:212
+msgid "%s Archive"
+msgstr "%s アーカイブ"
+
+#: admin/class-pointers.php:291
+msgid "Social settings"
+msgstr "ソーシャルの設定"
+
+#: admin/class-pointers.php:275
+msgid "Sitewide settings"
+msgstr "サイト全体の設定"
+
+#: frontend/class-frontend.php:514 frontend/class-frontend.php:517
+#: frontend/class-frontend.php:520 frontend/class-frontend.php:535
+#: frontend/class-frontend.php:538 frontend/class-frontend.php:541
+#: inc/options/class-wpseo-option-titles.php:228
+msgid "%s Archives"
+msgstr "%s アーカイブ"
+
+#: admin/class-taxonomy.php:77
+msgid "Always index"
+msgstr "常に index にします。"
+
+#: admin/class-metabox.php:1370
+msgid "No focus keyword was set for this %s. If you do not set a focus keyword, no score can be calculated."
+msgstr "この%sにフォーカスキーワードが設定されていません。 フォーカスキーワードを設定していない場合、スコアを算出できません。"
+
+#: admin/class-metabox.php:1335
+msgid "To update this page analysis, save as draft or update and check this tab again"
+msgstr "このページの分析を更新するために、下書きまたは更新として保存し、再度このタブをチェックしてください。"
+
+#: admin/class-metabox.php:1956
+msgid "No subheading tags (like an H2) appear in the copy."
+msgstr "サブ見出しタグ（H2など）はコピーに表示されません。"
+
+#: admin/class-metabox.php:2082
+msgid "The keyword density is %s%%, which is over the advised 4.5%% maximum, the keyword was found %s times."
+msgstr "キーワード密度は勧告されている最大値4.5%%の以上の%s%%であり、キーワードは%s回見つかりました。"
+
+#. translators: %1$s expands to Yoast SEO
+#: admin/pages/metas.php:39
+msgid "%1$s has auto-detected whether it needs to force rewrite the titles for your pages, if you think it's wrong and you know what you're doing, you can change the setting here."
+msgstr "%1$s は、ページのタイトルを書き換える必要があるかどうかを自動検出します。 それが間違っていて、どう変更すればいいか知っているなら、ここで設定を変更できます。"
+
+#: inc/class-wpseo-replace-vars.php:1127
+msgid "Replaced with a posts custom taxonomies, comma separated."
+msgstr "カンマで区切られた投稿のカスタムタクソノミーに置き換えられます"
+
+#: inc/class-wpseo-replace-vars.php:1126
+msgid "Replaced with a posts custom field value"
+msgstr "現在の投稿カスタムフィールド値に置き換えられます"
+
+#: admin/pages/dashboard.php:157
+msgid "Take this tour to quickly learn about the use of this plugin."
+msgstr "ツアーに参加してこのプラグインの使い方を学びましょう。"
+
+#: admin/pages/metas.php:208
+msgid "Special Pages"
+msgstr "特別なページ"
+
+#: admin/pages/metas.php:227
+msgid "I don't know why you'd want to use meta keywords, but if you want to, check this box."
+msgstr "なぜメタキーワードを使用したいのか知りませんが、使用したいならこのチェックボックスにチェックを入れてください。"
+
+#: admin/pages/dashboard.php:241
+msgid "Unchecking this box allows authors and editors to redirect posts, noindex them and do other things you might not want if you don't trust your authors."
+msgstr "このチェックボックスのチェックを外すと、投稿者と編集者が投稿をリダイレクトしたり noindex にしたりできるようになります。投稿者を信頼できない場合、チェックを外さないでください。"
+
+#: admin/class-metabox.php:417 admin/class-metabox.php:1004
+msgid "Post is set to noindex."
+msgstr "投稿は noindex に設定されています。"
+
+#: admin/class-taxonomy.php:76
+msgid "Use %s default (Currently: %s)"
+msgstr " %sのデフォルトを使用(現在: %s)"
+
+#: admin/class-taxonomy.php:209
+msgid "This %s follows the indexation rules set under Metas and Titles, you can override it here."
+msgstr "この%sは、タイトルとメタにあるインデックスのルールに従います。ここでそのルールを上書きすることができます。"
+
+#: admin/class-admin.php:117 inc/wpseo-non-ajax-functions.php:412
+msgid "Titles &amp; Metas"
+msgstr "タイトル &amp; メタ"
+
+#: admin/class-metabox.php:58
+msgid "Default for post type, currently: %s"
+msgstr "現在の投稿タイプのデフォルト：%s"
+
+#: admin/class-metabox.php:1018
+msgid "Focus keyword not set."
+msgstr "フォーカスキーワードを設定していません。"
+
+#: frontend/class-frontend.php:455
+msgid "Search for \"%s\""
+msgstr "\"%s\"の検索結果"
+
+#: admin/class-taxonomy.php:78
+msgid "Always noindex"
+msgstr "常に noindex にします。"
+
+#: admin/pages/metas.php:225
+msgid "Noindex subpages of archives"
+msgstr "アーカイブのサブページを noindex にする"
+
+#: admin/pages/metas.php:224
+msgid "If you want to prevent /page/2/ and further of any archive to show up in the search results, enable this."
+msgstr "/page/2/ を防止して、検索結果に任意のアーカイブを表示したい場合は、下のチェックボックスにチェックを入れてください。"
+
+#: admin/views/tab-permalinks.php:49
+msgid "Hide RSD Links"
+msgstr "RSD リンクを非表示にする"
+
+#: admin/views/tab-permalinks.php:50
+msgid "Hide WLW Manifest Links"
+msgstr "WLW Manifest のリンクを非表示にする"
+
+#: admin/views/tab-permalinks.php:51
+msgid "Hide Shortlink for posts"
+msgstr "投稿のショートリンクを非表示にする"
+
+#: admin/views/tab-permalinks.php:52
+msgid "Hide RSS Links"
+msgstr "RSS リンクを非表示にする"
+
+#: admin/pages/metas.php:102 admin/pages/metas.php:142
+#: admin/pages/metas.php:163
+msgid "Meta Robots"
+msgstr "Meta Robots"
+
+#. translators: %1$s expands to Yoast SEO
+#: admin/pages/metas.php:105 admin/pages/metas.php:165
+msgid "Hide"
+msgstr "非表示"
+
+#. translators: %s expands to <code>noindex, follow</code>
+#: admin/pages/metas.php:210
+msgid "These pages will be %s by default, so they will never show up in search results."
+msgstr "これらのページはデフォルトで %s になるため、検索結果に表示されることはありません。"
+
+#: inc/class-wpseo-replace-vars.php:1099
+msgid "The separator defined in your theme's <code>wp_title()</code> tag."
+msgstr "区切りは、あなたのテーマの <code>wp_title()</code> タグで定義されています。"
+
+#. translators: %s expands to Yoast SEO
+#: admin/pages/dashboard.php:185
+msgid "If you want to restore a site to the default %s settings, press this button."
+msgstr "%s の設定をデフォルトに戻したい場合は、下のボタンを押してください。"
+
+#: admin/pages/dashboard.php:150
+msgid "Security"
+msgstr "セキュリティ"
+
+#: admin/pages/social.php:74
+msgid "This image is used if the post/page being shared does not contain any images."
+msgstr "シェアされている投稿/ページに画像が含まれていない場合は、この画像が使用されます。"
+
+#: admin/class-opengraph-admin.php:42 admin/class-pointers.php:294
+#: admin/pages/social.php:22
+msgid "Twitter"
+msgstr "Twitter"
+
+#: admin/pages/social.php:90
+msgid "Add Twitter card meta data"
+msgstr "Twitter card のメタデータを追加"
+
+#: admin/class-metabox.php:431
+msgid "No focus keyword set."
+msgstr "フォーカスキーワードの設定がありません。"
+
+#: admin/class-metabox.php:1359
+msgid "Your hosting environment does not support PHP's %sDocument Object Model%s."
+msgstr "ホスティング環境が PHPの%sDocument Object Model%s をサポートしていません。"
+
+#: admin/class-metabox.php:1957
+msgid "Keyword / keyphrase appears in %s (out of %s) subheadings in the copy. While not a major ranking factor, this is beneficial."
+msgstr "キーワード／キーフレーズは、コピー内の%s（%sの中の）サブ見出しに出現します。主要なランキング要因ではありませんが、これは有益です。"
+
+#: admin/class-metabox.php:1958
+msgid "You have not used your keyword / keyphrase in any subheading (such as an H2) in your copy."
+msgstr "コピー内に任意のサブ見出し（例えば、H2など）にキーワード/キーフレーズを使用していません。"
+
+#: inc/options/class-wpseo-option-titles.php:179
+msgid "You searched for %s"
+msgstr "検索: %s"
+
+#: inc/options/class-wpseo-option-rss.php:47
+msgid "The post %s appeared first on %s."
+msgstr "%sは%sで公開された投稿です。"
+
+#: admin/class-social-facebook.php:178
+msgid "Successfully cleared all Facebook Data"
+msgstr "正常にすべての Facebook データをクリアしました。"
+
+#: admin/class-social-facebook.php:155
+msgid "Successfully removed admin %s"
+msgstr "正常に管理者%sを削除しました。"
+
+#: admin/pages/social.php:57
+msgid "Frontpage settings"
+msgstr "フロントページ設定"
+
+#: admin/class-social-facebook.php:292
+msgid "Facebook Insights and Admins"
+msgstr "Facebook インサイトと管理"
+
+#: admin/pages/dashboard.php:233
+msgid "Alexa Verification ID"
+msgstr "Alexa の認証 ID"
+
+#: admin/class-admin.php:126 admin/class-opengraph-admin.php:75
+#: admin/class-opengraph-admin.php:86 inc/wpseo-non-ajax-functions.php:418
+msgid "Social"
+msgstr "ソーシャル"
+
+#: admin/class-pointers.php:257
+msgid "Email"
+msgstr "メール"
+
+#: admin/class-pointers.php:259
+msgid "Subscribe"
+msgstr "購読する"
+
+#: admin/class-social-facebook.php:360
+msgid "Currently connected Facebook admins:"
+msgstr "現在接続されている Facebook の管理者："
+
+#: admin/class-social-facebook.php:355
+msgid "Add Another Facebook Admin"
+msgstr "別の Facebook の管理者を追加"
+
+#: admin/class-social-facebook.php:455
+msgid "Clear all Facebook Data"
+msgstr "すべての Facebook データをクリア"
+
+#: admin/pages/social.php:60 admin/pages/social.php:72
+msgid "Image URL"
+msgstr "画像 URL"
+
+#: admin/pages/social.php:62 admin/views/tool-bulk-editor.php:35
+msgid "Description"
+msgstr "説明文"
+
+#: admin/pages/social.php:71
+msgid "Default settings"
+msgstr "デフォルト設定"
+
+#. translators: %1$s expands to Yoast SEO
+#: admin/class-export.php:112
+msgid "This is a settings export file for the %1$s plugin by Yoast.com"
+msgstr "これは %1$s プラグインの設定のエクスポートファイルです。"
+
+#: admin/class-admin.php:100 admin/class-admin.php:251
+#: admin/class-metabox.php:982 inc/wpseo-non-ajax-functions.php:261
+msgid "SEO"
+msgstr "SEO"
+
+#: inc/wpseo-non-ajax-functions.php:267
+msgid "Keyword Research"
+msgstr "キーワードのリサーチ"
+
+#: inc/wpseo-non-ajax-functions.php:273
+msgid "AdWords External"
+msgstr "AdWords External"
+
+#: inc/wpseo-non-ajax-functions.php:280
+msgid "Google Insights"
+msgstr "Google Insights"
+
+#: inc/wpseo-non-ajax-functions.php:287
+msgid "SEO Book"
+msgstr "SEO の本"
+
+#: inc/wpseo-non-ajax-functions.php:299
+msgid "Analyze this page"
+msgstr "このページを分析する"
+
+#: inc/wpseo-non-ajax-functions.php:305
+msgid "Check Inlinks (OSE)"
+msgstr "内部リンクをチェック(OSE)"
+
+#: inc/wpseo-non-ajax-functions.php:312
+msgid "Check Keyword Density"
+msgstr "キーワード密度をチェック"
+
+#: inc/wpseo-non-ajax-functions.php:319
+msgid "Check Google Cache"
+msgstr "Google キャッシュをチェック"
+
+#: inc/wpseo-non-ajax-functions.php:326
+msgid "Check Headers"
+msgstr "ヘッダーをチェック"
+
+#: inc/wpseo-non-ajax-functions.php:401
+msgid "SEO Settings"
+msgstr "SEO 設定"
+
+#: admin/class-admin.php:135 admin/class-pointers.php:310
+#: inc/wpseo-non-ajax-functions.php:424
+msgid "XML Sitemaps"
+msgstr "XML サイトマップ"
+
+#: admin/pages/advanced.php:20
+msgid "Permalinks"
+msgstr "パーマリンク"
+
+#: admin/pages/advanced.php:24
+msgid "RSS"
+msgstr "RSS"
+
+#: admin/pages/dashboard.php:149
+msgid "Webmaster Tools"
+msgstr "ウェブマスターツール"
+
+#: admin/class-pointers.php:217
+msgid "Next"
+msgstr "次へ"
+
+#: admin/class-pointers.php:349
+msgid "Like this plugin?"
+msgstr "このプラグインが好きですか？"
+
+#: admin/class-pointers.php:183
+msgid "Congratulations!"
+msgstr "おめでとうございます！"
+
+#: admin/class-pointers.php:191 admin/pages/dashboard.php:161
+msgid "Start Tour"
+msgstr "ツアーを開始"
+
+#: admin/class-pointers.php:121
+msgid "Close"
+msgstr "閉じる"
+
+#: admin/ajax.php:119
+msgid "Some files could not be removed. Please remove them via FTP."
+msgstr "削除できなかったファイルがあります。FTP を使って、そのファイルを削除してください。"
+
+#: admin/class-metabox.php:1359
+msgid "To enjoy all the benefits of the page analysis feature, you'll need to (get your host to) install it."
+msgstr "ページ分析機能のすべての利点を享受するには、（ホストを取得して）それをインストールする必要があります。"
+
+#: admin/class-metabox.php:1645
+msgid "The keyword for this page contains one or more %sstop words%s, consider removing them. Found '%s'."
+msgstr "このページのキーワードは、1つ以上の%sストップワード%sを含んでいます。削除を検討してください。'%s'が見つかりました。"
+
+#: admin/class-metabox.php:1659
+msgid "The keyword / phrase appears in the URL for this page."
+msgstr "キーワード/フレーズは、このページのURL内にあります。"
+
+#: admin/class-metabox.php:1660
+msgid "The keyword / phrase does not appear in the URL for this page. If you decide to rename the URL be sure to check the old URL 301 redirects to the new one!"
+msgstr "キーワード/フレーズは、このページのURLに表示されていません。URLを変更する場合、古いURLが新しいものに301リダイレクトされているか確認してください！"
+
+#: admin/class-metabox.php:1661
+msgid "The slug for this page contains one or more <a href=\"http://en.wikipedia.org/wiki/Stop_words\">stop words</a>, consider removing them."
+msgstr "このページのスラッグは、1つ以上の<a href=\"http://en.wikipedia.org/wiki/Stop_words\">ストップワード</a>が含んでいます。削除を検討してください。"
+
+#: admin/class-metabox.php:1662
+msgid "The slug for this page is a bit long, consider shortening it."
+msgstr "このページのスラッグは少し長いです。短縮を検討してください。"
+
+#: admin/class-metabox.php:1697
+msgid "Please create a page title."
+msgstr "ページタイトルを作成してください。"
+
+#: admin/class-metabox.php:1698
+msgid "The page title is more than 40 characters and less than the recommended 70 character limit."
+msgstr "ページタイトルは推奨される制限の40文字以上70文字未満より少ないです。"
+
+#: admin/class-metabox.php:1699
+msgid "The page title contains %d characters, which is less than the recommended minimum of 40 characters. Use the space to add keyword variations or create compelling call-to-action copy."
+msgstr "ページタイトルは推奨されている最小値40文字より少ない%d文字が含まれています。キーワードのバリエーションを追加したり、説得力のある行動を促すコピーを作成するための領域が必要です。"
+
+#: admin/class-metabox.php:1700
+msgid "The page title contains %d characters, which is more than the viewable limit of 70 characters; some words will not be visible to users in your listing."
+msgstr "ページタイトルが70文字の表示可能範囲以上である、%d文字になっています。一部の単語は、リスト内のユーザに表示されていません。"
+
+#: admin/class-metabox.php:1701
+msgid "The keyword / phrase %s does not appear in the page title."
+msgstr "キーワード/フレーズの %s はページタイトルに表示されていません。"
+
+#: admin/class-metabox.php:1702
+msgid "The page title contains keyword / phrase, at the beginning which is considered to improve rankings."
+msgstr "ページタイトルは冒頭でランキングを向上させるために考えられている、キーワード/フレーズを含んでいます。"
+
+#: admin/class-metabox.php:1703
+msgid "The page title contains keyword / phrase, but it does not appear at the beginning; try and move it to the beginning."
+msgstr "ページのタイトルはキーワード/フレーズが含まれていますが、当初は表示されません；試すにはそれを先頭に移動します。"
+
+#: admin/class-metabox.php:1750
+msgid "No outbound links appear in this page, consider adding some as appropriate."
+msgstr "このページに外部リンクは表示していませんが、必要に応じていくつか追加することを検討してください。"
+
+#: admin/class-metabox.php:1751
+msgid "You're linking to another page with the keyword you want this page to rank for, consider changing that if you truly want this page to rank."
+msgstr "あなたは、このページにランク付けしたいキーワードを使用して別ページにリンクします。このページに本当にランク付けしたい場合変更することを検討してください。"
+
+#: admin/class-metabox.php:1752
+msgid "This page has %s outbound link(s)."
+msgstr "このページは、%s外部リンクがあります。"
+
+#: admin/class-metabox.php:1753
+msgid "This page has %s outbound link(s), all nofollowed."
+msgstr "このページは、すべて nofollow された%s外部リンクがあります。"
+
+#: admin/class-metabox.php:1754
+msgid "This page has %s nofollowed link(s) and %s normal outbound link(s)."
+msgstr "このページは、%sのnofollowedリンクと%sの通常の外部リンクがあります。"
+
+#: admin/class-metabox.php:1871
+msgid "No images appear in this page, consider adding some as appropriate."
+msgstr "このページに全く画像が表示されませんが、必要に応じていくつか追加することを検討します。"
+
+#: admin/class-metabox.php:1872
+msgid "The images on this page are missing alt tags."
+msgstr "このページの画像は、alt タグがありません。"
+
+#: admin/class-metabox.php:1873
+msgid "The images on this page contain alt tags with the target keyword / phrase."
+msgstr "このページ上の画像は、ターゲットのキーワード／フレーズに alt タグが含まれています。"
+
+#: admin/class-metabox.php:1874
+msgid "The images on this page do not have alt tags containing your keyword / phrase."
+msgstr "このページ上の画像は、キーワード／フレーズを含んでいる alt タグがありません。"
+
+#: admin/class-metabox.php:2019
+msgid "In the specified meta description, consider: How does it compare to the competition? Could it be made more appealing?"
+msgstr "メタ説明文を指定するときは、他との競争に勝てるか、より魅力的に出来ないか推敲してください。"
+
+#: admin/class-metabox.php:2020
+msgid "The meta description is under 120 characters, however up to %s characters are available. %s"
+msgstr "メタ説明文は120文字以上、最大%s文字がご利用いただけます。%s"
+
+#: admin/class-metabox.php:2021
+msgid "The specified meta description is over %s characters, reducing it will ensure the entire description is visible. %s"
+msgstr "指定されたメタ説明文は%s文字超えています、全体の説明文が表示されているように削減してください。%s"
+
+#: admin/class-metabox.php:2022
+msgid "No meta description has been specified, search engines will display copy from the page instead."
+msgstr "メタ説明文が指定されていないので、検索エンジンはページの代わりにコピーを表示しています。"
+
+#: admin/class-metabox.php:2023
+msgid "The meta description contains the primary keyword / phrase."
+msgstr "メタ説明文は主要なキーワード／フレーズを含んでいます。"
+
+#: admin/class-metabox.php:2024
+msgid "A meta description has been specified, but it does not contain the target keyword / phrase."
+msgstr "メタ説明文は指定されているが、ターゲットのキーワード／フレーズが含まれていません。"
+
+#: admin/class-metabox.php:2028
+msgid "The available space is shorter than the usual 155 characters because Google will also include the publication date in the snippet."
+msgstr "使用可能なスペースが通常の155文字より短い場合、Googleはスニペットに公開日を含めます。"
+
+#: admin/class-metabox.php:2079
+msgid "There are %d words contained in the body copy. This is far too low and should be increased."
+msgstr "ボディコピーが%d単語です。少なすぎるので増やす必要があります。"
+
+#: admin/class-metabox.php:2081
+msgid "The keyword density is %s%%, which is a bit low, the keyword was found %s times."
+msgstr "キーワード密度が少し低い%s%%です。キーワードは%s回見つかりました。"
+
+#: admin/class-metabox.php:2083
+msgid "The keyword density is %s%%, which is great, the keyword was found %s times."
+msgstr "キーワード密度は多数の%s%%です。キーワードは%s回見つかりました。"
+
+#: admin/class-metabox.php:2085
+msgid "The keyword doesn't appear in the first paragraph of the copy, make sure the topic is clear immediately."
+msgstr "キーワードは、コピーの最初の段落に表示されていません。トピックが明確かどうか確認してください。"
+
+#: admin/class-metabox.php:2086
+msgid "The keyword appears in the first paragraph of the copy."
+msgstr "キーワードは、コピーの最初の段落に表示されています。"
+
+#: admin/class-metabox.php:2088
+msgid "Flesch Reading Ease"
+msgstr "Flesch Reading Ease"
+
+#: admin/class-metabox.php:2089
+msgid "The copy scores %s in the %s test, which is considered %s to read. %s"
+msgstr "読み取りするように%sと見なされた、コピーは%sテストで%sを記録しました。%s"
+
+#: admin/class-metabox.php:2163
+msgid "very easy"
+msgstr "非常に易しい"
+
+#: admin/class-metabox.php:2167
+msgid "easy"
+msgstr "易しい"
+
+#: admin/class-metabox.php:2171
+msgid "fairly easy"
+msgstr "かなり易しい"
+
+#: admin/class-metabox.php:2175 inc/class-wpseo-utils.php:213
+msgid "OK"
+msgstr "OK"
+
+#: admin/class-metabox.php:2179
+msgid "fairly difficult"
+msgstr "かなり難しい"
+
+#: admin/class-metabox.php:2180
+msgid "Try to make shorter sentences to improve readability."
+msgstr "読みやすさを向上させるために、短い文章を作ってみてください。"
+
+#: admin/class-metabox.php:2184
+msgid "difficult"
+msgstr "難しい"
+
+#: admin/class-metabox.php:2185 admin/class-metabox.php:2190
+msgid "Try to make shorter sentences, using less difficult words to improve readability."
+msgstr "読みやすさを向上させるために以下の難しい言葉を使って、短い文章を作ってみてください。"
+
+#: admin/class-metabox.php:2189
+msgid "very difficult"
+msgstr "非常に難しい"
+
+#: admin/class-admin.php:373
+msgid "Huge SEO Issue: You're blocking access to robots."
+msgstr "深刻な SEO の問題：ロボットのアクセスをブロックしています。"
+
+#: admin/class-admin.php:376 admin/class-admin.php:411
+msgid "I know, don't bug me."
+msgstr "この表示を消す"
+
+#: admin/pages/network.php:24
+msgid "Settings Updated."
+msgstr "設定をアップデートしました。"
+
+#: admin/pages/network.php:96
+msgid "Site Admins (default)"
+msgstr "サイト管理者(デフォルト)"
+
+#: admin/pages/network.php:97
+msgid "Super Admins only"
+msgstr "特権管理者専用"
+
+#: admin/pages/network.php:118
+msgid "Save MultiSite Settings"
+msgstr "マルチサイトの設定を保存"
+
+#: admin/class-admin.php:251 admin/pages/network.php:86
+msgid "MultiSite Settings"
+msgstr "マルチサイトの設定"
+
+#: admin/pages/network.php:124
+msgid "Using this form you can reset a site to the default SEO settings."
+msgstr "このフォームを使って、サイトをデフォルトの SEO の設定にリセットすることができます。"
+
+#: admin/pages/network.php:136
+msgid "Blog ID"
+msgstr "ブログID"
+
+#: admin/pages/network.php:139
+msgid "Restore site to defaults"
+msgstr "サイトをデフォルト状態に復元"
+
+#: admin/pages/network.php:121
+msgid "Restore site to default settings"
+msgstr "サイトをデフォルトの設定に復元"
+
+#: admin/class-import-external.php:168
+msgid "RSS Footer options imported successfully."
+msgstr "RSS Footer の設定をインポートしました。"
+
+#: admin/class-import-external.php:189
+msgid "Yoast Breadcrumbs options imported successfully."
+msgstr "Yoast Breadcrumbs の設定をインポートしました。"
+
+#: admin/class-import-external.php:192
+msgid "Yoast Breadcrumbs options could not be found"
+msgstr "Yoast Breadcrumbs の設定を見つけることが出来ませんでした。"
+
+#: admin/views/tool-import-export.php:137
+msgid "No doubt you've used an SEO plugin before if this site isn't new. Let's make it easy on you, you can import the data below. If you want, you can import first, check if it was imported correctly, and then import &amp; delete. No duplicate data will be imported."
+msgstr "このサイトが新しくない場合は、以前に SEO プラグインを使用していたことでしょう。気楽に行きましょう。下にあるデータをインポートできます。必要であれば、最初にインポートすることができ、それが正しくインポートされたかどうかを確認して、インポート及び削除をします。重複データはインポートされません。"
+
+#: admin/views/tool-import-export.php:139
+msgid "If you've used another SEO plugin, try the %sSEO Data Transporter%s plugin to move your data into this plugin, it rocks!"
+msgstr "別の SEO プラグインを使用していた場合は、このプラグインにデータを移動するために、 %sSEO Data Transporter%s プラグインを試してみてください！"
+
+#: admin/views/tool-import-export.php:146
+msgid "Import from HeadSpace2?"
+msgstr "HeadSpace2 からインポートしますか？"
+
+#: admin/views/tool-import-export.php:147
+msgid "Import from All-in-One SEO?"
+msgstr "All-in-One SEO からインポートしますか？"
+
+#: admin/views/tool-import-export.php:152
+msgid "Delete the old data after import? (recommended)"
+msgstr "インポート後に古いデータを削除しますか？ （推奨）"
+
+#: admin/views/tool-import-export.php:92 admin/views/tool-import-export.php:156
+#: admin/views/tool-import-export.php:182
+msgid "Import"
+msgstr "インポート"
+
+#: admin/views/tool-import-export.php:170
+msgid "Import from Robots Meta (by Yoast)?"
+msgstr "Robots Meta (by Yoast) からインポートしますか？"
+
+#: admin/views/tool-import-export.php:171
+msgid "Import from RSS Footer (by Yoast)?"
+msgstr "RSS Footer (by Yoast) からインポートしますか？"
+
+#: admin/views/tool-import-export.php:172
+msgid "Import from Yoast Breadcrumbs?"
+msgstr "Yoast Breadcrumbs からインポートしますか？"
+
+#: admin/views/tool-import-export.php:93
+msgid "Export"
+msgstr "エクスポート"
+
+#. translators: %1$s expands to Yoast SEO
+#: admin/views/tool-import-export.php:124
+msgid "Export your %1$s settings here, to import them again later or to import them on another site."
+msgstr "ここで %1$s の設定をエクスポートすると、後でもう一度インポートするか、または別のサイトにインポートできます。"
+
+#: admin/views/tool-import-export.php:126
+msgid "Include Taxonomy Metadata"
+msgstr "タクソノミーのメタデータを含める"
+
+#: admin/views/tool-import-export.php:117
+msgid "Import settings"
+msgstr "設定のインポート"
+
+#: admin/class-import.php:148
+msgid "Settings successfully imported."
+msgstr "設定をインポートしました。"
+
+#: admin/class-import.php:76 admin/class-import.php:82
+#: admin/class-import.php:88 admin/class-import.php:120
+#: admin/class-import.php:127 admin/class-import.php:151
+msgid "Settings could not be imported:"
+msgstr "設定はインポートできませんでした："
+
+#: admin/class-import.php:88
+msgid "Upload failed."
+msgstr "アップロードに失敗しました。"
+
+#: admin/pages/metas.php:33
+msgid "Force rewrite titles"
+msgstr "タイトルを強制的に書き換える"
+
+#: admin/pages/metas.php:21 admin/pages/metas.php:59
+msgid "Homepage"
+msgstr "ホームページ"
+
+#: admin/pages/metas.php:60 admin/pages/metas.php:97 admin/pages/metas.php:158
+#: admin/pages/metas.php:177 admin/pages/metas.php:184
+#: admin/pages/metas.php:212 admin/pages/metas.php:215
+msgid "Title template"
+msgstr "タイトルのテンプレート"
+
+#: admin/pages/metas.php:61 admin/pages/metas.php:98 admin/pages/metas.php:159
+#: admin/pages/metas.php:178 admin/pages/metas.php:185
+msgid "Meta description template"
+msgstr "メタ説明文のテンプレート"
+
+#: admin/pages/metas.php:63 admin/pages/metas.php:100 admin/pages/metas.php:161
+#: admin/pages/metas.php:180
+msgid "Meta keywords template"
+msgstr "メタキーワードのテンプレート"
+
+#: admin/pages/metas.php:68
+msgid "Homepage &amp; Front page"
+msgstr "ホームページとフロントページ"
+
+#: admin/pages/metas.php:69
+msgid "You can determine the title and description for the front page by %sediting the front page itself &raquo;%s"
+msgstr "%sフロントページ自体を編集することで%sフロントページのタイトルと説明文を変更できます。"
+
+#: admin/pages/metas.php:72
+msgid "You can determine the title and description for the blog page by %sediting the blog page itself &raquo;%s"
+msgstr "%sブログページ自体を編集することで%sブログページのタイトルと説明文を変更できます。"
+
+#: admin/pages/metas.php:23 admin/pages/xml-sitemaps.php:43
+msgid "Taxonomies"
+msgstr "タクソノミー"
+
+#: admin/pages/metas.php:176
+msgid "Author Archives"
+msgstr "投稿者アーカイブ"
+
+#: admin/pages/metas.php:183
+msgid "Date Archives"
+msgstr "日付アーカイブ"
+
+#: admin/pages/metas.php:211
+msgid "Search pages"
+msgstr "検索ページ"
+
+#: admin/pages/metas.php:214
+msgid "404 pages"
+msgstr "404ページ"
+
+#: admin/pages/metas.php:127
+msgid "Custom Post Type Archives"
+msgstr "カスタム投稿タイプアーカイブ"
+
+#: admin/pages/metas.php:128
+msgid "Note: instead of templates these are the actual titles and meta descriptions for these custom post type archive pages."
+msgstr "注：テンプレートの代わりに、カスタム投稿タイプのアーカイブページに実際のタイトルやメタ説明文があります。"
+
+#: admin/pages/metas.php:134 admin/pages/social.php:61
+#: admin/views/tool-bulk-editor.php:33
+msgid "Title"
+msgstr "タイトル"
+
+#: admin/class-metabox.php:46 admin/pages/metas.php:135
+msgid "Meta description"
+msgstr "メタ説明文"
+
+#: admin/class-metabox.php:76
+msgid "Breadcrumbs Title"
+msgstr "パンくずリストのタイトル"
+
+#: inc/class-wpseo-replace-vars.php:1085
+msgid "Replaced with the date of the post/page"
+msgstr "投稿/ページの日時に置き換えられます"
+
+#: inc/class-wpseo-replace-vars.php:1086
+msgid "Replaced with the title of the post/page"
+msgstr "投稿/ページのタイトルに置き換えられます"
+
+#: inc/class-wpseo-replace-vars.php:1088
+msgid "The site's name"
+msgstr "サイト名"
+
+#: inc/class-wpseo-replace-vars.php:1090
+msgid "Replaced with the post/page excerpt (or auto-generated if it does not exist)"
+msgstr "投稿/ページの抜粋 (存在しない場合は自動生成されます) に置き換えられます"
+
+#: inc/class-wpseo-replace-vars.php:1091
+msgid "Replaced with the post/page excerpt (without auto-generation)"
+msgstr "投稿/ページの抜粋 (自動生成しません) に置き換えられます"
+
+#: inc/class-wpseo-replace-vars.php:1092
+msgid "Replaced with the current tag/tags"
+msgstr "現在のタグに置き換えられます"
+
+#: inc/class-wpseo-replace-vars.php:1093
+msgid "Replaced with the post categories (comma separated)"
+msgstr "投稿のカテゴリー (カンマで区切り) に置き換えられます"
+
+#: inc/class-wpseo-replace-vars.php:1094
+msgid "Replaced with the category description"
+msgstr "カテゴリー説明文に置き換えられます"
+
+#: inc/class-wpseo-replace-vars.php:1095
+msgid "Replaced with the tag description"
+msgstr "タグ説明文に置き換えられます"
+
+#: inc/class-wpseo-replace-vars.php:1096
+msgid "Replaced with the term description"
+msgstr "ターム説明文に置き換えられます"
+
+#: inc/class-wpseo-replace-vars.php:1097
+msgid "Replaced with the term name"
+msgstr "ターム名に置き換えられます"
+
+#: inc/class-wpseo-replace-vars.php:1110
+msgid "Replaced with the post/page modified time"
+msgstr "投稿/ページの更新時刻に置き換えられます"
+
+#: inc/class-wpseo-replace-vars.php:1111
+msgid "Replaced with the post/page ID"
+msgstr "投稿/ページの ID に置き換えられます"
+
+#: inc/class-wpseo-replace-vars.php:1112
+msgid "Replaced with the post/page author's 'nicename'"
+msgstr "投稿 / ページの投稿者のニックネームに置き換えられます"
+
+#: inc/class-wpseo-replace-vars.php:1114
+msgid "Replaced with the post/page author's userid"
+msgstr "投稿 / ページの投稿者のユーザー ID に置き換えられます"
+
+#: inc/class-wpseo-replace-vars.php:1098
+msgid "Replaced with the current search phrase"
+msgstr "現在の検索語に置き換えられます"
+
+#: inc/class-wpseo-replace-vars.php:1115
+msgid "Replaced with the current time"
+msgstr "現在の時間に置き換えられます"
+
+#: inc/class-wpseo-replace-vars.php:1116
+msgid "Replaced with the current date"
+msgstr "現在の日付に置き換えられます"
+
+#: inc/class-wpseo-replace-vars.php:1118
+msgid "Replaced with the current month"
+msgstr "現在の月に置き換えられます"
+
+#: inc/class-wpseo-replace-vars.php:1119
+msgid "Replaced with the current year"
+msgstr "現在の年に置き換えられます"
+
+#: inc/class-wpseo-replace-vars.php:1121
+msgid "Replaced with the current page total"
+msgstr "現在のページ数合計に置き換えられます"
+
+#: inc/class-wpseo-replace-vars.php:1122
+msgid "Replaced with the current page number"
+msgstr "現在のページナンバーに置き換えられます"
+
+#: inc/class-wpseo-replace-vars.php:1123
+msgid "Attachment caption"
+msgstr "添付ファイルのキャプション"
+
+#: inc/class-wpseo-replace-vars.php:1124
+msgid "Replaced with the posts focus keyword"
+msgstr "現在の投稿フォーカスキーワードに置き換えられます"
+
+#: admin/views/tab-permalinks.php:16
+msgid "Strip the category base (usually <code>/category/</code>) from the category URL."
+msgstr "カテゴリーのURLからカテゴリーベース (例: <code>/category/</code>) を取り除く"
+
+#: admin/views/tab-permalinks.php:30
+msgid "Enforce a trailing slash on all category and tag URL's"
+msgstr "すべてのカテゴリーとタグの URL の末尾に強制的にスラッシュを追加する"
+
+#: admin/views/tab-permalinks.php:29
+msgid "If you choose a permalink for your posts with %1$s, or anything else but a %2$s at the end, this will force WordPress to add a trailing slash to non-post pages nonetheless."
+msgstr "%1$s を含む、または末尾が %2$s  以外の投稿パーマリンクを選択すると、 WordPress に投稿以外のページの末尾へスラッシュを追加するよう強制します。"
+
+#: admin/views/tab-permalinks.php:19
+msgid "Redirect attachment URL's to parent post URL."
+msgstr "添付ファイルの URL を親投稿の URL へリダイレクトします。"
+
+#: admin/views/tab-permalinks.php:18
+msgid "Attachments to posts are stored in the database as posts, this means they're accessible under their own URL's if you do not redirect them, enabling this will redirect them to the post they were attached to."
+msgstr "投稿の添付ファイルは投稿としてデータベースに格納されています。これは、添付ファイルをリダイレクトしない場合、それら独自の URL に従ってアクセスできることを意味しています。これ有効にすることで、ファイルが添付されている投稿にリダイレクトします。"
+
+#: admin/views/tab-permalinks.php:33
+msgid "Redirect ugly URL's to clean permalinks. (Not recommended in many cases!)"
+msgstr "醜い URL をきれいなパーマリンクへとリダイレクトします。 （ほとんどの場合で非推奨です！）"
+
+#: admin/views/tab-permalinks.php:32
+msgid "People make mistakes in their links towards you sometimes, or unwanted parameters are added to the end of your URLs, this allows you to redirect them all away. Please note that while this is a feature that is actively maintained, it is known to break several plugins, and should for that reason be the first feature you disable when you encounter issues after installing this plugin."
+msgstr "時折リンクを間違えたり、不要なパラメータを URL の末尾に追加してアクセスしたりする人がいますが、これによりリダイレクトすることができます。この機能は今現在メンテナンスしていますが、いくつかのプラグインを中断させることがわかっており、このプラグインをインストールした後、問題が発生したときに無効にするべき最初の機能であることを気に留めておいてください。"
+
+#: admin/views/tab-permalinks.php:37
+msgid "Prevent cleaning out Google Site Search URL's."
+msgstr "Google Site Search の URL を空にすることを防ぎます。"
+
+#: admin/views/tab-permalinks.php:36
+msgid "Google Site Search URL's look weird, and ugly, but if you're using Google Site Search, you probably do not want them cleaned out."
+msgstr "Google Site Search の URL は奇妙で醜くく見えますが、Google Site Search を使用している場合は、URL を空にする必要はありません。"
+
+#: admin/views/tab-permalinks.php:44
+msgid "Other variables not to clean"
+msgstr "他の変数は空にしません。"
+
+#: admin/views/tab-breadcrumbs.php:17
+msgid "Enable Breadcrumbs"
+msgstr "パンくずリストを有効にする"
+
+#: admin/views/tab-breadcrumbs.php:21
+msgid "Separator between breadcrumbs"
+msgstr "パンくずリストの間の区切り"
+
+#: admin/views/tab-breadcrumbs.php:22
+msgid "Anchor text for the Homepage"
+msgstr "ホームページ用のアンカーテキスト"
+
+#: admin/views/tab-breadcrumbs.php:23
+msgid "Prefix for the breadcrumb path"
+msgstr "パンくずリストのパスの接頭辞"
+
+#: admin/views/tab-breadcrumbs.php:24
+msgid "Prefix for Archive breadcrumbs"
+msgstr "アーカイブのパンくずリストの接頭辞"
+
+#: admin/views/tab-breadcrumbs.php:25
+msgid "Prefix for Search Page breadcrumbs"
+msgstr "検索ページのパンくずリストの接頭辞"
+
+#: admin/views/tab-breadcrumbs.php:26
+msgid "Breadcrumb for 404 Page"
+msgstr "404ページのパンくずリスト"
+
+#: admin/views/tab-breadcrumbs.php:29
+msgid "Remove Blog page from Breadcrumbs"
+msgstr "パンくずリストからブログページを削除する"
+
+#: admin/class-metabox.php:69 admin/pages/network.php:53
+#: admin/views/tab-breadcrumbs.php:40 admin/views/tab-breadcrumbs.php:57
+#: inc/class-wpseo-meta.php:397
+msgid "None"
+msgstr "なし"
+
+#: admin/views/tab-breadcrumbs.php:59
+msgid "Blog"
+msgstr "ブログ"
+
+#: admin/views/tab-breadcrumbs.php:31
+msgid "Bold the last page in the breadcrumb"
+msgstr "パンくずリスト内の最後のページを太字にします。"
+
+#: admin/views/tab-breadcrumbs.php:79
+msgid "How to insert breadcrumbs in your theme"
+msgstr "テーマにパンくずリストを挿入する方法"
+
+#: admin/views/tool-file-editor.php:33
+msgid "You cannot edit the robots.txt file."
+msgstr "robots.txt ファイルを編集することができません。"
+
+#: admin/views/tool-file-editor.php:44
+msgid "Updated Robots.txt"
+msgstr "robots.txt ファイルを更新しました。"
+
+#: admin/views/tool-file-editor.php:51
+msgid "You cannot edit the .htaccess file."
+msgstr ".htaccess ファイルを編集することができません。"
+
+#: admin/views/tool-file-editor.php:101
+msgid "If your robots.txt were writable, you could edit it from here."
+msgstr "robots.txt が書き込み可能な場合、ここから編集することができます。"
+
+#: admin/views/tool-file-editor.php:107
+msgid "Edit the content of your robots.txt:"
+msgstr "以下のテキストエリアで robots.txt の内容を編集出来ます:"
+
+#: admin/views/tool-file-editor.php:109
+msgid "Save changes to Robots.txt"
+msgstr "robots.txt ファイルへの変更を保存する"
+
+#: admin/views/tool-file-editor.php:77
+msgid "Robots.txt"
+msgstr "robots.txt"
+
+#: admin/views/tool-file-editor.php:125
+msgid "If your .htaccess were writable, you could edit it from here."
+msgstr ".htaccess が書き込み可能な場合、ここから編集することができます。"
+
+#: admin/views/tool-file-editor.php:131
+msgid "Edit the content of your .htaccess:"
+msgstr ".htaccess の内容を編集します："
+
+#: admin/views/tool-file-editor.php:133
+msgid "Save changes to .htaccess"
+msgstr ".htaccess ファイルへの変更を保存します"
+
+#: admin/views/tool-file-editor.php:114
+msgid ".htaccess file"
+msgstr ".htaccess ファイル"
+
+#: admin/class-social-facebook.php:387
+msgid "Facebook App ID"
+msgstr "Facebook App ID"
+
+#: admin/pages/metas.php:198
+msgid "Disable the author archives"
+msgstr "投稿者アーカイブを無効化"
+
+#: admin/pages/metas.php:204
+msgid "Disable the date-based archives"
+msgstr "日付ベースのアーカイブを無効化"
+
+#: admin/pages/metas.php:230
+msgid "Prevents search engines from using the DMOZ description for pages from this site in the search results."
+msgstr "検索エンジンが検索結果内のこのサイトのページに対して DMOZ 説明文を使用するのを防ぎます。"
+
+#: admin/pages/metas.php:234
+msgid "Prevents search engines from using the Yahoo! directory description for pages from this site in the search results."
+msgstr "検索エンジンが検索結果内にこのサイトのページに対して Yahoo! ディレクトリの説明文を使用するのを防ぎます。"
+
+#: admin/views/tab-rss.php:15
+msgid "This feature is used to automatically add content to your RSS, more specifically, it's meant to add links back to your blog and your blog posts, so dumb scrapers will automatically add these links too, helping search engines identify you as the original source of the content."
+msgstr "この機能は自動的に RSS にコンテンツを追加するために使用されます。さらに具体的に言うと、それはあなたのブログやブログ投稿へ戻るリンクを追加します。まぬけなコンテンツ窃盗者は、自動的にこうしたリンクも追加してしまうため、検索エンジンがあなたのブログをコンテンツのオリジナルのソースとして識別するのに役立ちます。"
+
+#: admin/views/tab-rss.php:21
+msgid "Content to put before each post in the feed"
+msgstr "フィード内の各投稿の前に置くためのコンテンツ"
+
+#: admin/views/tab-rss.php:25
+msgid "You can use the following variables within the content, they will be replaced by the value on the right."
+msgstr "コンテンツ内で次の変数を使用することができ、右側の値に置き換えられます。"
+
+#: admin/views/tab-rss.php:29
+msgid "A link to the archive for the post author, with the authors name as anchor text."
+msgstr "投稿者名のアンカーテキスト付きの投稿者のアーカイブへのリンクです。"
+
+#: admin/views/tab-rss.php:33
+msgid "A link to the post, with the title as anchor text."
+msgstr "タイトルのアンカーテキスト付きの投稿へのリンクです。"
+
+#: admin/views/tab-rss.php:37
+msgid "A link to your site, with your site's name as anchor text."
+msgstr "サイト名のアンカーテキスト付きのサイトへのリンクです。"
+
+#: admin/views/tab-rss.php:41
+msgid "A link to your site, with your site's name and description as anchor text."
+msgstr "サイト名と説明文のアンカーテキスト付きのサイトへのリンクです。"
+
+#: admin/pages/xml-sitemaps.php:29
+msgid "Check this box to enable XML sitemap functionality."
+msgstr "XML サイトマップ機能を有効化するには、このチェックボックスにチェックを入れてください。"
+
+#: admin/pages/xml-sitemaps.php:51
+msgid "You can find your XML Sitemap here: %sXML Sitemap%s"
+msgstr "XML サイトマップはこちらになります: %sXML サイトマップ%s"
+
+#: admin/pages/xml-sitemaps.php:54
+msgid "You do <strong>not</strong> need to generate the XML sitemap, nor will it take up time to generate after publishing a post."
+msgstr "XML サイトマップを生成する必要も、投稿を公開した後に生成するための時間を取る必要も<strong>ありません</strong>。"
+
+#: admin/pages/xml-sitemaps.php:58
+msgid "Save your settings to activate XML Sitemaps."
+msgstr "XML サイトマップを有効にするために設定を保存します。"
+
+#: admin/class-pointers.php:239
+msgid "General settings"
+msgstr "一般設定"
+
+#: admin/pages/xml-sitemaps.php:96
+msgid "Please check the appropriate box below if there's a post type that you do <strong>NOT</strong> want to include in your sitemap:"
+msgstr "サイトマップに含めたく<strong>ない</strong>投稿タイプがある場合は、以下の該当するチェックボックスにチェックを入れてください:"
+
+#: admin/pages/xml-sitemaps.php:119
+msgid "Please check the appropriate box below if there's a taxonomy that you do <strong>NOT</strong> want to include in your sitemap:"
+msgstr "サイトマップに含めたく<strong>ない</strong>タクソノミーがある場合、以下の該当するチェックボックスにチェックを入れてください:"
+
+#: admin/pages/dashboard.php:104 admin/pages/dashboard.php:119
+#: admin/pages/dashboard.php:130 admin/pages/dashboard.php:137
+msgid "Fix it."
+msgstr "修正する"
+
+#: admin/pages/dashboard.php:105
+msgid "The following file(s) is/are blocking your XML sitemaps from working properly:"
+msgstr "次のファイルが XML サイトマップが正常に動作するのをブロックしています: "
+
+#. translators: %1$s expands to Yoast SEO
+#: admin/pages/dashboard.php:112
+msgid "Either delete them (this can be done with the \"Fix it\" button) or disable %1$s XML sitemaps."
+msgstr "そのファイルを削除するか（これは「修正する」ボタンで行えます）、%1$s の XML サイトマップを無効にしてください。 "
+
+#: admin/pages/dashboard.php:131 admin/pages/dashboard.php:138
+msgid "Ignore."
+msgstr "無視"
+
+#: admin/pages/dashboard.php:132
+msgid "You do not have your postname in the URL of your posts and pages, it is highly recommended that you do. Consider setting your permalink structure to <strong>/%postname%/</strong>."
+msgstr "投稿やページの URL に postname がありません。 postname を含めることを強くお勧めします。パーマリンク構造を <strong>/%postname%/</strong> に設定することを検討してください。"
+
+#: admin/pages/dashboard.php:139
+msgid "Paging comments is enabled, this is not needed in 999 out of 1000 cases, so the suggestion is to disable it, to do that, simply uncheck the box before \"Break comments into pages...\""
+msgstr "ページングのコメントが有効になっています。ほとんどの場合で不必要なので、無効化をおすすめします。無効化するには、「コメントをページングで分割する…」の前にあるチェックボックスのチェックを外してください。"
+
+#: admin/class-admin.php:100
+msgid "General Settings"
+msgstr "一般設定"
+
+#: admin/pages/dashboard.php:232
+msgid "You can use the boxes below to verify with the different Webmaster Tools, if your site is already verified, you can just forget about these. Enter the verify meta values for:"
+msgstr "下のボックスで様々なウェブマスターツールの認証設定ができます。認証用のメタ値を入力してください。サイトがすでに認証されている場合は、入力しなくても大丈夫です。"
+
+#: admin/pages/dashboard.php:234
+msgid "Bing Webmaster Tools"
+msgstr "Bing ウェブマスターツール"
+
+#: admin/views/user-profile.php:16
+msgid "Title to use for Author page"
+msgstr "投稿者ページに使用するタイトル"
+
+#: admin/views/user-profile.php:25
+msgid "Meta description to use for Author page"
+msgstr "投稿者ページに使用するメタの説明文"
+
+#: admin/views/user-profile.php:36
+msgid "Meta keywords to use for Author page"
+msgstr "著者ページに使用するメタキーワード"
+
+#: admin/class-admin.php:427
+#: admin/google_search_console/class-gsc-platform-tabs.php:40
+msgid "Settings"
+msgstr "設定"
+
+#: admin/class-metabox.php:42 admin/class-metabox.php:983
+#: admin/class-taxonomy.php:188
+msgid "SEO Title"
+msgstr "SEOタイトル"
+
+#: admin/class-taxonomy.php:188
+msgid "The SEO title is used on the archive page for this term."
+msgstr "SEO タイトルは、このタームのアーカイブページで使用されています。"
+
+#: admin/class-taxonomy.php:189
+msgid "SEO Description"
+msgstr "SEO Description"
+
+#: admin/class-taxonomy.php:189
+msgid "The SEO description is used for the meta description on the archive page for this term."
+msgstr "SEO Description は、このタームのアーカイブページでメタ説明文で使用されています。"
+
+#: admin/class-taxonomy.php:192
+msgid "Meta keywords used on the archive page for this term."
+msgstr "メタキーワードは、このタームのアーカイブページで使用されています。"
+
+#: admin/class-taxonomy.php:195
+msgid "Canonical"
+msgstr "カノニカル"
+
+#: admin/class-taxonomy.php:195
+msgid "The canonical link is shown on the archive page for this term."
+msgstr "カノニカルリンクは、このタームのアーカイブページに表示されています。"
+
+#: admin/class-taxonomy.php:198
+msgid "The Breadcrumbs title is used in the breadcrumbs where this %s appears."
+msgstr "パンくずのタイトルは、この%sが表示されているパンくずに使用されています。"
+
+#: admin/class-taxonomy.php:214
+msgid "Noindex this %s"
+msgstr "この %s を noindex にします。"
+
+#: admin/class-taxonomy.php:218
+msgid "Include in sitemap?"
+msgstr "サイトマップに含めますか？"
+
+#: admin/class-taxonomy.php:80
+msgid "Auto detect"
+msgstr "自動検出"
+
+#: admin/class-taxonomy.php:81
+msgid "Always include"
+msgstr "常に含める"
+
+#: admin/class-taxonomy.php:82
+msgid "Never include"
+msgstr "含めない"
+
+#: admin/class-metabox.php:494
+msgid " (because of date display)"
+msgstr " (日付表示のため)"
+
+#: admin/class-metabox.php:36
+msgid "Snippet Preview"
+msgstr "スニペットのプレビュー"
+
+#: admin/class-metabox.php:39
+msgid "Focus Keyword"
+msgstr "フォーカスキーワード"
+
+#: admin/class-metabox.php:47
+msgid "The <code>meta</code> description will be limited to %s chars%s, %s chars left."
+msgstr "<code>メタ</code>説明文の上限は%s文字%sです。残り%s文字です。"
+
+#: admin/class-metabox.php:51
+msgid "If you type something above it will override your %smeta keywords template%s."
+msgstr "上記に何か入力すると、%sメタキーワードのテンプレート%sを上書きします。"
+
+#: admin/class-metabox.php:54
+msgid "Meta Robots Index"
+msgstr "メタロボット Index"
+
+#: admin/class-metabox.php:62
+msgid "Meta Robots Follow"
+msgstr "メタロボット Follow"
+
+#: admin/class-metabox.php:63
+msgid "Follow"
+msgstr "Follow"
+
+#: admin/class-metabox.php:64
+msgid "Nofollow"
+msgstr "Nofollow"
+
+#: admin/class-metabox.php:66
+msgid "Meta Robots Advanced"
+msgstr "高度なメタロボット"
+
+#: admin/class-metabox.php:67
+msgid "Advanced <code>meta</code> robots settings for this page."
+msgstr "このページは高度な<code>メタ</code>ロボットの設定です。"
+
+#: admin/class-metabox.php:70
+msgid "NO ODP"
+msgstr "NO ODP"
+
+#: admin/class-metabox.php:71
+msgid "NO YDIR"
+msgstr "NO YDIR"
+
+#: admin/class-metabox.php:73
+msgid "No Archive"
+msgstr "No Archive"
+
+#: admin/class-metabox.php:74
+msgid "No Snippet"
+msgstr "No Snippet"
+
+#: admin/class-taxonomy.php:198 admin/pages/metas.php:140
+msgid "Breadcrumbs title"
+msgstr "パンくずリストのタイトル"
+
+#: admin/class-metabox.php:77
+msgid "Title to use for this page in breadcrumb paths"
+msgstr "パンくずリストのパスにこのページに使用するためのタイトル"
+
+#: admin/class-metabox.php:79
+msgid "Canonical URL"
+msgstr "カノニカルURL"
+
+#: admin/class-metabox.php:80
+msgid "The canonical URL that this page should point to, leave empty to default to permalink. %sCross domain canonical%s supported too."
+msgstr "このページの「正しい」URLを指定します。空白にするとパーマリンクがカノニカルURLとなります。%sクロスドメイン%sもサポートされています。"
+
+#: admin/class-metabox.php:82
+msgid "301 Redirect"
+msgstr "301リダイレクト"
+
+#: admin/class-metabox.php:83
+msgid "The URL that this page should redirect to."
+msgstr "このページのリダイレクト先URLです。"
+
+#: admin/class-admin.php:202 admin/class-metabox.php:588
+#: admin/class-metabox.php:607 admin/pages/dashboard.php:145
+#: admin/pages/metas.php:20 admin/pages/xml-sitemaps.php:36
+#: inc/wpseo-non-ajax-functions.php:406
+msgid "General"
+msgstr "一般的な設定"
+
+#: admin/class-metabox.php:590 admin/class-metabox.php:609
+msgid "Page Analysis"
+msgstr "ページの分析"
+
+#: admin/class-admin.php:144 admin/class-metabox.php:594
+#: admin/class-metabox.php:617 inc/wpseo-non-ajax-functions.php:430
+msgid "Advanced"
+msgstr "高度な設定"
+
+#: admin/class-pointers.php:277 admin/pages/metas.php:24
+#: frontend/class-frontend.php:523 frontend/class-frontend.php:544
+msgid "Archives"
+msgstr "アーカイブ"
+
+#: frontend/class-frontend.php:554
+#: inc/options/class-wpseo-option-titles.php:180
+msgid "Page not found"
+msgstr "ページが見つかりません。"
+
+#: frontend/class-frontend.php:1245
+msgid "Admin only notice: this page doesn't show a meta description because it doesn't have one, either write it for this page specifically or go into the SEO -> Titles menu and set up a template."
+msgstr "管理者のみ注意：このページはメタ説明文が１つも存在していないので表示していません。このページのためにメタ説明文を書くか、SEO -> タイトルのメニューに移動してテンプレートを設定してください。"
+
+#: inc/options/class-wpseo-option-internallinks.php:70
+msgid "Home"
+msgstr "ホーム"
+
+#: inc/options/class-wpseo-option-internallinks.php:69
+msgid "Archives for"
+msgstr "アーカイブ: "
+
+#: inc/options/class-wpseo-option-internallinks.php:71
+msgid "You searched for"
+msgstr "検索: "
+
+#: inc/options/class-wpseo-option-internallinks.php:68
+msgid "Error 404: Page not found"
+msgstr "エラー 404: ページが見つかりません。"
