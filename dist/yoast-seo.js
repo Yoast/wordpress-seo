@@ -1093,6 +1093,11 @@ YoastSEO.App.prototype.createSnippetPreviewTitle = function( target ) {
 	title.className = "title";
 	title.id = "snippet_title";
 	elem.appendChild( title );
+	var sitename;
+	sitename = document.createElement( "p" );
+	sitename.className = "title";
+	sitename.id = "snippet_sitename";
+	elem.appendChild( sitename );
 };
 
 /**
@@ -2020,6 +2025,10 @@ YoastSEO.SnippetPreview.prototype.init = function() {
 		this.output = this.htmlOutput();
 		this.renderOutput();
 	}
+	this.snippetSuffix = "";
+	if ( this.refObj.config.snippetSuffix !== "undefined" ) {
+		this.snippetSuffix = this.refObj.config.snippetSuffix;
+	}
 };
 
 /**
@@ -2048,6 +2057,8 @@ YoastSEO.SnippetPreview.prototype.formatTitle = function() {
 	}
 	if ( title === "" ) {
 		title = this.refObj.config.sampleText.title;
+	} else {
+		title += this.snippetSuffix;
 	}
 	title = this.refObj.stringHelper.stripAllTags( title );
 	if ( this.refObj.rawData.keyword !== "" ) {
@@ -2277,7 +2288,6 @@ YoastSEO.SnippetPreview.prototype.checkTextLength = function( ev ) {
 			if ( text.length > 70 ) {
 				YoastSEO.app.snippetPreview.unformattedText.snippet_title = ev.currentTarget.textContent;
 				ev.currentTarget.textContent = text.substring( 0, 70 );
-
 			}
 			break;
 		default:
@@ -2297,21 +2307,36 @@ YoastSEO.SnippetPreview.prototype.getUnformattedText = function( ev ) {
 	}
 };
 
-YoastSEO.SnippetPreview.prototype.setUnformattedElemText = function( elem ) {
-	this.unformattedText[ elem ] = document.getElementById( elem ).textContent;
-};
-
 /**
  * when text is entered into the snippetPreview elements, the text is set in the unformattedText object.
  * This allows the visible data to be editted in the snippetPreview.
  * @param ev
  */
 YoastSEO.SnippetPreview.prototype.setUnformattedText = function( ev ) {
-	this.setUnformattedElemText ( ev.currentTarget.id );
+	var elem =  ev.currentTarget.id;
+	this.unformattedText[ elem ] = document.getElementById( elem ).textContent;
 };
 
 /**
- * adds and remove the tooLong class when a text is too long.
+ * Adds the siteName to the snippetTitle when editting starts, this adds the sitename to
+ * the snippet_sitename that cannot be edited.
+ * @param ev
+ */
+YoastSEO.SnippetPreview.prototype.setSiteName = function( ev ) {
+	if ( ev.currentTarget.id === "snippet_title" ) {
+		document.getElementById( "snippet_sitename" ).textContent = this.snippetSuffix;
+	}
+};
+
+/**
+ * Removes the siteName from the snippetTitle when editing is finished.
+ */
+YoastSEO.SnippetPreview.prototype.unsetSiteName = function() {
+	document.getElementById( "snippet_sitename" ).textContent = "";
+};
+
+/**
+ * Adds and remove the tooLong class when a text is too long.
  * @param ev
  */
 YoastSEO.SnippetPreview.prototype.textFeedback = function( ev ) {
@@ -2370,7 +2395,6 @@ YoastSEO.SnippetPreview.prototype.setFocus = function( ev ) {
 		}
 	}
 };
-
 ;/* global YoastSEO: true */
 YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 
