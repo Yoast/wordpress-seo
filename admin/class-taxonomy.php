@@ -224,9 +224,13 @@ class WPSEO_Taxonomy {
 			$json = array();
 		}
 
+		$replace_vars = new WPSEO_Replace_Vars();
+
 		return array(
 			'translations'                  => $json,
 			'home_url'                      => home_url( '/', null ),
+			'sep'                           => WPSEO_Utils::get_title_separator(),
+			'sitename'                      => WPSEO_Utils::get_site_name(),
 		);
 	}
 } /* End of class */

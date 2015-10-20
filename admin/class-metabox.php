@@ -198,13 +198,13 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		}
 
 		return array(
-			'translations'                => $json,
-			'keyword_usage'               => $this->get_focus_keyword_usage( $post->ID ),
-			'search_url'                  => admin_url( 'edit.php?seo_kw_filter={keyword}' ),
-			'post_edit_url'               => admin_url( 'post.php?post={id}&action=edit' ),
-			'home_url'                    => home_url( '/', null ),
-			'sep'                         => wpseo_replace_vars( '%%sep%%', $post ),
-			'sitename'                    => wpseo_replace_vars( '%%sitename%%', $post )
+			'translations'  => $json,
+			'keyword_usage' => $this->get_focus_keyword_usage( $post->ID ),
+			'search_url'    => admin_url( 'edit.php?seo_kw_filter={keyword}' ),
+			'post_edit_url' => admin_url( 'post.php?post={id}&action=edit' ),
+			'home_url'      => home_url( '/', null ),
+			'sep'           => WPSEO_Utils::get_title_separator(),
+			'sitename'      => WPSEO_Utils::get_site_name(),
 		);
 	}
 
