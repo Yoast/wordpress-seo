@@ -1895,5 +1895,4 @@ class WPSEO_Frontend {
 
 		return $keywords;
 	}
-
 } /* End of class */

@@ -648,7 +648,4 @@ class WPSEO_Admin {
 	function options_init() {
 		_deprecated_function( __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Option::register_setting()' );
 	}
-
-
-
 } /* End of class */

@@ -142,5 +142,4 @@ class WPSEO_Plugin_Conflict extends Yoast_Plugin_Conflict {
 
 		$instance->check_plugin_conflicts( $plugin_sections );
 	}
-
 }
