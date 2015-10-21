@@ -71,7 +71,8 @@ class WPSEO_Taxonomy_General_Tab extends WPSEO_Taxonomy_Tab {
 				$this->get_noindex_options()
 			),
 			'sitemap_include' => $this->get_field_config(
-				sprintf( __( 'Include in sitemap?', 'wordpress-seo' ), $this->term->taxonomy ),
+				/* translators: %1$s expands to the taxonomy name  */
+				sprintf( __( 'Include %1$s in sitemap?', 'wordpress-seo' ), $this->term->taxonomy ),
 				'',
 				'select',
 				$this->sitemap_include_options

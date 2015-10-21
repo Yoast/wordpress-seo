@@ -30,8 +30,8 @@ abstract class WPSEO_Taxonomy_Tab {
 	 * @param stdClass $term The current taxonomy.
 	 */
 	public function __construct( $term ) {
-		$this->term     = $term;
-		$this->options  = WPSEO_Options::get_all();
+		$this->term    = $term;
+		$this->options = WPSEO_Options::get_all();
 	}
 
 	/**
