@@ -7,6 +7,13 @@
 	});
 	HS.beacon.ready(function() {
 		HS.beacon.identify(<?php echo $identify; ?>);
+
+		<?php if ( filter_input( INPUT_GET, 'page' ) === 'wpseo_xml'  ) : ?>
+		HS.beacon.suggest([
+			'5375e852e4b03c6512282d5a',
+			'5375e110e4b0d833740d5700'
+		]);
+		<?php endif; ?>
 	});
 
 </script>
