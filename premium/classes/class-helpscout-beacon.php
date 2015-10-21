@@ -20,6 +20,7 @@ class WPSEO_HelpScout_Beacon {
 	 */
 	public function load_beacon() {
 		$translation = WPSEO_Utils::json_encode( $this->get_translations() );
+		$identify    = WPSEO_Utils::json_encode( $this->identify_data() );
 
 		require WPSEO_PATH . 'premium/views/helpscout_beacon.php';
 
@@ -52,6 +53,21 @@ class WPSEO_HelpScout_Beacon {
 			'sendLabel'                 => __( 'Send', 'wordpress-seo-premium' ),
 			'contactSuccessLabel'       => __( 'Message sent!', 'wordpress-seo-premium' ),
 			'contactSuccessDescription' => __( 'Thanks for reaching out! Someone from our team will get back to you soon.', 'wordpress-seo-premium' ),
+		);
+	}
+
+	/**
+	 * Data to repopulate the beacon email form
+	 *
+	 * @return array
+	 */
+	private function identify_data() {
+		global $current_user;
+		get_currentuserinfo();
+
+		return array(
+			'name'  => $current_user->user_firstname. ' ' .$current_user->user_lastname,
+			'email' => $current_user->user_email,
 		);
 	}
 }

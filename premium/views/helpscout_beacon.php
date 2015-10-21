@@ -5,5 +5,8 @@
 		icon : 'question',
 		translation : <?php echo $translation; ?>
 	});
+	HS.beacon.ready(function() {
+		HS.beacon.identify(<?php echo $identify; ?>);
+	});
 
 </script>
