@@ -86,6 +86,11 @@ class WPSEO_Premium {
 		$this->instantiate_redirects();
 
 		if ( is_admin() ) {
+			$query_var = ( $page = filter_input( INPUT_GET, 'page' ) ) ? $page : '';
+
+			if ( substr( $query_var, 0, 5 ) === 'wpseo' ) {
+				new WPSEO_HelpScout_Beacon();
+			}
 
 			// Disable Yoast SEO.
 			add_action( 'admin_init', array( $this, 'disable_wordpress_seo' ), 1 );
@@ -125,8 +130,6 @@ class WPSEO_Premium {
 			add_action( 'admin_init', array( $this, 'catch_option_redirect_save' ) );
 
 			// Screen options.
-			$query_var = ( $page = filter_input( INPUT_GET, 'page' ) ) ? $page : '';
-
 			switch ( $query_var ) {
 				case 'wpseo_redirects':
 					add_filter( 'set-screen-option', array( 'WPSEO_Page_Redirect', 'set_screen_option' ), 11, 3 );
