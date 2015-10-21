@@ -2,7 +2,14 @@
 
 <script type="text/javascript">
 	HS.beacon.config( {
+		instructions: '<?php
+			echo esc_js( __( "Please explain what you're trying to find or do. If something isn't working, please explain what you expect to happen. If you can make a screenshot, please attach it.", 'yoastcom' ) );
+			echo ' ';
+			echo esc_js( __( "Note: submitting this form also sends us debug info about your server.", 'yoastcom' ) );
+		?>',
 		icon : 'question',
+		color: '#A4286A',
+		poweredBy: false,
 		translation : <?php echo $translation; ?>
 	});
 	HS.beacon.ready(function() {
