@@ -76,7 +76,7 @@ class WPSEO_Sitemaps_Admin {
 		}
 
 		/**
-		 * Filter: 'wpseo_allow_xml_sitemap_ping' - Check if pinging is not allowed (allowed by default) 
+		 * Filter: 'wpseo_allow_xml_sitemap_ping' - Check if pinging is not allowed (allowed by default)
 		 *
 		 * @api boolean $allow_ping The boolean that is set to true by default.
 		 */

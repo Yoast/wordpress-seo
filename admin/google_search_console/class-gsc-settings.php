@@ -27,7 +27,7 @@ class WPSEO_GSC_Settings {
 	/**
 	 * Reloading all the issues
 	 */
-	public static function reload_issues( ) {
+	public static function reload_issues() {
 		// Remove issue and issue counts.
 		self::remove();
 	}
@@ -99,5 +99,4 @@ class WPSEO_GSC_Settings {
 	private static function remove_gsc_option() {
 		delete_option( WPSEO_GSC::OPTION_WPSEO_GSC );
 	}
-
 }

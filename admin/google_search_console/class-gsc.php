@@ -284,5 +284,4 @@ class WPSEO_GSC {
 			)
 		);
 	}
-
 }

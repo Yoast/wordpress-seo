@@ -2339,5 +2339,4 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		return $this->localize_script();
 	}
-
 } /* End of class */

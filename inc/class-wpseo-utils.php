@@ -808,5 +808,4 @@ class WPSEO_Utils {
 		return json_encode( $array_to_encode );
 		// @codingStandardsIgnoreEnd
 	}
-
 } /* End of class WPSEO_Utils */

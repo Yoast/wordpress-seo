@@ -1001,6 +1001,4 @@ class WPSEO_Meta {
 	public static function get_post_value( $key ) {
 		return ( array_key_exists( $key, $_POST ) ) ? $_POST[ $key ] : '';
 	}
-
-
 } /* End of class */
