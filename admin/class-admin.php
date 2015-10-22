@@ -39,7 +39,7 @@ class WPSEO_Admin {
 			add_action( 'delete_category', array( $this, 'schedule_rewrite_flush' ) );
 		}
 
-		$this->page_gsc = new WPSEO_GSC();
+		$this->page_gsc         = new WPSEO_GSC();
 		$this->dashboard_widget = new Yoast_Dashboard_Widget();
 
 		// Needs the lower than default priority so other plugins can hook underneath it without issue.
@@ -55,7 +55,7 @@ class WPSEO_Admin {
 		}
 
 		if ( ( ( isset( $this->options['theme_has_description'] ) && $this->options['theme_has_description'] === true ) ||
-				$this->options['theme_description_found'] !== '' ) && $this->options['ignore_meta_description_warning'] !== true
+		       $this->options['theme_description_found'] !== '' ) && $this->options['ignore_meta_description_warning'] !== true
 		) {
 			add_action( 'admin_footer', array( $this, 'meta_description_warning' ) );
 		}
@@ -73,7 +73,7 @@ class WPSEO_Admin {
 
 		add_action( 'admin_init', array( 'WPSEO_Plugin_Conflict', 'hook_check_for_plugin_conflicts' ), 10, 1 );
 
-		WPSEO_Utils::register_cache_clear_option( 'wpseo',  '' );
+		WPSEO_Utils::register_cache_clear_option( 'wpseo', '' );
 	}
 
 	/**
@@ -112,70 +112,70 @@ class WPSEO_Admin {
 		// Sub menu pages.
 		$submenu_pages = array(
 			array(
-				'wpseo_dashboard',
-				'',
-				__( 'Titles &amp; Metas', 'wordpress-seo' ),
-				$manage_options_cap,
-				'wpseo_titles',
-				array( $this, 'load_page' ),
-				array( array( $this, 'title_metas_help_tab' ) ),
+				'parent'              => 'wpseo_dashboard',
+				'page_title'          => '',
+				'menu_title'          => __( 'Titles &amp; Metas', 'wordpress-seo' ),
+				'capability'          => $manage_options_cap,
+				'menu_slug'           => 'wpseo_titles',
+				'function'            => array( $this, 'load_page' ),
+				'submenu_page_action' => array( array( $this, 'title_metas_help_tab' ) ),
 			),
 			array(
-				'wpseo_dashboard',
-				'',
-				__( 'Social', 'wordpress-seo' ),
-				$manage_options_cap,
-				'wpseo_social',
-				array( $this, 'load_page' ),
-				null,
+				'parent'              => 'wpseo_dashboard',
+				'page_title'          => '',
+				'menu_title'          => __( 'Social', 'wordpress-seo' ),
+				'capability'          => $manage_options_cap,
+				'menu_slug'           => 'wpseo_social',
+				'function'            => array( $this, 'load_page' ),
+				'submenu_page_action' => null,
 			),
 			array(
-				'wpseo_dashboard',
-				'',
-				__( 'XML Sitemaps', 'wordpress-seo' ),
-				$manage_options_cap,
-				'wpseo_xml',
-				array( $this, 'load_page' ),
-				null,
+				'parent'              => 'wpseo_dashboard',
+				'page_title'          => '',
+				'menu_title'          => __( 'XML Sitemaps', 'wordpress-seo' ),
+				'capability'          => $manage_options_cap,
+				'menu_slug'           => 'wpseo_xml',
+				'function'            => array( $this, 'load_page' ),
+				'submenu_page_action' => null,
 			),
 			array(
-				'wpseo_dashboard',
-				'',
-				__( 'Advanced', 'wordpress-seo' ),
-				$manage_options_cap,
-				'wpseo_advanced',
-				array( $this, 'load_page' ),
-				null,
+				'parent'              => 'wpseo_dashboard',
+				'page_title'          => '',
+				'menu_title'          => __( 'Advanced', 'wordpress-seo' ),
+				'capability'          => $manage_options_cap,
+				'menu_slug'           => 'wpseo_advanced',
+				'function'            => array( $this, 'load_page' ),
+				'submenu_page_action' => null,
 			),
 			array(
-				'wpseo_dashboard',
-				'',
-				__( 'Tools', 'wordpress-seo' ),
-				$manage_options_cap,
-				'wpseo_tools',
-				array( $this, 'load_page' ),
-				null,
+				'parent'              => 'wpseo_dashboard',
+				'page_title'          => '',
+				'menu_title'          => __( 'Tools', 'wordpress-seo' ),
+				'capability'          => $manage_options_cap,
+				'menu_slug'           => 'wpseo_tools',
+				'function'            => array( $this, 'load_page' ),
+				'submenu_page_action' => null,
 			),
 			array(
-				'wpseo_dashboard',
-				'',
-				__( 'Search Console', 'wordpress-seo' ),
-				$manage_options_cap,
-				'wpseo_search_console',
-				array( $this->page_gsc, 'display' ),
-				array( array( $this->page_gsc, 'set_help' ) ),
+				'parent'              => 'wpseo_dashboard',
+				'page_title'          => '',
+				'menu_title'          => __( 'Search Console', 'wordpress-seo' ),
+				'capability'          => $manage_options_cap,
+				'menu_slug'           => 'wpseo_search_console',
+				'function'            => array( $this->page_gsc, 'display' ),
+				'submenu_page_action' => array( array( $this->page_gsc, 'set_help' ) ),
 			),
 		);
 
 		// Add Extension submenu page.
 		$submenu_pages[] = array(
-			'wpseo_dashboard',
-			'',
-			'<span style="color:#f18500">' . __( 'Extensions', 'wordpress-seo' ) . '</span>',
-			$manage_options_cap,
-			'wpseo_licenses',
-			array( $this, 'load_page' ),
-			null,
+			'parent'              => 'wpseo_dashboard',
+			'page_title'          => '',
+			'menu_title'          => '<span style="color:#f18500">' . __( 'Extensions', 'wordpress-seo' ) . '</span>',
+			'capability'          => $manage_options_cap,
+			'menu_slug'           => 'wpseo_licenses',
+			'function'            => array( $this, 'load_page' ),
+			'submenu_page_action' => null,
 		);
 
 		// Allow submenu pages manipulation.
@@ -186,11 +186,11 @@ class WPSEO_Admin {
 			foreach ( $submenu_pages as $submenu_page ) {
 
 				// Add submenu page.
-				$admin_page = add_submenu_page( $submenu_page[0], $submenu_page[2] . ' - Yoast SEO', $submenu_page[2], $submenu_page[3], $submenu_page[4], $submenu_page[5] );
+				$admin_page = add_submenu_page( $submenu_page['parent'], $submenu_page['menu_title'] . ' - Yoast SEO', $submenu_page['menu_title'], $submenu_page['capability'], $submenu_page['menu_slug'], $submenu_page['function'] );
 
 				// Check if we need to hook.
-				if ( isset( $submenu_page[6] ) && ( is_array( $submenu_page[6] ) && $submenu_page[6] !== array() ) ) {
-					foreach ( $submenu_page[6] as $submenu_page_action ) {
+				if ( isset( $submenu_page['submenu_page_action'] ) && ( is_array( $submenu_page['submenu_page_action'] ) && $submenu_page['submenu_page_action'] !== array() ) ) {
+					foreach ( $submenu_page['submenu_page_action'] as $submenu_page_action ) {
 						add_action( 'load-' . $admin_page, $submenu_page_action );
 					}
 				}
