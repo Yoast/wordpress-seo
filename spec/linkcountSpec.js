@@ -73,10 +73,24 @@ var linkArgs5 = {
 
 };
 
-describe("A test to check for the keyword in the URL.", function(){
+describe("A test to check for the keyword in the URL with an image. ", function(){
 	it("should not report the keyword found in the link, since it is not used in the href, only in the alt-tag of the enclosed image", function(){
 		var linkAnalyzer5 = new Factory.buildAnalyzer(linkArgs5);
 		var result = linkAnalyzer5.linkCount();
 		expect(result[0].result.totalKeyword).toBe(0);
+	});
+});
+
+var linkArgs6 = {
+	text:"<p><a href='https://keywordlinkje.com'>keyword</a> text with keyword link, should match</p>",
+	queue: ["linkCount"],
+	keyword: "keyword"
+};
+
+describe("A text to check for the keyword in the URL", function(){
+	it("should match the keyword, since it is found in the href", function(){
+		var linkAnalyzer6 = new Factory.buildAnalyzer(linkArgs6);
+		var result = linkAnalyzer6.linkCount();
+		expect(result[0].result.totalKeyword).toBe(1);
 	});
 });
