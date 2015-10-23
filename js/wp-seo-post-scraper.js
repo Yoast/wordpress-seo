@@ -315,7 +315,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 				//if it must generate snippetpreview
 				snippetPreview: true,
 				//string to be added to the snippetTitle
-				snippetSuffix: " " + wpseoPostScraperL10n.sep + " " + wpseoPostScraperL10n.sitename,
+				snippetSuffix: ' ' + wpseoPostScraperL10n.sep + ' ' + wpseoPostScraperL10n.sitename,
 				//element Target Array
 				elementTarget: ['content', 'yoast_wpseo_focuskw', 'yoast_wpseo_metadesc', 'excerpt', 'editable-post-name', 'editable-post-name-full'],
 				//replacement target array, elements that must trigger the replace variables function.

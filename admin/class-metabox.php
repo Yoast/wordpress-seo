@@ -743,7 +743,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	}
 
 	/**
-	 * returns a json object with scraper data.
+	 * Returns a json object with scraper data.
 	 *
 	 * @return array
 	 */
