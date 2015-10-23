@@ -224,8 +224,6 @@ class WPSEO_Taxonomy {
 			$json = array();
 		}
 
-		$replace_vars = new WPSEO_Replace_Vars();
-
 		return array(
 			'translations'                  => $json,
 			'home_url'                      => home_url( '/', null ),

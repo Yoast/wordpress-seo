@@ -792,6 +792,8 @@ class WPSEO_Utils {
 
 	/**
 	 * Retrieves the sitename.
+	 *
+	 * @return string
 	 */
 	public static function get_site_name() {
 		return trim( strip_tags( get_bloginfo( 'name' ) ) );
@@ -799,6 +801,8 @@ class WPSEO_Utils {
 
 	/**
 	 * Retrieves the title separator.
+	 *
+	 * @return string
 	 */
 	public static function get_title_separator() {
 		$replacement = WPSEO_Options::get_default( 'wpseo_titles', 'separator' );
@@ -818,7 +822,6 @@ class WPSEO_Utils {
 		 *
 		 * @api string $replacement The current separator
 		 */
-
 		return apply_filters( 'wpseo_replacements_filter_sep', $replacement );
 	}
 

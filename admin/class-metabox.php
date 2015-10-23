@@ -188,15 +188,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 */
 	public function localize_post_scraper_script() {
 		$post = $this->get_metabox_post();
-
-		$file = plugin_dir_path( WPSEO_FILE ) . 'languages/wordpress-seo-' . get_locale() . '.json';
-		if ( file_exists( $file ) ) {
-			$file = file_get_contents( $file );
-			$json = json_decode( $file, true );
-		}
-		else {
-			$json = array();
-		}
+		$json = $this->get_scraper_json();
 
 		return array(
 			'translations'  => $json,
@@ -748,5 +740,18 @@ class WPSEO_Metabox extends WPSEO_Meta {
 					</g>
 				</svg>
 			</script>';
+	}
+
+	/**
+	 * returns a json object with scraper data.
+	 *
+	 * @return array
+	 */
+	private function get_scraper_json() {
+		$file = plugin_dir_path( WPSEO_FILE ) . 'languages/wordpress-seo-' . get_locale() . '.json';
+		if ( file_exists( $file ) && $file = file_get_contents( $file ) ) {
+			return json_decode( $file, true );
+		}
+		return array();
 	}
 } /* End of class */
