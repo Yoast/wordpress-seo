@@ -87,10 +87,24 @@ var linkArgs6 = {
 	keyword: "keyword"
 };
 
-describe("A text to check for the keyword in the URL", function(){
+describe("A test to check for the keyword in the URL", function(){
 	it("should match the keyword, since it is found in the href", function(){
 		var linkAnalyzer6 = new Factory.buildAnalyzer(linkArgs6);
 		var result = linkAnalyzer6.linkCount();
 		expect(result[0].result.totalKeyword).toBe(1);
+	});
+});
+
+var linkArgs7 = {
+	text:"<p><a>keyword</a> text with keyword link, should match</p>",
+	queue: ["linkCount"],
+	keyword: "keyword"
+};
+
+describe("A test to check for errors", function(){
+	it("should not fail the test, but return 0 since the anchor has no href", function(){
+		var linkAnalyzer7 = new Factory.buildAnalyzer(linkArgs7);
+		var result = linkAnalyzer7.linkCount();
+		expect(result[0].result.totalKeyword).toBe(0);
 	});
 });
