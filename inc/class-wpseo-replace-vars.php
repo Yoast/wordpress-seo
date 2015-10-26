@@ -1184,7 +1184,6 @@ class WPSEO_Replace_Vars {
 
 		return apply_filters( 'wpseo_terms', $output );
 	}
-
 } /* End of class WPSEO_Replace_Vars */
 
 
