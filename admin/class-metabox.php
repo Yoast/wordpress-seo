@@ -2254,7 +2254,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	/**
 	 * Renders the content of the SEO score tab
 	 *
-	 * @param int $post_id
+	 * @param int $post_id The post ID to render the SEO score for.
 	 */
 	private function column_seo_score( $post_id ) {
 		$score = (int) self::get_value( 'linkdex', $post_id );
@@ -2267,14 +2267,17 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$rank  = new WPSEO_Rank( WPSEO_Rank::NO_INDEX );
 			$title = __( 'Post is set to noindex.', 'wordpress-seo' );
 			self::set_value( 'linkdex', 0, $post_id );
-		} elseif ( $score !== '' ) {
+		}
+		elseif ( $score !== '' ) {
 			$title = $rank->get_label();
-		} else {
+		}
+		else {
 			$this->calculate_results( get_post( $post_id ) );
 			$score = self::get_value( 'linkdex', $post_id );
 			if ( $score === '' ) {
 				$title = __( 'Focus keyword not set.', 'wordpress-seo' );
-			} else {
+			}
+			else {
 				$title = $rank->get_label();
 			}
 		}
