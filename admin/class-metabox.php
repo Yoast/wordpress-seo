@@ -232,7 +232,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 */
 	public function do_tab( $id, $heading, $content ) {
 		?>
-		<div class="wpseotab <?php echo esc_attr( $id ) ?>">
+		<div id="wpseo_<?php echo $id ?>" class="wpseotab <?php echo esc_attr( $id ) ?>">
 			<h4 class="wpseo-heading"><?php echo esc_html( $heading ); ?></h4>
 			<table class="form-table">
 				<?php echo $content ?>
@@ -245,42 +245,109 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * Output the meta box
 	 */
 	public function meta_box() {
-		$post    = $this->get_metabox_post();
-		$options = WPSEO_Options::get_all();
-		?>
-		<div class="wpseo-metabox-tabs-div">
-		<ul class="wpseo-metabox-tabs" id="wpseo-metabox-tabs">
-			<li class="general">
-				<a class="wpseo_tablink" href="#wpseo_general"><?php _e( 'Content', 'wordpress-seo' ); ?></a></li>
-			<?php if ( current_user_can( 'manage_options' ) || $options['disableadvanced_meta'] === false ) : ?>
-				<li class="advanced">
-					<a class="wpseo_tablink" href="#wpseo_advanced"><?php _e( 'Advanced', 'wordpress-seo' ); ?></a>
-				</li>
-			<?php endif; ?>
-			<?php do_action( 'wpseo_tab_header' ); ?>
-		</ul>
-		<?php
-		$content = '';
-		if ( is_object( $post ) && isset( $post->post_type ) ) {
-			foreach ( $this->get_meta_field_defs( 'general', $post->post_type ) as $key => $meta_field ) {
-				$content .= $this->do_meta_box( $meta_field, $key );
-			}
-			unset( $key, $meta_field );
+		$content_sections = $this->get_content_sections();
+
+		echo '<div class="wpseo-metabox-sidebar" style="display:inline-block; width: 40px; padding: 5px; background-color: #fff; vertical-align: top;"><ul>';
+
+		foreach( $content_sections as $content_section ) {
+			$content_section->display_link();
 		}
-		$this->do_tab( 'general', __( 'General', 'wordpress-seo' ), $content );
+
+		echo '</ul></div>';
+
+		foreach( $content_sections as $content_section ) {
+			$content_section->display_content();
+		}
+	}
+
+	/**
+	 * @return WPSEO_Metabox_Section[]
+	 */
+	private function get_content_sections() {
+		$options = WPSEO_Options::get_all();
+		$content_sections = array( $this->get_content_meta_section() );
 
 		if ( current_user_can( 'manage_options' ) || $options['disableadvanced_meta'] === false ) {
-			$content = '';
-			foreach ( $this->get_meta_field_defs( 'advanced' ) as $key => $meta_field ) {
-				$content .= $this->do_meta_box( $meta_field, $key );
-			}
-			unset( $key, $meta_field );
-			$this->do_tab( 'advanced', __( 'Advanced', 'wordpress-seo' ), $content );
+			$content_sections[] = $this->get_advanced_meta_section();
 		}
+		if ( $options['opengraph'] === true || $options['twitter'] === true || $options['googleplus'] === true ) {
+			$social_admin = new WPSEO_Social_Admin( $options );
+			$content_sections[] = $social_admin->get_meta_section();
+		}
+		if ( has_action( 'wpseo_tab_header' ) || has_action( 'wpseo_tab_content' ) ) {
+			$content_sections[] = $this->get_addons_meta_section();
+		}
+		return $content_sections;
+	}
 
-		do_action( 'wpseo_tab_content' );
 
-		echo '</div>';
+	private function get_content_meta_section() {
+		$content = $this->get_tab_content( 'general' );
+
+		$tab = new WPSEO_Metabox_Tab(
+			'content',
+			$content,
+			__( 'Content', 'wordpress-seo' ),
+			array(
+				'link_class' => 'wpseo_keyword_tab',
+				'link_title' => __( 'Content', 'wordpress-seo' ),
+			)
+		);
+
+		return new WPSEO_Metabox_Section(
+			'content',
+			'<span class="dashicons dashicons-yes"></span>',
+			array( $tab ),
+			array(
+				'link_alt' => __( 'Content', 'wordpress-seo' ),
+				'link_title' => __( 'Content', 'wordpress-seo' ),
+			)
+		);
+	}
+
+	private function get_advanced_meta_section() {
+		$content = $this->get_tab_content( 'advanced' );
+
+		$tab = new WPSEO_Metabox_Tab(
+			'advanced',
+			$content,
+			__( 'Advanced', 'wordpress-seo' ),
+			array(
+				'link_title' => __( 'Advanced', 'wordpress-seo' ),
+			)
+		);
+
+		return new WPSEO_Metabox_Section(
+			'advanced',
+			'<span class="dashicons dashicons-admin-generic"></span>',
+			array( $tab ),
+			array(
+				'link_alt' => __( 'Advanced', 'wordpress-seo' ),
+				'link_title' => __( 'Advanced', 'wordpress-seo' ),
+			)
+		);
+	}
+
+	private function get_addons_meta_section() {
+		return new WPSEO_Metabox_Addon_Section(
+			'addons',
+			'<span class="dashicons dashicons-admin-plugins"></span>',
+			array(),
+			array(
+				'link_alt' => __( 'Add-ons', 'wordpress-seo' ),
+				'link_title' => __( 'Add-ons', 'wordpress-seo' ),
+			)
+		);
+	}
+
+	private function get_tab_content( $metakey ) {
+		$content = '';
+		foreach ( $this->get_meta_field_defs( $metakey ) as $key => $meta_field ) {
+			$content .= $this->do_meta_box( $meta_field, $key );
+		}
+		unset( $key, $meta_field );
+
+		return $content;
 	}
 
 	/**
@@ -534,10 +601,10 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			// Always enqueue minified as it's not our code.
 			wp_enqueue_script( 'jquery-qtip', plugins_url( 'js/jquery.qtip.min.js', WPSEO_FILE ), array( 'jquery' ), '2.2.1', true );
 
-			wp_enqueue_script( 'wp-seo-metabox', plugins_url( 'js/wp-seo-metabox' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array(
+			wp_enqueue_script( 'wp-seo-metabox', plugins_url( 'js/wp-seo-metabox.js', WPSEO_FILE ), array(
 				'jquery',
 				'jquery-ui-core',
-			), WPSEO_VERSION, true );
+			), WPSEO_VERSION );
 
 			wp_enqueue_script( 'yoast-seo', plugins_url( 'js/dist/yoast-seo/yoast-seo.min.js', WPSEO_FILE ), null, WPSEO_VERSION, true );
 			wp_enqueue_script( 'wp-seo-post-scraper', plugins_url( 'js/wp-seo-post-scraper' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'yoast-seo' ), WPSEO_VERSION, true );

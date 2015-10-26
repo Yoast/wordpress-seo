@@ -289,6 +289,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 		var tmpl =  wp.template('score_svg');
 		document.getElementById( YoastSEO.analyzerArgs.targets.overall ).innerHTML = tmpl();
 		document.getElementById( 'yoast_wpseo_linkdex' ).value = score;
+		jQuery( window ).trigger( 'yoastseo-score', score );
 	};
 
 	/**
