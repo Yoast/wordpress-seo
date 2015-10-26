@@ -36,12 +36,12 @@ class WPSEO_GSC_Bulk_Action {
 	 */
 	private function determine_bulk_action() {
 		// If posted action is the selected one above the table, return that value.
-		if ( $action = filter_input( INPUT_POST, 'action' ) ) {
+		if ( ( $action = filter_input( INPUT_POST, 'action' ) ) && $action !== '-1' ) {
 			return $action;
 		}
 
 		// If posted action is the selected one below the table, return that value.
-		if ( $action = filter_input( INPUT_POST, 'action2' ) ) {
+		if ( ( $action = filter_input( INPUT_POST, 'action2' ) ) && $action !== '-1' ) {
 			return $action;
 		}
 
@@ -89,5 +89,4 @@ class WPSEO_GSC_Bulk_Action {
 
 		return $issue;
 	}
-
 }

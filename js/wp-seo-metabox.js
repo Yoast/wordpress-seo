@@ -569,12 +569,8 @@ jQuery( document ).ready( function() {
 			else {
 				active_tab = active_tab.replace( '#wpseo_', '' );
 			}
-			jQuery( '.' + active_tab ).addClass( 'active' );
 
-			var descElm = jQuery( '#' + wpseoMetaboxL10n.field_prefix + 'metadesc' );
-			var desc = jQuery.trim( ystClean( descElm.val() ) );
-			desc = jQuery( '<div />' ).html( desc ).text();
-			descElm.val( desc );
+			jQuery( '.' + active_tab ).addClass( 'active' );
 
 			jQuery( 'a.wpseo_tablink' ).click( function() {
 					jQuery( '.wpseo-metabox-tabs li' ).removeClass( 'active' );
@@ -601,57 +597,65 @@ jQuery( document ).ready( function() {
 
 		var focuskwHelpTriggered = false;
 
-		jQuery( '#' + wpseoMetaboxL10n.field_prefix + 'title' ).keyup( function() {
-				ystUpdateTitle();
-			}
-		);
-		jQuery( '#title' ).keyup( function() {
-				ystUpdateTitle();
-				ystUpdateDesc();
-			}
-		);
-		jQuery( '#parent_id' ).change( function() {
-				ystUpdateTitle();
-				ystUpdateDesc();
-			}
-		);
-		// DON'T 'optimize' this to use descElm! descElm might not be defined and will cause js errors (Soliloquy issue)
-		jQuery( '#' + wpseoMetaboxL10n.field_prefix + 'metadesc' ).keyup( function() {
-				ystUpdateDesc();
-			}
-		);
+		if ( typeof wpseoMetaboxL10n !== 'undefined' ) {
+			var descElm = jQuery('#' + wpseoMetaboxL10n.field_prefix + 'metadesc');
+			var desc = jQuery.trim(ystClean(descElm.val()));
+			desc = jQuery('<div />').html(desc).text();
+			descElm.val(desc);
 
-		// Set time out because of tinymce is initialized later then this is done
-		setTimeout(
-			function() {
-				ystUpdateSnippet();
-
-				// Adding events to content and excerpt
-				if ( typeof tinyMCE !== 'undefined' && tinyMCE.get( 'content' ) !== null ) {
-					tinyMCE.get( 'content' ).on( 'blur', ystUpdateDesc );
+			jQuery('#' + wpseoMetaboxL10n.field_prefix + 'title').keyup(function() {
+					ystUpdateTitle();
 				}
-
-				if ( typeof tinyMCE !== 'undefined' && tinyMCE.get( 'excerpt' ) !== null ) {
-					tinyMCE.get( 'excerpt' ).on( 'blur', ystUpdateDesc );
+			);
+			jQuery('#title').keyup(function() {
+					ystUpdateTitle();
+					ystUpdateDesc();
 				}
-			},
-			500
-		);
-
-		jQuery( document ).on( 'change', '#' + wpseoMetaboxL10n.field_prefix + 'focuskw', function() {
-				var focuskwhelpElm = jQuery( '#focuskwhelp' );
-				if ( jQuery( '#' + wpseoMetaboxL10n.field_prefix + 'focuskw' ).val().search( ',' ) !== -1 ) {
-					focuskwhelpElm.click();
-					focuskwHelpTriggered = true;
+			);
+			jQuery('#parent_id').change(function() {
+					ystUpdateTitle();
+					ystUpdateDesc();
 				}
-				else if ( focuskwHelpTriggered ) {
-					focuskwhelpElm.qtip( 'hide' );
-					focuskwHelpTriggered = false;
-				}
+			);
 
-				ystUpdateSnippet();
-			}
-		);
+			// DON'T 'optimize' this to use descElm! descElm might not be defined and will cause js errors (Soliloquy issue)
+			jQuery('#' + wpseoMetaboxL10n.field_prefix + 'metadesc').keyup(function() {
+					ystUpdateDesc();
+				}
+			);
+
+			// Set time out because of tinymce is initialized later then this is done
+			setTimeout(
+				function() {
+					ystUpdateSnippet();
+
+					// Adding events to content and excerpt
+					if (typeof tinyMCE !== 'undefined' && tinyMCE.get('content') !== null) {
+						tinyMCE.get('content').on('blur', ystUpdateDesc);
+					}
+
+					if (typeof tinyMCE !== 'undefined' && tinyMCE.get('excerpt') !== null) {
+						tinyMCE.get('excerpt').on('blur', ystUpdateDesc);
+					}
+				},
+				500
+			);
+
+			jQuery(document).on('change', '#' + wpseoMetaboxL10n.field_prefix + 'focuskw', function() {
+					var focuskwhelpElm = jQuery('#focuskwhelp');
+					if (jQuery('#' + wpseoMetaboxL10n.field_prefix + 'focuskw').val().search(',') !== -1) {
+						focuskwhelpElm.click();
+						focuskwHelpTriggered = true;
+					}
+					else if (focuskwHelpTriggered) {
+						focuskwhelpElm.qtip('hide');
+						focuskwHelpTriggered = false;
+					}
+
+					ystUpdateSnippet();
+				}
+			);
+		}
 
 		jQuery( '.yoast_help' ).qtip(
 			{

@@ -91,11 +91,6 @@ class Yoast_Notification {
 			return '';
 		}
 
-		// @codingStandardsIgnoreStart
-		$data = ( function_exists( 'wp_json_encode' ) ) ? wp_json_encode( $this->options['data_json'] ) : json_encode( $this->options['data_json'] );
-		// @codingStandardsIgnoreEnd
-
-		return " data-json='" . $data . "'";
+		return " data-json='" . WPSEO_Utils::json_encode( $this->options['data_json'] ) . "'";
 	}
-
 }

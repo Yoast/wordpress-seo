@@ -425,5 +425,4 @@ class Yoast_TextStatistics {
 
 		return $score;
 	}
-
 } /* End of class */

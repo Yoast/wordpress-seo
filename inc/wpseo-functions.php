@@ -181,7 +181,8 @@ function wpseo_xml_sitemaps_base_url( $page ) {
 	 */
 	$base = apply_filters( 'wpseo_sitemaps_base_url', $base );
 
-	return home_url( $base . $page );
+	// Get the scheme from the configured home url instead of letting WordPress determine the scheme based on the requested URI.
+	return home_url( $base . $page, parse_url( get_option( 'home' ), PHP_URL_SCHEME ) );
 }
 
 /**
@@ -216,6 +217,15 @@ add_action( 'init', 'wpseo_xml_sitemaps_init', 1 );
  * @param string|null $sitemapurl Optional URL to make the ping for.
  */
 function wpseo_ping_search_engines( $sitemapurl = null ) {
+	/**
+	 * Filter: 'wpseo_allow_xml_sitemap_ping' - Check if pinging is not allowed (allowed by default)
+	 *
+	 * @api boolean $allow_ping The boolean that is set to true by default.
+	 */
+	if ( apply_filters( 'wpseo_allow_xml_sitemap_ping', true ) === false ) {
+		return;
+	}
+
 	// Don't ping if blog is not public.
 	if ( '0' == get_option( 'blog_public' ) ) {
 		return;
