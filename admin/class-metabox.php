@@ -182,27 +182,22 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	}
 
 	/**
-	 * pass variables to js for use with the post-scraper
+	 * Pass variables to js for use with the post-scraper
+	 *
 	 * @return array
 	 */
 	public function localize_post_scraper_script() {
 		$post = $this->get_metabox_post();
-
-		$file = plugin_dir_path( WPSEO_FILE ) . 'languages/wordpress-seo-' . get_locale() . '.json';
-		if ( file_exists( $file ) ) {
-			$file = file_get_contents( $file );
-			$json = json_decode( $file, true );
-		}
-		else {
-			$json = array();
-		}
+		$json = $this->get_scraper_json();
 
 		return array(
-			'translations'                => $json,
-			'keyword_usage'               => $this->get_focus_keyword_usage( $post->ID ),
-			'search_url'                  => admin_url( 'edit.php?seo_kw_filter={keyword}' ),
-			'post_edit_url'               => admin_url( 'post.php?post={id}&action=edit' ),
-			'home_url'                    => home_url( '/', null ),
+			'translations'  => $json,
+			'keyword_usage' => $this->get_focus_keyword_usage( $post->ID ),
+			'search_url'    => admin_url( 'edit.php?seo_kw_filter={keyword}' ),
+			'post_edit_url' => admin_url( 'post.php?post={id}&action=edit' ),
+			'home_url'      => home_url( '/', null ),
+			'sep'           => WPSEO_Utils::get_title_separator(),
+			'sitename'      => WPSEO_Utils::get_site_name(),
 		);
 	}
 
@@ -549,7 +544,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			wp_enqueue_script( 'wp-seo-replacevar-plugin.js', plugins_url( 'js/wp-seo-replacevar-plugin' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'yoast-seo', 'wp-seo-post-scraper' ), WPSEO_VERSION, true );
 			wp_enqueue_script( 'wp-seo-shortcode-plugin.js', plugins_url( 'js/wp-seo-shortcode-plugin' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'yoast-seo', 'wp-seo-post-scraper' ), WPSEO_VERSION, true );
 
-            wp_localize_script( 'wp-seo-post-scraper', 'wpseoPostScraperL10n', $this->localize_post_scraper_script() );
+			wp_localize_script( 'wp-seo-post-scraper', 'wpseoPostScraperL10n', $this->localize_post_scraper_script() );
 			wp_localize_script( 'wp-seo-replacevar-plugin.js', 'wpseoReplaceVarsL10n', $this->localize_replace_vars_script() );
 			wp_localize_script( 'wp-seo-shortcode-plugin.js', 'wpseoShortcodePluginL10n', $this->localize_shortcode_plugin_script() );
 
@@ -745,5 +740,18 @@ class WPSEO_Metabox extends WPSEO_Meta {
 					</g>
 				</svg>
 			</script>';
+	}
+
+	/**
+	 * Returns a json object with scraper data.
+	 *
+	 * @return array
+	 */
+	private function get_scraper_json() {
+		$file = plugin_dir_path( WPSEO_FILE ) . 'languages/wordpress-seo-' . get_locale() . '.json';
+		if ( file_exists( $file ) && $file = file_get_contents( $file ) ) {
+			return json_decode( $file, true );
+		}
+		return array();
 	}
 } /* End of class */

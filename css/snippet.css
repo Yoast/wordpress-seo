@@ -26,11 +26,24 @@
 }
 
 .snippet_container {
+	clear: both;
 	line-height: 16px;
+	text-overflow: ellipsis;
 }
 
 .snippet_container span {
-	width: 95%;
+	width: auto;
+	max-width: 95%;
+}
+
+#title_container {
+	overflow: hidden;
+}
+
+#snippet_sitename {
+	display: inline;
+	width: auto;
+	padding-left: 5px;
 }
 
 #snippet_cite {
@@ -43,8 +56,9 @@
 }
 
 .title {
-	display: block;
+	display: inline;
 	overflow: hidden;
+	min-width: 20px;
 	margin: 0;
 	color: #1e0fbe;
 	font-size: 18px;

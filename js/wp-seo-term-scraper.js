@@ -129,6 +129,9 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 		for ( var i = 0; i < elems.length; i++ ) {
 			this.bindSnippetEvents( document.getElementById( elems [ i ] ), snippetPreview );
 		}
+		var title = document.getElementById( 'snippet_title' );
+		title.addEventListener( 'focus', snippetPreview.setSiteName.bind ( snippetPreview ) );
+		title.addEventListener( 'blur', snippetPreview.unsetSiteName.bind ( snippetPreview ) );
 	};
 
 	/**
@@ -233,6 +236,8 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 				ajax: true,
 				//if it must generate snippetpreview
 				snippetPreview: true,
+				//string to be added to the snippetTitle
+				snippetSuffix: ' ' + wpseoTermScraperL10n.sep + ' ' + wpseoTermScraperL10n.sitename,
 				//element Target Array
 				elementTarget: ['content', 'yoast_wpseo_focuskw', 'yoast_wpseo_metadesc', 'excerpt', 'editable-post-name', 'editable-post-name-full'],
 				//replacement target array, elements that must trigger the replace variables function.
