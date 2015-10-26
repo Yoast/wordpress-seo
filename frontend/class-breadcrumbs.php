@@ -329,7 +329,7 @@ class WPSEO_Breadcrumbs {
 			if ( is_post_type_archive() ) {
 				$post_type = $wp_query->get( 'post_type' );
 
-				if ( $post_type ) {
+				if ( $post_type && is_string( $post_type ) ) {
 					$this->add_ptarchive_crumb( $post_type );
 				}
 			}

@@ -60,16 +60,17 @@ class WPSEO_Taxonomy {
 			wp_enqueue_media(); // Enqueue files needed for upload functionality.
 
 			wp_enqueue_style( 'yoast-metabox-css', plugins_url( 'css/metabox' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
-            wp_enqueue_style( 'snippet', plugins_url( 'css/snippet' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
+			wp_enqueue_style( 'snippet', plugins_url( 'css/snippet' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
+			wp_enqueue_style( 'seo_score', plugins_url( 'css/yst_seo_score' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
+			wp_editor( '', 'description' );
 			wp_enqueue_script( 'wp-seo-metabox', plugins_url( 'js/wp-seo-metabox' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array(
 				'jquery',
 				'jquery-ui-core',
 				'jquery-ui-autocomplete',
 			), WPSEO_VERSION, true );
-
-            wp_enqueue_script( 'yoast-seo', plugins_url( 'js/dist/yoast-seo/yoast-seo.min.js', WPSEO_FILE ), null, WPSEO_VERSION, true );
-            wp_enqueue_script( 'wp-seo-term-scraper', plugins_url( 'js/wp-seo-term-scraper' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'yoast-seo' ), WPSEO_VERSION, true );
-            wp_localize_script( 'wp-seo-term-scraper', 'wpseoTermScraperL10n', $this->localize_term_scraper_script() );
+			wp_enqueue_script( 'yoast-seo', plugins_url( 'js/dist/yoast-seo/yoast-seo.min.js', WPSEO_FILE ), null, WPSEO_VERSION, true );
+			wp_enqueue_script( 'wp-seo-term-scraper', plugins_url( 'js/wp-seo-term-scraper' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'yoast-seo' ), WPSEO_VERSION, true );
+			wp_localize_script( 'wp-seo-term-scraper', 'wpseoTermScraperL10n', $this->localize_term_scraper_script() );
 
 			// Always enqueue minified as it's not our code.
 			wp_enqueue_style( 'jquery-qtip.js', plugins_url( 'css/jquery.qtip' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), '2.2.1' );
@@ -108,8 +109,6 @@ class WPSEO_Taxonomy {
 	 * @param string $taxonomy The taxonomy the term belongs to.
 	 */
 	public function update_term( $term_id, $tt_id, $taxonomy ) {
-		$tax_meta = get_option( 'wpseo_taxonomy_meta' );
-
 		/* Create post array with only our values */
 		$new_meta_data = array();
 		foreach ( WPSEO_Taxonomy_Meta::$defaults_per_term as $key => $default ) {
@@ -119,25 +118,8 @@ class WPSEO_Taxonomy {
 		}
 		unset( $key, $default );
 
-		/* Validate the post values */
-		$old   = WPSEO_Taxonomy_Meta::get_term_meta( $term_id, $taxonomy );
-		$clean = WPSEO_Taxonomy_Meta::validate_term_meta_data( $new_meta_data, $old );
-
-		/* Add/remove the result to/from the original option value */
-		if ( $clean !== array() ) {
-			$tax_meta[ $taxonomy ][ $term_id ] = $clean;
-		}
-		else {
-			unset( $tax_meta[ $taxonomy ][ $term_id ] );
-			if ( isset( $tax_meta[ $taxonomy ] ) && $tax_meta[ $taxonomy ] === array() ) {
-				unset( $tax_meta[ $taxonomy ] );
-			}
-		}
-
-		// Prevent complete array validation.
-		$tax_meta['wpseo_already_validated'] = true;
-
-		update_option( 'wpseo_taxonomy_meta', $tax_meta );
+		// Saving the values.
+		WPSEO_Taxonomy_Meta::set_values( $term_id, $taxonomy, $new_meta_data );
 	}
 
 	/**
@@ -182,7 +164,7 @@ class WPSEO_Taxonomy {
 		$options    = WPSEO_Options::get_all();
 		$option_key = 'hideeditbox-tax-' . $this->taxonomy;
 
-		return ( ! isset( $options[ $option_key ] ) || $options[ $option_key ] === false );
+		return ( empty( $options[ $option_key ] ) );
 	}
 
 	/**
@@ -208,20 +190,26 @@ class WPSEO_Taxonomy {
 		return ( in_array( $this->taxonomy, $taxonomies ) );
 	}
 
-    public function localize_term_scraper_script() {
+	/**
+	 *
+	 * @return array
+	 */
+	public function localize_term_scraper_script() {
 
-        $file = plugin_dir_path( WPSEO_FILE ) . 'languages/wordpress-seo-' . get_locale() . '.json';
-        if ( file_exists( $file ) ) {
-            $file = file_get_contents( $file );
-            $json = json_decode( $file, true );
-        }
-        else {
-            $json = array();
-        }
+		$file = plugin_dir_path( WPSEO_FILE ) . 'languages/wordpress-seo-' . get_locale() . '.json';
+		if ( file_exists( $file ) ) {
+			$file = file_get_contents( $file );
+			$json = json_decode( $file, true );
+		}
+		else {
+			$json = array();
+		}
 
-        return array(
-            'translations'                => $json,
-            'home_url'                    => home_url( '/', null ),
-        );
-    }
+		return array(
+			'translations'                  => $json,
+			'home_url'                      => home_url( '/', null ),
+			'sep'                           => WPSEO_Utils::get_title_separator(),
+			'sitename'                      => WPSEO_Utils::get_site_name(),
+		);
+	}
 } /* End of class */

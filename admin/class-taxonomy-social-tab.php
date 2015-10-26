@@ -32,7 +32,7 @@ class WPSEO_Taxonomy_Social_Tab extends WPSEO_Taxonomy_Tab {
 					/* translators: %s expands to the social network name */
 					sprintf( __( '%s Title', 'wordpress-seo' ), $settings['label'] ),
 					/* translators: %1$s expands to the social network name */
-					sprintf( esc_html__( 'If you don\'t want to use the title for sharing on %1$s  but instead want another title there, write it here.', 'wordpress-seo' ), $settings['label'] ),
+					sprintf( esc_html__( 'If you don\'t want to use the title for sharing on %1$s but instead want another title there, write it here.', 'wordpress-seo' ), $settings['label'] ),
 					'text',
 					array( 'class' => 'large-text' )
 				),
@@ -103,7 +103,7 @@ class WPSEO_Taxonomy_Social_Tab extends WPSEO_Taxonomy_Tab {
 	 */
 	private function filter_social_networks( array $social_networks ) {
 		foreach ( $social_networks as $social_network => $settings ) {
-			if ( $this->options[ $social_network ] !== true ) {
+			if ( empty( $this->options[ $social_network ] ) ) {
 				unset( $social_networks[ $social_network ] );
 			}
 		}

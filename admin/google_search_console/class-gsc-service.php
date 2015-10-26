@@ -189,5 +189,4 @@ class WPSEO_GSC_Service {
 
 		return false;
 	}
-
 }

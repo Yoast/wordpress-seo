@@ -1035,5 +1035,4 @@ class WPSEO_Meta {
 
 		return $get_posts->posts;
 	}
-
 } /* End of class */

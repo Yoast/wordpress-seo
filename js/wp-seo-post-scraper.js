@@ -199,6 +199,9 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 		for ( var i = 0; i < elems.length; i++ ) {
 			this.bindSnippetEvents( document.getElementById( elems [ i ] ), snippetPreview );
 		}
+		var title = document.getElementById( 'snippet_title' );
+		title.addEventListener( 'focus', snippetPreview.setSiteName.bind ( snippetPreview ) );
+		title.addEventListener( 'blur', snippetPreview.unsetSiteName.bind ( snippetPreview ) );
 	};
 
 	/**
@@ -242,7 +245,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 		}
 
 		tinyMCE.on( 'addEditor', function(e) {
-			e.editor.on( 'keyPress', function() {
+			e.editor.on( 'input', function() {
 				app.analyzeTimer.call( app );
 			} );
 		});
@@ -261,7 +264,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 
 	/**
 	 * Updates the snippet values, is bound by the loader when generating the elements for the snippet.
-	 * Uses the unformattedText object of the if the textFeedback function has put a string there (if text was too long).
+	 * Uses the unformattedText object of the snippetpreview if the textFeedback function has put a string there (if text was too long).
 	 * clears this after use.
 	 *
 	 * @param {Object} ev
@@ -311,6 +314,8 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 				ajax: true,
 				//if it must generate snippetpreview
 				snippetPreview: true,
+				//string to be added to the snippetTitle
+				snippetSuffix: ' ' + wpseoPostScraperL10n.sep + ' ' + wpseoPostScraperL10n.sitename,
 				//element Target Array
 				elementTarget: ['content', 'yoast_wpseo_focuskw', 'yoast_wpseo_metadesc', 'excerpt', 'editable-post-name', 'editable-post-name-full'],
 				//replacement target array, elements that must trigger the replace variables function.
@@ -360,17 +365,14 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 			// If there are no translations let the analyzer fallback onto the english translations.
 			if (0 === wpseoPostScraperL10n.translations.length) {
 				delete( YoastSEO.analyzerArgs.translations );
-				return;
+			} else {
+				// Make sure the correct text domain is set for analyzer.
+				var translations = wpseoPostScraperL10n.translations;
+				translations.domain = 'js-text-analysis';
+				translations.locale_data['js-text-analysis'] = translations.locale_data['wordpress-seo'];
+				delete( translations.locale_data['wordpress-seo'] );
+				YoastSEO.analyzerArgs.translations = translations;
 			}
-
-			// Make sure the correct text domain is set for analyzer.
-			var translations = wpseoPostScraperL10n.translations;
-			translations.domain = 'js-text-analysis';
-			translations.locale_data['js-text-analysis'] = translations.locale_data['wordpress-seo'];
-			delete( translations.locale_data['wordpress-seo'] );
-
-			YoastSEO.analyzerArgs.translations = translations;
-
 			window.YoastSEO.app = new YoastSEO.App( YoastSEO.analyzerArgs );
 
 			//Init Plugins

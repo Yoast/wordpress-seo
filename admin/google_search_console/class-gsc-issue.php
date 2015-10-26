@@ -83,5 +83,4 @@ class WPSEO_GSC_Issue {
 	private function to_timestamp( DateTime $date_to_convert ) {
 		return $date_to_convert->format( 'U' );
 	}
-
 }

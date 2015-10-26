@@ -67,5 +67,4 @@ class WPSEO_Admin_User_Profile {
 
 		require_once( 'views/user-profile.php' );
 	}
-
 }

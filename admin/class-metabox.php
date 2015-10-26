@@ -181,26 +181,25 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		}
 	}
 
-    public function localize_post_scraper_script() {
-        $post = $this->get_metabox_post();
+	/**
+	 * Pass variables to js for use with the post-scraper
+	 *
+	 * @return array
+	 */
+	public function localize_post_scraper_script() {
+		$post = $this->get_metabox_post();
+		$json = $this->get_scraper_json();
 
-        $file = plugin_dir_path( WPSEO_FILE ) . 'languages/wordpress-seo-' . get_locale() . '.json';
-        if ( file_exists( $file ) ) {
-            $file = file_get_contents( $file );
-            $json = json_decode( $file, true );
-        }
-        else {
-            $json = array();
-        }
-
-        return array(
-            'translations'                => $json,
-            'keyword_usage'               => $this->get_focus_keyword_usage( $post->ID ),
-            'search_url'                  => admin_url( 'edit.php?seo_kw_filter={keyword}' ),
-            'post_edit_url'               => admin_url( 'post.php?post={id}&action=edit' ),
-            'home_url'                    => home_url( '/', null ),
-        );
-    }
+		return array(
+			'translations'  => $json,
+			'keyword_usage' => $this->get_focus_keyword_usage( $post->ID ),
+			'search_url'    => admin_url( 'edit.php?seo_kw_filter={keyword}' ),
+			'post_edit_url' => admin_url( 'post.php?post={id}&action=edit' ),
+			'home_url'      => home_url( '/', null ),
+			'sep'           => WPSEO_Utils::get_title_separator(),
+			'sitename'      => WPSEO_Utils::get_site_name(),
+		);
+	}
 
 	/**
 	 * Pass some variables to js for replacing variables.
@@ -545,16 +544,16 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			wp_enqueue_script( 'wp-seo-replacevar-plugin.js', plugins_url( 'js/wp-seo-replacevar-plugin' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'yoast-seo', 'wp-seo-post-scraper' ), WPSEO_VERSION, true );
 			wp_enqueue_script( 'wp-seo-shortcode-plugin.js', plugins_url( 'js/wp-seo-shortcode-plugin' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'yoast-seo', 'wp-seo-post-scraper' ), WPSEO_VERSION, true );
 
-            wp_localize_script( 'wp-seo-post-scraper', 'wpseoPostScraperL10n', $this->localize_post_scraper_script() );
+			wp_localize_script( 'wp-seo-post-scraper', 'wpseoPostScraperL10n', $this->localize_post_scraper_script() );
 			wp_localize_script( 'wp-seo-replacevar-plugin.js', 'wpseoReplaceVarsL10n', $this->localize_replace_vars_script() );
 			wp_localize_script( 'wp-seo-shortcode-plugin.js', 'wpseoShortcodePluginL10n', $this->localize_shortcode_plugin_script() );
 
 			if ( post_type_supports( get_post_type(), 'thumbnail' ) ) {
-                wp_enqueue_style( 'featured-image', plugins_url( 'css/featured-image' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
+				wp_enqueue_style( 'featured-image', plugins_url( 'css/featured-image' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
 				wp_enqueue_script( 'wp-seo-featured-image', plugins_url( 'js/wp-seo-featured-image' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'jquery' ), WPSEO_VERSION, true );
 
-                $featured_image_l10 = array( 'featured_image_notice' => __( 'The featured image should be at least 200x200 pixels to be picked up by Facebook and other social media sites.', 'wordpress-seo' ) );
-                wp_localize_script( 'wp-seo-metabox', 'wpseoFeaturedImageL10n', $featured_image_l10 );
+				$featured_image_l10 = array( 'featured_image_notice' => __( 'The featured image should be at least 200x200 pixels to be picked up by Facebook and other social media sites.', 'wordpress-seo' ) );
+				wp_localize_script( 'wp-seo-metabox', 'wpseoFeaturedImageL10n', $featured_image_l10 );
 			}
 
 			wp_enqueue_script( 'wpseo-admin-media', plugins_url( 'js/wp-seo-admin-media' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array(
@@ -741,5 +740,18 @@ class WPSEO_Metabox extends WPSEO_Meta {
 					</g>
 				</svg>
 			</script>';
+	}
+
+	/**
+	 * Returns a json object with scraper data.
+	 *
+	 * @return array
+	 */
+	private function get_scraper_json() {
+		$file = plugin_dir_path( WPSEO_FILE ) . 'languages/wordpress-seo-' . get_locale() . '.json';
+		if ( file_exists( $file ) && $file = file_get_contents( $file ) ) {
+			return json_decode( $file, true );
+		}
+		return array();
 	}
 } /* End of class */

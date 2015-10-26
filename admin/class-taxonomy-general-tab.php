@@ -35,13 +35,19 @@ class WPSEO_Taxonomy_General_Tab extends WPSEO_Taxonomy_Tab {
 	 */
 	public function get_fields() {
 		$fields = array(
-			'title' => $this->get_field_config(
-				__( 'SEO Title', 'wordpress-seo' ),
-				esc_html__( 'The SEO title is used on the archive page for this term.', 'wordpress-seo' )
+			'snippet' => $this->get_field_config(
+				__( 'Snippet', 'wordpress-seo' ),
+				sprintf( __( 'This is a rendering of what this post might look like in Google\'s search results.<br/><br/>Read %sthis post%s for more info.', 'wordpress-seo' ), '<a href="https://yoast.com/snippet-preview/#utm_source=wordpress-seo-metabox&amp;utm_medium=inline-help&amp;utm_campaign=snippet-preview">', '</a>' ),
+				'div'
 			),
-			'desc' => $this->get_field_config(
-				__( 'SEO Description', 'wordpress-seo' ),
-				esc_html__( 'The SEO description is used for the meta description on the archive page for this term.', 'wordpress-seo' )
+			'keyword' => $this->get_field_config(
+				__( 'Focus Keyword', 'wordpress-seo' ),
+				sprintf( __( 'Pick the main keyword or keyphrase that this post/page is about.<br/><br/>Read %sthis post%s for more info.', 'wordpress-seo' ), '<a href="https://yoast.com/focus-keyword/#utm_source=wordpress-seo-metabox&amp;utm_medium=inline-help&amp;utm_campaign=focus-keyword">', '</a>' )
+			),
+			'analysis' => $this->get_field_config(
+				__( 'Analysis', 'wordpress-seo' ),
+				esc_html__( 'analyzer text', 'wordpress-seo' ),
+				'div'
 			),
 			'metakey'  => $this->get_field_config(
 				__( 'Meta keywords', 'wordpress-seo' ),
@@ -71,10 +77,23 @@ class WPSEO_Taxonomy_General_Tab extends WPSEO_Taxonomy_Tab {
 				$this->get_noindex_options()
 			),
 			'sitemap_include' => $this->get_field_config(
-				sprintf( __( 'Include in sitemap?', 'wordpress-seo' ), $this->term->taxonomy ),
+				/* translators: %1$s expands to the taxonomy name  */
+				sprintf( __( 'Include %1$s in sitemap?', 'wordpress-seo' ), $this->term->taxonomy ),
 				'',
 				'select',
 				$this->sitemap_include_options
+			),
+			'title' => $this->get_field_config(
+				'',
+				'',
+				'hidden',
+				''
+			),
+			'desc' => $this->get_field_config(
+				'',
+				'',
+				'hidden',
+				''
 			),
 		);
 

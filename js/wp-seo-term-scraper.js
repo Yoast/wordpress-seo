@@ -1,4 +1,4 @@
-/* global YoastSEO: true, wpseoTermScraperL10n */
+/* global YoastSEO: true, wp, wpseoTermScraperL10n, tinyMCE */
 YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 (function() {
 	'use strict';
@@ -11,14 +11,14 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 	 */
 	YoastSEO.TermScraper.prototype.getData = function() {
 		return {
+			title: this.getDataFromInput( 'title' ),
 			keyword: this.getDataFromInput( 'keyword' ),
-			meta: this.getDataFromInput( 'meta' ),
 			text: this.getDataFromInput( 'text' ),
 			pageTitle: this.getDataFromInput( 'pageTitle' ),
-			title: this.getDataFromInput( 'title' ),
 			url: this.getDataFromInput( 'url' ),
 			baseUrl: this.getDataFromInput( 'baseUrl' ),
 			snippetTitle: this.getDataFromInput( 'snippetTitle' ),
+			meta: this.getDataFromInput( 'meta' ),
 			snippetMeta: this.getDataFromInput( 'meta' ),
 			snippetCite: this.getDataFromInput( 'cite' )
 		};
@@ -33,21 +33,28 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 		var elem;
 		switch( inputType ){
 			case 'keyword':
-				val = document.getElementById( 'name' ).value;
+				elem = document.getElementById( 'wpseo_keyword' );
+				val = elem.value;
+				if ( val === '' ) {
+					val = document.getElementById( 'name' ).value;
+					elem.placeholder = val;
+				}
 				break;
 			case 'meta':
-				val = document.getElementById( 'description' ).value;
+				elem = document.getElementById( 'hidden_wpseo_desc' );
+				if ( elem !== null ) {
+					val = elem.value;
+				}
 				break;
 			case 'text':
-				val = document.getElementById( 'description' ).value;
+				val = this.getContentTinyMCE();
 				break;
 			case 'pageTitle':
-				val = document.getElementById( 'description' ).value;
-				break;
 			case 'title':
-				val = document.getElementById( 'name' ).value;
+				val = document.getElementById( 'hidden_wpseo_title' ).value;
 				break;
-			case  'url':
+			case 'url':
+			case 'cite':
 				val = document.getElementById( 'slug' ).value;
 				break;
 			case 'baseUrl':
@@ -58,9 +65,6 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 				if ( elem !== null ) {
 					val = elem.textContent;
 				}
-				break;
-			case 'meta':
-				val = document.getElementById( 'description' ).value;
 				break;
 			case 'cite':
 				elem = document.getElementById( 'snippet_cite' );
@@ -73,6 +77,18 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 	};
 
 	/**
+	 * gets content from the content field, if tinyMCE is initialized, use the getContent function to get the data from tinyMCE
+	 * @returns {String}
+	 */
+	YoastSEO.TermScraper.prototype.getContentTinyMCE = function() {
+		var val = document.getElementById( 'description' ).value;
+		if ( tinyMCE.editors.length !== 0 ) {
+			val = tinyMCE.get( 'description' ).getContent();
+		}
+		return val;
+	};
+
+	/**
 	 * When the snippet is updated, update the (hidden) fields on the page
 	 * @param {Object} value
 	 * @param {String} type
@@ -80,25 +96,25 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 	YoastSEO.TermScraper.prototype.setDataFromSnippet = function( value, type ) {
 		switch ( type ) {
 			case 'snippet_meta':
-				//document.getElementById( 'yoast_wpseo_metadesc' ).value = value;
+				document.getElementById( 'hidden_wpseo_desc' ).value = value;
 				break;
 			case 'snippet_cite':
-
+				document.getElementById( 'slug' ).value = value;
 				break;
 			case 'snippet_title':
-				document.getElementById( 'name' ).value = value;
+				document.getElementById( 'hidden_wpseo_title' ).value = value;
 				break;
 			default:
 				break;
 		}
 	};
 
-
 	/**
 	 * binds elements
 	 */
 	YoastSEO.TermScraper.prototype.bindElementEvents = function( app ) {
 		this.snippetPreviewEventBinder ( app.snippetPreview );
+		this.inputElementEventBinder( app );
 		document.getElementById( 'name' ).addEventListener( 'keydown', app.snippetPreview.disableEnter );
 	};
 
@@ -113,6 +129,9 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 		for ( var i = 0; i < elems.length; i++ ) {
 			this.bindSnippetEvents( document.getElementById( elems [ i ] ), snippetPreview );
 		}
+		var title = document.getElementById( 'snippet_title' );
+		title.addEventListener( 'focus', snippetPreview.setSiteName.bind ( snippetPreview ) );
+		title.addEventListener( 'blur', snippetPreview.unsetSiteName.bind ( snippetPreview ) );
 	};
 
 	/**
@@ -147,23 +166,27 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 	 * binds the renewData function on the change of inputelements.
 	 */
 	YoastSEO.TermScraper.prototype.inputElementEventBinder = function( app ) {
-		var elems = ['name', 'description', 'slug'];
+		var elems = [ 'name', 'description', 'slug', 'wpseo_keyword' ];
 		for (var i = 0; i < elems.length; i++) {
 			var elem = document.getElementById(elems[i]);
 			if (elem !== null) {
 				document.getElementById(elems[i]).addEventListener('input', app.analyzeTimer.bind(app));
 			}
 		}
+
+		tinyMCE.on( 'addEditor', function(e) {
+			e.editor.on( 'input', function() {
+				app.analyzeTimer.call( app );
+			} );
+		});
 	};
 
 	/**
-	 * for now only return score
-	 * todo check what needs to be done with score
-	 * @param {object} scores
-	 * @returns {object}
+	 * creates SVG for the overall score.
 	 */
-	YoastSEO.TermScraper.prototype.saveScores = function( scores ) {
-		return scores;
+	YoastSEO.TermScraper.prototype.saveScores = function() {
+		var tmpl = wp.template('score_svg');
+		document.getElementById( YoastSEO.analyzerArgs.targets.overall ).innerHTML = tmpl();
 	};
 
 	/**
@@ -186,8 +209,24 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 		YoastSEO.app.refresh();
 	};
 
+	/**
+	 * add new descriptionfield to content, creates new element via wp_editor and appends this to the term-description-wrap
+	 * this way we can use the wp tinyMCE editor on the descriptionfield.
+	 */
+	var tinyMCEReplacer = function() {
+		var newEditor = document.getElementById( 'wp-description-wrap' );
+		newEditor.style.display = 'none';
+		var text = jQuery( '.term-description-wrap' ).find( 'td' ).find( 'p' );
+		//empty the TD with the old description textarea
+		jQuery( '.term-description-wrap' ).find( 'td' ).html( '' );
+		//append the editor and the helptext
+		jQuery( '.term-description-wrap' ).find( 'td' ).append( newEditor ).append( text );
+		newEditor.style.display = 'block';
+	};
+
 	jQuery( document ).ready(function() {
 		function init() {
+			tinyMCEReplacer();
 			var termScraper = new YoastSEO.TermScraper();
 
 			YoastSEO.analyzerArgs = {
@@ -197,6 +236,8 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 				ajax: true,
 				//if it must generate snippetpreview
 				snippetPreview: true,
+				//string to be added to the snippetTitle
+				snippetSuffix: ' ' + wpseoTermScraperL10n.sep + ' ' + wpseoTermScraperL10n.sitename,
 				//element Target Array
 				elementTarget: ['content', 'yoast_wpseo_focuskw', 'yoast_wpseo_metadesc', 'excerpt', 'editable-post-name', 'editable-post-name-full'],
 				//replacement target array, elements that must trigger the replace variables function.
@@ -213,9 +254,9 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 				multiKeyword: false,
 				//targets for the objects
 				targets: {
-					output: 'taxonomy_analyzer_output',
+					output: 'wpseo_analysis',
 					overall: 'taxonomy_overall',
-					snippet: 'taxonomy_snippet'
+					snippet: 'wpseo_snippet'
 				},
 				translations: wpseoTermScraperL10n.translations,
 				queue: ['wordCount',
@@ -246,20 +287,17 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 			// If there are no translations let the analyzer fallback onto the english translations.
 			if (0 === wpseoTermScraperL10n.translations.length) {
 				delete( YoastSEO.analyzerArgs.translations );
-				return;
+			} else {
+				// Make sure the correct text domain is set for analyzer.
+				var translations = wpseoTermScraperL10n.translations;
+				translations.domain = 'js-text-analysis';
+				translations.locale_data['js-text-analysis'] = translations.locale_data['wordpress-seo'];
+				delete( translations.locale_data['wordpress-seo'] );
+
+				YoastSEO.analyzerArgs.translations = translations;
 			}
-
-			// Make sure the correct text domain is set for analyzer.
-			var translations = wpseoTermScraperL10n.translations;
-			translations.domain = 'js-text-analysis';
-			translations.locale_data['js-text-analysis'] = translations.locale_data['wordpress-seo'];
-			delete( translations.locale_data['wordpress-seo'] );
-
-			YoastSEO.analyzerArgs.translations = translations;
-
 			window.YoastSEO.app = new YoastSEO.App( YoastSEO.analyzerArgs );
 		}
-
 		jQuery( init );
 	} );
 }());
