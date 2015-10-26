@@ -14,7 +14,7 @@ class WPSEO_Statistics {
 	 * @return int
 	 */
 	public function get_no_focus_post_count() {
-		return $this->get_post_count( WPSEO_Rank::NO_FOCUS );
+		return $this->get_post_count( new WPSEO_Rank( WPSEO_Rank::NO_FOCUS ) );
 	}
 
 	/**
@@ -23,7 +23,7 @@ class WPSEO_Statistics {
 	 * @return int
 	 */
 	public function get_bad_seo_post_count() {
-		return $this->get_post_count( WPSEO_Rank::BAD );
+		return $this->get_post_count( new WPSEO_Rank( WPSEO_Rank::BAD ) );
 	}
 
 	/**
@@ -32,7 +32,7 @@ class WPSEO_Statistics {
 	 * @return int
 	 */
 	public function get_poor_seo_post_count() {
-		return $this->get_post_count( WPSEO_Rank::POOR );
+		return $this->get_post_count( new WPSEO_Rank( WPSEO_Rank::POOR ) );
 	}
 
 	/**
@@ -41,7 +41,7 @@ class WPSEO_Statistics {
 	 * @return int
 	 */
 	public function get_ok_seo_post_count() {
-		return $this->get_post_count( WPSEO_Rank::OK );
+		return $this->get_post_count( new WPSEO_Rank( WPSEO_Rank::OK ) );
 	}
 
 	/**
@@ -50,7 +50,7 @@ class WPSEO_Statistics {
 	 * @return int
 	 */
 	public function get_good_seo_post_count() {
-		return $this->get_post_count( WPSEO_Rank::GOOD );
+		return $this->get_post_count( new WPSEO_Rank( WPSEO_Rank::GOOD ) );
 	}
 
 	/**
@@ -59,7 +59,7 @@ class WPSEO_Statistics {
 	 * @return int
 	 */
 	public function get_no_index_post_count() {
-		return $this->get_post_count( WPSEO_Rank::NO_INDEX );
+		return $this->get_post_count( new WPSEO_Rank( WPSEO_Rank::NO_INDEX ) );
 	}
 
 	/**
@@ -67,13 +67,12 @@ class WPSEO_Statistics {
 	 *
 	 * @todo Merge/DRY this with the logic virtually the same in WPSEO_Metabox::column_sort_orderby()
 	 *
-	 * @param string $seo_ranking The SEO ranking to get the post count for.
-	 *     Possible values: no_seo, bad, poor, ok, good, no_focus.
+	 * @param WPSEO_Rank $rank The SEO rank to get the post count for.
 	 *
 	 * @return int
 	 */
-	private function get_post_count( $seo_ranking ) {
-		if ( WPSEO_Rank::NO_FOCUS === $seo_ranking ) {
+	private function get_post_count( $rank ) {
+		if ( WPSEO_Rank::NO_FOCUS === $rank->get_rank() ) {
 			$posts = array(
 				'meta_query' => array(
 					'relation' => 'OR',
@@ -85,7 +84,7 @@ class WPSEO_Statistics {
 				),
 			);
 		}
-		elseif ( WPSEO_Rank::NO_INDEX === $seo_ranking ) {
+		elseif ( WPSEO_Rank::NO_INDEX === $rank->get_rank() ) {
 			$posts = array(
 				'meta_key'   => WPSEO_Meta::$meta_prefix . 'meta-robots-noindex',
 				'meta_value' => '1',
@@ -93,8 +92,6 @@ class WPSEO_Statistics {
 			);
 		}
 		else {
-			$rank = new WPSEO_Rank( $seo_ranking );
-
 			$posts = array(
 				'meta_key'     => WPSEO_Meta::$meta_prefix . 'linkdex',
 				'meta_value'   => array( $rank->get_starting_score(), $rank->get_end_score() ),
