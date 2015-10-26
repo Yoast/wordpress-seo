@@ -946,25 +946,18 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			return;
 		}
 
-		$scores_array = array(
-			WPSEO_Rank::NO_FOCUS => __( 'SEO: No Focus Keyword', 'wordpress-seo' ),
-			WPSEO_Rank::BAD      => __( 'SEO: Bad', 'wordpress-seo' ),
-			WPSEO_Rank::POOR     => __( 'SEO: Poor', 'wordpress-seo' ),
-			WPSEO_Rank::OK       => __( 'SEO: OK', 'wordpress-seo' ),
-			WPSEO_Rank::GOOD     => __( 'SEO: Good', 'wordpress-seo' ),
-			WPSEO_Rank::NO_INDEX => __( 'SEO: Post Noindexed', 'wordpress-seo' ),
-		);
+		$ranks = WPSEO_Rank::get_all_ranks();
 
 		echo '
 			<select name="seo_filter">
 				<option value="">', __( 'All SEO Scores', 'wordpress-seo' ), '</option>';
-		foreach ( $scores_array as $val => $text ) {
+		foreach ( $ranks as $rank ) {
 			$sel = '';
 			if ( isset( $_GET['seo_filter'] ) ) {
-				$sel = selected( $_GET['seo_filter'], $val, false );
+				$sel = selected( $_GET['seo_filter'], $rank->get_rank(), false );
 			}
 			echo '
-				<option ', $sel, 'value="', $val, '">', $text. '</option>';
+				<option ', $sel, 'value="', $rank->get_rank(), '">', $rank->get_drop_down_label() . '</option>';
 		}
 		echo '
 			</select>';
@@ -1002,30 +995,32 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		}
 
 		if ( $column_name === 'wpseo-score' ) {
-			$score = self::get_value( 'linkdex', $post_id );
+			$score = (int) self::get_value( 'linkdex', $post_id );
+			$rank = WPSEO_Rank::from_numeric_score( $score );
+			if ( '' === $score ) {
+				$rank = new WPSEO_Rank( WPSEO_Rank::NO_FOCUS );
+			}
+
 			if ( self::get_value( 'meta-robots-noindex', $post_id ) === '1' ) {
-				$score_label = WPSEO_Rank::NO_INDEX;
+				$rank = new WPSEO_Rank( WPSEO_Rank::NO_INDEX );
 				$title       = __( 'Post is set to noindex.', 'wordpress-seo' );
 				self::set_value( 'linkdex', 0, $post_id );
 			}
 			elseif ( $score !== '' ) {
-				$score_label = WPSEO_Utils::translate_score( $score );
-				$title       = WPSEO_Utils::translate_score( $score, false );
+				$title = $rank->get_label();
 			}
 			else {
 				$this->calculate_results( get_post( $post_id ) );
 				$score = self::get_value( 'linkdex', $post_id );
 				if ( $score === '' ) {
-					$score_label = WPSEO_Rank::NO_FOCUS;
-					$title       = __( 'Focus keyword not set.', 'wordpress-seo' );
+					$title = __( 'Focus keyword not set.', 'wordpress-seo' );
 				}
 				else {
-					$score_label = WPSEO_Utils::translate_score( $score );
-					$title       = WPSEO_Utils::translate_score( $score, false );
+					$title = $rank->get_label();
 				}
 			}
 
-			echo '<div title="', esc_attr( $title ), '" class="wpseo-score-icon ', esc_attr( $score_label ), '"></div>';
+			echo '<div title="', esc_attr( $title ), '" class="wpseo-score-icon ', esc_attr( $rank->get_css_class() ), '"></div>';
 		}
 		if ( $column_name === 'wpseo-title' ) {
 			echo esc_html( apply_filters( 'wpseo_title', wpseo_replace_vars( $this->page_title( $post_id ), get_post( $post_id, ARRAY_A ) ) ) );
@@ -1085,8 +1080,9 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				case WPSEO_Rank::POOR:
 				case WPSEO_Rank::OK:
 				case WPSEO_Rank::GOOD:
-					$low  = WPSEO_Rank::$range[ $seo_filter ]['start'];
-					$high = WPSEO_Rank::$range[ $seo_filter ]['end'];
+					$rank = new WPSEO_Rank( $seo_filter );
+					$low = $rank->get_starting_score();
+					$high = $rank->get_end_score();
 					break;
 				default:
 					$low     = false;

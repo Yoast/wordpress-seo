@@ -93,12 +93,11 @@ class WPSEO_Statistics {
 			);
 		}
 		else {
-			$start = WPSEO_Rank::$range[ $seo_ranking ]['start'];
-			$end   = WPSEO_Rank::$range[ $seo_ranking ]['end'];
+			$rank = new WPSEO_Rank( $seo_ranking );
 
 			$posts = array(
 				'meta_key'     => WPSEO_Meta::$meta_prefix . 'linkdex',
-				'meta_value'   => array( $start, $end ),
+				'meta_value'   => array( $rank->get_starting_score(), $rank->get_end_score() ),
 				'meta_compare' => 'BETWEEN',
 				'meta_type'    => 'NUMERIC',
 			);

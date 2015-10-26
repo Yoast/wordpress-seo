@@ -191,42 +191,13 @@ class WPSEO_Utils {
 	 * @return string
 	 */
 	public static function translate_score( $val, $css_value = true ) {
-
-		switch ( true ) {
-
-			case 0 === $val:
-				$score = __( 'N/A', 'wordpress-seo' );
-				$css   = WPSEO_Rank::NO_FOCUS;
-				break;
-
-			default:
-			case WPSEO_Rank::$range[ WPSEO_Rank::BAD ]['start'] <= $val && $val <= WPSEO_Rank::$range[ WPSEO_Rank::BAD ]['end']:
-				$score = __( 'Bad', 'wordpress-seo' );
-				$css   = WPSEO_Rank::BAD;
-				break;
-
-			case WPSEO_Rank::$range[ WPSEO_Rank::POOR ]['start'] <= $val && $val <= WPSEO_Rank::$range[ WPSEO_Rank::POOR ]['end']:
-				$score = __( 'Poor', 'wordpress-seo' );
-				$css   = WPSEO_Rank::POOR;
-				break;
-
-			case WPSEO_Rank::$range[ WPSEO_Rank::OK ]['start'] <= $val && $val <= WPSEO_Rank::$range[ WPSEO_Rank::OK ]['end']:
-				$score = __( 'OK', 'wordpress-seo' );
-				$css   = WPSEO_Rank::OK;
-				break;
-
-			case WPSEO_Rank::$range[ WPSEO_Rank::GOOD ]['start'] <= $val && $val <= WPSEO_Rank::$range[ WPSEO_Rank::GOOD ]['end']:
-				$score = __( 'Good', 'wordpress-seo' );
-				$css   = WPSEO_Rank::GOOD;
-				break;
-
-		}
+		$seo_rank = WPSEO_Rank::from_numeric_score( $val );
 
 		if ( $css_value ) {
-			return $css;
+			return $seo_rank->get_css_class();
 		}
 		else {
-			return $score;
+			return $seo_rank->get_label();
 		}
 	}
 
