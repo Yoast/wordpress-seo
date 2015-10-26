@@ -146,7 +146,7 @@ YoastSEO.Analyzer.prototype.wordCount = function() {
  * @returns {{test: string, result: number}[]}
  */
 YoastSEO.Analyzer.prototype.keyWordCheck = function() {
-	if ( this.config.keyword === "" ) {
+	if ( this.stringHelper.cleanRegex( this.config.keyword ) === "" ) {
 		return [ { test: "keywordCheck", result: 0 } ];
 	}
 };
