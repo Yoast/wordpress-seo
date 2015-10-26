@@ -249,18 +249,20 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		echo '<div class="wpseo-metabox-sidebar" style="display:inline-block; width: 40px; padding: 5px; background-color: #fff; vertical-align: top;"><ul>';
 
-		foreach( $content_sections as $content_section ) {
+		foreach ( $content_sections as $content_section ) {
 			$content_section->display_link();
 		}
 
 		echo '</ul></div>';
 
-		foreach( $content_sections as $content_section ) {
+		foreach ( $content_sections as $content_section ) {
 			$content_section->display_content();
 		}
 	}
 
 	/**
+	 * Returns the relevant metabox sections for the current view.
+	 *
 	 * @return WPSEO_Metabox_Section[]
 	 */
 	private function get_content_sections() {
@@ -280,7 +282,11 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		return $content_sections;
 	}
 
-
+	/**
+	 * Returns the metabox section for the content analysis.
+	 *
+	 * @return WPSEO_Metabox_Section
+	 */
 	private function get_content_meta_section() {
 		$content = $this->get_tab_content( 'general' );
 
@@ -305,6 +311,11 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		);
 	}
 
+	/**
+	 * Returns the metabox section for the advanced settings.
+	 *
+	 * @return WPSEO_Metabox_Section
+	 */
 	private function get_advanced_meta_section() {
 		$content = $this->get_tab_content( 'advanced' );
 
@@ -328,6 +339,12 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		);
 	}
 
+	/**
+	 * Returns a metabox section dedicated to hosting metabox tabs that have been added by other plugins through the
+	 * `wpseo_tab_header` and `wpseo_tab_content` actions.
+	 *
+	 * @return WPSEO_Metabox_Addon_Section
+	 */
 	private function get_addons_meta_section() {
 		return new WPSEO_Metabox_Addon_Section(
 			'addons',
@@ -340,9 +357,16 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		);
 	}
 
-	private function get_tab_content( $metakey ) {
+	/**
+	 * Gets the table contents for the metabox tab.
+	 *
+	 * @param string $tab_name Tab for which to retrieve the field definitions.
+	 *
+	 * @return string
+	 */
+	private function get_tab_content( $tab_name ) {
 		$content = '';
-		foreach ( $this->get_meta_field_defs( $metakey ) as $key => $meta_field ) {
+		foreach ( $this->get_meta_field_defs( $tab_name ) as $key => $meta_field ) {
 			$content .= $this->do_meta_box( $meta_field, $key );
 		}
 		unset( $key, $meta_field );

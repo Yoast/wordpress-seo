@@ -7,6 +7,10 @@
  * This class adds the Social tab to the Yoast SEO metabox and makes sure the settings are saved.
  */
 class WPSEO_Social_Admin extends WPSEO_Metabox {
+
+	/**
+	 * @var array
+	 */
 	private $options;
 
 	/**
@@ -68,6 +72,11 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 		}
 	}
 
+	/**
+	 * Returns the metabox section for the social settings.
+	 *
+	 * @return WPSEO_Metabox_Section
+	 */
 	public function get_meta_section() {
 		$tabs = array();
 		$social_meta_fields = $this->get_meta_field_defs( 'social' );
@@ -79,7 +88,7 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 				'<span class="dashicons dashicons-facebook-alt"></span>',
 				array(
 					'link_alt' => __( 'Facebook / Opengraph metadata', 'wordpress-seo' ),
-					'link_title' => __( 'Facebook / Opengraph metadata', 'wordpress-seo' )
+					'link_title' => __( 'Facebook / Opengraph metadata', 'wordpress-seo' ),
 				)
 			);
 		}
@@ -91,7 +100,7 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 				'<span class="dashicons dashicons-twitter"></span>',
 				array(
 					'link_alt' => __( 'Twitter metadata', 'wordpress-seo' ),
-					'link_title' => __( 'Twitter metadata', 'wordpress-seo' )
+					'link_title' => __( 'Twitter metadata', 'wordpress-seo' ),
 				)
 			);
 		}
@@ -103,7 +112,7 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 				'<span class="dashicons dashicons-googleplus"></span>',
 				array(
 					'link_alt' => __( 'Google+ metadata', 'wordpress-seo' ),
-					'link_title' => __( 'Google+ metadata', 'wordpress-seo' )
+					'link_title' => __( 'Google+ metadata', 'wordpress-seo' ),
 				)
 			);
 		}
@@ -119,6 +128,14 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 		);
 	}
 
+	/**
+	 * Generates the html for a social settings tab for one of the supported social media.
+	 *
+	 * @param string $medium can be 'opengraph', 'twitter' or 'googleplus'.
+	 * @param array  $meta_field_defs The social meta field definitions.
+	 *
+	 * @return string
+	 */
 	private function get_social_tab_content( $medium, $meta_field_defs ) {
 		$field_names = array(
 			$medium . '-title',
