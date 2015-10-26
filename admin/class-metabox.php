@@ -995,32 +995,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		}
 
 		if ( $column_name === 'wpseo-score' ) {
-			$score = (int) self::get_value( 'linkdex', $post_id );
-			$rank = WPSEO_Rank::from_numeric_score( $score );
-			if ( '' === $score ) {
-				$rank = new WPSEO_Rank( WPSEO_Rank::NO_FOCUS );
-			}
-
-			if ( self::get_value( 'meta-robots-noindex', $post_id ) === '1' ) {
-				$rank = new WPSEO_Rank( WPSEO_Rank::NO_INDEX );
-				$title       = __( 'Post is set to noindex.', 'wordpress-seo' );
-				self::set_value( 'linkdex', 0, $post_id );
-			}
-			elseif ( $score !== '' ) {
-				$title = $rank->get_label();
-			}
-			else {
-				$this->calculate_results( get_post( $post_id ) );
-				$score = self::get_value( 'linkdex', $post_id );
-				if ( $score === '' ) {
-					$title = __( 'Focus keyword not set.', 'wordpress-seo' );
-				}
-				else {
-					$title = $rank->get_label();
-				}
-			}
-
-			echo '<div title="', esc_attr( $title ), '" class="wpseo-score-icon ', esc_attr( $rank->get_css_class() ), '"></div>';
+			$this->column_seo_score( $post_id );
 		}
 		if ( $column_name === 'wpseo-title' ) {
 			echo esc_html( apply_filters( 'wpseo_title', wpseo_replace_vars( $this->page_title( $post_id ), get_post( $post_id, ARRAY_A ) ) ) );
@@ -2274,6 +2249,37 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Renders the content of the SEO score tab
+	 *
+	 * @param int $post_id
+	 */
+	private function column_seo_score( $post_id ) {
+		$score = (int) self::get_value( 'linkdex', $post_id );
+		$rank  = WPSEO_Rank::from_numeric_score( $score );
+		if ( '' === $score ) {
+			$rank = new WPSEO_Rank( WPSEO_Rank::NO_FOCUS );
+		}
+
+		if ( self::get_value( 'meta-robots-noindex', $post_id ) === '1' ) {
+			$rank  = new WPSEO_Rank( WPSEO_Rank::NO_INDEX );
+			$title = __( 'Post is set to noindex.', 'wordpress-seo' );
+			self::set_value( 'linkdex', 0, $post_id );
+		} elseif ( $score !== '' ) {
+			$title = $rank->get_label();
+		} else {
+			$this->calculate_results( get_post( $post_id ) );
+			$score = self::get_value( 'linkdex', $post_id );
+			if ( $score === '' ) {
+				$title = __( 'Focus keyword not set.', 'wordpress-seo' );
+			} else {
+				$title = $rank->get_label();
+			}
+		}
+
+		echo '<div title="', esc_attr( $title ), '" class="wpseo-score-icon ', esc_attr( $rank->get_css_class() ), '"></div>';
 	}
 
 	/********************** DEPRECATED METHODS **********************/
