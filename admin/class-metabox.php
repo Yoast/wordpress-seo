@@ -187,12 +187,11 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @return array
 	 */
 	public function localize_post_scraper_script() {
-		$post = $this->get_metabox_post();
 		$json = $this->get_scraper_json();
 
 		return array(
 			'translations'  => $json,
-			'keyword_usage' => $this->get_focus_keyword_usage( $post->ID ),
+			'keyword_usage' => $this->get_focus_keyword_usage(),
 			'search_url'    => admin_url( 'edit.php?seo_kw_filter={keyword}' ),
 			'post_edit_url' => admin_url( 'post.php?post={id}&action=edit' ),
 			'home_url'      => home_url( '/', null ),
@@ -707,12 +706,17 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 *
 	 * @return int
 	 */
-	private function get_focus_keyword_usage( $post_id ) {
-		$keyword = WPSEO_Meta::get_value( 'focuskw', $post_id );
+	private function get_focus_keyword_usage() {
+		$post = $this->get_metabox_post();
+		if ( is_object( $post ) ) {
+			$keyword = WPSEO_Meta::get_value( 'focuskw', $post->ID );
 
-		return array(
-			$keyword => WPSEO_Meta::keyword_usage( $keyword, $post_id ),
-		);
+			return array(
+				$keyword => WPSEO_Meta::keyword_usage( $keyword, $post->ID ),
+			);
+		}
+
+		return array();
 	}
 
 	/********************** DEPRECATED METHODS **********************/

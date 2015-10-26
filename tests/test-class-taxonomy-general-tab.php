@@ -52,10 +52,10 @@ class WPSEO_Taxonomy_General_Tab_Test extends WPSEO_UnitTestCase {
 		$this->assertTrue( is_array( $fields ) );
 
 		$this->assertTrue( array_key_exists( 'title', $fields ) );
-		$this->assertEquals( $fields['title']['label'], __( 'SEO Title', 'wordpress-seo' ) );
+		$this->assertEquals( __( 'Snippet', 'wordpress-seo' ), $fields['snippet']['label'] );
 
 		$this->assertTrue( array_key_exists( 'sitemap_include', $fields ) );
-		$this->assertEquals( $fields['sitemap_include']['type'], 'select' );
+		$this->assertEquals( 'select', $fields['sitemap_include']['type'] );
 
 	}
 
