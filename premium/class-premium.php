@@ -187,6 +187,8 @@ class WPSEO_Premium {
 
 			add_filter( 'redirect_canonical', array( $this, 'redirect_canonical_fix' ), 1, 2 );
 		}
+
+		add_action( 'admin_init', array( $this, 'enqueue_multi_keyword') );
 	}
 
 	/**
@@ -198,6 +200,17 @@ class WPSEO_Premium {
 
 		// The Term Watcher.
 		new WPSEO_Term_Watcher();
+	}
+
+	public function enqueue_multi_keyword() {
+		global $pagenow;
+		if ( in_array( $pagenow, array(
+				'post-new.php',
+			'post.php',
+			'edit.php',
+			), true ) ) {
+			new WPSEO_Multi_Keyword();
+		}
 	}
 
 	/**
