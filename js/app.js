@@ -428,7 +428,8 @@ YoastSEO.App.prototype.updateLoadingDialog = function( plugins ) {
 	var dialog = document.getElementById( "YoastSEO-plugin-loading" );
 	dialog.textContent = "";
 	for ( var plugin in this.pluggable.plugins ) {
-		dialog.innerHTML += "<span class=left>" + plugin + "</span><span class=right " + plugins[ plugin ].status + ">" + plugins[ plugin ].status + "</span><br />";
+		dialog.innerHTML += "<span class=left>" + plugin + "</span><span class=right " +
+							plugins[ plugin ].status + ">" + plugins[ plugin ].status + "</span><br />";
 	}
 	dialog.innerHTML += "<span class=bufferbar></span>";
 };

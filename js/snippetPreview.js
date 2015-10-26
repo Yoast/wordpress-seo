@@ -339,7 +339,7 @@ YoastSEO.SnippetPreview.prototype.setSiteName = function( ev ) {
 
 /**
  * Removes the siteName from the snippetTitle span when editing is finished, since it should only show
- * when editing. 
+ * when editing.
  */
 YoastSEO.SnippetPreview.prototype.unsetSiteName = function() {
 	document.getElementById( "snippet_sitename" ).textContent = "";
