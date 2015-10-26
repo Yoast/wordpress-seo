@@ -159,5 +159,4 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 
 		return $this->get_meta_field_defs( 'social' );
 	}
-
 } /* End of class */

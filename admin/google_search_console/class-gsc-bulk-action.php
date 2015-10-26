@@ -89,5 +89,4 @@ class WPSEO_GSC_Bulk_Action {
 
 		return $issue;
 	}
-
 }
