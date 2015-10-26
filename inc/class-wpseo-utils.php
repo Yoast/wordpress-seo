@@ -196,9 +196,8 @@ class WPSEO_Utils {
 		if ( $css_value ) {
 			return $seo_rank->get_css_class();
 		}
-		else {
-			return $seo_rank->get_label();
-		}
+
+		return $seo_rank->get_label();
 	}
 
 	/**
