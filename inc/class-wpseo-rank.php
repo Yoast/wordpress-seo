@@ -166,31 +166,17 @@ class WPSEO_Rank {
 	 * @return self
 	 */
 	public static function from_numeric_score( $score ) {
-		switch ( true ) {
-			case 0 === $score:
-				$rank = self::NO_FOCUS;
-				break;
+		// Set up the default value.
+		$rank = new self( self::BAD );
 
-			default:
-			case WPSEO_Rank::$ranges[ WPSEO_Rank::BAD ]['start'] <= $score && $score <= WPSEO_Rank::$ranges[ WPSEO_Rank::BAD ]['end']:
-				$rank = self::BAD;
+		foreach ( self::$ranges as $rank_index => $range ) {
+			if ( $range['start'] <= $score && $score <= $range['end'] ) {
+				$rank = new self( $rank_index );
 				break;
-
-			case WPSEO_Rank::$ranges[ WPSEO_Rank::POOR ]['start'] <= $score && $score <= WPSEO_Rank::$ranges[ WPSEO_Rank::POOR ]['end']:
-				$rank = self::POOR;
-				break;
-
-			case WPSEO_Rank::$ranges[ WPSEO_Rank::OK ]['start'] <= $score && $score <= WPSEO_Rank::$ranges[ WPSEO_Rank::OK ]['end']:
-				$rank = self::OK;
-				break;
-
-			case WPSEO_Rank::$ranges[ WPSEO_Rank::GOOD ]['start'] <= $score && $score <= WPSEO_Rank::$ranges[ WPSEO_Rank::GOOD ]['end']:
-				$rank = self::GOOD;
-				break;
-
+			}
 		}
 
-		return new self( $rank );
+		return $rank;
 	}
 
 	/**
