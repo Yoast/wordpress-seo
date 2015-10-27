@@ -348,6 +348,17 @@ function wpseo_add_fb_admin() {
 
 add_action( 'wp_ajax_wpseo_add_fb_admin', 'wpseo_add_fb_admin' );
 
+function ajax_get_keyword_usage() {
+	$post_id = filter_input( INPUT_POST, 'post_id' );
+	$keyword = filter_input( INPUT_POST, 'keyword' );
+
+	wp_die(
+		WPSEO_Utils::json_encode( WPSEO_Meta::keyword_usage( $keyword, $post_id ) )
+	);
+}
+
+add_action( 'wp_ajax_get_focus_keyword_usage',  'ajax_get_keyword_usage' );
+
 // Crawl Issue Manager AJAX hooks.
 new WPSEO_GSC_Ajax;
 
