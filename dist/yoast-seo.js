@@ -16,12 +16,16 @@ YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
  * @param {String} args.snippetMeta The meta description as displayed in the snippet preview.
  * @param {String} args.snippetCite  The URL as displayed in the snippet preview.
  *
+ * @property {Object} analyses Object that contains all analyses.
+ *
  * @constructor
  */
 YoastSEO.Analyzer = function( args ) {
 	this.config = args;
 	this.checkConfig();
 	this.init( args );
+
+	this.analyses = {};
 };
 
 /**
@@ -123,14 +127,46 @@ YoastSEO.Analyzer.prototype.loadWordlists = function() {
  * starts queue of functions executing the analyzer functions untill queue is empty.
  */
 YoastSEO.Analyzer.prototype.runQueue = function() {
+	var output, score;
 
-	//remove first function from queue and execute it.
+	// Remove the first item from the queue and execute it.
 	if ( this.queue.length > 0 ) {
-		this.__output = this.__output.concat( this[ this.queue.shift() ]() );
+		var currentQueueItem = this.queue.shift();
+
+		if ( undefined !== this[ currentQueueItem ] ) {
+			output = this[ currentQueueItem ]();
+		} else if ( this.analyses.hasOwnProperty( currentQueueItem ) ) {
+			score = this.analyses[ currentQueueItem ].callable();
+
+			/*
+			 * This is because the analyzerScorer requires this format and we want users that add plugins to just return
+			 * a score because that makes the API easier. So this is a translation while our internal format isn't
+			 * perfect.
+			 */
+			output = {
+				"name": this.analyses[ currentQueueItem ].name,
+				"result": score
+			};
+		}
+
+		this.__output = this.__output.concat( output );
+
 		this.runQueue();
 	} else {
 		this.score();
 	}
+};
+
+/**
+ * Adds an analysis to the analyzer
+ *
+ * @param {Object}   analysis The analysis object.
+ * @param {string}   analysis.name The name of this analysis.
+ * @param {function} analysis.callable The function to call to calculate this the score.
+ */
+YoastSEO.Analyzer.prototype.addAnalysis = function( analysis ) {
+	this.analyses[ analysis.name ] = analysis;
+	this.queue.push( analysis.name );
 };
 
 /**
@@ -876,6 +912,21 @@ YoastSEO.AnalyzeScorer.prototype.totalScore = function() {
 	var totalAmount = scoreAmount * YoastSEO.analyzerScoreRating;
 	return Math.round( ( totalScore / totalAmount ) * 10 );
 };
+
+/**
+ * Adds a custom scoring to the analyzer scoring
+ *
+ * @param {Object} scoring
+ * @param {string} scoring.name
+ * @param {Object} scoring.scoring
+ */
+YoastSEO.AnalyzeScorer.prototype.addScoring = function( scoring ) {
+	var scoringObject = scoring.scoring;
+
+	scoringObject.scoringName = scoring.name;
+
+	this.scoring.push( scoringObject );
+};
 ;/* jshint browser: true */
 /* global YoastSEO: true */
 YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
@@ -1249,8 +1300,12 @@ YoastSEO.App.prototype.runAnalyzer = function() {
 
 	if ( typeof this.pageAnalyzer === "undefined" ) {
 		this.pageAnalyzer = new YoastSEO.Analyzer( this.analyzerData );
+
+		this.pluggable._addPluginTests( this.pageAnalyzer );
 	} else {
 		this.pageAnalyzer.init( this.analyzerData );
+
+		this.pluggable._addPluginTests( this.pageAnalyzer );
 	}
 
 	this.pageAnalyzer.runQueue();
@@ -1341,6 +1396,7 @@ YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
  * @property preloadThreshold	{number} The maximum time plugins are allowed to preload before we load our content analysis.
  * @property plugins			{object} The plugins that have been registered.
  * @property modifications 		{object} The modifications that have been registered. Every modification contains an array with callables.
+ * @property customTests        {Array} All tests added by plugins.
  */
 YoastSEO.Pluggable = function( app ) {
 	this.app = app;
@@ -1348,6 +1404,7 @@ YoastSEO.Pluggable = function( app ) {
 	this.preloadThreshold = 3000;
 	this.plugins = {};
 	this.modifications = {};
+	this.customTests = [];
 
 	// Allow plugins 500 ms to register before we start polling their
 	setTimeout( this._pollLoadingPlugins.bind( this ), 1500 );
@@ -1398,6 +1455,30 @@ YoastSEO.App.prototype.pluginReloaded = function( pluginName ) {
  */
 YoastSEO.App.prototype.registerModification = function( modification, callable, pluginName, priority ) {
 	return this.pluggable._registerModification( modification, callable, pluginName, priority );
+};
+
+/**
+ * Registers a custom test for use in the analyzer, this will result in a new line in the analyzer results. The function
+ * has to return a result based on the contents of the page/posts.
+ *
+ * The scoring object is a special object with definitions about how to translate a result from your analysis function
+ * to a SEO score.
+ *
+ * Negative scores result in a red circle
+ * Scores 1, 2, 3, 4 and 5 result in a orange circle
+ * Scores 6 and 7 result in a yellow circle
+ * Scores 8, 9 and 10 result in a red circle
+ *
+ * @param {string}   name       Name of the test.
+ * @param {function} analysis   A function that analyzes the content and determines a score for a certain trait.
+ * @param {Object}   scoring    A scoring object that defines how the analysis translates to a certain SEO score.
+ * @param {string}   pluginName The plugin that is registering the test.
+ * @param {number}   priority   (optional) Determines when this test is run in the analyzer queue. Is currently ignored,
+ *                              tests are added to the end of the queue.
+ * @returns {boolean}
+ */
+YoastSEO.App.prototype.registerTest = function( name, analysis, scoring, pluginName, priority ) {
+	return this.pluggable._registerTest( name, analysis, scoring, pluginName, priority );
 };
 
 /**************** DSL IMPLEMENTATION ****************/
@@ -1524,6 +1605,47 @@ YoastSEO.Pluggable.prototype._registerModification = function( modification, cal
 	return true;
 };
 
+/**
+ * @private
+ */
+YoastSEO.Pluggable.prototype._registerTest = function( name, analysis, scoring, pluginName, priority ) {
+	if ( typeof name !== "string" ) {
+		console.error( "Failed to register modification for plugin " + pluginName + ". Expected parameter `name` to be a string." );
+		return false;
+	}
+
+	if ( typeof analysis !== "function" ) {
+		console.error( "Failed to register modification for plugin " + pluginName + ". Expected parameter `analyzer` to be a function." );
+		return false;
+	}
+
+	if ( typeof pluginName !== "string" ) {
+		console.error( "Failed to register modification for plugin " + pluginName + ". Expected parameter `pluginName` to be a string." );
+		return false;
+	}
+
+	// Validate origin
+	if ( this._validateOrigin( pluginName ) === false ) {
+		console.error( "Failed to register modification for plugin " + pluginName + ". The integration has not finished loading yet." );
+		return false;
+	}
+
+	// Default priority to 10
+	var prio = typeof priority === "number" ? priority : 10;
+
+	// Prefix the name with the pluginName so the test name is always unique.
+	name = pluginName + "-" + name;
+
+	this.customTests.push( {
+		"name": name,
+		"analysis": analysis,
+		"scoring": scoring,
+		"prio": prio
+	} );
+
+	return true;
+};
+
 /**************** PRIVATE HANDLERS ****************/
 
 /**
@@ -1610,6 +1732,40 @@ YoastSEO.Pluggable.prototype._applyModifications = function( modification, data,
 	}
 	return data;
 
+};
+
+/**
+ * Adds new tests to the analyzer and it's scoring object.
+ *
+ * @param {YoastSEO.Analyzer} analyzer The analyzer object to add the tests to
+ * @private
+ */
+YoastSEO.Pluggable.prototype._addPluginTests = function( analyzer ) {
+	this.customTests.map( function( customTest ) {
+		this._addPluginTest( analyzer, customTest );
+	}, this );
+};
+
+/**
+ * Adds one new test to the analyzer and it's scoring object.
+ *
+ * @param {YoastSEO.Analyzer} analyzer
+ * @param {Object}            pluginTest
+ * @param {string}            pluginTest.name
+ * @param {function}          pluginTest.callable
+ * @param {Object}            pluginTest.scoring
+ * @private
+ */
+YoastSEO.Pluggable.prototype._addPluginTest = function( analyzer, pluginTest ) {
+	analyzer.addAnalysis( {
+		"name": pluginTest.name,
+		"callable": pluginTest.analysis
+	} );
+
+	analyzer.analyzeScorer.addScoring( {
+		"name": pluginTest.name,
+		"scoring": pluginTest.scoring
+	} );
 };
 
 /**

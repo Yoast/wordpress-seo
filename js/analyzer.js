@@ -16,12 +16,16 @@ YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
  * @param {String} args.snippetMeta The meta description as displayed in the snippet preview.
  * @param {String} args.snippetCite  The URL as displayed in the snippet preview.
  *
+ * @property {Object} analyses Object that contains all analyses.
+ *
  * @constructor
  */
 YoastSEO.Analyzer = function( args ) {
 	this.config = args;
 	this.checkConfig();
 	this.init( args );
+
+	this.analyses = {};
 };
 
 /**
@@ -123,14 +127,46 @@ YoastSEO.Analyzer.prototype.loadWordlists = function() {
  * starts queue of functions executing the analyzer functions untill queue is empty.
  */
 YoastSEO.Analyzer.prototype.runQueue = function() {
+	var output, score;
 
-	//remove first function from queue and execute it.
+	// Remove the first item from the queue and execute it.
 	if ( this.queue.length > 0 ) {
-		this.__output = this.__output.concat( this[ this.queue.shift() ]() );
+		var currentQueueItem = this.queue.shift();
+
+		if ( undefined !== this[ currentQueueItem ] ) {
+			output = this[ currentQueueItem ]();
+		} else if ( this.analyses.hasOwnProperty( currentQueueItem ) ) {
+			score = this.analyses[ currentQueueItem ].callable();
+
+			/*
+			 * This is because the analyzerScorer requires this format and we want users that add plugins to just return
+			 * a score because that makes the API easier. So this is a translation while our internal format isn't
+			 * perfect.
+			 */
+			output = {
+				"name": this.analyses[ currentQueueItem ].name,
+				"result": score
+			};
+		}
+
+		this.__output = this.__output.concat( output );
+
 		this.runQueue();
 	} else {
 		this.score();
 	}
+};
+
+/**
+ * Adds an analysis to the analyzer
+ *
+ * @param {Object}   analysis The analysis object.
+ * @param {string}   analysis.name The name of this analysis.
+ * @param {function} analysis.callable The function to call to calculate this the score.
+ */
+YoastSEO.Analyzer.prototype.addAnalysis = function( analysis ) {
+	this.analyses[ analysis.name ] = analysis;
+	this.queue.push( analysis.name );
 };
 
 /**

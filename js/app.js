@@ -371,8 +371,12 @@ YoastSEO.App.prototype.runAnalyzer = function() {
 
 	if ( typeof this.pageAnalyzer === "undefined" ) {
 		this.pageAnalyzer = new YoastSEO.Analyzer( this.analyzerData );
+
+		this.pluggable._addPluginTests( this.pageAnalyzer );
 	} else {
 		this.pageAnalyzer.init( this.analyzerData );
+
+		this.pluggable._addPluginTests( this.pageAnalyzer );
 	}
 
 	this.pageAnalyzer.runQueue();
