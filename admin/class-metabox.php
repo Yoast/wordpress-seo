@@ -246,7 +246,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	public function meta_box() {
 		$content_sections = $this->get_content_sections();
 
-		echo '<div class="wpseo-metabox-sidebar" style="display:inline-block; width: 40px; padding: 5px; background-color: #fff; vertical-align: top;"><ul>';
+		echo '<div class="wpseo-metabox-sidebar"><ul>';
 
 		foreach ( $content_sections as $content_section ) {
 			$content_section->display_link();
@@ -701,8 +701,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 	/**
 	 * Counting the number of given keyword used for other posts than given post_id
-	 *
-	 * @param integer $post_id The ID of the post for which to get the focus keyword usage.
 	 *
 	 * @return int
 	 */

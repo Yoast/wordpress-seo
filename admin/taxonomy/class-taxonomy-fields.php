@@ -8,7 +8,7 @@
  *
  * Contains the basics for each class extending this one.
  */
-abstract class WPSEO_Taxonomy_Tab {
+abstract class WPSEO_Taxonomy_Fields {
 
 	/**
 	 * The Yoast SEO configuration from the WPSEO_Options
@@ -27,11 +27,12 @@ abstract class WPSEO_Taxonomy_Tab {
 	/**
 	 * Setting the class properties
 	 *
-	 * @param stdClass $term The current taxonomy.
+	 * @param stdClass $term    The current term.
+	 * @param array    $options The options.
 	 */
-	public function __construct( $term ) {
+	public function __construct( $term, array $options = array() ) {
 		$this->term    = $term;
-		$this->options = WPSEO_Options::get_all();
+		$this->options = ! empty( $options ) ? $options : WPSEO_Options::get_all();
 	}
 
 	/**
@@ -39,7 +40,7 @@ abstract class WPSEO_Taxonomy_Tab {
 	 *
 	 * @return array
 	 */
-	abstract public function get_fields();
+	abstract public function get();
 
 	/**
 	 * Returns array with the field data

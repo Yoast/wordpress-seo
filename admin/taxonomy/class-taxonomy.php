@@ -20,8 +20,9 @@ class WPSEO_Taxonomy {
 	 */
 	public function __construct() {
 		$this->taxonomy = $this->get_taxonomy();
+
 		if ( is_admin() && $this->taxonomy !== '' && $this->show_metabox( ) ) {
-			add_action( sanitize_text_field( $this->taxonomy ) . '_edit_form', array( $this, 'term_seo_form' ), 90, 1 );
+			add_action( sanitize_text_field( $this->taxonomy ) . '_edit_form', array( $this, 'term_metabox' ), 90, 1 );
 		}
 
 		add_action( 'split_shared_term', array( $this, 'split_shared_term' ), 10, 4 );
@@ -30,6 +31,16 @@ class WPSEO_Taxonomy {
 		add_action( 'init', array( $this, 'custom_category_descriptions_allow_html' ) );
 		add_filter( 'category_description', array( $this, 'custom_category_descriptions_add_shortcode_support' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
+	}
+
+	/**
+	 * Show the SEO inputs for term.
+	 *
+	 * @param object $term Term to show the edit boxes for.
+	 */
+	public function term_metabox( $term ) {
+		$metabox = new WPSEO_Taxonomy_Metabox( $this->taxonomy, $term );
+		$metabox->display();
 	}
 
 	/**
@@ -86,21 +97,6 @@ class WPSEO_Taxonomy {
 		}
 	}
 
-
-	/**
-	 * Show the SEO inputs for term.
-	 *
-	 * @param object $term Term to show the edit boxes for.
-	 */
-	function term_seo_form( $term ) {
-		if ( $this->tax_is_public() === false ) {
-			return;
-		}
-
-		// Including the metabox taxonomy view.
-		require_once( WPSEO_PATH . '/admin/views/metabox-taxonomy.php' );
-	}
-
 	/**
 	 * Update the taxonomy meta data on save.
 	 *
@@ -111,7 +107,7 @@ class WPSEO_Taxonomy {
 	public function update_term( $term_id, $tt_id, $taxonomy ) {
 		/* Create post array with only our values */
 		$new_meta_data = array();
-		foreach ( WPSEO_Taxonomy_Meta::$defaults_per_term as $key => $default ) {
+		foreach ( WPSEO_Taxonomy_Fields::$defaults_per_term as $key => $default ) {
 			if ( $posted_value = filter_input( INPUT_POST, $key ) ) {
 				$new_meta_data[ $key ] = $posted_value;
 			}
@@ -119,7 +115,7 @@ class WPSEO_Taxonomy {
 		unset( $key, $default );
 
 		// Saving the values.
-		WPSEO_Taxonomy_Meta::set_values( $term_id, $taxonomy, $new_meta_data );
+		WPSEO_Taxonomy_Fields::set_values( $term_id, $taxonomy, $new_meta_data );
 	}
 
 	/**
@@ -174,20 +170,6 @@ class WPSEO_Taxonomy {
 	 */
 	private function get_taxonomy() {
 		return filter_input( INPUT_GET, 'taxonomy', FILTER_DEFAULT, array( 'options' => array( 'default' => '' ) ) );
-	}
-
-	/**
-	 * Test whether we are on a public taxonomy - no metabox actions needed if we are not
-	 * Unfortunately we have to hook most everything in before the point where all taxonomies are registered and
-	 * we know which taxonomy is being requested, so we need to use this check in nearly every hooked in function.
-	 *
-	 * @since 1.5.0
-	 */
-	private function tax_is_public() {
-		// Don't make static as taxonomies may still be added during the run.
-		$taxonomies = get_taxonomies( array( 'public' => true ), 'names' );
-
-		return ( in_array( $this->taxonomy, $taxonomies ) );
 	}
 
 	/**
