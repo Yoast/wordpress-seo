@@ -560,7 +560,7 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 	/**
 	 * Find the keyword usages in the metas for the taxonomies/terms
 	 *
-	 * @param string $keyword		   The keyword to look for
+	 * @param string $keyword		   The keyword to look for.
 	 * @param string $current_term_id  The current term id.
 	 * @param string $current_taxonomy The current taxonomy name.
 	 *
