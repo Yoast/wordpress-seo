@@ -73,6 +73,7 @@ class WPSEO_OnPage_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_OnPage::fetch_from_onpage
 	 */
 	public function test_fetch_from_onpage() {
+		update_option( 'home', 'http://example.org' );
 
 		$this->assertEquals( $this->option_instance->get( 'status' ), null );
 
@@ -104,6 +105,8 @@ class WPSEO_OnPage_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_OnPage::fetch_from_onpage
 	 */
 	public function test_fetch_from_onpage_call_twice() {
+		update_option( 'home', 'http://example.org' );
+
 		$this->assertTrue( $this->class_instance->fetch_from_onpage() );
 		$this->assertFalse( $this->class_instance->fetch_from_onpage() );
 	}
@@ -114,6 +117,8 @@ class WPSEO_OnPage_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_OnPage::fetch_from_onpage
 	 */
 	public function test_notify_admins() {
+		update_option( 'home', 'http://example.org' );
+
 		$class_instance =
 			$this
 				->getMock( 'WPSEO_OnPage_Double', array( 'notify_admins' ) );

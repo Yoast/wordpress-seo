@@ -341,7 +341,7 @@ add_action( 'wpmu_new_blog', 'wpseo_on_activate_blog' );
 add_action( 'activate_blog', 'wpseo_on_activate_blog' );
 
 // Loading OnPage integration.
-$WPSEO_OnPage = new WPSEO_OnPage();
+new WPSEO_OnPage();
 
 /**
  * Wraps for notifications center class.
