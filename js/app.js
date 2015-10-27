@@ -371,7 +371,14 @@ YoastSEO.App.prototype.runAnalyzer = function() {
 	}
 
 	this.pageAnalyzer.runQueue();
-	this.scoreFormatter = new YoastSEO.ScoreFormatter( this );
+	this.scoreFormatter = new YoastSEO.ScoreFormatter( {
+		scores: this.pageAnalyzer.analyzeScorer.__score,
+		overallScore: this.pageAnalyzer.analyzeScorer.__totalScore,
+		outputTarget: this.config.targets.output,
+		overallTarget: this.config.targets.overall,
+		keyword: this.rawData.keyword,
+		saveScores: this.callbacks.saveScores
+	} );
 
 	if ( this.config.dynamicDelay ) {
 		this.endTime();

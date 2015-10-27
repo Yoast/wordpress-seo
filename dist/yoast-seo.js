@@ -1249,7 +1249,14 @@ YoastSEO.App.prototype.runAnalyzer = function() {
 	}
 
 	this.pageAnalyzer.runQueue();
-	this.scoreFormatter = new YoastSEO.ScoreFormatter( this );
+	this.scoreFormatter = new YoastSEO.ScoreFormatter( {
+		scores: this.pageAnalyzer.analyzeScorer.__score,
+		overallScore: this.pageAnalyzer.analyzeScorer.__totalScore,
+		outputTarget: this.config.targets.output,
+		overallTarget: this.config.targets.overall,
+		keyword: this.rawData.keyword,
+		saveScores: this.callbacks.saveScores
+	} );
 
 	if ( this.config.dynamicDelay ) {
 		this.endTime();
@@ -1887,12 +1894,13 @@ YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
  * @constructor
  */
 YoastSEO.ScoreFormatter = function( args ) {
-	this.scores = args.pageAnalyzer.analyzeScorer.__score;
-	this.overallScore = args.pageAnalyzer.analyzeScorer.__totalScore;
-	this.outputTarget = args.config.targets.output;
-	this.overallTarget = args.config.targets.overall;
+	this.scores = args.scores;
+	this.overallScore = args.overallScore;
+	this.outputTarget = args.outputTarget;
+	this.overallTarget = args.overallTarget;
 	this.totalScore = 0;
-	this.refObj = args;
+	this.keyword = args.keyword;
+	this.saveScores = args.saveScores;
 	this.outputScore();
 	this.outputOverallScore();
 };
@@ -1942,23 +1950,27 @@ YoastSEO.ScoreFormatter.prototype.sortScores = function() {
 YoastSEO.ScoreFormatter.prototype.outputOverallScore = function() {
 	var overallTarget = document.getElementById( this.overallTarget );
 	overallTarget.className = "overallScore " + this.scoreRating( Math.round( this.overallScore ) );
-	if ( this.refObj.rawData.keyword === "" ) {
-		overallTarget.className = "overallScore " + this.scoreRating( 0 );
+	if ( this.keyword === "" ) {
+		overallTarget.className = "overallScore " + this.scoreRating( "na" );
 	}
-	this.refObj.callbacks.saveScores( this.overallScore );
+	this.saveScores( this.overallScore );
 };
 
 /**
- * retuns a string that is used as a CSSclass, based on the numeric score
+ * retuns a string that is used as a CSSclass, based on the numeric score or the NA string
  * @param score
  * @returns scoreRate
  */
 YoastSEO.ScoreFormatter.prototype.scoreRating = function( score ) {
 	var scoreRate;
 	switch ( score ) {
-		case 0:
+		case "na":
 			scoreRate = "na";
 			break;
+		case 0:
+		case 1:
+		case 2:
+		case 3:
 		case 4:
 		case 5:
 			scoreRate = "poor";
