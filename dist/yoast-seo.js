@@ -146,7 +146,7 @@ YoastSEO.Analyzer.prototype.wordCount = function() {
  * @returns {{test: string, result: number}[]}
  */
 YoastSEO.Analyzer.prototype.keyWordCheck = function() {
-	if ( this.config.keyword === "" ) {
+	if ( this.stringHelper.cleanRegex( this.config.keyword ) === "" ) {
 		return [ { test: "keywordCheck", result: 0 } ];
 	}
 };
@@ -1237,7 +1237,8 @@ YoastSEO.App.prototype.runAnalyzer = function() {
 	this.analyzerData = this.modifyData( this.rawData );
 	this.analyzerData.i18n = this.i18n;
 
-	if ( this.analyzerData.keyword === "" ) {
+	var keyword = this.stringHelper.cleanRegex( this.rawData.keyword );
+	if ( keyword === "" ) {
 		this.analyzerData.queue = [ "keyWordCheck", "wordCount", "fleschReading", "pageTitleLength", "urlStopwords", "metaDescription" ];
 	}
 
@@ -2212,7 +2213,7 @@ YoastSEO.SnippetPreview.prototype.formatKeyword = function( textString ) {
  * @returns {XML|string|void}
  */
 YoastSEO.SnippetPreview.prototype.formatKeywordUrl = function( textString ) {
-	var keyword = this.refObj.stringHelper.cleanRegex( this.refObj.rawData.keyword );
+	var keyword = this.refObj.stringHelper.sanitizeKeyword( this.refObj.rawData.keyword );
 	var replacer = keyword.replace( " ", "[-_]" );
 
 	//matches case insensitive and global
