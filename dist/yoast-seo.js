@@ -56,7 +56,7 @@ YoastSEO.Analyzer.prototype.formatKeyword = function() {
 
 		// removes characters from the keyword that could break the regex, or give unwanted results.
 		// leaves the - since this is replaced later on in the function
-		var keyword = this.stringHelper.cleanRegex( this.config.keyword );
+		var keyword = this.stringHelper.sanitizeKeyword( this.config.keyword );
 
 		// Creates new regex from keyword with global and caseinsensitive option,
 		// replaces - and _ with space
@@ -146,7 +146,7 @@ YoastSEO.Analyzer.prototype.wordCount = function() {
  * @returns {{test: string, result: number}[]}
  */
 YoastSEO.Analyzer.prototype.keyWordCheck = function() {
-	if ( this.stringHelper.cleanRegex( this.config.keyword ) === "" ) {
+	if ( this.stringHelper.sanitizeKeyword( this.config.keyword ) === "" ) {
 		return [ { test: "keywordCheck", result: 0 } ];
 	}
 };
@@ -1237,7 +1237,7 @@ YoastSEO.App.prototype.runAnalyzer = function() {
 	this.analyzerData = this.modifyData( this.rawData );
 	this.analyzerData.i18n = this.i18n;
 
-	var keyword = this.stringHelper.cleanRegex( this.rawData.keyword );
+	var keyword = this.stringHelper.sanitizeKeyword( this.rawData.keyword );
 	if ( keyword === "" ) {
 		this.analyzerData.queue = [ "keyWordCheck", "wordCount", "fleschReading", "pageTitleLength", "urlStopwords", "metaDescription" ];
 	}
@@ -2493,7 +2493,7 @@ YoastSEO.StringHelper.prototype.stripAllTags = function( textString ) {
 	return textString;
 };
 
-YoastSEO.StringHelper.prototype.cleanRegex = function( textString ) {
+YoastSEO.StringHelper.prototype.sanitizeKeyword = function( textString ) {
 	textString = textString.replace( /[\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "" );
 	return textString;
 };

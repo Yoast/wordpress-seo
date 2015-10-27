@@ -120,7 +120,7 @@ YoastSEO.StringHelper.prototype.stripAllTags = function( textString ) {
 	return textString;
 };
 
-YoastSEO.StringHelper.prototype.cleanRegex = function( textString ) {
+YoastSEO.StringHelper.prototype.sanitizeKeyword = function( textString ) {
 	textString = textString.replace( /[\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "" );
 	return textString;
 };

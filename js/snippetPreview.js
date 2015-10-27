@@ -233,7 +233,7 @@ YoastSEO.SnippetPreview.prototype.formatKeyword = function( textString ) {
  * @returns {XML|string|void}
  */
 YoastSEO.SnippetPreview.prototype.formatKeywordUrl = function( textString ) {
-	var keyword = this.refObj.stringHelper.cleanRegex( this.refObj.rawData.keyword );
+	var keyword = this.refObj.stringHelper.sanitizeKeyword( this.refObj.rawData.keyword );
 	var replacer = keyword.replace( " ", "[-_]" );
 
 	//matches case insensitive and global
