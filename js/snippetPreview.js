@@ -234,11 +234,13 @@ YoastSEO.SnippetPreview.prototype.formatKeyword = function( textString ) {
  */
 YoastSEO.SnippetPreview.prototype.formatKeywordUrl = function( textString ) {
 	var keyword = this.refObj.stringHelper.sanitizeKeyword( this.refObj.rawData.keyword );
-	var replacer = keyword.replace( " ", "[-_]" );
+	var dashedKeyword = keyword.replace( " ", "[-_]" );
 
-	//matches case insensitive and global
-	replacer = new RegExp( replacer, "ig" );
-	return textString.replace( replacer, function( str ) {
+	// Match keyword case-insensitively.
+	var keywordRegex = new RegExp( dashedKeyword, "ig" );
+
+	// Make the keyword bold in the textString.
+	return textString.replace( keywordRegex, function( str ) {
 		return "<strong>" + str + "</strong>";
 	} );
 };
