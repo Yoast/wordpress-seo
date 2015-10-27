@@ -4,7 +4,7 @@ module.exports = function( grunt ) {
 
     return {
         makepot: {
-            potFile: "languages/js-text-analysis.pot",
+            potFile: "languages/yoast-seo.pot",
             textdomain: "js-text-analysis",
             command: function() {
                 var files;
