@@ -444,7 +444,7 @@ YoastSEO.App.prototype.pluginsLoaded = function() {
  */
 YoastSEO.App.prototype.noKeywordQueue = function() {
 	var data = this.rawData;
-	data.queue = [ "keyWordCheck", "wordCount", "fleschReading", "pageTitleLength", "urlStopwords" ];
+	data.queue = [ "keyWordCheck", "wordCount", "fleschReading", "pageTitleLength", "urlStopwords", "imageCount", "linkCount" ];
 	this.runAnalyzer( data );
 };
 
