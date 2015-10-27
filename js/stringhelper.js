@@ -120,9 +120,16 @@ YoastSEO.StringHelper.prototype.stripAllTags = function( textString ) {
 	return textString;
 };
 
-YoastSEO.StringHelper.prototype.sanitizeKeyword = function( textString ) {
-	textString = textString.replace( /[\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "" );
-	return textString;
+/**
+ * Removes all invalid characters from a certain keyword
+ *
+ * @param {string} keyword The un-sanitized keyword.
+ * @returns {string} The sanitized keyword.
+ */
+YoastSEO.StringHelper.prototype.sanitizeKeyword = function( keyword ) {
+	keyword = keyword.replace( /[\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "" );
+
+	return keyword;
 };
 
 /**
