@@ -48,22 +48,27 @@ YoastSEO.Analyzer.prototype.init = function( args ) {
 };
 
 /**
- * converts the keyword to lowercase
- */
+ * creates a regex from the keyword including /ig switch so it is case insensitive and global.
+ * replaces a number of characters that can break the regex.
+*/
 YoastSEO.Analyzer.prototype.formatKeyword = function() {
 	if ( typeof this.config.keyword !== "undefined" && this.config.keyword !== "" ) {
+
+		// removes characters from the keyword that could break the regex, or give unwanted results.
+		// leaves the - since this is replaced later on in the function
+		var keyword = this.stringHelper.sanitizeKeyword( this.config.keyword );
 
 		// Creates new regex from keyword with global and caseinsensitive option,
 		// replaces - and _ with space
 		this.keywordRegex = new RegExp(
-			this.preProcessor.replaceDiacritics( this.config.keyword.replace( /[-_]/, " " ) ),
+			this.preProcessor.replaceDiacritics( keyword.replace( /[-_]/, " " ) ),
 			"ig"
 		);
 
 		// Creates new regex from keyword with global and caseinsensitive option,
 		// replaces space with -. Used for URL matching
 		this.keywordRegexInverse = new RegExp(
-			this.preProcessor.replaceDiacritics( this.config.keyword.replace( " ", "-" ) ),
+			this.preProcessor.replaceDiacritics( keyword.replace( " ", "-" ) ),
 			"ig"
 		);
 
@@ -141,7 +146,7 @@ YoastSEO.Analyzer.prototype.wordCount = function() {
  * @returns {{test: string, result: number}[]}
  */
 YoastSEO.Analyzer.prototype.keyWordCheck = function() {
-	if ( this.config.keyword === "" ) {
+	if ( this.stringHelper.sanitizeKeyword( this.config.keyword ) === "" ) {
 		return [ { test: "keywordCheck", result: 0 } ];
 	}
 };

@@ -48,22 +48,27 @@ YoastSEO.Analyzer.prototype.init = function( args ) {
 };
 
 /**
- * converts the keyword to lowercase
- */
+ * creates a regex from the keyword including /ig switch so it is case insensitive and global.
+ * replaces a number of characters that can break the regex.
+*/
 YoastSEO.Analyzer.prototype.formatKeyword = function() {
 	if ( typeof this.config.keyword !== "undefined" && this.config.keyword !== "" ) {
+
+		// removes characters from the keyword that could break the regex, or give unwanted results.
+		// leaves the - since this is replaced later on in the function
+		var keyword = this.stringHelper.sanitizeKeyword( this.config.keyword );
 
 		// Creates new regex from keyword with global and caseinsensitive option,
 		// replaces - and _ with space
 		this.keywordRegex = new RegExp(
-			this.preProcessor.replaceDiacritics( this.config.keyword.replace( /[-_]/, " " ) ),
+			this.preProcessor.replaceDiacritics( keyword.replace( /[-_]/, " " ) ),
 			"ig"
 		);
 
 		// Creates new regex from keyword with global and caseinsensitive option,
 		// replaces space with -. Used for URL matching
 		this.keywordRegexInverse = new RegExp(
-			this.preProcessor.replaceDiacritics( this.config.keyword.replace( " ", "-" ) ),
+			this.preProcessor.replaceDiacritics( keyword.replace( " ", "-" ) ),
 			"ig"
 		);
 
@@ -141,7 +146,7 @@ YoastSEO.Analyzer.prototype.wordCount = function() {
  * @returns {{test: string, result: number}[]}
  */
 YoastSEO.Analyzer.prototype.keyWordCheck = function() {
-	if ( this.config.keyword === "" ) {
+	if ( this.stringHelper.sanitizeKeyword( this.config.keyword ) === "" ) {
 		return [ { test: "keywordCheck", result: 0 } ];
 	}
 };
@@ -1237,7 +1242,8 @@ YoastSEO.App.prototype.runAnalyzer = function() {
 	this.analyzerData = this.modifyData( this.rawData );
 	this.analyzerData.i18n = this.i18n;
 
-	if ( this.analyzerData.keyword === "" ) {
+	var keyword = this.stringHelper.sanitizeKeyword( this.rawData.keyword );
+	if ( keyword === "" ) {
 		this.analyzerData.queue = [ "keyWordCheck", "wordCount", "fleschReading", "pageTitleLength", "urlStopwords", "metaDescription" ];
 	}
 
@@ -2205,14 +2211,18 @@ YoastSEO.SnippetPreview.prototype.getPeriodMatches = function() {
 
 /**
  * formats the keyword for use in the snippetPreview by adding <strong>-tags
+ * strips unwanted characters that could break the regex or give unwanted results
  * @param textString
  * @returns textString
  */
 YoastSEO.SnippetPreview.prototype.formatKeyword = function( textString ) {
 
-	//matches case insensitive and global
-	var replacer = new RegExp( "\\b" + this.refObj.rawData.keyword + "\\b", "ig" );
-	return textString.replace( replacer, function( str ) {
+	// removes characters from the keyword that could break the regex, or give unwanted results, includes the -
+	var keyword = this.refObj.rawData.keyword.replace( /[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "" );
+
+	// Match keyword case-insensitively
+	var keywordRegex = new RegExp( "\\b" + keyword + "\\b", "ig" );
+	return textString.replace( keywordRegex, function( str ) {
 		return "<strong>" + str + "</strong>";
 	} );
 };
@@ -2220,16 +2230,20 @@ YoastSEO.SnippetPreview.prototype.formatKeyword = function( textString ) {
 /**
  * formats the keyword for use in the URL by accepting - and _ in stead of space and by adding
  * <strong>-tags
+ * strips unwanted characters that could break the regex or give unwanted results
  *
  * @param textString
  * @returns {XML|string|void}
  */
 YoastSEO.SnippetPreview.prototype.formatKeywordUrl = function( textString ) {
-	var replacer = this.refObj.rawData.keyword.replace( " ", "[-_]" );
+	var keyword = this.refObj.stringHelper.sanitizeKeyword( this.refObj.rawData.keyword );
+	var dashedKeyword = keyword.replace( " ", "[-_]" );
 
-	//matches case insensitive and global
-	replacer = new RegExp( replacer, "ig" );
-	return textString.replace( replacer, function( str ) {
+	// Match keyword case-insensitively.
+	var keywordRegex = new RegExp( dashedKeyword, "ig" );
+
+	// Make the keyword bold in the textString.
+	return textString.replace( keywordRegex, function( str ) {
 		return "<strong>" + str + "</strong>";
 	} );
 };
@@ -2516,6 +2530,18 @@ YoastSEO.StringHelper.prototype.stripAllTags = function( textString ) {
 	textString = textString.replace( /[<>]/g, "" );
 	textString = this.stripSpaces( textString );
 	return textString;
+};
+
+/**
+ * Removes all invalid characters from a certain keyword
+ *
+ * @param {string} keyword The un-sanitized keyword.
+ * @returns {string} The sanitized keyword.
+ */
+YoastSEO.StringHelper.prototype.sanitizeKeyword = function( keyword ) {
+	keyword = keyword.replace( /[\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "" );
+
+	return keyword;
 };
 
 /**
