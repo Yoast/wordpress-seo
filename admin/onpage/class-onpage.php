@@ -11,7 +11,7 @@ class WPSEO_OnPage {
 	/**
 	 * The name of the user meta key for storing the dismissed status.
 	 */
-	const USERMETAVALUE = 'wpseo_dismiss_onpage';
+	const USER_META_KEY = 'wpseo_dismiss_onpage';
 
 	/**
 	 * @var WPSEO_OnPage_Option The OnPage.org option class.
@@ -22,7 +22,7 @@ class WPSEO_OnPage {
 	 * Constructing the object
 	 */
 	public function __construct() {
-		// Only when AJAX isn't loaded.
+		// We never want to fetch on AJAX request because doing a remote request is really slow.
 		if ( ! ( defined( 'DOING_AJAX' ) && DOING_AJAX === true ) ) {
 			$this->onpage_option = new WPSEO_OnPage_Option();
 
@@ -50,7 +50,7 @@ class WPSEO_OnPage {
 	 * @return bool
 	 */
 	public function fetch_from_onpage() {
-		if ( $this->onpage_option->can_fetch() ) {
+		if ( $this->onpage_option->should_be_fetched() ) {
 			// Updates the timestamp in the option.
 			$this->onpage_option->set( 'last_fetch', time() );
 
@@ -78,7 +78,7 @@ class WPSEO_OnPage {
 	 * Show a notice when the website is not indexable
 	 */
 	public function show_notice() {
-		$show_notice = WPSEO_Utils::grant_access() && $this->user_has_not_dismissed() && ! $this->onpage_option->is_indexable();
+		$show_notice = WPSEO_Utils::grant_access() && ! $this->user_has_dismissed() && ! $this->onpage_option->is_indexable();
 		if ( $show_notice ) {
 			Yoast_Notification_Center::get()->add_notification(
 				new Yoast_Notification(
@@ -94,7 +94,7 @@ class WPSEO_OnPage {
 	}
 
 	/**
-	 * Sending a request to OnPage.org to get the indexability
+	 * Send a request to OnPage.org to get the indexability
 	 *
 	 * @return int
 	 */
@@ -112,7 +112,10 @@ class WPSEO_OnPage {
 	 * @param int      $new_status The new indexable status.
 	 */
 	protected function notify_admins( $old_status, $new_status ) {
-		new WPSEO_OnPage_Notify( $old_status, $new_status );
+		$notify = new WPSEO_OnPage_Notifier( $old_status, $new_status );
+
+		$notify->send_email( $old_status, $new_status );
+		$notify->show_notices();
 	}
 
 	/**
@@ -137,7 +140,6 @@ class WPSEO_OnPage {
 	 */
 	private function activate_hooks() {
 		$this->set_cron();
-		$this->fetch_from_onpage();
 	}
 
 	/**
@@ -154,8 +156,8 @@ class WPSEO_OnPage {
 	 *
 	 * @return mixed
 	 */
-	private function user_has_not_dismissed() {
-		return '1' !== get_user_meta( get_current_user_id(), WPSEO_OnPage::USERMETAVALUE, true );
+	private function user_has_dismissed() {
+		return '1' === get_user_meta( get_current_user_id(), WPSEO_OnPage::USER_META_KEY, true );
 	}
 
 	/**

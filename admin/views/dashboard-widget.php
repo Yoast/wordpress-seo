@@ -39,7 +39,7 @@
 </table>
 <?php if ( WPSEO_Utils::grant_access() ) : ?>
 <div class="onpage">
-	<h4 class="hide-if-no-js">OnPage.Org status</h4>
+	<h4 class="hide-if-no-js">OnPage.Org <?php _e( 'status', 'wordpress-seo' ); ?></h4>
 
 	<div>
 		<?php
@@ -52,7 +52,7 @@
 			_e( "Your site isn't indexable at the moment.", 'wordpress-seo' );
 			if ( $onpage['can_fetch'] ) {
 				echo '<br />';
-				echo '<a class="fetch-status button" href="' . add_query_arg( 'wpseo-redo-onpage', '1' ) . '">' . __( 'Fetch the current status', 'wordpress-seo' ) . ' </a>';
+				echo '<a class="fetch-status button" href="' . esc_attr( add_query_arg( 'wpseo-redo-onpage', '1' ) ) . '">' . __( 'Fetch the current status', 'wordpress-seo' ) . ' </a>';
 			}
 		}
 		?>

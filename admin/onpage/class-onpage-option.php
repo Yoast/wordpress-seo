@@ -53,7 +53,7 @@ class WPSEO_OnPage_Option {
 	 *
 	 * @return bool
 	 */
-	public function can_fetch() {
+	public function should_be_fetched() {
 		return ( ( time() - $this->onpage_option['last_fetch'] ) > HOUR_IN_SECONDS );
 	}
 
@@ -72,14 +72,14 @@ class WPSEO_OnPage_Option {
 	 * @return array
 	 */
 	private function get_option() {
-		return get_site_option( 'wpseo_onpage', array( 'status' => null, 'last_fetch' => 0 ) );
+		return get_option( 'wpseo_onpage', array( 'status' => null, 'last_fetch' => 0 ) );
 	}
 
 	/**
 	 * Saving the option with the current data
 	 */
 	public function save_option() {
-		update_site_option( 'wpseo_onpage', $this->onpage_option );
+		update_option( 'wpseo_onpage', $this->onpage_option );
 	}
 
 }

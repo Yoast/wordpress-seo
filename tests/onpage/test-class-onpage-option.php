@@ -42,7 +42,7 @@ class WPSEO_OnPage_Option_Test extends WPSEO_UnitTestCase {
 	/**
 	 * First test with the value before, then set the status to 1 and test of status has been set
 	 *
-	 * @covers WPSEO_OnPage_Option::get
+	 * @covers WPSEO_OnPage_Option::set
 	 */
 	public function test_set() {
 		$this->assertEquals( $this->class_instance->get( 'status' ), null );
@@ -56,7 +56,7 @@ class WPSEO_OnPage_Option_Test extends WPSEO_UnitTestCase {
 	 * WPSEO_OnPage_Option::can_fetch
 	 */
 	public function test_can_fetch() {
-		$this->assertTrue( $this->class_instance->can_fetch() );
+		$this->assertTrue( $this->class_instance->should_be_fetched() );
 	}
 
 	/**
@@ -66,7 +66,7 @@ class WPSEO_OnPage_Option_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_cannot_fetch() {
 		$this->class_instance->set( 'last_fetch', strtotime("-15 minutes") );
-		$this->assertFalse( $this->class_instance->can_fetch() );
+		$this->assertFalse( $this->class_instance->should_be_fetched() );
 	}
 
 	/**
@@ -76,7 +76,7 @@ class WPSEO_OnPage_Option_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_cannot_fetch_two_hours_ago() {
 		$this->class_instance->set( 'last_fetch', strtotime("-2 hours") );
-		$this->assertTrue( $this->class_instance->can_fetch() );
+		$this->assertTrue( $this->class_instance->should_be_fetched() );
 	}
 
 	/**

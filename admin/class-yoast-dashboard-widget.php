@@ -52,7 +52,7 @@ class Yoast_Dashboard_Widget {
 		$onpage_option = new WPSEO_OnPage_Option();
 		$onpage        = array(
 			'indexable' => $onpage_option->is_indexable(),
-			'can_fetch' => $onpage_option->can_fetch(),
+			'can_fetch' => $onpage_option->should_be_fetched(),
 		);
 
 		include WPSEO_PATH . '/admin/views/dashboard-widget.php';

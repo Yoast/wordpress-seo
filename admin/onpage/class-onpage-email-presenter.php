@@ -10,7 +10,7 @@
 class WPSEO_OnPage_Email_Presenter {
 
 	/**
-	 * @var string The generated messsage.
+	 * @var string The generated message.
 	 */
 	private $message;
 
@@ -27,7 +27,7 @@ class WPSEO_OnPage_Email_Presenter {
 	/**
 	 * Constructing the object
 	 *
-	 * @param array $statuses Array with the statusses, normally it are the old and the new status.
+	 * @param array $statuses Array with the statuses, normally it contains the old and the new status.
 	 */
 	public function __construct( array $statuses ) {
 		$this->status_values = $this->get_status_values();
@@ -45,7 +45,7 @@ class WPSEO_OnPage_Email_Presenter {
 	}
 
 	/**
-	 * Mapping the statusses to translated values
+	 * Mapping the statuses to translated values
 	 */
 	private function get_status_values() {
 		return array(
@@ -68,7 +68,7 @@ class WPSEO_OnPage_Email_Presenter {
 	}
 
 	/**
-	 * In case of the status has been changed
+	 * In case the status has been changed
 	 *
 	 * @return string
 	 */

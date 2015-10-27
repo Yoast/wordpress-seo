@@ -6,18 +6,7 @@
 /**
  * Notify the admin there is an indexibility change
  */
-class WPSEO_OnPage_Notify {
-
-	/**
-	 * Constructing the notify object
-	 *
-	 * @param int|null $old_status The old indexability status.
-	 * @param int      $new_status The new indexability status.
-	 */
-	public function __construct( $old_status, $new_status ) {
-		$this->send_email( $old_status, $new_status );
-		$this->show_notices();
-	}
+class WPSEO_OnPage_Notifier {
 
 	/**
 	 * Send an email to the site admin
@@ -25,7 +14,7 @@ class WPSEO_OnPage_Notify {
 	 * @param int|null $old_status The old indexability status.
 	 * @param int      $new_status The new indexability status.
 	 */
-	protected function send_email( $old_status, $new_status ) {
+	public function send_email( $old_status, $new_status ) {
 		$email_presenter = new WPSEO_OnPage_Email_Presenter(
 			array(
 				'old_status' => $old_status,
@@ -44,11 +33,8 @@ class WPSEO_OnPage_Notify {
 	 * Let's start showing the notices to all admins by removing the hide-notice meta data for each admin resulting in
 	 * popping up the notice again
 	 */
-	private function show_notices() {
-		global $wpdb;
-
-		// Remove the user meta data.
-		$wpdb->query( 'DELETE FROM ' . $wpdb->usermeta . " WHERE meta_key = '" . WPSEO_OnPage::USERMETAVALUE . "'" );
+	public function show_notices() {
+		delete_metadata( 'user', 0, WPSEO_OnPage::USER_META_KEY, '', true );
 	}
 
 }

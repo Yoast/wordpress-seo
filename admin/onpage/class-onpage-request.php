@@ -35,12 +35,12 @@ class WPSEO_OnPage_Request {
 	/**
 	 * Doing the remote get and returns the body
 	 *
-	 * @param string $home_url The home url.
+	 * @param string $target_url The home url.
 	 *
 	 * @return array
 	 */
-	protected function get_remote( $home_url ) {
-		$response      = wp_remote_get( WPSEO_ONPAGE . $home_url );
+	protected function get_remote( $target_url ) {
+		$response      = wp_remote_get( WPSEO_ONPAGE . $target_url );
 		$response_body = wp_remote_retrieve_body( $response );
 		return json_decode( $response_body, true );
 	}
@@ -48,12 +48,12 @@ class WPSEO_OnPage_Request {
 	/**
 	 * Sending a request to OnPage to check if the $home_url is indexable
 	 *
-	 * @param string $home_url The URL that will be send to the API.
+	 * @param string $target_url The URL that will be send to the API.
 	 *
 	 * @return array
 	 */
-	private function do_request( $home_url ) {
-		$json_body = $this->get_remote( $home_url );
+	private function do_request( $target_url ) {
+		$json_body = $this->get_remote( $target_url );
 
 		// OnPage.org recognized a redirect, fetch the data of that URL by calling this method with the value from OnPage.org.
 		if ( ! empty( $json_body['passes_juice_to'] ) ) {
