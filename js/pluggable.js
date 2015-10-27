@@ -236,23 +236,23 @@ YoastSEO.Pluggable.prototype._registerModification = function( modification, cal
  */
 YoastSEO.Pluggable.prototype._registerTest = function( name, analysis, scoring, pluginName, priority ) {
 	if ( typeof name !== "string" ) {
-		console.error( "Failed to register modification for plugin " + pluginName + ". Expected parameter `name` to be a string." );
+		console.error( "Failed to register test for plugin " + pluginName + ". Expected parameter `name` to be a string." );
 		return false;
 	}
 
 	if ( typeof analysis !== "function" ) {
-		console.error( "Failed to register modification for plugin " + pluginName + ". Expected parameter `analyzer` to be a function." );
+		console.error( "Failed to register test for plugin " + pluginName + ". Expected parameter `analyzer` to be a function." );
 		return false;
 	}
 
 	if ( typeof pluginName !== "string" ) {
-		console.error( "Failed to register modification for plugin " + pluginName + ". Expected parameter `pluginName` to be a string." );
+		console.error( "Failed to register test for plugin " + pluginName + ". Expected parameter `pluginName` to be a string." );
 		return false;
 	}
 
 	// Validate origin
 	if ( this._validateOrigin( pluginName ) === false ) {
-		console.error( "Failed to register modification for plugin " + pluginName + ". The integration has not finished loading yet." );
+		console.error( "Failed to register test for plugin " + pluginName + ". The integration has not finished loading yet." );
 		return false;
 	}
 
