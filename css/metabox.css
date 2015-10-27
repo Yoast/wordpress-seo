@@ -303,34 +303,3 @@ div.wpseo-tab-content {
 .inside .wpseotab .form-table.wpseo-taxonomy-form th {
 	width: 200px !important;
 }
-
-/**
- * CSS for the loading dialog
- */
-
-.YoastSEO_msg .right {
-	float: right;
-}
-
-@keyframes animatedBackground {
-	from { background-position: 0 0; }
-	to { background-position: 100% 0; }
-}
-
-.YoastSEO_msg .bufferbar {
-	display: block;
-	width: 100%;
-	height: 12px;
-	/*multiple background definitions for the sake of browsercompatibility*/
-
-	background-image: -webkit-linear-gradient(left, #ffffff, #0063ff, #ffffff,#0063ff);
-	background-image: -moz-linear-gradient(left, #ffffff, #0063ff, #ffffff,#0063ff);
-	background-image: -ms-linear-gradient(left, #ffffff, #0063ff, #ffffff,#0063ff);
-	background-image: -o-linear-gradient(left, #ffffff, #0063ff, #ffffff,#0063ff);
-	background-size: 300% 100%;
-	background-position: 0px 0px;
-	margin: 10px 0 10px 0;
-	border: 1px solid #dfdfdf;
-	animation: animatedBackground 5s linear infinite;
-}
-
