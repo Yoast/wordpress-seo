@@ -570,8 +570,8 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 		$tax_meta = self::get_tax_meta();
 		$found    = array();
 
-		foreach ($tax_meta as $taxonomy_name => $terms ) {
-			foreach ($terms as $term_id => $meta_values ) {
+		foreach ( $tax_meta as $taxonomy_name => $terms ) {
+			foreach ( $terms as $term_id => $meta_values ) {
 				$is_current = ( $current_taxonomy === $taxonomy_name && $current_term_id === $term_id );
 				if ( ! $is_current  && ! empty( $meta_values['wpseo_focuskw'] ) && $meta_values['wpseo_focuskw'] === $keyword ) {
 					$found[] = $term_id;
