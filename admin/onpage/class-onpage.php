@@ -52,16 +52,19 @@ class WPSEO_OnPage {
 	public function fetch_from_onpage() {
 		if ( $this->onpage_option->should_be_fetched() ) {
 			// Updates the timestamp in the option.
-			$this->onpage_option->set( 'last_fetch', time() );
+			$this->onpage_option->set_last_fetch( time() );
 
 			// The currently indexability status.
-			$old_status = $this->onpage_option->get( 'status' );
+			$old_status = $this->onpage_option->get_status();
 
 			// The requested indexability status.
 			$new_status = $this->request_indexability();
 
 			// Saving the new status.
-			$this->onpage_option->set( 'status', $new_status );
+			$this->onpage_option->set_status( $new_status );
+
+			// Saving the option.
+			$this->onpage_option->save_option();
 
 			// Check if the status has been changed.
 			if ( $old_status !== $new_status ) {

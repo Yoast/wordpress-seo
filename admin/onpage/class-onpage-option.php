@@ -9,6 +9,21 @@
 class WPSEO_OnPage_Option {
 
 	/**
+	 *  The name of the option where data will be stored
+	 */
+	const OPTION_NAME = 'wpseo_onpage';
+
+	/**
+	 * The key of the status in the option
+	 */
+	const STATUS = 'status';
+
+	/**
+	 * The key of the last fetch date in the option.
+	 */
+	const LAST_FETCH = 'last_fetch';
+
+	/**
 	 * @var array The OnPage.org option stored in the database.
 	 */
 	private $onpage_option;
@@ -21,31 +36,34 @@ class WPSEO_OnPage_Option {
 	}
 
 	/**
-	 * Getting a value from the OnPage.org option
-	 *
-	 * @param string $option_key The needed key from the option.
-	 * @param string $default    The default value, when the key doesn't exist.
+	 * Getting the status from the option.
 	 *
 	 * @return string
 	 */
-	public function get( $option_key, $default = '' ) {
-		if ( array_key_exists( $option_key, $this->onpage_option ) ) {
-			return $this->onpage_option[ $option_key ];
+	public function get_status() {
+		if ( array_key_exists( self::STATUS, $this->onpage_option ) ) {
+			return $this->onpage_option[ self::STATUS ];
 		}
 
-		return $default;
+		return '';
 	}
 
 	/**
-	 * Setting a value to the OnPage.org option
+	 * Saving the status to the options.
 	 *
-	 * @param string $option_key   The key which will be stored.
-	 * @param string $option_value The value that has to be stored.
+	 * @param string $status The status to save.
 	 */
-	public function set( $option_key, $option_value ) {
-		$this->onpage_option[ $option_key ] = $option_value;
+	public function set_status( $status ) {
+		$this->onpage_option[ self::STATUS ] = $status;
+	}
 
-		$this->save_option();
+	/**
+	 * Saving the last fetch timestamp to the options.
+	 *
+	 * @param integer $timestamp Timestamp with the new value.
+	 */
+	public function set_last_fetch( $timestamp ) {
+		$this->onpage_option[ self::LAST_FETCH ] = $timestamp;
 	}
 
 	/**
@@ -54,7 +72,7 @@ class WPSEO_OnPage_Option {
 	 * @return bool
 	 */
 	public function should_be_fetched() {
-		return ( ( time() - $this->onpage_option['last_fetch'] ) > HOUR_IN_SECONDS );
+		return ( ( time() - $this->onpage_option[ self::LAST_FETCH ] ) > HOUR_IN_SECONDS );
 	}
 
 	/**
@@ -63,7 +81,14 @@ class WPSEO_OnPage_Option {
 	 * @return bool
 	 */
 	public function is_indexable() {
-		return ! empty( $this->onpage_option['status'] );
+		return ! empty( $this->onpage_option[ self::STATUS ] );
+	}
+
+	/**
+	 * Saving the option with the current data
+	 */
+	public function save_option() {
+		update_option( self::OPTION_NAME, $this->onpage_option );
 	}
 
 	/**
@@ -72,14 +97,7 @@ class WPSEO_OnPage_Option {
 	 * @return array
 	 */
 	private function get_option() {
-		return get_option( 'wpseo_onpage', array( 'status' => null, 'last_fetch' => 0 ) );
-	}
-
-	/**
-	 * Saving the option with the current data
-	 */
-	public function save_option() {
-		update_option( 'wpseo_onpage', $this->onpage_option );
+		return get_option( self::OPTION_NAME, array( self::STATUS => null, self::LAST_FETCH => 0 ) );
 	}
 
 }

@@ -75,12 +75,12 @@ class WPSEO_OnPage_Test extends WPSEO_UnitTestCase {
 	public function test_fetch_from_onpage() {
 		update_option( 'home', 'http://example.org' );
 
-		$this->assertEquals( $this->option_instance->get( 'status' ), null );
+		$this->assertEquals( $this->option_instance->get_status(), null );
 
 		$this->assertTrue( $this->class_instance->fetch_from_onpage() );
 
 		$option_instance = new WPSEO_OnPage_Option();
-		$this->assertEquals( $option_instance->get( 'status' ), 1 );
+		$this->assertEquals( $option_instance->get_status(), 1 );
 	}
 
 	/**
@@ -91,12 +91,12 @@ class WPSEO_OnPage_Test extends WPSEO_UnitTestCase {
 	public function test_fetch_from_onpage_not_indexable() {
 		update_option( 'home', 'https://example.org' );
 
-		$this->assertEquals( $this->option_instance->get( 'status' ), null );
+		$this->assertEquals( $this->option_instance->get_status(), null );
 
 		$this->assertTrue( $this->class_instance->fetch_from_onpage() );
 
 		$option_instance = new WPSEO_OnPage_Option();
-		$this->assertEquals( $option_instance->get( 'status' ), 0 );
+		$this->assertEquals( $option_instance->get_status(), 0 );
 	}
 
 	/**
