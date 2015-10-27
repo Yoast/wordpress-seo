@@ -1,11 +1,4 @@
 /* css for snippet */
-#snippet_preview {
-    border: 1px solid #ddd;
-    padding: 20px;
-    width: 512px;
-    font-family: Arial, sans-serif;
-}
-
 #snippet_preview *[contenteditable="true"]:hover {
     background: #bbdefb;
     cursor: pointer;
@@ -120,14 +113,6 @@ li.score {
     overflow: hidden;
 }
 
-.tooLong {
-    color: #f00 !important;
-}
-
-.editIcon {
-    background: url("editicon.png") no-repeat right top;
-}
-
 /* overall score */
 
 #overallScore #score_circle {
@@ -169,6 +154,7 @@ li.score {
 #overallScore.bad #score_circle_shadow {
     fill: #ed261f;
 }
+
 
 /* loading dialog */
 
