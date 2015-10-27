@@ -2197,9 +2197,9 @@ YoastSEO.SnippetPreview.prototype.formatKeyword = function( textString ) {
 	// removes characters from the keyword that could break the regex, or give unwanted results, includes the -
 	var keyword = this.refObj.rawData.keyword.replace( /[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "" );
 
-	//matches case insensitive and global
-	var replacer = new RegExp( "\\b" + keyword + "\\b", "ig" );
-	return textString.replace( replacer, function( str ) {
+	// Match keyword case-insensitively
+	var keywordRegex = new RegExp( "\\b" + keyword + "\\b", "ig" );
+	return textString.replace( keywordRegex, function( str ) {
 		return "<strong>" + str + "</strong>";
 	} );
 };
