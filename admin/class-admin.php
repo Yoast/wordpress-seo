@@ -39,7 +39,7 @@ class WPSEO_Admin {
 			add_action( 'delete_category', array( $this, 'schedule_rewrite_flush' ) );
 		}
 
-		$this->page_gsc = new WPSEO_GSC();
+		$this->page_gsc         = new WPSEO_GSC();
 		$this->dashboard_widget = new Yoast_Dashboard_Widget();
 
 		// Needs the lower than default priority so other plugins can hook underneath it without issue.
@@ -55,7 +55,7 @@ class WPSEO_Admin {
 		}
 
 		if ( ( ( isset( $this->options['theme_has_description'] ) && $this->options['theme_has_description'] === true ) ||
-				$this->options['theme_description_found'] !== '' ) && $this->options['ignore_meta_description_warning'] !== true
+		       $this->options['theme_description_found'] !== '' ) && $this->options['ignore_meta_description_warning'] !== true
 		) {
 			add_action( 'admin_footer', array( $this, 'meta_description_warning' ) );
 		}
@@ -73,7 +73,7 @@ class WPSEO_Admin {
 
 		add_action( 'admin_init', array( 'WPSEO_Plugin_Conflict', 'hook_check_for_plugin_conflicts' ), 10, 1 );
 
-		WPSEO_Utils::register_cache_clear_option( 'wpseo',  '' );
+		WPSEO_Utils::register_cache_clear_option( 'wpseo', '' );
 	}
 
 	/**
