@@ -697,7 +697,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			return get_post( $post_id );
 		}
 
-		if ( isset($GLOBALS['post']) ) {
+		if ( isset( $GLOBALS['post'] ) ) {
 			return $GLOBALS['post'];
 		}
 
