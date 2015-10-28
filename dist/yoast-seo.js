@@ -2322,11 +2322,14 @@ YoastSEO.SnippetPreview.prototype.setUnformattedText = function( ev ) {
 /**
  * Adds the siteName to the snippetTitle when editting starts, this adds the sitename to
  * the snippet_sitename that cannot be edited.
+ * Sets the display property to inline-block of the snippet_title so we can set a width.
  * @param ev
  */
 YoastSEO.SnippetPreview.prototype.setSiteName = function( ev ) {
 	if ( ev.currentTarget.id === "snippet_title" ) {
 		document.getElementById( "snippet_sitename" ).textContent = this.snippetSuffix;
+		document.getElementById( "snippet_sitename" ).style.display = "inline-block";
+		document.getElementById( "snippet_title" ).style.display = "inline-block";
 	}
 };
 
@@ -2336,6 +2339,8 @@ YoastSEO.SnippetPreview.prototype.setSiteName = function( ev ) {
  */
 YoastSEO.SnippetPreview.prototype.unsetSiteName = function() {
 	document.getElementById( "snippet_sitename" ).textContent = "";
+	document.getElementById( "snippet_title" ).style.display = "inline";
+	document.getElementById( "snippet_sitename" ).style.display = "inline";
 };
 
 /**
@@ -2369,7 +2374,7 @@ YoastSEO.SnippetPreview.prototype.textFeedback = function( ev ) {
  * @param ev
  */
 YoastSEO.SnippetPreview.prototype.showEditIcon = function( ev ) {
-	ev.currentTarget.parentElement.className = "snippet_container editIcon";
+	ev.currentTarget.parentElement.className = "editIcon snippet_container";
 };
 
 /**
