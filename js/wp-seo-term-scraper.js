@@ -1,4 +1,4 @@
-/* global YoastSEO: true, wp, wpseoTermScraperL10n, tinyMCE */
+/* global YoastSEO: true, wp, wpseoTermScraperL10n, ajaxurl, tinyMCE */
 YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 (function() {
 	'use strict';
@@ -17,7 +17,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 			pageTitle: this.getDataFromInput( 'pageTitle' ),
 			url: this.getDataFromInput( 'url' ),
 			baseUrl: this.getDataFromInput( 'baseUrl' ),
-			snippetTitle: this.getDataFromInput( 'snippetTitle' ),
+			snippetTitle: this.getDataFromInput( 'title' ),
 			meta: this.getDataFromInput( 'meta' ),
 			snippetMeta: this.getDataFromInput( 'meta' ),
 			snippetCite: this.getDataFromInput( 'cite' )
@@ -33,7 +33,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 		var elem;
 		switch( inputType ){
 			case 'keyword':
-				elem = document.getElementById( 'wpseo_keyword' );
+				elem = document.getElementById( 'wpseo_focuskw' );
 				val = elem.value;
 				if ( val === '' ) {
 					val = document.getElementById( 'name' ).value;
@@ -60,12 +60,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 			case 'baseUrl':
 				val = wpseoTermScraperL10n.home_url.replace( /https?:\/\//ig, '' );
 				break;
-			case 'snippetTitle':
-				elem = document.getElementById( 'snippet_title' );
-				if ( elem !== null ) {
-					val = elem.textContent;
-				}
-				break;
+
 			case 'cite':
 				elem = document.getElementById( 'snippet_cite' );
 				if ( elem !== null ) {
@@ -115,7 +110,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 	YoastSEO.TermScraper.prototype.bindElementEvents = function( app ) {
 		this.snippetPreviewEventBinder ( app.snippetPreview );
 		this.inputElementEventBinder( app );
-		document.getElementById( 'name' ).addEventListener( 'keydown', app.snippetPreview.disableEnter );
+		document.getElementById( 'wpseo_focuskw' ).addEventListener( 'keydown', app.snippetPreview.disableEnter );
 	};
 
 	/**
@@ -166,7 +161,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 	 * binds the renewData function on the change of inputelements.
 	 */
 	YoastSEO.TermScraper.prototype.inputElementEventBinder = function( app ) {
-		var elems = [ 'name', 'description', 'slug', 'wpseo_keyword' ];
+		var elems = [ 'name', 'description', 'slug', 'wpseo_focuskw' ];
 		for (var i = 0; i < elems.length; i++) {
 			var elem = document.getElementById(elems[i]);
 			if (elem !== null) {
@@ -187,6 +182,27 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 	YoastSEO.TermScraper.prototype.saveScores = function() {
 		var tmpl = wp.template('score_svg');
 		document.getElementById( YoastSEO.analyzerArgs.targets.overall ).innerHTML = tmpl();
+	};
+
+	/**
+	 * updates the focus keyword usage if it is not in the array yet.
+	 */
+	YoastSEO.TermScraper.prototype.updateKeywordUsage = function() {
+		var keyword = this.value;
+		if ( typeof( wpseoTermScraperL10n.keyword_usage[ keyword ] === null ) ) {
+			jQuery.post(ajaxurl, {
+					action: 'get_term_keyword_usage',
+					post_id: jQuery('#post_ID').val(),
+					keyword: keyword,
+					taxonomy: wpseoTermScraperL10n.taxonomy
+				}, function( data ) {
+					if ( data ) {
+						wpseoTermScraperL10n.keyword_usage[ keyword ] = data;
+						YoastSEO.app.refresh();
+					}
+				}, 'json'
+			);
+		}
 	};
 
 	/**
@@ -271,8 +287,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 					'metaDescription',
 					'pageTitleKeyword',
 					'pageTitleLength',
-					'firstParagraph',
-					'keywordDoubles'],
+					'firstParagraph'],
 				usedKeywords: wpseoTermScraperL10n.keyword_usage,
 				searchUrl: '<a target="new" href=' + wpseoTermScraperL10n.search_url + '>',
 				postUrl: '<a target="new" href=' + wpseoTermScraperL10n.post_edit_url + '>',

@@ -177,7 +177,6 @@ class WPSEO_Taxonomy {
 	 * @return array
 	 */
 	public function localize_term_scraper_script() {
-
 		$file = plugin_dir_path( WPSEO_FILE ) . 'languages/wordpress-seo-' . get_locale() . '.json';
 		if ( file_exists( $file ) ) {
 			$file = file_get_contents( $file );
@@ -187,11 +186,22 @@ class WPSEO_Taxonomy {
 			$json = array();
 		}
 
+		$term_id = filter_input( INPUT_GET, 'tag_ID' );
+		$term    = get_term_by( 'id', $term_id, $this->get_taxonomy() );
+		$focuskw = WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'focuskw' );
+
 		return array(
 			'translations'                  => $json,
 			'home_url'                      => home_url( '/', null ),
+			'taxonomy'                      => $term->taxonomy,
+			'keyword_usage'                 => WPSEO_Taxonomy_Meta::get_keyword_usage( $focuskw, $term->term_id, $term->taxonomy ),
+			// Todo: a column needs to be added on the termpages to add a filter for the keyword, so this can be used in the focus kw doubles.
+			'search_url'                    => admin_url( 'edit-tags.php?taxonomy=' . $term->taxonomy . '&seo_kw_filter={keyword}' ),
+			'post_edit_url'                 => admin_url( 'edit-tags.php?action=edit&taxonomy=' . $term->taxonomy . '&tag_ID={id}' ),
 			'sep'                           => WPSEO_Utils::get_title_separator(),
 			'sitename'                      => WPSEO_Utils::get_site_name(),
 		);
 	}
+
+
 } /* End of class */

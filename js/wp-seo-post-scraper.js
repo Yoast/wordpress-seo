@@ -1,4 +1,4 @@
-/* global YoastSEO: true, tinyMCE, wp, wpseoPostScraperL10n, YoastShortcodePlugin, YoastReplaceVarPlugin */
+/* global YoastSEO: true, tinyMCE, wp, ajaxurl, wpseoPostScraperL10n, YoastShortcodePlugin, YoastReplaceVarPlugin */
 YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 (function() {
 	'use strict';
@@ -186,6 +186,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 		this.snippetPreviewEventBinder( app.snippetPreview );
 		this.inputElementEventBinder( app );
 		document.getElementById( 'yoast_wpseo_focuskw' ).addEventListener( 'keydown', app.snippetPreview.disableEnter );
+		document.getElementById( 'yoast_wpseo_focuskw' ).addEventListener( 'keyup', this.updateKeywordUsage );
 	};
 
 	/**
@@ -290,6 +291,26 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 		document.getElementById( YoastSEO.analyzerArgs.targets.overall ).innerHTML = tmpl();
 		document.getElementById( 'yoast_wpseo_linkdex' ).value = score;
 		jQuery( window ).trigger( 'yoastseo-score', score );
+	};
+
+	/**
+	 * updates the focus keyword usage if it is not in the array yet.
+	 */
+	YoastSEO.PostScraper.prototype.updateKeywordUsage = function() {
+		var keyword = this.value;
+		if ( typeof( wpseoPostScraperL10n.keyword_usage[ keyword ] === null ) ) {
+			jQuery.post(ajaxurl, {
+					action: 'get_focus_keyword_usage',
+					post_id: jQuery('#post_ID').val(),
+					keyword: keyword
+				}, function( data ) {
+					if ( data ) {
+						wpseoPostScraperL10n.keyword_usage[ keyword ] = data;
+						YoastSEO.app.refresh();
+					}
+				}, 'json'
+			);
+		}
 	};
 
 	/**
