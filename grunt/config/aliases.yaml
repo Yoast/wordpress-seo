@@ -10,6 +10,7 @@ build:
   - 'uglify'
 # Build CSS
 'build:css':
+  - 'copy'
   - 'cssmin'
 # Check health of the project
 check:
