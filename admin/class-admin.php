@@ -173,7 +173,7 @@ class WPSEO_Admin {
 				'wpseo_licenses',
 				array( $this, 'load_page' ),
 				null,
-			)
+			),
 		);
 
 
