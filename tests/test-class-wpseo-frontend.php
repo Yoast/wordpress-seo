@@ -519,7 +519,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * @covers WPSEO_Frontend::adjacent_rel_links
-	 * @covers WPSEO_Frontend::canonical for categories too
+	 * @covers WPSEO_Frontend::canonical
 	 */
 	public function test_adjacent_rel_links_canonical_category() {
 		// create a category, add 26 posts to it, go to page 2 of its archives
