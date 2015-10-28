@@ -690,14 +690,18 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 *
 	 * @returns WP_Post
 	 */
-	private function get_metabox_post() {
+	protected function get_metabox_post() {
 		if ( $post = filter_input( INPUT_GET, 'post' ) ) {
 			$post_id = (int) WPSEO_Utils::validate_int( $post );
 
 			return get_post( $post_id );
 		}
 
-		return $GLOBALS['post'];
+		if ( isset($GLOBALS['post']) ) {
+			return $GLOBALS['post'];
+		}
+
+		return [];
 	}
 
 	/**
