@@ -50,6 +50,9 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 		global $pagenow;
 		$pagenow = 'post-new.php';
 
+		$class_admin_init = new WPSEO_Admin_Init();
+		$class_admin_init->register_assets();
+
 		// call enqueue function
 		self::$class_instance->enqueue();
 
