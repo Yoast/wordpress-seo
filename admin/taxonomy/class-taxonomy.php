@@ -107,7 +107,7 @@ class WPSEO_Taxonomy {
 	public function update_term( $term_id, $tt_id, $taxonomy ) {
 		/* Create post array with only our values */
 		$new_meta_data = array();
-		foreach ( WPSEO_Taxonomy_Fields::$defaults_per_term as $key => $default ) {
+		foreach ( WPSEO_Taxonomy_Meta::$defaults_per_term as $key => $default ) {
 			if ( $posted_value = filter_input( INPUT_POST, $key ) ) {
 				$new_meta_data[ $key ] = $posted_value;
 			}
@@ -115,7 +115,7 @@ class WPSEO_Taxonomy {
 		unset( $key, $default );
 
 		// Saving the values.
-		WPSEO_Taxonomy_Fields::set_values( $term_id, $taxonomy, $new_meta_data );
+		WPSEO_Taxonomy_Meta::set_values( $term_id, $taxonomy, $new_meta_data );
 	}
 
 	/**
