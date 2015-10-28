@@ -16,6 +16,10 @@
     min-width: 20px;
 }
 
+#meta_container {
+    clear: both;
+}
+
 .title {
     color: #1e0fbe;
     display: inline;
