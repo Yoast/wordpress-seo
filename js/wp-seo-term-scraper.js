@@ -17,7 +17,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 			pageTitle: this.getDataFromInput( 'pageTitle' ),
 			url: this.getDataFromInput( 'url' ),
 			baseUrl: this.getDataFromInput( 'baseUrl' ),
-			snippetTitle: this.getDataFromInput( 'snippetTitle' ),
+			snippetTitle: this.getDataFromInput( 'title' ),
 			meta: this.getDataFromInput( 'meta' ),
 			snippetMeta: this.getDataFromInput( 'meta' ),
 			snippetCite: this.getDataFromInput( 'cite' )
@@ -60,12 +60,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 			case 'baseUrl':
 				val = wpseoTermScraperL10n.home_url.replace( /https?:\/\//ig, '' );
 				break;
-			case 'snippetTitle':
-				elem = document.getElementById( 'snippet_title' );
-				if ( elem !== null ) {
-					val = elem.textContent;
-				}
-				break;
+
 			case 'cite':
 				elem = document.getElementById( 'snippet_cite' );
 				if ( elem !== null ) {
