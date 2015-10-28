@@ -165,18 +165,17 @@ class WPSEO_Admin {
 				array( $this->page_gsc, 'display' ),
 				array( array( $this->page_gsc, 'set_help' ) ),
 			),
+			array(
+				'wpseo_dashboard',
+				'',
+				'<span style="color:#f18500">' . __( 'Extensions', 'wordpress-seo' ) . '</span>',
+				$manage_options_cap,
+				'wpseo_licenses',
+				array( $this, 'load_page' ),
+				null,
+			)
 		);
 
-		// Add Extension submenu page.
-		$submenu_pages[] = array(
-			'wpseo_dashboard',
-			'',
-			'<span style="color:#f18500">' . __( 'Extensions', 'wordpress-seo' ) . '</span>',
-			$manage_options_cap,
-			'wpseo_licenses',
-			array( $this, 'load_page' ),
-			null,
-		);
 
 		// Allow submenu pages manipulation.
 		$submenu_pages = apply_filters( 'wpseo_submenu_pages', $submenu_pages );
