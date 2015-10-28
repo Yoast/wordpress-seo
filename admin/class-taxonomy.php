@@ -213,7 +213,7 @@ class WPSEO_Taxonomy {
 			'home_url'                      => home_url( '/', null ),
 			'taxonomy'                      => $term->taxonomy,
 			'keyword_usage'                 => WPSEO_Taxonomy_Meta::get_keyword_usage( $focuskw, $term->term_id, $term->taxonomy ),
-			//todo: a column needs to be added on the termpages to add a filter for the keyword, so this can be used in the focus kw doubles.
+			// Todo: a column needs to be added on the termpages to add a filter for the keyword, so this can be used in the focus kw doubles.
 			'search_url'                    => admin_url( 'edit-tags.php?taxonomy=' . $term->taxonomy . '&seo_kw_filter={keyword}' ),
 			'post_edit_url'                 => admin_url( 'edit-tags.php?action=edit&taxonomy=' . $term->taxonomy . '&tag_ID={id}' ),
 			'sep'                           => WPSEO_Utils::get_title_separator(),

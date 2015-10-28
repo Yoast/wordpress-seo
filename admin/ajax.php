@@ -348,6 +348,9 @@ function wpseo_add_fb_admin() {
 
 add_action( 'wp_ajax_wpseo_add_fb_admin', 'wpseo_add_fb_admin' );
 
+/**
+ * Retrieves the keyword for the keyword doubles.
+ */
 function ajax_get_keyword_usage() {
 	$post_id = filter_input( INPUT_POST, 'post_id' );
 	$keyword = filter_input( INPUT_POST, 'keyword' );
@@ -359,6 +362,9 @@ function ajax_get_keyword_usage() {
 
 add_action( 'wp_ajax_get_focus_keyword_usage',  'ajax_get_keyword_usage' );
 
+/**
+ * Retrieves the keyword for the keyword doubles of the termpages.
+ */
 function ajax_get_term_keyword_usage() {
 	$post_id = filter_input( INPUT_POST, 'post_id' );
 	$keyword = filter_input( INPUT_POST, 'keyword' );
