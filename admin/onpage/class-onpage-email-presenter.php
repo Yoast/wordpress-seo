@@ -10,11 +10,6 @@
 class WPSEO_OnPage_Email_Presenter {
 
 	/**
-	 * @var string The generated message.
-	 */
-	private $message;
-
-	/**
 	 * @var array The old and the new status as an array.
 	 */
 	private $statuses;
@@ -32,16 +27,27 @@ class WPSEO_OnPage_Email_Presenter {
 	public function __construct( array $statuses ) {
 		$this->status_values = $this->get_status_values();
 		$this->statuses      = $statuses;
-		$this->message       = $this->generate_message();
+	}
+
+	public function get_subject() {
+		if ( $this->statuses['old_status'] !== null ) {
+			return $this->get_change_subject();
+		}
+
+		return $this->get_new_subject();
 	}
 
 	/**
-	 * Returns the generated message.
+	 * Generates and returns the body message for the email.
 	 *
 	 * @return string
 	 */
 	public function get_message() {
-		return $this->message;
+		if ( $this->statuses['old_status'] !== null ) {
+			return $this->get_change_message();
+		}
+
+		return $this->get_new_message();
 	}
 
 	/**
@@ -55,26 +61,13 @@ class WPSEO_OnPage_Email_Presenter {
 	}
 
 	/**
-	 * Generates the body message for the email.
-	 *
-	 * @return string
-	 */
-	private function generate_message() {
-		if ( $this->statuses['old_status'] !== null ) {
-			return $this->get_change_message();
-		}
-
-		return $this->get_new_message();
-	}
-
-	/**
 	 * In case the status has been changed
 	 *
 	 * @return string
 	 */
 	private function get_change_message() {
 		return sprintf(
-			__( 'The indexability from your website %1$s, went from %2$s to %3$s.' ),
+			__( 'The indexability of %1$s, went from %2$s to %3$s.' ),
 			home_url(),
 			$this->status_values[ $this->statuses['old_status'] ],
 			$this->status_values[ $this->statuses['new_status'] ]
@@ -88,7 +81,35 @@ class WPSEO_OnPage_Email_Presenter {
 	 */
 	private function get_new_message() {
 		return sprintf(
-			__( 'The indexability from your website %1$s is %2$s at the moment.' ),
+			__( 'We\'ve collaborated with our friends from Onpage.Org to do a weekly check of The indexability of %1$s is %2$s.', 'wordpress-seo' ),
+			home_url(),
+			$this->status_values[ $this->statuses['new_status'] ]
+		);
+
+	}
+
+	/**
+	 * In case the status has been changed
+	 *
+	 * @return string
+	 */
+	private function get_change_subject() {
+		return sprintf(
+			sprintf( __( 'Yoast SEO alert: the indexability of %1$s has changed.', 'wordpress-seo' ), home_url() ),
+			home_url(),
+			$this->status_values[ $this->statuses['old_status'] ],
+			$this->status_values[ $this->statuses['new_status'] ]
+		);
+	}
+
+	/**
+	 * The status is fetched for the first time
+	 *
+	 * @return string
+	 */
+	private function get_new_subject() {
+		return sprintf(
+			sprintf( __( 'Yoast SEO alert: %1$s is %2$s.', 'wordpress-seo' ), home_url() ),
 			home_url(),
 			$this->status_values[ $this->statuses['new_status'] ]
 		);

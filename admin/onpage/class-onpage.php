@@ -83,9 +83,11 @@ class WPSEO_OnPage {
 	public function show_notice() {
 		$show_notice = WPSEO_Utils::grant_access() && ! $this->user_has_dismissed() && ! $this->onpage_option->is_indexable();
 		if ( $show_notice ) {
+			$notice = sprintf( '%1$s', __( 'Your homepage is not indexable. This is very bad for SEO and should be fixed.', 'wordpress-seo' ) );
+
 			Yoast_Notification_Center::get()->add_notification(
 				new Yoast_Notification(
-					__( 'Your site is currently not indexable.', 'wordpress-seo' ),
+					$notice,
 					array(
 						'type'  => 'error yoast-dismissible',
 						'id'    => 'wpseo-dismiss-onpageorg',

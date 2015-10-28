@@ -58,7 +58,13 @@
 	margin-top: 5px;
 }
 
-#wpseo-dashboard-overview .onpage .fetch-status {
+#wpseo-dashboard-overview .onpage .button {
 	clear: both;
 	margin-top: 5px;
+}
+
+#wpseo-dashboard-overview .onpage .button.landing-page {
+	border-color: #bbb;
+	color: #fff;
+	background-color: #99cd3b;
 }

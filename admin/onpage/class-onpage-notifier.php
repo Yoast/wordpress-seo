@@ -24,7 +24,7 @@ class WPSEO_OnPage_Notifier {
 
 		wp_mail(
 			get_option( 'admin_email' ),
-			__( 'OnPage.org index status', 'wordpress-seo' ),
+			$email_presenter->get_subject(),
 			$email_presenter->get_message()
 		);
 	}

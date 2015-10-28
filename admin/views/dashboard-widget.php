@@ -43,18 +43,27 @@
 
 	<div>
 		<?php
+
 		if ( $onpage['indexable'] ) {
 			echo '<div class="wpseo-score-icon good"></div>';
-			_e( 'Your site is indexable at the moment.', 'wordpress-seo' );
+			_e( 'Your homepage is indexable by search engines.', 'wordpress-seo' );
+			echo '<br />';
 		}
 		else {
 			echo '<div class="wpseo-score-icon bad"></div>';
-			_e( "Your site isn't indexable at the moment.", 'wordpress-seo' );
+			_e( "Your homepage isn't indexable by search engines. This is very bad for SEO and should be fixed.", 'wordpress-seo' );
+			echo '<br />';
 			if ( $onpage['can_fetch'] ) {
-				echo '<br />';
 				echo '<a class="fetch-status button" href="' . esc_attr( add_query_arg( 'wpseo-redo-onpage', '1' ) ) . '">' . __( 'Fetch the current status', 'wordpress-seo' ) . ' </a>';
 			}
 		}
+
+		/* translators: 1: expands to the campaign tags for this link */
+		$landing_page_url = sprintf(
+			__( 'https://en.onpage.org/lp/yoast/%1$s', 'wordpress-seo' ),
+			'?op_campaign=638516a5c963f978&utm_campaign=free&utm_medium=link&utm_source=yoast&offer_id=2&aff_id=872&op_language=en&op_country=- '
+		);
+		echo '<a class="landing-page button" href="' . $landing_page_url . '">' . __( 'Analyze entire site', 'wordpress-seo' ) . ' </a>';
 		?>
 	</div>
 </div>
