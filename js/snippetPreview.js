@@ -335,6 +335,7 @@ YoastSEO.SnippetPreview.prototype.setUnformattedText = function( ev ) {
 YoastSEO.SnippetPreview.prototype.setSiteName = function( ev ) {
 	if ( ev.currentTarget.id === "snippet_title" ) {
 		document.getElementById( "snippet_sitename" ).textContent = this.snippetSuffix;
+		document.getElementById( "snippet_sitename" ).style.display = "inline-block";
 		document.getElementById( "snippet_title" ).style.display = "inline-block";
 	}
 };
@@ -346,6 +347,7 @@ YoastSEO.SnippetPreview.prototype.setSiteName = function( ev ) {
 YoastSEO.SnippetPreview.prototype.unsetSiteName = function() {
 	document.getElementById( "snippet_sitename" ).textContent = "";
 	document.getElementById( "snippet_title" ).style.display = "inline";
+	document.getElementById( "snippet_sitename" ).style.display = "inline";
 };
 
 /**
