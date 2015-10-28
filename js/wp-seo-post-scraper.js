@@ -301,9 +301,9 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 			jQuery.post(ajaxurl, {
 					action: 'get_focus_keyword_usage',
 					post_id: jQuery('#post_ID').val(),
-					keyword: this.value
-				}, function (data) {
-					if (data) {
+					keyword: keyword
+				}, function( data ) {
+					if ( data ) {
 						wpseoPostScraperL10n.keyword_usage[ keyword ] = data;
 						YoastSEO.app.refresh();
 					}

@@ -1,4 +1,4 @@
-/* global YoastSEO: true, wp, wpseoTermScraperL10n, tinyMCE */
+/* global YoastSEO: true, wp, wpseoTermScraperL10n, ajaxurl, tinyMCE */
 YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 (function() {
 	'use strict';
@@ -115,7 +115,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 	YoastSEO.TermScraper.prototype.bindElementEvents = function( app ) {
 		this.snippetPreviewEventBinder ( app.snippetPreview );
 		this.inputElementEventBinder( app );
-		document.getElementById( 'name' ).addEventListener( 'keydown', app.snippetPreview.disableEnter );
+		document.getElementById( 'wpseo_focuskw' ).addEventListener( 'keydown', app.snippetPreview.disableEnter );
 	};
 
 	/**
@@ -187,6 +187,27 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 	YoastSEO.TermScraper.prototype.saveScores = function() {
 		var tmpl = wp.template('score_svg');
 		document.getElementById( YoastSEO.analyzerArgs.targets.overall ).innerHTML = tmpl();
+	};
+
+	/**
+	 * updates the focus keyword usage if it is not in the array yet.
+	 */
+	YoastSEO.TermScraper.prototype.updateKeywordUsage = function() {
+		var keyword = this.value;
+		if ( typeof( wpseoTermScraperL10n.keyword_usage[ keyword ] === null ) ) {
+			jQuery.post(ajaxurl, {
+					action: 'get_term_keyword_usage',
+					post_id: jQuery('#post_ID').val(),
+					keyword: keyword,
+					taxonomy: wpseoTermScraperL10n.taxonomy
+				}, function( data ) {
+					if ( data ) {
+						wpseoTermScraperL10n.keyword_usage[ keyword ] = data;
+						YoastSEO.app.refresh();
+					}
+				}, 'json'
+			);
+		}
 	};
 
 	/**
@@ -271,8 +292,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 					'metaDescription',
 					'pageTitleKeyword',
 					'pageTitleLength',
-					'firstParagraph',
-					'keywordDoubles'],
+					'firstParagraph'],
 				usedKeywords: wpseoTermScraperL10n.keyword_usage,
 				searchUrl: '<a target="new" href=' + wpseoTermScraperL10n.search_url + '>',
 				postUrl: '<a target="new" href=' + wpseoTermScraperL10n.post_edit_url + '>',
