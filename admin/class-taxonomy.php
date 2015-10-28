@@ -211,9 +211,10 @@ class WPSEO_Taxonomy {
 		return array(
 			'translations'                  => $json,
 			'home_url'                      => home_url( '/', null ),
+			'taxonomy'                      => $term->taxonomy,
 			'keyword_usage'                 => WPSEO_Taxonomy_Meta::get_keyword_usage( $focuskw, $term->term_id, $term->taxonomy ),
 			'search_url'                    => admin_url( 'edit-tags.php?seo_kw_filter={keyword}' ),
-			'post_edit_url'                 => admin_url( 'edit-tags.php?post={id}&action=edit' ),
+			'post_edit_url'                 => admin_url( 'edit-tags.php?action=edit&taxonomy=' . $term->taxonomy . '&tag_ID={id}&action=edit' ),
 			'sep'                           => WPSEO_Utils::get_title_separator(),
 			'sitename'                      => WPSEO_Utils::get_site_name(),
 		);
