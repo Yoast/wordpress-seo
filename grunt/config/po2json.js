@@ -7,5 +7,13 @@ module.exports = {
 		},
 		src: ['languages/*.po'],
 		dest: 'languages'
+	},
+	js: {
+		options: {
+			format: 'jed1.x',
+			domain: 'wordpress-seo'
+		},
+		src: ['bower_components/yoast-seo/languages/yoast-seo.pot'],
+		dest: 'languages'
 	}
 };
