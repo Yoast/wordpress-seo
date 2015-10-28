@@ -8,7 +8,7 @@ matrix:
     - php: hhvm
   include:
     - php: 5.6
-      env: WP_VERSION=master WP_MULTISITE=1 PHPLINT=1 CHECKS=1
+      env: WP_VERSION=master WP_MULTISITE=1 PHPLINT=1 CHECKS=1 COVERAGE=1
     - php: 5.2
       env: WP_VERSION=4.3 WP_MULTISITE=1 PHPLINT=1
     - php: 5.6
@@ -59,7 +59,7 @@ script:
 - if [[ "$PHPLINT" == "1" ]]; then find -L .  -path ./vendor -prune -o -name '*.php' -print0 | xargs -0 -n 1 -P 4 php -l; fi
 - if [[ "$PHPLINT" == "1" ]]; then vendor/bin/phpcs -v; fi
 - if [[ "$CHECKS" == "1" ]]; then npm install -g grunt-cli && npm install && grunt check:js; fi
-- phpunit -c phpunit.xml
+- if [[ "$COVERAGE" == "1" ]]; then phpunit -c phpunit.xml --coverage-clover build/logs/clover.xml && sed -i -e 's/tmp\/wordpress\/src\/wp-content\/plugins\///g' build/logs/clover.xml && vendor/bin/test-reporter; else phpunit -c phpunit.xml; fi
 
 notifications:
   slack:
