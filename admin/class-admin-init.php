@@ -38,6 +38,7 @@ class WPSEO_Admin_Init {
 		add_action( 'admin_init', array( $this, 'ga_compatibility_notice' ), 15 );
 		add_action( 'admin_init', array( $this, 'ignore_tour' ) );
 		add_action( 'admin_init', array( $this, 'load_tour' ) );
+		add_action( 'admin_init', array( $this, 'register_assets' ) );
 
 		$this->load_meta_boxes();
 		$this->load_taxonomy_class();
@@ -51,10 +52,11 @@ class WPSEO_Admin_Init {
 	 */
 	public function enqueue_dismissible() {
 		if ( version_compare( $GLOBALS['wp_version'], '4.2', '<' ) ) {
-			wp_enqueue_style( 'wpseo-dismissible', plugins_url( 'css/wpseo-dismissible' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
-			wp_enqueue_script( 'wpseo-dismissible', plugins_url( 'js/wp-seo-dismissible' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'jquery' ), WPSEO_VERSION, true );
+			wp_enqueue_style( 'wpseo-dismissible-style' );
+			wp_enqueue_script( 'wpseo-dismissible' );
 		}
 	}
+
 	/**
 	 * Redirect first time or just upgraded users to the about screen.
 	 */
@@ -62,7 +64,7 @@ class WPSEO_Admin_Init {
 		if ( current_user_can( 'manage_options' ) && ! $this->seen_about() ) {
 
 			if ( filter_input( INPUT_GET, 'intro' ) === '1' ) {
-				update_user_meta( get_current_user_id(), 'wpseo_seen_about_version' , WPSEO_VERSION );
+				update_user_meta( get_current_user_id(), 'wpseo_seen_about_version', WPSEO_VERSION );
 
 				return;
 			}
@@ -76,8 +78,8 @@ class WPSEO_Admin_Init {
 			);
 
 			$notification_options = array(
-				'type' => 'updated',
-				'id' => 'wpseo-dismiss-about',
+				'type'  => 'updated',
+				'id'    => 'wpseo-dismiss-about',
 				'nonce' => wp_create_nonce( 'wpseo-dismiss-about' ),
 			);
 
@@ -153,7 +155,7 @@ class WPSEO_Admin_Init {
 		if ( defined( 'GAWP_VERSION' ) && '5.4.3' === GAWP_VERSION ) {
 
 			$info_message = sprintf(
-				/* translators: %1$s expands to Yoast SEO, %2$s expands to 5.4.3, %3$s expands to Google Analytics by Yoast */
+			/* translators: %1$s expands to Yoast SEO, %2$s expands to 5.4.3, %3$s expands to Google Analytics by Yoast */
 				__( '%1$s detected you are using version %2$s of %3$s, please update to the latest version to prevent compatibility issues.', 'wordpress-seo' ),
 				'Yoast SEO',
 				'5.4.3',
@@ -287,5 +289,60 @@ class WPSEO_Admin_Init {
 			update_user_meta( get_current_user_id(), 'wpseo_ignore_tour', true );
 		}
 
+	}
+
+	/*
+	 * Calls the functions that register admin-scripts and admin-styles.
+	 */
+	public function register_assets() {
+		$this->register_scripts();
+		$this->register_styles();
+	}
+
+	/*
+	 * Registers admin-scripts. Can be enqueued when they are needed.
+	 */
+	public function register_scripts() {
+		wp_register_script( 'wpseo-admin-script', plugins_url( 'js/wp-seo-admin' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array(
+				'jquery',
+				'jquery-ui-core',
+		), WPSEO_VERSION, true );
+		wp_register_script( 'wpseo-admin-media', plugins_url( 'js/wp-seo-admin-media' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array(
+				'jquery',
+				'jquery-ui-core',
+		), WPSEO_VERSION, true );
+		wp_register_script( 'wpseo-bulk-editor', plugins_url( 'js/wp-seo-bulk-editor' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'jquery' ), WPSEO_VERSION, true );
+		wp_register_script( 'wpseo-export', plugins_url( 'js/wp-seo-export' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'jquery' ), WPSEO_VERSION, true );
+		wp_register_script( 'wpseo-dismissible', plugins_url( 'js/wp-seo-dismissible' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'jquery' ), WPSEO_VERSION, true );
+		wp_register_script( 'wpseo-admin-global-script', plugins_url( 'js/wp-seo-admin-global' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'jquery' ), WPSEO_VERSION, true );
+		wp_register_script( 'jquery-qtip', plugins_url( 'js/jquery.qtip.min.js', WPSEO_FILE ), array( 'jquery' ), '2.2.1', true );
+		wp_register_script( 'wp-seo-metabox', plugins_url( 'js/wp-seo-metabox' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array(
+				'jquery',
+				'jquery-ui-core',
+		), WPSEO_VERSION, true );
+		wp_register_script( 'wp-seo-featured-image', plugins_url( 'js/wp-seo-featured-image' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'jquery' ), WPSEO_VERSION, true );
+
+		wp_register_script( 'wp-seo-metabox-taxonomypage', plugins_url( 'js/wp-seo-metabox' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array(
+				'jquery',
+				'jquery-ui-core',
+				'jquery-ui-autocomplete',
+		), WPSEO_VERSION, true );
+		wp_register_script( 'wp-seo-admin-gsc', plugin_dir_url( WPSEO_FILE ) . 'js/wp-seo-admin-gsc' . WPSEO_CSSJS_SUFFIX . '.js', array( 'jquery' ), WPSEO_VERSION );
+		wp_register_script( 'jquery-qtip-gsc', plugins_url( 'js/jquery.qtip.min.js', WPSEO_FILE ), array( 'jquery' ), WPSEO_VERSION, true );
+	}
+
+	/*
+	 * Registers admin-styles. Can be enqueued when they are needed.
+	 */
+	public function register_styles() {
+		wp_register_style( 'yoast-admin-css', plugins_url( 'css/yst_plugin_tools' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
+		wp_register_style( 'wpseo-rtl', plugins_url( 'css/wpseo-rtl' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION);
+		wp_register_style( 'wpseo-dismissible-style', plugins_url( 'css/wpseo-dismissible' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
+		wp_register_style( 'edit-page', plugins_url( 'css/edit-page' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
+		wp_register_style( 'metabox', plugins_url( 'css/metabox' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
+		wp_register_style( 'featured-image', plugins_url( 'css/featured-image' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
+		wp_register_style( 'jquery-qtip.js', plugins_url( 'css/jquery.qtip' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), '2.2.1' );
+		wp_register_style( 'yoast-metabox-css', plugins_url( 'css/metabox' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
+		wp_register_style( 'wpseo-wp-dashboard', plugins_url( 'css/dashboard' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
 	}
 }

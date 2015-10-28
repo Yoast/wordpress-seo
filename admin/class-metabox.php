@@ -890,33 +890,27 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		}
 
 		if ( $pagenow == 'edit.php' ) {
-			wp_enqueue_style( 'edit-page', plugins_url( 'css/edit-page' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
+			wp_enqueue_style( 'edit-page' );
 		}
 		else {
 
 			if ( 0 != get_queried_object_id() ) {
 				wp_enqueue_media( array( 'post' => get_queried_object_id() ) ); // Enqueue files needed for upload functionality.
 			}
-			wp_enqueue_style( 'metabox', plugins_url( 'css/metabox' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
-			wp_enqueue_style( 'featured-image', plugins_url( 'css/featured-image' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
-			wp_enqueue_style( 'jquery-qtip.js', plugins_url( 'css/jquery.qtip' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), '2.2.1' );
+			wp_enqueue_style( 'metabox' );
+			wp_enqueue_style( 'featured-image' );
+			wp_enqueue_style( 'jquery-qtip.js' );
 
 			// Always enqueue minified as it's not our code.
-			wp_enqueue_script( 'jquery-qtip', plugins_url( 'js/jquery.qtip.min.js', WPSEO_FILE ), array( 'jquery' ), '2.2.1', true );
+			wp_enqueue_script( 'jquery-qtip' );
 
-			wp_enqueue_script( 'wp-seo-metabox', plugins_url( 'js/wp-seo-metabox' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array(
-				'jquery',
-				'jquery-ui-core',
-			), WPSEO_VERSION, true );
+			wp_enqueue_script( 'wp-seo-metabox' );
 
 			if ( post_type_supports( get_post_type(), 'thumbnail' ) ) {
-				wp_enqueue_script( 'wp-seo-featured-image', plugins_url( 'js/wp-seo-featured-image' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'jquery' ), WPSEO_VERSION, true );
+				wp_enqueue_script( 'wp-seo-featured-image' );
 			}
 
-			wp_enqueue_script( 'wpseo-admin-media', plugins_url( 'js/wp-seo-admin-media' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array(
-				'jquery',
-				'jquery-ui-core',
-			), WPSEO_VERSION, true );
+			wp_enqueue_script( 'wpseo-admin-media' );
 
 			wp_localize_script( 'wpseo-admin-media', 'wpseoMediaL10n', $this->localize_media_script() );
 
