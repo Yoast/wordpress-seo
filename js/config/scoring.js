@@ -115,7 +115,12 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
                     max: 0,
                     score: 6,
                     text: i18n.dgettext('js-text-analysis', "No outbound links appear in this page, consider adding some as appropriate.")
-                },
+                },{
+					matcher: "totalNaKeyword",
+					min: 1,
+					score: 2,
+					text: i18n.dgettext('js-text-analysis', "Outbound links appear in this page")
+				},
                 {
                     matcher: "totalKeyword",
                     min: 1,
@@ -386,7 +391,18 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
                     score: 3,
                     text: i18n.dgettext('js-text-analysis', "No images appear in this page, consider adding some as appropriate.")
                 },
-                {matcher: "noAlt", min: 1, score: 5, text: i18n.dgettext('js-text-analysis', "The images on this page are missing alt tags.")},
+                {
+					matcher: "noAlt",
+					min: 1,
+					score: 5,
+					text: i18n.dgettext('js-text-analysis', "The images on this page are missing alt tags.")
+				},
+				{
+					matcher: "altNaKeyword",
+					min: 1,
+					score: 5,
+					text: i18n.dgettext('js-text-analysis', "The images on this page contain alt tags")
+				},
                 {
                     matcher: "alt",
                     min: 1,

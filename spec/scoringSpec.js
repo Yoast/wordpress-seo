@@ -11,7 +11,7 @@ scoreArgs = {
     url: "https://yoast.com/keyword-search",
     pageTitle: "the pagetitle",
     meta: "the metadescription of the page",
-    queue: ["wordCount","keywordDensity","fleschReading","firstParagraph","metaDescription","stopwords","subHeadings","pageTitleLength","pageTitleKeyword","urlKeyword","urlLength","urlStopwords","imageCount","linkCount"]
+    queue: ["wordCount","keywordDensity","fleschReading","firstParagraph","metaDescriptionLength","metaDescriptionKeyword","stopwords","subHeadings","pageTitleLength","pageTitleKeyword","urlKeyword","urlLength","urlStopwords","imageCount","linkCount"]
 };
 
 describe("a test for the scoring function of all functions in the analyzer", function(){
@@ -57,7 +57,7 @@ describe("a test for the scoring function of all functions in the analyzer", fun
        expect(analyzeScore[13].score).toBe(3);
        expect(analyzeScore[13].text).toBe("No images appear in this page, consider adding some as appropriate.");
        expect(analyzeScore[14].name).toBe("linkCount");
-       expect(analyzeScore[14].score).toBe(2);
-       expect(analyzeScore[14].text).toBe("You're linking to another page with the focus keyword you want this page to rank for, consider changing that if you truly want this page to rank.");
+       expect(analyzeScore[14].score).toBe(9);
+       expect(analyzeScore[14].text).toBe("This page has 3 outbound link(s).");
    });
 });
