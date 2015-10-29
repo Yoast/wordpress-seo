@@ -51,7 +51,7 @@ class WPSEO_Rank {
 		),
 		self::GOOD => array(
 			'start' => 75,
-			'end' => 100,
+			'end'   => 100,
 		),
 	);
 
