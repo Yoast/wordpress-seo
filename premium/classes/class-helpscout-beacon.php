@@ -4,8 +4,6 @@
  */
 
 /**
- * Class WPSEO_HelpScout_Beacon
- *
  * This class adds the helpscout beacon by hooking on admin_footer.
  */
 class WPSEO_HelpScout_Beacon {
