@@ -88,6 +88,7 @@ class WPSEO_Premium {
 		if ( is_admin() ) {
 			$query_var = ( $page = filter_input( INPUT_GET, 'page' ) ) ? $page : '';
 
+			// Only add the helpscout beacon on Yoast SEO pages.
 			if ( substr( $query_var, 0, 5 ) === 'wpseo' ) {
 				new WPSEO_HelpScout_Beacon();
 			}

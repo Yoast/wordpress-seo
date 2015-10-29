@@ -5,8 +5,11 @@
 
 /**
  * Class WPSEO_HelpScout_Beacon
+ *
+ * This class adds the helpscout beacon by hooking on admin_footer.
  */
 class WPSEO_HelpScout_Beacon {
+	const YST_SEO_SUPPORT_IDENTIFY = 'yst_seo_support_identify';
 
 	/**
 	 * Setting the hook to load the beacon
@@ -60,11 +63,11 @@ class WPSEO_HelpScout_Beacon {
 	 * @return array
 	 */
 	private function identify_data() {
-		$identify_data = get_transient( 'yst_seo_support_identify' );
+		$identify_data = get_transient( self::YST_SEO_SUPPORT_IDENTIFY );
 		if ( ! $identify_data ) {
 			$identify_data = $this->build_identify_data();
 			if ( ! defined( 'WP_DEBUG' ) || ! WP_DEBUG ) {
-				set_transient( 'yst_seo_support_identify', $identify_data, DAY_IN_SECONDS );
+				set_transient( self::YST_SEO_SUPPORT_IDENTIFY, $identify_data, DAY_IN_SECONDS );
 			}
 		}
 
@@ -98,8 +101,8 @@ class WPSEO_HelpScout_Beacon {
 	 */
 	private function identify_server() {
 		$out = '<table>';
-		$out .= '<tr><td>IP</td><td>' . $_SERVER['SERVER_ADDR'] . '</td></tr>';
-		$out .= '<tr><td>Hostname</td><td>' . gethostbyaddr( $_SERVER['SERVER_ADDR'] ) . '</td></tr>';
+		$out .= '<tr><td>IP</td><td>' . filter_input( INPUT_SERVER, 'SERVER_ADDR' ) . '</td></tr>';
+		$out .= '<tr><td>Hostname</td><td>' . gethostbyaddr( filter_input( INPUT_SERVER, 'SERVER_ADDR' ) ) . '</td></tr>';
 		$out .= '<tr><td>OS</td><td>' . php_uname( 's r' ) . '</td></tr>';
 		$out .= '<tr><td>PHP</td><td>' . PHP_VERSION . '</td></tr>';
 		$out .= '<tr><td>CURL</td><td>' . $this->identify_curl() . '</td></tr>';
@@ -150,7 +153,7 @@ class WPSEO_HelpScout_Beacon {
 	}
 
 	/**
-	 * Returns the WordPress version + a warning if current WP is multi site
+	 * Returns the WordPress version + a suffix if current WP is multi site
 	 *
 	 * @return string
 	 */
