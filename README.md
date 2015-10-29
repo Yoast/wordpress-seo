@@ -7,7 +7,7 @@ Project bringing the Yoast text analysis functionality to the client side
 
 ## Plugins and modifications
 
-A plugin for YoastSEO.js is basically a piece of JavaScript that hooks into YoastSEO.js by registering modifications. In order to do so, it must first register itself as a plugin with YoastSEO.js. 
+A plugin for YoastSEO.js is basically a piece of JavaScript that hooks into YoastSEO.js by registering modifications. In order to do so, it must first register itself as a plugin with YoastSEO.js.
 
 ### Registering a plugin
 
@@ -19,7 +19,7 @@ YoastSEO.app.registerPlugin( 'examplePlugin', {status: 'ready'} );
 
 ### Preloading data
 
-To keep our content analysis fast, we don't allow asynchronous modifications. That's why we require plugins to preload all data they need in order to modify the content. 
+To keep our content analysis fast, we don't allow asynchronous modifications. That's why we require plugins to preload all data they need in order to modify the content.
 
 If plugins need to preload data, they can first register, then preload using AJAX and call `pluginReady` once preloaded.
 
@@ -42,7 +42,7 @@ YoastSEO.app.pluginReloaded( 'examplePlugin' );
 
 #### Supported modifications
 
-YoasSEO.js has a synchronous modification mechanism that operates much like the filtering mechanism in WordPress (`add_filter|apply_filters`). We currently have support for the following modifications (more might follow):
+YoastSEO.js has a synchronous modification mechanism that operates much like the filtering mechanism in WordPress (`add_filter|apply_filters`). We currently have support for the following modifications (more might follow):
 * `content`
 * `title`
 
@@ -61,12 +61,12 @@ A modification is basically a callback function which is registered with YoastSE
 ```JS
 ExamplePlugin = function() {
   YoastSEO.app.registerPlugin( 'examplePlugin', {status: 'ready'} );
-  
+
   /**
    * @param modification 	{string} 	The name of the filter
    * @param callable 		{function} 	The callable
    * @param pluginName 	    {string} 	The plugin that is registering the modification.
-   * @param priority 		{number} 	(optional) Used to specify the order in which the callables 
+   * @param priority 		{number} 	(optional) Used to specify the order in which the callables
    * 									associated with a particular filter are called. Lower numbers
    * 									correspond with earlier execution.
    */

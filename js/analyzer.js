@@ -16,12 +16,16 @@ YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
  * @param {String} args.snippetMeta The meta description as displayed in the snippet preview.
  * @param {String} args.snippetCite  The URL as displayed in the snippet preview.
  *
+ * @property {Object} analyses Object that contains all analyses.
+ *
  * @constructor
  */
 YoastSEO.Analyzer = function( args ) {
 	this.config = args;
 	this.checkConfig();
 	this.init( args );
+
+	this.analyses = {};
 };
 
 /**
@@ -48,22 +52,27 @@ YoastSEO.Analyzer.prototype.init = function( args ) {
 };
 
 /**
- * converts the keyword to lowercase
- */
+ * creates a regex from the keyword including /ig switch so it is case insensitive and global.
+ * replaces a number of characters that can break the regex.
+*/
 YoastSEO.Analyzer.prototype.formatKeyword = function() {
 	if ( typeof this.config.keyword !== "undefined" && this.config.keyword !== "" ) {
+
+		// removes characters from the keyword that could break the regex, or give unwanted results.
+		// leaves the - since this is replaced later on in the function
+		var keyword = this.stringHelper.sanitizeKeyword( this.config.keyword );
 
 		// Creates new regex from keyword with global and caseinsensitive option,
 		// replaces - and _ with space
 		this.keywordRegex = new RegExp(
-			this.preProcessor.replaceDiacritics( this.config.keyword.replace( /[-_]/, " " ) ),
+			this.preProcessor.replaceDiacritics( keyword.replace( /[-_]/, " " ) ),
 			"ig"
 		);
 
 		// Creates new regex from keyword with global and caseinsensitive option,
 		// replaces space with -. Used for URL matching
 		this.keywordRegexInverse = new RegExp(
-			this.preProcessor.replaceDiacritics( this.config.keyword.replace( " ", "-" ) ),
+			this.preProcessor.replaceDiacritics( keyword.replace( " ", "-" ) ),
 			"ig"
 		);
 
@@ -118,14 +127,46 @@ YoastSEO.Analyzer.prototype.loadWordlists = function() {
  * starts queue of functions executing the analyzer functions untill queue is empty.
  */
 YoastSEO.Analyzer.prototype.runQueue = function() {
+	var output, score;
 
-	//remove first function from queue and execute it.
+	// Remove the first item from the queue and execute it.
 	if ( this.queue.length > 0 ) {
-		this.__output = this.__output.concat( this[ this.queue.shift() ]() );
+		var currentQueueItem = this.queue.shift();
+
+		if ( undefined !== this[ currentQueueItem ] ) {
+			output = this[ currentQueueItem ]();
+		} else if ( this.analyses.hasOwnProperty( currentQueueItem ) ) {
+			score = this.analyses[ currentQueueItem ].callable();
+
+			/*
+			 * This is because the analyzerScorer requires this format and we want users that add plugins to just return
+			 * a score because that makes the API easier. So this is a translation while our internal format isn't
+			 * perfect.
+			 */
+			output = {
+				"name": this.analyses[ currentQueueItem ].name,
+				"result": score
+			};
+		}
+
+		this.__output = this.__output.concat( output );
+
 		this.runQueue();
 	} else {
 		this.score();
 	}
+};
+
+/**
+ * Adds an analysis to the analyzer
+ *
+ * @param {Object}   analysis The analysis object.
+ * @param {string}   analysis.name The name of this analysis.
+ * @param {function} analysis.callable The function to call to calculate this the score.
+ */
+YoastSEO.Analyzer.prototype.addAnalysis = function( analysis ) {
+	this.analyses[ analysis.name ] = analysis;
+	this.queue.push( analysis.name );
 };
 
 /**
@@ -141,7 +182,7 @@ YoastSEO.Analyzer.prototype.wordCount = function() {
  * @returns {{test: string, result: number}[]}
  */
 YoastSEO.Analyzer.prototype.keyWordCheck = function() {
-	if ( this.config.keyword === "" ) {
+	if ( this.stringHelper.sanitizeKeyword( this.config.keyword ) === "" ) {
 		return [ { test: "keywordCheck", result: 0 } ];
 	}
 };
@@ -261,33 +302,36 @@ YoastSEO.Analyzer.prototype.stopwords = function() {
 
 /**
  * calculate Flesch Reading score
+ * formula: 206.835 - 1.015 (total words / total sentences) - 84.6 ( total syllables / total words);
  * @returns {result object}
  */
 YoastSEO.Analyzer.prototype.fleschReading = function() {
-	var score = (
+	if ( this.preProcessor.__store.wordcountNoTags > 0 ) {
+		var score = (
 			206.835 -
-			(
-				1.015 *
 				(
-					this.preProcessor.__store.wordcountNoTags /
-					this.preProcessor.__store.sentenceCountNoTags
-				)
-			) -
-			(
-				84.6 *
-				(
+					1.015 *
+						(
+							this.preProcessor.__store.wordcountNoTags /
+							this.preProcessor.__store.sentenceCountNoTags
+						)
+					) -
+						(
+							84.6 *
+						(
 					this.preProcessor.__store.syllablecount /
 					this.preProcessor.__store.wordcountNoTags
 				)
 			)
 		)
 		.toFixed( 1 );
-	if ( score < 0 ) {
-		score = 0;
-	} else if ( score > 100 ) {
-		score = 100;
+		if ( score < 0 ) {
+			score = 0;
+		} else if ( score > 100 ) {
+			score = 100;
+		}
+		return [ { test: "fleschReading", result: score } ];
 	}
-	return [ { test: "fleschReading", result: score } ];
 };
 
 /**
@@ -296,6 +340,8 @@ YoastSEO.Analyzer.prototype.fleschReading = function() {
  * 		{
  * 			total: number, internal: {
  * 				total: number,
+ * 				totalNaKeyword: number,
+ * 				totalKeyword: number,
  * 				dofollow: number,
  * 				nofollow: number
  * 			}, external: {
@@ -318,6 +364,7 @@ YoastSEO.Analyzer.prototype.linkCount = function() {
 	);
 	var linkCount = {
 		total: 0,
+		totalNaKeyword: 0,
 		totalKeyword: 0,
 		internalTotal: 0,
 		internalDofollow: 0,
@@ -334,7 +381,11 @@ YoastSEO.Analyzer.prototype.linkCount = function() {
 		for ( var i = 0; i < linkMatches.length; i++ ) {
 			var linkKeyword = this.linkKeyword( linkMatches[ i ] );
 			if ( linkKeyword ) {
-				linkCount.totalKeyword++;
+				if ( this.config.keyword !== "" ) {
+					linkCount.totalKeyword++;
+				} else {
+					linkCount.totalNaKeyword++;
+				}
 			}
 			var linkType = this.linkType( linkMatches[ i ] );
 			linkCount[ linkType + "Total" ]++;
@@ -389,8 +440,8 @@ YoastSEO.Analyzer.prototype.linkKeyword = function( url ) {
 	var keywordFound = false;
 
 	//split on > to discard the data in the anchortag
-	var formatUrl = url.split( ">" );
-	if ( formatUrl[ 1 ].match( this.keywordRegex ) !== null ) {
+	var formatUrl = url.match( /href=([\'\"])(.*?)\1/ig );
+	if ( formatUrl !== null && formatUrl[ 0 ].match( this.keywordRegex ) !== null ) {
 		keywordFound = true;
 	}
 	return keywordFound;
@@ -426,7 +477,7 @@ YoastSEO.Analyzer.prototype.linkResult = function( obj ) {
  * @returns {{name: string, result: {total: number, alt: number, noAlt: number}}}
  */
 YoastSEO.Analyzer.prototype.imageCount = function() {
-	var imageCount = { total: 0, alt: 0, noAlt: 0, altKeyword: 0 };
+	var imageCount = { total: 0, alt: 0, noAlt: 0, altKeyword: 0, altNaKeyword: 0 };
 
 	//matches everything in the <img>-tag, case insensitive and global
 	var imageMatches = this.preProcessor.__store.originalText.match( /<img(?:[^>]+)?>/ig );
@@ -437,12 +488,17 @@ YoastSEO.Analyzer.prototype.imageCount = function() {
 			//matches everything in the alt attribute, case insensitive and global.
 			var alttag = imageMatches[ i ].match( /alt=([\'\"])(.*?)\1/ig );
 			if ( this.imageAlttag( alttag ) ) {
-				if ( this.imageAlttagKeyword( alttag ) ) {
-					imageCount.altKeyword++;
-				} else {
-					imageCount.alt++;
-				}
+				if ( this.config.keyword !== "" ) {
+					if ( this.imageAlttagKeyword( alttag ) ) {
+						imageCount.altKeyword++;
+					} else {
 
+						//this counts all alt-tags w/o the keyword when a keyword is set.
+						imageCount.alt++;
+					}
+				} else {
+					imageCount.altNaKeyword++;
+				}
 			} else {
 				imageCount.noAlt++;
 			}
@@ -559,21 +615,24 @@ YoastSEO.Analyzer.prototype.paragraphChecker = function( textString, regexp ) {
  * empty or not set.
  * @returns {{name: string, count: number}}
  */
-YoastSEO.Analyzer.prototype.metaDescription = function() {
-	var result = [ { test: "metaDescriptionLength", result: 0 }, {
-		test: "metaDescriptionKeyword",
-		result: 0
-	} ];
-	if ( typeof this.config.meta !== "undefined" ) {
-		result[ 0 ].result = this.config.meta.length;
+YoastSEO.Analyzer.prototype.metaDescriptionKeyword = function() {
+	var result = [ { test: "metaDescriptionKeyword", result: 0	} ];
+	if ( typeof this.config.meta !== "undefined" && this.config.meta.length > 0 && this.config.keyword !== "" ) {
+		result[ 0 ].result = this.stringHelper.countMatches(
+			this.config.meta, this.keywordRegex
+		);
+	}
+	return result;
+};
 
-		//if the meta length is 0, the returned result is -1 for the matches.
-		result[ 1 ].result = -1;
-		if ( this.config.meta.length > 0 ) {
-			result[ 1 ].result = this.stringHelper.countMatches(
-				this.config.meta, this.keywordRegex
-			);
-		}
+/**
+ * returns the length of the metadescription
+ * @returns {{test: string, result: Number}[]}
+ */
+YoastSEO.Analyzer.prototype.metaDescriptionLength = function() {
+	var result = [ { test: "metaDescriptionLength", result: 0 } ];
+	if ( typeof this.config.meta !== "undefined" ) {
+		result[0].result = this.config.meta.length;
 	}
 	return result;
 };

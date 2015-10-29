@@ -31,3 +31,14 @@ describe("2nd test for the flesch kincaid reading", function(){
     });
 });
 
+var fleschArgs3 = {
+	text: ""
+}
+
+describe("3rd test for the flesch kincaid reading", function(){
+	it("returns nothing, since no text is defined", function(){
+		var flesch3 = Factory.buildAnalyzer(fleschArgs3);
+		var result = flesch3.fleschReading();
+		expect(typeof result).toBe("undefined");
+	});
+});
