@@ -1,0 +1,198 @@
+/* css for snippet */
+#snippet_preview *[contenteditable="true"]:hover {
+    cursor: pointer;
+}
+
+#snippet_preview *[contenteditable="false"]:hover {
+    cursor: auto;
+}
+
+#snippet_preview *[contenteditable="true"]:focus {
+    background: #bbdefb;
+    cursor: text;
+}
+
+#snippet_cite {
+    min-width: 20px;
+}
+
+#meta_container {
+    clear: both;
+}
+
+.title {
+    color: #1e0fbe;
+    display: inline;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-decoration: none;
+    white-space: nowrap;
+    width: 512px;
+    font-size: 18px;
+    line-height: 1.2;
+    font-weight: normal;
+    margin: 0;
+}
+
+.title:visited {
+    color: #609
+}
+
+.url, .desc {
+    font-size: 13px;
+    line-height: 1.4;
+    display: block;
+
+}
+
+.url {
+    font-size: 14px;
+    line-height: 16px;
+    color: #006621;
+    font-style: normal;
+}
+
+.urlBase{
+    float: left;
+}
+
+.desc {
+    color: #545454;
+}
+
+.tooLong {
+    color: #f00 !important;
+}
+
+.editIcon:hover {
+    background: #bbdefb url("images/editicon.png") no-repeat right top;
+    cursor: pointer;
+}
+
+/* css for analyzer */
+
+.wpseoanalysis {
+    padding-right: 0px;
+}
+.wpseo-score-text {
+    display: inline-block;
+    width: 90%;
+}
+.wpseo-score-icon {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    margin: 3px 10px 0 3px;
+    border-radius: 50%;
+    background: #888;
+    vertical-align: top;
+}
+
+.wpseo-score-icon.good {
+    background-color: #7ad03a;
+}
+
+.wpseo-score-icon.ok {
+    background-color: #ffba00;
+}
+
+.wpseo-score-icon.poor {
+    background-color: #ee7c1b;
+}
+
+.wpseo-score-icon.bad {
+    background-color: #dd3d36;
+}
+
+.wpseo-score-icon.na {
+    background-color: #999;
+}
+
+.wpseo-score-icon.noindex {
+    background-color: #1e8cbe;
+}
+
+li.score {
+    list-style-type: none !important;
+}
+
+.screen-reader-text {
+    clip: rect(1px, 1px, 1px, 1px);
+    position: absolute !important;
+    height: 1px;
+    width: 1px;
+    overflow: hidden;
+}
+
+/* overall score */
+
+#overallScore #score_circle {
+    fill: #999;
+}
+
+#overallScore #score_circle_shadow {
+    fill: #777;
+}
+
+#overallScore.good #score_circle {
+    fill: #9fda4f;
+}
+
+#overallScore.good #score_circle_shadow {
+    fill: #77b227;
+}
+
+#overallScore.ok #score_circle {
+    fill: #ffdc42;
+}
+
+#overallScore.ok #score_circle_shadow {
+    fill: #ffc82e;
+}
+
+#overallScore.poor #score_circle {
+    fill: #ffb81e;
+}
+
+#overallScore.poor #score_circle_shadow {
+    fill: #f49a00;
+}
+
+#overallScore.bad #score_circle {
+    fill: #ff4e47;
+}
+
+#overallScore.bad #score_circle_shadow {
+    fill: #ed261f;
+}
+
+
+/* loading dialog */
+
+.YoastSEO_msg .right,
+.YoastSEO_msg .left{
+    display: none;
+}
+
+@keyframes animatedBackground {
+    from { background-position: 0 0; }
+    to { background-position: 100% 0; }
+}
+
+.YoastSEO_msg .bufferbar {
+    display: block;
+    width: 100%;
+    height: 12px;
+    /*multiple background definitions for the sake of browsercompatibility*/
+
+    background-image: -webkit-linear-gradient(left, #ffffff, #0063ff, #ffffff,#0063ff);
+    background-image: -moz-linear-gradient(left, #ffffff, #0063ff, #ffffff,#0063ff);
+    background-image: -ms-linear-gradient(left, #ffffff, #0063ff, #ffffff,#0063ff);
+    background-image: -o-linear-gradient(left, #ffffff, #0063ff, #ffffff,#0063ff);
+    background-size: 300% 100%;
+    background-position: 0px 0px;
+    margin: 10px 0 10px 0;
+    border: 1px solid #dfdfdf;
+    animation: animatedBackground 5s linear infinite;
+}
+
