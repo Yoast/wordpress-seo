@@ -150,7 +150,7 @@ class WPSEO_Rank {
 	 * @return int The end score for this rank.
 	 */
 	public function get_end_score() {
-		// No index does not have a end score.
+		// No index does not have an end score.
 		if ( self::NO_INDEX === $this->rank ) {
 			return -1;
 		}
