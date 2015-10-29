@@ -22,6 +22,7 @@ YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
  * @property preloadThreshold	{number} The maximum time plugins are allowed to preload before we load our content analysis.
  * @property plugins			{object} The plugins that have been registered.
  * @property modifications 		{object} The modifications that have been registered. Every modification contains an array with callables.
+ * @property customTests        {Array} All tests added by plugins.
  */
 YoastSEO.Pluggable = function( app ) {
 	this.app = app;
@@ -29,6 +30,7 @@ YoastSEO.Pluggable = function( app ) {
 	this.preloadThreshold = 3000;
 	this.plugins = {};
 	this.modifications = {};
+	this.customTests = [];
 
 	// Allow plugins 500 ms to register before we start polling their
 	setTimeout( this._pollLoadingPlugins.bind( this ), 1500 );
@@ -79,6 +81,30 @@ YoastSEO.App.prototype.pluginReloaded = function( pluginName ) {
  */
 YoastSEO.App.prototype.registerModification = function( modification, callable, pluginName, priority ) {
 	return this.pluggable._registerModification( modification, callable, pluginName, priority );
+};
+
+/**
+ * Registers a custom test for use in the analyzer, this will result in a new line in the analyzer results. The function
+ * has to return a result based on the contents of the page/posts.
+ *
+ * The scoring object is a special object with definitions about how to translate a result from your analysis function
+ * to a SEO score.
+ *
+ * Negative scores result in a red circle
+ * Scores 1, 2, 3, 4 and 5 result in a orange circle
+ * Scores 6 and 7 result in a yellow circle
+ * Scores 8, 9 and 10 result in a red circle
+ *
+ * @param {string}   name       Name of the test.
+ * @param {function} analysis   A function that analyzes the content and determines a score for a certain trait.
+ * @param {Object}   scoring    A scoring object that defines how the analysis translates to a certain SEO score.
+ * @param {string}   pluginName The plugin that is registering the test.
+ * @param {number}   priority   (optional) Determines when this test is run in the analyzer queue. Is currently ignored,
+ *                              tests are added to the end of the queue.
+ * @returns {boolean}
+ */
+YoastSEO.App.prototype.registerTest = function( name, analysis, scoring, pluginName, priority ) {
+	return this.pluggable._registerTest( name, analysis, scoring, pluginName, priority );
 };
 
 /**************** DSL IMPLEMENTATION ****************/
@@ -205,6 +231,47 @@ YoastSEO.Pluggable.prototype._registerModification = function( modification, cal
 	return true;
 };
 
+/**
+ * @private
+ */
+YoastSEO.Pluggable.prototype._registerTest = function( name, analysis, scoring, pluginName, priority ) {
+	if ( typeof name !== "string" ) {
+		console.error( "Failed to register test for plugin " + pluginName + ". Expected parameter `name` to be a string." );
+		return false;
+	}
+
+	if ( typeof analysis !== "function" ) {
+		console.error( "Failed to register test for plugin " + pluginName + ". Expected parameter `analyzer` to be a function." );
+		return false;
+	}
+
+	if ( typeof pluginName !== "string" ) {
+		console.error( "Failed to register test for plugin " + pluginName + ". Expected parameter `pluginName` to be a string." );
+		return false;
+	}
+
+	// Validate origin
+	if ( this._validateOrigin( pluginName ) === false ) {
+		console.error( "Failed to register test for plugin " + pluginName + ". The integration has not finished loading yet." );
+		return false;
+	}
+
+	// Default priority to 10
+	var prio = typeof priority === "number" ? priority : 10;
+
+	// Prefix the name with the pluginName so the test name is always unique.
+	name = pluginName + "-" + name;
+
+	this.customTests.push( {
+		"name": name,
+		"analysis": analysis,
+		"scoring": scoring,
+		"prio": prio
+	} );
+
+	return true;
+};
+
 /**************** PRIVATE HANDLERS ****************/
 
 /**
@@ -291,6 +358,40 @@ YoastSEO.Pluggable.prototype._applyModifications = function( modification, data,
 	}
 	return data;
 
+};
+
+/**
+ * Adds new tests to the analyzer and it's scoring object.
+ *
+ * @param {YoastSEO.Analyzer} analyzer The analyzer object to add the tests to
+ * @private
+ */
+YoastSEO.Pluggable.prototype._addPluginTests = function( analyzer ) {
+	this.customTests.map( function( customTest ) {
+		this._addPluginTest( analyzer, customTest );
+	}, this );
+};
+
+/**
+ * Adds one new test to the analyzer and it's scoring object.
+ *
+ * @param {YoastSEO.Analyzer} analyzer
+ * @param {Object}            pluginTest
+ * @param {string}            pluginTest.name
+ * @param {function}          pluginTest.callable
+ * @param {Object}            pluginTest.scoring
+ * @private
+ */
+YoastSEO.Pluggable.prototype._addPluginTest = function( analyzer, pluginTest ) {
+	analyzer.addAnalysis( {
+		"name": pluginTest.name,
+		"callable": pluginTest.analysis
+	} );
+
+	analyzer.analyzeScorer.addScoring( {
+		"name": pluginTest.name,
+		"scoring": pluginTest.scoring
+	} );
 };
 
 /**
