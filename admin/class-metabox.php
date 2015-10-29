@@ -946,25 +946,16 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			return;
 		}
 
-		$scores_array = array(
-			'na'      => __( 'SEO: No Focus Keyword', 'wordpress-seo' ),
-			'bad'     => __( 'SEO: Bad', 'wordpress-seo' ),
-			'poor'    => __( 'SEO: Poor', 'wordpress-seo' ),
-			'ok'      => __( 'SEO: OK', 'wordpress-seo' ),
-			'good'    => __( 'SEO: Good', 'wordpress-seo' ),
-			'noindex' => __( 'SEO: Post Noindexed', 'wordpress-seo' ),
-		);
+		$ranks = WPSEO_Rank::get_all_ranks();
+		$current_seo_filter = filter_input( INPUT_GET, 'seo_filter' );
 
 		echo '
 			<select name="seo_filter">
 				<option value="">', __( 'All SEO Scores', 'wordpress-seo' ), '</option>';
-		foreach ( $scores_array as $val => $text ) {
-			$sel = '';
-			if ( isset( $_GET['seo_filter'] ) ) {
-				$sel = selected( $_GET['seo_filter'], $val, false );
-			}
+		foreach ( $ranks as $rank ) {
+			$sel = selected( $current_seo_filter, $rank->get_rank(), false );
 			echo '
-				<option ', $sel, 'value="', $val, '">', $text. '</option>';
+				<option ', $sel, 'value="', $rank->get_rank(), '">', $rank->get_drop_down_label() . '</option>';
 		}
 		echo '
 			</select>';
@@ -1002,32 +993,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		}
 
 		if ( $column_name === 'wpseo-score' ) {
-			$score = self::get_value( 'linkdex', $post_id );
-			if ( self::get_value( 'meta-robots-noindex', $post_id ) === '1' ) {
-				$score_label = 'noindex';
-				$title       = __( 'Post is set to noindex.', 'wordpress-seo' );
-				self::set_value( 'linkdex', 0, $post_id );
-			}
-			elseif ( $score !== '' ) {
-				$nr          = WPSEO_Utils::calc( $score, '/', 10, true );
-				$score_label = WPSEO_Utils::translate_score( $nr );
-				$title       = WPSEO_Utils::translate_score( $nr, false );
-				unset( $nr );
-			}
-			else {
-				$this->calculate_results( get_post( $post_id ) );
-				$score = self::get_value( 'linkdex', $post_id );
-				if ( $score === '' ) {
-					$score_label = 'na';
-					$title       = __( 'Focus keyword not set.', 'wordpress-seo' );
-				}
-				else {
-					$score_label = WPSEO_Utils::translate_score( $score );
-					$title       = WPSEO_Utils::translate_score( $score, false );
-				}
-			}
-
-			echo '<div title="', esc_attr( $title ), '" class="wpseo-score-icon ', esc_attr( $score_label ), '"></div>';
+			$this->column_seo_score( $post_id );
 		}
 		if ( $column_name === 'wpseo-title' ) {
 			echo esc_html( apply_filters( 'wpseo_title', wpseo_replace_vars( $this->page_title( $post_id ), get_post( $post_id, ARRAY_A ) ) ) );
@@ -1072,30 +1038,24 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$na      = false;
 			$noindex = false;
 			$high    = false;
-			switch ( $_GET['seo_filter'] ) {
-				case 'noindex':
+			$seo_filter = filter_input( INPUT_GET, 'seo_filter' );
+
+			switch ( $seo_filter ) {
+				case WPSEO_Rank::NO_INDEX:
 					$low     = false;
 					$noindex = true;
 					break;
-				case 'na':
+				case WPSEO_Rank::NO_FOCUS:
 					$low = false;
 					$na  = true;
 					break;
-				case 'bad':
-					$low  = 1;
-					$high = 34;
-					break;
-				case 'poor':
-					$low  = 35;
-					$high = 54;
-					break;
-				case 'ok':
-					$low  = 55;
-					$high = 74;
-					break;
-				case 'good':
-					$low  = 75;
-					$high = 100;
+				case WPSEO_Rank::BAD:
+				case WPSEO_Rank::POOR:
+				case WPSEO_Rank::OK:
+				case WPSEO_Rank::GOOD:
+					$rank = new WPSEO_Rank( $seo_filter );
+					$low  = $rank->get_starting_score();
+					$high = $rank->get_end_score();
 					break;
 				default:
 					$low     = false;
@@ -2287,6 +2247,30 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Renders the content of the SEO score tab
+	 *
+	 * @param int $post_id The post ID to render the SEO score for.
+	 */
+	private function column_seo_score( $post_id ) {
+		if ( '1' === self::get_value( 'meta-robots-noindex', $post_id ) ) {
+			$rank  = new WPSEO_Rank( WPSEO_Rank::NO_INDEX );
+			$title = __( 'Post is set to noindex.', 'wordpress-seo' );
+			self::set_value( 'linkdex', 0, $post_id );
+		}
+		elseif ( '' === self::get_value( 'focuskw', $post_id ) ) {
+			$rank  = new WPSEO_Rank( WPSEO_Rank::NO_FOCUS );
+			$title = __( 'Focus keyword not set.', 'wordpress-seo' );
+		}
+		else {
+			$score = (int) self::get_value( 'linkdex', $post_id );
+			$rank  = WPSEO_Rank::from_numeric_score( $score );
+			$title = $rank->get_label();
+		}
+
+		echo '<div title="', esc_attr( $title ), '" class="wpseo-score-icon ', esc_attr( $rank->get_css_class() ), '"></div>';
 	}
 
 	/********************** DEPRECATED METHODS **********************/

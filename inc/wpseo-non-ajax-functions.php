@@ -245,9 +245,8 @@ function wpseo_admin_bar_menu() {
 	) {
 		$focuskw    = WPSEO_Meta::get_value( 'focuskw', $post->ID );
 		$perc_score = WPSEO_Meta::get_value( 'linkdex', $post->ID );
-		$calc_score = WPSEO_Utils::calc( $perc_score, '/', 10, true );
-		$txtscore   = WPSEO_Utils::translate_score( $calc_score );
-		$title      = WPSEO_Utils::translate_score( $calc_score, false );
+		$txtscore   = WPSEO_Utils::translate_score( $perc_score );
+		$title      = WPSEO_Utils::translate_score( $perc_score, false );
 		$score      = '<div title="' . esc_attr( $title ) . '" class="' . esc_attr( 'wpseo-score-icon ' . $txtscore . ' ' . $perc_score ) . '"></div>';
 
 		$seo_url = get_edit_post_link( $post->ID );
