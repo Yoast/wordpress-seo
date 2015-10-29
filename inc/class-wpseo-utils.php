@@ -36,15 +36,12 @@ class WPSEO_Utils {
 		}
 
 		$options = get_site_option( 'wpseo_ms' );
-		if ( $options['access'] === 'admin' && current_user_can( 'manage_options' ) ) {
-			return true;
+
+		if ( empty( $options['access'] ) || $options['access'] === 'admin' ) {
+			return current_user_can( 'manage_options' );
 		}
 
-		if ( $options['access'] === 'superadmin' && ! is_super_admin() ) {
-			return false;
-		}
-
-		return true;
+		return is_super_admin();
 	}
 
 	/**
