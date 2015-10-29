@@ -701,13 +701,13 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			return $GLOBALS['post'];
 		}
 
-		return [];
+		return array();
 	}
 
 	/**
 	 * Counting the number of given keyword used for other posts than given post_id
 	 *
-	 * @return int
+	 * @return array
 	 */
 	private function get_focus_keyword_usage() {
 		$post = $this->get_metabox_post();
