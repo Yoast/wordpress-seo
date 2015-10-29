@@ -947,15 +947,13 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		}
 
 		$ranks = WPSEO_Rank::get_all_ranks();
+		$current_seo_filter = filter_input( INPUT_GET, 'seo_filter' );
 
 		echo '
 			<select name="seo_filter">
 				<option value="">', __( 'All SEO Scores', 'wordpress-seo' ), '</option>';
 		foreach ( $ranks as $rank ) {
-			$sel = '';
-			if ( isset( $_GET['seo_filter'] ) ) {
-				$sel = selected( $_GET['seo_filter'], $rank->get_rank(), false );
-			}
+			$sel = selected( $current_seo_filter, $rank->get_rank(), false );
 			echo '
 				<option ', $sel, 'value="', $rank->get_rank(), '">', $rank->get_drop_down_label() . '</option>';
 		}
