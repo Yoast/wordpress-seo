@@ -8,10 +8,10 @@
  */
 class WPSEO_Rank {
 
-	const BAD = 1;
-	const POOR = 2;
-	const OK = 3;
-	const GOOD = 4;
+	const BAD      = 1;
+	const POOR     = 2;
+	const OK       = 3;
+	const GOOD     = 4;
 	const NO_FOCUS = 5;
 	const NO_INDEX = 6;
 
