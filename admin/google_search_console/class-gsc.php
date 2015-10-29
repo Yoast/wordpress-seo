@@ -123,7 +123,7 @@ class WPSEO_GSC {
 	 * Load the admin redirects scripts
 	 */
 	public function page_scripts() {
-		wp_enqueue_script( 'wp-seo-admin-gsc');
+		wp_enqueue_script( 'wp-seo-admin-gsc' );
 		add_screen_option( 'per_page', array(
 			'label'   => __( 'Crawl errors per page', 'wordpress-seo' ),
 			'default' => 50,

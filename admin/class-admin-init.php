@@ -155,7 +155,7 @@ class WPSEO_Admin_Init {
 		if ( defined( 'GAWP_VERSION' ) && '5.4.3' === GAWP_VERSION ) {
 
 			$info_message = sprintf(
-			/* translators: %1$s expands to Yoast SEO, %2$s expands to 5.4.3, %3$s expands to Google Analytics by Yoast */
+				/* translators: %1$s expands to Yoast SEO, %2$s expands to 5.4.3, %3$s expands to Google Analytics by Yoast */
 				__( '%1$s detected you are using version %2$s of %3$s, please update to the latest version to prevent compatibility issues.', 'wordpress-seo' ),
 				'Yoast SEO',
 				'5.4.3',
@@ -291,7 +291,7 @@ class WPSEO_Admin_Init {
 
 	}
 
-	/*
+	/**
 	 * Calls the functions that register admin-scripts and admin-styles.
 	 */
 	public function register_assets() {
@@ -299,7 +299,7 @@ class WPSEO_Admin_Init {
 		$this->register_styles();
 	}
 
-	/*
+	/**
 	 * Registers admin-scripts. Can be enqueued when they are needed.
 	 */
 	public function register_scripts() {
@@ -331,12 +331,12 @@ class WPSEO_Admin_Init {
 		wp_register_script( 'jquery-qtip-gsc', plugins_url( 'js/jquery.qtip.min.js', WPSEO_FILE ), array( 'jquery' ), WPSEO_VERSION, true );
 	}
 
-	/*
+	/**
 	 * Registers admin-styles. Can be enqueued when they are needed.
 	 */
 	public function register_styles() {
 		wp_register_style( 'yoast-admin-css', plugins_url( 'css/yst_plugin_tools' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
-		wp_register_style( 'wpseo-rtl', plugins_url( 'css/wpseo-rtl' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION);
+		wp_register_style( 'wpseo-rtl', plugins_url( 'css/wpseo-rtl' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
 		wp_register_style( 'wpseo-dismissible-style', plugins_url( 'css/wpseo-dismissible' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
 		wp_register_style( 'edit-page', plugins_url( 'css/edit-page' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
 		wp_register_style( 'metabox', plugins_url( 'css/metabox' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );

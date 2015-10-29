@@ -67,7 +67,7 @@ class WPSEO_Taxonomy {
 			wp_enqueue_style( 'jquery-qtip.js' );
 			wp_enqueue_script( 'jquery-qtip' );
 
-			wp_enqueue_script( 'wpseo-admin-media');
+			wp_enqueue_script( 'wpseo-admin-media' );
 			wp_localize_script( 'wpseo-admin-media', 'wpseoMediaL10n', array(
 				'choose_image' => __( 'Use Image', 'wordpress-seo' ),
 			) );
