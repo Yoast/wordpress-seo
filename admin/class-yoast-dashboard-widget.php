@@ -122,7 +122,7 @@ class Yoast_Dashboard_Widget {
 	 *
 	 * @return array
 	 */
-	private function map_rank_to_widget( $rank ) {
+	private function map_rank_to_widget( WPSEO_Rank $rank ) {
 		return array(
 			'seo_rank'   => $rank->get_rank(),
 			'title'      => $this->get_title_for_rank( $rank ),
