@@ -1054,7 +1054,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				case WPSEO_Rank::OK:
 				case WPSEO_Rank::GOOD:
 					$rank = new WPSEO_Rank( $seo_filter );
-					$low = $rank->get_starting_score();
+					$low  = $rank->get_starting_score();
 					$high = $rank->get_end_score();
 					break;
 				default:
