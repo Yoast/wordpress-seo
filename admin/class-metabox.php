@@ -187,12 +187,11 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @return array
 	 */
 	public function localize_post_scraper_script() {
-		$post = $this->get_metabox_post();
 		$json = $this->get_scraper_json();
 
 		return array(
 			'translations'  => $json,
-			'keyword_usage' => $this->get_focus_keyword_usage( $post->ID ),
+			'keyword_usage' => $this->get_focus_keyword_usage(),
 			'search_url'    => admin_url( 'edit.php?seo_kw_filter={keyword}' ),
 			'post_edit_url' => admin_url( 'post.php?post={id}&action=edit' ),
 			'home_url'      => home_url( '/', null ),
@@ -232,7 +231,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 */
 	public function do_tab( $id, $heading, $content ) {
 		?>
-		<div class="wpseotab <?php echo esc_attr( $id ) ?>">
+		<div id="wpseo_<?php echo $id ?>" class="wpseotab <?php echo esc_attr( $id ) ?>">
 			<h4 class="wpseo-heading"><?php echo esc_html( $heading ); ?></h4>
 			<table class="form-table">
 				<?php echo $content ?>
@@ -245,42 +244,133 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * Output the meta box
 	 */
 	public function meta_box() {
-		$post    = $this->get_metabox_post();
-		$options = WPSEO_Options::get_all();
-		?>
-		<div class="wpseo-metabox-tabs-div">
-		<ul class="wpseo-metabox-tabs" id="wpseo-metabox-tabs">
-			<li class="general">
-				<a class="wpseo_tablink" href="#wpseo_general"><?php _e( 'Content', 'wordpress-seo' ); ?></a></li>
-			<?php if ( current_user_can( 'manage_options' ) || $options['disableadvanced_meta'] === false ) : ?>
-				<li class="advanced">
-					<a class="wpseo_tablink" href="#wpseo_advanced"><?php _e( 'Advanced', 'wordpress-seo' ); ?></a>
-				</li>
-			<?php endif; ?>
-			<?php do_action( 'wpseo_tab_header' ); ?>
-		</ul>
-		<?php
-		$content = '';
-		if ( is_object( $post ) && isset( $post->post_type ) ) {
-			foreach ( $this->get_meta_field_defs( 'general', $post->post_type ) as $key => $meta_field ) {
-				$content .= $this->do_meta_box( $meta_field, $key );
-			}
-			unset( $key, $meta_field );
+		$content_sections = $this->get_content_sections();
+
+		echo '<div class="wpseo-metabox-sidebar"><ul>';
+
+		foreach ( $content_sections as $content_section ) {
+			$content_section->display_link();
 		}
-		$this->do_tab( 'general', __( 'General', 'wordpress-seo' ), $content );
+
+		echo '</ul></div>';
+
+		foreach ( $content_sections as $content_section ) {
+			$content_section->display_content();
+		}
+	}
+
+	/**
+	 * Returns the relevant metabox sections for the current view.
+	 *
+	 * @return WPSEO_Metabox_Section[]
+	 */
+	private function get_content_sections() {
+		$options = WPSEO_Options::get_all();
+		$content_sections = array( $this->get_content_meta_section() );
 
 		if ( current_user_can( 'manage_options' ) || $options['disableadvanced_meta'] === false ) {
-			$content = '';
-			foreach ( $this->get_meta_field_defs( 'advanced' ) as $key => $meta_field ) {
-				$content .= $this->do_meta_box( $meta_field, $key );
-			}
-			unset( $key, $meta_field );
-			$this->do_tab( 'advanced', __( 'Advanced', 'wordpress-seo' ), $content );
+			$content_sections[] = $this->get_advanced_meta_section();
 		}
+		if ( $options['opengraph'] === true || $options['twitter'] === true || $options['googleplus'] === true ) {
+			$social_admin = new WPSEO_Social_Admin( $options );
+			$content_sections[] = $social_admin->get_meta_section();
+		}
+		if ( has_action( 'wpseo_tab_header' ) || has_action( 'wpseo_tab_content' ) ) {
+			$content_sections[] = $this->get_addons_meta_section();
+		}
+		return $content_sections;
+	}
 
-		do_action( 'wpseo_tab_content' );
+	/**
+	 * Returns the metabox section for the content analysis.
+	 *
+	 * @return WPSEO_Metabox_Section
+	 */
+	private function get_content_meta_section() {
+		$content = $this->get_tab_content( 'general' );
 
-		echo '</div>';
+		$tab = new WPSEO_Metabox_Tab(
+			'content',
+			$content,
+			__( 'Content', 'wordpress-seo' ),
+			array(
+				'link_class' => 'wpseo_keyword_tab',
+				'link_title' => __( 'Content', 'wordpress-seo' ),
+			)
+		);
+
+		return new WPSEO_Metabox_Section(
+			'content',
+			'<span class="dashicons dashicons-yes"></span>',
+			array( $tab ),
+			array(
+				'link_alt' => __( 'Content', 'wordpress-seo' ),
+				'link_title' => __( 'Content', 'wordpress-seo' ),
+			)
+		);
+	}
+
+	/**
+	 * Returns the metabox section for the advanced settings.
+	 *
+	 * @return WPSEO_Metabox_Section
+	 */
+	private function get_advanced_meta_section() {
+		$content = $this->get_tab_content( 'advanced' );
+
+		$tab = new WPSEO_Metabox_Tab(
+			'advanced',
+			$content,
+			__( 'Advanced', 'wordpress-seo' ),
+			array(
+				'link_title' => __( 'Advanced', 'wordpress-seo' ),
+			)
+		);
+
+		return new WPSEO_Metabox_Section(
+			'advanced',
+			'<span class="dashicons dashicons-admin-generic"></span>',
+			array( $tab ),
+			array(
+				'link_alt' => __( 'Advanced', 'wordpress-seo' ),
+				'link_title' => __( 'Advanced', 'wordpress-seo' ),
+			)
+		);
+	}
+
+	/**
+	 * Returns a metabox section dedicated to hosting metabox tabs that have been added by other plugins through the
+	 * `wpseo_tab_header` and `wpseo_tab_content` actions.
+	 *
+	 * @return WPSEO_Metabox_Addon_Section
+	 */
+	private function get_addons_meta_section() {
+		return new WPSEO_Metabox_Addon_Section(
+			'addons',
+			'<span class="dashicons dashicons-admin-plugins"></span>',
+			array(),
+			array(
+				'link_alt' => __( 'Add-ons', 'wordpress-seo' ),
+				'link_title' => __( 'Add-ons', 'wordpress-seo' ),
+			)
+		);
+	}
+
+	/**
+	 * Gets the table contents for the metabox tab.
+	 *
+	 * @param string $tab_name Tab for which to retrieve the field definitions.
+	 *
+	 * @return string
+	 */
+	private function get_tab_content( $tab_name ) {
+		$content = '';
+		foreach ( $this->get_meta_field_defs( $tab_name ) as $key => $meta_field ) {
+			$content .= $this->do_meta_box( $meta_field, $key );
+		}
+		unset( $key, $meta_field );
+
+		return $content;
 	}
 
 	/**
@@ -538,7 +628,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			wp_enqueue_script( 'wp-seo-metabox', plugins_url( 'js/wp-seo-metabox' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array(
 				'jquery',
 				'jquery-ui-core',
-			), WPSEO_VERSION, true );
+			), WPSEO_VERSION );
 
 			wp_enqueue_script( 'yoast-seo', plugins_url( 'js/dist/yoast-seo/yoast-seo.min.js', WPSEO_FILE ), null, WPSEO_VERSION, true );
 			wp_enqueue_script( 'wp-seo-post-scraper', plugins_url( 'js/wp-seo-post-scraper' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'yoast-seo' ), WPSEO_VERSION, true );
@@ -600,29 +690,36 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 *
 	 * @returns WP_Post
 	 */
-	private function get_metabox_post() {
+	protected function get_metabox_post() {
 		if ( $post = filter_input( INPUT_GET, 'post' ) ) {
 			$post_id = (int) WPSEO_Utils::validate_int( $post );
 
 			return get_post( $post_id );
 		}
 
-		return $GLOBALS['post'];
+		if ( isset( $GLOBALS['post'] ) ) {
+			return $GLOBALS['post'];
+		}
+
+		return array();
 	}
 
 	/**
 	 * Counting the number of given keyword used for other posts than given post_id
 	 *
-	 * @param integer $post_id The ID of the post for which to get the focus keyword usage.
-	 *
-	 * @return int
+	 * @return array
 	 */
-	private function get_focus_keyword_usage( $post_id ) {
-		$keyword = WPSEO_Meta::get_value( 'focuskw', $post_id );
+	private function get_focus_keyword_usage() {
+		$post = $this->get_metabox_post();
+		if ( is_object( $post ) ) {
+			$keyword = WPSEO_Meta::get_value( 'focuskw', $post->ID );
 
-		return array(
-			$keyword => WPSEO_Meta::keyword_usage( $keyword, $post_id ),
-		);
+			return array(
+				$keyword => WPSEO_Meta::keyword_usage( $keyword, $post->ID ),
+			);
+		}
+
+		return array();
 	}
 
 	/********************** DEPRECATED METHODS **********************/

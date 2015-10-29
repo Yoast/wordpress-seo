@@ -14,22 +14,84 @@ ul.wpseo-metabox-tabs {
 	list-style: none;
 }
 
-.wpseo-metabox-tabs li {
-	display: inline;
-}
-
 ul.wpseo-metabox-tabs li.active {
-	border-width: 1px 1px 0;
-	border-style: solid solid none;
 	background-color: #fdfdfd;
 }
 
-ul.wpseo-metabox-tabs li {
+.wpseo-meta-section {
+	display: none;
+	width: 90%;
+}
+
+.wpseo-meta-section.active {
+	display: inline-block;
+}
+
+.wpseo-metabox-sidebar {
+	display: inline-block;
+	width: 40px;
 	padding: 5px;
+	background-color: #fff;
+	vertical-align: top;
+}
+
+.wpseo-metabox-sidebar li span {
+	margin-left: -5px;
+	padding-left: 5px;
+	border-width: 0 0 0 3px;
+	border-style: solid;
+	border-color: transparent;
+	border-radius: 3px;
+}
+
+.wpseo-metabox-sidebar li.active span {
+	border-color: #333;
+	color: #333;
+}
+
+.wpseo-metabox-sidebar a {
+	text-decoration: none;
+}
+
+ul.wpseo-metabox-tabs li {
+	display: inline;
+	margin-right: 5px;
+	padding: 5px;
+	border-width: 1px 1px 0;
+	border-style: solid solid none;
+	border-color: #dfdfdf;
+}
+
+.wpseotab.active {
+	display: block;
+	overflow: auto;
+	padding: 0.5em 0.9em;
+	border: 1px solid #ddd;
+	background-color: #fdfdfd;
 }
 
 .wpseo-metabox-tabs a {
 	text-decoration: none;
+}
+
+.wpseo-metabox-tabs a .dashicons {
+	width: 16px;
+	height: 16px;
+	font-size: 16px;
+}
+
+.wpseo-metabox-sidebar .dashicons {
+	width: 30px;
+	height: 30px;
+	font-size: 30px;
+}
+
+.wpseo-metabox-sidebar a {
+	font-size: 30px;
+}
+
+.wpseo-metabox-sidebar li {
+	padding: 5px;
 }
 
 .wpseo-metabox-tabs-div div.wpseo-tabs-panel {
@@ -44,14 +106,6 @@ ul.wpseo-metabox-tabs li {
 
 .wpseotab {
 	display: none;
-}
-
-.wpseotab.active {
-	display: block;
-	overflow: auto;
-	padding: 0.5em 0.9em;
-	border: 1px solid #ddd;
-	background-color: #fdfdfd;
 }
 
 #wpseo_meta .postbox .inside .wpseotab {
@@ -264,21 +318,6 @@ img.yoast_help {
 
 .wpseo_content_wrapper p.search-box {
 	margin: 10px 0 5px 0;
-}
-
-/**
- * The lines below came from metabox-fresh.css
- *
- * Metabox Tabs
- */
-ul.wpseo-metabox-tabs li.active {
-	background-color: #f1f1f1;
-}
-
-ul.wpseo-metabox-tabs li.active,
-div.wpseo-tab-content {
-	border-color: #dfdfdf;
-	background-color: #fff;
 }
 
 .wpseo-metabox-tabs .active a {
