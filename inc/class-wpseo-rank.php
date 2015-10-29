@@ -189,6 +189,8 @@ class WPSEO_Rank {
 	}
 
 	/**
+	 * Converts a numeric rank into a WPSEO_Rank object, for use in functional array_* functions
+	 *
 	 * @param int $rank SEO Rank.
 	 *
 	 * @return WPSEO_Rank
