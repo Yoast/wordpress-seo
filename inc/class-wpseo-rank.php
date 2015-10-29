@@ -8,12 +8,12 @@
  */
 class WPSEO_Rank {
 
-	const BAD      = 1;
-	const POOR     = 2;
-	const OK       = 3;
-	const GOOD     = 4;
-	const NO_FOCUS = 5;
-	const NO_INDEX = 6;
+	const BAD      = 'bad';
+	const POOR     = 'poor';
+	const OK       = 'ok';
+	const GOOD     = 'good';
+	const NO_FOCUS = 'na';
+	const NO_INDEX = 'noindex';
 
 	/**
 	 * @var array All possible ranks.
@@ -74,7 +74,7 @@ class WPSEO_Rank {
 	/**
 	 * Returns the saved rank for this rank.
 	 *
-	 * @return int
+	 * @return string
 	 */
 	public function get_rank() {
 		return $this->rank;
@@ -191,7 +191,7 @@ class WPSEO_Rank {
 	/**
 	 * Converts a numeric rank into a WPSEO_Rank object, for use in functional array_* functions
 	 *
-	 * @param int $rank SEO Rank.
+	 * @param string $rank SEO Rank.
 	 *
 	 * @return WPSEO_Rank
 	 */
