@@ -123,12 +123,12 @@ class WPSEO_Rank {
 	 */
 	public function get_drop_down_label() {
 		$labels = array(
-			WPSEO_Rank::NO_FOCUS => __( 'SEO: No Focus Keyword', 'wordpress-seo' ),
-			WPSEO_Rank::BAD      => __( 'SEO: Bad', 'wordpress-seo' ),
-			WPSEO_Rank::POOR     => __( 'SEO: Poor', 'wordpress-seo' ),
-			WPSEO_Rank::OK       => __( 'SEO: OK', 'wordpress-seo' ),
-			WPSEO_Rank::GOOD     => __( 'SEO: Good', 'wordpress-seo' ),
-			WPSEO_Rank::NO_INDEX => __( 'SEO: Post Noindexed', 'wordpress-seo' ),
+			self::NO_FOCUS => __( 'SEO: No Focus Keyword', 'wordpress-seo' ),
+			self::BAD      => __( 'SEO: Bad', 'wordpress-seo' ),
+			self::POOR     => __( 'SEO: Poor', 'wordpress-seo' ),
+			self::OK       => __( 'SEO: OK', 'wordpress-seo' ),
+			self::GOOD     => __( 'SEO: Good', 'wordpress-seo' ),
+			self::NO_INDEX => __( 'SEO: Post Noindexed', 'wordpress-seo' ),
 		);
 
 		return $labels[ $this->rank ];
