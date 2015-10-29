@@ -2255,7 +2255,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @param int $post_id The post ID to render the SEO score for.
 	 */
 	private function column_seo_score( $post_id ) {
-		if ( self::get_value( 'meta-robots-noindex', $post_id ) === '1' ) {
+		if ( '1' === self::get_value( 'meta-robots-noindex', $post_id ) ) {
 			$rank  = new WPSEO_Rank( WPSEO_Rank::NO_INDEX );
 			$title = __( 'Post is set to noindex.', 'wordpress-seo' );
 			self::set_value( 'linkdex', 0, $post_id );
