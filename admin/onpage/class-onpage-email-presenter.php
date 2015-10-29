@@ -29,6 +29,11 @@ class WPSEO_OnPage_Email_Presenter {
 		$this->statuses      = $statuses;
 	}
 
+	/**
+	 * Generates and returns the subject of the email.
+	 *
+	 * @return string
+	 */
 	public function get_subject() {
 		if ( $this->statuses['old_status'] !== null ) {
 			return $this->get_change_subject();
@@ -38,7 +43,7 @@ class WPSEO_OnPage_Email_Presenter {
 	}
 
 	/**
-	 * Generates and returns the body message for the email.
+	 * Generates and returns the message body of the email.
 	 *
 	 * @return string
 	 */
@@ -51,27 +56,23 @@ class WPSEO_OnPage_Email_Presenter {
 	}
 
 	/**
-	 * Mapping the statuses to translated values
-	 */
-	private function get_status_values() {
-		return array(
-			'0' => __( 'not indexable', 'wordpress-seo' ),
-			'1' => __( 'indexable', 'wordpress-seo' ),
-		);
-	}
-
-	/**
 	 * In case the status has been changed
 	 *
 	 * @return string
 	 */
 	private function get_change_message() {
-		return sprintf(
-			__( 'The indexability of %1$s, went from %2$s to %3$s.' ),
-			home_url(),
-			$this->status_values[ $this->statuses['old_status'] ],
-			$this->status_values[ $this->statuses['new_status'] ]
+		$subjects = array(
+			'0' => sprintf(
+				__( 'Yoast SEO has detected that %1$s is no longer indexable. Please note that this will make it impossible for search engines like Google and Bing to index your site.', 'wordpress-seo' ),
+				home_url()
+			),
+			'1' => sprintf(
+				__( 'Yoast SEO has detected that %1$s is indexable again.', 'wordpress-seo' ),
+				home_url()
+			),
 		);
+
+		return $subjects[ $this->statuses['new_status'] ];
 	}
 
 	/**
@@ -80,12 +81,18 @@ class WPSEO_OnPage_Email_Presenter {
 	 * @return string
 	 */
 	private function get_new_message() {
-		return sprintf(
-			__( 'We\'ve collaborated with our friends from Onpage.Org to do a weekly check of The indexability of %1$s is %2$s.', 'wordpress-seo' ),
-			home_url(),
-			$this->status_values[ $this->statuses['new_status'] ]
+		$subjects = array(
+			'0' => sprintf(
+				__( 'Yoast SEO has detected that %1$s is not indexable. Please note that this will make it impossible for search engines like Google and Bing to index your site.', 'wordpress-seo' ),
+				home_url()
+			),
+			'1' => sprintf(
+				__( 'Yoast SEO has detected that %1$s is indexable again.', 'wordpress-seo' ),
+				home_url()
+			),
 		);
 
+		return $subjects[ $this->statuses['new_status'] ];
 	}
 
 	/**
@@ -94,12 +101,18 @@ class WPSEO_OnPage_Email_Presenter {
 	 * @return string
 	 */
 	private function get_change_subject() {
-		return sprintf(
-			sprintf( __( 'Yoast SEO alert: the indexability of %1$s has changed.', 'wordpress-seo' ), home_url() ),
-			home_url(),
-			$this->status_values[ $this->statuses['old_status'] ],
-			$this->status_values[ $this->statuses['new_status'] ]
+		$subjects = array(
+			'0' => sprintf(
+				__( 'Yoast SEO alert: %1$s is no longer indexable!', 'wordpress-seo' ),
+				home_url()
+			),
+			'1' => sprintf(
+				__( 'Yoast SEO notification: %1$s is now indexable.', 'wordpress-seo' ),
+				home_url()
+			),
 		);
+
+		return $subjects[ $this->statuses['new_status'] ];
 	}
 
 	/**
@@ -108,12 +121,18 @@ class WPSEO_OnPage_Email_Presenter {
 	 * @return string
 	 */
 	private function get_new_subject() {
-		return sprintf(
-			sprintf( __( 'Yoast SEO alert: %1$s is %2$s.', 'wordpress-seo' ), home_url() ),
-			home_url(),
-			$this->status_values[ $this->statuses['new_status'] ]
+		$subjects = array(
+			'0' => sprintf(
+				__( 'Yoast SEO alert: %1$s is not indexable!', 'wordpress-seo' ),
+				home_url()
+			),
+			'1' => sprintf(
+				__( 'Yoast SEO notification: %1$s is indexable.', 'wordpress-seo' ),
+				home_url()
+			),
 		);
 
+		return $subjects[ $this->statuses['new_status'] ];
 	}
 
 }
