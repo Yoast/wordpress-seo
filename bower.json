@@ -6,7 +6,9 @@
     "Yoast.com"
   ],
   "dependencies": {
-    "yoast-seo": "https://github.com/Yoast/YoastSEO.js.git"
+    "yoast-seo": "https://github.com/Yoast/YoastSEO.js.git",
+    "qTip2": "2.2.1",
+    "tablesorter": "*"
   },
   "install": {
     "path": {
