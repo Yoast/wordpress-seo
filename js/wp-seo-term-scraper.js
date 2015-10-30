@@ -125,8 +125,8 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 			this.bindSnippetEvents( document.getElementById( elems [ i ] ), snippetPreview );
 		}
 		var title = document.getElementById( 'snippet_title' );
-		title.addEventListener( 'focus', snippetPreview.setSiteName.bind ( snippetPreview ) );
-		title.addEventListener( 'blur', snippetPreview.unsetSiteName.bind ( snippetPreview ) );
+		title.addEventListener( 'focus', snippetPreview.setSiteName.bind( snippetPreview ) );
+		title.addEventListener( 'blur', snippetPreview.unsetSiteName.bind( snippetPreview ) );
 	};
 
 	/**
