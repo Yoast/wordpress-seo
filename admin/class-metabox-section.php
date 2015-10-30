@@ -36,7 +36,7 @@ class WPSEO_Metabox_Section {
 	/**
 	 * Constructor.
 	 *
-	 * @param string $name         The name of the section, used as an identifier in the html.
+	 * @param string $name         The name of the section, used as an identifier in the html. Can only contain URL safe characters.
 	 * @param string $link_content The text content of the section link.
 	 * @param array  $tabs         The metabox tabs (`WPSEO_Metabox_Tabs[]`) to be included in the section.
 	 * @param array  $options      Optional link attributes.
