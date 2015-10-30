@@ -58,9 +58,9 @@ class WPSEO_Metabox_Section {
 		if ( $this->has_tabs() ) {
 			printf(
 				'<li><a href="#wpseo-meta-section-%1$s" class="wpseo-meta-section-link" alt="%2$s" title="%3$s">%4$s</a></li>',
-				$this->name,
-				$this->link_alt,
-				$this->link_title,
+				esc_attr( $this->name ),
+				esc_attr( $this->link_alt ),
+				esc_attr( $this->link_title ),
 				$this->link_content
 			);
 		}
@@ -76,7 +76,7 @@ class WPSEO_Metabox_Section {
 			$html .= '<ul class="wpseo-metabox-tabs" id="wpseo-metabox-tabs">%2$s</ul>%3$s';
 			$html .= '</div></div>';
 
-			printf( $html, $this->name, $this->tab_links(), $this->tab_content() );
+			printf( $html, esc_attr( $this->name ), $this->tab_links(), $this->tab_content() );
 		}
 	}
 

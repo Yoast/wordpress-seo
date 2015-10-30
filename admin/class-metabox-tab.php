@@ -63,10 +63,10 @@ class WPSEO_Metabox_Tab {
 	public function link() {
 		return sprintf(
 			'<li class="%1$s %2$s"><a class="wpseo_tablink" href="#wpseo_%1$s" alt="%3$s" title="%4$s">%5$s</a></li>',
-			$this->name,
-			$this->link_class,
-			$this->link_alt,
-			$this->link_title,
+			esc_attr( $this->name ),
+			esc_attr( $this->link_class ),
+			esc_attr( $this->link_alt ),
+			esc_attr( $this->link_title ),
 			$this->link_content
 		);
 	}
@@ -79,7 +79,7 @@ class WPSEO_Metabox_Tab {
 	public function content() {
 		return sprintf(
 			'<div id="wpseo_%1$s" class="wpseotab %1$s"><table class="form-table">%2$s</table></div>',
-			$this->name,
+			esc_attr( $this->name ),
 			$this->content
 		);
 	}
