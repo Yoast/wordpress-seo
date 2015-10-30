@@ -232,7 +232,7 @@ YoastSEO.AnalyzeScorer.prototype.totalScore = function() {
 YoastSEO.AnalyzeScorer.prototype.addScoring = function( scoring ) {
 	var scoringObject = scoring.scoring;
 
-	scoringObject.scoringName = scoring.name;
+	scoringObject.scoreName = scoring.name;
 
 	this.scoring.push( scoringObject );
 };

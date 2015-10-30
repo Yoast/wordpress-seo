@@ -144,7 +144,7 @@ YoastSEO.Analyzer.prototype.runQueue = function() {
 			 * perfect.
 			 */
 			output = {
-				"name": this.analyses[ currentQueueItem ].name,
+				"test": this.analyses[ currentQueueItem ].name,
 				"result": score
 			};
 		}
