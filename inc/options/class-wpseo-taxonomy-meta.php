@@ -508,7 +508,7 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 
 
 		$found    = array();
-		// Todo check on all taxonomies, not only the current taxonomy of the term.
+		// Todo check for terms of all taxonomies, not only the current taxonomy.
 		foreach ( $tax_meta as $taxonomy_name => $terms ) {
 			foreach ( $terms as $term_id => $meta_values ) {
 				$is_current = ( $current_taxonomy === $taxonomy_name && (string) $current_term_id === (string) $term_id );

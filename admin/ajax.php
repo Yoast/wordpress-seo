@@ -371,7 +371,7 @@ function ajax_get_term_keyword_usage() {
 	$taxonomy = filter_input( INPUT_POST, 'taxonomy' );
 
 	wp_die(
-		WPSEO_Utils::json_encode( WPSEO_Taxonomy_Meta::keyword_usage( $keyword, $post_id, $taxonomy ) )
+		WPSEO_Utils::json_encode( WPSEO_Taxonomy_Meta::get_keyword_usage( $keyword, $post_id, $taxonomy ) )
 	);
 }
 
