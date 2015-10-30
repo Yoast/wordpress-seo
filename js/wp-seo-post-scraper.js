@@ -290,7 +290,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 		var tmpl =  wp.template('score_svg');
 		document.getElementById( YoastSEO.analyzerArgs.targets.overall ).innerHTML = tmpl();
 		document.getElementById( 'yoast_wpseo_linkdex' ).value = score;
-		jQuery( window ).trigger( 'yoastseo-score', score );
+		jQuery( window ).trigger( 'YoastSEO:numericScore', score );
 	};
 
 	/**
@@ -326,82 +326,79 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 	} );
 
 	jQuery( document ).ready(function() {
-		function init() {
-			var wordpressScraper = new YoastSEO.PostScraper();
+		var wordpressScraper = new YoastSEO.PostScraper();
 
-			YoastSEO.analyzerArgs = {
-				//if it must run the analyzer
-				analyzer: true,
-				//if it uses ajax to get data
-				ajax: true,
-				//if it must generate snippetpreview
-				snippetPreview: true,
-				//string to be added to the snippetTitle
-				snippetSuffix: ' ' + wpseoPostScraperL10n.sep + ' ' + wpseoPostScraperL10n.sitename,
-				//element Target Array
-				elementTarget: ['content', 'yoast_wpseo_focuskw', 'yoast_wpseo_metadesc', 'excerpt', 'editable-post-name', 'editable-post-name-full'],
-				//replacement target array, elements that must trigger the replace variables function.
-				replaceTarget: ['yoast_wpseo_metadesc', 'excerpt', 'yoast_wpseo_title'],
-				//rest target array, elements that must be reset on focus
-				resetTarget: ['snippet_meta', 'snippet_title', 'snippet_cite'],
-				//typeDelay is used as the timeout between stopping with typing and triggering the analyzer
-				typeDelay: 300,
-				//Dynamic delay makes sure the delay is increased if the analyzer takes longer than the default, to prevent slow systems.
-				typeDelayStep: 100,
-				maxTypeDelay: 1500,
-				dynamicDelay: true,
-				//used for multiple keywords (future use)
-				multiKeyword: false,
-				//targets for the objects
-				targets: {
-					output: 'wpseo-pageanalysis',
-					overall: 'wpseo-score',
-					snippet: 'wpseosnippet'
-				},
-				translations: wpseoPostScraperL10n.translations,
-				queue: ['wordCount',
-					'keywordDensity',
-					'subHeadings',
-					'stopwords',
-					'fleschReading',
-					'linkCount',
-					'imageCount',
-					'urlKeyword',
-					'urlLength',
-					'metaDescription',
-					'pageTitleKeyword',
-					'pageTitleLength',
-					'firstParagraph',
-					'keywordDoubles'],
-				usedKeywords: wpseoPostScraperL10n.keyword_usage,
-				searchUrl: '<a target="new" href=' + wpseoPostScraperL10n.search_url + '>',
-				postUrl: '<a target="new" href=' + wpseoPostScraperL10n.post_edit_url + '>',
-				callbacks: {
-					getData: wordpressScraper.getData.bind( wordpressScraper ),
-					bindElementEvents: wordpressScraper.bindElementEvents.bind( wordpressScraper ),
-					updateSnippetValues: wordpressScraper.updateSnippetValues.bind( wordpressScraper ),
-					saveScores: wordpressScraper.saveScores.bind( wordpressScraper )
-				}
-			};
-
-			// If there are no translations let the analyzer fallback onto the english translations.
-			if (0 === wpseoPostScraperL10n.translations.length) {
-				delete( YoastSEO.analyzerArgs.translations );
-			} else {
-				// Make sure the correct text domain is set for analyzer.
-				var translations = wpseoPostScraperL10n.translations;
-				translations.domain = 'js-text-analysis';
-				translations.locale_data['js-text-analysis'] = translations.locale_data['wordpress-seo'];
-				delete( translations.locale_data['wordpress-seo'] );
-				YoastSEO.analyzerArgs.translations = translations;
+		YoastSEO.analyzerArgs = {
+			//if it must run the analyzer
+			analyzer: true,
+			//if it uses ajax to get data
+			ajax: true,
+			//if it must generate snippetpreview
+			snippetPreview: true,
+			//string to be added to the snippetTitle
+			snippetSuffix: ' ' + wpseoPostScraperL10n.sep + ' ' + wpseoPostScraperL10n.sitename,
+			//element Target Array
+			elementTarget: ['content', 'yoast_wpseo_focuskw', 'yoast_wpseo_metadesc', 'excerpt', 'editable-post-name', 'editable-post-name-full'],
+			//replacement target array, elements that must trigger the replace variables function.
+			replaceTarget: ['yoast_wpseo_metadesc', 'excerpt', 'yoast_wpseo_title'],
+			//rest target array, elements that must be reset on focus
+			resetTarget: ['snippet_meta', 'snippet_title', 'snippet_cite'],
+			//typeDelay is used as the timeout between stopping with typing and triggering the analyzer
+			typeDelay: 300,
+			//Dynamic delay makes sure the delay is increased if the analyzer takes longer than the default, to prevent slow systems.
+			typeDelayStep: 100,
+			maxTypeDelay: 1500,
+			dynamicDelay: true,
+			//used for multiple keywords (future use)
+			multiKeyword: false,
+			//targets for the objects
+			targets: {
+				output: 'wpseo-pageanalysis',
+				overall: 'wpseo-score',
+				snippet: 'wpseosnippet'
+			},
+			translations: wpseoPostScraperL10n.translations,
+			queue: ['wordCount',
+				'keywordDensity',
+				'subHeadings',
+				'stopwords',
+				'fleschReading',
+				'linkCount',
+				'imageCount',
+				'urlKeyword',
+				'urlLength',
+				'metaDescription',
+				'pageTitleKeyword',
+				'pageTitleLength',
+				'firstParagraph',
+				'keywordDoubles'],
+			usedKeywords: wpseoPostScraperL10n.keyword_usage,
+			searchUrl: '<a target="new" href=' + wpseoPostScraperL10n.search_url + '>',
+			postUrl: '<a target="new" href=' + wpseoPostScraperL10n.post_edit_url + '>',
+			callbacks: {
+				getData: wordpressScraper.getData.bind( wordpressScraper ),
+				bindElementEvents: wordpressScraper.bindElementEvents.bind( wordpressScraper ),
+				updateSnippetValues: wordpressScraper.updateSnippetValues.bind( wordpressScraper ),
+				saveScores: wordpressScraper.saveScores.bind( wordpressScraper )
 			}
-			window.YoastSEO.app = new YoastSEO.App( YoastSEO.analyzerArgs );
+		};
 
-			//Init Plugins
-			window.yoastReplaceVarPlugin = new YoastReplaceVarPlugin();
-			window.yoastShortcodePlugin = new YoastShortcodePlugin();
+		// If there are no translations let the analyzer fallback onto the english translations.
+		if (0 === wpseoPostScraperL10n.translations.length) {
+			delete( YoastSEO.analyzerArgs.translations );
+		} else {
+			// Make sure the correct text domain is set for analyzer.
+			var translations = wpseoPostScraperL10n.translations;
+			translations.domain = 'js-text-analysis';
+			translations.locale_data['js-text-analysis'] = translations.locale_data['wordpress-seo'];
+			delete( translations.locale_data['wordpress-seo'] );
+			YoastSEO.analyzerArgs.translations = translations;
 		}
+		window.YoastSEO.app = new YoastSEO.App( YoastSEO.analyzerArgs );
+		jQuery( window).trigger( 'YoastSEO:ready' );
 
-		jQuery( init );
+		//Init Plugins
+		window.yoastReplaceVarPlugin = new YoastReplaceVarPlugin();
+		window.yoastShortcodePlugin = new YoastShortcodePlugin();
 	} );
 }());
