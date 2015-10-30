@@ -119,7 +119,7 @@ class WPSEO_Taxonomy_Social_Fields extends WPSEO_Taxonomy_Fields {
 	/**
 	 * Filter the social networks which are disabled in the configuration
 	 *
-	 * @param array $social_networks Array with the social networks that has to be filtered.
+	 * @param array $social_networks Array with the social networks that have to be filtered.
 	 *
 	 * @return array
 	 */
