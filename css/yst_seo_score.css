@@ -45,3 +45,9 @@
 .overallScore svg {
 	margin: 10px;
 }
+
+#taxonomy_overall {
+	float: right;
+	position: relative;
+	margin-top: -75px;
+}

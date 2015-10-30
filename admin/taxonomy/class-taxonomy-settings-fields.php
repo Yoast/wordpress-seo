@@ -4,11 +4,9 @@
  */
 
 /**
- * Class WPSEO_Taxonomy_General_Tab
- *
  * This class parses all the values for the general tab in the Yoast SEO settings metabox
  */
-class WPSEO_Taxonomy_General_Tab extends WPSEO_Taxonomy_Tab {
+class WPSEO_Taxonomy_Settings_Fields extends WPSEO_Taxonomy_Fields {
 
 	/**
 	 * @var array   Options array for the no-index options, including translated labels
@@ -33,28 +31,20 @@ class WPSEO_Taxonomy_General_Tab extends WPSEO_Taxonomy_Tab {
 	 *
 	 * @return array
 	 */
-	public function get_fields() {
+	public function get() {
 		$fields = array(
-			'title' => $this->get_field_config(
-				__( 'SEO Title', 'wordpress-seo' ),
-				esc_html__( 'The SEO title is used on the archive page for this term.', 'wordpress-seo' )
-			),
-			'desc' => $this->get_field_config(
-				__( 'SEO Description', 'wordpress-seo' ),
-				esc_html__( 'The SEO description is used for the meta description on the archive page for this term.', 'wordpress-seo' )
-			),
-			'metakey'  => $this->get_field_config(
+			'metakey'         => $this->get_field_config(
 				__( 'Meta keywords', 'wordpress-seo' ),
 				esc_html__( 'Meta keywords used on the archive page for this term.', 'wordpress-seo' ),
 				'text',
 				'',
 				$this->options['usemetakeywords'] !== true
 			),
-			'canonical'  => $this->get_field_config(
+			'canonical'       => $this->get_field_config(
 				__( 'Canonical', 'wordpress-seo' ),
 				esc_html__( 'The canonical link is shown on the archive page for this term.', 'wordpress-seo' )
 			),
-			'bctitle'  => $this->get_field_config(
+			'bctitle'         => $this->get_field_config(
 				__( 'Breadcrumbs title', 'wordpress-seo' ),
 				/* translators: %s expands to the taxonomy name  */
 				sprintf( esc_html__( 'The Breadcrumbs title is used in the breadcrumbs where this %s appears.', 'wordpress-seo' ), $this->term->taxonomy ),
@@ -62,7 +52,7 @@ class WPSEO_Taxonomy_General_Tab extends WPSEO_Taxonomy_Tab {
 				'',
 				$this->options['breadcrumbs-enable'] !== true
 			),
-			'noindex'  => $this->get_field_config(
+			'noindex'         => $this->get_field_config(
 				/* translators: %s expands to taxonomy name  */
 				sprintf( __( 'Noindex this %s', 'wordpress-seo' ), $this->term->taxonomy ),
 				/* translators: %s expands to taxonomy name  */

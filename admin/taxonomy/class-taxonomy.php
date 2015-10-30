@@ -20,8 +20,9 @@ class WPSEO_Taxonomy {
 	 */
 	public function __construct() {
 		$this->taxonomy = $this->get_taxonomy();
+
 		if ( is_admin() && $this->taxonomy !== '' && $this->show_metabox( ) ) {
-			add_action( sanitize_text_field( $this->taxonomy ) . '_edit_form', array( $this, 'term_seo_form' ), 90, 1 );
+			add_action( sanitize_text_field( $this->taxonomy ) . '_edit_form', array( $this, 'term_metabox' ), 90, 1 );
 		}
 
 		add_action( 'split_shared_term', array( $this, 'split_shared_term' ), 10, 4 );
@@ -30,6 +31,16 @@ class WPSEO_Taxonomy {
 		add_action( 'init', array( $this, 'custom_category_descriptions_allow_html' ) );
 		add_filter( 'category_description', array( $this, 'custom_category_descriptions_add_shortcode_support' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
+	}
+
+	/**
+	 * Show the SEO inputs for term.
+	 *
+	 * @param stdClass|WP_Term $term Term to show the edit boxes for.
+	 */
+	public function term_metabox( $term ) {
+		$metabox = new WPSEO_Taxonomy_Metabox( $this->taxonomy, $term );
+		$metabox->display();
 	}
 
 	/**
@@ -59,13 +70,19 @@ class WPSEO_Taxonomy {
 		if ( $GLOBALS['pagenow'] === 'edit-tags.php' && filter_input( INPUT_GET, 'action' ) === 'edit' ) {
 			wp_enqueue_media(); // Enqueue files needed for upload functionality.
 
+			wp_enqueue_style( 'yoast-seo', plugins_url( 'css/dist/yoast-seo/yoast-seo.min.css', WPSEO_FILE ), array(), WPSEO_VERSION );
 			wp_enqueue_style( 'yoast-metabox-css', plugins_url( 'css/metabox' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
-
+			wp_enqueue_style( 'snippet', plugins_url( 'css/snippet' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
+			wp_enqueue_style( 'seo_score', plugins_url( 'css/yst_seo_score' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
+			wp_editor( '', 'description' );
 			wp_enqueue_script( 'wp-seo-metabox', plugins_url( 'js/wp-seo-metabox' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array(
 				'jquery',
 				'jquery-ui-core',
 				'jquery-ui-autocomplete',
 			), WPSEO_VERSION, true );
+			wp_enqueue_script( 'yoast-seo', plugins_url( 'js/dist/yoast-seo/yoast-seo.min.js', WPSEO_FILE ), null, WPSEO_VERSION, true );
+			wp_enqueue_script( 'wp-seo-term-scraper', plugins_url( 'js/wp-seo-term-scraper' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'yoast-seo' ), WPSEO_VERSION, true );
+			wp_localize_script( 'wp-seo-term-scraper', 'wpseoTermScraperL10n', $this->localize_term_scraper_script() );
 
 			// Always enqueue minified as it's not our code.
 			wp_enqueue_style( 'jquery-qtip.js', plugins_url( 'css/jquery.qtip' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), '2.2.1' );
@@ -79,21 +96,6 @@ class WPSEO_Taxonomy {
 				'choose_image' => __( 'Use Image', 'wordpress-seo' ),
 			) );
 		}
-	}
-
-
-	/**
-	 * Show the SEO inputs for term.
-	 *
-	 * @param object $term Term to show the edit boxes for.
-	 */
-	function term_seo_form( $term ) {
-		if ( $this->tax_is_public() === false ) {
-			return;
-		}
-
-		// Including the metabox taxonomy view.
-		require_once( WPSEO_PATH . '/admin/views/metabox-taxonomy.php' );
 	}
 
 	/**
@@ -172,17 +174,41 @@ class WPSEO_Taxonomy {
 	}
 
 	/**
-	 * Test whether we are on a public taxonomy - no metabox actions needed if we are not
-	 * Unfortunately we have to hook most everything in before the point where all taxonomies are registered and
-	 * we know which taxonomy is being requested, so we need to use this check in nearly every hooked in function.
+	 * Pass variables to js for use with the term-scraper
 	 *
-	 * @since 1.5.0
+	 * @return array
 	 */
-	private function tax_is_public() {
-		// Don't make static as taxonomies may still be added during the run.
-		$taxonomies = get_taxonomies( array( 'public' => true ), 'names' );
+	public function localize_term_scraper_script() {
+		$translations = $this->get_scraper_translations();
 
-		return ( in_array( $this->taxonomy, $taxonomies ) );
+		$term_id = filter_input( INPUT_GET, 'tag_ID' );
+		$term    = get_term_by( 'id', $term_id, $this->get_taxonomy() );
+		$focuskw = WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'focuskw' );
+
+		return array(
+			'translations'                  => $translations,
+			'home_url'                      => home_url( '/', null ),
+			'taxonomy'                      => $term->taxonomy,
+			'keyword_usage'                 => WPSEO_Taxonomy_Meta::get_keyword_usage( $focuskw, $term->term_id, $term->taxonomy ),
+			// Todo: a column needs to be added on the termpages to add a filter for the keyword, so this can be used in the focus kw doubles.
+			'search_url'                    => admin_url( 'edit-tags.php?taxonomy=' . $term->taxonomy . '&seo_kw_filter={keyword}' ),
+			'post_edit_url'                 => admin_url( 'edit-tags.php?action=edit&taxonomy=' . $term->taxonomy . '&tag_ID={id}' ),
+			'sep'                           => WPSEO_Utils::get_title_separator(),
+			'sitename'                      => WPSEO_Utils::get_site_name(),
+		);
+	}
+
+	/**
+	 * Returns Jed compatible YoastSEO.js translations.
+	 *
+	 * @return array
+	 */
+	private function get_scraper_translations() {
+		$file = plugin_dir_path( WPSEO_FILE ) . 'languages/wordpress-seo-' . get_locale() . '.json';
+		if ( file_exists( $file ) && $file = file_get_contents( $file ) ) {
+			return json_decode( $file, true );
+		}
+		return array();
 	}
 
 } /* End of class */

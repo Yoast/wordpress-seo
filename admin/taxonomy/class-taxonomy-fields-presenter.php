@@ -6,7 +6,7 @@
 /**
  * Class WPSEO_Taxonomy_Presenter
  */
-class WPSEO_Taxonomy_Presenter {
+class WPSEO_Taxonomy_Fields_Presenter {
 
 	/**
 	 * The taxonomy meta data for the current term
@@ -27,10 +27,12 @@ class WPSEO_Taxonomy_Presenter {
 	 *
 	 * @param array $fields Array with the fields that will be displayed.
 	 */
-	public function display_fields( array $fields ) {
+	public function html( array $fields ) {
+		$content = '';
 		foreach ( $fields as $field_name => $field_options ) {
-			$this->form_row( 'wpseo_' . $field_name, $field_options );
+			$content .= $this->form_row( 'wpseo_' . $field_name, $field_options );
 		}
+		return $content;
 	}
 
 	/**
@@ -43,10 +45,10 @@ class WPSEO_Taxonomy_Presenter {
 		$esc_field_name = esc_attr( $field_name );
 
 		$label = $this->get_label( $field_options['label'], $esc_field_name );
-		$field = $this->get_field( $field_options['type'], $esc_field_name, $this->get_field_value( $field_name ), (array) $field_options['options'] );
+		$field = $this->get_field( $field_options['type'], $esc_field_name, $this->get_field_value( $field_name ) , (array) $field_options['options'] );
 		$help  = $this->get_help( $field, $field_options['description'], $esc_field_name );
 
-		echo $this->parse_row( $label, $help, $field );
+		return $this->parse_row( $label, $help, $field );
 	}
 
 	/**
@@ -65,6 +67,9 @@ class WPSEO_Taxonomy_Presenter {
 		$field = '';
 
 		switch ( $field_type ) {
+			case 'div' :
+				$field .= '<div id="' . $field_name . '"></div>';
+				break;
 			case 'text' :
 				$field .= '<input name="' . $field_name . '" id="' . $field_name . '" ' . $class . ' type="text" value="' . esc_attr( $field_value ) . '" size="40"/>';
 				break;
@@ -205,7 +210,10 @@ class WPSEO_Taxonomy_Presenter {
 	 * @return string
 	 */
 	private function parse_row( $label, $help, $field ) {
-		return '<tr><th scope="row">' . $label . $help . '</th><td>' . $field . '</td></tr>';
-	}
+		if ( $label !== '' || $help !== '' ) {
+			return '<tr><th scope="row">' . $label . $help . '</th><td>' . $field . '</td></tr>';
+		}
 
+		return $field;
+	}
 }
