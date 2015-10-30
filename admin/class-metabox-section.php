@@ -64,7 +64,6 @@ class WPSEO_Metabox_Section {
 				$this->link_content
 			);
 		}
-		echo '';
 	}
 
 	/**
@@ -79,7 +78,6 @@ class WPSEO_Metabox_Section {
 
 			printf( $html, $this->name, $this->tab_links(), $this->tab_content() );
 		}
-		echo '';
 	}
 
 	/**
