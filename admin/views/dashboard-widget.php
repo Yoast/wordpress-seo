@@ -25,7 +25,7 @@
 		?>
 		<tr>
 			<th>
-				<div class="wpseo-score-icon <?php echo sanitize_html_class( $statistic['seo_rank'] ); ?>"></div>
+				<div class="wpseo-score-icon <?php echo sanitize_html_class( $statistic['icon_class'] ); ?>"></div>
 				<a href="<?php echo $url; ?>"
 				   class="wpseo-glance <?php echo esc_attr( $statistic['class'] ); ?>">
 					<?php printf( $statistic['title'], intval( $statistic['count'] ) ); ?>
