@@ -75,14 +75,14 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 	/**
 	 * Returns the metabox section for the social settings.
 	 *
-	 * @return WPSEO_Metabox_Section
+	 * @return WPSEO_Metabox_Tab_Section
 	 */
 	public function get_meta_section() {
 		$tabs = array();
 		$social_meta_fields = $this->get_meta_field_defs( 'social' );
 
 		if ( $this->options['opengraph'] === true ) {
-			$tabs[] = new WPSEO_Metabox_Tab(
+			$tabs[] = new WPSEO_Metabox_Form_Tab(
 				'facebook',
 				$this->get_social_tab_content( 'opengraph', $social_meta_fields ),
 				'<span class="dashicons dashicons-facebook-alt"></span>',
@@ -94,7 +94,7 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 		}
 
 		if ( $this->options['twitter'] === true ) {
-			$tabs[] = new WPSEO_Metabox_Tab(
+			$tabs[] = new WPSEO_Metabox_Form_Tab(
 				'twitter',
 				$this->get_social_tab_content( 'twitter', $social_meta_fields ),
 				'<span class="dashicons dashicons-twitter"></span>',
@@ -106,7 +106,7 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 		}
 
 		if ( $this->options['googleplus'] === true ) {
-			$tabs[] = new WPSEO_Metabox_Tab(
+			$tabs[] = new WPSEO_Metabox_Form_Tab(
 				'googleplus',
 				$this->get_social_tab_content( 'google-plus', $social_meta_fields ),
 				'<span class="dashicons dashicons-googleplus"></span>',
@@ -117,7 +117,7 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 			);
 		}
 
-		return new WPSEO_Metabox_Section(
+		return new WPSEO_Metabox_Tab_Section(
 			'social',
 			'<span class="dashicons dashicons-share"></span>',
 			$tabs,

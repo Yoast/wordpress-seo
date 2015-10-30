@@ -6,10 +6,10 @@
 /**
  * Generates and displays the HTML for a metabox section.
  */
-class WPSEO_Metabox_Section {
+class WPSEO_Metabox_Tab_Section implements WPSEO_Metabox_Section {
 
 	/**
-	 * @var WPSEO_Metabox_Tab[]
+	 * @var WPSEO_Metabox_Form_Tab[]
 	 */
 	public $tabs = array();
 
@@ -83,9 +83,9 @@ class WPSEO_Metabox_Section {
 	/**
 	 * Add a `WPSEO_Metabox_Tab` object to the tabs.
 	 *
-	 * @param WPSEO_Metabox_Tab $tab Tab to add.
+	 * @param WPSEO_Metabox_Form_Tab $tab Tab to add.
 	 */
-	public function add_tab( WPSEO_Metabox_Tab $tab ) {
+	public function add_tab( WPSEO_Metabox_Form_Tab $tab ) {
 		$this->tabs[] = $tab;
 	}
 

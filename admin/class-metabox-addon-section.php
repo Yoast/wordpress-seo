@@ -7,7 +7,7 @@
  * Generates and displays a section containing metabox tabs that have been added by other plugins through the
  * `wpseo_tab_header` and `wpseo_tab_content` actions.
  */
-class WPSEO_Metabox_Addon_Section extends WPSEO_Metabox_Section {
+class WPSEO_Metabox_Addon_Tab_Section extends WPSEO_Metabox_Tab_Section {
 
 	/**
 	 * Applies the actions for adding a tab to the metabox.

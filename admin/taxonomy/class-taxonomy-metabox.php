@@ -73,7 +73,7 @@ class WPSEO_Taxonomy_Metabox {
 	/**
 	 * Returns the relevant metabox sections for the current view.
 	 *
-	 * @return WPSEO_Metabox_Section[]
+	 * @return WPSEO_Metabox_Tab_Section[]
 	 */
 	private function get_content_sections() {
 		$content_sections = array(
@@ -88,13 +88,13 @@ class WPSEO_Taxonomy_Metabox {
 	/**
 	 * Returns the metabox section for the content analysis.
 	 *
-	 * @return WPSEO_Metabox_Section
+	 * @return WPSEO_Metabox_Tab_Section
 	 */
 	private function get_content_meta_section() {
 		$taxonomy_content_fields = new WPSEO_Taxonomy_Content_Fields( $this->term );
 		$content = $this->taxonomy_tab_content->html( $taxonomy_content_fields->get() );
 
-		$tab = new WPSEO_Metabox_Tab(
+		$tab = new WPSEO_Metabox_Form_Tab(
 			'content',
 			$content,
 			__( 'Content', 'wordpress-seo' ),
@@ -104,7 +104,7 @@ class WPSEO_Taxonomy_Metabox {
 			)
 		);
 
-		return new WPSEO_Metabox_Section(
+		return new WPSEO_Metabox_Tab_Section(
 			'content',
 			'<span class="dashicons dashicons-yes"></span>',
 			array( $tab ),
@@ -118,13 +118,13 @@ class WPSEO_Taxonomy_Metabox {
 	/**
 	 * Returns the metabox section for the settings.
 	 *
-	 * @return WPSEO_Metabox_Section
+	 * @return WPSEO_Metabox_Tab_Section
 	 */
 	private function get_settings_meta_section() {
 		$taxonomy_settings_fields = new WPSEO_Taxonomy_Settings_Fields( $this->term );
 		$content = $this->taxonomy_tab_content->html( $taxonomy_settings_fields->get() );
 
-		$tab = new WPSEO_Metabox_Tab(
+		$tab = new WPSEO_Metabox_Form_Tab(
 			'settings',
 			$content,
 			__( 'Settings', 'wordpress-seo' ),
@@ -133,7 +133,7 @@ class WPSEO_Taxonomy_Metabox {
 			)
 		);
 
-		return new WPSEO_Metabox_Section(
+		return new WPSEO_Metabox_Tab_Section(
 			'settings',
 			'<span class="dashicons dashicons-admin-generic"></span>',
 			array( $tab ),
@@ -147,7 +147,7 @@ class WPSEO_Taxonomy_Metabox {
 	/**
 	 * Returns the metabox section for the social settings.
 	 *
-	 * @return WPSEO_Metabox_Section
+	 * @return WPSEO_Metabox_Tab_Section
 	 */
 	private function get_social_meta_section() {
 		$options = WPSEO_Options::get_all();
@@ -157,7 +157,7 @@ class WPSEO_Taxonomy_Metabox {
 		if ( $options['opengraph'] === true ) {
 			$facebook_meta_fields = $taxonomy_social_fields->get_by_network( 'opengraph' );
 
-			$tabs[] = new WPSEO_Metabox_Tab(
+			$tabs[] = new WPSEO_Metabox_Form_Tab(
 				'facebook',
 				$this->taxonomy_tab_content->html( $facebook_meta_fields ),
 				'<span class="dashicons dashicons-facebook-alt"></span>',
@@ -171,7 +171,7 @@ class WPSEO_Taxonomy_Metabox {
 		if ( $options['twitter'] === true ) {
 			$twitter_meta_fields = $taxonomy_social_fields->get_by_network( 'twitter' );
 
-			$tabs[] = new WPSEO_Metabox_Tab(
+			$tabs[] = new WPSEO_Metabox_Form_Tab(
 				'twitter',
 				$this->taxonomy_tab_content->html( $twitter_meta_fields ),
 				'<span class="dashicons dashicons-twitter"></span>',
@@ -185,7 +185,7 @@ class WPSEO_Taxonomy_Metabox {
 		if ( $options['googleplus'] === true ) {
 			$googleplus_meta_fields = $taxonomy_social_fields->get_by_network( 'googleplus' );
 
-			$tabs[] = new WPSEO_Metabox_Tab(
+			$tabs[] = new WPSEO_Metabox_Form_Tab(
 				'googleplus',
 				$this->taxonomy_tab_content->html( $googleplus_meta_fields ),
 				'<span class="dashicons dashicons-googleplus"></span>',
@@ -196,7 +196,7 @@ class WPSEO_Taxonomy_Metabox {
 			);
 		}
 
-		return new WPSEO_Metabox_Section(
+		return new WPSEO_Metabox_Tab_Section(
 			'social',
 			'<span class="dashicons dashicons-share"></span>',
 			$tabs,

@@ -262,7 +262,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	/**
 	 * Returns the relevant metabox sections for the current view.
 	 *
-	 * @return WPSEO_Metabox_Section[]
+	 * @return WPSEO_Metabox_Tab_Section[]
 	 */
 	private function get_content_sections() {
 		$options = WPSEO_Options::get_all();
@@ -284,12 +284,12 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	/**
 	 * Returns the metabox section for the content analysis.
 	 *
-	 * @return WPSEO_Metabox_Section
+	 * @return WPSEO_Metabox_Tab_Section
 	 */
 	private function get_content_meta_section() {
 		$content = $this->get_tab_content( 'general' );
 
-		$tab = new WPSEO_Metabox_Tab(
+		$tab = new WPSEO_Metabox_Form_Tab(
 			'content',
 			$content,
 			__( 'Content', 'wordpress-seo' ),
@@ -299,7 +299,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			)
 		);
 
-		return new WPSEO_Metabox_Section(
+		return new WPSEO_Metabox_Tab_Section(
 			'content',
 			'<span class="dashicons dashicons-yes"></span>',
 			array( $tab ),
@@ -313,12 +313,12 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	/**
 	 * Returns the metabox section for the advanced settings.
 	 *
-	 * @return WPSEO_Metabox_Section
+	 * @return WPSEO_Metabox_Tab_Section
 	 */
 	private function get_advanced_meta_section() {
 		$content = $this->get_tab_content( 'advanced' );
 
-		$tab = new WPSEO_Metabox_Tab(
+		$tab = new WPSEO_Metabox_Form_Tab(
 			'advanced',
 			$content,
 			__( 'Advanced', 'wordpress-seo' ),
@@ -327,7 +327,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			)
 		);
 
-		return new WPSEO_Metabox_Section(
+		return new WPSEO_Metabox_Tab_Section(
 			'advanced',
 			'<span class="dashicons dashicons-admin-generic"></span>',
 			array( $tab ),
@@ -342,10 +342,10 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * Returns a metabox section dedicated to hosting metabox tabs that have been added by other plugins through the
 	 * `wpseo_tab_header` and `wpseo_tab_content` actions.
 	 *
-	 * @return WPSEO_Metabox_Addon_Section
+	 * @return WPSEO_Metabox_Addon_Tab_Section
 	 */
 	private function get_addons_meta_section() {
-		return new WPSEO_Metabox_Addon_Section(
+		return new WPSEO_Metabox_Addon_Tab_Section(
 			'addons',
 			'<span class="dashicons dashicons-admin-plugins"></span>',
 			array(),
