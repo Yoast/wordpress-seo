@@ -187,7 +187,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @return array
 	 */
 	public function localize_post_scraper_script() {
-		$json = $this->get_scraper_json();
+		$json = $this->get_scraper_translations();
 
 		return array(
 			'translations'  => $json,
@@ -841,11 +841,11 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	}
 
 	/**
-	 * Returns a json object with scraper data.
+	 * Returns Jed compatible YoastSEO.js translations.
 	 *
 	 * @return array
 	 */
-	private function get_scraper_json() {
+	private function get_scraper_translations() {
 		$file = plugin_dir_path( WPSEO_FILE ) . 'languages/wordpress-seo-' . get_locale() . '.json';
 		if ( file_exists( $file ) && $file = file_get_contents( $file ) ) {
 			return json_decode( $file, true );
