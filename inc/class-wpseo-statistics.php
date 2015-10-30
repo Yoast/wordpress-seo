@@ -134,5 +134,4 @@ class WPSEO_Statistics {
 
 		return $posts->found_posts;
 	}
-
 }

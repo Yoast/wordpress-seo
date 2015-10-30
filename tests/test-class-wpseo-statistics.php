@@ -27,7 +27,7 @@ class WPSEO_Statistics_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Statistics::get_ok_seo_post_count
 	 * @covers WPSEO_Statistics::get_good_seo_post_count
 	 * @covers WPSEO_Statistics::get_no_focus_post_count
-	 * @covers WPSEO_Statistics::get_no_index_seo_post_count
+	 * @covers WPSEO_Statistics::get_no_index_post_count
 	 */
 	public function test_empty_statistics() {
 		$this->assertEquals( 0, $this->instance->get_bad_seo_post_count() );
@@ -94,7 +94,7 @@ class WPSEO_Statistics_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the no index statistics function
 	 *
-	 * @covers WPSEO_Statistics::get_no_index_seo_post_count
+	 * @covers WPSEO_Statistics::get_no_index_post_count
 	 */
 	public function test_no_index_statistics() {
 		$posts = $this->factory->post->create_many( 7, array(

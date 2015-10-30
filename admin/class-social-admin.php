@@ -9,12 +9,16 @@
 class WPSEO_Social_Admin extends WPSEO_Metabox {
 
 	/**
+	 * @var array
+	 */
+	private $options;
+
+	/**
 	 * Class constructor
 	 */
 	public function __construct() {
-		add_action( 'wpseo_tab_translate', array( $this, 'translate_meta_boxes' ) );
-		add_action( 'wpseo_tab_header', array( $this, 'tab_header' ), 60 );
-		add_action( 'wpseo_tab_content', array( $this, 'tab_content' ) );
+		$this->options = WPSEO_Options::get_all();
+		self::translate_meta_boxes();
 		add_filter( 'wpseo_save_metaboxes', array( $this, 'save_meta_boxes' ), 10, 1 );
 		add_action( 'wpseo_save_compare_data', array( $this, 'og_data_compare' ), 10, 1 );
 	}
@@ -69,23 +73,84 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 	}
 
 	/**
-	 * Output the tab header for the Social tab
+	 * Returns the metabox section for the social settings.
+	 *
+	 * @return WPSEO_Metabox_Tab_Section
 	 */
-	public function tab_header() {
-		echo '<li class="social"><a class="wpseo_tablink" href="#wpseo_social">', __( 'Social', 'wordpress-seo' ), '</a></li>';
+	public function get_meta_section() {
+		$tabs = array();
+		$social_meta_fields = $this->get_meta_field_defs( 'social' );
+
+		if ( $this->options['opengraph'] === true ) {
+			$tabs[] = new WPSEO_Metabox_Form_Tab(
+				'facebook',
+				$this->get_social_tab_content( 'opengraph', $social_meta_fields ),
+				'<span class="dashicons dashicons-facebook-alt"></span>',
+				array(
+					'link_alt' => __( 'Facebook / Opengraph metadata', 'wordpress-seo' ),
+					'link_title' => __( 'Facebook / Opengraph metadata', 'wordpress-seo' ),
+				)
+			);
+		}
+
+		if ( $this->options['twitter'] === true ) {
+			$tabs[] = new WPSEO_Metabox_Form_Tab(
+				'twitter',
+				$this->get_social_tab_content( 'twitter', $social_meta_fields ),
+				'<span class="dashicons dashicons-twitter"></span>',
+				array(
+					'link_alt' => __( 'Twitter metadata', 'wordpress-seo' ),
+					'link_title' => __( 'Twitter metadata', 'wordpress-seo' ),
+				)
+			);
+		}
+
+		if ( $this->options['googleplus'] === true ) {
+			$tabs[] = new WPSEO_Metabox_Form_Tab(
+				'googleplus',
+				$this->get_social_tab_content( 'google-plus', $social_meta_fields ),
+				'<span class="dashicons dashicons-googleplus"></span>',
+				array(
+					'link_alt' => __( 'Google+ metadata', 'wordpress-seo' ),
+					'link_title' => __( 'Google+ metadata', 'wordpress-seo' ),
+				)
+			);
+		}
+
+		return new WPSEO_Metabox_Tab_Section(
+			'social',
+			'<span class="dashicons dashicons-share"></span>',
+			$tabs,
+			array(
+				'link_alt' => __( 'Social', 'wordpress-seo' ),
+				'link_title' => __( 'Social', 'wordpress-seo' ),
+			)
+		);
 	}
 
 	/**
-	 * Output the tab content
+	 * Generates the html for a social settings tab for one of the supported social media.
+	 *
+	 * @param string $medium can be 'opengraph', 'twitter' or 'googleplus'.
+	 * @param array  $meta_field_defs The social meta field definitions.
+	 *
+	 * @return string
 	 */
-	public function tab_content() {
-		$content = '';
-		foreach ( $this->get_meta_field_defs( 'social' ) as $meta_key => $meta_field ) {
-			$content .= $this->do_meta_box( $meta_field, $meta_key );
-		}
-		$this->do_tab( 'social', __( 'Social', 'wordpress-seo' ), $content );
-	}
+	private function get_social_tab_content( $medium, $meta_field_defs ) {
+		$field_names = array(
+			$medium . '-title',
+			$medium . '-description',
+			$medium . '-image',
+		);
 
+		$tab_content = '';
+
+		foreach ( $field_names as $field_name ) {
+			$tab_content .= $this->do_meta_box( $meta_field_defs[ $field_name ], $field_name );
+		}
+
+		return $tab_content;
+	}
 
 	/**
 	 * Filter over the meta boxes to save, this function adds the Social meta boxes.
@@ -159,5 +224,4 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 
 		return $this->get_meta_field_defs( 'social' );
 	}
-
 } /* End of class */

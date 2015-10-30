@@ -131,7 +131,7 @@ class WPSEO_Meta {
 			'linkdex'        => array(
 				'type'          => 'hidden',
 				'title'         => 'linkdex',
-				'default_value' => '',
+				'default_value' => '0',
 				'description'   => '',
 			),
 			'metakeywords'   => array(
@@ -1035,5 +1035,4 @@ class WPSEO_Meta {
 
 		return $get_posts->posts;
 	}
-
 } /* End of class */
