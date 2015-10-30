@@ -688,7 +688,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	/**
 	 * Returns post in metabox context
 	 *
-	 * @returns WP_Post
+	 * @returns WP_Post|array
 	 */
 	protected function get_metabox_post() {
 		if ( $post = filter_input( INPUT_GET, 'post' ) ) {
