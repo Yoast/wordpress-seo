@@ -105,7 +105,7 @@ class WPSEO_Metabox_Section {
 	 */
 	private function tab_links() {
 		$links = '';
-		foreach ( $this->tabs as $tab_name => $tab ) {
+		foreach ( $this->tabs as $tab ) {
 			$links .= $tab->link();
 		}
 		return $links;
@@ -118,7 +118,7 @@ class WPSEO_Metabox_Section {
 	 */
 	private function tab_content() {
 		$content = '';
-		foreach ( $this->tabs as $tab_name => $tab ) {
+		foreach ( $this->tabs as $tab ) {
 			$content .= $tab->content();
 		}
 		return $content;
