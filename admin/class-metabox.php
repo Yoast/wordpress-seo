@@ -617,9 +617,9 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			}
 			wp_enqueue_style( 'metabox', plugins_url( 'css/metabox' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
 			wp_enqueue_style( 'jquery-qtip.js', plugins_url( 'css/jquery.qtip' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), '2.2.1' );
-			wp_enqueue_style( 'yoast-seo', plugins_url( 'css/dist/yoast-seo/yoast-seo.min.css', WPSEO_FILE ), array(), '2.2.1' );
-			wp_enqueue_style( 'scoring', plugins_url( 'css/yst_seo_score' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), '2.2.1' );
-			wp_enqueue_style( 'snippet', plugins_url( 'css/snippet' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), '2.2.1' );
+			wp_enqueue_style( 'yoast-seo', plugins_url( 'css/dist/yoast-seo/yoast-seo.min.css', WPSEO_FILE ), array(), WPSEO_VERSION );
+			wp_enqueue_style( 'scoring', plugins_url( 'css/yst_seo_score' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
+			wp_enqueue_style( 'snippet', plugins_url( 'css/snippet' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
 			wp_enqueue_script( 'jquery-ui-autocomplete' );
 
 			// Always enqueue minified as it's not our code.
