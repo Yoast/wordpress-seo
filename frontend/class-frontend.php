@@ -621,7 +621,7 @@ class WPSEO_Frontend {
 			 *
 			 * @api bool
 			 */
-			( ( apply_filters( 'wpseo_hide_version', false ) && $this->is_premium() ) ? '' : ' v' . WPSEO_VERSION  )
+			( ( apply_filters( 'wpseo_hide_version', false ) && $this->is_premium() ) ? '' : ' v' . WPSEO_VERSION )
 		);
 
 		if ( $echo === false ) {
@@ -855,8 +855,8 @@ class WPSEO_Frontend {
 	/**
 	 * Checks whether the user has written a meta-description. If written,  makes sure meta robots content is noodp.
 	 */
-	public function add_robot_content_noods () {
-		if(!(WPSEO_Meta::get_value( 'metadesc' ) === '') && $this->options['noodp'] == false ) {
+	public function add_robot_content_noods() {
+		if ( ! ( WPSEO_Meta::get_value( 'metadesc' ) === '' ) && $this->options['noodp'] == false ) {
 			$this->options['noodp'] = true;
 		}
 	}
@@ -1760,6 +1760,7 @@ class WPSEO_Frontend {
 		 * Filter: 'wpseo_include_rss_footer' - Allow the the RSS footer to be dynamically shown/hidden
 		 *
 		 * @api boolean $show_embed Indicates if the RSS footer should be shown or not
+		 *
 		 * @param string $context The context of the RSS content - 'full' or 'excerpt'.
 		 */
 		if ( ! apply_filters( 'wpseo_include_rss_footer', true, $context ) ) {
