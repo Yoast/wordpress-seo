@@ -63,7 +63,7 @@ class WPSEO_HelpScout_Beacon_Identifier {
 	/**
 	 * Returns info about the current user
 	 *
-	 * @param string $what What to retrieve, defaults to name
+	 * @param string $what What to retrieve, defaults to name.
 	 *
 	 * @return string
 	 */
@@ -107,8 +107,8 @@ class WPSEO_HelpScout_Beacon_Identifier {
 		if ( function_exists( 'curl_version' ) ) {
 			$curl = curl_version();
 			$msg  = $curl['version'];
-			if ( ! $curl['features'] & CURL_VERSION_SSL ) {
-				$msg .= " - NO SSL SUPPORT";
+			if ( ! $curl['features'] && CURL_VERSION_SSL ) {
+				$msg .= ' - NO SSL SUPPORT';
 			}
 		} else {
 			$msg = 'No CURL installed';

@@ -58,9 +58,9 @@ class WPSEO_HelpScout_Beacon {
 	 * @return string
 	 */
 	private function get_instructions() {
-		$return  = __( "Please explain what you're trying to find or do. If something isn't working, please explain what you expect to happen. If you can make a screenshot, please attach it.", 'yoastcom' );
+		$return  = __( "Please explain what you're trying to find or do. If something isn't working, please explain what you expect to happen. If you can make a screenshot, please attach it.", 'wordpress-seo-premium' );
 		$return .= ' ';
-		$return .= __( "Note: submitting this form also sends us debug info about your server.", 'yoastcom' );
+		$return .= __( 'Note: submitting this form also sends us debug info about your server.', 'wordpress-seo-premium' );
 
 		return $return;
 	}
