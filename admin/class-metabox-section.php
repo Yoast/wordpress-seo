@@ -99,7 +99,7 @@ class WPSEO_Metabox_Section {
 	}
 
 	/**
-	 * * Concatenates all tabs' links into one html string.
+	 * Concatenates all tabs' links into one html string.
 	 *
 	 * @return string
 	 */
