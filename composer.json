@@ -30,7 +30,8 @@
 	},
 	"require-dev": {
 		"yoast/yoastcs": "dev-master",
-		"codeclimate/php-test-reporter": "dev-master"
+		"codeclimate/php-test-reporter": "dev-master",
+		"phpunit/phpunit": "^5.0.0"
 	},
 	"minimum-stability": "dev",
 	"prefer-stable": true,
