@@ -73,8 +73,8 @@ class WPSEO_Frontend {
 
 		// The head function here calls action wpseo_head, to which we hook all our functionality.
 		add_action( 'wpseo_head', array( $this, 'debug_marker' ), 2 );
-		add_action( 'wpseo_head', array( $this, 'robots' ), 6 );
-		add_action( 'wpseo_head', array( $this, 'metadesc' ), 10 );
+		add_action( 'wpseo_head', array( $this, 'metadesc' ), 6 );
+		add_action( 'wpseo_head', array( $this, 'robots' ), 10 );
 		add_action( 'wpseo_head', array( $this, 'metakeywords' ), 11 );
 		add_action( 'wpseo_head', array( $this, 'canonical' ), 20 );
 		add_action( 'wpseo_head', array( $this, 'adjacent_rel_links' ), 21 );
@@ -704,8 +704,6 @@ class WPSEO_Frontend {
 		$robots['follow'] = 'follow';
 		$robots['other']  = array();
 
-		$this->add_robot_content_noods();
-
 		if ( is_singular() ) {
 			global $post;
 
@@ -849,16 +847,6 @@ class WPSEO_Frontend {
 		unset( $meta_robots_adv );
 
 		return $robots;
-	}
-
-
-	/**
-	 * Checks whether the user has written a meta-description. If written,  makes sure meta robots content is noodp.
-	 */
-	public function add_robot_content_noods() {
-		if ( ! ( WPSEO_Meta::get_value( 'metadesc' ) === '' ) && $this->options['noodp'] == false ) {
-			$this->options['noodp'] = true;
-		}
 	}
 
 	/**
@@ -1255,6 +1243,7 @@ class WPSEO_Frontend {
 		if ( $echo !== false ) {
 			if ( is_string( $this->metadesc ) && $this->metadesc !== '' ) {
 				echo '<meta name="description" content="', esc_attr( strip_tags( stripslashes( $this->metadesc ) ) ), '"/>', "\n";
+				$this->add_robot_content_noods( $this->metadesc );
 			}
 			elseif ( current_user_can( 'manage_options' ) && is_singular() ) {
 				echo '<!-- ', __( 'Admin only notice: this page doesn\'t show a meta description because it doesn\'t have one, either write it for this page specifically or go into the SEO -> Titles menu and set up a template.', 'wordpress-seo' ), ' -->', "\n";
@@ -1889,6 +1878,15 @@ class WPSEO_Frontend {
 	 */
 	private function is_premium() {
 		return file_exists( WPSEO_PATH . 'premium/' );
+	}
+
+	/**
+	 * Checks whether the user has written a meta-description. If written,  makes sure meta robots content is noodp.
+	 */
+	private function add_robot_content_noods( $desc ) {
+		if ( ! ( $desc === '' ) && $this->options['noodp'] === false ) {
+			$this->options['noodp'] = true;
+		}
 	}
 
 	/**
