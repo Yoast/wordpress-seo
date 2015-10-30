@@ -187,10 +187,10 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @return array
 	 */
 	public function localize_post_scraper_script() {
-		$json = $this->get_scraper_translations();
+		$translations = $this->get_scraper_translations();
 
 		return array(
-			'translations'  => $json,
+			'translations'  => $translations,
 			'keyword_usage' => $this->get_focus_keyword_usage(),
 			'search_url'    => admin_url( 'edit.php?seo_kw_filter={keyword}' ),
 			'post_edit_url' => admin_url( 'post.php?post={id}&action=edit' ),

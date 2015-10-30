@@ -174,25 +174,19 @@ class WPSEO_Taxonomy {
 	}
 
 	/**
+	 * Pass variables to js for use with the term-scraper
 	 *
 	 * @return array
 	 */
 	public function localize_term_scraper_script() {
-		$file = plugin_dir_path( WPSEO_FILE ) . 'languages/wordpress-seo-' . get_locale() . '.json';
-		if ( file_exists( $file ) ) {
-			$file = file_get_contents( $file );
-			$json = json_decode( $file, true );
-		}
-		else {
-			$json = array();
-		}
+		$translations = $this->get_scraper_translations();
 
 		$term_id = filter_input( INPUT_GET, 'tag_ID' );
 		$term    = get_term_by( 'id', $term_id, $this->get_taxonomy() );
 		$focuskw = WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'focuskw' );
 
 		return array(
-			'translations'                  => $json,
+			'translations'                  => $translations,
 			'home_url'                      => home_url( '/', null ),
 			'taxonomy'                      => $term->taxonomy,
 			'keyword_usage'                 => WPSEO_Taxonomy_Meta::get_keyword_usage( $focuskw, $term->term_id, $term->taxonomy ),
@@ -204,5 +198,17 @@ class WPSEO_Taxonomy {
 		);
 	}
 
+	/**
+	 * Returns Jed compatible YoastSEO.js translations.
+	 *
+	 * @return array
+	 */
+	private function get_scraper_translations() {
+		$file = plugin_dir_path( WPSEO_FILE ) . 'languages/wordpress-seo-' . get_locale() . '.json';
+		if ( file_exists( $file ) && $file = file_get_contents( $file ) ) {
+			return json_decode( $file, true );
+		}
+		return array();
+	}
 
 } /* End of class */
