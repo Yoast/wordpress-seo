@@ -90,7 +90,9 @@ class WPSEO_Premium {
 
 			// Only add the helpscout beacon on Yoast SEO pages.
 			if ( substr( $query_var, 0, 5 ) === 'wpseo' ) {
-				new WPSEO_HelpScout_Beacon();
+				new WPSEO_HelpScout_Beacon(
+					substr( $query_var, 6 )
+				);
 			}
 
 			// Disable Yoast SEO.
