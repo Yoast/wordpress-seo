@@ -7,7 +7,7 @@
   ],
   "dependencies": {
     "yoast-seo": "https://github.com/Yoast/YoastSEO.js.git",
-    "qTip2": "2.2.1",
+    "qtip2": "2.2.1",
     "tablesorter": "*"
   },
   "install": {
@@ -19,8 +19,11 @@
       "yoast-seo": [
         "bower_components/yoast-seo/dist/yoast-seo.min.css",
         "bower_components/yoast-seo/dist/yoast-seo.min.js"
-      ]
-    }
+      ],
+      "tablesorter": "bower_components/tablesorter/jquery.tablesorter.min.js",
+      "qtip2": "bower_components/qtip2/jquery.qtip.min.js"
+    },
+    "ignore": ["eventEmitter", "eventie", "imagesloaded", "jquery"]
   },
   "description": "Yoast SEO for WordPress",
   "keywords": [
