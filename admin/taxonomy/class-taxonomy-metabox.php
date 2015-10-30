@@ -216,9 +216,9 @@ class WPSEO_Taxonomy_Metabox {
 	 */
 	private function tax_is_public() {
 		// Don't make static as taxonomies may still be added during the run.
-		$taxonomies = get_taxonomies( array( 'public' => true ), 'names' );
+		$taxonomy = get_taxonomy( $this->taxonomy );
 
-		return ( in_array( $this->taxonomy, $taxonomies ) );
+		return $taxonomy->public;
 	}
 
 	/**
