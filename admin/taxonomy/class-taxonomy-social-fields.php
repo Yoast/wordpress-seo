@@ -11,8 +11,8 @@ class WPSEO_Taxonomy_Social_Fields extends WPSEO_Taxonomy_Fields {
 	/**
 	 * Setting the class properties
 	 *
-	 * @param stdClass $term    The current taxonomy.
-	 * @param array    $options The options.
+	 * @param stdClass|WP_Term $term    The current taxonomy.
+	 * @param array            $options The options.
 	 */
 	public function __construct( $term, array $options = array() ) {
 		parent::__construct( $term, $options );

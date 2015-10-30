@@ -36,7 +36,7 @@ class WPSEO_Taxonomy {
 	/**
 	 * Show the SEO inputs for term.
 	 *
-	 * @param object $term Term to show the edit boxes for.
+	 * @param stdClass|WP_Term $term Term to show the edit boxes for.
 	 */
 	public function term_metabox( $term ) {
 		$metabox = new WPSEO_Taxonomy_Metabox( $this->taxonomy, $term );
