@@ -36,15 +36,12 @@ class WPSEO_Utils {
 		}
 
 		$options = get_site_option( 'wpseo_ms' );
-		if ( $options['access'] === 'admin' && current_user_can( 'manage_options' ) ) {
-			return true;
+
+		if ( empty( $options['access'] ) || $options['access'] === 'admin' ) {
+			return current_user_can( 'manage_options' );
 		}
 
-		if ( $options['access'] === 'superadmin' && ! is_super_admin() ) {
-			return false;
-		}
-
-		return true;
+		return is_super_admin();
 	}
 
 	/**
@@ -191,42 +188,13 @@ class WPSEO_Utils {
 	 * @return string
 	 */
 	public static function translate_score( $val, $css_value = true ) {
-		if ( $val > 10 ) {
-			$val = round( $val / 10 );
-		}
-		switch ( $val ) {
-			case 0:
-				$score = __( 'N/A', 'wordpress-seo' );
-				$css   = 'na';
-				break;
-			case 4:
-			case 5:
-				$score = __( 'Poor', 'wordpress-seo' );
-				$css   = 'poor';
-				break;
-			case 6:
-			case 7:
-				$score = __( 'OK', 'wordpress-seo' );
-				$css   = 'ok';
-				break;
-			case 8:
-			case 9:
-			case 10:
-				$score = __( 'Good', 'wordpress-seo' );
-				$css   = 'good';
-				break;
-			default:
-				$score = __( 'Bad', 'wordpress-seo' );
-				$css   = 'bad';
-				break;
-		}
+		$seo_rank = WPSEO_Rank::from_numeric_score( $val );
 
 		if ( $css_value ) {
-			return $css;
+			return $seo_rank->get_css_class();
 		}
-		else {
-			return $score;
-		}
+
+		return $seo_rank->get_label();
 	}
 
 	/**

@@ -6,7 +6,7 @@ module.exports = function(grunt) {
 		'combine-pot-files': {
 			fromFiles: [
 				'languages/<%= pkg.plugin.textdomain %>-temp.pot',
-				'bower_components/js-text-analysis/languages/js-text-analysis.pot'
+				'bower_components/yoast-seo/languages/yoast-seo.pot'
 			],
 			toFile: 'languages/<%= pkg.plugin.textdomain %>.pot',
 			command: function() {

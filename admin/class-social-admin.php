@@ -7,6 +7,10 @@
  * This class adds the Social tab to the Yoast SEO metabox and makes sure the settings are saved.
  */
 class WPSEO_Social_Admin extends WPSEO_Metabox {
+
+	/**
+	 * @var array
+	 */
 	private $options;
 
 	/**
@@ -68,47 +72,52 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 		}
 	}
 
+	/**
+	 * Returns the metabox section for the social settings.
+	 *
+	 * @return WPSEO_Metabox_Tab_Section
+	 */
 	public function get_meta_section() {
 		$tabs = array();
 		$social_meta_fields = $this->get_meta_field_defs( 'social' );
 
 		if ( $this->options['opengraph'] === true ) {
-			$tabs[] = new WPSEO_Metabox_Tab(
+			$tabs[] = new WPSEO_Metabox_Form_Tab(
 				'facebook',
 				$this->get_social_tab_content( 'opengraph', $social_meta_fields ),
 				'<span class="dashicons dashicons-facebook-alt"></span>',
 				array(
 					'link_alt' => __( 'Facebook / Opengraph metadata', 'wordpress-seo' ),
-					'link_title' => __( 'Facebook / Opengraph metadata', 'wordpress-seo' )
+					'link_title' => __( 'Facebook / Opengraph metadata', 'wordpress-seo' ),
 				)
 			);
 		}
 
 		if ( $this->options['twitter'] === true ) {
-			$tabs[] = new WPSEO_Metabox_Tab(
+			$tabs[] = new WPSEO_Metabox_Form_Tab(
 				'twitter',
 				$this->get_social_tab_content( 'twitter', $social_meta_fields ),
 				'<span class="dashicons dashicons-twitter"></span>',
 				array(
 					'link_alt' => __( 'Twitter metadata', 'wordpress-seo' ),
-					'link_title' => __( 'Twitter metadata', 'wordpress-seo' )
+					'link_title' => __( 'Twitter metadata', 'wordpress-seo' ),
 				)
 			);
 		}
 
 		if ( $this->options['googleplus'] === true ) {
-			$tabs[] = new WPSEO_Metabox_Tab(
+			$tabs[] = new WPSEO_Metabox_Form_Tab(
 				'googleplus',
 				$this->get_social_tab_content( 'google-plus', $social_meta_fields ),
 				'<span class="dashicons dashicons-googleplus"></span>',
 				array(
 					'link_alt' => __( 'Google+ metadata', 'wordpress-seo' ),
-					'link_title' => __( 'Google+ metadata', 'wordpress-seo' )
+					'link_title' => __( 'Google+ metadata', 'wordpress-seo' ),
 				)
 			);
 		}
 
-		return new WPSEO_Metabox_Section(
+		return new WPSEO_Metabox_Tab_Section(
 			'social',
 			'<span class="dashicons dashicons-share"></span>',
 			$tabs,
@@ -119,6 +128,14 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 		);
 	}
 
+	/**
+	 * Generates the html for a social settings tab for one of the supported social media.
+	 *
+	 * @param string $medium can be 'opengraph', 'twitter' or 'googleplus'.
+	 * @param array  $meta_field_defs The social meta field definitions.
+	 *
+	 * @return string
+	 */
 	private function get_social_tab_content( $medium, $meta_field_defs ) {
 		$field_names = array(
 			$medium . '-title',

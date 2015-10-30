@@ -255,6 +255,15 @@ function wpseo_recalculate_scores( current_page ) {
 	count_element.text( 0 );
 	progress_bar.progressbar( { value: 0 } );
 
+	var i18n = new YoastSEO.Jed( {
+		"domain": "js-text-analysis",
+		"locale_data": {
+			"js-text-analysis": {
+				"": {}
+			}
+		}
+	} );
+
 	/**
 	 * Objects to do the recalculate stuff
 	 * @type {{update_progressbar: Function, calculate_score: Function, parse_response: Function, get_posts_to_recalculate: Function}}
@@ -282,7 +291,8 @@ function wpseo_recalculate_scores( current_page ) {
 		 * @param {Object} post
 		 */
 		calculate_score: function( post ) {
-			var tmpAnalyzer = new YoastSEO_Analyzer( post );
+			post.i18n = i18n;
+			var tmpAnalyzer = new YoastSEO.Analyzer( post );
 			tmpAnalyzer.runQueue();
 			var score = tmpAnalyzer.analyzeScorer.__totalScore;
 

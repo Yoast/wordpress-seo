@@ -27,6 +27,14 @@ ul.wpseo-metabox-tabs li.active {
 	display: inline-block;
 }
 
+.wpseo-metabox-sidebar {
+	display: inline-block;
+	width: 40px;
+	padding: 5px;
+	background-color: #fff;
+	vertical-align: top;
+}
+
 .wpseo-metabox-sidebar li span {
 	margin-left: -5px;
 	padding-left: 5px;

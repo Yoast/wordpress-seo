@@ -187,12 +187,11 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @return array
 	 */
 	public function localize_post_scraper_script() {
-		$post = $this->get_metabox_post();
-		$json = $this->get_scraper_json();
+		$translations = $this->get_scraper_translations();
 
 		return array(
-			'translations'  => $json,
-			'keyword_usage' => $this->get_focus_keyword_usage( $post->ID ),
+			'translations'  => $translations,
+			'keyword_usage' => $this->get_focus_keyword_usage(),
 			'search_url'    => admin_url( 'edit.php?seo_kw_filter={keyword}' ),
 			'post_edit_url' => admin_url( 'post.php?post={id}&action=edit' ),
 			'home_url'      => home_url( '/', null ),
@@ -232,7 +231,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 */
 	public function do_tab( $id, $heading, $content ) {
 		?>
-		<div id="wpseo_<?php echo $id ?>" class="wpseotab <?php echo esc_attr( $id ) ?>">
+		<div id="wpseo_<?php echo esc_attr( $id ) ?>" class="wpseotab <?php echo esc_attr( $id ) ?>">
 			<h4 class="wpseo-heading"><?php echo esc_html( $heading ); ?></h4>
 			<table class="form-table">
 				<?php echo $content ?>
@@ -247,21 +246,23 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	public function meta_box() {
 		$content_sections = $this->get_content_sections();
 
-		echo '<div class="wpseo-metabox-sidebar" style="display:inline-block; width: 40px; padding: 5px; background-color: #fff; vertical-align: top;"><ul>';
+		echo '<div class="wpseo-metabox-sidebar"><ul>';
 
-		foreach( $content_sections as $content_section ) {
+		foreach ( $content_sections as $content_section ) {
 			$content_section->display_link();
 		}
 
 		echo '</ul></div>';
 
-		foreach( $content_sections as $content_section ) {
+		foreach ( $content_sections as $content_section ) {
 			$content_section->display_content();
 		}
 	}
 
 	/**
-	 * @return WPSEO_Metabox_Section[]
+	 * Returns the relevant metabox sections for the current view.
+	 *
+	 * @return WPSEO_Metabox_Tab_Section[]
 	 */
 	private function get_content_sections() {
 		$options = WPSEO_Options::get_all();
@@ -280,11 +281,15 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		return $content_sections;
 	}
 
-
+	/**
+	 * Returns the metabox section for the content analysis.
+	 *
+	 * @return WPSEO_Metabox_Tab_Section
+	 */
 	private function get_content_meta_section() {
 		$content = $this->get_tab_content( 'general' );
 
-		$tab = new WPSEO_Metabox_Tab(
+		$tab = new WPSEO_Metabox_Form_Tab(
 			'content',
 			$content,
 			__( 'Content', 'wordpress-seo' ),
@@ -294,7 +299,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			)
 		);
 
-		return new WPSEO_Metabox_Section(
+		return new WPSEO_Metabox_Tab_Section(
 			'content',
 			'<span class="dashicons dashicons-yes"></span>',
 			array( $tab ),
@@ -305,10 +310,15 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		);
 	}
 
+	/**
+	 * Returns the metabox section for the advanced settings.
+	 *
+	 * @return WPSEO_Metabox_Tab_Section
+	 */
 	private function get_advanced_meta_section() {
 		$content = $this->get_tab_content( 'advanced' );
 
-		$tab = new WPSEO_Metabox_Tab(
+		$tab = new WPSEO_Metabox_Form_Tab(
 			'advanced',
 			$content,
 			__( 'Advanced', 'wordpress-seo' ),
@@ -317,7 +327,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			)
 		);
 
-		return new WPSEO_Metabox_Section(
+		return new WPSEO_Metabox_Tab_Section(
 			'advanced',
 			'<span class="dashicons dashicons-admin-generic"></span>',
 			array( $tab ),
@@ -328,8 +338,14 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		);
 	}
 
+	/**
+	 * Returns a metabox section dedicated to hosting metabox tabs that have been added by other plugins through the
+	 * `wpseo_tab_header` and `wpseo_tab_content` actions.
+	 *
+	 * @return WPSEO_Metabox_Addon_Tab_Section
+	 */
 	private function get_addons_meta_section() {
-		return new WPSEO_Metabox_Addon_Section(
+		return new WPSEO_Metabox_Addon_Tab_Section(
 			'addons',
 			'<span class="dashicons dashicons-admin-plugins"></span>',
 			array(),
@@ -340,9 +356,16 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		);
 	}
 
-	private function get_tab_content( $metakey ) {
+	/**
+	 * Gets the table contents for the metabox tab.
+	 *
+	 * @param string $tab_name Tab for which to retrieve the field definitions.
+	 *
+	 * @return string
+	 */
+	private function get_tab_content( $tab_name ) {
 		$content = '';
-		foreach ( $this->get_meta_field_defs( $metakey ) as $key => $meta_field ) {
+		foreach ( $this->get_meta_field_defs( $tab_name ) as $key => $meta_field ) {
 			$content .= $this->do_meta_box( $meta_field, $key );
 		}
 		unset( $key, $meta_field );
@@ -592,28 +615,34 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			if ( 0 != get_queried_object_id() ) {
 				wp_enqueue_media( array( 'post' => get_queried_object_id() ) ); // Enqueue files needed for upload functionality.
 			}
-			wp_enqueue_style( 'metabox', plugins_url( 'css/metabox' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
-			wp_enqueue_style( 'jquery-qtip.js', plugins_url( 'css/jquery.qtip' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), '2.2.1' );
-			wp_enqueue_style( 'snippet', plugins_url( 'css/snippet' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), '2.2.1' );
-			wp_enqueue_style( 'scoring', plugins_url( 'css/yst_seo_score' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), '2.2.1' );
-			wp_enqueue_script( 'jquery-ui-autocomplete' );
 
-			// Always enqueue minified as it's not our code.
-			wp_enqueue_script( 'jquery-qtip', plugins_url( 'js/jquery.qtip.min.js', WPSEO_FILE ), array( 'jquery' ), '2.2.1', true );
+			wp_enqueue_style( 'wp-seo-metabox', plugins_url( 'css/metabox' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
+			wp_enqueue_style( 'wp-seo-scoring', plugins_url( 'css/yst_seo_score' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
+			wp_enqueue_style( 'wp-seo-snippet', plugins_url( 'css/snippet' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
+			wp_enqueue_style( 'yoast-seo', plugins_url( 'css/dist/yoast-seo/yoast-seo.min.css', WPSEO_FILE ), array(), WPSEO_VERSION );
+			wp_enqueue_style( 'jquery-qtip', plugins_url( 'css/jquery.qtip' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), '2.2.1' );
 
-			wp_enqueue_script( 'wp-seo-metabox', plugins_url( 'js/wp-seo-metabox.js', WPSEO_FILE ), array(
+			wp_enqueue_script( 'wp-seo-metabox', plugins_url( 'js/wp-seo-metabox' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array(
 				'jquery',
 				'jquery-ui-core',
 			), WPSEO_VERSION );
 
+			wp_enqueue_script( 'wpseo-admin-media', plugins_url( 'js/wp-seo-admin-media' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array(
+				'jquery',
+				'jquery-ui-core',
+			), WPSEO_VERSION, true );
+
 			wp_enqueue_script( 'yoast-seo', plugins_url( 'js/dist/yoast-seo/yoast-seo.min.js', WPSEO_FILE ), null, WPSEO_VERSION, true );
 			wp_enqueue_script( 'wp-seo-post-scraper', plugins_url( 'js/wp-seo-post-scraper' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'yoast-seo' ), WPSEO_VERSION, true );
-			wp_enqueue_script( 'wp-seo-replacevar-plugin.js', plugins_url( 'js/wp-seo-replacevar-plugin' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'yoast-seo', 'wp-seo-post-scraper' ), WPSEO_VERSION, true );
-			wp_enqueue_script( 'wp-seo-shortcode-plugin.js', plugins_url( 'js/wp-seo-shortcode-plugin' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'yoast-seo', 'wp-seo-post-scraper' ), WPSEO_VERSION, true );
+			wp_enqueue_script( 'wp-seo-replacevar-plugin', plugins_url( 'js/wp-seo-replacevar-plugin' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'yoast-seo', 'wp-seo-post-scraper' ), WPSEO_VERSION, true );
+			wp_enqueue_script( 'wp-seo-shortcode-plugin', plugins_url( 'js/wp-seo-shortcode-plugin' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'yoast-seo', 'wp-seo-post-scraper' ), WPSEO_VERSION, true );
+			wp_enqueue_script( 'jquery-ui-autocomplete' );
+			wp_enqueue_script( 'jquery-qtip', plugins_url( 'js/jquery.qtip.min.js', WPSEO_FILE ), array( 'jquery' ), '2.2.1', true );
 
+			wp_localize_script( 'wpseo-admin-media', 'wpseoMediaL10n', $this->localize_media_script() );
 			wp_localize_script( 'wp-seo-post-scraper', 'wpseoPostScraperL10n', $this->localize_post_scraper_script() );
-			wp_localize_script( 'wp-seo-replacevar-plugin.js', 'wpseoReplaceVarsL10n', $this->localize_replace_vars_script() );
-			wp_localize_script( 'wp-seo-shortcode-plugin.js', 'wpseoShortcodePluginL10n', $this->localize_shortcode_plugin_script() );
+			wp_localize_script( 'wp-seo-replacevar-plugin', 'wpseoReplaceVarsL10n', $this->localize_replace_vars_script() );
+			wp_localize_script( 'wp-seo-shortcode-plugin', 'wpseoShortcodePluginL10n', $this->localize_shortcode_plugin_script() );
 
 			if ( post_type_supports( get_post_type(), 'thumbnail' ) ) {
 				wp_enqueue_style( 'featured-image', plugins_url( 'css/featured-image' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
@@ -622,13 +651,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				$featured_image_l10 = array( 'featured_image_notice' => __( 'The featured image should be at least 200x200 pixels to be picked up by Facebook and other social media sites.', 'wordpress-seo' ) );
 				wp_localize_script( 'wp-seo-metabox', 'wpseoFeaturedImageL10n', $featured_image_l10 );
 			}
-
-			wp_enqueue_script( 'wpseo-admin-media', plugins_url( 'js/wp-seo-admin-media' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array(
-				'jquery',
-				'jquery-ui-core',
-			), WPSEO_VERSION, true );
-
-			wp_localize_script( 'wpseo-admin-media', 'wpseoMediaL10n', $this->localize_media_script() );
 		}
 	}
 
@@ -664,31 +686,38 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	/**
 	 * Returns post in metabox context
 	 *
-	 * @returns WP_Post
+	 * @returns WP_Post|array
 	 */
-	private function get_metabox_post() {
+	protected function get_metabox_post() {
 		if ( $post = filter_input( INPUT_GET, 'post' ) ) {
 			$post_id = (int) WPSEO_Utils::validate_int( $post );
 
 			return get_post( $post_id );
 		}
 
-		return $GLOBALS['post'];
+		if ( isset( $GLOBALS['post'] ) ) {
+			return $GLOBALS['post'];
+		}
+
+		return array();
 	}
 
 	/**
 	 * Counting the number of given keyword used for other posts than given post_id
 	 *
-	 * @param integer $post_id The ID of the post for which to get the focus keyword usage.
-	 *
-	 * @return int
+	 * @return array
 	 */
-	private function get_focus_keyword_usage( $post_id ) {
-		$keyword = WPSEO_Meta::get_value( 'focuskw', $post_id );
+	private function get_focus_keyword_usage() {
+		$post = $this->get_metabox_post();
+		if ( is_object( $post ) ) {
+			$keyword = WPSEO_Meta::get_value( 'focuskw', $post->ID );
 
-		return array(
-			$keyword => WPSEO_Meta::keyword_usage( $keyword, $post_id ),
-		);
+			return array(
+				$keyword => WPSEO_Meta::keyword_usage( $keyword, $post->ID ),
+			);
+		}
+
+		return array();
 	}
 
 	/********************** DEPRECATED METHODS **********************/
@@ -810,11 +839,11 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	}
 
 	/**
-	 * Returns a json object with scraper data.
+	 * Returns Jed compatible YoastSEO.js translations.
 	 *
 	 * @return array
 	 */
-	private function get_scraper_json() {
+	private function get_scraper_translations() {
 		$file = plugin_dir_path( WPSEO_FILE ) . 'languages/wordpress-seo-' . get_locale() . '.json';
 		if ( file_exists( $file ) && $file = file_get_contents( $file ) ) {
 			return json_decode( $file, true );
