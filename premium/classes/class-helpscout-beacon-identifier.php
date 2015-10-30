@@ -101,6 +101,7 @@ class WPSEO_HelpScout_Beacon_Identifier {
 
 	/**
 	 * Returns the curl version, if curl is found
+	 *
 	 * @return string
 	 */
 	private function get_curl_info() {
@@ -110,7 +111,8 @@ class WPSEO_HelpScout_Beacon_Identifier {
 			if ( ! $curl['features'] && CURL_VERSION_SSL ) {
 				$msg .= ' - NO SSL SUPPORT';
 			}
-		} else {
+		}
+		else {
 			$msg = 'No CURL installed';
 		}
 
