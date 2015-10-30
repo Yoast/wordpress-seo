@@ -5,8 +5,6 @@
 
 /**
  * This class generates the metabox on the edit term page.
- *
- * Class WPSEO_Taxonomy_Metabox
  */
 class WPSEO_Taxonomy_Metabox {
 

@@ -5,8 +5,6 @@
 
 /**
  * Generates the HTML for a metabox tab.
- *
- * Class WPSEO_Metabox_Tab
  */
 class WPSEO_Metabox_Tab {
 

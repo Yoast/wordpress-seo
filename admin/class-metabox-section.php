@@ -5,8 +5,6 @@
 
 /**
  * Generates and displays the HTML for a metabox section.
- *
- * Class WPSEO_Metabox_Section
  */
 class WPSEO_Metabox_Section {
 
