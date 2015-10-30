@@ -11,11 +11,13 @@
   "install": {
     "path": {
       "css": "css/dist",
-      "js": "js/dist"
+      "js": "js/dist",
+      "png": "css/dist"
     },
     "sources": {
       "yoast-seo": [
         "bower_components/yoast-seo/dist/yoast-seo.min.css",
+        "bower_components/yoast-seo/dist/images/editicon.png",
         "bower_components/yoast-seo/dist/yoast-seo.min.js"
       ]
     }
