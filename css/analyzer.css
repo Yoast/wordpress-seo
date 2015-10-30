@@ -65,7 +65,7 @@
 }
 
 .editIcon:hover {
-    background: #bbdefb url("images/editicon.png") no-repeat right top;
+    background: #bbdefb url("editicon.png") no-repeat right top;
     cursor: pointer;
 }
 

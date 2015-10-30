@@ -9,7 +9,6 @@ module.exports = function( grunt ) {
 			grunt: "grunt/",
 			js: "js/",
 			css: "css/",
-			images: "images/",
 			get config() {
 				return this.grunt + "config/";
 			}
