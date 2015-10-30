@@ -704,6 +704,8 @@ class WPSEO_Frontend {
 		$robots['follow'] = 'follow';
 		$robots['other']  = array();
 
+		$this->add_robot_content_noods();
+
 		if ( is_singular() ) {
 			global $post;
 
@@ -847,6 +849,16 @@ class WPSEO_Frontend {
 		unset( $meta_robots_adv );
 
 		return $robots;
+	}
+
+
+	/**
+	 * Checks whether the user has written a meta-description. If written,  makes sure meta robots content is noodp.
+	 */
+	public function add_robot_content_noods () {
+		if(!(WPSEO_Meta::get_value( 'metadesc' ) === '') && $this->options['noodp'] == false ) {
+			$this->options['noodp'] = true;
+		}
 	}
 
 	/**
