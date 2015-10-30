@@ -543,13 +543,13 @@ class WPSEO_Utils {
 					$query .= ' OR ';
 				}
 
-				$query .= " option_name LIKE '_transient_wpseo_sitemap_cache_" . $sitemap_type . "_%' OR option_name LIKE '_transient_timeout_wpseo_sitemap_cache_" . $sitemap_type . "_%'";
+				$query .= " option_name LIKE '\_transient\_wpseo\_sitemap\_cache\_" . $wpdb->esc_like( $sitemap_type ) . "\_%' OR option_name LIKE '\_transient\_timeout\_wpseo\_sitemap\_cache\_" . $wpdb->esc_like( $sitemap_type ) . "\_%'";
 
 				$first = false;
 			}
 		}
 		else {
-			$query .= " option_name LIKE '_transient_wpseo_sitemap_%' OR option_name LIKE '_transient_timeout_wpseo_sitemap_%'";
+			$query .= " option_name LIKE '\_transient\_wpseo\_sitemap\_%' OR option_name LIKE '\_transient\_timeout\_wpseo\_sitemap\_%'";
 		}
 
 		$wpdb->query( $query );
