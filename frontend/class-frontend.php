@@ -1882,6 +1882,8 @@ class WPSEO_Frontend {
 
 	/**
 	 * Checks whether the user has written a meta-description. If written,  makes sure meta robots content is noodp.
+	 *
+	 * @param $desc The content of the meta description
 	 */
 	private function add_robot_content_noods( $desc ) {
 		if ( ! ( $desc === '' ) && $this->options['noodp'] === false ) {
