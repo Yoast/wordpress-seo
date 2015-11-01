@@ -44,10 +44,9 @@
 	};
 
 	YoastMultiKeyword.prototype.bindScore = function() {
-		jQuery( window ).on('yoastseo-score', function( ev, score ){
+		jQuery( window ).on('YoastSEO:numericScore', function( ev, score ){
 			score = jQuery( '#yoast_wpseo_focuskw' ).val() !== '' ? yoastMultiKeyword.scoreRating( score ) : 'na';
 			var activeTab = jQuery( '.wpseo_keyword_tab.active');
-
 			activeTab.find( '.wpseo_tablink' ).data( 'score', score );
 			activeTab.find( '.wpseo-score-icon' ).attr( 'class', 'wpseo-score-icon ' + score );
 			activeTab.find( '.wpseo-score-icon > .screen-reader-text').text( 'SEO score ' + score );
