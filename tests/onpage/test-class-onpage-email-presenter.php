@@ -20,7 +20,7 @@ class WPSEO_OnPage_Email_Presenter_Test extends WPSEO_UnitTestCase {
 
 		$this->assertContains(
 			$class_instance->get_message(),
-			'The indexability from your website '. home_url(). ' is indexable at the moment.'
+			'Yoast SEO has detected that ' . home_url() . ' is indexable again.'
 		);
 	}
 
@@ -39,7 +39,7 @@ class WPSEO_OnPage_Email_Presenter_Test extends WPSEO_UnitTestCase {
 
 		$this->assertContains(
 			$class_instance->get_message(),
-			'The indexability from your website '. home_url(). ' is not indexable at the moment.'
+			'Yoast SEO has detected that ' . home_url() . ' is not indexable. Please note that this will make it impossible for search engines like Google and Bing to index your site.'
 		);
 	}
 
@@ -58,7 +58,7 @@ class WPSEO_OnPage_Email_Presenter_Test extends WPSEO_UnitTestCase {
 
 		$this->assertContains(
 			$class_instance->get_message(),
-			'The indexability from your website '. home_url(). ', went from not indexable to indexable.'
+			'Yoast SEO has detected that '. home_url(). ' is indexable again.'
 		);
 	}
 
@@ -77,7 +77,7 @@ class WPSEO_OnPage_Email_Presenter_Test extends WPSEO_UnitTestCase {
 
 		$this->assertContains(
 			$class_instance->get_message(),
-			'The indexability from your website '. home_url(). ', went from indexable to not indexable.'
+			'Yoast SEO has detected that '. home_url(). ' is no longer indexable. Please note that this will make it impossible for search engines like Google and Bing to index your site.'
 		);
 	}
 

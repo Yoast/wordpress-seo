@@ -15,17 +15,11 @@ class WPSEO_OnPage_Email_Presenter {
 	private $statuses;
 
 	/**
-	 * @var array The translated values for the indexability statuses.
-	 */
-	private $status_values;
-
-	/**
 	 * Constructing the object
 	 *
 	 * @param array $statuses Array with the statuses, normally it contains the old and the new status.
 	 */
 	public function __construct( array $statuses ) {
-		$this->status_values = $this->get_status_values();
 		$this->statuses      = $statuses;
 	}
 
