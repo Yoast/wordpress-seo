@@ -25,7 +25,6 @@ class WPSEO_Taxonomy {
 			add_action( sanitize_text_field( $this->taxonomy ) . '_edit_form', array( $this, 'term_metabox' ), 90, 1 );
 		}
 
-		add_action( 'split_shared_term', array( $this, 'split_shared_term' ), 10, 4 );
 		add_action( 'edit_term', array( $this, 'update_term' ), 99, 3 );
 
 		add_action( 'init', array( $this, 'custom_category_descriptions_allow_html' ) );
@@ -44,27 +43,31 @@ class WPSEO_Taxonomy {
 	}
 
 	/**
-	 * Makes sure the taxonomy meta is updated when a taxonomy term is split.
+	 * Translate options text strings for use in the select fields
 	 *
-	 * @link https://make.wordpress.org/core/2015/02/16/taxonomy-term-splitting-in-4-2-a-developer-guide/ Article explaining the taxonomy term splitting in WP 4.2.
-	 *
-	 * @param string $old_term_id      Old term id of the taxonomy term that was splitted.
-	 * @param string $new_term_id      New term id of the taxonomy term that was splitted.
-	 * @param string $term_taxonomy_id Term taxonomy id for the taxonomy that was affected.
-	 * @param string $taxonomy         The taxonomy that the taxonomy term was splitted for.
+	 * @internal IMPORTANT: if you want to add a new string (option) somewhere, make sure you add
+	 * that array key to the main options definition array in the class WPSEO_Taxonomy_Meta() as well!!!!
 	 */
-	public function split_shared_term( $old_term_id, $new_term_id, $term_taxonomy_id, $taxonomy ) {
-		$tax_meta = get_option( 'wpseo_taxonomy_meta', array() );
+	public function translate_meta_options() {
+		$this->no_index_options        = WPSEO_Taxonomy_Meta::$no_index_options;
+		$this->sitemap_include_options = WPSEO_Taxonomy_Meta::$sitemap_include_options;
 
-		if ( ! empty( $tax_meta[ $taxonomy ][ $old_term_id ] ) ) {
-			$tax_meta[ $taxonomy ][ $new_term_id ] = $tax_meta[ $taxonomy ][ $old_term_id ];
-			unset( $tax_meta[ $taxonomy ][ $old_term_id ] );
-			update_option( 'wpseo_taxonomy_meta', $tax_meta );
-		}
+		$this->no_index_options['default'] = __( 'Use %s default (Currently: %s)', 'wordpress-seo' );
+		$this->no_index_options['index']   = __( 'Always index', 'wordpress-seo' );
+		$this->no_index_options['noindex'] = __( 'Always noindex', 'wordpress-seo' );
+
+		$this->sitemap_include_options['-']      = __( 'Auto detect', 'wordpress-seo' );
+		$this->sitemap_include_options['always'] = __( 'Always include', 'wordpress-seo' );
+		$this->sitemap_include_options['never']  = __( 'Never include', 'wordpress-seo' );
 	}
 
+
 	/**
-	 * Adding the admin frontend assets.
+	 * Test whether we are on a public taxonomy - no metabox actions needed if we are not
+	 * Unfortunately we have to hook most everything in before the point where all taxonomies are registered and
+	 * we know which taxonomy is being requested, so we need to use this check in nearly every hooked in function.
+	 *
+	 * @since 1.5.0
 	 */
 	public function admin_enqueue_scripts() {
 		if ( $GLOBALS['pagenow'] === 'edit-tags.php' && filter_input( INPUT_GET, 'action' ) === 'edit' ) {
