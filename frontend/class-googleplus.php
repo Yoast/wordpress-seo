@@ -51,9 +51,9 @@ class WPSEO_GooglePlus {
 	 * Output the Google+ specific description
 	 */
 	public function description() {
-		if ( is_singular() ) {
-			$desc = WPSEO_Meta::get_value( 'google-plus-description' );
+		$desc = $this->get_meta_value( 'google-plus-description' );
 
+		if ( is_string( $desc ) ) {
 			/**
 			 * Filter: 'wpseo_googleplus_desc' - Allow developers to change the Google+ specific description output
 			 *
@@ -61,7 +61,7 @@ class WPSEO_GooglePlus {
 			 */
 			$desc = trim( apply_filters( 'wpseo_googleplus_desc', $desc ) );
 
-			if ( is_string( $desc ) && '' !== $desc ) {
+			if ( is_string( $desc ) && $desc !== '' ) {
 				echo '<meta itemprop="description" content="', esc_attr( $desc ), '">', "\n";
 			}
 		}
@@ -71,9 +71,9 @@ class WPSEO_GooglePlus {
 	 * Output the Google+ specific title
 	 */
 	public function google_plus_title() {
-		if ( is_singular() ) {
-			$title = WPSEO_Meta::get_value( 'google-plus-title' );
+		$title = $this->get_meta_value( 'google-plus-title' );
 
+		if ( is_string( $title ) ) {
 			/**
 			 * Filter: 'wpseo_googleplus_title' - Allow developers to change the Google+ specific title
 			 *
@@ -93,8 +93,9 @@ class WPSEO_GooglePlus {
 	 * Output the Google+ specific image
 	 */
 	public function google_plus_image() {
-		if ( is_singular() ) {
-			$image = WPSEO_Meta::get_value( 'google-plus-image' );
+		$image = $this->get_meta_value( 'google-plus-image' );
+
+		if ( is_string( $image ) ) {
 
 			/**
 			 * Filter: 'wpseo_googleplus_image' - Allow changing the Google+ image
@@ -107,5 +108,24 @@ class WPSEO_GooglePlus {
 				echo '<meta itemprop="image" content="', esc_url( $image ), '">', "\n";
 			}
 		}
+	}
+
+	/**
+	 * Returns the meta value for the given $meta_key.
+	 *
+	 * @param string $meta_key The target key that will be fetched.
+	 *
+	 * @return string
+	 */
+	private function get_meta_value( $meta_key ) {
+		if ( is_singular() ) {
+			return WPSEO_Meta::get_value( $meta_key );
+		}
+
+		if ( is_category() || is_tag() || is_tax() ) {
+			return WPSEO_Taxonomy_Meta::get_meta_without_term( $meta_key );
+		}
+
+		return '';
 	}
 }

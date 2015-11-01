@@ -59,7 +59,10 @@ class WPSEO_Admin_Init {
 	 * Redirect first time or just upgraded users to the about screen.
 	 */
 	public function after_update_notice() {
-		if ( current_user_can( 'manage_options' ) && ! $this->seen_about() ) {
+
+		$can_access = is_multisite() ? WPSEO_Utils::grant_access() : current_user_can( 'manage_options' );
+
+		if ( $can_access && ! $this->seen_about() ) {
 
 			if ( filter_input( INPUT_GET, 'intro' ) === '1' ) {
 				update_user_meta( get_current_user_id(), 'wpseo_seen_about_version' , WPSEO_VERSION );
@@ -200,10 +203,6 @@ class WPSEO_Admin_Init {
 		) {
 			$GLOBALS['wpseo_metabox']      = new WPSEO_Metabox;
 			$GLOBALS['wpseo_meta_columns'] = new WPSEO_Meta_Columns();
-
-			if ( $this->options['opengraph'] === true || $this->options['twitter'] === true || $this->options['googleplus'] === true ) {
-				new WPSEO_Social_Admin;
-			}
 		}
 	}
 

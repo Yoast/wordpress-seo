@@ -65,7 +65,7 @@ class WPSEO_Admin_Pages {
 		wp_enqueue_script( 'dashboard' );
 		wp_enqueue_script( 'thickbox' );
 
-		wp_enqueue_script( 'yoast-seo-content-analysis', plugins_url( 'js/dist/js-text-analysis/yoast-seo-content-analysis.min.js', WPSEO_FILE ), null, WPSEO_VERSION, true );
+		wp_enqueue_script( 'yoast-seo-content-analysis', plugins_url( 'js/dist/yoast-seo/yoast-seo.min.js', WPSEO_FILE ), null, WPSEO_VERSION, true );
 
 		$page = filter_input( INPUT_GET, 'page' );
 		$tool = filter_input( INPUT_GET, 'tool' );
@@ -398,6 +398,4 @@ class WPSEO_Admin_Pages {
 		_deprecated_function( __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Options::reset()' );
 		WPSEO_Options::reset();
 	}
-
-
 } /* End of class */

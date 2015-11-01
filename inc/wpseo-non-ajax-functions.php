@@ -245,9 +245,8 @@ function wpseo_admin_bar_menu() {
 	) {
 		$focuskw    = WPSEO_Meta::get_value( 'focuskw', $post->ID );
 		$perc_score = WPSEO_Meta::get_value( 'linkdex', $post->ID );
-		$calc_score = WPSEO_Utils::calc( $perc_score, '/', 10, true );
-		$txtscore   = WPSEO_Utils::translate_score( $calc_score );
-		$title      = WPSEO_Utils::translate_score( $calc_score, false );
+		$txtscore   = WPSEO_Utils::translate_score( $perc_score );
+		$title      = WPSEO_Utils::translate_score( $perc_score, false );
 		$score      = '<div title="' . esc_attr( $title ) . '" class="' . esc_attr( 'wpseo-score-icon ' . $txtscore . ' ' . $perc_score ) . '"></div>';
 
 		$seo_url = get_edit_post_link( $post->ID );
@@ -426,14 +425,26 @@ function wpseo_admin_bar_menu() {
 		) );
 		$wp_admin_bar->add_menu( array(
 			'parent' => 'wpseo-settings',
-			'id'     => 'wpseo-wpseo_advanced',
+			'id'     => 'wpseo-wpseo-advanced',
 			'title'  => __( 'Advanced', 'wordpress-seo' ),
 			'href'   => admin_url( 'admin.php?page=wpseo_advanced' ),
 		) );
 		$wp_admin_bar->add_menu( array(
+				'parent' => 'wpseo-settings',
+				'id'     => 'wpseo-tools',
+				'title'  => __( 'Tools', 'wordpress-seo' ),
+				'href'   => admin_url( 'admin.php?page=wpseo_tools' ),
+		) );
+		$wp_admin_bar->add_menu( array(
+				'parent' => 'wpseo-settings',
+				'id'     => 'wpseo-search-console',
+				'title'  => __( 'Search Console', 'wordpress-seo' ),
+				'href'   => admin_url( 'admin.php?page=wpseo_search_console' ),
+		) );
+		$wp_admin_bar->add_menu( array(
 			'parent' => 'wpseo-settings',
 			'id'     => 'wpseo-licenses',
-			'title'  => __( 'Extensions', 'wordpress-seo' ),
+			'title'  => '<span style="color:#f18500">' . __( 'Extensions', 'wordpress-seo' ) . '</span>',
 			'href'   => admin_url( 'admin.php?page=wpseo_licenses' ),
 		) );
 	}
