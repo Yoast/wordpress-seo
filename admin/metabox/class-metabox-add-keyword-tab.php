@@ -19,7 +19,23 @@ class Metabox_Add_Keyword_Tab implements WPSEO_Metabox_Tab {
 					<span class="screen-reader-text"><?php _e( 'Add keyword', 'wordpress-seo' ); ?></span>
 				</button>
 			</li>
+
+			<?php if ( ! defined( 'WPSEO_PREMIUM_FILE' ) ) : ?>
+				<div id="wpseo-add-keyword-popup" style="display: none;">
+					<h3><?php printf( __( 'Adding different focus keywords is a %s feature', 'wordpress-seo' ), 'Yoast SEO Premium' ); ?></h3>
+					<p>
+						<?php
+							echo sprintf(
+								__( 'To be able to add and analyze multiple keywords you need %1$s. You can buy the plugin, including one year support and updates, on %2$s.', 'wordpress-seo' ),
+								'Yoast SEO Premium',
+								'<a href="http://yoa.st/redirects" target="_blank">yoast.com</a>'
+							);
+						?>
+					</p>
+				</div>
+			<?php endif; ?>
 		<?php
+
 		return ob_get_clean();
 	}
 
