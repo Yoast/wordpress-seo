@@ -1,6 +1,8 @@
 /* global YoastSEO, wp */
-(function() {
+(function( $ ) {
 	'use strict';
+
+	var maxKeywords = 5;
 
 	var YoastMultiKeyword = function() {
 		this.insertElements();
@@ -66,6 +68,8 @@
 				prev_tab.find( '.wpseo_tablink' ).click();
 			}
 			this.updateKeywords();
+
+			this.updateUI();
 		}.bind( this ) );
 	};
 
@@ -81,6 +85,10 @@
 
 	YoastMultiKeyword.prototype.bindKeywordAdd = function() {
 		jQuery('.wpseo-add-keyword').click( function() {
+			if ( ! this.canAddTab() ) {
+				return;
+			}
+
 			this.addKeywordTab( null, 'na', true );
 		}.bind( this ) );
 	};
@@ -129,6 +137,8 @@
 		// Reload to get the correct bindings.
 		this.reloadTabs();
 
+		this.updateUI();
+
 		// Open the newly created tab.
 		if ( focus === true ) {
 			jQuery( '.wpseo_keyword_tab:last > .wpseo_tablink' ).click();
@@ -166,7 +176,38 @@
 		return scoreRate;
 	};
 
+	/**
+	 * Updates UI based on the current state.
+	 */
+	YoastMultiKeyword.prototype.updateUI = function() {
+		var $addKeywordButton = $( '.wpseo-add-keyword' );
+
+		if ( this.canAddTab() ) {
+			$addKeywordButton
+				.prop( 'disabled', false )
+				.attr( 'aria-disabled', 'false' );
+		}
+		else {
+			$addKeywordButton
+				.prop( 'disabled', true )
+				.attr( 'aria-disabled', 'true' );
+		}
+	};
+
+	/**
+	 * Returns whether or not a new tab can be added
+	 *
+	 * @returns {boolean}
+	 */
+	YoastMultiKeyword.prototype.canAddTab = function() {
+		var tabAmount;
+
+		tabAmount = $( '.wpseo_keyword_tab' ).length;
+
+		return tabAmount < maxKeywords;
+	};
+
 	jQuery( document ).ready(function() {
 		new YoastMultiKeyword();
 	} );
-}());
+}( jQuery ));
