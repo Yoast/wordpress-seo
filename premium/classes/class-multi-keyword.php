@@ -4,7 +4,6 @@ class WPSEO_Multi_Keyword {
 
 	public function __construct() {
 		add_filter( 'wpseo_metabox_entries_general', array( $this, 'add_focus_keywords_input') );
-		add_action( 'admin_footer', array( $this, 'keyword_tab' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets') );
 	}
 
