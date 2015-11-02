@@ -1,5 +1,5 @@
 /* global YoastSEO, wp, yoastMultiKeyword */
-(function(){
+(function() {
 	'use strict';
 
 	var YoastMultiKeyword = function() {
@@ -44,7 +44,7 @@
 	};
 
 	YoastMultiKeyword.prototype.bindScore = function() {
-		jQuery( window ).on('YoastSEO:numericScore', function( ev, score ){
+		jQuery( window ).on('YoastSEO:numericScore', function( ev, score ) {
 			score = jQuery( '#yoast_wpseo_focuskw' ).val() !== '' ? yoastMultiKeyword.scoreRating( score ) : 'na';
 			var activeTab = jQuery( '.wpseo_keyword_tab.active');
 			activeTab.find( '.wpseo_tablink' ).data( 'score', score );
@@ -53,7 +53,7 @@
 
 			yoastMultiKeyword.updateKeywords();
 		} );
-	}
+	};
 
 	YoastMultiKeyword.prototype.bindKeywordTab = function() {
 		jQuery( '.wpseo_keyword_tab > .wpseo_tablink' ).click( function() {
@@ -87,7 +87,7 @@
 	};
 
 	YoastMultiKeyword.prototype.bindKeywordAdd = function() {
-		jQuery('.add-keyword').click( function( ev ){
+		jQuery('.add-keyword').click( function( ev ) {
 			ev.preventDefault();
 			jQuery( this ).blur();
 
@@ -96,7 +96,7 @@
 	};
 
 	YoastMultiKeyword.prototype.addKeywordTabs = function() {
-		var keywords = JSON.parse( jQuery( '#yoast_wpseo_focuskeywords' ).val() || "[]" );
+		var keywords = JSON.parse( jQuery( '#yoast_wpseo_focuskeywords' ).val() || '[]' );
 
 		// strip the primary keyword from the keywords if available
 		var primaryKeyword = keywords.splice( 0, 1 )[0] || { keyword: '', score: 'na' };
@@ -147,30 +147,30 @@
 
 	/**
 	 * retuns a string that is used as a CSSclass, based on the numeric score
-	 * @param score
+	 * @param {number} score
 	 * @returns scoreRate
 	 */
 	YoastMultiKeyword.prototype.scoreRating = function( score ) {
 		var scoreRate;
 		switch ( score ) {
 			case 0:
-				scoreRate = "na";
+				scoreRate = 'na';
 				break;
 			case 4:
 			case 5:
-				scoreRate = "poor";
+				scoreRate = 'poor';
 				break;
 			case 6:
 			case 7:
-				scoreRate = "ok";
+				scoreRate = 'ok';
 				break;
 			case 8:
 			case 9:
 			case 10:
-				scoreRate = "good";
+				scoreRate = 'good';
 				break;
 			default:
-				scoreRate = "bad";
+				scoreRate = 'bad';
 				break;
 		}
 		return scoreRate;
