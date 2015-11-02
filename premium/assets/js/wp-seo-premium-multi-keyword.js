@@ -14,20 +14,20 @@
 
 	YoastMultiKeyword.prototype.updateKeywords = function() {
 		var keywords = [];
-		jQuery( '.wpseo_keyword_tab > .wpseo_tablink' ).each( function( i, el ) {
-			var keyword = jQuery( el ).data( 'keyword' );
-			var score = jQuery( el ).data( 'score' );
+		$( '.wpseo_keyword_tab > .wpseo_tablink' ).each( function( i, el ) {
+			var keyword = $( el ).data( 'keyword' );
+			var score = $( el ).data( 'score' );
 
 			if ( keyword.length > 0 ) {
 				keywords.push( { keyword: keyword, score: score });
 			}
 		} );
 
-		jQuery( '#yoast_wpseo_focuskeywords' ).val( JSON.stringify( keywords ) );
+		$( '#yoast_wpseo_focuskeywords' ).val( JSON.stringify( keywords ) );
 	};
 
 	YoastMultiKeyword.prototype.insertElements = function() {
-		jQuery( '.content > .wpseo_tablink').append( ': <span class="wpseo-score-icon"><span class="screen-reader-text"></span></span><em><span class="wpseo_keyword"></span></em>' );
+		$( '.content > .wpseo_tablink').append( ': <span class="wpseo-score-icon"><span class="screen-reader-text"></span></span><em><span class="wpseo_keyword"></span></em>' );
 		this.addKeywordTabs();
 	};
 
@@ -39,9 +39,9 @@
 	};
 
 	YoastMultiKeyword.prototype.bindScore = function() {
-		jQuery( window ).on('YoastSEO:numericScore', function( ev, score ) {
-			score = jQuery( '#yoast_wpseo_focuskw' ).val() !== '' ? this.scoreRating( score ) : 'na';
-			var activeTab = jQuery( '.wpseo_keyword_tab.active');
+		$( window ).on('YoastSEO:numericScore', function( ev, score ) {
+			score = $( '#yoast_wpseo_focuskw' ).val() !== '' ? this.scoreRating( score ) : 'na';
+			var activeTab = $( '.wpseo_keyword_tab.active');
 			activeTab.find( '.wpseo_tablink' ).data( 'score', score );
 			activeTab.find( '.wpseo-score-icon' ).attr( 'class', 'wpseo-score-icon ' + score );
 			activeTab.find( '.wpseo-score-icon > .screen-reader-text').text( 'SEO score ' + score );
@@ -51,17 +51,17 @@
 	};
 
 	YoastMultiKeyword.prototype.bindKeywordTab = function() {
-		jQuery( '.wpseo_keyword_tab > .wpseo_tablink' ).click( function() {
-			var keyword = jQuery( this ).data( 'keyword' );
-			jQuery( '#yoast_wpseo_focuskw' ).val( keyword ).focus();
+		$( '.wpseo_keyword_tab > .wpseo_tablink' ).click( function() {
+			var keyword = $( this ).data( 'keyword' );
+			$( '#yoast_wpseo_focuskw' ).val( keyword ).focus();
 			YoastSEO.app.refresh();
 		} );
 	};
 
 	YoastMultiKeyword.prototype.bindKeywordRemove = function() {
-		jQuery( '.remove-keyword' ).click( function( ev ) {
+		$( '.remove-keyword' ).click( function( ev ) {
 			ev.preventDefault();
-			var current_tab = jQuery( ev.currentTarget ).parent( 'li' );
+			var current_tab = $( ev.currentTarget ).parent( 'li' );
 			var prev_tab = current_tab.prev();
 			current_tab.remove();
 			if ( current_tab.hasClass( 'active' ) ) {
@@ -74,9 +74,9 @@
 	};
 
 	YoastMultiKeyword.prototype.bindKeywordField = function() {
-		jQuery( '#yoast_wpseo_focuskw' ).on( 'input', function( ev ) {
-			var focusKeyword = jQuery( ev.currentTarget ).val();
-			var current_tab_link = jQuery( 'li.active > .wpseo_tablink' );
+		$( '#yoast_wpseo_focuskw' ).on( 'input', function( ev ) {
+			var focusKeyword = $( ev.currentTarget ).val();
+			var current_tab_link = $( 'li.active > .wpseo_tablink' );
 			current_tab_link.data( 'keyword', focusKeyword );
 			current_tab_link.find( 'span.wpseo_keyword' ).text( focusKeyword || '...' );
 			this.updateKeywords();
@@ -84,7 +84,7 @@
 	};
 
 	YoastMultiKeyword.prototype.bindKeywordAdd = function() {
-		jQuery('.wpseo-add-keyword').click( function() {
+		$('.wpseo-add-keyword').click( function() {
 			if ( ! this.canAddTab() ) {
 				return;
 			}
@@ -94,7 +94,7 @@
 	};
 
 	YoastMultiKeyword.prototype.addKeywordTabs = function() {
-		var keywords = JSON.parse( jQuery( '#yoast_wpseo_focuskeywords' ).val() || '[]' );
+		var keywords = JSON.parse( $( '#yoast_wpseo_focuskeywords' ).val() || '[]' );
 
 		// strip the primary keyword from the keywords if available
 		var primaryKeyword = keywords.splice( 0, 1 )[0] || { keyword: '', score: 'na' };
@@ -113,10 +113,10 @@
 		var keyword = keywordObject.keyword;
 		var score = keywordObject.score;
 
-		var generalTabScore = jQuery( '.wpseo_keyword_tab.content').find('.wpseo-score-icon');
-		var generalTabLink = jQuery( '.content > .wpseo_tablink' );
+		var generalTabScore = $( '.wpseo_keyword_tab.content').find('.wpseo-score-icon');
+		var generalTabLink = $( '.content > .wpseo_tablink' );
 
-		jQuery( '#yoast_wpseo_focuskw').val( keyword );
+		$( '#yoast_wpseo_focuskw').val( keyword );
 
 		generalTabLink.data( 'keyword', keyword );
 		generalTabLink.find( 'span.wpseo_keyword' ).text( keyword || '...' );
@@ -132,7 +132,7 @@
 		var placeholder = keyword.length > 0 ? keyword : '...';
 
 		var keyword_tab = wp.template( 'keyword_tab' )( { keyword: keyword, placeholder: placeholder, score: score } );
-		jQuery( '.wpseo_keyword_tab:last' ).after( keyword_tab );
+		$( '.wpseo_keyword_tab:last' ).after( keyword_tab );
 
 		// Reload to get the correct bindings.
 		this.reloadTabs();
@@ -141,7 +141,7 @@
 
 		// Open the newly created tab.
 		if ( focus === true ) {
-			jQuery( '.wpseo_keyword_tab:last > .wpseo_tablink' ).click();
+			$( '.wpseo_keyword_tab:last > .wpseo_tablink' ).click();
 		}
 	};
 
@@ -207,7 +207,7 @@
 		return tabAmount < maxKeywords;
 	};
 
-	jQuery( document ).ready(function() {
+	$( document ).ready(function() {
 		new YoastMultiKeyword();
 	} );
 }( jQuery ));
