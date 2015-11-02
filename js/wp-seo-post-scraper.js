@@ -295,6 +295,11 @@
 			document.getElementById( 'yoast_wpseo_linkdex' ).value = score;
 		}
 
+		// If multi keyword isn't available we need to update the first tab (content)
+		if ( ! YoastSEO.multiKeyword ) {
+			this.updateKeywordTabContent( currentKeyword, score );
+		}
+
 		jQuery( window ).trigger( 'YoastSEO:numericScore', score );
 	};
 
@@ -315,6 +320,48 @@
 		mainKeyword = firstTab.data( 'keyword' );
 
 		return keyword === mainKeyword;
+	};
+
+	/**
+	 * Initializes keyword tab with the correct template if multi keyword isn't available
+	 */
+	PostScraper.prototype.initKeywordTabTemplate = function() {
+		var keyword, score;
+
+		// If multi keyword is available we don't have to initialize this as multi keyword does this for us.
+		if ( YoastSEO.multiKeyword ) {
+			return;
+		}
+
+		// Remove default functionality to prevent scrolling to top.
+		$( '.wpseo-metabox-tabs' ).on( 'click', '.wpseo_tablink', function( ev ) { ev.preventDefault(); } );
+
+		keyword = $( '#yoast_wpseo_focuskw' ).val();
+		score   = $( '#yoast_wpseo_linkdex' ).val();
+
+		this.updateKeywordTabContent( keyword, score );
+	};
+
+	/**
+	 * Updates keyword tab with new content
+	 */
+	PostScraper.prototype.updateKeywordTabContent = function( keyword, score ) {
+		var placeholder, keyword_tab;
+
+		placeholder = keyword.length > 0 ? keyword : '...';
+
+		score = parseInt( score, 10 );
+		score = YoastSEO.ScoreFormatter.prototype.scoreRating( score );
+
+		keyword_tab = wp.template( 'keyword_tab' )({
+			keyword: keyword,
+			placeholder: placeholder,
+			score: score,
+			hideRemove: true,
+			prefix: wpseoPostScraperL10n.contentTab + " "
+		});
+
+		$( '.wpseo_keyword_tab' ).replaceWith( keyword_tab );
 	};
 
 	/**
@@ -423,5 +470,7 @@
 		//Init Plugins
 		new YoastReplaceVarPlugin();
 		new YoastShortcodePlugin();
+
+		wordpressScraper.initKeywordTabTemplate();
 	} );
 }( jQuery ));

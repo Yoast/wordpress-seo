@@ -21,7 +21,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		add_action( 'admin_init', array( $this, 'setup_page_analysis' ) );
 		add_action( 'admin_init', array( $this, 'translate_meta_boxes' ) );
 		add_action( 'admin_footer', array( $this, 'scoring_svg' ) );
-
+		add_action( 'admin_footer', array( $this, 'template_keyword_tab' ) );
 	}
 
 	/**
@@ -197,6 +197,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'home_url'      => home_url( '/', null ),
 			'sep'           => WPSEO_Utils::get_title_separator(),
 			'sitename'      => WPSEO_Utils::get_site_name(),
+			'contentTab'    => __( 'Content:' , 'wordpres-seo' ),
 		);
 	}
 
@@ -839,6 +840,26 @@ class WPSEO_Metabox extends WPSEO_Meta {
 						</g>
 					</g>
 				</svg>
+			</script>';
+	}
+
+	/**
+	 * Keyword tab for enabling analysis of multiple keywords.
+	 */
+	public function template_keyword_tab() {
+		echo '<script type="text/html" id="tmpl-keyword_tab">
+				<li class="wpseo_keyword_tab">
+					<a class="wpseo_tablink" href="#wpseo_content" data-keyword="{{data.keyword}}" data-score="{{data.score}}">
+						{{data.prefix}}
+						<span class="wpseo-score-icon {{data.score}}">
+							<span class="screen-reader-text"></span>
+						</span>
+						<em><span class="wpseo_keyword">{{data.placeholder}}</span></em>
+					</a>
+					<# if ( ! data.hideRemove ) { #>
+						<a href="#" class="remove-keyword"><span>x</span></a>
+					<# } #>
+				</li>
 			</script>';
 	}
 
