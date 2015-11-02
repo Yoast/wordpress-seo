@@ -421,7 +421,7 @@
 		jQuery( window).trigger( 'YoastSEO:ready' );
 
 		//Init Plugins
-		window.yoastReplaceVarPlugin = new YoastReplaceVarPlugin();
-		window.yoastShortcodePlugin = new YoastShortcodePlugin();
+		new YoastReplaceVarPlugin();
+		new YoastShortcodePlugin();
 	} );
 }( jQuery ));
