@@ -334,7 +334,9 @@
 		}
 
 		// Remove default functionality to prevent scrolling to top.
-		$( '.wpseo-metabox-tabs' ).on( 'click', '.wpseo_tablink', function( ev ) { ev.preventDefault(); } );
+		$( '.wpseo-metabox-tabs' ).on( 'click', '.wpseo_tablink', function( ev ) {
+			ev.preventDefault();
+		});
 
 		keyword = $( '#yoast_wpseo_focuskw' ).val();
 		score   = $( '#yoast_wpseo_linkdex' ).val();
