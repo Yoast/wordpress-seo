@@ -2130,10 +2130,14 @@ YoastSEO.ScoreFormatter.prototype.sortScores = function() {
  */
 YoastSEO.ScoreFormatter.prototype.outputOverallScore = function() {
 	var overallTarget = document.getElementById( this.overallTarget );
-	overallTarget.className = "overallScore " + this.scoreRating( Math.round( this.overallScore ) );
-	if ( this.keyword === "" ) {
-		overallTarget.className = "overallScore " + this.scoreRating( "na" );
+
+	if ( overallTarget ) {
+		overallTarget.className = "overallScore " + this.scoreRating( Math.round( this.overallScore ) );
+		if ( this.keyword === "" ) {
+			overallTarget.className = "overallScore " + this.scoreRating( "na" );
+		}
 	}
+
 	this.saveScores( this.overallScore );
 };
 
