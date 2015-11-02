@@ -55,7 +55,7 @@
 
 					var targetElem = jQuery( jQuery( this ).attr( 'href' ) );
 					targetElem.addClass( 'active' );
-					window.yolo = jQuery( this );
+
 					jQuery( this ).parent( 'li' ).addClass( 'active' );
 				}
 			);
