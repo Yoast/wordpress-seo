@@ -1,7 +1,9 @@
 /* global YoastSEO: true, tinyMCE, wp, ajaxurl, wpseoPostScraperL10n, YoastShortcodePlugin, YoastReplaceVarPlugin */
 YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
-(function() {
+(function( $ ) {
 	'use strict';
+
+	var currentKeyword = '';
 
 	/**
 	 * wordpress scraper to gather inputfields.
@@ -120,6 +122,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 				break;
 			case 'keyword':
 				val = document.getElementById( 'yoast_wpseo_focuskw' ).value;
+				currentKeyword = val;
 				break;
 			case 'title':
 			case 'snippetTitle':
@@ -287,10 +290,32 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 	 * @param {String} score
 	 */
 	YoastSEO.PostScraper.prototype.saveScores = function( score ) {
-		var tmpl =  wp.template('score_svg');
-		document.getElementById( YoastSEO.analyzerArgs.targets.overall ).innerHTML = tmpl();
-		document.getElementById( 'yoast_wpseo_linkdex' ).value = score;
+		if ( this.isMainKeyword( currentKeyword ) ) {
+			var tmpl = wp.template( 'score_svg' );
+			document.getElementById( 'wpseo-score' ).innerHTML = tmpl();
+			document.getElementById( 'yoast_wpseo_linkdex' ).value = score;
+		}
+
 		jQuery( window ).trigger( 'YoastSEO:numericScore', score );
+	};
+
+	/**
+	 * Returns whether or not the keyword is the main keyword
+	 *
+	 * @param {string} keyword The keyword to check
+	 *
+	 * @returns {boolean}
+	 */
+	YoastSEO.PostScraper.prototype.isMainKeyword = function( keyword ) {
+		var firstTab, mainKeyword;
+
+		firstTab = $( '.wpseo_keyword_tab' )
+			.first()
+			.find( '.wpseo_tablink' );
+
+		mainKeyword = firstTab.data( 'keyword' );
+
+		return keyword === mainKeyword;
 	};
 
 	/**
@@ -354,7 +379,6 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 			//targets for the objects
 			targets: {
 				output: 'wpseo-pageanalysis',
-				overall: 'wpseo-score',
 				snippet: 'wpseosnippet'
 			},
 			translations: wpseoPostScraperL10n.translations,
@@ -401,4 +425,4 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 		window.yoastReplaceVarPlugin = new YoastReplaceVarPlugin();
 		window.yoastShortcodePlugin = new YoastShortcodePlugin();
 	} );
-}());
+}( jQuery ));
