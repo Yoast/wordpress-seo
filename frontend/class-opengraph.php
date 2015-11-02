@@ -691,7 +691,6 @@ class WPSEO_OpenGraph {
 
 		return true;
 	}
-
 } /* End of class */
 
 /**
@@ -939,5 +938,4 @@ class WPSEO_OpenGraph_Image {
 
 		return $img;
 	}
-
 }
