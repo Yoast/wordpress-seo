@@ -1243,7 +1243,7 @@ class WPSEO_Frontend {
 		if ( $echo !== false ) {
 			if ( is_string( $this->metadesc ) && $this->metadesc !== '' ) {
 				echo '<meta name="description" content="', esc_attr( strip_tags( stripslashes( $this->metadesc ) ) ), '"/>', "\n";
-				$this->add_robot_content_noods( $this->metadesc );
+				$this->add_robot_content_noodp( $this->metadesc );
 			}
 			elseif ( current_user_can( 'manage_options' ) && is_singular() ) {
 				echo '<!-- ', __( 'Admin only notice: this page doesn\'t show a meta description because it doesn\'t have one, either write it for this page specifically or go into the SEO -> Titles menu and set up a template.', 'wordpress-seo' ), ' -->', "\n";
@@ -1885,7 +1885,7 @@ class WPSEO_Frontend {
 	 *
 	 * @param String $description The content of the meta description.
 	 */
-	private function add_robot_content_noods( $description ) {
+	private function add_robot_content_noodp( $description ) {
 		if ( ! ( empty( $description )  ) && $this->options['noodp'] === false ) {
 			$this->options['noodp'] = true;
 		}
