@@ -286,7 +286,7 @@
 	 * Saves the score to the linkdex.
 	 * Outputs the score in the overall target.
 	 *
-	 * @param {String} score
+	 * @param {string} score
 	 */
 	PostScraper.prototype.saveScores = function( score ) {
 		if ( this.isMainKeyword( currentKeyword ) ) {
