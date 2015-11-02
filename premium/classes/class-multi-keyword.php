@@ -5,7 +5,6 @@ class WPSEO_Multi_Keyword {
 	public function __construct() {
 		add_filter( 'wpseo_metabox_entries_general', array( $this, 'add_focus_keywords_input') );
 		add_action( 'admin_footer', array( $this, 'keyword_tab' ) );
-		add_action( 'admin_footer', array( $this, 'add_keyword_button' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets') );
 	}
 
@@ -38,16 +37,6 @@ class WPSEO_Multi_Keyword {
 						<em><span class="wpseo_keyword">{{data.placeholder}}</span></em>
 					</a>
 					<a href="#" class="remove-keyword"><span>x</span></a>
-				</li>
-			</script>';
-	}
-
-	public function add_keyword_button() {
-		echo '<script type="text/html" id="tmpl-add_keyword_button">
-				<li class="wpseo-add-tab">
-					<a class="add-keyword" href="#">
-						<span style="height: 3px; padding: 0px 3px; border: 1px solid #ccc; font-size: 10px; text-decoration: none; color: #000;">+</span>
-					</a>
 				</li>
 			</script>';
 	}
