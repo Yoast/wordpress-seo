@@ -74,8 +74,8 @@
 	};
 
 	YoastMultiKeyword.prototype.bindKeywordField = function() {
-		jQuery( '#yoast_wpseo_focuskw' ).on( 'input', function() {
-			var focusKeyword = jQuery( this ).val();
+		jQuery( '#yoast_wpseo_focuskw' ).on( 'input', function( ev ) {
+			var focusKeyword = jQuery( ev.currentTarget ).val();
 			var current_tab_link = jQuery( 'li.active > .wpseo_tablink' );
 			current_tab_link.data( 'keyword', focusKeyword );
 			current_tab_link.find( 'span.wpseo_keyword' ).text( focusKeyword || '...' );
