@@ -9,6 +9,8 @@
 		this.replaceVars = wpseoReplaceVarsL10n.replace_vars;
 
 		YoastSEO.app.registerPlugin( 'replaceVariablePlugin', { status: 'ready' } );
+
+		this.registerModifications();
 	};
 
 	/**
