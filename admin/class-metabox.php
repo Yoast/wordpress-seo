@@ -187,16 +187,38 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @return array
 	 */
 	public function localize_post_scraper_script() {
+		$post = $this->get_metabox_post();
+
+		$options = get_option( 'wpseo_titles' );
+
+
+		$title_template = '';
+		if ( isset( $options[ 'title-' . $post->post_type ] ) && $options[ 'title-' . $post->post_type ] !== '' ) {
+			$title_template = $options[ 'title-' . $post->post_type ];
+		}
+		// If there's no title template set, use the default, otherwise title preview won't work.
+		if ( $title_template == '' ) {
+			$title_template = '%%title%% - %%sitename%%';
+		}
+		$metadesc_template = '';
+		if ( isset( $options[ 'metadesc-' . $post->post_type ] ) && $options[ 'metadesc-' . $post->post_type ] !== '' ) {
+			$metadesc_template = $options[ 'metadesc-' . $post->post_type ];
+		}
+
+
 		$translations = $this->get_scraper_translations();
 
 		return array(
-			'translations'  => $translations,
-			'keyword_usage' => $this->get_focus_keyword_usage(),
-			'search_url'    => admin_url( 'edit.php?seo_kw_filter={keyword}' ),
-			'post_edit_url' => admin_url( 'post.php?post={id}&action=edit' ),
-			'home_url'      => home_url( '/', null ),
-			'sep'           => WPSEO_Utils::get_title_separator(),
-			'sitename'      => WPSEO_Utils::get_site_name(),
+			'translations'      => $translations,
+			'keyword_usage'     => $this->get_focus_keyword_usage(),
+			'search_url'        => admin_url( 'edit.php?seo_kw_filter={keyword}' ),
+			'post_edit_url'     => admin_url( 'post.php?post={id}&action=edit' ),
+			'home_url'          => home_url( '/', null ),
+			'sep'               => WPSEO_Utils::get_title_separator(),
+			'sitename'          => WPSEO_Utils::get_site_name(),
+			'title_template'    => $title_template,
+			'metadesc_template' => $metadesc_template,
+
 		);
 	}
 
