@@ -23,21 +23,4 @@ class WPSEO_Multi_Keyword {
 		wp_enqueue_style( 'wp-seo-premium-metabox', plugin_dir_url( WPSEO_PREMIUM_FILE ) . '/assets/css/premium-metabox' . WPSEO_CSSJS_SUFFIX . '.css', array(), WPSEO_VERSION );
 		wp_enqueue_script( 'wp-seo-premium-multi-keyword', plugin_dir_url( WPSEO_PREMIUM_FILE ) . '/assets/js/wp-seo-premium-multi-keyword' . WPSEO_CSSJS_SUFFIX . '.js', array( 'jquery', 'wp-util' ), WPSEO_VERSION );
 	}
-
-	/**
-	 * Keyword tab for enabling analysis of multiple keywords.
-	 */
-	public function keyword_tab() {
-		echo '<script type="text/html" id="tmpl-keyword_tab">
-				<li class="wpseo_keyword_tab">
-					<a class="wpseo_tablink" href="#wpseo_content" data-keyword="{{data.keyword}}" data-score="{{data.score}}">
-						<span class="wpseo-score-icon {{data.score}}">
-							<span class="screen-reader-text"></span>
-						</span>
-						<em><span class="wpseo_keyword">{{data.placeholder}}</span></em>
-					</a>
-					<a href="#" class="remove-keyword"><span>x</span></a>
-				</li>
-			</script>';
-	}
 }
