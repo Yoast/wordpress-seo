@@ -3,8 +3,6 @@
 	'use strict';
 
 	var YoastMultiKeyword = function() {
-		window.yoastMultiKeyword = this;
-
 		this.insertElements();
 
 		this.bindKeywordField();
