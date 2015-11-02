@@ -146,7 +146,7 @@
 	};
 
 	/**
-	 * retuns a string that is used as a CSSclass, based on the numeric score
+	 * returns a string that is used as a CSSclass, based on the numeric score
 	 * @param {number} score
 	 * @returns scoreRate
 	 */
