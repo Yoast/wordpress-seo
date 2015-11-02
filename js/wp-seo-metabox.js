@@ -1,4 +1,5 @@
 /* browser:true */
+/* global tb_show */
 (function( $ ) {
 	'use strict';
 
@@ -108,7 +109,7 @@
 		tb_show( title, '#TB_inline?width=600&height=125&inlineId=wpseo-add-keyword-popup', 'group' );
 
 		// The container window isn't the correct size, rectify this.
-		jQuery("#TB_window" ).css( 'height', 165 );
+		jQuery( '#TB_window' ).css( 'height', 165 );
 	}
 
 	jQuery( document ).ready( function() {
