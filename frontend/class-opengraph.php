@@ -499,6 +499,16 @@ class WPSEO_OpenGraph {
 		foreach ( $opengraph_images->get_images() as $img ) {
 			$this->og_tag( 'og:image', esc_url( $img ) );
 		}
+
+		$dimensions = $opengraph_images->get_dimensions();
+
+		if ( ! empty( $dimensions['width'] ) ) {
+			$this->og_tag( 'og:image:width', absint( $dimensions['width'] ) );
+		}
+
+		if ( ! empty( $dimensions['height'] ) ) {
+			$this->og_tag( 'og:image:height', absint( $dimensions['height'] ) );
+		}
 	}
 
 	/**
@@ -699,6 +709,9 @@ class WPSEO_OpenGraph_Image {
 	 */
 	private $images = array();
 
+	/** @var array $dimensions Holds image dimensions, if determined. */
+	protected $dimensions = array();
+
 	/**
 	 * Constructor
 	 *
@@ -721,6 +734,15 @@ class WPSEO_OpenGraph_Image {
 	 */
 	public function get_images() {
 		return $this->images;
+	}
+
+	/**
+	 * Return the dimensions array.
+	 *
+	 * @return array
+	 */
+	public function get_dimensions() {
+		return $this->dimensions;
 	}
 
 	/**
