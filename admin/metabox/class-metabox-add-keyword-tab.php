@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package WPSEO\Admin\Metabox
+ */
 
 /**
  * Tab to add a keyword to analyze

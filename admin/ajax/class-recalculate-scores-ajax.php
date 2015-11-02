@@ -57,9 +57,7 @@ class WPSEO_Recalculate_Scores_Ajax {
 			WPSEO_Meta::set_value( 'linkdex', $score['score'], $score['post_id'] );
 		}
 
-		exit;
-
-//		WPSEO_Meta::set_value( 'linkdex', filter_input( INPUT_POST, 'score' ), filter_input( INPUT_POST, 'post_id' ) );
+		wp_die();
 	}
 
 	/**
