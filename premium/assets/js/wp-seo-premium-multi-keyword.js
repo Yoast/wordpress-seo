@@ -1,4 +1,5 @@
-/* global YoastSEO, wp */
+/* global YoastSEO: true, wp */
+YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 (function( $ ) {
 	'use strict';
 
@@ -210,4 +211,6 @@
 	$( document ).ready(function() {
 		new YoastMultiKeyword();
 	} );
+
+	YoastSEO.multiKeyword = true;
 }( jQuery ));
