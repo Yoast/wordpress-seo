@@ -51,7 +51,15 @@ class WPSEO_Recalculate_Scores_Ajax {
 	 */
 	public function save_score() {
 		check_ajax_referer( 'wpseo_recalculate', 'nonce' );
-		WPSEO_Meta::set_value( 'linkdex', filter_input( INPUT_POST, 'score' ), filter_input( INPUT_POST, 'post_id' ) );
+
+		$scores = filter_input( INPUT_POST, 'scores', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY );
+		foreach ( $scores as $score ) {
+			WPSEO_Meta::set_value( 'linkdex', $score['score'], $score['post_id'] );
+		}
+
+		exit;
+
+//		WPSEO_Meta::set_value( 'linkdex', filter_input( INPUT_POST, 'score' ), filter_input( INPUT_POST, 'post_id' ) );
 	}
 
 	/**
