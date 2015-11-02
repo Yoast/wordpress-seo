@@ -832,7 +832,8 @@ class WPSEO_OpenGraph_Image {
 	 * @return bool
 	 */
 	private function get_featured_image( $post_id ) {
-		if ( function_exists( 'has_post_thumbnail' ) && has_post_thumbnail( $post_id ) ) {
+
+		if ( has_post_thumbnail( $post_id ) ) {
 			/**
 			 * Filter: 'wpseo_opengraph_image_size' - Allow changing the image size used for OpenGraph sharing
 			 *
