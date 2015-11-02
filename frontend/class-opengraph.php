@@ -841,6 +841,10 @@ class WPSEO_OpenGraph_Image {
 			$thumb = wp_get_attachment_image_src( get_post_thumbnail_id( $post_id ), apply_filters( 'wpseo_opengraph_image_size', 'original' ) );
 
 			if ( $this->check_featured_image_size( $thumb ) ) {
+
+				$this->dimensions['width']  = $thumb[1];
+				$this->dimensions['height'] = $thumb[2];
+
 				return $this->add_image( $thumb[0] );
 			}
 		}
