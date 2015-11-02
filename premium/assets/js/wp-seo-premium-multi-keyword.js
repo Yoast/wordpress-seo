@@ -80,9 +80,7 @@
 	};
 
 	YoastMultiKeyword.prototype.bindKeywordAdd = function() {
-		jQuery('.wpseo-add-keyword').click( function( ev ) {
-			jQuery( this ).blur();
-
+		jQuery('.wpseo-add-keyword').click( function() {
 			this.addKeywordTab( null, 'na', true );
 		}.bind( this ) );
 	};
