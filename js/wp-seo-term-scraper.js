@@ -1,15 +1,14 @@
-/* global YoastSEO: true, wp, wpseoTermScraperL10n, ajaxurl, tinyMCE */
-YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
+/* global YoastSEO, wp, wpseoTermScraperL10n, ajaxurl, tinyMCE */
 (function() {
 	'use strict';
 
-	YoastSEO.TermScraper = function() {};
+	var TermScraper = function() {};
 
 	/**
 	 * returns data fetched from inputfields.
 	 * @returns {{keyword: *, meta: *, text: *, pageTitle: *, title: *, url: *, baseUrl: *, snippetTitle: *, snippetMeta: *, snippetCite: *}}
 	 */
-	YoastSEO.TermScraper.prototype.getData = function() {
+	TermScraper.prototype.getData = function() {
 		return {
 			title: this.getDataFromInput( 'title' ),
 			keyword: this.getDataFromInput( 'keyword' ),
@@ -28,7 +27,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 	 *
 	 * @param {string} inputType
 	 */
-	YoastSEO.TermScraper.prototype.getDataFromInput = function( inputType ) {
+	TermScraper.prototype.getDataFromInput = function( inputType ) {
 		var val = '';
 		var elem;
 		switch( inputType ){
@@ -75,7 +74,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 	 * gets content from the content field, if tinyMCE is initialized, use the getContent function to get the data from tinyMCE
 	 * @returns {String}
 	 */
-	YoastSEO.TermScraper.prototype.getContentTinyMCE = function() {
+	TermScraper.prototype.getContentTinyMCE = function() {
 		var val = document.getElementById( 'description' ).value;
 		if ( tinyMCE.editors.length !== 0 ) {
 			val = tinyMCE.get( 'description' ).getContent();
@@ -88,7 +87,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 	 * @param {Object} value
 	 * @param {String} type
 	 */
-	YoastSEO.TermScraper.prototype.setDataFromSnippet = function( value, type ) {
+	TermScraper.prototype.setDataFromSnippet = function( value, type ) {
 		switch ( type ) {
 			case 'snippet_meta':
 				document.getElementById( 'hidden_wpseo_desc' ).value = value;
@@ -107,7 +106,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 	/**
 	 * binds elements
 	 */
-	YoastSEO.TermScraper.prototype.bindElementEvents = function( app ) {
+	TermScraper.prototype.bindElementEvents = function( app ) {
 		this.snippetPreviewEventBinder ( app.snippetPreview );
 		this.inputElementEventBinder( app );
 		document.getElementById( 'wpseo_focuskw' ).addEventListener( 'keydown', app.snippetPreview.disableEnter );
@@ -118,7 +117,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 	 *
 	 * @param {YoastSEO.SnippetPreview} snippetPreview The snippet preview object to bind the events on.
 	 */
-	YoastSEO.TermScraper.prototype.snippetPreviewEventBinder = function( snippetPreview ) {
+	TermScraper.prototype.snippetPreviewEventBinder = function( snippetPreview ) {
 		var elems = [ 'snippet_meta', 'snippet_title', 'snippet_cite' ];
 
 		for ( var i = 0; i < elems.length; i++ ) {
@@ -134,7 +133,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 	 * @param { HTMLElement } elem snippet_meta, snippet_title, snippet_cite
 	 * @param { YoastSEO.SnippetPreview } snippetPreview
 	 */
-	YoastSEO.TermScraper.prototype.bindSnippetEvents = function( elem, snippetPreview ) {
+	TermScraper.prototype.bindSnippetEvents = function( elem, snippetPreview ) {
 		elem.addEventListener( 'keydown', snippetPreview.disableEnter.bind( snippetPreview ) );
 		elem.addEventListener( 'blur', snippetPreview.checkTextLength.bind( snippetPreview ) );
 		//textFeedback is given on input (when user types or pastests), but also on focus. If a string that is too long is being recalled
@@ -160,7 +159,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 	/**
 	 * binds the renewData function on the change of inputelements.
 	 */
-	YoastSEO.TermScraper.prototype.inputElementEventBinder = function( app ) {
+	TermScraper.prototype.inputElementEventBinder = function( app ) {
 		var elems = [ 'name', 'description', 'slug', 'wpseo_focuskw' ];
 		for (var i = 0; i < elems.length; i++) {
 			var elem = document.getElementById(elems[i]);
@@ -179,7 +178,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 	/**
 	 * creates SVG for the overall score.
 	 */
-	YoastSEO.TermScraper.prototype.saveScores = function( score ) {
+	TermScraper.prototype.saveScores = function( score ) {
 		var tmpl = wp.template('score_svg');
 		document.getElementById( YoastSEO.analyzerArgs.targets.overall ).innerHTML = tmpl();
 		jQuery( window ).trigger( 'YoastSEO:numericScore', score );
@@ -188,7 +187,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 	/**
 	 * updates the focus keyword usage if it is not in the array yet.
 	 */
-	YoastSEO.TermScraper.prototype.updateKeywordUsage = function() {
+	TermScraper.prototype.updateKeywordUsage = function() {
 		var keyword = this.value;
 		if ( typeof( wpseoTermScraperL10n.keyword_usage[ keyword ] === null ) ) {
 			jQuery.post(ajaxurl, {
@@ -216,7 +215,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 	 *
 	 * @param {Object} ev
 	 */
-	YoastSEO.TermScraper.prototype.updateSnippetValues = function( ev ) {
+	TermScraper.prototype.updateSnippetValues = function( ev ) {
 		var dataFromSnippet = ev.currentTarget.textContent;
 		var currentElement = ev.currentTarget.id;
 		if ( typeof YoastSEO.app.snippetPreview.unformattedText[ currentElement ] !== 'undefined' ) {
@@ -243,7 +242,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 
 	jQuery( document ).ready(function() {
 		tinyMCEReplacer();
-		var termScraper = new YoastSEO.TermScraper();
+		var termScraper = new TermScraper();
 
 		YoastSEO.analyzerArgs = {
 			//if it must run the analyzer
