@@ -108,7 +108,6 @@ function wpseo_deactivate( $networkwide = false ) {
 function wpseo_network_activate_deactivate( $activate = true ) {
 	global $wpdb;
 
-	$original_blog_id = get_current_blog_id(); // Alternatively use: $wpdb->blogid.
 	$all_blogs        = $wpdb->get_col( "SELECT blog_id FROM $wpdb->blogs" );
 
 	if ( is_array( $all_blogs ) && $all_blogs !== array() ) {
@@ -121,9 +120,9 @@ function wpseo_network_activate_deactivate( $activate = true ) {
 			else {
 				_wpseo_deactivate();
 			}
+
+			restore_current_blog();
 		}
-		// Restore back to original blog.
-		switch_to_blog( $original_blog_id );
 	}
 }
 
@@ -143,7 +142,12 @@ function _wpseo_activate() {
 	}
 	WPSEO_Options::ensure_options_exist();
 
-	add_action( 'shutdown', 'flush_rewrite_rules' );
+	if ( is_multisite() && ms_is_switched() ) {
+		delete_option( 'rewrite_rules' );
+	}
+	else {
+		add_action( 'shutdown', 'flush_rewrite_rules' );
+	}
 
 	wpseo_add_capabilities();
 
@@ -159,7 +163,12 @@ function _wpseo_activate() {
 function _wpseo_deactivate() {
 	require_once( WPSEO_PATH . 'inc/wpseo-functions.php' );
 
-	add_action( 'shutdown', 'flush_rewrite_rules' );
+	if ( is_multisite() && ms_is_switched() ) {
+		delete_option( 'rewrite_rules' );
+	}
+	else {
+		add_action( 'shutdown', 'flush_rewrite_rules' );
+	}
 
 	wpseo_remove_capabilities();
 
@@ -280,7 +289,7 @@ function wpseo_frontend_head_init() {
 		$GLOBALS['wpseo_og'] = new WPSEO_OpenGraph;
 	}
 
-	if ( $options['googleplus'] === true && is_singular() ) {
+	if ( $options['googleplus'] === true && ( is_singular() || ( is_category() || is_tax() || is_tag() ) ) ) {
 		add_action( 'wpseo_head', array( 'WPSEO_GooglePlus', 'get_instance' ), 35 );
 	}
 }
@@ -318,6 +327,9 @@ if ( ( ! defined( 'WP_INSTALLING' ) || WP_INSTALLING === false ) && ( $spl_autol
 			// Plugin conflict ajax hooks.
 			new Yoast_Plugin_Conflict_Ajax();
 
+			if ( filter_input( INPUT_POST, 'action' ) === 'inline-save' ) {
+				add_action( 'plugins_loaded', 'wpseo_admin_init', 15 );
+			}
 		}
 		else {
 			add_action( 'plugins_loaded', 'wpseo_admin_init', 15 );

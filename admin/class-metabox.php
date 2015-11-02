@@ -583,17 +583,21 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * Output the meta box
 	 */
 	function meta_box() {
-		$post    = $this->get_metabox_post();
-		$options = WPSEO_Options::get_all();
+
+		$post              = $this->get_metabox_post();
+		$options           = WPSEO_Options::get_all();
+		$use_page_analysis = apply_filters( 'wpseo_use_page_analysis', true ) === true;
 
 		?>
 		<div class="wpseo-metabox-tabs-div">
 		<ul class="wpseo-metabox-tabs" id="wpseo-metabox-tabs">
 			<li class="general">
 				<a class="wpseo_tablink" href="#wpseo_general"><?php _e( 'General', 'wordpress-seo' ); ?></a></li>
+			<?php if ( $use_page_analysis ) : ?>
 			<li id="linkdex" class="linkdex">
 				<a class="wpseo_tablink" href="#wpseo_linkdex"><?php _e( 'Page Analysis', 'wordpress-seo' ); ?></a>
 			</li>
+			<?php endif; ?>
 			<?php if ( current_user_can( 'manage_options' ) || $options['disableadvanced_meta'] === false ) : ?>
 				<li class="advanced">
 					<a class="wpseo_tablink" href="#wpseo_advanced"><?php _e( 'Advanced', 'wordpress-seo' ); ?></a>
@@ -611,7 +615,9 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		}
 		$this->do_tab( 'general', __( 'General', 'wordpress-seo' ), $content );
 
-		$this->do_tab( 'linkdex', __( 'Page Analysis', 'wordpress-seo' ), $this->linkdex_output( $post ) );
+		if ( $use_page_analysis ) {
+			$this->do_tab( 'linkdex', __( 'Page Analysis', 'wordpress-seo' ), $this->linkdex_output( $post ) );
+		}
 
 		if ( current_user_can( 'manage_options' ) || $options['disableadvanced_meta'] === false ) {
 			$content = '';
@@ -883,22 +889,15 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			return;
 		}
 
-
-		$color = get_user_meta( get_current_user_id(), 'admin_color', true );
-		if ( '' == $color || in_array( $color, array( 'classic', 'fresh' ), true ) === false ) {
-			$color = 'fresh';
-		}
-
-
 		if ( $pagenow == 'edit.php' ) {
 			wp_enqueue_style( 'edit-page', plugins_url( 'css/edit-page' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
 		}
 		else {
+
 			if ( 0 != get_queried_object_id() ) {
 				wp_enqueue_media( array( 'post' => get_queried_object_id() ) ); // Enqueue files needed for upload functionality.
 			}
-			wp_enqueue_style( 'metabox-tabs', plugins_url( 'css/metabox-tabs' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
-			wp_enqueue_style( "metabox-$color", plugins_url( 'css/metabox-' . esc_attr( $color ) . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
+			wp_enqueue_style( 'metabox', plugins_url( 'css/metabox' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
 			wp_enqueue_style( 'featured-image', plugins_url( 'css/featured-image' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
 			wp_enqueue_style( 'jquery-qtip.js', plugins_url( 'css/jquery.qtip' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), '2.2.1' );
 
@@ -947,25 +946,16 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			return;
 		}
 
-		$scores_array = array(
-			'na'      => __( 'SEO: No Focus Keyword', 'wordpress-seo' ),
-			'bad'     => __( 'SEO: Bad', 'wordpress-seo' ),
-			'poor'    => __( 'SEO: Poor', 'wordpress-seo' ),
-			'ok'      => __( 'SEO: OK', 'wordpress-seo' ),
-			'good'    => __( 'SEO: Good', 'wordpress-seo' ),
-			'noindex' => __( 'SEO: Post Noindexed', 'wordpress-seo' ),
-		);
+		$ranks = WPSEO_Rank::get_all_ranks();
+		$current_seo_filter = filter_input( INPUT_GET, 'seo_filter' );
 
 		echo '
 			<select name="seo_filter">
 				<option value="">', __( 'All SEO Scores', 'wordpress-seo' ), '</option>';
-		foreach ( $scores_array as $val => $text ) {
-			$sel = '';
-			if ( isset( $_GET['seo_filter'] ) ) {
-				$sel = selected( $_GET['seo_filter'], $val, false );
-			}
+		foreach ( $ranks as $rank ) {
+			$sel = selected( $current_seo_filter, $rank->get_rank(), false );
 			echo '
-				<option ', $sel, 'value="', $val, '">', $text. '</option>';
+				<option ', $sel, 'value="', $rank->get_rank(), '">', $rank->get_drop_down_label() . '</option>';
 		}
 		echo '
 			</select>';
@@ -1003,32 +993,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		}
 
 		if ( $column_name === 'wpseo-score' ) {
-			$score = self::get_value( 'linkdex', $post_id );
-			if ( self::get_value( 'meta-robots-noindex', $post_id ) === '1' ) {
-				$score_label = 'noindex';
-				$title       = __( 'Post is set to noindex.', 'wordpress-seo' );
-				self::set_value( 'linkdex', 0, $post_id );
-			}
-			elseif ( $score !== '' ) {
-				$nr          = WPSEO_Utils::calc( $score, '/', 10, true );
-				$score_label = WPSEO_Utils::translate_score( $nr );
-				$title       = WPSEO_Utils::translate_score( $nr, false );
-				unset( $nr );
-			}
-			else {
-				$this->calculate_results( get_post( $post_id ) );
-				$score = self::get_value( 'linkdex', $post_id );
-				if ( $score === '' ) {
-					$score_label = 'na';
-					$title       = __( 'Focus keyword not set.', 'wordpress-seo' );
-				}
-				else {
-					$score_label = WPSEO_Utils::translate_score( $score );
-					$title       = WPSEO_Utils::translate_score( $score, false );
-				}
-			}
-
-			echo '<div title="', esc_attr( $title ), '" class="wpseo-score-icon ', esc_attr( $score_label ), '"></div>';
+			$this->column_seo_score( $post_id );
 		}
 		if ( $column_name === 'wpseo-title' ) {
 			echo esc_html( apply_filters( 'wpseo_title', wpseo_replace_vars( $this->page_title( $post_id ), get_post( $post_id, ARRAY_A ) ) ) );
@@ -1073,30 +1038,24 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$na      = false;
 			$noindex = false;
 			$high    = false;
-			switch ( $_GET['seo_filter'] ) {
-				case 'noindex':
+			$seo_filter = filter_input( INPUT_GET, 'seo_filter' );
+
+			switch ( $seo_filter ) {
+				case WPSEO_Rank::NO_INDEX:
 					$low     = false;
 					$noindex = true;
 					break;
-				case 'na':
+				case WPSEO_Rank::NO_FOCUS:
 					$low = false;
 					$na  = true;
 					break;
-				case 'bad':
-					$low  = 1;
-					$high = 34;
-					break;
-				case 'poor':
-					$low  = 35;
-					$high = 54;
-					break;
-				case 'ok':
-					$low  = 55;
-					$high = 74;
-					break;
-				case 'good':
-					$low  = 75;
-					$high = 100;
+				case WPSEO_Rank::BAD:
+				case WPSEO_Rank::POOR:
+				case WPSEO_Rank::OK:
+				case WPSEO_Rank::GOOD:
+					$rank = new WPSEO_Rank( $seo_filter );
+					$low  = $rank->get_starting_score();
+					$high = $rank->get_end_score();
 					break;
 				default:
 					$low     = false;
@@ -2290,6 +2249,30 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		return false;
 	}
 
+	/**
+	 * Renders the content of the SEO score tab
+	 *
+	 * @param int $post_id The post ID to render the SEO score for.
+	 */
+	private function column_seo_score( $post_id ) {
+		if ( '1' === self::get_value( 'meta-robots-noindex', $post_id ) ) {
+			$rank  = new WPSEO_Rank( WPSEO_Rank::NO_INDEX );
+			$title = __( 'Post is set to noindex.', 'wordpress-seo' );
+			self::set_value( 'linkdex', 0, $post_id );
+		}
+		elseif ( '' === self::get_value( 'focuskw', $post_id ) ) {
+			$rank  = new WPSEO_Rank( WPSEO_Rank::NO_FOCUS );
+			$title = __( 'Focus keyword not set.', 'wordpress-seo' );
+		}
+		else {
+			$score = (int) self::get_value( 'linkdex', $post_id );
+			$rank  = WPSEO_Rank::from_numeric_score( $score );
+			$title = $rank->get_label();
+		}
+
+		echo '<div title="', esc_attr( $title ), '" class="wpseo-score-icon ', esc_attr( $rank->get_css_class() ), '"></div>';
+	}
+
 	/********************** DEPRECATED METHODS **********************/
 
 	/**
@@ -2333,5 +2316,4 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		return $this->localize_script();
 	}
-
 } /* End of class */

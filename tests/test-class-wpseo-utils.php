@@ -11,28 +11,34 @@ class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_grant_access() {
 
-		if ( is_multisite() ) {
-			// should be true when not running multisite
+		if ( ! is_multisite() ) { // Should be true when not running multisite.
 			$this->assertTrue( WPSEO_Utils::grant_access() );
-			return; // stop testing, not multisite
+			return;
 		}
 
-		// admins should return true
+		// Admin required by default/option.
 		$user_id = $this->factory->user->create( array( 'role' => 'administrator' ) );
 		wp_set_current_user( $user_id );
 		$this->assertTrue( WPSEO_Utils::grant_access() );
 
-		// todo test for superadmins
+		// Super Admin required by option.
+		$options           = get_site_option( 'wpseo_ms' );
+		$options['access'] = 'superadmin';
+		update_site_option( 'wpseo_ms', $options );
+		$this->assertFalse( WPSEO_Utils::grant_access() );
 
-		// editors should return false
-		// $user_id = $this->factory->user->create( array( 'role' => 'editor' ) );
-		// wp_set_current_user( $user_id );
-		// $this->assertTrue( WPSEO_Options::grant_access() );
+		grant_super_admin( $user_id );
+		$this->assertTrue( WPSEO_Utils::grant_access() );
+
+		// Below admin not allowed.
+		$user_id = $this->factory->user->create( array( 'role' => 'editor' ) );
+		wp_set_current_user( $user_id );
+		$this->assertFalse( WPSEO_Utils::grant_access() );
 	}
 
 	/**
-	* @covers wpseo_is_apache()
-	*/
+	 * @covers WPSEO_Utils::is_apache()
+	 */
 	public function test_wpseo_is_apache() {
 		$_SERVER['SERVER_SOFTWARE'] = 'Apache/2.2.22';
 		$this->assertTrue( WPSEO_Utils::is_apache() );
@@ -42,8 +48,8 @@ class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	* @covers test_wpseo_is_nginx()
-	*/
+	 * @covers WPSEO_Utils::is_nginx()
+	 */
 	public function test_wpseo_is_nginx() {
 		$_SERVER['SERVER_SOFTWARE'] = 'nginx/1.5.11';
 		$this->assertTrue( WPSEO_Utils::is_nginx() );

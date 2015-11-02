@@ -172,5 +172,4 @@ class WPSEO_GSC_Issues {
 
 		return false;
 	}
-
 }

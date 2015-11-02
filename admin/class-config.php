@@ -340,7 +340,7 @@ class WPSEO_Admin_Pages {
 
 		?>
 			<div id="<?php echo esc_attr( $id ); ?>" class="yoastbox">
-				<h2><?php echo $title; ?></h2>
+				<h1><?php echo $title; ?></h1>
 				<?php echo $content; ?>
 			</div>
 		<?php
@@ -395,6 +395,4 @@ class WPSEO_Admin_Pages {
 		_deprecated_function( __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Options::reset()' );
 		WPSEO_Options::reset();
 	}
-
-
 } /* End of class */

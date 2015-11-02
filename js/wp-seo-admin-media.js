@@ -16,16 +16,16 @@ jQuery(document).ready(
 				multiple: false
 			});
 
-			wpseo_custom_uploader.on('select', function() {
-					var attachment = wpseo_custom_uploader.state().get('selection').first().toJSON();
-					$('#' + wpseo_target_id).val(attachment.url);
+			wpseo_custom_uploader.on( 'select', function() {
+					var attachment = wpseo_custom_uploader.state().get( 'selection' ).first().toJSON();
+					$( '#' + wpseo_target_id ).val( attachment.url );
 				}
 			);
 
-			$(element).click(function(e) {
+			$(element).click( function( e ) {
 				e.preventDefault();
 				wpseo_custom_uploader.open();
-			});
-		});
+			} );
+		} );
 	}
 );

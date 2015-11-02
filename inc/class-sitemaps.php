@@ -1537,5 +1537,4 @@ class WPSEO_Sitemaps {
 
 		return $return;
 	}
-
 } /* End of class */

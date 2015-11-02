@@ -185,7 +185,12 @@ class WPSEO_OpenGraph {
 			 */
 			$adminstr = apply_filters( 'wpseo_opengraph_admin', $adminstr );
 			if ( is_string( $adminstr ) && $adminstr !== '' ) {
-				$this->og_tag( 'fb:admins', $adminstr );
+
+				$admins = explode( ',', $adminstr );
+
+				foreach ( $admins as $admin_id ) {
+					$this->og_tag( 'fb:admins', $admin_id );
+				}
 
 				return true;
 			}
@@ -224,6 +229,16 @@ class WPSEO_OpenGraph {
 		}
 		else if ( is_front_page() ) {
 			$title = ( isset( $this->options['og_frontpage_title'] ) && $this->options['og_frontpage_title'] !== '' ) ? $this->options['og_frontpage_title'] : $frontend->title( '' );
+		}
+		elseif ( is_category() || is_tax() || is_tag() ) {
+			$title = WPSEO_Taxonomy_Meta::get_meta_without_term( 'opengraph-title' );
+			if ( $title === '' ) {
+				$title = $frontend->get_taxonomy_title( '' );
+			}
+			else {
+				// Replace Yoast SEO Variables.
+				$title = wpseo_replace_vars( $title, $GLOBALS['wp_query']->get_queried_object() );
+			}
 		}
 		else {
 			$title = $frontend->title( '' );
@@ -537,16 +552,17 @@ class WPSEO_OpenGraph {
 		}
 
 		if ( is_category() || is_tag() || is_tax() ) {
+			$ogdesc = WPSEO_Taxonomy_Meta::get_meta_without_term( 'opengraph-description' );
+			if ( $ogdesc === '' ) {
+				$ogdesc = $frontend->metadesc( false );
+			}
 
-			$ogdesc = $frontend->metadesc( false );
-
-			if ( '' == $ogdesc ) {
+			if ( $ogdesc === '' ) {
 				$ogdesc = trim( strip_tags( term_description() ) );
 			}
 
-			if ( '' == $ogdesc ) {
-				$term   = $GLOBALS['wp_query']->get_queried_object();
-				$ogdesc = WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'desc' );
+			if ( $ogdesc === '' ) {
+				$ogdesc = WPSEO_Taxonomy_Meta::get_meta_without_term( 'desc' );
 			}
 		}
 
@@ -719,6 +735,10 @@ class WPSEO_OpenGraph_Image {
 			$this->get_singular_image();
 		}
 
+		if ( is_category() || is_tax() || is_tag() ) {
+			$this->get_opengraph_image_taxonomy();
+		}
+
 		$this->get_default_image();
 	}
 
@@ -737,7 +757,7 @@ class WPSEO_OpenGraph_Image {
 	private function get_singular_image() {
 		global $post;
 
-		if ( $this->get_opengraph_image() ) {
+		if ( $this->get_opengraph_image_post() ) {
 			return;
 		}
 
@@ -762,12 +782,23 @@ class WPSEO_OpenGraph_Image {
 	 *
 	 * @return bool
 	 */
-	private function get_opengraph_image() {
+	private function get_opengraph_image_post() {
 		$ogimg = WPSEO_Meta::get_value( 'opengraph-image' );
 		if ( $ogimg !== '' ) {
 			$this->add_image( $ogimg );
 
 			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Check if taxonomy has an image and add this image
+	 */
+	private function get_opengraph_image_taxonomy() {
+		if ( ( $ogimg = WPSEO_Taxonomy_Meta::get_meta_without_term( 'opengraph-image' ) ) !== '' ) {
+			$this->add_image( $ogimg );
 		}
 	}
 
