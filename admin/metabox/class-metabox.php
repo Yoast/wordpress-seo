@@ -262,7 +262,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	/**
 	 * Returns the relevant metabox sections for the current view.
 	 *
-	 * @return WPSEO_Metabox_Tab_Section[]
+	 * @return WPSEO_Metabox_Section[]
 	 */
 	private function get_content_sections() {
 		$options = WPSEO_Options::get_all();
@@ -284,7 +284,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	/**
 	 * Returns the metabox section for the content analysis.
 	 *
-	 * @return WPSEO_Metabox_Tab_Section
+	 * @return WPSEO_Metabox_Section
 	 */
 	private function get_content_meta_section() {
 		$content = $this->get_tab_content( 'general' );
@@ -313,7 +313,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	/**
 	 * Returns the metabox section for the advanced settings.
 	 *
-	 * @return WPSEO_Metabox_Tab_Section
+	 * @return WPSEO_Metabox_Section
 	 */
 	private function get_advanced_meta_section() {
 		$content = $this->get_tab_content( 'advanced' );
@@ -342,7 +342,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * Returns a metabox section dedicated to hosting metabox tabs that have been added by other plugins through the
 	 * `wpseo_tab_header` and `wpseo_tab_content` actions.
 	 *
-	 * @return WPSEO_Metabox_Addon_Tab_Section
+	 * @return WPSEO_Metabox_Section
 	 */
 	private function get_addons_meta_section() {
 		return new WPSEO_Metabox_Addon_Tab_Section(

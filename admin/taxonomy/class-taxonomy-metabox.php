@@ -73,7 +73,7 @@ class WPSEO_Taxonomy_Metabox {
 	/**
 	 * Returns the relevant metabox sections for the current view.
 	 *
-	 * @return WPSEO_Metabox_Tab_Section[]
+	 * @return WPSEO_Metabox_Section[]
 	 */
 	private function get_content_sections() {
 		$content_sections = array(
@@ -88,7 +88,7 @@ class WPSEO_Taxonomy_Metabox {
 	/**
 	 * Returns the metabox section for the content analysis.
 	 *
-	 * @return WPSEO_Metabox_Tab_Section
+	 * @return WPSEO_Metabox_Section
 	 */
 	private function get_content_meta_section() {
 		$taxonomy_content_fields = new WPSEO_Taxonomy_Content_Fields( $this->term );
@@ -118,7 +118,7 @@ class WPSEO_Taxonomy_Metabox {
 	/**
 	 * Returns the metabox section for the settings.
 	 *
-	 * @return WPSEO_Metabox_Tab_Section
+	 * @return WPSEO_Metabox_Section
 	 */
 	private function get_settings_meta_section() {
 		$taxonomy_settings_fields = new WPSEO_Taxonomy_Settings_Fields( $this->term );
@@ -147,7 +147,7 @@ class WPSEO_Taxonomy_Metabox {
 	/**
 	 * Returns the metabox section for the social settings.
 	 *
-	 * @return WPSEO_Metabox_Tab_Section
+	 * @return WPSEO_Metabox_Section
 	 */
 	private function get_social_meta_section() {
 		$options = WPSEO_Options::get_all();
