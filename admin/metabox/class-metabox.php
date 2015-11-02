@@ -289,7 +289,9 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	private function get_content_meta_section() {
 		$content = $this->get_tab_content( 'general' );
 
-		$tab = new WPSEO_Metabox_Form_Tab(
+		$tabs = array();
+
+		$tabs[] = new WPSEO_Metabox_Form_Tab(
 			'content',
 			$content,
 			__( 'Content', 'wordpress-seo' ),
@@ -299,10 +301,12 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			)
 		);
 
+		$tabs[] = new Metabox_Add_Keyword_Tab();
+
 		return new WPSEO_Metabox_Tab_Section(
 			'content',
 			'<span class="dashicons dashicons-yes"></span>',
-			array( $tab ),
+			$tabs,
 			array(
 				'link_alt' => __( 'Content', 'wordpress-seo' ),
 				'link_title' => __( 'Content', 'wordpress-seo' ),
