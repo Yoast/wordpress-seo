@@ -1,5 +1,4 @@
-/* global YoastSEO: true, tinyMCE, wp, ajaxurl, wpseoPostScraperL10n, YoastShortcodePlugin, YoastReplaceVarPlugin */
-YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
+/* global YoastSEO, tinyMCE, wp, ajaxurl, wpseoPostScraperL10n, YoastShortcodePlugin, YoastReplaceVarPlugin */
 (function( $ ) {
 	'use strict';
 
@@ -9,7 +8,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 	 * wordpress scraper to gather inputfields.
 	 * @constructor
 	 */
-	YoastSEO.PostScraper = function() {
+	var PostScraper = function() {
 		this.prepareSlugBinding();
 	};
 
@@ -21,7 +20,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 	 *
 	 * On existing posts, the slug editor is already there and we can bind immediately.
 	 */
-	YoastSEO.PostScraper.prototype.prepareSlugBinding = function() {
+	PostScraper.prototype.prepareSlugBinding = function() {
 		if ( document.getElementById( 'editable-post-name' ) === null ) {
 			var that = this;
 			jQuery( document ).on( 'after-autosave.update-post-slug', function() {
@@ -38,7 +37,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 	 *
 	 * @param {int} time
 	 */
-	YoastSEO.PostScraper.prototype.bindSnippetCiteEvents = function( time ) {
+	PostScraper.prototype.bindSnippetCiteEvents = function( time ) {
 		time = time || 0;
 		var slugElem = document.getElementById( 'editable-post-name' );
 		var postNameElem = document.getElementById('post_name');
@@ -64,7 +63,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 	 * We want to trigger an update of the snippetPreview on a slug update. Because the save button is not available yet, we need to
 	 * bind an event within the scope of a clickevent of the edit button.
 	 */
-	YoastSEO.PostScraper.prototype.bindSlugEditor = function() {
+	PostScraper.prototype.bindSlugEditor = function() {
 		jQuery( '#edit-slug-box' ).on( 'click', '.edit-slug', function() {
 			jQuery( '#edit-slug-buttons > button.save' ).on( 'click', function() {
 				YoastSEO.app.refresh();
@@ -77,7 +76,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 	 * Get data from inputfields and store them in an analyzerData object. This object will be used to fill
 	 * the analyzer and the snippetpreview
 	 */
-	YoastSEO.PostScraper.prototype.getData = function() {
+	PostScraper.prototype.getData = function() {
 		return {
 			keyword: this.getDataFromInput( 'keyword' ),
 			meta: this.getDataFromInput( 'meta' ),
@@ -98,7 +97,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 	 * @param {String} inputType
 	 * @returns {String}
 	 */
-	YoastSEO.PostScraper.prototype.getDataFromInput = function( inputType ) {
+	PostScraper.prototype.getDataFromInput = function( inputType ) {
 		var val = '';
 		switch ( inputType ) {
 			case 'text':
@@ -150,7 +149,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 	 * @param {Object} value
 	 * @param {String} type
 	 */
-	YoastSEO.PostScraper.prototype.setDataFromSnippet = function( value, type ) {
+	PostScraper.prototype.setDataFromSnippet = function( value, type ) {
 		switch ( type ) {
 			case 'snippet_meta':
 				document.getElementById( 'yoast_wpseo_metadesc' ).value = value;
@@ -174,7 +173,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 	 * gets content from the content field, if tinyMCE is initialized, use the getContent function to get the data from tinyMCE
 	 * @returns {String}
 	 */
-	YoastSEO.PostScraper.prototype.getContentTinyMCE = function() {
+	PostScraper.prototype.getContentTinyMCE = function() {
 		var val = document.getElementById( 'content' ).value;
 		if ( tinyMCE.editors.length !== 0 ) {
 			val = tinyMCE.get( 'content' ).getContent();
@@ -185,7 +184,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 	/**
 	 * Calls the eventbinders.
 	 */
-	YoastSEO.PostScraper.prototype.bindElementEvents = function( app ) {
+	PostScraper.prototype.bindElementEvents = function( app ) {
 		this.snippetPreviewEventBinder( app.snippetPreview );
 		this.inputElementEventBinder( app );
 		document.getElementById( 'yoast_wpseo_focuskw' ).addEventListener( 'keydown', app.snippetPreview.disableEnter );
@@ -197,7 +196,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 	 *
 	 * @param {YoastSEO.SnippetPreview} snippetPreview The snippet preview object to bind the events on.
 	 */
-	YoastSEO.PostScraper.prototype.snippetPreviewEventBinder = function( snippetPreview ) {
+	PostScraper.prototype.snippetPreviewEventBinder = function( snippetPreview ) {
 		var elems = [ 'snippet_meta', 'snippet_title', 'snippet_cite' ];
 
 		for ( var i = 0; i < elems.length; i++ ) {
@@ -213,7 +212,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 	 * @param { HTMLElement } elem snippet_meta, snippet_title, snippet_cite
 	 * @param { YoastSEO.SnippetPreview } snippetPreview
 	 */
-	YoastSEO.PostScraper.prototype.bindSnippetEvents = function( elem, snippetPreview ) {
+	PostScraper.prototype.bindSnippetEvents = function( elem, snippetPreview ) {
 		elem.addEventListener( 'keydown', snippetPreview.disableEnter.bind( snippetPreview ) );
 		elem.addEventListener( 'blur', snippetPreview.checkTextLength.bind( snippetPreview ) );
 		//textFeedback is given on input (when user types or pastests), but also on focus. If a string that is too long is being recalled
@@ -239,7 +238,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 	/**
 	 * binds the renewData function on the change of inputelements.
 	 */
-	YoastSEO.PostScraper.prototype.inputElementEventBinder = function( app ) {
+	PostScraper.prototype.inputElementEventBinder = function( app ) {
 		var elems = [ 'excerpt', 'content', 'yoast_wpseo_focuskw', 'title' ];
 		for ( var i = 0; i < elems.length; i++ ) {
 			var elem = document.getElementById( elems[ i ] );
@@ -260,7 +259,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 	/**
 	 * Resets the current queue if focus keyword is changed and not empty.
 	 */
-	YoastSEO.PostScraper.prototype.resetQueue = function() {
+	PostScraper.prototype.resetQueue = function() {
 		if ( YoastSEO.app.rawData.keyword !== '' ) {
 			YoastSEO.app.runAnalyzer( this.rawData );
 		}
@@ -273,7 +272,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 	 *
 	 * @param {Object} ev
 	 */
-	YoastSEO.PostScraper.prototype.updateSnippetValues = function( ev ) {
+	PostScraper.prototype.updateSnippetValues = function( ev ) {
 		var dataFromSnippet = ev.currentTarget.textContent;
 		var currentElement = ev.currentTarget.id;
 		if ( typeof YoastSEO.app.snippetPreview.unformattedText[ currentElement ] !== 'undefined' ) {
@@ -289,7 +288,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 	 *
 	 * @param {String} score
 	 */
-	YoastSEO.PostScraper.prototype.saveScores = function( score ) {
+	PostScraper.prototype.saveScores = function( score ) {
 		if ( this.isMainKeyword( currentKeyword ) ) {
 			var tmpl = wp.template( 'score_svg' );
 			document.getElementById( 'wpseo-score' ).innerHTML = tmpl();
@@ -306,7 +305,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 	 *
 	 * @returns {boolean}
 	 */
-	YoastSEO.PostScraper.prototype.isMainKeyword = function( keyword ) {
+	PostScraper.prototype.isMainKeyword = function( keyword ) {
 		var firstTab, mainKeyword;
 
 		firstTab = $( '.wpseo_keyword_tab' )
@@ -321,7 +320,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 	/**
 	 * updates the focus keyword usage if it is not in the array yet.
 	 */
-	YoastSEO.PostScraper.prototype.updateKeywordUsage = function() {
+	PostScraper.prototype.updateKeywordUsage = function() {
 		var keyword = this.value;
 		if ( typeof( wpseoPostScraperL10n.keyword_usage[ keyword ] === null ) ) {
 			jQuery.post(ajaxurl, {
@@ -351,7 +350,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 	} );
 
 	jQuery( document ).ready(function() {
-		var wordpressScraper = new YoastSEO.PostScraper();
+		var wordpressScraper = new PostScraper();
 
 		YoastSEO.analyzerArgs = {
 			//if it must run the analyzer
