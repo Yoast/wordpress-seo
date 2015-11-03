@@ -388,3 +388,5 @@ new Yoast_Dashboard_Widget();
 new Yoast_OnPage_Ajax();
 
 new WPSEO_Shortcode_Filter();
+
+new Yoast_WPTitle_Ajax();
