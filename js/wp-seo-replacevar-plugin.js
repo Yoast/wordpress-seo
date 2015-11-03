@@ -23,6 +23,10 @@
 		YoastSEO.app.registerModification( 'title', callback, 'replaceVariablePlugin', 10 );
 		YoastSEO.app.registerModification( 'snippet_title', callback, 'replaceVariablePlugin', 10 );
 		YoastSEO.app.registerModification( 'snippet_meta', callback, 'replaceVariablePlugin', 10 );
+
+		//modifications applied on the getData from the scrapers to use templates
+		YoastSEO.app.registerModification( 'data_pageTitle', callback, 'replaceVariablePlugin', 10);
+		YoastSEO.app.registerModification( 'data_metaDesc', callback, 'replaceVariablePlugin', 10);
 	};
 
 	/**
@@ -92,7 +96,7 @@
 	 * @returns {String}
 	 */
 	YoastReplaceVarPlugin.prototype.excerptReplace = function( data ) {
-		if ( YoastSEO.app.rawData.excerpt.length > 0 ) {
+		if ( typeof YoastSEO.app.rawData.excerpt !== 'undefined' && YoastSEO.app.rawData.excerpt.length > 0 ) {
 			data.replace( /%%excerpt_only%%/, YoastSEO.app.rawData.excerpt );
 			data.replace( /%%excerpt%%/, YoastSEO.app.rawData.excerpt );
 		}
@@ -108,6 +112,7 @@
 	YoastReplaceVarPlugin.prototype.defaultReplace = function( textString ) {
 		return textString.replace( /%%sitedesc%%/g, this.replaceVars.sitedesc )
 			.replace( /%%sitename%%/g, this.replaceVars.sitename )
+			.replace( /%%term_title%%/g, this.replaceVars.term_title )
 			.replace( /%%sep%%/g, this.replaceVars.sep )
 			.replace( /%%date%%/g, this.replaceVars.date )
 			.replace( /%%id%%/g, this.replaceVars.id )
