@@ -75,6 +75,7 @@ class WPSEO_OnPage_Email_Presenter {
 				'</a>'
 			),
 			'1' => sprintf(
+				/* translators: 1: expands to home_url(). */
 				__( 'Yoast SEO has detected that %1$s can be indexed again.', 'wordpress-seo' ),
 				home_url()
 			),
