@@ -7,7 +7,7 @@ class WPSEO_Taxonomy_Presenter_Test extends WPSEO_UnitTestCase {
 
 
 	/**
-	 * @var WPSEO_Taxonomy_Presenter
+	 * @var WPSEO_Taxonomy_Fields_Presenter
 	 */
 	private  $class_instance;
 
@@ -43,7 +43,10 @@ class WPSEO_Taxonomy_Presenter_Test extends WPSEO_UnitTestCase {
 			)
 		);
 
-		$this->assertEquals( '<tr><th scope="row"><label for="wpseo_fieldname">test field</label><img src="http://example.org/wp-content/plugins/wordpress-seo/images/question-mark.png" class="alignright yoast_help" id="wpseo_fieldnamehelp" alt="this is a test field" /></th><td><input name="wpseo_fieldname" id="wpseo_fieldname"  type="text" value="" size="40"/></td></tr>', $output );
+		$expected = '<tr><th scope="row"><label for="wpseo_fieldname">test field</label><img src="%s" class="alignright yoast_help" id="wpseo_fieldnamehelp" alt="this is a test field" /></th><td><input name="wpseo_fieldname" id="wpseo_fieldname"  type="text" value="" size="40"/></td></tr>';
+		$expected = sprintf( $expected, plugins_url( 'images/question-mark.png', WPSEO_FILE ) );
+
+		$this->assertEquals( $expected, $output );
 	}
 
 	/**
@@ -63,7 +66,10 @@ class WPSEO_Taxonomy_Presenter_Test extends WPSEO_UnitTestCase {
 			)
 		);
 
-		$this->assertEquals( '<tr><th scope="row"><img src="http://example.org/wp-content/plugins/wordpress-seo/images/question-mark.png" class="alignright yoast_help" id="wpseo_fieldnamehelp" alt="this is a test field" /></th><td><input name="wpseo_fieldname" id="wpseo_fieldname"  type="text" value="" size="40"/></td></tr>', $output );
+		$expected = '<tr><th scope="row"><img src="%s" class="alignright yoast_help" id="wpseo_fieldnamehelp" alt="this is a test field" /></th><td><input name="wpseo_fieldname" id="wpseo_fieldname"  type="text" value="" size="40"/></td></tr>';
+		$expected = sprintf( $expected, plugins_url( 'images/question-mark.png', WPSEO_FILE ) );
+
+		$this->assertEquals( $expected, $output );
 	}
 
 	/**
