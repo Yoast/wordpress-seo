@@ -34,10 +34,11 @@ YoastSEO.SnippetPreview.prototype.init = function() {
 		this.output = this.htmlOutput();
 		this.renderOutput();
 	}
-	this.snippetSuffix = "";
+
+	/*this.snippetSuffix = "";
 	if ( this.refObj.config.snippetSuffix !== "undefined" ) {
 		this.snippetSuffix = this.refObj.config.snippetSuffix;
-	}
+	}*/
 };
 
 /**
@@ -66,8 +67,6 @@ YoastSEO.SnippetPreview.prototype.formatTitle = function() {
 	}
 	if ( title === "" ) {
 		title = this.refObj.config.sampleText.title;
-	} else {
-		title += this.snippetSuffix;
 	}
 	title = this.refObj.stringHelper.stripAllTags( title );
 	if ( this.refObj.rawData.keyword !== "" ) {
@@ -341,11 +340,11 @@ YoastSEO.SnippetPreview.prototype.setUnformattedText = function( ev ) {
  * @param ev
  */
 YoastSEO.SnippetPreview.prototype.setSiteName = function( ev ) {
-	if ( ev.currentTarget.id === "snippet_title" ) {
+	/*if ( ev.currentTarget.id === "snippet_title" ) {
 		document.getElementById( "snippet_sitename" ).textContent = this.snippetSuffix;
 		document.getElementById( "snippet_sitename" ).style.display = "inline-block";
 		document.getElementById( "snippet_title" ).style.display = "inline-block";
-	}
+	}*/
 };
 
 /**
@@ -353,9 +352,9 @@ YoastSEO.SnippetPreview.prototype.setSiteName = function( ev ) {
  * when editing.
  */
 YoastSEO.SnippetPreview.prototype.unsetSiteName = function() {
-	document.getElementById( "snippet_sitename" ).textContent = "";
+	/*document.getElementById( "snippet_sitename" ).textContent = "";
 	document.getElementById( "snippet_title" ).style.display = "inline";
-	document.getElementById( "snippet_sitename" ).style.display = "inline";
+	document.getElementById( "snippet_sitename" ).style.display = "inline";*/
 };
 
 /**
