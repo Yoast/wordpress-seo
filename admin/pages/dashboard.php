@@ -196,7 +196,7 @@ if ( get_option( 'page_comments' ) && $options['ignore_page_comments'] === false
 			new WPSEO_Recalculate_Scores();
 		?>
 		<p>
-			<strong><?php _e( 'Recalculate the SEO scores', 'wordpress-seo' ); ?></strong><br/>
+			<strong><?php _e( 'Recalculate SEO scores', 'wordpress-seo' ); ?></strong><br/>
 		</p>
 		<p>
 			<input type='hidden' id='wpseo_recalculate_nonce' name='wpseo_recalculate_nonce' value='<?php echo wp_create_nonce( 'wpseo_recalculate' ); ?>' />
