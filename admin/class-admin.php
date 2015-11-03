@@ -489,12 +489,25 @@ class WPSEO_Admin {
 	 * @return string $clean_slug cleaned slug
 	 */
 	function remove_stopwords_from_slug( $slug ) {
+		return $this->filter_stopwords_from_slug( $slug, filter_input( INPUT_POST, 'post_title' ) );
+	}
+
+	/**
+	 * Filter the stopwords from the slug
+	 *
+	 * @param string $slug       The current slug, if not empty there will be done nothing.
+	 * @param string $post_title The title which will be used in case of an empty slug.
+	 *
+	 * @return string
+	 */
+	public function filter_stopwords_from_slug( $slug, $post_title ) {
 		// Don't change an existing slug.
 		if ( isset( $slug ) && $slug !== '' ) {
 			return $slug;
 		}
 
-		if ( ! filter_input( INPUT_POST, 'post_title' ) ) {
+		// When the post title is empty, just return the slug.
+		if ( empty( $post_title ) ) {
 			return $slug;
 		}
 
@@ -505,7 +518,7 @@ class WPSEO_Admin {
 		}
 
 		// Lowercase the slug and strip slashes.
-		$clean_slug = sanitize_title( stripslashes( filter_input( INPUT_POST, 'post_title' ) ) );
+		$clean_slug = sanitize_title( stripslashes( $post_title ) );
 
 		// Turn it to an array and strip stopwords by comparing against an array of stopwords.
 		$clean_slug_array = array_diff( explode( '-', $clean_slug ), $this->stopwords() );
