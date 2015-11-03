@@ -35,6 +35,7 @@ class WPSEO_Taxonomy_Metabox {
 		$this->taxonomy_tab_content = new WPSEO_Taxonomy_Fields_Presenter( $this->term );
 
 		add_action( 'admin_footer', array( $this, 'scoring_svg' ) );
+		add_action( 'admin_footer', array( $this, 'template_keyword_tab' ) );
 	}
 
 	/**
@@ -73,7 +74,7 @@ class WPSEO_Taxonomy_Metabox {
 	/**
 	 * Returns the relevant metabox sections for the current view.
 	 *
-	 * @return WPSEO_Metabox_Tab_Section[]
+	 * @return WPSEO_Metabox_Section[]
 	 */
 	private function get_content_sections() {
 		$content_sections = array(
@@ -88,7 +89,7 @@ class WPSEO_Taxonomy_Metabox {
 	/**
 	 * Returns the metabox section for the content analysis.
 	 *
-	 * @return WPSEO_Metabox_Tab_Section
+	 * @return WPSEO_Metabox_Section
 	 */
 	private function get_content_meta_section() {
 		$taxonomy_content_fields = new WPSEO_Taxonomy_Content_Fields( $this->term );
@@ -118,7 +119,7 @@ class WPSEO_Taxonomy_Metabox {
 	/**
 	 * Returns the metabox section for the settings.
 	 *
-	 * @return WPSEO_Metabox_Tab_Section
+	 * @return WPSEO_Metabox_Section
 	 */
 	private function get_settings_meta_section() {
 		$taxonomy_settings_fields = new WPSEO_Taxonomy_Settings_Fields( $this->term );
@@ -147,7 +148,7 @@ class WPSEO_Taxonomy_Metabox {
 	/**
 	 * Returns the metabox section for the social settings.
 	 *
-	 * @return WPSEO_Metabox_Tab_Section
+	 * @return WPSEO_Metabox_Section
 	 */
 	private function get_social_meta_section() {
 		$options = WPSEO_Options::get_all();
@@ -225,6 +226,11 @@ class WPSEO_Taxonomy_Metabox {
 	 * SVG for the general SEO score.
 	 */
 	public function scoring_svg() {
+		// Only do this on the taxonomy pages.
+		if ( 'edit-tags' !== get_current_screen()->base ) {
+			return;
+		}
+
 		echo '<script type="text/html" id="tmpl-score_svg">
 				<svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 500 500" enable-background="new 0 0 500 500" xml:space="preserve" width="50" height="50">
 					<g id="BG"></g>
@@ -246,6 +252,31 @@ class WPSEO_Taxonomy_Metabox {
 						</g>
 					</g>
 				</svg>
+			</script>';
+	}
+
+	/**
+	 * Keyword tab for enabling analysis of multiple keywords.
+	 */
+	public function template_keyword_tab() {
+		// Only do this on the taxonomy pages.
+		if ( 'edit-tags' !== get_current_screen()->base ) {
+			return;
+		}
+
+		echo '<script type="text/html" id="tmpl-keyword_tab">
+				<li class="wpseo_keyword_tab">
+					<a class="wpseo_tablink" href="#wpseo_content" data-keyword="{{data.keyword}}" data-score="{{data.score}}">
+						{{data.prefix}}
+						<span class="wpseo-score-icon {{data.score}}">
+							<span class="screen-reader-text"></span>
+						</span>
+						<em><span class="wpseo_keyword">{{data.placeholder}}</span></em>
+					</a>
+					<# if ( ! data.hideRemove ) { #>
+						<a href="#" class="remove-keyword"><span>x</span></a>
+					<# } #>
+				</li>
 			</script>';
 	}
 }

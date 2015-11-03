@@ -187,6 +187,20 @@ table.wpseoanalysis td.score {
 	background-color: lightYellow;
 }
 
+ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
+	border: none;
+}
+
+.wpseo-add-keyword {
+	padding: 0 3px;
+	border: 1px solid #ccc;
+	color: #000;
+	background: transparent;
+	font-size: 10px;
+	text-decoration: none;
+	cursor: pointer;
+}
+
 /*
  * jQuery UI CSS Framework 1.8.12
  *
