@@ -35,6 +35,7 @@ class WPSEO_Admin_Init {
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_dismissible' ) );
 		add_action( 'admin_init', array( $this, 'after_update_notice' ), 15 );
 		add_action( 'admin_init', array( $this, 'tagline_notice' ), 15 );
+		add_action( 'admin_init', array( $this, 'wp_title_notice' ), 15 );
 		add_action( 'admin_init', array( $this, 'ga_compatibility_notice' ), 15 );
 		add_action( 'admin_init', array( $this, 'ignore_tour' ) );
 		add_action( 'admin_init', array( $this, 'load_tour' ) );
@@ -95,6 +96,27 @@ class WPSEO_Admin_Init {
 	 */
 	private function seen_about() {
 		return get_user_meta( get_current_user_id(), 'wpseo_seen_about_version', true ) === WPSEO_VERSION;
+	}
+
+	/**
+	 * Setting a notice when the theme doesn't support the title-tag on WordPress 4.4
+	 */
+	public function wp_title_notice() {
+		$has_dismissed = WPSEO_Utils::grant_access() && '1' === get_user_meta( get_current_user_id(), 'wpseo_dismiss_wptitle', true );
+		if ( ! $has_dismissed &&  current_user_can( 'manage_options' ) && function_exists( 'wp_get_document_title' ) && ! current_theme_supports( 'title-tag' ) ) {
+			$info_message = sprintf(
+				__( 'Your theme does not support the title-tag which we are using. Use %1$s to support this', 'wordpress-seo' ),
+				"<code>add_theme_support( 'title-tag' )</code>"
+			);
+
+			$notification_options = array(
+				'type'  => 'error yoast-dismissible',
+				'id'    => 'wpseo-dismiss-wptitle',
+				'nonce' => wp_create_nonce( 'wpseo-dismiss-wptitle' ),
+			);
+
+			Yoast_Notification_Center::get()->add_notification( new Yoast_Notification( $info_message, $notification_options ) );
+		}
 	}
 
 	/**

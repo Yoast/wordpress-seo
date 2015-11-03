@@ -88,7 +88,7 @@ class WPSEO_Frontend {
 		remove_action( 'wp_head', 'noindex', 1 );
 
 		// When using WP 4.4, just use the new hook.
-		if( function_exists( 'wp_get_document_title' ) ) {
+		if ( function_exists( 'wp_get_document_title' ) ) {
 			add_filter( 'pre_get_document_title', array( $this, 'title' ), 15 );
 		}
 		// Otherwise, use the old way to hook into the title.
@@ -149,6 +149,7 @@ class WPSEO_Frontend {
 		add_filter( 'the_content_feed', array( $this, 'embed_rssfooter' ) );
 		add_filter( 'the_excerpt_rss', array( $this, 'embed_rssfooter_excerpt' ) );
 
+		// For WordPress functions below 4.4.
 		if ( ! function_exists( 'wp_get_document_title' ) && $this->options['forcerewritetitle'] === true ) {
 			add_action( 'template_redirect', array( $this, 'force_rewrite_output_buffer' ), 99999 );
 			add_action( 'wp_footer', array( $this, 'flush_cache' ), - 1 );
