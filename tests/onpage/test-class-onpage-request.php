@@ -3,6 +3,10 @@
  * @package WPSEO\Unittests
  */
 
+if ( ! defined( 'WPSEO_ONPAGE_ENDPOINT' ) ) {
+	define( 'WPSEO_ONPAGE_ENDPOINT', '' );
+}
+
 class WPSEO_OnPage_Request_Double extends WPSEO_OnPage_Request {
 
 	/**
