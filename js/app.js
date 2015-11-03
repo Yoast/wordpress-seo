@@ -158,11 +158,14 @@ YoastSEO.App.prototype.constructI18n = function( translations ) {
 };
 
 /**
- *
+ * Retrieves data from the callbacks.getData and applies modification to store these in this.rawData.
  */
 YoastSEO.App.prototype.getData = function() {
 	this.rawData = this.callbacks.getData();
-	this.rawData.pageTitle = this.pluggable._applyModifications( 'data_pageTitle', this.rawData.pageTitle );
+	if ( this.pluggable.loaded ) {
+		this.rawData.pageTitle = this.pluggable._applyModifications( "data_pageTitle", this.rawData.pageTitle );
+		this.rawData.meta = this.pluggable._applyModifications( "data_metaDesc", this.rawData.meta );
+	}
 };
 
 /**
@@ -420,6 +423,7 @@ YoastSEO.App.prototype.modifyData = function( data ) {
  * Function to fire the analyzer when all plugins are loaded, removes the loading dialog.
  */
 YoastSEO.App.prototype.pluginsLoaded = function() {
+	this.getData();
 	this.removeLoadingDialog();
 	this.runAnalyzer();
 };
