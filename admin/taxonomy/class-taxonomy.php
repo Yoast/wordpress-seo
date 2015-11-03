@@ -85,7 +85,9 @@ class WPSEO_Taxonomy {
 			), WPSEO_VERSION, true );
 			wp_enqueue_script( 'yoast-seo', plugins_url( 'js/dist/yoast-seo/yoast-seo.min.js', WPSEO_FILE ), null, WPSEO_VERSION, true );
 			wp_enqueue_script( 'wp-seo-term-scraper', plugins_url( 'js/wp-seo-term-scraper' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'yoast-seo' ), WPSEO_VERSION, true );
+			wp_enqueue_script( 'wp-seo-replacevar-plugin', plugins_url( 'js/wp-seo-replacevar-plugin' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'yoast-seo', 'wp-seo-term-scraper' ), WPSEO_VERSION, true );
 			wp_localize_script( 'wp-seo-term-scraper', 'wpseoTermScraperL10n', $this->localize_term_scraper_script() );
+			wp_localize_script( 'wp-seo-replacevar-plugin', 'wpseoReplaceVarsL10n', $this->localize_replace_vars_script() );
 
 			// Always enqueue minified as it's not our code.
 			wp_enqueue_style( 'jquery-qtip.js', plugins_url( 'css/jquery.qtip' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), '2.2.1' );
@@ -233,6 +235,50 @@ class WPSEO_Taxonomy {
 			$metadesc_template = $options[ 'metadesc-tax-' . $term->taxonomy ];
 		}
 		return $metadesc_template;
+	}
+
+	/**
+	 * Pass some variables to js for replacing variables.
+	 */
+	public function localize_replace_vars_script() {
+		return array(
+			'no_parent_text' => __( '(no parent)', 'wordpress-seo' ),
+			'replace_vars'   => $this->get_replace_vars(),
+		);
+	}
+
+	/**
+	 * Prepares the replace vars for localization.
+	 *
+	 * @return array replace vars
+	 */
+	private function get_replace_vars() {
+		$term_id = filter_input( INPUT_GET, 'tag_ID' );
+		$term = get_term_by( 'id', $term_id, $this->get_taxonomy() );
+//var_dump( $term );
+//		exit;
+		$cached_replacement_vars = array();
+
+		$vars_to_cache = array(
+			'date',
+			'id',
+			'sitename',
+			'sitedesc',
+			'sep',
+			'page',
+			'currenttime',
+			'currentdate',
+			'currentday',
+			'currentmonth',
+			'currentyear',
+			'term_title',
+		);
+
+		foreach ( $vars_to_cache as $var ) {
+			$cached_replacement_vars[ $var ] = wpseo_replace_vars( '%%' . $var . '%%', $term );
+		}
+
+		return $cached_replacement_vars;
 	}
 
 	/**
