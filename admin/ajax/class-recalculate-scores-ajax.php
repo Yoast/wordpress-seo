@@ -58,8 +58,6 @@ class WPSEO_Recalculate_Scores_Ajax {
 		}
 
 		exit;
-
-//		WPSEO_Meta::set_value( 'linkdex', filter_input( INPUT_POST, 'score' ), filter_input( INPUT_POST, 'post_id' ) );
 	}
 
 	/**

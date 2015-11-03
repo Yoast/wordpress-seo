@@ -206,7 +206,7 @@ class WPSEO_Taxonomy {
 	/**
 	 * Retrieves the title template.
 	 *
-	 * @param $term
+	 * @param object $term taxonomy term.
 	 *
 	 * @return string
 	 */
@@ -223,7 +223,7 @@ class WPSEO_Taxonomy {
 	/**
 	 * Retrieves the metadesc template.
 	 *
-	 * @param $term
+	 * @param object $term taxonomy term.
 	 *
 	 * @return string
 	 */
@@ -250,13 +250,11 @@ class WPSEO_Taxonomy {
 	/**
 	 * Prepares the replace vars for localization.
 	 *
-	 * @return array replace vars
+	 * @return array replace vars.
 	 */
 	private function get_replace_vars() {
 		$term_id = filter_input( INPUT_GET, 'tag_ID' );
 		$term = get_term_by( 'id', $term_id, $this->get_taxonomy() );
-//var_dump( $term );
-//		exit;
 		$cached_replacement_vars = array();
 
 		$vars_to_cache = array(

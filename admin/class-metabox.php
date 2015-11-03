@@ -205,7 +205,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	/**
 	 * Retrieves the title template.
 	 *
-	 * @param $post
+	 * @param object $post metabox post.
 	 *
 	 * @return string
 	 */
@@ -222,7 +222,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	/**
 	 * Retrieves the metadesc template.
 	 *
-	 * @param $post
+	 * @param object $post metabox post.
 	 *
 	 * @return string
 	 */
