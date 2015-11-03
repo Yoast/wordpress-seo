@@ -2233,11 +2233,6 @@ YoastSEO.SnippetPreview.prototype.init = function() {
 		this.output = this.htmlOutput();
 		this.renderOutput();
 	}
-
-	/*this.snippetSuffix = "";
-	if ( this.refObj.config.snippetSuffix !== "undefined" ) {
-		this.snippetSuffix = this.refObj.config.snippetSuffix;
-	}*/
 };
 
 /**
@@ -2261,10 +2256,10 @@ YoastSEO.SnippetPreview.prototype.htmlOutput = function() {
  */
 YoastSEO.SnippetPreview.prototype.formatTitle = function() {
 	var title = this.refObj.rawData.snippetTitle;
-	if ( title === "" ) {
+	if ( title === "" || typeof title === "undefined" ) {
 		title = this.refObj.rawData.pageTitle;
 	}
-	if ( title === "" ) {
+	if ( title === "" || typeof title === "undefined" ) {
 		title = this.refObj.config.sampleText.title;
 	}
 	title = this.refObj.stringHelper.stripAllTags( title );
