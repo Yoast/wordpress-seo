@@ -56,8 +56,7 @@ class WPSEO_Recalculate_Scores_Ajax {
 		foreach ( $scores as $score ) {
 			WPSEO_Meta::set_value( 'linkdex', $score['score'], $score['post_id'] );
 		}
-
-		exit;
+		wp_die();
 	}
 
 	/**

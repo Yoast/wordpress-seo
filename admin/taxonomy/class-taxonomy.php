@@ -200,6 +200,7 @@ class WPSEO_Taxonomy {
 			'post_edit_url'                 => admin_url( 'edit-tags.php?action=edit&taxonomy=' . $term->taxonomy . '&tag_ID={id}' ),
 			'title_template'                => WPSEO_Taxonomy::get_title_template( $term ),
 			'metadesc_template'             => WPSEO_Taxonomy::get_metadesc_template( $term ),
+			'contentTab'                    => __( 'Content:', 'wordpress-seo' ),
 		);
 	}
 
