@@ -39,7 +39,7 @@
 </table>
 <?php if ( WPSEO_Utils::grant_access() ) : ?>
 <div class="onpage">
-	<h4 class="hide-if-no-js">OnPage.Org <?php _e( 'status', 'wordpress-seo' ); ?></h4>
+	<h4 class="hide-if-no-js">OnPage.org <?php _e( 'status', 'wordpress-seo' ); ?></h4>
 
 	<div>
 		<?php
