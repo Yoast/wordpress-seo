@@ -196,9 +196,43 @@ class WPSEO_Taxonomy {
 			// Todo: a column needs to be added on the termpages to add a filter for the keyword, so this can be used in the focus kw doubles.
 			'search_url'                    => admin_url( 'edit-tags.php?taxonomy=' . $term->taxonomy . '&seo_kw_filter={keyword}' ),
 			'post_edit_url'                 => admin_url( 'edit-tags.php?action=edit&taxonomy=' . $term->taxonomy . '&tag_ID={id}' ),
-			'sep'                           => WPSEO_Utils::get_title_separator(),
-			'sitename'                      => WPSEO_Utils::get_site_name(),
+			'title_template'                => WPSEO_Taxonomy::get_title_template( $term ),
+			'metadesc_template'             => WPSEO_Taxonomy::get_metadesc_template( $term ),
 		);
+	}
+
+	/**
+	 * Retrieves the title template.
+	 *
+	 * @param $term
+	 *
+	 * @return string
+	 */
+	public static function get_title_template( $term ) {
+		$options = get_option( 'wpseo_titles' );
+
+		$title_template = '';
+		if ( isset( $options[ 'title-tax-' . $term->taxonomy ] ) && $options[ 'title-tax-' . $term->taxonomy ] !== '' ) {
+			$title_template = $options[ 'title-tax-' . $term->taxonomy ];
+		}
+		return $title_template;
+	}
+
+	/**
+	 * Retrieves the metadesc template.
+	 *
+	 * @param $term
+	 *
+	 * @return string
+	 */
+	public static function get_metadesc_template( $term ) {
+		$options = get_option( 'wpseo_titles' );
+
+		$metadesc_template = '';
+		if ( isset( $options[ 'metadesc-tax-' . $term->taxonomy ] ) && $options[ 'metadesc-tax-' . $term->taxonomy ] !== '' ) {
+			$metadesc_template = $options[ 'metadesc-tax-' . $term->taxonomy ];
+		}
+		return $metadesc_template;
 	}
 
 	/**

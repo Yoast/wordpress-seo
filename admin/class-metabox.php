@@ -189,23 +189,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	public function localize_post_scraper_script() {
 		$post = $this->get_metabox_post();
 
-		$options = get_option( 'wpseo_titles' );
-
-
-		$title_template = '';
-		if ( isset( $options[ 'title-' . $post->post_type ] ) && $options[ 'title-' . $post->post_type ] !== '' ) {
-			$title_template = $options[ 'title-' . $post->post_type ];
-		}
-		// If there's no title template set, use the default, otherwise title preview won't work.
-		if ( $title_template == '' ) {
-			$title_template = '%%title%% - %%sitename%%';
-		}
-		$metadesc_template = '';
-		if ( isset( $options[ 'metadesc-' . $post->post_type ] ) && $options[ 'metadesc-' . $post->post_type ] !== '' ) {
-			$metadesc_template = $options[ 'metadesc-' . $post->post_type ];
-		}
-
-
 		$translations = $this->get_scraper_translations();
 
 		return array(
@@ -214,12 +197,43 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'search_url'        => admin_url( 'edit.php?seo_kw_filter={keyword}' ),
 			'post_edit_url'     => admin_url( 'post.php?post={id}&action=edit' ),
 			'home_url'          => home_url( '/', null ),
-			'sep'               => WPSEO_Utils::get_title_separator(),
-			'sitename'          => WPSEO_Utils::get_site_name(),
-			'title_template'    => $title_template,
-			'metadesc_template' => $metadesc_template,
-
+			'title_template'    => WPSEO_Metabox::get_title_template( $post ),
+			'metadesc_template' => WPSEO_Metabox::get_metadesc_template( $post ),
 		);
+	}
+
+	/**
+	 * Retrieves the title template.
+	 *
+	 * @param $post
+	 *
+	 * @return string
+	 */
+	public static function get_title_template( $post ) {
+		$options = get_option( 'wpseo_titles' );
+
+		$title_template = '';
+		if ( isset( $options[ 'title-' . $post->post_type ] ) && $options[ 'title-' . $post->post_type ] !== '' ) {
+			$title_template = $options[ 'title-' . $post->post_type ];
+		}
+		return $title_template;
+	}
+
+	/**
+	 * Retrieves the metadesc template.
+	 *
+	 * @param $post
+	 *
+	 * @return string
+	 */
+	public static function get_metadesc_template( $post ) {
+		$options = get_option( 'wpseo_titles' );
+
+		$metadesc_template = '';
+		if ( isset( $options[ 'metadesc-' . $post->post_type ] ) && $options[ 'metadesc-' . $post->post_type ] !== '' ) {
+			$metadesc_template = $options[ 'metadesc-' . $post->post_type ];
+		}
+		return $metadesc_template;
 	}
 
 	/**
