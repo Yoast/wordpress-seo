@@ -49,10 +49,6 @@ ul.wpseo-metabox-tabs li.active {
 	color: #333;
 }
 
-.wpseo-metabox-sidebar a {
-	text-decoration: none;
-}
-
 ul.wpseo-metabox-tabs li {
 	display: inline;
 	margin-right: 5px;
@@ -87,7 +83,9 @@ ul.wpseo-metabox-tabs li {
 }
 
 .wpseo-metabox-sidebar a {
-	font-size: 30px;
+	font-size: 20px;
+	line-height: 30px;
+	text-decoration: none;
 }
 
 .wpseo-metabox-sidebar li {
@@ -187,6 +185,20 @@ table.wpseoanalysis td.score {
 	padding: 0 5px;
 	border: 1px solid #e6db55;
 	background-color: lightYellow;
+}
+
+ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
+	border: none;
+}
+
+.wpseo-add-keyword {
+	padding: 0 3px;
+	border: 1px solid #ccc;
+	color: #000;
+	background: transparent;
+	font-size: 10px;
+	text-decoration: none;
+	cursor: pointer;
 }
 
 /*

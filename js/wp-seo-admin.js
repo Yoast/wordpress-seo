@@ -2,7 +2,7 @@
 /* global ajaxurl */
 /* global setWPOption */
 /* global tb_remove */
-/* global YoastSEO_Analyzer */
+/* global YoastSEO */
 /* jshint -W097 */
 /* jshint -W003 */
 /* jshint unused:false */
@@ -256,10 +256,10 @@ function wpseo_recalculate_scores( current_page ) {
 	progress_bar.progressbar( { value: 0 } );
 
 	var i18n = new YoastSEO.Jed( {
-		"domain": "js-text-analysis",
-		"locale_data": {
-			"js-text-analysis": {
-				"": {}
+		domain: 'js-text-analysis',
+		locale_data: {
+			'js-text-analysis': {
+				'': {}
 			}
 		}
 	} );
@@ -286,6 +286,24 @@ function wpseo_recalculate_scores( current_page ) {
 		},
 
 		/**
+		 * Calculate the scores
+		 *
+		 * @param {int}   total_posts
+		 * @param {array} posts
+		 */
+		calculate_scores: function( total_posts, posts ) {
+			var scores = [];
+			for ( var i = 0; i < total_posts; i++ ) {
+				var post  = posts[ i ];
+				var score = wpseo_recalculate.calculate_score( post );
+
+				scores.push({ post_id: post.post_id, score: score });
+			}
+
+			return scores;
+		},
+
+		/**
 		 * Passing the post to the analyzer to calculates it's core
 		 *
 		 * @param {Object} post
@@ -294,18 +312,8 @@ function wpseo_recalculate_scores( current_page ) {
 			post.i18n = i18n;
 			var tmpAnalyzer = new YoastSEO.Analyzer( post );
 			tmpAnalyzer.runQueue();
-			var score = tmpAnalyzer.analyzeScorer.__totalScore;
 
-			// Doing request to update the score
-			jQuery.post(
-				ajaxurl,
-				{
-					action: 'wpseo_update_score',
-					nonce: jQuery( '#wpseo_recalculate_nonce' ).val(),
-					post_id: post.post_id,
-					score: score
-				}
-			);
+			 return tmpAnalyzer.analyzeScorer.__totalScore;
 		},
 
 		/**
@@ -316,10 +324,9 @@ function wpseo_recalculate_scores( current_page ) {
 		parse_response: function( response ) {
 			if ( response !== '' && response !== null ) {
 				if ( response.total_posts !== undefined ) {
-					for ( var i = 0; i < response.total_posts; i++ ) {
-						wpseo_recalculate.calculate_score( response.posts[ i ] );
-					}
+					var scores = wpseo_recalculate.calculate_scores( response.total_posts, response.posts );
 
+					wpseo_recalculate.send_scores(scores);
 					wpseo_recalculate.update_progressbar( response.total_posts );
 				}
 
@@ -327,6 +334,22 @@ function wpseo_recalculate_scores( current_page ) {
 					wpseo_recalculate.get_posts_to_recalculate( response.next_page );
 				}
 			}
+		},
+
+		/**
+		 * Sending the scores to the backend
+		 *
+		 * @param {array} scores
+		 */
+		send_scores: function( scores ) {
+			jQuery.post(
+				ajaxurl,
+				{
+					action: 'wpseo_update_score',
+					nonce: jQuery( '#wpseo_recalculate_nonce' ).val(),
+					scores: scores
+				}
+			);
 		},
 
 		/**
