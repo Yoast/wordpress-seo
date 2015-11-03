@@ -173,5 +173,4 @@ class Yoast_Notification_Center {
 		// AJAX die.
 		exit;
 	}
-
 }

@@ -113,14 +113,14 @@ class WPSEO_Meta {
 				'description'   => '<div id="focuskwresults"></div>',
 			),
 			'title'          => array(
-				'type'          => 'text',
+				'type'          => 'hidden',
 				'title'         => '', // Translation added later.
 				'default_value' => '',
 				'description'   => '', // Translation added later.
 				'help'          => '', // Translation added later.
 			),
 			'metadesc'       => array(
-				'type'          => 'textarea',
+				'type'          => 'hidden',
 				'title'         => '', // Translation added later.
 				'default_value' => '',
 				'class'         => 'metadesc',
@@ -128,12 +128,23 @@ class WPSEO_Meta {
 				'description'   => '', // Translation added later.
 				'help'          => '', // Translation added later.
 			),
+			'linkdex'        => array(
+				'type'          => 'hidden',
+				'title'         => 'linkdex',
+				'default_value' => '0',
+				'description'   => '',
+			),
 			'metakeywords'   => array(
 				'type'          => 'text',
 				'title'         => '', // Translation added later.
 				'default_value' => '',
 				'class'         => 'metakeywords',
 				'description'   => '', // Translation added later.
+			),
+			'pageanalysis'   => array(
+				'type'  => 'pageanalysis',
+				'title' => '', // Translation added later.
+				'help'  => '', // Translation added later.
 			),
 		),
 		'advanced' => array(
@@ -1002,5 +1013,26 @@ class WPSEO_Meta {
 		return ( array_key_exists( $key, $_POST ) ) ? $_POST[ $key ] : '';
 	}
 
+	/**
+	 * Counts the total of all the keywords being used for posts except the given one
+	 *
+	 * @param string  $keyword The keyword to be counted.
+	 * @param integer $post_id The is of the post to which the keyword belongs.
+	 *
+	 * @return array
+	 */
+	public static function keyword_usage( $keyword, $post_id ) {
+		$get_posts = new WP_Query(
+			array(
+				'meta_key'    => '_yoast_wpseo_focuskw',
+				'meta_value'  => $keyword,
+				'exclude'     => $post_id,
+				'fields'      => 'ids',
+				'post_type'   => 'any',
+				'numberposts' => -1,
+			)
+		);
 
+		return $get_posts->posts;
+	}
 } /* End of class */
