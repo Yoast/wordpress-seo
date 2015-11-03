@@ -1,5 +1,5 @@
 /* global YoastSEO, wp, wpseoTermScraperL10n, ajaxurl, tinyMCE */
-(function() {
+(function( $ ) {
 	'use strict';
 
 	var TermScraper = function() {};
@@ -181,7 +181,49 @@
 	TermScraper.prototype.saveScores = function( score ) {
 		var tmpl = wp.template('score_svg');
 		document.getElementById( YoastSEO.analyzerArgs.targets.overall ).innerHTML = tmpl();
+		document.getElementById( 'hidden_wpseo_linkdex' ).value = score;
 		jQuery( window ).trigger( 'YoastSEO:numericScore', score );
+
+		this.updateKeywordTabContent( $( '#wpseo_focuskw' ).val(), score );
+	};
+
+	/**
+	 * Initializes keyword tab with the correct template
+	 */
+	TermScraper.prototype.initKeywordTabTemplate = function() {
+		var keyword, score;
+
+		// Remove default functionality to prevent scrolling to top.
+		$( '.wpseo-metabox-tabs' ).on( 'click', '.wpseo_tablink', function( ev ) {
+			ev.preventDefault();
+		});
+
+		keyword = $( '#wpseo_focuskw' ).val();
+		score   = $( '#hidden_wpseo_linkdex' ).val();
+
+		this.updateKeywordTabContent( keyword, score );
+	};
+
+	/**
+	 * Updates keyword tab with new content
+	 */
+	TermScraper.prototype.updateKeywordTabContent = function( keyword, score ) {
+		var placeholder, keyword_tab;
+
+		placeholder = keyword.length > 0 ? keyword : '...';
+
+		score = parseInt( score, 10 );
+		score = YoastSEO.ScoreFormatter.prototype.scoreRating( score );
+
+		keyword_tab = wp.template( 'keyword_tab' )({
+			keyword: keyword,
+			placeholder: placeholder,
+			score: score,
+			hideRemove: true,
+			prefix: wpseoTermScraperL10n.contentTab + ' '
+		});
+
+		$( '.wpseo_keyword_tab' ).replaceWith( keyword_tab );
 	};
 
 	/**
@@ -312,5 +354,7 @@
 		}
 		window.YoastSEO.app = new YoastSEO.App( YoastSEO.analyzerArgs );
 		jQuery( window ).trigger( 'YoastSEO:ready' );
+
+		termScraper.initKeywordTabTemplate();
 	} );
-}());
+}( jQuery ));

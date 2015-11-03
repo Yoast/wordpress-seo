@@ -198,6 +198,7 @@ class WPSEO_Taxonomy {
 			'post_edit_url'                 => admin_url( 'edit-tags.php?action=edit&taxonomy=' . $term->taxonomy . '&tag_ID={id}' ),
 			'sep'                           => WPSEO_Utils::get_title_separator(),
 			'sitename'                      => WPSEO_Utils::get_site_name(),
+			'contentTab'                    => __( 'Content:', 'wordpress-seo' ),
 		);
 	}
 
