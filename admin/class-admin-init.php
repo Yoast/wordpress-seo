@@ -105,8 +105,10 @@ class WPSEO_Admin_Init {
 		$has_dismissed = WPSEO_Utils::grant_access() && '1' === get_user_meta( get_current_user_id(), 'wpseo_dismiss_wptitle', true );
 		if ( ! $has_dismissed &&  current_user_can( 'manage_options' ) && function_exists( 'wp_get_document_title' ) && ! current_theme_supports( 'title-tag' ) ) {
 			$info_message = sprintf(
-				__( 'Your theme does not support the title-tag which we are using. Use %1$s to support this', 'wordpress-seo' ),
-				"<code>add_theme_support( 'title-tag' )</code>"
+				/* translators: %1$s opens a link to a knowledge base article, $2%s closes the link  */
+				__( 'The way your theme handles titles is not compatible with the latest version of WordPress. %1$sRead more about this error on our knowledge base%2$s.' , 'wordpress-seo' ),
+				'<a href="http://yoa.st/wptitle" target="_blank">',
+				'</a>'
 			);
 
 			$notification_options = array(
