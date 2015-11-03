@@ -227,7 +227,7 @@ YoastSEO.AnalyzeScorer.prototype.totalScore = function() {
  *
  * @returns {number}
  */
-YoastSEO.AnalyzerScoring.prototype.getTotalScore = function() {
+YoastSEO.AnalyzeScorer.prototype.getTotalScore = function() {
 	return this.__totalScore;
 };
 
