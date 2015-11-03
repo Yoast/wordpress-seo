@@ -36,6 +36,7 @@ class WPSEO_Recalculate_Scores {
 		add_thickbox();
 
 		$progress = sprintf(
+			/* translators: 1: expands to a <span> containing the number of posts recalculated. 2: expands to a <strong> containing the total number of posts. */
 			__( 'Currently %1$s of %2$s posts recalculated.', 'wordpress-seo' ),
 			'<span id="wpseo_count">0</span>',
 			'<strong id="wpseo_count_total">' . $this->calculate_posts() . '</strong>'

@@ -9,6 +9,17 @@
 class WPSEO_Metabox extends WPSEO_Meta {
 
 	/**
+	 * @var array
+	 */
+	protected $options;
+
+	/**
+	 * @var WPSEO_Social_Admin
+	 */
+	protected $social_admin;
+
+
+	/**
 	 * Class constructor
 	 */
 	public function __construct() {
@@ -21,7 +32,14 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		add_action( 'admin_init', array( $this, 'setup_page_analysis' ) );
 		add_action( 'admin_init', array( $this, 'translate_meta_boxes' ) );
 		add_action( 'admin_footer', array( $this, 'scoring_svg' ) );
+		add_action( 'admin_footer', array( $this, 'template_keyword_tab' ) );
 
+		$this->options = WPSEO_Options::get_all();
+
+		// Check if on of the social settings is checked in the options, if so, initialize the social_admin object.
+		if ( $this->options['opengraph'] === true || $this->options['twitter'] === true || $this->options['googleplus'] === true ) {
+			$this->social_admin = new WPSEO_Social_Admin( $this->options );
+		}
 	}
 
 	/**
@@ -197,6 +215,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'home_url'      => home_url( '/', null ),
 			'sep'           => WPSEO_Utils::get_title_separator(),
 			'sitename'      => WPSEO_Utils::get_site_name(),
+			'contentTab'    => __( 'Content:' , 'wordpress-seo' ),
 		);
 	}
 
@@ -262,19 +281,20 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	/**
 	 * Returns the relevant metabox sections for the current view.
 	 *
-	 * @return WPSEO_Metabox_Tab_Section[]
+	 * @return WPSEO_Metabox_Section[]
 	 */
 	private function get_content_sections() {
-		$options = WPSEO_Options::get_all();
 		$content_sections = array( $this->get_content_meta_section() );
 
-		if ( current_user_can( 'manage_options' ) || $options['disableadvanced_meta'] === false ) {
+		if ( current_user_can( 'manage_options' ) || $this->options['disableadvanced_meta'] === false ) {
 			$content_sections[] = $this->get_advanced_meta_section();
 		}
-		if ( $options['opengraph'] === true || $options['twitter'] === true || $options['googleplus'] === true ) {
-			$social_admin = new WPSEO_Social_Admin( $options );
-			$content_sections[] = $social_admin->get_meta_section();
+
+		// Check if social_admin is an instance of WPSEO_Social_Admin.
+		if ( is_a( $this->social_admin, 'WPSEO_Social_Admin' ) ) {
+			$content_sections[] = $this->social_admin->get_meta_section();
 		}
+
 		if ( has_action( 'wpseo_tab_header' ) || has_action( 'wpseo_tab_content' ) ) {
 			$content_sections[] = $this->get_addons_meta_section();
 		}
@@ -284,12 +304,14 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	/**
 	 * Returns the metabox section for the content analysis.
 	 *
-	 * @return WPSEO_Metabox_Tab_Section
+	 * @return WPSEO_Metabox_Section
 	 */
 	private function get_content_meta_section() {
 		$content = $this->get_tab_content( 'general' );
 
-		$tab = new WPSEO_Metabox_Form_Tab(
+		$tabs = array();
+
+		$tabs[] = new WPSEO_Metabox_Form_Tab(
 			'content',
 			$content,
 			__( 'Content', 'wordpress-seo' ),
@@ -299,10 +321,12 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			)
 		);
 
+		$tabs[] = new Metabox_Add_Keyword_Tab();
+
 		return new WPSEO_Metabox_Tab_Section(
 			'content',
 			'<span class="dashicons dashicons-yes"></span>',
-			array( $tab ),
+			$tabs,
 			array(
 				'link_alt' => __( 'Content', 'wordpress-seo' ),
 				'link_title' => __( 'Content', 'wordpress-seo' ),
@@ -313,7 +337,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	/**
 	 * Returns the metabox section for the advanced settings.
 	 *
-	 * @return WPSEO_Metabox_Tab_Section
+	 * @return WPSEO_Metabox_Section
 	 */
 	private function get_advanced_meta_section() {
 		$content = $this->get_tab_content( 'advanced' );
@@ -342,7 +366,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * Returns a metabox section dedicated to hosting metabox tabs that have been added by other plugins through the
 	 * `wpseo_tab_header` and `wpseo_tab_content` actions.
 	 *
-	 * @return WPSEO_Metabox_Addon_Tab_Section
+	 * @return WPSEO_Metabox_Section
 	 */
 	private function get_addons_meta_section() {
 		return new WPSEO_Metabox_Addon_Tab_Section(
@@ -814,6 +838,11 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * SVG for the general SEO score.
 	 */
 	public function scoring_svg() {
+		// Only do this on the edit post pages.
+		if ( 'post' !== get_current_screen()->base && 'post-new' !== get_current_screen()->base ) {
+			return;
+		}
+
 		echo '<script type="text/html" id="tmpl-score_svg">
 				<svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 500 500" enable-background="new 0 0 500 500" xml:space="preserve" width="50" height="50">
 					<g id="BG"></g>
@@ -835,6 +864,31 @@ class WPSEO_Metabox extends WPSEO_Meta {
 						</g>
 					</g>
 				</svg>
+			</script>';
+	}
+
+	/**
+	 * Keyword tab for enabling analysis of multiple keywords.
+	 */
+	public function template_keyword_tab() {
+		// Only do this on the edit post pages.
+		if ( 'post' !== get_current_screen()->base && 'post-new' !== get_current_screen()->base ) {
+			return;
+		}
+
+		echo '<script type="text/html" id="tmpl-keyword_tab">
+				<li class="wpseo_keyword_tab">
+					<a class="wpseo_tablink" href="#wpseo_content" data-keyword="{{data.keyword}}" data-score="{{data.score}}">
+						{{data.prefix}}
+						<span class="wpseo-score-icon {{data.score}}">
+							<span class="screen-reader-text"></span>
+						</span>
+						<em><span class="wpseo_keyword">{{data.placeholder}}</span></em>
+					</a>
+					<# if ( ! data.hideRemove ) { #>
+						<a href="#" class="remove-keyword"><span>x</span></a>
+					<# } #>
+				</li>
 			</script>';
 	}
 

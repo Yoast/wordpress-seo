@@ -9,11 +9,6 @@
 class WPSEO_Social_Admin extends WPSEO_Metabox {
 
 	/**
-	 * @var array
-	 */
-	private $options;
-
-	/**
 	 * Class constructor
 	 */
 	public function __construct() {
