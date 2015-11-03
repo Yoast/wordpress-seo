@@ -19,7 +19,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 			baseUrl: this.getDataFromInput( 'baseUrl' ),
 			snippetTitle: this.getDataFromInput( 'title' ),
 			meta: this.getDataFromInput( 'meta' ),
-			snippetMeta: this.getDataFromInput( 'meta' ),
+			snippetMeta: this.getDataFromInput( 'snippetMeta' ),
 			snippetCite: this.getDataFromInput( 'cite' )
 		};
 	};
@@ -48,6 +48,9 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 				if ( val === '' ) {
 					val = wpseoTermScraperL10n.metadesc_template;
 				}
+				break;
+			case 'snippetMeta':
+				val = document.getElementById( 'yoast_wpseo_metadesc' ).value;
 				break;
 			case 'text':
 				val = this.getContentTinyMCE();
