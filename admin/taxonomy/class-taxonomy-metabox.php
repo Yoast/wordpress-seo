@@ -225,6 +225,11 @@ class WPSEO_Taxonomy_Metabox {
 	 * SVG for the general SEO score.
 	 */
 	public function scoring_svg() {
+		// Only do this on the taxonomy pages.
+		if ( 'edit-tags' !== get_current_screen()->base ) {
+			return;
+		}
+
 		echo '<script type="text/html" id="tmpl-score_svg">
 				<svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 500 500" enable-background="new 0 0 500 500" xml:space="preserve" width="50" height="50">
 					<g id="BG"></g>

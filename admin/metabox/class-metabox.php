@@ -819,6 +819,11 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * SVG for the general SEO score.
 	 */
 	public function scoring_svg() {
+		// Only do this on the edit post pages.
+		if ( 'post' !== get_current_screen()->base && 'post-new' !== get_current_screen()->base ) {
+			return;
+		}
+
 		echo '<script type="text/html" id="tmpl-score_svg">
 				<svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 500 500" enable-background="new 0 0 500 500" xml:space="preserve" width="50" height="50">
 					<g id="BG"></g>
@@ -847,6 +852,11 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * Keyword tab for enabling analysis of multiple keywords.
 	 */
 	public function template_keyword_tab() {
+		// Only do this on the edit post pages.
+		if ( 'post' !== get_current_screen()->base && 'post-new' !== get_current_screen()->base ) {
+			return;
+		}
+
 		echo '<script type="text/html" id="tmpl-keyword_tab">
 				<li class="wpseo_keyword_tab">
 					<a class="wpseo_tablink" href="#wpseo_content" data-keyword="{{data.keyword}}" data-score="{{data.score}}">
