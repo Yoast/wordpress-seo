@@ -117,6 +117,9 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 				break;
 			case 'meta':
 				val = document.getElementById( 'yoast_wpseo_metadesc' ).value;
+				if ( val === '' ) {
+					val = wpseoPostScraperL10n.metadesc_template;
+				}
 				break;
 			case 'keyword':
 				val = document.getElementById( 'yoast_wpseo_focuskw' ).value;
@@ -131,9 +134,9 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 				val = document.getElementById( 'yoast_wpseo_title' ).value;
 				if ( val === '' ) {
 					val = wpseoPostScraperL10n.title_template;
-					if( typeof YoastSEO.app !== 'undefined' ) {
-						val = YoastSEO.app.pluggable._applyModifications( 'data_title', val );
-					}
+				}
+				if (val === '' ) {
+					val = '%%title%% - %%sitename%%';
 				}
 				break;
 			case 'excerpt':
@@ -205,9 +208,6 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 		for ( var i = 0; i < elems.length; i++ ) {
 			this.bindSnippetEvents( document.getElementById( elems [ i ] ), snippetPreview );
 		}
-		var title = document.getElementById( 'snippet_title' );
-		title.addEventListener( 'focus', snippetPreview.setSiteName.bind ( snippetPreview ) );
-		title.addEventListener( 'blur', snippetPreview.unsetSiteName.bind ( snippetPreview ) );
 	};
 
 	/**
@@ -340,8 +340,6 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 			ajax: true,
 			//if it must generate snippetpreview
 			snippetPreview: true,
-			//string to be added to the snippetTitle
-			snippetSuffix: ' ' + wpseoPostScraperL10n.sep + ' ' + wpseoPostScraperL10n.sitename,
 			//element Target Array
 			elementTarget: ['content', 'yoast_wpseo_focuskw', 'yoast_wpseo_metadesc', 'excerpt', 'editable-post-name', 'editable-post-name-full'],
 			//replacement target array, elements that must trigger the replace variables function.
