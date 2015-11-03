@@ -210,24 +210,14 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$translations = $this->get_scraper_translations();
 
 		return array(
-<<<<<<< HEAD:admin/class-metabox.php
 			'translations'      => $translations,
 			'keyword_usage'     => $this->get_focus_keyword_usage(),
 			'search_url'        => admin_url( 'edit.php?seo_kw_filter={keyword}' ),
 			'post_edit_url'     => admin_url( 'post.php?post={id}&action=edit' ),
 			'home_url'          => home_url( '/', null ),
-			'title_template'    => WPSEO_Metabox::get_title_template( $post ),
-			'metadesc_template' => WPSEO_Metabox::get_metadesc_template( $post ),
-=======
-			'translations'  => $translations,
-			'keyword_usage' => $this->get_focus_keyword_usage(),
-			'search_url'    => admin_url( 'edit.php?seo_kw_filter={keyword}' ),
-			'post_edit_url' => admin_url( 'post.php?post={id}&action=edit' ),
-			'home_url'      => home_url( '/', null ),
 			'sep'           => WPSEO_Utils::get_title_separator(),
 			'sitename'      => WPSEO_Utils::get_site_name(),
 			'contentTab'    => __( 'Content:' , 'wordpress-seo' ),
->>>>>>> 3.0:admin/metabox/class-metabox.php
 		);
 	}
 
