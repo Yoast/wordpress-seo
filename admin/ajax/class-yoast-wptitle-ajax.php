@@ -31,4 +31,5 @@ class Yoast_WPTitle_Ajax {
 	private function save_dismissed() {
 		update_user_meta( get_current_user_id(), 'wpseo_dismiss_wptitle', 1 );
 	}
+
 }
