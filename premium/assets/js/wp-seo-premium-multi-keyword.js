@@ -1,9 +1,10 @@
-/* global YoastSEO: true, wp */
-YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
+/* global YoastSEO: true, wp, wpseoPostScraperL10n, _ */
+YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 (function( $ ) {
 	'use strict';
 
 	var maxKeywords = 5;
+	var keywordTabTemplate;
 
 	var YoastMultiKeyword = function() {
 		this.insertElements();
@@ -52,7 +53,7 @@ YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 	};
 
 	YoastMultiKeyword.prototype.bindKeywordTab = function() {
-		$( '.wpseo_keyword_tab > .wpseo_tablink' ).click( function() {
+		$( '.wpseo-metabox-tabs' ).on( 'click', '.wpseo_tablink', function() {
 			var keyword = $( this ).data( 'keyword' );
 			$( '#yoast_wpseo_focuskw' ).val( keyword ).focus();
 			YoastSEO.app.refresh();
@@ -132,7 +133,7 @@ YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 		keyword = keyword || '';
 		var placeholder = keyword.length > 0 ? keyword : '...';
 
-		var keyword_tab = wp.template( 'keyword_tab' )( { keyword: keyword, placeholder: placeholder, score: score } );
+		var keyword_tab = keywordTabTemplate( { keyword: keyword, placeholder: placeholder, score: score } );
 		$( '.wpseo_keyword_tab:last' ).after( keyword_tab );
 
 		// Reload to get the correct bindings.
@@ -196,6 +197,79 @@ YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 	};
 
 	/**
+	 * Updates all keywords tabs that are currently inactive.
+	 */
+	YoastMultiKeyword.prototype.updateInactiveKeywords = function() {
+		var inactiveKeywords;
+
+		inactiveKeywords = $( '.wpseo_keyword_tab:not( .active )' );
+
+		inactiveKeywords.each( function( i, tab ) {
+			this.updateKeywordTab( tab );
+		}.bind( this ) );
+	};
+
+	/**
+	 * Update one keyword tab.
+	 *
+	 * @param {Object} tab The tab to update.
+	 */
+	YoastMultiKeyword.prototype.updateKeywordTab = function( tab ) {
+		var keyword, link, score, html, placeholder, templateArgs;
+
+		tab = $( tab );
+
+		link    = tab.find( '.wpseo_tablink' );
+		keyword = link.data( 'keyword' );
+		score   = this.analyzeKeyword( keyword );
+
+		placeholder = keyword.length > 0 ? keyword : '...';
+
+		score = parseInt( score, 10 );
+		score = YoastSEO.ScoreFormatter.prototype.scoreRating( score );
+
+		templateArgs = {
+			keyword: keyword,
+			placeholder: placeholder,
+			score: score
+		};
+
+		// The first tab isn't deletable
+		if ( 0 === tab.index() ) {
+			templateArgs.hideRemove = true;
+			templateArgs.prefix = wpseoPostScraperL10n.contentTab;
+		}
+
+		html = keywordTabTemplate( templateArgs );
+
+		tab.replaceWith( html );
+	};
+
+	/**
+	 * Analyzes a certain keyword with an ad-hoc analyzer
+	 *
+	 * @param {string} keyword The keyword to analyze.
+	 *
+	 * @return {number} Total score.
+	 */
+	YoastMultiKeyword.prototype.analyzeKeyword = function( keyword ) {
+		var analyzerData, analyzer;
+
+		// Re-use the data already present in the page.
+		analyzerData = YoastSEO.app.config.callbacks.getData();
+		analyzerData.i18n = YoastSEO.app.i18n;
+
+		// Set the keyword we want to analyze instead of the on-page one.
+		analyzerData.keyword = keyword;
+
+		analyzer = new YoastSEO.Analyzer( analyzerData );
+		analyzer.runQueue();
+		analyzer.score();
+
+		return analyzer.analyzeScorer.__totalScore;
+	};
+
+	/**
 	 * Returns whether or not a new tab can be added
 	 *
 	 * @returns {boolean}
@@ -208,8 +282,15 @@ YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 		return tabAmount < maxKeywords;
 	};
 
-	$( document ).ready(function() {
-		new YoastMultiKeyword();
+	$( window ).on( 'YoastSEO:ready', function() {
+		keywordTabTemplate = wp.template( 'keyword_tab' );
+
+		var multiKeyword = new YoastMultiKeyword();
+
+		multiKeyword.updateInactiveKeywords();
+
+		var updateInactiveKeywords = _.debounce( multiKeyword.updateInactiveKeywords.bind( multiKeyword ), 300 );
+		$( window ).on( 'YoastSEO:numericScore', updateInactiveKeywords );
 	} );
 
 	YoastSEO.multiKeyword = true;
