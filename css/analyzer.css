@@ -22,7 +22,7 @@
 
 .snippet_container .title {
     color: #1e0fbe;
-    display: inline;
+    display: block;
     overflow: hidden;
     text-overflow: ellipsis;
     text-decoration: none;
@@ -60,7 +60,7 @@
     color: #f00 !important;
 }
 
-.editIcon:hover {
+.snippet_container .editIcon:hover {
     background: #bbdefb url("editicon.png") no-repeat right top;
     cursor: pointer;
 }
