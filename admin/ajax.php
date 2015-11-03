@@ -346,3 +346,5 @@ function wpseo_add_fb_admin() {
 add_action( 'wp_ajax_wpseo_add_fb_admin', 'wpseo_add_fb_admin' );
 
 new Yoast_Dashboard_Widget();
+
+new Yoast_OnPage_Ajax();
