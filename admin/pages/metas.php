@@ -28,18 +28,24 @@ $yform->admin_header( true, 'wpseo_titles' );
 	<div class="tabwrapper">
 		<div id="general" class="wpseotab">
 			<table class="form-table">
-				<tr>
-					<th>
-						<?php _e( 'Force rewrite titles', 'wordpress-seo' ); ?>
-					</th>
-					<td>
-						<?php
-						$yform->checkbox( 'forcerewritetitle', __( 'Enable force rewrite titles', 'wordpress-seo' ) );
-						/* translators: %1$s expands to Yoast SEO */
-						echo '<p class="description">', sprintf( __( '%1$s has auto-detected whether it needs to force rewrite the titles for your pages, if you think it\'s wrong and you know what you\'re doing, you can change the setting here.', 'wordpress-seo' ), 'Yoast SEO' ) . '</p>';
-						?>
-					</td>
-				</tr>
+				<?php
+				if ( ! function_exists( 'wp_get_document_title' ) ) {
+					?>
+					<tr>
+						<th>
+							<?php _e( 'Force rewrite titles', 'wordpress-seo' ); ?>
+						</th>
+						<td>
+							<?php
+							$yform->checkbox( 'forcerewritetitle', __( 'Enable force rewrite titles', 'wordpress-seo' ) );
+							/* translators: %1$s expands to Yoast SEO */
+							echo '<p class="description">', sprintf( __( '%1$s has auto-detected whether it needs to force rewrite the titles for your pages, if you think it\'s wrong and you know what you\'re doing, you can change the setting here.', 'wordpress-seo' ), 'Yoast SEO' ) . '</p>';
+							?>
+						</td>
+					</tr>
+					<?php
+				}
+				?>
 				<tr>
 					<th>
 						<?php _e( 'Title Separator', 'wordpress-seo' ); ?>
