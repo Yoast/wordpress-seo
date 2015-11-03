@@ -19,6 +19,11 @@ class WPSEO_OnPage {
 	private $onpage_option;
 
 	/**
+	 * @var boolean Is the request started by pressing the fetch button.
+	 */
+	private $is_manual_request = false;
+
+	/**
 	 * Constructing the object
 	 */
 	public function __construct() {
@@ -109,10 +114,22 @@ class WPSEO_OnPage {
 	 * @return int
 	 */
 	protected function request_indexability() {
-		$request  = new WPSEO_OnPage_Request( home_url() );
-		$response = $request->get_response();
+		try {
+			$request  = new WPSEO_OnPage_Request( home_url() );
+			$response = $request->get_response();
 
-		return (int) $response['is_indexable'];
+			return (int) $response['is_indexable'];
+		}
+		catch ( Exception $e ) {
+			if ( $this->is_manual_request ) {
+				Yoast_Notification_Center::get()->add_notification(
+					new Yoast_Notification(
+						$e->getMessage(),
+						array( 'type' => 'error' )
+					)
+				);
+			}
+		}
 	}
 
 	/**
@@ -175,6 +192,8 @@ class WPSEO_OnPage {
 	 */
 	private function catch_redo_listener() {
 		if ( filter_input( INPUT_GET, 'wpseo-redo-onpage' ) === '1' ) {
+			$this->is_manual_request = true;
+
 			add_action( 'admin_init', array( $this, 'fetch_from_onpage' ) );
 		}
 	}
