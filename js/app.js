@@ -72,11 +72,12 @@ YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 YoastSEO.App = function( args ) {
 	this.config = this.extendConfig( args );
 	this.callbacks = this.config.callbacks;
-	this.rawData = this.callbacks.getData();
 
 	this.i18n = this.constructI18n( this.config.translations );
 	this.stringHelper = new YoastSEO.StringHelper();
 	this.pluggable = new YoastSEO.Pluggable( this );
+
+	this.getData();
 
 	this.showLoadingDialog();
 	this.createSnippetPreview();
@@ -157,10 +158,18 @@ YoastSEO.App.prototype.constructI18n = function( translations ) {
 };
 
 /**
+ *
+ */
+YoastSEO.App.prototype.getData = function() {
+	this.rawData = this.callbacks.getData();
+	this.rawData.pageTitle = this.pluggable._applyModifications( 'data_pageTitle', this.rawData.pageTitle );
+};
+
+/**
  * Refreshes the analyzer and output of the analyzer
  */
 YoastSEO.App.prototype.refresh = function() {
-	this.rawData = this.callbacks.getData();
+	this.getData();
 	this.runAnalyzer();
 };
 
