@@ -12,7 +12,7 @@ class WPSEO_OnPage_Request {
 	/**
 	 * @var string The endpoint where the request will be send to.
 	 */
-	private $onpage_endpoint = WPSEO_ONPAGE_ENDPOINT;
+	private $onpage_endpoint = '';
 
 	/**
 	 * @var array The array that is return by the wp_remote_get request
@@ -55,16 +55,6 @@ class WPSEO_OnPage_Request {
 
 			return json_decode( $response_body, true );
 		}
-
-		// Throwing an Exception with the error message.
-		throw new Exception(
-			sprintf(
-				__( 'The OnPage.org server is currently not available, please try again later. If you keep getting this error, %1$splease create an issue on the %2$s GitHub repository%3$s.', 'wordpress-seo' ),
-				'<a href="https://github.com/Yoast/wordpress-seo/issues" target="_blank">',
-				'Yoast SEO',
-				'</a>'
-			)
-		);
 	}
 
 	/**
