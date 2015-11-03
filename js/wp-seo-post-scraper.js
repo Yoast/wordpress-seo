@@ -399,7 +399,7 @@
 	} );
 
 	jQuery( document ).ready(function() {
-		var wordpressScraper = new PostScraper();
+		var postScraper = new PostScraper();
 
 		YoastSEO.analyzerArgs = {
 			//if it must run the analyzer
@@ -448,10 +448,10 @@
 			searchUrl: '<a target="new" href=' + wpseoPostScraperL10n.search_url + '>',
 			postUrl: '<a target="new" href=' + wpseoPostScraperL10n.post_edit_url + '>',
 			callbacks: {
-				getData: wordpressScraper.getData.bind( wordpressScraper ),
-				bindElementEvents: wordpressScraper.bindElementEvents.bind( wordpressScraper ),
-				updateSnippetValues: wordpressScraper.updateSnippetValues.bind( wordpressScraper ),
-				saveScores: wordpressScraper.saveScores.bind( wordpressScraper )
+				getData: postScraper.getData.bind( postScraper ),
+				bindElementEvents: postScraper.bindElementEvents.bind( postScraper ),
+				updateSnippetValues: postScraper.updateSnippetValues.bind( postScraper ),
+				saveScores: postScraper.saveScores.bind( postScraper )
 			}
 		};
 
@@ -473,6 +473,6 @@
 		new YoastReplaceVarPlugin();
 		new YoastShortcodePlugin();
 
-		wordpressScraper.initKeywordTabTemplate();
+		postScraper.initKeywordTabTemplate();
 	} );
 }( jQuery ));
