@@ -197,7 +197,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'home_url'      => home_url( '/', null ),
 			'sep'           => WPSEO_Utils::get_title_separator(),
 			'sitename'      => WPSEO_Utils::get_site_name(),
-			'contentTab'    => __( 'Content:' , 'wordpres-seo' ),
+			'contentTab'    => __( 'Content:' , 'wordpress-seo' ),
 		);
 	}
 
