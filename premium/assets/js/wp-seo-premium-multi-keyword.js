@@ -266,7 +266,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 		analyzer.runQueue();
 		analyzer.score();
 
-		return analyzer.analyzeScorer.__totalScore;
+		return analyzer.analyzeScorer.getTotalScore();
 	};
 
 	/**
