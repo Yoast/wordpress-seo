@@ -11,13 +11,12 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	/**
 	 * @var array
 	 */
-	protected $options;
+	private $options;
 
 	/**
 	 * @var WPSEO_Social_Admin
 	 */
 	protected $social_admin;
-
 
 	/**
 	 * Class constructor
@@ -718,6 +717,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 			return get_post( $post_id );
 		}
+
 
 		if ( isset( $GLOBALS['post'] ) ) {
 			return $GLOBALS['post'];
