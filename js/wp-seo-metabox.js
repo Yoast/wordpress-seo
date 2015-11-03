@@ -14,7 +14,7 @@
 			}
 			jQuery( '.' + active_tab ).addClass( 'active' );
 
-			jQuery( 'a.wpseo_tablink' ).click( function( ev ) {
+			jQuery( '.wpseo-metabox-tabs' ).on( 'click', 'a.wpseo_tablink', function( ev ) {
 					ev.preventDefault();
 
 					jQuery( '.wpseo-meta-section.active .wpseo-metabox-tabs li' ).removeClass( 'active' );
