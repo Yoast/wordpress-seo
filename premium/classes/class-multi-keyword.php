@@ -1,10 +1,18 @@
 <?php
+/**
+ * @package WPSEO\Premium\Classes
+ */
 
+/**
+ * Implements multi keyword int he admin.
+ */
 class WPSEO_Multi_Keyword {
-
+	/**
+	 * Constructor. Adds WordPress hooks.
+	 */
 	public function __construct() {
-		add_filter( 'wpseo_metabox_entries_general', array( $this, 'add_focus_keywords_input') );
-		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets') );
+		add_filter( 'wpseo_metabox_entries_general', array( $this, 'add_focus_keywords_input' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets' ) );
 	}
 
 	/**

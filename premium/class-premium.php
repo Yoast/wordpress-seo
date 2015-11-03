@@ -188,7 +188,7 @@ class WPSEO_Premium {
 			add_filter( 'redirect_canonical', array( $this, 'redirect_canonical_fix' ), 1, 2 );
 		}
 
-		add_action( 'admin_init', array( $this, 'enqueue_multi_keyword') );
+		add_action( 'admin_init', array( $this, 'enqueue_multi_keyword' ) );
 	}
 
 	/**
@@ -202,6 +202,9 @@ class WPSEO_Premium {
 		new WPSEO_Term_Watcher();
 	}
 
+	/**
+	 * Adds multi keyword functionality if we are on the correct pages
+	 */
 	public function enqueue_multi_keyword() {
 		global $pagenow;
 		if ( in_array( $pagenow, array(
