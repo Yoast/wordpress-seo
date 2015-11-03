@@ -110,30 +110,32 @@ else {
 		echo '</form>';
 	}
 }
+if ( ( isset( $_SERVER['SERVER_SOFTWARE'] ) && stristr( $_SERVER['SERVER_SOFTWARE'], 'nginx' ) === false ) ) {
 
-echo '<h2>', __( '.htaccess file', 'wordpress-seo' ), '</h2>';
-if ( ( isset( $_SERVER['SERVER_SOFTWARE'] ) && stristr( $_SERVER['SERVER_SOFTWARE'], 'nginx' ) === false ) && file_exists( $ht_access_file ) ) {
-	$f = fopen( $ht_access_file, 'r' );
+	echo '<h2>', __( '.htaccess file', 'wordpress-seo' ), '</h2>';
 
-	$contentht = '';
-	if ( filesize( $ht_access_file ) > 0 ) {
-		$contentht = fread( $f, filesize( $ht_access_file ) );
-	}
-	$contentht = esc_textarea( $contentht );
+	if ( file_exists( $ht_access_file ) ) {
+		$f = fopen( $ht_access_file, 'r' );
 
-	if ( ! is_writable( $ht_access_file ) ) {
-		echo '<p><em>', __( 'If your .htaccess were writable, you could edit it from here.', 'wordpress-seo' ), '</em></p>';
-		echo '<textarea class="large-text code" disabled="disabled" rows="15" name="robotsnew">', $contentht, '</textarea><br/>';
+		$contentht = '';
+		if ( filesize( $ht_access_file ) > 0 ) {
+			$contentht = fread( $f, filesize( $ht_access_file ) );
+		}
+		$contentht = esc_textarea( $contentht );
+
+		if ( ! is_writable( $ht_access_file ) ) {
+			echo '<p><em>', __( 'If your .htaccess were writable, you could edit it from here.', 'wordpress-seo' ), '</em></p>';
+			echo '<textarea class="large-text code" disabled="disabled" rows="15" name="robotsnew">', $contentht, '</textarea><br/>';
+		} else {
+			echo '<form action="', esc_url( $action_url ), '" method="post" id="htaccessform">';
+			wp_nonce_field( 'wpseo-htaccess', '_wpnonce', true, true );
+			echo '<p>', __( 'Edit the content of your .htaccess:', 'wordpress-seo' ), '</p>';
+			echo '<textarea class="large-text code" rows="15" name="htaccessnew">', $contentht, '</textarea><br/>';
+			echo '<div class="submit"><input class="button" type="submit" name="submithtaccess" value="', __( 'Save changes to .htaccess', 'wordpress-seo' ), '" /></div>';
+			echo '</form>';
+		}
 	}
 	else {
-		echo '<form action="', esc_url( $action_url ), '" method="post" id="htaccessform">';
-		wp_nonce_field( 'wpseo-htaccess', '_wpnonce', true, true );
-		echo '<p>', __( 'Edit the content of your .htaccess:', 'wordpress-seo' ), '</p>';
-		echo '<textarea class="large-text code" rows="15" name="htaccessnew">', $contentht, '</textarea><br/>';
-		echo '<div class="submit"><input class="button" type="submit" name="submithtaccess" value="', __( 'Save changes to .htaccess', 'wordpress-seo' ), '" /></div>';
-		echo '</form>';
+		echo '<p>', __( 'If you had a .htaccess file and it was editable, you could edit it from here.', 'wordpress-seo' ), '</p>';
 	}
-}
-elseif ( ( isset( $_SERVER['SERVER_SOFTWARE'] ) && stristr( $_SERVER['SERVER_SOFTWARE'], 'nginx' ) === false ) && ! file_exists( $ht_access_file ) ) {
-	echo '<p>', __( 'If you had a .htaccess file and it was editable, you could edit it from here.', 'wordpress-seo' ), '</p>';
 }
