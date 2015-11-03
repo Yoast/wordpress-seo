@@ -29,6 +29,7 @@ class Metabox_Add_Keyword_Tab implements WPSEO_Metabox_Tab {
 					<p>
 						<?php
 							echo sprintf(
+								/* Translators: %1$s: expands to 'Yoast SEO Premium', %2$s: links to Yoast SEO Premium plugin page. */
 								__( 'To be able to add and analyze multiple keywords you need %1$s. You can buy the plugin, including one year support and updates, on %2$s.', 'wordpress-seo' ),
 								'Yoast SEO Premium',
 								'<a href="http://yoa.st/seomultiplekeywords" target="_blank">yoast.com</a>'
