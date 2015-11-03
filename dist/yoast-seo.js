@@ -1019,11 +1019,12 @@ YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 YoastSEO.App = function( args ) {
 	this.config = this.extendConfig( args );
 	this.callbacks = this.config.callbacks;
-	this.rawData = this.callbacks.getData();
 
 	this.i18n = this.constructI18n( this.config.translations );
 	this.stringHelper = new YoastSEO.StringHelper();
 	this.pluggable = new YoastSEO.Pluggable( this );
+
+	this.getData();
 
 	this.showLoadingDialog();
 	this.createSnippetPreview();
@@ -1104,10 +1105,21 @@ YoastSEO.App.prototype.constructI18n = function( translations ) {
 };
 
 /**
+ * Retrieves data from the callbacks.getData and applies modification to store these in this.rawData.
+ */
+YoastSEO.App.prototype.getData = function() {
+	this.rawData = this.callbacks.getData();
+	if ( this.pluggable.loaded ) {
+		this.rawData.pageTitle = this.pluggable._applyModifications( "data_pageTitle", this.rawData.pageTitle );
+		this.rawData.meta = this.pluggable._applyModifications( "data_metaDesc", this.rawData.meta );
+	}
+};
+
+/**
  * Refreshes the analyzer and output of the analyzer
  */
 YoastSEO.App.prototype.refresh = function() {
-	this.rawData = this.callbacks.getData();
+	this.getData();
 	this.runAnalyzer();
 };
 
@@ -1358,6 +1370,7 @@ YoastSEO.App.prototype.modifyData = function( data ) {
  * Function to fire the analyzer when all plugins are loaded, removes the loading dialog.
  */
 YoastSEO.App.prototype.pluginsLoaded = function() {
+	this.getData();
 	this.removeLoadingDialog();
 	this.runAnalyzer();
 };
@@ -2207,10 +2220,11 @@ YoastSEO.SnippetPreview.prototype.init = function() {
 		this.output = this.htmlOutput();
 		this.renderOutput();
 	}
-	this.snippetSuffix = "";
+
+	/*this.snippetSuffix = "";
 	if ( this.refObj.config.snippetSuffix !== "undefined" ) {
 		this.snippetSuffix = this.refObj.config.snippetSuffix;
-	}
+	}*/
 };
 
 /**
@@ -2239,8 +2253,6 @@ YoastSEO.SnippetPreview.prototype.formatTitle = function() {
 	}
 	if ( title === "" ) {
 		title = this.refObj.config.sampleText.title;
-	} else {
-		title += this.snippetSuffix;
 	}
 	title = this.refObj.stringHelper.stripAllTags( title );
 	if ( this.refObj.rawData.keyword !== "" ) {
@@ -2505,30 +2517,6 @@ YoastSEO.SnippetPreview.prototype.getUnformattedText = function( ev ) {
 YoastSEO.SnippetPreview.prototype.setUnformattedText = function( ev ) {
 	var elem =  ev.currentTarget.id;
 	this.unformattedText[ elem ] = document.getElementById( elem ).textContent;
-};
-
-/**
- * Adds the siteName to the snippetTitle when editting starts, this adds the sitename to
- * the snippet_sitename that cannot be edited.
- * Sets the display property to inline-block of the snippet_title so we can set a width.
- * @param ev
- */
-YoastSEO.SnippetPreview.prototype.setSiteName = function( ev ) {
-	if ( ev.currentTarget.id === "snippet_title" ) {
-		document.getElementById( "snippet_sitename" ).textContent = this.snippetSuffix;
-		document.getElementById( "snippet_sitename" ).style.display = "inline-block";
-		document.getElementById( "snippet_title" ).style.display = "inline-block";
-	}
-};
-
-/**
- * Removes the siteName from the snippetTitle span when editing is finished, since it should only show
- * when editing.
- */
-YoastSEO.SnippetPreview.prototype.unsetSiteName = function() {
-	document.getElementById( "snippet_sitename" ).textContent = "";
-	document.getElementById( "snippet_title" ).style.display = "inline";
-	document.getElementById( "snippet_sitename" ).style.display = "inline";
 };
 
 /**
