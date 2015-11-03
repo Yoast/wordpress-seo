@@ -223,6 +223,15 @@ YoastSEO.AnalyzeScorer.prototype.totalScore = function() {
 };
 
 /**
+ * Returns total score as calculated.
+ *
+ * @returns {number}
+ */
+YoastSEO.AnalyzeScorer.prototype.getTotalScore = function() {
+	return this.__totalScore;
+};
+
+/**
  * Adds a custom scoring to the analyzer scoring
  *
  * @param {Object} scoring
