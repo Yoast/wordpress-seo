@@ -43,13 +43,13 @@ class WPSEO_OnPage_Request {
 	 * @param string $target_url The home url.
 	 *
 	 * @return array
-	 * @throws Exception
+	 * @throws Exception The error message that can be used to show to the user.
 	 */
 	protected function get_remote( $target_url ) {
 		$response      = wp_remote_get( $this->onpage_url . $target_url );
-		$response_code = wp_remote_retrieve_response_code( $response ) ;
+		$response_code = wp_remote_retrieve_response_code( $response );
 
-		// When the request is successful, the response code will be 200
+		// When the request is successful, the response code will be 200.
 		if ( $response_code === 200 ) {
 			$response_body  = wp_remote_retrieve_body( $response );
 
