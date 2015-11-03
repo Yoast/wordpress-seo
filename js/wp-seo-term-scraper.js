@@ -1,4 +1,4 @@
-/* global YoastSEO: true, wp, wpseoTermScraperL10n, ajaxurl, tinyMCE */
+/* global YoastSEO: true, wp, wpseoTermScraperL10n, ajaxurl, tinyMCE, YoastReplaceVarPlugin */
 YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 (function() {
 	'use strict';
@@ -45,11 +45,22 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 				if ( elem !== null ) {
 					val = elem.value;
 				}
+				if ( val === '' ) {
+					val = wpseoTermScraperL10n.metadesc_template;
+				}
 				break;
 			case 'text':
 				val = this.getContentTinyMCE();
 				break;
 			case 'pageTitle':
+				val = document.getElementById( 'hidden_wpseo_title' ).value;
+				if ( val === '' ) {
+					val = wpseoTermScraperL10n.title_template;
+				}
+				if (val === '' ) {
+					val = '%%title%% - %%sitename%%';
+				}
+				break;
 			case 'title':
 				val = document.getElementById( 'hidden_wpseo_title' ).value;
 				break;
@@ -124,9 +135,6 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 		for ( var i = 0; i < elems.length; i++ ) {
 			this.bindSnippetEvents( document.getElementById( elems [ i ] ), snippetPreview );
 		}
-		var title = document.getElementById( 'snippet_title' );
-		title.addEventListener( 'focus', snippetPreview.setSiteName.bind( snippetPreview ) );
-		title.addEventListener( 'blur', snippetPreview.unsetSiteName.bind( snippetPreview ) );
 	};
 
 	/**
@@ -313,5 +321,8 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 		}
 		window.YoastSEO.app = new YoastSEO.App( YoastSEO.analyzerArgs );
 		jQuery( window ).trigger( 'YoastSEO:ready' );
+
+		//init Plugins
+		window.yoastReplaceVarPlugin = new YoastReplaceVarPlugin();
 	} );
 }());
