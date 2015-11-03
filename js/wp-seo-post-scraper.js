@@ -131,11 +131,9 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 				val = document.getElementById( 'yoast_wpseo_title' ).value;
 				if ( val === '' ) {
 					val = wpseoPostScraperL10n.title_template;
-					if( typeof YoastSEO.app !== 'undefined' ){
-						val = YoastSEO.app.pluggable.modifications.title[0].callable( val );
+					if( typeof YoastSEO.app !== 'undefined' ) {
+						val = YoastSEO.app.pluggable._applyModifications( 'data_title', val );
 					}
-					//val = document.getElementById( 'title' ).value;
-					//val = this.formatTemplateString( val, wpseoPostScraperL10n.title_template )
 				}
 				break;
 			case 'excerpt':
@@ -147,17 +145,6 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 				break;
 		}
 		return val;
-	};
-
-	/**
-	 *
-	 * @param value
-	 * @param template
-	 * @returns string
-	 */
-	YoastSEO.PostScraper.prototype.formatTemplateString = function ( value, template ){
-
-		return value;
 	};
 
 	/**
