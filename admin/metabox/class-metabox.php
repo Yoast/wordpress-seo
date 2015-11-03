@@ -9,6 +9,17 @@
 class WPSEO_Metabox extends WPSEO_Meta {
 
 	/**
+	 * @var array
+	 */
+	protected $options;
+
+	/**
+	 * @var WPSEO_Social_Admin
+	 */
+	protected $social_admin;
+
+
+	/**
 	 * Class constructor
 	 */
 	public function __construct() {
@@ -22,6 +33,13 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		add_action( 'admin_init', array( $this, 'translate_meta_boxes' ) );
 		add_action( 'admin_footer', array( $this, 'scoring_svg' ) );
 		add_action( 'admin_footer', array( $this, 'template_keyword_tab' ) );
+
+		$this->options = WPSEO_Options::get_all();
+
+		// Check if on of the social settings is checked in the options, if so, initialize the social_admin object.
+		if ( $this->options['opengraph'] === true || $this->options['twitter'] === true || $this->options['googleplus'] === true ) {
+			$this->social_admin = new WPSEO_Social_Admin( $this->options );
+		}
 	}
 
 	/**
@@ -266,16 +284,17 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @return WPSEO_Metabox_Section[]
 	 */
 	private function get_content_sections() {
-		$options = WPSEO_Options::get_all();
 		$content_sections = array( $this->get_content_meta_section() );
 
-		if ( current_user_can( 'manage_options' ) || $options['disableadvanced_meta'] === false ) {
+		if ( current_user_can( 'manage_options' ) || $this->options['disableadvanced_meta'] === false ) {
 			$content_sections[] = $this->get_advanced_meta_section();
 		}
-		if ( $options['opengraph'] === true || $options['twitter'] === true || $options['googleplus'] === true ) {
-			$social_admin = new WPSEO_Social_Admin( $options );
-			$content_sections[] = $social_admin->get_meta_section();
+
+		// Check if social_admin is an instance of WPSEO_Social_Admin.
+		if ( is_a( $this->social_admin, 'WPSEO_Social_Admin' ) ) {
+			$content_sections[] = $this->social_admin->get_meta_section();
 		}
+
 		if ( has_action( 'wpseo_tab_header' ) || has_action( 'wpseo_tab_content' ) ) {
 			$content_sections[] = $this->get_addons_meta_section();
 		}
