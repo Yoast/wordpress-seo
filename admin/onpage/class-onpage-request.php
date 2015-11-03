@@ -10,6 +10,11 @@
 class WPSEO_OnPage_Request {
 
 	/**
+	 * @var string The endpoint where the request will be send to.
+	 */
+	private $onpage_url = WPSEO_ONPAGE;
+
+	/**
 	 * @var array The array that is return by the wp_remote_get request
 	 */
 	private $response;
@@ -41,7 +46,7 @@ class WPSEO_OnPage_Request {
 	 * @throws Exception
 	 */
 	protected function get_remote( $target_url ) {
-		$response      = wp_remote_get( WPSEO_ONPAGE . $target_url );
+		$response      = wp_remote_get( $this->onpage_url . $target_url );
 		$response_code = wp_remote_retrieve_response_code( $response ) ;
 
 		// When the request is successful, the response code will be 200
