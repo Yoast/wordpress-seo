@@ -232,9 +232,9 @@ class WPSEO_Taxonomy {
 	 */
 	public static function get_metadesc_template( $term ) {
 		$options = get_option( 'wpseo_titles' );
-        $needed_option = 'metadesc-tax-' . $term->taxonomy;
 		$metadesc_template = '';
 		if ( is_object( $term ) && property_exists( $term, 'taxonomy' ) ) {
+			$needed_option = 'metadesc-tax-' . $term->taxonomy;
 			if ( isset( $options[ $needed_option ] ) && $options[ $needed_option ] !== '' ) {
 				$metadesc_template = $options[ $needed_option ];
 			}
