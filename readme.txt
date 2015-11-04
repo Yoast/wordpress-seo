@@ -125,28 +125,27 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 Release Date: July 21st, 2015
 
 * Features:
-	* Adds realtime content analysis to the Yoast SEO metabox for both posts and taxonomies.
-	* Adds a tool for recalculating all SEO scores using the new client side analysis.
-	* Adds a content analysis plugin for parsing shortcodes before the content is analyzed.
-	* Adds a content analysis plugin for parsing replacevars before the content is analyzed.
+	* Adds realtime content analysis to the Yoast SEO metabox for all post types and taxonomies.
+	* Adds a tool to recalculate all SEO scores using the new client side analysis.
+	* Adds a content analysis plugin for parsing shortcodes before the content is analyzed. This means the snippet preview will now take the rendered content of shortcodes into account.
+	* Adds a content analysis plugin for parsing replace vars before the content is analyzed, allowing templates set in the Yoast SEO admin to work everywhere.
 	* Adds a weekly check if the homepage is indexable (in collaboration with [OnPage.org](https://en.onpage.org/lp/yoast/)).
-	* Adds possibility to import settings from WPSEO.de plugin.
+	* Adds possibility to import titles, metas and settings from the WPSEO.de plugin.
 	* Adds possibility to set Facebook (Opengraph), Twitter and Google+ metadata for taxonomies.
 
 * Enhancements:
-	* Adds completely revised UX of the Yoast SEO metabox. We've now introduced multiple sections which in turn can contain on or more tabs.
-	* Makes the SEO metabox on the taxonomy edit page the same as on the post edit page.
+	* We've completely revised the UX of the Yoast SEO metabox. We've introduced multiple sections which in turn can contain one or more tabs.
+	* Makes the Yoast SEO metabox on the taxonomy edit page the same as on the post edit page.
 	* Makes sure the capability for the General Settings menu is also `wpseo_manage_options_capability`.
 	* Adds a fix to the tour allowing for multiple plugins to use WP pointers at the same time.
 	* Makes sure all Yoast SEO settings pages are also accessible through the WP admin bar.
 
 * Bugfixes:
-	* Fixes a bug where the og:image could not be set, even when a default image was available.
+	* Fixes a bug where the `og:image` would not be set, even when a default image was available.
 	* Fixes a bug where the links in the sitemap would 'randomly' change from https to http or the other way around (in very rare circumstances).
 	* Fixes a bug where it was not possible to upload different images for different social media in the post metabox.
 	* Fixes a bug where users would see the after-update notice, but were not allowed to visit the about page.
 	* Fixes a bug where we were not properly splitting taxonomy metadata when a shared taxonomy term got split through a Cron job, props [Daniel Homer](https://github.com/danielhomer).
-
 
 * Other notable changes:
 	* Adds a JavaScript API for registering data modifications that is quite similar to `add_filter`/`apply_filters` in WordPress. Allows for filtering data before it is analyzed.
