@@ -229,11 +229,12 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @return string
 	 */
 	public static function get_title_template( $post ) {
-		$options = get_option( 'wpseo_titles' );
-
 		$title_template = '';
-		if ( isset( $options[ 'title-' . $post->post_type ] ) && $options[ 'title-' . $post->post_type ] !== '' ) {
-			$title_template = $options[ 'title-' . $post->post_type ];
+		if ( is_a( $post, 'WP_Post' ) ) {
+			$options = get_option( 'wpseo_titles' );
+			if ( isset( $options[ 'title-' . $post->post_type ] ) && $options[ 'title-' . $post->post_type ] !== '' ) {
+				$title_template = $options[ 'title-' . $post->post_type ];
+			}
 		}
 		return $title_template;
 	}
@@ -246,11 +247,12 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @return string
 	 */
 	public static function get_metadesc_template( $post ) {
-		$options = get_option( 'wpseo_titles' );
-
 		$metadesc_template = '';
-		if ( isset( $options[ 'metadesc-' . $post->post_type ] ) && $options[ 'metadesc-' . $post->post_type ] !== '' ) {
-			$metadesc_template = $options[ 'metadesc-' . $post->post_type ];
+		if ( is_a( $post, 'WP_Post' ) ) {
+			$options = get_option( 'wpseo_titles' );
+			if ( isset( $options[ 'metadesc-' . $post->post_type ] ) && $options[ 'metadesc-' . $post->post_type ] !== '' ) {
+				$metadesc_template = $options[ 'metadesc-' . $post->post_type ];
+			}
 		}
 		return $metadesc_template;
 	}
