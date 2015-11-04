@@ -126,7 +126,8 @@ if ( ( isset( $_SERVER['SERVER_SOFTWARE'] ) && stristr( $_SERVER['SERVER_SOFTWAR
 		if ( ! is_writable( $ht_access_file ) ) {
 			echo '<p><em>', __( 'If your .htaccess were writable, you could edit it from here.', 'wordpress-seo' ), '</em></p>';
 			echo '<textarea class="large-text code" disabled="disabled" rows="15" name="robotsnew">', $contentht, '</textarea><br/>';
-		} else {
+		}
+		else {
 			echo '<form action="', esc_url( $action_url ), '" method="post" id="htaccessform">';
 			wp_nonce_field( 'wpseo-htaccess', '_wpnonce', true, true );
 			echo '<p>', __( 'Edit the content of your .htaccess:', 'wordpress-seo' ), '</p>';
