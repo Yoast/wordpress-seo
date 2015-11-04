@@ -16,6 +16,9 @@ $yform = Yoast_Form::get_instance();
 $yform->admin_header( false );
 
 if ( '' === $tool_page ) {
+
+	new WPSEO_Recalculate_Scores();
+
 	$tools = array(
 		'bulk-editor' => array(
 			'title' => __( 'Bulk editor', 'wordpress-seo' ),
@@ -33,6 +36,15 @@ if ( '' === $tool_page ) {
 		);
 	}
 
+	$tools['recalculate'] = array(
+		'href'    => '#TB_inline?width=300&amp;height=150&amp;inlineId=wpseo_recalculate',
+		'attr'    => "class='thickbox' onclick='javascript:wpseo_recalculate_scores(1);'",
+		'title'   => __( 'Recalculate SEO scores', 'wordpress-seo' ),
+		'desc'    => __( 'Recalculate SEO scores of all posts and pages that have a focus keyword.', 'wordpress-seo' ),
+	);
+
+
+
 	/* translators: %1$s expands to Yoast SEO */
 	echo '<p>', sprintf( __( '%1$s comes with some very powerful built-in tools:', 'wordpress-seo' ), 'Yoast SEO' ), '</p>';
 
@@ -40,12 +52,16 @@ if ( '' === $tool_page ) {
 
 	echo '<ul class="ul-disc">';
 	foreach ( $tools as $slug => $tool ) {
+		$href = ( ! empty( $tool['href'] ) ) ? $tool['href'] : '&tool=' . $slug;
+		$attr = ( ! empty( $tool['attr'] ) ) ? $tool['attr'] : '';
 		echo '<li>';
-		echo '<strong><a href="', admin_url( 'admin.php?page=wpseo_tools&tool=' . $slug ), '">', $tool['title'], '</a></strong><br/>';
+		echo '<strong><a href="', admin_url( 'admin.php?page=wpseo_tools' . $href ), '" ' , $attr, '>', $tool['title'], '</a></strong><br/>';
 		echo $tool['desc'];
 		echo '</li>';
 	}
 	echo '</ul>';
+
+	echo '<input type="hidden" id="wpseo_recalculate_nonce" name="wpseo_recalculate_nonce" value="' . wp_create_nonce( 'wpseo_recalculate' ) . '" />';
 
 }
 else {
