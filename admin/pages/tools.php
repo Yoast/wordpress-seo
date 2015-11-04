@@ -40,7 +40,7 @@ if ( '' === $tool_page ) {
 		'href'    => '#TB_inline?width=300&amp;height=150&amp;inlineId=wpseo_recalculate',
 		'attr'    => "class='thickbox' onclick='javascript:wpseo_recalculate_scores(1);'",
 		'title'   => __( 'Recalculate SEO scores', 'wordpress-seo' ),
-		'desc'    => __( 'Recalculate SEO scores of all posts and pages that have a focus keyword.', 'wordpress-seo' ),
+		'desc'    => __( 'Recalculate SEO scores for all pieces of content with a focus keyword.', 'wordpress-seo' ),
 	);
 
 
