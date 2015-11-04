@@ -230,10 +230,11 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 */
 	public static function get_title_template( $post ) {
 		$title_template = '';
+		$needed_option = 'title-' . $post->post_type;
 		if ( is_a( $post, 'WP_Post' ) ) {
 			$options = get_option( 'wpseo_titles' );
-			if ( isset( $options[ 'title-' . $post->post_type ] ) && $options[ 'title-' . $post->post_type ] !== '' ) {
-				$title_template = $options[ 'title-' . $post->post_type ];
+			if ( isset( $options[ $needed_option ] ) && $options[ $needed_option ] !== '' ) {
+				$title_template = $options[ $needed_option ];
 			}
 		}
 		return $title_template;
@@ -248,10 +249,11 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 */
 	public static function get_metadesc_template( $post ) {
 		$metadesc_template = '';
+		$needed_option = 'metadesc-' . $post->post_type;
 		if ( is_a( $post, 'WP_Post' ) ) {
 			$options = get_option( 'wpseo_titles' );
-			if ( isset( $options[ 'metadesc-' . $post->post_type ] ) && $options[ 'metadesc-' . $post->post_type ] !== '' ) {
-				$metadesc_template = $options[ 'metadesc-' . $post->post_type ];
+			if ( isset( $options[ $needed_option ] ) && $options[ $needed_option ] !== '' ) {
+				$metadesc_template = $options[ $needed_option ];
 			}
 		}
 		return $metadesc_template;

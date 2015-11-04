@@ -213,10 +213,12 @@ class WPSEO_Taxonomy {
 	 */
 	public static function get_title_template( $term ) {
 		$options = get_option( 'wpseo_titles' );
-
 		$title_template = '';
-		if ( isset( $options[ 'title-tax-' . $term->taxonomy ] ) && $options[ 'title-tax-' . $term->taxonomy ] !== '' ) {
-			$title_template = $options[ 'title-tax-' . $term->taxonomy ];
+		if ( is_object( $term ) && property_exists( $term, 'taxonomy' ) ) {
+			$needed_option = 'title-tax-' . $term->taxonomy;
+			if ( isset( $options[ $needed_option ] ) && $options[ $needed_option ] !== '' ) {
+				$title_template = $options[ $needed_option ];
+			}
 		}
 		return $title_template;
 	}
@@ -230,10 +232,12 @@ class WPSEO_Taxonomy {
 	 */
 	public static function get_metadesc_template( $term ) {
 		$options = get_option( 'wpseo_titles' );
-
+        $needed_option = 'metadesc-tax-' . $term->taxonomy;
 		$metadesc_template = '';
-		if ( isset( $options[ 'metadesc-tax-' . $term->taxonomy ] ) && $options[ 'metadesc-tax-' . $term->taxonomy ] !== '' ) {
-			$metadesc_template = $options[ 'metadesc-tax-' . $term->taxonomy ];
+		if ( is_object( $term ) && property_exists( $term, 'taxonomy' ) ) {
+			if ( isset( $options[ $needed_option ] ) && $options[ $needed_option ] !== '' ) {
+				$metadesc_template = $options[ $needed_option ];
+			}
 		}
 		return $metadesc_template;
 	}
