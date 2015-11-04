@@ -39,12 +39,12 @@
 </table>
 <?php if ( WPSEO_Utils::grant_access() ) : ?>
 <div class="onpage">
-	<h4 class="hide-if-no-js"><?php 
-		printf( 
-			/* translators: 1: expands to OnPage.org */	
+	<h4 class="hide-if-no-js"><?php
+		printf(
+			/* translators: 1: expands to OnPage.org */
 			__( '%1$s status', 'wordpress-seo' ),
 			'OnPage.org'
-		); 
+		);
 	?></h4>
 
 	<div>
