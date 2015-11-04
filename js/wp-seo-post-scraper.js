@@ -427,7 +427,8 @@
 			//targets for the objects
 			targets: {
 				output: 'wpseo-pageanalysis',
-				snippet: 'wpseosnippet'
+				snippet: 'wpseosnippet',
+				overall: 'wpseo-score'
 			},
 			translations: wpseoPostScraperL10n.translations,
 			queue: ['wordCount',
