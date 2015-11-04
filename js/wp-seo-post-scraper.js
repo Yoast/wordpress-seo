@@ -350,9 +350,14 @@
 	PostScraper.prototype.updateKeywordTabContent = function( keyword, score ) {
 		var placeholder, keyword_tab;
 
+		score = parseInt( score, 10 );
+
+		if ( keyword === '' ){
+			score = 'na'
+		}
 		placeholder = keyword.length > 0 ? keyword : '...';
 
-		score = parseInt( score, 10 );
+
 		score = YoastSEO.ScoreFormatter.prototype.scoreRating( score );
 
 		keyword_tab = wp.template( 'keyword_tab' )({
