@@ -354,9 +354,13 @@
 	PostScraper.prototype.updateKeywordTabContent = function( keyword, score ) {
 		var placeholder, keyword_tab;
 
+		score = parseInt( score, 10 );
+
+		if ( keyword === '' ) {
+			score = 'na';
+		}
 		placeholder = keyword.length > 0 ? keyword : '...';
 
-		score = parseInt( score, 10 );
 		score = YoastSEO.ScoreFormatter.prototype.scoreRating( score );
 
 		keyword_tab = wp.template( 'keyword_tab' )({
@@ -431,7 +435,8 @@
 			//targets for the objects
 			targets: {
 				output: 'wpseo-pageanalysis',
-				snippet: 'wpseosnippet'
+				snippet: 'wpseosnippet',
+				overall: 'wpseo-score'
 			},
 			translations: wpseoPostScraperL10n.translations,
 			queue: ['wordCount',
