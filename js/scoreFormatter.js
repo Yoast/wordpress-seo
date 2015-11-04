@@ -67,9 +67,9 @@ YoastSEO.ScoreFormatter.prototype.outputOverallScore = function() {
 	var overallTarget = document.getElementById( this.overallTarget );
 
 	if ( overallTarget ) {
-		overallTarget.className = "overallScore " + this.scoreRating( Math.round( this.overallScore ) );
+		overallTarget.className = "overallScore " + this.overallScoreRating( Math.round( this.overallScore ) );
 		if ( this.keyword === "" ) {
-			overallTarget.className = "overallScore " + this.scoreRating( "na" );
+			overallTarget.className = "overallScore " + this.overallScoreRating( "na" );
 		}
 	}
 
@@ -77,35 +77,50 @@ YoastSEO.ScoreFormatter.prototype.outputOverallScore = function() {
 };
 
 /**
- * retuns a string that is used as a CSSclass, based on the numeric score or the NA string
+ * Retuns a string that is used as a CSSclass, based on the numeric score or the NA string.
  * @param score
  * @returns scoreRate
  */
 YoastSEO.ScoreFormatter.prototype.scoreRating = function( score ) {
 	var scoreRate;
-	switch ( score ) {
-		case "na":
-			scoreRate = "na";
+	switch ( true ) {
+		case score < 2:
+			scoreRate = "bad";
 			break;
-		case 0:
-		case 1:
-		case 2:
-		case 3:
-		case 4:
-		case 5:
+		case score >= 2 && score <= 7:
 			scoreRate = "poor";
 			break;
-		case 6:
-		case 7:
-			scoreRate = "ok";
-			break;
-		case 8:
-		case 9:
-		case 10:
+		case score > 7:
 			scoreRate = "good";
 			break;
 		default:
+		case score === "na":
+			scoreRate = "na";
+			break;
+	}
+	return scoreRate;
+};
+
+/**
+ * Returns a string that is used for the overallScore, based on the numeric score or a NA string.
+ * @param score
+ * @returns scoreRate
+ */
+YoastSEO.ScoreFormatter.prototype.overallScoreRating = function( score ) {
+	var scoreRate;
+	switch ( true ) {
+		case score < 20:
 			scoreRate = "bad";
+			break;
+		case score >= 20 && score <= 70:
+			scoreRate = "poor";
+			break;
+		case score > 70:
+			scoreRate = "good";
+			break;
+		default:
+		case score === "na":
+			scoreRate = "na";
 			break;
 	}
 	return scoreRate;
