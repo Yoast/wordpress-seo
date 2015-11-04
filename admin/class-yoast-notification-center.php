@@ -144,7 +144,7 @@ class Yoast_Notification_Center {
 
 			$id = $notification->get_id();
 
-			if ( in_array( $notification->get_id(), $ids ) ) {
+			if ( in_array( $id, $ids ) ) {
 				unset( $this->notifications[ $key ] );
 				continue;
 			}
