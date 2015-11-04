@@ -1,4 +1,4 @@
-/* global YoastSEO, wp, wpseoTermScraperL10n, ajaxurl, tinyMCE */
+/* global YoastSEO, wp, wpseoTermScraperL10n, ajaxurl, tinyMCE, YoastReplaceVarPlugin */
 (function( $ ) {
 	'use strict';
 
@@ -18,7 +18,7 @@
 			baseUrl: this.getDataFromInput( 'baseUrl' ),
 			snippetTitle: this.getDataFromInput( 'title' ),
 			meta: this.getDataFromInput( 'meta' ),
-			snippetMeta: this.getDataFromInput( 'meta' ),
+			snippetMeta: this.getDataFromInput( 'snippetMeta' ),
 			snippetCite: this.getDataFromInput( 'cite' )
 		};
 	};
@@ -44,11 +44,25 @@
 				if ( elem !== null ) {
 					val = elem.value;
 				}
+				if ( val === '' ) {
+					val = wpseoTermScraperL10n.metadesc_template;
+				}
+				break;
+			case 'snippetMeta':
+				val = document.getElementById( 'yoast_wpseo_metadesc' ).value;
 				break;
 			case 'text':
 				val = this.getContentTinyMCE();
 				break;
 			case 'pageTitle':
+				val = document.getElementById( 'hidden_wpseo_title' ).value;
+				if ( val === '' ) {
+					val = wpseoTermScraperL10n.title_template;
+				}
+				if (val === '' ) {
+					val = '%%title%% - %%sitename%%';
+				}
+				break;
 			case 'title':
 				val = document.getElementById( 'hidden_wpseo_title' ).value;
 				break;
@@ -58,10 +72,8 @@
 				break;
 			case 'baseUrl':
 				val = wpseoTermScraperL10n.home_url.replace( /https?:\/\//ig, '' );
-				if( wpseoTermScraperL10n.taxonomy_slug !== '' && wpseoTermScraperL10n.stripcategorybase !== '1' ) {
-					val += wpseoTermScraperL10n.taxonomy_slug + '/';
-				}
 				break;
+
 			case 'cite':
 				elem = document.getElementById( 'snippet_cite' );
 				if ( elem !== null ) {
@@ -74,11 +86,12 @@
 
 	/**
 	 * gets content from the content field, if tinyMCE is initialized, use the getContent function to get the data from tinyMCE
+	 * If tiny is hidden, take the value from the descriptionfield, since tinyMCE isn't updated when it isn't visible.
 	 * @returns {String}
 	 */
 	TermScraper.prototype.getContentTinyMCE = function() {
 		var val = document.getElementById( 'description' ).value;
-		if ( tinyMCE.editors.length !== 0 ) {
+		if ( tinyMCE.editors.length !== 0 && tinyMCE.get( 'description').hidden === false ) {
 			val = tinyMCE.get( 'description' ).getContent();
 		}
 		return val;
@@ -125,9 +138,6 @@
 		for ( var i = 0; i < elems.length; i++ ) {
 			this.bindSnippetEvents( document.getElementById( elems [ i ] ), snippetPreview );
 		}
-		var title = document.getElementById( 'snippet_title' );
-		title.addEventListener( 'focus', snippetPreview.setSiteName.bind( snippetPreview ) );
-		title.addEventListener( 'blur', snippetPreview.unsetSiteName.bind( snippetPreview ) );
 	};
 
 	/**
@@ -170,12 +180,8 @@
 			}
 		}
 
-		//bind both input and change events on the editor, otherwise tinyMCE works very slow.
 		tinyMCE.on( 'addEditor', function(e) {
 			e.editor.on( 'input', function() {
-				app.analyzeTimer.call( app );
-			} );
-			e.editor.on( 'change', function() {
 				app.analyzeTimer.call( app );
 			} );
 		});
@@ -362,5 +368,8 @@
 		jQuery( window ).trigger( 'YoastSEO:ready' );
 
 		termScraper.initKeywordTabTemplate();
+
+		//init Plugins
+		window.yoastReplaceVarPlugin = new YoastReplaceVarPlugin();
 	} );
 }( jQuery ));

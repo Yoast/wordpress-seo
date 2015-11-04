@@ -170,12 +170,13 @@
 	};
 
 	/**
-	 * gets content from the content field, if tinyMCE is initialized, use the getContent function to get the data from tinyMCE
+	 * Gets content from the content field, if tinyMCE is initialized, use the getContent function to get the data from tinyMCE
+	 * If tiny is hidden, take the value from the contentfield, since tinyMCE isn't updated when it isn't visible.
 	 * @returns {String}
 	 */
 	PostScraper.prototype.getContentTinyMCE = function() {
 		var val = document.getElementById( 'content' ).value;
-		if ( tinyMCE.editors.length !== 0 ) {
+		if ( tinyMCE.editors.length !== 0 && tinyMCE.get( 'content' ).hidden === false ) {
 			val = tinyMCE.get( 'content' ).getContent();
 		}
 		return val;
