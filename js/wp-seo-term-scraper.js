@@ -168,8 +168,12 @@
 			}
 		}
 
+		//bind both input and change events on the editor, otherwise tinyMCE works very slow.
 		tinyMCE.on( 'addEditor', function(e) {
 			e.editor.on( 'input', function() {
+				app.analyzeTimer.call( app );
+			} );
+			e.editor.on( 'change', function() {
 				app.analyzeTimer.call( app );
 			} );
 		});
