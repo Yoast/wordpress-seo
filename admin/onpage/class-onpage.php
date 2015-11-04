@@ -109,7 +109,7 @@ class WPSEO_OnPage {
 	/**
 	 * Send a request to OnPage.org to get the indexability
 	 *
-	 * @return int
+	 * @return int(0)|int(1)|false
 	 */
 	protected function request_indexability() {
 		$request  = new WPSEO_OnPage_Request( home_url() );
