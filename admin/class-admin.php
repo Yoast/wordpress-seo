@@ -77,17 +77,18 @@ class WPSEO_Admin {
 
 		WPSEO_Utils::register_cache_clear_option( 'wpseo', '' );
 	}
-
-
+	
 	/**
 	 * Setting the hooks for importing data from other plugins
 	 */
 	public function import_plugin_hooks() {
-		$plugin_imports = array(
-			'wpSEO'       => new WPSEO_Import_WPSEO_Hooks(),
-			'aioseo'      => new WPSEO_Import_AIOSEO_Hooks(),
-			'robots_meta' => new WPSEO_Import_Robots_Meta_Hooks(),
-		);
+		if ( current_user_can( $this->get_manage_options_cap() ) ) {
+			$plugin_imports = array(
+				'wpSEO'       => new WPSEO_Import_WPSEO_Hooks(),
+				'aioseo'      => new WPSEO_Import_AIOSEO_Hooks(),
+				'robots_meta' => new WPSEO_Import_Robots_Meta_Hooks(),
+			);
+		}
 	}
 
 	/**
@@ -110,12 +111,7 @@ class WPSEO_Admin {
 		// Base 64 encoded SVG image.
 		$icon_svg = $this->get_menu_svg();
 
-		/**
-		 * Filter: 'wpseo_manage_options_capability' - Allow changing the capability users need to view the settings pages
-		 *
-		 * @api string unsigned The capability
-		 */
-		$manage_options_cap = apply_filters( 'wpseo_manage_options_capability', 'manage_options' );
+		$manage_options_cap = $this->get_manage_options_cap();
 
 		// Add main page.
 		$admin_page = add_menu_page( 'Yoast SEO: ' . __( 'General Settings', 'wordpress-seo' ), __( 'SEO', 'wordpress-seo' ), $manage_options_cap, 'wpseo_dashboard', array(
@@ -214,6 +210,22 @@ class WPSEO_Admin {
 		if ( isset( $submenu['wpseo_dashboard'] ) && current_user_can( $manage_options_cap ) ) {
 			$submenu['wpseo_dashboard'][0][0] = __( 'General', 'wordpress-seo' );
 		}
+	}
+
+	/**
+	 * Returns the manage_options cap
+	 *
+	 * @return mixed|void
+	 */
+	private function get_manage_options_cap() {
+		/**
+		 * Filter: 'wpseo_manage_options_capability' - Allow changing the capability users need to view the settings pages
+		 *
+		 * @api string unsigned The capability
+		 */
+		$manage_options_cap = apply_filters( 'wpseo_manage_options_capability', 'manage_options' );
+
+		return $manage_options_cap;
 	}
 
 	/**
