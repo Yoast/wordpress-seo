@@ -87,8 +87,8 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 				$this->get_social_tab_content( 'opengraph', $social_meta_fields ),
 				'<span class="dashicons dashicons-facebook-alt"></span>',
 				array(
-					'link_alt' => __( 'Facebook / Opengraph metadata', 'wordpress-seo' ),
-					'link_title' => __( 'Facebook / Opengraph metadata', 'wordpress-seo' ),
+					'link_alt' => __( 'Facebook / Open Graph metadata', 'wordpress-seo' ),
+					'link_title' => __( 'Facebook / Open Graph metadata', 'wordpress-seo' ),
 				)
 			);
 		}
