@@ -58,6 +58,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 		activeTab.find( '.wpseo-score-icon > .screen-reader-text').text( 'SEO score ' + score );
 
 		this.updateKeywords();
+		this.updateInactiveKeywords();
 	};
 
 	YoastMultiKeyword.prototype.bindKeywordTab = function() {
@@ -207,7 +208,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 	/**
 	 * Updates all keywords tabs that are currently inactive.
 	 */
-	YoastMultiKeyword.prototype.updateInactiveKeywords = function() {
+	YoastMultiKeyword.prototype.updateInactiveKeywords = _.debounce( function() {
 		var inactiveKeywords;
 
 		inactiveKeywords = $( '.wpseo_keyword_tab:not( .active )' );
@@ -215,7 +216,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 		inactiveKeywords.each( function( i, tab ) {
 			this.updateKeywordTab( tab );
 		}.bind( this ) );
-	};
+	}, 300 );
 
 	/**
 	 * Update one keyword tab.
@@ -296,9 +297,6 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 		var multiKeyword = new YoastMultiKeyword();
 
 		multiKeyword.updateInactiveKeywords();
-
-		var updateInactiveKeywords = _.debounce( multiKeyword.updateInactiveKeywords.bind( multiKeyword ), 300 );
-		$( window ).on( 'YoastSEO:numericScore', updateInactiveKeywords );
 	} );
 
 	YoastSEO.multiKeyword = true;
