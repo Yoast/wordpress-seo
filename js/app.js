@@ -369,6 +369,8 @@ YoastSEO.App.prototype.runAnalyzer = function() {
 		this.analyzerData.queue = [ "keyWordCheck", "wordCount", "fleschReading", "pageTitleLength", "urlStopwords", "metaDescriptionLength" ];
 	}
 
+	this.analyzerData.keyword = keyword;
+
 	if ( typeof this.pageAnalyzer === "undefined" ) {
 		this.pageAnalyzer = new YoastSEO.Analyzer( this.analyzerData );
 
