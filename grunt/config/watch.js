@@ -2,7 +2,7 @@
 module.exports = {
 	compile: {
 		files: "<%= files.js %>",
-		tasks: [ "uglify" ]
+		tasks: [ "build" ]
 	},
 	checks: {
 		files: "<%= files.js %>",

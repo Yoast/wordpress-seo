@@ -1,0 +1,66 @@
+html {
+    font-family: sans-serif;
+}
+
+h2{
+    color: #777;
+}
+
+#snippet_preview {
+    border: 1px solid #ddd;
+    padding: 20px;
+    width: 512px;
+    font-family: Arial, sans-serif;
+}
+
+.output-container,
+.form-container{
+    padding: 20px;
+    width: 512px;
+}
+
+.snippetForm label,
+.inputForm label {
+    width: 250px;
+    color: #777;
+    line-height: 20px;
+    text-transform: capitalize;
+}
+
+.inputForm input {
+    line-height: 20px;
+    margin: 5px 0;
+}
+
+.inputForm textArea {
+    height: 400px;
+    margin: 5px 0;
+    float: left;
+}
+
+input, textarea {
+    width: 540px;
+    padding: 5px;
+    margin: 5px 5px 5px 0;
+    font-size: 14px;
+    display: block
+}
+
+textarea {
+    height: 60px
+}
+
+label {
+    display: block;
+    width: 200px;
+    font-size: 14px;
+    padding-top: 10px;
+    font-weight: bold;
+    vertical-align: text-bottom
+}
+
+.overallScore-container{
+    position: absolute;
+    left: 640px;
+    top: 20px;
+}

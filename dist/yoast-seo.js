@@ -16,12 +16,16 @@ YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
  * @param {String} args.snippetMeta The meta description as displayed in the snippet preview.
  * @param {String} args.snippetCite  The URL as displayed in the snippet preview.
  *
+ * @property {Object} analyses Object that contains all analyses.
+ *
  * @constructor
  */
 YoastSEO.Analyzer = function( args ) {
 	this.config = args;
 	this.checkConfig();
 	this.init( args );
+
+	this.analyses = {};
 };
 
 /**
@@ -48,22 +52,27 @@ YoastSEO.Analyzer.prototype.init = function( args ) {
 };
 
 /**
- * converts the keyword to lowercase
- */
+ * creates a regex from the keyword including /ig switch so it is case insensitive and global.
+ * replaces a number of characters that can break the regex.
+*/
 YoastSEO.Analyzer.prototype.formatKeyword = function() {
 	if ( typeof this.config.keyword !== "undefined" && this.config.keyword !== "" ) {
+
+		// removes characters from the keyword that could break the regex, or give unwanted results.
+		// leaves the - since this is replaced later on in the function
+		var keyword = this.stringHelper.sanitizeKeyword( this.config.keyword );
 
 		// Creates new regex from keyword with global and caseinsensitive option,
 		// replaces - and _ with space
 		this.keywordRegex = new RegExp(
-			this.preProcessor.replaceDiacritics( this.config.keyword.replace( /[-_]/, " " ) ),
+			this.preProcessor.replaceDiacritics( keyword.replace( /[-_]/, " " ) ),
 			"ig"
 		);
 
 		// Creates new regex from keyword with global and caseinsensitive option,
 		// replaces space with -. Used for URL matching
 		this.keywordRegexInverse = new RegExp(
-			this.preProcessor.replaceDiacritics( this.config.keyword.replace( " ", "-" ) ),
+			this.preProcessor.replaceDiacritics( keyword.replace( " ", "-" ) ),
 			"ig"
 		);
 
@@ -118,14 +127,46 @@ YoastSEO.Analyzer.prototype.loadWordlists = function() {
  * starts queue of functions executing the analyzer functions untill queue is empty.
  */
 YoastSEO.Analyzer.prototype.runQueue = function() {
+	var output, score;
 
-	//remove first function from queue and execute it.
+	// Remove the first item from the queue and execute it.
 	if ( this.queue.length > 0 ) {
-		this.__output = this.__output.concat( this[ this.queue.shift() ]() );
+		var currentQueueItem = this.queue.shift();
+
+		if ( undefined !== this[ currentQueueItem ] ) {
+			output = this[ currentQueueItem ]();
+		} else if ( this.analyses.hasOwnProperty( currentQueueItem ) ) {
+			score = this.analyses[ currentQueueItem ].callable();
+
+			/*
+			 * This is because the analyzerScorer requires this format and we want users that add plugins to just return
+			 * a score because that makes the API easier. So this is a translation while our internal format isn't
+			 * perfect.
+			 */
+			output = {
+				"test": this.analyses[ currentQueueItem ].name,
+				"result": score
+			};
+		}
+
+		this.__output = this.__output.concat( output );
+
 		this.runQueue();
 	} else {
 		this.score();
 	}
+};
+
+/**
+ * Adds an analysis to the analyzer
+ *
+ * @param {Object}   analysis The analysis object.
+ * @param {string}   analysis.name The name of this analysis.
+ * @param {function} analysis.callable The function to call to calculate this the score.
+ */
+YoastSEO.Analyzer.prototype.addAnalysis = function( analysis ) {
+	this.analyses[ analysis.name ] = analysis;
+	this.queue.push( analysis.name );
 };
 
 /**
@@ -141,7 +182,7 @@ YoastSEO.Analyzer.prototype.wordCount = function() {
  * @returns {{test: string, result: number}[]}
  */
 YoastSEO.Analyzer.prototype.keyWordCheck = function() {
-	if ( this.config.keyword === "" ) {
+	if ( this.stringHelper.sanitizeKeyword( this.config.keyword ) === "" ) {
 		return [ { test: "keywordCheck", result: 0 } ];
 	}
 };
@@ -261,6 +302,7 @@ YoastSEO.Analyzer.prototype.stopwords = function() {
 
 /**
  * calculate Flesch Reading score
+ * formula: 206.835 - 1.015 (total words / total sentences) - 84.6 ( total syllables / total words);
  * @returns {result object}
  */
 YoastSEO.Analyzer.prototype.fleschReading = function() {
@@ -298,6 +340,8 @@ YoastSEO.Analyzer.prototype.fleschReading = function() {
  * 		{
  * 			total: number, internal: {
  * 				total: number,
+ * 				totalNaKeyword: number,
+ * 				totalKeyword: number,
  * 				dofollow: number,
  * 				nofollow: number
  * 			}, external: {
@@ -396,8 +440,8 @@ YoastSEO.Analyzer.prototype.linkKeyword = function( url ) {
 	var keywordFound = false;
 
 	//split on > to discard the data in the anchortag
-	var formatUrl = url.split( ">" );
-	if ( formatUrl[ 1 ].match( this.keywordRegex ) !== null ) {
+	var formatUrl = url.match( /href=([\'\"])(.*?)\1/ig );
+	if ( formatUrl !== null && formatUrl[ 0 ].match( this.keywordRegex ) !== null ) {
 		keywordFound = true;
 	}
 	return keywordFound;
@@ -448,6 +492,8 @@ YoastSEO.Analyzer.prototype.imageCount = function() {
 					if ( this.imageAlttagKeyword( alttag ) ) {
 						imageCount.altKeyword++;
 					} else {
+
+						//this counts all alt-tags w/o the keyword when a keyword is set.
 						imageCount.alt++;
 					}
 				} else {
@@ -571,7 +617,7 @@ YoastSEO.Analyzer.prototype.paragraphChecker = function( textString, regexp ) {
  */
 YoastSEO.Analyzer.prototype.metaDescriptionKeyword = function() {
 	var result = [ { test: "metaDescriptionKeyword", result: 0	} ];
-	if ( typeof this.config.meta !== "undefined" && this.config.meta.length > 0 ) {
+	if ( typeof this.config.meta !== "undefined" && this.config.meta.length > 0 && this.config.keyword !== "" ) {
 		result[ 0 ].result = this.stringHelper.countMatches(
 			this.config.meta, this.keywordRegex
 		);
@@ -884,6 +930,30 @@ YoastSEO.AnalyzeScorer.prototype.totalScore = function() {
 	var totalAmount = scoreAmount * YoastSEO.analyzerScoreRating;
 	return Math.round( ( totalScore / totalAmount ) * 10 );
 };
+
+/**
+ * Returns total score as calculated.
+ *
+ * @returns {number}
+ */
+YoastSEO.AnalyzeScorer.prototype.getTotalScore = function() {
+	return this.__totalScore;
+};
+
+/**
+ * Adds a custom scoring to the analyzer scoring
+ *
+ * @param {Object} scoring
+ * @param {string} scoring.name
+ * @param {Object} scoring.scoring
+ */
+YoastSEO.AnalyzeScorer.prototype.addScoring = function( scoring ) {
+	var scoringObject = scoring.scoring;
+
+	scoringObject.scoreName = scoring.name;
+
+	this.scoring.push( scoringObject );
+};
 ;/* jshint browser: true */
 /* global YoastSEO: true */
 YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
@@ -956,22 +1026,68 @@ YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
  * @constructor
  */
 YoastSEO.App = function( args ) {
-	window.YoastSEO.app = this;
-	this.config = args;
-	this.inputs = {};
-	this.rawData = args.callbacks.getData();
-	this.constructI18n( args.translations );
-	this.loadQueue();
-	this.stringHelper = new YoastSEO.StringHelper();
-
-	this.pluggable = new YoastSEO.Pluggable();
-	this.showLoadingDialog();
-
+	this.config = this.extendConfig( args );
 	this.callbacks = this.config.callbacks;
-	if ( !this.config.ajax ) {
-		this.defineElements();
+	this.rawData = this.callbacks.getData();
+
+	this.i18n = this.constructI18n( this.config.translations );
+	this.stringHelper = new YoastSEO.StringHelper();
+	this.pluggable = new YoastSEO.Pluggable( this );
+
+	this.showLoadingDialog();
+	this.createSnippetPreview();
+	this.runAnalyzer();
+};
+
+/**
+ * Default config for YoastSEO.js
+ *
+ * @type {Object}
+ */
+YoastSEO.App.defaultConfig = {
+	sampleText: {
+		baseUrl: "example.org/",
+		snippetCite: "example-post/",
+		title: "This is an example title - edit by clicking here",
+		keyword: "Choose a focus keyword",
+		meta: "Modify your meta description by editing it right here",
+		text: "Start writing your text!"
 	}
-	this.init();
+};
+
+/**
+ * Extend the config with defaults.
+ *
+ * @param {Object} args
+ * @returns {Object} args
+ */
+YoastSEO.App.prototype.extendConfig = function( args ) {
+	args.sampleText = this.extendSampleText( args.sampleText );
+	args.queue = args.queue || YoastSEO.analyzerConfig.queue;
+
+	return args;
+};
+
+/**
+ * Extend sample text config with defaults.
+ *
+ * @param {Object} sampleText
+ * @returns {Object} sampleText
+ */
+YoastSEO.App.prototype.extendSampleText = function( sampleText ) {
+	var defaultSampleText = YoastSEO.App.defaultConfig.sampleText;
+
+	if ( sampleText === undefined ) {
+		sampleText = defaultSampleText;
+	} else {
+		for ( var key in sampleText ) {
+			if ( sampleText[ key ] === undefined ) {
+				sampleText[ key ] = defaultSampleText[ key ];
+			}
+		}
+	}
+
+	return sampleText;
 };
 
 /**
@@ -993,15 +1109,7 @@ YoastSEO.App.prototype.constructI18n = function( translations ) {
 	// Use default object to prevent Jed from erroring out.
 	translations = translations || defaultTranslations;
 
-	this.i18n = new YoastSEO.Jed( translations );
-};
-
-/**
- * inits YoastSEO, calls element definer and snippet preview creater
- */
-YoastSEO.App.prototype.init = function() {
-	this.defineElements();
-	this.createSnippetPreview();
+	return new YoastSEO.Jed( translations );
 };
 
 /**
@@ -1009,16 +1117,7 @@ YoastSEO.App.prototype.init = function() {
  */
 YoastSEO.App.prototype.refresh = function() {
 	this.rawData = this.callbacks.getData();
-	this.inputs = this.callbacks.getAnalyzerInput();
-};
-
-/**
- * loads the queue from the analyzer if no queue is defined.
- */
-YoastSEO.App.prototype.loadQueue = function() {
-	if ( typeof this.queue === "undefined" ) {
-		this.queue = YoastSEO.analyzerConfig.queue;
-	}
+	this.runAnalyzer();
 };
 
 /**
@@ -1028,7 +1127,7 @@ YoastSEO.App.prototype.loadQueue = function() {
  */
 YoastSEO.App.prototype.addToQueue = function( func ) {
 	if ( typeof YoastSEO.Analyzer.prototype[ func ] === "function" ) {
-		this.queue.push( func );
+		this.rawData.queue.push( func );
 	}
 };
 
@@ -1038,9 +1137,9 @@ YoastSEO.App.prototype.addToQueue = function( func ) {
  * @param {String} func Name of the function to remove from the queue.
  */
 YoastSEO.App.prototype.removeFromQueue = function( func ) {
-	var funcIndex = this.queue.indexOf( func );
+	var funcIndex = this.rawData.queue.indexOf( func );
 	if ( funcIndex > -1 ) {
-		this.queue.splice( funcIndex, 1 );
+		this.rawData.queue.splice( funcIndex, 1 );
 	}
 };
 
@@ -1069,7 +1168,6 @@ YoastSEO.App.prototype.createSnippetPreviewTitle = function( target ) {
 	var elem = document.createElement( "div" );
 	elem.className = "snippet_container";
 	elem.id = "title_container";
-	elem.__refObj = this;
 	target.appendChild( elem );
 	var title;
 	title = document.createElement( "span" );
@@ -1078,6 +1176,11 @@ YoastSEO.App.prototype.createSnippetPreviewTitle = function( target ) {
 	title.className = "title";
 	title.id = "snippet_title";
 	elem.appendChild( title );
+	var sitename;
+	sitename = document.createElement( "span" );
+	sitename.className = "title";
+	sitename.id = "snippet_sitename";
+	elem.appendChild( sitename );
 };
 
 /**
@@ -1089,16 +1192,16 @@ YoastSEO.App.prototype.createSnippetPreviewUrl = function( target ) {
 	var elem = document.createElement( "div" );
 	elem.className = "snippet_container";
 	elem.id = "url_container";
-	elem.__refObj = this;
 	target.appendChild( elem );
 	var baseUrl = document.createElement( "cite" );
 	baseUrl.className = "url urlBase";
 	baseUrl.id = "snippet_citeBase";
+	baseUrl.textContent = this.config.sampleText.baseUrl;
 	elem.appendChild( baseUrl );
 	var cite = document.createElement( "cite" );
 	cite.className = "url";
 	cite.id = "snippet_cite";
-	cite.textContent = this.config.sampleText.url;
+	cite.textContent = this.config.sampleText.snippetCite;
 	cite.contentEditable = true;
 	elem.appendChild( cite );
 };
@@ -1112,7 +1215,6 @@ YoastSEO.App.prototype.createSnippetPreviewMeta = function( target ) {
 	var elem = document.createElement( "div" );
 	elem.className = "snippet_container";
 	elem.id = "meta_container";
-	elem.__refObj = this;
 	target.appendChild( elem );
 	var meta = document.createElement( "span" );
 	meta.className = "desc";
@@ -1120,20 +1222,6 @@ YoastSEO.App.prototype.createSnippetPreviewMeta = function( target ) {
 	meta.contentEditable = true;
 	meta.textContent = this.config.sampleText.meta;
 	elem.appendChild( meta );
-};
-
-/**
- * defines the target element to be used for the output on the page
- */
-YoastSEO.App.prototype.defineElements = function() {
-	this.target = document.getElementById( this.config.targets.output );
-	for ( var i = 0; i < this.config.elementTarget.length; i++ ) {
-		var elem = document.getElementById( this.config.elementTarget[ i ] );
-		if ( elem !== null ) {
-			elem.__refObj = this;
-		}
-
-	}
 };
 
 /**
@@ -1151,18 +1239,10 @@ YoastSEO.App.prototype.createEditIcon = function( elem, id ) {
 };
 
 /**
- * gets the values from the inputfields. The values from these fields are used as input for the
- * analyzer.
- */
-YoastSEO.App.prototype.getAnalyzerInput = function() {
-	this.inputs = this.callbacks.getAnalyzerInput();
-};
-
-/**
  * binds the events to the generated inputs. Binds events on the snippetinputs if editable
  */
 YoastSEO.App.prototype.bindEvent = function() {
-	this.callbacks.bindElementEvents();
+	this.callbacks.bindElementEvents( this );
 };
 
 /**
@@ -1171,7 +1251,7 @@ YoastSEO.App.prototype.bindEvent = function() {
 YoastSEO.App.prototype.bindInputEvent = function() {
 	for ( var i = 0; i < this.config.elementTarget.length; i++ ) {
 		var elem = document.getElementById( this.config.elementTarget[ i ] );
-		elem.addEventListener( "input", this.analyzeTimer );
+		elem.addEventListener( "input", this.analyzeTimer.bind( this ) );
 	}
 };
 
@@ -1179,14 +1259,10 @@ YoastSEO.App.prototype.bindInputEvent = function() {
  * binds the reloadSnippetText function to the blur of the snippet inputs.
  */
 YoastSEO.App.prototype.bindSnippetEvents = function() {
-	var snippetElem = document.getElementById( this.config.targets.snippet );
-	snippetElem.refObj = this;
 	var elems = [ "meta", "cite", "title" ];
 	for ( var i = 0; i < elems.length; i++ ) {
 		var targetElement = document.getElementById( "snippet_" + elems[ i ] );
-		targetElement.refObj = this;
 		targetElement.addEventListener( "blur", this.callbacks.updateSnippetValues );
-
 	}
 };
 
@@ -1205,52 +1281,8 @@ YoastSEO.App.prototype.reloadSnippetText = function() {
  * without problems with different scopes.
  */
 YoastSEO.App.prototype.analyzeTimer = function() {
-	var refObj = this.__refObj;
-
-	//if __refObj is not found (used on elements), use refObj
-	if ( typeof refObj === "undefined" ) {
-		refObj = this.refObj;
-	}
-
-	//if refObj is not found (used on objects), use this
-	if ( typeof refObj === "undefined" ) {
-		refObj = this;
-	}
 	clearTimeout( window.timer );
-	window.timer = setTimeout( refObj.checkInputs, refObj.config.typeDelay );
-};
-
-/**
- * calls the getInput function to retrieve values from inputs. If the keyword is empty calls
- * message, if keyword is filled, runs the analyzer
- */
-YoastSEO.App.prototype.checkInputs = function() {
-	var refObj = window.YoastSEO.app;
-	refObj.getAnalyzerInput();
-};
-
-/**
- * Callback function to trigger the analyzer.
- */
-YoastSEO.App.prototype.runAnalyzerCallback = function() {
-	var refObj = window.YoastSEO.app;
-	if ( refObj.rawData.keyword === "" ) {
-		refObj.noKeywordQueue();
-	} else {
-		refObj.runAnalyzer();
-	}
-};
-
-/**
- * used when no keyword is filled in, it will display a message in the target element
- */
-YoastSEO.App.prototype.showMessage = function() {
-	this.target.innerHTML = "";
-	var messageDiv = document.createElement( "div" );
-	messageDiv.className = "wpseo_msg";
-	messageDiv.innerHTML = "<p><strong>No focus keyword was set for this page. If you do not set" +
-		" a focus keyword, no score can be calculated.</strong></p>";
-	this.target.appendChild( messageDiv );
+	window.timer = setTimeout( this.refresh.bind( this ), this.config.typeDelay );
 };
 
 /**
@@ -1288,18 +1320,36 @@ YoastSEO.App.prototype.runAnalyzer = function() {
 	this.analyzerData = this.modifyData( this.rawData );
 	this.analyzerData.i18n = this.i18n;
 
+	var keyword = this.stringHelper.sanitizeKeyword( this.rawData.keyword );
+	if ( keyword === "" ) {
+		this.analyzerData.queue = [ "keyWordCheck", "wordCount", "fleschReading", "pageTitleLength", "urlStopwords", "metaDescription" ];
+	}
+
 	if ( typeof this.pageAnalyzer === "undefined" ) {
 		this.pageAnalyzer = new YoastSEO.Analyzer( this.analyzerData );
+
+		this.pluggable._addPluginTests( this.pageAnalyzer );
 	} else {
 		this.pageAnalyzer.init( this.analyzerData );
+
+		this.pluggable._addPluginTests( this.pageAnalyzer );
 	}
 
 	this.pageAnalyzer.runQueue();
-	this.scoreFormatter = new YoastSEO.ScoreFormatter( this );
+	this.scoreFormatter = new YoastSEO.ScoreFormatter( {
+		scores: this.pageAnalyzer.analyzeScorer.__score,
+		overallScore: this.pageAnalyzer.analyzeScorer.__totalScore,
+		outputTarget: this.config.targets.output,
+		overallTarget: this.config.targets.overall,
+		keyword: this.rawData.keyword,
+		saveScores: this.callbacks.saveScores
+	} );
 
 	if ( this.config.dynamicDelay ) {
 		this.endTime();
 	}
+
+	this.snippetPreview.reRender();
 };
 
 /**
@@ -1318,20 +1368,7 @@ YoastSEO.App.prototype.modifyData = function( data ) {
  */
 YoastSEO.App.prototype.pluginsLoaded = function() {
 	this.removeLoadingDialog();
-	if ( typeof this.rawData.keyword !== "undefined" && this.rawData.keyword !== "" ) {
-		this.runAnalyzer( this.rawData );
-	} else {
-		this.noKeywordQueue();
-	}
-};
-
-/**
- * Runs a queue with tests where no keyword is required.
- */
-YoastSEO.App.prototype.noKeywordQueue = function() {
-	var data = this.rawData;
-	data.queue = [ "keyWordCheck", "wordCount", "fleschReading", "pageTitleLength", "urlStopwords", "imageCount", "linkCount" ];
-	this.runAnalyzer( data );
+	this.runAnalyzer();
 };
 
 /**
@@ -1339,9 +1376,9 @@ YoastSEO.App.prototype.noKeywordQueue = function() {
  */
 YoastSEO.App.prototype.showLoadingDialog = function() {
 	var dialogDiv = document.createElement( "div" );
-	dialogDiv.className = "wpseo_msg";
-	dialogDiv.id = "wpseo-plugin-loading";
-	document.getElementById( "wpseo_meta" ).appendChild( dialogDiv );
+	dialogDiv.className = "YoastSEO_msg";
+	dialogDiv.id = "YoastSEO-plugin-loading";
+	document.getElementById( this.config.targets.output ).appendChild( dialogDiv );
 };
 
 /**
@@ -1349,222 +1386,20 @@ YoastSEO.App.prototype.showLoadingDialog = function() {
  * @param plugins
  */
 YoastSEO.App.prototype.updateLoadingDialog = function( plugins ) {
-	var dialog = document.getElementById( "wpseo-plugin-loading" );
+	var dialog = document.getElementById( "YoastSEO-plugin-loading" );
 	dialog.textContent = "";
 	for ( var plugin in this.pluggable.plugins ) {
-		dialog.innerHTML += plugin + plugins[ plugin ].status + "<br />";
+		dialog.innerHTML += "<span class=left>" + plugin + "</span><span class=right " +
+							plugins[ plugin ].status + ">" + plugins[ plugin ].status + "</span><br />";
 	}
+	dialog.innerHTML += "<span class=bufferbar></span>";
 };
 
 /**
  * removes the pluging load dialog.
  */
 YoastSEO.App.prototype.removeLoadingDialog = function() {
-	document.getElementById( "wpseo_meta" ).removeChild( document.getElementById( "wpseo-plugin-loading" ) );
-};
-
-/**
- * run at pageload to init the App for pageAnalysis.
- */
-YoastSEO.initialize = function() {
-	if ( document.readyState === "complete" ) {
-		YoastSEO.app = new YoastSEO.App( YoastSEO.analyzerArgs );
-	} else {
-		setTimeout( YoastSEO.initialize, 50 );
-	}
-};
-;/* jshint browser: true */
-/* global YoastSEO: true */
-YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
-
-/**
- * Inputgenerator generates a form for use as input.
- * @param args
- * @param {YoastSEO.App} refObj
- * @constructor
- */
-YoastSEO.InputGenerator = function( args, refObj ) {
-	this.config = args;
-	this.refObj = refObj;
-	this.analyzerData = {};
-	this.formattedData = {};
-};
-/**
- * creates input elements in the DOM
- */
-YoastSEO.InputGenerator.prototype.createElements = function() {
-	var targetElement = document.getElementById( this.config.elementTarget );
-	this.createText( "text", targetElement, "text" );
-	this.createInput( "keyword", targetElement, "Focus keyword" );
-
-};
-
-YoastSEO.InputGenerator.prototype.getData = function() {
-	this.analyzerData.keyword = this.refObj.config.sampleText.keyword;
-	this.analyzerData.meta = this.refObj.config.sampleText.meta;
-	this.analyzerData.snippetMeta = this.refObj.config.sampleText.meta;
-	this.analyzerData.text = this.refObj.config.sampleText.text;
-	this.analyzerData.title = this.refObj.config.sampleText.title;
-	this.analyzerData.snippetTitle = this.refObj.config.sampleText.title;
-	this.analyzerData.pageTitle = this.refObj.config.sampleText.title;
-	this.analyzerData.url = this.refObj.config.sampleText.url;
-	this.analyzerData.snippetCite = this.refObj.config.sampleText.url;
-	this.formattedData = this.analyzerData;
-
-	this.refObj.analyzerData = this.analyzerData;
-	this.refObj.formattedData = this.formattedData;
-
-	return this.analyzerData;
-};
-
-/**
- * Creates inputs for the form, and creates labels and linebreaks.
- * the ID and placeholder text is based on the type variable.
- * @param type
- * @param targetElement
- * @param text
- */
-YoastSEO.InputGenerator.prototype.createInput = function( type, targetElement, text ) {
-	this.createLabel( type, targetElement, text );
-	var input = document.createElement( "input" );
-	input.type = "text";
-	input.id = type + "Input";
-	input.refObj = this.refObj;
-	input.placeholder = this.config.sampleText[ type ];
-	targetElement.appendChild( input );
-};
-
-/**
- * Creates textfields for the form, and creates labels and linebreaks;
- * the ID and placeholder text is based on the type variable.
- * @param type
- * @param targetElement
- * @param text
- */
-YoastSEO.InputGenerator.prototype.createText = function( type, targetElement, text ) {
-	this.createLabel( type, targetElement, text );
-	var textarea = document.createElement( "textarea" );
-	textarea.placeholder = this.config.sampleText[ type ];
-	textarea.id = type + "Input";
-	targetElement.appendChild( textarea );
-};
-
-/**
- * creates label for the form. Uses the type variable to fill the for attribute.
- * @param type
- * @param targetElement
- * @param text
- */
-YoastSEO.InputGenerator.prototype.createLabel = function( type, targetElement, text ) {
-	var label = document.createElement( "label" );
-	label.textContent = text;
-	label.htmlFor = type + "Input";
-	targetElement.appendChild( label );
-};
-
-/**
- * initializes the snippetPreview if it isn't there.
- * If it is already initialized, it get's new values from the inputs and rerenders snippet.
- */
-YoastSEO.InputGenerator.prototype.getAnalyzerInput = function() {
-	if ( typeof this.refObj.snippetPreview === "undefined" ) {
-		this.refObj.init();
-	} else {
-		this.rawData.text = this.getDataFromInput( "text" );
-		this.rawData.keyword = this.getDataFromInput( "keyword" );
-		this.rawData.pageTitle = this.getDataFromInput( "title" );
-		this.rawData.snippetMeta = this.getDataFromInput( "meta" );
-		this.rawData.snippetCite = this.getDataFromInput( "url" );
-		this.refObj.rawData = this.formattedData;
-		this.refObj.reloadSnippetText();
-	}
-	this.refObj.runAnalyzerCallback();
-};
-
-/**
- * get values from generated inputfields.
- * @param inputType
- * @returns {*}
- */
-YoastSEO.InputGenerator.prototype.getDataFromInput = function( inputType ) {
-	var val;
-	switch ( inputType ) {
-		case "text":
-			val = document.getElementById( "textInput" ).value;
-			break;
-		case "url":
-			val = document.getElementById( "snippet_cite" ).innerText;
-			break;
-		case "meta":
-			val = document.getElementById( "snippet_meta" ).innerText;
-			break;
-		case "keyword":
-			val = document.getElementById( "keywordInput" ).value;
-			break;
-		case "title":
-			val = document.getElementById( "snippet_title" ).innerText;
-			break;
-		default:
-			break;
-	}
-	return val;
-};
-
-/**
- * calls the eventbinders.
- */
-YoastSEO.InputGenerator.prototype.bindElementEvents = function() {
-	this.inputElementEventBinder();
-	this.snippetPreviewEventBinder();
-};
-
-/**
- * binds the getinputfieldsdata to the snippetelements.
- */
-YoastSEO.InputGenerator.prototype.snippetPreviewEventBinder = function() {
-	var elems = [ "cite", "meta", "title" ];
-	for ( var i = 0; i < elems.length; i++ ) {
-		document.getElementById( "snippet_" + elems[ i ] ).addEventListener(
-			"blur",
-			this.snippetCallback
-		);
-	}
-};
-
-/**
- * bins the renewData function on the change of inputelements.
- */
-YoastSEO.InputGenerator.prototype.inputElementEventBinder = function() {
-	var elems = [ "textInput", "keywordInput", "snippet_cite", "snippet_meta", "snippet_title" ];
-	for ( var i = 0; i < elems.length; i++ ) {
-		document.getElementById( elems[ i ] ).__refObj = this;
-		document.getElementById( elems[ i ] ).addEventListener( "change", this.renewData );
-	}
-};
-
-/**
- * calls getAnalyzerinput function on change event from element
- * @param event
- */
-YoastSEO.InputGenerator.prototype.renewData = function( ev ) {
-	ev.currentTarget.__refObj.getAnalyzerInput();
-};
-
-/**
- * calls getAnalyzerinput function on focus of the snippet elements;
- * @param event
- */
-YoastSEO.InputGenerator.prototype.snippetCallback = function( ev ) {
-	ev.currentTarget.__refObj.getAnalyzerInput();
-};
-
-/**
- * Called by the app to save scores. Currently only returns score since
- * there is no further score implementation
- * @param score
- */
-YoastSEO.InputGenerator.prototype.saveScores = function( score ) {
-	return score;
+	document.getElementById( this.config.targets.output ).removeChild( document.getElementById( "YoastSEO-plugin-loading" ) );
 };
 ;/* global console: true */
 /* global setTimeout: true */
@@ -1590,12 +1425,15 @@ YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
  * @property preloadThreshold	{number} The maximum time plugins are allowed to preload before we load our content analysis.
  * @property plugins			{object} The plugins that have been registered.
  * @property modifications 		{object} The modifications that have been registered. Every modification contains an array with callables.
+ * @property customTests        {Array} All tests added by plugins.
  */
-YoastSEO.Pluggable = function() {
+YoastSEO.Pluggable = function( app ) {
+	this.app = app;
 	this.loaded = false;
 	this.preloadThreshold = 3000;
 	this.plugins = {};
 	this.modifications = {};
+	this.customTests = [];
 
 	// Allow plugins 500 ms to register before we start polling their
 	setTimeout( this._pollLoadingPlugins.bind( this ), 1500 );
@@ -1648,6 +1486,30 @@ YoastSEO.App.prototype.registerModification = function( modification, callable, 
 	return this.pluggable._registerModification( modification, callable, pluginName, priority );
 };
 
+/**
+ * Registers a custom test for use in the analyzer, this will result in a new line in the analyzer results. The function
+ * has to return a result based on the contents of the page/posts.
+ *
+ * The scoring object is a special object with definitions about how to translate a result from your analysis function
+ * to a SEO score.
+ *
+ * Negative scores result in a red circle
+ * Scores 1, 2, 3, 4 and 5 result in a orange circle
+ * Scores 6 and 7 result in a yellow circle
+ * Scores 8, 9 and 10 result in a red circle
+ *
+ * @param {string}   name       Name of the test.
+ * @param {function} analysis   A function that analyzes the content and determines a score for a certain trait.
+ * @param {Object}   scoring    A scoring object that defines how the analysis translates to a certain SEO score.
+ * @param {string}   pluginName The plugin that is registering the test.
+ * @param {number}   priority   (optional) Determines when this test is run in the analyzer queue. Is currently ignored,
+ *                              tests are added to the end of the queue.
+ * @returns {boolean}
+ */
+YoastSEO.App.prototype.registerTest = function( name, analysis, scoring, pluginName, priority ) {
+	return this.pluggable._registerTest( name, analysis, scoring, pluginName, priority );
+};
+
 /**************** DSL IMPLEMENTATION ****************/
 
 /**
@@ -1674,7 +1536,7 @@ YoastSEO.Pluggable.prototype._registerPlugin = function( pluginName, options ) {
 	}
 
 	this.plugins[pluginName] = options;
-	YoastSEO.app.updateLoadingDialog( this.plugins );
+	this.app.updateLoadingDialog( this.plugins );
 	return true;
 };
 
@@ -1696,7 +1558,7 @@ YoastSEO.Pluggable.prototype._ready = function( pluginName ) {
 	}
 
 	this.plugins[pluginName].status = "ready";
-	YoastSEO.app.updateLoadingDialog( this.plugins );
+	this.app.updateLoadingDialog( this.plugins );
 	return true;
 };
 
@@ -1717,7 +1579,7 @@ YoastSEO.Pluggable.prototype._reloaded = function( pluginName ) {
 		return false;
 	}
 
-	YoastSEO.app.runAnalyzer( YoastSEO.app.rawData );
+	this.app.runAnalyzer( this.app.rawData );
 	return true;
 };
 
@@ -1772,6 +1634,47 @@ YoastSEO.Pluggable.prototype._registerModification = function( modification, cal
 	return true;
 };
 
+/**
+ * @private
+ */
+YoastSEO.Pluggable.prototype._registerTest = function( name, analysis, scoring, pluginName, priority ) {
+	if ( typeof name !== "string" ) {
+		console.error( "Failed to register test for plugin " + pluginName + ". Expected parameter `name` to be a string." );
+		return false;
+	}
+
+	if ( typeof analysis !== "function" ) {
+		console.error( "Failed to register test for plugin " + pluginName + ". Expected parameter `analyzer` to be a function." );
+		return false;
+	}
+
+	if ( typeof pluginName !== "string" ) {
+		console.error( "Failed to register test for plugin " + pluginName + ". Expected parameter `pluginName` to be a string." );
+		return false;
+	}
+
+	// Validate origin
+	if ( this._validateOrigin( pluginName ) === false ) {
+		console.error( "Failed to register test for plugin " + pluginName + ". The integration has not finished loading yet." );
+		return false;
+	}
+
+	// Default priority to 10
+	var prio = typeof priority === "number" ? priority : 10;
+
+	// Prefix the name with the pluginName so the test name is always unique.
+	name = pluginName + "-" + name;
+
+	this.customTests.push( {
+		"name": name,
+		"analysis": analysis,
+		"scoring": scoring,
+		"prio": prio
+	} );
+
+	return true;
+};
+
 /**************** PRIVATE HANDLERS ****************/
 
 /**
@@ -1786,7 +1689,7 @@ YoastSEO.Pluggable.prototype._pollLoadingPlugins = function( pollTime ) {
 	pollTime = pollTime === undefined ? 0 : pollTime;
 	if ( this._allReady() === true ) {
 		this.loaded = true;
-		YoastSEO.app.pluginsLoaded();
+		this.app.pluginsLoaded();
 	} else if ( pollTime >= this.preloadThreshold ) {
 		this._pollTimeExceeded();
 	} else {
@@ -1823,7 +1726,7 @@ YoastSEO.Pluggable.prototype._pollTimeExceeded = function() {
 		}
 	}
 	this.loaded = true;
-	YoastSEO.app.pluginsLoaded();
+	this.app.pluginsLoaded();
 };
 
 /**
@@ -1858,6 +1761,40 @@ YoastSEO.Pluggable.prototype._applyModifications = function( modification, data,
 	}
 	return data;
 
+};
+
+/**
+ * Adds new tests to the analyzer and it's scoring object.
+ *
+ * @param {YoastSEO.Analyzer} analyzer The analyzer object to add the tests to
+ * @private
+ */
+YoastSEO.Pluggable.prototype._addPluginTests = function( analyzer ) {
+	this.customTests.map( function( customTest ) {
+		this._addPluginTest( analyzer, customTest );
+	}, this );
+};
+
+/**
+ * Adds one new test to the analyzer and it's scoring object.
+ *
+ * @param {YoastSEO.Analyzer} analyzer
+ * @param {Object}            pluginTest
+ * @param {string}            pluginTest.name
+ * @param {function}          pluginTest.callable
+ * @param {Object}            pluginTest.scoring
+ * @private
+ */
+YoastSEO.Pluggable.prototype._addPluginTest = function( analyzer, pluginTest ) {
+	analyzer.addAnalysis( {
+		"name": pluginTest.name,
+		"callable": pluginTest.analysis
+	} );
+
+	analyzer.analyzeScorer.addScoring( {
+		"name": pluginTest.name,
+		"scoring": pluginTest.scoring
+	} );
 };
 
 /**
@@ -2147,12 +2084,13 @@ YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
  * @constructor
  */
 YoastSEO.ScoreFormatter = function( args ) {
-	this.scores = args.pageAnalyzer.analyzeScorer.__score;
-	this.overallScore = args.pageAnalyzer.analyzeScorer.__totalScore;
-	this.outputTarget = args.config.targets.output;
-	this.overallTarget = args.config.targets.overall;
+	this.scores = args.scores;
+	this.overallScore = args.overallScore;
+	this.outputTarget = args.outputTarget;
+	this.overallTarget = args.overallTarget;
 	this.totalScore = 0;
-	this.refObj = args;
+	this.keyword = args.keyword;
+	this.saveScores = args.saveScores;
 	this.outputScore();
 	this.outputOverallScore();
 };
@@ -2201,24 +2139,32 @@ YoastSEO.ScoreFormatter.prototype.sortScores = function() {
  */
 YoastSEO.ScoreFormatter.prototype.outputOverallScore = function() {
 	var overallTarget = document.getElementById( this.overallTarget );
-	overallTarget.className = "overallScore " + this.scoreRating( Math.round( this.overallScore ) );
-	if ( this.refObj.rawData.keyword === "" ) {
-		overallTarget.className = "overallScore " + this.scoreRating( 0 );
+
+	if ( overallTarget ) {
+		overallTarget.className = "overallScore " + this.scoreRating( Math.round( this.overallScore ) );
+		if ( this.keyword === "" ) {
+			overallTarget.className = "overallScore " + this.scoreRating( "na" );
+		}
 	}
-	this.refObj.callbacks.saveScores( this.overallScore );
+
+	this.saveScores( this.overallScore );
 };
 
 /**
- * retuns a string that is used as a CSSclass, based on the numeric score
+ * retuns a string that is used as a CSSclass, based on the numeric score or the NA string
  * @param score
  * @returns scoreRate
  */
 YoastSEO.ScoreFormatter.prototype.scoreRating = function( score ) {
 	var scoreRate;
 	switch ( score ) {
-		case 0:
+		case "na":
 			scoreRate = "na";
 			break;
+		case 0:
+		case 1:
+		case 2:
+		case 3:
 		case 4:
 		case 5:
 			scoreRate = "poor";
@@ -2255,6 +2201,11 @@ YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
  */
 YoastSEO.SnippetPreview = function( refObj ) {
 	this.refObj = refObj;
+	this.unformattedText = {
+		snippet_cite: this.refObj.rawData.snippetCite || "",
+		snippet_meta: this.refObj.rawData.snippetMeta || "",
+		snippet_title: this.refObj.rawData.snippetTitle || ""
+	};
 	this.init();
 };
 
@@ -2268,6 +2219,10 @@ YoastSEO.SnippetPreview.prototype.init = function() {
 	) {
 		this.output = this.htmlOutput();
 		this.renderOutput();
+	}
+	this.snippetSuffix = "";
+	if ( this.refObj.config.snippetSuffix !== "undefined" ) {
+		this.snippetSuffix = this.refObj.config.snippetSuffix;
 	}
 };
 
@@ -2297,6 +2252,8 @@ YoastSEO.SnippetPreview.prototype.formatTitle = function() {
 	}
 	if ( title === "" ) {
 		title = this.refObj.config.sampleText.title;
+	} else {
+		title += this.snippetSuffix;
 	}
 	title = this.refObj.stringHelper.stripAllTags( title );
 	if ( this.refObj.rawData.keyword !== "" ) {
@@ -2325,11 +2282,9 @@ YoastSEO.SnippetPreview.prototype.formatCite = function() {
 	var cite = this.refObj.rawData.snippetCite;
 	cite = this.refObj.stringHelper.stripAllTags( cite );
 	if ( cite === "" ) {
-		cite = this.refObj.config.sampleText.url;
-		return cite;
-	} else {
-		return this.formatKeywordUrl( cite );
+		cite = this.refObj.config.sampleText.snippetCite;
 	}
+	return this.formatKeywordUrl( cite );
 };
 
 /**
@@ -2337,7 +2292,10 @@ YoastSEO.SnippetPreview.prototype.formatCite = function() {
  * @returns formatted metatext
  */
 YoastSEO.SnippetPreview.prototype.formatMeta = function() {
-	var meta = this.refObj.rawData.snippetMeta;
+	var meta = this.refObj.rawData.meta;
+	if ( meta === this.refObj.config.sampleText.snippetMeta ) {
+		meta = "";
+	}
 	if ( meta === "" ) {
 		meta = this.getMetaText();
 	}
@@ -2359,6 +2317,9 @@ YoastSEO.SnippetPreview.prototype.getMetaText = function() {
 	var metaText;
 	if ( typeof this.refObj.rawData.excerpt !== "undefined" ) {
 		metaText = this.refObj.rawData.excerpt;
+	}
+	if ( typeof this.refObj.rawData.text !== "undefined" ) {
+		metaText = this.refObj.rawData.text;
 	}
 	if ( metaText === "" ) {
 		metaText = this.refObj.config.sampleText.meta;
@@ -2439,14 +2400,18 @@ YoastSEO.SnippetPreview.prototype.getPeriodMatches = function() {
 
 /**
  * formats the keyword for use in the snippetPreview by adding <strong>-tags
+ * strips unwanted characters that could break the regex or give unwanted results
  * @param textString
  * @returns textString
  */
 YoastSEO.SnippetPreview.prototype.formatKeyword = function( textString ) {
 
-	//matches case insensitive and global
-	var replacer = new RegExp( this.refObj.rawData.keyword, "ig" );
-	return textString.replace( replacer, function( str ) {
+	// removes characters from the keyword that could break the regex, or give unwanted results, includes the -
+	var keyword = this.refObj.rawData.keyword.replace( /[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "" );
+
+	// Match keyword case-insensitively
+	var keywordRegex = new RegExp( "\\b" + keyword + "\\b", "ig" );
+	return textString.replace( keywordRegex, function( str ) {
 		return "<strong>" + str + "</strong>";
 	} );
 };
@@ -2454,16 +2419,20 @@ YoastSEO.SnippetPreview.prototype.formatKeyword = function( textString ) {
 /**
  * formats the keyword for use in the URL by accepting - and _ in stead of space and by adding
  * <strong>-tags
+ * strips unwanted characters that could break the regex or give unwanted results
  *
  * @param textString
  * @returns {XML|string|void}
  */
 YoastSEO.SnippetPreview.prototype.formatKeywordUrl = function( textString ) {
-	var replacer = this.refObj.rawData.keyword.replace( " ", "[-_]" );
+	var keyword = this.refObj.stringHelper.sanitizeKeyword( this.refObj.rawData.keyword );
+	var dashedKeyword = keyword.replace( " ", "[-_]" );
 
-	//matches case insensitive and global
-	replacer = new RegExp( replacer, "ig" );
-	return textString.replace( replacer, function( str ) {
+	// Match keyword case-insensitively.
+	var keywordRegex = new RegExp( dashedKeyword, "ig" );
+
+	// Make the keyword bold in the textString.
+	return textString.replace( keywordRegex, function( str ) {
 		return "<strong>" + str + "</strong>";
 	} );
 };
@@ -2507,20 +2476,21 @@ YoastSEO.SnippetPreview.prototype.checkTextLength = function( ev ) {
 	var text = ev.currentTarget.textContent;
 	switch ( ev.currentTarget.id ) {
 		case "snippet_meta":
+			ev.currentTarget.className = "desc";
 			if ( text.length > YoastSEO.analyzerConfig.maxMeta ) {
-				ev.currentTarget.__unformattedText = ev.currentTarget.textContent;
+				YoastSEO.app.snippetPreview.unformattedText.snippet_meta = ev.currentTarget.textContent;
 				ev.currentTarget.textContent = text.substring(
 					0,
 					YoastSEO.analyzerConfig.maxMeta
 				);
-				ev.currentTarget.className = "desc";
+
 			}
 			break;
 		case "snippet_title":
-			if ( text.length > 40 ) {
-				ev.currentTarget.__unformattedText = ev.currentTarget.textContent;
-				ev.currentTarget.textContent = text.substring( 0, 40 );
-				ev.currentTarget.className = "title";
+			ev.currentTarget.className = "title";
+			if ( text.length > 70 ) {
+				YoastSEO.app.snippetPreview.unformattedText.snippet_title = ev.currentTarget.textContent;
+				ev.currentTarget.textContent = text.substring( 0, 70 );
 			}
 			break;
 		default:
@@ -2529,7 +2499,53 @@ YoastSEO.SnippetPreview.prototype.checkTextLength = function( ev ) {
 };
 
 /**
- * adds and remove the tooLong class when a text is too long.
+ * when clicked on an element in the snippet, checks fills the textContent with the data from the unformatted text.
+ * This removes the keyword highlighting and modified data so the original content can be editted.
+ * @param ev {event}
+ */
+YoastSEO.SnippetPreview.prototype.getUnformattedText = function( ev ) {
+	var currentElement = ev.currentTarget.id;
+	if ( typeof this.unformattedText[ currentElement ] !== "undefined" ) {
+		ev.currentTarget.textContent = this.unformattedText[currentElement];
+	}
+};
+
+/**
+ * when text is entered into the snippetPreview elements, the text is set in the unformattedText object.
+ * This allows the visible data to be editted in the snippetPreview.
+ * @param ev
+ */
+YoastSEO.SnippetPreview.prototype.setUnformattedText = function( ev ) {
+	var elem =  ev.currentTarget.id;
+	this.unformattedText[ elem ] = document.getElementById( elem ).textContent;
+};
+
+/**
+ * Adds the siteName to the snippetTitle when editting starts, this adds the sitename to
+ * the snippet_sitename that cannot be edited.
+ * Sets the display property to inline-block of the snippet_title so we can set a width.
+ * @param ev
+ */
+YoastSEO.SnippetPreview.prototype.setSiteName = function( ev ) {
+	if ( ev.currentTarget.id === "snippet_title" ) {
+		document.getElementById( "snippet_sitename" ).textContent = this.snippetSuffix;
+		document.getElementById( "snippet_sitename" ).style.display = "inline-block";
+		document.getElementById( "snippet_title" ).style.display = "inline-block";
+	}
+};
+
+/**
+ * Removes the siteName from the snippetTitle span when editing is finished, since it should only show
+ * when editing.
+ */
+YoastSEO.SnippetPreview.prototype.unsetSiteName = function() {
+	document.getElementById( "snippet_sitename" ).textContent = "";
+	document.getElementById( "snippet_title" ).style.display = "inline";
+	document.getElementById( "snippet_sitename" ).style.display = "inline";
+};
+
+/**
+ * Adds and remove the tooLong class when a text is too long.
  * @param ev
  */
 YoastSEO.SnippetPreview.prototype.textFeedback = function( ev ) {
@@ -2543,7 +2559,7 @@ YoastSEO.SnippetPreview.prototype.textFeedback = function( ev ) {
 			}
 			break;
 		case "snippet_title":
-			if ( text.length > 40 ) {
+			if ( text.length > 70 ) {
 				ev.currentTarget.className = "title tooLong";
 			} else {
 				ev.currentTarget.className = "title";
@@ -2581,37 +2597,11 @@ YoastSEO.SnippetPreview.prototype.setFocus = function( ev ) {
 	while ( targetElem !== null ) {
 		if ( targetElem.contentEditable === "true" ) {
 			targetElem.focus();
-			targetElem.refObj.snippetPreview.hideEditIcon();
+			this.hideEditIcon();
 			break;
 		} else {
 			targetElem = targetElem.nextSibling;
 		}
-	}
-	targetElem.refObj.snippetPreview.setFocusToEnd( targetElem );
-};
-
-/**
- * this function is needed for placing the caret at the end of the input when the text is changed
- * at focus.
- * Otherwise the cursor could end at the beginning of the text.
- * @param elem
- */
-YoastSEO.SnippetPreview.prototype.setFocusToEnd = function( elem ) {
-	if (
-		typeof window.getSelection !== "undefined" &&
-		typeof document.createRange !== "undefined"
-	) {
-		var range = document.createRange();
-		range.selectNodeContents( elem );
-		range.collapse( false );
-		var selection = window.getSelection();
-		selection.removeAllRanges();
-		selection.addRange( range );
-	} else if ( typeof document.body.createTextRange !== "undefined" ) {
-		var textRange = document.body.createTextRange();
-		textRange.moveToElementText( elem );
-		textRange.collapse( false );
-		textRange.select();
 	}
 };
 ;/* global YoastSEO: true */
@@ -2734,6 +2724,18 @@ YoastSEO.StringHelper.prototype.stripAllTags = function( textString ) {
 	textString = textString.replace( /[<>]/g, "" );
 	textString = this.stripSpaces( textString );
 	return textString;
+};
+
+/**
+ * Removes all invalid characters from a certain keyword
+ *
+ * @param {string} keyword The un-sanitized keyword.
+ * @returns {string} The sanitized keyword.
+ */
+YoastSEO.StringHelper.prototype.sanitizeKeyword = function( keyword ) {
+	keyword = keyword.replace( /[\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "" );
+
+	return keyword;
 };
 
 /**
@@ -4191,14 +4193,14 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
             scoreArray: [
                 {max: 0, score: 1, text: i18n.dgettext('js-text-analysis', "Please create a page title.")},
                 {
-                    max: 40,
+                    max: 39,
                     score: 6,
 
                     /* translators: %3$d expands to the number of characters in the page title, %1$d to the minimum number of characters for the title */
                     text: i18n.dgettext('js-text-analysis', "The page title contains %3$d characters, which is less than the recommended minimum of %1$d characters. Use the space to add keyword variations or create compelling call-to-action copy.")
                 },
                 {
-                    min: 70,
+                    min: 71,
                     score: 6,
 
                     /* translators: %3$d expands to the number of characters in the page title, %2$d to the maximum number of characters for the title */

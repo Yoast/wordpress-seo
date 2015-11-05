@@ -15,6 +15,11 @@ YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
  */
 YoastSEO.SnippetPreview = function( refObj ) {
 	this.refObj = refObj;
+	this.unformattedText = {
+		snippet_cite: this.refObj.rawData.snippetCite || "",
+		snippet_meta: this.refObj.rawData.snippetMeta || "",
+		snippet_title: this.refObj.rawData.snippetTitle || ""
+	};
 	this.init();
 };
 
@@ -28,6 +33,10 @@ YoastSEO.SnippetPreview.prototype.init = function() {
 	) {
 		this.output = this.htmlOutput();
 		this.renderOutput();
+	}
+	this.snippetSuffix = "";
+	if ( this.refObj.config.snippetSuffix !== "undefined" ) {
+		this.snippetSuffix = this.refObj.config.snippetSuffix;
 	}
 };
 
@@ -57,6 +66,8 @@ YoastSEO.SnippetPreview.prototype.formatTitle = function() {
 	}
 	if ( title === "" ) {
 		title = this.refObj.config.sampleText.title;
+	} else {
+		title += this.snippetSuffix;
 	}
 	title = this.refObj.stringHelper.stripAllTags( title );
 	if ( this.refObj.rawData.keyword !== "" ) {
@@ -85,11 +96,9 @@ YoastSEO.SnippetPreview.prototype.formatCite = function() {
 	var cite = this.refObj.rawData.snippetCite;
 	cite = this.refObj.stringHelper.stripAllTags( cite );
 	if ( cite === "" ) {
-		cite = this.refObj.config.sampleText.url;
-		return cite;
-	} else {
-		return this.formatKeywordUrl( cite );
+		cite = this.refObj.config.sampleText.snippetCite;
 	}
+	return this.formatKeywordUrl( cite );
 };
 
 /**
@@ -97,7 +106,10 @@ YoastSEO.SnippetPreview.prototype.formatCite = function() {
  * @returns formatted metatext
  */
 YoastSEO.SnippetPreview.prototype.formatMeta = function() {
-	var meta = this.refObj.rawData.snippetMeta;
+	var meta = this.refObj.rawData.meta;
+	if ( meta === this.refObj.config.sampleText.snippetMeta ) {
+		meta = "";
+	}
 	if ( meta === "" ) {
 		meta = this.getMetaText();
 	}
@@ -119,6 +131,9 @@ YoastSEO.SnippetPreview.prototype.getMetaText = function() {
 	var metaText;
 	if ( typeof this.refObj.rawData.excerpt !== "undefined" ) {
 		metaText = this.refObj.rawData.excerpt;
+	}
+	if ( typeof this.refObj.rawData.text !== "undefined" ) {
+		metaText = this.refObj.rawData.text;
 	}
 	if ( metaText === "" ) {
 		metaText = this.refObj.config.sampleText.meta;
@@ -199,14 +214,18 @@ YoastSEO.SnippetPreview.prototype.getPeriodMatches = function() {
 
 /**
  * formats the keyword for use in the snippetPreview by adding <strong>-tags
+ * strips unwanted characters that could break the regex or give unwanted results
  * @param textString
  * @returns textString
  */
 YoastSEO.SnippetPreview.prototype.formatKeyword = function( textString ) {
 
-	//matches case insensitive and global
-	var replacer = new RegExp( this.refObj.rawData.keyword, "ig" );
-	return textString.replace( replacer, function( str ) {
+	// removes characters from the keyword that could break the regex, or give unwanted results, includes the -
+	var keyword = this.refObj.rawData.keyword.replace( /[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "" );
+
+	// Match keyword case-insensitively
+	var keywordRegex = new RegExp( "\\b" + keyword + "\\b", "ig" );
+	return textString.replace( keywordRegex, function( str ) {
 		return "<strong>" + str + "</strong>";
 	} );
 };
@@ -214,16 +233,20 @@ YoastSEO.SnippetPreview.prototype.formatKeyword = function( textString ) {
 /**
  * formats the keyword for use in the URL by accepting - and _ in stead of space and by adding
  * <strong>-tags
+ * strips unwanted characters that could break the regex or give unwanted results
  *
  * @param textString
  * @returns {XML|string|void}
  */
 YoastSEO.SnippetPreview.prototype.formatKeywordUrl = function( textString ) {
-	var replacer = this.refObj.rawData.keyword.replace( " ", "[-_]" );
+	var keyword = this.refObj.stringHelper.sanitizeKeyword( this.refObj.rawData.keyword );
+	var dashedKeyword = keyword.replace( " ", "[-_]" );
 
-	//matches case insensitive and global
-	replacer = new RegExp( replacer, "ig" );
-	return textString.replace( replacer, function( str ) {
+	// Match keyword case-insensitively.
+	var keywordRegex = new RegExp( dashedKeyword, "ig" );
+
+	// Make the keyword bold in the textString.
+	return textString.replace( keywordRegex, function( str ) {
 		return "<strong>" + str + "</strong>";
 	} );
 };
@@ -267,20 +290,21 @@ YoastSEO.SnippetPreview.prototype.checkTextLength = function( ev ) {
 	var text = ev.currentTarget.textContent;
 	switch ( ev.currentTarget.id ) {
 		case "snippet_meta":
+			ev.currentTarget.className = "desc";
 			if ( text.length > YoastSEO.analyzerConfig.maxMeta ) {
-				ev.currentTarget.__unformattedText = ev.currentTarget.textContent;
+				YoastSEO.app.snippetPreview.unformattedText.snippet_meta = ev.currentTarget.textContent;
 				ev.currentTarget.textContent = text.substring(
 					0,
 					YoastSEO.analyzerConfig.maxMeta
 				);
-				ev.currentTarget.className = "desc";
+
 			}
 			break;
 		case "snippet_title":
-			if ( text.length > 40 ) {
-				ev.currentTarget.__unformattedText = ev.currentTarget.textContent;
-				ev.currentTarget.textContent = text.substring( 0, 40 );
-				ev.currentTarget.className = "title";
+			ev.currentTarget.className = "title";
+			if ( text.length > 70 ) {
+				YoastSEO.app.snippetPreview.unformattedText.snippet_title = ev.currentTarget.textContent;
+				ev.currentTarget.textContent = text.substring( 0, 70 );
 			}
 			break;
 		default:
@@ -289,7 +313,53 @@ YoastSEO.SnippetPreview.prototype.checkTextLength = function( ev ) {
 };
 
 /**
- * adds and remove the tooLong class when a text is too long.
+ * when clicked on an element in the snippet, checks fills the textContent with the data from the unformatted text.
+ * This removes the keyword highlighting and modified data so the original content can be editted.
+ * @param ev {event}
+ */
+YoastSEO.SnippetPreview.prototype.getUnformattedText = function( ev ) {
+	var currentElement = ev.currentTarget.id;
+	if ( typeof this.unformattedText[ currentElement ] !== "undefined" ) {
+		ev.currentTarget.textContent = this.unformattedText[currentElement];
+	}
+};
+
+/**
+ * when text is entered into the snippetPreview elements, the text is set in the unformattedText object.
+ * This allows the visible data to be editted in the snippetPreview.
+ * @param ev
+ */
+YoastSEO.SnippetPreview.prototype.setUnformattedText = function( ev ) {
+	var elem =  ev.currentTarget.id;
+	this.unformattedText[ elem ] = document.getElementById( elem ).textContent;
+};
+
+/**
+ * Adds the siteName to the snippetTitle when editting starts, this adds the sitename to
+ * the snippet_sitename that cannot be edited.
+ * Sets the display property to inline-block of the snippet_title so we can set a width.
+ * @param ev
+ */
+YoastSEO.SnippetPreview.prototype.setSiteName = function( ev ) {
+	if ( ev.currentTarget.id === "snippet_title" ) {
+		document.getElementById( "snippet_sitename" ).textContent = this.snippetSuffix;
+		document.getElementById( "snippet_sitename" ).style.display = "inline-block";
+		document.getElementById( "snippet_title" ).style.display = "inline-block";
+	}
+};
+
+/**
+ * Removes the siteName from the snippetTitle span when editing is finished, since it should only show
+ * when editing.
+ */
+YoastSEO.SnippetPreview.prototype.unsetSiteName = function() {
+	document.getElementById( "snippet_sitename" ).textContent = "";
+	document.getElementById( "snippet_title" ).style.display = "inline";
+	document.getElementById( "snippet_sitename" ).style.display = "inline";
+};
+
+/**
+ * Adds and remove the tooLong class when a text is too long.
  * @param ev
  */
 YoastSEO.SnippetPreview.prototype.textFeedback = function( ev ) {
@@ -303,7 +373,7 @@ YoastSEO.SnippetPreview.prototype.textFeedback = function( ev ) {
 			}
 			break;
 		case "snippet_title":
-			if ( text.length > 40 ) {
+			if ( text.length > 70 ) {
 				ev.currentTarget.className = "title tooLong";
 			} else {
 				ev.currentTarget.className = "title";
@@ -341,36 +411,10 @@ YoastSEO.SnippetPreview.prototype.setFocus = function( ev ) {
 	while ( targetElem !== null ) {
 		if ( targetElem.contentEditable === "true" ) {
 			targetElem.focus();
-			targetElem.refObj.snippetPreview.hideEditIcon();
+			this.hideEditIcon();
 			break;
 		} else {
 			targetElem = targetElem.nextSibling;
 		}
-	}
-	targetElem.refObj.snippetPreview.setFocusToEnd( targetElem );
-};
-
-/**
- * this function is needed for placing the caret at the end of the input when the text is changed
- * at focus.
- * Otherwise the cursor could end at the beginning of the text.
- * @param elem
- */
-YoastSEO.SnippetPreview.prototype.setFocusToEnd = function( elem ) {
-	if (
-		typeof window.getSelection !== "undefined" &&
-		typeof document.createRange !== "undefined"
-	) {
-		var range = document.createRange();
-		range.selectNodeContents( elem );
-		range.collapse( false );
-		var selection = window.getSelection();
-		selection.removeAllRanges();
-		selection.addRange( range );
-	} else if ( typeof document.body.createTextRange !== "undefined" ) {
-		var textRange = document.body.createTextRange();
-		textRange.moveToElementText( elem );
-		textRange.collapse( false );
-		textRange.select();
 	}
 };

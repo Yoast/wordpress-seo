@@ -221,3 +221,27 @@ YoastSEO.AnalyzeScorer.prototype.totalScore = function() {
 	var totalAmount = scoreAmount * YoastSEO.analyzerScoreRating;
 	return Math.round( ( totalScore / totalAmount ) * 10 );
 };
+
+/**
+ * Returns total score as calculated.
+ *
+ * @returns {number}
+ */
+YoastSEO.AnalyzeScorer.prototype.getTotalScore = function() {
+	return this.__totalScore;
+};
+
+/**
+ * Adds a custom scoring to the analyzer scoring
+ *
+ * @param {Object} scoring
+ * @param {string} scoring.name
+ * @param {Object} scoring.scoring
+ */
+YoastSEO.AnalyzeScorer.prototype.addScoring = function( scoring ) {
+	var scoringObject = scoring.scoring;
+
+	scoringObject.scoreName = scoring.name;
+
+	this.scoring.push( scoringObject );
+};

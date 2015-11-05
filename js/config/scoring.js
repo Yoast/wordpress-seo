@@ -303,14 +303,14 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
             scoreArray: [
                 {max: 0, score: 1, text: i18n.dgettext('js-text-analysis', "Please create a page title.")},
                 {
-                    max: 40,
+                    max: 39,
                     score: 6,
 
                     /* translators: %3$d expands to the number of characters in the page title, %1$d to the minimum number of characters for the title */
                     text: i18n.dgettext('js-text-analysis', "The page title contains %3$d characters, which is less than the recommended minimum of %1$d characters. Use the space to add keyword variations or create compelling call-to-action copy.")
                 },
                 {
-                    min: 70,
+                    min: 71,
                     score: 6,
 
                     /* translators: %3$d expands to the number of characters in the page title, %2$d to the maximum number of characters for the title */
