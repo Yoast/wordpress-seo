@@ -42,10 +42,6 @@ class WPSEO_Admin {
 		$this->page_gsc         = new WPSEO_GSC();
 		$this->dashboard_widget = new Yoast_Dashboard_Widget();
 
-		/**
-		 * Setting the hooks
-		 */
-		new WPSEO_Import_WPSEO_Hooks();
 
 		// Needs the lower than default priority so other plugins can hook underneath it without issue.
 		add_action( 'admin_menu', array( $this, 'register_settings_page' ), 5 );
@@ -77,8 +73,21 @@ class WPSEO_Admin {
 		add_filter( 'set-screen-option', array( $this, 'save_bulk_edit_options' ), 10, 3 );
 
 		add_action( 'admin_init', array( 'WPSEO_Plugin_Conflict', 'hook_check_for_plugin_conflicts' ), 10, 1 );
+		add_action( 'admin_init', array( $this, 'import_plugin_hooks' ) );
 
 		WPSEO_Utils::register_cache_clear_option( 'wpseo', '' );
+	}
+
+
+	/**
+	 * Setting the hooks for importing data from other plugins
+	 */
+	public function import_plugin_hooks() {
+		$plugin_imports = array(
+			'wpSEO'       => new WPSEO_Import_WPSEO_Hooks(),
+			'aioseo'      => new WPSEO_Import_AIOSEO_Hooks(),
+			'robots_meta' => new WPSEO_Import_Robots_Meta_Hooks(),
+		);
 	}
 
 	/**
