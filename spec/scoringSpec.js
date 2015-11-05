@@ -30,7 +30,7 @@ describe("a test for the scoring function of all functions in the analyzer", fun
        expect(analyzeScore[2].text).toBe("The copy scores 49.0 in the <a href='https://en.wikipedia.org/wiki/Flesch-Kincaid_readability_test#Flesch_Reading_Ease' target='new'>Flesch Reading Ease</a> test, which is considered difficult to read. Try to make shorter sentences, using less difficult words to improve readability.");
        expect(analyzeScore[3].name).toBe("firstParagraph");
        expect(analyzeScore[3].score).toBe(3);
-       expect(analyzeScore[3].text).toBe("The focus keyword doesn\git't appear in the first paragraph of the copy. Make sure the topic is clear immediately.");
+       expect(analyzeScore[3].text).toBe("The focus keyword doesn't appear in the first paragraph of the copy. Make sure the topic is clear immediately.");
        expect(analyzeScore[4].name).toBe("metaDescriptionLength");
        expect(analyzeScore[4].score).toBe(6);
        expect(analyzeScore[4].text).toBe("The meta description is under 120 characters, however up to 156 characters are available.");
