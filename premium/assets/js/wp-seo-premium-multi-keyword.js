@@ -73,14 +73,17 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 
 	YoastMultiKeyword.prototype.bindKeywordRemove = function() {
 		$( '.wpseo-metabox-tabs' ).on( 'click', '.remove-keyword', function( ev ) {
+			var previousTab, currentTab;
+
 			ev.preventDefault();
-			var current_tab = $( ev.currentTarget ).parent( 'li' );
-			var prev_tab = current_tab.prev();
-			current_tab.remove();
-			if ( current_tab.hasClass( 'active' ) ) {
-				prev_tab.find( '.wpseo_tablink' ).click();
+			currentTab = $( ev.currentTarget ).parent( 'li' );
+			previousTab = currentTab.prev();
+			currentTab.remove();
+
+			// If the removed tab was active we should make a different one active.
+			if ( currentTab.hasClass( 'active' ) ) {
+				previousTab.find( '.wpseo_tablink' ).click();
 			}
-			this.updateKeywords();
 
 			this.updateUI();
 		}.bind( this ) );
@@ -88,10 +91,13 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 
 	YoastMultiKeyword.prototype.bindKeywordField = function() {
 		$( '#yoast_wpseo_focuskw' ).on( 'input', function( ev ) {
-			var focusKeyword = $( ev.currentTarget ).val();
-			var current_tab_link = $( 'li.active > .wpseo_tablink' );
-			current_tab_link.data( 'keyword', focusKeyword );
-			current_tab_link.find( 'span.wpseo_keyword' ).text( focusKeyword || '...' );
+			var currentTabLink, focusKeyword;
+
+			focusKeyword = $( ev.currentTarget ).val();
+			currentTabLink = $( 'li.active > .wpseo_tablink' );
+			currentTabLink.data( 'keyword', focusKeyword );
+			currentTabLink.find( 'span.wpseo_keyword' ).text( focusKeyword || '...' );
+
 			this.updateKeywords();
 		}.bind( this ) );
 	};
@@ -208,7 +214,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 	 * @param {string}  keyword The keyword to render.
 	 * @param {number}  score The score for this given keyword.
 	 * @param {Object}  tabElement A DOM Element of a tab.
-	 * @param {boolean} active Whether or not this tab should be active.
+	 * @param {boolean} [active=false] Whether or not the rendered tab should be active.
 	 *
 	 * @returns {string} The HTML for the keyword tab.
 	 */
