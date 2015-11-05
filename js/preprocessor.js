@@ -175,6 +175,8 @@ YoastSEO.PreProcessor.prototype.cleanText = function( textString ) {
 		// unify all terminators
 		textString = textString.replace( /[.?!]/g, "." );
 
+		textString = this.stringHelper.stripSpaces( textString );
+
 		// add period in case it is missing
 		textString += ".";
 
@@ -189,7 +191,7 @@ YoastSEO.PreProcessor.prototype.cleanText = function( textString ) {
 
 		// Remove "words" comprised only of numbers
 		textString = textString.replace( /[0-9]+[ ]/g, "" );
-		textString = this.stringHelper.stripSpaces( textString );
+
 	}
 
 	return textString;
