@@ -141,37 +141,6 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 	};
 
 	/**
-	 * returns a string that is used as a CSSclass, based on the numeric score
-	 * @param {number} score
-	 * @returns scoreRate
-	 */
-	YoastMultiKeyword.prototype.scoreRating = function( score ) {
-		var scoreRate;
-		switch ( score ) {
-			case 0:
-				scoreRate = 'na';
-				break;
-			case 4:
-			case 5:
-				scoreRate = 'poor';
-				break;
-			case 6:
-			case 7:
-				scoreRate = 'ok';
-				break;
-			case 8:
-			case 9:
-			case 10:
-				scoreRate = 'good';
-				break;
-			default:
-				scoreRate = 'bad';
-				break;
-		}
-		return scoreRate;
-	};
-
-	/**
 	 * Updates UI based on the current state.
 	 */
 	YoastMultiKeyword.prototype.updateUI = function() {
