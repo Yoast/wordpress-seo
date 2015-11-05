@@ -27,7 +27,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 		this.updateActiveKeywordTab( score );
 		this.updateInactiveKeywords();
 
-		keywords = $( '.wpseo_keyword_tab' ).map( function ( i, keywordTab ) {
+		keywords = $( '.wpseo_keyword_tab' ).map( function( i, keywordTab ) {
 			keywordTab = $( keywordTab ).find( '.wpseo_tablink' );
 
 			return {
@@ -164,8 +164,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 	 * @param {number} score Score as returned by the analyzer.
 	 */
 	YoastMultiKeyword.prototype.updateActiveKeywordTab = function( score ) {
-		var activeTabIndex;
-		var placeholder, keyword, html, templateArgs, tab;
+		var keyword, tab;
 
 		tab     = $( '.wpseo_keyword_tab.active' );
 		keyword = $( '#yoast_wpseo_focuskw').val();
@@ -192,7 +191,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 	 * @param {Object} tab The tab to update.
 	 */
 	YoastMultiKeyword.prototype.updateKeywordTab = function( tab ) {
-		var keyword, link, score, html, placeholder, templateArgs;
+		var keyword, link, score;
 
 		tab = $( tab );
 
