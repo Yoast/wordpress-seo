@@ -94,7 +94,7 @@
 	 */
 	TermScraper.prototype.getContentTinyMCE = function() {
 		var val = document.getElementById( 'description' ).value;
-		if ( tinyMCE.editors.length !== 0 && tinyMCE.get( 'description').hidden === false ) {
+		if ( tinyMCE.editors.length !== 0 && tinyMCE.get( 'description' ).hidden === false ) {
 			val = tinyMCE.get( 'description' ).getContent();
 		}
 		return val;
