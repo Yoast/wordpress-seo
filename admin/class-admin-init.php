@@ -127,8 +127,8 @@ class WPSEO_Admin_Init {
 	public function tagline_notice() {
 		if ( current_user_can( 'manage_options' ) && $this->has_default_tagline() && ! $this->seen_tagline_notice() ) {
 
-			// Only add the notice on GET requests and not in the customizer to prevent faulty return url.
-			if ( 'GET' !== filter_input( INPUT_SERVER, 'REQUEST_METHOD' ) || is_customize_preview() ) {
+			// Only add the notice on GET requests, not in the customizer, and not in "action" type submits to prevent faulty return url.
+			if ( 'GET' !== filter_input( INPUT_SERVER, 'REQUEST_METHOD' ) || is_customize_preview() || null !== filter_input( INPUT_GET, 'action' ) ) {
 				return;
 			}
 
