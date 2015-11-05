@@ -1,11 +1,23 @@
 <?php
+/**
+ * @package WPSEO\Premium\Classes
+ */
 
+/**
+ * Adds the Dublin Core metadata.
+ */
 class WPSEO_Dublin_Core {
 
+	/**
+	 * Constructor.
+	 */
 	public function __construct() {
 		add_action( 'init', array( $this, 'init' ) );
 	}
 
+	/**
+	 * Hooks the methods for output.
+	 */
 	public function init() {
 		add_action( 'wpseo_head', array( $this, 'date_issued' ), 50 );
 	}
@@ -36,6 +48,9 @@ class WPSEO_Dublin_Core {
 		return true;
 	}
 
+	/**
+	 * Outputs DC.date.issued meta tag.
+	 */
 	public function date_issued() {
 
 		if ( ! is_singular() ) {
