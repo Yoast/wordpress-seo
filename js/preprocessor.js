@@ -192,6 +192,7 @@ YoastSEO.PreProcessor.prototype.cleanText = function( textString ) {
 		// Remove "words" comprised only of numbers
 		textString = textString.replace( /[0-9]+[ ]/g, "" );
 
+		textString = this.stringHelper.stripSpaces( textString );
 	}
 
 	return textString;
