@@ -265,7 +265,7 @@ function wpseo_invalidate_sitemap_cache( $type ) {
 	delete_transient( 'wpseo_sitemap_cache_1' );
 	delete_transient( 'wpseo_sitemap_cache_' . $type );
 
-	WPSEO_Utils::clear_sitemap_cache( array( $type ) );
+	WPSEO_Sitemaps_Cache::clear( array( $type ) );
 }
 
 add_action( 'deleted_term_relationships', 'wpseo_invalidate_sitemap_cache' );

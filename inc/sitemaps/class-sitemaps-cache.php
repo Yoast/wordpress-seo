@@ -49,4 +49,54 @@ class WPSEO_Sitemaps_Cache {
 
 		return set_transient( 'wpseo_sitemap_cache_' . $type . '_' . $page, $sitemap, DAY_IN_SECONDS );
 	}
+
+	/**
+	 * Delete cache transients for given sitemaps types or all by default.
+	 *
+	 * @param array $types Set of sitemap types to delete cache transients for.
+	 *
+	 * @return int|boolean Query result.
+	 */
+	static public function clear( $types = array() ) {
+
+		global $wpdb;
+
+		if ( wp_using_ext_object_cache() ) {
+			return false;
+		}
+
+		if ( ! apply_filters( 'wpseo_enable_xml_sitemap_transient_caching', true ) ) {
+			return false;
+		}
+
+		// Not sure about efficiency, but that's what code elsewhere does R.
+		$options = WPSEO_Options::get_all();
+
+		if ( true !== $options['enablexmlsitemap'] ) {
+			return false;
+		}
+
+		$query = "DELETE FROM $wpdb->options WHERE";
+
+		if ( ! empty( $types ) ) {
+
+			$first = true;
+
+			foreach ( $types as $sitemap_type ) {
+
+				if ( ! $first ) {
+					$query .= ' OR ';
+				}
+
+				$query .= " option_name LIKE '_transient_wpseo_sitemap_cache_" . $sitemap_type . "_%' OR option_name LIKE '_transient_timeout_wpseo_sitemap_cache_" . $sitemap_type . "_%'";
+
+				$first = false;
+			}
+		}
+		else {
+			$query .= " option_name LIKE '_transient_wpseo_sitemap_%' OR option_name LIKE '_transient_timeout_wpseo_sitemap_%'";
+		}
+
+		return $wpdb->query( $query );
+	}
 }
