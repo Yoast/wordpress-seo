@@ -1435,7 +1435,7 @@ YoastSEO.Pluggable = function( app ) {
 	this.modifications = {};
 	this.customTests = [];
 
-	// Allow plugins 500 ms to register before we start polling their
+	// Allow plugins 1500 ms to register before we start polling their
 	setTimeout( this._pollLoadingPlugins.bind( this ), 1500 );
 };
 
@@ -2018,6 +2018,8 @@ YoastSEO.PreProcessor.prototype.cleanText = function( textString ) {
 		// unify all terminators
 		textString = textString.replace( /[.?!]/g, "." );
 
+		textString = this.stringHelper.stripSpaces( textString );
+
 		// add period in case it is missing
 		textString += ".";
 
@@ -2032,6 +2034,7 @@ YoastSEO.PreProcessor.prototype.cleanText = function( textString ) {
 
 		// Remove "words" comprised only of numbers
 		textString = textString.replace( /[0-9]+[ ]/g, "" );
+
 		textString = this.stringHelper.stripSpaces( textString );
 	}
 
@@ -2678,7 +2681,10 @@ YoastSEO.StringHelper.prototype.stringToRegex = function( stringArray, disableWo
 YoastSEO.StringHelper.prototype.stripSpaces = function( textString ) {
 
 	//replace multiple spaces with single space
-	textString = textString.replace( / {2,}/g, " " );
+	textString = textString.replace( /\s{2,}/g, " " );
+
+	//replace spaces followed by periods with only the period.
+	textString = textString.replace( /\s\./g, "." );
 
 	//remove first/last character if space
 	textString = textString.replace( /^\s+|\s+$/g, "" );
