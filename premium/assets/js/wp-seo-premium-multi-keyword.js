@@ -131,12 +131,26 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 	};
 
 	YoastMultiKeyword.prototype.addKeywordTab = function( keyword, score, focus ) {
+		var placeholder, html, templateArgs;
+
 		// Insert a new keyword tab.
 		keyword = keyword || '';
-		var placeholder = keyword.length > 0 ? keyword : '...';
+		placeholder = keyword.length > 0 ? keyword : '...';
 
-		var keyword_tab = keywordTabTemplate( { keyword: keyword, placeholder: placeholder, score: score } );
-		$( '.wpseo-tab-add-keyword' ).before( keyword_tab );
+		templateArgs = {
+			keyword: keyword,
+			placeholder: placeholder,
+			score: score
+		};
+
+		// If this is the first keyword we add we want to add the "Content:" prefix
+		if ( 0 === $( '.wpseo_keyword_tab' ).length ) {
+			templateArgs.prefix = wpseoPostScraperL10n.contentTab;
+			templateArgs.hideRemove = true;
+		}
+
+		html = keywordTabTemplate( templateArgs );
+		$( '.wpseo-tab-add-keyword' ).before( html );
 
 		this.updateUI();
 
