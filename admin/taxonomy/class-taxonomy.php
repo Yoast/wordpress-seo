@@ -189,11 +189,15 @@ class WPSEO_Taxonomy {
 		$term_id = filter_input( INPUT_GET, 'tag_ID' );
 		$term    = get_term_by( 'id', $term_id, $this->get_taxonomy() );
 		$focuskw = WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'focuskw' );
+		$taxonomy = get_taxonomy( $term->taxonomy );
+		$options = WPSEO_Options::get_all();
 
 		return array(
 			'translations'                  => $translations,
 			'home_url'                      => home_url( '/', null ),
 			'taxonomy'                      => $term->taxonomy,
+			'taxonomy_slug'                 => $taxonomy->rewrite['slug'],
+			'stripcategorybase'             => $options['stripcategorybase'],
 			'keyword_usage'                 => WPSEO_Taxonomy_Meta::get_keyword_usage( $focuskw, $term->term_id, $term->taxonomy ),
 			// Todo: a column needs to be added on the termpages to add a filter for the keyword, so this can be used in the focus kw doubles.
 			'search_url'                    => admin_url( 'edit-tags.php?taxonomy=' . $term->taxonomy . '&seo_kw_filter={keyword}' ),

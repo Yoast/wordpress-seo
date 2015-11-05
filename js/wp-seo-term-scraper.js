@@ -72,8 +72,10 @@
 				break;
 			case 'baseUrl':
 				val = wpseoTermScraperL10n.home_url.replace( /https?:\/\//ig, '' );
+				if( wpseoTermScraperL10n.taxonomy_slug !== '' && wpseoTermScraperL10n.stripcategorybase !== '1' ) {
+					val += wpseoTermScraperL10n.taxonomy_slug + '/';
+				}
 				break;
-
 			case 'cite':
 				elem = document.getElementById( 'snippet_cite' );
 				if ( elem !== null ) {
@@ -179,8 +181,12 @@
 			}
 		}
 
+		//bind both input and change events on the editor, otherwise tinyMCE works very slow.
 		tinyMCE.on( 'addEditor', function(e) {
 			e.editor.on( 'input', function() {
+				app.analyzeTimer.call( app );
+			} );
+			e.editor.on( 'change', function() {
 				app.analyzeTimer.call( app );
 			} );
 		});
