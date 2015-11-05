@@ -17,9 +17,7 @@ class Yoast_Notification_Center {
 	 */
 	private static $instance = null;
 
-	/**
-	 * @var array
-	 */
+	/** @var $notifications Yoast_Notification[] */
 	private $notifications = array();
 
 	/**
@@ -149,6 +147,21 @@ class Yoast_Notification_Center {
 	 * Display the notifications
 	 */
 	public function display_notifications() {
+
+		$ids = array();
+
+		foreach ( $this->notifications as $key => $notification ) {
+
+			$id = $notification->get_id();
+
+			if ( in_array( $id, $ids ) ) {
+				unset( $this->notifications[ $key ] );
+				continue;
+			}
+
+			$ids[] = $id;
+		}
+
 		$this->notifications = array_unique( $this->notifications );
 
 		// Display notifications.
@@ -173,5 +186,4 @@ class Yoast_Notification_Center {
 		// AJAX die.
 		exit;
 	}
-
 }

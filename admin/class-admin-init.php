@@ -35,6 +35,7 @@ class WPSEO_Admin_Init {
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_dismissible' ) );
 		add_action( 'admin_init', array( $this, 'after_update_notice' ), 15 );
 		add_action( 'admin_init', array( $this, 'tagline_notice' ), 15 );
+		add_action( 'admin_init', array( $this, 'wp_title_notice' ), 15 );
 		add_action( 'admin_init', array( $this, 'ga_compatibility_notice' ), 15 );
 		add_action( 'admin_init', array( $this, 'ignore_tour' ) );
 		add_action( 'admin_init', array( $this, 'load_tour' ) );
@@ -59,7 +60,10 @@ class WPSEO_Admin_Init {
 	 * Redirect first time or just upgraded users to the about screen.
 	 */
 	public function after_update_notice() {
-		if ( current_user_can( 'manage_options' ) && ! $this->seen_about() ) {
+
+		$can_access = is_multisite() ? WPSEO_Utils::grant_access() : current_user_can( 'manage_options' );
+
+		if ( $can_access && ! $this->seen_about() ) {
 
 			if ( filter_input( INPUT_GET, 'intro' ) === '1' ) {
 				update_user_meta( get_current_user_id(), 'wpseo_seen_about_version' , WPSEO_VERSION );
@@ -95,13 +99,36 @@ class WPSEO_Admin_Init {
 	}
 
 	/**
+	 * Setting a notice when the theme doesn't support the title-tag on WordPress 4.4
+	 */
+	public function wp_title_notice() {
+		$has_dismissed = WPSEO_Utils::grant_access() && '1' === get_user_meta( get_current_user_id(), 'wpseo_dismiss_wptitle', true );
+		if ( ! $has_dismissed &&  current_user_can( 'manage_options' ) && function_exists( 'wp_get_document_title' ) && ! current_theme_supports( 'title-tag' ) ) {
+			$info_message = sprintf(
+				/* translators: %1$s opens a link to a knowledge base article, $2%s closes the link  */
+				__( 'The way your theme handles titles is not compatible with the latest version of WordPress. %1$sRead more about this error on our knowledge base%2$s.' , 'wordpress-seo' ),
+				'<a href="http://yoa.st/wptitle" target="_blank">',
+				'</a>'
+			);
+
+			$notification_options = array(
+				'type'  => 'error yoast-dismissible',
+				'id'    => 'wpseo-dismiss-wptitle',
+				'nonce' => wp_create_nonce( 'wpseo-dismiss-wptitle' ),
+			);
+
+			Yoast_Notification_Center::get()->add_notification( new Yoast_Notification( $info_message, $notification_options ) );
+		}
+	}
+
+	/**
 	 * Notify about the default tagline if the user hasn't changed it
 	 */
 	public function tagline_notice() {
 		if ( current_user_can( 'manage_options' ) && $this->has_default_tagline() && ! $this->seen_tagline_notice() ) {
 
-			// Only add the notice on GET requests and not in the customizer to prevent faulty return url.
-			if ( 'GET' !== filter_input( INPUT_SERVER, 'REQUEST_METHOD' ) || is_customize_preview() ) {
+			// Only add the notice on GET requests, not in the customizer, and not in "action" type submits to prevent faulty return url.
+			if ( 'GET' !== filter_input( INPUT_SERVER, 'REQUEST_METHOD' ) || is_customize_preview() || null !== filter_input( INPUT_GET, 'action' ) ) {
 				return;
 			}
 

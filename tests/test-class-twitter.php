@@ -6,7 +6,7 @@
 class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 
 	/**
-	 * @var WPSEO_Twitter
+	 * @var Expose_WPSEO_Twitter
 	 */
 	private static $class_instance;
 
@@ -353,6 +353,57 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 
 		self::$class_instance->image();
 		$this->expectOutput( $expected );
+	}
+
+	/**
+	 * Testing with a twitter title set for the taxonomy
+	 *
+	 * @covers WPSEO_Twitter::title
+	 */
+	public function test_taxonomy_title() {
+		$term_id = $this->factory->term->create( array( 'taxonomy' => 'category' ) );
+
+		WPSEO_Taxonomy_Meta::set_value( $term_id, 'category', 'wpseo_twitter-title', 'Custom taxonomy twitter title' );
+
+		$this->go_to( get_term_link( $term_id, 'category' ) );
+
+		self::$class_instance->title();
+
+		$this->expectOutput( $this->metatag( 'title', 'Custom taxonomy twitter title' ) );
+	}
+
+	/**
+	 * Testing with a twitter meta description set for the taxonomy
+	 *
+	 * @covers WPSEO_Twitter::description
+	 */
+	public function test_taxonomy_description() {
+		$term_id = $this->factory->term->create( array( 'taxonomy' => 'category' ) );
+
+		WPSEO_Taxonomy_Meta::set_value( $term_id, 'category', 'wpseo_twitter-description', 'Custom taxonomy twitter description' );
+
+		$this->go_to( get_term_link( $term_id, 'category' ) );
+
+		self::$class_instance->description();
+
+		$this->expectOutput( $this->metatag( 'description', 'Custom taxonomy twitter description' ) );
+	}
+
+	/**
+	 * Testing with a twitter meta image set for the taxonomy
+	 *
+	 * @covers WPSEO_Twitter::image
+	 */
+	public function test_taxonomy_image() {
+		$term_id = $this->factory->term->create( array( 'taxonomy' => 'category' ) );
+
+		WPSEO_Taxonomy_Meta::set_value( $term_id, 'category', 'wpseo_twitter-image', home_url( 'custom_twitter_image.png' ) );
+
+		$this->go_to( get_term_link( $term_id, 'category' ) );
+
+		self::$class_instance->image();
+
+		$this->expectOutput( $this->metatag( 'image', home_url( 'custom_twitter_image.png' ) ) );
 	}
 
 	/**
