@@ -201,27 +201,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 		tab     = $( '.wpseo_keyword_tab.active' );
 		keyword = $( '#yoast_wpseo_focuskw').val();
 
-		placeholder = keyword.length > 0 ? keyword : '...';
-
-		score = parseInt( score, 10 );
-		score = YoastSEO.ScoreFormatter.prototype.scoreRating( score );
-
-		templateArgs = {
-			keyword: keyword,
-			placeholder: placeholder,
-			score: score
-		};
-
-		if ( 0 === tab.index() ) {
-			templateArgs.hideRemove = true;
-			templateArgs.prefix = wpseoPostScraperL10n.contentTab;
-		}
-
-		html = keywordTabTemplate( templateArgs );
-
-		activeTabIndex = tab.index();
-		tab.replaceWith( html );
-		$( '.wpseo_keyword_tab' ).eq( activeTabIndex ).addClass( 'active' );
+		this.renderKeywordTab( keyword, score, tab, true );
 	};
 
 	/**
@@ -251,6 +231,24 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 		keyword = link.data( 'keyword' );
 		score   = this.analyzeKeyword( keyword );
 
+		this.renderKeywordTab( keyword, score, tab );
+	};
+
+	/**
+	 * Renders a keyword tab
+	 *
+	 * @param {string}  keyword The keyword to render.
+	 * @param {number}  score The score for this given keyword.
+	 * @param {Object}  tabElement A DOM Element of a tab.
+	 * @param {boolean} active Whether or not this tab should be active.
+	 *
+	 * @returns {string} The HTML for the keyword tab.
+	 */
+	YoastMultiKeyword.prototype.renderKeywordTab = function( keyword, score, tabElement, active ) {
+		var html, templateArgs, placeholder;
+
+		tabElement = $( tabElement );
+
 		placeholder = keyword.length > 0 ? keyword : '...';
 
 		score = parseInt( score, 10 );
@@ -263,14 +261,23 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 		};
 
 		// The first tab isn't deletable
-		if ( 0 === tab.index() ) {
+		if ( 0 === tabElement.index() ) {
 			templateArgs.hideRemove = true;
 			templateArgs.prefix = wpseoPostScraperL10n.contentTab;
 		}
 
+		if ( true === active ) {
+			templateArgs.active = true;
+		}
+
 		html = keywordTabTemplate( templateArgs );
 
-		tab.replaceWith( html );
+		// Add an extra class if the tab should be active.
+		if ( true === active ) {
+			html = html.replace( 'class="wpseo_keyword_tab', 'class="wpseo_keyword_tab active' );
+		}
+
+		tabElement.replaceWith( html );
 	};
 
 	/**
