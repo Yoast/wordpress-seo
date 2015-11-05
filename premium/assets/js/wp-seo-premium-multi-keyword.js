@@ -6,7 +6,11 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 	var maxKeywords = 5;
 	var keywordTabTemplate;
 
-	var YoastMultiKeyword = function() {
+	var YoastMultiKeyword = function() {};
+
+	YoastMultiKeyword.prototype.initDOM = function() {
+		keywordTabTemplate = wp.template( 'keyword_tab' );
+
 		this.insertElements();
 
 		this.bindKeywordField();
@@ -14,6 +18,8 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 		this.bindScore();
 		this.bindKeywordTab();
 		this.bindKeywordRemove();
+
+		this.updateInactiveKeywords();
 	};
 
 	/**
@@ -305,13 +311,8 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 		return tabAmount < maxKeywords;
 	};
 
-	$( window ).on( 'YoastSEO:ready', function() {
-		keywordTabTemplate = wp.template( 'keyword_tab' );
-
-		var multiKeyword = new YoastMultiKeyword();
-
-		multiKeyword.updateInactiveKeywords();
-	} );
+	var multiKeyword = new YoastMultiKeyword();
+	$( window ).on( 'YoastSEO:ready', multiKeyword.initDOM.bind( multiKeyword ) );
 
 	YoastSEO.multiKeyword = true;
 }( jQuery ));
