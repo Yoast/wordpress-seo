@@ -77,7 +77,7 @@ class WPSEO_Admin {
 
 		WPSEO_Utils::register_cache_clear_option( 'wpseo', '' );
 	}
-	
+
 	/**
 	 * Setting the hooks for importing data from other plugins
 	 */
