@@ -42,6 +42,11 @@ class WPSEO_Admin {
 		$this->page_gsc         = new WPSEO_GSC();
 		$this->dashboard_widget = new Yoast_Dashboard_Widget();
 
+		/**
+		 * Setting the hooks
+		 */
+		new WPSEO_Import_WPSEO_Hooks();
+
 		// Needs the lower than default priority so other plugins can hook underneath it without issue.
 		add_action( 'admin_menu', array( $this, 'register_settings_page' ), 5 );
 		add_action( 'network_admin_menu', array( $this, 'register_network_settings_page' ) );
