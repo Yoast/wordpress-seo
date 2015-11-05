@@ -12,6 +12,8 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 		this.bindKeywordField();
 		this.bindKeywordAdd();
 		this.bindScore();
+		this.bindKeywordTab();
+		this.bindKeywordRemove();
 	};
 
 	YoastMultiKeyword.prototype.updateKeywords = function() {
@@ -31,13 +33,6 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 	YoastMultiKeyword.prototype.insertElements = function() {
 		$( '.content > .wpseo_tablink').append( ': <span class="wpseo-score-icon"><span class="screen-reader-text"></span></span><em><span class="wpseo_keyword"></span></em>' );
 		this.addKeywordTabs();
-	};
-
-	YoastMultiKeyword.prototype.reloadTabs = function() {
-		window.wpseo_init_tabs();
-
-		this.bindKeywordTab();
-		this.bindKeywordRemove();
 	};
 
 	YoastMultiKeyword.prototype.bindScore = function() {
@@ -70,7 +65,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 	};
 
 	YoastMultiKeyword.prototype.bindKeywordRemove = function() {
-		$( '.remove-keyword' ).click( function( ev ) {
+		$( '.wpseo-metabox-tabs' ).on( 'click', '.remove-keyword', function( ev ) {
 			ev.preventDefault();
 			var current_tab = $( ev.currentTarget ).parent( 'li' );
 			var prev_tab = current_tab.prev();
@@ -95,7 +90,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 	};
 
 	YoastMultiKeyword.prototype.bindKeywordAdd = function() {
-		$('.wpseo-add-keyword').click( function() {
+		$( '.wpseo-add-keyword' ).click( function() {
 			if ( ! this.canAddTab() ) {
 				return;
 			}
@@ -144,9 +139,6 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 
 		var keyword_tab = keywordTabTemplate( { keyword: keyword, placeholder: placeholder, score: score } );
 		$( '.wpseo_keyword_tab:last' ).after( keyword_tab );
-
-		// Reload to get the correct bindings.
-		this.reloadTabs();
 
 		this.updateUI();
 
