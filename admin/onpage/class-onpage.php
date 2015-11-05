@@ -37,6 +37,13 @@ class WPSEO_OnPage {
 	}
 
 	/**
+	 * The hooks to run on plugin activation
+	 */
+	public function activate_hooks() {
+		$this->set_cron();
+	}
+
+	/**
 	 * Adding a weekly schedule to the schedules array
 	 *
 	 * @param array $schedules Array with schedules.
@@ -174,13 +181,6 @@ class WPSEO_OnPage {
 
 		// Setting the action for the OnPage fetch.
 		add_action( 'wpseo_onpage_fetch', array( $this, 'fetch_from_onpage' ) );
-	}
-
-	/**
-	 * The hooks to run on plugin activation
-	 */
-	private function activate_hooks() {
-		$this->set_cron();
 	}
 
 	/**
