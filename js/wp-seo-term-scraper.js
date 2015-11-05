@@ -49,7 +49,10 @@
 				}
 				break;
 			case 'snippetMeta':
-				val = document.getElementById( 'yoast_wpseo_metadesc' ).value;
+				elem = document.getElementById( 'yoast_wpseo_metadesc' );
+				if ( elem !== null ) {
+					val = elem.value;
+				}
 				break;
 			case 'text':
 				val = this.getContentTinyMCE();
@@ -180,10 +183,13 @@
 			}
 		}
 
+		//binds the input, change, cut and paste event to tinyMCE. All events are needed, because sometimes tinyMCE doesn'
+		//trigger them, or takes up to ten seconds to fire an event.
+		var events = [ 'input' , 'change', 'cut', 'paste' ];
 		tinyMCE.on( 'addEditor', function(e) {
-			e.editor.on( 'input', function() {
-				app.analyzeTimer.call( app );
-			} );
+			for ( var i = 0; i < events.length; i++ ) {
+				e.editor.on( events[ i ], app.analyzeTimer.call( app ) );
+			}
 		});
 	};
 

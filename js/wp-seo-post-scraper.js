@@ -248,14 +248,13 @@
 			}
 		}
 
-		//bind both input and change events on the editor, otherwise tinyMCE works very slow.
+		//binds the input, change, cut and paste event to tinyMCE. All events are needed, because sometimes tinyMCE doesn'
+		//trigger them, or takes up to ten seconds to fire an event.
+		var events = [ 'input' , 'change', 'cut', 'paste' ];
 		tinyMCE.on( 'addEditor', function(e) {
-			e.editor.on( 'input', function() {
-				app.analyzeTimer.call( app );
-			} );
-			e.editor.on( 'change', function() {
-				app.analyzeTimer.call( app );
-			} );
+			for ( var i = 0; i < events.length; i++ ) {
+				e.editor.on( events[ i ], app.analyzeTimer.call( app ) );
+			}
 		});
 
 		document.getElementById( 'yoast_wpseo_focuskw' ).addEventListener( 'blur', this.resetQueue );
