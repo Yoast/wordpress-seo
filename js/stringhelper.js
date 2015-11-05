@@ -129,6 +129,8 @@ YoastSEO.StringHelper.prototype.stripAllTags = function( textString ) {
 YoastSEO.StringHelper.prototype.sanitizeKeyword = function( keyword ) {
 	keyword = keyword.replace( /[\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "" );
 
+	keyword = this.stripAllTags( keyword );
+
 	return keyword;
 };
 
