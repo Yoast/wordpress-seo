@@ -2141,9 +2141,9 @@ YoastSEO.ScoreFormatter.prototype.outputOverallScore = function() {
 	var overallTarget = document.getElementById( this.overallTarget );
 
 	if ( overallTarget ) {
-		overallTarget.className = "overallScore " + this.overallScoreRating( Math.round( this.overallScore ) );
+		overallTarget.className = "overallScore " + this.scoreRating( Math.round( this.overallScore / 10 ) );
 		if ( this.keyword === "" ) {
-			overallTarget.className = "overallScore " + this.overallScoreRating( "na" );
+			overallTarget.className = "overallScore " + this.scoreRating( "na" );
 		}
 	}
 
@@ -2165,31 +2165,6 @@ YoastSEO.ScoreFormatter.prototype.scoreRating = function( score ) {
 			scoreRate = "poor";
 			break;
 		case score > 7:
-			scoreRate = "good";
-			break;
-		default:
-		case score === "na":
-			scoreRate = "na";
-			break;
-	}
-	return scoreRate;
-};
-
-/**
- * Returns a string that is used for the overallScore, based on the numeric score or a NA string.
- * @param score
- * @returns scoreRate
- */
-YoastSEO.ScoreFormatter.prototype.overallScoreRating = function( score ) {
-	var scoreRate;
-	switch ( true ) {
-		case score < 20:
-			scoreRate = "bad";
-			break;
-		case score >= 20 && score <= 70:
-			scoreRate = "poor";
-			break;
-		case score > 70:
 			scoreRate = "good";
 			break;
 		default:
