@@ -103,8 +103,6 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 			currentTabLink = $( 'li.active > .wpseo_tablink' );
 			currentTabLink.data( 'keyword', focusKeyword );
 			currentTabLink.find( 'span.wpseo_keyword' ).text( focusKeyword || '...' );
-
-			this.updateKeywords();
 		}.bind( this ) );
 	};
 
