@@ -255,37 +255,6 @@ function wpseo_shortcode_yoast_breadcrumb() {
 add_shortcode( 'wpseo_breadcrumb', 'wpseo_shortcode_yoast_breadcrumb' );
 
 /**
- * Invalidate XML sitemap cache for taxonomy / term actions
- *
- * @param int    $unused Unused term ID value.
- * @param string $type   Taxonomy to invalidate.
- */
-function wpseo_invalidate_sitemap_cache_terms( $unused, $type ) {
-	wpseo_invalidate_sitemap_cache( $type );
-}
-
-add_action( 'edited_terms', 'wpseo_invalidate_sitemap_cache_terms', 10, 2 );
-add_action( 'clean_term_cache', 'wpseo_invalidate_sitemap_cache_terms', 10, 2 );
-add_action( 'clean_object_term_cache', 'wpseo_invalidate_sitemap_cache_terms', 10, 2 );
-
-/**
- * Invalidate the XML sitemap cache for a post type when publishing or updating a post
- *
- * @param int $post_id Post ID to determine post type for invalidation.
- */
-function wpseo_invalidate_sitemap_cache_on_save_post( $post_id ) {
-
-	// If this is just a revision, don't invalidate the sitemap cache yet.
-	if ( wp_is_post_revision( $post_id ) ) {
-		return;
-	}
-
-	wpseo_invalidate_sitemap_cache( get_post_type( $post_id ) );
-}
-
-add_action( 'save_post', 'wpseo_invalidate_sitemap_cache_on_save_post' );
-
-/**
  * Emulate PHP native ctype_digit() function for when the ctype extension would be disabled *sigh*
  * Only emulates the behaviour for when the input is a string, does not handle integer input as ascii value
  *

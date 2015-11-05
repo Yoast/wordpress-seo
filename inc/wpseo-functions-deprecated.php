@@ -337,3 +337,28 @@ function wpseo_xml_redirect_sitemap() {
 function wpseo_invalidate_sitemap_cache( $type ) {
 	WPSEO_Sitemaps_Cache::invalidate( $type );
 }
+
+/**
+ * Invalidate XML sitemap cache for taxonomy / term actions
+ *
+ * @deprecated
+ * @see WPSEO_Sitemaps_Cache
+ *
+ * @param int    $unused Unused term ID value.
+ * @param string $type   Taxonomy to invalidate.
+ */
+function wpseo_invalidate_sitemap_cache_terms( $unused, $type ) {
+	WPSEO_Sitemaps_Cache::invalidate( $type );
+}
+
+/**
+ * Invalidate the XML sitemap cache for a post type when publishing or updating a post
+ *
+ * @deprecated
+ * @see WPSEO_Sitemaps_Cache
+ *
+ * @param int $post_id Post ID to determine post type for invalidation.
+ */
+function wpseo_invalidate_sitemap_cache_on_save_post( $post_id ) {
+	WPSEO_Sitemaps_Cache::invalidate_post( $post_id );
+}
