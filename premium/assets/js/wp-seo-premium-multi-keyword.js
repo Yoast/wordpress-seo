@@ -41,15 +41,23 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 	};
 
 	YoastMultiKeyword.prototype.bindScore = function() {
-		$( window ).on('YoastSEO:numericScore', function( ev, score ) {
-			score = $( '#yoast_wpseo_focuskw' ).val() !== '' ? this.scoreRating( score ) : 'na';
-			var activeTab = $( '.wpseo_keyword_tab.active');
-			activeTab.find( '.wpseo_tablink' ).data( 'score', score );
-			activeTab.find( '.wpseo-score-icon' ).attr( 'class', 'wpseo-score-icon ' + score );
-			activeTab.find( '.wpseo-score-icon > .screen-reader-text').text( 'SEO score ' + score );
+		$( window ).on( 'YoastSEO:numericScore', this.handleUpdatedScore.bind( this ) );
+	};
 
-			this.updateKeywords();
-		}.bind( this ) );
+	/**
+	 * Handles an update of the score thrown by the post scraper.
+	 *
+	 * @param {jQuery.Event} ev The event triggered.
+	 * @param {number}       score The scores calculated by the analyzer.
+	 */
+	YoastMultiKeyword.prototype.handleUpdatedScore = function( ev, score ) {
+		score = $( '#yoast_wpseo_focuskw' ).val() !== '' ? this.scoreRating( score ) : 'na';
+		var activeTab = $( '.wpseo_keyword_tab.active');
+		activeTab.find( '.wpseo_tablink' ).data( 'score', score );
+		activeTab.find( '.wpseo-score-icon' ).attr( 'class', 'wpseo-score-icon ' + score );
+		activeTab.find( '.wpseo-score-icon > .screen-reader-text').text( 'SEO score ' + score );
+
+		this.updateKeywords();
 	};
 
 	YoastMultiKeyword.prototype.bindKeywordTab = function() {
