@@ -604,7 +604,7 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 		$this->go_to( get_permalink( $post_id ) );
 
 		// test published_time tags output
-		$published_time   = get_the_date( 'c' );
+		$published_time   = get_the_date( DATE_W3C );
 		$published_output = '<meta property="article:published_time" content="' . $published_time . '" />' . "\n";
 		$this->assertTrue( self::$class_instance->publish_date() );
 		$this->expectOutput( $published_output );
@@ -616,7 +616,7 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 		$post->post_modified_gmt = gmdate( 'Y-m-d H:i:s', ( time() + 1 + ( get_option( 'gmt_offset' ) * HOUR_IN_SECONDS ) ) );
 
 		// test modified tags output
-		$modified_time   = get_the_modified_date( 'c' );
+		$modified_time   = get_the_modified_date( DATE_W3C );
 		$modified_output = '<meta property="article:modified_time" content="' . $modified_time . '" />' . "\n" . '<meta property="og:updated_time" content="' . $modified_time . '" />' . "\n";
 		$this->assertTrue( self::$class_instance->publish_date() );
 		$this->expectOutput( $published_output . $modified_output );
