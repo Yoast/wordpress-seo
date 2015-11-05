@@ -254,22 +254,6 @@ function wpseo_shortcode_yoast_breadcrumb() {
 
 add_shortcode( 'wpseo_breadcrumb', 'wpseo_shortcode_yoast_breadcrumb' );
 
-
-/**
- * This invalidates our XML Sitemaps cache.
- *
- * @param string $type Type of sitemap to invalidate.
- */
-function wpseo_invalidate_sitemap_cache( $type ) {
-	// Always delete the main index sitemaps cache, as that's always invalidated by any other change.
-	delete_transient( 'wpseo_sitemap_cache_1' );
-	delete_transient( 'wpseo_sitemap_cache_' . $type );
-
-	WPSEO_Sitemaps_Cache::clear( array( $type ) );
-}
-
-add_action( 'deleted_term_relationships', 'wpseo_invalidate_sitemap_cache' );
-
 /**
  * Invalidate XML sitemap cache for taxonomy / term actions
  *

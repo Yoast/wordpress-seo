@@ -9,6 +9,14 @@
 class WPSEO_Sitemaps_Cache {
 
 	/**
+	 * Hook methods for invalidation on necessary events.
+	 */
+	public function __construct() {
+
+		add_action( 'deleted_term_relationships', array( __CLASS__, 'invalidate' ) );
+	}
+
+	/**
 	 * If cache is enabled.
 	 *
 	 * @return boolean
@@ -48,6 +56,23 @@ class WPSEO_Sitemaps_Cache {
 	public function store_sitemap( $type, $page, $sitemap ) {
 
 		return set_transient( 'wpseo_sitemap_cache_' . $type . '_' . $page, $sitemap, DAY_IN_SECONDS );
+	}
+
+	/**
+	 * Delete cache transients for index and specific type.
+	 *
+	 * Always deletes the main index sitemaps cache, as that's always invalidated by any other change.
+	 *
+	 * @param string $type Sitemap type to invalidate.
+	 *
+	 * @return string|boolean Query result.
+	 */
+	static public function invalidate( $type ) {
+
+		delete_transient( 'wpseo_sitemap_cache_1' );
+		delete_transient( 'wpseo_sitemap_cache_' . $type );
+
+		return self::clear( array( $type ) );
 	}
 
 	/**

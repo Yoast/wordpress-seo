@@ -325,3 +325,15 @@ function wpseo_xml_redirect_sitemap() {
 		exit;
 	}
 }
+
+/**
+ * This invalidates our XML Sitemaps cache.
+ *
+ * @deprecated
+ * @see WPSEO_Sitemaps_Cache
+ *
+ * @param string $type Type of sitemap to invalidate.
+ */
+function wpseo_invalidate_sitemap_cache( $type ) {
+	WPSEO_Sitemaps_Cache::invalidate( $type );
+}

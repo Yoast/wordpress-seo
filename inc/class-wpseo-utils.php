@@ -502,7 +502,7 @@ class WPSEO_Utils {
 	public static function clear_transient_cache( $option ) {
 		if ( isset( self::$cache_clear[ $option ] ) ) {
 			if ( '' !== self::$cache_clear[ $option ] ) {
-				wpseo_invalidate_sitemap_cache( self::$cache_clear[ $option ] );
+				WPSEO_Sitemaps_Cache::invalidate( self::$cache_clear[ $option ] );
 			}
 			else {
 				WPSEO_Sitemaps_Cache::clear();
