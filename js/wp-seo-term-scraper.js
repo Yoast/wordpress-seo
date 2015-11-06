@@ -278,6 +278,9 @@
 	 * this way we can use the wp tinyMCE editor on the descriptionfield.
 	 */
 	var tinyMCEReplacer = function() {
+		//gets the textNode from the original textField.
+		var textNode = jQuery( '.term-description-wrap' ).find( 'td' ).find( 'textarea' ).val();
+
 		var newEditor = document.getElementById( 'wp-description-wrap' );
 		newEditor.style.display = 'none';
 		var text = jQuery( '.term-description-wrap' ).find( 'td' ).find( 'p' );
@@ -286,6 +289,7 @@
 		//append the editor and the helptext
 		jQuery( '.term-description-wrap' ).find( 'td' ).append( newEditor ).append( text );
 		newEditor.style.display = 'block';
+		document.getElementById('description').value = textNode;
 	};
 
 	jQuery( document ).ready(function() {
