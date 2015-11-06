@@ -135,9 +135,10 @@ YoastSEO.StringHelper.prototype.sanitizeKeyword = function( keyword ) {
 };
 
 /**
+ * Escapes HTML characters from strings.
  *
  * @param textString
- * @returns {*}
+ * @returns {string}
  */
 YoastSEO.StringHelper.prototype.escapeHTML = function( textString ) {
 	if ( typeof textString === "string" ) {
