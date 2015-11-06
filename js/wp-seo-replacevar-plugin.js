@@ -25,8 +25,8 @@
 		YoastSEO.app.registerModification( 'snippet_meta', callback, 'replaceVariablePlugin', 10 );
 
 		//modifications applied on the getData from the scrapers to use templates
-		YoastSEO.app.registerModification( 'data_pageTitle', callback, 'replaceVariablePlugin', 10);
-		YoastSEO.app.registerModification( 'data_metaDesc', callback, 'replaceVariablePlugin', 10);
+		YoastSEO.app.registerModification( 'data_page_title', callback, 'replaceVariablePlugin', 10);
+		YoastSEO.app.registerModification( 'data_meta_desc', callback, 'replaceVariablePlugin', 10);
 	};
 
 	/**
