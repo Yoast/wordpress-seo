@@ -185,12 +185,17 @@
 	 * creates SVG for the overall score.
 	 */
 	TermScraper.prototype.saveScores = function( score ) {
+		var cssClass;
 		var tmpl = wp.template('score_svg');
+
 		document.getElementById( YoastSEO.analyzerArgs.targets.overall ).innerHTML = tmpl();
 		document.getElementById( 'hidden_wpseo_linkdex' ).value = score;
 		jQuery( window ).trigger( 'YoastSEO:numericScore', score );
 
 		this.updateKeywordTabContent( $( '#wpseo_focuskw' ).val(), score );
+
+		cssClass = YoastSEO.ScoreFormatter.prototype.scoreRating( score );
+		$( '.yst-traffic-light' ).attr( 'class', 'yst-traffic-light ' + cssClass );
 	};
 
 	/**

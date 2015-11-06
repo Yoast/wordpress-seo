@@ -293,10 +293,15 @@
 	 * @param {string} score
 	 */
 	PostScraper.prototype.saveScores = function( score ) {
+		var cssClass;
+
 		if ( this.isMainKeyword( currentKeyword ) ) {
 			var tmpl = wp.template( 'score_svg' );
 			document.getElementById( 'wpseo-score' ).innerHTML = tmpl();
 			document.getElementById( 'yoast_wpseo_linkdex' ).value = score;
+
+			cssClass = YoastSEO.ScoreFormatter.prototype.scoreRating( score );
+			$( '.yst-traffic-light' ).attr( 'class', 'yst-traffic-light ' + cssClass );
 		}
 
 		// If multi keyword isn't available we need to update the first tab (content)
