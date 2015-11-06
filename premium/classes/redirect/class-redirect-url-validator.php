@@ -24,8 +24,13 @@ class WPSEO_Redirect_URL_Validator extends WPSEO_Redirect_Validator {
 			return true;
 		}
 
+		// When current request is a 410 request, there is no endpoint to validate.
+		if ( $this->is_410( $type ) ) {
+			return false;
+		}
+
 		// Validate if the target url is accessible.
-		if ( $this->validate_accessible( $new_url, $type ) ) {
+		if ( $this->validate_accessible( $new_url ) ) {
 			return true;
 		}
 
@@ -51,14 +56,10 @@ class WPSEO_Redirect_URL_Validator extends WPSEO_Redirect_Validator {
 	 * Check if the current URL is accessible
 	 *
 	 * @param string $url  URL to validate it accessibility.
-	 * @param string $type The type of redirect.
 	 *
-	 * @return int|string
+	 * @return bool
 	 */
-	private function validate_accessible( $url, $type ) {
-		if ( $type === '401' ) {
-			return false;
-		}
+	private function validate_accessible( $url ) {
 
 		// Do the request.
 		$decoded_url   = rawurldecode( $url );
