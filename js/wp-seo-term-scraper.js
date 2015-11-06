@@ -376,6 +376,6 @@
 		termScraper.initKeywordTabTemplate();
 
 		//init Plugins
-		window.yoastReplaceVarPlugin = new YoastReplaceVarPlugin();
+		new YoastReplaceVarPlugin();
 	} );
 }( jQuery ));
