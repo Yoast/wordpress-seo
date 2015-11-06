@@ -5,6 +5,8 @@
 
 /**
  * Test class for testing the url redirect validation.
+ *
+ * @covers WPSEO_Redirect_URL_Validator
  */
 class WPSEO_Redirect_URL_Validator_Test extends WPSEO_UnitTestCase {
 
