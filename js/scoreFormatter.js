@@ -24,16 +24,14 @@ YoastSEO.ScoreFormatter = function( args ) {
  * Renders the score in the HTML.
  */
 YoastSEO.ScoreFormatter.prototype.renderScore = function() {
-	this.outputScore( this.i18n );
+	this.outputScore();
 	this.outputOverallScore();
 };
 
 /**
  * creates the list for showing the results from the analyzerscorer
- *
- * @param {Jed} i18n An translation object to translate the strings with.
  */
-YoastSEO.ScoreFormatter.prototype.outputScore = function( i18n ) {
+YoastSEO.ScoreFormatter.prototype.outputScore = function() {
 	var seoScoreText, scoreRating;
 
 	this.sortScores();
@@ -51,7 +49,7 @@ YoastSEO.ScoreFormatter.prototype.outputScore = function( i18n ) {
 			scoreSpan.className = "wpseo-score-icon " + scoreRating;
 			newLI.appendChild( scoreSpan );
 
-			seoScoreText = this.getSEOScoreText( scoreRating, i18n );
+			seoScoreText = this.getSEOScoreText( scoreRating );
 
 			var screenReaderDiv = document.createElement( "span" );
 			screenReaderDiv.className = "screen-reader-text";
@@ -132,32 +130,31 @@ YoastSEO.ScoreFormatter.prototype.scoreRating = function( score ) {
  * Returns a translated score description based on the textual score rating
  *
  * @param {string} scoreRating Textual score rating, can be retrieved with scoreRating from the actual score.
- * @param {Jed}    i18n A translation object to use when translating the strings.
  *
  * @return {string}
  */
-YoastSEO.ScoreFormatter.prototype.getSEOScoreText = function( scoreRating, i18n ) {
+YoastSEO.ScoreFormatter.prototype.getSEOScoreText = function( scoreRating ) {
 	var scoreText = "";
 
 	switch ( scoreRating ) {
 		case "na":
-			scoreText = i18n.dgettext( "js-text-analysis", "No keyword" );
+			scoreText = this.i18n.dgettext( "js-text-analysis", "No keyword" );
 			break;
 
 		case "bad":
-			scoreText = i18n.dgettext( "js-text-analysis", "Bad SEO score" );
+			scoreText = this.i18n.dgettext( "js-text-analysis", "Bad SEO score" );
 			break;
 
 		case "poor":
-			scoreText = i18n.dgettext( "js-text-analysis", "Poor SEO score" );
+			scoreText = this.i18n.dgettext( "js-text-analysis", "Poor SEO score" );
 			break;
 
 		case "ok":
-			scoreText = i18n.dgettext( "js-text-analysis", "Ok SEO score" );
+			scoreText = this.i18n.dgettext( "js-text-analysis", "Ok SEO score" );
 			break;
 
 		case "good":
-			scoreText = i18n.dgettext( "js-text-analysis", "Good SEO score" );
+			scoreText = this.i18n.dgettext( "js-text-analysis", "Good SEO score" );
 			break;
 	}
 
