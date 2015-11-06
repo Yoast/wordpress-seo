@@ -140,7 +140,7 @@ YoastSEO.StringHelper.prototype.sanitizeKeyword = function( keyword ) {
  * @returns {*}
  */
 YoastSEO.StringHelper.prototype.escapeHTML = function( textString ) {
-	if( typeof textString === "string" ) {
+	if ( typeof textString === "string" ) {
 		textString = textString.replace( /&/g, "&amp;" )
 					.replace( /</g, "&lt;" )
 					.replace( />/g, "&gt;" )
