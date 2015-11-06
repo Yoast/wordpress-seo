@@ -17,6 +17,12 @@ YoastSEO.ScoreFormatter = function( args ) {
 	this.totalScore = 0;
 	this.keyword = args.keyword;
 	this.saveScores = args.saveScores;
+};
+
+/**
+ * Renders the score in the HTML.
+ */
+YoastSEO.ScoreFormatter.prototype.renderScore = function() {
 	this.outputScore();
 	this.outputOverallScore();
 };

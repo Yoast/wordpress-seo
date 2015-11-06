@@ -1344,6 +1344,7 @@ YoastSEO.App.prototype.runAnalyzer = function() {
 		keyword: this.rawData.keyword,
 		saveScores: this.callbacks.saveScores
 	} );
+	this.scoreFormatter.renderScore();
 
 	if ( this.config.dynamicDelay ) {
 		this.endTime();
@@ -2091,6 +2092,12 @@ YoastSEO.ScoreFormatter = function( args ) {
 	this.totalScore = 0;
 	this.keyword = args.keyword;
 	this.saveScores = args.saveScores;
+};
+
+/**
+ * Renders the score in the HTML.
+ */
+YoastSEO.ScoreFormatter.prototype.renderScore = function() {
 	this.outputScore();
 	this.outputOverallScore();
 };

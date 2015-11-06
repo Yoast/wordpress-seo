@@ -388,6 +388,7 @@ YoastSEO.App.prototype.runAnalyzer = function() {
 		keyword: this.rawData.keyword,
 		saveScores: this.callbacks.saveScores
 	} );
+	this.scoreFormatter.renderScore();
 
 	if ( this.config.dynamicDelay ) {
 		this.endTime();
