@@ -17,14 +17,18 @@ YoastSEO.ScoreFormatter = function( args ) {
 	this.totalScore = 0;
 	this.keyword = args.keyword;
 	this.saveScores = args.saveScores;
-	this.outputScore();
+	this.outputScore( args.i18n );
 	this.outputOverallScore();
 };
 
 /**
  * creates the list for showing the results from the analyzerscorer
+ *
+ * @param {Jed} i18n An translation object to translate the strings with.
  */
-YoastSEO.ScoreFormatter.prototype.outputScore = function() {
+YoastSEO.ScoreFormatter.prototype.outputScore = function( i18n ) {
+	var seoScoreText, scoreRating;
+
 	this.sortScores();
 	var outputTarget = document.getElementById( this.outputTarget );
 	outputTarget.innerHTML = "";
@@ -32,14 +36,20 @@ YoastSEO.ScoreFormatter.prototype.outputScore = function() {
 	newList.className = "wpseoanalysis";
 	for ( var i = 0; i < this.scores.length; i++ ) {
 		if ( this.scores[ i ].text !== "" ) {
+			scoreRating = this.scoreRating( this.scores[ i ].score );
+
 			var newLI = document.createElement( "li" );
 			newLI.className = "score";
 			var scoreSpan = document.createElement( "span" );
-			scoreSpan.className = "wpseo-score-icon " + this.scoreRating( this.scores[ i ].score );
+			scoreSpan.className = "wpseo-score-icon " + scoreRating;
 			newLI.appendChild( scoreSpan );
+
+			seoScoreText = this.getSEOScoreText( scoreRating, i18n );
+
 			var screenReaderDiv = document.createElement( "span" );
 			screenReaderDiv.className = "screen-reader-text";
-			screenReaderDiv.textContent = "seo score " + this.scoreRating( this.scores[ i ].score );
+			screenReaderDiv.textContent = seoScoreText;
+
 			newLI.appendChild( screenReaderDiv );
 			var textSpan = document.createElement( "span" );
 			textSpan.className = "wpseo-score-text";
@@ -109,4 +119,40 @@ YoastSEO.ScoreFormatter.prototype.scoreRating = function( score ) {
 			break;
 	}
 	return scoreRate;
+};
+
+/**
+ * Returns a translated score description based on the textual score rating
+ *
+ * @param {string} scoreRating Textual score rating, can be retrieved with scoreRating from the actual score.
+ * @param {Jed}    i18n A translation object to use when translating the strings.
+ *
+ * @return {string}
+ */
+YoastSEO.ScoreFormatter.prototype.getSEOScoreText = function( scoreRating, i18n ) {
+	var scoreText = "";
+
+	switch ( scoreRating ) {
+		case "na":
+			scoreText = i18n.dgettext( "js-text-analysis", "No keyword" );
+			break;
+
+		case "bad":
+			scoreText = i18n.dgettext( "js-text-analysis", "Bad SEO score" );
+			break;
+
+		case "poor":
+			scoreText = i18n.dgettext( "js-text-analysis", "Poor SEO score" );
+			break;
+
+		case "ok":
+			scoreText = i18n.dgettext( "js-text-analysis", "Ok SEO score" );
+			break;
+
+		case "good":
+			scoreText = i18n.dgettext( "js-text-analysis", "Good SEO score" );
+			break;
+	}
+
+	return scoreText;
 };
