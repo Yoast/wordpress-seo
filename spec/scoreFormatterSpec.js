@@ -17,15 +17,15 @@ describe("A function to transform a textual score into a description", function(
 	});
 
 	it("should know how to transform the score", function() {
-		expect(scoreFormatter.getSEOScoreText('na') ).toBe("No keyword");
-		expect(scoreFormatter.getSEOScoreText('bad') ).toBe("Bad SEO score");
-		expect(scoreFormatter.getSEOScoreText('poor') ).toBe("Poor SEO score");
-		expect(scoreFormatter.getSEOScoreText('ok') ).toBe("Ok SEO score");
-		expect(scoreFormatter.getSEOScoreText('good') ).toBe("Good SEO score");
+		expect(scoreFormatter.getSEOScoreText('na')).toBe("No keyword");
+		expect(scoreFormatter.getSEOScoreText('bad')).toBe("Bad SEO score");
+		expect(scoreFormatter.getSEOScoreText('poor')).toBe("Poor SEO score");
+		expect(scoreFormatter.getSEOScoreText('ok')).toBe("Ok SEO score");
+		expect(scoreFormatter.getSEOScoreText('good')).toBe("Good SEO score");
 	});
 
 	it("should return an empty string with invalid scores", function() {
-		expect(scoreFormatter.getSEOScoreText('') ).toBe("");
-		expect(scoreFormatter.getSEOScoreText('some invalid string') ).toBe("");
+		expect(scoreFormatter.getSEOScoreText('')).toBe("");
+		expect(scoreFormatter.getSEOScoreText('some invalid string')).toBe("");
 	})
 });
