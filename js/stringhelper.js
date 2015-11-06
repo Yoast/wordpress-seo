@@ -135,6 +135,22 @@ YoastSEO.StringHelper.prototype.sanitizeKeyword = function( keyword ) {
 };
 
 /**
+ *
+ * @param textString
+ * @returns {*}
+ */
+YoastSEO.StringHelper.prototype.escapeHTML = function( textString ) {
+	if( typeof textString === "string" ) {
+		textString = textString.replace( /&/g, "&amp;" )
+					.replace( /</g, "&lt;" )
+					.replace( />/g, "&gt;" )
+					.replace( /\"/, "&quot;" )
+					.replace( /\'/g, "&#39;" );
+	}
+	return textString;
+};
+
+/**
  * Checks if the stringhelper is already initialized. Returns stringHelper.
  *
  * @returns {YoastSEO.StringHelper}
@@ -145,3 +161,4 @@ YoastSEO.getStringHelper = function() {
 	}
 	return YoastSEO.cachedStringHelper;
 };
+
