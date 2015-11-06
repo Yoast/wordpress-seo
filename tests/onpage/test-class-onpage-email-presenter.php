@@ -19,7 +19,7 @@ class WPSEO_OnPage_Email_Presenter_Test extends WPSEO_UnitTestCase {
 		);
 
 		$this->assertContains(
-			'Yoast SEO has detected that ' . home_url() . ' can be indexed.<br /><br />Indexation powered by',
+			'Yoast SEO has detected that ' . home_url() . ' can be indexed.<br /><br />Indexing powered by',
 			$class_instance->get_message()
 		);
 	}
@@ -57,7 +57,7 @@ class WPSEO_OnPage_Email_Presenter_Test extends WPSEO_UnitTestCase {
 		);
 
 		$this->assertContains(
-			'Yoast SEO has detected that ' . home_url() . ' can be indexed again.<br /><br />Indexation powered by',
+			'Yoast SEO has detected that ' . home_url() . ' can be indexed again.<br /><br />Indexing powered by',
 			$class_instance->get_message()
 		);
 	}

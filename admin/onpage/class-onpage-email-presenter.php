@@ -51,7 +51,7 @@ class WPSEO_OnPage_Email_Presenter {
 
 		$powered_by = sprintf(
 			/* translators: 1: opens a link to yoast.com. 2: closes the link 3: opens a link to onpage.org */
-			__( 'Indexation powered by %1$sYoast%2$s and %3$sOnPage.org%2$s.', 'wordpress-seo' ),
+			__( 'Indexing powered by %1$sYoast%2$s and %3$sOnPage.org%2$s.', 'wordpress-seo' ),
 			'<a href="https://yoast.com" target="_blank">',
 			'</a>',
 			'<a href="https://en.onpage.org/lp/yoast/?op_campaign=638516a5c963f978&utm_campaign=free&utm_medium=link&utm_source=yoast&offer_id=2&aff_id=872&op_language=en&op_country=-" target="_blank">'
