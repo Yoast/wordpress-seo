@@ -107,7 +107,7 @@ YoastSEO.ScoreFormatter.prototype.scoreRating = function( score ) {
  * @returns {string} scoreRate
  */
 YoastSEO.ScoreFormatter.prototype.overallScoreRating = function( score ) {
-	if( typeof score === "number"){
+	if ( typeof score === "number" ) {
 		score = ( score / 10 );
 	}
 	return this.scoreRating( score );

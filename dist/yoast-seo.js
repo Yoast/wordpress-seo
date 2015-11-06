@@ -2141,9 +2141,9 @@ YoastSEO.ScoreFormatter.prototype.outputOverallScore = function() {
 	var overallTarget = document.getElementById( this.overallTarget );
 
 	if ( overallTarget ) {
-		overallTarget.className = "overallScore " + this.scoreRating( Math.round( this.overallScore / 10 ) );
+		overallTarget.className = "overallScore " + this.overallScoreRating( Math.round( this.overallScore ) );
 		if ( this.keyword === "" ) {
-			overallTarget.className = "overallScore " + this.scoreRating( "na" );
+			overallTarget.className = "overallScore " + this.overallScoreRating( "na" );
 		}
 	}
 
@@ -2152,8 +2152,8 @@ YoastSEO.ScoreFormatter.prototype.outputOverallScore = function() {
 
 /**
  * Retuns a string that is used as a CSSclass, based on the numeric score or the NA string.
- * @param score
- * @returns scoreRate
+ * @param {number|string} score
+ * @returns {string} scoreRate
  */
 YoastSEO.ScoreFormatter.prototype.scoreRating = function( score ) {
 	var scoreRate;
@@ -2173,6 +2173,18 @@ YoastSEO.ScoreFormatter.prototype.scoreRating = function( score ) {
 			break;
 	}
 	return scoreRate;
+};
+
+/**
+ * Divides the total score by ten and calls the scoreRating function.
+ * @param {number|string} score
+ * @returns {string} scoreRate
+ */
+YoastSEO.ScoreFormatter.prototype.overallScoreRating = function( score ) {
+	if ( typeof score === "number" ) {
+		score = ( score / 10 );
+	}
+	return this.scoreRating( score );
 };
 ;/* jshint browser: true */
 /* global YoastSEO: true */
