@@ -300,7 +300,7 @@
 			document.getElementById( 'wpseo-score' ).innerHTML = tmpl();
 			document.getElementById( 'yoast_wpseo_linkdex' ).value = score;
 
-			cssClass = YoastSEO.ScoreFormatter.prototype.scoreRating( score );
+			cssClass = YoastSEO.app.scoreFormatter.scoreRating( parseInt( score, 10 ) );
 			$( '.yst-traffic-light' ).attr( 'class', 'yst-traffic-light ' + cssClass );
 		}
 

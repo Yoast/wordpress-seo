@@ -194,7 +194,7 @@
 
 		this.updateKeywordTabContent( $( '#wpseo_focuskw' ).val(), score );
 
-		cssClass = YoastSEO.ScoreFormatter.prototype.scoreRating( score );
+		cssClass = YoastSEO.app.scoreFormatter.scoreRating( parseInt( score, 10 ) );
 		$( '.yst-traffic-light' ).attr( 'class', 'yst-traffic-light ' + cssClass );
 	};
 
