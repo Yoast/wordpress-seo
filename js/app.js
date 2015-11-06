@@ -163,8 +163,8 @@ YoastSEO.App.prototype.constructI18n = function( translations ) {
 YoastSEO.App.prototype.getData = function() {
 	this.rawData = this.callbacks.getData();
 	if ( this.pluggable.loaded ) {
-		this.rawData.pageTitle = this.pluggable._applyModifications( "data_pageTitle", this.rawData.pageTitle );
-		this.rawData.meta = this.pluggable._applyModifications( "data_metaDesc", this.rawData.meta );
+		this.rawData.pageTitle = this.pluggable._applyModifications( "data_page_title", this.rawData.pageTitle );
+		this.rawData.meta = this.pluggable._applyModifications( "data_meta_desc", this.rawData.meta );
 	}
 };
 
