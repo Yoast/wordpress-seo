@@ -4,9 +4,9 @@
  */
 
 /**
- * Test class for testing WPSEO_Redirect_Presenter
+ * Test class for testing the url redirect manager
  *
- * Class WPSEO_URL_Redirect_Manager_Test
+ * @covers WPSEO_Redirect_URL_Manager
  */
 class WPSEO_URL_Redirect_Manager_Test extends WPSEO_UnitTestCase {
 
@@ -33,14 +33,8 @@ class WPSEO_URL_Redirect_Manager_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_search_url() {
 		$this->assertEquals( 'new', $this->class_instance->search_url( '/old' ) );
-	}
 
-	/**
-	 * Searching the redirects with a none-existing redirect
-	 *
-	 * @covers WPSEO_Redirect_URL_Manager::search_url
-	 */
-	public function test_search_none_existing_url() {
+		// This one doesn't exists.
 		$this->assertFalse( $this->class_instance->search_url( '/gold' ) );
 	}
 
@@ -97,16 +91,9 @@ class WPSEO_URL_Redirect_Manager_Test extends WPSEO_UnitTestCase {
 		 Because of PHP 5.2, this can not be done
 		 $this->assertArraySubset( array( 'add_redirect' => array( 'url' => 'added_redirect', 'type' => 301 ) ), $redirects );
 		 */
-	}
 
-	/**
-	 * Testing if an existing redirect won't be added
-	 *
-	 * @covers WPSEO_Redirect_URL_Manager::create_redirect
-	 */
-	public function test_add_existing_redirect() {
-		$is_created = $this->class_instance->create_redirect( 'old', 'is_new', 301 );
-		$this->assertFalse( $is_created );
+		// This redirect already exists, so it returns false.
+		$this->assertFalse( $this->class_instance->create_redirect( 'old', 'is_new', 301 ) );
 	}
 
 	/**
@@ -151,12 +138,19 @@ class WPSEO_URL_Redirect_Manager_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Test if result of get_validator is an instance of WPSEO_Redirect_URL_Validator
+	 *
+	 * @covers WPSEO_Redirect_URL_Manager::get_validator
+	 */
+	public function test_get_validator() {
+		$this->assertTrue( is_a( $this->class_instance->get_validator(), 'WPSEO_Redirect_URL_Validator' ) );
+	}
+
+	/**
 	 * Unset the class instance
 	 */
 	public function tearDown() {
 		$this->class_instance = null;
 	}
-
-
 
 }

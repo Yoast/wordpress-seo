@@ -11,7 +11,7 @@
 class WPSEO_Redirect_Test extends WPSEO_UnitTestCase {
 
 	/**
-	 * This variable is instantiated in setUp() and is a mock object. This is used for future use in the tests
+	 * This variable is instantiated in setUp().
 	 *
 	 * @var WPSEO_Redirect
 	 */
