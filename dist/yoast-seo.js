@@ -2271,7 +2271,7 @@ YoastSEO.SnippetPreview = function( refObj ) {
 	this.unformattedText = {
 		snippet_cite: this.refObj.rawData.snippetCite || "",
 		snippet_meta: this.refObj.rawData.snippetMeta || "",
-		snippet_title: this.refObj.rawData.snippetTitle || ""
+		snippet_title: this.refObj.rawData.pageTitle || ""
 	};
 	this.init();
 };
@@ -2309,10 +2309,8 @@ YoastSEO.SnippetPreview.prototype.htmlOutput = function() {
  * @returns {String}
  */
 YoastSEO.SnippetPreview.prototype.formatTitle = function() {
-	var title = this.refObj.rawData.snippetTitle;
-	if ( title === "" || typeof title === "undefined" ) {
-		title = this.refObj.rawData.pageTitle;
-	}
+	var title = this.refObj.rawData.pageTitle;
+
 	if ( title === "" || typeof title === "undefined" ) {
 		title = this.refObj.config.sampleText.title;
 	}
