@@ -125,9 +125,6 @@
 		for ( var i = 0; i < elems.length; i++ ) {
 			this.bindSnippetEvents( document.getElementById( elems [ i ] ), snippetPreview );
 		}
-		var title = document.getElementById( 'snippet_title' );
-		title.addEventListener( 'focus', snippetPreview.setSiteName.bind( snippetPreview ) );
-		title.addEventListener( 'blur', snippetPreview.unsetSiteName.bind( snippetPreview ) );
 	};
 
 	/**
@@ -194,7 +191,7 @@
 
 		this.updateKeywordTabContent( $( '#wpseo_focuskw' ).val(), score );
 
-		cssClass = YoastSEO.app.scoreFormatter.scoreRating( parseInt( score, 10 ) );
+		cssClass = YoastSEO.app.scoreFormatter.overallScoreRating( parseInt( score, 10 ) );
 		$( '.yst-traffic-light' ).attr( 'class', 'yst-traffic-light ' + cssClass );
 	};
 
@@ -224,7 +221,7 @@
 		placeholder = keyword.length > 0 ? keyword : '...';
 
 		score = parseInt( score, 10 );
-		score = YoastSEO.ScoreFormatter.prototype.scoreRating( score );
+		score = YoastSEO.ScoreFormatter.prototype.overallScoreRating( score );
 
 		keyword_tab = wp.template( 'keyword_tab' )({
 			keyword: keyword,
