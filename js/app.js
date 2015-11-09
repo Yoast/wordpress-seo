@@ -378,7 +378,7 @@ YoastSEO.App.prototype.runAnalyzer = function() {
 
 	var keyword = this.stringHelper.sanitizeKeyword( this.rawData.keyword );
 	if ( keyword === "" ) {
-		this.analyzerData.queue = [ "keyWordCheck", "wordCount", "fleschReading", "pageTitleLength", "urlStopwords", "metaDescription" ];
+		this.analyzerData.queue = [ "keyWordCheck", "wordCount", "fleschReading", "pageTitleLength", "urlStopwords", "metaDescriptionLength" ];
 	}
 
 	if ( typeof this.pageAnalyzer === "undefined" ) {
@@ -398,8 +398,10 @@ YoastSEO.App.prototype.runAnalyzer = function() {
 		outputTarget: this.config.targets.output,
 		overallTarget: this.config.targets.overall,
 		keyword: this.rawData.keyword,
-		saveScores: this.callbacks.saveScores
+		saveScores: this.callbacks.saveScores,
+		i18n: this.i18n
 	} );
+	this.scoreFormatter.renderScore();
 
 	if ( this.config.dynamicDelay ) {
 		this.endTime();
