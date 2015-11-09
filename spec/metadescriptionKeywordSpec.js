@@ -39,7 +39,7 @@ describe("a test matching the keyword in the metadescription", function(){
 	it("returns no matches for the keyword, since there is no metadescription", function(){
 		var metaAnalyzer = Factory.buildAnalyzer(metaArgs3);
 		var result = metaAnalyzer.metaDescriptionKeyword();
-		expect(result[0].result).toBe(0);
+		expect(result[0].result).toBe(-1);
 	});
 });
 
@@ -52,7 +52,7 @@ describe("a test matching the keyword in the metadescription", function(){
 	it("returns no matches for the keyword, since the keyword is not set", function(){
 		var metaAnalyzer = Factory.buildAnalyzer(metaArgs4);
 		var result = metaAnalyzer.metaDescriptionKeyword();
-		expect(result[0].result).toBe(0);
+		expect(result[0].result).toBe(-1);
 	});
 });
 
@@ -65,6 +65,6 @@ describe("a test matching the keyword in the metadescription", function(){
 	it("returns no matches for the keyword, since the keyword is not set and the meta is empty", function(){
 		var metaAnalyzer = Factory.buildAnalyzer(metaArgs5);
 		var result = metaAnalyzer.metaDescriptionKeyword();
-		expect(result[0].result).toBe(0);
+		expect(result[0].result).toBe(-1);
 	});
 });
