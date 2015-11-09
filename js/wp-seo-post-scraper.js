@@ -229,7 +229,6 @@
 		elem.addEventListener( 'keyup', snippetPreview.setUnformattedText.bind( snippetPreview ) );
 		elem.addEventListener( 'paste', snippetPreview.setUnformattedText.bind( snippetPreview ) );
 		elem.addEventListener( 'cut', snippetPreview.setUnformattedText.bind( snippetPreview ) );
-
 		elem.addEventListener( 'click', snippetPreview.setFocus.bind( snippetPreview ) );
 
 		//adds the showIcon class to show the editIcon;
@@ -272,6 +271,19 @@
 
 	/**
 	 * Updates the snippet values, is bound by the loader when generating the elements for the snippet.
+	 * calls the update snippet values to save snippet in the hidden fields
+	 * calls checkTextLength to update the snippet editor fields (move too long texts)
+	 * refreshes the app to run with new data.
+	 *
+	 * @param {Object} ev
+	 */
+	PostScraper.prototype.updateSnippet = function ( ev ) {
+		this.updateSnippetValues( ev );
+		YoastSEO.app.snippetPreview.checkTextLength( ev );
+		YoastSEO.app.refresh();
+	};
+
+	/**
 	 * Uses the unformattedText object of the snippetpreview if the textFeedback function has put a string there (if text was too long).
 	 * clears this after use.
 	 *
@@ -284,10 +296,6 @@
 			ev.currentTarget.textContent = YoastSEO.app.snippetPreview.unformattedText[ currentElement ];
 		}
 		this.setDataFromSnippet( dataFromSnippet, ev.currentTarget.id );
-
-		YoastSEO.app.snippetPreview.checkTextLength( ev );
-
-		YoastSEO.app.refresh();
 	};
 
 	/**
@@ -304,7 +312,7 @@
 			document.getElementById( 'wpseo-score' ).innerHTML = tmpl();
 			document.getElementById( 'yoast_wpseo_linkdex' ).value = score;
 
-			cssClass = YoastSEO.app.scoreFormatter.overallScoreRating( parseInt( score, 10 ) );
+		//	cssClass = YoastSEO.app.scoreFormatter.overallScoreRating( parseInt( score, 10 ) );
 			$( '.yst-traffic-light' ).attr( 'class', 'yst-traffic-light ' + cssClass );
 		}
 
@@ -370,7 +378,7 @@
 		}
 		placeholder = keyword.length > 0 ? keyword : '...';
 
-		score = YoastSEO.ScoreFormatter.prototype.overallScoreRating( score );
+		//score = YoastSEO.ScoreFormatter.prototype.overallScoreRating( score );
 
 		keyword_tab = wp.template( 'keyword_tab' )({
 			keyword: keyword,
@@ -468,7 +476,7 @@
 			callbacks: {
 				getData: postScraper.getData.bind( postScraper ),
 				bindElementEvents: postScraper.bindElementEvents.bind( postScraper ),
-				updateSnippetValues: postScraper.updateSnippetValues.bind( postScraper ),
+				updateSnippetValues: postScraper.updateSnippet.bind( postScraper ),
 				saveScores: postScraper.saveScores.bind( postScraper )
 			}
 		};

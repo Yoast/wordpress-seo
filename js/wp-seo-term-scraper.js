@@ -259,11 +259,21 @@
 	};
 
 	/**
-	 * refreshes the app when snippet is updated.
-	 */
-	/**
 	 * Updates the snippet values, is bound by the loader when generating the elements for the snippet.
-	 * Uses the unformattedText object of the if the textFeedback function has put a string there (if text was too long).
+	 * calls the update snippet values to save snippet in the hidden fields
+	 * calls checkTextLength to update the snippet editor fields (move too long texts)
+	 * refreshes the app to run with new data.
+	 *
+	 * @param {Object} ev
+	 */
+	TermScraper.prototype.updateSnippet = function ( ev ) {
+		this.updateSnippetValues( ev );
+		YoastSEO.app.snippetPreview.checkTextLength( ev );
+		YoastSEO.app.refresh();
+	};
+
+	/**
+	 * Uses the unformattedText object of the snippetpreview if the textFeedback function has put a string there (if text was too long).
 	 * clears this after use.
 	 *
 	 * @param {Object} ev
@@ -275,10 +285,6 @@
 			ev.currentTarget.textContent = YoastSEO.app.snippetPreview.unformattedText[ currentElement ];
 		}
 		this.setDataFromSnippet( dataFromSnippet, ev.currentTarget.id );
-
-		YoastSEO.app.snippetPreview.checkTextLength( ev );
-
-		YoastSEO.app.refresh();
 	};
 
 	/**
@@ -353,7 +359,7 @@
 			callbacks: {
 				getData: termScraper.getData.bind( termScraper ),
 				bindElementEvents: termScraper.bindElementEvents.bind( termScraper ),
-				updateSnippetValues: termScraper.updateSnippetValues.bind( termScraper ),
+				updateSnippetValues: termScraper.updateSnippet.bind( termScraper ),
 				saveScores: termScraper.saveScores.bind( termScraper )
 			}
 		};
