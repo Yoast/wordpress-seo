@@ -124,6 +124,8 @@
 				currentKeyword = val;
 				break;
 			case 'title':
+				val = document.getElementById( 'title' ).value;
+				break;
 			case 'snippetTitle':
 				val = document.getElementById( 'yoast_wpseo_title' ).value;
 				break;
