@@ -747,12 +747,12 @@ class WPSEO_Utils {
 	 * Clears the transient cache when a given option is updated, if that option has been registered before
 	 *
 	 * @deprecated
-	 * @see WPSEO_Sitemaps_Cache::register_clear_on_option_update()
+	 * @see WPSEO_Sitemaps_Cache::clear_on_option_update()
 	 *
 	 * @param string $option The option that's being updated.
 	 */
 	public static function clear_transient_cache( $option ) {
-		WPSEO_Sitemaps_Cache::register_clear_on_option_update( $option );
+		WPSEO_Sitemaps_Cache::clear_on_option_update( $option );
 	}
 
 	/**
