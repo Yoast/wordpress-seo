@@ -134,11 +134,11 @@
 	 */
 	TermScraper.prototype.bindSnippetEvents = function( elem, snippetPreview ) {
 		elem.addEventListener( 'keydown', snippetPreview.disableEnter.bind( snippetPreview ) );
-		elem.addEventListener( 'blur', snippetPreview.checkTextLength.bind( snippetPreview ) );
 		//textFeedback is given on input (when user types or pastests), but also on focus. If a string that is too long is being recalled
 		//from the saved values, it gets the correct classname right away.
 		elem.addEventListener( 'input', snippetPreview.textFeedback.bind( snippetPreview ) );
 		elem.addEventListener( 'focus', snippetPreview.textFeedback.bind( snippetPreview ) );
+		elem.addEventListener( 'blur', snippetPreview.textFeedback.bind( snippetPreview ) );
 		//shows edit icon by hovering over element
 		elem.addEventListener( 'mouseover', snippetPreview.showEditIcon.bind( snippetPreview ) );
 		//hides the edit icon onmouseout, on focus and on keyup. If user clicks or types AND moves his mouse, the edit icon could return while editting
@@ -147,8 +147,11 @@
 		elem.addEventListener( 'focus', snippetPreview.hideEditIcon.bind( snippetPreview ) );
 		elem.addEventListener( 'keyup', snippetPreview.hideEditIcon.bind( snippetPreview ) );
 
+		//adds 'paste' and 'cut' eventbindings to the snippetPreview to make sure event is triggered when c/p with mouse.
 		elem.addEventListener( 'focus', snippetPreview.getUnformattedText.bind( snippetPreview ) );
 		elem.addEventListener( 'keyup', snippetPreview.setUnformattedText.bind( snippetPreview ) );
+		elem.addEventListener( 'paste', snippetPreview.setUnformattedText.bind( snippetPreview ) );
+		elem.addEventListener( 'cut', snippetPreview.setUnformattedText.bind( snippetPreview ) );
 		elem.addEventListener( 'click', snippetPreview.setFocus.bind( snippetPreview ) );
 
 		//adds the showIcon class to show the editIcon;
@@ -272,6 +275,9 @@
 			ev.currentTarget.textContent = YoastSEO.app.snippetPreview.unformattedText[ currentElement ];
 		}
 		this.setDataFromSnippet( dataFromSnippet, ev.currentTarget.id );
+
+		YoastSEO.app.snippetPreview.checkTextLength( ev );
+
 		YoastSEO.app.refresh();
 	};
 
