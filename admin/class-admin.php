@@ -73,7 +73,7 @@ class WPSEO_Admin {
 
 		add_action( 'admin_init', array( 'WPSEO_Plugin_Conflict', 'hook_check_for_plugin_conflicts' ), 10, 1 );
 
-		WPSEO_Utils::register_cache_clear_option( 'wpseo',  '' );
+		WPSEO_Sitemaps_Cache::register_clear_on_option_update( 'wpseo' );
 	}
 
 	/**

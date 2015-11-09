@@ -8,6 +8,9 @@
  */
 class WPSEO_Sitemaps_Cache {
 
+	/** @var array $cache_clear Holds the options that, when updated, should cause the cache to clear. */
+	protected static $cache_clear = array();
+
 	/**
 	 * Hook methods for invalidation on necessary events.
 	 */
@@ -159,5 +162,33 @@ class WPSEO_Sitemaps_Cache {
 		}
 
 		return $wpdb->query( $query );
+	}
+
+	/**
+	 * Adds a hook that when given option is updated, the cache is cleared
+	 *
+	 * @param string $option Option name.
+	 * @param string $type   Sitemap type.
+	 */
+	public static function register_clear_on_option_update( $option, $type = '' ) {
+
+		self::$cache_clear[ $option ] = $type;
+		add_action( 'update_option', array( __CLASS__, 'clear_on_option_update' ) );
+	}
+
+	/**
+	 * Clears the transient cache when a given option is updated, if that option has been registered before
+	 *
+	 * @param string $option The option name that's being updated.
+	 *
+	 * @return string|bool Query result.
+	 */
+	public static function clear_on_option_update( $option ) {
+
+		if ( ! empty( self::$cache_clear[ $option ] ) ) {
+			return WPSEO_Sitemaps_Cache::invalidate( self::$cache_clear[ $option ] );
+		}
+
+		return WPSEO_Sitemaps_Cache::clear();
 	}
 }

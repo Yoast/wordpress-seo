@@ -17,13 +17,6 @@ class WPSEO_Utils {
 	public static $has_filters;
 
 	/**
-	 * Holds the options that, when updated, should cause the transient cache to clear
-	 *
-	 * @var array
-	 */
-	private static $cache_clear = array();
-
-	/**
 	 * Check whether the current user is allowed to access the configuration.
 	 *
 	 * @static
@@ -486,28 +479,26 @@ class WPSEO_Utils {
 	/**
 	 * Adds a hook that when given option is updated, the XML sitemap transient cache is cleared
 	 *
+	 * @deprecated
+	 * @see WPSEO_Sitemaps_Cache::register_clear_on_option_update()
+	 *
 	 * @param string $option Option name.
 	 * @param string $type   Sitemap type.
 	 */
 	public static function register_cache_clear_option( $option, $type = '' ) {
-		self::$cache_clear[ $option ] = $type;
-		add_action( 'update_option', array( 'WPSEO_Utils', 'clear_transient_cache' ) );
+		WPSEO_Sitemaps_Cache::register_clear_on_option_update( $option, $type );
 	}
 
 	/**
 	 * Clears the transient cache when a given option is updated, if that option has been registered before
 	 *
+	 * @deprecated
+	 * @see WPSEO_Sitemaps_Cache::register_clear_on_option_update()
+	 *
 	 * @param string $option The option that's being updated.
 	 */
 	public static function clear_transient_cache( $option ) {
-		if ( isset( self::$cache_clear[ $option ] ) ) {
-			if ( '' !== self::$cache_clear[ $option ] ) {
-				WPSEO_Sitemaps_Cache::invalidate( self::$cache_clear[ $option ] );
-			}
-			else {
-				WPSEO_Sitemaps_Cache::clear();
-			}
-		}
+		WPSEO_Sitemaps_Cache::register_clear_on_option_update( $option );
 	}
 
 	/**
