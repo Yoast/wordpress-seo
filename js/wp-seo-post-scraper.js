@@ -277,7 +277,7 @@
 	 *
 	 * @param {Object} ev
 	 */
-	PostScraper.prototype.updateSnippet = function ( ev ) {
+	PostScraper.prototype.updateSnippet = function( ev ) {
 		this.updateSnippetValues( ev );
 		YoastSEO.app.snippetPreview.checkTextLength( ev );
 		YoastSEO.app.refresh();
@@ -312,7 +312,7 @@
 			document.getElementById( 'wpseo-score' ).innerHTML = tmpl();
 			document.getElementById( 'yoast_wpseo_linkdex' ).value = score;
 
-		//	cssClass = YoastSEO.app.scoreFormatter.overallScoreRating( parseInt( score, 10 ) );
+			cssClass = YoastSEO.app.scoreFormatter.overallScoreRating( parseInt( score, 10 ) );
 			$( '.yst-traffic-light' ).attr( 'class', 'yst-traffic-light ' + cssClass );
 		}
 
@@ -378,7 +378,7 @@
 		}
 		placeholder = keyword.length > 0 ? keyword : '...';
 
-		//score = YoastSEO.ScoreFormatter.prototype.overallScoreRating( score );
+		score = YoastSEO.ScoreFormatter.prototype.overallScoreRating( score );
 
 		keyword_tab = wp.template( 'keyword_tab' )({
 			keyword: keyword,

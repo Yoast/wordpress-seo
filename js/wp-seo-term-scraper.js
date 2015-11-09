@@ -266,7 +266,7 @@
 	 *
 	 * @param {Object} ev
 	 */
-	TermScraper.prototype.updateSnippet = function ( ev ) {
+	TermScraper.prototype.updateSnippet = function( ev ) {
 		this.updateSnippetValues( ev );
 		YoastSEO.app.snippetPreview.checkTextLength( ev );
 		YoastSEO.app.refresh();
