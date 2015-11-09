@@ -244,7 +244,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 		placeholder = keyword.length > 0 ? keyword : '...';
 
 		score = parseInt( score, 10 );
-		score = YoastSEO.ScoreFormatter.prototype.scoreRating( score );
+		score = YoastSEO.ScoreFormatter.prototype.overallScoreRating( score );
 
 		templateArgs = {
 			keyword: keyword,
