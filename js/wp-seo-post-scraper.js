@@ -361,7 +361,7 @@
 		}
 		placeholder = keyword.length > 0 ? keyword : '...';
 
-		score = YoastSEO.ScoreFormatter.prototype.scoreRating( score );
+		score = YoastSEO.ScoreFormatter.prototype.overallScoreRating( score );
 
 		keyword_tab = wp.template( 'keyword_tab' )({
 			keyword: keyword,
