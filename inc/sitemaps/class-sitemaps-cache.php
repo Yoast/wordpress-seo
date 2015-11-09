@@ -76,7 +76,7 @@ class WPSEO_Sitemaps_Cache {
 	 *
 	 * @return string|boolean Query result.
 	 */
-	static public function invalidate( $type ) {
+	public static function invalidate( $type ) {
 
 		delete_transient( 'wpseo_sitemap_cache_1' );
 		delete_transient( 'wpseo_sitemap_cache_' . $type );
@@ -92,7 +92,7 @@ class WPSEO_Sitemaps_Cache {
 	 *
 	 * @return bool|string Query result.
 	 */
-	static public function invalidate_helper( $unused, $type ) {
+	public static function invalidate_helper( $unused, $type ) {
 		return self::invalidate( $type );
 	}
 
@@ -105,7 +105,7 @@ class WPSEO_Sitemaps_Cache {
 	 *
 	 * @return int|boolean Query result.
 	 */
-	static public function invalidate_post( $post_id ) {
+	public static function invalidate_post( $post_id ) {
 
 		if ( wp_is_post_revision( $post_id ) ) {
 			return false;
@@ -121,7 +121,7 @@ class WPSEO_Sitemaps_Cache {
 	 *
 	 * @return int|boolean Query result.
 	 */
-	static public function clear( $types = array() ) {
+	public static function clear( $types = array() ) {
 
 		global $wpdb;
 
