@@ -34,10 +34,6 @@ YoastSEO.SnippetPreview.prototype.init = function() {
 		this.output = this.htmlOutput();
 		this.renderOutput();
 	}
-	this.snippetSuffix = "";
-	if ( this.refObj.config.snippetSuffix !== "undefined" ) {
-		this.snippetSuffix = this.refObj.config.snippetSuffix;
-	}
 };
 
 /**
@@ -61,13 +57,11 @@ YoastSEO.SnippetPreview.prototype.htmlOutput = function() {
  */
 YoastSEO.SnippetPreview.prototype.formatTitle = function() {
 	var title = this.refObj.rawData.snippetTitle;
-	if ( title === "" ) {
+	if ( title === "" || typeof title === "undefined" ) {
 		title = this.refObj.rawData.pageTitle;
 	}
-	if ( title === "" ) {
+	if ( title === "" || typeof title === "undefined" ) {
 		title = this.refObj.config.sampleText.title;
-	} else {
-		title += this.snippetSuffix;
 	}
 	title = this.refObj.stringHelper.stripAllTags( title );
 	if ( this.refObj.rawData.keyword !== "" ) {
@@ -332,30 +326,6 @@ YoastSEO.SnippetPreview.prototype.getUnformattedText = function( ev ) {
 YoastSEO.SnippetPreview.prototype.setUnformattedText = function( ev ) {
 	var elem =  ev.currentTarget.id;
 	this.unformattedText[ elem ] = document.getElementById( elem ).textContent;
-};
-
-/**
- * Adds the siteName to the snippetTitle when editting starts, this adds the sitename to
- * the snippet_sitename that cannot be edited.
- * Sets the display property to inline-block of the snippet_title so we can set a width.
- * @param ev
- */
-YoastSEO.SnippetPreview.prototype.setSiteName = function( ev ) {
-	if ( ev.currentTarget.id === "snippet_title" ) {
-		document.getElementById( "snippet_sitename" ).textContent = this.snippetSuffix;
-		document.getElementById( "snippet_sitename" ).style.display = "inline-block";
-		document.getElementById( "snippet_title" ).style.display = "inline-block";
-	}
-};
-
-/**
- * Removes the siteName from the snippetTitle span when editing is finished, since it should only show
- * when editing.
- */
-YoastSEO.SnippetPreview.prototype.unsetSiteName = function() {
-	document.getElementById( "snippet_sitename" ).textContent = "";
-	document.getElementById( "snippet_title" ).style.display = "inline";
-	document.getElementById( "snippet_sitename" ).style.display = "inline";
 };
 
 /**

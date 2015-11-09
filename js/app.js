@@ -72,11 +72,12 @@ YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 YoastSEO.App = function( args ) {
 	this.config = this.extendConfig( args );
 	this.callbacks = this.config.callbacks;
-	this.rawData = this.callbacks.getData();
 
 	this.i18n = this.constructI18n( this.config.translations );
 	this.stringHelper = new YoastSEO.StringHelper();
 	this.pluggable = new YoastSEO.Pluggable( this );
+
+	this.getData();
 
 	this.showLoadingDialog();
 	this.createSnippetPreview();
@@ -157,10 +158,21 @@ YoastSEO.App.prototype.constructI18n = function( translations ) {
 };
 
 /**
+ * Retrieves data from the callbacks.getData and applies modification to store these in this.rawData.
+ */
+YoastSEO.App.prototype.getData = function() {
+	this.rawData = this.callbacks.getData();
+	if ( this.pluggable.loaded ) {
+		this.rawData.pageTitle = this.pluggable._applyModifications( "data_page_title", this.rawData.pageTitle );
+		this.rawData.meta = this.pluggable._applyModifications( "data_meta_desc", this.rawData.meta );
+	}
+};
+
+/**
  * Refreshes the analyzer and output of the analyzer
  */
 YoastSEO.App.prototype.refresh = function() {
-	this.rawData = this.callbacks.getData();
+	this.getData();
 	this.runAnalyzer();
 };
 
@@ -366,7 +378,7 @@ YoastSEO.App.prototype.runAnalyzer = function() {
 
 	var keyword = this.stringHelper.sanitizeKeyword( this.rawData.keyword );
 	if ( keyword === "" ) {
-		this.analyzerData.queue = [ "keyWordCheck", "wordCount", "fleschReading", "pageTitleLength", "urlStopwords", "metaDescription" ];
+		this.analyzerData.queue = [ "keyWordCheck", "wordCount", "fleschReading", "pageTitleLength", "urlStopwords", "metaDescriptionLength" ];
 	}
 
 	if ( typeof this.pageAnalyzer === "undefined" ) {
@@ -386,8 +398,10 @@ YoastSEO.App.prototype.runAnalyzer = function() {
 		outputTarget: this.config.targets.output,
 		overallTarget: this.config.targets.overall,
 		keyword: this.rawData.keyword,
-		saveScores: this.callbacks.saveScores
+		saveScores: this.callbacks.saveScores,
+		i18n: this.i18n
 	} );
+	this.scoreFormatter.renderScore();
 
 	if ( this.config.dynamicDelay ) {
 		this.endTime();
@@ -411,6 +425,7 @@ YoastSEO.App.prototype.modifyData = function( data ) {
  * Function to fire the analyzer when all plugins are loaded, removes the loading dialog.
  */
 YoastSEO.App.prototype.pluginsLoaded = function() {
+	this.getData();
 	this.removeLoadingDialog();
 	this.runAnalyzer();
 };
