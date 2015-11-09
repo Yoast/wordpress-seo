@@ -23,7 +23,6 @@ class WPSEO_Recalculate_Scores {
 	 * Constructing the object by setting the AJAX hooks
 	 */
 	public function __construct() {
-
 		// Loading the modal box.
 		$this->modal_box();
 	}
@@ -37,14 +36,14 @@ class WPSEO_Recalculate_Scores {
 
 		$progress = sprintf(
 			/* translators: 1: expands to a <span> containing the number of posts recalculated. 2: expands to a <strong> containing the total number of posts. */
-			__( 'Currently %1$s of %2$s posts recalculated.', 'wordpress-seo' ),
+			__( '%1$s of %2$s done.', 'wordpress-seo' ),
 			'<span id="wpseo_count">0</span>',
 			'<strong id="wpseo_count_total">' . $this->calculate_posts() . '</strong>'
 		);
 
 		?>
 		<div id="wpseo_recalculate" style="display:none;">
-			<p><?php esc_html_e( 'Recalculating the SEO scores of all the posts:', 'wordpress-seo' ); ?></p>
+			<p><?php esc_html_e( 'Recalculating SEO scores for all pieces of content with a focus keyword.', 'wordpress-seo' ); ?></p>
 
 			<div id="wpseo_progressbar"></div>
 			<p><?php echo $progress; ?></p>

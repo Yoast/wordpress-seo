@@ -324,7 +324,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		return new WPSEO_Metabox_Tab_Section(
 			'content',
-			'<span class="dashicons dashicons-yes"></span>',
+			'<span class="yst-traffic-light-container">' . $this->traffic_light_svg() . '</span>',
 			$tabs,
 			array(
 				'link_alt' => __( 'Content', 'wordpress-seo' ),
@@ -865,6 +865,52 @@ class WPSEO_Metabox extends WPSEO_Meta {
 					</g>
 				</svg>
 			</script>';
+	}
+
+	/**
+	 * Return the SVG for the traffic light in the metabox.
+	 */
+	public function traffic_light_svg() {
+		return <<<SVG
+<svg class="yst-traffic-light na" version="1.1" xmlns:x="&ns_extend;" xmlns:i="&ns_ai;" xmlns:graph="&ns_graphs;"
+	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:a="http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/"
+	 x="0px" y="0px" viewBox="0 0 30 47" enable-background="new 0 0 30 47" xml:space="preserve">
+<g id="BG_1_">
+</g>
+<g id="traffic_light">
+	<g>
+		<g>
+			<g>
+				<path fill="#5B2942" d="M22,0H8C3.6,0,0,3.6,0,7.9v31.1C0,43.4,3.6,47,8,47h14c4.4,0,8-3.6,8-7.9V7.9C30,3.6,26.4,0,22,0z
+					 M27.5,38.8c0,3.1-2.6,5.7-5.8,5.7H8.3c-3.2,0-5.8-2.5-5.8-5.7V8.3c0-1.5,0.6-2.9,1.7-4c1.1-1,2.5-1.6,4.1-1.6h13.4
+					c1.5,0,3,0.6,4.1,1.6c1.1,1.1,1.7,2.5,1.7,4V38.8z"/>
+			</g>
+			<g class="traffic-light-color traffic-light-red">
+				<ellipse fill="#C8C8C8" cx="15" cy="23.5" rx="5.7" ry="5.6"/>
+				<ellipse fill="#E31C15" cx="15" cy="10.9" rx="5.7" ry="5.6"/>
+				<ellipse fill="#C8C8C8" cx="15" cy="36.1" rx="5.7" ry="5.6"/>
+			</g>
+			<g class="traffic-light-color traffic-light-orange">
+				<ellipse fill="#F49A00" cx="15" cy="23.5" rx="5.7" ry="5.6"/>
+				<ellipse fill="#C8C8C8" cx="15" cy="10.9" rx="5.7" ry="5.6"/>
+				<ellipse fill="#C8C8C8" cx="15" cy="36.1" rx="5.7" ry="5.6"/>
+			</g>
+			<g class="traffic-light-color traffic-light-green">
+				<ellipse fill="#C8C8C8" cx="15" cy="23.5" rx="5.7" ry="5.6"/>
+				<ellipse fill="#C8C8C8" cx="15" cy="10.9" rx="5.7" ry="5.6"/>
+				<ellipse fill="#63B22B" cx="15" cy="36.1" rx="5.7" ry="5.6"/>
+			</g>
+			<g class="traffic-light-color traffic-light-empty">
+				<ellipse fill="#5B2942" cx="15" cy="23.5" rx="5.7" ry="5.6"/>
+				<ellipse fill="#5B2942" cx="15" cy="10.9" rx="5.7" ry="5.6"/>
+				<ellipse fill="#5B2942" cx="15" cy="36.1" rx="5.7" ry="5.6"/>
+			</g>
+		</g>
+	</g>
+</g>
+</svg>
+SVG;
+
 	}
 
 	/**

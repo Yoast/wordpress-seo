@@ -125,9 +125,6 @@
 		for ( var i = 0; i < elems.length; i++ ) {
 			this.bindSnippetEvents( document.getElementById( elems [ i ] ), snippetPreview );
 		}
-		var title = document.getElementById( 'snippet_title' );
-		title.addEventListener( 'focus', snippetPreview.setSiteName.bind( snippetPreview ) );
-		title.addEventListener( 'blur', snippetPreview.unsetSiteName.bind( snippetPreview ) );
 	};
 
 	/**
@@ -170,8 +167,12 @@
 			}
 		}
 
+		//bind both input and change events on the editor, otherwise tinyMCE works very slow.
 		tinyMCE.on( 'addEditor', function(e) {
 			e.editor.on( 'input', function() {
+				app.analyzeTimer.call( app );
+			} );
+			e.editor.on( 'change', function() {
 				app.analyzeTimer.call( app );
 			} );
 		});
@@ -181,12 +182,17 @@
 	 * creates SVG for the overall score.
 	 */
 	TermScraper.prototype.saveScores = function( score ) {
+		var cssClass;
 		var tmpl = wp.template('score_svg');
+
 		document.getElementById( YoastSEO.analyzerArgs.targets.overall ).innerHTML = tmpl();
 		document.getElementById( 'hidden_wpseo_linkdex' ).value = score;
 		jQuery( window ).trigger( 'YoastSEO:numericScore', score );
 
 		this.updateKeywordTabContent( $( '#wpseo_focuskw' ).val(), score );
+
+		cssClass = YoastSEO.app.scoreFormatter.overallScoreRating( parseInt( score, 10 ) );
+		$( '.yst-traffic-light' ).attr( 'class', 'yst-traffic-light ' + cssClass );
 	};
 
 	/**
@@ -215,7 +221,7 @@
 		placeholder = keyword.length > 0 ? keyword : '...';
 
 		score = parseInt( score, 10 );
-		score = YoastSEO.ScoreFormatter.prototype.scoreRating( score );
+		score = YoastSEO.ScoreFormatter.prototype.overallScoreRating( score );
 
 		keyword_tab = wp.template( 'keyword_tab' )({
 			keyword: keyword,
@@ -274,6 +280,9 @@
 	 * this way we can use the wp tinyMCE editor on the descriptionfield.
 	 */
 	var tinyMCEReplacer = function() {
+		//gets the textNode from the original textField.
+		var textNode = jQuery( '.term-description-wrap' ).find( 'td' ).find( 'textarea' ).val();
+
 		var newEditor = document.getElementById( 'wp-description-wrap' );
 		newEditor.style.display = 'none';
 		var text = jQuery( '.term-description-wrap' ).find( 'td' ).find( 'p' );
@@ -282,6 +291,7 @@
 		//append the editor and the helptext
 		jQuery( '.term-description-wrap' ).find( 'td' ).append( newEditor ).append( text );
 		newEditor.style.display = 'block';
+		document.getElementById('description').value = textNode;
 	};
 
 	jQuery( document ).ready(function() {
