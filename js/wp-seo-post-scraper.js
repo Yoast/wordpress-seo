@@ -202,9 +202,6 @@
 		for ( var i = 0; i < elems.length; i++ ) {
 			this.bindSnippetEvents( document.getElementById( elems [ i ] ), snippetPreview );
 		}
-		var title = document.getElementById( 'snippet_title' );
-		title.addEventListener( 'focus', snippetPreview.setSiteName.bind ( snippetPreview ) );
-		title.addEventListener( 'blur', snippetPreview.unsetSiteName.bind ( snippetPreview ) );
 	};
 
 	/**
@@ -293,10 +290,15 @@
 	 * @param {string} score
 	 */
 	PostScraper.prototype.saveScores = function( score ) {
+		var cssClass;
+
 		if ( this.isMainKeyword( currentKeyword ) ) {
 			var tmpl = wp.template( 'score_svg' );
 			document.getElementById( 'wpseo-score' ).innerHTML = tmpl();
 			document.getElementById( 'yoast_wpseo_linkdex' ).value = score;
+
+			cssClass = YoastSEO.app.scoreFormatter.overallScoreRating( parseInt( score, 10 ) );
+			$( '.yst-traffic-light' ).attr( 'class', 'yst-traffic-light ' + cssClass );
 		}
 
 		// If multi keyword isn't available we need to update the first tab (content)
