@@ -122,8 +122,14 @@ class WPSEO_Redirect_URL_Validator_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Redirect_URL_Validator::validate_accessible
 	 */
 	public function test_validate_accessible( ) {
-		$this->assertFalse( $this->class_instance->validate( 'accessible_url', home_url(), 301 ) );
-		$this->assertFalse( $this->class_instance->has_error() );
+		$result = $this->class_instance->validate( 'accessible_url', home_url(), 301 );
+		if ( $result === true ) {
+			$this->markTestSkipped( 'The accessible url should be accessible, but it isn\'t' );
+		}
+		else {
+			$this->assertFalse( $this->class_instance->validate( 'accessible_url', home_url(), 301 ) );
+			$this->assertFalse( $this->class_instance->has_error() );
+		}
 	}
 
 	/**
