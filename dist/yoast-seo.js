@@ -12,7 +12,6 @@ YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
  * @param {String} args.title The actual title of the page.
  * @param {String} args.url The full URL that the page will be displayed on.
  * @param {String} args.excerpt The page excerpt.
- * @param {String} args.snippetTitle The title as displayed in the snippet preview.
  * @param {String} args.snippetMeta The meta description as displayed in the snippet preview.
  * @param {String} args.snippetCite  The URL as displayed in the snippet preview.
  *
@@ -612,11 +611,11 @@ YoastSEO.Analyzer.prototype.paragraphChecker = function( textString, regexp ) {
 
 /**
  * counts the occurrences of the keyword in the metadescription, returns 0 if metadescription is
- * empty or not set.
+ * empty or not set. Default is -1, if the meta is empty, this way we can score for empty meta.
  * @returns {{name: string, count: number}}
  */
 YoastSEO.Analyzer.prototype.metaDescriptionKeyword = function() {
-	var result = [ { test: "metaDescriptionKeyword", result: 0	} ];
+	var result = [ { test: "metaDescriptionKeyword", result: -1 } ];
 	if ( typeof this.config.meta !== "undefined" && this.config.meta.length > 0 && this.config.keyword !== "" ) {
 		result[ 0 ].result = this.stringHelper.countMatches(
 			this.config.meta, this.keywordRegex
