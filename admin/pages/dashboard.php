@@ -190,20 +190,6 @@ if ( get_option( 'page_comments' ) && $options['ignore_page_comments'] === false
 			<a onclick="if( !confirm('<?php _e( 'Are you sure you want to reset your SEO settings?', 'wordpress-seo' ); ?>') ) return false;" class="button" href="<?php echo esc_url( add_query_arg( array( 'nonce' => wp_create_nonce( 'wpseo_reset_defaults' ) ), admin_url( 'admin.php?page=wpseo_dashboard&wpseo_reset_defaults=1' ) ) ); ?>"><?php _e( 'Restore Default Settings', 'wordpress-seo' ); ?></a>
 		</p>
 
-		<br />
-
-		<?php
-			new WPSEO_Recalculate_Scores();
-		?>
-		<p>
-			<strong><?php _e( 'Recalculate the SEO scores', 'wordpress-seo' ); ?></strong><br/>
-		</p>
-		<p>
-			<input type='hidden' id='wpseo_recalculate_nonce' name='wpseo_recalculate_nonce' value='<?php echo wp_create_nonce( 'wpseo_recalculate' ); ?>' />
-			<a class='button-secondary thickbox' href='#TB_inline?width=300&amp;height=150&amp;inlineId=wpseo_recalculate' onclick='javascript:wpseo_recalculate_scores(1);'><?php _e( 'Recalculate SEO scores', 'wordpress-seo' ); ?></a>
-		</p>
-
-
 	</div>
 	<div id="knowledge-graph" class="wpseotab">
 		<h3><?php _e( 'Website name', 'wordpress-seo' ); ?></h3>
