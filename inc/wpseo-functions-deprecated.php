@@ -362,3 +362,15 @@ function wpseo_invalidate_sitemap_cache_terms( $unused, $type ) {
 function wpseo_invalidate_sitemap_cache_on_save_post( $post_id ) {
 	WPSEO_Sitemaps_Cache::invalidate_post( $post_id );
 }
+
+/**
+ * Notify search engines of the updated sitemap.
+ *
+ * @deprecated
+ * @see WPSEO_Sitemaps::ping_search_engines()
+ *
+ * @param string|null $sitemapurl Optional URL to make the ping for.
+ */
+function wpseo_ping_search_engines( $sitemapurl = null ) {
+	WPSEO_Sitemaps::ping_search_engines( $sitemapurl );
+}

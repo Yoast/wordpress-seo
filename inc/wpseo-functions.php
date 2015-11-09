@@ -172,28 +172,6 @@ function wpseo_xml_sitemaps_base_url( $page ) {
 }
 
 /**
- * Notify search engines of the updated sitemap.
- *
- * @param string|null $sitemapurl Optional URL to make the ping for.
- */
-function wpseo_ping_search_engines( $sitemapurl = null ) {
-	// Don't ping if blog is not public.
-	if ( '0' == get_option( 'blog_public' ) ) {
-		return;
-	}
-
-	if ( $sitemapurl == null ) {
-		$sitemapurl = urlencode( wpseo_xml_sitemaps_base_url( 'sitemap_index.xml' ) );
-	}
-
-	// Ping Google and Bing.
-	wp_remote_get( 'http://www.google.com/webmasters/tools/ping?sitemap=' . $sitemapurl, array( 'blocking' => false ) );
-	wp_remote_get( 'http://www.bing.com/ping?sitemap=' . $sitemapurl, array( 'blocking' => false ) );
-}
-
-add_action( 'wpseo_ping_search_engines', 'wpseo_ping_search_engines' );
-
-/**
  * WPML plugin support: Set titles for custom types / taxonomies as translatable.
  * It adds new keys to a wpml-config.xml file for a custom post type title, metadesc, title-ptarchive and metadesc-ptarchive fields translation.
  * Documentation: http://wpml.org/documentation/support/language-configuration-files/

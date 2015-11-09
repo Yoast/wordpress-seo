@@ -51,6 +51,7 @@ class WPSEO_Sitemaps {
 		add_action( 'after_setup_theme', array( $this, 'reduce_query_load' ), 99 );
 		add_action( 'pre_get_posts', array( $this, 'redirect' ), 1 );
 		add_action( 'wpseo_hit_sitemap_index', array( $this, 'hit_sitemap_index' ) );
+		add_action( 'wpseo_ping_search_engines', array( __CLASS__, 'ping_search_engines' ) );
 
 		$options           = WPSEO_Options::get_all();
 		$this->max_entries = $options['entries-per-page'];
@@ -401,6 +402,26 @@ class WPSEO_Sitemaps {
 	public function get_last_modified( $post_types ) {
 
 		return $this->timezone->format_date( self::get_last_modified_gmt( $post_types ) );
+	}
+
+	/**
+	 * Notify search engines of the updated sitemap.
+	 *
+	 * @param string|null $url Optional URL to make the ping for.
+	 */
+	public static function ping_search_engines( $url = null ) {
+
+		if ( '0' == get_option( 'blog_public' ) ) { // Don't ping if blog is not public.
+			return;
+		}
+
+		if ( empty( $url ) ) {
+			$url = urlencode( wpseo_xml_sitemaps_base_url( 'sitemap_index.xml' ) );
+		}
+
+		// Ping Google and Bing.
+		wp_remote_get( 'http://www.google.com/webmasters/tools/ping?sitemap=' . $url, array( 'blocking' => false ) );
+		wp_remote_get( 'http://www.bing.com/ping?sitemap=' . $url, array( 'blocking' => false ) );
 	}
 
 	/**
