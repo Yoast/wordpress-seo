@@ -16,6 +16,11 @@
  * @deprecated 3.0 Removed, use javascript instead.
  */
 class WPSEO_Snippet_Preview {
+	/**
+	 * @var string
+	 *
+	 * @deprecated 3.0 Removed, use javscript instead.
+	 */
 	protected $content;
 
 	/**
@@ -83,6 +88,7 @@ class WPSEO_Snippet_Preview {
 
 	/**
 	 * Getter for $this->content
+	 *
 	 * @return string html for snippet preview
 	 *
 	 * @deprecated 3.0 Removed, use javascript instead.
