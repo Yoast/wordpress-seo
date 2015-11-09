@@ -18,7 +18,7 @@ YoastSEO.SnippetPreview = function( refObj ) {
 	this.unformattedText = {
 		snippet_cite: this.refObj.rawData.snippetCite || "",
 		snippet_meta: this.refObj.rawData.snippetMeta || "",
-		snippet_title: this.refObj.rawData.pageTitle || ""
+		snippet_title: this.refObj.rawData.snippetTitle || ""
 	};
 	this.init();
 };

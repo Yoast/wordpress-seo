@@ -12,6 +12,7 @@ YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
  * @param {String} args.title The actual title of the page.
  * @param {String} args.url The full URL that the page will be displayed on.
  * @param {String} args.excerpt The page excerpt.
+ * @param {String} args.snippetTitle The title as displayed in the snippet preview.
  * @param {String} args.snippetMeta The meta description as displayed in the snippet preview.
  * @param {String} args.snippetCite  The URL as displayed in the snippet preview.
  *
