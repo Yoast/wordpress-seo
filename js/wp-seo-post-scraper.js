@@ -370,7 +370,8 @@
 			placeholder: placeholder,
 			score: score,
 			hideRemove: true,
-			prefix: wpseoPostScraperL10n.contentTab + ' '
+			prefix: wpseoPostScraperL10n.contentTab + ' ',
+			active: true
 		});
 
 		$( '.wpseo_keyword_tab' ).replaceWith( keyword_tab );
