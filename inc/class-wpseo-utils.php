@@ -477,43 +477,6 @@ class WPSEO_Utils {
 	}
 
 	/**
-	 * Adds a hook that when given option is updated, the XML sitemap transient cache is cleared
-	 *
-	 * @deprecated
-	 * @see WPSEO_Sitemaps_Cache::register_clear_on_option_update()
-	 *
-	 * @param string $option Option name.
-	 * @param string $type   Sitemap type.
-	 */
-	public static function register_cache_clear_option( $option, $type = '' ) {
-		WPSEO_Sitemaps_Cache::register_clear_on_option_update( $option, $type );
-	}
-
-	/**
-	 * Clears the transient cache when a given option is updated, if that option has been registered before
-	 *
-	 * @deprecated
-	 * @see WPSEO_Sitemaps_Cache::register_clear_on_option_update()
-	 *
-	 * @param string $option The option that's being updated.
-	 */
-	public static function clear_transient_cache( $option ) {
-		WPSEO_Sitemaps_Cache::register_clear_on_option_update( $option );
-	}
-
-	/**
-	 * Clear entire XML sitemap cache
-	 *
-	 * @deprecated
-	 * @see WPSEO_Sitemaps_Cache
-	 *
-	 * @param array $types Set of sitemap types to invalidate cache for.
-	 */
-	public static function clear_sitemap_cache( $types = array() ) {
-		WPSEO_Sitemaps_Cache::clear( $types );
-	}
-
-	/**
 	 * Do simple reliable math calculations without the risk of wrong results
 	 *
 	 * @see   http://floating-point-gui.de/
@@ -646,23 +609,6 @@ class WPSEO_Utils {
 	}
 
 	/**
-	 * Wrapper for the PHP filter input function.
-	 *
-	 * This is used because stupidly enough, the `filter_input` function is not available on all hosts...
-	 *
-	 * @deprecated Passes through to PHP call, no longer used in code.
-	 *
-	 * @param int    $type          Input type constant.
-	 * @param string $variable_name Variable name to get.
-	 * @param int    $filter        Filter to apply.
-	 *
-	 * @return mixed
-	 */
-	public static function filter_input( $type, $variable_name, $filter = FILTER_DEFAULT ) {
-		return filter_input( $type, $variable_name, $filter );
-	}
-
-	/**
 	 * Trim whitespace and NBSP (Non-breaking space) from string
 	 *
 	 * @param string $string String input to trim.
@@ -767,4 +713,57 @@ class WPSEO_Utils {
 		// @codingStandardsIgnoreEnd
 	}
 
-} /* End of class WPSEO_Utils */
+	/**
+	 * Wrapper for the PHP filter input function.
+	 *
+	 * This is used because stupidly enough, the `filter_input` function is not available on all hosts...
+	 *
+	 * @deprecated Passes through to PHP call, no longer used in code.
+	 *
+	 * @param int    $type          Input type constant.
+	 * @param string $variable_name Variable name to get.
+	 * @param int    $filter        Filter to apply.
+	 *
+	 * @return mixed
+	 */
+	public static function filter_input( $type, $variable_name, $filter = FILTER_DEFAULT ) {
+		return filter_input( $type, $variable_name, $filter );
+	}
+
+	/**
+	 * Adds a hook that when given option is updated, the XML sitemap transient cache is cleared
+	 *
+	 * @deprecated
+	 * @see WPSEO_Sitemaps_Cache::register_clear_on_option_update()
+	 *
+	 * @param string $option Option name.
+	 * @param string $type   Sitemap type.
+	 */
+	public static function register_cache_clear_option( $option, $type = '' ) {
+		WPSEO_Sitemaps_Cache::register_clear_on_option_update( $option, $type );
+	}
+
+	/**
+	 * Clears the transient cache when a given option is updated, if that option has been registered before
+	 *
+	 * @deprecated
+	 * @see WPSEO_Sitemaps_Cache::register_clear_on_option_update()
+	 *
+	 * @param string $option The option that's being updated.
+	 */
+	public static function clear_transient_cache( $option ) {
+		WPSEO_Sitemaps_Cache::register_clear_on_option_update( $option );
+	}
+
+	/**
+	 * Clear entire XML sitemap cache
+	 *
+	 * @deprecated
+	 * @see WPSEO_Sitemaps_Cache::clear()
+	 *
+	 * @param array $types Set of sitemap types to invalidate cache for.
+	 */
+	public static function clear_sitemap_cache( $types = array() ) {
+		WPSEO_Sitemaps_Cache::clear( $types );
+	}
+}
