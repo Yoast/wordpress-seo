@@ -374,3 +374,19 @@ function wpseo_invalidate_sitemap_cache_on_save_post( $post_id ) {
 function wpseo_ping_search_engines( $sitemapurl = null ) {
 	WPSEO_Sitemaps::ping_search_engines( $sitemapurl );
 }
+
+/**
+ * Create base URL for the sitemaps and applies filters
+ *
+ * @since 1.5.7
+ *
+ * @deprecated
+ * @see WPSEO_Sitemaps_Router::get_base_url()
+ *
+ * @param string $page page to append to the base URL.
+ *
+ * @return string base URL (incl page) for the sitemaps
+ */
+function wpseo_xml_sitemaps_base_url( $page ) {
+	return WPSEO_Sitemaps_Router::get_base_url( $page );
+}

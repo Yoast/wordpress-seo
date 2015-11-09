@@ -349,7 +349,7 @@ class WPSEO_Sitemaps {
 	 * Make a request for the sitemap index so as to cache it before the arrival of the search engines.
 	 */
 	public function hit_sitemap_index() {
-		wp_remote_get( wpseo_xml_sitemaps_base_url( 'sitemap_index.xml' ) );
+		wp_remote_get( WPSEO_Sitemaps_Router::get_base_url( 'sitemap_index.xml' ) );
 	}
 
 	/**
@@ -416,7 +416,7 @@ class WPSEO_Sitemaps {
 		}
 
 		if ( empty( $url ) ) {
-			$url = urlencode( wpseo_xml_sitemaps_base_url( 'sitemap_index.xml' ) );
+			$url = urlencode( WPSEO_Sitemaps_Router::get_base_url( 'sitemap_index.xml' ) );
 		}
 
 		// Ping Google and Bing.
