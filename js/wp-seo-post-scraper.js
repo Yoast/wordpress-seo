@@ -224,8 +224,12 @@
 		elem.addEventListener( 'focus', snippetPreview.hideEditIcon.bind( snippetPreview ) );
 		elem.addEventListener( 'keyup', snippetPreview.hideEditIcon.bind( snippetPreview ) );
 
+		//adds 'paste' and 'cut' eventbindings to the snippetPreview to make sure event is triggered when c/p with mouse.
 		elem.addEventListener( 'focus', snippetPreview.getUnformattedText.bind( snippetPreview ) );
 		elem.addEventListener( 'keyup', snippetPreview.setUnformattedText.bind( snippetPreview ) );
+		elem.addEventListener( 'paste', snippetPreview.setUnformattedText.bind( snippetPreview ) );
+		elem.addEventListener( 'cut', snippetPreview.setUnformattedText.bind( snippetPreview ) );
+
 		elem.addEventListener( 'click', snippetPreview.setFocus.bind( snippetPreview ) );
 
 		//adds the showIcon class to show the editIcon;
