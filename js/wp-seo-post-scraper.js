@@ -372,7 +372,8 @@
 			placeholder: placeholder,
 			score: score,
 			hideRemove: true,
-			prefix: wpseoPostScraperL10n.contentTab + ' '
+			prefix: wpseoPostScraperL10n.contentTab + ' ',
+			active: true
 		});
 
 		$( '#yoast_wpseo_focuskw' ).val( keyword );
