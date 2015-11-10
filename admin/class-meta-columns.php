@@ -129,25 +129,16 @@ class WPSEO_Meta_Columns {
 			return;
 		}
 
-		$scores_array = array(
-			'na'      => __( 'SEO: No Focus Keyword', 'wordpress-seo' ),
-			'bad'     => __( 'SEO: Bad', 'wordpress-seo' ),
-			'poor'    => __( 'SEO: Poor', 'wordpress-seo' ),
-			'ok'      => __( 'SEO: OK', 'wordpress-seo' ),
-			'good'    => __( 'SEO: Good', 'wordpress-seo' ),
-			'noindex' => __( 'SEO: Post Noindexed', 'wordpress-seo' ),
-		);
+		$ranks = WPSEO_Rank::get_all_ranks();
+		$current_seo_filter = filter_input( INPUT_GET, 'seo_filter' );
 
 		echo '
 			<select name="seo_filter">
 				<option value="">', __( 'All SEO Scores', 'wordpress-seo' ), '</option>';
-		foreach ( $scores_array as $val => $text ) {
-			$sel = '';
-			if ( $seo_filter = filter_input( INPUT_GET, 'seo_filter' ) ) {
-				$sel = selected( $seo_filter, $val, false );
-			}
+		foreach ( $ranks as $rank ) {
+			$sel = selected( $current_seo_filter, $rank->get_rank(), false );
 			echo '
-				<option ', $sel, 'value="', $val, '">', $text. '</option>';
+				<option ', $sel, 'value="', $rank->get_rank(), '">', $rank->get_drop_down_label(). '</option>';
 		}
 		echo '
 			</select>';
@@ -186,20 +177,15 @@ class WPSEO_Meta_Columns {
 	 */
 	public function column_sort_orderby( $vars ) {
 		if ( $seo_filter = filter_input( INPUT_GET, 'seo_filter' ) ) {
-			$scores = array(
-				'bad'  => array( 'low' => 1, 'high' => 34 ),
-				'poor' => array( 'low' => 35, 'high' => 54 ),
-				'ok'   => array( 'low' => 55, 'high' => 74 ),
-				'good' => array( 'low' => 75, 'high' => 100 ),
-			);
+			$rank = new WPSEO_Rank( $seo_filter );
 
-			if ( array_key_exists( $seo_filter, $scores ) ) {
-				$vars = array_merge( $vars, $this->filter_scored( $scores[ $seo_filter ]['low'], $scores[ $seo_filter ]['high'] ) );
-
-				add_filter( 'posts_where', array( $this, 'seo_score_posts_where' ) );
+			if ( WPSEO_Rank::NO_FOCUS === $seo_filter || WPSEO_Rank::NO_INDEX === $seo_filter ) {
+				$vars = $this->filter_other( $vars, $seo_filter );
 			}
 			else {
-				$vars = $this->filter_other( $vars, $seo_filter );
+				$vars = array_merge( $vars, $this->filter_scored( $rank->get_starting_score(), $rank->get_end_score() ) );
+
+				add_filter( 'posts_where', array( $this, 'seo_score_posts_where' ) );
 			}
 		}
 

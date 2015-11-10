@@ -15,18 +15,10 @@
 }
 
 .overallScore.ok #score_circle {
-	fill: #ffdc42;
-}
-
-.overallScore.ok #score_circle_shadow {
-	fill: #ffc82e;
-}
-
-.overallScore.poor #score_circle {
 	fill: #ffb81e;
 }
 
-.overallScore.poor #score_circle_shadow {
+.overallScore.ok #score_circle_shadow {
 	fill: #f49a00;
 }
 
