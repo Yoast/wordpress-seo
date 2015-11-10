@@ -2188,11 +2188,11 @@ YoastSEO.ScoreFormatter.prototype.outputOverallScore = function() {
 YoastSEO.ScoreFormatter.prototype.scoreRating = function( score ) {
 	var scoreRate;
 	switch ( true ) {
-		case score < 2:
+		case score <= 4:
 			scoreRate = "bad";
 			break;
-		case score >= 2 && score <= 7:
-			scoreRate = "poor";
+		case score > 4 && score <= 7:
+			scoreRate = "ok";
 			break;
 		case score > 7:
 			scoreRate = "good";
@@ -2234,10 +2234,6 @@ YoastSEO.ScoreFormatter.prototype.getSEOScoreText = function( scoreRating ) {
 
 		case "bad":
 			scoreText = this.i18n.dgettext( "js-text-analysis", "Bad SEO score" );
-			break;
-
-		case "poor":
-			scoreText = this.i18n.dgettext( "js-text-analysis", "Poor SEO score" );
 			break;
 
 		case "ok":
