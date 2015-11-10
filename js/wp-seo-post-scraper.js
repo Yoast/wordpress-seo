@@ -120,7 +120,7 @@
 				val = document.getElementById( 'yoast_wpseo_metadesc' ).value;
 				break;
 			case 'keyword':
-				val = document.getElementById( 'yoast_wpseo_focuskw' ).value;
+				val = document.getElementById( 'yoast_wpseo_focuskw_text_input' ).value;
 				currentKeyword = val;
 				break;
 			case 'title':
@@ -187,8 +187,8 @@
 	PostScraper.prototype.bindElementEvents = function( app ) {
 		this.snippetPreviewEventBinder( app.snippetPreview );
 		this.inputElementEventBinder( app );
-		document.getElementById( 'yoast_wpseo_focuskw' ).addEventListener( 'keydown', app.snippetPreview.disableEnter );
-		document.getElementById( 'yoast_wpseo_focuskw' ).addEventListener( 'keyup', this.updateKeywordUsage );
+		document.getElementById( 'yoast_wpseo_focuskw_text_input' ).addEventListener( 'keydown', app.snippetPreview.disableEnter );
+		document.getElementById( 'yoast_wpseo_focuskw_text_input' ).addEventListener( 'keyup', this.updateKeywordUsage );
 	};
 
 	/**
@@ -236,7 +236,7 @@
 	 * binds the renewData function on the change of inputelements.
 	 */
 	PostScraper.prototype.inputElementEventBinder = function( app ) {
-		var elems = [ 'excerpt', 'content', 'yoast_wpseo_focuskw', 'title' ];
+		var elems = [ 'excerpt', 'content', 'yoast_wpseo_focuskw_text_input', 'title' ];
 		for ( var i = 0; i < elems.length; i++ ) {
 			var elem = document.getElementById( elems[ i ] );
 			if ( elem !== null ) {
@@ -254,7 +254,7 @@
 			} );
 		});
 
-		document.getElementById( 'yoast_wpseo_focuskw' ).addEventListener( 'blur', this.resetQueue );
+		document.getElementById( 'yoast_wpseo_focuskw_text_input' ).addEventListener( 'blur', this.resetQueue );
 	};
 
 	/**
@@ -347,6 +347,8 @@
 		keyword = $( '#yoast_wpseo_focuskw' ).val();
 		score   = $( '#yoast_wpseo_linkdex' ).val();
 
+		$( '#yoast_wpseo_focuskw_text_input' ).val( keyword );
+
 		this.updateKeywordTabContent( keyword, score );
 	};
 
@@ -373,6 +375,8 @@
 			prefix: wpseoPostScraperL10n.contentTab + ' ',
 			active: true
 		});
+
+		$( '#yoast_wpseo_focuskw' ).val( keyword );
 
 		$( '.wpseo_keyword_tab' ).replaceWith( keyword_tab );
 	};
@@ -422,7 +426,7 @@
 			//string to be added to the snippetTitle
 			snippetSuffix: ' ' + wpseoPostScraperL10n.sep + ' ' + wpseoPostScraperL10n.sitename,
 			//element Target Array
-			elementTarget: ['content', 'yoast_wpseo_focuskw', 'yoast_wpseo_metadesc', 'excerpt', 'editable-post-name', 'editable-post-name-full'],
+			elementTarget: ['content', 'yoast_wpseo_focuskw_text_input', 'yoast_wpseo_metadesc', 'excerpt', 'editable-post-name', 'editable-post-name-full'],
 			//replacement target array, elements that must trigger the replace variables function.
 			replaceTarget: ['yoast_wpseo_metadesc', 'excerpt', 'yoast_wpseo_title'],
 			//rest target array, elements that must be reset on focus
