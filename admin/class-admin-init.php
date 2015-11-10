@@ -161,7 +161,7 @@ class WPSEO_Admin_Init {
 	 * @return bool
 	 */
 	public function has_default_tagline() {
-		return __( 'Just another WordPress site', 'wordpress-seo' ) === get_bloginfo( 'description' );
+		return __( 'Just another WordPress site' ) === get_bloginfo( 'description' );
 	}
 
 	/**

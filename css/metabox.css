@@ -365,6 +365,10 @@ img.yoast_help {
 	display: none;
 }
 
+.yst-traffic-light.init .traffic-light-init {
+	display: inline;
+}
+
 .yst-traffic-light.bad .traffic-light-red {
 	display: inline;
 }

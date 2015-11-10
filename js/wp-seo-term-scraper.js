@@ -49,7 +49,10 @@
 				}
 				break;
 			case 'snippetMeta':
-				val = document.getElementById( 'yoast_wpseo_metadesc' ).value;
+				elem = document.getElementById( 'yoast_wpseo_metadesc' );
+				if ( elem !== null ) {
+					val = elem.value;
+				}
 				break;
 			case 'text':
 				val = this.getContentTinyMCE();
@@ -72,10 +75,8 @@
 				break;
 			case 'baseUrl':
 				val = wpseoTermScraperL10n.home_url.replace( /https?:\/\//ig, '' );
-				if( wpseoTermScraperL10n.taxonomy_slug !== '' && wpseoTermScraperL10n.stripcategorybase !== '1' ) {
-					val += wpseoTermScraperL10n.taxonomy_slug + '/';
-				}
 				break;
+
 			case 'cite':
 				elem = document.getElementById( 'snippet_cite' );
 				if ( elem !== null ) {
@@ -88,11 +89,12 @@
 
 	/**
 	 * gets content from the content field, if tinyMCE is initialized, use the getContent function to get the data from tinyMCE
+	 * If tiny is hidden, take the value from the descriptionfield, since tinyMCE isn't updated when it isn't visible.
 	 * @returns {String}
 	 */
 	TermScraper.prototype.getContentTinyMCE = function() {
 		var val = document.getElementById( 'description' ).value;
-		if ( tinyMCE.editors.length !== 0 ) {
+		if ( tinyMCE.editors.length !== 0 && tinyMCE.get( 'description' ).hidden === false ) {
 			val = tinyMCE.get( 'description' ).getContent();
 		}
 		return val;
@@ -148,11 +150,11 @@
 	 */
 	TermScraper.prototype.bindSnippetEvents = function( elem, snippetPreview ) {
 		elem.addEventListener( 'keydown', snippetPreview.disableEnter.bind( snippetPreview ) );
-		elem.addEventListener( 'blur', snippetPreview.checkTextLength.bind( snippetPreview ) );
 		//textFeedback is given on input (when user types or pastests), but also on focus. If a string that is too long is being recalled
 		//from the saved values, it gets the correct classname right away.
 		elem.addEventListener( 'input', snippetPreview.textFeedback.bind( snippetPreview ) );
 		elem.addEventListener( 'focus', snippetPreview.textFeedback.bind( snippetPreview ) );
+		elem.addEventListener( 'blur', snippetPreview.textFeedback.bind( snippetPreview ) );
 		//shows edit icon by hovering over element
 		elem.addEventListener( 'mouseover', snippetPreview.showEditIcon.bind( snippetPreview ) );
 		//hides the edit icon onmouseout, on focus and on keyup. If user clicks or types AND moves his mouse, the edit icon could return while editting
@@ -161,8 +163,11 @@
 		elem.addEventListener( 'focus', snippetPreview.hideEditIcon.bind( snippetPreview ) );
 		elem.addEventListener( 'keyup', snippetPreview.hideEditIcon.bind( snippetPreview ) );
 
+		//adds 'paste' and 'cut' eventbindings to the snippetPreview to make sure event is triggered when c/p with mouse.
 		elem.addEventListener( 'focus', snippetPreview.getUnformattedText.bind( snippetPreview ) );
 		elem.addEventListener( 'keyup', snippetPreview.setUnformattedText.bind( snippetPreview ) );
+		elem.addEventListener( 'paste', snippetPreview.setUnformattedText.bind( snippetPreview ) );
+		elem.addEventListener( 'cut', snippetPreview.setUnformattedText.bind( snippetPreview ) );
 		elem.addEventListener( 'click', snippetPreview.setFocus.bind( snippetPreview ) );
 
 		//adds the showIcon class to show the editIcon;
@@ -181,14 +186,13 @@
 			}
 		}
 
-		//bind both input and change events on the editor, otherwise tinyMCE works very slow.
+		//binds the input, change, cut and paste event to tinyMCE. All events are needed, because sometimes tinyMCE doesn'
+		//trigger them, or takes up to ten seconds to fire an event.
+		var events = [ 'input' , 'change', 'cut', 'paste' ];
 		tinyMCE.on( 'addEditor', function(e) {
-			e.editor.on( 'input', function() {
-				app.analyzeTimer.call( app );
-			} );
-			e.editor.on( 'change', function() {
-				app.analyzeTimer.call( app );
-			} );
+			for ( var i = 0; i < events.length; i++ ) {
+				e.editor.on( events[ i ], app.analyzeTimer.call( app ) );
+			}
 		});
 	};
 
@@ -271,11 +275,21 @@
 	};
 
 	/**
-	 * refreshes the app when snippet is updated.
-	 */
-	/**
 	 * Updates the snippet values, is bound by the loader when generating the elements for the snippet.
-	 * Uses the unformattedText object of the if the textFeedback function has put a string there (if text was too long).
+	 * calls the update snippet values to save snippet in the hidden fields
+	 * calls checkTextLength to update the snippet editor fields (move too long texts)
+	 * refreshes the app to run with new data.
+	 *
+	 * @param {Object} ev
+	 */
+	TermScraper.prototype.updateSnippet = function( ev ) {
+		this.updateSnippetValues( ev );
+		YoastSEO.app.snippetPreview.checkTextLength( ev );
+		YoastSEO.app.refresh();
+	};
+
+	/**
+	 * Uses the unformattedText object of the snippetpreview if the textFeedback function has put a string there (if text was too long).
 	 * clears this after use.
 	 *
 	 * @param {Object} ev
@@ -287,7 +301,6 @@
 			ev.currentTarget.textContent = YoastSEO.app.snippetPreview.unformattedText[ currentElement ];
 		}
 		this.setDataFromSnippet( dataFromSnippet, ev.currentTarget.id );
-		YoastSEO.app.refresh();
 	};
 
 	/**
@@ -362,7 +375,7 @@
 			callbacks: {
 				getData: termScraper.getData.bind( termScraper ),
 				bindElementEvents: termScraper.bindElementEvents.bind( termScraper ),
-				updateSnippetValues: termScraper.updateSnippetValues.bind( termScraper ),
+				updateSnippetValues: termScraper.updateSnippet.bind( termScraper ),
 				saveScores: termScraper.saveScores.bind( termScraper )
 			}
 		};
