@@ -64,18 +64,18 @@ YoastSEO.Analyzer.prototype.formatKeyword = function() {
 
 		// Creates new regex from keyword with global and caseinsensitive option,
 		// replaces - and _ with space
-		this.keywordRegex = new RegExp(
-			this.preProcessor.replaceDiacritics( keyword.replace( /[-_]/, " " ) ),
+
+		this.keywordRegex = new RegExp( "\\b" +
+			this.preProcessor.replaceDiacritics( keyword.replace( /[-_]/, " " ) ) + "\\b",
 			"ig"
 		);
 
 		// Creates new regex from keyword with global and caseinsensitive option,
 		// replaces space with -. Used for URL matching
-		this.keywordRegexInverse = new RegExp(
-			this.preProcessor.replaceDiacritics( keyword.replace( " ", "-" ) ),
+		this.keywordRegexInverse = new RegExp( "\\b" +
+			this.preProcessor.replaceDiacritics( keyword.replace( " ", "-" ) ) + "\\b",
 			"ig"
 		);
-
 	}
 };
 
@@ -2271,7 +2271,7 @@ YoastSEO.SnippetPreview = function( refObj ) {
 	this.unformattedText = {
 		snippet_cite: this.refObj.rawData.snippetCite || "",
 		snippet_meta: this.refObj.rawData.snippetMeta || "",
-		snippet_title: this.refObj.rawData.pageTitle || ""
+		snippet_title: this.refObj.rawData.snippetTitle || ""
 	};
 	this.init();
 };
@@ -2488,7 +2488,7 @@ YoastSEO.SnippetPreview.prototype.formatKeywordUrl = function( textString ) {
 	var dashedKeyword = keyword.replace( " ", "[-_]" );
 
 	// Match keyword case-insensitively.
-	var keywordRegex = new RegExp( dashedKeyword, "ig" );
+	var keywordRegex = new RegExp( "\\b" + dashedKeyword + "\\b", "ig" );
 
 	// Make the keyword bold in the textString.
 	return textString.replace( keywordRegex, function( str ) {
