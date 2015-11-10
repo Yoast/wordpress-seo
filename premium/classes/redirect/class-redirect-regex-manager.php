@@ -14,6 +14,11 @@ class WPSEO_Redirect_Regex_Manager extends WPSEO_Redirect_Manager {
 	protected $option_redirects = 'wpseo-premium-redirects-regex';
 
 	/**
+	 * @var string Is Regex for this manager.
+	 */
+	protected $redirect_format = WPSEO_Redirect::FORMAT_REGEX;
+
+	/**
 	 * Returns the validator object
 	 *
 	 * @return WPSEO_Redirect_URL_Validator

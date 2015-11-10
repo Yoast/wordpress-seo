@@ -19,10 +19,18 @@ abstract class WPSEO_Redirect_Manager {
 	protected $redirect;
 
 	/**
+	 * @var string The redirect format, this might be plain or regex.
+	 */
+	protected $redirect_format;
+
+	/**
 	 * Setting the property with the redirects
 	 */
 	public function __construct() {
-		$this->redirect = new WPSEO_Redirect_Option( $this->option_redirects );
+		$this->redirect = new WPSEO_Redirect_Option();
+
+		$this->redirect->set_format( $this->redirect_format );
+		$this->redirect->set_redirects();
 	}
 
 	/**

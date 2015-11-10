@@ -13,6 +13,9 @@ class WPSEO_Redirect implements ArrayAccess {
 	const TEMPORARY = 307;
 	const DELETED   = 410;
 
+	const FORMAT_PLAIN = 'plain';
+	const FORMAT_REGEX = 'regex';
+
 	/**
 	 * @var string
 	 */
@@ -29,15 +32,21 @@ class WPSEO_Redirect implements ArrayAccess {
 	protected $type;
 
 	/**
+	 * @var string
+	 */
+	protected $format;
+
+	/**
 	 * WPSEO_Redirect constructor.
 	 *
 	 * @param string $origin The origin of the redirect.
 	 * @param string $target The target of the redirect.
 	 * @param int    $type   The type of the redirect.
+	 * @param string $format The format of the redirect.
 	 *
 	 * @throws InvalidArgumentException When DELETED type and target empty.
 	 */
-	public function __construct( $origin, $target = '', $type = self::PERMANENT ) {
+	public function __construct( $origin, $target = '', $type = self::PERMANENT, $format = self::FORMAT_PLAIN ) {
 		$type = (int) $type;
 
 		if ( $target === '' &&  $type !== self::DELETED ) {
@@ -47,6 +56,7 @@ class WPSEO_Redirect implements ArrayAccess {
 		$this->origin = $origin;
 		$this->target = $target;
 		$this->type   = $type;
+		$this->format = $format;
 	}
 
 	/**
@@ -74,6 +84,15 @@ class WPSEO_Redirect implements ArrayAccess {
 	 */
 	public function get_type() {
 		return $this->type;
+	}
+
+	/**
+	 * Returns the format
+	 *
+	 * @return string
+	 */
+	public function get_format() {
+		return $this->format;
 	}
 
 	/**

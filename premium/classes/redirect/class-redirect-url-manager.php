@@ -14,6 +14,11 @@ class WPSEO_Redirect_URL_Manager extends WPSEO_Redirect_Manager {
 	protected $option_redirects = 'wpseo-premium-redirects';
 
 	/**
+	 * @var string Is plain for this manager.
+	 */
+	protected $redirect_format = WPSEO_Redirect::FORMAT_PLAIN;
+
+	/**
 	 * Searches for the URL and get it's endpoint
 	 *
 	 * @param string $url The url to search for.
