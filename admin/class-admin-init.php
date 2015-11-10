@@ -39,6 +39,7 @@ class WPSEO_Admin_Init {
 		add_action( 'admin_init', array( $this, 'ga_compatibility_notice' ), 15 );
 		add_action( 'admin_init', array( $this, 'ignore_tour' ) );
 		add_action( 'admin_init', array( $this, 'load_tour' ) );
+		add_action( 'admin_init', array( $this, 'show_hook_deprecation_warnings' ) );
 
 		$this->load_meta_boxes();
 		$this->load_taxonomy_class();
@@ -160,7 +161,7 @@ class WPSEO_Admin_Init {
 	 * @return bool
 	 */
 	public function has_default_tagline() {
-		return __( 'Just another WordPress site', 'wordpress-seo' ) === get_bloginfo( 'description' );
+		return __( 'Just another WordPress site' ) === get_bloginfo( 'description' );
 	}
 
 	/**
@@ -315,5 +316,36 @@ class WPSEO_Admin_Init {
 			update_user_meta( get_current_user_id(), 'wpseo_ignore_tour', true );
 		}
 
+	}
+
+	/**
+	 * Shows deprecation warnings to the user if a plugin has registered a filter we have deprecated.
+	 */
+	public function show_hook_deprecation_warnings() {
+		global $wp_filter;
+
+		// WordPress hooks that have been deprecated in Yoast SEO 3.0.
+		$deprecated_30 = array(
+			'wpseo_pre_analysis_post_content',
+			'wpseo_metadesc_length',
+			'wpseo_metadesc_length_reason',
+			'wpseo_body_length_score',
+			'wpseo_linkdex_results',
+			'wpseo_snippet',
+		);
+
+		$deprecated_notices = array_intersect(
+			$deprecated_30,
+			array_keys( $wp_filter )
+		);
+
+		foreach ( $deprecated_notices as $deprecated_filter ) {
+			_deprecated_function(
+				/* %s expands to the actual filter/action that has been used. */
+				sprintf( __( '%s filter/action', 'wordpress-seo' ), $deprecated_filter ),
+				'WPSEO 3.0',
+				'javascript'
+			);
+		}
 	}
 }

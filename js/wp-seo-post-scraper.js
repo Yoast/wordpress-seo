@@ -87,7 +87,7 @@
 			baseUrl: this.getDataFromInput( 'baseUrl' ),
 			excerpt: this.getDataFromInput( 'excerpt' ),
 			snippetTitle: this.getDataFromInput( 'snippetTitle' ),
-			snippetMeta: this.getDataFromInput( 'meta' ),
+			snippetMeta: this.getDataFromInput( 'snippetMeta' ),
 			snippetCite: this.getDataFromInput( 'cite' )
 		};
 	};
@@ -118,19 +118,30 @@
 				break;
 			case 'meta':
 				val = document.getElementById( 'yoast_wpseo_metadesc' ).value;
+				if ( val === '' ) {
+					val = wpseoPostScraperL10n.metadesc_template;
+				}
+				break;
+			case 'snippetMeta':
+				val = document.getElementById( 'yoast_wpseo_metadesc' ).value;
 				break;
 			case 'keyword':
-				val = document.getElementById( 'yoast_wpseo_focuskw' ).value;
+				val = document.getElementById( 'yoast_wpseo_focuskw_text_input' ).value;
 				currentKeyword = val;
 				break;
 			case 'title':
+				val = document.getElementById( 'title' ).value;
+				break;
 			case 'snippetTitle':
 				val = document.getElementById( 'yoast_wpseo_title' ).value;
 				break;
 			case 'pageTitle':
 				val = document.getElementById( 'yoast_wpseo_title' ).value;
 				if ( val === '' ) {
-					val = document.getElementById( 'title' ).value;
+					val = wpseoPostScraperL10n.title_template;
+				}
+				if (val === '' ) {
+					val = '%%title%% - %%sitename%%';
 				}
 				break;
 			case 'excerpt':
@@ -170,12 +181,13 @@
 	};
 
 	/**
-	 * gets content from the content field, if tinyMCE is initialized, use the getContent function to get the data from tinyMCE
+	 * Gets content from the content field, if tinyMCE is initialized, use the getContent function to get the data from tinyMCE
+	 * If tiny is hidden, take the value from the contentfield, since tinyMCE isn't updated when it isn't visible.
 	 * @returns {String}
 	 */
 	PostScraper.prototype.getContentTinyMCE = function() {
 		var val = document.getElementById( 'content' ).value;
-		if ( tinyMCE.editors.length !== 0 ) {
+		if ( tinyMCE.editors.length !== 0 && tinyMCE.get( 'content' ).hidden === false ) {
 			val = tinyMCE.get( 'content' ).getContent();
 		}
 		return val;
@@ -187,8 +199,8 @@
 	PostScraper.prototype.bindElementEvents = function( app ) {
 		this.snippetPreviewEventBinder( app.snippetPreview );
 		this.inputElementEventBinder( app );
-		document.getElementById( 'yoast_wpseo_focuskw' ).addEventListener( 'keydown', app.snippetPreview.disableEnter );
-		document.getElementById( 'yoast_wpseo_focuskw' ).addEventListener( 'keyup', this.updateKeywordUsage );
+		document.getElementById( 'yoast_wpseo_focuskw_text_input' ).addEventListener( 'keydown', app.snippetPreview.disableEnter );
+		document.getElementById( 'yoast_wpseo_focuskw_text_input' ).addEventListener( 'keyup', this.updateKeywordUsage );
 	};
 
 	/**
@@ -239,7 +251,7 @@
 	 * binds the renewData function on the change of inputelements.
 	 */
 	PostScraper.prototype.inputElementEventBinder = function( app ) {
-		var elems = [ 'excerpt', 'content', 'yoast_wpseo_focuskw', 'title' ];
+		var elems = [ 'excerpt', 'content', 'yoast_wpseo_focuskw_text_input', 'title' ];
 		for ( var i = 0; i < elems.length; i++ ) {
 			var elem = document.getElementById( elems[ i ] );
 			if ( elem !== null ) {
@@ -247,17 +259,16 @@
 			}
 		}
 
-		//bind both input and change events on the editor, otherwise tinyMCE works very slow.
+		//binds the input, change, cut and paste event to tinyMCE. All events are needed, because sometimes tinyMCE doesn'
+		//trigger them, or takes up to ten seconds to fire an event.
+		var events = [ 'input' , 'change', 'cut', 'paste' ];
 		tinyMCE.on( 'addEditor', function(e) {
-			e.editor.on( 'input', function() {
-				app.analyzeTimer.call( app );
-			} );
-			e.editor.on( 'change', function() {
-				app.analyzeTimer.call( app );
-			} );
+			for ( var i = 0; i < events.length; i++ ) {
+				e.editor.on( events[ i ], app.analyzeTimer.call( app ) );
+			}
 		});
 
-		document.getElementById( 'yoast_wpseo_focuskw' ).addEventListener( 'blur', this.resetQueue );
+		document.getElementById( 'yoast_wpseo_focuskw_text_input' ).addEventListener( 'blur', this.resetQueue );
 	};
 
 	/**
@@ -312,7 +323,11 @@
 			document.getElementById( 'wpseo-score' ).innerHTML = tmpl();
 			document.getElementById( 'yoast_wpseo_linkdex' ).value = score;
 
-			cssClass = YoastSEO.app.scoreFormatter.overallScoreRating( parseInt( score, 10 ) );
+			if ( '' === currentKeyword ) {
+				cssClass = 'na';
+			} else {
+				cssClass = YoastSEO.app.scoreFormatter.overallScoreRating( parseInt( score, 10 ) );
+			}
 			$( '.yst-traffic-light' ).attr( 'class', 'yst-traffic-light ' + cssClass );
 		}
 
@@ -362,6 +377,8 @@
 		keyword = $( '#yoast_wpseo_focuskw' ).val();
 		score   = $( '#yoast_wpseo_linkdex' ).val();
 
+		$( '#yoast_wpseo_focuskw_text_input' ).val( keyword );
+
 		this.updateKeywordTabContent( keyword, score );
 	};
 
@@ -385,8 +402,11 @@
 			placeholder: placeholder,
 			score: score,
 			hideRemove: true,
-			prefix: wpseoPostScraperL10n.contentTab + ' '
+			prefix: wpseoPostScraperL10n.contentTab + ' ',
+			active: true
 		});
+
+		$( '#yoast_wpseo_focuskw' ).val( keyword );
 
 		$( '.wpseo_keyword_tab' ).replaceWith( keyword_tab );
 	};
@@ -433,10 +453,8 @@
 			ajax: true,
 			//if it must generate snippetpreview
 			snippetPreview: true,
-			//string to be added to the snippetTitle
-			snippetSuffix: ' ' + wpseoPostScraperL10n.sep + ' ' + wpseoPostScraperL10n.sitename,
 			//element Target Array
-			elementTarget: ['content', 'yoast_wpseo_focuskw', 'yoast_wpseo_metadesc', 'excerpt', 'editable-post-name', 'editable-post-name-full'],
+			elementTarget: ['content', 'yoast_wpseo_focuskw_text_input', 'yoast_wpseo_metadesc', 'excerpt', 'editable-post-name', 'editable-post-name-full'],
 			//replacement target array, elements that must trigger the replace variables function.
 			replaceTarget: ['yoast_wpseo_metadesc', 'excerpt', 'yoast_wpseo_title'],
 			//rest target array, elements that must be reset on focus

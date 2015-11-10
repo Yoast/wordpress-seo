@@ -1,4 +1,4 @@
-/* global YoastSEO, wp, wpseoTermScraperL10n, ajaxurl, tinyMCE */
+/* global YoastSEO, wp, wpseoTermScraperL10n, ajaxurl, tinyMCE, YoastReplaceVarPlugin */
 (function( $ ) {
 	'use strict';
 
@@ -18,7 +18,7 @@
 			baseUrl: this.getDataFromInput( 'baseUrl' ),
 			snippetTitle: this.getDataFromInput( 'title' ),
 			meta: this.getDataFromInput( 'meta' ),
-			snippetMeta: this.getDataFromInput( 'meta' ),
+			snippetMeta: this.getDataFromInput( 'snippetMeta' ),
 			snippetCite: this.getDataFromInput( 'cite' )
 		};
 	};
@@ -44,11 +44,28 @@
 				if ( elem !== null ) {
 					val = elem.value;
 				}
+				if ( val === '' ) {
+					val = wpseoTermScraperL10n.metadesc_template;
+				}
+				break;
+			case 'snippetMeta':
+				elem = document.getElementById( 'yoast_wpseo_metadesc' );
+				if ( elem !== null ) {
+					val = elem.value;
+				}
 				break;
 			case 'text':
 				val = this.getContentTinyMCE();
 				break;
 			case 'pageTitle':
+				val = document.getElementById( 'hidden_wpseo_title' ).value;
+				if ( val === '' ) {
+					val = wpseoTermScraperL10n.title_template;
+				}
+				if (val === '' ) {
+					val = '%%title%% - %%sitename%%';
+				}
+				break;
 			case 'title':
 				val = document.getElementById( 'hidden_wpseo_title' ).value;
 				break;
@@ -58,10 +75,8 @@
 				break;
 			case 'baseUrl':
 				val = wpseoTermScraperL10n.home_url.replace( /https?:\/\//ig, '' );
-				if( wpseoTermScraperL10n.taxonomy_slug !== '' && wpseoTermScraperL10n.stripcategorybase !== '1' ) {
-					val += wpseoTermScraperL10n.taxonomy_slug + '/';
-				}
 				break;
+
 			case 'cite':
 				elem = document.getElementById( 'snippet_cite' );
 				if ( elem !== null ) {
@@ -74,11 +89,12 @@
 
 	/**
 	 * gets content from the content field, if tinyMCE is initialized, use the getContent function to get the data from tinyMCE
+	 * If tiny is hidden, take the value from the descriptionfield, since tinyMCE isn't updated when it isn't visible.
 	 * @returns {String}
 	 */
 	TermScraper.prototype.getContentTinyMCE = function() {
 		var val = document.getElementById( 'description' ).value;
-		if ( tinyMCE.editors.length !== 0 ) {
+		if ( tinyMCE.editors.length !== 0 && tinyMCE.get( 'description' ).hidden === false ) {
 			val = tinyMCE.get( 'description' ).getContent();
 		}
 		return val;
@@ -170,14 +186,13 @@
 			}
 		}
 
-		//bind both input and change events on the editor, otherwise tinyMCE works very slow.
+		//binds the input, change, cut and paste event to tinyMCE. All events are needed, because sometimes tinyMCE doesn'
+		//trigger them, or takes up to ten seconds to fire an event.
+		var events = [ 'input' , 'change', 'cut', 'paste' ];
 		tinyMCE.on( 'addEditor', function(e) {
-			e.editor.on( 'input', function() {
-				app.analyzeTimer.call( app );
-			} );
-			e.editor.on( 'change', function() {
-				app.analyzeTimer.call( app );
-			} );
+			for ( var i = 0; i < events.length; i++ ) {
+				e.editor.on( events[ i ], app.analyzeTimer.call( app ) );
+			}
 		});
 	};
 
@@ -231,7 +246,8 @@
 			placeholder: placeholder,
 			score: score,
 			hideRemove: true,
-			prefix: wpseoTermScraperL10n.contentTab + ' '
+			prefix: wpseoTermScraperL10n.contentTab + ' ',
+			active: true
 		});
 
 		$( '.wpseo_keyword_tab' ).replaceWith( keyword_tab );
@@ -380,5 +396,8 @@
 		jQuery( window ).trigger( 'YoastSEO:ready' );
 
 		termScraper.initKeywordTabTemplate();
+
+		//init Plugins
+		new YoastReplaceVarPlugin();
 	} );
 }( jQuery ));
