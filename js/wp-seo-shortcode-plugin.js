@@ -94,6 +94,18 @@
 	YoastShortcodePlugin.prototype.bindElementEvents = function() {
 		document.getElementById( 'content' ).addEventListener( 'keydown', this.loadShortcodes.bind( this, this.declareReloaded.bind( this ) ) );
 		document.getElementById( 'content' ).addEventListener( 'input', this.loadShortcodes.bind( this, this.declareReloaded.bind( this ) ) );
+		document.getElementById( 'content' ).addEventListener( 'change', this.loadShortcodes.bind( this, this.declareReloaded.bind( this ) ) );
+
+		var plugin = this;
+		tinyMCE.on( 'addEditor', function(e) {
+			e.editor.on( 'change', function() {
+				plugin.loadShortcodes.bind( plugin, plugin.declareReloaded.bind( plugin ) )();
+			} );
+			e.editor.on( 'keydown', function() {
+				plugin.loadShortcodes.bind( plugin, plugin.declareReloaded.bind( plugin ) )();
+			} );
+		});
+
 	};
 
 	/**
