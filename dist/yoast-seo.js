@@ -12,6 +12,7 @@ YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
  * @param {String} args.title The actual title of the page.
  * @param {String} args.url The full URL that the page will be displayed on.
  * @param {String} args.excerpt The page excerpt.
+ * @param {String} args.snippetTitle The title as displayed in the snippet preview.
  * @param {String} args.snippetMeta The meta description as displayed in the snippet preview.
  * @param {String} args.snippetCite  The URL as displayed in the snippet preview.
  *
@@ -2270,7 +2271,7 @@ YoastSEO.SnippetPreview = function( refObj ) {
 	this.unformattedText = {
 		snippet_cite: this.refObj.rawData.snippetCite || "",
 		snippet_meta: this.refObj.rawData.snippetMeta || "",
-		snippet_title: this.refObj.rawData.pageTitle || ""
+		snippet_title: this.refObj.rawData.snippetTitle || ""
 	};
 	this.init();
 };
