@@ -133,6 +133,8 @@
  * @returns {string}
  */
 function ystClean( str ) {
+	console.error( 'ystClean is deprecated since Yoast SEO 3.0, use YoastSEO.js functionality instead.' );
+
 	return str;
 }
 
@@ -146,6 +148,8 @@ function ystClean( str ) {
  * @returns {string}
  */
 function ystFocusKwTest( str, p ) {
+	console.error( 'ystFocusKwTest is deprecated since Yoast SEO 3.0, use YoastSEO.js functionality instead.' );
+
 	return '';
 }
 
