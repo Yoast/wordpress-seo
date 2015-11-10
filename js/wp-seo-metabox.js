@@ -122,3 +122,201 @@
 		initAddKeywordPopup();
 	});
 }( jQuery ));
+
+/* jshint ignore:start */
+/**
+ * Cleans up a string, removing script tags etc.
+ *
+ * @deprecated since version 3.0
+ *
+ * @param {string} str
+ * @returns {string}
+ */
+function ystClean( str ) {
+	console.error( 'ystClean is deprecated since Yoast SEO 3.0, use YoastSEO.js functionality instead.' );
+
+	return str;
+}
+
+/**
+ * Tests whether given element `str` matches `p`.
+ *
+ * @deprecated since version 3.0
+ *
+ * @param {string} str The string to match
+ * @param {RegExp} p The regex to match
+ * @returns {string}
+ */
+function ystFocusKwTest( str, p ) {
+	console.error( 'ystFocusKwTest is deprecated since Yoast SEO 3.0, use YoastSEO.js functionality instead.' );
+
+	return '';
+}
+
+/**
+ * The function name says it all, removes lower case diacritics
+ *
+ * @deprecated since version 3.0
+ *
+ * @param {string} str
+ * @returns {string}
+ */
+function ystRemoveLowerCaseDiacritics( str ) {
+	console.error( 'ystRemoveLowerCaseDiacritics is deprecated since Yoast SEO 3.0, use YoastSEO.js functionality instead.' );
+
+	return str;
+}
+
+/**
+ * Tests whether the focus keyword is used in title, body and description
+ *
+ * @deprecated since version 3.0
+ */
+function ystTestFocusKw() {
+	console.error( 'ystTestFocusKw is deprecated since Yoast SEO 3.0, use YoastSEO.js functionality instead.' );
+}
+
+/**
+ * This callback is used for variable replacement
+ *
+ * This is done through a callback as it _could_ be that `ystReplaceVariables` has to do an AJAX request.
+ *
+ * @callback replaceVariablesCallback
+ * @param {string} str The string with the replaced variables in it
+ */
+
+/**
+ * Replaces variables either with values from wpseoMetaboxL10n, by grabbing them from the page or (ultimately) getting them through AJAX
+ *
+ * @deprecated since version 3.0
+ *
+ * @param {string} str The string with variables to be replaced
+ * @param {replaceVariablesCallback} callback Callback function for when the
+ */
+function ystReplaceVariables( str, callback ) {
+	console.error( 'ystReplaceVariables is deprecated since Yoast SEO 3.0, use YoastSEO.js functionality instead.' );
+
+	callback( str );
+}
+
+/**
+ * Replace a variable with a string, through an AJAX call to WP
+ *
+ * @deprecated since version 3.0
+ *
+ * @param {string} replaceableVar
+ * @param {replaceVariablesCallback} callback
+ */
+function ystAjaxReplaceVariables( replaceableVar, callback ) {
+	console.error( 'ystAjaxReplaceVariables is deprecated since Yoast SEO 3.0, use YoastSEO.js functionality instead.' );
+}
+
+/**
+ * Updates the title in the snippet preview
+ *
+ * @deprecated since version 3.0
+ *
+ * @param {boolean} [force = false]
+ */
+function ystUpdateTitle( force ) {
+	console.error( 'ystUpdateTitle is deprecated since Yoast SEO 3.0, use YoastSEO.js functionality instead.' );
+}
+
+/**
+ * Cleans the title before use
+ *
+ * @deprecated since version 3.0
+ *
+ * @param {string} title
+ * @returns {string}
+ */
+function ystSanitizeTitle( title ) {
+	console.error( 'ystSanitizeTitle is deprecated since Yoast SEO 3.0, use YoastSEO.js functionality instead.' );
+
+	return title;
+}
+
+/**
+ * Updates the meta description in the snippet preview
+ *
+ * @deprecated since version 3.0
+ */
+function ystUpdateDesc() {
+	console.error( 'ystUpdateDesc is deprecated since Yoast SEO 3.0, use YoastSEO.js functionality instead.' );
+}
+
+/**
+ * Sanitized the description
+ *
+ * @deprecated since version 3.0
+ *
+ * @param {string} desc
+ * @returns {string}
+ */
+function ystSanitizeDesc( desc ) {
+	console.error( 'ystSanitizeDesc is deprecated since Yoast SEO 3.0, use YoastSEO.js functionality instead.' );
+
+	return desc;
+}
+
+/**
+ * Trims the description to the desired length
+ *
+ * @deprecated since version 3.0
+ *
+ * @param {string} desc
+ * @returns {string}
+ */
+function ystTrimDesc( desc ) {
+	console.error( 'ystTrimDesc is deprecated since Yoast SEO 3.0, use YoastSEO.js functionality instead.' );
+
+	return desc;
+}
+
+/**
+ * Updates the URL in the snippet preview
+ *
+ * @deprecated since version 3.0
+ */
+function ystUpdateURL() {
+	console.error( 'ystUpdateURL is deprecated since Yoast SEO 3.0, use YoastSEO.js functionality instead.' );
+}
+
+/**
+ * Bolds the keywords in a string
+ *
+ * @deprecated since version 3.0
+ *
+ * @param {string} str
+ * @param {boolean} url
+ * @returns {string}
+ */
+function ystBoldKeywords( str, url ) {
+	console.error( 'ystBoldKeywords is deprecated since Yoast SEO 3.0, use YoastSEO.js functionality instead.' );
+
+	return str;
+}
+
+/**
+ * Updates the entire snippet preview
+ *
+ * @deprecated since version 3.0
+ */
+function ystUpdateSnippet() {
+	console.error( 'ystUpdateSnippet is deprecated since Yoast SEO 3.0, use YoastSEO.js functionality instead.' );
+}
+
+/**
+ * Escapres the focus keyword
+ *
+ * @deprecated since version 3.0
+ *
+ * @param {string} str
+ * @returns {string}
+ */
+function ystEscapeFocusKw( str ) {
+	console.error( 'ystEscapeFocusKw is deprecated since Yoast SEO 3.0, use YoastSEO.js functionality instead.' );
+
+	return str;
+}
+/* jshint ignore:end */

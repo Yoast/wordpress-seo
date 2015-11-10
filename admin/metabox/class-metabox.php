@@ -54,8 +54,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		self::$meta_fields['general']['pageanalysis']['title'] = __( 'Page Analysis', 'wordpress-seo' );
 		self::$meta_fields['general']['pageanalysis']['help']  = sprintf( __( 'This is the content analysis, a collection of content checks that analyze the content of your page. Read %sthis post%s for more info.', 'wordpress-seo' ), '<a href="https://yoast.com/real-time-content-analysis/#utm_source=wordpress-seo-metabox&amp;utm_medium=inline-help&amp;utm_campaign=snippet-preview">', '</a>' );
 
-		self::$meta_fields['general']['focuskw']['title'] = __( 'Focus Keyword', 'wordpress-seo' );
-		self::$meta_fields['general']['focuskw']['help']  = sprintf( __( 'Pick the main keyword or keyphrase that this post/page is about.<br/><br/>Read %sthis post%s for more info.', 'wordpress-seo' ), '<a href="https://yoast.com/focus-keyword/#utm_source=wordpress-seo-metabox&amp;utm_medium=inline-help&amp;utm_campaign=focus-keyword">', '</a>' );
+		self::$meta_fields['general']['focuskw_text_input']['title'] = __( 'Focus Keyword', 'wordpress-seo' );
+		self::$meta_fields['general']['focuskw_text_input']['help']  = sprintf( __( 'Pick the main keyword or keyphrase that this post/page is about.<br/><br/>Read %sthis post%s for more info.', 'wordpress-seo' ), '<a href="https://yoast.com/focus-keyword/#utm_source=wordpress-seo-metabox&amp;utm_medium=inline-help&amp;utm_campaign=focus-keyword">', '</a>' );
 
 		self::$meta_fields['general']['title']['title']       = __( 'SEO Title', 'wordpress-seo' );
 
@@ -366,7 +366,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		return new WPSEO_Metabox_Tab_Section(
 			'content',
-			'<span class="dashicons dashicons-yes"></span>',
+			'<span class="yst-traffic-light-container">' . $this->traffic_light_svg() . '</span>',
 			$tabs,
 			array(
 				'link_alt' => __( 'Content', 'wordpress-seo' ),
@@ -786,50 +786,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		return array();
 	}
 
-	/********************** DEPRECATED METHODS **********************/
-
-	/**
-	 * Adds the Yoast SEO box
-	 *
-	 * @deprecated 1.4.24
-	 * @deprecated use WPSEO_Metabox::add_meta_box()
-	 * @see        WPSEO_Meta::add_meta_box()
-	 */
-	public function add_custom_box() {
-		_deprecated_function( __METHOD__, 'WPSEO 1.4.24', 'WPSEO_Metabox::add_meta_box()' );
-		$this->add_meta_box();
-	}
-
-	/**
-	 * Retrieve the meta boxes for the given post type.
-	 *
-	 * @deprecated 1.5.0
-	 * @deprecated use WPSEO_Meta::get_meta_field_defs()
-	 * @see        WPSEO_Meta::get_meta_field_defs()
-	 *
-	 * @param  string $post_type The post type for which to get the meta fields.
-	 *
-	 * @return  array
-	 */
-	public function get_meta_boxes( $post_type = 'post' ) {
-		_deprecated_function( __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Meta::get_meta_field_defs()' );
-
-		return $this->get_meta_field_defs( 'general', $post_type );
-	}
-
-	/**
-	 * Pass some variables to js
-	 *
-	 * @deprecated 1.5.0
-	 * @deprecated use WPSEO_Meta::localize_script()
-	 * @see        WPSEO_Meta::localize_script()
-	 */
-	public function script() {
-		_deprecated_function( __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Meta::localize_script()' );
-
-		return $this->localize_script();
-	}
-
 	/**
 	 * Returns an array with shortcode tags for all registered shortcodes.
 	 *
@@ -910,6 +866,52 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	}
 
 	/**
+	 * Return the SVG for the traffic light in the metabox.
+	 */
+	public function traffic_light_svg() {
+		return <<<SVG
+<svg class="yst-traffic-light na" version="1.1" xmlns:x="&ns_extend;" xmlns:i="&ns_ai;" xmlns:graph="&ns_graphs;"
+	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:a="http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/"
+	 x="0px" y="0px" viewBox="0 0 30 47" enable-background="new 0 0 30 47" xml:space="preserve">
+<g id="BG_1_">
+</g>
+<g id="traffic_light">
+	<g>
+		<g>
+			<g>
+				<path fill="#5B2942" d="M22,0H8C3.6,0,0,3.6,0,7.9v31.1C0,43.4,3.6,47,8,47h14c4.4,0,8-3.6,8-7.9V7.9C30,3.6,26.4,0,22,0z
+					 M27.5,38.8c0,3.1-2.6,5.7-5.8,5.7H8.3c-3.2,0-5.8-2.5-5.8-5.7V8.3c0-1.5,0.6-2.9,1.7-4c1.1-1,2.5-1.6,4.1-1.6h13.4
+					c1.5,0,3,0.6,4.1,1.6c1.1,1.1,1.7,2.5,1.7,4V38.8z"/>
+			</g>
+			<g class="traffic-light-color traffic-light-red">
+				<ellipse fill="#C8C8C8" cx="15" cy="23.5" rx="5.7" ry="5.6"/>
+				<ellipse fill="#E31C15" cx="15" cy="10.9" rx="5.7" ry="5.6"/>
+				<ellipse fill="#C8C8C8" cx="15" cy="36.1" rx="5.7" ry="5.6"/>
+			</g>
+			<g class="traffic-light-color traffic-light-orange">
+				<ellipse fill="#F49A00" cx="15" cy="23.5" rx="5.7" ry="5.6"/>
+				<ellipse fill="#C8C8C8" cx="15" cy="10.9" rx="5.7" ry="5.6"/>
+				<ellipse fill="#C8C8C8" cx="15" cy="36.1" rx="5.7" ry="5.6"/>
+			</g>
+			<g class="traffic-light-color traffic-light-green">
+				<ellipse fill="#C8C8C8" cx="15" cy="23.5" rx="5.7" ry="5.6"/>
+				<ellipse fill="#C8C8C8" cx="15" cy="10.9" rx="5.7" ry="5.6"/>
+				<ellipse fill="#63B22B" cx="15" cy="36.1" rx="5.7" ry="5.6"/>
+			</g>
+			<g class="traffic-light-color traffic-light-empty">
+				<ellipse fill="#5B2942" cx="15" cy="23.5" rx="5.7" ry="5.6"/>
+				<ellipse fill="#5B2942" cx="15" cy="10.9" rx="5.7" ry="5.6"/>
+				<ellipse fill="#5B2942" cx="15" cy="36.1" rx="5.7" ry="5.6"/>
+			</g>
+		</g>
+	</g>
+</g>
+</svg>
+SVG;
+
+	}
+
+	/**
 	 * Keyword tab for enabling analysis of multiple keywords.
 	 */
 	public function template_keyword_tab() {
@@ -919,7 +921,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		}
 
 		echo '<script type="text/html" id="tmpl-keyword_tab">
-				<li class="wpseo_keyword_tab">
+				<li class="wpseo_keyword_tab<# if ( data.active ) { #> active<# } #>">
 					<a class="wpseo_tablink" href="#wpseo_content" data-keyword="{{data.keyword}}" data-score="{{data.score}}">
 						{{data.prefix}}
 						<span class="wpseo-score-icon {{data.score}}">
@@ -945,5 +947,457 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			return json_decode( $file, true );
 		}
 		return array();
+	}
+
+	/********************** DEPRECATED METHODS **********************/
+
+	/**
+	 * Adds the Yoast SEO box
+	 *
+	 * @deprecated 1.4.24
+	 * @deprecated use WPSEO_Metabox::add_meta_box()
+	 * @see        WPSEO_Meta::add_meta_box()
+	 */
+	public function add_custom_box() {
+		_deprecated_function( __METHOD__, 'WPSEO 1.4.24', 'WPSEO_Metabox::add_meta_box()' );
+		$this->add_meta_box();
+	}
+
+	/**
+	 * Retrieve the meta boxes for the given post type.
+	 *
+	 * @deprecated 1.5.0
+	 * @deprecated use WPSEO_Meta::get_meta_field_defs()
+	 * @see        WPSEO_Meta::get_meta_field_defs()
+	 *
+	 * @param  string $post_type The post type for which to get the meta fields.
+	 *
+	 * @return  array
+	 */
+	public function get_meta_boxes( $post_type = 'post' ) {
+		_deprecated_function( __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Meta::get_meta_field_defs()' );
+
+		return $this->get_meta_field_defs( 'general', $post_type );
+	}
+
+	/**
+	 * Pass some variables to js
+	 *
+	 * @deprecated 1.5.0
+	 * @deprecated use WPSEO_Meta::localize_script()
+	 * @see        WPSEO_Meta::localize_script()
+	 */
+	public function script() {
+		_deprecated_function( __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Meta::localize_script()' );
+
+		return $this->localize_script();
+	}
+
+	/**
+	 * @deprecated 3.0 Removed, use javascript functions instead
+	 *
+	 * @param string $string Deprecated.
+	 *
+	 * @return string
+	 */
+	public function strtolower_utf8( $string ) {
+		_deprecated_function( 'WPSEO_Metabox::strtolower_utf8', 'WPSEO 3.0', 'use javascript instead' );
+
+		return $string;
+	}
+
+	/**
+	 * @deprecated 3.0 Removed.
+	 *
+	 * @return array
+	 */
+	public function localize_script() {
+		_deprecated_function( 'WPSEO_Metabox::localize_script', 'WPSEO 3.0' );
+
+		return array();
+	}
+
+	/**
+	 * @deprecated 3.0 Removed, use javascript functions instead.
+	 *
+	 * @return string
+	 */
+	public function snippet() {
+		_deprecated_function( 'WPSEO_Metabox::snippet', 'WPSEO 3.0', 'use javascript instead' );
+
+		return '';
+	}
+
+	/**
+	 * @deprecated 3.0 Use WPSEO_Meta_Columns::posts_filter_dropdown instead.
+	 */
+	public function posts_filter_dropdown() {
+		_deprecated_function( 'WPSEO_Metabox::posts_filter_dropdown', 'WPSEO 3.0', 'WPSEO_Metabox_Columns::posts_filter_dropdown' );
+
+		/** @var WPSEO_Meta_Columns $meta_columns */
+		$meta_columns = $GLOBALS['wpseo_meta_columns'];
+		$meta_columns->posts_filter_dropdown();
+	}
+
+	/**
+	 * @deprecated 3.0 Use WPSEO_Meta_Columns::column_heading instead.
+	 *
+	 * @param array $columns Already existing columns.
+	 *
+	 * @return array
+	 */
+	public function column_heading( $columns ) {
+		_deprecated_function( 'WPSEO_Metabox::column_heading', 'WPSEO 3.0', 'WPSEO_Metabox_Columns::column_heading' );
+
+		/** @var WPSEO_Meta_Columns $meta_columns */
+		$meta_columns = $GLOBALS['wpseo_meta_columns'];
+		return $meta_columns->column_heading( $columns );
+	}
+
+	/**
+	 * @deprecated 3.0 Use WPSEO_Meta_Columns::column_content instead.
+	 *
+	 * @param string $column_name Column to display the content for.
+	 * @param int    $post_id     Post to display the column content for.
+	 */
+	public function column_content( $column_name, $post_id ) {
+		_deprecated_function( 'WPSEO_Metabox::column_content', 'WPSEO 3.0', 'WPSEO_Metabox_Columns::column_content' );
+
+		/** @var WPSEO_Meta_Columns $meta_columns */
+		$meta_columns = $GLOBALS['wpseo_meta_columns'];
+		$meta_columns->column_content( $column_name, $post_id );
+	}
+
+	/**
+	 * @deprecated 3.0 Use WPSEO_Meta_Columns::column_sort instead.
+	 *
+	 * @param array $columns appended with their orderby variable.
+	 *
+	 * @return array
+	 */
+	public function column_sort( $columns ) {
+		_deprecated_function( 'WPSEO_Metabox::column_sort', 'WPSEO 3.0', 'WPSEO_Metabox_Columns::column_sort' );
+
+		/** @var WPSEO_Meta_Columns $meta_columns */
+		$meta_columns = $GLOBALS['wpseo_meta_columns'];
+		return $meta_columns->column_sort( $columns );
+	}
+
+	/**
+	 * @deprecated 3.0 Use WPSEO_Meta_Columns::column_sort_orderby instead.
+	 *
+	 * @param array $vars Query variables.
+	 *
+	 * @return array
+	 */
+	public function column_sort_orderby( $vars ) {
+		_deprecated_function( 'WPSEO_Metabox::column_sort_orderby', 'WPSEO 3.0', 'WPSEO_Metabox_Columns::column_sort_orderby' );
+
+		/** @var WPSEO_Meta_Columns $meta_columns */
+		$meta_columns = $GLOBALS['wpseo_meta_columns'];
+		return $meta_columns->column_sort_orderby( $vars );
+	}
+
+	/**
+	 * @deprecated 3.0 Use WPSEO_Meta_Columns::column_hidden instead.
+	 *
+	 * @param array|false $result The hidden columns.
+	 * @param string      $option The option name used to set which columns should be hidden.
+	 * @param WP_User     $user The User.
+	 *
+	 * @return array|false $result
+	 */
+	public function column_hidden( $result, $option, $user ) {
+		_deprecated_function( 'WPSEO_Metabox::column_hidden', 'WPSEO 3.0', 'WPSEO_Metabox_Columns::column_hidden' );
+
+		/** @var WPSEO_Meta_Columns $meta_columns */
+		$meta_columns = $GLOBALS['wpseo_meta_columns'];
+		return $meta_columns->column_hidden( $result, $option, $user );
+	}
+
+	/**
+	 * @deprecated 3.0 Use WPSEO_Meta_Columns::seo_score_posts_where instead.
+	 *
+	 * @param string $where  Where clause.
+	 *
+	 * @return string
+	 */
+	public function seo_score_posts_where( $where ) {
+		_deprecated_function( 'WPSEO_Metabox::seo_score_posts_where', 'WPSEO 3.0', 'WPSEO_Metabox_Columns::seo_score_posts_where' );
+
+		/** @var WPSEO_Meta_Columns $meta_columns */
+		$meta_columns = $GLOBALS['wpseo_meta_columns'];
+		return $meta_columns->seo_score_posts_where( $where );
+	}
+
+	/**
+	 * @deprecated 3.0 Removed.
+	 *
+	 * @param int $post_id Post to retrieve the title for.
+	 *
+	 * @return string
+	 */
+	public function page_title( $post_id ) {
+		_deprecated_function( 'WPSEO_Metabox::page_title', 'WPSEO 3.0' );
+
+		return '';
+	}
+
+	/**
+	 * @deprecated 3.0
+	 *
+	 * @param array  $array Array to sort, array is returned sorted.
+	 * @param string $key   Key to sort array by.
+	 */
+	public function aasort( &$array, $key ) {
+		_deprecated_function( 'WPSEO_Metabox::aasort', 'WPSEO 3.0' );
+
+	}
+
+	/**
+	 * @deprecated 3.0
+	 *
+	 * @param object $post Post to output the page analysis results for.
+	 *
+	 * @return string
+	 */
+	public function linkdex_output( $post ) {
+		_deprecated_function( 'WPSEO_Metabox::linkdex_output', 'WPSEO 3.0' );
+
+		return '';
+
+	}
+
+	/**
+	 * @deprecated 3.0
+	 *
+	 * @param  object $post Post to calculate the results for.
+	 *
+	 * @return  array|WP_Error
+	 */
+	public function calculate_results( $post ) {
+		_deprecated_function( 'WPSEO_Metabox::calculate_results', 'WPSEO 3.0' );
+
+		return array();
+
+	}
+
+	/**
+	 * @deprecated 3.0
+	 *
+	 * @param WP_Post $post Post object instance.
+	 *
+	 * @return    array
+	 */
+	public function get_sample_permalink( $post ) {
+		_deprecated_function( 'WPSEO_Metabox::get_sample_permalink', 'WPSEO 3.0' );
+
+		return array();
+	}
+
+	/**
+	 * @deprecated 3.0
+	 *
+	 * @param array  $results      The results array used to store results.
+	 * @param int    $scoreValue   The score value.
+	 * @param string $scoreMessage The score message.
+	 * @param string $scoreLabel   The label of the score to use in the results array.
+	 * @param string $rawScore     The raw score, to be used by other filters.
+	 */
+	public function save_score_result( &$results, $scoreValue, $scoreMessage, $scoreLabel, $rawScore = null ) {
+		_deprecated_function( 'WPSEO_Metabox::save_score_result', 'WPSEO 3.0' );
+	}
+
+	/**
+	 * @deprecated 3.0
+	 *
+	 * @param string $inputString              String to clean up.
+	 * @param bool   $removeOptionalCharacters Whether or not to do a cleanup of optional chars too.
+	 *
+	 * @return string
+	 */
+	public function strip_separators_and_fold( $inputString, $removeOptionalCharacters ) {
+		_deprecated_function( 'WPSEO_Metabox::strip_separators_and_f', 'WPSEO 3.0' );
+
+		return '';
+	}
+
+	/**
+	 * @deprecated 3.0
+	 *
+	 * @param array $job     Job data array.
+	 * @param array $results Results set by reference.
+	 */
+	public function check_double_focus_keyword( $job, &$results ) {
+		_deprecated_function( 'WPSEO_Metabox::check_double_focus_key', 'WPSEO 3.0' );
+
+	}
+
+	/**
+	 * @deprecated 3.0
+	 *
+	 * @param string $keyword The keyword to check for stopwords.
+	 * @param array  $results The results array.
+	 */
+	public function score_keyword( $keyword, &$results ) {
+		_deprecated_function( 'WPSEO_Metabox::score_keyword', 'WPSEO 3.0' );
+	}
+
+	/**
+	 * @deprecated 3.0
+	 *
+	 * @param array $job     The job array holding both the keyword and the URLs.
+	 * @param array $results The results array.
+	 */
+	public function score_url( $job, &$results ) {
+		_deprecated_function( 'WPSEO_Metabox::score_url', 'WPSEO 3.0' );
+	}
+
+	/**
+	 * @deprecated 3.0
+	 *
+	 * @param array $job     The job array holding both the keyword versions.
+	 * @param array $results The results array.
+	 */
+	public function score_title( $job, &$results ) {
+		_deprecated_function( 'WPSEO_Metabox::score_title', 'WPSEO 3.0' );
+	}
+
+	/**
+	 * @deprecated 3.0
+	 *
+	 * @param array $job          The job array holding both the keyword versions.
+	 * @param array $results      The results array.
+	 * @param array $anchor_texts The array holding all anchors in the document.
+	 * @param array $count        The number of anchors in the document, grouped by type.
+	 */
+	public function score_anchor_texts( $job, &$results, $anchor_texts, $count ) {
+		_deprecated_function( 'WPSEO_Metabox::score_anchor_texts', 'WPSEO 3.0' );
+	}
+
+	/**
+	 * @deprecated 3.0
+	 *
+	 * @param object $xpath An XPATH object of the current document.
+	 *
+	 * @return array
+	 */
+	public function get_anchor_texts( &$xpath ) {
+		_deprecated_function( 'WPSEO_Metabox::get_anchor_texts', 'WPSEO 3.0' );
+
+		return array();
+	}
+
+	/**
+	 * @deprecated 3.0
+	 *
+	 * @param object $xpath An XPATH object of the current document.
+	 *
+	 * @return array
+	 */
+	public function get_anchor_count( &$xpath ) {
+		_deprecated_function( 'WPSEO_Metabox::get_anchor_count', 'WPSEO 3.0' );
+
+		return array();
+	}
+
+	/**
+	 * @deprecated 3.0
+	 *
+	 * @param array $job     The job array holding both the keyword versions.
+	 * @param array $results The results array.
+	 * @param array $imgs    The array with images alt texts.
+	 */
+	public function score_images_alt_text( $job, &$results, $imgs ) {
+		_deprecated_function( 'WPSEO_Metabox::score_images_alt_text', 'WPSEO 3.0' );
+	}
+
+	/**
+	 * @deprecated 3.0
+	 *
+	 * @param int    $post_id The post to find images in.
+	 * @param string $body    The post content to find images in.
+	 * @param array  $imgs    The array holding the image information.
+	 *
+	 * @return array The updated images array.
+	 */
+	public function get_images_alt_text( $post_id, $body, $imgs ) {
+		_deprecated_function( 'WPSEO_Metabox::get_images_alt_text', 'WPSEO 3.0' );
+
+		return array();
+	}
+
+	/**
+	 * @deprecated 3.0
+	 *
+	 * @param array $job      The array holding the keywords.
+	 * @param array $results  The results array.
+	 * @param array $headings The headings found in the document.
+	 */
+	public function score_headings( $job, &$results, $headings ) {
+		_deprecated_function( 'WPSEO_Metabox::score_headings', 'WPSEO 3.0' );
+	}
+
+	/**
+	 * @deprecated 3.0
+	 *
+	 * @param string $postcontent Post content to find headings in.
+	 *
+	 * @return array Array of heading texts.
+	 */
+	public function get_headings( $postcontent ) {
+		_deprecated_function( 'WPSEO_Metabox::get_headings', 'WPSEO 3.0' );
+
+		return array();
+	}
+
+	/**
+	 * @deprecated 3.0
+	 *
+	 * @param array  $job         The array holding the keywords.
+	 * @param array  $results     The results array.
+	 * @param string $description The meta description.
+	 * @param int    $maxlength   The maximum length of the meta description.
+	 */
+	public function score_description( $job, &$results, $description, $maxlength = 155 ) {
+		_deprecated_function( 'WPSEO_Metabox::score_description', 'WPSEO 3.0' );
+	}
+
+	/**
+	 * @deprecated 3.0
+	 *
+	 * @param array  $job     The array holding the keywords.
+	 * @param array  $results The results array.
+	 * @param string $body    The body.
+	 * @param string $firstp  The first paragraph.
+	 */
+	public function score_body( $job, &$results, $body, $firstp ) {
+		_deprecated_function( 'WPSEO_Metabox::score_body', 'WPSEO 3.0' );
+	}
+
+	/**
+	 * @deprecated 3.0
+	 *
+	 * @param object $post The post object.
+	 *
+	 * @return string The post content.
+	 */
+	public function get_body( $post ) {
+		_deprecated_function( 'WPSEO_Metabox::get_body', 'WPSEO 3.0' );
+
+		return '';
+	}
+
+	/**
+	 * @deprecated 3.0
+	 *
+	 * @param string $body The post content to retrieve the first paragraph from.
+	 *
+	 * @return string
+	 */
+	public function get_first_paragraph( $body ) {
+		_deprecated_function( 'WPSEO_Metabox::get_first_paragraph', 'WPSEO 3.0' );
+
+		return '';
 	}
 } /* End of class */

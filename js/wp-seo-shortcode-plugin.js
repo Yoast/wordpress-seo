@@ -93,7 +93,17 @@
 	 */
 	YoastShortcodePlugin.prototype.bindElementEvents = function() {
 		document.getElementById( 'content' ).addEventListener( 'keydown', this.loadShortcodes.bind( this, this.declareReloaded.bind( this ) ) );
-		document.getElementById( 'content' ).addEventListener( 'input', this.loadShortcodes.bind( this, this.declareReloaded.bind( this ) ) );
+		document.getElementById( 'content' ).addEventListener( 'change', this.loadShortcodes.bind( this, this.declareReloaded.bind( this ) ) );
+
+		var that = this;
+		tinyMCE.on( 'addEditor', function(e) {
+			e.editor.on( 'change', function() {
+				that.loadShortcodes.bind( that, that.declareReloaded.bind( that ) )();
+			} );
+			e.editor.on( 'keydown', function() {
+				that.loadShortcodes.bind( that, that.declareReloaded.bind( that ) )();
+			} );
+		});
 	};
 
 	/**

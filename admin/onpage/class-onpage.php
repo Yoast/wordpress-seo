@@ -37,6 +37,13 @@ class WPSEO_OnPage {
 	}
 
 	/**
+	 * The hooks to run on plugin activation
+	 */
+	public function activate_hooks() {
+		$this->set_cron();
+	}
+
+	/**
 	 * Adding a weekly schedule to the schedules array
 	 *
 	 * @param array $schedules Array with schedules.
@@ -144,7 +151,7 @@ class WPSEO_OnPage {
 		if ( $this->is_manual_request ) {
 			$message = sprintf(
 				/* translators: 1: opens link to Github issues page. 2: Expands to Yoast SEO, 3: closes the link. */
-				__( 'The OnPage.org server is currently not available, please try again later. If you keep getting this error, %1$splease create an issue on the %2$s GitHub repository%3$s.', 'wordpress-seo' ),
+				__( 'The OnPage.org server is currently unavailable, please try again later. If you keep getting this error, %1$splease create an issue on the %2$s GitHub repository%3$s.', 'wordpress-seo' ),
 				'<a href="https://github.com/Yoast/wordpress-seo/issues" target="_blank">',
 				'Yoast SEO',
 				'</a>'
@@ -174,13 +181,6 @@ class WPSEO_OnPage {
 
 		// Setting the action for the OnPage fetch.
 		add_action( 'wpseo_onpage_fetch', array( $this, 'fetch_from_onpage' ) );
-	}
-
-	/**
-	 * The hooks to run on plugin activation
-	 */
-	private function activate_hooks() {
-		$this->set_cron();
 	}
 
 	/**

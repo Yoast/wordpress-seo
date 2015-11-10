@@ -87,8 +87,8 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 				$this->get_social_tab_content( 'opengraph', $social_meta_fields ),
 				'<span class="dashicons dashicons-facebook-alt"></span>',
 				array(
-					'link_alt' => __( 'Facebook / Opengraph metadata', 'wordpress-seo' ),
-					'link_title' => __( 'Facebook / Opengraph metadata', 'wordpress-seo' ),
+					'link_alt' => __( 'Facebook / Open Graph metadata', 'wordpress-seo' ),
+					'link_title' => __( 'Facebook / Open Graph metadata', 'wordpress-seo' ),
 				)
 			);
 		}
@@ -223,5 +223,27 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 		_deprecated_function( __METHOD__, 'WPSEO 1.5.0', 'WPSEO_Meta::get_meta_field_defs()' );
 
 		return $this->get_meta_field_defs( 'social' );
+	}
+
+	/**
+	 * @deprecated 3.0 Removed.
+	 *
+	 * @return string
+	 */
+	public function tab_header() {
+		_deprecated_function( 'WPSEO_Social_Admin::tab_header', 'WPSEO 3.0' );
+
+		return '';
+	}
+
+	/**
+	 * @deprecated 3.0 Removed.
+	 *
+	 * @return string
+	 */
+	public function tab_content() {
+		_deprecated_function( 'WPSEO_Social_Admin::tab_content', 'WPSEO 3.0' );
+
+		return '';
 	}
 } /* End of class */
