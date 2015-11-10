@@ -354,3 +354,38 @@ img.yoast_help {
 .inside .wpseotab .form-table.wpseo-taxonomy-form th {
 	width: 200px !important;
 }
+
+.yst-traffic-light-container {
+	display: block;
+	height: 30px;
+}
+
+.yst-traffic-light {
+	height: 30px;
+	margin: 0 0 0 5px;
+}
+
+.yst-traffic-light .traffic-light-color {
+	display: none;
+}
+
+.yst-traffic-light.init .traffic-light-init {
+	display: inline;
+}
+
+.yst-traffic-light.bad .traffic-light-red {
+	display: inline;
+}
+
+.yst-traffic-light.ok .traffic-light-orange,
+.yst-traffic-light.poor .traffic-light-orange {
+	display: inline;
+}
+
+.yst-traffic-light.good .traffic-light-green {
+	display: inline;
+}
+
+.yst-traffic-light.na .traffic-light-empty {
+	display: inline;
+}

@@ -37,7 +37,8 @@
 		"classmap": [
 			"admin/",
 			"frontend/",
-			"inc/"
+			"inc/",
+			"deprecated/"
 		]
 	},
 	"scripts": {

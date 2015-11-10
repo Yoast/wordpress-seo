@@ -87,7 +87,7 @@
 			baseUrl: this.getDataFromInput( 'baseUrl' ),
 			excerpt: this.getDataFromInput( 'excerpt' ),
 			snippetTitle: this.getDataFromInput( 'snippetTitle' ),
-			snippetMeta: this.getDataFromInput( 'meta' ),
+			snippetMeta: this.getDataFromInput( 'snippetMeta' ),
 			snippetCite: this.getDataFromInput( 'cite' )
 		};
 	};
@@ -118,19 +118,30 @@
 				break;
 			case 'meta':
 				val = document.getElementById( 'yoast_wpseo_metadesc' ).value;
+				if ( val === '' ) {
+					val = wpseoPostScraperL10n.metadesc_template;
+				}
+				break;
+			case 'snippetMeta':
+				val = document.getElementById( 'yoast_wpseo_metadesc' ).value;
 				break;
 			case 'keyword':
-				val = document.getElementById( 'yoast_wpseo_focuskw' ).value;
+				val = document.getElementById( 'yoast_wpseo_focuskw_text_input' ).value;
 				currentKeyword = val;
 				break;
 			case 'title':
+				val = document.getElementById( 'title' ).value;
+				break;
 			case 'snippetTitle':
 				val = document.getElementById( 'yoast_wpseo_title' ).value;
 				break;
 			case 'pageTitle':
 				val = document.getElementById( 'yoast_wpseo_title' ).value;
 				if ( val === '' ) {
-					val = document.getElementById( 'title' ).value;
+					val = wpseoPostScraperL10n.title_template;
+				}
+				if (val === '' ) {
+					val = '%%title%% - %%sitename%%';
 				}
 				break;
 			case 'excerpt':
@@ -188,8 +199,8 @@
 	PostScraper.prototype.bindElementEvents = function( app ) {
 		this.snippetPreviewEventBinder( app.snippetPreview );
 		this.inputElementEventBinder( app );
-		document.getElementById( 'yoast_wpseo_focuskw' ).addEventListener( 'keydown', app.snippetPreview.disableEnter );
-		document.getElementById( 'yoast_wpseo_focuskw' ).addEventListener( 'keyup', this.updateKeywordUsage );
+		document.getElementById( 'yoast_wpseo_focuskw_text_input' ).addEventListener( 'keydown', app.snippetPreview.disableEnter );
+		document.getElementById( 'yoast_wpseo_focuskw_text_input' ).addEventListener( 'keyup', this.updateKeywordUsage );
 	};
 
 	/**
@@ -203,9 +214,6 @@
 		for ( var i = 0; i < elems.length; i++ ) {
 			this.bindSnippetEvents( document.getElementById( elems [ i ] ), snippetPreview );
 		}
-		var title = document.getElementById( 'snippet_title' );
-		title.addEventListener( 'focus', snippetPreview.setSiteName.bind ( snippetPreview ) );
-		title.addEventListener( 'blur', snippetPreview.unsetSiteName.bind ( snippetPreview ) );
 	};
 
 	/**
@@ -240,7 +248,7 @@
 	 * binds the renewData function on the change of inputelements.
 	 */
 	PostScraper.prototype.inputElementEventBinder = function( app ) {
-		var elems = [ 'excerpt', 'content', 'yoast_wpseo_focuskw', 'title' ];
+		var elems = [ 'excerpt', 'content', 'yoast_wpseo_focuskw_text_input', 'title' ];
 		for ( var i = 0; i < elems.length; i++ ) {
 			var elem = document.getElementById( elems[ i ] );
 			if ( elem !== null ) {
@@ -257,7 +265,7 @@
 			}
 		});
 
-		document.getElementById( 'yoast_wpseo_focuskw' ).addEventListener( 'blur', this.resetQueue );
+		document.getElementById( 'yoast_wpseo_focuskw_text_input' ).addEventListener( 'blur', this.resetQueue );
 	};
 
 	/**
@@ -293,10 +301,19 @@
 	 * @param {string} score
 	 */
 	PostScraper.prototype.saveScores = function( score ) {
+		var cssClass;
+
 		if ( this.isMainKeyword( currentKeyword ) ) {
 			var tmpl = wp.template( 'score_svg' );
 			document.getElementById( 'wpseo-score' ).innerHTML = tmpl();
 			document.getElementById( 'yoast_wpseo_linkdex' ).value = score;
+
+			if ( '' === currentKeyword ) {
+				cssClass = 'na';
+			} else {
+				cssClass = YoastSEO.app.scoreFormatter.overallScoreRating( parseInt( score, 10 ) );
+			}
+			$( '.yst-traffic-light' ).attr( 'class', 'yst-traffic-light ' + cssClass );
 		}
 
 		// If multi keyword isn't available we need to update the first tab (content)
@@ -345,6 +362,8 @@
 		keyword = $( '#yoast_wpseo_focuskw' ).val();
 		score   = $( '#yoast_wpseo_linkdex' ).val();
 
+		$( '#yoast_wpseo_focuskw_text_input' ).val( keyword );
+
 		this.updateKeywordTabContent( keyword, score );
 	};
 
@@ -361,15 +380,18 @@
 		}
 		placeholder = keyword.length > 0 ? keyword : '...';
 
-		score = YoastSEO.ScoreFormatter.prototype.scoreRating( score );
+		score = YoastSEO.ScoreFormatter.prototype.overallScoreRating( score );
 
 		keyword_tab = wp.template( 'keyword_tab' )({
 			keyword: keyword,
 			placeholder: placeholder,
 			score: score,
 			hideRemove: true,
-			prefix: wpseoPostScraperL10n.contentTab + ' '
+			prefix: wpseoPostScraperL10n.contentTab + ' ',
+			active: true
 		});
+
+		$( '#yoast_wpseo_focuskw' ).val( keyword );
 
 		$( '.wpseo_keyword_tab' ).replaceWith( keyword_tab );
 	};
@@ -416,10 +438,8 @@
 			ajax: true,
 			//if it must generate snippetpreview
 			snippetPreview: true,
-			//string to be added to the snippetTitle
-			snippetSuffix: ' ' + wpseoPostScraperL10n.sep + ' ' + wpseoPostScraperL10n.sitename,
 			//element Target Array
-			elementTarget: ['content', 'yoast_wpseo_focuskw', 'yoast_wpseo_metadesc', 'excerpt', 'editable-post-name', 'editable-post-name-full'],
+			elementTarget: ['content', 'yoast_wpseo_focuskw_text_input', 'yoast_wpseo_metadesc', 'excerpt', 'editable-post-name', 'editable-post-name-full'],
 			//replacement target array, elements that must trigger the replace variables function.
 			replaceTarget: ['yoast_wpseo_metadesc', 'excerpt', 'yoast_wpseo_title'],
 			//rest target array, elements that must be reset on focus

@@ -197,12 +197,17 @@
 	 * creates SVG for the overall score.
 	 */
 	TermScraper.prototype.saveScores = function( score ) {
+		var cssClass;
 		var tmpl = wp.template('score_svg');
+
 		document.getElementById( YoastSEO.analyzerArgs.targets.overall ).innerHTML = tmpl();
 		document.getElementById( 'hidden_wpseo_linkdex' ).value = score;
 		jQuery( window ).trigger( 'YoastSEO:numericScore', score );
 
 		this.updateKeywordTabContent( $( '#wpseo_focuskw' ).val(), score );
+
+		cssClass = YoastSEO.app.scoreFormatter.overallScoreRating( parseInt( score, 10 ) );
+		$( '.yst-traffic-light' ).attr( 'class', 'yst-traffic-light ' + cssClass );
 	};
 
 	/**
@@ -231,14 +236,15 @@
 		placeholder = keyword.length > 0 ? keyword : '...';
 
 		score = parseInt( score, 10 );
-		score = YoastSEO.ScoreFormatter.prototype.scoreRating( score );
+		score = YoastSEO.ScoreFormatter.prototype.overallScoreRating( score );
 
 		keyword_tab = wp.template( 'keyword_tab' )({
 			keyword: keyword,
 			placeholder: placeholder,
 			score: score,
 			hideRemove: true,
-			prefix: wpseoTermScraperL10n.contentTab + ' '
+			prefix: wpseoTermScraperL10n.contentTab + ' ',
+			active: true
 		});
 
 		$( '.wpseo_keyword_tab' ).replaceWith( keyword_tab );
@@ -290,6 +296,9 @@
 	 * this way we can use the wp tinyMCE editor on the descriptionfield.
 	 */
 	var tinyMCEReplacer = function() {
+		//gets the textNode from the original textField.
+		var textNode = jQuery( '.term-description-wrap' ).find( 'td' ).find( 'textarea' ).val();
+
 		var newEditor = document.getElementById( 'wp-description-wrap' );
 		newEditor.style.display = 'none';
 		var text = jQuery( '.term-description-wrap' ).find( 'td' ).find( 'p' );
@@ -298,6 +307,7 @@
 		//append the editor and the helptext
 		jQuery( '.term-description-wrap' ).find( 'td' ).append( newEditor ).append( text );
 		newEditor.style.display = 'block';
+		document.getElementById('description').value = textNode;
 	};
 
 	jQuery( document ).ready(function() {
