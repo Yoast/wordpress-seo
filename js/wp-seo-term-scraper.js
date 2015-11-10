@@ -1,4 +1,4 @@
-/* global YoastSEO, wp, wpseoTermScraperL10n, ajaxurl, tinyMCE */
+/* global YoastSEO, wp, wpseoTermScraperL10n, ajaxurl, tinyMCE, YoastReplaceVarPlugin */
 (function( $ ) {
 	'use strict';
 
@@ -18,7 +18,7 @@
 			baseUrl: this.getDataFromInput( 'baseUrl' ),
 			snippetTitle: this.getDataFromInput( 'title' ),
 			meta: this.getDataFromInput( 'meta' ),
-			snippetMeta: this.getDataFromInput( 'meta' ),
+			snippetMeta: this.getDataFromInput( 'snippetMeta' ),
 			snippetCite: this.getDataFromInput( 'cite' )
 		};
 	};
@@ -44,11 +44,25 @@
 				if ( elem !== null ) {
 					val = elem.value;
 				}
+				if ( val === '' ) {
+					val = wpseoTermScraperL10n.metadesc_template;
+				}
+				break;
+			case 'snippetMeta':
+				val = document.getElementById( 'yoast_wpseo_metadesc' ).value;
 				break;
 			case 'text':
 				val = this.getContentTinyMCE();
 				break;
 			case 'pageTitle':
+				val = document.getElementById( 'hidden_wpseo_title' ).value;
+				if ( val === '' ) {
+					val = wpseoTermScraperL10n.title_template;
+				}
+				if (val === '' ) {
+					val = '%%title%% - %%sitename%%';
+				}
+				break;
 			case 'title':
 				val = document.getElementById( 'hidden_wpseo_title' ).value;
 				break;
@@ -369,5 +383,8 @@
 		jQuery( window ).trigger( 'YoastSEO:ready' );
 
 		termScraper.initKeywordTabTemplate();
+
+		//init Plugins
+		new YoastReplaceVarPlugin();
 	} );
 }( jQuery ));
