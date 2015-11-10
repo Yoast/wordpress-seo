@@ -6,7 +6,7 @@
 /**
  * Class handling the redirect options
  */
-class WPSEO_Redirect {
+class WPSEO_Redirect_Option {
 
 	/**
 	 * @var string

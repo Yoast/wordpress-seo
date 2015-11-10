@@ -13,7 +13,7 @@ class WPSEO_Redirect_Test extends WPSEO_UnitTestCase {
 	/**
 	 * This variable is instantiated in setUp().
 	 *
-	 * @var WPSEO_Redirect
+	 * @var WPSEO_Redirect_Option
 	 */
 	protected $class_instance;
 
@@ -23,7 +23,7 @@ class WPSEO_Redirect_Test extends WPSEO_UnitTestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->class_instance = new WPSEO_Redirect( 'wpseo_redirects' );
+		$this->class_instance = new WPSEO_Redirect_Option( 'wpseo_redirects' );
 		$this->class_instance->set(
 			array(
 				'old-url' => array(

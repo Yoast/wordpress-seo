@@ -14,7 +14,7 @@ abstract class WPSEO_Redirect_Manager {
 	protected $option_redirects = null;
 
 	/**
-	 * @var WPSEO_Redirect Model object to handle the redirects.
+	 * @var WPSEO_Redirect_Option Model object to handle the redirects.
 	 */
 	protected $redirect;
 
@@ -22,7 +22,7 @@ abstract class WPSEO_Redirect_Manager {
 	 * Setting the property with the redirects
 	 */
 	public function __construct() {
-		$this->redirect = new WPSEO_Redirect( $this->option_redirects );
+		$this->redirect = new WPSEO_Redirect_Option( $this->option_redirects );
 	}
 
 	/**
