@@ -11,6 +11,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 	YoastMultiKeyword.prototype.initDOM = function() {
 		keywordTabTemplate = wp.template( 'keyword_tab' );
 
+		this.setTextInput();
 		this.insertElements();
 
 		this.bindKeywordField();
@@ -20,6 +21,13 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 		this.bindKeywordRemove();
 
 		this.updateInactiveKeywords();
+	};
+
+	/**
+	 * Determines the default values based on the state of the loaded edit page.
+	 */
+	YoastMultiKeyword.prototype.setTextInput = function() {
+		$( '#yoast_wpseo_focuskw_text_input' ).val( $( '#yoast_wpseo_focuskw' ).val() );
 	};
 
 	/**
@@ -47,8 +55,12 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 			return item.keyword.length > 0;
 		});
 
+		var firstKeyword = keywords.splice( 0, 1 ).shift();
+
 		// Save keyword information to the hidden field.
 		$( '#yoast_wpseo_focuskeywords' ).val( JSON.stringify( keywords ) );
+
+		$( '#yoast_wpseo_focuskw' ).val( firstKeyword.keyword );
 	};
 
 	YoastMultiKeyword.prototype.insertElements = function() {
@@ -72,7 +84,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 	YoastMultiKeyword.prototype.bindKeywordTab = function() {
 		$( '.wpseo-metabox-tabs' ).on( 'click', '.wpseo_tablink', function() {
 			var keyword = $( this ).data( 'keyword' );
-			$( '#yoast_wpseo_focuskw' ).val( keyword ).focus();
+			$( '#yoast_wpseo_focuskw_text_input' ).val( keyword ).focus();
 			YoastSEO.app.refresh();
 		} );
 	};
@@ -96,7 +108,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 	};
 
 	YoastMultiKeyword.prototype.bindKeywordField = function() {
-		$( '#yoast_wpseo_focuskw' ).on( 'input', function( ev ) {
+		$( '#yoast_wpseo_focuskw_text_input' ).on( 'input', function( ev ) {
 			var currentTabLink, focusKeyword;
 
 			focusKeyword = $( ev.currentTarget ).val();
@@ -118,6 +130,11 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 
 	YoastMultiKeyword.prototype.addKeywordTabs = function() {
 		var keywords = JSON.parse( $( '#yoast_wpseo_focuskeywords' ).val() || '[]' );
+
+		keywords.unshift({
+			keyword: $( '#yoast_wpseo_focuskw' ).val(),
+			score:   $( '#yoast_wpseo_linkdex' ).val()
+		});
 
 		// Clear the container
 		$( '#wpseo-metabox-tabs' ).find( '.wpseo_keyword_tab' ).remove();
@@ -191,7 +208,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 		var keyword, tab;
 
 		tab     = $( '.wpseo_keyword_tab.active' );
-		keyword = $( '#yoast_wpseo_focuskw').val();
+		keyword = $( '#yoast_wpseo_focuskw_text_input').val();
 
 		this.renderKeywordTab( keyword, score, tab, true );
 	};
