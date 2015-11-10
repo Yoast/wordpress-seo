@@ -64,18 +64,18 @@ YoastSEO.Analyzer.prototype.formatKeyword = function() {
 
 		// Creates new regex from keyword with global and caseinsensitive option,
 		// replaces - and _ with space
-		this.keywordRegex = new RegExp(
-			this.preProcessor.replaceDiacritics( keyword.replace( /[-_]/, " " ) ),
+
+		this.keywordRegex = new RegExp( "\\b" +
+			this.preProcessor.replaceDiacritics( keyword.replace( /[-_]/, " " ) ) + "\\b",
 			"ig"
 		);
 
 		// Creates new regex from keyword with global and caseinsensitive option,
 		// replaces space with -. Used for URL matching
-		this.keywordRegexInverse = new RegExp(
-			this.preProcessor.replaceDiacritics( keyword.replace( " ", "-" ) ),
+		this.keywordRegexInverse = new RegExp( "\\b" +
+			this.preProcessor.replaceDiacritics( keyword.replace( " ", "-" ) ) + "\\b",
 			"ig"
 		);
-
 	}
 };
 
