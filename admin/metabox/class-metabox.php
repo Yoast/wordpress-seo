@@ -204,18 +204,60 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @return array
 	 */
 	public function localize_post_scraper_script() {
+		$post = $this->get_metabox_post();
+
 		$translations = $this->get_scraper_translations();
 
 		return array(
-			'translations'  => $translations,
-			'keyword_usage' => $this->get_focus_keyword_usage(),
-			'search_url'    => admin_url( 'edit.php?seo_kw_filter={keyword}' ),
-			'post_edit_url' => admin_url( 'post.php?post={id}&action=edit' ),
-			'home_url'      => home_url( '/', null ),
-			'sep'           => WPSEO_Utils::get_title_separator(),
-			'sitename'      => WPSEO_Utils::get_site_name(),
+			'translations'      => $translations,
+			'keyword_usage'     => $this->get_focus_keyword_usage(),
+			'search_url'        => admin_url( 'edit.php?seo_kw_filter={keyword}' ),
+			'post_edit_url'     => admin_url( 'post.php?post={id}&action=edit' ),
+			'home_url'          => home_url( '/', null ),
+			'title_template'    => WPSEO_Metabox::get_title_template( $post ),
+			'metadesc_template' => WPSEO_Metabox::get_metadesc_template( $post ),
 			'contentTab'    => __( 'Content:' , 'wordpress-seo' ),
 		);
+	}
+
+	/**
+	 * Retrieves the title template.
+	 *
+	 * @param object $post metabox post.
+	 *
+	 * @return string
+	 */
+	public static function get_title_template( $post ) {
+		$title_template = '';
+
+		if ( is_a( $post, 'WP_Post' ) ) {
+			$needed_option = 'title-' . $post->post_type;
+			$options = get_option( 'wpseo_titles' );
+			if ( isset( $options[ $needed_option ] ) && $options[ $needed_option ] !== '' ) {
+				$title_template = $options[ $needed_option ];
+			}
+		}
+		return $title_template;
+	}
+
+	/**
+	 * Retrieves the metadesc template.
+	 *
+	 * @param object $post metabox post.
+	 *
+	 * @return string
+	 */
+	public static function get_metadesc_template( $post ) {
+		$metadesc_template = '';
+
+		if ( is_a( $post, 'WP_Post' ) ) {
+			$needed_option = 'metadesc-' . $post->post_type;
+			$options = get_option( 'wpseo_titles' );
+			if ( isset( $options[ $needed_option ] ) && $options[ $needed_option ] !== '' ) {
+				$metadesc_template = $options[ $needed_option ];
+			}
+		}
+		return $metadesc_template;
 	}
 
 	/**
@@ -828,7 +870,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 */
 	public function traffic_light_svg() {
 		return <<<SVG
-<svg class="yst-traffic-light na" version="1.1" xmlns:x="&ns_extend;" xmlns:i="&ns_ai;" xmlns:graph="&ns_graphs;"
+<svg class="yst-traffic-light init" version="1.1" xmlns:x="&ns_extend;" xmlns:i="&ns_ai;" xmlns:graph="&ns_graphs;"
 	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:a="http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/"
 	 x="0px" y="0px" viewBox="0 0 30 47" enable-background="new 0 0 30 47" xml:space="preserve">
 <g id="BG_1_">
@@ -857,6 +899,11 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				<ellipse fill="#63B22B" cx="15" cy="36.1" rx="5.7" ry="5.6"/>
 			</g>
 			<g class="traffic-light-color traffic-light-empty">
+				<ellipse fill="#C8C8C8" cx="15" cy="23.5" rx="5.7" ry="5.6"/>
+				<ellipse fill="#C8C8C8" cx="15" cy="10.9" rx="5.7" ry="5.6"/>
+				<ellipse fill="#C8C8C8" cx="15" cy="36.1" rx="5.7" ry="5.6"/>
+			</g>
+			<g class="traffic-light-color traffic-light-init">
 				<ellipse fill="#5B2942" cx="15" cy="23.5" rx="5.7" ry="5.6"/>
 				<ellipse fill="#5B2942" cx="15" cy="10.9" rx="5.7" ry="5.6"/>
 				<ellipse fill="#5B2942" cx="15" cy="36.1" rx="5.7" ry="5.6"/>
