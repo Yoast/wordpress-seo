@@ -16,7 +16,14 @@ YoastSEO.ScoreFormatter = function( args ) {
 	this.overallTarget = args.overallTarget;
 	this.totalScore = 0;
 	this.keyword = args.keyword;
+	this.i18n = args.i18n;
 	this.saveScores = args.saveScores;
+};
+
+/**
+ * Renders the score in the HTML.
+ */
+YoastSEO.ScoreFormatter.prototype.renderScore = function() {
 	this.outputScore();
 	this.outputOverallScore();
 };
@@ -25,6 +32,8 @@ YoastSEO.ScoreFormatter = function( args ) {
  * creates the list for showing the results from the analyzerscorer
  */
 YoastSEO.ScoreFormatter.prototype.outputScore = function() {
+	var seoScoreText, scoreRating;
+
 	this.sortScores();
 	var outputTarget = document.getElementById( this.outputTarget );
 	outputTarget.innerHTML = "";
@@ -32,14 +41,20 @@ YoastSEO.ScoreFormatter.prototype.outputScore = function() {
 	newList.className = "wpseoanalysis";
 	for ( var i = 0; i < this.scores.length; i++ ) {
 		if ( this.scores[ i ].text !== "" ) {
+			scoreRating = this.scoreRating( this.scores[ i ].score );
+
 			var newLI = document.createElement( "li" );
 			newLI.className = "score";
 			var scoreSpan = document.createElement( "span" );
-			scoreSpan.className = "wpseo-score-icon " + this.scoreRating( this.scores[ i ].score );
+			scoreSpan.className = "wpseo-score-icon " + scoreRating;
 			newLI.appendChild( scoreSpan );
+
+			seoScoreText = this.getSEOScoreText( scoreRating );
+
 			var screenReaderDiv = document.createElement( "span" );
 			screenReaderDiv.className = "screen-reader-text";
-			screenReaderDiv.textContent = "seo score " + this.scoreRating( this.scores[ i ].score );
+			screenReaderDiv.textContent = seoScoreText;
+
 			newLI.appendChild( screenReaderDiv );
 			var textSpan = document.createElement( "span" );
 			textSpan.className = "wpseo-score-text";
@@ -67,9 +82,9 @@ YoastSEO.ScoreFormatter.prototype.outputOverallScore = function() {
 	var overallTarget = document.getElementById( this.overallTarget );
 
 	if ( overallTarget ) {
-		overallTarget.className = "overallScore " + this.scoreRating( Math.round( this.overallScore ) );
+		overallTarget.className = "overallScore " + this.overallScoreRating( Math.round( this.overallScore ) );
 		if ( this.keyword === "" ) {
-			overallTarget.className = "overallScore " + this.scoreRating( "na" );
+			overallTarget.className = "overallScore " + this.overallScoreRating( "na" );
 		}
 	}
 
@@ -77,36 +92,73 @@ YoastSEO.ScoreFormatter.prototype.outputOverallScore = function() {
 };
 
 /**
- * retuns a string that is used as a CSSclass, based on the numeric score or the NA string
- * @param score
- * @returns scoreRate
+ * Retuns a string that is used as a CSSclass, based on the numeric score or the NA string.
+ * @param {number|string} score
+ * @returns {string} scoreRate
  */
 YoastSEO.ScoreFormatter.prototype.scoreRating = function( score ) {
 	var scoreRate;
-	switch ( score ) {
-		case "na":
-			scoreRate = "na";
+	switch ( true ) {
+		case score < 2:
+			scoreRate = "bad";
 			break;
-		case 0:
-		case 1:
-		case 2:
-		case 3:
-		case 4:
-		case 5:
+		case score >= 2 && score <= 7:
 			scoreRate = "poor";
 			break;
-		case 6:
-		case 7:
-			scoreRate = "ok";
-			break;
-		case 8:
-		case 9:
-		case 10:
+		case score > 7:
 			scoreRate = "good";
 			break;
 		default:
-			scoreRate = "bad";
+		case score === "na":
+			scoreRate = "na";
 			break;
 	}
 	return scoreRate;
+};
+
+/**
+ * Divides the total score by ten and calls the scoreRating function.
+ * @param {number|string} score
+ * @returns {string} scoreRate
+ */
+YoastSEO.ScoreFormatter.prototype.overallScoreRating = function( score ) {
+	if ( typeof score === "number" ) {
+		score = ( score / 10 );
+	}
+	return this.scoreRating( score );
+};
+
+/**
+ * Returns a translated score description based on the textual score rating
+ *
+ * @param {string} scoreRating Textual score rating, can be retrieved with scoreRating from the actual score.
+ *
+ * @return {string}
+ */
+YoastSEO.ScoreFormatter.prototype.getSEOScoreText = function( scoreRating ) {
+	var scoreText = "";
+
+	switch ( scoreRating ) {
+		case "na":
+			scoreText = this.i18n.dgettext( "js-text-analysis", "No keyword" );
+			break;
+
+		case "bad":
+			scoreText = this.i18n.dgettext( "js-text-analysis", "Bad SEO score" );
+			break;
+
+		case "poor":
+			scoreText = this.i18n.dgettext( "js-text-analysis", "Poor SEO score" );
+			break;
+
+		case "ok":
+			scoreText = this.i18n.dgettext( "js-text-analysis", "Ok SEO score" );
+			break;
+
+		case "good":
+			scoreText = this.i18n.dgettext( "js-text-analysis", "Good SEO score" );
+			break;
+	}
+
+	return scoreText;
 };

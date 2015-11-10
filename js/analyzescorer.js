@@ -220,7 +220,7 @@ YoastSEO.AnalyzeScorer.prototype.totalScore = function() {
 		}
 	}
 	var totalAmount = scoreAmount * YoastSEO.analyzerScoreRating;
-	return Math.round( ( totalScore / totalAmount ) * 10 );
+	return Math.round( ( totalScore / totalAmount ) * 100 );
 };
 
 /**

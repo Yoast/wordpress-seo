@@ -612,11 +612,11 @@ YoastSEO.Analyzer.prototype.paragraphChecker = function( textString, regexp ) {
 
 /**
  * counts the occurrences of the keyword in the metadescription, returns 0 if metadescription is
- * empty or not set.
+ * empty or not set. Default is -1, if the meta is empty, this way we can score for empty meta.
  * @returns {{name: string, count: number}}
  */
 YoastSEO.Analyzer.prototype.metaDescriptionKeyword = function() {
-	var result = [ { test: "metaDescriptionKeyword", result: 0	} ];
+	var result = [ { test: "metaDescriptionKeyword", result: -1 } ];
 	if ( typeof this.config.meta !== "undefined" && this.config.meta.length > 0 && this.config.keyword !== "" ) {
 		result[ 0 ].result = this.stringHelper.countMatches(
 			this.config.meta, this.keywordRegex
@@ -929,7 +929,7 @@ YoastSEO.AnalyzeScorer.prototype.totalScore = function() {
 		}
 	}
 	var totalAmount = scoreAmount * YoastSEO.analyzerScoreRating;
-	return Math.round( ( totalScore / totalAmount ) * 10 );
+	return Math.round( ( totalScore / totalAmount ) * 100 );
 };
 
 /**
@@ -1029,11 +1029,12 @@ YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 YoastSEO.App = function( args ) {
 	this.config = this.extendConfig( args );
 	this.callbacks = this.config.callbacks;
-	this.rawData = this.callbacks.getData();
 
 	this.i18n = this.constructI18n( this.config.translations );
 	this.stringHelper = new YoastSEO.StringHelper();
 	this.pluggable = new YoastSEO.Pluggable( this );
+
+	this.getData();
 
 	this.showLoadingDialog();
 	this.createSnippetPreview();
@@ -1114,10 +1115,21 @@ YoastSEO.App.prototype.constructI18n = function( translations ) {
 };
 
 /**
+ * Retrieves data from the callbacks.getData and applies modification to store these in this.rawData.
+ */
+YoastSEO.App.prototype.getData = function() {
+	this.rawData = this.callbacks.getData();
+	if ( this.pluggable.loaded ) {
+		this.rawData.pageTitle = this.pluggable._applyModifications( "data_page_title", this.rawData.pageTitle );
+		this.rawData.meta = this.pluggable._applyModifications( "data_meta_desc", this.rawData.meta );
+	}
+};
+
+/**
  * Refreshes the analyzer and output of the analyzer
  */
 YoastSEO.App.prototype.refresh = function() {
-	this.rawData = this.callbacks.getData();
+	this.getData();
 	this.runAnalyzer();
 };
 
@@ -1345,8 +1357,10 @@ YoastSEO.App.prototype.runAnalyzer = function() {
 		outputTarget: this.config.targets.output,
 		overallTarget: this.config.targets.overall,
 		keyword: this.rawData.keyword,
-		saveScores: this.callbacks.saveScores
+		saveScores: this.callbacks.saveScores,
+		i18n: this.i18n
 	} );
+	this.scoreFormatter.renderScore();
 
 	if ( this.config.dynamicDelay ) {
 		this.endTime();
@@ -1370,6 +1384,7 @@ YoastSEO.App.prototype.modifyData = function( data ) {
  * Function to fire the analyzer when all plugins are loaded, removes the loading dialog.
  */
 YoastSEO.App.prototype.pluginsLoaded = function() {
+	this.getData();
 	this.removeLoadingDialog();
 	this.runAnalyzer();
 };
@@ -2093,7 +2108,14 @@ YoastSEO.ScoreFormatter = function( args ) {
 	this.overallTarget = args.overallTarget;
 	this.totalScore = 0;
 	this.keyword = args.keyword;
+	this.i18n = args.i18n;
 	this.saveScores = args.saveScores;
+};
+
+/**
+ * Renders the score in the HTML.
+ */
+YoastSEO.ScoreFormatter.prototype.renderScore = function() {
 	this.outputScore();
 	this.outputOverallScore();
 };
@@ -2102,6 +2124,8 @@ YoastSEO.ScoreFormatter = function( args ) {
  * creates the list for showing the results from the analyzerscorer
  */
 YoastSEO.ScoreFormatter.prototype.outputScore = function() {
+	var seoScoreText, scoreRating;
+
 	this.sortScores();
 	var outputTarget = document.getElementById( this.outputTarget );
 	outputTarget.innerHTML = "";
@@ -2109,14 +2133,20 @@ YoastSEO.ScoreFormatter.prototype.outputScore = function() {
 	newList.className = "wpseoanalysis";
 	for ( var i = 0; i < this.scores.length; i++ ) {
 		if ( this.scores[ i ].text !== "" ) {
+			scoreRating = this.scoreRating( this.scores[ i ].score );
+
 			var newLI = document.createElement( "li" );
 			newLI.className = "score";
 			var scoreSpan = document.createElement( "span" );
-			scoreSpan.className = "wpseo-score-icon " + this.scoreRating( this.scores[ i ].score );
+			scoreSpan.className = "wpseo-score-icon " + scoreRating;
 			newLI.appendChild( scoreSpan );
+
+			seoScoreText = this.getSEOScoreText( scoreRating );
+
 			var screenReaderDiv = document.createElement( "span" );
 			screenReaderDiv.className = "screen-reader-text";
-			screenReaderDiv.textContent = "seo score " + this.scoreRating( this.scores[ i ].score );
+			screenReaderDiv.textContent = seoScoreText;
+
 			newLI.appendChild( screenReaderDiv );
 			var textSpan = document.createElement( "span" );
 			textSpan.className = "wpseo-score-text";
@@ -2144,9 +2174,9 @@ YoastSEO.ScoreFormatter.prototype.outputOverallScore = function() {
 	var overallTarget = document.getElementById( this.overallTarget );
 
 	if ( overallTarget ) {
-		overallTarget.className = "overallScore " + this.scoreRating( Math.round( this.overallScore ) );
+		overallTarget.className = "overallScore " + this.overallScoreRating( Math.round( this.overallScore ) );
 		if ( this.keyword === "" ) {
-			overallTarget.className = "overallScore " + this.scoreRating( "na" );
+			overallTarget.className = "overallScore " + this.overallScoreRating( "na" );
 		}
 	}
 
@@ -2154,38 +2184,75 @@ YoastSEO.ScoreFormatter.prototype.outputOverallScore = function() {
 };
 
 /**
- * retuns a string that is used as a CSSclass, based on the numeric score or the NA string
- * @param score
- * @returns scoreRate
+ * Retuns a string that is used as a CSSclass, based on the numeric score or the NA string.
+ * @param {number|string} score
+ * @returns {string} scoreRate
  */
 YoastSEO.ScoreFormatter.prototype.scoreRating = function( score ) {
 	var scoreRate;
-	switch ( score ) {
-		case "na":
-			scoreRate = "na";
+	switch ( true ) {
+		case score < 2:
+			scoreRate = "bad";
 			break;
-		case 0:
-		case 1:
-		case 2:
-		case 3:
-		case 4:
-		case 5:
+		case score >= 2 && score <= 7:
 			scoreRate = "poor";
 			break;
-		case 6:
-		case 7:
-			scoreRate = "ok";
-			break;
-		case 8:
-		case 9:
-		case 10:
+		case score > 7:
 			scoreRate = "good";
 			break;
 		default:
-			scoreRate = "bad";
+		case score === "na":
+			scoreRate = "na";
 			break;
 	}
 	return scoreRate;
+};
+
+/**
+ * Divides the total score by ten and calls the scoreRating function.
+ * @param {number|string} score
+ * @returns {string} scoreRate
+ */
+YoastSEO.ScoreFormatter.prototype.overallScoreRating = function( score ) {
+	if ( typeof score === "number" ) {
+		score = ( score / 10 );
+	}
+	return this.scoreRating( score );
+};
+
+/**
+ * Returns a translated score description based on the textual score rating
+ *
+ * @param {string} scoreRating Textual score rating, can be retrieved with scoreRating from the actual score.
+ *
+ * @return {string}
+ */
+YoastSEO.ScoreFormatter.prototype.getSEOScoreText = function( scoreRating ) {
+	var scoreText = "";
+
+	switch ( scoreRating ) {
+		case "na":
+			scoreText = this.i18n.dgettext( "js-text-analysis", "No keyword" );
+			break;
+
+		case "bad":
+			scoreText = this.i18n.dgettext( "js-text-analysis", "Bad SEO score" );
+			break;
+
+		case "poor":
+			scoreText = this.i18n.dgettext( "js-text-analysis", "Poor SEO score" );
+			break;
+
+		case "ok":
+			scoreText = this.i18n.dgettext( "js-text-analysis", "Ok SEO score" );
+			break;
+
+		case "good":
+			scoreText = this.i18n.dgettext( "js-text-analysis", "Good SEO score" );
+			break;
+	}
+
+	return scoreText;
 };
 ;/* jshint browser: true */
 /* global YoastSEO: true */
@@ -2223,10 +2290,6 @@ YoastSEO.SnippetPreview.prototype.init = function() {
 		this.output = this.htmlOutput();
 		this.renderOutput();
 	}
-	this.snippetSuffix = "";
-	if ( this.refObj.config.snippetSuffix !== "undefined" ) {
-		this.snippetSuffix = this.refObj.config.snippetSuffix;
-	}
 };
 
 /**
@@ -2249,14 +2312,10 @@ YoastSEO.SnippetPreview.prototype.htmlOutput = function() {
  * @returns {String}
  */
 YoastSEO.SnippetPreview.prototype.formatTitle = function() {
-	var title = this.refObj.rawData.snippetTitle;
-	if ( title === "" ) {
-		title = this.refObj.rawData.pageTitle;
-	}
-	if ( title === "" ) {
+	var title = this.refObj.rawData.pageTitle;
+
+	if ( title === "" || typeof title === "undefined" ) {
 		title = this.refObj.config.sampleText.title;
-	} else {
-		title += this.snippetSuffix;
 	}
 	title = this.refObj.stringHelper.stripAllTags( title );
 	if ( this.refObj.rawData.keyword !== "" ) {
@@ -2524,30 +2583,6 @@ YoastSEO.SnippetPreview.prototype.setUnformattedText = function( ev ) {
 };
 
 /**
- * Adds the siteName to the snippetTitle when editting starts, this adds the sitename to
- * the snippet_sitename that cannot be edited.
- * Sets the display property to inline-block of the snippet_title so we can set a width.
- * @param ev
- */
-YoastSEO.SnippetPreview.prototype.setSiteName = function( ev ) {
-	if ( ev.currentTarget.id === "snippet_title" ) {
-		document.getElementById( "snippet_sitename" ).textContent = this.snippetSuffix;
-		document.getElementById( "snippet_sitename" ).style.display = "inline-block";
-		document.getElementById( "snippet_title" ).style.display = "inline-block";
-	}
-};
-
-/**
- * Removes the siteName from the snippetTitle span when editing is finished, since it should only show
- * when editing.
- */
-YoastSEO.SnippetPreview.prototype.unsetSiteName = function() {
-	document.getElementById( "snippet_sitename" ).textContent = "";
-	document.getElementById( "snippet_title" ).style.display = "inline";
-	document.getElementById( "snippet_sitename" ).style.display = "inline";
-};
-
-/**
  * Adds and remove the tooLong class when a text is too long.
  * @param ev
  */
@@ -2744,9 +2779,10 @@ YoastSEO.StringHelper.prototype.sanitizeKeyword = function( keyword ) {
 };
 
 /**
+ * Escapes HTML characters from strings.
  *
  * @param textString
- * @returns {*}
+ * @returns {string}
  */
 YoastSEO.StringHelper.prototype.escapeHTML = function( textString ) {
 	if ( typeof textString === "string" ) {
@@ -3936,7 +3972,7 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
                     score: 7,
 
                     /* translators: %1$d expands to the number of words in the text, %2$s to the recommended minimum of words */
-                    text: i18n.dgettext('js-text-analysis', "The text contains %1$d words, this is slightly below the %2$d word recommended minimum, add a bit more copy.")
+                    text: i18n.dgettext('js-text-analysis', "The text contains %1$d words, this is slightly below the %2$d word recommended minimum. Add a bit more copy.")
                 },
                 {
                     min: 200,
@@ -3986,7 +4022,7 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
                     score: -50,
 
                     /* translators: %1$f expands to the keyword density percentage, %2$d expands to the number of times the keyword is found */
-                    text: i18n.dgettext('js-text-analysis', "The keyword density is %1$f%, which is way over the advised 2.5% maximum, the focus keyword was found %2$d times.")
+                    text: i18n.dgettext('js-text-analysis', "The keyword density is %1$f%, which is way over the advised 2.5% maximum; the focus keyword was found %2$d times.")
                 },
                 {
                     min: 2.5,
@@ -3994,7 +4030,7 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
                     score: -10,
 
                     /* translators: %1$f expands to the keyword density percentage, %2$d expands to the number of times the keyword is found */
-                    text: i18n.dgettext('js-text-analysis', "The keyword density is %1$f%, which is over the advised 2.5% maximum, the focus keyword was found %2$d times.")
+                    text: i18n.dgettext('js-text-analysis', "The keyword density is %1$f%, which is over the advised 2.5% maximum; the focus keyword was found %2$d times.")
                 },
                 {
                     min: 0.5,
@@ -4002,7 +4038,7 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
                     score: 9,
 
                     /* translators: %1$f expands to the keyword density percentage, %2$d expands to the number of times the keyword is found */
-                    text: i18n.dgettext('js-text-analysis', "The keyword density is %1$f%, which is great, the focus keyword was found %2$d times.")
+                    text: i18n.dgettext('js-text-analysis', "The keyword density is %1$f%, which is great; the focus keyword was found %2$d times.")
                 },
                 {
                     min: 0,
@@ -4010,7 +4046,7 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
                     score: 4,
 
                     /* translators: %1$f expands to the keyword density percentage, %2$d expands to the number of times the keyword is found */
-                    text: i18n.dgettext('js-text-analysis', "The keyword density is %1$f%, which is a bit low, the focus keyword was found %2$d times.")
+                    text: i18n.dgettext('js-text-analysis', "The keyword density is %1$f%, which is a bit low; the focus keyword was found %2$d times.")
                 }
             ],
             replaceArray: [
@@ -4037,7 +4073,7 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
                     matcher: "totalKeyword",
                     min: 1,
                     score: 2,
-                    text: i18n.dgettext('js-text-analysis', "You\'re linking to another page with the focus keyword you want this page to rank for, consider changing that if you truly want this page to rank.")
+                    text: i18n.dgettext('js-text-analysis', "You\'re linking to another page with the focus keyword you want this page to rank for. Consider changing that if you truly want this page to rank.")
                 },
 
                 /* translators: %2$s expands the number of outbound links */
@@ -4131,7 +4167,7 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
                     score: 6,
 
                     /* translators: %2$d expands to the maximum length for the meta description */
-                    text: i18n.dgettext('js-text-analysis', "The specified meta description is over %2$d characters, reducing it will ensure the entire description is visible")
+                    text: i18n.dgettext('js-text-analysis', "The specified meta description is over %2$d characters. Reducing it will ensure the entire description is visible")
                 },
                 {
                     min: 120,
@@ -4162,7 +4198,7 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
                 {
                     max: 0,
                     score: 3,
-                    text: i18n.dgettext('js-text-analysis', "The focus keyword doesn\'t appear in the first paragraph of the copy, make sure the topic is clear immediately.")
+                    text: i18n.dgettext('js-text-analysis', "The focus keyword doesn\'t appear in the first paragraph of the copy. Make sure the topic is clear immediately.")
                 },
                 {min: 1, score: 9, text: i18n.dgettext('js-text-analysis', "The focus keyword appears in the first paragraph of the copy.")}
             ]
@@ -4233,8 +4269,8 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
                     max: 70,
                     score: 9,
 
-                    /* translators: %1$d expands to the minimum number of characters in the page title, %2$d to the minimum number of characters */
-                    text: i18n.dgettext('js-text-analysis', "The page title is more than %1$d characters and less than the recommended %2$d character limit.")
+                    /* translators: %1$d expands to the minimum number of characters in the page title, %2$d to the maximum number of characters */
+                    text: i18n.dgettext('js-text-analysis', "The page title is between the %1$d character minimum and the recommended %2$d character maximum.")
                 }
             ],
             replaceArray: [

@@ -25,7 +25,6 @@ YoastSEO.ExampleScraper.prototype.getData = function() {
 		baseUrl: this.getDataFromInput("baseUrl"),
 		url: this.getDataFromInput("url"),
 		pageTitle: this.getDataFromInput("title"),
-		snippetTitle: this.getDataFromInput("title"),
 		snippetMeta: this.getDataFromInput("meta"),
 		snippetCite: this.getDataFromInput("url")
 	};
