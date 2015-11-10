@@ -94,7 +94,7 @@ class WPSEO_Statistics {
 	public function get_poor_seo_post_count() {
 		_deprecated_function( 'get_poor_seo_post_count', 'WPSEO 3.0', 'WPSEO_Statistics::get_post_count' );
 
-		return $this->get_post_count( new WPSEO_Rank( WPSEO_Rank::POOR ) );
+		return $this->get_post_count( new WPSEO_Rank( 'poor' ) );
 	}
 
 	/**
