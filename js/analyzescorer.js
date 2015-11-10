@@ -145,6 +145,7 @@ YoastSEO.AnalyzeScorer.prototype.returnScore = function( score, scoreObj, i ) {
  */
 YoastSEO.AnalyzeScorer.prototype.scoreTextFormat = function( scoreObj, replaceArray ) {
 	var resultText = scoreObj.text;
+	resultText = this.refObj.stringHelper.escapeHTML( resultText );
 	if ( typeof replaceArray !== "undefined" ) {
 		for ( var i = 0; i < replaceArray.length; i++ ) {
 			switch ( true ) {
@@ -162,7 +163,7 @@ YoastSEO.AnalyzeScorer.prototype.scoreTextFormat = function( scoreObj, replaceAr
 					// given position
 					resultText = resultText.replace(
 						replaceArray[ i ].position,
-						this[ replaceArray[ i ].source ]
+						this.refObj.stringHelper.escapeHTML( this[ replaceArray[ i ].source ] )
 					);
 					break;
 				case ( typeof replaceArray[ i ].sourceObj !== "undefined" ):
@@ -170,7 +171,7 @@ YoastSEO.AnalyzeScorer.prototype.scoreTextFormat = function( scoreObj, replaceAr
 					// gets the replaceword (which is a reference to an object in the analyzer) and
 					// replaces is on the given position
 					var replaceWord = this.parseReplaceWord( replaceArray[ i ].sourceObj );
-					resultText = resultText.replace( replaceArray[ i ].position, replaceWord );
+					resultText = resultText.replace( replaceArray[ i ].position, this.refObj.stringHelper.escapeHTML( replaceWord ) );
 					break;
 				case ( typeof replaceArray[ i ].scoreObj !== "undefined" ):
 
@@ -178,7 +179,7 @@ YoastSEO.AnalyzeScorer.prototype.scoreTextFormat = function( scoreObj, replaceAr
 					// the textString.
 					resultText = resultText.replace(
 						replaceArray[ i ].position,
-						scoreObj[ replaceArray[ i ].scoreObj ]
+						this.refObj.stringHelper.escapeHTML( scoreObj[ replaceArray[ i ].scoreObj ] )
 					);
 					break;
 				default:
