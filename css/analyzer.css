@@ -1,5 +1,6 @@
 /* css for snippet */
 #snippet_preview *[contenteditable="true"]:hover {
+    background: #bbdefb url("editicon.png") no-repeat right top;
     cursor: pointer;
 }
 
@@ -58,11 +59,6 @@
 
 .snippet_container .tooLong {
     color: #f00 !important;
-}
-
-.snippet_container .editIcon:hover {
-    background: #bbdefb url("editicon.png") no-repeat right top;
-    cursor: pointer;
 }
 
 /* css for analyzer */
