@@ -49,7 +49,10 @@
 				}
 				break;
 			case 'snippetMeta':
-				val = document.getElementById( 'yoast_wpseo_metadesc' ).value;
+				elem = document.getElementById( 'yoast_wpseo_metadesc' );
+				if ( elem !== null ) {
+					val = elem.value;
+				}
 				break;
 			case 'text':
 				val = this.getContentTinyMCE();
@@ -72,10 +75,8 @@
 				break;
 			case 'baseUrl':
 				val = wpseoTermScraperL10n.home_url.replace( /https?:\/\//ig, '' );
-				if( wpseoTermScraperL10n.taxonomy_slug !== '' && wpseoTermScraperL10n.stripcategorybase !== '1' ) {
-					val += wpseoTermScraperL10n.taxonomy_slug + '/';
-				}
 				break;
+
 			case 'cite':
 				elem = document.getElementById( 'snippet_cite' );
 				if ( elem !== null ) {
@@ -88,11 +89,12 @@
 
 	/**
 	 * gets content from the content field, if tinyMCE is initialized, use the getContent function to get the data from tinyMCE
+	 * If tiny is hidden, take the value from the descriptionfield, since tinyMCE isn't updated when it isn't visible.
 	 * @returns {String}
 	 */
 	TermScraper.prototype.getContentTinyMCE = function() {
 		var val = document.getElementById( 'description' ).value;
-		if ( tinyMCE.editors.length !== 0 ) {
+		if ( tinyMCE.editors.length !== 0 && tinyMCE.get( 'description' ).hidden === false ) {
 			val = tinyMCE.get( 'description' ).getContent();
 		}
 		return val;
@@ -181,14 +183,13 @@
 			}
 		}
 
-		//bind both input and change events on the editor, otherwise tinyMCE works very slow.
+		//binds the input, change, cut and paste event to tinyMCE. All events are needed, because sometimes tinyMCE doesn'
+		//trigger them, or takes up to ten seconds to fire an event.
+		var events = [ 'input' , 'change', 'cut', 'paste' ];
 		tinyMCE.on( 'addEditor', function(e) {
-			e.editor.on( 'input', function() {
-				app.analyzeTimer.call( app );
-			} );
-			e.editor.on( 'change', function() {
-				app.analyzeTimer.call( app );
-			} );
+			for ( var i = 0; i < events.length; i++ ) {
+				e.editor.on( events[ i ], app.analyzeTimer.call( app ) );
+			}
 		});
 	};
 
