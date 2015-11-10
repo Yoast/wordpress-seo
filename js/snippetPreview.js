@@ -33,6 +33,7 @@ YoastSEO.SnippetPreview.prototype.init = function() {
 	) {
 		this.output = this.htmlOutput();
 		this.renderOutput();
+		this.renderSnippetStyle();
 	}
 };
 
@@ -251,6 +252,17 @@ YoastSEO.SnippetPreview.prototype.renderOutput = function() {
 	document.getElementById( "snippet_cite" ).innerHTML = this.output.cite;
 	document.getElementById( "snippet_citeBase" ).innerHTML = this.output.url;
 	document.getElementById( "snippet_meta" ).innerHTML = this.output.meta;
+};
+
+/**
+ *
+ */
+YoastSEO.SnippetPreview.prototype.renderSnippetStyle = function() {
+	var cssClass = "desc-default";
+	if( this.refObj.rawData.meta === "" ){
+		cssClass = "desc-render";
+	}
+	document.getElementById( "snippet_meta" ).className = "desc " + cssClass;
 };
 
 /**
