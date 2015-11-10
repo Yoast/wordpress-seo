@@ -259,7 +259,7 @@ class WPSEO_Taxonomy_Metabox {
 	 */
 	public function traffic_light_svg() {
 		return <<<SVG
-<svg class="yst-traffic-light na" version="1.1" xmlns:x="&ns_extend;" xmlns:i="&ns_ai;" xmlns:graph="&ns_graphs;"
+<svg class="yst-traffic-light init" version="1.1" xmlns:x="&ns_extend;" xmlns:i="&ns_ai;" xmlns:graph="&ns_graphs;"
 	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:a="http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/"
 	 x="0px" y="0px" viewBox="0 0 30 47" enable-background="new 0 0 30 47" xml:space="preserve">
 <g id="BG_1_">
@@ -288,6 +288,11 @@ class WPSEO_Taxonomy_Metabox {
 				<ellipse fill="#63B22B" cx="15" cy="36.1" rx="5.7" ry="5.6"/>
 			</g>
 			<g class="traffic-light-color traffic-light-empty">
+				<ellipse fill="#C8C8C8" cx="15" cy="23.5" rx="5.7" ry="5.6"/>
+				<ellipse fill="#C8C8C8" cx="15" cy="10.9" rx="5.7" ry="5.6"/>
+				<ellipse fill="#C8C8C8" cx="15" cy="36.1" rx="5.7" ry="5.6"/>
+			</g>
+			<g class="traffic-light-color traffic-light-init">
 				<ellipse fill="#5B2942" cx="15" cy="23.5" rx="5.7" ry="5.6"/>
 				<ellipse fill="#5B2942" cx="15" cy="10.9" rx="5.7" ry="5.6"/>
 				<ellipse fill="#5B2942" cx="15" cy="36.1" rx="5.7" ry="5.6"/>
