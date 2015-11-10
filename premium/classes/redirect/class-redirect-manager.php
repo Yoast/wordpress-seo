@@ -71,11 +71,11 @@ abstract class WPSEO_Redirect_Manager {
 	 *
 	 * @param string $redirect The redirect to search for.
 	 *
-	 * @return array|bool
+	 * @return WPSEO_Redirect|bool
 	 */
 	public function search( $redirect ) {
 		if ( $found = $this->redirect->search( $redirect ) ) {
-			return array_merge( array( 'redirect' => $redirect ), $found );
+			return $found;
 		}
 
 		return false;
@@ -87,7 +87,7 @@ abstract class WPSEO_Redirect_Manager {
 	 * @param string $old_redirect_key The old redirect, the value is a key in the redirects array.
 	 * @param array  $new_redirect     Array with values for the update redirect.
 	 *
-	 * @return array|bool
+	 * @return WPSEO_Redirect|bool
 	 */
 	public function update_redirect( $old_redirect_key, array $new_redirect ) {
 		if ( $this->redirect->update( $old_redirect_key, $new_redirect['key'], $new_redirect['value'], $new_redirect['type'] ) ) {
@@ -107,7 +107,7 @@ abstract class WPSEO_Redirect_Manager {
 	 * @param string $new_value The target where the old value will redirect to.
 	 * @param int    $type      Type of the redirect.
 	 *
-	 * @return bool|array
+	 * @return bool|WPSEO_Redirect
 	 */
 	public function create_redirect( $old_value, $new_value, $type ) {
 		if ( $this->redirect->add( $old_value, $new_value, $type ) ) {

@@ -14,7 +14,7 @@ class WPSEO_Redirect_Option {
 	private $option_name;
 
 	/**
-	 * @var array
+	 * @var WPSEO_Redirect[]
 	 */
 	private $redirects = array();
 
@@ -25,16 +25,20 @@ class WPSEO_Redirect_Option {
 	 */
 	public function __construct( $option_name ) {
 		$this->option_name = $option_name;
-		$this->redirects   = $this->get_from_option();
+		$this->redirects   = $this->get_all();
 	}
 
 	/**
 	 * Getting the array with all the redirects
 	 *
-	 * @return array
+	 * @return WPSEO_Redirect[]
 	 */
 	public function get_all() {
-		return $this->redirects;
+		$redirects = $this->get_from_option();
+
+		array_walk( $redirects, array( $this, 'map_option_to_object' ) );
+
+		return $redirects;
 	}
 
 	/**
@@ -58,7 +62,7 @@ class WPSEO_Redirect_Option {
 	 */
 	public function add( $old_redirect, $new_redirect, $type ) {
 		if ( ! $this->search( $old_redirect ) ) {
-			$this->redirects[ $old_redirect ] = $this->format( $new_redirect, $type );
+			$this->redirects[ $old_redirect ] = new WPSEO_Redirect( $old_redirect, $new_redirect, $type );
 
 			return true;
 		}
@@ -123,8 +127,12 @@ class WPSEO_Redirect_Option {
 	 * Saving the redirects
 	 */
 	public function save() {
+		$redirects = $this->redirects;
+
+		array_walk( $redirects, array( $this, 'map_object_to_option' ) );
+
 		// Update the database option.
-		update_option( $this->option_name, apply_filters( 'wpseo_premium_save_redirects', $this->redirects ) );
+		update_option( $this->option_name, apply_filters( 'wpseo_premium_save_redirects', $redirects ) );
 	}
 
 	/**
@@ -156,4 +164,25 @@ class WPSEO_Redirect_Option {
 		return $redirects;
 	}
 
+	/**
+	 * Maps the array values to a redirect object.
+	 *
+	 * @param array  $redirect_values The data for the redirect option.
+	 * @param string $origin The origin for the redirect option.
+	 */
+	private function map_option_to_object( array &$redirect_values, $origin ) {
+		$redirect_values = new WPSEO_Redirect( $origin, $redirect_values['url'], $redirect_values['type'] );
+	}
+
+	/**
+	 * Maps a redirect object to an array option.
+	 *
+	 * @param WPSEO_Redirect $redirect The redirect to map.
+	 */
+	private function map_object_to_option( WPSEO_Redirect &$redirect ) {
+		$redirect = array(
+			'url' => $redirect->get_target(),
+			'type' => $redirect->get_type(),
+		);
+	}
 }
