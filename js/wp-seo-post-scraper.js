@@ -87,7 +87,7 @@
 			baseUrl: this.getDataFromInput( 'baseUrl' ),
 			excerpt: this.getDataFromInput( 'excerpt' ),
 			snippetTitle: this.getDataFromInput( 'snippetTitle' ),
-			snippetMeta: this.getDataFromInput( 'meta' ),
+			snippetMeta: this.getDataFromInput( 'snippetMeta' ),
 			snippetCite: this.getDataFromInput( 'cite' )
 		};
 	};
@@ -118,6 +118,12 @@
 				break;
 			case 'meta':
 				val = document.getElementById( 'yoast_wpseo_metadesc' ).value;
+				if ( val === '' ) {
+					val = wpseoPostScraperL10n.metadesc_template;
+				}
+				break;
+			case 'snippetMeta':
+				val = document.getElementById( 'yoast_wpseo_metadesc' ).value;
 				break;
 			case 'keyword':
 				val = document.getElementById( 'yoast_wpseo_focuskw_text_input' ).value;
@@ -132,7 +138,10 @@
 			case 'pageTitle':
 				val = document.getElementById( 'yoast_wpseo_title' ).value;
 				if ( val === '' ) {
-					val = document.getElementById( 'title' ).value;
+					val = wpseoPostScraperL10n.title_template;
+				}
+				if (val === '' ) {
+					val = '%%title%% - %%sitename%%';
 				}
 				break;
 			case 'excerpt':
@@ -429,8 +438,6 @@
 			ajax: true,
 			//if it must generate snippetpreview
 			snippetPreview: true,
-			//string to be added to the snippetTitle
-			snippetSuffix: ' ' + wpseoPostScraperL10n.sep + ' ' + wpseoPostScraperL10n.sitename,
 			//element Target Array
 			elementTarget: ['content', 'yoast_wpseo_focuskw_text_input', 'yoast_wpseo_metadesc', 'excerpt', 'editable-post-name', 'editable-post-name-full'],
 			//replacement target array, elements that must trigger the replace variables function.

@@ -9,6 +9,8 @@
 		this.replaceVars = wpseoReplaceVarsL10n.replace_vars;
 
 		YoastSEO.app.registerPlugin( 'replaceVariablePlugin', { status: 'ready' } );
+
+		this.registerModifications();
 	};
 
 	/**
@@ -21,6 +23,10 @@
 		YoastSEO.app.registerModification( 'title', callback, 'replaceVariablePlugin', 10 );
 		YoastSEO.app.registerModification( 'snippet_title', callback, 'replaceVariablePlugin', 10 );
 		YoastSEO.app.registerModification( 'snippet_meta', callback, 'replaceVariablePlugin', 10 );
+
+		//modifications applied on the getData from the scrapers to use templates
+		YoastSEO.app.registerModification( 'data_page_title', callback, 'replaceVariablePlugin', 10);
+		YoastSEO.app.registerModification( 'data_meta_desc', callback, 'replaceVariablePlugin', 10);
 	};
 
 	/**
@@ -29,7 +35,7 @@
 	 * @returns {string}
 	 */
 	YoastReplaceVarPlugin.prototype.replaceVariablesPlugin = function( data ) {
-		if( typeof data !== 'undefined'  && data !== '') {
+		if( typeof data !== 'undefined' ) {
 			data = this.titleReplace( data );
 			data = this.defaultReplace( data );
 			data = this.parentReplace( data );
@@ -49,9 +55,9 @@
 		if ( typeof title === 'undefined' ) {
 			title = YoastSEO.app.rawData.pageTitle;
 		}
-		if ( title.length > 0 ) {
-			data = data.replace( /%%title%%/g, title );
-		}
+
+		data = data.replace( /%%title%%/g, title );
+
 		return data;
 	};
 
@@ -90,9 +96,9 @@
 	 * @returns {String}
 	 */
 	YoastReplaceVarPlugin.prototype.excerptReplace = function( data ) {
-		if ( YoastSEO.app.rawData.excerpt.length > 0 ) {
-			data.replace( /%%excerpt_only%%/, YoastSEO.app.rawData.excerpt );
-			data.replace( /%%excerpt%%/, YoastSEO.app.rawData.excerpt );
+		if ( typeof YoastSEO.app.rawData.excerpt !== 'undefined' ) {
+			data = data.replace( /%%excerpt_only%%/g, YoastSEO.app.rawData.excerpt );
+			data = data.replace( /%%excerpt%%/g, YoastSEO.app.rawData.excerpt );
 		}
 		return data;
 	};
@@ -106,6 +112,7 @@
 	YoastReplaceVarPlugin.prototype.defaultReplace = function( textString ) {
 		return textString.replace( /%%sitedesc%%/g, this.replaceVars.sitedesc )
 			.replace( /%%sitename%%/g, this.replaceVars.sitename )
+			.replace( /%%term_title%%/g, this.replaceVars.term_title )
 			.replace( /%%sep%%/g, this.replaceVars.sep )
 			.replace( /%%date%%/g, this.replaceVars.date )
 			.replace( /%%id%%/g, this.replaceVars.id )
