@@ -27,18 +27,6 @@ class WPSEO_URL_Redirect_Manager_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Searching the redirects
-	 *
-	 * @covers WPSEO_Redirect_URL_Manager::search_url
-	 */
-	public function test_search_url() {
-		$this->assertEquals( 'new', $this->class_instance->search_url( '/old' ) );
-
-		// This one doesn't exists.
-		$this->assertFalse( $this->class_instance->search_url( '/gold' ) );
-	}
-
-	/**
 	 * Testing if we get the options
 	 *
 	 * @covers WPSEO_Redirect_URL_Manager::get_options

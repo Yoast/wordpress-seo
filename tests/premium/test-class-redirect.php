@@ -104,15 +104,4 @@ class WPSEO_Redirect_Test extends WPSEO_UnitTestCase {
 		$this->assertFalse( $this->class_instance->search( 'does-not-exist' ) );
 	}
 
-	/**
-	 * Test the result of the formatting.
-	 *
-	 * @covers WPSEO_Redirect::format
-	 */
-	public function test_format() {
-		$this->assertEquals(
-			array( 'url' => 'the-target', 'type' => 301 ),
-			$this->class_instance->format( 'the-target', 301 )
-		);
-	}
 }

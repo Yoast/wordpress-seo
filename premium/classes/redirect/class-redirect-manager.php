@@ -75,21 +75,6 @@ abstract class WPSEO_Redirect_Manager {
 	}
 
 	/**
-	 * Search for given redirect
-	 *
-	 * @param string $redirect The redirect to search for.
-	 *
-	 * @return WPSEO_Redirect|bool
-	 */
-	public function search( $redirect ) {
-		if ( $found = $this->redirect->search( $redirect ) ) {
-			return $found;
-		}
-
-		return false;
-	}
-
-	/**
 	 * Save the redirect
 	 *
 	 * @param string $old_redirect_key The old redirect, the value is a key in the redirects array.
@@ -98,11 +83,11 @@ abstract class WPSEO_Redirect_Manager {
 	 * @return WPSEO_Redirect|bool
 	 */
 	public function update_redirect( $old_redirect_key, array $new_redirect ) {
-		if ( $this->redirect->update( $old_redirect_key, $new_redirect['key'], $new_redirect['value'], $new_redirect['type'] ) ) {
+		if ( $redirect = $this->redirect->update( $old_redirect_key, $new_redirect['key'], $new_redirect['value'], $new_redirect['type'] ) ) {
 			$this->save_redirects();
 
 			// Always return the updated redirect.
-			return $this->search( $new_redirect['key'] );
+			return $redirect;
 		}
 
 		return false;
@@ -115,14 +100,14 @@ abstract class WPSEO_Redirect_Manager {
 	 * @param string $new_value The target where the old value will redirect to.
 	 * @param int    $type      Type of the redirect.
 	 *
-	 * @return bool|WPSEO_Redirect
+	 * @return WPSEO_Redirect|bool
 	 */
 	public function create_redirect( $old_value, $new_value, $type ) {
-		if ( $this->redirect->add( $old_value, $new_value, $type ) ) {
+		if ( $redirect = $this->redirect->add( $old_value, $new_value, $type ) ) {
 			$this->save_redirects();
 
 			// Always return the added redirect.
-			return $this->search( $old_value );
+			return $redirect;
 		}
 
 		return false;

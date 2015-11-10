@@ -19,21 +19,6 @@ class WPSEO_Redirect_URL_Manager extends WPSEO_Redirect_Manager {
 	protected $redirect_format = WPSEO_Redirect::FORMAT_PLAIN;
 
 	/**
-	 * Searches for the URL and get it's endpoint
-	 *
-	 * @param string $url The url to search for.
-	 *
-	 * @return string|bool
-	 */
-	public function search_url( $url ) {
-		if ( $redirect = $this->redirect->search( $url ) ) {
-			return $redirect['url'];
-		}
-
-		return false;
-	}
-
-	/**
 	 * Create a new redirect
 	 *
 	 * @param string $old_value The old value that will be redirected.
