@@ -2508,11 +2508,11 @@ YoastSEO.SnippetPreview.prototype.renderOutput = function() {
 };
 
 /**
- *
+ * Sets the classname of the meta field in the snippet, based on the rawData.snippetMeta
  */
 YoastSEO.SnippetPreview.prototype.renderSnippetStyle = function() {
 	var cssClass = "desc-default";
-	if( this.refObj.rawData.meta === "" ){
+	if ( this.refObj.rawData.snippetMeta === "" ) {
 		cssClass = "desc-render";
 	}
 	document.getElementById( "snippet_meta" ).className = "desc " + cssClass;
