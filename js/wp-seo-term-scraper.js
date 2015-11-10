@@ -191,7 +191,7 @@
 		var events = [ 'input' , 'change', 'cut', 'paste' ];
 		tinyMCE.on( 'addEditor', function(e) {
 			for ( var i = 0; i < events.length; i++ ) {
-				e.editor.on( events[ i ], app.analyzeTimer.call( app ) );
+				e.editor.on( events[ i ], app.analyzeTimer.bind( app ) );
 			}
 		});
 	};
