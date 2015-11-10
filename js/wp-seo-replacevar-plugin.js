@@ -35,7 +35,7 @@
 	 * @returns {string}
 	 */
 	YoastReplaceVarPlugin.prototype.replaceVariablesPlugin = function( data ) {
-		if( typeof data !== 'undefined'  && data !== '') {
+		if( typeof data !== 'undefined' ) {
 			data = this.titleReplace( data );
 			data = this.defaultReplace( data );
 			data = this.parentReplace( data );
@@ -55,9 +55,9 @@
 		if ( typeof title === 'undefined' ) {
 			title = YoastSEO.app.rawData.pageTitle;
 		}
-		if ( title.length > 0 ) {
-			data = data.replace( /%%title%%/g, title );
-		}
+
+		data = data.replace( /%%title%%/g, title );
+
 		return data;
 	};
 
@@ -96,9 +96,9 @@
 	 * @returns {String}
 	 */
 	YoastReplaceVarPlugin.prototype.excerptReplace = function( data ) {
-		if ( typeof YoastSEO.app.rawData.excerpt !== 'undefined' && YoastSEO.app.rawData.excerpt.length > 0 ) {
-			data.replace( /%%excerpt_only%%/, YoastSEO.app.rawData.excerpt );
-			data.replace( /%%excerpt%%/, YoastSEO.app.rawData.excerpt );
+		if ( typeof YoastSEO.app.rawData.excerpt !== 'undefined' ) {
+			data = data.replace( /%%excerpt_only%%/g, YoastSEO.app.rawData.excerpt );
+			data = data.replace( /%%excerpt%%/g, YoastSEO.app.rawData.excerpt );
 		}
 		return data;
 	};
