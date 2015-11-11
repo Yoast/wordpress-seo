@@ -93,6 +93,12 @@ class WPSEO_Premium {
 				new WPSEO_HelpScout_Beacon( $query_var );
 			}
 
+			// Add custom fields plugin to post and page edit pages.
+			global $pagenow;
+			if ( in_array( $pagenow, array( 'post-new.php', 'post.php', 'edit.php' ) ) ) {
+				new WPSEO_Custom_Fields_Plugin();
+			}
+
 			// Disable Yoast SEO.
 			add_action( 'admin_init', array( $this, 'disable_wordpress_seo' ), 1 );
 
@@ -117,9 +123,6 @@ class WPSEO_Premium {
 				$this,
 				'add_variable_array_key_pattern',
 			) );
-
-			// Filter the Page Analysis content.
-			add_filter( 'wpseo_pre_analysis_post_content', array( $this, 'filter_page_analysis' ), 10, 2 );
 
 			// Settings.
 			add_action( 'admin_init', array( $this, 'register_settings' ) );
@@ -386,41 +389,6 @@ class WPSEO_Premium {
 		}
 
 		return $patterns;
-	}
-
-
-	/**
-	 * Filter for adding custom fields to page analysis
-	 *
-	 * Based on the configured custom fields for page analysis. this filter will get the needed values from post_meta
-	 * and add them to the $page_content. Page analysis will be able to scan the content of these customs fields by
-	 * doing this. - If value doesn't exists as a post-meta value, there will be nothing included.
-	 *
-	 * @param string $page_content The content of the current post text.
-	 * @param object $post         The total object of the post content.
-	 *
-	 * @return string $page_content
-	 */
-	public function filter_page_analysis( $page_content, $post ) {
-
-		$options       = get_option( WPSEO_Options::get_option_instance( 'wpseo_titles' )->option_name, array() );
-		$target_option = 'page-analyse-extra-' . $post->post_type;
-
-		if ( array_key_exists( $target_option, $options ) ) {
-			$custom_fields = explode( ',', $options[ $target_option ] );
-
-			if ( is_array( $custom_fields ) ) {
-				foreach ( $custom_fields as $custom_field ) {
-					$custom_field_data = get_post_meta( $post->ID, $custom_field, true );
-
-					if ( ! empty( $custom_field_data ) ) {
-						$page_content .= ' ' . $custom_field_data;
-					}
-				}
-			}
-		}
-
-		return $page_content;
 	}
 
 	/**
