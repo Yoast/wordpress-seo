@@ -1,0 +1,46 @@
+<?php
+/**
+ * @package WPSEO\Premium\Classes\Redirects
+ */
+
+/**
+ * Saving the redirects from a single file into two smaller options files.
+ */
+class WPSEO_Redirect_File_Option implements WPSEO_Redirect_Export {
+
+	/**
+	 * This method will split the redirects in separate arrays and store them in an option.
+	 *
+	 * @param WPSEO_Redirect[] $redirects The redirects to export.
+	 */
+	public function export( $redirects ) {
+		$formatted_redirects = array(
+			WPSEO_Redirect::FORMAT_PLAIN => array(),
+			WPSEO_Redirect::FORMAT_REGEX => array(),
+		);
+
+		foreach ( $redirects as $redirect ) {
+			$formatted_redirects[ $redirect->get_format() ][ $redirect->get_origin() ] = $this->format( $redirect );
+		}
+
+		// Save the plain redirects.
+		update_option( WPSEO_Redirect_Option::OPTION_PLAIN, $formatted_redirects[ WPSEO_Redirect::FORMAT_PLAIN ] );
+
+		// Save the regex redirects.
+		update_option( WPSEO_Redirect_Option::OPTION_REGEX, $formatted_redirects[ WPSEO_Redirect::FORMAT_REGEX ] );
+	}
+
+	/**
+	 * Formats a redirect for use in the export.
+	 *
+	 * @param WPSEO_Redirect $redirect The redirect to format.
+	 *
+	 * @return mixed
+	 */
+	public function format( WPSEO_Redirect $redirect ) {
+		return array(
+			'url'  => $redirect->get_target(),
+			'type' => $redirect->get_type(),
+		);
+	}
+}

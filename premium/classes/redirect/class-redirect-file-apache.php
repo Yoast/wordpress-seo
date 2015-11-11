@@ -29,19 +29,21 @@ class WPSEO_Redirect_File_Apache extends WPSEO_Redirect_File {
 	/**
 	 * Overrides the parent method. This method will in case of url redirects add slashes to the url.
 	 *
-	 * @param string $redirect_format    The given format for the redirect to generate.
-	 * @param string $target_to_redirect The URL/Regex that will be redirected.
-	 * @param array  $redirect           The redirect data.
+	 * @param WPSEO_Redirect $redirect The redirect data.
 	 *
 	 * @return string
 	 */
-	protected function format_redirect( $redirect_format, $target_to_redirect, array $redirect ) {
-		if ( $this->current_type === 'url' ) {
-			$target_to_redirect = $this->add_url_slash( $target_to_redirect );
-			$redirect['url']    = $this->add_url_slash( $redirect['url'] );
+	public function format( WPSEO_Redirect $redirect ) {
+		if ( $redirect->get_format() === WPSEO_Redirect::FORMAT_PLAIN ) {
+			$redirect = new WPSEO_Redirect(
+				$this->add_url_slash( $redirect->get_origin() ),
+				$this->add_url_slash( $redirect->get_target() ),
+				$redirect->get_type(),
+				$redirect->get_format()
+			);
 		}
 
-		return parent::format_redirect( $redirect_format, $target_to_redirect, $redirect );
+		return parent::format( $redirect );
 	}
 
 	/**

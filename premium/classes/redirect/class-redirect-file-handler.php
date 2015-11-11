@@ -25,11 +25,11 @@ class WPSEO_Redirect_File_Handler {
 	/**
 	 * Saving the redirects to the file.
 	 *
-	 * @param WPSEO_Redirect_Manager[] $redirect_managers Array with the redirect managers for the url and the regex.
+	 * @param WPSEO_Redirect[] $redirects Array with the redirects for the url and the regex.
 	 */
-	public function save( $redirect_managers ) {
+	public function save( $redirects ) {
 		if ( null !== $this->file ) {
-			$this->file->save( $redirect_managers['url']->get_redirects(), $redirect_managers['regex']->get_redirects() );
+			$this->file->export( $redirects );
 		}
 	}
 
