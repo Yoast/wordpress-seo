@@ -45,7 +45,7 @@ class WPSEO_Redirect_Settings_Hooks {
 		if ( $disable_php_redirect ) {
 			// The 'disable_php_redirect' option is set to true(on) so we need to generate a file.
 			// The Redirect Manager will figure out what file needs to be created.
-			$this->redirect_manager->save_redirect_file();
+			$this->redirect_manager->export_redirects();
 		}
 
 		// Check if we need to remove the .htaccess redirect entries.

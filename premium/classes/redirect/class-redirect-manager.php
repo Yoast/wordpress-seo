@@ -70,9 +70,9 @@ abstract class WPSEO_Redirect_Manager {
 	}
 
 	/**
-	 * Saving the redirect file
+	 * Export the redirects to the specified sources.
 	 */
-	public function save_redirect_file() {
+	public function export_redirects() {
 		$this->redirect->set_format( 'all' );
 
 		$redirects = $this->redirect->get_all();
@@ -162,7 +162,7 @@ abstract class WPSEO_Redirect_Manager {
 		$this->redirect->save();
 
 		// Save the redirect file.
-		$this->save_redirect_file();
+		$this->export_redirects();
 	}
 
 }
