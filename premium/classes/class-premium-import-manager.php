@@ -86,8 +86,8 @@ class WPSEO_Premium_Import_Manager {
 
 			// Loop and add redirect to Yoast SEO Premium.
 			if ( count( $items ) > 0 ) {
-				$url_redirection_manager   = new WPSEO_URL_Redirect_Manager();
-				$regex_redirection_manager = new WPSEO_REGEX_Redirect_Manager();
+				$url_redirection_manager   = new WPSEO_Redirect_URL_Manager();
+				$regex_redirection_manager = new WPSEO_Redirect_Regex_Manager();
 				foreach ( $items as $item ) {
 					// Check if redirect is a regex redirect.
 					if ( 1 == $item->regex ) {
@@ -129,8 +129,8 @@ class WPSEO_Premium_Import_Manager {
 			);
 
 			// Create redirect manager objects.
-			$url_redirection_manager   = new WPSEO_URL_Redirect_Manager();
-			$regex_redirection_manager = new WPSEO_REGEX_Redirect_Manager();
+			$url_redirection_manager   = new WPSEO_Redirect_URL_Manager();
+			$regex_redirection_manager = new WPSEO_Redirect_Regex_Manager();
 
 			// Bool if we've imported redirects.
 			$redirects_imported = false;

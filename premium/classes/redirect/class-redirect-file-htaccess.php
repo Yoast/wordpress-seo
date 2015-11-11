@@ -11,8 +11,8 @@ class WPSEO_Redirect_File_Htaccess extends WPSEO_Redirect_File_Apache {
 	/**
 	 * Save the redirect file
 	 *
-	 * @param array $url_redirects
-	 * @param array $regex_redirects
+	 * @param array $url_redirects   The URL redirects that will be saved.
+	 * @param array $regex_redirects The regex redirect to save.
 	 *
 	 * @return bool
 	 */
@@ -30,7 +30,7 @@ class WPSEO_Redirect_File_Htaccess extends WPSEO_Redirect_File_Apache {
 	/**
 	 * Writing the redirects to the .htaccess file.
 	 *
-	 * @param string $file_content
+	 * @param string $file_content The content to save in the htaccess file.
 	 *
 	 * @return bool
 	 */
@@ -53,8 +53,8 @@ class WPSEO_Redirect_File_Htaccess extends WPSEO_Redirect_File_Apache {
 	/**
 	 * Getting the content from current .htaccess
 	 *
-	 * @param string $file_path
-	 * @param string $file_content
+	 * @param string $file_path    The location of the htaccess file.
+	 * @param string $file_content THe content to save in the htaccess file.
 	 *
 	 * @return string
 	 */

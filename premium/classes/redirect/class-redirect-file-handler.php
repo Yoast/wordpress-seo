@@ -16,7 +16,7 @@ class WPSEO_Redirect_File_Handler {
 	/**
 	 * Setup the file object
 	 *
-	 * @param string $separate_file
+	 * @param string $separate_file Saving the redirects in an separate apache file.
 	 */
 	public function __construct( $separate_file ) {
 		$this->file = $this->get_file( $separate_file );
@@ -25,10 +25,9 @@ class WPSEO_Redirect_File_Handler {
 	/**
 	 * Saving the redirects to the file.
 	 *
-	 * @param WPSEO_Redirect_Manager[] $redirect_managers
+	 * @param WPSEO_Redirect_Manager[] $redirect_managers Array with the redirect managers for the url and the regex.
 	 */
 	public function save( $redirect_managers ) {
-		// Save the file.
 		if ( null !== $this->file ) {
 			$this->file->save( $redirect_managers['url']->get_redirects(), $redirect_managers['regex']->get_redirects() );
 		}
@@ -37,7 +36,7 @@ class WPSEO_Redirect_File_Handler {
 	/**
 	 * Getting the object which will save the redirects file
 	 *
-	 * @param string $separate_file
+	 * @param string $separate_file Saving the redirects in an separate apache file.
 	 *
 	 * @return null|WPSEO_Redirect_File
 	 */

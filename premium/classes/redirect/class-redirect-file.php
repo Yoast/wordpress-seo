@@ -26,8 +26,8 @@ abstract class WPSEO_Redirect_File {
 	/**
 	 * Save the redirect file
 	 *
-	 * @param array $url_redirects
-	 * @param array $regex_redirects
+	 * @param array $url_redirects   The URL redirects that will be saved.
+	 * @param array $regex_redirects The regex redirect to save.
 	 *
 	 * @return bool
 	 */
@@ -53,8 +53,8 @@ abstract class WPSEO_Redirect_File {
 	/**
 	 * Generate file content
 	 *
-	 * @param array $url_redirects
-	 * @param array $regex_redirects
+	 * @param array $url_redirects   The URL redirects that will be saved.
+	 * @param array $regex_redirects The regex redirect to save.
 	 *
 	 * @return string
 	 */
@@ -73,8 +73,8 @@ abstract class WPSEO_Redirect_File {
 	/**
 	 * Formatting the URL redirects
 	 *
-	 * @param string $file_content
-	 * @param array  $redirects
+	 * @param string $file_content The content for the file to save.
+	 * @param array  $redirects    Array with the redirects to save.
 	 *
 	 * @return bool
 	 */
@@ -87,8 +87,8 @@ abstract class WPSEO_Redirect_File {
 	/**
 	 * Formatting the regex redirects
 	 *
-	 * @param string $file_content
-	 * @param array  $redirects
+	 * @param string $file_content The content for the file to save.
+	 * @param array  $redirects    Array with the redirects to save.
 	 *
 	 * @return bool
 	 */
@@ -101,9 +101,9 @@ abstract class WPSEO_Redirect_File {
 	/**
 	 * Format the redirects based on given params
 	 *
-	 * @param string $file_content
-	 * @param array  $redirects
-	 * @param string $redirect_format
+	 * @param string $file_content    The content for the file to save.
+	 * @param array  $redirects       Array with the redirects to save.
+	 * @param string $redirect_format The format to put the redirect in.
 	 *
 	 * @return bool
 	 */
@@ -112,8 +112,8 @@ abstract class WPSEO_Redirect_File {
 			return false;
 		}
 
-		foreach ( $redirects as $redirect_key => $redirect ) {
-			$file_content .= $this->format_redirect( $redirect_format, $redirect_key, $redirect ) . PHP_EOL;
+		foreach ( $redirects as $target_to_redirect => $redirect ) {
+			$file_content .= $this->format_redirect( $redirect_format, $target_to_redirect, $redirect ) . PHP_EOL;
 		}
 
 		return true;
@@ -122,14 +122,14 @@ abstract class WPSEO_Redirect_File {
 	/**
 	 * Formatting the redirect by given redirect format. The right values will placed in the format by sprintf.
 	 *
-	 * @param string $redirect_format
-	 * @param string $redirect_key
-	 * @param array  $redirect
+	 * @param string $redirect_format    The given format for the redirect to generate.
+	 * @param string $target_to_redirect The URL/Regex that will be redirected.
+	 * @param array  $redirect           The redirect data.
 	 *
 	 * @return string
 	 */
-	protected function format_redirect( $redirect_format, $redirect_key, array $redirect ) {
-		return sprintf( $redirect_format, $redirect_key, $redirect['url'], $redirect['type'] );
+	protected function format_redirect( $redirect_format, $target_to_redirect, array $redirect ) {
+		return sprintf( $redirect_format, $target_to_redirect, $redirect['url'], $redirect['type'] );
 	}
 
 }

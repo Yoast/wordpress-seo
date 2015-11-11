@@ -15,7 +15,7 @@ class WPSEO_Redirect_File_Apache extends WPSEO_Redirect_File {
 	 *
 	 * @var string
 	 */
-	protected $url_format   = 'Redirect %1$s %2$s %3$s';
+	protected $url_format   = 'Redirect "%1$s" "%2$s" %3$s';
 
 	/**
 	 * %1$s is the redirect type
@@ -29,30 +29,31 @@ class WPSEO_Redirect_File_Apache extends WPSEO_Redirect_File {
 	/**
 	 * Overrides the parent method. This method will in case of url redirects add slashes to the url.
 	 *
-	 * @param string $redirect_format
-	 * @param string $redirect_key
-	 * @param array  $redirect
+	 * @param string $redirect_format    The given format for the redirect to generate.
+	 * @param string $target_to_redirect The URL/Regex that will be redirected.
+	 * @param array  $redirect           The redirect data.
 	 *
 	 * @return string
 	 */
-	protected function format_redirect( $redirect_format, $redirect_key, array $redirect ) {
+	protected function format_redirect( $redirect_format, $target_to_redirect, array $redirect ) {
 		if ( $this->current_type === 'url' ) {
-			$redirect_key    = $this->add_url_slash( $redirect_key );
-			$redirect['url'] = $this->add_url_slash( $redirect['url'] );
+			$target_to_redirect = $this->add_url_slash( $target_to_redirect );
+			$redirect['url']    = $this->add_url_slash( $redirect['url'] );
 		}
 
-		return parent::format_redirect( $redirect_format, $redirect_key, $redirect );
+		return parent::format_redirect( $redirect_format, $target_to_redirect, $redirect );
 	}
 
 	/**
 	 * Check if first character is a slash, adds a slash if it ain't so
 	 *
-	 * @param string $url
+	 * @param string $url The url add the slashes to.
 	 *
 	 * @return string mixed
 	 */
 	private function add_url_slash( $url ) {
-		if ( $url[0] !== '/' ) {
+		$scheme = parse_url( $url, PHP_URL_SCHEME );
+		if ( $url[0] !== '/' && empty( $scheme ) ) {
 			$url = '/' . $url;
 		}
 

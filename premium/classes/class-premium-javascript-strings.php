@@ -29,8 +29,23 @@ class WPSEO_Premium_Javascript_Strings {
 			'enter_new_url'         => __( 'Please enter the new URL for %s', 'wordpress-seo-premium' ),
 			/* translator note: variables will be replaced with from and to URLs */
 			'redirect_saved'        => __( 'Redirect created from %1$s to %2$s!', 'wordpress-seo-premium' ),
-			'redirect_possibly_bad' => __( 'Possibly bad redirect.', 'wordpress-seo-premium' ),
-			'redirect_not_ok'       => __( 'The URL you entered returned a HTTP code different than 200(OK).', 'wordpress-seo-premium' ),
+
+			'redirect_added'        => array(
+				'title'   => __( 'Redirect added.', 'wordpress-seo-premium' ),
+				'message' => __( 'The redirect is added successfully.', 'wordpress-seo-premium' ),
+			),
+			'redirect_updated'        => array(
+				'title'   => __( 'Redirect updated.', 'wordpress-seo-premium' ),
+				'message' => __( 'The redirect is updated successfully.', 'wordpress-seo-premium' ),
+			),
+			'redirect_deleted'        => array(
+				'title'   => __( 'Redirect deleted.', 'wordpress-seo-premium' ),
+				'message' => __( 'The redirect is deleted successfully.', 'wordpress-seo-premium' ),
+			),
+
+			'button_ok'      => __( 'Ok', 'wordpress-seo-premium' ),
+			'button_cancel'  => __( 'Cancel', 'wordpress-seo-premium' ),
+			'button_save'    => __( 'Save', 'wordpress-seo-premium' ),
 		);
 	}
 

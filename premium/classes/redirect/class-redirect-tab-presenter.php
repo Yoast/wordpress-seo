@@ -6,7 +6,7 @@
 /**
  * Class WPSEO_Redirect_Tab_Presenter
  */
-class WPSEO_Redirect_Tab_Presenter {
+abstract class WPSEO_Redirect_Tab_Presenter {
 
 	/**
 	 * @var string
@@ -19,8 +19,8 @@ class WPSEO_Redirect_Tab_Presenter {
 	protected $view_vars = array();
 
 	/**
-	 * @param string $view
-	 * @param array  $view_vars
+	 * @param string $view      The view to display.
+	 * @param array  $view_vars Array with variables that will be passed to the view.
 	 */
 	public function __construct( $view, $view_vars ) {
 		$this->view      = $view;
@@ -35,7 +35,14 @@ class WPSEO_Redirect_Tab_Presenter {
 		extract( $this->get_view_vars() );
 		// @codingStandardsIgnoreEnd
 
-		require_once( WPSEO_PATH . 'premium/views/redirects-tab-' . $this->view . '.php' );
+		require_once( WPSEO_PATH . 'premium/classes/redirect/views/redirects-tab-' . $this->view . '.php' );
 	}
+
+	/**
+	 * The method to get the variables for the view. This method should return an array, because this will be extracted.
+	 *
+	 * @return array
+	 */
+	abstract protected function get_view_vars();
 
 }

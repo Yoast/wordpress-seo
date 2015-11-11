@@ -9,27 +9,27 @@
 class WPSEO_Redirect_Handler {
 
 	/**
-	 * @var string
+	 * @var string The options where the url redirects are stored.
 	 */
 	private $normal_option_name = 'wpseo-premium-redirects';
 
 	/**
-	 * @var string
+	 * @var string The option name where the regex redirects are stored.
 	 */
 	private $regex_option_name  = 'wpseo-premium-redirects-regex';
 
 	/**
-	 * @var string
+	 * @var string The url that is called at the moment.
 	 */
 	private $request_url = '';
 
 	/**
-	 * @var array
+	 * @var array Array where there redirects will stored.
 	 */
 	private $redirects;
 
 	/**
-	 * @var array
+	 * @var array The matches parts of the url in case of a matched regex redirect.
 	 */
 	private $url_matches = array();
 
@@ -38,7 +38,7 @@ class WPSEO_Redirect_Handler {
 	 */
 	public function __construct() {
 		// Set the requested url.
-		$this->request_url = htmlspecialchars_decode( urldecode( filter_input( INPUT_SERVER, 'REQUEST_URI' ) ) );
+		$this->request_url = htmlspecialchars_decode( rawurldecode( filter_input( INPUT_SERVER, 'REQUEST_URI' ) ) );
 
 		// Check the normal redirects.
 		$this->handle_normal_redirects();
@@ -50,7 +50,7 @@ class WPSEO_Redirect_Handler {
 	/**
 	 * Replace the $regex vars with URL matches
 	 *
-	 * @param array $matches
+	 * @param array $matches Array with the matches from the matching redirect.
 	 *
 	 * @return string
 	 */
@@ -81,9 +81,6 @@ class WPSEO_Redirect_Handler {
 	 * Check if current url matches a regex redirect
 	 */
 	private function handle_regex_redirects() {
-		// Setting the redirects.
-		$this->redirects = $this->get_redirects( $this->regex_option_name );
-
 		foreach ( $this->redirects as $regex => $redirect ) {
 			// Check if the URL matches the $regex.
 			$this->match_regex_redirect( $regex, $redirect );
@@ -93,8 +90,8 @@ class WPSEO_Redirect_Handler {
 	/**
 	 * Check if request url matches one of the regex redirects
 	 *
-	 * @param string $regex
-	 * @param array  $redirect
+	 * @param string $regex    The reqular expression to match.
+	 * @param array  $redirect The URL that might be matched with the regex.
 	 */
 	private function match_regex_redirect( $regex, array $redirect ) {
 		if ( 1 === preg_match( "`{$regex}`", $this->request_url, $this->url_matches ) ) {
@@ -114,18 +111,19 @@ class WPSEO_Redirect_Handler {
 	/**
 	 * Getting the redirects from the options
 	 *
-	 * @param string $option
+	 * @param string $option The option name that wil be fetched.
 	 *
 	 * @return array
 	 */
 	private function get_redirects( $option ) {
-		global $wpdb;
+		static $redirects;
 
-		// Getting the value.
-		$wpdb->query( "SELECT option_value FROM {$wpdb->options} WHERE option_name = '{$option}'" );
+		if ( $redirects === null  ) {
+			$redirects = $this->get_redirects_from_options();
+		}
 
-		if ( $result = $wpdb->get_var() ) {
-			return unserialize( $result );
+		if ( ! empty( $redirects[ $option ] ) ) {
+			return unserialize( $redirects[ $option ] );
 		}
 
 		return array();
@@ -134,7 +132,7 @@ class WPSEO_Redirect_Handler {
 	/**
 	 * Check if URL exists in the redirects.
 	 *
-	 * @param string $url
+	 * @param string $url The needed URL.
 	 *
 	 * @return bool|string
 	 */
@@ -147,14 +145,18 @@ class WPSEO_Redirect_Handler {
 	}
 
 	/**
-	 * @param string $url
+	 * Search for the given url in the redirects array.
 	 *
-	 * @return mixed
+	 * @param string $url The URL to search for.
+	 *
+	 * @return string|bool
 	 */
 	private function search( $url ) {
 		if ( isset( $this->redirects[ $url ] ) ) {
 			return $this->redirects[ $url ];
 		}
+
+		return false;
 	}
 
 	/**
@@ -163,7 +165,7 @@ class WPSEO_Redirect_Handler {
 	 *
 	 * @discuss: Maybe we should add slashes to all the values we handle instead of using a fallback
 	 *
-	 * @param string $url
+	 * @param string $url The URL that have to be matched.
 	 *
 	 * @return bool|string
 	 */
@@ -184,9 +186,9 @@ class WPSEO_Redirect_Handler {
 	/**
 	 * Getting the redirect url by given $url
 	 *
-	 * @param string $redirect_url
+	 * @param string $redirect_url The URL that have to be redirected.
 	 *
-	 * @return string mixed
+	 * @return string
 	 */
 	private function redirect_url( $redirect_url ) {
 		if ( '/' === substr( $redirect_url, 0, 1 ) ) {
@@ -199,8 +201,8 @@ class WPSEO_Redirect_Handler {
 	/**
 	 * Perform the redirect
 	 *
-	 * @param string $redirect_url
-	 * @param string $redirect_type
+	 * @param string $redirect_url  The target URL.
+	 * @param string $redirect_type The type of the redirect.
 	 */
 	private function do_redirect( $redirect_url, $redirect_type ) {
 		if ( 410 === $redirect_type ) {
@@ -224,6 +226,23 @@ class WPSEO_Redirect_Handler {
 		header( 'HTTP/1.1 410 Gone' );
 		global $wp_query;
 		$wp_query->is_404 = true;
+	}
+
+	/**
+	 * Getting the redirects from the option table in the database.
+	 *
+	 * @return array
+	 */
+	private function get_redirects_from_options() {
+		global $wpdb;
+
+		$redirects = array();
+		$results   = $wpdb->get_results( "SELECT option_name, option_value FROM {$wpdb->options} WHERE option_name = '{$this->normal_option_name}' || option_name = '{$this->regex_option_name}'" );
+		foreach ( $results as $result ) {
+			$redirects[ $result->option_name ] = $result->option_value;
+		}
+
+		return $redirects;
 	}
 
 }

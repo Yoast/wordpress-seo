@@ -4,9 +4,11 @@
  */
 
 /**
- * Class WPSEO_Redirect_Option
+ * Class WPSEO_Redirect_Settings_Hooks
+ *
+ * This class will set hooks fired from the settings tab. The hooks will also be handled within this class.
  */
-class WPSEO_Redirect_Settings {
+class WPSEO_Redirect_Settings_Hooks {
 
 	/**
 	 * @var WPSEO_Redirect_Manager
@@ -16,7 +18,7 @@ class WPSEO_Redirect_Settings {
 	/**
 	 * Constructing this object
 	 *
-	 * @param WPSEO_Redirect_Manager $redirect_manager
+	 * @param WPSEO_Redirect_Manager $redirect_manager Current active redirect manager.
 	 */
 	public function __construct( WPSEO_Redirect_Manager $redirect_manager ) {
 		$this->redirect_manager = $redirect_manager;
@@ -31,8 +33,8 @@ class WPSEO_Redirect_Settings {
 	/**
 	 * Hook that runs after the 'wpseo_redirect' option is updated
 	 *
-	 * @param array $old_value
-	 * @param array $value
+	 * @param array $old_value Unused.
+	 * @param array $value     The new saved values.
 	 */
 	public function save_redirect_files( $old_value, $value ) {
 
@@ -61,7 +63,7 @@ class WPSEO_Redirect_Settings {
 			$wpseo_redirect  = filter_input( INPUT_POST, 'wpseo_redirect', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY );
 			$enable_autoload = empty( $wpseo_redirect['disable_php_redirect'] );
 
-			$this->redirect_manager->change_autoload( $enable_autoload );
+			$this->redirect_manager->change_option_autoload( $enable_autoload );
 		}
 	}
 
@@ -69,8 +71,8 @@ class WPSEO_Redirect_Settings {
 	 * The server should always be apache. And the php redirects have to be enabled or in case of a separate
 	 * file it should be disabled.
 	 *
-	 * @param boolean $disable_php_redirect
-	 * @param boolean $separate_file
+	 * @param boolean $disable_php_redirect Are the php redirects disabled.
+	 * @param boolean $separate_file        Value of the separate file.
 	 *
 	 * @return bool
 	 */

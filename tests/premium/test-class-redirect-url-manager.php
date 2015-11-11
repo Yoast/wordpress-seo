@@ -4,14 +4,14 @@
  */
 
 /**
- * Test class for testing WPSEO_Redirect_Presenter
+ * Test class for testing the url redirect manager
  *
- * Class WPSEO_URL_Redirect_Manager_Test
+ * @covers WPSEO_Redirect_URL_Manager
  */
 class WPSEO_URL_Redirect_Manager_Test extends WPSEO_UnitTestCase {
 
 	/**
-	 * @var WPSEO_URL_Redirect_Manager
+	 * @var WPSEO_Redirect_URL_Manager
 	 */
 	protected $class_instance;
 
@@ -19,7 +19,7 @@ class WPSEO_URL_Redirect_Manager_Test extends WPSEO_UnitTestCase {
 	 * Setting up the class instance and fill it with some fake redirects
 	 */
 	public function setUp() {
-		$this->class_instance = new WPSEO_URL_Redirect_Manager();
+		$this->class_instance = new WPSEO_Redirect_URL_Manager();
 
 		$this->class_instance->create_redirect( 'old', 'new', 301 );
 		$this->class_instance->create_redirect( 'older', 'newer', 301 );
@@ -29,28 +29,22 @@ class WPSEO_URL_Redirect_Manager_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Searching the redirects
 	 *
-	 * @covers WPSEO_URL_Redirect_Manager::search_url
+	 * @covers WPSEO_Redirect_URL_Manager::search_url
 	 */
 	public function test_search_url() {
-		$this->assertEquals( 'new', $this->class_instance->search_url( 'old' ) );
-	}
+		$this->assertEquals( 'new', $this->class_instance->search_url( '/old' ) );
 
-	/**
-	 * Searching the redirects with a none-existing redirect
-	 *
-	 * @covers WPSEO_URL_Redirect_Manager::search_url
-	 */
-	public function test_search_none_existing_url() {
-		$this->assertFalse( $this->class_instance->search_url( 'gold' ) );
+		// This one doesn't exists.
+		$this->assertFalse( $this->class_instance->search_url( '/gold' ) );
 	}
 
 	/**
 	 * Testing if we get the options
 	 *
-	 * @covers WPSEO_URL_Redirect_Manager::get_options
+	 * @covers WPSEO_Redirect_URL_Manager::get_options
 	 */
 	public function test_get_options() {
-		$options = WPSEO_Redirect_Manager::get_options();
+		$options = WPSEO_Redirect_Page::get_options();
 
 		$this->assertEquals( 'off', $options['disable_php_redirect'] );
 		$this->assertEquals( 'off', $options['separate_file'] );
@@ -67,59 +61,52 @@ class WPSEO_URL_Redirect_Manager_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Check if the redirects are filled
 	 *
-	 * @covers WPSEO_URL_Redirect_Manager::get)redirects
+	 * @covers WPSEO_Redirect_URL_Manager::get)redirects
 	 */
 	public function test_get_redirects() {
 		$redirects = $this->class_instance->get_redirects();
 
-		$this->assertArrayHasKey( 'old', $redirects );
-		$this->assertArrayHasKey( 'older', $redirects );
-		$this->assertArrayHasKey( 'oldest', $redirects );
+		$this->assertArrayHasKey( '/old', $redirects );
+		$this->assertArrayHasKey( '/older', $redirects );
+		$this->assertArrayHasKey( '/oldest', $redirects );
 	}
 
 	/**
 	 * Testing if redirect is added, if redirecs contains the added redirect and if the contained redirect is what is just added
 	 *
-	 * @covers WPSEO_URL_Redirect_Manager::create_redirect
+	 * @covers WPSEO_Redirect_URL_Manager::create_redirect
 	 */
 	public function test_add_redirect() {
 
 		$is_created = $this->class_instance->create_redirect( 'add_redirect', 'added_redirect', 301 );
 		$redirects  = $this->class_instance->get_redirects();
 
-		$this->assertTrue( $is_created );
-		$this->assertArrayHasKey( 'add_redirect', $redirects );
+		$this->assertTrue( is_array( $is_created ) );
+		$this->assertArrayHasKey( '/add_redirect', $redirects );
 
-		$this->assertEquals( 'added_redirect', $redirects['add_redirect']['url'] );
-		$this->assertEquals( '301', $redirects['add_redirect']['type'] );
+		$this->assertEquals( 'added_redirect', $redirects['/add_redirect']['url'] );
+		$this->assertEquals( '301', $redirects['/add_redirect']['type'] );
 
 		/*
 		 Because of PHP 5.2, this can not be done
 		 $this->assertArraySubset( array( 'add_redirect' => array( 'url' => 'added_redirect', 'type' => 301 ) ), $redirects );
 		 */
-	}
 
-	/**
-	 * Testing if an existing redirect won't be added
-	 *
-	 * @covers WPSEO_URL_Redirect_Manager::create_redirect
-	 */
-	public function test_add_existing_redirect() {
-		$is_created = $this->class_instance->create_redirect( 'old', 'is_new', 301 );
-		$this->assertFalse( $is_created );
+		// This redirect already exists, so it returns false.
+		$this->assertFalse( $this->class_instance->create_redirect( 'old', 'is_new', 301 ) );
 	}
 
 	/**
 	 * Test what happens if we update the redirect
 	 *
-	 * @covers WPSEO_URL_Redirect_Manager::save_redirect
+	 * @covers WPSEO_Redirect_URL_Manager::update_redirect
 	 */
 	public function test_update_redirect() {
 		// First of all create a redirect.
 		$this->class_instance->create_redirect( 'update_redirect', 'updated_redirect', 301 );
 
-		$this->class_instance->save_redirect(
-			array( 'key' => 'update_redirect', 'value' => 'updated_redirect', 'type' => 301 ),
+		$this->class_instance->update_redirect(
+			'update_redirect',
 			array( 'key' => 'redirect_update', 'value' => 'updated_redirect', 'type' => 301 )
 		);
 
@@ -138,28 +125,25 @@ class WPSEO_URL_Redirect_Manager_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Test removing a redirect
 	 *
-	 * @covers WPSEO_URL_Redirect_Manager::delete_redirect
+	 * @covers WPSEO_Redirect_URL_Manager::delete_redirect
 	 */
 	public function test_delete_redirect() {
 		// First of all create a redirect.
 		$this->class_instance->create_redirect( 'delete_redirect', 'deleted_redirect', 301 );
 
 		// Remove the redirect.
-		$this->class_instance->delete_redirect( array( 'delete_redirect' ) );
+		$this->class_instance->delete_redirects( array( 'delete_redirect' ) );
 
-		$this->assertFalse( array_key_exists( 'delete_redirect', $this->class_instance->get_redirects() ) );
+		$this->assertFalse( array_key_exists( '/delete_redirect', $this->class_instance->get_redirects() ) );
 	}
 
 	/**
-	 * Saving the redirects, by just overwrite it with an empty array
+	 * Test if result of get_validator is an instance of WPSEO_Redirect_URL_Validator
 	 *
-	 * @covers WPSEO_URL_Redirect_Manager::save_redirects
+	 * @covers WPSEO_Redirect_URL_Manager::get_validator
 	 */
-	public function test_save_redirects() {
-		// Just overwrite the redirect with an empty array.
-		$this->class_instance->save_redirects( array() );
-
-		$this->assertTrue( array() === $this->class_instance->get_redirects() );
+	public function test_get_validator() {
+		$this->assertTrue( is_a( $this->class_instance->get_validator(), 'WPSEO_Redirect_URL_Validator' ) );
 	}
 
 	/**
@@ -168,7 +152,5 @@ class WPSEO_URL_Redirect_Manager_Test extends WPSEO_UnitTestCase {
 	public function tearDown() {
 		$this->class_instance = null;
 	}
-
-
 
 }
