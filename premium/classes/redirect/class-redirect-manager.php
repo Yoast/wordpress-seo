@@ -87,8 +87,11 @@ abstract class WPSEO_Redirect_Manager {
 	 * @param bool $autoload_value The autoload value (true or false).
 	 */
 	public function change_option_autoload( $autoload_value ) {
-		$this->redirects_change_autoload( $autoload_value, WPSEO_Redirect_Option::OPTION_PLAIN );
-		$this->redirects_change_autoload( $autoload_value, WPSEO_Redirect_Option::OPTION_REGEX );
+		// The autoload value base on given boolean.
+		$autoload = ( $autoload_value === false ) ? 'no' : 'yes';
+
+		$this->redirect->change_autoload( $autoload, WPSEO_Redirect_Option::OPTION_PLAIN );
+		$this->redirect->change_autoload( $autoload, WPSEO_Redirect_Option::OPTION_REGEX );
 	}
 
 	/**
@@ -160,33 +163,6 @@ abstract class WPSEO_Redirect_Manager {
 
 		// Save the redirect file.
 		$this->save_redirect_file();
-	}
-
-	/**
-	 * Change if the redirect option is autoloaded
-	 *
-	 * @param bool   $enabled     Boolean to determine the autoload value that will be saved.
-	 * @param string $option_name The target option wherefore the autoload will be changed.
-	 */
-	private function redirects_change_autoload( $enabled, $option_name ) {
-		global $wpdb;
-
-		// Default autoload value.
-		$autoload = 'yes';
-
-		// Disable auto loading.
-		if ( false === $enabled ) {
-			$autoload = 'no';
-		}
-
-		// Do update query.
-		$wpdb->update(
-			$wpdb->options,
-			array( 'autoload' => $autoload ),
-			array( 'option_name' => $option_name ),
-			array( '%s' ),
-			array( '%s' )
-		);
 	}
 
 }
