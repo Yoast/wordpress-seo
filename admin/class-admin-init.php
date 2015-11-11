@@ -313,7 +313,7 @@ class WPSEO_Admin_Init {
 	 *
 	 * @return bool
 	 */
-	public function has_ignored_tour() {
+	private function has_ignored_tour() {
 		return ! empty( get_user_meta( get_current_user_id(), 'wpseo_ignore_tour' ) );
 	}
 
