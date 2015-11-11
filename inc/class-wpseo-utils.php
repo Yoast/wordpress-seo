@@ -838,8 +838,8 @@ class WPSEO_Utils {
 	public static function is_development_mode() {
 		$development_mode = false;
 
-		if ( defined( 'YOAST_DEV_DEBUG' ) ) {
-			$development_mode = YOAST_DEV_DEBUG;
+		if ( defined( 'WPSEO_DEBUG' ) ) {
+			$development_mode = WPSEO_DEBUG;
 		} elseif ( site_url() && false === strpos( site_url(), '.' ) ) {
 			$development_mode = true;
 		}
