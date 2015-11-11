@@ -49,6 +49,12 @@ class Yoast_Dashboard_Widget {
 	public function display_dashboard_widget() {
 		$statistics = $this->statistic_items();
 
+		$onpage_option = new WPSEO_OnPage_Option();
+		$onpage        = array(
+			'indexable' => $onpage_option->is_indexable(),
+			'can_fetch' => $onpage_option->should_be_fetched(),
+		);
+
 		include WPSEO_PATH . '/admin/views/dashboard-widget.php';
 	}
 
@@ -143,7 +149,6 @@ class Yoast_Dashboard_Widget {
 		$labels = array(
 			WPSEO_Rank::NO_FOCUS => __( 'Posts without focus keyword', 'wordpress-seo' ),
 			WPSEO_Rank::BAD      => __( 'Posts with bad SEO score', 'wordpress-seo' ),
-			WPSEO_Rank::POOR     => __( 'Posts with poor SEO score', 'wordpress-seo' ),
 			WPSEO_Rank::OK       => __( 'Posts with OK SEO score', 'wordpress-seo' ),
 			WPSEO_Rank::GOOD     => __( 'Posts with good SEO score', 'wordpress-seo' ),
 			/* translators: %s expands to <code>noindex</code> */
