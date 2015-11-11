@@ -72,13 +72,15 @@ class WPSEO_Redirect_Option {
 	 * @param string $new_redirect The value of the new redirect.
 	 * @param string $type		   The redirect type.
 	 *
-	 * @return bool
+	 * @return bool|WPSEO_Redirect
 	 */
 	public function add( $old_redirect, $new_redirect, $type ) {
 		if ( ! $this->search( $old_redirect ) ) {
-			$this->redirects[] = new WPSEO_Redirect( $old_redirect, $new_redirect, $type, $this->format );
+			$redirect = new WPSEO_Redirect( $old_redirect, $new_redirect, $type, $this->format );
 
-			return true;
+			array_push( $this->redirects, $redirect );
+
+			return $redirect;
 		}
 
 		return false;
@@ -92,13 +94,14 @@ class WPSEO_Redirect_Option {
 	 * @param string $new_redirect	   The target where the old redirect will point to.
 	 * @param string $type			   Redirect type.
 	 *
-	 * @return bool
+	 * @return bool|WPSEO_Redirect
 	 */
 	public function update( $current_redirect, $old_redirect, $new_redirect, $type ) {
 		if ( $found = $this->search( $current_redirect ) ) {
-			$this->redirects[ $found ] = new WPSEO_Redirect( $old_redirect, $new_redirect, $type, $this->format );
+			$redirect = new WPSEO_Redirect( $old_redirect, $new_redirect, $type, $this->format );
+			$this->redirects[ $found ] = $redirect;
 
-			return true;
+			return $redirect;
 		}
 
 		return false;
@@ -215,6 +218,6 @@ class WPSEO_Redirect_Option {
 	 * @return bool
 	 */
 	private function filter_redirects_by_format( WPSEO_Redirect $redirect ) {
-		return $redirect->get_format() === $this->format;
+		return $this->format === 'all' || $redirect->get_format() === $this->format;
 	}
 }
