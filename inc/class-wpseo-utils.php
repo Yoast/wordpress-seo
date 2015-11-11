@@ -854,5 +854,5 @@ class WPSEO_Utils {
 
 		return apply_filters( 'yoast_seo_development_mode', $development_mode );
 	}
-	
+
 } /* End of class WPSEO_Utils */

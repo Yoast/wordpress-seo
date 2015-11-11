@@ -91,8 +91,7 @@ class WPSEO_OnPage {
 	 * Show a notice when the website is not indexable
 	 */
 	public function show_notice() {
-		$show_notice = WPSEO_Utils::grant_access() && ! $this->user_has_dismissed() && ! $this->onpage_option->is_indexable();
-		if ( $show_notice ) {
+		if ( $this->should_show_notice() ) {
 			$notice = sprintf(
 				/* translators: 1: opens a link to a related knowledge base article. 2: closes the link */
 				__( '%1$sYour homepage cannot be indexed by search engines%2$s. This is very bad for SEO and should be fixed.', 'wordpress-seo' ),
@@ -132,6 +131,20 @@ class WPSEO_OnPage {
 	}
 
 	/**
+	 * Should the notice being given?
+	 *
+	 * @return bool
+	 */
+	protected function should_show_notice() {
+		// If development note is on or the tagline notice is shown, just don't show this notice.
+		if( WPSEO_Utils::is_development_mode() || ( '0' === get_option( 'blog_public' ) ) ) {
+			return false;
+		}
+
+		return WPSEO_Utils::grant_access() && ! $this->user_has_dismissed() && ! $this->onpage_option->is_indexable();
+	}
+
+	/**
 	 * Notify the admins
 	 *
 	 * @param int|null $old_status The old indexable status.
@@ -143,6 +156,7 @@ class WPSEO_OnPage {
 		$notify->send_email( $old_status, $new_status );
 		$notify->show_notices();
 	}
+
 
 	/**
 	 * Sets a notice if the request to OnPage.org failed and it was a manual request.
