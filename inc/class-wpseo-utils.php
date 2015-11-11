@@ -840,7 +840,8 @@ class WPSEO_Utils {
 
 		if ( defined( 'WPSEO_DEBUG' ) ) {
 			$development_mode = WPSEO_DEBUG;
-		} elseif ( site_url() && false === strpos( site_url(), '.' ) ) {
+		}
+		elseif ( site_url() && false === strpos( site_url(), '.' ) ) {
 			$development_mode = true;
 		}
 
