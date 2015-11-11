@@ -562,10 +562,9 @@ class WPSEO_Twitter {
 	/**
 	 * Displays the domain tag for the site.
 	 *
-	 * @deprecated 2.4
+	 * @deprecated 3.0
 	 */
 	protected function site_domain() {
-
-		_deprecated_function( __METHOD__, 'WPSEO 2.4' );
+		_deprecated_function( __METHOD__, 'WPSEO 3.0' );
 	}
 } /* End of class */

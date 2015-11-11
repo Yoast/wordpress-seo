@@ -26,7 +26,6 @@ class WPSEO_Statistics_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_empty_statistics() {
 		$this->assertEquals( 0, $this->instance->get_post_count( new WPSEO_Rank( WPSEO_Rank::BAD ) ) );
-		$this->assertEquals( 0, $this->instance->get_post_count( new WPSEO_Rank( WPSEO_Rank::POOR ) ) );
 		$this->assertEquals( 0, $this->instance->get_post_count( new WPSEO_Rank( WPSEO_Rank::OK ) ) );
 		$this->assertEquals( 0, $this->instance->get_post_count( new WPSEO_Rank( WPSEO_Rank::GOOD ) ) );
 		$this->assertEquals( 0, $this->instance->get_post_count( new WPSEO_Rank( WPSEO_Rank::NO_FOCUS ) ) );
@@ -49,10 +48,9 @@ class WPSEO_Statistics_Test extends WPSEO_UnitTestCase {
 			add_post_meta( $post_id, '_yoast_wpseo_linkdex', $i++ );
 		}
 
-		$this->assertEquals( 34, $this->instance->get_post_count( new WPSEO_Rank( WPSEO_Rank::BAD ) ) );
-		$this->assertEquals( 20, $this->instance->get_post_count( new WPSEO_Rank( WPSEO_Rank::POOR ) ) );
-		$this->assertEquals( 20, $this->instance->get_post_count( new WPSEO_Rank( WPSEO_Rank::OK ) ) );
-		$this->assertEquals( 25, $this->instance->get_post_count( new WPSEO_Rank( WPSEO_Rank::GOOD ) ) );
+		$this->assertEquals( 40, $this->instance->get_post_count( new WPSEO_Rank( WPSEO_Rank::BAD ) ) );
+		$this->assertEquals( 30, $this->instance->get_post_count( new WPSEO_Rank( WPSEO_Rank::OK ) ) );
+		$this->assertEquals( 29, $this->instance->get_post_count( new WPSEO_Rank( WPSEO_Rank::GOOD ) ) );
 		$this->assertEquals( 1, $this->instance->get_post_count( new WPSEO_Rank( WPSEO_Rank::NO_FOCUS ) ) );
 	}
 
@@ -72,7 +70,6 @@ class WPSEO_Statistics_Test extends WPSEO_UnitTestCase {
 		}
 
 		$this->assertEquals( 0, $this->instance->get_post_count( new WPSEO_Rank( WPSEO_Rank::BAD ) ) );
-		$this->assertEquals( 0, $this->instance->get_post_count( new WPSEO_Rank( WPSEO_Rank::POOR ) ) );
 		$this->assertEquals( 0, $this->instance->get_post_count( new WPSEO_Rank( WPSEO_Rank::OK ) ) );
 		$this->assertEquals( 0, $this->instance->get_post_count( new WPSEO_Rank( WPSEO_Rank::GOOD ) ) );
 		$this->assertEquals( 0, $this->instance->get_post_count( new WPSEO_Rank( WPSEO_Rank::NO_FOCUS ) ) );

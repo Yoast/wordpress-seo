@@ -1,6 +1,6 @@
 /* global wp */
 /* global removeThumb:true */
-/* global wpseoMetaboxL10n */
+/* global wpseoFeaturedImageL10n */
 /* jshint -W097 */
 /* jshint -W003 */
 'use strict';
@@ -23,7 +23,7 @@ function yst_checkFeaturedImage( featuredImage ) {
 	if ( attachment.width < 200 || attachment.height < 200 ) {
 		//Show warning to user and do not add image to OG
 		if ( !document.getElementById( 'yst_opengraph_image_warning' ) ) {
-			jQuery( '<div id="yst_opengraph_image_warning"><p>' + wpseoMetaboxL10n.featured_image_notice + '</p></div>' ).insertBefore( '#postimagediv' );
+			jQuery( '<div id="yst_opengraph_image_warning"><p>' + wpseoFeaturedImageL10n.featured_image_notice + '</p></div>' ).insertBefore( '#postimagediv' );
 			document.getElementById( 'postimagediv' ).style.border = 'solid #dd3d36';
 			document.getElementById( 'postimagediv' ).style.borderWidth = '3px 4px 4px 4px';
 		}

@@ -9,7 +9,6 @@
 class WPSEO_Rank {
 
 	const BAD      = 'bad';
-	const POOR     = 'poor';
 	const OK       = 'ok';
 	const GOOD     = 'good';
 	const NO_FOCUS = 'na';
@@ -20,7 +19,6 @@ class WPSEO_Rank {
 	 */
 	protected static $ranks = array(
 		self::BAD,
-		self::POOR,
 		self::OK,
 		self::GOOD,
 		self::NO_FOCUS,
@@ -39,18 +37,14 @@ class WPSEO_Rank {
 		),
 		self::BAD  => array(
 			'start' => 1,
-			'end'   => 34,
-		),
-		self::POOR => array(
-			'start' => 35,
-			'end'   => 54,
+			'end'   => 40,
 		),
 		self::OK => array(
-			'start' => 55,
-			'end'   => 74,
+			'start' => 41,
+			'end'   => 70,
 		),
 		self::GOOD => array(
-			'start' => 75,
+			'start' => 71,
 			'end'   => 100,
 		),
 	);
@@ -90,7 +84,6 @@ class WPSEO_Rank {
 			self::NO_FOCUS => 'na',
 			self::NO_INDEX => 'noindex',
 			self::BAD      => 'bad',
-			self::POOR     => 'poor',
 			self::OK       => 'ok',
 			self::GOOD     => 'good',
 		);
@@ -108,7 +101,6 @@ class WPSEO_Rank {
 			self::NO_FOCUS => __( 'N/A', 'wordpress-seo' ),
 			self::NO_INDEX => __( 'No index', 'wordpress-seo' ),
 			self::BAD      => __( 'Bad', 'wordpress-seo' ),
-			self::POOR     => __( 'Poor', 'wordpress-seo' ),
 			self::OK       => __( 'OK', 'wordpress-seo' ),
 			self::GOOD     => __( 'Good', 'wordpress-seo' ),
 		);
@@ -125,7 +117,6 @@ class WPSEO_Rank {
 		$labels = array(
 			self::NO_FOCUS => __( 'SEO: No Focus Keyword', 'wordpress-seo' ),
 			self::BAD      => __( 'SEO: Bad', 'wordpress-seo' ),
-			self::POOR     => __( 'SEO: Poor', 'wordpress-seo' ),
 			self::OK       => __( 'SEO: OK', 'wordpress-seo' ),
 			self::GOOD     => __( 'SEO: Good', 'wordpress-seo' ),
 			self::NO_INDEX => __( 'SEO: Post Noindexed', 'wordpress-seo' ),
