@@ -20,7 +20,7 @@ class WPSEO_Redirect_URL_Manager extends WPSEO_Redirect_Manager {
 	 * @param string $new_value The target where the old value will redirect to.
 	 * @param int    $type      Type of the redirect.
 	 *
-	 * @return bool|array
+	 * @return bool|WPSEO_Redirect
 	 */
 	public function create_redirect( $old_value, $new_value, $type ) {
 		$old_value = WPSEO_Utils::format_url( $old_value );
@@ -34,7 +34,7 @@ class WPSEO_Redirect_URL_Manager extends WPSEO_Redirect_Manager {
 	 * @param string $old_redirect_key The old redirect, the value is a key in the redirects array.
 	 * @param array  $new_redirect     Array with values for the update redirect.
 	 *
-	 * @return array|bool
+	 * @return WPSEO_Redirect|bool
 	 */
 	public function update_redirect( $old_redirect_key, array $new_redirect ) {
 		// Format the URL if it's an URL.

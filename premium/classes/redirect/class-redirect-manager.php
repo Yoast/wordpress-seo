@@ -63,7 +63,7 @@ abstract class WPSEO_Redirect_Manager {
 	/**
 	 * Get the redirects
 	 *
-	 * @return array
+	 * @return WPSEO_Redirect[]
 	 */
 	public function get_redirects() {
 		return $this->redirect->get_all();

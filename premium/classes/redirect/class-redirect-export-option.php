@@ -12,6 +12,8 @@ class WPSEO_Redirect_Export_Option implements WPSEO_Redirect_Export {
 	 * This method will split the redirects in separate arrays and store them in an option.
 	 *
 	 * @param WPSEO_Redirect[] $redirects The redirects to export.
+	 *
+	 * @return bool
 	 */
 	public function export( $redirects ) {
 		$formatted_redirects = array(
@@ -28,6 +30,8 @@ class WPSEO_Redirect_Export_Option implements WPSEO_Redirect_Export {
 
 		// Save the regex redirects.
 		update_option( WPSEO_Redirect_Option::OPTION_REGEX, $formatted_redirects[ WPSEO_Redirect::FORMAT_REGEX ] );
+
+		return true;
 	}
 
 	/**

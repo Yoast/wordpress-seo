@@ -6,25 +6,25 @@
 /**
  * This exporter class will format the redirects for apache files.
  */
-class WPSEO_Redirect_Export_Export_Apache extends WPSEO_Redirect_Export_File {
+class WPSEO_Redirect_Export_Apache extends WPSEO_Redirect_Export_File {
 
 	/**
-	 * %1$s is the redirect type
-	 * %2$s is the old url
-	 * %3$s is the new url
+	 * %1$s is the old url
+	 * %2$s is the new url
+	 * %3$s is the redirect type
 	 *
 	 * @var string
 	 */
-	protected $url_format   = 'Redirect "%1$s" "%2$s" %3$s';
+	protected $url_format   = 'Redirect %3$s "%1$s" "%2$s"';
 
 	/**
-	 * %1$s is the redirect type
-	 * %2$s is the regex
-	 * %3$s is the new url
+	 * %1$s is the old url
+	 * %2$s is the new url
+	 * %3$s is the redirect type
 	 *
 	 * @var string
 	 */
-	protected $regex_format = 'RedirectMatch %1$s %2$s %3$s';
+	protected $regex_format = 'RedirectMatch %3$s %1$s %2$s';
 
 	/**
 	 * Overrides the parent method. This method will in case of url redirects add slashes to the url.

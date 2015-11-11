@@ -84,14 +84,14 @@ class WPSEO_Redirect_File_Util {
 		// Create the correct file object.
 		if ( WPSEO_Utils::is_apache() ) {
 			if ( 'on' === $separate_file ) {
-				return new WPSEO_Redirect_Export_Export_Apache();
+				return new WPSEO_Redirect_Export_Apache();
 			}
 
 			return new WPSEO_Redirect_Export_Htaccess();
 		}
 
 		if ( WPSEO_Utils::is_nginx() ) {
-			return new WPSEO_Redirect_Export_Export_Nginx();
+			return new WPSEO_Redirect_Export_Nginx();
 		}
 
 		return null;

@@ -4,9 +4,9 @@
  */
 
 /**
- * Class WPSEO_Nginx_Redirect_File
+ * Exporter for Nginx, only declares the two formats
  */
-class WPSEO_Redirect_Export_Export_Nginx extends WPSEO_Redirect_Export_File {
+class WPSEO_Redirect_Export_Nginx extends WPSEO_Redirect_Export_File {
 
 	/**
 	 * %1$s is the redirect type

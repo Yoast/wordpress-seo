@@ -6,9 +6,9 @@
 /**
  * Test class for the redirect option class
  *
- * @covers WPSEO_Redirect
+ * @covers WPSEO_Redirect_Option
  */
-class WPSEO_Redirect_Test extends WPSEO_UnitTestCase {
+class WPSEO_Redirect_Option_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * This variable is instantiated in setUp().
@@ -23,15 +23,18 @@ class WPSEO_Redirect_Test extends WPSEO_UnitTestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->class_instance = new WPSEO_Redirect_Option( 'wpseo_redirects' );
-		$this->class_instance->set(
-			array(
-				'old-url' => array(
-					'url'  => 'new-url',
-					'type' => 301,
-				),
-			)
-		);
+		$this->class_instance = new WPSEO_Redirect_Option();
+		$this->class_instance->set_format( WPSEO_Redirect::FORMAT_PLAIN );
+		$this->class_instance->add( 'old-url', 'new-url', 301 );
+		$this->class_instance->save();
+	}
+
+	/**
+	 * Remove the option on tear down.
+	 */
+	public function tearDown() {
+		// Clear the option to be sure there are no redirects.
+		delete_option( WPSEO_Redirect_Option::OPTION );
 	}
 
 	/**
@@ -42,26 +45,10 @@ class WPSEO_Redirect_Test extends WPSEO_UnitTestCase {
 	public function test_get_all() {
 		$this->assertEquals(
 			array(
-				'old-url' => array(
-					'url'  => 'new-url',
-					'type' => 301,
-				),
+				new WPSEO_Redirect( 'old-url', 'new-url', 301, WPSEO_Redirect::FORMAT_PLAIN ),
 			),
 			$this->class_instance->get_all()
 		);
-	}
-
-	/**
-	 * Test if storing redirects by passing an array works.
-	 *
-	 * @covers WPSEO_Redirect::set
-	 */
-	public function test_set() {
-		$this->class_instance->set(
-			array( 'first-redirect', 'second-redirect' )
-		);
-
-		$this->assertEquals( array( 'first-redirect', 'second-redirect' ), $this->class_instance->get_all() );
 	}
 
 	/**
@@ -70,7 +57,7 @@ class WPSEO_Redirect_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Redirect::add
 	 */
 	public function test_add() {
-		$this->assertTrue( $this->class_instance->add( 'new-redirect', 'new-target', 301 ) );
+		$this->assertTrue( is_a( $this->class_instance->add( 'new-redirect', 'new-target', 301 ), 'WPSEO_Redirect' ) );
 		$this->assertFalse( $this->class_instance->add( 'old-url', 'new-url', 301 ) );
 	}
 
@@ -80,7 +67,7 @@ class WPSEO_Redirect_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Redirect::update
 	 */
 	public function test_update() {
-		$this->assertTrue( $this->class_instance->update( 'old-url', 'older-url', 'older-target', 301 ) );
+		$this->assertTrue( is_a( $this->class_instance->update( 'old-url', 'older-url', 'older-target', 301 ), 'WPSEO_Redirect' ) );
 		$this->assertFalse( $this->class_instance->update( 'does-not-exists', 'old-target', 'new-target', 301 ) );
 	}
 
@@ -100,7 +87,7 @@ class WPSEO_Redirect_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Redirect::search
 	 */
 	public function test_search() {
-		$this->assertEquals( array( 'url' => 'new-url', 'type' => 301 ), $this->class_instance->search( 'old-url' ) );
+		$this->assertEquals( 0, $this->class_instance->search( 'old-url' ) );
 		$this->assertFalse( $this->class_instance->search( 'does-not-exist' ) );
 	}
 

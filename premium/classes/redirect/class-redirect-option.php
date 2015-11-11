@@ -78,7 +78,7 @@ class WPSEO_Redirect_Option {
 	 * @return bool|WPSEO_Redirect
 	 */
 	public function add( $old_redirect, $new_redirect, $type ) {
-		if ( ! $this->search( $old_redirect ) ) {
+		if ( $this->search( $old_redirect ) === false ) {
 			$redirect = new WPSEO_Redirect( $old_redirect, $new_redirect, $type, $this->format );
 
 			array_push( $this->redirects, $redirect );
@@ -100,7 +100,7 @@ class WPSEO_Redirect_Option {
 	 * @return bool|WPSEO_Redirect
 	 */
 	public function update( $current_redirect, $old_redirect, $new_redirect, $type ) {
-		if ( $found = $this->search( $current_redirect ) ) {
+		if ( ( $found = $this->search( $current_redirect ) ) !== false ) {
 			$redirect = new WPSEO_Redirect( $old_redirect, $new_redirect, $type, $this->format );
 			$this->redirects[ $found ] = $redirect;
 
@@ -118,7 +118,7 @@ class WPSEO_Redirect_Option {
 	 * @return bool
 	 */
 	public function delete( $redirect ) {
-		if ( $found = $this->search( $redirect ) ) {
+		if ( ( $found = $this->search( $redirect ) ) !== false ) {
 			unset( $this->redirects[ $found ] );
 
 			return true;

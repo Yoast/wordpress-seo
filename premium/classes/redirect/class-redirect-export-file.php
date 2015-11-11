@@ -22,17 +22,25 @@ abstract class WPSEO_Redirect_Export_File implements WPSEO_Redirect_Export {
 	 * Exports an array of redirects.
 	 *
 	 * @param WPSEO_Redirect[] $redirects The redirects to export.
+	 *
+	 * @return bool
 	 */
 	public function export( $redirects ) {
-		$file_content = '';
-		foreach ( $redirects as $redirect ) {
-			$file_content .= $this->format( $redirect ) . PHP_EOL;
+
+		if ( ! empty( $redirects ) ) {
+			$file_content = '';
+
+			foreach ( $redirects as $redirect ) {
+				$file_content .= $this->format( $redirect ) . PHP_EOL;
+			}
+
+			// Check if the file content isset.
+			if ( ! empty( $file_content ) ) {
+				return $this->save( $file_content );
+			}
 		}
 
-		// Check if the file content isset.
-		if ( ! empty( $file_content ) ) {
-			$this->save( $file_content );
-		}
+		return false;
 	}
 
 	/**
@@ -48,7 +56,7 @@ abstract class WPSEO_Redirect_Export_File implements WPSEO_Redirect_Export {
 		return sprintf(
 			$redirect_format,
 			$redirect->get_origin(),
-			$redirect->get_type(),
+			$redirect->get_target(),
 			$redirect->get_type()
 		);
 	}
