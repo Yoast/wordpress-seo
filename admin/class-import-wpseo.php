@@ -22,7 +22,7 @@ class WPSEO_Import_WPSEO extends WPSEO_Import_External {
 		$this->set_msg(
 			__(
 				sprintf(
-					'wpSEO data successfully imported. Would you like to %sdisable the wpSEO plugin%s.',
+					'wpSEO data successfully imported. Would you like to %sdisable the wpSEO plugin%s?',
 					'<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_tools&tool=import-export&deactivate_wpseo=1#top#import-seo' ) ) . '">',
 					'</a>'
 				),
