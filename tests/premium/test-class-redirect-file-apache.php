@@ -11,7 +11,7 @@
 class WPSEO_Redirect_File_Apache_Test extends WPSEO_UnitTestCase {
 
 	/**
-	 * @var WPSEO_Redirect_File_Apache
+	 * @var WPSEO_Redirect_Export_Export_Apache
 	 */
 	protected $class_instance;
 

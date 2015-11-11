@@ -11,7 +11,7 @@
 class WPSEO_Redirect_File_Nginx_Test extends WPSEO_UnitTestCase {
 
 	/**
-	 * @var WPSEO_Redirect_File_Nginx
+	 * @var WPSEO_Redirect_Export_Export_Nginx
 	 */
 	protected $class_instance;
 
