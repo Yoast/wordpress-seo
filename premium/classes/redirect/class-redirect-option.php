@@ -8,10 +8,13 @@
  */
 class WPSEO_Redirect_Option {
 
-	/**
-	 * @var string
-	 */
-	private $option_name;
+	const OLD_OPTION_PLAIN = 'wpseo-premium-redirects';
+	const OLD_OPTION_REGEX = 'wpseo-premium-redirects-regex';
+
+	const OPTION = 'wpseo-premium-redirects';
+
+	const OPTION_PLAIN = 'wpseo-premium-redirects-plain';
+	const OPTION_REGEX = 'wpseo-premium-redirects-regex';
 
 	/**
 	 * @var WPSEO_Redirect[]
