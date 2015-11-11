@@ -811,4 +811,22 @@ class WPSEO_Utils {
 		return json_encode( $array_to_encode );
 		// @codingStandardsIgnoreEnd
 	}
+
+	/**
+	 * Check if the current opened page is a Yoast SEO page.
+	 *
+	 * @return bool
+	 */
+	public static function is_yoast_seo_page() {
+		static $is_yoast_seo;
+
+		if ( $is_yoast_seo === null ) {
+			$current_page = filter_input( INPUT_GET, 'page' );
+			$is_yoast_seo = ( substr( $current_page, 0, 6 ) === 'wpseo_' );
+		}
+
+		return $is_yoast_seo;
+	}
+
+
 } /* End of class WPSEO_Utils */
