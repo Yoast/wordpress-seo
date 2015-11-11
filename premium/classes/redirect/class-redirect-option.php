@@ -151,34 +151,13 @@ class WPSEO_Redirect_Option {
 	}
 
 	/**
-	 * Upgrade routing to merge plain and regex redirects in a single option.
-	 */
-	public function upgrade_3_1() {
-		$redirect_options = array(
-			self::OLD_OPTION_PLAIN => WPSEO_Redirect::FORMAT_PLAIN,
-			self::OLD_OPTION_REGEX => WPSEO_Redirect::FORMAT_REGEX,
-		);
-
-		$this->redirects = array();
-		foreach ( $redirect_options as $redirect_option => $redirect_format ) {
-			$old_redirects = $this->get_from_option( $redirect_option );
-
-			foreach ( $old_redirects as $origin => $redirect ) {
-				$this->redirects[] = new WPSEO_Redirect( $origin, $redirect['url'], $redirect['type'], $redirect_format );
-			}
-		}
-
-		$this->save();
-	}
-
-	/**
 	 * Setting the redirects property
 	 *
 	 * @param string $option_name The target option name.
 	 *
 	 * @return array
 	 */
-	private function get_from_option( $option_name = self::OPTION ) {
+	public function get_from_option( $option_name = self::OPTION ) {
 		$redirects = apply_filters( 'wpseo_premium_get_redirects', get_option( $option_name ) );
 		if ( ! is_array( $redirects ) ) {
 			$redirects = array();

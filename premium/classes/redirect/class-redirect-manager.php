@@ -135,27 +135,6 @@ abstract class WPSEO_Redirect_Manager {
 	}
 
 	/**
-	 * Upgrade routine from Yoast SEO premium 1.2.0
-	 */
-	public function upgrade_1_2_0() {
-		// Getting the redirects.
-		$redirects = $this->redirect->get_all();
-
-		// Loop through the redirects.
-		foreach ( $redirects as $old_url => $redirect ) {
-			// Check if the redirect is not an array yet.
-			if ( ! is_array( $redirect ) ) {
-				$redirects[ $old_url ] = $this->redirect->format( $redirect, '301' );
-			}
-		}
-		// Set the redirect value with the reformated redirects.
-		$this->redirect->set( $redirects );
-
-		// Save the URL redirects.
-		$this->save_redirects();
-	}
-
-	/**
 	 * This method will save the redirect option and if necessary the redirect file.
 	 */
 	public function save_redirects() {

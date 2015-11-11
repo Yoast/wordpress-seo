@@ -11,7 +11,7 @@ class WPSEO_Upgrade_Manager {
 	/**
 	 * Check if there's a plugin update
 	 *
-	 * @param string $version_number
+	 * @param string $version_number The version number of Premium.
 	 */
 	public function check_update( $version_number ) {
 
@@ -33,15 +33,19 @@ class WPSEO_Upgrade_Manager {
 			add_action( 'wp', array( $this, 'import_redirects_2_3' ), 11 );
 			add_action( 'admin_head', array( $this, 'import_redirects_2_3' ), 11 );
 		}
+
+		if ( version_compare( $version_number, '3.1', '<' ) ) {
+			add_action( 'wp', array( 'WPSEO_Redirect_Upgrade', 'upgrade_3_1' ), 12 );
+			add_action( 'admin_head', array( 'WPSEO_Redirect_Upgrade', 'upgrade_3_1' ), 12 );
+		}
 	}
 
 	/**
 	 * An update is required, do it
 	 *
-	 * @param string $current_version
+	 * @param string $current_version The current version of Premium.
 	 */
 	private function do_update( $current_version ) {
-
 		// < 1.0.4.
 		if ( $current_version < 5 ) {
 
@@ -64,18 +68,11 @@ class WPSEO_Upgrade_Manager {
 
 		// Upgrade to version 1.2.0.
 		if ( $current_version < 15 ) {
-
 			/**
 			 * Upgrade redirects
 			 */
-
-			// URL Redirects.
-			$url_redirect_manager = new WPSEO_Redirect_URL_Manager();
-			$url_redirect_manager->upgrade_1_2_0();
-
-			// Regex Redirects.
-			$regex_redirect_manager = new WPSEO_Redirect_Regex_Manager();
-			$regex_redirect_manager->upgrade_1_2_0();
+			add_action( 'wp', array( 'WPSEO_Redirect_Upgrade', 'upgrade_1_2_0' ), 10 );
+			add_action( 'admin_head', array( 'WPSEO_Redirect_Upgrade', 'upgrade_1_2_0' ), 10 );
 		}
 
 	}
