@@ -29,7 +29,7 @@ class WPSEO_Redirect_Ajax {
 	 */
 	public function __construct( WPSEO_Redirect_Manager $redirect_manager, $hook_suffix ) {
 		$this->redirect_manager = $redirect_manager;
-		$this->validator        = $redirect_manager->get_validator( $redirect_manager->get_redirects() );
+		$this->validator        = $redirect_manager->get_validator();
 
 		$this->set_hooks( $hook_suffix );
 	}

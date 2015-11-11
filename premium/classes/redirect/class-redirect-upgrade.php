@@ -67,7 +67,7 @@ class WPSEO_Redirect_Upgrade {
 		}
 
 		// Save the redirect file.
-		$redirect_manager = new WPSEO_Redirect_URL_Manager( array( new WPSEO_Redirect_File_Option() ) );
+		$redirect_manager = new WPSEO_Redirect_URL_Manager( array( new WPSEO_Redirect_Export_Option() ) );
 		$redirect_manager->save_redirect_file();
 	}
 

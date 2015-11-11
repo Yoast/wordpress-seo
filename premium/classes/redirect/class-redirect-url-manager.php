@@ -9,11 +9,6 @@
 class WPSEO_Redirect_URL_Manager extends WPSEO_Redirect_Manager {
 
 	/**
-	 * @var string
-	 */
-	protected $option_redirects = 'wpseo-premium-redirects';
-
-	/**
 	 * @var string Is plain for this manager.
 	 */
 	protected $redirect_format = WPSEO_Redirect::FORMAT_PLAIN;
@@ -74,18 +69,5 @@ class WPSEO_Redirect_URL_Manager extends WPSEO_Redirect_Manager {
 	public function get_validator() {
 		return new WPSEO_Redirect_URL_Validator( $this->get_redirects() );
 	}
-
-	/**
-	 * Getting the redirect managers
-	 *
-	 * @return WPSEO_Redirect_Manager[]
-	 */
-	protected function get_redirect_managers() {
-		return array(
-			'url'   => $this,
-			'regex' => new WPSEO_Redirect_Regex_Manager(),
-		);
-	}
-
 
 }

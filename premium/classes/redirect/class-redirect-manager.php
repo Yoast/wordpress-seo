@@ -9,11 +9,6 @@
 abstract class WPSEO_Redirect_Manager {
 
 	/**
-	 * @var null|string The option name to store the redirects.
-	 */
-	protected $option_redirects = null;
-
-	/**
 	 * @var WPSEO_Redirect_Option Model object to handle the redirects.
 	 */
 	protected $redirect;
@@ -24,14 +19,9 @@ abstract class WPSEO_Redirect_Manager {
 	protected $redirect_format;
 
 	/**
-	 * Setting the property with the redirects
+	 * @var WPSEO_Redirect_Export[]
 	 */
-	public function __construct() {
-		$this->redirect = new WPSEO_Redirect_Option();
-
-		$this->redirect->set_format( $this->redirect_format );
-		$this->redirect->set_redirects();
-	}
+	protected $exporters;
 
 	/**
 	 * Returns an instance of the WPSEO_Redirect_Validator
@@ -39,6 +29,36 @@ abstract class WPSEO_Redirect_Manager {
 	 * @return WPSEO_Redirect_Validator
 	 */
 	abstract public function get_validator();
+
+	/**
+	 * Returns the default exporters.
+	 *
+	 * @return WPSEO_Redirect_Export[]
+	 */
+	public static function default_exporters() {
+		$exporters[] = new WPSEO_Redirect_Export_Option();
+
+		$options = WPSEO_Redirect_Page::get_options();
+		if ( 'on' !== $options['disable_php_redirect'] && $file_exporter = WPSEO_Redirect_File_Util::get_file_exporter( $options['separate_file'] ) ) {
+			$exporters[] = $file_exporter;
+		}
+
+		return $exporters;
+	}
+
+	/**
+	 * Setting the property with the redirects
+	 *
+	 * @param WPSEO_Redirect_Export[] $exporters The exporters used to save redirects in files.
+	 */
+	public function __construct( $exporters = array() ) {
+		$this->redirect = new WPSEO_Redirect_Option();
+
+		$this->redirect->set_format( $this->redirect_format );
+		$this->redirect->set_redirects();
+
+		$this->exporters = ( ! empty( $exporters ) ) ? $exporters : self::default_exporters();
+	}
 
 	/**
 	 * Get the redirects
@@ -53,11 +73,11 @@ abstract class WPSEO_Redirect_Manager {
 	 * Saving the redirect file
 	 */
 	public function save_redirect_file() {
-		$options = WPSEO_Redirect_Page::get_options();
+		$this->redirect->set_format( 'all' );
 
-		if ( 'on' !== $options['disable_php_redirect'] ) {
-			$file_handler = new WPSEO_Redirect_File_Handler( $options['separate_file'] );
-			$file_handler->save( $this->get_redirect_managers() );
+		$redirects = $this->redirect->get_all();
+		foreach ( $this->exporters as $exporter ) {
+			$exporter->export( $redirects );
 		}
 	}
 
@@ -67,11 +87,8 @@ abstract class WPSEO_Redirect_Manager {
 	 * @param bool $autoload_value The autoload value (true or false).
 	 */
 	public function change_option_autoload( $autoload_value ) {
-		$redirect_managers = $this->get_redirect_managers();
-
-		foreach ( $redirect_managers as $redirect_manager ) {
-			$redirect_manager->redirects_change_autoload( $autoload_value );
-		}
+		$this->redirects_change_autoload( $autoload_value, WPSEO_Redirect_Option::OPTION_PLAIN );
+		$this->redirects_change_autoload( $autoload_value, WPSEO_Redirect_Option::OPTION_REGEX );
 	}
 
 	/**
@@ -146,23 +163,12 @@ abstract class WPSEO_Redirect_Manager {
 	}
 
 	/**
-	 * Getting the redirect managers
-	 *
-	 * @return WPSEO_Redirect_Manager[]
-	 */
-	protected function get_redirect_managers() {
-		return array(
-			'url'   => new WPSEO_Redirect_URL_Manager(),
-			'regex' => new WPSEO_Redirect_Regex_Manager(),
-		);
-	}
-
-	/**
 	 * Change if the redirect option is autoloaded
 	 *
-	 * @param bool $enabled Boolean to determine the autoload value that will be saved.
+	 * @param bool   $enabled     Boolean to determine the autoload value that will be saved.
+	 * @param string $option_name The target option wherefore the autoload will be changed.
 	 */
-	private function redirects_change_autoload( $enabled ) {
+	private function redirects_change_autoload( $enabled, $option_name ) {
 		global $wpdb;
 
 		// Default autoload value.
@@ -177,7 +183,7 @@ abstract class WPSEO_Redirect_Manager {
 		$wpdb->update(
 			$wpdb->options,
 			array( 'autoload' => $autoload ),
-			array( 'option_name' => $this->option_redirects ),
+			array( 'option_name' => $option_name ),
 			array( '%s' ),
 			array( '%s' )
 		);
