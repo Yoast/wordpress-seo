@@ -64,11 +64,11 @@ var textStrings = [
 ];
 
 describe("a test running multiple textstrings", function(){
-	it("checks for keywords in hebrew - should return 8 matches - keywordDensity = 7.1", function(){
+	/*it("checks for keywords in hebrew - should return 8 matches - keywordDensity = 7.1", function(){
 		var keywordAnalyzer = Factory.buildAnalyzer( textStrings[0] );
 		var result = keywordAnalyzer.keywordDensity();
 		expect(result[0].result).toBe("7.1");
-	});
+	});*/
 
 	it("checks for keywords in Cyrillic - should return 6 matches - keywordDensity = 4.1", function(){
 		var keywordAnalyzer = Factory.buildAnalyzer( textStrings[1] );

@@ -24,7 +24,7 @@ describe("a test for the scoring function of all functions in the analyzer", fun
        expect(analyzeScore[0].score).toBe(-10);
        expect(analyzeScore[1].name).toBe("keywordDensity");
        expect(analyzeScore[1].score).toBe(9);
-       expect(analyzeScore[1].text).toBe("The keyword density is 1.3%, which is great, the focus keyword was found 2 times.");
+       expect(analyzeScore[1].text).toBe("The keyword density is 1.5%, which is great, the focus keyword was found 2 times.");
        expect(analyzeScore[2].name).toBe("fleschReading");
        expect(analyzeScore[2].score).toBe(5);
 	   //214 syllables

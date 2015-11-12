@@ -29,7 +29,7 @@ describe("A keyword density test with a high-density occurence of the keyword", 
     it("returns keyword density - high", function(){
         var textAnalyzerDensity = Factory.buildAnalyzer(keywordArgs2);
         var result = textAnalyzerDensity.keywordDensity();
-        expect(result[0].result).toContain(6.9);
+        expect(result[0].result).toContain(7.0);
     });
 });
 
