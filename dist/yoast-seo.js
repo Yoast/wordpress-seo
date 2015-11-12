@@ -2057,7 +2057,7 @@ YoastSEO.PreProcessor.prototype.cleanText = function( textString ) {
 		// Remove double spaces
 		textString = this.stringHelper.stripSpaces( textString );
 
-		if( textString === "." ) {
+		if ( textString === "." ) {
 			textString = "";
 		}
 	}
