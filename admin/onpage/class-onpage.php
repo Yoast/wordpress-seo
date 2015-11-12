@@ -137,7 +137,7 @@ class WPSEO_OnPage {
 	 */
 	protected function should_show_notice() {
 		// If development note is on or the tagline notice is shown, just don't show this notice.
-		if( WPSEO_Utils::is_development_mode() || ( '0' === get_option( 'blog_public' ) ) ) {
+		if ( WPSEO_Utils::is_development_mode() || ( '0' === get_option( 'blog_public' ) ) ) {
 			return false;
 		}
 

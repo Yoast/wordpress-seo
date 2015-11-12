@@ -64,7 +64,7 @@ class WPSEO_Admin_Init {
 
 		$can_access = is_multisite() ? WPSEO_Utils::grant_access() : current_user_can( 'manage_options' );
 
-		if ( $can_access && $this->has_ignored_tour() &&  ! $this->seen_about() ) {
+		if ( $can_access && $this->has_ignored_tour() && ! $this->seen_about() ) {
 
 			if ( filter_input( INPUT_GET, 'intro' ) === '1' ) {
 				update_user_meta( get_current_user_id(), 'wpseo_seen_about_version' , WPSEO_VERSION );
