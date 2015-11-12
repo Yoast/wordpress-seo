@@ -28,4 +28,16 @@ describe("Test for the preprocessor that formats text for the analyzer", functio
     });
 });
 
+//Test for wordcount if sentence ends with a tag.
+it("return 1 word if there is one word", function() {
+	preProcessor = new YoastSEO.PreProcessor('<p>word</p>');
 
+	expect(preProcessor.__store.wordcountNoTags ).toBe(1);
+});
+
+//Test for wordcount if sentence has lots of spaces
+it("return 1 word if there is one word, despite spaces", function() {
+	preProcessor = new YoastSEO.PreProcessor('word               .');
+
+	expect(preProcessor.__store.wordcountNoTags ).toBe(1);
+});

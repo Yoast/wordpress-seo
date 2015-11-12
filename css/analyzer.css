@@ -53,8 +53,12 @@
     float: left;
 }
 
-.snippet_container .desc {
-    color: #545454;
+.snippet_container .desc-default {
+    color: #333;
+}
+
+.snippet_container .desc-render {
+    color: #777;
 }
 
 .snippet_container .tooLong {

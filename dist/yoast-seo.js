@@ -210,7 +210,7 @@ YoastSEO.Analyzer.prototype.keywordDensityCheck = function() {
 	if ( keywordCount !== 0 ) {
 		keywordDensity = (
 				keywordCount /
-				this.preProcessor.__store.wordcount - ( keywordCount - 1 * keywordCount )
+				this.preProcessor.__store.wordcountNoTags - ( keywordCount - 1 * keywordCount )
 			) *
 			100;
 	}
@@ -1921,11 +1921,11 @@ YoastSEO.PreProcessor.prototype.countStore = function() {
 	/*wordcounters*/
 	this.__store.wordcount = this.__store.cleanText === "" ?
 		0 :
-		this.__store.cleanText.split( " " ).length;
+		this.__store.cleanText.split( /\s/g ).length;
 
 	this.__store.wordcountNoTags = this.__store.cleanTextNoTags === "" ?
 		0 :
-		this.__store.cleanTextNoTags.split( " " ).length;
+		this.__store.cleanTextNoTags.split( /\s/g ).length;
 
 	/*sentencecounters*/
 	this.__store.sentenceCount = this.sentenceCount( this.__store.cleanText );
@@ -2051,6 +2051,9 @@ YoastSEO.PreProcessor.prototype.cleanText = function( textString ) {
 		// unify all terminators
 		textString = textString.replace( /[.?!]/g, "." );
 
+		// Remove double spaces
+		textString = this.stringHelper.stripSpaces( textString );
+
 		// add period in case it is missing
 		textString += ".";
 
@@ -2064,10 +2067,15 @@ YoastSEO.PreProcessor.prototype.cleanText = function( textString ) {
 		textString = textString.replace( /[ ]*([\.])+/g, "$1 " );
 
 		// Remove "words" comprised only of numbers
-		textString = textString.replace( /[0-9]+[ ]/g, "" );
-		textString = this.stringHelper.stripSpaces( textString );
-	}
+		textString = textString.replace( /\b[0-9]+\b/g, "" );
 
+		// Remove double spaces
+		textString = this.stringHelper.stripSpaces( textString );
+
+		if ( textString === "." ) {
+			textString = "";
+		}
+	}
 	return textString;
 };
 
@@ -2300,6 +2308,7 @@ YoastSEO.SnippetPreview.prototype.init = function() {
 	) {
 		this.output = this.htmlOutput();
 		this.renderOutput();
+		this.renderSnippetStyle();
 	}
 };
 
@@ -2521,6 +2530,17 @@ YoastSEO.SnippetPreview.prototype.renderOutput = function() {
 };
 
 /**
+ * Sets the classname of the meta field in the snippet, based on the rawData.snippetMeta
+ */
+YoastSEO.SnippetPreview.prototype.renderSnippetStyle = function() {
+	var cssClass = "desc-default";
+	if ( this.refObj.rawData.snippetMeta === "" ) {
+		cssClass = "desc-render";
+	}
+	document.getElementById( "snippet_meta" ).className = "desc " + cssClass;
+};
+
+/**
  * function to call init, to rerender the snippetpreview
  */
 YoastSEO.SnippetPreview.prototype.reRender = function() {
@@ -2727,7 +2747,10 @@ YoastSEO.StringHelper.prototype.stringToRegex = function( stringArray, disableWo
 YoastSEO.StringHelper.prototype.stripSpaces = function( textString ) {
 
 	//replace multiple spaces with single space
-	textString = textString.replace( / {2,}/g, " " );
+	textString = textString.replace( /\s{2,}/g, " " );
+
+	//replace spaces followed by periods with only the period.
+	textString = textString.replace( /\s\./g, "." );
 
 	//remove first/last character if space
 	textString = textString.replace( /^\s+|\s+$/g, "" );
@@ -4036,7 +4059,7 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
                     text: i18n.dgettext('js-text-analysis', "The keyword density is %1$f%, which is way over the advised 2.5% maximum; the focus keyword was found %2$d times.")
                 },
                 {
-                    min: 2.5,
+                    min: 2.51,
                     max: 3.49,
                     score: -10,
 
@@ -4045,7 +4068,7 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
                 },
                 {
                     min: 0.5,
-                    max: 2.49,
+                    max: 2.50,
                     score: 9,
 
                     /* translators: %1$f expands to the keyword density percentage, %2$d expands to the number of times the keyword is found */
@@ -4159,7 +4182,7 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
         {
             scoreName: "metaDescriptionLength",
             metaMinLength: 120,
-            metaMaxLength: 156,
+            metaMaxLength: 157,
             scoreArray: [
                 {
                     max: 0,
@@ -4174,7 +4197,7 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
                     text: i18n.dgettext('js-text-analysis', "The meta description is under %1$d characters, however up to %2$d characters are available.")
                 },
                 {
-                    min: 156,
+                    min: 157,
                     score: 6,
 
                     /* translators: %2$d expands to the maximum length for the meta description */
@@ -4182,7 +4205,7 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
                 },
                 {
                     min: 120,
-                    max: 156,
+                    max: 157,
                     score: 9,
                     text: i18n.dgettext('js-text-analysis', "In the specified meta description, consider: How does it compare to the competition? Could it be made more appealing?")
                 }
