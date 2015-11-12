@@ -43,7 +43,6 @@
 	 * @returns {String}
 	 */
 	YoastCustomFieldsPlugin.prototype.addCustomFields = function( content ) {
-		console.log( "ik wordt gerund", this.customFields);
 		for( var fieldName in this.customFields ) {
 			content += ' ';
 			content += this.customFields[fieldName];
