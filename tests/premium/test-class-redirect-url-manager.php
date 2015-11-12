@@ -28,29 +28,9 @@ class WPSEO_URL_Redirect_Manager_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Testing if we get the options
-	 *
-	 * @covers WPSEO_Redirect_URL_Manager::get_options
-	 */
-	public function test_get_options() {
-		$options = WPSEO_Redirect_Page::get_options();
-
-		$this->assertEquals( 'off', $options['disable_php_redirect'] );
-		$this->assertEquals( 'off', $options['separate_file'] );
-
-		/*
-		 Because of PHP 5.2, this can not be done
-	 	 $this->assertArraySubset(
-			array( 'disable_php_redirect' => 'off', 'separate_file' => 'off' ),
-			WPSEO_Redirect_Manager::get_options()
-		);
-		 */
-	}
-
-	/**
 	 * Check if the redirects are filled
 	 *
-	 * @covers WPSEO_Redirect_URL_Manager::get)redirects
+	 * @covers WPSEO_Redirect_URL_Manager::get_redirects
 	 */
 	public function test_get_redirects() {
 		$redirects = $this->class_instance->get_redirects();
@@ -112,7 +92,7 @@ class WPSEO_URL_Redirect_Manager_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Test removing a redirect
 	 *
-	 * @covers WPSEO_Redirect_URL_Manager::delete_redirect
+	 * @covers WPSEO_Redirect_URL_Manager::delete_redirects
 	 */
 	public function test_delete_redirect() {
 		// First of all create a redirect.

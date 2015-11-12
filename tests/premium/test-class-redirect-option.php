@@ -40,7 +40,7 @@ class WPSEO_Redirect_Option_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Test the result of the get_all method. Should return an empty array
 	 *
-	 * @covers WPSEO_Redirect::get_all
+	 * @covers WPSEO_Redirect_Option::get_all
 	 */
 	public function test_get_all() {
 		$this->assertEquals(
@@ -54,7 +54,7 @@ class WPSEO_Redirect_Option_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Test adding a new redirect and add the same one also, to check if this one will be skipped
 	 *
-	 * @covers WPSEO_Redirect::add
+	 * @covers WPSEO_Redirect_Option::add
 	 */
 	public function test_add() {
 		$this->assertTrue( is_a( $this->class_instance->add( 'new-redirect', 'new-target', 301 ), 'WPSEO_Redirect' ) );
@@ -64,7 +64,7 @@ class WPSEO_Redirect_Option_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Test updating a redirect and update another redirect that doesn't exists
 	 *
-	 * @covers WPSEO_Redirect::update
+	 * @covers WPSEO_Redirect_Option::update
 	 */
 	public function test_update() {
 		$this->assertTrue( is_a( $this->class_instance->update( 'old-url', 'older-url', 'older-target', 301 ), 'WPSEO_Redirect' ) );
@@ -74,7 +74,7 @@ class WPSEO_Redirect_Option_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Test deleting a redirect and delete another redirect that doesn't exists
 	 *
-	 * @covers WPSEO_Redirect::delete
+	 * @covers WPSEO_Redirect_Option::delete
 	 */
 	public function test_delete() {
 		$this->assertTrue( $this->class_instance->delete( 'old-url' ) );
@@ -84,7 +84,7 @@ class WPSEO_Redirect_Option_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Test if searching for a redirect is working
 	 *
-	 * @covers WPSEO_Redirect::search
+	 * @covers WPSEO_Redirect_Option::search
 	 */
 	public function test_search() {
 		$this->assertEquals( 0, $this->class_instance->search( 'old-url' ) );
