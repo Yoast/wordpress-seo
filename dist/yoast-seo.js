@@ -2288,6 +2288,7 @@ YoastSEO.SnippetPreview.prototype.init = function() {
 	) {
 		this.output = this.htmlOutput();
 		this.renderOutput();
+		this.renderSnippetStyle();
 	}
 };
 
@@ -2506,6 +2507,17 @@ YoastSEO.SnippetPreview.prototype.renderOutput = function() {
 	document.getElementById( "snippet_cite" ).innerHTML = this.output.cite;
 	document.getElementById( "snippet_citeBase" ).innerHTML = this.output.url;
 	document.getElementById( "snippet_meta" ).innerHTML = this.output.meta;
+};
+
+/**
+ * Sets the classname of the meta field in the snippet, based on the rawData.snippetMeta
+ */
+YoastSEO.SnippetPreview.prototype.renderSnippetStyle = function() {
+	var cssClass = "desc-default";
+	if ( this.refObj.rawData.snippetMeta === "" ) {
+		cssClass = "desc-render";
+	}
+	document.getElementById( "snippet_meta" ).className = "desc " + cssClass;
 };
 
 /**
