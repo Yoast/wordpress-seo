@@ -9,15 +9,23 @@
 	 *
 	 * @constructor
 	 * @property {Array} customFieldNames
+	 * @property {Object} customFields
 	 */
 	var YoastCustomFieldsPlugin = function() {
-		this.customFieldNames = YoastCustomFieldsPluginL10.custom_field_names;
+		window.yolo = this;
+		YoastSEO.app.registerPlugin( 'YoastCustomFieldsPlugin', { status: 'loading' } );
 
-		jQuery.on( 'YoastSEO:ready', this.register );
+		this.customFields = {};
+
+		this.updateCustomFields();
+		this.declareReady();
 	};
 
-	YoastCustomFieldsPlugin.prototype.register = function() {
-		YoastSEO.app.registerPlugin( 'YoastCustomFieldsPlugin', { status: 'ready' } );
+	/**
+	 * Declares ready with YoastSEO.
+	 */
+	YoastCustomFieldsPlugin.prototype.declareReady = function() {
+		YoastSEO.app.pluginReady( 'YoastCustomFieldsPlugin' );
 		YoastSEO.app.registerModification( 'content', this.addCustomFields.bind( this ), 'YoastCustomFieldsPlugin' );
 	};
 
@@ -28,10 +36,59 @@
 		YoastSEO.app.pluginReloaded( 'YoastCustomFieldsPlugin' );
 	};
 
-
+	/**
+	 * The callback used to add the custom fields to the content to be analyzed by YoastSEO.js.
+	 *
+	 * @param {String} content
+	 * @returns {String}
+	 */
 	YoastCustomFieldsPlugin.prototype.addCustomFields = function( content ) {
+		console.log( "ik wordt gerund", this.customFields);
+		for( var fieldName in this.customFields ) {
+			content += ' ';
+			content += this.customFields[fieldName];
+		}
 		return content;
 	};
 
-	window.YoastCustomFieldsPlugin = YoastCustomFieldsPlugin;
+	/**
+	 * Fetches the relevant custom fields from the form and saves them in a property.
+	 * Then declares reloaded and rebinds the custom fields form.
+	 */
+	YoastCustomFieldsPlugin.prototype.updateCustomFields = function() {
+		var customFields = {};
+		jQuery( '#postcustom #the-list > tr:visible' ).each(
+			function( i, el ) {
+				var customFieldName = jQuery( '#' + el.id + '-key' ).val();
+				if ( YoastCustomFieldsPluginL10.custom_field_names.indexOf( customFieldName ) !== -1 ) {
+					customFields[ customFieldName ] = jQuery( '#' + el.id + '-value' ).val();
+				}
+			}
+		);
+		this.customFields = customFields;
+		this.declareReloaded();
+		this.bindCustomFields();
+	};
+
+	/**
+	 * Adds the necessary event bindings for monitoring which custom fields are added/removed/updated.
+	 */
+	YoastCustomFieldsPlugin.prototype.bindCustomFields = function() {
+		var callback = _.debounce( this.updateCustomFields.bind( this ), 500, true );
+
+		jQuery( '#postcustom #the-list .button + .update_meta' ).on( 'click', callback );
+		jQuery( '#postcustom #the-list' ).on( 'wpListDelEnd', callback );
+		jQuery( '#postcustom #the-list' ).on( 'wpListAddEnd', callback );
+		jQuery( '#postcustom #the-list textarea' ).on( 'input', callback );
+	};
+
+	if ( typeof YoastSEO !== 'undefined' && typeof YoastSEO.app !== 'undefined' ) {
+		new YoastCustomFieldsPlugin();
+	}
+	else {
+		jQuery( window ).on(
+			'YoastSEO:ready',
+			function() { new YoastCustomFieldsPlugin(); }
+		);
+	}
 }());
