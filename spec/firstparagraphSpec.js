@@ -28,7 +28,7 @@ describe("a test for checking the first paragraph for keywords, when no paragrap
     it("returns 0, since no paragraphs are in text", function(){
         firstParagraphAnalyzer2 = Factory.buildAnalyzer(firstParagraphArg2);
         result = firstParagraphAnalyzer2.firstParagraph();
-        expect(result[0].result).toBe(0);
+        expect(result[0].result).toBe(3);
     });
 });
 
@@ -56,6 +56,23 @@ describe("a test for checking the firstparagraph with newlines in stead of <p>-t
     it("returns 1, the keyword is used before the double linebreak", function(){
         firstParagraphAnalyzer4 = Factory.buildAnalyzer(firstParagraphArg4);
         result = firstParagraphAnalyzer4.firstParagraph();
+        expect(result[0].result).toBe(1);
+    });
+});
+
+var firstParagraphArg5 = {
+    text: "<table><tr><td>keyword</td></tr></table>",
+    keyword: "keyword",
+    queue: ["firstParagraph"]
+};
+
+describe("The first paragraph test detecting keyword", function() {
+    var analyzer;
+
+    it("should work with HTML tables around the keyword", function() {
+        analyzer = Factory.buildAnalyzer( firstParagraphArg5 );
+        result = analyzer.firstParagraph();
+
         expect(result[0].result).toBe(1);
     });
 });
