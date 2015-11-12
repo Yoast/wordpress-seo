@@ -150,15 +150,15 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
         {
             scoreName: "fleschReading",
             scoreArray: [
-                {min: 90, score: 9, text: "<%text%>", resultText: "very easy", note: ""},
-                {min: 80, max: 89.9, score: 9, text: "<%text%>", resultText: "easy", note: ""},
-                {min: 70, max: 79.9, score: 8, text: "<%text%>", resultText: "fairly easy", note: ""},
-                {min: 60, max: 69.9, score: 7, text: "<%text%>", resultText: "ok", note: ""},
+                {min: 90, score: 9, text: "{{text}}", resultText: "very easy", note: ""},
+                {min: 80, max: 89.9, score: 9, text: "{{text}}", resultText: "easy", note: ""},
+                {min: 70, max: 79.9, score: 8, text: "{{text}}", resultText: "fairly easy", note: ""},
+                {min: 60, max: 69.9, score: 7, text: "{{text}}", resultText: "ok", note: ""},
                 {
                     min: 50,
                     max: 59.9,
                     score: 6,
-                    text: "<%text%>",
+                    text: "{{text}}",
                     resultText: i18n.dgettext( "js-text-analysis", "fairly difficult" ),
                     note: i18n.dgettext('js-text-analysis', "Try to make shorter sentences to improve readability.")
                 },
@@ -166,7 +166,7 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
                     min: 30,
                     max: 49.9,
                     score: 5,
-                    text: "<%text%>",
+                    text: "{{text}}",
                     resultText: i18n.dgettext( "js-text-analysis", "difficult" ),
                     note: i18n.dgettext('js-text-analysis', "Try to make shorter sentences, using less difficult words to improve readability.")
                 },
@@ -174,7 +174,7 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
                     min: 0,
                     max: 29.9,
                     score: 4,
-                    text: "<%text%>",
+                    text: "{{text}}",
                     resultText: i18n.dgettext( "js-text-analysis", "very difficult" ),
                     note: i18n.dgettext('js-text-analysis', "Try to make shorter sentences, using less difficult words to improve readability.")
                 }
@@ -182,7 +182,7 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
             replaceArray: [
                 {
                     name: "scoreText",
-                    position: "<%text%>",
+                    position: "{{text}}",
 
                     /* translators: %1$s expands to the numeric flesh reading ease score, %2$s to a link to the wikipedia article about Flesh ease reading score, %3$s to the easyness of reading, %4$s expands to a note about the flesh reading score. */
                     value: i18n.dgettext('js-text-analysis', "The copy scores %1$s in the %2$s test, which is considered %3$s to read. %4$s")

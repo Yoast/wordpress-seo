@@ -82,7 +82,7 @@ describe("A test to check for the keyword in the URL with an image. ", function(
 });
 
 var linkArgs6 = {
-	text:"<p><a href='https://keywordlinkje.com'>keyword</a> text with keyword link, should match</p>",
+	text:"<p><a href='https://keyword-linkje.com'>keyword</a> text with keyword link, should match, since the keyword is separated with a -</p>",
 	queue: ["linkCount"],
 	keyword: "keyword"
 };
@@ -105,6 +105,20 @@ describe("A test to check for errors", function(){
 	it("should not fail the test, but return 0 since the anchor has no href", function(){
 		var linkAnalyzer7 = new Factory.buildAnalyzer(linkArgs7);
 		var result = linkAnalyzer7.linkCount();
+		expect(result[0].result.totalKeyword).toBe(0);
+	});
+});
+
+var linkArgs8 = {
+	text:"<p><a href='https://keywordlinkje.com'>keyword</a> text with keyword link, should not match, since the keyword is part of the total link</p>",
+	queue: ["linkCount"],
+	keyword: "keyword"
+};
+
+describe("A test to check for the keyword in the URL", function(){
+	it("should match the keyword, since it is found in the href", function(){
+		var linkAnalyzer6 = new Factory.buildAnalyzer(linkArgs8);
+		var result = linkAnalyzer6.linkCount();
 		expect(result[0].result.totalKeyword).toBe(0);
 	});
 });

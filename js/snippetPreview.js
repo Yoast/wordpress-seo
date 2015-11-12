@@ -236,7 +236,7 @@ YoastSEO.SnippetPreview.prototype.formatKeywordUrl = function( textString ) {
 	var dashedKeyword = keyword.replace( " ", "[-_]" );
 
 	// Match keyword case-insensitively.
-	var keywordRegex = new RegExp( dashedKeyword, "ig" );
+	var keywordRegex = new RegExp( "\\b" + dashedKeyword + "\\b", "ig" );
 
 	// Make the keyword bold in the textString.
 	return textString.replace( keywordRegex, function( str ) {

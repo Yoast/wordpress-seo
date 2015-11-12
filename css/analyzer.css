@@ -1,5 +1,6 @@
 /* css for snippet */
 #snippet_preview *[contenteditable="true"]:hover {
+    background: #bbdefb url("editicon.png") no-repeat right top;
     cursor: pointer;
 }
 
@@ -64,11 +65,6 @@
     color: #f00 !important;
 }
 
-.snippet_container .editIcon:hover {
-    background: #bbdefb url("editicon.png") no-repeat right top;
-    cursor: pointer;
-}
-
 /* css for analyzer */
 
 .wpseoanalysis {
@@ -93,10 +89,6 @@
 }
 
 .wpseo-score-icon.ok {
-    background-color: #ffba00;
-}
-
-.wpseo-score-icon.poor {
     background-color: #ee7c1b;
 }
 
@@ -143,18 +135,10 @@ li.score {
 }
 
 #overallScore.ok #score_circle {
-    fill: #ffdc42;
-}
-
-#overallScore.ok #score_circle_shadow {
-    fill: #ffc82e;
-}
-
-#overallScore.poor #score_circle {
     fill: #ffb81e;
 }
 
-#overallScore.poor #score_circle_shadow {
+#overallScore.ok #score_circle_shadow {
     fill: #f49a00;
 }
 

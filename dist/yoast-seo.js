@@ -64,18 +64,18 @@ YoastSEO.Analyzer.prototype.formatKeyword = function() {
 
 		// Creates new regex from keyword with global and caseinsensitive option,
 		// replaces - and _ with space
-		this.keywordRegex = new RegExp(
-			this.preProcessor.replaceDiacritics( keyword.replace( /[-_]/, " " ) ),
+
+		this.keywordRegex = new RegExp( "\\b" +
+			this.preProcessor.replaceDiacritics( keyword.replace( /[-_]/, " " ) ) + "\\b",
 			"ig"
 		);
 
 		// Creates new regex from keyword with global and caseinsensitive option,
 		// replaces space with -. Used for URL matching
-		this.keywordRegexInverse = new RegExp(
-			this.preProcessor.replaceDiacritics( keyword.replace( " ", "-" ) ),
+		this.keywordRegexInverse = new RegExp( "\\b" +
+			this.preProcessor.replaceDiacritics( keyword.replace( " ", "-" ) ) + "\\b",
 			"ig"
 		);
-
 	}
 };
 
@@ -854,6 +854,7 @@ YoastSEO.AnalyzeScorer.prototype.returnScore = function( score, scoreObj, i ) {
  */
 YoastSEO.AnalyzeScorer.prototype.scoreTextFormat = function( scoreObj, replaceArray ) {
 	var resultText = scoreObj.text;
+	resultText = this.refObj.stringHelper.escapeHTML( resultText );
 	if ( typeof replaceArray !== "undefined" ) {
 		for ( var i = 0; i < replaceArray.length; i++ ) {
 			switch ( true ) {
@@ -871,7 +872,7 @@ YoastSEO.AnalyzeScorer.prototype.scoreTextFormat = function( scoreObj, replaceAr
 					// given position
 					resultText = resultText.replace(
 						replaceArray[ i ].position,
-						this[ replaceArray[ i ].source ]
+						this.refObj.stringHelper.escapeHTML( this[ replaceArray[ i ].source ] )
 					);
 					break;
 				case ( typeof replaceArray[ i ].sourceObj !== "undefined" ):
@@ -879,7 +880,7 @@ YoastSEO.AnalyzeScorer.prototype.scoreTextFormat = function( scoreObj, replaceAr
 					// gets the replaceword (which is a reference to an object in the analyzer) and
 					// replaces is on the given position
 					var replaceWord = this.parseReplaceWord( replaceArray[ i ].sourceObj );
-					resultText = resultText.replace( replaceArray[ i ].position, replaceWord );
+					resultText = resultText.replace( replaceArray[ i ].position, this.refObj.stringHelper.escapeHTML( replaceWord ) );
 					break;
 				case ( typeof replaceArray[ i ].scoreObj !== "undefined" ):
 
@@ -887,7 +888,7 @@ YoastSEO.AnalyzeScorer.prototype.scoreTextFormat = function( scoreObj, replaceAr
 					// the textString.
 					resultText = resultText.replace(
 						replaceArray[ i ].position,
-						scoreObj[ replaceArray[ i ].scoreObj ]
+						this.refObj.stringHelper.escapeHTML( scoreObj[ replaceArray[ i ].scoreObj ] )
 					);
 					break;
 				default:
@@ -1336,6 +1337,8 @@ YoastSEO.App.prototype.runAnalyzer = function() {
 	if ( keyword === "" ) {
 		this.analyzerData.queue = [ "keyWordCheck", "wordCount", "fleschReading", "pageTitleLength", "urlStopwords", "metaDescriptionLength" ];
 	}
+
+	this.analyzerData.keyword = keyword;
 
 	if ( typeof this.pageAnalyzer === "undefined" ) {
 		this.pageAnalyzer = new YoastSEO.Analyzer( this.analyzerData );
@@ -2188,11 +2191,11 @@ YoastSEO.ScoreFormatter.prototype.outputOverallScore = function() {
 YoastSEO.ScoreFormatter.prototype.scoreRating = function( score ) {
 	var scoreRate;
 	switch ( true ) {
-		case score < 2:
+		case score <= 4:
 			scoreRate = "bad";
 			break;
-		case score >= 2 && score <= 7:
-			scoreRate = "poor";
+		case score > 4 && score <= 7:
+			scoreRate = "ok";
 			break;
 		case score > 7:
 			scoreRate = "good";
@@ -2234,10 +2237,6 @@ YoastSEO.ScoreFormatter.prototype.getSEOScoreText = function( scoreRating ) {
 
 		case "bad":
 			scoreText = this.i18n.dgettext( "js-text-analysis", "Bad SEO score" );
-			break;
-
-		case "poor":
-			scoreText = this.i18n.dgettext( "js-text-analysis", "Poor SEO score" );
 			break;
 
 		case "ok":
@@ -2489,7 +2488,7 @@ YoastSEO.SnippetPreview.prototype.formatKeywordUrl = function( textString ) {
 	var dashedKeyword = keyword.replace( " ", "[-_]" );
 
 	// Match keyword case-insensitively.
-	var keywordRegex = new RegExp( dashedKeyword, "ig" );
+	var keywordRegex = new RegExp( "\\b" + dashedKeyword + "\\b", "ig" );
 
 	// Make the keyword bold in the textString.
 	return textString.replace( keywordRegex, function( str ) {
@@ -2782,7 +2781,26 @@ YoastSEO.StringHelper.prototype.stripAllTags = function( textString ) {
 YoastSEO.StringHelper.prototype.sanitizeKeyword = function( keyword ) {
 	keyword = keyword.replace( /[\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "" );
 
+	keyword = this.stripAllTags( keyword );
+
 	return keyword;
+};
+
+/**
+ * Escapes HTML characters from strings.
+ *
+ * @param textString
+ * @returns {string}
+ */
+YoastSEO.StringHelper.prototype.escapeHTML = function( textString ) {
+	if ( typeof textString === "string" ) {
+		textString = textString.replace( /&/g, "&amp;" )
+					.replace( /</g, "&lt;" )
+					.replace( />/g, "&gt;" )
+					.replace( /\"/, "&quot;" )
+					.replace( /\'/g, "&#39;" );
+	}
+	return textString;
 };
 
 /**
@@ -2796,6 +2814,7 @@ YoastSEO.getStringHelper = function() {
 	}
 	return YoastSEO.cachedStringHelper;
 };
+
 ;YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;(function() {/**
  * @preserve jed.js https://github.com/SlexAxton/Jed
  */
@@ -4087,15 +4106,15 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
         {
             scoreName: "fleschReading",
             scoreArray: [
-                {min: 90, score: 9, text: "<%text%>", resultText: "very easy", note: ""},
-                {min: 80, max: 89.9, score: 9, text: "<%text%>", resultText: "easy", note: ""},
-                {min: 70, max: 79.9, score: 8, text: "<%text%>", resultText: "fairly easy", note: ""},
-                {min: 60, max: 69.9, score: 7, text: "<%text%>", resultText: "ok", note: ""},
+                {min: 90, score: 9, text: "{{text}}", resultText: "very easy", note: ""},
+                {min: 80, max: 89.9, score: 9, text: "{{text}}", resultText: "easy", note: ""},
+                {min: 70, max: 79.9, score: 8, text: "{{text}}", resultText: "fairly easy", note: ""},
+                {min: 60, max: 69.9, score: 7, text: "{{text}}", resultText: "ok", note: ""},
                 {
                     min: 50,
                     max: 59.9,
                     score: 6,
-                    text: "<%text%>",
+                    text: "{{text}}",
                     resultText: i18n.dgettext( "js-text-analysis", "fairly difficult" ),
                     note: i18n.dgettext('js-text-analysis', "Try to make shorter sentences to improve readability.")
                 },
@@ -4103,7 +4122,7 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
                     min: 30,
                     max: 49.9,
                     score: 5,
-                    text: "<%text%>",
+                    text: "{{text}}",
                     resultText: i18n.dgettext( "js-text-analysis", "difficult" ),
                     note: i18n.dgettext('js-text-analysis', "Try to make shorter sentences, using less difficult words to improve readability.")
                 },
@@ -4111,7 +4130,7 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
                     min: 0,
                     max: 29.9,
                     score: 4,
-                    text: "<%text%>",
+                    text: "{{text}}",
                     resultText: i18n.dgettext( "js-text-analysis", "very difficult" ),
                     note: i18n.dgettext('js-text-analysis', "Try to make shorter sentences, using less difficult words to improve readability.")
                 }
@@ -4119,7 +4138,7 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
             replaceArray: [
                 {
                     name: "scoreText",
-                    position: "<%text%>",
+                    position: "{{text}}",
 
                     /* translators: %1$s expands to the numeric flesh reading ease score, %2$s to a link to the wikipedia article about Flesh ease reading score, %3$s to the easyness of reading, %4$s expands to a note about the flesh reading score. */
                     value: i18n.dgettext('js-text-analysis', "The copy scores %1$s in the %2$s test, which is considered %3$s to read. %4$s")
