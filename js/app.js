@@ -177,29 +177,6 @@ YoastSEO.App.prototype.refresh = function() {
 };
 
 /**
- * Adds function to the analyzer queue. Function must be in the Analyzer prototype to be added.
- *
- * @param {String} func Name of the function to add to the queue.
- */
-YoastSEO.App.prototype.addToQueue = function( func ) {
-	if ( typeof YoastSEO.Analyzer.prototype[ func ] === "function" ) {
-		this.rawData.queue.push( func );
-	}
-};
-
-/**
- * Removes function from queue if it is currently in the queue.
- *
- * @param {String} func Name of the function to remove from the queue.
- */
-YoastSEO.App.prototype.removeFromQueue = function( func ) {
-	var funcIndex = this.rawData.queue.indexOf( func );
-	if ( funcIndex > -1 ) {
-		this.rawData.queue.splice( funcIndex, 1 );
-	}
-};
-
-/**
  * creates the elements for the snippetPreview
  */
 YoastSEO.App.prototype.createSnippetPreview = function() {
