@@ -132,7 +132,26 @@ YoastSEO.StringHelper.prototype.stripAllTags = function( textString ) {
 YoastSEO.StringHelper.prototype.sanitizeKeyword = function( keyword ) {
 	keyword = keyword.replace( /[\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "" );
 
+	keyword = this.stripAllTags( keyword );
+
 	return keyword;
+};
+
+/**
+ * Escapes HTML characters from strings.
+ *
+ * @param textString
+ * @returns {string}
+ */
+YoastSEO.StringHelper.prototype.escapeHTML = function( textString ) {
+	if ( typeof textString === "string" ) {
+		textString = textString.replace( /&/g, "&amp;" )
+					.replace( /</g, "&lt;" )
+					.replace( />/g, "&gt;" )
+					.replace( /\"/, "&quot;" )
+					.replace( /\'/g, "&#39;" );
+	}
+	return textString;
 };
 
 /**
@@ -146,3 +165,4 @@ YoastSEO.getStringHelper = function() {
 	}
 	return YoastSEO.cachedStringHelper;
 };
+
