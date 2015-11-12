@@ -15,7 +15,7 @@ class WPSEO_Redirect_Upgrade {
 		WPSEO_Redirect_Option::OLD_OPTION_PLAIN => WPSEO_Redirect::FORMAT_PLAIN,
 		WPSEO_Redirect_Option::OLD_OPTION_REGEX => WPSEO_Redirect::FORMAT_REGEX,
 	);
-	
+
 	/**
 	 * Upgrade routine from Yoast SEO premium 1.2.0
 	 */
