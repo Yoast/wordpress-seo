@@ -55,7 +55,6 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 			return item.keyword.length > 0;
 		});
 
-
 		// Save keyword information to the hidden field.
 		$( '#yoast_wpseo_focuskeywords' ).val( JSON.stringify( keywords ) );
 

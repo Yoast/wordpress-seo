@@ -1,5 +1,6 @@
 /* global YoastCustomFieldsPluginL10 */
 /* global YoastSEO */
+/* global _ */
 (function() {
 	'use strict';
 
@@ -87,7 +88,9 @@
 	else {
 		jQuery( window ).on(
 			'YoastSEO:ready',
-			function() { new YoastCustomFieldsPlugin(); }
+			function() {
+				new YoastCustomFieldsPlugin();
+			}
 		);
 	}
 }());
