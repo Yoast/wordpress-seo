@@ -583,6 +583,7 @@ YoastSEO.Analyzer.prototype.firstParagraph = function() {
 		this.preProcessor.__store.cleanTextSomeTags,
 		new RegExp( "<p(?:[^>]+)?>(.*?)<\/p>", "ig" )
 	);
+
 	if ( p === 0 ) {
 
 		//use a regex that matches [^], not nothing, so any character, including linebreaks
@@ -590,6 +591,20 @@ YoastSEO.Analyzer.prototype.firstParagraph = function() {
 			this.preProcessor.__store.originalText,
 			new RegExp( "[^]*?\n\n", "ig" )
 		);
+
+		/*
+		 * If there is no match yet
+		 * And there are no paragraph tags
+		 * And there are not double newline
+		 * Then we are dealing with a single paragraph and we should just use the keyword count in the full text.
+		 */
+		if (
+			p === 0 &&
+			this.preProcessor.__store.originalText.indexOf( "\n\n" ) === -1 &&
+			this.preProcessor.__store.originalText.indexOf( "</p>" ) === -1
+		) {
+			p = this.keywordCount();
+		}
 	}
 	result[ 0 ].result = p;
 	return result;
@@ -4167,7 +4182,7 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
         {
             scoreName: "metaDescriptionLength",
             metaMinLength: 120,
-            metaMaxLength: 156,
+            metaMaxLength: 157,
             scoreArray: [
                 {
                     max: 0,
@@ -4182,7 +4197,7 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
                     text: i18n.dgettext('js-text-analysis', "The meta description is under %1$d characters, however up to %2$d characters are available.")
                 },
                 {
-                    min: 156,
+                    min: 157,
                     score: 6,
 
                     /* translators: %2$d expands to the maximum length for the meta description */
@@ -4190,7 +4205,7 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
                 },
                 {
                     min: 120,
-                    max: 156,
+                    max: 157,
                     score: 9,
                     text: i18n.dgettext('js-text-analysis', "In the specified meta description, consider: How does it compare to the competition? Could it be made more appealing?")
                 }
