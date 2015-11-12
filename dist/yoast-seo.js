@@ -1367,6 +1367,7 @@ YoastSEO.App.prototype.runAnalyzer = function() {
  * @returns {*}
  */
 YoastSEO.App.prototype.modifyData = function( data ) {
+
 	// Copy rawdata to lose object reference.
 	data = JSON.parse( JSON.stringify( data ) );
 
