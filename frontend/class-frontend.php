@@ -158,6 +158,8 @@ class WPSEO_Frontend {
 		if ( $this->options['title_test'] > 0 ) {
 			add_filter( 'wpseo_title', array( $this, 'title_test_helper' ) );
 		}
+
+		$this->embed_enhance();
 	}
 
 	/**
@@ -408,6 +410,17 @@ class WPSEO_Frontend {
 		}
 
 		return $this->title;
+	}
+
+	/**
+	 * Enhance the output for embedded posts (available in core as of WP 4.4)
+	 *
+	 * @since 3.0
+	 */
+	private function embed_enhance() {
+		remove_action( 'embed_head', 'rel_canonical' );
+		add_action( 'embed_head', array( $this, 'debug_marker' ), 11 );
+		add_action( 'embed_head', array( $this, 'canonical' ), 12 );
 	}
 
 	/**
