@@ -190,7 +190,7 @@ YoastSEO.PreProcessor.prototype.cleanText = function( textString ) {
 		textString = textString.replace( /[ ]*([\.])+/g, "$1 " );
 
 		// Remove "words" comprised only of numbers
-		textString = textString.replace( /[0-9]+[ ]/g, "" );
+		textString = textString.replace( /[0-9]/g, "" );
 
 		textString = this.stringHelper.stripSpaces( textString );
 	}
