@@ -210,7 +210,7 @@ YoastSEO.Analyzer.prototype.keywordDensityCheck = function() {
 	if ( keywordCount !== 0 ) {
 		keywordDensity = (
 				keywordCount /
-				this.preProcessor.__store.wordcount - ( keywordCount - 1 * keywordCount )
+				this.preProcessor.__store.wordcountNoTags - ( keywordCount - 1 * keywordCount )
 			) *
 			100;
 	}
@@ -583,6 +583,7 @@ YoastSEO.Analyzer.prototype.firstParagraph = function() {
 		this.preProcessor.__store.cleanTextSomeTags,
 		new RegExp( "<p(?:[^>]+)?>(.*?)<\/p>", "ig" )
 	);
+
 	if ( p === 0 ) {
 
 		//use a regex that matches [^], not nothing, so any character, including linebreaks
@@ -590,6 +591,20 @@ YoastSEO.Analyzer.prototype.firstParagraph = function() {
 			this.preProcessor.__store.originalText,
 			new RegExp( "[^]*?\n\n", "ig" )
 		);
+
+		/*
+		 * If there is no match yet
+		 * And there are no paragraph tags
+		 * And there are not double newline
+		 * Then we are dealing with a single paragraph and we should just use the keyword count in the full text.
+		 */
+		if (
+			p === 0 &&
+			this.preProcessor.__store.originalText.indexOf( "\n\n" ) === -1 &&
+			this.preProcessor.__store.originalText.indexOf( "</p>" ) === -1
+		) {
+			p = this.keywordCount();
+		}
 	}
 	result[ 0 ].result = p;
 	return result;
