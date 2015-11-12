@@ -210,7 +210,7 @@ YoastSEO.Analyzer.prototype.keywordDensityCheck = function() {
 	if ( keywordCount !== 0 ) {
 		keywordDensity = (
 				keywordCount /
-				this.preProcessor.__store.wordcount - ( keywordCount - 1 * keywordCount )
+				this.preProcessor.__store.wordcountNoTags - ( keywordCount - 1 * keywordCount )
 			) *
 			100;
 	}
@@ -1906,11 +1906,11 @@ YoastSEO.PreProcessor.prototype.countStore = function() {
 	/*wordcounters*/
 	this.__store.wordcount = this.__store.cleanText === "" ?
 		0 :
-		this.__store.cleanText.split( " " ).length;
+		this.__store.cleanText.split( /\s/g ).length;
 
 	this.__store.wordcountNoTags = this.__store.cleanTextNoTags === "" ?
 		0 :
-		this.__store.cleanTextNoTags.split( " " ).length;
+		this.__store.cleanTextNoTags.split( /\s/g ).length;
 
 	/*sentencecounters*/
 	this.__store.sentenceCount = this.sentenceCount( this.__store.cleanText );
@@ -2036,6 +2036,9 @@ YoastSEO.PreProcessor.prototype.cleanText = function( textString ) {
 		// unify all terminators
 		textString = textString.replace( /[.?!]/g, "." );
 
+		// Remove double spaces
+		textString = this.stringHelper.stripSpaces( textString );
+
 		// add period in case it is missing
 		textString += ".";
 
@@ -2049,10 +2052,15 @@ YoastSEO.PreProcessor.prototype.cleanText = function( textString ) {
 		textString = textString.replace( /[ ]*([\.])+/g, "$1 " );
 
 		// Remove "words" comprised only of numbers
-		textString = textString.replace( /[0-9]+[ ]/g, "" );
-		textString = this.stringHelper.stripSpaces( textString );
-	}
+		textString = textString.replace( /\b[0-9]+\b/g, "" );
 
+		// Remove double spaces
+		textString = this.stringHelper.stripSpaces( textString );
+
+		if ( textString === "." ) {
+			textString = "";
+		}
+	}
 	return textString;
 };
 
@@ -2724,7 +2732,10 @@ YoastSEO.StringHelper.prototype.stringToRegex = function( stringArray, disableWo
 YoastSEO.StringHelper.prototype.stripSpaces = function( textString ) {
 
 	//replace multiple spaces with single space
-	textString = textString.replace( / {2,}/g, " " );
+	textString = textString.replace( /\s{2,}/g, " " );
+
+	//replace spaces followed by periods with only the period.
+	textString = textString.replace( /\s\./g, "." );
 
 	//remove first/last character if space
 	textString = textString.replace( /^\s+|\s+$/g, "" );

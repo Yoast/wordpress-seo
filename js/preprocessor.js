@@ -45,11 +45,11 @@ YoastSEO.PreProcessor.prototype.countStore = function() {
 	/*wordcounters*/
 	this.__store.wordcount = this.__store.cleanText === "" ?
 		0 :
-		this.__store.cleanText.split( " " ).length;
+		this.__store.cleanText.split( /\s/g ).length;
 
 	this.__store.wordcountNoTags = this.__store.cleanTextNoTags === "" ?
 		0 :
-		this.__store.cleanTextNoTags.split( " " ).length;
+		this.__store.cleanTextNoTags.split( /\s/g ).length;
 
 	/*sentencecounters*/
 	this.__store.sentenceCount = this.sentenceCount( this.__store.cleanText );
@@ -175,6 +175,9 @@ YoastSEO.PreProcessor.prototype.cleanText = function( textString ) {
 		// unify all terminators
 		textString = textString.replace( /[.?!]/g, "." );
 
+		// Remove double spaces
+		textString = this.stringHelper.stripSpaces( textString );
+
 		// add period in case it is missing
 		textString += ".";
 
@@ -188,10 +191,15 @@ YoastSEO.PreProcessor.prototype.cleanText = function( textString ) {
 		textString = textString.replace( /[ ]*([\.])+/g, "$1 " );
 
 		// Remove "words" comprised only of numbers
-		textString = textString.replace( /[0-9]+[ ]/g, "" );
-		textString = this.stringHelper.stripSpaces( textString );
-	}
+		textString = textString.replace( /\b[0-9]+\b/g, "" );
 
+		// Remove double spaces
+		textString = this.stringHelper.stripSpaces( textString );
+
+		if ( textString === "." ) {
+			textString = "";
+		}
+	}
 	return textString;
 };
 
