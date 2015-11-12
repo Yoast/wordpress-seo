@@ -7,7 +7,8 @@ require("../js/stringhelper.js");
 
 wordcountArgs = {
 	testString: "een twee 13 vier",
-	testString2: "een twee 3 vier 5"
+	testString2: "een twee 3 vier 5",
+	testString3: "1"
 
 };
 
@@ -17,7 +18,11 @@ describe("Test wordcount with digits", function(){
 		expect(preProcessor.__store.wordcount).toBe(3);
 	});
 	it("returns wordcount - single digit", function(){
-		preProcessor = new YoastSEO.PreProcessor(wordcountArgs.testString);
+		preProcessor = new YoastSEO.PreProcessor(wordcountArgs.testString2);
 		expect(preProcessor.__store.wordcount).toBe(3);
+	});
+	it("returns wordcount - only digit", function(){
+		preProcessor = new YoastSEO.PreProcessor(wordcountArgs.testString3);
+		expect(preProcessor.__store.wordcount).toBe(0);
 	});
 });
