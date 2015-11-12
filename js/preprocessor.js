@@ -45,11 +45,11 @@ YoastSEO.PreProcessor.prototype.countStore = function() {
 	/*wordcounters*/
 	this.__store.wordcount = this.__store.cleanText === "" ?
 		0 :
-		this.__store.cleanText.split( " " ).length;
+		this.__store.cleanText.split( /\s/g ).length;
 
 	this.__store.wordcountNoTags = this.__store.cleanTextNoTags === "" ?
 		0 :
-		this.__store.cleanTextNoTags.split( " " ).length;
+		this.__store.cleanTextNoTags.split( /\s/g ).length;
 
 	/*sentencecounters*/
 	this.__store.sentenceCount = this.sentenceCount( this.__store.cleanText );
