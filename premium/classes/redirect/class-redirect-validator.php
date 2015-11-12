@@ -21,11 +21,11 @@ abstract class WPSEO_Redirect_Validator {
 	/**
 	 * Converting the redirects into a readable format
 	 *
-	 * @param array $redirects Array with the redirects.
+	 * @param WPSEO_Redirect[] $redirects Array with the redirects.
 	 */
-	public function __construct( array $redirects = array() ) {
-		foreach ( $redirects as $redirect_url => $redirect ) {
-			$this->redirects[ $this->sanitize_redirect_url( $redirect_url ) ] = $this->sanitize_redirect_url( $redirect['url'] );
+	public function __construct( $redirects ) {
+		foreach ( $redirects as $redirect ) {
+			$this->redirects[ $this->sanitize_redirect_url( $redirect->get_origin() ) ] = $this->sanitize_redirect_url( $redirect->get_target() );
 		}
 	}
 

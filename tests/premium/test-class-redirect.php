@@ -12,6 +12,10 @@ class WPSEO_Redirect_Test extends WPSEO_UnitTestCase {
 	 * Test if constructor works
 	 *
 	 * @covers WPSEO_Redirect::__construct
+	 * @covers WPSEO_Redirect::get_origin
+	 * @covers WPSEO_Redirect::get_target
+	 * @covers WPSEO_Redirect::get_type
+	 * @covers WPSEO_Redirect::get_format
 	 */
 	public function test_construct() {
 
@@ -26,6 +30,10 @@ class WPSEO_Redirect_Test extends WPSEO_UnitTestCase {
 	 * Test if constructor works
 	 *
 	 * @covers WPSEO_Redirect::__construct
+	 * @covers WPSEO_Redirect::get_origin
+	 * @covers WPSEO_Redirect::get_target
+	 * @covers WPSEO_Redirect::get_type
+	 * @covers WPSEO_Redirect::get_format
 	 */
 	public function test_construct_regex() {
 
@@ -41,6 +49,10 @@ class WPSEO_Redirect_Test extends WPSEO_UnitTestCase {
 	 * Test how constructor deals with the defaults
 	 *
 	 * @covers WPSEO_Redirect::__construct
+	 * @covers WPSEO_Redirect::get_origin
+	 * @covers WPSEO_Redirect::get_target
+	 * @covers WPSEO_Redirect::get_type
+	 * @covers WPSEO_Redirect::get_format
 	 */
 	public function test_construct_defaults() {
 		$redirect = new WPSEO_Redirect( 'origin', 'target' );
@@ -90,6 +102,8 @@ class WPSEO_Redirect_Test extends WPSEO_UnitTestCase {
 
 		$this->assertTrue( isset( $redirect['url'] ) );
 		$this->assertTrue( isset( $redirect['type'] ) );
+		$this->assertTrue( ! empty( $redirect['url'] ) );
+		$this->assertTrue( ! empty( $redirect['type'] ) );
 
 		$this->assertFalse( isset( $redirect['origin'] ) );
 		$this->assertFalse( isset( $redirect['target'] ) );

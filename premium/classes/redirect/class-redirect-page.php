@@ -9,11 +9,6 @@
 class WPSEO_Redirect_Page {
 
 	/**
-	 * @var WPSEO_Redirect_Manager
-	 */
-	private $redirect_manager;
-
-	/**
 	 * Constructing redirect module
 	 */
 	public function __construct() {
@@ -31,7 +26,7 @@ class WPSEO_Redirect_Page {
 	 * Display the presenter
 	 */
 	public function display() {
-		$redirect_presenter = new WPSEO_Redirect_Presenter( $this->get_current_tab(), $this->redirect_manager );
+		$redirect_presenter = new WPSEO_Redirect_Presenter( $this->get_current_tab(), $this->get_redirect_manager() );
 		$redirect_presenter->display();
 	}
 
@@ -110,15 +105,12 @@ class WPSEO_Redirect_Page {
 	 * Initialize admin hooks.
 	 */
 	private function initialize_admin() {
-		// Setting the redirect manager.
-		$this->redirect_manager = $this->get_redirect_manager();
-
 
 		// Maybe the autoload for the option have to be changed.
 		$this->change_option_autoload();
 
 		// Setting the handling of the redirect option.
-		new WPSEO_Redirect_Settings_Hooks( $this->redirect_manager );
+		new WPSEO_Redirect_Settings_Hooks( $this->get_redirect_manager() );
 
 		// Convert post into get on search and loading the page scripts.
 		if ( filter_input( INPUT_GET, 'page' ) === 'wpseo_redirects' ) {
@@ -161,12 +153,18 @@ class WPSEO_Redirect_Page {
 	 * @return WPSEO_Redirect_Manager
 	 */
 	private function get_redirect_manager() {
+		static $redirect_manager;
 
-		if ( $this->get_current_tab() === 'regex' ) {
-			return new WPSEO_Redirect_Regex_Manager();
+		if ( $redirect_manager === null ) {
+			if ( $this->get_current_tab() === 'regex' ) {
+				$redirect_manager = new WPSEO_Redirect_Regex_Manager();
+			}
+			else {
+				$redirect_manager = new WPSEO_Redirect_URL_Manager();
+			}
 		}
 
-		return new WPSEO_Redirect_URL_Manager();
+		return $redirect_manager;
 	}
 
 	/**
@@ -177,7 +175,8 @@ class WPSEO_Redirect_Page {
 	private function change_option_autoload() {
 		// Check if WPSEO_DISABLE_PHP_REDIRECTS is defined.
 		if ( defined( 'WPSEO_DISABLE_PHP_REDIRECTS' ) && true === WPSEO_DISABLE_PHP_REDIRECTS ) {
-			$this->redirect_manager->change_option_autoload( false );
+			$this->get_redirect_manager()->change_option_autoload( false );
+			$this->get_redirect_manager()->change_option_autoload( false );
 
 			return true;
 		}
@@ -186,7 +185,7 @@ class WPSEO_Redirect_Page {
 
 		// If the disable_php_redirect option is not enabled we should enable auto loading redirects.
 		if ( 'off' === $options['disable_php_redirect'] ) {
-			$this->redirect_manager->change_option_autoload( true );
+			$this->get_redirect_manager()->change_option_autoload( true );
 		}
 
 		return true;
