@@ -811,4 +811,49 @@ class WPSEO_Utils {
 		return json_encode( $array_to_encode );
 		// @codingStandardsIgnoreEnd
 	}
+
+	/**
+	 * Check if the current opened page is a Yoast SEO page.
+	 *
+	 * @return bool
+	 */
+	public static function is_yoast_seo_page() {
+		static $is_yoast_seo;
+
+		if ( $is_yoast_seo === null ) {
+			$current_page = filter_input( INPUT_GET, 'page' );
+			$is_yoast_seo = ( substr( $current_page, 0, 6 ) === 'wpseo_' );
+		}
+
+		return $is_yoast_seo;
+	}
+
+	/**
+	 * Determine if Yoast SEO is in development mode?
+	 *
+	 * Inspired by JetPack (https://github.com/Automattic/jetpack/blob/master/class.jetpack.php#L1383-L1406).
+	 *
+	 * @return bool
+	 */
+	public static function is_development_mode() {
+		$development_mode = false;
+
+		if ( defined( 'WPSEO_DEBUG' ) ) {
+			$development_mode = WPSEO_DEBUG;
+		}
+		elseif ( site_url() && false === strpos( site_url(), '.' ) ) {
+			$development_mode = true;
+		}
+
+		/**
+		 * Filter the Yoast SEO development mode.
+		 *
+		 * @since 3.0
+		 *
+		 * @param bool $development_mode Is Yoast SEOs development mode active.
+		 */
+
+		return apply_filters( 'yoast_seo_development_mode', $development_mode );
+	}
+
 } /* End of class WPSEO_Utils */

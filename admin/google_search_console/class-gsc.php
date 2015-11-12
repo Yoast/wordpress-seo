@@ -62,7 +62,7 @@ class WPSEO_GSC {
 			$this->set_dependencies();
 			$this->request_handler();
 		}
-		elseif ( current_user_can( 'manage_options' ) && WPSEO_GSC_Settings::get_profile() === '' && get_user_option( 'wpseo_dismissed_gsc_notice', get_current_user_id() ) !== '1' ) {
+		elseif ( WPSEO_Utils::is_yoast_seo_page() && current_user_can( 'manage_options' ) && WPSEO_GSC_Settings::get_profile() === '' && get_user_option( 'wpseo_dismissed_gsc_notice', get_current_user_id() ) !== '1' ) {
 			add_action( 'admin_init', array( $this, 'register_gsc_notification' ) );
 		}
 

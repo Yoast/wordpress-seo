@@ -64,7 +64,7 @@ class WPSEO_Admin_Init {
 
 		$can_access = is_multisite() ? WPSEO_Utils::grant_access() : current_user_can( 'manage_options' );
 
-		if ( $can_access && ! $this->seen_about() ) {
+		if ( $can_access && $this->has_ignored_tour() && ! $this->seen_about() ) {
 
 			if ( filter_input( INPUT_GET, 'intro' ) === '1' ) {
 				update_user_meta( get_current_user_id(), 'wpseo_seen_about_version' , WPSEO_VERSION );
@@ -294,7 +294,7 @@ class WPSEO_Admin_Init {
 			delete_user_meta( get_current_user_id(), 'wpseo_ignore_tour' );
 		}
 
-		if ( ! get_user_meta( get_current_user_id(), 'wpseo_ignore_tour' ) ) {
+		if ( ! $this->has_ignored_tour() ) {
 			add_action( 'admin_enqueue_scripts', array( 'WPSEO_Pointers', 'get_instance' ) );
 		}
 	}
@@ -306,6 +306,17 @@ class WPSEO_Admin_Init {
 		if ( $this->options['enablexmlsitemap'] === true ) {
 			new WPSEO_Sitemaps_Admin;
 		}
+	}
+
+	/**
+	 * Returns the value of the ignore tour.
+	 *
+	 * @return bool
+	 */
+	private function has_ignored_tour() {
+		$user_meta = get_user_meta( get_current_user_id(), 'wpseo_ignore_tour' );
+
+		return ! empty( $user_meta );
 	}
 
 	/**
