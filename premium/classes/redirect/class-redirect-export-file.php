@@ -48,7 +48,7 @@ abstract class WPSEO_Redirect_Export_File implements WPSEO_Redirect_Export {
 	 *
 	 * @param WPSEO_Redirect $redirect The redirect to format.
 	 *
-	 * @return mixed
+	 * @return string
 	 */
 	public function format( WPSEO_Redirect $redirect ) {
 		$redirect_format = $this->get_format( $redirect->get_format() );
