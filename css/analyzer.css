@@ -1,5 +1,6 @@
 /* css for snippet */
 #snippet_preview *[contenteditable="true"]:hover {
+    background: #bbdefb url("editicon.png") no-repeat right top;
     cursor: pointer;
 }
 
@@ -20,9 +21,9 @@
     clear: both;
 }
 
-.title {
+.snippet_container .title {
     color: #1e0fbe;
-    display: inline;
+    display: block;
     overflow: hidden;
     text-overflow: ellipsis;
     text-decoration: none;
@@ -34,39 +35,30 @@
     margin: 0;
 }
 
-.title:visited {
-    color: #609
-}
-
-.url, .desc {
+.snippet_container .url, .desc {
     font-size: 13px;
     line-height: 1.4;
     display: block;
 
 }
 
-.url {
+.snippet_container .url {
     font-size: 14px;
     line-height: 16px;
     color: #006621;
     font-style: normal;
 }
 
-.urlBase{
+.snippet_container .urlBase{
     float: left;
 }
 
-.desc {
+.snippet_container .desc {
     color: #545454;
 }
 
-.tooLong {
+.snippet_container .tooLong {
     color: #f00 !important;
-}
-
-.editIcon:hover {
-    background: #bbdefb url("editicon.png") no-repeat right top;
-    cursor: pointer;
 }
 
 /* css for analyzer */
@@ -93,10 +85,6 @@
 }
 
 .wpseo-score-icon.ok {
-    background-color: #ffba00;
-}
-
-.wpseo-score-icon.poor {
     background-color: #ee7c1b;
 }
 
@@ -143,18 +131,10 @@ li.score {
 }
 
 #overallScore.ok #score_circle {
-    fill: #ffdc42;
-}
-
-#overallScore.ok #score_circle_shadow {
-    fill: #ffc82e;
-}
-
-#overallScore.poor #score_circle {
     fill: #ffb81e;
 }
 
-#overallScore.poor #score_circle_shadow {
+#overallScore.ok #score_circle_shadow {
     fill: #f49a00;
 }
 

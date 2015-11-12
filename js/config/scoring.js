@@ -24,7 +24,7 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
                     score: 7,
 
                     /* translators: %1$d expands to the number of words in the text, %2$s to the recommended minimum of words */
-                    text: i18n.dgettext('js-text-analysis', "The text contains %1$d words, this is slightly below the %2$d word recommended minimum, add a bit more copy.")
+                    text: i18n.dgettext('js-text-analysis', "The text contains %1$d words, this is slightly below the %2$d word recommended minimum. Add a bit more copy.")
                 },
                 {
                     min: 200,
@@ -74,7 +74,7 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
                     score: -50,
 
                     /* translators: %1$f expands to the keyword density percentage, %2$d expands to the number of times the keyword is found */
-                    text: i18n.dgettext('js-text-analysis', "The keyword density is %1$f%, which is way over the advised 2.5% maximum, the focus keyword was found %2$d times.")
+                    text: i18n.dgettext('js-text-analysis', "The keyword density is %1$f%, which is way over the advised 2.5% maximum; the focus keyword was found %2$d times.")
                 },
                 {
                     min: 2.5,
@@ -82,7 +82,7 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
                     score: -10,
 
                     /* translators: %1$f expands to the keyword density percentage, %2$d expands to the number of times the keyword is found */
-                    text: i18n.dgettext('js-text-analysis', "The keyword density is %1$f%, which is over the advised 2.5% maximum, the focus keyword was found %2$d times.")
+                    text: i18n.dgettext('js-text-analysis', "The keyword density is %1$f%, which is over the advised 2.5% maximum; the focus keyword was found %2$d times.")
                 },
                 {
                     min: 0.5,
@@ -90,7 +90,7 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
                     score: 9,
 
                     /* translators: %1$f expands to the keyword density percentage, %2$d expands to the number of times the keyword is found */
-                    text: i18n.dgettext('js-text-analysis', "The keyword density is %1$f%, which is great, the focus keyword was found %2$d times.")
+                    text: i18n.dgettext('js-text-analysis', "The keyword density is %1$f%, which is great; the focus keyword was found %2$d times.")
                 },
                 {
                     min: 0,
@@ -98,7 +98,7 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
                     score: 4,
 
                     /* translators: %1$f expands to the keyword density percentage, %2$d expands to the number of times the keyword is found */
-                    text: i18n.dgettext('js-text-analysis', "The keyword density is %1$f%, which is a bit low, the focus keyword was found %2$d times.")
+                    text: i18n.dgettext('js-text-analysis', "The keyword density is %1$f%, which is a bit low; the focus keyword was found %2$d times.")
                 }
             ],
             replaceArray: [
@@ -125,7 +125,7 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
                     matcher: "totalKeyword",
                     min: 1,
                     score: 2,
-                    text: i18n.dgettext('js-text-analysis', "You\'re linking to another page with the focus keyword you want this page to rank for, consider changing that if you truly want this page to rank.")
+                    text: i18n.dgettext('js-text-analysis', "You\'re linking to another page with the focus keyword you want this page to rank for. Consider changing that if you truly want this page to rank.")
                 },
 
                 /* translators: %2$s expands the number of outbound links */
@@ -150,15 +150,15 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
         {
             scoreName: "fleschReading",
             scoreArray: [
-                {min: 90, score: 9, text: "<%text%>", resultText: "very easy", note: ""},
-                {min: 80, max: 89.9, score: 9, text: "<%text%>", resultText: "easy", note: ""},
-                {min: 70, max: 79.9, score: 8, text: "<%text%>", resultText: "fairly easy", note: ""},
-                {min: 60, max: 69.9, score: 7, text: "<%text%>", resultText: "ok", note: ""},
+                {min: 90, score: 9, text: "{{text}}", resultText: "very easy", note: ""},
+                {min: 80, max: 89.9, score: 9, text: "{{text}}", resultText: "easy", note: ""},
+                {min: 70, max: 79.9, score: 8, text: "{{text}}", resultText: "fairly easy", note: ""},
+                {min: 60, max: 69.9, score: 7, text: "{{text}}", resultText: "ok", note: ""},
                 {
                     min: 50,
                     max: 59.9,
                     score: 6,
-                    text: "<%text%>",
+                    text: "{{text}}",
                     resultText: i18n.dgettext( "js-text-analysis", "fairly difficult" ),
                     note: i18n.dgettext('js-text-analysis', "Try to make shorter sentences to improve readability.")
                 },
@@ -166,7 +166,7 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
                     min: 30,
                     max: 49.9,
                     score: 5,
-                    text: "<%text%>",
+                    text: "{{text}}",
                     resultText: i18n.dgettext( "js-text-analysis", "difficult" ),
                     note: i18n.dgettext('js-text-analysis', "Try to make shorter sentences, using less difficult words to improve readability.")
                 },
@@ -174,7 +174,7 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
                     min: 0,
                     max: 29.9,
                     score: 4,
-                    text: "<%text%>",
+                    text: "{{text}}",
                     resultText: i18n.dgettext( "js-text-analysis", "very difficult" ),
                     note: i18n.dgettext('js-text-analysis', "Try to make shorter sentences, using less difficult words to improve readability.")
                 }
@@ -182,7 +182,7 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
             replaceArray: [
                 {
                     name: "scoreText",
-                    position: "<%text%>",
+                    position: "{{text}}",
 
                     /* translators: %1$s expands to the numeric flesh reading ease score, %2$s to a link to the wikipedia article about Flesh ease reading score, %3$s to the easyness of reading, %4$s expands to a note about the flesh reading score. */
                     value: i18n.dgettext('js-text-analysis', "The copy scores %1$s in the %2$s test, which is considered %3$s to read. %4$s")
@@ -219,7 +219,7 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
                     score: 6,
 
                     /* translators: %2$d expands to the maximum length for the meta description */
-                    text: i18n.dgettext('js-text-analysis', "The specified meta description is over %2$d characters, reducing it will ensure the entire description is visible")
+                    text: i18n.dgettext('js-text-analysis', "The specified meta description is over %2$d characters. Reducing it will ensure the entire description is visible")
                 },
                 {
                     min: 120,
@@ -250,7 +250,7 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
                 {
                     max: 0,
                     score: 3,
-                    text: i18n.dgettext('js-text-analysis', "The focus keyword doesn\'t appear in the first paragraph of the copy, make sure the topic is clear immediately.")
+                    text: i18n.dgettext('js-text-analysis', "The focus keyword doesn\'t appear in the first paragraph of the copy. Make sure the topic is clear immediately.")
                 },
                 {min: 1, score: 9, text: i18n.dgettext('js-text-analysis', "The focus keyword appears in the first paragraph of the copy.")}
             ]
@@ -321,8 +321,8 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
                     max: 70,
                     score: 9,
 
-                    /* translators: %1$d expands to the minimum number of characters in the page title, %2$d to the minimum number of characters */
-                    text: i18n.dgettext('js-text-analysis', "The page title is more than %1$d characters and less than the recommended %2$d character limit.")
+                    /* translators: %1$d expands to the minimum number of characters in the page title, %2$d to the maximum number of characters */
+                    text: i18n.dgettext('js-text-analysis', "The page title is between the %1$d character minimum and the recommended %2$d character maximum.")
                 }
             ],
             replaceArray: [

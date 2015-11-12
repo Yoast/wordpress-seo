@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Yoast-text-analysis 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-27 16:47+0100\n"
+"POT-Creation-Date: 2015-11-05 17:16+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -28,7 +28,7 @@ msgstr ""
 #: js/config/scoring.js:27
 msgid ""
 "The text contains %1$d words, this is slightly below the %2$d word "
-"recommended minimum, add a bit more copy."
+"recommended minimum. Add a bit more copy."
 msgstr ""
 
 #. translators: %1$d expands to the number of words in the text, %2$d to the recommended minimum of words
@@ -53,28 +53,28 @@ msgstr ""
 #. translators: %1$f expands to the keyword density percentage, %2$d expands to the number of times the keyword is found
 #: js/config/scoring.js:77
 msgid ""
-"The keyword density is %1$f%, which is way over the advised 2.5% maximum, "
+"The keyword density is %1$f%, which is way over the advised 2.5% maximum; "
 "the focus keyword was found %2$d times."
 msgstr ""
 
 #. translators: %1$f expands to the keyword density percentage, %2$d expands to the number of times the keyword is found
 #: js/config/scoring.js:85
 msgid ""
-"The keyword density is %1$f%, which is over the advised 2.5% maximum, the "
+"The keyword density is %1$f%, which is over the advised 2.5% maximum; the "
 "focus keyword was found %2$d times."
 msgstr ""
 
 #. translators: %1$f expands to the keyword density percentage, %2$d expands to the number of times the keyword is found
 #: js/config/scoring.js:93
 msgid ""
-"The keyword density is %1$f%, which is great, the focus keyword was found "
+"The keyword density is %1$f%, which is great; the focus keyword was found "
 "%2$d times."
 msgstr ""
 
 #. translators: %1$f expands to the keyword density percentage, %2$d expands to the number of times the keyword is found
 #: js/config/scoring.js:101
 msgid ""
-"The keyword density is %1$f%, which is a bit low, the focus keyword was "
+"The keyword density is %1$f%, which is a bit low; the focus keyword was "
 "found %2$d times."
 msgstr ""
 
@@ -90,7 +90,7 @@ msgstr ""
 #: js/config/scoring.js:128
 msgid ""
 "You're linking to another page with the focus keyword you want this page to "
-"rank for, consider changing that if you truly want this page to rank."
+"rank for. Consider changing that if you truly want this page to rank."
 msgstr ""
 
 #. translators: %2$s expands the number of outbound links
@@ -152,7 +152,7 @@ msgstr ""
 #. translators: %2$d expands to the maximum length for the meta description
 #: js/config/scoring.js:222
 msgid ""
-"The specified meta description is over %2$d characters, reducing it will "
+"The specified meta description is over %2$d characters. Reducing it will "
 "ensure the entire description is visible"
 msgstr ""
 
@@ -174,7 +174,7 @@ msgstr ""
 
 #: js/config/scoring.js:253
 msgid ""
-"The focus keyword doesn't appear in the first paragraph of the copy, make "
+"The focus keyword doesn't appear in the first paragraph of the copy. Make "
 "sure the topic is clear immediately."
 msgstr ""
 
@@ -232,11 +232,11 @@ msgid ""
 "listing."
 msgstr ""
 
-#. translators: %1$d expands to the minimum number of characters in the page title, %2$d to the minimum number of characters
+#. translators: %1$d expands to the minimum number of characters in the page title, %2$d to the maximum number of characters
 #: js/config/scoring.js:325
 msgid ""
-"The page title is more than %1$d characters and less than the recommended "
-"%2$d character limit."
+"The page title is between the %1$d character minimum and the recommended "
+"%2$d character maximum."
 msgstr ""
 
 #. translators: %1$s expands to the focus keyword

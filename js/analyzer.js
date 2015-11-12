@@ -64,18 +64,18 @@ YoastSEO.Analyzer.prototype.formatKeyword = function() {
 
 		// Creates new regex from keyword with global and caseinsensitive option,
 		// replaces - and _ with space
-		this.keywordRegex = new RegExp(
-			this.preProcessor.replaceDiacritics( keyword.replace( /[-_]/, " " ) ),
+
+		this.keywordRegex = new RegExp( "\\b" +
+			this.preProcessor.replaceDiacritics( keyword.replace( /[-_]/, " " ) ) + "\\b",
 			"ig"
 		);
 
 		// Creates new regex from keyword with global and caseinsensitive option,
 		// replaces space with -. Used for URL matching
-		this.keywordRegexInverse = new RegExp(
-			this.preProcessor.replaceDiacritics( keyword.replace( " ", "-" ) ),
+		this.keywordRegexInverse = new RegExp( "\\b" +
+			this.preProcessor.replaceDiacritics( keyword.replace( " ", "-" ) ) + "\\b",
 			"ig"
 		);
-
 	}
 };
 
@@ -612,11 +612,11 @@ YoastSEO.Analyzer.prototype.paragraphChecker = function( textString, regexp ) {
 
 /**
  * counts the occurrences of the keyword in the metadescription, returns 0 if metadescription is
- * empty or not set.
+ * empty or not set. Default is -1, if the meta is empty, this way we can score for empty meta.
  * @returns {{name: string, count: number}}
  */
 YoastSEO.Analyzer.prototype.metaDescriptionKeyword = function() {
-	var result = [ { test: "metaDescriptionKeyword", result: 0	} ];
+	var result = [ { test: "metaDescriptionKeyword", result: -1 } ];
 	if ( typeof this.config.meta !== "undefined" && this.config.meta.length > 0 && this.config.keyword !== "" ) {
 		result[ 0 ].result = this.stringHelper.countMatches(
 			this.config.meta, this.keywordRegex
