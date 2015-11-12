@@ -210,7 +210,7 @@ YoastSEO.Analyzer.prototype.keywordDensityCheck = function() {
 	if ( keywordCount !== 0 ) {
 		keywordDensity = (
 				keywordCount /
-				this.preProcessor.__store.wordcount - ( keywordCount - 1 * keywordCount )
+				this.preProcessor.__store.wordcountNoTags - ( keywordCount - 1 * keywordCount )
 			) *
 			100;
 	}
