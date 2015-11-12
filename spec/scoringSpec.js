@@ -61,3 +61,20 @@ describe("a test for the scoring function of all functions in the analyzer", fun
        expect(analyzeScore[14].text).toBe("This page has 3 outbound link(s).");
    });
 });
+
+var scoreArgs2 = {
+    text: "",
+    keyword: "",
+    meta: "Liquorice sweet roll sesame snaps sweet roll croissant gummies. Chocolate bar gummies icing cake jelly beans. Jelly beans pie soufflé fruitcake pie jelly br", // Meta description with length 156
+    queue: ["metaDescriptionLength"]
+};
+describe("A meta description scoring", function() {
+    it("should correctly report maximum length", function() {
+        var analyzer = Factory.buildAnalyzer(scoreArgs2);
+        analyzer.runQueue();
+        var score = analyzer.analyzeScorer.__score;
+
+        expect(score[0].text).toBe("In the specified meta description, consider: How does it compare to the competition? Could it be made more appealing?");
+        expect(score[0].score).toBe(9);
+    });
+});
