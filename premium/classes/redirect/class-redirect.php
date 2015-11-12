@@ -129,7 +129,7 @@ class WPSEO_Redirect implements ArrayAccess {
 				break;
 		}
 
-		return '';
+		return null;
 	}
 
 	/**
