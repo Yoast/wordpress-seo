@@ -36,7 +36,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 	 * @param {number} score The score calculated by the analyzer for the current tab.
 	 */
 	YoastMultiKeyword.prototype.updateKeywords = function( score ) {
-		var keywords;
+		var firstKeyword, keywords;
 
 		this.updateActiveKeywordTab( score );
 		this.updateInactiveKeywords();
@@ -55,12 +55,15 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 			return item.keyword.length > 0;
 		});
 
-		var firstKeyword = keywords.splice( 0, 1 ).shift();
 
 		// Save keyword information to the hidden field.
 		$( '#yoast_wpseo_focuskeywords' ).val( JSON.stringify( keywords ) );
 
-		$( '#yoast_wpseo_focuskw' ).val( firstKeyword.keyword );
+		if ( keywords.length > 0 ) {
+			firstKeyword = keywords.splice( 0, 1 ).shift();
+
+			$( '#yoast_wpseo_focuskw' ).val( firstKeyword.keyword );
+		}
 	};
 
 	YoastMultiKeyword.prototype.insertElements = function() {
