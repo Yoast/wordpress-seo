@@ -706,7 +706,7 @@ YoastSEO.Analyzer.prototype.urlStopwords = function() {
 YoastSEO.Analyzer.prototype.keywordDoubles = function() {
 	var result = [ { test: "keywordDoubles", result: { count: 0, id: 0 } } ];
 	if ( typeof this.config.keyword !== "undefined" ) {
-		if ( typeof this.config.usedKeywords[ this.config.keyword ] !== "undefined" ) {
+		if ( typeof this.config.usedKeywords !== "undefined" && typeof this.config.usedKeywords[ this.config.keyword ] !== "undefined" ) {
 			result[ 0 ].result.count = this.config.usedKeywords[ this.config.keyword ].length;
 			if ( result[ 0 ].result.count === 1 ) {
 				result[ 0 ].result.id = this.config.usedKeywords[ this.config.keyword ][ 0 ];
@@ -868,6 +868,7 @@ YoastSEO.AnalyzeScorer.prototype.returnScore = function( score, scoreObj, i ) {
  * @returns formatted resultText
  */
 YoastSEO.AnalyzeScorer.prototype.scoreTextFormat = function( scoreObj, replaceArray ) {
+	var replaceWord;
 	var resultText = scoreObj.text;
 	resultText = this.refObj.stringHelper.escapeHTML( resultText );
 	if ( typeof replaceArray !== "undefined" ) {
@@ -894,8 +895,12 @@ YoastSEO.AnalyzeScorer.prototype.scoreTextFormat = function( scoreObj, replaceAr
 
 					// gets the replaceword (which is a reference to an object in the analyzer) and
 					// replaces is on the given position
-					var replaceWord = this.parseReplaceWord( replaceArray[ i ].sourceObj );
-					resultText = resultText.replace( replaceArray[ i ].position, this.refObj.stringHelper.escapeHTML( replaceWord ) );
+					replaceWord = this.parseReplaceWord( replaceArray[ i ].sourceObj );
+					if ( typeof replaceArray[ i ].rawOutput === "undefined" || replaceArray[ i ].rawOutput !== true ) {
+						replaceWord = this.refObj.stringHelper.escapeHTML( replaceWord );
+					}
+
+					resultText = resultText.replace( replaceArray[ i ].position, replaceWord );
 					break;
 				case ( typeof replaceArray[ i ].scoreObj !== "undefined" ):
 
@@ -3848,7 +3853,7 @@ return parser;
 }.call(YoastSEO));YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 
 YoastSEO.analyzerConfig = {
-	queue: [ "wordCount", "keywordDensity", "subHeadings", "stopwords", "fleschReading", "linkCount", "imageCount", "urlKeyword", "urlLength", "metaDescriptionLength", "metaDescriptionKeyword", "pageTitleKeyword", "pageTitleLength", "firstParagraph" ],
+	queue: [ "wordCount", "keywordDensity", "subHeadings", "stopwords", "fleschReading", "linkCount", "imageCount", "urlKeyword", "urlLength", "metaDescriptionLength", "metaDescriptionKeyword", "pageTitleKeyword", "pageTitleLength", "firstParagraph", "keywordDoubles" ],
 	stopWords: [ "a", "about", "above", "after", "again", "against", "all", "am", "an", "and", "any", "are", "as", "at", "be", "because", "been", "before", "being", "below", "between", "both", "but", "by", "could", "did", "do", "does", "doing", "down", "during", "each", "few", "for", "from", "further", "had", "has", "have", "having", "he", "he'd", "he'll", "he's", "her", "here", "here's", "hers", "herself", "him", "himself", "his", "how", "how's", "i", "i'd", "i'll", "i'm", "i've", "if", "in", "into", "is", "it", "it's", "its", "itself", "let's", "me", "more", "most", "my", "myself", "nor", "of", "on", "once", "only", "or", "other", "ought", "our", "ours", "ourselves", "out", "over", "own", "same", "she", "she'd", "she'll", "she's", "should", "so", "some", "such", "than", "that", "that's", "the", "their", "theirs", "them", "themselves", "then", "there", "there's", "these", "they", "they'd", "they'll", "they're", "they've", "this", "those", "through", "to", "too", "under", "until", "up", "very", "was", "we", "we'd", "we'll", "we're", "we've", "were", "what", "what's", "when", "when's", "where", "where's", "which", "while", "who", "who's", "whom", "why", "why's", "with", "would", "you", "you'd", "you'll", "you're", "you've", "your", "yours", "yourself", "yourselves" ],
 	wordsToRemove: [ " a", " in", " an", " on", " for", " the", " and" ],
 	maxSlugLength: 20,
@@ -4402,9 +4407,9 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
                 }
             ],
             replaceArray: [
-                {name: "singleUrl", position: "%1$s", sourceObj: ".refObj.config.postUrl"},
+                {name: "singleUrl", position: "%1$s", sourceObj: ".refObj.config.postUrl", rawOutput: true},
                 {name: "endTag", position: "%2$s", value: "</a>"},
-                {name: "multiUrl", position: "%3$s", sourceObj: ".refObj.config.searchUrl"},
+                {name: "multiUrl", position: "%3$s", sourceObj: ".refObj.config.searchUrl", rawOutput: true},
                 {name: "occurrences", position: "%4$d", sourceObj: ".result.count"},
                 {name: "endTag", position: "%5$s", value: "</a>"},
                 {
