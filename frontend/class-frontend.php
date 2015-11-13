@@ -150,7 +150,7 @@ class WPSEO_Frontend {
 		add_filter( 'the_excerpt_rss', array( $this, 'embed_rssfooter_excerpt' ) );
 
 		// For WordPress functions below 4.4.
-		if ( ! function_exists( 'wp_get_document_title' ) && $this->options['forcerewritetitle'] === true ) {
+		if ( ! current_theme_supports( 'title-tag' ) && $this->options['forcerewritetitle'] === true ) {
 			add_action( 'template_redirect', array( $this, 'force_rewrite_output_buffer' ), 99999 );
 			add_action( 'wp_footer', array( $this, 'flush_cache' ), - 1 );
 		}
