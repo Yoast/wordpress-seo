@@ -88,7 +88,10 @@
 			excerpt: this.getDataFromInput( 'excerpt' ),
 			snippetTitle: this.getDataFromInput( 'snippetTitle' ),
 			snippetMeta: this.getDataFromInput( 'snippetMeta' ),
-			snippetCite: this.getDataFromInput( 'cite' )
+			snippetCite: this.getDataFromInput( 'cite' ),
+			usedKeywords: wpseoPostScraperL10n.keyword_usage,
+			searchUrl: '<a target="_blank" href=' + wpseoPostScraperL10n.search_url + '>',
+			postUrl: '<a target="_blank" href=' + wpseoPostScraperL10n.post_edit_url + '>'
 		};
 	};
 
@@ -489,8 +492,8 @@
 				'firstParagraph',
 				'keywordDoubles'],
 			usedKeywords: wpseoPostScraperL10n.keyword_usage,
-			searchUrl: '<a target="new" href=' + wpseoPostScraperL10n.search_url + '>',
-			postUrl: '<a target="new" href=' + wpseoPostScraperL10n.post_edit_url + '>',
+			searchUrl: '<a target="_blank" href=' + wpseoPostScraperL10n.search_url + '>',
+			postUrl: '<a target="_blank" href=' + wpseoPostScraperL10n.post_edit_url + '>',
 			callbacks: {
 				getData: postScraper.getData.bind( postScraper ),
 				bindElementEvents: postScraper.bindElementEvents.bind( postScraper ),
