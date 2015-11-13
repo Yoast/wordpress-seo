@@ -16,17 +16,30 @@ class WPSEO_Custom_Fields_Plugin {
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue' ) );
 	}
 
+	/**
+	 * Enqueues all the needed JS scripts.
+	 */
 	public function enqueue() {
 		wp_enqueue_script( 'wp-seo-premium-custom-fields-plugin', plugin_dir_url( WPSEO_PREMIUM_FILE ) . '/assets/js/wp-seo-premium-custom-fields-plugin' . WPSEO_CSSJS_SUFFIX . '.js', array( 'jquery' ), WPSEO_VERSION );
 		wp_localize_script( 'wp-seo-premium-custom-fields-plugin', 'YoastCustomFieldsPluginL10', $this->localize_script() );
 	}
 
+	/**
+	 * Loads the custom fields translations
+	 *
+	 * @return array
+	 */
 	public function localize_script() {
 		return array(
 			'custom_field_names' => $this->get_custom_field_names(),
 		);
 	}
 
+	/**
+	 * Retrieve all custom field names set in SEO ->
+	 *
+	 * @return array
+	 */
 	private function get_custom_field_names() {
 		$custom_field_names = array();
 
@@ -44,6 +57,11 @@ class WPSEO_Custom_Fields_Plugin {
 		return $custom_field_names;
 	}
 
+	/**
+	 * Retrieves post data given a post ID or the global
+	 *
+	 * @return array|null|WP_Post Returns a post if found, otherwise returns an empty array.
+	 */
 	private function get_post() {
 		if ( $post = filter_input( INPUT_GET, 'post' ) ) {
 			$post_id = (int) WPSEO_Utils::validate_int( $post );
