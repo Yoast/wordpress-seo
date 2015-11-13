@@ -1154,29 +1154,6 @@ YoastSEO.App.prototype.refresh = function() {
 };
 
 /**
- * Adds function to the analyzer queue. Function must be in the Analyzer prototype to be added.
- *
- * @param {String} func Name of the function to add to the queue.
- */
-YoastSEO.App.prototype.addToQueue = function( func ) {
-	if ( typeof YoastSEO.Analyzer.prototype[ func ] === "function" ) {
-		this.rawData.queue.push( func );
-	}
-};
-
-/**
- * Removes function from queue if it is currently in the queue.
- *
- * @param {String} func Name of the function to remove from the queue.
- */
-YoastSEO.App.prototype.removeFromQueue = function( func ) {
-	var funcIndex = this.rawData.queue.indexOf( func );
-	if ( funcIndex > -1 ) {
-		this.rawData.queue.splice( funcIndex, 1 );
-	}
-};
-
-/**
  * creates the elements for the snippetPreview
  */
 YoastSEO.App.prototype.createSnippetPreview = function() {
@@ -1395,8 +1372,13 @@ YoastSEO.App.prototype.runAnalyzer = function() {
  * @returns {*}
  */
 YoastSEO.App.prototype.modifyData = function( data ) {
+
+	// Copy rawdata to lose object reference.
+	data = JSON.parse( JSON.stringify( data ) );
+
 	data.text = this.pluggable._applyModifications( "content", data.text );
 	data.title = this.pluggable._applyModifications( "title", data.title );
+
 	return data;
 };
 
@@ -1617,7 +1599,7 @@ YoastSEO.Pluggable.prototype._reloaded = function( pluginName ) {
 		return false;
 	}
 
-	this.app.runAnalyzer( this.app.rawData );
+	this.app.runAnalyzer();
 	return true;
 };
 
