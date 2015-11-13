@@ -6,7 +6,34 @@
 /**
  * Class WPSEO_Redirect_Validate
  */
-abstract class WPSEO_Redirect_Validator {
+class WPSEO_Redirect_Validator {
+
+	/**
+	 * @var array
+	 */
+	protected $validations = array(
+		'validate_uniqueness' => array(
+			'exclude_types'  => array(),
+			'exclude_format' => array(),
+		),
+		'validate_filled'     => array(
+			'exclude_types'  => array(),
+			'exclude_format' => array(),
+		),
+		'validate_accessible' => array(
+			'exclude_types'  => array( WPSEO_Redirect::DELETED ),
+			'exclude_format' => array(),
+		),
+		'validate_end_point'  => array(
+			'exclude_types'  => array( WPSEO_Redirect::DELETED ),
+			'exclude_format' => array( WPSEO_Redirect::FORMAT_REGEX ),
+		),
+	);
+
+	/**
+	 * @var WPSEO_Redirect
+	 */
+	protected $redirect;
 
 	/**
 	 * @var array Property with the redirects.
@@ -21,36 +48,35 @@ abstract class WPSEO_Redirect_Validator {
 	/**
 	 * Converting the redirects into a readable format
 	 *
-	 * @param WPSEO_Redirect[] $redirects Array with the redirects.
+	 * @param WPSEO_Redirect $redirect   The redirect to validate.
+	 * @param string         $old_origin The validation that might be skipped.
 	 */
-	public function __construct( $redirects ) {
-		foreach ( $redirects as $redirect ) {
-			$this->redirects[ $this->sanitize_redirect_url( $redirect->get_origin() ) ] = $this->sanitize_redirect_url( $redirect->get_target() );
+	public function __construct( WPSEO_Redirect $redirect, $old_origin = '' ) {
+		$this->redirect = $redirect;
+
+		// Remove uniqueness validation when old origin is the same as the current one.
+		if ( $old_origin !== '' && $old_origin === $this->redirect->get_origin() ) {
+			unset( $this->validations['validate_uniqueness'] );
 		}
+
+		$this->filter_validations();
+		$this->set_redirects();
 	}
 
 	/**
 	 * Validates the old and the new url
 	 *
-	 * @param string $old_url    The url that has to be redirect.
-	 * @param string $new_url    The target url.
-	 * @param string $type       The type of redirect.
-	 * @param bool   $unique_url When there is an unique_url given, it would validate if the new one is unique.
-	 *
 	 * @return bool|string
 	 */
-	public function validate( $old_url, $new_url, $type = '', $unique_url = false ) {
-		// Check if the redirect already exist.
-		if ( $this->validate_redirect_exists( $old_url, $unique_url ) ) {
-			return $this->set_error( __( 'The old url already exists as a redirect', 'wordpress-seo-premium' ) );
+	public function validate() {
+		foreach ( array_keys( $this->validations ) as $validation ) {
+			if ( $validation_error = $this->$validation() ) {
+				$this->set_error( $validation_error );
+				return false;
+			}
 		}
 
-		// Validate if the required fields are filled.
-		if ( ! $this->validate_filled( $old_url, $new_url, $type ) ) {
-			return $this->set_error( __( 'Not all the required fields are filled', 'wordpress-seo-premium' ) );
-		}
-
-		return false;
+		return true;
 	}
 
 	/**
@@ -72,69 +98,119 @@ abstract class WPSEO_Redirect_Validator {
 	}
 
 	/**
+	 * Filter the validation rules.
+	 */
+	protected function filter_validations() {
+		foreach ( $this->validations as $validation => $validation_rules ) {
+			$exclude_format = in_array( $this->redirect->get_format(), $validation_rules['exclude_format'] );
+			$exclude_type   = in_array( $this->redirect->get_type(), $validation_rules['exclude_types'] );
+
+			if ( $exclude_format || $exclude_type ) {
+				unset( $this->validations[ $validation ] );
+			}
+		}
+	}
+
+	/**
+	 * Fill the redirect property
+	 */
+	protected function set_redirects( ) {
+		$redirect_option = new WPSEO_Redirect_Option();
+		$redirect_option->set_format( $this->redirect->get_format() );
+
+		foreach ( $redirect_option->get_filtered_redirects() as $redirect ) {
+			$this->redirects[ $this->sanitize_redirect_url( $redirect->get_origin() ) ] = $this->sanitize_redirect_url( $redirect->get_target() );
+		}
+	}
+
+	/**
 	 * Check if the redirect already exists and if it should be unique.
 	 *
-	 * @param string $old_url    The url that has to be redirect.
-	 * @param bool   $unique_url When there is an unique_url given, it would validate if the new one is unique.
-	 *
 	 * @return bool
 	 */
-	protected function validate_redirect_exists( $old_url, $unique_url ) {
-		$unique_check = ( $unique_url === false || ( $unique_url !== $old_url ) );
+	protected function validate_uniqueness() {
+		if ( array_key_exists( $this->sanitize_redirect_url( $this->redirect->get_origin() ), $this->redirects ) ) {
+			return __( 'The old url already exists as a redirect', 'wordpress-seo-premium' );
+		}
 
-		// Check if redirect already exists.
-		return $unique_check && $this->redirect_exists( $old_url );
-	}
-
-	/**
-	 * Check if the $url exist as a redirect
-	 *
-	 * @param string $url The url to check if it's redirected.
-	 *
-	 * @return bool
-	 */
-	protected function redirect_exists( $url ) {
-		return array_key_exists( $this->sanitize_redirect_url( $url ), $this->redirects );
-	}
-
-	/**
-	 * Strip the trailing slashes
-	 *
-	 * @param string $url The redirect url to sanitize.
-	 *
-	 * @return string
-	 */
-	protected function sanitize_redirect_url( $url ) {
-		return $url;
+		return false;
 	}
 
 	/**
 	 * Validate if all the fields are filled
 	 *
-	 * @param string $old_url The old url that will be redirected.
-	 * @param string $new_url The target where the old url will redirect to.
-	 * @param int    $type    Type of the redirect.
-	 *
 	 * @return bool
 	 */
-	protected function validate_filled( $old_url, $new_url, $type ) {
-		// If redirect type id 410, the new_url doesn't have to be filled.
-		if ( $this->is_410( $type ) ) {
-			return ( $old_url !== '' );
+	protected function validate_filled() {
+		// If redirect type id 410, the target doesn't have to be filled.
+		if ( $this->is_410() && $this->redirect->get_origin() !== '' ) {
+			return false;
 		}
 
-		return ( $old_url !== '' && $new_url !== '' && $type !== '' );
+		if ( ( $this->redirect->get_origin() !== '' && $this->redirect->get_target() !== '' && $this->redirect->get_type() !== '' ) ) {
+			return false;
+		}
+
+		return __( 'Not all the required fields are filled', 'wordpress-seo-premium' );
+
 	}
+
+	/**
+	 * Check if the current URL is accessible
+	 *
+	 * @return bool|string
+	 */
+	protected function validate_accessible() {
+
+		if ( $this->is_410() ) {
+			return false;
+		}
+
+		// Do the request.
+		$decoded_url   = rawurldecode( $this->redirect->get_target() );
+		$response      = wp_remote_head( $decoded_url, array( 'sslverify' => false ) );
+		$response_code = wp_remote_retrieve_response_code( $response );
+
+		if ( $response_code !== '' && $response_code !== 200 ) {
+			/* translators: %1$s expands to the returned http code  */
+			return sprintf(
+				__( 'The URL you entered returned a HTTP code different than 200(OK). The received HTTP code is %1$s.', 'wordpress-seo-premium' ),
+				$response_code
+			);
+		}
+
+		return false;
+	}
+
+	/**
+	 * Validate if the redirect doesn't result in a redirect loop and check if the redirect can be done shorter.
+	 *
+	 * @return bool|string
+	 */
+	protected function validate_end_point(  ) {
+
+		if ( $this->is_410() ) {
+			return false;
+		}
+
+		$validate_endpoint = new WPSEO_Redirect_Validate_Endpoint( $this->redirect, $this->redirects );
+
+		if ( $validate_endpoint->is_valid()  ) {
+			return false;
+		}
+
+		return $validate_endpoint->get_error();
+	}
+
+
 
 	/**
 	 * Check if current redirect type is a 410
 	 *
-	 * @param int $type The redirect type.
-	 *
 	 * @return bool
 	 */
-	protected function is_410( $type ) {
-		return ( (int) $type === 410 );
+	protected function is_410() {
+		return ( $this->redirect->get_type() === WPSEO_Redirect::DELETED );
 	}
 
 	/**
@@ -148,6 +224,21 @@ abstract class WPSEO_Redirect_Validator {
 		$this->validation_error = $error_message;
 
 		return true;
+	}
+
+	/**
+	 * Strip the trailing slashes
+	 *
+	 * @param string $url The redirect url to sanitize.
+	 *
+	 * @return string
+	 */
+	private function sanitize_redirect_url( $url ) {
+		if ( $this->redirect->get_format() === WPSEO_Redirect::FORMAT_PLAIN ) {
+			$url = trim( $url, '/' );
+		}
+
+		return $url;
 	}
 
 }

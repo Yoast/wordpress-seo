@@ -37,6 +37,11 @@ class WPSEO_Redirect implements ArrayAccess {
 	protected $format;
 
 	/**
+	 * @var string
+	 */
+	protected $validation_error;
+
+	/**
 	 * WPSEO_Redirect constructor.
 	 *
 	 * @param string $origin The origin of the redirect.
@@ -53,8 +58,8 @@ class WPSEO_Redirect implements ArrayAccess {
 			throw new InvalidArgumentException( 'Target cannot be empty for a ' . $type . ' redirect.' );
 		}
 
-		$this->origin = $origin;
-		$this->target = $target;
+		$this->origin = $this->format_origin( $origin, $format );
+		$this->target = WPSEO_Utils::format_url( $target );
 		$this->type   = $type;
 		$this->format = $format;
 	}
@@ -93,6 +98,49 @@ class WPSEO_Redirect implements ArrayAccess {
 	 */
 	public function get_format() {
 		return $this->format;
+	}
+
+	/**
+	 * Returns the validation error
+	 * @return string
+	 */
+	public function get_validation_error() {
+		return $this->validation_error;
+	}
+
+	/**
+	 * Validates the redirect.
+	 *
+	 * @param string $old_origin When filled the validator will check if uniqueness validation is needed.
+	 *
+	 * @return bool
+	 */
+	public function is_valid( $old_origin = '' ) {
+		if ( $old_origin !== '' ) {
+			$this->format_origin( $old_origin, $this->format );
+		}
+		$validation = new WPSEO_Redirect_Validator( $this, $old_origin );
+
+		if ( $validation->validate() ) {
+			return true;
+		}
+
+		$this->validation_error = $validation->get_error();
+
+		return false;
+
+	}
+
+	/**
+	 * Formats the given origin in case of plain redirects
+	 *
+	 * @param string $origin The origin to format.
+	 * @param string $format The redirect format, regex or plain.
+	 *
+	 * @return string
+	 */
+	protected function format_origin( $origin, $format ) {
+		return ( $format === self::FORMAT_PLAIN ) ? WPSEO_Utils::format_url( $origin ) : $origin;
 	}
 
 	/**

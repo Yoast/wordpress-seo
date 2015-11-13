@@ -61,13 +61,4 @@ class WPSEO_Redirect_URL_Manager extends WPSEO_Redirect_Manager {
 		return parent::delete_redirects( $delete_redirects );
 	}
 
-	/**
-	 * Returns the validator object
-	 *
-	 * @return WPSEO_Redirect_URL_Validator
-	 */
-	public function get_validator() {
-		return new WPSEO_Redirect_URL_Validator( $this->get_redirects() );
-	}
-
 }

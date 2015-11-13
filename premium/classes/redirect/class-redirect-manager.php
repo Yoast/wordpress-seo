@@ -24,13 +24,6 @@ abstract class WPSEO_Redirect_Manager {
 	protected $exporters;
 
 	/**
-	 * Returns an instance of the WPSEO_Redirect_Validator
-	 *
-	 * @return WPSEO_Redirect_Validator
-	 */
-	abstract public function get_validator();
-
-	/**
 	 * Returns the default exporters.
 	 *
 	 * @return WPSEO_Redirect_Export[]

@@ -19,17 +19,18 @@ class WPSEO_Redirect_Ajax {
 	private $filter_options = array( 'options' => array( 'default' => '' ) );
 
 	/**
-	 * @var WPSEO_Redirect_Validator
+	 * @var string
 	 */
-	private $validator;
+	private $redirect_format;
 
 	/**
 	 * @param WPSEO_Redirect_Manager $redirect_manager The redirect manager to handle the redirects for.
+	 * @param string                 $redirect_format    The type of the redirect that is managed by this AJAX object
 	 * @param string                 $hook_suffix      The suffix that will be stitched after the ajax hook names.
 	 */
-	public function __construct( WPSEO_Redirect_Manager $redirect_manager, $hook_suffix ) {
+	public function __construct( WPSEO_Redirect_Manager $redirect_manager, $redirect_format, $hook_suffix ) {
 		$this->redirect_manager = $redirect_manager;
-		$this->validator        = $redirect_manager->get_validator();
+		$this->redirect_format  = $redirect_format;
 
 		$this->set_hooks( $hook_suffix );
 	}
@@ -46,19 +47,15 @@ class WPSEO_Redirect_Ajax {
 		$new_url_post = filter_input( INPUT_POST, 'new_url', FILTER_DEFAULT, $this->filter_options );
 		$type         = filter_input( INPUT_POST, 'type', FILTER_DEFAULT, $this->filter_options );
 
+		$redirect = new WPSEO_Redirect(
+			$this->sanitize_url( $old_url_post ),
+			$this->sanitize_url( $new_url_post ),
+			$type,
+			$this->redirect_format
+		);
 
-		$this->validator->validate( $old_url_post, $new_url_post, $type, true );
-
-		$response  = array();
-
-		// When $validation is false, there is no error found.
-		if ( ! $this->validator->has_error() ) {
-			$old_url = $this->sanitize_url( $old_url_post );
-			$new_url = $this->sanitize_url( $new_url_post );
-
-			// The method always returns the added redirect.
-			$redirect = $this->redirect_manager->create_redirect( $old_url, $new_url, $type );
-
+		// The method always returns the added redirect.
+		if ( $redirect->is_valid() && $this->redirect_manager->create_redirect( $redirect ) ) {
 			$response = array(
 				'old_redirect'  => $redirect->get_origin(),
 				'new_redirect'  => $redirect->get_target(),
@@ -67,7 +64,7 @@ class WPSEO_Redirect_Ajax {
 		}
 
 		// Set the value error.
-		$response['error'] = $this->validator->get_error();
+		$response['error'] = $redirect->get_validation_error();
 
 		// Response.
 		wp_die( json_encode( $response ) );
@@ -90,21 +87,22 @@ class WPSEO_Redirect_Ajax {
 			filter_input( INPUT_POST, 'new_redirect', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY )
 		);
 
-		$this->validator->validate( $new_redirect['key'], $new_redirect['value'], $new_redirect['type'], $old_redirect );
+		$redirect = new WPSEO_Redirect(
+			$this->sanitize_url( $new_redirect['key'] ),
+			$this->sanitize_url( $new_redirect['value'] ),
+			urldecode( $new_redirect['type'] ),
+			$this->redirect_format
+		);
 
-		$response  = array();
-
-		if ( ! $this->validator->has_error() ) {
-			// Save redirects in database.
-			$redirect = $this->redirect_manager->update_redirect( $old_redirect, $new_redirect );
-
+		// The method always returns the added redirect.
+		if ( $redirect->is_valid( $current_redirect ) && $this->redirect_manager->update_redirect( $current_redirect, $redirect ) ) {
 			$response = array(
 				'old_redirect'  => $redirect->get_origin(),
 			);
 		}
 
 		// Set the value error.
-		$response['error'] = $this->validator->get_error();
+		$response['error'] = $redirect->get_validation_error();
 
 		// Response.
 		wp_die( json_encode( $response ) );
