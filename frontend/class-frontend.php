@@ -88,16 +88,8 @@ class WPSEO_Frontend {
 		remove_action( 'wp_head', 'noindex', 1 );
 
 		// When using WP 4.4, just use the new hook.
-		if ( function_exists( 'wp_get_document_title' ) ) {
-			add_filter( 'pre_get_document_title', array( $this, 'title' ), 15 );
-		}
-		// Otherwise, use the old way to hook into the title.
-		else {
-			if ( function_exists( 'wp_title' ) ) {
-				add_filter( 'wp_title', array( $this, 'title' ), 15, 3 );
-			}
-		}
-
+		add_filter( 'pre_get_document_title', array( $this, 'title' ), 15 );
+		add_filter( 'wp_title', array( $this, 'title' ), 15, 3 );
 
 		add_filter( 'thematic_doctitle', array( $this, 'title' ), 15 );
 
