@@ -76,10 +76,10 @@
 	YoastCustomFieldsPlugin.prototype.bindCustomFields = function() {
 		var callback = _.debounce( this.updateCustomFields.bind( this ), 500, true );
 
-		jQuery( '#postcustom #the-list .button + .update_meta' ).on( 'click', callback );
-		jQuery( '#postcustom #the-list' ).on( 'wpListDelEnd', callback );
-		jQuery( '#postcustom #the-list' ).on( 'wpListAddEnd', callback );
-		jQuery( '#postcustom #the-list textarea' ).on( 'input', callback );
+		jQuery( '#postcustom #the-list .button + .update_meta' ).off( 'click', callback ).on( 'click', callback );
+		jQuery( '#postcustom #the-list' ).off( 'wpListDelEnd', callback ).on( 'wpListDelEnd', callback );
+		jQuery( '#postcustom #the-list' ).off( 'wpListAddEnd', callback ).on( 'wpListAddEnd', callback );
+		jQuery( '#postcustom #the-list textarea' ).off( 'input', callback ).on( 'input', callback );
 	};
 
 	if ( typeof YoastSEO !== 'undefined' && typeof YoastSEO.app !== 'undefined' ) {
