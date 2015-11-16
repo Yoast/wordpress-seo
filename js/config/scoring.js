@@ -404,16 +404,16 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
 					text: i18n.dgettext('js-text-analysis', "The images on this page contain alt tags")
 				},
                 {
-                    matcher: "alt",
-                    min: 1,
-                    score: 5,
-                    text: i18n.dgettext('js-text-analysis', "The images on this page do not have alt tags containing your focus keyword.")
-                },
-                {
                     matcher: "altKeyword",
                     min: 1,
                     score: 9,
                     text: i18n.dgettext('js-text-analysis', "The images on this page contain alt tags with the focus keyword.")
+                },
+                {
+                    matcher: "alt",
+                    min: 1,
+                    score: 5,
+                    text: i18n.dgettext('js-text-analysis', "The images on this page do not have alt tags containing your focus keyword.")
                 }
             ]
         }, {
@@ -438,9 +438,9 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
                 }
             ],
             replaceArray: [
-                {name: "singleUrl", position: "%1$s", sourceObj: ".refObj.config.postUrl"},
+                {name: "singleUrl", position: "%1$s", sourceObj: ".refObj.config.postUrl", rawOutput: true},
                 {name: "endTag", position: "%2$s", value: "</a>"},
-                {name: "multiUrl", position: "%3$s", sourceObj: ".refObj.config.searchUrl"},
+                {name: "multiUrl", position: "%3$s", sourceObj: ".refObj.config.searchUrl", rawOutput: true},
                 {name: "occurrences", position: "%4$d", sourceObj: ".result.count"},
                 {name: "endTag", position: "%5$s", value: "</a>"},
                 {
