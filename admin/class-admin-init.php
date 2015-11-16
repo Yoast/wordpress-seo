@@ -181,8 +181,9 @@ class WPSEO_Admin_Init {
 		if ( $can_access && ! $this->is_site_notice_dismissed( 'wpseo_dismiss_recalculate' ) ) {
 			Yoast_Notification_Center::get()->add_notification(
 				new Yoast_Notification(
+					/* translators: 1: is a link to 'admin_url / admin.php?page=wpseo_tools&recalculate=1' 2: closing link tag */
 					sprintf(
-						__( 'We\'ve updated our SEO score algorithm. %1$sClick here%2$s to recalculate the SEO scores for all posts and pages.', 'wordpress-seo' ),
+						__( 'We\'ve updated our SEO score algorithm. %1$sClick here to recalculate the SEO scores%2$s for all posts and pages.', 'wordpress-seo' ),
 						'<a href="' . admin_url( 'admin.php?page=wpseo_tools&recalculate=1' ) . '">',
 						'</a>'
 					),
