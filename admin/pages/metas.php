@@ -29,7 +29,7 @@ $yform->admin_header( true, 'wpseo_titles' );
 		<div id="general" class="wpseotab">
 			<table class="form-table">
 				<?php
-				if ( ! function_exists( 'wp_get_document_title' ) ) {
+				if ( ! current_theme_supports( 'title-tag' ) ) {
 					?>
 					<tr>
 						<th>
