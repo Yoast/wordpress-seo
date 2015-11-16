@@ -408,7 +408,7 @@ YoastSEO.Analyzer.prototype.linkType = function( url ) {
 	//matches all links that start with http:// and https://, case insensitive and global
 	if ( url.match( /https?:\/\//ig ) !== null ) {
 		linkType = "external";
-		var urlMatch = url.match( this.config.homeUrl );
+		var urlMatch = url.match( this.config.baseUrl );
 		if ( urlMatch !== null && urlMatch[ 0 ].length !== 0 ) {
 			linkType = "internal";
 		}
