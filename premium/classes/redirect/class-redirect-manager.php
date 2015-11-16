@@ -50,7 +50,16 @@ abstract class WPSEO_Redirect_Manager {
 		$this->redirect->set_format( $this->redirect_format );
 		$this->redirect->set_redirects();
 
-		$this->exporters = ( ! empty( $exporters ) ) ? $exporters : self::default_exporters();
+		$this->set_exporters( $exporters );
+	}
+
+	/**
+	 * Setting the exporters
+	 *
+	 * @param WPSEO_Redirect_Export[] $exporters The exporters used to save redirects in files.
+	 */
+	public function set_exporters( $exporters ) {
+		$this->exporters = $exporters;
 	}
 
 	/**
@@ -59,17 +68,16 @@ abstract class WPSEO_Redirect_Manager {
 	 * @return WPSEO_Redirect[]
 	 */
 	public function get_redirects() {
-		return $this->redirect->get_all();
+		return $this->redirect->get_filtered_redirects();
 	}
 
 	/**
 	 * Export the redirects to the specified sources.
 	 */
 	public function export_redirects() {
-		$this->redirect->set_format( 'all' );
-
 		$redirects = $this->redirect->get_all();
-		foreach ( $this->exporters as $exporter ) {
+		$exporters = ! empty( $this->exporters ) ? $this->exporters : self::default_exporters();
+		foreach ( $exporters as $exporter ) {
 			$exporter->export( $redirects );
 		}
 	}
@@ -88,39 +96,35 @@ abstract class WPSEO_Redirect_Manager {
 	}
 
 	/**
-	 * Save the redirect
+	 * Create a new redirect
 	 *
-	 * @param string $old_redirect_key The old redirect, the value is a key in the redirects array.
-	 * @param array  $new_redirect     Array with values for the update redirect.
+	 * @param WPSEO_Redirect $redirect The redirect object to add.
 	 *
-	 * @return WPSEO_Redirect|bool
+	 * @return bool
 	 */
-	public function update_redirect( $old_redirect_key, array $new_redirect ) {
-		if ( $redirect = $this->redirect->update( $old_redirect_key, $new_redirect['key'], $new_redirect['value'], $new_redirect['type'] ) ) {
+	public function create_redirect( WPSEO_Redirect $redirect ) {
+		if ( $this->redirect->add( $redirect ) ) {
 			$this->save_redirects();
 
-			// Always return the updated redirect.
-			return $redirect;
+			return true;
 		}
 
 		return false;
 	}
 
 	/**
-	 * Create a new redirect
+	 * Save the redirect
 	 *
-	 * @param string $old_value The old value that will be redirected.
-	 * @param string $new_value The target where the old value will redirect to.
-	 * @param int    $type      Type of the redirect.
+	 * @param string         $current_origin The old redirect, the value is a key in the redirects array.
+	 * @param WPSEO_Redirect $redirect       New redirect object.
 	 *
-	 * @return WPSEO_Redirect|bool
+	 * @return bool
 	 */
-	public function create_redirect( $old_value, $new_value, $type ) {
-		if ( $redirect = $this->redirect->add( $old_value, $new_value, $type ) ) {
+	public function update_redirect( $current_origin, WPSEO_Redirect $redirect ) {
+		if ( $this->redirect->update( $current_origin, $redirect ) ) {
 			$this->save_redirects();
 
-			// Always return the added redirect.
-			return $redirect;
+			return true;
 		}
 
 		return false;
@@ -134,17 +138,18 @@ abstract class WPSEO_Redirect_Manager {
 	 * @return bool
 	 */
 	public function delete_redirects( array $delete_redirects ) {
-		$redirects_deleted = false;
-
-		if ( is_array( $delete_redirects ) && count( $delete_redirects ) > 0 ) {
-			foreach ( $delete_redirects as $delete_redirect ) {
-				$redirects_deleted = $this->redirect->delete( $delete_redirect );
+		$deleted = false;
+		foreach ( $delete_redirects as $delete_redirect ) {
+			if ( $this->redirect->delete( $delete_redirect ) ) {
+				$deleted = true;
 			}
+		}
 
+		if ( $deleted === true ) {
 			$this->save_redirects();
 		}
 
-		return $redirects_deleted;
+		return $deleted;
 	}
 
 	/**

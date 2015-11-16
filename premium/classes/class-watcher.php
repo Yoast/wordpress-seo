@@ -73,7 +73,7 @@ abstract class WPSEO_Watcher {
 		$redirect_manager = new WPSEO_Redirect_URL_Manager();
 
 		// Create the redirect.
-		$redirect_manager->create_redirect( $old_url, $new_url, $header_code );
+		$redirect_manager->create_redirect( new WPSEO_Redirect( $old_url, $new_url, $header_code ) );
 	}
 
 	/**

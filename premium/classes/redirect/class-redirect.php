@@ -58,8 +58,9 @@ class WPSEO_Redirect implements ArrayAccess {
 			throw new InvalidArgumentException( 'Target cannot be empty for a ' . $type . ' redirect.' );
 		}
 
-		$this->origin = self::format_origin( $origin, $format );
-		$this->target = WPSEO_Utils::format_url( $target );
+		$this->origin = ($origin !== '') ? self::format_origin( $origin, $format ) : '';
+		$this->target = self::format_target( $target );
+
 		$this->type   = $type;
 		$this->format = $format;
 	}
@@ -141,6 +142,17 @@ class WPSEO_Redirect implements ArrayAccess {
 	 */
 	public static function format_origin( $origin, $format ) {
 		return ( $format === self::FORMAT_PLAIN ) ? WPSEO_Utils::format_url( $origin ) : $origin;
+	}
+
+	/**
+	 * Formats the given origin in case of plain redirects
+	 *
+	 * @param string $target The target to format.
+	 *
+	 * @return string
+	 */
+	public static function format_target( $target ) {
+		return ( parse_url( $target, PHP_URL_SCHEME ) ) ? $target : WPSEO_Utils::format_url( $target );
 	}
 
 	/**

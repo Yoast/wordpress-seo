@@ -80,15 +80,6 @@ class WPSEO_Redirect_Validator {
 	}
 
 	/**
-	 * Check if the validation error property is filled
-	 *
-	 * @return bool
-	 */
-	public function has_error() {
-		return ! empty( $this->validation_error );
-	}
-
-	/**
 	 * Returns the validation error
 	 *
 	 * @return bool|string
@@ -117,6 +108,7 @@ class WPSEO_Redirect_Validator {
 	protected function set_redirects( ) {
 		$redirect_option = new WPSEO_Redirect_Option();
 		$redirect_option->set_format( $this->redirect->get_format() );
+		$redirect_option->set_redirects();
 
 		foreach ( $redirect_option->get_filtered_redirects() as $redirect ) {
 			$this->redirects[ $this->sanitize_redirect_url( $redirect->get_origin() ) ] = $this->sanitize_redirect_url( $redirect->get_target() );
@@ -161,25 +153,13 @@ class WPSEO_Redirect_Validator {
 	 * @return bool|string
 	 */
 	protected function validate_accessible() {
+		$validate_accessible = new WPSEO_Redirect_Validate_Accessible( $this->redirect->get_target() );
 
-		if ( $this->is_410() ) {
+		if ( $validate_accessible->is_valid()  ) {
 			return false;
 		}
 
-		// Do the request.
-		$decoded_url   = rawurldecode( $this->redirect->get_target() );
-		$response      = wp_remote_head( $decoded_url, array( 'sslverify' => false ) );
-		$response_code = wp_remote_retrieve_response_code( $response );
-
-		if ( $response_code !== '' && $response_code !== 200 ) {
-			/* translators: %1$s expands to the returned http code  */
-			return sprintf(
-				__( 'The URL you entered returned a HTTP code different than 200(OK). The received HTTP code is %1$s.', 'wordpress-seo-premium' ),
-				$response_code
-			);
-		}
-
-		return false;
+		return $validate_accessible->get_error();
 	}
 
 	/**
@@ -188,12 +168,11 @@ class WPSEO_Redirect_Validator {
 	 * @return bool|string
 	 */
 	protected function validate_end_point(  ) {
-
-		if ( $this->is_410() ) {
-			return false;
-		}
-
-		$validate_endpoint = new WPSEO_Redirect_Validate_Endpoint( $this->redirect, $this->redirects );
+		$validate_endpoint = new WPSEO_Redirect_Validate_Endpoint(
+			$this->sanitize_redirect_url( $this->redirect->get_origin() ),
+			$this->sanitize_redirect_url( $this->redirect->get_target() ),
+			$this->redirects
+		);
 
 		if ( $validate_endpoint->is_valid()  ) {
 			return false;

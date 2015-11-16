@@ -126,10 +126,10 @@ class WPSEO_Redirect_Page {
 	 */
 	private function initialize_ajax() {
 		// Normal Redirect AJAX.
-		new WPSEO_Redirect_Ajax( new WPSEO_Redirect_URL_Manager(), 'url' );
+		new WPSEO_Redirect_Ajax( new WPSEO_Redirect_URL_Manager(), WPSEO_Redirect::FORMAT_PLAIN, 'url' );
 
 		// Regex Redirect AJAX.
-		new WPSEO_Redirect_Ajax( new WPSEO_Redirect_Regex_Manager(), 'regex' );
+		new WPSEO_Redirect_Ajax( new WPSEO_Redirect_Regex_Manager(), WPSEO_Redirect::FORMAT_REGEX ,'regex' );
 	}
 
 	/**

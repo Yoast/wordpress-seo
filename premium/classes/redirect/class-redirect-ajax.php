@@ -78,7 +78,7 @@ class WPSEO_Redirect_Ajax {
 		$this->valid_ajax_check();
 
 		// Save the redirect.
-		$old_redirect = $this->sanitize_url(
+		$current_redirect = $this->sanitize_url(
 			filter_input( INPUT_POST, 'old_redirect', FILTER_DEFAULT, $this->filter_options )
 		);
 

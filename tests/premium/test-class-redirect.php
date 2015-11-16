@@ -82,6 +82,7 @@ class WPSEO_Redirect_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Redirect::get_target
 	 * @covers WPSEO_Redirect::get_type
 	 * @covers WPSEO_Redirect::get_format
+	 * @covers WPSEO_Redirect::get_validation_error
 	 */
 	public function test_getters() {
 		$redirect = new WPSEO_Redirect( 'origin', 'target', 301, 'plain' );
@@ -90,6 +91,32 @@ class WPSEO_Redirect_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( '/target', $redirect->get_target() );
 		$this->assertEquals( 301,      $redirect->get_type() );
 		$this->assertEquals( 'plain',  $redirect->get_format() );
+		$this->assertEquals( '',  $redirect->get_validation_error() );
+	}
+
+	/**
+	 * Test the validation method for the redirect
+	 *
+	 * @covers WPSEO_Redirect::is_valid
+	 */
+	public function test_is_valid() {
+		$redirect = new WPSEO_Redirect( 'old_url', 'new_url', 301 );
+
+		$this->assertTrue( $redirect->is_valid() );
+		$this->assertTrue( $redirect->is_valid( 'old_url' ) );
+	}
+
+	/**
+	 * Test the validation method with a validation_error
+	 *
+	 * @covers WPSEO_Redirect::is_valid
+	 * @covers WPSEO_Redirect::get_validation_error
+	 */
+	public function test_is_valid_error() {
+		$redirect = new WPSEO_Redirect( '', 'new_url', 301 );
+
+		$this->assertFalse( $redirect->is_valid() );
+		$this->assertEquals( 'Not all the required fields are filled', $redirect->get_validation_error() );
 	}
 
 	/**
@@ -137,6 +164,19 @@ class WPSEO_Redirect_Test extends WPSEO_UnitTestCase {
 
 		$this->assertEquals( 'set_target', $redirect->get_target() );
 		$this->assertEquals( 'set_type', $redirect->get_type() );
+	}
+
+	/**
+	 * Test the result of offsetUnset, this method shouldn't do anything.
+	 *
+	 * @covers WPSEO_Redirect::offsetSet
+	 */
+	public function test_offsetUnset() {
+		$redirect = new WPSEO_Redirect( 'origin', 'target', 301, 'plain' );
+
+		unset( $redirect['url'] );
+
+		$this->assertEquals( '/target', $redirect->get_target() );
 	}
 
 }
