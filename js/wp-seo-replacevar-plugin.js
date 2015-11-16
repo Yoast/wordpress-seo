@@ -70,7 +70,7 @@
 	YoastReplaceVarPlugin.prototype.parentReplace = function( data ) {
 		var parentId = document.getElementById( 'parent_id' );
 
-		if ( parentId !== null && parentId.options[ parentId.selectedIndex ].text !== wpseoReplaceVarsL10n.no_parent_text ) {
+		if ( parentId !== null && typeof parentId.options !== 'undefined' && parentId.options[ parentId.selectedIndex ].text !== wpseoReplaceVarsL10n.no_parent_text ) {
 			data = data.replace( /%%parent_title%%/, parentId.options[ parentId.selectedIndex ].text );
 		}
 		return data;
