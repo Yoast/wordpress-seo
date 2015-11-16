@@ -40,6 +40,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 
 		this.updateActiveKeywordTab( score );
 		this.updateInactiveKeywords();
+		this.updateOverallScore();
 
 		keywords = $( '.wpseo_keyword_tab' ).map( function( i, keywordTab ) {
 			keywordTab = $( keywordTab ).find( '.wpseo_tablink' );
@@ -327,6 +328,32 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 		analyzer.score();
 
 		return analyzer.analyzeScorer.getTotalScore();
+	};
+
+	/**
+	 * Makes sure the overall score is always correct even if we switch to different tabs.
+	 */
+	YoastMultiKeyword.prototype.updateOverallScore = function() {
+		var score;
+		var mainKeywordField, currentKeywordField;
+
+		mainKeywordField = $( '#yoast_wpseo_focuskw' );
+		currentKeywordField = $( '#yoast_wpseo_focuskw_text_input' );
+
+		if ( mainKeywordField.val() !== currentKeywordField.val() ) {
+			score = $( '#yoast_wpseo_linkdex' ).val();
+			score = parseInt( score, 10 );
+
+			score = YoastSEO.app.scoreFormatter.overallScoreRating( score );
+
+			if ( '' === mainKeywordField.val() ) {
+				score = 'na';
+			}
+
+			$( '.overallScore' )
+				.removeClass( 'na bad ok good' )
+				.addClass( score );
+		}
 	};
 
 	/**
