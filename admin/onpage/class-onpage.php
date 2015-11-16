@@ -77,7 +77,7 @@ class WPSEO_OnPage {
 			$this->onpage_option->save_option();
 
 			// Check if the status has been changed.
-			if ( $old_status !== $new_status ) {
+			if ( $old_status !== $new_status && $new_status !== WPSEO_OnPage_Option::CANNOT_FETCH ) {
 				$this->notify_admins( $old_status, $new_status );
 			}
 
@@ -125,9 +125,7 @@ class WPSEO_OnPage {
 			return (int) $response['is_indexable'];
 		}
 
-		$this->request_failed_notice();
-
-		return false;
+		return -1;
 	}
 
 	/**
@@ -155,29 +153,6 @@ class WPSEO_OnPage {
 
 		$notify->send_email( $old_status, $new_status );
 		$notify->show_notices();
-	}
-
-
-	/**
-	 * Sets a notice if the request to OnPage.org failed and it was a manual request.
-	 */
-	private function request_failed_notice() {
-		if ( $this->is_manual_request ) {
-			$message = sprintf(
-				/* translators: 1: opens link to Github issues page. 2: Expands to Yoast SEO, 3: closes the link. */
-				__( 'The OnPage.org server is currently unavailable, please try again later. If you keep getting this error, %1$splease create an issue on the %2$s GitHub repository%3$s.', 'wordpress-seo' ),
-				'<a href="https://github.com/Yoast/wordpress-seo/issues" target="_blank">',
-				'Yoast SEO',
-				'</a>'
-			);
-
-			Yoast_Notification_Center::get()->add_notification(
-				new Yoast_Notification(
-					$message,
-					array( 'type' => 'error' )
-				)
-			);
-		}
 	}
 
 	/**
