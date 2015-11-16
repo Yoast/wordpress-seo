@@ -408,7 +408,7 @@ YoastSEO.Analyzer.prototype.linkType = function( url ) {
 	//matches all links that start with http:// and https://, case insensitive and global
 	if ( url.match( /https?:\/\//ig ) !== null ) {
 		linkType = "external";
-		var urlMatch = url.match( this.config.homeUrl );
+		var urlMatch = url.match( this.config.baseUrl );
 		if ( urlMatch !== null && urlMatch[ 0 ].length !== 0 ) {
 			linkType = "internal";
 		}
@@ -2339,8 +2339,7 @@ YoastSEO.SnippetPreview.prototype.formatUrl = function() {
 	var url = this.refObj.rawData.baseUrl;
 
 	//removes the http(s) part of the url
-	url.replace( /https?:\/\//ig, "" );
-	return url;
+	return url.replace( /https?:\/\//ig, "" );
 };
 
 /**
