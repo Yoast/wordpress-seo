@@ -66,16 +66,6 @@ class WPSEO_Redirect_Option {
 	}
 
 	/**
-	 * Setting the value of the redirects option with the given value
-	 *
-	 * @param array $redirects Override the redirect option with a new value.
-	 */
-	public function set( array $redirects ) {
-		$this->redirects = $redirects;
-		$this->save();
-	}
-
-	/**
 	 * Check if the old redirect doesn't exist already, if not it will be added
 	 *
 	 * @param WPSEO_Redirect $redirect The redirect object to save.
@@ -177,12 +167,14 @@ class WPSEO_Redirect_Option {
 	 *
 	 * @param string $autoload    The autoload value, yes or no.
 	 * @param string $option_name The target option wherefore the autoload will be changed.
+	 *
+	 * @return int|false
 	 */
 	public function change_autoload( $autoload, $option_name ) {
 		global $wpdb;
 
 		// Do update query.
-		$wpdb->update(
+		return $wpdb->update(
 			$wpdb->options,
 			array( 'autoload' => $autoload ),
 			array( 'option_name' => $option_name ),

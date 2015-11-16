@@ -27,6 +27,8 @@ class WPSEO_Redirect_Option_Test extends WPSEO_UnitTestCase {
 		$this->class_instance->set_format( WPSEO_Redirect::FORMAT_PLAIN );
 		$this->class_instance->add( new WPSEO_Redirect( 'old-url', 'new-url', 301 ) );
 		$this->class_instance->save();
+
+		$this->class_instance->change_autoload( 'no', WPSEO_Redirect_Option::OPTION );
 	}
 
 	/**
@@ -49,6 +51,45 @@ class WPSEO_Redirect_Option_Test extends WPSEO_UnitTestCase {
 			),
 			$this->class_instance->get_all()
 		);
+	}
+
+	/**
+	 * Get the filtered redirects for the set format.
+	 *
+	 * @covers WPSEO_Redirect_Option::set_format
+	 * @covers WPSEO_Redirect_Option::get_filtered_redirects
+	 * @covers WPSEO_Redirect_Option::filter_redirects_by_format
+	 */
+	public function test_get_filtered_redirects() {
+		$this->class_instance->set_format( WPSEO_Redirect::FORMAT_PLAIN );
+		$this->assertEquals(
+			array(
+				new WPSEO_Redirect( 'old-url', 'new-url', 301, WPSEO_Redirect::FORMAT_PLAIN ),
+			),
+			$this->class_instance->get_filtered_redirects()
+		);
+
+		$this->class_instance->set_format( WPSEO_Redirect::FORMAT_REGEX );
+		$this->assertEquals(
+			array(),
+			$this->class_instance->get_filtered_redirects()
+		);
+	}
+
+	/**
+	 * Test changing the autoload state of a redirect
+	 *
+	 * @covers WPSEO_Redirect_Option::change_autoload
+	 */
+	public function test_change_autoload() {
+		$this->assertEquals( 1, $this->class_instance->change_autoload( 'yes', WPSEO_Redirect_Option::OPTION ) );
+		$this->assertEquals( 0, $this->class_instance->change_autoload( 'yes', WPSEO_Redirect_Option::OPTION ) );
+		
+		$this->assertEquals( 1, $this->class_instance->change_autoload( 'no', WPSEO_Redirect_Option::OPTION ) );
+		$this->assertEquals( 0, $this->class_instance->change_autoload( 'no', WPSEO_Redirect_Option::OPTION ) );
+
+		$this->assertEquals( false, $this->class_instance->change_autoload( 'yes', 'option-does-not-exist' ) );
+		$this->assertEquals( false, $this->class_instance->change_autoload( 'no', 'option-does-not-exist' ) );
 	}
 
 	/**
