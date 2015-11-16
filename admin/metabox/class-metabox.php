@@ -169,7 +169,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		printf( '
 		<div class="misc-pub-section misc-yoast misc-pub-section-last" id="wpseo-score">
-
+			' . $this->traffic_light_svg() . '
 		</div>',
 			esc_attr( $title ),
 			esc_attr( 'wpseo-score-icon ' . $score_label ),
