@@ -77,8 +77,7 @@ YoastSEO.SnippetPreview.prototype.formatUrl = function() {
 	var url = this.refObj.rawData.baseUrl;
 
 	//removes the http(s) part of the url
-	url.replace( /https?:\/\//ig, "" );
-	return url;
+	return url.replace( /https?:\/\//ig, "" );
 };
 
 /**
