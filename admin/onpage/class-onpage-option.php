@@ -24,6 +24,11 @@ class WPSEO_OnPage_Option {
 	const LAST_FETCH = 'last_fetch';
 
 	/**
+	 * The limit for fetching the status manually.
+	 */
+	const FETCH_LIMIT = 15;
+
+	/**
 	 * @var array The OnPage.org option stored in the database.
 	 */
 	private $onpage_option;
@@ -72,7 +77,7 @@ class WPSEO_OnPage_Option {
 	 * @return bool
 	 */
 	public function should_be_fetched() {
-		return ( ( time() - $this->onpage_option[ self::LAST_FETCH ] ) > HOUR_IN_SECONDS );
+		return ( ( time() - $this->onpage_option[ self::LAST_FETCH ] ) > self::FETCH_LIMIT );
 	}
 
 	/**
