@@ -1028,12 +1028,19 @@ class WPSEO_Meta {
 	public static function keyword_usage( $keyword, $post_id ) {
 		$get_posts = new WP_Query(
 			array(
-				'meta_key'    => '_yoast_wpseo_focuskw',
-				'meta_value'  => $keyword,
-				'exclude'     => $post_id,
-				'fields'      => 'ids',
-				'post_type'   => 'any',
-				'numberposts' => -1,
+				'meta_key'       => '_yoast_wpseo_focuskw',
+				'meta_value'     => $keyword,
+				'post__not_in'   => array( $post_id ),
+				'fields'         => 'ids',
+				'post_type'      => 'any',
+
+				/*
+				 * We only need to return zero, one or two results:
+				 * - Zero: keyword hasn't been used before
+				 * - One: Keyword has been used once before
+				 * - Two or more: Keyword has been used twice before
+				 */
+				'posts_per_page' => 2,
 			)
 		);
 
