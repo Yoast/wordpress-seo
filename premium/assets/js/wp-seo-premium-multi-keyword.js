@@ -55,14 +55,14 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 			return item.keyword.length > 0;
 		});
 
-		// Save keyword information to the hidden field.
-		$( '#yoast_wpseo_focuskeywords' ).val( JSON.stringify( keywords ) );
-
 		if ( keywords.length > 0 ) {
 			firstKeyword = keywords.splice( 0, 1 ).shift();
 
 			$( '#yoast_wpseo_focuskw' ).val( firstKeyword.keyword );
 		}
+
+		// Save keyword information to the hidden field.
+		$( '#yoast_wpseo_focuskeywords' ).val( JSON.stringify( keywords ) );
 	};
 
 	YoastMultiKeyword.prototype.insertElements = function() {
