@@ -69,12 +69,7 @@
 			}
 		}
 
-		/* translators: 1: expands to the campaign tags for this link */
-		$landing_page_url = sprintf(
-			__( 'https://en.onpage.org/lp/yoast/%1$s', 'wordpress-seo' ),
-			'?op_campaign=638516a5c963f978&utm_campaign=free&utm_medium=link&utm_source=yoast&offer_id=2&aff_id=872&op_language=en&op_country=-'
-		);
-		echo '<a class="landing-page button" href="' . $landing_page_url . '" target="_blank">' . __( 'Analyze entire site', 'wordpress-seo' ) . ' </a>';
+		echo '<a class="landing-page button" href="https://onpage.org/yoast-indexability/" target="_blank">' . __( 'Analyze entire site', 'wordpress-seo' ) . ' </a>';
 		?>
 	</div>
 </div>
