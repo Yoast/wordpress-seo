@@ -2,6 +2,8 @@
 
 #### Backwards incompatible changes
 
+* Removed `YoastSEO.app.addToQueue` method.
+* Removed `YoastSEO.app.removeFromQueue` method.
 * Removed `YoastSEO.SnippetPreview.setFocusToEnd` method.
 * Changed class name of progress bar from `wpseo_msg` to `YoastSEO_msg`. [3fa27b8](https://github.com/yoast/yoastseo.js/commit/3fa27b8)
 * Changed ID of progress bar from `wpseo-plugin-loading` to `YoastSEO-plugin-loading`. [3fa27b8](https://github.com/yoast/yoastseo.js/commit/3fa27b8)

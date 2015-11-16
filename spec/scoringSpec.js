@@ -79,3 +79,22 @@ describe("A meta description scoring", function() {
         expect(score[0].score).toBe(9);
     });
 });
+
+var scoreArgs3 = {
+    text: "<img src='test123' alt='keyword' /><img src='test321' alt='another-alt' />",
+    keyword: "keyword",
+    queue: ["imageCount"]
+};
+describe("A word count scoring", function() {
+    it("should correctly report alt tags with keywords", function() {
+        var analyzer, score;
+
+        analyzer = Factory.buildAnalyzer( scoreArgs3 );
+        analyzer.runQueue();
+
+        score = analyzer.analyzeScorer.__score;
+
+        expect(score[0].text).toBe("The images on this page contain alt tags with the focus keyword.");
+        expect(score[0].score).toBe(9);
+    });
+});
