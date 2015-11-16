@@ -4373,16 +4373,16 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
 					text: i18n.dgettext('js-text-analysis', "The images on this page contain alt tags")
 				},
                 {
-                    matcher: "alt",
-                    min: 1,
-                    score: 5,
-                    text: i18n.dgettext('js-text-analysis', "The images on this page do not have alt tags containing your focus keyword.")
-                },
-                {
                     matcher: "altKeyword",
                     min: 1,
                     score: 9,
                     text: i18n.dgettext('js-text-analysis', "The images on this page contain alt tags with the focus keyword.")
+                },
+                {
+                    matcher: "alt",
+                    min: 1,
+                    score: 5,
+                    text: i18n.dgettext('js-text-analysis', "The images on this page do not have alt tags containing your focus keyword.")
                 }
             ]
         }, {
