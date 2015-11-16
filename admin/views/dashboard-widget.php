@@ -49,7 +49,10 @@
 
 	<div>
 		<?php
-		switch( $onpage['indexable'] ) :
+		/**
+		 * @var array $onpage Array containing the indexable and can_fetch value.
+		 */
+		switch ( $onpage['indexable'] ) :
 			case WPSEO_OnPage_Option::IS_INDEXABLE :
 				echo '<div class="wpseo-score-icon good"></div>';
 				_e( 'Your homepage can be indexed by search engines.', 'wordpress-seo' );
