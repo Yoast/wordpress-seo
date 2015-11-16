@@ -33,8 +33,12 @@ class WPSEO_HelpScout_Beacon_Identifier {
 	 */
 	private function get_server_info() {
 		$out = '<table>';
-		$out .= '<tr><td>IP</td><td>' . filter_input( INPUT_SERVER, 'SERVER_ADDR' ) . '</td></tr>';
-		$out .= '<tr><td>Hostname</td><td>' . gethostbyaddr( filter_input( INPUT_SERVER, 'SERVER_ADDR' ) ) . '</td></tr>';
+
+		// Validate if the server address is a valid IP-address.
+		if ( $ipaddress = filter_input( INPUT_SERVER , 'SERVER_ADDR', FILTER_VALIDATE_IP ) ) {
+			$out .= '<tr><td>IP</td><td>' . $ipaddress . '</td></tr>';
+			$out .= '<tr><td>Hostname</td><td>' . gethostbyaddr( $ipaddress ) . '</td></tr>';
+		}
 		$out .= '<tr><td>OS</td><td>' . php_uname( 's r' ) . '</td></tr>';
 		$out .= '<tr><td>PHP</td><td>' . PHP_VERSION . '</td></tr>';
 		$out .= '<tr><td>CURL</td><td>' . $this->get_curl_info() . '</td></tr>';
