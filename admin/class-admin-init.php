@@ -335,6 +335,10 @@ class WPSEO_Admin_Init {
 	public function show_hook_deprecation_warnings() {
 		global $wp_filter;
 
+		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
+			return false;
+		}
+
 		// WordPress hooks that have been deprecated in Yoast SEO 3.0.
 		$deprecated_30 = array(
 			'wpseo_pre_analysis_post_content',
