@@ -115,6 +115,23 @@ ul.wpseo-metabox-tabs li {
 	font-size: 13px;
 }
 
+.inside .wpseotab .form-table td {
+	padding-top: 20px;
+}
+
+.inside .wpseotab .form-table td input,
+.inside .wpseotab .form-table td select {
+	margin-top: -5px;
+}
+
+.inside .wpseotab .form-table td select[multiple] {
+	margin-top: 0;
+}
+
+.wpseotab .wpseoanalysis {
+	margin-top: 0;
+}
+
 .good,
 .warn,
 .wrong {

@@ -63,6 +63,7 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 		self::$class_instance->add_meta_box();
 
 		$post_types = get_post_types( array( 'public' => true ) );
+		unset( $post_types['attachment'] );
 
 		// test if all post types have the wpseo_meta metabox
 		foreach ( $post_types as $post_type ) {
