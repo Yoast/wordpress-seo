@@ -563,7 +563,7 @@ YoastSEO.Analyzer.prototype.pageTitleKeyword = function() {
 	if ( typeof this.config.pageTitle !== "undefined" ) {
 		result[ 0 ].result.matches = this.stringHelper.countMatches(
 			this.config.pageTitle.toLocaleLowerCase(),
-			this.keywordRegex
+			this.keywordRegexInverse
 		);
 		result[ 0 ].result.position = this.config.pageTitle.indexOf( this.config.keyword );
 	}
@@ -706,7 +706,7 @@ YoastSEO.Analyzer.prototype.urlStopwords = function() {
 YoastSEO.Analyzer.prototype.keywordDoubles = function() {
 	var result = [ { test: "keywordDoubles", result: { count: 0, id: 0 } } ];
 	if ( typeof this.config.keyword !== "undefined" ) {
-		if ( typeof this.config.usedKeywords[ this.config.keyword ] !== "undefined" ) {
+		if ( typeof this.config.usedKeywords !== "undefined" && typeof this.config.usedKeywords[ this.config.keyword ] !== "undefined" ) {
 			result[ 0 ].result.count = this.config.usedKeywords[ this.config.keyword ].length;
 			if ( result[ 0 ].result.count === 1 ) {
 				result[ 0 ].result.id = this.config.usedKeywords[ this.config.keyword ][ 0 ];
