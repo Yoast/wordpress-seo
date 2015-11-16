@@ -4348,9 +4348,17 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
                 {
                     min: 1,
                     score: 5,
-                    text: i18n.dgettext('js-text-analysis', "The slug for this page contains one or more <a href='http://en.wikipedia.org/wiki/Stop_words' target='new'>stop words</a>, consider removing them.")
+					/* translators: %1$s expands to the stopwords url */
+                    text: i18n.dgettext('js-text-analysis', "The slug for this page contains one or more %1$s, consider removing them.")
                 }
-            ]
+			],
+			replaceArray: [
+				{
+					name: "url",
+					position: "%1$s",
+					value: "<a href='http://en.wikipedia.org/wiki/Stop_words' target='new'>stop words</a>"
+				}
+			]
         }, {
             scoreName: "imageCount",
             scoreArray: [
