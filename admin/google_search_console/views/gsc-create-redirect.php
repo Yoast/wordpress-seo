@@ -61,7 +61,7 @@
 				echo '<p>';
 				/* Translators: %1$s: expands to 'Yoast SEO Premium', %2$s: links to Yoast SEO Premium plugin page. */
 				echo sprintf(
-					__( 'To be able to create a redirect and fix this issue, you need %1$s. You can buy the plugin, including one year support and updates, on %2$s.', 'wordpress-seo' ),
+					__( 'To be able to create a redirect and fix this issue, you need %1$s. You can buy the plugin, including one year of support and updates, on %2$s.', 'wordpress-seo' ),
 					'Yoast SEO Premium',
 					'<a href="http://yoa.st/redirects" target="_blank">yoast.com</a>'
 				);
