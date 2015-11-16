@@ -40,12 +40,14 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 
 		this.updateActiveKeywordTab( score );
 		this.updateInactiveKeywords();
+		this.updateOverallScore();
 
 		keywords = $( '.wpseo_keyword_tab' ).map( function( i, keywordTab ) {
 			keywordTab = $( keywordTab ).find( '.wpseo_tablink' );
 
 			return {
-				keyword: keywordTab.data( 'keyword' ),
+				// Convert to string to prevent errors if the keyword is "null".
+				keyword: keywordTab.data( 'keyword' ) + '',
 				score: keywordTab.data( 'score' )
 			};
 		} ).get();
@@ -262,8 +264,12 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 
 		placeholder = keyword.length > 0 ? keyword : '...';
 
-		score = parseInt( score, 10 );
-		score = YoastSEO.ScoreFormatter.prototype.overallScoreRating( score );
+		if ( '' === keyword ) {
+			score = 'na';
+		} else {
+			score = parseInt( score, 10 );
+			score = YoastSEO.ScoreFormatter.prototype.overallScoreRating( score );
+		}
 
 		templateArgs = {
 			keyword: keyword,
@@ -302,17 +308,53 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 		var analyzerData, analyzer;
 
 		// Re-use the data already present in the page.
-		analyzerData = YoastSEO.app.config.callbacks.getData();
+		YoastSEO.app.getData();
+		analyzerData = YoastSEO.app.rawData;
+		analyzerData = YoastSEO.app.modifyData( analyzerData );
 		analyzerData.i18n = YoastSEO.app.i18n;
+
+		// Sanitize keyword
+		keyword = YoastSEO.app.stringHelper.sanitizeKeyword( keyword );
 
 		// Set the keyword we want to analyze instead of the on-page one.
 		analyzerData.keyword = keyword;
 
+		if ( '' === keyword ) {
+			analyzerData.queue = [ 'keyWordCheck', 'wordCount', 'fleschReading', 'pageTitleLength', 'urlStopwords', 'metaDescriptionLength' ];
+		}
+
 		analyzer = new YoastSEO.Analyzer( analyzerData );
+		YoastSEO.app.pluggable._addPluginTests( analyzer );
 		analyzer.runQueue();
 		analyzer.score();
 
 		return analyzer.analyzeScorer.getTotalScore();
+	};
+
+	/**
+	 * Makes sure the overall score is always correct even if we switch to different tabs.
+	 */
+	YoastMultiKeyword.prototype.updateOverallScore = function() {
+		var score;
+		var mainKeywordField, currentKeywordField;
+
+		mainKeywordField = $( '#yoast_wpseo_focuskw' );
+		currentKeywordField = $( '#yoast_wpseo_focuskw_text_input' );
+
+		if ( mainKeywordField.val() !== currentKeywordField.val() ) {
+			score = $( '#yoast_wpseo_linkdex' ).val();
+			score = parseInt( score, 10 );
+
+			score = YoastSEO.app.scoreFormatter.overallScoreRating( score );
+
+			if ( '' === mainKeywordField.val() ) {
+				score = 'na';
+			}
+
+			$( '.overallScore' )
+				.removeClass( 'na bad ok good' )
+				.addClass( score );
+		}
 	};
 
 	/**
