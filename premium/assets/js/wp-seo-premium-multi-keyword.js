@@ -306,13 +306,23 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 		var analyzerData, analyzer;
 
 		// Re-use the data already present in the page.
-		analyzerData = YoastSEO.app.config.callbacks.getData();
+		YoastSEO.app.getData();
+		analyzerData = YoastSEO.app.rawData;
+		analyzerData = YoastSEO.app.modifyData( analyzerData );
 		analyzerData.i18n = YoastSEO.app.i18n;
+
+		// Sanitize keyword
+		keyword = YoastSEO.app.stringHelper.sanitizeKeyword( keyword );
 
 		// Set the keyword we want to analyze instead of the on-page one.
 		analyzerData.keyword = keyword;
 
+		if ( '' === keyword ) {
+			analyzerData.queue = [ 'keyWordCheck', 'wordCount', 'fleschReading', 'pageTitleLength', 'urlStopwords', 'metaDescriptionLength' ];
+		}
+
 		analyzer = new YoastSEO.Analyzer( analyzerData );
+		YoastSEO.app.pluggable._addPluginTests( analyzer );
 		analyzer.runQueue();
 		analyzer.score();
 
