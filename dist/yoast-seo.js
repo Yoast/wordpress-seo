@@ -223,7 +223,7 @@ YoastSEO.Analyzer.prototype.keywordDensityCheck = function() {
  * @returns keywordCount
  */
 YoastSEO.Analyzer.prototype.keywordCount = function() {
-	var keywordMatches = this.preProcessor.__store.cleanText.match( this.keywordRegex );
+	var keywordMatches = this.preProcessor.__store.cleanTextSomeTags.match( this.keywordRegex );
 	var keywordCount = 0;
 	if ( keywordMatches !== null ) {
 		keywordCount = keywordMatches.length;
