@@ -183,7 +183,7 @@ class WPSEO_Admin_Init {
 				new Yoast_Notification(
 					sprintf(
 						__( 'We\'ve updated our SEO score algorithm. %1$sClick here%2$s to recalculate the SEO scores for all posts and pages.', 'wordpress-seo' ),
-						'<a href="' . admin_url( 'admin.php?page=wpseo_tools' ) . '">',
+						'<a href="' . admin_url( 'admin.php?page=wpseo_tools&recalculate=1' ) . '">',
 						'</a>'
 					),
 					array(

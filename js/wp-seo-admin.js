@@ -79,6 +79,21 @@ jQuery( document ).ready( function() {
 		jQuery( '#' + activeTab + '-tab' ).addClass( 'nav-tab-active' );
 
 		jQuery( '.nav-tab-active' ).click();
+
+		// Initialize the recalculate.
+		var recalculate_link = jQuery('#wpseo_recalculate_link');
+		if( recalculate_link !== undefined ) {
+			recalculate_link.click(
+					function () {
+						wpseo_recalculate_scores(1);
+					}
+			);
+
+			if ( recalculate_link.data( 'open' ) ) {
+				recalculate_link.trigger( 'click' );
+			}
+		}
+
 	}
 );
 
