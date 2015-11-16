@@ -109,7 +109,7 @@
 				break;
 			case 'url':
 				if ( document.getElementById( 'sample-permalink' ) !== null ) {
-					val = document.getElementById( 'sample-permalink' ).textContent;
+					val = wpseoPostScraperL10n.home_url;
 				}
 				break;
 			case 'baseUrl':

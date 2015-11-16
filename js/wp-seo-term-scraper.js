@@ -70,6 +70,8 @@
 				val = document.getElementById( 'hidden_wpseo_title' ).value;
 				break;
 			case 'url':
+				val = wpseoTermScraperL10n.home_url;
+				break;
 			case 'cite':
 				val = document.getElementById( 'slug' ).value;
 				break;
