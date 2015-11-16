@@ -251,7 +251,7 @@ function wpseo_admin_bar_menu() {
 
 		$seo_url = get_edit_post_link( $post->ID );
 		if ( $txtscore !== 'na' ) {
-			$seo_url .= '#wpseo_linkdex';
+			$seo_url .= '#yoast_wpseo_linkdex';
 		}
 	}
 
