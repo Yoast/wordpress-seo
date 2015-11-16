@@ -30,7 +30,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		add_action( 'post_submitbox_misc_actions', array( $this, 'publish_box' ) );
 		add_action( 'admin_init', array( $this, 'setup_page_analysis' ) );
 		add_action( 'admin_init', array( $this, 'translate_meta_boxes' ) );
-		add_action( 'admin_footer', array( $this, 'scoring_svg' ) );
 		add_action( 'admin_footer', array( $this, 'template_keyword_tab' ) );
 
 		$this->options = WPSEO_Options::get_all();
