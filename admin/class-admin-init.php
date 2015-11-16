@@ -35,10 +35,10 @@ class WPSEO_Admin_Init {
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_dismissible' ) );
 		add_action( 'admin_init', array( $this, 'after_update_notice' ), 15 );
 		add_action( 'admin_init', array( $this, 'tagline_notice' ), 15 );
-		add_action( 'admin_init', array( $this, 'wp_title_notice' ), 15 );
 		add_action( 'admin_init', array( $this, 'ga_compatibility_notice' ), 15 );
 		add_action( 'admin_init', array( $this, 'ignore_tour' ) );
 		add_action( 'admin_init', array( $this, 'load_tour' ) );
+		add_action( 'admin_init', array( $this, 'show_hook_deprecation_warnings' ) );
 
 		$this->load_meta_boxes();
 		$this->load_taxonomy_class();
@@ -63,7 +63,7 @@ class WPSEO_Admin_Init {
 
 		$can_access = is_multisite() ? WPSEO_Utils::grant_access() : current_user_can( 'manage_options' );
 
-		if ( $can_access && ! $this->seen_about() ) {
+		if ( $can_access && $this->has_ignored_tour() && ! $this->seen_about() ) {
 
 			if ( filter_input( INPUT_GET, 'intro' ) === '1' ) {
 				update_user_meta( get_current_user_id(), 'wpseo_seen_about_version' , WPSEO_VERSION );
@@ -96,29 +96,6 @@ class WPSEO_Admin_Init {
 	 */
 	private function seen_about() {
 		return get_user_meta( get_current_user_id(), 'wpseo_seen_about_version', true ) === WPSEO_VERSION;
-	}
-
-	/**
-	 * Setting a notice when the theme doesn't support the title-tag on WordPress 4.4
-	 */
-	public function wp_title_notice() {
-		$has_dismissed = WPSEO_Utils::grant_access() && '1' === get_user_meta( get_current_user_id(), 'wpseo_dismiss_wptitle', true );
-		if ( ! $has_dismissed &&  current_user_can( 'manage_options' ) && function_exists( 'wp_get_document_title' ) && ! current_theme_supports( 'title-tag' ) ) {
-			$info_message = sprintf(
-				/* translators: %1$s opens a link to a knowledge base article, $2%s closes the link  */
-				__( 'The way your theme handles titles is not compatible with the latest version of WordPress. %1$sRead more about this error on our knowledge base%2$s.' , 'wordpress-seo' ),
-				'<a href="http://yoa.st/wptitle" target="_blank">',
-				'</a>'
-			);
-
-			$notification_options = array(
-				'type'  => 'error yoast-dismissible',
-				'id'    => 'wpseo-dismiss-wptitle',
-				'nonce' => wp_create_nonce( 'wpseo-dismiss-wptitle' ),
-			);
-
-			Yoast_Notification_Center::get()->add_notification( new Yoast_Notification( $info_message, $notification_options ) );
-		}
 	}
 
 	/**
@@ -219,13 +196,14 @@ class WPSEO_Admin_Init {
 		 *
 		 * @api bool Whether to always register the metaboxes or not. Defaults to false.
 		 */
-		if ( $is_editor || $is_inline_save || apply_filters( 'wpseo_always_register_metaboxes_on_admin', false ) ) {
-
-			$GLOBALS['wpseo_metabox'] = new WPSEO_Metabox;
-
-			if ( $this->options['opengraph'] === true || $this->options['twitter'] === true || $this->options['googleplus'] === true ) {
-				new WPSEO_Social_Admin;
-			}
+		if ( $is_editor || $is_inline_save || in_array( $this->pagenow, array(
+				'edit.php',
+				'post.php',
+				'post-new.php',
+			) ) || apply_filters( 'wpseo_always_register_metaboxes_on_admin', false )
+		) {
+			$GLOBALS['wpseo_metabox']      = new WPSEO_Metabox;
+			$GLOBALS['wpseo_meta_columns'] = new WPSEO_Meta_Columns();
 		}
 	}
 
@@ -292,7 +270,7 @@ class WPSEO_Admin_Init {
 			delete_user_meta( get_current_user_id(), 'wpseo_ignore_tour' );
 		}
 
-		if ( ! get_user_meta( get_current_user_id(), 'wpseo_ignore_tour' ) ) {
+		if ( ! $this->has_ignored_tour() ) {
 			add_action( 'admin_enqueue_scripts', array( 'WPSEO_Pointers', 'get_instance' ) );
 		}
 	}
@@ -307,6 +285,17 @@ class WPSEO_Admin_Init {
 	}
 
 	/**
+	 * Returns the value of the ignore tour.
+	 *
+	 * @return bool
+	 */
+	private function has_ignored_tour() {
+		$user_meta = get_user_meta( get_current_user_id(), 'wpseo_ignore_tour' );
+
+		return ! empty( $user_meta );
+	}
+
+	/**
 	 * Listener for the ignore tour GET value. If this one is set, just set the user meta to true.
 	 */
 	public function ignore_tour() {
@@ -314,5 +303,40 @@ class WPSEO_Admin_Init {
 			update_user_meta( get_current_user_id(), 'wpseo_ignore_tour', true );
 		}
 
+	}
+
+	/**
+	 * Shows deprecation warnings to the user if a plugin has registered a filter we have deprecated.
+	 */
+	public function show_hook_deprecation_warnings() {
+		global $wp_filter;
+
+		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
+			return false;
+		}
+
+		// WordPress hooks that have been deprecated in Yoast SEO 3.0.
+		$deprecated_30 = array(
+			'wpseo_pre_analysis_post_content',
+			'wpseo_metadesc_length',
+			'wpseo_metadesc_length_reason',
+			'wpseo_body_length_score',
+			'wpseo_linkdex_results',
+			'wpseo_snippet',
+		);
+
+		$deprecated_notices = array_intersect(
+			$deprecated_30,
+			array_keys( $wp_filter )
+		);
+
+		foreach ( $deprecated_notices as $deprecated_filter ) {
+			_deprecated_function(
+				/* %s expands to the actual filter/action that has been used. */
+				sprintf( __( '%s filter/action', 'wordpress-seo' ), $deprecated_filter ),
+				'WPSEO 3.0',
+				'javascript'
+			);
+		}
 	}
 }
