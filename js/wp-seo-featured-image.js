@@ -4,14 +4,29 @@
 /* jshint -W097 */
 /* jshint -W003 */
 'use strict';
-jQuery( document ).ready( function() {
+(function( $ ) {
+	var featuredImageElement, hasFeaturedImage = false;
+
+
+	$( document ).ready( function() {
 		var featuredImage = wp.media.featuredImage.frame();
+
 		featuredImage.on( 'select', function() {
-				yst_checkFeaturedImage( featuredImage );
-			}
-		);
-	}
-);
+			yst_checkFeaturedImage( featuredImage );
+
+			hasFeaturedImage = true;
+		});
+
+		$( '#postimagediv' ).on( 'click', '#remove-post-thumbnail', function() {
+			hasFeaturedImage = false;
+		});
+
+		featuredImageElement = $( '#set-post-thumbnail > img' );
+		if ( '' !== featuredImageElement.prop( 'src' ) ) {
+			hasFeaturedImage = true;
+		}
+	});
+}( jQuery ));
 
 /**
  * Check if image is smaller than 200x200 pixels. If this is the case, show a warning
