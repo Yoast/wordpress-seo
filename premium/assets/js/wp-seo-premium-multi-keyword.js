@@ -46,7 +46,8 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 			keywordTab = $( keywordTab ).find( '.wpseo_tablink' );
 
 			return {
-				keyword: keywordTab.data( 'keyword' ),
+				// Convert to string to prevent errors if the keyword is "null".
+				keyword: keywordTab.data( 'keyword' ) + '',
 				score: keywordTab.data( 'score' )
 			};
 		} ).get();
