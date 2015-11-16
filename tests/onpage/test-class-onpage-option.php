@@ -54,7 +54,7 @@ class WPSEO_OnPage_Option_Test extends WPSEO_UnitTestCase {
 	 * WPSEO_OnPage_Option::can_fetch
 	 */
 	public function test_cannot_fetch() {
-		$this->class_instance->set_last_fetch( strtotime("-15 minutes") );
+		$this->class_instance->set_last_fetch( strtotime("-5 seconds") );
 		$this->assertFalse( $this->class_instance->should_be_fetched() );
 	}
 
