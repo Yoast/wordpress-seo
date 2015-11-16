@@ -25,7 +25,7 @@ class WPSEO_Redirect_Option_Test extends WPSEO_UnitTestCase {
 
 		$this->class_instance = new WPSEO_Redirect_Option();
 		$this->class_instance->set_format( WPSEO_Redirect::FORMAT_PLAIN );
-		$this->class_instance->add( 'old-url', 'new-url', 301 );
+		$this->class_instance->add( new WPSEO_Redirect( 'old-url', 'new-url', 301 ) );
 		$this->class_instance->save();
 	}
 
@@ -57,8 +57,8 @@ class WPSEO_Redirect_Option_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Redirect_Option::add
 	 */
 	public function test_add() {
-		$this->assertTrue( is_a( $this->class_instance->add( 'new-redirect', 'new-target', 301 ), 'WPSEO_Redirect' ) );
-		$this->assertFalse( $this->class_instance->add( 'old-url', 'new-url', 301 ) );
+		$this->assertTrue( $this->class_instance->add( new WPSEO_Redirect( 'new-redirect', 'new-target', 301 ) ) );
+		$this->assertFalse( $this->class_instance->add( new WPSEO_Redirect( 'old-url', 'new-url', 301 ) ) );
 	}
 
 	/**
@@ -67,8 +67,8 @@ class WPSEO_Redirect_Option_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Redirect_Option::update
 	 */
 	public function test_update() {
-		$this->assertTrue( is_a( $this->class_instance->update( 'old-url', 'older-url', 'older-target', 301 ), 'WPSEO_Redirect' ) );
-		$this->assertFalse( $this->class_instance->update( 'does-not-exists', 'old-target', 'new-target', 301 ) );
+		$this->assertTrue( $this->class_instance->update( 'old-url', new WPSEO_Redirect( 'older-url', 'older-target', 301 ) ) );
+		$this->assertFalse( $this->class_instance->update( 'does-not-exists', new WPSEO_Redirect( 'old-target', 'new-target', 301 ) ) );
 	}
 
 	/**

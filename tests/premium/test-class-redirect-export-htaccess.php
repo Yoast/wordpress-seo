@@ -58,7 +58,7 @@ class WPSEO_Redirect_Export_Htaccess_Test extends WPSEO_UnitTestCase {
 
 
 		$this->assertEquals(
-			'RedirectMatch 301 test([a-z]*) target',
+			'RedirectMatch 301 test([a-z]*) /target',
 			$class_instance->format( new WPSEO_Redirect( 'test([a-z]*)', 'target', '301', WPSEO_Redirect::FORMAT_REGEX ) )
 		);
 	}

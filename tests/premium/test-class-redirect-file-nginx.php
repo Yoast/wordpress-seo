@@ -51,12 +51,12 @@ class WPSEO_Redirect_Export_Nginx_Test extends WPSEO_UnitTestCase {
 		$class_instance = new WPSEO_Redirect_Export_Nginx();
 
 		$this->assertEquals(
-			'location target { add_header X-Redirect-By \"Yoast SEO Premium\"; return origin 301; }',
+			'location /target { add_header X-Redirect-By \"Yoast SEO Premium\"; return /origin 301; }',
 			$class_instance->format( new WPSEO_Redirect( 'origin', 'target', '301', WPSEO_Redirect::FORMAT_PLAIN ) )
 		);
 
 		$this->assertEquals(
-			'location ~ target { return test([a-z]*) 301; }',
+			'location ~ /target { return test([a-z]*) 301; }',
 			$class_instance->format( new WPSEO_Redirect( 'test([a-z]*)', 'target', '301', WPSEO_Redirect::FORMAT_REGEX ) )
 		);
 	}

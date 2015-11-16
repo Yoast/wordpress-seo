@@ -22,9 +22,9 @@ class WPSEO_URL_Redirect_Manager_Test extends WPSEO_UnitTestCase {
 
 		$this->class_instance = new WPSEO_Redirect_URL_Manager();
 
-		$this->class_instance->create_redirect( 'old', 'new', 301 );
-		$this->class_instance->create_redirect( 'older', 'newer', 301 );
-		$this->class_instance->create_redirect( 'oldest', 'newest', 301 );
+		$this->class_instance->create_redirect( new WPSEO_Redirect( 'old', 'new', 301 ) );
+		$this->class_instance->create_redirect( new WPSEO_Redirect( 'older', 'newer', 301 ) );
+		$this->class_instance->create_redirect( new WPSEO_Redirect( 'oldest', 'newest', 301 ) );
 	}
 
 	/**
@@ -48,12 +48,12 @@ class WPSEO_URL_Redirect_Manager_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_add_redirect() {
 
-		$redirect = $this->class_instance->create_redirect( 'add_redirect', 'added_redirect', 301 );
+		$redirect = new WPSEO_Redirect( 'add_redirect', 'added_redirect', 301 );
 
-		$this->assertTrue( is_a( $redirect, 'WPSEO_Redirect' ) );
+		$this->assertTrue( $this->class_instance->create_redirect( $redirect ) );
 
 		$this->assertEquals( '/add_redirect', $redirect->get_origin() );
-		$this->assertEquals( 'added_redirect', $redirect->get_target() );
+		$this->assertEquals( '/added_redirect', $redirect->get_target() );
 		$this->assertEquals( '301', $redirect->get_type() );
 
 		/*
@@ -62,24 +62,31 @@ class WPSEO_URL_Redirect_Manager_Test extends WPSEO_UnitTestCase {
 		 */
 
 		// This redirect already exists, so it returns false.
-		$this->assertFalse( $this->class_instance->create_redirect( 'old', 'is_new', 301 ) );
+		$this->assertFalse( $this->class_instance->create_redirect( new WPSEO_Redirect( 'old', 'is_new', 301 ) ) );
 	}
 
 	/**
 	 * Test what happens if we update the redirect
 	 *
+	 * @covers WPSEO_Redirect_URL_Manager::create_redirect
 	 * @covers WPSEO_Redirect_URL_Manager::update_redirect
 	 */
 	public function test_update_redirect() {
-		// First of all create a redirect.
-		$this->class_instance->create_redirect( 'update_redirect', 'updated_redirect', 301 );
+		// Create a redirect.
+		$redirect = new WPSEO_Redirect( 'update_redirect', 'updated_redirect', 301 );
 
-		$redirect = $this->class_instance->update_redirect(
-			'update_redirect',
-			array( 'key' => 'redirect_update', 'value' => 'updated_redirect', 'type' => 301 )
-		);
+		$this->assertTrue( $this->class_instance->create_redirect( $redirect ) );
+		$this->assertEquals( '/update_redirect', $redirect->get_origin() );
+		$this->assertEquals( '/updated_redirect', $redirect->get_target() );
+		$this->assertEquals( '301', $redirect->get_type() );
 
-		$this->assertEquals( 'updated_redirect', $redirect->get_target() );
+		// Update the created redirect.
+		$redirect = new WPSEO_Redirect( 'redirect_update', 'updated_redirect', 301 );
+
+		$this->assertTrue( $this->class_instance->update_redirect( 'update_redirect', $redirect ) );
+
+		$this->assertEquals( '/redirect_update', $redirect->get_origin() );
+		$this->assertEquals( '/updated_redirect', $redirect->get_target() );
 		$this->assertEquals( '301', $redirect->get_type() );
 
 		/*
@@ -96,22 +103,13 @@ class WPSEO_URL_Redirect_Manager_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_delete_redirect() {
 		// First of all create a redirect.
-		$this->class_instance->create_redirect( 'delete_redirect', 'deleted_redirect', 301 );
+		$this->class_instance->create_redirect( new WPSEO_Redirect( 'delete_redirect', 'deleted_redirect' ), 301 );
 
 		// Remove the redirect.
 		$this->assertTrue( $this->class_instance->delete_redirects( array( 'delete_redirect' ) ) );
 
 		// Cannot remove a redirect that doesn't exists anymore.
 		$this->assertFalse( $this->class_instance->delete_redirects( array( 'delete_redirect' ) ) );
-	}
-
-	/**
-	 * Test if result of get_validator is an instance of WPSEO_Redirect_URL_Validator
-	 *
-	 * @covers WPSEO_Redirect_URL_Manager::get_validator
-	 */
-	public function test_get_validator() {
-		$this->assertTrue( is_a( $this->class_instance->get_validator(), 'WPSEO_Redirect_URL_Validator' ) );
 	}
 
 	/**
