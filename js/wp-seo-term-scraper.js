@@ -19,8 +19,7 @@
 			snippetTitle: this.getDataFromInput( 'title' ),
 			meta: this.getDataFromInput( 'meta' ),
 			snippetMeta: this.getDataFromInput( 'snippetMeta' ),
-			snippetCite: this.getDataFromInput( 'cite' ),
-			homeUrl: wpseoTermScraperL10n.home_url
+			snippetCite: this.getDataFromInput( 'cite' )
 		};
 	};
 
@@ -75,7 +74,7 @@
 				val = document.getElementById( 'slug' ).value;
 				break;
 			case 'baseUrl':
-				val = wpseoTermScraperL10n.home_url.replace( /https?:\/\//ig, '' );
+				val = wpseoTermScraperL10n.home_url;
 				break;
 
 			case 'cite':
