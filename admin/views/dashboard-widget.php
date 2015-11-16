@@ -69,7 +69,7 @@
 				echo '<div class="wpseo-score-icon na"></div>';
 				printf(
 					/* translators: 1: opens a link to a related knowledge base article. 2: closes the link */
-					__( 'Yoast SEO has %1$snot been able to fetch your site’s indexation status%2$s from OnPage.org', 'wordpress-seo' ),
+					__( 'Yoast SEO has %1$snot been able to fetch your site’s indexability status%2$s from OnPage.org', 'wordpress-seo' ),
 					'<a href="http://yoa.st/onpage-index-error" target="_blank">',
 					'</a>'
 				);
