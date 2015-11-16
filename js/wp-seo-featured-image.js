@@ -1,29 +1,94 @@
 /* global wp */
 /* global removeThumb:true */
 /* global wpseoFeaturedImageL10n */
+/* global YoastSEO */
 /* jshint -W097 */
 /* jshint -W003 */
 'use strict';
 (function( $ ) {
-	var featuredImageElement, hasFeaturedImage = false;
+	var featuredImagePlugin;
+	var featuredImageElement;
 
+	var FeaturedImagePlugin = function() {
+		this.featuredImage = null;
+		this.pluginName = 'addFeaturedImagePlugin';
+	};
+
+	/**
+	 * Set's the featured image to use in the analysis
+	 *
+	 * @param {String} featuredImage
+	 */
+	FeaturedImagePlugin.prototype.setFeaturedImage = function( featuredImage ) {
+		this.featuredImage = featuredImage;
+
+		YoastSEO.app.pluginReloaded( this.pluginName );
+	};
+
+	/**
+	 * Removes featured image and reloads analyzer
+	 */
+	FeaturedImagePlugin.prototype.removeFeaturedImage = function() {
+		this.setFeaturedImage( null );
+	};
+
+	/**
+	 * Registers this plugin to YoastSEO
+	 */
+	FeaturedImagePlugin.prototype.registerPlugin = function() {
+		YoastSEO.app.registerPlugin( this.pluginName, { status: 'ready' } );
+	};
+
+	/**
+	 * Registers modifications to YoastSEO
+	 */
+	FeaturedImagePlugin.prototype.registerModifications = function() {
+		YoastSEO.app.registerModification( 'content', this.addImageToContent.bind( this ), this.pluginName, 10 );
+	};
+
+	/**
+	 * Adds featured image to sort so it can be analyzed
+	 *
+	 * @param {String} content
+	 * @returns {String}
+	 */
+	FeaturedImagePlugin.prototype.addImageToContent = function( content ) {
+		if ( null !== this.featuredImage ) {
+			content += this.featuredImage;
+		}
+
+		return content;
+	};
 
 	$( document ).ready( function() {
 		var featuredImage = wp.media.featuredImage.frame();
 
+		featuredImagePlugin = new FeaturedImagePlugin();
+		featuredImagePlugin.registerPlugin();
+		featuredImagePlugin.registerModifications();
+
 		featuredImage.on( 'select', function() {
+			var selectedImageHTML, selectedImage;
 			yst_checkFeaturedImage( featuredImage );
 
-			hasFeaturedImage = true;
+			selectedImage = featuredImage.state().get( 'selection' ).first();
+			selectedImageHTML = '<img' +
+					' src="' + selectedImage.get( 'url' ) + '"' +
+					' width="' + selectedImage.get( 'width' ) + '"' +
+					' height="' + selectedImage.get( 'height' ) + '"' +
+					' alt="' + selectedImage.get( 'title' ) +
+					'"/>';
+
+			featuredImagePlugin.setFeaturedImage( selectedImageHTML );
 		});
 
 		$( '#postimagediv' ).on( 'click', '#remove-post-thumbnail', function() {
-			hasFeaturedImage = false;
+			featuredImagePlugin.removeFeaturedImage();
 		});
 
 		featuredImageElement = $( '#set-post-thumbnail > img' );
 		if ( '' !== featuredImageElement.prop( 'src' ) ) {
-			hasFeaturedImage = true;
+			featuredImagePlugin.setFeaturedImage( $( '#set-post-thumbnail ' ).html() );
 		}
 	});
 }( jQuery ));
