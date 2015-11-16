@@ -322,8 +322,6 @@
 		var cssClass;
 
 		if ( this.isMainKeyword( currentKeyword ) ) {
-			var tmpl = wp.template( 'score_svg' );
-			document.getElementById( 'wpseo-score' ).innerHTML = tmpl();
 			document.getElementById( 'yoast_wpseo_linkdex' ).value = score;
 
 			if ( '' === currentKeyword ) {
@@ -473,8 +471,7 @@
 			//targets for the objects
 			targets: {
 				output: 'wpseo-pageanalysis',
-				snippet: 'wpseosnippet',
-				overall: 'wpseo-score'
+				snippet: 'wpseosnippet'
 			},
 			translations: wpseoPostScraperL10n.translations,
 			queue: ['wordCount',

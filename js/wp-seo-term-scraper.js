@@ -201,9 +201,7 @@
 	 */
 	TermScraper.prototype.saveScores = function( score ) {
 		var cssClass;
-		var tmpl = wp.template('score_svg');
 
-		document.getElementById( YoastSEO.analyzerArgs.targets.overall ).innerHTML = tmpl();
 		document.getElementById( 'hidden_wpseo_linkdex' ).value = score;
 		jQuery( window ).trigger( 'YoastSEO:numericScore', score );
 
@@ -352,7 +350,6 @@
 			//targets for the objects
 			targets: {
 				output: 'wpseo_analysis',
-				overall: 'taxonomy_overall',
 				snippet: 'wpseo_snippet'
 			},
 			translations: wpseoTermScraperL10n.translations,
