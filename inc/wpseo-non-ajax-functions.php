@@ -250,9 +250,6 @@ function wpseo_admin_bar_menu() {
 		$score      = '<div title="' . esc_attr( $title ) . '" class="' . esc_attr( 'wpseo-score-icon ' . $txtscore . ' ' . $perc_score ) . '"></div>';
 
 		$seo_url = get_edit_post_link( $post->ID );
-		if ( $txtscore !== 'na' ) {
-			$seo_url .= '#wpseo_linkdex';
-		}
 	}
 
 	$wp_admin_bar->add_menu( array(
