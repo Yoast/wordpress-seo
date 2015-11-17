@@ -11,7 +11,7 @@ abstract class WPSEO_Redirect_Manager {
 	/**
 	 * @var WPSEO_Redirect_Option Model object to handle the redirects.
 	 */
-	protected $redirect;
+	protected $redirect_option;
 
 	/**
 	 * @var string The redirect format, this might be plain or regex.
@@ -45,10 +45,10 @@ abstract class WPSEO_Redirect_Manager {
 	 * @param WPSEO_Redirect_Export[] $exporters The exporters used to save redirects in files.
 	 */
 	public function __construct( $exporters = array() ) {
-		$this->redirect = new WPSEO_Redirect_Option();
+		$this->redirect_option = new WPSEO_Redirect_Option();
 
-		$this->redirect->set_format( $this->redirect_format );
-		$this->redirect->set_redirects();
+		$this->redirect_option->set_format( $this->redirect_format );
+		$this->redirect_option->set_redirects();
 
 		$this->set_exporters( $exporters );
 	}
@@ -68,14 +68,14 @@ abstract class WPSEO_Redirect_Manager {
 	 * @return WPSEO_Redirect[]
 	 */
 	public function get_redirects() {
-		return $this->redirect->get_filtered_redirects();
+		return $this->redirect_option->get_filtered_redirects();
 	}
 
 	/**
 	 * Export the redirects to the specified sources.
 	 */
 	public function export_redirects() {
-		$redirects = $this->redirect->get_all();
+		$redirects = $this->redirect_option->get_all();
 		$exporters = ! empty( $this->exporters ) ? $this->exporters : self::default_exporters();
 		foreach ( $exporters as $exporter ) {
 			$exporter->export( $redirects );
@@ -91,8 +91,8 @@ abstract class WPSEO_Redirect_Manager {
 		// The autoload value base on given boolean.
 		$autoload = ( $autoload_value === false ) ? 'no' : 'yes';
 
-		$this->redirect->change_autoload( $autoload, WPSEO_Redirect_Option::OPTION_PLAIN );
-		$this->redirect->change_autoload( $autoload, WPSEO_Redirect_Option::OPTION_REGEX );
+		$this->redirect_option->change_autoload( $autoload, WPSEO_Redirect_Option::OPTION_PLAIN );
+		$this->redirect_option->change_autoload( $autoload, WPSEO_Redirect_Option::OPTION_REGEX );
 	}
 
 	/**
@@ -103,7 +103,7 @@ abstract class WPSEO_Redirect_Manager {
 	 * @return bool
 	 */
 	public function create_redirect( WPSEO_Redirect $redirect ) {
-		if ( $this->redirect->add( $redirect ) ) {
+		if ( $this->redirect_option->add( $redirect ) ) {
 			$this->save_redirects();
 
 			return true;
@@ -121,7 +121,7 @@ abstract class WPSEO_Redirect_Manager {
 	 * @return bool
 	 */
 	public function update_redirect( $current_origin, WPSEO_Redirect $redirect ) {
-		if ( $this->redirect->update( $current_origin, $redirect ) ) {
+		if ( $this->redirect_option->update( $current_origin, $redirect ) ) {
 			$this->save_redirects();
 
 			return true;
@@ -140,7 +140,7 @@ abstract class WPSEO_Redirect_Manager {
 	public function delete_redirects( array $delete_redirects ) {
 		$deleted = false;
 		foreach ( $delete_redirects as $delete_redirect ) {
-			if ( $this->redirect->delete( $delete_redirect ) ) {
+			if ( $this->redirect_option->delete( $delete_redirect ) ) {
 				$deleted = true;
 			}
 		}
@@ -157,7 +157,8 @@ abstract class WPSEO_Redirect_Manager {
 	 */
 	public function save_redirects() {
 		// Update the database option.
-		$this->redirect->save();
+
+		$this->redirect_option->save();
 
 		// Save the redirect file.
 		$this->export_redirects();
