@@ -63,7 +63,6 @@ YoastSEO.Analyzer.prototype.formatKeyword = function() {
 		var keyword = this.stringHelper.sanitizeKeyword( this.config.keyword );
 
 		// Creates new regex from keyword with global and caseinsensitive option,
-		// replaces - and _ with space
 
 		this.keywordRegex = new RegExp( "\\b" +
 			this.preProcessor.replaceDiacritics( keyword.replace( /[-_]/, " " ) ) + "\\b",
@@ -575,10 +574,10 @@ YoastSEO.Analyzer.prototype.pageTitleKeyword = function() {
 	var result = [ { test: "pageTitleKeyword", result: { matches: 0, position: 0 } } ];
 	if ( typeof this.config.pageTitle !== "undefined" ) {
 		result[ 0 ].result.matches = this.stringHelper.countMatches(
-			this.config.pageTitle.toLocaleLowerCase(),
-			this.config.keyword
+			this.config.pageTitle,
+			new RegExp( this.config.keyword, "i" )
 		);
-		result[ 0 ].result.position = this.config.pageTitle.indexOf( this.config.keyword );
+		result[ 0 ].result.position = this.config.pageTitle.toLocaleLowerCase().indexOf( this.config.keyword.toLocaleLowerCase() );
 	}
 	return result;
 };
