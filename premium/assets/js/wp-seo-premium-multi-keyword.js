@@ -90,7 +90,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 	};
 
 	YoastMultiKeyword.prototype.bindKeywordTab = function() {
-		$( '.wpseo-metabox-tabs' ).on( 'click', '.wpseo_tablink', function() {
+		$( '.wpseo-metabox-tabs' ).on( 'click', '.wpseo_keyword_tab > .wpseo_tablink', function() {
 			// Convert to string to prevent errors if the keyword is "null".
 			var keyword = $( this ).data( 'keyword' ) + '';
 			$( '#yoast_wpseo_focuskw_text_input' ).val( keyword ).focus();
