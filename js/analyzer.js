@@ -647,7 +647,7 @@ YoastSEO.Analyzer.prototype.metaDescriptionKeyword = function() {
 	var result = [ { test: "metaDescriptionKeyword", result: -1 } ];
 	if ( typeof this.config.meta !== "undefined" && this.config.meta.length > 0 && this.config.keyword !== "" ) {
 		result[ 0 ].result = this.stringHelper.countMatches(
-			this.config.meta, this.keywordRegex
+			this.config.meta, new RegExp( this.config.keyword, "i")
 		);
 	}
 	return result;
