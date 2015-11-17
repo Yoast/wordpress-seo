@@ -57,6 +57,10 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 			return item.keyword.length > 0;
 		});
 
+		if ( 0 === keywords.length ) {
+			keywords.push({ keyword: '', score: 0 });
+		}
+
 		if ( keywords.length > 0 ) {
 			firstKeyword = keywords.splice( 0, 1 ).shift();
 
