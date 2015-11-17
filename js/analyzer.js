@@ -439,10 +439,12 @@ YoastSEO.Analyzer.prototype.linkFollow = function( url ) {
 YoastSEO.Analyzer.prototype.linkKeyword = function( url ) {
 	var keywordFound = false;
 
-	//split on > to discard the data in the anchortag
-	var formatUrl = url.match( /href=([\'\"])(.*?)\1/ig );
-	if ( formatUrl !== null && formatUrl[ 0 ].match( this.keywordRegex ) !== null ) {
+	var formatUrl = url.match( />(.*)/ig );
+	if ( formatUrl !== null ) {
+		formatUrl = formatUrl[0].replace( /<.*?>\s?/ig, "" );
+		if ( formatUrl.match( this.keywordRegex ) !== null ) {
 		keywordFound = true;
+		}
 	}
 	return keywordFound;
 };

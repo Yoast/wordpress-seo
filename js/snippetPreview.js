@@ -258,7 +258,7 @@ YoastSEO.SnippetPreview.prototype.renderOutput = function() {
  */
 YoastSEO.SnippetPreview.prototype.renderSnippetStyle = function() {
 	var cssClass = "desc-default";
-	if ( this.refObj.rawData.snippetMeta === "" ) {
+	if ( this.refObj.rawData.meta === "" ) {
 		cssClass = "desc-render";
 	}
 	document.getElementById( "snippet_meta" ).className = "desc " + cssClass;
