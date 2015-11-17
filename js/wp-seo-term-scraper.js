@@ -74,7 +74,7 @@
 				val = document.getElementById( 'slug' ).value;
 				break;
 			case 'baseUrl':
-				val = wpseoTermScraperL10n.home_url.replace( /https?:\/\//ig, '' );
+				val = wpseoTermScraperL10n.home_url;
 				break;
 
 			case 'cite':

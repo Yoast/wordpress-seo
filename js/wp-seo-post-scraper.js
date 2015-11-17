@@ -113,7 +113,7 @@
 				}
 				break;
 			case 'baseUrl':
-				val = wpseoPostScraperL10n.home_url.replace( /https?:\/\//ig, '' );
+				val = wpseoPostScraperL10n.home_url;
 				break;
 			case 'cite':
 			case 'post_name':
