@@ -32,4 +32,15 @@ describe("A keyword count test with no keyword in the test, but keyword is in th
 	});
 });
 
+keywordCountArgs3 = {
+	text: 'a string with diacritics äbc',
+	keyword: "äbc"
+};
 
+describe("a keyword with diacritics", function(){
+	it("should return 1 keyword found in the text.", function(){
+		var textAnalyzer = Factory.buildAnalyzer(keywordCountArgs3);
+		var result = textAnalyzer.keywordCount();
+		expect(result).toBe(1);
+	});
+});
