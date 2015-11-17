@@ -578,7 +578,7 @@ YoastSEO.Analyzer.prototype.pageTitleKeyword = function() {
 			this.config.pageTitle.toLocaleLowerCase(),
 			this.config.keyword
 		);
-		result[ 0 ].result.position = this.config.pageTitle.indexOf( this.config.keyword );
+		result[ 0 ].result.position = this.config.pageTitle.toLocaleLowerCase().indexOf( this.config.keyword.toLocaleLowerCase() );
 	}
 	return result;
 };
