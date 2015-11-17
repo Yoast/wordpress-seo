@@ -125,7 +125,7 @@ class WPSEO_OnPage {
 			return (int) $response['is_indexable'];
 		}
 
-		return -1;
+		return WPSEO_OnPage_Option::CANNOT_FETCH;
 	}
 
 	/**
