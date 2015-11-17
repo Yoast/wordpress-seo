@@ -213,7 +213,6 @@
 		$( '.yst-traffic-light' )
 				.attr( 'class', 'yst-traffic-light ' + cssClass )
 				.attr( 'alt', alt );
-
 	};
 
 	/**
