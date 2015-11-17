@@ -2527,7 +2527,7 @@ YoastSEO.SnippetPreview.prototype.renderOutput = function() {
  */
 YoastSEO.SnippetPreview.prototype.renderSnippetStyle = function() {
 	var cssClass = "desc-default";
-	if ( this.refObj.rawData.snippetMeta === "" ) {
+	if ( this.refObj.rawData.meta === "" ) {
 		cssClass = "desc-render";
 	}
 	document.getElementById( "snippet_meta" ).className = "desc " + cssClass;
@@ -4132,7 +4132,7 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
                 {min: 90, score: 9, text: "{{text}}", resultText: "very easy", note: ""},
                 {min: 80, max: 89.9, score: 9, text: "{{text}}", resultText: "easy", note: ""},
                 {min: 70, max: 79.9, score: 8, text: "{{text}}", resultText: "fairly easy", note: ""},
-                {min: 60, max: 69.9, score: 7, text: "{{text}}", resultText: "ok", note: ""},
+                {min: 60, max: 69.9, score: 8, text: "{{text}}", resultText: "ok", note: ""},
                 {
                     min: 50,
                     max: 59.9,
