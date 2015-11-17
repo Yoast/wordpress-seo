@@ -41,7 +41,7 @@ function wpseo_create_redirect( old_url, nonce, id ) {
 			jQuery.post(
 				ajaxurl,
 				{
-					action: 'wpseo_create_redirect_url',
+					action: 'wpseo_add_redirect_url',
 					ajax_nonce: nonce,
 					old_url: old_url,
 					new_url: new_url,
