@@ -68,28 +68,37 @@ titleKeywordArg7 = {
     keyword: "focus-keyword",
     queue: ["pageTitleKeyword"]
 };
+titleKeywordArg8 = {
+	pageTitle: "Focus keyword",
+	keyword: "focus keyword",
+	queue: ["pageTitleKeyword"]
+};
+titleKeywordArg9 = {
+	pageTitle: "äbc",
+	keyword: "äbc"
+};
 
 describe("a test with keywords", function() {
-    var pageTitleAnalyzer;
-    var result;
+	var pageTitleAnalyzer;
+	var result;
 
-    it("returns correct results with spaces in the keyword", function() {
-        pageTitleAnalyzer = Factory.buildAnalyzer(titleKeywordArg4);
+	it("returns correct results with spaces in the keyword", function() {
+		pageTitleAnalyzer = Factory.buildAnalyzer(titleKeywordArg4);
 
-        result = pageTitleAnalyzer.pageTitleKeyword();
+		result = pageTitleAnalyzer.pageTitleKeyword();
 
-        expect(result[0 ].result.matches ).toBe(1);
-        expect(result[0 ].result.position ).toBe(0);
-    });
+		expect(result[0 ].result.matches ).toBe(1);
+		expect(result[0 ].result.position ).toBe(0);
+	});
 
-    it("returns correct results with a dash in the keyword", function() {
-        pageTitleAnalyzer = Factory.buildAnalyzer(titleKeywordArg5);
+	it("returns correct results with a dash in the keyword", function() {
+		pageTitleAnalyzer = Factory.buildAnalyzer(titleKeywordArg5);
 
-        result = pageTitleAnalyzer.pageTitleKeyword();
+		result = pageTitleAnalyzer.pageTitleKeyword();
 
-        expect(result[0 ].result.matches ).toBe(1);
-        expect(result[0 ].result.position ).toBe(0);
-    });
+		expect(result[0 ].result.matches ).toBe(1);
+		expect(result[0 ].result.position ).toBe(0);
+	});
 
     it("returns correct results with a dash in the keyword", function() {
         pageTitleAnalyzer = Factory.buildAnalyzer(titleKeywordArg6);
@@ -108,4 +117,22 @@ describe("a test with keywords", function() {
         expect(result[0 ].result.matches ).toBe(0);
         expect(result[0 ].result.position ).toBe(-1);
     });
+	it("returns correct results with a capital in the keyword", function() {
+		pageTitleAnalyzer = Factory.buildAnalyzer(titleKeywordArg8);
+
+		result = pageTitleAnalyzer.pageTitleKeyword();
+
+		expect(result[ 0].result.matches).toBe(1);
+		expect(result[0 ].result.position ).toBe(0);
+	});
+	it("returns correct results with a diacritic in the keyword", function() {
+		pageTitleAnalyzer = Factory.buildAnalyzer(titleKeywordArg9);
+
+		result = pageTitleAnalyzer.pageTitleKeyword();
+
+		expect(result[ 0].result.matches).toBe(1);
+		expect(result[0 ].result.position ).toBe(0);
+	});
 });
+
+
