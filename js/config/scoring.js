@@ -57,7 +57,7 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
 
             ]
         },{
-			scoreName: "keywordCheck",
+			scoreName: "keyphraseSizeCheck",
 			scoreArray: [
 				{
 					max: 0,
