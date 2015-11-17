@@ -457,6 +457,7 @@ YoastSEO.Analyzer.prototype.linkResult = function( obj ) {
 	result.externalAllNofollow = false;
 	result.externalAllDofollow = false;
 	result.internalAllDofollow = false;
+	result.noExternal = false;
 	if ( result.externalTotal !== result.externalDofollow && result.externalTotal > 0 ) {
 		result.externalHasNofollow = true;
 	}
@@ -468,6 +469,9 @@ YoastSEO.Analyzer.prototype.linkResult = function( obj ) {
 	}
 	if ( result.total === result.internalDofollow && result.internalTotal > 0 ) {
 		result.internalAllDofollow = true;
+	}
+	if ( result.total === ( result.internalTotal + result.otherTotal ) ) {
+		result.noExternal = true;
 	}
 	return result;
 };

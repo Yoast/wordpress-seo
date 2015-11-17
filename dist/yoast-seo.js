@@ -457,6 +457,7 @@ YoastSEO.Analyzer.prototype.linkResult = function( obj ) {
 	result.externalAllNofollow = false;
 	result.externalAllDofollow = false;
 	result.internalAllDofollow = false;
+	result.noExternal = false;
 	if ( result.externalTotal !== result.externalDofollow && result.externalTotal > 0 ) {
 		result.externalHasNofollow = true;
 	}
@@ -468,6 +469,9 @@ YoastSEO.Analyzer.prototype.linkResult = function( obj ) {
 	}
 	if ( result.total === result.internalDofollow && result.internalTotal > 0 ) {
 		result.internalAllDofollow = true;
+	}
+	if ( result.total === ( result.internalTotal + result.otherTotal ) ) {
+		result.noExternal = true;
 	}
 	return result;
 };
@@ -4090,6 +4094,10 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
                 },
 				{
 					type: "internalAllDofollow",
+					score: 6,
+					text: i18n.dgettext('js-text-analysis', "No outbound links appear in this page, consider adding some as appropriate.")
+				},{
+					type: "noExternal",
 					score: 6,
 					text: i18n.dgettext('js-text-analysis', "No outbound links appear in this page, consider adding some as appropriate.")
 				},
