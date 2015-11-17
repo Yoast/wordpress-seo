@@ -37,13 +37,16 @@ if ( '' === $tool_page ) {
 	}
 
 	$tools['recalculate'] = array(
-		'href'    => '#TB_inline?width=300&amp;height=150&amp;inlineId=wpseo_recalculate',
-		'attr'    => "class='thickbox' onclick='javascript:wpseo_recalculate_scores(1);'",
+		'href'    => '#TB_inline?width=300&height=150&inlineId=wpseo_recalculate',
+		'attr'    => "id='wpseo_recalculate_link' class='thickbox'",
 		'title'   => __( 'Recalculate SEO scores', 'wordpress-seo' ),
 		'desc'    => __( 'Recalculate SEO scores for all pieces of content with a focus keyword.', 'wordpress-seo' ),
 	);
 
-
+	if ( filter_input( INPUT_GET, 'recalculate' ) === '1' ) {
+		update_site_option( 'wpseo_dismiss_recalculate', 1 );
+		$tools['recalculate']['attr'] .= "data-open='open'";
+	}
 
 	/* translators: %1$s expands to Yoast SEO */
 	echo '<p>', sprintf( __( '%1$s comes with some very powerful built-in tools:', 'wordpress-seo' ), 'Yoast SEO' ), '</p>';
@@ -52,7 +55,7 @@ if ( '' === $tool_page ) {
 
 	echo '<ul class="ul-disc">';
 	foreach ( $tools as $slug => $tool ) {
-		$href = ( ! empty( $tool['href'] ) ) ? $tool['href'] : '&tool=' . $slug;
+		$href = ( ! empty( $tool['href'] ) ) ? esc_attr( $tool['href'] ) : '&tool=' . $slug;
 		$attr = ( ! empty( $tool['attr'] ) ) ? $tool['attr'] : '';
 		echo '<li>';
 		echo '<strong><a href="', admin_url( 'admin.php?page=wpseo_tools' . $href ), '" ' , $attr, '>', $tool['title'], '</a></strong><br/>';
