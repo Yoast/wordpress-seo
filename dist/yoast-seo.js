@@ -408,7 +408,7 @@ YoastSEO.Analyzer.prototype.linkType = function( url ) {
 	//matches all links that start with http:// and https://, case insensitive and global
 	if ( url.match( /https?:\/\//ig ) !== null ) {
 		linkType = "external";
-		var urlMatch = url.match( this.config.url );
+		var urlMatch = url.match( this.config.baseUrl );
 		if ( urlMatch !== null && urlMatch[ 0 ].length !== 0 ) {
 			linkType = "internal";
 		}
@@ -458,6 +458,8 @@ YoastSEO.Analyzer.prototype.linkResult = function( obj ) {
 	result.externalHasNofollow = false;
 	result.externalAllNofollow = false;
 	result.externalAllDofollow = false;
+	result.internalAllDofollow = false;
+	result.noExternal = false;
 	if ( result.externalTotal !== result.externalDofollow && result.externalTotal > 0 ) {
 		result.externalHasNofollow = true;
 	}
@@ -466,6 +468,12 @@ YoastSEO.Analyzer.prototype.linkResult = function( obj ) {
 	}
 	if ( result.externalTotal === result.externalDofollow && result.externalTotal > 0 ) {
 		result.externalAllDofollow = true;
+	}
+	if ( result.total === result.internalDofollow && result.internalTotal > 0 ) {
+		result.internalAllDofollow = true;
+	}
+	if ( result.total === ( result.internalTotal + result.otherTotal ) ) {
+		result.noExternal = true;
 	}
 	return result;
 };
@@ -2341,8 +2349,7 @@ YoastSEO.SnippetPreview.prototype.formatUrl = function() {
 	var url = this.refObj.rawData.baseUrl;
 
 	//removes the http(s) part of the url
-	url.replace( /https?:\/\//ig, "" );
-	return url;
+	return url.replace( /https?:\/\//ig, "" );
 };
 
 /**
@@ -4086,7 +4093,17 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
                     max: 0,
                     score: 6,
                     text: i18n.dgettext('js-text-analysis', "No outbound links appear in this page, consider adding some as appropriate.")
-                },{
+                },
+				{
+					type: "internalAllDofollow",
+					score: 6,
+					text: i18n.dgettext('js-text-analysis', "No outbound links appear in this page, consider adding some as appropriate.")
+				},{
+					type: "noExternal",
+					score: 6,
+					text: i18n.dgettext('js-text-analysis', "No outbound links appear in this page, consider adding some as appropriate.")
+				},
+				{
 					matcher: "totalNaKeyword",
 					min: 1,
 					score: 2,

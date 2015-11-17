@@ -408,7 +408,7 @@ YoastSEO.Analyzer.prototype.linkType = function( url ) {
 	//matches all links that start with http:// and https://, case insensitive and global
 	if ( url.match( /https?:\/\//ig ) !== null ) {
 		linkType = "external";
-		var urlMatch = url.match( this.config.url );
+		var urlMatch = url.match( this.config.baseUrl );
 		if ( urlMatch !== null && urlMatch[ 0 ].length !== 0 ) {
 			linkType = "internal";
 		}
@@ -458,6 +458,8 @@ YoastSEO.Analyzer.prototype.linkResult = function( obj ) {
 	result.externalHasNofollow = false;
 	result.externalAllNofollow = false;
 	result.externalAllDofollow = false;
+	result.internalAllDofollow = false;
+	result.noExternal = false;
 	if ( result.externalTotal !== result.externalDofollow && result.externalTotal > 0 ) {
 		result.externalHasNofollow = true;
 	}
@@ -466,6 +468,12 @@ YoastSEO.Analyzer.prototype.linkResult = function( obj ) {
 	}
 	if ( result.externalTotal === result.externalDofollow && result.externalTotal > 0 ) {
 		result.externalAllDofollow = true;
+	}
+	if ( result.total === result.internalDofollow && result.internalTotal > 0 ) {
+		result.internalAllDofollow = true;
+	}
+	if ( result.total === ( result.internalTotal + result.otherTotal ) ) {
+		result.noExternal = true;
 	}
 	return result;
 };
