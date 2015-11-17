@@ -4,7 +4,7 @@
  */
 
 ?>
-<div id="table-url" class="tab-url redirect-table-tab">
+<div id="table-plain" class="tab-url redirect-table-tab">
 	<form class='wpseo-new-redirect-form' method='post'>
 		<div class='wpseo_redirects_new'>
 			<label class='textinput' for='wpseo_redirects_new_old'><?php _e( 'Old URL', 'wordpress-seo-premium' ); ?></label>

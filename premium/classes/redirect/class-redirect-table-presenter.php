@@ -9,6 +9,15 @@
 class WPSEO_Redirect_Table_Presenter extends WPSEO_Redirect_Tab_Presenter {
 
 	/**
+	 * Adding the redirect table to the view vars
+	 *
+	 * @param WPSEO_Redirect_Manager $redirect_manager The redirect manager.
+	 */
+	public function set_table( WPSEO_Redirect_Manager $redirect_manager ) {
+		$this->view_vars['redirect_table'] = new WPSEO_Redirect_Table( $this->view, $this->get_first_column_value(), $redirect_manager );
+	}
+
+	/**
 	 * Getting the variables for the view
 	 *
 	 * @return array
@@ -30,11 +39,12 @@ class WPSEO_Redirect_Table_Presenter extends WPSEO_Redirect_Tab_Presenter {
 	 */
 	private function get_old_url() {
 		// Check if there's an old URL set.
-		if ( ( $old_url = filter_input( INPUT_GET, 'old_url', FILTER_DEFAULT, array( 'default' => '' ) ) ) !== '' ) {
+		$old_url = filter_input( INPUT_GET, 'old_url', FILTER_DEFAULT, array( 'default' => '' ) );
+		if ( $old_url !== '' ) {
 			return esc_attr( rawurldecode( $old_url ) );
 		}
 
-		return '';
+		return $old_url;
 	}
 
 	/**
@@ -51,6 +61,19 @@ class WPSEO_Redirect_Table_Presenter extends WPSEO_Redirect_Tab_Presenter {
 		);
 
 		return apply_filters( 'wpseo_premium_redirect_types', $redirect_types );
+	}
+
+	/**
+	 * Return the value of the first column based on the table type
+	 *
+	 * @return string|void
+	 */
+	private function get_first_column_value() {
+		if ( $this->view === 'regex' ) {
+			return  __( 'Regular Expression', 'wordpress-seo-premium' );
+		}
+
+		return __( 'Old URL', 'wordpress-seo-premium' );
 	}
 
 }

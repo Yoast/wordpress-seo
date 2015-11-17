@@ -146,11 +146,11 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	/**
 	 * The old column actions
 	 *
-	 * @param array $item Array with the row data.
+	 * @param WPSEO_Redirect $item Array with the row data.
 	 *
 	 * @return string
 	 */
-	public function column_old( $item ) {
+	public function column_old( WPSEO_Redirect $item ) {
 		$actions = array(
 			'edit'  => '<a href="javascript:;">' . __( 'Edit', 'wordpress-seo-premium' ) . '</a>',
 			'trash' => '<a href="javascript:;" >' . __( 'Delete', 'wordpress-seo-premium' ) . '</a>',
@@ -158,7 +158,7 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 
 		return sprintf(
 			'<div class="val">%1$s</div> %2$s',
-			$item['old'],
+			$item->get_origin(),
 			$this->row_actions( $actions )
 		);
 	}
@@ -166,12 +166,12 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	/**
 	 * Checkbox columns
 	 *
-	 * @param array $item Array with the row data.
+	 * @param WPSEO_Redirect $item Array with the row data.
 	 *
 	 * @return string
 	 */
 	public function column_cb( $item ) {
-		return sprintf( '<input type="checkbox" name="wpseo_redirects_bulk_delete[]" value="%s" />', $item['old'] );
+		return sprintf( '<input type="checkbox" name="wpseo_redirects_bulk_delete[]" value="%s" />', $item->get_origin() );
 	}
 
 	/**
@@ -186,10 +186,10 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 
 		switch ( $column_name ) {
 			case 'new':
-				return "<div class='val'>" . $item[ $column_name ] . '</div>';
+				return "<div class='val'>" . $item->get_target() . '</div>';
 				break;
 			case 'type':
-				return "<div class='val type'>" . $item[ $column_name ] . '</div>';
+				return "<div class='val type'>" . $item->get_type() . '</div>';
 				break;
 			default:
 				return $item[ $column_name ];

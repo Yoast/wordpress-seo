@@ -167,6 +167,9 @@ class WPSEO_Redirect implements ArrayAccess {
 	 */
 	public function offsetGet( $offset ) {
 		switch ( $offset ) {
+			case 'old' :
+				return $this->origin;
+				break;
 			case 'url' :
 				return $this->target;
 				break;

@@ -34,12 +34,10 @@ class WPSEO_Redirect_Presenter {
 	 */
 	public function display() {
 		switch ( $this->current_tab ) {
-			case 'url' :
+			case 'plain' :
 			case 'regex' :
-				$view_vars                   = $this->get_view_vars();
-				$view_vars['redirect_table'] = new WPSEO_Redirect_Table( $this->current_tab, $this->get_first_column_value(), $this->redirect_manager );
-
-				$tab_presenter = new WPSEO_Redirect_Table_Presenter( $this->current_tab, $view_vars );
+				$tab_presenter = new WPSEO_Redirect_Table_Presenter( $this->current_tab, $this->get_view_vars() );
+				$tab_presenter->set_table( $this->redirect_manager );
 				break;
 			case 'settings' :
 				$tab_presenter = new WPSEO_Redirect_Settings_Presenter( $this->current_tab, $this->get_view_vars() );
@@ -49,19 +47,6 @@ class WPSEO_Redirect_Presenter {
 		$redirect_tabs = $this->navigation_tabs();
 
 		require_once( WPSEO_PATH . 'premium/classes/redirect/views/redirects.php' );
-	}
-
-	/**
-	 * Return the value of the first column based on the table type
-	 *
-	 * @return string|void
-	 */
-	private function get_first_column_value() {
-		if ( $this->current_tab === 'regex' ) {
-			return  __( 'Regular Expression', 'wordpress-seo-premium' );
-		}
-
-		return __( 'Old URL', 'wordpress-seo-premium' );
 	}
 
 	/**
@@ -82,7 +67,7 @@ class WPSEO_Redirect_Presenter {
 	 */
 	private function navigation_tabs() {
 		$tabs     = array(
-			'url'      => __( 'Redirects', 'wordpress-seo-premium' ),
+			'plain'    => __( 'Redirects', 'wordpress-seo-premium' ),
 			'regex'    => __( 'Regex Redirects', 'wordpress-seo-premium' ),
 			'settings' => __( 'Settings', 'wordpress-seo-premium' ),
 		);
