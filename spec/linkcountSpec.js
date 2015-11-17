@@ -102,10 +102,10 @@ var linkArgs7 = {
 };
 
 describe("A test to check for errors", function(){
-	it("should not fail the test, but return 0 since the anchor has no href", function(){
+	it("should not fail the test, but return 1 since the keyword is in the textnode", function(){
 		var linkAnalyzer7 = new Factory.buildAnalyzer(linkArgs7);
 		var result = linkAnalyzer7.linkCount();
-		expect(result[0].result.totalKeyword).toBe(0);
+		expect(result[0].result.totalKeyword).toBe(1);
 	});
 });
 
@@ -119,6 +119,6 @@ describe("A test to check for the keyword in the URL", function(){
 	it("should match the keyword, since it is found in the href", function(){
 		var linkAnalyzer6 = new Factory.buildAnalyzer(linkArgs8);
 		var result = linkAnalyzer6.linkCount();
-		expect(result[0].result.totalKeyword).toBe(0);
+		expect(result[0].result.totalKeyword).toBe(1);
 	});
 });
