@@ -181,7 +181,7 @@ YoastSEO.Analyzer.prototype.wordCount = function() {
  * Checks if keyword is present, if not returns 0
  * @returns {{test: string, result: number}[]}
  */
-YoastSEO.Analyzer.prototype.keyWordCheck = function() {
+YoastSEO.Analyzer.prototype.keywordCheck = function() {
 	var result = [ { test: "keywordCheck", result: 0 } ];
 	var keyword = this.stringHelper.sanitizeKeyword( this.config.keyword );
 	if ( keyword !== "" ) {
@@ -1335,7 +1335,7 @@ YoastSEO.App.prototype.runAnalyzer = function() {
 
 	var keyword = this.stringHelper.sanitizeKeyword( this.rawData.keyword );
 	if ( keyword === "" ) {
-		this.analyzerData.queue = [ "keyWordCheck", "wordCount", "fleschReading", "pageTitleLength", "urlStopwords", "metaDescriptionLength" ];
+		this.analyzerData.queue = [ "keywordCheck", "wordCount", "fleschReading", "pageTitleLength", "urlStopwords", "metaDescriptionLength" ];
 	}
 
 	this.analyzerData.keyword = keyword;
@@ -4039,7 +4039,7 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
 				{
 					min: 10,
 					score: 0,
-					text: i18n.dgettext('js-text-analysis', "'Your keyphrase is over 10 words, a keyphrase should be shorter and there can be only one keyphrase.")
+					text: i18n.dgettext('js-text-analysis', "'Your keyphrase is over 10 words, a keyphrase should be shorter.")
 				}
 			]
 		},
