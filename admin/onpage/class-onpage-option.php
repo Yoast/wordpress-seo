@@ -54,7 +54,7 @@ class WPSEO_OnPage_Option {
 			return $this->onpage_option[ self::STATUS ];
 		}
 
-		return '';
+		return self::CANNOT_FETCH;
 	}
 
 	/**

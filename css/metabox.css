@@ -401,3 +401,16 @@ img.yoast_help {
 .yst-traffic-light.na .traffic-light-empty {
 	display: inline;
 }
+
+/**
+ * Traffic light in publish box
+ */
+#wpseo-score {
+	float: left;
+	margin: 0 5px 0 -5px;
+}
+
+body.rtl #wpseo-score {
+	float: right;
+	margin: 0 -5px 0 5px;
+}

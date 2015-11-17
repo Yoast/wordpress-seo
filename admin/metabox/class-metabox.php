@@ -27,7 +27,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		add_action( 'wp_insert_post', array( $this, 'save_postdata' ) );
 		add_action( 'edit_attachment', array( $this, 'save_postdata' ) );
 		add_action( 'add_attachment', array( $this, 'save_postdata' ) );
-		add_action( 'post_submitbox_misc_actions', array( $this, 'publish_box' ) );
+		add_action( 'post_submitbox_start', array( $this, 'publish_box' ) );
 		add_action( 'admin_init', array( $this, 'setup_page_analysis' ) );
 		add_action( 'admin_init', array( $this, 'translate_meta_boxes' ) );
 		add_action( 'admin_footer', array( $this, 'template_keyword_tab' ) );
@@ -132,7 +132,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 */
 	public function setup_page_analysis() {
 		if ( apply_filters( 'wpseo_use_page_analysis', true ) === true ) {
-			add_action( 'post_submitbox_misc_actions', array( $this, 'publish_box' ) );
+			add_action( 'post_submitbox_start', array( $this, 'publish_box' ) );
 		}
 	}
 
@@ -167,10 +167,10 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		}
 
 		printf( '
-		<div class="misc-pub-section misc-yoast misc-pub-section-last" id="wpseo-score">
+		<div title="%s" id="wpseo-score">
 			' . $this->traffic_light_svg() . '
 		</div>',
-			esc_attr( $title ),
+			__( 'SEO score', 'wordpress-seo' ),
 			esc_attr( 'wpseo-score-icon ' . $score_label ),
 			__( 'SEO:', 'wordpress-seo' ),
 			$score_title,

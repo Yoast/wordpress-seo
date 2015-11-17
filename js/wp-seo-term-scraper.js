@@ -74,7 +74,7 @@
 				val = document.getElementById( 'slug' ).value;
 				break;
 			case 'baseUrl':
-				val = wpseoTermScraperL10n.home_url.replace( /https?:\/\//ig, '' );
+				val = wpseoTermScraperL10n.home_url;
 				break;
 
 			case 'cite':
@@ -200,7 +200,7 @@
 	 * creates SVG for the overall score.
 	 */
 	TermScraper.prototype.saveScores = function( score ) {
-		var cssClass;
+		var cssClass, alt;
 
 		document.getElementById( 'hidden_wpseo_linkdex' ).value = score;
 		jQuery( window ).trigger( 'YoastSEO:numericScore', score );
@@ -208,7 +208,11 @@
 		this.updateKeywordTabContent( $( '#wpseo_focuskw' ).val(), score );
 
 		cssClass = YoastSEO.app.scoreFormatter.overallScoreRating( parseInt( score, 10 ) );
-		$( '.yst-traffic-light' ).attr( 'class', 'yst-traffic-light ' + cssClass );
+		alt = YoastSEO.app.scoreFormatter.getSEOScoreText( cssClass );
+
+		$( '.yst-traffic-light' )
+				.attr( 'class', 'yst-traffic-light ' + cssClass )
+				.attr( 'alt', alt );
 	};
 
 	/**
