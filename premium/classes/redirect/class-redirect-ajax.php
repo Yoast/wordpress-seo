@@ -25,7 +25,7 @@ class WPSEO_Redirect_Ajax {
 
 	/**
 	 * @param WPSEO_Redirect_Manager $redirect_manager The redirect manager to handle the redirects for.
-	 * @param string                 $redirect_format  The type of the redirect that is managed by this AJAX object
+	 * @param string                 $redirect_format  The type of the redirect that is managed by this AJAX object.
 	 * @param string                 $hook_suffix      The suffix that will be stitched after the ajax hook names.
 	 */
 	public function __construct( WPSEO_Redirect_Manager $redirect_manager, $redirect_format, $hook_suffix ) {
