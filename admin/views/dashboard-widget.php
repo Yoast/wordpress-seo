@@ -42,7 +42,7 @@
 	<h4 class="hide-if-no-js"><?php
 		printf(
 			/* translators: 1: expands to OnPage.org */
-			__( '%1$s status', 'wordpress-seo' ),
+			__( 'Indexability check by %1$s', 'wordpress-seo' ),
 			'OnPage.org'
 		);
 	?></h4>
