@@ -94,7 +94,7 @@
 		});
 
 		featuredImageElement = $( '#set-post-thumbnail > img' );
-		if ( '' !== featuredImageElement.prop( 'src' ) ) {
+		if ( "undefined" !== typeof featuredImageElement.prop( 'src' ) ) {
 			featuredImagePlugin.setFeaturedImage( $( '#set-post-thumbnail ' ).html() );
 		}
 	});
