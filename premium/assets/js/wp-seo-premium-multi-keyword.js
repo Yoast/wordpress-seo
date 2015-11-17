@@ -52,16 +52,20 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 			};
 		} ).get();
 
+		// Exclude empty keywords.
+		keywords = _.filter( keywords, function( item ) {
+			return item.keyword.length > 0;
+		});
+
+		if ( 0 === keywords.length ) {
+			keywords.push({ keyword: '', score: 0 });
+		}
+
 		if ( keywords.length > 0 ) {
 			firstKeyword = keywords.splice( 0, 1 ).shift();
 
 			$( '#yoast_wpseo_focuskw' ).val( firstKeyword.keyword );
 		}
-
-		// Exclude empty keywords.
-		keywords = _.filter( keywords, function( item ) {
-			return item.keyword.length > 0;
-		});
 
 		// Save keyword information to the hidden field.
 		$( '#yoast_wpseo_focuskeywords' ).val( JSON.stringify( keywords ) );
