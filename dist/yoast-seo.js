@@ -2043,7 +2043,7 @@ YoastSEO.PreProcessor.prototype.cleanText = function( textString ) {
 		textString = textString.toLocaleLowerCase();
 
 		// Remove some HTML entities as first action
-		textString = textString.replace( '&nbsp;', ' ' );
+		textString = textString.replace( "&nbsp;", " " );
 
 		// replace comma', hyphens etc with spaces
 		textString = textString.replace( /[\-\;\:\,\(\)\"\'\|\“\”]/g, " " );
