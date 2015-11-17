@@ -223,7 +223,7 @@ YoastSEO.Analyzer.prototype.keywordDensityCheck = function() {
  * @returns keywordCount
  */
 YoastSEO.Analyzer.prototype.keywordCount = function() {
-	var keywordMatches = this.preProcessor.__store.cleanText.match( this.keywordRegex );
+	var keywordMatches = this.preProcessor.__store.cleanTextSomeTags.match( this.keywordRegex );
 	var keywordCount = 0;
 	if ( keywordMatches !== null ) {
 		keywordCount = keywordMatches.length;
@@ -408,7 +408,7 @@ YoastSEO.Analyzer.prototype.linkType = function( url ) {
 	//matches all links that start with http:// and https://, case insensitive and global
 	if ( url.match( /https?:\/\//ig ) !== null ) {
 		linkType = "external";
-		var urlMatch = url.match( this.config.url );
+		var urlMatch = url.match( this.config.baseUrl );
 		if ( urlMatch !== null && urlMatch[ 0 ].length !== 0 ) {
 			linkType = "internal";
 		}
@@ -439,10 +439,12 @@ YoastSEO.Analyzer.prototype.linkFollow = function( url ) {
 YoastSEO.Analyzer.prototype.linkKeyword = function( url ) {
 	var keywordFound = false;
 
-	//split on > to discard the data in the anchortag
-	var formatUrl = url.match( /href=([\'\"])(.*?)\1/ig );
-	if ( formatUrl !== null && formatUrl[ 0 ].match( this.keywordRegex ) !== null ) {
+	var formatUrl = url.match( />(.*)/ig );
+	if ( formatUrl !== null ) {
+		formatUrl = formatUrl[0].replace( /<.*?>\s?/ig, "" );
+		if ( formatUrl.match( this.keywordRegex ) !== null ) {
 		keywordFound = true;
+		}
 	}
 	return keywordFound;
 };
@@ -456,6 +458,8 @@ YoastSEO.Analyzer.prototype.linkResult = function( obj ) {
 	result.externalHasNofollow = false;
 	result.externalAllNofollow = false;
 	result.externalAllDofollow = false;
+	result.internalAllDofollow = false;
+	result.noExternal = false;
 	if ( result.externalTotal !== result.externalDofollow && result.externalTotal > 0 ) {
 		result.externalHasNofollow = true;
 	}
@@ -464,6 +468,12 @@ YoastSEO.Analyzer.prototype.linkResult = function( obj ) {
 	}
 	if ( result.externalTotal === result.externalDofollow && result.externalTotal > 0 ) {
 		result.externalAllDofollow = true;
+	}
+	if ( result.total === result.internalDofollow && result.internalTotal > 0 ) {
+		result.internalAllDofollow = true;
+	}
+	if ( result.total === ( result.internalTotal + result.otherTotal ) ) {
+		result.noExternal = true;
 	}
 	return result;
 };
@@ -2339,8 +2349,7 @@ YoastSEO.SnippetPreview.prototype.formatUrl = function() {
 	var url = this.refObj.rawData.baseUrl;
 
 	//removes the http(s) part of the url
-	url.replace( /https?:\/\//ig, "" );
-	return url;
+	return url.replace( /https?:\/\//ig, "" );
 };
 
 /**
@@ -2521,7 +2530,7 @@ YoastSEO.SnippetPreview.prototype.renderOutput = function() {
  */
 YoastSEO.SnippetPreview.prototype.renderSnippetStyle = function() {
 	var cssClass = "desc-default";
-	if ( this.refObj.rawData.snippetMeta === "" ) {
+	if ( this.refObj.rawData.meta === "" ) {
 		cssClass = "desc-render";
 	}
 	document.getElementById( "snippet_meta" ).className = "desc " + cssClass;
@@ -4084,7 +4093,17 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
                     max: 0,
                     score: 6,
                     text: i18n.dgettext('js-text-analysis', "No outbound links appear in this page, consider adding some as appropriate.")
-                },{
+                },
+				{
+					type: "internalAllDofollow",
+					score: 6,
+					text: i18n.dgettext('js-text-analysis', "No outbound links appear in this page, consider adding some as appropriate.")
+				},{
+					type: "noExternal",
+					score: 6,
+					text: i18n.dgettext('js-text-analysis', "No outbound links appear in this page, consider adding some as appropriate.")
+				},
+				{
 					matcher: "totalNaKeyword",
 					min: 1,
 					score: 2,
@@ -4122,7 +4141,7 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
                 {min: 90, score: 9, text: "{{text}}", resultText: "very easy", note: ""},
                 {min: 80, max: 89.9, score: 9, text: "{{text}}", resultText: "easy", note: ""},
                 {min: 70, max: 79.9, score: 8, text: "{{text}}", resultText: "fairly easy", note: ""},
-                {min: 60, max: 69.9, score: 7, text: "{{text}}", resultText: "ok", note: ""},
+                {min: 60, max: 69.9, score: 8, text: "{{text}}", resultText: "ok", note: ""},
                 {
                     min: 50,
                     max: 59.9,

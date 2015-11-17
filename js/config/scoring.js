@@ -115,7 +115,17 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
                     max: 0,
                     score: 6,
                     text: i18n.dgettext('js-text-analysis', "No outbound links appear in this page, consider adding some as appropriate.")
-                },{
+                },
+				{
+					type: "internalAllDofollow",
+					score: 6,
+					text: i18n.dgettext('js-text-analysis', "No outbound links appear in this page, consider adding some as appropriate.")
+				},{
+					type: "noExternal",
+					score: 6,
+					text: i18n.dgettext('js-text-analysis', "No outbound links appear in this page, consider adding some as appropriate.")
+				},
+				{
 					matcher: "totalNaKeyword",
 					min: 1,
 					score: 2,
@@ -153,7 +163,7 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
                 {min: 90, score: 9, text: "{{text}}", resultText: "very easy", note: ""},
                 {min: 80, max: 89.9, score: 9, text: "{{text}}", resultText: "easy", note: ""},
                 {min: 70, max: 79.9, score: 8, text: "{{text}}", resultText: "fairly easy", note: ""},
-                {min: 60, max: 69.9, score: 7, text: "{{text}}", resultText: "ok", note: ""},
+                {min: 60, max: 69.9, score: 8, text: "{{text}}", resultText: "ok", note: ""},
                 {
                     min: 50,
                     max: 59.9,

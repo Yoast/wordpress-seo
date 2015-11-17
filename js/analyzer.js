@@ -223,7 +223,7 @@ YoastSEO.Analyzer.prototype.keywordDensityCheck = function() {
  * @returns keywordCount
  */
 YoastSEO.Analyzer.prototype.keywordCount = function() {
-	var keywordMatches = this.preProcessor.__store.cleanText.match( this.keywordRegex );
+	var keywordMatches = this.preProcessor.__store.cleanTextSomeTags.match( this.keywordRegex );
 	var keywordCount = 0;
 	if ( keywordMatches !== null ) {
 		keywordCount = keywordMatches.length;
@@ -408,7 +408,7 @@ YoastSEO.Analyzer.prototype.linkType = function( url ) {
 	//matches all links that start with http:// and https://, case insensitive and global
 	if ( url.match( /https?:\/\//ig ) !== null ) {
 		linkType = "external";
-		var urlMatch = url.match( this.config.url );
+		var urlMatch = url.match( this.config.baseUrl );
 		if ( urlMatch !== null && urlMatch[ 0 ].length !== 0 ) {
 			linkType = "internal";
 		}
@@ -439,10 +439,12 @@ YoastSEO.Analyzer.prototype.linkFollow = function( url ) {
 YoastSEO.Analyzer.prototype.linkKeyword = function( url ) {
 	var keywordFound = false;
 
-	//split on > to discard the data in the anchortag
-	var formatUrl = url.match( /href=([\'\"])(.*?)\1/ig );
-	if ( formatUrl !== null && formatUrl[ 0 ].match( this.keywordRegex ) !== null ) {
+	var formatUrl = url.match( />(.*)/ig );
+	if ( formatUrl !== null ) {
+		formatUrl = formatUrl[0].replace( /<.*?>\s?/ig, "" );
+		if ( formatUrl.match( this.keywordRegex ) !== null ) {
 		keywordFound = true;
+		}
 	}
 	return keywordFound;
 };
@@ -456,6 +458,8 @@ YoastSEO.Analyzer.prototype.linkResult = function( obj ) {
 	result.externalHasNofollow = false;
 	result.externalAllNofollow = false;
 	result.externalAllDofollow = false;
+	result.internalAllDofollow = false;
+	result.noExternal = false;
 	if ( result.externalTotal !== result.externalDofollow && result.externalTotal > 0 ) {
 		result.externalHasNofollow = true;
 	}
@@ -464,6 +468,12 @@ YoastSEO.Analyzer.prototype.linkResult = function( obj ) {
 	}
 	if ( result.externalTotal === result.externalDofollow && result.externalTotal > 0 ) {
 		result.externalAllDofollow = true;
+	}
+	if ( result.total === result.internalDofollow && result.internalTotal > 0 ) {
+		result.internalAllDofollow = true;
+	}
+	if ( result.total === ( result.internalTotal + result.otherTotal ) ) {
+		result.noExternal = true;
 	}
 	return result;
 };
