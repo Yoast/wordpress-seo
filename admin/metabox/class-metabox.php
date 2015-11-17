@@ -170,7 +170,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		<div title="%s" id="wpseo-score">
 			' . $this->traffic_light_svg() . '
 		</div>',
-			esc_attr( $title ),
+			__( 'SEO score', 'wordpress-seo' ),
 			esc_attr( 'wpseo-score-icon ' . $score_label ),
 			__( 'SEO:', 'wordpress-seo' ),
 			$score_title,
