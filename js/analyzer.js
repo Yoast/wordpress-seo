@@ -181,7 +181,7 @@ YoastSEO.Analyzer.prototype.wordCount = function() {
  * Checks if keyword is present, if not returns 0
  * @returns {{test: string, result: number}[]}
  */
-YoastSEO.Analyzer.prototype.keyWordCheck = function() {
+YoastSEO.Analyzer.prototype.keywordCheck = function() {
 	var result = [ { test: "keywordCheck", result: 0 } ];
 	var keyword = this.stringHelper.sanitizeKeyword( this.config.keyword );
 	if ( keyword !== "" ) {
