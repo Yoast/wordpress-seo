@@ -578,7 +578,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 					'checkbox',
 				), true ) === false
 			) {
-				$label = '<label for="' . $esc_form_key . '">' . $label . ':</label>';
+				$label = '<label for="' . $esc_form_key . '">' . $label . '</label>';
 			}
 
 			$help = '';
