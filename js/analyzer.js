@@ -181,10 +181,13 @@ YoastSEO.Analyzer.prototype.wordCount = function() {
  * Checks if keyword is present, if not returns 0
  * @returns {{test: string, result: number}[]}
  */
-YoastSEO.Analyzer.prototype.keyWordCheck = function() {
-	if ( this.stringHelper.sanitizeKeyword( this.config.keyword ) === "" ) {
-		return [ { test: "keywordCheck", result: 0 } ];
+YoastSEO.Analyzer.prototype.keyphraseSizeCheck = function() {
+	var result = [ { test: "keyphraseSizeCheck", result: 0 } ];
+	var keyword = this.stringHelper.sanitizeKeyword( this.config.keyword );
+	if ( keyword !== "" ) {
+		result[ 0 ].result = keyword.split( /\s/g ).length;
 	}
+	return result;
 };
 
 /**
