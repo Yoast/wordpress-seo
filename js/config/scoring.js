@@ -387,7 +387,7 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
 				{
 					name: "url",
 					position: "%1$s",
-					value: "<a href='" + i18n.dgettext( "http://en.wikipedia.org/wiki/Stop_words" ) + "' target='new'>"
+					value: "<a href='" + i18n.dgettext( 'js-text-analysis', "http://en.wikipedia.org/wiki/Stop_words" ) + "' target='new'>"
 				},
                 {
                     name: "urlClose",
