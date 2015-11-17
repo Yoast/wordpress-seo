@@ -25,7 +25,7 @@ class Metabox_Add_Keyword_Tab implements WPSEO_Metabox_Tab {
 
 			<?php if ( ! defined( 'WPSEO_PREMIUM_FILE' ) ) : ?>
 				<div id="wpseo-add-keyword-popup" style="display: none;">
-					<img class="alignright" style="margin: 10px;" src="<?php echo trailingslashit( plugin_dir_url(WPSEO_FILE) ); ?>images/Yoast_SEO_Icon.svg" width="150" alt="Yoast SEO"/>
+					<img class="alignright" style="margin: 10px;" src="<?php echo trailingslashit( plugin_dir_url( WPSEO_FILE ) ); ?>images/Yoast_SEO_Icon.svg" width="150" alt="Yoast SEO"/>
 					<h3><?php printf( __( 'Multiple focus keywords is a %s feature', 'wordpress-seo' ), 'Yoast SEO Premium' ); ?></h3>
 					<p>
 						<?php
@@ -37,7 +37,7 @@ class Metabox_Add_Keyword_Tab implements WPSEO_Metabox_Tab {
 							);
 						?>
 					</p>
-					<a class="button-primary" href="https://yoast.com/wordpress/plugins/seo-premium/#utm_source=wordpress-seo-metabox&utm_medium=popup&utm_campaign=multiple-keywords"><?php printf( __( 'Buy %s &raquo;', 'wordpress-seo' ), 'Yoast SEO Premium' ); ?></a>
+					<a class="button-primary" href="https://yoast.com/wordpress/plugins/seo-premium/#utm_source=wordpress-seo-metabox&amp;utm_medium=popup&amp;utm_campaign=multiple-keywords"><?php printf( __( 'Buy %s &raquo;', 'wordpress-seo' ), 'Yoast SEO Premium' ); ?></a>
 					<div class="clear"></div>
 				</div>
 			<?php endif; ?>
