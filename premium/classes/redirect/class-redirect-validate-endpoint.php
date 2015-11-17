@@ -6,7 +6,7 @@
 /**
  * Validator for validating the endpoint of a redirect
  */
-class WPSEO_Redirect_Validate_Endpoint {
+class WPSEO_Redirect_Validate_Endpoint implements WPSEO_Redirect_Validate {
 
 	/**
 	 * @var array
@@ -19,60 +19,29 @@ class WPSEO_Redirect_Validate_Endpoint {
 	private $error;
 
 	/**
-	 * Setting the properties
+	 * Validate the redirect to check if the origin already exists.
 	 *
-	 * @param string $origin    The origin that will be redirected.
-	 * @param string $target    The target of the redirect.
-	 * @param array  $redirects Array with the redirects.
+	 * @param WPSEO_Redirect $redirect  The redirect to validate.
+	 * @param array          $redirects Array with redirect to validate against.
+	 *
+	 * @return bool
 	 */
-	public function __construct( $origin, $target, array $redirects ) {
+	public function validate( WPSEO_Redirect $redirect, array $redirects ) {
 		$this->redirects = $redirects;
 
-		$this->validate( $origin, $target );
-	}
-
-	/**
-	 * Validates if the end point is valid.
-	 *
-	 * @return bool
-	 */
-	public function is_valid() {
-		return empty( $this->error );
-	}
-
-	/**
-	 * Returns the validation error
-	 *
-	 * @return string
-	 */
-	public function get_error() {
-		return $this->error;
-	}
-
-	/**
-	 * Validate if the end point is valid
-	 *
-	 * @param string $origin The origin that will be redirected.
-	 * @param string $target The target of the redirect.
-	 *
-	 * @return bool
-	 */
-	private function validate( $origin, $target ) {
+		$origin   = $redirect->get_sanitized_origin();
+		$target   = $redirect->get_sanitized_target();
 		$endpoint = $this->search_end_point( $target, $origin );
 
-		if ( $endpoint === false ) {
-			return true;
-		}
-
 		// Check for a redirect loop.
-		if ( in_array( $endpoint, array( $origin, $target ) ) ) {
+		if ( is_string( $endpoint ) && in_array( $endpoint, array( $origin, $target ) ) ) {
 			// There might be a redirect loop.
 			$this->error = __( 'There might be a redirect loop.', 'wordpress-seo-premium' );
 
 			return false;
 		}
 
-		if ( $target !== $endpoint ) {
+		if ( is_string( $endpoint ) && $target !== $endpoint ) {
 			// The current redirect will be redirected to ... Maybe it's worth considering to create a direct redirect to ...
 			$this->error = sprintf(
 				__( '%1$s will be redirected to %2$s. Maybe it\'s worth considering to create a direct redirect to %2$s.', 'wordpress-seo-premium' ),
@@ -84,6 +53,15 @@ class WPSEO_Redirect_Validate_Endpoint {
 		}
 
 		return true;
+	}
+
+	/**
+	 * Returns the validation error
+	 *
+	 * @return string
+	 */
+	public function get_error() {
+		return $this->error;
 	}
 
 	/**

@@ -6,10 +6,10 @@
 /**
  * Validator for validating the accessibility of a redirect's target
  */
-class WPSEO_Redirect_Validate_Accessible {
+class WPSEO_Redirect_Validate_Accessible implements WPSEO_Redirect_Validate {
 
 	/**
-	 * @var string
+	 * @var string The validation error.
 	 */
 	private $error;
 
@@ -19,43 +19,17 @@ class WPSEO_Redirect_Validate_Accessible {
 	private $warning;
 
 	/**
-	 * Setting the properties
+	 * Validate the redirect to check if the origin already exists.
 	 *
-	 * @param string $target The url to validate.
-	 *
-	 */
-	public function __construct( $target ) {
-		$this->validate( $target );
-	}
-
-	/**
-	 * Validates if the end point is valid.
+	 * @param WPSEO_Redirect $redirect  The redirect to validate.
+	 * @param array|null     $redirects Unused.
 	 *
 	 * @return bool
 	 */
-	public function is_valid() {
-		return empty( $this->error );
-	}
-
-	/**
-	 * Returns the validation error
-	 * @return string
-	 */
-	public function get_error() {
-		return $this->error;
-	}
-
-	/**
-	 * Validate if the end point is valid
-	 *
-	 * @param string $target The url to validate.
-	 *
-	 * @return bool
-	 */
-	private function validate( $target ) {
+	public function validate( WPSEO_Redirect $redirect, array $redirects = null ) {
 
 		// Do the request.
-		$decoded_url   = rawurldecode( $target );
+		$decoded_url   = rawurldecode( $redirect->get_target() );
 		$response      = wp_remote_head( $decoded_url, array( 'sslverify' => false ) );
 
 		if ( is_wp_error( $response ) ) {
@@ -71,10 +45,29 @@ class WPSEO_Redirect_Validate_Accessible {
 				__( 'The URL you entered returned a HTTP code different than 200(OK). The received HTTP code is %1$s.', 'wordpress-seo-premium' ),
 				$response_code
 			);
+
+			return false;
 		}
 
 		return true;
 	}
 
+	/**
+	 * Returns the validation error
+	 *
+	 * @return string
+	 */
+	public function get_error() {
+		return $this->error;
+	}
+
+	/**
+	 * Returns the validation warning
+	 *
+	 * @return string
+	 */
+	public function get_warning() {
+		return $this->warning;
+	}
 
 }

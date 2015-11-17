@@ -102,34 +102,20 @@ class WPSEO_Redirect implements ArrayAccess {
 	}
 
 	/**
-	 * Returns the validation error
+	 * Returns the origin without any slashes
+	 *
 	 * @return string
 	 */
-	public function get_validation_error() {
-		return $this->validation_error;
+	public function get_sanitized_origin() {
+		return $this->sanitize_slash( $this->origin );
 	}
-
 	/**
-	 * Validates the redirect.
+	 * Returns the origin without any slashes
 	 *
-	 * @param string $old_origin When filled the validator will check if uniqueness validation is needed.
-	 *
-	 * @return bool
+	 * @return string
 	 */
-	public function is_valid( $old_origin = '' ) {
-		if ( $old_origin !== '' ) {
-			self::format_origin( $old_origin, $this->format );
-		}
-		$validation = new WPSEO_Redirect_Validator( $this, $old_origin );
-
-		if ( $validation->validate() ) {
-			return true;
-		}
-
-		$this->validation_error = $validation->get_error();
-
-		return false;
-
+	public function get_sanitized_target() {
+		return $this->sanitize_slash( $this->target );
 	}
 
 	/**
@@ -220,5 +206,21 @@ class WPSEO_Redirect implements ArrayAccess {
 	 */
 	public function offsetUnset( $offset ) {
 
+	}
+
+	/**
+	 * Strip the trailing slashes
+	 *
+	 * @param string $url_to_sanitize The url to sanitize.
+	 *
+	 * @return string
+	 */
+	private function sanitize_slash( $url_to_sanitize ) {
+		$url = $url_to_sanitize;
+		if ( $this->format === WPSEO_Redirect::FORMAT_PLAIN ) {
+			$url = trim( $url_to_sanitize, '/' );
+		}
+
+		return $url;
 	}
 }
