@@ -47,3 +47,65 @@ describe("a test to check if the keyword occurs in the pagetitle", function(){
         expect(result[0].result.matches).toBe(0);
     });
 });
+
+titleKeywordArg4 = {
+    pageTitle: "focus keyword",
+    keyword: "focus keyword",
+    queue: ["pageTitleKeyword"]
+};
+titleKeywordArg5 = {
+    pageTitle: "focus-keyword",
+    keyword: "focus-keyword",
+    queue: ["pageTitleKeyword"]
+};
+titleKeywordArg6 = {
+    pageTitle: "focus-keyword",
+    keyword: "focus keyword",
+    queue: ["pageTitleKeyword"]
+};
+titleKeywordArg7 = {
+    pageTitle: "focus keyword",
+    keyword: "focus-keyword",
+    queue: ["pageTitleKeyword"]
+};
+
+describe("a test with keywords", function() {
+    var pageTitleAnalyzer;
+    var result;
+
+    it("returns correct results with spaces in the keyword", function() {
+        pageTitleAnalyzer = Factory.buildAnalyzer(titleKeywordArg4);
+
+        result = pageTitleAnalyzer.pageTitleKeyword();
+
+        expect(result[0 ].result.matches ).toBe(1);
+        expect(result[0 ].result.position ).toBe(0);
+    });
+
+    it("returns correct results with a dash in the keyword", function() {
+        pageTitleAnalyzer = Factory.buildAnalyzer(titleKeywordArg5);
+
+        result = pageTitleAnalyzer.pageTitleKeyword();
+
+        expect(result[0 ].result.matches ).toBe(1);
+        expect(result[0 ].result.position ).toBe(0);
+    });
+
+    it("returns correct results with a dash in the keyword", function() {
+        pageTitleAnalyzer = Factory.buildAnalyzer(titleKeywordArg6);
+
+        result = pageTitleAnalyzer.pageTitleKeyword();
+
+        expect(result[0 ].result.matches ).toBe(0);
+        expect(result[0 ].result.position ).toBe(-1);
+    });
+
+    it("returns correct results with a dash in the keyword", function() {
+        pageTitleAnalyzer = Factory.buildAnalyzer(titleKeywordArg7);
+
+        result = pageTitleAnalyzer.pageTitleKeyword();
+
+        expect(result[0 ].result.matches ).toBe(0);
+        expect(result[0 ].result.position ).toBe(-1);
+    });
+});

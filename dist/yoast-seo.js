@@ -576,7 +576,7 @@ YoastSEO.Analyzer.prototype.pageTitleKeyword = function() {
 	if ( typeof this.config.pageTitle !== "undefined" ) {
 		result[ 0 ].result.matches = this.stringHelper.countMatches(
 			this.config.pageTitle.toLocaleLowerCase(),
-			this.keywordRegexInverse
+			this.config.keyword
 		);
 		result[ 0 ].result.position = this.config.pageTitle.indexOf( this.config.keyword );
 	}
