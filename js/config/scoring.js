@@ -116,10 +116,6 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
                     score: 6,
                     text: i18n.dgettext('js-text-analysis', "No outbound links appear in this page, consider adding some as appropriate.")
                 },{
-					type: "internalAllDofollow",
-					score: 6,
-					text: i18n.dgettext('js-text-analysis', "No outbound links appear in this page, consider adding some as appropriate.")
-				},{
 					matcher: "totalNaKeyword",
 					min: 1,
 					score: 2,
