@@ -13,7 +13,12 @@ if ( ! class_exists( 'WP_List_Table' ) ) {
 class WPSEO_Redirect_Table extends WP_List_Table {
 
 	/**
-	 * @var The name of the first column
+	 * @var WPSEO_Redirect[]
+	 */
+	public $items;
+
+	/**
+	 * @var string The name of the first column
 	 */
 	private $current_column;
 
@@ -244,8 +249,13 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	private function format_items() {
 		// Format the data.
 		$formatted_items = array();
+
 		foreach ( $this->items as $old => $redirect ) {
-			$formatted_items[] = array( 'old' => $old, 'new' => $redirect['url'], 'type' => $redirect['type'] );
+			$formatted_items[] = array(
+				'old'  => $redirect->get_origin(),
+				'new'  => $redirect->get_target(),
+				'type' => $redirect->get_type(),
+			);
 		}
 
 		$this->items = $formatted_items;
@@ -260,7 +270,7 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 		$results = array();
 
 		foreach ( $this->items as $old => $redirect ) {
-			if ( false !== stripos( $old, $search_string ) || false !== stripos( $redirect['url'], $search_string ) ) {
+			if ( false !== stripos( $redirect->get_origin(), $search_string ) || false !== stripos( $redirect->get_target(), $search_string ) ) {
 				$results[ $old ] = $redirect;
 			}
 		}

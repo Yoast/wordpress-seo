@@ -4,156 +4,161 @@
  */
 
 /**
- * Class handling the redirect options
+ * Represents a single redirect
  */
-class WPSEO_Redirect {
+class WPSEO_Redirect implements ArrayAccess {
+
+	const PERMANENT = 301;
+	const FOUND		= 302;
+	const TEMPORARY = 307;
+	const DELETED   = 410;
+
+	const FORMAT_PLAIN = 'plain';
+	const FORMAT_REGEX = 'regex';
 
 	/**
 	 * @var string
 	 */
-	private $option_name;
+	protected $origin;
 
 	/**
-	 * @var array
+	 * @var string
 	 */
-	private $redirects = array();
+	protected $target = '';
 
 	/**
-	 * Constructing the model
-	 *
-	 * @param string $option_name The target option name where the redirects are stored.
+	 * @var int
 	 */
-	public function __construct( $option_name ) {
-		$this->option_name = $option_name;
-		$this->redirects   = $this->get_from_option();
-	}
+	protected $type;
 
 	/**
-	 * Getting the array with all the redirects
-	 *
-	 * @return array
+	 * @var string
 	 */
-	public function get_all() {
-		return $this->redirects;
-	}
+	protected $format;
 
 	/**
-	 * Setting the value of the redirects option with the given value
+	 * WPSEO_Redirect constructor.
 	 *
-	 * @param array $redirects Override the redirect option with a new value.
+	 * @param string $origin The origin of the redirect.
+	 * @param string $target The target of the redirect.
+	 * @param int    $type   The type of the redirect.
+	 * @param string $format The format of the redirect.
+	 *
+	 * @throws InvalidArgumentException When DELETED type and target empty.
 	 */
-	public function set( array $redirects ) {
-		$this->redirects = $redirects;
-		$this->save();
-	}
+	public function __construct( $origin, $target = '', $type = self::PERMANENT, $format = self::FORMAT_PLAIN ) {
+		$type = (int) $type;
 
-	/**
-	 * Check if the old redirect doesn't exist already, if not it will be added
-	 *
-	 * @param string $old_redirect The old redirect value.
-	 * @param string $new_redirect The value of the new redirect.
-	 * @param string $type		   The redirect type.
-	 *
-	 * @return bool
-	 */
-	public function add( $old_redirect, $new_redirect, $type ) {
-		if ( ! $this->search( $old_redirect ) ) {
-			$this->redirects[ $old_redirect ] = $this->format( $new_redirect, $type );
-
-			return true;
+		if ( $target === '' &&  $type !== self::DELETED ) {
+			throw new InvalidArgumentException( 'Target cannot be empty for a ' . $type . ' redirect.' );
 		}
 
-		return false;
+		$this->origin = $origin;
+		$this->target = $target;
+		$this->type   = $type;
+		$this->format = $format;
 	}
 
 	/**
-	 * Check if the $current_redirect exists and remove it if so.
+	 * Returns the origin.
 	 *
-	 * @param string $current_redirect The current redirect value.
-	 * @param string $old_redirect	   The old redirect target.
-	 * @param string $new_redirect	   The target where the old redirect will point to.
-	 * @param string $type			   Redirect type.
-	 *
-	 * @return bool
+	 * @return string
 	 */
-	public function update( $current_redirect, $old_redirect, $new_redirect, $type ) {
-		if ( $this->search( $current_redirect ) ) {
-			// First we will delete the current redirect.
-			$this->delete( $current_redirect );
+	public function get_origin() {
+		return $this->origin;
+	}
 
-			return $this->add( $old_redirect, $new_redirect, $type );
+	/**
+	 * Returns the target
+	 *
+	 * @return string
+	 */
+	public function get_target() {
+		return $this->target;
+	}
+
+	/**
+	 * Returns the type
+	 *
+	 * @return int
+	 */
+	public function get_type() {
+		return $this->type;
+	}
+
+	/**
+	 * Returns the format
+	 *
+	 * @return string
+	 */
+	public function get_format() {
+		return $this->format;
+	}
+
+	/**
+	 * (PHP 5 &gt;= 5.0.0) - Whether a offset exists
+	 *
+	 * @link http://php.net/manual/en/arrayaccess.offsetexists.php
+	 *
+	 * @param string $offset An offset to check for.
+	 *
+	 * @return boolean true on success or false on failure.
+	 *
+	 * The return value will be casted to boolean if non-boolean was returned.
+	 */
+	public function offsetExists( $offset ) {
+		return in_array( $offset, array( 'url', 'type' ) );
+	}
+
+	/**
+	 * (PHP 5 &gt;= 5.0.0) - Offset to retrieve
+	 *
+	 * @link http://php.net/manual/en/arrayaccess.offsetget.php
+	 *
+	 * @param string $offset The offset to retrieve.
+	 *
+	 * @return mixed Can return all value types.
+	 */
+	public function offsetGet( $offset ) {
+		switch ( $offset ) {
+			case 'url' :
+				return $this->target;
+				break;
+			case 'type' :
+				return $this->type;
+				break;
 		}
 
-		return false;
+		return null;
 	}
 
 	/**
-	 * Deletes the given redirect from the array
+	 * (PHP 5 &gt;= 5.0.0) - Offset to set
 	 *
-	 * @param string $redirect The redirect that will be removed.
+	 * @link http://php.net/manual/en/arrayaccess.offsetset.php
 	 *
-	 * @return bool
+	 * @param string $offset The offset to assign the value to.
+	 * @param string $value  The value to set.
 	 */
-	public function delete( $redirect ) {
-		if ( $this->search( $redirect ) ) {
-			unset( $this->redirects[ $redirect ] );
-
-			return true;
+	public function offsetSet( $offset, $value ) {
+		switch ( $offset ) {
+			case 'url' :
+				$this->target = $value;
+				break;
+			case 'type' :
+				$this->type = $value;
+				break;
 		}
-
-		return false;
 	}
 
 	/**
-	 * Check if the $redirect already exists as a key in the array
+	 * (PHP 5 &gt;= 5.0.0) - Offset to unset
 	 *
-	 * @param string $redirect The redirect to search for.
+	 * @link http://php.net/manual/en/arrayaccess.offsetunset.php
 	 *
-	 * @return bool|array
+	 * @param string $offset The offset to unset.
 	 */
-	public function search( $redirect ) {
-		if ( array_key_exists( $redirect, $this->redirects ) ) {
-			return $this->redirects[ $redirect ];
-		}
+	public function offsetUnset( $offset ) {
 
-		return false;
 	}
-
-	/**
-	 * Saving the redirects
-	 */
-	public function save() {
-		// Update the database option.
-		update_option( $this->option_name, apply_filters( 'wpseo_premium_save_redirects', $this->redirects ) );
-	}
-
-	/**
-	 * Formats the given params to the required array
-	 *
-	 * @param string $redirect The target redirect.
-	 * @param string $type     The redirect type.
-	 *
-	 * @return array
-	 */
-	public function format( $redirect, $type ) {
-		return array(
-			'url'  => $redirect,
-			'type' => $type,
-		);
-	}
-
-	/**
-	 * Setting the redirects property
-	 *
-	 * @return array|mixed|void
-	 */
-	protected function get_from_option() {
-		$redirects = apply_filters( 'wpseo_premium_get_redirects', get_option( $this->option_name ) );
-		if ( ! is_array( $redirects ) ) {
-			$redirects = array();
-		}
-
-		return $redirects;
-	}
-
 }

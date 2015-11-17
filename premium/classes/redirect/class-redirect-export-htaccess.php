@@ -6,41 +6,22 @@
 /**
  * Class WPSEO_Htaccess_Redirect_File
  */
-class WPSEO_Redirect_File_Htaccess extends WPSEO_Redirect_File_Apache {
+class WPSEO_Redirect_Export_Htaccess extends WPSEO_Redirect_Export_Apache {
 
 	/**
 	 * Save the redirect file
 	 *
-	 * @param array $url_redirects   The URL redirects that will be saved.
-	 * @param array $regex_redirects The regex redirect to save.
+	 * @param string $file_content The file content that will be saved.
 	 *
 	 * @return bool
 	 */
-	public function save( array $url_redirects, array $regex_redirects ) {
-		// Generate file content.
-		$file_content = $this->generate_content( $url_redirects, $regex_redirects );
-
-		if ( null === $file_content ) {
-			return false;
-		}
-
-		return $this->write_htaccess_content( $file_content );
-	}
-
-	/**
-	 * Writing the redirects to the .htaccess file.
-	 *
-	 * @param string $file_content The content to save in the htaccess file.
-	 *
-	 * @return bool
-	 */
-	protected function write_htaccess_content( $file_content ) {
+	protected function save( $file_content ) {
 		$file_path = WPSEO_Redirect_Htaccess_Util::get_htaccess_file_path();
 
 		// Update the .htaccess file.
 		if ( is_writable( $file_path ) ) {
 			$htaccess = $this->get_htaccess_content( $file_path, $file_content );
-			$return   = (bool) wPSEO_Redirect_File_Util::write_file( $file_path, $htaccess );
+			$return   = (bool) WPSEO_Redirect_File_Util::write_file( $file_path, $htaccess );
 
 			chmod( $file_path, FS_CHMOD_FILE );
 

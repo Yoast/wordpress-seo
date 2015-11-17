@@ -29,7 +29,7 @@ class WPSEO_Redirect_Ajax {
 	 */
 	public function __construct( WPSEO_Redirect_Manager $redirect_manager, $hook_suffix ) {
 		$this->redirect_manager = $redirect_manager;
-		$this->validator        = $redirect_manager->get_validator( $redirect_manager->get_redirects() );
+		$this->validator        = $redirect_manager->get_validator();
 
 		$this->set_hooks( $hook_suffix );
 	}
@@ -60,9 +60,9 @@ class WPSEO_Redirect_Ajax {
 			$redirect = $this->redirect_manager->create_redirect( $old_url, $new_url, $type );
 
 			$response = array(
-				'old_redirect'  => $redirect['redirect'],
-				'new_redirect'  => $redirect['url'],
-				'redirect_type' => $redirect['type'],
+				'old_redirect'  => $redirect->get_origin(),
+				'new_redirect'  => $redirect->get_target(),
+				'redirect_type' => $redirect->get_type(),
 			);
 		}
 
@@ -99,7 +99,7 @@ class WPSEO_Redirect_Ajax {
 			$redirect = $this->redirect_manager->update_redirect( $old_redirect, $new_redirect );
 
 			$response = array(
-				'old_redirect'  => $redirect['redirect'],
+				'old_redirect'  => $redirect->get_origin(),
 			);
 		}
 

@@ -13,7 +13,7 @@ class WPSEO_Redirect_File_Util_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Testing if the get dir contains wpseo-redirects.
 	 *
-	 * @covers WPSEO_Redirect_File_Util_Test::get_dir
+	 * @covers WPSEO_Redirect_File_Util::get_dir
 	 */
 	public function test_get_dir() {
 		$this->assertContains( '/wpseo-redirects', WPSEO_Redirect_File_Util::get_dir() );

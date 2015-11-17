@@ -4,115 +4,139 @@
  */
 
 /**
- * Test class for the redirect option class
- *
- * @covers WPSEO_Redirect
+ * Test class for testing WPSEO_Redirect
  */
 class WPSEO_Redirect_Test extends WPSEO_UnitTestCase {
 
 	/**
-	 * This variable is instantiated in setUp().
+	 * Test if constructor works
 	 *
-	 * @var WPSEO_Redirect
+	 * @covers WPSEO_Redirect::__construct
+	 * @covers WPSEO_Redirect::get_origin
+	 * @covers WPSEO_Redirect::get_target
+	 * @covers WPSEO_Redirect::get_type
+	 * @covers WPSEO_Redirect::get_format
 	 */
-	protected $class_instance;
+	public function test_construct() {
 
+		$redirect = new WPSEO_Redirect( 'origin', 'target', 301, 'plain' );
+
+		$this->assertEquals( 'origin', $redirect->get_origin() );
+		$this->assertEquals( 'target', $redirect->get_target() );
+		$this->assertEquals( 301,      $redirect->get_type() );
+		$this->assertEquals( 'plain',  $redirect->get_format() );
+	}
 	/**
-	 * Setting the instance
+	 * Test if constructor works
+	 *
+	 * @covers WPSEO_Redirect::__construct
+	 * @covers WPSEO_Redirect::get_origin
+	 * @covers WPSEO_Redirect::get_target
+	 * @covers WPSEO_Redirect::get_type
+	 * @covers WPSEO_Redirect::get_format
 	 */
-	public function setUp() {
-		parent::setUp();
+	public function test_construct_regex() {
 
-		$this->class_instance = new WPSEO_Redirect( 'wpseo_redirects' );
-		$this->class_instance->set(
-			array(
-				'old-url' => array(
-					'url'  => 'new-url',
-					'type' => 301,
-				),
-			)
-		);
+		$redirect = new WPSEO_Redirect( 'origin', 'target', 307, 'regex' );
+
+		$this->assertEquals( 'origin', $redirect->get_origin() );
+		$this->assertEquals( 'target', $redirect->get_target() );
+		$this->assertEquals( 307,      $redirect->get_type() );
+		$this->assertEquals( 'regex',  $redirect->get_format() );
 	}
 
 	/**
-	 * Test the result of the get_all method. Should return an empty array
+	 * Test how constructor deals with the defaults
 	 *
-	 * @covers WPSEO_Redirect::get_all
+	 * @covers WPSEO_Redirect::__construct
+	 * @covers WPSEO_Redirect::get_origin
+	 * @covers WPSEO_Redirect::get_target
+	 * @covers WPSEO_Redirect::get_type
+	 * @covers WPSEO_Redirect::get_format
 	 */
-	public function test_get_all() {
-		$this->assertEquals(
-			array(
-				'old-url' => array(
-					'url'  => 'new-url',
-					'type' => 301,
-				),
-			),
-			$this->class_instance->get_all()
-		);
+	public function test_construct_defaults() {
+		$redirect = new WPSEO_Redirect( 'origin', 'target' );
+
+		$this->assertEquals( 'origin', $redirect->get_origin() );
+		$this->assertEquals( 'target', $redirect->get_target() );
+		$this->assertEquals( 301,      $redirect->get_type() );
+		$this->assertEquals( 'plain',  $redirect->get_format() );
 	}
 
 	/**
-	 * Test if storing redirects by passing an array works.
+	 * Test how construct deals with a 410 redirect and a target given
 	 *
-	 * @covers WPSEO_Redirect::set
+	 * @covers WPSEO_Redirect::__construct
+	 *
+	 * @expectedException        InvalidArgumentException
+	 * @expectedExceptionMessage Target cannot be empty for a 301 redirect.
 	 */
-	public function test_set() {
-		$this->class_instance->set(
-			array( 'first-redirect', 'second-redirect' )
-		);
-
-		$this->assertEquals( array( 'first-redirect', 'second-redirect' ), $this->class_instance->get_all() );
+	public function test_construct_target_exception() {
+		new WPSEO_Redirect( 'origin', '', WPSEO_Redirect::PERMANENT );
 	}
 
 	/**
-	 * Test adding a new redirect and add the same one also, to check if this one will be skipped
+	 * Testing the getters
 	 *
-	 * @covers WPSEO_Redirect::add
+	 * @covers WPSEO_Redirect::get_origin
+	 * @covers WPSEO_Redirect::get_target
+	 * @covers WPSEO_Redirect::get_type
+	 * @covers WPSEO_Redirect::get_format
 	 */
-	public function test_add() {
-		$this->assertTrue( $this->class_instance->add( 'new-redirect', 'new-target', 301 ) );
-		$this->assertFalse( $this->class_instance->add( 'old-url', 'new-url', 301 ) );
+	public function test_getters() {
+		$redirect = new WPSEO_Redirect( 'origin', 'target', 301, 'plain' );
+
+		$this->assertEquals( 'origin', $redirect->get_origin() );
+		$this->assertEquals( 'target', $redirect->get_target() );
+		$this->assertEquals( 301,      $redirect->get_type() );
+		$this->assertEquals( 'plain',  $redirect->get_format() );
 	}
 
 	/**
-	 * Test updating a redirect and update another redirect that doesn't exists
+	 * Test the result of offsetExists, this methods deals with backwards compatibility when called isset on the object.
 	 *
-	 * @covers WPSEO_Redirect::update
+	 * @covers WPSEO_Redirect::offsetExists
 	 */
-	public function test_update() {
-		$this->assertTrue( $this->class_instance->update( 'old-url', 'older-url', 'older-target', 301 ) );
-		$this->assertFalse( $this->class_instance->update( 'does-not-exists', 'old-target', 'new-target', 301 ) );
+	public function test_offsetExists() {
+		$redirect = new WPSEO_Redirect( 'origin', 'target', 301, 'plain' );
+
+		$this->assertTrue( isset( $redirect['url'] ) );
+		$this->assertTrue( isset( $redirect['type'] ) );
+		$this->assertTrue( ! empty( $redirect['url'] ) );
+		$this->assertTrue( ! empty( $redirect['type'] ) );
+
+		$this->assertFalse( isset( $redirect['origin'] ) );
+		$this->assertFalse( isset( $redirect['target'] ) );
 	}
 
 	/**
-	 * Test deleting a redirect and delete another redirect that doesn't exists
+	 * Test the result of offsetGet, this methods deals with backwards compatibility when object is accessed as array
 	 *
-	 * @covers WPSEO_Redirect::delete
+	 * @covers WPSEO_Redirect::offsetGet
 	 */
-	public function test_delete() {
-		$this->assertTrue( $this->class_instance->delete( 'old-url' ) );
-		$this->assertFalse( $this->class_instance->delete( 'does-not-exists' ) );
+	public function test_offsetGet() {
+		$redirect = new WPSEO_Redirect( 'origin', 'target', 301, 'plain' );
+
+		$this->assertEquals( 'target', $redirect['url'] );
+		$this->assertEquals( 301, $redirect['type'] );
+
+		$this->assertEquals( null, $redirect['origin'] );
+		$this->assertEquals( null, $redirect['target'] );
 	}
 
 	/**
-	 * Test if searching for a redirect is working
+	 * Test the result of offsetSet, this methods deals with backwards compatibility when object is accessed as array
 	 *
-	 * @covers WPSEO_Redirect::search
+	 * @covers WPSEO_Redirect::offsetSet
 	 */
-	public function test_search() {
-		$this->assertEquals( array( 'url' => 'new-url', 'type' => 301 ), $this->class_instance->search( 'old-url' ) );
-		$this->assertFalse( $this->class_instance->search( 'does-not-exist' ) );
+	public function test_offsetSet() {
+		$redirect = new WPSEO_Redirect( 'origin', 'target', 301, 'plain' );
+
+		$redirect['url']  = 'set_target';
+		$redirect['type'] = 'set_type';
+
+		$this->assertEquals( 'set_target', $redirect->get_target() );
+		$this->assertEquals( 'set_type', $redirect->get_type() );
 	}
 
-	/**
-	 * Test the result of the formatting.
-	 *
-	 * @covers WPSEO_Redirect::format
-	 */
-	public function test_format() {
-		$this->assertEquals(
-			array( 'url' => 'the-target', 'type' => 301 ),
-			$this->class_instance->format( 'the-target', 301 )
-		);
-	}
 }

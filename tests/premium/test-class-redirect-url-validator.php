@@ -25,16 +25,26 @@ class WPSEO_Redirect_URL_Validator_Test extends WPSEO_UnitTestCase {
 
 		$this->class_instance = new WPSEO_Redirect_URL_Validator(
 			array(
-				'old_url' => array(
-					'type' => 301,
-					'url'  => 'new_url',
-				),
-				'older_url' => array(
-					'type' => 301,
-					'url'  => 'newer_url',
-				),
+				new WPSEO_Redirect( 'old_url', 'new_url', 301 ),
+				new WPSEO_Redirect( 'older_url', 'newer_url', 301 ),
 			)
 		);
+	}
+
+	/**
+	 * Test if constructing is done well.
+	 *
+	 * @covers WPSEO_Redirect_URL_Validator::__construct()
+	 */
+	public function test_construct() {
+		$validator = new WPSEO_Redirect_URL_Validator(
+			array(
+				new WPSEO_Redirect( 'old_url', 'new_url', 301 ),
+				new WPSEO_Redirect( 'older_url', 'newer_url', 301 ),
+			)
+		);
+
+		$this->assertTrue( is_a( $validator, 'WPSEO_Redirect_URL_Validator' ) );
 	}
 
 	/**
@@ -46,6 +56,7 @@ class WPSEO_Redirect_URL_Validator_Test extends WPSEO_UnitTestCase {
 	 * @param string $new_url The url to redirect to.
 	 * @param int    $type    Type of the redirect.
 	 *
+	 * @covers WPSEO_Redirect_Validator::validate
 	 * @covers WPSEO_Redirect_URL_Validator::validate
 	 */
 	public function test_validate( $old_url, $new_url, $type ) {
@@ -64,6 +75,8 @@ class WPSEO_Redirect_URL_Validator_Test extends WPSEO_UnitTestCase {
 	 * @param bool   $unique_url Should it be a unique_url.
 	 *
 	 * @covers       WPSEO_Redirect_URL_Validator::validate_redirect_exists
+	 * @covers       WPSEO_Redirect_URL_Validator::has_error
+	 * @covers       WPSEO_Redirect_URL_Validator::get_error
 	 */
 	public function test_validate_redirect_exists_unique( $old_url, $new_url, $type, $unique_url ) {
 		$this->assertTrue( $this->class_instance->validate( $old_url, $new_url, $type, $unique_url ) );
@@ -82,6 +95,7 @@ class WPSEO_Redirect_URL_Validator_Test extends WPSEO_UnitTestCase {
 	 * @param int    $type    Type of the redirect.
 	 *
 	 * @covers WPSEO_Redirect_URL_Validator::validate_redirect_exists
+	 * @covers WPSEO_Redirect_URL_Validator::has_error
 	 */
 	public function test_validate_redirect_exists_not_unique( $old_url, $new_url, $type ) {
 		$this->assertFalse( $this->class_instance->validate( $old_url, $new_url, $type, $old_url ) );
@@ -98,6 +112,8 @@ class WPSEO_Redirect_URL_Validator_Test extends WPSEO_UnitTestCase {
 	 * @param int    $type            Type of the redirect.
 	 *
 	 * @covers WPSEO_Redirect_URL_Validator::validate_filled
+	 * @covers WPSEO_Redirect_URL_Validator::has_error
+	 * @covers WPSEO_Redirect_URL_Validator::get_error
 	 */
 	public function test_validate_filled( $old_url, $new_url, $type ) {
 		$this->assertTrue( $this->class_instance->validate( $old_url, $new_url, $type ) );
@@ -110,6 +126,7 @@ class WPSEO_Redirect_URL_Validator_Test extends WPSEO_UnitTestCase {
 	 * filled
 	 *
 	 * @covers WPSEO_Redirect_URL_Validator::validate_filled
+	 * @covers WPSEO_Redirect_URL_Validator::has_error
 	 */
 	public function test_validate_filled_410( ) {
 		$this->assertFalse( $this->class_instance->validate( 'old_410_url', '', 410 ) );
@@ -120,6 +137,7 @@ class WPSEO_Redirect_URL_Validator_Test extends WPSEO_UnitTestCase {
 	 * Validate if the target URL is accessible, in this test it will be the home_url that should be accessible
 	 *
 	 * @covers WPSEO_Redirect_URL_Validator::validate_accessible
+	 * @covers WPSEO_Redirect_URL_Validator::has_error
 	 */
 	public function test_validate_accessible( ) {
 		$result = $this->class_instance->validate( 'accessible_url', home_url(), 301 );
@@ -147,6 +165,7 @@ class WPSEO_Redirect_URL_Validator_Test extends WPSEO_UnitTestCase {
 	 * Validate if the target URL is accessible, in this test it will be a 410 redirect, that doesn't have an endpoint.
 	 *
 	 * @covers WPSEO_Redirect_URL_Validator::validate_accessible
+	 * @covers WPSEO_Redirect_URL_Validator::has_error
 	 */
 	public function test_validate_accessible_410( ) {
 		$this->assertFalse( $this->class_instance->validate( 'accessible_url', '', 410 ) );
@@ -157,6 +176,7 @@ class WPSEO_Redirect_URL_Validator_Test extends WPSEO_UnitTestCase {
 	 * Validate if the end point result in a redirectloop. In this case there won't be a loop.
 	 *
 	 * @covers WPSEO_Redirect_URL_Validator::validate_end_point
+	 * @covers WPSEO_Redirect_URL_Validator::has_error
 	 */
 	public function test_validate_end_point( ) {
 		$this->assertFalse( $this->class_instance->validate( 'end_url', 'ending_point', 301 ) );
@@ -167,6 +187,7 @@ class WPSEO_Redirect_URL_Validator_Test extends WPSEO_UnitTestCase {
 	 * Validate if the end point result in a redirect loop. In this case the redirect is a 410.
 	 *
 	 * @covers WPSEO_Redirect_URL_Validator::validate_end_point
+	 * @covers WPSEO_Redirect_URL_Validator::has_error
 	 */
 	public function test_validate_end_point_410( ) {
 		$this->assertFalse( $this->class_instance->validate( 'end_url', '', 410 ) );
@@ -177,6 +198,8 @@ class WPSEO_Redirect_URL_Validator_Test extends WPSEO_UnitTestCase {
 	 * Validate if the end point result in a redirect loop
 	 *
 	 * @covers WPSEO_Redirect_URL_Validator::validate_end_point
+	 * @covers WPSEO_Redirect_URL_Validator::has_error
+	 * @covers WPSEO_Redirect_URL_Validator::get_error
 	 */
 	public function test_validate_end_point_redirect_loop( ) {
 		$this->assertTrue( $this->class_instance->validate( 'newer_url', 'older_url', 301 ) );
@@ -189,6 +212,8 @@ class WPSEO_Redirect_URL_Validator_Test extends WPSEO_UnitTestCase {
 	 * Validate if the redirect can be done directly to an endpoint.
 	 *
 	 * @covers WPSEO_Redirect_URL_Validator::validate_end_point
+	 * @covers WPSEO_Redirect_URL_Validator::has_error
+	 * @covers WPSEO_Redirect_URL_Validator::get_error
 	 */
 	public function test_validate_end_point_direct_redirect( ) {
 		$this->assertTrue( $this->class_instance->validate( 'newest_url', 'older_url', 301 ) );

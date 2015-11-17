@@ -9,21 +9,19 @@
 abstract class WPSEO_Redirect_Manager {
 
 	/**
-	 * @var null|string The option name to store the redirects.
-	 */
-	protected $option_redirects = null;
-
-	/**
-	 * @var WPSEO_Redirect Model object to handle the redirects.
+	 * @var WPSEO_Redirect_Option Model object to handle the redirects.
 	 */
 	protected $redirect;
 
 	/**
-	 * Setting the property with the redirects
+	 * @var string The redirect format, this might be plain or regex.
 	 */
-	public function __construct() {
-		$this->redirect = new WPSEO_Redirect( $this->option_redirects );
-	}
+	protected $redirect_format;
+
+	/**
+	 * @var WPSEO_Redirect_Export[]
+	 */
+	protected $exporters;
 
 	/**
 	 * Returns an instance of the WPSEO_Redirect_Validator
@@ -33,23 +31,53 @@ abstract class WPSEO_Redirect_Manager {
 	abstract public function get_validator();
 
 	/**
+	 * Returns the default exporters.
+	 *
+	 * @return WPSEO_Redirect_Export[]
+	 */
+	public static function default_exporters() {
+		$exporters[] = new WPSEO_Redirect_Export_Option();
+
+		$options = WPSEO_Redirect_Page::get_options();
+		if ( 'on' !== $options['disable_php_redirect'] && $file_exporter = WPSEO_Redirect_File_Util::get_file_exporter( $options['separate_file'] ) ) {
+			$exporters[] = $file_exporter;
+		}
+
+		return $exporters;
+	}
+
+	/**
+	 * Setting the property with the redirects
+	 *
+	 * @param WPSEO_Redirect_Export[] $exporters The exporters used to save redirects in files.
+	 */
+	public function __construct( $exporters = array() ) {
+		$this->redirect = new WPSEO_Redirect_Option();
+
+		$this->redirect->set_format( $this->redirect_format );
+		$this->redirect->set_redirects();
+
+		$this->exporters = ( ! empty( $exporters ) ) ? $exporters : self::default_exporters();
+	}
+
+	/**
 	 * Get the redirects
 	 *
-	 * @return array
+	 * @return WPSEO_Redirect[]
 	 */
 	public function get_redirects() {
 		return $this->redirect->get_all();
 	}
 
 	/**
-	 * Saving the redirect file
+	 * Export the redirects to the specified sources.
 	 */
-	public function save_redirect_file() {
-		$options = WPSEO_Redirect_Page::get_options();
+	public function export_redirects() {
+		$this->redirect->set_format( 'all' );
 
-		if ( 'on' !== $options['disable_php_redirect'] ) {
-			$file_handler = new WPSEO_Redirect_File_Handler( $options['separate_file'] );
-			$file_handler->save( $this->get_redirect_managers() );
+		$redirects = $this->redirect->get_all();
+		foreach ( $this->exporters as $exporter ) {
+			$exporter->export( $redirects );
 		}
 	}
 
@@ -59,26 +87,11 @@ abstract class WPSEO_Redirect_Manager {
 	 * @param bool $autoload_value The autoload value (true or false).
 	 */
 	public function change_option_autoload( $autoload_value ) {
-		$redirect_managers = $this->get_redirect_managers();
+		// The autoload value base on given boolean.
+		$autoload = ( $autoload_value === false ) ? 'no' : 'yes';
 
-		foreach ( $redirect_managers as $redirect_manager ) {
-			$redirect_manager->redirects_change_autoload( $autoload_value );
-		}
-	}
-
-	/**
-	 * Search for given redirect
-	 *
-	 * @param string $redirect The redirect to search for.
-	 *
-	 * @return array|bool
-	 */
-	public function search( $redirect ) {
-		if ( $found = $this->redirect->search( $redirect ) ) {
-			return array_merge( array( 'redirect' => $redirect ), $found );
-		}
-
-		return false;
+		$this->redirect->change_autoload( $autoload, WPSEO_Redirect_Option::OPTION_PLAIN );
+		$this->redirect->change_autoload( $autoload, WPSEO_Redirect_Option::OPTION_REGEX );
 	}
 
 	/**
@@ -87,14 +100,14 @@ abstract class WPSEO_Redirect_Manager {
 	 * @param string $old_redirect_key The old redirect, the value is a key in the redirects array.
 	 * @param array  $new_redirect     Array with values for the update redirect.
 	 *
-	 * @return array|bool
+	 * @return WPSEO_Redirect|bool
 	 */
 	public function update_redirect( $old_redirect_key, array $new_redirect ) {
-		if ( $this->redirect->update( $old_redirect_key, $new_redirect['key'], $new_redirect['value'], $new_redirect['type'] ) ) {
+		if ( $redirect = $this->redirect->update( $old_redirect_key, $new_redirect['key'], $new_redirect['value'], $new_redirect['type'] ) ) {
 			$this->save_redirects();
 
 			// Always return the updated redirect.
-			return $this->search( $new_redirect['key'] );
+			return $redirect;
 		}
 
 		return false;
@@ -107,14 +120,14 @@ abstract class WPSEO_Redirect_Manager {
 	 * @param string $new_value The target where the old value will redirect to.
 	 * @param int    $type      Type of the redirect.
 	 *
-	 * @return bool|array
+	 * @return WPSEO_Redirect|bool
 	 */
 	public function create_redirect( $old_value, $new_value, $type ) {
-		if ( $this->redirect->add( $old_value, $new_value, $type ) ) {
+		if ( $redirect = $this->redirect->add( $old_value, $new_value, $type ) ) {
 			$this->save_redirects();
 
 			// Always return the added redirect.
-			return $this->search( $old_value );
+			return $redirect;
 		}
 
 		return false;
@@ -142,27 +155,6 @@ abstract class WPSEO_Redirect_Manager {
 	}
 
 	/**
-	 * Upgrade routine from Yoast SEO premium 1.2.0
-	 */
-	public function upgrade_1_2_0() {
-		// Getting the redirects.
-		$redirects = $this->redirect->get_all();
-
-		// Loop through the redirects.
-		foreach ( $redirects as $old_url => $redirect ) {
-			// Check if the redirect is not an array yet.
-			if ( ! is_array( $redirect ) ) {
-				$redirects[ $old_url ] = $this->redirect->format( $redirect, '301' );
-			}
-		}
-		// Set the redirect value with the reformated redirects.
-		$this->redirect->set( $redirects );
-
-		// Save the URL redirects.
-		$this->save_redirects();
-	}
-
-	/**
 	 * This method will save the redirect option and if necessary the redirect file.
 	 */
 	public function save_redirects() {
@@ -170,45 +162,7 @@ abstract class WPSEO_Redirect_Manager {
 		$this->redirect->save();
 
 		// Save the redirect file.
-		$this->save_redirect_file();
-	}
-
-	/**
-	 * Getting the redirect managers
-	 *
-	 * @return WPSEO_Redirect_Manager[]
-	 */
-	protected function get_redirect_managers() {
-		return array(
-			'url'   => new WPSEO_Redirect_URL_Manager(),
-			'regex' => new WPSEO_Redirect_Regex_Manager(),
-		);
-	}
-
-	/**
-	 * Change if the redirect option is autoloaded
-	 *
-	 * @param bool $enabled Boolean to determine the autoload value that will be saved.
-	 */
-	private function redirects_change_autoload( $enabled ) {
-		global $wpdb;
-
-		// Default autoload value.
-		$autoload = 'yes';
-
-		// Disable auto loading.
-		if ( false === $enabled ) {
-			$autoload = 'no';
-		}
-
-		// Do update query.
-		$wpdb->update(
-			$wpdb->options,
-			array( 'autoload' => $autoload ),
-			array( 'option_name' => $this->option_redirects ),
-			array( '%s' ),
-			array( '%s' )
-		);
+		$this->export_redirects();
 	}
 
 }

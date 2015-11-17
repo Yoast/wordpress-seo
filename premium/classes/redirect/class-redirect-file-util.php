@@ -73,4 +73,28 @@ class WPSEO_Redirect_File_Util {
 		return $has_written;
 	}
 
+	/**
+	 * Getting the object which will save the redirects file
+	 *
+	 * @param string $separate_file Saving the redirects in an separate apache file.
+	 *
+	 * @return null|WPSEO_Redirect_Export_File
+	 */
+	public static function get_file_exporter( $separate_file ) {
+		// Create the correct file object.
+		if ( WPSEO_Utils::is_apache() ) {
+			if ( 'on' === $separate_file ) {
+				return new WPSEO_Redirect_Export_Apache();
+			}
+
+			return new WPSEO_Redirect_Export_Htaccess();
+		}
+
+		if ( WPSEO_Utils::is_nginx() ) {
+			return new WPSEO_Redirect_Export_Nginx();
+		}
+
+		return null;
+	}
+
 }
