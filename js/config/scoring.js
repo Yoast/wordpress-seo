@@ -67,7 +67,7 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
 				{
 					min: 10,
 					score: 0,
-					text: i18n.dgettext('js-text-analysis', "'Your keyphrase is over 10 words, a keyphrase should be shorter.")
+					text: i18n.dgettext('js-text-analysis', "Your keyphrase is over 10 words, a keyphrase should be shorter.")
 				}
 			]
 		},
