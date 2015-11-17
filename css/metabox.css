@@ -401,3 +401,7 @@ img.yoast_help {
 .yst-traffic-light.na .traffic-light-empty {
 	display: inline;
 }
+
+body.edit-tags-php .postbox h3 {
+	margin-left: 20px;
+}
