@@ -91,7 +91,8 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 
 	YoastMultiKeyword.prototype.bindKeywordTab = function() {
 		$( '.wpseo-metabox-tabs' ).on( 'click', '.wpseo_tablink', function() {
-			var keyword = $( this ).data( 'keyword' );
+			// Convert to string to prevent errors if the keyword is "null".
+			var keyword = $( this ).data( 'keyword' ) + '';
 			$( '#yoast_wpseo_focuskw_text_input' ).val( keyword ).focus();
 			YoastSEO.app.refresh();
 		} );
@@ -245,7 +246,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 		tab = $( tab );
 
 		link    = tab.find( '.wpseo_tablink' );
-		keyword = link.data( 'keyword' );
+		keyword = link.data( 'keyword' ) + '';
 		score   = this.analyzeKeyword( keyword );
 
 		this.renderKeywordTab( keyword, score, tab );
