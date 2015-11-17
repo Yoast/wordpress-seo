@@ -68,15 +68,22 @@
 		featuredImagePlugin.registerModifications();
 
 		featuredImage.on( 'select', function() {
-			var selectedImageHTML, selectedImage;
+			var selectedImageHTML, selectedImage, alt;
 			yst_checkFeaturedImage( featuredImage );
 
 			selectedImage = featuredImage.state().get( 'selection' ).first();
+
+			// WordPress falls back to the title for the alt attribute if no alt is present.
+			alt = selectedImage.get( 'alt' );
+			if ( '' === alt ) {
+				alt = selectedImage.get( 'title' );
+			}
+
 			selectedImageHTML = '<img' +
 					' src="' + selectedImage.get( 'url' ) + '"' +
 					' width="' + selectedImage.get( 'width' ) + '"' +
 					' height="' + selectedImage.get( 'height' ) + '"' +
-					' alt="' + selectedImage.get( 'title' ) +
+					' alt="' + alt +
 					'"/>';
 
 			featuredImagePlugin.setFeaturedImage( selectedImageHTML );
