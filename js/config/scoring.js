@@ -379,7 +379,7 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
                 {
                     min: 1,
                     score: 5,
-					/* translators: text between %1$s and %2$s expands to the wikipedia stop words articles */
+					/* translators: %1$s opens a link to a wikipedia article about stop words, %2$s closes the link */
                     text: i18n.dgettext('js-text-analysis', "The slug for this page contains one or more %1$sstop words%2$s, consider removing them.")
                 }
 			],
@@ -387,6 +387,7 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
 				{
 					name: "url",
 					position: "%1$s",
+					/* translators: this link is referred to in the content analysis when a slug contains one or more stop words */
 					value: "<a href='" + i18n.dgettext( 'js-text-analysis', "http://en.wikipedia.org/wiki/Stop_words" ) + "' target='new'>"
 				},
                 {
