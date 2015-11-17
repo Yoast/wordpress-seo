@@ -68,3 +68,29 @@ describe("a test matching the keyword in the metadescription", function(){
 		expect(result[0].result).toBe(-1);
 	});
 });
+
+var metaArgs6 = {
+	meta: "Key-word",
+	keyword: "key-word"
+};
+
+describe("a test matching a hyphenated keyword with caps", function(){
+	it("returns 1 match", function(){
+		var metaAnalyzer = Factory.buildAnalyzer(metaArgs6);
+		var result = metaAnalyzer.metaDescriptionKeyword();
+		expect(result[0].result).toBe(1);
+	});
+});
+
+var metaArgs7 = {
+	meta: "tëst with a diacritic",
+	keyword: "tëst"
+};
+
+describe("a test matching a hyphenated keyword with caps", function(){
+	it("returns 1 match", function(){
+		var metaAnalyzer = Factory.buildAnalyzer(metaArgs7);
+		var result = metaAnalyzer.metaDescriptionKeyword();
+		expect(result[0].result).toBe(1);
+	});
+});
