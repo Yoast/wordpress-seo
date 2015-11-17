@@ -88,3 +88,19 @@ describe("A keyword density test with a high-density occurence of the keyword, w
 		expect(result[0].result).toContain(7.0);
 	});
 });
+
+keywordArgs7 = {
+    text: "focus&nbsp;keyword a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a" +
+    " a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a",
+    keyword: "focus keyword",
+    queue: ["keywordDensity"]
+};
+
+describe("A keyword density test with &nbsp;", function(){
+    it("it should match &nbsp; with an actual space", function(){
+        var analyzer = Factory.buildAnalyzer(keywordArgs7);
+        var result = analyzer.keywordDensity();
+
+        expect(result[0].result).toContain(1.0);
+    });
+});
