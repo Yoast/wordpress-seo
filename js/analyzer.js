@@ -182,9 +182,12 @@ YoastSEO.Analyzer.prototype.wordCount = function() {
  * @returns {{test: string, result: number}[]}
  */
 YoastSEO.Analyzer.prototype.keyWordCheck = function() {
-	if ( this.stringHelper.sanitizeKeyword( this.config.keyword ) === "" ) {
-		return [ { test: "keywordCheck", result: 0 } ];
+	var result = [ { test: "keywordCheck", result: 0 } ];
+	var keyword = this.stringHelper.sanitizeKeyword( this.config.keyword );
+	if ( keyword !== "" ) {
+		result[ 0 ].result = keyword.split( /\s/g ).length;
 	}
+	return result;
 };
 
 /**
