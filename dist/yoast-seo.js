@@ -954,7 +954,7 @@ YoastSEO.AnalyzeScorer.prototype.totalScore = function() {
 	var scoreAmount = this.__score.length;
 	var totalScore = 0;
 	for ( var i = 0; i < this.__score.length; i++ ) {
-		if ( typeof this.__score[ i ] !== "undefined" ) {
+		if ( typeof this.__score[ i ] !== "undefined" && this.__score[ i ].text !== "" ) {
 			totalScore += this.__score[ i ].score;
 		} else {
 			scoreAmount--;
@@ -2040,6 +2040,9 @@ YoastSEO.PreProcessor.prototype.cleanText = function( textString ) {
 	if ( textString !== "" ) {
 		textString = this.replaceDiacritics( textString );
 		textString = textString.toLocaleLowerCase();
+
+		// Remove some HTML entities as first action
+		textString = textString.replace( "&nbsp;", " " );
 
 		// replace comma', hyphens etc with spaces
 		textString = textString.replace( /[\-\;\:\,\(\)\"\'\|\“\”]/g, " " );
