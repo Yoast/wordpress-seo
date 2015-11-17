@@ -27,10 +27,9 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		add_action( 'wp_insert_post', array( $this, 'save_postdata' ) );
 		add_action( 'edit_attachment', array( $this, 'save_postdata' ) );
 		add_action( 'add_attachment', array( $this, 'save_postdata' ) );
-		add_action( 'post_submitbox_misc_actions', array( $this, 'publish_box' ) );
+		add_action( 'post_submitbox_start', array( $this, 'publish_box' ) );
 		add_action( 'admin_init', array( $this, 'setup_page_analysis' ) );
 		add_action( 'admin_init', array( $this, 'translate_meta_boxes' ) );
-		add_action( 'admin_footer', array( $this, 'scoring_svg' ) );
 		add_action( 'admin_footer', array( $this, 'template_keyword_tab' ) );
 
 		$this->options = WPSEO_Options::get_all();
@@ -51,7 +50,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		self::$meta_fields['general']['snippetpreview']['title'] = __( 'Snippet Editor', 'wordpress-seo' );
 		self::$meta_fields['general']['snippetpreview']['help']  = sprintf( __( 'This is a rendering of what this post might look like in Google\'s search results.<br/><br/>Read %sthis post%s for more info.', 'wordpress-seo' ), '<a href="https://yoast.com/snippet-preview/#utm_source=wordpress-seo-metabox&amp;utm_medium=inline-help&amp;utm_campaign=snippet-preview">', '</a>' );
 
-		self::$meta_fields['general']['pageanalysis']['title'] = __( 'Page Analysis', 'wordpress-seo' );
+		self::$meta_fields['general']['pageanalysis']['title'] = __( 'Content Analysis', 'wordpress-seo' );
 		self::$meta_fields['general']['pageanalysis']['help']  = sprintf( __( 'This is the content analysis, a collection of content checks that analyze the content of your page. Read %sthis post%s for more info.', 'wordpress-seo' ), '<a href="https://yoast.com/real-time-content-analysis/#utm_source=wordpress-seo-metabox&amp;utm_medium=inline-help&amp;utm_campaign=snippet-preview">', '</a>' );
 
 		self::$meta_fields['general']['focuskw_text_input']['title'] = __( 'Focus Keyword', 'wordpress-seo' );
@@ -133,7 +132,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 */
 	public function setup_page_analysis() {
 		if ( apply_filters( 'wpseo_use_page_analysis', true ) === true ) {
-			add_action( 'post_submitbox_misc_actions', array( $this, 'publish_box' ) );
+			add_action( 'post_submitbox_start', array( $this, 'publish_box' ) );
 		}
 	}
 
@@ -168,10 +167,10 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		}
 
 		printf( '
-		<div class="misc-pub-section misc-yoast misc-pub-section-last" id="wpseo-score">
+		<div title="%s" id="wpseo-score">
 			' . $this->traffic_light_svg() . '
 		</div>',
-			esc_attr( $title ),
+			__( 'SEO score', 'wordpress-seo' ),
 			esc_attr( 'wpseo-score-icon ' . $score_label ),
 			__( 'SEO:', 'wordpress-seo' ),
 			$score_title,
@@ -579,7 +578,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 					'checkbox',
 				), true ) === false
 			) {
-				$label = '<label for="' . $esc_form_key . '">' . $label . ':</label>';
+				$label = '<label for="' . $esc_form_key . '">' . $label . '</label>';
 			}
 
 			$help = '';
@@ -715,7 +714,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 			if ( post_type_supports( get_post_type(), 'thumbnail' ) ) {
 				wp_enqueue_style( 'featured-image', plugins_url( 'css/featured-image' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
-				wp_enqueue_script( 'wp-seo-featured-image', plugins_url( 'js/wp-seo-featured-image' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'jquery' ), WPSEO_VERSION, true );
+				wp_enqueue_script( 'wp-seo-featured-image', plugins_url( 'js/wp-seo-featured-image' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'jquery', 'yoast-seo' ), WPSEO_VERSION, true );
 
 				$featured_image_l10 = array( 'featured_image_notice' => __( 'The featured image should be at least 200x200 pixels to be picked up by Facebook and other social media sites.', 'wordpress-seo' ) );
 				wp_localize_script( 'wp-seo-metabox', 'wpseoFeaturedImageL10n', $featured_image_l10 );

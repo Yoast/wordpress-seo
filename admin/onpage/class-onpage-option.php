@@ -8,6 +8,10 @@
  */
 class WPSEO_OnPage_Option {
 
+	const IS_INDEXABLE     = 1;
+	const IS_NOT_INDEXABLE = 0;
+	const CANNOT_FETCH     = -1;
+
 	/**
 	 *  The name of the option where data will be stored
 	 */

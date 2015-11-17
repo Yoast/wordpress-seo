@@ -51,7 +51,7 @@ class Yoast_Dashboard_Widget {
 
 		$onpage_option = new WPSEO_OnPage_Option();
 		$onpage        = array(
-			'indexable' => $onpage_option->is_indexable(),
+			'indexable' => $onpage_option->get_status(),
 			'can_fetch' => $onpage_option->should_be_fetched(),
 		);
 

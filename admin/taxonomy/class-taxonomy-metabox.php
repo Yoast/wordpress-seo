@@ -34,7 +34,6 @@ class WPSEO_Taxonomy_Metabox {
 		$this->taxonomy             = $taxonomy;
 		$this->taxonomy_tab_content = new WPSEO_Taxonomy_Fields_Presenter( $this->term );
 
-		add_action( 'admin_footer', array( $this, 'scoring_svg' ) );
 		add_action( 'admin_footer', array( $this, 'template_keyword_tab' ) );
 	}
 
