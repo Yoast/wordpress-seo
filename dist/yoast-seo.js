@@ -181,10 +181,13 @@ YoastSEO.Analyzer.prototype.wordCount = function() {
  * Checks if keyword is present, if not returns 0
  * @returns {{test: string, result: number}[]}
  */
-YoastSEO.Analyzer.prototype.keyWordCheck = function() {
-	if ( this.stringHelper.sanitizeKeyword( this.config.keyword ) === "" ) {
-		return [ { test: "keywordCheck", result: 0 } ];
+YoastSEO.Analyzer.prototype.keyphraseSizeCheck = function() {
+	var result = [ { test: "keyphraseSizeCheck", result: 0 } ];
+	var keyword = this.stringHelper.sanitizeKeyword( this.config.keyword );
+	if ( keyword !== "" ) {
+		result[ 0 ].result = keyword.split( /\s/g ).length;
 	}
+	return result;
 };
 
 /**
@@ -1342,7 +1345,7 @@ YoastSEO.App.prototype.runAnalyzer = function() {
 
 	var keyword = this.stringHelper.sanitizeKeyword( this.rawData.keyword );
 	if ( keyword === "" ) {
-		this.analyzerData.queue = [ "keyWordCheck", "wordCount", "fleschReading", "pageTitleLength", "urlStopwords", "metaDescriptionLength" ];
+		this.analyzerData.queue = [ "keyphraseSizeCheck", "wordCount", "fleschReading", "pageTitleLength", "urlStopwords", "metaDescriptionLength" ];
 	}
 
 	this.analyzerData.keyword = keyword;
@@ -3862,7 +3865,7 @@ return parser;
 }.call(YoastSEO));YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 
 YoastSEO.analyzerConfig = {
-	queue: [ "wordCount", "keywordDensity", "subHeadings", "stopwords", "fleschReading", "linkCount", "imageCount", "urlKeyword", "urlLength", "metaDescriptionLength", "metaDescriptionKeyword", "pageTitleKeyword", "pageTitleLength", "firstParagraph", "urlStopwords", "keywordDoubles" ],
+	queue: [ "wordCount", "keywordDensity", "subHeadings", "stopwords", "fleschReading", "linkCount", "imageCount", "urlKeyword", "urlLength", "metaDescriptionLength", "metaDescriptionKeyword", "pageTitleKeyword", "pageTitleLength", "firstParagraph", "urlStopwords", "keywordDoubles", "keyphraseSizeCheck" ],
 	stopWords: [ "a", "about", "above", "after", "again", "against", "all", "am", "an", "and", "any", "are", "as", "at", "be", "because", "been", "before", "being", "below", "between", "both", "but", "by", "could", "did", "do", "does", "doing", "down", "during", "each", "few", "for", "from", "further", "had", "has", "have", "having", "he", "he'd", "he'll", "he's", "her", "here", "here's", "hers", "herself", "him", "himself", "his", "how", "how's", "i", "i'd", "i'll", "i'm", "i've", "if", "in", "into", "is", "it", "it's", "its", "itself", "let's", "me", "more", "most", "my", "myself", "nor", "of", "on", "once", "only", "or", "other", "ought", "our", "ours", "ourselves", "out", "over", "own", "same", "she", "she'd", "she'll", "she's", "should", "so", "some", "such", "than", "that", "that's", "the", "their", "theirs", "them", "themselves", "then", "there", "there's", "these", "they", "they'd", "they'll", "they're", "they've", "this", "those", "through", "to", "too", "under", "until", "up", "very", "was", "we", "we'd", "we'll", "we're", "we've", "were", "what", "what's", "when", "when's", "where", "where's", "which", "while", "who", "who's", "whom", "why", "why's", "with", "would", "you", "you'd", "you'll", "you're", "you've", "your", "yours", "yourself", "yourselves" ],
 	wordsToRemove: [ " a", " in", " an", " on", " for", " the", " and" ],
 	maxSlugLength: 20,
@@ -4035,12 +4038,17 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
 
             ]
         },{
-			scoreName: "keywordCheck",
+			scoreName: "keyphraseSizeCheck",
 			scoreArray: [
 				{
 					max: 0,
 					score: -999,
 					text: i18n.dgettext('js-text-analysis', "No focus keyword was set for this page. If you do not set a focus keyword, no score can be calculated.")
+				},
+				{
+					min: 10,
+					score: 0,
+					text: i18n.dgettext('js-text-analysis', "Your keyphrase is over 10 words, a keyphrase should be shorter.")
 				}
 			]
 		},
