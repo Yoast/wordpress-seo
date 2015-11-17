@@ -25,7 +25,7 @@ class WPSEO_Taxonomy_Content_Fields extends WPSEO_Taxonomy_Fields {
 				sprintf( __( 'Pick the main keyword or keyphrase that this post/page is about.<br/><br/>Read %sthis post%s for more info.', 'wordpress-seo' ), '<a href="https://yoast.com/focus-keyword/#utm_source=wordpress-seo-metabox&amp;utm_medium=inline-help&amp;utm_campaign=focus-keyword">', '</a>' )
 			),
 			'analysis' => $this->get_field_config(
-				__( 'Analysis', 'wordpress-seo' ),
+				__( 'Content Analysis', 'wordpress-seo' ),
 				sprintf( __( 'This is the content analysis, a collection of content checks that analyze the content of your page. Read %sthis post%s for more info.', 'wordpress-seo' ), '<a href="https://yoast.com/real-time-content-analysis/#utm_source=wordpress-seo-metabox&amp;utm_medium=inline-help&amp;utm_campaign=snippet-preview">', '</a>' ),
 				'div'
 			),
