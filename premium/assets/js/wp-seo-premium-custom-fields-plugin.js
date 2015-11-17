@@ -13,7 +13,6 @@
 	 * @property {Object} customFields
 	 */
 	var YoastCustomFieldsPlugin = function() {
-		window.yolo = this;
 		YoastSEO.app.registerPlugin( 'YoastCustomFieldsPlugin', { status: 'loading' } );
 
 		this.customFields = {};
