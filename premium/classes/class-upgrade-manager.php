@@ -100,7 +100,7 @@ class WPSEO_Upgrade_Manager {
 				$new_url = get_post_meta( $post->ID, '_yoast_wpseo_redirect', true );
 
 				// Create redirect.
-				$redirect_manager->create_redirect( $old_url, $new_url, 301 );
+				$redirect_manager->create_redirect( new WPSEO_Redirect( $old_url, $new_url, 301, WPSEO_Redirect::FORMAT_PLAIN ) );
 
 				// Remove post meta value.
 				delete_post_meta( $post->ID, '_yoast_wpseo_redirect' );

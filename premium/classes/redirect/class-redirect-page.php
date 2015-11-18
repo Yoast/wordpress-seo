@@ -126,10 +126,10 @@ class WPSEO_Redirect_Page {
 	 */
 	private function initialize_ajax() {
 		// Normal Redirect AJAX.
-		new WPSEO_Redirect_Ajax( new WPSEO_Redirect_URL_Manager(), WPSEO_Redirect::FORMAT_PLAIN, 'url' );
+		new WPSEO_Redirect_Ajax( new WPSEO_Redirect_URL_Manager() );
 
 		// Regex Redirect AJAX.
-		new WPSEO_Redirect_Ajax( new WPSEO_Redirect_Regex_Manager(), WPSEO_Redirect::FORMAT_REGEX ,'regex' );
+		new WPSEO_Redirect_Ajax( new WPSEO_Redirect_Regex_Manager() );
 	}
 
 	/**
@@ -141,7 +141,7 @@ class WPSEO_Redirect_Page {
 		static $current_tab;
 
 		if ( $current_tab === null ) {
-			$current_tab = filter_input( INPUT_GET, 'tab', FILTER_DEFAULT, array( 'options' => array( 'default' => 'url' ) ) );
+			$current_tab = filter_input( INPUT_GET, 'tab', FILTER_DEFAULT, array( 'options' => array( 'default' => 'plain' ) ) );
 		}
 
 		return $current_tab;

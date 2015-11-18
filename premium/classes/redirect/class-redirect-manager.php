@@ -153,6 +153,17 @@ abstract class WPSEO_Redirect_Manager {
 	}
 
 	/**
+	 * Search for an origin in the redirects.
+	 *
+	 * @param string $origin The origin to search for.
+	 *
+	 * @return bool|WPSEO_Redirect
+	 */
+	public function search( $origin ) {
+		return $this->redirect_option->search( $origin );
+	}
+
+	/**
 	 * This method will save the redirect option and if necessary the redirect file.
 	 */
 	public function save_redirects() {

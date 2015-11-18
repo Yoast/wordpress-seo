@@ -31,7 +31,7 @@ class WPSEO_Redirect_Upgrade {
 			foreach ( $old_redirects as $origin => $redirect ) {
 				// Check if the redirect is not an array yet.
 				if ( ! is_array( $redirect ) ) {
-					$redirect_option->add( $origin, $redirect['url'], $redirect['type'] );
+					$redirect_option->add( new WPSEO_Redirect( $origin, $redirect['url'], $redirect['type'], $redirect_format ) );
 				}
 			}
 		}
@@ -40,7 +40,7 @@ class WPSEO_Redirect_Upgrade {
 		$redirect_option->save();
 
 		// Save the redirect file.
-		$redirect_manager = new WPSEO_Redirect_URL_Manager( WPSEO_Redirect_URL_Manager::default_exporters() );
+		$redirect_manager = new WPSEO_Redirect_URL_Manager();
 		$redirect_manager->export_redirects();
 	}
 
@@ -57,7 +57,7 @@ class WPSEO_Redirect_Upgrade {
 			$redirect_option->set_format( $redirect_format );
 
 			foreach ( $old_redirects as $origin => $redirect ) {
-				$redirect_option->add( $origin, $redirect['url'], $redirect['type'] );
+				$redirect_option->add( new WPSEO_Redirect( $origin, $redirect['url'], $redirect['type'], $redirect_format ) );
 			}
 		}
 
@@ -65,7 +65,8 @@ class WPSEO_Redirect_Upgrade {
 		$redirect_option->save();
 
 		// Save the redirect file.
-		$redirect_manager = new WPSEO_Redirect_URL_Manager( array( new WPSEO_Redirect_Export_Option() ) );
+		$redirect_manager = new WPSEO_Redirect_URL_Manager();
+		$redirect_manager->set_exporters( array( new WPSEO_Redirect_Export_Option() ) );
 		$redirect_manager->export_redirects();
 	}
 

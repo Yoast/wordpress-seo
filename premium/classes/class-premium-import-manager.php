@@ -90,11 +90,11 @@ class WPSEO_Premium_Import_Manager {
 				$regex_redirection_manager = new WPSEO_Redirect_Regex_Manager();
 				foreach ( $items as $item ) {
 					// Check if redirect is a regex redirect.
-					if ( 1 == $item->regex ) {
-						$regex_redirection_manager->create_redirect( $item->url, $item->action_data, $item->action_code );
+					if ( 1 === $item->regex ) {
+						$regex_redirection_manager->create_redirect( new WPSEO_Redirect( $item->url, $item->action_data, $item->action_code, WPSEO_Redirect::FORMAT_REGEX ) );
 					}
 					else {
-						$url_redirection_manager->create_redirect( $item->url, $item->action_data, $item->action_code );
+						$url_redirection_manager->create_redirect( new WPSEO_Redirect( $item->url, $item->action_data, $item->action_code, WPSEO_Redirect::FORMAT_PLAIN ) );
 					}
 				}
 
