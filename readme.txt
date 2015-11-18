@@ -122,7 +122,7 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 
 = 3.0 =
 
-Release Date: July 21st, 2015
+Release Date: November 18th, 2015
 
 * Features:
 	* Adds realtime content analysis to the Yoast SEO metabox for all post types and taxonomies.
@@ -148,12 +148,12 @@ Release Date: July 21st, 2015
 	* Fixes a bug where we were not properly splitting taxonomy metadata when a shared taxonomy term got split through a Cron job, props [Daniel Homer](https://github.com/danielhomer).
 
 * Other notable changes:
-	* Adds a JavaScript API for registering data modifications that is quite similar to `add_filter`/`apply_filters` in WordPress. Allows for filtering data before it is analyzed.
-    * Adds a JavaScript API for adding and removing content analysis tests.
+	* Adds a JavaScript API for registering data modifications that is quite similar to `add_filter`/`apply_filters` in WordPress. Allows for filtering data before it is analyzed. See [YoastSEO.js](https://github.com/Yoast/YoastSEO.js).
+    * Adds a JavaScript API for adding content analysis tests, see [YoastSEO.js](https://github.com/Yoast/YoastSEO.js).
 
 * Because we moved the entire content analysis to JavaScript, we had to remove the following PHP filters:
 	* `wpseo_pre_analysis_post_content`. Alternative: [Modifications API](https://github.com/Yoast/YoastSEO.js).
-	* `wpseo_metadesc_length`. Alternative: [Modifications API](https://github.com/Yoast/YoastSEO.js).
+	* `wpseo_metadesc_length`. Functionality removed.
 	* `wpseo_metadesc_length_reason`. Functionality removed.
 	* `wpseo_body_length_score`. Alternative: [Content Checks API](https://github.com/Yoast/YoastSEO.js).
 	* `wpseo_linkdex_results`. Alternative: [Content Checks API](https://github.com/Yoast/YoastSEO.js).
