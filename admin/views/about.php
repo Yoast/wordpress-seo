@@ -17,7 +17,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 function wpseo_display_contributors( $contributors ) {
 	foreach ( $contributors as $username => $dev ) {
 		echo '<li class="wp-person" id="wp-person-', $username, '">';
-		echo '<a href="https://github.com/', $username, '"><img	src="https://secure.gravatar.com/avatar/', $dev->gravatar, '?s=60" class="gravatar" alt="', $dev->name, '"></a>';
+		echo '<a href="https://github.com/', $username, '"><img	src="//gravatar.com/avatar/', $dev->gravatar, '?s=60" class="gravatar" alt="', $dev->name, '"></a>';
 		echo '<a class="web" href="https://github.com/', $username, '">', $dev->name, '</a>';
 		echo '<span class="title">', $dev->role, '</span></li>';
 	}
@@ -37,8 +37,7 @@ function wpseo_display_contributors( $contributors ) {
 		Feedback when you are doing what you should be doing: writing awesome content.
 	</p>
 
-	<div class="wp-badge"
-	     style="background: url(<?php echo trailingslashit( plugin_dir_url( WPSEO_FILE ) ); ?>images/Yoast_SEO_Icon.svg); background-size: 150px 160px; box-shadow: none; border: none;"></div>
+	<div class="wp-badge"></div>
 
 	<h2 class="nav-tab-wrapper" id="wpseo-tabs">
 		<a class="nav-tab" href="#top#new" id="new-tab">
@@ -58,7 +57,13 @@ function wpseo_display_contributors( $contributors ) {
 			time. Which is also why it's now in plain sight all the time.</p>
 
 		<div class="headline-feature feature-video">
-			<script charset="ISO-8859-1" src="//fast.wistia.com/assets/external/E-v1.js" async></script><div class="wistia_responsive_padding" style="padding:56.25% 0 0 0;position:relative;"><div class="wistia_responsive_wrapper" style="height:100%;left:0;position:absolute;top:0;width:100%;"><div class="wistia_embed wistia_async_vdcuq7tfh1 videoFoam=true" style="height:100%;width:100%">&nbsp;</div></div></div>
+			<script charset="ISO-8859-1" src="//fast.wistia.com/assets/external/E-v1.js" async></script>
+			<div class="wistia_responsive_padding" style="padding:56.25% 0 0 0;position:relative;">
+				<div class="wistia_responsive_wrapper" style="height:100%;left:0;position:absolute;top:0;width:100%;">
+					<div class="wistia_embed wistia_async_vdcuq7tfh1 videoFoam=true" style="height:100%;width:100%">
+						&nbsp;</div>
+				</div>
+			</div>
 		</div>
 
 		<div class="feature-section two-col">
@@ -82,7 +87,7 @@ function wpseo_display_contributors( $contributors ) {
 					can be indexed by search engines and will alert you when that changes.</p>
 			</div>
 			<div class="col">
-				<div class="media-container" style="text-align: center; background-color: #fff;">
+				<div class="media-container">
 					<img src="//yoast-30.s3.amazonaws.com/category-fixes.png" alt="Supercharged categories">
 				</div>
 				<h3>Supercharged categories</h3>
@@ -110,110 +115,112 @@ function wpseo_display_contributors( $contributors ) {
 			</div>
 
 		</div>
-
-		<div id="credits" class="wpseotab">
-			<p class="about-description">
-				<?php
-				/* translators: %1$s and %2$s expands to anchor tags, %3$s expands to Yoast SEO */
-				printf( __( 'While most of the development team is at %1$sYoast%2$s in the Netherlands, %3$s is created by a worldwide team.', 'wordpress-seo' ), '<a target="_blank" href="https://yoast.com/">', '</a>', 'Yoast SEO' );
-				echo ' ';
-				printf( __( 'Want to help us develop? Read our %1$scontribution guidelines%2$s!', 'wordpress-seo' ), '<a target="_blank" href="http://yoa.st/wpseocontributionguidelines">', '</a>' );
-				?>
-			</p>
-
-			<h4 class="wp-people-group"><?php _e( 'Project Leaders', 'wordpress-seo' ); ?></h4>
-			<ul class="wp-people-group " id="wp-people-group-project-leaders">
-				<?php
-				$leaders = array(
-					'jdevalk'   => (object) array(
-						'name'     => 'Joost de Valk',
-						'role'     => __( 'Project Lead', 'wordpress-seo' ),
-						'gravatar' => 'f08c3c3253bf14b5616b4db53cea6b78',
-					),
-					'omarreiss' => (object) array(
-						'name'     => 'Omar Reiss',
-						'role'     => __( 'Lead Developer', 'wordpress-seo' ),
-						'gravatar' => '86aaa606a1904e7e0cf9857a663c376e',
-					),
-					'atimmer'   => (object) array(
-						'name'     => 'Anton Timmermans',
-						'role'     => __( 'Developer', 'wordpress-seo' ),
-						'gravatar' => 'b3acbabfdd208ecbf950d864b86fe968',
-					),
-					'tacoverdo' => (object) array(
-						'name'     => 'Taco Verdonschot',
-						'role'     => __( 'QA & Translations Manager', 'wordpress-seo' ),
-						'gravatar' => 'd2d3ecb38cacd521926979b5c678297b',
-					),
-				);
-
-				wpseo_display_contributors( $leaders );
-				?>
-			</ul>
-			<h4 class="wp-people-group"><?php _e( 'Contributing Developers', 'wordpress-seo' ); ?></h4>
-			<ul class="wp-people-group " id="wp-people-group-core-developers">
-				<?php
-				$contributors = array(
-					'CarolineGeven' => (object) array(
-						'name'     => 'Caroline Geven',
-						'role'     => __( 'Developer', 'wordpress-seo' ),
-						'gravatar' => 'f2596a568c3974e35f051266a63d791f',
-					),
-					'jrfnl'         => (object) array(
-						'name'     => 'Juliette Reinders Folmer',
-						'role'     => __( 'Developer', 'wordpress-seo' ),
-						'gravatar' => 'cbbac3e529102364dc3b026af3cc2988',
-					),
-					'garyjones'     => (object) array(
-						'name'     => 'Gary Jones',
-						'role'     => 'Developer, QA & Accessibility',
-						'gravatar' => 'f00cf4e7f02e10152f60ec3507fa8ba8',
-					),
-					'andizer'       => (object) array(
-						'name'     => 'Andy Meerwaldt',
-						'role'     => __( 'Developer', 'wordpress-seo' ),
-						'gravatar' => 'a9b43e766915b48031eab78f9916ca8e',
-					),
-					'rarst'         => (object) array(
-						'name'     => 'Andrey Savchenko',
-						'role'     => 'For the 100+ fixes that didn\'t make the about page',
-						'gravatar' => 'ab89ce39f47b327f1c85e4019e865a71',
-					),
-					'boblinthorst'  => (object) array(
-						'name'     => 'Bob Linthorst',
-						'role'     => 'For testing ridiculously hard',
-						'gravatar' => 'ab89ce39f47b327f1c85e4019e865a71',
-					),
-					'diedexx'       => (object) array(
-						'name'     => 'Diede Exterkate',
-						'role'     => 'For testing ridiculously hard',
-						'gravatar' => 'ab89ce39f47b327f1c85e4019e865a71',
-					),
-
-				);
-
-				wpseo_display_contributors( $contributors );
-				?>
-			</ul>
-			<h4 class="wp-people-group"><?php _e( 'Contributors to this release', 'wordpress-seo' ); ?></h4>
-			<?php
-			$patches_from = array(
-				'Pete Nelson'       => 'https://github.com/petenelson',
-				'Ajay D\'Souza'     => 'https://github.com/ajaydsouza',
-				'Filippo Buratti'   => 'https://github.com/fburatti',
-				'Michael Nordmeyer' => 'https://github.com/michaelnordmeyer',
-				'Lars Schenk'       => 'https://github.com/larsschenk',
-			);
-			?>
-			<p>We're always grateful for patches from non-regular contributors, in Yoast SEO 2.2 and 2.3, patches from
-				the
-				following people made it in:</p>
-			<ul class="ul-square">
-				<?php
-				foreach ( $patches_from as $patcher => $link ) {
-					echo '<li><a href="', esc_url( $link ), '">', $patcher, '</a></li>';
-				}
-				?>
-			</ul>
-		</div>
 	</div>
+
+	<div id="credits" class="wpseotab">
+		<p class="about-description">
+			<?php
+			/* translators: %1$s and %2$s expands to anchor tags, %3$s expands to Yoast SEO */
+			printf( __( 'While most of the development team is at %1$sYoast%2$s in the Netherlands, %3$s is created by a worldwide team.', 'wordpress-seo' ), '<a target="_blank" href="https://yoast.com/">', '</a>', 'Yoast SEO' );
+			echo ' ';
+			printf( __( 'Want to help us develop? Read our %1$scontribution guidelines%2$s!', 'wordpress-seo' ), '<a target="_blank" href="http://yoa.st/wpseocontributionguidelines">', '</a>' );
+			?>
+		</p>
+
+		<h4 class="wp-people-group"><?php _e( 'Project Leaders', 'wordpress-seo' ); ?></h4>
+		<ul class="wp-people-group " id="wp-people-group-project-leaders">
+			<?php
+			$leaders = array(
+				'jdevalk'   => (object) array(
+					'name'     => 'Joost de Valk',
+					'role'     => __( 'Project Lead', 'wordpress-seo' ),
+					'gravatar' => 'f08c3c3253bf14b5616b4db53cea6b78',
+				),
+				'omarreiss' => (object) array(
+					'name'     => 'Omar Reiss',
+					'role'     => __( 'Lead Architect', 'wordpress-seo' ),
+					'gravatar' => '86aaa606a1904e7e0cf9857a663c376e',
+				),
+				'atimmer'   => (object) array(
+					'name'     => 'Anton Timmermans',
+					'role'     => __( 'Architect', 'wordpress-seo' ),
+					'gravatar' => 'b3acbabfdd208ecbf950d864b86fe968',
+				),
+				'tacoverdo' => (object) array(
+					'name'     => 'Taco Verdonschot',
+					'role'     => __( 'QA & Translations Manager', 'wordpress-seo' ),
+					'gravatar' => 'd2d3ecb38cacd521926979b5c678297b',
+				),
+			);
+
+			wpseo_display_contributors( $leaders );
+			?>
+		</ul>
+		<h4 class="wp-people-group"><?php _e( 'Contributing Developers', 'wordpress-seo' ); ?></h4>
+		<ul class="wp-people-group " id="wp-people-group-core-developers">
+			<?php
+			$contributors = array(
+				'CarolineGeven' => (object) array(
+					'name'     => 'Caroline Geven',
+					'role'     => __( 'Developer', 'wordpress-seo' ),
+					'gravatar' => 'f2596a568c3974e35f051266a63d791f',
+				),
+				'jrfnl'         => (object) array(
+					'name'     => 'Juliette Reinders Folmer',
+					'role'     => __( 'Developer', 'wordpress-seo' ),
+					'gravatar' => 'cbbac3e529102364dc3b026af3cc2988',
+				),
+				'terw-dan'      => (object) array(
+					'name'     => 'Danny Terwindt',
+					'role'     => __( 'Developer', 'wordpress-seo' ),
+					'gravatar' => '20a04b0736e630e80ce2dbefe3f1d62f',
+				),
+				'garyjones'     => (object) array(
+					'name'     => 'Gary Jones',
+					'role'     => 'Developer, QA & Accessibility',
+					'gravatar' => 'f00cf4e7f02e10152f60ec3507fa8ba8',
+				),
+				'andizer'       => (object) array(
+					'name'     => 'Andy Meerwaldt',
+					'role'     => __( 'Developer', 'wordpress-seo' ),
+					'gravatar' => 'a9b43e766915b48031eab78f9916ca8e',
+				),
+				'rarst'         => (object) array(
+					'name'     => 'Andrey Savchenko',
+					'role'     => 'For the 100+ fixes that didn\'t make the about page',
+					'gravatar' => 'c445c2491f9f55409b2e4dccee357961',
+				),
+				'boblinthorst'  => (object) array(
+					'name'     => 'Bob Linthorst',
+					'role'     => 'For testing ridiculously hard',
+					'gravatar' => '8063b1955f54681ef3a2deb21972faa1',
+				),
+				'diedexx'       => (object) array(
+					'name'     => 'Diede Exterkate',
+					'role'     => 'For testing ridiculously hard',
+					'gravatar' => '59908788f406037240ee011388db29f8',
+				),
+
+			);
+
+			wpseo_display_contributors( $contributors );
+			?>
+		</ul>
+		<h4 class="wp-people-group"><?php _e( 'Contributors to this release', 'wordpress-seo' ); ?></h4>
+		<?php
+		$patches_from = array(
+			'Daniel Homer' => 'https://github.com/danielhomer',
+		);
+		?>
+		<p>We're always grateful for patches from non-regular contributors, in Yoast SEO 3.0, patches from
+			the
+			following people made it in:</p>
+		<ul class="ul-square">
+			<?php
+			foreach ( $patches_from as $patcher => $link ) {
+				echo '<li><a href="', esc_url( $link ), '">', $patcher, '</a></li>';
+			}
+			?>
+		</ul>
+	</div>
+</div>
