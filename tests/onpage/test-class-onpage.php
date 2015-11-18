@@ -75,7 +75,7 @@ class WPSEO_OnPage_Test extends WPSEO_UnitTestCase {
 	public function test_fetch_from_onpage() {
 		update_option( 'home', 'http://example.org' );
 
-		$this->assertEquals( $this->option_instance->get_status(), null );
+		$this->assertEquals( $this->option_instance->get_status(), 99 );
 
 		$this->assertTrue( $this->class_instance->fetch_from_onpage() );
 
@@ -91,7 +91,7 @@ class WPSEO_OnPage_Test extends WPSEO_UnitTestCase {
 	public function test_fetch_from_onpage_not_indexable() {
 		update_option( 'home', 'https://example.org' );
 
-		$this->assertEquals( $this->option_instance->get_status(), null );
+		$this->assertEquals( $this->option_instance->get_status(), 99 );
 
 		$this->assertTrue( $this->class_instance->fetch_from_onpage() );
 
