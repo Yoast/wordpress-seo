@@ -86,17 +86,19 @@ class WPSEO_Premium_Import_Manager {
 
 			// Loop and add redirect to Yoast SEO Premium.
 			if ( count( $items ) > 0 ) {
-				$url_redirection_manager   = new WPSEO_Redirect_Manager();
-				$regex_redirection_manager = new WPSEO_Redirect_Manager( WPSEO_Redirect::FORMAT_REGEX );
+				$redirect_import = new WPSEO_Redirect_Import();
+
 				foreach ( $items as $item ) {
-					// Check if redirect is a regex redirect.
-					if ( 1 === $item->regex ) {
-						$regex_redirection_manager->create_redirect( new WPSEO_Redirect( $item->url, $item->action_data, $item->action_code, WPSEO_Redirect::FORMAT_REGEX ) );
+					$format = WPSEO_Redirect::FORMAT_PLAIN;
+					if ( 1 === (int) $item->regex ) {
+						$format = WPSEO_Redirect::FORMAT_REGEX;
 					}
-					else {
-						$url_redirection_manager->create_redirect( new WPSEO_Redirect( $item->url, $item->action_data, $item->action_code, WPSEO_Redirect::FORMAT_PLAIN ) );
-					}
+
+					$redirect_import->add( new WPSEO_Redirect( $item->url, $item->action_data, $item->action_code, $format ) );
 				}
+
+				$redirect_import->save();
+				$redirect_import->export();
 
 				// Add success message.
 				add_filter( 'wpseo_import_message', array( $this, 'message_redirection_success' ) );
@@ -124,13 +126,11 @@ class WPSEO_Premium_Import_Manager {
 
 			// Regexpressions.
 			$regex_patterns = array(
-				'url'   => '`[^# ]Redirect ([0-9]+) ([^\s]+) ([^\s]+)`i',
-				'regex' => '`[^# ]RedirectMatch ([0-9]+) ([^\s]+) ([^\s]+)`i',
+				WPSEO_Redirect::FORMAT_PLAIN => '`[^# ]Redirect ([0-9]+) ([^\s]+) ([^\s]+)`i',
+				WPSEO_Redirect::FORMAT_REGEX => '`[^# ]RedirectMatch ([0-9]+) ([^\s]+) ([^\s]+)`i',
 			);
 
-			// Create redirect manager objects.
-			$url_redirection_manager   = new WPSEO_Redirect_Manager();
-			$regex_redirection_manager = new WPSEO_Redirect_Manager( WPSEO_Redirect::FORMAT_REGEX );
+			$redirect_import = new WPSEO_Redirect_Import();
 
 			// Bool if we've imported redirects.
 			$redirects_imported = false;
@@ -152,14 +152,8 @@ class WPSEO_Premium_Import_Manager {
 
 							// Check if both source and target are not empty.
 							if ( '' !== $source && '' !== $target ) {
-
-								// Check redirect type.
-								if ( 'regex' === $regex_type ) {
-									$regex_redirection_manager->create_redirect( new WPSEO_Redirect( $source, $target, $type, WPSEO_Redirect::FORMAT_REGEX ) );
-								}
-								else {
-									$url_redirection_manager->create_redirect( new WPSEO_Redirect( $source, $target, $type ) );
-								}
+								// Adding the redirect to importer class.
+								$redirect_import->add( new WPSEO_Redirect( $source, $target, $type, $regex_type ) );
 
 								$redirects_imported = true;
 
@@ -168,7 +162,6 @@ class WPSEO_Premium_Import_Manager {
 
 								// Comment out added redirect in our new .htaccess file.
 								$new_htaccess = str_ireplace( $original_redirect, '#' . $original_redirect, $new_htaccess );
-
 							}
 						}
 					}
@@ -177,6 +170,10 @@ class WPSEO_Premium_Import_Manager {
 
 			// Check if we've imported any redirects.
 			if ( $redirects_imported ) {
+
+				// Save and export the redirects.
+				$redirect_import->save();
+				$redirect_import->export();
 
 				// Set the filesystem URL.
 				$url = wp_nonce_url( 'admin.php?page=wpseo_import', 'update-htaccess' );

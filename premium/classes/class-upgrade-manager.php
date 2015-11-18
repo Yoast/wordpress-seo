@@ -84,27 +84,4 @@ class WPSEO_Upgrade_Manager {
 		update_site_option( WPSEO_Premium::OPTION_CURRENT_VERSION, WPSEO_Premium::PLUGIN_VERSION_CODE );
 	}
 
-	/**
-	 * Check if redirects should be imported from the free version
-	 *
-	 * @since 2.3
-	 */
-	public function import_redirects_2_3() {
-		$wp_query  = new WP_Query( 'post_type=any&meta_key=_yoast_wpseo_redirect&order=ASC' );
-
-		if ( ! empty( $wp_query->posts ) ) {
-			$redirect_manager = new WPSEO_Redirect_Manager();
-
-			foreach ( $wp_query->posts as $post ) {
-				$old_url = '/' . $post->post_name . '/';
-				$new_url = get_post_meta( $post->ID, '_yoast_wpseo_redirect', true );
-
-				// Create redirect.
-				$redirect_manager->create_redirect( new WPSEO_Redirect( $old_url, $new_url, 301, WPSEO_Redirect::FORMAT_PLAIN ) );
-
-				// Remove post meta value.
-				delete_post_meta( $post->ID, '_yoast_wpseo_redirect' );
-			}
-		}
-	}
 }
