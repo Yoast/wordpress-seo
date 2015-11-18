@@ -285,7 +285,7 @@ class WPSEO_Taxonomy {
 			'term_description',
 			'category_description',
 			'tag_description',
-			'searchphrase'
+			'searchphrase',
 		);
 
 		foreach ( $vars_to_cache as $var ) {
