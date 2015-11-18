@@ -25,16 +25,16 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	/**
 	 * WPSEO_Redirect_Table constructor
 	 *
-	 * @param array|string           $type             Type of the redirects that is opened.
-	 * @param string                 $current_column   The value of the first column.
-	 * @param WPSEO_Redirect_Manager $redirect_manager The current active redirect manager.
+	 * @param array|string     $type           Type of the redirects that is opened.
+	 * @param string           $current_column The value of the first column.
+	 * @param WPSEO_Redirect[] $redirects      The redirects.
 	 */
-	public function __construct( $type, $current_column, WPSEO_Redirect_Manager $redirect_manager ) {
+	public function __construct( $type, $current_column, $redirects ) {
 		parent::__construct( array( 'plural' => $type ) );
 
 		$this->current_column = $current_column;
 
-		$this->set_items( $redirect_manager->get_redirects() );
+		$this->set_items( $redirects );
 
 		add_filter( 'list_table_primary_column', array( $this, 'redirect_list_table_primary_column' ) , 10, 2 );
 	}

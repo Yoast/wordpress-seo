@@ -11,10 +11,14 @@ class WPSEO_Redirect_Table_Presenter extends WPSEO_Redirect_Tab_Presenter {
 	/**
 	 * Adding the redirect table to the view vars
 	 *
-	 * @param WPSEO_Redirect_Manager $redirect_manager The redirect manager.
+	 * @param WPSEO_Redirect[] $redirects The redirect for the table.
 	 */
-	public function set_table( WPSEO_Redirect_Manager $redirect_manager ) {
-		$this->view_vars['redirect_table'] = new WPSEO_Redirect_Table( $this->view, $this->get_first_column_value(), $redirect_manager );
+	public function set_table( $redirects ) {
+		$this->view_vars['redirect_table'] = new WPSEO_Redirect_Table(
+			$this->view,
+			$this->get_first_column_value(),
+			$redirects
+		);
 	}
 
 	/**
@@ -40,6 +44,7 @@ class WPSEO_Redirect_Table_Presenter extends WPSEO_Redirect_Tab_Presenter {
 	private function get_old_url() {
 		// Check if there's an old URL set.
 		$old_url = filter_input( INPUT_GET, 'old_url', FILTER_DEFAULT, array( 'default' => '' ) );
+
 		if ( $old_url !== '' ) {
 			return esc_attr( rawurldecode( $old_url ) );
 		}

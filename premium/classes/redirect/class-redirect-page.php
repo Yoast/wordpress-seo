@@ -26,8 +26,8 @@ class WPSEO_Redirect_Page {
 	 * Display the presenter
 	 */
 	public function display() {
-		$redirect_presenter = new WPSEO_Redirect_Presenter( $this->get_current_tab(), $this->get_redirect_manager() );
-		$redirect_presenter->display();
+		$redirect_presenter = new WPSEO_Redirect_Presenter();
+		$redirect_presenter->display( $this->get_current_tab() );
 	}
 
 	/**
@@ -158,12 +158,12 @@ class WPSEO_Redirect_Page {
 		static $redirect_manager;
 
 		if ( $redirect_manager === null ) {
-			if ( $this->get_current_tab() === 'regex' ) {
-				$redirect_manager = new WPSEO_Redirect_Manager( WPSEO_Redirect::FORMAT_REGEX );
+			$redirects_format = WPSEO_Redirect::FORMAT_PLAIN;
+			if ( $this->get_current_tab() === WPSEO_Redirect::FORMAT_REGEX ) {
+				$redirects_format = WPSEO_Redirect::FORMAT_REGEX;
 			}
-			else {
-				$redirect_manager = new WPSEO_Redirect_Manager();
-			}
+
+			$redirect_manager = new WPSEO_Redirect_Manager( $redirects_format );
 		}
 
 		return $redirect_manager;
@@ -177,7 +177,6 @@ class WPSEO_Redirect_Page {
 	private function change_option_autoload() {
 		// Check if WPSEO_DISABLE_PHP_REDIRECTS is defined.
 		if ( defined( 'WPSEO_DISABLE_PHP_REDIRECTS' ) && true === WPSEO_DISABLE_PHP_REDIRECTS ) {
-			$this->get_redirect_manager()->change_option_autoload( false );
 			$this->get_redirect_manager()->change_option_autoload( false );
 
 			return true;

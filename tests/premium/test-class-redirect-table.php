@@ -19,7 +19,13 @@ class WPSEO_Redirect_Table_Test extends WPSEO_UnitTestCase {
 	 * Loading the instance of the table class.
 	 */
 	public function setUp() {
-		$this->class_instance = new WPSEO_Redirect_Table( 'url', 'Old URL',  new WPSEO_Redirect_Manager() );
+		$this->class_instance = new WPSEO_Redirect_Table(
+			'url',
+			'Old URL',
+			array(
+				new WPSEO_Redirect( 'origin', 'target', 301 )
+			)
+		);
 	}
 
 	/**
@@ -55,7 +61,7 @@ class WPSEO_Redirect_Table_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Redirect_Table::prepare_items
 	 */
 	public function test_prepare_items() {
-
+		$this->class_instance->items = array();
 		for ( $i = 0; $i < 30; $i++ ) {
 			$this->class_instance->items[] = $i;
 		}
