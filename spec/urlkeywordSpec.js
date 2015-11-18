@@ -50,3 +50,16 @@ describe("a test matching the keywords in the url", function(){
         expect(result[0].result).toBe(0);
     });
 });
+
+var urlArgs4 = {
+	keyword: "one two three",
+	url: "http://domain.tld/one-two-three"
+};
+
+describe("a test matching a keyword with multiple spaces", function(){
+	it("returns a match for the keyword", function(){
+		var urlAnalyzer = Factory.buildAnalyzer(urlArgs4);
+		var result = urlAnalyzer.urlKeyword();
+		expect(result[0].result).toBe(1);
+	});
+});
