@@ -49,7 +49,7 @@
 				}
 				break;
 			case 'snippetMeta':
-				elem = document.getElementById( 'yoast_wpseo_metadesc' );
+				elem = document.getElementById( 'hidden_wpseo_desc' );
 				if ( elem !== null ) {
 					val = elem.value;
 				}
