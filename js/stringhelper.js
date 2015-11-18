@@ -135,7 +135,7 @@ YoastSEO.StringHelper.prototype.stripNumbers = function( textString ) {
 
 	textString = this.stripSpaces( textString );
 
-	if( textString === "." ){
+	if ( textString === "." ) {
 		textString = "";
 	}
 	return textString;
