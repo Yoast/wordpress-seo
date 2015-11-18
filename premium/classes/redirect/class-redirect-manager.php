@@ -84,6 +84,7 @@ class WPSEO_Redirect_Manager {
 	public function export_redirects() {
 		$redirects = $this->redirect_option->get_all();
 		$exporters = ! empty( $this->exporters ) ? $this->exporters : self::default_exporters();
+
 		foreach ( $exporters as $exporter ) {
 			$exporter->export( $redirects );
 		}
@@ -175,7 +176,6 @@ class WPSEO_Redirect_Manager {
 	 */
 	public function save_redirects() {
 		// Update the database option.
-
 		$this->redirect_option->save();
 
 		// Save the redirect file.

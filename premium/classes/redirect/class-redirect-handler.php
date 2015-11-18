@@ -11,7 +11,7 @@ class WPSEO_Redirect_Handler {
 	/**
 	 * @var string The options where the url redirects are stored.
 	 */
-	private $normal_option_name = 'wpseo-premium-redirects';
+	private $normal_option_name = 'wpseo-premium-redirects-plain';
 
 	/**
 	 * @var string The option name where the regex redirects are stored.

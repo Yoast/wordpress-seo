@@ -30,8 +30,8 @@ class WPSEO_Upgrade_Manager {
 		}
 
 		if ( version_compare( $version_number, '2.3', '<' ) ) {
-			add_action( 'wp', array( $this, 'import_redirects_2_3' ), 11 );
-			add_action( 'admin_head', array( $this, 'import_redirects_2_3' ), 11 );
+			add_action( 'wp', array( 'WPSEO_Redirect_Upgrade', 'import_redirects_2_3' ), 11 );
+			add_action( 'admin_head', array( 'WPSEO_Redirect_Upgrade', 'import_redirects_2_3' ), 11 );
 		}
 
 		if ( version_compare( $version_number, '3.1', '<' ) ) {
