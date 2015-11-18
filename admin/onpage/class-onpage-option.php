@@ -8,6 +8,7 @@
  */
 class WPSEO_OnPage_Option {
 
+	const NOT_FETCHED      = 99;
 	const IS_INDEXABLE     = 1;
 	const IS_NOT_INDEXABLE = 0;
 	const CANNOT_FETCH     = -1;
@@ -106,7 +107,7 @@ class WPSEO_OnPage_Option {
 	 * @return array
 	 */
 	private function get_option() {
-		return get_option( self::OPTION_NAME, array( self::STATUS => null, self::LAST_FETCH => 0 ) );
+		return get_option( self::OPTION_NAME, array( self::STATUS => self::NOT_FETCHED, self::LAST_FETCH => 0 ) );
 	}
 
 }

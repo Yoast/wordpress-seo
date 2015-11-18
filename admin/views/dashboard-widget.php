@@ -67,6 +67,7 @@
 					'<a href="http://yoa.st/onpageindexerror" target="_blank">',
 					'</a>'
 				);
+				echo '<br />';
 				break;
 			case WPSEO_OnPage_Option::CANNOT_FETCH :
 				echo '<div class="wpseo-score-icon na"></div>';
@@ -76,10 +77,10 @@
 					'<a href="http://yoa.st/onpagerequestfailed" target="_blank">',
 					'</a>'
 				);
+				echo '<br />';
 				break;
 		endswitch;
 
-		echo '<br />';
 
 		if ( $onpage['indexable'] !== WPSEO_OnPage_Option::IS_INDEXABLE && $onpage['can_fetch'] ) :
 			echo '<a class="fetch-status button" href="' . esc_attr( add_query_arg( 'wpseo-redo-onpage', '1' ) ) . '">' . __( 'Fetch the current status', 'wordpress-seo' ) . ' </a> ';

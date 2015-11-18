@@ -139,7 +139,7 @@ class WPSEO_OnPage {
 			return false;
 		}
 
-		return WPSEO_Utils::grant_access() && ! $this->user_has_dismissed() && ! $this->onpage_option->is_indexable();
+		return WPSEO_Utils::grant_access() && ! $this->user_has_dismissed() && $this->onpage_option->get_status() === WPSEO_OnPage_Option::IS_NOT_INDEXABLE;
 	}
 
 	/**
