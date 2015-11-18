@@ -42,7 +42,7 @@
 	<h4 class="hide-if-no-js"><?php
 		printf(
 			/* translators: 1: expands to OnPage.org */
-			__( '%1$s status', 'wordpress-seo' ),
+			__( 'Indexability check by %1$s', 'wordpress-seo' ),
 			'OnPage.org'
 		);
 	?></h4>
@@ -73,7 +73,7 @@
 				printf(
 					/* translators: 1: opens a link to a related knowledge base article. 2: closes the link */
 					__( 'Yoast SEO has %1$snot been able to fetch your site’s indexability status%2$s from OnPage.org', 'wordpress-seo' ),
-					'<a href="http://yoa.st/onpage-index-error" target="_blank">',
+					'<a href="http://yoa.st/onpage-request-failed" target="_blank">',
 					'</a>'
 				);
 				break;

@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Yoast SEO 3.0-RC\n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo/issues\n"
-"POT-Creation-Date: 2015-11-10 15:10:13+00:00\n"
+"POT-Creation-Date: 2015-11-17 14:52:14+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -56,196 +56,196 @@ msgid ""
 "new!"
 msgstr ""
 
-#. translators: %1$s opens a link to a knowledge base article, $2%s closes the
-#. link
-#: admin/class-admin-init.php:110
-msgid ""
-"The way your theme handles titles is not compatible with the latest version "
-"of WordPress. %1$sRead more about this error on our knowledge base%2$s."
-msgstr ""
-
-#: admin/class-admin-init.php:143
+#: admin/class-admin-init.php:120
 msgid ""
 "You still have the default WordPress tagline, even an empty one is probably "
 "better. %1$sYou can fix this in the customizer%2$s."
 msgstr ""
 
-#: admin/class-admin-init.php:164
+#: admin/class-admin-init.php:141
 msgid "Just another WordPress site"
 msgstr ""
 
 #. translators: %1$s expands to Yoast SEO, %2$s expands to 5.4.3, %3$s expands
 #. to Google Analytics by Yoast
-#: admin/class-admin-init.php:185
+#: admin/class-admin-init.php:162
 msgid ""
 "%1$s detected you are using version %2$s of %3$s, please update to the "
 "latest version to prevent compatibility issues."
 msgstr ""
 
-#: admin/class-admin-init.php:345
+#. translators: 1: is a link to 'admin_url /
+#. admin.php?page=wpseo_tools&recalculate=1' 2: closing link tag
+#: admin/class-admin-init.php:186
+msgid ""
+"We've updated our SEO score algorithm. %1$sClick here to recalculate the SEO "
+"scores%2$s for all posts and pages."
+msgstr ""
+
+#: admin/class-admin-init.php:372
 msgid "%s filter/action"
 msgstr ""
 
-#: admin/class-admin.php:107
+#: admin/class-admin.php:117
 msgid "General Settings"
 msgstr ""
 
-#: admin/class-admin.php:107 admin/class-admin.php:250
-#: admin/class-meta-columns.php:43 inc/wpseo-non-ajax-functions.php:260
+#: admin/class-admin.php:117 admin/class-admin.php:276
+#: admin/class-meta-columns.php:43 inc/wpseo-non-ajax-functions.php:257
 msgid "SEO"
 msgstr ""
 
-#: admin/class-admin.php:117 inc/wpseo-non-ajax-functions.php:411
+#: admin/class-admin.php:127 inc/wpseo-non-ajax-functions.php:408
 msgid "Titles &amp; Metas"
 msgstr ""
 
-#: admin/class-admin.php:126 admin/class-social-admin.php:125
+#: admin/class-admin.php:136 admin/class-social-admin.php:125
 #: admin/class-social-admin.php:126
+#: admin/taxonomy/class-taxonomy-metabox.php:203
 #: admin/taxonomy/class-taxonomy-metabox.php:204
-#: admin/taxonomy/class-taxonomy-metabox.php:205
-#: inc/wpseo-non-ajax-functions.php:417
+#: inc/wpseo-non-ajax-functions.php:414
 msgid "Social"
 msgstr ""
 
-#: admin/class-admin.php:135 admin/class-pointers.php:300
-#: inc/wpseo-non-ajax-functions.php:423
+#: admin/class-admin.php:145 admin/class-pointers.php:300
+#: inc/wpseo-non-ajax-functions.php:420
 msgid "XML Sitemaps"
 msgstr ""
 
-#: admin/class-admin.php:144 admin/metabox/class-metabox.php:389
-#: admin/metabox/class-metabox.php:391 admin/metabox/class-metabox.php:400
-#: admin/metabox/class-metabox.php:401 inc/wpseo-non-ajax-functions.php:429
+#: admin/class-admin.php:154 admin/metabox/class-metabox.php:392
+#: admin/metabox/class-metabox.php:394 admin/metabox/class-metabox.php:403
+#: admin/metabox/class-metabox.php:404 inc/wpseo-non-ajax-functions.php:426
 msgid "Advanced"
 msgstr ""
 
-#: admin/class-admin.php:153 inc/wpseo-non-ajax-functions.php:435
+#: admin/class-admin.php:163 inc/wpseo-non-ajax-functions.php:432
 msgid "Tools"
 msgstr ""
 
-#: admin/class-admin.php:162 inc/wpseo-non-ajax-functions.php:441
+#: admin/class-admin.php:172 inc/wpseo-non-ajax-functions.php:438
 msgid "Search Console"
 msgstr ""
 
-#: admin/class-admin.php:171 admin/class-admin.php:263
+#: admin/class-admin.php:181 admin/class-admin.php:289
 #: admin/class-pointers.php:331 admin/pages/licenses.php:77
-#: inc/wpseo-non-ajax-functions.php:447
+#: inc/wpseo-non-ajax-functions.php:444
 msgid "Extensions"
 msgstr ""
 
-#: admin/class-admin.php:201 admin/pages/dashboard.php:145
+#: admin/class-admin.php:211 admin/pages/dashboard.php:145
 #: admin/pages/metas.php:20 admin/pages/xml-sitemaps.php:36
-#: inc/wpseo-non-ajax-functions.php:405
+#: inc/wpseo-non-ajax-functions.php:402
 msgid "General"
 msgstr ""
 
-#: admin/class-admin.php:212
+#: admin/class-admin.php:238
 msgid "For more information:"
 msgstr ""
 
-#: admin/class-admin.php:213
+#: admin/class-admin.php:239
 msgid "Title optimization"
 msgstr ""
 
-#: admin/class-admin.php:214
+#: admin/class-admin.php:240
 msgid "Why Google won't display the right page title"
 msgstr ""
 
-#: admin/class-admin.php:220
+#: admin/class-admin.php:246
 msgid "Template explanation"
 msgstr ""
 
 #. translators: %1$s expands to Yoast SEO
-#: admin/class-admin.php:222
+#: admin/class-admin.php:248
 msgid ""
 "The title &amp; metas settings for %1$s are made up of variables that are "
 "replaced by specific values from the page when the page is displayed. The "
 "tabs on the left explain the available variables."
 msgstr ""
 
-#: admin/class-admin.php:222
+#: admin/class-admin.php:248
 msgid "Note that not all variables can be used in every template."
 msgstr ""
 
-#: admin/class-admin.php:229 admin/class-admin.php:230
+#: admin/class-admin.php:255 admin/class-admin.php:256
 msgid "Basic Variables"
 msgstr ""
 
-#: admin/class-admin.php:237 admin/class-admin.php:238
+#: admin/class-admin.php:263 admin/class-admin.php:264
 msgid "Advanced Variables"
 msgstr ""
 
-#: admin/class-admin.php:250 admin/pages/network.php:86
+#: admin/class-admin.php:276 admin/pages/network.php:86
 msgid "MultiSite Settings"
 msgstr ""
 
-#: admin/class-admin.php:256
+#: admin/class-admin.php:282
 msgid "Edit Files"
 msgstr ""
 
-#: admin/class-admin.php:329
+#: admin/class-admin.php:355
 msgid "Posts"
 msgstr ""
 
-#: admin/class-admin.php:376
+#: admin/class-admin.php:402
 msgid "Huge SEO Issue: You're blocking access to robots."
 msgstr ""
 
-#: admin/class-admin.php:377
+#: admin/class-admin.php:403
 msgid ""
 "You must %sgo to your Reading Settings%s and uncheck the box for Search "
 "Engine Visibility."
 msgstr ""
 
-#: admin/class-admin.php:379 admin/class-admin.php:414
+#: admin/class-admin.php:405 admin/class-admin.php:440
 msgid "I know, don't bug me."
 msgstr ""
 
-#: admin/class-admin.php:410
+#: admin/class-admin.php:436
 msgid "SEO Issue:"
 msgstr ""
 
 #. translators: %1$s expands to Yoast SEO, %2$s to opening anchor and %3$s the
 #. anchor closing tag
-#: admin/class-admin.php:412
+#: admin/class-admin.php:438
 msgid ""
 "Your theme contains a meta description, which blocks %1$s from working "
 "properly. Please visit the %2$sSEO Dashboard%3$s to fix this."
 msgstr ""
 
-#: admin/class-admin.php:430
+#: admin/class-admin.php:456
 #: admin/google_search_console/class-gsc-platform-tabs.php:40
-#: admin/taxonomy/class-taxonomy-metabox.php:130
-#: admin/taxonomy/class-taxonomy-metabox.php:132
+#: admin/taxonomy/class-taxonomy-metabox.php:129
+#: admin/taxonomy/class-taxonomy-metabox.php:131
+#: admin/taxonomy/class-taxonomy-metabox.php:140
 #: admin/taxonomy/class-taxonomy-metabox.php:141
-#: admin/taxonomy/class-taxonomy-metabox.php:142
 msgid "Settings"
 msgstr ""
 
-#: admin/class-admin.php:442
+#: admin/class-admin.php:468
 msgid "Premium Support"
 msgstr ""
 
-#: admin/class-admin.php:446
+#: admin/class-admin.php:472
 msgid "FAQ"
 msgstr ""
 
-#: admin/class-admin.php:472 admin/class-pointers.php:287
+#: admin/class-admin.php:498 admin/class-pointers.php:287
 #: admin/class-social-admin.php:47 admin/pages/social.php:24
 #: admin/taxonomy/class-taxonomy-social-fields.php:94
 msgid "Google+"
 msgstr ""
 
-#: admin/class-admin.php:474
+#: admin/class-admin.php:500
 msgid "Twitter username (without @)"
 msgstr ""
 
-#: admin/class-admin.php:476
+#: admin/class-admin.php:502
 msgid "Facebook profile URL"
 msgstr ""
 
 #. translators: this should be an array of stopwords for your language,
 #. separated by comma's.
-#: admin/class-admin.php:545
+#: admin/class-admin.php:571
 msgid ""
 "a,about,above,after,again,against,all,am,an,and,any,are,as,at,be,because,"
 "been,before,being,below,between,both,but,by,could,did,do,does,doing,down,"
@@ -333,7 +333,7 @@ msgstr ""
 msgid "New Yoast SEO Title"
 msgstr ""
 
-#: admin/class-config.php:98 admin/metabox/class-metabox.php:729
+#: admin/class-config.php:98 admin/metabox/class-metabox.php:732
 #: admin/taxonomy/class-taxonomy.php:101
 msgid "Use Image"
 msgstr ""
@@ -435,10 +435,6 @@ msgstr ""
 msgid "WooThemes SEO framework settings &amp; data successfully imported."
 msgstr ""
 
-#: admin/class-import-wpseo.php:22
-msgid "wpSEO data successfully imported. "
-msgstr ""
-
 #: admin/class-import.php:76 admin/class-import.php:82
 #: admin/class-import.php:88 admin/class-import.php:120
 #: admin/class-import.php:127 admin/class-import.php:151
@@ -469,7 +465,7 @@ msgstr ""
 msgid "Setting \"%s\" is no longer used and has been discarded."
 msgstr ""
 
-#: admin/class-meta-columns.php:44 admin/metabox/class-metabox.php:60
+#: admin/class-meta-columns.php:44 admin/metabox/class-metabox.php:59
 msgid "SEO Title"
 msgstr ""
 
@@ -485,7 +481,7 @@ msgstr ""
 msgid "All SEO Scores"
 msgstr ""
 
-#: admin/class-meta-columns.php:330 admin/metabox/class-metabox.php:147
+#: admin/class-meta-columns.php:330 admin/metabox/class-metabox.php:150
 msgid "Post is set to noindex."
 msgstr ""
 
@@ -657,7 +653,7 @@ msgid ""
 msgstr ""
 
 #: admin/class-pointers.php:268 admin/pages/metas.php:24
-#: frontend/class-frontend.php:535 frontend/class-frontend.php:556
+#: frontend/class-frontend.php:527 frontend/class-frontend.php:548
 msgid "Archives"
 msgstr ""
 
@@ -886,14 +882,14 @@ msgid "Facebook / Open Graph metadata"
 msgstr ""
 
 #: admin/class-social-admin.php:102 admin/class-social-admin.php:103
+#: admin/taxonomy/class-taxonomy-metabox.php:178
 #: admin/taxonomy/class-taxonomy-metabox.php:179
-#: admin/taxonomy/class-taxonomy-metabox.php:180
 msgid "Twitter metadata"
 msgstr ""
 
 #: admin/class-social-admin.php:114 admin/class-social-admin.php:115
+#: admin/taxonomy/class-taxonomy-metabox.php:192
 #: admin/taxonomy/class-taxonomy-metabox.php:193
-#: admin/taxonomy/class-taxonomy-metabox.php:194
 msgid "Google+ metadata"
 msgstr ""
 
@@ -1328,77 +1324,112 @@ msgstr ""
 msgid "or"
 msgstr ""
 
+#: admin/import/class-import-aioseo-hooks.php:28
+msgid ""
+"The plugin All-In-One-SEO has been detected. Do you want to %simport its "
+"settings%s?"
+msgstr ""
+
+#: admin/import/class-import-aioseo-hooks.php:37
+msgid "All-In-One-SEO has been deactivated"
+msgstr ""
+
+#: admin/import/class-import-robots-meta-hooks.php:28
+msgid ""
+"The plugin Robots-Meta has been detected. Do you want to %simport its "
+"settings%s."
+msgstr ""
+
+#: admin/import/class-import-robots-meta-hooks.php:37
+msgid "Robots-Meta has been deactivated"
+msgstr ""
+
+#: admin/import/class-import-wpseo-hooks.php:28
+msgid ""
+"The plugin wpSEO has been detected. Do you want to %simport its settings%s?"
+msgstr ""
+
+#: admin/import/class-import-wpseo-hooks.php:37
+msgid "wpSEO has been deactivated"
+msgstr ""
+
 #: admin/metabox/class-metabox-add-keyword-tab.php:22
 msgid "Add keyword"
 msgstr ""
 
-#: admin/metabox/class-metabox-add-keyword-tab.php:28
-msgid "Adding multiple focus keywords is a %s feature"
+#: admin/metabox/class-metabox-add-keyword-tab.php:29
+msgid "Multiple focus keywords is a %s feature"
 msgstr ""
 
 #. Translators: %1$s: expands to 'Yoast SEO Premium', %2$s: links to Yoast SEO
 #. Premium plugin page.
-#: admin/metabox/class-metabox-add-keyword-tab.php:33
+#: admin/metabox/class-metabox-add-keyword-tab.php:34
 msgid ""
-"To be able to add and analyze multiple keywords you need %1$s. You can buy "
-"the plugin, including one year of support and updates, on %2$s."
+"To be able to add and analyze multiple keywords for a post or page you need "
+"%1$s. You can buy the plugin, including one year of support, updates and "
+"upgrades, on %2$s."
+msgstr ""
+
+#: admin/metabox/class-metabox-add-keyword-tab.php:40
+msgid "Buy %s &raquo;"
+msgstr ""
+
+#: admin/metabox/class-metabox.php:50
+#: admin/taxonomy/class-taxonomy-content-fields.php:19
+#: tests/taxonomy/test-class-taxonomy-content-fields.php:55
+msgid "Snippet Editor"
 msgstr ""
 
 #: admin/metabox/class-metabox.php:51
-#: admin/taxonomy/class-taxonomy-content-fields.php:19
-#: tests/taxonomy/test-class-taxonomy-content-fields.php:55
-msgid "Snippet"
-msgstr ""
-
-#: admin/metabox/class-metabox.php:52
 #: admin/taxonomy/class-taxonomy-content-fields.php:20
 msgid ""
 "This is a rendering of what this post might look like in Google's search "
 "results.<br/><br/>Read %sthis post%s for more info."
 msgstr ""
 
-#: admin/metabox/class-metabox.php:54
-msgid "Page Analysis"
+#: admin/metabox/class-metabox.php:53
+#: admin/taxonomy/class-taxonomy-content-fields.php:28
+msgid "Content Analysis"
 msgstr ""
 
-#: admin/metabox/class-metabox.php:55
+#: admin/metabox/class-metabox.php:54
 #: admin/taxonomy/class-taxonomy-content-fields.php:29
 msgid ""
 "This is the content analysis, a collection of content checks that analyze "
 "the content of your page. Read %sthis post%s for more info."
 msgstr ""
 
-#: admin/metabox/class-metabox.php:57
+#: admin/metabox/class-metabox.php:56
 #: admin/taxonomy/class-taxonomy-content-fields.php:24
 msgid "Focus Keyword"
 msgstr ""
 
-#: admin/metabox/class-metabox.php:58
+#: admin/metabox/class-metabox.php:57
 #: admin/taxonomy/class-taxonomy-content-fields.php:25
 msgid ""
 "Pick the main keyword or keyphrase that this post/page is about.<br/><br/"
 ">Read %sthis post%s for more info."
 msgstr ""
 
-#: admin/metabox/class-metabox.php:62 admin/pages/metas.php:141
+#: admin/metabox/class-metabox.php:61 admin/pages/metas.php:141
 msgid "Meta description"
 msgstr ""
 
-#: admin/metabox/class-metabox.php:64 admin/pages/metas.php:143
+#: admin/metabox/class-metabox.php:63 admin/pages/metas.php:143
 #: admin/taxonomy/class-taxonomy-settings-fields.php:37
 msgid "Meta keywords"
 msgstr ""
 
-#: admin/metabox/class-metabox.php:65
+#: admin/metabox/class-metabox.php:64
 msgid ""
 "If you type something above it will override your %smeta keywords template%s."
 msgstr ""
 
-#: admin/metabox/class-metabox.php:68
+#: admin/metabox/class-metabox.php:67
 msgid "Meta Robots Index"
 msgstr ""
 
-#: admin/metabox/class-metabox.php:70
+#: admin/metabox/class-metabox.php:69
 #: admin/taxonomy/class-taxonomy-settings-fields.php:105
 msgid ""
 "Warning: even though you can set the meta robots setting here, the entire "
@@ -1406,128 +1437,132 @@ msgid ""
 "won't have an effect."
 msgstr ""
 
-#: admin/metabox/class-metabox.php:72
+#: admin/metabox/class-metabox.php:71
 msgid "Default for post type, currently: %s"
 msgstr ""
 
-#: admin/metabox/class-metabox.php:73
+#: admin/metabox/class-metabox.php:72
 msgid "index"
 msgstr ""
 
-#: admin/metabox/class-metabox.php:74
+#: admin/metabox/class-metabox.php:73
 msgid "noindex"
 msgstr ""
 
-#: admin/metabox/class-metabox.php:76
+#: admin/metabox/class-metabox.php:75
 msgid "Meta Robots Follow"
 msgstr ""
 
-#: admin/metabox/class-metabox.php:77
+#: admin/metabox/class-metabox.php:76
 msgid "Follow"
 msgstr ""
 
-#: admin/metabox/class-metabox.php:78
+#: admin/metabox/class-metabox.php:77
 msgid "Nofollow"
 msgstr ""
 
-#: admin/metabox/class-metabox.php:80
+#: admin/metabox/class-metabox.php:79
 msgid "Meta Robots Advanced"
 msgstr ""
 
-#: admin/metabox/class-metabox.php:81
+#: admin/metabox/class-metabox.php:80
 msgid "Advanced <code>meta</code> robots settings for this page."
 msgstr ""
 
-#: admin/metabox/class-metabox.php:82
+#: admin/metabox/class-metabox.php:81
 msgid "Site-wide default: %s"
 msgstr ""
 
-#: admin/metabox/class-metabox.php:83 admin/pages/network.php:53
+#: admin/metabox/class-metabox.php:82 admin/pages/network.php:53
 #: admin/views/tab-breadcrumbs.php:40 admin/views/tab-breadcrumbs.php:57
 #: inc/class-wpseo-meta.php:412
 msgid "None"
 msgstr ""
 
-#: admin/metabox/class-metabox.php:84
+#: admin/metabox/class-metabox.php:83
 msgid "NO ODP"
 msgstr ""
 
-#: admin/metabox/class-metabox.php:85
+#: admin/metabox/class-metabox.php:84
 msgid "NO YDIR"
 msgstr ""
 
-#: admin/metabox/class-metabox.php:86
+#: admin/metabox/class-metabox.php:85
 msgid "No Image Index"
 msgstr ""
 
-#: admin/metabox/class-metabox.php:87
+#: admin/metabox/class-metabox.php:86
 msgid "No Archive"
 msgstr ""
 
-#: admin/metabox/class-metabox.php:88
+#: admin/metabox/class-metabox.php:87
 msgid "No Snippet"
 msgstr ""
 
-#: admin/metabox/class-metabox.php:90
+#: admin/metabox/class-metabox.php:89
 msgid "Breadcrumbs Title"
 msgstr ""
 
-#: admin/metabox/class-metabox.php:91
+#: admin/metabox/class-metabox.php:90
 msgid "Title to use for this page in breadcrumb paths"
 msgstr ""
 
-#: admin/metabox/class-metabox.php:93
+#: admin/metabox/class-metabox.php:92
 msgid "Canonical URL"
 msgstr ""
 
-#: admin/metabox/class-metabox.php:94
+#: admin/metabox/class-metabox.php:93
 msgid ""
 "The canonical URL that this page should point to, leave empty to default to "
 "permalink. %sCross domain canonical%s supported too."
 msgstr ""
 
-#: admin/metabox/class-metabox.php:96
+#: admin/metabox/class-metabox.php:95
 msgid "301 Redirect"
 msgstr ""
 
-#: admin/metabox/class-metabox.php:97
+#: admin/metabox/class-metabox.php:96
 msgid "The URL that this page should redirect to."
 msgstr ""
 
-#: admin/metabox/class-metabox.php:154
+#: admin/metabox/class-metabox.php:157
 msgid "No focus keyword set."
 msgstr ""
 
-#: admin/metabox/class-metabox.php:172
+#: admin/metabox/class-metabox.php:173
+msgid "SEO score"
+msgstr ""
+
+#: admin/metabox/class-metabox.php:175
 msgid "SEO:"
 msgstr ""
 
-#: admin/metabox/class-metabox.php:174
+#: admin/metabox/class-metabox.php:177
 msgid "Check"
 msgstr ""
 
-#: admin/metabox/class-metabox.php:219 admin/taxonomy/class-taxonomy.php:207
+#: admin/metabox/class-metabox.php:222 admin/taxonomy/class-taxonomy.php:207
 msgid "Content:"
 msgstr ""
 
-#: admin/metabox/class-metabox.php:268 admin/taxonomy/class-taxonomy.php:254
+#: admin/metabox/class-metabox.php:271 admin/taxonomy/class-taxonomy.php:254
 msgid "(no parent)"
 msgstr ""
 
-#: admin/metabox/class-metabox.php:358 admin/metabox/class-metabox.php:361
-#: admin/metabox/class-metabox.php:372 admin/metabox/class-metabox.php:373
-#: admin/taxonomy/class-taxonomy-metabox.php:100
-#: admin/taxonomy/class-taxonomy-metabox.php:103
+#: admin/metabox/class-metabox.php:361 admin/metabox/class-metabox.php:364
+#: admin/metabox/class-metabox.php:375 admin/metabox/class-metabox.php:376
+#: admin/taxonomy/class-taxonomy-metabox.php:99
+#: admin/taxonomy/class-taxonomy-metabox.php:102
+#: admin/taxonomy/class-taxonomy-metabox.php:111
 #: admin/taxonomy/class-taxonomy-metabox.php:112
-#: admin/taxonomy/class-taxonomy-metabox.php:113
 msgid "Content"
 msgstr ""
 
-#: admin/metabox/class-metabox.php:418 admin/metabox/class-metabox.php:419
+#: admin/metabox/class-metabox.php:421 admin/metabox/class-metabox.php:422
 msgid "Add-ons"
 msgstr ""
 
-#: admin/metabox/class-metabox.php:716
+#: admin/metabox/class-metabox.php:719
 msgid ""
 "The featured image should be at least 200x200 pixels to be picked up by "
 "Facebook and other social media sites."
@@ -1593,19 +1628,10 @@ msgstr ""
 
 #. translators: 1: opens a link to a related knowledge base article. 2: closes
 #. the link
-#: admin/onpage/class-onpage.php:98 admin/views/dashboard-widget.php:62
+#: admin/onpage/class-onpage.php:97 admin/views/dashboard-widget.php:66
 msgid ""
 "%1$sYour homepage cannot be indexed by search engines%2$s. This is very bad "
 "for SEO and should be fixed."
-msgstr ""
-
-#. translators: 1: opens link to Github issues page. 2: Expands to Yoast SEO,
-#. 3: closes the link.
-#: admin/onpage/class-onpage.php:154
-msgid ""
-"The OnPage.org server is currently unavailable, please try again later. If "
-"you keep getting this error, %1$splease create an issue on the %2$s GitHub "
-"repository%3$s."
 msgstr ""
 
 #: admin/pages/advanced.php:16
@@ -2358,11 +2384,11 @@ msgid "Recalculate SEO scores for all pieces of content with a focus keyword."
 msgstr ""
 
 #. translators: %1$s expands to Yoast SEO
-#: admin/pages/tools.php:49
+#: admin/pages/tools.php:52
 msgid "%1$s comes with some very powerful built-in tools:"
 msgstr ""
 
-#: admin/pages/tools.php:68
+#: admin/pages/tools.php:71
 msgid "&laquo; Back to Tools page"
 msgstr ""
 
@@ -2451,17 +2477,13 @@ msgid ""
 "<strong>NOT</strong> want to include in your sitemap:"
 msgstr ""
 
-#: admin/taxonomy/class-taxonomy-content-fields.php:28
-msgid "Analysis"
-msgstr ""
-
 #. translators: %1$s expands to Yoast SEO
-#: admin/taxonomy/class-taxonomy-metabox.php:56
+#: admin/taxonomy/class-taxonomy-metabox.php:55
 msgid "%1$s Settings"
 msgstr ""
 
+#: admin/taxonomy/class-taxonomy-metabox.php:164
 #: admin/taxonomy/class-taxonomy-metabox.php:165
-#: admin/taxonomy/class-taxonomy-metabox.php:166
 msgid "Facebook / Opengraph metadata"
 msgstr ""
 
@@ -2639,23 +2661,26 @@ msgstr ""
 
 #. translators: 1: expands to OnPage.org
 #: admin/views/dashboard-widget.php:45
-msgid "%1$s status"
+msgid "Indexability check by %1$s"
 msgstr ""
 
-#: admin/views/dashboard-widget.php:55
+#: admin/views/dashboard-widget.php:58
 msgid "Your homepage can be indexed by search engines."
 msgstr ""
 
-#: admin/views/dashboard-widget.php:68
+#. translators: 1: opens a link to a related knowledge base article. 2: closes
+#. the link
+#: admin/views/dashboard-widget.php:75
+msgid ""
+"Yoast SEO has %1$snot been able to fetch your site’s indexability status%2$s "
+"from OnPage.org"
+msgstr ""
+
+#: admin/views/dashboard-widget.php:85
 msgid "Fetch the current status"
 msgstr ""
 
-#. translators: 1: expands to the campaign tags for this link
-#: admin/views/dashboard-widget.php:74
-msgid "https://en.onpage.org/lp/yoast/%1$s"
-msgstr ""
-
-#: admin/views/dashboard-widget.php:77
+#: admin/views/dashboard-widget.php:89
 msgid "Analyze entire site"
 msgstr ""
 
@@ -3075,23 +3100,23 @@ msgstr ""
 msgid "Exclude user from Author-sitemap"
 msgstr ""
 
-#: frontend/class-frontend.php:467
+#: frontend/class-frontend.php:459
 msgid "Search for \"%s\""
 msgstr ""
 
-#: frontend/class-frontend.php:526 frontend/class-frontend.php:529
-#: frontend/class-frontend.php:532 frontend/class-frontend.php:547
-#: frontend/class-frontend.php:550 frontend/class-frontend.php:553
+#: frontend/class-frontend.php:518 frontend/class-frontend.php:521
+#: frontend/class-frontend.php:524 frontend/class-frontend.php:539
+#: frontend/class-frontend.php:542 frontend/class-frontend.php:545
 #: inc/options/class-wpseo-option-titles.php:228
 msgid "%s Archives"
 msgstr ""
 
-#: frontend/class-frontend.php:566
+#: frontend/class-frontend.php:558
 #: inc/options/class-wpseo-option-titles.php:180
 msgid "Page not found"
 msgstr ""
 
-#: frontend/class-frontend.php:1261
+#: frontend/class-frontend.php:1253
 msgid ""
 "Admin only notice: this page doesn't show a meta description because it "
 "doesn't have one, either write it for this page specifically or go into the "
@@ -3404,96 +3429,76 @@ msgstr ""
 msgid "%s does not seem to be a valid url. Please correct."
 msgstr ""
 
-#: inc/wpseo-non-ajax-functions.php:266
+#: inc/wpseo-non-ajax-functions.php:263
 msgid "Keyword Research"
 msgstr ""
 
-#: inc/wpseo-non-ajax-functions.php:272
+#: inc/wpseo-non-ajax-functions.php:269
 msgid "AdWords External"
 msgstr ""
 
-#: inc/wpseo-non-ajax-functions.php:279
+#: inc/wpseo-non-ajax-functions.php:276
 msgid "Google Insights"
 msgstr ""
 
-#: inc/wpseo-non-ajax-functions.php:286
+#: inc/wpseo-non-ajax-functions.php:283
 msgid "SEO Book"
 msgstr ""
 
-#: inc/wpseo-non-ajax-functions.php:298
+#: inc/wpseo-non-ajax-functions.php:295
 msgid "Analyze this page"
 msgstr ""
 
-#: inc/wpseo-non-ajax-functions.php:304
+#: inc/wpseo-non-ajax-functions.php:301
 msgid "Check Inlinks (OSE)"
 msgstr ""
 
-#: inc/wpseo-non-ajax-functions.php:311
+#: inc/wpseo-non-ajax-functions.php:308
 msgid "Check Keyword Density"
 msgstr ""
 
-#: inc/wpseo-non-ajax-functions.php:318
+#: inc/wpseo-non-ajax-functions.php:315
 msgid "Check Google Cache"
 msgstr ""
 
-#: inc/wpseo-non-ajax-functions.php:325
+#: inc/wpseo-non-ajax-functions.php:322
 msgid "Check Headers"
 msgstr ""
 
-#: inc/wpseo-non-ajax-functions.php:332
+#: inc/wpseo-non-ajax-functions.php:329
 msgid "Check Rich Snippets"
 msgstr ""
 
-#: inc/wpseo-non-ajax-functions.php:339
+#: inc/wpseo-non-ajax-functions.php:336
 msgid "Facebook Debugger"
 msgstr ""
 
-#: inc/wpseo-non-ajax-functions.php:346
+#: inc/wpseo-non-ajax-functions.php:343
 msgid "Pinterest Rich Pins Validator"
 msgstr ""
 
-#: inc/wpseo-non-ajax-functions.php:353
+#: inc/wpseo-non-ajax-functions.php:350
 msgid "HTML Validator"
 msgstr ""
 
-#: inc/wpseo-non-ajax-functions.php:360
+#: inc/wpseo-non-ajax-functions.php:357
 msgid "CSS Validator"
 msgstr ""
 
-#: inc/wpseo-non-ajax-functions.php:367
+#: inc/wpseo-non-ajax-functions.php:364
 msgid "Google Page Speed Test"
 msgstr ""
 
-#: inc/wpseo-non-ajax-functions.php:374
+#: inc/wpseo-non-ajax-functions.php:371
 msgid "Modern IE Site Scan"
 msgstr ""
 
-#: inc/wpseo-non-ajax-functions.php:381
+#: inc/wpseo-non-ajax-functions.php:378
 msgid "Mobile-Friendly Test"
 msgstr ""
 
-#: inc/wpseo-non-ajax-functions.php:400
+#: inc/wpseo-non-ajax-functions.php:397
 msgid "SEO Settings"
-msgstr ""
-
-#: inc/wpseo-non-ajax-functions.php:573
-msgid ""
-"The plugin All-In-One-SEO has been detected. Do you want to %simport its "
-"settings%s?"
-msgstr ""
-
-#: inc/wpseo-non-ajax-functions.php:582
-msgid "All-In-One-SEO has been deactivated"
-msgstr ""
-
-#: inc/wpseo-non-ajax-functions.php:592
-msgid ""
-"The plugin Robots-Meta has been detected. Do you want to %simport its "
-"settings%s."
-msgstr ""
-
-#: inc/wpseo-non-ajax-functions.php:601
-msgid "Robots-Meta has been deactivated"
 msgstr ""
 
 #: vendor/yoast/i18n-module/i18n-module.php:170
@@ -3752,6 +3757,22 @@ msgid_plural "Trash <span class=\"count\">(%s)</span>"
 msgstr[0] ""
 msgstr[1] ""
 
+#: js/scoreFormatter.js:143
+msgid "No keyword"
+msgstr ""
+
+#: js/scoreFormatter.js:147
+msgid "Bad SEO score"
+msgstr ""
+
+#: js/scoreFormatter.js:151
+msgid "Ok SEO score"
+msgstr ""
+
+#: js/scoreFormatter.js:155
+msgid "Good SEO score"
+msgstr ""
+
 #. translators: %1$d expands to the number of words in the text, %2$s to the recommended minimum of words
 #: js/config/scoring.js:19
 msgid ""
@@ -3785,174 +3806,178 @@ msgid ""
 "no score can be calculated."
 msgstr ""
 
+#: js/config/scoring.js:70
+msgid "Your keyphrase is over 10 words, a keyphrase should be shorter."
+msgstr ""
+
 #. translators: %1$f expands to the keyword density percentage, %2$d expands to the number of times the keyword is found
-#: js/config/scoring.js:77
+#: js/config/scoring.js:82
 msgid ""
 "The keyword density is %1$f%, which is way over the advised 2.5% maximum; "
 "the focus keyword was found %2$d times."
 msgstr ""
 
 #. translators: %1$f expands to the keyword density percentage, %2$d expands to the number of times the keyword is found
-#: js/config/scoring.js:85
+#: js/config/scoring.js:90
 msgid ""
 "The keyword density is %1$f%, which is over the advised 2.5% maximum; the "
 "focus keyword was found %2$d times."
 msgstr ""
 
 #. translators: %1$f expands to the keyword density percentage, %2$d expands to the number of times the keyword is found
-#: js/config/scoring.js:93
+#: js/config/scoring.js:98
 msgid ""
 "The keyword density is %1$f%, which is great; the focus keyword was found "
 "%2$d times."
 msgstr ""
 
 #. translators: %1$f expands to the keyword density percentage, %2$d expands to the number of times the keyword is found
-#: js/config/scoring.js:101
+#: js/config/scoring.js:106
 msgid ""
 "The keyword density is %1$f%, which is a bit low; the focus keyword was "
 "found %2$d times."
 msgstr ""
 
-#: js/config/scoring.js:117
+#: js/config/scoring.js:122 js/config/scoring.js:127 js/config/scoring.js:131
 msgid ""
 "No outbound links appear in this page, consider adding some as appropriate."
 msgstr ""
 
-#: js/config/scoring.js:122
+#: js/config/scoring.js:137
 msgid "Outbound links appear in this page"
 msgstr ""
 
-#: js/config/scoring.js:128
+#: js/config/scoring.js:143
 msgid ""
 "You're linking to another page with the focus keyword you want this page to "
 "rank for. Consider changing that if you truly want this page to rank."
 msgstr ""
 
 #. translators: %2$s expands the number of outbound links
-#: js/config/scoring.js:132
+#: js/config/scoring.js:147
 msgid "This page has %2$s outbound link(s), all nofollowed."
 msgstr ""
 
 #. translators: %2$s expands to the number of nofollow links, %3$s to the number of outbound links
-#: js/config/scoring.js:138
+#: js/config/scoring.js:153
 msgid "This page has %2$s nofollowed link(s) and %3$s normal outbound link(s)."
 msgstr ""
 
 #. translators: %1$s expands to the number of outbound links
-#: js/config/scoring.js:142
+#: js/config/scoring.js:157
 msgid "This page has %1$s outbound link(s)."
 msgstr ""
 
-#: js/config/scoring.js:162
+#: js/config/scoring.js:177
 msgid "fairly difficult"
 msgstr ""
 
-#: js/config/scoring.js:163
+#: js/config/scoring.js:178
 msgid "Try to make shorter sentences to improve readability."
 msgstr ""
 
-#: js/config/scoring.js:170
+#: js/config/scoring.js:185
 msgid "difficult"
 msgstr ""
 
-#: js/config/scoring.js:171 js/config/scoring.js:179
+#: js/config/scoring.js:186 js/config/scoring.js:194
 msgid ""
 "Try to make shorter sentences, using less difficult words to improve "
 "readability."
 msgstr ""
 
-#: js/config/scoring.js:178
+#: js/config/scoring.js:193
 msgid "very difficult"
 msgstr ""
 
 #. translators: %1$s expands to the numeric flesh reading ease score, %2$s to a link to the wikipedia article about Flesh ease reading score, %3$s to the easyness of reading, %4$s expands to a note about the flesh reading score.
-#: js/config/scoring.js:188
+#: js/config/scoring.js:203
 msgid ""
 "The copy scores %1$s in the %2$s test, which is considered %3$s to read. %4$s"
 msgstr ""
 
-#: js/config/scoring.js:208
+#: js/config/scoring.js:223
 msgid ""
 "No meta description has been specified, search engines will display copy "
 "from the page instead."
 msgstr ""
 
 #. translators: %1$d expands to the minimum length for the meta description, %2$d to the maximum length for the meta description
-#: js/config/scoring.js:215
+#: js/config/scoring.js:230
 msgid ""
 "The meta description is under %1$d characters, however up to %2$d characters "
 "are available."
 msgstr ""
 
 #. translators: %2$d expands to the maximum length for the meta description
-#: js/config/scoring.js:222
+#: js/config/scoring.js:237
 msgid ""
 "The specified meta description is over %2$d characters. Reducing it will "
 "ensure the entire description is visible"
 msgstr ""
 
-#: js/config/scoring.js:228
+#: js/config/scoring.js:243
 msgid ""
 "In the specified meta description, consider: How does it compare to the "
 "competition? Could it be made more appealing?"
 msgstr ""
 
-#: js/config/scoring.js:239
+#: js/config/scoring.js:254
 msgid "The meta description contains the focus keyword."
 msgstr ""
 
-#: js/config/scoring.js:244
+#: js/config/scoring.js:259
 msgid ""
 "A meta description has been specified, but it does not contain the focus "
 "keyword."
 msgstr ""
 
-#: js/config/scoring.js:253
+#: js/config/scoring.js:268
 msgid ""
 "The focus keyword doesn't appear in the first paragraph of the copy. Make "
 "sure the topic is clear immediately."
 msgstr ""
 
-#: js/config/scoring.js:255
+#: js/config/scoring.js:270
 msgid "The focus keyword appears in the first paragraph of the copy."
 msgstr ""
 
 #. translators: %1$s expands to a link to the wikipedia article about stop words, %2$s expands to the actual stop words found in the text
-#: js/config/scoring.js:266
+#: js/config/scoring.js:281
 msgid ""
 "The focus keyword for this page contains one or more %1$s, consider removing "
 "them. Found '%2$s'."
 msgstr ""
 
-#: js/config/scoring.js:274
+#: js/config/scoring.js:289
 msgid ""
 "<a href='https://en.wikipedia.org/wiki/Stop_words' target='new'>stop words</"
 "a>"
 msgstr ""
 
-#: js/config/scoring.js:281
+#: js/config/scoring.js:296
 msgid "No subheading tags (like an H2) appear in the copy."
 msgstr ""
 
-#: js/config/scoring.js:286
+#: js/config/scoring.js:301
 msgid ""
 "You have not used your focus keyword in any subheading (such as an H2) in "
 "your copy."
 msgstr ""
 
 #. translators: %1$d expands to the number of subheadings, %2$d to the number of subheadings containing the focus keyword
-#: js/config/scoring.js:294
+#: js/config/scoring.js:309
 msgid ""
 "The focus keyword appears in %2$d (out of %1$d) subheadings in the copy. "
 "While not a major ranking factor, this is beneficial."
 msgstr ""
 
-#: js/config/scoring.js:304
+#: js/config/scoring.js:319
 msgid "Please create a page title."
 msgstr ""
 
 #. translators: %3$d expands to the number of characters in the page title, %1$d to the minimum number of characters for the title
-#: js/config/scoring.js:310
+#: js/config/scoring.js:325
 msgid ""
 "The page title contains %3$d characters, which is less than the recommended "
 "minimum of %1$d characters. Use the space to add keyword variations or "
@@ -3960,7 +3985,7 @@ msgid ""
 msgstr ""
 
 #. translators: %3$d expands to the number of characters in the page title, %2$d to the maximum number of characters for the title
-#: js/config/scoring.js:317
+#: js/config/scoring.js:332
 msgid ""
 "The page title contains %3$d characters, which is more than the viewable "
 "limit of %2$d characters; some words will not be visible to users in your "
@@ -3968,83 +3993,89 @@ msgid ""
 msgstr ""
 
 #. translators: %1$d expands to the minimum number of characters in the page title, %2$d to the maximum number of characters
-#: js/config/scoring.js:325
+#: js/config/scoring.js:340
 msgid ""
 "The page title is between the %1$d character minimum and the recommended "
 "%2$d character maximum."
 msgstr ""
 
 #. translators: %1$s expands to the focus keyword
-#: js/config/scoring.js:343
+#: js/config/scoring.js:358
 msgid "The focus keyword '%1$s' does not appear in the page title."
 msgstr ""
 
-#: js/config/scoring.js:349
+#: js/config/scoring.js:364
 msgid ""
 "The page title contains the focus keyword, at the beginning which is "
 "considered to improve rankings."
 msgstr ""
 
-#: js/config/scoring.js:355
+#: js/config/scoring.js:370
 msgid ""
 "The page title contains the focus keyword, but it does not appear at the "
 "beginning; try and move it to the beginning."
 msgstr ""
 
-#: js/config/scoring.js:364
+#: js/config/scoring.js:379
 msgid "The focus keyword appears in the URL for this page."
 msgstr ""
 
-#: js/config/scoring.js:368
+#: js/config/scoring.js:383
 msgid ""
 "The focus keyword does not appear in the URL for this page. If you decide to "
 "rename the URL be sure to check the old URL 301 redirects to the new one!"
 msgstr ""
 
-#: js/config/scoring.js:374
+#: js/config/scoring.js:389
 msgid "The slug for this page is a bit long, consider shortening it."
 msgstr ""
 
-#: js/config/scoring.js:382
+#. translators: %1$s opens a link to a wikipedia article about stop words, %2$s closes the link
+#: js/config/scoring.js:398
 msgid ""
-"The slug for this page contains one or more <a href='http://en.wikipedia.org/"
-"wiki/Stop_words' target='new'>stop words</a>, consider removing them."
+"The slug for this page contains one or more %1$sstop words%2$s, consider "
+"removing them."
 msgstr ""
 
-#: js/config/scoring.js:392
+#. translators: this link is referred to in the content analysis when a slug contains one or more stop words
+#: js/config/scoring.js:406
+msgid "http://en.wikipedia.org/wiki/Stop_words"
+msgstr ""
+
+#: js/config/scoring.js:421
 msgid "No images appear in this page, consider adding some as appropriate."
 msgstr ""
 
-#: js/config/scoring.js:398
+#: js/config/scoring.js:427
 msgid "The images on this page are missing alt tags."
 msgstr ""
 
-#: js/config/scoring.js:404
+#: js/config/scoring.js:433
 msgid "The images on this page contain alt tags"
 msgstr ""
 
-#: js/config/scoring.js:410
+#: js/config/scoring.js:439
+msgid "The images on this page contain alt tags with the focus keyword."
+msgstr ""
+
+#: js/config/scoring.js:445
 msgid ""
 "The images on this page do not have alt tags containing your focus keyword."
 msgstr ""
 
-#: js/config/scoring.js:416
-msgid "The images on this page contain alt tags with the focus keyword."
-msgstr ""
-
-#: js/config/scoring.js:422
+#: js/config/scoring.js:451
 msgid "You've never used this focus keyword before, very good."
 msgstr ""
 
 #. translators: %1$s and %2$s expand to an admin link where the focus keyword is already used
-#: js/config/scoring.js:429
+#: js/config/scoring.js:458
 msgid ""
 "You've used this focus keyword %1$sonce before%2$s, be sure to make very "
 "clear which URL on your site is the most important for this keyword."
 msgstr ""
 
 #. translators: %3$s and $2$s expand to the admin search page for the focus keyword, %4$d expands to the number of times this focus keyword has been used before, %5$s and %6$s expand to a link to an article on yoast.com about cornerstone content
-#: js/config/scoring.js:437
+#: js/config/scoring.js:466
 msgid ""
 "You've used this focus keyword %3$s%4$d times before%2$s, it's probably a "
 "good idea to read %6$sthis post on cornerstone content%5$s and improve your "

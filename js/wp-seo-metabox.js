@@ -106,10 +106,11 @@
 	function addKeywordPopup() {
 		var title = $( '#wpseo-add-keyword-popup' ).find( 'h3' ).html();
 
-		tb_show( title, '#TB_inline?width=600&height=125&inlineId=wpseo-add-keyword-popup', 'group' );
+		tb_show( title, '#TB_inline?width=650&height=350&inlineId=wpseo-add-keyword-popup', 'group' );
 
 		// The container window isn't the correct size, rectify this.
-		jQuery( '#TB_window' ).css( 'height', 165 );
+		jQuery( '#TB_window' ).css( 'height', 235 );
+		jQuery( '#TB_window' ).css( 'width', 680 );
 	}
 
 	jQuery( document ).ready( function() {

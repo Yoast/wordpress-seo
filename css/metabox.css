@@ -402,6 +402,19 @@ img.yoast_help {
 	display: inline;
 }
 
+/**
+ * Traffic light in publish box
+ */
+#wpseo-score {
+	float: left;
+	margin: 0 5px 0 -5px;
+}
+
+body.rtl #wpseo-score {
+	float: right;
+	margin: 0 -5px 0 5px;
+}
+
 body.edit-tags-php .postbox h3 {
 	margin-left: 20px;
 }

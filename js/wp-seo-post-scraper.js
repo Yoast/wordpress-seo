@@ -113,7 +113,7 @@
 				}
 				break;
 			case 'baseUrl':
-				val = wpseoPostScraperL10n.home_url.replace( /https?:\/\//ig, '' );
+				val = wpseoPostScraperL10n.home_url;
 				break;
 			case 'cite':
 			case 'post_name':
@@ -319,6 +319,7 @@
 	 * @param {string} score
 	 */
 	PostScraper.prototype.saveScores = function( score ) {
+		var alt;
 		var cssClass;
 
 		if ( this.isMainKeyword( currentKeyword ) ) {
@@ -329,7 +330,11 @@
 			} else {
 				cssClass = YoastSEO.app.scoreFormatter.overallScoreRating( parseInt( score, 10 ) );
 			}
-			$( '.yst-traffic-light' ).attr( 'class', 'yst-traffic-light ' + cssClass );
+			alt = YoastSEO.app.scoreFormatter.getSEOScoreText( cssClass );
+
+			$( '.yst-traffic-light' )
+				.attr( 'class', 'yst-traffic-light ' + cssClass )
+				.attr( 'alt', alt );
 		}
 
 		// If multi keyword isn't available we need to update the first tab (content)
