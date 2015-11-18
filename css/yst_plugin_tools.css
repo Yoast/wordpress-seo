@@ -407,7 +407,7 @@ div#separator input.radio + label {
 	padding: 5px 8px;
 	border: 1px solid #ccc;
 	/* Don't change: these mimic Google's font and font size for titles */
-	font-family: Arial,Helvetica,sans-serif !important;
+	font-family: Arial, Helvetica, sans-serif !important;
 	font-size: 18px !important;
 	line-height: 25px;
 	text-align: center;
@@ -420,8 +420,21 @@ div#separator input.radio:checked + label {
 	box-shadow: 1px 1px 1px green;
 }
 
-.feature-section .dashicons {
-	font-size: 600%;
+.svg-container {
+	text-align: center;
+}
+
+.svg-container .dashicons {
+	width: 200px;
+	height: 100px;
+	font-size: 100px;
+}
+
+body.toplevel_page_wpseo_dashboard .wp-badge {
+	border: none;
+	background: url(../images/Yoast_SEO_Icon.svg);
+	background-size: 150px 160px;
+	box-shadow: none;
 }
 
 .nav-tab .dashicons {
