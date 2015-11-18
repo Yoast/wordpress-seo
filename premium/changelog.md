@@ -1,3 +1,6 @@
+### 3.0.1: November 18th, 2015
+* Merge with Yoast SEO core 3.0.1, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
+
 ### 3.0: November 18th, 2015
 * Merge with Yoast SEO core 3.0, including the realtime content analysis tool and social settings for taxonomies. See the [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
 * Added possibility to analyze multiple keywords per post/page.
