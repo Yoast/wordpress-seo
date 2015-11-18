@@ -44,3 +44,42 @@ describe("a keyword with diacritics", function(){
 		expect(result).toBe(1);
 	});
 });
+
+keywordCountArgs4 = {
+	text: 'a string with a combined word, test123',
+	keyword: 'test123'
+};
+
+describe("a keyword with combined word", function(){
+	it("should resturn 1 keyword found in the text.", function(){
+		var textAnalyzer = Factory.buildAnalyzer(keywordCountArgs4);
+		var result = textAnalyzer.keywordCount();
+		expect(result).toBe(1);
+	});
+});
+
+keywordCountArgs5 = {
+	text: 'a string with a word and number, test 123',
+	keyword: 'test 123'
+};
+
+describe("a keyword with combined word", function(){
+	it("should resturn 1 keyword found in the text.", function(){
+		var textAnalyzer = Factory.buildAnalyzer(keywordCountArgs5);
+		var result = textAnalyzer.keywordCount();
+		expect(result).toBe(1);
+	});
+});
+
+keywordCountArgs6 = {
+	text: 'a string with a word and number, test 123',
+	keyword: '123'
+};
+
+describe("a keyword with only digits", function(){
+	it("should resturn 1 keyword found in the text.", function(){
+		var textAnalyzer = Factory.buildAnalyzer(keywordCountArgs5);
+		var result = textAnalyzer.keywordCount();
+		expect(result).toBe(1);
+	});
+});
