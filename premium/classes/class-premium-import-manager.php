@@ -151,14 +151,14 @@ class WPSEO_Premium_Import_Manager {
 							$target = trim( $redirects[3][ $i ] );
 
 							// Check if both source and target are not empty.
-							if ( '' != $source && '' != $target ) {
+							if ( '' !== $source && '' !== $target ) {
 
 								// Check redirect type.
-								if ( 'regex' == $regex_type ) {
-									$regex_redirection_manager->create_redirect( $source, $target, $type );
+								if ( 'regex' === $regex_type ) {
+									$regex_redirection_manager->create_redirect( new WPSEO_Redirect( $source, $target, $type, WPSEO_Redirect::FORMAT_REGEX ) );
 								}
 								else {
-									$url_redirection_manager->create_redirect( $source, $target, $type );
+									$url_redirection_manager->create_redirect( new WPSEO_Redirect( $source, $target, $type ) );
 								}
 
 								$redirects_imported = true;
