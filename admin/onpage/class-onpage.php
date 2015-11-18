@@ -118,7 +118,7 @@ class WPSEO_OnPage {
 	 * @return int(0)|int(1)|false
 	 */
 	protected function request_indexability() {
-		$request  = new WPSEO_OnPage_Request( home_url() );
+		$request  = new WPSEO_OnPage_Request( get_option( 'home' ) );
 		$response = $request->get_response();
 
 		if ( isset( $response['is_indexable'] ) ) {
