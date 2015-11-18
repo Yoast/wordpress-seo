@@ -6,12 +6,12 @@
 /**
  * Test class for testing the url redirect manager
  *
- * @covers WPSEO_Redirect_URL_Manager
+ * @covers WPSEO_Redirect_Manager
  */
-class WPSEO_URL_Redirect_Manager_Test extends WPSEO_UnitTestCase {
+class WPSEO_Redirect_Manager_Test extends WPSEO_UnitTestCase {
 
 	/**
-	 * @var WPSEO_Redirect_URL_Manager
+	 * @var WPSEO_Redirect_Manager
 	 */
 	protected $class_instance;
 
@@ -30,7 +30,7 @@ class WPSEO_URL_Redirect_Manager_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Check if the redirects are filled
 	 *
-	 * @covers WPSEO_Redirect_URL_Manager::get_redirects
+	 * @covers WPSEO_Redirect_Manager::get_redirects
 	 */
 	public function test_get_redirects() {
 		$redirects = $this->class_instance->get_redirects();
@@ -44,7 +44,7 @@ class WPSEO_URL_Redirect_Manager_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Testing if redirect is added, if redirecs contains the added redirect and if the contained redirect is what is just added
 	 *
-	 * @covers WPSEO_Redirect_URL_Manager::create_redirect
+	 * @covers WPSEO_Redirect_Manager::create_redirect
 	 */
 	public function test_add_redirect() {
 
@@ -68,8 +68,8 @@ class WPSEO_URL_Redirect_Manager_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Test what happens if we update the redirect
 	 *
-	 * @covers WPSEO_Redirect_URL_Manager::create_redirect
-	 * @covers WPSEO_Redirect_URL_Manager::update_redirect
+	 * @covers WPSEO_Redirect_Manager::create_redirect
+	 * @covers WPSEO_Redirect_Manager::update_redirect
 	 */
 	public function test_update_redirect() {
 		// Create a redirect.
@@ -99,7 +99,7 @@ class WPSEO_URL_Redirect_Manager_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Test removing a redirect
 	 *
-	 * @covers WPSEO_Redirect_URL_Manager::delete_redirects
+	 * @covers WPSEO_Redirect_Manager::delete_redirects
 	 */
 	public function test_delete_redirect() {
 		// First of all create a redirect.
