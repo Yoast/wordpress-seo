@@ -73,7 +73,7 @@ class WPSEO_Redirect_Option {
 	 * @return bool
 	 */
 	public function add( WPSEO_Redirect $redirect ) {
-		if ( $this->search( $redirect->get_origin() ) === false ) {
+		if ( $this->search( $redirect->get_origin(), $redirect->get_format() ) === false ) {
 			$this->redirects[] = $redirect;
 
 			return true;
@@ -91,7 +91,7 @@ class WPSEO_Redirect_Option {
 	 * @return bool
 	 */
 	public function update( $current_origin, WPSEO_Redirect $redirect ) {
-		if ( ( $found = $this->search( $current_origin ) ) !== false ) {
+		if ( ( $found = $this->search( $current_origin, $redirect->get_format() ) ) !== false ) {
 			$this->redirects[ $found ] = $redirect;
 
 			return true;
@@ -108,7 +108,7 @@ class WPSEO_Redirect_Option {
 	 * @return bool
 	 */
 	public function delete( $origin ) {
-		if ( ( $found = $this->search( $origin ) ) !== false ) {
+		if ( ( $found = $this->search( $origin, $this->format ) ) !== false ) {
 			unset( $this->redirects[ $found ] );
 
 			return true;
@@ -120,14 +120,15 @@ class WPSEO_Redirect_Option {
 	/**
 	 * Check if the $origin already exists as a key in the array
 	 *
-	 * @param string $origin The redirect to search for.
+	 * @param string $origin          The redirect to search for.
+	 * @param string $redirect_format The format the needed redirect should have.
 	 *
 	 * @return WPSEO_Redirect|bool
 	 */
-	public function search( $origin ) {
+	public function search( $origin, $redirect_format ) {
 		$origin = WPSEO_Redirect::format_origin( $origin, $this->format );
 		foreach ( $this->redirects as $redirect_key => $redirect ) {
-			if ( $redirect->get_origin() === $origin && $redirect->get_format() === $this->format ) {
+			if ( $redirect->get_origin() === $origin && $redirect->get_format() === $redirect_format ) {
 				return $redirect_key;
 			}
 		}

@@ -168,7 +168,7 @@ class WPSEO_Redirect_Manager {
 	 * @return bool|WPSEO_Redirect
 	 */
 	public function search( $origin ) {
-		return $this->redirect_option->search( $origin );
+		return $this->redirect_option->search( $origin, $this->redirect_format );
 	}
 
 	/**
