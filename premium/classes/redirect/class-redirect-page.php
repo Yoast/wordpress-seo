@@ -126,10 +126,10 @@ class WPSEO_Redirect_Page {
 	 */
 	private function initialize_ajax() {
 		// Normal Redirect AJAX.
-		new WPSEO_Redirect_Ajax( new WPSEO_Redirect_URL_Manager() );
+		new WPSEO_Redirect_Ajax( new WPSEO_Redirect_Manager() );
 
 		// Regex Redirect AJAX.
-		new WPSEO_Redirect_Ajax( new WPSEO_Redirect_Regex_Manager() );
+		new WPSEO_Redirect_Ajax( new WPSEO_Redirect_Manager( WPSEO_Redirect::FORMAT_REGEX ) );
 	}
 
 	/**
@@ -157,10 +157,10 @@ class WPSEO_Redirect_Page {
 
 		if ( $redirect_manager === null ) {
 			if ( $this->get_current_tab() === 'regex' ) {
-				$redirect_manager = new WPSEO_Redirect_Regex_Manager();
+				$redirect_manager = new WPSEO_Redirect_Manager( WPSEO_Redirect::FORMAT_REGEX );
 			}
 			else {
-				$redirect_manager = new WPSEO_Redirect_URL_Manager();
+				$redirect_manager = new WPSEO_Redirect_Manager();
 			}
 		}
 

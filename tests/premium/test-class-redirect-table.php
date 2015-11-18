@@ -18,8 +18,8 @@ class WPSEO_Redirect_Table_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Loading the instance of the table class.
 	 */
-	public function setUp() {;
-		$this->class_instance = new WPSEO_Redirect_Table( 'url', 'Old URL',  new WPSEO_Redirect_URL_Manager() );
+	public function setUp() {
+		$this->class_instance = new WPSEO_Redirect_Table( 'url', 'Old URL',  new WPSEO_Redirect_Manager() );
 	}
 
 	/**
@@ -91,8 +91,8 @@ class WPSEO_Redirect_Table_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_column_old() {
 		$this->assertEquals(
-			'<div class="val">/origin</div> <div class="row-actions"><span class=\'edit\'><a href="javascript:;">Edit</a> | </span><span class=\'trash\'><a href="javascript:;" >Delete</a></span></div><button type="button" class="toggle-row"><span class="screen-reader-text">Show more details</span></button>',
-			$this->class_instance->column_old( new WPSEO_Redirect( 'origin', 'target', 301 ) )
+			'<div class="val">origin</div> <div class="row-actions"><span class=\'edit\'><a href="javascript:;">Edit</a> | </span><span class=\'trash\'><a href="javascript:;" >Delete</a></span></div><button type="button" class="toggle-row"><span class="screen-reader-text">Show more details</span></button>',
+			$this->class_instance->column_old( array( 'old' => 'origin', 'new' => 'target', 'type' => 301 ) )
 		);
 	}
 
@@ -103,8 +103,8 @@ class WPSEO_Redirect_Table_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_column_cb() {
 		$this->assertEquals(
-			'<input type="checkbox" name="wpseo_redirects_bulk_delete[]" value="/origin" />',
-			$this->class_instance->column_cb( new WPSEO_Redirect( 'origin', 'target', 301 ) )
+			'<input type="checkbox" name="wpseo_redirects_bulk_delete[]" value="origin" />',
+			$this->class_instance->column_cb( array( 'old' => 'origin', 'new' => 'target', 'type' => 301 ) )
 		);
 	}
 
@@ -114,11 +114,11 @@ class WPSEO_Redirect_Table_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Redirect_Table::column_default
 	 */
 	public function test_columns_default() {
-		$item = new WPSEO_Redirect( 'origin', 'target', 301 );
+		$item = array( 'old' => 'origin', 'new' => 'target', 'type' => 301 );
 
-		$this->assertEquals( "<div class='val'>/target</div>", $this->class_instance->column_default( $item, 'new' ) );
+		$this->assertEquals( "<div class='val'>target</div>", $this->class_instance->column_default( $item, 'new' ) );
 		$this->assertEquals( "<div class='val type'>301</div>", $this->class_instance->column_default( $item, 'type' ) );
-		$this->assertEquals( '/origin', $this->class_instance->column_default( $item, 'old' ) );
+		$this->assertEquals( 'origin', $this->class_instance->column_default( $item, 'old' ) );
 	}
 
 	/**

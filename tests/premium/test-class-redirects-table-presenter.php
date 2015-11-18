@@ -20,7 +20,7 @@ class WPSEO_Redirect_Table_Presenter_Test extends WPSEO_UnitTestCase {
 	public function test_display_regex() {
 
 		$class_instance = new WPSEO_Redirect_Table_Presenter( 'regex', array( 'nonce' => 'nonce' ) );
-		$class_instance->set_table( new WPSEO_Redirect_Regex_Manager() );
+		$class_instance->set_table( new WPSEO_Redirect_Manager( WPSEO_Redirect::FORMAT_REGEX ) );
 
 		ob_start();
 
@@ -45,7 +45,7 @@ class WPSEO_Redirect_Table_Presenter_Test extends WPSEO_UnitTestCase {
 	public function test_display_url() {
 
 		$class_instance = new WPSEO_Redirect_Table_Presenter( 'plain', array( 'nonce' => 'nonce' ) );
-		$class_instance->set_table( new WPSEO_Redirect_URL_Manager() );
+		$class_instance->set_table( new WPSEO_Redirect_Manager() );
 
 		ob_start();
 

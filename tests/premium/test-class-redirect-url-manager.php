@@ -20,7 +20,7 @@ class WPSEO_URL_Redirect_Manager_Test extends WPSEO_UnitTestCase {
 	 */
 	public function setUp() {
 
-		$this->class_instance = new WPSEO_Redirect_URL_Manager();
+		$this->class_instance = new WPSEO_Redirect_Manager();
 
 		$this->class_instance->create_redirect( new WPSEO_Redirect( 'old', 'new', 301 ) );
 		$this->class_instance->create_redirect( new WPSEO_Redirect( 'older', 'newer', 301 ) );

@@ -93,7 +93,7 @@ class WPSEO_Upgrade_Manager {
 		$wp_query  = new WP_Query( 'post_type=any&meta_key=_yoast_wpseo_redirect&order=ASC' );
 
 		if ( ! empty( $wp_query->posts ) ) {
-			$redirect_manager = new WPSEO_Redirect_URL_Manager();
+			$redirect_manager = new WPSEO_Redirect_Manager();
 
 			foreach ( $wp_query->posts as $post ) {
 				$old_url = '/' . $post->post_name . '/';

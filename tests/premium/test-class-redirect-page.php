@@ -23,7 +23,7 @@ class WPSEO_Redirect_Page_Test extends WPSEO_UnitTestCase {
 	public function setUp() {
 		$GLOBALS['hook_suffix'] = 'test_table';
 
-		$this->class_instance = new WPSEO_Redirect_Page( new WPSEO_Redirect_URL_Manager() );
+		$this->class_instance = new WPSEO_Redirect_Page( new WPSEO_Redirect_Manager() );
 	}
 
 	/**

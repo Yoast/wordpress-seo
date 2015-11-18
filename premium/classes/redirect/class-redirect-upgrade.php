@@ -40,7 +40,7 @@ class WPSEO_Redirect_Upgrade {
 		$redirect_option->save();
 
 		// Save the redirect file.
-		$redirect_manager = new WPSEO_Redirect_URL_Manager();
+		$redirect_manager = new WPSEO_Redirect_Manager();
 		$redirect_manager->export_redirects();
 	}
 
@@ -65,7 +65,7 @@ class WPSEO_Redirect_Upgrade {
 		$redirect_option->save();
 
 		// Save the redirect file.
-		$redirect_manager = new WPSEO_Redirect_URL_Manager();
+		$redirect_manager = new WPSEO_Redirect_Manager();
 		$redirect_manager->set_exporters( array( new WPSEO_Redirect_Export_Option() ) );
 		$redirect_manager->export_redirects();
 	}
