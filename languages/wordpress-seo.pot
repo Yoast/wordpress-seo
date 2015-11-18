@@ -2,9 +2,9 @@
 # This file is distributed under the GPL v3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Yoast SEO 3.0-RC\n"
+"Project-Id-Version: Yoast SEO 3.0\n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo/issues\n"
-"POT-Creation-Date: 2015-11-17 14:52:14+00:00\n"
+"POT-Creation-Date: 2015-11-18 09:40:53+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1541,11 +1541,11 @@ msgstr ""
 msgid "Check"
 msgstr ""
 
-#: admin/metabox/class-metabox.php:222 admin/taxonomy/class-taxonomy.php:207
+#: admin/metabox/class-metabox.php:222 admin/taxonomy/class-taxonomy.php:210
 msgid "Content:"
 msgstr ""
 
-#: admin/metabox/class-metabox.php:271 admin/taxonomy/class-taxonomy.php:254
+#: admin/metabox/class-metabox.php:271 admin/taxonomy/class-taxonomy.php:257
 msgid "(no parent)"
 msgstr ""
 
