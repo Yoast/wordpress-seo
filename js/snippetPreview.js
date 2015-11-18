@@ -232,7 +232,7 @@ YoastSEO.SnippetPreview.prototype.formatKeyword = function( textString ) {
  */
 YoastSEO.SnippetPreview.prototype.formatKeywordUrl = function( textString ) {
 	var keyword = this.refObj.stringHelper.sanitizeKeyword( this.refObj.rawData.keyword );
-	var dashedKeyword = keyword.replace( " ", "[-_]" );
+	var dashedKeyword = keyword.replace( /\s/g, "-" );
 
 	// Match keyword case-insensitively.
 	var keywordRegex = new RegExp( "\\b" + dashedKeyword + "\\b", "ig" );
