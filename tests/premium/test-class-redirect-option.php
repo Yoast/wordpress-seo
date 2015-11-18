@@ -84,7 +84,7 @@ class WPSEO_Redirect_Option_Test extends WPSEO_UnitTestCase {
 	public function test_change_autoload() {
 		$this->assertEquals( 1, $this->class_instance->change_autoload( 'yes', WPSEO_Redirect_Option::OPTION ) );
 		$this->assertEquals( 0, $this->class_instance->change_autoload( 'yes', WPSEO_Redirect_Option::OPTION ) );
-		
+
 		$this->assertEquals( 1, $this->class_instance->change_autoload( 'no', WPSEO_Redirect_Option::OPTION ) );
 		$this->assertEquals( 0, $this->class_instance->change_autoload( 'no', WPSEO_Redirect_Option::OPTION ) );
 
@@ -128,8 +128,8 @@ class WPSEO_Redirect_Option_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Redirect_Option::search
 	 */
 	public function test_search() {
-		$this->assertEquals( 0, $this->class_instance->search( 'old-url' ) );
-		$this->assertFalse( $this->class_instance->search( 'does-not-exist' ) );
+		$this->assertEquals( 0, $this->class_instance->search( 'old-url', WPSEO_Redirect::FORMAT_PLAIN ) );
+		$this->assertFalse( $this->class_instance->search( 'does-not-exist', WPSEO_Redirect::FORMAT_PLAIN ) );
 	}
 
 }

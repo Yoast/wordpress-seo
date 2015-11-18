@@ -25,6 +25,33 @@ class WPSEO_Redirect_Manager_Test extends WPSEO_UnitTestCase {
 		$this->class_instance->create_redirect( new WPSEO_Redirect( 'old', 'new', 301 ) );
 		$this->class_instance->create_redirect( new WPSEO_Redirect( 'older', 'newer', 301 ) );
 		$this->class_instance->create_redirect( new WPSEO_Redirect( 'oldest', 'newest', 301 ) );
+
+		$this->class_instance->change_option_autoload( false );
+	}
+
+	/**
+	 * Test the result of the exporters set method
+	 *
+	 * @covers WPSEO_Redirect_Manager::set_exporters
+	 */
+	public function test_set_exporters() {
+		$this->assertEquals(
+			array( new WPSEO_Redirect_Export_Option() ),
+			$this->class_instance->set_exporters( array( new WPSEO_Redirect_Export_Option() ) )
+		);
+	}
+
+	/**
+	 * Test with the result of get_redirect_format
+	 *
+	 * @covers WPSEO_Redirect_Manager::get_redirect_format
+	 */
+	public function test_get_redirect_format() {
+		$plain_manager = new WPSEO_Redirect_Manager();
+		$this->assertEquals( 'plain', $plain_manager->get_redirect_format() );
+
+		$regex_manager = new WPSEO_Redirect_Manager( 'regex' );
+		$this->assertEquals( 'regex', $regex_manager->get_redirect_format() );
 	}
 
 	/**
@@ -35,10 +62,21 @@ class WPSEO_Redirect_Manager_Test extends WPSEO_UnitTestCase {
 	public function test_get_redirects() {
 		$redirects = $this->class_instance->get_redirects();
 
-
 		$this->assertEquals( '/old',    $redirects[0]->get_origin() );
 		$this->assertEquals( '/older',  $redirects[1]->get_origin() );
 		$this->assertEquals( '/oldest', $redirects[2]->get_origin() );
+	}
+
+	/**
+	 * Test the changing of the autoload option
+	 *
+	 * @covers WPSEO_Redirect_Manager::change_option_autoload
+	 */
+	public function test_change_option_autoload() {
+		$this->assertEquals( 2, $this->class_instance->change_option_autoload( true ) );
+		$this->assertEquals( 0, $this->class_instance->change_option_autoload( true ) );
+		$this->assertEquals( 2, $this->class_instance->change_option_autoload( false ) );
+		$this->assertEquals( 0, $this->class_instance->change_option_autoload( false ) );
 	}
 
 	/**
@@ -89,6 +127,9 @@ class WPSEO_Redirect_Manager_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( '/updated_redirect', $redirect->get_target() );
 		$this->assertEquals( '301', $redirect->get_type() );
 
+		// Update a non existing redirect.
+		$this->assertFalse( $this->class_instance->update_redirect( 'i-do-not-exists', $redirect ) );
+
 		/*
 		 	When 5.2 support is dropped we can use this fancy testmethod:
 			$this->assertArraySubset( array( '/redirect_update' => array( 'url' => 'updated_redirect', 'type' => 301 ) ), $this->class_instance->get_redirects() );
@@ -110,6 +151,19 @@ class WPSEO_Redirect_Manager_Test extends WPSEO_UnitTestCase {
 
 		// Cannot remove a redirect that doesn't exists anymore.
 		$this->assertFalse( $this->class_instance->delete_redirects( array( 'delete_redirect' ) ) );
+	}
+
+	/**
+	 * Test removing a redirect
+	 *
+	 * @covers WPSEO_Redirect_Manager::search
+	 */
+	public function test_search() {
+		// Search for a redirect.
+		$this->assertEquals( 1, $this->class_instance->search( 'older' ) );
+
+		// Search for a redirect that doesn't exists.
+		$this->assertFalse( $this->class_instance->search( 'not-so-old' ) );
 	}
 
 	/**

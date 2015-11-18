@@ -56,9 +56,11 @@ class WPSEO_Redirect_Manager {
 	 * Setting the exporters
 	 *
 	 * @param WPSEO_Redirect_Export[] $exporters The exporters used to save redirects in files.
+	 *
+	 * @return WPSEO_Redirect_Export[]
 	 */
 	public function set_exporters( $exporters ) {
-		$this->exporters = $exporters;
+		return $this->exporters = $exporters;
 	}
 
 	/**
@@ -94,13 +96,18 @@ class WPSEO_Redirect_Manager {
 	 * Changing the autoload value for the option
 	 *
 	 * @param bool $autoload_value The autoload value (true or false).
+	 *
+	 * @return int
 	 */
 	public function change_option_autoload( $autoload_value ) {
 		// The autoload value base on given boolean.
 		$autoload = ( $autoload_value === false ) ? 'no' : 'yes';
+		$updated  = 0;
 
-		$this->redirect_option->change_autoload( $autoload, WPSEO_Redirect_Option::OPTION_PLAIN );
-		$this->redirect_option->change_autoload( $autoload, WPSEO_Redirect_Option::OPTION_REGEX );
+		$updated += $this->redirect_option->change_autoload( $autoload, WPSEO_Redirect_Option::OPTION_PLAIN );
+		$updated += $this->redirect_option->change_autoload( $autoload, WPSEO_Redirect_Option::OPTION_REGEX );
+
+		return $updated;
 	}
 
 	/**

@@ -50,6 +50,16 @@ class WPSEO_Redirect_Option {
 	}
 
 	/**
+	 * Wrapper method to setup the data for this class.
+	 *
+	 * @param string $format The format for the redirects.
+	 */
+	public function setup( $format ) {
+		$this->set_format( $format );
+		$this->set_redirects();
+	}
+
+	/**
 	 * Sets the value of redirects with the result of get all
 	 */
 	public function set_redirects() {
@@ -169,13 +179,13 @@ class WPSEO_Redirect_Option {
 	 * @param string $autoload    The autoload value, yes or no.
 	 * @param string $option_name The target option wherefore the autoload will be changed.
 	 *
-	 * @return int|false
+	 * @return int
 	 */
 	public function change_autoload( $autoload, $option_name ) {
 		global $wpdb;
 
 		// Do update query.
-		return $wpdb->update(
+		return (int) $wpdb->update(
 			$wpdb->options,
 			array( 'autoload' => $autoload ),
 			array( 'option_name' => $option_name ),
