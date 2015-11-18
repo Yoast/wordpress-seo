@@ -63,3 +63,16 @@ describe("a test matching a keyword with multiple spaces", function(){
 		expect(result[0].result).toBe(1);
 	});
 });
+
+var urlArgs5 = {
+	keyword: "one-two-three",
+	url: "http://domain.com/one-two-three"
+};
+
+describe("a test matching a keyword with multiple hyphens", function(){
+	it("returns a match for the keyword", function(){
+		var urlAnalyzer = Factory.buildAnalyzer(urlArgs5);
+		var result = urlAnalyzer.urlKeyword();
+		expect(result[0].result).toBe(1);
+	});
+});
