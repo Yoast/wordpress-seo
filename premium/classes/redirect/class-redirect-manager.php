@@ -72,6 +72,14 @@ abstract class WPSEO_Redirect_Manager {
 	}
 
 	/**
+	 * Returns the redirect format
+	 * @return string
+	 */
+	public function get_redirect_format() {
+		return $this->redirect_format;
+	}
+
+	/**
 	 * Export the redirects to the specified sources.
 	 */
 	public function export_redirects() {

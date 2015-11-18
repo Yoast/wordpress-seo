@@ -19,27 +19,18 @@ class WPSEO_Redirect_Ajax {
 	private $filter_options = array( 'options' => array( 'default' => '' ) );
 
 	/**
-	 * @var string
-	 */
-	private $redirect_format;
-
-	/**
 	 * @param WPSEO_Redirect_Manager $redirect_manager The redirect manager to handle the redirects for.
-	 * @param string                 $redirect_format  The type of the redirect that is managed by this AJAX object.
-	 * @param string                 $hook_suffix      The suffix that will be stitched after the ajax hook names.
 	 */
-	public function __construct( WPSEO_Redirect_Manager $redirect_manager, $redirect_format, $hook_suffix ) {
+	public function __construct( WPSEO_Redirect_Manager $redirect_manager) {
 		$this->redirect_manager = $redirect_manager;
-		$this->redirect_format  = $redirect_format;
 
-		$this->set_hooks( $hook_suffix );
+		$this->set_hooks( $this->redirect_manager->get_redirect_format() );
 	}
 
 	/**
 	 * Function that handles the AJAX 'wpseo_add_redirect' action
 	 */
 	public function ajax_add_redirect() {
-
 		$this->valid_ajax_check();
 
 		// Save the redirect.
@@ -51,7 +42,7 @@ class WPSEO_Redirect_Ajax {
 			$this->sanitize_url( $old_url_post ),
 			$this->sanitize_url( $new_url_post ),
 			urldecode( $type ),
-			$this->redirect_format
+			$this->redirect_manager->get_redirect_format()
 		);
 
 		$validator = new WPSEO_Redirect_Validator();
@@ -86,7 +77,7 @@ class WPSEO_Redirect_Ajax {
 			$this->sanitize_url( $new_redirect_post['key'] ),
 			$this->sanitize_url( $new_redirect_post['value'] ),
 			urldecode( $new_redirect_post['type'] ),
-			$this->redirect_format
+			$this->redirect_manager->get_redirect_format()
 		);
 
 		$current_redirect = new WPSEO_Redirect(
