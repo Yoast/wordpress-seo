@@ -97,11 +97,11 @@
 
 		var that = this;
 		if( typeof tinyMCE !== 'undefined' ) {
-			tinyMCE.on( 'addEditor', function ( e ) {
-				e.editor.on( 'change', function () {
+			tinyMCE.on( 'addEditor', function( e ) {
+				e.editor.on( 'change', function() {
 					that.loadShortcodes.bind( that, that.declareReloaded.bind( that ) )();
 				});
-				e.editor.on('keydown', function () {
+				e.editor.on('keydown', function() {
 					that.loadShortcodes.bind( that, that.declareReloaded.bind( that ) )();
 				});
 			});
