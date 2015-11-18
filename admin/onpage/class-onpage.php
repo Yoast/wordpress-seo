@@ -95,7 +95,7 @@ class WPSEO_OnPage {
 			$notice = sprintf(
 				/* translators: 1: opens a link to a related knowledge base article. 2: closes the link */
 				__( '%1$sYour homepage cannot be indexed by search engines%2$s. This is very bad for SEO and should be fixed.', 'wordpress-seo' ),
-				'<a href="http://yoa.st/onpage-index-error" target="_blank">',
+				'<a href="http://yoa.st/onpageindexerror" target="_blank">',
 				'</a>'
 			);
 
