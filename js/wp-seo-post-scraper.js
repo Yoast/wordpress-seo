@@ -190,7 +190,7 @@
 	 */
 	PostScraper.prototype.getContentTinyMCE = function() {
 		var val = document.getElementById( 'content' ).value;
-		if ( tinyMCE.editors.length !== 0 && tinyMCE.get( 'content' ).hidden === false ) {
+		if ( typeof tinyMCE !== 'undefined' && tinyMCE.editors.length !== 0 && tinyMCE.get( 'content' ).hidden === false ) {
 			val = tinyMCE.get( 'content' ).getContent();
 		}
 		return val;
@@ -262,15 +262,16 @@
 			}
 		}
 
-		//binds the input, change, cut and paste event to tinyMCE. All events are needed, because sometimes tinyMCE doesn'
-		//trigger them, or takes up to ten seconds to fire an event.
-		var events = [ 'input' , 'change', 'cut', 'paste' ];
-		tinyMCE.on( 'addEditor', function(e) {
-			for ( var i = 0; i < events.length; i++ ) {
-				e.editor.on( events[ i ], app.analyzeTimer.bind( app ) );
-			}
-		});
-
+		if( typeof tinyMCE !== 'undefined' ) {
+			//binds the input, change, cut and paste event to tinyMCE. All events are needed, because sometimes tinyMCE doesn'
+			//trigger them, or takes up to ten seconds to fire an event.
+			var events = [ 'input', 'change', 'cut', 'paste' ];
+			tinyMCE.on( 'addEditor', function ( e ) {
+				for ( var i = 0; i < events.length; i++ ) {
+					e.editor.on( events[i], app.analyzeTimer.bind( app ) );
+				}
+			});
+		}
 		document.getElementById( 'yoast_wpseo_focuskw_text_input' ).addEventListener( 'blur', this.resetQueue );
 	};
 
