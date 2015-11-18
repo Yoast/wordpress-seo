@@ -37,7 +37,7 @@ class WPSEO_Multi_Keyword {
 	 * Enqueue multi keyword assets
 	 */
 	public function enqueue_assets() {
-		wp_enqueue_style( 'wp-seo-premium-metabox', plugin_dir_url( WPSEO_PREMIUM_FILE ) . '/assets/css/premium-metabox' . WPSEO_CSSJS_SUFFIX . '.css', array(), WPSEO_VERSION );
-		wp_enqueue_script( 'wp-seo-premium-multi-keyword', plugin_dir_url( WPSEO_PREMIUM_FILE ) . '/assets/js/wp-seo-premium-multi-keyword' . WPSEO_CSSJS_SUFFIX . '.js', array( 'jquery', 'wp-util', 'underscore' ), WPSEO_VERSION );
+		wp_enqueue_style( 'wp-seo-premium-metabox', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/css/premium-metabox' . WPSEO_CSSJS_SUFFIX . '.css', array(), WPSEO_VERSION );
+		wp_enqueue_script( 'wp-seo-premium-multi-keyword', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/js/wp-seo-premium-multi-keyword' . WPSEO_CSSJS_SUFFIX . '.js', array( 'jquery', 'wp-util', 'underscore' ), WPSEO_VERSION );
 	}
 }

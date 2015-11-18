@@ -29,7 +29,7 @@ class WPSEO_HelpScout_Beacon {
 	 * Loading the js file and the translations for the HelpScout beacon.
 	 */
 	public function load_assets() {
-		wp_enqueue_script( 'yoast-seo-helpscout-beacon', plugins_url( 'premium/assets/js/yoast-seo-helpscout-beacon' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array(), WPSEO_VERSION, true );
+		wp_enqueue_script( 'yoast-seo-helpscout-beacon', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/js/yoast-seo-helpscout-beacon' . WPSEO_CSSJS_SUFFIX . '.js', array(), WPSEO_VERSION, true );
 		wp_localize_script( 'yoast-seo-helpscout-beacon', 'wpseoHelpscoutBeaconL10n', $this->localize_beacon() );
 	}
 
