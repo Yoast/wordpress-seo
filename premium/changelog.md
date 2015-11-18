@@ -1,3 +1,8 @@
+### 3.0: November 18th, 2015
+* Merge with Yoast SEO core 3.0, including the realtime content analysis tool social settings for taxonomies. See the [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
+* Added possibility to analyze multiple keywords per post/page.
+* Added support beacon to all the Yoast SEO settings pages, allowing users to ask for support straight from their WordPress backend.
+
 ### 2.3.5: September 16th, 2015
 * Merge with Yoast SEO core 2.3.5
 
