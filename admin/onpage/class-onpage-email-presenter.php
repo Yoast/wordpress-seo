@@ -68,16 +68,16 @@ class WPSEO_OnPage_Email_Presenter {
 	private function get_change_message() {
 		$subjects = array(
 			'0' => sprintf(
-				/* translators: 1: expands to home_url(). 2: opens a link to a related knowledge base article. 3: closes the link */
+				/* translators: 1: expands to get_option( 'home' ). 2: opens a link to a related knowledge base article. 3: closes the link */
 				__( 'Yoast SEO has detected that %1$s can no longer be indexed. Please note that this will make it impossible for search engines like Google and Bing to index your site. %2$sRead more about this error on our knowledge base%3$s.', 'wordpress-seo' ),
-				home_url(),
-				'<a href="http://yoa.st/onpage-index-error" target="_blank">',
+				get_option( 'home' ),
+				'<a href="http://yoa.st/onpageindexerror" target="_blank">',
 				'</a>'
 			),
 			'1' => sprintf(
-				/* translators: 1: expands to home_url(). */
+				/* translators: 1: expands to get_option( 'home' ). */
 				__( 'Yoast SEO has detected that %1$s can be indexed again.', 'wordpress-seo' ),
-				home_url()
+				get_option( 'home' )
 			),
 		);
 
@@ -92,16 +92,16 @@ class WPSEO_OnPage_Email_Presenter {
 	private function get_new_message() {
 		$subjects = array(
 			'0' => sprintf(
-				/* translators: 1: expands to home_url(). 2: opens a link to a related knowledge base article. 3: closes the link */
+				/* translators: 1: expands to get_option( 'home' ). 2: opens a link to a related knowledge base article. 3: closes the link */
 				__( 'Yoast SEO has detected that %1$s can not be indexed. Please note that this will make it impossible for search engines like Google and Bing to index your site. %2$sRead more about this error on our knowledge base%3$s.', 'wordpress-seo' ),
-				home_url(),
-				'<a href="http://yoa.st/onpage-index-error" target="_blank">',
+				get_option( 'home' ),
+				'<a href="http://yoa.st/onpageindexerror" target="_blank">',
 				'</a>'
 			),
 			'1' => sprintf(
-				/* translators: 1: expands to home_url(). */
+				/* translators: 1: expands to get_option( 'home' ). */
 				__( 'Yoast SEO has detected that %1$s can be indexed.', 'wordpress-seo' ),
-				home_url()
+				get_option( 'home' )
 			),
 		);
 
@@ -116,14 +116,14 @@ class WPSEO_OnPage_Email_Presenter {
 	private function get_change_subject() {
 		$subjects = array(
 			'0' => sprintf(
-				/* translators: 1: expands to home_url(). */
+				/* translators: 1: expands to get_option( 'home' ). */
 				__( 'Yoast SEO alert: Search engines can no longer index %1$s!', 'wordpress-seo' ),
-				home_url()
+				get_option( 'home' )
 			),
 			'1' => sprintf(
-				/* translators: 1: expands to home_url(). */
+				/* translators: 1: expands to get_option( 'home' ). */
 				__( 'Yoast SEO alert fixed: Search engines can index %1$s again.', 'wordpress-seo' ),
-				home_url()
+				get_option( 'home' )
 			),
 		);
 
@@ -138,14 +138,14 @@ class WPSEO_OnPage_Email_Presenter {
 	private function get_new_subject() {
 		$subjects = array(
 			'0' => sprintf(
-				/* translators: 1: expands to home_url(). */
+				/* translators: 1: expands to get_option( 'home' ). */
 				__( 'Yoast SEO alert: Search engines cannot index %1$s!', 'wordpress-seo' ),
-				home_url()
+				get_option( 'home' )
 			),
 			'1' => sprintf(
-				/* translators: 1: expands to home_url(). */
+				/* translators: 1: expands to get_option( 'home' ). */
 				__( 'Yoast SEO alert fixed: Search engines can index %1$s.', 'wordpress-seo' ),
-				home_url()
+				get_option( 'home' )
 			),
 		);
 
