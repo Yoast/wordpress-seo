@@ -95,7 +95,7 @@ class WPSEO_OnPage {
 			$notice = sprintf(
 				/* translators: 1: opens a link to a related knowledge base article. 2: closes the link */
 				__( '%1$sYour homepage cannot be indexed by search engines%2$s. This is very bad for SEO and should be fixed.', 'wordpress-seo' ),
-				'<a href="http://yoa.st/onpage-index-error" target="_blank">',
+				'<a href="http://yoa.st/onpageindexerror" target="_blank">',
 				'</a>'
 			);
 
@@ -118,7 +118,7 @@ class WPSEO_OnPage {
 	 * @return int(0)|int(1)|false
 	 */
 	protected function request_indexability() {
-		$request  = new WPSEO_OnPage_Request( home_url() );
+		$request  = new WPSEO_OnPage_Request( get_option( 'home' ) );
 		$response = $request->get_response();
 
 		if ( isset( $response['is_indexable'] ) ) {
