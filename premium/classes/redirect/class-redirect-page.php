@@ -109,6 +109,8 @@ class WPSEO_Redirect_Page {
 		// Maybe the autoload for the option have to be changed.
 		$this->change_option_autoload();
 
+		$this->fetch_bulk_action();
+
 		// Setting the handling of the redirect option.
 		new WPSEO_Redirect_Settings_Hooks( $this->get_redirect_manager() );
 
@@ -189,6 +191,19 @@ class WPSEO_Redirect_Page {
 		}
 
 		return true;
+	}
+
+	/**
+	 * Fetches the bulk action for removing redirects.
+	 */
+	private function fetch_bulk_action() {
+		if ( wp_verify_nonce( filter_input( INPUT_POST, 'wpseo_redirects_ajax_nonce' ), 'wpseo-redirects-ajax-security' ) ) {
+			if ( filter_input( INPUT_POST, 'action' ) === 'delete' || filter_input( INPUT_POST, 'action2' ) === 'delete' ) {
+				$bulk_delete = filter_input( INPUT_POST, 'wpseo_redirects_bulk_delete', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY );
+
+				$this->get_redirect_manager()->delete_redirects( $bulk_delete );
+			}
+		}
 	}
 
 }

@@ -34,7 +34,6 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 
 		$this->current_column = $current_column;
 
-		$this->handle_bulk_action( $redirect_manager );
 		$this->set_items( $redirect_manager->get_redirects() );
 
 		add_filter( 'list_table_primary_column', array( $this, 'redirect_list_table_primary_column' ) , 10, 2 );
@@ -206,20 +205,6 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 		);
 
 		return $actions;
-	}
-
-	/**
-	 * Function that handles bulk action
-	 *
-	 * @param WPSEO_Redirect_Manager $redirect_manager The current active redirect manager.
-	 */
-	private function handle_bulk_action( WPSEO_Redirect_Manager $redirect_manager ) {
-		if ( filter_input( INPUT_POST, 'action' ) === 'delete' || filter_input( INPUT_POST, 'action2' ) === 'delete' ) {
-			if ( ( $bulk_delete = filter_input( INPUT_POST, 'wpseo_redirects_bulk_delete', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY ) ) && count( $bulk_delete ) > 0 ) {
-				$redirect_manager->delete_redirects( $bulk_delete );
-			}
-		}
-
 	}
 
 	/**
