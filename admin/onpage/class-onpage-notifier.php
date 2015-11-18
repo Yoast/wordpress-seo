@@ -22,11 +22,24 @@ class WPSEO_OnPage_Notifier {
 			)
 		);
 
+		add_filter( 'wp_mail_content_type', array( $this, 'set_content_type' ) );
 		wp_mail(
 			get_option( 'admin_email' ),
 			$email_presenter->get_subject(),
 			$email_presenter->get_message()
 		);
+		remove_filter( 'wp_mail_content_type', array( $this, 'set_content_type' ) );
+	}
+
+	/**
+	 * Forces the MIME type of emails to text/html
+	 *
+	 * @param string $content_type
+	 *
+	 * @return string
+	 */
+	public function set_content_type( $content_type ) {
+		return 'text/html';
 	}
 
 	/**
