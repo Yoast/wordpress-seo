@@ -34,6 +34,7 @@ YoastSEO.PreProcessor.prototype.textFormat = function() {
 	this.__store.cleanText = this.cleanText( this.__store.originalText );
 	this.__store.cleanTextSomeTags = this.stringHelper.stripSomeTags( this.__store.cleanText );
 	this.__store.cleanTextNoTags = this.stringHelper.stripAllTags( this.__store.cleanTextSomeTags );
+	this.__store.cleanTextNoDigits = this.stringHelper.stripNumbers( this.__store.cleanTextNoTags );
 };
 
 /**
