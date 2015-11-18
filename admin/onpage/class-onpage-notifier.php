@@ -34,7 +34,7 @@ class WPSEO_OnPage_Notifier {
 	/**
 	 * Forces the MIME type of emails to text/html
 	 *
-	 * @param $content_type
+	 * @param string $content_type
 	 *
 	 * @return string
 	 */
