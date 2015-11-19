@@ -124,13 +124,31 @@ YoastSEO.StringHelper.prototype.stripAllTags = function( textString ) {
 };
 
 /**
+ * removes all words comprised only of numbers.
+ * @param textString {String}
+ * @returns {string}
+ */
+YoastSEO.StringHelper.prototype.stripNumbers = function( textString ) {
+
+	// Remove "words" comprised only of numbers
+	textString = textString.replace( /\b[0-9]+\b/g, "" );
+
+	textString = this.stripSpaces( textString );
+
+	if ( textString === "." ) {
+		textString = "";
+	}
+	return textString;
+};
+
+/**
  * Removes all invalid characters from a certain keyword
  *
  * @param {string} keyword The un-sanitized keyword.
  * @returns {string} The sanitized keyword.
  */
 YoastSEO.StringHelper.prototype.sanitizeKeyword = function( keyword ) {
-	keyword = keyword.replace( /[\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "" );
+	keyword = keyword.replace( /[\[\]\/\{\}\(\)\*\+\?\\\^\$\|]/g, "" );
 
 	keyword = this.stripAllTags( keyword );
 

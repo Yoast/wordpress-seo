@@ -314,7 +314,7 @@ YoastSEO.Analyzer.prototype.fleschReading = function() {
 				(
 					1.015 *
 						(
-							this.preProcessor.__store.wordcountNoTags /
+							this.preProcessor.__store.wordcountNoDigits /
 							this.preProcessor.__store.sentenceCountNoTags
 						)
 					) -
@@ -322,7 +322,7 @@ YoastSEO.Analyzer.prototype.fleschReading = function() {
 							84.6 *
 						(
 					this.preProcessor.__store.syllablecount /
-					this.preProcessor.__store.wordcountNoTags
+					this.preProcessor.__store.wordcountNoDigits
 				)
 			)
 		)
@@ -1909,29 +1909,40 @@ YoastSEO.PreProcessor.prototype.textFormat = function() {
 	this.__store.cleanText = this.cleanText( this.__store.originalText );
 	this.__store.cleanTextSomeTags = this.stringHelper.stripSomeTags( this.__store.cleanText );
 	this.__store.cleanTextNoTags = this.stringHelper.stripAllTags( this.__store.cleanTextSomeTags );
+	this.__store.cleanTextNoDigits = this.stringHelper.stripNumbers( this.__store.cleanTextNoTags );
 };
 
 /**
  * saves wordcount (all words) and wordcountNoTags (all words except those in tags) in the __store
+ * saves sentencecount and syllable count in __store
  * object
  */
 YoastSEO.PreProcessor.prototype.countStore = function() {
 
 	/*wordcounters*/
-	this.__store.wordcount = this.__store.cleanText === "" ?
-		0 :
-		this.__store.cleanText.split( /\s/g ).length;
+	var wordcountString = this.__store.cleanText;
 
-	this.__store.wordcountNoTags = this.__store.cleanTextNoTags === "" ?
+	this.__store.wordcount = wordcountString === "" ?
 		0 :
-		this.__store.cleanTextNoTags.split( /\s/g ).length;
+		wordcountString.split( /\s/g ).length;
+
+	var wordcountStringNoTags = this.__store.cleanTextNoTags;
+
+	this.__store.wordcountNoTags = wordcountStringNoTags === "" ?
+		0 :
+		wordcountStringNoTags.split( /\s/g ).length;
+
+	var wordcountStringNoDigits = this.__store.cleanTextNoDigits;
+
+	this.__store.wordcountNoDigits = wordcountStringNoDigits === "" ?
+		0 :
+		wordcountStringNoDigits.split ( /\s/g ).length;
 
 	/*sentencecounters*/
-	this.__store.sentenceCount = this.sentenceCount( this.__store.cleanText );
-	this.__store.sentenceCountNoTags = this.sentenceCount( this.__store.cleanTextNoTags );
+	this.__store.sentenceCountNoTags = this.sentenceCount( this.__store.cleanTextNoDigits );
 
 	/*syllablecounters*/
-	this.__store.syllablecount = this.syllableCount( this.__store.cleanTextNoTags );
+	this.__store.syllablecount = this.syllableCount( this.__store.cleanTextNoDigits );
 };
 
 /**
@@ -2067,9 +2078,6 @@ YoastSEO.PreProcessor.prototype.cleanText = function( textString ) {
 
 		// pad sentence terminators
 		textString = textString.replace( /[ ]*([\.])+/g, "$1 " );
-
-		// Remove "words" comprised only of numbers
-		textString = textString.replace( /\b[0-9]+\b/g, "" );
 
 		// Remove double spaces
 		textString = this.stringHelper.stripSpaces( textString );
@@ -2800,13 +2808,31 @@ YoastSEO.StringHelper.prototype.stripAllTags = function( textString ) {
 };
 
 /**
+ * removes all words comprised only of numbers.
+ * @param textString {String}
+ * @returns {string}
+ */
+YoastSEO.StringHelper.prototype.stripNumbers = function( textString ) {
+
+	// Remove "words" comprised only of numbers
+	textString = textString.replace( /\b[0-9]+\b/g, "" );
+
+	textString = this.stripSpaces( textString );
+
+	if ( textString === "." ) {
+		textString = "";
+	}
+	return textString;
+};
+
+/**
  * Removes all invalid characters from a certain keyword
  *
  * @param {string} keyword The un-sanitized keyword.
  * @returns {string} The sanitized keyword.
  */
 YoastSEO.StringHelper.prototype.sanitizeKeyword = function( keyword ) {
-	keyword = keyword.replace( /[\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "" );
+	keyword = keyword.replace( /[\[\]\/\{\}\(\)\*\+\?\\\^\$\|]/g, "" );
 
 	keyword = this.stripAllTags( keyword );
 
