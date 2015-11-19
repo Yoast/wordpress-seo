@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: seo, SEO, Yoast SEO, google, meta, meta description, search engine optimization, xml sitemap, xml sitemaps, google sitemap, sitemap, sitemaps, robots meta, rss, rss footer, yahoo, bing, news sitemaps, XML News Sitemaps, WordPress SEO, WordPress SEO by Yoast, yoast, multisite, canonical, nofollow, noindex, keywords, meta keywords, description, webmaster tools, google webmaster tools, seo pack
 Requires at least: 4.0
 Tested up to: 4.4
-Stable tag: 3.0.2
+Stable tag: 3.0.3
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using Yoast SEO plugin.
 
@@ -120,9 +120,16 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 
 == Changelog ==
 
+= 3.0.3 =
+
+Release Date: November 19th, 2015
+
+* Bugfixes:
+	* Fixes a bug where the snippet preview was broken.
+
 = 3.0.2 =
 
-Release Date: November 18th, 2015
+Release Date: November 19th, 2015
 
 * Bugfixes:
 	* Fixes a bug where disabling the visual editor caused our content analysis to break.
