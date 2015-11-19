@@ -104,13 +104,13 @@ class WPSEO_Redirect_Manager {
 	/**
 	 * Save the redirect
 	 *
-	 * @param string         $current_origin The old redirect, the value is a key in the redirects array.
-	 * @param WPSEO_Redirect $redirect       New redirect object.
+	 * @param WPSEO_Redirect $current_redirect The old redirect, the value is a key in the redirects array.
+	 * @param WPSEO_Redirect $redirect         New redirect object.
 	 *
 	 * @return bool
 	 */
-	public function update_redirect( $current_origin, WPSEO_Redirect $redirect ) {
-		if ( $this->redirect_option->update( $current_origin, $redirect ) ) {
+	public function update_redirect( WPSEO_Redirect $current_redirect, WPSEO_Redirect $redirect ) {
+		if ( $this->redirect_option->update( $current_redirect, $redirect ) ) {
 			$this->save_redirects();
 
 			return true;
@@ -122,11 +122,11 @@ class WPSEO_Redirect_Manager {
 	/**
 	 * Delete the redirects
 	 *
-	 * @param array $delete_redirects Array with the redirects to remove.
+	 * @param WPSEO_Redirect[] $delete_redirects Array with the redirects to remove.
 	 *
 	 * @return bool
 	 */
-	public function delete_redirects( array $delete_redirects ) {
+	public function delete_redirects( $delete_redirects ) {
 		$deleted = false;
 		foreach ( $delete_redirects as $delete_redirect ) {
 			if ( $this->redirect_option->delete( $delete_redirect ) ) {
@@ -142,14 +142,14 @@ class WPSEO_Redirect_Manager {
 	}
 
 	/**
-	 * Search for an origin in the redirects.
+	 * Returns the redirect when it's found, otherwise it will return false.
 	 *
 	 * @param string $origin The origin to search for.
 	 *
 	 * @return bool|WPSEO_Redirect
 	 */
-	public function search( $origin ) {
-		return $this->redirect_option->search( $origin, $this->redirect_format );
+	public function get_redirect( $origin ) {
+		return $this->redirect_option->get( $origin );
 	}
 
 	/**

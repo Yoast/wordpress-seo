@@ -43,9 +43,9 @@ class WPSEO_Redirect_Export_Option_Test extends WPSEO_UnitTestCase {
 
 		$plain_redirects  = get_option( WPSEO_Redirect_Option::OPTION_PLAIN );
 
-		$this->assertTrue( array_key_exists( '/plain_origin', $plain_redirects ) );
-		$this->assertEquals( '/plain_target', $plain_redirects['/plain_origin']['url'] );
-		$this->assertEquals( '301', $plain_redirects['/plain_origin']['type'] );
+		$this->assertTrue( array_key_exists( 'plain_origin', $plain_redirects ) );
+		$this->assertEquals( 'plain_target', $plain_redirects['plain_origin']['url'] );
+		$this->assertEquals( '301', $plain_redirects['plain_origin']['type'] );
 	}
 
 	/**
@@ -63,7 +63,7 @@ class WPSEO_Redirect_Export_Option_Test extends WPSEO_UnitTestCase {
 		$regex_redirects  = get_option( WPSEO_Redirect_Option::OPTION_REGEX );
 
 		$this->assertTrue( array_key_exists( 'regex_origin', $regex_redirects ) );
-		$this->assertEquals( '/regex_target', $regex_redirects['regex_origin']['url'] );
+		$this->assertEquals( 'regex_target', $regex_redirects['regex_origin']['url'] );
 		$this->assertEquals( '301', $regex_redirects['regex_origin']['type'] );
 	}
 
@@ -74,14 +74,14 @@ class WPSEO_Redirect_Export_Option_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_format() {
 		$this->assertEquals(
-			array( 'url' => '/plain_target', 'type' => 301 ),
+			array( 'url' => 'plain_target', 'type' => 301 ),
 			$this->class_instance->format(
 				new WPSEO_Redirect( 'plain_origin', 'plain_target', 301, WPSEO_Redirect::FORMAT_PLAIN )
 			)
 		);
 
 		$this->assertEquals(
-			array( 'url' => '/regex_target', 'type' => 301 ),
+			array( 'url' => 'regex_target', 'type' => 301 ),
 			$this->class_instance->format(
 				new WPSEO_Redirect( 'regex_origin', 'regex_target', 301, WPSEO_Redirect::FORMAT_REGEX )
 			)

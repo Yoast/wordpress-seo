@@ -49,7 +49,7 @@ class WPSEO_Redirect_Option {
 	 * @return bool
 	 */
 	public function add( WPSEO_Redirect $redirect ) {
-		if ( $this->search( $redirect->get_origin(), $redirect->get_format() ) === false ) {
+		if ( $this->search( $redirect->get_origin() ) === false ) {
 			$this->redirects[] = $redirect;
 
 			return true;
@@ -61,13 +61,13 @@ class WPSEO_Redirect_Option {
 	/**
 	 * Check if the $current_redirect exists and remove it if so.
 	 *
-	 * @param string         $current_origin The current redirect value.
-	 * @param WPSEO_Redirect $redirect       The redirect object to save.
+	 * @param WPSEO_Redirect $current_redirect The current redirect value.
+	 * @param WPSEO_Redirect $redirect         The redirect object to save.
 	 *
 	 * @return bool
 	 */
-	public function update( $current_origin, WPSEO_Redirect $redirect ) {
-		if ( ( $found = $this->search( $current_origin, $redirect->get_format() ) ) !== false ) {
+	public function update( WPSEO_Redirect $current_redirect, WPSEO_Redirect $redirect ) {
+		if ( ( $found = $this->search( $current_redirect->get_origin() ) ) !== false ) {
 			$this->redirects[ $found ] = $redirect;
 
 			return true;
@@ -79,12 +79,12 @@ class WPSEO_Redirect_Option {
 	/**
 	 * Deletes the given redirect from the array
 	 *
-	 * @param string $origin The redirect that will be removed.
+	 * @param WPSEO_Redirect $current_redirect The redirect that will be removed.
 	 *
 	 * @return bool
 	 */
-	public function delete( $origin ) {
-		if ( ( $found = $this->search( $origin, $this->format ) ) !== false ) {
+	public function delete( WPSEO_Redirect $current_redirect ) {
+		if ( ( $found = $this->search( $current_redirect->get_origin() ) ) !== false ) {
 			unset( $this->redirects[ $found ] );
 
 			return true;
@@ -94,16 +94,31 @@ class WPSEO_Redirect_Option {
 	}
 
 	/**
-	 * Check if the $origin already exists as a key in the array
+	 * Get a redirect from the array
 	 *
-	 * @param string $origin          The redirect to search for.
-	 * @param string $redirect_format The format the needed redirect should have.
+	 * @param string $origin The redirects origin to search for.
 	 *
 	 * @return WPSEO_Redirect|bool
 	 */
-	public function search( $origin, $redirect_format ) {
+	public function get( $origin ) {
+		if ( $found = $this->search( $origin ) ) {
+			return $this->redirects[ $found ];
+		}
+
+		return false;
+	}
+
+	/**
+	 * Check if the $origin already exists as a key in the array
+	 *
+	 * @param string $origin The redirect to search for.
+	 *
+	 * @return WPSEO_Redirect|bool
+	 */
+	public function search( $origin ) {
+		$needed_redirect = new WPSEO_Redirect( $origin, $origin );
 		foreach ( $this->redirects as $redirect_key => $redirect ) {
-			if ( $redirect->get_origin() === $origin && $redirect->get_format() === $redirect_format ) {
+			if ( $redirect->get_origin() === $needed_redirect->get_origin() ) {
 				return $redirect_key;
 			}
 		}

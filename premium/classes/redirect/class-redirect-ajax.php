@@ -88,17 +88,12 @@ class WPSEO_Redirect_Ajax {
 			$this->redirect_format
 		);
 
-		$current_redirect = new WPSEO_Redirect(
-			$this->sanitize_url( $current_redirect ),
-			$redirect->get_target(),
-			$redirect->get_type(),
-			$redirect->get_format()
-		);
+		$current_redirect = $this->redirect_manager->get_redirect( $this->sanitize_url( $current_redirect ) );
 
 		$validator = new WPSEO_Redirect_Validator();
 
 		// The method always returns the added redirect.
-		if ( $validator->validate( $redirect, $current_redirect ) && $this->redirect_manager->update_redirect( $current_redirect->get_origin(), $redirect ) ) {
+		if ( $validator->validate( $redirect, $current_redirect ) && $this->redirect_manager->update_redirect( $current_redirect, $redirect ) ) {
 			$response = array(
 				'old_redirect' => $redirect->get_origin(),
 			);
@@ -120,11 +115,12 @@ class WPSEO_Redirect_Ajax {
 
 		$response = array();
 
+		$redirect_post    = filter_input( INPUT_POST, 'redirect', FILTER_DEFAULT, $this->filter_options );
+		$current_redirect = $this->redirect_manager->get_redirect( $this->sanitize_url( $redirect_post ) );
+
 		// Delete the redirect.
 		if ( $redirect_post = filter_input( INPUT_POST, 'redirect', FILTER_DEFAULT, $this->filter_options ) ) {
-			$redirect = $this->sanitize_url( $redirect_post );
-
-			$this->redirect_manager->delete_redirects( array( trim( $redirect ) ) );
+			$this->redirect_manager->delete_redirects( array( $current_redirect ) );
 		}
 
 		// Response.
