@@ -21,8 +21,8 @@ class WPSEO_Redirect_Test extends WPSEO_UnitTestCase {
 
 		$redirect = new WPSEO_Redirect( 'origin', 'target', 301, 'plain' );
 
-		$this->assertEquals( '/origin', $redirect->get_origin() );
-		$this->assertEquals( '/target', $redirect->get_target() );
+		$this->assertEquals( 'origin', $redirect->get_origin() );
+		$this->assertEquals( 'target', $redirect->get_target() );
 		$this->assertEquals( 301,      $redirect->get_type() );
 		$this->assertEquals( 'plain',  $redirect->get_format() );
 	}
@@ -40,7 +40,7 @@ class WPSEO_Redirect_Test extends WPSEO_UnitTestCase {
 		$redirect = new WPSEO_Redirect( 'origin', 'target', 307, 'regex' );
 
 		$this->assertEquals( 'origin', $redirect->get_origin() );
-		$this->assertEquals( '/target', $redirect->get_target() );
+		$this->assertEquals( 'target', $redirect->get_target() );
 		$this->assertEquals( 307,      $redirect->get_type() );
 		$this->assertEquals( 'regex',  $redirect->get_format() );
 	}
@@ -57,8 +57,8 @@ class WPSEO_Redirect_Test extends WPSEO_UnitTestCase {
 	public function test_construct_defaults() {
 		$redirect = new WPSEO_Redirect( 'origin', 'target' );
 
-		$this->assertEquals( '/origin', $redirect->get_origin() );
-		$this->assertEquals( '/target', $redirect->get_target() );
+		$this->assertEquals( 'origin', $redirect->get_origin() );
+		$this->assertEquals( 'target', $redirect->get_target() );
 		$this->assertEquals( 301,      $redirect->get_type() );
 		$this->assertEquals( 'plain',  $redirect->get_format() );
 	}
@@ -86,17 +86,10 @@ class WPSEO_Redirect_Test extends WPSEO_UnitTestCase {
 	public function test_getters() {
 		$redirect = new WPSEO_Redirect( 'origin', 'target', 301, 'plain' );
 
-		$this->assertEquals( '/origin', $redirect->get_origin() );
-		$this->assertEquals( '/target', $redirect->get_target() );
+		$this->assertEquals( 'origin', $redirect->get_origin() );
+		$this->assertEquals( 'target', $redirect->get_target() );
 		$this->assertEquals( 301,      $redirect->get_type() );
 		$this->assertEquals( 'plain',  $redirect->get_format() );
-	}
-
-	public function test_sanitize_getters() {
-		$redirect = new WPSEO_Redirect( 'origin', 'target', 301, 'plain' );
-
-		$this->assertEquals( 'origin', $redirect->get_sanitized_origin() );
-		$this->assertEquals( 'target', $redirect->get_sanitized_target() );
 	}
 
 	/**
@@ -124,7 +117,7 @@ class WPSEO_Redirect_Test extends WPSEO_UnitTestCase {
 	public function test_offsetGet() {
 		$redirect = new WPSEO_Redirect( 'origin', 'target', 301, 'plain' );
 
-		$this->assertEquals( '/target', $redirect['url'] );
+		$this->assertEquals( 'target', $redirect['url'] );
 		$this->assertEquals( 301, $redirect['type'] );
 
 		$this->assertEquals( null, $redirect['origin'] );
@@ -156,7 +149,7 @@ class WPSEO_Redirect_Test extends WPSEO_UnitTestCase {
 
 		unset( $redirect['url'] );
 
-		$this->assertEquals( '/target', $redirect->get_target() );
+		$this->assertEquals( 'target', $redirect->get_target() );
 	}
 
 }

@@ -159,7 +159,7 @@ class WPSEO_Redirect_Validator {
 		// Format the redirects.
 		$redirects = array();
 		foreach ( $redirect_option->get_filtered_redirects() as $redirect ) {
-			$redirects[ $redirect->get_sanitized_origin() ] = $redirect->get_sanitized_target();
+			$redirects[ $redirect->get_origin() ] = $redirect->get_target();
 		}
 
 		return $redirects;

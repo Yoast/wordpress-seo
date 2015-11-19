@@ -136,7 +136,6 @@ class WPSEO_Redirect_Option {
 	 * @return WPSEO_Redirect|bool
 	 */
 	public function search( $origin, $redirect_format ) {
-		$origin = WPSEO_Redirect::format_origin( $origin, $this->format );
 		foreach ( $this->redirects as $redirect_key => $redirect ) {
 			if ( $redirect->get_origin() === $origin && $redirect->get_format() === $redirect_format ) {
 				return $redirect_key;

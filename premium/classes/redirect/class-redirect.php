@@ -102,46 +102,6 @@ class WPSEO_Redirect implements ArrayAccess {
 	}
 
 	/**
-	 * Returns the origin without any slashes
-	 *
-	 * @return string
-	 */
-	public function get_sanitized_origin() {
-		return $this->sanitize_slash( $this->origin );
-	}
-	/**
-	 * Returns the origin without any slashes
-	 *
-	 * @return string
-	 */
-	public function get_sanitized_target() {
-		return $this->sanitize_slash( $this->target );
-	}
-
-	/**
-	 * Formats the given origin in case of plain redirects
-	 *
-	 * @param string $origin The origin to format.
-	 * @param string $format The redirect format, regex or plain.
-	 *
-	 * @return string
-	 */
-	public static function format_origin( $origin, $format ) {
-		return ( $format === self::FORMAT_PLAIN ) ? WPSEO_Utils::format_url( $origin ) : $origin;
-	}
-
-	/**
-	 * Formats the given origin in case of plain redirects
-	 *
-	 * @param string $target The target to format.
-	 *
-	 * @return string
-	 */
-	public static function format_target( $target ) {
-		return ( parse_url( $target, PHP_URL_SCHEME ) ) ? $target : WPSEO_Utils::format_url( $target );
-	}
-
-	/**
 	 * (PHP 5 &gt;= 5.0.0) - Whether a offset exists
 	 *
 	 * @link http://php.net/manual/en/arrayaccess.offsetexists.php
