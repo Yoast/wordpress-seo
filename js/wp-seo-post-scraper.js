@@ -51,7 +51,7 @@
 				postNameElem.value = slugElem.textContent;
 			}
 
-			YoastSEO.app.snippetPreview.unformattedText.snippet_cite = postNameElem.value;
+			YoastSEO.app.snippetPreview.unformattedText.snippet_cite = document.getElementById('editable-post-name-full').textContent;
 			YoastSEO.app.refresh();
 		} else if ( time < 5000 ) {
 			time += 200;
@@ -117,7 +117,16 @@
 				break;
 			case 'cite':
 			case 'post_name':
-				val = document.getElementById( 'post_name' ).value;
+				var elem = document.getElementById( 'editable-post-name-full' );
+				if ( elem !== null ) {
+					val = elem.textContent;
+				}
+				if ( val === "" ){
+					var elem = document.getElementById( 'new-post-slug' );
+					if ( elem !== null ){
+						val = elem.value;
+					}
+				}
 				break;
 			case 'meta':
 				val = document.getElementById( 'yoast_wpseo_metadesc' ).value;
