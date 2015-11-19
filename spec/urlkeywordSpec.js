@@ -76,3 +76,30 @@ describe("a test matching a keyword with multiple hyphens", function(){
 		expect(result[0].result).toBe(1);
 	});
 });
+
+var urlArgs6 = {
+	keyword: "one-two-three-four-five",
+	url: "http://domain.com/one-two-three-four-five"
+};
+
+describe("a test matching a keyword with multiple hyphens", function(){
+	it("returns a match for the keyword", function(){
+		var urlAnalyzer = Factory.buildAnalyzer(urlArgs6);
+		var result = urlAnalyzer.urlKeyword();
+		expect(result[0].result).toBe(1);
+	});
+});
+
+var urlArgs7 = {
+	keyword: "one two three four five",
+	url: "http://domain.com/one-two-three-four-five"
+};
+
+describe("a test matching a keyword with multiple spaces", function(){
+	it("returns a match for the keyword", function(){
+		var urlAnalyzer = Factory.buildAnalyzer(urlArgs7);
+		var result = urlAnalyzer.urlKeyword();
+		expect(result[0].result).toBe(1);
+	});
+});
+
