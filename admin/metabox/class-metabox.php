@@ -216,11 +216,31 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'keyword_usage'     => $this->get_focus_keyword_usage(),
 			'search_url'        => admin_url( 'edit.php?seo_kw_filter={keyword}' ),
 			'post_edit_url'     => admin_url( 'post.php?post={id}&action=edit' ),
-			'base_url'          => home_url( '/', null ),
+			'base_url'          => $this->get_base_url_for_js(),
 			'title_template'    => WPSEO_Metabox::get_title_template( $post ),
 			'metadesc_template' => WPSEO_Metabox::get_metadesc_template( $post ),
 			'contentTab'    => __( 'Content:' , 'wordpress-seo' ),
 		);
+	}
+
+	/**
+	 * Returns a base URL for use in the JS, takes permalink structure into account
+	 *
+	 * @return string
+	 */
+	private function get_base_url_for_js() {
+		// The default base is the home_url.
+		$base_url = home_url( '/', null );
+
+		$permalink = get_sample_permalink( null );
+		$permalink = $permalink[0];
+
+		// If %postname% is the last tag, just strip it and use that as a base.
+		if ( 1 === preg_match( '#%postname%/?$#', $permalink ) ) {
+			$base_url = preg_replace( '#%postname%/?$#', '', $permalink );
+		}
+
+		return $base_url;
 	}
 
 	/**
