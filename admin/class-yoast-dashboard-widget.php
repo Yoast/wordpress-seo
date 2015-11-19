@@ -63,7 +63,7 @@ class Yoast_Dashboard_Widget {
 	 */
 	public function enqueue_dashboard_stylesheet() {
 		if ( 'dashboard' === get_current_screen()->id ) {
-			wp_enqueue_style( 'wpseo-wp-dashboard', plugins_url( 'css/dashboard' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
+			wp_enqueue_style( 'wpseo-wp-dashboard', plugins_url( 'css/dashboard-' . '302' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
 		}
 	}
 

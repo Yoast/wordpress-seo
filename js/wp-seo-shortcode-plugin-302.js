@@ -96,7 +96,7 @@
 		document.getElementById( 'content' ).addEventListener( 'change', this.loadShortcodes.bind( this, this.declareReloaded.bind( this ) ) );
 
 		var that = this;
-		if( typeof tinyMCE !== 'undefined' ) {
+		if( typeof tinyMCE !== 'undefined' && typeof tinyMCE.on === 'function' ) {
 			tinyMCE.on( 'addEditor', function( e ) {
 				e.editor.on( 'change', function() {
 					that.loadShortcodes.bind( that, that.declareReloaded.bind( that ) )();
@@ -114,7 +114,7 @@
 	 */
 	YoastShortcodePlugin.prototype.getContentTinyMCE = function() {
 		var val = document.getElementById( 'content' ).value;
-		if ( typeof tinyMCE !== 'undefined' && tinyMCE.editors.length !== 0 ) {
+		if ( typeof tinyMCE !== 'undefined' && typeof tinyMCE.editors !== 'undefined' && tinyMCE.editors.length !== 0 ) {
 			val = tinyMCE.get( 'content' ).getContent();
 		}
 
