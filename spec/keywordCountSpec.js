@@ -51,7 +51,7 @@ keywordCountArgs4 = {
 };
 
 describe("a keyword with combined word", function(){
-	it("should resturn 1 keyword found in the text.", function(){
+	it("should return 1 keyword found in the text.", function(){
 		var textAnalyzer = Factory.buildAnalyzer(keywordCountArgs4);
 		var result = textAnalyzer.keywordCount();
 		expect(result).toBe(1);
@@ -64,7 +64,7 @@ keywordCountArgs5 = {
 };
 
 describe("a keyword with combined word", function(){
-	it("should resturn 1 keyword found in the text.", function(){
+	it("should return 1 keyword found in the text.", function(){
 		var textAnalyzer = Factory.buildAnalyzer(keywordCountArgs5);
 		var result = textAnalyzer.keywordCount();
 		expect(result).toBe(1);
@@ -77,7 +77,7 @@ keywordCountArgs6 = {
 };
 
 describe("a keyword with only digits", function(){
-	it("should resturn 1 keyword found in the text.", function(){
+	it("should return 1 keyword found in the text.", function(){
 		var textAnalyzer = Factory.buildAnalyzer(keywordCountArgs5);
 		var result = textAnalyzer.keywordCount();
 		expect(result).toBe(1);
