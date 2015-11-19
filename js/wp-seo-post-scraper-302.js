@@ -189,9 +189,10 @@
 	 * @returns {String}
 	 */
 	PostScraper.prototype.getContentTinyMCE = function() {
-		var val = document.getElementById( 'content' ).value;
-		if ( typeof tinyMCE !== 'undefined' && typeof tinyMCE.editors !== 'undefined' && tinyMCE.editors.length !== 0 && tinyMCE.get( 'content' ).hidden === false ) {
-			val = tinyMCE.get( 'content' ).getContent();
+		var val = document.getElementById( 'content' ) && document.getElementById( 'content' ).value || '';
+		var tinyMceContent = tinyMCE.get( 'content' );
+		if ( typeof tinyMCE !== 'undefined' && typeof tinyMCE.editors !== 'undefined' && tinyMCE.editors.length !== 0 && tinyMceContent && tinyMceContent.hidden === false ) {
+			val = tinyMceContent.getContent();
 		}
 		return val;
 	};
