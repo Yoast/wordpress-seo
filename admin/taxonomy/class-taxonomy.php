@@ -192,14 +192,14 @@ class WPSEO_Taxonomy {
 		$taxonomy = get_taxonomy( $term->taxonomy );
 		$options = WPSEO_Options::get_all();
 
-		$home_url = home_url( '/', null );
+		$base_url = home_url( '/', null );
 		if ( ! $options['stripcategorybase'] ) {
-			$home_url = trailingslashit( $home_url . $taxonomy->rewrite['slug'] );
+			$base_url = trailingslashit( $base_url . $taxonomy->rewrite['slug'] );
 		}
 
 		return array(
 			'translations'                  => $translations,
-			'home_url'                      => $home_url,
+			'base_url'                      => $base_url,
 			'taxonomy'                      => $term->taxonomy,
 			'keyword_usage'                 => WPSEO_Taxonomy_Meta::get_keyword_usage( $focuskw, $term->term_id, $term->taxonomy ),
 			// Todo: a column needs to be added on the termpages to add a filter for the keyword, so this can be used in the focus kw doubles.

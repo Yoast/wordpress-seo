@@ -216,7 +216,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'keyword_usage'     => $this->get_focus_keyword_usage(),
 			'search_url'        => admin_url( 'edit.php?seo_kw_filter={keyword}' ),
 			'post_edit_url'     => admin_url( 'post.php?post={id}&action=edit' ),
-			'home_url'          => home_url( '/', null ),
+			'base_url'          => home_url( '/', null ),
 			'title_template'    => WPSEO_Metabox::get_title_template( $post ),
 			'metadesc_template' => WPSEO_Metabox::get_metadesc_template( $post ),
 			'contentTab'    => __( 'Content:' , 'wordpress-seo' ),
