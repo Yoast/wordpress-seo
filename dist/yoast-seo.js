@@ -65,14 +65,14 @@ YoastSEO.Analyzer.prototype.formatKeyword = function() {
 		// Creates new regex from keyword with global and caseinsensitive option,
 
 		this.keywordRegex = new RegExp( "\\b" +
-			this.preProcessor.replaceDiacritics( keyword.replace( /[-_]/, " " ) ) + "\\b",
+			this.preProcessor.replaceDiacritics( keyword.replace( /[-_]/g, " " ) ) + "\\b",
 			"ig"
 		);
 
 		// Creates new regex from keyword with global and caseinsensitive option,
 		// replaces space with -. Used for URL matching
 		this.keywordRegexInverse = new RegExp( "\\b" +
-			this.preProcessor.replaceDiacritics( keyword.replace( " ", "-" ) ) + "\\b",
+			this.preProcessor.replaceDiacritics( keyword.replace( /\s/g, "-" ) ) + "\\b",
 			"ig"
 		);
 	}
@@ -2517,7 +2517,7 @@ YoastSEO.SnippetPreview.prototype.formatKeyword = function( textString ) {
  */
 YoastSEO.SnippetPreview.prototype.formatKeywordUrl = function( textString ) {
 	var keyword = this.refObj.stringHelper.sanitizeKeyword( this.refObj.rawData.keyword );
-	var dashedKeyword = keyword.replace( " ", "[-_]" );
+	var dashedKeyword = keyword.replace( /\s/g, "-" );
 
 	// Match keyword case-insensitively.
 	var keywordRegex = new RegExp( "\\b" + dashedKeyword + "\\b", "ig" );
@@ -4074,7 +4074,7 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
 					text: i18n.dgettext('js-text-analysis', "No focus keyword was set for this page. If you do not set a focus keyword, no score can be calculated.")
 				},
 				{
-					min: 10,
+					min: 11,
 					score: 0,
 					text: i18n.dgettext('js-text-analysis', "Your keyphrase is over 10 words, a keyphrase should be shorter.")
 				}
