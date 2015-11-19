@@ -190,9 +190,10 @@
 	 */
 	PostScraper.prototype.getContentTinyMCE = function() {
 		var val = document.getElementById( 'content' ) && document.getElementById( 'content' ).value || '';
-		var tinyMceContent = tinyMCE.get( 'content' );
-		if ( typeof tinyMCE !== 'undefined' && typeof tinyMCE.editors !== 'undefined' && tinyMCE.editors.length !== 0 && tinyMceContent && tinyMceContent.hidden === false ) {
-			val = tinyMceContent.getContent();
+		if ( typeof tinyMCE !== 'undefined' && typeof tinyMCE.editors !== 'undefined' && tinyMCE.editors.length !== 0) {
+			var tinyMceContent = tinyMCE.get( 'content' );
+			
+			val = tinyMceContent && tinyMceContent.hidden === false && tinyMceContent.getContent() || '';
 		}
 		return val;
 	};
