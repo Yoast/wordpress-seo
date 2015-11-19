@@ -314,7 +314,7 @@ YoastSEO.Analyzer.prototype.fleschReading = function() {
 				(
 					1.015 *
 						(
-							this.preProcessor.__store.wordcountNoTags /
+							this.preProcessor.__store.wordcountNoDigits /
 							this.preProcessor.__store.sentenceCountNoTags
 						)
 					) -
@@ -322,7 +322,7 @@ YoastSEO.Analyzer.prototype.fleschReading = function() {
 							84.6 *
 						(
 					this.preProcessor.__store.syllablecount /
-					this.preProcessor.__store.wordcountNoTags
+					this.preProcessor.__store.wordcountNoDigits
 				)
 			)
 		)
