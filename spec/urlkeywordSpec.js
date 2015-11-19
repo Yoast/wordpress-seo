@@ -103,3 +103,17 @@ describe("a test matching a keyword with multiple spaces", function(){
 	});
 });
 
+
+var urlArgs8 = {
+	keyword: "yoast seo 3",
+	url: "http://domain.com/yoast-seo-3"
+};
+
+describe("a test matching a keyword with one space and a number", function(){
+	it("returns a match for the keyword", function(){
+		var urlAnalyzer = Factory.buildAnalyzer(urlArgs8);
+		var result = urlAnalyzer.urlKeyword();
+		expect(result[0].result).toBe(1);
+	});
+});
+
