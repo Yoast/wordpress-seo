@@ -25,9 +25,6 @@ class WPSEO_Redirect_Settings_Hooks {
 
 		// Check if we need to save files after updating options.
 		add_action( 'update_option_wpseo_redirect', array( $this, 'save_redirect_files' ), 10, 2 );
-
-		// Catch option save.
-		add_action( 'admin_init', array( $this, 'catch_option_redirect_save' ) );
 	}
 
 	/**
@@ -52,18 +49,6 @@ class WPSEO_Redirect_Settings_Hooks {
 		if ( $this->remove_htaccess_entries( $disable_php_redirect, $separate_file ) ) {
 			// Remove the .htaccess redirect entries.
 			WPSEO_Redirect_Htaccess_Util::clear_htaccess_entries();
-		}
-	}
-
-	/**
-	 * Do custom action when the redirect option is saved
-	 */
-	public function catch_option_redirect_save() {
-		if ( current_user_can( 'manage_options' ) && filter_input( INPUT_POST, 'option_page' ) === 'yoast_wpseo_redirect_options' ) {
-			$wpseo_redirect  = filter_input( INPUT_POST, 'wpseo_redirect', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY );
-			$enable_autoload = empty( $wpseo_redirect['disable_php_redirect'] );
-
-			$this->redirect_manager->change_option_autoload( $enable_autoload );
 		}
 	}
 

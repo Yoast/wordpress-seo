@@ -93,24 +93,6 @@ class WPSEO_Redirect_Manager {
 	}
 
 	/**
-	 * Changing the autoload value for the option
-	 *
-	 * @param bool $autoload_value The autoload value (true or false).
-	 *
-	 * @return int
-	 */
-	public function change_option_autoload( $autoload_value ) {
-		// The autoload value base on given boolean.
-		$autoload = ( $autoload_value === false ) ? 'no' : 'yes';
-		$updated  = 0;
-
-		$updated += $this->redirect_option->change_autoload( $autoload, WPSEO_Redirect_Option::OPTION_PLAIN );
-		$updated += $this->redirect_option->change_autoload( $autoload, WPSEO_Redirect_Option::OPTION_REGEX );
-
-		return $updated;
-	}
-
-	/**
 	 * Create a new redirect
 	 *
 	 * @param WPSEO_Redirect $redirect The redirect object to add.

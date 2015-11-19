@@ -25,8 +25,6 @@ class WPSEO_Redirect_Manager_Test extends WPSEO_UnitTestCase {
 		$this->class_instance->create_redirect( new WPSEO_Redirect( 'old', 'new', 301 ) );
 		$this->class_instance->create_redirect( new WPSEO_Redirect( 'older', 'newer', 301 ) );
 		$this->class_instance->create_redirect( new WPSEO_Redirect( 'oldest', 'newest', 301 ) );
-
-		$this->class_instance->change_option_autoload( false );
 	}
 
 	/**
@@ -65,18 +63,6 @@ class WPSEO_Redirect_Manager_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( '/old',    $redirects[0]->get_origin() );
 		$this->assertEquals( '/older',  $redirects[1]->get_origin() );
 		$this->assertEquals( '/oldest', $redirects[2]->get_origin() );
-	}
-
-	/**
-	 * Test the changing of the autoload option
-	 *
-	 * @covers WPSEO_Redirect_Manager::change_option_autoload
-	 */
-	public function test_change_option_autoload() {
-		$this->assertEquals( 2, $this->class_instance->change_option_autoload( true ) );
-		$this->assertEquals( 0, $this->class_instance->change_option_autoload( true ) );
-		$this->assertEquals( 2, $this->class_instance->change_option_autoload( false ) );
-		$this->assertEquals( 0, $this->class_instance->change_option_autoload( false ) );
 	}
 
 	/**

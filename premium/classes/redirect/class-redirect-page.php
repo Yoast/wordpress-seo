@@ -105,10 +105,6 @@ class WPSEO_Redirect_Page {
 	 * Initialize admin hooks.
 	 */
 	private function initialize_admin() {
-
-		// Maybe the autoload for the option have to be changed.
-		$this->change_option_autoload();
-
 		$this->fetch_bulk_action();
 
 		// Setting the handling of the redirect option.
@@ -167,29 +163,6 @@ class WPSEO_Redirect_Page {
 		}
 
 		return $redirect_manager;
-	}
-
-	/**
-	 * Check if the autoload for the redirect option have to be reloaded
-	 *
-	 * @return bool
-	 */
-	private function change_option_autoload() {
-		// Check if WPSEO_DISABLE_PHP_REDIRECTS is defined.
-		if ( defined( 'WPSEO_DISABLE_PHP_REDIRECTS' ) && true === WPSEO_DISABLE_PHP_REDIRECTS ) {
-			$this->get_redirect_manager()->change_option_autoload( false );
-
-			return true;
-		}
-
-		$options = self::get_options();
-
-		// If the disable_php_redirect option is not enabled we should enable auto loading redirects.
-		if ( 'off' === $options['disable_php_redirect'] ) {
-			$this->get_redirect_manager()->change_option_autoload( true );
-		}
-
-		return true;
 	}
 
 	/**

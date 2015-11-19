@@ -26,10 +26,10 @@ class WPSEO_Redirect_Export_Option implements WPSEO_Redirect_Export {
 		}
 
 		// Save the plain redirects.
-		update_option( WPSEO_Redirect_Option::OPTION_PLAIN, $formatted_redirects[ WPSEO_Redirect::FORMAT_PLAIN ] );
+		update_option( WPSEO_Redirect_Option::OPTION_PLAIN, $formatted_redirects[ WPSEO_Redirect::FORMAT_PLAIN ], 'no' );
 
 		// Save the regex redirects.
-		update_option( WPSEO_Redirect_Option::OPTION_REGEX, $formatted_redirects[ WPSEO_Redirect::FORMAT_REGEX ] );
+		update_option( WPSEO_Redirect_Option::OPTION_REGEX, $formatted_redirects[ WPSEO_Redirect::FORMAT_REGEX ], 'no' );
 
 		return true;
 	}

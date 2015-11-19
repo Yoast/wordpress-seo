@@ -173,26 +173,6 @@ class WPSEO_Redirect_Option {
 
 		return $redirects;
 	}
-	/**
-	 * Change if the redirect option is autoloaded
-	 *
-	 * @param string $autoload    The autoload value, yes or no.
-	 * @param string $option_name The target option wherefore the autoload will be changed.
-	 *
-	 * @return int
-	 */
-	public function change_autoload( $autoload, $option_name ) {
-		global $wpdb;
-
-		// Do update query.
-		return (int) $wpdb->update(
-			$wpdb->options,
-			array( 'autoload' => $autoload ),
-			array( 'option_name' => $option_name ),
-			array( '%s' ),
-			array( '%s' )
-		);
-	}
 
 	/**
 	 * Maps the array values to a redirect object.
