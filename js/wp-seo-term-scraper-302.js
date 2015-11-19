@@ -1,8 +1,12 @@
-/* global YoastSEO, wp, wpseoTermScraperL10n, ajaxurl, tinyMCE, YoastReplaceVarPlugin */
+/* global YoastSEO, wp, wpseoTermScraperL10n, ajaxurl, tinyMCE, YoastReplaceVarPlugin, console */
 (function( $ ) {
 	'use strict';
 
-	var TermScraper = function() {};
+	var TermScraper = function() {
+		if ( typeof CKEDITOR === 'object' ) {
+			console.warn( 'YoastSEO currently doesn\'t support ckEditor. The content analysis currently only works with the HTML editor or TinyMCE.' );
+		}
+	};
 
 	/**
 	 * returns data fetched from inputfields.
@@ -74,7 +78,7 @@
 				val = document.getElementById( 'slug' ).value;
 				break;
 			case 'baseUrl':
-				val = wpseoTermScraperL10n.home_url;
+				val = wpseoTermScraperL10n.base_url;
 				break;
 
 			case 'cite':
@@ -94,7 +98,7 @@
 	 */
 	TermScraper.prototype.getContentTinyMCE = function() {
 		var val = document.getElementById( 'description' ).value;
-		if ( tinyMCE.editors.length !== 0 && tinyMCE.get( 'description' ).hidden === false ) {
+		if ( typeof tinyMCE !== 'undefined' && typeof tinyMCE.editors !== 'undefined' && tinyMCE.editors.length !== 0 && tinyMCE.get( 'description' ).hidden === false ) {
 			val = tinyMCE.get( 'description' ).getContent();
 		}
 		return val;
@@ -185,15 +189,16 @@
 				document.getElementById(elems[i]).addEventListener('input', app.analyzeTimer.bind(app));
 			}
 		}
-
-		//binds the input, change, cut and paste event to tinyMCE. All events are needed, because sometimes tinyMCE doesn'
-		//trigger them, or takes up to ten seconds to fire an event.
-		var events = [ 'input' , 'change', 'cut', 'paste' ];
-		tinyMCE.on( 'addEditor', function(e) {
-			for ( var i = 0; i < events.length; i++ ) {
-				e.editor.on( events[ i ], app.analyzeTimer.bind( app ) );
-			}
-		});
+		if( typeof tinyMCE !== 'undefined' && typeof tinyMCE.on === 'function' ) {
+			//binds the input, change, cut and paste event to tinyMCE. All events are needed, because sometimes tinyMCE doesn'
+			//trigger them, or takes up to ten seconds to fire an event.
+			var events = [ 'input', 'change', 'cut', 'paste' ];
+			tinyMCE.on( 'addEditor', function( e ) {
+				for (var i = 0; i < events.length; i++ ) {
+					e.editor.on( events[i], app.analyzeTimer.bind( app ) );
+				}
+			});
+		}
 	};
 
 	/**

@@ -2,9 +2,9 @@
 # This file is distributed under the GPL v3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Yoast SEO 3.0\n"
+"Project-Id-Version: Yoast SEO 3.0.2\n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo/issues\n"
-"POT-Creation-Date: 2015-11-18 09:40:53+00:00\n"
+"POT-Creation-Date: 2015-11-19 13:46:07+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -333,18 +333,18 @@ msgstr ""
 msgid "New Yoast SEO Title"
 msgstr ""
 
-#: admin/class-config.php:98 admin/metabox/class-metabox.php:732
+#: admin/class-config.php:102 admin/metabox/class-metabox.php:732
 #: admin/taxonomy/class-taxonomy.php:101
 msgid "Use Image"
 msgstr ""
 
 #. translators: %s: '%%term_title%%' variable used in titles and meta's
 #. template that's not compatible with the given template
-#: admin/class-config.php:112
+#: admin/class-config.php:116
 msgid "Warning: the variable %s cannot be used in this template."
 msgstr ""
 
-#: admin/class-config.php:112
+#: admin/class-config.php:116
 msgid "See the help tab for more info."
 msgstr ""
 
@@ -1007,16 +1007,16 @@ msgstr ""
 msgid "Current option:"
 msgstr ""
 
-#: admin/class-yoast-form.php:227
+#: admin/class-yoast-form.php:232
 msgid "Remove these ads?"
 msgstr ""
 
 #. translators: %1$s expands to Yoast SEO Premium
-#: admin/class-yoast-form.php:230
+#: admin/class-yoast-form.php:235
 msgid "Upgrade to %1$s &raquo;"
 msgstr ""
 
-#: admin/class-yoast-form.php:424
+#: admin/class-yoast-form.php:429
 #: admin/taxonomy/class-taxonomy-fields-presenter.php:88
 msgid "Upload Image"
 msgstr ""
@@ -1574,8 +1574,8 @@ msgstr ""
 msgid "Indexing powered by %1$sYoast%2$s and %3$sOnPage.org%2$s."
 msgstr ""
 
-#. translators: 1: expands to home_url(). 2: opens a link to a related
-#. knowledge base article. 3: closes the link
+#. translators: 1: expands to get_option( 'home' ). 2: opens a link to a
+#. related knowledge base article. 3: closes the link
 #: admin/onpage/class-onpage-email-presenter.php:72
 msgid ""
 "Yoast SEO has detected that %1$s can no longer be indexed. Please note that "
@@ -1583,13 +1583,13 @@ msgid ""
 "index your site. %2$sRead more about this error on our knowledge base%3$s."
 msgstr ""
 
-#. translators: 1: expands to home_url().
+#. translators: 1: expands to get_option( 'home' ).
 #: admin/onpage/class-onpage-email-presenter.php:79
 msgid "Yoast SEO has detected that %1$s can be indexed again."
 msgstr ""
 
-#. translators: 1: expands to home_url(). 2: opens a link to a related
-#. knowledge base article. 3: closes the link
+#. translators: 1: expands to get_option( 'home' ). 2: opens a link to a
+#. related knowledge base article. 3: closes the link
 #: admin/onpage/class-onpage-email-presenter.php:96
 msgid ""
 "Yoast SEO has detected that %1$s can not be indexed. Please note that this "
@@ -1597,27 +1597,27 @@ msgid ""
 "your site. %2$sRead more about this error on our knowledge base%3$s."
 msgstr ""
 
-#. translators: 1: expands to home_url().
+#. translators: 1: expands to get_option( 'home' ).
 #: admin/onpage/class-onpage-email-presenter.php:103
 msgid "Yoast SEO has detected that %1$s can be indexed."
 msgstr ""
 
-#. translators: 1: expands to home_url().
+#. translators: 1: expands to get_option( 'home' ).
 #: admin/onpage/class-onpage-email-presenter.php:120
 msgid "Yoast SEO alert: Search engines can no longer index %1$s!"
 msgstr ""
 
-#. translators: 1: expands to home_url().
+#. translators: 1: expands to get_option( 'home' ).
 #: admin/onpage/class-onpage-email-presenter.php:125
 msgid "Yoast SEO alert fixed: Search engines can index %1$s again."
 msgstr ""
 
-#. translators: 1: expands to home_url().
+#. translators: 1: expands to get_option( 'home' ).
 #: admin/onpage/class-onpage-email-presenter.php:142
 msgid "Yoast SEO alert: Search engines cannot index %1$s!"
 msgstr ""
 
-#. translators: 1: expands to home_url().
+#. translators: 1: expands to get_option( 'home' ).
 #: admin/onpage/class-onpage-email-presenter.php:147
 msgid "Yoast SEO alert fixed: Search engines can index %1$s."
 msgstr ""
@@ -1628,7 +1628,7 @@ msgstr ""
 
 #. translators: 1: opens a link to a related knowledge base article. 2: closes
 #. the link
-#: admin/onpage/class-onpage.php:97 admin/views/dashboard-widget.php:66
+#: admin/onpage/class-onpage.php:97 admin/views/dashboard-widget.php:65
 msgid ""
 "%1$sYour homepage cannot be indexed by search engines%2$s. This is very bad "
 "for SEO and should be fixed."
@@ -2582,74 +2582,60 @@ msgstr ""
 msgid "Thank you for updating %1$s!"
 msgstr ""
 
-#. translators: %s: '2.3' version number
-#: admin/views/about.php:43
+#. translators: %s: '3.0' version number
+#: admin/views/about.php:46
 msgid "What’s new in %s"
 msgstr ""
 
-#: admin/views/about.php:46
+#: admin/views/about.php:49
 msgid "Credits"
 msgstr ""
 
-#: admin/views/about.php:159
-msgid "More Translations"
-msgstr ""
-
-#. translators: %1$s expands to Yoast SEO, %2$s and %3$s to the anchor tags to
-#. the translate.yoast.com link, %4$d to the number of translations, %5$d to
-#. the number of translations,
-#: admin/views/about.php:164
-msgid ""
-"%1$s ships, at time of release, with %4$d translations, of which %5$d are "
-"complete. That's a huge improvement from last time, and we're improving "
-"every week. Join us at %2$stranslate.yoast.com%3$s!"
-msgstr ""
-
-#: admin/views/about.php:172
-msgid "Go to The General settings page →"
+#: admin/views/about.php:116
+msgid "Go to the General settings page →"
 msgstr ""
 
 #. translators: %1$s and %2$s expands to anchor tags, %3$s expands to Yoast SEO
-#: admin/views/about.php:181
+#: admin/views/about.php:126
 msgid ""
 "While most of the development team is at %1$sYoast%2$s in the Netherlands, "
 "%3$s is created by a worldwide team."
 msgstr ""
 
-#: admin/views/about.php:183
+#: admin/views/about.php:128
 msgid "Want to help us develop? Read our %1$scontribution guidelines%2$s!"
 msgstr ""
 
-#: admin/views/about.php:187
+#: admin/views/about.php:132
 msgid "Project Leaders"
 msgstr ""
 
-#: admin/views/about.php:193
+#: admin/views/about.php:138
 msgid "Project Lead"
 msgstr ""
 
-#: admin/views/about.php:198 admin/views/about.php:203
-msgid "Lead Developer"
+#: admin/views/about.php:143
+msgid "Lead Architect"
 msgstr ""
 
-#: admin/views/about.php:208
+#: admin/views/about.php:148
+msgid "Architect"
+msgstr ""
+
+#: admin/views/about.php:153
 msgid "QA & Translations Manager"
 msgstr ""
 
-#: admin/views/about.php:216
-msgid "Recent Rockstars"
-msgstr ""
-
-#: admin/views/about.php:245
+#: admin/views/about.php:161
 msgid "Contributing Developers"
 msgstr ""
 
-#: admin/views/about.php:251 admin/views/about.php:256
-#: admin/views/about.php:261
+#: admin/views/about.php:167 admin/views/about.php:172
+#: admin/views/about.php:177 admin/views/about.php:187
 msgid "Developer"
 msgstr ""
 
-#: admin/views/about.php:269
+#: admin/views/about.php:211
 msgid "Contributors to this release"
 msgstr ""
 
@@ -2670,17 +2656,25 @@ msgstr ""
 
 #. translators: 1: opens a link to a related knowledge base article. 2: closes
 #. the link
-#: admin/views/dashboard-widget.php:75
+#: admin/views/dashboard-widget.php:74
 msgid ""
 "Yoast SEO has %1$snot been able to fetch your site’s indexability status%2$s "
 "from OnPage.org"
 msgstr ""
 
-#: admin/views/dashboard-widget.php:85
+#. translators: 1: opens a link to a related knowledge base article. 2: closes
+#. the link
+#: admin/views/dashboard-widget.php:83
+msgid ""
+"Yoast SEO has %1$snot fetched your site’s indexability status%2$s yet from "
+"OnPage.org"
+msgstr ""
+
+#: admin/views/dashboard-widget.php:93
 msgid "Fetch the current status"
 msgstr ""
 
-#: admin/views/dashboard-widget.php:89
+#: admin/views/dashboard-widget.php:97
 msgid "Analyze entire site"
 msgstr ""
 
