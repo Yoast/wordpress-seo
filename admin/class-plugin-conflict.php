@@ -98,7 +98,7 @@ class WPSEO_Plugin_Conflict extends Yoast_Plugin_Conflict {
 	/**
 	 * Overrides instance to set with this class as class
 	 *
-	 * @param string $class_name
+	 * @param string $class_name Optional class name.
 	 *
 	 * @return Yoast_Plugin_Conflict
 	 */
@@ -111,14 +111,14 @@ class WPSEO_Plugin_Conflict extends Yoast_Plugin_Conflict {
 	 *
 	 * If the activated plugin is conflicting with ours a notice will be shown.
 	 *
-	 * @param string|bool $plugin
+	 * @param string|bool $plugin Optional plugin basename to check.
 	 */
 	public static function hook_check_for_plugin_conflicts( $plugin = false ) {
 		// The instance of itself.
 		$instance = self::get_instance();
 
 		// Only add plugin as active plugin if $plugin isn't false.
-		if ( $plugin ) {
+		if ( $plugin && is_string( $plugin ) ) {
 			// Because it's just activated.
 			$instance->add_active_plugin( $instance->find_plugin_category( $plugin ), $plugin );
 		}
@@ -142,5 +142,4 @@ class WPSEO_Plugin_Conflict extends Yoast_Plugin_Conflict {
 
 		$instance->check_plugin_conflicts( $plugin_sections );
 	}
-
 }

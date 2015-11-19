@@ -6,7 +6,8 @@ module.exports = {
 	plugin: {
 		files: {
 			src: [
-				'<%= files.js %>'
+				'<%= files.js %>',
+				'!assets/js/yoast-seo-helpscout-beacon.js'
 			]
 		}
 	},

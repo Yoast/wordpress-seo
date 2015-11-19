@@ -11,7 +11,7 @@ class WPSEO_Upgrade_Manager {
 	/**
 	 * Check if there's a plugin update
 	 *
-	 * @param string $version_number The version number of Premium.
+	 * @param string $version_number The version number that will be compared.
 	 */
 	public function check_update( $version_number ) {
 
@@ -26,12 +26,6 @@ class WPSEO_Upgrade_Manager {
 
 			// Update version code.
 			$this->update_current_version_code();
-
-		}
-
-		if ( version_compare( $version_number, '2.3', '<' ) ) {
-			add_action( 'wp', array( $this, 'import_redirects_2_3' ), 11 );
-			add_action( 'admin_head', array( $this, 'import_redirects_2_3' ), 11 );
 		}
 
 		if ( version_compare( $version_number, '3.1', '<' ) ) {
@@ -43,7 +37,7 @@ class WPSEO_Upgrade_Manager {
 	/**
 	 * An update is required, do it
 	 *
-	 * @param string $current_version The current version of Premium.
+	 * @param string $current_version The current version number of the installation.
 	 */
 	private function do_update( $current_version ) {
 		// < 1.0.4.
@@ -82,29 +76,5 @@ class WPSEO_Upgrade_Manager {
 	 */
 	private function update_current_version_code() {
 		update_site_option( WPSEO_Premium::OPTION_CURRENT_VERSION, WPSEO_Premium::PLUGIN_VERSION_CODE );
-	}
-
-	/**
-	 * Check if redirects should be imported from the free version
-	 *
-	 * @since 2.3
-	 */
-	public function import_redirects_2_3() {
-		$wp_query  = new WP_Query( 'post_type=any&meta_key=_yoast_wpseo_redirect&order=ASC' );
-
-		if ( ! empty( $wp_query->posts ) ) {
-			$redirect_manager = new WPSEO_Redirect_URL_Manager();
-
-			foreach ( $wp_query->posts as $post ) {
-				$old_url = '/' . $post->post_name . '/';
-				$new_url = get_post_meta( $post->ID, '_yoast_wpseo_redirect', true );
-
-				// Create redirect.
-				$redirect_manager->create_redirect( $old_url, $new_url, 301 );
-
-				// Remove post meta value.
-				delete_post_meta( $post->ID, '_yoast_wpseo_redirect' );
-			}
-		}
 	}
 }

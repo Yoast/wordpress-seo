@@ -42,8 +42,13 @@ class WPSEO_GSC {
 	 * Constructor for the page class. This will initialize all GSC related stuff
 	 */
 	public function __construct() {
-		// Settings.
-		add_action( 'admin_init', array( $this, 'register_settings' ) );
+		add_action( 'init', array( $this, 'init' ) );
+	}
+
+	/**
+	 * Run init logic.
+	 */
+	public function init() {
 
 		// Setting the screen option.
 		if ( filter_input( INPUT_GET, 'page' ) === 'wpseo_search_console' ) {
@@ -57,9 +62,11 @@ class WPSEO_GSC {
 			$this->set_dependencies();
 			$this->request_handler();
 		}
-		elseif ( current_user_can( 'manage_options' ) && WPSEO_GSC_Settings::get_profile() === '' && get_user_option( 'wpseo_dismissed_gsc_notice', get_current_user_id() ) !== '1' ) {
+		elseif ( WPSEO_Utils::is_yoast_seo_page() && current_user_can( 'manage_options' ) && WPSEO_GSC_Settings::get_profile() === '' && get_user_option( 'wpseo_dismissed_gsc_notice', get_current_user_id() ) !== '1' ) {
 			add_action( 'admin_init', array( $this, 'register_gsc_notification' ) );
 		}
+
+		add_action( 'admin_init', array( $this, 'register_settings' ) );
 	}
 
 	/**
@@ -69,7 +76,7 @@ class WPSEO_GSC {
 		Yoast_Notification_Center::get()->add_notification(
 			new Yoast_Notification(
 				sprintf(
-					__( 'Don\'t miss your crawl errors: connect with Google Search Console %1$shere%2$s.', 'wordpress-seo' ),
+					__( 'Don\'t miss your crawl errors: %1$sconnect with Google Search Console here%2$s.', 'wordpress-seo' ),
 					'<a href="' . admin_url( 'admin.php?page=wpseo_search_console&tab=settings' ) . '">',
 					'</a>'
 				),
@@ -124,16 +131,16 @@ class WPSEO_GSC {
 		) );
 
 		wp_enqueue_style( 'jquery-qtip.js', plugins_url( 'css/jquery.qtip' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
-		wp_enqueue_style( 'metabox-tabs', plugins_url( 'css/metabox-tabs' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
+		wp_enqueue_style( 'metabox', plugins_url( 'css/metabox' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
 		wp_enqueue_script( 'jquery-qtip', plugins_url( 'js/jquery.qtip.min.js', WPSEO_FILE ), array( 'jquery' ), WPSEO_VERSION, true );
 	}
 
 	/**
 	 * Set the screen options
 	 *
-	 * @param string $status
-	 * @param string $option
-	 * @param string $value
+	 * @param string $status Status string.
+	 * @param string $option Option key.
+	 * @param string $value  Value to return.
 	 *
 	 * @return mixed
 	 */
@@ -196,8 +203,8 @@ class WPSEO_GSC {
 	 * Catch the redirects search post and redirect it to a search get
 	 */
 	private function list_table_search_post_to_get() {
-		if ( $search_string = filter_input( INPUT_POST, 's' ) ) {
-			$url = add_query_arg( 's', $search_string );
+		if ( ( $search_string = filter_input( INPUT_POST, 's' ) ) !== null ) {
+			$url = ( $search_string !== '' ) ? add_query_arg( 's', $search_string ) : remove_query_arg( 's' );
 
 			// Do the redirect.
 			wp_redirect( $url );
@@ -225,8 +232,8 @@ class WPSEO_GSC {
 	/**
 	 * Adding notification to the yoast notification center
 	 *
-	 * @param string $message
-	 * @param string $type
+	 * @param string $message Message string.
+	 * @param string $type    Message type.
 	 */
 	private function add_notification( $message, $type ) {
 		Yoast_Notification_Center::get()->add_notification(
@@ -246,6 +253,7 @@ class WPSEO_GSC {
 
 		// Loading the issue counter.
 		$issue_count           = new WPSEO_GSC_Count( $this->service );
+		$issue_count->fetch_counts();
 
 		// Loading the category filters.
 		$this->category_filter = new WPSEO_GSC_Category_Filters( $issue_count->get_platform_counts( $this->platform ) );
@@ -276,5 +284,4 @@ class WPSEO_GSC {
 			)
 		);
 	}
-
 }
