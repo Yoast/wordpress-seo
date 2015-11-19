@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: seo, SEO, Yoast SEO, google, meta, meta description, search engine optimization, xml sitemap, xml sitemaps, google sitemap, sitemap, sitemaps, robots meta, rss, rss footer, yahoo, bing, news sitemaps, XML News Sitemaps, WordPress SEO, WordPress SEO by Yoast, yoast, multisite, canonical, nofollow, noindex, keywords, meta keywords, description, webmaster tools, google webmaster tools, seo pack
 Requires at least: 4.0
 Tested up to: 4.4
-Stable tag: 3.0.1
+Stable tag: 3.0.2
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using Yoast SEO plugin.
 
@@ -119,6 +119,23 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 7. The advanced section of the Yoast SEO meta box.
 
 == Changelog ==
+
+= 3.0.2 =
+
+Release Date: November 18th, 2015
+
+* Bugfixes:
+	* Fixes a bug where disabling the visual editor caused our content analysis to break.
+	* Fixes a bug where the content analysis would break on installs that replace tinyMCE with ckEditor. Currently only supports the html editor.
+	* Fixes a bug where slug changes were not properly synchronized in the snippet preview.
+	* Fixes a bug where long slugs could be broken by wrongful synchronization with the snippet preview.
+	* Fixes a bug where digits were not analyzed well in the content, causing focus keywords or keyphrases with digits to no longer be matched.
+	* Fixes a bug where the url in the snippet preview was not in line with permalink settings. Fixed for permalinks containing the post name.
+	* Fixes a bug where focus keyphrases of more than two words would not be recognized properly in the content.
+	* Fixes a bug where the translation files were corrupted causing the translations to no longer work.
+
+* Enhancements:
+	* Fixes caching problems. We've versioned file names for assets that have changed to circumvent caching strategies that consider preventing regular cache busting a good idea...
 
 = 3.0.1 =
 
