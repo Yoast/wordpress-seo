@@ -1,9 +1,9 @@
-/* global YoastSEO, wp, wpseoTermScraperL10n, ajaxurl, tinyMCE, YoastReplaceVarPlugin */
+/* global YoastSEO, wp, wpseoTermScraperL10n, ajaxurl, tinyMCE, YoastReplaceVarPlugin, console */
 (function( $ ) {
 	'use strict';
 
 	if ( typeof ckeditorOn === 'function' ){
-		console.warn( 'YoastSEO currently doesn\'t support ckEditor' );
+		console.warn( 'YoastSEO currently doesn\'t support ckEditor. The content analysis might not function optimally.' );
 	}
 
 	var TermScraper = function() {};

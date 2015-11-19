@@ -1,9 +1,9 @@
-/* global YoastSEO, tinyMCE, wp, ajaxurl, wpseoPostScraperL10n, YoastShortcodePlugin, YoastReplaceVarPlugin */
+/* global YoastSEO, tinyMCE, wp, ajaxurl, wpseoPostScraperL10n, YoastShortcodePlugin, YoastReplaceVarPlugin, console */
 (function( $ ) {
 	'use strict';
 
 	if ( typeof ckeditorOn === 'function' ){
-		console.warn( 'YoastSEO currently doesn\'t support ckEditor' );
+		console.warn( 'YoastSEO currently doesn\'t support ckEditor. The content analysis might not function optimally.' );
 	}
 
 	var currentKeyword = '';
