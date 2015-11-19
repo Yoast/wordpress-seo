@@ -121,9 +121,9 @@
 				if ( elem !== null ) {
 					val = elem.textContent;
 				}
-				if ( val === '' ){
+				if ( val === '' ) {
 					elem = document.getElementById( 'new-post-slug' );
-					if ( elem !== null ){
+					if ( elem !== null ) {
 						val = elem.value;
 					}
 				}
