@@ -2,7 +2,7 @@
 (function( $ ) {
 	'use strict';
 
-	if ( typeof ckeditorOn === 'function' ){
+	if ( typeof ckeditorOn === 'function' ) {
 		console.warn( 'YoastSEO currently doesn\'t support ckEditor. The content analysis might not function optimally.' );
 	}
 
