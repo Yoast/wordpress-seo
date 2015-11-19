@@ -35,11 +35,11 @@ class WPSEO_Redirect_Export_Apache extends WPSEO_Redirect_Export_File {
 	 */
 	public function format( WPSEO_Redirect $redirect ) {
 		if ( $redirect->get_format() === WPSEO_Redirect::FORMAT_PLAIN ) {
-			$redirect = new WPSEO_Redirect(
+			return sprintf(
+				$this->get_format( $redirect->get_format() ),
 				$this->add_url_slash( $redirect->get_origin() ),
 				$this->add_url_slash( $redirect->get_target() ),
-				$redirect->get_type(),
-				$redirect->get_format()
+				$redirect->get_type()
 			);
 		}
 
