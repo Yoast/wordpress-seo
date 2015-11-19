@@ -58,11 +58,11 @@ class WPSEO_Redirect implements ArrayAccess {
 			throw new InvalidArgumentException( 'Target cannot be empty for a ' . $type . ' redirect.' );
 		}
 
-		$this->origin = ($origin !== '') ? self::format_origin( $origin, $format ) : '';
-		$this->target = self::format_target( $target );
-
-		$this->type   = $type;
+		$this->origin = ($format === WPSEO_Redirect::FORMAT_PLAIN) ? $this->sanitize_slash( $origin ) : $origin;
+		$this->target = $this->sanitize_slash( $target );
 		$this->format = $format;
+		$this->type   = $type;
+
 	}
 
 	/**
@@ -220,7 +220,7 @@ class WPSEO_Redirect implements ArrayAccess {
 	 */
 	private function sanitize_slash( $url_to_sanitize ) {
 		$url = $url_to_sanitize;
-		if ( $this->format === WPSEO_Redirect::FORMAT_PLAIN ) {
+		if ( $url !== '/' ) {
 			$url = trim( $url_to_sanitize, '/' );
 		}
 
