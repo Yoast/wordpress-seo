@@ -45,11 +45,8 @@
 		if ( slugElem !== null ) {
 			this.bindSlugEditor();
 
-			// If the '#post_name' input field has not been set yet, we need to set it here with the textContent of the slugElem.
-			// God knows why WordPress doesn't do this initially...
-			if ( postNameElem.value === '' ) {
-				postNameElem.value = slugElem.textContent;
-			}
+			// Always set the post name element.
+			postNameElem.value = document.getElementById('editable-post-name-full').textContent;
 
 			YoastSEO.app.snippetPreview.unformattedText.snippet_cite = document.getElementById('editable-post-name-full').textContent;
 			YoastSEO.app.refresh();
@@ -108,8 +105,8 @@
 				val = this.getContentTinyMCE();
 				break;
 			case 'url':
-				if ( document.getElementById( 'sample-permalink' ) !== null ) {
-					val = document.getElementById( 'sample-permalink' ).textContent;
+				if ( document.getElementById( 'editable-post-name-full' ) !== null ) {
+					val = document.getElementById( 'editable-post-name-full' ).textContent;
 				}
 				break;
 			case 'baseUrl':
@@ -178,6 +175,7 @@
 				document.getElementById( 'yoast_wpseo_metadesc' ).value = value;
 				break;
 			case 'snippet_cite':
+				document.getElementById( 'post_name' ).value = value;
 				if ( document.getElementById( 'editable-post-name' ) !== null ) {
 					document.getElementById( 'editable-post-name' ).textContent = value;
 					document.getElementById( 'editable-post-name-full' ).textContent = value;
