@@ -49,13 +49,10 @@
 		if ( slugElem !== null ) {
 			this.bindSlugEditor();
 
-			// If the '#post_name' input field has not been set yet, we need to set it here with the textContent of the slugElem.
-			// God knows why WordPress doesn't do this initially...
-			if ( postNameElem.value === '' ) {
-				postNameElem.value = slugElem.textContent;
-			}
+			// Always set the post name element.
+			postNameElem.value = document.getElementById('editable-post-name-full').textContent;
 
-			YoastSEO.app.snippetPreview.unformattedText.snippet_cite = postNameElem.value;
+			YoastSEO.app.snippetPreview.unformattedText.snippet_cite = document.getElementById('editable-post-name-full').textContent;
 			YoastSEO.app.refresh();
 		} else if ( time < 5000 ) {
 			time += 200;
@@ -68,12 +65,10 @@
 	 * bind an event within the scope of a clickevent of the edit button.
 	 */
 	PostScraper.prototype.bindSlugEditor = function() {
-		jQuery( '#edit-slug-box' ).on( 'click', '.edit-slug', function() {
-			jQuery( '#edit-slug-buttons > button.save' ).on( 'click', function() {
-				YoastSEO.app.refresh();
-				YoastSEO.app.snippetPreview.unformattedText.snippet_cite = document.getElementById('post_name').value;
-			} );
-		} );
+		$( '#titlediv' ).on( 'change', '#new-post-slug', function() {
+			YoastSEO.app.snippetPreview.unformattedText.snippet_cite = $( '#new-post-slug' ).val();
+			YoastSEO.app.refresh();
+		});
 	};
 
 	/**
@@ -105,23 +100,24 @@
 	 * @returns {String}
 	 */
 	PostScraper.prototype.getDataFromInput = function( inputType ) {
-		var val = '';
+		var newPostSlug, val = '';
 		switch ( inputType ) {
 			case 'text':
 			case 'content':
 				val = this.getContentTinyMCE();
 				break;
+			case 'cite':
 			case 'url':
-				if ( document.getElementById( 'sample-permalink' ) !== null ) {
-					val = document.getElementById( 'sample-permalink' ).textContent;
+				newPostSlug = $( '#new-post-slug' );
+				if ( 0 < newPostSlug.length ) {
+					val = newPostSlug.val();
+				}
+				else if ( document.getElementById( 'editable-post-name-full' ) !== null ) {
+					val = document.getElementById( 'editable-post-name-full' ).textContent;
 				}
 				break;
 			case 'baseUrl':
 				val = wpseoPostScraperL10n.home_url;
-				break;
-			case 'cite':
-			case 'post_name':
-				val = document.getElementById( 'post_name' ).value;
 				break;
 			case 'meta':
 				val = document.getElementById( 'yoast_wpseo_metadesc' ).value;
