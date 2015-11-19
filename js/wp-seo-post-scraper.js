@@ -121,8 +121,8 @@
 				if ( elem !== null ) {
 					val = elem.textContent;
 				}
-				if ( val === "" ){
-					var elem = document.getElementById( 'new-post-slug' );
+				if ( val === '' ){
+					elem = document.getElementById( 'new-post-slug' );
 					if ( elem !== null ){
 						val = elem.value;
 					}
