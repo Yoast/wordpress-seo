@@ -78,7 +78,7 @@
 				val = document.getElementById( 'slug' ).value;
 				break;
 			case 'baseUrl':
-				val = wpseoTermScraperL10n.home_url;
+				val = wpseoTermScraperL10n.base_url;
 				break;
 
 			case 'cite':

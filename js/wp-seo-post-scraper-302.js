@@ -117,7 +117,7 @@
 				}
 				break;
 			case 'baseUrl':
-				val = wpseoPostScraperL10n.home_url;
+				val = wpseoPostScraperL10n.base_url;
 				break;
 			case 'meta':
 				val = document.getElementById( 'yoast_wpseo_metadesc' ).value;
