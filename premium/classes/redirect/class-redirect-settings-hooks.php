@@ -11,18 +11,9 @@
 class WPSEO_Redirect_Settings_Hooks {
 
 	/**
-	 * @var WPSEO_Redirect_Manager
-	 */
-	private $redirect_manager;
-
-	/**
 	 * Constructing this object
-	 *
-	 * @param WPSEO_Redirect_Manager $redirect_manager Current active redirect manager.
 	 */
-	public function __construct( WPSEO_Redirect_Manager $redirect_manager ) {
-		$this->redirect_manager = $redirect_manager;
-
+	public function __construct() {
 		// Check if we need to save files after updating options.
 		add_action( 'update_option_wpseo_redirect', array( $this, 'save_redirect_files' ), 10, 2 );
 	}
@@ -42,7 +33,8 @@ class WPSEO_Redirect_Settings_Hooks {
 		if ( $disable_php_redirect ) {
 			// The 'disable_php_redirect' option is set to true(on) so we need to generate a file.
 			// The Redirect Manager will figure out what file needs to be created.
-			$this->redirect_manager->export_redirects();
+			$redirect_manager = new WPSEO_Redirect_Manager();
+			$redirect_manager->export_redirects();
 		}
 
 		// Check if we need to remove the .htaccess redirect entries.

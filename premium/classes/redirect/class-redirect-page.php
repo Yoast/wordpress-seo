@@ -108,7 +108,7 @@ class WPSEO_Redirect_Page {
 		$this->fetch_bulk_action();
 
 		// Setting the handling of the redirect option.
-		new WPSEO_Redirect_Settings_Hooks( $this->get_redirect_manager() );
+		new WPSEO_Redirect_Settings_Hooks();
 
 		// Convert post into get on search and loading the page scripts.
 		if ( filter_input( INPUT_GET, 'page' ) === 'wpseo_redirects' ) {
