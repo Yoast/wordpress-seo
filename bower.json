@@ -15,11 +15,13 @@
       "png": "css/dist"
     },
     "sources": {
-      "yoast-seo": [
-        "bower_components/yoast-seo/dist/yoast-seo.min.css",
-        "bower_components/yoast-seo/dist/images/editicon.png",
-        "bower_components/yoast-seo/dist/yoast-seo.min.js"
-      ]
+      "yoast-seo": {
+        "mapping": [
+          {"bower_components/yoast-seo/dist/yoast-seo.min.css": "yoast-seo-302.min.css"},
+          {"bower_components/yoast-seo/dist/images/editicon.png": "editicon.png"},
+          {"bower_components/yoast-seo/dist/yoast-seo.min.js": "yoast-seo-302.min.js"}
+        ]
+      }
     }
   },
   "description": "Yoast SEO for WordPress",
