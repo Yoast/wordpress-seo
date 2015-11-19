@@ -45,17 +45,23 @@ YoastSEO.PreProcessor.prototype.textFormat = function() {
 YoastSEO.PreProcessor.prototype.countStore = function() {
 
 	/*wordcounters*/
-	var wordcountString = this.stringHelper.stripNumbers( this.__store.cleanText );
+	var wordcountString = this.__store.cleanText;
 
 	this.__store.wordcount = wordcountString === "" ?
 		0 :
 		wordcountString.split( /\s/g ).length;
 
-	var wordcountStringNoTags = this.stringHelper.stripNumbers( this.__store.cleanTextNoTags );
+	var wordcountStringNoTags = this.__store.cleanTextNoTags;
 
 	this.__store.wordcountNoTags = wordcountStringNoTags === "" ?
 		0 :
 		wordcountStringNoTags.split( /\s/g ).length;
+
+	var wordcountStringNoDigits = this.__store.cleanTextNoDigits;
+
+	this.__store.wordcountNoDigits = wordcountStringNoDigits === "" ?
+		0 :
+		wordcountStringNoDigits.split ( /\s/g ).length;
 
 	/*sentencecounters*/
 	this.__store.sentenceCountNoTags = this.sentenceCount( this.__store.cleanTextNoDigits );

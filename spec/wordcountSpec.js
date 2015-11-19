@@ -15,14 +15,14 @@ wordcountArgs = {
 describe("Test wordcount with digits", function(){
 	it("returns wordcount - double digits", function(){
 		preProcessor = new YoastSEO.PreProcessor(wordcountArgs.testString);
-		expect(preProcessor.__store.wordcount).toBe(3);
+		expect(preProcessor.__store.wordcount).toBe(4);
 	});
 	it("returns wordcount - single digit", function(){
 		preProcessor = new YoastSEO.PreProcessor(wordcountArgs.testString2);
-		expect(preProcessor.__store.wordcount).toBe(3);
+		expect(preProcessor.__store.wordcount).toBe(5);
 	});
 	it("returns wordcount - only digit", function(){
 		preProcessor = new YoastSEO.PreProcessor(wordcountArgs.testString3);
-		expect(preProcessor.__store.wordcount).toBe(0);
+		expect(preProcessor.__store.wordcount).toBe(1);
 	});
 });
