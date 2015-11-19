@@ -1,4 +1,4 @@
-/* global YoastSEO, tinyMCE, wp, ajaxurl, wpseoPostScraperL10n, YoastShortcodePlugin, YoastReplaceVarPlugin */
+/* global YoastSEO, tinyMCE, wp, ajaxurl, wpseoPostScraperL10n, YoastShortcodePlugin, YoastReplaceVarPlugin, console */
 (function( $ ) {
 	'use strict';
 
@@ -9,6 +9,10 @@
 	 * @constructor
 	 */
 	var PostScraper = function() {
+		if ( typeof CKEDITOR === 'object' ) {
+			console.warn( 'YoastSEO currently doesn\'t support ckEditor. The content analysis currently only works with the HTML editor or TinyMCE.' );
+		}
+
 		this.prepareSlugBinding();
 	};
 
@@ -190,7 +194,7 @@
 	 */
 	PostScraper.prototype.getContentTinyMCE = function() {
 		var val = document.getElementById( 'content' ).value;
-		if ( typeof tinyMCE !== 'undefined' && tinyMCE.editors.length !== 0 && tinyMCE.get( 'content' ).hidden === false ) {
+		if ( typeof tinyMCE !== 'undefined' && typeof tinyMCE.editors !== 'undefined' && tinyMCE.editors.length !== 0 && tinyMCE.get( 'content' ).hidden === false ) {
 			val = tinyMCE.get( 'content' ).getContent();
 		}
 		return val;
@@ -262,7 +266,7 @@
 			}
 		}
 
-		if( typeof tinyMCE !== 'undefined' ) {
+		if( typeof tinyMCE !== 'undefined' && typeof tinyMCE.on === 'function' ) {
 			//binds the input, change, cut and paste event to tinyMCE. All events are needed, because sometimes tinyMCE doesn'
 			//trigger them, or takes up to ten seconds to fire an event.
 			var events = [ 'input', 'change', 'cut', 'paste' ];
