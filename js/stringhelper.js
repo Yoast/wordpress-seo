@@ -148,7 +148,7 @@ YoastSEO.StringHelper.prototype.stripNumbers = function( textString ) {
  * @returns {string} The sanitized keyword.
  */
 YoastSEO.StringHelper.prototype.sanitizeKeyword = function( keyword ) {
-	keyword = keyword.replace( /[\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "" );
+	keyword = keyword.replace( /[\[\]\/\{\}\(\)\*\+\?\\\^\$\|]/g, "" );
 
 	keyword = this.stripAllTags( keyword );
 
