@@ -50,3 +50,56 @@ describe("a test matching the keywords in the url", function(){
         expect(result[0].result).toBe(0);
     });
 });
+
+var urlArgs4 = {
+	keyword: "one two three",
+	url: "http://domain.tld/one-two-three"
+};
+
+describe("a test matching a keyword with multiple spaces", function(){
+	it("returns a match for the keyword", function(){
+		var urlAnalyzer = Factory.buildAnalyzer(urlArgs4);
+		var result = urlAnalyzer.urlKeyword();
+		expect(result[0].result).toBe(1);
+	});
+});
+
+var urlArgs5 = {
+	keyword: "one-two-three",
+	url: "http://domain.com/one-two-three"
+};
+
+describe("a test matching a keyword with multiple hyphens", function(){
+	it("returns a match for the keyword", function(){
+		var urlAnalyzer = Factory.buildAnalyzer(urlArgs5);
+		var result = urlAnalyzer.urlKeyword();
+		expect(result[0].result).toBe(1);
+	});
+});
+
+var urlArgs6 = {
+	keyword: "one-two-three-four-five",
+	url: "http://domain.com/one-two-three-four-five"
+};
+
+describe("a test matching a keyword with multiple hyphens", function(){
+	it("returns a match for the keyword", function(){
+		var urlAnalyzer = Factory.buildAnalyzer(urlArgs6);
+		var result = urlAnalyzer.urlKeyword();
+		expect(result[0].result).toBe(1);
+	});
+});
+
+var urlArgs7 = {
+	keyword: "one two three four five",
+	url: "http://domain.com/one-two-three-four-five"
+};
+
+describe("a test matching a keyword with multiple spaces", function(){
+	it("returns a match for the keyword", function(){
+		var urlAnalyzer = Factory.buildAnalyzer(urlArgs7);
+		var result = urlAnalyzer.urlKeyword();
+		expect(result[0].result).toBe(1);
+	});
+});
+
