@@ -139,7 +139,12 @@ class WPSEO_Redirect_Page {
 		static $current_tab;
 
 		if ( $current_tab === null ) {
-			$current_tab = filter_input( INPUT_GET, 'tab', FILTER_DEFAULT, array( 'options' => array( 'default' => 'plain' ) ) );
+			$current_tab = filter_input(
+				INPUT_GET,
+				'tab',
+				FILTER_VALIDATE_REGEXP,
+				array( 'options' => array( 'default' => 'plain', 'regexp' => '/^(plain|regex|settings)$/' ) )
+			);
 		}
 
 		return $current_tab;
