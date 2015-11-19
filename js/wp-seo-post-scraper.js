@@ -2,6 +2,10 @@
 (function( $ ) {
 	'use strict';
 
+	if ( typeof ckeditorOn === 'function' ){
+		console.warn( 'YoastSEO currently doesn\'t support ckEditor' );
+	}
+
 	var currentKeyword = '';
 
 	/**
