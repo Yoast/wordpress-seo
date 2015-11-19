@@ -192,7 +192,6 @@
 		var val = document.getElementById( 'content' ) && document.getElementById( 'content' ).value || '';
 		if ( typeof tinyMCE !== 'undefined' && typeof tinyMCE.editors !== 'undefined' && tinyMCE.editors.length !== 0) {
 			var tinyMceContent = tinyMCE.get( 'content' );
-			
 			val = tinyMceContent && tinyMceContent.hidden === false && tinyMceContent.getContent() || '';
 		}
 		return val;
