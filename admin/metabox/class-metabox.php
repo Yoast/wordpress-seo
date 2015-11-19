@@ -229,8 +229,14 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @return string
 	 */
 	private function get_base_url_for_js() {
+		global $pagenow;
+
 		// The default base is the home_url.
 		$base_url = home_url( '/', null );
+
+		if ( 'post-new.php' === $pagenow ) {
+			return $base_url;
+		}
 
 		$permalink = get_sample_permalink( null );
 		$permalink = $permalink[0];
