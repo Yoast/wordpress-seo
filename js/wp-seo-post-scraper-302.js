@@ -398,10 +398,10 @@
 
 		score = parseInt( score, 10 );
 
-		if ( keyword === '' ) {
+		if ( typeof keyword === undefined || keyword === '') {
 			score = 'na';
 		}
-		placeholder = keyword.length > 0 ? keyword : '...';
+		placeholder = keyword && keyword.length > 0 ? keyword : '...';
 
 		score = YoastSEO.ScoreFormatter.prototype.overallScoreRating( score );
 
