@@ -48,7 +48,6 @@ class WPSEO_Redirect_Manager {
 		$this->redirect_option = new WPSEO_Redirect_Option();
 		$this->redirect_format = $redirect_format;
 
-		$this->redirect_option->set_format( $this->redirect_format );
 		$this->redirect_option->set_redirects();
 	}
 
@@ -69,15 +68,8 @@ class WPSEO_Redirect_Manager {
 	 * @return WPSEO_Redirect[]
 	 */
 	public function get_redirects() {
-		return $this->redirect_option->get_filtered_redirects();
-	}
-
-	/**
-	 * Returns the redirect format
-	 * @return string
-	 */
-	public function get_redirect_format() {
-		return $this->redirect_format;
+		// Filter the redirect for the current format.
+		return array_filter( $this->redirect_option->get_all(), array( $this, 'filter_redirects_by_format' ) );
 	}
 
 	/**
@@ -169,6 +161,17 @@ class WPSEO_Redirect_Manager {
 
 		// Save the redirect file.
 		$this->export_redirects();
+	}
+
+	/**
+	 * Filter the redirects that don't match the needed format
+	 *
+	 * @param WPSEO_Redirect $redirect The redirect to filter.
+	 *
+	 * @return bool
+	 */
+	private function filter_redirects_by_format( WPSEO_Redirect $redirect ) {
+		return $redirect->get_format() === $this->redirect_format;
 	}
 
 }

@@ -24,7 +24,7 @@ class WPSEO_Redirect_Option_Test extends WPSEO_UnitTestCase {
 		parent::setUp();
 
 		$this->class_instance = new WPSEO_Redirect_Option();
-		$this->class_instance->set_format( WPSEO_Redirect::FORMAT_PLAIN );
+
 		$this->class_instance->add( new WPSEO_Redirect( 'old-url', 'new-url', 301 ) );
 		$this->class_instance->save();
 	}
@@ -48,29 +48,6 @@ class WPSEO_Redirect_Option_Test extends WPSEO_UnitTestCase {
 				new WPSEO_Redirect( 'old-url', 'new-url', 301, WPSEO_Redirect::FORMAT_PLAIN ),
 			),
 			$this->class_instance->get_all()
-		);
-	}
-
-	/**
-	 * Get the filtered redirects for the set format.
-	 *
-	 * @covers WPSEO_Redirect_Option::set_format
-	 * @covers WPSEO_Redirect_Option::get_filtered_redirects
-	 * @covers WPSEO_Redirect_Option::filter_redirects_by_format
-	 */
-	public function test_get_filtered_redirects() {
-		$this->class_instance->set_format( WPSEO_Redirect::FORMAT_PLAIN );
-		$this->assertEquals(
-			array(
-				new WPSEO_Redirect( 'old-url', 'new-url', 301, WPSEO_Redirect::FORMAT_PLAIN ),
-			),
-			$this->class_instance->get_filtered_redirects()
-		);
-
-		$this->class_instance->set_format( WPSEO_Redirect::FORMAT_REGEX );
-		$this->assertEquals(
-			array(),
-			$this->class_instance->get_filtered_redirects()
 		);
 	}
 

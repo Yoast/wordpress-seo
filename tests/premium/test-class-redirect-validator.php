@@ -22,7 +22,6 @@ class WPSEO_Redirect_Validator_Test extends WPSEO_UnitTestCase {
 		parent::setUp();
 
 		$redirect_option = new WPSEO_Redirect_Option();
-		$redirect_option->set_format( WPSEO_Redirect::FORMAT_PLAIN );
 		$redirect_option->add( new WPSEO_Redirect( 'old_url', 'new_url', 301 ) );
 		$redirect_option->add( new WPSEO_Redirect( 'older_url', 'newer_url', 301 ) );
 		$redirect_option->save();

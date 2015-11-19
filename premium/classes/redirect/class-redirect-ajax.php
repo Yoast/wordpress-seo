@@ -14,17 +14,25 @@ class WPSEO_Redirect_Ajax {
 	private $redirect_manager;
 
 	/**
+	 * @var string Format of the redirect, might be plain or regex.
+	 */
+	private $redirect_format;
+
+	/**
 	 * @var array The options that can be passed as option argument for filter_input.
 	 */
 	private $filter_options = array( 'options' => array( 'default' => '' ) );
 
 	/**
-	 * @param WPSEO_Redirect_Manager $redirect_manager The redirect manager to handle the redirects for.
+	 * Setting up the object by instantiate the redirect manager and setting the hooks.
+	 *
+	 * @param string $redirect_format The redirects format.
 	 */
-	public function __construct( WPSEO_Redirect_Manager $redirect_manager) {
-		$this->redirect_manager = $redirect_manager;
+	public function __construct( $redirect_format) {
+		$this->redirect_manager = new WPSEO_Redirect_Manager( $redirect_format );
+		$this->redirect_format  = $redirect_format;
 
-		$this->set_hooks( $this->redirect_manager->get_redirect_format() );
+		$this->set_hooks( $redirect_format );
 	}
 
 	/**
@@ -42,7 +50,7 @@ class WPSEO_Redirect_Ajax {
 			$this->sanitize_url( $old_url_post ),
 			$this->sanitize_url( $new_url_post ),
 			urldecode( $type ),
-			$this->redirect_manager->get_redirect_format()
+			$this->redirect_format
 		);
 
 		$validator = new WPSEO_Redirect_Validator();
@@ -77,7 +85,7 @@ class WPSEO_Redirect_Ajax {
 			$this->sanitize_url( $new_redirect_post['key'] ),
 			$this->sanitize_url( $new_redirect_post['value'] ),
 			urldecode( $new_redirect_post['type'] ),
-			$this->redirect_manager->get_redirect_format()
+			$this->redirect_format
 		);
 
 		$current_redirect = new WPSEO_Redirect(

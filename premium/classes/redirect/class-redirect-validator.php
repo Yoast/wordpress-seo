@@ -152,13 +152,11 @@ class WPSEO_Redirect_Validator {
 	 * @return array
 	 */
 	protected function get_redirects( $format ) {
-		$redirect_option = new WPSEO_Redirect_Option();
-		$redirect_option->set_format( $format );
-		$redirect_option->set_redirects();
+		$redirect_manager = new WPSEO_Redirect_Manager( $format );
 
 		// Format the redirects.
 		$redirects = array();
-		foreach ( $redirect_option->get_filtered_redirects() as $redirect ) {
+		foreach ( $redirect_manager->get_redirects() as $redirect ) {
 			$redirects[ $redirect->get_origin() ] = $redirect->get_target();
 		}
 

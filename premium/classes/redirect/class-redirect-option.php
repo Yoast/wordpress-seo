@@ -22,11 +22,6 @@ class WPSEO_Redirect_Option {
 	private $redirects = array();
 
 	/**
-	 * @var string The format for the current redirects, can be plain or regex.
-	 */
-	private $format;
-
-	/**
 	 * Getting the array with all the redirects
 	 *
 	 * @return WPSEO_Redirect[]
@@ -40,39 +35,10 @@ class WPSEO_Redirect_Option {
 	}
 
 	/**
-	 * Get the redirects filtered for the current redirect format.
-	 *
-	 * @return WPSEO_Redirect[]
-	 */
-	public function get_filtered_redirects() {
-		// Filter the redirect for the current format.
-		return array_filter( $this->redirects, array( $this, 'filter_redirects_by_format' ) );
-	}
-
-	/**
-	 * Wrapper method to setup the data for this class.
-	 *
-	 * @param string $format The format for the redirects.
-	 */
-	public function setup( $format ) {
-		$this->set_format( $format );
-		$this->set_redirects();
-	}
-
-	/**
 	 * Sets the value of redirects with the result of get all
 	 */
 	public function set_redirects() {
 		$this->redirects = $this->get_all();
-	}
-
-	/**
-	 * Setting the redirect format
-	 *
-	 * @param string $format The format to set.
-	 */
-	public function set_format( $format ) {
-		$this->format = $format;
 	}
 
 	/**
@@ -196,14 +162,4 @@ class WPSEO_Redirect_Option {
 		);
 	}
 
-	/**
-	 * Filter the redirects that don't match the needed format
-	 *
-	 * @param WPSEO_Redirect $redirect The redirect to filter.
-	 *
-	 * @return bool
-	 */
-	private function filter_redirects_by_format( WPSEO_Redirect $redirect ) {
-		return $redirect->get_format() === $this->format || $this->format === 'all';
-	}
 }

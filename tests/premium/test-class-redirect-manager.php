@@ -40,19 +40,6 @@ class WPSEO_Redirect_Manager_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test with the result of get_redirect_format
-	 *
-	 * @covers WPSEO_Redirect_Manager::get_redirect_format
-	 */
-	public function test_get_redirect_format() {
-		$plain_manager = new WPSEO_Redirect_Manager();
-		$this->assertEquals( 'plain', $plain_manager->get_redirect_format() );
-
-		$regex_manager = new WPSEO_Redirect_Manager( 'regex' );
-		$this->assertEquals( 'regex', $regex_manager->get_redirect_format() );
-	}
-
-	/**
 	 * Check if the redirects are filled
 	 *
 	 * @covers WPSEO_Redirect_Manager::get_redirects
@@ -137,19 +124,6 @@ class WPSEO_Redirect_Manager_Test extends WPSEO_UnitTestCase {
 
 		// Cannot remove a redirect that doesn't exists anymore.
 		$this->assertFalse( $this->class_instance->delete_redirects( array( 'delete_redirect' ) ) );
-	}
-
-	/**
-	 * Test removing a redirect
-	 *
-	 * @covers WPSEO_Redirect_Manager::search
-	 */
-	public function test_search() {
-		// Search for a redirect.
-		$this->assertEquals( 1, $this->class_instance->search( 'older' ) );
-
-		// Search for a redirect that doesn't exists.
-		$this->assertFalse( $this->class_instance->search( 'not-so-old' ) );
 	}
 
 	/**
