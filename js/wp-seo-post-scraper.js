@@ -2,10 +2,6 @@
 (function( $ ) {
 	'use strict';
 
-	if ( typeof ckeditorOn === 'function' ) {
-		console.warn( 'YoastSEO currently doesn\'t support ckEditor. The content analysis might not function optimally.' );
-	}
-
 	var currentKeyword = '';
 
 	/**
@@ -13,6 +9,10 @@
 	 * @constructor
 	 */
 	var PostScraper = function() {
+		if ( typeof CKEDITOR === 'object' ) {
+			console.warn( 'YoastSEO currently doesn\'t support ckEditor. The content analysis currently only works with the HTML editor or TinyMCE.' );
+		}
+
 		this.prepareSlugBinding();
 	};
 

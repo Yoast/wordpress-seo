@@ -2,11 +2,11 @@
 (function( $ ) {
 	'use strict';
 
-	if ( typeof ckeditorOn === 'function' ) {
-		console.warn( 'YoastSEO currently doesn\'t support ckEditor. The content analysis might not function optimally.' );
-	}
-
-	var TermScraper = function() {};
+	var TermScraper = function() {
+		if ( typeof CKEDITOR === 'object' ) {
+			console.warn( 'YoastSEO currently doesn\'t support ckEditor. The content analysis currently only works with the HTML editor or TinyMCE.' );
+		}
+	};
 
 	/**
 	 * returns data fetched from inputfields.
