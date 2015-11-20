@@ -28,9 +28,11 @@ class WPSEO_Premium_Autoloader {
 	private $file_replace;
 
 	/**
-	 * @param string $search_pattern
-	 * @param string $directory
-	 * @param string $file_replace
+	 * Setting up the class.
+	 * 
+	 * @param string $search_pattern The pattern to match for the redirect.
+	 * @param string $directory      The directory where the classes could be found.
+	 * @param string $file_replace   The replacement for the file.
 	 */
 	public function __construct( $search_pattern, $directory, $file_replace = '' ) {
 		$this->search_pattern = $search_pattern;
@@ -55,7 +57,7 @@ class WPSEO_Premium_Autoloader {
 	/**
 	 * Does the filename contains the search pattern
 	 *
-	 * @param string $class
+	 * @param string $class The classname to match.
 	 *
 	 * @return bool
 	 */
@@ -66,7 +68,7 @@ class WPSEO_Premium_Autoloader {
 	/**
 	 * Searching for the file in the given directory
 	 *
-	 * @param string $class
+	 * @param string $class The class to search for.
 	 *
 	 * @return bool|string
 	 */
@@ -95,7 +97,7 @@ class WPSEO_Premium_Autoloader {
 	/**
 	 * Parsing the file name
 	 *
-	 * @param string $class
+	 * @param string $class The classname to convert to a file name.
 	 *
 	 * @return string
 	 */
