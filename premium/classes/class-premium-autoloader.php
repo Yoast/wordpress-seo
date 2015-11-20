@@ -29,7 +29,7 @@ class WPSEO_Premium_Autoloader {
 
 	/**
 	 * Setting up the class.
-	 * 
+	 *
 	 * @param string $search_pattern The pattern to match for the redirect.
 	 * @param string $directory      The directory where the classes could be found.
 	 * @param string $file_replace   The replacement for the file.
