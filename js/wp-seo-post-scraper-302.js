@@ -189,7 +189,13 @@
 	 * @returns {String}
 	 */
 	PostScraper.prototype.getContentTinyMCE = function() {
-		var val = document.getElementById( 'content' ).value;
+		var contentEl = document.getElementById( 'content' ),
+			val = '';
+		
+		if ( null !== contentEl ) {
+			val = contentEl.value;
+		}
+		
 		if ( typeof tinyMCE !== 'undefined' && typeof tinyMCE.editors !== 'undefined' && tinyMCE.editors.length !== 0 && tinyMCE.get( 'content' ).hidden === false ) {
 			val = tinyMCE.get( 'content' ).getContent();
 		}
