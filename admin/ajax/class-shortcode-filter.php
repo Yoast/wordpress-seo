@@ -23,7 +23,7 @@ class WPSEO_Shortcode_Filter {
 	public function do_filter() {
 		check_ajax_referer( 'wpseo-filter-shortcodes', 'nonce' );
 
-		$shortcodes = filter_input( INPUT_GET, 'data', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY );
+		$shortcodes = filter_input( INPUT_POST, 'data', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY );
 
 		$parsed_shortcodes = array();
 
