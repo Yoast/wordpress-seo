@@ -34,7 +34,7 @@ class WPSEO_OnPage_Notifier {
 	/**
 	 * Forces the MIME type of emails to text/html
 	 *
-	 * @param string $content_type
+	 * @param string $content_type The content type for the email containing the indexability check.
 	 *
 	 * @return string
 	 */

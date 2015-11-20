@@ -25,7 +25,7 @@ class WPSEO_OnPage_Option_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_OnPage_Option::get_status
 	 */
 	public function test_get_status() {
-		$this->assertEquals( $this->class_instance->get_status(), null );
+		$this->assertEquals( $this->class_instance->get_status(), 99 );
 	}
 
 	/**
@@ -34,7 +34,7 @@ class WPSEO_OnPage_Option_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_OnPage_Option::set_status
 	 */
 	public function test_set() {
-		$this->assertEquals( $this->class_instance->get_status(), null );
+		$this->assertEquals( $this->class_instance->get_status(), 99 );
 		$this->class_instance->set_status( '1' );
 		$this->assertEquals( $this->class_instance->get_status(), '1' );
 	}
@@ -67,28 +67,4 @@ class WPSEO_OnPage_Option_Test extends WPSEO_UnitTestCase {
 		$this->class_instance->set_last_fetch( strtotime("-2 hours") );
 		$this->assertTrue( $this->class_instance->should_be_fetched() );
 	}
-
-	/**
-	 * Test without the status being set
-	 */
-	public function test_is_indexable() {
-		$this->assertFalse( $this->class_instance->is_indexable() );
-	}
-
-	/**
-	 * Test with the status being set
-	 */
-	public function test_is_indexable_be_set() {
-		$this->class_instance->set_status( 1 );
-		$this->assertTrue( $this->class_instance->is_indexable() );
-	}
-
-	/**
-	 * Test with the status being set
-	 */
-	public function test_is_not_indexable() {
-		$this->class_instance->set_status( 0 );
-		$this->assertFalse( $this->class_instance->is_indexable() );
-	}
-
 }

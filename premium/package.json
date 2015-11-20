@@ -2,7 +2,7 @@
   "name": "wordpress-seo-premium",
   "description": "Development files for the Yoast SEO Premium plugin",
   "plugin": {
-    "glotpress": "https://translate.yoast.com",
+    "glotpress": "http://translate.yoast.com",
     "slug": "wordpress-seo-premium",
     "textdomain": "wordpress-seo-premium"
   },
