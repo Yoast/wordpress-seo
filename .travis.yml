@@ -8,7 +8,7 @@ matrix:
     - php: hhvm
   include:
     - php: 5.6
-      env: WP_VERSION=master WP_MULTISITE=1 PHPLINT=1 CHECKS=1 COVERAGE=1
+      env: WP_VERSION=master WP_MULTISITE=1 PHPLINT=1 CHECKS=1
     - php: 5.2
       env: WP_VERSION=4.3 WP_MULTISITE=1 PHPLINT=1
     - php: 5.6
@@ -26,7 +26,7 @@ matrix:
     - php: 5.3
       env: WP_VERSION=4.3
     - php: 7.0
-      env: WP_VERSION=4.3
+      env: WP_VERSION=4.3 COVERAGE=1
     - php: hhvm
       env: WP_VERSION=4.3
 
@@ -59,7 +59,7 @@ script:
 - if [[ "$PHPLINT" == "1" ]]; then find -L .  -path ./vendor -prune -o -name '*.php' -print0 | xargs -0 -n 1 -P 4 php -l; fi
 - if [[ "$PHPLINT" == "1" ]]; then vendor/bin/phpcs -v; fi
 - if [[ "$CHECKS" == "1" ]]; then npm install -g grunt-cli && npm install && grunt check:js; fi
-- if [[ "$COVERAGE" == "1" ]]; then ./vendor/bin/phpunit -c phpunit.xml --coverage-clover build/logs/clover.xml; else phpunit -c phpunit.xml; fi
+- if [[ "$COVERAGE" == "1" ]]; then phpunit -c phpunit.xml --coverage-clover build/logs/clover.xml; else phpunit -c phpunit.xml; fi
 - if [[ "$COVERAGE" == "1" ]]; then sed -i -e 's/tmp\/wordpress\/src\/wp-content\/plugins\///g' build/logs/clover.xml && vendor/bin/test-reporter; fi
 
 notifications:
