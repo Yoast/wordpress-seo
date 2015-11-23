@@ -53,19 +53,21 @@ class WPSEO_Redirect_Ajax {
 			$this->redirect_format
 		);
 
-		$validator = new WPSEO_Redirect_Validator();
+		$validate = $this->validate( $redirect );
 
 		// The method always returns the added redirect.
-		if ( $validator->validate( $redirect ) && $this->redirect_manager->create_redirect( $redirect ) ) {
+		if ( $validate === true && $this->redirect_manager->create_redirect( $redirect ) ) {
 			$response = array(
 				'old_redirect'  => $redirect->get_origin(),
 				'new_redirect'  => $redirect->get_target(),
 				'redirect_type' => $redirect->get_type(),
 			);
 		}
+		else {
+			// Set the value error.
+			$response['error'] = $validate;
+		}
 
-		// Set the value error.
-		$response['error'] = $validator->get_error();
 
 		// Response.
 		wp_die( json_encode( $response ) );
@@ -90,17 +92,19 @@ class WPSEO_Redirect_Ajax {
 
 		$current_redirect = $this->redirect_manager->get_redirect( $this->sanitize_url( $current_redirect ) );
 
-		$validator = new WPSEO_Redirect_Validator();
+		$validate = $this->validate( $redirect, $current_redirect );
 
 		// The method always returns the added redirect.
-		if ( $validator->validate( $redirect, $current_redirect ) && $this->redirect_manager->update_redirect( $current_redirect, $redirect ) ) {
+		if ( $validate === true && $this->redirect_manager->update_redirect( $current_redirect, $redirect ) ) {
 			$response = array(
 				'old_redirect' => $redirect->get_origin(),
 			);
 		}
+		else {
+			// Set the value error.
+			$response['error'] = $validate;
+		}
 
-		// Set the value error.
-		$response['error'] = $validator->get_error();
 
 		// Response.
 		wp_die( json_encode( $response ) );
@@ -125,6 +129,29 @@ class WPSEO_Redirect_Ajax {
 
 		// Response.
 		wp_die( json_encode( $response ) );
+	}
+
+	/**
+	 * Run the validation
+	 *
+	 * @param WPSEO_Redirect      $redirect			The redirect to save.
+	 * @param WPSEO_Redirect|null $current_redirect The current redirect.
+	 *
+	 * @return bool|array
+	 */
+	private function validate( WPSEO_Redirect $redirect, WPSEO_Redirect $current_redirect = null) {
+		$validator = new WPSEO_Redirect_Validator();
+		$validator->validate( $redirect, $current_redirect );
+
+		$ignore_warning = filter_input( INPUT_POST, 'ignore_warning' );
+
+		$errors = $validator->get_error();
+
+		if ( ! empty( $errors ) && ( $errors['type'] === 'error' || ( $errors['type'] === 'warning'  && $ignore_warning === 'false' ) ) ) {
+			return $errors;
+		}
+
+		return true;
 	}
 
 	/**
