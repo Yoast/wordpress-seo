@@ -55,7 +55,7 @@ class WPSEO_Redirect_Validator {
 		$this->validation_error = '';
 		foreach ( $validators as $validator ) {
 			if ( ! $validator->validate( $redirect, $redirects ) ) {
-				$this->validation_error = $this->set_error( $validator );
+				$this->validation_error = $this->set_error( $validator->get_warning(), $validator->get_error() );
 
 				return false;
 			}
@@ -166,16 +166,18 @@ class WPSEO_Redirect_Validator {
 	/**
 	 * Setting the error based on the validation result, can be warning or error
 	 *
-	 * @param WPSEO_Redirect_Validate $validator The validator object.
+	 * @param string|null $validation_warning The validation warning.
+	 * @param string|null $validation_error   The validation error.
 	 *
 	 * @return array
+	 *
 	 */
-	protected function set_error( WPSEO_Redirect_Validate $validator ) {
-		if ( $validation_warning = $validator->get_warning() ) {
+	protected function set_error( $validation_warning, $validation_error ) {
+		if ( ! empty( $validation_warning ) ) {
 			return array( 'type' => 'warning', 'message' => $validation_warning );
 		}
 
-		return array( 'type' => 'error', 'message' => $validator->get_error() );
+		return array( 'type' => 'error', 'message' => $validation_error );
 	}
 
 }

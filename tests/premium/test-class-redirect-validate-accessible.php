@@ -45,11 +45,11 @@ class WPSEO_Redirect_Validate_Accessible_Test extends WPSEO_UnitTestCase {
 	public function test_validate_not_accessible( ) {
 		$this->assertFalse(
 			$this->class_instance->validate(
-				new WPSEO_Redirect( 'accessible_url', 'http://example.com/this/path/does/not/exist', 301 )
+				new WPSEO_Redirect( 'accessible_url', 'http://httpstat.us/301', 301 )
 			)
 		);
 
-		$this->assertContains( 'The URL you entered returned a HTTP code different than 200(OK). The received HTTP code is ', $this->class_instance->get_error() );
+		$this->assertEquals( 'The URL you entered returned a HTTP code different than 200(OK). The received HTTP code is 301.', $this->class_instance->get_warning() );
 	}
 
 	/**
@@ -79,6 +79,21 @@ class WPSEO_Redirect_Validate_Accessible_Test extends WPSEO_UnitTestCase {
 				new WPSEO_Redirect( 'accessible_url', '', 410 )
 			)
 		);
+	}
+
+	/**
+	 * Validate if the target URL is accessible, in this test it will be a 410 redirect, that doesn't have an endpoint.
+	 *
+	 * @covers WPSEO_Redirect_Validate_Accessible::validate
+	 */
+	public function test_validate_accessible_temporary( ) {
+		$this->assertFalse(
+			$this->class_instance->validate(
+				new WPSEO_Redirect( 'accessible_url', 'http://httpstat.us/302', 301 )
+			)
+		);
+
+		$this->assertEquals( 'The url you are redirecting to returns a 302 status. You might want to consider redirecting to another url.', $this->class_instance->get_warning() );
 	}
 
 }
