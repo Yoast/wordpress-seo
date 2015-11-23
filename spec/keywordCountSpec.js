@@ -78,8 +78,21 @@ keywordCountArgs6 = {
 
 describe("a keyword with only digits", function(){
 	it("should return 1 keyword found in the text.", function(){
-		var textAnalyzer = Factory.buildAnalyzer(keywordCountArgs5);
+		var textAnalyzer = Factory.buildAnalyzer(keywordCountArgs6);
 		var result = textAnalyzer.keywordCount();
 		expect(result).toBe(1);
+	});
+});
+
+keywordCountArgs7 = {
+	text:" انتشار کتابی درباره خفن‌ترین آزمایش های تاریخ علم، توجه رسانه‌ها را به خود جلب کرد.«فیل‌ها در اسید و دیگر آزمایش‌های خفن علمی»؛ این عنوان کتابی است که چند سال پیش منتشر شد. الکس بوز، نویسنده کتاب می‌گوید برای نوشتن آن کلی منابع و آرشیوهای علمی را زیر و رو کرده تا فهرستی از عجیب‌ترین و وحشتناک‌ترین تجربه‌های علمی را ردیف کند. کتاب، داستان واقعی دانشمندانی است که با تلاش زیاد، به دنبال اثبات درک نامتعارفشان از دنیای اطراف بوده‌اند.	چند روز قبل از توزیع کتاب، مجله نیوساینتیست، خلاصه‌ای از آن را چاپ کرد که شامل ۱۰ مورد از تکان‌دهنده‌ترین کارهایی بود که به اسم علم انجام‌شده‌اند. البته پیش از آن، بوز در وبلاگش، یک فهرست ۲۰ موردی را آورده بود. اگر بعد از خواندن فهرست، کمی دود از کله‌تان بلند شد، تعجب نکنید اما به‌هیچ‌وجه به فکر تکرار آزمایش‌ها نیفتید!",
+	keyword: "آزمایش"
+};
+
+describe("a text in Arabic", function(){
+	it("should return 3 matches for the keyword", function(){
+		var textAnalyzer = Factory.buildAnalyzer(keywordCountArgs7);
+		var result = textAnalyzer.keywordCount();
+		expect(result).toBe(3);
 	});
 });
