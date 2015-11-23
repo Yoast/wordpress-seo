@@ -166,6 +166,11 @@ class Yoast_Form {
 
 		$plugin_banners = array(
 			array(
+				'url' => 'https://yoast.com/academy/course/basic-seo-training/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=basic-seo-training-banner',
+				'img' => 'banner-seo-training.png',
+				'alt' => 'Basic SEO Training banner',
+			),
+			array(
 				'url' => 'https://yoast.com/wordpress/plugins/seo-premium/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=premium-seo-banner',
 				'img' => 'banner-premium-seo.png',
 				'alt' => 'Banner Yoast SEO Premium',

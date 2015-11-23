@@ -73,8 +73,8 @@ class WPSEO_Frontend {
 
 		// The head function here calls action wpseo_head, to which we hook all our functionality.
 		add_action( 'wpseo_head', array( $this, 'debug_marker' ), 2 );
-		add_action( 'wpseo_head', array( $this, 'robots' ), 6 );
-		add_action( 'wpseo_head', array( $this, 'metadesc' ), 10 );
+		add_action( 'wpseo_head', array( $this, 'metadesc' ), 6 );
+		add_action( 'wpseo_head', array( $this, 'robots' ), 10 );
 		add_action( 'wpseo_head', array( $this, 'metakeywords' ), 11 );
 		add_action( 'wpseo_head', array( $this, 'canonical' ), 20 );
 		add_action( 'wpseo_head', array( $this, 'adjacent_rel_links' ), 21 );
@@ -87,7 +87,10 @@ class WPSEO_Frontend {
 		remove_action( 'wp_head', 'adjacent_posts_rel_link_wp_head' );
 		remove_action( 'wp_head', 'noindex', 1 );
 
+		// When using WP 4.4, just use the new hook.
+		add_filter( 'pre_get_document_title', array( $this, 'title' ), 15 );
 		add_filter( 'wp_title', array( $this, 'title' ), 15, 3 );
+
 		add_filter( 'thematic_doctitle', array( $this, 'title' ), 15 );
 
 		add_action( 'wp', array( $this, 'page_redirect' ), 99 );
@@ -138,7 +141,8 @@ class WPSEO_Frontend {
 		add_filter( 'the_content_feed', array( $this, 'embed_rssfooter' ) );
 		add_filter( 'the_excerpt_rss', array( $this, 'embed_rssfooter_excerpt' ) );
 
-		if ( $this->options['forcerewritetitle'] === true ) {
+		// For WordPress functions below 4.4.
+		if ( ! current_theme_supports( 'title-tag' ) && $this->options['forcerewritetitle'] === true ) {
 			add_action( 'template_redirect', array( $this, 'force_rewrite_output_buffer' ), 99999 );
 			add_action( 'wp_footer', array( $this, 'flush_cache' ), - 1 );
 		}
@@ -621,7 +625,7 @@ class WPSEO_Frontend {
 			 *
 			 * @api bool
 			 */
-			( ( apply_filters( 'wpseo_hide_version', false ) && $this->is_premium() ) ? '' : ' v' . WPSEO_VERSION  )
+			( ( apply_filters( 'wpseo_hide_version', false ) && $this->is_premium() ) ? '' : ' v' . WPSEO_VERSION )
 		);
 
 		if ( $echo === false ) {
@@ -1243,6 +1247,7 @@ class WPSEO_Frontend {
 		if ( $echo !== false ) {
 			if ( is_string( $this->metadesc ) && $this->metadesc !== '' ) {
 				echo '<meta name="description" content="', esc_attr( strip_tags( stripslashes( $this->metadesc ) ) ), '"/>', "\n";
+				$this->add_robot_content_noodp( $this->metadesc );
 			}
 			elseif ( current_user_can( 'manage_options' ) && is_singular() ) {
 				echo '<!-- ', __( 'Admin only notice: this page doesn\'t show a meta description because it doesn\'t have one, either write it for this page specifically or go into the SEO -> Titles menu and set up a template.', 'wordpress-seo' ), ' -->', "\n";
@@ -1748,6 +1753,7 @@ class WPSEO_Frontend {
 		 * Filter: 'wpseo_include_rss_footer' - Allow the the RSS footer to be dynamically shown/hidden
 		 *
 		 * @api boolean $show_embed Indicates if the RSS footer should be shown or not
+		 *
 		 * @param string $context The context of the RSS content - 'full' or 'excerpt'.
 		 */
 		if ( ! apply_filters( 'wpseo_include_rss_footer', true, $context ) ) {
@@ -1876,6 +1882,17 @@ class WPSEO_Frontend {
 	 */
 	private function is_premium() {
 		return file_exists( WPSEO_PATH . 'premium/' );
+	}
+
+	/**
+	 * Checks whether the user has written a meta-description. If written,  makes sure meta robots content is noodp.
+	 *
+	 * @param String $description The content of the meta description.
+	 */
+	private function add_robot_content_noodp( $description ) {
+		if ( ! ( empty( $description )  ) && $this->options['noodp'] === false ) {
+			$this->options['noodp'] = true;
+		}
 	}
 
 	/**

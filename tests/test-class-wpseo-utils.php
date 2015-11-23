@@ -11,23 +11,29 @@ class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_grant_access() {
 
-		if ( is_multisite() ) {
-			// should be true when not running multisite
+		if ( ! is_multisite() ) { // Should be true when not running multisite.
 			$this->assertTrue( WPSEO_Utils::grant_access() );
-			return; // stop testing, not multisite
+			return;
 		}
 
-		// admins should return true
+		// Admin required by default/option.
 		$user_id = $this->factory->user->create( array( 'role' => 'administrator' ) );
 		wp_set_current_user( $user_id );
 		$this->assertTrue( WPSEO_Utils::grant_access() );
 
-		// todo test for superadmins
+		// Super Admin required by option.
+		$options           = get_site_option( 'wpseo_ms' );
+		$options['access'] = 'superadmin';
+		update_site_option( 'wpseo_ms', $options );
+		$this->assertFalse( WPSEO_Utils::grant_access() );
 
-		// editors should return false
-		// $user_id = $this->factory->user->create( array( 'role' => 'editor' ) );
-		// wp_set_current_user( $user_id );
-		// $this->assertTrue( WPSEO_Options::grant_access() );
+		grant_super_admin( $user_id );
+		$this->assertTrue( WPSEO_Utils::grant_access() );
+
+		// Below admin not allowed.
+		$user_id = $this->factory->user->create( array( 'role' => 'editor' ) );
+		wp_set_current_user( $user_id );
+		$this->assertFalse( WPSEO_Utils::grant_access() );
 	}
 
 	/**
@@ -99,29 +105,23 @@ class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
 		return array(
 			array( 0, true, 'na' ),
 			array( 1, true, 'bad' ),
-			array( 20, true, 'bad' ),
-			array( 34, true, 'bad' ),
-			array( 35, true, 'poor' ),
-			array( 49, true, 'poor' ),
-			array( 54, true, 'poor' ),
+			array( 23, true, 'bad' ),
+			array( 40, true, 'bad' ),
+			array( 41, true, 'ok' ),
 			array( 55, true, 'ok' ),
-			array( 60, true, 'ok' ),
-			array( 74, true, 'ok' ),
-			array( 75, true, 'good' ),
-			array( 87, true, 'good' ),
+			array( 70, true, 'ok' ),
+			array( 71, true, 'good' ),
+			array( 83, true, 'good' ),
 			array( 100, true, 'good' ),
 			array( 0, false, 'N/A' ),
 			array( 1, false, 'Bad' ),
-			array( 20, false, 'Bad' ),
-			array( 34, false, 'Bad' ),
-			array( 35, false, 'Poor' ),
-			array( 49, false, 'Poor' ),
-			array( 54, false, 'Poor' ),
+			array( 23, false, 'Bad' ),
+			array( 40, false, 'Bad' ),
+			array( 41, false, 'OK' ),
 			array( 55, false, 'OK' ),
-			array( 60, false, 'OK' ),
-			array( 74, false, 'OK' ),
-			array( 75, false, 'Good' ),
-			array( 87, false, 'Good' ),
+			array( 70, false, 'OK' ),
+			array( 71, false, 'Good' ),
+			array( 83, false, 'Good' ),
 			array( 100, false, 'Good' ),
 		);
 	}
