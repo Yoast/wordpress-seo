@@ -41,7 +41,7 @@ class WPSEO_Redirect_Validate_Accessible implements WPSEO_Redirect_Validate {
 		$response_code = wp_remote_retrieve_response_code( $response );
 		if ( $response_code !== 200 ) {
 			/* translators: %1$s expands to the returned http code  */
-			$this->error = sprintf(
+			$this->warning = sprintf(
 				__( 'The URL you entered returned a HTTP code different than 200(OK). The received HTTP code is %1$s.', 'wordpress-seo-premium' ),
 				$response_code
 			);

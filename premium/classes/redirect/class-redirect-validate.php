@@ -25,4 +25,11 @@ interface WPSEO_Redirect_Validate {
 	 */
 	public function get_error();
 
+	/**
+	 * Getting the validation warning.
+	 *
+	 * @return string|boolean
+	 */
+	public function get_warning();
+
 }

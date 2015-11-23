@@ -14,6 +14,11 @@ class WPSEO_Redirect_Validate_Uniqueness {
 	private $error;
 
 	/**
+	 * @var string
+	 */
+	private $warning;
+
+	/**
 	 * Validate the redirect to check if the origin already exists.
 	 *
 	 * @param WPSEO_Redirect $redirect  The redirect to validate.
@@ -38,6 +43,15 @@ class WPSEO_Redirect_Validate_Uniqueness {
 	 */
 	public function get_error() {
 		return $this->error;
+	}
+
+	/**
+	 * Returns the validation warning
+	 *
+	 * @return string
+	 */
+	public function get_warning() {
+		return $this->warning;
 	}
 
 }

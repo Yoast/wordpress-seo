@@ -19,6 +19,11 @@ class WPSEO_Redirect_Validate_Endpoint implements WPSEO_Redirect_Validate {
 	private $error;
 
 	/**
+	 * @var string
+	 */
+	private $warning;
+
+	/**
 	 * Validate the redirect to check if the origin already exists.
 	 *
 	 * @param WPSEO_Redirect $redirect  The redirect to validate.
@@ -63,6 +68,16 @@ class WPSEO_Redirect_Validate_Endpoint implements WPSEO_Redirect_Validate {
 	public function get_error() {
 		return $this->error;
 	}
+
+	/**
+	 * Returns the validation warning
+	 *
+	 * @return string
+	 */
+	public function get_warning() {
+		return $this->warning;
+	}
+
 
 	/**
 	 * Will check if the $new_url is redirected also and follows the trace of this redirect
