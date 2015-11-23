@@ -44,7 +44,12 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		}
 
 		$users = get_users( array( 'who' => 'authors' ) );
-		$users = apply_filters( 'wpseo_sitemap_exclude_author', $users ); // TODO document filter. R.
+		/**
+		 * Filter the authors, included in XML sitemap.
+		 *
+		 * @param array $users Array of user objects to filter.
+		 */
+		$users = apply_filters( 'wpseo_sitemap_exclude_author', $users );
 		$users = wp_list_pluck( $users, 'ID' );
 
 		$count     = count( $users );
@@ -151,7 +156,12 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			'order'    => 'ASC',
 		) );
 
-		$users = apply_filters( 'wpseo_sitemap_exclude_author', $users ); // TODO document filter. R.
+		/**
+		 * Filter the authors, included in XML sitemap.
+		 *
+		 * @param array $users Array of user objects to filter.
+		 */
+		$users = apply_filters( 'wpseo_sitemap_exclude_author', $users ); // TODO deduplicate filter. R.
 
 		if ( empty( $users ) ) {
 			$users = array();
@@ -175,8 +185,7 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 				'mod' => date( 'c', isset( $user->_yoast_wpseo_profile_updated ) ? $user->_yoast_wpseo_profile_updated : time() ),
 			);
 
-			// Use this filter to adjust the entry before it gets added to the sitemap.
-			// TODO document filter. R.
+			/** This filter is documented at inc/sitemaps/class-post-type-sitemap-provider.php */
 			$url = apply_filters( 'wpseo_sitemap_entry', $url, 'user', $user );
 
 			if ( ! empty( $url ) ) {

@@ -41,8 +41,11 @@ class WPSEO_Sitemaps_Renderer {
 			$xml .= $this->sitemap_index_url( $link );
 		}
 
-		// Allow other plugins to add their sitemaps to the index.
-		// TODO document filter. R.
+		/**
+		 * Filter to append sitemaps to the index.
+		 *
+		 * @param string $index String to append to sitemaps index, defaults to empty.
+		 */
 		$xml .= apply_filters( 'wpseo_sitemap_index', '' );
 		$xml .= '</sitemapindex>';
 
@@ -67,9 +70,15 @@ class WPSEO_Sitemaps_Renderer {
 			$xml .= $this->sitemap_url( $url );
 		}
 
-		// Filter to allow adding extra URLs, only do this on the first XML sitemap, not on all.
+		/**
+		 * Filter to add extra URLs to the XML sitemap by type.
+		 *
+		 * Only runs for the first page, not on all.
+		 *
+		 * @parm string $content String content to add, defaults to empty.
+		 */
 		if ( $current_page === 1 ) {
-			$xml .= apply_filters( "wpseo_sitemap_{$type}_content", '' ); // TODO document filter. R.
+			$xml .= apply_filters( "wpseo_sitemap_{$type}_content", '' );
 		}
 
 		$xml .= '</urlset>';
@@ -90,6 +99,11 @@ class WPSEO_Sitemaps_Renderer {
 		$output = '<?xml version="1.0" encoding="' . esc_attr( $this->charset ) . '"?>';
 
 		if ( $this->stylesheet ) {
+			/**
+			 * Filter the stylesheet URL for the XML sitemap.
+			 *
+			 * @param string $stylesheet Stylesheet URL.
+			 */
 			$output .= apply_filters( 'wpseo_stylesheet_url', $this->stylesheet ) . "\n";
 		}
 

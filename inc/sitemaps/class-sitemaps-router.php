@@ -81,9 +81,9 @@ class WPSEO_Sitemaps_Router {
 		$base = $wp_rewrite->using_index_permalinks() ? 'index.php/' : '/';
 
 		/**
-		 * Filter: 'wpseo_sitemaps_base_url' - Allow developer to change the base URL of the sitemaps
+		 * Filter the base URL of the sitemaps
 		 *
-		 * @api string $base The string that should be added to home_url() to make the full base URL.
+		 * @param string $base The string that should be added to home_url() to make the full base URL.
 		 */
 		$base = apply_filters( 'wpseo_sitemaps_base_url', $base );
 

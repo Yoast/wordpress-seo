@@ -164,8 +164,13 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 					continue;
 				}
 
-				// Use this filter to adjust the entry before it gets added to the sitemap.
-				// TODO document filter. R.
+				/**
+				 * Filter URL entry before it gets added to the sitemap.
+				 *
+				 * @param array  $url  Array of URL parts.
+				 * @param string $type URL type.
+				 * @param object $user Data object for the URL.
+				 */
 				$url = apply_filters( 'wpseo_sitemap_entry', $url, 'post', $post );
 
 				if ( ! empty( $url ) ) {
@@ -196,7 +201,12 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			return false;
 		}
 
-		// TODO document filter. R.
+		/**
+		 * Filter decision if post type is excluded from the XML sitemap.
+		 *
+		 * @param bool   $exclude   Default false.
+		 * @param string $post_type Post type name.
+		 */
 		if ( apply_filters( 'wpseo_sitemap_exclude_post_type', false, $post_type ) ) {
 			return false;
 		}
@@ -215,8 +225,20 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 		global $wpdb;
 
-		// TODO document filters. R.
-		$join_filter  = apply_filters( 'wpseo_typecount_join', '', $post_type );
+		/**
+		 * Filter JOIN query part for type count of post type.
+		 *
+		 * @param string $join      SQL part, defaults to empty string.
+		 * @param string $post_type Post type name.
+		 */
+		$join_filter = apply_filters( 'wpseo_typecount_join', '', $post_type );
+
+		/**
+		 * Filter WHERE query part for type count of post type.
+		 *
+		 * @param string $where     SQL part, defaults to empty string.
+		 * @param string $post_type Post type name.
+		 */
 		$where_filter = apply_filters( 'wpseo_typecount_where', '', $post_type );
 
 		$sql   = "
@@ -270,20 +292,18 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		$archive_url = get_post_type_archive_link( $post_type );
 
 		/**
-		 * Filter: 'wpseo_sitemap_post_type_archive_link' - Allow changing the URL Yoast SEO uses in the XML sitemap for this post type archive.
+		 * Filter the URL Yoast SEO uses in the XML sitemap for this post type archive.
 		 *
-		 * @api float $archive_url The URL of this archive
-		 *
-		 * @param string $post_type The post type this archive is for.
+		 * @param string $archive_url The URL of this archive
+		 * @param string $post_type   The post type this archive is for.
 		 */
 		$archive_url = apply_filters( 'wpseo_sitemap_post_type_archive_link', $archive_url, $post_type );
 
 		if ( $archive_url ) {
 			/**
-			 * Filter: 'wpseo_xml_post_type_archive_priority' - Allow changing the priority of the URL Yoast SEO uses in the XML sitemap.
+			 * Filter the priority of the URL Yoast SEO uses in the XML sitemap.
 			 *
-			 * @api float $priority The priority for this URL, ranging from 0 to 1
-			 *
+			 * @param float  $priority  The priority for this URL, ranging from 0 to 1
 			 * @param string $post_type The post type this archive is for.
 			 */
 			$links[] = array(
@@ -314,9 +334,21 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 		if ( ! isset( $filters[ $post_type ] ) ) {
 			// Make sure you're wpdb->preparing everything you throw into this!!
-			// TODO document filters. R.
 			$filters[ $post_type ] = array(
+				/**
+				 * Filter JOIN query part for the post type.
+				 *
+				 * @param string $join      SQL part, defaults to false.
+				 * @param string $post_type Post type name.
+				 */
 				'join'  => apply_filters( 'wpseo_posts_join', false, $post_type ),
+
+				/**
+				 * Filter Where query part for the post type.
+				 *
+				 * @param string $where     SQL part, defaults to false.
+				 * @param string $post_type Post type name.
+				 */
 				'where' => apply_filters( 'wpseo_posts_where', false, $post_type ),
 			);
 		}
@@ -369,12 +401,11 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		$url = array();
 
 		/**
-		 * Filter: 'wpseo_xml_sitemap_post_url' - Allow changing the URL Yoast SEO uses in the XML sitemap.
+		 * Filter the URL Yoast SEO uses in the XML sitemap.
 		 *
 		 * Note that only absolute local URLs are allowed as the check after this removes external URLs.
 		 *
-		 * @api string $url URL to use in the XML sitemap
-		 *
+		 * @param string $url  URL to use in the XML sitemap
 		 * @param object $post Post object for the URL.
 		 */
 		$url['loc'] = apply_filters( 'wpseo_xml_sitemap_post_url', get_permalink( $post ), $post );
@@ -438,13 +469,11 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		}
 
 		/**
-		 * Filter: 'wpseo_xml_post_type_archive_priority' - Allow changing the priority of the URL
-		 * Yoast SEO uses in the XML sitemap.
+		 * Filter the priority of the URL Yoast SEO uses in the XML sitemap.
 		 *
-		 * @api float $priority The priority for this URL, ranging from 0 to 1
-		 *
+		 * @param float  $priority  The priority for this URL, ranging from 0 to 1
 		 * @param string $post_type The post type this archive is for.
-		 * @param object $p         The post object.
+		 * @param object $post      The post object.
 		 */
 		$return = apply_filters( 'wpseo_xml_sitemap_post_priority', $return, $post->post_type, $post );
 

@@ -75,7 +75,12 @@ class WPSEO_Sitemap_Image_Parser {
 			$images = array_merge( $images, $this->parse_attachments( $post ) );
 		}
 
-		// TODO document filter. R.
+		/**
+		 * Filter images to be included for the post in XML sitemap.
+		 *
+		 * @param array $images  Array of image items.
+		 * @param int   $post_id ID of the post.
+		 */
 		$images = apply_filters( 'wpseo_sitemap_urlimages', $images, $post->ID );
 
 		return $images;
@@ -189,7 +194,13 @@ class WPSEO_Sitemap_Image_Parser {
 			}
 
 			$image = array(
-				'src' => apply_filters( 'wpseo_xml_sitemap_img_src', $src, $post ), // TODO document filter. R.
+				/**
+				 * Filter image URL to be included in XML sitemap for the post.
+				 *
+				 * @param string $src  Image URL.
+				 * @param object $post Post object.
+				 */
+				'src' => apply_filters( 'wpseo_xml_sitemap_img_src', $src, $post ),
 			);
 
 			if ( preg_match( '`title=["\']([^"\']+)["\']`', $img, $title_match ) ) {
@@ -202,7 +213,19 @@ class WPSEO_Sitemap_Image_Parser {
 			}
 			unset( $alt_match );
 
-			$image    = apply_filters( 'wpseo_xml_sitemap_img', $image, $post ); // TODO document filter. R.
+			/**
+			 * Filter image data to be included in XML sitemap for the post.
+			 *
+			 * @param array $image {
+			 *     Array of image data.
+			 *
+			 *     @type string $src Image URL.
+			 *     @type string $title Image title attribute (optional).
+			 *     @type string $alt Image alt attribute (optional).
+			 * }
+			 * @param object $post  Post object.
+			 */
+			$image    = apply_filters( 'wpseo_xml_sitemap_img', $image, $post );
 			$return[] = $image;
 
 			unset( $match, $src );
@@ -233,7 +256,8 @@ class WPSEO_Sitemap_Image_Parser {
 
 			$src   = $this->image_url( $attachment->ID );
 			$image = array(
-				'src' => apply_filters( 'wpseo_xml_sitemap_img_src', $src, $post ), // TODO document filter. R.
+				/** This filter is documented in inc/sitemaps/class-sitemap-image-parser.php */
+				'src' => apply_filters( 'wpseo_xml_sitemap_img_src', $src, $post ),
 			);
 
 			$alt = get_post_meta( $attachment->ID, '_wp_attachment_image_alt', true );
@@ -244,7 +268,8 @@ class WPSEO_Sitemap_Image_Parser {
 
 			$image['title'] = $attachment->post_title;
 
-			$image = apply_filters( 'wpseo_xml_sitemap_img', $image, $post ); // TODO document filter. R.
+			/** This filter is documented in inc/sitemaps/class-sitemap-image-parser.php */
+			$image = apply_filters( 'wpseo_xml_sitemap_img', $image, $post );
 
 			$return[] = $image;
 		}

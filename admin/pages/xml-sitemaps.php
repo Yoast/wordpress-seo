@@ -91,6 +91,11 @@ $yform->checkbox( 'enablexmlsitemap', __( 'Check this box to enable XML sitemap 
 		<div id="post-types" class="wpseotab">
 
 			<?php
+			/**
+			 * Filter the post types to present in interface for exclusion.
+			 *
+			 * @param array $post_types Array of post type objects.
+			 */
 			$post_types = apply_filters( 'wpseo_sitemaps_supported_post_types', get_post_types( array( 'public' => true ), 'objects' ) );
 			if ( is_array( $post_types ) && $post_types !== array() ) {
 				echo '<p>' . __( 'Please check the appropriate box below if there\'s a post type that you do <strong>NOT</strong> want to include in your sitemap:', 'wordpress-seo' ) . '</p>';
@@ -114,6 +119,11 @@ $yform->checkbox( 'enablexmlsitemap', __( 'Check this box to enable XML sitemap 
 		<div id="taxonomies" class="wpseotab">
 
 			<?php
+			/**
+			 * Filter the taxonomies to present in interface for exclusion.
+			 *
+			 * @param array $taxonomies Array of taxonomy objects.
+			 */
 			$taxonomies = apply_filters( 'wpseo_sitemaps_supported_taxonomies', get_taxonomies( array( 'public' => true ), 'objects' ) );
 			if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
 				echo '<p>' . __( 'Please check the appropriate box below if there\'s a taxonomy that you do <strong>NOT</strong> want to include in your sitemap:', 'wordpress-seo' ) . '</p>';
@@ -129,6 +139,9 @@ $yform->checkbox( 'enablexmlsitemap', __( 'Check this box to enable XML sitemap 
 	</div>
 <?php
 
+/**
+ * Fires at the end of XML Sitemaps configuration form.
+ */
 do_action( 'wpseo_xmlsitemaps_config' );
 
 $yform->admin_footer();
