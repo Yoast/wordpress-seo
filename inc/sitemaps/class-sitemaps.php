@@ -37,6 +37,9 @@ class WPSEO_Sitemaps {
 	/** @var WPSEO_Sitemaps_Renderer $renderer  */
 	public $renderer;
 
+	/** @var WPSEO_Sitemaps_Cache $cache */
+	public $cache;
+
 	/** @var WPSEO_Sitemap_Provider[] $providers */
 	public $providers;
 
@@ -48,12 +51,14 @@ class WPSEO_Sitemaps {
 		add_action( 'after_setup_theme', array( $this, 'reduce_query_load' ), 99 );
 		add_action( 'pre_get_posts', array( $this, 'redirect' ), 1 );
 		add_action( 'wpseo_hit_sitemap_index', array( $this, 'hit_sitemap_index' ) );
+		add_action( 'wpseo_ping_search_engines', array( __CLASS__, 'ping_search_engines' ) );
 
 		$options           = WPSEO_Options::get_all();
 		$this->max_entries = $options['entries-per-page'];
 		$this->timezone    = new WPSEO_Sitemap_Timezone();
 		$this->router      = new WPSEO_Sitemaps_Router();
 		$this->renderer    = new WPSEO_Sitemaps_Renderer();
+		$this->cache       = new WPSEO_Sitemaps_Cache();
 		$this->providers   = array( // TODO API for add/remove. R.
 			new WPSEO_Post_Type_Sitemap_Provider(),
 			new WPSEO_Taxonomy_Sitemap_Provider(),
@@ -178,16 +183,11 @@ class WPSEO_Sitemaps {
 
 		$this->set_n( get_query_var( 'sitemap_n' ) );
 
-		/**
-		 * Filter: 'wpseo_enable_xml_sitemap_transient_caching' - Allow disabling the transient cache
-		 *
-		 * @api bool $unsigned Enable cache or not, defaults to true
-		 */
-		$caching = apply_filters( 'wpseo_enable_xml_sitemap_transient_caching', true );
+		$caching = $this->cache->is_enabled();
 
 		if ( $caching ) {
-			do_action( 'wpseo_sitemap_stylesheet_cache_' . $type, $this );
-			$this->sitemap   = get_transient( 'wpseo_sitemap_cache_' . $type . '_' . $this->current_page );
+			do_action( 'wpseo_sitemap_stylesheet_cache_' . $type, $this ); // TODO document action R.
+			$this->sitemap   = $this->cache->get_sitemap( $type, $this->current_page );
 			$this->transient = ! empty( $this->sitemap );
 		}
 
@@ -203,7 +203,7 @@ class WPSEO_Sitemaps {
 		}
 
 		if ( $caching && ! $this->transient ) {
-			set_transient( 'wpseo_sitemap_cache_' . $type . '_' . $this->current_page, $this->sitemap, DAY_IN_SECONDS );
+			$this->cache->store_sitemap( $type, $this->current_page, $this->sitemap );
 		}
 
 		$this->output();
@@ -349,7 +349,7 @@ class WPSEO_Sitemaps {
 	 * Make a request for the sitemap index so as to cache it before the arrival of the search engines.
 	 */
 	public function hit_sitemap_index() {
-		wp_remote_get( wpseo_xml_sitemaps_base_url( 'sitemap_index.xml' ) );
+		wp_remote_get( WPSEO_Sitemaps_Router::get_base_url( 'sitemap_index.xml' ) );
 	}
 
 	/**
@@ -402,6 +402,26 @@ class WPSEO_Sitemaps {
 	public function get_last_modified( $post_types ) {
 
 		return $this->timezone->format_date( self::get_last_modified_gmt( $post_types ) );
+	}
+
+	/**
+	 * Notify search engines of the updated sitemap.
+	 *
+	 * @param string|null $url Optional URL to make the ping for.
+	 */
+	public static function ping_search_engines( $url = null ) {
+
+		if ( '0' == get_option( 'blog_public' ) ) { // Don't ping if blog is not public.
+			return;
+		}
+
+		if ( empty( $url ) ) {
+			$url = urlencode( WPSEO_Sitemaps_Router::get_base_url( 'sitemap_index.xml' ) );
+		}
+
+		// Ping Google and Bing.
+		wp_remote_get( 'http://www.google.com/webmasters/tools/ping?sitemap=' . $url, array( 'blocking' => false ) );
+		wp_remote_get( 'http://www.bing.com/ping?sitemap=' . $url, array( 'blocking' => false ) );
 	}
 
 	/**

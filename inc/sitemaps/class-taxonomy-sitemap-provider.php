@@ -120,7 +120,7 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 				}
 
 				$index[] = array(
-					'loc'     => wpseo_xml_sitemaps_base_url( $tax_name . '-sitemap' . $count . '.xml' ),
+					'loc'     => WPSEO_Sitemaps_Router::get_base_url( $tax_name . '-sitemap' . $count . '.xml' ),
 					'lastmod' => $date,
 				);
 			}

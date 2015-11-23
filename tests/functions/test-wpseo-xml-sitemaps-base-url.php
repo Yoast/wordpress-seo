@@ -17,8 +17,8 @@ class WPSEO_XML_Sitemaps_Base_URL extends WPSEO_UnitTestCase {
 	public function test_with_http() {
 		update_option( 'home', 'http://example.org' );
 
-		$this->assertEquals( 'http://example.org/sitemap.xml', wpseo_xml_sitemaps_base_url( 'sitemap.xml' ) );
-		$this->assertNotEquals( 'https://example.org/sitemap.xml', wpseo_xml_sitemaps_base_url( 'sitemap.xml' ) );
+		$this->assertEquals( 'http://example.org/sitemap.xml', WPSEO_Sitemaps_Router::get_base_url( 'sitemap.xml' ) );
+		$this->assertNotEquals( 'https://example.org/sitemap.xml', WPSEO_Sitemaps_Router::get_base_url( 'sitemap.xml' ) );
 	}
 
 	/**
@@ -27,7 +27,7 @@ class WPSEO_XML_Sitemaps_Base_URL extends WPSEO_UnitTestCase {
 	public function test_with_https() {
 		update_option( 'home', 'https://example.org' );
 
-		$this->assertEquals( 'https://example.org/sitemap.xml', wpseo_xml_sitemaps_base_url( 'sitemap.xml' ) );
-		$this->assertNotEquals( 'http://example.org/sitemap.xml', wpseo_xml_sitemaps_base_url( 'sitemap.xml' ) );
+		$this->assertEquals( 'https://example.org/sitemap.xml', WPSEO_Sitemaps_Router::get_base_url( 'sitemap.xml' ) );
+		$this->assertNotEquals( 'http://example.org/sitemap.xml', WPSEO_Sitemaps_Router::get_base_url( 'sitemap.xml' ) );
 	}
 }

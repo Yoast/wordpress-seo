@@ -66,4 +66,28 @@ class WPSEO_Sitemaps_Router {
 			exit;
 		}
 	}
+
+	/**
+	 * Create base URL for the sitemap.
+	 *
+	 * @param string $page Page to append to the base URL.
+	 *
+	 * @return string base URL (incl page)
+	 */
+	public static function get_base_url( $page ) {
+
+		global $wp_rewrite;
+
+		$base = $wp_rewrite->using_index_permalinks() ? 'index.php/' : '/';
+
+		/**
+		 * Filter: 'wpseo_sitemaps_base_url' - Allow developer to change the base URL of the sitemaps
+		 *
+		 * @api string $base The string that should be added to home_url() to make the full base URL.
+		 */
+		$base = apply_filters( 'wpseo_sitemaps_base_url', $base );
+
+		// Get the scheme from the configured home url instead of letting WordPress determine the scheme based on the requested URI.
+		return home_url( $base . $page, parse_url( get_option( 'home' ), PHP_URL_SCHEME ) );
+	}
 }

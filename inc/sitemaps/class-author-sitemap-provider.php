@@ -94,7 +94,7 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			$date = $wpdb->get_var( $sql );
 
 			$index[] = array(
-				'loc'     => wpseo_xml_sitemaps_base_url( 'author-sitemap' . $count . '.xml' ),
+				'loc'     => WPSEO_Sitemaps_Router::get_base_url( 'author-sitemap' . $count . '.xml' ),
 				'lastmod' => '@' . $date, // @ for explicit timestamp format
 			);
 		}

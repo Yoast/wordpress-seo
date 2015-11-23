@@ -149,51 +149,6 @@ function wpseo_register_var_replacement( $var, $replace_function, $type = 'advan
 }
 
 /**
- * Create base URL for the sitemaps and applies filters
- *
- * @since 1.5.7
- *
- * @param string $page page to append to the base URL.
- *
- * @return string base URL (incl page) for the sitemaps
- */
-function wpseo_xml_sitemaps_base_url( $page ) {
-	$base = $GLOBALS['wp_rewrite']->using_index_permalinks() ? 'index.php/' : '/';
-
-	/**
-	 * Filter: 'wpseo_sitemaps_base_url' - Allow developer to change the base URL of the sitemaps
-	 *
-	 * @api string $base The string that should be added to home_url() to make the full base URL.
-	 */
-	$base = apply_filters( 'wpseo_sitemaps_base_url', $base );
-
-	// Get the scheme from the configured home url instead of letting WordPress determine the scheme based on the requested URI.
-	return home_url( $base . $page, parse_url( get_option( 'home' ), PHP_URL_SCHEME ) );
-}
-
-/**
- * Notify search engines of the updated sitemap.
- *
- * @param string|null $sitemapurl Optional URL to make the ping for.
- */
-function wpseo_ping_search_engines( $sitemapurl = null ) {
-	// Don't ping if blog is not public.
-	if ( '0' == get_option( 'blog_public' ) ) {
-		return;
-	}
-
-	if ( $sitemapurl == null ) {
-		$sitemapurl = urlencode( wpseo_xml_sitemaps_base_url( 'sitemap_index.xml' ) );
-	}
-
-	// Ping Google and Bing.
-	wp_remote_get( 'http://www.google.com/webmasters/tools/ping?sitemap=' . $sitemapurl, array( 'blocking' => false ) );
-	wp_remote_get( 'http://www.bing.com/ping?sitemap=' . $sitemapurl, array( 'blocking' => false ) );
-}
-
-add_action( 'wpseo_ping_search_engines', 'wpseo_ping_search_engines' );
-
-/**
  * WPML plugin support: Set titles for custom types / taxonomies as translatable.
  * It adds new keys to a wpml-config.xml file for a custom post type title, metadesc, title-ptarchive and metadesc-ptarchive fields translation.
  * Documentation: http://wpml.org/documentation/support/language-configuration-files/
@@ -253,53 +208,6 @@ function wpseo_shortcode_yoast_breadcrumb() {
 }
 
 add_shortcode( 'wpseo_breadcrumb', 'wpseo_shortcode_yoast_breadcrumb' );
-
-
-/**
- * This invalidates our XML Sitemaps cache.
- *
- * @param string $type Type of sitemap to invalidate.
- */
-function wpseo_invalidate_sitemap_cache( $type ) {
-	// Always delete the main index sitemaps cache, as that's always invalidated by any other change.
-	delete_transient( 'wpseo_sitemap_cache_1' );
-	delete_transient( 'wpseo_sitemap_cache_' . $type );
-
-	WPSEO_Utils::clear_sitemap_cache( array( $type ) );
-}
-
-add_action( 'deleted_term_relationships', 'wpseo_invalidate_sitemap_cache' );
-
-/**
- * Invalidate XML sitemap cache for taxonomy / term actions
- *
- * @param int    $unused Unused term ID value.
- * @param string $type   Taxonomy to invalidate.
- */
-function wpseo_invalidate_sitemap_cache_terms( $unused, $type ) {
-	wpseo_invalidate_sitemap_cache( $type );
-}
-
-add_action( 'edited_terms', 'wpseo_invalidate_sitemap_cache_terms', 10, 2 );
-add_action( 'clean_term_cache', 'wpseo_invalidate_sitemap_cache_terms', 10, 2 );
-add_action( 'clean_object_term_cache', 'wpseo_invalidate_sitemap_cache_terms', 10, 2 );
-
-/**
- * Invalidate the XML sitemap cache for a post type when publishing or updating a post
- *
- * @param int $post_id Post ID to determine post type for invalidation.
- */
-function wpseo_invalidate_sitemap_cache_on_save_post( $post_id ) {
-
-	// If this is just a revision, don't invalidate the sitemap cache yet.
-	if ( wp_is_post_revision( $post_id ) ) {
-		return;
-	}
-
-	wpseo_invalidate_sitemap_cache( get_post_type( $post_id ) );
-}
-
-add_action( 'save_post', 'wpseo_invalidate_sitemap_cache_on_save_post' );
 
 /**
  * Emulate PHP native ctype_digit() function for when the ctype extension would be disabled *sigh*

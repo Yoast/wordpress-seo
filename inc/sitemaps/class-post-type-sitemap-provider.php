@@ -85,7 +85,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 				}
 
 				$index[] = array(
-					'loc'     => wpseo_xml_sitemaps_base_url( $post_type . '-sitemap' . $count . '.xml' ),
+					'loc'     => WPSEO_Sitemaps_Router::get_base_url( $post_type . '-sitemap' . $count . '.xml' ),
 					'lastmod' => $date,
 				);
 			}
