@@ -92,10 +92,14 @@
 	 * Bind elements to be able to reload the dataset if shortcodes get added.
 	 */
 	YoastShortcodePlugin.prototype.bindElementEvents = function() {
-		document.getElementById( 'content' ).addEventListener( 'keydown', this.loadShortcodes.bind( this, this.declareReloaded.bind( this ) ) );
-		document.getElementById( 'content' ).addEventListener( 'change', this.loadShortcodes.bind( this, this.declareReloaded.bind( this ) ) );
-
+		var contentElement = document.getElementById( 'content' ) || false;
 		var that = this;
+
+		if (contentElement) {
+			contentElement.addEventListener( 'keydown', this.loadShortcodes.bind( this, this.declareReloaded.bind( this ) ) );
+			contentElement.addEventListener( 'change', this.loadShortcodes.bind( this, this.declareReloaded.bind( this ) ) );
+		}
+
 		if( typeof tinyMCE !== 'undefined' && typeof tinyMCE.on === 'function' ) {
 			tinyMCE.on( 'addEditor', function( e ) {
 				e.editor.on( 'change', function() {
@@ -113,9 +117,9 @@
 	 * @returns {String}
 	 */
 	YoastShortcodePlugin.prototype.getContentTinyMCE = function() {
-		var val = document.getElementById( 'content' ).value;
+		var val = document.getElementById( 'content' ) && document.getElementById( 'content' ).value || '';
 		if ( typeof tinyMCE !== 'undefined' && typeof tinyMCE.editors !== 'undefined' && tinyMCE.editors.length !== 0 ) {
-			val = tinyMCE.get( 'content' ).getContent();
+			val = tinyMCE.get( 'content' ) && tinyMCE.get( 'content' ).getContent() || '';
 		}
 
 		return val;
