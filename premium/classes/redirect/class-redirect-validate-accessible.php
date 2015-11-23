@@ -39,6 +39,19 @@ class WPSEO_Redirect_Validate_Accessible implements WPSEO_Redirect_Validate {
 		}
 
 		$response_code = wp_remote_retrieve_response_code( $response );
+
+		// Check if the target is a temporary location.
+		if ( $this->is_temporary( $response_code ) ) {
+			/* translators: %1$s expands to the returned http code  */
+			$this->warning = sprintf(
+				__( 'The url you are redirecting to returns a %1$s status. You might want to consider redirecting to another url.', 'wordpress-seo-premium' ),
+				$response_code
+			);
+
+			return false;
+		}
+
+
 		if ( $response_code !== 200 ) {
 			/* translators: %1$s expands to the returned http code  */
 			$this->warning = sprintf(
@@ -68,6 +81,17 @@ class WPSEO_Redirect_Validate_Accessible implements WPSEO_Redirect_Validate {
 	 */
 	public function get_warning() {
 		return $this->warning;
+	}
+
+	/**
+	 * Check if the given response code is a temporary one.
+	 *
+	 * @param int $response_code The response code to check.
+	 *
+	 * @return bool
+	 */
+	private function is_temporary( $response_code ) {
+		return in_array( $response_code, array( 302, 307 ) ) || in_array( substr( $response_code, 0, 2 ), array( 40, 50 ) );
 	}
 
 }
