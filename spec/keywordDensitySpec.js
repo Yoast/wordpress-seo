@@ -115,6 +115,6 @@ describe("A keyword density test with Arabic language", function(){
 		var analyzer = Factory.buildAnalyzer(keywordArgs8);
 		var result = analyzer.keywordDensity();
 
-		expect(result[0].result).toBe(2.13);
+		expect(result[0].result).toContain(2.1);
 	});
 });
