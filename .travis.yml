@@ -60,7 +60,7 @@ script:
 - if [[ "$PHPLINT" == "1" ]]; then vendor/bin/phpcs -v; fi
 - if [[ "$CHECKS" == "1" ]]; then npm install -g grunt-cli && npm install --no-optional && grunt check:js; fi
 - if [[ "$COVERAGE" == "1" ]]; then phpunit -c phpunit.xml --coverage-clover build/logs/clover.xml; else phpunit -c phpunit.xml; fi
-- if [[ "$COVERAGE" == "1" ]]; then sed -i -e 's/tmp\/wordpress\/src\/wp-content\/plugins\///g' build/logs/clover.xml && vendor/bin/test-reporter; fi
+- if [[ "$COVERAGE" == "1" ]]; then vendor/bin/test-reporter; fi
 
 notifications:
   slack:
