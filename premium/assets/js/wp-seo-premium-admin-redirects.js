@@ -10,23 +10,68 @@ jQuery( function($) {
 	 * @param {string} arg_type
 	 */
 	$.fn.wpseo_redirects = function( arg_type ) {
-		var that = this;
-		var type = arg_type.replace( 'table-', '' );
-		var table = that.find( 'table' );
+		var that   = this;
+		var type   = arg_type.replace( 'table-', '' );
+		var table  = that.find( 'table' );
+		var ignore = false;
+
+		var last_action;
+
+		this.get_buttons = function( type ) {
+			if ( type === 'default' ) {
+				return [
+					{
+						text : wpseo_premium_strings.button_ok,
+						click: function () {
+							$(this).dialog('close');
+						}
+					}
+				];
+			}
+
+			return [
+				{
+					text : wpseo_premium_strings.button_cancel,
+					click: function () {
+						$(this).dialog('close');
+					}
+				},
+				{
+					text : wpseo_premium_strings.button_save,
+					'class': 'button-primary',
+					click: function () {
+						ignore = true;
+
+						$( last_action).click();
+
+						$(this).dialog('close');
+
+						last_action = null;
+						ignore      = false;
+					}
+				}
+			];
+		};
 
 		/**
 		 * Showing a dialog on the screen
 		 *
 		 * @param {string} title
 		 * @param {string} text
+		 * @param {string} type
 		 */
-		this.dialog = function( title, text ) {
+		this.dialog = function( title, text, type ) {
+
+			if ( type === undefined || type === 'error' ) {
+				type = 'default';
+			}
+
+			var buttons = this.get_buttons( type );
 
 			$('#YoastRedirectDialogText').html( text );
-			$('#YoastRedirectDialog')
-				.attr('title', title )
-				.dialog(
+			$('#YoastRedirectDialog').dialog(
 				{
+					title : title,
 					width: 500,
 					draggable: false,
 					resizable: false,
@@ -34,14 +79,7 @@ jQuery( function($) {
 						at: 'center top+10%',
 						my: 'center top+10%'
 					},
-					buttons: [
-						{
-							text : wpseo_premium_strings.button_ok,
-							click: function () {
-								$(this).dialog('close');
-							}
-						}
-					]
+					buttons: buttons
 				}
 			);
 		};
@@ -69,7 +107,8 @@ jQuery( function($) {
 			if (response.error) {
 				that.dialog(
 					wpseo_premium_strings.error_saving_redirect,
-					response.error
+					response.error.message,
+					response.error.type
 				);
 
 				return true;
@@ -267,7 +306,7 @@ jQuery( function($) {
 		this.validate = function(old_redirect, new_redirect, redirect_type) {
 			// Check old URL
 			if ( '' === old_redirect ) {
-				if ( 'url' === type ) {
+				if ( 'plain' === type ) {
 					return wpseo_premium_strings.error_old_url;
 				}
 
@@ -380,7 +419,8 @@ jQuery( function($) {
 					ajax_nonce: $( '.wpseo_redirects_ajax_nonce' ).val(),
 					old_url: encodeURIComponent( old_redirect ),
 					new_url: encodeURIComponent( new_redirect ),
-					type: redirect_type
+					type: redirect_type,
+					ignore_warning: ignore
 				},
 				// Method that will be called on complete.
 				that.add_redirect_response
@@ -397,6 +437,9 @@ jQuery( function($) {
 		 * @returns {boolean}
 		 */
 		this.add_redirect_response = function( response ) {
+
+			last_action = $('form.wpseo-new-redirect-form').find('.button-primary');
+
 			that.handle_response(
 				response,
 				function( response ) {
@@ -430,6 +473,9 @@ jQuery( function($) {
 			var new_url       = table_cells.eq( 1 ).find( 'input' ).val().toString();
 			var redirect_type = table_cells.eq( 2 ).find( 'select option:selected' ).val().toString();
 
+			// Set the last action to the current button
+			last_action = row.find('button.button-primary');
+
 			// Validate the fields
 			var error_message = that.validate(old_url, new_url, redirect_type);
 
@@ -452,7 +498,8 @@ jQuery( function($) {
 						key: encodeURIComponent( old_url ),
 						value: encodeURIComponent( new_url ),
 						type: encodeURIComponent( redirect_type )
-					}
+					},
+					ignore_warning: ignore
 				},
 				function( response ) {
 					that.handle_response(
