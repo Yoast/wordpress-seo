@@ -62,6 +62,7 @@ $yform->admin_header( true, 'wpseo_titles' );
 		<div id="home" class="wpseotab">
 			<?php
 			if ( 'posts' == get_option( 'show_on_front' ) ) {
+				echo '<div id="homepage-titles-metas">';
 				echo '<p><strong>', __( 'Homepage', 'wordpress-seo' ), '</strong><br/>';
 				$yform->textinput( 'title-home-wpseo', __( 'Title template', 'wordpress-seo' ), 'template homepage-template' );
 				$yform->textarea( 'metadesc-home-wpseo', __( 'Meta description template', 'wordpress-seo' ), array( 'class' => 'template homepage-template' ) );
@@ -69,6 +70,7 @@ $yform->admin_header( true, 'wpseo_titles' );
 					$yform->textinput( 'metakey-home-wpseo', __( 'Meta keywords template', 'wordpress-seo' ) );
 				}
 				echo '</p>';
+				echo '</div>';
 			}
 			else {
 				echo '<p><strong>', __( 'Homepage &amp; Front page', 'wordpress-seo' ), '</strong><br/>';
@@ -92,6 +94,7 @@ $yform->admin_header( true, 'wpseo_titles' );
 					}
 
 					$name = $pt->name;
+					echo "<div id='". esc_attr( $name ) ."-titles-metas'>";
 					echo '<strong id="' . esc_attr( $name ) . '">' . esc_html( ucfirst( $pt->labels->name ) ) . '</strong><br/>';
 					if ( $warn === true ) {
 						echo '<h4 class="error-message">' . __( 'Take note:', 'wordpress-seo' ) . '</h4>';
@@ -109,6 +112,7 @@ $yform->admin_header( true, 'wpseo_titles' );
 					$yform->checkbox( 'showdate-' . $name, __( 'Show date in snippet preview?', 'wordpress-seo' ), __( 'Date in Snippet Preview', 'wordpress-seo' ) );
 					/* translators: %1$s expands to Yoast SEO */
 					$yform->checkbox( 'hideeditbox-' . $name, __( 'Hide', 'wordpress-seo' ), sprintf( __( '%1$s Meta Box', 'wordpress-seo' ), 'Yoast SEO' ) );
+					echo '</div>';
 
 					/**
 					 * Allow adding a custom checkboxes to the admin meta page - Post Types tab
@@ -135,7 +139,6 @@ $yform->admin_header( true, 'wpseo_titles' );
 
 				foreach ( $post_types as $pt ) {
 					$name = $pt->name;
-
 					echo '<strong>' . esc_html( ucfirst( $pt->labels->name ) ) . '</strong><br/>';
 					$yform->textinput( 'title-ptarchive-' . $name, __( 'Title', 'wordpress-seo' ), 'template posttype-template' );
 					$yform->textarea( 'metadesc-ptarchive-' . $name, __( 'Meta description', 'wordpress-seo' ), array( 'class' => 'template posttype-template' ) );
@@ -160,6 +163,7 @@ $yform->admin_header( true, 'wpseo_titles' );
 			$taxonomies = get_taxonomies( array( 'public' => true ), 'objects' );
 			if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
 				foreach ( $taxonomies as $tax ) {
+					echo "<div id='". $tax->name ."-titles-metas'>";
 					echo '<strong>' . esc_html( ucfirst( $tax->labels->name ) ) . '</strong><br/>';
 					$yform->textinput( 'title-tax-' . $tax->name, __( 'Title template', 'wordpress-seo' ), 'template taxonomy-template' );
 					$yform->textarea( 'metadesc-tax-' . $tax->name, __( 'Meta description template', 'wordpress-seo' ), array( 'class' => 'template taxonomy-template' ) );
@@ -170,6 +174,7 @@ $yform->admin_header( true, 'wpseo_titles' );
 					/* translators: %1$s expands to Yoast SEO */
 					$yform->checkbox( 'hideeditbox-tax-' . $tax->name, __( 'Hide', 'wordpress-seo' ), sprintf( __( '%1$s Meta Box', 'wordpress-seo' ), 'Yoast SEO' ) );
 					echo '<br/><br/>';
+					echo '</div>';
 				}
 				unset( $tax );
 			}
@@ -179,18 +184,23 @@ $yform->admin_header( true, 'wpseo_titles' );
 		</div>
 		<div id="archives" class="wpseotab">
 			<?php
+			echo "<div id='author-archives-titles-metas'>";
 			echo '<h3>' . __( 'Author Archives', 'wordpress-seo' ) . '</h3>';
 			$yform->textinput( 'title-author-wpseo', __( 'Title template', 'wordpress-seo' ), 'template author-template' );
 			$yform->textarea( 'metadesc-author-wpseo', __( 'Meta description template', 'wordpress-seo' ), array( 'class' => 'template author-template' ) );
 			if ( $options['usemetakeywords'] === true ) {
 				$yform->textinput( 'metakey-author-wpseo', __( 'Meta keywords template', 'wordpress-seo' ) );
 			}
+			echo '</div>';
 
+			echo "<div id='date-archives-titles-metas'>";
 			echo '<h3>' . __( 'Date Archives', 'wordpress-seo' ) . '</h3>';
 			$yform->textinput( 'title-archive-wpseo', __( 'Title template', 'wordpress-seo' ), 'template date-template' );
 			$yform->textarea( 'metadesc-archive-wpseo', __( 'Meta description template', 'wordpress-seo' ), array( 'class' => 'template date-template' ) );
+			echo '</div>';
 			echo '<br/>';
 
+			echo '<div id="duplicate-content-prevention">';
 			echo '<h3>' . __( 'Duplicate content prevention', 'wordpress-seo' ) . '</h3>';
 			echo '<p>';
 			/* translators: %1$s / %2$s: links to an article about duplicate content on yoast.com */
@@ -208,9 +218,10 @@ $yform->admin_header( true, 'wpseo_titles' );
 			/* translators: %s expands to <code>noindex, follow</code> */
 			$yform->checkbox( 'noindex-archive-wpseo', sprintf( __( 'Add %s to the date-based archives', 'wordpress-seo' ), '<code>noindex, follow</code>' ) );
 			$yform->checkbox( 'disable-date', __( 'Disable the date-based archives', 'wordpress-seo' ) );
-
+			echo '</div>';
 			echo '<br/>';
 
+			echo '<div id="special-pages-titles-metas">';
 			echo '<h2>' . __( 'Special Pages', 'wordpress-seo' ) . '</h2>';
 			/* translators: %s expands to <code>noindex, follow</code> */
 			echo '<p>' . sprintf( __( 'These pages will be %s by default, so they will never show up in search results.', 'wordpress-seo' ), '<code>noindex, follow</code>' ) . '</p>';
@@ -220,6 +231,7 @@ $yform->admin_header( true, 'wpseo_titles' );
 			echo '<p><strong>' . __( '404 pages', 'wordpress-seo' ) . '</strong><br/>';
 			$yform->textinput( 'title-404-wpseo', __( 'Title template', 'wordpress-seo' ), 'template error404-template' );
 			echo '</p>';
+			echo '</div>';
 			echo '<br class="clear"/>';
 			?>
 		</div>
