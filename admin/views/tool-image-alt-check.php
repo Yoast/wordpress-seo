@@ -3,31 +3,15 @@
  * @package WPSEO\Admin\ImageAltCheck
  */
 
-/**
- * Class with functionality to check images for missing Alt Attribute Text
- */
-class WPSEO_Alt_Image_Check {
-
-
-	/**
-	 * Construct Method.
-	 */
-	public function __construct() {
-		add_action('admin_menu', array( $this,'check_image_alt_text_menu') );
-	}
-
-	/**
-	 * Add SubMenu Page
-	 */
-	public function check_image_alt_text_menu() {
-		add_submenu_page( 'wpseo_dashboard', 'Check Image Alt Text', 'Image Alt Text', 'manage_options', 'check_image_alt_text', array( $this,'check_image_alt_text_options') );
+if ( ! defined( 'WPSEO_VERSION' ) ) {
+	header( 'Status: 403 Forbidden' );
+	header( 'HTTP/1.1 403 Forbidden' );
+	exit();
 }
 
 	/**
-	 * Load Page
+	 * Query all Images
 	 */
-	public function check_image_alt_text_options() { ?>
-	<?php
 		$query_images_args = array(
 		    'post_type' => 'attachment', 'post_mime_type' =>'image', 'post_status' => 'inherit', 'posts_per_page' => -1,
 		);
@@ -47,9 +31,9 @@ class WPSEO_Alt_Image_Check {
 		}
 	?>
 	<div id="=check_image_alt_text_options" class="wrap">
-		<h2><?php echo __('Images with no Alt Attribute', 'wordpress-seo'); ?></h2>
+		<h2><?php echo __('Images with no Alt Attribute:', 'wordpress-seo'); ?></h2>
 		<span>
-		<?php echo __('The alt attribute provides alternative information for an image if a user for some reason cannot view it. The following images do not have alternative attribute text associated with them:', 'wordpress-seo'); ?>
+		<?php echo __('<p>The alt attribute provides alternative information for an image if a user for some reason cannot view it. The following images do not have alternative attribute text associated with them:</p>', 'wordpress-seo'); ?>
 		</span><br /><br />
 		<table class="widefat">
 			<thead>
@@ -70,7 +54,6 @@ class WPSEO_Alt_Image_Check {
 			</tbody>
 		</table>
 	</div>
-<?php }
 
-}
+
 
