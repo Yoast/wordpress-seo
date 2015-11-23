@@ -170,7 +170,6 @@ class WPSEO_Redirect_Validator {
 	 * @param string|null $validation_error   The validation error.
 	 *
 	 * @return array
-	 *
 	 */
 	protected function set_error( $validation_warning, $validation_error ) {
 		if ( ! empty( $validation_warning ) ) {
