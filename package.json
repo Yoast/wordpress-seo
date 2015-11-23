@@ -15,7 +15,6 @@
     "url": "https://github.com/Yoast/wordpress-seo"
   },
   "devDependencies": {
-    "assemble-less": "~0.7.0",
     "grunt": "^0.4.5",
     "grunt-autoprefixer": "^1.0.1",
     "grunt-checktextdomain": "^1.0.0",
