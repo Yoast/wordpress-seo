@@ -169,6 +169,11 @@
 				document.getElementById( 'yoast_wpseo_metadesc' ).value = value;
 				break;
 			case 'snippet_cite':
+				//strip trailing slash
+				if ( value.indexOf( '/' ) === ( value.length - 1 ) ) {
+					value = value.substring( 0, (value.length - 1) );
+				}
+				value = value.replace( /\s/g, '-' );
 				document.getElementById( 'post_name' ).value = value;
 				if ( document.getElementById( 'editable-post-name' ) !== null ) {
 					document.getElementById( 'editable-post-name' ).textContent = value;
