@@ -8,10 +8,12 @@ cache:
 
 before_script:
 - npm install -g grunt-cli
+- npm install -g codeclimate-test-reporter
 - npm install
 
 script:
-- npm test
+- npm test --coverage
+- codeclimate-test-reporter < coverage/lcov.info
 - grunt check
 
 notifications:

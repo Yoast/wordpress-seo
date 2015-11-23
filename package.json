@@ -14,10 +14,11 @@
     "url": "https://github.com/Yoast/YoastSEO.js"
   },
   "scripts": {
-    "test": "jasmine"
+    "test": "istanbul test jasmine"
   },
   "bin": {
-    "jasmine": "./bin/jasmine.js"
+    "jasmine": "./bin/jasmine.js",
+    "istanbul": "./bin/istanbul.js"
   },
   "devDependencies": {
     "grunt": "^0.4.5",
@@ -34,6 +35,7 @@
     "grunt-po2json": "^0.3.0",
     "grunt-shell": "^1.1.2",
     "io.js": "0.0.0",
+    "istanbul": "^0.4.0",
     "jasmine": "~2.2.1",
     "jsdom": "^5.4.3",
     "load-grunt-config": "^0.17.0",

@@ -3,3 +3,4 @@ temp-spec/
 .idea/
 node_modules/
 out/
+coverage/
