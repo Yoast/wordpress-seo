@@ -4,7 +4,7 @@
 /* global yoast_overlay */
 'use strict';
 
-jQuery( function($) {
+( function($) {
 	/**
 	 * Extending the elements with a wpseo_redirects object
 	 * @param {string} arg_type
@@ -535,10 +535,15 @@ jQuery( function($) {
 		that.setup();
 	};
 
-	$.each(
-		$( '.redirect-table-tab' ),
-		function( key, element ) {
-			$( element ).wpseo_redirects( $( element ).attr( 'id' ) );
-		}
-	);
-});
+	function init() {
+		$.each(
+			$('.redirect-table-tab'),
+			function (key, element) {
+				$(element).wpseo_redirects($(element).attr('id'));
+			}
+		);
+	}
+
+	$(init);
+
+}(jQuery));
