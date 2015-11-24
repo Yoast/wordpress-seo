@@ -64,17 +64,15 @@ YoastSEO.Analyzer.prototype.formatKeyword = function() {
 
 		// Creates new regex from keyword with global and caseinsensitive option,
 
-		this.keywordRegex = new RegExp( "\\b" +
-			this.preProcessor.replaceDiacritics( keyword.replace( /[-_]/g, " " ) ) + "\\b",
-			"ig"
-		);
+		this.keywordRegex = this.stringHelper.createWordBoundaryRegex(
+			this.preProcessor.replaceDiacritics( keyword.replace( /[-_]/g, " " )
+		) );
 
 		// Creates new regex from keyword with global and caseinsensitive option,
 		// replaces space with -. Used for URL matching
-		this.keywordRegexInverse = new RegExp( "\\b" +
-			this.preProcessor.replaceDiacritics( keyword.replace( /\s/g, "-" ) ) + "\\b",
-			"ig"
-		);
+		this.keywordRegexInverse = this.stringHelper.createWordBoundaryRegex(
+			this.preProcessor.replaceDiacritics( keyword.replace( /\s/g, "-" )
+		) );
 	}
 };
 
@@ -575,7 +573,7 @@ YoastSEO.Analyzer.prototype.pageTitleKeyword = function() {
 	if ( typeof this.config.pageTitle !== "undefined" ) {
 		result[ 0 ].result.matches = this.stringHelper.countMatches(
 			this.config.pageTitle,
-			new RegExp( this.config.keyword, "i" )
+			this.keywordRegex
 		);
 		result[ 0 ].result.position = this.config.pageTitle.toLocaleLowerCase().indexOf( this.config.keyword.toLocaleLowerCase() );
 	}
@@ -646,7 +644,7 @@ YoastSEO.Analyzer.prototype.metaDescriptionKeyword = function() {
 	var result = [ { test: "metaDescriptionKeyword", result: -1 } ];
 	if ( typeof this.config.meta !== "undefined" && this.config.meta.length > 0 && this.config.keyword !== "" ) {
 		result[ 0 ].result = this.stringHelper.countMatches(
-			this.config.meta, new RegExp( this.config.keyword, "i" )
+			this.config.meta, this.keywordRegex
 		);
 	}
 	return result;
@@ -2501,7 +2499,7 @@ YoastSEO.SnippetPreview.prototype.formatKeyword = function( textString ) {
 	var keyword = this.refObj.rawData.keyword.replace( /[\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, " " );
 
 	// Match keyword case-insensitively
-	var keywordRegex = new RegExp( "\\b" + keyword + "\\b", "ig" );
+	var keywordRegex = YoastSEO.getStringHelper().createWordBoundaryRegex( keyword );
 	return textString.replace( keywordRegex, function( str ) {
 		return "<strong>" + str + "</strong>";
 	} );
@@ -2520,7 +2518,7 @@ YoastSEO.SnippetPreview.prototype.formatKeywordUrl = function( textString ) {
 	var dashedKeyword = keyword.replace( /\s/g, "-" );
 
 	// Match keyword case-insensitively.
-	var keywordRegex = new RegExp( "\\b" + dashedKeyword + "\\b", "ig" );
+	var keywordRegex = YoastSEO.getStringHelper().createWordBoundaryRegex( dashedKeyword );
 
 	// Make the keyword bold in the textString.
 	return textString.replace( keywordRegex, function( str ) {
@@ -2729,15 +2727,15 @@ YoastSEO.StringHelper.prototype.countMatches = function( textString, regex ) {
 };
 
 /**
- * builds regex from array with strings
+ * builds regex from array with multiple strings
  * @param stringArray
  * @returns {RegExp}
  */
 YoastSEO.StringHelper.prototype.stringToRegex = function( stringArray, disableWordBoundary ) {
 	var regexString = "";
-	var wordBoundary = "\\b";
-	if ( disableWordBoundary ) {
-		wordBoundary = "";
+	var wordBoundary = "";
+	if ( !disableWordBoundary ) {
+		wordBoundary = this.getWordBoundary();
 	}
 	for ( var i = 0; i < stringArray.length; i++ ) {
 		if ( regexString.length > 0 ) {
@@ -2746,6 +2744,30 @@ YoastSEO.StringHelper.prototype.stringToRegex = function( stringArray, disableWo
 		regexString += wordBoundary + stringArray[ i ] + wordBoundary;
 	}
 	return new RegExp( regexString, "g" );
+};
+
+/**
+ * Creates a regex with a wordboundary. Since /b isn't working properly in JavaScript we have to
+ * use an alternative regex.
+ */
+YoastSEO.StringHelper.prototype.createWordBoundaryRegex = function( textString ) {
+
+	var wordBoundary = this.getWordBoundary();
+	var regex = new RegExp( wordBoundary + textString + wordBoundary, "ig" );
+
+	return regex;
+};
+
+/**
+ * Returns a wordboundary to be used in a regex.
+ * @returns {string}
+ */
+YoastSEO.StringHelper.prototype.getWordBoundary = function() {
+
+	//temporary wordboundary, \b should be replaced with something that works on non-latin chars
+	//the regex below was used for the
+	//$res = preg_match( "`(^|[ \n\r\t\.,'\(\)\"\+;!?:])" . preg_quote( $stopWord, '`' ) . "($|[ \n\r\t\.,'\(\)\"\+;!?:])`iu", $haystack );
+	return "\\b";
 };
 
 /**
@@ -2815,7 +2837,7 @@ YoastSEO.StringHelper.prototype.stripAllTags = function( textString ) {
 YoastSEO.StringHelper.prototype.stripNumbers = function( textString ) {
 
 	// Remove "words" comprised only of numbers
-	textString = textString.replace( /\b[0-9]+\b/g, "" );
+	textString = textString.replace( this.createWordBoundaryRegex( "[0-9]+" ), "" );
 
 	textString = this.stripSpaces( textString );
 
