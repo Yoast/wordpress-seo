@@ -120,26 +120,26 @@
 				val = wpseoPostScraperL10n.base_url;
 				break;
 			case 'meta':
-				val = document.getElementById( 'yoast_wpseo_metadesc' ).value;
+				val = document.getElementById( 'yoast_wpseo_metadesc' ) && document.getElementById( 'yoast_wpseo_metadesc' ).value || '';
 				if ( val === '' ) {
 					val = wpseoPostScraperL10n.metadesc_template;
 				}
 				break;
 			case 'snippetMeta':
-				val = document.getElementById( 'yoast_wpseo_metadesc' ).value;
+				val = document.getElementById( 'yoast_wpseo_metadesc' ) && document.getElementById( 'yoast_wpseo_metadesc' ).value || '';
 				break;
 			case 'keyword':
-				val = document.getElementById( 'yoast_wpseo_focuskw_text_input' ).value;
+				val = document.getElementById( 'yoast_wpseo_focuskw_text_input' ) && document.getElementById( 'yoast_wpseo_focuskw_text_input' ).value || '';
 				currentKeyword = val;
 				break;
 			case 'title':
-				val = document.getElementById( 'title' ).value;
+				val = document.getElementById( 'title' ) && document.getElementById( 'title' ).value || '';
 				break;
 			case 'snippetTitle':
-				val = document.getElementById( 'yoast_wpseo_title' ).value;
+				val = document.getElementById( 'yoast_wpseo_title' ) && document.getElementById( 'yoast_wpseo_title' ).value || '';
 				break;
 			case 'pageTitle':
-				val = document.getElementById( 'yoast_wpseo_title' ).value;
+				val = document.getElementById( 'yoast_wpseo_title' ) && document.getElementById( 'yoast_wpseo_title' ).value || '';
 				if ( val === '' ) {
 					val = wpseoPostScraperL10n.title_template;
 				}
@@ -149,7 +149,7 @@
 				break;
 			case 'excerpt':
 				if ( document.getElementById( 'excerpt' ) !== null ) {
-					val = document.getElementById('excerpt').value;
+					val = document.getElementById('excerpt') && document.getElementById('excerpt').value || '';
 				}
 				break;
 			default:
@@ -189,9 +189,10 @@
 	 * @returns {String}
 	 */
 	PostScraper.prototype.getContentTinyMCE = function() {
-		var val = document.getElementById( 'content' ).value;
-		if ( typeof tinyMCE !== 'undefined' && typeof tinyMCE.editors !== 'undefined' && tinyMCE.editors.length !== 0 && tinyMCE.get( 'content' ).hidden === false ) {
-			val = tinyMCE.get( 'content' ).getContent();
+		var val = document.getElementById( 'content' ) && document.getElementById( 'content' ).value || '';
+		if ( typeof tinyMCE !== 'undefined' && typeof tinyMCE.editors !== 'undefined' && tinyMCE.editors.length !== 0) {
+			var tinyMceContent = tinyMCE.get( 'content' );
+			val = tinyMceContent && tinyMceContent.hidden === false && tinyMceContent.getContent() || '';
 		}
 		return val;
 	};
@@ -397,10 +398,10 @@
 
 		score = parseInt( score, 10 );
 
-		if ( keyword === '' ) {
+		if ( typeof keyword === 'undefined' || keyword === '' ) {
 			score = 'na';
 		}
-		placeholder = keyword.length > 0 ? keyword : '...';
+		placeholder = keyword && keyword.length > 0 ? keyword : '...';
 
 		score = YoastSEO.ScoreFormatter.prototype.overallScoreRating( score );
 
