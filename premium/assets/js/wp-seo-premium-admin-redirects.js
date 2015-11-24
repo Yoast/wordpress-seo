@@ -410,9 +410,9 @@
 		 */
 		this.update_redirect = function( row ) {
 			var table_cells   = row.find( '.val' );
-			var old_url       = table_cells.eq( 0 ).find( 'input' ).val().toString();
-			var new_url       = table_cells.eq( 1 ).find( 'input' ).val().toString();
-			var redirect_type = table_cells.eq( 2 ).find( 'select option:selected' ).val().toString();
+			var old_url       = table_cells.eq( 1 ).find( 'input' ).val().toString();
+			var new_url       = table_cells.eq( 2 ).find( 'input' ).val().toString();
+			var redirect_type = table_cells.eq( 0 ).find( 'select option:selected' ).val().toString();
 
 			// Validate the fields
 			var error_message = that.validate(old_url, new_url, redirect_type);
@@ -463,7 +463,7 @@
 				{
 					action: 'wpseo_delete_redirect_' + type,
 					ajax_nonce: $( '.wpseo_redirects_ajax_nonce' ).val(),
-					redirect: row.find( '.val' ).eq( 0 ).html().toString()
+					redirect: row.find( '.val' ).eq( 1 ).html().toString()
 				},
 				function(response) {
 					that.handle_response(
