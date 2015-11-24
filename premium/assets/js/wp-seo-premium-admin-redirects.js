@@ -10,6 +10,12 @@
 		DELETED : 410
 	};
 
+	var TABLE_COLUMNS = {
+		ORIGIN : 1,
+		TARGET : 2,
+		TYPE   : 0
+	};
+
 	/**
 	 * Extending the elements with a wpseo_redirects object
 	 * @param {string} arg_type
@@ -143,9 +149,9 @@
 			var row_values = row.find( '.val' );
 			var row_data   = row.data( 'old_redirect');
 
-			row_values.eq( 0 ).html( row_data.key );
-			row_values.eq( 1 ).html( row_data.value );
-			row_values.eq( 2 ).html( row_data.type );
+			row_values.eq( TABLE_COLUMNS.ORIGIN ).html( row_data.key );
+			row_values.eq( TABLE_COLUMNS.TARGET ).html( row_data.value );
+			row_values.eq( TABLE_COLUMNS.TYPE ).html( row_data.type );
 		};
 
 		/**
@@ -187,11 +193,10 @@
 
 			// Add current redirect as data to the row.
 			row.data( 'old_redirect', {
-					key:   row_values.eq( 0 ).html().toString(),
-					value: row_values.eq( 1 ).html().toString(),
-					type:  row_values.eq( 2 ).html().toString()
-				}
-			);
+				key:   row_values.eq( TABLE_COLUMNS.ORIGIN ).html().toString(),
+				value: row_values.eq( TABLE_COLUMNS.TARGET ).html().toString(),
+				type:  row_values.eq( TABLE_COLUMNS.TYPE ).html().toString()
+			} );
 
 			// Add input fields.
 			$.each( row_values, this.add_input_field );
@@ -227,6 +232,10 @@
 			);
 
 			$( row ).find( '.row-actions' ).parent().append( edit_actions );
+
+			$( row).find( 'select').change();
+
+
 		};
 
 		/**
@@ -311,7 +320,7 @@
 				)
 			).append(
 				$( '<td>' ).append(
-					$( '<div>' ).addClass( 'val' ).html( old_url )
+					$( '<div>' ).addClass( 'val type' ).html( redirect_type )
 				).append(
 					$( '<div>' ).addClass( 'row-actions' ).append(
 						$( '<span>' ).addClass( 'edit' ).append(
@@ -325,11 +334,11 @@
 				)
 			).append(
 				$( '<td>' ).append(
-					$( '<div>' ).addClass( 'val' ).html( new_url )
+					$( '<div>' ).addClass( 'val' ).html( old_url )
 				)
 			).append(
 				$( '<td>' ).append(
-					$( '<div>' ).addClass( 'val type' ).html( redirect_type )
+					$( '<div>' ).addClass( 'val' ).html( new_url )
 				)
 			);
 
@@ -343,8 +352,11 @@
 		 */
 		this.add_redirect = function() {
 			var old_redirect  = jQuery( '#wpseo_redirects_new_old' ).val();
-			var new_redirect  = jQuery( '#wpseo_redirects_new_new' ).val();
 			var redirect_type = jQuery( '#wpseo_redirects_new_type' ).val();
+			var new_redirect  = jQuery( '#wpseo_redirects_new_new' ).val();
+			if ( parseInt( redirect_type, 10 ) === REDIRECT.DELETED ) {
+				new_redirect = '';
+			}
 
 			var error_message = that.validate(old_redirect, new_redirect, redirect_type);
 
@@ -410,9 +422,12 @@
 		 */
 		this.update_redirect = function( row ) {
 			var table_cells   = row.find( '.val' );
-			var old_url       = table_cells.eq( 1 ).find( 'input' ).val().toString();
-			var new_url       = table_cells.eq( 2 ).find( 'input' ).val().toString();
-			var redirect_type = table_cells.eq( 0 ).find( 'select option:selected' ).val().toString();
+			var redirect_type = table_cells.eq( TABLE_COLUMNS.TYPE ).find( 'select option:selected' ).val().toString();
+			var old_url       = table_cells.eq( TABLE_COLUMNS.ORIGIN ).find( 'input' ).val().toString();
+			var new_url       = table_cells.eq( TABLE_COLUMNS.TARGET ).find( 'input' ).val().toString();
+			if ( parseInt( redirect_type, 10 ) === REDIRECT.DELETED ) {
+				new_url = '';
+			}
 
 			// Validate the fields
 			var error_message = that.validate(old_url, new_url, redirect_type);
@@ -442,7 +457,7 @@
 					that.handle_response(
 						response,
 						function() {
-							table_cells.eq( 0 ).find( 'input' ).val( response.old_redirect );
+							table_cells.eq( TABLE_COLUMNS.ORIGIN ).find( 'input' ).val( response.old_redirect );
 							that.restore_row(row);
 						},
 						wpseo_premium_strings.redirect_updated
@@ -463,7 +478,7 @@
 				{
 					action: 'wpseo_delete_redirect_' + type,
 					ajax_nonce: $( '.wpseo_redirects_ajax_nonce' ).val(),
-					redirect: row.find( '.val' ).eq( 1 ).html().toString()
+					redirect: row.find( '.val' ).eq( TABLE_COLUMNS.ORIGIN ).html().toString()
 				},
 				function(response) {
 					that.handle_response(
