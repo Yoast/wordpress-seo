@@ -5,6 +5,11 @@
 'use strict';
 
 ( function($) {
+
+	var REDIRECT = {
+		DELETED : 410
+	};
+
 	/**
 	 * Extending the elements with a wpseo_redirects object
 	 * @param {string} arg_type
@@ -510,6 +515,16 @@
 					that.bind_row_events( $( tr ) );
 				}
 			);
+
+			$('#wpseo_redirects_new_type').on('change', function(evt) {
+				var type = parseInt( $( evt.target ).val(), 10 );
+
+				if( type === REDIRECT.DELETED ) {
+					$('#wpseo_redirect_new_url').hide();
+				} else {
+					$('#wpseo_redirect_new_url').show();
+				}
+			});
 
 			that.find( '.wpseo-new-redirect-form a.button-primary' ).click( function() {
 					that.add_redirect();
