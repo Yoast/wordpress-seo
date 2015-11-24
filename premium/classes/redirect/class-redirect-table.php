@@ -47,9 +47,9 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	public function get_columns() {
 		$columns = array(
 			'cb'   => '<input type="checkbox" />',
+			'type' => _x( 'Type', 'noun', 'wordpress-seo-premium' ),
 			'old'  => $this->current_column,
 			'new'  => __( 'New URL', 'wordpress-seo-premium' ),
-			'type' => _x( 'Type', 'noun', 'wordpress-seo-premium' ),
 		);
 
 		return $columns;
@@ -149,15 +149,15 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	 *
 	 * @return string
 	 */
-	public function column_old( $item ) {
+	public function column_type( $item ) {
 		$actions = array(
 			'edit'  => '<a href="javascript:;">' . __( 'Edit', 'wordpress-seo-premium' ) . '</a>',
 			'trash' => '<a href="javascript:;" >' . __( 'Delete', 'wordpress-seo-premium' ) . '</a>',
 		);
 
 		return sprintf(
-			'<div class="val">%1$s</div> %2$s',
-			$item['old'],
+			'<div class="val type">%1$s</div> %2$s',
+			$item['type'],
 			$this->row_actions( $actions )
 		);
 	}
@@ -187,8 +187,8 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 			case 'new':
 				return "<div class='val'>" . $item['new'] . '</div>';
 				break;
-			case 'type':
-				return "<div class='val type'>" . $item['type'] . '</div>';
+			case 'old':
+				return "<div class='val'>" . $item['old'] . '</div>';
 				break;
 			default:
 				return $item[ $column_name ];
