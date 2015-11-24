@@ -11,7 +11,7 @@ class WPSEO_Premium_Import_Manager {
 	/**
 	 * Redirection import success message
 	 *
-	 * @param string $message
+	 * @param string $message The message being added before success notice.
 	 *
 	 * @return string
 	 */
@@ -22,7 +22,7 @@ class WPSEO_Premium_Import_Manager {
 	/**
 	 * Redirection plugin not found message
 	 *
-	 * @param string $message
+	 * @param string $message The message being added before fail notice.
 	 *
 	 * @return string
 	 */
@@ -33,7 +33,7 @@ class WPSEO_Premium_Import_Manager {
 	/**
 	 * Redirection import no redirects found message
 	 *
-	 * @param string $message
+	 * @param string $message The message being added before fail notice.
 	 *
 	 * @return string
 	 */
@@ -220,7 +220,7 @@ class WPSEO_Premium_Import_Manager {
 	/**
 	 * Add premium import options to import list
 	 *
-	 * @param string $content
+	 * @param string $content The content where the checkbox is added to.
 	 *
 	 * @return string
 	 */
@@ -241,7 +241,7 @@ class WPSEO_Premium_Import_Manager {
 	/**
 	 * Adding the import block for htaccess. Makes it able to import redirects from htaccess
 	 *
-	 * @param array $admin_object
+	 * @param array $admin_object Unused.
 	 */
 	public function add_htaccess_import_block( $admin_object ) {
 

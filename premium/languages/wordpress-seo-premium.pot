@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo-premium/issues\n"
-"POT-Creation-Date: 2015-07-22 14:38:01+00:00\n"
+"POT-Creation-Date: 2015-11-19 13:56:19+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -24,20 +24,111 @@ msgstr ""
 "X-Poedit-Bookmarks: \n"
 "X-Textdomain-Support: yes\n"
 
-#: class-premium.php:326
+#: class-premium.php:372
 msgid "Create Redirect"
 msgstr ""
 
-#: class-premium.php:393
+#: class-premium.php:404
 msgid "Add custom fields to page analysis"
 msgstr ""
 
-#: class-premium.php:412 classes/class-page-redirect.php:30
+#: class-premium.php:423 classes/class-page-redirect.php:30
 msgid "Redirects"
 msgstr ""
 
-#: class-premium.php:422
+#: class-premium.php:433
 msgid "Video Tutorials"
+msgstr ""
+
+#: classes/class-helpscout-beacon.php:61
+msgid ""
+"Please explain what you're trying to find or do. If something isn't "
+"working, please explain what you expect to happen. If you can make a "
+"screenshot, please attach it."
+msgstr ""
+
+#: classes/class-helpscout-beacon.php:63
+msgid "Note: submitting this form also sends us debug info about your server."
+msgstr ""
+
+#: classes/class-helpscout-beacon.php:75
+msgid "What can we help you with?"
+msgstr ""
+
+#: classes/class-helpscout-beacon.php:76
+msgid ""
+"Your search timed out. Please double-check your internet connection and try "
+"again."
+msgstr ""
+
+#: classes/class-helpscout-beacon.php:77
+msgid "No results found for"
+msgstr ""
+
+#: classes/class-helpscout-beacon.php:78
+msgid "Send a Message"
+msgstr ""
+
+#: classes/class-helpscout-beacon.php:79
+msgid "Attach a file"
+msgstr ""
+
+#: classes/class-helpscout-beacon.php:80
+msgid "The maximum file size is 10mb"
+msgstr ""
+
+#: classes/class-helpscout-beacon.php:81
+msgid "Your Name"
+msgstr ""
+
+#: classes/class-helpscout-beacon.php:82
+msgid "Please enter your name"
+msgstr ""
+
+#: classes/class-helpscout-beacon.php:83
+msgid "Email address"
+msgstr ""
+
+#: classes/class-helpscout-beacon.php:84
+msgid "Please enter a valid email address"
+msgstr ""
+
+#: classes/class-helpscout-beacon.php:85
+msgid "Select a topic"
+msgstr ""
+
+#: classes/class-helpscout-beacon.php:86
+msgid "Please select a topic from the list"
+msgstr ""
+
+#: classes/class-helpscout-beacon.php:87
+msgid "Subject"
+msgstr ""
+
+#: classes/class-helpscout-beacon.php:88
+msgid "Please enter a subject"
+msgstr ""
+
+#: classes/class-helpscout-beacon.php:89
+msgid "How can we help you?"
+msgstr ""
+
+#: classes/class-helpscout-beacon.php:90
+msgid "Please enter a message"
+msgstr ""
+
+#: classes/class-helpscout-beacon.php:91
+msgid "Send"
+msgstr ""
+
+#: classes/class-helpscout-beacon.php:92
+msgid "Message sent, thank you!"
+msgstr ""
+
+#: classes/class-helpscout-beacon.php:93
+msgid ""
+"Someone from Team Yoast will get back to you soon, normally within a couple "
+"of hours."
 msgstr ""
 
 #: classes/class-page-redirect.php:32
@@ -144,25 +235,25 @@ msgstr ""
 msgid "Redirects per page"
 msgstr ""
 
-#: classes/class-post-watcher.php:134
+#: classes/class-post-watcher.php:138
 msgid ""
 "%1$s detected that you moved a post to the trash. %2$sClick here to create "
 "a redirect from the old post URL%3$s."
 msgstr ""
 
-#: classes/class-post-watcher.php:159
+#: classes/class-post-watcher.php:163
 msgid ""
 "%1$s detected that you restored a post from the trash. %2$sClick here to "
 "remove the redirect%3$s."
 msgstr ""
 
-#: classes/class-post-watcher.php:190
+#: classes/class-post-watcher.php:194
 msgid ""
 "%1$s detected that you deleted a post. %2$sClick here to create a redirect "
 "from the old post URL%3$s."
 msgstr ""
 
-#: classes/class-post-watcher.php:294
+#: classes/class-post-watcher.php:298
 msgid ""
 "%1$s created a %2$sredirect%4$s from the old post URL to the new post URL. "
 "%3$sClick here to undo this%4$s."
@@ -199,19 +290,19 @@ msgstr ""
 msgid "%s import"
 msgstr ""
 
-#: classes/class-premium-import-manager.php:263
+#: classes/class-premium-import-manager.php:262
 #. translators: %s: '.htaccess' file name
 msgid "Import redirects from %s"
 msgstr ""
 
-#: classes/class-premium-import-manager.php:265
+#: classes/class-premium-import-manager.php:264
 #. translators: %1$s: '.htaccess' file name, %2$s plugin name
 msgid ""
 "You can copy the contents of any %1$s file in here, and it will import the "
 "redirects into %2$s."
 msgstr ""
 
-#: classes/class-premium-import-manager.php:270
+#: classes/class-premium-import-manager.php:269
 msgid "Import .htaccess"
 msgstr ""
 

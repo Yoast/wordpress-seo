@@ -11,7 +11,7 @@ class WPSEO_Upgrade_Manager {
 	/**
 	 * Check if there's a plugin update
 	 *
-	 * @param string $version_number The version number of Premium.
+	 * @param string $version_number The version number that will be compared.
 	 */
 	public function check_update( $version_number ) {
 
@@ -26,7 +26,6 @@ class WPSEO_Upgrade_Manager {
 
 			// Update version code.
 			$this->update_current_version_code();
-
 		}
 
 		if ( version_compare( $version_number, '2.3', '<' ) ) {
@@ -43,7 +42,7 @@ class WPSEO_Upgrade_Manager {
 	/**
 	 * An update is required, do it
 	 *
-	 * @param string $current_version The current version of Premium.
+	 * @param string $current_version The current version number of the installation.
 	 */
 	private function do_update( $current_version ) {
 		// < 1.0.4.

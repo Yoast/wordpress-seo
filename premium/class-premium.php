@@ -23,7 +23,7 @@ class WPSEO_Premium {
 
 	const OPTION_CURRENT_VERSION = 'wpseo_current_version';
 
-	const PLUGIN_VERSION_NAME = '2.3.2';
+	const PLUGIN_VERSION_NAME = '3.0.3';
 	const PLUGIN_VERSION_CODE = '16';
 	const PLUGIN_AUTHOR = 'Yoast';
 	const EDD_STORE_URL = 'https://yoast.com';
@@ -44,6 +44,32 @@ class WPSEO_Premium {
 
 		// Create the upload directory.
 		WPSEO_Redirect_File_Util::create_upload_dir();
+
+		WPSEO_Premium::import_redirects_from_free();
+	}
+
+	/**
+	 * Check if redirects should be imported from the free version
+	 */
+	public static function import_redirects_from_free() {
+		$query_redirects = new WP_Query( 'post_type=any&meta_key=_yoast_wpseo_redirect&order=ASC' );
+
+		if ( ! empty( $query_redirects->posts ) ) {
+			WPSEO_Premium::autoloader();
+
+			$redirect_manager = new WPSEO_URL_Redirect_Manager();
+
+			foreach ( $query_redirects->posts as $post ) {
+				$old_url = '/' . $post->post_name . '/';
+				$new_url = get_post_meta( $post->ID, '_yoast_wpseo_redirect', true );
+
+				// Create redirect.
+				$redirect_manager->create_redirect( $old_url, $new_url, 301 );
+
+				// Remove post meta value.
+				delete_post_meta( $post->ID, '_yoast_wpseo_redirect' );
+			}
+		}
 	}
 
 	/**
@@ -58,22 +84,32 @@ class WPSEO_Premium {
 	 */
 	private function setup() {
 
-		// Setup autoloader.
-		require_once( dirname( __FILE__ ) . '/classes/class-premium-autoloader.php' );
-		$autoloader = new WPSEO_Premium_Autoloader( 'WPSEO_', '' );
+		WPSEO_Premium::autoloader();
 
 		$this->load_textdomain();
 
 		$this->redirect_setup();
 
 		if ( is_admin() ) {
+			$query_var = ( $page = filter_input( INPUT_GET, 'page' ) ) ? $page : '';
+
+			// Only add the helpscout beacon on Yoast SEO pages.
+			if ( substr( $query_var, 0, 5 ) === 'wpseo' ) {
+				new WPSEO_HelpScout_Beacon( $query_var );
+			}
+
+			// Add custom fields plugin to post and page edit pages.
+			global $pagenow;
+			if ( in_array( $pagenow, array( 'post-new.php', 'post.php', 'edit.php' ) ) ) {
+				new WPSEO_Custom_Fields_Plugin();
+			}
 
 			// Disable Yoast SEO.
 			add_action( 'admin_init', array( $this, 'disable_wordpress_seo' ), 1 );
 
 			// Add Sub Menu page and add redirect page to admin page array.
 			// This should be possible in one method in the future, see #535.
-			add_filter( 'wpseo_submenu_pages', array( $this, 'add_submenu_pages' ) );
+			add_filter( 'wpseo_submenu_pages', array( $this, 'add_submenu_pages' ), 9 );
 
 			// Add Redirect page as admin page.
 			add_filter( 'wpseo_admin_pages', array( $this, 'add_admin_pages' ) );
@@ -89,9 +125,6 @@ class WPSEO_Premium {
 				$this,
 				'add_variable_array_key_pattern',
 			) );
-
-			// Filter the Page Analysis content.
-			add_filter( 'wpseo_pre_analysis_post_content', array( $this, 'filter_page_analysis' ), 10, 2 );
 
 			// Settings.
 			add_action( 'admin_init', array( $this, 'register_settings' ) );
@@ -150,6 +183,8 @@ class WPSEO_Premium {
 
 			add_filter( 'redirect_canonical', array( $this, 'redirect_canonical_fix' ), 1, 2 );
 		}
+
+		add_action( 'admin_init', array( $this, 'enqueue_multi_keyword' ) );
 	}
 
 	/**
@@ -173,12 +208,25 @@ class WPSEO_Premium {
 		new WPSEO_Term_Watcher();
 	}
 
+	/**
+	 * Adds multi keyword functionality if we are on the correct pages
+	 */
+	public function enqueue_multi_keyword() {
+		global $pagenow;
+		if ( in_array( $pagenow, array(
+				'post-new.php',
+			'post.php',
+			'edit.php',
+			), true ) ) {
+			new WPSEO_Multi_Keyword();
+		}
+	}
 
 	/**
 	 * Hooks into the `redirect_canonical` filter to catch ongoing redirects and move them to the correct spot
 	 *
-	 * @param string $redirect_url
-	 * @param string $requested_url
+	 * @param string $redirect_url  The target url where the requested url will be redirected to.
+	 * @param string $requested_url The current requested url.
 	 *
 	 * @return string
 	 */
@@ -210,7 +258,7 @@ class WPSEO_Premium {
 	/**
 	 * Enqueue post en term overview script
 	 *
-	 * @param string $hook
+	 * @param string $hook The current opened page.
 	 */
 	public function enqueue_overview_script( $hook ) {
 		if ( 'edit.php' == $hook || 'edit-tags.php' == $hook || 'post.php' == $hook ) {
@@ -223,7 +271,7 @@ class WPSEO_Premium {
 	 * Enqueues the do / undo redirect scripts
 	 */
 	public static function enqueue() {
-		wp_enqueue_script( 'wpseo-premium-admin-overview', plugin_dir_url( WPSEO_PREMIUM_FILE ) . '/assets/js/wpseo-premium-admin-overview' . WPSEO_CSSJS_SUFFIX . '.js', array( 'jquery' ), WPSEO_VERSION );
+		wp_enqueue_script( 'wpseo-premium-admin-overview', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/js/wpseo-premium-admin-overview' . WPSEO_CSSJS_SUFFIX . '.js', array( 'jquery' ), WPSEO_VERSION );
 		wp_localize_script( 'wpseo-premium-admin-overview', 'wpseo_premium_strings', WPSEO_Premium_Javascript_Strings::strings() );
 	}
 
@@ -258,7 +306,7 @@ class WPSEO_Premium {
 	/**
 	 * Add page analysis to array with variable array key patterns
 	 *
-	 * @param array $patterns
+	 * @param array $patterns Array with patterns for page analysis.
 	 *
 	 * @return array
 	 */
@@ -270,49 +318,14 @@ class WPSEO_Premium {
 		return $patterns;
 	}
 
-
-	/**
-	 * Filter for adding custom fields to page analysis
-	 *
-	 * Based on the configured custom fields for page analysis. this filter will get the needed values from post_meta
-	 * and add them to the $page_content. Page analysis will be able to scan the content of these customs fields by
-	 * doing this. - If value doesn't exists as a post-meta value, there will be nothing included.
-	 *
-	 * @param string $page_content The content of the current post text.
-	 * @param object $post         The total object of the post content.
-	 *
-	 * @return string $page_content
-	 */
-	public function filter_page_analysis( $page_content, $post ) {
-
-		$options       = get_option( WPSEO_Options::get_option_instance( 'wpseo_titles' )->option_name, array() );
-		$target_option = 'page-analyse-extra-' . $post->post_type;
-
-		if ( array_key_exists( $target_option, $options ) ) {
-			$custom_fields = explode( ',', $options[ $target_option ] );
-
-			if ( is_array( $custom_fields ) ) {
-				foreach ( $custom_fields as $custom_field ) {
-					$custom_field_data = get_post_meta( $post->ID, $custom_field, true );
-
-					if ( ! empty( $custom_field_data ) ) {
-						$page_content .= ' ' . $custom_field_data;
-					}
-				}
-			}
-		}
-
-		return $page_content;
-	}
-
 	/**
 	 * This hook will add an input-field for specifying custom fields for page analysis.
 	 *
 	 * The values will be comma-seperated and will target the belonging field in the post_meta. Page analysis will
 	 * use the content of it by sticking it to the post_content.
 	 *
-	 * @param array  $wpseo_admin_pages
-	 * @param string $name
+	 * @param array  $wpseo_admin_pages Unused. Array with admin pages.
+	 * @param string $name				The name for the text input field.
 	 */
 	public function admin_page_meta_post_types_checkboxes( $wpseo_admin_pages, $name ) {
 		echo Yoast_Form::get_instance()->textinput( 'page-analyse-extra-' . $name, __( 'Add custom fields to page analysis', 'wordpress-seo-premium' ) );
@@ -321,7 +334,7 @@ class WPSEO_Premium {
 	/**
 	 * Function adds the premium pages to the Yoast SEO menu
 	 *
-	 * @param array $submenu_pages
+	 * @param array $submenu_pages Array with the configuration for the submenu pages.
 	 *
 	 * @return array
 	 */
@@ -355,7 +368,7 @@ class WPSEO_Premium {
 	/**
 	 * Add redirects to admin pages so the Yoast scripts are loaded
 	 *
-	 * @param array $admin_pages
+	 * @param array $admin_pages Array with the admin pages.
 	 *
 	 * @return array
 	 */
@@ -385,5 +398,17 @@ class WPSEO_Premium {
 	 */
 	private function load_textdomain() {
 		load_plugin_textdomain( 'wordpress-seo-premium', false, dirname( plugin_basename( WPSEO_FILE ) ) . '/premium/languages/' );
+	}
+
+	/**
+	 * Loads the autoloader
+	 */
+	private static function autoloader() {
+
+		if ( ! class_exists( 'WPSEO_Premium_Autoloader', false ) ) {
+			// Setup autoloader.
+			require_once( dirname( __FILE__ ) . '/classes/class-premium-autoloader.php' );
+			$autoloader = new WPSEO_Premium_Autoloader( 'WPSEO_', '' );
+		}
 	}
 }
