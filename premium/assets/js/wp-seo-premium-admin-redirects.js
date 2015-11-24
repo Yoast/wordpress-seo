@@ -26,6 +26,22 @@
 		var table = that.find( 'table' );
 
 		/**
+		 * Returns a mapped object with the row column elements
+		 *
+		 * @param {Object} row
+		 * @returns {{origin: *, target: *, type: *}}
+		 */
+		this.row_cells = function(row ) {
+			var row_values = row.find( '.val' );
+
+			return {
+				origin : row_values.eq( TABLE_COLUMNS.ORIGIN ),
+				target : row_values.eq( TABLE_COLUMNS.TARGET ),
+				type   : row_values.eq( TABLE_COLUMNS.TYPE )
+			}
+		};
+
+		/**
 		 * Showing a dialog on the screen
 		 *
 		 * @param {string} title
@@ -146,12 +162,12 @@
 		 * @param {object} row
 		 */
 		this.restore_values = function( row ) {
-			var row_values = row.find( '.val' );
+			var row_values = this.row_cells( row );
 			var row_data   = row.data( 'old_redirect');
 
-			row_values.eq( TABLE_COLUMNS.ORIGIN ).html( row_data.key );
-			row_values.eq( TABLE_COLUMNS.TARGET ).html( row_data.value );
-			row_values.eq( TABLE_COLUMNS.TYPE ).html( row_data.type );
+			row_values.origin.html( row_data.key );
+			row_values.target.html( row_data.value );
+			row_values.type.html( row_data.type );
 		};
 
 		/**
@@ -186,20 +202,20 @@
 				return $( '<button>' ).addClass( button_class ).attr( 'tabindex', tabindex ).html(button_value ).click( onclick );
 			};
 
-			var row_values = row.find( '.val' );
+			var row_cells  = this.row_cells( row );
 
 			// Add row edit class.
 			row.addClass( 'row_edit' );
 
 			// Add current redirect as data to the row.
 			row.data( 'old_redirect', {
-				key:   row_values.eq( TABLE_COLUMNS.ORIGIN ).html().toString(),
-				value: row_values.eq( TABLE_COLUMNS.TARGET ).html().toString(),
-				type:  row_values.eq( TABLE_COLUMNS.TYPE ).html().toString()
+				key:   row_cells.origin.html().toString(),
+				value: row_cells.target.html().toString(),
+				type:  row_cells.type.html().toString()
 			} );
 
 			// Add input fields.
-			$.each( row_values, this.add_input_field );
+			$.each( row_cells, this.add_input_field );
 
 			// Hide default row actions
 			$( row ).find( '.row-actions' ).hide();
@@ -233,9 +249,8 @@
 
 			$( row ).find( '.row-actions' ).parent().append( edit_actions );
 
+			// Run the onchange event to set the right value.
 			$( row).find( 'select').change();
-
-
 		};
 
 		/**
@@ -421,10 +436,10 @@
 		 * @returns {boolean}
 		 */
 		this.update_redirect = function( row ) {
-			var table_cells   = row.find( '.val' );
-			var redirect_type = table_cells.eq( TABLE_COLUMNS.TYPE ).find( 'select option:selected' ).val().toString();
-			var old_url       = table_cells.eq( TABLE_COLUMNS.ORIGIN ).find( 'input' ).val().toString();
-			var new_url       = table_cells.eq( TABLE_COLUMNS.TARGET ).find( 'input' ).val().toString();
+			var table_cells   = this.row_cells( row );
+			var redirect_type = table_cells.type.find( 'select option:selected' ).val().toString();
+			var old_url       = table_cells.origin.find( 'input' ).val().toString();
+			var new_url       = table_cells.target.find( 'input' ).val().toString();
 			if ( parseInt( redirect_type, 10 ) === REDIRECT.DELETED ) {
 				new_url = '';
 			}
@@ -457,7 +472,7 @@
 					that.handle_response(
 						response,
 						function() {
-							table_cells.eq( TABLE_COLUMNS.ORIGIN ).find( 'input' ).val( response.old_redirect );
+							table_cells.origin.find( 'input' ).val( response.old_redirect );
 							that.restore_row(row);
 						},
 						wpseo_premium_strings.redirect_updated
@@ -474,11 +489,13 @@
 		 * @param {Object} row
 		 */
 		this.delete_redirect = function(row) {
+			var row_values = this.row_cells( row );
+
 			that.post(
 				{
-					action: 'wpseo_delete_redirect_' + type,
+					action:     'wpseo_delete_redirect_' + type,
 					ajax_nonce: $( '.wpseo_redirects_ajax_nonce' ).val(),
-					redirect: row.find( '.val' ).eq( TABLE_COLUMNS.ORIGIN ).html().toString()
+					redirect:   row_values.origin.html().toString()
 				},
 				function(response) {
 					that.handle_response(
