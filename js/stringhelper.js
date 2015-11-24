@@ -80,8 +80,11 @@ YoastSEO.StringHelper.prototype.createWordBoundaryRegex = function( textString )
  * Returns a wordboundary to be used in a regex.
  * @returns {string}
  */
-YoastSEO.StringHelper.prototype.getWordBoundary = function(){
+YoastSEO.StringHelper.prototype.getWordBoundary = function() {
+
 	//temporary wordboundary, \b should be replaced with something that works on non-latin chars
+	//the regex below was used for the
+	//$res = preg_match( "`(^|[ \n\r\t\.,'\(\)\"\+;!?:])" . preg_quote( $stopWord, '`' ) . "($|[ \n\r\t\.,'\(\)\"\+;!?:])`iu", $haystack );
 	return "\\b";
 };
 
