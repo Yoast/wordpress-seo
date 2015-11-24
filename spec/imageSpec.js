@@ -21,3 +21,42 @@ describe("a test to extract the images from a given textstring", function(){
 
    });
 });
+
+var imgArgs2 = {
+	text: "<img src='http://plaatje.nl' alt='maïs' />",
+	keyword: "maïs"
+};
+
+describe("a test to match the keyword in the alt-tag using diacritics", function(){
+	it("returns a match with the keyword", function(){
+		imageAnalyzer = Factory.buildAnalyzer(imgArgs2);
+		var result = imageAnalyzer.imageCount();
+		expect(result[0].result.altKeyword).toBe(1);
+	});
+});
+
+var imgArgs3 = {
+	text: "<img src='http://image.com/picture' alt='picture' />",
+	keyword: "picture"
+};
+
+describe("a test to match the keyword in the alt-tag", function(){
+	it("returns a match with the keyword", function(){
+		imageAnalyzer = Factory.buildAnalyzer(imgArgs3);
+		var result = imageAnalyzer.imageCount();
+		expect(result[0].result.altKeyword).toBe(1);
+	});
+});
+
+var imgArgs4 = {
+	text: "<img src='http://image.com/picture' alt='test' />",
+	keyword: "picture"
+};
+
+describe("a test to match the keyword in the alt-tag", function(){
+	it("returns no match with the keyword, it isn't in the alt-tag", function(){
+		imageAnalyzer = Factory.buildAnalyzer(imgArgs4);
+		var result = imageAnalyzer.imageCount();
+		expect(result[0].result.altKeyword).toBe(0);
+	});
+});
