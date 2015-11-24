@@ -64,15 +64,16 @@ YoastSEO.Analyzer.prototype.formatKeyword = function() {
 
 		// Creates new regex from keyword with global and caseinsensitive option,
 
-		this.keywordRegex = this.stringHelper.createWordBoundaryRegex(
+		this.keywordRegex = this.stringHelper.getWordBoundaryRegex(
 			this.preProcessor.replaceDiacritics( keyword.replace( /[-_]/g, " " )
 		) );
 
 		// Creates new regex from keyword with global and caseinsensitive option,
 		// replaces space with -. Used for URL matching
-		this.keywordRegexInverse = this.stringHelper.createWordBoundaryRegex(
-			this.preProcessor.replaceDiacritics( keyword.replace( /\s/g, "-" )
-		) );
+		this.keywordRegexInverse = this.stringHelper.getWordBoundaryRegex(
+			this.preProcessor.replaceDiacritics( keyword.replace( /\s/g, "-" ) ),
+			"\\-"
+		);
 	}
 };
 
@@ -224,6 +225,7 @@ YoastSEO.Analyzer.prototype.keywordDensityCheck = function() {
  */
 YoastSEO.Analyzer.prototype.keywordCount = function() {
 	var keywordMatches = this.preProcessor.__store.cleanTextSomeTags.match( this.keywordRegex );
+
 	var keywordCount = 0;
 	if ( keywordMatches !== null ) {
 		keywordCount = keywordMatches.length;
@@ -280,21 +282,23 @@ YoastSEO.Analyzer.prototype.subHeadingsCheck = function( matches ) {
  * @returns {result object}
  */
 YoastSEO.Analyzer.prototype.stopwords = function() {
-
-	//prefix space to the keyword to make sure it matches if the keyword starts with a stopword.
 	var keyword = this.config.keyword;
-	var matches = this.stringHelper.matchString( keyword, this.config.stopWords );
-	var stopwordCount = matches !== null ? matches.length : 0;
+	var stopWord, stopWordCount = 0;
 	var matchesText = "";
-	if ( matches !== null ) {
-		for ( var i = 0; i < matches.length; i++ ) {
-			matchesText = matchesText + matches[ i ] + ", ";
+
+	for ( var i = 0; i < this.config.stopWords.length; i++ ) {
+		stopWord = this.config.stopWords[ i ];
+
+		if ( keyword.match( this.stringHelper.getWordBoundaryRegex( stopWord ) ) !== null ) {
+			matchesText += stopWord + ", ";
+			stopWordCount++;
 		}
 	}
+
 	return [ {
 		test: "stopwordKeywordCount",
 		result: {
-			count: stopwordCount,
+			count: stopWordCount,
 			matches: matchesText.substring( 0, matchesText.length - 2 )
 		}
 	} ];
@@ -573,7 +577,7 @@ YoastSEO.Analyzer.prototype.pageTitleKeyword = function() {
 	if ( typeof this.config.pageTitle !== "undefined" ) {
 		result[ 0 ].result.matches = this.stringHelper.countMatches(
 			this.config.pageTitle,
-			this.keywordRegex
+			this.stringHelper.getWordBoundaryRegex( this.config.keyword )
 		);
 		result[ 0 ].result.position = this.config.pageTitle.toLocaleLowerCase().indexOf( this.config.keyword.toLocaleLowerCase() );
 	}
@@ -644,7 +648,7 @@ YoastSEO.Analyzer.prototype.metaDescriptionKeyword = function() {
 	var result = [ { test: "metaDescriptionKeyword", result: -1 } ];
 	if ( typeof this.config.meta !== "undefined" && this.config.meta.length > 0 && this.config.keyword !== "" ) {
 		result[ 0 ].result = this.stringHelper.countMatches(
-			this.config.meta, this.keywordRegex
+			this.config.meta, this.stringHelper.getWordBoundaryRegex( this.config.keyword )
 		);
 	}
 	return result;

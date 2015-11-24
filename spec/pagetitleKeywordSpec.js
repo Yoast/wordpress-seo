@@ -78,8 +78,8 @@ titleKeywordArg9 = {
 	keyword: "äbc"
 };
 titleKeywordArg10 = {
-	pageTitle: "توجه رسانه‌ها را به خود جلب کرد",
-	keyword: "توج"
+	pageTitle: "ст, чтобы проверить нечто Test текст, чтобы ",
+	keyword: "нечто"
 };
 
 describe("a test with keywords", function() {
