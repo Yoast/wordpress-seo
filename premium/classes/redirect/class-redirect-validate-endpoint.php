@@ -26,7 +26,7 @@ class WPSEO_Redirect_Validate_Endpoint implements WPSEO_Redirect_Validate {
 	 *
 	 * @return bool
 	 */
-	public function validate( WPSEO_Redirect $redirect, array $redirects ) {
+	public function validate( WPSEO_Redirect $redirect, array $redirects = null ) {
 		$this->redirects = $redirects;
 
 		$origin   = $redirect->get_origin();
