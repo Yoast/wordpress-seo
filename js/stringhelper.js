@@ -65,6 +65,20 @@ YoastSEO.StringHelper.prototype.stringToRegex = function( stringArray, disableWo
 };
 
 /**
+ * Creates a regex with a wordboundary. Since /b isn't working properly in JavaScript we have to
+ * use an alternative regex.
+ */
+YoastSEO.StringHelper.prototype.createWordBoundaryRegex = function( textString ) {
+
+	//temporary wordboundary
+	var wordBoundary = "\\b";
+	var regex = new RegExp( wordBoundary + textString + wordBoundary, "ig" );
+
+	return regex;
+
+};
+
+/**
  * Strip extra spaces, replace duplicates with single space. Remove space at front / end of string
  * @param textString
  * @returns textString
