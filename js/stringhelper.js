@@ -145,7 +145,7 @@ YoastSEO.StringHelper.prototype.stripAllTags = function( textString ) {
 YoastSEO.StringHelper.prototype.stripNumbers = function( textString ) {
 
 	// Remove "words" comprised only of numbers
-	textString = textString.replace( /\b[0-9]+\b/g, "" );
+	textString = textString.replace( this.createWordBoundaryRegex( "[0-9]+" ), "" );
 
 	textString = this.stripSpaces( textString );
 
