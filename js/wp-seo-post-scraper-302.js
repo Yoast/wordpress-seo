@@ -398,7 +398,7 @@
 
 		score = parseInt( score, 10 );
 
-		if ( typeof keyword === undefined || keyword === '') {
+		if ( typeof keyword === 'undefined' || keyword === '' ) {
 			score = 'na';
 		}
 		placeholder = keyword && keyword.length > 0 ? keyword : '...';
