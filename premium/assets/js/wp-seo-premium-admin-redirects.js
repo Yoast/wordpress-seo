@@ -297,24 +297,6 @@
 		};
 
 		/**
-		 * Binding events to the row.
-		 *
-		 * @param {Object} row
-		 */
-		this.bind_row_events = function( row ) {
-			row.find( '.edit' ).click(
-				function() {
-					that.edit_row( row, true );
-				}
-			);
-			row.find( '.trash' ).click(
-				function() {
-					that.delete_redirect( row );
-				}
-			);
-		};
-
-		/**
 		 * Create a table row element with the new added redirect data
 		 *
 		 * @param {string} old_url
@@ -350,9 +332,6 @@
 					$( '<div>' ).addClass( 'val type' ).html( redirect_type )
 				)
 			);
-
-			// bind the tr
-			that.bind_row_events( tr );
 
 			return tr;
 		};
@@ -509,12 +488,6 @@
 		this.setup = function() {
 			// Adding dialog
 			$('body').append('<div id="YoastRedirectDialog"><div id="YoastRedirectDialogText"></div></div>');
-
-			$.each( that.find( 'table tr' ),
-				function( k, tr ) {
-					that.bind_row_events( $( tr ) );
-				}
-			);
 
 			$('#wpseo_redirects_new_type').on('change', function(evt) {
 				var type = parseInt( $( evt.target ).val(), 10 );
