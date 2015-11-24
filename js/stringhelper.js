@@ -45,15 +45,15 @@ YoastSEO.StringHelper.prototype.countMatches = function( textString, regex ) {
 };
 
 /**
- * builds regex from array with strings
+ * builds regex from array with multiple strings
  * @param stringArray
  * @returns {RegExp}
  */
 YoastSEO.StringHelper.prototype.stringToRegex = function( stringArray, disableWordBoundary ) {
 	var regexString = "";
-	var wordBoundary = "\\b";
-	if ( disableWordBoundary ) {
-		wordBoundary = "";
+	var wordBoundary = "";
+	if ( !disableWordBoundary ) {
+		wordBoundary = this.getWordBoundary();
 	}
 	for ( var i = 0; i < stringArray.length; i++ ) {
 		if ( regexString.length > 0 ) {
@@ -70,12 +70,19 @@ YoastSEO.StringHelper.prototype.stringToRegex = function( stringArray, disableWo
  */
 YoastSEO.StringHelper.prototype.createWordBoundaryRegex = function( textString ) {
 
-	//temporary wordboundary
-	var wordBoundary = "\\b";
+	var wordBoundary = this.getWordBoundary();
 	var regex = new RegExp( wordBoundary + textString + wordBoundary, "ig" );
 
 	return regex;
+};
 
+/**
+ * Returns a wordboundary to be used in a regex.
+ * @returns {string}
+ */
+YoastSEO.StringHelper.prototype.getWordBoundary = function(){
+	//temporary wordboundary, \b should be replaced with something that works on non-latin chars
+	return "\\b";
 };
 
 /**
