@@ -483,42 +483,66 @@
 		};
 
 		/**
+		 * Toggles the target field in case of a 410 redirect.
+		 */
+		this.toggle_select = function( evt, field_to_toggle ) {
+			var type = parseInt( $( evt.target ).val(), 10 );
+
+			if( type === REDIRECT.DELETED ) {
+				field_to_toggle.hide();
+			} else {
+				field_to_toggle.show();
+			}
+		};
+
+		/**
 		 * Running the setup of this element.
 		 */
 		this.setup = function() {
 			// Adding dialog
 			$('body').append('<div id="YoastRedirectDialog"><div id="YoastRedirectDialogText"></div></div>');
 
-			$('#wpseo_redirects_new_type').on('change', function(evt) {
-				var type = parseInt( $( evt.target ).val(), 10 );
-
-				if( type === REDIRECT.DELETED ) {
-					$('#wpseo_redirect_new_url').hide();
-				} else {
-					$('#wpseo_redirect_new_url').show();
-				}
-			});
-
-			that.find( '.wpseo-new-redirect-form a.button-primary' ).click( function() {
+			// Adding events for the add form
+			$('.wpseo-new-redirect-form')
+				.on( 'click', 'a.button-primary', function() {
 					that.add_redirect();
 					return false;
-				}
-			);
-
-			that.find( '.wpseo-new-redirect-form input' ).keypress( function( event ) {
-					if ( event.which === 13 ) {
-						event.preventDefault();
+				} )
+				.on( 'keypress', 'input', function( evt ) {
+					if ( evt.which === 13 ) {
+						evt.preventDefault();
 						that.add_redirect();
 					}
-				}
-			);
+				})
+				.on( 'change', '#wpseo_redirects_new_type', function( evt ) {
+					that.toggle_select( evt, $('#wpseo_redirect_new_url') );
+				} );
 
-			$( window ).on( 'beforeunload', function() {
+
+			$( window ).on( 'beforeunload',
+				function() {
 					if ( $( '.row_edit' ).length > 0 ) {
 						return wpseo_premium_strings.unsaved_redirects;
 					}
 				}
 			);
+
+			$( '.wp-list-table' )
+				.on( 'click', '.edit', function( evt ) {
+					var row = $( evt.target ).closest( 'tr' );
+
+					that.edit_row( row );
+				})
+				.on( 'click', '.trash', function( evt ) {
+					var row = $( evt.target ).closest( 'tr' );
+
+					that.delete_redirect( row );
+				})
+				.on( 'change', 'select[tabindex=1]', function( evt ) {
+					var field_to_toggle = $( evt.target ).closest( 'tr').find( "input[tabindex=3]" );
+
+					that.toggle_select( evt, field_to_toggle );
+				} );
 		};
 		that.setup();
 	};
