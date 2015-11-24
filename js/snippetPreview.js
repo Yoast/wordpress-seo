@@ -216,7 +216,7 @@ YoastSEO.SnippetPreview.prototype.formatKeyword = function( textString ) {
 	var keyword = this.refObj.rawData.keyword.replace( /[\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, " " );
 
 	// Match keyword case-insensitively
-	var keywordRegex = new RegExp( keyword, "ig" );
+	var keywordRegex = YoastSEO.getStringHelper().createWordBoundaryRegex( keyword );
 	return textString.replace( keywordRegex, function( str ) {
 		return "<strong>" + str + "</strong>";
 	} );
@@ -235,7 +235,7 @@ YoastSEO.SnippetPreview.prototype.formatKeywordUrl = function( textString ) {
 	var dashedKeyword = keyword.replace( /\s/g, "-" );
 
 	// Match keyword case-insensitively.
-	var keywordRegex = new RegExp( dashedKeyword, "ig" );
+	var keywordRegex = YoastSEO.getStringHelper().createWordBoundaryRegex( dashedKeyword );
 
 	// Make the keyword bold in the textString.
 	return textString.replace( keywordRegex, function( str ) {
