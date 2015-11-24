@@ -173,7 +173,9 @@ YoastSEO.Analyzer.prototype.addAnalysis = function( analysis ) {
  * @returns {{test: string, result: (Function|YoastSEO.PreProcessor.wordcount|Number)}[]}
  */
 YoastSEO.Analyzer.prototype.wordCount = function() {
-	return [ { test: "wordCount", result: this.preProcessor.__store.wordcountNoTags } ];
+	var wordCountFunction = require("./analyses/wordCount.js");
+
+	return [ { test: "wordCount", result: wordCountFunction( this.preProcessor.__store.cleanTextNoTags ) } ];
 };
 
 /**
