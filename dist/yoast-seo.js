@@ -544,7 +544,7 @@ YoastSEO.Analyzer.prototype.imageAlttag = function( image ) {
 YoastSEO.Analyzer.prototype.imageAlttagKeyword = function( image ) {
 	var hasKeyword = false;
 	if ( image !== null ) {
-		if ( image[ 0 ].match( this.keywordRegex ) !== null ) {
+		if ( this.preProcessor.replaceDiacritics( image[ 0 ] ).match( this.keywordRegex ) !== null ) {
 			hasKeyword = true;
 		}
 	}
