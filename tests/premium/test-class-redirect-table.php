@@ -97,7 +97,7 @@ class WPSEO_Redirect_Table_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_column_old() {
 		$this->assertEquals(
-			'<div class="val">origin</div> <div class="row-actions"><span class=\'edit\'><a href="javascript:;">Edit</a> | </span><span class=\'trash\'><a href="javascript:;" >Delete</a></span></div><button type="button" class="toggle-row"><span class="screen-reader-text">Show more details</span></button>',
+			'<div class="val">origin</div> <div class="row-actions"><span class=\'edit\'><a href="javascript:;">Edit</a> | </span><span class=\'trash\'><a href="javascript:;" >Delete</a></span></div>',
 			$this->class_instance->column_old( array( 'old' => 'origin', 'new' => 'target', 'type' => 301 ) )
 		);
 	}
