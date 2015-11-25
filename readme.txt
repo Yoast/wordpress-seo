@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: seo, SEO, Yoast SEO, google, meta, meta description, search engine optimization, xml sitemap, xml sitemaps, google sitemap, sitemap, sitemaps, robots meta, rss, rss footer, yahoo, bing, news sitemaps, XML News Sitemaps, WordPress SEO, WordPress SEO by Yoast, yoast, multisite, canonical, nofollow, noindex, keywords, meta keywords, description, webmaster tools, google webmaster tools, seo pack
 Requires at least: 4.0
 Tested up to: 4.4
-Stable tag: 3.0.3
+Stable tag: 3.0.4
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using Yoast SEO plugin.
 
@@ -119,6 +119,20 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 7. The advanced section of the Yoast SEO meta box.
 
 == Changelog ==
+
+= 3.0.4 =
+
+Release Date: November 25th, 2015
+
+* Enhancement: Made the "Analyze entire site" button have better color contrast and resemble JetPack. Thanks [WPExplorer](https://github.com/wpexplorer) for the contribution.
+
+* Bugfixes:
+	* Fixes JS errors in combination with Give plugin, CMB2 Framework, ACF layout builder and any other plugin that replaces the editor with something else. Thanks a lot [Daniel Seripap](https://github.com/seripap) for fixing.
+	* Fixes JavaScript error on post types without 'editor' capability. Thanks [Aaron Hipple](https://github.com/aaronhipple) for the fix and [Zvonko Biškup](https://github.com/codeforest) for testing.
+	* Fixes a lot of text analysis issues for languages with non-latin scripts, including the "0% keyword density" issues.
+	* Fixes an issue where html tags were not stripped properly from taxonomy descriptions for custom taxonomies.
+	* Fixes possible "URI too long" errors when parsing shortcodes in the content before it is analyzed.
+
 
 = 3.0.3 =
 
