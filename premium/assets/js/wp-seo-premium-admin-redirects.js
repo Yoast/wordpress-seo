@@ -504,7 +504,7 @@
 
 			$( window ).on( 'beforeunload',
 				function() {
-					if ( $( '.row_edit' ).length > 0 ) {
+					if( $('#the-list').find('#inline-edit').length > 0 ) {
 						return wpseo_premium_strings.unsaved_redirects;
 					}
 				}
