@@ -11,9 +11,9 @@ class WPSEO_Redirect_Quick_Edit_Presenter {
 	/**
 	 * Displays the table
 	 *
-	 * @param array $display Data to display on the table
+	 * @param array $display Data to display on the table.
 	 */
-	public function display ( array $display = array() ) {
+	public function display( array $display = array() ) {
 
 		// @codingStandardsIgnoreStart
 		extract( $display );
