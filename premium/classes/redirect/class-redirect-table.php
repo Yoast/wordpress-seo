@@ -56,6 +56,15 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	}
 
 	/**
+	 * Counts the total columns for the table
+	 *
+	 * @return int
+	 */
+	public function count_columns() {
+		return count( $this->get_columns() );
+	}
+
+	/**
 	 * Filter for setting the primary table column
 	 *
 	 * @param string $column The current column.
