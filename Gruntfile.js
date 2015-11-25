@@ -15,8 +15,7 @@ module.exports = function( grunt ) {
 		},
 		files: {
 			js: [
-				"js/*.js",
-				"!js/*.min.js",
+				"js/**/*.js",
 				"grunt/config/*.js",
 				"<%= files.grunt %>"
 			],
