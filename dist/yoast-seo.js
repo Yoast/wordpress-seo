@@ -530,8 +530,9 @@ YoastSEO.Analyzer.prototype.imageAlttag = function( image ) {
 	var hasAlttag = false;
 	if ( image !== null ) {
 		var alt = image[ 0 ].split( "=" )[ 1 ];
+
 		//Checks if the alttag of the given image isn't empty after whitespaces are removed.
-		if ( alt !== null && this.stringHelper.stripSpaces( alt.replace(/[\'\"]*/g, "") ) !== "") {
+		if ( alt !== null && this.stringHelper.stripSpaces( alt.replace( /[\'\"]*/g, "" ) ) !== "" ) {
 			hasAlttag = true;
 		}
 	}
