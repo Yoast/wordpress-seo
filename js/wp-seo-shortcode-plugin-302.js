@@ -92,8 +92,12 @@
 	 * Bind elements to be able to reload the dataset if shortcodes get added.
 	 */
 	YoastShortcodePlugin.prototype.bindElementEvents = function() {
-		document.getElementById( 'content' ).addEventListener( 'keydown', this.loadShortcodes.bind( this, this.declareReloaded.bind( this ) ) );
-		document.getElementById( 'content' ).addEventListener( 'change', this.loadShortcodes.bind( this, this.declareReloaded.bind( this ) ) );
+		var contentEl = document.getElementById( 'content' );
+
+		if ( null !== contentEl ) {
+			contentEl.addEventListener( 'keydown', this.loadShortcodes.bind( this, this.declareReloaded.bind( this ) ) );
+			contentEl.addEventListener( 'change', this.loadShortcodes.bind( this, this.declareReloaded.bind( this ) ) );
+		}
 
 		var that = this;
 		if( typeof tinyMCE !== 'undefined' && typeof tinyMCE.on === 'function' ) {
@@ -113,7 +117,13 @@
 	 * @returns {String}
 	 */
 	YoastShortcodePlugin.prototype.getContentTinyMCE = function() {
-		var val = document.getElementById( 'content' ).value;
+		var contentEl = document.getElementById( 'content' ),
+			val = '';
+
+		if ( null !== contentEl ) {
+			val = contentEl.value;
+		}
+
 		if ( typeof tinyMCE !== 'undefined' && typeof tinyMCE.editors !== 'undefined' && tinyMCE.editors.length !== 0 ) {
 			val = tinyMCE.get( 'content' ).getContent();
 		}
