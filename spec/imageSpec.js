@@ -21,3 +21,16 @@ describe("a test to extract the images from a given textstring", function(){
 
    });
 });
+
+var imgArg2 = {
+	text: "<img src='http://picture.com' alt='текст' />",
+	keyword: "текст"
+};
+
+describe("a test to check keywords in alttags", function(){
+	it("returns the alttag with keyword", function(){
+		imageAnalyzer = Factory.buildAnalyzer(imgArg2);
+		var result = imageAnalyzer.imageCount();
+		expect(result[0].result.altKeyword).toBe(1);
+	});
+});

@@ -64,16 +64,15 @@ YoastSEO.Analyzer.prototype.formatKeyword = function() {
 
 		// Creates new regex from keyword with global and caseinsensitive option,
 
-		this.keywordRegex = new RegExp( "\\b" +
-			this.preProcessor.replaceDiacritics( keyword.replace( /[-_]/g, " " ) ) + "\\b",
-			"ig"
-		);
+		this.keywordRegex = this.stringHelper.getWordBoundaryRegex(
+			this.preProcessor.replaceDiacritics( keyword.replace( /[-_]/g, " " )
+		) );
 
 		// Creates new regex from keyword with global and caseinsensitive option,
 		// replaces space with -. Used for URL matching
-		this.keywordRegexInverse = new RegExp( "\\b" +
-			this.preProcessor.replaceDiacritics( keyword.replace( /\s/g, "-" ) ) + "\\b",
-			"ig"
+		this.keywordRegexInverse = this.stringHelper.getWordBoundaryRegex(
+			this.preProcessor.replaceDiacritics( keyword.replace( /\s/g, "-" ) ),
+			"\\-"
 		);
 	}
 };
@@ -226,6 +225,7 @@ YoastSEO.Analyzer.prototype.keywordDensityCheck = function() {
  */
 YoastSEO.Analyzer.prototype.keywordCount = function() {
 	var keywordMatches = this.preProcessor.__store.cleanTextSomeTags.match( this.keywordRegex );
+
 	var keywordCount = 0;
 	if ( keywordMatches !== null ) {
 		keywordCount = keywordMatches.length;
@@ -282,21 +282,23 @@ YoastSEO.Analyzer.prototype.subHeadingsCheck = function( matches ) {
  * @returns {result object}
  */
 YoastSEO.Analyzer.prototype.stopwords = function() {
-
-	//prefix space to the keyword to make sure it matches if the keyword starts with a stopword.
 	var keyword = this.config.keyword;
-	var matches = this.stringHelper.matchString( keyword, this.config.stopWords );
-	var stopwordCount = matches !== null ? matches.length : 0;
+	var stopWord, stopWordCount = 0;
 	var matchesText = "";
-	if ( matches !== null ) {
-		for ( var i = 0; i < matches.length; i++ ) {
-			matchesText = matchesText + matches[ i ] + ", ";
+
+	for ( var i = 0; i < this.config.stopWords.length; i++ ) {
+		stopWord = this.config.stopWords[ i ];
+
+		if ( keyword.match( this.stringHelper.getWordBoundaryRegex( stopWord ) ) !== null ) {
+			matchesText += stopWord + ", ";
+			stopWordCount++;
 		}
 	}
+
 	return [ {
 		test: "stopwordKeywordCount",
 		result: {
-			count: stopwordCount,
+			count: stopWordCount,
 			matches: matchesText.substring( 0, matchesText.length - 2 )
 		}
 	} ];
@@ -527,9 +529,10 @@ YoastSEO.Analyzer.prototype.imageCount = function() {
 YoastSEO.Analyzer.prototype.imageAlttag = function( image ) {
 	var hasAlttag = false;
 	if ( image !== null ) {
+		var alt = image[ 0 ].split( "=" )[ 1 ];
 
-		//matches the value of the alt attribute (alphanumeric chars), global and case insensitive
-		if ( image[ 0 ].split( "=" )[ 1 ].match( /[a-z0-9](.*?)[a-z0-9]/ig ) !== null ) {
+		//Checks if the alttag of the given image isn't empty after whitespaces are removed.
+		if ( alt !== null && this.stringHelper.stripSpaces( alt.replace( /[\'\"]*/g, "" ) ) !== "" ) {
 			hasAlttag = true;
 		}
 	}
@@ -575,7 +578,7 @@ YoastSEO.Analyzer.prototype.pageTitleKeyword = function() {
 	if ( typeof this.config.pageTitle !== "undefined" ) {
 		result[ 0 ].result.matches = this.stringHelper.countMatches(
 			this.config.pageTitle,
-			new RegExp( this.config.keyword, "i" )
+			this.stringHelper.getWordBoundaryRegex( this.config.keyword )
 		);
 		result[ 0 ].result.position = this.config.pageTitle.toLocaleLowerCase().indexOf( this.config.keyword.toLocaleLowerCase() );
 	}
@@ -646,7 +649,7 @@ YoastSEO.Analyzer.prototype.metaDescriptionKeyword = function() {
 	var result = [ { test: "metaDescriptionKeyword", result: -1 } ];
 	if ( typeof this.config.meta !== "undefined" && this.config.meta.length > 0 && this.config.keyword !== "" ) {
 		result[ 0 ].result = this.stringHelper.countMatches(
-			this.config.meta, new RegExp( this.config.keyword, "i" )
+			this.config.meta, this.stringHelper.getWordBoundaryRegex( this.config.keyword )
 		);
 	}
 	return result;
@@ -2501,7 +2504,7 @@ YoastSEO.SnippetPreview.prototype.formatKeyword = function( textString ) {
 	var keyword = this.refObj.rawData.keyword.replace( /[\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, " " );
 
 	// Match keyword case-insensitively
-	var keywordRegex = new RegExp( "\\b" + keyword + "\\b", "ig" );
+	var keywordRegex = YoastSEO.getStringHelper().getWordBoundaryRegex( keyword );
 	return textString.replace( keywordRegex, function( str ) {
 		return "<strong>" + str + "</strong>";
 	} );
@@ -2520,7 +2523,7 @@ YoastSEO.SnippetPreview.prototype.formatKeywordUrl = function( textString ) {
 	var dashedKeyword = keyword.replace( /\s/g, "-" );
 
 	// Match keyword case-insensitively.
-	var keywordRegex = new RegExp( "\\b" + dashedKeyword + "\\b", "ig" );
+	var keywordRegex = YoastSEO.getStringHelper().getWordBoundaryRegex( dashedKeyword );
 
 	// Make the keyword bold in the textString.
 	return textString.replace( keywordRegex, function( str ) {
@@ -2729,23 +2732,53 @@ YoastSEO.StringHelper.prototype.countMatches = function( textString, regex ) {
 };
 
 /**
- * builds regex from array with strings
+ * builds regex from array with multiple strings
  * @param stringArray
  * @returns {RegExp}
  */
 YoastSEO.StringHelper.prototype.stringToRegex = function( stringArray, disableWordBoundary ) {
-	var regexString = "";
-	var wordBoundary = "\\b";
-	if ( disableWordBoundary ) {
-		wordBoundary = "";
-	}
-	for ( var i = 0; i < stringArray.length; i++ ) {
-		if ( regexString.length > 0 ) {
-			regexString += "|";
+	var regexString;
+
+	stringArray = stringArray.map( function( string ) {
+		if ( disableWordBoundary ) {
+			return string;
+		} else {
+			return this.getWordBoundaryString( string );
 		}
-		regexString += wordBoundary + stringArray[ i ] + wordBoundary;
-	}
+	}.bind( this ) );
+
+	regexString = "(" + stringArray.join( ")|(" ) + ")";
+
 	return new RegExp( regexString, "g" );
+};
+
+/**
+ * Returns a string that can be used in a regex to match a matchString with word boundaries.
+ *
+ * @param {String} matchString The string to generate a regex string for.
+ * @param {String} extraWordBoundary Extra characters to match a word boundary on.
+ * @return {String} A regex string that matches the matchString with word boundaries
+ */
+YoastSEO.StringHelper.prototype.getWordBoundaryString = function( matchString, extraWordBoundary ) {
+	var wordBoundary, wordBoundaryStart, wordBoundaryEnd;
+
+	if ( typeof extraWordBoundary === "undefined" ) {
+		extraWordBoundary = "";
+	}
+
+	wordBoundary = "[ \n\r\t\.,'\(\)\"\+;!?:\/" + extraWordBoundary + "<>]";
+	wordBoundaryEnd = "($|" + wordBoundary + ")";
+	wordBoundaryStart = "(^|" + wordBoundary + ")";
+
+	return wordBoundaryStart + matchString + wordBoundaryEnd;
+};
+
+/**
+ * Creates a regex with a wordboundary. Since /b isn't working properly in JavaScript we have to
+ * use an alternative regex.
+ */
+YoastSEO.StringHelper.prototype.getWordBoundaryRegex = function( textString, extraWordBoundary ) {
+	return new RegExp( this.getWordBoundaryString( textString, extraWordBoundary ), "ig" );
 };
 
 /**
@@ -2815,7 +2848,7 @@ YoastSEO.StringHelper.prototype.stripAllTags = function( textString ) {
 YoastSEO.StringHelper.prototype.stripNumbers = function( textString ) {
 
 	// Remove "words" comprised only of numbers
-	textString = textString.replace( /\b[0-9]+\b/g, "" );
+	textString = textString.replace( this.getWordBoundaryRegex( "[0-9]+" ), "$1$3" );
 
 	textString = this.stripSpaces( textString );
 

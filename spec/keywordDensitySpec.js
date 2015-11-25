@@ -104,3 +104,17 @@ describe("A keyword density test with &nbsp;", function(){
         expect(result[0].result).toContain(1.0);
     });
 });
+
+keywordArgs8 = {
+	text: "Тест текст, чтобы проверить нечто Test текст, чтобы проверить нечто Test текст, чтобы проверить нечто Test текст, чтобы проверить нечто Test текст, чтобы проверить нечто Test текст, чтобы проверить нечто Test текст, чтобы проверить нечто Test текст, чтобы проверить нечто testText проверить нечто Test текст, чтобы проверить нечто Test текст, чтобы проверить нечто Test текст, чтобы проверить нечто Тест текст, чтобы проверить нечто Test текст, чтобы проверить нечто Test текст, чтобы проверить нечто Test текст, чтобы проверить нечто Test текст, чтобы проверить нечто Test текст, чтобы проверить нечто Test текст, чтобы проверить нечто Test текст, чтобы проверить нечто testText проверить нечто Test текст, чтобы проверить нечто Test текст, чтобы проверить нечто Test текст, чтобы проверить нечто",
+	keyword: "нечто"
+};
+
+describe("A keyword density test with Arabic language", function(){
+	it("should match keyword in the text", function(){
+		var analyzer = Factory.buildAnalyzer(keywordArgs8);
+		var result = analyzer.keywordDensity();
+
+		expect(result[0].result).toContain(20.7);
+	});
+});
