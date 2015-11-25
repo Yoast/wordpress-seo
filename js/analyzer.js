@@ -1,4 +1,4 @@
-/* global YoastSEO: true */
+/* global YoastSEO: true, require */
 YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 
 /**
@@ -183,12 +183,9 @@ YoastSEO.Analyzer.prototype.wordCount = function() {
  * @returns {{test: string, result: number}[]}
  */
 YoastSEO.Analyzer.prototype.keyphraseSizeCheck = function() {
-	var result = [ { test: "keyphraseSizeCheck", result: 0 } ];
-	var keyword = this.stringHelper.sanitizeKeyword( this.config.keyword );
-	if ( keyword !== "" ) {
-		result[ 0 ].result = keyword.split( /\s/g ).length;
-	}
-	return result;
+	var keyphraseSizeFunction = require("./analyses/keyphraseSize.js");
+	return [ { test: "keyphraseSizeCheck", result: keyphraseSizeFunction( this.config.keyword )  } ];
+
 };
 
 /**
@@ -196,6 +193,8 @@ YoastSEO.Analyzer.prototype.keyphraseSizeCheck = function() {
  * @returns resultObject
  */
 YoastSEO.Analyzer.prototype.keywordDensity = function() {
+	var keywordDensityFunction = require("./analyses/keywordDensity.js");
+
 	var result = [ { test: "keywordDensity", result: 0 } ];
 	if ( this.preProcessor.__store.wordcount > 100 ) {
 		var keywordDensity = this.keywordDensityCheck();
