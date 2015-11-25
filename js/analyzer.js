@@ -529,9 +529,9 @@ YoastSEO.Analyzer.prototype.imageCount = function() {
 YoastSEO.Analyzer.prototype.imageAlttag = function( image ) {
 	var hasAlttag = false;
 	if ( image !== null ) {
-
-		//matches the value of the alt attribute (alphanumeric chars), global and case insensitive
-		if ( image[ 0 ].split( "=" )[ 1 ].match( /[a-z0-9](.*?)[a-z0-9]/ig ) !== null ) {
+		var alt = image[ 0 ].split( "=" )[ 1 ];
+		//Checks if the alttag of the given image isn't empty after whitespaces are removed.
+		if ( alt !== null && this.stringHelper.stripSpaces( alt.replace(/[\'\"]*/g, "") ) !== "") {
 			hasAlttag = true;
 		}
 	}
