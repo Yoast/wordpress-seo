@@ -26,7 +26,7 @@ matrix:
     - php: 5.3
       env: WP_VERSION=4.3
     - php: 7.0
-      env: WP_VERSION=4.3
+      env: WP_VERSION=4.3 COVERAGE=1
     - php: hhvm
       env: WP_VERSION=4.3
 
@@ -58,8 +58,9 @@ before_script:
 script:
 - if [[ "$PHPLINT" == "1" ]]; then find -L .  -path ./vendor -prune -o -name '*.php' -print0 | xargs -0 -n 1 -P 4 php -l; fi
 - if [[ "$PHPLINT" == "1" ]]; then vendor/bin/phpcs -v; fi
-- if [[ "$CHECKS" == "1" ]]; then npm install -g grunt-cli && npm install && grunt check:js; fi
-- phpunit -c phpunit.xml
+- if [[ "$CHECKS" == "1" ]]; then npm install -g grunt-cli && npm install --no-optional && grunt check:js; fi
+- if [[ "$COVERAGE" == "1" ]]; then phpunit -c phpunit.xml --coverage-clover build/logs/clover.xml; else phpunit -c phpunit.xml; fi
+- if [[ "$COVERAGE" == "1" ]]; then vendor/bin/test-reporter; fi
 
 notifications:
   slack:

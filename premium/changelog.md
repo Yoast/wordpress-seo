@@ -1,3 +1,6 @@
+### 3.0.4: November 25th, 2015
+* Merge with Yoast SEO core 3.0.4, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
+
 ### 3.0.3: November 19th, 2015
 * Merge with Yoast SEO core 3.0.3, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
 
