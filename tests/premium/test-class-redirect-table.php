@@ -52,7 +52,7 @@ class WPSEO_Redirect_Table_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_redirect_list_table_primary_column() {
 		$this->assertEquals( 'test', $this->class_instance->redirect_list_table_primary_column( 'test', 'screen' ) );
-		$this->assertEquals( 'old', $this->class_instance->redirect_list_table_primary_column( 'test', 'seo_page_wpseo_redirects' ) );
+		$this->assertEquals( 'type', $this->class_instance->redirect_list_table_primary_column( 'test', 'seo_page_wpseo_redirects' ) );
 	}
 
 	/**
@@ -93,18 +93,6 @@ class WPSEO_Redirect_Table_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Test the old column actions
 	 *
-	 * @covers WPSEO_Redirect_Table::column_old
-	 */
-	public function test_column_old() {
-		$this->assertEquals(
-			'<div class="val">origin</div> <div class="row-actions"><span class=\'edit\'><a href="javascript:;">Edit</a> | </span><span class=\'trash\'><a href="javascript:;" >Delete</a></span></div><button type="button" class="toggle-row"><span class="screen-reader-text">Show more details</span></button>',
-			$this->class_instance->column_old( array( 'old' => 'origin', 'new' => 'target', 'type' => 301 ) )
-		);
-	}
-
-	/**
-	 * Test the old column actions
-	 *
 	 * @covers WPSEO_Redirect_Table::column_cb
 	 */
 	public function test_column_cb() {
@@ -123,8 +111,8 @@ class WPSEO_Redirect_Table_Test extends WPSEO_UnitTestCase {
 		$item = array( 'old' => 'origin', 'new' => 'target', 'type' => 301 );
 
 		$this->assertEquals( "<div class='val'>target</div>", $this->class_instance->column_default( $item, 'new' ) );
-		$this->assertEquals( "<div class='val type'>301</div>", $this->class_instance->column_default( $item, 'type' ) );
-		$this->assertEquals( 'origin', $this->class_instance->column_default( $item, 'old' ) );
+		$this->assertEquals( "<div class='val'>origin</div>", $this->class_instance->column_default( $item, 'old' ) );
+		$this->assertContains( '<div class="val type">301</div><div class="row-actions"><span class=\'edit\'><a href="javascript:;">Edit</a> | </span><span class=\'trash\'><a href="javascript:;" >Delete</a></span></div>', $this->class_instance->column_default( $item, 'type' ) );
 	}
 
 	/**
