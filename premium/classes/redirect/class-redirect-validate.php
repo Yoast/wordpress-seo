@@ -16,7 +16,7 @@ interface WPSEO_Redirect_Validate {
 	 *
 	 * @return bool
 	 */
-	public function validate( WPSEO_Redirect $redirect, array $redirects );
+	public function validate( WPSEO_Redirect $redirect, array $redirects = null );
 
 	/**
 	 * Getting the validation error.
