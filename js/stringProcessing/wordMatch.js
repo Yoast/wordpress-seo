@@ -8,7 +8,6 @@ var keywordRegexFunction = require( "../stringProcessing/keywordRegex.js" );
  */
 module.exports = function( text, wordToMatch ) {
 	var regex = keywordRegexFunction( wordToMatch );
-	console.log(regex, text);
 	var matches = text.match( regex );
 	var count;
 	if ( matches === null ) {

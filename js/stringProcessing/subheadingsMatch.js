@@ -3,12 +3,13 @@ var replaceStringFunction = require( "../stringProcessing/replaceString.js" );
 var removalWords = require( "../config/removalWords.js" );
 
 /**
+ * Matches the keyword in an array of strings
  *
- * @param {Array} matches
- * @param keyword
- * @returns {Array|{index: number, input: string}|*}
+ * @param {Array} matches The array with the matched headings.
+ * @param {String} keyword The keyword to match
+ * @returns integer foundInHeader The number of occurrences of the keyword in the header.
  */
-module.exports = function( matches, keyword ){
+module.exports = function( matches, keyword ) {
 		var foundInHeader;
 		if ( matches === null ) {
 			foundInHeader = -1;
