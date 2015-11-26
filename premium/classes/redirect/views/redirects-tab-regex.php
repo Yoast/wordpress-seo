@@ -19,11 +19,11 @@
 	</p>
 
 	<form class='wpseo-new-redirect-form' method='post'>
-		<div class='wpseo_redirects_new'>
+		<div class='wpseo_redirect_form'>
 
 			<br class='clear'/>
 			<label class='textinput' for='wpseo_redirects_new_type'><?php echo _x( 'Type', 'noun', 'wordpress-seo-premium' ); ?></label>
-			<select name='wpseo_redirects_new_type' id='wpseo_redirects_new_type' class='select'>
+			<select name='wpseo_redirects_type' id='wpseo_redirects_new_type' class='select'>
 				<?php
 				// Loop through the redirect types.
 				if ( count( $redirect_types ) > 0 ) {
@@ -44,12 +44,12 @@
 
 			<br class='clear'/>
 			<label class='textinput' for='wpseo_redirects_new_old'><?php _e( 'Regular Expression', 'wordpress-seo-premium' ); ?></label>
-			<input type='text' class='textinput' name='wpseo_redirects_new_old' id='wpseo_redirects_new_old' value='<?php echo $old_url; ?>' />
+			<input type='text' class='textinput' name='wpseo_redirects_origin' id='wpseo_redirects_new_old' value='<?php echo $old_url; ?>' />
 			<br class='clear'/>
 
-			<div id="wpseo_redirect_new_url">
+			<div class="wpseo_redirect_target_holder">
 				<label class='textinput' for='wpseo_redirects_new_new'><?php _e( 'URL', 'wordpress-seo-premium' ); ?></label>
-				<input type='text' class='textinput' name='wpseo_redirects_new_new' id='wpseo_redirects_new_new' value='' />
+				<input type='text' class='textinput' name='wpseo_redirects_target' id='wpseo_redirects_new_new' value='' />
 			</div>
 				<br class='clear'/>
 

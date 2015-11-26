@@ -428,8 +428,8 @@
 					}
 
 					// Empty the form fields.
-					jQuery( '#wpseo_redirects_new_old' ).val( '' );
-					jQuery( '#wpseo_redirects_new_new' ).val( '' );
+					validateRedirect.getOriginField().val( '' );
+					validateRedirect.getTargetField().val( '' );
 
 					// Remove the no items row
 					that.find( '.no-items' ).remove();
