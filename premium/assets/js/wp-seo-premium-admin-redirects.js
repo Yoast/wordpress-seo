@@ -606,24 +606,35 @@
 		};
 
 		/**
-		 * Toggles the target field in case of a 410 redirect.
-		 */
-		this.toggle_select = function( evt, field_to_toggle ) {
-			var type = parseInt( $( evt.target ).val(), 10 );
-
-			if( type === REDIRECT.DELETED ) {
-				field_to_toggle.hide();
-			} else {
-				field_to_toggle.show();
-			}
-		};
-
-		/**
 		 * Running the setup of this element.
 		 */
 		this.setup = function() {
 			// Adding dialog
 			$('body').append('<div id="YoastRedirectDialog"><div id="YoastRedirectDialogText"></div></div>');
+
+			// When the window will be closed/reloaded and there is a inline edit opened show a message.
+			$( window ).on( 'beforeunload',
+				function() {
+					if( $('#the-list').find('#inline-edit').length > 0 ) {
+						return wpseo_premium_strings.unsaved_redirects;
+					}
+				}
+			);
+
+			// Adding the onchange event.
+			$('.redirect-table-tab')
+				.on( 'change', 'select[name=wpseo_redirects_type]', function( evt ) {
+					var type            = parseInt( $( evt.target ).val(), 10 );
+					var field_to_toggle = $( evt.target ).closest( '.wpseo_redirect_form' ).find( '.wpseo_redirect_target_holder' );
+
+					// Hide the target field in case of a 410 redirect.
+					if( type === REDIRECT.DELETED ) {
+						$( field_to_toggle ).hide();
+					}
+					else {
+						$( field_to_toggle ).show();
+					}
+				} );
 
 			// Adding events for the add form
 			$('.wpseo-new-redirect-form')
@@ -636,18 +647,7 @@
 						evt.preventDefault();
 						that.add_redirect();
 					}
-				})
-				.on( 'change', '#wpseo_redirects_new_type', function( evt ) {
-					that.toggle_select( evt, $('#wpseo_redirect_new_url') );
-				} );
-
-			$( window ).on( 'beforeunload',
-				function() {
-					if( $('#the-list').find('#inline-edit').length > 0 ) {
-						return wpseo_premium_strings.unsaved_redirects;
-					}
-				}
-			);
+				});
 
 			$( '.wp-list-table' )
 				.on( 'click', '.edit', function( evt ) {
@@ -660,22 +660,20 @@
 
 					that.delete_redirect( row );
 				})
-				.on( 'change', 'select[name=wpseo_redirects_update_type]', function( evt ) {
-					var field_to_toggle = $( evt.target ).closest( 'tr' ).find( 'div.wpseo_redirect_update_url' );
-
-					that.toggle_select( evt, field_to_toggle );
-				} )
+				.on( 'keypress', 'input', function( evt ) {
+					if ( evt.which === 13 ) {
+						evt.preventDefault();
+						that.update_redirect();
+					}
+				})
 				.on( 'click', '.save', function() {
-					that.update_redirect(
-						redirects_quick_edit.GetRow(),
-						redirects_quick_edit.GetFormValues()
-					);
-					redirects_quick_edit.Hide();
+					that.update_redirect();
 				})
 				.on( 'click', '.cancel', function() {
-					redirects_quick_edit.Hide();
+					redirectsQuickEdit.hide();
 				});
 		};
+
 		that.setup();
 	};
 
