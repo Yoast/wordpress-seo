@@ -73,6 +73,15 @@ class WPSEO_Redirect_Manager {
 	}
 
 	/**
+	 * Returns all redirects
+	 *
+	 * @return WPSEO_Redirect[]
+	 */
+	public function get_all_redirects() {
+		return $this->redirect_option->get_all();
+	}
+
+	/**
 	 * Export the redirects to the specified sources.
 	 */
 	public function export_redirects() {
