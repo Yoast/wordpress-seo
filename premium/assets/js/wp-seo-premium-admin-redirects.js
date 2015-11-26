@@ -139,6 +139,26 @@
 	};
 
 	/**
+	 * Returns the values on the quick edit form
+	 *
+	 * @returns {{origin: (string|*), target: (string|*), type: (string|*)}}
+	 */
+	ValidateRedirect.prototype.getFormValues = function() {
+		var values = {
+			origin: this.getOriginField().val().toString(),
+			target: this.getTargetField().val().toString(),
+			type: this.getTypeField().val().toString()
+		};
+
+		// When the redirect type is deleted, the target can be emptied
+		if ( parseInt( values.type, 10 ) === REDIRECT.DELETED ) {
+			values.target = '';
+		}
+
+		return values;
+	};
+
+	/**
 	 * The quick edit prototype for handling the quick edit on form rows.
 	 * @constructor
 	 */
