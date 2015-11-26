@@ -37,7 +37,7 @@
 		</tr>
 	<?php endforeach; ?>
 </table>
-<?php if ( !empty( $onpage ) && WPSEO_Utils::grant_access() ) : ?>
+<?php if ( ! empty( $onpage ) && WPSEO_Utils::grant_access() ) : ?>
 <div class="onpage">
 	<h4 class="hide-if-no-js"><?php
 		printf(

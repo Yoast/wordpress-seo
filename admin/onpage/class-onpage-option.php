@@ -100,7 +100,7 @@ class WPSEO_OnPage_Option {
 	public function is_enabled() {
 		$options = get_option( 'wpseo' );
 
-		return !empty( $options['onpage_indexability'] );
+		return ! empty( $options['onpage_indexability'] );
 	}
 
 	/**
