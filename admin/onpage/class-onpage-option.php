@@ -113,4 +113,16 @@ class WPSEO_OnPage_Option {
 
 		return self::IS_INDEXABLE === $this->get_status();
 	}
+
+	/**
+	 * Returns the value of the onpage_enabled status
+	 *
+	 * @return bool
+	 */
+	public function is_enabled() {
+		$options = get_option( 'wpseo' );
+
+		return !empty( $options['onpage_indexability'] );
+	}
+
 }

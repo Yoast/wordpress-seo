@@ -50,10 +50,13 @@ class Yoast_Dashboard_Widget {
 		$statistics = $this->statistic_items();
 
 		$onpage_option = new WPSEO_OnPage_Option();
-		$onpage        = array(
-			'indexable' => $onpage_option->get_status(),
-			'can_fetch' => $onpage_option->should_be_fetched(),
-		);
+		$onpage        = false;
+		if( $onpage_option->is_enabled() ) {
+			$onpage = array(
+					'indexable' => $onpage_option->get_status(),
+					'can_fetch' => $onpage_option->should_be_fetched(),
+			);
+		}
 
 		include WPSEO_PATH . '/admin/views/dashboard-widget.php';
 	}
