@@ -17,6 +17,128 @@
 	};
 
 	/**
+	 * Clientside validator for the redirect
+	 *
+	 * @param {element} form
+	 * @param {string} type
+	 */
+	var ValidateRedirect = function( form, type ) {
+		this.form = form;
+		this.type = type;
+		this.validation_error = '';
+	};
+
+	/**
+	 * Validates for the form fields
+	 *
+	 * @returns {boolean}
+	 */
+	ValidateRedirect.prototype.validate = function() {
+		this.clearMessage();
+
+		if( this.runValidation( this.getOriginField(), this.getTargetField(), this.getTypeField() ) === false ) {
+			this.addValidationError( this.validation_error );
+
+			return false;
+		}
+
+		return true;
+	};
+
+	/**
+	 * Executes the validation.
+	 *
+	 * @param {element} originField
+	 * @param {element} targetField
+	 * @param {element} typeField
+	 * @returns {boolean}
+	 */
+	ValidateRedirect.prototype.runValidation = function( originField, targetField, typeField ) {
+		// Check old URL.
+		if ( '' === originField.val() ) {
+			if ( 'plain' === this.type ) {
+				return this.setError( wpseo_premium_strings.error_old_url );
+			}
+
+			return this.setError( wpseo_premium_strings.error_regex );
+		}
+
+		// Only when the redirect type is not deleted.
+		if( REDIRECT.DELETED !== parseInt( typeField.val(), 10 ) ) {
+			// Check new URL
+			if ( '' === targetField.val() ) {
+				return this.setError( wpseo_premium_strings.error_new_url );
+			}
+
+			// Check if both fields aren't the same.
+			if ( targetField.val() === originField.val() ) {
+				return this.setError( wpseo_premium_strings.error_circular );
+			}
+		}
+
+		// Check the redirect type
+		if ( '' === typeField.val() ) {
+			return this.setError( wpseo_premium_strings.error_new_type );
+		}
+
+		return true;
+	};
+
+	/**
+	 * Sets the validation error and return false.
+	 *
+	 * @param {string} error
+	 * @returns {boolean}
+	 */
+	ValidateRedirect.prototype.setError = function( error ) {
+		this.validation_error = error;
+		return false;
+	};
+
+	/**
+	 * Returns the origin field
+	 *
+	 * @returns {element}
+	 */
+	ValidateRedirect.prototype.getOriginField = function() {
+		return this.form.find( 'input[name=wpseo_redirects_origin]');
+	};
+
+	/**
+	 * Returns the target field
+	 *
+	 * @returns {element}
+	 */
+	ValidateRedirect.prototype.getTargetField = function() {
+		return this.form.find( 'input[name=wpseo_redirects_target]');
+	};
+
+	/**
+	 * Returns the type field
+	 *
+	 * @returns {element}
+	 */
+	ValidateRedirect.prototype.getTypeField = function() {
+		return this.form.find( 'select[name=wpseo_redirects_type]');
+	};
+
+	/**
+	 * Adding the validation error
+	 *
+	 * @param {string} error
+	 */
+	ValidateRedirect.prototype.addValidationError = function( error ) {
+		this.form.find('.wpseo_redirect_form').prepend( '<div class="form_error error"><p>' + error + '</p></div>' );
+	};
+
+	/**
+	 * Clears a validation message.
+	 */
+	ValidateRedirect.prototype.clearMessage = function() {
+		this.form.find('.wpseo_redirect_form .form_error').remove();
+	};
+
+	/**
 	 * The quick edit prototype for handling the quick edit on form rows.
 	 * @constructor
 	 */
