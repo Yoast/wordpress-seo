@@ -3,6 +3,7 @@
 /* jshint -W107 */
 /* global yoast_overlay */
 /* global alert */
+/* global wpseo_premium_strings */
 'use strict';
 
 ( function($) {
@@ -172,11 +173,11 @@
 	 * @param {element} row
 	 * @param {object} row_cells
 	 */
-	RedirectQuickEdit.prototype.Setup = function( row, row_cells ) {
+	RedirectQuickEdit.prototype.setup = function(row, row_cells ) {
 		this.row            = row;
 		this.quick_edit_row = $('#inline-edit').clone();
 
-		this.SetFormValues( row_cells );
+		this.setFormValues( row_cells );
 	};
 
 	/**
@@ -184,13 +185,13 @@
 	 *
 	 * @param {object} row_cells
 	 */
-	RedirectQuickEdit.prototype.SetFormValues = function( row_cells ) {
-		this.GetTypeField()
-				.find( 'option[value=' + row_cells.type.html().toString() + ']' )
-				.attr( 'selected', 'selected' );
+	RedirectQuickEdit.prototype.setFormValues = function( row_cells ) {
+		this.getTypeField()
+			.find( 'option[value=' + row_cells.type.html().toString() + ']' )
+			.attr( 'selected', 'selected' );
 
-		this.GetOriginField().val( row_cells.origin.html().toString() );
-		this.GetTargetField().val( row_cells.target.html().toString() );
+		this.getOriginField().val( row_cells.origin.html().toString() );
+		this.getTargetField().val( row_cells.target.html().toString() );
 	};
 
 	/**
@@ -198,7 +199,7 @@
 	 *
 	 * @returns {element}
 	 */
-	RedirectQuickEdit.prototype.GetOriginField = function() {
+	RedirectQuickEdit.prototype.getOriginField = function() {
 		return this.quick_edit_row.find( '#wpseo_redirects_update_origin');
 	};
 
@@ -207,7 +208,7 @@
 	 *
 	 * @returns {element}
 	 */
-	RedirectQuickEdit.prototype.GetTargetField = function() {
+	RedirectQuickEdit.prototype.getTargetField = function() {
 		return this.quick_edit_row.find( '#wpseo_redirects_update_new');
 	};
 
@@ -216,7 +217,7 @@
 	 *
 	 * @returns {element}
 	 */
-	RedirectQuickEdit.prototype.GetTypeField = function() {
+	RedirectQuickEdit.prototype.getTypeField = function() {
 		return this.quick_edit_row.find( '#wpseo_redirects_update_type');
 	};
 
@@ -225,27 +226,23 @@
 	 *
 	 * @returns {element}
 	 */
-	RedirectQuickEdit.prototype.GetRow = function() {
+	RedirectQuickEdit.prototype.getRow = function() {
 		return this.row;
 	};
 
 	/**
-	 * Returns the values on the quick edit form
+	 * Returns the original row element
 	 *
-	 * @returns {{origin: (string|*), target: (string|*), type: (string|*)}}
+	 * @returns {element}
 	 */
-	RedirectQuickEdit.prototype.GetFormValues = function() {
-		return {
-			origin: this.GetOriginField().val().toString(),
-			target: this.GetTargetField().val().toString(),
-			type: this.GetTypeField().val().toString()
-		};
+	RedirectQuickEdit.prototype.getForm = function() {
+		return this.quick_edit_row;
 	};
 
 	/**
 	 * Shows the quick edit form and hides the redirect row.
 	 */
-	RedirectQuickEdit.prototype.Show = function() {
+	RedirectQuickEdit.prototype.show = function() {
 		this.row.addClass('hidden');
 		this.quick_edit_row.insertAfter( this.row ).show();
 	};
@@ -253,13 +250,13 @@
 	/**
 	 * Hides the quick edit form and show the redirect row.
 	 */
-	RedirectQuickEdit.prototype.Hide = function() {
+	RedirectQuickEdit.prototype.hide = function() {
 		this.row.removeClass('hidden');
 		this.quick_edit_row.remove();
 	};
 
 	// Instantiate the quick edit form.
-	var redirects_quick_edit = new RedirectQuickEdit();
+	var redirectsQuickEdit = new RedirectQuickEdit();
 
 	/**
 	 * Extending the elements with a wpseo_redirects object
