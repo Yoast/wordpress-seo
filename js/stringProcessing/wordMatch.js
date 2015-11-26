@@ -1,3 +1,4 @@
+var keywordRegexFunction = require( "../stringProcessing/keywordRegex.js" );
 /**
  * Returns the number of matches in a given string
  *
@@ -5,8 +6,9 @@
  * @param {String} wordToMatch The word to match in the text
  * @returns {String} The text without characters.
  */
-module.exports = function( text, wordToMatch ){
-	var regex = new RegExp ( wordToMatch, "ig" );
+module.exports = function( text, wordToMatch ) {
+	var regex = keywordRegexFunction( wordToMatch );
+	console.log(regex, text);
 	var matches = text.match( regex );
 	var count;
 	if ( matches === null ) {

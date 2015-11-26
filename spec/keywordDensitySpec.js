@@ -57,7 +57,7 @@ describe("A keyword density test with a string shorter than 100 words", function
     it("returns keyword density - < 100", function(){
         var textAnalyzer = Factory.buildAnalyzer(keywordArgs4);
         var result = textAnalyzer.keywordDensity();
-        expect(result).toBe(undefined);
+        expect(result[0].result).toBe('0.0');
     });
 });
 
