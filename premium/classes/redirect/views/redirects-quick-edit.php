@@ -50,7 +50,6 @@
 						<button type="button" class="save button-primary alignleft"><?php _e( 'Update Redirect', 'wordpress-seo-premium' ); ?></button>
 						<span class="alignleft">&nbsp;</span>
 						<button type="button" class="cancel button-secondary alignleft">Cancel</button>
-						<input type="hidden" id="_inline_edit" name="_inline_edit" value="43f569d2d8" />
 						<br class="clear" />
 					</p>
 				</td>
