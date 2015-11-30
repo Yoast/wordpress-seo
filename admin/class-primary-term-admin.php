@@ -27,8 +27,12 @@ class WPSEO_Primary_Term_Admin {
 		$taxonomies = $this->get_primary_term_taxonomies();
 
 		if ( ! empty( $taxonomies ) ) {
-			include_once WPSEO_PATH . '/admin/views/js-templates-primary-term.php';
+			$this->include_js_templates();
 		}
+	}
+
+	protected function include_js_templates() {
+		include_once WPSEO_PATH . '/admin/views/js-templates-primary-term.php';
 	}
 
 	/**
@@ -141,7 +145,7 @@ class WPSEO_Primary_Term_Admin {
 	 * @param int $post_ID Default current post ID.
 	 * @return array
 	 */
-	private function get_primary_term_taxonomies( $post_ID = null ) {
+	protected function get_primary_term_taxonomies( $post_ID = null ) {
 
 		if ( null === $post_ID ) {
 			$post_ID = get_the_ID();
