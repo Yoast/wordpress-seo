@@ -4,8 +4,7 @@
  */
 
 ?>
-	<table style="display: none">
-		<tbody>
+	<script type="text/plain" id="tmpl-redirects-inline-edit">
 			<tr id="inline-edit" class="inline-edit-row" style="display: none">
 				<td colspan="<?php echo $total_columns; ?>" class="colspanchange">
 
@@ -20,7 +19,7 @@
 									// Loop through the redirect types.
 									if ( count( $redirect_types ) > 0 ) {
 										foreach ( $redirect_types as $type => $desc ) {
-											echo "<option value='" . $type . "'>" . $desc . '</option>' . PHP_EOL;
+											echo '<option value="' . $type . '"<# if(data.type === ' . $type . ') {  #> selected="selected"<# } #>>' . $desc  . '</option>' . PHP_EOL;
 										}
 									}
 									?>
@@ -35,12 +34,12 @@
 								</p>
 
 								<label class='textinput' for='wpseo_redirects_update_origin'><?php echo $origin_value; ?></label>
-								<input type='text' class='textinput' name='wpseo_redirects_origin' id='wpseo_redirects_update_origin' value='' />
+								<input type='text' class='textinput' name='wpseo_redirects_origin' id='wpseo_redirects_update_origin' value='{{data.origin}}' />
 								<br class='clear'/>
 
 								<div class="wpseo_redirect_target_holder">
 									<label class='textinput' for='wpseo_redirects_update_new'><?php _e( 'New URL', 'wordpress-seo-premium' ); ?></label>
-									<input type='text' class='textinput' name='wpseo_redirects_target' id='wpseo_redirects_update_new' value='' />
+									<input type='text' class='textinput' name='wpseo_redirects_target' id='wpseo_redirects_update_new' value='{{data.target}}' />
 								</div>
 							</div>
 						</div>
@@ -54,5 +53,4 @@
 					</p>
 				</td>
 			</tr>
-		</tbody>
-	</table>
+			</script>

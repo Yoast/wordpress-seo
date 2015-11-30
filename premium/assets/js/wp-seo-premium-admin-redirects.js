@@ -21,6 +21,8 @@
 		ENTER: 13
 	};
 
+	var templateQuickEdit;
+
 	/**
 	 * Clientside validator for the redirect
 	 *
@@ -179,50 +181,13 @@
 	 */
 	RedirectQuickEdit.prototype.setup = function(row, row_cells ) {
 		this.row            = row;
-		this.quick_edit_row = $('#inline-edit').clone();
-
-		this.setFormValues( row_cells );
-	};
-
-	/**
-	 * Set the values from the table cell in the form
-	 *
-	 * @param {object} row_cells
-	 */
-	RedirectQuickEdit.prototype.setFormValues = function( row_cells ) {
-		this.getTypeField()
-			.find( 'option[value=' + row_cells.type.html().toString() + ']' )
-			.attr( 'selected', 'selected' );
-
-		this.getOriginField().val( row_cells.origin.html().toString() );
-		this.getTargetField().val( row_cells.target.html().toString() );
-	};
-
-	/**
-	 * Returns the origin field
-	 *
-	 * @returns {element}
-	 */
-	RedirectQuickEdit.prototype.getOriginField = function() {
-		return this.quick_edit_row.find( '#wpseo_redirects_update_origin');
-	};
-
-	/**
-	 * Returns the target field
-	 *
-	 * @returns {element}
-	 */
-	RedirectQuickEdit.prototype.getTargetField = function() {
-		return this.quick_edit_row.find( '#wpseo_redirects_update_new');
-	};
-
-	/**
-	 * Returns the type field
-	 *
-	 * @returns {element}
-	 */
-	RedirectQuickEdit.prototype.getTypeField = function() {
-		return this.quick_edit_row.find( '#wpseo_redirects_update_type');
+		this.quick_edit_row = $(
+			templateQuickEdit({
+				origin: row_cells.origin.html(),
+				target: row_cells.target.html(),
+				type: parseInt( row_cells.type.html(), 10 )
+			})
+		);
 	};
 
 	/**
@@ -602,6 +567,9 @@
 	};
 
 	function init() {
+
+		templateQuickEdit = wp.template( 'redirects-inline-edit' );
+
 		$.each(
 			$('.redirect-table-tab'),
 			function(key, element) {
