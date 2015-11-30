@@ -1614,7 +1614,7 @@ YoastSEO.Pluggable.prototype._reloaded = function( pluginName ) {
 		return false;
 	}
 
-	this.app.runAnalyzer();
+	this.app.analyzeTimer();
 	return true;
 };
 
