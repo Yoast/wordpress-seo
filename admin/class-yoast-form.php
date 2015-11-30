@@ -58,7 +58,7 @@ class Yoast_Form {
 		 */
 		require_once( ABSPATH . 'wp-admin/options-head.php' );
 		?>
-		<h2 id="wpseo-title"><?php echo esc_html( get_admin_page_title() ); ?></h2>
+		<h1 id="wpseo-title"><?php echo esc_html( get_admin_page_title() ); ?></h1>
 		<div class="wpseo_content_wrapper">
 		<div class="wpseo_content_cell" id="wpseo_content_top">
 		<?php
@@ -166,6 +166,11 @@ class Yoast_Form {
 
 		$plugin_banners = array(
 			array(
+				'url' => 'https://yoast.com/academy/course/basic-seo-training/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=basic-seo-training-banner',
+				'img' => 'banner-seo-training.png',
+				'alt' => 'Basic SEO Training banner',
+			),
+			array(
 				'url' => 'https://yoast.com/wordpress/plugins/seo-premium/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=premium-seo-banner',
 				'img' => 'banner-premium-seo.png',
 				'alt' => 'Banner Yoast SEO Premium',
@@ -220,7 +225,7 @@ class Yoast_Form {
 			if ( $i == 2 ) {
 				break;
 			}
-			echo '<a target="_blank" href="' . esc_url( $banner['url'] ) . '"><img width="261" height="130" src="' . plugins_url( 'images/' . $banner['img'], WPSEO_FILE ) . '" alt="' . esc_attr( $banner['alt'] ) . '"/></a><br/><br/>';
+			echo '<a target="_blank" href="' . esc_url( $banner['url'] ) . '"><img width="261" height="152" src="' . plugins_url( 'images/' . $banner['img'], WPSEO_FILE ) . '" alt="' . esc_attr( $banner['alt'] ) . '"/></a><br/><br/>';
 			$i ++;
 		}
 		?>

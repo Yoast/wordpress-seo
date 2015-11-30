@@ -87,7 +87,7 @@ class WPSEO_GSC_Mapper {
 	 *
 	 * @return mixed
 	 */
-	public static function category_to_api( $category) {
+	public static function category_to_api( $category ) {
 		if ( ! empty( $category ) && array_key_exists( $category, self::$categories ) ) {
 			return self::$categories[ $category ];
 		}
@@ -109,5 +109,4 @@ class WPSEO_GSC_Mapper {
 
 		return $category;
 	}
-
 }

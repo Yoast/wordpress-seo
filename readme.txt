@@ -4,9 +4,9 @@ Donate link: https://yoast.com/
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: seo, SEO, Yoast SEO, google, meta, meta description, search engine optimization, xml sitemap, xml sitemaps, google sitemap, sitemap, sitemaps, robots meta, rss, rss footer, yahoo, bing, news sitemaps, XML News Sitemaps, WordPress SEO, WordPress SEO by Yoast, yoast, multisite, canonical, nofollow, noindex, keywords, meta keywords, description, webmaster tools, google webmaster tools, seo pack
-Requires at least: 3.9
-Tested up to: 4.3
-Stable tag: 2.3.4
+Requires at least: 4.0
+Tested up to: 4.4
+Stable tag: 3.0.4
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using Yoast SEO plugin.
 
@@ -119,6 +119,102 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 7. The advanced section of the Yoast SEO meta box.
 
 == Changelog ==
+
+= 3.0.4 =
+
+Release Date: November 25th, 2015
+
+* Enhancement: Made the "Analyze entire site" button have better color contrast and resemble JetPack. Thanks [WPExplorer](https://github.com/wpexplorer) for the contribution.
+
+* Bugfixes:
+	* Fixes JS errors in combination with Give plugin, CMB2 Framework, ACF layout builder and any other plugin that replaces the editor with something else. Thanks a lot [Daniel Seripap](https://github.com/seripap) for fixing.
+	* Fixes JavaScript error on post types without 'editor' capability. Thanks [Aaron Hipple](https://github.com/aaronhipple) for the fix and [Zvonko Biškup](https://github.com/codeforest) for testing.
+	* Fixes a lot of text analysis issues for languages with non-latin scripts, including the "0% keyword density" issues.
+	* Fixes an issue where html tags were not stripped properly from taxonomy descriptions for custom taxonomies.
+	* Fixes possible "URI too long" errors when parsing shortcodes in the content before it is analyzed.
+
+
+= 3.0.3 =
+
+Release Date: November 19th, 2015
+
+* Bugfixes:
+	* Fixes a bug where the snippet preview was broken.
+
+= 3.0.2 =
+
+Release Date: November 19th, 2015
+
+* Bugfixes:
+	* Fixes a bug where disabling the visual editor caused our content analysis to break.
+	* Fixes a bug where the content analysis would break on installs that replace tinyMCE with ckEditor. Currently only supports the html editor.
+	* Fixes a bug where slug changes were not properly synchronized in the snippet preview.
+	* Fixes a bug where long slugs could be broken by wrongful synchronization with the snippet preview.
+	* Fixes a bug where digits were not analyzed well in the content, causing focus keywords or keyphrases with digits to no longer be matched.
+	* Fixes a bug where the url in the snippet preview was not in line with permalink settings. Fixed for permalinks containing the post name.
+	* Fixes a bug where focus keyphrases of more than two words would not be recognized properly in the content.
+	* Fixes a bug where the translation files were corrupted causing the translations to no longer work.
+
+* Enhancements:
+	* Fixes caching problems. We've versioned file names for assets that have changed to circumvent caching strategies that consider preventing regular cache busting a good idea...
+
+= 3.0.1 =
+
+Release Date: November 18th, 2015
+
+* Bugfixes:
+	* Fixes a bug where users where getting error notifications about how their site was not indexable when in fact no check had been performed yet.
+	* Fixes a few broken links to help docs about the OnPage.org integration.
+	* Fixes an edgecase where the indexability check would go wrong for sites that filter the home url.
+	* Fixes a bug where the admin email that was sent to report the current indexability status was not rendered as HTML.
+
+= 3.0 =
+
+Release Date: November 18th, 2015
+
+* Features:
+	* Adds realtime content analysis to the Yoast SEO metabox for all post types and taxonomies.
+	* Adds a tool to recalculate all SEO scores using the new client side analysis.
+	* Adds a content analysis plugin for parsing shortcodes before the content is analyzed. This means the snippet preview will now take the rendered content of shortcodes into account.
+	* Adds a content analysis plugin for parsing replace vars before the content is analyzed, allowing templates set in the Yoast SEO admin to work everywhere.
+	* Adds a weekly check if the homepage is indexable (in collaboration with [OnPage.org](https://en.onpage.org/lp/yoast/)).
+	* Adds possibility to import titles, metas and settings from the WPSEO.de plugin.
+	* Adds possibility to set Facebook (Opengraph), Twitter and Google+ metadata for taxonomies.
+
+* Enhancements:
+	* We've completely revised the UX of the Yoast SEO metabox. We've introduced multiple sections which in turn can contain one or more tabs.
+	* Makes the Yoast SEO metabox on the taxonomy edit page the same as on the post edit page.
+	* Makes sure the capability for the General Settings menu is also `wpseo_manage_options_capability`.
+	* Adds a fix to the tour allowing for multiple plugins to use WP pointers at the same time.
+	* Makes sure all Yoast SEO settings pages are also accessible through the WP admin bar.
+
+* Bugfixes:
+	* Fixes a bug where the `og:image` would not be set, even when a default image was available.
+	* Fixes a bug where the links in the sitemap would 'randomly' change from https to http or the other way around (in very rare circumstances).
+	* Fixes a bug where it was not possible to upload different images for different social media in the post metabox.
+	* Fixes a bug where users would see the after-update notice, but were not allowed to visit the about page.
+	* Fixes a bug where we were not properly splitting taxonomy metadata when a shared taxonomy term got split through a Cron job, props [Daniel Homer](https://github.com/danielhomer).
+
+* Other notable changes:
+	* Adds a JavaScript API for registering data modifications that is quite similar to `add_filter`/`apply_filters` in WordPress. Allows for filtering data before it is analyzed. See [YoastSEO.js](https://github.com/Yoast/YoastSEO.js).
+    * Adds a JavaScript API for adding content analysis tests, see [YoastSEO.js](https://github.com/Yoast/YoastSEO.js).
+
+* Because we moved the entire content analysis to JavaScript, we had to remove the following PHP filters:
+	* `wpseo_pre_analysis_post_content`. Alternative: [Modifications API](https://github.com/Yoast/YoastSEO.js).
+	* `wpseo_metadesc_length`. Functionality removed.
+	* `wpseo_metadesc_length_reason`. Functionality removed.
+	* `wpseo_body_length_score`. Alternative: [Content Checks API](https://github.com/Yoast/YoastSEO.js).
+	* `wpseo_linkdex_results`. Alternative: [Content Checks API](https://github.com/Yoast/YoastSEO.js).
+	* `wpseo_snippet`. Functionality removed.
+
+= 2.3.5 =
+
+Release Date: September 16th, 2015
+
+* Bugfixes:
+	* Fixes the Twitter image metatag that was invalidated after a recent API change by Twitter. Thanks [Andy Piper](https://github.com/andypiper) for notifying us.
+	* Removes all tests directories from the release. Props [Edward Beckett](https://github.com/EdwardBeckett) for reporting.
+	* Updated the minimum required version of WordPress to 4.0.
 
 = 2.3.4 =
 

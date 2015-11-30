@@ -118,7 +118,7 @@ class WPSEO_Plugin_Conflict extends Yoast_Plugin_Conflict {
 		$instance = self::get_instance();
 
 		// Only add plugin as active plugin if $plugin isn't false.
-		if ( $plugin ) {
+		if ( $plugin && is_string( $plugin ) ) {
 			// Because it's just activated.
 			$instance->add_active_plugin( $instance->find_plugin_category( $plugin ), $plugin );
 		}
@@ -142,5 +142,4 @@ class WPSEO_Plugin_Conflict extends Yoast_Plugin_Conflict {
 
 		$instance->check_plugin_conflicts( $plugin_sections );
 	}
-
 }

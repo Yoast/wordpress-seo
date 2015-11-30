@@ -19,7 +19,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
  * @param array $results Results array for encoding.
  */
 function wpseo_ajax_json_echo_die( $results ) {
-	echo json_encode( $results );
+	echo WPSEO_Utils::json_encode( $results );
 	die();
 }
 
@@ -141,6 +141,9 @@ function wpseo_ajax_replace_vars() {
 	check_ajax_referer( 'wpseo-replace-vars' );
 
 	$post = get_post( intval( filter_input( INPUT_POST, 'post_id' ) ) );
+	global $wp_query;
+	$wp_query->queried_object = $post;
+	$wp_query->queried_object_id = $post->ID;
 	$omit = array( 'excerpt', 'excerpt_only', 'title' );
 	echo wpseo_replace_vars( stripslashes( filter_input( INPUT_POST, 'string' ) ), $post, $omit );
 	die;
@@ -345,4 +348,46 @@ function wpseo_add_fb_admin() {
 
 add_action( 'wp_ajax_wpseo_add_fb_admin', 'wpseo_add_fb_admin' );
 
+/**
+ * Retrieves the keyword for the keyword doubles.
+ */
+function ajax_get_keyword_usage() {
+	$post_id = filter_input( INPUT_POST, 'post_id' );
+	$keyword = filter_input( INPUT_POST, 'keyword' );
+
+	wp_die(
+		WPSEO_Utils::json_encode( WPSEO_Meta::keyword_usage( $keyword, $post_id ) )
+	);
+}
+
+add_action( 'wp_ajax_get_focus_keyword_usage',  'ajax_get_keyword_usage' );
+
+/**
+ * Retrieves the keyword for the keyword doubles of the termpages.
+ */
+function ajax_get_term_keyword_usage() {
+	$post_id = filter_input( INPUT_POST, 'post_id' );
+	$keyword = filter_input( INPUT_POST, 'keyword' );
+	$taxonomy = filter_input( INPUT_POST, 'taxonomy' );
+
+	wp_die(
+		WPSEO_Utils::json_encode( WPSEO_Taxonomy_Meta::get_keyword_usage( $keyword, $post_id, $taxonomy ) )
+	);
+}
+
+add_action( 'wp_ajax_get_term_keyword_usage',  'ajax_get_term_keyword_usage' );
+
+// Crawl Issue Manager AJAX hooks.
+new WPSEO_GSC_Ajax;
+
+// SEO Score Recalculations.
+new WPSEO_Recalculate_Scores_Ajax;
+
 new Yoast_Dashboard_Widget();
+
+new Yoast_OnPage_Ajax();
+
+new WPSEO_Shortcode_Filter();
+
+// Setting the notice for the recalculate the posts.
+new Yoast_Dismissable_Notice_Ajax( 'recalculate', Yoast_Dismissable_Notice_Ajax::FOR_SITE );
