@@ -178,8 +178,10 @@ class WPSEO_Redirect_Page {
 			if ( filter_input( INPUT_POST, 'action' ) === 'delete' || filter_input( INPUT_POST, 'action2' ) === 'delete' ) {
 				$bulk_delete = filter_input( INPUT_POST, 'wpseo_redirects_bulk_delete', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY );
 				$redirects   = array();
-				foreach ( $bulk_delete as $redirect ) {
-					$redirects[] = new WPSEO_Redirect( $redirect, $redirect );
+				foreach ( $bulk_delete as $origin ) {
+					if ( $redirect = $this->get_redirect_manager()->get_redirect( $origin ) ) {
+						$redirects[] = $redirect;
+					}
 				}
 
 				$this->get_redirect_manager()->delete_redirects( $redirects );
