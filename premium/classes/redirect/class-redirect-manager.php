@@ -47,8 +47,6 @@ class WPSEO_Redirect_Manager {
 	public function __construct( $redirect_format = WPSEO_Redirect::FORMAT_PLAIN ) {
 		$this->redirect_option = new WPSEO_Redirect_Option();
 		$this->redirect_format = $redirect_format;
-
-		$this->redirect_option->set_redirects();
 	}
 
 	/**

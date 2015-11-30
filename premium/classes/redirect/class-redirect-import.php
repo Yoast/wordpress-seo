@@ -18,7 +18,6 @@ class WPSEO_Redirect_Import {
 	 */
 	public function __construct() {
 		$this->redirect_option = new WPSEO_Redirect_Option();
-		$this->redirect_option->set_redirects();
 	}
 
 	/**
