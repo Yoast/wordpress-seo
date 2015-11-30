@@ -1101,6 +1101,7 @@ YoastSEO.App.defaultConfig = {
 YoastSEO.App.prototype.extendConfig = function( args ) {
 	args.sampleText = this.extendSampleText( args.sampleText );
 	args.queue = args.queue || YoastSEO.analyzerConfig.queue;
+	args.locale = args.locale || "en_US";
 
 	return args;
 };
@@ -1334,6 +1335,8 @@ YoastSEO.App.prototype.endTime = function() {
  * to format outputs.
  */
 YoastSEO.App.prototype.runAnalyzer = function() {
+	var fleschReadingIndex;
+
 	if ( this.pluggable.loaded === false ) {
 		return;
 	}
@@ -1348,6 +1351,11 @@ YoastSEO.App.prototype.runAnalyzer = function() {
 	var keyword = this.stringHelper.sanitizeKeyword( this.rawData.keyword );
 	if ( keyword === "" ) {
 		this.analyzerData.queue = [ "keyphraseSizeCheck", "wordCount", "fleschReading", "pageTitleLength", "urlStopwords", "metaDescriptionLength" ];
+	}
+
+	// Exclude the flesh easy reading score for non-english languages
+	if ( 0 !== this.config.locale.indexOf( "en_" ) && ( fleschReadingIndex = this.analyzerData.queue.indexOf( "fleschReading" ) ) ) {
+		this.analyzerData.queue.splice( fleschReadingIndex, 1 );
 	}
 
 	this.analyzerData.keyword = keyword;
