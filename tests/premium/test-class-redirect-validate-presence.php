@@ -6,20 +6,20 @@
 /**
  * Test class for testing the endpoint validation class
  *
- * @covers WPSEO_Redirect_Validate_Filled
+ * @covers WPSEO_Redirect_Validate_Presence
  */
-class WPSEO_Redirect_Validate_Filled_Test extends WPSEO_UnitTestCase {
+class WPSEO_Redirect_Validate_Presence_Test extends WPSEO_UnitTestCase {
 
 	/**
-	 * @var WPSEO_Redirect_Validate_Filled
+	 * @var WPSEO_Redirect_Validate_Presence
 	 */
 	private $class_instance;
 
 	/**
-	 * Setting the class_instance with an instance of WPSEO_Redirect_Validate_Filled
+	 * Setting the class_instance with an instance of WPSEO_Redirect_Validate_Presence
 	 */
 	public function setUp() {
-		$this->class_instance = new WPSEO_Redirect_Validate_Filled();
+		$this->class_instance = new WPSEO_Redirect_Validate_Presence();
 	}
 
 	/**
@@ -31,8 +31,8 @@ class WPSEO_Redirect_Validate_Filled_Test extends WPSEO_UnitTestCase {
 	 * @param string $new_url         The url to redirect to.
 	 * @param int    $type            Type of the redirect.
 	 *
-	 * @covers WPSEO_Redirect_Validate_Filled::validate
-	 * @covers WPSEO_Redirect_Validate_Filled::get_error
+	 * @covers WPSEO_Redirect_Validate_Presence::validate
+	 * @covers WPSEO_Redirect_Validate_Presence::get_error
 	 */
 	public function test_validate_filled_correctly( $old_url, $new_url, $type ) {
 		$this->assertTrue(
@@ -51,8 +51,8 @@ class WPSEO_Redirect_Validate_Filled_Test extends WPSEO_UnitTestCase {
 	 * @param string $new_url         The url to redirect to.
 	 * @param int    $type            Type of the redirect.
 	 *
-	 * @covers WPSEO_Redirect_Validate_Filled::validate
-	 * @covers WPSEO_Redirect_Validate_Filled::get_error
+	 * @covers WPSEO_Redirect_Validate_Presence::validate
+	 * @covers WPSEO_Redirect_Validate_Presence::get_error
 	 */
 	public function test_validate_filled( $old_url, $new_url, $type ) {
 		$this->assertFalse(

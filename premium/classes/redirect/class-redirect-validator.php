@@ -17,8 +17,8 @@ class WPSEO_Redirect_Validator {
 			'exclude_types'  => array(),
 			'exclude_format' => array(),
 		),
-		'filled'     => array(
-			'validation_class' => 'WPSEO_Redirect_Validate_Filled',
+		'presence'     => array(
+			'validation_class' => 'WPSEO_Redirect_Validate_Presence',
 			'exclude_types'  => array(),
 			'exclude_format' => array(),
 		),
