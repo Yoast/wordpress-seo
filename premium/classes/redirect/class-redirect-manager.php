@@ -42,22 +42,14 @@ class WPSEO_Redirect_Manager {
 	/**
 	 * Setting the property with the redirects
 	 *
-	 * @param string $redirect_format The format for the redirects.
+	 * @param string                  $redirect_format The format for the redirects.
+	 * @param WPSEO_Redirect_Export[] $exporters       The exporters used to save redirects in files.
 	 */
-	public function __construct( $redirect_format = WPSEO_Redirect::FORMAT_PLAIN ) {
+	public function __construct( $redirect_format = WPSEO_Redirect::FORMAT_PLAIN, $exporters = null ) {
 		$this->redirect_option = new WPSEO_Redirect_Option();
 		$this->redirect_format = $redirect_format;
-	}
 
-	/**
-	 * Setting the exporters
-	 *
-	 * @param WPSEO_Redirect_Export[] $exporters The exporters used to save redirects in files.
-	 *
-	 * @return WPSEO_Redirect_Export[]
-	 */
-	public function set_exporters( $exporters ) {
-		return $this->exporters = $exporters;
+		$this->exporters = ( $exporters ) ? $exporters : self::default_exporters();
 	}
 
 	/**
@@ -75,9 +67,8 @@ class WPSEO_Redirect_Manager {
 	 */
 	public function export_redirects() {
 		$redirects = $this->redirect_option->get_all();
-		$exporters = ! empty( $this->exporters ) ? $this->exporters : self::default_exporters();
 
-		foreach ( $exporters as $exporter ) {
+		foreach ( $this->exporters as $exporter ) {
 			$exporter->export( $redirects );
 		}
 	}

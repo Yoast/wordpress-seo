@@ -29,18 +29,6 @@ class WPSEO_Redirect_Manager_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test the result of the exporters set method
-	 *
-	 * @covers WPSEO_Redirect_Manager::set_exporters
-	 */
-	public function test_set_exporters() {
-		$this->assertEquals(
-			array( new WPSEO_Redirect_Export_Option() ),
-			$this->class_instance->set_exporters( array( new WPSEO_Redirect_Export_Option() ) )
-		);
-	}
-
-	/**
 	 * Check if the redirects are filled
 	 *
 	 * @covers WPSEO_Redirect_Manager::get_redirects
