@@ -119,7 +119,7 @@ class WPSEO_Redirect_Ajax {
 		$current_redirect = $this->redirect_manager->get_redirect( $this->sanitize_url( $redirect_post ) );
 
 		// Delete the redirect.
-		if ( $redirect_post = filter_input( INPUT_POST, 'redirect', FILTER_DEFAULT, $this->filter_options ) ) {
+		if ( ! empty( $current_redirect ) ) {
 			$this->redirect_manager->delete_redirects( array( $current_redirect ) );
 		}
 
