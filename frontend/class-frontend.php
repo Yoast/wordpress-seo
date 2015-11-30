@@ -10,7 +10,7 @@
 class WPSEO_Frontend {
 
 	/**
-	 * @var    object    Instance of this class
+	 * @var    object    Instance of this class.
 	 */
 	public static $instance;
 
@@ -20,44 +20,52 @@ class WPSEO_Frontend {
 	public $options = array();
 
 	/**
-	 * @var boolean Boolean indicating wether output buffering has been started
+	 * @var boolean Boolean indicating wether output buffering has been started.
 	 */
 	private $ob_started = false;
 
 	/**
-	 * Holds the canonical URL for the current page
+	 * Holds the canonical URL for the current page.
 	 *
 	 * @var string
 	 */
 	private $canonical = null;
 
 	/**
-	 * Holds the canonical URL for the current page that cannot be overriden by a manual canonical input
+	 * Holds the canonical URL for the current page that cannot be overriden by a manual canonical input.
 	 *
 	 * @var string
 	 */
 	private $canonical_no_override = null;
 
 	/**
-	 * Holds the canonical URL for the current page without pagination
+	 * Holds the canonical URL for the current page without pagination.
 	 *
 	 * @var string
 	 */
 	private $canonical_unpaged = null;
 
 	/**
-	 * Holds the pages meta description
+	 * Holds the pages meta description.
 	 *
 	 * @var string
 	 */
 	private $metadesc = null;
 
 	/**
-	 * Holds the generated title for the page
+	 * Holds the generated title for the page.
 	 *
 	 * @var string
 	 */
 	private $title = null;
+
+	/**
+	 * Holds the names of the required options.
+	 *
+	 * @var array
+	 */
+	private $required_options = null;
+
 
 	/**
 	 * Class constructor
@@ -65,8 +73,9 @@ class WPSEO_Frontend {
 	 * Adds and removes a lot of filters.
 	 */
 	protected function __construct() {
+		$this->required_options = array('wpseo','rss','wpseo_social','wpseo_permalinks','wpseo_titles');
 
-		$this->options = WPSEO_Options::get_all();
+		$this->options = WPSEO_Options::get( $this->required_options );
 
 		add_action( 'wp_head', array( $this, 'front_page_specific_init' ), 0 );
 		add_action( 'wp_head', array( $this, 'head' ), 1 );
@@ -176,7 +185,7 @@ class WPSEO_Frontend {
 				$this->$name = $default;
 			}
 		}
-		$this->options = WPSEO_Options::get_all();
+		$this->options = WPSEO_Options::get( $this->required_options );
 	}
 
 	/**

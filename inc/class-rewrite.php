@@ -83,7 +83,7 @@ class WPSEO_Rewrite {
 	 * @return array
 	 */
 	function query_vars( $query_vars ) {
-		$options = WPSEO_Options::get_all();
+		$options = WPSEO_Options::get( array( 'wpseo_social' ) );
 
 		if ( $options['stripcategorybase'] === true ) {
 			$query_vars[] = 'wpseo_category_redirect';

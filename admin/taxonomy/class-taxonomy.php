@@ -21,7 +21,7 @@ class WPSEO_Taxonomy {
 	public function __construct() {
 		$this->taxonomy = $this->get_taxonomy();
 
-		if ( is_admin() && $this->taxonomy !== '' && $this->show_metabox( ) ) {
+		if ( is_admin() && $this->taxonomy !== '' && $this->show_metabox() ) {
 			add_action( sanitize_text_field( $this->taxonomy ) . '_edit_form', array( $this, 'term_metabox' ), 90, 1 );
 		}
 
@@ -85,7 +85,10 @@ class WPSEO_Taxonomy {
 			), WPSEO_VERSION, true );
 			wp_enqueue_script( 'yoast-seo', plugins_url( 'js/dist/yoast-seo/yoast-seo-' . '302' . '.min.js', WPSEO_FILE ), null, WPSEO_VERSION, true );
 			wp_enqueue_script( 'wp-seo-term-scraper', plugins_url( 'js/wp-seo-term-scraper-' . '302' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'yoast-seo' ), WPSEO_VERSION, true );
-			wp_enqueue_script( 'wp-seo-replacevar-plugin', plugins_url( 'js/wp-seo-replacevar-plugin-' . '302' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'yoast-seo', 'wp-seo-term-scraper' ), WPSEO_VERSION, true );
+			wp_enqueue_script( 'wp-seo-replacevar-plugin', plugins_url( 'js/wp-seo-replacevar-plugin-' . '302' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array(
+				'yoast-seo',
+				'wp-seo-term-scraper'
+			), WPSEO_VERSION, true );
 			wp_localize_script( 'wp-seo-term-scraper', 'wpseoTermScraperL10n', $this->localize_term_scraper_script() );
 			wp_localize_script( 'wp-seo-replacevar-plugin', 'wpseoReplaceVarsL10n', $this->localize_replace_vars_script() );
 
@@ -163,7 +166,7 @@ class WPSEO_Taxonomy {
 	 * @return bool
 	 */
 	private function show_metabox() {
-		$options    = WPSEO_Options::get_all();
+		$options    = WPSEO_Options::get( array( 'wpseo_titles' ) );
 		$option_key = 'hideeditbox-tax-' . $this->taxonomy;
 
 		return ( empty( $options[ $option_key ] ) );
@@ -186,11 +189,11 @@ class WPSEO_Taxonomy {
 	public function localize_term_scraper_script() {
 		$translations = $this->get_scraper_translations();
 
-		$term_id = filter_input( INPUT_GET, 'tag_ID' );
-		$term    = get_term_by( 'id', $term_id, $this->get_taxonomy() );
-		$focuskw = WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'focuskw' );
+		$term_id  = filter_input( INPUT_GET, 'tag_ID' );
+		$term     = get_term_by( 'id', $term_id, $this->get_taxonomy() );
+		$focuskw  = WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'focuskw' );
 		$taxonomy = get_taxonomy( $term->taxonomy );
-		$options = WPSEO_Options::get_all();
+		$options  = WPSEO_Options::get( array( 'wpseo_permalinks' ) );
 
 		$base_url = home_url( '/', null );
 		if ( ! $options['stripcategorybase'] ) {
@@ -198,16 +201,16 @@ class WPSEO_Taxonomy {
 		}
 
 		return array(
-			'translations'                  => $translations,
-			'base_url'                      => $base_url,
-			'taxonomy'                      => $term->taxonomy,
-			'keyword_usage'                 => WPSEO_Taxonomy_Meta::get_keyword_usage( $focuskw, $term->term_id, $term->taxonomy ),
+			'translations'      => $translations,
+			'base_url'          => $base_url,
+			'taxonomy'          => $term->taxonomy,
+			'keyword_usage'     => WPSEO_Taxonomy_Meta::get_keyword_usage( $focuskw, $term->term_id, $term->taxonomy ),
 			// Todo: a column needs to be added on the termpages to add a filter for the keyword, so this can be used in the focus kw doubles.
-			'search_url'                    => admin_url( 'edit-tags.php?taxonomy=' . $term->taxonomy . '&seo_kw_filter={keyword}' ),
-			'post_edit_url'                 => admin_url( 'edit-tags.php?action=edit&taxonomy=' . $term->taxonomy . '&tag_ID={id}' ),
-			'title_template'                => WPSEO_Taxonomy::get_title_template( $term ),
-			'metadesc_template'             => WPSEO_Taxonomy::get_metadesc_template( $term ),
-			'contentTab'                    => __( 'Content:', 'wordpress-seo' ),
+			'search_url'        => admin_url( 'edit-tags.php?taxonomy=' . $term->taxonomy . '&seo_kw_filter={keyword}' ),
+			'post_edit_url'     => admin_url( 'edit-tags.php?action=edit&taxonomy=' . $term->taxonomy . '&tag_ID={id}' ),
+			'title_template'    => WPSEO_Taxonomy::get_title_template( $term ),
+			'metadesc_template' => WPSEO_Taxonomy::get_metadesc_template( $term ),
+			'contentTab'        => __( 'Content:', 'wordpress-seo' ),
 		);
 	}
 
@@ -219,7 +222,7 @@ class WPSEO_Taxonomy {
 	 * @return string
 	 */
 	public static function get_title_template( $term ) {
-		$options = get_option( 'wpseo_titles' );
+		$options        = WPSEO_Options::get( array( 'wpseo_titles' ) );
 		$title_template = '';
 		if ( is_object( $term ) && property_exists( $term, 'taxonomy' ) ) {
 			$needed_option = 'title-tax-' . $term->taxonomy;
@@ -227,6 +230,7 @@ class WPSEO_Taxonomy {
 				$title_template = $options[ $needed_option ];
 			}
 		}
+
 		return $title_template;
 	}
 
@@ -238,7 +242,7 @@ class WPSEO_Taxonomy {
 	 * @return string
 	 */
 	public static function get_metadesc_template( $term ) {
-		$options = get_option( 'wpseo_titles' );
+		$options           = get_option( 'wpseo_titles' );
 		$metadesc_template = '';
 		if ( is_object( $term ) && property_exists( $term, 'taxonomy' ) ) {
 			$needed_option = 'metadesc-tax-' . $term->taxonomy;
@@ -246,6 +250,7 @@ class WPSEO_Taxonomy {
 				$metadesc_template = $options[ $needed_option ];
 			}
 		}
+
 		return $metadesc_template;
 	}
 
@@ -265,8 +270,8 @@ class WPSEO_Taxonomy {
 	 * @return array replace vars.
 	 */
 	private function get_replace_vars() {
-		$term_id = filter_input( INPUT_GET, 'tag_ID' );
-		$term = get_term_by( 'id', $term_id, $this->get_taxonomy() );
+		$term_id                 = filter_input( INPUT_GET, 'tag_ID' );
+		$term                    = get_term_by( 'id', $term_id, $this->get_taxonomy() );
 		$cached_replacement_vars = array();
 
 		$vars_to_cache = array(
@@ -305,6 +310,7 @@ class WPSEO_Taxonomy {
 		if ( file_exists( $file ) && $file = file_get_contents( $file ) ) {
 			return json_decode( $file, true );
 		}
+
 		return array();
 	}
 

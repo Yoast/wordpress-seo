@@ -30,9 +30,12 @@ abstract class WPSEO_Taxonomy_Fields {
 	 * @param stdClass $term    The current term.
 	 * @param array    $options The options.
 	 */
-	public function __construct( $term, array $options = array() ) {
+	public function __construct( $term, array $options = null ) {
 		$this->term    = $term;
-		$this->options = ! empty( $options ) ? $options : WPSEO_Options::get_all();
+		$this->options = $options !== null ? $options : WPSEO_Options::get( array(
+			'wpseo_titles',
+			'wpseo_internallinks'
+		) );
 	}
 
 	/**

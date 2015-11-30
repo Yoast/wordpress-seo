@@ -17,7 +17,7 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 	 * Class constructor
 	 */
 	public function __construct() {
-		$this->options = WPSEO_Options::get_all();
+		$this->options = WPSEO_Options::get( array( 'wpseo_social' ) );
 		self::translate_meta_boxes();
 		add_filter( 'wpseo_save_metaboxes', array( $this, 'save_meta_boxes' ), 10, 1 );
 		add_action( 'wpseo_save_compare_data', array( $this, 'og_data_compare' ), 10, 1 );
@@ -39,7 +39,7 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 		/* translators: %1$s expands to the social network, %2$s to the recommended image size */
 		$image_size_text  = __( 'The recommended image size for %1$s is %2$spx.', 'wordpress-seo' );
 
-		$options = WPSEO_Options::get_all();
+		$options = WPSEO_Options::get( array( 'wpseo_social' ) );
 
 		$social_networks = array(
 			'opengraph'  => __( 'Facebook', 'wordpress-seo' ),

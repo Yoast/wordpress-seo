@@ -171,12 +171,23 @@ class WPSEO_Options {
 	 * @return  array  Array combining the values of (nearly) all the options
 	 */
 	public static function get_all() {
-		$all_options  = array();
-		$option_names = self::get_option_names();
+		return self::get( self::get_option_names() );
+	}
+
+	/**
+	 * Retrieve one or more options for the SEO plugin.
+	 *
+	 * @param array $option_names The option name of the options to get
+	 *
+	 * @static
+	 * @return  array  Array combining the values of the requested options
+	 */
+	public static function get( $option_names ) {
+		$options = array();
 
 		if ( is_array( $option_names ) && $option_names !== array() ) {
 			foreach ( $option_names as $option_name ) {
-				if ( self::$option_instances[ $option_name ]->multisite_only !== true ) {
+				if ( isset( self::$option_instances[ $option_name ] ) && self::$option_instances[ $option_name ]->multisite_only !== true ) {
 					$option = get_option( $option_name );
 				}
 				else {
@@ -184,12 +195,12 @@ class WPSEO_Options {
 				}
 
 				if ( is_array( $option ) && $option !== array() ) {
-					$all_options = array_merge( $all_options, $option );
+					$options = array_merge( $options, $option );
 				}
 			}
 		}
 
-		return $all_options;
+		return $options;
 	}
 
 

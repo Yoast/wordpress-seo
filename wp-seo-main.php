@@ -42,9 +42,9 @@ function wpseo_auto_load( $class ) {
 
 	if ( $classes === null ) {
 		$classes = array(
-			'wp_list_table'                      => ABSPATH . 'wp-admin/includes/class-wp-list-table.php',
-			'walker_category'                    => ABSPATH . 'wp-includes/category-template.php',
-			'pclzip'                             => ABSPATH . 'wp-admin/includes/class-pclzip.php',
+			'wp_list_table'   => ABSPATH . 'wp-admin/includes/class-wp-list-table.php',
+			'walker_category' => ABSPATH . 'wp-includes/category-template.php',
+			'pclzip'          => ABSPATH . 'wp-admin/includes/class-pclzip.php',
 		);
 	}
 
@@ -60,6 +60,7 @@ if ( file_exists( WPSEO_PATH . '/vendor/autoload_52.php' ) ) {
 }
 elseif ( ! class_exists( 'WPSEO_Options' ) ) { // Still checking since might be site-level autoload R.
 	add_action( 'admin_init', 'yoast_wpseo_missing_autoload', 1 );
+
 	return;
 }
 
@@ -232,11 +233,19 @@ function wpseo_init() {
 	WPSEO_Options::get_instance();
 	WPSEO_Meta::init();
 
-	$options = WPSEO_Options::get_all();
+	$options = WPSEO_Options::get( array(
+		'wpseo',
+		'wpseo_permalinks',
+		'wpseo_xml'
+	) );
 	if ( version_compare( $options['version'], WPSEO_VERSION, '<' ) ) {
 		new WPSEO_Upgrade();
 		// Get a cleaned up version of the $options.
-		$options = WPSEO_Options::get_all();
+		$options = WPSEO_Options::get( array(
+			'wpseo',
+			'wpseo_permalinks',
+			'wpseo_xml',
+		) );
 	}
 
 	if ( $options['stripcategorybase'] === true ) {
@@ -261,7 +270,7 @@ function wpseo_init() {
 function wpseo_frontend_init() {
 	add_action( 'init', 'initialize_wpseo_front' );
 
-	$options = WPSEO_Options::get_all();
+	$options = WPSEO_Options::get( array( 'wpseo_internallinks' ) );
 	if ( $options['breadcrumbs-enable'] === true ) {
 		/**
 		 * If breadcrumbs are active (which they supposedly are if the users has enabled this settings,
@@ -280,7 +289,7 @@ function wpseo_frontend_init() {
  * Instantiate the different social classes on the frontend
  */
 function wpseo_frontend_head_init() {
-	$options = WPSEO_Options::get_all();
+	$options = WPSEO_Options::get( array( 'wpseo_social' ) );
 	if ( $options['twitter'] === true ) {
 		add_action( 'wpseo_head', array( 'WPSEO_Twitter', 'get_instance' ), 40 );
 	}

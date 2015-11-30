@@ -79,7 +79,7 @@ class WPSEO_Recalculate_Scores_Ajax {
 		);
 
 		if ( $posts = $post_query->get_posts() ) {
-			$this->options = WPSEO_Options::get_all();
+			$this->options = WPSEO_Options::get( array( 'wpseo_titles' ) );
 
 			$parsed_posts = $this->parse_posts( $posts );
 

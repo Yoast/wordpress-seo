@@ -9,7 +9,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-$options = WPSEO_Options::get_all();
+$options = WPSEO_Options::get( array( 'wpseo_titles', 'wpseo_permalinks', 'wpseo_internallinks' ) );
 
 $yform = Yoast_Form::get_instance();
 
