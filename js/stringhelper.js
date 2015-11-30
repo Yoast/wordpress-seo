@@ -154,11 +154,17 @@ YoastSEO.StringHelper.prototype.stripAllTags = function( textString ) {
 };
 
 /**
- * removes all words comprised only of numbers.
+ * Removes all words comprised only of numbers and remove special characters.
  * @param textString {String}
  * @returns {string}
  */
-YoastSEO.StringHelper.prototype.stripNumbers = function( textString ) {
+YoastSEO.StringHelper.prototype.stripNonWords = function( textString ) {
+
+	// replace comma', hyphens etc with spaces
+	textString = textString.replace( /[\-\;\:\,\(\)\"\'\|\“\”]/g, " " );
+
+	// remove apostrophe
+	textString = textString.replace( /[\’]/g, "" );
 
 	// Remove "words" comprised only of numbers
 	textString = textString.replace( this.getWordBoundaryRegex( "[0-9]+" ), "$1$3" );
