@@ -172,6 +172,17 @@ class WPSEO_Redirect implements ArrayAccess {
 	}
 
 	/**
+	 * Compares an url with the origin of the redirect.
+	 *
+	 * @param string $url The URL to compare.
+	 *
+	 * @return bool
+	 */
+	public function origin_is( $url ) {
+		return $this->origin === $this->sanitize_slash( $url );
+	}
+
+	/**
 	 * Strip the trailing slashes
 	 *
 	 * @param string $url_to_sanitize The url to sanitize.
