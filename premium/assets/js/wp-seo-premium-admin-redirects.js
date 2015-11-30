@@ -17,6 +17,10 @@
 		TYPE: 0
 	};
 
+	var KEYS = {
+		ENTER: 13
+	};
+
 	/**
 	 * Clientside validator for the redirect
 	 *
@@ -563,7 +567,7 @@
 					return false;
 				} )
 				.on( 'keypress', 'input', function( evt ) {
-					if ( evt.which === 13 ) {
+					if ( evt.which === KEYS.ENTER ) {
 						evt.preventDefault();
 						that.add_redirect();
 					}
@@ -581,7 +585,7 @@
 					that.delete_redirect( row );
 				})
 				.on( 'keypress', 'input', function( evt ) {
-					if ( evt.which === 13 ) {
+					if ( evt.which === KEYS.ENTER ) {
 						evt.preventDefault();
 						that.update_redirect();
 					}
