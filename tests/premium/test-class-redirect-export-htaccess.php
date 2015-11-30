@@ -12,6 +12,7 @@ class WPSEO_Redirect_Export_Htaccess_Test extends WPSEO_UnitTestCase {
 	 * Testing if the export method will be called and returns true
 	 *
 	 * @covers WPSEO_Redirect_Export_File::export
+	 * @covers WPSEO_Redirect_Export_Htaccess::save
 	 */
 	public function test_export() {
 		$class_instance = $this->getMock( 'WPSEO_Redirect_Export_Htaccess', array( 'save' ) );

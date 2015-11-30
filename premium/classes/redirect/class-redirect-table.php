@@ -25,17 +25,16 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	/**
 	 * WPSEO_Redirect_Table constructor
 	 *
-	 * @param array|string           $type             Type of the redirects that is opened.
-	 * @param string                 $current_column   The value of the first column.
-	 * @param WPSEO_Redirect_Manager $redirect_manager The current active redirect manager.
+	 * @param array|string     $type           Type of the redirects that is opened.
+	 * @param string           $current_column The value of the first column.
+	 * @param WPSEO_Redirect[] $redirects      The redirects.
 	 */
-	public function __construct( $type, $current_column, WPSEO_Redirect_Manager $redirect_manager ) {
+	public function __construct( $type, $current_column, $redirects ) {
 		parent::__construct( array( 'plural' => $type ) );
 
 		$this->current_column = $current_column;
 
-		$this->handle_bulk_action( $redirect_manager );
-		$this->set_items( $redirect_manager->get_redirects() );
+		$this->set_items( $redirects );
 
 		add_filter( 'list_table_primary_column', array( $this, 'redirect_list_table_primary_column' ) , 10, 2 );
 	}
@@ -188,10 +187,10 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 
 		switch ( $column_name ) {
 			case 'new':
-				return "<div class='val'>" . $item[ $column_name ] . '</div>';
+				return "<div class='val'>" . $item['new'] . '</div>';
 				break;
 			case 'type':
-				return "<div class='val type'>" . $item[ $column_name ] . '</div>';
+				return "<div class='val type'>" . $item['type'] . '</div>';
 				break;
 			default:
 				return $item[ $column_name ];
@@ -208,20 +207,6 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 		);
 
 		return $actions;
-	}
-
-	/**
-	 * Function that handles bulk action
-	 *
-	 * @param WPSEO_Redirect_Manager $redirect_manager The current active redirect manager.
-	 */
-	private function handle_bulk_action( WPSEO_Redirect_Manager $redirect_manager ) {
-		if ( filter_input( INPUT_POST, 'action' ) === 'delete' || filter_input( INPUT_POST, 'action2' ) === 'delete' ) {
-			if ( ( $bulk_delete = filter_input( INPUT_POST, 'wpseo_redirects_bulk_delete', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY ) ) && count( $bulk_delete ) > 0 ) {
-				$redirect_manager->delete_redirects( $bulk_delete );
-			}
-		}
-
 	}
 
 	/**

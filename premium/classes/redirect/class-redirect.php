@@ -37,6 +37,11 @@ class WPSEO_Redirect implements ArrayAccess {
 	protected $format;
 
 	/**
+	 * @var string
+	 */
+	protected $validation_error;
+
+	/**
 	 * WPSEO_Redirect constructor.
 	 *
 	 * @param string $origin The origin of the redirect.
@@ -53,10 +58,11 @@ class WPSEO_Redirect implements ArrayAccess {
 			throw new InvalidArgumentException( 'Target cannot be empty for a ' . $type . ' redirect.' );
 		}
 
-		$this->origin = $origin;
-		$this->target = $target;
-		$this->type   = $type;
+		$this->origin = ($format === WPSEO_Redirect::FORMAT_PLAIN) ? $this->sanitize_slash( $origin ) : $origin;
+		$this->target = $this->sanitize_slash( $target );
 		$this->format = $format;
+		$this->type   = $type;
+
 	}
 
 	/**
@@ -121,6 +127,9 @@ class WPSEO_Redirect implements ArrayAccess {
 	 */
 	public function offsetGet( $offset ) {
 		switch ( $offset ) {
+			case 'old' :
+				return $this->origin;
+				break;
 			case 'url' :
 				return $this->target;
 				break;
@@ -160,5 +169,32 @@ class WPSEO_Redirect implements ArrayAccess {
 	 */
 	public function offsetUnset( $offset ) {
 
+	}
+
+	/**
+	 * Compares an url with the origin of the redirect.
+	 *
+	 * @param string $url The URL to compare.
+	 *
+	 * @return bool
+	 */
+	public function origin_is( $url ) {
+		return $this->origin === $this->sanitize_slash( $url );
+	}
+
+	/**
+	 * Strip the trailing slashes
+	 *
+	 * @param string $url_to_sanitize The url to sanitize.
+	 *
+	 * @return string
+	 */
+	private function sanitize_slash( $url_to_sanitize ) {
+		$url = $url_to_sanitize;
+		if ( $url !== '/' ) {
+			$url = trim( $url_to_sanitize, '/' );
+		}
+
+		return $url;
 	}
 }

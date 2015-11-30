@@ -4,7 +4,7 @@
  */
 
 ?>
-<div id="table-url" class="tab-url redirect-table-tab">
+<div id="table-plain" class="tab-url redirect-table-tab">
 	<form class='wpseo-new-redirect-form' method='post'>
 		<div class='wpseo_redirects_new'>
 			<label class='textinput' for='wpseo_redirects_new_old'><?php _e( 'Old URL', 'wordpress-seo-premium' ); ?></label>
@@ -43,8 +43,8 @@
 
 	<p class='desc'>&nbsp;</p>
 
-	<form id='url' class='wpseo-redirects-table-form' method='post' action=''>
-		<input type='hidden' class='wpseo_redirects_ajax_nonce' value='<?php echo $nonce; ?>' />
+	<form id='plain' class='wpseo-redirects-table-form' method='post' action=''>
+		<input type='hidden' class="wpseo_redirects_ajax_nonce" name='wpseo_redirects_ajax_nonce' value='<?php echo $nonce; ?>' />
 		<?php
 		// The list table.
 		$redirect_table->prepare_items();

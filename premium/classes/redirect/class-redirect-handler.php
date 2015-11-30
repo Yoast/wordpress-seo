@@ -11,7 +11,7 @@ class WPSEO_Redirect_Handler {
 	/**
 	 * @var string The options where the url redirects are stored.
 	 */
-	private $normal_option_name = 'wpseo-premium-redirects';
+	private $normal_option_name = 'wpseo-premium-redirects-plain';
 
 	/**
 	 * @var string The option name where the regex redirects are stored.
@@ -37,14 +37,17 @@ class WPSEO_Redirect_Handler {
 	 * Constructor
 	 */
 	public function __construct() {
-		// Set the requested url.
-		$this->request_url = htmlspecialchars_decode( rawurldecode( filter_input( INPUT_SERVER, 'REQUEST_URI' ) ) );
+		// Only handle the redirect when the option for php redirects is enabled.
+		if ( $this->load_php_redirects() ) {
+			// Set the requested url.
+			$this->request_url = htmlspecialchars_decode( rawurldecode( filter_input( INPUT_SERVER, 'REQUEST_URI' ) ) );
 
-		// Check the normal redirects.
-		$this->handle_normal_redirects();
+			// Check the normal redirects.
+			$this->handle_normal_redirects();
 
-		// Check the regex redirects.
-		$this->handle_regex_redirects();
+			// Check the regex redirects.
+			$this->handle_regex_redirects();
+		}
 	}
 
 	/**
@@ -237,12 +240,36 @@ class WPSEO_Redirect_Handler {
 		global $wpdb;
 
 		$redirects = array();
-		$results   = $wpdb->get_results( "SELECT option_name, option_value FROM {$wpdb->options} WHERE option_name = '{$this->normal_option_name}' || option_name = '{$this->regex_option_name}'" );
+		$results   = $wpdb->get_results( "SELECT option_name, option_value FROM  {$wpdb->options} WHERE option_name = '{$this->normal_option_name}' || option_name = '{$this->regex_option_name}'" );
 		foreach ( $results as $result ) {
 			$redirects[ $result->option_name ] = $result->option_value;
 		}
 
 		return $redirects;
 	}
+
+	/**
+	 * Check if we should load the php redirects.
+	 *
+	 * @return bool
+	 */
+	private function load_php_redirects() {
+
+		if ( defined( 'WPSEO_DISABLE_PHP_REDIRECTS' ) && true === WPSEO_DISABLE_PHP_REDIRECTS ) {
+			return false;
+		}
+
+		global $wpdb;
+		if ( $options = $wpdb->get_row( "SELECT option_value FROM {$wpdb->options} WHERE option_name = 'wpseo_redirect'" ) ) {
+			$options = unserialize( $options->option_value );
+
+			if ( ! empty( $options['disable_php_redirect'] ) && $options['disable_php_redirect'] === 'on' ) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
 
 }

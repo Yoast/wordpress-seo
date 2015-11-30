@@ -9,59 +9,58 @@
 class WPSEO_Redirect_Presenter {
 
 	/**
-	 * @var string
-	 */
-	private $current_tab = '';
-
-	/**
-	 * @var WPSEO_Redirect_Manager
-	 */
-	private $redirect_manager;
-
-	/**
-	 * Constructor
+	 * Function that outputs the redirect page
 	 *
-	 * @param string                 $current_tab 	   The tab which is active at the moment.
-	 * @param WPSEO_Redirect_Manager $redirect_manager The redirect manager for getting the data.
+	 * @param string $tab_to_display The tab that will be shown.
 	 */
-	public function __construct( $current_tab, WPSEO_Redirect_Manager $redirect_manager ) {
-		$this->current_tab      = $current_tab;
-		$this->redirect_manager = $redirect_manager;
+	public function display( $tab_to_display ) {
+		$tab_presenter = $this->get_tab_presenter( $tab_to_display );
+		$redirect_tabs = $this->navigation_tabs( $tab_to_display );
+
+		include( WPSEO_PATH . 'premium/classes/redirect/views/redirects.php' );
 	}
 
 	/**
-	 * Function that outputs the redirect page
+	 * Returns a tab presenter.
+	 *
+	 * @param string $tab_to_display The tab that will be shown.
+	 *
+	 * @return null|WPSEO_Redirect_Tab_Presenter
 	 */
-	public function display() {
-		switch ( $this->current_tab ) {
-			case 'url' :
+	private function get_tab_presenter( $tab_to_display ) {
+		$tab_presenter = null;
+		switch ( $tab_to_display ) {
+			case 'plain' :
 			case 'regex' :
-				$view_vars                   = $this->get_view_vars();
-				$view_vars['redirect_table'] = new WPSEO_Redirect_Table( $this->current_tab, $this->get_first_column_value(), $this->redirect_manager );
-
-				$tab_presenter = new WPSEO_Redirect_Table_Presenter( $this->current_tab, $view_vars );
+				$redirect_manager = new WPSEO_Redirect_Manager( $tab_to_display );
+				$tab_presenter    = new WPSEO_Redirect_Table_Presenter( $tab_to_display, $this->get_view_vars() );
+				$tab_presenter->set_table( $redirect_manager->get_redirects() );
 				break;
 			case 'settings' :
-				$tab_presenter = new WPSEO_Redirect_Settings_Presenter( $this->current_tab, $this->get_view_vars() );
+				$tab_presenter = new WPSEO_Redirect_Settings_Presenter( $tab_to_display, $this->get_view_vars() );
 				break;
 		}
 
-		$redirect_tabs = $this->navigation_tabs();
-
-		require_once( WPSEO_PATH . 'premium/classes/redirect/views/redirects.php' );
+		return $tab_presenter;
 	}
 
 	/**
-	 * Return the value of the first column based on the table type
+	 * Returning the anchors html for the tabs
 	 *
-	 * @return string|void
+	 * @param string $active_tab The tab that will be active.
+	 *
+	 * @return array
 	 */
-	private function get_first_column_value() {
-		if ( $this->current_tab === 'regex' ) {
-			return  __( 'Regular Expression', 'wordpress-seo-premium' );
-		}
-
-		return __( 'Old URL', 'wordpress-seo-premium' );
+	private function navigation_tabs( $active_tab ) {
+		return array(
+			'tabs' => array(
+				'plain'    => __( 'Redirects', 'wordpress-seo-premium' ),
+				'regex'    => __( 'Regex Redirects', 'wordpress-seo-premium' ),
+				'settings' => __( 'Settings', 'wordpress-seo-premium' ),
+			),
+			'current_tab' => $active_tab,
+			'page_url' => admin_url( 'admin.php?page=wpseo_redirects&tab=' ),
+		);
 	}
 
 	/**
@@ -73,32 +72,6 @@ class WPSEO_Redirect_Presenter {
 		return array(
 			'nonce' => wp_create_nonce( 'wpseo-redirects-ajax-security' ),
 		);
-	}
-
-	/**
-	 * Returning the anchors html for the tabs
-	 *
-	 * @return string
-	 */
-	private function navigation_tabs() {
-		$tabs     = array(
-			'url'      => __( 'Redirects', 'wordpress-seo-premium' ),
-			'regex'    => __( 'Regex Redirects', 'wordpress-seo-premium' ),
-			'settings' => __( 'Settings', 'wordpress-seo-premium' ),
-		);
-
-		$page_url   = admin_url( 'admin.php?page=wpseo_redirects&tab=' );
-		$return     = '';
-		foreach ( $tabs as $tab_url => $tab_value ) {
-			$active = '';
-			if ( $this->current_tab === $tab_url ) {
-				$active = ' nav-tab-active';
-			}
-
-			$return .= '<a class="nav-tab' . $active . '" id="tab-url-tab" href="' . $page_url . $tab_url . '">' . $tab_value . '</a>';
-		}
-
-		return $return;
 	}
 
 }

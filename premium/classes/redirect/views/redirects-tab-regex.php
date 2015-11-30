@@ -51,8 +51,8 @@
 
 	<p class='desc'>&nbsp;</p>
 
-	<form id='regex' class='wpseo-redirects-table-form' method='post' action=''>
-		<input type='hidden' class='wpseo_redirects_ajax_nonce' value='<?php echo $nonce; ?>' />
+	<form id='regex' class='wpseo-redirects-table-form' method='post'>
+		<input type='hidden' class="wpseo_redirects_ajax_nonce" name='wpseo_redirects_ajax_nonce' value='<?php echo $nonce; ?>' />
 		<?php
 		// The list table.
 		$redirect_table->prepare_items();

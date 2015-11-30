@@ -22,7 +22,7 @@ abstract class WPSEO_Redirect_Tab_Presenter {
 	 * @param string $view      The view to display.
 	 * @param array  $view_vars Array with variables that will be passed to the view.
 	 */
-	public function __construct( $view, $view_vars ) {
+	public function __construct( $view, array $view_vars = array() ) {
 		$this->view      = $view;
 		$this->view_vars = $view_vars;
 	}
@@ -35,7 +35,7 @@ abstract class WPSEO_Redirect_Tab_Presenter {
 		extract( $this->get_view_vars() );
 		// @codingStandardsIgnoreEnd
 
-		require_once( WPSEO_PATH . 'premium/classes/redirect/views/redirects-tab-' . $this->view . '.php' );
+		include( WPSEO_PATH . 'premium/classes/redirect/views/redirects-tab-' . $this->view . '.php' );
 	}
 
 	/**

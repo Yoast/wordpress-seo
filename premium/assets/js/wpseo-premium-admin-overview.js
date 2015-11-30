@@ -15,9 +15,9 @@ function wpseo_undo_redirect( url, nonce, id ) {
 	jQuery.post(
 		ajaxurl,
 		{
-			action: 'wpseo_delete_redirect_url',
+			action: 'wpseo_delete_redirect_plain',
 			ajax_nonce: nonce,
-			redirect: { key: url },
+			redirect: url,
 			id: id
 		},
 		function( response ) {
@@ -41,7 +41,7 @@ function wpseo_create_redirect( old_url, nonce, id ) {
 			jQuery.post(
 				ajaxurl,
 				{
-					action: 'wpseo_create_redirect_url',
+					action: 'wpseo_add_redirect_plain',
 					ajax_nonce: nonce,
 					old_url: old_url,
 					new_url: new_url,

@@ -51,10 +51,8 @@ abstract class WPSEO_Redirect_Export_File implements WPSEO_Redirect_Export {
 	 * @return string
 	 */
 	public function format( WPSEO_Redirect $redirect ) {
-		$redirect_format = $this->get_format( $redirect->get_format() );
-
 		return sprintf(
-			$redirect_format,
+			$this->get_format( $redirect->get_format() ),
 			$redirect->get_origin(),
 			$redirect->get_target(),
 			$redirect->get_type()

@@ -210,10 +210,9 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	 * @return bool
 	 */
 	public function check_if_redirect_exists( $url ) {
-		$redirect_manager = new WPSEO_Redirect_URL_Manager();
-		$redirects        = $redirect_manager->get_redirects();
+		$redirect_manager = new WPSEO_Redirect_Manager();
 
-		return array_key_exists( $url, $redirects );
+		return is_a( $redirect_manager->get_redirect( $url ), 'WPSEO_Redirect' );
 	}
 
 	/**

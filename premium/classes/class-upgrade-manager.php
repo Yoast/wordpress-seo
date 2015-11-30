@@ -28,6 +28,11 @@ class WPSEO_Upgrade_Manager {
 			$this->update_current_version_code();
 		}
 
+		if ( version_compare( $version_number, '2.3', '<' ) ) {
+			add_action( 'wp', array( 'WPSEO_Redirect_Upgrade', 'import_redirects_2_3' ), 11 );
+			add_action( 'admin_head', array( 'WPSEO_Redirect_Upgrade', 'import_redirects_2_3' ), 11 );
+		}
+
 		if ( version_compare( $version_number, '3.1', '<' ) ) {
 			add_action( 'wp', array( 'WPSEO_Redirect_Upgrade', 'upgrade_3_1' ), 12 );
 			add_action( 'admin_head', array( 'WPSEO_Redirect_Upgrade', 'upgrade_3_1' ), 12 );
@@ -77,4 +82,5 @@ class WPSEO_Upgrade_Manager {
 	private function update_current_version_code() {
 		update_site_option( WPSEO_Premium::OPTION_CURRENT_VERSION, WPSEO_Premium::PLUGIN_VERSION_CODE );
 	}
+
 }

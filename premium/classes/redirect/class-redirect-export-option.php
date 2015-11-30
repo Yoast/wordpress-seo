@@ -25,11 +25,11 @@ class WPSEO_Redirect_Export_Option implements WPSEO_Redirect_Export {
 			$formatted_redirects[ $redirect->get_format() ][ $redirect->get_origin() ] = $this->format( $redirect );
 		}
 
-		// Save the plain redirects.
-		update_option( WPSEO_Redirect_Option::OPTION_PLAIN, $formatted_redirects[ WPSEO_Redirect::FORMAT_PLAIN ] );
+		// Save the plain redirects. No need to autoload, since the option is fetched straight from the DB.
+		update_option( WPSEO_Redirect_Option::OPTION_PLAIN, $formatted_redirects[ WPSEO_Redirect::FORMAT_PLAIN ], 'no' );
 
-		// Save the regex redirects.
-		update_option( WPSEO_Redirect_Option::OPTION_REGEX, $formatted_redirects[ WPSEO_Redirect::FORMAT_REGEX ] );
+		// Save the regex redirects. No need to autoload, since the option is fetched straight from the DB.
+		update_option( WPSEO_Redirect_Option::OPTION_REGEX, $formatted_redirects[ WPSEO_Redirect::FORMAT_REGEX ], 'no' );
 
 		return true;
 	}

@@ -6,12 +6,33 @@
 /**
  * Class WPSEO_Redirect_Validate
  */
-abstract class WPSEO_Redirect_Validator {
+class WPSEO_Redirect_Validator {
 
 	/**
-	 * @var array Property with the redirects.
+	 * @var array
 	 */
-	protected $redirects = array();
+	protected $validation_rules = array(
+		'uniqueness' => array(
+			'validation_class' => 'WPSEO_Redirect_Validate_Uniqueness',
+			'exclude_types'  => array(),
+			'exclude_format' => array(),
+		),
+		'presence'     => array(
+			'validation_class' => 'WPSEO_Redirect_Validate_Presence',
+			'exclude_types'  => array(),
+			'exclude_format' => array(),
+		),
+		'accessible' => array(
+			'validation_class' => 'WPSEO_Redirect_Validate_Accessible',
+			'exclude_types'  => array( WPSEO_Redirect::DELETED ),
+			'exclude_format' => array(),
+		),
+		'endpoint'   => array(
+			'validation_class' => 'WPSEO_Redirect_Validate_Endpoint',
+			'exclude_types'  => array( WPSEO_Redirect::DELETED ),
+			'exclude_format' => array( WPSEO_Redirect::FORMAT_REGEX ),
+		),
+	);
 
 	/**
 	 * @var bool|string The validation error.
@@ -19,47 +40,28 @@ abstract class WPSEO_Redirect_Validator {
 	protected $validation_error = false;
 
 	/**
-	 * Converting the redirects into a readable format
-	 *
-	 * @param WPSEO_Redirect[] $redirects Array with the redirects.
-	 */
-	public function __construct( $redirects ) {
-		foreach ( $redirects as $redirect ) {
-			$this->redirects[ $this->sanitize_redirect_url( $redirect->get_origin() ) ] = $this->sanitize_redirect_url( $redirect->get_target() );
-		}
-	}
-
-	/**
 	 * Validates the old and the new url
 	 *
-	 * @param string $old_url    The url that has to be redirect.
-	 * @param string $new_url    The target url.
-	 * @param string $type       The type of redirect.
-	 * @param bool   $unique_url When there is an unique_url given, it would validate if the new one is unique.
+	 * @param WPSEO_Redirect $redirect		   The redirect that will be saved.
+	 * @param WPSEO_Redirect $current_redirect Redirect that will be used for comparison.
 	 *
 	 * @return bool|string
 	 */
-	public function validate( $old_url, $new_url, $type = '', $unique_url = false ) {
-		// Check if the redirect already exist.
-		if ( $this->validate_redirect_exists( $old_url, $unique_url ) ) {
-			return $this->set_error( __( 'The old url already exists as a redirect', 'wordpress-seo-premium' ) );
+	public function validate( WPSEO_Redirect $redirect, WPSEO_Redirect $current_redirect = null ) {
+
+		$validators = $this->get_validations( $this->get_validation_rules( $redirect, $current_redirect ) );
+		$redirects  = $this->get_redirects( $redirect->get_format() );
+
+		$this->validation_error = '';
+		foreach ( $validators as $validator ) {
+			if ( ! $validator->validate( $redirect, $redirects ) ) {
+				$this->validation_error = $validator->get_error();
+
+				return false;
+			}
 		}
 
-		// Validate if the required fields are filled.
-		if ( ! $this->validate_filled( $old_url, $new_url, $type ) ) {
-			return $this->set_error( __( 'Not all the required fields are filled', 'wordpress-seo-premium' ) );
-		}
-
-		return false;
-	}
-
-	/**
-	 * Check if the validation error property is filled
-	 *
-	 * @return bool
-	 */
-	public function has_error() {
-		return ! empty( $this->validation_error );
+		return true;
 	}
 
 	/**
@@ -72,82 +74,93 @@ abstract class WPSEO_Redirect_Validator {
 	}
 
 	/**
-	 * Check if the redirect already exists and if it should be unique.
+	 * Filters the validations_rules based on the passed redirect.
 	 *
-	 * @param string $old_url    The url that has to be redirect.
-	 * @param bool   $unique_url When there is an unique_url given, it would validate if the new one is unique.
+	 * @param WPSEO_Redirect $redirect		   The redirect that will be saved.
+	 * @param WPSEO_Redirect $current_redirect Redirect that will be used for comparison.
 	 *
-	 * @return bool
+	 * @return array
 	 */
-	protected function validate_redirect_exists( $old_url, $unique_url ) {
-		$unique_check = ( $unique_url === false || ( $unique_url !== $old_url ) );
+	protected function get_validation_rules( WPSEO_Redirect $redirect, WPSEO_Redirect $current_redirect = null ) {
 
-		// Check if redirect already exists.
-		return $unique_check && $this->redirect_exists( $old_url );
-	}
+		// Set the validation rules.
+		$validations = $this->validation_rules;
 
-	/**
-	 * Check if the $url exist as a redirect
-	 *
-	 * @param string $url The url to check if it's redirected.
-	 *
-	 * @return bool
-	 */
-	protected function redirect_exists( $url ) {
-		return array_key_exists( $this->sanitize_redirect_url( $url ), $this->redirects );
-	}
-
-	/**
-	 * Strip the trailing slashes
-	 *
-	 * @param string $url The redirect url to sanitize.
-	 *
-	 * @return string
-	 */
-	protected function sanitize_redirect_url( $url ) {
-		return $url;
-	}
-
-	/**
-	 * Validate if all the fields are filled
-	 *
-	 * @param string $old_url The old url that will be redirected.
-	 * @param string $new_url The target where the old url will redirect to.
-	 * @param int    $type    Type of the redirect.
-	 *
-	 * @return bool
-	 */
-	protected function validate_filled( $old_url, $new_url, $type ) {
-		// If redirect type id 410, the new_url doesn't have to be filled.
-		if ( $this->is_410( $type ) ) {
-			return ( $old_url !== '' );
+		// Remove uniqueness validation when old origin is the same as the current one.
+		if ( is_a( $current_redirect, 'WPSEO_Redirect' ) && $redirect->get_origin() === $current_redirect->get_origin() ) {
+			$this->remove_rule( $validations, 'uniqueness' );
 		}
 
-		return ( $old_url !== '' && $new_url !== '' && $type !== '' );
+		return $this->filter_rules( $validations, $redirect );
 	}
 
 	/**
-	 * Check if current redirect type is a 410
+	 * Removes a rule from the validations
 	 *
-	 * @param int $type The redirect type.
-	 *
-	 * @return bool
+	 * @param array  $validations    Array with the validations.
+	 * @param string $rule_to_remove The rule that will be removed.
 	 */
-	protected function is_410( $type ) {
-		return ( (int) $type === 410 );
+	protected function remove_rule( & $validations, $rule_to_remove ) {
+		if ( array_key_exists( $rule_to_remove, $validations ) ) {
+			unset( $validations[ $rule_to_remove ] );
+		}
 	}
 
 	/**
-	 * Setting the validation error message
+	 * Filters the validation rules.
 	 *
-	 * @param string $error_message String that will be saved as the validation error.
+	 * @param array          $validations Array with validation rules.
+	 * @param WPSEO_Redirect $redirect    The redirect that will be saved.
 	 *
-	 * @return bool
+	 * @return array
 	 */
-	protected function set_error( $error_message ) {
-		$this->validation_error = $error_message;
+	protected function filter_rules( array $validations, WPSEO_Redirect $redirect ) {
+		foreach ( $validations as $validation => $validation_rules ) {
+			$exclude_format = in_array( $redirect->get_format(), $validation_rules['exclude_format'] );
+			$exclude_type   = in_array( $redirect->get_type(), $validation_rules['exclude_types'] );
 
-		return true;
+			if ( $exclude_format || $exclude_type ) {
+				$this->remove_rule( $validations, $validation );
+			}
+		}
+
+		return $validations;
+	}
+
+	/**
+	 *
+	 * Getting the validations based on the set validation rules.
+	 *
+	 * @param array $validation_rules The rules for the validations that will be run.
+	 *
+	 * @return WPSEO_Redirect_Validate[]
+	 */
+	protected function get_validations( $validation_rules ) {
+		$validations = array();
+		foreach ( $validation_rules as $validation_rule ) {
+			$validations[] = new $validation_rule['validation_class']();
+		}
+
+		return $validations;
+	}
+
+	/**
+	 * Fill the redirect property
+	 *
+	 * @param string $format The format for the redirects.
+	 *
+	 * @return array
+	 */
+	protected function get_redirects( $format ) {
+		$redirect_manager = new WPSEO_Redirect_Manager( $format );
+
+		// Format the redirects.
+		$redirects = array();
+		foreach ( $redirect_manager->get_redirects() as $redirect ) {
+			$redirects[ $redirect->get_origin() ] = $redirect->get_target();
+		}
+
+		return $redirects;
 	}
 
 }
