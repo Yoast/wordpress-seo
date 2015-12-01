@@ -553,7 +553,7 @@ YoastSEO.Analyzer.prototype.imageAlttag = function( image ) {
 YoastSEO.Analyzer.prototype.imageAlttagKeyword = function( image ) {
 	var hasKeyword = false;
 	if ( image !== null ) {
-		if ( image[ 0 ].match( this.keywordRegex ) !== null ) {
+		if ( this.preProcessor.replaceDiacritics( image[ 0 ] ).match( this.keywordRegex ) !== null ) {
 			hasKeyword = true;
 		}
 	}
@@ -1623,7 +1623,7 @@ YoastSEO.Pluggable.prototype._reloaded = function( pluginName ) {
 		return false;
 	}
 
-	this.app.runAnalyzer();
+	this.app.analyzeTimer();
 	return true;
 };
 
@@ -1921,7 +1921,7 @@ YoastSEO.PreProcessor.prototype.textFormat = function() {
 	this.__store.cleanText = this.cleanText( this.__store.originalText );
 	this.__store.cleanTextSomeTags = this.stringHelper.stripSomeTags( this.__store.cleanText );
 	this.__store.cleanTextNoTags = this.stringHelper.stripAllTags( this.__store.cleanTextSomeTags );
-	this.__store.cleanTextNoDigits = this.stringHelper.stripNumbers( this.__store.cleanTextNoTags );
+	this.__store.cleanTextNoDigits = this.stringHelper.stripNonWords( this.__store.cleanTextNoTags );
 };
 
 /**
@@ -2066,12 +2066,6 @@ YoastSEO.PreProcessor.prototype.cleanText = function( textString ) {
 
 		// Remove some HTML entities as first action
 		textString = textString.replace( "&nbsp;", " " );
-
-		// replace comma', hyphens etc with spaces
-		textString = textString.replace( /[\-\;\:\,\(\)\"\'\|\“\”]/g, " " );
-
-		// remove apostrophe
-		textString = textString.replace( /[\’]/g, "" );
 
 		// unify all terminators
 		textString = textString.replace( /[.?!]/g, "." );
@@ -2850,11 +2844,17 @@ YoastSEO.StringHelper.prototype.stripAllTags = function( textString ) {
 };
 
 /**
- * removes all words comprised only of numbers.
+ * Removes all words comprised only of numbers and remove special characters.
  * @param textString {String}
  * @returns {string}
  */
-YoastSEO.StringHelper.prototype.stripNumbers = function( textString ) {
+YoastSEO.StringHelper.prototype.stripNonWords = function( textString ) {
+
+	// replace comma', hyphens etc with spaces
+	textString = textString.replace( /[\-\;\:\,\(\)\"\'\|\“\”]/g, " " );
+
+	// remove apostrophe
+	textString = textString.replace( /[\’]/g, "" );
 
 	// Remove "words" comprised only of numbers
 	textString = textString.replace( this.getWordBoundaryRegex( "[0-9]+" ), "$1$3" );
@@ -4250,14 +4250,14 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
                     name: "scoreText",
                     position: "{{text}}",
 
-                    /* translators: %1$s expands to the numeric flesh reading ease score, %2$s to a link to the wikipedia article about Flesh ease reading score, %3$s to the easyness of reading, %4$s expands to a note about the flesh reading score. */
+                    /* translators: %1$s expands to the numeric flesh reading ease score, %2$s to a link to a Yoast.com article about Flesh ease reading score, %3$s to the easyness of reading, %4$s expands to a note about the flesh reading score. */
                     value: i18n.dgettext('js-text-analysis', "The copy scores %1$s in the %2$s test, which is considered %3$s to read. %4$s")
                 },
                 {name: "text", position: "%1$s", sourceObj: ".result"},
                 {
                     name: "scoreUrl",
                     position: "%2$s",
-                    value: "<a href='https://en.wikipedia.org/wiki/Flesch-Kincaid_readability_test#Flesch_Reading_Ease' target='new'>Flesch Reading Ease</a>"
+                    value: "<a href='https://yoast.com/flesch-reading-ease-score/' target='new'>Flesch Reading Ease</a>"
                 },
                 {name: "resultText", position: "%3$s", scoreObj: "resultText"},
                 {name: "note", position: "%4$s", scoreObj: "note"}

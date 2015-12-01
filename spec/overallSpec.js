@@ -85,10 +85,10 @@ describe("a test running multiple textstrings", function(){
 		expect(result[0].result).toBe("1.9");
 	});
 
-	it("checks for keywords with hyphens - should return 4 matches = keywordDensity = 2.2", function(){
+	it("checks for keywords with hyphens - should return 2 matches = keywordDensity = 1.1", function(){
 		var keywordAnalyzer = Factory.buildAnalyzer( textStrings[3] );
 		var result = keywordAnalyzer.keywordDensity();
-		expect(result[0].result).toBe("2.2");
+		expect(result[0].result).toBe("1.1");
 	});
 	/*this tests are currently not used, because javascript doesn't work with a wordboundary on specialchars.
 	// see issue https://github.com/Yoast/YoastSEO.js/issues/104
