@@ -19,9 +19,9 @@ class WPSEO_GSC_Service {
 	private $profile;
 
 	/**
-	 * Constructor
+	 * Search Console service constructor.
 	 *
-	 * @param string $profile
+	 * @param string $profile Profile name.
 	 */
 	public function __construct( $profile = '' ) {
 		$this->profile = $profile;
@@ -94,9 +94,9 @@ class WPSEO_GSC_Service {
 	/**
 	 * Sending request to mark issue as fixed
 	 *
-	 * @param string $url
-	 * @param string $platform
-	 * @param string $category
+	 * @param string $url      Issue URL.
+	 * @param string $platform Platform (desktop, mobile, feature phone).
+	 * @param string $category Issue type.
 	 *
 	 * @return bool
 	 */
@@ -108,8 +108,8 @@ class WPSEO_GSC_Service {
 	/**
 	 * Fetching the issues from the GSC API
 	 *
-	 * @param string $platform
-	 * @param string $category
+	 * @param string $platform Platform (desktop, mobile, feature phone).
+	 * @param string $category Issue type.
 	 *
 	 * @return mixed
 	 */
@@ -162,7 +162,7 @@ class WPSEO_GSC_Service {
 	/**
 	 * Adding notice that the api libs has the wrong version
 	 *
-	 * @param string $notice
+	 * @param string $notice Message string.
 	 */
 	private function incompatible_api_libs( $notice ) {
 		Yoast_Notification_Center::get()->add_notification(
@@ -173,7 +173,7 @@ class WPSEO_GSC_Service {
 	/**
 	 * Getting the crawl error counts
 	 *
-	 * @param string $profile
+	 * @param string $profile Profile name string.
 	 *
 	 * @return object|bool
 	 */
@@ -189,5 +189,4 @@ class WPSEO_GSC_Service {
 
 		return false;
 	}
-
 }
