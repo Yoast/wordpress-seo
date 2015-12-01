@@ -219,7 +219,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'base_url'          => $this->get_base_url_for_js(),
 			'title_template'    => WPSEO_Metabox::get_title_template( $post ),
 			'metadesc_template' => WPSEO_Metabox::get_metadesc_template( $post ),
-			'contentTab'    => __( 'Content:' , 'wordpress-seo' ),
+			'contentTab'        => __( 'Content:' , 'wordpress-seo' ),
+			'locale'            => get_locale(),
 		);
 	}
 
