@@ -32,10 +32,7 @@ abstract class WPSEO_Taxonomy_Fields {
 	 */
 	public function __construct( $term, array $options = null ) {
 		$this->term    = $term;
-		$this->options = $options !== null ? $options : WPSEO_Options::get( array(
-			'wpseo_titles',
-			'wpseo_internallinks'
-		) );
+		$this->options = $options !== null ? $options : WPSEO_Options::get( array (' wpseo_titles', 'wpseo_internallinks', ) );
 	}
 
 	/**

@@ -64,7 +64,7 @@ class WPSEO_Frontend {
 	 *
 	 * @var array
 	 */
-	private $required_options = null;
+	private $required_options = array( 'wpseo', 'wpseo_rss', 'wpseo_social', 'wpseo_permalinks', 'wpseo_titles', );
 
 
 	/**
@@ -73,7 +73,6 @@ class WPSEO_Frontend {
 	 * Adds and removes a lot of filters.
 	 */
 	protected function __construct() {
-		$this->required_options = array('wpseo','rss','wpseo_social','wpseo_permalinks','wpseo_titles');
 
 		$this->options = WPSEO_Options::get( $this->required_options );
 

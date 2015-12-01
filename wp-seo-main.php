@@ -236,7 +236,7 @@ function wpseo_init() {
 	$options = WPSEO_Options::get( array(
 		'wpseo',
 		'wpseo_permalinks',
-		'wpseo_xml'
+		'wpseo_xml',
 	) );
 	if ( version_compare( $options['version'], WPSEO_VERSION, '<' ) ) {
 		new WPSEO_Upgrade();
