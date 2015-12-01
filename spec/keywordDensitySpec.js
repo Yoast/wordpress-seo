@@ -15,7 +15,7 @@ describe("A keyword density test with a good amount of occurences of the keyword
     it("returns keyword density - good", function(){
         var textAnalyzerDensity = Factory.buildAnalyzer(keywordArgs);
         var result = textAnalyzerDensity.keywordDensity();
-        expect(result[0].result).toContain(3.2);
+        expect(result[0].result).toContain(1.6);
     });
 });
 
@@ -29,7 +29,7 @@ describe("A keyword density test with a high-density occurence of the keyword", 
     it("returns keyword density - high", function(){
         var textAnalyzerDensity = Factory.buildAnalyzer(keywordArgs2);
         var result = textAnalyzerDensity.keywordDensity();
-        expect(result[0].result).toContain(7.0);
+        expect(result[0].result).toContain(5.5);
     });
 });
 
@@ -85,7 +85,7 @@ describe("A keyword density test with a high-density occurence of the keyword, w
 	it("returns keyword density - high", function(){
 		var textAnalyzerDensity = Factory.buildAnalyzer(keywordArgs6);
 		var result = textAnalyzerDensity.keywordDensity();
-		expect(result[0].result).toContain(7.0);
+		expect(result[0].result).toContain(5.5);
 	});
 });
 
@@ -116,5 +116,19 @@ describe("A keyword density test with Arabic language", function(){
 		var result = analyzer.keywordDensity();
 
 		expect(result[0].result).toContain(20.7);
+	});
+});
+
+keywordArgs9 = {
+	text: "Key'word ipsum dolor sit amet, consectetur adipiscing elit. Maecenas non turpis mattis mi malesuada commodo sed sed ipsum. Curabitur nec mi dui. Sed sit amet eros rhoncus, fringilla nulla eget, fermentum nisi. Praesent lacinia purus ac lacus consectetur tincidunt id auctor enim. Quisque nec odio scelerisque, viverra ipsum nec, molestie mauris. Aliquam sed ultricies lorem, sit amet dictum diam. Fusce vel ullamcorper felis, eget accumsan erat. Quisque eu mattis magna, vel sodales nulla. Phasellus iaculis leo non sapien auctor commodo. Aliquam tincidunt, nisl eget scelerisque luctus, ex ipsum diam scelerisque felis, vitae commodo justo arcu vitae sem. Proin maximus odio sed.",
+	keyword: "Key'word"
+};
+
+describe("A text matching the keyword when it has an ' in it", function(){
+	it("should match keyword in the text", function(){
+		var analyzer = Factory.buildAnalyzer(keywordArgs9);
+		var result = analyzer.keywordDensity();
+
+		expect(result[0].result).toContain(1.0);
 	});
 });
