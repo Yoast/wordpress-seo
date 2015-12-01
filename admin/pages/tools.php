@@ -44,7 +44,6 @@ if ( '' === $tool_page ) {
 	);
 
 	if ( filter_input( INPUT_GET, 'recalculate' ) === '1' ) {
-		update_site_option( 'wpseo_dismiss_recalculate', 1 );
 		$tools['recalculate']['attr'] .= "data-open='open'";
 	}
 
