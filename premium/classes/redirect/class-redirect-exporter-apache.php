@@ -6,7 +6,7 @@
 /**
  * This exporter class will format the redirects for apache files.
  */
-class WPSEO_Redirect_Export_Apache extends WPSEO_Redirect_Export_File {
+class WPSEO_Redirect_Exporter_Apache extends WPSEO_Redirect_Exporter_File {
 
 	/**
 	 * %1$s is the old url

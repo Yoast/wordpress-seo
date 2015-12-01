@@ -6,7 +6,7 @@
 /**
  * Class WPSEO_Redirect_File
  */
-abstract class WPSEO_Redirect_Export_File implements WPSEO_Redirect_Export {
+abstract class WPSEO_Redirect_Exporter_File implements WPSEO_Redirect_Exporter {
 
 	/**
 	 * @var string
