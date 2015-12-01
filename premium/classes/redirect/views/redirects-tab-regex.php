@@ -7,6 +7,7 @@
  * @var array 								$redirect_types
  * @var WPSEO_Redirect_Quick_Edit_Presenter $quick_edit_table
  * @var WPSEO_Redirect_Table 				$redirect_table
+ * @var WPSEO_Redirect_Form_Presenter       $form_presenter
  */
 ?>
 
@@ -20,38 +21,7 @@
 
 	<form class='wpseo-new-redirect-form' method='post'>
 		<div class='wpseo_redirect_form'>
-
-			<br class='clear'/>
-			<label class='textinput' for='wpseo_redirects_new_type'><?php echo _x( 'Type', 'noun', 'wordpress-seo-premium' ); ?></label>
-			<select name='wpseo_redirects_type' id='wpseo_redirects_new_type' class='select'>
-				<?php
-				// Loop through the redirect types.
-				if ( count( $redirect_types ) > 0 ) {
-					foreach ( $redirect_types as $key => $desc ) {
-						echo "<option value='" . $key . "'>" . $desc . '</option>' . PHP_EOL;
-					}
-				}
-				?>
-			</select>
-			<br />
-			<br />
-
-			<p class="label desc description">
-				<?php
-				printf( __( 'The redirect type is the HTTP response code sent to the browser telling the browser what type of redirect is served.<br/><br/>Read <a href=\'%s\' target=\'_blank\'>this page</a> for more info.', 'wordpress-seo-premium' ), 'http://kb.yoast.com/article/121-redirect-types/#utm_source=wordpress-seo-premium-redirects&amp;utm_medium=inline-help&amp;utm_campaign=redirect-types' );
-				?>
-			</p>
-
-			<br class='clear'/>
-			<label class='textinput' for='wpseo_redirects_new_old'><?php _e( 'Regular Expression', 'wordpress-seo-premium' ); ?></label>
-			<input type='text' class='textinput' name='wpseo_redirects_origin' id='wpseo_redirects_new_old' value='<?php echo $old_url; ?>' />
-			<br class='clear'/>
-
-			<div class="wpseo_redirect_target_holder">
-				<label class='textinput' for='wpseo_redirects_new_new'><?php _e( 'URL', 'wordpress-seo-premium' ); ?></label>
-				<input type='text' class='textinput' name='wpseo_redirects_target' id='wpseo_redirects_new_new' value='' />
-			</div>
-				<br class='clear'/>
+			<?php $form_presenter->display(); ?>
 
 			<a href='javascript:;' class='button-primary'><?php _e( 'Add Redirect', 'wordpress-seo-premium' ); ?></a>
 		</div>
