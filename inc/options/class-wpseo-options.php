@@ -177,13 +177,17 @@ class WPSEO_Options {
 	/**
 	 * Retrieve one or more options for the SEO plugin.
 	 *
-	 * @param array $option_names The option name of the options to get
+	 * @param array|string $option_name The option name or an array of option names of the options you want to get.
 	 *
 	 * @static
 	 * @return  array  Array combining the values of the requested options
 	 */
 	public static function get( $option_names ) {
 		$options = array();
+
+		if ( is_string( $option_names ) && $option_names !== '' ) {
+			$option_names = array( $option_names );
+		}
 
 		if ( is_array( $option_names ) && $option_names !== array() ) {
 			foreach ( $option_names as $option_name ) {
