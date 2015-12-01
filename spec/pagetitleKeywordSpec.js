@@ -77,6 +77,10 @@ titleKeywordArg9 = {
 	pageTitle: "äbc",
 	keyword: "äbc"
 };
+titleKeywordArg10 = {
+	pageTitle: "ст, чтобы проверить нечто Test текст, чтобы ",
+	keyword: "нечто"
+};
 
 describe("a test with keywords", function() {
 	var pageTitleAnalyzer;
@@ -132,6 +136,13 @@ describe("a test with keywords", function() {
 
 		expect(result[ 0].result.matches).toBe(1);
 		expect(result[0 ].result.position ).toBe(0);
+	});
+	it("returns result with arabic (non-latin) text", function() {
+		pageTitleAnalyzer = Factory.buildAnalyzer(titleKeywordArg10);
+
+		result = pageTitleAnalyzer.pageTitleKeyword();
+
+		expect(result[ 0 ].result.matches).toBe(1);
 	});
 });
 

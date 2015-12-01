@@ -45,23 +45,53 @@ YoastSEO.StringHelper.prototype.countMatches = function( textString, regex ) {
 };
 
 /**
- * builds regex from array with strings
+ * builds regex from array with multiple strings
  * @param stringArray
  * @returns {RegExp}
  */
 YoastSEO.StringHelper.prototype.stringToRegex = function( stringArray, disableWordBoundary ) {
-	var regexString = "";
-	var wordBoundary = "\\b";
-	if ( disableWordBoundary ) {
-		wordBoundary = "";
-	}
-	for ( var i = 0; i < stringArray.length; i++ ) {
-		if ( regexString.length > 0 ) {
-			regexString += "|";
+	var regexString;
+
+	stringArray = stringArray.map( function( string ) {
+		if ( disableWordBoundary ) {
+			return string;
+		} else {
+			return this.getWordBoundaryString( string );
 		}
-		regexString += wordBoundary + stringArray[ i ] + wordBoundary;
-	}
+	}.bind( this ) );
+
+	regexString = "(" + stringArray.join( ")|(" ) + ")";
+
 	return new RegExp( regexString, "g" );
+};
+
+/**
+ * Returns a string that can be used in a regex to match a matchString with word boundaries.
+ *
+ * @param {String} matchString The string to generate a regex string for.
+ * @param {String} extraWordBoundary Extra characters to match a word boundary on.
+ * @return {String} A regex string that matches the matchString with word boundaries
+ */
+YoastSEO.StringHelper.prototype.getWordBoundaryString = function( matchString, extraWordBoundary ) {
+	var wordBoundary, wordBoundaryStart, wordBoundaryEnd;
+
+	if ( typeof extraWordBoundary === "undefined" ) {
+		extraWordBoundary = "";
+	}
+
+	wordBoundary = "[ \n\r\t\.,'\(\)\"\+;!?:\/" + extraWordBoundary + "<>]";
+	wordBoundaryEnd = "($|" + wordBoundary + ")";
+	wordBoundaryStart = "(^|" + wordBoundary + ")";
+
+	return wordBoundaryStart + matchString + wordBoundaryEnd;
+};
+
+/**
+ * Creates a regex with a wordboundary. Since /b isn't working properly in JavaScript we have to
+ * use an alternative regex.
+ */
+YoastSEO.StringHelper.prototype.getWordBoundaryRegex = function( textString, extraWordBoundary ) {
+	return new RegExp( this.getWordBoundaryString( textString, extraWordBoundary ), "ig" );
 };
 
 /**
@@ -131,7 +161,7 @@ YoastSEO.StringHelper.prototype.stripAllTags = function( textString ) {
 YoastSEO.StringHelper.prototype.stripNumbers = function( textString ) {
 
 	// Remove "words" comprised only of numbers
-	textString = textString.replace( /\b[0-9]+\b/g, "" );
+	textString = textString.replace( this.getWordBoundaryRegex( "[0-9]+" ), "$1$3" );
 
 	textString = this.stripSpaces( textString );
 

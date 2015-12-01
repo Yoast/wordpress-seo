@@ -27,8 +27,8 @@ var imgArgs2 = {
 	keyword: "maïs"
 };
 
-describe("a test to match the keyword in the alt-tag using diacritics", function(){
-	it("returns a match with the keyword", function(){
+describe("a test to match the keyword in the alt-tag using diacritics", function() {
+	it("returns a match with the keyword", function () {
 		imageAnalyzer = Factory.buildAnalyzer(imgArgs2);
 		var result = imageAnalyzer.imageCount();
 		expect(result[0].result.altKeyword).toBe(1);
@@ -36,12 +36,12 @@ describe("a test to match the keyword in the alt-tag using diacritics", function
 });
 
 var imgArgs3 = {
-	text: "<img src='http://image.com/picture' alt='picture' />",
-	keyword: "picture"
+	text: "<img src='http://picture.com' alt='текст' />",
+	keyword: "текст"
 };
 
-describe("a test to match the keyword in the alt-tag", function(){
-	it("returns a match with the keyword", function(){
+describe("a test to check keywords in alttags", function(){
+	it("returns the alttag with keyword", function(){
 		imageAnalyzer = Factory.buildAnalyzer(imgArgs3);
 		var result = imageAnalyzer.imageCount();
 		expect(result[0].result.altKeyword).toBe(1);
@@ -49,13 +49,26 @@ describe("a test to match the keyword in the alt-tag", function(){
 });
 
 var imgArgs4 = {
+	text: "<img src='http://image.com/picture' alt='picture' />",
+	keyword: "picture"
+};
+
+describe("a test to match the keyword in the alt-tag", function(){
+	it("returns a match with the keyword", function(){
+		imageAnalyzer = Factory.buildAnalyzer(imgArgs4);
+		var result = imageAnalyzer.imageCount();
+		expect(result[0].result.altKeyword).toBe(1);
+	});
+});
+
+var imgArgs5 = {
 	text: "<img src='http://image.com/picture' alt='test' />",
 	keyword: "picture"
 };
 
 describe("a test to match the keyword in the alt-tag", function(){
 	it("returns no match with the keyword, it isn't in the alt-tag", function(){
-		imageAnalyzer = Factory.buildAnalyzer(imgArgs4);
+		imageAnalyzer = Factory.buildAnalyzer(imgArgs5);
 		var result = imageAnalyzer.imageCount();
 		expect(result[0].result.altKeyword).toBe(0);
 	});
