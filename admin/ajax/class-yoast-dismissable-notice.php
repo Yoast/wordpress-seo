@@ -10,7 +10,8 @@
 class Yoast_Dismissable_Notice_Ajax {
 
 	const FOR_USER = 'user_meta';
-	const FOR_SITE = 'site_option';
+	const FOR_NETWORK = 'site_option';
+	const FOR_SITE = 'option';
 
 
 	/**
@@ -52,6 +53,12 @@ class Yoast_Dismissable_Notice_Ajax {
 	 */
 	private function save_dismissed() {
 		if ( $this->notice_type === self::FOR_SITE ) {
+			update_option( 'wpseo_dismiss_' . $this->notice_name, 1 );
+
+			return;
+		}
+
+		if ( $this->notice_type === self::FOR_NETWORK ) {
 			update_site_option( 'wpseo_dismiss_' . $this->notice_name, 1 );
 
 			return;
