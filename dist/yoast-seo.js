@@ -98,12 +98,18 @@ YoastSEO.Analyzer.prototype.initDependencies = function() {
  * referencing it.
  */
 YoastSEO.Analyzer.prototype.initQueue = function() {
+	var fleschReadingIndex;
 
 	//if custom queue available load queue, otherwise load default queue.
 	if ( typeof this.config.queue !== "undefined" && this.config.queue.length !== 0 ) {
 		this.queue = this.config.queue.slice();
 	} else {
 		this.queue = YoastSEO.analyzerConfig.queue.slice();
+	}
+
+	// Exclude the flesh easy reading score for non-english languages
+	if ( 0 !== this.config.locale.indexOf( "en_" ) && ( fleschReadingIndex = this.queue.indexOf( "fleschReading" ) ) ) {
+		this.queue.splice( fleschReadingIndex, 1 );
 	}
 };
 
@@ -1335,7 +1341,6 @@ YoastSEO.App.prototype.endTime = function() {
  * to format outputs.
  */
 YoastSEO.App.prototype.runAnalyzer = function() {
-	var fleschReadingIndex;
 
 	if ( this.pluggable.loaded === false ) {
 		return;
@@ -1351,11 +1356,6 @@ YoastSEO.App.prototype.runAnalyzer = function() {
 	var keyword = this.stringHelper.sanitizeKeyword( this.rawData.keyword );
 	if ( keyword === "" ) {
 		this.analyzerData.queue = [ "keyphraseSizeCheck", "wordCount", "fleschReading", "pageTitleLength", "urlStopwords", "metaDescriptionLength" ];
-	}
-
-	// Exclude the flesh easy reading score for non-english languages
-	if ( 0 !== this.config.locale.indexOf( "en_" ) && ( fleschReadingIndex = this.analyzerData.queue.indexOf( "fleschReading" ) ) ) {
-		this.analyzerData.queue.splice( fleschReadingIndex, 1 );
 	}
 
 	this.analyzerData.keyword = keyword;

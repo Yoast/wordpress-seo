@@ -98,12 +98,18 @@ YoastSEO.Analyzer.prototype.initDependencies = function() {
  * referencing it.
  */
 YoastSEO.Analyzer.prototype.initQueue = function() {
+	var fleschReadingIndex;
 
 	//if custom queue available load queue, otherwise load default queue.
 	if ( typeof this.config.queue !== "undefined" && this.config.queue.length !== 0 ) {
 		this.queue = this.config.queue.slice();
 	} else {
 		this.queue = YoastSEO.analyzerConfig.queue.slice();
+	}
+
+	// Exclude the flesh easy reading score for non-english languages
+	if ( 0 !== this.config.locale.indexOf( "en_" ) && ( fleschReadingIndex = this.queue.indexOf( "fleschReading" ) ) ) {
+		this.queue.splice( fleschReadingIndex, 1 );
 	}
 };
 
