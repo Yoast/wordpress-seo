@@ -6,7 +6,7 @@
 /**
  * Validator for validating all redirect fields being filled correctly.
  */
-class WPSEO_Redirect_Validate_Presence implements WPSEO_Redirect_Validate {
+class WPSEO_Redirect_Validation_Presence implements WPSEO_Redirect_Validation {
 
 	/**
 	 * @var string The validation error.
@@ -21,7 +21,7 @@ class WPSEO_Redirect_Validate_Presence implements WPSEO_Redirect_Validate {
 	 *
 	 * @return bool
 	 */
-	public function validate( WPSEO_Redirect $redirect, array $redirects = null ) {
+	public function run( WPSEO_Redirect $redirect, array $redirects = null ) {
 		// If redirect type id 410, the target doesn't have to be filled.
 		if ( $redirect->get_type() === WPSEO_Redirect::DELETED && $redirect->get_origin() !== '' ) {
 			return true;
