@@ -24,6 +24,11 @@ class WPSEO_Redirect_Validation_Uniqueness implements WPSEO_Redirect_Validation 
 	 */
 	public function run( WPSEO_Redirect $redirect, WPSEO_Redirect $old_redirect = null, array $redirects = null ) {
 
+		// Remove uniqueness validation when old origin is the same as the current one.
+		if ( is_a( $old_redirect, 'WPSEO_Redirect' ) && $redirect->get_origin() === $old_redirect->get_origin() ) {
+			return true;
+		}
+
 		if ( array_key_exists( $redirect->get_origin(), $redirects ) ) {
 			$this->error = __( 'The old url already exists as a redirect', 'wordpress-seo-premium' );
 

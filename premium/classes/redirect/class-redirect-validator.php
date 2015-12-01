@@ -82,14 +82,8 @@ class WPSEO_Redirect_Validator {
 	 * @return array
 	 */
 	protected function get_validation_rules( WPSEO_Redirect $redirect, WPSEO_Redirect $current_redirect = null ) {
-
 		// Set the validation rules.
 		$validations = $this->validation_rules;
-
-		// Remove uniqueness validation when old origin is the same as the current one.
-		if ( is_a( $current_redirect, 'WPSEO_Redirect' ) && $redirect->get_origin() === $current_redirect->get_origin() ) {
-			$this->remove_rule( $validations, 'uniqueness' );
-		}
 
 		return $this->filter_rules( $validations, $redirect );
 	}
