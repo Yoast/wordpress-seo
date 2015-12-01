@@ -2,9 +2,9 @@
 # This file is distributed under the GPL v3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Yoast SEO 3.0.2\n"
+"Project-Id-Version: Yoast SEO 3.0.4\n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo/issues\n"
-"POT-Creation-Date: 2015-11-19 13:46:07+00:00\n"
+"POT-Creation-Date: 2015-11-25 11:59:32+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -112,9 +112,9 @@ msgstr ""
 msgid "XML Sitemaps"
 msgstr ""
 
-#: admin/class-admin.php:154 admin/metabox/class-metabox.php:392
-#: admin/metabox/class-metabox.php:394 admin/metabox/class-metabox.php:403
-#: admin/metabox/class-metabox.php:404 inc/wpseo-non-ajax-functions.php:426
+#: admin/class-admin.php:154 admin/metabox/class-metabox.php:418
+#: admin/metabox/class-metabox.php:420 admin/metabox/class-metabox.php:429
+#: admin/metabox/class-metabox.php:430 inc/wpseo-non-ajax-functions.php:426
 msgid "Advanced"
 msgstr ""
 
@@ -333,7 +333,7 @@ msgstr ""
 msgid "New Yoast SEO Title"
 msgstr ""
 
-#: admin/class-config.php:102 admin/metabox/class-metabox.php:732
+#: admin/class-config.php:102 admin/metabox/class-metabox.php:758
 #: admin/taxonomy/class-taxonomy.php:101
 msgid "Use Image"
 msgstr ""
@@ -1545,12 +1545,12 @@ msgstr ""
 msgid "Content:"
 msgstr ""
 
-#: admin/metabox/class-metabox.php:271 admin/taxonomy/class-taxonomy.php:257
+#: admin/metabox/class-metabox.php:297 admin/taxonomy/class-taxonomy.php:257
 msgid "(no parent)"
 msgstr ""
 
-#: admin/metabox/class-metabox.php:361 admin/metabox/class-metabox.php:364
-#: admin/metabox/class-metabox.php:375 admin/metabox/class-metabox.php:376
+#: admin/metabox/class-metabox.php:387 admin/metabox/class-metabox.php:390
+#: admin/metabox/class-metabox.php:401 admin/metabox/class-metabox.php:402
 #: admin/taxonomy/class-taxonomy-metabox.php:99
 #: admin/taxonomy/class-taxonomy-metabox.php:102
 #: admin/taxonomy/class-taxonomy-metabox.php:111
@@ -1558,11 +1558,11 @@ msgstr ""
 msgid "Content"
 msgstr ""
 
-#: admin/metabox/class-metabox.php:421 admin/metabox/class-metabox.php:422
+#: admin/metabox/class-metabox.php:447 admin/metabox/class-metabox.php:448
 msgid "Add-ons"
 msgstr ""
 
-#: admin/metabox/class-metabox.php:719
+#: admin/metabox/class-metabox.php:745
 msgid ""
 "The featured image should be at least 200x200 pixels to be picked up by "
 "Facebook and other social media sites."

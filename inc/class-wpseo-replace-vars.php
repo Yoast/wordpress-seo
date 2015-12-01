@@ -697,7 +697,7 @@ class WPSEO_Replace_Vars {
 					$term      = current( $terms );
 					$term_desc = get_term_field( 'description', $term->term_id, $tax );
 					if ( $term_desc !== '' ) {
-						$replacement = $term_desc;
+						$replacement = trim( strip_tags( $term_desc ) );
 					}
 				}
 			}
