@@ -192,6 +192,9 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 			case 'old':
 				return "<div class='val'>" . $item['old'] . '</div>';
 				break;
+			case 'type':
+				return "<div class='val type'>" . $item['type'] . '</div>';
+				break;
 			default:
 				return $item[ $column_name ];
 		}
