@@ -48,6 +48,7 @@ class WPSEO_Redirect_Validation_Uniqueness_Test extends WPSEO_UnitTestCase {
 		$this->assertFalse(
 			$this->class_instance->run(
 				new WPSEO_Redirect( $old_url, $new_url, $type ),
+				null,
 				$this->redirects
 			)
 		);
@@ -71,6 +72,7 @@ class WPSEO_Redirect_Validation_Uniqueness_Test extends WPSEO_UnitTestCase {
 		$this->assertTrue(
 			$this->class_instance->run(
 				new WPSEO_Redirect( $old_url , $new_url, $type ),
+				null,
 				$this->redirects
 			)
 		);

@@ -54,7 +54,7 @@ class WPSEO_Redirect_Validator {
 
 		$this->validation_error = '';
 		foreach ( $validators as $validator ) {
-			if ( ! $validator->run( $redirect, $redirects ) ) {
+			if ( ! $validator->run( $redirect, $current_redirect, $redirects ) ) {
 				$this->validation_error = $validator->get_error();
 
 				return false;
