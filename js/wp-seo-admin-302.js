@@ -324,6 +324,7 @@ function wpseo_recalculate_scores( current_page ) {
 		 */
 		calculate_score: function( post ) {
 			post.i18n = i18n;
+			post.locale = wpseoAdminL10n.locale;
 			var tmpAnalyzer = new YoastSEO.Analyzer( post );
 			tmpAnalyzer.runQueue();
 

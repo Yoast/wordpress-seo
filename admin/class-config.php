@@ -114,6 +114,7 @@ class WPSEO_Admin_Pages {
 		return array(
 			/* translators: %s: '%%term_title%%' variable used in titles and meta's template that's not compatible with the given template */
 			'variable_warning' => sprintf( __( 'Warning: the variable %s cannot be used in this template.', 'wordpress-seo' ), '<code>%s</code>' ) . ' ' . __( 'See the help tab for more info.', 'wordpress-seo' ),
+			'locale' => get_locale(),
 		);
 	}
 
