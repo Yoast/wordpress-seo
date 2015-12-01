@@ -177,7 +177,7 @@ class WPSEO_Options {
 	/**
 	 * Retrieve one or more options for the SEO plugin.
 	 *
-	 * @param array|string $option_name The option name or an array of option names of the options you want to get.
+	 * @param array|string $option_names The option name or an array of option names of the options you want to get.
 	 *
 	 * @static
 	 * @return  array  Array combining the values of the requested options

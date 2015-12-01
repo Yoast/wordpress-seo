@@ -64,7 +64,7 @@ class WPSEO_Frontend {
 	 *
 	 * @var array
 	 */
-	private $required_options = array( 'wpseo', 'wpseo_rss', 'wpseo_social', 'wpseo_permalinks', 'wpseo_titles', );
+	private $required_options = array( 'wpseo', 'wpseo_rss', 'wpseo_social', 'wpseo_permalinks', 'wpseo_titles' );
 
 
 	/**
