@@ -4,7 +4,7 @@
  */
 
 /**
- * @var array 								$redirect_types
+ * @var string 								$origin_from_url
  * @var WPSEO_Redirect_Quick_Edit_Presenter $quick_edit_table
  * @var WPSEO_Redirect_Table 				$redirect_table
  * @var WPSEO_Redirect_Form_Presenter       $form_presenter
@@ -21,7 +21,18 @@
 
 	<form class='wpseo-new-redirect-form' method='post'>
 		<div class='wpseo_redirect_form'>
-			<?php $form_presenter->display(); ?>
+<?php
+$form_presenter->display(
+	array(
+		'input_suffix' => '',
+		'values'       => array(
+			'origin' => $origin_from_url,
+			'target' => '',
+			'type'   => '',
+		),
+	)
+);
+?>
 
 			<a href='javascript:;' class='button-primary'><?php _e( 'Add Redirect', 'wordpress-seo-premium' ); ?></a>
 		</div>
@@ -32,7 +43,7 @@
 	<?php
 		$quick_edit_table->display(
 			array(
-				'redirect_types' => $redirect_types,
+				'form_presenter' => $form_presenter,
 				'total_columns'  => $redirect_table->count_columns(),
 			)
 		);

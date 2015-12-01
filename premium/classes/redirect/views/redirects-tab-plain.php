@@ -4,7 +4,6 @@
  */
 
 /**
- * @var array 								$redirect_types
  * @var string 								$origin_from_url
  * @var WPSEO_Redirect_Quick_Edit_Presenter $quick_edit_table
  * @var WPSEO_Redirect_Table 				$redirect_table
