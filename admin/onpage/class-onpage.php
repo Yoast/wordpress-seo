@@ -31,8 +31,10 @@ class WPSEO_OnPage {
 		if ( ! ( defined( 'DOING_AJAX' ) && DOING_AJAX === true ) ) {
 			$this->onpage_option = new WPSEO_OnPage_Option();
 
-			$this->set_hooks();
-			$this->catch_redo_listener();
+			if ( $this->onpage_option->is_enabled() ) {
+				$this->set_hooks();
+				$this->catch_redo_listener();
+			}
 		}
 	}
 

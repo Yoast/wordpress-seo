@@ -50,10 +50,13 @@ class Yoast_Dashboard_Widget {
 		$statistics = $this->statistic_items();
 
 		$onpage_option = new WPSEO_OnPage_Option();
-		$onpage        = array(
-			'indexable' => $onpage_option->get_status(),
-			'can_fetch' => $onpage_option->should_be_fetched(),
-		);
+		$onpage        = false;
+		if ( $onpage_option->is_enabled() ) {
+			$onpage = array(
+					'indexable' => $onpage_option->get_status(),
+					'can_fetch' => $onpage_option->should_be_fetched(),
+			);
+		}
 
 		include WPSEO_PATH . '/admin/views/dashboard-widget.php';
 	}
@@ -63,7 +66,7 @@ class Yoast_Dashboard_Widget {
 	 */
 	public function enqueue_dashboard_stylesheet() {
 		if ( 'dashboard' === get_current_screen()->id ) {
-			wp_enqueue_style( 'wpseo-wp-dashboard', plugins_url( 'css/dashboard-' . '302' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
+			wp_enqueue_style( 'wpseo-wp-dashboard', plugins_url( 'css/dashboard-' . '305' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
 		}
 	}
 

@@ -80,7 +80,7 @@ class WPSEO_Admin_Pages {
 		}
 
 		if ( 'wpseo_tools' === $page && empty( $tool ) ) {
-			wp_enqueue_script( 'yoast-seo', plugins_url( 'js/dist/yoast-seo/yoast-seo-' . '302' . '.min.js', WPSEO_FILE ), null, WPSEO_VERSION, true );
+			wp_enqueue_script( 'yoast-seo', plugins_url( 'js/dist/yoast-seo/yoast-seo-' . '305' . '.min.js', WPSEO_FILE ), null, WPSEO_VERSION, true );
 		}
 
 		if ( 'wpseo_tools' === $page && 'bulk-editor' === $tool ) {
