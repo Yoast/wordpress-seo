@@ -25,9 +25,9 @@ class WPSEO_Import_External {
 	public $msg = '';
 
 	/**
-	 * Class constructor
+	 * Import class constructor.
 	 *
-	 * @param boolean $replace
+	 * @param boolean $replace Boolean replace switch.
 	 */
 	public function __construct( $replace = false ) {
 		$this->replace = $replace;
@@ -38,7 +38,7 @@ class WPSEO_Import_External {
 	/**
 	 * Convenience function to set import message
 	 *
-	 * @param string $msg
+	 * @param string $msg Message string.
 	 */
 	protected function set_msg( $msg ) {
 		if ( ! empty( $this->msg ) ) {
@@ -50,7 +50,7 @@ class WPSEO_Import_External {
 	/**
 	 * Deletes an option depending on the class replace state
 	 *
-	 * @param string $option
+	 * @param string $option Option key.
 	 */
 	protected function perhaps_delete( $option ) {
 		if ( $this->replace ) {

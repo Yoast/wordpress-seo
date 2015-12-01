@@ -34,8 +34,8 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 	/**
 	 * Add an extra field to term edit screen
 	 *
-	 * @param string $tag
-	 * @param string $taxonomy
+	 * @param string $tag      The current tag name.
+	 * @param string $taxonomy The name of the current taxonomy.
 	 */
 	public function old_url_field( $tag, $taxonomy ) {
 		$url = $this->get_target_url( $tag, $taxonomy );
@@ -57,9 +57,9 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 	/**
 	 * Detect if the slug changed, hooked into 'post_updated'
 	 *
-	 * @param integer  $term_id
-	 * @param integer  $tt_id
-	 * @param stdClass $taxonomy
+	 * @param integer  $term_id  The term id.
+	 * @param integer  $tt_id    Unused.
+	 * @param stdClass $taxonomy Object with the values of the taxonomy.
 	 *
 	 * @return bool|void
 	 */
@@ -96,8 +96,8 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 	/**
 	 * Set redirect notification
 	 *
-	 * @param string $old_url
-	 * @param string $new_url
+	 * @param string $old_url The old url.
+	 * @param string $new_url Unused.
 	 */
 	public function set_notification( $old_url, $new_url ) {
 		$id = 'wpseo_create_redirect_' . md5( $old_url );
@@ -118,7 +118,7 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 	/**
 	 * Offer to create a redirect from the term that is about to get deleted
 	 *
-	 * @param integer $term_id
+	 * @param integer $term_id The term id that will be deleted.
 	 */
 	public function detect_term_delete( $term_id ) {
 
@@ -147,8 +147,8 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 	/**
 	 * Get the URL to the term and returns it's path
 	 *
-	 * @param string $tag
-	 * @param string $taxonomy
+	 * @param string $tag      The current tag name.
+	 * @param string $taxonomy The name of the current taxonomy.
 	 *
 	 * @return string
 	 */
@@ -171,6 +171,7 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 
 	/**
 	 * Get the old url
+	 *
 	 * @return bool|string
 	 */
 	protected function get_old_url() {

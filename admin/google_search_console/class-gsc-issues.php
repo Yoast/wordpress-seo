@@ -30,9 +30,9 @@ class WPSEO_GSC_Issues {
 	/**
 	 * Setting up the properties and fetching the current issues
 	 *
-	 * @param string     $platform
-	 * @param string     $category
-	 * @param array|bool $fetched_issues
+	 * @param string     $platform       Platform type (desktop, mobile, feature phone).
+	 * @param string     $category       Issues category.
+	 * @param array|bool $fetched_issues Optional set of issues.
 	 */
 	public function __construct( $platform, $category, $fetched_issues = false ) {
 		$this->option_name = strtolower( 'wpseo-gsc-issues-' . $platform . '-' . $category );
@@ -54,7 +54,7 @@ class WPSEO_GSC_Issues {
 	/**
 	 * Deleting the issue from the issues
 	 *
-	 * @param string $url
+	 * @param string $url URL to delete issues for.
 	 *
 	 * @return bool
 	 */
@@ -74,7 +74,7 @@ class WPSEO_GSC_Issues {
 	/**
 	 * Fetching the issues for current category and compare them with the already existing issues.
 	 *
-	 * @param array $fetched_issues
+	 * @param array $fetched_issues Set of retrieved issues.
 	 */
 	private function save_fetched_issues( array $fetched_issues ) {
 		$this->set_current_issues();
@@ -95,8 +95,8 @@ class WPSEO_GSC_Issues {
 	/**
 	 * Comparing the issue with the list of current existing issues
 	 *
-	 * @param array    $crawl_issues
-	 * @param stdClass $issue
+	 * @param array    $crawl_issues Set of issues by reference.
+	 * @param stdClass $issue        Issue object to check against the list.
 	 */
 	private function issue_compare( &$crawl_issues, $issue ) {
 		$issue->pageUrl = WPSEO_Utils::format_url( (string) $issue->pageUrl );
@@ -113,7 +113,7 @@ class WPSEO_GSC_Issues {
 	 * The fetched issue from the API will be parsed as an WPSEO_Crawl_Issue object. After initializing the issue as an
 	 * object, the object will be returned
 	 *
-	 * @param stdClass $issue
+	 * @param stdClass $issue Issue data object.
 	 *
 	 * @return WPSEO_GSC_Issue
 	 */
@@ -129,7 +129,7 @@ class WPSEO_GSC_Issues {
 	/**
 	 * Returns the crawl issue as an array.
 	 *
-	 * @param WPSEO_GSC_Issue $crawl_issue
+	 * @param WPSEO_GSC_Issue $crawl_issue Issue object instance.
 	 *
 	 * @return array()
 	 */
@@ -140,7 +140,7 @@ class WPSEO_GSC_Issues {
 	/**
 	 * Saving the issues to the options. The target option is base on current platform and category.
 	 *
-	 * @param array $issues
+	 * @param array $issues Set of issues.
 	 */
 	private function save_issues( array $issues ) {
 		update_option( $this->option_name, $issues, false );
@@ -159,7 +159,7 @@ class WPSEO_GSC_Issues {
 	/**
 	 * Search in the issues for the given $url
 	 *
-	 * @param string $url
+	 * @param string $url Issue URL to search for.
 	 *
 	 * @return int|string
 	 */
@@ -172,5 +172,4 @@ class WPSEO_GSC_Issues {
 
 		return false;
 	}
-
 }

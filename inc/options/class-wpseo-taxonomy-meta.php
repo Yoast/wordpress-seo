@@ -47,6 +47,19 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 		'wpseo_bctitle'         => '',
 		'wpseo_noindex'         => 'default',
 		'wpseo_sitemap_include' => '-',
+		'wpseo_focuskw'         => '',
+
+		// Social fields.
+		'wpseo_opengraph-title'         => '',
+		'wpseo_opengraph-description'   => '',
+		'wpseo_opengraph-image'         => '',
+		'wpseo_twitter-title'           => '',
+		'wpseo_twitter-description'     => '',
+		'wpseo_twitter-image'           => '',
+		'wpseo_google-plus-title'       => '',
+		'wpseo_google-plus-description' => '',
+		'wpseo_google-plus-image'       => '',
+
 	);
 
 	/**
@@ -89,6 +102,8 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 	 */
 	protected function __construct() {
 		parent::__construct();
+
+		self::$name = $this->option_name;
 
 		/* On succesfull update/add of the option, flush the W3TC cache */
 		add_action( 'add_option_' . $this->option_name, array( 'WPSEO_Utils', 'flush_w3tc_cache' ) );
@@ -293,7 +308,7 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 						$clean[ $key ] = $old_meta[ $key ];
 					}
 					break;
-
+				case 'wpseo_focuskw':
 				case 'wpseo_title':
 				case 'wpseo_desc':
 				default:
@@ -415,16 +430,7 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 			return false;
 		}
 
-
-		$tax_meta = get_option( self::$name );
-
-		/* If we have data for the term, merge with defaults for complete array, otherwise set defaults */
-		if ( isset( $tax_meta[ $taxonomy ][ $term_id ] ) ) {
-			$tax_meta = array_merge( self::$defaults_per_term, $tax_meta[ $taxonomy ][ $term_id ] );
-		}
-		else {
-			$tax_meta = self::$defaults_per_term;
-		}
+		$tax_meta = self::get_term_tax_meta( $term_id, $taxonomy );
 
 		/*
 		Either return the complete array or a single value from it or false if the value does not exist
@@ -433,13 +439,149 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 		if ( ! isset( $meta ) ) {
 			return $tax_meta;
 		}
-		else {
-			if ( isset( $tax_meta[ 'wpseo_' . $meta ] ) ) {
-				return $tax_meta[ 'wpseo_' . $meta ];
-			}
-			else {
-				return false;
+
+
+		if ( isset( $tax_meta[ 'wpseo_' . $meta ] ) ) {
+			return $tax_meta[ 'wpseo_' . $meta ];
+		}
+
+		return false;
+	}
+
+	/**
+	 * Get the current queried object and return the meta value
+	 *
+	 * @param string $meta The meta field that is needed.
+	 *
+	 * @return bool|mixed
+	 */
+	public static function get_meta_without_term( $meta ) {
+		$term = $GLOBALS['wp_query']->get_queried_object();
+
+		return self::get_term_meta( $term, $term->taxonomy, $meta );
+
+	}
+
+	/**
+	 * Saving the values for the given term_id
+	 *
+	 * @param int    $term_id     ID of the term to save data for.
+	 * @param string $taxonomy    The taxonomy the term belongs to.
+	 * @param array  $meta_values The values that will be saved.
+	 */
+	public static function set_values( $term_id, $taxonomy, array $meta_values ) {
+		/* Validate the post values */
+		$old      = self::get_term_meta( $term_id, $taxonomy );
+		$clean    = self::validate_term_meta_data( $meta_values, $old );
+
+		self::save_clean_values( $term_id, $taxonomy, $clean );
+	}
+
+	/**
+	 * Setting a single value to the term meta
+	 *
+	 * @param int    $term_id    ID of the term to save data for.
+	 * @param string $taxonomy   The taxonomy the term belongs to.
+	 * @param string $meta_key   The target meta key to store the value in.
+	 * @param string $meta_value The value of the target meta key.
+	 */
+	public static function set_value( $term_id, $taxonomy, $meta_key, $meta_value ) {
+
+		if ( substr( strtolower( $meta_key ), 0, 6 ) !== 'wpseo_' ) {
+			$meta_key = 'wpseo_' . $meta_key;
+		}
+
+		self::set_values( $term_id, $taxonomy, array( $meta_key => $meta_value ) );
+	}
+
+	/**
+	 * Find the keyword usages in the metas for the taxonomies/terms
+	 *
+	 * @param string $keyword		   The keyword to look for.
+	 * @param string $current_term_id  The current term id.
+	 * @param string $current_taxonomy The current taxonomy name.
+	 *
+	 * @return array
+	 */
+	public static function get_keyword_usage( $keyword, $current_term_id, $current_taxonomy ) {
+		$tax_meta = self::get_tax_meta();
+
+
+		$found    = array();
+		// Todo check for terms of all taxonomies, not only the current taxonomy.
+		foreach ( $tax_meta as $taxonomy_name => $terms ) {
+			foreach ( $terms as $term_id => $meta_values ) {
+				$is_current = ( $current_taxonomy === $taxonomy_name && (string) $current_term_id === (string) $term_id );
+				if ( ! $is_current  && ! empty( $meta_values['wpseo_focuskw'] ) && $meta_values['wpseo_focuskw'] === $keyword ) {
+					$found[] = $term_id;
+				}
 			}
 		}
+
+		return array( $keyword => $found );
+	}
+
+	/**
+	 * Saving the values for the given term_id
+	 *
+	 * @param int    $term_id  ID of the term to save data for.
+	 * @param string $taxonomy The taxonomy the term belongs to.
+	 * @param array  $clean    Array with clean values.
+	 */
+	private static function save_clean_values( $term_id, $taxonomy, array $clean ) {
+		$tax_meta = self::get_tax_meta();
+
+		/* Add/remove the result to/from the original option value */
+		if ( $clean !== array() ) {
+			$tax_meta[ $taxonomy ][ $term_id ] = $clean;
+		}
+		else {
+			unset( $tax_meta[ $taxonomy ][ $term_id ] );
+			if ( isset( $tax_meta[ $taxonomy ] ) && $tax_meta[ $taxonomy ] === array() ) {
+				unset( $tax_meta[ $taxonomy ] );
+			}
+		}
+
+		// Prevent complete array validation.
+		$tax_meta['wpseo_already_validated'] = true;
+
+		self::save_tax_meta( $tax_meta );
+	}
+
+	/**
+	 * Getting the meta from the options
+	 *
+	 * @return void|array
+	 */
+	private static function get_tax_meta() {
+		return get_option( self::$name );
+	}
+
+	/**
+	 * Saving the tax meta values to the database
+	 *
+	 * @param array $tax_meta Array with the meta values for taxonomy.
+	 */
+	private static function save_tax_meta( $tax_meta ) {
+		update_option( self::$name, $tax_meta );
+	}
+
+	/**
+	 * Getting the taxonomy meta for the given term_id and taxonomy
+	 *
+	 * @param int    $term_id  The id of the term.
+	 * @param string $taxonomy Name of the taxonomy to which the term is attached.
+	 *
+	 * @return array
+	 */
+	private static function get_term_tax_meta( $term_id, $taxonomy ) {
+		$tax_meta = self::get_tax_meta();
+
+		/* If we have data for the term, merge with defaults for complete array, otherwise set defaults */
+		if ( isset( $tax_meta[ $taxonomy ][ $term_id ] ) ) {
+			return array_merge( self::$defaults_per_term, $tax_meta[ $taxonomy ][ $term_id ] );
+		}
+
+		return self::$defaults_per_term;
 	}
 }

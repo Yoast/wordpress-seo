@@ -1,0 +1,19 @@
+a.remove-keyword span {
+	padding: 0 5px;
+	border: 1px solid transparent;
+	border-radius: 10px;
+	color: #686868;
+	font-size: 12px;
+	font-weight: 500;
+}
+
+a.remove-keyword:hover span,
+a.remove-keyword:focus span {
+	border: 1px solid #de857f;
+	color: white;
+	background-color: #ec9997;
+}
+
+.wpseo-add-keyword:disabled {
+	display: none;
+}

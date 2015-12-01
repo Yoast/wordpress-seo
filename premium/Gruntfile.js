@@ -12,6 +12,7 @@ module.exports = function(grunt) {
 			},
 			grunt: 'grunt/',
 			js: 'assets/js/',
+			css: 'assets/css/',
 			languages: 'languages/',
 			logs: 'logs/'
 		},
@@ -20,6 +21,10 @@ module.exports = function(grunt) {
 			js: [
 				'assets/js/**/*.js',
 				'!assets/js/**/*.min.js'
+			],
+			css: [
+				'assets/css/*.css',
+				'!assets/css/*.min.css'
 			],
 			php: [
 				'*.php',
@@ -46,7 +51,8 @@ module.exports = function(grunt) {
 			staticMappings: {
 				addtextdomain: 'grunt-wp-i18n',
 				makepot: 'grunt-wp-i18n',
-				glotpress_download: 'grunt-glotpress'
+				glotpress_download: 'grunt-glotpress',
+				wpcss: 'grunt-wp-css'
 			}
 		}
 	});
