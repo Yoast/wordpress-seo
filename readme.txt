@@ -126,7 +126,7 @@ Release Date: December 1st, 2015
 
 * Enhancements:
 	* Made it possible to opt out from the OnPage.org indexability check.
-	* Contains a few small performance enhancements in the Page Analysis.
+	* Contains a few small performance enhancements in the Content Analysis.
 	* Only includes Flesch Reading ease test when site language is set to English, since it doesn't really add value in other languages yet.
 
 * Bugfixes:
