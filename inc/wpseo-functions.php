@@ -181,7 +181,8 @@ function wpseo_xml_sitemaps_base_url( $page ) {
 	 */
 	$base = apply_filters( 'wpseo_sitemaps_base_url', $base );
 
-	return home_url( $base . $page );
+	// Get the scheme from the configured home url instead of letting WordPress determine the scheme based on the requested URI.
+	return home_url( $base . $page, parse_url( get_option( 'home' ), PHP_URL_SCHEME ) );
 }
 
 /**
@@ -213,9 +214,18 @@ add_action( 'init', 'wpseo_xml_sitemaps_init', 1 );
 /**
  * Notify search engines of the updated sitemap.
  *
- * @param string|null $sitemapurl
+ * @param string|null $sitemapurl Optional URL to make the ping for.
  */
 function wpseo_ping_search_engines( $sitemapurl = null ) {
+	/**
+	 * Filter: 'wpseo_allow_xml_sitemap_ping' - Check if pinging is not allowed (allowed by default)
+	 *
+	 * @api boolean $allow_ping The boolean that is set to true by default.
+	 */
+	if ( apply_filters( 'wpseo_allow_xml_sitemap_ping', true ) === false ) {
+		return;
+	}
+
 	// Don't ping if blog is not public.
 	if ( '0' == get_option( 'blog_public' ) ) {
 		return;
@@ -239,7 +249,7 @@ add_action( 'wpseo_ping_search_engines', 'wpseo_ping_search_engines' );
  *
  * @global      $sitepress
  *
- * @param array $config
+ * @param array $config WPML configuration data to filter.
  *
  * @return array
  */
@@ -297,7 +307,7 @@ add_shortcode( 'wpseo_breadcrumb', 'wpseo_shortcode_yoast_breadcrumb' );
 /**
  * This invalidates our XML Sitemaps cache.
  *
- * @param string $type
+ * @param string $type Type of sitemap to invalidate.
  */
 function wpseo_invalidate_sitemap_cache( $type ) {
 	// Always delete the main index sitemaps cache, as that's always invalidated by any other change.
@@ -312,8 +322,8 @@ add_action( 'deleted_term_relationships', 'wpseo_invalidate_sitemap_cache' );
 /**
  * Invalidate XML sitemap cache for taxonomy / term actions
  *
- * @param unsigned $unused
- * @param string   $type
+ * @param int    $unused Unused term ID value.
+ * @param string $type   Taxonomy to invalidate.
  */
 function wpseo_invalidate_sitemap_cache_terms( $unused, $type ) {
 	wpseo_invalidate_sitemap_cache( $type );
@@ -326,7 +336,7 @@ add_action( 'clean_object_term_cache', 'wpseo_invalidate_sitemap_cache_terms', 1
 /**
  * Invalidate the XML sitemap cache for a post type when publishing or updating a post
  *
- * @param int $post_id
+ * @param int $post_id Post ID to determine post type for invalidation.
  */
 function wpseo_invalidate_sitemap_cache_on_save_post( $post_id ) {
 
@@ -351,7 +361,7 @@ add_action( 'save_post', 'wpseo_invalidate_sitemap_cache_on_save_post' );
 if ( ! extension_loaded( 'ctype' ) || ! function_exists( 'ctype_digit' ) ) {
 
 	/**
-	 * @param string $string
+	 * @param string $string String input to validate.
 	 *
 	 * @return bool
 	 */
@@ -364,6 +374,28 @@ if ( ! extension_loaded( 'ctype' ) || ! function_exists( 'ctype_digit' ) ) {
 		return $return;
 	}
 }
+
+/**
+ * Makes sure the taxonomy meta is updated when a taxonomy term is split.
+ *
+ * @link https://make.wordpress.org/core/2015/02/16/taxonomy-term-splitting-in-4-2-a-developer-guide/ Article explaining the taxonomy term splitting in WP 4.2.
+ *
+ * @param string $old_term_id      Old term id of the taxonomy term that was splitted.
+ * @param string $new_term_id      New term id of the taxonomy term that was splitted.
+ * @param string $term_taxonomy_id Term taxonomy id for the taxonomy that was affected.
+ * @param string $taxonomy         The taxonomy that the taxonomy term was splitted for.
+ */
+function wpseo_split_shared_term( $old_term_id, $new_term_id, $term_taxonomy_id, $taxonomy ) {
+	$tax_meta = get_option( 'wpseo_taxonomy_meta', array() );
+
+	if ( ! empty( $tax_meta[ $taxonomy ][ $old_term_id ] ) ) {
+		$tax_meta[ $taxonomy ][ $new_term_id ] = $tax_meta[ $taxonomy ][ $old_term_id ];
+		unset( $tax_meta[ $taxonomy ][ $old_term_id ] );
+		update_option( 'wpseo_taxonomy_meta', $tax_meta );
+	}
+}
+
+add_action( 'split_shared_term', 'wpseo_split_shared_term', 10, 4 );
 
 
 /********************** DEPRECATED FUNCTIONS **********************/
@@ -623,7 +655,7 @@ function wpseo_get_roles() {
  * @deprecated use WPSEO_Utils::is_url_relative()
  * @see        WPSEO_Utils::is_url_relative()
  *
- * @param string $url
+ * @param string $url URL input to check.
  *
  * @return bool
  */
@@ -642,7 +674,7 @@ function wpseo_is_url_relative( $url ) {
  *
  * @since      1.6.0
  *
- * @param string $string
+ * @param string $string String input to standardize.
  *
  * @return string
  */

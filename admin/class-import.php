@@ -155,9 +155,9 @@ class WPSEO_Import {
 	/**
 	 * Parse the option group and import it
 	 *
-	 * @param string $name
-	 * @param array  $opt_group
-	 * @param array  $options
+	 * @param string $name      Name string.
+	 * @param array  $opt_group Option group data.
+	 * @param array  $options   Options data.
 	 */
 	private function parse_option_group( $name, $opt_group, $options ) {
 		if ( $name === 'wpseo_taxonomy_meta' ) {
@@ -188,5 +188,4 @@ class WPSEO_Import {
 			rmdir( $this->path );
 		}
 	}
-
 }

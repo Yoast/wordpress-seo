@@ -37,14 +37,23 @@ class Yoast_Notification {
 	private $id;
 
 	/**
-	 * The Constructor
+	 * Notification class constructor.
 	 *
-	 * @param string $message
-	 * @param array  $options
+	 * @param string $message Message string.
+	 * @param array  $options Set of options.
 	 */
 	public function __construct( $message, $options = array() ) {
 		$this->options         = wp_parse_args( $options, $this->defaults );
 		$this->message         = $message;
+	}
+
+	/**
+	 * Retrieve notification ID string.
+	 *
+	 * @return string
+	 */
+	public function get_id() {
+		return $this->options['id'];
 	}
 
 	/**
@@ -96,11 +105,6 @@ class Yoast_Notification {
 			return '';
 		}
 
-		// @codingStandardsIgnoreStart
-		$data = ( function_exists( 'wp_json_encode' ) ) ? wp_json_encode( $this->options['data_json'] ) : json_encode( $this->options['data_json'] );
-		// @codingStandardsIgnoreEnd
-
-		return " data-json='" . $data . "'";
+		return " data-json='" . WPSEO_Utils::json_encode( $this->options['data_json'] ) . "'";
 	}
-
 }

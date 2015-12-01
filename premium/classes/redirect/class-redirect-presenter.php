@@ -17,7 +17,7 @@ class WPSEO_Redirect_Presenter {
 		$tab_presenter = $this->get_tab_presenter( $tab_to_display );
 		$redirect_tabs = $this->navigation_tabs( $tab_to_display );
 
-		require( WPSEO_PATH . 'premium/classes/redirect/views/redirects.php' );
+		include( WPSEO_PATH . 'premium/classes/redirect/views/redirects.php' );
 	}
 
 	/**

@@ -22,6 +22,13 @@ class WPSEO_Redirect_Option {
 	private $redirects = array();
 
 	/**
+	 * Constructor.
+	 */
+	public function __construct() {
+		$this->redirects = $this->get_all();
+	}
+
+	/**
 	 * Getting the array with all the redirects
 	 *
 	 * @return WPSEO_Redirect[]
@@ -32,13 +39,6 @@ class WPSEO_Redirect_Option {
 		array_walk( $redirects, array( $this, 'map_option_to_object' ) );
 
 		return $redirects;
-	}
-
-	/**
-	 * Sets the value of redirects with the result of get all
-	 */
-	public function set_redirects() {
-		$this->redirects = $this->get_all();
 	}
 
 	/**
@@ -116,9 +116,8 @@ class WPSEO_Redirect_Option {
 	 * @return WPSEO_Redirect|bool
 	 */
 	public function search( $origin ) {
-		$needed_redirect = new WPSEO_Redirect( $origin, $origin );
 		foreach ( $this->redirects as $redirect_key => $redirect ) {
-			if ( $redirect->get_origin() === $needed_redirect->get_origin() ) {
+			if ( $redirect->origin_is( $origin ) ) {
 				return $redirect_key;
 			}
 		}
