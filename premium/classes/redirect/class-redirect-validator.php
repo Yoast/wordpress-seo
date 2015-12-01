@@ -17,8 +17,8 @@ class WPSEO_Redirect_Validator {
 			'exclude_types'  => array(),
 			'exclude_format' => array(),
 		),
-		'filled'     => array(
-			'validation_class' => 'WPSEO_Redirect_Validate_Filled',
+		'presence'     => array(
+			'validation_class' => 'WPSEO_Redirect_Validate_Presence',
 			'exclude_types'  => array(),
 			'exclude_format' => array(),
 		),
@@ -49,7 +49,7 @@ class WPSEO_Redirect_Validator {
 	 */
 	public function validate( WPSEO_Redirect $redirect, WPSEO_Redirect $current_redirect = null ) {
 
-		$validators = $this->get_validators( $this->get_validations( $redirect, $current_redirect ) );
+		$validators = $this->get_validations( $this->get_validation_rules( $redirect, $current_redirect ) );
 		$redirects  = $this->get_redirects( $redirect->get_format() );
 
 		$this->validation_error = '';
@@ -81,7 +81,7 @@ class WPSEO_Redirect_Validator {
 	 *
 	 * @return array
 	 */
-	protected function get_validations( WPSEO_Redirect $redirect, WPSEO_Redirect $current_redirect = null ) {
+	protected function get_validation_rules( WPSEO_Redirect $redirect, WPSEO_Redirect $current_redirect = null ) {
 
 		// Set the validation rules.
 		$validations = $this->validation_rules;
@@ -129,19 +129,19 @@ class WPSEO_Redirect_Validator {
 
 	/**
 	 *
-	 * Getting the validators based on the set validations.
+	 * Getting the validations based on the set validation rules.
 	 *
-	 * @param array $validations The validations that will be run.
+	 * @param array $validation_rules The rules for the validations that will be run.
 	 *
 	 * @return WPSEO_Redirect_Validate[]
 	 */
-	protected function get_validators( $validations ) {
-		$validators = array();
-		foreach ( $validations as $validation_rules ) {
-			$validators[] = new $validation_rules['validation_class']();
+	protected function get_validations( $validation_rules ) {
+		$validations = array();
+		foreach ( $validation_rules as $validation_rule ) {
+			$validations[] = new $validation_rule['validation_class']();
 		}
 
-		return $validators;
+		return $validations;
 	}
 
 	/**
