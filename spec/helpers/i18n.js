@@ -25,6 +25,7 @@ FactoryProto.prototype.buildAnalyzer = function ( args ) {
 
 	if ( typeof args.i18n === "undefined" ) {
 		args.i18n = Factory.buildJed();
+		args.locale = 'en_US';
 	}
 
 	return new YoastSEO.Analyzer( args );

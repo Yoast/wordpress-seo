@@ -109,6 +109,7 @@ YoastSEO.App.defaultConfig = {
 YoastSEO.App.prototype.extendConfig = function( args ) {
 	args.sampleText = this.extendSampleText( args.sampleText );
 	args.queue = args.queue || YoastSEO.analyzerConfig.queue;
+	args.locale = args.locale || "en_US";
 
 	return args;
 };
@@ -166,6 +167,7 @@ YoastSEO.App.prototype.getData = function() {
 		this.rawData.pageTitle = this.pluggable._applyModifications( "data_page_title", this.rawData.pageTitle );
 		this.rawData.meta = this.pluggable._applyModifications( "data_meta_desc", this.rawData.meta );
 	}
+	this.rawData.locale = this.config.locale;
 };
 
 /**
@@ -342,6 +344,7 @@ YoastSEO.App.prototype.endTime = function() {
  * to format outputs.
  */
 YoastSEO.App.prototype.runAnalyzer = function() {
+
 	if ( this.pluggable.loaded === false ) {
 		return;
 	}

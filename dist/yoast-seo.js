@@ -98,12 +98,18 @@ YoastSEO.Analyzer.prototype.initDependencies = function() {
  * referencing it.
  */
 YoastSEO.Analyzer.prototype.initQueue = function() {
+	var fleschReadingIndex;
 
 	//if custom queue available load queue, otherwise load default queue.
 	if ( typeof this.config.queue !== "undefined" && this.config.queue.length !== 0 ) {
 		this.queue = this.config.queue.slice();
 	} else {
 		this.queue = YoastSEO.analyzerConfig.queue.slice();
+	}
+
+	// Exclude the flesh easy reading score for non-english languages
+	if ( 0 !== this.config.locale.indexOf( "en_" ) && ( fleschReadingIndex = this.queue.indexOf( "fleschReading" ) ) ) {
+		this.queue.splice( fleschReadingIndex, 1 );
 	}
 };
 
@@ -1101,6 +1107,7 @@ YoastSEO.App.defaultConfig = {
 YoastSEO.App.prototype.extendConfig = function( args ) {
 	args.sampleText = this.extendSampleText( args.sampleText );
 	args.queue = args.queue || YoastSEO.analyzerConfig.queue;
+	args.locale = args.locale || "en_US";
 
 	return args;
 };
@@ -1158,6 +1165,7 @@ YoastSEO.App.prototype.getData = function() {
 		this.rawData.pageTitle = this.pluggable._applyModifications( "data_page_title", this.rawData.pageTitle );
 		this.rawData.meta = this.pluggable._applyModifications( "data_meta_desc", this.rawData.meta );
 	}
+	this.rawData.locale = this.config.locale;
 };
 
 /**
@@ -1334,6 +1342,7 @@ YoastSEO.App.prototype.endTime = function() {
  * to format outputs.
  */
 YoastSEO.App.prototype.runAnalyzer = function() {
+
 	if ( this.pluggable.loaded === false ) {
 		return;
 	}
