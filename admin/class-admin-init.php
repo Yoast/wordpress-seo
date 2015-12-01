@@ -177,6 +177,11 @@ class WPSEO_Admin_Init {
 	 * Shows the notice for recalculating the post. the Notice will only be shown if the user hasn't dismissed it before.
 	 */
 	public function recalculate_notice() {
+		if ( filter_input( INPUT_GET, 'recalculate' ) === '1' ) {
+			update_option( 'wpseo_dismiss_recalculate', '1' );
+			return;
+		}
+
 		$can_access = is_multisite() ? WPSEO_Utils::grant_access() : current_user_can( 'manage_options' );
 		if ( $can_access && ! $this->is_site_notice_dismissed( 'wpseo_dismiss_recalculate' ) ) {
 			Yoast_Notification_Center::get()->add_notification(
