@@ -46,6 +46,10 @@ class WPSEO_Upgrade {
 			$this->upgrade_23();
 		}
 
+		if ( version_compare( $this->options['version'], '3.0', '<' ) ) {
+			$this->upgrade_30();
+		}
+
 		/**
 		 * Filter: 'wpseo_run_upgrade' - Runs the upgrade hook which are dependent on Yoast SEO
 		 *
@@ -72,7 +76,7 @@ class WPSEO_Upgrade {
 	/**
 	 * Run the Yoast SEO 1.5 upgrade routine
 	 *
-	 * @param string $version
+	 * @param string $version Current plugin version.
 	 */
 	private function upgrade_15( $version ) {
 		// Clean up options and meta.
@@ -170,6 +174,14 @@ class WPSEO_Upgrade {
 	}
 
 	/**
+	 * Performs upgrade functions to Yoast SEO 3.0
+	 */
+	private function upgrade_30() {
+		// Remove the meta fields for sitemap prio.
+		delete_post_meta_by_key( '_yoast_wpseo_sitemap-prio' );
+	}
+
+	/**
 	 * Moves the hide- links options from the permalinks option to the titles option
 	 */
 	private function move_hide_links_options() {
@@ -212,5 +224,4 @@ class WPSEO_Upgrade {
 
 		WPSEO_Options::ensure_options_exist();                              // Make sure all our options always exist - issue #1245.
 	}
-
 }

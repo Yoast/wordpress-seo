@@ -93,6 +93,20 @@ class WPSEO_Redirect_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Testing the method used to check if a given url is equal to the redirect's origin.
+	 *
+	 * @covers WPSEO_Redirect::origin_is
+	 */
+	public function test_origin_is() {
+		$redirect = new WPSEO_Redirect( 'origin', 'target', 301, 'plain' );
+
+		$this->assertTrue( $redirect->origin_is( 'origin' ) );
+		$this->assertTrue( $redirect->origin_is( 'origin/' ) );
+		$this->assertTrue( $redirect->origin_is( '/origin/' ) );
+		$this->assertFalse( $redirect->origin_is( 'foo' ) );
+	}
+
+	/**
 	 * Test the result of offsetExists, this methods deals with backwards compatibility when called isset on the object.
 	 *
 	 * @covers WPSEO_Redirect::offsetExists

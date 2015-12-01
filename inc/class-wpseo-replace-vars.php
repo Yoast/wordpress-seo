@@ -399,25 +399,7 @@ class WPSEO_Replace_Vars {
 	 * @return string
 	 */
 	private function retrieve_sep() {
-		$replacement = WPSEO_Options::get_default( 'wpseo_titles', 'separator' );
-
-		// Get the titles option and the separator options.
-		$titles_options    = get_option( 'wpseo_titles' );
-		$seperator_options = WPSEO_Option_Titles::get_instance()->get_separator_options();
-
-		// This should always be set, but just to be sure.
-		if ( isset( $seperator_options[ $titles_options['separator'] ] ) ) {
-			// Set the new replacement.
-			$replacement = $seperator_options[ $titles_options['separator'] ];
-		}
-
-		/**
-		 * Filter: 'wpseo_replacements_filter_sep' - Allow customization of the separator character(s)
-		 *
-		 * @api string $replacement The current separator
-		 */
-
-		return apply_filters( 'wpseo_replacements_filter_sep', $replacement );
+		return WPSEO_Utils::get_title_separator();
 	}
 
 	/**
@@ -448,7 +430,7 @@ class WPSEO_Replace_Vars {
 		static $replacement;
 
 		if ( ! isset( $replacement ) ) {
-			$sitename = trim( strip_tags( get_bloginfo( 'name' ) ) );
+			$sitename = WPSEO_Utils::get_site_name();
 			if ( $sitename !== '' ) {
 				$replacement = $sitename;
 			}
@@ -715,7 +697,7 @@ class WPSEO_Replace_Vars {
 					$term      = current( $terms );
 					$term_desc = get_term_field( 'description', $term->term_id, $tax );
 					if ( $term_desc !== '' ) {
-						$replacement = $term_desc;
+						$replacement = trim( strip_tags( $term_desc ) );
 					}
 				}
 			}
@@ -1096,7 +1078,11 @@ class WPSEO_Replace_Vars {
 			'term_description'     => __( 'Replaced with the term description', 'wordpress-seo' ),
 			'term_title'           => __( 'Replaced with the term name', 'wordpress-seo' ),
 			'searchphrase'         => __( 'Replaced with the current search phrase', 'wordpress-seo' ),
-			'sep'                  => __( 'The separator defined in your theme\'s <code>wp_title()</code> tag.', 'wordpress-seo' ),
+			'sep'                  => sprintf(
+				/* translators: %s: wp_title() function */
+				__( 'The separator defined in your theme\'s %s tag.', 'wordpress-seo' ),
+				'<code>wp_title()</code>'
+			),
 		);
 	}
 
@@ -1198,7 +1184,6 @@ class WPSEO_Replace_Vars {
 
 		return apply_filters( 'wpseo_terms', $output );
 	}
-
 } /* End of class WPSEO_Replace_Vars */
 
 

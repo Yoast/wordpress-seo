@@ -54,7 +54,7 @@ class Yoast_Plugin_Conflict_Ajax {
 	/**
 	 * Getting the dismissed conflicts from the database
 	 *
-	 * @param string $plugin_section
+	 * @param string $plugin_section Type of conflict group (such as Open Graph or sitemap).
 	 *
 	 * @return array
 	 */
@@ -71,7 +71,7 @@ class Yoast_Plugin_Conflict_Ajax {
 	/**
 	 * Storing the conflicting plugins as an user option in the database
 	 *
-	 * @param string $plugin_section
+	 * @param string $plugin_section Plugin conflict type (such as Open Graph or sitemap).
 	 */
 	private function save_dismissed_conflicts( $plugin_section ) {
 		$dismissed_conflicts = $this->get_dismissed_option();
@@ -84,7 +84,7 @@ class Yoast_Plugin_Conflict_Ajax {
 	/**
 	 * Loop through the plugins to compare them with the already stored dismissed plugin conflicts
 	 *
-	 * @param array $posted_plugins
+	 * @param array $posted_plugins Plugin set to check.
 	 */
 	public function compare_plugins( array $posted_plugins ) {
 		foreach ( $posted_plugins as $posted_plugin ) {
@@ -95,12 +95,11 @@ class Yoast_Plugin_Conflict_Ajax {
 	/**
 	 * Check if plugin is already dismissed, if not store it in the array that will be saved later
 	 *
-	 * @param string $posted_plugin
+	 * @param string $posted_plugin Plugin to check against dismissed conflicts.
 	 */
 	private function compare_plugin( $posted_plugin ) {
 		if ( ! in_array( $posted_plugin, $this->dismissed_conflicts ) ) {
 			$this->dismissed_conflicts[] = $posted_plugin;
 		}
 	}
-
 }

@@ -3,10 +3,15 @@
 # Build everything
 build:
   - 'build:js'
+  - 'build:css'
   - 'build:i18n'
 # Build JavaScript from assets to production
 'build:js':
   - 'uglify'
+'build:css':
+  - 'autoprefixer'
+  - 'wpcss'
+  - 'cssmin'
 # Build internationalisation features
 'build:i18n':
   - 'addtextdomain'
