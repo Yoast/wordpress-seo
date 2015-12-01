@@ -35,6 +35,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'company_name'                    => '',
 		'company_or_person'               => '',
 		'disableadvanced_meta'            => true,
+		'onpage_indexability'             => true,
 		'googleverify'                    => '', // Text field.
 		'msverify'                        => '', // Text field.
 		'person_name'                     => '',
