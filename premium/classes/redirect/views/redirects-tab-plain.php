@@ -37,8 +37,7 @@ $form_presenter->display(
 	<?php
 		$quick_edit_table->display(
 			array(
-				'redirect_types' => $redirect_types,
-				'origin_value' => __( 'Old URL', 'wordpress-seo-premium' ),
+				'form_presenter' => $form_presenter,
 				'total_columns'  => $redirect_table->count_columns(),
 			)
 		);

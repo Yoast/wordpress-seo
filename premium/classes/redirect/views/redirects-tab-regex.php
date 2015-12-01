@@ -33,7 +33,6 @@
 		$quick_edit_table->display(
 			array(
 				'redirect_types' => $redirect_types,
-				'origin_value' => __( 'Regular Expression', 'wordpress-seo-premium' ),
 				'total_columns'  => $redirect_table->count_columns(),
 			)
 		);
