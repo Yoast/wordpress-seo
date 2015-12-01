@@ -73,7 +73,7 @@
 	/**
 	 * Clientside validator for the redirect
 	 *
-	 * @param {element} form
+	 * @param {RedirectForm} form
 	 * @param {string} type
 	 */
 	var ValidateRedirect = function( form, type ) {
@@ -445,7 +445,7 @@
 		 */
 		this.update_redirect = function() {
 			// Do the validation.
-			var validateRedirect = new ValidateRedirect( redirectsQuickEdit.getForm(), type );
+			var validateRedirect = new ValidateRedirect( new RedirectForm( redirectsQuickEdit.getForm() ), type );
 			if( validateRedirect.validate() === false ) {
 				return false;
 			}
