@@ -108,7 +108,7 @@ YoastSEO.Analyzer.prototype.initQueue = function() {
 	}
 
 	// Exclude the flesh easy reading score for non-english languages
-	if ( 0 !== this.config.locale.indexOf( "en_" ) && ( fleschReadingIndex = this.queue.indexOf( "fleschReading" ) ) ) {
+	if ( 0 !== YoastSEO.app.config.locale.indexOf( "en_" ) && ( fleschReadingIndex = this.queue.indexOf( "fleschReading" ) ) ) {
 		this.queue.splice( fleschReadingIndex, 1 );
 	}
 };
