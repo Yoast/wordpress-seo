@@ -270,7 +270,7 @@ function wpseo_init() {
 function wpseo_frontend_init() {
 	add_action( 'init', 'initialize_wpseo_front' );
 
-	$options = WPSEO_Options::get( array( 'wpseo_internallinks' ) );
+	$options = WPSEO_Options::get( 'wpseo_internallinks' );
 	if ( $options['breadcrumbs-enable'] === true ) {
 		/**
 		 * If breadcrumbs are active (which they supposedly are if the users has enabled this settings,
@@ -289,7 +289,7 @@ function wpseo_frontend_init() {
  * Instantiate the different social classes on the frontend
  */
 function wpseo_frontend_head_init() {
-	$options = WPSEO_Options::get( array( 'wpseo_social' ) );
+	$options = WPSEO_Options::get(  'wpseo_social'  );
 	if ( $options['twitter'] === true ) {
 		add_action( 'wpseo_head', array( 'WPSEO_Twitter', 'get_instance' ), 40 );
 	}

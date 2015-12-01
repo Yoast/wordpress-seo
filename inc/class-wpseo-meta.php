@@ -262,7 +262,7 @@ class WPSEO_Meta {
 	 */
 	public static function init() {
 
-		$options = WPSEO_Options::get( array( 'wpseo_social' ) );
+		$options = WPSEO_Options::get( 'wpseo_social' );
 		foreach ( self::$social_networks as $option => $network ) {
 			if ( true === $options[ $option ] ) {
 				foreach ( self::$social_fields as $box => $type ) {
@@ -352,7 +352,7 @@ class WPSEO_Meta {
 
 
 			case 'general':
-				$options = WPSEO_Options::get( array( 'wpseo_titles' ) );
+				$options = WPSEO_Options::get( 'wpseo_titles' );
 				if ( $options['usemetakeywords'] === true ) {
 					/* Adjust the link in the keywords description text string based on the post type */
 					$field_defs['metakeywords']['description'] = sprintf( $field_defs['metakeywords']['description'], '<a target="_blank" href="' . esc_url( admin_url( 'admin.php?page=wpseo_titles#top#post_types' ) ) . '">', '</a>' );

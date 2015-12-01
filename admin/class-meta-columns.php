@@ -416,7 +416,7 @@ class WPSEO_Meta_Columns {
 		}
 
 		$post    = get_post( $post_id );
-		$options = WPSEO_Options::get( array( 'wpseo_titles' ) );
+		$options = WPSEO_Options::get( 'wpseo_titles' );
 		if ( is_object( $post ) && ( isset( $options[ 'title-' . $post->post_type ] ) && $options[ 'title-' . $post->post_type ] !== '' ) ) {
 			$title_template = $options[ 'title-' . $post->post_type ];
 			$title_template = str_replace( ' %%page%% ', ' ', $title_template );

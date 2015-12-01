@@ -166,7 +166,7 @@ class WPSEO_Taxonomy {
 	 * @return bool
 	 */
 	private function show_metabox() {
-		$options    = WPSEO_Options::get( array( 'wpseo_titles' ) );
+		$options    = WPSEO_Options::get( 'wpseo_titles' );
 		$option_key = 'hideeditbox-tax-' . $this->taxonomy;
 
 		return ( empty( $options[ $option_key ] ) );
@@ -193,7 +193,7 @@ class WPSEO_Taxonomy {
 		$term     = get_term_by( 'id', $term_id, $this->get_taxonomy() );
 		$focuskw  = WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'focuskw' );
 		$taxonomy = get_taxonomy( $term->taxonomy );
-		$options  = WPSEO_Options::get( array( 'wpseo_permalinks' ) );
+		$options  = WPSEO_Options::get( 'wpseo_permalinks' );
 
 		$base_url = home_url( '/', null );
 		if ( ! $options['stripcategorybase'] ) {
@@ -222,7 +222,7 @@ class WPSEO_Taxonomy {
 	 * @return string
 	 */
 	public static function get_title_template( $term ) {
-		$options        = WPSEO_Options::get( array( 'wpseo_titles' ) );
+		$options        = WPSEO_Options::get( 'wpseo_titles' );
 		$title_template = '';
 		if ( is_object( $term ) && property_exists( $term, 'taxonomy' ) ) {
 			$needed_option = 'title-tax-' . $term->taxonomy;
