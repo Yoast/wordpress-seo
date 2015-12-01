@@ -56,7 +56,7 @@ class WPSEO_Admin_Pages {
 	 * Loads the required scripts for the config page.
 	 */
 	function config_page_scripts() {
-		wp_enqueue_script( 'wpseo-admin-script', plugins_url( 'js/wp-seo-admin-' . '302' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array(
+		wp_enqueue_script( 'wpseo-admin-script', plugins_url( 'js/wp-seo-admin-' . '306' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array(
 			'jquery',
 			'jquery-ui-core',
 			'jquery-ui-progressbar',
