@@ -1912,7 +1912,7 @@ YoastSEO.PreProcessor.prototype.textFormat = function() {
 	this.__store.cleanText = this.cleanText( this.__store.originalText );
 	this.__store.cleanTextSomeTags = this.stringHelper.stripSomeTags( this.__store.cleanText );
 	this.__store.cleanTextNoTags = this.stringHelper.stripAllTags( this.__store.cleanTextSomeTags );
-	this.__store.cleanTextNoDigits = this.stringHelper.stripNumbers( this.__store.cleanTextNoTags );
+	this.__store.cleanTextNoDigits = this.stringHelper.stripNonWords( this.__store.cleanTextNoTags );
 };
 
 /**
@@ -2057,12 +2057,6 @@ YoastSEO.PreProcessor.prototype.cleanText = function( textString ) {
 
 		// Remove some HTML entities as first action
 		textString = textString.replace( "&nbsp;", " " );
-
-		// replace comma', hyphens etc with spaces
-		textString = textString.replace( /[\-\;\:\,\(\)\"\'\|\“\”]/g, " " );
-
-		// remove apostrophe
-		textString = textString.replace( /[\’]/g, "" );
 
 		// unify all terminators
 		textString = textString.replace( /[.?!]/g, "." );
@@ -2841,11 +2835,17 @@ YoastSEO.StringHelper.prototype.stripAllTags = function( textString ) {
 };
 
 /**
- * removes all words comprised only of numbers.
+ * Removes all words comprised only of numbers and remove special characters.
  * @param textString {String}
  * @returns {string}
  */
-YoastSEO.StringHelper.prototype.stripNumbers = function( textString ) {
+YoastSEO.StringHelper.prototype.stripNonWords = function( textString ) {
+
+	// replace comma', hyphens etc with spaces
+	textString = textString.replace( /[\-\;\:\,\(\)\"\'\|\“\”]/g, " " );
+
+	// remove apostrophe
+	textString = textString.replace( /[\’]/g, "" );
 
 	// Remove "words" comprised only of numbers
 	textString = textString.replace( this.getWordBoundaryRegex( "[0-9]+" ), "$1$3" );
