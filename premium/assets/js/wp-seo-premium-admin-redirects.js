@@ -407,9 +407,11 @@
 				{
 					action: 'wpseo_add_redirect_' + type,
 					ajax_nonce: $( '.wpseo_redirects_ajax_nonce' ).val(),
-					old_url: encodeURIComponent( redirect_values.origin ),
-					new_url: encodeURIComponent( redirect_values.target ),
-					type: redirect_values.type
+					redirect: {
+						origin: encodeURIComponent( redirect_values.origin ),
+						target: encodeURIComponent( redirect_values.target ),
+						type: redirect_values.type
+					}
 				},
 				function( response ) {
 					if (response.error) {
