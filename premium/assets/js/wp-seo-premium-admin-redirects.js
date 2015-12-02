@@ -77,7 +77,7 @@
 	 * @param {string} type
 	 */
 	var ValidateRedirect = function( form, type ) {
-		this.form = (form.isPrototypeOf( 'RedirectForm')) ? form : new RedirectForm(form);
+		this.form = form;
 		this.type = type;
 		this.validation_error = '';
 	};
