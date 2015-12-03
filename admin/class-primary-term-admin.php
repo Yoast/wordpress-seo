@@ -88,13 +88,6 @@ class WPSEO_Primary_Term_Admin {
 	}
 
 	/**
-	 * Include templates file
-	 */
-	protected function include_js_templates() {
-		include_once WPSEO_PATH . '/admin/views/js-templates-primary-term.php';
-	}
-
-	/**
 	 * Returns all the taxonomies for which the primary term selection is enabled
 	 *
 	 * @param int $post_ID Default current post ID.
@@ -128,6 +121,13 @@ class WPSEO_Primary_Term_Admin {
 		wp_cache_set( 'primary_term_taxonomies_' . $post_ID, $taxonomies, 'wpseo' );
 
 		return $taxonomies;
+	}
+
+	/**
+	 * Include templates file
+	 */
+	protected function include_js_templates() {
+		include_once WPSEO_PATH . '/admin/views/js-templates-primary-term.php';
 	}
 
 	/**

@@ -35,7 +35,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 <script type="text/html" id="tmpl-primary-term-screen-reader">
 	<span class="screen-reader-text wpseo-primary-category-label"><?php
 		printf(
-			/* translators: %s is the taxonomy title. */
+			/* translators: %s is the taxonomy title. This will be shown to screenreaders */
 			'(' . __( 'Primary %s', 'wordpress-seo' ) . ')',
 			'{{data.taxonomy.title}}'
 		);
