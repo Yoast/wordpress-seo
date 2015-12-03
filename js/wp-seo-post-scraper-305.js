@@ -503,7 +503,8 @@
 				bindElementEvents: postScraper.bindElementEvents.bind( postScraper ),
 				updateSnippetValues: postScraper.updateSnippet.bind( postScraper ),
 				saveScores: postScraper.saveScores.bind( postScraper )
-			}
+			},
+			locale: wpseoPostScraperL10n.locale
 		};
 
 		// If there are no translations let the analyzer fallback onto the english translations.

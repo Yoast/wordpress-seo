@@ -383,7 +383,8 @@
 				bindElementEvents: termScraper.bindElementEvents.bind( termScraper ),
 				updateSnippetValues: termScraper.updateSnippet.bind( termScraper ),
 				saveScores: termScraper.saveScores.bind( termScraper )
-			}
+			},
+			locale: wpseoTermScraperL10n.locale
 		};
 
 		// If there are no translations let the analyzer fallback onto the english translations.
