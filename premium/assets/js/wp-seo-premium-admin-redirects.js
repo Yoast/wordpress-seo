@@ -395,7 +395,8 @@
 		 */
 		this.add_redirect = function() {
 			// Do the validation.
-			var validateRedirect = new ValidateRedirect( new RedirectForm( $( '.wpseo-new-redirect-form' ) ), type );
+			var redirectForm     = new RedirectForm( $( '.wpseo-new-redirect-form' ) );
+			var validateRedirect = new ValidateRedirect( redirectForm, type );
 			if( validateRedirect.validate() === false ) {
 				return false;
 			}
@@ -421,14 +422,14 @@
 					}
 
 					// Empty the form fields.
-					validateRedirect.getOriginField().val( '' );
-					validateRedirect.getTargetField().val( '' );
+					redirectForm.getOriginField().val( '' );
+					redirectForm.getTargetField().val( '' );
 
 					// Remove the no items row
 					that.find( '.no-items' ).remove();
 
 					// Creating tr
-					var tr = that.create_redirect_row(response.old_redirect, response.new_redirect, response.redirect_type );
+					var tr = that.create_redirect_row( response.origin, response.target, response.type );
 
 					// Add the new row
 					$('form#' + type).find('#the-list').prepend(tr);
@@ -447,15 +448,16 @@
 		 */
 		this.update_redirect = function() {
 			// Do the validation.
-			var validateRedirect = new ValidateRedirect( new RedirectForm( redirectsQuickEdit.getForm() ), type );
+			var redirectForm     = new RedirectForm( redirectsQuickEdit.getForm() );
+			var validateRedirect = new ValidateRedirect( redirectForm, type );
 			if( validateRedirect.validate() === false ) {
 				return false;
 			}
 
-			// Setting the vars for the row and its values.
-			var row = redirectsQuickEdit.getRow();
 			var redirect_values = validateRedirect.getFormValues();
 
+			// Setting the vars for the row and its values.
+			var row = redirectsQuickEdit.getRow();
 			var table_cells = this.row_cells( row );
 
 			// Post the request.
@@ -463,10 +465,14 @@
 				{
 					action: 'wpseo_update_redirect_' + type,
 					ajax_nonce: $( '.wpseo_redirects_ajax_nonce' ).val(),
-					old_redirect: encodeURIComponent( table_cells.origin.html().toString() ),
+					old_redirect: {
+						origin: encodeURIComponent( table_cells.origin.html() ),
+						target: encodeURIComponent( table_cells.target.html() ),
+						type: encodeURIComponent( table_cells.type.html() )
+					},
 					new_redirect: {
-						key: encodeURIComponent( redirect_values.origin ),
-						value: encodeURIComponent( redirect_values.target ),
+						origin: encodeURIComponent( redirect_values.origin ),
+						target: encodeURIComponent( redirect_values.target ),
 						type: encodeURIComponent( redirect_values.type )
 					}
 				},
@@ -478,9 +484,9 @@
 					}
 
 					// Updates the table cells.
-					table_cells.origin.html( response.old_redirect );
-					table_cells.target.html( redirect_values.target );
-					table_cells.type.html( redirect_values.type );
+					table_cells.origin.html( response.origin );
+					table_cells.target.html( response.target );
+					table_cells.type.html( response.type );
 
 					redirectsQuickEdit.hide();
 
@@ -503,7 +509,11 @@
 				{
 					action:     'wpseo_delete_redirect_' + type,
 					ajax_nonce: $( '.wpseo_redirects_ajax_nonce' ).val(),
-					redirect:   row_values.origin.html().toString()
+					redirect: {
+						origin: encodeURIComponent( row_values.origin.html() ),
+						target: encodeURIComponent( row_values.target.html() ),
+						type: encodeURIComponent( row_values.type.html() )
+					}
 				},
 				function() {
 					// When the redirect is removed, just fade out the row and remove it after its faded
