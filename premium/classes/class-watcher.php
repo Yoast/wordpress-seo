@@ -60,9 +60,11 @@ abstract class WPSEO_Watcher {
 		// Get the site URL.
 		$site = parse_url( get_site_url() );
 
-		if ( $old_url != $new_url && $old_url != '/' && ( ! isset( $site['path'] ) || ( isset( $site['path'] ) && $old_url != $site['path'] . '/' ) ) ) {
+		if ( $old_url !== $new_url && $old_url !== '/' && ( ! isset( $site['path'] ) || ( isset( $site['path'] ) && $old_url !== $site['path'] . '/' ) ) ) {
 			return true;
 		}
+
+		return false;
 	}
 
 	/**
