@@ -181,8 +181,8 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 	protected function get_undo_slug_notification() {
 		/* translators %1$s: Yoast SEO Premium, %2$s: <a href='{admin_redirect_url}'>, %3$s: <a href='{undo_redirect_url}'> and %4$s: </a> */
 		$undo_message = __(
-				'%1$s created a %2$sredirect%4$s from the old term URL to the new term URL. %3$sClick here to undo this%4$s.',
-				'wordpress-seo-premium'
+			'%1$s created a %2$sredirect%4$s from the old term URL to the new term URL. %3$sClick here to undo this%4$s.',
+			'wordpress-seo-premium'
 		);
 
 		return $undo_message;
@@ -196,8 +196,8 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 	protected function get_delete_notification() {
 		/* translators %1$s expands to Yoast SEO Premium, %2$s expands to <a href='{create_redirect_url}'> and %3$s </a> */
 		return __(
-				'%1$s detected that you deleted a term. %2$sClick here to create a redirect from the old term URL%3$s.',
-				'wordpress-seo-premium'
+			'%1$s detected that you deleted a term. %2$sClick here to create a redirect from the old term URL%3$s.',
+			'wordpress-seo-premium'
 		);
 	}
 
