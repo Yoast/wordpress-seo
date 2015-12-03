@@ -42,25 +42,15 @@ class WPSEO_Redirect_Ajax {
 		$this->valid_ajax_check();
 
 		// Save the redirect.
-		$old_url_post = filter_input( INPUT_POST, 'old_url', FILTER_DEFAULT, $this->filter_options );
-		$new_url_post = filter_input( INPUT_POST, 'new_url', FILTER_DEFAULT, $this->filter_options );
-		$type         = filter_input( INPUT_POST, 'type', FILTER_DEFAULT, $this->filter_options );
-
-		$redirect = new WPSEO_Redirect(
-			$this->sanitize_url( $old_url_post ),
-			$this->sanitize_url( $new_url_post ),
-			urldecode( $type ),
-			$this->redirect_format
-		);
-
+		$redirect  = $this->get_redirect_from_post( 'redirect' );
 		$validator = new WPSEO_Redirect_Validator();
 
 		// The method always returns the added redirect.
 		if ( $validator->validate( $redirect ) && $this->redirect_manager->create_redirect( $redirect ) ) {
 			$response = array(
-				'old_redirect'  => $redirect->get_origin(),
-				'new_redirect'  => $redirect->get_target(),
-				'redirect_type' => $redirect->get_type(),
+				'origin' => $redirect->get_origin(),
+				'target' => $redirect->get_target(),
+				'type'   => $redirect->get_type(),
 			);
 		}
 
@@ -68,7 +58,7 @@ class WPSEO_Redirect_Ajax {
 		$response['error'] = $validator->get_error();
 
 		// Response.
-		wp_die( json_encode( $response ) );
+		wp_die( WPSEO_Utils::json_encode( $response ) );
 	}
 
 	/**
@@ -78,24 +68,16 @@ class WPSEO_Redirect_Ajax {
 
 		$this->valid_ajax_check();
 
-		$current_redirect  = filter_input( INPUT_POST, 'old_redirect', FILTER_DEFAULT, $this->filter_options );
-		$new_redirect_post = filter_input( INPUT_POST, 'new_redirect', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY );
-
-		$redirect     = new WPSEO_Redirect(
-			$this->sanitize_url( $new_redirect_post['key'] ),
-			$this->sanitize_url( $new_redirect_post['value'] ),
-			urldecode( $new_redirect_post['type'] ),
-			$this->redirect_format
-		);
-
-		$current_redirect = $this->redirect_manager->get_redirect( $this->sanitize_url( $current_redirect ) );
-
-		$validator = new WPSEO_Redirect_Validator();
+		$current_redirect = $this->get_redirect_from_post( 'old_redirect' );
+		$new_redirect     = $this->get_redirect_from_post( 'new_redirect' );
+		$validator        = new WPSEO_Redirect_Validator();
 
 		// The method always returns the added redirect.
-		if ( $validator->validate( $redirect, $current_redirect ) && $this->redirect_manager->update_redirect( $current_redirect, $redirect ) ) {
+		if ( $validator->validate( $new_redirect, $current_redirect ) && $this->redirect_manager->update_redirect( $current_redirect, $new_redirect ) ) {
 			$response = array(
-				'old_redirect' => $redirect->get_origin(),
+				'origin' => $new_redirect->get_origin(),
+				'target' => $new_redirect->get_target(),
+				'type'   => $new_redirect->get_type(),
 			);
 		}
 
@@ -103,7 +85,7 @@ class WPSEO_Redirect_Ajax {
 		$response['error'] = $validator->get_error();
 
 		// Response.
-		wp_die( json_encode( $response ) );
+		wp_die( WPSEO_Utils::json_encode( $response ) );
 	}
 
 	/**
@@ -115,8 +97,7 @@ class WPSEO_Redirect_Ajax {
 
 		$response = array();
 
-		$redirect_post    = filter_input( INPUT_POST, 'redirect', FILTER_DEFAULT, $this->filter_options );
-		$current_redirect = $this->redirect_manager->get_redirect( $this->sanitize_url( $redirect_post ) );
+		$current_redirect = $this->get_redirect_from_post( 'redirect' );
 
 		// Delete the redirect.
 		if ( ! empty( $current_redirect ) ) {
@@ -124,7 +105,7 @@ class WPSEO_Redirect_Ajax {
 		}
 
 		// Response.
-		wp_die( json_encode( $response ) );
+		wp_die( WPSEO_Utils::json_encode( $response ) );
 	}
 
 	/**
@@ -165,6 +146,24 @@ class WPSEO_Redirect_Ajax {
 		if ( ! current_user_can( 'edit_posts' ) ) {
 			wp_die( '0' );
 		}
+	}
+
+	/**
+	 * Get the redirect from the post values
+	 *
+	 * @param string $post_value The key where the post values are located in the $_POST.
+	 *
+	 * @return WPSEO_Redirect
+	 */
+	private function get_redirect_from_post( $post_value ) {
+		$post_values = filter_input( INPUT_POST, $post_value, FILTER_DEFAULT, FILTER_REQUIRE_ARRAY );
+
+		return new WPSEO_Redirect(
+			$this->sanitize_url( $post_values['origin'] ),
+			$this->sanitize_url( $post_values['target'] ),
+			urldecode( $post_values['type'] ),
+			$this->redirect_format
+		);
 	}
 
 	/**
