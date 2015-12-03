@@ -31,10 +31,6 @@ class WPSEO_Primary_Term_Admin {
 		}
 	}
 
-	protected function include_js_templates() {
-		include_once WPSEO_PATH . '/admin/views/js-templates-primary-term.php';
-	}
-
 	/**
 	 * Enqueues all the assets needed for the primary term interface
 	 *
@@ -92,6 +88,49 @@ class WPSEO_Primary_Term_Admin {
 	}
 
 	/**
+	 * Include templates file
+	 */
+	protected function include_js_templates() {
+		include_once WPSEO_PATH . '/admin/views/js-templates-primary-term.php';
+	}
+
+	/**
+	 * Returns all the taxonomies for which the primary term selection is enabled
+	 *
+	 * @param int $post_ID Default current post ID.
+	 * @return array
+	 */
+	protected function get_primary_term_taxonomies( $post_ID = null ) {
+
+		if ( null === $post_ID ) {
+			$post_ID = get_the_ID();
+		}
+
+		if ( false !== ( $taxonomies = wp_cache_get( 'primary_term_taxonomies_' . $post_ID, 'wpseo' ) ) ) {
+			return $taxonomies;
+		}
+
+		$post_type      = get_post_type( $post_ID );
+		$all_taxonomies = get_object_taxonomies( $post_type, 'objects' );
+		$all_taxonomies = array_filter( $all_taxonomies, array( $this, 'filter_hierarchical_taxonomies' ) );
+		$taxonomies     = array_filter( $all_taxonomies, array( $this, 'filter_category_taxonomy' ) );
+
+		/**
+		 * Filters which taxonomies for which the user can choose the primary term. Only category is enabled by default.
+		 *
+		 * @api array    $taxonomies An array of taxonomy objects that are primary_term enabled.
+		 * @param string $post_type The post type for which to filter the taxonomies.
+		 * @param array  $all_taxonomies All taxonomies for this post types, even ones that don't have primary term
+		 *                              enabled.
+		 */
+		$taxonomies = (array) apply_filters( 'wpseo_primary_term_taxonomies', $taxonomies, $post_type, $all_taxonomies );
+
+		wp_cache_set( 'primary_term_taxonomies_' . $post_ID, $taxonomies, 'wpseo' );
+
+		return $taxonomies;
+	}
+
+	/**
 	 * Returns an array suitable for use in the javascript
 	 *
 	 * @param stdClass $taxonomy The taxonomy to map.
@@ -137,42 +176,6 @@ class WPSEO_Primary_Term_Admin {
 			$primary_term_object = new WPSEO_Primary_Term( $taxonomy->name, $post_ID );
 			$primary_term_object->set_primary_term( $primary_term );
 		}
-	}
-
-	/**
-	 * Returns all the taxonomies for which the primary term selection is enabled
-	 *
-	 * @param int $post_ID Default current post ID.
-	 * @return array
-	 */
-	protected function get_primary_term_taxonomies( $post_ID = null ) {
-
-		if ( null === $post_ID ) {
-			$post_ID = get_the_ID();
-		}
-
-		if ( false !== ( $taxonomies = wp_cache_get( 'primary_term_taxonomies_' . $post_ID, 'wpseo' ) ) ) {
-			return $taxonomies;
-		}
-
-		$post_type      = get_post_type( $post_ID );
-		$all_taxonomies = get_object_taxonomies( $post_type, 'objects' );
-		$all_taxonomies = array_filter( $all_taxonomies, array( $this, 'filter_hierarchical_taxonomies' ) );
-		$taxonomies     = array_filter( $all_taxonomies, array( $this, 'filter_category_taxonomy' ) );
-
-		/**
-		 * Filters which taxonomies for which the user can choose the primary term. Only category is enabled by default.
-		 *
-		 * @api array    $taxonomies An array of taxonomy objects that are primary_term enabled.
-		 * @param string $post_type The post type for which to filter the taxonomies.
-		 * @param array  $all_taxonomies All taxonomies for this post types, even ones that don't have primary term
-		 *                              enabled.
-		 */
-		$taxonomies = (array) apply_filters( 'wpseo_primary_term_taxonomies', $taxonomies, $post_type, $all_taxonomies );
-
-		wp_cache_set( 'primary_term_taxonomies_' . $post_ID, $taxonomies, 'wpseo' );
-
-		return $taxonomies;
 	}
 
 	/**
