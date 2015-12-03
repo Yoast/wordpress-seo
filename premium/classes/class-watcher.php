@@ -23,7 +23,7 @@ abstract class WPSEO_Watcher {
 	 *
 	 * @return string
 	 */
-	abstract protected function get_undo_notification();
+	abstract protected function get_undo_slug_notification();
 
 	/**
 	 * Returns the undo notification text for the given watcher
@@ -88,6 +88,25 @@ abstract class WPSEO_Watcher {
 	}
 
 	/**
+	 * Returns the string to the javascript method from where the added redirect can be undone
+	 *
+	 * @param WPSEO_Redirect $redirect The redirect that will be deleted.
+	 * @param string         $id       ID of the notice that is displayed.
+	 *
+	 * @return string
+	 */
+	protected function javascript_undo_redirect( WPSEO_Redirect $redirect, $id ) {
+		return sprintf(
+			'javascript:wpseo_undo_redirect( "%1$s", "%2$s", "%3$s", "%4$s", "%5$s" );',
+			urlencode( $redirect->get_origin() ),
+			urlencode( $redirect->get_target() ),
+			urlencode( $redirect->get_type() ),
+			wp_create_nonce( 'wpseo-redirects-ajax-security' ),
+			esc_attr( $id )
+		);
+	}
+
+	/**
 	 * Opens the redirect manager and create the redirect
 	 *
 	 * @param string $old_url     The url that will be redirected.
@@ -116,20 +135,12 @@ abstract class WPSEO_Watcher {
 	 * @return string
 	 */
 	protected function javascript_create_redirect( $url, $id ) {
-		return 'javascript:wpseo_create_redirect("' . urlencode( $url ) . '", "' . wp_create_nonce( 'wpseo-redirects-ajax-security' ) . '","' . esc_attr( $id ) . '");';
-	}
-
-	/**
-	 * Returns the string to the javascript method from where the added redirect can be undone
-	 *
-	 * @param string $old_url The old url that can be deleted.
-	 * @param string $id      ID of the notice that is displayed.
-	 *
-	 * @return string
-	 */
-	protected function javascript_undo_redirect( $old_url, $id ) {
-		return 'javascript:wpseo_undo_redirect("' . urlencode( $old_url ) . '", "' . wp_create_nonce( 'wpseo-redirects-ajax-security' ) . '","' . esc_attr( $id ) . '");';
-	}
+		return sprintf(
+			'javascript:wpseo_create_redirect( "%1$s", "%2$s", "%3$s" );',
+			urlencode( $url ),
+			wp_create_nonce( 'wpseo-redirects-ajax-security' ),
+			esc_attr( $id )
+		);}
 
 	/**
 	 * Return the url to the admin page where the just added redirect can be found
@@ -140,6 +151,42 @@ abstract class WPSEO_Watcher {
 	 */
 	protected function admin_redirect_url( $old_url ) {
 		return admin_url( 'admin.php?page=wpseo_redirects&s=' . urlencode( $old_url ) );
+	}
+
+	/**
+	 * There might be the possibility to undo the redirect, if it is so, we have to notify the user.
+	 *
+	 * @param string $old_url The origin url.
+	 * @param string $new_url The target url.
+	 */
+	protected function notify_undo_slug_redirect( $old_url, $new_url ) {
+		// Check if we should create a redirect.
+		if ( $this->should_create_redirect( $old_url, $new_url ) ) {
+			$redirect = $this->create_redirect( $old_url, $new_url );
+
+			$this->set_undo_slug_notification( $redirect );
+		}
+	}
+
+	/**
+	 * Display the undo notification
+	 *
+	 * @param WPSEO_Redirect $redirect The old url to the post.
+	 */
+	protected function set_undo_slug_notification( WPSEO_Redirect $redirect ) {
+		$id = 'wpseo_undo_redirect_' . md5( $redirect->get_origin() );
+
+		// Format the message.
+		$message = sprintf(
+			$this->get_undo_slug_notification(),
+			'Yoast SEO Premium',
+			'<a target="_blank" href="' . $this->admin_redirect_url( $redirect->get_origin() ) . '">',
+			'<a href=\'' . $this->javascript_undo_redirect( $redirect, $id ). '\'>',
+			'</a>'
+		);
+
+		// Only set notification when the slug change was not saved through quick edit.
+		$this->create_notification( $message, 'slug_change', $id );
 	}
 
 }

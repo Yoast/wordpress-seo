@@ -84,12 +84,8 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 		// Get the new URL.
 		$new_url = $this->get_target_url( $post_id );
 
-		// Check if we should create a redirect.
-		if ( $this->should_create_redirect( $old_url, $new_url ) ) {
-			$this->create_redirect( $old_url, $new_url );
-
-			$this->set_notification( $old_url, $new_url );
-		}
+		// Maybe we can undo the created redirect.
+		$this->notify_undo_slug_redirect( $old_url, $new_url );
 	}
 
 	/**
@@ -283,29 +279,6 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	}
 
 	/**
-	 * Display notification
-	 *
-	 * @param string $old_url The old url to the post.
-	 * @param string $new_url Unused. The new generated redirect url.
-	 */
-	protected function set_notification( $old_url, $new_url ) {
-		$id = 'wpseo_redirect_' . md5( $old_url );
-
-		// Format the message.
-		/* translators %1$s: Yoast SEO Premium, %2$s: <a href='{admin_redirect_url}'>, %3$s: <a href='{undo_redirect_url}'> and %4$s: </a> */
-		$message = sprintf(
-			__( '%1$s created a %2$sredirect%4$s from the old post URL to the new post URL. %3$sClick here to undo this%4$s.', 'wordpress-seo-premium' ),
-			'Yoast SEO Premium',
-			'<a target="_blank" href="' . $this->admin_redirect_url( $old_url ) . '">',
-			'<a href=\'' . $this->javascript_undo_redirect( $old_url, $id ). '\'>',
-			'</a>'
-		);
-
-		// Only set notification when the slug change was not saved through quick edit.
-		$this->create_notification( $message, 'slug_change', $id );
-	}
-
-	/**
 	 * Setting the hooks for the post watcher
 	 */
 	protected function set_hooks() {
@@ -326,6 +299,19 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 
 		// Detect a post delete.
 		add_action( 'before_delete_post', array( $this, 'detect_post_delete' ) );
+	}
+
+	/**
+	 * Returns the undo message for the post.
+	 *
+	 * @return string
+	 */
+	protected function get_undo_slug_notification() {
+		/* translators %1$s: Yoast SEO Premium, %2$s: <a href='{admin_redirect_url}'>, %3$s: <a href='{undo_redirect_url}'> and %4$s: </a> */
+		return __(
+				'%1$s created a %2$sredirect%4$s from the old post URL to the new post URL. %3$sClick here to undo this%4$s.',
+				'wordpress-seo-premium'
+		);
 	}
 
 }
