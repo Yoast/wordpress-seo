@@ -536,6 +536,11 @@ class WPSEO_Admin {
 			return $slug;
 		}
 
+		// Don't change the slug if this is a multisite installation and the site has been switched.
+		if ( is_multisite() && ms_is_switched() ) {
+			return $slug;
+		}
+
 		// Don't change slug if the post is a draft, this conflicts with polylang.
 		// Doesn't work with filter_input() since need current value, not originally submitted one.
 		if ( 'draft' === $_POST['post_status'] ) {
