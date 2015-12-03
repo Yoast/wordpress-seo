@@ -104,14 +104,7 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 			// Get the URL.
 			$url = $this->get_target_url( get_term( $term_row->term_id, $term_row->taxonomy ), $term_row->taxonomy );
 
-			$id = 'wpseo_create_redirect_' . md5( $url );
-
-			// Format the message.
-			/* translators %1$s expands to Yoast SEO Premium, %2$s expands to <a href='{create_redirect_url}'> and %3$s </a> */
-			$message = sprintf( __( '%1$s detected that you deleted a term. %2$sClick here to create a redirect from the old term URL%3$s.', 'wordpress-seo-premium' ), 'Yoast SEO Premium', '<a href=\''. $this->javascript_create_redirect( $url, $id ) . '\'>', '</a>' );
-
-			$this->create_notification( $message, 'delete', $id );
-
+			$this->set_delete_notification( $url );
 		}
 	}
 
@@ -159,7 +152,7 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 	/**
 	 * Setting the hooks for the term watcher
 	 */
-	private function set_hooks() {
+	protected function set_hooks() {
 		// Get all taxonomies.
 		$taxonomies = get_taxonomies();
 
@@ -193,6 +186,19 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 		);
 
 		return $undo_message;
+	}
+
+	/**
+	 * Returns the delete message for the term.
+	 *
+	 * @return string
+	 */
+	protected function get_delete_notification() {
+		/* translators %1$s expands to Yoast SEO Premium, %2$s expands to <a href='{create_redirect_url}'> and %3$s </a> */
+		return __(
+				'%1$s detected that you deleted a term. %2$sClick here to create a redirect from the old term URL%3$s.',
+				'wordpress-seo-premium'
+		);
 	}
 
 }

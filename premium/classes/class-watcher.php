@@ -88,6 +88,25 @@ abstract class WPSEO_Watcher {
 	}
 
 	/**
+	 * Display the delete notification.
+	 *
+	 * @param string $url The redirect that will be deleted.
+	 */
+	protected function set_delete_notification( $url ) {
+		$id = 'wpseo_delete_redirect_' . md5( $url );
+
+		// Format the message.
+		$message = sprintf(
+			$this->get_delete_notification(),
+			'Yoast SEO Premium',
+			'<a href=\''. $this->javascript_create_redirect( $url, $id ) . '\'>',
+			'</a>'
+		);
+
+		$this->create_notification( $message, 'delete', $id );
+	}
+
+	/**
 	 * Returns the string to the javascript method from where the added redirect can be undone
 	 *
 	 * @param WPSEO_Redirect $redirect The redirect that will be deleted.
