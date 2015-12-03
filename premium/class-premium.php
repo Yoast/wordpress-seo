@@ -575,7 +575,7 @@ class WPSEO_Premium {
 	/**
 	 * Loads the autoloader
 	 */
-	private static function autoloader() {
+	public static function autoloader() {
 
 		if ( ! class_exists( 'WPSEO_Premium_Autoloader', false ) ) {
 			// Setup autoloader.
