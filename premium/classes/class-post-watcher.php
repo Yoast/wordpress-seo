@@ -9,11 +9,7 @@
 class WPSEO_Post_Watcher extends WPSEO_Watcher {
 
 	/**
-	 * Type of watcher.
-	 *
-	 * This will be used for the filters.
-	 *
-	 * @var string
+	 * @var string Type of watcher, will be used for the filters.
 	 */
 	protected $watch_type = 'post';
 
@@ -42,13 +38,12 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	 */
 	public function old_url_field( $post ) {
 		// $post must be set.
-		if ( null != $post ) {
+		if ( null !== $post ) {
 			$url = $this->get_target_url( $post->ID );
 
 			echo $this->parse_url_field( $url, 'post' );
 		}
 	}
-
 
 	/**
 	 * Detect if the slug changed, hooked into 'post_updated'
@@ -153,16 +148,16 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	 */
 	public function detect_post_untrash( $post_id ) {
 
-		if ( $url = $this->check_if_redirect_needed( $post_id, true ) ) {
+		if ( $redirect = $this->check_if_redirect_needed( $post_id, true ) ) {
 
-			$id = 'wpseo_undo_redirect_' . md5( $url );
+			$id = 'wpseo_undo_redirect_' . md5( $redirect->get_origin() );
 
 			// Format the message.
 			/* translators %1$s: Yoast SEO Premium, %2$s: <a href='{undo_redirect_url}'>, %3$s: </a> */
 			$message = sprintf(
 				__( '%1$s detected that you restored a post from the trash. %2$sClick here to remove the redirect%3$s.', 'wordpress-seo-premium' ),
 				'Yoast SEO Premium',
-				'<a href=\'' . $this->javascript_undo_redirect( $url, $id ). '\'>',
+				'<a href=\'' . $this->javascript_undo_redirect( $redirect, $id ). '\'>',
 				'</a>'
 			);
 
@@ -209,10 +204,10 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	 *
 	 * @return bool
 	 */
-	public function check_if_redirect_exists( $url ) {
+	protected function get_redirect( $url ) {
 		$redirect_manager = new WPSEO_Redirect_Manager();
 
-		return is_a( $redirect_manager->get_redirect( $url ), 'WPSEO_Redirect' );
+		return $redirect_manager->get_redirect( $url );
 	}
 
 	/**
@@ -223,7 +218,7 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	 * @param integer $post_id      The current post ID.
 	 * @param bool    $should_exist Boolean to determine if the url should be exist as a redirect.
 	 *
-	 * @return string|void
+	 * @return WPSEO_Redirect|string|void
 	 */
 	protected function check_if_redirect_needed( $post_id, $should_exist = false ) {
 
@@ -235,12 +230,17 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 			// If $url is not a single /, there may be the option to create a redirect.
 			if ( $url !== '/' ) {
 				// Message should only be shown if there isn't already a redirect.
-				if ( $this->check_if_redirect_exists( $url ) === $should_exist ) {
-					return $url;
+				$redirect = $this->get_redirect( $url );
+
+				if ( is_a( $redirect, 'WPSEO_Redirect' ) === $should_exist ) {
+					if ( $should_exist === false  ) {
+						return $url;
+					}
+
+					return $redirect;
 				}
 			}
 		}
-
 	}
 
 	/**
@@ -308,7 +308,7 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	/**
 	 * Setting the hooks for the post watcher
 	 */
-	private function set_hooks() {
+	protected function set_hooks() {
 		add_action( 'admin_enqueue_scripts', array( $this, 'page_scripts' ) );
 
 		// Add old URL field to post edit screen.
