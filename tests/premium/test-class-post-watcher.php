@@ -14,7 +14,7 @@ class WPSEO_Post_Watcher_Test extends WPSEO_UnitTestCase {
      */
     public function setUp() {
         parent::setUp();
-        $this->class_instance = $this->getMock( 'WPSEO_Post_Watcher', array( 'get_old_url', 'set_undo_notification', 'get_target_url' ) );
+        $this->class_instance = $this->getMock( 'WPSEO_Post_Watcher', array( 'get_old_url', 'set_undo_slug_notification', 'get_target_url' ) );
     }
 
     /**
@@ -29,7 +29,7 @@ class WPSEO_Post_Watcher_Test extends WPSEO_UnitTestCase {
 
         $this->class_instance
             ->expects( $this->never() )
-            ->method('set_undo_notification');
+            ->method('set_undo_slug_notification');
 
 
         $post = (object) array(
@@ -62,7 +62,7 @@ class WPSEO_Post_Watcher_Test extends WPSEO_UnitTestCase {
 
         $this->class_instance
             ->expects( $this->once() )
-            ->method( 'set_undo_notification' );
+            ->method( 'set_undo_slug_notification' );
 
         $post = (object) array(
             'ID' => 1,
@@ -94,7 +94,7 @@ class WPSEO_Post_Watcher_Test extends WPSEO_UnitTestCase {
 
         $this->class_instance
             ->expects( $this->never() )
-            ->method( 'set_undo_notification' );
+            ->method( 'set_undo_slug_notification' );
 
         $post = (object) array(
             'ID' => 1,
