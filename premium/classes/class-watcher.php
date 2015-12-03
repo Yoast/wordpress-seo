@@ -9,6 +9,30 @@
 abstract class WPSEO_Watcher {
 
 	/**
+	 * @var string The type to watch for.
+	 */
+	protected $watch_type;
+
+	/**
+	 * The hooks being set for the given watcher
+	 */
+	abstract protected function set_hooks();
+
+	/**
+	 * Returns the undo notification text for the given watcher
+	 *
+	 * @return string
+	 */
+	abstract protected function get_undo_notification();
+
+	/**
+	 * Returns the undo notification text for the given watcher
+	 *
+	 * @return string
+	 */
+	abstract protected function get_delete_notification();
+
+	/**
 	 * Parses the hidden field with the old url to show in the form
 	 *
 	 * @param string $url  The old url.
