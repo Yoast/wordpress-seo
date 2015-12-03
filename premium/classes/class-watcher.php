@@ -93,13 +93,18 @@ abstract class WPSEO_Watcher {
 	 * @param string $old_url     The url that will be redirected.
 	 * @param string $new_url     The url where the old_url redirects to.
 	 * @param int    $header_code The redirect type.
+	 *
+	 * @return WPSEO_Redirect
 	 */
 	protected function create_redirect( $old_url, $new_url, $header_code = 301 ) {
 		// The URL redirect manager.
 		$redirect_manager = new WPSEO_Redirect_Manager();
+		$redirect         = new WPSEO_Redirect( $old_url, $new_url, $header_code );
 
 		// Create the redirect.
-		$redirect_manager->create_redirect( new WPSEO_Redirect( $old_url, $new_url, $header_code ) );
+		$redirect_manager->create_redirect( $redirect );
+
+		return $redirect;
 	}
 
 	/**
