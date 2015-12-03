@@ -499,6 +499,16 @@ class WPSEO_OpenGraph {
 		foreach ( $opengraph_images->get_images() as $img ) {
 			$this->og_tag( 'og:image', esc_url( $img ) );
 		}
+
+		$dimensions = $opengraph_images->get_dimensions();
+
+		if ( ! empty( $dimensions['width'] ) ) {
+			$this->og_tag( 'og:image:width', absint( $dimensions['width'] ) );
+		}
+
+		if ( ! empty( $dimensions['height'] ) ) {
+			$this->og_tag( 'og:image:height', absint( $dimensions['height'] ) );
+		}
 	}
 
 	/**
@@ -681,7 +691,6 @@ class WPSEO_OpenGraph {
 
 		return true;
 	}
-
 } /* End of class */
 
 /**
@@ -698,6 +707,9 @@ class WPSEO_OpenGraph_Image {
 	 * @var array $images Holds the images that have been put out as OG image.
 	 */
 	private $images = array();
+
+	/** @var array $dimensions Holds image dimensions, if determined. */
+	protected $dimensions = array();
 
 	/**
 	 * Constructor
@@ -721,6 +733,15 @@ class WPSEO_OpenGraph_Image {
 	 */
 	public function get_images() {
 		return $this->images;
+	}
+
+	/**
+	 * Return the dimensions array.
+	 *
+	 * @return array
+	 */
+	public function get_dimensions() {
+		return $this->dimensions;
 	}
 
 	/**
@@ -810,7 +831,8 @@ class WPSEO_OpenGraph_Image {
 	 * @return bool
 	 */
 	private function get_featured_image( $post_id ) {
-		if ( function_exists( 'has_post_thumbnail' ) && has_post_thumbnail( $post_id ) ) {
+
+		if ( has_post_thumbnail( $post_id ) ) {
 			/**
 			 * Filter: 'wpseo_opengraph_image_size' - Allow changing the image size used for OpenGraph sharing
 			 *
@@ -819,6 +841,10 @@ class WPSEO_OpenGraph_Image {
 			$thumb = wp_get_attachment_image_src( get_post_thumbnail_id( $post_id ), apply_filters( 'wpseo_opengraph_image_size', 'original' ) );
 
 			if ( $this->check_featured_image_size( $thumb ) ) {
+
+				$this->dimensions['width']  = $thumb[1];
+				$this->dimensions['height'] = $thumb[2];
+
 				return $this->add_image( $thumb[0] );
 			}
 		}
@@ -912,5 +938,4 @@ class WPSEO_OpenGraph_Image {
 
 		return $img;
 	}
-
 }
