@@ -1,4 +1,4 @@
-/* global YoastSEO: true, require */
+/* global YoastSEO: true */
 YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 
 /**
@@ -173,8 +173,7 @@ YoastSEO.Analyzer.prototype.addAnalysis = function( analysis ) {
  * @returns {{test: string, result: (Function|YoastSEO.PreProcessor.wordcount|Number)}[]}
  */
 YoastSEO.Analyzer.prototype.wordCount = function() {
-	var wordCountFunction = require("./analyses/wordCount.js");
-
+	var wordCountFunction = require( "./stringProcessing/wordCount.js" );
 	return [ { test: "wordCount", result: wordCountFunction( this.preProcessor.__store.cleanTextNoTags ) } ];
 };
 
@@ -183,9 +182,8 @@ YoastSEO.Analyzer.prototype.wordCount = function() {
  * @returns {{test: string, result: number}[]}
  */
 YoastSEO.Analyzer.prototype.keyphraseSizeCheck = function() {
-	var keyphraseSizeFunction = require("./analyses/keyphraseSize.js");
-	return [ { test: "keyphraseSizeCheck", result: keyphraseSizeFunction( this.config.keyword )  } ];
-
+	var keyphraseSizeFunction = require( "./analyses/keyphraseSize.js" );
+	return [ { test: "keyphraseSizeCheck", result: keyphraseSizeFunction( this.config.keyword ) } ];
 };
 
 /**
@@ -193,31 +191,18 @@ YoastSEO.Analyzer.prototype.keyphraseSizeCheck = function() {
  * @returns resultObject
  */
 YoastSEO.Analyzer.prototype.keywordDensity = function() {
-	var keywordDensityFunction = require("./analyses/keywordDensity.js");
+	var keywordDensityFunction = require( "./analyses/keywordDensity.js" );
+	var density = keywordDensityFunction( this.preProcessor.__store.cleanTextNoTags, this.config.keyword );
+	var result = [ { test: "keywordDensity", result: density } ];
 
-	var result = [ { test: "keywordDensity", result: 0 } ];
-	if ( this.preProcessor.__store.wordcount > 100 ) {
+	// The check for the amount of keywords should be checked in the scoring
+	/*if ( this.preProcessor.__store.wordcount > 100 ) {
 		var keywordDensity = this.keywordDensityCheck();
 		result[ 0 ].result = keywordDensity.toFixed( 1 );
 		return result;
-	}
-};
+	}*/
 
-/**
- * checks and returns the keyword density
- * @returns {number}
- */
-YoastSEO.Analyzer.prototype.keywordDensityCheck = function() {
-	var keywordCount = this.keywordCount();
-	var keywordDensity = 0;
-	if ( keywordCount !== 0 ) {
-		keywordDensity = (
-				keywordCount /
-				this.preProcessor.__store.wordcountNoTags - ( keywordCount - 1 * keywordCount )
-			) *
-			100;
-	}
-	return keywordDensity;
+	return result;
 };
 
 /**

@@ -1,5 +1,5 @@
-var stripSpaces = require("../stringProcessing/stripSpaces.js");
-var replaceDiacritics = require("../stringProcessing/replaceDiacritics.js");
+var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
+var replaceDiacritics = require( "../stringProcessing/replaceDiacritics.js" );
 
 /**
  * Removes words, duplicate spaces and sentence terminators, and words consisting of only digits

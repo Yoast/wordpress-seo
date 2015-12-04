@@ -3,7 +3,6 @@ var sentenceCountFunction = require( "../stringProcessing/sentenceCount.js" );
 var wordCountFunction = require( "../stringProcessing/wordCount.js" );
 var syllableCountFunction = require( "../stringProcessing/countSyllable.js" );
 
-
 /**
  * This calculates the fleschreadingscore for a given text
  * The formula used:
@@ -18,5 +17,5 @@ module.exports = function( text ) {
 	var syllablecount = syllableCountFunction( text );
 	var score = 206.835 - ( 1.015 * ( wordcount / sentencecount ) ) - ( 84.6 * ( syllablecount / wordcount ) );
 
-	return score.toFixed(1);
+	return score.toFixed( 1 );
 };

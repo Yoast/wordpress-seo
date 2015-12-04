@@ -1,4 +1,4 @@
-var diacritisRemovalMap = require("../config/diacritics.js");
+var diacritisRemovalMap = require( "../config/diacritics.js" );
 
 /**
  * Replaces all diacritics from the text based on the diacriticsremovalmap.
@@ -6,7 +6,7 @@ var diacritisRemovalMap = require("../config/diacritics.js");
  * @param {String} text The text to remove diacritics from.
  * @returns {String} The text with all diacritics replaced.
  */
-module.exports = function( text ){
+module.exports = function( text ) {
 	var map = diacritisRemovalMap();
 
 	for ( var i = 0; i < map.length; i++ ) {

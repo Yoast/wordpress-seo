@@ -6,7 +6,7 @@ var cleanTextFunction = require( "../stringProcessing/cleanText.js" );
  * @param {String} text The text used to count sentences.
  * @returns {*}
  */
-module.exports = function( text ){
+module.exports = function( text ) {
 	var sentences = cleanTextFunction( text ).split( "." );
 	var sentenceCount = 0;
 	for ( var i = 0; i < sentences.length; i++ ) {

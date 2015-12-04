@@ -1,4 +1,4 @@
-var fleschFunction = require("../../js/analyses/fleschReading.js");
+var fleschFunction = require( "../../js/analyses/fleschReading.js" );
 
 describe("a test to calculate the fleschReading score", function(){
 	it("returns a score", function(){

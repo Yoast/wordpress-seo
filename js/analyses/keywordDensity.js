@@ -11,7 +11,7 @@ var wordMatchFunction = require( "../stringProcessing/wordMatch.js" );
 module.exports = function( text, keyword ) {
 	var wordCount = wordCountFunction( text );
 	var keywordCount = wordMatchFunction ( text, keyword );
-	var keywordDensity = (keywordCount / wordCount - ( keywordCount - 1 * keywordCount ) ) * 100;
+	var keywordDensity = ( keywordCount / wordCount - ( keywordCount - 1 * keywordCount ) ) * 100;
 
-	return keywordDensity.toFixed(1);
+	return keywordDensity.toFixed( 1 );
 };

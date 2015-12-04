@@ -1,11 +1,11 @@
-var stripSomeTags = require("../stringProcessing/stripSomeTags.js");
-var subheadingMatch = require("../stringProcessing/subheadingsMatch.js");
+var stripSomeTags = require( "../stringProcessing/stripSomeTags.js" );
+var subheadingMatch = require( "../stringProcessing/subheadingsMatch.js" );
 
 /**
  * Checks if there are any subheadings like h2 in the text
- * and if they have the keyword in them
- * @param {String} text The text to check for subheadings
- * @returns {*}
+ * and if they have the keyword in them.
+ * @param {String} text The text to check for subheadings.
+ * @returns {Object} the result object.
  */
 module.exports = function( text, keyword ) {
 	var matches;

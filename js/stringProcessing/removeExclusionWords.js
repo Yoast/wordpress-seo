@@ -8,11 +8,11 @@ var arrayToRegex = require( "../stringProcessing/arrayToRegex.js" );
  * @param text
  * @returns {*}
  */
-module.exports = function( text ){
+module.exports = function( text ) {
 	var exclusionWords = syllableArray().exclusionWords;
 	var wordArray = [];
-	for (var i = 0; i < exclusionWords.length; i++){
-		wordArray.push(exclusionWords[i].word);
+	for ( var i = 0; i < exclusionWords.length; i++ ) {
+		wordArray.push( exclusionWords[i].word );
 	}
 	return text.replace( arrayToRegex( wordArray ), "" );
 };

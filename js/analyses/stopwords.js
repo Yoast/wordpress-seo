@@ -1,5 +1,5 @@
-var stopwords = require("../config/stopwords.js");
-var arrayMatch = require("../stringProcessing/arrayMatch.js");
+var stopwords = require( "../config/stopwords.js" );
+var arrayMatch = require( "../stringProcessing/arrayMatch.js" );
 
 /**
  * Checks a textstring to see if there are any stopwords, that are defined in the stopwords config.

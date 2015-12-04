@@ -1,4 +1,4 @@
-var addWordBoundary = require("../stringProcessing/addWordBoundary.js");
+var addWordBoundary = require( "../stringProcessing/addWordBoundary.js" );
 
 /**
  * Creates a regex of combined strings from the input array.

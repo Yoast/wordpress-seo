@@ -1,5 +1,5 @@
-var stripTags = require("../stringProcessing/stripTags.js");
-var stripSpaces = require("../stringProcessing/stripSpaces.js");
+var stripTags = require( "../stringProcessing/stripTags.js" );
+var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
 
 /**
  * Calculates the wordcount of a certain text.

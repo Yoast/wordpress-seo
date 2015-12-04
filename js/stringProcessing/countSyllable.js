@@ -11,7 +11,7 @@ var removeExclusionWordsFunction = require( "../stringProcessing/removeExclusion
  * @param {String} textString The text to count the syllables from.
  * @returns {int} syllable count
  */
-module.exports = function( text ){
+module.exports = function( text ) {
 	var count = 0;
 	count += exclusionSyllableFunction( text );
 

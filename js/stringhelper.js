@@ -169,6 +169,7 @@ YoastSEO.StringHelper.prototype.escapeHTML = function( textString ) {
 					.replace( /\"/, "&quot;" )
 					.replace( /\'/g, "&#39;" );
 	}
+
 	return textString;
 };
 
