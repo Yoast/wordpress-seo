@@ -1,4 +1,5 @@
-var keywordRegex = require("../stringProcessing/keywordRegex.js");
+var arrayToRegex = require("../stringProcessing/arrayToRegex.js");
+var removeSpaces = require("../stringProcessing/removeNonWordCharacters.js");
 
 /**
  * Matches strings from an array against a given text.
@@ -9,10 +10,16 @@ var keywordRegex = require("../stringProcessing/keywordRegex.js");
  */
 module.exports = function( text, array ) {
 	var matches = text.match( arrayToRegex( array ) );
+	matches = matches.map( function( string ) {
+		return removeSpaces ( string );
+	}.bind( this ) );
+
 	return matches;
 };
 
-
+/*
 YoastSEO.StringHelper.prototype.matchString = function( textString, stringsToMatch ) {
 	return textString.match( this.stringToRegex( stringsToMatch, false ) );
 };
+*/
+

@@ -5,7 +5,7 @@
  * @param {String} replacement
  * @returns {*}
  */
-module.exports = function( text, stringToRemove, replacement) {
+module.exports = function( text, stringToRemove, replacement ) {
 	text = text.replace( stringToRemove, replacement );
 
 	return text;

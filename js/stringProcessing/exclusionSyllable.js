@@ -1,14 +1,19 @@
 var syllableArray = require( "../config/syllables.js" );
 
 /**
- * Removes words from the text that are in the exclusion array. These words are counted
- * incorrectly in the syllable counters, so they are removed and checked sperately.
  *
  * @param text
- * @returns {*}
+ * @returns {number}
  */
 module.exports = function( text ){
-	var exclusionWords = syllableArray().exclusionWords;
-
-	return text;
+	var count = 0, wordArray, regex, matches;
+	wordArray = syllableArray().exclusionWords;
+	for (var i = 0; i < wordArray.length; i++ ){
+		regex = new RegExp ( wordArray[i].word, "ig" );
+		matches = text.match (regex);
+		if ( matches !== null ){
+			count += (matches.length * wordArray[i].syllables);
+		}
+	}
+	return count;
 };

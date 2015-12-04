@@ -10,8 +10,9 @@ var arrayToRegex = require( "../stringProcessing/arrayToRegex.js" );
  */
 module.exports = function( text ){
 	var exclusionWords = syllableArray().exclusionWords;
-	var regex = arrayToRegex ( exclusionWords );
-	text = text.replace( regex, "" );
-
-	return text;
+	var wordArray = [];
+	for (var i = 0; i < exclusionWords.length; i++){
+		wordArray.push(exclusionWords[i].word);
+	}
+	return text.replace( arrayToRegex( wordArray ), "" );
 };

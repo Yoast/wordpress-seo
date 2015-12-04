@@ -1,4 +1,4 @@
-var wordCountFunction = require( "../analyses/wordCount.js" );
+var wordCountFunction = require( "../stringProcessing/wordCount.js" );
 var wordMatchFunction = require( "../stringProcessing/wordMatch.js" );
 
 /**

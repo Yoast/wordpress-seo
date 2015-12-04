@@ -8,7 +8,7 @@ var addWordBoundary = require("../stringProcessing/addWordBoundary.js");
  * @returns {String} regex The regex created from the array.
  */
 module.exports = function( array, disableWordBoundary ) {
-	var regexString = "";
+	var regexString;
 
 	array = array.map( function( string ) {
 		if ( disableWordBoundary ) {
@@ -18,7 +18,7 @@ module.exports = function( array, disableWordBoundary ) {
 		}
 	}.bind( this ) );
 
-	regexString = "(" + stringArray.join( ")|(" ) + ")";
+	regexString = "(" + array.join( ")|(" ) + ")";
 
 	return new RegExp( regexString, "ig" );
 };

@@ -4,14 +4,15 @@ var syllableArray = require( "../config/syllables.js" );
 /**
  *
  * @param text
- * @param regex
+ * @param {String} operator 
  * @returns {number}
  */
 module.exports = function( text, operator ){
-	var regex, matches, count = 0, array = text.split( " " );
+	var matches, count = 0, array = text.split( " " );
+	var regex = "";
 	switch(operator){
 		case "add":
-			regex = arrayToRegexFunction(syllableArray().subtractSyllables,	true);
+			regex = arrayToRegexFunction(syllableArray().addSyllables,	true);
 			break;
 		case "subtract":
 			regex = arrayToRegexFunction(syllableArray().subtractSyllables,	true);
@@ -28,15 +29,3 @@ module.exports = function( text, operator ){
 	}
 	return count;
 };
-
-/*
-YoastSEO.PreProcessor.prototype.advancedSyllableCount = function( inputString, regex, operator ) {
-	var match = inputString.match( regex );
-	if ( match !== null ) {
-		if ( operator === "subtract" ) {
-			this.syllableCount -= match.length;
-		} else if ( operator === "add" ) {
-			this.syllableCount += match.length;
-		}
-	}
-};*/

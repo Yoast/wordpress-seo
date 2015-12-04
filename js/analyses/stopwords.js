@@ -5,14 +5,10 @@ var arrayMatch = require("../stringProcessing/arrayMatch.js");
  * Checks a textstring to see if there are any stopwords, that are defined in the stopwords config.
  *
  * @param {String} text The input text to match stopwords.
- * @returns {*}
+ * @returns {Array}
  */
 module.exports = function( text ) {
-	var i, matches = 0;
-	for ( i = 0; i < stopwords.length; i++ ){
-		matches = arrayMatch( text );
-	}
-
+	var matches = arrayMatch( text, stopwords() );
 	return matches;
 };
 
