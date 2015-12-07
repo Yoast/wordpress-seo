@@ -6,7 +6,7 @@ var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
  * @param {String} text Textstring to match alt
  * @returns {String} the contents of the alttag, empty if none is set.
  */
-module.exports = function( text ){
+module.exports = function( text ) {
 	var alt = "";
 	var image = text.match( /alt=([\'\"])(.*?)\1/ig );
 	if ( image !== null ) {

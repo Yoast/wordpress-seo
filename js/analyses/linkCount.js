@@ -1,7 +1,7 @@
-var linkMatchFunction = require( "../stringProcessing/linkMatches.js");
-var linkKeywordFunction = require( "../stringProcessing/linkKeyword.js");
-var linkTypeFunction = require( "../stringProcessing/linkType.js");
-var linkFollowFunction = require( "../stringProcessing/linkFollow.js");
+var linkMatchFunction = require( "../stringProcessing/linkMatches.js" );
+var linkKeywordFunction = require( "../stringProcessing/linkKeyword.js" );
+var linkTypeFunction = require( "../stringProcessing/linkType.js" );
+var linkFollowFunction = require( "../stringProcessing/linkFollow.js" );
 
 /**
  * Checks a text for anchors and returns an object with all linktypes found.
@@ -12,7 +12,7 @@ var linkFollowFunction = require( "../stringProcessing/linkFollow.js");
  * @returns {Object} The object containing all linktypes.
  */
 module.exports = function( text, keyword, url ) {
-	var matches = linkMatchFunction(text);
+	var matches = linkMatchFunction( text );
 	var linkCount = {
 		total: matches.length,
 		totalNaKeyword: 0,
@@ -28,11 +28,9 @@ module.exports = function( text, keyword, url ) {
 		otherNofollow: 0
 	};
 	var linkKeyword;
-
 	for ( var i = 0; i < matches.length; i++ ) {
-
 		linkKeyword = linkKeywordFunction( matches[i], keyword );
-		if (linkKeyword) {
+		if ( linkKeyword ) {
 			if ( keyword !== "" ) {
 				linkCount.totalKeyword++;
 			} else {
@@ -44,6 +42,5 @@ module.exports = function( text, keyword, url ) {
 		var linkFollow = linkFollowFunction( matches[i] );
 		linkCount[linkType + linkFollow]++;
 	}
-
 	return linkCount;
 };
