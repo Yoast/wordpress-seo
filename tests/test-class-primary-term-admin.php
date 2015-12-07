@@ -7,7 +7,7 @@ class WPSEO_Primary_Term_Admin_Test extends WPSEO_UnitTestCase {
     public function setUp() {
         parent::setUp();
 
-        $this->class_instance = $this->getMock( 'WPSEO_Primary_Term_Admin', array( 'get_primary_term_taxonomies', 'include_js_templates' ) );
+        $this->class_instance = $this->getMock( 'WPSEO_Primary_Term_Admin', array( 'get_category', 'get_primary_term_taxonomies', 'include_js_templates', 'save_primary_term' ) );
     }
 
     /**
@@ -91,12 +91,79 @@ class WPSEO_Primary_Term_Admin_Test extends WPSEO_UnitTestCase {
     }
 
     /**
+     * Make sure the primary terms are saved
      *
      * @covers WPSEO_Primary_Term_Admin::save_primary_terms()
      */
-    public function save_primary_terms() {
-        
+    public function test_save_primary_terms_CALLS_save_primary_term() {
+        $taxonomies = array(
+            'category' => ( object ) array(
+                'labels' => ( object ) array(
+                    'name' => 'Categories',
+                    'singular_name' => 'Category',
+                    'search_items' => 'Search Categories',
+                    'all_items' => 'All Categories',
+                    'parent_item' => 'Parent Category',
+                    'parent_item_colon' => 'Parent Category:',
+                    'edit_item' => 'Edit Category',
+                    'view_item' => 'View Category',
+                    'update_item' => 'Update Category',
+                    'add_new_item' => 'Add New Category',
+                    'new_item_name' => 'New Category Name',
+                    'not_found' => 'No categories found.',
+                    'no_terms' => 'No categories',
+                    'menu_name' => 'Categories',
+                    'name_admin_bar' => 'category',
+                ),
+                'description' => '',
+                'public' => true,
+                'hierarchical' => true,
+                'show_ui' => true,
+                'show_in_menu' => true,
+                'show_in_nav_menus' => true,
+                'show_tagcloud' => true,
+                'show_in_quick_edit' => true,
+                'meta_box_cb' => 'post_categories_meta_box',
+                'rewrite' => array(
+                    'with_font' => true,
+                    'hierarchical' => true,
+                    'ep_mask' => 512,
+                    'slug' => 'category',
+                ),
+                'query_var' => 'category_name',
+                '_builtin' => true,
+                'cap' => ( object ) array(
+                    'manage_terms' => 'manage_categories',
+                    'edit_terms' => 'manage_categories',
+                    'delete_terms' => 'manage_categories',
+                    'assign_terms' => 'edit_posts'
+                ),
+                'name' => 'category',
+                'object_type' => array(
+                    '0' => 'post',
+                    '1' => 'movie',
+                ),
+                'label' => 'categories',
+            ),
+        );
+
+        $this->class_instance
+            ->expects( $this->once() )
+            ->method( 'get_primary_term_taxonomies' )
+            ->will( $this->returnValue( $taxonomies ) );
+
+        $this->class_instance
+            ->expects( $this->atLeastOnce() )
+            ->method( 'save_primary_term' );
+
+        $this->class_instance->save_primary_terms( 1 );
     }
+
+    public function test_post_link_category() {
+
+    }
+
+
 
 
 
