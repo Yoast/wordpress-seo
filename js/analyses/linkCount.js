@@ -45,5 +45,5 @@ module.exports = function( text, keyword, url ) {
 		linkCount[linkType + linkFollow]++;
 	}
 
-	return [{test: "linkCount", result: linkCount}];
+	return linkCount;
 };

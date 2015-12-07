@@ -490,7 +490,6 @@ YoastSEO.Analyzer.prototype.imageCount = function() {
 					if ( this.imageAlttagKeyword( alttag ) ) {
 						imageCount.altKeyword++;
 					} else {
-
 						//this counts all alt-tags w/o the keyword when a keyword is set.
 						imageCount.alt++;
 					}
