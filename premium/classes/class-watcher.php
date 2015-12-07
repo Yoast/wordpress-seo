@@ -148,15 +148,17 @@ abstract class WPSEO_Watcher {
 	/**
 	 * Returns the string to the javascript method from where a new redirect can be added
 	 *
-	 * @param string $url The URL that can be redirected.
-	 * @param string $id  ID of the notice that is displayed.
+	 * @param string $url  The URL that can be redirected.
+	 * @param string $id   ID of the notice that is displayed.
+	 * @param int    $type The redirect type. Default is 301.
 	 *
 	 * @return string
 	 */
-	protected function javascript_create_redirect( $url, $id ) {
+	protected function javascript_create_redirect( $url, $id, $type = WPSEO_Redirect::PERMANENT ) {
 		return sprintf(
-			'javascript:wpseo_create_redirect( "%1$s", "%2$s", "%3$s" );',
+			'javascript:wpseo_create_redirect( "%1$s", "%2$s", "%3$s", "%4$s" );',
 			urlencode( $url ),
+			$type,
 			wp_create_nonce( 'wpseo-redirects-ajax-security' ),
 			esc_attr( $id )
 		);}
