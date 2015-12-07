@@ -987,19 +987,16 @@ class WPSEO_Frontend {
 			}
 		}
 
+		if ( is_string( $canonical_override ) && $canonical_override !== '' ) {
+			$canonical = $canonical_override;
+		}
+
 		/**
 		 * Filter: 'wpseo_canonical' - Allow filtering of the canonical URL put out by Yoast SEO
 		 *
 		 * @api string $canonical The canonical URL
 		 */
-		$canonical = apply_filters( 'wpseo_canonical', $canonical );
-
-		if ( is_string( $canonical_override ) && $canonical_override !== '' ) {
-			$this->canonical = $canonical_override;
-		}
-		else {
-			$this->canonical = $canonical;
-		}
+		$this->canonical = apply_filters( 'wpseo_canonical', $canonical );
 	}
 
 	/**
