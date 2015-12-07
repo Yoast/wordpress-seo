@@ -33,9 +33,9 @@ class WPSEO_Sitemaps_Cache {
 	public function is_enabled() {
 
 		/**
-		 * Filter: 'wpseo_enable_xml_sitemap_transient_caching' - Allow disabling the transient cache
+		 * Filter if XML sitemap transient cache is enabled.
 		 *
-		 * @api bool $unsigned Enable cache or not, defaults to true
+		 * @param bool $unsigned Enable cache or not, defaults to true
 		 */
 		return apply_filters( 'wpseo_enable_xml_sitemap_transient_caching', true );
 	}
@@ -129,6 +129,7 @@ class WPSEO_Sitemaps_Cache {
 			return false;
 		}
 
+		/** This filter is documented in inc/sitemaps/class-sitemaps-cache.php */
 		if ( ! apply_filters( 'wpseo_enable_xml_sitemap_transient_caching', true ) ) {
 			return false;
 		}

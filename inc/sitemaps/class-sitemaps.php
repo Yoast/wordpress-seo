@@ -186,7 +186,12 @@ class WPSEO_Sitemaps {
 		$caching = $this->cache->is_enabled();
 
 		if ( $caching ) {
-			do_action( 'wpseo_sitemap_stylesheet_cache_' . $type, $this ); // TODO document action R.
+			/**
+			 * Fires before the attempt to retrieve XML sitemap from the transient cache.
+			 *
+			 * @param WPSEO_Sitemaps $sitemaps Sitemaps object.
+			 */
+			do_action( 'wpseo_sitemap_stylesheet_cache_' . $type, $this );
 			$this->sitemap   = $this->cache->get_sitemap( $type, $this->current_page );
 			$this->transient = ! empty( $this->sitemap );
 		}
@@ -219,7 +224,11 @@ class WPSEO_Sitemaps {
 	 */
 	public function build_sitemap( $type ) {
 
-		// TODO document filter. OR.
+		/**
+		 * Filter the type of sitemap to build.
+		 *
+		 * @param string $type Sitemap type, determined by the request.
+		 */
 		$type = apply_filters( 'wpseo_build_sitemap_post_type', $type );
 
 		if ( $type === '1' ) {
@@ -246,6 +255,9 @@ class WPSEO_Sitemaps {
 		}
 
 		if ( has_action( 'wpseo_do_sitemap_' . $type ) ) {
+			/**
+			 * Fires custom handler, if hooked to generate sitemap for the type.
+			 */
 			do_action( 'wpseo_do_sitemap_' . $type );
 			return;
 		}
@@ -278,9 +290,10 @@ class WPSEO_Sitemaps {
 	 */
 	static public function filter_frequency( $filter, $default, $url ) {
 		/**
-		 * Filter: 'wpseo_sitemap_' . $filter . '_change_freq' - Allow filtering of the specific change frequency
+		 * Filter the specific change frequency
 		 *
-		 * @api string $default The default change frequency
+		 * @param string $default The default change frequency.
+		 * @param string $url     URL to filter frequency for.
 		 */
 		$change_freq = apply_filters( 'wpseo_sitemap_' . $filter . '_change_freq', $default, $url );
 
@@ -311,7 +324,10 @@ class WPSEO_Sitemaps {
 
 		if ( $type !== 'main' ) {
 
-			do_action( 'wpseo_xsl_' . $type ); // TODO document action. R.
+			/**
+			 * Fires for the output of XSL for XML sitemaps, other than type "main".
+			 */
+			do_action( 'wpseo_xsl_' . $type );
 
 			return;
 		}

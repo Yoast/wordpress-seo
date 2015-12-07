@@ -50,7 +50,12 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		$taxonomies     = array_intersect_key( $taxonomies, array_flip( $taxonomy_names ) );
 
 		// Retrieve all the taxonomies and their terms so we can do a proper count on them.
-		// TODO document filter. R.
+		/**
+		 * Filter the setting of excluding empty terms from the XML sitemap.
+		 *
+		 * @param boolean $exclude        Defaults to true.
+		 * @param array   $taxonomy_names Array of names for the taxonomies being processed.
+		 */
 		$hide_empty         = ( apply_filters( 'wpseo_sitemap_exclude_empty_terms', true, $taxonomy_names ) ) ? 'count != 0 AND' : '';
 		$sql                = "
 			SELECT taxonomy, term_id
@@ -152,13 +157,7 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		$steps  = $max_entries;
 		$offset = ( $current_page > 1 ) ? ( ( $current_page - 1 ) * $max_entries ) : 0;
 
-		/**
-		 * Filter: 'wpseo_sitemap_exclude_empty_terms' - Allow people to include empty terms in sitemap
-		 *
-		 * @api bool $hide_empty Whether or not to hide empty terms, defaults to true.
-		 *
-		 * @param object $taxonomy The taxonomy we're getting terms for.
-		 */
+		/** This filter is documented in inc/sitemaps/class-taxonomy-sitemap-provider.php */
 		$hide_empty = apply_filters( 'wpseo_sitemap_exclude_empty_terms', true, $taxonomy );
 		$terms      = get_terms( $taxonomy->name, array( 'hide_empty' => $hide_empty ) );
 		$terms      = array_splice( $terms, $offset, $steps );
@@ -221,8 +220,7 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			$url['mod'] = $wpdb->get_var( $wpdb->prepare( $sql, $term->taxonomy, $term->term_id ) );
 			$url['chf'] = WPSEO_Sitemaps::filter_frequency( $term->taxonomy . '_term', 'weekly', $url['loc'] );
 
-			// Use this filter to adjust the entry before it gets added to the sitemap.
-			// TODO document filter. R.
+			/** This filter is documented at inc/sitemaps/class-post-type-sitemap-provider.php */
 			$url = apply_filters( 'wpseo_sitemap_entry', $url, 'term', $term );
 
 			if ( ! empty( $url ) ) {
@@ -250,7 +248,13 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			return false;
 		}
 
-		if ( apply_filters( 'wpseo_sitemap_exclude_taxonomy', false, $taxonomy_name ) ) { // TODO document filter. R.
+		/**
+		 * Filter to exclude the taxonomy from the XML sitemap.
+		 *
+		 * @param boolean $exclude        Defaults to false.
+		 * @param string  $taxonomy_name  Name of the taxonomy to exclude..
+		 */
+		if ( apply_filters( 'wpseo_sitemap_exclude_taxonomy', false, $taxonomy_name ) ) {
 			return false;
 		}
 
