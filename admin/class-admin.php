@@ -35,7 +35,7 @@ class WPSEO_Admin {
 			add_action( 'edited_category', array( $this, 'schedule_rewrite_flush' ) );
 			add_action( 'delete_category', array( $this, 'schedule_rewrite_flush' ) );
 		}
-		
+
 		$this->admin_features = array(
 			// Google Search Console.
 			'gsc'              => new WPSEO_GSC(),
