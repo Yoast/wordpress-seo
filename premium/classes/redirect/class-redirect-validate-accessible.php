@@ -42,7 +42,7 @@ class WPSEO_Redirect_Validate_Accessible implements WPSEO_Redirect_Validate {
 
 		// Check if the response code is 301.
 		if ( $response_code === 301 ) {
-			$this->error = __( 'You\'re redirecting to a target that returns a 301 HTTP code, which is useless.' );
+			$this->error = __( 'You\'re redirecting to a target that returns a 301 HTTP code (permanently moved). Make sure the target you specify is directly reachable.' );
 
 			return false;
 		}
