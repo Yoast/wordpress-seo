@@ -10,6 +10,9 @@ var removeSpaces = require( "../stringProcessing/removeNonWordCharacters.js" );
  */
 module.exports = function( text, array ) {
 	var matches = text.match( arrayToRegex( array ) );
+	if ( matches === null ){
+		matches = [];
+	}
 	matches = matches.map( function( string ) {
 		return removeSpaces ( string );
 	}.bind( this ) );
