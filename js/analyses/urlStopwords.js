@@ -8,7 +8,7 @@ var arrayMatch = require( "../stringProcessing/arrayMatch.js" );
  * @returns {Array} matches w
  */
 
-module.exports = function( url ){
-	url = url.replace( /[-_]/g, " ");
+module.exports = function( url ) {
+	url = url.replace( /[-_]/g, " " );
 	return arrayMatch( url, stopwordsArray() );
 };
