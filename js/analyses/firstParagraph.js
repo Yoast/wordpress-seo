@@ -12,9 +12,10 @@ var wordMatch = require( "../stringProcessing/wordMatch.js" );
  */
 module.exports = function( text, keyword ) {
 	var paragraph;
+
 	//matches everything between the <p> and </p> tags.
 	paragraph = regexMatch( text, "<p(?:[^>]+)?>(.*?)<\/p>" );
-	if( paragraph.length > 0 ){
+	if ( paragraph.length > 0 ) {
 		return wordMatch( paragraph[0], keyword );
 	}
 
@@ -22,7 +23,7 @@ module.exports = function( text, keyword ) {
 	including linebreaks untill it finds double linebreaks.
 	*/
 	paragraph = regexMatch( text, "[^]*?\n\n" );
-	if( paragraph.length > 0 ){
+	if ( paragraph.length > 0 ) {
 		return wordMatch( paragraph[0], keyword );
 	}
 
