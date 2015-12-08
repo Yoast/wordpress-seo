@@ -53,10 +53,10 @@ class WPSEO_Redirect_Ajax {
 			$this->redirect_format
 		);
 
-		$validate = $this->validate( $redirect );
+		$this->validate( $redirect );
 
 		// The method always returns the added redirect.
-		if ( $validate === true && $this->redirect_manager->create_redirect( $redirect ) ) {
+		if ( $this->redirect_manager->create_redirect( $redirect ) ) {
 			$response = array(
 				'old_redirect'  => $redirect->get_origin(),
 				'new_redirect'  => $redirect->get_target(),
@@ -65,12 +65,15 @@ class WPSEO_Redirect_Ajax {
 		}
 		else {
 			// Set the value error.
-			$response['error'] = $validate;
+			$error = array(
+				'type' => 'error',
+				'message' => __( 'Unknown error. Failed to create redirect.', 'wordpress-seo-premium' ),
+			);
+			$response = array( 'error' => $error );
 		}
 
-
 		// Response.
-		wp_die( json_encode( $response ) );
+		wp_die( WPSEO_Utils::json_encode( $response ) );
 	}
 
 	/**
@@ -92,22 +95,25 @@ class WPSEO_Redirect_Ajax {
 
 		$current_redirect = $this->redirect_manager->get_redirect( $this->sanitize_url( $current_redirect ) );
 
-		$validate = $this->validate( $redirect, $current_redirect );
+		$this->validate( $redirect, $current_redirect );
 
 		// The method always returns the added redirect.
-		if ( $validate === true && $this->redirect_manager->update_redirect( $current_redirect, $redirect ) ) {
+		if (  $this->redirect_manager->update_redirect( $current_redirect, $redirect ) ) {
 			$response = array(
 				'old_redirect' => $redirect->get_origin(),
 			);
 		}
 		else {
 			// Set the value error.
-			$response['error'] = $validate;
+			$error = array(
+				'type' => 'error',
+				'message' => __( 'Unknown error. Failed to update redirect.', 'wordpress-seo-premium' ),
+			);
+			$response = array( 'error' => $error );
 		}
 
-
 		// Response.
-		wp_die( json_encode( $response ) );
+		wp_die( WPSEO_Utils::json_encode( $response ) );
 	}
 
 	/**
@@ -139,19 +145,23 @@ class WPSEO_Redirect_Ajax {
 	 *
 	 * @return bool|array
 	 */
-	private function validate( WPSEO_Redirect $redirect, WPSEO_Redirect $current_redirect = null) {
+	private function validate( WPSEO_Redirect $redirect, WPSEO_Redirect $current_redirect = null ) {
 		$validator = new WPSEO_Redirect_Validator();
-		$validator->validate( $redirect, $current_redirect );
+
+		if ( $validator->validate( $redirect, $current_redirect ) === true ) {
+			return true;
+		}
 
 		$ignore_warning = filter_input( INPUT_POST, 'ignore_warning' );
 
-		$errors = $validator->get_error();
+		$error = $validator->get_error();
 
-		if ( ! empty( $errors ) && ( $errors['type'] === 'error' || ( $errors['type'] === 'warning'  && $ignore_warning === 'false' ) ) ) {
-			return $errors;
+		if (  $error->get_type() === 'error' || ( $error->get_type() === 'warning'  && $ignore_warning === 'false' ) ) {
+
+			wp_die( WPSEO_Utils::json_encode( array(
+				'error' => $error->to_array()
+			) ) );
 		}
-
-		return true;
 	}
 
 	/**
