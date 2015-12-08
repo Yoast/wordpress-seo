@@ -73,7 +73,10 @@ class WPSEO_Redirect_Validate_Endpoint_Test extends WPSEO_UnitTestCase {
 				$this->redirects
 			)
 		);
-		$this->assertEquals( 'There might be a redirect loop.', $this->class_instance->get_error() );
+		$this->assertEquals(
+			new WPSEO_Validation_Error( 'There might be a redirect loop.' ),
+			$this->class_instance->get_error()
+		);
 	}
 
 	/**
@@ -89,7 +92,10 @@ class WPSEO_Redirect_Validate_Endpoint_Test extends WPSEO_UnitTestCase {
 				$this->redirects
 			)
 		);
-		$this->assertEquals( "my_old_url will be redirected to new_url. Maybe it's worth considering to create a direct redirect to new_url.", $this->class_instance->get_error() );
+		$this->assertEquals(
+			new WPSEO_Validation_Warning( "my_old_url will be redirected to new_url. Maybe it's worth considering to create a direct redirect to new_url." ),
+			$this->class_instance->get_error()
+		);
 	}
 
 }

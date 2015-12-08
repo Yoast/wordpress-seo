@@ -22,7 +22,6 @@ class WPSEO_Redirect_Validate_Accessible_Test extends WPSEO_UnitTestCase {
 		$this->class_instance = new WPSEO_Redirect_Validate_Accessible();
 	}
 
-
 	/**
 	 * Validate if the target URL is accessible, in this test it will be the home_url that should be accessible
 	 *
@@ -49,7 +48,10 @@ class WPSEO_Redirect_Validate_Accessible_Test extends WPSEO_UnitTestCase {
 			)
 		);
 
-		$this->assertEquals( 'The URL you entered returned a HTTP code different than 200(OK). The received HTTP code is 301.', $this->class_instance->get_warning() );
+		$this->assertEquals(
+			new WPSEO_Validation_Warning( 'The URL you entered returned a HTTP code different than 200(OK). The received HTTP code is 301.' ),
+			$this->class_instance->get_error()
+		);
 	}
 
 	/**
@@ -59,13 +61,16 @@ class WPSEO_Redirect_Validate_Accessible_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Redirect_Validate_Accessible::get_warning
 	 */
 	public function test_validate_cannot_resolve( ) {
-		$this->assertTrue(
+		$this->assertFalse(
 			$this->class_instance->validate(
 				new WPSEO_Redirect( 'accessible_url', 'fake://domain.com/', 301 )
 			)
 		);
 
-		$this->assertEquals( 'The URL you entered could not resolved.', $this->class_instance->get_warning() );
+		$this->assertEquals(
+			new WPSEO_Validation_Warning( 'The URL you entered could not resolved.' ),
+			$this->class_instance->get_error()
+		);
 	}
 
 	/**
@@ -93,7 +98,10 @@ class WPSEO_Redirect_Validate_Accessible_Test extends WPSEO_UnitTestCase {
 			)
 		);
 
-		$this->assertEquals( 'The url you are redirecting to returns a 302 status. You might want to consider redirecting to another url.', $this->class_instance->get_warning() );
+		$this->assertEquals(
+			new WPSEO_Validation_Warning( 'The url you are redirecting to returns a 302 status. You might want to consider redirecting to another url.' ),
+			$this->class_instance->get_error()
+		);
 	}
 
 }
