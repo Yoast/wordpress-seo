@@ -41,4 +41,5 @@ class WPSEO_Redirect_Validate_Uniqueness {
 	public function get_error() {
 		return $this->error;
 	}
+
 }

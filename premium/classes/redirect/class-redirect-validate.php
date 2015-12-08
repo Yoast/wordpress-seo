@@ -24,4 +24,5 @@ interface WPSEO_Redirect_Validate {
 	 * @return string|boolean
 	 */
 	public function get_error();
+
 }

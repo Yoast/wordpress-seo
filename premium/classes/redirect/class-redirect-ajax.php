@@ -158,9 +158,9 @@ class WPSEO_Redirect_Ajax {
 
 		if (  $error->get_type() === 'error' || ( $error->get_type() === 'warning'  && $ignore_warning === 'false' ) ) {
 
-			wp_die( WPSEO_Utils::json_encode( array(
-				'error' => $error->to_array()
-			) ) );
+			wp_die(
+				WPSEO_Utils::json_encode( array( 'error' => $error->to_array() ) )
+			);
 		}
 	}
 

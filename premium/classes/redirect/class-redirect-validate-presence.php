@@ -46,4 +46,5 @@ class WPSEO_Redirect_Validate_Presence implements WPSEO_Redirect_Validate {
 	public function get_error() {
 		return $this->error;
 	}
+
 }
