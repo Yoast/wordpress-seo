@@ -7,13 +7,12 @@ var keywordRegexFunction = require( "../stringProcessing/keywordRegex.js" );
  * @returns {String} The text without characters.
  */
 module.exports = function( text, wordToMatch ) {
+
 	var regex = keywordRegexFunction( wordToMatch );
 	var matches = text.match( regex );
-	var count;
 	if ( matches === null ) {
-		count = 0;
+		return 0;
 	} else {
-		count = matches.length;
+		return matches.length;
 	}
-	return count;
 };
