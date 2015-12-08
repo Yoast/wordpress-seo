@@ -14,14 +14,9 @@ class WPSEO_Redirect_Validate_Endpoint implements WPSEO_Redirect_Validate {
 	private $redirects;
 
 	/**
-	 * @var string
+	 * @var WPSEO_Validation_Result
 	 */
 	private $error;
-
-	/**
-	 * @var string
-	 */
-	private $warning;
 
 	/**
 	 * Validate the redirect to check if the origin already exists.
@@ -41,18 +36,20 @@ class WPSEO_Redirect_Validate_Endpoint implements WPSEO_Redirect_Validate {
 		// Check for a redirect loop.
 		if ( is_string( $endpoint ) && in_array( $endpoint, array( $origin, $target ) ) ) {
 			// There might be a redirect loop.
-			$this->error = __( 'There might be a redirect loop.', 'wordpress-seo-premium' );
+			$this->error = new WPSEO_Validation_Error(
+				__( 'There might be a redirect loop.', 'wordpress-seo-premium' )
+			);
 
 			return false;
 		}
 
 		if ( is_string( $endpoint ) && $target !== $endpoint ) {
 			// The current redirect will be redirected to ... Maybe it's worth considering to create a direct redirect to ...
-			$this->error = sprintf(
+			$this->error = new WPSEO_Validation_Warning( sprintf(
 				__( '%1$s will be redirected to %2$s. Maybe it\'s worth considering to create a direct redirect to %2$s.', 'wordpress-seo-premium' ),
 				$target,
 				$endpoint
-			);
+			) );
 
 			return false;
 		}
@@ -63,21 +60,11 @@ class WPSEO_Redirect_Validate_Endpoint implements WPSEO_Redirect_Validate {
 	/**
 	 * Returns the validation error
 	 *
-	 * @return string
+	 * @return WPSEO_Validation_Result
 	 */
 	public function get_error() {
 		return $this->error;
 	}
-
-	/**
-	 * Returns the validation warning
-	 *
-	 * @return string
-	 */
-	public function get_warning() {
-		return $this->warning;
-	}
-
 
 	/**
 	 * Will check if the $new_url is redirected also and follows the trace of this redirect
