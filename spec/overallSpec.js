@@ -1,6 +1,7 @@
 /**
  * spec to be used to test all old issues
  */
+require("./helpers/i18n.js");
 require("../js/config/config.js");
 require("../js/config/scoring.js");
 require("../js/analyzer.js");
