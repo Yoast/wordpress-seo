@@ -6,11 +6,12 @@
  */
 
 module.exports = function( text ){
+
 	// Replace &nbsp with space
 	text = text.replace( "&nbsp;", " " );
 
 	// Replace whitespaces with space
-	text = text.replace( /\s/g, " ");
+	text = text.replace( /\s/g, " " );
 
 	return text;
 };

@@ -102,13 +102,13 @@ describe("a test running multiple textstrings", function(){
 	it("checks for keywords with tables - keyword should be found in first paragraph", function(){
 		var keywordAnalyzer = Factory.buildAnalyzer( textStrings[5] );
 		var result = keywordAnalyzer.firstParagraph();
-		expect(result[0].result).toBe(1);
+		expect(result[0].result).toBe(2);
 	});
 
 	it("checks for keywords with attr on <p> - keyword should be found in first paragraph", function(){
 		var keywordAnalyzer = Factory.buildAnalyzer( textStrings[6] );
 		var result = keywordAnalyzer.firstParagraph();
-		expect(result[0].result).toBe(1);
+		expect(result[0].result).toBe(2);
 	});
 });
 
