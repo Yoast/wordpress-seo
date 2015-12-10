@@ -1,6 +1,6 @@
 var wordMatch = require( "../stringProcessing/wordMatch.js" );
 /**
- * Matches the keyword in the URL. Replaces whitespaces with dashes.
+ * Matches the keyword in the URL. Replaces whitespaces with dashes and uses dash as wordboundary.
  *
  * @param {String} text The text to check for keyword
  * @param {String} keyword The keyword to match
@@ -8,5 +8,5 @@ var wordMatch = require( "../stringProcessing/wordMatch.js" );
  */
 module.exports = function( text, keyword ) {
 	keyword = keyword.replace( /\s/ig, "-" );
-	return wordMatch( text, keyword );
+	return wordMatch( text, keyword, "\\-" );
 };

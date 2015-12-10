@@ -8,9 +8,9 @@ var replaceDiacritics = require( "../stringProcessing/replaceDiacritics.js" );
  * @param {String} wordToMatch The word to match in the text
  * @returns {String} The text without characters.
  */
-module.exports = function( text, wordToMatch ) {
+module.exports = function( text, wordToMatch, extraBoundary ) {
 	text = replaceDiacritics( text );
-	var regex = keywordRegexFunction( wordToMatch );
+	var regex = keywordRegexFunction( wordToMatch, extraBoundary );
 	var matches = text.match( regex );
 	if ( matches === null ) {
 		return 0;
