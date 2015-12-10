@@ -192,7 +192,7 @@ YoastSEO.Analyzer.prototype.keyphraseSizeCheck = function() {
  */
 YoastSEO.Analyzer.prototype.keywordDensity = function() {
 	var keywordDensityFunction = require( "./analyses/keywordDensity.js" );
-	var density = keywordDensityFunction( this.preProcessor.__store.cleanTextNoTags, this.config.keyword );
+	var density = keywordDensityFunction( this.preProcessor.__store.originalText, this.config.keyword );
 	var result = [ { test: "keywordDensity", result: density } ];
 
 	// The check for the amount of keywords should be checked in the scoring
@@ -490,6 +490,7 @@ YoastSEO.Analyzer.prototype.imageCount = function() {
 					if ( this.imageAlttagKeyword( alttag ) ) {
 						imageCount.altKeyword++;
 					} else {
+
 						//this counts all alt-tags w/o the keyword when a keyword is set.
 						imageCount.alt++;
 					}

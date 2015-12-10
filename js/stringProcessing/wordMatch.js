@@ -1,5 +1,5 @@
 var keywordRegexFunction = require( "../stringProcessing/keywordRegex.js" );
-var cleanTextFunction = require( "../stringProcessing/cleanText.js" );
+var replaceDiacritics = require( "../stringProcessing/replaceDiacritics.js" );
 
 /**
  * Returns the number of matches in a given string
@@ -9,7 +9,7 @@ var cleanTextFunction = require( "../stringProcessing/cleanText.js" );
  * @returns {String} The text without characters.
  */
 module.exports = function( text, wordToMatch ) {
-	text = cleanTextFunction( text );
+	text = replaceDiacritics( text );
 	var regex = keywordRegexFunction( wordToMatch );
 	var matches = text.match( regex );
 	if ( matches === null ) {
