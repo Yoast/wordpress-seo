@@ -8,5 +8,5 @@ var wordMatch = require( "../stringProcessing/wordMatch.js" );
  */
 module.exports = function( text, keyword ) {
 	keyword = keyword.replace( /\s/ig, "-" );
-	return wordMatch( text, keyword, "\\-" );
+	return wordMatch( text, keyword );
 };

@@ -1,3 +1,4 @@
+require("./helpers/i18n.js");
 require("../js/config/config.js");
 require("../js/config/scoring.js");
 require("../js/analyzer.js");
@@ -15,7 +16,7 @@ describe("A keyword density test with a good amount of occurences of the keyword
     it("returns keyword density - good", function(){
         var textAnalyzerDensity = Factory.buildAnalyzer(keywordArgs);
         var result = textAnalyzerDensity.keywordDensity();
-        expect(result[0].result).toContain(3.2);
+        expect(result[0].result).toContain(3.3);
     });
 });
 
@@ -104,3 +105,4 @@ describe("A keyword density test with &nbsp;", function(){
         expect(result[0].result).toContain(1.0);
     });
 });
+

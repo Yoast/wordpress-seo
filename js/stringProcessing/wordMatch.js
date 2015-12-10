@@ -1,4 +1,5 @@
 var keywordRegexFunction = require( "../stringProcessing/keywordRegex.js" );
+var unifyWhitespace = require( "../stringProcessing/unifyWhitespace.js" );
 var replaceDiacritics = require( "../stringProcessing/replaceDiacritics.js" );
 
 /**
@@ -9,6 +10,7 @@ var replaceDiacritics = require( "../stringProcessing/replaceDiacritics.js" );
  * @returns {String} The text without characters.
  */
 module.exports = function( text, wordToMatch, extraBoundary ) {
+	text = unifyWhitespace( text );
 	text = replaceDiacritics( text );
 	var regex = keywordRegexFunction( wordToMatch, extraBoundary );
 	var matches = text.match( regex );

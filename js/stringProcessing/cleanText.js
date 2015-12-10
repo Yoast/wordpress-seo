@@ -1,5 +1,6 @@
 var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
 var replaceDiacritics = require( "../stringProcessing/replaceDiacritics.js" );
+var unifyWhitespace = require( "../stringProcessing/unifyWhitespace.js" );
 
 /**
  * Removes words, duplicate spaces and sentence terminators, and words consisting of only digits
@@ -13,8 +14,7 @@ module.exports = function( text ) {
 		text = replaceDiacritics( text );
 		text = text.toLocaleLowerCase();
 
-		// Remove some HTML entities as first action
-		text = text.replace( "&nbsp;", " " );
+
 
 		// replace comma', hyphens etc with spaces
 		text = text.replace( /[\-\;\:\,\(\)\"\'\|\“\”]/g, " " );
