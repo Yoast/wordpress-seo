@@ -211,11 +211,14 @@ YoastSEO.Analyzer.prototype.keywordDensity = function() {
  * @returns keywordCount
  */
 YoastSEO.Analyzer.prototype.keywordCount = function() {
-	var keywordMatches = this.preProcessor.__store.cleanTextSomeTags.match( this.keywordRegex );
+	var keywordCountFunction = require( "./stringProcessing/wordMatch.js" );
+	var keywordCount = keywordCountFunction( this.preProcessor.__store.originalText, this.config.keyword );
+
+	/*var keywordMatches = this.preProcessor.__store.cleanTextSomeTags.match( this.keywordRegex );
 	var keywordCount = 0;
 	if ( keywordMatches !== null ) {
 		keywordCount = keywordMatches.length;
-	}
+	}*/
 	this.__store.keywordCount = keywordCount;
 	return keywordCount;
 };
@@ -574,7 +577,10 @@ YoastSEO.Analyzer.prototype.pageTitleKeyword = function() {
  * @returns {{name: string, count: number}}
  */
 YoastSEO.Analyzer.prototype.firstParagraph = function() {
-	var result = [ { test: "firstParagraph", result: 0 } ];
+	var firstParagraphFunction = require( "./analyses/firstParagraph.js" );
+	var result = [ { test: "firstParagraph", result: firstParagraphFunction( this.preProcessor.__store.originalText, this.config.keyword ) } ];
+/*
+
 
 	//matches everything between the <p> and </p> tags.
 	var p = this.paragraphChecker(
@@ -596,7 +602,7 @@ YoastSEO.Analyzer.prototype.firstParagraph = function() {
 		 * And there are not double newline
 		 * Then we are dealing with a single paragraph and we should just use the keyword count in the full text.
 		 */
-		if (
+		/*if (
 			p === 0 &&
 			this.preProcessor.__store.originalText.indexOf( "\n\n" ) === -1 &&
 			this.preProcessor.__store.originalText.indexOf( "</p>" ) === -1
@@ -604,7 +610,7 @@ YoastSEO.Analyzer.prototype.firstParagraph = function() {
 			p = this.keywordCount();
 		}
 	}
-	result[ 0 ].result = p;
+	result[ 0 ].result = p;*/
 	return result;
 };
 

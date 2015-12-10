@@ -1,3 +1,4 @@
+require("./helpers/i18n.js");
 require("../js/config/config.js");
 require("../js/config/scoring.js");
 require("../js/analyzer.js");
@@ -76,3 +77,4 @@ describe("The first paragraph test detecting keyword", function() {
         expect(result[0].result).toBe(1);
     });
 });
+

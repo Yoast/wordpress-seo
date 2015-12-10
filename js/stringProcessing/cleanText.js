@@ -14,7 +14,7 @@ module.exports = function( text ) {
 		text = replaceDiacritics( text );
 		text = text.toLocaleLowerCase();
 
-
+		text = unifyWhitespace( text );
 
 		// replace comma', hyphens etc with spaces
 		text = text.replace( /[\-\;\:\,\(\)\"\'\|\“\”]/g, " " );
