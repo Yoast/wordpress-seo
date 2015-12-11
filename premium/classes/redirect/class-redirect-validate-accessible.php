@@ -29,7 +29,7 @@ class WPSEO_Redirect_Validate_Accessible implements WPSEO_Redirect_Validate {
 
 		if ( is_wp_error( $response ) ) {
 			$this->error = new WPSEO_Validation_Warning(
-				__( 'The URL you entered could not resolved.', 'wordpress-seo-premium' )
+				__( 'The URL you entered could not be resolved.', 'wordpress-seo-premium' )
 			);
 
 			return false;
