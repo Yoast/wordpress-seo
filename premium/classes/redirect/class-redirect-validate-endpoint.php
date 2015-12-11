@@ -44,7 +44,7 @@ class WPSEO_Redirect_Validate_Endpoint implements WPSEO_Redirect_Validate {
 		}
 
 		if ( is_string( $endpoint ) && $target !== $endpoint ) {
-			// The current redirect will be redirected to ... Maybe it's worth considering to create a direct redirect to ...
+			/* translators: %1$s: will be the target, %2$s: will be the found endpoint.   */
 			$this->error = new WPSEO_Validation_Warning( sprintf(
 				__( '%1$s will be redirected to %2$s. Maybe it\'s worth considering to create a direct redirect to %2$s.', 'wordpress-seo-premium' ),
 				$target,
