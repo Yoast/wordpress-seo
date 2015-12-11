@@ -61,7 +61,7 @@ class WPSEO_Redirect_Validate_Presence_Test extends WPSEO_UnitTestCase {
 			)
 		);
 		$this->assertEquals(
-			new WPSEO_Validation_Error( 'Not all the required fields are filled' ),
+			new WPSEO_Validation_Error( 'Not all the required fields are filled.' ),
 			$this->class_instance->get_error()
 		);
 	}

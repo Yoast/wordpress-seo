@@ -68,7 +68,7 @@ class WPSEO_Redirect_Validate_Accessible_Test extends WPSEO_UnitTestCase {
 		);
 
 		$this->assertEquals(
-			new WPSEO_Validation_Warning( 'The URL you entered could not resolved.' ),
+			new WPSEO_Validation_Warning( 'The URL you entered could not be resolved.' ),
 			$this->class_instance->get_error()
 		);
 	}
@@ -100,6 +100,33 @@ class WPSEO_Redirect_Validate_Accessible_Test extends WPSEO_UnitTestCase {
 
 		$this->assertEquals(
 			new WPSEO_Validation_Warning( 'The url you are redirecting to returns a 302 status. You might want to consider redirecting to another url.' ),
+			$this->class_instance->get_error()
+		);
+	}
+
+
+	/**
+	 * Validate if the target URL is resolvable, in this test it will be a unexisting url that should give a WP_Error
+	 *
+	 * @covers WPSEO_Redirect_Validate_Accessible::validate
+	 * @covers WPSEO_Redirect_Validate_Accessible::parse_target
+	 * @covers WPSEO_Redirect_Validate_Accessible::get_warning
+	 */
+	public function test_validate_relative( ) {
+		$this->assertTrue(
+			$this->class_instance->validate(
+				new WPSEO_Redirect( 'accessible_url', '/', 301 )
+			)
+		);
+
+		$this->assertFalse(
+			$this->class_instance->validate(
+				new WPSEO_Redirect( 'accessible_url', '/does-not-exists', 301 )
+			)
+		);
+
+		$this->assertEquals(
+			new WPSEO_Validation_Warning( 'The url you are redirecting to returns a 404 status. You might want to consider redirecting to another url.' ),
 			$this->class_instance->get_error()
 		);
 	}
