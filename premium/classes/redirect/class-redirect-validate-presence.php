@@ -32,7 +32,7 @@ class WPSEO_Redirect_Validate_Presence implements WPSEO_Redirect_Validate {
 		}
 
 		$this->error = new WPSEO_Validation_Error(
-			__( 'Not all the required fields are filled', 'wordpress-seo-premium' )
+			__( 'Not all the required fields are filled.', 'wordpress-seo-premium' )
 		);
 
 		return false;
