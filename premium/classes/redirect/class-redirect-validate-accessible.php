@@ -24,7 +24,8 @@ class WPSEO_Redirect_Validate_Accessible implements WPSEO_Redirect_Validate {
 	public function validate( WPSEO_Redirect $redirect, array $redirects = null ) {
 
 		// Do the request.
-		$decoded_url   = rawurldecode( $redirect->get_target() );
+		$target        = $this->parse_target( $redirect->get_target() );
+		$decoded_url   = rawurldecode( $target );
 		$response      = wp_remote_head( $decoded_url, array( 'sslverify' => false ) );
 
 		if ( is_wp_error( $response ) ) {
@@ -80,6 +81,24 @@ class WPSEO_Redirect_Validate_Accessible implements WPSEO_Redirect_Validate {
 	 */
 	private function is_temporary( $response_code ) {
 		return in_array( $response_code, array( 302, 307 ) ) || in_array( substr( $response_code, 0, 2 ), array( 40, 50 ) );
+	}
+
+	/**
+	 * Check if the target is relative, if so just parse a full url.
+	 *
+	 * @param string $target The target to pars.
+	 *
+	 * @return string
+	 */
+	private function parse_target( $target ) {
+		$url_parts = parse_url( $target );
+
+		if ( ! empty( $url_parts['scheme'] ) ) {
+			return $target;
+		}
+
+		// Parse the URL based on the home url.
+		return trailingslashit( get_home_url( null, $target ) );
 	}
 
 }
