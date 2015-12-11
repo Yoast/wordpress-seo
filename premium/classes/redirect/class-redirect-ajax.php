@@ -66,9 +66,10 @@ class WPSEO_Redirect_Ajax {
 		else {
 			// Set the value error.
 			$error = array(
-				'type' => 'error',
+				'type'    => 'error',
 				'message' => __( 'Unknown error. Failed to create redirect.', 'wordpress-seo-premium' ),
 			);
+
 			$response = array( 'error' => $error );
 		}
 
@@ -106,9 +107,10 @@ class WPSEO_Redirect_Ajax {
 		else {
 			// Set the value error.
 			$error = array(
-				'type' => 'error',
+				'type'    => 'error',
 				'message' => __( 'Unknown error. Failed to update redirect.', 'wordpress-seo-premium' ),
 			);
+
 			$response = array( 'error' => $error );
 		}
 
