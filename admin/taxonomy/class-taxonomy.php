@@ -222,16 +222,13 @@ class WPSEO_Taxonomy {
 	 * @return string
 	 */
 	public static function get_title_template( $term ) {
-		$options        = WPSEO_Options::get( 'wpseo_titles' );
-		$title_template = '';
 		if ( is_object( $term ) && property_exists( $term, 'taxonomy' ) ) {
 			$needed_option = 'title-tax-' . $term->taxonomy;
-			if ( isset( $options[ $needed_option ] ) && $options[ $needed_option ] !== '' ) {
-				$title_template = $options[ $needed_option ];
-			}
+
+			return self::get_template( $term, $needed_option );
 		}
 
-		return $title_template;
+		return '';
 	}
 
 	/**
@@ -242,16 +239,13 @@ class WPSEO_Taxonomy {
 	 * @return string
 	 */
 	public static function get_metadesc_template( $term ) {
-		$options           = get_option( 'wpseo_titles' );
-		$metadesc_template = '';
 		if ( is_object( $term ) && property_exists( $term, 'taxonomy' ) ) {
-			$needed_option = 'metadesc-tax-' . $term->taxonomy;
-			if ( isset( $options[ $needed_option ] ) && $options[ $needed_option ] !== '' ) {
-				$metadesc_template = $options[ $needed_option ];
-			}
+			$template_option_name = 'metadesc-tax-' . $term->taxonomy;
+
+			return self::get_template( $term, $template_option_name );
 		}
 
-		return $metadesc_template;
+		return '';
 	}
 
 	/**
@@ -262,6 +256,24 @@ class WPSEO_Taxonomy {
 			'no_parent_text' => __( '(no parent)', 'wordpress-seo' ),
 			'replace_vars'   => $this->get_replace_vars(),
 		);
+	}
+
+	/**
+	 * Retrieves a template.
+	 *
+	 * @param object $term                 taxonomy term.
+	 * @param String $template_option_name The name of the option in which the template you want to get is saved.
+	 *
+	 * @return string
+	 */
+	private static function get_template( $term, $template_option_name ) {
+		$options  = WPSEO_Options::get( 'wpseo_titles' );
+		$template = '';
+		if ( isset( $options[ $template_option_name ] ) && $options[ $template_option_name ] !== '' ) {
+			$template = $options[ $template_option_name ];
+		}
+
+		return $template;
 	}
 
 	/**

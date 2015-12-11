@@ -191,15 +191,16 @@ class WPSEO_Options {
 
 		if ( is_array( $option_names ) && $option_names !== array() ) {
 			foreach ( $option_names as $option_name ) {
-				if ( isset( self::$option_instances[ $option_name ] ) && self::$option_instances[ $option_name ]->multisite_only !== true ) {
-					$option = get_option( $option_name );
-				}
-				else {
-					$option = get_site_option( $option_name );
-				}
-
-				if ( is_array( $option ) && $option !== array() ) {
-					$options = array_merge( $options, $option );
+				if ( isset( self::$option_instances[ $option_name ] ) ) {
+					if ( self::$option_instances[ $option_name ]->multisite_only !== true ) {
+						$option = get_option( $option_name );
+					}
+					else {
+						$option = get_site_option( $option_name );
+					}
+					if ( is_array( $option ) && $option !== array() ) {
+						$options = array_merge( $options, $option );
+					}
 				}
 			}
 		}
