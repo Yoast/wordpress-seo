@@ -144,14 +144,12 @@ class WPSEO_Redirect_Ajax {
 	 *
 	 * @param WPSEO_Redirect      $redirect			The redirect to save.
 	 * @param WPSEO_Redirect|null $current_redirect The current redirect.
-	 *
-	 * @return bool|array
 	 */
 	private function validate( WPSEO_Redirect $redirect, WPSEO_Redirect $current_redirect = null ) {
 		$validator = new WPSEO_Redirect_Validator();
 
 		if ( $validator->validate( $redirect, $current_redirect ) === true ) {
-			return true;
+			return;
 		}
 
 		$ignore_warning = filter_input( INPUT_POST, 'ignore_warning' );
@@ -159,7 +157,6 @@ class WPSEO_Redirect_Ajax {
 		$error = $validator->get_error();
 
 		if (  $error->get_type() === 'error' || ( $error->get_type() === 'warning'  && $ignore_warning === 'false' ) ) {
-
 			wp_die(
 				WPSEO_Utils::json_encode( array( 'error' => $error->to_array() ) )
 			);
