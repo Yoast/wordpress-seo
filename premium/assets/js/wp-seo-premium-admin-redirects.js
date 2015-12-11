@@ -12,7 +12,6 @@ jQuery( function($) {
 	$.fn.wpseo_redirects = function( arg_type ) {
 		var that   = this;
 		var type   = arg_type.replace( 'table-', '' );
-		var table  = that.find( 'table' );
 		var ignore = false;
 
 		var last_action;
