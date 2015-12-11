@@ -41,7 +41,8 @@ jQuery( function($) {
 					click: function () {
 						ignore = true;
 
-						$( last_action).click();
+						// The value of last action will be the button pressed to save the redirect.
+						$( last_action ).click();
 
 						$(this).dialog('close');
 
