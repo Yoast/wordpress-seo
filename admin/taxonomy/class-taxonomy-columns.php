@@ -56,30 +56,41 @@ class WPSEO_Taxonomy_Columns {
 
 		switch ( $column_name ) {
 			case 'wpseo_score':
-				$term = get_term( $term_id, $this->taxonomy );
-
-				$no_index = WPSEO_Taxonomy_Meta::get_term_meta( $term_id, $this->taxonomy, 'noindex' );
-
-				if ( ! $this->is_indexable( $term, $no_index ) ) {
-					$rank  = new WPSEO_Rank( WPSEO_Rank::NO_INDEX );
-					$title = __( 'Term is set to noindex.', 'wordpress-seo' );
-				}
-				elseif ( WPSEO_Taxonomy_Meta::get_term_meta( $term_id, $this->taxonomy, 'focuskw' ) === '' ) {
-					$rank  = new WPSEO_Rank( WPSEO_Rank::NO_FOCUS );
-					$title = __( 'Focus keyword not set.', 'wordpress-seo' );
-				}
-				else {
-					$score = (int) WPSEO_Taxonomy_Meta::get_term_meta( $term_id, $this->taxonomy, 'linkdex' );
-					$rank  = WPSEO_Rank::from_numeric_score( $score );
-					$title = $rank->get_label();
-				}
-
-				return '<div title="' . esc_attr( $title ) . '" class="wpseo-score-icon ' . esc_attr( $rank->get_css_class() ) . '"></div>';
+				return $this->get_score_value( $term_id );
 
 				break;
 		}
 
 		return $content;
+	}
+
+	/**
+	 * Parses the value for the score column.
+	 *
+	 * @param integer $term_id ID of requested taxonomy.
+	 *
+	 * @return string
+	 */
+	private function get_score_value( $term_id ) {
+		$term = get_term( $term_id, $this->taxonomy );
+
+		$no_index = WPSEO_Taxonomy_Meta::get_term_meta( $term_id, $this->taxonomy, 'noindex' );
+
+		if ( ! $this->is_indexable( $term, $no_index ) ) {
+			$rank  = new WPSEO_Rank( WPSEO_Rank::NO_INDEX );
+			$title = __( 'Term is set to noindex.', 'wordpress-seo' );
+		}
+		elseif ( WPSEO_Taxonomy_Meta::get_term_meta( $term_id, $this->taxonomy, 'focuskw' ) === '' ) {
+			$rank  = new WPSEO_Rank( WPSEO_Rank::NO_FOCUS );
+			$title = __( 'Focus keyword not set.', 'wordpress-seo' );
+		}
+		else {
+			$score = (int) WPSEO_Taxonomy_Meta::get_term_meta( $term_id, $this->taxonomy, 'linkdex' );
+			$rank  = WPSEO_Rank::from_numeric_score( $score );
+			$title = $rank->get_label();
+		}
+
+		return '<div title="' . esc_attr( $title ) . '" class="wpseo-score-icon ' . esc_attr( $rank->get_css_class() ) . '"></div>';
 	}
 
 	/**
