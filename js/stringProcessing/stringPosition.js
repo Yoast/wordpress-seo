@@ -7,6 +7,6 @@
  */
 module.exports = function( text, keyword ) {
 	if ( typeof text !== "undefined" ) {
-		return text.toLocaleLowerCase().indexOf( keyword );
+		return text.indexOf( keyword );
 	}
 };
