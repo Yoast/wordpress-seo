@@ -30,6 +30,11 @@ class WPSEO_Taxonomy {
 		add_action( 'init', array( $this, 'custom_category_descriptions_allow_html' ) );
 		add_filter( 'category_description', array( $this, 'custom_category_descriptions_add_shortcode_support' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
+
+		if ( $GLOBALS['pagenow'] === 'edit-tags.php' ) {
+			new WPSEO_Taxonomy_Columns();
+		}
+
 	}
 
 	/**
