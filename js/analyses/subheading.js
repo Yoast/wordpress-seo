@@ -9,7 +9,7 @@ var subheadingMatch = require( "../stringProcessing/subheadingsMatch.js" );
  */
 module.exports = function( text, keyword ) {
 	var matches;
-	var result = {};
+	var result = { count: 0 };
 	text = stripSomeTags( text );
 	matches = text.match( /<h([1-6])(?:[^>]+)?>(.*?)<\/h\1>/ig );
 

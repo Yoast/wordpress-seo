@@ -8,4 +8,5 @@ module.exports = function( text ) {
 	if ( typeof text !== "undefined" ) {
 		return text.length;
 	}
+	return 0;
 };

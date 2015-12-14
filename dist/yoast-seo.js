@@ -192,7 +192,7 @@ YoastSEO.Analyzer.prototype.keyphraseSizeCheck = function() {
  */
 YoastSEO.Analyzer.prototype.keywordDensity = function() {
 	var keywordDensityFunction = require( "./analyses/keywordDensity.js" );
-	var density = keywordDensityFunction( this.preProcessor.__store.cleanTextNoTags, this.config.keyword );
+	var density = keywordDensityFunction( this.preProcessor.__store.originalText, this.config.keyword );
 	var result = [ { test: "keywordDensity", result: density } ];
 
 	// The check for the amount of keywords should be checked in the scoring
@@ -211,11 +211,14 @@ YoastSEO.Analyzer.prototype.keywordDensity = function() {
  * @returns keywordCount
  */
 YoastSEO.Analyzer.prototype.keywordCount = function() {
-	var keywordMatches = this.preProcessor.__store.cleanTextSomeTags.match( this.keywordRegex );
+	var keywordCountFunction = require( "./stringProcessing/wordMatch.js" );
+	var keywordCount = keywordCountFunction( this.preProcessor.__store.originalText, this.config.keyword );
+
+	/*var keywordMatches = this.preProcessor.__store.cleanTextSomeTags.match( this.keywordRegex );
 	var keywordCount = 0;
 	if ( keywordMatches !== null ) {
 		keywordCount = keywordMatches.length;
-	}
+	}*/
 	this.__store.keywordCount = keywordCount;
 	return keywordCount;
 };
@@ -225,14 +228,17 @@ YoastSEO.Analyzer.prototype.keywordCount = function() {
  * @returns resultObject
  */
 YoastSEO.Analyzer.prototype.subHeadings = function() {
-	var result = [ { test: "subHeadings", result: { count: 0, matches: 0 } } ];
+	var subHeadingsFunction = require ( "./analyses/subheading.js" );
 
+	var result = [ { test: "subHeadings", result: subHeadingsFunction( this.preProcessor.__store.originalText, this.config.keyword ) } ];
+/*
 	//matches everything from H1-H6 openingtags untill the closingtags.
 	var matches = this.preProcessor.__store.cleanTextSomeTags.match( /<h([1-6])(?:[^>]+)?>(.*?)<\/h\1>/ig );
 	if ( matches !== null ) {
 		result[ 0 ].result.count = matches.length;
 		result[ 0 ].result.matches = this.subHeadingsCheck( matches );
 	}
+	*/
 	return result;
 };
 
@@ -268,11 +274,12 @@ YoastSEO.Analyzer.prototype.subHeadingsCheck = function( matches ) {
  * @returns {result object}
  */
 YoastSEO.Analyzer.prototype.stopwords = function() {
-
+	var stopwordsFunction = require( "./analyses/stopwords.js" );
+	var matches = stopwordsFunction( this.preProcessor.__store.originalText );
 	//prefix space to the keyword to make sure it matches if the keyword starts with a stopword.
-	var keyword = this.config.keyword;
+	/*var keyword = this.config.keyword;
 	var matches = this.stringHelper.matchString( keyword, this.config.stopWords );
-	var stopwordCount = matches !== null ? matches.length : 0;
+	var stopwordCount = matches !== null ? matches.length : 0;*/
 	var matchesText = "";
 	if ( matches !== null ) {
 		for ( var i = 0; i < matches.length; i++ ) {
@@ -282,7 +289,7 @@ YoastSEO.Analyzer.prototype.stopwords = function() {
 	return [ {
 		test: "stopwordKeywordCount",
 		result: {
-			count: stopwordCount,
+			count: matches.length,
 			matches: matchesText.substring( 0, matchesText.length - 2 )
 		}
 	} ];
@@ -345,7 +352,7 @@ YoastSEO.Analyzer.prototype.fleschReading = function() {
  * 	}
  */
 YoastSEO.Analyzer.prototype.linkCount = function() {
-
+	var linkCountFunction = require( "./analyses/linkCount.js" );
 	//regex matches everything between <a> and </a>
 	var linkMatches = this.preProcessor.__store.originalText.match(
 		/<a(?:[^>]+)?>(.*?)<\/a>/ig
@@ -382,7 +389,7 @@ YoastSEO.Analyzer.prototype.linkCount = function() {
 		}
 	}
 	linkCount = this.linkResult( linkCount );
-	return [ { test: "linkCount", result: linkCount } ];
+	return [ { test: "linkCount", result: linkCountFunction( this.preProcessor.__store.originaltext, this.config.keyword, this.config.baseUrl ) } ];
 };
 
 /**
@@ -478,6 +485,7 @@ YoastSEO.Analyzer.prototype.imageCount = function() {
 	var imageCount = { total: 0, alt: 0, noAlt: 0, altKeyword: 0, altNaKeyword: 0 };
 
 	//matches everything in the <img>-tag, case insensitive and global
+	/*
 	var imageMatches = this.preProcessor.__store.originalText.match( /<img(?:[^>]+)?>/ig );
 	if ( imageMatches !== null ) {
 		imageCount.total = imageMatches.length;
@@ -490,6 +498,7 @@ YoastSEO.Analyzer.prototype.imageCount = function() {
 					if ( this.imageAlttagKeyword( alttag ) ) {
 						imageCount.altKeyword++;
 					} else {
+
 						//this counts all alt-tags w/o the keyword when a keyword is set.
 						imageCount.alt++;
 					}
@@ -501,7 +510,9 @@ YoastSEO.Analyzer.prototype.imageCount = function() {
 			}
 		}
 	}
-	return [ { test: "imageCount", result: imageCount } ];
+	*/
+	var imageCountFunction = require( "./analyses/imageCount.js" );
+	return [ { test: "imageCount", result: imageCountFunction( this.preProcessor.__store.originalText, this.config.keyword ) } ];
 };
 
 /**
@@ -542,11 +553,12 @@ YoastSEO.Analyzer.prototype.imageAlttagKeyword = function( image ) {
  */
 
 YoastSEO.Analyzer.prototype.pageTitleLength = function() {
-	var count = 0;
+	/*var count = 0;
 	if ( typeof this.config.pageTitle !== "undefined" ) {
 		count = this.config.pageTitle.length;
-	}
-	return [ { test: "pageTitleLength", result: count } ];
+	}*/
+	var pageTitleLengthFunction = require ( "./analyses/pageTitleLength.js" );
+	return [ { test: "pageTitleLength", result: pageTitleLengthFunction( this.config.pageTitle ) } ];
 };
 
 /**
@@ -556,14 +568,17 @@ YoastSEO.Analyzer.prototype.pageTitleLength = function() {
  * @returns {{name: string, count: number}}
  */
 YoastSEO.Analyzer.prototype.pageTitleKeyword = function() {
-	var result = [ { test: "pageTitleKeyword", result: { matches: 0, position: 0 } } ];
-	if ( typeof this.config.pageTitle !== "undefined" ) {
+	var pageTitleKeywordFunction = require ( "./analyses/pageTitleKeyword.js" );
+	var result = [ { test: "pageTitleKeyword", result:  pageTitleKeywordFunction( this.preProcessor.__store.originalText, this.config.keyword ) }  ];
+	/*if ( typeof this.config.pageTitle !== "undefined" ) {
 		result[ 0 ].result.matches = this.stringHelper.countMatches(
 			this.config.pageTitle,
 			new RegExp( this.config.keyword, "i" )
 		);
 		result[ 0 ].result.position = this.config.pageTitle.toLocaleLowerCase().indexOf( this.config.keyword.toLocaleLowerCase() );
 	}
+	*/
+
 	return result;
 };
 
@@ -573,7 +588,10 @@ YoastSEO.Analyzer.prototype.pageTitleKeyword = function() {
  * @returns {{name: string, count: number}}
  */
 YoastSEO.Analyzer.prototype.firstParagraph = function() {
-	var result = [ { test: "firstParagraph", result: 0 } ];
+	var firstParagraphFunction = require( "./analyses/firstParagraph.js" );
+	var result = [ { test: "firstParagraph", result: firstParagraphFunction( this.preProcessor.__store.originalText, this.config.keyword ) } ];
+/*
+
 
 	//matches everything between the <p> and </p> tags.
 	var p = this.paragraphChecker(
@@ -595,7 +613,7 @@ YoastSEO.Analyzer.prototype.firstParagraph = function() {
 		 * And there are not double newline
 		 * Then we are dealing with a single paragraph and we should just use the keyword count in the full text.
 		 */
-		if (
+		/*if (
 			p === 0 &&
 			this.preProcessor.__store.originalText.indexOf( "\n\n" ) === -1 &&
 			this.preProcessor.__store.originalText.indexOf( "</p>" ) === -1
@@ -603,7 +621,7 @@ YoastSEO.Analyzer.prototype.firstParagraph = function() {
 			p = this.keywordCount();
 		}
 	}
-	result[ 0 ].result = p;
+	result[ 0 ].result = p;*/
 	return result;
 };
 
@@ -628,12 +646,14 @@ YoastSEO.Analyzer.prototype.paragraphChecker = function( textString, regexp ) {
  * @returns {{name: string, count: number}}
  */
 YoastSEO.Analyzer.prototype.metaDescriptionKeyword = function() {
-	var result = [ { test: "metaDescriptionKeyword", result: -1 } ];
-	if ( typeof this.config.meta !== "undefined" && this.config.meta.length > 0 && this.config.keyword !== "" ) {
+	var metaDescriptionKeywordFunction = require( "./analyses/metaDescriptionKeyword.js" );
+
+	var result = [ { test: "metaDescriptionKeyword", result: metaDescriptionKeywordFunction( this.config.meta, this.config.keyword ) } ];
+	/*if ( typeof this.config.meta !== "undefined" && this.config.meta.length > 0 && this.config.keyword !== "" ) {
 		result[ 0 ].result = this.stringHelper.countMatches(
 			this.config.meta, new RegExp( this.config.keyword, "i" )
 		);
-	}
+	}*/
 	return result;
 };
 
@@ -642,10 +662,12 @@ YoastSEO.Analyzer.prototype.metaDescriptionKeyword = function() {
  * @returns {{test: string, result: Number}[]}
  */
 YoastSEO.Analyzer.prototype.metaDescriptionLength = function() {
-	var result = [ { test: "metaDescriptionLength", result: 0 } ];
-	if ( typeof this.config.meta !== "undefined" ) {
+	var metaDescriptionLengthFunction = require( "./analyses/metaDescriptionLength.js" );
+
+	var result = [ { test: "metaDescriptionLength", result: metaDescriptionLengthFunction( this.config.meta ) } ];
+	/*if ( typeof this.config.meta !== "undefined" ) {
 		result[0].result = this.config.meta.length;
-	}
+	}*/
 	return result;
 };
 
@@ -654,12 +676,14 @@ YoastSEO.Analyzer.prototype.metaDescriptionLength = function() {
  * @returns {{name: string, count: number}}
  */
 YoastSEO.Analyzer.prototype.urlKeyword = function() {
-	var result = [ { test: "urlKeyword", result: 0 } ];
-	if ( typeof this.config.url !== "undefined" ) {
+	var urlKeywordFunction = require( "./analyses/urlKeyword.js" );
+
+	var result = [ { test: "urlKeyword", result: urlKeywordFunction( this.config.url, this.config.keyword ) } ];
+	/*if ( typeof this.config.url !== "undefined" ) {
 		result[ 0 ].result = this.stringHelper.countMatches(
 			this.config.url, this.keywordRegexInverse
 		);
-	}
+	}*/
 	return result;
 };
 
@@ -668,8 +692,15 @@ YoastSEO.Analyzer.prototype.urlKeyword = function() {
  * @returns {{test: string, result: number}[]}
  */
 YoastSEO.Analyzer.prototype.urlLength = function() {
-	var result = [ { test: "urlLength", result: { urlTooLong: false } } ];
-	if ( typeof this.config.url !== "undefined" ) {
+	var urlLengthFunction = require( "./analyes/urlLength.js" );
+
+	var result = [ { test: "urlLength", result: urlLengthFunction(
+		this.config.url,
+		this.config.keyword,
+		this.config.maxSlugLength,
+		this.config.maxUrlLength
+	) } ];
+	/*if ( typeof this.config.url !== "undefined" ) {
 		var length = this.config.url.length;
 		if (
 			length > this.config.maxUrlLength &&
@@ -677,7 +708,7 @@ YoastSEO.Analyzer.prototype.urlLength = function() {
 		) {
 			result[ 0 ].result.urlTooLong = true;
 		}
-	}
+	}*/
 	return result;
 };
 
@@ -686,13 +717,14 @@ YoastSEO.Analyzer.prototype.urlLength = function() {
  * @returns {{test: string, result: number}[]}
  */
 YoastSEO.Analyzer.prototype.urlStopwords = function() {
-	var result = [ { test: "urlStopwords", result: 0 } ];
-	if ( typeof this.config.url !== "undefined" ) {
+	var urlStopWordsFunction = require ( "./analyses/urlStopwords.js" );
+	var result = [ { test: "urlStopwords", result: urlStopWordsFunction( this.config.url ) } ];
+	/*if ( typeof this.config.url !== "undefined" ) {
 		var stopwords = this.stringHelper.matchString( this.config.url, this.config.stopWords );
 		if ( stopwords !== null ) {
 			result[ 0 ].result = stopwords.length;
 		}
-	}
+	}*/
 	return result;
 };
 
@@ -701,15 +733,16 @@ YoastSEO.Analyzer.prototype.urlStopwords = function() {
  * @returns {{test: string, result: number}[]}
  */
 YoastSEO.Analyzer.prototype.keywordDoubles = function() {
-	var result = [ { test: "keywordDoubles", result: { count: 0, id: 0 } } ];
-	if ( typeof this.config.keyword !== "undefined" ) {
+	var keywordDoublesFunction = require ( "./analyses/keywordDoubles.js" );
+	var result = [ { test: "keywordDoubles", result: keywordDoublesFunction( this.config.keyword, this.config.usedKeywords ) } ];
+	/*if ( typeof this.config.keyword !== "undefined" ) {
 		if ( typeof this.config.usedKeywords !== "undefined" && typeof this.config.usedKeywords[ this.config.keyword ] !== "undefined" ) {
 			result[ 0 ].result.count = this.config.usedKeywords[ this.config.keyword ].length;
 			if ( result[ 0 ].result.count === 1 ) {
 				result[ 0 ].result.id = this.config.usedKeywords[ this.config.keyword ][ 0 ];
 			}
 		}
-	}
+	}*/
 	return result;
 };
 

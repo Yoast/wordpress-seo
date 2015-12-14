@@ -5,7 +5,7 @@
  * @returns {String} The text with unified spaces.
  */
 
-module.exports = function( text ){
+module.exports = function( text ) {
 
 	// Replace &nbsp with space
 	text = text.replace( "&nbsp;", " " );
