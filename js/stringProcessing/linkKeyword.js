@@ -7,12 +7,13 @@ var keywordRegex = require( "../stringProcessing/keywordRegex.js" );
  */
 module.exports = function( url, keyword ) {
 	var keywordFound = false;
-
-	var formatUrl = url.match( />(.*)/ig );
-	if ( formatUrl !== null ) {
-		formatUrl = formatUrl[0].replace( /<.*?>\s?/ig, "" );
-		if ( formatUrl.match( keywordRegex( keyword ) ) !== null ) {
-			keywordFound = true;
+	if( typeof keyword !== "undefined" ) {
+		var formatUrl = url.match( />(.*)/ig );
+		if ( formatUrl !== null ) {
+			formatUrl = formatUrl[0].replace(/<.*?>\s?/ig, "");
+			if (formatUrl.match(keywordRegex(keyword)) !== null) {
+				keywordFound = true;
+			}
 		}
 	}
 	return keywordFound;
