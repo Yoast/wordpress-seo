@@ -1,5 +1,4 @@
-var stopwordsArray = require( "../config/stopwords.js" );
-var arrayMatch = require( "../stringProcessing/arrayMatch.js" );
+var stopwords = require( "../analyses/stopwords.js" );
 
 /**
  * Matches stopwords in the URL. replaces - and _ with whitespace.
@@ -10,5 +9,5 @@ var arrayMatch = require( "../stringProcessing/arrayMatch.js" );
 
 module.exports = function( url ) {
 	url = url.replace( /[-_]/g, " " );
-	return arrayMatch( url, stopwordsArray() );
+	return stopwords( url );
 };
