@@ -6,7 +6,7 @@
  * @param {Array} usedKeywords The array with used keywords and IDs.
  */
 module.exports = function( keyword, usedKeywords ) {
-	var result = {};
+	var result = { count: 0, id: 0 };
 	if ( typeof keyword !== "undefined" ) {
 		if ( typeof usedKeywords !== "undefined" && typeof usedKeywords[ keyword ] !== "undefined" ) {
 			result.count = usedKeywords[ keyword ].length;
