@@ -9,7 +9,7 @@ var wordMatch = require( "../stringProcessing/wordMatch.js" );
  */
 module.exports = function( text, keyword ) {
 	var matches = -1;
-	if ( text !== "" ) {
+	if ( typeof text !== "undefined" && typeof keyword !== "undefined" && text !== "" && keyword !== "" ) {
 		matches = wordMatch( text, keyword );
 	}
 	return matches;

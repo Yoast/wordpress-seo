@@ -5,5 +5,9 @@
  * @returns {Int} The length of the text.
  */
 module.exports = function( text ) {
-	return text.length;
+	var length = 0;
+	if( typeof text !== "undefined" ){
+		length = text.length;
+	}
+	return length;
 };
