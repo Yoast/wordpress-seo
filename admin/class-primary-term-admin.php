@@ -77,7 +77,7 @@ class WPSEO_Primary_Term_Admin {
 	 * @return array|null|object|WP_Error The category we want to use for the post link.
 	 */
 	public function post_link_category( $category ) {
-		$primary_category = $this->get_primary_term();
+		$primary_category = $this->get_primary_term( 'category' );
 
 		if ( false !== $primary_category && $primary_category !== $category->cat_ID ) {
 			$category = get_category( $primary_category );
@@ -87,12 +87,15 @@ class WPSEO_Primary_Term_Admin {
 	}
 
 	/**
+	 * /**
 	 * Get the id of the primary term
+	 *
+	 * @param $taxonomy_name Taxonomy name for the term
 	 *
 	 * @return int primary term id
 	 */
-	protected function get_primary_term() {
-		$primary_term = new WPSEO_Primary_Term( 'category', get_the_ID() );
+	protected function get_primary_term( $taxonomy_name ) {
+		$primary_term = new WPSEO_Primary_Term( $taxonomy_name, get_the_ID() );
 
 		return $primary_term->get_primary_term();
 	}
@@ -164,12 +167,10 @@ class WPSEO_Primary_Term_Admin {
 	 * @return array
 	 */
 	private function map_taxonomies_for_js( $taxonomy ) {
-		$primary_term = new WPSEO_Primary_Term( $taxonomy->name, get_the_ID() );
-
 		return array(
 			'title'   => $taxonomy->labels->singular_name,
 			'name'    => $taxonomy->name,
-			'primary' => $primary_term->get_primary_term(),
+			'primary' => $this->get_primary_term( $taxonomy->name ),
 			'terms'   => array_map( array( $this, 'map_terms_for_js' ), get_terms( $taxonomy->name ) ),
 		);
 	}
