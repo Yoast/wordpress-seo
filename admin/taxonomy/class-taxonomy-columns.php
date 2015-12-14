@@ -15,8 +15,10 @@ class WPSEO_Taxonomy_Columns {
 
 		$this->taxonomy = FILTER_INPUT( INPUT_GET, 'taxonomy' );
 
-		add_filter( 'manage_edit-' . $this->taxonomy . '_columns', array( $this, 'add_columns' ) );
-		add_filter( 'manage_' . $this->taxonomy . '_custom_column', array( $this, 'parse_column' ), 10, 3 );
+		if ( ! empty( $this->taxonomy ) ) {
+			add_filter( 'manage_edit-' . $this->taxonomy . '_columns', array( $this, 'add_columns' ) );
+			add_filter( 'manage_' . $this->taxonomy . '_custom_column', array( $this, 'parse_column' ), 10, 3 );
+		}
 	}
 
 	/**
