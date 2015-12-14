@@ -22,7 +22,7 @@ class WPSEO_Taxonomy_Columns {
 	}
 
 	/**
-	 * Adds the SEO score to the table.
+	 * Adds an SEO score column to the terms table, right after the description column.
 	 *
 	 * @param array $columns Current set columns.
 	 *
