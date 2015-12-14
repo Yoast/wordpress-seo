@@ -20,7 +20,7 @@ describe("a test matching the keywords in the url", function(){
         var result = urlAnalyzer.__output;
         expect(result[0].result).toBe(1);
         expect(result[1].result.urlTooLong).toBe(false);
-        expect(result[2].result).toBe(0);
+        expect(result[2].result.length).toBe(0);
     });
 });
 

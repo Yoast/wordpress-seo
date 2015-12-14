@@ -7,6 +7,9 @@ var wordMatch = require( "../stringProcessing/wordMatch.js" );
  * @returns {Int} Number of times the keyword is found.
  */
 module.exports = function( text, keyword ) {
-	keyword = keyword.replace( /\s/ig, "-" );
-	return wordMatch( text, keyword );
+	if ( typeof keyword !== "undefined" && typeof text !== "undefined" ) {
+		keyword = keyword.replace( /\s/ig, "-" );
+		return wordMatch( text, keyword );
+	}
+	return 0;
 };
