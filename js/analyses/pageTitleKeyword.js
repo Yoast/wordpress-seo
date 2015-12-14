@@ -11,8 +11,11 @@ var stringPosition = require( "../stringProcessing/stringPosition.js" );
  */
 
 module.exports = function( text, keyword ) {
-	var result = {};
-	result.matches = wordMatch( text, keyword );
-	result.position = stringPosition( text, keyword );
+	var result = { matches: 0, position: -1 };
+	if( typeof text !== "undefined" && typeof keyword !== "undefined" ){
+		result.matches = wordMatch( text, keyword );
+		result.position = stringPosition( text, keyword );
+	}
+
 	return result;
 };
