@@ -30,13 +30,12 @@ class WPSEO_Taxonomy_Columns {
 
 		$new_columns = array();
 
-		foreach( $columns as $column_name => $column_value ) {
+		foreach ( $columns as $column_name => $column_value ) {
 			$new_columns[ $column_name ] = $column_value;
 
 			if ( $column_name === 'description' ) {
-				$new_columns[ 'wpseo_score' ] = __( 'SEO', 'wordpress-seo' );
+				$new_columns['wpseo_score'] = __( 'SEO', 'wordpress-seo' );
 			}
-
 		}
 
 		return $new_columns;
@@ -84,16 +83,16 @@ class WPSEO_Taxonomy_Columns {
 	/**
 	 * Check if the taxonomy is indexable.
 	 *
-	 * @param mixed       $term
-	 * @param bool|string $no_index
+	 * @param mixed       $term     The current term.
+	 * @param bool|string $no_index The no index meta value.
 	 *
 	 * @return bool
 	 */
 	private function is_indexable( $term, $no_index ) {
 		static $options;
 
-		// Saving the options once, because it's static
-		if ( $options === null) {
+		// Saving the options once, because it's static.
+		if ( $options === null ) {
 			$options = WPSEO_Options::get_all();
 		}
 
@@ -102,7 +101,7 @@ class WPSEO_Taxonomy_Columns {
 			return ( $no_index === 'index' );
 		}
 
-		// Check if the default for taxonomy is empty (this will be index)
+		// Check if the default for taxonomy is empty (this will be index).
 		$no_index_key = 'noindex-tax-' . $term->taxonomy;
 		if ( is_object( $term ) && ( isset( $options[ $no_index_key ] ) ) ) {
 			return ( empty( $options[ $no_index_key ] ) );
