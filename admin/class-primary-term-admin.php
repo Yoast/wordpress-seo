@@ -77,14 +77,24 @@ class WPSEO_Primary_Term_Admin {
 	 * @return array|null|object|WP_Error The category we want to use for the post link.
 	 */
 	public function post_link_category( $category ) {
-		$primary_category = new WPSEO_Primary_Term( 'category', get_the_ID() );
-		$primary_category = $primary_category->get_primary_term();
+		$primary_category = $this->get_primary_term();
 
 		if ( false !== $primary_category && $primary_category !== $category->cat_ID ) {
 			$category = get_category( $primary_category );
 		}
 
 		return $category;
+	}
+
+	/**
+	 * Get the id of the primary term
+	 *
+	 * @return int primary term id
+	 */
+	protected function get_primary_term() {
+		$primary_term = new WPSEO_Primary_Term( 'category', get_the_ID() );
+
+		return $primary_term->get_primary_term();
 	}
 
 	/**
