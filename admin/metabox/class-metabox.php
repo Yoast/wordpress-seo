@@ -599,11 +599,11 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 			$label = esc_html( $meta_field_def['title'] );
 			if ( in_array( $meta_field_def['type'], array(
-					'snippetpreview',
-					'pageanalysis',
-					'radio',
-					'checkbox',
-				), true ) === false
+				'snippetpreview',
+				'pageanalysis',
+				'radio',
+				'checkbox',
+			), true ) === false
 			) {
 				$label = '<label for="' . $esc_form_key . '">' . $label . '</label>';
 			}
@@ -694,10 +694,10 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		global $pagenow;
 		/* Filter 'wpseo_always_register_metaboxes_on_admin' documented in wpseo-main.php */
 		if ( ( ! in_array( $pagenow, array(
-					'post-new.php',
-					'post.php',
-					'edit.php',
-				), true ) && apply_filters( 'wpseo_always_register_metaboxes_on_admin', false ) === false ) || $this->is_metabox_hidden() === true
+			'post-new.php',
+			'post.php',
+			'edit.php',
+		), true ) && apply_filters( 'wpseo_always_register_metaboxes_on_admin', false ) === false ) || $this->is_metabox_hidden() === true
 		) {
 			return;
 		}

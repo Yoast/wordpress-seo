@@ -245,7 +245,9 @@ class Yoast_Form {
 	 * @param array  $attr HTML attributes set.
 	 */
 	public function label( $text, $attr ) {
-		$attr = wp_parse_args( $attr, array(
+		$attr = wp_parse_args(
+			$attr,
+			array(
 				'class' => 'checkbox',
 				'close' => true,
 				'for'   => '',
