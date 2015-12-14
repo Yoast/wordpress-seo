@@ -230,6 +230,16 @@ class WPSEO_OpenGraph {
 		else if ( is_front_page() ) {
 			$title = ( isset( $this->options['og_frontpage_title'] ) && $this->options['og_frontpage_title'] !== '' ) ? $this->options['og_frontpage_title'] : $frontend->title( '' );
 		}
+		elseif ( is_category() || is_tax() || is_tag() ) {
+			$title = WPSEO_Taxonomy_Meta::get_meta_without_term( 'opengraph-title' );
+			if ( $title === '' ) {
+				$title = $frontend->get_taxonomy_title( '' );
+			}
+			else {
+				// Replace Yoast SEO Variables.
+				$title = wpseo_replace_vars( $title, $GLOBALS['wp_query']->get_queried_object() );
+			}
+		}
 		else {
 			$title = $frontend->title( '' );
 		}
@@ -489,6 +499,16 @@ class WPSEO_OpenGraph {
 		foreach ( $opengraph_images->get_images() as $img ) {
 			$this->og_tag( 'og:image', esc_url( $img ) );
 		}
+
+		$dimensions = $opengraph_images->get_dimensions();
+
+		if ( ! empty( $dimensions['width'] ) ) {
+			$this->og_tag( 'og:image:width', absint( $dimensions['width'] ) );
+		}
+
+		if ( ! empty( $dimensions['height'] ) ) {
+			$this->og_tag( 'og:image:height', absint( $dimensions['height'] ) );
+		}
 	}
 
 	/**
@@ -542,16 +562,17 @@ class WPSEO_OpenGraph {
 		}
 
 		if ( is_category() || is_tag() || is_tax() ) {
+			$ogdesc = WPSEO_Taxonomy_Meta::get_meta_without_term( 'opengraph-description' );
+			if ( $ogdesc === '' ) {
+				$ogdesc = $frontend->metadesc( false );
+			}
 
-			$ogdesc = $frontend->metadesc( false );
-
-			if ( '' == $ogdesc ) {
+			if ( $ogdesc === '' ) {
 				$ogdesc = trim( strip_tags( term_description() ) );
 			}
 
-			if ( '' == $ogdesc ) {
-				$term   = $GLOBALS['wp_query']->get_queried_object();
-				$ogdesc = WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'desc' );
+			if ( $ogdesc === '' ) {
+				$ogdesc = WPSEO_Taxonomy_Meta::get_meta_without_term( 'desc' );
 			}
 		}
 
@@ -659,10 +680,10 @@ class WPSEO_OpenGraph {
 			}
 		}
 
-		$pub = get_the_date( 'c' );
+		$pub = get_the_date( DATE_W3C );
 		$this->og_tag( 'article:published_time', $pub );
 
-		$mod = get_the_modified_date( 'c' );
+		$mod = get_the_modified_date( DATE_W3C );
 		if ( $mod != $pub ) {
 			$this->og_tag( 'article:modified_time', $mod );
 			$this->og_tag( 'og:updated_time', $mod );
@@ -670,7 +691,6 @@ class WPSEO_OpenGraph {
 
 		return true;
 	}
-
 } /* End of class */
 
 /**
@@ -687,6 +707,9 @@ class WPSEO_OpenGraph_Image {
 	 * @var array $images Holds the images that have been put out as OG image.
 	 */
 	private $images = array();
+
+	/** @var array $dimensions Holds image dimensions, if determined. */
+	protected $dimensions = array();
 
 	/**
 	 * Constructor
@@ -713,6 +736,15 @@ class WPSEO_OpenGraph_Image {
 	}
 
 	/**
+	 * Return the dimensions array.
+	 *
+	 * @return array
+	 */
+	public function get_dimensions() {
+		return $this->dimensions;
+	}
+
+	/**
 	 * Check if page is front page or singular and call the corresponding functions. If not, call get_default_image.
 	 */
 	private function set_images() {
@@ -722,6 +754,10 @@ class WPSEO_OpenGraph_Image {
 
 		if ( is_singular() ) {
 			$this->get_singular_image();
+		}
+
+		if ( is_category() || is_tax() || is_tag() ) {
+			$this->get_opengraph_image_taxonomy();
 		}
 
 		$this->get_default_image();
@@ -742,7 +778,7 @@ class WPSEO_OpenGraph_Image {
 	private function get_singular_image() {
 		global $post;
 
-		if ( $this->get_opengraph_image() ) {
+		if ( $this->get_opengraph_image_post() ) {
 			return;
 		}
 
@@ -767,12 +803,23 @@ class WPSEO_OpenGraph_Image {
 	 *
 	 * @return bool
 	 */
-	private function get_opengraph_image() {
+	private function get_opengraph_image_post() {
 		$ogimg = WPSEO_Meta::get_value( 'opengraph-image' );
 		if ( $ogimg !== '' ) {
 			$this->add_image( $ogimg );
 
 			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Check if taxonomy has an image and add this image
+	 */
+	private function get_opengraph_image_taxonomy() {
+		if ( ( $ogimg = WPSEO_Taxonomy_Meta::get_meta_without_term( 'opengraph-image' ) ) !== '' ) {
+			$this->add_image( $ogimg );
 		}
 	}
 
@@ -784,7 +831,8 @@ class WPSEO_OpenGraph_Image {
 	 * @return bool
 	 */
 	private function get_featured_image( $post_id ) {
-		if ( function_exists( 'has_post_thumbnail' ) && has_post_thumbnail( $post_id ) ) {
+
+		if ( has_post_thumbnail( $post_id ) ) {
 			/**
 			 * Filter: 'wpseo_opengraph_image_size' - Allow changing the image size used for OpenGraph sharing
 			 *
@@ -793,6 +841,10 @@ class WPSEO_OpenGraph_Image {
 			$thumb = wp_get_attachment_image_src( get_post_thumbnail_id( $post_id ), apply_filters( 'wpseo_opengraph_image_size', 'original' ) );
 
 			if ( $this->check_featured_image_size( $thumb ) ) {
+
+				$this->dimensions['width']  = $thumb[1];
+				$this->dimensions['height'] = $thumb[2];
+
 				return $this->add_image( $thumb[0] );
 			}
 		}
@@ -886,5 +938,4 @@ class WPSEO_OpenGraph_Image {
 
 		return $img;
 	}
-
 }

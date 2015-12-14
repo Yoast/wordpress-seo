@@ -43,6 +43,15 @@ class Yoast_Notification {
 	}
 
 	/**
+	 * Retrieve notification ID string.
+	 *
+	 * @return string
+	 */
+	public function get_id() {
+		return $this->options['id'];
+	}
+
+	/**
 	 * Return the object properties as an array
 	 *
 	 * @return array
@@ -93,5 +102,4 @@ class Yoast_Notification {
 
 		return " data-json='" . WPSEO_Utils::json_encode( $this->options['data_json'] ) . "'";
 	}
-
 }

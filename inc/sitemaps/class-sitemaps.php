@@ -427,6 +427,15 @@ class WPSEO_Sitemaps {
 	 */
 	public static function ping_search_engines( $url = null ) {
 
+		/**
+		 * Filter: 'wpseo_allow_xml_sitemap_ping' - Check if pinging is not allowed (allowed by default)
+		 *
+		 * @api boolean $allow_ping The boolean that is set to true by default.
+		 */
+		if ( apply_filters( 'wpseo_allow_xml_sitemap_ping', true ) === false ) {
+			return;
+		}
+
 		if ( '0' == get_option( 'blog_public' ) ) { // Don't ping if blog is not public.
 			return;
 		}

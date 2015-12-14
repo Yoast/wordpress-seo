@@ -120,6 +120,7 @@ class WPSEO_Pointers {
 
 				setup = function () {
 					$('<?php echo $selector; ?>').pointer(wpseo_pointer_options).pointer('open');
+					var lastOpenedPointer = jQuery( '.wp-pointer').slice( -1 );
 					<?php
 					$this->button2();
 					$this->button3();
@@ -142,9 +143,9 @@ class WPSEO_Pointers {
 	private function button2() {
 		if ( $this->button_array['button2']['text'] ) {
 			?>
-			jQuery('#pointer-close').after('<a id="pointer-primary" class="button-primary">' +
+			lastOpenedPointer.find( '#pointer-close' ).after('<a id="pointer-primary" class="button-primary">' +
 				'<?php echo $this->button_array['button2']['text']; ?>' + '</a>');
-			jQuery('#pointer-primary').click(function () {
+			lastOpenedPointer.find('#pointer-primary').click(function () {
 			<?php echo $this->button_array['button2']['function']; ?>
 			});
 		<?php
@@ -157,9 +158,9 @@ class WPSEO_Pointers {
 	private function button3() {
 		if ( $this->button_array['button3']['text'] ) {
 			?>
-			jQuery('#pointer-primary').after('<a id="pointer-ternary" style="float: left;" class="button-secondary">' +
+			lastOpenedPointer.find('#pointer-primary').after('<a id="pointer-ternary" style="float: left;" class="button-secondary">' +
 				'<?php echo $this->button_array['button3']['text']; ?>' + '</a>');
-			jQuery('#pointer-ternary').click(function () {
+			lastOpenedPointer.find('#pointer-ternary').click(function () {
 			<?php echo $this->button_array['button3']['function']; ?>
 			});
 		<?php }
@@ -283,8 +284,7 @@ class WPSEO_Pointers {
 			               . '<p>' . __( 'The frontpage settings allow you to set meta-data for your homepage, whereas the default settings allow you to set a fallback for all posts/pages without images. ', 'wordpress-seo' ) . '</p>'
 			               . '<p><strong>' . __( 'Twitter', 'wordpress-seo' ) . '</strong><br/>' . sprintf( __( 'With %1$sTwitter Cards%2$s, you can attach rich photos, videos and media experience to tweets that drive traffic to your website. Simply check the box, sign up for the service, and users who Tweet links to your content will have a &#8220;Card&#8221; added to the tweet that&#8217;s visible to all of their followers.', 'wordpress-seo' ), '<a target="_blank" href="' . esc_url( 'https://yoast.com/twitter-cards/#utm_source=wpseo_social&utm_medium=wpseo_tour&utm_campaign=tour' ) . '">', '</a>' ) . '</p>'
 			               . '<p><strong>' . __( 'Pinterest', 'wordpress-seo' ) . '</strong><br/>' . __( 'On this tab you can verify your site with Pinterest and enter your Pinterest account.', 'wordpress-seo' ) . '</p>'
-			               . '<p><strong>' . __( 'Google+', 'wordpress-seo' ) . '</strong><br/>' . sprintf( __( 'This tab allows you to add specific post meta data for Google+. And if you have a Google+ page for your business, add that URL here and link it on your %1$sGoogle+%2$s page&#8217;s about page.', 'wordpress-seo' ), '<a target="_blank" href="' . esc_url( 'https://plus.google.com/' ) . '">', '</a>' ) . '</p>'
-			               . '<p><strong>' . __( 'Other', 'wordpress-seo' ) . '</strong><br/>' . __( 'On this tab you can enter some more of your social accounts, mostly used for Google\'s Knowledge Graph.', 'wordpress-seo' ) . '</p>',
+			               . '<p><strong>' . __( 'Google+', 'wordpress-seo' ) . '</strong><br/>' . sprintf( __( 'This tab allows you to add specific post meta data for Google+. And if you have a Google+ page for your business, add that URL here and link it on your %1$sGoogle+%2$s page&#8217;s about page.', 'wordpress-seo' ), '<a target="_blank" href="' . esc_url( 'https://plus.google.com/' ) . '">', '</a>' ) . '</p>',
 			'next_page' => 'xml',
 			'prev_page' => 'titles',
 		);

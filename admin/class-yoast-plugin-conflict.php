@@ -298,5 +298,4 @@ class Yoast_Plugin_Conflict {
 			unset( $this->all_active_plugins[ $key_to_remove ] );
 		}
 	}
-
 }

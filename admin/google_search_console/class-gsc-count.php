@@ -218,5 +218,4 @@ class WPSEO_GSC_Count {
 	private function get_last_fetch() {
 		return get_option( self::OPTION_CI_LAST_FETCH, 0 );
 	}
-
 }

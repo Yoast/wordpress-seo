@@ -114,5 +114,4 @@ class WPSEO_Sitemap_Timezone {
 
 		return $this->timezone_string;
 	}
-
 }
