@@ -90,7 +90,7 @@ class WPSEO_Primary_Term_Admin {
 	 * /**
 	 * Get the id of the primary term
 	 *
-	 * @param string $taxonomy_name Taxonomy name for the term
+	 * @param string $taxonomy_name Taxonomy name for the term.
 	 *
 	 * @return int primary term id
 	 */
