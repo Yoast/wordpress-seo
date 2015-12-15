@@ -1,4 +1,4 @@
-var addWordBoundary = require( "../../js/stringProcessing/addWordBoundary.js" );
+var addWordBoundary = require( "../../js/stringProcessing/addWordboundary.js" );
 
 describe("a test adding wordboundaries to a string", function(){
 	it("adds start and end boundaries", function(){
