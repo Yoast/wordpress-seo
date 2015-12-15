@@ -1,5 +1,5 @@
-var keywordRegexFunction = require( "../stringProcessing/stringToRegex.js" );
-var replaceStringFunction = require( "../stringProcessing/replaceString.js" );
+var stringToRegex = require( "../stringProcessing/stringToRegex.js" );
+var replaceString = require( "../stringProcessing/replaceString.js" );
 var removalWords = require( "../config/removalWords.js" );
 
 /**
@@ -16,12 +16,12 @@ module.exports = function( matches, keyword ) {
 		} else {
 			foundInHeader = 0;
 			for ( var i = 0; i < matches.length; i++ ) {
-				var formattedHeaders = replaceStringFunction(
+				var formattedHeaders = replaceString(
 					matches[ i ], removalWords
 				);
 				if (
-					formattedHeaders.match( keywordRegexFunction( keyword ) ) ||
-					matches[ i ].match( keywordRegexFunction( keyword ) )
+					formattedHeaders.match( stringToRegex( keyword ) ) ||
+					matches[ i ].match( stringToRegex( keyword ) )
 				) {
 					foundInHeader++;
 				}

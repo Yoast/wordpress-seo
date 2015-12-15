@@ -1,4 +1,4 @@
-var metaDescriptionLength = require("../../js/analyses/metaDescriptionLength.js");
+var metaDescriptionLength = require("../../js/analyses/getMetaDescriptionLength.js");
 
 describe("test for the length of meta", function(){
 	it("returns integer with length", function(){

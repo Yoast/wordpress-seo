@@ -1,4 +1,4 @@
-var keywordRegexFunction = require( "../../js/stringProcessing/keywordRegex.js" );
+var keywordRegexFunction = require( "../../js/stringProcessing/stringToRegex.js" );
 
 describe( "creates regex from keyword", function(){
 	it("returns a regex", function(){

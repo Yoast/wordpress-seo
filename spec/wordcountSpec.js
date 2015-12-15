@@ -4,7 +4,7 @@ require("../js/analyzer.js");
 require("../js/preprocessor.js");
 require("../js/analyzescorer.js");
 require("../js/stringhelper.js");
-var wordCount = require("../js/stringProcessing/wordCount.js");
+var wordCount = require("../js/stringProcessing/countWords.js");
 wordcountArgs = {
 	testString: "een twee 13 vier",
 	testString2: "een twee 3 vier 5",

@@ -1,4 +1,4 @@
-var linkKeywordFunction = require( "../../js/stringProcessing/linkKeyword.js" );
+var linkKeywordFunction = require( "../../js/stringProcessing/findKeywordInUrl.js" );
 
 describe( "checks keyword occurences in links", function() {
 	it("returns keywords found", function () {

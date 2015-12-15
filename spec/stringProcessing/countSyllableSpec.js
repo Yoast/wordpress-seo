@@ -1,4 +1,4 @@
-var countSyllableFunction = require("../../js/stringProcessing/countSyllable.js");
+var countSyllableFunction = require("../../js/stringProcessing/countSyllables.js");
 
 describe("a syllable counter for textstrings", function(){
 	it("returns the number of syllables", function(){

@@ -1,4 +1,4 @@
-var stopwordsFunction = require( "../../js/analyses/stopwords.js" );
+var stopwordsFunction = require( "../../js/analyses/checkStringForStopwords.js" );
 
 describe("a test for finding stopwords from a string", function(){
 	it("returns stopwords found in a string", function(){

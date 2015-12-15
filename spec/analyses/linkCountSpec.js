@@ -1,4 +1,4 @@
-var linkCount = require( "../../js/analyses/linkCount.js" );
+var linkCount = require( "../../js/analyses/countLinks.js" );
 var foundLinks;
 
 describe("Tests a string for anchors and analyzes these", function(){

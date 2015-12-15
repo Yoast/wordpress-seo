@@ -1,4 +1,4 @@
-var pageTitleLength = require( "../../js/analyses/pageTitleLength.js" );
+var pageTitleLength = require( "../../js/analyses/getPageTitleLength.js" );
 
 describe("A function to check the length of pageTitle", function(){
 	it("returns the length", function(){

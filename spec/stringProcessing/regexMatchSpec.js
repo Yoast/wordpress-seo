@@ -1,4 +1,4 @@
-var regexMatchFunction = require ( "../../js/stringProcessing/regexMatch.js" );
+var regexMatchFunction = require ( "../../js/stringProcessing/matchStringWithRegex.js" );
 
 describe( "Matches text with a regex", function(){
 	it("returns the number of matches", function(){

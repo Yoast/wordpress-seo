@@ -1,4 +1,4 @@
-var linkFollowFunction = require( "../../js/stringProcessing/linkFollow.js" );
+var linkFollowFunction = require( "../../js/stringProcessing/checkNofollow.js" );
 
 describe( "checks if link has nofollow attribute", function(){
 	it( "returns dofollow or nofollow", function(){

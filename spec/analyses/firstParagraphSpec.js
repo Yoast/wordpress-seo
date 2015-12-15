@@ -1,4 +1,4 @@
-var firstParagraph = require( "../../js/analyses/firstParagraph.js" );
+var firstParagraph = require( "../../js/analyses/findKeywordInFirstParagraph.js" );
 
 describe( "checks for the keyword in the first paragraph", function(){
 	it( "returns the number of matches", function(){

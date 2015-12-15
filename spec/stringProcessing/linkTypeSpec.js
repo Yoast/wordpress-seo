@@ -1,4 +1,4 @@
-var linkTypeFunction = require( "../../js/stringProcessing/linkType.js" );
+var linkTypeFunction = require( "../../js/stringProcessing/getLinkType.js" );
 
 describe( "checks type of link", function(){
 	it( "returns linktype", function(){

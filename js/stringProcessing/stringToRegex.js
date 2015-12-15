@@ -1,8 +1,8 @@
 /** @module stringProcessing/stringToRegex */
 
 var replaceDiacritics = require( "../stringProcessing/replaceDiacritics.js" );
-var sanitizeStringFunction = require( "../stringProcessing/sanitizeString.js" );
-var addWordBoundaryFunction = require( "../stringProcessing/addWordBoundary.js" );
+var sanitizeString = require( "../stringProcessing/sanitizeString.js" );
+var addWordBoundary = require( "../stringProcessing/addWordBoundary.js" );
 
 /**
  * Creates a regex from a string so it can be matched everywhere in the same way.
@@ -13,7 +13,7 @@ var addWordBoundaryFunction = require( "../stringProcessing/addWordBoundary.js" 
  */
 module.exports = function( string, extraBoundary ) {
 	string = replaceDiacritics( string );
-	string = sanitizeStringFunction( string );
-	string = addWordBoundaryFunction( string, extraBoundary );
+	string = sanitizeString( string );
+	string = addWordBoundary( string, extraBoundary );
 	return new RegExp ( string, "ig" );
 };

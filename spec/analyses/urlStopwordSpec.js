@@ -1,4 +1,4 @@
-var urlStopwords = require( "../../js/analyses/urlStopwords.js" );
+var urlStopwords = require( "../../js/analyses/checkUrlForStopwords.js" );
 
 describe( "Checks the URL for stopwords", function(){
 	it("returns any stopwords found", function(){

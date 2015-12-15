@@ -14,7 +14,7 @@ module.exports = function( text ) {
 	var i, matches = [];
 
 	for ( i = 0; i < stopwordsArray.length; i++ ) {
-		if ( text.match( keywordRegex( stopwordsArray[i] ) ) !== null  ){
+		if ( text.match( keywordRegex( stopwordsArray[i] ) ) !== null  ) {
 			matches.push( stopwordsArray[i] );
 		}
 	}

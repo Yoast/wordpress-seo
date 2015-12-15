@@ -12,7 +12,7 @@ var stringPosition = require( "../stringProcessing/getStringPosition.js" );
 
 module.exports = function( text, keyword ) {
 	var result = { matches: 0, position: -1 };
-	if( typeof text !== "undefined" && typeof keyword !== "undefined" ){
+	if ( typeof text !== "undefined" && typeof keyword !== "undefined" ) {
 		result.matches = wordMatch( text, keyword );
 		result.position = stringPosition( text, keyword );
 	}

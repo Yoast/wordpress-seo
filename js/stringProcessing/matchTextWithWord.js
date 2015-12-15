@@ -1,6 +1,6 @@
 /** @module stringProcessing/matchTextWithWord */
 
-var keywordRegexFunction = require( "../stringProcessing/stringToRegex.js" );
+var stringToRegex = require( "../stringProcessing/stringToRegex.js" );
 var stripSomeTags = require( "../stringProcessing/stripNonTextTags.js" );
 var unifyWhitespace = require( "../stringProcessing/unifyWhitespace.js" );
 var replaceDiacritics = require( "../stringProcessing/replaceDiacritics.js" );
@@ -16,7 +16,7 @@ module.exports = function( text, wordToMatch, extraBoundary ) {
 	text = stripSomeTags ( text );
 	text = unifyWhitespace( text );
 	text = replaceDiacritics( text );
-	var regex = keywordRegexFunction( wordToMatch, extraBoundary );
+	var regex = stringToRegex( wordToMatch, extraBoundary );
 	var matches = text.match( regex );
 	if ( matches === null ) {
 		return 0;

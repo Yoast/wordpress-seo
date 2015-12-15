@@ -16,7 +16,7 @@ var countSyllables = require( "../stringProcessing/countSyllables.js" );
  * @returns {number} the score of the fleschreading test
  */
 module.exports = function( text ) {
-	if ( typeof text === "undefined" || text === "" ){
+	if ( typeof text === "undefined" || text === "" ) {
 		return 0;
 	}
 	text = cleanText ( text );

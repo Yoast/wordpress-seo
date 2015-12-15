@@ -24,7 +24,6 @@ var countExclusionSyllables = function( text ) {
 	return count;
 };
 
-
 /**
  * Removes words from the text that are in the exclusion array. These words are counted
  * incorrectly in the syllable counters, so they are removed and checked sperately.
@@ -75,7 +74,7 @@ var countBasicSyllables = function( text ) {
  * @param {String} operator The operator to determine which regex to use.
  * @returns {number} the amount of syllables found in string.
  */
-var countAdvancedSyllables = function( text, operator ){
+var countAdvancedSyllables = function( text, operator ) {
 	var matches, count = 0, array = text.split( " " );
 	var regex = "";
 	switch ( operator ) {

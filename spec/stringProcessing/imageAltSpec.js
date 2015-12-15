@@ -1,4 +1,4 @@
-var imageAlt = require( "../../js/stringProcessing/imageAlttags.js" );
+var imageAlt = require( "../../js/stringProcessing/getAlttagContent.js" );
 
 describe("Checks for alttag in an image", function(){
 	it("returns the contents of the alttag", function(){

@@ -1,4 +1,4 @@
-var subheadingFunction = require("../../js/analyses/subheading.js");
+var subheadingFunction = require("../../js/analyses/getSubheadings.js");
 
 describe("a test for matching keywords in subheadings", function(){
 	it("returns the number of matches in the subheadings", function(){

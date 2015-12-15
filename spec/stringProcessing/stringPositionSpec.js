@@ -1,4 +1,4 @@
-var stringPosition = require ( "../../js/stringProcessing/stringPosition.js" );
+var stringPosition = require ( "../../js/stringProcessing/getStringPosition.js" );
 
 describe( "A function to determine the position of a word in a string", function(){
 	it("returns the position", function(){

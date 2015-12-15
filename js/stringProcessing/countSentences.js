@@ -1,6 +1,6 @@
 /** @module stringProcessing/sentenceCount */
 
-var cleanTextFunction = require( "../stringProcessing/cleanText.js" );
+var cleanText = require( "../stringProcessing/cleanText.js" );
 
 /**
  * Counts the number of sentences in a given string.
@@ -9,7 +9,7 @@ var cleanTextFunction = require( "../stringProcessing/cleanText.js" );
  * @returns {number} The number of sentences in the text.
  */
 module.exports = function( text ) {
-	var sentences = cleanTextFunction( text ).split( "." );
+	var sentences = cleanText( text ).split( "." );
 	var sentenceCount = 0;
 	for ( var i = 0; i < sentences.length; i++ ) {
 		if ( sentences[ i ] !== "" && sentences[ i ] !== " " ) {

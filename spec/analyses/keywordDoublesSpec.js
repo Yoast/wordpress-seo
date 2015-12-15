@@ -1,4 +1,4 @@
-var keywordDoubles = require( "../../js/analyses/keywordDoubles.js" );
+var keywordDoubles = require( "../../js/analyses/checkForKeywordDoubles.js" );
 
 var usedKeywords = { "keyword": [1], "test": [2,3,4] };
 

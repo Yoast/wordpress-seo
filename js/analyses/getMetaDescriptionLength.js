@@ -8,7 +8,7 @@
  */
 module.exports = function( text ) {
 	var length = 0;
-	if( typeof text !== "undefined" ){
+	if ( typeof text !== "undefined" ) {
 		length = text.length;
 	}
 	return length;

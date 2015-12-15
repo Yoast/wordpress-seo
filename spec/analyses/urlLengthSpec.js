@@ -1,4 +1,4 @@
-var urlLength = require( "../../js/analyses/urlLength.js" );
+var urlLength = require( "../../js/analyses/getUrlLength.js" );
 
 describe("Checks length of Url", function(){
 	it("returns boolean", function(){

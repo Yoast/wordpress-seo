@@ -1,4 +1,4 @@
-var keywordDensity = require("../../js/analyses/keywordDensity.js");
+var keywordDensity = require("../../js/analyses/getKeywordDensity.js");
 
 describe("Test for counting the keywordDensity in a text", function(){
 	it("returns keywordDensity", function(){

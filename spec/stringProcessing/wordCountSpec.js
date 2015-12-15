@@ -1,4 +1,4 @@
-var wordCountFunction = require( "../../js/stringProcessing/wordCount.js" );
+var wordCountFunction = require( "../../js/stringProcessing/countWords.js" );
 
 describe("counts words in a string", function(){
 	it("returs the number of words", function(){

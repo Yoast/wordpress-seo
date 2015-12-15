@@ -8,7 +8,7 @@
  */
 module.exports = function( text ) {
 	var matches;
-	if( typeof text !== "undefined" ){
+	if ( typeof text !== "undefined" ) {
 
 		//regex matches everything between <a> and </a>
 		matches = text.match( /<a(?:[^>]+)?>(.*?)<\/a>/ig );

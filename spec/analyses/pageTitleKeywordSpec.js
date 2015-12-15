@@ -1,4 +1,4 @@
-var pageTitleKeyword = require( "../../js/analyses/pageTitleKeyword.js" );
+var pageTitleKeyword = require( "../../js/analyses/findKeywordInPageTitle.js" );
 var result;
 
 describe("Match keywords in string", function(){

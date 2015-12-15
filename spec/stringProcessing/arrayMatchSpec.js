@@ -1,4 +1,4 @@
-var arrayMatch = require( "../../js/stringProcessing/arrayMatch.js" );
+var arrayMatch = require( "../../js/stringProcessing/matchTextWithArray.js" );
 
 describe("a test matching strings in an array", function(){
 	it("returns the matches in the array", function(){

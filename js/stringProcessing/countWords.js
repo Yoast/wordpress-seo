@@ -8,6 +8,7 @@ var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
  * @returns {int} The wordcount of the given text.
  */
 module.exports = function( text ) {
+
 	text = stripTags( text );
 	text = stripSpaces( text );
 	if ( text === "" ) {

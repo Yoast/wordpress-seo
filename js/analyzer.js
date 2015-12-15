@@ -286,7 +286,6 @@ YoastSEO.Analyzer.prototype.linkCount = function() {
 	return [ { test: "linkCount", result: countLinks( this.preProcessor.__store.originalText, this.config.keyword, this.config.baseUrl ) } ];
 };
 
-
 /**
  * counts the number of images found in a given textstring, based on the <img>-tag and returns a
  * result object
@@ -296,8 +295,6 @@ YoastSEO.Analyzer.prototype.linkCount = function() {
  * @returns {{name: string, result: {total: number, alt: number, noAlt: number}}}
  */
 YoastSEO.Analyzer.prototype.imageCount = function() {
-	var imageCount = { total: 0, alt: 0, noAlt: 0, altKeyword: 0, altNaKeyword: 0 };
-
 	var countImages = require( "./analyses/countImages.js" );
 	return [ { test: "imageCount", result: countImages( this.preProcessor.__store.originalText, this.config.keyword ) } ];
 };
@@ -319,7 +316,7 @@ YoastSEO.Analyzer.prototype.pageTitleLength = function() {
  */
 YoastSEO.Analyzer.prototype.pageTitleKeyword = function() {
 	var findKeywordInPageTitle = require ( "./analyses/findKeywordInPageTitle.js" );
-	var result = [ { test: "pageTitleKeyword", result:  findKeywordInPageTitle( this.config.pageTitle, this.config.keyword ) }  ];
+	var result = [ { test: "pageTitleKeyword", result:  findKeywordInPageTitle( this.config.pageTitle, this.config.keyword ) } ];
 	return result;
 };
 
@@ -342,6 +339,7 @@ YoastSEO.Analyzer.prototype.firstParagraph = function() {
 YoastSEO.Analyzer.prototype.metaDescriptionKeyword = function() {
 	var getMetaDescriptionKeyword = require( "./analyses/getMetaDescriptionKeyword.js" );
 	var result = [ { test: "metaDescriptionKeyword", result: getMetaDescriptionKeyword( this.config.meta, this.config.keyword ) } ];
+
 	return result;
 };
 
@@ -350,9 +348,8 @@ YoastSEO.Analyzer.prototype.metaDescriptionKeyword = function() {
  * @returns {{test: string, result: Number}[]}
  */
 YoastSEO.Analyzer.prototype.metaDescriptionLength = function() {
-	var metaDescriptionLengthFunction = require( "./analyses/getMetaDescriptionLength.js" );
-
-	var result = [ { test: "metaDescriptionLength", result: metaDescriptionLengthFunction( this.config.meta ) } ];
+	var getMetaDescriptionLength = require( "./analyses/getMetaDescriptionLength.js" );
+	var result = [ { test: "metaDescriptionLength", result: getMetaDescriptionLength( this.config.meta ) } ];
 
 	return result;
 };

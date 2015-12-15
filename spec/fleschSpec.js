@@ -15,7 +15,11 @@ describe("Test for the flesch kincaid reading", function(){
     it("returns a flesh kincaid reading score", function(){
         var flesch = Factory.buildAnalyzer(fleschArgs);
         var result = flesch.fleschReading();
-        expect(result[0].result).toBe("79.3");
+		/*
+		 48 words, 63 syllables, 3 sentences
+		 206.835 - 1.015 (48 / 3) - 84.6 ( 63 / 3 ); = 79.6
+		 */
+        expect(result[0].result).toBe("79.6");
     });
 });
 
@@ -34,12 +38,12 @@ describe("2nd test for the flesch kincaid reading", function(){
 
 var fleschArgs3 = {
 	text: ""
-}
+};
 
 describe("3rd test for the flesch kincaid reading", function(){
 	it("returns nothing, since no text is defined", function(){
 		var flesch3 = Factory.buildAnalyzer(fleschArgs3);
 		var result = flesch3.fleschReading();
-		expect(typeof result).toBe("undefined");
+		expect(result[0].result).toBe(0);
 	});
 });
