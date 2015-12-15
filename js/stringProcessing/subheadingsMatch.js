@@ -1,4 +1,4 @@
-var keywordRegexFunction = require( "../stringProcessing/keywordRegex.js" );
+var keywordRegexFunction = require( "../stringProcessing/stringToRegex.js" );
 var replaceStringFunction = require( "../stringProcessing/replaceString.js" );
 var removalWords = require( "../config/removalWords.js" );
 

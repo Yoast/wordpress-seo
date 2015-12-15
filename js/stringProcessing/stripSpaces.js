@@ -1,3 +1,5 @@
+/** @module stringProcessing/stripSpaces */
+
 /**
  * Strip double spaces from text
  *

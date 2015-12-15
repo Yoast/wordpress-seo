@@ -1,3 +1,10 @@
+/** @module config/diacritics */
+
+/**
+ * Returns the diacritics map
+ *
+ * @returns {object} diacritics map
+ */
 module.exports = function(){
 	return [
 		{

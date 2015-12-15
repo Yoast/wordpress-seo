@@ -1,8 +1,10 @@
+/** @module stringProcessing/unifyWhitespace */
+
 /**
  * Converts all whitespace to spaces.
  *
- * @param {String} text The text to replace spaces.
- * @returns {String} The text with unified spaces.
+ * @param {string} text The text to replace spaces.
+ * @returns {string} The text with unified spaces.
  */
 
 module.exports = function( text ) {

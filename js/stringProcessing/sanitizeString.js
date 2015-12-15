@@ -1,4 +1,6 @@
-var stripTags = require( "../stringProcessing/stripTags.js" );
+/** @module stringProcessing/sanitizeString */
+
+var stripTags = require( "../stringProcessing/stripHTMLTags.js" );
 var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
 
 /**

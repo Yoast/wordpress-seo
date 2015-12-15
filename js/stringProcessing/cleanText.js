@@ -1,3 +1,5 @@
+/** @module stringProcessing/cleanText */
+
 var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
 var replaceDiacritics = require( "../stringProcessing/replaceDiacritics.js" );
 var unifyWhitespace = require( "../stringProcessing/unifyWhitespace.js" );
