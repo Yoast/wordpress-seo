@@ -52,7 +52,7 @@ class WPSEO_Redirect_Settings_Presenter extends WPSEO_Redirect_Tab_Presenter {
 		}
 
 		if ( WPSEO_Utils::is_nginx() && $file_exists ) {
-			return 'ngnix_include_file';
+			return 'nginx_include_file';
 		}
 
 		return 'cannot_write_file';
