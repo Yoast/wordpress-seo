@@ -389,7 +389,7 @@
 		 * @returns {boolean}
 		 */
 		this.update_redirect = function( row, new_values ) {
-			var table_cells = this.row_cells( row );
+			var row_cells = this.row_cells( row );
 
 			if ( parseInt( new_values.type, 10 ) === REDIRECT.DELETED ) {
 				new_values.target = '';
@@ -412,7 +412,7 @@
 				{
 					action: 'wpseo_update_redirect_' + type,
 					ajax_nonce: $( '.wpseo_redirects_ajax_nonce' ).val(),
-					old_redirect: encodeURIComponent( table_cells.origin.html().toString() ),
+					old_redirect: encodeURIComponent( row_cells.origin.html().toString() ),
 					new_redirect: {
 						key: encodeURIComponent( new_values.origin ),
 						value: encodeURIComponent( new_values.target ),
@@ -423,9 +423,9 @@
 					that.handle_response(
 						response,
 						function() {
-							table_cells.origin.html( response.old_redirect );
-							table_cells.target.html( new_values.target );
-							table_cells.type.html( new_values.type );
+							row_cells.origin.html( response.old_redirect );
+							row_cells.target.html( new_values.target );
+							row_cells.type.html( new_values.type );
 						},
 						wpseo_premium_strings.redirect_updated
 					);
@@ -441,13 +441,13 @@
 		 * @param {Object} row
 		 */
 		this.delete_redirect = function(row) {
-			var row_values = this.row_cells( row );
+			var row_cells = this.row_cells( row );
 
 			that.post(
 				{
 					action:     'wpseo_delete_redirect_' + type,
 					ajax_nonce: $( '.wpseo_redirects_ajax_nonce' ).val(),
-					redirect:   row_values.origin.html().toString()
+					redirect:   row_cells.origin.html().toString()
 				},
 				function(response) {
 					that.handle_response(

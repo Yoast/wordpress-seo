@@ -124,5 +124,4 @@ class WPSEO_Redirect_Table_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( array( 'delete' => 'Delete' ), $this->class_instance->get_bulk_actions() );
 	}
 
-
 }
