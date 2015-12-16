@@ -24,7 +24,7 @@ class WPSEO_Redirect_Validate_Uniqueness {
 	public function validate( WPSEO_Redirect $redirect, array $redirects = null ) {
 		if ( array_key_exists( $redirect->get_origin(), $redirects ) ) {
 			$this->error = new WPSEO_Validation_Error(
-				__( 'The old url already exists as a redirect', 'wordpress-seo-premium' )
+				__( 'The old url already exists as a redirect.', 'wordpress-seo-premium' )
 			);
 
 			return false;
