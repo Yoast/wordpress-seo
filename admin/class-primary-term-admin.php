@@ -80,7 +80,7 @@ class WPSEO_Primary_Term_Admin {
 		$primary_category = $this->get_primary_term( 'category' );
 
 		if ( false !== $primary_category && $primary_category !== $category->cat_ID ) {
-			$category = get_category( $primary_category );
+			$category = $this->get_category( $primary_category );
 		}
 
 		return $category;
@@ -157,6 +157,19 @@ class WPSEO_Primary_Term_Admin {
 			$primary_term_object = new WPSEO_Primary_Term( $taxonomy->name, $post_ID );
 			$primary_term_object->set_primary_term( $primary_term );
 		}
+	}
+
+	/**
+	 * Wrapper for get category to make mocking easier
+	 *
+	 * @param $primary_category
+	 *
+	 * @return array|null|object|WP_Error
+	 */
+	protected function get_category( $primary_category ) {
+		$category = get_category( $primary_category );
+
+		return $category;
 	}
 
 	/**
