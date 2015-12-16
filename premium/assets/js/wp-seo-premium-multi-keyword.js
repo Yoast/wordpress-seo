@@ -329,7 +329,11 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 		}
 
 		analyzer = new YoastSEO.Analyzer( analyzerData );
+
+		/* jscs:disable */
 		YoastSEO.app.pluggable._addPluginTests( analyzer );
+		/* jscs:enable */
+
 		analyzer.runQueue();
 		analyzer.score();
 
