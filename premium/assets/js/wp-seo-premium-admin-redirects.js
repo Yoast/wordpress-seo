@@ -5,15 +5,14 @@
 'use strict';
 
 ( function($) {
-
 	var REDIRECT = {
-		DELETED : 410
+		DELETED: 410
 	};
 
 	var TABLE_COLUMNS = {
-		ORIGIN : 1,
-		TARGET : 2,
-		TYPE   : 0
+		ORIGIN: 1,
+		TARGET: 2,
+		TYPE:   0
 	};
 
 	/**
@@ -35,10 +34,10 @@
 			var row_values = row.find( '.val' );
 
 			return {
-				origin : row_values.eq( TABLE_COLUMNS.ORIGIN ),
-				target : row_values.eq( TABLE_COLUMNS.TARGET ),
-				type   : row_values.eq( TABLE_COLUMNS.TYPE )
-			}
+				origin: row_values.eq(TABLE_COLUMNS.ORIGIN),
+				target: row_values.eq(TABLE_COLUMNS.TARGET),
+				type:   row_values.eq(TABLE_COLUMNS.TYPE)
+			};
 		};
 
 		/**
@@ -48,7 +47,6 @@
 		 * @param {string} text
 		 */
 		this.dialog = function( title, text ) {
-
 			$('#YoastRedirectDialogText').html( text );
 			$('#YoastRedirectDialog')
 				.attr('title', title )
@@ -63,8 +61,8 @@
 					},
 					buttons: [
 						{
-							text : wpseo_premium_strings.button_ok,
-							click: function () {
+							text: wpseo_premium_strings.button_ok,
+							click: function() {
 								$(this).dialog('close');
 							}
 						}
@@ -550,7 +548,6 @@
 					that.toggle_select( evt, $('#wpseo_redirect_new_url') );
 				} );
 
-
 			$( window ).on( 'beforeunload',
 				function() {
 					if ( $( '.row_edit' ).length > 0 ) {
@@ -571,7 +568,7 @@
 					that.delete_redirect( row );
 				})
 				.on( 'change', 'select[tabindex=1]', function( evt ) {
-					var field_to_toggle = $( evt.target ).closest( 'tr').find( "input[tabindex=3]" );
+					var field_to_toggle = $( evt.target ).closest( 'tr').find( 'input[tabindex=3]' );
 
 					that.toggle_select( evt, field_to_toggle );
 				} );
@@ -582,12 +579,11 @@
 	function init() {
 		$.each(
 			$('.redirect-table-tab'),
-			function (key, element) {
+			function(key, element) {
 				$(element).wpseo_redirects($(element).attr('id'));
 			}
 		);
 	}
 
 	$(init);
-
 }(jQuery));
