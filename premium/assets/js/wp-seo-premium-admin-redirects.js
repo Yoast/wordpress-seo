@@ -162,12 +162,12 @@
 		 * @param {object} row
 		 */
 		this.restore_values = function( row ) {
-			var row_values = this.row_cells( row );
+			var row_cells = this.row_cells( row );
 			var row_data   = row.data( 'old_redirect');
 
-			row_values.origin.html( row_data.key );
-			row_values.target.html( row_data.value );
-			row_values.type.html( row_data.type );
+			row_cells.origin.html( row_data.key );
+			row_cells.target.html( row_data.value );
+			row_cells.type.html( row_data.type );
 		};
 
 		/**
@@ -436,10 +436,10 @@
 		 * @returns {boolean}
 		 */
 		this.update_redirect = function( row ) {
-			var table_cells   = this.row_cells( row );
-			var redirect_type = table_cells.type.find( 'select option:selected' ).val().toString();
-			var old_url       = table_cells.origin.find( 'input' ).val().toString();
-			var new_url       = table_cells.target.find( 'input' ).val().toString();
+			var row_cells   = this.row_cells( row );
+			var redirect_type = row_cells.type.find( 'select option:selected' ).val().toString();
+			var old_url       = row_cells.origin.find( 'input' ).val().toString();
+			var new_url       = row_cells.target.find( 'input' ).val().toString();
 			if ( parseInt( redirect_type, 10 ) === REDIRECT.DELETED ) {
 				new_url = '';
 			}
@@ -472,7 +472,7 @@
 					that.handle_response(
 						response,
 						function() {
-							table_cells.origin.find( 'input' ).val( response.old_redirect );
+							row_cells.origin.find( 'input' ).val( response.old_redirect );
 							that.restore_row(row);
 						},
 						wpseo_premium_strings.redirect_updated
@@ -489,13 +489,13 @@
 		 * @param {Object} row
 		 */
 		this.delete_redirect = function(row) {
-			var row_values = this.row_cells( row );
+			var row_cells = this.row_cells( row );
 
 			that.post(
 				{
 					action:     'wpseo_delete_redirect_' + type,
 					ajax_nonce: $( '.wpseo_redirects_ajax_nonce' ).val(),
-					redirect:   row_values.origin.html().toString()
+					redirect:   row_cells.origin.html().toString()
 				},
 				function(response) {
 					that.handle_response(
