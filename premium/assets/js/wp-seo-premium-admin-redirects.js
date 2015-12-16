@@ -111,7 +111,7 @@
 	/**
 	 * Hides the quick edit form and show the redirect row.
 	 */
-	RedirectQuickEdit.prototype.Hide = function() {
+	RedirectQuickEdit.prototype.Remove = function() {
 		this.row.removeClass('hidden');
 		this.quick_edit_row.remove();
 	};
@@ -531,10 +531,10 @@
 						redirects_quick_edit.GetRow(),
 						redirects_quick_edit.GetFormValues()
 					);
-					redirects_quick_edit.Hide();
+					redirects_quick_edit.Remove();
 				})
 				.on( 'click', '.cancel', function() {
-					redirects_quick_edit.Hide();
+					redirects_quick_edit.Remove();
 				});
 		};
 		that.setup();
