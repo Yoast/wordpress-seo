@@ -57,17 +57,20 @@ class WPSEO_Taxonomy {
 	 */
 	public function admin_enqueue_scripts() {
 		if ( $GLOBALS['pagenow'] === 'edit-tags.php' && filter_input( INPUT_GET, 'action' ) === 'edit' ) {
+
+			$asset_manager = new WPSEO_Admin_Asset_Manager();
+
 			wp_enqueue_media(); // Enqueue files needed for upload functionality.
 
-			wp_enqueue_style( 'yoast-metabox-css' );
+			$asset_manager -> enqueue_style( 'metabox-css' );
 
-			wp_enqueue_script( 'wp-seo-metabox-taxonomypage' );
+			$asset_manager -> enqueue_script( 'metabox-taxonomypage' );
 
 			// Always enqueue minified as it's not our code.
-			wp_enqueue_style( 'jquery-qtip.js' );
-			wp_enqueue_script( 'jquery-qtip' );
+			$asset_manager -> enqueue_style( 'jquery-qtip.js' );
+			$asset_manager -> enqueue_script( 'jquery-qtip' );
 
-			wp_enqueue_script( 'wpseo-admin-media' );
+			$asset_manager -> enqueue_script( 'admin-media' );
 			wp_localize_script( 'wpseo-admin-media', 'wpseoMediaL10n', array(
 				'choose_image' => __( 'Use Image', 'wordpress-seo' ),
 			) );

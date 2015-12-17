@@ -16,11 +16,21 @@ class WPSEO_Admin_Pages {
 	public $currentoption = 'wpseo';
 
 	/**
+	 * Holds the asset manager.
+	 *
+	 * @var WPSEO_Admin_Asset_Manager
+	 */
+	private $asset_manager;
+
+	/**
 	 * Class constructor, which basically only hooks the init function on the init hook
 	 */
 	function __construct() {
 		add_action( 'init', array( $this, 'init' ), 20 );
+		$this -> asset_manager = new WPSEO_Admin_Asset_Manager();
 	}
+
+
 
 	/**
 	 * Make sure the needed scripts are loaded for admin pages
@@ -45,10 +55,10 @@ class WPSEO_Admin_Pages {
 		wp_enqueue_style( 'thickbox' );
 		wp_enqueue_style( 'global' );
 		wp_enqueue_style( 'wp-admin' );
-		wp_enqueue_style( 'yoast-admin-css' );
+		$this -> asset_manager -> enqueue_style( 'admin-css' );
 
 		if ( is_rtl() ) {
-			wp_enqueue_style( 'wpseo-rtl' );
+			$this -> asset_manager -> enqueue_style( 'rtl' );
 		}
 	}
 
@@ -56,7 +66,9 @@ class WPSEO_Admin_Pages {
 	 * Loads the required scripts for the config page.
 	 */
 	function config_page_scripts() {
-		wp_enqueue_script( 'wpseo-admin-script' );
+		$this -> asset_manager -> enqueue_script( 'admin-script' );
+
+
 		wp_localize_script( 'wpseo-admin-script', 'wpseoAdminL10n', $this->localize_admin_script() );
 		wp_enqueue_script( 'dashboard' );
 		wp_enqueue_script( 'thickbox' );
@@ -66,16 +78,17 @@ class WPSEO_Admin_Pages {
 
 		if ( in_array( $page, array( 'wpseo_social', 'wpseo_dashboard' ) ) ) {
 			wp_enqueue_media();
-			wp_enqueue_script( 'wpseo-admin-media' );
+
+			$this -> asset_manager -> enqueue_script( 'admin-media' );
 			wp_localize_script( 'wpseo-admin-media', 'wpseoMediaL10n', $this->localize_media_script() );
 		}
 
 		if ( 'wpseo_tools' === $page && 'bulk-editor' === $tool ) {
-			wp_enqueue_script( 'wpseo-bulk-editor' );
+			$this -> asset_manager -> enqueue_script( 'bulk-editor' );
 		}
 
 		if ( 'wpseo_tools' === $page && 'import-export' === $tool ) {
-			wp_enqueue_script( 'wpseo-export' );
+			$this -> asset_manager -> enqueue_script( 'export' );
 		}
 	}
 

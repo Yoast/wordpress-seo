@@ -123,16 +123,17 @@ class WPSEO_GSC {
 	 * Load the admin redirects scripts
 	 */
 	public function page_scripts() {
-		wp_enqueue_script( 'wp-seo-admin-gsc' );
+		$asset_manager = new WPSEO_Admin_Asset_Manager();
+		$asset_manager -> enqueue_script( 'admin-gsc' );
 		add_screen_option( 'per_page', array(
 			'label'   => __( 'Crawl errors per page', 'wordpress-seo' ),
 			'default' => 50,
 			'option'  => 'errors_per_page',
 		) );
 
-		wp_enqueue_style( 'jquery-qtip.js' );
-		wp_enqueue_style( 'metabox' );
-		wp_enqueue_script( 'jquery-qtip-gsc' );
+		$asset_manager -> enqueue_style( 'jquery-qtip.js' );
+		$asset_manager -> enqueue_style( 'metabox-css' );
+		$asset_manager -> enqueue_script( 'jquery-qtip' );
 	}
 
 	/**

@@ -879,6 +879,9 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 */
 	public function enqueue() {
 		global $pagenow;
+
+		$asset_manager = new WPSEO_Admin_Asset_Manager();
+
 		/* Filter 'wpseo_always_register_metaboxes_on_admin' documented in wpseo-main.php */
 		if ( ( ! in_array( $pagenow, array(
 					'post-new.php',
@@ -890,27 +893,27 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		}
 
 		if ( $pagenow == 'edit.php' ) {
-			wp_enqueue_style( 'edit-page' );
+			$asset_manager -> enqueue_style( 'edit-page' );
 		}
 		else {
 
 			if ( 0 != get_queried_object_id() ) {
 				wp_enqueue_media( array( 'post' => get_queried_object_id() ) ); // Enqueue files needed for upload functionality.
 			}
-			wp_enqueue_style( 'metabox' );
-			wp_enqueue_style( 'featured-image' );
-			wp_enqueue_style( 'jquery-qtip.js' );
+			$asset_manager -> enqueue_style( 'metabox-css' );
+			$asset_manager -> enqueue_style( 'featured-image' );
+			$asset_manager -> enqueue_style( 'jquery-qtip.js' );
 
 			// Always enqueue minified as it's not our code.
-			wp_enqueue_script( 'jquery-qtip' );
+			$asset_manager -> enqueue_script( 'jquery-qtip' );
 
-			wp_enqueue_script( 'wp-seo-metabox' );
+			$asset_manager -> enqueue_script( 'metabox' );
 
 			if ( post_type_supports( get_post_type(), 'thumbnail' ) ) {
-				wp_enqueue_script( 'wp-seo-featured-image' );
+				$asset_manager -> enqueue_script( 'featured-image' );
 			}
 
-			wp_enqueue_script( 'wpseo-admin-media' );
+			$asset_manager -> enqueue_script( 'admin-media' );
 
 			wp_localize_script( 'wpseo-admin-media', 'wpseoMediaL10n', $this->localize_media_script() );
 
