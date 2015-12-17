@@ -80,7 +80,7 @@ class WPSEO_OnPage {
 
 			// Check if the status has been changed.
 			if ( $old_status !== $new_status && $new_status !== WPSEO_OnPage_Option::CANNOT_FETCH ) {
-				$this->notify_admins( $old_status, $new_status );
+				$this->notify_admins();
 			}
 
 			return true;
@@ -146,12 +146,12 @@ class WPSEO_OnPage {
 
 	/**
 	 * Notify the admins
-	 *
-	 * @param int|null $old_status The old indexable status.
-	 * @param int      $new_status The new indexable status.
 	 */
-	protected function notify_admins( $old_status, $new_status ) {
-		// Deleting the user meta shows the notice to all users again.
+	protected function notify_admins() {
+		/*
+		 * Let's start showing the notices to all admins by removing the hide-notice meta data for each admin resulting
+		 * in popping up the notice again.
+		 */
 		delete_metadata( 'user', 0, WPSEO_OnPage::USER_META_KEY, '', true );
 	}
 
