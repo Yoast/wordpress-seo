@@ -151,10 +151,8 @@ class WPSEO_OnPage {
 	 * @param int      $new_status The new indexable status.
 	 */
 	protected function notify_admins( $old_status, $new_status ) {
-		$notify = new WPSEO_OnPage_Notifier( $old_status, $new_status );
-
-		$notify->send_email( $old_status, $new_status );
-		$notify->show_notices();
+		// Deleting the user meta shows the notice to all users again.
+		delete_metadata( 'user', 0, WPSEO_OnPage::USER_META_KEY, '', true );
 	}
 
 	/**
