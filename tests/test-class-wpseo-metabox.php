@@ -50,13 +50,17 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 		global $pagenow;
 		$pagenow = 'post-new.php';
 
-		$class_admin_init = new WPSEO_Admin_Init();
-		$class_admin_init->register_assets();
+		// prefix used in WPSEO-admin-asset-manager
+		$prefix = 'yoast-seo-';
+
+		$asset_manager = new WPSEO_Admin_Asset_Manager();
+		$asset_manager -> register_assets();
+
 
 		// call enqueue function
 		self::$class_instance->enqueue();
 
-		$enqueued = wp_script_is( 'wp-seo-metabox', 'enqueued' );
+		$enqueued = wp_script_is( $prefix . 'metabox', 'enqueued' );
 		$this->assertTrue( $enqueued );
 	}
 
