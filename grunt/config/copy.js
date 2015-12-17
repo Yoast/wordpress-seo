@@ -1,6 +1,6 @@
 module.exports = {
 	css: {
-		files: [{
+		files: [ {
 			expand: true,
 			options: {
 				noProcess:[ "**/*, png" ]
@@ -8,6 +8,6 @@ module.exports = {
 			cwd: "<%= paths.css %>",
 			src:  "*.{png,svg}",
 			dest: "dist/images"
-		}]
+		} ]
 	}
 };
