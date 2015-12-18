@@ -11,9 +11,9 @@ class WPSEO_Admin_Test extends WPSEO_UnitTestCase {
 		$class_instance = new WPSEO_Admin();
 
 		$admin_features = array(
-			'gsc'              => new WPSEO_GSC(),
-			'primary_category' => new WPSEO_Primary_Term_Admin(),
-			'dashboard_widget' => new Yoast_Dashboard_Widget(),
+			'google_search_console' => new WPSEO_GSC(),
+			'primary_category'      => new WPSEO_Primary_Term_Admin(),
+			'dashboard_widget'      => new Yoast_Dashboard_Widget(),
 		);
 
 		$this->assertEquals( $admin_features, $class_instance->get_admin_features() );
