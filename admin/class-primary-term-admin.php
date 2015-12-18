@@ -116,20 +116,7 @@ class WPSEO_Primary_Term_Admin {
 			return $taxonomies;
 		}
 
-		$post_type      = get_post_type( $post_ID );
-		$all_taxonomies = get_object_taxonomies( $post_type, 'objects' );
-		$all_taxonomies = array_filter( $all_taxonomies, array( $this, 'filter_hierarchical_taxonomies' ) );
-		$taxonomies     = array_filter( $all_taxonomies, array( $this, 'filter_category_taxonomy' ) );
-
-		/**
-		 * Filters which taxonomies for which the user can choose the primary term. Only category is enabled by default.
-		 *
-		 * @api array    $taxonomies An array of taxonomy objects that are primary_term enabled.
-		 * @param string $post_type The post type for which to filter the taxonomies.
-		 * @param array  $all_taxonomies All taxonomies for this post types, even ones that don't have primary term
-		 *                              enabled.
-		 */
-		$taxonomies = (array) apply_filters( 'wpseo_primary_term_taxonomies', $taxonomies, $post_type, $all_taxonomies );
+		$taxonomies = $this->generate_primary_term_taxonomies( $post_ID );
 
 		wp_cache_set( 'primary_term_taxonomies_' . $post_ID, $taxonomies, 'wpseo' );
 
@@ -170,6 +157,33 @@ class WPSEO_Primary_Term_Admin {
 		$category = get_category( $primary_category );
 
 		return $category;
+	}
+
+	/**
+	 * Generate the primary term taxonomies.
+	 *
+	 * @param int $post_ID ID of the post
+	 *
+	 * @return array
+	 */
+	protected function generate_primary_term_taxonomies( $post_ID ) {
+		$post_type      = get_post_type( $post_ID );
+		$all_taxonomies = get_object_taxonomies( $post_type, 'objects' );
+		$all_taxonomies = array_filter( $all_taxonomies, array( $this, 'filter_hierarchical_taxonomies' ) );
+		$taxonomies     = array_filter( $all_taxonomies, array( $this, 'filter_category_taxonomy' ) );
+
+		/**
+		 * Filters which taxonomies for which the user can choose the primary term. Only category is enabled by default.
+		 *
+		 * @api array    $taxonomies An array of taxonomy objects that are primary_term enabled.
+		 *
+		 * @param string $post_type      The post type for which to filter the taxonomies.
+		 * @param array  $all_taxonomies All taxonomies for this post types, even ones that don't have primary term
+		 *                               enabled.
+		 */
+		$taxonomies = (array) apply_filters( 'wpseo_primary_term_taxonomies', $taxonomies, $post_type, $all_taxonomies );
+
+		return $taxonomies;
 	}
 
 	/**
