@@ -2,6 +2,7 @@
 /* jshint -W098 */
 /* jshint -W107 */
 /* global yoast_overlay */
+/* global alert */
 'use strict';
 
 ( function($) {
@@ -12,8 +13,111 @@
 	var TABLE_COLUMNS = {
 		ORIGIN: 1,
 		TARGET: 2,
-		TYPE:   0
+		TYPE: 0
 	};
+
+	/**
+	 * The quick edit prototype for handling the quick edit on form rows.
+	 * @constructor
+	 */
+	var RedirectQuickEdit = function() {
+		this.row = null;
+		this.quick_edit_row = null;
+	};
+
+	/**
+	 * setting upt the quick edit for a row, with the given row values.
+	 * @param {element} row
+	 * @param {object} row_cells
+	 */
+	RedirectQuickEdit.prototype.Setup = function( row, row_cells ) {
+		this.row            = row;
+		this.quick_edit_row = $('#inline-edit').clone();
+
+		this.SetFormValues( row_cells );
+	};
+
+	/**
+	 * Set the values from the table cell in the form
+	 *
+	 * @param {object} row_cells
+	 */
+	RedirectQuickEdit.prototype.SetFormValues = function( row_cells ) {
+		this.GetTypeField()
+				.find( 'option[value=' + row_cells.type.html().toString() + ']' )
+				.attr( 'selected', 'selected' );
+
+		this.GetOriginField().val( row_cells.origin.html().toString() );
+		this.GetTargetField().val( row_cells.target.html().toString() );
+	};
+
+	/**
+	 * Returns the origin field
+	 *
+	 * @returns {element}
+	 */
+	RedirectQuickEdit.prototype.GetOriginField = function() {
+		return this.quick_edit_row.find( '#wpseo_redirects_update_origin');
+	};
+
+	/**
+	 * Returns the target field
+	 *
+	 * @returns {element}
+	 */
+	RedirectQuickEdit.prototype.GetTargetField = function() {
+		return this.quick_edit_row.find( '#wpseo_redirects_update_new');
+	};
+
+	/**
+	 * Returns the type field
+	 *
+	 * @returns {element}
+	 */
+	RedirectQuickEdit.prototype.GetTypeField = function() {
+		return this.quick_edit_row.find( '#wpseo_redirects_update_type');
+	};
+
+	/**
+	 * Returns the original row element
+	 *
+	 * @returns {element}
+	 */
+	RedirectQuickEdit.prototype.GetRow = function() {
+		return this.row;
+	};
+
+	/**
+	 * Returns the values on the quick edit form
+	 *
+	 * @returns {{origin: (string|*), target: (string|*), type: (string|*)}}
+	 */
+	RedirectQuickEdit.prototype.GetFormValues = function() {
+		return {
+			origin: this.GetOriginField().val().toString(),
+			target: this.GetTargetField().val().toString(),
+			type: this.GetTypeField().val().toString()
+		};
+	};
+
+	/**
+	 * Shows the quick edit form and hides the redirect row.
+	 */
+	RedirectQuickEdit.prototype.Show = function() {
+		this.row.addClass('hidden');
+		this.quick_edit_row.insertAfter( this.row ).show();
+	};
+
+	/**
+	 * Hides the quick edit form and show the redirect row.
+	 */
+	RedirectQuickEdit.prototype.Remove = function() {
+		this.row.removeClass('hidden');
+		this.quick_edit_row.remove();
+	};
+
+	// Instantiate the quick edit form.
+	var redirects_quick_edit = new RedirectQuickEdit();
 
 	/**
 	 * Extending the elements with a wpseo_redirects object
@@ -34,9 +138,9 @@
 			var row_values = row.find( '.val' );
 
 			return {
-				origin: row_values.eq(TABLE_COLUMNS.ORIGIN),
-				target: row_values.eq(TABLE_COLUMNS.TARGET),
-				type:   row_values.eq(TABLE_COLUMNS.TYPE)
+				origin: row_values.eq( TABLE_COLUMNS.ORIGIN ),
+				target: row_values.eq( TABLE_COLUMNS.TARGET ),
+				type: row_values.eq( TABLE_COLUMNS.TYPE )
 			};
 		};
 
@@ -111,175 +215,25 @@
 		};
 
 		/**
-		 * Adding option to a select
-		 *
-		 * @param {object} option
-		 * @param {object} new_select
-		 * @param {string} current_value
-		 */
-		this.add_select_option = function( option, new_select, current_value ) {
-			var el_option = $( option ).clone();
-
-			if ( el_option.val() === current_value ) {
-				el_option.attr( 'selected', 'selected' );
-			}
-
-			$( new_select ).append( el_option );
-		};
-
-		/**
-		 * Generates input and select, based on the settings
-		 *
-		 * @param {int}    key
-		 * @param {object} table_cell
-		 */
-		this.add_input_field = function( key, table_cell ) {
-			var tab_index   = key + 1;
-			var current_val = $( table_cell ).html().toString();
-			var new_el      = null;
-
-			if ( $( table_cell ).hasClass( 'type' ) ) {
-				new_el = $( '<select>' ).attr( 'tabindex', tab_index );
-				$.each(
-					$( that ).find( '#wpseo_redirects_new_type option' ),
-					function( key, option ) {
-						that.add_select_option( option, new_el, current_val );
-					}
-				);
-			}
-			else {
-				new_el = $( '<input>' ).val( current_val ).attr( 'tabindex', tab_index );
-			}
-
-			$( table_cell ).empty().append( new_el );
-		};
-
-		/**
-		 * Restoring the values of a row
-		 *
-		 * @param {object} row
-		 */
-		this.restore_values = function( row ) {
-			var row_cells = this.row_cells( row );
-			var row_data   = row.data( 'old_redirect');
-
-			row_cells.origin.html( row_data.key );
-			row_cells.target.html( row_data.value );
-			row_cells.type.html( row_data.type );
-		};
-
-		/**
 		 * Creating an edit row for editting a redirect.
 		 *
 		 * @param {object} row
 		 */
 		this.edit_row = function( row ) {
-			/**
-			 * Saving the redirect
-			 *
-			 * @param  {object} evt
-			 * @returns {boolean}
-			 */
-			var save_redirect_row = function( evt ) {
-				evt.preventDefault();
-				that.update_redirect( row );
+			// Just show a dialog when there is already a quick edit form opened.
+			if( $('#the-list').find('#inline-edit').length > 0 ) {
+				this.dialog(
+					wpseo_premium_strings.edit_redirect,
+					wpseo_premium_strings.editing_redirect
+				);
 
-				return false;
-			};
-
-			/**
-			 * Creates a button
-			 *
-			 * @param {string}   button_class
-			 * @param {int}      tabindex
-			 * @param {string}   button_value
-			 * @param {function} onclick
-			 * @returns {*|jQuery}
-			 */
-			var create_button = function( button_class, tabindex, button_value, onclick ) {
-				return $( '<button>' ).addClass( button_class ).attr( 'tabindex', tabindex ).html(button_value ).click( onclick );
-			};
-
-			var row_cells  = this.row_cells( row );
-
-			// Add row edit class.
-			row.addClass( 'row_edit' );
-
-			// Add current redirect as data to the row.
-			row.data( 'old_redirect', {
-				key:   row_cells.origin.html().toString(),
-				value: row_cells.target.html().toString(),
-				type:  row_cells.type.html().toString()
-			} );
-
-			// Add input fields.
-			$.each( row_cells, this.add_input_field );
-
-			// Hide default row actions
-			$( row ).find( '.row-actions' ).hide();
-
-			// Wrap inputs in form elements
-			var wrap_form = $( '<form>' ).submit( save_redirect_row );
-
-			$( row ).find( 'td .val input' ).wrap( wrap_form );
-
-			// Create a div for the edit actions
-			var edit_actions = $( '<div>' ).addClass( 'edit-actions' );
-
-			// Add Save button
-			edit_actions.append(
-				create_button( 'button-primary', 4, wpseo_premium_strings.button_save, save_redirect_row )
-			);
-
-			// Add the cancel button
-			edit_actions.append(
-				create_button(
-					'button',
-					5,
-					wpseo_premium_strings.button_cancel,
-					function() {
-						that.restore_row(row);
-						that.restore_values(row);
-						return false;
-					}
-				)
-			);
-
-			$( row ).find( '.row-actions' ).parent().append( edit_actions );
-
-			// Run the onchange event to set the right value.
-			$( row).find( 'select').change();
-		};
-
-		/**
-		 * Convert the form field to a string.
-		 *
-		 * @param {int}    key
-		 * @param {object} table_cell
-		 */
-		this.field_to_string = function( key, table_cell ) {
-			var find_field = 'input';
-			if ( $( table_cell ).hasClass( 'type' ) ) {
-				find_field = 'select option:selected';
+				return;
 			}
 
-			var value = $( table_cell ).find( find_field ).val().toString();
-
-			$( table_cell ).empty().html( value );
-		};
-
-		/**
-		 * Restores the row by converting the input values to html values.
-		 *
-		 * @param {string} row
-		 */
-		this.restore_row = function( row ) {
-			row.removeClass( 'row_edit' );
-
-			$.each( row.find( '.val' ), this.field_to_string );
-
-			row.find( '.edit-actions' ).remove();
-			row.find( '.row-actions' ).show();
+			// Running the setup and show the quick edit form.
+			redirects_quick_edit.Setup( row, this.row_cells( row ) );
+			redirects_quick_edit.Show();
+			redirects_quick_edit.GetTypeField().trigger('change');
 		};
 
 		/**
@@ -429,21 +383,20 @@
 		/**
 		 * Updating the redirect
 		 *
-		 * @param {Object} row
+		 * @param {element} row
+		 * @param {Object} new_values
 		 *
 		 * @returns {boolean}
 		 */
-		this.update_redirect = function( row ) {
-			var row_cells   = this.row_cells( row );
-			var redirect_type = row_cells.type.find( 'select option:selected' ).val().toString();
-			var old_url       = row_cells.origin.find( 'input' ).val().toString();
-			var new_url       = row_cells.target.find( 'input' ).val().toString();
-			if ( parseInt( redirect_type, 10 ) === REDIRECT.DELETED ) {
-				new_url = '';
+		this.update_redirect = function( row, new_values ) {
+			var row_cells = this.row_cells( row );
+
+			if ( parseInt( new_values.type, 10 ) === REDIRECT.DELETED ) {
+				new_values.target = '';
 			}
 
 			// Validate the fields
-			var error_message = that.validate(old_url, new_url, redirect_type);
+			var error_message = that.validate( new_values.origin , new_values.target, new_values.type );
 
 			if( error_message ) {
 				that.dialog(
@@ -459,19 +412,20 @@
 				{
 					action: 'wpseo_update_redirect_' + type,
 					ajax_nonce: $( '.wpseo_redirects_ajax_nonce' ).val(),
-					old_redirect: encodeURIComponent( row.data( 'old_redirect' ).key ),
+					old_redirect: encodeURIComponent( row_cells.origin.html().toString() ),
 					new_redirect: {
-						key: encodeURIComponent( old_url ),
-						value: encodeURIComponent( new_url ),
-						type: encodeURIComponent( redirect_type )
+						key: encodeURIComponent( new_values.origin ),
+						value: encodeURIComponent( new_values.target ),
+						type: encodeURIComponent( new_values.type )
 					}
 				},
 				function( response ) {
 					that.handle_response(
 						response,
 						function() {
-							row_cells.origin.find( 'input' ).val( response.old_redirect );
-							that.restore_row(row);
+							row_cells.origin.html( response.old_redirect );
+							row_cells.target.html( new_values.target );
+							row_cells.type.html( new_values.type );
 						},
 						wpseo_premium_strings.redirect_updated
 					);
@@ -550,7 +504,7 @@
 
 			$( window ).on( 'beforeunload',
 				function() {
-					if ( $( '.row_edit' ).length > 0 ) {
+					if( $('#the-list').find('#inline-edit').length > 0 ) {
 						return wpseo_premium_strings.unsaved_redirects;
 					}
 				}
@@ -567,11 +521,21 @@
 
 					that.delete_redirect( row );
 				})
-				.on( 'change', 'select[tabindex=1]', function( evt ) {
-					var field_to_toggle = $( evt.target ).closest( 'tr').find( 'input[tabindex=3]' );
+				.on( 'change', 'select[name=wpseo_redirects_update_type]', function( evt ) {
+					var field_to_toggle = $( evt.target ).closest( 'tr' ).find( 'div.wpseo_redirect_update_url' );
 
 					that.toggle_select( evt, field_to_toggle );
-				} );
+				} )
+				.on( 'click', '.save', function() {
+					that.update_redirect(
+						redirects_quick_edit.GetRow(),
+						redirects_quick_edit.GetFormValues()
+					);
+					redirects_quick_edit.Remove();
+				})
+				.on( 'click', '.cancel', function() {
+					redirects_quick_edit.Remove();
+				});
 		};
 		that.setup();
 	};

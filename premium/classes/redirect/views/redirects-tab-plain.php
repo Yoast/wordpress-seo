@@ -3,6 +3,11 @@
  * @package WPSEO\Premium\Views
  */
 
+/**
+ * @var array 								$redirect_types
+ * @var WPSEO_Redirect_Quick_Edit_Presenter $quick_edit_table
+ * @var WPSEO_Redirect_Table 				$redirect_table
+ */
 ?>
 <div id="table-plain" class="tab-url redirect-table-tab">
 	<form class='wpseo-new-redirect-form' method='post'>
@@ -44,6 +49,16 @@
 	</form>
 
 	<p class='desc'>&nbsp;</p>
+
+	<?php
+		$quick_edit_table->display(
+			array(
+				'redirect_types' => $redirect_types,
+				'origin_value' => __( 'Old URL', 'wordpress-seo-premium' ),
+				'total_columns'  => $redirect_table->count_columns(),
+			)
+		);
+	?>
 
 	<form id='plain' class='wpseo-redirects-table-form' method='post' action=''>
 		<input type='hidden' class="wpseo_redirects_ajax_nonce" name='wpseo_redirects_ajax_nonce' value='<?php echo $nonce; ?>' />

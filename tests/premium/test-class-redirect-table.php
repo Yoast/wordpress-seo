@@ -52,7 +52,7 @@ class WPSEO_Redirect_Table_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_redirect_list_table_primary_column() {
 		$this->assertEquals( 'test', $this->class_instance->redirect_list_table_primary_column( 'test', 'screen' ) );
-		$this->assertEquals( 'old', $this->class_instance->redirect_list_table_primary_column( 'test', 'seo_page_wpseo_redirects' ) );
+		$this->assertEquals( 'type', $this->class_instance->redirect_list_table_primary_column( 'test', 'seo_page_wpseo_redirects' ) );
 	}
 
 	/**
@@ -111,8 +111,8 @@ class WPSEO_Redirect_Table_Test extends WPSEO_UnitTestCase {
 		$item = array( 'old' => 'origin', 'new' => 'target', 'type' => 301 );
 
 		$this->assertEquals( "<div class='val'>target</div>", $this->class_instance->column_default( $item, 'new' ) );
-		$this->assertEquals( "<div class='val type'>301</div>", $this->class_instance->column_default( $item, 'type' ) );
 		$this->assertEquals( "<div class='val'>origin</div>", $this->class_instance->column_default( $item, 'old' ) );
+		$this->assertContains( '<div class="val type">301</div><div class="row-actions"><span class=\'edit\'><a href="javascript:;">Edit</a> | </span><span class=\'trash\'><a href="javascript:;" >Delete</a></span></div>', $this->class_instance->column_default( $item, 'type' ) );
 	}
 
 	/**
@@ -123,5 +123,5 @@ class WPSEO_Redirect_Table_Test extends WPSEO_UnitTestCase {
 	public function test_get_bulk_actions() {
 		$this->assertEquals( array( 'delete' => 'Delete' ), $this->class_instance->get_bulk_actions() );
 	}
-	
+
 }

@@ -23,6 +23,11 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	private $current_column;
 
 	/**
+	 * @var string The primary column
+	 */
+	private $primary_column = 'type';
+
+	/**
 	 * WPSEO_Redirect_Table constructor
 	 *
 	 * @param array|string     $type           Type of the redirects that is opened.
@@ -56,6 +61,15 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	}
 
 	/**
+	 * Counts the total columns for the table
+	 *
+	 * @return int
+	 */
+	public function count_columns() {
+		return count( $this->get_columns() );
+	}
+
+	/**
 	 * Filter for setting the primary table column
 	 *
 	 * @param string $column The current column.
@@ -65,7 +79,7 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	 */
 	public function redirect_list_table_primary_column( $column, $screen ) {
 		if ( 'seo_page_wpseo_redirects' === $screen ) {
-			$column = 'old';
+			$column = $this->primary_column;
 		}
 
 		return $column;
@@ -145,26 +159,6 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	}
 
 	/**
-	 * The old column actions
-	 *
-	 * @param array $item Array with the row data.
-	 *
-	 * @return string
-	 */
-	public function column_type( $item ) {
-		$actions = array(
-			'edit'  => '<a href="javascript:;">' . __( 'Edit', 'wordpress-seo-premium' ) . '</a>',
-			'trash' => '<a href="javascript:;" >' . __( 'Delete', 'wordpress-seo-premium' ) . '</a>',
-		);
-
-		return sprintf(
-			'<div class="val type">%1$s</div> %2$s',
-			$item['type'],
-			$this->row_actions( $actions )
-		);
-	}
-
-	/**
 	 * Checkbox columns
 	 *
 	 * @param array $item Array with the row data.
@@ -185,12 +179,17 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	 */
 	public function column_default( $item, $column_name ) {
 
+		$row_actions = $this->get_row_actions( $column_name );
+
 		switch ( $column_name ) {
 			case 'new':
-				return "<div class='val'>" . $item['new'] . '</div>';
+				return "<div class='val'>" . $item['new'] . '</div>' . $row_actions;
 				break;
 			case 'old':
-				return "<div class='val'>" . $item['old'] . '</div>';
+				return "<div class='val'>" . $item['old'] . '</div>' . $row_actions;
+				break;
+			case 'type';
+				return '<div class="val type">' . $item['type'] .'</div>' . $row_actions;
 				break;
 			case 'type':
 				return "<div class='val type'>" . $item['type'] . '</div>';
@@ -266,6 +265,26 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 		}
 
 		$this->items = $results;
+	}
+
+	/**
+	 * The old column actions
+	 *
+	 * @param string $column The column name to verify.
+	 *
+	 * @return string
+	 */
+	private function get_row_actions( $column ) {
+		if ( $column === $this->primary_column ) {
+			$actions = array(
+				'edit'  => '<a href="javascript:;">' . __( 'Edit', 'wordpress-seo-premium' ) . '</a>',
+				'trash' => '<a href="javascript:;" >' . __( 'Delete', 'wordpress-seo-premium' ) . '</a>',
+			);
+
+			return $this->row_actions( $actions );
+		}
+
+		return '';
 	}
 
 }

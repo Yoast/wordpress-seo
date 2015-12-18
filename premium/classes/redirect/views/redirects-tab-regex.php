@@ -3,6 +3,11 @@
  * @package WPSEO\Premium\Views
  */
 
+/**
+ * @var array 								$redirect_types
+ * @var WPSEO_Redirect_Quick_Edit_Presenter $quick_edit_table
+ * @var WPSEO_Redirect_Table 				$redirect_table
+ */
 ?>
 
 <div id="table-regex" class="tab-url redirect-table-tab">
@@ -36,7 +41,7 @@
 				printf( __( 'The redirect type is the HTTP response code sent to the browser telling the browser what type of redirect is served.<br/><br/>Read <a href=\'%s\' target=\'_blank\'>this page</a> for more info.', 'wordpress-seo-premium' ), 'http://kb.yoast.com/article/121-redirect-types/#utm_source=wordpress-seo-premium-redirects&amp;utm_medium=inline-help&amp;utm_campaign=redirect-types' );
 				?>
 			</p>
-			
+
 			<br class='clear'/>
 			<label class='textinput' for='wpseo_redirects_new_old'><?php _e( 'Regular Expression', 'wordpress-seo-premium' ); ?></label>
 			<input type='text' class='textinput' name='wpseo_redirects_new_old' id='wpseo_redirects_new_old' value='<?php echo $old_url; ?>' />
@@ -53,6 +58,16 @@
 	</form>
 
 	<p class='desc'>&nbsp;</p>
+
+	<?php
+		$quick_edit_table->display(
+			array(
+				'redirect_types' => $redirect_types,
+				'origin_value' => __( 'Regular Expression', 'wordpress-seo-premium' ),
+				'total_columns'  => $redirect_table->count_columns(),
+			)
+		);
+	?>
 
 	<form id='regex' class='wpseo-redirects-table-form' method='post'>
 		<input type='hidden' class="wpseo_redirects_ajax_nonce" name='wpseo_redirects_ajax_nonce' value='<?php echo $nonce; ?>' />
