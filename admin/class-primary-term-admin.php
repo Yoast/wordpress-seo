@@ -146,8 +146,8 @@ class WPSEO_Primary_Term_Admin {
 	/**
 	 * Save the primary term for a specific taxonomy
 	 *
-	 * @param int      $post_ID  Post ID to save primary term for.
-	 * @param stdClass $taxonomy Taxonomy to save primary term for.
+	 * @param int     $post_ID  Post ID to save primary term for.
+	 * @param WP_Term $taxonomy Taxonomy to save primary term for.
 	 */
 	protected function save_primary_term( $post_ID, $taxonomy ) {
 		$primary_term = filter_input( INPUT_POST, WPSEO_Meta::$form_prefix . 'primary_' . $taxonomy->name . '_term', FILTER_SANITIZE_NUMBER_INT );

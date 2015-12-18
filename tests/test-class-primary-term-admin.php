@@ -213,11 +213,5 @@ class WPSEO_Primary_Term_Admin_Test extends WPSEO_UnitTestCase {
 
         $this->assertEquals( $category, $this->class_instance->post_link_category( $category ) );
     }
-
-
-
-
-
-
-
+    
 }

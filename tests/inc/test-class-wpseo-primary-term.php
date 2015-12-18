@@ -65,7 +65,7 @@ class WPSEO_Primary_Term_Test extends WPSEO_UnitTestCase {
         wp_insert_term( 'yoast', 'category' );
         wp_insert_term( 'seo', 'category' );
 
-        $term_first= get_term_by( 'name', 'yoast', 'category' );
+        $term_first = get_term_by( 'name', 'yoast', 'category' );
         $term_second = get_term_by( 'name', 'seo', 'category' );
 
         $post_id = $this->factory->post->create( array( 'post_category' => array( $term_first->term_id, $term_second->term_id ) ) );
