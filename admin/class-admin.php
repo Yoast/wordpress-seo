@@ -24,6 +24,8 @@ class WPSEO_Admin {
 	 * Class constructor
 	 */
 	function __construct() {
+		global $pagenow;
+
 		$this->options = WPSEO_Options::get_all();
 
 		if ( is_multisite() ) {
@@ -39,9 +41,12 @@ class WPSEO_Admin {
 		$this->admin_features = array(
 			// Google Search Console.
 			'google_search_console' => new WPSEO_GSC(),
-			'primary_category'      => new WPSEO_Primary_Term_Admin(),
 			'dashboard_widget'      => new Yoast_Dashboard_Widget(),
 		);
+
+		if ( in_array( $pagenow, array( 'post-new.php', 'post.php', 'edit.php', ) ) ) {
+			$this->admin_features['primary_category'] = new WPSEO_Primary_Term_Admin();
+		}
 
 		// Needs the lower than default priority so other plugins can hook underneath it without issue.
 		add_action( 'admin_menu', array( $this, 'register_settings_page' ), 5 );
