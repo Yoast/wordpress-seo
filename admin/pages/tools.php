@@ -17,8 +17,6 @@ $yform->admin_header( false );
 
 if ( '' === $tool_page ) {
 
-	new WPSEO_Recalculate_Scores();
-
 	$tools = array(
 		'bulk-editor' => array(
 			'title' => __( 'Bulk editor', 'wordpress-seo' ),

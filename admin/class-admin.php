@@ -43,6 +43,10 @@ class WPSEO_Admin {
 		$this->dashboard_widget = new Yoast_Dashboard_Widget();
 
 
+		if ( filter_input( INPUT_GET, 'page' ) === 'wpseo_tools' && filter_input( INPUT_GET, 'tool' ) === null ) {
+			new WPSEO_Recalculate_Scores();
+		}
+
 		// Needs the lower than default priority so other plugins can hook underneath it without issue.
 		add_action( 'admin_menu', array( $this, 'register_settings_page' ), 5 );
 		add_action( 'network_admin_menu', array( $this, 'register_network_settings_page' ) );
