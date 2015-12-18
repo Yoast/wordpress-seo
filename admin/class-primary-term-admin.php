@@ -149,7 +149,7 @@ class WPSEO_Primary_Term_Admin {
 	/**
 	 * Wrapper for get category to make mocking easier
 	 *
-	 * @param $primary_category
+	 * @param int $primary_category id of primary category.
 	 *
 	 * @return array|null|object|WP_Error
 	 */
@@ -162,7 +162,7 @@ class WPSEO_Primary_Term_Admin {
 	/**
 	 * Generate the primary term taxonomies.
 	 *
-	 * @param int $post_ID ID of the post
+	 * @param int $post_ID ID of the post.
 	 *
 	 * @return array
 	 */
