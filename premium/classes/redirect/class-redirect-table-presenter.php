@@ -30,8 +30,9 @@ class WPSEO_Redirect_Table_Presenter extends WPSEO_Redirect_Tab_Presenter {
 		return array_merge(
 			$this->view_vars,
 			array(
-				'redirect_types' => $this->get_redirect_types(),
-				'old_url'        => $this->get_old_url(),
+				'redirect_types'   => $this->get_redirect_types(),
+				'old_url'          => $this->get_old_url(),
+				'quick_edit_table' => new WPSEO_Redirect_Quick_Edit_Presenter(),
 			)
 		);
 	}

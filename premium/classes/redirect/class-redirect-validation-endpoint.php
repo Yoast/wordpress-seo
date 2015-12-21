@@ -14,7 +14,7 @@ class WPSEO_Redirect_Validation_Endpoint implements WPSEO_Redirect_Validation {
 	private $redirects;
 
 	/**
-	 * @var string
+	 * @var WPSEO_Validation_Result
 	 */
 	private $error;
 
@@ -36,18 +36,20 @@ class WPSEO_Redirect_Validation_Endpoint implements WPSEO_Redirect_Validation {
 		// Check for a redirect loop.
 		if ( is_string( $endpoint ) && in_array( $endpoint, array( $origin, $target ) ) ) {
 			// There might be a redirect loop.
-			$this->error = __( 'There might be a redirect loop.', 'wordpress-seo-premium' );
+			$this->error = new WPSEO_Validation_Error(
+				__( 'There might be a redirect loop.', 'wordpress-seo-premium' )
+			);
 
 			return false;
 		}
 
 		if ( is_string( $endpoint ) && $target !== $endpoint ) {
-			// The current redirect will be redirected to ... Maybe it's worth considering to create a direct redirect to ...
-			$this->error = sprintf(
+			/* translators: %1$s: will be the target, %2$s: will be the found endpoint.   */
+			$this->error = new WPSEO_Validation_Warning( sprintf(
 				__( '%1$s will be redirected to %2$s. Maybe it\'s worth considering to create a direct redirect to %2$s.', 'wordpress-seo-premium' ),
 				$target,
 				$endpoint
-			);
+			) );
 
 			return false;
 		}
@@ -58,7 +60,7 @@ class WPSEO_Redirect_Validation_Endpoint implements WPSEO_Redirect_Validation {
 	/**
 	 * Returns the validation error
 	 *
-	 * @return string
+	 * @return WPSEO_Validation_Result
 	 */
 	public function get_error() {
 		return $this->error;

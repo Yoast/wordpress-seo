@@ -25,6 +25,7 @@ class WPSEO_Premium_Javascript_Strings {
 			'error_saving_redirect' => __( 'Error while saving this redirect', 'wordpress-seo-premium' ),
 			'error_new_type'        => __( 'New type can\'t be empty.', 'wordpress-seo-premium' ),
 			'unsaved_redirects'     => __( 'You have unsaved redirects, are you sure you want to leave?', 'wordpress-seo-premium' ),
+
 			/* translator note: %s is replaced with the URL that will be deleted */
 			'enter_new_url'         => __( 'Please enter the new URL for %s', 'wordpress-seo-premium' ),
 			/* translator note: variables will be replaced with from and to URLs */
@@ -46,6 +47,9 @@ class WPSEO_Premium_Javascript_Strings {
 			'button_ok'      => __( 'Ok', 'wordpress-seo-premium' ),
 			'button_cancel'  => __( 'Cancel', 'wordpress-seo-premium' ),
 			'button_save'    => __( 'Save', 'wordpress-seo-premium' ),
+
+			'edit_redirect'     => __( 'Edit redirect', 'wordpress-seo-premium' ),
+			'editing_redirect'  => __( 'You are already editing a redirect, please finish this one first', 'wordpress-seo-premium' ),
 		);
 	}
 

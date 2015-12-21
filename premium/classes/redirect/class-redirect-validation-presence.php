@@ -9,7 +9,7 @@
 class WPSEO_Redirect_Validation_Presence implements WPSEO_Redirect_Validation {
 
 	/**
-	 * @var string The validation error.
+	 * @var WPSEO_Validation_Result The validation error.
 	 */
 	private $error;
 
@@ -31,7 +31,9 @@ class WPSEO_Redirect_Validation_Presence implements WPSEO_Redirect_Validation {
 			return true;
 		}
 
-		$this->error = __( 'Not all the required fields are filled', 'wordpress-seo-premium' );
+		$this->error = new WPSEO_Validation_Error(
+			__( 'Not all the required fields are filled.', 'wordpress-seo-premium' )
+		);
 
 		return false;
 	}
@@ -39,7 +41,7 @@ class WPSEO_Redirect_Validation_Presence implements WPSEO_Redirect_Validation {
 	/**
 	 * Returns the validation error
 	 *
-	 * @return string
+	 * @return WPSEO_Validation_Result
 	 */
 	public function get_error() {
 		return $this->error;
