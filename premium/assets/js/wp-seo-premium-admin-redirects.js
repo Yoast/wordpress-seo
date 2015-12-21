@@ -78,6 +78,27 @@
 	};
 
 	/**
+	 * Higlighting the row errors.
+	 *
+	 * @param {array} fields_to_highlight
+	 */
+	RedirectForm.prototype.highLightRowErrors = function(fields_to_highlight) {
+		for( var i = 0; i < fields_to_highlight.length; i++) {
+			switch(fields_to_highlight[ i ] ) {
+				case 'origin':
+					this.highlightRow( this.getOriginField() );
+					break;
+				case 'target':
+					this.highlightRow( this.getTargetField() );
+					break;
+				case 'type':
+					this.highlightRow( this.getTypeField() );
+					break;
+			}
+		}
+	};
+
+	/**
 	 * Highlights the closest row with an error class.
 	 */
 	RedirectForm.prototype.highlightRow = function( errorField ) {
@@ -175,8 +196,12 @@
 	 *
 	 * @param {string} error
 	 */
-	ValidateRedirect.prototype.addValidationError = function( error ) {
-		this.form.get().find('.wpseo_redirect_form').prepend( '<div class="form_error error"><p>' + error.message + '</p></div>' );
+	ValidateRedirect.prototype.addValidationError = function( error, fields ) {
+		this.form.get().find('.wpseo_redirect_form').prepend( '<div class="form_error error"><p>' + error + '</p></div>' );
+
+		if( fields !== undefined) {
+			this.form.highLightRowErrors(fields);
+		}
 	};
 
 	/**
@@ -473,7 +498,7 @@
 				},
 				function( response ) {
 					if (response.error) {
-						validateRedirect.addValidationError( response.error );
+						validateRedirect.addValidationError( response.error.message, response.error.fields );
 
 						return true;
 					}
@@ -530,7 +555,7 @@
 				},
 				function( response ) {
 					if (response.error) {
-						validateRedirect.addValidationError( response.error );
+						validateRedirect.addValidationError( response.error.message, response.error.fields );
 
 						return true;
 					}

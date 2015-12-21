@@ -23,6 +23,7 @@ class WPSEO_Redirect_Presence_Validation implements WPSEO_Redirect_Validation {
 	 * @return bool
 	 */
 	public function run( WPSEO_Redirect $redirect, WPSEO_Redirect $old_redirect = null, array $redirects = null ) {
+
 		// If redirect type id 410, the target doesn't have to be filled.
 		if ( $redirect->get_type() === WPSEO_Redirect::DELETED && $redirect->get_origin() !== '' ) {
 			return true;
