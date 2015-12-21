@@ -72,7 +72,7 @@ class WPSEO_Recalculate_Terms extends WPSEO_Recalculate {
 			'pageTitle'     => apply_filters( 'wpseo_title', wpseo_replace_vars( $title, $item, array( 'page' ) ) ),
 			'meta'          => apply_filters( 'wpseo_metadesc', wpseo_replace_vars( $meta, $item ) ),
 			'keyword_usage' => array(
-				$focus_keyword => WPSEO_Taxonomy_Meta::get_keyword_usage( $focus_keyword, $item->ID, $item->taxonomy ),
+				$focus_keyword => WPSEO_Taxonomy_Meta::get_keyword_usage( $focus_keyword, $item->term_id, $item->taxonomy ),
 			),
 		);
 	}
