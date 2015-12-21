@@ -6,7 +6,7 @@
 /**
  * Validator for validating the accessibility of a redirect's target
  */
-class WPSEO_Redirect_Validate_Accessible implements WPSEO_Redirect_Validate {
+class WPSEO_Redirect_Accessible_Validation implements WPSEO_Redirect_Validation {
 
 	/**
 	 * @var WPSEO_Validation_Result The validation error.
@@ -21,7 +21,7 @@ class WPSEO_Redirect_Validate_Accessible implements WPSEO_Redirect_Validate {
 	 *
 	 * @return bool
 	 */
-	public function validate( WPSEO_Redirect $redirect, array $redirects = null ) {
+	public function run( WPSEO_Redirect $redirect, array $redirects = null ) {
 
 		// Do the request.
 		$target        = $this->parse_target( $redirect->get_target() );

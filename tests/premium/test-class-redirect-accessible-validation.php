@@ -6,30 +6,30 @@
 /**
  * Test class for testing the accessible validation class
  *
- * @covers WPSEO_Redirect_Validate_Accessible
+ * @covers WPSEO_Redirect_Accessible_Validation
  */
-class WPSEO_Redirect_Validate_Accessible_Test extends WPSEO_UnitTestCase {
+class WPSEO_Redirect_Accessible_Validation_Test extends WPSEO_UnitTestCase {
 
 	/**
-	 * @var WPSEO_Redirect_Validate_Accessible
+	 * @var WPSEO_Redirect_Accessible_Validation
 	 */
 	private $class_instance;
 
 	/**
-	 * Setting the class_instance with an instance of WPSEO_Redirect_Validate_Accessible
+	 * Setting the class_instance with an instance of WPSEO_Redirect_Accessible_Validation
 	 */
 	public function setUp() {
-		$this->class_instance = new WPSEO_Redirect_Validate_Accessible();
+		$this->class_instance = new WPSEO_Redirect_Accessible_Validation();
 	}
 
 	/**
 	 * Validate if the target URL is accessible, in this test it will be the home_url that should be accessible
 	 *
-	 * @covers WPSEO_Redirect_Validate_Accessible::validate
+	 * @covers WPSEO_Redirect_Accessible_Validation::run
 	 */
 	public function test_validate_accessible( ) {
 		$this->assertTrue(
-			$this->class_instance->validate(
+			$this->class_instance->run(
 				new WPSEO_Redirect( 'accessible_url', home_url(), 301 )
 			)
 		);
@@ -38,12 +38,12 @@ class WPSEO_Redirect_Validate_Accessible_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Validate if the target URL is accessible, in this test it will be a unexisting url that should give a 305 response.
 	 *
-	 * @covers WPSEO_Redirect_Validate_Accessible::validate
-	 * @covers WPSEO_Redirect_Validate_Accessible::get_error
+	 * @covers WPSEO_Redirect_Accessible_Validation::run
+	 * @covers WPSEO_Redirect_Accessible_Validation::get_error
 	 */
 	public function test_validate_not_accessible( ) {
 		$this->assertFalse(
-			$this->class_instance->validate(
+			$this->class_instance->run(
 				new WPSEO_Redirect( 'accessible_url', 'http://httpstat.us/305', 301 )
 			)
 		);
@@ -57,12 +57,12 @@ class WPSEO_Redirect_Validate_Accessible_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Validate if the target URL is accessible, in this test it will be an url that should give a 301 response.
 	 *
-	 * @covers WPSEO_Redirect_Validate_Accessible::validate
-	 * @covers WPSEO_Redirect_Validate_Accessible::get_error
+	 * @covers WPSEO_Redirect_Accessible_Validation::validate
+	 * @covers WPSEO_Redirect_Accessible_Validation::get_error
 	 */
 	public function test_validate_redirect_to_301( ) {
 		$this->assertFalse(
-			$this->class_instance->validate(
+			$this->class_instance->run(
 				new WPSEO_Redirect( 'accessible_url', 'http://httpstat.us/301', 301 )
 			)
 		);
@@ -76,12 +76,12 @@ class WPSEO_Redirect_Validate_Accessible_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Validate if the target URL is resolvable, in this test it will be a unexisting url that should give a WP_Error
 	 *
-	 * @covers WPSEO_Redirect_Validate_Accessible::validate
-	 * @covers WPSEO_Redirect_Validate_Accessible::get_warning
+	 * @covers WPSEO_Redirect_Accessible_Validation::run
+	 * @covers WPSEO_Redirect_Accessible_Validation::get_warning
 	 */
 	public function test_validate_cannot_resolve( ) {
 		$this->assertFalse(
-			$this->class_instance->validate(
+			$this->class_instance->run(
 				new WPSEO_Redirect( 'accessible_url', 'fake://domain.com/', 301 )
 			)
 		);
@@ -95,11 +95,11 @@ class WPSEO_Redirect_Validate_Accessible_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Validate if the target URL is accessible, in this test it will be a 410 redirect, that doesn't have an endpoint.
 	 *
-	 * @covers WPSEO_Redirect_Validate_Accessible::validate
+	 * @covers WPSEO_Redirect_Accessible_Validation::run
 	 */
 	public function test_validate_accessible_410( ) {
 		$this->assertTrue(
-			$this->class_instance->validate(
+			$this->class_instance->run(
 				new WPSEO_Redirect( 'accessible_url', '', 410 )
 			)
 		);
@@ -108,11 +108,11 @@ class WPSEO_Redirect_Validate_Accessible_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Validate if the target URL is accessible, in this test it will be a 410 redirect, that doesn't have an endpoint.
 	 *
-	 * @covers WPSEO_Redirect_Validate_Accessible::validate
+	 * @covers WPSEO_Redirect_Accessible_Validation::run
 	 */
 	public function test_validate_accessible_temporary( ) {
 		$this->assertFalse(
-			$this->class_instance->validate(
+			$this->class_instance->run(
 				new WPSEO_Redirect( 'accessible_url', 'http://httpstat.us/302', 301 )
 			)
 		);
@@ -127,19 +127,19 @@ class WPSEO_Redirect_Validate_Accessible_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Validate if the target URL is resolvable, in this test it will be a unexisting url that should give a WP_Error
 	 *
-	 * @covers WPSEO_Redirect_Validate_Accessible::validate
-	 * @covers WPSEO_Redirect_Validate_Accessible::parse_target
-	 * @covers WPSEO_Redirect_Validate_Accessible::get_warning
+	 * @covers WPSEO_Redirect_Accessible_Validation::run
+	 * @covers WPSEO_Redirect_Accessible_Validation::parse_target
+	 * @covers WPSEO_Redirect_Accessible_Validation::get_warning
 	 */
 	public function test_validate_relative( ) {
 		$this->assertTrue(
-			$this->class_instance->validate(
+			$this->class_instance->run(
 				new WPSEO_Redirect( 'accessible_url', '/', 301 )
 			)
 		);
 
 		$this->assertFalse(
-			$this->class_instance->validate(
+			$this->class_instance->run(
 				new WPSEO_Redirect( 'accessible_url', '/does-not-exists', 301 )
 			)
 		);

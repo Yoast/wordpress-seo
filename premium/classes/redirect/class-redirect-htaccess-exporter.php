@@ -6,7 +6,7 @@
 /**
  * Class WPSEO_Htaccess_Redirect_File
  */
-class WPSEO_Redirect_Export_Htaccess extends WPSEO_Redirect_Export_Apache {
+class WPSEO_Redirect_Htaccess_Exporter extends WPSEO_Redirect_Apache_Exporter {
 
 	/**
 	 * Save the redirect file

@@ -6,7 +6,7 @@
 /**
  * Validate interface for the validation classes.
  */
-interface WPSEO_Redirect_Validate {
+interface WPSEO_Redirect_Validation {
 
 	/**
 	 * Validate the redirect to check if the origin already exists.
@@ -16,7 +16,7 @@ interface WPSEO_Redirect_Validate {
 	 *
 	 * @return bool
 	 */
-	public function validate( WPSEO_Redirect $redirect, array $redirects = null );
+	public function run( WPSEO_Redirect $redirect, array $redirects = null );
 
 	/**
 	 * Getting the validation error.

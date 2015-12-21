@@ -6,7 +6,7 @@
 /**
  * Validator for validating the uniqueness of a redirect
  */
-class WPSEO_Redirect_Validate_Uniqueness {
+class WPSEO_Redirect_Uniqueness_Validation implements WPSEO_Redirect_Validation {
 
 	/**
 	 * @var WPSEO_Validation_Result
@@ -21,7 +21,7 @@ class WPSEO_Redirect_Validate_Uniqueness {
 	 *
 	 * @return bool
 	 */
-	public function validate( WPSEO_Redirect $redirect, array $redirects = null ) {
+	public function run( WPSEO_Redirect $redirect, array $redirects = null ) {
 		if ( array_key_exists( $redirect->get_origin(), $redirects ) ) {
 			$this->error = new WPSEO_Validation_Error(
 				__( 'The old url already exists as a redirect.', 'wordpress-seo-premium' )

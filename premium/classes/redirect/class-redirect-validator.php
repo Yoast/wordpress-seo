@@ -4,7 +4,7 @@
  */
 
 /**
- * Class WPSEO_Redirect_Validate
+ * The validation class.
  */
 class WPSEO_Redirect_Validator {
 
@@ -13,22 +13,22 @@ class WPSEO_Redirect_Validator {
 	 */
 	protected $validation_rules = array(
 		'uniqueness' => array(
-			'validation_class' => 'WPSEO_Redirect_Validate_Uniqueness',
+			'validation_class' => 'WPSEO_Redirect_Uniqueness_Validation',
 			'exclude_types'  => array(),
 			'exclude_format' => array(),
 		),
 		'presence'     => array(
-			'validation_class' => 'WPSEO_Redirect_Validate_Presence',
+			'validation_class' => 'WPSEO_Redirect_Presence_Validation',
 			'exclude_types'  => array(),
 			'exclude_format' => array(),
 		),
 		'accessible' => array(
-			'validation_class' => 'WPSEO_Redirect_Validate_Accessible',
+			'validation_class' => 'WPSEO_Redirect_Accessible_Validation',
 			'exclude_types'  => array( WPSEO_Redirect::DELETED ),
 			'exclude_format' => array(),
 		),
 		'endpoint'   => array(
-			'validation_class' => 'WPSEO_Redirect_Validate_Endpoint',
+			'validation_class' => 'WPSEO_Redirect_Endpoint_Validation',
 			'exclude_types'  => array( WPSEO_Redirect::DELETED ),
 			'exclude_format' => array( WPSEO_Redirect::FORMAT_REGEX ),
 		),
@@ -54,7 +54,7 @@ class WPSEO_Redirect_Validator {
 
 		$this->validation_error = '';
 		foreach ( $validators as $validator ) {
-			if ( ! $validator->validate( $redirect, $redirects ) ) {
+			if ( ! $validator->run( $redirect, $redirects ) ) {
 				$this->validation_error = $validator->get_error();
 
 				return false;
@@ -133,7 +133,7 @@ class WPSEO_Redirect_Validator {
 	 *
 	 * @param array $validation_rules The rules for the validations that will be run.
 	 *
-	 * @return WPSEO_Redirect_Validate[]
+	 * @return WPSEO_Redirect_Validation[]
 	 */
 	protected function get_validations( $validation_rules ) {
 		$validations = array();

@@ -8,7 +8,7 @@
  *
  * @covers WPSEO_Redirect_Validator
  */
-class WPSEO_Redirect_Validator_Test extends WPSEO_UnitTestCase {
+class WPSEO_Redirect_Validation_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * @var WPSEO_Redirect_Validator
