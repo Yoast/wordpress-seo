@@ -113,8 +113,9 @@ class WPSEO_Taxonomy_Columns {
 
 	/**
 	 * Creates an icon by the given values.
-	 * @param WPSEO_Rank $rank
-	 * @param string     $title
+	 *
+	 * @param WPSEO_Rank $rank  The ranking object.
+	 * @param string     $title The title to show.
 	 *
 	 * @return string
 	 */
