@@ -62,12 +62,19 @@
 	};
 
 	/**
-	 * Returns the form element
-	 *
-	 * @returns {element}
+	 * Clears the form error message.
 	 */
-	RedirectForm.prototype.get = function() {
-		return this.form;
+	RedirectForm.prototype.clearErrorMessage = function() {
+		this.form.find('.wpseo_redirect_form .form_error').remove();
+	};
+
+	/**
+	 * Sets a form error message.
+	 *
+	 * @param {string} errorMessage
+	 */
+	RedirectForm.prototype.setErrorMessage = function( errorMessage ) {
+		this.form.find('.wpseo_redirect_form').prepend( '<div class="form_error error"><p>' + errorMessage + '</p></div>' );
 	};
 
 	/**
@@ -88,7 +95,7 @@
 	 * @returns {boolean}
 	 */
 	ValidateRedirect.prototype.validate = function() {
-		this.clearMessage();
+		this.form.clearErrorMessage();
 
 		if( this.runValidation( this.form.getOriginField(), this.form.getTargetField(), this.form.getTypeField() ) === false ) {
 			this.addValidationError( this.validation_error );
@@ -155,14 +162,7 @@
 	 * @param {string} error
 	 */
 	ValidateRedirect.prototype.addValidationError = function( error ) {
-		this.form.get().find('.wpseo_redirect_form').prepend( '<div class="form_error error"><p>' + error + '</p></div>' );
-	};
-
-	/**
-	 * Clears a validation message.
-	 */
-	ValidateRedirect.prototype.clearMessage = function() {
-		this.form.get().find('.wpseo_redirect_form .form_error').remove();
+		this.form.setErrorMessage( error );
 	};
 
 	/**
