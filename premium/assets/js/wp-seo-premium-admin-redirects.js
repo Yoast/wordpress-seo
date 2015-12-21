@@ -176,7 +176,7 @@
 	 * @param {string} error
 	 */
 	ValidateRedirect.prototype.addValidationError = function( error ) {
-		this.form.get().find('.wpseo_redirect_form').prepend( '<div class="form_error error"><p>' + error + '</p></div>' );
+		this.form.get().find('.wpseo_redirect_form').prepend( '<div class="form_error error"><p>' + error.message + '</p></div>' );
 	};
 
 	/**
