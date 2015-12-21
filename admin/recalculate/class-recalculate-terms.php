@@ -11,13 +11,13 @@ class WPSEO_Recalculate_Terms extends WPSEO_Recalculate {
 	/**
 	 * Saving the scores.
 	 *
-	 * @param array $scores
+	 * @param array $scores The scores to save.
 	 */
 	public function save_scores( array $scores ) {
 
 		$tax_meta = get_option( 'wpseo_taxonomy_meta' );
 
-		foreach ( $scores as  $score ) {
+		foreach ( $scores as $score ) {
 			$tax_meta[ $score['taxonomy'] ][ $score['item_id'] ]['wpseo_linkdex'] = $score['score'];
 		}
 
@@ -80,7 +80,7 @@ class WPSEO_Recalculate_Terms extends WPSEO_Recalculate {
 	/**
 	 * Gets the focus keyword for the term
 	 *
-	 * @param stdClass|WP_Term $term
+	 * @param stdClass|WP_Term $term Term to determine the keyword for.
 	 *
 	 * @return bool|string
 	 */

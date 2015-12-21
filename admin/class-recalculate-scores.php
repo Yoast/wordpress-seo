@@ -82,7 +82,7 @@ class WPSEO_Recalculate_Scores {
 	 */
 	private function calculate_terms() {
 		$total = 0;
-		foreach ( get_taxonomies(array(), 'objects') as $taxonomy ) {
+		foreach ( get_taxonomies( array(), 'objects' ) as $taxonomy ) {
 			$total += wp_count_terms( $taxonomy->name );
 		}
 
