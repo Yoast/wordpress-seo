@@ -4,31 +4,32 @@ sudo: false
 
 matrix:
   allow_failures:
-    - php: 7.0
     - php: hhvm
   include:
-    - php: 5.6
-      env: WP_VERSION=master WP_MULTISITE=1 PHPLINT=1 CHECKS=1
+    - php: 7.0
+      env: WP_VERSION=master WP_MULTISITE=1 PHPLINT=1 CHECKS=1 COVERAGE=1
     - php: 5.2
-      env: WP_VERSION=4.3 WP_MULTISITE=1 PHPLINT=1
-    - php: 5.6
-      env: WP_VERSION=4.3
-    - php: 5.6
-      env: WP_VERSION=4.2
-    - php: 5.6
-      env: WP_VERSION=4.1
-    - php: 5.6
-      env: WP_VERSION=4.0
-    - php: 5.5
-      env: WP_VERSION=4.3
-    - php: 5.4
-      env: WP_VERSION=4.3
-    - php: 5.3
+      env: WP_VERSION=4.4 WP_MULTISITE=1 PHPLINT=1
+    - php: 7.0
+      env: WP_VERSION=4.4
+    - php: 7.0
       env: WP_VERSION=4.3
     - php: 7.0
-      env: WP_VERSION=4.3 COVERAGE=1
+      env: WP_VERSION=4.2
+    - php: 7.0
+      env: WP_VERSION=4.1
+    - php: 7.0
+      env: WP_VERSION=4.0
+    - php: 5.6
+      env: WP_VERSION=4.4
+    - php: 5.5
+      env: WP_VERSION=4.4
+    - php: 5.4
+      env: WP_VERSION=4.4
+    - php: 5.3
+      env: WP_VERSION=4.4
     - php: hhvm
-      env: WP_VERSION=4.3
+      env: WP_VERSION=4.4
 
 cache:
   directories:
