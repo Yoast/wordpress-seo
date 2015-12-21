@@ -240,7 +240,7 @@
 	/**
 	 * Hides the quick edit form and show the redirect row.
 	 */
-	RedirectQuickEdit.prototype.hide = function() {
+	RedirectQuickEdit.prototype.remove = function() {
 		this.row.removeClass('hidden');
 		this.quick_edit_row.remove();
 	};
@@ -454,14 +454,14 @@
 			var row = redirectsQuickEdit.getRow();
 			var redirect_values = validateRedirect.getFormValues();
 
-			var table_cells = this.row_cells( row );
+			var row_cells = this.row_cells( row );
 
 			// Post the request.
 			that.post(
 				{
 					action: 'wpseo_update_redirect_' + type,
 					ajax_nonce: $( '.wpseo_redirects_ajax_nonce' ).val(),
-					old_redirect: encodeURIComponent( table_cells.origin.html().toString() ),
+					old_redirect: encodeURIComponent( row_cells.origin.html().toString() ),
 					new_redirect: {
 						key: encodeURIComponent( redirect_values.origin ),
 						value: encodeURIComponent( redirect_values.target ),
@@ -476,11 +476,11 @@
 					}
 
 					// Updates the table cells.
-					table_cells.origin.html( response.old_redirect );
-					table_cells.target.html( redirect_values.target );
-					table_cells.type.html( redirect_values.type );
+					row_cells.origin.html( response.old_redirect );
+					row_cells.target.html( redirect_values.target );
+					row_cells.type.html( redirect_values.type );
 
-					redirectsQuickEdit.hide();
+					redirectsQuickEdit.remove();
 
 					that.open_dialog( wpseo_premium_strings.redirect_updated );
 				}
@@ -495,13 +495,13 @@
 		 * @param {Object} row
 		 */
 		this.delete_redirect = function(row) {
-			var row_values = this.row_cells( row );
+			var row_cells = this.row_cells( row );
 
 			that.post(
 				{
 					action:     'wpseo_delete_redirect_' + type,
 					ajax_nonce: $( '.wpseo_redirects_ajax_nonce' ).val(),
-					redirect:   row_values.origin.html().toString()
+					redirect:   row_cells.origin.html().toString()
 				},
 				function() {
 					// When the redirect is removed, just fade out the row and remove it after its faded
@@ -581,7 +581,7 @@
 					that.update_redirect();
 				})
 				.on( 'click', '.cancel', function() {
-					redirectsQuickEdit.hide();
+					redirectsQuickEdit.remove();
 				});
 		};
 
