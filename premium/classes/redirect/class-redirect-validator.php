@@ -49,12 +49,12 @@ class WPSEO_Redirect_Validator {
 	 */
 	public function validate( WPSEO_Redirect $redirect, WPSEO_Redirect $current_redirect = null ) {
 
-		$validators = $this->get_validations( $this->get_validation_rules( $redirect, $current_redirect ) );
+		$validators = $this->get_validations( $this->get_filtered_validation_rules( $this->validation_rules, $redirect ) );
 		$redirects  = $this->get_redirects( $redirect->get_format() );
 
 		$this->validation_error = '';
 		foreach ( $validators as $validator ) {
-			if ( ! $validator->run( $redirect, $redirects ) ) {
+			if ( ! $validator->run( $redirect, $current_redirect, $redirects ) ) {
 				$this->validation_error = $validator->get_error();
 
 				return false;
@@ -71,27 +71,6 @@ class WPSEO_Redirect_Validator {
 	 */
 	public function get_error() {
 		return $this->validation_error;
-	}
-
-	/**
-	 * Filters the validations_rules based on the passed redirect.
-	 *
-	 * @param WPSEO_Redirect $redirect		   The redirect that will be saved.
-	 * @param WPSEO_Redirect $current_redirect Redirect that will be used for comparison.
-	 *
-	 * @return array
-	 */
-	protected function get_validation_rules( WPSEO_Redirect $redirect, WPSEO_Redirect $current_redirect = null ) {
-
-		// Set the validation rules.
-		$validations = $this->validation_rules;
-
-		// Remove uniqueness validation when old origin is the same as the current one.
-		if ( is_a( $current_redirect, 'WPSEO_Redirect' ) && $redirect->get_origin() === $current_redirect->get_origin() ) {
-			$this->remove_rule( $validations, 'uniqueness' );
-		}
-
-		return $this->filter_rules( $validations, $redirect );
 	}
 
 	/**
@@ -114,7 +93,7 @@ class WPSEO_Redirect_Validator {
 	 *
 	 * @return array
 	 */
-	protected function filter_rules( array $validations, WPSEO_Redirect $redirect ) {
+	protected function get_filtered_validation_rules( array $validations, WPSEO_Redirect $redirect ) {
 		foreach ( $validations as $validation => $validation_rules ) {
 			$exclude_format = in_array( $redirect->get_format(), $validation_rules['exclude_format'] );
 			$exclude_type   = in_array( $redirect->get_type(), $validation_rules['exclude_types'] );

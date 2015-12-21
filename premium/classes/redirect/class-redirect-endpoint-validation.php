@@ -21,12 +21,13 @@ class WPSEO_Redirect_Endpoint_Validation implements WPSEO_Redirect_Validation {
 	/**
 	 * Validate the redirect to check if the origin already exists.
 	 *
-	 * @param WPSEO_Redirect $redirect  The redirect to validate.
-	 * @param array          $redirects Array with redirect to validate against.
+	 * @param WPSEO_Redirect $redirect     The redirect to validate.
+	 * @param WPSEO_Redirect $old_redirect The old redirect to compare.
+	 * @param array          $redirects    Array with redirect to validate against.
 	 *
 	 * @return bool
 	 */
-	public function run( WPSEO_Redirect $redirect, array $redirects = null ) {
+	public function run( WPSEO_Redirect $redirect, WPSEO_Redirect $old_redirect = null, array $redirects = null ) {
 		$this->redirects = $redirects;
 
 		$origin   = $redirect->get_origin();

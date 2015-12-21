@@ -17,11 +17,12 @@ class WPSEO_Redirect_Accessible_Validation implements WPSEO_Redirect_Validation 
 	 * Validate the redirect to check if the origin already exists.
 	 *
 	 * @param WPSEO_Redirect $redirect  The redirect to validate.
+	 * @param WPSEO_Redirect $old_redirect The old redirect to compare.
 	 * @param array|null     $redirects Unused.
 	 *
 	 * @return bool
 	 */
-	public function run( WPSEO_Redirect $redirect, array $redirects = null ) {
+	public function run( WPSEO_Redirect $redirect, WPSEO_Redirect $old_redirect = null, array $redirects = null ) {
 
 		// Do the request.
 		$target        = $this->parse_target( $redirect->get_target() );
