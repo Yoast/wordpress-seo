@@ -6,7 +6,7 @@
 /**
  * Validator for validating the uniqueness of a redirect
  */
-class WPSEO_Redirect_Validation_Uniqueness implements WPSEO_Redirect_Validation {
+class WPSEO_Redirect_Uniqueness_Validation implements WPSEO_Redirect_Validation {
 
 	/**
 	 * @var WPSEO_Validation_Result

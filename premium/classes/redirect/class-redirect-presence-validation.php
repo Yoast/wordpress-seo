@@ -6,7 +6,7 @@
 /**
  * Validator for validating all redirect fields being filled correctly.
  */
-class WPSEO_Redirect_Validation_Presence implements WPSEO_Redirect_Validation {
+class WPSEO_Redirect_Presence_Validation implements WPSEO_Redirect_Validation {
 
 	/**
 	 * @var WPSEO_Validation_Result The validation error.

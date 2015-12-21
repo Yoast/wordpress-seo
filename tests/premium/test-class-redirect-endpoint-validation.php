@@ -6,12 +6,12 @@
 /**
  * Test class for testing the endpoint validation class
  *
- * @covers WPSEO_Redirect_Validation_Endpoint
+ * @covers WPSEO_Redirect_Endpoint_Validation
  */
-class WPSEO_Redirect_Validation_Endpoint_Test extends WPSEO_UnitTestCase {
+class WPSEO_Redirect_Endpoint_Validation_Test extends WPSEO_UnitTestCase {
 
 	/**
-	 * @var WPSEO_Redirect_Validation_Endpoint
+	 * @var WPSEO_Redirect_Endpoint_Validation
 	 */
 	private $class_instance;
 
@@ -29,13 +29,13 @@ class WPSEO_Redirect_Validation_Endpoint_Test extends WPSEO_UnitTestCase {
 	 * Testing with the endpoint validation class.
 	 */
 	public function setUp() {
-		$this->class_instance = new WPSEO_Redirect_Validation_Endpoint();
+		$this->class_instance = new WPSEO_Redirect_Endpoint_Validation();
 	}
 
 	/**
 	 * Validate if the end point result in a redirectloop. In this case there won't be a loop.
 	 *
-	 * @covers WPSEO_Redirect_Validation_Endpoint::run
+	 * @covers WPSEO_Redirect_Endpoint_Validation::run
 	 */
 	public function test_validate_end_point( ) {
 		$this->assertTrue(
@@ -49,7 +49,7 @@ class WPSEO_Redirect_Validation_Endpoint_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Validate if the end point result in a redirect loop. In this case the redirect is a 410.
 	 *
-	 * @covers WPSEO_Redirect_Validation_Endpoint::run
+	 * @covers WPSEO_Redirect_Endpoint_Validation::run
 	 */
 	public function test_validate_end_point_410( ) {
 		$this->assertTrue(
@@ -63,8 +63,8 @@ class WPSEO_Redirect_Validation_Endpoint_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Validate if the end point result in a redirect loop
 	 *
-	 * @covers WPSEO_Redirect_Validation_Endpoint::run
-	 * @covers WPSEO_Redirect_Validation_Endpoint::get_error
+	 * @covers WPSEO_Redirect_Endpoint_Validation::run
+	 * @covers WPSEO_Redirect_Endpoint_Validation::get_error
 	 */
 	public function test_validate_end_point_redirect_loop( ) {
 		$this->assertFalse(
@@ -82,8 +82,8 @@ class WPSEO_Redirect_Validation_Endpoint_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Validate if the redirect can be done directly to an endpoint.
 	 *
-	 * @covers WPSEO_Redirect_Validation_Endpoint::run
-	 * @covers WPSEO_Redirect_Validation_Endpoint::get_error
+	 * @covers WPSEO_Redirect_Endpoint_Validation::run
+	 * @covers WPSEO_Redirect_Endpoint_Validation::get_error
 	 */
 	public function test_validate_end_point_direct_redirect( ) {
 		$this->assertFalse(

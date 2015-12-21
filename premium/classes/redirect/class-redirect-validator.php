@@ -13,22 +13,22 @@ class WPSEO_Redirect_Validator {
 	 */
 	protected $validation_rules = array(
 		'uniqueness' => array(
-			'validation_class' => 'WPSEO_Redirect_Validation_Uniqueness',
+			'validation_class' => 'WPSEO_Redirect_Uniqueness_Validation',
 			'exclude_types'  => array(),
 			'exclude_format' => array(),
 		),
 		'presence'     => array(
-			'validation_class' => 'WPSEO_Redirect_Validation_Presence',
+			'validation_class' => 'WPSEO_Redirect_Presence_Validation',
 			'exclude_types'  => array(),
 			'exclude_format' => array(),
 		),
 		'accessible' => array(
-			'validation_class' => 'WPSEO_Redirect_Validation_Accessible',
+			'validation_class' => 'WPSEO_Redirect_Accessible_Validation',
 			'exclude_types'  => array( WPSEO_Redirect::DELETED ),
 			'exclude_format' => array(),
 		),
 		'endpoint'   => array(
-			'validation_class' => 'WPSEO_Redirect_Validation_Endpoint',
+			'validation_class' => 'WPSEO_Redirect_Endpoint_Validation',
 			'exclude_types'  => array( WPSEO_Redirect::DELETED ),
 			'exclude_format' => array( WPSEO_Redirect::FORMAT_REGEX ),
 		),

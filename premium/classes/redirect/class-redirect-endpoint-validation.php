@@ -6,7 +6,7 @@
 /**
  * Validator for validating the endpoint of a redirect
  */
-class WPSEO_Redirect_Validation_Endpoint implements WPSEO_Redirect_Validation {
+class WPSEO_Redirect_Endpoint_Validation implements WPSEO_Redirect_Validation {
 
 	/**
 	 * @var array
