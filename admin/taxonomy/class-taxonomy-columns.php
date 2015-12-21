@@ -88,20 +88,37 @@ class WPSEO_Taxonomy_Columns {
 	private function get_score_value( $term_id ) {
 		$term = get_term( $term_id, $this->taxonomy );
 
+		// When the term isn't indexable.
 		if ( ! $this->is_indexable( $term ) ) {
-			$rank  = new WPSEO_Rank( WPSEO_Rank::NO_INDEX );
-			$title = __( 'Term is set to noindex.', 'wordpress-seo' );
-		}
-		elseif ( $focus_keyword = $this->get_focus_keyword( $term ) ) {
-			$score = (int) WPSEO_Taxonomy_Meta::get_term_meta( $term_id, $this->taxonomy, 'linkdex' );
-			$rank  = WPSEO_Rank::from_numeric_score( $score );
-			$title = $rank->get_label();
-		}
-		else {
-			$rank  = new WPSEO_Rank( WPSEO_Rank::NO_FOCUS );
-			$title = __( 'Focus keyword not set.', 'wordpress-seo' );
+			return $this->create_score_icon(
+				new WPSEO_Rank( WPSEO_Rank::NO_INDEX ),
+				__( 'Term is set to noindex.', 'wordpress-seo' )
+			);
 		}
 
+		// When there is a focus key word.
+		if ( $focus_keyword = $this->get_focus_keyword( $term ) ) {
+			$score = (int) WPSEO_Taxonomy_Meta::get_term_meta( $term_id, $this->taxonomy, 'linkdex' );
+			$rank  = WPSEO_Rank::from_numeric_score( $score );
+
+			return $this->create_score_icon( $rank, $rank->get_label() );
+		}
+
+		// Default icon.
+		return $this->create_score_icon(
+			new WPSEO_Rank( WPSEO_Rank::NO_FOCUS ),
+			__( 'Focus keyword not set.', 'wordpress-seo' )
+		);
+	}
+
+	/**
+	 * Creates an icon by the given values.
+	 * @param WPSEO_Rank $rank
+	 * @param string     $title
+	 *
+	 * @return string
+	 */
+	private function create_score_icon( WPSEO_Rank $rank, $title ) {
 		return '<div title="' . esc_attr( $title ) . '" class="wpseo-score-icon ' . esc_attr( $rank->get_css_class() ) . '"></div>';
 	}
 
