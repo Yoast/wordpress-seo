@@ -24,9 +24,11 @@ class WPSEO_Recalculate_Scores_Ajax {
 	public function recalculate_scores() {
 		check_ajax_referer( 'wpseo_recalculate', 'nonce' );
 
-		wp_die(
-			$this->get_fetch_object()->get_items_to_recalculate( filter_input( INPUT_POST, 'paged', FILTER_VALIDATE_INT ) )
-		);
+		if ( $response = $this->get_fetch_object()->get_items_to_recalculate( filter_input( INPUT_POST, 'paged', FILTER_VALIDATE_INT ) ) ) {
+			wp_die( WPSEO_Utils::json_encode( $response ) );
+		}
+
+		wp_die( '' );
 	}
 
 	/**
