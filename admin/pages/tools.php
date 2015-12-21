@@ -55,7 +55,7 @@ if ( '' === $tool_page ) {
 	$admin_url = admin_url( 'admin.php?page=wpseo_tools' );
 
 	foreach ( $tools as $slug => $tool ) {
-		$href = ( ! empty( $tool['href'] ) ) ? $admin_url . $tool['href'] : add_query_arg(  array( 'tool' => $slug ) , $admin_url );
+		$href = ( ! empty( $tool['href'] ) ) ? $admin_url . $tool['href'] : add_query_arg( array( 'tool' => $slug ) , $admin_url );
 		$attr = ( ! empty( $tool['attr'] ) ) ? $tool['attr'] : '';
 
 		echo '<li>';

@@ -53,8 +53,8 @@ class WPSEO_Recalculate_Scores {
 	 */
 	private function get_totals() {
 		return array(
-			'posts'      => $this->calculate_posts(),
-			'terms'      => $this->calculate_terms(),
+			'posts' => $this->calculate_posts(),
+			'terms' => $this->calculate_terms(),
 		);
 	}
 
