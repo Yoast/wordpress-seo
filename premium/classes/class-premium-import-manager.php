@@ -9,21 +9,18 @@
 class WPSEO_Premium_Import_Manager {
 
 	/**
-	 * @var WPSEO_Redirect_Option Model object to handle the redirects.
-	 */
-	private $redirect_option;
-
-	/**
-	 * @var WPSEO_Redirect_Manager for exporting the redirects that were imported.
-	 */
-	private $redirect_manager;
-
-	/**
 	 * Constructor.
 	 */
 	public function __construct() {
-		$this->redirect_option = new WPSEO_Redirect_Option();
-		$this->redirect_manager = new WPSEO_Redirect_Manager();
+		// Allow option of importing from other 'other' plugins.
+		add_filter( 'wpseo_import_other_plugins', array( $this, 'filter_add_premium_import_options' ) );
+
+		// Handle premium imports.
+		add_action( 'wpseo_handle_import', array( $this, 'do_premium_imports' ) );
+
+		// Add htaccess import block.
+		add_action( 'wpseo_import_tab_content', array( $this, 'add_htaccess_import_block' ) );
+		add_action( 'wpseo_import_tab_header', array( $this, 'htaccess_import_header' ) );
 	}
 
 	/**
@@ -115,7 +112,7 @@ class WPSEO_Premium_Import_Manager {
 						$format = WPSEO_Redirect::FORMAT_REGEX;
 					}
 
-					$this->redirect_option->add( new WPSEO_Redirect( $item->url, $item->action_data, $item->action_code, $format ) );
+					$this->get_redirect_option()->add( new WPSEO_Redirect( $item->url, $item->action_data, $item->action_code, $format ) );
 					$redirects_imported = true;
 				}
 
@@ -174,7 +171,7 @@ class WPSEO_Premium_Import_Manager {
 							// Check if both source and target are not empty.
 							if ( '' !== $source && '' !== $target ) {
 								// Adding the redirect to importer class.
-								$this->redirect_option->add( new WPSEO_Redirect( $source, $target, $type, $regex_type ) );
+								$this->get_redirect_option()->add( new WPSEO_Redirect( $source, $target, $type, $regex_type ) );
 								$redirects_imported = true;
 
 								// Trim the original redirect.
@@ -232,8 +229,10 @@ class WPSEO_Premium_Import_Manager {
 		if ( $this->redirection_import() || $this->htaccess_import() ) {
 
 			// Save and export the redirects.
-			$this->redirect_option->save();
-			$this->redirect_manager->export_redirects();
+			$this->get_redirect_option()->save();
+
+			$redirect_manager = new WPSEO_Redirect_Manager();
+			$redirect_manager->export_redirects();
 		}
 	}
 
@@ -288,4 +287,18 @@ class WPSEO_Premium_Import_Manager {
 		echo '</div>' . PHP_EOL;
 	}
 
+	/**
+	 * Redirect option, used to save and fetch the redirects.
+	 *
+	 * @return WPSEO_Redirect_Option
+	 */
+	private function get_redirect_option() {
+		static $redirect_option;
+
+		if ( ! $redirect_option ) {
+			$redirect_option = new WPSEO_Redirect_Option();
+		}
+
+		return $redirect_option;
+	}
 }

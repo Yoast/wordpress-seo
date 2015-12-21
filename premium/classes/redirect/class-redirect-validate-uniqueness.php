@@ -9,7 +9,7 @@
 class WPSEO_Redirect_Validate_Uniqueness {
 
 	/**
-	 * @var string
+	 * @var WPSEO_Validation_Result
 	 */
 	private $error;
 
@@ -23,7 +23,9 @@ class WPSEO_Redirect_Validate_Uniqueness {
 	 */
 	public function validate( WPSEO_Redirect $redirect, array $redirects = null ) {
 		if ( array_key_exists( $redirect->get_origin(), $redirects ) ) {
-			$this->error = __( 'The old url already exists as a redirect', 'wordpress-seo-premium' );
+			$this->error = new WPSEO_Validation_Error(
+				__( 'The old url already exists as a redirect.', 'wordpress-seo-premium' )
+			);
 
 			return false;
 		}
@@ -34,7 +36,7 @@ class WPSEO_Redirect_Validate_Uniqueness {
 	/**
 	 * Returns the validation error
 	 *
-	 * @return string
+	 * @return WPSEO_Validation_Result
 	 */
 	public function get_error() {
 		return $this->error;

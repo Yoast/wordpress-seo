@@ -67,7 +67,7 @@ class WPSEO_Redirect_Validator {
 	/**
 	 * Returns the validation error
 	 *
-	 * @return bool|string
+	 * @return WPSEO_Validation_Result
 	 */
 	public function get_error() {
 		return $this->validation_error;
@@ -162,5 +162,4 @@ class WPSEO_Redirect_Validator {
 
 		return $redirects;
 	}
-
 }
