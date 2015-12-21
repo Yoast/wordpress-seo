@@ -13,7 +13,7 @@ class WPSEO_Taxonomy_Columns {
 	 */
 	public function __construct() {
 
-		$this->taxonomy = FILTER_INPUT( INPUT_GET, 'taxonomy' );
+		$this->taxonomy = $this->get_taxonomy();
 
 		if ( ! empty( $this->taxonomy ) ) {
 			add_filter( 'manage_edit-' . $this->taxonomy . '_columns', array( $this, 'add_columns' ) );
@@ -64,6 +64,20 @@ class WPSEO_Taxonomy_Columns {
 		return $content;
 	}
 
+
+	/**
+	 * Returns the posted/get taxonomy value if it is set.
+	 *
+	 * @return string|null
+	 */
+	private function get_taxonomy() {
+		if ( defined( 'DOING_AJAX' ) && DOING_AJAX === true ) {
+			return FILTER_INPUT( INPUT_POST, 'taxonomy' );
+		}
+
+		return FILTER_INPUT( INPUT_GET, 'taxonomy' );
+	}
+
 	/**
 	 * Parses the value for the score column.
 	 *
@@ -74,20 +88,18 @@ class WPSEO_Taxonomy_Columns {
 	private function get_score_value( $term_id ) {
 		$term = get_term( $term_id, $this->taxonomy );
 
-		$no_index = WPSEO_Taxonomy_Meta::get_term_meta( $term_id, $this->taxonomy, 'noindex' );
-
-		if ( ! $this->is_indexable( $term, $no_index ) ) {
+		if ( ! $this->is_indexable( $term ) ) {
 			$rank  = new WPSEO_Rank( WPSEO_Rank::NO_INDEX );
 			$title = __( 'Term is set to noindex.', 'wordpress-seo' );
 		}
-		elseif ( WPSEO_Taxonomy_Meta::get_term_meta( $term_id, $this->taxonomy, 'focuskw' ) === '' ) {
-			$rank  = new WPSEO_Rank( WPSEO_Rank::NO_FOCUS );
-			$title = __( 'Focus keyword not set.', 'wordpress-seo' );
-		}
-		else {
+		elseif ( $focus_keyword = $this->get_focus_keyword( $term ) ) {
 			$score = (int) WPSEO_Taxonomy_Meta::get_term_meta( $term_id, $this->taxonomy, 'linkdex' );
 			$rank  = WPSEO_Rank::from_numeric_score( $score );
 			$title = $rank->get_label();
+		}
+		else {
+			$rank  = new WPSEO_Rank( WPSEO_Rank::NO_FOCUS );
+			$title = __( 'Focus keyword not set.', 'wordpress-seo' );
 		}
 
 		return '<div title="' . esc_attr( $title ) . '" class="wpseo-score-icon ' . esc_attr( $rank->get_css_class() ) . '"></div>';
@@ -96,12 +108,11 @@ class WPSEO_Taxonomy_Columns {
 	/**
 	 * Check if the taxonomy is indexable.
 	 *
-	 * @param mixed       $term     The current term.
-	 * @param bool|string $no_index The no index meta value.
+	 * @param mixed $term The current term.
 	 *
 	 * @return bool
 	 */
-	private function is_indexable( $term, $no_index ) {
+	private function is_indexable( $term ) {
 		static $options;
 
 		// Saving the options once, because it's static.
@@ -110,6 +121,7 @@ class WPSEO_Taxonomy_Columns {
 		}
 
 		// When the no_index value is not empty and not default, check if its value is index.
+		$no_index = WPSEO_Taxonomy_Meta::get_term_meta( $term->term_id, $this->taxonomy, 'noindex' );
 		if ( ! empty( $no_index ) && $no_index !== 'default' ) {
 			return ( $no_index === 'index' );
 		}
@@ -121,6 +133,21 @@ class WPSEO_Taxonomy_Columns {
 		}
 
 		return true;
+	}
+
+	/**
+	 * Returns the focus keyword if this is set, otherwise it will give the term name.
+	 *
+	 * @param stdClass|WP_Term $term The current term.
+	 *
+	 * @return string
+	 */
+	private function get_focus_keyword( $term ) {
+		if ( $focus_keyword = WPSEO_Taxonomy_Meta::get_term_meta( 'focuskw', $term->term_id, $term->taxonomy ) ) {
+			return $focus_keyword;
+		}
+
+		return $term->name;
 	}
 
 }
