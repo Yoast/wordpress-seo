@@ -84,7 +84,7 @@ class WPSEO_Redirect_Upgrade {
 		}
 
 		// Saving the redirects to the option.
-		self::import_redirects( $redirects, array( new WPSEO_Redirect_Exporter_Option() ) );
+		self::import_redirects( $redirects, array( new WPSEO_Redirect_Option_Exporter() ) );
 	}
 
 	/**

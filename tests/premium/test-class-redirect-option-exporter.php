@@ -9,7 +9,7 @@
 class WPSEO_Redirect_Export_Option_Test extends WPSEO_UnitTestCase {
 
 	/**
-	 * @var WPSEO_Redirect_Exporter_Option
+	 * @var WPSEO_Redirect_Option_Exporter
 	 */
 	private $class_instance;
 
@@ -17,7 +17,7 @@ class WPSEO_Redirect_Export_Option_Test extends WPSEO_UnitTestCase {
 	 * Setting the class instance with an instanste of the exporter class
 	 */
 	public function setUp() {
-		$this->class_instance = new WPSEO_Redirect_Exporter_Option();
+		$this->class_instance = new WPSEO_Redirect_Option_Exporter();
 	}
 
 	/**
@@ -32,7 +32,7 @@ class WPSEO_Redirect_Export_Option_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Test the exporting of plain redirects
 	 *
-	 * @covers WPSEO_Redirect_Exporter_Option::export
+	 * @covers WPSEO_Redirect_Option_Exporter::export
 	 */
 	public function test_export_plain() {
 		$redirects = array(
@@ -51,7 +51,7 @@ class WPSEO_Redirect_Export_Option_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Test the exporting of plain redirects
 	 *
-	 * @covers WPSEO_Redirect_Exporter_Option::export
+	 * @covers WPSEO_Redirect_Option_Exporter::export
 	 */
 	public function test_export_regex() {
 		$redirects = array(
@@ -70,7 +70,7 @@ class WPSEO_Redirect_Export_Option_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Test the formatting of the redirect
 	 *
-	 * @covers WPSEO_Redirect_Exporter_Option::format
+	 * @covers WPSEO_Redirect_Option_Exporter::format
 	 */
 	public function test_format() {
 		$this->assertEquals(

@@ -6,7 +6,7 @@
 /**
  * Saving the redirects from a single file into two smaller options files.
  */
-class WPSEO_Redirect_Exporter_Option implements WPSEO_Redirect_Exporter {
+class WPSEO_Redirect_Option_Exporter implements WPSEO_Redirect_Exporter {
 
 	/**
 	 * This method will split the redirects in separate arrays and store them in an option.

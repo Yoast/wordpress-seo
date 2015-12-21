@@ -6,15 +6,15 @@
 /**
  * Test class for testing WPSEO_Redirect_Export_Apache
  */
-class WPSEO_Redirect_Exporter_Apache_Test extends WPSEO_UnitTestCase {
+class WPSEO_Redirect_Apache_Exporter_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Testing if the export method will be called and returns true
 	 *
-	 * @covers WPSEO_Redirect_Exporter_Apache::export
+	 * @covers WPSEO_Redirect_Apache_Exporter::export
 	 */
 	public function test_export() {
-		$class_instance = $this->getMock( 'WPSEO_Redirect_Exporter_Apache', array( 'save' ) );
+		$class_instance = $this->getMock( 'WPSEO_Redirect_Apache_Exporter', array( 'save' ) );
 
 		$class_instance
 			->expects( $this->once() )
@@ -34,10 +34,10 @@ class WPSEO_Redirect_Exporter_Apache_Test extends WPSEO_UnitTestCase {
 	 *
 	 * Testing if the export method will be called and returns true
 	 *
-	 * @covers WPSEO_Redirect_Exporter_Apache::export
+	 * @covers WPSEO_Redirect_Apache_Exporter::export
 	 */
 	public function test_export_empty() {
-		$class_instance = new WPSEO_Redirect_Exporter_Apache();
+		$class_instance = new WPSEO_Redirect_Apache_Exporter();
 
 		$this->assertFalse( $class_instance->export( array() ) );
 	}
@@ -45,10 +45,10 @@ class WPSEO_Redirect_Exporter_Apache_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Test if formatting will be done correctly
 	 *
-	 * @covers WPSEO_Redirect_Exporter_Apache::format
+	 * @covers WPSEO_Redirect_Apache_Exporter::format
 	 */
 	public function test_format() {
-		$class_instance = new WPSEO_Redirect_Exporter_Apache();
+		$class_instance = new WPSEO_Redirect_Apache_Exporter();
 
 		$this->assertEquals(
 			'Redirect 301 "/origin" "/target"',
@@ -64,11 +64,11 @@ class WPSEO_Redirect_Exporter_Apache_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Test if formatting will be done correctly
 	 *
-	 * @covers WPSEO_Redirect_Exporter_Apache::format
-	 * @covers WPSEO_Redirect_Exporter_Apache::add_url_slash
+	 * @covers WPSEO_Redirect_Apache_Exporter::format
+	 * @covers WPSEO_Redirect_Apache_Exporter::add_url_slash
 	 */
 	public function test_format_add_url_slash() {
-		$class_instance = new WPSEO_Redirect_Exporter_Apache();
+		$class_instance = new WPSEO_Redirect_Apache_Exporter();
 
 		$this->assertEquals(
 			'Redirect 301 "/origin-no-slashes" "/target-no-slashes"',

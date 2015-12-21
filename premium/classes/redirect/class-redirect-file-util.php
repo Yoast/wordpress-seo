@@ -78,20 +78,20 @@ class WPSEO_Redirect_File_Util {
 	 *
 	 * @param string $separate_file Saving the redirects in an separate apache file.
 	 *
-	 * @return null|WPSEO_Redirect_Exporter_File
+	 * @return null|WPSEO_Redirect_File_Exporter
 	 */
 	public static function get_file_exporter( $separate_file ) {
 		// Create the correct file object.
 		if ( WPSEO_Utils::is_apache() ) {
 			if ( 'on' === $separate_file ) {
-				return new WPSEO_Redirect_Exporter_Apache();
+				return new WPSEO_Redirect_Apache_Exporter();
 			}
 
-			return new WPSEO_Redirect_Exporter_Htaccess();
+			return new WPSEO_Redirect_Htaccess_Exporter();
 		}
 
 		if ( WPSEO_Utils::is_nginx() ) {
-			return new WPSEO_Redirect_Exporter_Nginx();
+			return new WPSEO_Redirect_Nginx_Exporter();
 		}
 
 		return null;

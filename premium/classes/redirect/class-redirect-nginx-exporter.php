@@ -6,7 +6,7 @@
 /**
  * Exporter for Nginx, only declares the two formats
  */
-class WPSEO_Redirect_Exporter_Nginx extends WPSEO_Redirect_Exporter_File {
+class WPSEO_Redirect_Nginx_Exporter extends WPSEO_Redirect_File_Exporter {
 
 	/**
 	 * %1$s is the redirect type
