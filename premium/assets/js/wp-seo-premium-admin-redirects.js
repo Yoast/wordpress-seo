@@ -152,7 +152,7 @@
 
 		// Check the redirect type
 		if ( '' === typeField.val() ) {
-			this.form.highlightRow( wpseo_premium_strings );
+			this.form.highlightRow( typeField );
 			return this.setError( wpseo_premium_strings.error_new_type );
 		}
 
