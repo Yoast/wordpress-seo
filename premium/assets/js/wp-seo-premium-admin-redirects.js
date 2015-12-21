@@ -71,6 +71,20 @@
 	};
 
 	/**
+	 * Removing the row errors
+	 */
+	RedirectForm.prototype.removeRowHighlights = function() {
+		this.form.find( '.redirect_form_row').removeClass('field_error');
+	};
+
+	/**
+	 * Highlights the closest row with an error class.
+	 */
+	RedirectForm.prototype.highlightRow = function( errorField ) {
+		jQuery( errorField ).closest( 'div.redirect_form_row' ).addClass( 'field_error' );
+	};
+
+	/**
 	 * Clientside validator for the redirect
 	 *
 	 * @param {RedirectForm} form
@@ -89,6 +103,8 @@
 	 */
 	ValidateRedirect.prototype.validate = function() {
 		this.clearMessage();
+
+		this.form.removeRowHighlights();
 
 		if( this.runValidation( this.form.getOriginField(), this.form.getTargetField(), this.form.getTypeField() ) === false ) {
 			this.addValidationError( this.validation_error );
@@ -110,6 +126,8 @@
 	ValidateRedirect.prototype.runValidation = function( originField, targetField, typeField ) {
 		// Check old URL.
 		if ( '' === originField.val() ) {
+			this.form.highlightRow( originField );
+
 			if ( 'plain' === this.type ) {
 				return this.setError( wpseo_premium_strings.error_old_url );
 			}
@@ -121,17 +139,20 @@
 		if( REDIRECT.DELETED !== parseInt( typeField.val(), 10 ) ) {
 			// Check new URL
 			if ( '' === targetField.val() ) {
+				this.form.highlightRow( targetField );
 				return this.setError( wpseo_premium_strings.error_new_url );
 			}
 
 			// Check if both fields aren't the same.
 			if ( targetField.val() === originField.val() ) {
+				this.form.highlightRow( targetField );
 				return this.setError( wpseo_premium_strings.error_circular );
 			}
 		}
 
 		// Check the redirect type
 		if ( '' === typeField.val() ) {
+			this.form.highlightRow( wpseo_premium_strings );
 			return this.setError( wpseo_premium_strings.error_new_type );
 		}
 
@@ -263,8 +284,8 @@
 			if ( type === 'default' ) {
 				return [
 					{
-						text : wpseo_premium_strings.button_ok,
-						click: function () {
+						text: wpseo_premium_strings.button_ok,
+						click: function() {
 							$(this).dialog('close');
 						}
 					}
@@ -273,15 +294,15 @@
 
 			return [
 				{
-					text : wpseo_premium_strings.button_cancel,
-					click: function () {
+					text: wpseo_premium_strings.button_cancel,
+					click: function() {
 						$(this).dialog('close');
 					}
 				},
 				{
-					text : wpseo_premium_strings.button_save,
+					text: wpseo_premium_strings.button_save,
 					'class': 'button-primary',
-					click: function () {
+					click: function() {
 						ignore = true;
 
 						// The value of last action will be the button pressed to save the redirect.
@@ -320,7 +341,6 @@
 		 * @param {string} type
 		 */
 		this.dialog = function( title, text, type ) {
-
 			if ( type === undefined || type === 'error' ) {
 				type = 'default';
 			}
@@ -330,7 +350,7 @@
 			$('#YoastRedirectDialogText').html( text );
 			$('#YoastRedirectDialog').dialog(
 				{
-					title : title,
+					title: title,
 					width: 500,
 					draggable: false,
 					resizable: false,
