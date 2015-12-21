@@ -25,9 +25,55 @@
 	var templateQuickEdit;
 
 	/**
-	 * Clientside validator for the redirect
+	 * Initialize a redirect form object.
 	 *
 	 * @param {element} form
+	 * @constructor
+	 */
+	var RedirectForm = function( form ) {
+		this.form = form;
+	};
+
+	/**
+	 * Returns the origin field
+	 *
+	 * @returns {element}
+	 */
+	RedirectForm.prototype.getOriginField = function() {
+		return this.form.find( 'input[name=wpseo_redirects_origin]');
+	};
+
+	/**
+	 * Returns the target field
+	 *
+	 * @returns {element}
+	 */
+	RedirectForm.prototype.getTargetField = function() {
+		return this.form.find( 'input[name=wpseo_redirects_target]');
+	};
+
+	/**
+	 * Returns the type field
+	 *
+	 * @returns {element}
+	 */
+	RedirectForm.prototype.getTypeField = function() {
+		return this.form.find( 'select[name=wpseo_redirects_type]');
+	};
+
+	/**
+	 * Returns the form element
+	 *
+	 * @returns {element}
+	 */
+	RedirectForm.prototype.get = function() {
+		return this.form;
+	};
+
+	/**
+	 * Clientside validator for the redirect
+	 *
+	 * @param {RedirectForm} form
 	 * @param {string} type
 	 */
 	var ValidateRedirect = function( form, type ) {
@@ -44,7 +90,7 @@
 	ValidateRedirect.prototype.validate = function() {
 		this.clearMessage();
 
-		if( this.runValidation( this.getOriginField(), this.getTargetField(), this.getTypeField() ) === false ) {
+		if( this.runValidation( this.form.getOriginField(), this.form.getTargetField(), this.form.getTypeField() ) === false ) {
 			this.addValidationError( this.validation_error );
 
 			return false;
@@ -104,46 +150,19 @@
 	};
 
 	/**
-	 * Returns the origin field
-	 *
-	 * @returns {element}
-	 */
-	ValidateRedirect.prototype.getOriginField = function() {
-		return this.form.find( 'input[name=wpseo_redirects_origin]');
-	};
-
-	/**
-	 * Returns the target field
-	 *
-	 * @returns {element}
-	 */
-	ValidateRedirect.prototype.getTargetField = function() {
-		return this.form.find( 'input[name=wpseo_redirects_target]');
-	};
-
-	/**
-	 * Returns the type field
-	 *
-	 * @returns {element}
-	 */
-	ValidateRedirect.prototype.getTypeField = function() {
-		return this.form.find( 'select[name=wpseo_redirects_type]');
-	};
-
-	/**
 	 * Adding the validation error
 	 *
 	 * @param {string} error
 	 */
 	ValidateRedirect.prototype.addValidationError = function( error ) {
-		this.form.find('.wpseo_redirect_form').prepend( '<div class="form_error error"><p>' + error + '</p></div>' );
+		this.form.get().find('.wpseo_redirect_form').prepend( '<div class="form_error error"><p>' + error + '</p></div>' );
 	};
 
 	/**
 	 * Clears a validation message.
 	 */
 	ValidateRedirect.prototype.clearMessage = function() {
-		this.form.find('.wpseo_redirect_form .form_error').remove();
+		this.form.get().find('.wpseo_redirect_form .form_error').remove();
 	};
 
 	/**
@@ -153,9 +172,9 @@
 	 */
 	ValidateRedirect.prototype.getFormValues = function() {
 		var values = {
-			origin: this.getOriginField().val().toString(),
-			target: this.getTargetField().val().toString(),
-			type: this.getTypeField().val().toString()
+			origin: this.form.getOriginField().val().toString(),
+			target: this.form.getTargetField().val().toString(),
+			type: this.form.getTypeField().val().toString()
 		};
 
 		// When the redirect type is deleted, the target can be emptied
@@ -186,7 +205,8 @@
 			templateQuickEdit({
 				origin: row_cells.origin.html(),
 				target: row_cells.target.html(),
-				type: parseInt( row_cells.type.html(), 10 )
+				type: parseInt( row_cells.type.html(), 10 ),
+				suffix: $( '#the-list').find( 'tr' ).index( row )
 			})
 		);
 	};
@@ -363,7 +383,8 @@
 			// Running the setup and show the quick edit form.
 			redirectsQuickEdit.setup( row, this.row_cells( row ) );
 			redirectsQuickEdit.show();
-			redirectsQuickEdit.getTypeField().trigger('change');
+
+			new RedirectForm( redirectsQuickEdit.quick_edit_row ).getTypeField().trigger('change');
 		};
 
 		/**
@@ -413,7 +434,7 @@
 		 */
 		this.add_redirect = function() {
 			// Do the validation.
-			var validateRedirect = new ValidateRedirect( $( '.wpseo-new-redirect-form' ), type );
+			var validateRedirect = new ValidateRedirect( new RedirectForm( $( '.wpseo-new-redirect-form' ) ), type );
 			if( validateRedirect.validate() === false ) {
 				return false;
 			}
@@ -464,7 +485,7 @@
 		 */
 		this.update_redirect = function() {
 			// Do the validation.
-			var validateRedirect = new ValidateRedirect( redirectsQuickEdit.getForm(), type );
+			var validateRedirect = new ValidateRedirect( new RedirectForm( redirectsQuickEdit.getForm() ), type );
 			if( validateRedirect.validate() === false ) {
 				return false;
 			}
