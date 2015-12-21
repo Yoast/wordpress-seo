@@ -156,7 +156,7 @@ class WPSEO_Redirect_Validator {
 
 		// Format the redirects.
 		$redirects = array();
-		foreach ( $redirect_manager->get_redirects() as $redirect ) {
+		foreach ( $redirect_manager->get_all_redirects() as $redirect ) {
 			$redirects[ $redirect->get_origin() ] = $redirect->get_target();
 		}
 
