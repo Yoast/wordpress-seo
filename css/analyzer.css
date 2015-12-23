@@ -1,6 +1,13 @@
 /* css for snippet */
+#snippet_preview:hover *[contenteditable="true"] {
+    background: #ebebeb url(editicon.png) no-repeat right top;
+    background-image: url(edit.svg);
+    cursor: pointer;
+}
+
 #snippet_preview *[contenteditable="true"]:hover {
     background: #bbdefb url("editicon.png") no-repeat right top;
+    background-image: url( edit.svg );
     cursor: pointer;
 }
 
@@ -13,12 +20,38 @@
     cursor: text;
 }
 
+#snippet_preview {
+    padding:20px 20px 20px 80px;
+    border: 1px solid #eee;
+    border-radius: 20px;
+    background-color: #fff;
+    position: relative;
+}
+
+#snippet_preview .edit-icon {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 60px;
+    border-radius: 20px 0 0 20px;
+    border-right: 1px solid #eee;
+    text-align: center;
+
+    background: url( edit.svg ) center no-repeat;
+    background-size: 40px;
+}
+
 #snippet_cite {
     min-width: 20px;
 }
 
 #meta_container {
     clear: both;
+}
+
+.snippet_container {
+    margin-top: 2px;
 }
 
 .snippet_container .title {

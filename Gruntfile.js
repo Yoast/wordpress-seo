@@ -20,6 +20,7 @@ module.exports = function( grunt ) {
 				"grunt/config/*.js",
 				"<%= files.grunt %>"
 			],
+			css: "<%= paths.css %>/*.css",
 			jed: "node_modules/jed/jed.js",
 			get config() {
 				return project.paths.config + "*.js";
