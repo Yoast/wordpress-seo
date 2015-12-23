@@ -3580,7 +3580,20 @@ return parser;
   }
 
 })(this);
-}.call(YoastSEO));YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
+}.call(YoastSEO));/**
+ * Returns a configobject with maxSlugLength, maxURLLength and MaxMeta to be used
+ * for analysis
+ *
+ * @returns {object} the config object
+ */
+module.exports = function(){
+	return {
+		maxSlugLength: 20,
+		maxUrlLength: 40,
+		maxMeta: 156
+	}
+};
+;YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 
 YoastSEO.analyzerConfig = {
 	queue: [ "wordCount", "keywordDensity", "subHeadings", "stopwords", "fleschReading", "linkCount", "imageCount", "urlKeyword", "urlLength", "metaDescriptionLength", "metaDescriptionKeyword", "pageTitleKeyword", "pageTitleLength", "firstParagraph", "urlStopwords", "keywordDoubles", "keyphraseSizeCheck" ],
