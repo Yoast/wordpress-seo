@@ -12,6 +12,6 @@ var matchWords = require( "../stringProcessing/matchTextWithWord.js" );
 module.exports = function( text, keyword ) {
 	var wordCount = countWords( text );
 	var keywordCount = matchWords ( text, keyword );
-	var keywordDensity = ( keywordCount / wordCount - ( keywordCount - 1 * keywordCount ) ) * 100;
+	var keywordDensity = ( keywordCount / wordCount ) * 100;
 	return keywordDensity.toFixed( 1 );
 };
