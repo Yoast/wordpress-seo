@@ -282,7 +282,7 @@ YoastSEO.Analyzer.prototype.fleschReading = function() {
  * 	}
  */
 YoastSEO.Analyzer.prototype.linkCount = function() {
-	var countLinks = require( "./analyses/countLinks.js" );
+	var countLinks = require( "./analyses/getLinkStatistics.js" );
 	return [ { test: "linkCount", result: countLinks( this.preProcessor.__store.originalText, this.config.keyword, this.config.baseUrl ) } ];
 };
 
