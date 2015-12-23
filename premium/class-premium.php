@@ -193,6 +193,8 @@ class WPSEO_Premium {
 			add_action( 'admin_bar_menu', array( $this, 'admin_bar_menu' ), 96 );
 
 			add_filter( 'redirect_canonical', array( $this, 'redirect_canonical_fix' ), 1, 2 );
+
+			$dublin_core = new WPSEO_Dublin_Core();
 		}
 
 		add_action( 'admin_init', array( $this, 'enqueue_multi_keyword' ) );
