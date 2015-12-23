@@ -5,16 +5,16 @@ class WPSEO_Post_Watcher_Test extends WPSEO_UnitTestCase {
     /**
      * This variable is instantiated in setUp() and is a mock object. This is used for future use in the tests
      *
-     * @var class
+     * @var WPSEO_Post_Watcher
      */
     protected $class_instance;
 
     /**
-     * Mock Yoast_GA_Exchange_eCommerce_Tracking for future use
+     * Mocking the post watcher
      */
     public function setUp() {
         parent::setUp();
-        $this->class_instance = $this->getMock( 'WPSEO_Post_Watcher', array( 'get_old_url', 'set_notification', 'get_target_url' ) );
+        $this->class_instance = $this->getMock( 'WPSEO_Post_Watcher', array( 'get_old_url', 'set_undo_slug_notification', 'get_target_url' ) );
     }
 
     /**
@@ -29,7 +29,7 @@ class WPSEO_Post_Watcher_Test extends WPSEO_UnitTestCase {
 
         $this->class_instance
             ->expects( $this->never() )
-            ->method('set_notification');
+            ->method('set_undo_slug_notification');
 
 
         $post = (object) array(
@@ -62,7 +62,7 @@ class WPSEO_Post_Watcher_Test extends WPSEO_UnitTestCase {
 
         $this->class_instance
             ->expects( $this->once() )
-            ->method( 'set_notification' );
+            ->method( 'set_undo_slug_notification' );
 
         $post = (object) array(
             'ID' => 1,
@@ -94,7 +94,7 @@ class WPSEO_Post_Watcher_Test extends WPSEO_UnitTestCase {
 
         $this->class_instance
             ->expects( $this->never() )
-            ->method( 'set_notification' );
+            ->method( 'set_undo_slug_notification' );
 
         $post = (object) array(
             'ID' => 1,
