@@ -322,7 +322,7 @@ YoastSEO.Analyzer.prototype.pageTitleKeyword = function() {
 	var result = [ { test: "pageTitleKeyword", result: { position: -1, matches: 0 } }  ];
 	if( typeof this.config.pageTitle !== "undefined" && typeof this.config.keyword !== "undefined" ){
 		result[0].result = findKeywordInPageTitle( this.config.pageTitle, this.config.keyword );
-	};
+	}
 	return result;
 };
 

@@ -7,11 +7,9 @@ var analyzerConfig = require( "../config/analyzerConfig" )();
  *
  * @param {string} url The URL to check the length from.
  * @param {string} keyword The keyword
- * @param {number} maxSlugLength The maximum length of the slug, as defined in the config
- * @param {number} maxUrlLength The maximum length of the Url, as defined in the config
  * @returns {boolean} true if the URL is too long, false if it isn't
  */
-module.exports = function( url, keyword, maxSlugLength, maxUrlLength ) {
+module.exports = function( url, keyword ) {
 	var urlLength = url.length;
 	var keywordLength = keyword.length;
 	var isUrlTooLong = false;

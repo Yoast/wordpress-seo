@@ -5,28 +5,6 @@ var imageAlttag = require( "../stringProcessing/getAlttagContent.js" );
 var wordMatch = require( "../stringProcessing/matchTextWithWord.js" );
 
 /**
- * Matches the alttags in the images found in the text.
- * Returns an imageCount object with the totals and different alttags.
- *
- * @param {array} imageMatches Array with all the matched images in the text
- * @param {string} keyword the keyword to check for
- * @returns {object} imageCount object with all alttags
- */
-var matchImageTags = function( imageMatches, keyword ){
-	var imageCount = { total: imageMatches.length, alt: 0, noAlt: 0, altKeyword: 0, altNaKeyword: 0 };
-	for ( var i = 0; i < imageMatches.length; i++ ) {
-		var alttag = imageAlttag( imageMatches[i] );
-
-		if ( alttag !== "" ) {
-			imageCount[ matchKeywordInAlttags( alttag, keyword ) ]++;
-		} else {
-			imageCount.noAlt++;
-		}
-	}
-	return imageCount;
-};
-
-/**
  * Checks if the keyword is present in the alttag and returns the property of the imageCount
  * object that needs to be updated.
  *
@@ -46,6 +24,28 @@ var matchKeywordInAlttags = function( alttag, keyword ){
 	} else {
 		return "altNaKeyword";
 	}
+};
+
+/**
+ * Matches the alttags in the images found in the text.
+ * Returns an imageCount object with the totals and different alttags.
+ *
+ * @param {array} imageMatches Array with all the matched images in the text
+ * @param {string} keyword the keyword to check for
+ * @returns {object} imageCount object with all alttags
+ */
+var matchImageTags = function( imageMatches, keyword ){
+	var imageCount = { total: imageMatches.length, alt: 0, noAlt: 0, altKeyword: 0, altNaKeyword: 0 };
+	for ( var i = 0; i < imageMatches.length; i++ ) {
+		var alttag = imageAlttag( imageMatches[i] );
+
+		if ( alttag !== "" ) {
+			imageCount[ matchKeywordInAlttags( alttag, keyword ) ]++;
+		} else {
+			imageCount.noAlt++;
+		}
+	}
+	return imageCount;
 };
 
 /**
