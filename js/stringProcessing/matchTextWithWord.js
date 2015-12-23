@@ -10,6 +10,7 @@ var replaceDiacritics = require( "../stringProcessing/replaceDiacritics.js" );
  *
  * @param {string} text The text to use for matching the wordToMatch.
  * @param {string} wordToMatch The word to match in the text
+ * @param {string} extraBoundary An extra string that can be added to the wordboundary regex
  * @returns {string} The text without characters.
  */
 module.exports = function( text, wordToMatch, extraBoundary ) {
