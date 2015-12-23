@@ -9,9 +9,9 @@ var wordMatch = require( "../stringProcessing/matchTextWithWord.js" );
  * @returns {int} Number of times the keyword is found.
  */
 module.exports = function( url, keyword ) {
-	if ( typeof keyword !== "undefined" && typeof text !== "undefined" ) {
+	if ( typeof keyword !== "undefined" && typeof url !== "undefined" ) {
 		keyword = keyword.replace( /\s/ig, "-" );
-		return wordMatch( text, keyword );
+		return wordMatch( url, keyword );
 	}
 	return 0;
 };
