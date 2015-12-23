@@ -325,13 +325,13 @@
 					}
 				},
 				{
-					text: wpseo_premium_strings.button_save,
+					text: wpseo_premium_strings.button_save_anyway,
 					'class': 'button-primary',
 					click: function() {
 						ignore = true;
 
 						// The value of last action will be the button pressed to save the redirect.
-						$( last_action ).click();
+						last_action();
 
 						$(this).dialog('close');
 
@@ -380,8 +380,9 @@
 					draggable: false,
 					resizable: false,
 					position: {
-						at: 'center top+10%',
-						my: 'center top+10%'
+						at: 'center center',
+						my: 'center center',
+						of: window
 					},
 					buttons: buttons
 				}
@@ -473,13 +474,28 @@
 		};
 
 		/**
+		 * Handles the error.
+		 *
+		 * @param {ValidateRedirect} validateRedirect
+		 * @param {array} error
+		 */
+		this.handleError = function( validateRedirect, error ) {
+			validateRedirect.addValidationError(error.message, error.fields);
+
+			if (error.type === 'warning') {
+				that.dialog(wpseo_premium_strings.error_saving_redirect, error.message, error.type);
+			}
+		};
+
+		/**
 		 * Adding the redirect
 		 *
 		 * @returns {boolean}
 		 */
 		this.add_redirect = function() {
 			// Do the validation.
-			var validateRedirect = new ValidateRedirect( new RedirectForm( $( '.wpseo-new-redirect-form' ) ), type );
+			var redirectForm     = new RedirectForm( $( '.wpseo-new-redirect-form' ) );
+			var validateRedirect = new ValidateRedirect( redirectForm, type );
 			if( validateRedirect.validate() === false ) {
 				return false;
 			}
@@ -498,14 +514,16 @@
 				},
 				function( response ) {
 					if (response.error) {
-						validateRedirect.addValidationError( response.error.message, response.error.fields );
+						if (ignore === false) {
+							that.handleError( validateRedirect, response.error );
 
-						return true;
+							return true;
+						}
 					}
 
 					// Empty the form fields.
-					validateRedirect.getOriginField().val( '' );
-					validateRedirect.getTargetField().val( '' );
+					redirectForm.getOriginField().val( '' );
+					redirectForm.getTargetField().val( '' );
 
 					// Remove the no items row
 					that.find( '.no-items' ).remove();
@@ -555,9 +573,11 @@
 				},
 				function( response ) {
 					if (response.error) {
-						validateRedirect.addValidationError( response.error.message, response.error.fields );
+						if (ignore === false) {
+							that.handleError( validateRedirect, response.error );
 
-						return true;
+							return true;
+						}
 					}
 
 					// Updates the table cells.
@@ -635,11 +655,19 @@
 			// Adding events for the add form
 			$('.wpseo-new-redirect-form')
 				.on( 'click', 'a.button-primary', function() {
+					last_action = function() {
+						that.add_redirect();
+					};
+
 					that.add_redirect();
 					return false;
 				} )
 				.on( 'keypress', 'input', function( evt ) {
 					if ( evt.which === KEYS.ENTER ) {
+						last_action = function() {
+							that.add_redirect();
+						};
+
 						evt.preventDefault();
 						that.add_redirect();
 					}
@@ -658,14 +686,23 @@
 				})
 				.on( 'keypress', 'input', function( evt ) {
 					if ( evt.which === KEYS.ENTER ) {
+						last_action = function() {
+							that.update_redirect();
+						};
+
 						evt.preventDefault();
 						that.update_redirect();
 					}
 				})
 				.on( 'click', '.save', function() {
-					that.update_redirect();
+					last_action = function() {
+						that.update_redirect();
+					};
+
+					last_action();
 				})
 				.on( 'click', '.cancel', function() {
+					last_action = null;
 					redirectsQuickEdit.remove();
 				});
 		};
