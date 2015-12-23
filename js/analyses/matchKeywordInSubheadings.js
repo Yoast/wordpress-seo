@@ -9,6 +9,9 @@ var subheadingMatch = require( "../stringProcessing/subheadingsMatch.js" );
  *
  * @param {string} text The text to check for subheadings.
  * @returns {object} the result object.
+ * count: the number of matches
+ * matches:the number of ocurrences of the keyword for each match
+ * 
  */
 module.exports = function( text, keyword ) {
 	var matches;
