@@ -32,7 +32,7 @@ class WPSEO_Primary_Term {
 	/**
 	 * Returns the primary term ID
 	 *
-	 * @return int
+	 * @return int|bool
 	 */
 	public function get_primary_term() {
 		$primary_term = get_post_meta( $this->post_ID, WPSEO_Meta::$meta_prefix . 'primary_' . $this->taxonomy_name, true );
