@@ -1,4 +1,4 @@
-var urlKeyword = require("../../js/analyses/checkForKeywordInUrl.js");
+var urlKeyword = require("../../js/analyses/countKeywordInUrl.js");
 
 describe("test to check url for keyword", function(){
 	it("returns matches", function(){
