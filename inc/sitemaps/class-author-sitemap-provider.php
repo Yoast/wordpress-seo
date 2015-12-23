@@ -223,7 +223,7 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 				$exclude_user = true;
 			}
 			elseif ( $options['disable_author_noposts'] === true ) {
-				$count_posts  = count_user_posts( $user->ID );
+				$count_posts  = (int) count_user_posts( $user->ID );
 				$exclude_user = ( $count_posts === 0 );
 				unset( $count_posts );
 			}
