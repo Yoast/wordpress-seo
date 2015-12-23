@@ -295,7 +295,7 @@ YoastSEO.Analyzer.prototype.linkCount = function() {
  * @returns {{name: string, result: {total: number, alt: number, noAlt: number}}}
  */
 YoastSEO.Analyzer.prototype.imageCount = function() {
-	var countImages = require( "./analyses/countImages.js" );
+	var countImages = require( "./analyses/getImageStatistics.js" );
 	return [ { test: "imageCount", result: countImages( this.preProcessor.__store.originalText, this.config.keyword ) } ];
 };
 
@@ -359,7 +359,7 @@ YoastSEO.Analyzer.prototype.metaDescriptionLength = function() {
  * @returns {{name: string, count: number}}
  */
 YoastSEO.Analyzer.prototype.urlKeyword = function() {
-	var checkForKeywordInUrl = require( "./analyses/checkForKeywordInUrl.js" );
+	var checkForKeywordInUrl = require( "./analyses/countKeywordInUrl.js" );
 
 	var result = [ { test: "urlKeyword", result: checkForKeywordInUrl( this.config.url, this.config.keyword ) } ];
 	return result;
@@ -396,9 +396,11 @@ YoastSEO.Analyzer.prototype.urlStopwords = function() {
  * @returns {{test: string, result: number}[]}
  */
 YoastSEO.Analyzer.prototype.keywordDoubles = function() {
-	var checkForKeywordDoubles = require ( "./analyses/checkForKeywordDoubles.js" );
-	var result = [ { test: "keywordDoubles", result: checkForKeywordDoubles( this.config.keyword, this.config.usedKeywords ) } ];
-
+	var result = [ { test: "keywordDoubles", result: {count: 0, id: 0 } } ];
+	if ( this.config.keyword !== "undefined" && this.config.usedKeywords !== "undefined" ){
+		var checkForKeywordDoubles = require ( "./analyses/checkForKeywordDoubles.js" );
+		result[0].result = checkForKeywordDoubles( this.config.keyword, this.config.usedKeywords );
+	}
 	return result;
 };
 

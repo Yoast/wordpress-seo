@@ -1,4 +1,4 @@
-var imageCountFunction = require( "../../js/analyses/countImages.js" );
+var imageCountFunction = require( "../../js/analyses/getImageStatistics.js" );
 var imageCount;
 
 describe( "Counts images in an text", function(){
