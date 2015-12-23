@@ -1,6 +1,6 @@
 /** @module analyses/checkStringForStopwords */
 
-var stopwords = require( "../config/stopwords.js" );
+var stopwords = require( "../config/stopwords.js" )();
 var keywordRegex = require( "../stringProcessing/stringToRegex.js" );
 
 /**
@@ -10,12 +10,11 @@ var keywordRegex = require( "../stringProcessing/stringToRegex.js" );
  * @returns {array} An array with all stopwords found in the text.
  */
 module.exports = function( text ) {
-	var stopwordsArray = stopwords();
 	var i, matches = [];
 
-	for ( i = 0; i < stopwordsArray.length; i++ ) {
-		if ( text.match( keywordRegex( stopwordsArray[i] ) ) !== null  ) {
-			matches.push( stopwordsArray[i] );
+	for ( i = 0; i < stopwords.length; i++ ) {
+		if ( text.match( keywordRegex( stopwords[i] ) ) !== null  ) {
+			matches.push( stopwords[i] );
 		}
 	}
 	return matches;
