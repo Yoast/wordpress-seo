@@ -217,7 +217,7 @@ YoastSEO.Analyzer.prototype.keywordCount = function() {
  * @returns resultObject
  */
 YoastSEO.Analyzer.prototype.subHeadings = function() {
-	var getSubheadings = require ( "./analyses/getSubheadings.js" );
+	var getSubheadings = require ( "./analyses/matchKeywordInSubheadings.js" );
 
 	var result = [ { test: "subHeadings", result: getSubheadings( this.preProcessor.__store.originalText, this.config.keyword ) } ];
 
