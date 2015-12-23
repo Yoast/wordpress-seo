@@ -1,4 +1,4 @@
-var keyphraseSize = require("../../js/analyses/getKeyphraseLength.js");
+var keyphraseSize = require("../../js/analyses/getWordCount.js");
 
 describe("Test for counting the number of words in a keyphrase", function(){
 	it("returns wordcount in a keyphrase", function(){
