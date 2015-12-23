@@ -340,7 +340,7 @@ YoastSEO.Analyzer.prototype.firstParagraph = function() {
  * @returns {{name: string, count: number}}
  */
 YoastSEO.Analyzer.prototype.metaDescriptionKeyword = function() {
-	var getMetaDescriptionKeyword = require( "./analyses/getMetaDescriptionKeyword.js" );
+	var getMetaDescriptionKeyword = require( "./analyses/calculateMetaDescriptionKeyword.js" );
 	var result = [ { test: "metaDescriptionKeyword", result: getMetaDescriptionKeyword( this.config.meta, this.config.keyword ) } ];
 
 	return result;

@@ -1,4 +1,4 @@
-var metaDescriptionKeyword = require( "../../js/analyses/getMetaDescriptionKeyword.js" );
+var metaDescriptionKeyword = require( "../../js/analyses/calculateMetaDescriptionKeyword.js" );
 
 describe("Checks the metadescription for the keyword", function(){
 	it("returns the matches", function(){
