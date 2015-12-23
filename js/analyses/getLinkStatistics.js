@@ -12,6 +12,18 @@ var checkNofollow = require( "../stringProcessing/checkNofollow.js" );
  * @param {string} keyword The keyword to use for matching in anchors.
  * @param {string} url The url of the page.
  * @returns {object} The object containing all linktypes.
+ * total: the total number of links found
+ * totalNaKeyword: the total number of links if keyword is not available
+ * totalKeyword: the total number of links with the keyword
+ * internalTotal: the total number of links that are internal
+ * internalDofollow: the internal links without a nofollow attribute
+ * internalNofollow: the internal links with a nofollow attribute
+ * externalTotal: the total number of links that are external
+ * externalDofollow: the external links without a nofollow attribute
+ * externalNofollow: the internal links with a dofollow attribute
+ * otherTotal: all links that are not HTTP or HTTPS
+ * otherDofollow: other links without a nofollow attribute
+ * otherNofollow: other links with a nofollow attribute
  */
 module.exports = function( text, keyword, url ) {
 	var matches = getAnchors( text );
