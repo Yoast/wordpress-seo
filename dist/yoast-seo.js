@@ -341,7 +341,11 @@ YoastSEO.Analyzer.prototype.firstParagraph = function() {
  */
 YoastSEO.Analyzer.prototype.metaDescriptionKeyword = function() {
 	var getMetaDescriptionKeyword = require( "./analyses/calculateMetaDescriptionKeyword.js" );
-	var result = [ { test: "metaDescriptionKeyword", result: getMetaDescriptionKeyword( this.config.meta, this.config.keyword ) } ];
+	var result = [ { test: "metaDescriptionKeyword", result: -1 } ];
+	if ( typeof this.config.meta !== "undefined" && typeof this.config.keyword !== "undefined" && this.config.meta !== "" && this.config.keyword !== "" ){
+		result[ 0 ].result = getMetaDescriptionKeyword( this.config.meta, this.config.keyword );
+	}
+
 
 	return result;
 };

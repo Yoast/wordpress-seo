@@ -10,9 +10,5 @@ var wordMatch = require( "../stringProcessing/matchTextWithWord.js" );
  * @returns {array} matches in the metadescription
  */
 module.exports = function( text, keyword ) {
-	var matches = -1;
-	if ( typeof text !== "undefined" && typeof keyword !== "undefined" && text !== "" && keyword !== "" ) {
-		matches = wordMatch( text, keyword );
-	}
-	return matches;
+	return  wordMatch( text, keyword );
 };
