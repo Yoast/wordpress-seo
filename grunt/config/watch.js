@@ -7,5 +7,9 @@ module.exports = {
 	checks: {
 		files: "<%= files.js %>",
 		tasks: [ "jshint", "jscs" ]
+	},
+	cssmin: {
+		files: "<%= files.css %>",
+		tasks: [ "cssmin" ]
 	}
 };

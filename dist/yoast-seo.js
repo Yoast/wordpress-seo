@@ -1184,6 +1184,8 @@ YoastSEO.App.prototype.createSnippetPreview = function() {
 	var div = document.createElement( "div" );
 	div.id = "snippet_preview";
 	targetElement.appendChild( div );
+
+	this.createSnippetPreviewEditIcon( div );
 	this.createSnippetPreviewTitle( div );
 	this.createSnippetPreviewUrl( div );
 	this.createSnippetPreviewMeta( div );
@@ -1255,6 +1257,20 @@ YoastSEO.App.prototype.createSnippetPreviewMeta = function( target ) {
 	meta.contentEditable = true;
 	meta.textContent = this.config.sampleText.meta;
 	elem.appendChild( meta );
+};
+
+/**
+ * Creates an edit icon inside the target snippet preview div
+ *
+ * @param {HTMLElement} snippetPreview The snippet preview element
+ */
+YoastSEO.App.prototype.createSnippetPreviewEditIcon = function( snippetPreview ) {
+	var editIcon;
+
+	editIcon = document.createElement( "div" );
+	editIcon.className = "edit-icon";
+
+	snippetPreview.appendChild( editIcon );
 };
 
 /**
