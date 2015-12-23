@@ -9,13 +9,11 @@
  */
 module.exports = function( keyword, usedKeywords ) {
 	var result = { count: 0, id: 0 };
-	if ( typeof keyword !== "undefined" ) {
-		if ( typeof usedKeywords !== "undefined" && typeof usedKeywords[ keyword ] !== "undefined" ) {
-			result.count = usedKeywords[ keyword ].length;
-			if ( result.count === 1 ) {
-				result.id = usedKeywords[ keyword ][ 0 ];
-			}
-		}
+	if ( typeof usedKeywords[ keyword ] !== "undefined" ){
+		result.count = usedKeywords[ keyword ].length;
+	}
+	if ( result.count === 1 ) {
+		result.id = usedKeywords[ keyword ][ 0 ];
 	}
 	return result;
 };

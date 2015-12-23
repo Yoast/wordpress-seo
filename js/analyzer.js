@@ -396,9 +396,11 @@ YoastSEO.Analyzer.prototype.urlStopwords = function() {
  * @returns {{test: string, result: number}[]}
  */
 YoastSEO.Analyzer.prototype.keywordDoubles = function() {
-	var checkForKeywordDoubles = require ( "./analyses/checkForKeywordDoubles.js" );
-	var result = [ { test: "keywordDoubles", result: checkForKeywordDoubles( this.config.keyword, this.config.usedKeywords ) } ];
-
+	var result = [ { test: "keywordDoubles", result: {count: 0, id: 0 } } ];
+	if ( this.config.keyword !== "undefined" && this.config.usedKeywords !== "undefined" ){
+		var checkForKeywordDoubles = require ( "./analyses/checkForKeywordDoubles.js" );
+		result[0].result = checkForKeywordDoubles( this.config.keyword, this.config.usedKeywords );
+	}
 	return result;
 };
 
