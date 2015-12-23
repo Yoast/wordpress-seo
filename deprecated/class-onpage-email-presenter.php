@@ -12,14 +12,14 @@
 class WPSEO_OnPage_Email_Presenter {
 
 	/**
-	 * @deprecated
+	 * @deprecated 3.0.7
 	 */
 	public function __construct() {
 		_deprecated_constructor( 'WPSEO_OnPage_Email_Presenter', 'WPSEO 3.0.7' );
 	}
 
 	/**
-	 * @deprecated
+	 * @deprecated 3.0.7
 	 */
 	public function get_subject() {
 		_deprecated_function( 'WPSEO_OnPage_Email_Presenter', 'WPSEO 3.0.7' );
