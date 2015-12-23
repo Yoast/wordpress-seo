@@ -304,8 +304,11 @@ YoastSEO.Analyzer.prototype.imageCount = function() {
  * @returns {{name: string, count: *}}
  */
 YoastSEO.Analyzer.prototype.pageTitleLength = function() {
-	var getPageTitleLength = require ( "./analyses/getPageTitleLength.js" );
-	return [ { test: "pageTitleLength", result: getPageTitleLength( this.config.pageTitle ) } ];
+	var result =  [ { test: "pageTitleLength", result:  0 } ];
+	if ( typeof this.config.pageTitle !== "undefined" ) {
+		result[ 0 ].result = this.config.pageTitle.length;
+	}
+	return result;
 };
 
 /**
@@ -355,8 +358,10 @@ YoastSEO.Analyzer.prototype.metaDescriptionKeyword = function() {
  * @returns {{test: string, result: Number}[]}
  */
 YoastSEO.Analyzer.prototype.metaDescriptionLength = function() {
-	var getMetaDescriptionLength = require( "./analyses/getMetaDescriptionLength.js" );
-	var result = [ { test: "metaDescriptionLength", result: getMetaDescriptionLength( this.config.meta ) } ];
+	var result = [ { test: "metaDescriptionLength", result: 0 } ];
+	if( typeof  this.config.meta !== "undefined" ){
+		result[ 0 ].result =  this.config.meta.length;
+	}
 
 	return result;
 };
