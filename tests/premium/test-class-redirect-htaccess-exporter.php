@@ -4,17 +4,18 @@
  */
 
 /**
- * Test class for testing WPSEO_Redirect_File_Nginx
- **/
-class WPSEO_Redirect_Export_Nginx_Test extends WPSEO_UnitTestCase {
+ * Test class for testing WPSEO_Redirect_Export_Htaccess
+ */
+class WPSEO_Redirect_Export_Htaccess_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Testing if the export method will be called and returns true
 	 *
-	 * @covers WPSEO_Redirect_Export_File::export
+	 * @covers WPSEO_Redirect_File_Exporter::export
+	 * @covers WPSEO_Redirect_Htaccess_Exporter::save
 	 */
 	public function test_export() {
-		$class_instance = $this->getMock( 'WPSEO_Redirect_Export_Nginx', array( 'save' ) );
+		$class_instance = $this->getMock( 'WPSEO_Redirect_Htaccess_Exporter', array( 'save' ) );
 
 		$class_instance
 			->expects( $this->once() )
@@ -34,10 +35,10 @@ class WPSEO_Redirect_Export_Nginx_Test extends WPSEO_UnitTestCase {
 	 *
 	 * Testing if the export method will be called and returns true
 	 *
-	 * @covers WPSEO_Redirect_Export_File::export
+	 * @covers WPSEO_Redirect_File_Exporter::export
 	 */
 	public function test_export_empty() {
-		$class_instance = new WPSEO_Redirect_Export_Nginx();
+		$class_instance = new WPSEO_Redirect_Htaccess_Exporter();
 
 		$this->assertFalse( $class_instance->export( array() ) );
 	}
@@ -45,18 +46,20 @@ class WPSEO_Redirect_Export_Nginx_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Test if formatting will be done correctly
 	 *
-	 * @covers WPSEO_Redirect_Export_File::format
+	 * @covers WPSEO_Redirect_File_Exporter::format
+	 * @covers WPSEO_Redirect_File_Exporter::get_format
 	 */
 	public function test_format() {
-		$class_instance = new WPSEO_Redirect_Export_Nginx();
+		$class_instance = new WPSEO_Redirect_Htaccess_Exporter();
 
 		$this->assertEquals(
-			'location target { add_header X-Redirect-By \"Yoast SEO Premium\"; return origin 301; }',
+			'Redirect 301 "/origin" "/target"',
 			$class_instance->format( new WPSEO_Redirect( 'origin', 'target', '301', WPSEO_Redirect::FORMAT_PLAIN ) )
 		);
 
+
 		$this->assertEquals(
-			'location ~ target { return test([a-z]*) 301; }',
+			'RedirectMatch 301 test([a-z]*) target',
 			$class_instance->format( new WPSEO_Redirect( 'test([a-z]*)', 'target', '301', WPSEO_Redirect::FORMAT_REGEX ) )
 		);
 	}

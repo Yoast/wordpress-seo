@@ -6,20 +6,20 @@
 /**
  * Test class for testing the endpoint validation class
  *
- * @covers WPSEO_Redirect_Validate_Presence
+ * @covers WPSEO_Redirect_Presence_Validation
  */
-class WPSEO_Redirect_Validate_Presence_Test extends WPSEO_UnitTestCase {
+class WPSEO_Redirect_Presence_Validation_Test extends WPSEO_UnitTestCase {
 
 	/**
-	 * @var WPSEO_Redirect_Validate_Presence
+	 * @var WPSEO_Redirect_Presence_Validation
 	 */
 	private $class_instance;
 
 	/**
-	 * Setting the class_instance with an instance of WPSEO_Redirect_Validate_Presence
+	 * Setting the class_instance with an instance of WPSEO_Redirect_Presence_Validation
 	 */
 	public function setUp() {
-		$this->class_instance = new WPSEO_Redirect_Validate_Presence();
+		$this->class_instance = new WPSEO_Redirect_Presence_Validation();
 	}
 
 	/**
@@ -31,12 +31,12 @@ class WPSEO_Redirect_Validate_Presence_Test extends WPSEO_UnitTestCase {
 	 * @param string $new_url         The url to redirect to.
 	 * @param int    $type            Type of the redirect.
 	 *
-	 * @covers WPSEO_Redirect_Validate_Presence::validate
-	 * @covers WPSEO_Redirect_Validate_Presence::get_error
+	 * @covers WPSEO_Redirect_Presence_Validation::run
+	 * @covers WPSEO_Redirect_Presence_Validation::get_error
 	 */
 	public function test_validate_filled_correctly( $old_url, $new_url, $type ) {
 		$this->assertTrue(
-			$this->class_instance->validate(
+			$this->class_instance->run(
 				new WPSEO_Redirect( $old_url , $new_url, $type )
 			)
 		);
@@ -51,16 +51,19 @@ class WPSEO_Redirect_Validate_Presence_Test extends WPSEO_UnitTestCase {
 	 * @param string $new_url         The url to redirect to.
 	 * @param int    $type            Type of the redirect.
 	 *
-	 * @covers WPSEO_Redirect_Validate_Presence::validate
-	 * @covers WPSEO_Redirect_Validate_Presence::get_error
+	 * @covers WPSEO_Redirect_Presence_Validation::run
+	 * @covers WPSEO_Redirect_Presence_Validation::get_error
 	 */
 	public function test_validate_filled( $old_url, $new_url, $type ) {
 		$this->assertFalse(
-			$this->class_instance->validate(
+			$this->class_instance->run(
 				new WPSEO_Redirect( $old_url , $new_url, $type )
 			)
 		);
-		$this->assertEquals( 'Not all the required fields are filled', $this->class_instance->get_error() );
+		$this->assertEquals(
+			new WPSEO_Validation_Error( 'Not all the required fields are filled.' ),
+			$this->class_instance->get_error()
+		);
 	}
 
 	/**

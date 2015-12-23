@@ -8,7 +8,7 @@
  *
  * @covers WPSEO_Redirect_Validator
  */
-class WPSEO_Redirect_Validator_Test extends WPSEO_UnitTestCase {
+class WPSEO_Redirect_Validation_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * @var WPSEO_Redirect_Validator
@@ -95,8 +95,10 @@ class WPSEO_Redirect_Validator_Test extends WPSEO_UnitTestCase {
 			array( '', 'not_filled', 410, '' ),													// Origin is not filled.
 			array( '', '', 410, '' ),															// Origin is not filled.
 			array( 'accessible_url', 'http://example.com/this/path/does/not/exist', 301, '' ),  // Page is not accessible.
+			array( 'accessible_url', 'http://fake-domain.not.exist/', 301, '' ),                // Will give a warning.
 			array( 'newer_url', 'older_url', 301, '' ),											// Will be a redirect loop.
 			array( 'newest_url', 'older_url', 301, '' ),										// Redirect path can be shorter.
+			array( 'end_url', 'ending_point', 301, '' ),										// Is relative - does not exist.
 		);
 	}
 
@@ -107,14 +109,12 @@ class WPSEO_Redirect_Validator_Test extends WPSEO_UnitTestCase {
 	 */
 	public function redirect_provider() {
 		return array(
-			array( 'old_url', 'my_old_url', 301, 'old_url' ),
+			array( 'old_url', '/', 301, 'old_url' ),
 			array( 'that_page', '/', 301, '' ),
 			array( 'current_page', '/', 301, '' ),
 			array( 'deleted-page', '', 410, '' ),
 			array( 'accessible_url', home_url(), 301, '' ),
 			array( 'accessible_url', '', 410, '' ),
-			array( 'accessible_url', 'fake://domain.com/', 301, '' ), // Will give a wrning.
-			array( 'end_url', 'ending_point', 301, '' ),
 			array( 'end_url', '', 410, '' ),
 		);
 	}

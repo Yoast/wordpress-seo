@@ -6,7 +6,7 @@
 /**
  * Represents a redirect export
  */
-interface WPSEO_Redirect_Export {
+interface WPSEO_Redirect_Exporter {
 
 	/**
 	 * Exports an array of redirects.

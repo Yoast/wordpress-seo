@@ -6,7 +6,7 @@
 /**
  * Validator for validating the endpoint of a redirect
  */
-class WPSEO_Redirect_Validate_Endpoint implements WPSEO_Redirect_Validate {
+class WPSEO_Redirect_Endpoint_Validation implements WPSEO_Redirect_Validation {
 
 	/**
 	 * @var array
@@ -14,19 +14,20 @@ class WPSEO_Redirect_Validate_Endpoint implements WPSEO_Redirect_Validate {
 	private $redirects;
 
 	/**
-	 * @var string
+	 * @var WPSEO_Validation_Result
 	 */
 	private $error;
 
 	/**
 	 * Validate the redirect to check if the origin already exists.
 	 *
-	 * @param WPSEO_Redirect $redirect  The redirect to validate.
-	 * @param array          $redirects Array with redirect to validate against.
+	 * @param WPSEO_Redirect $redirect     The redirect to validate.
+	 * @param WPSEO_Redirect $old_redirect The old redirect to compare.
+	 * @param array          $redirects    Array with redirect to validate against.
 	 *
 	 * @return bool
 	 */
-	public function validate( WPSEO_Redirect $redirect, array $redirects = null ) {
+	public function run( WPSEO_Redirect $redirect, WPSEO_Redirect $old_redirect = null, array $redirects = null ) {
 		$this->redirects = $redirects;
 
 		$origin   = $redirect->get_origin();
@@ -36,18 +37,20 @@ class WPSEO_Redirect_Validate_Endpoint implements WPSEO_Redirect_Validate {
 		// Check for a redirect loop.
 		if ( is_string( $endpoint ) && in_array( $endpoint, array( $origin, $target ) ) ) {
 			// There might be a redirect loop.
-			$this->error = __( 'There might be a redirect loop.', 'wordpress-seo-premium' );
+			$this->error = new WPSEO_Validation_Error(
+				__( 'There might be a redirect loop.', 'wordpress-seo-premium' )
+			);
 
 			return false;
 		}
 
 		if ( is_string( $endpoint ) && $target !== $endpoint ) {
-			// The current redirect will be redirected to ... Maybe it's worth considering to create a direct redirect to ...
-			$this->error = sprintf(
+			/* translators: %1$s: will be the target, %2$s: will be the found endpoint.   */
+			$this->error = new WPSEO_Validation_Warning( sprintf(
 				__( '%1$s will be redirected to %2$s. Maybe it\'s worth considering to create a direct redirect to %2$s.', 'wordpress-seo-premium' ),
 				$target,
 				$endpoint
-			);
+			) );
 
 			return false;
 		}
@@ -58,7 +61,7 @@ class WPSEO_Redirect_Validate_Endpoint implements WPSEO_Redirect_Validate {
 	/**
 	 * Returns the validation error
 	 *
-	 * @return string
+	 * @return WPSEO_Validation_Result
 	 */
 	public function get_error() {
 		return $this->error;

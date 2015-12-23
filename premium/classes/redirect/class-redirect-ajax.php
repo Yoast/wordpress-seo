@@ -19,11 +19,6 @@ class WPSEO_Redirect_Ajax {
 	private $redirect_format;
 
 	/**
-	 * @var array The options that can be passed as option argument for filter_input.
-	 */
-	private $filter_options = array( 'options' => array( 'default' => '' ) );
-
-	/**
 	 * Setting up the object by instantiate the redirect manager and setting the hooks.
 	 *
 	 * @param string $redirect_format The redirects format.
@@ -43,19 +38,25 @@ class WPSEO_Redirect_Ajax {
 
 		// Save the redirect.
 		$redirect  = $this->get_redirect_from_post( 'redirect' );
-		$validator = new WPSEO_Redirect_Validator();
+		$this->validate( $redirect );
 
 		// The method always returns the added redirect.
-		if ( $validator->validate( $redirect ) && $this->redirect_manager->create_redirect( $redirect ) ) {
+		if ( $this->redirect_manager->create_redirect( $redirect ) ) {
 			$response = array(
 				'origin' => $redirect->get_origin(),
 				'target' => $redirect->get_target(),
 				'type'   => $redirect->get_type(),
 			);
 		}
+		else {
+			// Set the value error.
+			$error = array(
+				'type'    => 'error',
+				'message' => __( 'Unknown error. Failed to create redirect.', 'wordpress-seo-premium' ),
+			);
 
-		// Set the value error.
-		$response['error'] = $validator->get_error();
+			$response = array( 'error' => $error );
+		}
 
 		// Response.
 		wp_die( WPSEO_Utils::json_encode( $response ) );
@@ -70,19 +71,25 @@ class WPSEO_Redirect_Ajax {
 
 		$current_redirect = $this->get_redirect_from_post( 'old_redirect' );
 		$new_redirect     = $this->get_redirect_from_post( 'new_redirect' );
-		$validator        = new WPSEO_Redirect_Validator();
+		$this->validate( $new_redirect, $current_redirect );
 
 		// The method always returns the added redirect.
-		if ( $validator->validate( $new_redirect, $current_redirect ) && $this->redirect_manager->update_redirect( $current_redirect, $new_redirect ) ) {
+		if (  $this->redirect_manager->update_redirect( $current_redirect, $new_redirect ) ) {
 			$response = array(
 				'origin' => $new_redirect->get_origin(),
 				'target' => $new_redirect->get_target(),
 				'type'   => $new_redirect->get_type(),
 			);
 		}
+		else {
+			// Set the value error.
+			$error = array(
+				'type'    => 'error',
+				'message' => __( 'Unknown error. Failed to update redirect.', 'wordpress-seo-premium' ),
+			);
 
-		// Set the value error.
-		$response['error'] = $validator->get_error();
+			$response = array( 'error' => $error );
+		}
 
 		// Response.
 		wp_die( WPSEO_Utils::json_encode( $response ) );
@@ -106,6 +113,30 @@ class WPSEO_Redirect_Ajax {
 
 		// Response.
 		wp_die( WPSEO_Utils::json_encode( $response ) );
+	}
+
+	/**
+	 * Run the validation
+	 *
+	 * @param WPSEO_Redirect      $redirect			The redirect to save.
+	 * @param WPSEO_Redirect|null $current_redirect The current redirect.
+	 */
+	private function validate( WPSEO_Redirect $redirect, WPSEO_Redirect $current_redirect = null ) {
+		$validator = new WPSEO_Redirect_Validator();
+
+		if ( $validator->validate( $redirect, $current_redirect ) === true ) {
+			return;
+		}
+
+		$ignore_warning = filter_input( INPUT_POST, 'ignore_warning' );
+
+		$error = $validator->get_error();
+
+		if (  $error->get_type() === 'error' || ( $error->get_type() === 'warning'  && $ignore_warning === 'false' ) ) {
+			wp_die(
+				WPSEO_Utils::json_encode( array( 'error' => $error->to_array() ) )
+			);
+		}
 	}
 
 	/**
