@@ -26,10 +26,10 @@ var checkNofollow = require( "../stringProcessing/checkNofollow.js" );
  * otherNofollow: other links with a nofollow attribute
  */
 module.exports = function( text, keyword, url ) {
-	var matches = getAnchors( text );
+	var anchors = getAnchors( text );
 
 	var linkCount = {
-		total: matches.length,
+		total: anchors.length,
 		totalNaKeyword: 0,
 		totalKeyword: 0,
 		internalTotal: 0,
@@ -43,8 +43,8 @@ module.exports = function( text, keyword, url ) {
 		otherNofollow: 0
 	};
 	var linkKeyword;
-	for ( var i = 0; i < matches.length; i++ ) {
-		linkKeyword = findKeywordInUrl( matches[i], keyword );
+	for (var i = 0; i < anchors.length; i++ ) {
+		linkKeyword = findKeywordInUrl( anchors[i], keyword );
 		if ( linkKeyword ) {
 			if ( keyword !== "" ) {
 				linkCount.totalKeyword++;
@@ -52,9 +52,9 @@ module.exports = function( text, keyword, url ) {
 				linkCount.totalNaKeyword++;
 			}
 		}
-		var linkType = getLinkType( matches[i], url );
+		var linkType = getLinkType( anchors[i], url );
 		linkCount[linkType + "Total"]++;
-		var linkFollow = checkNofollow( matches[i] );
+		var linkFollow = checkNofollow( anchors[i] );
 		linkCount[linkType + linkFollow]++;
 	}
 	return linkCount;
