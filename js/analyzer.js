@@ -316,7 +316,10 @@ YoastSEO.Analyzer.prototype.pageTitleLength = function() {
  */
 YoastSEO.Analyzer.prototype.pageTitleKeyword = function() {
 	var findKeywordInPageTitle = require ( "./analyses/findKeywordInPageTitle.js" );
-	var result = [ { test: "pageTitleKeyword", result:  findKeywordInPageTitle( this.config.pageTitle, this.config.keyword ) } ];
+	var result = [ { test: "pageTitleKeyword", result: { position: -1, matches: 0 } }  ];
+	if( typeof this.config.pageTitle !== "undefined" && typeof this.config.keyword !== "undefined" ){
+		result[0].result = findKeywordInPageTitle( this.config.pageTitle, this.config.keyword );
+	};
 	return result;
 };
 
