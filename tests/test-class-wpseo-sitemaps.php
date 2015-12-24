@@ -58,7 +58,7 @@ class WPSEO_Sitemaps_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @covers WPSEO_Sitemaps::build_post_type_map
+	 * @covers WPSEO_Post_Type_Sitemap_Provider::get_index_links
 	 */
 	public function test_post_sitemap() {
 		self::$class_instance->reset();
