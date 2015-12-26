@@ -54,3 +54,4 @@ $yform->checkbox( 'hide-rsdlink', __( 'Hide RSD Links', 'wordpress-seo' ) );
 $yform->checkbox( 'hide-wlwmanifest', __( 'Hide WLW Manifest Links', 'wordpress-seo' ) );
 $yform->checkbox( 'hide-shortlink', __( 'Hide Shortlink for posts', 'wordpress-seo' ) );
 $yform->checkbox( 'hide-feedlinks', __( 'Hide RSS Links', 'wordpress-seo' ) );
+$yform->checkbox( 'hide-emoji', __( 'Hide Emoji script and style', 'wordpress-seo' ) );
