@@ -29,6 +29,7 @@ class WPSEO_Option_Permalinks extends WPSEO_Option {
 		'hide-rsdlink'                    => false,
 		'hide-shortlink'                  => false,
 		'hide-wlwmanifest'                => false,
+		'hide-emoji'                      => false,
 		'redirectattachment'              => false,
 		'stripcategorybase'               => false,
 		'trailingslash'                   => false,
@@ -99,6 +100,7 @@ class WPSEO_Option_Permalinks extends WPSEO_Option {
 				 *		'hide-wlwmanifest'
 				 *		'hide-shortlink'
 				 *		'hide-feedlinks'
+				 *		'hide-emoji'
 				 *		'redirectattachment'
 				 *		'stripcategorybase'
 				 *		'trailingslash'
