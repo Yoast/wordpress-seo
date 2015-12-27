@@ -11,15 +11,6 @@
 class WPSEO_Recalculate_Scores {
 
 	/**
-	 * @var array The fields which should be always queried, can be extended by array_merge
-	 */
-	private $query_fields   = array(
-		'post_type'      => 'any',
-		'meta_key'       => '_yoast_wpseo_focuskw',
-		'posts_per_page' => -1,
-	);
-
-	/**
 	 * Constructing the object by setting the AJAX hooks
 	 */
 	public function __construct() {
@@ -57,9 +48,13 @@ class WPSEO_Recalculate_Scores {
 	 * @return int
 	 */
 	private function calculate_posts() {
-		$count_posts_query = new WP_Query( $this->query_fields );
-
-		return $count_posts_query->found_posts;
+		global $wpdb;
+		return $wpdb->get_var(
+			"SELECT COUNT(1)
+			FROM $wpdb->posts, $wpdb->postmeta
+			WHERE $wpdb->posts.ID = $wpdb->postmeta.post_id
+			AND $wpdb->postmeta.meta_key = '_yoast_wpseo_focuskw'"
+		);
 	}
 
 }
