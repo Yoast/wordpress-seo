@@ -48,13 +48,13 @@ class WPSEO_Recalculate_Scores {
 	 * @return int
 	 */
 	private function calculate_posts() {
-        global $wpdb;
-        return $wpdb->get_var(
-        	"SELECT COUNT(1)
-        	   FROM $wpdb->posts, $wpdb->postmeta
-        	  WHERE $wpdb->posts.ID          = $wpdb->postmeta.post_id
-        	    AND $wpdb->postmeta.meta_key = '_yoast_wpseo_focuskw'"
-        );
-   	}
+		global $wpdb;
+		return $wpdb->get_var(
+			"SELECT COUNT(1)
+			FROM $wpdb->posts, $wpdb->postmeta
+			WHERE $wpdb->posts.ID = $wpdb->postmeta.post_id
+			AND $wpdb->postmeta.meta_key = '_yoast_wpseo_focuskw'"
+		);
+	}
 
 }
