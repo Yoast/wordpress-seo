@@ -17,6 +17,7 @@ class WPSEO_Recalculate_Scores {
 		'post_type'      => 'any',
 		'meta_key'       => '_yoast_wpseo_focuskw',
 		'posts_per_page' => -1,
+		'fields'		 => 'ids'
 	);
 
 	/**
