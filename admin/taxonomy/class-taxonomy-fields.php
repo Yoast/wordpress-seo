@@ -36,7 +36,11 @@ abstract class WPSEO_Taxonomy_Fields {
 			$this->options = $options;
 		}
 		else {
-			$this->options = WPSEO_Options::get( array( 'wpseo_titles', 'wpseo_internallinks', 'wpseo_social' ) );
+			$this->options = WPSEO_Options::get_options( array(
+				'wpseo_titles',
+				'wpseo_internallinks',
+				'wpseo_social',
+			) );
 		}
 	}
 

@@ -103,7 +103,7 @@ class WPSEO_Sitemaps {
 		// Default stylesheet.
 		$this->stylesheet = '<?xml-stylesheet type="text/xsl" href="' . preg_replace( '/(^http[s]?:)/', '', esc_url( home_url( 'main-sitemap.xsl' ) ) ) . '"?>';
 
-		$this->options     = WPSEO_Options::get( array( 'wpseo_xml', 'wpseo_titles', 'wpseo_permalinks' ) );
+		$this->options     = WPSEO_Options::get_options( array( 'wpseo_xml', 'wpseo_titles', 'wpseo_permalinks' ) );
 		$this->max_entries = $this->options['entries-per-page'];
 		$this->home_url    = home_url();
 		$this->charset     = get_bloginfo( 'charset' );

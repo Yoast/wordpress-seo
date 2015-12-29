@@ -166,7 +166,7 @@ class WPSEO_Taxonomy {
 	 * @return bool
 	 */
 	private function show_metabox() {
-		$options    = WPSEO_Options::get( 'wpseo_titles' );
+		$options    = WPSEO_Options::get_option( 'wpseo_titles' );
 		$option_key = 'hideeditbox-tax-' . $this->taxonomy;
 
 		return ( empty( $options[ $option_key ] ) );
@@ -193,7 +193,7 @@ class WPSEO_Taxonomy {
 		$term     = get_term_by( 'id', $term_id, $this->get_taxonomy() );
 		$focuskw  = WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'focuskw' );
 		$taxonomy = get_taxonomy( $term->taxonomy );
-		$options  = WPSEO_Options::get( 'wpseo_permalinks' );
+		$options  = WPSEO_Options::get_option( 'wpseo_permalinks' );
 
 		$base_url = home_url( '/', null );
 		if ( ! $options['stripcategorybase'] ) {
@@ -225,7 +225,7 @@ class WPSEO_Taxonomy {
 		if ( is_object( $term ) && property_exists( $term, 'taxonomy' ) ) {
 			$needed_option = 'title-tax-' . $term->taxonomy;
 
-			return self::get_template( $term, $needed_option );
+			return self::get_template( $needed_option );
 		}
 
 		return '';
@@ -242,7 +242,7 @@ class WPSEO_Taxonomy {
 		if ( is_object( $term ) && property_exists( $term, 'taxonomy' ) ) {
 			$template_option_name = 'metadesc-tax-' . $term->taxonomy;
 
-			return self::get_template( $term, $template_option_name );
+			return self::get_template( $template_option_name );
 		}
 
 		return '';
@@ -261,13 +261,12 @@ class WPSEO_Taxonomy {
 	/**
 	 * Retrieves a template.
 	 *
-	 * @param object $term                 taxonomy term.
 	 * @param String $template_option_name The name of the option in which the template you want to get is saved.
 	 *
 	 * @return string
 	 */
-	private static function get_template( $term, $template_option_name ) {
-		$options  = WPSEO_Options::get( 'wpseo_titles' );
+	private static function get_template( $template_option_name ) {
+		$options  = WPSEO_Options::get_option( 'wpseo_titles' );
 		$template = '';
 		if ( isset( $options[ $template_option_name ] ) && $options[ $template_option_name ] !== '' ) {
 			$template = $options[ $template_option_name ];

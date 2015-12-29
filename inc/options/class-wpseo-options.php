@@ -168,44 +168,59 @@ class WPSEO_Options {
 	 * well change between calls (enriched defaults and such)
 	 *
 	 * @static
-	 * @return  array  Array combining the values of (nearly) all the options
+	 * @return  array  Array combining the values of all the options
 	 */
 	public static function get_all() {
-		return self::get( self::get_option_names() );
+		return self::get_options( self::get_option_names() );
 	}
 
 	/**
 	 * Retrieve one or more options for the SEO plugin.
 	 *
-	 * @param array|string $option_names The option name or an array of option names of the options you want to get.
-	 *
 	 * @static
+	 *
+	 * @param array $option_names An array of option names of the options you want to get.
+	 *
 	 * @return  array  Array combining the values of the requested options
 	 */
-	public static function get( $option_names ) {
+	public static function get_options( array $option_names ) {
 		$options = array();
-
-		if ( is_string( $option_names ) && $option_names !== '' ) {
-			$option_names = array( $option_names );
-		}
-
-		if ( is_array( $option_names ) && $option_names !== array() ) {
+		if ( $option_names !== null ) {
 			foreach ( $option_names as $option_name ) {
 				if ( isset( self::$option_instances[ $option_name ] ) ) {
-					if ( self::$option_instances[ $option_name ]->multisite_only !== true ) {
-						$option = get_option( $option_name );
-					}
-					else {
-						$option = get_site_option( $option_name );
-					}
-					if ( is_array( $option ) && $option !== array() ) {
-						$options = array_merge( $options, $option );
-					}
+					$option  = self::get_option( $option_name );
+					$options = array_merge( $options, $option );
 				}
 			}
 		}
 
 		return $options;
+	}
+
+	/**
+	 * Retrieve a single option for the SEO plugin.
+	 *
+	 * @static
+	 *
+	 * @param string $option_name the name of the option you want to get.
+	 *
+	 * @return array Array containing the requested option
+	 */
+	public static function get_option( $option_name ) {
+		$option = null;
+		if ( is_string( $option_name ) && ! empty( $option_name ) ) {
+			if ( isset( self::$option_instances[ $option_name ] ) ) {
+				if ( self::$option_instances[ $option_name ]->multisite_only !== true ) {
+					$option = get_option( $option_name );
+				}
+				else {
+					$option = get_site_option( $option_name );
+				}
+			}
+		}
+
+		return $option;
+
 	}
 
 

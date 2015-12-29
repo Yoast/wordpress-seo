@@ -32,7 +32,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		add_action( 'admin_init', array( $this, 'translate_meta_boxes' ) );
 		add_action( 'admin_footer', array( $this, 'template_keyword_tab' ) );
 
-		$this->options = WPSEO_Options::get( 'wpseo_social' );
+		$this->options = WPSEO_Options::get_option( 'wpseo_social' );
 
 		// Check if on of the social settings is checked in the options, if so, initialize the social_admin object.
 		if ( $this->options['opengraph'] === true || $this->options['twitter'] === true || $this->options['googleplus'] === true ) {

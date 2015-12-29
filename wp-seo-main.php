@@ -109,7 +109,7 @@ function wpseo_deactivate( $networkwide = false ) {
 function wpseo_network_activate_deactivate( $activate = true ) {
 	global $wpdb;
 
-	$all_blogs        = $wpdb->get_col( "SELECT blog_id FROM $wpdb->blogs" );
+	$all_blogs = $wpdb->get_col( "SELECT blog_id FROM $wpdb->blogs" );
 
 	if ( is_array( $all_blogs ) && $all_blogs !== array() ) {
 		foreach ( $all_blogs as $blog_id ) {
@@ -233,19 +233,11 @@ function wpseo_init() {
 	WPSEO_Options::get_instance();
 	WPSEO_Meta::init();
 
-	$options = WPSEO_Options::get( array(
-		'wpseo',
-		'wpseo_permalinks',
-		'wpseo_xml',
-	) );
+	$options = WPSEO_Options::get_options( array( 'wpseo', 'wpseo_permalinks', 'wpseo_xml' ) );
 	if ( version_compare( $options['version'], WPSEO_VERSION, '<' ) ) {
 		new WPSEO_Upgrade();
 		// Get a cleaned up version of the $options.
-		$options = WPSEO_Options::get( array(
-			'wpseo',
-			'wpseo_permalinks',
-			'wpseo_xml',
-		) );
+		$options = WPSEO_Options::get_options( array( 'wpseo', 'wpseo_permalinks', 'wpseo_xml' ) );
 	}
 
 	if ( $options['stripcategorybase'] === true ) {
@@ -270,7 +262,7 @@ function wpseo_init() {
 function wpseo_frontend_init() {
 	add_action( 'init', 'initialize_wpseo_front' );
 
-	$options = WPSEO_Options::get( 'wpseo_internallinks' );
+	$options = WPSEO_Options::get_option( 'wpseo_internallinks' );
 	if ( $options['breadcrumbs-enable'] === true ) {
 		/**
 		 * If breadcrumbs are active (which they supposedly are if the users has enabled this settings,
@@ -289,7 +281,7 @@ function wpseo_frontend_init() {
  * Instantiate the different social classes on the frontend
  */
 function wpseo_frontend_head_init() {
-	$options = WPSEO_Options::get( 'wpseo_social' );
+	$options = WPSEO_Options::get_option( 'wpseo_social' );
 	if ( $options['twitter'] === true ) {
 		add_action( 'wpseo_head', array( 'WPSEO_Twitter', 'get_instance' ), 40 );
 	}

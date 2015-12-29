@@ -20,7 +20,7 @@ class WPSEO_Upgrade {
 	 * Class constructor
 	 */
 	public function __construct() {
-		$this->options = WPSEO_Options::get( 'wpseo' );
+		$this->options = WPSEO_Options::get_option( 'wpseo' );
 
 		WPSEO_Options::maybe_set_multisite_defaults( false );
 
@@ -216,7 +216,7 @@ class WPSEO_Upgrade {
 	 * Runs the needed cleanup after an update, setting the DB version to latest version, flushing caches etc.
 	 */
 	private function finish_up() {
-		$this->options = WPSEO_Options::get( 'wpseo' );                     // Re-get to make sure we have the latest version.
+		$this->options = WPSEO_Options::get_option( 'wpseo' );              // Re-get to make sure we have the latest version.
 		update_option( 'wpseo', $this->options );                           // This also ensures the DB version is equal to WPSEO_VERSION.
 
 		add_action( 'shutdown', 'flush_rewrite_rules' );                    // Just flush rewrites, always, to at least make them work after an upgrade.
