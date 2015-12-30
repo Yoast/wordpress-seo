@@ -184,13 +184,12 @@ class WPSEO_Options {
 	 * @return  array  Array combining the values of the requested options
 	 */
 	public static function get_options( array $option_names ) {
-		$options = array();
-		if ( $option_names !== null ) {
-			foreach ( $option_names as $option_name ) {
-				if ( isset( self::$option_instances[ $option_name ] ) ) {
-					$option  = self::get_option( $option_name );
-					$options = array_merge( $options, $option );
-				}
+		$options      = array();
+		$option_names = array_filter( $option_names, 'is_string' );
+		foreach ( $option_names as $option_name ) {
+			if ( isset( self::$option_instances[ $option_name ] ) ) {
+				$option  = self::get_option( $option_name );
+				$options = array_merge( $options, $option );
 			}
 		}
 
@@ -220,7 +219,6 @@ class WPSEO_Options {
 		}
 
 		return $option;
-
 	}
 
 
