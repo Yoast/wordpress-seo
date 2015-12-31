@@ -4,9 +4,13 @@
 build:
   - 'build:css'
   - 'build:js'
+# Precompile JavaScript templates
+'build:jst':
+  - 'lodash:templates'
 # Build JavaScript from assets to production
 'build:js':
   - 'concat'
+  - 'browserify'
   - 'uglify'
 # Build CSS
 'build:css':

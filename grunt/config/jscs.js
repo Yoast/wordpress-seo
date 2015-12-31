@@ -10,7 +10,7 @@ module.exports = {
 			requireCamelCaseOrUpperCaseIdentifiers: null
 		},
 		files: {
-			src: "<%= files.js %>"
+			src: [ "<%= files.js %>", "<%= files.jsDontLint %>" ]
 		}
 	},
 	grunt: {

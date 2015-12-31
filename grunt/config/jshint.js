@@ -4,7 +4,7 @@ module.exports = {
 		options: {
 			jshintrc: ".jshintrc"
 		},
-		src: "<%= files.js %>"
+		src: [ "<%= files.js %>", "<%= files.jsDontLint %>" ]
 	},
 	grunt: {
 		options: {

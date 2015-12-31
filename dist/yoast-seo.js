@@ -1,3 +1,5 @@
+(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+(function (global){
 /* global YoastSEO: true */
 YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 
@@ -743,7 +745,8 @@ YoastSEO.Analyzer.prototype.keywordDoubles = function() {
 YoastSEO.Analyzer.prototype.score = function() {
 	this.analyzeScorer.score( this.__output );
 };
-;/* global YoastSEO: true */
+
+/* global YoastSEO: true */
 YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 
 /**
@@ -996,7 +999,8 @@ YoastSEO.AnalyzeScorer.prototype.addScoring = function( scoring ) {
 
 	this.scoring.push( scoringObject );
 };
-;/* jshint browser: true */
+
+/* jshint browser: true */
 /* global YoastSEO: true */
 YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 
@@ -1140,6 +1144,7 @@ YoastSEO.App.prototype.extendSampleText = function( sampleText ) {
  * @param {Object} translations
  */
 YoastSEO.App.prototype.constructI18n = function( translations ) {
+	var Jed = require( "jed" );
 
 	var defaultTranslations = {
 		"domain": "js-text-analysis",
@@ -1153,7 +1158,7 @@ YoastSEO.App.prototype.constructI18n = function( translations ) {
 	// Use default object to prevent Jed from erroring out.
 	translations = translations || defaultTranslations;
 
-	return new YoastSEO.Jed( translations );
+	return new Jed( translations );
 };
 
 /**
@@ -1181,110 +1186,19 @@ YoastSEO.App.prototype.refresh = function() {
  */
 YoastSEO.App.prototype.createSnippetPreview = function() {
 	var targetElement = document.getElementById( this.config.targets.snippet );
-	var div = document.createElement( "div" );
-	div.id = "snippet_preview";
-	targetElement.appendChild( div );
 
-	this.createSnippetPreviewEditIcon( div );
-	this.createSnippetPreviewTitle( div );
-	this.createSnippetPreviewUrl( div );
-	this.createSnippetPreviewMeta( div );
+	var snippetEditorTemplate = require( "../js/templates.js" ).snippetEditor;
+
+	targetElement.innerHTML = snippetEditorTemplate( {
+		title: this.config.sampleText.title,
+		baseUrl: this.config.sampleText.baseUrl,
+		snippetCite: this.config.sampleText.snippetCite,
+		meta: this.config.sampleText.meta
+	} );
+
 	this.snippetPreview = new YoastSEO.SnippetPreview( this );
 	this.bindEvent();
 	this.bindSnippetEvents();
-};
-
-/**
- * creates the title elements in the snippetPreview and appends to target
- *
- * @param {HTMLElement} target The HTML element for the snippet preview
- */
-YoastSEO.App.prototype.createSnippetPreviewTitle = function( target ) {
-	var elem = document.createElement( "div" );
-	elem.className = "snippet_container";
-	elem.id = "title_container";
-	target.appendChild( elem );
-	var title;
-	title = document.createElement( "span" );
-	title.contentEditable = true;
-	title.textContent = this.config.sampleText.title;
-	title.className = "title";
-	title.id = "snippet_title";
-	elem.appendChild( title );
-	var sitename;
-	sitename = document.createElement( "span" );
-	sitename.className = "title";
-	sitename.id = "snippet_sitename";
-	elem.appendChild( sitename );
-};
-
-/**
- * creates the URL elements in the snippetPreview and appends to target
- *
- * @param {HTMLElement} target The HTML element for the snippet preview
- */
-YoastSEO.App.prototype.createSnippetPreviewUrl = function( target ) {
-	var elem = document.createElement( "div" );
-	elem.className = "snippet_container";
-	elem.id = "url_container";
-	target.appendChild( elem );
-	var baseUrl = document.createElement( "cite" );
-	baseUrl.className = "url urlBase";
-	baseUrl.id = "snippet_citeBase";
-	baseUrl.textContent = this.config.sampleText.baseUrl;
-	elem.appendChild( baseUrl );
-	var cite = document.createElement( "cite" );
-	cite.className = "url";
-	cite.id = "snippet_cite";
-	cite.textContent = this.config.sampleText.snippetCite;
-	cite.contentEditable = true;
-	elem.appendChild( cite );
-};
-
-/**
- * creates the meta description elements in the snippetPreview and appends to target
- *
- * @param {HTMLElement} target The HTML element for the snippet preview
- */
-YoastSEO.App.prototype.createSnippetPreviewMeta = function( target ) {
-	var elem = document.createElement( "div" );
-	elem.className = "snippet_container";
-	elem.id = "meta_container";
-	target.appendChild( elem );
-	var meta = document.createElement( "span" );
-	meta.className = "desc";
-	meta.id = "snippet_meta";
-	meta.contentEditable = true;
-	meta.textContent = this.config.sampleText.meta;
-	elem.appendChild( meta );
-};
-
-/**
- * Creates an edit icon inside the target snippet preview div
- *
- * @param {HTMLElement} snippetPreview The snippet preview element
- */
-YoastSEO.App.prototype.createSnippetPreviewEditIcon = function( snippetPreview ) {
-	var editIcon;
-
-	editIcon = document.createElement( "div" );
-	editIcon.className = "edit-icon";
-
-	snippetPreview.appendChild( editIcon );
-};
-
-/**
- * Creates an edit icon in a element with a certain ID
- *
- * @param {HTMLElement} elem The element to append the edit icon to.
- * @param {String} id The ID to give this edit icon.
- */
-YoastSEO.App.prototype.createEditIcon = function( elem, id ) {
-	var div = document.createElement( "div" );
-	div.className = "editIcon";
-	div.id = "editIcon_" + id;
-	elem.appendChild( div );
-
 };
 
 /**
@@ -1461,7 +1375,8 @@ YoastSEO.App.prototype.updateLoadingDialog = function( plugins ) {
 YoastSEO.App.prototype.removeLoadingDialog = function() {
 	document.getElementById( this.config.targets.output ).removeChild( document.getElementById( "YoastSEO-plugin-loading" ) );
 };
-;/* global console: true */
+
+/* global console: true */
 /* global setTimeout: true */
 /* global YoastSEO: true */
 YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
@@ -1901,7 +1816,8 @@ YoastSEO.Pluggable.prototype._validateUniqueness = function( pluginName ) {
 	}
 	return true;
 };
-;/* global YoastSEO: true */
+
+/* global YoastSEO: true */
 YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 
 /**
@@ -2145,7 +2061,8 @@ YoastSEO.getPreProcessor = function( inputString ) {
 	}
 	return YoastSEO.cachedPreProcessor;
 };
-;/* jshint browser: true */
+
+/* jshint browser: true */
 /* global YoastSEO: true */
 YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 
@@ -2305,7 +2222,8 @@ YoastSEO.ScoreFormatter.prototype.getSEOScoreText = function( scoreRating ) {
 
 	return scoreText;
 };
-;/* jshint browser: true */
+
+/* jshint browser: true */
 /* global YoastSEO: true */
 YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 
@@ -2704,7 +2622,8 @@ YoastSEO.SnippetPreview.prototype.setFocus = function( ev ) {
 		}
 	}
 };
-;/* global YoastSEO: true */
+
+/* global YoastSEO: true */
 YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 
 /**helper functions*/
@@ -2926,7 +2845,907 @@ YoastSEO.getStringHelper = function() {
 	return YoastSEO.cachedStringHelper;
 };
 
-;YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;(function() {/**
+
+;(function() {
+  var undefined;
+
+  var objectTypes = {
+    'function': true,
+    'object': true
+  };
+
+  var freeExports = objectTypes[typeof exports] && exports && !exports.nodeType && exports;
+
+  var freeModule = objectTypes[typeof module] && module && !module.nodeType && module;
+
+  var freeGlobal = freeExports && freeModule && typeof global == 'object' && global && global.Object && global;
+
+  var freeSelf = objectTypes[typeof self] && self && self.Object && self;
+
+  var freeWindow = objectTypes[typeof window] && window && window.Object && window;
+
+  var moduleExports = freeModule && freeModule.exports === freeExports && freeExports;
+
+  var root = freeGlobal || ((freeWindow !== (this && this.window)) && freeWindow) || freeSelf || this;
+
+  var VERSION = '3.10.1';
+
+  /** Used to match HTML entities and HTML characters. */
+  var reUnescapedHtml = /[&<>"'`]/g,
+      reHasUnescapedHtml = RegExp(reUnescapedHtml.source);
+
+  /** Used to map characters to HTML entities. */
+  var htmlEscapes = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;',
+    '`': '&#96;'
+  };
+
+  /*--------------------------------------------------------------------------*/
+
+  /**
+   * Converts `value` to a string if it's not one. An empty string is returned
+   * for `null` or `undefined` values.
+   *
+   * @private
+   * @param {*} value The value to process.
+   * @returns {string} Returns the string.
+   */
+  function baseToString(value) {
+    return value == null ? '' : (value + '');
+  }
+
+  /**
+   * Used by `_.escape` to convert characters to HTML entities.
+   *
+   * @private
+   * @param {string} chr The matched character to escape.
+   * @returns {string} Returns the escaped character.
+   */
+  function escapeHtmlChar(chr) {
+    return htmlEscapes[chr];
+  }
+
+  /*------------------------------------------------------------------------*/
+
+  /**
+   * Converts the characters "&", "<", ">", '"', "'", and "\`", in `string` to
+   * their corresponding HTML entities.
+   *
+   * **Note:** No other characters are escaped. To escape additional characters
+   * use a third-party library like [_he_](https://mths.be/he).
+   *
+   * Though the ">" character is escaped for symmetry, characters like
+   * ">" and "/" don't need escaping in HTML and have no special meaning
+   * unless they're part of a tag or unquoted attribute value.
+   * See [Mathias Bynens's article](https://mathiasbynens.be/notes/ambiguous-ampersands)
+   * (under "semi-related fun fact") for more details.
+   *
+   * Backticks are escaped because in Internet Explorer < 9, they can break out
+   * of attribute values or HTML comments. See [#59](https://html5sec.org/#59),
+   * [#102](https://html5sec.org/#102), [#108](https://html5sec.org/#108), and
+   * [#133](https://html5sec.org/#133) of the [HTML5 Security Cheatsheet](https://html5sec.org/)
+   * for more details.
+   *
+   * When working with HTML you should always [quote attribute values](http://wonko.com/post/html-escaping)
+   * to reduce XSS vectors.
+   *
+   * @static
+   * @memberOf _
+   * @category String
+   * @param {string} [string=''] The string to escape.
+   * @returns {string} Returns the escaped string.
+   * @example
+   *
+   * _.escape('fred, barney, & pebbles');
+   * // => 'fred, barney, &amp; pebbles'
+   */
+  function escape(string) {
+    // Reset `lastIndex` because in IE < 9 `String#replace` does not.
+    string = baseToString(string);
+    return (string && reHasUnescapedHtml.test(string))
+      ? string.replace(reUnescapedHtml, escapeHtmlChar)
+      : string;
+  }
+
+  var _ = { 'escape': escape };
+
+  /*----------------------------------------------------------------------------*/
+
+  var templates = {
+    'snippetEditor': {}
+  };
+
+  templates['snippetEditor'] =   function(obj) {
+    obj || (obj = {});
+    var __t, __p = '', __e = _.escape;
+    with (obj) {
+    __p += '<div id="snippet_preview">\n    <div class="edit-icon"></div>\n    <div class="snippet_container" id="title_container">\n        <span contenteditable="true" class="title" id="snippet_title">\n            ' +
+    __e( title ) +
+    '\n        </span>\n        <span class="title" id="snippet_sitename"></span>\n    </div>\n    <div class="snippet_container" id="url_container">\n        <cite class="url urlBase" id="snippet_citeBase">\n            ' +
+    __e( baseUrl ) +
+    '\n        </cite>\n        <cite class="url" id="snippet_cite" contenteditable="true">\n            ' +
+    __e( snippetCite ) +
+    '\n        </cite>\n    </div>\n    <div class="snippet_container" id="meta_container">\n        <span class="desc" id="snippet_meta" contenteditable="true">\n            ' +
+    __e( meta ) +
+    '\n        </span>\n    </div>\n</div>\n';
+
+    }
+    return __p
+  };
+
+  /*----------------------------------------------------------------------------*/
+
+  if (freeExports && freeModule) {
+    if (moduleExports) {
+      (freeModule.exports = templates).templates = templates;
+    } else {
+      freeExports.templates = templates;
+    }
+  }
+  else {
+    root.templates = templates;
+  }
+}.call(this));
+
+YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
+
+YoastSEO.analyzerConfig = {
+	queue: [ "wordCount", "keywordDensity", "subHeadings", "stopwords", "fleschReading", "linkCount", "imageCount", "urlKeyword", "urlLength", "metaDescriptionLength", "metaDescriptionKeyword", "pageTitleKeyword", "pageTitleLength", "firstParagraph", "urlStopwords", "keywordDoubles", "keyphraseSizeCheck" ],
+	stopWords: [ "a", "about", "above", "after", "again", "against", "all", "am", "an", "and", "any", "are", "as", "at", "be", "because", "been", "before", "being", "below", "between", "both", "but", "by", "could", "did", "do", "does", "doing", "down", "during", "each", "few", "for", "from", "further", "had", "has", "have", "having", "he", "he'd", "he'll", "he's", "her", "here", "here's", "hers", "herself", "him", "himself", "his", "how", "how's", "i", "i'd", "i'll", "i'm", "i've", "if", "in", "into", "is", "it", "it's", "its", "itself", "let's", "me", "more", "most", "my", "myself", "nor", "of", "on", "once", "only", "or", "other", "ought", "our", "ours", "ourselves", "out", "over", "own", "same", "she", "she'd", "she'll", "she's", "should", "so", "some", "such", "than", "that", "that's", "the", "their", "theirs", "them", "themselves", "then", "there", "there's", "these", "they", "they'd", "they'll", "they're", "they've", "this", "those", "through", "to", "too", "under", "until", "up", "very", "was", "we", "we'd", "we'll", "we're", "we've", "were", "what", "what's", "when", "when's", "where", "where's", "which", "while", "who", "who's", "whom", "why", "why's", "with", "would", "you", "you'd", "you'll", "you're", "you've", "your", "yours", "yourself", "yourselves" ],
+	wordsToRemove: [ " a", " in", " an", " on", " for", " the", " and" ],
+	maxSlugLength: 20,
+	maxUrlLength: 40,
+	maxMeta: 156
+};
+YoastSEO.preprocessorConfig = {
+	syllables: {
+		subtractSyllables: [ "cial", "tia", "cius", "cious", "giu", "ion", "iou", "sia$", "[^aeiuoyt]{2,}ed$", "[aeiouy][^aeiuoyts]{1,}e\\b", ".ely$", "[cg]h?e[sd]", "rved$", "rved", "[aeiouy][dt]es?$", "[aeiouy][^aeiouydt]e[sd]?$", "^[dr]e[aeiou][^aeiou]+$", "[aeiouy]rse$" ],
+		addSyllables: [ "ia", "riet", "dien", "iu", "io", "ii", "[aeiouym][bdp]l", "[aeiou]{3}", "^mc", "ism$", "([^aeiouy])\1l$", "[^l]lien", "^coa[dglx].", "[^gq]ua[^auieo]", "dnt$", "uity$", "ie(r|st)", "[aeiouy]ing", "[aeiouw]y[aeiou]" ],
+		exclusionWords: [
+			{ word: "shoreline", syllables: 2 },
+			{ word: "simile", syllables: 3 }
+		]
+	},
+	diacriticsRemovalMap: [
+		{
+			base: "a",
+			letters: /[\u0061\u24D0\uFF41\u1E9A\u00E0\u00E1\u00E2\u1EA7\u1EA5\u1EAB\u1EA9\u00E3\u0101\u0103\u1EB1\u1EAF\u1EB5\u1EB3\u0227\u01E1\u00E4\u01DF\u1EA3\u00E5\u01FB\u01CE\u0201\u0203\u1EA1\u1EAD\u1EB7\u1E01\u0105\u2C65\u0250]/g
+		},
+		{ base: "aa", letters: /[\uA733]/g },
+		{ base: "ae", letters: /[\u00E6\u01FD\u01E3]/g },
+		{ base: "ao", letters: /[\uA735]/g },
+		{ base: "au", letters: /[\uA737]/g },
+		{ base: "av", letters: /[\uA739\uA73B]/g },
+		{ base: "ay", letters: /[\uA73D]/g },
+		{ base: "b", letters: /[\u0062\u24D1\uFF42\u1E03\u1E05\u1E07\u0180\u0183\u0253]/g },
+		{
+			base: "c",
+			letters: /[\u0063\u24D2\uFF43\u0107\u0109\u010B\u010D\u00E7\u1E09\u0188\u023C\uA73F\u2184]/g
+		},
+		{
+			base: "d",
+			letters: /[\u0064\u24D3\uFF44\u1E0B\u010F\u1E0D\u1E11\u1E13\u1E0F\u0111\u018C\u0256\u0257\uA77A]/g
+		},
+		{ base: "dz", letters: /[\u01F3\u01C6]/g },
+		{
+			base: "e",
+			letters: /[\u0065\u24D4\uFF45\u00E8\u00E9\u00EA\u1EC1\u1EBF\u1EC5\u1EC3\u1EBD\u0113\u1E15\u1E17\u0115\u0117\u00EB\u1EBB\u011B\u0205\u0207\u1EB9\u1EC7\u0229\u1E1D\u0119\u1E19\u1E1B\u0247\u025B\u01DD]/g
+		},
+		{ base: "f", letters: /[\u0066\u24D5\uFF46\u1E1F\u0192\uA77C]/g },
+		{
+			base: "g",
+			letters: /[\u0067\u24D6\uFF47\u01F5\u011D\u1E21\u011F\u0121\u01E7\u0123\u01E5\u0260\uA7A1\u1D79\uA77F]/g
+		},
+		{
+			base: "h",
+			letters: /[\u0068\u24D7\uFF48\u0125\u1E23\u1E27\u021F\u1E25\u1E29\u1E2B\u1E96\u0127\u2C68\u2C76\u0265]/g
+		},
+		{ base: "hv", letters: /[\u0195]/g },
+		{
+			base: "i",
+			letters: /[\u0069\u24D8\uFF49\u00EC\u00ED\u00EE\u0129\u012B\u012D\u00EF\u1E2F\u1EC9\u01D0\u0209\u020B\u1ECB\u012F\u1E2D\u0268\u0131]/g
+		},
+		{ base: "j", letters: /[\u006A\u24D9\uFF4A\u0135\u01F0\u0249]/g },
+		{
+			base: "k",
+			letters: /[\u006B\u24DA\uFF4B\u1E31\u01E9\u1E33\u0137\u1E35\u0199\u2C6A\uA741\uA743\uA745\uA7A3]/g
+		},
+		{
+			base: "l",
+			letters: /[\u006C\u24DB\uFF4C\u0140\u013A\u013E\u1E37\u1E39\u013C\u1E3D\u1E3B\u017F\u0142\u019A\u026B\u2C61\uA749\uA781\uA747]/g
+		},
+		{ base: "lj", letters: /[\u01C9]/g },
+		{ base: "m", letters: /[\u006D\u24DC\uFF4D\u1E3F\u1E41\u1E43\u0271\u026F]/g },
+		{
+			base: "n",
+			letters: /[\u006E\u24DD\uFF4E\u01F9\u0144\u00F1\u1E45\u0148\u1E47\u0146\u1E4B\u1E49\u019E\u0272\u0149\uA791\uA7A5]/g
+		},
+		{ base: "nj", letters: /[\u01CC]/g },
+		{
+			base: "o",
+			letters: /[\u006F\u24DE\uFF4F\u00F2\u00F3\u00F4\u1ED3\u1ED1\u1ED7\u1ED5\u00F5\u1E4D\u022D\u1E4F\u014D\u1E51\u1E53\u014F\u022F\u0231\u00F6\u022B\u1ECF\u0151\u01D2\u020D\u020F\u01A1\u1EDD\u1EDB\u1EE1\u1EDF\u1EE3\u1ECD\u1ED9\u01EB\u01ED\u00F8\u01FF\u0254\uA74B\uA74D\u0275]/g
+		},
+		{ base: "oi", letters: /[\u01A3]/g },
+		{ base: "ou", letters: /[\u0223]/g },
+		{ base: "oo", letters: /[\uA74F]/g },
+		{ base: "p", letters: /[\u0070\u24DF\uFF50\u1E55\u1E57\u01A5\u1D7D\uA751\uA753\uA755]/g },
+		{ base: "q", letters: /[\u0071\u24E0\uFF51\u024B\uA757\uA759]/g },
+		{
+			base: "r",
+			letters: /[\u0072\u24E1\uFF52\u0155\u1E59\u0159\u0211\u0213\u1E5B\u1E5D\u0157\u1E5F\u024D\u027D\uA75B\uA7A7\uA783]/g
+		},
+		{
+			base: "s",
+			letters: /[\u0073\u24E2\uFF53\u00DF\u015B\u1E65\u015D\u1E61\u0161\u1E67\u1E63\u1E69\u0219\u015F\u023F\uA7A9\uA785\u1E9B]/g
+		},
+		{
+			base: "t",
+			letters: /[\u0074\u24E3\uFF54\u1E6B\u1E97\u0165\u1E6D\u021B\u0163\u1E71\u1E6F\u0167\u01AD\u0288\u2C66\uA787]/g
+		},
+		{ base: "tz", letters: /[\uA729]/g },
+		{
+			base: "u",
+			letters: /[\u0075\u24E4\uFF55\u00F9\u00FA\u00FB\u0169\u1E79\u016B\u1E7B\u016D\u00FC\u01DC\u01D8\u01D6\u01DA\u1EE7\u016F\u0171\u01D4\u0215\u0217\u01B0\u1EEB\u1EE9\u1EEF\u1EED\u1EF1\u1EE5\u1E73\u0173\u1E77\u1E75\u0289]/g
+		},
+		{ base: "v", letters: /[\u0076\u24E5\uFF56\u1E7D\u1E7F\u028B\uA75F\u028C]/g },
+		{ base: "vy", letters: /[\uA761]/g },
+		{
+			base: "w",
+			letters: /[\u0077\u24E6\uFF57\u1E81\u1E83\u0175\u1E87\u1E85\u1E98\u1E89\u2C73]/g
+		},
+		{ base: "x", letters: /[\u0078\u24E7\uFF58\u1E8B\u1E8D]/g },
+		{
+			base: "y",
+			letters: /[\u0079\u24E8\uFF59\u1EF3\u00FD\u0177\u1EF9\u0233\u1E8F\u00FF\u1EF7\u1E99\u1EF5\u01B4\u024F\u1EFF]/g
+		},
+		{
+			base: "z",
+			letters: /[\u007A\u24E9\uFF5A\u017A\u1E91\u017C\u017E\u1E93\u1E95\u01B6\u0225\u0240\u2C6C\uA763]/g
+		}
+	]
+};
+
+YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
+
+YoastSEO.analyzerScoreRating = 9;
+/**
+ *
+ * @param {Jed} i18n
+ * @constructor
+ */
+YoastSEO.AnalyzerScoring = function( i18n ) {
+    this.analyzerScoring = [
+        {
+            scoreName: "wordCount",
+            scoreArray: [
+                {
+                    min: 300,
+                    score: 9,
+
+                    /* translators: %1$d expands to the number of words in the text, %2$s to the recommended minimum of words */
+                    text: i18n.dgettext('js-text-analysis', "The text contains %1$d words, this is more than the %2$d word recommended minimum.")
+                },
+                {
+                    min: 250,
+                    max: 299,
+                    score: 7,
+
+                    /* translators: %1$d expands to the number of words in the text, %2$s to the recommended minimum of words */
+                    text: i18n.dgettext('js-text-analysis', "The text contains %1$d words, this is slightly below the %2$d word recommended minimum. Add a bit more copy.")
+                },
+                {
+                    min: 200,
+                    max: 249,
+                    score: 5,
+
+                    /* translators: %1$d expands to the number of words in the text, %2$d to the recommended minimum of words */
+                    text: i18n.dgettext('js-text-analysis', "The text contains %1$d words, this is below the %2$d word recommended minimum. Add more useful content on this topic for readers.")
+                },
+                {
+                    min: 100,
+                    max: 199,
+                    score: -10,
+
+                    /* translators: %1$d expands to the number of words in the text, %2$d to the recommended minimum of words */
+                    text: i18n.dgettext('js-text-analysis', "The text contains %1$d words, this is below the %2$d word recommended minimum. Add more useful content on this topic for readers.")
+                },
+                {
+                    min: 0,
+                    max: 99,
+                    score: -20,
+
+                    /* translators: %1$d expands to the number of words in the text */
+                    text: i18n.dgettext('js-text-analysis', "The text contains %1$d words. This is far too low and should be increased.")
+                }
+            ],
+            replaceArray: [
+                {name: "wordCount", position: "%1$d", source: "matcher"},
+                {name: "recommendedWordcount", position: "%2$d", value: 300}
+
+            ]
+        },{
+			scoreName: "keyphraseSizeCheck",
+			scoreArray: [
+				{
+					max: 0,
+					score: -999,
+					text: i18n.dgettext('js-text-analysis', "No focus keyword was set for this page. If you do not set a focus keyword, no score can be calculated.")
+				},
+				{
+					min: 11,
+					score: 0,
+					text: i18n.dgettext('js-text-analysis', "Your keyphrase is over 10 words, a keyphrase should be shorter.")
+				}
+			]
+		},
+        {
+            scoreName: "keywordDensity",
+            scoreArray: [
+                {
+                    min: 3.5,
+                    score: -50,
+
+                    /* translators: %1$f expands to the keyword density percentage, %2$d expands to the number of times the keyword is found */
+                    text: i18n.dgettext('js-text-analysis', "The keyword density is %1$f%, which is way over the advised 2.5% maximum; the focus keyword was found %2$d times.")
+                },
+                {
+                    min: 2.51,
+                    max: 3.49,
+                    score: -10,
+
+                    /* translators: %1$f expands to the keyword density percentage, %2$d expands to the number of times the keyword is found */
+                    text: i18n.dgettext('js-text-analysis', "The keyword density is %1$f%, which is over the advised 2.5% maximum; the focus keyword was found %2$d times.")
+                },
+                {
+                    min: 0.5,
+                    max: 2.50,
+                    score: 9,
+
+                    /* translators: %1$f expands to the keyword density percentage, %2$d expands to the number of times the keyword is found */
+                    text: i18n.dgettext('js-text-analysis', "The keyword density is %1$f%, which is great; the focus keyword was found %2$d times.")
+                },
+                {
+                    min: 0,
+                    max: 0.49,
+                    score: 4,
+
+                    /* translators: %1$f expands to the keyword density percentage, %2$d expands to the number of times the keyword is found */
+                    text: i18n.dgettext('js-text-analysis', "The keyword density is %1$f%, which is a bit low; the focus keyword was found %2$d times.")
+                }
+            ],
+            replaceArray: [
+                {name: "keywordDensity", position: "%1$f", source: "matcher"},
+                {name: "keywordCount", position: "%2$d", sourceObj: ".refObj.__store.keywordCount"}
+            ]
+        },
+        {
+            scoreName: "linkCount",
+            scoreArray: [
+                {
+                    matcher: "total",
+                    min: 0,
+                    max: 0,
+                    score: 6,
+                    text: i18n.dgettext('js-text-analysis', "No outbound links appear in this page, consider adding some as appropriate.")
+                },
+				{
+					type: "internalAllDofollow",
+					score: 6,
+					text: i18n.dgettext('js-text-analysis', "No outbound links appear in this page, consider adding some as appropriate.")
+				},{
+					type: "noExternal",
+					score: 6,
+					text: i18n.dgettext('js-text-analysis', "No outbound links appear in this page, consider adding some as appropriate.")
+				},
+				{
+					matcher: "totalNaKeyword",
+					min: 1,
+					score: 2,
+					text: i18n.dgettext('js-text-analysis', "Outbound links appear in this page")
+				},
+                {
+                    matcher: "totalKeyword",
+                    min: 1,
+                    score: 2,
+                    text: i18n.dgettext('js-text-analysis', "You\'re linking to another page with the focus keyword you want this page to rank for. Consider changing that if you truly want this page to rank.")
+                },
+
+                /* translators: %2$s expands the number of outbound links */
+                {type: "externalAllNofollow", score: 7, text: i18n.dgettext('js-text-analysis', "This page has %2$s outbound link(s), all nofollowed.")},
+                {
+                    type: "externalHasNofollow",
+                    score: 8,
+
+                    /* translators: %2$s expands to the number of nofollow links, %3$s to the number of outbound links */
+                    text: i18n.dgettext('js-text-analysis', "This page has %2$s nofollowed link(s) and %3$s normal outbound link(s).")
+                },
+
+                /* translators: %1$s expands to the number of outbound links */
+                {type: "externalAllDofollow", score: 9, text: i18n.dgettext('js-text-analysis', "This page has %1$s outbound link(s).")}
+            ],
+            replaceArray: [
+                {name: "links", position: "%1$s", sourceObj: ".result.externalTotal"},
+                {name: "nofollow", position: "%2$s", sourceObj: ".result.externalNofollow"},
+                {name: "dofollow", position: "%3$s", sourceObj: ".result.externalDofollow"}
+            ]
+        },
+        {
+            scoreName: "fleschReading",
+            scoreArray: [
+                {min: 90, score: 9, text: "{{text}}", resultText: "very easy", note: ""},
+                {min: 80, max: 89.9, score: 9, text: "{{text}}", resultText: "easy", note: ""},
+                {min: 70, max: 79.9, score: 8, text: "{{text}}", resultText: "fairly easy", note: ""},
+                {min: 60, max: 69.9, score: 8, text: "{{text}}", resultText: "ok", note: ""},
+                {
+                    min: 50,
+                    max: 59.9,
+                    score: 6,
+                    text: "{{text}}",
+                    resultText: i18n.dgettext( "js-text-analysis", "fairly difficult" ),
+                    note: i18n.dgettext('js-text-analysis', "Try to make shorter sentences to improve readability.")
+                },
+                {
+                    min: 30,
+                    max: 49.9,
+                    score: 5,
+                    text: "{{text}}",
+                    resultText: i18n.dgettext( "js-text-analysis", "difficult" ),
+                    note: i18n.dgettext('js-text-analysis', "Try to make shorter sentences, using less difficult words to improve readability.")
+                },
+                {
+                    min: 0,
+                    max: 29.9,
+                    score: 4,
+                    text: "{{text}}",
+                    resultText: i18n.dgettext( "js-text-analysis", "very difficult" ),
+                    note: i18n.dgettext('js-text-analysis', "Try to make shorter sentences, using less difficult words to improve readability.")
+                }
+            ],
+            replaceArray: [
+                {
+                    name: "scoreText",
+                    position: "{{text}}",
+
+                    /* translators: %1$s expands to the numeric flesh reading ease score, %2$s to a link to a Yoast.com article about Flesh ease reading score, %3$s to the easyness of reading, %4$s expands to a note about the flesh reading score. */
+                    value: i18n.dgettext('js-text-analysis', "The copy scores %1$s in the %2$s test, which is considered %3$s to read. %4$s")
+                },
+                {name: "text", position: "%1$s", sourceObj: ".result"},
+                {
+                    name: "scoreUrl",
+                    position: "%2$s",
+                    value: "<a href='https://yoast.com/flesch-reading-ease-score/' target='new'>Flesch Reading Ease</a>"
+                },
+                {name: "resultText", position: "%3$s", scoreObj: "resultText"},
+                {name: "note", position: "%4$s", scoreObj: "note"}
+            ]
+        },
+        {
+            scoreName: "metaDescriptionLength",
+            metaMinLength: 120,
+            metaMaxLength: 157,
+            scoreArray: [
+                {
+                    max: 0,
+                    score: 1,
+                    text: i18n.dgettext('js-text-analysis', "No meta description has been specified, search engines will display copy from the page instead.")
+                },
+                {
+                    max: 120,
+                    score: 6,
+
+                    /* translators: %1$d expands to the minimum length for the meta description, %2$d to the maximum length for the meta description */
+                    text: i18n.dgettext('js-text-analysis', "The meta description is under %1$d characters, however up to %2$d characters are available.")
+                },
+                {
+                    min: 157,
+                    score: 6,
+
+                    /* translators: %2$d expands to the maximum length for the meta description */
+                    text: i18n.dgettext('js-text-analysis', "The specified meta description is over %2$d characters. Reducing it will ensure the entire description is visible")
+                },
+                {
+                    min: 120,
+                    max: 157,
+                    score: 9,
+                    text: i18n.dgettext('js-text-analysis', "In the specified meta description, consider: How does it compare to the competition? Could it be made more appealing?")
+                }
+            ],
+            replaceArray: [
+                {name: "minCharacters", position: "%1$d", value: 120},
+                {name: "maxCharacters", position: "%2$d", value: 156}
+            ]
+        },
+        {
+            scoreName: "metaDescriptionKeyword",
+            scoreArray: [
+                {min: 1, score: 9, text: i18n.dgettext('js-text-analysis', "The meta description contains the focus keyword.")},
+                {
+                    max: 0,
+					min: 0,
+                    score: 3,
+                    text: i18n.dgettext('js-text-analysis', "A meta description has been specified, but it does not contain the focus keyword.")
+                }
+            ]
+        }, {
+            scoreName: "firstParagraph",
+            scoreArray: [
+                {
+                    max: 0,
+                    score: 3,
+                    text: i18n.dgettext('js-text-analysis', "The focus keyword doesn\'t appear in the first paragraph of the copy. Make sure the topic is clear immediately.")
+                },
+                {min: 1, score: 9, text: i18n.dgettext('js-text-analysis', "The focus keyword appears in the first paragraph of the copy.")}
+            ]
+        }, {
+            scoreName: "stopwordKeywordCount",
+            scoreArray: [
+                {
+                    matcher: "count",
+                    min: 1,
+                    score: 5,
+
+                    /* translators: %1$s expands to a link to the wikipedia article about stop words, %2$s expands to the actual stop words found in the text */
+                    text: i18n.dgettext('js-text-analysis', "The focus keyword for this page contains one or more %1$s, consider removing them. Found \'%2$s\'.")
+                },
+                {matcher: "count", max: 0, score: 0, text: ""}
+            ],
+            replaceArray: [
+                {
+                    name: "scoreUrl",
+                    position: "%1$s",
+                    value: i18n.dgettext( "js-text-analysis", "<a href='https://en.wikipedia.org/wiki/Stop_words' target='new'>stop words</a>" )
+                },
+                {name: "stopwords", position: "%2$s", sourceObj: ".result.matches"}
+            ]
+        }, {
+            scoreName: "subHeadings",
+            scoreArray: [
+                {matcher: "count", max: 0, score: 7, text: i18n.dgettext('js-text-analysis', "No subheading tags (like an H2) appear in the copy.")},
+                {
+                    matcher: "matches",
+                    max: 0,
+                    score: 3,
+                    text: i18n.dgettext('js-text-analysis', "You have not used your focus keyword in any subheading (such as an H2) in your copy.")
+                },
+                {
+                    matcher: "matches",
+                    min: 1,
+                    score: 9,
+
+                    /* translators: %1$d expands to the number of subheadings, %2$d to the number of subheadings containing the focus keyword */
+                    text: i18n.dgettext('js-text-analysis', "The focus keyword appears in %2$d (out of %1$d) subheadings in the copy. While not a major ranking factor, this is beneficial.")
+                }
+            ],
+            replaceArray: [
+                {name: "count", position: "%1$d", sourceObj: ".result.count"},
+                {name: "matches", position: "%2$d", sourceObj: ".result.matches"}
+            ]
+        }, {
+            scoreName: "pageTitleLength",
+            scoreArray: [
+                {max: 0, score: 1, text: i18n.dgettext('js-text-analysis', "Please create a page title.")},
+                {
+                    max: 39,
+                    score: 6,
+
+                    /* translators: %3$d expands to the number of characters in the page title, %1$d to the minimum number of characters for the title */
+                    text: i18n.dgettext('js-text-analysis', "The page title contains %3$d characters, which is less than the recommended minimum of %1$d characters. Use the space to add keyword variations or create compelling call-to-action copy.")
+                },
+                {
+                    min: 71,
+                    score: 6,
+
+                    /* translators: %3$d expands to the number of characters in the page title, %2$d to the maximum number of characters for the title */
+                    text: i18n.dgettext('js-text-analysis', "The page title contains %3$d characters, which is more than the viewable limit of %2$d characters; some words will not be visible to users in your listing.")
+                },
+                {
+                    min: 40,
+                    max: 70,
+                    score: 9,
+
+                    /* translators: %1$d expands to the minimum number of characters in the page title, %2$d to the maximum number of characters */
+                    text: i18n.dgettext('js-text-analysis', "The page title is between the %1$d character minimum and the recommended %2$d character maximum.")
+                }
+            ],
+            replaceArray: [
+                {name: "minLength", position: "%1$d", value: 40},
+                {name: "maxLength", position: "%2$d", value: 70},
+                {name: "length", position: "%3$d", source: "matcher"}
+            ]
+        }, {
+            scoreName: "pageTitleKeyword",
+            scoreTitleKeywordLimit: 0,
+            scoreArray: [
+                {
+                    matcher: "matches",
+                    max: 0,
+                    score: 2,
+
+                    /* translators: %1$s expands to the focus keyword */
+                    text: i18n.dgettext('js-text-analysis', "The focus keyword '%1$s' does not appear in the page title.")
+                },
+                {
+                    matcher: "position",
+                    max: 1,
+                    score: 9,
+                    text: i18n.dgettext('js-text-analysis', "The page title contains the focus keyword, at the beginning which is considered to improve rankings.")
+                },
+                {
+                    matcher: "position",
+                    min: 1,
+                    score: 6,
+                    text: i18n.dgettext('js-text-analysis', "The page title contains the focus keyword, but it does not appear at the beginning; try and move it to the beginning.")
+                }
+            ],
+            replaceArray: [
+                {name: "keyword", position: "%1$s", sourceObj: ".refObj.config.keyword"}
+            ]
+        }, {
+            scoreName: "urlKeyword",
+            scoreArray: [
+                {min: 1, score: 9, text: i18n.dgettext('js-text-analysis', "The focus keyword appears in the URL for this page.")},
+                {
+                    max: 0,
+                    score: 6,
+                    text: i18n.dgettext('js-text-analysis', "The focus keyword does not appear in the URL for this page. If you decide to rename the URL be sure to check the old URL 301 redirects to the new one!")
+                }
+            ]
+        }, {
+            scoreName: "urlLength",
+            scoreArray: [
+                {type: "urlTooLong", score: 5, text: i18n.dgettext('js-text-analysis', "The slug for this page is a bit long, consider shortening it.")}
+            ]
+        }, {
+            scoreName: "urlStopwords",
+            scoreArray: [
+                {
+                    min: 1,
+                    score: 5,
+					/* translators: %1$s opens a link to a wikipedia article about stop words, %2$s closes the link */
+                    text: i18n.dgettext('js-text-analysis', "The slug for this page contains one or more %1$sstop words%2$s, consider removing them.")
+                }
+			],
+			replaceArray: [
+				{
+					name: "url",
+					position: "%1$s",
+					/* translators: this link is referred to in the content analysis when a slug contains one or more stop words */
+					value: "<a href='" + i18n.dgettext( 'js-text-analysis', "http://en.wikipedia.org/wiki/Stop_words" ) + "' target='new'>"
+				},
+                {
+                    name: "urlClose",
+                    position: "%2$s",
+                    value: "</a>"
+                }
+			]
+        }, {
+            scoreName: "imageCount",
+            scoreArray: [
+                {
+                    matcher: "total",
+                    max: 0,
+                    score: 3,
+                    text: i18n.dgettext('js-text-analysis', "No images appear in this page, consider adding some as appropriate.")
+                },
+                {
+					matcher: "noAlt",
+					min: 1,
+					score: 5,
+					text: i18n.dgettext('js-text-analysis', "The images on this page are missing alt tags.")
+				},
+				{
+					matcher: "altNaKeyword",
+					min: 1,
+					score: 5,
+					text: i18n.dgettext('js-text-analysis', "The images on this page contain alt tags")
+				},
+                {
+                    matcher: "altKeyword",
+                    min: 1,
+                    score: 9,
+                    text: i18n.dgettext('js-text-analysis', "The images on this page contain alt tags with the focus keyword.")
+                },
+                {
+                    matcher: "alt",
+                    min: 1,
+                    score: 5,
+                    text: i18n.dgettext('js-text-analysis', "The images on this page do not have alt tags containing your focus keyword.")
+                }
+            ]
+        }, {
+            scoreName: "keywordDoubles",
+            scoreArray: [
+                {matcher: "count", max: 0, score: 9, text: i18n.dgettext('js-text-analysis', "You've never used this focus keyword before, very good.")},
+                {
+                    matcher: "count",
+                    max: 1,
+                    score: 6,
+
+                    /* translators: %1$s and %2$s expand to an admin link where the focus keyword is already used */
+                    text: i18n.dgettext('js-text-analysis', "You've used this focus keyword %1$sonce before%2$s, be sure to make very clear which URL on your site is the most important for this keyword.")
+                },
+                {
+                    matcher: "count",
+                    min: 1,
+                    score: 1,
+
+                    /* translators: %3$s and $2$s expand to the admin search page for the focus keyword, %4$d expands to the number of times this focus keyword has been used before, %5$s and %6$s expand to a link to an article on yoast.com about cornerstone content */
+                    text: i18n.dgettext('js-text-analysis', "You've used this focus keyword %3$s%4$d times before%2$s, it's probably a good idea to read %6$sthis post on cornerstone content%5$s and improve your keyword strategy.")
+                }
+            ],
+            replaceArray: [
+                {name: "singleUrl", position: "%1$s", sourceObj: ".refObj.config.postUrl", rawOutput: true},
+                {name: "endTag", position: "%2$s", value: "</a>"},
+                {name: "multiUrl", position: "%3$s", sourceObj: ".refObj.config.searchUrl", rawOutput: true},
+                {name: "occurrences", position: "%4$d", sourceObj: ".result.count"},
+                {name: "endTag", position: "%5$s", value: "</a>"},
+                {
+                    name: "cornerstone",
+                    position: "%6$s",
+                    value: "<a href='https://yoast.com/cornerstone-content-rank/' target='new'>"
+                },
+                {name: "id", position: "{id}", sourceObj: ".result.id"},
+                {name: "keyword", position: "{keyword}", sourceObj: ".refObj.config.keyword"}
+            ]
+        }
+    ];
+}
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"../js/templates.js":2,"jed":3}],2:[function(require,module,exports){
+(function (global){
+;(function() {
+  var undefined;
+
+  var objectTypes = {
+    'function': true,
+    'object': true
+  };
+
+  var freeExports = objectTypes[typeof exports] && exports && !exports.nodeType && exports;
+
+  var freeModule = objectTypes[typeof module] && module && !module.nodeType && module;
+
+  var freeGlobal = freeExports && freeModule && typeof global == 'object' && global && global.Object && global;
+
+  var freeSelf = objectTypes[typeof self] && self && self.Object && self;
+
+  var freeWindow = objectTypes[typeof window] && window && window.Object && window;
+
+  var moduleExports = freeModule && freeModule.exports === freeExports && freeExports;
+
+  var root = freeGlobal || ((freeWindow !== (this && this.window)) && freeWindow) || freeSelf || this;
+
+  var VERSION = '3.10.1';
+
+  /** Used to match HTML entities and HTML characters. */
+  var reUnescapedHtml = /[&<>"'`]/g,
+      reHasUnescapedHtml = RegExp(reUnescapedHtml.source);
+
+  /** Used to map characters to HTML entities. */
+  var htmlEscapes = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;',
+    '`': '&#96;'
+  };
+
+  /*--------------------------------------------------------------------------*/
+
+  /**
+   * Converts `value` to a string if it's not one. An empty string is returned
+   * for `null` or `undefined` values.
+   *
+   * @private
+   * @param {*} value The value to process.
+   * @returns {string} Returns the string.
+   */
+  function baseToString(value) {
+    return value == null ? '' : (value + '');
+  }
+
+  /**
+   * Used by `_.escape` to convert characters to HTML entities.
+   *
+   * @private
+   * @param {string} chr The matched character to escape.
+   * @returns {string} Returns the escaped character.
+   */
+  function escapeHtmlChar(chr) {
+    return htmlEscapes[chr];
+  }
+
+  /*------------------------------------------------------------------------*/
+
+  /**
+   * Converts the characters "&", "<", ">", '"', "'", and "\`", in `string` to
+   * their corresponding HTML entities.
+   *
+   * **Note:** No other characters are escaped. To escape additional characters
+   * use a third-party library like [_he_](https://mths.be/he).
+   *
+   * Though the ">" character is escaped for symmetry, characters like
+   * ">" and "/" don't need escaping in HTML and have no special meaning
+   * unless they're part of a tag or unquoted attribute value.
+   * See [Mathias Bynens's article](https://mathiasbynens.be/notes/ambiguous-ampersands)
+   * (under "semi-related fun fact") for more details.
+   *
+   * Backticks are escaped because in Internet Explorer < 9, they can break out
+   * of attribute values or HTML comments. See [#59](https://html5sec.org/#59),
+   * [#102](https://html5sec.org/#102), [#108](https://html5sec.org/#108), and
+   * [#133](https://html5sec.org/#133) of the [HTML5 Security Cheatsheet](https://html5sec.org/)
+   * for more details.
+   *
+   * When working with HTML you should always [quote attribute values](http://wonko.com/post/html-escaping)
+   * to reduce XSS vectors.
+   *
+   * @static
+   * @memberOf _
+   * @category String
+   * @param {string} [string=''] The string to escape.
+   * @returns {string} Returns the escaped string.
+   * @example
+   *
+   * _.escape('fred, barney, & pebbles');
+   * // => 'fred, barney, &amp; pebbles'
+   */
+  function escape(string) {
+    // Reset `lastIndex` because in IE < 9 `String#replace` does not.
+    string = baseToString(string);
+    return (string && reHasUnescapedHtml.test(string))
+      ? string.replace(reUnescapedHtml, escapeHtmlChar)
+      : string;
+  }
+
+  var _ = { 'escape': escape };
+
+  /*----------------------------------------------------------------------------*/
+
+  var templates = {
+    'snippetEditor': {}
+  };
+
+  templates['snippetEditor'] =   function(obj) {
+    obj || (obj = {});
+    var __t, __p = '', __e = _.escape;
+    with (obj) {
+    __p += '<div id="snippet_preview">\n    <div class="edit-icon"></div>\n    <div class="snippet_container" id="title_container">\n        <span contenteditable="true" class="title" id="snippet_title">\n            ' +
+    __e( title ) +
+    '\n        </span>\n        <span class="title" id="snippet_sitename"></span>\n    </div>\n    <div class="snippet_container" id="url_container">\n        <cite class="url urlBase" id="snippet_citeBase">\n            ' +
+    __e( baseUrl ) +
+    '\n        </cite>\n        <cite class="url" id="snippet_cite" contenteditable="true">\n            ' +
+    __e( snippetCite ) +
+    '\n        </cite>\n    </div>\n    <div class="snippet_container" id="meta_container">\n        <span class="desc" id="snippet_meta" contenteditable="true">\n            ' +
+    __e( meta ) +
+    '\n        </span>\n    </div>\n</div>\n';
+
+    }
+    return __p
+  };
+
+  /*----------------------------------------------------------------------------*/
+
+  if (freeExports && freeModule) {
+    if (moduleExports) {
+      (freeModule.exports = templates).templates = templates;
+    } else {
+      freeExports.templates = templates;
+    }
+  }
+  else {
+    root.templates = templates;
+  }
+}.call(this));
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{}],3:[function(require,module,exports){
+/**
  * @preserve jed.js https://github.com/SlexAxton/Jed
  */
 /*
@@ -3948,605 +4767,5 @@ return parser;
   }
 
 })(this);
-}.call(YoastSEO));YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 
-YoastSEO.analyzerConfig = {
-	queue: [ "wordCount", "keywordDensity", "subHeadings", "stopwords", "fleschReading", "linkCount", "imageCount", "urlKeyword", "urlLength", "metaDescriptionLength", "metaDescriptionKeyword", "pageTitleKeyword", "pageTitleLength", "firstParagraph", "urlStopwords", "keywordDoubles", "keyphraseSizeCheck" ],
-	stopWords: [ "a", "about", "above", "after", "again", "against", "all", "am", "an", "and", "any", "are", "as", "at", "be", "because", "been", "before", "being", "below", "between", "both", "but", "by", "could", "did", "do", "does", "doing", "down", "during", "each", "few", "for", "from", "further", "had", "has", "have", "having", "he", "he'd", "he'll", "he's", "her", "here", "here's", "hers", "herself", "him", "himself", "his", "how", "how's", "i", "i'd", "i'll", "i'm", "i've", "if", "in", "into", "is", "it", "it's", "its", "itself", "let's", "me", "more", "most", "my", "myself", "nor", "of", "on", "once", "only", "or", "other", "ought", "our", "ours", "ourselves", "out", "over", "own", "same", "she", "she'd", "she'll", "she's", "should", "so", "some", "such", "than", "that", "that's", "the", "their", "theirs", "them", "themselves", "then", "there", "there's", "these", "they", "they'd", "they'll", "they're", "they've", "this", "those", "through", "to", "too", "under", "until", "up", "very", "was", "we", "we'd", "we'll", "we're", "we've", "were", "what", "what's", "when", "when's", "where", "where's", "which", "while", "who", "who's", "whom", "why", "why's", "with", "would", "you", "you'd", "you'll", "you're", "you've", "your", "yours", "yourself", "yourselves" ],
-	wordsToRemove: [ " a", " in", " an", " on", " for", " the", " and" ],
-	maxSlugLength: 20,
-	maxUrlLength: 40,
-	maxMeta: 156
-};
-YoastSEO.preprocessorConfig = {
-	syllables: {
-		subtractSyllables: [ "cial", "tia", "cius", "cious", "giu", "ion", "iou", "sia$", "[^aeiuoyt]{2,}ed$", "[aeiouy][^aeiuoyts]{1,}e\\b", ".ely$", "[cg]h?e[sd]", "rved$", "rved", "[aeiouy][dt]es?$", "[aeiouy][^aeiouydt]e[sd]?$", "^[dr]e[aeiou][^aeiou]+$", "[aeiouy]rse$" ],
-		addSyllables: [ "ia", "riet", "dien", "iu", "io", "ii", "[aeiouym][bdp]l", "[aeiou]{3}", "^mc", "ism$", "([^aeiouy])\1l$", "[^l]lien", "^coa[dglx].", "[^gq]ua[^auieo]", "dnt$", "uity$", "ie(r|st)", "[aeiouy]ing", "[aeiouw]y[aeiou]" ],
-		exclusionWords: [
-			{ word: "shoreline", syllables: 2 },
-			{ word: "simile", syllables: 3 }
-		]
-	},
-	diacriticsRemovalMap: [
-		{
-			base: "a",
-			letters: /[\u0061\u24D0\uFF41\u1E9A\u00E0\u00E1\u00E2\u1EA7\u1EA5\u1EAB\u1EA9\u00E3\u0101\u0103\u1EB1\u1EAF\u1EB5\u1EB3\u0227\u01E1\u00E4\u01DF\u1EA3\u00E5\u01FB\u01CE\u0201\u0203\u1EA1\u1EAD\u1EB7\u1E01\u0105\u2C65\u0250]/g
-		},
-		{ base: "aa", letters: /[\uA733]/g },
-		{ base: "ae", letters: /[\u00E6\u01FD\u01E3]/g },
-		{ base: "ao", letters: /[\uA735]/g },
-		{ base: "au", letters: /[\uA737]/g },
-		{ base: "av", letters: /[\uA739\uA73B]/g },
-		{ base: "ay", letters: /[\uA73D]/g },
-		{ base: "b", letters: /[\u0062\u24D1\uFF42\u1E03\u1E05\u1E07\u0180\u0183\u0253]/g },
-		{
-			base: "c",
-			letters: /[\u0063\u24D2\uFF43\u0107\u0109\u010B\u010D\u00E7\u1E09\u0188\u023C\uA73F\u2184]/g
-		},
-		{
-			base: "d",
-			letters: /[\u0064\u24D3\uFF44\u1E0B\u010F\u1E0D\u1E11\u1E13\u1E0F\u0111\u018C\u0256\u0257\uA77A]/g
-		},
-		{ base: "dz", letters: /[\u01F3\u01C6]/g },
-		{
-			base: "e",
-			letters: /[\u0065\u24D4\uFF45\u00E8\u00E9\u00EA\u1EC1\u1EBF\u1EC5\u1EC3\u1EBD\u0113\u1E15\u1E17\u0115\u0117\u00EB\u1EBB\u011B\u0205\u0207\u1EB9\u1EC7\u0229\u1E1D\u0119\u1E19\u1E1B\u0247\u025B\u01DD]/g
-		},
-		{ base: "f", letters: /[\u0066\u24D5\uFF46\u1E1F\u0192\uA77C]/g },
-		{
-			base: "g",
-			letters: /[\u0067\u24D6\uFF47\u01F5\u011D\u1E21\u011F\u0121\u01E7\u0123\u01E5\u0260\uA7A1\u1D79\uA77F]/g
-		},
-		{
-			base: "h",
-			letters: /[\u0068\u24D7\uFF48\u0125\u1E23\u1E27\u021F\u1E25\u1E29\u1E2B\u1E96\u0127\u2C68\u2C76\u0265]/g
-		},
-		{ base: "hv", letters: /[\u0195]/g },
-		{
-			base: "i",
-			letters: /[\u0069\u24D8\uFF49\u00EC\u00ED\u00EE\u0129\u012B\u012D\u00EF\u1E2F\u1EC9\u01D0\u0209\u020B\u1ECB\u012F\u1E2D\u0268\u0131]/g
-		},
-		{ base: "j", letters: /[\u006A\u24D9\uFF4A\u0135\u01F0\u0249]/g },
-		{
-			base: "k",
-			letters: /[\u006B\u24DA\uFF4B\u1E31\u01E9\u1E33\u0137\u1E35\u0199\u2C6A\uA741\uA743\uA745\uA7A3]/g
-		},
-		{
-			base: "l",
-			letters: /[\u006C\u24DB\uFF4C\u0140\u013A\u013E\u1E37\u1E39\u013C\u1E3D\u1E3B\u017F\u0142\u019A\u026B\u2C61\uA749\uA781\uA747]/g
-		},
-		{ base: "lj", letters: /[\u01C9]/g },
-		{ base: "m", letters: /[\u006D\u24DC\uFF4D\u1E3F\u1E41\u1E43\u0271\u026F]/g },
-		{
-			base: "n",
-			letters: /[\u006E\u24DD\uFF4E\u01F9\u0144\u00F1\u1E45\u0148\u1E47\u0146\u1E4B\u1E49\u019E\u0272\u0149\uA791\uA7A5]/g
-		},
-		{ base: "nj", letters: /[\u01CC]/g },
-		{
-			base: "o",
-			letters: /[\u006F\u24DE\uFF4F\u00F2\u00F3\u00F4\u1ED3\u1ED1\u1ED7\u1ED5\u00F5\u1E4D\u022D\u1E4F\u014D\u1E51\u1E53\u014F\u022F\u0231\u00F6\u022B\u1ECF\u0151\u01D2\u020D\u020F\u01A1\u1EDD\u1EDB\u1EE1\u1EDF\u1EE3\u1ECD\u1ED9\u01EB\u01ED\u00F8\u01FF\u0254\uA74B\uA74D\u0275]/g
-		},
-		{ base: "oi", letters: /[\u01A3]/g },
-		{ base: "ou", letters: /[\u0223]/g },
-		{ base: "oo", letters: /[\uA74F]/g },
-		{ base: "p", letters: /[\u0070\u24DF\uFF50\u1E55\u1E57\u01A5\u1D7D\uA751\uA753\uA755]/g },
-		{ base: "q", letters: /[\u0071\u24E0\uFF51\u024B\uA757\uA759]/g },
-		{
-			base: "r",
-			letters: /[\u0072\u24E1\uFF52\u0155\u1E59\u0159\u0211\u0213\u1E5B\u1E5D\u0157\u1E5F\u024D\u027D\uA75B\uA7A7\uA783]/g
-		},
-		{
-			base: "s",
-			letters: /[\u0073\u24E2\uFF53\u00DF\u015B\u1E65\u015D\u1E61\u0161\u1E67\u1E63\u1E69\u0219\u015F\u023F\uA7A9\uA785\u1E9B]/g
-		},
-		{
-			base: "t",
-			letters: /[\u0074\u24E3\uFF54\u1E6B\u1E97\u0165\u1E6D\u021B\u0163\u1E71\u1E6F\u0167\u01AD\u0288\u2C66\uA787]/g
-		},
-		{ base: "tz", letters: /[\uA729]/g },
-		{
-			base: "u",
-			letters: /[\u0075\u24E4\uFF55\u00F9\u00FA\u00FB\u0169\u1E79\u016B\u1E7B\u016D\u00FC\u01DC\u01D8\u01D6\u01DA\u1EE7\u016F\u0171\u01D4\u0215\u0217\u01B0\u1EEB\u1EE9\u1EEF\u1EED\u1EF1\u1EE5\u1E73\u0173\u1E77\u1E75\u0289]/g
-		},
-		{ base: "v", letters: /[\u0076\u24E5\uFF56\u1E7D\u1E7F\u028B\uA75F\u028C]/g },
-		{ base: "vy", letters: /[\uA761]/g },
-		{
-			base: "w",
-			letters: /[\u0077\u24E6\uFF57\u1E81\u1E83\u0175\u1E87\u1E85\u1E98\u1E89\u2C73]/g
-		},
-		{ base: "x", letters: /[\u0078\u24E7\uFF58\u1E8B\u1E8D]/g },
-		{
-			base: "y",
-			letters: /[\u0079\u24E8\uFF59\u1EF3\u00FD\u0177\u1EF9\u0233\u1E8F\u00FF\u1EF7\u1E99\u1EF5\u01B4\u024F\u1EFF]/g
-		},
-		{
-			base: "z",
-			letters: /[\u007A\u24E9\uFF5A\u017A\u1E91\u017C\u017E\u1E93\u1E95\u01B6\u0225\u0240\u2C6C\uA763]/g
-		}
-	]
-};
-;YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
-
-YoastSEO.analyzerScoreRating = 9;
-/**
- *
- * @param {Jed} i18n
- * @constructor
- */
-YoastSEO.AnalyzerScoring = function( i18n ) {
-    this.analyzerScoring = [
-        {
-            scoreName: "wordCount",
-            scoreArray: [
-                {
-                    min: 300,
-                    score: 9,
-
-                    /* translators: %1$d expands to the number of words in the text, %2$s to the recommended minimum of words */
-                    text: i18n.dgettext('js-text-analysis', "The text contains %1$d words, this is more than the %2$d word recommended minimum.")
-                },
-                {
-                    min: 250,
-                    max: 299,
-                    score: 7,
-
-                    /* translators: %1$d expands to the number of words in the text, %2$s to the recommended minimum of words */
-                    text: i18n.dgettext('js-text-analysis', "The text contains %1$d words, this is slightly below the %2$d word recommended minimum. Add a bit more copy.")
-                },
-                {
-                    min: 200,
-                    max: 249,
-                    score: 5,
-
-                    /* translators: %1$d expands to the number of words in the text, %2$d to the recommended minimum of words */
-                    text: i18n.dgettext('js-text-analysis', "The text contains %1$d words, this is below the %2$d word recommended minimum. Add more useful content on this topic for readers.")
-                },
-                {
-                    min: 100,
-                    max: 199,
-                    score: -10,
-
-                    /* translators: %1$d expands to the number of words in the text, %2$d to the recommended minimum of words */
-                    text: i18n.dgettext('js-text-analysis', "The text contains %1$d words, this is below the %2$d word recommended minimum. Add more useful content on this topic for readers.")
-                },
-                {
-                    min: 0,
-                    max: 99,
-                    score: -20,
-
-                    /* translators: %1$d expands to the number of words in the text */
-                    text: i18n.dgettext('js-text-analysis', "The text contains %1$d words. This is far too low and should be increased.")
-                }
-            ],
-            replaceArray: [
-                {name: "wordCount", position: "%1$d", source: "matcher"},
-                {name: "recommendedWordcount", position: "%2$d", value: 300}
-
-            ]
-        },{
-			scoreName: "keyphraseSizeCheck",
-			scoreArray: [
-				{
-					max: 0,
-					score: -999,
-					text: i18n.dgettext('js-text-analysis', "No focus keyword was set for this page. If you do not set a focus keyword, no score can be calculated.")
-				},
-				{
-					min: 11,
-					score: 0,
-					text: i18n.dgettext('js-text-analysis', "Your keyphrase is over 10 words, a keyphrase should be shorter.")
-				}
-			]
-		},
-        {
-            scoreName: "keywordDensity",
-            scoreArray: [
-                {
-                    min: 3.5,
-                    score: -50,
-
-                    /* translators: %1$f expands to the keyword density percentage, %2$d expands to the number of times the keyword is found */
-                    text: i18n.dgettext('js-text-analysis', "The keyword density is %1$f%, which is way over the advised 2.5% maximum; the focus keyword was found %2$d times.")
-                },
-                {
-                    min: 2.51,
-                    max: 3.49,
-                    score: -10,
-
-                    /* translators: %1$f expands to the keyword density percentage, %2$d expands to the number of times the keyword is found */
-                    text: i18n.dgettext('js-text-analysis', "The keyword density is %1$f%, which is over the advised 2.5% maximum; the focus keyword was found %2$d times.")
-                },
-                {
-                    min: 0.5,
-                    max: 2.50,
-                    score: 9,
-
-                    /* translators: %1$f expands to the keyword density percentage, %2$d expands to the number of times the keyword is found */
-                    text: i18n.dgettext('js-text-analysis', "The keyword density is %1$f%, which is great; the focus keyword was found %2$d times.")
-                },
-                {
-                    min: 0,
-                    max: 0.49,
-                    score: 4,
-
-                    /* translators: %1$f expands to the keyword density percentage, %2$d expands to the number of times the keyword is found */
-                    text: i18n.dgettext('js-text-analysis', "The keyword density is %1$f%, which is a bit low; the focus keyword was found %2$d times.")
-                }
-            ],
-            replaceArray: [
-                {name: "keywordDensity", position: "%1$f", source: "matcher"},
-                {name: "keywordCount", position: "%2$d", sourceObj: ".refObj.__store.keywordCount"}
-            ]
-        },
-        {
-            scoreName: "linkCount",
-            scoreArray: [
-                {
-                    matcher: "total",
-                    min: 0,
-                    max: 0,
-                    score: 6,
-                    text: i18n.dgettext('js-text-analysis', "No outbound links appear in this page, consider adding some as appropriate.")
-                },
-				{
-					type: "internalAllDofollow",
-					score: 6,
-					text: i18n.dgettext('js-text-analysis', "No outbound links appear in this page, consider adding some as appropriate.")
-				},{
-					type: "noExternal",
-					score: 6,
-					text: i18n.dgettext('js-text-analysis', "No outbound links appear in this page, consider adding some as appropriate.")
-				},
-				{
-					matcher: "totalNaKeyword",
-					min: 1,
-					score: 2,
-					text: i18n.dgettext('js-text-analysis', "Outbound links appear in this page")
-				},
-                {
-                    matcher: "totalKeyword",
-                    min: 1,
-                    score: 2,
-                    text: i18n.dgettext('js-text-analysis', "You\'re linking to another page with the focus keyword you want this page to rank for. Consider changing that if you truly want this page to rank.")
-                },
-
-                /* translators: %2$s expands the number of outbound links */
-                {type: "externalAllNofollow", score: 7, text: i18n.dgettext('js-text-analysis', "This page has %2$s outbound link(s), all nofollowed.")},
-                {
-                    type: "externalHasNofollow",
-                    score: 8,
-
-                    /* translators: %2$s expands to the number of nofollow links, %3$s to the number of outbound links */
-                    text: i18n.dgettext('js-text-analysis', "This page has %2$s nofollowed link(s) and %3$s normal outbound link(s).")
-                },
-
-                /* translators: %1$s expands to the number of outbound links */
-                {type: "externalAllDofollow", score: 9, text: i18n.dgettext('js-text-analysis', "This page has %1$s outbound link(s).")}
-            ],
-            replaceArray: [
-                {name: "links", position: "%1$s", sourceObj: ".result.externalTotal"},
-                {name: "nofollow", position: "%2$s", sourceObj: ".result.externalNofollow"},
-                {name: "dofollow", position: "%3$s", sourceObj: ".result.externalDofollow"}
-            ]
-        },
-        {
-            scoreName: "fleschReading",
-            scoreArray: [
-                {min: 90, score: 9, text: "{{text}}", resultText: "very easy", note: ""},
-                {min: 80, max: 89.9, score: 9, text: "{{text}}", resultText: "easy", note: ""},
-                {min: 70, max: 79.9, score: 8, text: "{{text}}", resultText: "fairly easy", note: ""},
-                {min: 60, max: 69.9, score: 8, text: "{{text}}", resultText: "ok", note: ""},
-                {
-                    min: 50,
-                    max: 59.9,
-                    score: 6,
-                    text: "{{text}}",
-                    resultText: i18n.dgettext( "js-text-analysis", "fairly difficult" ),
-                    note: i18n.dgettext('js-text-analysis', "Try to make shorter sentences to improve readability.")
-                },
-                {
-                    min: 30,
-                    max: 49.9,
-                    score: 5,
-                    text: "{{text}}",
-                    resultText: i18n.dgettext( "js-text-analysis", "difficult" ),
-                    note: i18n.dgettext('js-text-analysis', "Try to make shorter sentences, using less difficult words to improve readability.")
-                },
-                {
-                    min: 0,
-                    max: 29.9,
-                    score: 4,
-                    text: "{{text}}",
-                    resultText: i18n.dgettext( "js-text-analysis", "very difficult" ),
-                    note: i18n.dgettext('js-text-analysis', "Try to make shorter sentences, using less difficult words to improve readability.")
-                }
-            ],
-            replaceArray: [
-                {
-                    name: "scoreText",
-                    position: "{{text}}",
-
-                    /* translators: %1$s expands to the numeric flesh reading ease score, %2$s to a link to a Yoast.com article about Flesh ease reading score, %3$s to the easyness of reading, %4$s expands to a note about the flesh reading score. */
-                    value: i18n.dgettext('js-text-analysis', "The copy scores %1$s in the %2$s test, which is considered %3$s to read. %4$s")
-                },
-                {name: "text", position: "%1$s", sourceObj: ".result"},
-                {
-                    name: "scoreUrl",
-                    position: "%2$s",
-                    value: "<a href='https://yoast.com/flesch-reading-ease-score/' target='new'>Flesch Reading Ease</a>"
-                },
-                {name: "resultText", position: "%3$s", scoreObj: "resultText"},
-                {name: "note", position: "%4$s", scoreObj: "note"}
-            ]
-        },
-        {
-            scoreName: "metaDescriptionLength",
-            metaMinLength: 120,
-            metaMaxLength: 157,
-            scoreArray: [
-                {
-                    max: 0,
-                    score: 1,
-                    text: i18n.dgettext('js-text-analysis', "No meta description has been specified, search engines will display copy from the page instead.")
-                },
-                {
-                    max: 120,
-                    score: 6,
-
-                    /* translators: %1$d expands to the minimum length for the meta description, %2$d to the maximum length for the meta description */
-                    text: i18n.dgettext('js-text-analysis', "The meta description is under %1$d characters, however up to %2$d characters are available.")
-                },
-                {
-                    min: 157,
-                    score: 6,
-
-                    /* translators: %2$d expands to the maximum length for the meta description */
-                    text: i18n.dgettext('js-text-analysis', "The specified meta description is over %2$d characters. Reducing it will ensure the entire description is visible")
-                },
-                {
-                    min: 120,
-                    max: 157,
-                    score: 9,
-                    text: i18n.dgettext('js-text-analysis', "In the specified meta description, consider: How does it compare to the competition? Could it be made more appealing?")
-                }
-            ],
-            replaceArray: [
-                {name: "minCharacters", position: "%1$d", value: 120},
-                {name: "maxCharacters", position: "%2$d", value: 156}
-            ]
-        },
-        {
-            scoreName: "metaDescriptionKeyword",
-            scoreArray: [
-                {min: 1, score: 9, text: i18n.dgettext('js-text-analysis', "The meta description contains the focus keyword.")},
-                {
-                    max: 0,
-					min: 0,
-                    score: 3,
-                    text: i18n.dgettext('js-text-analysis', "A meta description has been specified, but it does not contain the focus keyword.")
-                }
-            ]
-        }, {
-            scoreName: "firstParagraph",
-            scoreArray: [
-                {
-                    max: 0,
-                    score: 3,
-                    text: i18n.dgettext('js-text-analysis', "The focus keyword doesn\'t appear in the first paragraph of the copy. Make sure the topic is clear immediately.")
-                },
-                {min: 1, score: 9, text: i18n.dgettext('js-text-analysis', "The focus keyword appears in the first paragraph of the copy.")}
-            ]
-        }, {
-            scoreName: "stopwordKeywordCount",
-            scoreArray: [
-                {
-                    matcher: "count",
-                    min: 1,
-                    score: 5,
-
-                    /* translators: %1$s expands to a link to the wikipedia article about stop words, %2$s expands to the actual stop words found in the text */
-                    text: i18n.dgettext('js-text-analysis', "The focus keyword for this page contains one or more %1$s, consider removing them. Found \'%2$s\'.")
-                },
-                {matcher: "count", max: 0, score: 0, text: ""}
-            ],
-            replaceArray: [
-                {
-                    name: "scoreUrl",
-                    position: "%1$s",
-                    value: i18n.dgettext( "js-text-analysis", "<a href='https://en.wikipedia.org/wiki/Stop_words' target='new'>stop words</a>" )
-                },
-                {name: "stopwords", position: "%2$s", sourceObj: ".result.matches"}
-            ]
-        }, {
-            scoreName: "subHeadings",
-            scoreArray: [
-                {matcher: "count", max: 0, score: 7, text: i18n.dgettext('js-text-analysis', "No subheading tags (like an H2) appear in the copy.")},
-                {
-                    matcher: "matches",
-                    max: 0,
-                    score: 3,
-                    text: i18n.dgettext('js-text-analysis', "You have not used your focus keyword in any subheading (such as an H2) in your copy.")
-                },
-                {
-                    matcher: "matches",
-                    min: 1,
-                    score: 9,
-
-                    /* translators: %1$d expands to the number of subheadings, %2$d to the number of subheadings containing the focus keyword */
-                    text: i18n.dgettext('js-text-analysis', "The focus keyword appears in %2$d (out of %1$d) subheadings in the copy. While not a major ranking factor, this is beneficial.")
-                }
-            ],
-            replaceArray: [
-                {name: "count", position: "%1$d", sourceObj: ".result.count"},
-                {name: "matches", position: "%2$d", sourceObj: ".result.matches"}
-            ]
-        }, {
-            scoreName: "pageTitleLength",
-            scoreArray: [
-                {max: 0, score: 1, text: i18n.dgettext('js-text-analysis', "Please create a page title.")},
-                {
-                    max: 39,
-                    score: 6,
-
-                    /* translators: %3$d expands to the number of characters in the page title, %1$d to the minimum number of characters for the title */
-                    text: i18n.dgettext('js-text-analysis', "The page title contains %3$d characters, which is less than the recommended minimum of %1$d characters. Use the space to add keyword variations or create compelling call-to-action copy.")
-                },
-                {
-                    min: 71,
-                    score: 6,
-
-                    /* translators: %3$d expands to the number of characters in the page title, %2$d to the maximum number of characters for the title */
-                    text: i18n.dgettext('js-text-analysis', "The page title contains %3$d characters, which is more than the viewable limit of %2$d characters; some words will not be visible to users in your listing.")
-                },
-                {
-                    min: 40,
-                    max: 70,
-                    score: 9,
-
-                    /* translators: %1$d expands to the minimum number of characters in the page title, %2$d to the maximum number of characters */
-                    text: i18n.dgettext('js-text-analysis', "The page title is between the %1$d character minimum and the recommended %2$d character maximum.")
-                }
-            ],
-            replaceArray: [
-                {name: "minLength", position: "%1$d", value: 40},
-                {name: "maxLength", position: "%2$d", value: 70},
-                {name: "length", position: "%3$d", source: "matcher"}
-            ]
-        }, {
-            scoreName: "pageTitleKeyword",
-            scoreTitleKeywordLimit: 0,
-            scoreArray: [
-                {
-                    matcher: "matches",
-                    max: 0,
-                    score: 2,
-
-                    /* translators: %1$s expands to the focus keyword */
-                    text: i18n.dgettext('js-text-analysis', "The focus keyword '%1$s' does not appear in the page title.")
-                },
-                {
-                    matcher: "position",
-                    max: 1,
-                    score: 9,
-                    text: i18n.dgettext('js-text-analysis', "The page title contains the focus keyword, at the beginning which is considered to improve rankings.")
-                },
-                {
-                    matcher: "position",
-                    min: 1,
-                    score: 6,
-                    text: i18n.dgettext('js-text-analysis', "The page title contains the focus keyword, but it does not appear at the beginning; try and move it to the beginning.")
-                }
-            ],
-            replaceArray: [
-                {name: "keyword", position: "%1$s", sourceObj: ".refObj.config.keyword"}
-            ]
-        }, {
-            scoreName: "urlKeyword",
-            scoreArray: [
-                {min: 1, score: 9, text: i18n.dgettext('js-text-analysis', "The focus keyword appears in the URL for this page.")},
-                {
-                    max: 0,
-                    score: 6,
-                    text: i18n.dgettext('js-text-analysis', "The focus keyword does not appear in the URL for this page. If you decide to rename the URL be sure to check the old URL 301 redirects to the new one!")
-                }
-            ]
-        }, {
-            scoreName: "urlLength",
-            scoreArray: [
-                {type: "urlTooLong", score: 5, text: i18n.dgettext('js-text-analysis', "The slug for this page is a bit long, consider shortening it.")}
-            ]
-        }, {
-            scoreName: "urlStopwords",
-            scoreArray: [
-                {
-                    min: 1,
-                    score: 5,
-					/* translators: %1$s opens a link to a wikipedia article about stop words, %2$s closes the link */
-                    text: i18n.dgettext('js-text-analysis', "The slug for this page contains one or more %1$sstop words%2$s, consider removing them.")
-                }
-			],
-			replaceArray: [
-				{
-					name: "url",
-					position: "%1$s",
-					/* translators: this link is referred to in the content analysis when a slug contains one or more stop words */
-					value: "<a href='" + i18n.dgettext( 'js-text-analysis', "http://en.wikipedia.org/wiki/Stop_words" ) + "' target='new'>"
-				},
-                {
-                    name: "urlClose",
-                    position: "%2$s",
-                    value: "</a>"
-                }
-			]
-        }, {
-            scoreName: "imageCount",
-            scoreArray: [
-                {
-                    matcher: "total",
-                    max: 0,
-                    score: 3,
-                    text: i18n.dgettext('js-text-analysis', "No images appear in this page, consider adding some as appropriate.")
-                },
-                {
-					matcher: "noAlt",
-					min: 1,
-					score: 5,
-					text: i18n.dgettext('js-text-analysis', "The images on this page are missing alt tags.")
-				},
-				{
-					matcher: "altNaKeyword",
-					min: 1,
-					score: 5,
-					text: i18n.dgettext('js-text-analysis', "The images on this page contain alt tags")
-				},
-                {
-                    matcher: "altKeyword",
-                    min: 1,
-                    score: 9,
-                    text: i18n.dgettext('js-text-analysis', "The images on this page contain alt tags with the focus keyword.")
-                },
-                {
-                    matcher: "alt",
-                    min: 1,
-                    score: 5,
-                    text: i18n.dgettext('js-text-analysis', "The images on this page do not have alt tags containing your focus keyword.")
-                }
-            ]
-        }, {
-            scoreName: "keywordDoubles",
-            scoreArray: [
-                {matcher: "count", max: 0, score: 9, text: i18n.dgettext('js-text-analysis', "You've never used this focus keyword before, very good.")},
-                {
-                    matcher: "count",
-                    max: 1,
-                    score: 6,
-
-                    /* translators: %1$s and %2$s expand to an admin link where the focus keyword is already used */
-                    text: i18n.dgettext('js-text-analysis', "You've used this focus keyword %1$sonce before%2$s, be sure to make very clear which URL on your site is the most important for this keyword.")
-                },
-                {
-                    matcher: "count",
-                    min: 1,
-                    score: 1,
-
-                    /* translators: %3$s and $2$s expand to the admin search page for the focus keyword, %4$d expands to the number of times this focus keyword has been used before, %5$s and %6$s expand to a link to an article on yoast.com about cornerstone content */
-                    text: i18n.dgettext('js-text-analysis', "You've used this focus keyword %3$s%4$d times before%2$s, it's probably a good idea to read %6$sthis post on cornerstone content%5$s and improve your keyword strategy.")
-                }
-            ],
-            replaceArray: [
-                {name: "singleUrl", position: "%1$s", sourceObj: ".refObj.config.postUrl", rawOutput: true},
-                {name: "endTag", position: "%2$s", value: "</a>"},
-                {name: "multiUrl", position: "%3$s", sourceObj: ".refObj.config.searchUrl", rawOutput: true},
-                {name: "occurrences", position: "%4$d", sourceObj: ".result.count"},
-                {name: "endTag", position: "%5$s", value: "</a>"},
-                {
-                    name: "cornerstone",
-                    position: "%6$s",
-                    value: "<a href='https://yoast.com/cornerstone-content-rank/' target='new'>"
-                },
-                {name: "id", position: "{id}", sourceObj: ".result.id"},
-                {name: "keyword", position: "{keyword}", sourceObj: ".refObj.config.keyword"}
-            ]
-        }
-    ];
-}
+},{}]},{},[1]);

@@ -17,6 +17,7 @@
     "unused": true,
     "funcscope": false,
     "jquery": false,
+    "node": true,
     
     "globals": {
         "exports": true,
