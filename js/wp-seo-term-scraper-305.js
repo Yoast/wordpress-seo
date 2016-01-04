@@ -274,7 +274,7 @@
 				}, function( data ) {
 					if ( data ) {
 						wpseoTermScraperL10n.keyword_usage[ keyword ] = data;
-						YoastSEO.app.refresh();
+						YoastSEO.app.analyzeTimer();
 					}
 				}, 'json'
 			);
@@ -292,7 +292,7 @@
 	TermScraper.prototype.updateSnippet = function( ev ) {
 		this.updateSnippetValues( ev );
 		YoastSEO.app.snippetPreview.checkTextLength( ev );
-		YoastSEO.app.refresh();
+		YoastSEO.app.analyzeTimer();
 	};
 
 	/**
