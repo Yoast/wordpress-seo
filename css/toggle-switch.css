@@ -15,11 +15,11 @@
     border: 1px solid #ccc;
     background-color: #f7f7f7;
     box-shadow: 0 1px 0 #cccccc;
+    width: 250px;
 }
 
 .switch-light.switch-yoast-seo > span > span {
-    width: auto;
-    padding: 0 1em;
+
 }
 
 .switch-light.switch-yoast-seo a {
