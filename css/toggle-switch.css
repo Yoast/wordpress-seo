@@ -1,0 +1,44 @@
+.switch-light.switch-yoast-seo {
+    margin-bottom: 1.5em;
+}
+
+.switch-light.switch-yoast-seo > strong {
+    min-width: 200px;
+    display: block;
+    float: left;
+    vertical-align: middle;
+    line-height: 2em;
+}
+
+.switch-light.switch-yoast-seo > span {
+    float: left;
+    border: 1px solid #ccc;
+    background-color: #f7f7f7;
+    box-shadow: 0 1px 0 #cccccc;
+}
+
+.switch-light.switch-yoast-seo > span > span {
+    width: auto;
+    padding: 0 1em;
+}
+
+.switch-light.switch-yoast-seo a {
+    background: #0085ba none;
+    box-shadow: none;
+    border-color: #0073aa #006799 #006799;
+}
+
+.switch-light.switch-yoast-seo span span,
+.switch-light.switch-yoast-seo input:checked ~ span span:first-child,
+.switch-toggle.switch-yoast-seo label {
+    color: #555;
+    text-shadow: none;
+    font-weight: inherit;
+}
+
+.switch-candy.switch-yoast-seo input ~ span span:first-child,
+.switch-candy.switch-yoast-seo input:checked ~ span span:nth-child(2),
+.switch-candy.switch-yoast-seo input:checked + label {
+    color: #fff;
+    text-shadow: none;
+}
