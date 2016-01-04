@@ -187,31 +187,10 @@ YoastSEO.App.prototype.createSnippetPreview = function() {
 
 	var targetElement = document.getElementById( this.config.targets.snippet );
 
-	var snippetEditorTemplate = require( "../js/templates.js" ).snippetEditor;
-
-	targetElement.innerHTML = snippetEditorTemplate( {
-		raw: {
-			title: this.config.sampleText.title,
-			baseUrl: this.config.sampleText.baseUrl,
-			snippetCite: this.config.sampleText.snippetCite,
-			meta: this.config.sampleText.meta
-		},
-		rendered: {
-			title: this.config.sampleText.title,
-			baseUrl: this.config.sampleText.baseUrl,
-			snippetCite: this.config.sampleText.snippetCite,
-			meta: this.config.sampleText.meta
-		},
-		i18n: {
-			edit: this.i18n.dgettext( "js-text-analysis", "Edit meta fields (title, url, description)" ),
-			title: this.i18n.dgettext( "js-text-analysis", "Meta title" ),
-			slug:  this.i18n.dgettext( "js-text-analysis", "Slug" ),
-			metaDescription: this.i18n.dgettext( "js-text-analysis", "Meta description" ),
-			save: this.i18n.dgettext( "js-text-analysis", "Save meta fields" )
-		}
-	} );
-
 	this.snippetPreview = new SnippetPreview( this );
+	this.snippetPreview.renderTemplate( targetElement );
+	this.snippetPreview.init();
+
 	this.bindEvent();
 	this.bindSnippetEvents();
 };

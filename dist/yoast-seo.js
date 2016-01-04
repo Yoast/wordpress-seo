@@ -1189,31 +1189,10 @@ YoastSEO.App.prototype.createSnippetPreview = function() {
 
 	var targetElement = document.getElementById( this.config.targets.snippet );
 
-	var snippetEditorTemplate = require( "../js/templates.js" ).snippetEditor;
-
-	targetElement.innerHTML = snippetEditorTemplate( {
-		raw: {
-			title: this.config.sampleText.title,
-			baseUrl: this.config.sampleText.baseUrl,
-			snippetCite: this.config.sampleText.snippetCite,
-			meta: this.config.sampleText.meta
-		},
-		rendered: {
-			title: this.config.sampleText.title,
-			baseUrl: this.config.sampleText.baseUrl,
-			snippetCite: this.config.sampleText.snippetCite,
-			meta: this.config.sampleText.meta
-		},
-		i18n: {
-			edit: this.i18n.dgettext( "js-text-analysis", "Edit meta fields (title, url, description)" ),
-			title: this.i18n.dgettext( "js-text-analysis", "Meta title" ),
-			slug:  this.i18n.dgettext( "js-text-analysis", "Slug" ),
-			metaDescription: this.i18n.dgettext( "js-text-analysis", "Meta description" ),
-			save: this.i18n.dgettext( "js-text-analysis", "Save meta fields" )
-		}
-	} );
-
 	this.snippetPreview = new SnippetPreview( this );
+	this.snippetPreview.renderTemplate( targetElement );
+	this.snippetPreview.init();
+
 	this.bindEvent();
 	this.bindSnippetEvents();
 };
@@ -3263,7 +3242,7 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"../js/snippetPreview.js":2,"../js/templates.js":3,"jed":4}],2:[function(require,module,exports){
+},{"../js/snippetPreview.js":2,"jed":4}],2:[function(require,module,exports){
 /* jshint browser: true */
 /* global YoastSEO: false */
 
@@ -3280,12 +3259,43 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
  */
 var SnippetPreview = function( refObj ) {
 	this.refObj = refObj;
+	this.i18n = refObj.i18n;
 	this.unformattedText = {
 		snippet_cite: this.refObj.rawData.snippetCite || "",
 		snippet_meta: this.refObj.rawData.snippetMeta || "",
 		snippet_title: this.refObj.rawData.snippetTitle || ""
 	};
-	this.init();
+};
+
+/**
+ * Renders snippet editor and adds it to the targetElement
+ *
+ * @param {HTMLElement} targetElement The element to put the snippet editor in.
+ */
+SnippetPreview.prototype.renderTemplate = function( targetElement ) {
+	var snippetEditorTemplate = require( "../js/templates.js" ).snippetEditor;
+
+	targetElement.innerHTML = snippetEditorTemplate( {
+		raw: {
+			title: this.refObj.config.sampleText.title,
+			baseUrl: this.refObj.config.sampleText.baseUrl,
+			snippetCite: this.refObj.config.sampleText.snippetCite,
+			meta: this.refObj.config.sampleText.meta
+		},
+		rendered: {
+			title: this.refObj.config.sampleText.title,
+			baseUrl: this.refObj.config.sampleText.baseUrl,
+			snippetCite: this.refObj.config.sampleText.snippetCite,
+			meta: this.refObj.config.sampleText.meta
+		},
+		i18n: {
+			edit: this.i18n.dgettext( "js-text-analysis", "Edit meta fields (title, url, description)" ),
+			title: this.i18n.dgettext( "js-text-analysis", "Meta title" ),
+			slug:  this.i18n.dgettext( "js-text-analysis", "Slug" ),
+			metaDescription: this.i18n.dgettext( "js-text-analysis", "Meta description" ),
+			save: this.i18n.dgettext( "js-text-analysis", "Save meta fields" )
+		}
+	} );
 };
 
 /**
@@ -3665,7 +3675,7 @@ SnippetPreview.prototype.setFocus = function( ev ) {
 
 module.exports = SnippetPreview;
 
-},{}],3:[function(require,module,exports){
+},{"../js/templates.js":3}],3:[function(require,module,exports){
 (function (global){
 ;(function() {
   var undefined;

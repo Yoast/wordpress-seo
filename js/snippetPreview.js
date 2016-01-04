@@ -14,12 +14,43 @@
  */
 var SnippetPreview = function( refObj ) {
 	this.refObj = refObj;
+	this.i18n = refObj.i18n;
 	this.unformattedText = {
 		snippet_cite: this.refObj.rawData.snippetCite || "",
 		snippet_meta: this.refObj.rawData.snippetMeta || "",
 		snippet_title: this.refObj.rawData.snippetTitle || ""
 	};
-	this.init();
+};
+
+/**
+ * Renders snippet editor and adds it to the targetElement
+ *
+ * @param {HTMLElement} targetElement The element to put the snippet editor in.
+ */
+SnippetPreview.prototype.renderTemplate = function( targetElement ) {
+	var snippetEditorTemplate = require( "../js/templates.js" ).snippetEditor;
+
+	targetElement.innerHTML = snippetEditorTemplate( {
+		raw: {
+			title: this.refObj.config.sampleText.title,
+			baseUrl: this.refObj.config.sampleText.baseUrl,
+			snippetCite: this.refObj.config.sampleText.snippetCite,
+			meta: this.refObj.config.sampleText.meta
+		},
+		rendered: {
+			title: this.refObj.config.sampleText.title,
+			baseUrl: this.refObj.config.sampleText.baseUrl,
+			snippetCite: this.refObj.config.sampleText.snippetCite,
+			meta: this.refObj.config.sampleText.meta
+		},
+		i18n: {
+			edit: this.i18n.dgettext( "js-text-analysis", "Edit meta fields (title, url, description)" ),
+			title: this.i18n.dgettext( "js-text-analysis", "Meta title" ),
+			slug:  this.i18n.dgettext( "js-text-analysis", "Slug" ),
+			metaDescription: this.i18n.dgettext( "js-text-analysis", "Meta description" ),
+			save: this.i18n.dgettext( "js-text-analysis", "Save meta fields" )
+		}
+	} );
 };
 
 /**
