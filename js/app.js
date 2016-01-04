@@ -183,6 +183,8 @@ YoastSEO.App.prototype.refresh = function() {
  * creates the elements for the snippetPreview
  */
 YoastSEO.App.prototype.createSnippetPreview = function() {
+	var SnippetPreview = require( "../js/snippetPreview.js" );
+
 	var targetElement = document.getElementById( this.config.targets.snippet );
 
 	var snippetEditorTemplate = require( "../js/templates.js" ).snippetEditor;
@@ -209,7 +211,7 @@ YoastSEO.App.prototype.createSnippetPreview = function() {
 		}
 	} );
 
-	this.snippetPreview = new YoastSEO.SnippetPreview( this );
+	this.snippetPreview = new SnippetPreview( this );
 	this.bindEvent();
 	this.bindSnippetEvents();
 };

@@ -1,19 +1,18 @@
 /* jshint browser: true */
-/* global YoastSEO: true */
-YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
+/* global YoastSEO: false */
 
 /**
- * snippetpreview
+ * @module snippetPreview
  */
 
 /**
- * defines the config and outputTarget for the YoastSEO.SnippetPreview
+ * defines the config and outputTarget for the SnippetPreview
  *
  * @param {YoastSEO.App} refObj
  *
  * @constructor
  */
-YoastSEO.SnippetPreview = function( refObj ) {
+var SnippetPreview = function( refObj ) {
 	this.refObj = refObj;
 	this.unformattedText = {
 		snippet_cite: this.refObj.rawData.snippetCite || "",
@@ -26,7 +25,7 @@ YoastSEO.SnippetPreview = function( refObj ) {
 /**
  *  checks if title and url are set so they can be rendered in the snippetPreview
  */
-YoastSEO.SnippetPreview.prototype.init = function() {
+SnippetPreview.prototype.init = function() {
 	if (
 		this.refObj.rawData.pageTitle !== null &&
 		this.refObj.rawData.cite !== null
@@ -42,7 +41,7 @@ YoastSEO.SnippetPreview.prototype.init = function() {
  *
  * @returns {Object}
  */
-YoastSEO.SnippetPreview.prototype.htmlOutput = function() {
+SnippetPreview.prototype.htmlOutput = function() {
 	var html = {};
 	html.title = this.formatTitle();
 	html.cite = this.formatCite();
@@ -56,7 +55,7 @@ YoastSEO.SnippetPreview.prototype.htmlOutput = function() {
  *
  * @returns {String}
  */
-YoastSEO.SnippetPreview.prototype.formatTitle = function() {
+SnippetPreview.prototype.formatTitle = function() {
 	var title = this.refObj.rawData.pageTitle;
 
 	if ( title === "" || typeof title === "undefined" ) {
@@ -73,7 +72,7 @@ YoastSEO.SnippetPreview.prototype.formatTitle = function() {
  * removes the protocol name from the urlstring.
  * @returns formatted url
  */
-YoastSEO.SnippetPreview.prototype.formatUrl = function() {
+SnippetPreview.prototype.formatUrl = function() {
 	var url = this.refObj.rawData.baseUrl;
 
 	//removes the http(s) part of the url
@@ -84,7 +83,7 @@ YoastSEO.SnippetPreview.prototype.formatUrl = function() {
  * formats the url for the snippet preview
  * @returns formatted url
  */
-YoastSEO.SnippetPreview.prototype.formatCite = function() {
+SnippetPreview.prototype.formatCite = function() {
 	var cite = this.refObj.rawData.snippetCite;
 	cite = this.refObj.stringHelper.stripAllTags( cite );
 	if ( cite === "" ) {
@@ -97,7 +96,7 @@ YoastSEO.SnippetPreview.prototype.formatCite = function() {
  * formats the metatext for the snippet preview, if empty runs getMetaText
  * @returns formatted metatext
  */
-YoastSEO.SnippetPreview.prototype.formatMeta = function() {
+SnippetPreview.prototype.formatMeta = function() {
 	var meta = this.refObj.rawData.meta;
 	if ( meta === this.refObj.config.sampleText.snippetMeta ) {
 		meta = "";
@@ -119,7 +118,7 @@ YoastSEO.SnippetPreview.prototype.formatMeta = function() {
  * If keyword and/or text is empty, it uses the sampletext.
  * @returns metatext
  */
-YoastSEO.SnippetPreview.prototype.getMetaText = function() {
+SnippetPreview.prototype.getMetaText = function() {
 	var metaText;
 	if ( typeof this.refObj.rawData.excerpt !== "undefined" ) {
 		metaText = this.refObj.rawData.excerpt;
@@ -165,7 +164,7 @@ YoastSEO.SnippetPreview.prototype.getMetaText = function() {
  * Builds an array with all indexes of the keyword
  * @returns Array with matches
  */
-YoastSEO.SnippetPreview.prototype.getIndexMatches = function() {
+SnippetPreview.prototype.getIndexMatches = function() {
 	var indexMatches = [];
 	var i = 0;
 
@@ -193,7 +192,7 @@ YoastSEO.SnippetPreview.prototype.getIndexMatches = function() {
  * Builds an array with indexes of all sentence ends (select on .)
  * @returns array with sentences
  */
-YoastSEO.SnippetPreview.prototype.getPeriodMatches = function() {
+SnippetPreview.prototype.getPeriodMatches = function() {
 	var periodMatches = [ 0 ];
 	var match;
 	var i = 0;
@@ -210,7 +209,7 @@ YoastSEO.SnippetPreview.prototype.getPeriodMatches = function() {
  * @param textString
  * @returns textString
  */
-YoastSEO.SnippetPreview.prototype.formatKeyword = function( textString ) {
+SnippetPreview.prototype.formatKeyword = function( textString ) {
 
 	// removes characters from the keyword that could break the regex, or give unwanted results
 	var keyword = this.refObj.rawData.keyword.replace( /[\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, " " );
@@ -230,7 +229,7 @@ YoastSEO.SnippetPreview.prototype.formatKeyword = function( textString ) {
  * @param textString
  * @returns {XML|string|void}
  */
-YoastSEO.SnippetPreview.prototype.formatKeywordUrl = function( textString ) {
+SnippetPreview.prototype.formatKeywordUrl = function( textString ) {
 	var keyword = this.refObj.stringHelper.sanitizeKeyword( this.refObj.rawData.keyword );
 	var dashedKeyword = keyword.replace( /\s/g, "-" );
 
@@ -246,7 +245,7 @@ YoastSEO.SnippetPreview.prototype.formatKeywordUrl = function( textString ) {
 /**
  * Renders the outputs to the elements on the page.
  */
-YoastSEO.SnippetPreview.prototype.renderOutput = function() {
+SnippetPreview.prototype.renderOutput = function() {
 	document.getElementById( "snippet_title" ).innerHTML = this.output.title;
 	document.getElementById( "snippet_cite" ).innerHTML = this.output.cite;
 	document.getElementById( "snippet_citeBase" ).innerHTML = this.output.url;
@@ -256,7 +255,7 @@ YoastSEO.SnippetPreview.prototype.renderOutput = function() {
 /**
  * Sets the classname of the meta field in the snippet, based on the rawData.snippetMeta
  */
-YoastSEO.SnippetPreview.prototype.renderSnippetStyle = function() {
+SnippetPreview.prototype.renderSnippetStyle = function() {
 	var cssClass = "desc-default";
 	if ( this.refObj.rawData.meta === "" ) {
 		cssClass = "desc-render";
@@ -267,7 +266,7 @@ YoastSEO.SnippetPreview.prototype.renderSnippetStyle = function() {
 /**
  * function to call init, to rerender the snippetpreview
  */
-YoastSEO.SnippetPreview.prototype.reRender = function() {
+SnippetPreview.prototype.reRender = function() {
 	this.init();
 };
 
@@ -277,7 +276,7 @@ YoastSEO.SnippetPreview.prototype.reRender = function() {
  * other elements from capturing this event.
  * @param event
  */
-YoastSEO.SnippetPreview.prototype.disableEnter = function( ev ) {
+SnippetPreview.prototype.disableEnter = function( ev ) {
 	if ( ev.keyCode === 13 ) {
 		ev.returnValue = false;
 		ev.cancelBubble = true;
@@ -289,7 +288,7 @@ YoastSEO.SnippetPreview.prototype.disableEnter = function( ev ) {
  * checks text length of the snippetmeta and snippettitle, shortens it if it is too long.
  * @param event
  */
-YoastSEO.SnippetPreview.prototype.checkTextLength = function( ev ) {
+SnippetPreview.prototype.checkTextLength = function( ev ) {
 	var text = ev.currentTarget.textContent;
 	switch ( ev.currentTarget.id ) {
 		case "snippet_meta":
@@ -320,7 +319,7 @@ YoastSEO.SnippetPreview.prototype.checkTextLength = function( ev ) {
  * This removes the keyword highlighting and modified data so the original content can be editted.
  * @param ev {event}
  */
-YoastSEO.SnippetPreview.prototype.getUnformattedText = function( ev ) {
+SnippetPreview.prototype.getUnformattedText = function( ev ) {
 	var currentElement = ev.currentTarget.id;
 	if ( typeof this.unformattedText[ currentElement ] !== "undefined" ) {
 		ev.currentTarget.textContent = this.unformattedText[currentElement];
@@ -332,7 +331,7 @@ YoastSEO.SnippetPreview.prototype.getUnformattedText = function( ev ) {
  * This allows the visible data to be editted in the snippetPreview.
  * @param ev
  */
-YoastSEO.SnippetPreview.prototype.setUnformattedText = function( ev ) {
+SnippetPreview.prototype.setUnformattedText = function( ev ) {
 	var elem =  ev.currentTarget.id;
 	this.unformattedText[ elem ] = document.getElementById( elem ).textContent;
 };
@@ -341,7 +340,7 @@ YoastSEO.SnippetPreview.prototype.setUnformattedText = function( ev ) {
  * Adds and remove the tooLong class when a text is too long.
  * @param ev
  */
-YoastSEO.SnippetPreview.prototype.textFeedback = function( ev ) {
+SnippetPreview.prototype.textFeedback = function( ev ) {
 	var text = ev.currentTarget.textContent;
 	switch ( ev.currentTarget.id ) {
 		case "snippet_meta":
@@ -367,14 +366,14 @@ YoastSEO.SnippetPreview.prototype.textFeedback = function( ev ) {
  * shows the edit icon corresponding to the hovered element
  * @param ev
  */
-YoastSEO.SnippetPreview.prototype.showEditIcon = function( ev ) {
+SnippetPreview.prototype.showEditIcon = function( ev ) {
 	ev.currentTarget.parentElement.className = "editIcon snippet_container";
 };
 
 /**
  * removes all editIcon-classes, sets to snippet_container
  */
-YoastSEO.SnippetPreview.prototype.hideEditIcon = function() {
+SnippetPreview.prototype.hideEditIcon = function() {
 	var elems = document.getElementsByClassName( "editIcon " );
 	for ( var i = 0; i < elems.length; i++ ) {
 		elems[ i ].className = "snippet_container";
@@ -385,7 +384,7 @@ YoastSEO.SnippetPreview.prototype.hideEditIcon = function() {
  * sets focus on child element of the snippet_container that is clicked. Hides the editicon.
  * @param ev
  */
-YoastSEO.SnippetPreview.prototype.setFocus = function( ev ) {
+SnippetPreview.prototype.setFocus = function( ev ) {
 	var targetElem = ev.currentTarget.firstChild;
 	while ( targetElem !== null ) {
 		if ( targetElem.contentEditable === "true" ) {
@@ -397,3 +396,5 @@ YoastSEO.SnippetPreview.prototype.setFocus = function( ev ) {
 		}
 	}
 };
+
+module.exports = SnippetPreview;
