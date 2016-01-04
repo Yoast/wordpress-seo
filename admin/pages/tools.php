@@ -70,7 +70,10 @@ if ( '' === $tool_page ) {
 }
 else {
 	echo '<a href="', admin_url( 'admin.php?page=wpseo_tools' ), '">', __( '&laquo; Back to Tools page', 'wordpress-seo' ), '</a>';
-	require_once WPSEO_PATH . 'admin/views/tool-' . $tool_page . '.php';
+
+	if ( in_array( $tool_page, array( 'bulk-editor', 'import-export', 'file-editor' ) ) ) {
+		require_once WPSEO_PATH . 'admin/views/tool-' . $tool_page . '.php';
+	}
 }
 
 $yform->admin_footer( false );
