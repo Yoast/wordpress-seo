@@ -6,6 +6,7 @@
  *
  * @param {string} keyword The keyword to check in the array.
  * @param {array} usedKeywords The array with used keywords and IDs.
+ * @returns {object} The id of the keyword and the number of times the keyword is found
  */
 module.exports = function( keyword, usedKeywords ) {
 	var result = { count: 0, id: 0 };
