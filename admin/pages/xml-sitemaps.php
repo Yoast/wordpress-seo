@@ -76,19 +76,19 @@ $yform->light_switch(
 		<div id="user-sitemap" class="wpseotab">
 			<?php
 			$switch_buttons = array( __( 'In sitemap', 'wordpress-seo' ), __( 'Excluded', 'wordpress-seo' ) );
-			$yform->light_switch( 'disable_author_sitemap', __( 'Disable author/user sitemap', 'wordpress-seo' ), $switch_buttons );
+			$yform->light_switch( 'disable_author_sitemap', __( 'Disable author/user sitemap', 'wordpress-seo' ), $switch_buttons, true );
 			?>
 			<div id="xml_user_block">
 				<p><strong><?php _e( 'Exclude users without posts', 'wordpress-seo' ); ?></strong><br/>
 					<?php
-					$yform->light_switch( 'disable_author_noposts', __( 'Users with zero posts', 'wordpress-seo' ), $switch_buttons );
+					$yform->light_switch( 'disable_author_noposts', __( 'Users with zero posts', 'wordpress-seo' ), $switch_buttons, true );
 
 					$roles = WPSEO_Utils::get_roles();
 					if ( is_array( $roles ) && $roles !== array() ) {
 						echo '<p><strong>' . __( 'Exclude user roles', 'wordpress-seo' ) . '</strong><br/>';
 						echo __( 'Please check the appropriate box below if there\'s a user role that you do <strong>NOT</strong> want to include in your sitemap:', 'wordpress-seo' ) . '</p>';
 						foreach ( $roles as $role_key => $role_name ) {
-							$yform->light_switch( 'user_role-' . $role_key . '-not_in_sitemap', $role_name, $switch_buttons );
+							$yform->light_switch( 'user_role-' . $role_key . '-not_in_sitemap', $role_name, $switch_buttons, true );
 						}
 					} ?>
 			</div>
@@ -104,7 +104,8 @@ $yform->light_switch(
 					$yform->light_switch(
 						'post_types-' . $pt->name . '-not_in_sitemap',
 						$pt->labels->name . ' (<code>' . $pt->name . '</code>)',
-						$switch_buttons
+						$switch_buttons,
+						true
 					);
 				}
 			}
@@ -132,7 +133,8 @@ $yform->light_switch(
 						$yform->light_switch(
 							'taxonomies-' . $tax->name . '-not_in_sitemap',
 							$tax->labels->name . ' (<code>' . $tax->name . '</code>)',
-							$switch_buttons
+							$switch_buttons,
+							true
 						);
 					}
 				}
