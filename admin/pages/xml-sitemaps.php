@@ -86,7 +86,6 @@ $yform->light_switch(
 					$roles = WPSEO_Utils::get_roles();
 					if ( is_array( $roles ) && $roles !== array() ) {
 						echo '<p><strong>' . __( 'Exclude user roles', 'wordpress-seo' ) . '</strong><br/>';
-						echo __( 'Please check the appropriate box below if there\'s a user role that you do <strong>NOT</strong> want to include in your sitemap:', 'wordpress-seo' ) . '</p>';
 						foreach ( $roles as $role_key => $role_name ) {
 							$yform->light_switch( 'user_role-' . $role_key . '-not_in_sitemap', $role_name, $switch_buttons, true );
 						}
