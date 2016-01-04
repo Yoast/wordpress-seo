@@ -75,7 +75,7 @@ $yform->light_switch(
 
 		<div id="user-sitemap" class="wpseotab">
 			<?php
-			$switch_buttons = array( __( 'In sitemap', 'wordpress-seo' ), __( 'Excluded', 'wordpress-seo' ) );
+			$switch_buttons = array( __( 'In sitemap', 'wordpress-seo' ), __( 'Not in sitemap', 'wordpress-seo' ) );
 			$yform->light_switch( 'disable_author_sitemap', __( 'Disable author/user sitemap', 'wordpress-seo' ), $switch_buttons, true );
 			?>
 			<div id="xml_user_block">
