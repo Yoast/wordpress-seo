@@ -41,7 +41,7 @@ class WPSEO_Twitter {
 	 * Class constructor
 	 */
 	public function __construct() {
-		$this->options = WPSEO_Options::get_all();
+		$this->options = WPSEO_Options::get_option( 'wpseo_social' );
 		$this->twitter();
 	}
 

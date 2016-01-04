@@ -149,7 +149,7 @@ class WPSEO_Taxonomy_Metabox {
 	 * @return WPSEO_Metabox_Section
 	 */
 	private function get_social_meta_section() {
-		$options = WPSEO_Options::get_all();
+		$options = WPSEO_Options::get_option( 'wpseo_social' );
 		$taxonomy_social_fields = new WPSEO_Taxonomy_Social_Fields( $this->term );
 
 		$tabs = array();

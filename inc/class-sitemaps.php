@@ -103,7 +103,7 @@ class WPSEO_Sitemaps {
 		// Default stylesheet.
 		$this->stylesheet = '<?xml-stylesheet type="text/xsl" href="' . preg_replace( '/(^http[s]?:)/', '', esc_url( home_url( 'main-sitemap.xsl' ) ) ) . '"?>';
 
-		$this->options     = WPSEO_Options::get_all();
+		$this->options     = WPSEO_Options::get_options( array( 'wpseo_xml', 'wpseo_titles', 'wpseo_permalinks' ) );
 		$this->max_entries = $this->options['entries-per-page'];
 		$this->home_url    = home_url();
 		$this->charset     = get_bloginfo( 'charset' );
@@ -355,7 +355,7 @@ class WPSEO_Sitemaps {
 				$query = $wpdb->prepare( "SELECT COUNT(ID) FROM $wpdb->posts {$join_filter} WHERE post_status IN ('publish','inherit') AND post_password = '' AND post_date != '0000-00-00 00:00:00' AND post_type = %s " . $where_filter, $post_type );
 
 				$count = $wpdb->get_var( $query );
-				if ( $count == 0  ) {
+				if ( $count == 0 ) {
 					continue;
 				}
 

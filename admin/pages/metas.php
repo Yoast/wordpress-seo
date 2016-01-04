@@ -8,7 +8,10 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	header( 'HTTP/1.1 403 Forbidden' );
 	exit();
 }
-$options = WPSEO_Options::get_all();
+
+$options = WPSEO_Options::get_options( array( 'wpseo_titles', 'wpseo_permalinks', 'wpseo_internallinks' ) );
+
+
 $yform = Yoast_Form::get_instance();
 $yform->admin_header( true, 'wpseo_titles' );
 ?>
