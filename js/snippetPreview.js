@@ -54,6 +54,13 @@ SnippetPreview.prototype.renderTemplate = function( targetElement ) {
 };
 
 /**
+ * Calls the event binder that has been registered using the callbacks option in the arguments of the App.
+ */
+SnippetPreview.prototype.callRegisteredEventBinder = function() {
+	this.refObj.callbacks.bindElementEvents( this.refObj );
+};
+
+/**
  *  checks if title and url are set so they can be rendered in the snippetPreview
  */
 SnippetPreview.prototype.init = function() {
@@ -426,6 +433,53 @@ SnippetPreview.prototype.setFocus = function( ev ) {
 			targetElem = targetElem.nextSibling;
 		}
 	}
+};
+
+/**
+ * Binds the reloadSnippetText function to the blur of the snippet inputs.
+ */
+SnippetPreview.prototype.bindEvents = function() {
+	var saveForm, editButton,
+		elems = [ "meta", "cite", "title" ];
+
+	for ( var i = 0; i < elems.length; i++ ) {
+		var targetElement = document.getElementById( "snippet_" + elems[ i ] );
+		targetElement.addEventListener( "blur", this.refObj.callbacks.updateSnippetValues );
+	}
+
+	editButton = document.getElementsByClassName( "js-snippet-editor-edit" );
+	saveForm = document.getElementsByClassName( "js-snippet-editor-save" );
+
+	editButton[0].addEventListener( "click", this.editSnippet.bind( this ) );
+	saveForm[0].addEventListener( "click", this.saveSnippet.bind( this ) );
+};
+
+/**
+ * Edits the snippet
+ */
+SnippetPreview.prototype.editSnippet = function() {
+	var form, formFields, snippetEditor;
+
+	snippetEditor = document.getElementById( "snippet_preview" );
+	formFields = document.getElementsByClassName( "snippet-editor__form-field" );
+
+	snippetEditor.className = "editing";
+
+	[].forEach.call( formFields, function( formField ) {
+		formField.className = "snippet-editor__form-field snippet-editor__form-field--shown";
+	} );
+
+	form = document.getElementsByClassName( "snippet-editor__form" );
+	form[0].className = "snippet-editor__form snippet-editor__form--shown";
+};
+
+/**
+ * Saves the snippet fields
+ */
+SnippetPreview.prototype.saveSnippet = function() {
+	var form = document.getElementsByClassName( "snippet-editor__form" );
+
+	form[0].className = "snippet-editor__form";
 };
 
 module.exports = SnippetPreview;

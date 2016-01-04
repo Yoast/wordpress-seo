@@ -189,17 +189,9 @@ YoastSEO.App.prototype.createSnippetPreview = function() {
 
 	this.snippetPreview = new SnippetPreview( this );
 	this.snippetPreview.renderTemplate( targetElement );
+	this.snippetPreview.callRegisteredEventBinder();
+	this.snippetPreview.bindEvents();
 	this.snippetPreview.init();
-
-	this.bindEvent();
-	this.bindSnippetEvents();
-};
-
-/**
- * binds the events to the generated inputs. Binds events on the snippetinputs if editable
- */
-YoastSEO.App.prototype.bindEvent = function() {
-	this.callbacks.bindElementEvents( this );
 };
 
 /**
@@ -210,53 +202,6 @@ YoastSEO.App.prototype.bindInputEvent = function() {
 		var elem = document.getElementById( this.config.elementTarget[ i ] );
 		elem.addEventListener( "input", this.analyzeTimer.bind( this ) );
 	}
-};
-
-/**
- * binds the reloadSnippetText function to the blur of the snippet inputs.
- */
-YoastSEO.App.prototype.bindSnippetEvents = function() {
-	var saveForm, editButton,
-		elems = [ "meta", "cite", "title" ];
-
-	for ( var i = 0; i < elems.length; i++ ) {
-		var targetElement = document.getElementById( "snippet_" + elems[ i ] );
-		targetElement.addEventListener( "blur", this.callbacks.updateSnippetValues );
-	}
-
-	editButton = document.getElementsByClassName( "js-snippet-editor-edit" );
-	saveForm = document.getElementsByClassName( "js-snippet-editor-save" );
-
-	editButton[0].addEventListener( "click", this.editSnippet.bind( this ) );
-	saveForm[0].addEventListener( "click", this.saveSnippet.bind( this ) );
-};
-
-/**
- * Edits the snippet
- */
-YoastSEO.App.prototype.editSnippet = function() {
-	var form, formFields, snippetEditor;
-
-	snippetEditor = document.getElementById( "snippet_preview" );
-	formFields = document.getElementsByClassName( "snippet-editor__form-field" );
-
-	snippetEditor.className = "editing";
-
-	[].forEach.call( formFields, function( formField ) {
-		formField.className = "snippet-editor__form-field snippet-editor__form-field--shown";
-	} );
-
-	form = document.getElementsByClassName( "snippet-editor__form" );
-	form[0].className = "snippet-editor__form snippet-editor__form--shown";
-};
-
-/**
- * Saves the snippet fields
- */
-YoastSEO.App.prototype.saveSnippet = function() {
-	var form = document.getElementsByClassName( "snippet-editor__form" );
-
-	form[0].className = "snippet-editor__form";
 };
 
 /**
