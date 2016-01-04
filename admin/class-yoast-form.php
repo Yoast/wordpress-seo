@@ -296,11 +296,12 @@ class Yoast_Form {
 	/**
 	 * Create a light switch input field.
 	 *
-	 * @param string $var        The variable within the option to create the checkbox for.
-	 * @param string $label      The label to show for the variable.
-	 * @param array  $buttons    Array of two labels for the buttons (defaults Off/On).
+	 * @param string  $var        The variable within the option to create the checkbox for.
+	 * @param string  $label      The label to show for the variable.
+	 * @param array   $buttons    Array of two labels for the buttons (defaults Off/On).
+	 * @param boolean $reverse    Reverse order of buttons (default false).
 	 */
-	public function light_switch( $var, $label, $buttons = array() ) {
+	public function light_switch( $var, $label, $buttons = array(), $reverse = false ) {
 
 		if ( ! isset( $this->options[ $var ] ) ) {
 			$this->options[ $var ] = false;
@@ -310,13 +311,19 @@ class Yoast_Form {
 			$this->options[ $var ] = 'on';
 		}
 
+		$class = 'switch-light switch-candy switch-yoast-seo';
+
+		if ( $reverse ) {
+			$class .= ' switch-yoast-seo-reverse';
+		}
+
 		if ( empty( $buttons ) ) {
 			$buttons = array( __( 'Off', 'wordpress-seo' ), __( 'On','wordpress-seo' ) );
 		}
 
 		list( $off_button, $on_button ) = $buttons;
 
-		echo '<label class="switch-light switch-candy switch-yoast-seo" onclick="">',
+		echo '<label class="', esc_attr( $class ), '" onclick="">',
 		'<input type="checkbox" id="', esc_attr( $var ), '" name="', esc_attr( $this->option_name ), '[', esc_attr( $var ), ']" value="on"', checked( $this->options[ $var ], 'on', false ), '/>',
 		"<strong>{$label}</strong>",
 		'<span aria-hidden="true">

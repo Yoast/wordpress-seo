@@ -42,3 +42,15 @@
     color: #fff;
     text-shadow: none;
 }
+
+.switch-light.switch-yoast-seo-reverse input:checked ~ span a {
+    left: 0;
+}
+
+.switch-light.switch-yoast-seo-reverse a {
+    left: 50%;
+}
+
+.switch-light.switch-yoast-seo-reverse span span {
+    float: right;
+}
