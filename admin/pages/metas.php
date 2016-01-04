@@ -149,7 +149,7 @@ $yform->admin_header( true, 'wpseo_titles' );
 			$taxonomies = get_taxonomies( array( 'public' => true ), 'objects' );
 			if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
 				foreach ( $taxonomies as $tax ) {
-					echo "<div id='". $tax->name ."-titles-metas'>";
+					echo "<div id='". esc_attr( $tax->name ) ."-titles-metas'>";
 					echo '<strong>' . esc_html( ucfirst( $tax->labels->name ) ) . '</strong><br/>';
 					$yform->textinput( 'title-tax-' . $tax->name, __( 'Title template', 'wordpress-seo' ), 'template taxonomy-template' );
 					$yform->textarea( 'metadesc-tax-' . $tax->name, __( 'Meta description template', 'wordpress-seo' ), array( 'class' => 'template taxonomy-template' ) );
