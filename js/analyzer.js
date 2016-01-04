@@ -343,10 +343,10 @@ YoastSEO.Analyzer.prototype.firstParagraph = function() {
  * @returns {{name: string, count: number}}
  */
 YoastSEO.Analyzer.prototype.metaDescriptionKeyword = function() {
-	var getMetaDescriptionKeyword = require( "./analyses/calculateMetaDescriptionKeyword.js" );
+	var wordMatch = require( "./stringProcessing/matchTextWithWord.js" );
 	var result = [ { test: "metaDescriptionKeyword", result: -1 } ];
 	if ( typeof this.config.meta !== "undefined" && typeof this.config.keyword !== "undefined" && this.config.meta !== "" && this.config.keyword !== "" ){
-		result[ 0 ].result = getMetaDescriptionKeyword( this.config.meta, this.config.keyword );
+		result[ 0 ].result = wordMatch( this.config.meta, this.config.keyword );
 	}
 
 
