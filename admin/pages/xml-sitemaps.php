@@ -26,7 +26,11 @@ $options = get_option( 'wpseo_xml' );
 
 echo '<br/>';
 
-$yform->checkbox( 'enablexmlsitemap', __( 'Check this box to enable XML sitemap functionality.', 'wordpress-seo' ), false );
+$yform->light_switch(
+	'enablexmlsitemap',
+	__( 'XML sitemap functionality', 'wordpress-seo' ),
+	array( __( 'Disabled', 'wordpress-seo' ), __( 'Enabled', 'wordpress-seo' ) )
+);
 
 ?>
 	<div id="sitemapinfo">
@@ -71,18 +75,20 @@ $yform->checkbox( 'enablexmlsitemap', __( 'Check this box to enable XML sitemap 
 
 		<div id="user-sitemap" class="wpseotab">
 			<?php
-			$yform->checkbox( 'disable_author_sitemap', __( 'Disable author/user sitemap', 'wordpress-seo' ), false );
+			$switch_buttons = array( __( 'In sitemap', 'wordpress-seo' ), __( 'Excluded', 'wordpress-seo' ) );
+			$yform->light_switch( 'disable_author_sitemap', __( 'Disable author/user sitemap', 'wordpress-seo' ), $switch_buttons );
 			?>
 			<div id="xml_user_block">
 				<p><strong><?php _e( 'Exclude users without posts', 'wordpress-seo' ); ?></strong><br/>
-					<?php $yform->checkbox( 'disable_author_noposts', __( 'Disable all users with zero posts', 'wordpress-seo' ), false );
+					<?php
+					$yform->light_switch( 'disable_author_noposts', __( 'Users with zero posts', 'wordpress-seo' ), $switch_buttons );
 
 					$roles = WPSEO_Utils::get_roles();
 					if ( is_array( $roles ) && $roles !== array() ) {
 						echo '<p><strong>' . __( 'Exclude user roles', 'wordpress-seo' ) . '</strong><br/>';
 						echo __( 'Please check the appropriate box below if there\'s a user role that you do <strong>NOT</strong> want to include in your sitemap:', 'wordpress-seo' ) . '</p>';
 						foreach ( $roles as $role_key => $role_name ) {
-							$yform->checkbox( 'user_role-' . $role_key . '-not_in_sitemap', $role_name );
+							$yform->light_switch( 'user_role-' . $role_key . '-not_in_sitemap', $role_name, $switch_buttons );
 						}
 					} ?>
 			</div>
@@ -95,7 +101,11 @@ $yform->checkbox( 'enablexmlsitemap', __( 'Check this box to enable XML sitemap 
 			if ( is_array( $post_types ) && $post_types !== array() ) {
 				echo '<p>' . __( 'Please check the appropriate box below if there\'s a post type that you do <strong>NOT</strong> want to include in your sitemap:', 'wordpress-seo' ) . '</p>';
 				foreach ( $post_types as $pt ) {
-					$yform->checkbox( 'post_types-' . $pt->name . '-not_in_sitemap', $pt->labels->name . ' (<code>' . $pt->name . '</code>)' );
+					$yform->light_switch(
+						'post_types-' . $pt->name . '-not_in_sitemap',
+						$pt->labels->name . ' (<code>' . $pt->name . '</code>)',
+						$switch_buttons
+					);
 				}
 			}
 
@@ -119,7 +129,11 @@ $yform->checkbox( 'enablexmlsitemap', __( 'Check this box to enable XML sitemap 
 				echo '<p>' . __( 'Please check the appropriate box below if there\'s a taxonomy that you do <strong>NOT</strong> want to include in your sitemap:', 'wordpress-seo' ) . '</p>';
 				foreach ( $taxonomies as $tax ) {
 					if ( isset( $tax->labels->name ) && trim( $tax->labels->name ) != '' ) {
-						$yform->checkbox( 'taxonomies-' . $tax->name . '-not_in_sitemap', $tax->labels->name . ' (<code>' . $tax->name . '</code>)' );
+						$yform->light_switch(
+							'taxonomies-' . $tax->name . '-not_in_sitemap',
+							$tax->labels->name . ' (<code>' . $tax->name . '</code>)',
+							$switch_buttons
+						);
 					}
 				}
 			}
