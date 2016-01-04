@@ -126,7 +126,7 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 			$action_list = sprintf(
 				'<ul>%1$s %2$s</ul>',
 				'<li><a href=\'' . $this->javascript_create_redirect( $url, $id, WPSEO_Redirect::PERMANENT ) . '\'>' . __( 'Redirect it to another URL.', 'wordpress-seo-premium' ) . '</a></li>',
-				'<li><a href=\'' . $this->javascript_create_redirect( $url, $id, WPSEO_Redirect::DELETED ) . '\'>' . __( 'Make it server a 410 Content Deleted header.', 'wordpress-seo-premium' ) . '</a></li>'
+				'<li><a href=\'' . $this->javascript_create_redirect( $url, $id, WPSEO_Redirect::DELETED ) . '\'>' . __( 'Make it serve a 410 Content Deleted header.', 'wordpress-seo-premium' ) . '</a></li>'
 			);
 
 			// Format the message.
