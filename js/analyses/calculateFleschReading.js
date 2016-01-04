@@ -12,11 +12,11 @@ var countSyllables = require( "../stringProcessing/countSyllables.js" );
  * The formula used:
  * 206.835 - 1.015 (total words / total sentences) - 84.6 ( total syllables / total words);
  *
- * @param {string} text The text to analyze the fleschreading score.
+ * @param {string} text The text to analyze the fleschreading score for.
  * @returns {number} the score of the fleschreading test
  */
 module.exports = function( text ) {
-	if ( typeof text === "undefined" || text === "" ) {
+	if ( text === "" ) {
 		return 0;
 	}
 	text = cleanText ( text );
