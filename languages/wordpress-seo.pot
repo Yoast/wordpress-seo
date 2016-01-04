@@ -2,9 +2,9 @@
 # This file is distributed under the GPL v3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Yoast SEO 3.0.4\n"
+"Project-Id-Version: Yoast SEO 3.0.6\n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo/issues\n"
-"POT-Creation-Date: 2015-11-25 11:59:32+00:00\n"
+"POT-Creation-Date: 2015-12-23 10:13:46+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -76,13 +76,13 @@ msgstr ""
 
 #. translators: 1: is a link to 'admin_url /
 #. admin.php?page=wpseo_tools&recalculate=1' 2: closing link tag
-#: admin/class-admin-init.php:186
+#: admin/class-admin-init.php:191
 msgid ""
 "We've updated our SEO score algorithm. %1$sClick here to recalculate the SEO "
 "scores%2$s for all posts and pages."
 msgstr ""
 
-#: admin/class-admin-init.php:372
+#: admin/class-admin-init.php:377
 msgid "%s filter/action"
 msgstr ""
 
@@ -112,9 +112,9 @@ msgstr ""
 msgid "XML Sitemaps"
 msgstr ""
 
-#: admin/class-admin.php:154 admin/metabox/class-metabox.php:418
-#: admin/metabox/class-metabox.php:420 admin/metabox/class-metabox.php:429
-#: admin/metabox/class-metabox.php:430 inc/wpseo-non-ajax-functions.php:426
+#: admin/class-admin.php:154 admin/metabox/class-metabox.php:419
+#: admin/metabox/class-metabox.php:421 admin/metabox/class-metabox.php:430
+#: admin/metabox/class-metabox.php:431 inc/wpseo-non-ajax-functions.php:426
 msgid "Advanced"
 msgstr ""
 
@@ -333,7 +333,7 @@ msgstr ""
 msgid "New Yoast SEO Title"
 msgstr ""
 
-#: admin/class-config.php:102 admin/metabox/class-metabox.php:758
+#: admin/class-config.php:102 admin/metabox/class-metabox.php:759
 #: admin/taxonomy/class-taxonomy.php:101
 msgid "Use Image"
 msgstr ""
@@ -531,7 +531,7 @@ msgid ""
 "quick introduction of this plugin&#8217;s core functionality."
 msgstr ""
 
-#: admin/class-pointers.php:182 admin/pages/dashboard.php:161
+#: admin/class-pointers.php:182 admin/pages/dashboard.php:162
 msgid "Start Tour"
 msgstr ""
 
@@ -978,24 +978,24 @@ msgstr ""
 msgid "%s Posts Overview"
 msgstr ""
 
-#: admin/class-yoast-dashboard-widget.php:150
+#: admin/class-yoast-dashboard-widget.php:153
 msgid "Posts without focus keyword"
 msgstr ""
 
-#: admin/class-yoast-dashboard-widget.php:151
+#: admin/class-yoast-dashboard-widget.php:154
 msgid "Posts with bad SEO score"
 msgstr ""
 
-#: admin/class-yoast-dashboard-widget.php:152
+#: admin/class-yoast-dashboard-widget.php:155
 msgid "Posts with OK SEO score"
 msgstr ""
 
-#: admin/class-yoast-dashboard-widget.php:153
+#: admin/class-yoast-dashboard-widget.php:156
 msgid "Posts with good SEO score"
 msgstr ""
 
 #. translators: %s expands to <code>noindex</code>
-#: admin/class-yoast-dashboard-widget.php:155
+#: admin/class-yoast-dashboard-widget.php:158
 msgid "Posts that are set to %s"
 msgstr ""
 
@@ -1545,12 +1545,12 @@ msgstr ""
 msgid "Content:"
 msgstr ""
 
-#: admin/metabox/class-metabox.php:297 admin/taxonomy/class-taxonomy.php:257
+#: admin/metabox/class-metabox.php:298 admin/taxonomy/class-taxonomy.php:258
 msgid "(no parent)"
 msgstr ""
 
-#: admin/metabox/class-metabox.php:387 admin/metabox/class-metabox.php:390
-#: admin/metabox/class-metabox.php:401 admin/metabox/class-metabox.php:402
+#: admin/metabox/class-metabox.php:388 admin/metabox/class-metabox.php:391
+#: admin/metabox/class-metabox.php:402 admin/metabox/class-metabox.php:403
 #: admin/taxonomy/class-taxonomy-metabox.php:99
 #: admin/taxonomy/class-taxonomy-metabox.php:102
 #: admin/taxonomy/class-taxonomy-metabox.php:111
@@ -1558,77 +1558,23 @@ msgstr ""
 msgid "Content"
 msgstr ""
 
-#: admin/metabox/class-metabox.php:447 admin/metabox/class-metabox.php:448
+#: admin/metabox/class-metabox.php:448 admin/metabox/class-metabox.php:449
 msgid "Add-ons"
 msgstr ""
 
-#: admin/metabox/class-metabox.php:745
+#: admin/metabox/class-metabox.php:746
 msgid ""
 "The featured image should be at least 200x200 pixels to be picked up by "
 "Facebook and other social media sites."
 msgstr ""
 
-#. translators: 1: opens a link to yoast.com. 2: closes the link 3: opens a
-#. link to onpage.org
-#: admin/onpage/class-onpage-email-presenter.php:54
-msgid "Indexing powered by %1$sYoast%2$s and %3$sOnPage.org%2$s."
-msgstr ""
-
-#. translators: 1: expands to get_option( 'home' ). 2: opens a link to a
-#. related knowledge base article. 3: closes the link
-#: admin/onpage/class-onpage-email-presenter.php:72
-msgid ""
-"Yoast SEO has detected that %1$s can no longer be indexed. Please note that "
-"this will make it impossible for search engines like Google and Bing to "
-"index your site. %2$sRead more about this error on our knowledge base%3$s."
-msgstr ""
-
-#. translators: 1: expands to get_option( 'home' ).
-#: admin/onpage/class-onpage-email-presenter.php:79
-msgid "Yoast SEO has detected that %1$s can be indexed again."
-msgstr ""
-
-#. translators: 1: expands to get_option( 'home' ). 2: opens a link to a
-#. related knowledge base article. 3: closes the link
-#: admin/onpage/class-onpage-email-presenter.php:96
-msgid ""
-"Yoast SEO has detected that %1$s can not be indexed. Please note that this "
-"will make it impossible for search engines like Google and Bing to index "
-"your site. %2$sRead more about this error on our knowledge base%3$s."
-msgstr ""
-
-#. translators: 1: expands to get_option( 'home' ).
-#: admin/onpage/class-onpage-email-presenter.php:103
-msgid "Yoast SEO has detected that %1$s can be indexed."
-msgstr ""
-
-#. translators: 1: expands to get_option( 'home' ).
-#: admin/onpage/class-onpage-email-presenter.php:120
-msgid "Yoast SEO alert: Search engines can no longer index %1$s!"
-msgstr ""
-
-#. translators: 1: expands to get_option( 'home' ).
-#: admin/onpage/class-onpage-email-presenter.php:125
-msgid "Yoast SEO alert fixed: Search engines can index %1$s again."
-msgstr ""
-
-#. translators: 1: expands to get_option( 'home' ).
-#: admin/onpage/class-onpage-email-presenter.php:142
-msgid "Yoast SEO alert: Search engines cannot index %1$s!"
-msgstr ""
-
-#. translators: 1: expands to get_option( 'home' ).
-#: admin/onpage/class-onpage-email-presenter.php:147
-msgid "Yoast SEO alert fixed: Search engines can index %1$s."
-msgstr ""
-
-#: admin/onpage/class-onpage.php:54 tests/onpage/test-class-onpage.php:67
+#: admin/onpage/class-onpage.php:56 tests/onpage/test-class-onpage.php:64
 msgid "Once Weekly"
 msgstr ""
 
 #. translators: 1: opens a link to a related knowledge base article. 2: closes
 #. the link
-#: admin/onpage/class-onpage.php:97 admin/views/dashboard-widget.php:65
+#: admin/onpage/class-onpage.php:99 admin/views/dashboard-widget.php:65
 msgid ""
 "%1$sYour homepage cannot be indexed by search engines%2$s. This is very bad "
 "for SEO and should be fixed."
@@ -1723,119 +1669,124 @@ msgstr ""
 msgid "Security"
 msgstr ""
 
-#: admin/pages/dashboard.php:156
+#: admin/pages/dashboard.php:157
 msgid "Introduction Tour"
 msgstr ""
 
-#: admin/pages/dashboard.php:157
+#: admin/pages/dashboard.php:158
 msgid "Take this tour to quickly learn about the use of this plugin."
 msgstr ""
 
-#: admin/pages/dashboard.php:168
+#: admin/pages/dashboard.php:169
 msgid "Latest Changes"
 msgstr ""
 
 #. translators: %s expands to Yoast SEO
-#: admin/pages/dashboard.php:171
+#: admin/pages/dashboard.php:172
 msgid "We've summarized the most recent changes in %s."
 msgstr ""
 
-#: admin/pages/dashboard.php:176
+#: admin/pages/dashboard.php:177
 msgid "View Changes"
 msgstr ""
 
-#: admin/pages/dashboard.php:182 admin/pages/dashboard.php:190
+#: admin/pages/dashboard.php:183 admin/pages/dashboard.php:191
 msgid "Restore Default Settings"
 msgstr ""
 
 #. translators: %s expands to Yoast SEO
-#: admin/pages/dashboard.php:185
+#: admin/pages/dashboard.php:186
 msgid ""
 "If you want to restore a site to the default %s settings, press this button."
 msgstr ""
 
-#: admin/pages/dashboard.php:190
+#: admin/pages/dashboard.php:191
 msgid "Are you sure you want to reset your SEO settings?"
 msgstr ""
 
-#: admin/pages/dashboard.php:195 admin/pages/dashboard.php:202
+#: admin/pages/dashboard.php:196 admin/pages/dashboard.php:203
 msgid "Website name"
 msgstr ""
 
-#: admin/pages/dashboard.php:198
+#: admin/pages/dashboard.php:199
 msgid ""
 "Google shows your website's name in the search results, we will default to "
 "your site name but you can adapt it here. You can also provide an alternate "
 "website name you want Google to consider."
 msgstr ""
 
-#: admin/pages/dashboard.php:203
+#: admin/pages/dashboard.php:204
 msgid "Alternate name"
 msgstr ""
 
-#: admin/pages/dashboard.php:205 admin/pages/dashboard.php:213
+#: admin/pages/dashboard.php:206 admin/pages/dashboard.php:214
 msgid "Company or person"
 msgstr ""
 
-#: admin/pages/dashboard.php:209
+#: admin/pages/dashboard.php:210
 msgid ""
 "This data is shown as metadata in your site. It is intended to appear in "
 "Google's Knowledge Graph. You can be either a company, or a person, choose "
 "either:"
 msgstr ""
 
-#: admin/pages/dashboard.php:214
+#: admin/pages/dashboard.php:215
 msgid "Choose whether you're a company or person"
 msgstr ""
 
-#: admin/pages/dashboard.php:215 admin/pages/dashboard.php:220
+#: admin/pages/dashboard.php:216 admin/pages/dashboard.php:221
 msgid "Company"
 msgstr ""
 
-#: admin/pages/dashboard.php:216 admin/pages/dashboard.php:227
+#: admin/pages/dashboard.php:217 admin/pages/dashboard.php:228
 msgid "Person"
 msgstr ""
 
-#: admin/pages/dashboard.php:222
+#: admin/pages/dashboard.php:223
 msgid "Company Name"
 msgstr ""
 
-#: admin/pages/dashboard.php:223
+#: admin/pages/dashboard.php:224
 msgid "Company Logo"
 msgstr ""
 
-#: admin/pages/dashboard.php:228
+#: admin/pages/dashboard.php:229
 msgid "Your name"
 msgstr ""
 
-#: admin/pages/dashboard.php:233
+#: admin/pages/dashboard.php:234
 msgid ""
 "You can use the boxes below to verify with the different Webmaster Tools, if "
 "your site is already verified, you can just forget about these. Enter the "
 "verify meta values for:"
 msgstr ""
 
-#: admin/pages/dashboard.php:234
+#: admin/pages/dashboard.php:235
 msgid "Alexa Verification ID"
 msgstr ""
 
-#: admin/pages/dashboard.php:235
+#: admin/pages/dashboard.php:236
 msgid "Bing Webmaster Tools"
 msgstr ""
 
-#: admin/pages/dashboard.php:237
+#: admin/pages/dashboard.php:238
 msgid "Yandex Webmaster Tools"
 msgstr ""
 
-#: admin/pages/dashboard.php:242
+#: admin/pages/dashboard.php:243
 msgid ""
 "Unchecking this box allows authors and editors to redirect posts, noindex "
 "them and do other things you might not want if you don't trust your authors."
 msgstr ""
 
 #. translators: %1$s expands to Yoast SEO
-#: admin/pages/dashboard.php:244
+#: admin/pages/dashboard.php:245
 msgid "Disable the Advanced part of the %1$s meta box"
+msgstr ""
+
+#. translators: %1$s expands to OnPage.org
+#: admin/pages/dashboard.php:251
+msgid "Enable %1$s indexability check"
 msgstr ""
 
 #. translators: %1$s expands to Yoast SEO
@@ -2384,11 +2335,11 @@ msgid "Recalculate SEO scores for all pieces of content with a focus keyword."
 msgstr ""
 
 #. translators: %1$s expands to Yoast SEO
-#: admin/pages/tools.php:52
+#: admin/pages/tools.php:51
 msgid "%1$s comes with some very powerful built-in tools:"
 msgstr ""
 
-#: admin/pages/tools.php:71
+#: admin/pages/tools.php:70
 msgid "&laquo; Back to Tools page"
 msgstr ""
 
@@ -3884,7 +3835,7 @@ msgstr ""
 msgid "very difficult"
 msgstr ""
 
-#. translators: %1$s expands to the numeric flesh reading ease score, %2$s to a link to the wikipedia article about Flesh ease reading score, %3$s to the easyness of reading, %4$s expands to a note about the flesh reading score.
+#. translators: %1$s expands to the numeric flesh reading ease score, %2$s to a link to a Yoast.com article about Flesh ease reading score, %3$s to the easyness of reading, %4$s expands to a note about the flesh reading score.
 #: js/config/scoring.js:203
 msgid ""
 "The copy scores %1$s in the %2$s test, which is considered %3$s to read. %4$s"
