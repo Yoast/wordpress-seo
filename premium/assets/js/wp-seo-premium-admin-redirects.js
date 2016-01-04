@@ -62,12 +62,19 @@
 	};
 
 	/**
-	 * Returns the form element
-	 *
-	 * @returns {element}
+	 * Clears the form error message.
 	 */
-	RedirectForm.prototype.get = function() {
-		return this.form;
+	RedirectForm.prototype.clearErrorMessage = function() {
+		this.form.find('.wpseo_redirect_form .form_error').remove();
+	};
+
+	/**
+	 * Sets a form error message.
+	 *
+	 * @param {string} errorMessage
+	 */
+	RedirectForm.prototype.setErrorMessage = function( errorMessage ) {
+		this.form.find('.wpseo_redirect_form').prepend( '<div class="form_error error"><p>' + errorMessage + '</p></div>' );
 	};
 
 	/**
@@ -88,7 +95,7 @@
 	 * @returns {boolean}
 	 */
 	ValidateRedirect.prototype.validate = function() {
-		this.clearMessage();
+		this.form.clearErrorMessage();
 
 		if( this.runValidation( this.form.getOriginField(), this.form.getTargetField(), this.form.getTypeField() ) === false ) {
 			this.addValidationError( this.validation_error );
@@ -155,14 +162,7 @@
 	 * @param {string} error
 	 */
 	ValidateRedirect.prototype.addValidationError = function( error ) {
-		this.form.get().find('.wpseo_redirect_form').prepend( '<div class="form_error error"><p>' + error + '</p></div>' );
-	};
-
-	/**
-	 * Clears a validation message.
-	 */
-	ValidateRedirect.prototype.clearMessage = function() {
-		this.form.get().find('.wpseo_redirect_form .form_error').remove();
+		this.form.setErrorMessage( error );
 	};
 
 	/**
@@ -240,7 +240,7 @@
 	/**
 	 * Hides the quick edit form and show the redirect row.
 	 */
-	RedirectQuickEdit.prototype.hide = function() {
+	RedirectQuickEdit.prototype.remove = function() {
 		this.row.removeClass('hidden');
 		this.quick_edit_row.remove();
 	};
@@ -253,9 +253,48 @@
 	 * @param {string} arg_type
 	 */
 	$.fn.wpseo_redirects = function( arg_type ) {
-		var that = this;
-		var type = arg_type.replace( 'table-', '' );
-		var table = that.find( 'table' );
+		var that   = this;
+		var type   = arg_type.replace( 'table-', '' );
+		var ignore = false;
+
+		var last_action;
+
+		this.get_buttons = function( type ) {
+			if ( type === 'default' ) {
+				return [
+					{
+						text : wpseo_premium_strings.button_ok,
+						click: function () {
+							$(this).dialog('close');
+						}
+					}
+				];
+			}
+
+			return [
+				{
+					text : wpseo_premium_strings.button_cancel,
+					click: function () {
+						$(this).dialog('close');
+					}
+				},
+				{
+					text : wpseo_premium_strings.button_save,
+					'class': 'button-primary',
+					click: function () {
+						ignore = true;
+
+						// The value of last action will be the button pressed to save the redirect.
+						$( last_action ).click();
+
+						$(this).dialog('close');
+
+						last_action = null;
+						ignore      = false;
+					}
+				}
+			];
+		};
 
 		/**
 		 * Returns a mapped object with the row column elements
@@ -278,13 +317,20 @@
 		 *
 		 * @param {string} title
 		 * @param {string} text
+		 * @param {string} type
 		 */
-		this.dialog = function( title, text ) {
+		this.dialog = function( title, text, type ) {
+
+			if ( type === undefined || type === 'error' ) {
+				type = 'default';
+			}
+
+			var buttons = this.get_buttons( type );
+
 			$('#YoastRedirectDialogText').html( text );
-			$('#YoastRedirectDialog')
-				.attr('title', title )
-				.dialog(
+			$('#YoastRedirectDialog').dialog(
 				{
+					title : title,
 					width: 500,
 					draggable: false,
 					resizable: false,
@@ -292,14 +338,7 @@
 						at: 'center top+10%',
 						my: 'center top+10%'
 					},
-					buttons: [
-						{
-							text: wpseo_premium_strings.button_ok,
-							click: function() {
-								$(this).dialog('close');
-							}
-						}
-					]
+					buttons: buttons
 				}
 			);
 		};
@@ -412,7 +451,8 @@
 						origin: encodeURIComponent( redirect_values.origin ),
 						target: encodeURIComponent( redirect_values.target ),
 						type: redirect_values.type
-					}
+					},
+					ignore_warning: ignore
 				},
 				function( response ) {
 					if (response.error) {
@@ -458,7 +498,7 @@
 
 			// Setting the vars for the row and its values.
 			var row = redirectsQuickEdit.getRow();
-			var table_cells = this.row_cells( row );
+			var row_cells = this.row_cells( row );
 
 			// Post the request.
 			that.post(
@@ -466,15 +506,16 @@
 					action: 'wpseo_update_redirect_' + type,
 					ajax_nonce: $( '.wpseo_redirects_ajax_nonce' ).val(),
 					old_redirect: {
-						origin: encodeURIComponent( table_cells.origin.html() ),
-						target: encodeURIComponent( table_cells.target.html() ),
-						type: encodeURIComponent( table_cells.type.html() )
+						origin: encodeURIComponent( row_cells.origin.html() ),
+						target: encodeURIComponent( row_cells.target.html() ),
+						type: encodeURIComponent( row_cells.type.html() )
 					},
 					new_redirect: {
 						origin: encodeURIComponent( redirect_values.origin ),
 						target: encodeURIComponent( redirect_values.target ),
 						type: encodeURIComponent( redirect_values.type )
-					}
+					},
+					ignore_warning: ignore
 				},
 				function( response ) {
 					if (response.error) {
@@ -484,11 +525,11 @@
 					}
 
 					// Updates the table cells.
-					table_cells.origin.html( response.origin );
-					table_cells.target.html( response.target );
-					table_cells.type.html( response.type );
+					row_cells.origin.html( response.origin );
+					row_cells.target.html( response.target );
+					row_cells.type.html( response.type );
 
-					redirectsQuickEdit.hide();
+					redirectsQuickEdit.remove();
 
 					that.open_dialog( wpseo_premium_strings.redirect_updated );
 				}
@@ -503,16 +544,16 @@
 		 * @param {Object} row
 		 */
 		this.delete_redirect = function(row) {
-			var row_values = this.row_cells( row );
+			var row_cells = this.row_cells( row );
 
 			that.post(
 				{
 					action:     'wpseo_delete_redirect_' + type,
 					ajax_nonce: $( '.wpseo_redirects_ajax_nonce' ).val(),
 					redirect: {
-						origin: encodeURIComponent( row_values.origin.html() ),
-						target: encodeURIComponent( row_values.target.html() ),
-						type: encodeURIComponent( row_values.type.html() )
+						origin: encodeURIComponent( row_cells.origin.html() ),
+						target: encodeURIComponent( row_cells.target.html() ),
+						type: encodeURIComponent( row_cells.type.html() )
 					}
 				},
 				function() {
@@ -593,7 +634,7 @@
 					that.update_redirect();
 				})
 				.on( 'click', '.cancel', function() {
-					redirectsQuickEdit.hide();
+					redirectsQuickEdit.remove();
 				});
 		};
 

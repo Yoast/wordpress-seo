@@ -149,20 +149,7 @@ class WPSEO_Premium {
 			}
 
 			// Add Premium imports.
-			$premium_import_manager = new WPSEO_Premium_Import_Manager();
-
-			// Allow option of importing from other 'other' plugins.
-			add_filter( 'wpseo_import_other_plugins', array(
-				$premium_import_manager,
-				'filter_add_premium_import_options',
-			) );
-
-			// Handle premium imports.
-			add_action( 'wpseo_handle_import', array( $premium_import_manager, 'do_premium_imports' ) );
-
-			// Add htaccess import block.
-			add_action( 'wpseo_import_tab_content', array( $premium_import_manager, 'add_htaccess_import_block' ) );
-			add_action( 'wpseo_import_tab_header', array( $premium_import_manager, 'htaccess_import_header' ) );
+			new WPSEO_Premium_Import_Manager();
 
 			// Only activate post and term watcher if permalink structure is enabled.
 			if ( get_option( 'permalink_structure' ) ) {
