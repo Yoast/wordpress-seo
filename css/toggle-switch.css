@@ -23,9 +23,12 @@
 }
 
 .switch-light.switch-yoast-seo a {
-    background: #0085ba none;
+    background: #d54e21 none;
     box-shadow: none;
-    border-color: #0073aa #006799 #006799;
+}
+
+.switch-light.switch-yoast-seo input:checked ~ span a {
+    background: #0085ba none;
 }
 
 .switch-light.switch-yoast-seo span span,
@@ -45,10 +48,12 @@
 
 .switch-light.switch-yoast-seo-reverse input:checked ~ span a {
     left: 0;
+    background: #d54e21 none;
 }
 
 .switch-light.switch-yoast-seo-reverse a {
     left: 50%;
+    background: #0085ba none;
 }
 
 .switch-light.switch-yoast-seo-reverse span span {
