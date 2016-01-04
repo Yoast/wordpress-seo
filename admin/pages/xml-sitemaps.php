@@ -99,7 +99,7 @@ $yform->light_switch(
 			<?php
 			$post_types = apply_filters( 'wpseo_sitemaps_supported_post_types', get_post_types( array( 'public' => true ), 'objects' ) );
 			if ( is_array( $post_types ) && $post_types !== array() ) {
-				echo '<p>' . __( 'Please check the appropriate box below if there\'s a post type that you do <strong>NOT</strong> want to include in your sitemap:', 'wordpress-seo' ) . '</p>';
+				echo '<p><strong>' . __( 'Exclude post types', 'wordpress-seo' ) . '</strong><br/>';
 				foreach ( $post_types as $pt ) {
 					$yform->light_switch(
 						'post_types-' . $pt->name . '-not_in_sitemap',
@@ -126,7 +126,7 @@ $yform->light_switch(
 			<?php
 			$taxonomies = apply_filters( 'wpseo_sitemaps_supported_taxonomies', get_taxonomies( array( 'public' => true ), 'objects' ) );
 			if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
-				echo '<p>' . __( 'Please check the appropriate box below if there\'s a taxonomy that you do <strong>NOT</strong> want to include in your sitemap:', 'wordpress-seo' ) . '</p>';
+				echo '<p><strong>' . __( 'Exclude taxonomies', 'wordpress-seo' ) . '</strong><br/>';
 				foreach ( $taxonomies as $tax ) {
 					if ( isset( $tax->labels->name ) && trim( $tax->labels->name ) != '' ) {
 						$yform->light_switch(
