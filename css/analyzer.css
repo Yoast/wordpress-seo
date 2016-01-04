@@ -1,45 +1,64 @@
 /* css for snippet */
-#snippet_preview:hover *[contenteditable="true"] {
-    background: #ebebeb url(editicon.png) no-repeat right top;
-    background-image: url(edit.svg);
-    cursor: pointer;
-}
-
-#snippet_preview *[contenteditable="true"]:hover {
-    background: #bbdefb url("editicon.png") no-repeat right top;
-    background-image: url( edit.svg );
-    cursor: pointer;
-}
-
-#snippet_preview *[contenteditable="false"]:hover {
-    cursor: auto;
-}
-
-#snippet_preview *[contenteditable="true"]:focus {
-    background: #bbdefb;
-    cursor: text;
-}
-
 #snippet_preview {
     padding:20px 20px 20px 80px;
     border: 1px solid #eee;
     border-radius: 20px;
     background-color: #fff;
     position: relative;
+
+    margin-top: 50px;
 }
 
-#snippet_preview .edit-icon {
+.snippet-editor__edit_button {
     position: absolute;
     left: 0;
     top: 0;
     height: 100%;
     width: 60px;
     border-radius: 20px 0 0 20px;
+    border: none;
     border-right: 1px solid #eee;
     text-align: center;
 
-    background: url( edit.svg ) center no-repeat;
+    background: url( images/edit.svg ) center no-repeat;
     background-size: 40px;
+    cursor: pointer;
+}
+
+.snippet-editor__form-field {
+    display: none;
+}
+
+.snippet-editor__form-field--shown {
+    display: block;
+}
+
+.snippet-editor__form {
+    display: none;
+}
+
+.snippet-editor__form--shown {
+    display: block;
+}
+
+.snippet-editor__label {
+    display: block;
+    width: 100%;
+    margin-top: 1em;
+}
+
+.snippet-editor__input {
+    display: block;
+    width: 100%;
+    margin-top: 5px;
+}
+
+.snippet-editor__meta-description {
+    height: 140px;
+}
+
+.snippet-editor__submit {
+    margin-top: 1em;
 }
 
 #snippet_cite {
@@ -48,10 +67,6 @@
 
 #meta_container {
     clear: both;
-}
-
-.snippet_container {
-    margin-top: 2px;
 }
 
 .snippet_container .title {

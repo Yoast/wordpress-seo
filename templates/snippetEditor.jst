@@ -1,22 +1,41 @@
 <div id="snippet_preview">
-    <div class="edit-icon"></div>
+    <button class="snippet-editor__edit_button js-snippet-editor-edit" type="button">
+        <span class="screen-reader-text">{{i18n.edit}}</span>
+    </button>
     <div class="snippet_container" id="title_container">
-        <span contenteditable="true" class="title" id="snippet_title">
-            <%- title %>
+        <span class="title" id="snippet_title">
+            <%- rendered.title %>
         </span>
         <span class="title" id="snippet_sitename"></span>
     </div>
     <div class="snippet_container" id="url_container">
         <cite class="url urlBase" id="snippet_citeBase">
-            <%- baseUrl %>
+            <%- rendered.baseUrl %>
         </cite>
-        <cite class="url" id="snippet_cite" contenteditable="true">
-            <%- snippetCite %>
+        <cite class="url" id="snippet_cite">
+            <%- rendered.snippetCite %>
         </cite>
     </div>
     <div class="snippet_container" id="meta_container">
-        <span class="desc" id="snippet_meta" contenteditable="true">
-            <%- meta %>
+        <span class="desc" id="snippet_meta">
+            <%- rendered.meta %>
         </span>
+    </div>
+
+    <div class="snippet-editor__form">
+        <label for="snippet-editor-title" class="snippet-editor__label">
+            <%- i18n.title %>
+            <input type="text" class="snippet-editor__input snippet-editor__title js-snippet-editor-title" id="snippet-editor-title" value="<%- raw.title %>" />
+        </label>
+        <label for="snippet-editor-slug" class="snippet-editor__label">
+            <%- i18n.slug %>
+            <input type="text" class="snippet-editor__input snippet-editor__slug js-snippet-editor-slug" id="snippet-editor-slug" value="<%- raw.snippetCite %>" />
+        </label>
+        <label for="snippet-editor-meta-description" class="snippet-editor__label">
+            <%- i18n.metaDescription %>
+            <textarea class="snippet-editor__input snippet-editor__meta-description js-snippet-editor-meta-description" id="snippet-editor-meta-description"><%- raw.meta %>></textarea>
+        </label>
+
+        <button class="snippet-editor__submit js-snippet-editor-save" type="button"><%- i18n.save %></button>
     </div>
 </div>

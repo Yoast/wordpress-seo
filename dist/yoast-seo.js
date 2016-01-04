@@ -1190,11 +1190,26 @@ YoastSEO.App.prototype.createSnippetPreview = function() {
 	var snippetEditorTemplate = require( "../js/templates.js" ).snippetEditor;
 
 	targetElement.innerHTML = snippetEditorTemplate( {
-		title: this.config.sampleText.title,
-		baseUrl: this.config.sampleText.baseUrl,
-		snippetCite: this.config.sampleText.snippetCite,
-		meta: this.config.sampleText.meta
-	} );
+		raw: {
+			title: this.config.sampleText.title,
+			baseUrl: this.config.sampleText.baseUrl,
+			snippetCite: this.config.sampleText.snippetCite,
+			meta: this.config.sampleText.meta
+		},
+		rendered: {
+			title: this.config.sampleText.title,
+			baseUrl: this.config.sampleText.baseUrl,
+			snippetCite: this.config.sampleText.snippetCite,
+			meta: this.config.sampleText.meta
+		},
+		i18n: {
+			edit: this.i18n.dgettext( "js-text-analysis", "Edit meta fields (title, url, description)" ),
+			title: this.i18n.dgettext( "js-text-analysis", "Meta title" ),
+			slug:  this.i18n.dgettext( "js-text-analysis", "Slug" ),
+			metaDescription: this.i18n.dgettext( "js-text-analysis", "Meta description" ),
+			save: this.i18n.dgettext( "js-text-analysis", "Save meta fields" )
+		}
+	});
 
 	this.snippetPreview = new YoastSEO.SnippetPreview( this );
 	this.bindEvent();
@@ -1222,11 +1237,47 @@ YoastSEO.App.prototype.bindInputEvent = function() {
  * binds the reloadSnippetText function to the blur of the snippet inputs.
  */
 YoastSEO.App.prototype.bindSnippetEvents = function() {
-	var elems = [ "meta", "cite", "title" ];
+	var saveForm, editButton,
+		elems = [ "meta", "cite", "title" ];
+
 	for ( var i = 0; i < elems.length; i++ ) {
 		var targetElement = document.getElementById( "snippet_" + elems[ i ] );
 		targetElement.addEventListener( "blur", this.callbacks.updateSnippetValues );
 	}
+
+	editButton = document.getElementsByClassName( 'js-snippet-editor-edit' );
+	saveForm = document.getElementsByClassName( 'js-snippet-editor-save' );
+
+	editButton[0].addEventListener( 'click', this.editSnippet.bind( this ) );
+	saveForm[0].addEventListener( 'click', this.saveSnippet.bind( this ) );
+};
+
+/**
+ * Edits the snippet
+ */
+YoastSEO.App.prototype.editSnippet = function() {
+	var form, formFields, snippetEditor;
+
+	snippetEditor = document.getElementById( "snippet_preview" );
+	formFields = document.getElementsByClassName( 'snippet-editor__form-field' );
+
+	snippetEditor.className = 'editing';
+
+	[].forEach.call( formFields, function( formField ) {
+		formField.className = 'snippet-editor__form-field snippet-editor__form-field--shown';
+	});
+
+	form = document.getElementsByClassName( 'snippet-editor__form' );
+	form[0].className = 'snippet-editor__form snippet-editor__form--shown';
+};
+
+/**
+ * Saves the snippet fields
+ */
+YoastSEO.App.prototype.saveSnippet = function() {
+	var form = document.getElementsByClassName( 'snippet-editor__form' );
+
+	form[0].className = 'snippet-editor__form';
 };
 
 /**
@@ -2963,15 +3014,29 @@ YoastSEO.getStringHelper = function() {
     obj || (obj = {});
     var __t, __p = '', __e = _.escape;
     with (obj) {
-    __p += '<div id="snippet_preview">\n    <div class="edit-icon"></div>\n    <div class="snippet_container" id="title_container">\n        <span contenteditable="true" class="title" id="snippet_title">\n            ' +
-    __e( title ) +
+    __p += '<div id="snippet_preview">\n    <button class="snippet-editor__edit_button js-snippet-editor-edit" type="button">\n        <span class="screen-reader-text">{{i18n.edit}}</span>\n    </button>\n    <div class="snippet_container" id="title_container">\n        <span class="title" id="snippet_title">\n            ' +
+    __e( rendered.title ) +
     '\n        </span>\n        <span class="title" id="snippet_sitename"></span>\n    </div>\n    <div class="snippet_container" id="url_container">\n        <cite class="url urlBase" id="snippet_citeBase">\n            ' +
-    __e( baseUrl ) +
-    '\n        </cite>\n        <cite class="url" id="snippet_cite" contenteditable="true">\n            ' +
-    __e( snippetCite ) +
-    '\n        </cite>\n    </div>\n    <div class="snippet_container" id="meta_container">\n        <span class="desc" id="snippet_meta" contenteditable="true">\n            ' +
-    __e( meta ) +
-    '\n        </span>\n    </div>\n</div>\n';
+    __e( rendered.baseUrl ) +
+    '\n        </cite>\n        <cite class="url" id="snippet_cite">\n            ' +
+    __e( rendered.snippetCite ) +
+    '\n        </cite>\n    </div>\n    <div class="snippet_container" id="meta_container">\n        <span class="desc" id="snippet_meta">\n            ' +
+    __e( rendered.meta ) +
+    '\n        </span>\n    </div>\n\n    <div class="snippet-editor__form">\n        <label for="snippet-editor-title" class="snippet-editor__label">\n            ' +
+    __e( i18n.title ) +
+    '\n            <input type="text" class="snippet-editor__input snippet-editor__title js-snippet-editor-title" id="snippet-editor-title" value="' +
+    __e( raw.title ) +
+    '" />\n        </label>\n        <label for="snippet-editor-slug" class="snippet-editor__label">\n            ' +
+    __e( i18n.slug ) +
+    '\n            <input type="text" class="snippet-editor__input snippet-editor__slug js-snippet-editor-slug" id="snippet-editor-slug" value="' +
+    __e( raw.snippetCite ) +
+    '" />\n        </label>\n        <label for="snippet-editor-meta-description" class="snippet-editor__label">\n            ' +
+    __e( i18n.metaDescription ) +
+    '\n            <textarea class="snippet-editor__input snippet-editor__meta-description js-snippet-editor-meta-description" id="snippet-editor-meta-description">' +
+    __e( raw.meta ) +
+    '></textarea>\n        </label>\n\n        <button class="snippet-editor__submit js-snippet-editor-save" type="button">' +
+    __e( i18n.save ) +
+    '</button>\n    </div>\n</div>\n';
 
     }
     return __p
@@ -3715,15 +3780,29 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
     obj || (obj = {});
     var __t, __p = '', __e = _.escape;
     with (obj) {
-    __p += '<div id="snippet_preview">\n    <div class="edit-icon"></div>\n    <div class="snippet_container" id="title_container">\n        <span contenteditable="true" class="title" id="snippet_title">\n            ' +
-    __e( title ) +
+    __p += '<div id="snippet_preview">\n    <button class="snippet-editor__edit_button js-snippet-editor-edit" type="button">\n        <span class="screen-reader-text">{{i18n.edit}}</span>\n    </button>\n    <div class="snippet_container" id="title_container">\n        <span class="title" id="snippet_title">\n            ' +
+    __e( rendered.title ) +
     '\n        </span>\n        <span class="title" id="snippet_sitename"></span>\n    </div>\n    <div class="snippet_container" id="url_container">\n        <cite class="url urlBase" id="snippet_citeBase">\n            ' +
-    __e( baseUrl ) +
-    '\n        </cite>\n        <cite class="url" id="snippet_cite" contenteditable="true">\n            ' +
-    __e( snippetCite ) +
-    '\n        </cite>\n    </div>\n    <div class="snippet_container" id="meta_container">\n        <span class="desc" id="snippet_meta" contenteditable="true">\n            ' +
-    __e( meta ) +
-    '\n        </span>\n    </div>\n</div>\n';
+    __e( rendered.baseUrl ) +
+    '\n        </cite>\n        <cite class="url" id="snippet_cite">\n            ' +
+    __e( rendered.snippetCite ) +
+    '\n        </cite>\n    </div>\n    <div class="snippet_container" id="meta_container">\n        <span class="desc" id="snippet_meta">\n            ' +
+    __e( rendered.meta ) +
+    '\n        </span>\n    </div>\n\n    <div class="snippet-editor__form">\n        <label for="snippet-editor-title" class="snippet-editor__label">\n            ' +
+    __e( i18n.title ) +
+    '\n            <input type="text" class="snippet-editor__input snippet-editor__title js-snippet-editor-title" id="snippet-editor-title" value="' +
+    __e( raw.title ) +
+    '" />\n        </label>\n        <label for="snippet-editor-slug" class="snippet-editor__label">\n            ' +
+    __e( i18n.slug ) +
+    '\n            <input type="text" class="snippet-editor__input snippet-editor__slug js-snippet-editor-slug" id="snippet-editor-slug" value="' +
+    __e( raw.snippetCite ) +
+    '" />\n        </label>\n        <label for="snippet-editor-meta-description" class="snippet-editor__label">\n            ' +
+    __e( i18n.metaDescription ) +
+    '\n            <textarea class="snippet-editor__input snippet-editor__meta-description js-snippet-editor-meta-description" id="snippet-editor-meta-description">' +
+    __e( raw.meta ) +
+    '></textarea>\n        </label>\n\n        <button class="snippet-editor__submit js-snippet-editor-save" type="button">' +
+    __e( i18n.save ) +
+    '</button>\n    </div>\n</div>\n';
 
     }
     return __p

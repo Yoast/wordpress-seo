@@ -188,10 +188,25 @@ YoastSEO.App.prototype.createSnippetPreview = function() {
 	var snippetEditorTemplate = require( "../js/templates.js" ).snippetEditor;
 
 	targetElement.innerHTML = snippetEditorTemplate( {
-		title: this.config.sampleText.title,
-		baseUrl: this.config.sampleText.baseUrl,
-		snippetCite: this.config.sampleText.snippetCite,
-		meta: this.config.sampleText.meta
+		raw: {
+			title: this.config.sampleText.title,
+			baseUrl: this.config.sampleText.baseUrl,
+			snippetCite: this.config.sampleText.snippetCite,
+			meta: this.config.sampleText.meta
+		},
+		rendered: {
+			title: this.config.sampleText.title,
+			baseUrl: this.config.sampleText.baseUrl,
+			snippetCite: this.config.sampleText.snippetCite,
+			meta: this.config.sampleText.meta
+		},
+		i18n: {
+			edit: this.i18n.dgettext( "js-text-analysis", "Edit meta fields (title, url, description)" ),
+			title: this.i18n.dgettext( "js-text-analysis", "Meta title" ),
+			slug:  this.i18n.dgettext( "js-text-analysis", "Slug" ),
+			metaDescription: this.i18n.dgettext( "js-text-analysis", "Meta description" ),
+			save: this.i18n.dgettext( "js-text-analysis", "Save meta fields" )
+		}
 	} );
 
 	this.snippetPreview = new YoastSEO.SnippetPreview( this );
@@ -220,11 +235,47 @@ YoastSEO.App.prototype.bindInputEvent = function() {
  * binds the reloadSnippetText function to the blur of the snippet inputs.
  */
 YoastSEO.App.prototype.bindSnippetEvents = function() {
-	var elems = [ "meta", "cite", "title" ];
+	var saveForm, editButton,
+		elems = [ "meta", "cite", "title" ];
+
 	for ( var i = 0; i < elems.length; i++ ) {
 		var targetElement = document.getElementById( "snippet_" + elems[ i ] );
 		targetElement.addEventListener( "blur", this.callbacks.updateSnippetValues );
 	}
+
+	editButton = document.getElementsByClassName( "js-snippet-editor-edit" );
+	saveForm = document.getElementsByClassName( "js-snippet-editor-save" );
+
+	editButton[0].addEventListener( "click", this.editSnippet.bind( this ) );
+	saveForm[0].addEventListener( "click", this.saveSnippet.bind( this ) );
+};
+
+/**
+ * Edits the snippet
+ */
+YoastSEO.App.prototype.editSnippet = function() {
+	var form, formFields, snippetEditor;
+
+	snippetEditor = document.getElementById( "snippet_preview" );
+	formFields = document.getElementsByClassName( "snippet-editor__form-field" );
+
+	snippetEditor.className = "editing";
+
+	[].forEach.call( formFields, function( formField ) {
+		formField.className = "snippet-editor__form-field snippet-editor__form-field--shown";
+	} );
+
+	form = document.getElementsByClassName( "snippet-editor__form" );
+	form[0].className = "snippet-editor__form snippet-editor__form--shown";
+};
+
+/**
+ * Saves the snippet fields
+ */
+YoastSEO.App.prototype.saveSnippet = function() {
+	var form = document.getElementsByClassName( "snippet-editor__form" );
+
+	form[0].className = "snippet-editor__form";
 };
 
 /**
