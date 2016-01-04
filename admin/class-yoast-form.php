@@ -294,6 +294,40 @@ class Yoast_Form {
 	}
 
 	/**
+	 * Create a light switch input field.
+	 *
+	 * @param string $var        The variable within the option to create the checkbox for.
+	 * @param string $label      The label to show for the variable.
+	 * @param array  $buttons    Array of two labels for the buttons (defaults Off/On).
+	 */
+	public function light_switch( $var, $label, $buttons = array() ) {
+
+		if ( ! isset( $this->options[ $var ] ) ) {
+			$this->options[ $var ] = false;
+		}
+
+		if ( $this->options[ $var ] === true ) {
+			$this->options[ $var ] = 'on';
+		}
+
+		if ( empty( $buttons ) ) {
+			$buttons = array( __( 'Off', 'wordpress-seo' ), __( 'On','wordpress-seo' ) );
+		}
+
+		list( $off_button, $on_button ) = $buttons;
+
+		echo '<label class="switch-light switch-candy switch-yoast-seo" onclick="">',
+		'<input type="checkbox" id="', esc_attr( $var ), '" name="', esc_attr( $this->option_name ), '[', esc_attr( $var ), ']" value="on"', checked( $this->options[ $var ], 'on', false ), '/>',
+		"<strong>{$label}</strong>",
+		'<span aria-hidden="true">
+			<span>', esc_html( $off_button ) ,'</span>
+			<span>', esc_html( $on_button ) ,'</span>
+			<a></a>
+		 </span>
+		 </label><br class="clear" />';
+	}
+
+	/**
 	 * Create a Text input field.
 	 *
 	 * @param string       $var   The variable within the option to create the text input field for.
