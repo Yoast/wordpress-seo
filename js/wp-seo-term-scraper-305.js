@@ -274,7 +274,7 @@
 				}, function( data ) {
 					if ( data ) {
 						wpseoTermScraperL10n.keyword_usage[ keyword ] = data;
-						YoastSEO.app.analyzeTimer();
+						YoastSEO.app.refresh();
 					}
 				}, 'json'
 			);
@@ -292,7 +292,7 @@
 	TermScraper.prototype.updateSnippet = function( ev ) {
 		this.updateSnippetValues( ev );
 		YoastSEO.app.snippetPreview.checkTextLength( ev );
-		YoastSEO.app.analyzeTimer();
+		YoastSEO.app.refresh();
 	};
 
 	/**
@@ -319,13 +319,13 @@
 		var textNode = jQuery( '.term-description-wrap' ).find( 'td' ).find( 'textarea' ).val();
 
 		var newEditor = document.getElementById( 'wp-description-wrap' );
-		newEditor.style.display = 'none';
+		if(newEditor) newEditor.style.display = 'none';
 		var text = jQuery( '.term-description-wrap' ).find( 'td' ).find( 'p' );
 		//empty the TD with the old description textarea
 		jQuery( '.term-description-wrap' ).find( 'td' ).html( '' );
 		//append the editor and the helptext
 		jQuery( '.term-description-wrap' ).find( 'td' ).append( newEditor ).append( text );
-		newEditor.style.display = 'block';
+		if(newEditor)  newEditor.style.display = 'block';
 		document.getElementById('description').value = textNode;
 	};
 
