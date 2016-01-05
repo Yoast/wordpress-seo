@@ -1,4 +1,4 @@
-/* @module analyses/getSubheadings */
+/* @module analyses/matchKeywordInSubheadings */
 
 var stripSomeTags = require( "../stringProcessing/stripNonTextTags.js" );
 var subheadingMatch = require( "../stringProcessing/subheadingsMatch.js" );
