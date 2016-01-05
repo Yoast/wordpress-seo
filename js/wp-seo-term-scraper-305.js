@@ -319,7 +319,7 @@
 		var textNode = jQuery( '.term-description-wrap' ).find( 'td' ).find( 'textarea' ).val();
 
 		var newEditor = document.getElementById( 'wp-description-wrap' );
-		if(typeof(newEditor) != 'undefined') {
+		if(typeof(newEditor) !== 'undefined') {
 			newEditor.style.display = 'none';	
 		} 
 		var text = jQuery( '.term-description-wrap' ).find( 'td' ).find( 'p' );
@@ -327,7 +327,7 @@
 		jQuery( '.term-description-wrap' ).find( 'td' ).html( '' );
 		//append the editor and the helptext
 		jQuery( '.term-description-wrap' ).find( 'td' ).append( newEditor ).append( text );
-		if(typeof(newEditor) != 'undefined') {
+		if(typeof(newEditor) !== 'undefined') {
 			newEditor.style.display = 'block';	
 		} 
 		document.getElementById('description').value = textNode;
