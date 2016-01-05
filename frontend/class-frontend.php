@@ -719,11 +719,7 @@ class WPSEO_Frontend {
 		if ( is_singular() ) {
 			global $post;
 
-			if ( is_object( $post ) && ( isset( $this->options[ 'noindex-' . $post->post_type ] ) && $this->options[ 'noindex-' . $post->post_type ] === true ) ) {
-				$robots['index'] = 'noindex';
-			}
-
-			if ( 'private' == $post->post_status ) {
+			if ( is_object( $post ) && ( ( isset( $this->options[ 'noindex-' . $post->post_type ] ) && $this->options[ 'noindex-' . $post->post_type ] === true ) || 'private' == $post->post_status ) ) {
 				$robots['index'] = 'noindex';
 			}
 
@@ -1895,7 +1891,7 @@ class WPSEO_Frontend {
 	 * @param String $description The content of the meta description.
 	 */
 	private function add_robot_content_noodp( $description ) {
-		if ( ! ( empty( $description )  ) && $this->options['noodp'] === false ) {
+		if ( ! ( empty( $description ) ) && $this->options['noodp'] === false ) {
 			$this->options['noodp'] = true;
 		}
 	}
