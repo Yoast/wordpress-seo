@@ -193,7 +193,7 @@ YoastSEO.Analyzer.prototype.keyphraseSizeCheck = function() {
 YoastSEO.Analyzer.prototype.keywordDensity = function() {
 	var getKeywordDensity = require( "./analyses/getKeywordDensity.js" );
 	var countWords = require( "./stringProcessing/countWords.js" );
-	if ( countWords (this.config.text ) >= 100 ){
+	if ( countWords ( this.config.text ) >= 100 ) {
 		var density = getKeywordDensity( this.config.text, this.config.keyword );
 
 		return [ { test: "keywordDensity", result: density } ];
@@ -311,7 +311,7 @@ YoastSEO.Analyzer.prototype.linkCount = function() {
  */
 YoastSEO.Analyzer.prototype.imageCount = function() {
 	var countImages = require( "./analyses/getImageStatistics.js" );
-	return [ { test: "imageCount", result: countImages(this.config.text, this.config.keyword ) } ];
+	return [ { test: "imageCount", result: countImages( this.config.text, this.config.keyword ) } ];
 };
 
 /**
@@ -334,8 +334,8 @@ YoastSEO.Analyzer.prototype.pageTitleLength = function() {
  */
 YoastSEO.Analyzer.prototype.pageTitleKeyword = function() {
 	var findKeywordInPageTitle = require ( "./analyses/findKeywordInPageTitle.js" );
-	var result = [ { test: "pageTitleKeyword", result: { position: -1, matches: 0 } }  ];
-	if( typeof this.config.pageTitle !== "undefined" && typeof this.config.keyword !== "undefined" ){
+	var result = [ { test: "pageTitleKeyword", result: { position: -1, matches: 0 } } ];
+	if ( typeof this.config.pageTitle !== "undefined" && typeof this.config.keyword !== "undefined" ) {
 		result[0].result = findKeywordInPageTitle( this.config.pageTitle, this.config.keyword );
 	}
 	return result;
@@ -360,10 +360,10 @@ YoastSEO.Analyzer.prototype.firstParagraph = function() {
 YoastSEO.Analyzer.prototype.metaDescriptionKeyword = function() {
 	var wordMatch = require( "./stringProcessing/matchTextWithWord.js" );
 	var result = [ { test: "metaDescriptionKeyword", result: -1 } ];
-	if ( typeof this.config.meta !== "undefined" && typeof this.config.keyword !== "undefined" && this.config.meta !== "" && this.config.keyword !== "" ){
+	if ( typeof this.config.meta !== "undefined" && typeof this.config.keyword !== "undefined" &&
+		this.config.meta !== "" && this.config.keyword !== "" ) {
 		result[ 0 ].result = wordMatch( this.config.meta, this.config.keyword );
 	}
-
 
 	return result;
 };
@@ -374,7 +374,7 @@ YoastSEO.Analyzer.prototype.metaDescriptionKeyword = function() {
  */
 YoastSEO.Analyzer.prototype.metaDescriptionLength = function() {
 	var result = [ { test: "metaDescriptionLength", result: 0 } ];
-	if( typeof  this.config.meta !== "undefined" ){
+	if ( typeof  this.config.meta !== "undefined" ) {
 		result[ 0 ].result =  this.config.meta.length;
 	}
 
@@ -428,8 +428,8 @@ YoastSEO.Analyzer.prototype.urlStopwords = function() {
  * @returns {{test: string, result: number}[]}
  */
 YoastSEO.Analyzer.prototype.keywordDoubles = function() {
-	var result = [ { test: "keywordDoubles", result: {count: 0, id: 0 } } ];
-	if ( this.config.keyword !== "undefined" && this.config.usedKeywords !== "undefined" ){
+	var result = [ { test: "keywordDoubles", result: { count: 0, id: 0 } } ];
+	if ( this.config.keyword !== "undefined" && this.config.usedKeywords !== "undefined" ) {
 		var checkForKeywordDoubles = require ( "./analyses/checkForKeywordDoubles.js" );
 		result[0].result = checkForKeywordDoubles( this.config.keyword, this.config.usedKeywords );
 	}

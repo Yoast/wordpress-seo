@@ -43,7 +43,7 @@ module.exports = function( text, keyword, url ) {
 		otherNofollow: 0
 	};
 	var linkKeyword;
-	for (var i = 0; i < anchors.length; i++ ) {
+	for ( var i = 0; i < anchors.length; i++ ) {
 		linkKeyword = findKeywordInUrl( anchors[i], keyword );
 		if ( linkKeyword ) {
 			if ( keyword !== "" ) {

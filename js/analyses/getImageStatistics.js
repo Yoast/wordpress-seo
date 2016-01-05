@@ -12,7 +12,7 @@ var wordMatch = require( "../stringProcessing/matchTextWithWord.js" );
  * @param {string} keyword The keyword to match in the alttag
  * @returns {string} The property of the imageCount object that needs to be updated
  */
-var matchKeywordInAlttags = function( alttag, keyword ){
+var matchKeywordInAlttags = function( alttag, keyword ) {
 	if ( keyword !== "" ) {
 		if ( wordMatch( alttag, keyword ) > 0 ) {
 			return "altKeyword";
@@ -34,7 +34,7 @@ var matchKeywordInAlttags = function( alttag, keyword ){
  * @param {string} keyword the keyword to check for
  * @returns {object} imageCount object with all alttags
  */
-var matchImageTags = function( imageMatches, keyword ){
+var matchImageTags = function( imageMatches, keyword ) {
 	var imageCount = { total: imageMatches.length, alt: 0, noAlt: 0, altKeyword: 0, altNaKeyword: 0 };
 	for ( var i = 0; i < imageMatches.length; i++ ) {
 		var alttag = imageAlttag( imageMatches[i] );
