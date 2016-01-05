@@ -75,7 +75,7 @@ var countBasicSyllables = function( text ) {
  * @returns {number} the amount of syllables found in string.
  */
 var countAdvancedSyllables = function( text, operator ) {
-	var matches, count = 0, array = text.split( " " );
+	var matches, count = 0, words = text.split( " " );
 	var regex = "";
 	switch ( operator ) {
 		case "add":
@@ -87,8 +87,8 @@ var countAdvancedSyllables = function( text, operator ) {
 		default:
 			break;
 	}
-	for ( var i = 0; i < array.length; i++ ) {
-		matches = array[i].match ( regex );
+	for ( var i = 0; i < words.length; i++ ) {
+		matches = words[i].match ( regex );
 		if ( matches !== null ) {
 			count += matches.length;
 		}
