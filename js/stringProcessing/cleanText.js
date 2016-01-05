@@ -12,8 +12,8 @@ var unifyWhitespace = require( "../stringProcessing/unifyWhitespace.js" );
  * @returns {String} The text
  */
 module.exports = function( text ) {
-	if ( text === "." ) {
-		return "";
+	if ( text === "" ) {
+		return text;
 	}
 
 	text = replaceDiacritics( text );
@@ -47,6 +47,10 @@ module.exports = function( text ) {
 
 	// Remove double spaces
 	text = stripSpaces( text );
+
+	if ( text === "." ) {
+		return "";
+	}
 
 	return text;
 };
