@@ -320,16 +320,16 @@
 
 		var newEditor = document.getElementById( 'wp-description-wrap' );
 		if(typeof(newEditor) !== 'undefined') {
-			newEditor.style.display = 'none';	
-		} 
+			newEditor.style.display = 'none';
+		}
 		var text = jQuery( '.term-description-wrap' ).find( 'td' ).find( 'p' );
 		//empty the TD with the old description textarea
 		jQuery( '.term-description-wrap' ).find( 'td' ).html( '' );
 		//append the editor and the helptext
 		jQuery( '.term-description-wrap' ).find( 'td' ).append( newEditor ).append( text );
 		if(typeof(newEditor) !== 'undefined') {
-			newEditor.style.display = 'block';	
-		} 
+			newEditor.style.display = 'block';
+		}
 		document.getElementById('description').value = textNode;
 	};
 
