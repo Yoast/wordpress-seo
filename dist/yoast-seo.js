@@ -3756,7 +3756,7 @@ SnippetPreview.prototype.bindEvents = function() {
 		targetElement.addEventListener( "keydown", this.changedInput.bind( this ) );
 		targetElement.addEventListener( "keyup", this.changedInput.bind( this ) );
 
-		targetElement.addEventListener( 'keydown', this.disableEnter.bind( this ) );
+		targetElement.addEventListener( "keydown", this.disableEnter.bind( this ) );
 
 		targetElement.addEventListener( "blur", this.refObj.callbacks.updateSnippetValues );
 	}
