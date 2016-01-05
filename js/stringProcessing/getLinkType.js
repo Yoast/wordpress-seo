@@ -1,16 +1,17 @@
-/** @modules stringProcess/getLinkType */
+/** @module stringProcess/getLinkType */
 
 /**
  * Determines the type of link.
  *
  * @param {string} text String with anchor tag.
- * @returns {string} type Linktype (other, external or internal).
+ * @param {string} url Url to match against.
+ * @returns {string} The link type (other, external or internal).
  */
 
 module.exports = function( text, url ) {
 	var linkType = "other";
 
-	//matches all links that start with http:// and https://, case insensitive and global
+	// Matches all links that start with http:// and https://, case insensitive and global
 	if ( text.match( /https?:\/\//ig ) !== null ) {
 		linkType = "external";
 		var urlMatch = text.match( url );
