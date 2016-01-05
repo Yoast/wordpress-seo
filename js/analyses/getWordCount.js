@@ -1,4 +1,4 @@
-/** @module analyses/getKeyphraseLength */
+/** @module analyses/getWordCount */
 
 var sanitizeString = require( "../stringProcessing/sanitizeString.js" );
 
