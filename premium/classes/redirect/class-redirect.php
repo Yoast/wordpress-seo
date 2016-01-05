@@ -8,10 +8,11 @@
  */
 class WPSEO_Redirect implements ArrayAccess {
 
-	const PERMANENT = 301;
-	const FOUND		= 302;
-	const TEMPORARY = 307;
-	const DELETED   = 410;
+	const PERMANENT   = 301;
+	const FOUND		  = 302;
+	const TEMPORARY   = 307;
+	const DELETED     = 410;
+	const UNAVAILABLE = 451;
 
 	const FORMAT_PLAIN = 'plain';
 	const FORMAT_REGEX = 'regex';
@@ -48,20 +49,12 @@ class WPSEO_Redirect implements ArrayAccess {
 	 * @param string $target The target of the redirect.
 	 * @param int    $type   The type of the redirect.
 	 * @param string $format The format of the redirect.
-	 *
-	 * @throws InvalidArgumentException When DELETED type and target empty.
 	 */
 	public function __construct( $origin, $target = '', $type = self::PERMANENT, $format = self::FORMAT_PLAIN ) {
-		$type = (int) $type;
-
-		if ( $target === '' &&  $type !== self::DELETED ) {
-			throw new InvalidArgumentException( 'Target cannot be empty for a ' . $type . ' redirect.' );
-		}
-
 		$this->origin = ($format === WPSEO_Redirect::FORMAT_PLAIN) ? $this->sanitize_slash( $origin ) : $origin;
 		$this->target = $this->sanitize_slash( $target );
 		$this->format = $format;
-		$this->type   = $type;
+		$this->type   = (int) $type;
 
 	}
 
