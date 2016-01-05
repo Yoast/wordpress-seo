@@ -1,6 +1,12 @@
 /* jshint browser: true */
 /* global YoastSEO: false */
 
+var _ = {
+	isObject: require( "lodash/lang/isObject" ),
+	isEmpty: require( "lodash/lang/isEmpty" ),
+	clone: require( "lodash/lang/clone" )
+};
+
 /**
  * @module snippetPreview
  */
@@ -9,6 +15,28 @@
  * defines the config and outputTarget for the SnippetPreview
  *
  * @param {YoastSEO.App} refObj
+ *
+ * @property {App}         refObj                    - The connected app object.
+ * @property {Jed}         i18n                      - The translation object.
+ *
+ * @property {HTMLElement} targetElement             - The target element that contains this snippet editor.
+ *
+ * @property {Object}      element                   - The elements for this snippet editor.
+ * @property {Object}      element.rendered          - The rendered elements.
+ * @property {HTMLElement} element.rendered.title    - The rendered title element.
+ * @property {HTMLElement} element.rendered.urlPath  - The rendered url path element.
+ * @property {HTMLElement} element.rendered.urlBase  - The rendered url base element.
+ * @property {HTMLElement} element.rendered.metaDesc - The rendered meta description element.
+ *
+ * @property {Object}      element.input             - The input elements.
+ * @property {HTMLElement} element.input.title       - The title input element.
+ * @property {HTMLElement} element.input.urlPath     - The url path input element.
+ * @property {HTMLElement} element.input.metaDesc    - The meta description input element.
+ *
+ * @property {Object}      data                      - The data for this snippet editor.
+ * @property {string}      data.title                - The title.
+ * @property {string}      data.urlPath              - The url path.
+ * @property {string}      data.metaDesc             - The meta description.
  *
  * @constructor
  */
@@ -20,37 +48,87 @@ var SnippetPreview = function( refObj ) {
 		snippet_meta: this.refObj.rawData.snippetMeta || "",
 		snippet_title: this.refObj.rawData.snippetTitle || ""
 	};
+
+	this.data = {
+		title: this.refObj.rawData.snippetTitle || "",
+		urlPath: this.refObj.rawData.snippetCite || "",
+		metaDesc: this.refObj.rawData.snippetMeta || ""
+	};
+};
+
+/**
+ * Set the target element the snippet editor should be rendered in.
+ *
+ * @param {HTMLElement} targetElement The element the editor should be rendered in.
+ */
+SnippetPreview.prototype.setTargetElement = function( targetElement ) {
+	if ( _.isObject( targetElement ) ) {
+		this.targetElement = targetElement;
+	}
 };
 
 /**
  * Renders snippet editor and adds it to the targetElement
- *
- * @param {HTMLElement} targetElement The element to put the snippet editor in.
  */
-SnippetPreview.prototype.renderTemplate = function( targetElement ) {
+SnippetPreview.prototype.renderTemplate = function() {
 	var snippetEditorTemplate = require( "../js/templates.js" ).snippetEditor;
 
-	targetElement.innerHTML = snippetEditorTemplate( {
+	this.targetElement.innerHTML = snippetEditorTemplate( {
 		raw: {
-			title: this.refObj.config.sampleText.title,
-			baseUrl: this.refObj.config.sampleText.baseUrl,
-			snippetCite: this.refObj.config.sampleText.snippetCite,
-			meta: this.refObj.config.sampleText.meta
+			title: this.data.title,
+			snippetCite: this.data.urlPath,
+			meta: this.data.metaDesc
 		},
 		rendered: {
-			title: this.refObj.config.sampleText.title,
-			baseUrl: this.refObj.config.sampleText.baseUrl,
-			snippetCite: this.refObj.config.sampleText.snippetCite,
-			meta: this.refObj.config.sampleText.meta
+			title: this.formatTitle(),
+			baseUrl: this.formatUrl(),
+			snippetCite: this.formatCite(),
+			meta: this.formatMeta()
 		},
 		i18n: {
 			edit: this.i18n.dgettext( "js-text-analysis", "Edit meta fields (title, url, description)" ),
 			title: this.i18n.dgettext( "js-text-analysis", "Meta title" ),
 			slug:  this.i18n.dgettext( "js-text-analysis", "Slug" ),
 			metaDescription: this.i18n.dgettext( "js-text-analysis", "Meta description" ),
-			save: this.i18n.dgettext( "js-text-analysis", "Save meta fields" )
+			save: this.i18n.dgettext( "js-text-analysis", "Close snippet editor" )
 		}
 	} );
+
+	this.element = {
+		rendered: {
+			title: document.getElementById( "snippet_title" ),
+			urlBase: document.getElementById( "snippet_citeBase" ),
+			urlPath: document.getElementById( "snippet_cite" ),
+			metaDesc: document.getElementById( "snippet_meta" )
+		},
+		input: {
+			title: this.targetElement.getElementsByClassName( "js-snippet-editor-title" )[0],
+			urlPath: this.targetElement.getElementsByClassName( "js-snippet-editor-slug" )[0],
+			metaDesc: this.targetElement.getElementsByClassName( "js-snippet-editor-meta-description" )[0]
+		}
+	};
+};
+
+/**
+ * Refreshes the snippet editor rendered HTML
+ */
+SnippetPreview.prototype.refresh = function() {
+	this.output = this.htmlOutput();
+	this.renderOutput();
+	this.renderSnippetStyle();
+};
+
+/**
+ * Returns the data from the snippet preview.
+ *
+ * @returns {Object}
+ */
+SnippetPreview.prototype.getAnalyzerData = function() {
+	return {
+		title:    this.data.title,
+		url:      this.refObj.rawData.baseUrl + this.data.urlPath,
+		metaDesc: this.data.metaDesc
+	};
 };
 
 /**
@@ -68,9 +146,7 @@ SnippetPreview.prototype.init = function() {
 		this.refObj.rawData.pageTitle !== null &&
 		this.refObj.rawData.cite !== null
 	) {
-		this.output = this.htmlOutput();
-		this.renderOutput();
-		this.renderSnippetStyle();
+		this.refresh();
 	}
 };
 
@@ -91,70 +167,98 @@ SnippetPreview.prototype.htmlOutput = function() {
 /**
  * formats the title for the snippet preview. If title and pageTitle are empty, sampletext is used
  *
- * @returns {String}
+ * @returns {string}
  */
 SnippetPreview.prototype.formatTitle = function() {
-	var title = this.refObj.rawData.pageTitle;
+	var title = this.data.title;
 
-	if ( title === "" || typeof title === "undefined" ) {
+	// Fallback to the default if the title is empty.
+	if ( _.isEmpty( title ) ) {
 		title = this.refObj.config.sampleText.title;
 	}
+
+	// TODO: Replace this with the stripAllTags module.
 	title = this.refObj.stringHelper.stripAllTags( title );
-	if ( this.refObj.rawData.keyword !== "" ) {
+
+	// If a keyword is set we want to highlight it in the title.
+	if ( !_.isEmpty( this.refObj.rawData.keyword ) ) {
 		return this.formatKeyword( title );
 	}
+
 	return title;
 };
 
 /**
- * removes the protocol name from the urlstring.
- * @returns formatted url
+ * Formates the base url for the snippet preview. Removes the protocol name from the URL.
+ *
+ * @returns {string} Formatted base url for the snippet preview.
  */
 SnippetPreview.prototype.formatUrl = function() {
 	var url = this.refObj.rawData.baseUrl;
+
+	if ( _.isEmpty( url ) ) {
+		url = this.refObj.config.sampleText.baseUrl;
+	}
 
 	//removes the http(s) part of the url
 	return url.replace( /https?:\/\//ig, "" );
 };
 
 /**
- * formats the url for the snippet preview
- * @returns formatted url
+ * Formats the url for the snippet preview
+ *
+ * @returns {string} Formatted URL for the snippet preview.
  */
 SnippetPreview.prototype.formatCite = function() {
-	var cite = this.refObj.rawData.snippetCite;
+	var cite = this.data.urlPath;
+
+	// TODO: Replace this with the stripAllTags module.
 	cite = this.refObj.stringHelper.stripAllTags( cite );
-	if ( cite === "" ) {
+
+	// Fallback to the default if the cite is empty.
+	if ( _.isEmpty( cite ) ) {
 		cite = this.refObj.config.sampleText.snippetCite;
 	}
-	return this.formatKeywordUrl( cite );
+
+	if ( !_.isEmpty( this.refObj.rawData.keyword ) ) {
+		cite = this.formatKeywordUrl( cite );
+	}
+
+	return cite;
 };
 
 /**
- * formats the metatext for the snippet preview, if empty runs getMetaText
- * @returns formatted metatext
+ * Formats the meta description for the snippet preview, if it's empty retrieves it using getMetaText.
+ *
+ * @returns {string} Formatted meta description.
  */
 SnippetPreview.prototype.formatMeta = function() {
-	var meta = this.refObj.rawData.meta;
-	if ( meta === this.refObj.config.sampleText.snippetMeta ) {
-		meta = "";
-	}
-	if ( meta === "" ) {
+	var meta = this.data.metaDesc;
+
+	// If no meta has been set, generate one.
+	if ( _.isEmpty( meta ) ) {
 		meta = this.getMetaText();
 	}
+
+	// TODO: Replace this with the stripAllTags module.
 	meta = this.refObj.stringHelper.stripAllTags( meta );
+
+	// Cut-off the meta description according to the maximum length
 	meta = meta.substring( 0, YoastSEO.analyzerConfig.maxMeta );
-	if ( this.refObj.rawData.keyword !== "" && meta !== "" ) {
-		return this.formatKeyword( meta );
+
+	if ( !_.isEmpty( this.refObj.rawData.keyword ) ) {
+		meta = this.formatKeyword( meta );
 	}
+
 	return meta;
 };
 
 /**
- * formats the metatext, based on the keyword to select a part of the text.
- * If no keyword matches, takes the first 156chars (depending on the config).
- * If keyword and/or text is empty, it uses the sampletext.
- * @returns metatext
+ * Generates a meta description with an educated guess based on the passed text and excerpt. It uses the keyword to
+ * select an appropriate part of the text. If the keyword isn't present it takes the first 156 characters of the text.
+ * If both the keyword, text and excerpt are empty this function returns the sample text.
+ *
+ * @returns {string} A generated meta description.
  */
 SnippetPreview.prototype.getMetaText = function() {
 	var metaText;
@@ -244,8 +348,9 @@ SnippetPreview.prototype.getPeriodMatches = function() {
 /**
  * formats the keyword for use in the snippetPreview by adding <strong>-tags
  * strips unwanted characters that could break the regex or give unwanted results
- * @param textString
- * @returns textString
+ *
+ * @param {string} textString
+ * @returns {string}
  */
 SnippetPreview.prototype.formatKeyword = function( textString ) {
 
@@ -284,10 +389,10 @@ SnippetPreview.prototype.formatKeywordUrl = function( textString ) {
  * Renders the outputs to the elements on the page.
  */
 SnippetPreview.prototype.renderOutput = function() {
-	document.getElementById( "snippet_title" ).innerHTML = this.output.title;
-	document.getElementById( "snippet_cite" ).innerHTML = this.output.cite;
-	document.getElementById( "snippet_citeBase" ).innerHTML = this.output.url;
-	document.getElementById( "snippet_meta" ).innerHTML = this.output.meta;
+	this.element.rendered.title.innerHTML = this.output.title;
+	this.element.rendered.urlPath.innerHTML = this.output.cite;
+	this.element.rendered.urlBase.innerHTML = this.output.url;
+	this.element.rendered.metaDesc.innerHTML = this.output.meta;
 };
 
 /**
@@ -439,12 +544,19 @@ SnippetPreview.prototype.setFocus = function( ev ) {
  * Binds the reloadSnippetText function to the blur of the snippet inputs.
  */
 SnippetPreview.prototype.bindEvents = function() {
-	var saveForm, editButton,
-		elems = [ "meta", "cite", "title" ];
+	var targetElement, saveForm, editButton,
+		elems = [ "title", "slug", "meta-description" ];
 
 	for ( var i = 0; i < elems.length; i++ ) {
-		var targetElement = document.getElementById( "snippet_" + elems[ i ] );
-		targetElement.addEventListener( "blur", this.refObj.callbacks.updateSnippetValues );
+		targetElement = document.getElementsByClassName( "js-snippet-editor-" + elems[ i ] );
+		targetElement = targetElement[0];
+
+		targetElement.addEventListener( "keydown", this.changedInput.bind( this ) );
+		targetElement.addEventListener( "keyup", this.changedInput.bind( this ) );
+
+		targetElement.addEventListener( 'keydown', this.disableEnter.bind( this ) );
+
+		//targetElement.addEventListener( "blur", this.refObj.callbacks.updateSnippetValues );
 	}
 
 	editButton = document.getElementsByClassName( "js-snippet-editor-edit" );
@@ -452,6 +564,23 @@ SnippetPreview.prototype.bindEvents = function() {
 
 	editButton[0].addEventListener( "click", this.editSnippet.bind( this ) );
 	saveForm[0].addEventListener( "click", this.saveSnippet.bind( this ) );
+};
+
+SnippetPreview.prototype.changedInput = function() {
+	this.updateDataFromDOM();
+
+	this.refresh();
+
+	this.refObj.refresh.call( this.refObj );
+};
+
+/**
+ * Updates our data object from the DOM
+ */
+SnippetPreview.prototype.updateDataFromDOM = function() {
+	this.data.title = this.element.input.title.value;
+	this.data.urlPath = this.element.input.urlPath.value;
+	this.data.metaDesc = this.element.input.metaDesc.value;
 };
 
 /**

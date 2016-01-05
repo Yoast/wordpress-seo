@@ -1,3 +1,10 @@
+### 1.1
+
+#### Backwards incompatible changes
+* Passing the title, url and meta description meant for the snippet editor is no longer taken into account. The snippet
+editor keeps track of these values itself.
+
+
 ### 1.0: November 18th, 2015
 
 #### Backwards incompatible changes

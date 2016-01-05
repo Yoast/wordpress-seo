@@ -681,6 +681,7 @@ YoastSEO.Analyzer.prototype.metaDescriptionLength = function() {
  */
 YoastSEO.Analyzer.prototype.urlKeyword = function() {
 	var result = [ { test: "urlKeyword", result: 0 } ];
+	console.log( this.config.url );
 	if ( typeof this.config.url !== "undefined" ) {
 		result[ 0 ].result = this.stringHelper.countMatches(
 			this.config.url, this.keywordRegexInverse
@@ -1165,7 +1166,18 @@ YoastSEO.App.prototype.constructI18n = function( translations ) {
  * Retrieves data from the callbacks.getData and applies modification to store these in this.rawData.
  */
 YoastSEO.App.prototype.getData = function() {
+	var isUndefined = require( "lodash/lang/isUndefined" );
+
 	this.rawData = this.callbacks.getData();
+
+	if ( !isUndefined( this.snippetPreview ) ) {
+		var data = this.snippetPreview.getAnalyzerData();
+
+		this.rawData.title = data.title;
+		this.rawData.url = data.url;
+		this.rawData.snippetMeta = data.metaDesc;
+	}
+
 	if ( this.pluggable.loaded ) {
 		this.rawData.pageTitle = this.pluggable._applyModifications( "data_page_title", this.rawData.pageTitle );
 		this.rawData.meta = this.pluggable._applyModifications( "data_meta_desc", this.rawData.meta );
@@ -1190,7 +1202,8 @@ YoastSEO.App.prototype.createSnippetPreview = function() {
 	var targetElement = document.getElementById( this.config.targets.snippet );
 
 	this.snippetPreview = new SnippetPreview( this );
-	this.snippetPreview.renderTemplate( targetElement );
+	this.snippetPreview.setTargetElement( targetElement );
+	this.snippetPreview.renderTemplate();
 	this.snippetPreview.callRegisteredEventBinder();
 	this.snippetPreview.bindEvents();
 	this.snippetPreview.init();
@@ -2560,7 +2573,7 @@ YoastSEO.getStringHelper = function() {
     __e( i18n.metaDescription ) +
     '\n            <textarea class="snippet-editor__input snippet-editor__meta-description js-snippet-editor-meta-description" id="snippet-editor-meta-description">' +
     __e( raw.meta ) +
-    '></textarea>\n        </label>\n\n        <button class="snippet-editor__submit js-snippet-editor-save" type="button">' +
+    '</textarea>\n        </label>\n\n        <button class="snippet-editor__submit js-snippet-editor-save" type="button">' +
     __e( i18n.save ) +
     '</button>\n    </div>\n</div>\n';
 
@@ -3187,9 +3200,15 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"../js/snippetPreview.js":2,"jed":4}],2:[function(require,module,exports){
+},{"../js/snippetPreview.js":2,"jed":4,"lodash/lang/isUndefined":36}],2:[function(require,module,exports){
 /* jshint browser: true */
 /* global YoastSEO: false */
+
+var _ = {
+	isObject: require( "lodash/lang/isObject" ),
+	isEmpty: require( "lodash/lang/isEmpty" ),
+	clone: require( "lodash/lang/clone" )
+};
 
 /**
  * @module snippetPreview
@@ -3199,6 +3218,28 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
  * defines the config and outputTarget for the SnippetPreview
  *
  * @param {YoastSEO.App} refObj
+ *
+ * @property {App}         refObj                    - The connected app object.
+ * @property {Jed}         i18n                      - The translation object.
+ *
+ * @property {HTMLElement} targetElement             - The target element that contains this snippet editor.
+ *
+ * @property {Object}      element                   - The elements for this snippet editor.
+ * @property {Object}      element.rendered          - The rendered elements.
+ * @property {HTMLElement} element.rendered.title    - The rendered title element.
+ * @property {HTMLElement} element.rendered.urlPath  - The rendered url path element.
+ * @property {HTMLElement} element.rendered.urlBase  - The rendered url base element.
+ * @property {HTMLElement} element.rendered.metaDesc - The rendered meta description element.
+ *
+ * @property {Object}      element.input             - The input elements.
+ * @property {HTMLElement} element.input.title       - The title input element.
+ * @property {HTMLElement} element.input.urlPath     - The url path input element.
+ * @property {HTMLElement} element.input.metaDesc    - The meta description input element.
+ *
+ * @property {Object}      data                      - The data for this snippet editor.
+ * @property {string}      data.title                - The title.
+ * @property {string}      data.urlPath              - The url path.
+ * @property {string}      data.metaDesc             - The meta description.
  *
  * @constructor
  */
@@ -3210,37 +3251,87 @@ var SnippetPreview = function( refObj ) {
 		snippet_meta: this.refObj.rawData.snippetMeta || "",
 		snippet_title: this.refObj.rawData.snippetTitle || ""
 	};
+
+	this.data = {
+		title: this.refObj.rawData.snippetTitle || "",
+		urlPath: this.refObj.rawData.snippetCite || "",
+		metaDesc: this.refObj.rawData.snippetMeta || ""
+	};
+};
+
+/**
+ * Set the target element the snippet editor should be rendered in.
+ *
+ * @param {HTMLElement} targetElement The element the editor should be rendered in.
+ */
+SnippetPreview.prototype.setTargetElement = function( targetElement ) {
+	if ( _.isObject( targetElement ) ) {
+		this.targetElement = targetElement;
+	}
 };
 
 /**
  * Renders snippet editor and adds it to the targetElement
- *
- * @param {HTMLElement} targetElement The element to put the snippet editor in.
  */
-SnippetPreview.prototype.renderTemplate = function( targetElement ) {
+SnippetPreview.prototype.renderTemplate = function() {
 	var snippetEditorTemplate = require( "../js/templates.js" ).snippetEditor;
 
-	targetElement.innerHTML = snippetEditorTemplate( {
+	this.targetElement.innerHTML = snippetEditorTemplate( {
 		raw: {
-			title: this.refObj.config.sampleText.title,
-			baseUrl: this.refObj.config.sampleText.baseUrl,
-			snippetCite: this.refObj.config.sampleText.snippetCite,
-			meta: this.refObj.config.sampleText.meta
+			title: this.data.title,
+			snippetCite: this.data.urlPath,
+			meta: this.data.metaDesc
 		},
 		rendered: {
-			title: this.refObj.config.sampleText.title,
-			baseUrl: this.refObj.config.sampleText.baseUrl,
-			snippetCite: this.refObj.config.sampleText.snippetCite,
-			meta: this.refObj.config.sampleText.meta
+			title: this.formatTitle(),
+			baseUrl: this.formatUrl(),
+			snippetCite: this.formatCite(),
+			meta: this.formatMeta()
 		},
 		i18n: {
 			edit: this.i18n.dgettext( "js-text-analysis", "Edit meta fields (title, url, description)" ),
 			title: this.i18n.dgettext( "js-text-analysis", "Meta title" ),
 			slug:  this.i18n.dgettext( "js-text-analysis", "Slug" ),
 			metaDescription: this.i18n.dgettext( "js-text-analysis", "Meta description" ),
-			save: this.i18n.dgettext( "js-text-analysis", "Save meta fields" )
+			save: this.i18n.dgettext( "js-text-analysis", "Close snippet editor" )
 		}
 	} );
+
+	this.element = {
+		rendered: {
+			title: document.getElementById( "snippet_title" ),
+			urlBase: document.getElementById( "snippet_citeBase" ),
+			urlPath: document.getElementById( "snippet_cite" ),
+			metaDesc: document.getElementById( "snippet_meta" )
+		},
+		input: {
+			title: this.targetElement.getElementsByClassName( "js-snippet-editor-title" )[0],
+			urlPath: this.targetElement.getElementsByClassName( "js-snippet-editor-slug" )[0],
+			metaDesc: this.targetElement.getElementsByClassName( "js-snippet-editor-meta-description" )[0]
+		}
+	};
+};
+
+/**
+ * Refreshes the snippet editor rendered HTML
+ */
+SnippetPreview.prototype.refresh = function() {
+	this.output = this.htmlOutput();
+	this.renderOutput();
+	this.renderSnippetStyle();
+};
+
+/**
+ * Returns the data from the snippet preview.
+ *
+ * @returns {Object}
+ */
+SnippetPreview.prototype.getAnalyzerData = function() {
+	return {
+		title:    this.data.title,
+		url:      this.refObj.rawData.baseUrl + this.data.urlPath,
+		metaDesc: this.data.metaDesc
+	};
 };
 
 /**
@@ -3258,9 +3349,7 @@ SnippetPreview.prototype.init = function() {
 		this.refObj.rawData.pageTitle !== null &&
 		this.refObj.rawData.cite !== null
 	) {
-		this.output = this.htmlOutput();
-		this.renderOutput();
-		this.renderSnippetStyle();
+		this.refresh();
 	}
 };
 
@@ -3281,70 +3370,98 @@ SnippetPreview.prototype.htmlOutput = function() {
 /**
  * formats the title for the snippet preview. If title and pageTitle are empty, sampletext is used
  *
- * @returns {String}
+ * @returns {string}
  */
 SnippetPreview.prototype.formatTitle = function() {
-	var title = this.refObj.rawData.pageTitle;
+	var title = this.data.title;
 
-	if ( title === "" || typeof title === "undefined" ) {
+	// Fallback to the default if the title is empty.
+	if ( _.isEmpty( title ) ) {
 		title = this.refObj.config.sampleText.title;
 	}
+
+	// TODO: Replace this with the stripAllTags module.
 	title = this.refObj.stringHelper.stripAllTags( title );
-	if ( this.refObj.rawData.keyword !== "" ) {
+
+	// If a keyword is set we want to highlight it in the title.
+	if ( !_.isEmpty( this.refObj.rawData.keyword ) ) {
 		return this.formatKeyword( title );
 	}
+
 	return title;
 };
 
 /**
- * removes the protocol name from the urlstring.
- * @returns formatted url
+ * Formates the base url for the snippet preview. Removes the protocol name from the URL.
+ *
+ * @returns {string} Formatted base url for the snippet preview.
  */
 SnippetPreview.prototype.formatUrl = function() {
 	var url = this.refObj.rawData.baseUrl;
+
+	if ( _.isEmpty( url ) ) {
+		url = this.refObj.config.sampleText.baseUrl;
+	}
 
 	//removes the http(s) part of the url
 	return url.replace( /https?:\/\//ig, "" );
 };
 
 /**
- * formats the url for the snippet preview
- * @returns formatted url
+ * Formats the url for the snippet preview
+ *
+ * @returns {string} Formatted URL for the snippet preview.
  */
 SnippetPreview.prototype.formatCite = function() {
-	var cite = this.refObj.rawData.snippetCite;
+	var cite = this.data.urlPath;
+
+	// TODO: Replace this with the stripAllTags module.
 	cite = this.refObj.stringHelper.stripAllTags( cite );
-	if ( cite === "" ) {
+
+	// Fallback to the default if the cite is empty.
+	if ( _.isEmpty( cite ) ) {
 		cite = this.refObj.config.sampleText.snippetCite;
 	}
-	return this.formatKeywordUrl( cite );
+
+	if ( !_.isEmpty( this.refObj.rawData.keyword ) ) {
+		cite = this.formatKeywordUrl( cite );
+	}
+
+	return cite;
 };
 
 /**
- * formats the metatext for the snippet preview, if empty runs getMetaText
- * @returns formatted metatext
+ * Formats the meta description for the snippet preview, if it's empty retrieves it using getMetaText.
+ *
+ * @returns {string} Formatted meta description.
  */
 SnippetPreview.prototype.formatMeta = function() {
-	var meta = this.refObj.rawData.meta;
-	if ( meta === this.refObj.config.sampleText.snippetMeta ) {
-		meta = "";
-	}
-	if ( meta === "" ) {
+	var meta = this.data.metaDesc;
+
+	// If no meta has been set, generate one.
+	if ( _.isEmpty( meta ) ) {
 		meta = this.getMetaText();
 	}
+
+	// TODO: Replace this with the stripAllTags module.
 	meta = this.refObj.stringHelper.stripAllTags( meta );
+
+	// Cut-off the meta description according to the maximum length
 	meta = meta.substring( 0, YoastSEO.analyzerConfig.maxMeta );
-	if ( this.refObj.rawData.keyword !== "" && meta !== "" ) {
-		return this.formatKeyword( meta );
+
+	if ( !_.isEmpty( this.refObj.rawData.keyword ) ) {
+		meta = this.formatKeyword( meta );
 	}
+
 	return meta;
 };
 
 /**
- * formats the metatext, based on the keyword to select a part of the text.
- * If no keyword matches, takes the first 156chars (depending on the config).
- * If keyword and/or text is empty, it uses the sampletext.
- * @returns metatext
+ * Generates a meta description with an educated guess based on the passed text and excerpt. It uses the keyword to
+ * select an appropriate part of the text. If the keyword isn't present it takes the first 156 characters of the text.
+ * If both the keyword, text and excerpt are empty this function returns the sample text.
+ *
+ * @returns {string} A generated meta description.
  */
 SnippetPreview.prototype.getMetaText = function() {
 	var metaText;
@@ -3434,8 +3551,9 @@ SnippetPreview.prototype.getPeriodMatches = function() {
 /**
  * formats the keyword for use in the snippetPreview by adding <strong>-tags
  * strips unwanted characters that could break the regex or give unwanted results
- * @param textString
- * @returns textString
+ *
+ * @param {string} textString
+ * @returns {string}
  */
 SnippetPreview.prototype.formatKeyword = function( textString ) {
 
@@ -3474,10 +3592,10 @@ SnippetPreview.prototype.formatKeywordUrl = function( textString ) {
  * Renders the outputs to the elements on the page.
  */
 SnippetPreview.prototype.renderOutput = function() {
-	document.getElementById( "snippet_title" ).innerHTML = this.output.title;
-	document.getElementById( "snippet_cite" ).innerHTML = this.output.cite;
-	document.getElementById( "snippet_citeBase" ).innerHTML = this.output.url;
-	document.getElementById( "snippet_meta" ).innerHTML = this.output.meta;
+	this.element.rendered.title.innerHTML = this.output.title;
+	this.element.rendered.urlPath.innerHTML = this.output.cite;
+	this.element.rendered.urlBase.innerHTML = this.output.url;
+	this.element.rendered.metaDesc.innerHTML = this.output.meta;
 };
 
 /**
@@ -3629,12 +3747,19 @@ SnippetPreview.prototype.setFocus = function( ev ) {
  * Binds the reloadSnippetText function to the blur of the snippet inputs.
  */
 SnippetPreview.prototype.bindEvents = function() {
-	var saveForm, editButton,
-		elems = [ "meta", "cite", "title" ];
+	var targetElement, saveForm, editButton,
+		elems = [ "title", "slug", "meta-description" ];
 
 	for ( var i = 0; i < elems.length; i++ ) {
-		var targetElement = document.getElementById( "snippet_" + elems[ i ] );
-		targetElement.addEventListener( "blur", this.refObj.callbacks.updateSnippetValues );
+		targetElement = document.getElementsByClassName( "js-snippet-editor-" + elems[ i ] );
+		targetElement = targetElement[0];
+
+		targetElement.addEventListener( "keydown", this.changedInput.bind( this ) );
+		targetElement.addEventListener( "keyup", this.changedInput.bind( this ) );
+
+		targetElement.addEventListener( 'keydown', this.disableEnter.bind( snippetPreview ) );
+
+		//targetElement.addEventListener( "blur", this.refObj.callbacks.updateSnippetValues );
 	}
 
 	editButton = document.getElementsByClassName( "js-snippet-editor-edit" );
@@ -3642,6 +3767,23 @@ SnippetPreview.prototype.bindEvents = function() {
 
 	editButton[0].addEventListener( "click", this.editSnippet.bind( this ) );
 	saveForm[0].addEventListener( "click", this.saveSnippet.bind( this ) );
+};
+
+SnippetPreview.prototype.changedInput = function() {
+	this.updateDataFromDOM();
+
+	this.refresh();
+
+	this.refObj.refresh.call( this.refObj );
+};
+
+/**
+ * Updates our data object from the DOM
+ */
+SnippetPreview.prototype.updateDataFromDOM = function() {
+	this.data.title = this.element.input.title.value;
+	this.data.urlPath = this.element.input.urlPath.value;
+	this.data.metaDesc = this.element.input.metaDesc.value;
 };
 
 /**
@@ -3674,7 +3816,7 @@ SnippetPreview.prototype.saveSnippet = function() {
 
 module.exports = SnippetPreview;
 
-},{"../js/templates.js":3}],3:[function(require,module,exports){
+},{"../js/templates.js":3,"lodash/lang/clone":28,"lodash/lang/isEmpty":31,"lodash/lang/isObject":34}],3:[function(require,module,exports){
 (function (global){
 ;(function() {
   var undefined;
@@ -3813,7 +3955,7 @@ module.exports = SnippetPreview;
     __e( i18n.metaDescription ) +
     '\n            <textarea class="snippet-editor__input snippet-editor__meta-description js-snippet-editor-meta-description" id="snippet-editor-meta-description">' +
     __e( raw.meta ) +
-    '></textarea>\n        </label>\n\n        <button class="snippet-editor__submit js-snippet-editor-save" type="button">' +
+    '</textarea>\n        </label>\n\n        <button class="snippet-editor__submit js-snippet-editor-save" type="button">' +
     __e( i18n.save ) +
     '</button>\n    </div>\n</div>\n';
 
@@ -4859,5 +5001,1203 @@ return parser;
   }
 
 })(this);
+
+},{}],5:[function(require,module,exports){
+/**
+ * Copies the values of `source` to `array`.
+ *
+ * @private
+ * @param {Array} source The array to copy values from.
+ * @param {Array} [array=[]] The array to copy values to.
+ * @returns {Array} Returns `array`.
+ */
+function arrayCopy(source, array) {
+  var index = -1,
+      length = source.length;
+
+  array || (array = Array(length));
+  while (++index < length) {
+    array[index] = source[index];
+  }
+  return array;
+}
+
+module.exports = arrayCopy;
+
+},{}],6:[function(require,module,exports){
+/**
+ * A specialized version of `_.forEach` for arrays without support for callback
+ * shorthands and `this` binding.
+ *
+ * @private
+ * @param {Array} array The array to iterate over.
+ * @param {Function} iteratee The function invoked per iteration.
+ * @returns {Array} Returns `array`.
+ */
+function arrayEach(array, iteratee) {
+  var index = -1,
+      length = array.length;
+
+  while (++index < length) {
+    if (iteratee(array[index], index, array) === false) {
+      break;
+    }
+  }
+  return array;
+}
+
+module.exports = arrayEach;
+
+},{}],7:[function(require,module,exports){
+var baseCopy = require('./baseCopy'),
+    keys = require('../object/keys');
+
+/**
+ * The base implementation of `_.assign` without support for argument juggling,
+ * multiple sources, and `customizer` functions.
+ *
+ * @private
+ * @param {Object} object The destination object.
+ * @param {Object} source The source object.
+ * @returns {Object} Returns `object`.
+ */
+function baseAssign(object, source) {
+  return source == null
+    ? object
+    : baseCopy(source, keys(source), object);
+}
+
+module.exports = baseAssign;
+
+},{"../object/keys":37,"./baseCopy":9}],8:[function(require,module,exports){
+var arrayCopy = require('./arrayCopy'),
+    arrayEach = require('./arrayEach'),
+    baseAssign = require('./baseAssign'),
+    baseForOwn = require('./baseForOwn'),
+    initCloneArray = require('./initCloneArray'),
+    initCloneByTag = require('./initCloneByTag'),
+    initCloneObject = require('./initCloneObject'),
+    isArray = require('../lang/isArray'),
+    isObject = require('../lang/isObject');
+
+/** `Object#toString` result references. */
+var argsTag = '[object Arguments]',
+    arrayTag = '[object Array]',
+    boolTag = '[object Boolean]',
+    dateTag = '[object Date]',
+    errorTag = '[object Error]',
+    funcTag = '[object Function]',
+    mapTag = '[object Map]',
+    numberTag = '[object Number]',
+    objectTag = '[object Object]',
+    regexpTag = '[object RegExp]',
+    setTag = '[object Set]',
+    stringTag = '[object String]',
+    weakMapTag = '[object WeakMap]';
+
+var arrayBufferTag = '[object ArrayBuffer]',
+    float32Tag = '[object Float32Array]',
+    float64Tag = '[object Float64Array]',
+    int8Tag = '[object Int8Array]',
+    int16Tag = '[object Int16Array]',
+    int32Tag = '[object Int32Array]',
+    uint8Tag = '[object Uint8Array]',
+    uint8ClampedTag = '[object Uint8ClampedArray]',
+    uint16Tag = '[object Uint16Array]',
+    uint32Tag = '[object Uint32Array]';
+
+/** Used to identify `toStringTag` values supported by `_.clone`. */
+var cloneableTags = {};
+cloneableTags[argsTag] = cloneableTags[arrayTag] =
+cloneableTags[arrayBufferTag] = cloneableTags[boolTag] =
+cloneableTags[dateTag] = cloneableTags[float32Tag] =
+cloneableTags[float64Tag] = cloneableTags[int8Tag] =
+cloneableTags[int16Tag] = cloneableTags[int32Tag] =
+cloneableTags[numberTag] = cloneableTags[objectTag] =
+cloneableTags[regexpTag] = cloneableTags[stringTag] =
+cloneableTags[uint8Tag] = cloneableTags[uint8ClampedTag] =
+cloneableTags[uint16Tag] = cloneableTags[uint32Tag] = true;
+cloneableTags[errorTag] = cloneableTags[funcTag] =
+cloneableTags[mapTag] = cloneableTags[setTag] =
+cloneableTags[weakMapTag] = false;
+
+/** Used for native method references. */
+var objectProto = Object.prototype;
+
+/**
+ * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
+ * of values.
+ */
+var objToString = objectProto.toString;
+
+/**
+ * The base implementation of `_.clone` without support for argument juggling
+ * and `this` binding `customizer` functions.
+ *
+ * @private
+ * @param {*} value The value to clone.
+ * @param {boolean} [isDeep] Specify a deep clone.
+ * @param {Function} [customizer] The function to customize cloning values.
+ * @param {string} [key] The key of `value`.
+ * @param {Object} [object] The object `value` belongs to.
+ * @param {Array} [stackA=[]] Tracks traversed source objects.
+ * @param {Array} [stackB=[]] Associates clones with source counterparts.
+ * @returns {*} Returns the cloned value.
+ */
+function baseClone(value, isDeep, customizer, key, object, stackA, stackB) {
+  var result;
+  if (customizer) {
+    result = object ? customizer(value, key, object) : customizer(value);
+  }
+  if (result !== undefined) {
+    return result;
+  }
+  if (!isObject(value)) {
+    return value;
+  }
+  var isArr = isArray(value);
+  if (isArr) {
+    result = initCloneArray(value);
+    if (!isDeep) {
+      return arrayCopy(value, result);
+    }
+  } else {
+    var tag = objToString.call(value),
+        isFunc = tag == funcTag;
+
+    if (tag == objectTag || tag == argsTag || (isFunc && !object)) {
+      result = initCloneObject(isFunc ? {} : value);
+      if (!isDeep) {
+        return baseAssign(result, value);
+      }
+    } else {
+      return cloneableTags[tag]
+        ? initCloneByTag(value, tag, isDeep)
+        : (object ? value : {});
+    }
+  }
+  // Check for circular references and return its corresponding clone.
+  stackA || (stackA = []);
+  stackB || (stackB = []);
+
+  var length = stackA.length;
+  while (length--) {
+    if (stackA[length] == value) {
+      return stackB[length];
+    }
+  }
+  // Add the source value to the stack of traversed objects and associate it with its clone.
+  stackA.push(value);
+  stackB.push(result);
+
+  // Recursively populate clone (susceptible to call stack limits).
+  (isArr ? arrayEach : baseForOwn)(value, function(subValue, key) {
+    result[key] = baseClone(subValue, isDeep, customizer, key, value, stackA, stackB);
+  });
+  return result;
+}
+
+module.exports = baseClone;
+
+},{"../lang/isArray":30,"../lang/isObject":34,"./arrayCopy":5,"./arrayEach":6,"./baseAssign":7,"./baseForOwn":11,"./initCloneArray":18,"./initCloneByTag":19,"./initCloneObject":20}],9:[function(require,module,exports){
+/**
+ * Copies properties of `source` to `object`.
+ *
+ * @private
+ * @param {Object} source The object to copy properties from.
+ * @param {Array} props The property names to copy.
+ * @param {Object} [object={}] The object to copy properties to.
+ * @returns {Object} Returns `object`.
+ */
+function baseCopy(source, props, object) {
+  object || (object = {});
+
+  var index = -1,
+      length = props.length;
+
+  while (++index < length) {
+    var key = props[index];
+    object[key] = source[key];
+  }
+  return object;
+}
+
+module.exports = baseCopy;
+
+},{}],10:[function(require,module,exports){
+var createBaseFor = require('./createBaseFor');
+
+/**
+ * The base implementation of `baseForIn` and `baseForOwn` which iterates
+ * over `object` properties returned by `keysFunc` invoking `iteratee` for
+ * each property. Iteratee functions may exit iteration early by explicitly
+ * returning `false`.
+ *
+ * @private
+ * @param {Object} object The object to iterate over.
+ * @param {Function} iteratee The function invoked per iteration.
+ * @param {Function} keysFunc The function to get the keys of `object`.
+ * @returns {Object} Returns `object`.
+ */
+var baseFor = createBaseFor();
+
+module.exports = baseFor;
+
+},{"./createBaseFor":15}],11:[function(require,module,exports){
+var baseFor = require('./baseFor'),
+    keys = require('../object/keys');
+
+/**
+ * The base implementation of `_.forOwn` without support for callback
+ * shorthands and `this` binding.
+ *
+ * @private
+ * @param {Object} object The object to iterate over.
+ * @param {Function} iteratee The function invoked per iteration.
+ * @returns {Object} Returns `object`.
+ */
+function baseForOwn(object, iteratee) {
+  return baseFor(object, iteratee, keys);
+}
+
+module.exports = baseForOwn;
+
+},{"../object/keys":37,"./baseFor":10}],12:[function(require,module,exports){
+/**
+ * The base implementation of `_.property` without support for deep paths.
+ *
+ * @private
+ * @param {string} key The key of the property to get.
+ * @returns {Function} Returns the new function.
+ */
+function baseProperty(key) {
+  return function(object) {
+    return object == null ? undefined : object[key];
+  };
+}
+
+module.exports = baseProperty;
+
+},{}],13:[function(require,module,exports){
+var identity = require('../utility/identity');
+
+/**
+ * A specialized version of `baseCallback` which only supports `this` binding
+ * and specifying the number of arguments to provide to `func`.
+ *
+ * @private
+ * @param {Function} func The function to bind.
+ * @param {*} thisArg The `this` binding of `func`.
+ * @param {number} [argCount] The number of arguments to provide to `func`.
+ * @returns {Function} Returns the callback.
+ */
+function bindCallback(func, thisArg, argCount) {
+  if (typeof func != 'function') {
+    return identity;
+  }
+  if (thisArg === undefined) {
+    return func;
+  }
+  switch (argCount) {
+    case 1: return function(value) {
+      return func.call(thisArg, value);
+    };
+    case 3: return function(value, index, collection) {
+      return func.call(thisArg, value, index, collection);
+    };
+    case 4: return function(accumulator, value, index, collection) {
+      return func.call(thisArg, accumulator, value, index, collection);
+    };
+    case 5: return function(value, other, key, object, source) {
+      return func.call(thisArg, value, other, key, object, source);
+    };
+  }
+  return function() {
+    return func.apply(thisArg, arguments);
+  };
+}
+
+module.exports = bindCallback;
+
+},{"../utility/identity":39}],14:[function(require,module,exports){
+(function (global){
+/** Native method references. */
+var ArrayBuffer = global.ArrayBuffer,
+    Uint8Array = global.Uint8Array;
+
+/**
+ * Creates a clone of the given array buffer.
+ *
+ * @private
+ * @param {ArrayBuffer} buffer The array buffer to clone.
+ * @returns {ArrayBuffer} Returns the cloned array buffer.
+ */
+function bufferClone(buffer) {
+  var result = new ArrayBuffer(buffer.byteLength),
+      view = new Uint8Array(result);
+
+  view.set(new Uint8Array(buffer));
+  return result;
+}
+
+module.exports = bufferClone;
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{}],15:[function(require,module,exports){
+var toObject = require('./toObject');
+
+/**
+ * Creates a base function for `_.forIn` or `_.forInRight`.
+ *
+ * @private
+ * @param {boolean} [fromRight] Specify iterating from right to left.
+ * @returns {Function} Returns the new base function.
+ */
+function createBaseFor(fromRight) {
+  return function(object, iteratee, keysFunc) {
+    var iterable = toObject(object),
+        props = keysFunc(object),
+        length = props.length,
+        index = fromRight ? length : -1;
+
+    while ((fromRight ? index-- : ++index < length)) {
+      var key = props[index];
+      if (iteratee(iterable[key], key, iterable) === false) {
+        break;
+      }
+    }
+    return object;
+  };
+}
+
+module.exports = createBaseFor;
+
+},{"./toObject":27}],16:[function(require,module,exports){
+var baseProperty = require('./baseProperty');
+
+/**
+ * Gets the "length" property value of `object`.
+ *
+ * **Note:** This function is used to avoid a [JIT bug](https://bugs.webkit.org/show_bug.cgi?id=142792)
+ * that affects Safari on at least iOS 8.1-8.3 ARM64.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @returns {*} Returns the "length" value.
+ */
+var getLength = baseProperty('length');
+
+module.exports = getLength;
+
+},{"./baseProperty":12}],17:[function(require,module,exports){
+var isNative = require('../lang/isNative');
+
+/**
+ * Gets the native function at `key` of `object`.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @param {string} key The key of the method to get.
+ * @returns {*} Returns the function if it's native, else `undefined`.
+ */
+function getNative(object, key) {
+  var value = object == null ? undefined : object[key];
+  return isNative(value) ? value : undefined;
+}
+
+module.exports = getNative;
+
+},{"../lang/isNative":33}],18:[function(require,module,exports){
+/** Used for native method references. */
+var objectProto = Object.prototype;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+/**
+ * Initializes an array clone.
+ *
+ * @private
+ * @param {Array} array The array to clone.
+ * @returns {Array} Returns the initialized clone.
+ */
+function initCloneArray(array) {
+  var length = array.length,
+      result = new array.constructor(length);
+
+  // Add array properties assigned by `RegExp#exec`.
+  if (length && typeof array[0] == 'string' && hasOwnProperty.call(array, 'index')) {
+    result.index = array.index;
+    result.input = array.input;
+  }
+  return result;
+}
+
+module.exports = initCloneArray;
+
+},{}],19:[function(require,module,exports){
+var bufferClone = require('./bufferClone');
+
+/** `Object#toString` result references. */
+var boolTag = '[object Boolean]',
+    dateTag = '[object Date]',
+    numberTag = '[object Number]',
+    regexpTag = '[object RegExp]',
+    stringTag = '[object String]';
+
+var arrayBufferTag = '[object ArrayBuffer]',
+    float32Tag = '[object Float32Array]',
+    float64Tag = '[object Float64Array]',
+    int8Tag = '[object Int8Array]',
+    int16Tag = '[object Int16Array]',
+    int32Tag = '[object Int32Array]',
+    uint8Tag = '[object Uint8Array]',
+    uint8ClampedTag = '[object Uint8ClampedArray]',
+    uint16Tag = '[object Uint16Array]',
+    uint32Tag = '[object Uint32Array]';
+
+/** Used to match `RegExp` flags from their coerced string values. */
+var reFlags = /\w*$/;
+
+/**
+ * Initializes an object clone based on its `toStringTag`.
+ *
+ * **Note:** This function only supports cloning values with tags of
+ * `Boolean`, `Date`, `Error`, `Number`, `RegExp`, or `String`.
+ *
+ * @private
+ * @param {Object} object The object to clone.
+ * @param {string} tag The `toStringTag` of the object to clone.
+ * @param {boolean} [isDeep] Specify a deep clone.
+ * @returns {Object} Returns the initialized clone.
+ */
+function initCloneByTag(object, tag, isDeep) {
+  var Ctor = object.constructor;
+  switch (tag) {
+    case arrayBufferTag:
+      return bufferClone(object);
+
+    case boolTag:
+    case dateTag:
+      return new Ctor(+object);
+
+    case float32Tag: case float64Tag:
+    case int8Tag: case int16Tag: case int32Tag:
+    case uint8Tag: case uint8ClampedTag: case uint16Tag: case uint32Tag:
+      var buffer = object.buffer;
+      return new Ctor(isDeep ? bufferClone(buffer) : buffer, object.byteOffset, object.length);
+
+    case numberTag:
+    case stringTag:
+      return new Ctor(object);
+
+    case regexpTag:
+      var result = new Ctor(object.source, reFlags.exec(object));
+      result.lastIndex = object.lastIndex;
+  }
+  return result;
+}
+
+module.exports = initCloneByTag;
+
+},{"./bufferClone":14}],20:[function(require,module,exports){
+/**
+ * Initializes an object clone.
+ *
+ * @private
+ * @param {Object} object The object to clone.
+ * @returns {Object} Returns the initialized clone.
+ */
+function initCloneObject(object) {
+  var Ctor = object.constructor;
+  if (!(typeof Ctor == 'function' && Ctor instanceof Ctor)) {
+    Ctor = Object;
+  }
+  return new Ctor;
+}
+
+module.exports = initCloneObject;
+
+},{}],21:[function(require,module,exports){
+var getLength = require('./getLength'),
+    isLength = require('./isLength');
+
+/**
+ * Checks if `value` is array-like.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is array-like, else `false`.
+ */
+function isArrayLike(value) {
+  return value != null && isLength(getLength(value));
+}
+
+module.exports = isArrayLike;
+
+},{"./getLength":16,"./isLength":24}],22:[function(require,module,exports){
+/** Used to detect unsigned integer values. */
+var reIsUint = /^\d+$/;
+
+/**
+ * Used as the [maximum length](http://ecma-international.org/ecma-262/6.0/#sec-number.max_safe_integer)
+ * of an array-like value.
+ */
+var MAX_SAFE_INTEGER = 9007199254740991;
+
+/**
+ * Checks if `value` is a valid array-like index.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @param {number} [length=MAX_SAFE_INTEGER] The upper bounds of a valid index.
+ * @returns {boolean} Returns `true` if `value` is a valid index, else `false`.
+ */
+function isIndex(value, length) {
+  value = (typeof value == 'number' || reIsUint.test(value)) ? +value : -1;
+  length = length == null ? MAX_SAFE_INTEGER : length;
+  return value > -1 && value % 1 == 0 && value < length;
+}
+
+module.exports = isIndex;
+
+},{}],23:[function(require,module,exports){
+var isArrayLike = require('./isArrayLike'),
+    isIndex = require('./isIndex'),
+    isObject = require('../lang/isObject');
+
+/**
+ * Checks if the provided arguments are from an iteratee call.
+ *
+ * @private
+ * @param {*} value The potential iteratee value argument.
+ * @param {*} index The potential iteratee index or key argument.
+ * @param {*} object The potential iteratee object argument.
+ * @returns {boolean} Returns `true` if the arguments are from an iteratee call, else `false`.
+ */
+function isIterateeCall(value, index, object) {
+  if (!isObject(object)) {
+    return false;
+  }
+  var type = typeof index;
+  if (type == 'number'
+      ? (isArrayLike(object) && isIndex(index, object.length))
+      : (type == 'string' && index in object)) {
+    var other = object[index];
+    return value === value ? (value === other) : (other !== other);
+  }
+  return false;
+}
+
+module.exports = isIterateeCall;
+
+},{"../lang/isObject":34,"./isArrayLike":21,"./isIndex":22}],24:[function(require,module,exports){
+/**
+ * Used as the [maximum length](http://ecma-international.org/ecma-262/6.0/#sec-number.max_safe_integer)
+ * of an array-like value.
+ */
+var MAX_SAFE_INTEGER = 9007199254740991;
+
+/**
+ * Checks if `value` is a valid array-like length.
+ *
+ * **Note:** This function is based on [`ToLength`](http://ecma-international.org/ecma-262/6.0/#sec-tolength).
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a valid length, else `false`.
+ */
+function isLength(value) {
+  return typeof value == 'number' && value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
+}
+
+module.exports = isLength;
+
+},{}],25:[function(require,module,exports){
+/**
+ * Checks if `value` is object-like.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+ */
+function isObjectLike(value) {
+  return !!value && typeof value == 'object';
+}
+
+module.exports = isObjectLike;
+
+},{}],26:[function(require,module,exports){
+var isArguments = require('../lang/isArguments'),
+    isArray = require('../lang/isArray'),
+    isIndex = require('./isIndex'),
+    isLength = require('./isLength'),
+    keysIn = require('../object/keysIn');
+
+/** Used for native method references. */
+var objectProto = Object.prototype;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+/**
+ * A fallback implementation of `Object.keys` which creates an array of the
+ * own enumerable property names of `object`.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @returns {Array} Returns the array of property names.
+ */
+function shimKeys(object) {
+  var props = keysIn(object),
+      propsLength = props.length,
+      length = propsLength && object.length;
+
+  var allowIndexes = !!length && isLength(length) &&
+    (isArray(object) || isArguments(object));
+
+  var index = -1,
+      result = [];
+
+  while (++index < propsLength) {
+    var key = props[index];
+    if ((allowIndexes && isIndex(key, length)) || hasOwnProperty.call(object, key)) {
+      result.push(key);
+    }
+  }
+  return result;
+}
+
+module.exports = shimKeys;
+
+},{"../lang/isArguments":29,"../lang/isArray":30,"../object/keysIn":38,"./isIndex":22,"./isLength":24}],27:[function(require,module,exports){
+var isObject = require('../lang/isObject');
+
+/**
+ * Converts `value` to an object if it's not one.
+ *
+ * @private
+ * @param {*} value The value to process.
+ * @returns {Object} Returns the object.
+ */
+function toObject(value) {
+  return isObject(value) ? value : Object(value);
+}
+
+module.exports = toObject;
+
+},{"../lang/isObject":34}],28:[function(require,module,exports){
+var baseClone = require('../internal/baseClone'),
+    bindCallback = require('../internal/bindCallback'),
+    isIterateeCall = require('../internal/isIterateeCall');
+
+/**
+ * Creates a clone of `value`. If `isDeep` is `true` nested objects are cloned,
+ * otherwise they are assigned by reference. If `customizer` is provided it's
+ * invoked to produce the cloned values. If `customizer` returns `undefined`
+ * cloning is handled by the method instead. The `customizer` is bound to
+ * `thisArg` and invoked with up to three argument; (value [, index|key, object]).
+ *
+ * **Note:** This method is loosely based on the
+ * [structured clone algorithm](http://www.w3.org/TR/html5/infrastructure.html#internal-structured-cloning-algorithm).
+ * The enumerable properties of `arguments` objects and objects created by
+ * constructors other than `Object` are cloned to plain `Object` objects. An
+ * empty object is returned for uncloneable values such as functions, DOM nodes,
+ * Maps, Sets, and WeakMaps.
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to clone.
+ * @param {boolean} [isDeep] Specify a deep clone.
+ * @param {Function} [customizer] The function to customize cloning values.
+ * @param {*} [thisArg] The `this` binding of `customizer`.
+ * @returns {*} Returns the cloned value.
+ * @example
+ *
+ * var users = [
+ *   { 'user': 'barney' },
+ *   { 'user': 'fred' }
+ * ];
+ *
+ * var shallow = _.clone(users);
+ * shallow[0] === users[0];
+ * // => true
+ *
+ * var deep = _.clone(users, true);
+ * deep[0] === users[0];
+ * // => false
+ *
+ * // using a customizer callback
+ * var el = _.clone(document.body, function(value) {
+ *   if (_.isElement(value)) {
+ *     return value.cloneNode(false);
+ *   }
+ * });
+ *
+ * el === document.body
+ * // => false
+ * el.nodeName
+ * // => BODY
+ * el.childNodes.length;
+ * // => 0
+ */
+function clone(value, isDeep, customizer, thisArg) {
+  if (isDeep && typeof isDeep != 'boolean' && isIterateeCall(value, isDeep, customizer)) {
+    isDeep = false;
+  }
+  else if (typeof isDeep == 'function') {
+    thisArg = customizer;
+    customizer = isDeep;
+    isDeep = false;
+  }
+  return typeof customizer == 'function'
+    ? baseClone(value, isDeep, bindCallback(customizer, thisArg, 3))
+    : baseClone(value, isDeep);
+}
+
+module.exports = clone;
+
+},{"../internal/baseClone":8,"../internal/bindCallback":13,"../internal/isIterateeCall":23}],29:[function(require,module,exports){
+var isArrayLike = require('../internal/isArrayLike'),
+    isObjectLike = require('../internal/isObjectLike');
+
+/** Used for native method references. */
+var objectProto = Object.prototype;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+/** Native method references. */
+var propertyIsEnumerable = objectProto.propertyIsEnumerable;
+
+/**
+ * Checks if `value` is classified as an `arguments` object.
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
+ * @example
+ *
+ * _.isArguments(function() { return arguments; }());
+ * // => true
+ *
+ * _.isArguments([1, 2, 3]);
+ * // => false
+ */
+function isArguments(value) {
+  return isObjectLike(value) && isArrayLike(value) &&
+    hasOwnProperty.call(value, 'callee') && !propertyIsEnumerable.call(value, 'callee');
+}
+
+module.exports = isArguments;
+
+},{"../internal/isArrayLike":21,"../internal/isObjectLike":25}],30:[function(require,module,exports){
+var getNative = require('../internal/getNative'),
+    isLength = require('../internal/isLength'),
+    isObjectLike = require('../internal/isObjectLike');
+
+/** `Object#toString` result references. */
+var arrayTag = '[object Array]';
+
+/** Used for native method references. */
+var objectProto = Object.prototype;
+
+/**
+ * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
+ * of values.
+ */
+var objToString = objectProto.toString;
+
+/* Native method references for those with the same name as other `lodash` methods. */
+var nativeIsArray = getNative(Array, 'isArray');
+
+/**
+ * Checks if `value` is classified as an `Array` object.
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
+ * @example
+ *
+ * _.isArray([1, 2, 3]);
+ * // => true
+ *
+ * _.isArray(function() { return arguments; }());
+ * // => false
+ */
+var isArray = nativeIsArray || function(value) {
+  return isObjectLike(value) && isLength(value.length) && objToString.call(value) == arrayTag;
+};
+
+module.exports = isArray;
+
+},{"../internal/getNative":17,"../internal/isLength":24,"../internal/isObjectLike":25}],31:[function(require,module,exports){
+var isArguments = require('./isArguments'),
+    isArray = require('./isArray'),
+    isArrayLike = require('../internal/isArrayLike'),
+    isFunction = require('./isFunction'),
+    isObjectLike = require('../internal/isObjectLike'),
+    isString = require('./isString'),
+    keys = require('../object/keys');
+
+/**
+ * Checks if `value` is empty. A value is considered empty unless it's an
+ * `arguments` object, array, string, or jQuery-like collection with a length
+ * greater than `0` or an object with own enumerable properties.
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {Array|Object|string} value The value to inspect.
+ * @returns {boolean} Returns `true` if `value` is empty, else `false`.
+ * @example
+ *
+ * _.isEmpty(null);
+ * // => true
+ *
+ * _.isEmpty(true);
+ * // => true
+ *
+ * _.isEmpty(1);
+ * // => true
+ *
+ * _.isEmpty([1, 2, 3]);
+ * // => false
+ *
+ * _.isEmpty({ 'a': 1 });
+ * // => false
+ */
+function isEmpty(value) {
+  if (value == null) {
+    return true;
+  }
+  if (isArrayLike(value) && (isArray(value) || isString(value) || isArguments(value) ||
+      (isObjectLike(value) && isFunction(value.splice)))) {
+    return !value.length;
+  }
+  return !keys(value).length;
+}
+
+module.exports = isEmpty;
+
+},{"../internal/isArrayLike":21,"../internal/isObjectLike":25,"../object/keys":37,"./isArguments":29,"./isArray":30,"./isFunction":32,"./isString":35}],32:[function(require,module,exports){
+var isObject = require('./isObject');
+
+/** `Object#toString` result references. */
+var funcTag = '[object Function]';
+
+/** Used for native method references. */
+var objectProto = Object.prototype;
+
+/**
+ * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
+ * of values.
+ */
+var objToString = objectProto.toString;
+
+/**
+ * Checks if `value` is classified as a `Function` object.
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
+ * @example
+ *
+ * _.isFunction(_);
+ * // => true
+ *
+ * _.isFunction(/abc/);
+ * // => false
+ */
+function isFunction(value) {
+  // The use of `Object#toString` avoids issues with the `typeof` operator
+  // in older versions of Chrome and Safari which return 'function' for regexes
+  // and Safari 8 which returns 'object' for typed array constructors.
+  return isObject(value) && objToString.call(value) == funcTag;
+}
+
+module.exports = isFunction;
+
+},{"./isObject":34}],33:[function(require,module,exports){
+var isFunction = require('./isFunction'),
+    isObjectLike = require('../internal/isObjectLike');
+
+/** Used to detect host constructors (Safari > 5). */
+var reIsHostCtor = /^\[object .+?Constructor\]$/;
+
+/** Used for native method references. */
+var objectProto = Object.prototype;
+
+/** Used to resolve the decompiled source of functions. */
+var fnToString = Function.prototype.toString;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+/** Used to detect if a method is native. */
+var reIsNative = RegExp('^' +
+  fnToString.call(hasOwnProperty).replace(/[\\^$.*+?()[\]{}|]/g, '\\$&')
+  .replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, '$1.*?') + '$'
+);
+
+/**
+ * Checks if `value` is a native function.
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a native function, else `false`.
+ * @example
+ *
+ * _.isNative(Array.prototype.push);
+ * // => true
+ *
+ * _.isNative(_);
+ * // => false
+ */
+function isNative(value) {
+  if (value == null) {
+    return false;
+  }
+  if (isFunction(value)) {
+    return reIsNative.test(fnToString.call(value));
+  }
+  return isObjectLike(value) && reIsHostCtor.test(value);
+}
+
+module.exports = isNative;
+
+},{"../internal/isObjectLike":25,"./isFunction":32}],34:[function(require,module,exports){
+/**
+ * Checks if `value` is the [language type](https://es5.github.io/#x8) of `Object`.
+ * (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an object, else `false`.
+ * @example
+ *
+ * _.isObject({});
+ * // => true
+ *
+ * _.isObject([1, 2, 3]);
+ * // => true
+ *
+ * _.isObject(1);
+ * // => false
+ */
+function isObject(value) {
+  // Avoid a V8 JIT bug in Chrome 19-20.
+  // See https://code.google.com/p/v8/issues/detail?id=2291 for more details.
+  var type = typeof value;
+  return !!value && (type == 'object' || type == 'function');
+}
+
+module.exports = isObject;
+
+},{}],35:[function(require,module,exports){
+var isObjectLike = require('../internal/isObjectLike');
+
+/** `Object#toString` result references. */
+var stringTag = '[object String]';
+
+/** Used for native method references. */
+var objectProto = Object.prototype;
+
+/**
+ * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
+ * of values.
+ */
+var objToString = objectProto.toString;
+
+/**
+ * Checks if `value` is classified as a `String` primitive or object.
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
+ * @example
+ *
+ * _.isString('abc');
+ * // => true
+ *
+ * _.isString(1);
+ * // => false
+ */
+function isString(value) {
+  return typeof value == 'string' || (isObjectLike(value) && objToString.call(value) == stringTag);
+}
+
+module.exports = isString;
+
+},{"../internal/isObjectLike":25}],36:[function(require,module,exports){
+/**
+ * Checks if `value` is `undefined`.
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is `undefined`, else `false`.
+ * @example
+ *
+ * _.isUndefined(void 0);
+ * // => true
+ *
+ * _.isUndefined(null);
+ * // => false
+ */
+function isUndefined(value) {
+  return value === undefined;
+}
+
+module.exports = isUndefined;
+
+},{}],37:[function(require,module,exports){
+var getNative = require('../internal/getNative'),
+    isArrayLike = require('../internal/isArrayLike'),
+    isObject = require('../lang/isObject'),
+    shimKeys = require('../internal/shimKeys');
+
+/* Native method references for those with the same name as other `lodash` methods. */
+var nativeKeys = getNative(Object, 'keys');
+
+/**
+ * Creates an array of the own enumerable property names of `object`.
+ *
+ * **Note:** Non-object values are coerced to objects. See the
+ * [ES spec](http://ecma-international.org/ecma-262/6.0/#sec-object.keys)
+ * for more details.
+ *
+ * @static
+ * @memberOf _
+ * @category Object
+ * @param {Object} object The object to query.
+ * @returns {Array} Returns the array of property names.
+ * @example
+ *
+ * function Foo() {
+ *   this.a = 1;
+ *   this.b = 2;
+ * }
+ *
+ * Foo.prototype.c = 3;
+ *
+ * _.keys(new Foo);
+ * // => ['a', 'b'] (iteration order is not guaranteed)
+ *
+ * _.keys('hi');
+ * // => ['0', '1']
+ */
+var keys = !nativeKeys ? shimKeys : function(object) {
+  var Ctor = object == null ? undefined : object.constructor;
+  if ((typeof Ctor == 'function' && Ctor.prototype === object) ||
+      (typeof object != 'function' && isArrayLike(object))) {
+    return shimKeys(object);
+  }
+  return isObject(object) ? nativeKeys(object) : [];
+};
+
+module.exports = keys;
+
+},{"../internal/getNative":17,"../internal/isArrayLike":21,"../internal/shimKeys":26,"../lang/isObject":34}],38:[function(require,module,exports){
+var isArguments = require('../lang/isArguments'),
+    isArray = require('../lang/isArray'),
+    isIndex = require('../internal/isIndex'),
+    isLength = require('../internal/isLength'),
+    isObject = require('../lang/isObject');
+
+/** Used for native method references. */
+var objectProto = Object.prototype;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+/**
+ * Creates an array of the own and inherited enumerable property names of `object`.
+ *
+ * **Note:** Non-object values are coerced to objects.
+ *
+ * @static
+ * @memberOf _
+ * @category Object
+ * @param {Object} object The object to query.
+ * @returns {Array} Returns the array of property names.
+ * @example
+ *
+ * function Foo() {
+ *   this.a = 1;
+ *   this.b = 2;
+ * }
+ *
+ * Foo.prototype.c = 3;
+ *
+ * _.keysIn(new Foo);
+ * // => ['a', 'b', 'c'] (iteration order is not guaranteed)
+ */
+function keysIn(object) {
+  if (object == null) {
+    return [];
+  }
+  if (!isObject(object)) {
+    object = Object(object);
+  }
+  var length = object.length;
+  length = (length && isLength(length) &&
+    (isArray(object) || isArguments(object)) && length) || 0;
+
+  var Ctor = object.constructor,
+      index = -1,
+      isProto = typeof Ctor == 'function' && Ctor.prototype === object,
+      result = Array(length),
+      skipIndexes = length > 0;
+
+  while (++index < length) {
+    result[index] = (index + '');
+  }
+  for (var key in object) {
+    if (!(skipIndexes && isIndex(key, length)) &&
+        !(key == 'constructor' && (isProto || !hasOwnProperty.call(object, key)))) {
+      result.push(key);
+    }
+  }
+  return result;
+}
+
+module.exports = keysIn;
+
+},{"../internal/isIndex":22,"../internal/isLength":24,"../lang/isArguments":29,"../lang/isArray":30,"../lang/isObject":34}],39:[function(require,module,exports){
+/**
+ * This method returns the first argument provided to it.
+ *
+ * @static
+ * @memberOf _
+ * @category Utility
+ * @param {*} value Any value.
+ * @returns {*} Returns `value`.
+ * @example
+ *
+ * var object = { 'user': 'fred' };
+ *
+ * _.identity(object) === object;
+ * // => true
+ */
+function identity(value) {
+  return value;
+}
+
+module.exports = identity;
 
 },{}]},{},[1]);

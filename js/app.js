@@ -163,7 +163,18 @@ YoastSEO.App.prototype.constructI18n = function( translations ) {
  * Retrieves data from the callbacks.getData and applies modification to store these in this.rawData.
  */
 YoastSEO.App.prototype.getData = function() {
+	var isUndefined = require( "lodash/lang/isUndefined" );
+
 	this.rawData = this.callbacks.getData();
+
+	if ( !isUndefined( this.snippetPreview ) ) {
+		var data = this.snippetPreview.getAnalyzerData();
+
+		this.rawData.title = data.title;
+		this.rawData.url = data.url;
+		this.rawData.snippetMeta = data.metaDesc;
+	}
+
 	if ( this.pluggable.loaded ) {
 		this.rawData.pageTitle = this.pluggable._applyModifications( "data_page_title", this.rawData.pageTitle );
 		this.rawData.meta = this.pluggable._applyModifications( "data_meta_desc", this.rawData.meta );
@@ -188,7 +199,8 @@ YoastSEO.App.prototype.createSnippetPreview = function() {
 	var targetElement = document.getElementById( this.config.targets.snippet );
 
 	this.snippetPreview = new SnippetPreview( this );
-	this.snippetPreview.renderTemplate( targetElement );
+	this.snippetPreview.setTargetElement( targetElement );
+	this.snippetPreview.renderTemplate();
 	this.snippetPreview.callRegisteredEventBinder();
 	this.snippetPreview.bindEvents();
 	this.snippetPreview.init();
