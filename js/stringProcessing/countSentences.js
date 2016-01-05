@@ -1,4 +1,4 @@
-/** @module stringProcessing/sentenceCount */
+/** @module stringProcessing/countSentences */
 
 var cleanText = require( "../stringProcessing/cleanText.js" );
 
