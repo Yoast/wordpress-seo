@@ -54,9 +54,8 @@ class WPSEO_Redirect_Uniqueness_Validation_Test extends WPSEO_UnitTestCase {
 		);
 
 		$this->assertEquals(
-			new WPSEO_Validation_Error(
-				'The old url already exists as a redirect.' ),
-				$this->class_instance->get_error()
+			new WPSEO_Validation_Error( 'The old url already exists as a redirect.' ),
+			$this->class_instance->get_error()
 		);
 	}
 
@@ -92,6 +91,7 @@ class WPSEO_Redirect_Uniqueness_Validation_Test extends WPSEO_UnitTestCase {
 			array( 'old_url', 'my_old_url', 301 ),
 			array( 'older_url', 'my_older_url', 301 ),
 			array( 'my_old_url', '', 410 ),
+			array( 'my_old_url', '', 451 ),
 		);
 	}
 
@@ -105,6 +105,7 @@ class WPSEO_Redirect_Uniqueness_Validation_Test extends WPSEO_UnitTestCase {
 			array( 'the_old_url', 'my_old_url', 301 ),
 			array( 'the_older_url', 'my_older_url', 301 ),
 			array( 'the_deleted_url', '', 410 ),
+			array( 'the_deleted_url', '', 451 ),
 		);
 	}
 

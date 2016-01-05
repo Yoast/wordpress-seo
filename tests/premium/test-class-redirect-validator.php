@@ -94,6 +94,8 @@ class WPSEO_Redirect_Validation_Test extends WPSEO_UnitTestCase {
 			array( '', 'not_filled', '', '' ),													// Origin is not filled.
 			array( '', 'not_filled', 410, '' ),													// Origin is not filled.
 			array( '', '', 410, '' ),															// Origin is not filled.
+			array( '', 'not_filled', 451, '' ),													// Origin is not filled.
+			array( '', '', 451, '' ),															// Origin is not filled.
 			array( 'accessible_url', 'http://example.com/this/path/does/not/exist', 301, '' ),  // Page is not accessible.
 			array( 'accessible_url', 'http://fake-domain.not.exist/', 301, '' ),                // Will give a warning.
 			array( 'newer_url', 'older_url', 301, '' ),											// Will be a redirect loop.
@@ -113,9 +115,12 @@ class WPSEO_Redirect_Validation_Test extends WPSEO_UnitTestCase {
 			array( 'that_page', '/', 301, '' ),
 			array( 'current_page', '/', 301, '' ),
 			array( 'deleted-page', '', 410, '' ),
+			array( 'deleted-page', '', 451, '' ),
 			array( 'accessible_url', home_url(), 301, '' ),
 			array( 'accessible_url', '', 410, '' ),
 			array( 'end_url', '', 410, '' ),
+			array( 'accessible_url', '', 451, '' ),
+			array( 'end_url', '', 451, '' ),
 		);
 	}
 

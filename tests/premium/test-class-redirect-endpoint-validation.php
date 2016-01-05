@@ -63,6 +63,21 @@ class WPSEO_Redirect_Endpoint_Validation_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Validate if the end point result in a redirect loop. In this case the redirect is a 451.
+	 *
+	 * @covers WPSEO_Redirect_Endpoint_Validation::run
+	 */
+	public function test_validate_end_point_451( ) {
+		$this->assertTrue(
+			$this->class_instance->run(
+				new WPSEO_Redirect( 'end_url', '', 451 ),
+				new WPSEO_Redirect( 'end_url', '', 451 ),
+				$this->redirects
+			)
+		);
+	}
+
+	/**
 	 * Validate if the end point result in a redirect loop
 	 *
 	 * @covers WPSEO_Redirect_Endpoint_Validation::run

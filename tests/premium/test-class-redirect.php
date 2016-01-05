@@ -64,18 +64,6 @@ class WPSEO_Redirect_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test how construct deals with a 410 redirect and a target given
-	 *
-	 * @covers WPSEO_Redirect::__construct
-	 *
-	 * @expectedException        InvalidArgumentException
-	 * @expectedExceptionMessage Target cannot be empty for a 301 redirect.
-	 */
-	public function test_construct_target_exception() {
-		new WPSEO_Redirect( 'origin', '', WPSEO_Redirect::PERMANENT );
-	}
-
-	/**
 	 * Testing the getters
 	 *
 	 * @covers WPSEO_Redirect::get_origin
