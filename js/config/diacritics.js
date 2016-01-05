@@ -3,7 +3,7 @@
 /**
  * Returns the diacritics map
  *
- * @returns {object} diacritics map
+ * @returns {array} diacritics map
  */
 module.exports = function(){
 	return [
