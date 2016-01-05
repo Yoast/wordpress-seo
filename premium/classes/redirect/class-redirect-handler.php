@@ -56,7 +56,6 @@ class WPSEO_Redirect_Handler {
 	public function do_410() {
 		$this->set_404();
 		status_header( 410 );
-		nocache_headers();
 	}
 
 	/**
@@ -64,7 +63,6 @@ class WPSEO_Redirect_Handler {
 	 */
 	public function do_451() {
 		$this->set_404();
-		nocache_headers();
 		status_header( 451, 'Unavailable For Legal Reasons' );
 	}
 
