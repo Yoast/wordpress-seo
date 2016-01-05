@@ -16,6 +16,7 @@ module.exports = function( matches, keyword ) {
 	} else {
 		foundInHeader = 0;
 		for ( var i = 0; i < matches.length; i++ ) {
+			// TODO: This replaceString call seemingly doesn't work, as no replacement value is being sent to the .replace method in replaceString
 			var formattedHeaders = replaceString(
 				matches[ i ], removalWords
 			);
