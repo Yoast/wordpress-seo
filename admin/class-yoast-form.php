@@ -313,7 +313,7 @@ class Yoast_Form {
 
 		$class = 'switch-light switch-candy switch-yoast-seo';
 
-		if ( $reverse ) {
+		if ( ! $reverse ) {
 			$class .= ' switch-yoast-seo-reverse';
 		}
 

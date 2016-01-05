@@ -74,18 +74,19 @@ $yform->light_switch(
 		</div>
 
 		<div id="user-sitemap" class="wpseotab">
+			<p class="expl"><?php _e( 'The user sitemap contains the author archive URLs for every user on your site. You can choose to not include users without posts.', 'wordpress-seo' ); ?></p>
 			<?php
-			$switch_buttons = array( __( 'In sitemap', 'wordpress-seo' ), __( 'Not in sitemap', 'wordpress-seo' ) );
-			$yform->light_switch( 'disable_author_sitemap', __( 'Disable author/user sitemap', 'wordpress-seo' ), $switch_buttons, true );
+			$switch_buttons = array( __( 'Enabled', 'wordpress-seo' ), __( 'Disabled', 'wordpress-seo' ) );
+			$yform->light_switch( 'disable_author_sitemap', __( 'Author / user sitemap', 'wordpress-seo' ), $switch_buttons, true );
 			?>
 			<div id="xml_user_block">
-				<p><strong><?php _e( 'Exclude users without posts', 'wordpress-seo' ); ?></strong><br/>
 					<?php
+					$switch_buttons = array( __( 'In sitemap', 'wordpress-seo' ), __( 'Not in sitemap', 'wordpress-seo' ) );
 					$yform->light_switch( 'disable_author_noposts', __( 'Users with zero posts', 'wordpress-seo' ), $switch_buttons, true );
 
 					$roles = WPSEO_Utils::get_roles();
 					if ( is_array( $roles ) && $roles !== array() ) {
-						echo '<p><strong>' . __( 'Exclude user roles', 'wordpress-seo' ) . '</strong><br/>';
+						echo '<p class="expl"><strong>' . __( 'Filter specific user roles', 'wordpress-seo' ) . '</strong></p>';
 						foreach ( $roles as $role_key => $role_name ) {
 							$yform->light_switch( 'user_role-' . $role_key . '-not_in_sitemap', $role_name, $switch_buttons, true );
 						}
@@ -98,7 +99,6 @@ $yform->light_switch(
 			<?php
 			$post_types = apply_filters( 'wpseo_sitemaps_supported_post_types', get_post_types( array( 'public' => true ), 'objects' ) );
 			if ( is_array( $post_types ) && $post_types !== array() ) {
-				echo '<p><strong>' . __( 'Exclude post types', 'wordpress-seo' ) . '</strong><br/>';
 				foreach ( $post_types as $pt ) {
 					$yform->light_switch(
 						'post_types-' . $pt->name . '-not_in_sitemap',
@@ -126,7 +126,6 @@ $yform->light_switch(
 			<?php
 			$taxonomies = apply_filters( 'wpseo_sitemaps_supported_taxonomies', get_taxonomies( array( 'public' => true ), 'objects' ) );
 			if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
-				echo '<p><strong>' . __( 'Exclude taxonomies', 'wordpress-seo' ) . '</strong><br/>';
 				foreach ( $taxonomies as $tax ) {
 					if ( isset( $tax->labels->name ) && trim( $tax->labels->name ) != '' ) {
 						$yform->light_switch(

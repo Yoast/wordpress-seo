@@ -1,61 +1,56 @@
 .switch-light.switch-yoast-seo {
-    margin-bottom: 1.5em;
+	margin-bottom: 1.5em;
 }
 
 .switch-light.switch-yoast-seo > strong {
-    min-width: 200px;
-    display: block;
-    float: left;
-    vertical-align: middle;
-    line-height: 2em;
+	display: block;
+	float: left;
+	min-width: 200px;
+	line-height: 2em;
+	vertical-align: middle;
 }
 
 .switch-light.switch-yoast-seo > span {
-    float: left;
-    border: 1px solid #ccc;
-    background-color: #f7f7f7;
-    box-shadow: 0 1px 0 #cccccc;
-    width: 250px;
-}
-
-.switch-light.switch-yoast-seo > span > span {
-
+	float: right;
+	width: 250px;
+	border: 1px solid #ccc;
+	background-color: #dcdcdc;
+	box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15);
 }
 
 .switch-light.switch-yoast-seo a {
-    background: #d54e21 none;
-    box-shadow: none;
+	border-color: #b5b5b5;
+	background: #a4286a none;
 }
 
 .switch-light.switch-yoast-seo input:checked ~ span a {
-    background: #0085ba none;
+	border-color: #b5b5b5;
+	background: #a4286a none;
 }
 
 .switch-light.switch-yoast-seo span span,
 .switch-light.switch-yoast-seo input:checked ~ span span:first-child,
 .switch-toggle.switch-yoast-seo label {
-    color: #555;
-    text-shadow: none;
-    font-weight: inherit;
+	color: #333;
+	text-shadow: none;
+	font-weight: inherit;
 }
 
 .switch-candy.switch-yoast-seo input ~ span span:first-child,
 .switch-candy.switch-yoast-seo input:checked ~ span span:nth-child(2),
 .switch-candy.switch-yoast-seo input:checked + label {
-    color: #fff;
-    text-shadow: none;
+	color: #fff;
+	text-shadow: none;
 }
 
 .switch-light.switch-yoast-seo-reverse input:checked ~ span a {
-    left: 0;
-    background: #d54e21 none;
+	left: 0;
 }
 
 .switch-light.switch-yoast-seo-reverse a {
-    left: 50%;
-    background: #0085ba none;
+	left: 50%;
 }
 
 .switch-light.switch-yoast-seo-reverse span span {
-    float: right;
+	float: right;
 }

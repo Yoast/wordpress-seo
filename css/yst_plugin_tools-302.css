@@ -266,7 +266,11 @@ table.yoast_help tr:hover {
 	display: block;
 }
 
-.wpseotab strong {
+.wpseotab p.expl {
+	margin-left: 6px;
+}
+
+.wpseotab p.expl strong {
 	font-size: 115%;
 }
 
