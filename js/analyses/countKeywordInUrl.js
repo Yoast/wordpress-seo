@@ -1,4 +1,4 @@
-/** @module analyses/checkForKeywordUrl */
+/** @module analyses/countKeywordInUrl */
 
 var wordMatch = require( "../stringProcessing/matchTextWithWord.js" );
 /**
@@ -9,9 +9,7 @@ var wordMatch = require( "../stringProcessing/matchTextWithWord.js" );
  * @returns {int} Number of times the keyword is found.
  */
 module.exports = function( url, keyword ) {
-	if ( typeof keyword !== "undefined" && typeof url !== "undefined" ) {
-		keyword = keyword.replace( /\s/ig, "-" );
-		return wordMatch( url, keyword );
-	}
-	return 0;
+	keyword = keyword.replace( /\s/ig, "-" );
+
+	return wordMatch( url, keyword );
 };
