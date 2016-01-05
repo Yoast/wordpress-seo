@@ -8,6 +8,7 @@ var subheadingMatch = require( "../stringProcessing/subheadingsMatch.js" );
  * and if they have the keyword in them.
  *
  * @param {string} text The text to check for subheadings.
+ * @param {string} keyword The keyword to match for.
  * @returns {object} the result object.
  * count: the number of matches
  * matches:the number of ocurrences of the keyword for each match
