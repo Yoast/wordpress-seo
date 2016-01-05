@@ -1,4 +1,4 @@
-/** @module analyses/countLinks */
+/** @module analyses/getLinkStatistics */
 
 var getAnchors = require( "../stringProcessing/getAnchorsFromText.js" );
 var findKeywordInUrl = require( "../stringProcessing/findKeywordInUrl.js" );
