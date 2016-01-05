@@ -268,9 +268,10 @@ SnippetPreview.prototype.getMetaText = function() {
 	if ( typeof this.refObj.rawData.text !== "undefined" ) {
 		metaText = this.refObj.rawData.text;
 	}
-	if ( metaText === "" ) {
+	if ( _.isEmpty( metaText ) ) {
 		metaText = this.refObj.config.sampleText.meta;
 	}
+
 	metaText = this.refObj.stringHelper.stripAllTags( metaText );
 	if (
 		this.refObj.rawData.keyword !== "" &&
