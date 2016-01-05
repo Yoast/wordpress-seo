@@ -292,7 +292,13 @@ YoastSEO.Analyzer.prototype.fleschReading = function() {
  */
 YoastSEO.Analyzer.prototype.linkCount = function() {
 	var countLinks = require( "./analyses/getLinkStatistics.js" );
-	return [ { test: "linkCount", result: countLinks( this.config.text, this.config.keyword, this.config.baseUrl ) } ];
+	var keyword = this.config.keyword;
+
+	if ( typeof keyword === "undefined" ) {
+		keyword = "";
+	}
+
+	return [ { test: "linkCount", result: countLinks( this.config.text, keyword, this.config.baseUrl ) } ];
 };
 
 /**
