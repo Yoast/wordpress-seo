@@ -4,7 +4,16 @@
 var _ = {
 	isObject: require( "lodash/lang/isObject" ),
 	isEmpty: require( "lodash/lang/isEmpty" ),
-	clone: require( "lodash/lang/clone" )
+	clone: require( "lodash/lang/clone" ),
+	defaultsDeep: require( "lodash/object/defaultsDeep" )
+};
+
+var defaults = {
+	placeholder: {
+		title:    "This is an example title - edit by clicking here",
+		metaDesc: "Modify your meta description by editing it right here",
+		urlPath:  "example-post/"
+	}
 };
 
 /**
@@ -14,7 +23,12 @@ var _ = {
 /**
  * defines the config and outputTarget for the SnippetPreview
  *
- * @param {YoastSEO.App} refObj
+ * @param {Object}         opts                      - Snippet preview options.
+ * @param {App}            opts.analyzerApp          - The app object the snippet preview is part of.
+ * @param {Object}         opts.placeholder          - The fallback values for the snippet preview rendering.
+ * @param {string}         opts.placeholder.title    - The fallback value for the title.
+ * @param {string}         opts.placeholder.metaDesc - The fallback value for the meta description.
+ * @param {string}         opts.placeholder.urlPath  - The fallback value for the URL path.
  *
  * @property {App}         refObj                    - The connected app object.
  * @property {Jed}         i18n                      - The translation object.
@@ -40,9 +54,19 @@ var _ = {
  *
  * @constructor
  */
-var SnippetPreview = function( refObj ) {
-	this.refObj = refObj;
-	this.i18n = refObj.i18n;
+var SnippetPreview = function( opts ) {
+
+	// Accept an App object for backwards compatibility
+	if ( _.isObject( opts ) && opts instanceof YoastSEO.App ) {
+		opts = {
+			analyzerApp: opts
+		};
+	}
+
+	_.defaultsDeep( opts, defaults );
+
+	this.refObj = opts.analyzerApp;
+	this.i18n = this.refObj.i18n;
 	this.unformattedText = {
 		snippet_cite: this.refObj.rawData.snippetCite || "",
 		snippet_meta: this.refObj.rawData.snippetMeta || "",
