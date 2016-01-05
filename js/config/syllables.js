@@ -3,7 +3,7 @@
 /**
  * Returns an array with syllables.
  * Subtractsyllables are counted as two and need to be counted as one.
- * Addsyllables are counted as wone but need to be counted as two.
+ * Addsyllables are counted as one but need to be counted as two.
  * Exclusionwords are removed from the text to be counted seperatly.
  *
  * @returns {object}
