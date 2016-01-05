@@ -82,6 +82,21 @@ class WPSEO_Redirect_Uniqueness_Validation_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Test the validation a redirect being edited (in that case to redirects objects are given.
+	 *	 *
+	 * @covers WPSEO_Redirect_Uniqueness_Validation::run
+	 */
+	public function test_validate_edit_redirect_equal_origin(  ) {
+		$this->assertTrue(
+			$this->class_instance->run(
+				new WPSEO_Redirect( 'old_url' , 'target', 301 ),
+				new WPSEO_Redirect( 'old_url' , 'target', 301 ),
+				$this->redirects
+			)
+		);
+	}
+
+	/**
 	 * Provide array with redirects that already exists
 	 *
 	 * @return array
