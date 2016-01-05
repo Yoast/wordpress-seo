@@ -1,4 +1,4 @@
-/** @module analyses/countImages */
+/** @module analyses/getImageStatistics */
 
 var matchStringWithRegex = require( "../stringProcessing/matchStringWithRegex" );
 var imageAlttag = require( "../stringProcessing/getAlttagContent.js" );
