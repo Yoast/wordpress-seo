@@ -709,17 +709,20 @@ class WPSEO_Frontend {
 	 * @return string
 	 */
 	public function robots() {
-		global $wp_query;
+		global $wp_query, $post;
 
 		$robots           = array();
 		$robots['index']  = 'index';
 		$robots['follow'] = 'follow';
 		$robots['other']  = array();
 
-		if ( is_singular() ) {
-			global $post;
+		if ( is_singular() && is_object( $post ) ) {
 
-			if ( is_object( $post ) && ( ( isset( $this->options[ 'noindex-' . $post->post_type ] ) && $this->options[ 'noindex-' . $post->post_type ] === true ) || 'private' == $post->post_status ) ) {
+			$option_name = 'noindex-' . $post->post_type;
+			$noindex     = isset( $this->options[ $option_name ] ) && $this->options[ $option_name ] === true;
+			$private     = 'private' === $post->post_status;
+
+			if ( $noindex || $private ) {
 				$robots['index'] = 'noindex';
 			}
 
