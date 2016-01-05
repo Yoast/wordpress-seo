@@ -1,4 +1,4 @@
-/** @module analyses/getUrlLength */
+/** @module analyses/isUrlTooLong */
 
 var analyzerConfig = require( "../config/analyzerConfig" )();
 

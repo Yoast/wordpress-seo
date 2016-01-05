@@ -382,8 +382,8 @@ YoastSEO.Analyzer.prototype.urlKeyword = function() {
  * @returns {{test: string, result: number}[]}
  */
 YoastSEO.Analyzer.prototype.urlLength = function() {
-	var getUrlLength = require( "./analyses/getUrlLength.js" );
-	var result = [ { test: "urlLength", result: { urlTooLong: getUrlLength(
+	var isUrlTooLong = require( "./analyses/isUrlTooLong.js" );
+	var result = [ { test: "urlLength", result: { urlTooLong: isUrlTooLong(
 		this.config.url,
 		this.config.keyword,
 		this.config.maxSlugLength,
