@@ -18,7 +18,7 @@ module.exports = function( text, array ) {
 
 	matches = matches.map( function( string ) {
 		return removeSpaces ( string );
-	}.bind( this ) );
+	});
 
 	return matches;
 };
