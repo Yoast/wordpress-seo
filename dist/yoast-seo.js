@@ -681,7 +681,6 @@ YoastSEO.Analyzer.prototype.metaDescriptionLength = function() {
  */
 YoastSEO.Analyzer.prototype.urlKeyword = function() {
 	var result = [ { test: "urlKeyword", result: 0 } ];
-	console.log( this.config.url );
 	if ( typeof this.config.url !== "undefined" ) {
 		result[ 0 ].result = this.stringHelper.countMatches(
 			this.config.url, this.keywordRegexInverse
@@ -3757,9 +3756,9 @@ SnippetPreview.prototype.bindEvents = function() {
 		targetElement.addEventListener( "keydown", this.changedInput.bind( this ) );
 		targetElement.addEventListener( "keyup", this.changedInput.bind( this ) );
 
-		targetElement.addEventListener( 'keydown', this.disableEnter.bind( snippetPreview ) );
+		targetElement.addEventListener( 'keydown', this.disableEnter.bind( this ) );
 
-		//targetElement.addEventListener( "blur", this.refObj.callbacks.updateSnippetValues );
+		targetElement.addEventListener( "blur", this.refObj.callbacks.updateSnippetValues );
 	}
 
 	editButton = document.getElementsByClassName( "js-snippet-editor-edit" );

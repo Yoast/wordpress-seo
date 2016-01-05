@@ -556,7 +556,7 @@ SnippetPreview.prototype.bindEvents = function() {
 
 		targetElement.addEventListener( 'keydown', this.disableEnter.bind( this ) );
 
-		//targetElement.addEventListener( "blur", this.refObj.callbacks.updateSnippetValues );
+		targetElement.addEventListener( "blur", this.refObj.callbacks.updateSnippetValues );
 	}
 
 	editButton = document.getElementsByClassName( "js-snippet-editor-edit" );
