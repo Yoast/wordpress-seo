@@ -1,3 +1,5 @@
+/** @module analyses/findKeywordInPageTitle */
+
 var wordMatch = require( "../stringProcessing/matchTextWithWord.js" );
 var stringPosition = require( "../stringProcessing/getStringPosition.js" );
 
