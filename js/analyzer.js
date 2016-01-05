@@ -381,8 +381,13 @@ YoastSEO.Analyzer.prototype.metaDescriptionLength = function() {
  */
 YoastSEO.Analyzer.prototype.urlKeyword = function() {
 	var checkForKeywordInUrl = require( "./analyses/countKeywordInUrl.js" );
+	var score = 0;
 
-	var result = [ { test: "urlKeyword", result: checkForKeywordInUrl( this.config.url, this.config.keyword ) } ];
+	if ( typeof this.config.keyword !== "undefined" && typeof this.config.url !== "undefined" ) {
+		score = checkForKeywordInUrl( this.config.url, this.config.keyword );
+	}
+
+	var result = [ { test: "urlKeyword", result: score } ];
 	return result;
 };
 

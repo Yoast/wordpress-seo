@@ -381,8 +381,13 @@ YoastSEO.Analyzer.prototype.metaDescriptionLength = function() {
  */
 YoastSEO.Analyzer.prototype.urlKeyword = function() {
 	var checkForKeywordInUrl = require( "./analyses/countKeywordInUrl.js" );
+	var score = 0;
 
-	var result = [ { test: "urlKeyword", result: checkForKeywordInUrl( this.config.url, this.config.keyword ) } ];
+	if ( typeof this.config.keyword !== "undefined" && typeof this.config.url !== "undefined" ) {
+		score = checkForKeywordInUrl( this.config.url, this.config.keyword );
+	}
+
+	var result = [ { test: "urlKeyword", result: score } ];
 	return result;
 };
 
@@ -3590,10 +3595,10 @@ return parser;
 
 })(this);
 }.call(YoastSEO));/**
- * Returns a configobject with maxSlugLength, maxURLLength and MaxMeta to be used
+ * Returns a configobject with maxSlugLength, maxUrlLength and MaxMeta to be used
  * for analysis
  *
- * @returns {object} the config object
+ * @returns {object} the config object containing the maxSlugLength, maxUrlLength and the MaxMeta values
  */
 module.exports = function(){
 	return {
@@ -3724,7 +3729,7 @@ YoastSEO.preprocessorConfig = {
 /**
  * Returns the diacritics map
  *
- * @returns {object} diacritics map
+ * @returns {array} diacritics map
  */
 module.exports = function(){
 	return [
@@ -4335,7 +4340,7 @@ module.exports = function(){
 /**
  * Returns an array with syllables.
  * Subtractsyllables are counted as two and need to be counted as one.
- * Addsyllables are counted as wone but need to be counted as two.
+ * Addsyllables are counted as one but need to be counted as two.
  * Exclusionwords are removed from the text to be counted seperatly.
  *
  * @returns {object}
