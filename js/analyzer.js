@@ -232,7 +232,7 @@ YoastSEO.Analyzer.prototype.stopwords = function() {
 	var checkStringForStopwords = require( "./analyses/checkStringForStopwords.js" );
 	var matches = checkStringForStopwords( this.config.keyword );
 
-	/* matchestext is used for scoring, we should move this to the scoring */
+	/* Matchestext is used for scoring, we should move this to the scoring */
 	var matchesText = "";
 	if ( matches !== null ) {
 		for ( var i = 0; i < matches.length; i++ ) {
@@ -256,7 +256,16 @@ YoastSEO.Analyzer.prototype.stopwords = function() {
  */
 YoastSEO.Analyzer.prototype.fleschReading = function() {
 	var calculateFleschReading = require( "./analyses/calculateFleschReading.js" );
-	return [ { test: "fleschReading", result: calculateFleschReading( this.config.text ) } ];
+	var score = calculateFleschReading( this.config.text );
+	if ( score < 0 ) {
+		score = 0;
+	}
+
+	if ( score > 100 ) {
+		score = 100;
+	}
+
+	return [ { test: "fleschReading", result: score } ];
 };
 
 /**
