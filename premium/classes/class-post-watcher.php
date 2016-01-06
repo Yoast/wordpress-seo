@@ -132,10 +132,10 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 			// Format the message.
 			/* translators %1$s: Yoast SEO Premium, %2$s: List with actions, %3$s: <a href=''>, %4$s: </a> */
 			$message = sprintf(
-				__( '%1$s detected that you moved a post to the trash. You can either: %2$s Don\'t know what to do? %3$sRead this%4$s', 'wordpress-seo-premium' ),
+				__( '%1$s detected that you moved a post to the trash. You can either: %2$s Don\'t know what to do? %3$sRead this post%4$s.', 'wordpress-seo-premium' ),
 				'Yoast SEO Premium',
 				$action_list,
-				'<a href="yoa.st">',
+				'<a href="https://yoast.com/deleting-pages-from-your-site/#utm_source=wordpress-seo-premium-post-watcher&amp;utm_medium=dialog&amp;utm_campaign=410-redirect">',
 				'</a>'
 			);
 
