@@ -8,13 +8,8 @@
 'use strict';
 
 ( function($) {
-	var REDIRECT = {
-		DELETED: 410,
-		UNAVAILABLE: 451
-	};
-
 	var ALLOW_EMPTY_TARGET = [
-		REDIRECT.DELETED, REDIRECT.UNAVAILABLE
+		410, 451
 	];
 
 	var TABLE_COLUMNS = {
