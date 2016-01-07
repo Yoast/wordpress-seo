@@ -50,12 +50,6 @@ class WPSEO_Redirect_Handler {
 
 			return;
 		}
-
-		if ( in_array( http_response_code(), array( 410, 451 ) ) ) {
-			add_action( 'wp', array( $this, 'set_404' ) );
-		}
-
-
 	}
 
 	/**
