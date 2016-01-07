@@ -35,9 +35,7 @@ abstract class WPSEO_Redirect_File_Exporter implements WPSEO_Redirect_Exporter {
 			}
 
 			// Check if the file content isset.
-			if ( ! empty( $file_content ) ) {
-				return $this->save( $file_content );
-			}
+			return $this->save( $file_content );
 		}
 
 		return false;
