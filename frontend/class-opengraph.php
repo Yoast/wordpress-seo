@@ -914,8 +914,8 @@ class WPSEO_OpenGraph_Image {
 	 * @return bool
 	 */
 	private function get_attachment_page_image( $post_id ) {
-		if ( get_post_type( $post->ID ) === 'attachment' ) {
-			$mime_type = get_post_mime_type( $post->ID );
+		if ( get_post_type( $post_id ) === 'attachment' ) {
+			$mime_type = get_post_mime_type( $post_id );
 			switch ($mime_type) {
 				case 'image/jpeg':
 				case 'image/png':
