@@ -24,6 +24,6 @@ class WPSEO_Redirect_Nginx_Exporter extends WPSEO_Redirect_File_Exporter {
 	 *
 	 * @var string
 	 */
-	protected $regex_format = 'location ~ %1$s { return %3$s "%2$s" ; }';
+	protected $regex_format = 'location ~ %1$s { return %3$s %2$s; }';
 
 }
