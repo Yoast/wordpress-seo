@@ -47,7 +47,15 @@ class WPSEO_Redirect_Handler {
 
 			// Check the regex redirects.
 			$this->handle_regex_redirects();
+
+			return;
 		}
+
+		if ( in_array( http_response_code(), array( 410, 451 ) ) ) {
+			add_action( 'wp', array( $this, 'set_404' ) );
+		}
+
+
 	}
 
 	/**
