@@ -832,6 +832,10 @@ class WPSEO_OpenGraph_Image {
 			return;
 		}
 
+		if ( $this->get_attachment_page_image( $post->ID ) ) {
+			return;
+		}
+
 		if ( $this->get_featured_image( $post->ID ) ) {
 			return;
 		}
@@ -896,6 +900,27 @@ class WPSEO_OpenGraph_Image {
 				$this->dimensions['height'] = $thumb[2];
 
 				return $this->add_image( $thumb[0] );
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * If this is an attachment page, call add_image with the attachment and return true
+	 *
+	 * @param int $post_id The post ID.
+	 *
+	 * @return bool
+	 */
+	private function get_attachment_page_image( $post_id ) {
+		if ( get_post_type( $post->ID ) === 'attachment' ) {
+			$mime_type = get_post_mime_type( $post->ID );
+			switch ($mime_type) {
+				case 'image/jpeg':
+				case 'image/png':
+				case 'image/gif':
+					return $this->add_image( wp_get_attachment_url( $post_id ) );
 			}
 		}
 
