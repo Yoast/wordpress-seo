@@ -16,6 +16,6 @@ To provide a minified javascript file that can be included as is we use browseri
 
 ## External links
 
-* [WordPress hooks and filters](https://yoast.com/dev-blog/yoastseo-js-design-decisions/)
+* [Modifications API](https://yoast.com/dev-blog/yoastseo-js-design-decisions/)
 
 [lodash-cli]: https://lodash.com/custom-builds
