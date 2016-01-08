@@ -13,7 +13,8 @@ var defaults = {
 		title:    "This is an example title - edit by clicking here",
 		metaDesc: "Modify your meta description by editing it right here",
 		urlPath:  "example-post/"
-	}
+	},
+	baseURL: "http://example.com/"
 };
 
 /**
@@ -29,6 +30,8 @@ var defaults = {
  * @param {string}         opts.placeholder.title    - The fallback value for the title.
  * @param {string}         opts.placeholder.metaDesc - The fallback value for the meta description.
  * @param {string}         opts.placeholder.urlPath  - The fallback value for the URL path.
+ *
+ * @param {string}         opts.baseURL              - The basic URL as it will be displayed in google.
  *
  * @property {App}         refObj                    - The connected app object.
  * @property {Jed}         i18n                      - The translation object.
@@ -52,6 +55,8 @@ var defaults = {
  * @property {string}      data.urlPath              - The url path.
  * @property {string}      data.metaDesc             - The meta description.
  *
+ * @property {string}      baseURL                   - The basic URL as it will be displayed in google.
+ *
  * @constructor
  */
 var SnippetPreview = function( opts ) {
@@ -67,6 +72,8 @@ var SnippetPreview = function( opts ) {
 
 	this.refObj = opts.analyzerApp;
 	this.i18n = this.refObj.i18n;
+	this.opts = opts;
+
 	this.unformattedText = {
 		snippet_cite: this.refObj.rawData.snippetCite || "",
 		snippet_meta: this.refObj.rawData.snippetMeta || "",
@@ -143,6 +150,26 @@ SnippetPreview.prototype.refresh = function() {
 };
 
 /**
+ * Get's the base URL for this instance of the snippet preview.
+ *
+ * @returns {string} The base URL.
+ */
+var getBaseURL = function() {
+	var baseURL = this.opts.baseURL;
+
+	/*
+	 * For backwards compatibility, if no URL was passed to the snippet editor we try to retrieve the base URL from the
+	 * rawData in the App. This is because the scrapers used to be responsible for retrieving the baseURL. But the base
+	 * URL is static so we can just pass it to the snippet editor.
+	 */
+	if ( !_.isEmpty( this.refObj.rawData.baseUrl ) && this.opts.baseURL === defaults.baseURL ) {
+		baseURL = this.refObj.rawData.baseUrl;
+	}
+
+	return baseURL;
+};
+
+/**
  * Returns the data from the snippet preview.
  *
  * @returns {Object}
@@ -150,7 +177,7 @@ SnippetPreview.prototype.refresh = function() {
 SnippetPreview.prototype.getAnalyzerData = function() {
 	return {
 		title:    this.data.title,
-		url:      this.refObj.rawData.baseUrl + this.data.urlPath,
+		url:      getBaseURL.call( this ) + this.data.urlPath,
 		metaDesc: this.data.metaDesc
 	};
 };
@@ -218,11 +245,7 @@ SnippetPreview.prototype.formatTitle = function() {
  * @returns {string} Formatted base url for the snippet preview.
  */
 SnippetPreview.prototype.formatUrl = function() {
-	var url = this.refObj.rawData.baseUrl;
-
-	if ( _.isEmpty( url ) ) {
-		url = this.refObj.config.sampleText.baseUrl;
-	}
+	var url = getBaseURL.call( this );
 
 	//removes the http(s) part of the url
 	return url.replace( /https?:\/\//ig, "" );
