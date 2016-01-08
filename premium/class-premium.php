@@ -444,11 +444,10 @@ class WPSEO_Premium {
 	 * @param array $admin_pages Array with the admin pages.
 	 *
 	 * @return array
+	 * @deprecated 3.1
 	 */
 	public function add_admin_pages( $admin_pages ) {
-		$admin_pages[] = 'wpseo_redirects';
-		$admin_pages[] = 'wpseo_tutorial_videos';
-
+		_deprecated_function( 'WPSEO_Premium::add_admin_pages', 'WPSEO 3.1' );
 		return $admin_pages;
 	}
 
