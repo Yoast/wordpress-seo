@@ -238,6 +238,9 @@ SnippetPreview.prototype.formatTitle = function() {
 	// TODO: Replace this with the stripAllTags module.
 	title = this.refObj.stringHelper.stripAllTags( title );
 
+	// Apply modification to the title before showing it.
+	title = this.refObj.pluggable._applyModifications( "title", title );
+
 	// If a keyword is set we want to highlight it in the title.
 	if ( !_.isEmpty( this.refObj.rawData.keyword ) ) {
 		return this.formatKeyword( title );
