@@ -339,10 +339,8 @@ class WPSEO_Twitter {
 	 * Only used when OpenGraph is inactive or Summary Large Image card is chosen.
 	 */
 	protected function image() {
-		if ( count( $this->images ) > 0 ) {
-			$this->gallery_images_output();
-		}
-		elseif ( is_category() || is_tax() || is_tag() ) {
+
+		if ( is_category() || is_tax() || is_tag() ) {
 			$this->taxonomy_image_output();
 		}
 		else {
@@ -390,6 +388,10 @@ class WPSEO_Twitter {
 				return;
 			}
 			if ( $this->image_thumbnail_output() ) {
+				return;
+			}
+			if ( count( $this->images ) > 0 ) {
+				$this->gallery_images_output();
 				return;
 			}
 			if ( $this->image_from_content_output() ) {
