@@ -239,7 +239,9 @@ SnippetPreview.prototype.formatTitle = function() {
 	title = this.refObj.stringHelper.stripAllTags( title );
 
 	// Apply modification to the title before showing it.
-	title = this.refObj.pluggable._applyModifications( "title", title );
+	if ( this.refObj.pluggable.loaded ) {
+		title = this.refObj.pluggable._applyModifications( "data_page_title", title );
+	}
 
 	// If a keyword is set we want to highlight it in the title.
 	if ( !_.isEmpty( this.refObj.rawData.keyword ) ) {
