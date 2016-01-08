@@ -397,7 +397,10 @@
 		this.create_redirect_row = function( old_url, new_url, redirect_type ) {
 			var tr = $( '<tr>' ).append(
 				$( '<th>' ).addClass( 'check-column' ).attr( 'role', 'row' ).append(
-					$( '<input>' ).attr( 'type', 'checkbox' ).val( old_url )
+					$( '<input>' )
+						.attr( 'name', 'wpseo_redirects_bulk_delete[]' )
+						.attr( 'type', 'checkbox' )
+						.val( old_url )
 				)
 			).append(
 				$( '<td>' ).append(
