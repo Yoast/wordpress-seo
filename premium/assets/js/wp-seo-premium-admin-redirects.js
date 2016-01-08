@@ -306,6 +306,14 @@
 
 		var last_action;
 
+		/**
+		 * Resets the ignore and last_action.
+		 */
+		var reset_ignore = function() {
+			ignore      = false;
+			last_action = null;
+		};
+
 		this.get_buttons = function( type ) {
 			if ( type === 'default' ) {
 				return [
@@ -322,6 +330,7 @@
 				{
 					text: wpseo_premium_strings.button_cancel,
 					click: function() {
+						reset_ignore();
 						$(this).dialog('close');
 					}
 				},
@@ -336,8 +345,7 @@
 
 						$(this).dialog('close');
 
-						last_action = null;
-						ignore      = false;
+						reset_ignore();
 					}
 				}
 			];
@@ -517,11 +525,9 @@
 				},
 				function( response ) {
 					if (response.error) {
-						if (ignore === false) {
-							that.handleError( validateRedirect, response.error );
+						that.handleError( validateRedirect, response.error );
 
-							return true;
-						}
+						return true;
 					}
 
 					// Empty the form fields.
@@ -582,11 +588,9 @@
 				},
 				function( response ) {
 					if (response.error) {
-						if (ignore === false) {
-							that.handleError( validateRedirect, response.error );
+						that.handleError( validateRedirect, response.error );
 
-							return true;
-						}
+						return true;
 					}
 
 					// Updates the table cells.
