@@ -170,7 +170,7 @@ YoastSEO.App.prototype.getData = function() {
 	if ( !isUndefined( this.snippetPreview ) ) {
 		var data = this.snippetPreview.getAnalyzerData();
 
-		this.rawData.title = data.title;
+		this.rawData.snippetTitle = data.title;
 		this.rawData.url = data.url;
 		this.rawData.snippetMeta = data.metaDesc;
 	}
