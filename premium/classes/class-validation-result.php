@@ -71,7 +71,7 @@ abstract class WPSEO_Validation_Result {
 	 * @param string $fields The fields with errors on it.
 	 */
 	protected function set_fields( $fields = '' ) {
-		if ( ! is_array( $fields ) ) {
+		if ( ! is_array( $fields ) && is_string( $fields ) ) {
 			$fields = array( $fields );
 		}
 
