@@ -3,6 +3,7 @@
 # Build everything
 build:
   - 'build:css'
+  - 'build:jst'
   - 'build:js'
 # Precompile JavaScript templates
 'build:jst':
