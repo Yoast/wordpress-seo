@@ -83,7 +83,7 @@ var SnippetPreview = function( opts ) {
 	this.opts = opts;
 
 	if ( !_.isElement( opts.targetElement ) ) {
-		throw new Error( 'The snippet preview requires a valid target element' );
+		throw new Error( "The snippet preview requires a valid target element" );
 	}
 
 	this.unformattedText = {
@@ -97,6 +97,11 @@ var SnippetPreview = function( opts ) {
 		urlPath: this.refObj.rawData.snippetCite || "",
 		metaDesc: this.refObj.rawData.snippetMeta || ""
 	};
+
+	// For backwards compatibility use the pageTitle if the title is empty at this point.
+	if ( !_.isEmpty( this.refObj.rawData.pageTitle ) && _.isEmpty( this.data.title ) ) {
+		this.data.title = this.refObj.rawData.pageTitle;
+	}
 };
 
 /**
