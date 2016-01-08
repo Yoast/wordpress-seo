@@ -1,7 +1,7 @@
 /** @module stringProcessing/sanitizeString */
 
-var stripTags = require( "../stringProcessing/stripHTMLTags.js" );
-var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
+var stripTags = require( "stringProcessing/stripHTMLTags.js" );
+var stripSpaces = require( "stringProcessing/stripSpaces.js" );
 
 /**
  * Strip HTMLtags characters from string that break regex

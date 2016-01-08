@@ -1,6 +1,6 @@
 /** @module stringProcessing/countSentences */
 
-var cleanText = require( "../stringProcessing/cleanText.js" );
+var cleanText = require( "stringProcessing/cleanText.js" );
 
 /**
  * Counts the number of sentences in a given string.

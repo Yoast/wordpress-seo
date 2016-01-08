@@ -1,6 +1,6 @@
 /** @module stringProcessing/stripNonTextTags */
 
-var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
+var stripSpaces = require( "stringProcessing/stripSpaces.js" );
 
 /**
  * Strips all tags from the text, except li, p, dd and h1-h6 tags from the text that contain content to check.

@@ -20,6 +20,11 @@ module.exports = function( grunt ) {
 				"!js/config/*.js",
 				"<%= files.grunt %>"
 			],
+			jsDontLint: [
+				"!js/templates.js"
+			],
+			css: "<%= paths.css %>/*.css",
+			templates: "templates/*.jst",
 			jed: "node_modules/jed/jed.js",
 			get config() {
 				return project.paths.config + "*.js";

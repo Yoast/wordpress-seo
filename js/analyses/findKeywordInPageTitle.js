@@ -1,6 +1,6 @@
 /** @module analyses/findKeywordInPageTitle */
 
-var wordMatch = require( "../stringProcessing/matchTextWithWord.js" );
+var wordMatch = require( "stringProcessing/matchTextWithWord.js" );
 
 /**
  * Counts the occurrences of the keyword in the pagetitle. Returns the number of matches

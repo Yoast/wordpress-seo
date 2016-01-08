@@ -79,8 +79,34 @@ keywordCountArgs6 = {
 
 describe("a keyword with only digits", function(){
 	it("should return 1 keyword found in the text.", function(){
-		var textAnalyzer = Factory.buildAnalyzer(keywordCountArgs5);
+		var textAnalyzer = Factory.buildAnalyzer(keywordCountArgs6);
 		var result = textAnalyzer.keywordCount();
 		expect(result).toBe(1);
+	});
+});
+
+keywordCountArgs7 = {
+	text: "Тест текст тест нечто",
+	keyword: "текст"
+};
+
+describe("a text in Cyrillic", function(){
+	it("should return 1 matches for the keyword", function(){
+		var textAnalyzer = Factory.buildAnalyzer(keywordCountArgs7);
+		var result = textAnalyzer.keywordCount();
+		expect(result).toBe(1);
+	});
+});
+
+keywordCountArgs8 = {
+	text: "Тест текст тест нечто Тест текст тест нечто Тест текст тест нечто",
+	keyword: "текст"
+};
+
+describe("a text in Cyrillic", function(){
+	it("should return 3 matches for the keyword", function(){
+		var textAnalyzer = Factory.buildAnalyzer(keywordCountArgs8);
+		var result = textAnalyzer.keywordCount();
+		expect(result).toBe(3);
 	});
 });

@@ -1,6 +1,6 @@
 /** @module analyses/getWordCount */
 
-var sanitizeString = require( "../stringProcessing/sanitizeString.js" );
+var sanitizeString = require( "stringProcessing/sanitizeString.js" );
 
 /**
  * Checks the number of words in a string

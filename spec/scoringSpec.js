@@ -28,7 +28,7 @@ describe("a test for the scoring function of all functions in the analyzer", fun
        expect(analyzeScore[2].name).toBe("fleschReading");
        expect(analyzeScore[2].score).toBe(5);
        //214 syllables
-       expect(analyzeScore[2].text).toBe("The copy scores 48.4 in the <a href='https://en.wikipedia.org/wiki/Flesch-Kincaid_readability_test#Flesch_Reading_Ease' target='new'>Flesch Reading Ease</a> test, which is considered difficult to read. Try to make shorter sentences, using less difficult words to improve readability.");
+       expect(analyzeScore[2].text).toBe("The copy scores 48.4 in the <a href='https://yoast.com/flesch-reading-ease-score/' target='new'>Flesch Reading Ease</a> test, which is considered difficult to read. Try to make shorter sentences, using less difficult words to improve readability.");
        expect(analyzeScore[3].name).toBe("firstParagraph");
        expect(analyzeScore[3].score).toBe(3);
        expect(analyzeScore[3].text).toBe("The focus keyword doesn&#39;t appear in the first paragraph of the copy. Make sure the topic is clear immediately.");

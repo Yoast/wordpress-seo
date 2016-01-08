@@ -1,11 +1,11 @@
 /** @module analyses/calculateFleschReading */
 
-var cleanText = require( "../stringProcessing/cleanText.js" );
-var stripNumbers = require( "../stringProcessing/stripNumbers.js" );
-var stripHTMLTags = require( "../stringProcessing/stripHTMLTags.js" );
-var countSentences = require( "../stringProcessing/countSentences.js" );
-var countWords = require( "../stringProcessing/countWords.js" );
-var countSyllables = require( "../stringProcessing/countSyllables.js" );
+var cleanText = require( "stringProcessing/cleanText.js" );
+var stripNumbers = require( "stringProcessing/stripNumbers.js" );
+var stripHTMLTags = require( "stringProcessing/stripHTMLTags.js" );
+var countSentences = require( "stringProcessing/countSentences.js" );
+var countWords = require( "stringProcessing/countWords.js" );
+var countSyllables = require( "stringProcessing/countSyllables.js" );
 
 /**
  * This calculates the fleschreadingscore for a given text

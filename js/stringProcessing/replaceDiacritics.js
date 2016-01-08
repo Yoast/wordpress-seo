@@ -1,6 +1,6 @@
 /** @module stringProcessing/replaceDiacritics */
 
-var diacritisRemovalMap = require( "../config/diacritics.js" );
+var diacritisRemovalMap = require( "config/diacritics.js" );
 
 /**
  * Replaces all diacritics from the text based on the diacritics removal map.

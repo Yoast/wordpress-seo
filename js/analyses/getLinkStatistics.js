@@ -1,9 +1,9 @@
 /** @module analyses/getLinkStatistics */
 
-var getAnchors = require( "../stringProcessing/getAnchorsFromText.js" );
-var findKeywordInUrl = require( "../stringProcessing/findKeywordInUrl.js" );
-var getLinkType = require( "../stringProcessing/getLinkType.js" );
-var checkNofollow = require( "../stringProcessing/checkNofollow.js" );
+var getAnchors = require( "stringProcessing/getAnchorsFromText.js" );
+var findKeywordInUrl = require( "stringProcessing/findKeywordInUrl.js" );
+var getLinkType = require( "stringProcessing/getLinkType.js" );
+var checkNofollow = require( "stringProcessing/checkNofollow.js" );
 
 /**
  * Checks a text for anchors and returns an object with all linktypes found.

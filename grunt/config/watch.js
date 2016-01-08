@@ -2,10 +2,18 @@
 module.exports = {
 	compile: {
 		files: "<%= files.js %>",
-		tasks: [ "build" ]
+		tasks: [ "build:js" ]
 	},
 	checks: {
-		files: "<%= files.js %>",
+		files: [ "<%= files.js %>", "<%= files.jsDontLint %>" ],
 		tasks: [ "jshint", "jscs" ]
+	},
+	cssmin: {
+		files: "<%= files.css %>",
+		tasks: [ "cssmin" ]
+	},
+	templates: {
+		files: "<%= files.templates %>",
+		tasks: [ "build:jst" ]
 	}
 };

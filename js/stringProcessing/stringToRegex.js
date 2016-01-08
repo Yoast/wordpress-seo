@@ -1,8 +1,8 @@
 /** @module stringProcessing/stringToRegex */
 
-var replaceDiacritics = require( "../stringProcessing/replaceDiacritics.js" );
-var sanitizeString = require( "../stringProcessing/sanitizeString.js" );
-var addWordBoundary = require( "../stringProcessing/addWordboundary.js" );
+var replaceDiacritics = require( "stringProcessing/replaceDiacritics.js" );
+var sanitizeString = require( "stringProcessing/sanitizeString.js" );
+var addWordBoundary = require( "stringProcessing/addWordboundary.js" );
 
 /**
  * Creates a regex from a string so it can be matched everywhere in the same way.

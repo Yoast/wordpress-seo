@@ -1,6 +1,6 @@
 /** @module stringProcessing/stripNumbers */
 
-var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
+var stripSpaces = require( "stringProcessing/stripSpaces.js" );
 
 /**
  * Removes all words comprised only of numbers.

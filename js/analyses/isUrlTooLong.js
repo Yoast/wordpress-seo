@@ -1,6 +1,6 @@
 /** @module analyses/isUrlTooLong */
 
-var analyzerConfig = require( "../config/analyzerConfig" )();
+var analyzerConfig = require( "config/analyzerConfig" )();
 
 /**
  * Checks if an URL is too long, based on slug and relative to keyword length.

@@ -1,14 +1,14 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the Yoast-text-analysis package.
+# This file is distributed under the same license as the yoastseo package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Yoast-text-analysis 1.0\n"
+"Project-Id-Version: yoastseo 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-18 10:19+0100\n"
+"POT-Creation-Date: 2015-12-01 15:38+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -150,7 +150,7 @@ msgstr ""
 msgid "very difficult"
 msgstr ""
 
-#. translators: %1$s expands to the numeric flesh reading ease score, %2$s to a link to the wikipedia article about Flesh ease reading score, %3$s to the easyness of reading, %4$s expands to a note about the flesh reading score.
+#. translators: %1$s expands to the numeric flesh reading ease score, %2$s to a link to a Yoast.com article about Flesh ease reading score, %3$s to the easyness of reading, %4$s expands to a note about the flesh reading score.
 #: js/config/scoring.js:203
 msgid ""
 "The copy scores %1$s in the %2$s test, which is considered %3$s to read. %4$s"
