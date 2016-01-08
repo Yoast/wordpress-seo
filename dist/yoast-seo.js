@@ -3455,8 +3455,8 @@ SnippetPreview.prototype.formatTitle = function() {
 SnippetPreview.prototype.formatUrl = function() {
 	var url = getBaseURL.call( this );
 
-	//removes the http(s) part of the url
-	return url.replace( /https?:\/\//ig, "" );
+	// Removes the http part of the url, google displays https:// if the website supports it.
+	return url.replace( /http:\/\//ig, "" );
 };
 
 /**
