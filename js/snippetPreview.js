@@ -4,6 +4,7 @@
 var _ = {
 	isObject: require( "lodash/lang/isObject" ),
 	isEmpty: require( "lodash/lang/isEmpty" ),
+	isElement: require( "lodash/lang/isElement" ),
 	clone: require( "lodash/lang/clone" ),
 	defaultsDeep: require( "lodash/object/defaultsDeep" )
 };
@@ -32,6 +33,7 @@ var defaults = {
  * @param {string}         opts.placeholder.urlPath  - The fallback value for the URL path.
  *
  * @param {string}         opts.baseURL              - The basic URL as it will be displayed in google.
+ * @param {HTMLElement}    opts.targetElement        - The target element that contains this snippet editor.
  *
  * @property {App}         refObj                    - The connected app object.
  * @property {Jed}         i18n                      - The translation object.
@@ -80,6 +82,10 @@ var SnippetPreview = function( opts ) {
 	this.i18n = this.refObj.i18n;
 	this.opts = opts;
 
+	if ( !_.isElement( opts.targetElement ) ) {
+		throw new Error( 'The snippet preview requires a valid target element' );
+	}
+
 	this.unformattedText = {
 		snippet_cite: this.refObj.rawData.snippetCite || "",
 		snippet_meta: this.refObj.rawData.snippetMeta || "",
@@ -94,23 +100,13 @@ var SnippetPreview = function( opts ) {
 };
 
 /**
- * Set the target element the snippet editor should be rendered in.
- *
- * @param {HTMLElement} targetElement The element the editor should be rendered in.
- */
-SnippetPreview.prototype.setTargetElement = function( targetElement ) {
-	if ( _.isObject( targetElement ) ) {
-		this.targetElement = targetElement;
-	}
-};
-
-/**
  * Renders snippet editor and adds it to the targetElement
  */
 SnippetPreview.prototype.renderTemplate = function() {
 	var snippetEditorTemplate = require( "../js/templates.js" ).snippetEditor;
+	var targetElement = this.opts.targetElement;
 
-	this.targetElement.innerHTML = snippetEditorTemplate( {
+	targetElement.innerHTML = snippetEditorTemplate( {
 		raw: {
 			title: this.data.title,
 			snippetCite: this.data.urlPath,
@@ -139,9 +135,9 @@ SnippetPreview.prototype.renderTemplate = function() {
 			metaDesc: document.getElementById( "snippet_meta" )
 		},
 		input: {
-			title: this.targetElement.getElementsByClassName( "js-snippet-editor-title" )[0],
-			urlPath: this.targetElement.getElementsByClassName( "js-snippet-editor-slug" )[0],
-			metaDesc: this.targetElement.getElementsByClassName( "js-snippet-editor-meta-description" )[0]
+			title: targetElement.getElementsByClassName( "js-snippet-editor-title" )[0],
+			urlPath: targetElement.getElementsByClassName( "js-snippet-editor-slug" )[0],
+			metaDesc: targetElement.getElementsByClassName( "js-snippet-editor-meta-description" )[0]
 		}
 	};
 };

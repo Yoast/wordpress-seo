@@ -1200,8 +1200,10 @@ YoastSEO.App.prototype.createSnippetPreview = function() {
 
 	var targetElement = document.getElementById( this.config.targets.snippet );
 
-	this.snippetPreview = new SnippetPreview( this );
-	this.snippetPreview.setTargetElement( targetElement );
+	this.snippetPreview = new SnippetPreview( {
+		analyzerApp: this,
+		targetElement: targetElement
+	} );
 	this.snippetPreview.renderTemplate();
 	this.snippetPreview.callRegisteredEventBinder();
 	this.snippetPreview.bindEvents();
@@ -3199,13 +3201,14 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"../js/snippetPreview.js":2,"jed":4,"lodash/lang/isUndefined":45}],2:[function(require,module,exports){
+},{"../js/snippetPreview.js":2,"jed":4,"lodash/lang/isUndefined":46}],2:[function(require,module,exports){
 /* jshint browser: true */
 /* global YoastSEO: false */
 
 var _ = {
 	isObject: require( "lodash/lang/isObject" ),
 	isEmpty: require( "lodash/lang/isEmpty" ),
+	isElement: require( "lodash/lang/isElement" ),
 	clone: require( "lodash/lang/clone" ),
 	defaultsDeep: require( "lodash/object/defaultsDeep" )
 };
@@ -3234,6 +3237,7 @@ var defaults = {
  * @param {string}         opts.placeholder.urlPath  - The fallback value for the URL path.
  *
  * @param {string}         opts.baseURL              - The basic URL as it will be displayed in google.
+ * @param {HTMLElement}    opts.targetElement        - The target element that contains this snippet editor.
  *
  * @property {App}         refObj                    - The connected app object.
  * @property {Jed}         i18n                      - The translation object.
@@ -3282,6 +3286,10 @@ var SnippetPreview = function( opts ) {
 	this.i18n = this.refObj.i18n;
 	this.opts = opts;
 
+	if ( !_.isElement( opts.targetElement ) ) {
+		throw new Error( 'The snippet preview requires a valid target element' );
+	}
+
 	this.unformattedText = {
 		snippet_cite: this.refObj.rawData.snippetCite || "",
 		snippet_meta: this.refObj.rawData.snippetMeta || "",
@@ -3296,23 +3304,13 @@ var SnippetPreview = function( opts ) {
 };
 
 /**
- * Set the target element the snippet editor should be rendered in.
- *
- * @param {HTMLElement} targetElement The element the editor should be rendered in.
- */
-SnippetPreview.prototype.setTargetElement = function( targetElement ) {
-	if ( _.isObject( targetElement ) ) {
-		this.targetElement = targetElement;
-	}
-};
-
-/**
  * Renders snippet editor and adds it to the targetElement
  */
 SnippetPreview.prototype.renderTemplate = function() {
 	var snippetEditorTemplate = require( "../js/templates.js" ).snippetEditor;
+	var targetElement = this.opts.targetElement;
 
-	this.targetElement.innerHTML = snippetEditorTemplate( {
+	targetElement.innerHTML = snippetEditorTemplate( {
 		raw: {
 			title: this.data.title,
 			snippetCite: this.data.urlPath,
@@ -3341,9 +3339,9 @@ SnippetPreview.prototype.renderTemplate = function() {
 			metaDesc: document.getElementById( "snippet_meta" )
 		},
 		input: {
-			title: this.targetElement.getElementsByClassName( "js-snippet-editor-title" )[0],
-			urlPath: this.targetElement.getElementsByClassName( "js-snippet-editor-slug" )[0],
-			metaDesc: this.targetElement.getElementsByClassName( "js-snippet-editor-meta-description" )[0]
+			title: targetElement.getElementsByClassName( "js-snippet-editor-title" )[0],
+			urlPath: targetElement.getElementsByClassName( "js-snippet-editor-slug" )[0],
+			metaDesc: targetElement.getElementsByClassName( "js-snippet-editor-meta-description" )[0]
 		}
 	};
 };
@@ -3869,7 +3867,7 @@ SnippetPreview.prototype.saveSnippet = function() {
 
 module.exports = SnippetPreview;
 
-},{"../js/templates.js":3,"lodash/lang/clone":35,"lodash/lang/isEmpty":38,"lodash/lang/isObject":41,"lodash/object/defaultsDeep":47}],3:[function(require,module,exports){
+},{"../js/templates.js":3,"lodash/lang/clone":35,"lodash/lang/isElement":38,"lodash/lang/isEmpty":39,"lodash/lang/isObject":42,"lodash/object/defaultsDeep":48}],3:[function(require,module,exports){
 (function (global){
 ;(function() {
   var undefined;
@@ -5182,7 +5180,7 @@ function baseAssign(object, source) {
 
 module.exports = baseAssign;
 
-},{"../object/keys":48,"./baseCopy":10}],9:[function(require,module,exports){
+},{"../object/keys":49,"./baseCopy":10}],9:[function(require,module,exports){
 var arrayCopy = require('./arrayCopy'),
     arrayEach = require('./arrayEach'),
     baseAssign = require('./baseAssign'),
@@ -5312,7 +5310,7 @@ function baseClone(value, isDeep, customizer, key, object, stackA, stackB) {
 
 module.exports = baseClone;
 
-},{"../lang/isArray":37,"../lang/isObject":41,"./arrayCopy":6,"./arrayEach":7,"./baseAssign":8,"./baseForOwn":13,"./initCloneArray":24,"./initCloneByTag":25,"./initCloneObject":26}],10:[function(require,module,exports){
+},{"../lang/isArray":37,"../lang/isObject":42,"./arrayCopy":6,"./arrayEach":7,"./baseAssign":8,"./baseForOwn":13,"./initCloneArray":24,"./initCloneByTag":25,"./initCloneObject":26}],10:[function(require,module,exports){
 /**
  * Copies properties of `source` to `object`.
  *
@@ -5375,7 +5373,7 @@ function baseForIn(object, iteratee) {
 
 module.exports = baseForIn;
 
-},{"../object/keysIn":49,"./baseFor":11}],13:[function(require,module,exports){
+},{"../object/keysIn":50,"./baseFor":11}],13:[function(require,module,exports){
 var baseFor = require('./baseFor'),
     keys = require('../object/keys');
 
@@ -5394,7 +5392,7 @@ function baseForOwn(object, iteratee) {
 
 module.exports = baseForOwn;
 
-},{"../object/keys":48,"./baseFor":11}],14:[function(require,module,exports){
+},{"../object/keys":49,"./baseFor":11}],14:[function(require,module,exports){
 var arrayEach = require('./arrayEach'),
     baseMergeDeep = require('./baseMergeDeep'),
     isArray = require('../lang/isArray'),
@@ -5452,7 +5450,7 @@ function baseMerge(object, source, customizer, stackA, stackB) {
 
 module.exports = baseMerge;
 
-},{"../lang/isArray":37,"../lang/isObject":41,"../lang/isTypedArray":44,"../object/keys":48,"./arrayEach":7,"./baseMergeDeep":15,"./isArrayLike":27,"./isObjectLike":31}],15:[function(require,module,exports){
+},{"../lang/isArray":37,"../lang/isObject":42,"../lang/isTypedArray":45,"../object/keys":49,"./arrayEach":7,"./baseMergeDeep":15,"./isArrayLike":27,"./isObjectLike":31}],15:[function(require,module,exports){
 var arrayCopy = require('./arrayCopy'),
     isArguments = require('../lang/isArguments'),
     isArray = require('../lang/isArray'),
@@ -5521,7 +5519,7 @@ function baseMergeDeep(object, source, key, mergeFunc, customizer, stackA, stack
 
 module.exports = baseMergeDeep;
 
-},{"../lang/isArguments":36,"../lang/isArray":37,"../lang/isPlainObject":42,"../lang/isTypedArray":44,"../lang/toPlainObject":46,"./arrayCopy":6,"./isArrayLike":27}],16:[function(require,module,exports){
+},{"../lang/isArguments":36,"../lang/isArray":37,"../lang/isPlainObject":43,"../lang/isTypedArray":45,"../lang/toPlainObject":47,"./arrayCopy":6,"./isArrayLike":27}],16:[function(require,module,exports){
 /**
  * The base implementation of `_.property` without support for deep paths.
  *
@@ -5578,7 +5576,7 @@ function bindCallback(func, thisArg, argCount) {
 
 module.exports = bindCallback;
 
-},{"../utility/identity":51}],18:[function(require,module,exports){
+},{"../utility/identity":52}],18:[function(require,module,exports){
 (function (global){
 /** Native method references. */
 var ArrayBuffer = global.ArrayBuffer,
@@ -5733,7 +5731,7 @@ function getNative(object, key) {
 
 module.exports = getNative;
 
-},{"../lang/isNative":40}],24:[function(require,module,exports){
+},{"../lang/isNative":41}],24:[function(require,module,exports){
 /** Used for native method references. */
 var objectProto = Object.prototype;
 
@@ -5917,7 +5915,7 @@ function isIterateeCall(value, index, object) {
 
 module.exports = isIterateeCall;
 
-},{"../lang/isObject":41,"./isArrayLike":27,"./isIndex":28}],30:[function(require,module,exports){
+},{"../lang/isObject":42,"./isArrayLike":27,"./isIndex":28}],30:[function(require,module,exports){
 /**
  * Used as the [maximum length](http://ecma-international.org/ecma-262/6.0/#sec-number.max_safe_integer)
  * of an array-like value.
@@ -5970,7 +5968,7 @@ function mergeDefaults(objectValue, sourceValue) {
 
 module.exports = mergeDefaults;
 
-},{"../object/merge":50}],33:[function(require,module,exports){
+},{"../object/merge":51}],33:[function(require,module,exports){
 var isArguments = require('../lang/isArguments'),
     isArray = require('../lang/isArray'),
     isIndex = require('./isIndex'),
@@ -6013,7 +6011,7 @@ function shimKeys(object) {
 
 module.exports = shimKeys;
 
-},{"../lang/isArguments":36,"../lang/isArray":37,"../object/keysIn":49,"./isIndex":28,"./isLength":30}],34:[function(require,module,exports){
+},{"../lang/isArguments":36,"../lang/isArray":37,"../object/keysIn":50,"./isIndex":28,"./isLength":30}],34:[function(require,module,exports){
 var isObject = require('../lang/isObject');
 
 /**
@@ -6029,7 +6027,7 @@ function toObject(value) {
 
 module.exports = toObject;
 
-},{"../lang/isObject":41}],35:[function(require,module,exports){
+},{"../lang/isObject":42}],35:[function(require,module,exports){
 var baseClone = require('../internal/baseClone'),
     bindCallback = require('../internal/bindCallback'),
     isIterateeCall = require('../internal/isIterateeCall');
@@ -6180,6 +6178,32 @@ var isArray = nativeIsArray || function(value) {
 module.exports = isArray;
 
 },{"../internal/getNative":23,"../internal/isLength":30,"../internal/isObjectLike":31}],38:[function(require,module,exports){
+var isObjectLike = require('../internal/isObjectLike'),
+    isPlainObject = require('./isPlainObject');
+
+/**
+ * Checks if `value` is a DOM element.
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a DOM element, else `false`.
+ * @example
+ *
+ * _.isElement(document.body);
+ * // => true
+ *
+ * _.isElement('<body>');
+ * // => false
+ */
+function isElement(value) {
+  return !!value && value.nodeType === 1 && isObjectLike(value) && !isPlainObject(value);
+}
+
+module.exports = isElement;
+
+},{"../internal/isObjectLike":31,"./isPlainObject":43}],39:[function(require,module,exports){
 var isArguments = require('./isArguments'),
     isArray = require('./isArray'),
     isArrayLike = require('../internal/isArrayLike'),
@@ -6228,7 +6252,7 @@ function isEmpty(value) {
 
 module.exports = isEmpty;
 
-},{"../internal/isArrayLike":27,"../internal/isObjectLike":31,"../object/keys":48,"./isArguments":36,"./isArray":37,"./isFunction":39,"./isString":43}],39:[function(require,module,exports){
+},{"../internal/isArrayLike":27,"../internal/isObjectLike":31,"../object/keys":49,"./isArguments":36,"./isArray":37,"./isFunction":40,"./isString":44}],40:[function(require,module,exports){
 var isObject = require('./isObject');
 
 /** `Object#toString` result references. */
@@ -6268,7 +6292,7 @@ function isFunction(value) {
 
 module.exports = isFunction;
 
-},{"./isObject":41}],40:[function(require,module,exports){
+},{"./isObject":42}],41:[function(require,module,exports){
 var isFunction = require('./isFunction'),
     isObjectLike = require('../internal/isObjectLike');
 
@@ -6318,7 +6342,7 @@ function isNative(value) {
 
 module.exports = isNative;
 
-},{"../internal/isObjectLike":31,"./isFunction":39}],41:[function(require,module,exports){
+},{"../internal/isObjectLike":31,"./isFunction":40}],42:[function(require,module,exports){
 /**
  * Checks if `value` is the [language type](https://es5.github.io/#x8) of `Object`.
  * (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
@@ -6348,7 +6372,7 @@ function isObject(value) {
 
 module.exports = isObject;
 
-},{}],42:[function(require,module,exports){
+},{}],43:[function(require,module,exports){
 var baseForIn = require('../internal/baseForIn'),
     isArguments = require('./isArguments'),
     isObjectLike = require('../internal/isObjectLike');
@@ -6421,7 +6445,7 @@ function isPlainObject(value) {
 
 module.exports = isPlainObject;
 
-},{"../internal/baseForIn":12,"../internal/isObjectLike":31,"./isArguments":36}],43:[function(require,module,exports){
+},{"../internal/baseForIn":12,"../internal/isObjectLike":31,"./isArguments":36}],44:[function(require,module,exports){
 var isObjectLike = require('../internal/isObjectLike');
 
 /** `Object#toString` result references. */
@@ -6458,7 +6482,7 @@ function isString(value) {
 
 module.exports = isString;
 
-},{"../internal/isObjectLike":31}],44:[function(require,module,exports){
+},{"../internal/isObjectLike":31}],45:[function(require,module,exports){
 var isLength = require('../internal/isLength'),
     isObjectLike = require('../internal/isObjectLike');
 
@@ -6534,7 +6558,7 @@ function isTypedArray(value) {
 
 module.exports = isTypedArray;
 
-},{"../internal/isLength":30,"../internal/isObjectLike":31}],45:[function(require,module,exports){
+},{"../internal/isLength":30,"../internal/isObjectLike":31}],46:[function(require,module,exports){
 /**
  * Checks if `value` is `undefined`.
  *
@@ -6557,7 +6581,7 @@ function isUndefined(value) {
 
 module.exports = isUndefined;
 
-},{}],46:[function(require,module,exports){
+},{}],47:[function(require,module,exports){
 var baseCopy = require('../internal/baseCopy'),
     keysIn = require('../object/keysIn');
 
@@ -6590,7 +6614,7 @@ function toPlainObject(value) {
 
 module.exports = toPlainObject;
 
-},{"../internal/baseCopy":10,"../object/keysIn":49}],47:[function(require,module,exports){
+},{"../internal/baseCopy":10,"../object/keysIn":50}],48:[function(require,module,exports){
 var createDefaults = require('../internal/createDefaults'),
     merge = require('./merge'),
     mergeDefaults = require('../internal/mergeDefaults');
@@ -6617,7 +6641,7 @@ var defaultsDeep = createDefaults(merge, mergeDefaults);
 
 module.exports = defaultsDeep;
 
-},{"../internal/createDefaults":21,"../internal/mergeDefaults":32,"./merge":50}],48:[function(require,module,exports){
+},{"../internal/createDefaults":21,"../internal/mergeDefaults":32,"./merge":51}],49:[function(require,module,exports){
 var getNative = require('../internal/getNative'),
     isArrayLike = require('../internal/isArrayLike'),
     isObject = require('../lang/isObject'),
@@ -6664,7 +6688,7 @@ var keys = !nativeKeys ? shimKeys : function(object) {
 
 module.exports = keys;
 
-},{"../internal/getNative":23,"../internal/isArrayLike":27,"../internal/shimKeys":33,"../lang/isObject":41}],49:[function(require,module,exports){
+},{"../internal/getNative":23,"../internal/isArrayLike":27,"../internal/shimKeys":33,"../lang/isObject":42}],50:[function(require,module,exports){
 var isArguments = require('../lang/isArguments'),
     isArray = require('../lang/isArray'),
     isIndex = require('../internal/isIndex'),
@@ -6730,7 +6754,7 @@ function keysIn(object) {
 
 module.exports = keysIn;
 
-},{"../internal/isIndex":28,"../internal/isLength":30,"../lang/isArguments":36,"../lang/isArray":37,"../lang/isObject":41}],50:[function(require,module,exports){
+},{"../internal/isIndex":28,"../internal/isLength":30,"../lang/isArguments":36,"../lang/isArray":37,"../lang/isObject":42}],51:[function(require,module,exports){
 var baseMerge = require('../internal/baseMerge'),
     createAssigner = require('../internal/createAssigner');
 
@@ -6786,7 +6810,7 @@ var merge = createAssigner(baseMerge);
 
 module.exports = merge;
 
-},{"../internal/baseMerge":14,"../internal/createAssigner":19}],51:[function(require,module,exports){
+},{"../internal/baseMerge":14,"../internal/createAssigner":19}],52:[function(require,module,exports){
 /**
  * This method returns the first argument provided to it.
  *

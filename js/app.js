@@ -198,8 +198,10 @@ YoastSEO.App.prototype.createSnippetPreview = function() {
 
 	var targetElement = document.getElementById( this.config.targets.snippet );
 
-	this.snippetPreview = new SnippetPreview( this );
-	this.snippetPreview.setTargetElement( targetElement );
+	this.snippetPreview = new SnippetPreview( {
+		analyzerApp: this,
+		targetElement: targetElement
+	} );
 	this.snippetPreview.renderTemplate();
 	this.snippetPreview.callRegisteredEventBinder();
 	this.snippetPreview.bindEvents();
