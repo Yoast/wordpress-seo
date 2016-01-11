@@ -81,14 +81,14 @@ $yform->light_switch(
 			?>
 			<div id="xml_user_block">
 					<?php
-					$switch_buttons = array( __( 'In sitemap', 'wordpress-seo' ), __( 'Not in sitemap', 'wordpress-seo' ) );
-					$yform->light_switch( 'disable_author_noposts', __( 'Users with zero posts', 'wordpress-seo' ), $switch_buttons, true );
+					$switch_values = array( 'off' => __( 'In sitemap', 'wordpress-seo' ), 'on' => __( 'Not in sitemap', 'wordpress-seo' ) );
+					$yform->toggle_switch( 'disable_author_noposts', $switch_values, __( 'Users with zero posts', 'wordpress-seo' ) );
 
 					$roles = WPSEO_Utils::get_roles();
 					if ( is_array( $roles ) && $roles !== array() ) {
 						echo '<p class="expl"><strong>' . __( 'Filter specific user roles', 'wordpress-seo' ) . '</strong></p>';
 						foreach ( $roles as $role_key => $role_name ) {
-							$yform->light_switch( 'user_role-' . $role_key . '-not_in_sitemap', $role_name, $switch_buttons, true );
+							$yform->toggle_switch( 'user_role-' . $role_key . '-not_in_sitemap', $switch_values, $role_name );
 						}
 					} ?>
 			</div>
@@ -100,11 +100,10 @@ $yform->light_switch(
 			$post_types = apply_filters( 'wpseo_sitemaps_supported_post_types', get_post_types( array( 'public' => true ), 'objects' ) );
 			if ( is_array( $post_types ) && $post_types !== array() ) {
 				foreach ( $post_types as $pt ) {
-					$yform->light_switch(
+					$yform->toggle_switch(
 						'post_types-' . $pt->name . '-not_in_sitemap',
-						$pt->labels->name . ' (<code>' . $pt->name . '</code>)',
-						$switch_buttons,
-						true
+						$switch_values,
+						$pt->labels->name . ' (<code>' . $pt->name . '</code>)'
 					);
 				}
 			}
@@ -128,11 +127,10 @@ $yform->light_switch(
 			if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
 				foreach ( $taxonomies as $tax ) {
 					if ( isset( $tax->labels->name ) && trim( $tax->labels->name ) != '' ) {
-						$yform->light_switch(
+						$yform->toggle_switch(
 							'taxonomies-' . $tax->name . '-not_in_sitemap',
-							$tax->labels->name . ' (<code>' . $tax->name . '</code>)',
-							$switch_buttons,
-							true
+							$switch_values,
+							$tax->labels->name . ' (<code>' . $tax->name . '</code>)'
 						);
 					}
 				}
