@@ -186,8 +186,8 @@ class WPSEO_Admin {
 				__( 'Search Console', 'wordpress-seo' ),
 				$manage_options_cap,
 				'wpseo_search_console',
-				array( $this->admin_features['gsc'], 'display' ),
-				array( array( $this->admin_features['gsc'], 'set_help' ) ),
+				array( $this->admin_features['google_search_console'], 'display' ),
+				array( array( $this->admin_features['google_search_console'], 'set_help' ) ),
 			),
 			array(
 				'wpseo_dashboard',
