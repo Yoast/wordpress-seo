@@ -61,7 +61,7 @@ class WPSEO_Redirect_Validation_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Test with redirects which don't exists already. Resulting in no validation errors
 	 *
-	 * @dataProvider faulthy_redirect_provider
+	 * @dataProvider faulty_redirect_provider
 	 *
 	 * @param string $origin     The origin url.
 	 * @param string $target     Target url.
