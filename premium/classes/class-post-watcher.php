@@ -123,19 +123,13 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 
 			$id = 'wpseo_redirect_' . md5( $url );
 
-			$action_list = sprintf(
-				'<ul>%1$s %2$s</ul>',
-				'<li><a href=\'' . $this->javascript_create_redirect( $url, $id, WPSEO_Redirect::PERMANENT ) . '\'>' . __( 'Redirect it to another URL.', 'wordpress-seo-premium' ) . '</a></li>',
-				'<li><a href=\'' . $this->javascript_create_redirect( $url, $id, WPSEO_Redirect::DELETED ) . '\'>' . __( 'Make it serve a 410 Content Deleted header.', 'wordpress-seo-premium' ) . '</a></li>'
-			);
-
 			// Format the message.
 			/* translators %1$s: Yoast SEO Premium, %2$s: List with actions, %3$s: <a href=''>, %4$s: </a> */
 			$message = sprintf(
 				__( '%1$s detected that you moved a post to the trash. You can either: %2$s Don\'t know what to do? %3$sRead this post%4$s.', 'wordpress-seo-premium' ),
 				'Yoast SEO Premium',
-				$action_list,
-				'<a href="https://yoast.com/deleting-pages-from-your-site/#utm_source=wordpress-seo-premium-post-watcher&amp;utm_medium=dialog&amp;utm_campaign=410-redirect">',
+				$this->get_delete_action_list( $url, $id ),
+				'<a href="https://yoast.com/deleting-pages-from-your-site/#utm_source=wordpress-seo-premium-' . $this->watch_type . '-watcher&amp;utm_medium=dialog&amp;utm_campaign=410-redirect">',
 				'</a>'
 			);
 

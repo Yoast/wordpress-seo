@@ -210,4 +210,20 @@ abstract class WPSEO_Watcher {
 		$this->create_notification( $message, 'slug_change', $id );
 	}
 
+	/**
+	 * Returns a list with the actions that the user can do on deleting a post/term
+	 *
+	 * @param string $url The url that will be redirected.
+	 * @param string $id  The ID of the element.
+	 *
+	 * @return string.
+	 */
+	protected function get_delete_action_list( $url, $id ) {
+		return sprintf(
+			'<ul>%1$s %2$s</ul>',
+			'<li><a href=\'' . $this->javascript_create_redirect( $url, $id, WPSEO_Redirect::PERMANENT ) . '\'>' . __( 'Redirect it to another URL.', 'wordpress-seo-premium' ) . '</a></li>',
+			'<li><a href=\'' . $this->javascript_create_redirect( $url, $id, WPSEO_Redirect::DELETED ) . '\'>' . __( 'Make it serve a 410 Content Deleted header.', 'wordpress-seo-premium' ) . '</a></li>'
+		);
+	}
+
 }
