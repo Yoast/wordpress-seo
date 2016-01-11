@@ -126,6 +126,20 @@
 	};
 
 	/**
+	 * The data passed from the snippet editor.
+	 *
+	 * @param {Object} data
+	 * @param {string} data.title
+	 * @param {string} data.urlPath
+	 * @param {string} data.metaDesc
+	 */
+	TermScraper.prototype.saveSnippetData = function( data ) {
+		this.setDataFromSnippet( data.title, 'snippet_title' );
+		this.setDataFromSnippet( data.urlPath, 'snippet_cite' );
+		this.setDataFromSnippet( data.metaDesc, 'snippet_meta' );
+	};
+
+	/**
 	 * binds elements
 	 */
 	TermScraper.prototype.bindElementEvents = function( app ) {
@@ -382,7 +396,8 @@
 				getData: termScraper.getData.bind( termScraper ),
 				bindElementEvents: termScraper.bindElementEvents.bind( termScraper ),
 				updateSnippetValues: termScraper.updateSnippet.bind( termScraper ),
-				saveScores: termScraper.saveScores.bind( termScraper )
+				saveScores: termScraper.saveScores.bind( termScraper ),
+				saveSnippetData: termScraper.saveSnippetData.bind( termScraper )
 			},
 			locale: wpseoTermScraperL10n.locale
 		};

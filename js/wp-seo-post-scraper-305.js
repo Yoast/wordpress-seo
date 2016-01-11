@@ -184,6 +184,20 @@
 	};
 
 	/**
+	 * The data passed from the snippet editor.
+	 *
+	 * @param {Object} data
+	 * @param {string} data.title
+	 * @param {string} data.urlPath
+	 * @param {string} data.metaDesc
+	 */
+	PostScraper.prototype.saveSnippetData = function( data ) {
+		this.setDataFromSnippet( data.title, 'snippet_title' );
+		this.setDataFromSnippet( data.urlPath, 'snippet_cite' );
+		this.setDataFromSnippet( data.metaDesc, 'snippet_meta' );
+	};
+
+	/**
 	 * Gets content from the content field, if tinyMCE is initialized, use the getContent function to get the data from tinyMCE
 	 * If tiny is hidden, take the value from the contentfield, since tinyMCE isn't updated when it isn't visible.
 	 * @returns {String}
@@ -283,35 +297,6 @@
 		if ( YoastSEO.app.rawData.keyword !== '' ) {
 			YoastSEO.app.runAnalyzer( this.rawData );
 		}
-	};
-
-	/**
-	 * Updates the snippet values, is bound by the loader when generating the elements for the snippet.
-	 * calls the update snippet values to save snippet in the hidden fields
-	 * calls checkTextLength to update the snippet editor fields (move too long texts)
-	 * refreshes the app to run with new data.
-	 *
-	 * @param {Object} ev
-	 */
-	PostScraper.prototype.updateSnippet = function( ev ) {
-		this.updateSnippetValues( ev );
-		YoastSEO.app.snippetPreview.checkTextLength( ev );
-		YoastSEO.app.analyzeTimer();
-	};
-
-	/**
-	 * Uses the unformattedText object of the snippetpreview if the textFeedback function has put a string there (if text was too long).
-	 * clears this after use.
-	 *
-	 * @param {Object} ev
-	 */
-	PostScraper.prototype.updateSnippetValues = function( ev ) {
-		var dataFromSnippet = ev.currentTarget.textContent;
-		var currentElement = ev.currentTarget.id;
-		if ( typeof YoastSEO.app.snippetPreview.unformattedText[ currentElement ] !== 'undefined' ) {
-			ev.currentTarget.textContent = YoastSEO.app.snippetPreview.unformattedText[ currentElement ];
-		}
-		this.setDataFromSnippet( dataFromSnippet, ev.currentTarget.id );
 	};
 
 	/**
@@ -501,8 +486,8 @@
 			callbacks: {
 				getData: postScraper.getData.bind( postScraper ),
 				bindElementEvents: postScraper.bindElementEvents.bind( postScraper ),
-				updateSnippetValues: postScraper.updateSnippet.bind( postScraper ),
-				saveScores: postScraper.saveScores.bind( postScraper )
+				saveScores: postScraper.saveScores.bind( postScraper ),
+				saveSnippetData: postScraper.saveSnippetData.bind( postScraper )
 			},
 			locale: wpseoPostScraperL10n.locale
 		};
