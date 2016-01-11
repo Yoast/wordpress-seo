@@ -1,3 +1,7 @@
+.fieldset-switch-toggle label {
+	float: none;
+}
+
 @media only screen {
 	.switch-light.switch-yoast-seo {
 		margin-bottom: 1.5em;
