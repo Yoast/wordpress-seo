@@ -45,7 +45,10 @@
             YoastSEO.analyzerArgs.callbacks = {
                 getData: exampleScraper.getData.bind( exampleScraper ),
                 bindElementEvents: exampleScraper.bindElementEvents.bind( exampleScraper ),
-                saveScores: exampleScraper.saveScores.bind( exampleScraper )
+                saveScores: exampleScraper.saveScores.bind( exampleScraper ),
+                updateSnippetValues: function( ev ) {
+                    console.log( ev );
+                }
             };
             window.YoastSEO.app = new YoastSEO.App( YoastSEO.analyzerArgs );
             YoastSEO.app.refresh();

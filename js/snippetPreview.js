@@ -6,6 +6,7 @@ var _ = {
 	isEmpty: require( "lodash/lang/isEmpty" ),
 	isElement: require( "lodash/lang/isElement" ),
 	clone: require( "lodash/lang/clone" ),
+	cloneDeep: require( "lodash/lang/cloneDeep" ),
 	defaultsDeep: require( "lodash/object/defaultsDeep" )
 };
 
@@ -15,8 +16,63 @@ var defaults = {
 		metaDesc: "Modify your meta description by editing it right here",
 		urlPath:  "example-post/"
 	},
-	baseURL: "http://example.com/"
+	baseURL: "http://example.com/",
+	callbacks: {
+		saveSnippetData: function() {}
+	}
 };
+
+/**
+ * Get's the base URL for this instance of the snippet preview.
+ *
+ * @private
+ * @this SnippetPreview
+ *
+ * @returns {string} The base URL.
+ */
+var getBaseURL = function() {
+	var baseURL = this.opts.baseURL;
+
+	/*
+	 * For backwards compatibility, if no URL was passed to the snippet editor we try to retrieve the base URL from the
+	 * rawData in the App. This is because the scrapers used to be responsible for retrieving the baseURL. But the base
+	 * URL is static so we can just pass it to the snippet editor.
+	 */
+	if ( !_.isEmpty( this.refObj.rawData.baseUrl ) && this.opts.baseURL === defaults.baseURL ) {
+		baseURL = this.refObj.rawData.baseUrl;
+	}
+
+	return baseURL;
+};
+
+/**
+ * Retrieves unformatted text from the data object
+ *
+ * @private
+ * @this SnippetPreview
+ *
+ * @param {string} key The key to retrieve.
+ */
+function retrieveUnformattedText( key ) {
+	console.log( key, this, arguments );
+	return this.data[ key ];
+}
+
+/**
+ * Update data and DOM objects when the unformatted text is updated, here for backwards compatibility
+ *
+ * @private
+ * @this SnippetPreview
+ *
+ * @param {string} key The data key to update.
+ * @param {string} value The value to update.
+ */
+function updateUnformattedText( key, value ) {
+	console.log( key, value, this, arguments );
+	this.element.input[ key ].value = value;
+
+	this.data[ key ] = value;
+}
 
 /**
  * @module snippetPreview
@@ -25,39 +81,42 @@ var defaults = {
 /**
  * defines the config and outputTarget for the SnippetPreview
  *
- * @param {Object}         opts                      - Snippet preview options.
- * @param {App}            opts.analyzerApp          - The app object the snippet preview is part of.
- * @param {Object}         opts.placeholder          - The fallback values for the snippet preview rendering.
- * @param {string}         opts.placeholder.title    - The fallback value for the title.
- * @param {string}         opts.placeholder.metaDesc - The fallback value for the meta description.
- * @param {string}         opts.placeholder.urlPath  - The fallback value for the URL path.
+ * @param {Object}         opts                           - Snippet preview options.
+ * @param {App}            opts.analyzerApp               - The app object the snippet preview is part of.
+ * @param {Object}         opts.placeholder               - The fallback values for the snippet preview rendering.
+ * @param {string}         opts.placeholder.title         - The fallback value for the title.
+ * @param {string}         opts.placeholder.metaDesc      - The fallback value for the meta description.
+ * @param {string}         opts.placeholder.urlPath       - The fallback value for the URL path.
  *
- * @param {string}         opts.baseURL              - The basic URL as it will be displayed in google.
- * @param {HTMLElement}    opts.targetElement        - The target element that contains this snippet editor.
+ * @param {string}         opts.baseURL                   - The basic URL as it will be displayed in google.
+ * @param {HTMLElement}    opts.targetElement             - The target element that contains this snippet editor.
  *
- * @property {App}         refObj                    - The connected app object.
- * @property {Jed}         i18n                      - The translation object.
+ * @param {Object}         opts.callbacks                 - Functions that are called on specific instances.
+ * @param {Function}       opts.callbacks.saveSnippetData - Function called when the snippet data is changed.
  *
- * @property {HTMLElement} targetElement             - The target element that contains this snippet editor.
+ * @property {App}         refObj                         - The connected app object.
+ * @property {Jed}         i18n                           - The translation object.
  *
- * @property {Object}      element                   - The elements for this snippet editor.
- * @property {Object}      element.rendered          - The rendered elements.
- * @property {HTMLElement} element.rendered.title    - The rendered title element.
- * @property {HTMLElement} element.rendered.urlPath  - The rendered url path element.
- * @property {HTMLElement} element.rendered.urlBase  - The rendered url base element.
- * @property {HTMLElement} element.rendered.metaDesc - The rendered meta description element.
+ * @property {HTMLElement} targetElement                  - The target element that contains this snippet editor.
  *
- * @property {Object}      element.input             - The input elements.
- * @property {HTMLElement} element.input.title       - The title input element.
- * @property {HTMLElement} element.input.urlPath     - The url path input element.
- * @property {HTMLElement} element.input.metaDesc    - The meta description input element.
+ * @property {Object}      element                        - The elements for this snippet editor.
+ * @property {Object}      element.rendered               - The rendered elements.
+ * @property {HTMLElement} element.rendered.title         - The rendered title element.
+ * @property {HTMLElement} element.rendered.urlPath       - The rendered url path element.
+ * @property {HTMLElement} element.rendered.urlBase       - The rendered url base element.
+ * @property {HTMLElement} element.rendered.metaDesc      - The rendered meta description element.
  *
- * @property {Object}      data                      - The data for this snippet editor.
- * @property {string}      data.title                - The title.
- * @property {string}      data.urlPath              - The url path.
- * @property {string}      data.metaDesc             - The meta description.
+ * @property {Object}      element.input                  - The input elements.
+ * @property {HTMLElement} element.input.title            - The title input element.
+ * @property {HTMLElement} element.input.urlPath          - The url path input element.
+ * @property {HTMLElement} element.input.metaDesc         - The meta description input element.
  *
- * @property {string}      baseURL                   - The basic URL as it will be displayed in google.
+ * @property {Object}      data                           - The data for this snippet editor.
+ * @property {string}      data.title                     - The title.
+ * @property {string}      data.urlPath                   - The url path.
+ * @property {string}      data.metaDesc                  - The meta description.
+ *
+ * @property {string}      baseURL                        - The basic URL as it will be displayed in google.
  *
  * @constructor
  */
@@ -86,11 +145,11 @@ var SnippetPreview = function( opts ) {
 		throw new Error( "The snippet preview requires a valid target element" );
 	}
 
-	this.unformattedText = {
-		snippet_cite: this.refObj.rawData.snippetCite || "",
-		snippet_meta: this.refObj.rawData.snippetMeta || "",
-		snippet_title: this.refObj.rawData.snippetTitle || ""
-	};
+	//this.unformattedText = {
+	//	snippet_cite: this.refObj.rawData.snippetCite || "",
+	//	snippet_meta: this.refObj.rawData.snippetMeta || "",
+	//	snippet_title: this.refObj.rawData.snippetTitle || ""
+	//};
 
 	this.data = {
 		title: this.refObj.rawData.snippetTitle || "",
@@ -102,6 +161,21 @@ var SnippetPreview = function( opts ) {
 	if ( !_.isEmpty( this.refObj.rawData.pageTitle ) && _.isEmpty( this.data.title ) ) {
 		this.data.title = this.refObj.rawData.pageTitle;
 	}
+
+	// For backwards compatibility monitor the unformatted text for changes and reflect them in the preview
+	this.unformattedText = {};
+	Object.defineProperty( this.unformattedText, "snippet_cite", {
+		get: retrieveUnformattedText.bind( this, "urlPath" ),
+		set: updateUnformattedText.bind( this, "urlPath" )
+	} );
+	Object.defineProperty( this.unformattedText, "snippet_meta", {
+		get: retrieveUnformattedText.bind( this, "metaDesc" ),
+		set: updateUnformattedText.bind( this, "metaDesc" )
+	} );
+	Object.defineProperty( this.unformattedText, "snippet_title", {
+		get: retrieveUnformattedText.bind( this, "title" ),
+		set: updateUnformattedText.bind( this, "title" )
+	} );
 };
 
 /**
@@ -154,26 +228,6 @@ SnippetPreview.prototype.refresh = function() {
 	this.output = this.htmlOutput();
 	this.renderOutput();
 	this.renderSnippetStyle();
-};
-
-/**
- * Get's the base URL for this instance of the snippet preview.
- *
- * @returns {string} The base URL.
- */
-var getBaseURL = function() {
-	var baseURL = this.opts.baseURL;
-
-	/*
-	 * For backwards compatibility, if no URL was passed to the snippet editor we try to retrieve the base URL from the
-	 * rawData in the App. This is because the scrapers used to be responsible for retrieving the baseURL. But the base
-	 * URL is static so we can just pass it to the snippet editor.
-	 */
-	if ( !_.isEmpty( this.refObj.rawData.baseUrl ) && this.opts.baseURL === defaults.baseURL ) {
-		baseURL = this.refObj.rawData.baseUrl;
-	}
-
-	return baseURL;
 };
 
 /**
@@ -615,8 +669,6 @@ SnippetPreview.prototype.bindEvents = function() {
 		targetElement.addEventListener( "keyup", this.changedInput.bind( this ) );
 
 		targetElement.addEventListener( "keydown", this.disableEnter.bind( this ) );
-
-		targetElement.addEventListener( "blur", this.refObj.callbacks.updateSnippetValues );
 	}
 
 	editButton = document.getElementsByClassName( "js-snippet-editor-edit" );
@@ -641,6 +693,9 @@ SnippetPreview.prototype.updateDataFromDOM = function() {
 	this.data.title = this.element.input.title.value;
 	this.data.urlPath = this.element.input.urlPath.value;
 	this.data.metaDesc = this.element.input.metaDesc.value;
+
+	// Clone so the data isn't changeable.
+	this.opts.callbacks.saveSnippetData( _.clone( this.data ) );
 };
 
 /**

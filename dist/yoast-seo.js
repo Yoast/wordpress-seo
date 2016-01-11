@@ -1067,6 +1067,7 @@ YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
  *        snippet values need to be updated.
  * @param {YoastSEO.App~saveScores} args.callbacks.saveScores Called when the score has been
  *        determined by the analyzer.
+ * @param {Function} args.callbacks.saveSnippetData Function called when the snippet data is changed.
  *
  *
  * @constructor
@@ -1202,7 +1203,10 @@ YoastSEO.App.prototype.createSnippetPreview = function() {
 
 	this.snippetPreview = new SnippetPreview( {
 		analyzerApp: this,
-		targetElement: targetElement
+		targetElement: targetElement,
+		callbacks: {
+			saveSnippetData: this.config.callbacks.saveSnippetData
+		}
 	} );
 	this.snippetPreview.renderTemplate();
 	this.snippetPreview.callRegisteredEventBinder();
@@ -3201,7 +3205,7 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"../js/snippetPreview.js":2,"jed":4,"lodash/lang/isUndefined":46}],2:[function(require,module,exports){
+},{"../js/snippetPreview.js":2,"jed":4,"lodash/lang/isUndefined":47}],2:[function(require,module,exports){
 /* jshint browser: true */
 /* global YoastSEO: false */
 
@@ -3210,6 +3214,7 @@ var _ = {
 	isEmpty: require( "lodash/lang/isEmpty" ),
 	isElement: require( "lodash/lang/isElement" ),
 	clone: require( "lodash/lang/clone" ),
+	cloneDeep: require( "lodash/lang/cloneDeep" ),
 	defaultsDeep: require( "lodash/object/defaultsDeep" )
 };
 
@@ -3219,8 +3224,63 @@ var defaults = {
 		metaDesc: "Modify your meta description by editing it right here",
 		urlPath:  "example-post/"
 	},
-	baseURL: "http://example.com/"
+	baseURL: "http://example.com/",
+	callbacks: {
+		saveSnippetData: function() {}
+	}
 };
+
+/**
+ * Get's the base URL for this instance of the snippet preview.
+ *
+ * @private
+ * @this SnippetPreview
+ *
+ * @returns {string} The base URL.
+ */
+var getBaseURL = function() {
+	var baseURL = this.opts.baseURL;
+
+	/*
+	 * For backwards compatibility, if no URL was passed to the snippet editor we try to retrieve the base URL from the
+	 * rawData in the App. This is because the scrapers used to be responsible for retrieving the baseURL. But the base
+	 * URL is static so we can just pass it to the snippet editor.
+	 */
+	if ( !_.isEmpty( this.refObj.rawData.baseUrl ) && this.opts.baseURL === defaults.baseURL ) {
+		baseURL = this.refObj.rawData.baseUrl;
+	}
+
+	return baseURL;
+};
+
+/**
+ * Retrieves unformatted text from the data object
+ *
+ * @private
+ * @this SnippetPreview
+ *
+ * @param {string} key The key to retrieve.
+ */
+function retrieveUnformattedText( key ) {
+	console.log( key, this, arguments );
+	return this.data[ key ];
+}
+
+/**
+ * Update data and DOM objects when the unformatted text is updated, here for backwards compatibility
+ *
+ * @private
+ * @this SnippetPreview
+ *
+ * @param {string} key The data key to update.
+ * @param {string} value The value to update.
+ */
+function updateUnformattedText( key, value ) {
+	console.log( key, value, this, arguments );
+	this.element.input[ key ].value = value;
+
+	this.data[ key ] = value;
+}
 
 /**
  * @module snippetPreview
@@ -3229,39 +3289,42 @@ var defaults = {
 /**
  * defines the config and outputTarget for the SnippetPreview
  *
- * @param {Object}         opts                      - Snippet preview options.
- * @param {App}            opts.analyzerApp          - The app object the snippet preview is part of.
- * @param {Object}         opts.placeholder          - The fallback values for the snippet preview rendering.
- * @param {string}         opts.placeholder.title    - The fallback value for the title.
- * @param {string}         opts.placeholder.metaDesc - The fallback value for the meta description.
- * @param {string}         opts.placeholder.urlPath  - The fallback value for the URL path.
+ * @param {Object}         opts                           - Snippet preview options.
+ * @param {App}            opts.analyzerApp               - The app object the snippet preview is part of.
+ * @param {Object}         opts.placeholder               - The fallback values for the snippet preview rendering.
+ * @param {string}         opts.placeholder.title         - The fallback value for the title.
+ * @param {string}         opts.placeholder.metaDesc      - The fallback value for the meta description.
+ * @param {string}         opts.placeholder.urlPath       - The fallback value for the URL path.
  *
- * @param {string}         opts.baseURL              - The basic URL as it will be displayed in google.
- * @param {HTMLElement}    opts.targetElement        - The target element that contains this snippet editor.
+ * @param {string}         opts.baseURL                   - The basic URL as it will be displayed in google.
+ * @param {HTMLElement}    opts.targetElement             - The target element that contains this snippet editor.
  *
- * @property {App}         refObj                    - The connected app object.
- * @property {Jed}         i18n                      - The translation object.
+ * @param {Object}         opts.callbacks                 - Functions that are called on specific instances.
+ * @param {Function}       opts.callbacks.saveSnippetData - Function called when the snippet data is changed.
  *
- * @property {HTMLElement} targetElement             - The target element that contains this snippet editor.
+ * @property {App}         refObj                         - The connected app object.
+ * @property {Jed}         i18n                           - The translation object.
  *
- * @property {Object}      element                   - The elements for this snippet editor.
- * @property {Object}      element.rendered          - The rendered elements.
- * @property {HTMLElement} element.rendered.title    - The rendered title element.
- * @property {HTMLElement} element.rendered.urlPath  - The rendered url path element.
- * @property {HTMLElement} element.rendered.urlBase  - The rendered url base element.
- * @property {HTMLElement} element.rendered.metaDesc - The rendered meta description element.
+ * @property {HTMLElement} targetElement                  - The target element that contains this snippet editor.
  *
- * @property {Object}      element.input             - The input elements.
- * @property {HTMLElement} element.input.title       - The title input element.
- * @property {HTMLElement} element.input.urlPath     - The url path input element.
- * @property {HTMLElement} element.input.metaDesc    - The meta description input element.
+ * @property {Object}      element                        - The elements for this snippet editor.
+ * @property {Object}      element.rendered               - The rendered elements.
+ * @property {HTMLElement} element.rendered.title         - The rendered title element.
+ * @property {HTMLElement} element.rendered.urlPath       - The rendered url path element.
+ * @property {HTMLElement} element.rendered.urlBase       - The rendered url base element.
+ * @property {HTMLElement} element.rendered.metaDesc      - The rendered meta description element.
  *
- * @property {Object}      data                      - The data for this snippet editor.
- * @property {string}      data.title                - The title.
- * @property {string}      data.urlPath              - The url path.
- * @property {string}      data.metaDesc             - The meta description.
+ * @property {Object}      element.input                  - The input elements.
+ * @property {HTMLElement} element.input.title            - The title input element.
+ * @property {HTMLElement} element.input.urlPath          - The url path input element.
+ * @property {HTMLElement} element.input.metaDesc         - The meta description input element.
  *
- * @property {string}      baseURL                   - The basic URL as it will be displayed in google.
+ * @property {Object}      data                           - The data for this snippet editor.
+ * @property {string}      data.title                     - The title.
+ * @property {string}      data.urlPath                   - The url path.
+ * @property {string}      data.metaDesc                  - The meta description.
+ *
+ * @property {string}      baseURL                        - The basic URL as it will be displayed in google.
  *
  * @constructor
  */
@@ -3290,11 +3353,11 @@ var SnippetPreview = function( opts ) {
 		throw new Error( "The snippet preview requires a valid target element" );
 	}
 
-	this.unformattedText = {
-		snippet_cite: this.refObj.rawData.snippetCite || "",
-		snippet_meta: this.refObj.rawData.snippetMeta || "",
-		snippet_title: this.refObj.rawData.snippetTitle || ""
-	};
+	//this.unformattedText = {
+	//	snippet_cite: this.refObj.rawData.snippetCite || "",
+	//	snippet_meta: this.refObj.rawData.snippetMeta || "",
+	//	snippet_title: this.refObj.rawData.snippetTitle || ""
+	//};
 
 	this.data = {
 		title: this.refObj.rawData.snippetTitle || "",
@@ -3306,6 +3369,21 @@ var SnippetPreview = function( opts ) {
 	if ( !_.isEmpty( this.refObj.rawData.pageTitle ) && _.isEmpty( this.data.title ) ) {
 		this.data.title = this.refObj.rawData.pageTitle;
 	}
+
+	// For backwards compatibility monitor the unformatted text for changes and reflect them in the preview
+	this.unformattedText = {};
+	Object.defineProperty( this.unformattedText, "snippet_cite", {
+		get: retrieveUnformattedText.bind( this, "urlPath" ),
+		set: updateUnformattedText.bind( this, "urlPath" )
+	} );
+	Object.defineProperty( this.unformattedText, "snippet_meta", {
+		get: retrieveUnformattedText.bind( this, "metaDesc" ),
+		set: updateUnformattedText.bind( this, "metaDesc" )
+	} );
+	Object.defineProperty( this.unformattedText, "snippet_title", {
+		get: retrieveUnformattedText.bind( this, "title" ),
+		set: updateUnformattedText.bind( this, "title" )
+	} );
 };
 
 /**
@@ -3358,26 +3436,6 @@ SnippetPreview.prototype.refresh = function() {
 	this.output = this.htmlOutput();
 	this.renderOutput();
 	this.renderSnippetStyle();
-};
-
-/**
- * Get's the base URL for this instance of the snippet preview.
- *
- * @returns {string} The base URL.
- */
-var getBaseURL = function() {
-	var baseURL = this.opts.baseURL;
-
-	/*
-	 * For backwards compatibility, if no URL was passed to the snippet editor we try to retrieve the base URL from the
-	 * rawData in the App. This is because the scrapers used to be responsible for retrieving the baseURL. But the base
-	 * URL is static so we can just pass it to the snippet editor.
-	 */
-	if ( !_.isEmpty( this.refObj.rawData.baseUrl ) && this.opts.baseURL === defaults.baseURL ) {
-		baseURL = this.refObj.rawData.baseUrl;
-	}
-
-	return baseURL;
 };
 
 /**
@@ -3819,8 +3877,6 @@ SnippetPreview.prototype.bindEvents = function() {
 		targetElement.addEventListener( "keyup", this.changedInput.bind( this ) );
 
 		targetElement.addEventListener( "keydown", this.disableEnter.bind( this ) );
-
-		targetElement.addEventListener( "blur", this.refObj.callbacks.updateSnippetValues );
 	}
 
 	editButton = document.getElementsByClassName( "js-snippet-editor-edit" );
@@ -3845,6 +3901,9 @@ SnippetPreview.prototype.updateDataFromDOM = function() {
 	this.data.title = this.element.input.title.value;
 	this.data.urlPath = this.element.input.urlPath.value;
 	this.data.metaDesc = this.element.input.metaDesc.value;
+
+	// Clone so the data isn't changeable.
+	this.opts.callbacks.saveSnippetData( _.clone( this.data ) );
 };
 
 /**
@@ -3877,7 +3936,7 @@ SnippetPreview.prototype.saveSnippet = function() {
 
 module.exports = SnippetPreview;
 
-},{"../js/templates.js":3,"lodash/lang/clone":35,"lodash/lang/isElement":38,"lodash/lang/isEmpty":39,"lodash/lang/isObject":42,"lodash/object/defaultsDeep":48}],3:[function(require,module,exports){
+},{"../js/templates.js":3,"lodash/lang/clone":35,"lodash/lang/cloneDeep":36,"lodash/lang/isElement":39,"lodash/lang/isEmpty":40,"lodash/lang/isObject":43,"lodash/object/defaultsDeep":49}],3:[function(require,module,exports){
 (function (global){
 ;(function() {
   var undefined;
@@ -5190,7 +5249,7 @@ function baseAssign(object, source) {
 
 module.exports = baseAssign;
 
-},{"../object/keys":49,"./baseCopy":10}],9:[function(require,module,exports){
+},{"../object/keys":50,"./baseCopy":10}],9:[function(require,module,exports){
 var arrayCopy = require('./arrayCopy'),
     arrayEach = require('./arrayEach'),
     baseAssign = require('./baseAssign'),
@@ -5320,7 +5379,7 @@ function baseClone(value, isDeep, customizer, key, object, stackA, stackB) {
 
 module.exports = baseClone;
 
-},{"../lang/isArray":37,"../lang/isObject":42,"./arrayCopy":6,"./arrayEach":7,"./baseAssign":8,"./baseForOwn":13,"./initCloneArray":24,"./initCloneByTag":25,"./initCloneObject":26}],10:[function(require,module,exports){
+},{"../lang/isArray":38,"../lang/isObject":43,"./arrayCopy":6,"./arrayEach":7,"./baseAssign":8,"./baseForOwn":13,"./initCloneArray":24,"./initCloneByTag":25,"./initCloneObject":26}],10:[function(require,module,exports){
 /**
  * Copies properties of `source` to `object`.
  *
@@ -5383,7 +5442,7 @@ function baseForIn(object, iteratee) {
 
 module.exports = baseForIn;
 
-},{"../object/keysIn":50,"./baseFor":11}],13:[function(require,module,exports){
+},{"../object/keysIn":51,"./baseFor":11}],13:[function(require,module,exports){
 var baseFor = require('./baseFor'),
     keys = require('../object/keys');
 
@@ -5402,7 +5461,7 @@ function baseForOwn(object, iteratee) {
 
 module.exports = baseForOwn;
 
-},{"../object/keys":49,"./baseFor":11}],14:[function(require,module,exports){
+},{"../object/keys":50,"./baseFor":11}],14:[function(require,module,exports){
 var arrayEach = require('./arrayEach'),
     baseMergeDeep = require('./baseMergeDeep'),
     isArray = require('../lang/isArray'),
@@ -5460,7 +5519,7 @@ function baseMerge(object, source, customizer, stackA, stackB) {
 
 module.exports = baseMerge;
 
-},{"../lang/isArray":37,"../lang/isObject":42,"../lang/isTypedArray":45,"../object/keys":49,"./arrayEach":7,"./baseMergeDeep":15,"./isArrayLike":27,"./isObjectLike":31}],15:[function(require,module,exports){
+},{"../lang/isArray":38,"../lang/isObject":43,"../lang/isTypedArray":46,"../object/keys":50,"./arrayEach":7,"./baseMergeDeep":15,"./isArrayLike":27,"./isObjectLike":31}],15:[function(require,module,exports){
 var arrayCopy = require('./arrayCopy'),
     isArguments = require('../lang/isArguments'),
     isArray = require('../lang/isArray'),
@@ -5529,7 +5588,7 @@ function baseMergeDeep(object, source, key, mergeFunc, customizer, stackA, stack
 
 module.exports = baseMergeDeep;
 
-},{"../lang/isArguments":36,"../lang/isArray":37,"../lang/isPlainObject":43,"../lang/isTypedArray":45,"../lang/toPlainObject":47,"./arrayCopy":6,"./isArrayLike":27}],16:[function(require,module,exports){
+},{"../lang/isArguments":37,"../lang/isArray":38,"../lang/isPlainObject":44,"../lang/isTypedArray":46,"../lang/toPlainObject":48,"./arrayCopy":6,"./isArrayLike":27}],16:[function(require,module,exports){
 /**
  * The base implementation of `_.property` without support for deep paths.
  *
@@ -5586,7 +5645,7 @@ function bindCallback(func, thisArg, argCount) {
 
 module.exports = bindCallback;
 
-},{"../utility/identity":52}],18:[function(require,module,exports){
+},{"../utility/identity":53}],18:[function(require,module,exports){
 (function (global){
 /** Native method references. */
 var ArrayBuffer = global.ArrayBuffer,
@@ -5741,7 +5800,7 @@ function getNative(object, key) {
 
 module.exports = getNative;
 
-},{"../lang/isNative":41}],24:[function(require,module,exports){
+},{"../lang/isNative":42}],24:[function(require,module,exports){
 /** Used for native method references. */
 var objectProto = Object.prototype;
 
@@ -5925,7 +5984,7 @@ function isIterateeCall(value, index, object) {
 
 module.exports = isIterateeCall;
 
-},{"../lang/isObject":42,"./isArrayLike":27,"./isIndex":28}],30:[function(require,module,exports){
+},{"../lang/isObject":43,"./isArrayLike":27,"./isIndex":28}],30:[function(require,module,exports){
 /**
  * Used as the [maximum length](http://ecma-international.org/ecma-262/6.0/#sec-number.max_safe_integer)
  * of an array-like value.
@@ -5978,7 +6037,7 @@ function mergeDefaults(objectValue, sourceValue) {
 
 module.exports = mergeDefaults;
 
-},{"../object/merge":51}],33:[function(require,module,exports){
+},{"../object/merge":52}],33:[function(require,module,exports){
 var isArguments = require('../lang/isArguments'),
     isArray = require('../lang/isArray'),
     isIndex = require('./isIndex'),
@@ -6021,7 +6080,7 @@ function shimKeys(object) {
 
 module.exports = shimKeys;
 
-},{"../lang/isArguments":36,"../lang/isArray":37,"../object/keysIn":50,"./isIndex":28,"./isLength":30}],34:[function(require,module,exports){
+},{"../lang/isArguments":37,"../lang/isArray":38,"../object/keysIn":51,"./isIndex":28,"./isLength":30}],34:[function(require,module,exports){
 var isObject = require('../lang/isObject');
 
 /**
@@ -6037,7 +6096,7 @@ function toObject(value) {
 
 module.exports = toObject;
 
-},{"../lang/isObject":42}],35:[function(require,module,exports){
+},{"../lang/isObject":43}],35:[function(require,module,exports){
 var baseClone = require('../internal/baseClone'),
     bindCallback = require('../internal/bindCallback'),
     isIterateeCall = require('../internal/isIterateeCall');
@@ -6110,6 +6169,63 @@ function clone(value, isDeep, customizer, thisArg) {
 module.exports = clone;
 
 },{"../internal/baseClone":9,"../internal/bindCallback":17,"../internal/isIterateeCall":29}],36:[function(require,module,exports){
+var baseClone = require('../internal/baseClone'),
+    bindCallback = require('../internal/bindCallback');
+
+/**
+ * Creates a deep clone of `value`. If `customizer` is provided it's invoked
+ * to produce the cloned values. If `customizer` returns `undefined` cloning
+ * is handled by the method instead. The `customizer` is bound to `thisArg`
+ * and invoked with up to three argument; (value [, index|key, object]).
+ *
+ * **Note:** This method is loosely based on the
+ * [structured clone algorithm](http://www.w3.org/TR/html5/infrastructure.html#internal-structured-cloning-algorithm).
+ * The enumerable properties of `arguments` objects and objects created by
+ * constructors other than `Object` are cloned to plain `Object` objects. An
+ * empty object is returned for uncloneable values such as functions, DOM nodes,
+ * Maps, Sets, and WeakMaps.
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to deep clone.
+ * @param {Function} [customizer] The function to customize cloning values.
+ * @param {*} [thisArg] The `this` binding of `customizer`.
+ * @returns {*} Returns the deep cloned value.
+ * @example
+ *
+ * var users = [
+ *   { 'user': 'barney' },
+ *   { 'user': 'fred' }
+ * ];
+ *
+ * var deep = _.cloneDeep(users);
+ * deep[0] === users[0];
+ * // => false
+ *
+ * // using a customizer callback
+ * var el = _.cloneDeep(document.body, function(value) {
+ *   if (_.isElement(value)) {
+ *     return value.cloneNode(true);
+ *   }
+ * });
+ *
+ * el === document.body
+ * // => false
+ * el.nodeName
+ * // => BODY
+ * el.childNodes.length;
+ * // => 20
+ */
+function cloneDeep(value, customizer, thisArg) {
+  return typeof customizer == 'function'
+    ? baseClone(value, true, bindCallback(customizer, thisArg, 3))
+    : baseClone(value, true);
+}
+
+module.exports = cloneDeep;
+
+},{"../internal/baseClone":9,"../internal/bindCallback":17}],37:[function(require,module,exports){
 var isArrayLike = require('../internal/isArrayLike'),
     isObjectLike = require('../internal/isObjectLike');
 
@@ -6145,7 +6261,7 @@ function isArguments(value) {
 
 module.exports = isArguments;
 
-},{"../internal/isArrayLike":27,"../internal/isObjectLike":31}],37:[function(require,module,exports){
+},{"../internal/isArrayLike":27,"../internal/isObjectLike":31}],38:[function(require,module,exports){
 var getNative = require('../internal/getNative'),
     isLength = require('../internal/isLength'),
     isObjectLike = require('../internal/isObjectLike');
@@ -6187,7 +6303,7 @@ var isArray = nativeIsArray || function(value) {
 
 module.exports = isArray;
 
-},{"../internal/getNative":23,"../internal/isLength":30,"../internal/isObjectLike":31}],38:[function(require,module,exports){
+},{"../internal/getNative":23,"../internal/isLength":30,"../internal/isObjectLike":31}],39:[function(require,module,exports){
 var isObjectLike = require('../internal/isObjectLike'),
     isPlainObject = require('./isPlainObject');
 
@@ -6213,7 +6329,7 @@ function isElement(value) {
 
 module.exports = isElement;
 
-},{"../internal/isObjectLike":31,"./isPlainObject":43}],39:[function(require,module,exports){
+},{"../internal/isObjectLike":31,"./isPlainObject":44}],40:[function(require,module,exports){
 var isArguments = require('./isArguments'),
     isArray = require('./isArray'),
     isArrayLike = require('../internal/isArrayLike'),
@@ -6262,7 +6378,7 @@ function isEmpty(value) {
 
 module.exports = isEmpty;
 
-},{"../internal/isArrayLike":27,"../internal/isObjectLike":31,"../object/keys":49,"./isArguments":36,"./isArray":37,"./isFunction":40,"./isString":44}],40:[function(require,module,exports){
+},{"../internal/isArrayLike":27,"../internal/isObjectLike":31,"../object/keys":50,"./isArguments":37,"./isArray":38,"./isFunction":41,"./isString":45}],41:[function(require,module,exports){
 var isObject = require('./isObject');
 
 /** `Object#toString` result references. */
@@ -6302,7 +6418,7 @@ function isFunction(value) {
 
 module.exports = isFunction;
 
-},{"./isObject":42}],41:[function(require,module,exports){
+},{"./isObject":43}],42:[function(require,module,exports){
 var isFunction = require('./isFunction'),
     isObjectLike = require('../internal/isObjectLike');
 
@@ -6352,7 +6468,7 @@ function isNative(value) {
 
 module.exports = isNative;
 
-},{"../internal/isObjectLike":31,"./isFunction":40}],42:[function(require,module,exports){
+},{"../internal/isObjectLike":31,"./isFunction":41}],43:[function(require,module,exports){
 /**
  * Checks if `value` is the [language type](https://es5.github.io/#x8) of `Object`.
  * (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
@@ -6382,7 +6498,7 @@ function isObject(value) {
 
 module.exports = isObject;
 
-},{}],43:[function(require,module,exports){
+},{}],44:[function(require,module,exports){
 var baseForIn = require('../internal/baseForIn'),
     isArguments = require('./isArguments'),
     isObjectLike = require('../internal/isObjectLike');
@@ -6455,7 +6571,7 @@ function isPlainObject(value) {
 
 module.exports = isPlainObject;
 
-},{"../internal/baseForIn":12,"../internal/isObjectLike":31,"./isArguments":36}],44:[function(require,module,exports){
+},{"../internal/baseForIn":12,"../internal/isObjectLike":31,"./isArguments":37}],45:[function(require,module,exports){
 var isObjectLike = require('../internal/isObjectLike');
 
 /** `Object#toString` result references. */
@@ -6492,7 +6608,7 @@ function isString(value) {
 
 module.exports = isString;
 
-},{"../internal/isObjectLike":31}],45:[function(require,module,exports){
+},{"../internal/isObjectLike":31}],46:[function(require,module,exports){
 var isLength = require('../internal/isLength'),
     isObjectLike = require('../internal/isObjectLike');
 
@@ -6568,7 +6684,7 @@ function isTypedArray(value) {
 
 module.exports = isTypedArray;
 
-},{"../internal/isLength":30,"../internal/isObjectLike":31}],46:[function(require,module,exports){
+},{"../internal/isLength":30,"../internal/isObjectLike":31}],47:[function(require,module,exports){
 /**
  * Checks if `value` is `undefined`.
  *
@@ -6591,7 +6707,7 @@ function isUndefined(value) {
 
 module.exports = isUndefined;
 
-},{}],47:[function(require,module,exports){
+},{}],48:[function(require,module,exports){
 var baseCopy = require('../internal/baseCopy'),
     keysIn = require('../object/keysIn');
 
@@ -6624,7 +6740,7 @@ function toPlainObject(value) {
 
 module.exports = toPlainObject;
 
-},{"../internal/baseCopy":10,"../object/keysIn":50}],48:[function(require,module,exports){
+},{"../internal/baseCopy":10,"../object/keysIn":51}],49:[function(require,module,exports){
 var createDefaults = require('../internal/createDefaults'),
     merge = require('./merge'),
     mergeDefaults = require('../internal/mergeDefaults');
@@ -6651,7 +6767,7 @@ var defaultsDeep = createDefaults(merge, mergeDefaults);
 
 module.exports = defaultsDeep;
 
-},{"../internal/createDefaults":21,"../internal/mergeDefaults":32,"./merge":51}],49:[function(require,module,exports){
+},{"../internal/createDefaults":21,"../internal/mergeDefaults":32,"./merge":52}],50:[function(require,module,exports){
 var getNative = require('../internal/getNative'),
     isArrayLike = require('../internal/isArrayLike'),
     isObject = require('../lang/isObject'),
@@ -6698,7 +6814,7 @@ var keys = !nativeKeys ? shimKeys : function(object) {
 
 module.exports = keys;
 
-},{"../internal/getNative":23,"../internal/isArrayLike":27,"../internal/shimKeys":33,"../lang/isObject":42}],50:[function(require,module,exports){
+},{"../internal/getNative":23,"../internal/isArrayLike":27,"../internal/shimKeys":33,"../lang/isObject":43}],51:[function(require,module,exports){
 var isArguments = require('../lang/isArguments'),
     isArray = require('../lang/isArray'),
     isIndex = require('../internal/isIndex'),
@@ -6764,7 +6880,7 @@ function keysIn(object) {
 
 module.exports = keysIn;
 
-},{"../internal/isIndex":28,"../internal/isLength":30,"../lang/isArguments":36,"../lang/isArray":37,"../lang/isObject":42}],51:[function(require,module,exports){
+},{"../internal/isIndex":28,"../internal/isLength":30,"../lang/isArguments":37,"../lang/isArray":38,"../lang/isObject":43}],52:[function(require,module,exports){
 var baseMerge = require('../internal/baseMerge'),
     createAssigner = require('../internal/createAssigner');
 
@@ -6820,7 +6936,7 @@ var merge = createAssigner(baseMerge);
 
 module.exports = merge;
 
-},{"../internal/baseMerge":14,"../internal/createAssigner":19}],52:[function(require,module,exports){
+},{"../internal/baseMerge":14,"../internal/createAssigner":19}],53:[function(require,module,exports){
 /**
  * This method returns the first argument provided to it.
  *

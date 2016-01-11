@@ -65,6 +65,7 @@ YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
  *        snippet values need to be updated.
  * @param {YoastSEO.App~saveScores} args.callbacks.saveScores Called when the score has been
  *        determined by the analyzer.
+ * @param {Function} args.callbacks.saveSnippetData Function called when the snippet data is changed.
  *
  *
  * @constructor
@@ -200,7 +201,10 @@ YoastSEO.App.prototype.createSnippetPreview = function() {
 
 	this.snippetPreview = new SnippetPreview( {
 		analyzerApp: this,
-		targetElement: targetElement
+		targetElement: targetElement,
+		callbacks: {
+			saveSnippetData: this.config.callbacks.saveSnippetData
+		}
 	} );
 	this.snippetPreview.renderTemplate();
 	this.snippetPreview.callRegisteredEventBinder();
