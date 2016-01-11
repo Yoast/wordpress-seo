@@ -99,7 +99,8 @@ abstract class WPSEO_Watcher {
 		$message = sprintf(
 			$this->get_delete_notification(),
 			'Yoast SEO Premium',
-			'<a href=\''. $this->javascript_create_redirect( $url, $id ) . '\'>',
+			$this->get_delete_action_list( $url, $id ),
+			'<a href="https://yoast.com/deleting-pages-from-your-site/#utm_source=wordpress-seo-premium-' . $this->watch_type . '-watcher&amp;utm_medium=dialog&amp;utm_campaign=410-redirect">',
 			'</a>'
 		);
 

@@ -308,9 +308,9 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	 * @return string
 	 */
 	protected function get_delete_notification() {
-		/* translators %1$s: Yoast SEO Premium, %2$s: <a href='{create_redirect_url}'>, %3$s: </a> */
+		/* translators %1$s: Yoast SEO Premium, %2$s: List with actions, %3$s: <a href='{post_with_explaination.}'>, %4$s: </a> */
 		return __(
-			'%1$s detected that you deleted a post. %2$sClick here to create a redirect from the old post URL%3$s.',
+			'%1$s detected that you deleted a post. You can either: %2$s Don\'t know what to do? %3$sRead this post %4$s.',
 			'wordpress-seo-premium'
 		);
 	}
