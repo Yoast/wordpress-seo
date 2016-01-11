@@ -129,12 +129,6 @@ var SnippetPreview = function( opts ) {
 		};
 	}
 
-	// base URL
-
-	// Placeholder title
-	// Placeholder slug
-	// Placeholder meta description
-
 	_.defaultsDeep( opts, defaults );
 
 	this.refObj = opts.analyzerApp;
@@ -144,12 +138,6 @@ var SnippetPreview = function( opts ) {
 	if ( !_.isElement( opts.targetElement ) ) {
 		throw new Error( "The snippet preview requires a valid target element" );
 	}
-
-	//this.unformattedText = {
-	//	snippet_cite: this.refObj.rawData.snippetCite || "",
-	//	snippet_meta: this.refObj.rawData.snippetMeta || "",
-	//	snippet_title: this.refObj.rawData.snippetTitle || ""
-	//};
 
 	this.data = {
 		title: this.refObj.rawData.snippetTitle || "",
