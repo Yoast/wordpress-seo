@@ -501,4 +501,41 @@ class Yoast_Form {
 		echo '<div class="clear"></div>';
 		echo '</div><br/>';
 	}
+
+
+	/**
+	 * Create a toggle switch input field.
+	 *
+	 * @param string $var    The variable within the option to create the file upload field for.
+	 * @param array  $values The radio options to choose from.
+	 * @param string $label  The label to show for the variable.
+	 */
+	public function toggle_switch( $var, $values, $label ) {
+		if ( ! is_array( $values ) || $values === array() ) {
+			return;
+		}
+		if ( ! isset( $this->options[ $var ] ) ) {
+			$this->options[ $var ] = false;
+		}
+		if ( $this->options[ $var ] === true ) {
+			$this->options[ $var ] = 'on';
+		}
+		if ( $this->options[ $var ] === false ) {
+			$this->options[ $var ] = 'off';
+		}
+
+		$var_esc = esc_attr( $var );
+
+		echo '<fieldset class="fieldset-switch-toggle"><legend>', $label, '</legend>
+	<div class="switch-toggle switch-candy switch-yoast-seo">';
+
+		foreach ( $values as $key => $value ) {
+			$key_esc = esc_attr( $key );
+			$for     = $var_esc . '-' . $key_esc;
+			echo '<input type="radio" id="' . $for . '" name="' . esc_attr( $this->option_name ) . '[' . $var_esc . ']" value="' . $key_esc . '" ' . checked( $this->options[ $var ], $key_esc, false ) . ' />',
+			'<label for="', $for, '" onclick="">', $value, '</label>';
+		}
+
+		echo '<a></a></div></fieldset><br class="clear" />' . "\n\n";
+	}
 }

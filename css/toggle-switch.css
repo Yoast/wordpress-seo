@@ -2,6 +2,7 @@
 	margin-bottom: 1.5em;
 }
 
+.fieldset-switch-toggle legend,
 .switch-light.switch-yoast-seo > strong {
 	display: block;
 	float: left;
@@ -10,19 +11,29 @@
 	vertical-align: middle;
 }
 
+.switch-toggle.switch-yoast-seo,
 .switch-light.switch-yoast-seo > span {
-	float: right;
 	width: 250px;
 	border: 1px solid #ccc;
 	background-color: #dcdcdc;
 	box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15);
 }
 
+.switch-toggle.switch-yoast-seo {
+	float: left;
+}
+
+.switch-light.switch-yoast-seo > span {
+	float: right;
+}
+
+.switch-toggle.switch-yoast-seo a,
 .switch-light.switch-yoast-seo a {
 	border-color: #b5b5b5;
 	background: #a4286a none;
 }
 
+.switch-toggle.switch-yoast-seo input:checked ~ span a
 .switch-light.switch-yoast-seo input:checked ~ span a {
 	border-color: #b5b5b5;
 	background: #a4286a none;
