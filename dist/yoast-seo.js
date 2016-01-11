@@ -824,7 +824,7 @@ YoastSEO.Analyzer.prototype.urlStopwords = function() {
  */
 YoastSEO.Analyzer.prototype.keywordDoubles = function() {
 	var result = [ { test: "keywordDoubles", result: { count: 0, id: 0 } } ];
-	if ( this.config.keyword !== "undefined" && this.config.usedKeywords !== "undefined" ) {
+	if ( typeof this.config.keyword !== "undefined" && typeof this.config.usedKeywords !== "undefined" ) {
 		var checkForKeywordDoubles = require( "./analyses/checkForKeywordDoubles.js" );
 		result[0].result = checkForKeywordDoubles( this.config.keyword, this.config.usedKeywords );
 	}
