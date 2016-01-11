@@ -121,14 +121,6 @@ function updateUnformattedText( key, value ) {
  * @constructor
  */
 var SnippetPreview = function( opts ) {
-
-	// Accept an App object for backwards compatibility
-	if ( _.isObject( opts ) && opts instanceof YoastSEO.App ) {
-		opts = {
-			analyzerApp: opts
-		};
-	}
-
 	_.defaultsDeep( opts, defaults );
 
 	this.refObj = opts.analyzerApp;

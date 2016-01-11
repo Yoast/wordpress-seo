@@ -3,21 +3,23 @@ require("../js/app.js");
 require("./helpers/i18n.js");
 
 describe("The snippet preview constructor", function() {
-	// Test for backwards compatibility
-	it("accepts an App object as it's argument", function() {
-		var app = Factory.buildApp({});
-
-		var snippetPreview = new SnippetPreview(app);
-
-		expect(snippetPreview.refObj).toBe(app);
-	});
-
 	it("accepts an App object as an opts property", function() {
-		var app = Factory.buildApp({});
+		var mockApp = {
+			rawData: {
+				snippetTitle: "",
+				snippetCite: "",
+				snippetMeta: ""
+			}
+		};
+		// Makes lodash think this is a valid HTML element
+		var mockElement = [];
+		mockElement.nodeType = 1;
 
 		var snippetPreview = new SnippetPreview({
-			analyzerApp: app
+			analyzerApp: mockApp,
+			targetElement: mockElement
 		});
-		expect(snippetPreview.refObj).toBe(app);
+
+		expect(snippetPreview.refObj).toBe(mockApp);
 	})
 });
