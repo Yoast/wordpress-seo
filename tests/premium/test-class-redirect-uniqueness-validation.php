@@ -82,7 +82,7 @@ class WPSEO_Redirect_Uniqueness_Validation_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test the validation a redirect being edited (in that case to redirects objects are given.
+	 * Test the validation of a redirect being edited (in that case to redirects objects are given.
 	 *	 *
 	 * @covers WPSEO_Redirect_Uniqueness_Validation::run
 	 */

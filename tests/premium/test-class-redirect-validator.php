@@ -87,7 +87,7 @@ class WPSEO_Redirect_Validation_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @return array
 	 */
-	public function faulthy_redirect_provider() {
+	public function faulty_redirect_provider() {
 		return array(
 			array( 'old_url', 'my_old_url', 301, 'oldest_url' ),								// Redirect should be unique.
 			array( 'older_url', 'my_older_url', 301, 'oldest_url' ),    						// Redirect should be unique.

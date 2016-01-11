@@ -33,7 +33,7 @@ class WPSEO_Redirect_Endpoint_Validation_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Validate if the end point result in a redirectloop. In this case there won't be a loop.
+	 * Validate if the end point is in a redirect loop. In this case there won't be a loop.
 	 *
 	 * @covers WPSEO_Redirect_Endpoint_Validation::run
 	 */
@@ -48,7 +48,7 @@ class WPSEO_Redirect_Endpoint_Validation_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Validate if the end point result in a redirect loop. In this case the redirect is a 410.
+	 * Validate if the end point is in a redirect loop. In this case the redirect is a 410.
 	 *
 	 * @covers WPSEO_Redirect_Endpoint_Validation::run
 	 */
@@ -63,7 +63,7 @@ class WPSEO_Redirect_Endpoint_Validation_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Validate if the end point result in a redirect loop. In this case the redirect is a 451.
+	 * Validate if the end point is in a redirect loop. In this case the redirect is a 451.
 	 *
 	 * @covers WPSEO_Redirect_Endpoint_Validation::run
 	 */
@@ -78,7 +78,7 @@ class WPSEO_Redirect_Endpoint_Validation_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Validate if the end point result in a redirect loop
+	 * Validate if the end point is in a redirect loop
 	 *
 	 * @covers WPSEO_Redirect_Endpoint_Validation::run
 	 * @covers WPSEO_Redirect_Endpoint_Validation::get_error
