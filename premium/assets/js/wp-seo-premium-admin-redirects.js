@@ -125,7 +125,7 @@
 		}
 
 		// Only when the redirect type is not deleted.
-		if(  jQuery.inArray( parseInt( typeField.val(), 10 ), ALLOW_EMPTY_TARGET ) === '-1' ) {
+		if(  jQuery.inArray( parseInt( typeField.val(), 10 ), ALLOW_EMPTY_TARGET ) === -1 ) {
 			// Check new URL
 			if ( '' === targetField.val() ) {
 				return this.setError( wpseo_premium_strings.error_new_url );
@@ -458,7 +458,7 @@
 				},
 				function( response ) {
 					if (response.error) {
-						validateRedirect.addValidationError( response.error );
+						validateRedirect.addValidationError( response.error.message );
 
 						return true;
 					}
@@ -521,7 +521,7 @@
 				},
 				function( response ) {
 					if (response.error) {
-						validateRedirect.addValidationError( response.error );
+						validateRedirect.addValidationError( response.error.message );
 
 						return true;
 					}
