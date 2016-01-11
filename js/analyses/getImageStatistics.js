@@ -1,8 +1,8 @@
 /** @module analyses/getImageStatistics */
 
-var matchStringWithRegex = require( "stringProcessing/matchStringWithRegex" );
-var imageAlttag = require( "stringProcessing/getAlttagContent.js" );
-var wordMatch = require( "stringProcessing/matchTextWithWord.js" );
+var matchStringWithRegex = require( "../stringProcessing/matchStringWithRegex" );
+var imageAlttag = require( "../stringProcessing/getAlttagContent.js" );
+var wordMatch = require( "../stringProcessing/matchTextWithWord.js" );
 
 /**
  * Checks if the keyword is present in the alttag and returns the property of the imageCount

@@ -1,7 +1,7 @@
 /* @module analyses/matchKeywordInSubheadings */
 
-var stripSomeTags = require( "stringProcessing/stripNonTextTags.js" );
-var subheadingMatch = require( "stringProcessing/subheadingsMatch.js" );
+var stripSomeTags = require( "../stringProcessing/stripNonTextTags.js" );
+var subheadingMatch = require( "../stringProcessing/subheadingsMatch.js" );
 
 /**
  * Checks if there are any subheadings like h2 in the text

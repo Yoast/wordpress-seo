@@ -1,6 +1,6 @@
 /** @module analyses/checkUrlForStopwords */
 
-var stopwords = require( "analyses/checkStringForStopwords.js" );
+var stopwords = require( "../analyses/checkStringForStopwords.js" );
 
 /**
  * Matches stopwords in the URL. Replaces - and _ with whitespace.

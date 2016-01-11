@@ -1,6 +1,6 @@
-var stringToRegex = require( "stringProcessing/stringToRegex.js" );
-var replaceString = require( "stringProcessing/replaceString.js" );
-var removalWords = require( "config/removalWords.js" );
+var stringToRegex = require( "../stringProcessing/stringToRegex.js" );
+var replaceString = require( "../stringProcessing/replaceString.js" );
+var removalWords = require( "../config/removalWords.js" );
 
 /**
  * Matches the keyword in an array of strings

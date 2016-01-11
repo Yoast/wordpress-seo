@@ -1,8 +1,8 @@
 /** @module stringProcessing/countSyllables */
 
-var cleanText = require( "stringProcessing/cleanText.js" );
-var syllableArray = require( "config/syllables.js" );
-var arrayToRegex = require( "stringProcessing/createRegexFromArray.js" );
+var cleanText = require( "../stringProcessing/cleanText.js" );
+var syllableArray = require( "../config/syllables.js" );
+var arrayToRegex = require( "../stringProcessing/createRegexFromArray.js" );
 
 /**
  * Checks the textstring for exclusion words. If they are found, returns the number of syllables these have, since

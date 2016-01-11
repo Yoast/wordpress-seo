@@ -1,7 +1,7 @@
 /** @module analyses/findKeywordInFirstParagraph */
 
-var regexMatch = require( "stringProcessing/matchStringWithRegex.js" );
-var wordMatch = require( "stringProcessing/matchTextWithWord.js" );
+var regexMatch = require( "../stringProcessing/matchStringWithRegex.js" );
+var wordMatch = require( "../stringProcessing/matchTextWithWord.js" );
 
 /**
  * Counts the occurrences of the keyword in the first paragraph, returns 0 if it is not found,

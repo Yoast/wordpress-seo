@@ -1,6 +1,6 @@
 /** @module stringProcessing/getAlttagContent */
 
-var stripSpaces = require( "stringProcessing/stripSpaces.js" );
+var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
 
 /**
  * Checks for an alttag in the image and returns its content

@@ -1,7 +1,7 @@
 /** @module analyses/checkStringForStopwords */
 
-var stopwords = require( "config/stopwords.js" )();
-var keywordRegex = require( "stringProcessing/stringToRegex.js" );
+var stopwords = require( "../config/stopwords.js" )();
+var keywordRegex = require( "../stringProcessing/stringToRegex.js" );
 
 /**
  * Checks a textstring to see if there are any stopwords, that are defined in the stopwords config.

@@ -1,9 +1,9 @@
 /** @module stringProcessing/matchTextWithWord */
 
-var stringToRegex = require( "stringProcessing/stringToRegex.js" );
-var stripSomeTags = require( "stringProcessing/stripNonTextTags.js" );
-var unifyWhitespace = require( "stringProcessing/unifyWhitespace.js" );
-var replaceDiacritics = require( "stringProcessing/replaceDiacritics.js" );
+var stringToRegex = require( "../stringProcessing/stringToRegex.js" );
+var stripSomeTags = require( "../stringProcessing/stripNonTextTags.js" );
+var unifyWhitespace = require( "../stringProcessing/unifyWhitespace.js" );
+var replaceDiacritics = require( "../stringProcessing/replaceDiacritics.js" );
 
 /**
  * Returns the number of matches in a given string

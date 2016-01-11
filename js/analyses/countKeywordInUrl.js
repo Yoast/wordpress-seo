@@ -1,6 +1,6 @@
 /** @module analyses/countKeywordInUrl */
 
-var wordMatch = require( "stringProcessing/matchTextWithWord.js" );
+var wordMatch = require( "../stringProcessing/matchTextWithWord.js" );
 /**
  * Matches the keyword in the URL. Replaces whitespaces with dashes and uses dash as wordboundary.
  *

@@ -1,7 +1,7 @@
 /** @module analyses/getKeywordDensity */
 
-var countWords = require( "stringProcessing/countWords.js" );
-var matchWords = require( "stringProcessing/matchTextWithWord.js" );
+var countWords = require( "../stringProcessing/countWords.js" );
+var matchWords = require( "../stringProcessing/matchTextWithWord.js" );
 /**
  * Calculates the keyword density .
  *

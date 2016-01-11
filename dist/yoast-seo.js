@@ -1,5 +1,397 @@
-require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-(function (global){
+(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+/** @module analyses/calculateFleschReading */
+
+var cleanText = require( "../stringProcessing/cleanText.js" );
+var stripNumbers = require( "../stringProcessing/stripNumbers.js" );
+var stripHTMLTags = require( "../stringProcessing/stripHTMLTags.js" );
+var countSentences = require( "../stringProcessing/countSentences.js" );
+var countWords = require( "../stringProcessing/countWords.js" );
+var countSyllables = require( "../stringProcessing/countSyllables.js" );
+
+/**
+ * This calculates the fleschreadingscore for a given text
+ * The formula used:
+ * 206.835 - 1.015 (total words / total sentences) - 84.6 ( total syllables / total words);
+ *
+ * @param {string} text The text to analyze the fleschreading score for.
+ * @returns {number} the score of the fleschreading test
+ */
+module.exports = function( text ) {
+	if ( text === "" ) {
+		return 0;
+	}
+	text = cleanText ( text );
+	text = stripHTMLTags( text );
+	var wordCount = countWords( text  );
+
+	text = stripNumbers ( text );
+	var sentenceCount = countSentences( text );
+	var syllableCount = countSyllables( text );
+	var score = 206.835 - ( 1.015 * ( wordCount / sentenceCount ) ) - ( 84.6 * ( syllableCount / wordCount ) );
+
+	return score.toFixed( 1 );
+};
+
+},{"../stringProcessing/cleanText.js":31,"../stringProcessing/countSentences.js":32,"../stringProcessing/countSyllables.js":33,"../stringProcessing/countWords.js":34,"../stringProcessing/stripHTMLTags.js":46,"../stringProcessing/stripNumbers.js":48}],2:[function(require,module,exports){
+/** @module analyses/checkForKeywordDoubles */
+
+/**
+ * Checks the keyword in an array of used keywords. If the keyword is in this array, it will return the
+ * number of times the keyword is found, and an ID if it was used once before.
+ *
+ * @param {string} keyword The keyword to check in the array.
+ * @param {array} usedKeywords The array with used keywords and IDs.
+ * @returns {object} The id of the keyword and the number of times the keyword is found
+ */
+module.exports = function( keyword, usedKeywords ) {
+	var result = { count: 0, id: 0 };
+	if ( typeof usedKeywords[ keyword ] !== "undefined" ) {
+		result.count = usedKeywords[ keyword ].length;
+	}
+	if ( result.count === 1 ) {
+		result.id = usedKeywords[ keyword ][ 0 ];
+	}
+	return result;
+};
+
+},{}],3:[function(require,module,exports){
+/** @module analyses/checkStringForStopwords */
+
+var stopwords = require( "../config/stopwords.js" )();
+var keywordRegex = require( "../stringProcessing/stringToRegex.js" );
+
+/**
+ * Checks a textstring to see if there are any stopwords, that are defined in the stopwords config.
+ *
+ * @param {string} text The input text to match stopwords.
+ * @returns {array} An array with all stopwords found in the text.
+ */
+module.exports = function( text ) {
+	var i, matches = [];
+
+	for ( i = 0; i < stopwords.length; i++ ) {
+		if ( text.match( keywordRegex( stopwords[i] ) ) !== null  ) {
+			matches.push( stopwords[i] );
+		}
+	}
+	return matches;
+};
+
+
+},{"../config/stopwords.js":23,"../stringProcessing/stringToRegex.js":45}],4:[function(require,module,exports){
+/** @module analyses/checkUrlForStopwords */
+
+var stopwords = require( "../analyses/checkStringForStopwords.js" );
+
+/**
+ * Matches stopwords in the URL. Replaces - and _ with whitespace.
+ *
+ * @param {string} url The URL to check for stopwords.
+ * @returns {array} stopwords found in URL
+ */
+
+module.exports = function( url ) {
+	url = url.replace( /[-_]/g, " " );
+	return stopwords( url );
+};
+
+},{"../analyses/checkStringForStopwords.js":3}],5:[function(require,module,exports){
+/** @module analyses/countKeywordInUrl */
+
+var wordMatch = require( "../stringProcessing/matchTextWithWord.js" );
+/**
+ * Matches the keyword in the URL. Replaces whitespaces with dashes and uses dash as wordboundary.
+ *
+ * @param {url} url The URL to check for keyword
+ * @param {string} keyword The keyword to match
+ * @returns {int} Number of times the keyword is found.
+ */
+module.exports = function( url, keyword ) {
+	keyword = keyword.replace( /\s/ig, "-" );
+
+	return wordMatch( url, keyword );
+};
+
+},{"../stringProcessing/matchTextWithWord.js":41}],6:[function(require,module,exports){
+/** @module analyses/findKeywordInFirstParagraph */
+
+var regexMatch = require( "../stringProcessing/matchStringWithRegex.js" );
+var wordMatch = require( "../stringProcessing/matchTextWithWord.js" );
+
+/**
+ * Counts the occurrences of the keyword in the first paragraph, returns 0 if it is not found,
+ * if there is no paragraph tag or 0 hits, it checks for 2 newlines, otherwise returns the keyword
+ * count of the complete text.
+ *
+ * @param {string} text The text to check for paragraphs.
+ * @param {string} keyword The keyword to match in paragraphs.
+ * @returns {number} The number of occurences of the keyword in the first paragraph.
+ */
+module.exports = function( text, keyword ) {
+	var paragraph;
+
+	//matches everything between the <p> and </p> tags.
+	paragraph = regexMatch( text, "<p(?:[^>]+)?>(.*?)<\/p>" );
+	if ( paragraph.length > 0 ) {
+		return wordMatch( paragraph[0], keyword );
+	}
+
+	/* if no <p> tags found, use a regex that matches [^], not nothing, so any character,
+	including linebreaks untill it finds double linebreaks.
+	*/
+	paragraph = regexMatch( text, "[^]*?\n\n" );
+	if ( paragraph.length > 0 ) {
+		return wordMatch( paragraph[0], keyword );
+	}
+
+	//if no double linebreaks found, return the keyword count of the entire text
+	return wordMatch( text, keyword );
+};
+
+},{"../stringProcessing/matchStringWithRegex.js":40,"../stringProcessing/matchTextWithWord.js":41}],7:[function(require,module,exports){
+/** @module analyses/findKeywordInPageTitle */
+
+var wordMatch = require( "../stringProcessing/matchTextWithWord.js" );
+
+/**
+ * Counts the occurrences of the keyword in the pagetitle. Returns the number of matches
+ * and the position of the keyword.
+ *
+ * @param {string} text The text to match the keyword in.
+ * @param {string} keyword The keyword to match for.
+ * @returns {object} result with the matches and position.
+ */
+
+module.exports = function( text, keyword ) {
+	var result = { matches: 0, position: -1 };
+	result.matches = wordMatch( text, keyword );
+	result.position = text.toLocaleLowerCase().indexOf( keyword );
+
+	return result;
+};
+
+},{"../stringProcessing/matchTextWithWord.js":41}],8:[function(require,module,exports){
+/** @module analyses/getImageStatistics */
+
+var matchStringWithRegex = require( "../stringProcessing/matchStringWithRegex" );
+var imageAlttag = require( "../stringProcessing/getAlttagContent.js" );
+var wordMatch = require( "../stringProcessing/matchTextWithWord.js" );
+
+/**
+ * Checks if the keyword is present in the alttag and returns the property of the imageCount
+ * object that needs to be updated.
+ *
+ * @param {string} alttag The alttag to match the keyword in
+ * @param {string} keyword The keyword to match in the alttag
+ * @returns {string} The property of the imageCount object that needs to be updated
+ */
+var matchKeywordInAlttags = function( alttag, keyword ) {
+	if ( keyword !== "" ) {
+		if ( wordMatch( alttag, keyword ) > 0 ) {
+			return "altKeyword";
+		} else {
+
+			//this counts all alt-tags w/o the keyword when a keyword is set.
+			return "alt";
+		}
+	} else {
+		return "altNaKeyword";
+	}
+};
+
+/**
+ * Matches the alttags in the images found in the text.
+ * Returns an imageCount object with the totals and different alttags.
+ *
+ * @param {array} imageMatches Array with all the matched images in the text
+ * @param {string} keyword the keyword to check for
+ * @returns {object} imageCount object with all alttags
+ */
+var matchImageTags = function( imageMatches, keyword ) {
+	var imageCount = { total: imageMatches.length, alt: 0, noAlt: 0, altKeyword: 0, altNaKeyword: 0 };
+	for ( var i = 0; i < imageMatches.length; i++ ) {
+		var alttag = imageAlttag( imageMatches[i] );
+
+		if ( alttag !== "" ) {
+			imageCount[ matchKeywordInAlttags( alttag, keyword ) ]++;
+		} else {
+			imageCount.noAlt++;
+		}
+	}
+	return imageCount;
+};
+
+/**
+ * Checks the text for images, checks the type of each image and alttags for containing keywords
+ *
+ * @param {string} text The textstring to check for images
+ * @param {string} keyword The keyword to check in alttags
+ * @returns {object} Object containing all types of found images
+ */
+module.exports = function( text, keyword ) {
+
+	var imageMatches = matchStringWithRegex( text, "<img(?:[^>]+)?>" );
+	var imageCount =  matchImageTags( imageMatches, keyword );
+
+	return imageCount;
+};
+
+},{"../stringProcessing/getAlttagContent.js":37,"../stringProcessing/matchStringWithRegex":40,"../stringProcessing/matchTextWithWord.js":41}],9:[function(require,module,exports){
+/** @module analyses/getKeywordDensity */
+
+var countWords = require( "../stringProcessing/countWords.js" );
+var matchWords = require( "../stringProcessing/matchTextWithWord.js" );
+/**
+ * Calculates the keyword density .
+ *
+ * @param {string} text The text to count the keywords in.
+ * @param {string} keyword The keyword to match.
+ * @returns {number} The keyword density.
+ */
+module.exports = function( text, keyword ) {
+	var wordCount = countWords( text );
+	var keywordCount = matchWords ( text, keyword );
+	var keywordDensity = ( keywordCount / wordCount ) * 100;
+	return keywordDensity.toFixed( 1 );
+};
+
+},{"../stringProcessing/countWords.js":34,"../stringProcessing/matchTextWithWord.js":41}],10:[function(require,module,exports){
+/** @module analyses/getLinkStatistics */
+
+var getAnchors = require( "../stringProcessing/getAnchorsFromText.js" );
+var findKeywordInUrl = require( "../stringProcessing/findKeywordInUrl.js" );
+var getLinkType = require( "../stringProcessing/getLinkType.js" );
+var checkNofollow = require( "../stringProcessing/checkNofollow.js" );
+
+/**
+ * Checks a text for anchors and returns an object with all linktypes found.
+ *
+ * @param {string} text The text to check for anchors.
+ * @param {string} keyword The keyword to use for matching in anchors.
+ * @param {string} url The url of the page.
+ * @returns {object} The object containing all linktypes.
+ * total: the total number of links found
+ * totalNaKeyword: the total number of links if keyword is not available
+ * totalKeyword: the total number of links with the keyword
+ * internalTotal: the total number of links that are internal
+ * internalDofollow: the internal links without a nofollow attribute
+ * internalNofollow: the internal links with a nofollow attribute
+ * externalTotal: the total number of links that are external
+ * externalDofollow: the external links without a nofollow attribute
+ * externalNofollow: the internal links with a dofollow attribute
+ * otherTotal: all links that are not HTTP or HTTPS
+ * otherDofollow: other links without a nofollow attribute
+ * otherNofollow: other links with a nofollow attribute
+ */
+module.exports = function( text, keyword, url ) {
+	var anchors = getAnchors( text );
+
+	var linkCount = {
+		total: anchors.length,
+		totalNaKeyword: 0,
+		totalKeyword: 0,
+		internalTotal: 0,
+		internalDofollow: 0,
+		internalNofollow: 0,
+		externalTotal: 0,
+		externalDofollow: 0,
+		externalNofollow: 0,
+		otherTotal: 0,
+		otherDofollow: 0,
+		otherNofollow: 0
+	};
+	var linkKeyword;
+	for ( var i = 0; i < anchors.length; i++ ) {
+		linkKeyword = findKeywordInUrl( anchors[i], keyword );
+		if ( linkKeyword ) {
+			if ( keyword !== "" ) {
+				linkCount.totalKeyword++;
+			} else {
+				linkCount.totalNaKeyword++;
+			}
+		}
+		var linkType = getLinkType( anchors[i], url );
+		linkCount[linkType + "Total"]++;
+		var linkFollow = checkNofollow( anchors[i] );
+		linkCount[linkType + linkFollow]++;
+	}
+	return linkCount;
+};
+
+},{"../stringProcessing/checkNofollow.js":30,"../stringProcessing/findKeywordInUrl.js":36,"../stringProcessing/getAnchorsFromText.js":38,"../stringProcessing/getLinkType.js":39}],11:[function(require,module,exports){
+/** @module analyses/getWordCount */
+
+var sanitizeString = require( "../stringProcessing/sanitizeString.js" );
+
+/**
+ * Checks the number of words in a string
+ *
+ * @param {string} text The keyphrase to count words in.
+ * @returns {number} The wordcount of the given string.
+ */
+module.exports = function( text ) {
+	text = sanitizeString( text );
+
+	if ( text === "" ) {
+		return 0;
+	}
+
+	return text.split( /\s/g ).length;
+};
+
+},{"../stringProcessing/sanitizeString.js":44}],12:[function(require,module,exports){
+/** @module analyses/isUrlTooLong */
+
+var analyzerConfig = require( "../config/analyzerConfig" )();
+
+/**
+ * Checks if an URL is too long, based on slug and relative to keyword length.
+ *
+ * @param {string} url The URL to check the length from.
+ * @param {string} keyword The keyword
+ * @returns {boolean} true if the URL is too long, false if it isn't
+ */
+module.exports = function( url, keyword ) {
+	var urlLength = url.length;
+	var keywordLength = keyword.length;
+	var isUrlTooLong = false;
+	if ( urlLength > analyzerConfig.maxUrlLength  && urlLength > keywordLength + analyzerConfig.maxSlugLength ) {
+		isUrlTooLong = true;
+	}
+	return isUrlTooLong;
+};
+
+},{"../config/analyzerConfig":18}],13:[function(require,module,exports){
+/* @module analyses/matchKeywordInSubheadings */
+
+var stripSomeTags = require( "../stringProcessing/stripNonTextTags.js" );
+var subheadingMatch = require( "../stringProcessing/subheadingsMatch.js" );
+
+/**
+ * Checks if there are any subheadings like h2 in the text
+ * and if they have the keyword in them.
+ *
+ * @param {string} text The text to check for subheadings.
+ * @param {string} keyword The keyword to match for.
+ * @returns {object} the result object.
+ * count: the number of matches
+ * matches:the number of ocurrences of the keyword for each match
+ */
+module.exports = function( text, keyword ) {
+	var matches;
+	var result = { count: 0 };
+	text = stripSomeTags( text );
+	matches = text.match( /<h([1-6])(?:[^>]+)?>(.*?)<\/h\1>/ig );
+
+	if ( matches !== null ) {
+		result.count = matches.length;
+		result.matches = subheadingMatch( matches, keyword );
+	}
+	return result;
+};
+
+
+},{"../stringProcessing/stripNonTextTags.js":47,"../stringProcessing/subheadingsMatch.js":50}],14:[function(require,module,exports){
 /* global YoastSEO: true */
 YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 
@@ -180,7 +572,7 @@ YoastSEO.Analyzer.prototype.addAnalysis = function( analysis ) {
  * @returns {{test: string, result: (Function|YoastSEO.PreProcessor.wordcount|Number)}[]}
  */
 YoastSEO.Analyzer.prototype.wordCount = function() {
-	var countWords = require( "stringProcessing/countWords.js" );
+	var countWords = require( "./stringProcessing/countWords.js" );
 	return [ { test: "wordCount", result: countWords( this.config.text ) } ];
 };
 
@@ -189,7 +581,7 @@ YoastSEO.Analyzer.prototype.wordCount = function() {
  * @returns {{test: string, result: number}[]}
  */
 YoastSEO.Analyzer.prototype.keyphraseSizeCheck = function() {
-	var getKeyphraseLength = require( "analyses/getWordCount.js" );
+	var getKeyphraseLength = require( "./analyses/getWordCount.js" );
 	return [ { test: "keyphraseSizeCheck", result: getKeyphraseLength( this.config.keyword ) } ];
 };
 
@@ -198,8 +590,8 @@ YoastSEO.Analyzer.prototype.keyphraseSizeCheck = function() {
  * @returns resultObject
  */
 YoastSEO.Analyzer.prototype.keywordDensity = function() {
-	var getKeywordDensity = require( "analyses/getKeywordDensity.js" );
-	var countWords = require( "stringProcessing/countWords.js" );
+	var getKeywordDensity = require( "./analyses/getKeywordDensity.js" );
+	var countWords = require( "./stringProcessing/countWords.js" );
 	if ( countWords ( this.config.text ) >= 100 ) {
 		var density = getKeywordDensity( this.config.text, this.config.keyword );
 
@@ -213,7 +605,7 @@ YoastSEO.Analyzer.prototype.keywordDensity = function() {
  * @returns keywordCount
  */
 YoastSEO.Analyzer.prototype.keywordCount = function() {
-	var matchTextWithWord = require( "stringProcessing/matchTextWithWord.js" );
+	var matchTextWithWord = require( "./stringProcessing/matchTextWithWord.js" );
 	var keywordCount = matchTextWithWord( this.config.text, this.config.keyword );
 
 	return keywordCount;
@@ -224,7 +616,7 @@ YoastSEO.Analyzer.prototype.keywordCount = function() {
  * @returns resultObject
  */
 YoastSEO.Analyzer.prototype.subHeadings = function() {
-	var getSubheadings = require( "analyses/matchKeywordInSubheadings.js" );
+	var getSubheadings = require( "./analyses/matchKeywordInSubheadings.js" );
 
 	var result = [ { test: "subHeadings", result: getSubheadings( this.config.text, this.config.keyword ) } ];
 
@@ -236,7 +628,7 @@ YoastSEO.Analyzer.prototype.subHeadings = function() {
  * @returns {result object}
  */
 YoastSEO.Analyzer.prototype.stopwords = function() {
-	var checkStringForStopwords = require( "analyses/checkStringForStopwords.js" );
+	var checkStringForStopwords = require( "./analyses/checkStringForStopwords.js" );
 	var matches = checkStringForStopwords( this.config.keyword );
 
 	/* Matchestext is used for scoring, we should move this to the scoring */
@@ -257,7 +649,7 @@ YoastSEO.Analyzer.prototype.stopwords = function() {
  * @returns {result object}
  */
 YoastSEO.Analyzer.prototype.fleschReading = function() {
-	var calculateFleschReading = require( "analyses/calculateFleschReading.js" );
+	var calculateFleschReading = require( "./analyses/calculateFleschReading.js" );
 	var score = calculateFleschReading( this.config.text );
 	if ( score < 0 ) {
 		score = 0;
@@ -293,7 +685,7 @@ YoastSEO.Analyzer.prototype.fleschReading = function() {
  * 	}
  */
 YoastSEO.Analyzer.prototype.linkCount = function() {
-	var countLinks = require( "analyses/getLinkStatistics.js" );
+	var countLinks = require( "./analyses/getLinkStatistics.js" );
 	var keyword = this.config.keyword;
 
 	if ( typeof keyword === "undefined" ) {
@@ -312,7 +704,7 @@ YoastSEO.Analyzer.prototype.linkCount = function() {
  * @returns {{name: string, result: {total: number, alt: number, noAlt: number}}}
  */
 YoastSEO.Analyzer.prototype.imageCount = function() {
-	var countImages = require( "analyses/getImageStatistics.js" );
+	var countImages = require( "./analyses/getImageStatistics.js" );
 	return [ { test: "imageCount", result: countImages( this.config.text, this.config.keyword ) } ];
 };
 
@@ -335,7 +727,7 @@ YoastSEO.Analyzer.prototype.pageTitleLength = function() {
  * @returns {{name: string, count: number}}
  */
 YoastSEO.Analyzer.prototype.pageTitleKeyword = function() {
-	var findKeywordInPageTitle = require( "analyses/findKeywordInPageTitle.js" );
+	var findKeywordInPageTitle = require( "./analyses/findKeywordInPageTitle.js" );
 	var result = [ { test: "pageTitleKeyword", result: { position: -1, matches: 0 } } ];
 	if ( typeof this.config.pageTitle !== "undefined" && typeof this.config.keyword !== "undefined" ) {
 		result[0].result = findKeywordInPageTitle( this.config.pageTitle, this.config.keyword );
@@ -349,7 +741,7 @@ YoastSEO.Analyzer.prototype.pageTitleKeyword = function() {
  * @returns {{name: string, count: number}}
  */
 YoastSEO.Analyzer.prototype.firstParagraph = function() {
-	var findKeywordInFirstParagraph = require( "analyses/findKeywordInFirstParagraph.js" );
+	var findKeywordInFirstParagraph = require( "./analyses/findKeywordInFirstParagraph.js" );
 	var result = [ { test: "firstParagraph", result: findKeywordInFirstParagraph( this.config.text, this.config.keyword ) } ];
 	return result;
 };
@@ -360,7 +752,7 @@ YoastSEO.Analyzer.prototype.firstParagraph = function() {
  * @returns {{name: string, count: number}}
  */
 YoastSEO.Analyzer.prototype.metaDescriptionKeyword = function() {
-	var wordMatch = require( "stringProcessing/matchTextWithWord.js" );
+	var wordMatch = require( "./stringProcessing/matchTextWithWord.js" );
 	var result = [ { test: "metaDescriptionKeyword", result: -1 } ];
 
 	if ( typeof this.config.meta !== "undefined" && typeof this.config.keyword !== "undefined" &&
@@ -389,7 +781,7 @@ YoastSEO.Analyzer.prototype.metaDescriptionLength = function() {
  * @returns {{name: string, count: number}}
  */
 YoastSEO.Analyzer.prototype.urlKeyword = function() {
-	var checkForKeywordInUrl = require( "analyses/countKeywordInUrl.js" );
+	var checkForKeywordInUrl = require( "./analyses/countKeywordInUrl.js" );
 	var score = 0;
 
 	if ( typeof this.config.keyword !== "undefined" && typeof this.config.url !== "undefined" ) {
@@ -405,7 +797,7 @@ YoastSEO.Analyzer.prototype.urlKeyword = function() {
  * @returns {{test: string, result: number}[]}
  */
 YoastSEO.Analyzer.prototype.urlLength = function() {
-	var isUrlTooLong = require( "analyses/isUrlTooLong.js" );
+	var isUrlTooLong = require( "./analyses/isUrlTooLong.js" );
 	var result = [ { test: "urlLength", result: { urlTooLong: isUrlTooLong(
 		this.config.url,
 		this.config.keyword,
@@ -420,7 +812,7 @@ YoastSEO.Analyzer.prototype.urlLength = function() {
  * @returns {{test: string, result: number}[]}
  */
 YoastSEO.Analyzer.prototype.urlStopwords = function() {
-	var checkUrlForStopwords = require( "analyses/checkUrlForStopwords.js" );
+	var checkUrlForStopwords = require( "./analyses/checkUrlForStopwords.js" );
 	var result = [ { test: "urlStopwords", result: checkUrlForStopwords( this.config.url ) } ];
 
 	return result;
@@ -433,7 +825,7 @@ YoastSEO.Analyzer.prototype.urlStopwords = function() {
 YoastSEO.Analyzer.prototype.keywordDoubles = function() {
 	var result = [ { test: "keywordDoubles", result: { count: 0, id: 0 } } ];
 	if ( this.config.keyword !== "undefined" && this.config.usedKeywords !== "undefined" ) {
-		var checkForKeywordDoubles = require( "analyses/checkForKeywordDoubles.js" );
+		var checkForKeywordDoubles = require( "./analyses/checkForKeywordDoubles.js" );
 		result[0].result = checkForKeywordDoubles( this.config.keyword, this.config.usedKeywords );
 	}
 	return result;
@@ -446,6 +838,7 @@ YoastSEO.Analyzer.prototype.score = function() {
 	this.analyzeScorer.score( this.__output );
 };
 
+},{"./analyses/calculateFleschReading.js":1,"./analyses/checkForKeywordDoubles.js":2,"./analyses/checkStringForStopwords.js":3,"./analyses/checkUrlForStopwords.js":4,"./analyses/countKeywordInUrl.js":5,"./analyses/findKeywordInFirstParagraph.js":6,"./analyses/findKeywordInPageTitle.js":7,"./analyses/getImageStatistics.js":8,"./analyses/getKeywordDensity.js":9,"./analyses/getLinkStatistics.js":10,"./analyses/getWordCount.js":11,"./analyses/isUrlTooLong.js":12,"./analyses/matchKeywordInSubheadings.js":13,"./stringProcessing/countWords.js":34,"./stringProcessing/matchTextWithWord.js":41}],15:[function(require,module,exports){
 /* global YoastSEO: true */
 
 /**
@@ -701,6 +1094,7 @@ YoastSEO.AnalyzeScorer.prototype.addScoring = function( scoring ) {
 
 module.exports = YoastSEO.AnalyzeScorer;
 
+},{}],16:[function(require,module,exports){
 /* jshint browser: true */
 /* global YoastSEO: true */
 YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
@@ -888,7 +1282,7 @@ YoastSEO.App.prototype.refresh = function() {
 YoastSEO.App.prototype.createSnippetPreview = function() {
 	var targetElement = document.getElementById( this.config.targets.snippet );
 
-	var snippetEditorTemplate = require( "templates" ).snippetEditor;
+	var snippetEditorTemplate = require( "./templates.js" ).snippetEditor;
 
 	targetElement.innerHTML = snippetEditorTemplate( {
 		title: this.config.sampleText.title,
@@ -1077,1622 +1471,21 @@ YoastSEO.App.prototype.removeLoadingDialog = function() {
 	document.getElementById( this.config.targets.output ).removeChild( document.getElementById( "YoastSEO-plugin-loading" ) );
 };
 
-/* global console: true */
-/* global setTimeout: true */
-/* global YoastSEO: true */
+},{"./templates.js":53,"jed":54}],17:[function(require,module,exports){
 YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 
-/**
- * The plugins object takes care of plugin registrations, preloading and managing data modifications.
- *
- * A plugin for YoastSEO.js is basically a piece of JavaScript that hooks into YoastSEO.js by registering modifications.
- * In order to do so, it must first register itself as a plugin with YoastSEO.js. To keep our content analysis fast, we
- * don't allow asynchronous modifications. That's why we require plugins to preload all data they need in order to modify
- * the content. If plugins need to preload data, they can first register, then preload using AJAX and call `ready` once
- * preloaded.
- *
- * To minimize client side memory usage, we request plugins to preload as little data as possible. If you need to dynamically
- * fetch more data in the process of content creation, you can reload your data set and let YoastSEO.js know you've reloaded
- * by calling `reloaded`.
- *
- * @todo: add list of supported modifications and compare on registration of modification
- *
- * @constructor
- * @property preloadThreshold	{number} The maximum time plugins are allowed to preload before we load our content analysis.
- * @property plugins			{object} The plugins that have been registered.
- * @property modifications 		{object} The modifications that have been registered. Every modification contains an array with callables.
- * @property customTests        {Array} All tests added by plugins.
- */
-YoastSEO.Pluggable = function( app ) {
-	this.app = app;
-	this.loaded = false;
-	this.preloadThreshold = 3000;
-	this.plugins = {};
-	this.modifications = {};
-	this.customTests = [];
-
-	// Allow plugins 1500 ms to register before we start polling their
-	setTimeout( this._pollLoadingPlugins.bind( this ), 1500 );
-};
-
-/**************** PUBLIC DSL ****************/
-
-/**
- * Delegates to `YoastSEO.app.pluggable.registerPlugin`
- *
- * @param pluginName	{string}
- * @param options 		{{status: "ready"|"loading"}}
- * @returns 			{boolean}
- */
-YoastSEO.App.prototype.registerPlugin = function( pluginName, options ) {
-	return this.pluggable._registerPlugin( pluginName, options );
-};
-
-/**
- * Delegates to `YoastSEO.app.pluggable.ready`
- *
- * @param pluginName	{string}
- * @returns 			{boolean}
- */
-YoastSEO.App.prototype.pluginReady = function( pluginName ) {
-	return this.pluggable._ready( pluginName );
-};
-
-/**
- * Delegates to `YoastSEO.app.pluggable.reloaded`
- *
- * @param pluginName	{string}
- * @returns 			{boolean}
- */
-YoastSEO.App.prototype.pluginReloaded = function( pluginName ) {
-	return this.pluggable._reloaded( pluginName );
-};
-
-/**
- * Delegates to `YoastSEO.app.pluggable.registerModification`
- *
- * @param modification 	{string} 	The name of the filter
- * @param callable 		{function} 	The callable
- * @param pluginName 	{string} 	The plugin that is registering the modification.
- * @param priority 		{number} 	(optional) Used to specify the order in which the callables associated with a particular filter are called.
- * 									Lower numbers correspond with earlier execution.
- * @returns 			{boolean}
- */
-YoastSEO.App.prototype.registerModification = function( modification, callable, pluginName, priority ) {
-	return this.pluggable._registerModification( modification, callable, pluginName, priority );
-};
-
-/**
- * Registers a custom test for use in the analyzer, this will result in a new line in the analyzer results. The function
- * has to return a result based on the contents of the page/posts.
- *
- * The scoring object is a special object with definitions about how to translate a result from your analysis function
- * to a SEO score.
- *
- * Negative scores result in a red circle
- * Scores 1, 2, 3, 4 and 5 result in a orange circle
- * Scores 6 and 7 result in a yellow circle
- * Scores 8, 9 and 10 result in a red circle
- *
- * @param {string}   name       Name of the test.
- * @param {function} analysis   A function that analyzes the content and determines a score for a certain trait.
- * @param {Object}   scoring    A scoring object that defines how the analysis translates to a certain SEO score.
- * @param {string}   pluginName The plugin that is registering the test.
- * @param {number}   priority   (optional) Determines when this test is run in the analyzer queue. Is currently ignored,
- *                              tests are added to the end of the queue.
- * @returns {boolean}
- */
-YoastSEO.App.prototype.registerTest = function( name, analysis, scoring, pluginName, priority ) {
-	return this.pluggable._registerTest( name, analysis, scoring, pluginName, priority );
-};
-
-/**************** DSL IMPLEMENTATION ****************/
-
-/**
- * Register a plugin with YoastSEO. A plugin can be declared "ready" right at registration or later using `this.ready`.
- *
- * @param pluginName	{string}
- * @param options 		{{status: "ready"|"loading"}}
- * @returns 			{boolean}
- */
-YoastSEO.Pluggable.prototype._registerPlugin = function( pluginName, options ) {
-	if ( typeof pluginName !== "string" ) {
-		console.error( "Failed to register plugin. Expected parameter `pluginName` to be a string." );
-		return false;
-	}
-
-	if ( typeof options !== "undefined" && typeof options !== "object" ) {
-		console.error( "Failed to register plugin " + pluginName + ". Expected parameters `options` to be a string." );
-		return false;
-	}
-
-	if ( this._validateUniqueness( pluginName ) === false ) {
-		console.error( "Failed to register plugin. Plugin with name " + pluginName + " already exists" );
-		return false;
-	}
-
-	this.plugins[pluginName] = options;
-	this.app.updateLoadingDialog( this.plugins );
-	return true;
-};
-
-/**
- * Declare a plugin "ready". Use this if you need to preload data with AJAX.
- *
- * @param pluginName	{string}
- * @returns 			{boolean}
- */
-YoastSEO.Pluggable.prototype._ready = function( pluginName ) {
-	if ( typeof pluginName !== "string" ) {
-		console.error( "Failed to modify status for plugin " + pluginName + ". Expected parameter `pluginName` to be a string." );
-		return false;
-	}
-
-	if ( this.plugins[pluginName] === undefined ) {
-		console.error( "Failed to modify status for plugin " + pluginName + ". The plugin was not properly registered." );
-		return false;
-	}
-
-	this.plugins[pluginName].status = "ready";
-	this.app.updateLoadingDialog( this.plugins );
-	return true;
-};
-
-/**
- * Used to declare a plugin has been reloaded. If an analysis is currently running. We will reset it to ensure running the latest modifications.
- *
- * @param pluginName	{string}
- * @returns 			{boolean}
- */
-YoastSEO.Pluggable.prototype._reloaded = function( pluginName ) {
-	if ( typeof pluginName !== "string" ) {
-		console.error( "Failed to reload Content Analysis for " + pluginName + ". Expected parameter `pluginName` to be a string." );
-		return false;
-	}
-
-	if ( this.plugins[pluginName] === undefined ) {
-		console.error( "Failed to reload Content Analysis for plugin " + pluginName + ". The plugin was not properly registered." );
-		return false;
-	}
-
-	this.app.analyzeTimer();
-	return true;
-};
-
-/**
- * Enables hooking a callable to a specific data filter supported by YoastSEO. Can only be performed for plugins that have finished loading.
- *
- * @param modification 	{string} 	The name of the filter
- * @param callable 		{function} 	The callable
- * @param pluginName 	{string} 	The plugin that is registering the modification.
- * @param priority 		{number} 	(optional) Used to specify the order in which the callables associated with a particular filter are called.
- * 									Lower numbers correspond with earlier execution.
- * @returns 			{boolean}
- */
-YoastSEO.Pluggable.prototype._registerModification = function( modification, callable, pluginName, priority ) {
-	if ( typeof modification !== "string" ) {
-		console.error( "Failed to register modification for plugin " + pluginName + ". Expected parameter `modification` to be a string." );
-		return false;
-	}
-
-	if ( typeof callable !== "function" ) {
-		console.error( "Failed to register modification for plugin " + pluginName + ". Expected parameter `callable` to be a function." );
-		return false;
-	}
-
-	if ( typeof pluginName !== "string" ) {
-		console.error( "Failed to register modification for plugin " + pluginName + ". Expected parameter `pluginName` to be a string." );
-		return false;
-	}
-
-	// Validate origin
-	if ( this._validateOrigin( pluginName ) === false ) {
-		console.error( "Failed to register modification for plugin " + pluginName + ". The integration has not finished loading yet." );
-		return false;
-	}
-
-	// Default priority to 10
-	var prio = typeof priority === "number" ?  priority : 10;
-
-	var callableObject = {
-		callable: callable,
-		origin: pluginName,
-		priority: prio
-	};
-
-	// Make sure modification is defined on modifications object
-	if ( this.modifications[modification] === undefined ) {
-		this.modifications[modification] = [];
-	}
-
-	this.modifications[modification].push( callableObject );
-
-	return true;
-};
-
-/**
- * @private
- */
-YoastSEO.Pluggable.prototype._registerTest = function( name, analysis, scoring, pluginName, priority ) {
-	if ( typeof name !== "string" ) {
-		console.error( "Failed to register test for plugin " + pluginName + ". Expected parameter `name` to be a string." );
-		return false;
-	}
-
-	if ( typeof analysis !== "function" ) {
-		console.error( "Failed to register test for plugin " + pluginName + ". Expected parameter `analyzer` to be a function." );
-		return false;
-	}
-
-	if ( typeof pluginName !== "string" ) {
-		console.error( "Failed to register test for plugin " + pluginName + ". Expected parameter `pluginName` to be a string." );
-		return false;
-	}
-
-	// Validate origin
-	if ( this._validateOrigin( pluginName ) === false ) {
-		console.error( "Failed to register test for plugin " + pluginName + ". The integration has not finished loading yet." );
-		return false;
-	}
-
-	// Default priority to 10
-	var prio = typeof priority === "number" ? priority : 10;
-
-	// Prefix the name with the pluginName so the test name is always unique.
-	name = pluginName + "-" + name;
-
-	this.customTests.push( {
-		"name": name,
-		"analysis": analysis,
-		"scoring": scoring,
-		"prio": prio
-	} );
-
-	return true;
-};
-
-/**************** PRIVATE HANDLERS ****************/
-
-/**
- * Poller to handle loading of plugins. Plugins can register with our app to let us know they are going to hook into our Javascript. They are allowed
- * 5 seconds of pre-loading time to fetch all the data they need to be able to perform their data modifications. We will only apply data modifications
- * from plugins that have declared ready within the pre-loading time in order to safeguard UX and data integrity.
- *
- * @param pollTime {number} (optional) The accumulated time to compare with the pre-load threshold.
- * @private
- */
-YoastSEO.Pluggable.prototype._pollLoadingPlugins = function( pollTime ) {
-	pollTime = pollTime === undefined ? 0 : pollTime;
-	if ( this._allReady() === true ) {
-		this.loaded = true;
-		this.app.pluginsLoaded();
-	} else if ( pollTime >= this.preloadThreshold ) {
-		this._pollTimeExceeded();
-	} else {
-		pollTime += 50;
-		setTimeout( this._pollLoadingPlugins.bind( this, pollTime ), 50 );
-	}
-};
-
-/**
- * Checks if all registered plugins have finished loading
- *
- * @returns {boolean}
- * @private
- */
-YoastSEO.Pluggable.prototype._allReady = function() {
-	for ( var plugin in this.plugins ) {
-		if ( this.plugins[plugin].status !== "ready" ) {
-			return false;
-		}
-	}
-	return true;
-};
-
-/**
- * Removes the plugins that were not loaded within time and calls `pluginsLoaded` on the app.
- *
- * @private
- */
-YoastSEO.Pluggable.prototype._pollTimeExceeded = function() {
-	for ( var plugin in this.plugins ) {
-		if ( this.plugins[plugin].options !== undefined && this.plugins[plugin].options.status !== "ready" ) {
-			console.error( "Error: Plugin " + plugin + ". did not finish loading in time." );
-			delete this.plugins[plugin];
-		}
-	}
-	this.loaded = true;
-	this.app.pluginsLoaded();
-};
-
-/**
- * Calls the callables added to a modification hook. See the YoastSEO.js Readme for a list of supported modification hooks.
- *
- * @param modification	{string}	The name of the filter
- * @param data 			{*} 		The data to filter
- * @param context 		{*} 		(optional) Object for passing context parameters to the callable.
- * @returns 			{*} 		The filtered data
- * @private
- */
-YoastSEO.Pluggable.prototype._applyModifications = function( modification, data, context ) {
-	var callChain = this.modifications[modification];
-
-	if ( callChain instanceof Array && callChain.length > 0 ) {
-		callChain = this._stripIllegalModifications( callChain );
-
-		callChain.sort( function( a, b ) {
-			return a.priority - b.priority;
-		} );
-		for ( var callableObject in callChain ) {
-			var callable = callChain[callableObject].callable;
-			var newData = callable( data, context );
-			if ( typeof newData === typeof data ) {
-				data = newData;
-			} else {
-				console.error( "Modification with name " + modification + " performed by plugin with name " +
-				callChain[callableObject].origin +
-				" was ignored because the data that was returned by it was of a different type than the data we had passed it." );
-			}
-		}
-	}
-	return data;
-
-};
-
-/**
- * Adds new tests to the analyzer and it's scoring object.
- *
- * @param {YoastSEO.Analyzer} analyzer The analyzer object to add the tests to
- * @private
- */
-YoastSEO.Pluggable.prototype._addPluginTests = function( analyzer ) {
-	this.customTests.map( function( customTest ) {
-		this._addPluginTest( analyzer, customTest );
-	}, this );
-};
-
-/**
- * Adds one new test to the analyzer and it's scoring object.
- *
- * @param {YoastSEO.Analyzer} analyzer
- * @param {Object}            pluginTest
- * @param {string}            pluginTest.name
- * @param {function}          pluginTest.callable
- * @param {Object}            pluginTest.scoring
- * @private
- */
-YoastSEO.Pluggable.prototype._addPluginTest = function( analyzer, pluginTest ) {
-	analyzer.addAnalysis( {
-		"name": pluginTest.name,
-		"callable": pluginTest.analysis
-	} );
-
-	analyzer.analyzeScorer.addScoring( {
-		"name": pluginTest.name,
-		"scoring": pluginTest.scoring
-	} );
-};
-
-/**
- * Strips modifications from a callChain if they were not added with a valid origin.
- *
- * @param callChain		{Array}
- * @returns callChain 	{Array}
- * @private
- */
-YoastSEO.Pluggable.prototype._stripIllegalModifications = function( callChain ) {
-	for ( var callableObject in callChain ) {
-		if ( this._validateOrigin( callChain[callableObject].origin ) === false ) {
-			delete callChain[callableObject];
-		}
-	}
-
-	return callChain;
-};
-
-/**
- * Validates if origin of a modification has been registered and finished preloading.
- *
- * @param pluginName	{string}
- * @returns 			{boolean}
- * @private
- */
-YoastSEO.Pluggable.prototype._validateOrigin = function( pluginName ) {
-	if ( this.plugins[pluginName].status !== "ready" ) {
-		return false;
-	}
-	return true;
-};
-
-/**
- * Validates if registered plugin has a unique name.
- *
- * @param pluginName	{string}
- * @returns 			{boolean}
- * @private
- */
-YoastSEO.Pluggable.prototype._validateUniqueness = function( pluginName ) {
-	if ( this.plugins[pluginName] !== undefined ) {
-		return false;
-	}
-	return true;
-};
-
-/* global YoastSEO: true */
-YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
-
-/**
- * YoastSEO.PreProcessor object definition. Creates __store object and calls init.
- * @params textString
- */
-YoastSEO.PreProcessor = function( text ) {
-
-	//create __store object to store data
-	this.__store = {};
-	this.__store.originalText = text;
-	this.stringHelper = YoastSEO.getStringHelper();
-	this.init();
-};
-
-/**
- * init function calling all necessary PreProcessorfunctions
- */
-YoastSEO.PreProcessor.prototype.init = function() {
-
-	//call function to clean text
-	this.textFormat();
-
-	//call function to count words
-	this.countStore();
-};
-
-/**
- * formats the original text from __store and save as cleantext, cleantextSomeTags en
- * cleanTextNoTags
- */
-YoastSEO.PreProcessor.prototype.textFormat = function() {
-	this.__store.cleanText = this.cleanText( this.__store.originalText );
-	this.__store.cleanTextSomeTags = this.stringHelper.stripSomeTags( this.__store.cleanText );
-	this.__store.cleanTextNoTags = this.stringHelper.stripAllTags( this.__store.cleanTextSomeTags );
-	this.__store.cleanTextNoDigits = this.stringHelper.stripNonWords( this.__store.cleanTextNoTags );
-};
-
-/**
- * saves wordcount (all words) and wordcountNoTags (all words except those in tags) in the __store
- * saves sentencecount and syllable count in __store
- * object
- */
-YoastSEO.PreProcessor.prototype.countStore = function() {
-
-	/*wordcounters*/
-	var wordcountString = this.__store.cleanText;
-
-	this.__store.wordcount = wordcountString === "" ?
-		0 :
-		wordcountString.split( /\s/g ).length;
-
-	var wordcountStringNoTags = this.__store.cleanTextNoTags;
-
-	this.__store.wordcountNoTags = wordcountStringNoTags === "" ?
-		0 :
-		wordcountStringNoTags.split( /\s/g ).length;
-
-	var wordcountStringNoDigits = this.__store.cleanTextNoDigits;
-
-	this.__store.wordcountNoDigits = wordcountStringNoDigits === "" ?
-		0 :
-		wordcountStringNoDigits.split ( /\s/g ).length;
-
-	/*sentencecounters*/
-	this.__store.sentenceCountNoTags = this.sentenceCount( this.__store.cleanTextNoDigits );
-
-	/*syllablecounters*/
-	this.__store.syllablecount = this.syllableCount( this.__store.cleanTextNoDigits );
-};
-
-/**
- * counts the number of sentences in a textstring by splitting on a period. Removes sentences that
- * are empty or have only a space.
- * @param textString
- */
-YoastSEO.PreProcessor.prototype.sentenceCount = function( textString ) {
-	var sentences = textString.split( "." );
-	var sentenceCount = 0;
-	for ( var i = 0; i < sentences.length; i++ ) {
-		if ( sentences[ i ] !== "" && sentences[ i ] !== " " ) {
-			sentenceCount++;
-		}
-	}
-	return sentenceCount;
-};
-
-/**
- * counts the number of syllables in a textstring, calls exclusionwordsfunction, basic syllable
- * counter and advanced syllable counter.
- * @param textString
- * @returns syllable count
- */
-YoastSEO.PreProcessor.prototype.syllableCount = function( textString ) {
-	this.syllableCount = 0;
-	textString = textString.replace( /[.]/g, " " );
-	textString = this.removeWords( textString );
-	var words = textString.split( " " );
-	var subtractSyllablesRegexp = this.stringHelper.stringToRegex(
-		YoastSEO.preprocessorConfig.syllables.subtractSyllables,
-		true
-	);
-	var addSyllablesRegexp = this.stringHelper.stringToRegex(
-		YoastSEO.preprocessorConfig.syllables.addSyllables,
-		true
-	);
-	for ( var i = 0; i < words.length; i++ ) {
-		this.basicSyllableCount( words[ i ].split( /[^aeiouy]/g ) );
-		this.advancedSyllableCount( words[ i ], subtractSyllablesRegexp, "subtract" );
-		this.advancedSyllableCount( words[ i ], addSyllablesRegexp, "add" );
-	}
-	return this.syllableCount;
-};
-
-/**
- * counts the syllables by splitting on consonants
- * @param splitWordArray
- */
-
-YoastSEO.PreProcessor.prototype.basicSyllableCount = function( splitWordArray ) {
-	for ( var j = 0; j < splitWordArray.length; j++ ) {
-		if ( splitWordArray[ j ].length > 0 ) {
-			this.syllableCount++;
-		}
-	}
-};
-
-/**
- * counts the syllables by validating against regexxes, and adding and subtracting the number of
- * matches.
- * @param inputString
- * @param regex
- * @param operator
- */
-YoastSEO.PreProcessor.prototype.advancedSyllableCount = function( inputString, regex, operator ) {
-	var match = inputString.match( regex );
-	if ( match !== null ) {
-		if ( operator === "subtract" ) {
-			this.syllableCount -= match.length;
-		} else if ( operator === "add" ) {
-			this.syllableCount += match.length;
-		}
-	}
-};
-
-/**
- * removes words from textstring and count syllables. Used for words that fail against regexes.
- * @param textString
- * @returns textString with exclusionwords removed
- */
-YoastSEO.PreProcessor.prototype.removeWords = function( textString ) {
-	var config = YoastSEO.preprocessorConfig;
-
-	for ( var i = 0; i < config.syllables.exclusionWords.length; i++ ) {
-		var exclusionRegex = new RegExp(
-			config.syllables.exclusionWords[ i ].word,
-			"g"
-		);
-		var matches = textString.match( exclusionRegex );
-		if ( matches !== null ) {
-			this.syllableCount += config.syllables.exclusionWords[ i ].syllables;
-			textString = textString.replace( exclusionRegex, "" );
-		}
-	}
-	return textString;
-};
-
-/**
- * cleans text by removing special characters, numberonly words and replacing all terminators by
- * periods
- * @param textString
- * @returns textString
- */
-YoastSEO.PreProcessor.prototype.cleanText = function( textString ) {
-	if ( textString !== "" ) {
-		textString = this.replaceDiacritics( textString );
-		textString = textString.toLocaleLowerCase();
-
-		// Remove some HTML entities as first action
-		textString = textString.replace( "&nbsp;", " " );
-
-		// unify all terminators
-		textString = textString.replace( /[.?!]/g, "." );
-
-		// Remove double spaces
-		textString = this.stringHelper.stripSpaces( textString );
-
-		// add period in case it is missing
-		textString += ".";
-
-		// replace newlines with spaces
-		textString = textString.replace( /[ ]*(\n|\r\n|\r)[ ]*/g, " " );
-
-		// remove duplicate terminators
-		textString = textString.replace( /([\.])[\. ]+/g, "$1" );
-
-		// pad sentence terminators
-		textString = textString.replace( /[ ]*([\.])+/g, "$1 " );
-
-		// Remove double spaces
-		textString = this.stringHelper.stripSpaces( textString );
-
-		if ( textString === "." ) {
-			textString = "";
-		}
-	}
-	return textString;
-};
-
-/**
- * replaces all diacritics with standard characters following the diacritics removal map from the
- * config.
- * @param textString
- * @returns textString
- */
-YoastSEO.PreProcessor.prototype.replaceDiacritics = function( textString ) {
-	var config = YoastSEO.preprocessorConfig;
-
-	for ( var i = 0; i < config.diacriticsRemovalMap.length; i++ ) {
-		textString = textString.replace(
-			config.diacriticsRemovalMap[ i ].letters,
-			config.diacriticsRemovalMap[ i ].base
-		);
-	}
-	return textString;
-};
-
-/**
- * Checks if the preprocessor is already initialized and if so if the textstring differs from the
- * input.
- *
- * @param inputString
- * @returns {YoastSEO.PreProcessor}
- */
-YoastSEO.getPreProcessor = function( inputString ) {
-	if (
-		typeof YoastSEO.cachedPreProcessor !== "object" ||
-		YoastSEO.cachedPreProcessor.inputText !== inputString
-	) {
-		YoastSEO.cachedPreProcessor = new YoastSEO.PreProcessor( inputString );
-	}
-	return YoastSEO.cachedPreProcessor;
-};
-
-/* jshint browser: true */
-/* global YoastSEO: true */
-YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
-
-/**
- * defines the variables used for the scoreformatter, runs the outputScore en overallScore
- * functions.
- *
- * @param {YoastSEO.App} args
- * @constructor
- */
-YoastSEO.ScoreFormatter = function( args ) {
-	this.scores = args.scores;
-	this.overallScore = args.overallScore;
-	this.outputTarget = args.outputTarget;
-	this.overallTarget = args.overallTarget;
-	this.totalScore = 0;
-	this.keyword = args.keyword;
-	this.i18n = args.i18n;
-	this.saveScores = args.saveScores;
-};
-
-/**
- * Renders the score in the HTML.
- */
-YoastSEO.ScoreFormatter.prototype.renderScore = function() {
-	this.outputScore();
-	this.outputOverallScore();
-};
-
-/**
- * creates the list for showing the results from the analyzerscorer
- */
-YoastSEO.ScoreFormatter.prototype.outputScore = function() {
-	var seoScoreText, scoreRating;
-
-	this.sortScores();
-	var outputTarget = document.getElementById( this.outputTarget );
-	outputTarget.innerHTML = "";
-	var newList = document.createElement( "ul" );
-	newList.className = "wpseoanalysis";
-	for ( var i = 0; i < this.scores.length; i++ ) {
-		if ( this.scores[ i ].text !== "" ) {
-			scoreRating = this.scoreRating( this.scores[ i ].score );
-
-			var newLI = document.createElement( "li" );
-			newLI.className = "score";
-			var scoreSpan = document.createElement( "span" );
-			scoreSpan.className = "wpseo-score-icon " + scoreRating;
-			newLI.appendChild( scoreSpan );
-
-			seoScoreText = this.getSEOScoreText( scoreRating );
-
-			var screenReaderDiv = document.createElement( "span" );
-			screenReaderDiv.className = "screen-reader-text";
-			screenReaderDiv.textContent = seoScoreText;
-
-			newLI.appendChild( screenReaderDiv );
-			var textSpan = document.createElement( "span" );
-			textSpan.className = "wpseo-score-text";
-			textSpan.innerHTML = this.scores[ i ].text;
-			newLI.appendChild( textSpan );
-			newList.appendChild( newLI );
-		}
-	}
-	outputTarget.appendChild( newList );
-};
-
-/**
- * sorts the scores array on ascending scores
- */
-YoastSEO.ScoreFormatter.prototype.sortScores = function() {
-	this.scores = this.scores.sort( function( a, b ) {
-		return a.score - b.score;
-	} );
-};
-
-/**
- * outputs the overallScore in the overallTarget element.
- */
-YoastSEO.ScoreFormatter.prototype.outputOverallScore = function() {
-	var overallTarget = document.getElementById( this.overallTarget );
-
-	if ( overallTarget ) {
-		overallTarget.className = "overallScore " + this.overallScoreRating( Math.round( this.overallScore ) );
-		if ( this.keyword === "" ) {
-			overallTarget.className = "overallScore " + this.overallScoreRating( "na" );
-		}
-	}
-
-	this.saveScores( this.overallScore );
-};
-
-/**
- * Retuns a string that is used as a CSSclass, based on the numeric score or the NA string.
- * @param {number|string} score
- * @returns {string} scoreRate
- */
-YoastSEO.ScoreFormatter.prototype.scoreRating = function( score ) {
-	var scoreRate;
-	switch ( true ) {
-		case score <= 4:
-			scoreRate = "bad";
-			break;
-		case score > 4 && score <= 7:
-			scoreRate = "ok";
-			break;
-		case score > 7:
-			scoreRate = "good";
-			break;
-		default:
-		case score === "na":
-			scoreRate = "na";
-			break;
-	}
-	return scoreRate;
-};
-
-/**
- * Divides the total score by ten and calls the scoreRating function.
- * @param {number|string} score
- * @returns {string} scoreRate
- */
-YoastSEO.ScoreFormatter.prototype.overallScoreRating = function( score ) {
-	if ( typeof score === "number" ) {
-		score = ( score / 10 );
-	}
-	return this.scoreRating( score );
-};
-
-/**
- * Returns a translated score description based on the textual score rating
- *
- * @param {string} scoreRating Textual score rating, can be retrieved with scoreRating from the actual score.
- *
- * @return {string}
- */
-YoastSEO.ScoreFormatter.prototype.getSEOScoreText = function( scoreRating ) {
-	var scoreText = "";
-
-	switch ( scoreRating ) {
-		case "na":
-			scoreText = this.i18n.dgettext( "js-text-analysis", "No keyword" );
-			break;
-
-		case "bad":
-			scoreText = this.i18n.dgettext( "js-text-analysis", "Bad SEO score" );
-			break;
-
-		case "ok":
-			scoreText = this.i18n.dgettext( "js-text-analysis", "Ok SEO score" );
-			break;
-
-		case "good":
-			scoreText = this.i18n.dgettext( "js-text-analysis", "Good SEO score" );
-			break;
-	}
-
-	return scoreText;
-};
-
-/* jshint browser: true */
-/* global YoastSEO: true */
-YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
-
-/**
- * snippetpreview
- */
-
-/**
- * defines the config and outputTarget for the YoastSEO.SnippetPreview
- *
- * @param {YoastSEO.App} refObj
- *
- * @constructor
- */
-YoastSEO.SnippetPreview = function( refObj ) {
-	this.refObj = refObj;
-	this.unformattedText = {
-		snippet_cite: this.refObj.rawData.snippetCite || "",
-		snippet_meta: this.refObj.rawData.snippetMeta || "",
-		snippet_title: this.refObj.rawData.snippetTitle || ""
-	};
-	this.init();
-};
-
-/**
- *  checks if title and url are set so they can be rendered in the snippetPreview
- */
-YoastSEO.SnippetPreview.prototype.init = function() {
-	if (
-		this.refObj.rawData.pageTitle !== null &&
-		this.refObj.rawData.cite !== null
-	) {
-		this.output = this.htmlOutput();
-		this.renderOutput();
-		this.renderSnippetStyle();
-	}
-};
-
-/**
- * creates html object to contain the strings for the snippetpreview
- *
- * @returns {Object}
- */
-YoastSEO.SnippetPreview.prototype.htmlOutput = function() {
-	var html = {};
-	html.title = this.formatTitle();
-	html.cite = this.formatCite();
-	html.meta = this.formatMeta();
-	html.url = this.formatUrl();
-	return html;
-};
-
-/**
- * formats the title for the snippet preview. If title and pageTitle are empty, sampletext is used
- *
- * @returns {String}
- */
-YoastSEO.SnippetPreview.prototype.formatTitle = function() {
-	var title = this.refObj.rawData.pageTitle;
-
-	if ( title === "" || typeof title === "undefined" ) {
-		title = this.refObj.config.sampleText.title;
-	}
-	title = this.refObj.stringHelper.stripAllTags( title );
-	if ( this.refObj.rawData.keyword !== "" ) {
-		return this.formatKeyword( title );
-	}
-	return title;
-};
-
-/**
- * removes the protocol name from the urlstring.
- * @returns formatted url
- */
-YoastSEO.SnippetPreview.prototype.formatUrl = function() {
-	var url = this.refObj.rawData.baseUrl;
-
-	//removes the http(s) part of the url
-	return url.replace( /https?:\/\//ig, "" );
-};
-
-/**
- * formats the url for the snippet preview
- * @returns formatted url
- */
-YoastSEO.SnippetPreview.prototype.formatCite = function() {
-	var cite = this.refObj.rawData.snippetCite;
-	cite = this.refObj.stringHelper.stripAllTags( cite );
-	if ( cite === "" ) {
-		cite = this.refObj.config.sampleText.snippetCite;
-	}
-	return this.formatKeywordUrl( cite );
-};
-
-/**
- * formats the metatext for the snippet preview, if empty runs getMetaText
- * @returns formatted metatext
- */
-YoastSEO.SnippetPreview.prototype.formatMeta = function() {
-	var meta = this.refObj.rawData.meta;
-	if ( meta === this.refObj.config.sampleText.snippetMeta ) {
-		meta = "";
-	}
-	if ( meta === "" ) {
-		meta = this.getMetaText();
-	}
-	meta = this.refObj.stringHelper.stripAllTags( meta );
-	meta = meta.substring( 0, YoastSEO.analyzerConfig.maxMeta );
-	if ( this.refObj.rawData.keyword !== "" && meta !== "" ) {
-		return this.formatKeyword( meta );
-	}
-	return meta;
-};
-
-/**
- * formats the metatext, based on the keyword to select a part of the text.
- * If no keyword matches, takes the first 156chars (depending on the config).
- * If keyword and/or text is empty, it uses the sampletext.
- * @returns metatext
- */
-YoastSEO.SnippetPreview.prototype.getMetaText = function() {
-	var metaText;
-	if ( typeof this.refObj.rawData.excerpt !== "undefined" ) {
-		metaText = this.refObj.rawData.excerpt;
-	}
-	if ( typeof this.refObj.rawData.text !== "undefined" ) {
-		metaText = this.refObj.rawData.text;
-	}
-	if ( metaText === "" ) {
-		metaText = this.refObj.config.sampleText.meta;
-	}
-	metaText = this.refObj.stringHelper.stripAllTags( metaText );
-	if (
-		this.refObj.rawData.keyword !== "" &&
-		this.refObj.rawData.text !== ""
-	) {
-		var indexMatches = this.getIndexMatches();
-		var periodMatches = this.getPeriodMatches();
-		metaText = metaText.substring(
-			0,
-			YoastSEO.analyzerConfig.maxMeta
-		);
-		var curStart = 0;
-		if ( indexMatches.length > 0 ) {
-			for ( var j = 0; j < periodMatches.length; ) {
-				if ( periodMatches[ 0 ] < indexMatches[ 0 ] ) {
-					curStart = periodMatches.shift();
-				} else {
-					if ( curStart > 0 ) {
-						curStart += 2;
-					}
-					break;
-				}
-			}
-		}
-	}
-	if ( this.refObj.stringHelper.stripAllTags( metaText ) === "" ) {
-		return this.refObj.config.sampleText.meta;
-	}
-	return metaText.substring( 0, YoastSEO.analyzerConfig.maxMeta );
-};
-
-/**
- * Builds an array with all indexes of the keyword
- * @returns Array with matches
- */
-YoastSEO.SnippetPreview.prototype.getIndexMatches = function() {
-	var indexMatches = [];
-	var i = 0;
-
-	//starts at 0, locates first match of the keyword.
-	var match = this.refObj.rawData.text.indexOf(
-		this.refObj.rawData.keyword,
-		i
-	);
-
-	//runs the loop untill no more indexes are found, and match returns -1.
-	while ( match > -1 ) {
-		indexMatches.push( match );
-
-		//pushes location to indexMatches and increase i with the length of keyword.
-		i = match + this.refObj.rawData.keyword.length;
-		match = this.refObj.rawData.text.indexOf(
-			this.refObj.rawData.keyword,
-			i
-		);
-	}
-	return indexMatches;
-};
-
-/**
- * Builds an array with indexes of all sentence ends (select on .)
- * @returns array with sentences
- */
-YoastSEO.SnippetPreview.prototype.getPeriodMatches = function() {
-	var periodMatches = [ 0 ];
-	var match;
-	var i = 0;
-	while ( ( match = this.refObj.rawData.text.indexOf( ".", i ) ) > -1 ) {
-		periodMatches.push( match );
-		i = match + 1;
-	}
-	return periodMatches;
-};
-
-/**
- * formats the keyword for use in the snippetPreview by adding <strong>-tags
- * strips unwanted characters that could break the regex or give unwanted results
- * @param textString
- * @returns textString
- */
-YoastSEO.SnippetPreview.prototype.formatKeyword = function( textString ) {
-
-	// removes characters from the keyword that could break the regex, or give unwanted results
-	var keyword = this.refObj.rawData.keyword.replace( /[\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, " " );
-
-	// Match keyword case-insensitively
-	var keywordRegex = YoastSEO.getStringHelper().getWordBoundaryRegex( keyword );
-	return textString.replace( keywordRegex, function( str ) {
-		return "<strong>" + str + "</strong>";
-	} );
-};
-
-/**
- * formats the keyword for use in the URL by accepting - and _ in stead of space and by adding
- * <strong>-tags
- * strips unwanted characters that could break the regex or give unwanted results
- *
- * @param textString
- * @returns {XML|string|void}
- */
-YoastSEO.SnippetPreview.prototype.formatKeywordUrl = function( textString ) {
-	var keyword = this.refObj.stringHelper.sanitizeKeyword( this.refObj.rawData.keyword );
-	var dashedKeyword = keyword.replace( /\s/g, "-" );
-
-	// Match keyword case-insensitively.
-	var keywordRegex = YoastSEO.getStringHelper().getWordBoundaryRegex( dashedKeyword );
-
-	// Make the keyword bold in the textString.
-	return textString.replace( keywordRegex, function( str ) {
-		return "<strong>" + str + "</strong>";
-	} );
-};
-
-/**
- * Renders the outputs to the elements on the page.
- */
-YoastSEO.SnippetPreview.prototype.renderOutput = function() {
-	document.getElementById( "snippet_title" ).innerHTML = this.output.title;
-	document.getElementById( "snippet_cite" ).innerHTML = this.output.cite;
-	document.getElementById( "snippet_citeBase" ).innerHTML = this.output.url;
-	document.getElementById( "snippet_meta" ).innerHTML = this.output.meta;
-};
-
-/**
- * Sets the classname of the meta field in the snippet, based on the rawData.snippetMeta
- */
-YoastSEO.SnippetPreview.prototype.renderSnippetStyle = function() {
-	var cssClass = "desc-default";
-	if ( this.refObj.rawData.meta === "" ) {
-		cssClass = "desc-render";
-	}
-	document.getElementById( "snippet_meta" ).className = "desc " + cssClass;
-};
-
-/**
- * function to call init, to rerender the snippetpreview
- */
-YoastSEO.SnippetPreview.prototype.reRender = function() {
-	this.init();
-};
-
-/**
- * used to disable enter as input. Returns false to prevent enter, and preventDefault and
- * cancelBubble to prevent
- * other elements from capturing this event.
- * @param event
- */
-YoastSEO.SnippetPreview.prototype.disableEnter = function( ev ) {
-	if ( ev.keyCode === 13 ) {
-		ev.returnValue = false;
-		ev.cancelBubble = true;
-		ev.preventDefault();
-	}
-};
-
-/**
- * checks text length of the snippetmeta and snippettitle, shortens it if it is too long.
- * @param event
- */
-YoastSEO.SnippetPreview.prototype.checkTextLength = function( ev ) {
-	var text = ev.currentTarget.textContent;
-	switch ( ev.currentTarget.id ) {
-		case "snippet_meta":
-			ev.currentTarget.className = "desc";
-			if ( text.length > YoastSEO.analyzerConfig.maxMeta ) {
-				YoastSEO.app.snippetPreview.unformattedText.snippet_meta = ev.currentTarget.textContent;
-				ev.currentTarget.textContent = text.substring(
-					0,
-					YoastSEO.analyzerConfig.maxMeta
-				);
-
-			}
-			break;
-		case "snippet_title":
-			ev.currentTarget.className = "title";
-			if ( text.length > 70 ) {
-				YoastSEO.app.snippetPreview.unformattedText.snippet_title = ev.currentTarget.textContent;
-				ev.currentTarget.textContent = text.substring( 0, 70 );
-			}
-			break;
-		default:
-			break;
-	}
-};
-
-/**
- * when clicked on an element in the snippet, checks fills the textContent with the data from the unformatted text.
- * This removes the keyword highlighting and modified data so the original content can be editted.
- * @param ev {event}
- */
-YoastSEO.SnippetPreview.prototype.getUnformattedText = function( ev ) {
-	var currentElement = ev.currentTarget.id;
-	if ( typeof this.unformattedText[ currentElement ] !== "undefined" ) {
-		ev.currentTarget.textContent = this.unformattedText[currentElement];
-	}
-};
-
-/**
- * when text is entered into the snippetPreview elements, the text is set in the unformattedText object.
- * This allows the visible data to be editted in the snippetPreview.
- * @param ev
- */
-YoastSEO.SnippetPreview.prototype.setUnformattedText = function( ev ) {
-	var elem =  ev.currentTarget.id;
-	this.unformattedText[ elem ] = document.getElementById( elem ).textContent;
-};
-
-/**
- * Adds and remove the tooLong class when a text is too long.
- * @param ev
- */
-YoastSEO.SnippetPreview.prototype.textFeedback = function( ev ) {
-	var text = ev.currentTarget.textContent;
-	switch ( ev.currentTarget.id ) {
-		case "snippet_meta":
-			if ( text.length > YoastSEO.analyzerConfig.maxMeta ) {
-				ev.currentTarget.className = "desc tooLong";
-			} else {
-				ev.currentTarget.className = "desc";
-			}
-			break;
-		case "snippet_title":
-			if ( text.length > 70 ) {
-				ev.currentTarget.className = "title tooLong";
-			} else {
-				ev.currentTarget.className = "title";
-			}
-			break;
-		default:
-			break;
-	}
-};
-
-/**
- * shows the edit icon corresponding to the hovered element
- * @param ev
- */
-YoastSEO.SnippetPreview.prototype.showEditIcon = function( ev ) {
-	ev.currentTarget.parentElement.className = "editIcon snippet_container";
-};
-
-/**
- * removes all editIcon-classes, sets to snippet_container
- */
-YoastSEO.SnippetPreview.prototype.hideEditIcon = function() {
-	var elems = document.getElementsByClassName( "editIcon " );
-	for ( var i = 0; i < elems.length; i++ ) {
-		elems[ i ].className = "snippet_container";
-	}
-};
-
-/**
- * sets focus on child element of the snippet_container that is clicked. Hides the editicon.
- * @param ev
- */
-YoastSEO.SnippetPreview.prototype.setFocus = function( ev ) {
-	var targetElem = ev.currentTarget.firstChild;
-	while ( targetElem !== null ) {
-		if ( targetElem.contentEditable === "true" ) {
-			targetElem.focus();
-			this.hideEditIcon();
-			break;
-		} else {
-			targetElem = targetElem.nextSibling;
-		}
-	}
-};
-
-/* global YoastSEO: true */
-YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
-
-/**helper functions*/
-YoastSEO.StringHelper = function() {};
-
-/**
- * removes strings from array and replaces them with keyword.
- * @param textString
- * @param stringsToRemove []
- * @param replacement (default == space)
- * @returns {textString}
- */
-YoastSEO.StringHelper.prototype.replaceString = function(
-	textString,
-	stringsToRemove,
-	replacement
-) {
-	if ( typeof replacement === "undefined" ) {
-		replacement = " ";
-	}
-	textString = textString.replace( this.stringToRegex( stringsToRemove ), replacement );
-	return this.stripSpaces( textString );
-};
-
-/**
- * matches string with given array of strings to match.
- * @param textString
- * @param stringsToMatch
- * @returns {matches}
- */
-YoastSEO.StringHelper.prototype.matchString = function( textString, stringsToMatch ) {
-	return textString.match( this.stringToRegex( stringsToMatch, false ) );
-};
-
-/**
- * checks if the match on textStrings is not null. If it has matches returns the length.
- * Otherwise it returns 0 (no matches).
- * @param textString
- * @param regex
- * @returns {number}
- */
-YoastSEO.StringHelper.prototype.countMatches = function( textString, regex ) {
-	return textString.match( regex ) !== null ? textString.match.length : 0;
-};
-
-/**
- * builds regex from array with multiple strings
- * @param stringArray
- * @returns {RegExp}
- */
-YoastSEO.StringHelper.prototype.stringToRegex = function( stringArray, disableWordBoundary ) {
-	var regexString;
-
-	stringArray = stringArray.map( function( string ) {
-		if ( disableWordBoundary ) {
-			return string;
-		} else {
-			return this.getWordBoundaryString( string );
-		}
-	}.bind( this ) );
-
-	regexString = "(" + stringArray.join( ")|(" ) + ")";
-
-	return new RegExp( regexString, "g" );
-};
-
-/**
- * Returns a string that can be used in a regex to match a matchString with word boundaries.
- *
- * @param {String} matchString The string to generate a regex string for.
- * @param {String} extraWordBoundary Extra characters to match a word boundary on.
- * @return {String} A regex string that matches the matchString with word boundaries
- */
-YoastSEO.StringHelper.prototype.getWordBoundaryString = function( matchString, extraWordBoundary ) {
-	var wordBoundary, wordBoundaryStart, wordBoundaryEnd;
-
-	if ( typeof extraWordBoundary === "undefined" ) {
-		extraWordBoundary = "";
-	}
-
-	wordBoundary = "[ \n\r\t\.,'\(\)\"\+;!?:\/" + extraWordBoundary + "<>]";
-	wordBoundaryEnd = "($|" + wordBoundary + ")";
-	wordBoundaryStart = "(^|" + wordBoundary + ")";
-
-	return wordBoundaryStart + matchString + wordBoundaryEnd;
-};
-
-/**
- * Creates a regex with a wordboundary. Since /b isn't working properly in JavaScript we have to
- * use an alternative regex.
- */
-YoastSEO.StringHelper.prototype.getWordBoundaryRegex = function( textString, extraWordBoundary ) {
-	return new RegExp( this.getWordBoundaryString( textString, extraWordBoundary ), "ig" );
-};
-
-/**
- * Strip extra spaces, replace duplicates with single space. Remove space at front / end of string
- * @param textString
- * @returns textString
- */
-YoastSEO.StringHelper.prototype.stripSpaces = function( textString ) {
-
-	//replace multiple spaces with single space
-	textString = textString.replace( /\s{2,}/g, " " );
-
-	//replace spaces followed by periods with only the period.
-	textString = textString.replace( /\s\./g, "." );
-
-	//remove first/last character if space
-	textString = textString.replace( /^\s+|\s+$/g, "" );
-	return textString;
-};
-
-/**
- * adds escape characters to string
- * @param textString
- * @returns textString
- */
-YoastSEO.StringHelper.prototype.addEscapeChars = function( textString ) {
-	return textString.replace( /[\-\[\]\/\{}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&" );
-};
-
-/**
- * removes all HTMLtags from input string, except h1-6, li, p and dd
- * @param textString
- * @returns textString
- */
-YoastSEO.StringHelper.prototype.stripSomeTags = function( textString ) {
-
-	//remove tags, except li, p, h1-6, dd
-	textString = textString.replace(
-		/<(?!li|\/li|p|\/p|h1|\/h1|h2|\/h2|h3|\/h3|h4|\/h4|h5|\/h5|h6|\/h6|dd).*?\>/g,
-		" "
-	);
-	textString = this.stripSpaces( textString );
-	return textString;
-};
-
-/**
- * remove all HTMLtags from input string.
- * @param textString
- * @returns textString
- */
-YoastSEO.StringHelper.prototype.stripAllTags = function( textString ) {
-
-	//remove all tags
-	textString = textString.replace( /(<([^>]+)>)/ig, " " );
-
-	//remove < and > if any are used
-	textString = textString.replace( /[<>]/g, "" );
-	textString = this.stripSpaces( textString );
-	return textString;
-};
-
-/**
- * Removes all words comprised only of numbers and remove special characters.
- * @param textString {String}
- * @returns {string}
- */
-YoastSEO.StringHelper.prototype.stripNonWords = function( textString ) {
-
-	// replace comma', hyphens etc with spaces
-	textString = textString.replace( /[\-\;\:\,\(\)\"\'\|\“\”]/g, " " );
-
-	// remove apostrophe
-	textString = textString.replace( /[\’]/g, "" );
-
-	// Remove "words" comprised only of numbers
-	textString = textString.replace( this.getWordBoundaryRegex( "[0-9]+" ), "$1$3" );
-
-	textString = this.stripSpaces( textString );
-
-	if ( textString === "." ) {
-		textString = "";
-	}
-	return textString;
-};
-
-/**
- * Removes all invalid characters from a certain keyword
- *
- * @param {string} keyword The un-sanitized keyword.
- * @returns {string} The sanitized keyword.
- */
-YoastSEO.StringHelper.prototype.sanitizeKeyword = function( keyword ) {
-	keyword = keyword.replace( /[\[\]\/\{\}\(\)\*\+\?\\\^\$\|]/g, "" );
-
-	keyword = this.stripAllTags( keyword );
-
-	return keyword;
-};
-
-/**
- * Escapes HTML characters from strings.
- *
- * @param textString
- * @returns {string}
- */
-YoastSEO.StringHelper.prototype.escapeHTML = function( textString ) {
-	if ( typeof textString === "string" ) {
-		textString = textString.replace( /&/g, "&amp;" )
-					.replace( /</g, "&lt;" )
-					.replace( />/g, "&gt;" )
-					.replace( /\"/, "&quot;" )
-					.replace( /\'/g, "&#39;" );
-	}
-
-	return textString;
-};
-
-/**
- * Checks if the stringhelper is already initialized. Returns stringHelper.
- *
- * @returns {YoastSEO.StringHelper}
- */
-YoastSEO.getStringHelper = function() {
-	if ( typeof YoastSEO.cachedStringHelper !== "object" ) {
-		YoastSEO.cachedStringHelper = new YoastSEO.StringHelper();
-	}
-	return YoastSEO.cachedStringHelper;
-};
-
-
-;(function() {
-  var undefined;
-
-  var objectTypes = {
-    'function': true,
-    'object': true
-  };
-
-  var freeExports = objectTypes[typeof exports] && exports && !exports.nodeType && exports;
-
-  var freeModule = objectTypes[typeof module] && module && !module.nodeType && module;
-
-  var freeGlobal = freeExports && freeModule && typeof global == 'object' && global && global.Object && global;
-
-  var freeSelf = objectTypes[typeof self] && self && self.Object && self;
-
-  var freeWindow = objectTypes[typeof window] && window && window.Object && window;
-
-  var moduleExports = freeModule && freeModule.exports === freeExports && freeExports;
-
-  var root = freeGlobal || ((freeWindow !== (this && this.window)) && freeWindow) || freeSelf || this;
-
-  var VERSION = '3.10.1';
-
-  /** Used to match HTML entities and HTML characters. */
-  var reUnescapedHtml = /[&<>"'`]/g,
-      reHasUnescapedHtml = RegExp(reUnescapedHtml.source);
-
-  /** Used to map characters to HTML entities. */
-  var htmlEscapes = {
-    '&': '&amp;',
-    '<': '&lt;',
-    '>': '&gt;',
-    '"': '&quot;',
-    "'": '&#39;',
-    '`': '&#96;'
-  };
-
-  /*--------------------------------------------------------------------------*/
-
-  /**
-   * Converts `value` to a string if it's not one. An empty string is returned
-   * for `null` or `undefined` values.
-   *
-   * @private
-   * @param {*} value The value to process.
-   * @returns {string} Returns the string.
-   */
-  function baseToString(value) {
-    return value == null ? '' : (value + '');
-  }
-
-  /**
-   * Used by `_.escape` to convert characters to HTML entities.
-   *
-   * @private
-   * @param {string} chr The matched character to escape.
-   * @returns {string} Returns the escaped character.
-   */
-  function escapeHtmlChar(chr) {
-    return htmlEscapes[chr];
-  }
-
-  /*------------------------------------------------------------------------*/
-
-  /**
-   * Converts the characters "&", "<", ">", '"', "'", and "\`", in `string` to
-   * their corresponding HTML entities.
-   *
-   * **Note:** No other characters are escaped. To escape additional characters
-   * use a third-party library like [_he_](https://mths.be/he).
-   *
-   * Though the ">" character is escaped for symmetry, characters like
-   * ">" and "/" don't need escaping in HTML and have no special meaning
-   * unless they're part of a tag or unquoted attribute value.
-   * See [Mathias Bynens's article](https://mathiasbynens.be/notes/ambiguous-ampersands)
-   * (under "semi-related fun fact") for more details.
-   *
-   * Backticks are escaped because in Internet Explorer < 9, they can break out
-   * of attribute values or HTML comments. See [#59](https://html5sec.org/#59),
-   * [#102](https://html5sec.org/#102), [#108](https://html5sec.org/#108), and
-   * [#133](https://html5sec.org/#133) of the [HTML5 Security Cheatsheet](https://html5sec.org/)
-   * for more details.
-   *
-   * When working with HTML you should always [quote attribute values](http://wonko.com/post/html-escaping)
-   * to reduce XSS vectors.
-   *
-   * @static
-   * @memberOf _
-   * @category String
-   * @param {string} [string=''] The string to escape.
-   * @returns {string} Returns the escaped string.
-   * @example
-   *
-   * _.escape('fred, barney, & pebbles');
-   * // => 'fred, barney, &amp; pebbles'
-   */
-  function escape(string) {
-    // Reset `lastIndex` because in IE < 9 `String#replace` does not.
-    string = baseToString(string);
-    return (string && reHasUnescapedHtml.test(string))
-      ? string.replace(reUnescapedHtml, escapeHtmlChar)
-      : string;
-  }
-
-  var _ = { 'escape': escape };
-
-  /*----------------------------------------------------------------------------*/
-
-  var templates = {
-    'snippetEditor': {}
-  };
-
-  templates['snippetEditor'] =   function(obj) {
-    obj || (obj = {});
-    var __t, __p = '', __e = _.escape;
-    with (obj) {
-    __p += '<div id="snippet_preview">\n    <div class="edit-icon"></div>\n    <div class="snippet_container" id="title_container">\n        <span contenteditable="true" class="title" id="snippet_title">\n            ' +
-    __e( title ) +
-    '\n        </span>\n        <span class="title" id="snippet_sitename"></span>\n    </div>\n    <div class="snippet_container" id="url_container">\n        <cite class="url urlBase" id="snippet_citeBase">\n            ' +
-    __e( baseUrl ) +
-    '\n        </cite>\n        <cite class="url" id="snippet_cite" contenteditable="true">\n            ' +
-    __e( snippetCite ) +
-    '\n        </cite>\n    </div>\n    <div class="snippet_container" id="meta_container">\n        <span class="desc" id="snippet_meta" contenteditable="true">\n            ' +
-    __e( meta ) +
-    '\n        </span>\n    </div>\n</div>\n';
-
-    }
-    return __p
-  };
-
-  /*----------------------------------------------------------------------------*/
-
-  if (freeExports && freeModule) {
-    if (moduleExports) {
-      (freeModule.exports = templates).templates = templates;
-    } else {
-      freeExports.templates = templates;
-    }
-  }
-  else {
-    root.templates = templates;
-  }
-}.call(this));
-
+require( "./config/config.js" );
+require( "./config/scoring.js" );
+require( "./analyzer.js" );
+require( "./preprocessor.js" );
+require( "./analyzescorer.js" );
+require( "./scoreFormatter.js" );
+require( "./stringhelper.js" );
+require( "./snippetPreview.js" );
+require( "./app.js" );
+require( "./pluggable.js" );
+
+},{"./analyzer.js":14,"./analyzescorer.js":15,"./app.js":16,"./config/config.js":19,"./config/scoring.js":22,"./pluggable.js":25,"./preprocessor.js":26,"./scoreFormatter.js":27,"./snippetPreview.js":28,"./stringhelper.js":52}],18:[function(require,module,exports){
 /**
  * Returns a configobject with maxSlugLength, maxUrlLength and MaxMeta to be used
  * for analysis
@@ -2707,6 +1500,7 @@ module.exports = function(){
 	}
 };
 
+},{}],19:[function(require,module,exports){
 YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 
 YoastSEO.analyzerConfig = {
@@ -2825,6 +1619,7 @@ YoastSEO.preprocessorConfig = {
 	]
 };
 
+},{}],20:[function(require,module,exports){
 /** @module config/diacritics */
 
 /**
@@ -2932,6 +1727,7 @@ module.exports = function(){
 	];
 };
 
+},{}],21:[function(require,module,exports){
 /** @module config/removalWords */
 
 /**
@@ -2943,6 +1739,7 @@ module.exports = function(){
 	return [ " a", " in", " an", " on", " for", " the", " and" ];
 };
 
+},{}],22:[function(require,module,exports){
 YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 
 YoastSEO.analyzerScoreRating = 9;
@@ -3429,6 +2226,7 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
     ];
 };
 
+},{}],23:[function(require,module,exports){
 /** @module config/stopwords */
 
 /**
@@ -3440,6 +2238,7 @@ module.exports = function(){
 	return [ "a", "about", "above", "after", "again", "against", "all", "am", "an", "and", "any", "are", "as", "at", "be", "because", "been", "before", "being", "below", "between", "both", "but", "by", "could", "did", "do", "does", "doing", "down", "during", "each", "few", "for", "from", "further", "had", "has", "have", "having", "he", "he'd", "he'll", "he's", "her", "here", "here's", "hers", "herself", "him", "himself", "his", "how", "how's", "i", "i'd", "i'll", "i'm", "i've", "if", "in", "into", "is", "it", "it's", "its", "itself", "let's", "me", "more", "most", "my", "myself", "nor", "of", "on", "once", "only", "or", "other", "ought", "our", "ours", "ourselves", "out", "over", "own", "same", "she", "she'd", "she'll", "she's", "should", "so", "some", "such", "than", "that", "that's", "the", "their", "theirs", "them", "themselves", "then", "there", "there's", "these", "they", "they'd", "they'll", "they're", "they've", "this", "those", "through", "to", "too", "under", "until", "up", "very", "was", "we", "we'd", "we'll", "we're", "we've", "were", "what", "what's", "when", "when's", "where", "where's", "which", "while", "who", "who's", "whom", "why", "why's", "with", "would", "you", "you'd", "you'll", "you're", "you've", "your", "yours", "yourself", "yourselves" ];
 };
 
+},{}],24:[function(require,module,exports){
 /** @module config/syllables */
 
 /**
@@ -3461,570 +2260,1258 @@ module.exports = function(){
 	};
 };
 
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"analyses/calculateFleschReading.js":2,"analyses/checkForKeywordDoubles.js":3,"analyses/checkStringForStopwords.js":4,"analyses/checkUrlForStopwords.js":5,"analyses/countKeywordInUrl.js":6,"analyses/findKeywordInFirstParagraph.js":7,"analyses/findKeywordInPageTitle.js":8,"analyses/getImageStatistics.js":9,"analyses/getKeywordDensity.js":10,"analyses/getLinkStatistics.js":11,"analyses/getWordCount.js":12,"analyses/isUrlTooLong.js":13,"analyses/matchKeywordInSubheadings.js":14,"jed":43,"stringProcessing/countWords.js":25,"stringProcessing/matchTextWithWord.js":32,"templates":"templates"}],2:[function(require,module,exports){
-/** @module analyses/calculateFleschReading */
-
-var cleanText = require( "stringProcessing/cleanText.js" );
-var stripNumbers = require( "stringProcessing/stripNumbers.js" );
-var stripHTMLTags = require( "stringProcessing/stripHTMLTags.js" );
-var countSentences = require( "stringProcessing/countSentences.js" );
-var countWords = require( "stringProcessing/countWords.js" );
-var countSyllables = require( "stringProcessing/countSyllables.js" );
+},{}],25:[function(require,module,exports){
+/* global console: true */
+/* global setTimeout: true */
+/* global YoastSEO: true */
+YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 
 /**
- * This calculates the fleschreadingscore for a given text
- * The formula used:
- * 206.835 - 1.015 (total words / total sentences) - 84.6 ( total syllables / total words);
+ * The plugins object takes care of plugin registrations, preloading and managing data modifications.
  *
- * @param {string} text The text to analyze the fleschreading score for.
- * @returns {number} the score of the fleschreading test
+ * A plugin for YoastSEO.js is basically a piece of JavaScript that hooks into YoastSEO.js by registering modifications.
+ * In order to do so, it must first register itself as a plugin with YoastSEO.js. To keep our content analysis fast, we
+ * don't allow asynchronous modifications. That's why we require plugins to preload all data they need in order to modify
+ * the content. If plugins need to preload data, they can first register, then preload using AJAX and call `ready` once
+ * preloaded.
+ *
+ * To minimize client side memory usage, we request plugins to preload as little data as possible. If you need to dynamically
+ * fetch more data in the process of content creation, you can reload your data set and let YoastSEO.js know you've reloaded
+ * by calling `reloaded`.
+ *
+ * @todo: add list of supported modifications and compare on registration of modification
+ *
+ * @constructor
+ * @property preloadThreshold	{number} The maximum time plugins are allowed to preload before we load our content analysis.
+ * @property plugins			{object} The plugins that have been registered.
+ * @property modifications 		{object} The modifications that have been registered. Every modification contains an array with callables.
+ * @property customTests        {Array} All tests added by plugins.
  */
-module.exports = function( text ) {
-	if ( text === "" ) {
-		return 0;
-	}
-	text = cleanText ( text );
-	text = stripHTMLTags( text );
-	var wordCount = countWords( text  );
+YoastSEO.Pluggable = function( app ) {
+	this.app = app;
+	this.loaded = false;
+	this.preloadThreshold = 3000;
+	this.plugins = {};
+	this.modifications = {};
+	this.customTests = [];
 
-	text = stripNumbers ( text );
-	var sentenceCount = countSentences( text );
-	var syllableCount = countSyllables( text );
-	var score = 206.835 - ( 1.015 * ( wordCount / sentenceCount ) ) - ( 84.6 * ( syllableCount / wordCount ) );
-
-	return score.toFixed( 1 );
+	// Allow plugins 1500 ms to register before we start polling their
+	setTimeout( this._pollLoadingPlugins.bind( this ), 1500 );
 };
 
-},{"stringProcessing/cleanText.js":22,"stringProcessing/countSentences.js":23,"stringProcessing/countSyllables.js":24,"stringProcessing/countWords.js":25,"stringProcessing/stripHTMLTags.js":37,"stringProcessing/stripNumbers.js":39}],3:[function(require,module,exports){
-/** @module analyses/checkForKeywordDoubles */
+/**************** PUBLIC DSL ****************/
 
 /**
- * Checks the keyword in an array of used keywords. If the keyword is in this array, it will return the
- * number of times the keyword is found, and an ID if it was used once before.
+ * Delegates to `YoastSEO.app.pluggable.registerPlugin`
  *
- * @param {string} keyword The keyword to check in the array.
- * @param {array} usedKeywords The array with used keywords and IDs.
- * @returns {object} The id of the keyword and the number of times the keyword is found
+ * @param pluginName	{string}
+ * @param options 		{{status: "ready"|"loading"}}
+ * @returns 			{boolean}
  */
-module.exports = function( keyword, usedKeywords ) {
-	var result = { count: 0, id: 0 };
-	if ( typeof usedKeywords[ keyword ] !== "undefined" ) {
-		result.count = usedKeywords[ keyword ].length;
-	}
-	if ( result.count === 1 ) {
-		result.id = usedKeywords[ keyword ][ 0 ];
-	}
-	return result;
+YoastSEO.App.prototype.registerPlugin = function( pluginName, options ) {
+	return this.pluggable._registerPlugin( pluginName, options );
 };
 
-},{}],4:[function(require,module,exports){
-/** @module analyses/checkStringForStopwords */
-
-var stopwords = require( "config/stopwords.js" )();
-var keywordRegex = require( "stringProcessing/stringToRegex.js" );
-
 /**
- * Checks a textstring to see if there are any stopwords, that are defined in the stopwords config.
+ * Delegates to `YoastSEO.app.pluggable.ready`
  *
- * @param {string} text The input text to match stopwords.
- * @returns {array} An array with all stopwords found in the text.
+ * @param pluginName	{string}
+ * @returns 			{boolean}
  */
-module.exports = function( text ) {
-	var i, matches = [];
-
-	for ( i = 0; i < stopwords.length; i++ ) {
-		if ( text.match( keywordRegex( stopwords[i] ) ) !== null  ) {
-			matches.push( stopwords[i] );
-		}
-	}
-	return matches;
+YoastSEO.App.prototype.pluginReady = function( pluginName ) {
+	return this.pluggable._ready( pluginName );
 };
 
-
-},{"config/stopwords.js":18,"stringProcessing/stringToRegex.js":36}],5:[function(require,module,exports){
-/** @module analyses/checkUrlForStopwords */
-
-var stopwords = require( "analyses/checkStringForStopwords.js" );
-
 /**
- * Matches stopwords in the URL. Replaces - and _ with whitespace.
+ * Delegates to `YoastSEO.app.pluggable.reloaded`
  *
- * @param {string} url The URL to check for stopwords.
- * @returns {array} stopwords found in URL
+ * @param pluginName	{string}
+ * @returns 			{boolean}
  */
-
-module.exports = function( url ) {
-	url = url.replace( /[-_]/g, " " );
-	return stopwords( url );
+YoastSEO.App.prototype.pluginReloaded = function( pluginName ) {
+	return this.pluggable._reloaded( pluginName );
 };
 
-},{"analyses/checkStringForStopwords.js":4}],6:[function(require,module,exports){
-/** @module analyses/countKeywordInUrl */
-
-var wordMatch = require( "stringProcessing/matchTextWithWord.js" );
 /**
- * Matches the keyword in the URL. Replaces whitespaces with dashes and uses dash as wordboundary.
+ * Delegates to `YoastSEO.app.pluggable.registerModification`
  *
- * @param {url} url The URL to check for keyword
- * @param {string} keyword The keyword to match
- * @returns {int} Number of times the keyword is found.
+ * @param modification 	{string} 	The name of the filter
+ * @param callable 		{function} 	The callable
+ * @param pluginName 	{string} 	The plugin that is registering the modification.
+ * @param priority 		{number} 	(optional) Used to specify the order in which the callables associated with a particular filter are called.
+ * 									Lower numbers correspond with earlier execution.
+ * @returns 			{boolean}
  */
-module.exports = function( url, keyword ) {
-	keyword = keyword.replace( /\s/ig, "-" );
-
-	return wordMatch( url, keyword );
+YoastSEO.App.prototype.registerModification = function( modification, callable, pluginName, priority ) {
+	return this.pluggable._registerModification( modification, callable, pluginName, priority );
 };
 
-},{"stringProcessing/matchTextWithWord.js":32}],7:[function(require,module,exports){
-/** @module analyses/findKeywordInFirstParagraph */
+/**
+ * Registers a custom test for use in the analyzer, this will result in a new line in the analyzer results. The function
+ * has to return a result based on the contents of the page/posts.
+ *
+ * The scoring object is a special object with definitions about how to translate a result from your analysis function
+ * to a SEO score.
+ *
+ * Negative scores result in a red circle
+ * Scores 1, 2, 3, 4 and 5 result in a orange circle
+ * Scores 6 and 7 result in a yellow circle
+ * Scores 8, 9 and 10 result in a red circle
+ *
+ * @param {string}   name       Name of the test.
+ * @param {function} analysis   A function that analyzes the content and determines a score for a certain trait.
+ * @param {Object}   scoring    A scoring object that defines how the analysis translates to a certain SEO score.
+ * @param {string}   pluginName The plugin that is registering the test.
+ * @param {number}   priority   (optional) Determines when this test is run in the analyzer queue. Is currently ignored,
+ *                              tests are added to the end of the queue.
+ * @returns {boolean}
+ */
+YoastSEO.App.prototype.registerTest = function( name, analysis, scoring, pluginName, priority ) {
+	return this.pluggable._registerTest( name, analysis, scoring, pluginName, priority );
+};
 
-var regexMatch = require( "stringProcessing/matchStringWithRegex.js" );
-var wordMatch = require( "stringProcessing/matchTextWithWord.js" );
+/**************** DSL IMPLEMENTATION ****************/
 
 /**
- * Counts the occurrences of the keyword in the first paragraph, returns 0 if it is not found,
- * if there is no paragraph tag or 0 hits, it checks for 2 newlines, otherwise returns the keyword
- * count of the complete text.
+ * Register a plugin with YoastSEO. A plugin can be declared "ready" right at registration or later using `this.ready`.
  *
- * @param {string} text The text to check for paragraphs.
- * @param {string} keyword The keyword to match in paragraphs.
- * @returns {number} The number of occurences of the keyword in the first paragraph.
+ * @param pluginName	{string}
+ * @param options 		{{status: "ready"|"loading"}}
+ * @returns 			{boolean}
  */
-module.exports = function( text, keyword ) {
-	var paragraph;
-
-	//matches everything between the <p> and </p> tags.
-	paragraph = regexMatch( text, "<p(?:[^>]+)?>(.*?)<\/p>" );
-	if ( paragraph.length > 0 ) {
-		return wordMatch( paragraph[0], keyword );
+YoastSEO.Pluggable.prototype._registerPlugin = function( pluginName, options ) {
+	if ( typeof pluginName !== "string" ) {
+		console.error( "Failed to register plugin. Expected parameter `pluginName` to be a string." );
+		return false;
 	}
 
-	/* if no <p> tags found, use a regex that matches [^], not nothing, so any character,
-	including linebreaks untill it finds double linebreaks.
-	*/
-	paragraph = regexMatch( text, "[^]*?\n\n" );
-	if ( paragraph.length > 0 ) {
-		return wordMatch( paragraph[0], keyword );
+	if ( typeof options !== "undefined" && typeof options !== "object" ) {
+		console.error( "Failed to register plugin " + pluginName + ". Expected parameters `options` to be a string." );
+		return false;
 	}
 
-	//if no double linebreaks found, return the keyword count of the entire text
-	return wordMatch( text, keyword );
-};
-
-},{"stringProcessing/matchStringWithRegex.js":31,"stringProcessing/matchTextWithWord.js":32}],8:[function(require,module,exports){
-/** @module analyses/findKeywordInPageTitle */
-
-var wordMatch = require( "stringProcessing/matchTextWithWord.js" );
-
-/**
- * Counts the occurrences of the keyword in the pagetitle. Returns the number of matches
- * and the position of the keyword.
- *
- * @param {string} text The text to match the keyword in.
- * @param {string} keyword The keyword to match for.
- * @returns {object} result with the matches and position.
- */
-
-module.exports = function( text, keyword ) {
-	var result = { matches: 0, position: -1 };
-	result.matches = wordMatch( text, keyword );
-	result.position = text.toLocaleLowerCase().indexOf( keyword );
-
-	return result;
-};
-
-},{"stringProcessing/matchTextWithWord.js":32}],9:[function(require,module,exports){
-/** @module analyses/getImageStatistics */
-
-var matchStringWithRegex = require( "stringProcessing/matchStringWithRegex" );
-var imageAlttag = require( "stringProcessing/getAlttagContent.js" );
-var wordMatch = require( "stringProcessing/matchTextWithWord.js" );
-
-/**
- * Checks if the keyword is present in the alttag and returns the property of the imageCount
- * object that needs to be updated.
- *
- * @param {string} alttag The alttag to match the keyword in
- * @param {string} keyword The keyword to match in the alttag
- * @returns {string} The property of the imageCount object that needs to be updated
- */
-var matchKeywordInAlttags = function( alttag, keyword ) {
-	if ( keyword !== "" ) {
-		if ( wordMatch( alttag, keyword ) > 0 ) {
-			return "altKeyword";
-		} else {
-
-			//this counts all alt-tags w/o the keyword when a keyword is set.
-			return "alt";
-		}
-	} else {
-		return "altNaKeyword";
+	if ( this._validateUniqueness( pluginName ) === false ) {
+		console.error( "Failed to register plugin. Plugin with name " + pluginName + " already exists" );
+		return false;
 	}
+
+	this.plugins[pluginName] = options;
+	this.app.updateLoadingDialog( this.plugins );
+	return true;
 };
 
 /**
- * Matches the alttags in the images found in the text.
- * Returns an imageCount object with the totals and different alttags.
+ * Declare a plugin "ready". Use this if you need to preload data with AJAX.
  *
- * @param {array} imageMatches Array with all the matched images in the text
- * @param {string} keyword the keyword to check for
- * @returns {object} imageCount object with all alttags
+ * @param pluginName	{string}
+ * @returns 			{boolean}
  */
-var matchImageTags = function( imageMatches, keyword ) {
-	var imageCount = { total: imageMatches.length, alt: 0, noAlt: 0, altKeyword: 0, altNaKeyword: 0 };
-	for ( var i = 0; i < imageMatches.length; i++ ) {
-		var alttag = imageAlttag( imageMatches[i] );
-
-		if ( alttag !== "" ) {
-			imageCount[ matchKeywordInAlttags( alttag, keyword ) ]++;
-		} else {
-			imageCount.noAlt++;
-		}
+YoastSEO.Pluggable.prototype._ready = function( pluginName ) {
+	if ( typeof pluginName !== "string" ) {
+		console.error( "Failed to modify status for plugin " + pluginName + ". Expected parameter `pluginName` to be a string." );
+		return false;
 	}
-	return imageCount;
+
+	if ( this.plugins[pluginName] === undefined ) {
+		console.error( "Failed to modify status for plugin " + pluginName + ". The plugin was not properly registered." );
+		return false;
+	}
+
+	this.plugins[pluginName].status = "ready";
+	this.app.updateLoadingDialog( this.plugins );
+	return true;
 };
 
 /**
- * Checks the text for images, checks the type of each image and alttags for containing keywords
+ * Used to declare a plugin has been reloaded. If an analysis is currently running. We will reset it to ensure running the latest modifications.
  *
- * @param {string} text The textstring to check for images
- * @param {string} keyword The keyword to check in alttags
- * @returns {object} Object containing all types of found images
+ * @param pluginName	{string}
+ * @returns 			{boolean}
  */
-module.exports = function( text, keyword ) {
+YoastSEO.Pluggable.prototype._reloaded = function( pluginName ) {
+	if ( typeof pluginName !== "string" ) {
+		console.error( "Failed to reload Content Analysis for " + pluginName + ". Expected parameter `pluginName` to be a string." );
+		return false;
+	}
 
-	var imageMatches = matchStringWithRegex( text, "<img(?:[^>]+)?>" );
-	var imageCount =  matchImageTags( imageMatches, keyword );
+	if ( this.plugins[pluginName] === undefined ) {
+		console.error( "Failed to reload Content Analysis for plugin " + pluginName + ". The plugin was not properly registered." );
+		return false;
+	}
 
-	return imageCount;
+	this.app.analyzeTimer();
+	return true;
 };
 
-},{"stringProcessing/getAlttagContent.js":28,"stringProcessing/matchStringWithRegex":31,"stringProcessing/matchTextWithWord.js":32}],10:[function(require,module,exports){
-/** @module analyses/getKeywordDensity */
-
-var countWords = require( "stringProcessing/countWords.js" );
-var matchWords = require( "stringProcessing/matchTextWithWord.js" );
 /**
- * Calculates the keyword density .
+ * Enables hooking a callable to a specific data filter supported by YoastSEO. Can only be performed for plugins that have finished loading.
  *
- * @param {string} text The text to count the keywords in.
- * @param {string} keyword The keyword to match.
- * @returns {number} The keyword density.
+ * @param modification 	{string} 	The name of the filter
+ * @param callable 		{function} 	The callable
+ * @param pluginName 	{string} 	The plugin that is registering the modification.
+ * @param priority 		{number} 	(optional) Used to specify the order in which the callables associated with a particular filter are called.
+ * 									Lower numbers correspond with earlier execution.
+ * @returns 			{boolean}
  */
-module.exports = function( text, keyword ) {
-	var wordCount = countWords( text );
-	var keywordCount = matchWords ( text, keyword );
-	var keywordDensity = ( keywordCount / wordCount ) * 100;
-	return keywordDensity.toFixed( 1 );
-};
+YoastSEO.Pluggable.prototype._registerModification = function( modification, callable, pluginName, priority ) {
+	if ( typeof modification !== "string" ) {
+		console.error( "Failed to register modification for plugin " + pluginName + ". Expected parameter `modification` to be a string." );
+		return false;
+	}
 
-},{"stringProcessing/countWords.js":25,"stringProcessing/matchTextWithWord.js":32}],11:[function(require,module,exports){
-/** @module analyses/getLinkStatistics */
+	if ( typeof callable !== "function" ) {
+		console.error( "Failed to register modification for plugin " + pluginName + ". Expected parameter `callable` to be a function." );
+		return false;
+	}
 
-var getAnchors = require( "stringProcessing/getAnchorsFromText.js" );
-var findKeywordInUrl = require( "stringProcessing/findKeywordInUrl.js" );
-var getLinkType = require( "stringProcessing/getLinkType.js" );
-var checkNofollow = require( "stringProcessing/checkNofollow.js" );
+	if ( typeof pluginName !== "string" ) {
+		console.error( "Failed to register modification for plugin " + pluginName + ". Expected parameter `pluginName` to be a string." );
+		return false;
+	}
 
-/**
- * Checks a text for anchors and returns an object with all linktypes found.
- *
- * @param {string} text The text to check for anchors.
- * @param {string} keyword The keyword to use for matching in anchors.
- * @param {string} url The url of the page.
- * @returns {object} The object containing all linktypes.
- * total: the total number of links found
- * totalNaKeyword: the total number of links if keyword is not available
- * totalKeyword: the total number of links with the keyword
- * internalTotal: the total number of links that are internal
- * internalDofollow: the internal links without a nofollow attribute
- * internalNofollow: the internal links with a nofollow attribute
- * externalTotal: the total number of links that are external
- * externalDofollow: the external links without a nofollow attribute
- * externalNofollow: the internal links with a dofollow attribute
- * otherTotal: all links that are not HTTP or HTTPS
- * otherDofollow: other links without a nofollow attribute
- * otherNofollow: other links with a nofollow attribute
- */
-module.exports = function( text, keyword, url ) {
-	var anchors = getAnchors( text );
+	// Validate origin
+	if ( this._validateOrigin( pluginName ) === false ) {
+		console.error( "Failed to register modification for plugin " + pluginName + ". The integration has not finished loading yet." );
+		return false;
+	}
 
-	var linkCount = {
-		total: anchors.length,
-		totalNaKeyword: 0,
-		totalKeyword: 0,
-		internalTotal: 0,
-		internalDofollow: 0,
-		internalNofollow: 0,
-		externalTotal: 0,
-		externalDofollow: 0,
-		externalNofollow: 0,
-		otherTotal: 0,
-		otherDofollow: 0,
-		otherNofollow: 0
+	// Default priority to 10
+	var prio = typeof priority === "number" ?  priority : 10;
+
+	var callableObject = {
+		callable: callable,
+		origin: pluginName,
+		priority: prio
 	};
-	var linkKeyword;
-	for ( var i = 0; i < anchors.length; i++ ) {
-		linkKeyword = findKeywordInUrl( anchors[i], keyword );
-		if ( linkKeyword ) {
-			if ( keyword !== "" ) {
-				linkCount.totalKeyword++;
+
+	// Make sure modification is defined on modifications object
+	if ( this.modifications[modification] === undefined ) {
+		this.modifications[modification] = [];
+	}
+
+	this.modifications[modification].push( callableObject );
+
+	return true;
+};
+
+/**
+ * @private
+ */
+YoastSEO.Pluggable.prototype._registerTest = function( name, analysis, scoring, pluginName, priority ) {
+	if ( typeof name !== "string" ) {
+		console.error( "Failed to register test for plugin " + pluginName + ". Expected parameter `name` to be a string." );
+		return false;
+	}
+
+	if ( typeof analysis !== "function" ) {
+		console.error( "Failed to register test for plugin " + pluginName + ". Expected parameter `analyzer` to be a function." );
+		return false;
+	}
+
+	if ( typeof pluginName !== "string" ) {
+		console.error( "Failed to register test for plugin " + pluginName + ". Expected parameter `pluginName` to be a string." );
+		return false;
+	}
+
+	// Validate origin
+	if ( this._validateOrigin( pluginName ) === false ) {
+		console.error( "Failed to register test for plugin " + pluginName + ". The integration has not finished loading yet." );
+		return false;
+	}
+
+	// Default priority to 10
+	var prio = typeof priority === "number" ? priority : 10;
+
+	// Prefix the name with the pluginName so the test name is always unique.
+	name = pluginName + "-" + name;
+
+	this.customTests.push( {
+		"name": name,
+		"analysis": analysis,
+		"scoring": scoring,
+		"prio": prio
+	} );
+
+	return true;
+};
+
+/**************** PRIVATE HANDLERS ****************/
+
+/**
+ * Poller to handle loading of plugins. Plugins can register with our app to let us know they are going to hook into our Javascript. They are allowed
+ * 5 seconds of pre-loading time to fetch all the data they need to be able to perform their data modifications. We will only apply data modifications
+ * from plugins that have declared ready within the pre-loading time in order to safeguard UX and data integrity.
+ *
+ * @param pollTime {number} (optional) The accumulated time to compare with the pre-load threshold.
+ * @private
+ */
+YoastSEO.Pluggable.prototype._pollLoadingPlugins = function( pollTime ) {
+	pollTime = pollTime === undefined ? 0 : pollTime;
+	if ( this._allReady() === true ) {
+		this.loaded = true;
+		this.app.pluginsLoaded();
+	} else if ( pollTime >= this.preloadThreshold ) {
+		this._pollTimeExceeded();
+	} else {
+		pollTime += 50;
+		setTimeout( this._pollLoadingPlugins.bind( this, pollTime ), 50 );
+	}
+};
+
+/**
+ * Checks if all registered plugins have finished loading
+ *
+ * @returns {boolean}
+ * @private
+ */
+YoastSEO.Pluggable.prototype._allReady = function() {
+	for ( var plugin in this.plugins ) {
+		if ( this.plugins[plugin].status !== "ready" ) {
+			return false;
+		}
+	}
+	return true;
+};
+
+/**
+ * Removes the plugins that were not loaded within time and calls `pluginsLoaded` on the app.
+ *
+ * @private
+ */
+YoastSEO.Pluggable.prototype._pollTimeExceeded = function() {
+	for ( var plugin in this.plugins ) {
+		if ( this.plugins[plugin].options !== undefined && this.plugins[plugin].options.status !== "ready" ) {
+			console.error( "Error: Plugin " + plugin + ". did not finish loading in time." );
+			delete this.plugins[plugin];
+		}
+	}
+	this.loaded = true;
+	this.app.pluginsLoaded();
+};
+
+/**
+ * Calls the callables added to a modification hook. See the YoastSEO.js Readme for a list of supported modification hooks.
+ *
+ * @param modification	{string}	The name of the filter
+ * @param data 			{*} 		The data to filter
+ * @param context 		{*} 		(optional) Object for passing context parameters to the callable.
+ * @returns 			{*} 		The filtered data
+ * @private
+ */
+YoastSEO.Pluggable.prototype._applyModifications = function( modification, data, context ) {
+	var callChain = this.modifications[modification];
+
+	if ( callChain instanceof Array && callChain.length > 0 ) {
+		callChain = this._stripIllegalModifications( callChain );
+
+		callChain.sort( function( a, b ) {
+			return a.priority - b.priority;
+		} );
+		for ( var callableObject in callChain ) {
+			var callable = callChain[callableObject].callable;
+			var newData = callable( data, context );
+			if ( typeof newData === typeof data ) {
+				data = newData;
 			} else {
-				linkCount.totalNaKeyword++;
+				console.error( "Modification with name " + modification + " performed by plugin with name " +
+				callChain[callableObject].origin +
+				" was ignored because the data that was returned by it was of a different type than the data we had passed it." );
 			}
 		}
-		var linkType = getLinkType( anchors[i], url );
-		linkCount[linkType + "Total"]++;
-		var linkFollow = checkNofollow( anchors[i] );
-		linkCount[linkType + linkFollow]++;
 	}
-	return linkCount;
+	return data;
+
 };
 
-},{"stringProcessing/checkNofollow.js":21,"stringProcessing/findKeywordInUrl.js":27,"stringProcessing/getAnchorsFromText.js":29,"stringProcessing/getLinkType.js":30}],12:[function(require,module,exports){
-/** @module analyses/getWordCount */
-
-var sanitizeString = require( "stringProcessing/sanitizeString.js" );
-
 /**
- * Checks the number of words in a string
+ * Adds new tests to the analyzer and it's scoring object.
  *
- * @param {string} text The keyphrase to count words in.
- * @returns {number} The wordcount of the given string.
+ * @param {YoastSEO.Analyzer} analyzer The analyzer object to add the tests to
+ * @private
  */
-module.exports = function( text ) {
-	text = sanitizeString( text );
-
-	if ( text === "" ) {
-		return 0;
-	}
-
-	return text.split( /\s/g ).length;
+YoastSEO.Pluggable.prototype._addPluginTests = function( analyzer ) {
+	this.customTests.map( function( customTest ) {
+		this._addPluginTest( analyzer, customTest );
+	}, this );
 };
 
-},{"stringProcessing/sanitizeString.js":35}],13:[function(require,module,exports){
-/** @module analyses/isUrlTooLong */
-
-var analyzerConfig = require( "config/analyzerConfig" )();
-
 /**
- * Checks if an URL is too long, based on slug and relative to keyword length.
+ * Adds one new test to the analyzer and it's scoring object.
  *
- * @param {string} url The URL to check the length from.
- * @param {string} keyword The keyword
- * @returns {boolean} true if the URL is too long, false if it isn't
+ * @param {YoastSEO.Analyzer} analyzer
+ * @param {Object}            pluginTest
+ * @param {string}            pluginTest.name
+ * @param {function}          pluginTest.callable
+ * @param {Object}            pluginTest.scoring
+ * @private
  */
-module.exports = function( url, keyword ) {
-	var urlLength = url.length;
-	var keywordLength = keyword.length;
-	var isUrlTooLong = false;
-	if ( urlLength > analyzerConfig.maxUrlLength  && urlLength > keywordLength + analyzerConfig.maxSlugLength ) {
-		isUrlTooLong = true;
-	}
-	return isUrlTooLong;
+YoastSEO.Pluggable.prototype._addPluginTest = function( analyzer, pluginTest ) {
+	analyzer.addAnalysis( {
+		"name": pluginTest.name,
+		"callable": pluginTest.analysis
+	} );
+
+	analyzer.analyzeScorer.addScoring( {
+		"name": pluginTest.name,
+		"scoring": pluginTest.scoring
+	} );
 };
 
-},{"config/analyzerConfig":15}],14:[function(require,module,exports){
-/* @module analyses/matchKeywordInSubheadings */
-
-var stripSomeTags = require( "stringProcessing/stripNonTextTags.js" );
-var subheadingMatch = require( "stringProcessing/subheadingsMatch.js" );
-
 /**
- * Checks if there are any subheadings like h2 in the text
- * and if they have the keyword in them.
+ * Strips modifications from a callChain if they were not added with a valid origin.
  *
- * @param {string} text The text to check for subheadings.
- * @param {string} keyword The keyword to match for.
- * @returns {object} the result object.
- * count: the number of matches
- * matches:the number of ocurrences of the keyword for each match
+ * @param callChain		{Array}
+ * @returns callChain 	{Array}
+ * @private
  */
-module.exports = function( text, keyword ) {
-	var matches;
-	var result = { count: 0 };
-	text = stripSomeTags( text );
-	matches = text.match( /<h([1-6])(?:[^>]+)?>(.*?)<\/h\1>/ig );
-
-	if ( matches !== null ) {
-		result.count = matches.length;
-		result.matches = subheadingMatch( matches, keyword );
-	}
-	return result;
-};
-
-
-},{"stringProcessing/stripNonTextTags.js":38,"stringProcessing/subheadingsMatch.js":41}],15:[function(require,module,exports){
-/**
- * Returns a configobject with maxSlugLength, maxUrlLength and MaxMeta to be used
- * for analysis
- *
- * @returns {object} the config object containing the maxSlugLength, maxUrlLength and the MaxMeta values
- */
-module.exports = function(){
-	return {
-		maxSlugLength: 20,
-		maxUrlLength: 40,
-		maxMeta: 156
-	}
-};
-
-},{}],16:[function(require,module,exports){
-/** @module config/diacritics */
-
-/**
- * Returns the diacritics map
- *
- * @returns {array} diacritics map
- */
-module.exports = function(){
-	return [
-		{
-			base: "a",
-			letters: /[\u0061\u24D0\uFF41\u1E9A\u00E0\u00E1\u00E2\u1EA7\u1EA5\u1EAB\u1EA9\u00E3\u0101\u0103\u1EB1\u1EAF\u1EB5\u1EB3\u0227\u01E1\u00E4\u01DF\u1EA3\u00E5\u01FB\u01CE\u0201\u0203\u1EA1\u1EAD\u1EB7\u1E01\u0105\u2C65\u0250]/g
-		},
-		{ base: "aa", letters: /[\uA733]/g },
-		{ base: "ae", letters: /[\u00E6\u01FD\u01E3]/g },
-		{ base: "ao", letters: /[\uA735]/g },
-		{ base: "au", letters: /[\uA737]/g },
-		{ base: "av", letters: /[\uA739\uA73B]/g },
-		{ base: "ay", letters: /[\uA73D]/g },
-		{ base: "b", letters: /[\u0062\u24D1\uFF42\u1E03\u1E05\u1E07\u0180\u0183\u0253]/g },
-		{
-			base: "c",
-			letters: /[\u0063\u24D2\uFF43\u0107\u0109\u010B\u010D\u00E7\u1E09\u0188\u023C\uA73F\u2184]/g
-		},
-		{
-			base: "d",
-			letters: /[\u0064\u24D3\uFF44\u1E0B\u010F\u1E0D\u1E11\u1E13\u1E0F\u0111\u018C\u0256\u0257\uA77A]/g
-		},
-		{ base: "dz", letters: /[\u01F3\u01C6]/g },
-		{
-			base: "e",
-			letters: /[\u0065\u24D4\uFF45\u00E8\u00E9\u00EA\u1EC1\u1EBF\u1EC5\u1EC3\u1EBD\u0113\u1E15\u1E17\u0115\u0117\u00EB\u1EBB\u011B\u0205\u0207\u1EB9\u1EC7\u0229\u1E1D\u0119\u1E19\u1E1B\u0247\u025B\u01DD]/g
-		},
-		{ base: "f", letters: /[\u0066\u24D5\uFF46\u1E1F\u0192\uA77C]/g },
-		{
-			base: "g",
-			letters: /[\u0067\u24D6\uFF47\u01F5\u011D\u1E21\u011F\u0121\u01E7\u0123\u01E5\u0260\uA7A1\u1D79\uA77F]/g
-		},
-		{
-			base: "h",
-			letters: /[\u0068\u24D7\uFF48\u0125\u1E23\u1E27\u021F\u1E25\u1E29\u1E2B\u1E96\u0127\u2C68\u2C76\u0265]/g
-		},
-		{ base: "hv", letters: /[\u0195]/g },
-		{
-			base: "i",
-			letters: /[\u0069\u24D8\uFF49\u00EC\u00ED\u00EE\u0129\u012B\u012D\u00EF\u1E2F\u1EC9\u01D0\u0209\u020B\u1ECB\u012F\u1E2D\u0268\u0131]/g
-		},
-		{ base: "j", letters: /[\u006A\u24D9\uFF4A\u0135\u01F0\u0249]/g },
-		{
-			base: "k",
-			letters: /[\u006B\u24DA\uFF4B\u1E31\u01E9\u1E33\u0137\u1E35\u0199\u2C6A\uA741\uA743\uA745\uA7A3]/g
-		},
-		{
-			base: "l",
-			letters: /[\u006C\u24DB\uFF4C\u0140\u013A\u013E\u1E37\u1E39\u013C\u1E3D\u1E3B\u017F\u0142\u019A\u026B\u2C61\uA749\uA781\uA747]/g
-		},
-		{ base: "lj", letters: /[\u01C9]/g },
-		{ base: "m", letters: /[\u006D\u24DC\uFF4D\u1E3F\u1E41\u1E43\u0271\u026F]/g },
-		{
-			base: "n",
-			letters: /[\u006E\u24DD\uFF4E\u01F9\u0144\u00F1\u1E45\u0148\u1E47\u0146\u1E4B\u1E49\u019E\u0272\u0149\uA791\uA7A5]/g
-		},
-		{ base: "nj", letters: /[\u01CC]/g },
-		{
-			base: "o",
-			letters: /[\u006F\u24DE\uFF4F\u00F2\u00F3\u00F4\u1ED3\u1ED1\u1ED7\u1ED5\u00F5\u1E4D\u022D\u1E4F\u014D\u1E51\u1E53\u014F\u022F\u0231\u00F6\u022B\u1ECF\u0151\u01D2\u020D\u020F\u01A1\u1EDD\u1EDB\u1EE1\u1EDF\u1EE3\u1ECD\u1ED9\u01EB\u01ED\u00F8\u01FF\u0254\uA74B\uA74D\u0275]/g
-		},
-		{ base: "oi", letters: /[\u01A3]/g },
-		{ base: "ou", letters: /[\u0223]/g },
-		{ base: "oo", letters: /[\uA74F]/g },
-		{ base: "p", letters: /[\u0070\u24DF\uFF50\u1E55\u1E57\u01A5\u1D7D\uA751\uA753\uA755]/g },
-		{ base: "q", letters: /[\u0071\u24E0\uFF51\u024B\uA757\uA759]/g },
-		{
-			base: "r",
-			letters: /[\u0072\u24E1\uFF52\u0155\u1E59\u0159\u0211\u0213\u1E5B\u1E5D\u0157\u1E5F\u024D\u027D\uA75B\uA7A7\uA783]/g
-		},
-		{
-			base: "s",
-			letters: /[\u0073\u24E2\uFF53\u00DF\u015B\u1E65\u015D\u1E61\u0161\u1E67\u1E63\u1E69\u0219\u015F\u023F\uA7A9\uA785\u1E9B]/g
-		},
-		{
-			base: "t",
-			letters: /[\u0074\u24E3\uFF54\u1E6B\u1E97\u0165\u1E6D\u021B\u0163\u1E71\u1E6F\u0167\u01AD\u0288\u2C66\uA787]/g
-		},
-		{ base: "tz", letters: /[\uA729]/g },
-		{
-			base: "u",
-			letters: /[\u0075\u24E4\uFF55\u00F9\u00FA\u00FB\u0169\u1E79\u016B\u1E7B\u016D\u00FC\u01DC\u01D8\u01D6\u01DA\u1EE7\u016F\u0171\u01D4\u0215\u0217\u01B0\u1EEB\u1EE9\u1EEF\u1EED\u1EF1\u1EE5\u1E73\u0173\u1E77\u1E75\u0289]/g
-		},
-		{ base: "v", letters: /[\u0076\u24E5\uFF56\u1E7D\u1E7F\u028B\uA75F\u028C]/g },
-		{ base: "vy", letters: /[\uA761]/g },
-		{
-			base: "w",
-			letters: /[\u0077\u24E6\uFF57\u1E81\u1E83\u0175\u1E87\u1E85\u1E98\u1E89\u2C73]/g
-		},
-		{ base: "x", letters: /[\u0078\u24E7\uFF58\u1E8B\u1E8D]/g },
-		{
-			base: "y",
-			letters: /[\u0079\u24E8\uFF59\u1EF3\u00FD\u0177\u1EF9\u0233\u1E8F\u00FF\u1EF7\u1E99\u1EF5\u01B4\u024F\u1EFF]/g
-		},
-		{
-			base: "z",
-			letters: /[\u007A\u24E9\uFF5A\u017A\u1E91\u017C\u017E\u1E93\u1E95\u01B6\u0225\u0240\u2C6C\uA763]/g
+YoastSEO.Pluggable.prototype._stripIllegalModifications = function( callChain ) {
+	for ( var callableObject in callChain ) {
+		if ( this._validateOrigin( callChain[callableObject].origin ) === false ) {
+			delete callChain[callableObject];
 		}
-	];
+	}
+
+	return callChain;
 };
 
-},{}],17:[function(require,module,exports){
-/** @module config/removalWords */
-
 /**
- * Returns an array with words that need to be removed
+ * Validates if origin of a modification has been registered and finished preloading.
  *
- * @returns {array} removalWords Returns an array with words.
+ * @param pluginName	{string}
+ * @returns 			{boolean}
+ * @private
  */
-module.exports = function(){
-	return [ " a", " in", " an", " on", " for", " the", " and" ];
+YoastSEO.Pluggable.prototype._validateOrigin = function( pluginName ) {
+	if ( this.plugins[pluginName].status !== "ready" ) {
+		return false;
+	}
+	return true;
 };
 
-},{}],18:[function(require,module,exports){
-/** @module config/stopwords */
-
 /**
- * Returns an array with stopwords to be used by the analyzer.
+ * Validates if registered plugin has a unique name.
  *
- * @returns {array} stopwords The array filled with stopwords.
+ * @param pluginName	{string}
+ * @returns 			{boolean}
+ * @private
  */
-module.exports = function(){
-	return [ "a", "about", "above", "after", "again", "against", "all", "am", "an", "and", "any", "are", "as", "at", "be", "because", "been", "before", "being", "below", "between", "both", "but", "by", "could", "did", "do", "does", "doing", "down", "during", "each", "few", "for", "from", "further", "had", "has", "have", "having", "he", "he'd", "he'll", "he's", "her", "here", "here's", "hers", "herself", "him", "himself", "his", "how", "how's", "i", "i'd", "i'll", "i'm", "i've", "if", "in", "into", "is", "it", "it's", "its", "itself", "let's", "me", "more", "most", "my", "myself", "nor", "of", "on", "once", "only", "or", "other", "ought", "our", "ours", "ourselves", "out", "over", "own", "same", "she", "she'd", "she'll", "she's", "should", "so", "some", "such", "than", "that", "that's", "the", "their", "theirs", "them", "themselves", "then", "there", "there's", "these", "they", "they'd", "they'll", "they're", "they've", "this", "those", "through", "to", "too", "under", "until", "up", "very", "was", "we", "we'd", "we'll", "we're", "we've", "were", "what", "what's", "when", "when's", "where", "where's", "which", "while", "who", "who's", "whom", "why", "why's", "with", "would", "you", "you'd", "you'll", "you're", "you've", "your", "yours", "yourself", "yourselves" ];
+YoastSEO.Pluggable.prototype._validateUniqueness = function( pluginName ) {
+	if ( this.plugins[pluginName] !== undefined ) {
+		return false;
+	}
+	return true;
 };
 
-},{}],19:[function(require,module,exports){
-/** @module config/syllables */
+},{}],26:[function(require,module,exports){
+/* global YoastSEO: true */
+YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 
 /**
- * Returns an array with syllables.
- * Subtractsyllables are counted as two and need to be counted as one.
- * Addsyllables are counted as one but need to be counted as two.
- * Exclusionwords are removed from the text to be counted seperatly.
- *
- * @returns {object}
+ * YoastSEO.PreProcessor object definition. Creates __store object and calls init.
+ * @params textString
  */
-module.exports = function(){
-	return {
-		subtractSyllables: [ "cial", "tia", "cius", "cious", "giu", "ion", "iou", "sia$", "[^aeiuoyt]{2,}ed$", "[aeiouy][^aeiuoyts]{1,}e\\b", ".ely$", "[cg]h?e[sd]", "rved$", "rved", "[aeiouy][dt]es?$", "[aeiouy][^aeiouydt]e[sd]?$", "^[dr]e[aeiou][^aeiou]+$", "[aeiouy]rse$" ],
-		addSyllables: [ "ia", "riet", "dien", "iu", "io", "ii", "[aeiouym][bdp]l", "[aeiou]{3}", "^mc", "ism$", "([^aeiouy])\1l$", "[^l]lien", "^coa[dglx].", "[^gq]ua[^auieo]", "dnt$", "uity$", "ie(r|st)", "[aeiouy]ing", "[aeiouw]y[aeiou]" ],
-		exclusionWords: [
-			{ word: "shoreline", syllables: 2 },
-			{ word: "simile", syllables: 3 }
-		]
+YoastSEO.PreProcessor = function( text ) {
+
+	//create __store object to store data
+	this.__store = {};
+	this.__store.originalText = text;
+	this.stringHelper = YoastSEO.getStringHelper();
+	this.init();
+};
+
+/**
+ * init function calling all necessary PreProcessorfunctions
+ */
+YoastSEO.PreProcessor.prototype.init = function() {
+
+	//call function to clean text
+	this.textFormat();
+
+	//call function to count words
+	this.countStore();
+};
+
+/**
+ * formats the original text from __store and save as cleantext, cleantextSomeTags en
+ * cleanTextNoTags
+ */
+YoastSEO.PreProcessor.prototype.textFormat = function() {
+	this.__store.cleanText = this.cleanText( this.__store.originalText );
+	this.__store.cleanTextSomeTags = this.stringHelper.stripSomeTags( this.__store.cleanText );
+	this.__store.cleanTextNoTags = this.stringHelper.stripAllTags( this.__store.cleanTextSomeTags );
+	this.__store.cleanTextNoDigits = this.stringHelper.stripNonWords( this.__store.cleanTextNoTags );
+};
+
+/**
+ * saves wordcount (all words) and wordcountNoTags (all words except those in tags) in the __store
+ * saves sentencecount and syllable count in __store
+ * object
+ */
+YoastSEO.PreProcessor.prototype.countStore = function() {
+
+	/*wordcounters*/
+	var wordcountString = this.__store.cleanText;
+
+	this.__store.wordcount = wordcountString === "" ?
+		0 :
+		wordcountString.split( /\s/g ).length;
+
+	var wordcountStringNoTags = this.__store.cleanTextNoTags;
+
+	this.__store.wordcountNoTags = wordcountStringNoTags === "" ?
+		0 :
+		wordcountStringNoTags.split( /\s/g ).length;
+
+	var wordcountStringNoDigits = this.__store.cleanTextNoDigits;
+
+	this.__store.wordcountNoDigits = wordcountStringNoDigits === "" ?
+		0 :
+		wordcountStringNoDigits.split ( /\s/g ).length;
+
+	/*sentencecounters*/
+	this.__store.sentenceCountNoTags = this.sentenceCount( this.__store.cleanTextNoDigits );
+
+	/*syllablecounters*/
+	this.__store.syllablecount = this.syllableCount( this.__store.cleanTextNoDigits );
+};
+
+/**
+ * counts the number of sentences in a textstring by splitting on a period. Removes sentences that
+ * are empty or have only a space.
+ * @param textString
+ */
+YoastSEO.PreProcessor.prototype.sentenceCount = function( textString ) {
+	var sentences = textString.split( "." );
+	var sentenceCount = 0;
+	for ( var i = 0; i < sentences.length; i++ ) {
+		if ( sentences[ i ] !== "" && sentences[ i ] !== " " ) {
+			sentenceCount++;
+		}
+	}
+	return sentenceCount;
+};
+
+/**
+ * counts the number of syllables in a textstring, calls exclusionwordsfunction, basic syllable
+ * counter and advanced syllable counter.
+ * @param textString
+ * @returns syllable count
+ */
+YoastSEO.PreProcessor.prototype.syllableCount = function( textString ) {
+	this.syllableCount = 0;
+	textString = textString.replace( /[.]/g, " " );
+	textString = this.removeWords( textString );
+	var words = textString.split( " " );
+	var subtractSyllablesRegexp = this.stringHelper.stringToRegex(
+		YoastSEO.preprocessorConfig.syllables.subtractSyllables,
+		true
+	);
+	var addSyllablesRegexp = this.stringHelper.stringToRegex(
+		YoastSEO.preprocessorConfig.syllables.addSyllables,
+		true
+	);
+	for ( var i = 0; i < words.length; i++ ) {
+		this.basicSyllableCount( words[ i ].split( /[^aeiouy]/g ) );
+		this.advancedSyllableCount( words[ i ], subtractSyllablesRegexp, "subtract" );
+		this.advancedSyllableCount( words[ i ], addSyllablesRegexp, "add" );
+	}
+	return this.syllableCount;
+};
+
+/**
+ * counts the syllables by splitting on consonants
+ * @param splitWordArray
+ */
+
+YoastSEO.PreProcessor.prototype.basicSyllableCount = function( splitWordArray ) {
+	for ( var j = 0; j < splitWordArray.length; j++ ) {
+		if ( splitWordArray[ j ].length > 0 ) {
+			this.syllableCount++;
+		}
+	}
+};
+
+/**
+ * counts the syllables by validating against regexxes, and adding and subtracting the number of
+ * matches.
+ * @param inputString
+ * @param regex
+ * @param operator
+ */
+YoastSEO.PreProcessor.prototype.advancedSyllableCount = function( inputString, regex, operator ) {
+	var match = inputString.match( regex );
+	if ( match !== null ) {
+		if ( operator === "subtract" ) {
+			this.syllableCount -= match.length;
+		} else if ( operator === "add" ) {
+			this.syllableCount += match.length;
+		}
+	}
+};
+
+/**
+ * removes words from textstring and count syllables. Used for words that fail against regexes.
+ * @param textString
+ * @returns textString with exclusionwords removed
+ */
+YoastSEO.PreProcessor.prototype.removeWords = function( textString ) {
+	var config = YoastSEO.preprocessorConfig;
+
+	for ( var i = 0; i < config.syllables.exclusionWords.length; i++ ) {
+		var exclusionRegex = new RegExp(
+			config.syllables.exclusionWords[ i ].word,
+			"g"
+		);
+		var matches = textString.match( exclusionRegex );
+		if ( matches !== null ) {
+			this.syllableCount += config.syllables.exclusionWords[ i ].syllables;
+			textString = textString.replace( exclusionRegex, "" );
+		}
+	}
+	return textString;
+};
+
+/**
+ * cleans text by removing special characters, numberonly words and replacing all terminators by
+ * periods
+ * @param textString
+ * @returns textString
+ */
+YoastSEO.PreProcessor.prototype.cleanText = function( textString ) {
+	if ( textString !== "" ) {
+		textString = this.replaceDiacritics( textString );
+		textString = textString.toLocaleLowerCase();
+
+		// Remove some HTML entities as first action
+		textString = textString.replace( "&nbsp;", " " );
+
+		// unify all terminators
+		textString = textString.replace( /[.?!]/g, "." );
+
+		// Remove double spaces
+		textString = this.stringHelper.stripSpaces( textString );
+
+		// add period in case it is missing
+		textString += ".";
+
+		// replace newlines with spaces
+		textString = textString.replace( /[ ]*(\n|\r\n|\r)[ ]*/g, " " );
+
+		// remove duplicate terminators
+		textString = textString.replace( /([\.])[\. ]+/g, "$1" );
+
+		// pad sentence terminators
+		textString = textString.replace( /[ ]*([\.])+/g, "$1 " );
+
+		// Remove double spaces
+		textString = this.stringHelper.stripSpaces( textString );
+
+		if ( textString === "." ) {
+			textString = "";
+		}
+	}
+	return textString;
+};
+
+/**
+ * replaces all diacritics with standard characters following the diacritics removal map from the
+ * config.
+ * @param textString
+ * @returns textString
+ */
+YoastSEO.PreProcessor.prototype.replaceDiacritics = function( textString ) {
+	var config = YoastSEO.preprocessorConfig;
+
+	for ( var i = 0; i < config.diacriticsRemovalMap.length; i++ ) {
+		textString = textString.replace(
+			config.diacriticsRemovalMap[ i ].letters,
+			config.diacriticsRemovalMap[ i ].base
+		);
+	}
+	return textString;
+};
+
+/**
+ * Checks if the preprocessor is already initialized and if so if the textstring differs from the
+ * input.
+ *
+ * @param inputString
+ * @returns {YoastSEO.PreProcessor}
+ */
+YoastSEO.getPreProcessor = function( inputString ) {
+	if (
+		typeof YoastSEO.cachedPreProcessor !== "object" ||
+		YoastSEO.cachedPreProcessor.inputText !== inputString
+	) {
+		YoastSEO.cachedPreProcessor = new YoastSEO.PreProcessor( inputString );
+	}
+	return YoastSEO.cachedPreProcessor;
+};
+
+},{}],27:[function(require,module,exports){
+/* jshint browser: true */
+/* global YoastSEO: true */
+YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
+
+/**
+ * defines the variables used for the scoreformatter, runs the outputScore en overallScore
+ * functions.
+ *
+ * @param {YoastSEO.App} args
+ * @constructor
+ */
+YoastSEO.ScoreFormatter = function( args ) {
+	this.scores = args.scores;
+	this.overallScore = args.overallScore;
+	this.outputTarget = args.outputTarget;
+	this.overallTarget = args.overallTarget;
+	this.totalScore = 0;
+	this.keyword = args.keyword;
+	this.i18n = args.i18n;
+	this.saveScores = args.saveScores;
+};
+
+/**
+ * Renders the score in the HTML.
+ */
+YoastSEO.ScoreFormatter.prototype.renderScore = function() {
+	this.outputScore();
+	this.outputOverallScore();
+};
+
+/**
+ * creates the list for showing the results from the analyzerscorer
+ */
+YoastSEO.ScoreFormatter.prototype.outputScore = function() {
+	var seoScoreText, scoreRating;
+
+	this.sortScores();
+	var outputTarget = document.getElementById( this.outputTarget );
+	outputTarget.innerHTML = "";
+	var newList = document.createElement( "ul" );
+	newList.className = "wpseoanalysis";
+	for ( var i = 0; i < this.scores.length; i++ ) {
+		if ( this.scores[ i ].text !== "" ) {
+			scoreRating = this.scoreRating( this.scores[ i ].score );
+
+			var newLI = document.createElement( "li" );
+			newLI.className = "score";
+			var scoreSpan = document.createElement( "span" );
+			scoreSpan.className = "wpseo-score-icon " + scoreRating;
+			newLI.appendChild( scoreSpan );
+
+			seoScoreText = this.getSEOScoreText( scoreRating );
+
+			var screenReaderDiv = document.createElement( "span" );
+			screenReaderDiv.className = "screen-reader-text";
+			screenReaderDiv.textContent = seoScoreText;
+
+			newLI.appendChild( screenReaderDiv );
+			var textSpan = document.createElement( "span" );
+			textSpan.className = "wpseo-score-text";
+			textSpan.innerHTML = this.scores[ i ].text;
+			newLI.appendChild( textSpan );
+			newList.appendChild( newLI );
+		}
+	}
+	outputTarget.appendChild( newList );
+};
+
+/**
+ * sorts the scores array on ascending scores
+ */
+YoastSEO.ScoreFormatter.prototype.sortScores = function() {
+	this.scores = this.scores.sort( function( a, b ) {
+		return a.score - b.score;
+	} );
+};
+
+/**
+ * outputs the overallScore in the overallTarget element.
+ */
+YoastSEO.ScoreFormatter.prototype.outputOverallScore = function() {
+	var overallTarget = document.getElementById( this.overallTarget );
+
+	if ( overallTarget ) {
+		overallTarget.className = "overallScore " + this.overallScoreRating( Math.round( this.overallScore ) );
+		if ( this.keyword === "" ) {
+			overallTarget.className = "overallScore " + this.overallScoreRating( "na" );
+		}
+	}
+
+	this.saveScores( this.overallScore );
+};
+
+/**
+ * Retuns a string that is used as a CSSclass, based on the numeric score or the NA string.
+ * @param {number|string} score
+ * @returns {string} scoreRate
+ */
+YoastSEO.ScoreFormatter.prototype.scoreRating = function( score ) {
+	var scoreRate;
+	switch ( true ) {
+		case score <= 4:
+			scoreRate = "bad";
+			break;
+		case score > 4 && score <= 7:
+			scoreRate = "ok";
+			break;
+		case score > 7:
+			scoreRate = "good";
+			break;
+		default:
+		case score === "na":
+			scoreRate = "na";
+			break;
+	}
+	return scoreRate;
+};
+
+/**
+ * Divides the total score by ten and calls the scoreRating function.
+ * @param {number|string} score
+ * @returns {string} scoreRate
+ */
+YoastSEO.ScoreFormatter.prototype.overallScoreRating = function( score ) {
+	if ( typeof score === "number" ) {
+		score = ( score / 10 );
+	}
+	return this.scoreRating( score );
+};
+
+/**
+ * Returns a translated score description based on the textual score rating
+ *
+ * @param {string} scoreRating Textual score rating, can be retrieved with scoreRating from the actual score.
+ *
+ * @return {string}
+ */
+YoastSEO.ScoreFormatter.prototype.getSEOScoreText = function( scoreRating ) {
+	var scoreText = "";
+
+	switch ( scoreRating ) {
+		case "na":
+			scoreText = this.i18n.dgettext( "js-text-analysis", "No keyword" );
+			break;
+
+		case "bad":
+			scoreText = this.i18n.dgettext( "js-text-analysis", "Bad SEO score" );
+			break;
+
+		case "ok":
+			scoreText = this.i18n.dgettext( "js-text-analysis", "Ok SEO score" );
+			break;
+
+		case "good":
+			scoreText = this.i18n.dgettext( "js-text-analysis", "Good SEO score" );
+			break;
+	}
+
+	return scoreText;
+};
+
+},{}],28:[function(require,module,exports){
+/* jshint browser: true */
+/* global YoastSEO: true */
+YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
+
+/**
+ * snippetpreview
+ */
+
+/**
+ * defines the config and outputTarget for the YoastSEO.SnippetPreview
+ *
+ * @param {YoastSEO.App} refObj
+ *
+ * @constructor
+ */
+YoastSEO.SnippetPreview = function( refObj ) {
+	this.refObj = refObj;
+	this.unformattedText = {
+		snippet_cite: this.refObj.rawData.snippetCite || "",
+		snippet_meta: this.refObj.rawData.snippetMeta || "",
+		snippet_title: this.refObj.rawData.snippetTitle || ""
 	};
+	this.init();
 };
 
-},{}],20:[function(require,module,exports){
+/**
+ *  checks if title and url are set so they can be rendered in the snippetPreview
+ */
+YoastSEO.SnippetPreview.prototype.init = function() {
+	if (
+		this.refObj.rawData.pageTitle !== null &&
+		this.refObj.rawData.cite !== null
+	) {
+		this.output = this.htmlOutput();
+		this.renderOutput();
+		this.renderSnippetStyle();
+	}
+};
+
+/**
+ * creates html object to contain the strings for the snippetpreview
+ *
+ * @returns {Object}
+ */
+YoastSEO.SnippetPreview.prototype.htmlOutput = function() {
+	var html = {};
+	html.title = this.formatTitle();
+	html.cite = this.formatCite();
+	html.meta = this.formatMeta();
+	html.url = this.formatUrl();
+	return html;
+};
+
+/**
+ * formats the title for the snippet preview. If title and pageTitle are empty, sampletext is used
+ *
+ * @returns {String}
+ */
+YoastSEO.SnippetPreview.prototype.formatTitle = function() {
+	var title = this.refObj.rawData.pageTitle;
+
+	if ( title === "" || typeof title === "undefined" ) {
+		title = this.refObj.config.sampleText.title;
+	}
+	title = this.refObj.stringHelper.stripAllTags( title );
+	if ( this.refObj.rawData.keyword !== "" ) {
+		return this.formatKeyword( title );
+	}
+	return title;
+};
+
+/**
+ * removes the protocol name from the urlstring.
+ * @returns formatted url
+ */
+YoastSEO.SnippetPreview.prototype.formatUrl = function() {
+	var url = this.refObj.rawData.baseUrl;
+
+	//removes the http(s) part of the url
+	return url.replace( /https?:\/\//ig, "" );
+};
+
+/**
+ * formats the url for the snippet preview
+ * @returns formatted url
+ */
+YoastSEO.SnippetPreview.prototype.formatCite = function() {
+	var cite = this.refObj.rawData.snippetCite;
+	cite = this.refObj.stringHelper.stripAllTags( cite );
+	if ( cite === "" ) {
+		cite = this.refObj.config.sampleText.snippetCite;
+	}
+	return this.formatKeywordUrl( cite );
+};
+
+/**
+ * formats the metatext for the snippet preview, if empty runs getMetaText
+ * @returns formatted metatext
+ */
+YoastSEO.SnippetPreview.prototype.formatMeta = function() {
+	var meta = this.refObj.rawData.meta;
+	if ( meta === this.refObj.config.sampleText.snippetMeta ) {
+		meta = "";
+	}
+	if ( meta === "" ) {
+		meta = this.getMetaText();
+	}
+	meta = this.refObj.stringHelper.stripAllTags( meta );
+	meta = meta.substring( 0, YoastSEO.analyzerConfig.maxMeta );
+	if ( this.refObj.rawData.keyword !== "" && meta !== "" ) {
+		return this.formatKeyword( meta );
+	}
+	return meta;
+};
+
+/**
+ * formats the metatext, based on the keyword to select a part of the text.
+ * If no keyword matches, takes the first 156chars (depending on the config).
+ * If keyword and/or text is empty, it uses the sampletext.
+ * @returns metatext
+ */
+YoastSEO.SnippetPreview.prototype.getMetaText = function() {
+	var metaText;
+	if ( typeof this.refObj.rawData.excerpt !== "undefined" ) {
+		metaText = this.refObj.rawData.excerpt;
+	}
+	if ( typeof this.refObj.rawData.text !== "undefined" ) {
+		metaText = this.refObj.rawData.text;
+	}
+	if ( metaText === "" ) {
+		metaText = this.refObj.config.sampleText.meta;
+	}
+	metaText = this.refObj.stringHelper.stripAllTags( metaText );
+	if (
+		this.refObj.rawData.keyword !== "" &&
+		this.refObj.rawData.text !== ""
+	) {
+		var indexMatches = this.getIndexMatches();
+		var periodMatches = this.getPeriodMatches();
+		metaText = metaText.substring(
+			0,
+			YoastSEO.analyzerConfig.maxMeta
+		);
+		var curStart = 0;
+		if ( indexMatches.length > 0 ) {
+			for ( var j = 0; j < periodMatches.length; ) {
+				if ( periodMatches[ 0 ] < indexMatches[ 0 ] ) {
+					curStart = periodMatches.shift();
+				} else {
+					if ( curStart > 0 ) {
+						curStart += 2;
+					}
+					break;
+				}
+			}
+		}
+	}
+	if ( this.refObj.stringHelper.stripAllTags( metaText ) === "" ) {
+		return this.refObj.config.sampleText.meta;
+	}
+	return metaText.substring( 0, YoastSEO.analyzerConfig.maxMeta );
+};
+
+/**
+ * Builds an array with all indexes of the keyword
+ * @returns Array with matches
+ */
+YoastSEO.SnippetPreview.prototype.getIndexMatches = function() {
+	var indexMatches = [];
+	var i = 0;
+
+	//starts at 0, locates first match of the keyword.
+	var match = this.refObj.rawData.text.indexOf(
+		this.refObj.rawData.keyword,
+		i
+	);
+
+	//runs the loop untill no more indexes are found, and match returns -1.
+	while ( match > -1 ) {
+		indexMatches.push( match );
+
+		//pushes location to indexMatches and increase i with the length of keyword.
+		i = match + this.refObj.rawData.keyword.length;
+		match = this.refObj.rawData.text.indexOf(
+			this.refObj.rawData.keyword,
+			i
+		);
+	}
+	return indexMatches;
+};
+
+/**
+ * Builds an array with indexes of all sentence ends (select on .)
+ * @returns array with sentences
+ */
+YoastSEO.SnippetPreview.prototype.getPeriodMatches = function() {
+	var periodMatches = [ 0 ];
+	var match;
+	var i = 0;
+	while ( ( match = this.refObj.rawData.text.indexOf( ".", i ) ) > -1 ) {
+		periodMatches.push( match );
+		i = match + 1;
+	}
+	return periodMatches;
+};
+
+/**
+ * formats the keyword for use in the snippetPreview by adding <strong>-tags
+ * strips unwanted characters that could break the regex or give unwanted results
+ * @param textString
+ * @returns textString
+ */
+YoastSEO.SnippetPreview.prototype.formatKeyword = function( textString ) {
+
+	// removes characters from the keyword that could break the regex, or give unwanted results
+	var keyword = this.refObj.rawData.keyword.replace( /[\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, " " );
+
+	// Match keyword case-insensitively
+	var keywordRegex = YoastSEO.getStringHelper().getWordBoundaryRegex( keyword );
+	return textString.replace( keywordRegex, function( str ) {
+		return "<strong>" + str + "</strong>";
+	} );
+};
+
+/**
+ * formats the keyword for use in the URL by accepting - and _ in stead of space and by adding
+ * <strong>-tags
+ * strips unwanted characters that could break the regex or give unwanted results
+ *
+ * @param textString
+ * @returns {XML|string|void}
+ */
+YoastSEO.SnippetPreview.prototype.formatKeywordUrl = function( textString ) {
+	var keyword = this.refObj.stringHelper.sanitizeKeyword( this.refObj.rawData.keyword );
+	var dashedKeyword = keyword.replace( /\s/g, "-" );
+
+	// Match keyword case-insensitively.
+	var keywordRegex = YoastSEO.getStringHelper().getWordBoundaryRegex( dashedKeyword );
+
+	// Make the keyword bold in the textString.
+	return textString.replace( keywordRegex, function( str ) {
+		return "<strong>" + str + "</strong>";
+	} );
+};
+
+/**
+ * Renders the outputs to the elements on the page.
+ */
+YoastSEO.SnippetPreview.prototype.renderOutput = function() {
+	document.getElementById( "snippet_title" ).innerHTML = this.output.title;
+	document.getElementById( "snippet_cite" ).innerHTML = this.output.cite;
+	document.getElementById( "snippet_citeBase" ).innerHTML = this.output.url;
+	document.getElementById( "snippet_meta" ).innerHTML = this.output.meta;
+};
+
+/**
+ * Sets the classname of the meta field in the snippet, based on the rawData.snippetMeta
+ */
+YoastSEO.SnippetPreview.prototype.renderSnippetStyle = function() {
+	var cssClass = "desc-default";
+	if ( this.refObj.rawData.meta === "" ) {
+		cssClass = "desc-render";
+	}
+	document.getElementById( "snippet_meta" ).className = "desc " + cssClass;
+};
+
+/**
+ * function to call init, to rerender the snippetpreview
+ */
+YoastSEO.SnippetPreview.prototype.reRender = function() {
+	this.init();
+};
+
+/**
+ * used to disable enter as input. Returns false to prevent enter, and preventDefault and
+ * cancelBubble to prevent
+ * other elements from capturing this event.
+ * @param event
+ */
+YoastSEO.SnippetPreview.prototype.disableEnter = function( ev ) {
+	if ( ev.keyCode === 13 ) {
+		ev.returnValue = false;
+		ev.cancelBubble = true;
+		ev.preventDefault();
+	}
+};
+
+/**
+ * checks text length of the snippetmeta and snippettitle, shortens it if it is too long.
+ * @param event
+ */
+YoastSEO.SnippetPreview.prototype.checkTextLength = function( ev ) {
+	var text = ev.currentTarget.textContent;
+	switch ( ev.currentTarget.id ) {
+		case "snippet_meta":
+			ev.currentTarget.className = "desc";
+			if ( text.length > YoastSEO.analyzerConfig.maxMeta ) {
+				YoastSEO.app.snippetPreview.unformattedText.snippet_meta = ev.currentTarget.textContent;
+				ev.currentTarget.textContent = text.substring(
+					0,
+					YoastSEO.analyzerConfig.maxMeta
+				);
+
+			}
+			break;
+		case "snippet_title":
+			ev.currentTarget.className = "title";
+			if ( text.length > 70 ) {
+				YoastSEO.app.snippetPreview.unformattedText.snippet_title = ev.currentTarget.textContent;
+				ev.currentTarget.textContent = text.substring( 0, 70 );
+			}
+			break;
+		default:
+			break;
+	}
+};
+
+/**
+ * when clicked on an element in the snippet, checks fills the textContent with the data from the unformatted text.
+ * This removes the keyword highlighting and modified data so the original content can be editted.
+ * @param ev {event}
+ */
+YoastSEO.SnippetPreview.prototype.getUnformattedText = function( ev ) {
+	var currentElement = ev.currentTarget.id;
+	if ( typeof this.unformattedText[ currentElement ] !== "undefined" ) {
+		ev.currentTarget.textContent = this.unformattedText[currentElement];
+	}
+};
+
+/**
+ * when text is entered into the snippetPreview elements, the text is set in the unformattedText object.
+ * This allows the visible data to be editted in the snippetPreview.
+ * @param ev
+ */
+YoastSEO.SnippetPreview.prototype.setUnformattedText = function( ev ) {
+	var elem =  ev.currentTarget.id;
+	this.unformattedText[ elem ] = document.getElementById( elem ).textContent;
+};
+
+/**
+ * Adds and remove the tooLong class when a text is too long.
+ * @param ev
+ */
+YoastSEO.SnippetPreview.prototype.textFeedback = function( ev ) {
+	var text = ev.currentTarget.textContent;
+	switch ( ev.currentTarget.id ) {
+		case "snippet_meta":
+			if ( text.length > YoastSEO.analyzerConfig.maxMeta ) {
+				ev.currentTarget.className = "desc tooLong";
+			} else {
+				ev.currentTarget.className = "desc";
+			}
+			break;
+		case "snippet_title":
+			if ( text.length > 70 ) {
+				ev.currentTarget.className = "title tooLong";
+			} else {
+				ev.currentTarget.className = "title";
+			}
+			break;
+		default:
+			break;
+	}
+};
+
+/**
+ * shows the edit icon corresponding to the hovered element
+ * @param ev
+ */
+YoastSEO.SnippetPreview.prototype.showEditIcon = function( ev ) {
+	ev.currentTarget.parentElement.className = "editIcon snippet_container";
+};
+
+/**
+ * removes all editIcon-classes, sets to snippet_container
+ */
+YoastSEO.SnippetPreview.prototype.hideEditIcon = function() {
+	var elems = document.getElementsByClassName( "editIcon " );
+	for ( var i = 0; i < elems.length; i++ ) {
+		elems[ i ].className = "snippet_container";
+	}
+};
+
+/**
+ * sets focus on child element of the snippet_container that is clicked. Hides the editicon.
+ * @param ev
+ */
+YoastSEO.SnippetPreview.prototype.setFocus = function( ev ) {
+	var targetElem = ev.currentTarget.firstChild;
+	while ( targetElem !== null ) {
+		if ( targetElem.contentEditable === "true" ) {
+			targetElem.focus();
+			this.hideEditIcon();
+			break;
+		} else {
+			targetElem = targetElem.nextSibling;
+		}
+	}
+};
+
+},{}],29:[function(require,module,exports){
 /** @module stringProcessing/addWordboundary */
 
 /**
@@ -4048,7 +3535,7 @@ module.exports = function( matchString, extraWordBoundary ) {
 	return wordBoundaryStart + matchString + wordBoundaryEnd;
 };
 
-},{}],21:[function(require,module,exports){
+},{}],30:[function(require,module,exports){
 /** @module stringProcessing/checkNofollow */
 
 /**
@@ -4067,12 +3554,12 @@ module.exports = function( text ) {
 	return linkFollow;
 };
 
-},{}],22:[function(require,module,exports){
+},{}],31:[function(require,module,exports){
 /** @module stringProcessing/cleanText */
 
-var stripSpaces = require( "stringProcessing/stripSpaces.js" );
-var replaceDiacritics = require( "stringProcessing/replaceDiacritics.js" );
-var unifyWhitespace = require( "stringProcessing/unifyWhitespace.js" );
+var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
+var replaceDiacritics = require( "../stringProcessing/replaceDiacritics.js" );
+var unifyWhitespace = require( "../stringProcessing/unifyWhitespace.js" );
 
 /**
  * Removes words, duplicate spaces and sentence terminators, and words consisting of only digits
@@ -4125,10 +3612,10 @@ module.exports = function( text ) {
 	return text;
 };
 
-},{"stringProcessing/replaceDiacritics.js":33,"stringProcessing/stripSpaces.js":40,"stringProcessing/unifyWhitespace.js":42}],23:[function(require,module,exports){
+},{"../stringProcessing/replaceDiacritics.js":42,"../stringProcessing/stripSpaces.js":49,"../stringProcessing/unifyWhitespace.js":51}],32:[function(require,module,exports){
 /** @module stringProcessing/countSentences */
 
-var cleanText = require( "stringProcessing/cleanText.js" );
+var cleanText = require( "../stringProcessing/cleanText.js" );
 
 /**
  * Counts the number of sentences in a given string.
@@ -4147,12 +3634,12 @@ module.exports = function( text ) {
 	return sentenceCount;
 };
 
-},{"stringProcessing/cleanText.js":22}],24:[function(require,module,exports){
+},{"../stringProcessing/cleanText.js":31}],33:[function(require,module,exports){
 /** @module stringProcessing/countSyllables */
 
-var cleanText = require( "stringProcessing/cleanText.js" );
-var syllableArray = require( "config/syllables.js" );
-var arrayToRegex = require( "stringProcessing/createRegexFromArray.js" );
+var cleanText = require( "../stringProcessing/cleanText.js" );
+var syllableArray = require( "../config/syllables.js" );
+var arrayToRegex = require( "../stringProcessing/createRegexFromArray.js" );
 
 /**
  * Checks the textstring for exclusion words. If they are found, returns the number of syllables these have, since
@@ -4269,11 +3756,11 @@ module.exports = function( text ) {
 };
 
 
-},{"config/syllables.js":19,"stringProcessing/cleanText.js":22,"stringProcessing/createRegexFromArray.js":26}],25:[function(require,module,exports){
+},{"../config/syllables.js":24,"../stringProcessing/cleanText.js":31,"../stringProcessing/createRegexFromArray.js":35}],34:[function(require,module,exports){
 /** @module stringProcessing/countWords */
 
-var stripTags = require( "stringProcessing/stripHTMLTags.js" );
-var stripSpaces = require( "stringProcessing/stripSpaces.js" );
+var stripTags = require( "../stringProcessing/stripHTMLTags.js" );
+var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
 
 /**
  * Calculates the wordcount of a certain text.
@@ -4292,10 +3779,10 @@ module.exports = function( text ) {
 	return text.split( /\s/g ).length;
 };
 
-},{"stringProcessing/stripHTMLTags.js":37,"stringProcessing/stripSpaces.js":40}],26:[function(require,module,exports){
+},{"../stringProcessing/stripHTMLTags.js":46,"../stringProcessing/stripSpaces.js":49}],35:[function(require,module,exports){
 /** @module stringProcessing/createRegexFromArray */
 
-var addWordBoundary = require( "stringProcessing/addWordboundary.js" );
+var addWordBoundary = require( "../stringProcessing/addWordboundary.js" );
 
 /**
  * Creates a regex of combined strings from the input array.
@@ -4320,10 +3807,10 @@ module.exports = function( array, disableWordBoundary ) {
 	return new RegExp( regexString, "ig" );
 };
 
-},{"stringProcessing/addWordboundary.js":20}],27:[function(require,module,exports){
+},{"../stringProcessing/addWordboundary.js":29}],36:[function(require,module,exports){
 /** @module stringProcessing/findKeywordInUrl */
 
-var keywordRegex = require( "stringProcessing/stringToRegex.js" );
+var keywordRegex = require( "../stringProcessing/stringToRegex.js" );
 /**
  *
  * @param {string} url The url to check for keyword
@@ -4344,10 +3831,10 @@ module.exports = function( url, keyword ) {
 	return keywordFound;
 };
 
-},{"stringProcessing/stringToRegex.js":36}],28:[function(require,module,exports){
+},{"../stringProcessing/stringToRegex.js":45}],37:[function(require,module,exports){
 /** @module stringProcessing/getAlttagContent */
 
-var stripSpaces = require( "stringProcessing/stripSpaces.js" );
+var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
 
 /**
  * Checks for an alttag in the image and returns its content
@@ -4367,7 +3854,7 @@ module.exports = function( text ) {
 	return alt;
 };
 
-},{"stringProcessing/stripSpaces.js":40}],29:[function(require,module,exports){
+},{"../stringProcessing/stripSpaces.js":49}],38:[function(require,module,exports){
 /** @module stringProcessing/getAnchorsFromText */
 
 /**
@@ -4388,7 +3875,7 @@ module.exports = function( text ) {
 	return matches;
 };
 
-},{}],30:[function(require,module,exports){
+},{}],39:[function(require,module,exports){
 /** @module stringProcess/getLinkType */
 
 /**
@@ -4413,7 +3900,7 @@ module.exports = function( text, url ) {
 	return linkType;
 };
 
-},{}],31:[function(require,module,exports){
+},{}],40:[function(require,module,exports){
 /** @module stringProcessing/matchStringWithRegex */
 
 /**
@@ -4433,13 +3920,13 @@ module.exports = function( text, regexString ) {
 	return matches;
 };
 
-},{}],32:[function(require,module,exports){
+},{}],41:[function(require,module,exports){
 /** @module stringProcessing/matchTextWithWord */
 
-var stringToRegex = require( "stringProcessing/stringToRegex.js" );
-var stripSomeTags = require( "stringProcessing/stripNonTextTags.js" );
-var unifyWhitespace = require( "stringProcessing/unifyWhitespace.js" );
-var replaceDiacritics = require( "stringProcessing/replaceDiacritics.js" );
+var stringToRegex = require( "../stringProcessing/stringToRegex.js" );
+var stripSomeTags = require( "../stringProcessing/stripNonTextTags.js" );
+var unifyWhitespace = require( "../stringProcessing/unifyWhitespace.js" );
+var replaceDiacritics = require( "../stringProcessing/replaceDiacritics.js" );
 
 /**
  * Returns the number of matches in a given string
@@ -4462,10 +3949,10 @@ module.exports = function( text, wordToMatch, extraBoundary ) {
 	return matches.length;
 };
 
-},{"stringProcessing/replaceDiacritics.js":33,"stringProcessing/stringToRegex.js":36,"stringProcessing/stripNonTextTags.js":38,"stringProcessing/unifyWhitespace.js":42}],33:[function(require,module,exports){
+},{"../stringProcessing/replaceDiacritics.js":42,"../stringProcessing/stringToRegex.js":45,"../stringProcessing/stripNonTextTags.js":47,"../stringProcessing/unifyWhitespace.js":51}],42:[function(require,module,exports){
 /** @module stringProcessing/replaceDiacritics */
 
-var diacritisRemovalMap = require( "config/diacritics.js" );
+var diacritisRemovalMap = require( "../config/diacritics.js" );
 
 /**
  * Replaces all diacritics from the text based on the diacritics removal map.
@@ -4485,7 +3972,7 @@ module.exports = function( text ) {
 	return text;
 };
 
-},{"config/diacritics.js":16}],34:[function(require,module,exports){
+},{"../config/diacritics.js":20}],43:[function(require,module,exports){
 /** @module stringProcessing/replaceString */
 
 /**
@@ -4502,11 +3989,11 @@ module.exports = function( text, stringToReplace, replacement ) {
 	return text;
 };
 
-},{}],35:[function(require,module,exports){
+},{}],44:[function(require,module,exports){
 /** @module stringProcessing/sanitizeString */
 
-var stripTags = require( "stringProcessing/stripHTMLTags.js" );
-var stripSpaces = require( "stringProcessing/stripSpaces.js" );
+var stripTags = require( "../stringProcessing/stripHTMLTags.js" );
+var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
 
 /**
  * Strip HTMLtags characters from string that break regex
@@ -4522,12 +4009,12 @@ module.exports = function( text ) {
 	return text;
 };
 
-},{"stringProcessing/stripHTMLTags.js":37,"stringProcessing/stripSpaces.js":40}],36:[function(require,module,exports){
+},{"../stringProcessing/stripHTMLTags.js":46,"../stringProcessing/stripSpaces.js":49}],45:[function(require,module,exports){
 /** @module stringProcessing/stringToRegex */
 
-var replaceDiacritics = require( "stringProcessing/replaceDiacritics.js" );
-var sanitizeString = require( "stringProcessing/sanitizeString.js" );
-var addWordBoundary = require( "stringProcessing/addWordboundary.js" );
+var replaceDiacritics = require( "../stringProcessing/replaceDiacritics.js" );
+var sanitizeString = require( "../stringProcessing/sanitizeString.js" );
+var addWordBoundary = require( "../stringProcessing/addWordboundary.js" );
 
 /**
  * Creates a regex from a string so it can be matched everywhere in the same way.
@@ -4543,7 +4030,7 @@ module.exports = function( string, extraBoundary ) {
 	return new RegExp ( string, "ig" );
 };
 
-},{"stringProcessing/addWordboundary.js":20,"stringProcessing/replaceDiacritics.js":33,"stringProcessing/sanitizeString.js":35}],37:[function(require,module,exports){
+},{"../stringProcessing/addWordboundary.js":29,"../stringProcessing/replaceDiacritics.js":42,"../stringProcessing/sanitizeString.js":44}],46:[function(require,module,exports){
 /** @module stringProcessing/stripHTMLTags */
 
 /**
@@ -4557,10 +4044,10 @@ module.exports = function( text ) {
 	return text;
 };
 
-},{}],38:[function(require,module,exports){
+},{}],47:[function(require,module,exports){
 /** @module stringProcessing/stripNonTextTags */
 
-var stripSpaces = require( "stringProcessing/stripSpaces.js" );
+var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
 
 /**
  * Strips all tags from the text, except li, p, dd and h1-h6 tags from the text that contain content to check.
@@ -4574,10 +4061,10 @@ module.exports = function( text ) {
 	return text;
 };
 
-},{"stringProcessing/stripSpaces.js":40}],39:[function(require,module,exports){
+},{"../stringProcessing/stripSpaces.js":49}],48:[function(require,module,exports){
 /** @module stringProcessing/stripNumbers */
 
-var stripSpaces = require( "stringProcessing/stripSpaces.js" );
+var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
 
 /**
  * Removes all words comprised only of numbers.
@@ -4599,7 +4086,7 @@ module.exports = function( text ) {
 	return text;
 };
 
-},{"stringProcessing/stripSpaces.js":40}],40:[function(require,module,exports){
+},{"../stringProcessing/stripSpaces.js":49}],49:[function(require,module,exports){
 /** @module stringProcessing/stripSpaces */
 
 /**
@@ -4622,10 +4109,10 @@ module.exports = function( text ) {
 	return text;
 };
 
-},{}],41:[function(require,module,exports){
-var stringToRegex = require( "stringProcessing/stringToRegex.js" );
-var replaceString = require( "stringProcessing/replaceString.js" );
-var removalWords = require( "config/removalWords.js" );
+},{}],50:[function(require,module,exports){
+var stringToRegex = require( "../stringProcessing/stringToRegex.js" );
+var replaceString = require( "../stringProcessing/replaceString.js" );
+var removalWords = require( "../config/removalWords.js" );
 
 /**
  * Matches the keyword in an array of strings
@@ -4657,7 +4144,7 @@ module.exports = function( matches, keyword ) {
 	return foundInHeader;
 };
 
-},{"config/removalWords.js":17,"stringProcessing/replaceString.js":34,"stringProcessing/stringToRegex.js":36}],42:[function(require,module,exports){
+},{"../config/removalWords.js":21,"../stringProcessing/replaceString.js":43,"../stringProcessing/stringToRegex.js":45}],51:[function(require,module,exports){
 /** @module stringProcessing/unifyWhitespace */
 
 /**
@@ -4679,7 +4166,380 @@ module.exports = function( text ) {
 };
 
 
-},{}],43:[function(require,module,exports){
+},{}],52:[function(require,module,exports){
+/* global YoastSEO: true */
+YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
+
+/**helper functions*/
+YoastSEO.StringHelper = function() {};
+
+/**
+ * removes strings from array and replaces them with keyword.
+ * @param textString
+ * @param stringsToRemove []
+ * @param replacement (default == space)
+ * @returns {textString}
+ */
+YoastSEO.StringHelper.prototype.replaceString = function(
+	textString,
+	stringsToRemove,
+	replacement
+) {
+	if ( typeof replacement === "undefined" ) {
+		replacement = " ";
+	}
+	textString = textString.replace( this.stringToRegex( stringsToRemove ), replacement );
+	return this.stripSpaces( textString );
+};
+
+/**
+ * matches string with given array of strings to match.
+ * @param textString
+ * @param stringsToMatch
+ * @returns {matches}
+ */
+YoastSEO.StringHelper.prototype.matchString = function( textString, stringsToMatch ) {
+	return textString.match( this.stringToRegex( stringsToMatch, false ) );
+};
+
+/**
+ * checks if the match on textStrings is not null. If it has matches returns the length.
+ * Otherwise it returns 0 (no matches).
+ * @param textString
+ * @param regex
+ * @returns {number}
+ */
+YoastSEO.StringHelper.prototype.countMatches = function( textString, regex ) {
+	return textString.match( regex ) !== null ? textString.match.length : 0;
+};
+
+/**
+ * builds regex from array with multiple strings
+ * @param stringArray
+ * @returns {RegExp}
+ */
+YoastSEO.StringHelper.prototype.stringToRegex = function( stringArray, disableWordBoundary ) {
+	var regexString;
+
+	stringArray = stringArray.map( function( string ) {
+		if ( disableWordBoundary ) {
+			return string;
+		} else {
+			return this.getWordBoundaryString( string );
+		}
+	}.bind( this ) );
+
+	regexString = "(" + stringArray.join( ")|(" ) + ")";
+
+	return new RegExp( regexString, "g" );
+};
+
+/**
+ * Returns a string that can be used in a regex to match a matchString with word boundaries.
+ *
+ * @param {String} matchString The string to generate a regex string for.
+ * @param {String} extraWordBoundary Extra characters to match a word boundary on.
+ * @return {String} A regex string that matches the matchString with word boundaries
+ */
+YoastSEO.StringHelper.prototype.getWordBoundaryString = function( matchString, extraWordBoundary ) {
+	var wordBoundary, wordBoundaryStart, wordBoundaryEnd;
+
+	if ( typeof extraWordBoundary === "undefined" ) {
+		extraWordBoundary = "";
+	}
+
+	wordBoundary = "[ \n\r\t\.,'\(\)\"\+;!?:\/" + extraWordBoundary + "<>]";
+	wordBoundaryEnd = "($|" + wordBoundary + ")";
+	wordBoundaryStart = "(^|" + wordBoundary + ")";
+
+	return wordBoundaryStart + matchString + wordBoundaryEnd;
+};
+
+/**
+ * Creates a regex with a wordboundary. Since /b isn't working properly in JavaScript we have to
+ * use an alternative regex.
+ */
+YoastSEO.StringHelper.prototype.getWordBoundaryRegex = function( textString, extraWordBoundary ) {
+	return new RegExp( this.getWordBoundaryString( textString, extraWordBoundary ), "ig" );
+};
+
+/**
+ * Strip extra spaces, replace duplicates with single space. Remove space at front / end of string
+ * @param textString
+ * @returns textString
+ */
+YoastSEO.StringHelper.prototype.stripSpaces = function( textString ) {
+
+	//replace multiple spaces with single space
+	textString = textString.replace( /\s{2,}/g, " " );
+
+	//replace spaces followed by periods with only the period.
+	textString = textString.replace( /\s\./g, "." );
+
+	//remove first/last character if space
+	textString = textString.replace( /^\s+|\s+$/g, "" );
+	return textString;
+};
+
+/**
+ * adds escape characters to string
+ * @param textString
+ * @returns textString
+ */
+YoastSEO.StringHelper.prototype.addEscapeChars = function( textString ) {
+	return textString.replace( /[\-\[\]\/\{}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&" );
+};
+
+/**
+ * removes all HTMLtags from input string, except h1-6, li, p and dd
+ * @param textString
+ * @returns textString
+ */
+YoastSEO.StringHelper.prototype.stripSomeTags = function( textString ) {
+
+	//remove tags, except li, p, h1-6, dd
+	textString = textString.replace(
+		/<(?!li|\/li|p|\/p|h1|\/h1|h2|\/h2|h3|\/h3|h4|\/h4|h5|\/h5|h6|\/h6|dd).*?\>/g,
+		" "
+	);
+	textString = this.stripSpaces( textString );
+	return textString;
+};
+
+/**
+ * remove all HTMLtags from input string.
+ * @param textString
+ * @returns textString
+ */
+YoastSEO.StringHelper.prototype.stripAllTags = function( textString ) {
+
+	//remove all tags
+	textString = textString.replace( /(<([^>]+)>)/ig, " " );
+
+	//remove < and > if any are used
+	textString = textString.replace( /[<>]/g, "" );
+	textString = this.stripSpaces( textString );
+	return textString;
+};
+
+/**
+ * Removes all words comprised only of numbers and remove special characters.
+ * @param textString {String}
+ * @returns {string}
+ */
+YoastSEO.StringHelper.prototype.stripNonWords = function( textString ) {
+
+	// replace comma', hyphens etc with spaces
+	textString = textString.replace( /[\-\;\:\,\(\)\"\'\|\“\”]/g, " " );
+
+	// remove apostrophe
+	textString = textString.replace( /[\’]/g, "" );
+
+	// Remove "words" comprised only of numbers
+	textString = textString.replace( this.getWordBoundaryRegex( "[0-9]+" ), "$1$3" );
+
+	textString = this.stripSpaces( textString );
+
+	if ( textString === "." ) {
+		textString = "";
+	}
+	return textString;
+};
+
+/**
+ * Removes all invalid characters from a certain keyword
+ *
+ * @param {string} keyword The un-sanitized keyword.
+ * @returns {string} The sanitized keyword.
+ */
+YoastSEO.StringHelper.prototype.sanitizeKeyword = function( keyword ) {
+	keyword = keyword.replace( /[\[\]\/\{\}\(\)\*\+\?\\\^\$\|]/g, "" );
+
+	keyword = this.stripAllTags( keyword );
+
+	return keyword;
+};
+
+/**
+ * Escapes HTML characters from strings.
+ *
+ * @param textString
+ * @returns {string}
+ */
+YoastSEO.StringHelper.prototype.escapeHTML = function( textString ) {
+	if ( typeof textString === "string" ) {
+		textString = textString.replace( /&/g, "&amp;" )
+					.replace( /</g, "&lt;" )
+					.replace( />/g, "&gt;" )
+					.replace( /\"/, "&quot;" )
+					.replace( /\'/g, "&#39;" );
+	}
+
+	return textString;
+};
+
+/**
+ * Checks if the stringhelper is already initialized. Returns stringHelper.
+ *
+ * @returns {YoastSEO.StringHelper}
+ */
+YoastSEO.getStringHelper = function() {
+	if ( typeof YoastSEO.cachedStringHelper !== "object" ) {
+		YoastSEO.cachedStringHelper = new YoastSEO.StringHelper();
+	}
+	return YoastSEO.cachedStringHelper;
+};
+
+
+},{}],53:[function(require,module,exports){
+(function (global){
+;(function() {
+  var undefined;
+
+  var objectTypes = {
+    'function': true,
+    'object': true
+  };
+
+  var freeExports = objectTypes[typeof exports] && exports && !exports.nodeType && exports;
+
+  var freeModule = objectTypes[typeof module] && module && !module.nodeType && module;
+
+  var freeGlobal = freeExports && freeModule && typeof global == 'object' && global && global.Object && global;
+
+  var freeSelf = objectTypes[typeof self] && self && self.Object && self;
+
+  var freeWindow = objectTypes[typeof window] && window && window.Object && window;
+
+  var moduleExports = freeModule && freeModule.exports === freeExports && freeExports;
+
+  var root = freeGlobal || ((freeWindow !== (this && this.window)) && freeWindow) || freeSelf || this;
+
+  var VERSION = '3.10.1';
+
+  /** Used to match HTML entities and HTML characters. */
+  var reUnescapedHtml = /[&<>"'`]/g,
+      reHasUnescapedHtml = RegExp(reUnescapedHtml.source);
+
+  /** Used to map characters to HTML entities. */
+  var htmlEscapes = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;',
+    '`': '&#96;'
+  };
+
+  /*--------------------------------------------------------------------------*/
+
+  /**
+   * Converts `value` to a string if it's not one. An empty string is returned
+   * for `null` or `undefined` values.
+   *
+   * @private
+   * @param {*} value The value to process.
+   * @returns {string} Returns the string.
+   */
+  function baseToString(value) {
+    return value == null ? '' : (value + '');
+  }
+
+  /**
+   * Used by `_.escape` to convert characters to HTML entities.
+   *
+   * @private
+   * @param {string} chr The matched character to escape.
+   * @returns {string} Returns the escaped character.
+   */
+  function escapeHtmlChar(chr) {
+    return htmlEscapes[chr];
+  }
+
+  /*------------------------------------------------------------------------*/
+
+  /**
+   * Converts the characters "&", "<", ">", '"', "'", and "\`", in `string` to
+   * their corresponding HTML entities.
+   *
+   * **Note:** No other characters are escaped. To escape additional characters
+   * use a third-party library like [_he_](https://mths.be/he).
+   *
+   * Though the ">" character is escaped for symmetry, characters like
+   * ">" and "/" don't need escaping in HTML and have no special meaning
+   * unless they're part of a tag or unquoted attribute value.
+   * See [Mathias Bynens's article](https://mathiasbynens.be/notes/ambiguous-ampersands)
+   * (under "semi-related fun fact") for more details.
+   *
+   * Backticks are escaped because in Internet Explorer < 9, they can break out
+   * of attribute values or HTML comments. See [#59](https://html5sec.org/#59),
+   * [#102](https://html5sec.org/#102), [#108](https://html5sec.org/#108), and
+   * [#133](https://html5sec.org/#133) of the [HTML5 Security Cheatsheet](https://html5sec.org/)
+   * for more details.
+   *
+   * When working with HTML you should always [quote attribute values](http://wonko.com/post/html-escaping)
+   * to reduce XSS vectors.
+   *
+   * @static
+   * @memberOf _
+   * @category String
+   * @param {string} [string=''] The string to escape.
+   * @returns {string} Returns the escaped string.
+   * @example
+   *
+   * _.escape('fred, barney, & pebbles');
+   * // => 'fred, barney, &amp; pebbles'
+   */
+  function escape(string) {
+    // Reset `lastIndex` because in IE < 9 `String#replace` does not.
+    string = baseToString(string);
+    return (string && reHasUnescapedHtml.test(string))
+      ? string.replace(reUnescapedHtml, escapeHtmlChar)
+      : string;
+  }
+
+  var _ = { 'escape': escape };
+
+  /*----------------------------------------------------------------------------*/
+
+  var templates = {
+    'snippetEditor': {}
+  };
+
+  templates['snippetEditor'] =   function(obj) {
+    obj || (obj = {});
+    var __t, __p = '', __e = _.escape;
+    with (obj) {
+    __p += '<div id="snippet_preview">\n    <div class="edit-icon"></div>\n    <div class="snippet_container" id="title_container">\n        <span contenteditable="true" class="title" id="snippet_title">\n            ' +
+    __e( title ) +
+    '\n        </span>\n        <span class="title" id="snippet_sitename"></span>\n    </div>\n    <div class="snippet_container" id="url_container">\n        <cite class="url urlBase" id="snippet_citeBase">\n            ' +
+    __e( baseUrl ) +
+    '\n        </cite>\n        <cite class="url" id="snippet_cite" contenteditable="true">\n            ' +
+    __e( snippetCite ) +
+    '\n        </cite>\n    </div>\n    <div class="snippet_container" id="meta_container">\n        <span class="desc" id="snippet_meta" contenteditable="true">\n            ' +
+    __e( meta ) +
+    '\n        </span>\n    </div>\n</div>\n';
+
+    }
+    return __p
+  };
+
+  /*----------------------------------------------------------------------------*/
+
+  if (freeExports && freeModule) {
+    if (moduleExports) {
+      (freeModule.exports = templates).templates = templates;
+    } else {
+      freeExports.templates = templates;
+    }
+  }
+  else {
+    root.templates = templates;
+  }
+}.call(this));
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{}],54:[function(require,module,exports){
 /**
  * @preserve jed.js https://github.com/SlexAxton/Jed
  */
@@ -5703,152 +5563,4 @@ return parser;
 
 })(this);
 
-},{}],"templates":[function(require,module,exports){
-(function (global){
-;(function() {
-  var undefined;
-
-  var objectTypes = {
-    'function': true,
-    'object': true
-  };
-
-  var freeExports = objectTypes[typeof exports] && exports && !exports.nodeType && exports;
-
-  var freeModule = objectTypes[typeof module] && module && !module.nodeType && module;
-
-  var freeGlobal = freeExports && freeModule && typeof global == 'object' && global && global.Object && global;
-
-  var freeSelf = objectTypes[typeof self] && self && self.Object && self;
-
-  var freeWindow = objectTypes[typeof window] && window && window.Object && window;
-
-  var moduleExports = freeModule && freeModule.exports === freeExports && freeExports;
-
-  var root = freeGlobal || ((freeWindow !== (this && this.window)) && freeWindow) || freeSelf || this;
-
-  var VERSION = '3.10.1';
-
-  /** Used to match HTML entities and HTML characters. */
-  var reUnescapedHtml = /[&<>"'`]/g,
-      reHasUnescapedHtml = RegExp(reUnescapedHtml.source);
-
-  /** Used to map characters to HTML entities. */
-  var htmlEscapes = {
-    '&': '&amp;',
-    '<': '&lt;',
-    '>': '&gt;',
-    '"': '&quot;',
-    "'": '&#39;',
-    '`': '&#96;'
-  };
-
-  /*--------------------------------------------------------------------------*/
-
-  /**
-   * Converts `value` to a string if it's not one. An empty string is returned
-   * for `null` or `undefined` values.
-   *
-   * @private
-   * @param {*} value The value to process.
-   * @returns {string} Returns the string.
-   */
-  function baseToString(value) {
-    return value == null ? '' : (value + '');
-  }
-
-  /**
-   * Used by `_.escape` to convert characters to HTML entities.
-   *
-   * @private
-   * @param {string} chr The matched character to escape.
-   * @returns {string} Returns the escaped character.
-   */
-  function escapeHtmlChar(chr) {
-    return htmlEscapes[chr];
-  }
-
-  /*------------------------------------------------------------------------*/
-
-  /**
-   * Converts the characters "&", "<", ">", '"', "'", and "\`", in `string` to
-   * their corresponding HTML entities.
-   *
-   * **Note:** No other characters are escaped. To escape additional characters
-   * use a third-party library like [_he_](https://mths.be/he).
-   *
-   * Though the ">" character is escaped for symmetry, characters like
-   * ">" and "/" don't need escaping in HTML and have no special meaning
-   * unless they're part of a tag or unquoted attribute value.
-   * See [Mathias Bynens's article](https://mathiasbynens.be/notes/ambiguous-ampersands)
-   * (under "semi-related fun fact") for more details.
-   *
-   * Backticks are escaped because in Internet Explorer < 9, they can break out
-   * of attribute values or HTML comments. See [#59](https://html5sec.org/#59),
-   * [#102](https://html5sec.org/#102), [#108](https://html5sec.org/#108), and
-   * [#133](https://html5sec.org/#133) of the [HTML5 Security Cheatsheet](https://html5sec.org/)
-   * for more details.
-   *
-   * When working with HTML you should always [quote attribute values](http://wonko.com/post/html-escaping)
-   * to reduce XSS vectors.
-   *
-   * @static
-   * @memberOf _
-   * @category String
-   * @param {string} [string=''] The string to escape.
-   * @returns {string} Returns the escaped string.
-   * @example
-   *
-   * _.escape('fred, barney, & pebbles');
-   * // => 'fred, barney, &amp; pebbles'
-   */
-  function escape(string) {
-    // Reset `lastIndex` because in IE < 9 `String#replace` does not.
-    string = baseToString(string);
-    return (string && reHasUnescapedHtml.test(string))
-      ? string.replace(reUnescapedHtml, escapeHtmlChar)
-      : string;
-  }
-
-  var _ = { 'escape': escape };
-
-  /*----------------------------------------------------------------------------*/
-
-  var templates = {
-    'snippetEditor': {}
-  };
-
-  templates['snippetEditor'] =   function(obj) {
-    obj || (obj = {});
-    var __t, __p = '', __e = _.escape;
-    with (obj) {
-    __p += '<div id="snippet_preview">\n    <div class="edit-icon"></div>\n    <div class="snippet_container" id="title_container">\n        <span contenteditable="true" class="title" id="snippet_title">\n            ' +
-    __e( title ) +
-    '\n        </span>\n        <span class="title" id="snippet_sitename"></span>\n    </div>\n    <div class="snippet_container" id="url_container">\n        <cite class="url urlBase" id="snippet_citeBase">\n            ' +
-    __e( baseUrl ) +
-    '\n        </cite>\n        <cite class="url" id="snippet_cite" contenteditable="true">\n            ' +
-    __e( snippetCite ) +
-    '\n        </cite>\n    </div>\n    <div class="snippet_container" id="meta_container">\n        <span class="desc" id="snippet_meta" contenteditable="true">\n            ' +
-    __e( meta ) +
-    '\n        </span>\n    </div>\n</div>\n';
-
-    }
-    return __p
-  };
-
-  /*----------------------------------------------------------------------------*/
-
-  if (freeExports && freeModule) {
-    if (moduleExports) {
-      (freeModule.exports = templates).templates = templates;
-    } else {
-      freeExports.templates = templates;
-    }
-  }
-  else {
-    root.templates = templates;
-  }
-}.call(this));
-
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}]},{},[1]);
+},{}]},{},[17]);

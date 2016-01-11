@@ -1,6 +1,6 @@
 /** @module stringProcessing/findKeywordInUrl */
 
-var keywordRegex = require( "stringProcessing/stringToRegex.js" );
+var keywordRegex = require( "../stringProcessing/stringToRegex.js" );
 /**
  *
  * @param {string} url The url to check for keyword
