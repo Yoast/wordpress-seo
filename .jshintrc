@@ -18,10 +18,7 @@
     "funcscope": false,
     "jquery": false,
     "node": true,
-<<<<<<< HEAD
-=======
-    
->>>>>>> develop
+
     "globals": {
         "exports": true,
         "module": false,
