@@ -65,7 +65,16 @@ function wpseo_create_redirect( origin, type, nonce, id ) {
 			id: id
 		},
 		function( response ) {
-			var success_message = wpseo_premium_strings.redirect_saved.replace( '%1$s', '<code>' + response.origin + '</code>' ).replace( '%2$s', '<code>' + response.target + '</code>');
+			var success_message = '';
+			if( parseInt( type, 10 ) === 410 ) {
+				success_message = wpseo_premium_strings.redirect_saved_no_target;
+			}
+			else {
+				success_message = wpseo_premium_strings.redirect_saved.replace('%2$s', '<code>' + response.target + '</code>');
+			}
+
+			success_message = success_message.replace('%1$s', '<code>' + response.origin + '</code>');
+
 
 			jQuery( '#' + id ).html( '<p>' + success_message + '</p>'  );
 		},
