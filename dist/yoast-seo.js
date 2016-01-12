@@ -3712,28 +3712,21 @@ SnippetPreview.prototype.setUnformattedText = function( ev ) {
 };
 
 /**
- * Adds and remove the tooLong class when a text is too long.
- * @param ev
+ * Validates all fields and highlights errors.
  */
-SnippetPreview.prototype.textFeedback = function( ev ) {
-	var text = ev.currentTarget.textContent;
-	switch ( ev.currentTarget.id ) {
-		case "snippet_meta":
-			if ( text.length > YoastSEO.analyzerConfig.maxMeta ) {
-				ev.currentTarget.className = "desc tooLong";
-			} else {
-				ev.currentTarget.className = "desc";
-			}
-			break;
-		case "snippet_title":
-			if ( text.length > 70 ) {
-				ev.currentTarget.className = "title tooLong";
-			} else {
-				ev.currentTarget.className = "title";
-			}
-			break;
-		default:
-			break;
+SnippetPreview.prototype.validateFields = function() {
+	if ( this.data.metaDesc.length > YoastSEO.analyzerConfig.maxMeta ) {
+		addClass( this.element.input.metaDesc, "snippet-editor__field--invalid" );
+	}
+	else {
+		removeClass( this.element.input.metaDesc, "snippet-editor__field--invalid" );
+	}
+
+	if ( this.data.title.length > 70 ) {
+		addClass( this.element.input.title, "snippet-editor__field--invalid" );
+	}
+	else {
+		removeClass( this.element.input.title, "snippet-editor__field--invalid" );
 	}
 };
 
@@ -3793,6 +3786,7 @@ SnippetPreview.prototype.bindEvents = function() {
 
 SnippetPreview.prototype.changedInput = function() {
 	this.updateDataFromDOM();
+	this.validateFields();
 
 	this.refresh();
 
@@ -3854,6 +3848,14 @@ SnippetPreview.prototype.toggleEditor = function() {
  * @param {KeyboardEvent} ev
  */
 SnippetPreview.prototype.disableEnter = function( ev ) {};
+
+/**
+ * Adds and remove the tooLong class when a text is too long.
+ *
+ * @deprecated
+ * @param ev
+ */
+SnippetPreview.prototype.textFeedback = function( ev ) {};
 
 module.exports = SnippetPreview;
 

@@ -142,6 +142,10 @@
     color: #f00 !important;
 }
 
+.snippet-editor__field--invalid {
+    border: 1px solid #f00;
+}
+
 /* css for analyzer */
 
 .wpseoanalysis {
