@@ -1,5 +1,4 @@
 /* global YoastSEO: true */
-YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 
 /**
  * inits the analyzerscorer used for scoring of the output from the textanalyzer
@@ -251,3 +250,5 @@ YoastSEO.AnalyzeScorer.prototype.addScoring = function( scoring ) {
 
 	this.scoring.push( scoringObject );
 };
+
+module.exports = YoastSEO.AnalyzeScorer;

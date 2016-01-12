@@ -1,3 +1,4 @@
+require("./helpers/i18n.js");
 require("../js/config/config.js");
 require("../js/config/scoring.js");
 require("../js/analyzer.js");
@@ -122,3 +123,4 @@ describe("A test to check for the keyword in the URL", function(){
 		expect(result[0].result.totalKeyword).toBe(1);
 	});
 });
+	

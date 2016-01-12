@@ -162,7 +162,7 @@ var SnippetPreview = function( opts ) {
  * Renders snippet editor and adds it to the targetElement
  */
 SnippetPreview.prototype.renderTemplate = function() {
-	var snippetEditorTemplate = require( "../js/templates.js" ).snippetEditor;
+	var snippetEditorTemplate = require( "./templates.js" ).snippetEditor;
 	var targetElement = this.opts.targetElement;
 
 	targetElement.innerHTML = snippetEditorTemplate( {

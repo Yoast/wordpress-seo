@@ -18,9 +18,10 @@
     "funcscope": false,
     "jquery": false,
     "node": true,
-    
+
     "globals": {
         "exports": true,
-        "module": false
+        "module": false,
+        "YoastSEO": true
     }
 }

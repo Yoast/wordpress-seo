@@ -178,7 +178,8 @@ YoastSEO.Analyzer.prototype.addAnalysis = function( analysis ) {
  * @returns {{test: string, result: (Function|YoastSEO.PreProcessor.wordcount|Number)}[]}
  */
 YoastSEO.Analyzer.prototype.wordCount = function() {
-	return [ { test: "wordCount", result: this.preProcessor.__store.wordcountNoTags } ];
+	var countWords = require( "./stringProcessing/countWords.js" );
+	return [ { test: "wordCount", result: countWords( this.config.text ) } ];
 };
 
 /**
@@ -186,12 +187,8 @@ YoastSEO.Analyzer.prototype.wordCount = function() {
  * @returns {{test: string, result: number}[]}
  */
 YoastSEO.Analyzer.prototype.keyphraseSizeCheck = function() {
-	var result = [ { test: "keyphraseSizeCheck", result: 0 } ];
-	var keyword = this.stringHelper.sanitizeKeyword( this.config.keyword );
-	if ( keyword !== "" ) {
-		result[ 0 ].result = keyword.split( /\s/g ).length;
-	}
-	return result;
+	var getKeyphraseLength = require( "./analyses/getWordCount.js" );
+	return [ { test: "keyphraseSizeCheck", result: getKeyphraseLength( this.config.keyword ) } ];
 };
 
 /**
@@ -199,29 +196,13 @@ YoastSEO.Analyzer.prototype.keyphraseSizeCheck = function() {
  * @returns resultObject
  */
 YoastSEO.Analyzer.prototype.keywordDensity = function() {
-	var result = [ { test: "keywordDensity", result: 0 } ];
-	if ( this.preProcessor.__store.wordcount > 100 ) {
-		var keywordDensity = this.keywordDensityCheck();
-		result[ 0 ].result = keywordDensity.toFixed( 1 );
-		return result;
-	}
-};
+	var getKeywordDensity = require( "./analyses/getKeywordDensity.js" );
+	var countWords = require( "./stringProcessing/countWords.js" );
+	if ( countWords ( this.config.text ) >= 100 ) {
+		var density = getKeywordDensity( this.config.text, this.config.keyword );
 
-/**
- * checks and returns the keyword density
- * @returns {number}
- */
-YoastSEO.Analyzer.prototype.keywordDensityCheck = function() {
-	var keywordCount = this.keywordCount();
-	var keywordDensity = 0;
-	if ( keywordCount !== 0 ) {
-		keywordDensity = (
-				keywordCount /
-				this.preProcessor.__store.wordcountNoTags - ( keywordCount - 1 * keywordCount )
-			) *
-			100;
+		return [ { test: "keywordDensity", result: density } ];
 	}
-	return keywordDensity;
 };
 
 /**
@@ -230,13 +211,9 @@ YoastSEO.Analyzer.prototype.keywordDensityCheck = function() {
  * @returns keywordCount
  */
 YoastSEO.Analyzer.prototype.keywordCount = function() {
-	var keywordMatches = this.preProcessor.__store.cleanTextSomeTags.match( this.keywordRegex );
+	var matchTextWithWord = require( "./stringProcessing/matchTextWithWord.js" );
+	var keywordCount = matchTextWithWord( this.config.text, this.config.keyword );
 
-	var keywordCount = 0;
-	if ( keywordMatches !== null ) {
-		keywordCount = keywordMatches.length;
-	}
-	this.__store.keywordCount = keywordCount;
 	return keywordCount;
 };
 
@@ -245,42 +222,11 @@ YoastSEO.Analyzer.prototype.keywordCount = function() {
  * @returns resultObject
  */
 YoastSEO.Analyzer.prototype.subHeadings = function() {
-	var result = [ { test: "subHeadings", result: { count: 0, matches: 0 } } ];
+	var getSubheadings = require( "./analyses/matchKeywordInSubheadings.js" );
 
-	//matches everything from H1-H6 openingtags untill the closingtags.
-	var matches = this.preProcessor.__store.cleanTextSomeTags.match( /<h([1-6])(?:[^>]+)?>(.*?)<\/h\1>/ig );
-	if ( matches !== null ) {
-		result[ 0 ].result.count = matches.length;
-		result[ 0 ].result.matches = this.subHeadingsCheck( matches );
-	}
+	var result = [ { test: "subHeadings", result: getSubheadings( this.config.text, this.config.keyword ) } ];
+
 	return result;
-};
-
-/**
- * subHeadings checker to check if keyword is present in given headings.
- * @param matches
- * @returns {number}
- */
-YoastSEO.Analyzer.prototype.subHeadingsCheck = function( matches ) {
-	var foundInHeader;
-	if ( matches === null ) {
-		foundInHeader = -1;
-	} else {
-		foundInHeader = 0;
-		for ( var i = 0; i < matches.length; i++ ) {
-			var formattedHeaders = this.stringHelper.replaceString(
-				matches[ i ],
-				this.config.wordsToRemove
-			);
-			if (
-				formattedHeaders.match( this.keywordRegex ) ||
-				matches[ i ].match( this.keywordRegex )
-			) {
-				foundInHeader++;
-			}
-		}
-	}
-	return foundInHeader;
 };
 
 /**
@@ -288,24 +234,17 @@ YoastSEO.Analyzer.prototype.subHeadingsCheck = function( matches ) {
  * @returns {result object}
  */
 YoastSEO.Analyzer.prototype.stopwords = function() {
-	var keyword = this.config.keyword;
-	var stopWord, stopWordCount = 0;
-	var matchesText = "";
+	var checkStringForStopwords = require( "./analyses/checkStringForStopwords.js" );
+	var matches = checkStringForStopwords( this.config.keyword );
 
-	for ( var i = 0; i < this.config.stopWords.length; i++ ) {
-		stopWord = this.config.stopWords[ i ];
-
-		if ( keyword.match( this.stringHelper.getWordBoundaryRegex( stopWord ) ) !== null ) {
-			matchesText += stopWord + ", ";
-			stopWordCount++;
-		}
-	}
+	/* Matchestext is used for scoring, we should move this to the scoring */
+	var matchesText = matches.join( ", " );
 
 	return [ {
 		test: "stopwordKeywordCount",
 		result: {
-			count: stopWordCount,
-			matches: matchesText.substring( 0, matchesText.length - 2 )
+			count: matches.length,
+			matches: matchesText
 		}
 	} ];
 };
@@ -316,32 +255,17 @@ YoastSEO.Analyzer.prototype.stopwords = function() {
  * @returns {result object}
  */
 YoastSEO.Analyzer.prototype.fleschReading = function() {
-	if ( this.preProcessor.__store.wordcountNoTags > 0 ) {
-		var score = (
-			206.835 -
-				(
-					1.015 *
-						(
-							this.preProcessor.__store.wordcountNoDigits /
-							this.preProcessor.__store.sentenceCountNoTags
-						)
-					) -
-						(
-							84.6 *
-						(
-					this.preProcessor.__store.syllablecount /
-					this.preProcessor.__store.wordcountNoDigits
-				)
-			)
-		)
-		.toFixed( 1 );
-		if ( score < 0 ) {
-			score = 0;
-		} else if ( score > 100 ) {
-			score = 100;
-		}
-		return [ { test: "fleschReading", result: score } ];
+	var calculateFleschReading = require( "./analyses/calculateFleschReading.js" );
+	var score = calculateFleschReading( this.config.text );
+	if ( score < 0 ) {
+		score = 0;
 	}
+
+	if ( score > 100 ) {
+		score = 100;
+	}
+
+	return [ { test: "fleschReading", result: score } ];
 };
 
 /**
@@ -367,125 +291,14 @@ YoastSEO.Analyzer.prototype.fleschReading = function() {
  * 	}
  */
 YoastSEO.Analyzer.prototype.linkCount = function() {
+	var countLinks = require( "./analyses/getLinkStatistics.js" );
+	var keyword = this.config.keyword;
 
-	//regex matches everything between <a> and </a>
-	var linkMatches = this.preProcessor.__store.originalText.match(
-		/<a(?:[^>]+)?>(.*?)<\/a>/ig
-	);
-	var linkCount = {
-		total: 0,
-		totalNaKeyword: 0,
-		totalKeyword: 0,
-		internalTotal: 0,
-		internalDofollow: 0,
-		internalNofollow: 0,
-		externalTotal: 0,
-		externalDofollow: 0,
-		externalNofollow: 0,
-		otherTotal: 0,
-		otherDofollow: 0,
-		otherNofollow: 0
-	};
-	if ( linkMatches !== null ) {
-		linkCount.total = linkMatches.length;
-		for ( var i = 0; i < linkMatches.length; i++ ) {
-			var linkKeyword = this.linkKeyword( linkMatches[ i ] );
-			if ( linkKeyword ) {
-				if ( this.config.keyword !== "" ) {
-					linkCount.totalKeyword++;
-				} else {
-					linkCount.totalNaKeyword++;
-				}
-			}
-			var linkType = this.linkType( linkMatches[ i ] );
-			linkCount[ linkType + "Total" ]++;
-			var linkFollow = this.linkFollow( linkMatches[ i ] );
-			linkCount[ linkType + linkFollow ]++;
-		}
+	if ( typeof keyword === "undefined" ) {
+		keyword = "";
 	}
-	linkCount = this.linkResult( linkCount );
-	return [ { test: "linkCount", result: linkCount } ];
-};
 
-/**
- * Checks the linktype of the given url against the URL stored in the config.
- * @param url
- * @returns {string}
- */
-YoastSEO.Analyzer.prototype.linkType = function( url ) {
-	var linkType = "other";
-
-	//matches all links that start with http:// and https://, case insensitive and global
-	if ( url.match( /https?:\/\//ig ) !== null ) {
-		linkType = "external";
-		var urlMatch = url.match( this.config.baseUrl );
-		if ( urlMatch !== null && urlMatch[ 0 ].length !== 0 ) {
-			linkType = "internal";
-		}
-	}
-	return linkType;
-};
-
-/**
- * checks if the URL has a nofollow attribute
- * @param url
- * @returns {string}
- */
-YoastSEO.Analyzer.prototype.linkFollow = function( url ) {
-	var linkFollow = "Dofollow";
-
-	//matches all nofollow links, case insensitive and global
-	if ( url.match( /rel=([\'\"])nofollow\1/ig ) !== null ) {
-		linkFollow = "Nofollow";
-	}
-	return linkFollow;
-};
-
-/**
- * checks if the url contains the keyword
- * @param url
- * @returns {boolean}
- */
-YoastSEO.Analyzer.prototype.linkKeyword = function( url ) {
-	var keywordFound = false;
-
-	var formatUrl = url.match( />(.*)/ig );
-	if ( formatUrl !== null ) {
-		formatUrl = formatUrl[0].replace( /<.*?>\s?/ig, "" );
-		if ( formatUrl.match( this.keywordRegex ) !== null ) {
-		keywordFound = true;
-		}
-	}
-	return keywordFound;
-};
-
-/**
- * checks if the links are all followed or not, and saves this in the resultobject, to be used for
- * scoring
- */
-YoastSEO.Analyzer.prototype.linkResult = function( obj ) {
-	var result = obj;
-	result.externalHasNofollow = false;
-	result.externalAllNofollow = false;
-	result.externalAllDofollow = false;
-	result.internalAllDofollow = false;
-	result.noExternal = false;
-	if ( result.externalTotal !== result.externalDofollow && result.externalTotal > 0 ) {
-		result.externalHasNofollow = true;
-	}
-	if ( result.externalTotal === result.externalNofollow && result.externalTotal > 0 ) {
-		result.externalAllNofollow = true;
-	}
-	if ( result.externalTotal === result.externalDofollow && result.externalTotal > 0 ) {
-		result.externalAllDofollow = true;
-	}
-	if ( result.total === result.internalDofollow && result.internalTotal > 0 ) {
-		result.internalAllDofollow = true;
-	}
-	if ( result.total === ( result.internalTotal + result.otherTotal ) ) {
-		result.noExternal = true;
-	}
-	return result;
+	return [ { test: "linkCount", result: countLinks( this.config.text, keyword, this.config.baseUrl ) } ];
 };
 
 /**
@@ -497,80 +310,20 @@ YoastSEO.Analyzer.prototype.linkResult = function( obj ) {
  * @returns {{name: string, result: {total: number, alt: number, noAlt: number}}}
  */
 YoastSEO.Analyzer.prototype.imageCount = function() {
-	var imageCount = { total: 0, alt: 0, noAlt: 0, altKeyword: 0, altNaKeyword: 0 };
-
-	//matches everything in the <img>-tag, case insensitive and global
-	var imageMatches = this.preProcessor.__store.originalText.match( /<img(?:[^>]+)?>/ig );
-	if ( imageMatches !== null ) {
-		imageCount.total = imageMatches.length;
-		for ( var i = 0; i < imageMatches.length; i++ ) {
-
-			//matches everything in the alt attribute, case insensitive and global.
-			var alttag = imageMatches[ i ].match( /alt=([\'\"])(.*?)\1/ig );
-			if ( this.imageAlttag( alttag ) ) {
-				if ( this.config.keyword !== "" ) {
-					if ( this.imageAlttagKeyword( alttag ) ) {
-						imageCount.altKeyword++;
-					} else {
-
-						//this counts all alt-tags w/o the keyword when a keyword is set.
-						imageCount.alt++;
-					}
-				} else {
-					imageCount.altNaKeyword++;
-				}
-			} else {
-				imageCount.noAlt++;
-			}
-		}
-	}
-	return [ { test: "imageCount", result: imageCount } ];
-};
-
-/**
- * checks if  the alttag contains any text.
- * @param image
- * @returns {boolean}
- */
-YoastSEO.Analyzer.prototype.imageAlttag = function( image ) {
-	var hasAlttag = false;
-	if ( image !== null ) {
-		var alt = image[ 0 ].split( "=" )[ 1 ];
-
-		//Checks if the alttag of the given image isn't empty after whitespaces are removed.
-		if ( alt !== null && this.stringHelper.stripSpaces( alt.replace( /[\'\"]*/g, "" ) ) !== "" ) {
-			hasAlttag = true;
-		}
-	}
-	return hasAlttag;
-};
-
-/**
- * checks if the alttag matches the keyword
- * @param image
- * @returns {boolean}
- */
-YoastSEO.Analyzer.prototype.imageAlttagKeyword = function( image ) {
-	var hasKeyword = false;
-	if ( image !== null ) {
-		if ( this.preProcessor.replaceDiacritics( image[ 0 ] ).match( this.keywordRegex ) !== null ) {
-			hasKeyword = true;
-		}
-	}
-	return hasKeyword;
+	var countImages = require( "./analyses/getImageStatistics.js" );
+	return [ { test: "imageCount", result: countImages( this.config.text, this.config.keyword ) } ];
 };
 
 /**
  * counts the number of characters in the pagetitle, returns 0 if empty or not set.
  * @returns {{name: string, count: *}}
  */
-
 YoastSEO.Analyzer.prototype.pageTitleLength = function() {
-	var count = 0;
+	var result =  [ { test: "pageTitleLength", result:  0 } ];
 	if ( typeof this.config.pageTitle !== "undefined" ) {
-		count = this.config.pageTitle.length;
+		result[ 0 ].result = this.config.pageTitle.length;
 	}
-	return [ { test: "pageTitleLength", result: count } ];
+	return result;
 };
 
 /**
@@ -580,13 +333,10 @@ YoastSEO.Analyzer.prototype.pageTitleLength = function() {
  * @returns {{name: string, count: number}}
  */
 YoastSEO.Analyzer.prototype.pageTitleKeyword = function() {
-	var result = [ { test: "pageTitleKeyword", result: { matches: 0, position: 0 } } ];
-	if ( typeof this.config.pageTitle !== "undefined" ) {
-		result[ 0 ].result.matches = this.stringHelper.countMatches(
-			this.config.pageTitle,
-			this.stringHelper.getWordBoundaryRegex( this.config.keyword )
-		);
-		result[ 0 ].result.position = this.config.pageTitle.toLocaleLowerCase().indexOf( this.config.keyword.toLocaleLowerCase() );
+	var findKeywordInPageTitle = require( "./analyses/findKeywordInPageTitle.js" );
+	var result = [ { test: "pageTitleKeyword", result: { position: -1, matches: 0 } } ];
+	if ( typeof this.config.pageTitle !== "undefined" && typeof this.config.keyword !== "undefined" ) {
+		result[0].result = findKeywordInPageTitle( this.config.pageTitle, this.config.keyword );
 	}
 	return result;
 };
@@ -597,53 +347,9 @@ YoastSEO.Analyzer.prototype.pageTitleKeyword = function() {
  * @returns {{name: string, count: number}}
  */
 YoastSEO.Analyzer.prototype.firstParagraph = function() {
-	var result = [ { test: "firstParagraph", result: 0 } ];
-
-	//matches everything between the <p> and </p> tags.
-	var p = this.paragraphChecker(
-		this.preProcessor.__store.cleanTextSomeTags,
-		new RegExp( "<p(?:[^>]+)?>(.*?)<\/p>", "ig" )
-	);
-
-	if ( p === 0 ) {
-
-		//use a regex that matches [^], not nothing, so any character, including linebreaks
-		p = this.paragraphChecker(
-			this.preProcessor.__store.originalText,
-			new RegExp( "[^]*?\n\n", "ig" )
-		);
-
-		/*
-		 * If there is no match yet
-		 * And there are no paragraph tags
-		 * And there are not double newline
-		 * Then we are dealing with a single paragraph and we should just use the keyword count in the full text.
-		 */
-		if (
-			p === 0 &&
-			this.preProcessor.__store.originalText.indexOf( "\n\n" ) === -1 &&
-			this.preProcessor.__store.originalText.indexOf( "</p>" ) === -1
-		) {
-			p = this.keywordCount();
-		}
-	}
-	result[ 0 ].result = p;
+	var findKeywordInFirstParagraph = require( "./analyses/findKeywordInFirstParagraph.js" );
+	var result = [ { test: "firstParagraph", result: findKeywordInFirstParagraph( this.config.text, this.config.keyword ) } ];
 	return result;
-};
-
-/**
- * checks if the keyword is found in the given textString.
- * @param textString
- * @param regexp
- * @returns count
- */
-YoastSEO.Analyzer.prototype.paragraphChecker = function( textString, regexp ) {
-	var matches = textString.match( regexp );
-	var count = 0;
-	if ( matches !== null ) {
-		count = this.stringHelper.countMatches( matches[ 0 ], this.keywordRegex );
-	}
-	return count;
 };
 
 /**
@@ -652,12 +358,14 @@ YoastSEO.Analyzer.prototype.paragraphChecker = function( textString, regexp ) {
  * @returns {{name: string, count: number}}
  */
 YoastSEO.Analyzer.prototype.metaDescriptionKeyword = function() {
+	var wordMatch = require( "./stringProcessing/matchTextWithWord.js" );
 	var result = [ { test: "metaDescriptionKeyword", result: -1 } ];
-	if ( typeof this.config.meta !== "undefined" && this.config.meta.length > 0 && this.config.keyword !== "" ) {
-		result[ 0 ].result = this.stringHelper.countMatches(
-			this.config.meta, this.stringHelper.getWordBoundaryRegex( this.config.keyword )
-		);
+
+	if ( typeof this.config.meta !== "undefined" && typeof this.config.keyword !== "undefined" &&
+		this.config.meta !== "" && this.config.keyword !== "" ) {
+		result[ 0 ].result = wordMatch( this.config.meta, this.config.keyword );
 	}
+
 	return result;
 };
 
@@ -667,9 +375,10 @@ YoastSEO.Analyzer.prototype.metaDescriptionKeyword = function() {
  */
 YoastSEO.Analyzer.prototype.metaDescriptionLength = function() {
 	var result = [ { test: "metaDescriptionLength", result: 0 } ];
-	if ( typeof this.config.meta !== "undefined" ) {
-		result[0].result = this.config.meta.length;
+	if ( typeof  this.config.meta !== "undefined" ) {
+		result[ 0 ].result =  this.config.meta.length;
 	}
+
 	return result;
 };
 
@@ -678,12 +387,14 @@ YoastSEO.Analyzer.prototype.metaDescriptionLength = function() {
  * @returns {{name: string, count: number}}
  */
 YoastSEO.Analyzer.prototype.urlKeyword = function() {
-	var result = [ { test: "urlKeyword", result: 0 } ];
-	if ( typeof this.config.url !== "undefined" ) {
-		result[ 0 ].result = this.stringHelper.countMatches(
-			this.config.url, this.keywordRegexInverse
-		);
+	var checkForKeywordInUrl = require( "./analyses/countKeywordInUrl.js" );
+	var score = 0;
+
+	if ( typeof this.config.keyword !== "undefined" && typeof this.config.url !== "undefined" ) {
+		score = checkForKeywordInUrl( this.config.url, this.config.keyword );
 	}
+
+	var result = [ { test: "urlKeyword", result: score } ];
 	return result;
 };
 
@@ -692,16 +403,13 @@ YoastSEO.Analyzer.prototype.urlKeyword = function() {
  * @returns {{test: string, result: number}[]}
  */
 YoastSEO.Analyzer.prototype.urlLength = function() {
-	var result = [ { test: "urlLength", result: { urlTooLong: false } } ];
-	if ( typeof this.config.url !== "undefined" ) {
-		var length = this.config.url.length;
-		if (
-			length > this.config.maxUrlLength &&
-			length > this.config.maxSlugLength + this.config.keyword.length
-		) {
-			result[ 0 ].result.urlTooLong = true;
-		}
-	}
+	var isUrlTooLong = require( "./analyses/isUrlTooLong.js" );
+	var result = [ { test: "urlLength", result: { urlTooLong: isUrlTooLong(
+		this.config.url,
+		this.config.keyword,
+		this.config.maxSlugLength,
+		this.config.maxUrlLength
+	) } } ];
 	return result;
 };
 
@@ -710,13 +418,9 @@ YoastSEO.Analyzer.prototype.urlLength = function() {
  * @returns {{test: string, result: number}[]}
  */
 YoastSEO.Analyzer.prototype.urlStopwords = function() {
-	var result = [ { test: "urlStopwords", result: 0 } ];
-	if ( typeof this.config.url !== "undefined" ) {
-		var stopwords = this.stringHelper.matchString( this.config.url, this.config.stopWords );
-		if ( stopwords !== null ) {
-			result[ 0 ].result = stopwords.length;
-		}
-	}
+	var checkUrlForStopwords = require( "./analyses/checkUrlForStopwords.js" );
+	var result = [ { test: "urlStopwords", result: checkUrlForStopwords( this.config.url ) } ];
+
 	return result;
 };
 
@@ -726,13 +430,9 @@ YoastSEO.Analyzer.prototype.urlStopwords = function() {
  */
 YoastSEO.Analyzer.prototype.keywordDoubles = function() {
 	var result = [ { test: "keywordDoubles", result: { count: 0, id: 0 } } ];
-	if ( typeof this.config.keyword !== "undefined" ) {
-		if ( typeof this.config.usedKeywords !== "undefined" && typeof this.config.usedKeywords[ this.config.keyword ] !== "undefined" ) {
-			result[ 0 ].result.count = this.config.usedKeywords[ this.config.keyword ].length;
-			if ( result[ 0 ].result.count === 1 ) {
-				result[ 0 ].result.id = this.config.usedKeywords[ this.config.keyword ][ 0 ];
-			}
-		}
+	if ( typeof this.config.keyword !== "undefined" && typeof this.config.usedKeywords !== "undefined" ) {
+		var checkForKeywordDoubles = require( "./analyses/checkForKeywordDoubles.js" );
+		result[0].result = checkForKeywordDoubles( this.config.keyword, this.config.usedKeywords );
 	}
 	return result;
 };
