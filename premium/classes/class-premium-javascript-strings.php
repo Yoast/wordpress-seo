@@ -44,7 +44,7 @@ class WPSEO_Premium_Javascript_Strings {
 				'message' => __( 'The redirect is deleted successfully.', 'wordpress-seo-premium' ),
 			),
 
-			'button_ok'          => __( 'Ok', 'wordpress-seo-premium' ),
+			'button_ok'          => __( 'OK', 'wordpress-seo-premium' ),
 			'button_cancel'      => __( 'Cancel', 'wordpress-seo-premium' ),
 			'button_save'        => __( 'Save', 'wordpress-seo-premium' ),
 			'button_save_anyway' => __( 'Save anyway', 'wordpress-seo-premium' ),
