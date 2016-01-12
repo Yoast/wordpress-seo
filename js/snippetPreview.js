@@ -238,6 +238,7 @@ SnippetPreview.prototype.renderTemplate = function() {
 		container: document.getElementById( "snippet_preview" ),
 		formContainer: targetElement.getElementsByClassName( "snippet-editor__form" )[0],
 		editToggle: targetElement.getElementsByClassName( "snippet-editor__edit-button" )[0],
+		closeEditor: targetElement.getElementsByClassName( "snippet-editor__submit" )[0],
 		formFields: targetElement.getElementsByClassName( "snippet-editor__form-field" )
 	};
 
@@ -694,11 +695,8 @@ SnippetPreview.prototype.bindEvents = function() {
 		targetElement.addEventListener( "keydown", this.disableEnter.bind( this ) );
 	}
 
-	editButton = document.getElementsByClassName( "js-snippet-editor-edit" );
-	saveForm = document.getElementsByClassName( "js-snippet-editor-save" );
-
-	editButton[0].addEventListener( "click", this.toggleEditor.bind( this ) );
-	saveForm[0].addEventListener( "click", this.closeEditor.bind( this ) );
+	this.element.editToggle.addEventListener( "click", this.toggleEditor.bind( this ) );
+	this.element.closeEditor.addEventListener( "click", this.closeEditor.bind( this ) );
 };
 
 SnippetPreview.prototype.changedInput = function() {
