@@ -61,14 +61,6 @@
     display: inline;
 }
 
-.snippet-editor__form-field {
-    display: none;
-}
-
-.snippet-editor__form-field--shown {
-    display: block;
-}
-
 .snippet-editor__form {
     padding: 0 20px;
     display: none;

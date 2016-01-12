@@ -7,8 +7,7 @@ var _ = {
 	isElement: require( "lodash/lang/isElement" ),
 	clone: require( "lodash/lang/clone" ),
 	cloneDeep: require( "lodash/lang/cloneDeep" ),
-	defaultsDeep: require( "lodash/object/defaultsDeep" ),
-	forEach: require( "lodash/collection/forEach" )
+	defaultsDeep: require( "lodash/object/defaultsDeep" )
 };
 
 var defaults = {
@@ -726,14 +725,9 @@ SnippetPreview.prototype.updateDataFromDOM = function() {
  * Opens the snippet editor.
  */
 SnippetPreview.prototype.openEditor = function() {
-	addClass( this.element.container, "editing" );
-
-	_.forEach( this.element.formFields, function( formField ) {
-		addClass( formField, "snippet-editor__form-field--shown" );
-	} );
-
+	addClass( this.element.container,     "editing" );
 	addClass( this.element.formContainer, "snippet-editor__form--shown" );
-	addClass( this.element.editToggle, "snippet-editor__edit-button--close" );
+	addClass( this.element.editToggle,    "snippet-editor__edit-button--close" );
 
 	this.opened = true;
 };
@@ -742,14 +736,9 @@ SnippetPreview.prototype.openEditor = function() {
  * Closes the snippet editor.
  */
 SnippetPreview.prototype.closeEditor = function() {
-	removeClass( this.element.container, "editing" );
-
-	_.forEach( this.element.formFields, function( formField ) {
-		removeClass( formField, "snippet-editor__form-field--shown" );
-	} );
-
+	removeClass( this.element.container,     "editing" );
 	removeClass( this.element.formContainer, "snippet-editor__form--shown" );
-	removeClass( this.element.editToggle, "snippet-editor__edit-button--close" );
+	removeClass( this.element.editToggle,    "snippet-editor__edit-button--close" );
 
 	this.opened = false;
 };
