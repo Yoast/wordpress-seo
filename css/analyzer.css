@@ -1,6 +1,6 @@
 /* css for snippet */
 #snippet_preview {
-    padding:20px 20px 20px 80px;
+    padding: 0 0 20px 0;
     border: 1px solid #eee;
     border-radius: 20px;
     background-color: #fff;
@@ -9,20 +9,56 @@
     margin-top: 50px;
 }
 
-.snippet-editor__edit_button {
-    position: absolute;
+.snippet-editor__preview {
+    padding: 20px 20px 0 20px;
+}
+
+.snippet-editor__edit-button {
     left: 0;
     top: 0;
-    height: 100%;
-    width: 60px;
-    border-radius: 20px 0 0 20px;
-    border: none;
-    border-right: 1px solid #eee;
-    text-align: center;
 
-    background: url( images/edit.svg ) center no-repeat;
-    background-size: 40px;
+    padding: 0 20px;
+
+    width: 100%;
+    height: 30px;
+    border-radius: 20px 20px 0 0;
+    border: none;
+    border-bottom: 1px solid #eee;
+    text-align: left;
     cursor: pointer;
+    background: none;
+
+    color: blue;
+}
+
+.snippet-editor__edit-button--close {
+    color: gray;
+}
+
+.snippet-editor__edit-button::before {
+    background: url( images/pencil.svg ) left no-repeat;
+}
+
+.snippet-editor__edit-icon,
+.snippet-editor__chevron-right-icon,
+.snippet-editor__chevron-down-icon {
+    fill: currentColor;
+    width: auto;
+    height: 1em;
+    position: relative;
+    top: 2px;
+}
+
+.snippet-editor__edit-button--close .snippet-editor__chevron-right-icon {
+    display: none;
+}
+
+.snippet-editor__edit-button .snippet-editor__chevron-down-icon {
+    display: none;
+}
+
+.snippet-editor__edit-button--close .snippet-editor__chevron-down-icon {
+    display: inline;
 }
 
 .snippet-editor__form-field {
@@ -34,6 +70,7 @@
 }
 
 .snippet-editor__form {
+    padding: 0 20px;
     display: none;
 }
 

@@ -178,7 +178,7 @@ SnippetPreview.prototype.renderTemplate = function() {
 			meta: this.formatMeta()
 		},
 		i18n: {
-			edit: this.i18n.dgettext( "js-text-analysis", "Edit meta fields (title, url, description)" ),
+			edit: this.i18n.dgettext( "js-text-analysis", "Edit title, description & slug" ),
 			title: this.i18n.dgettext( "js-text-analysis", "Meta title" ),
 			slug:  this.i18n.dgettext( "js-text-analysis", "Slug" ),
 			metaDescription: this.i18n.dgettext( "js-text-analysis", "Meta description" ),
@@ -682,7 +682,7 @@ SnippetPreview.prototype.updateDataFromDOM = function() {
  * Edits the snippet
  */
 SnippetPreview.prototype.editSnippet = function() {
-	var form, formFields, snippetEditor;
+	var form, formFields, snippetEditor, editButton;
 
 	snippetEditor = document.getElementById( "snippet_preview" );
 	formFields = document.getElementsByClassName( "snippet-editor__form-field" );
@@ -695,15 +695,23 @@ SnippetPreview.prototype.editSnippet = function() {
 
 	form = document.getElementsByClassName( "snippet-editor__form" );
 	form[0].className = "snippet-editor__form snippet-editor__form--shown";
+
+	editButton = document.getElementsByClassName( "js-snippet-editor-edit" )[0];
+	editButton.className = "snippet-editor__edit-button snippet-editor__edit-button--close js-snippet-editor-edit";
 };
 
 /**
  * Saves the snippet fields
  */
 SnippetPreview.prototype.saveSnippet = function() {
+	var editButton;
+
 	var form = document.getElementsByClassName( "snippet-editor__form" );
 
 	form[0].className = "snippet-editor__form";
+
+	editButton = document.getElementsByClassName( "js-snippet-editor-edit" )[0];
+	editButton.className = "snippet-editor__edit-button js-snippet-editor-edit";
 };
 
 module.exports = SnippetPreview;
