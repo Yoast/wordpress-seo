@@ -7,7 +7,8 @@ var _ = {
 	isElement: require( "lodash/lang/isElement" ),
 	clone: require( "lodash/lang/clone" ),
 	cloneDeep: require( "lodash/lang/cloneDeep" ),
-	defaultsDeep: require( "lodash/object/defaultsDeep" )
+	defaultsDeep: require( "lodash/object/defaultsDeep" ),
+	forEach: require( "lodash/collection/forEach" )
 };
 
 var defaults = {
@@ -75,6 +76,39 @@ function updateUnformattedText( key, value ) {
 }
 
 /**
+ * Adds a class to an element
+ *
+ * @param {HTMLElement} element The element to add the class to.
+ * @param {string} className The class to add.
+ */
+function addClass( element, className ) {
+	var classes = element.className.split( " " );
+
+	if ( -1 === classes.indexOf( className ) ) {
+		classes.push( className );
+	}
+
+	element.className = classes.join( " " );
+}
+
+/**
+ * Removes a class from an element
+ *
+ * @param {HTMLElement} element The element to remove the class from.
+ * @param {string} className The class to remove.
+ */
+function removeClass( element, className ) {
+	var classes = element.className.split( " " );
+	var foundClass = classes.indexOf( className );
+
+	if ( -1 !== foundClass ) {
+		classes.splice( foundClass, 1 );
+	}
+
+	element.className = classes.join( " " );
+}
+
+/**
  * @module snippetPreview
  */
 
@@ -110,6 +144,10 @@ function updateUnformattedText( key, value ) {
  * @property {HTMLElement} element.input.title            - The title input element.
  * @property {HTMLElement} element.input.urlPath          - The url path input element.
  * @property {HTMLElement} element.input.metaDesc         - The meta description input element.
+ *
+ * @property {HTMLElement} element.container              - The main container element.
+ * @property {HTMLElement} element.formContainer          - The form container element.
+ * @property {HTMLElement} element.editToggle             - The button that toggles the editor form.
  *
  * @property {Object}      data                           - The data for this snippet editor.
  * @property {string}      data.title                     - The title.
@@ -197,8 +235,14 @@ SnippetPreview.prototype.renderTemplate = function() {
 			title: targetElement.getElementsByClassName( "js-snippet-editor-title" )[0],
 			urlPath: targetElement.getElementsByClassName( "js-snippet-editor-slug" )[0],
 			metaDesc: targetElement.getElementsByClassName( "js-snippet-editor-meta-description" )[0]
-		}
+		},
+		container: document.getElementById( "snippet_preview" ),
+		formContainer: targetElement.getElementsByClassName( "snippet-editor__form" )[0],
+		editToggle: targetElement.getElementsByClassName( "snippet-editor__edit-button" )[0],
+		formFields: targetElement.getElementsByClassName( "snippet-editor__form-field" )
 	};
+
+	this.opened = false;
 };
 
 /**
@@ -654,8 +698,8 @@ SnippetPreview.prototype.bindEvents = function() {
 	editButton = document.getElementsByClassName( "js-snippet-editor-edit" );
 	saveForm = document.getElementsByClassName( "js-snippet-editor-save" );
 
-	editButton[0].addEventListener( "click", this.editSnippet.bind( this ) );
-	saveForm[0].addEventListener( "click", this.saveSnippet.bind( this ) );
+	editButton[0].addEventListener( "click", this.toggleEditor.bind( this ) );
+	saveForm[0].addEventListener( "click", this.closeEditor.bind( this ) );
 };
 
 SnippetPreview.prototype.changedInput = function() {
@@ -679,39 +723,47 @@ SnippetPreview.prototype.updateDataFromDOM = function() {
 };
 
 /**
- * Edits the snippet
+ * Opens the snippet editor.
  */
-SnippetPreview.prototype.editSnippet = function() {
-	var form, formFields, snippetEditor, editButton;
+SnippetPreview.prototype.openEditor = function() {
+	addClass( this.element.container, "editing" );
 
-	snippetEditor = document.getElementById( "snippet_preview" );
-	formFields = document.getElementsByClassName( "snippet-editor__form-field" );
-
-	snippetEditor.className = "editing";
-
-	[].forEach.call( formFields, function( formField ) {
-		formField.className = "snippet-editor__form-field snippet-editor__form-field--shown";
+	_.forEach( this.element.formFields, function( formField ) {
+		addClass( formField, "snippet-editor__form-field--shown" );
 	} );
 
-	form = document.getElementsByClassName( "snippet-editor__form" );
-	form[0].className = "snippet-editor__form snippet-editor__form--shown";
+	addClass( this.element.formContainer, "snippet-editor__form--shown" );
+	addClass( this.element.editToggle, "snippet-editor__edit-button--close" );
 
-	editButton = document.getElementsByClassName( "js-snippet-editor-edit" )[0];
-	editButton.className = "snippet-editor__edit-button snippet-editor__edit-button--close js-snippet-editor-edit";
+	this.opened = true;
 };
 
 /**
- * Saves the snippet fields
+ * Closes the snippet editor.
  */
-SnippetPreview.prototype.saveSnippet = function() {
-	var editButton;
+SnippetPreview.prototype.closeEditor = function() {
+	removeClass( this.element.container, "editing" );
 
-	var form = document.getElementsByClassName( "snippet-editor__form" );
+	_.forEach( this.element.formFields, function( formField ) {
+		removeClass( formField, "snippet-editor__form-field--shown" );
+	} );
 
-	form[0].className = "snippet-editor__form";
+	removeClass( this.element.formContainer, "snippet-editor__form--shown" );
+	removeClass( this.element.editToggle, "snippet-editor__edit-button--close" );
 
-	editButton = document.getElementsByClassName( "js-snippet-editor-edit" )[0];
-	editButton.className = "snippet-editor__edit-button js-snippet-editor-edit";
+	this.opened = false;
+};
+
+/**
+ * Toggles the snippet editor.
+ */
+SnippetPreview.prototype.toggleEditor = function() {
+	if ( this.opened ) {
+		this.closeEditor();
+	}
+	else {
+		this.openEditor();
+	}
 };
 
 module.exports = SnippetPreview;
