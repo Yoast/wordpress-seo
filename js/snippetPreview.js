@@ -608,15 +608,13 @@ SnippetPreview.prototype.setUnformattedText = function( ev ) {
 SnippetPreview.prototype.validateFields = function() {
 	if ( this.data.metaDesc.length > YoastSEO.analyzerConfig.maxMeta ) {
 		addClass( this.element.input.metaDesc, "snippet-editor__field--invalid" );
-	}
-	else {
+	} else {
 		removeClass( this.element.input.metaDesc, "snippet-editor__field--invalid" );
 	}
 
 	if ( this.data.title.length > 70 ) {
 		addClass( this.element.input.title, "snippet-editor__field--invalid" );
-	}
-	else {
+	} else {
 		removeClass( this.element.input.title, "snippet-editor__field--invalid" );
 	}
 };
@@ -660,7 +658,7 @@ SnippetPreview.prototype.setFocus = function( ev ) {
  * Binds the reloadSnippetText function to the blur of the snippet inputs.
  */
 SnippetPreview.prototype.bindEvents = function() {
-	var targetElement, saveForm, editButton,
+	var targetElement,
 		elems = [ "title", "slug", "meta-description" ];
 
 	for ( var i = 0; i < elems.length; i++ ) {
@@ -724,12 +722,12 @@ SnippetPreview.prototype.closeEditor = function() {
 SnippetPreview.prototype.toggleEditor = function() {
 	if ( this.opened ) {
 		this.closeEditor();
-	}
-	else {
+	} else {
 		this.openEditor();
 	}
 };
 
+/* jshint ignore:start */
 /**
  * Used to disable enter as input. Returns false to prevent enter, and preventDefault and
  * cancelBubble to prevent
@@ -747,5 +745,6 @@ SnippetPreview.prototype.disableEnter = function( ev ) {};
  * @param ev
  */
 SnippetPreview.prototype.textFeedback = function( ev ) {};
+/* jshint ignore:end */
 
 module.exports = SnippetPreview;
