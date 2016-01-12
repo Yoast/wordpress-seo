@@ -4878,7 +4878,7 @@ YoastSEO.getStringHelper = function() {
     __e( i18n.metaDescription ) +
     '\n            <textarea class="snippet-editor__input snippet-editor__meta-description js-snippet-editor-meta-description" id="snippet-editor-meta-description">' +
     __e( raw.meta ) +
-    '</textarea>\n        </label>\n\n        <button class="snippet-editor__submit" type="button">' +
+    '</textarea>\n        </label>\n\n        <button class="snippet-editor__submit button" type="button">' +
     __e( i18n.save ) +
     '</button>\n    </div>\n</div>\n';
 
