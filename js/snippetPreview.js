@@ -6,7 +6,6 @@ var _ = {
 	isEmpty: require( "lodash/lang/isEmpty" ),
 	isElement: require( "lodash/lang/isElement" ),
 	clone: require( "lodash/lang/clone" ),
-	cloneDeep: require( "lodash/lang/cloneDeep" ),
 	defaultsDeep: require( "lodash/object/defaultsDeep" )
 };
 
