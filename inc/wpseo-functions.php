@@ -9,16 +9,6 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-if ( ! function_exists( 'initialize_wpseo_front' ) ) {
-	/**
-	 * Wraps frontend class.
-	 */
-	function initialize_wpseo_front() {
-		WPSEO_Frontend::get_instance();
-	}
-}
-
-
 if ( ! function_exists( 'yoast_breadcrumb' ) ) {
 	/**
 	 * Template tag for breadcrumbs.
@@ -684,3 +674,13 @@ function wpseo_standardize_whitespace( $string ) {
 	return WPSEO_Utils::standardize_whitespace( $string );
 }
 
+/**
+ * Wraps frontend class.
+ *
+ * @deprecated 3.1
+ */
+function initialize_wpseo_front() {
+	_deprecated_function( __FUNCTION__, 'WPSEO 3.1' );
+
+	WPSEO_Frontend::get_instance();
+}
