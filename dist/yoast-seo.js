@@ -3660,20 +3660,6 @@ SnippetPreview.prototype.reRender = function() {
 };
 
 /**
- * used to disable enter as input. Returns false to prevent enter, and preventDefault and
- * cancelBubble to prevent
- * other elements from capturing this event.
- * @param event
- */
-SnippetPreview.prototype.disableEnter = function( ev ) {
-	if ( ev.keyCode === 13 ) {
-		ev.returnValue = false;
-		ev.cancelBubble = true;
-		ev.preventDefault();
-	}
-};
-
-/**
  * checks text length of the snippetmeta and snippettitle, shortens it if it is too long.
  * @param event
  */
@@ -3799,8 +3785,6 @@ SnippetPreview.prototype.bindEvents = function() {
 
 		targetElement.addEventListener( "keydown", this.changedInput.bind( this ) );
 		targetElement.addEventListener( "keyup", this.changedInput.bind( this ) );
-
-		targetElement.addEventListener( "keydown", this.disableEnter.bind( this ) );
 	}
 
 	this.element.editToggle.addEventListener( "click", this.toggleEditor.bind( this ) );
@@ -3860,6 +3844,16 @@ SnippetPreview.prototype.toggleEditor = function() {
 		this.openEditor();
 	}
 };
+
+/**
+ * Used to disable enter as input. Returns false to prevent enter, and preventDefault and
+ * cancelBubble to prevent
+ * other elements from capturing this event.
+ *
+ * @deprecated
+ * @param {KeyboardEvent} ev
+ */
+SnippetPreview.prototype.disableEnter = function( ev ) {};
 
 module.exports = SnippetPreview;
 
