@@ -185,7 +185,7 @@ YoastSEO.App.prototype.refresh = function() {
 YoastSEO.App.prototype.createSnippetPreview = function() {
 	var targetElement = document.getElementById( this.config.targets.snippet );
 
-	var snippetEditorTemplate = require( "../js/templates.js" ).snippetEditor;
+	var snippetEditorTemplate = require( "./templates.js" ).snippetEditor;
 
 	targetElement.innerHTML = snippetEditorTemplate( {
 		title: this.config.sampleText.title,

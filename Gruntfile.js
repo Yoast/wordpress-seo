@@ -15,9 +15,9 @@ module.exports = function( grunt ) {
 		},
 		files: {
 			js: [
-				"js/*.js",
-				"!js/*.min.js",
+				"js/**/*.js",
 				"grunt/config/*.js",
+				"!js/config/*.js",
 				"<%= files.grunt %>"
 			],
 			jsDontLint: [

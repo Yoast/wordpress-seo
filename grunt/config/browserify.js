@@ -1,7 +1,7 @@
 module.exports = {
 	build: {
 		files: {
-			"dist/yoast-seo.js": [ "dist/yoast-seo-pre-browserify.js" ]
+			"dist/yoast-seo.js": [ "js/browser.js" ]
 		}
 	}
 };

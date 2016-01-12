@@ -10,7 +10,6 @@ build:
   - 'lodash:templates'
 # Build JavaScript from assets to production
 'build:js':
-  - 'concat'
   - 'browserify'
   - 'uglify'
 # Build CSS
