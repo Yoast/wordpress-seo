@@ -1,6 +1,5 @@
 var SnippetPreview = require("../js/snippetPreview.js");
 require("../js/app.js");
-require("./helpers/i18n.js");
 
 describe("The snippet preview constructor", function() {
 	it("accepts an App object as an opts property", function() {
