@@ -112,7 +112,7 @@ class WPSEO_Recalculate_Terms extends WPSEO_Recalculate {
 	}
 
 	/**
-	 * Getting the meta description for given post
+	 * Get the meta description for given post
 	 *
 	 * @param stdClass|WP_Term $term The term object.
 	 *

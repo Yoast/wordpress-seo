@@ -93,7 +93,7 @@ class WPSEO_Recalculate_Posts extends WPSEO_Recalculate {
 	}
 
 	/**
-	 * Getting the meta description for given post
+	 * Get the meta description for given post
 	 *
 	 * @param integer $post_id The ID of the post for which to get the meta description.
 	 * @param string  $post_type The post type.
