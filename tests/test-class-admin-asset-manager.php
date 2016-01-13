@@ -25,7 +25,7 @@ class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 		$class_instance->register_assets();
 
 		$class_instance->enqueue_style( 'metabox-css' );
-		$this->assertTrue( wp_style_is( $class_instance::PREFIX . 'metabox-css', 'enqueued' ) );
+		$this->assertTrue( wp_style_is( WPSEO_Admin_Asset_Manager::PREFIX . 'metabox-css', 'enqueued' ) );
 	}
 
 	/**
