@@ -59,7 +59,7 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 		// call enqueue function
 		self::$class_instance->enqueue();
 
-		$enqueued = wp_script_is( $asset_manager::PREFIX . 'metabox', 'enqueued' );
+		$enqueued = wp_script_is( WPSEO_Admin_Asset_Manager::PREFIX . 'metabox', 'enqueued' );
 		$this->assertTrue( $enqueued );
 	}
 

@@ -12,7 +12,7 @@ class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 		$class_instance->register_assets();
 
 		$class_instance->enqueue_script( 'metabox' );
-		$this->assertTrue( wp_script_is( $class_instance::PREFIX . 'metabox', 'enqueued' ) );
+		$this->assertTrue( wp_script_is( WPSEO_Admin_Asset_Manager::PREFIX . 'metabox', 'enqueued' ) );
 	}
 
 	/**
