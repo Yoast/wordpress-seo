@@ -32,7 +32,7 @@ class WPSEO_Recalculate_Scores_Ajax {
 	}
 
 	/**
-	 * Saving the new linkdex score for given post
+	 * Saves the new linkdex score for given post
 	 */
 	public function save_score() {
 		check_ajax_referer( 'wpseo_recalculate', 'nonce' );
@@ -43,6 +43,8 @@ class WPSEO_Recalculate_Scores_Ajax {
 	}
 
 	/**
+	 * Returns the needed object for recalculating scores.
+	 *
 	 * @return WPSEO_Recalculate_Posts|WPSEO_Recalculate_Terms
 	 */
 	private function get_fetch_object() {

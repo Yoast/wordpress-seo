@@ -9,7 +9,7 @@
 class WPSEO_Recalculate_Terms extends WPSEO_Recalculate {
 
 	/**
-	 * Saving the scores.
+	 * Save the scores.
 	 *
 	 * @param array $scores The scores to save.
 	 */
@@ -25,7 +25,7 @@ class WPSEO_Recalculate_Terms extends WPSEO_Recalculate {
 	}
 
 	/**
-	 * Saving the score.
+	 * Save the score.
 	 *
 	 * @param array $score The score to save.
 	 */
@@ -34,7 +34,7 @@ class WPSEO_Recalculate_Terms extends WPSEO_Recalculate {
 	}
 
 	/**
-	 * Getting the posts from the database by doing a WP_Query.
+	 * Get the terms from the database by doing a WP_Query.
 	 *
 	 * @param integer $paged The page.
 	 *
@@ -93,7 +93,7 @@ class WPSEO_Recalculate_Terms extends WPSEO_Recalculate {
 	}
 
 	/**
-	 * Getting the title for given post
+	 * Get the title for given term
 	 *
 	 * @param stdClass|WP_Term $term The term object.
 	 *

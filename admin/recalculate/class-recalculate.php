@@ -26,7 +26,7 @@ abstract class WPSEO_Recalculate {
 	abstract public function save_scores( array $scores );
 
 	/**
-	 * Gets the items and parse it to an response
+	 * Gets the items and parses it to an response
 	 *
 	 * @param integer $paged The current page number.
 	 *
@@ -68,7 +68,7 @@ abstract class WPSEO_Recalculate {
 	}
 
 	/**
-	 * Parsing the posts|terms with the value we need
+	 * Parse the posts|terms with the value we need
 	 *
 	 * @param array $items The items to parse.
 	 *
@@ -84,7 +84,7 @@ abstract class WPSEO_Recalculate {
 	}
 
 	/**
-	 * Getting default from the options for given field
+	 * Get default from the options for given field
 	 *
 	 * @param string $field  The field for which to get the default options.
 	 * @param string $suffix The post type.

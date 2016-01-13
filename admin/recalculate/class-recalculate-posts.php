@@ -9,7 +9,7 @@
 class WPSEO_Recalculate_Posts extends WPSEO_Recalculate {
 
 	/**
-	 * Saving the scores.
+	 * Save the scores.
 	 *
 	 * @param array $scores The scores for the posts.
 	 */
@@ -20,7 +20,7 @@ class WPSEO_Recalculate_Posts extends WPSEO_Recalculate {
 	}
 
 	/**
-	 * Saving the score.
+	 * Save the score.
 	 *
 	 * @param array $score The score to save.
 	 */
@@ -29,7 +29,7 @@ class WPSEO_Recalculate_Posts extends WPSEO_Recalculate {
 	}
 
 	/**
-	 * Getting the posts from the database by doing a WP_Query.
+	 * Get the posts from the database by doing a WP_Query.
 	 *
 	 * @param integer $paged The page.
 	 *
@@ -73,7 +73,7 @@ class WPSEO_Recalculate_Posts extends WPSEO_Recalculate {
 	}
 
 	/**
-	 * Getting the title for given post
+	 * Get the title for given post
 	 *
 	 * @param integer $post_id The ID of the post for which to get the title.
 	 * @param string  $post_type The post type.

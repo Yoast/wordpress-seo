@@ -16,7 +16,7 @@ class WPSEO_Recalculate_Posts_Test extends WPSEO_UnitTestCase {
 	private $instance;
 
 	/**
-	 * Setting up the class instance and create some posts
+	 * Setup the class instance and create some posts
 	 */
 	public function setUp() {
 		parent::setUp();
@@ -31,7 +31,7 @@ class WPSEO_Recalculate_Posts_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Testing the saving of the scores
+	 * Test the saving of the scores
 	 *
 	 * @covers WPSEO_Recalculate_Posts::save_scores
 	 */

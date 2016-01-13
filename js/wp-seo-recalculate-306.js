@@ -114,7 +114,7 @@
 	};
 
 	/**
-	 * Passing the post to the analyzer to calculates it's core
+	 * Pass the post to the analyzer to calculates it's core
 	 *
 	 * @param {Object} item
 	 */
@@ -155,7 +155,7 @@
 	};
 
 	/**
-	 * Sending the scores to the backend
+	 * Sends the scores to the backend
 	 *
 	 * @param {array} scores
 	 */
@@ -172,7 +172,7 @@
 	};
 
 	/**
-	 * Getting the posts which have to be recalculated.
+	 * Get the posts which have to be recalculated.
 	 *
 	 * @param {int} current_page
 	 */

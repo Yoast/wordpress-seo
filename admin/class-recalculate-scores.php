@@ -59,7 +59,7 @@ class WPSEO_Recalculate_Scores {
 	}
 
 	/**
-	 * Getting the total number of posts
+	 * Gets the total number of posts
 	 *
 	 * @return int
 	 */
@@ -91,7 +91,7 @@ class WPSEO_Recalculate_Scores {
 	}
 
 	/**
-	 * Initializing the modal box to be displayed when needed.
+	 * Initialize the modal box to be displayed when needed.
 	 */
 	private function modal_box() {
 		// Adding the thickbox.
