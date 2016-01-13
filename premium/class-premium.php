@@ -106,9 +106,6 @@ class WPSEO_Premium {
 			// This should be possible in one method in the future, see #535.
 			add_filter( 'wpseo_submenu_pages', array( $this, 'add_submenu_pages' ), 9 );
 
-			// Add Redirect page as admin page.
-			add_filter( 'wpseo_admin_pages', array( $this, 'add_admin_pages' ) );
-
 			// Post to Get on search.
 			add_action( 'admin_init', array( $this, 'list_table_search_post_to_get' ) );
 
@@ -447,11 +444,10 @@ class WPSEO_Premium {
 	 * @param array $admin_pages Array with the admin pages.
 	 *
 	 * @return array
+	 * @deprecated 3.1
 	 */
 	public function add_admin_pages( $admin_pages ) {
-		$admin_pages[] = 'wpseo_redirects';
-		$admin_pages[] = 'wpseo_tutorial_videos';
-
+		_deprecated_function( 'WPSEO_Premium::add_admin_pages', 'WPSEO 3.1' );
 		return $admin_pages;
 	}
 
