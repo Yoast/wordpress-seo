@@ -444,7 +444,7 @@
 	 * If the response matches with permalinkstring, the snippet can be rerendered.
 	 */
 	jQuery( document ).on( 'ajaxComplete', function( ev, response ) {
-		if ( response.responseText.match( 'Permalink:' ) !== null ) {
+		if ( response.responseText && response.responseText.match( 'Permalink:' ) !== null ) {
 			YoastSEO.app.callbacks.getData();
 			YoastSEO.app.runAnalyzer();
 			YoastSEO.app.snippetPreview.reRender();
