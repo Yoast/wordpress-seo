@@ -124,16 +124,16 @@ class WPSEO_GSC {
 	 */
 	public function page_scripts() {
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
-		$asset_manager -> enqueue_script( 'admin-gsc' );
+		$asset_manager->enqueue_script( 'admin-gsc' );
 		add_screen_option( 'per_page', array(
 			'label'   => __( 'Crawl errors per page', 'wordpress-seo' ),
 			'default' => 50,
 			'option'  => 'errors_per_page',
 		) );
 
-		$asset_manager -> enqueue_style( 'jquery-qtip.js' );
-		$asset_manager -> enqueue_style( 'metabox-css' );
-		$asset_manager -> enqueue_script( 'jquery-qtip' );
+		$asset_manager->enqueue_style( 'jquery-qtip.js' );
+		$asset_manager->enqueue_style( 'metabox-css' );
+		$asset_manager->enqueue_script( 'jquery-qtip' );
 	}
 
 	/**

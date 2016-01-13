@@ -456,7 +456,7 @@ class WPSEO_Admin {
 	function config_page_scripts() {
 		if ( WPSEO_Utils::grant_access() ) {
 			$asset_manager = new WPSEO_Admin_Asset_Manager();
-			$asset_manager -> enqueue_script( 'admin-global-script' );
+			$asset_manager->enqueue_script( 'admin-global-script' );
 		}
 	}
 

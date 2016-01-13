@@ -4,10 +4,7 @@
  */
 
 /**
- * Created by PhpStorm.
- * User: boblinthorst
- * Date: 16/12/15
- * Time: 14:21
+ * This class registers all the necessary styles and scripts. Also has methods for the enqueing of scripts and styles. It automatically adds a prefix to the handle.
  */
 class WPSEO_Admin_Asset_Manager {
 
@@ -16,12 +13,6 @@ class WPSEO_Admin_Asset_Manager {
 	 *  Prefix for naming the assets.
 	 */
 	const PREFIX = 'yoast-seo-';
-
-	/**
-	 * WPSEO_Admin_Asset_Manager constructor.
-	 */
-	public function __construct() {
-	}
 
 	/**
 	 * Enqueues scripts.
@@ -52,7 +43,7 @@ class WPSEO_Admin_Asset_Manager {
 	/**
 	 * Registers admin-scripts. Can be enqueued when they are needed.
 	 */
-	private function register_scripts() {
+	protected function register_scripts() {
 		wp_register_script( self::PREFIX . 'admin-script', plugins_url( 'js/wp-seo-admin' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array(
 			'jquery',
 			'jquery-ui-core',
@@ -83,13 +74,14 @@ class WPSEO_Admin_Asset_Manager {
 	/**
 	 * Registers admin-styles. Can be enqueued when they are needed.
 	 */
-	private function register_styles() {
+	protected function register_styles() {
 		wp_register_style( self::PREFIX . 'admin-css', plugins_url( 'css/yst_plugin_tools' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
 		wp_register_style( self::PREFIX . 'rtl', plugins_url( 'css/wpseo-rtl' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
 		wp_register_style( self::PREFIX . 'dismissible', plugins_url( 'css/wpseo-dismissible' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
 		wp_register_style( self::PREFIX . 'edit-page', plugins_url( 'css/edit-page' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
 		wp_register_style( self::PREFIX . 'featured-image', plugins_url( 'css/featured-image' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
 		wp_register_style( self::PREFIX . 'jquery-qtip.js', plugins_url( 'css/jquery.qtip.min.css', WPSEO_FILE ), array(), '2.2.1' );
+		// Always enqueue minified as it's not our code.
 		wp_register_style( self::PREFIX . 'metabox-css', plugins_url( 'css/metabox' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
 		wp_register_style( self::PREFIX . 'wp-dashboard', plugins_url( 'css/dashboard' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
 	}

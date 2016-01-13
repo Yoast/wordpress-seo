@@ -51,16 +51,15 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 		$pagenow = 'post-new.php';
 
 		// prefix used in WPSEO-admin-asset-manager
-		$prefix = 'yoast-seo-';
 
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
-		$asset_manager -> register_assets();
+		$asset_manager->register_assets();
 
 
 		// call enqueue function
 		self::$class_instance->enqueue();
 
-		$enqueued = wp_script_is( $prefix . 'metabox', 'enqueued' );
+		$enqueued = wp_script_is( $asset_manager::PREFIX . 'metabox', 'enqueued' );
 		$this->assertTrue( $enqueued );
 	}
 

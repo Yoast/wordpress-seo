@@ -47,7 +47,7 @@ class WPSEO_Admin_Init {
 		add_action( 'admin_init', array( $this, 'ga_compatibility_notice' ), 15 );
 		add_action( 'admin_init', array( $this, 'ignore_tour' ) );
 		add_action( 'admin_init', array( $this, 'load_tour' ) );
-		add_action( 'admin_init', array( $this, 'register_assets' ) );
+		add_action( 'admin_init', array( $this->asset_manager, 'register_assets' ) );
 
 		$this->load_meta_boxes();
 		$this->load_taxonomy_class();
@@ -61,8 +61,8 @@ class WPSEO_Admin_Init {
 	 */
 	public function enqueue_dismissible() {
 		if ( version_compare( $GLOBALS['wp_version'], '4.2', '<' ) ) {
-			$this -> asset_manager -> enqueue_script( 'dismissable' );
-			$this -> asset_manager -> enqueue_style( 'dismissable' );
+			$this->asset_manager->enqueue_script( 'dismissable' );
+			$this->asset_manager->enqueue_style( 'dismissable' );
 		}
 	}
 
@@ -298,13 +298,6 @@ class WPSEO_Admin_Init {
 			update_user_meta( get_current_user_id(), 'wpseo_ignore_tour', true );
 		}
 
-	}
-
-	/**
-	 * Calls the method that starts the process of registering admin styles and admin scripts.
-	 */
-	public function register_assets () {
-		$this -> asset_manager -> register_assets();
 	}
 
 }

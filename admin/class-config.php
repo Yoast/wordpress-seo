@@ -55,10 +55,10 @@ class WPSEO_Admin_Pages {
 		wp_enqueue_style( 'thickbox' );
 		wp_enqueue_style( 'global' );
 		wp_enqueue_style( 'wp-admin' );
-		$this -> asset_manager -> enqueue_style( 'admin-css' );
+		$this->asset_manager->enqueue_style( 'admin-css' );
 
 		if ( is_rtl() ) {
-			$this -> asset_manager -> enqueue_style( 'rtl' );
+			$this->asset_manager->enqueue_style( 'rtl' );
 		}
 	}
 
@@ -66,7 +66,7 @@ class WPSEO_Admin_Pages {
 	 * Loads the required scripts for the config page.
 	 */
 	function config_page_scripts() {
-		$this -> asset_manager -> enqueue_script( 'admin-script' );
+		$this->asset_manager->enqueue_script( 'admin-script' );
 
 
 		wp_localize_script( 'wpseo-admin-script', 'wpseoAdminL10n', $this->localize_admin_script() );
@@ -79,16 +79,16 @@ class WPSEO_Admin_Pages {
 		if ( in_array( $page, array( 'wpseo_social', 'wpseo_dashboard' ) ) ) {
 			wp_enqueue_media();
 
-			$this -> asset_manager -> enqueue_script( 'admin-media' );
+			$this->asset_manager->enqueue_script( 'admin-media' );
 			wp_localize_script( 'wpseo-admin-media', 'wpseoMediaL10n', $this->localize_media_script() );
 		}
 
 		if ( 'wpseo_tools' === $page && 'bulk-editor' === $tool ) {
-			$this -> asset_manager -> enqueue_script( 'bulk-editor' );
+			$this->asset_manager->enqueue_script( 'bulk-editor' );
 		}
 
 		if ( 'wpseo_tools' === $page && 'import-export' === $tool ) {
-			$this -> asset_manager -> enqueue_script( 'export' );
+			$this->asset_manager->enqueue_script( 'export' );
 		}
 	}
 

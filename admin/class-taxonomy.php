@@ -62,15 +62,12 @@ class WPSEO_Taxonomy {
 
 			wp_enqueue_media(); // Enqueue files needed for upload functionality.
 
-			$asset_manager -> enqueue_style( 'metabox-css' );
+			$asset_manager->enqueue_style( 'metabox-css' );
+			$asset_manager->enqueue_script( 'metabox-taxonomypage' );
+			$asset_manager->enqueue_style( 'jquery-qtip.js' );
+			$asset_manager->enqueue_script( 'jquery-qtip' );
+			$asset_manager->enqueue_script( 'admin-media' );
 
-			$asset_manager -> enqueue_script( 'metabox-taxonomypage' );
-
-			// Always enqueue minified as it's not our code.
-			$asset_manager -> enqueue_style( 'jquery-qtip.js' );
-			$asset_manager -> enqueue_script( 'jquery-qtip' );
-
-			$asset_manager -> enqueue_script( 'admin-media' );
 			wp_localize_script( 'wpseo-admin-media', 'wpseoMediaL10n', array(
 				'choose_image' => __( 'Use Image', 'wordpress-seo' ),
 			) );

@@ -893,27 +893,24 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		}
 
 		if ( $pagenow == 'edit.php' ) {
-			$asset_manager -> enqueue_style( 'edit-page' );
+			$asset_manager->enqueue_style( 'edit-page' );
 		}
 		else {
 
 			if ( 0 != get_queried_object_id() ) {
 				wp_enqueue_media( array( 'post' => get_queried_object_id() ) ); // Enqueue files needed for upload functionality.
 			}
-			$asset_manager -> enqueue_style( 'metabox-css' );
-			$asset_manager -> enqueue_style( 'featured-image' );
-			$asset_manager -> enqueue_style( 'jquery-qtip.js' );
-
-			// Always enqueue minified as it's not our code.
-			$asset_manager -> enqueue_script( 'jquery-qtip' );
-
-			$asset_manager -> enqueue_script( 'metabox' );
+			$asset_manager->enqueue_style( 'metabox-css' );
+			$asset_manager->enqueue_style( 'featured-image' );
+			$asset_manager->enqueue_style( 'jquery-qtip.js' );
+			$asset_manager->enqueue_script( 'jquery-qtip' );
+			$asset_manager->enqueue_script( 'metabox' );
 
 			if ( post_type_supports( get_post_type(), 'thumbnail' ) ) {
-				$asset_manager -> enqueue_script( 'featured-image' );
+				$asset_manager->enqueue_script( 'featured-image' );
 			}
 
-			$asset_manager -> enqueue_script( 'admin-media' );
+			$asset_manager->enqueue_script( 'admin-media' );
 
 			wp_localize_script( 'wpseo-admin-media', 'wpseoMediaL10n', $this->localize_media_script() );
 
