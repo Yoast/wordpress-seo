@@ -27,7 +27,7 @@ class WPSEO_Admin {
 	 * Class constructor
 	 */
 	function __construct() {
-		$this->options = WPSEO_Options::get_all();
+		$this->options = WPSEO_Options::get_options( array( 'wpseo', 'wpseo_permalinks' ) );
 
 		if ( is_multisite() ) {
 			WPSEO_Options::maybe_set_multisite_defaults( false );

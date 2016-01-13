@@ -168,28 +168,57 @@ class WPSEO_Options {
 	 * well change between calls (enriched defaults and such)
 	 *
 	 * @static
-	 * @return  array  Array combining the values of (nearly) all the options
+	 * @return  array  Array combining the values of all the options
 	 */
 	public static function get_all() {
-		$all_options  = array();
-		$option_names = self::get_option_names();
+		return self::get_options( self::get_option_names() );
+	}
 
-		if ( is_array( $option_names ) && $option_names !== array() ) {
-			foreach ( $option_names as $option_name ) {
+	/**
+	 * Retrieve one or more options for the SEO plugin.
+	 *
+	 * @static
+	 *
+	 * @param array $option_names An array of option names of the options you want to get.
+	 *
+	 * @return  array  Array combining the values of the requested options
+	 */
+	public static function get_options( array $option_names ) {
+		$options      = array();
+		$option_names = array_filter( $option_names, 'is_string' );
+		foreach ( $option_names as $option_name ) {
+			if ( isset( self::$option_instances[ $option_name ] ) ) {
+				$option  = self::get_option( $option_name );
+				$options = array_merge( $options, $option );
+			}
+		}
+
+		return $options;
+	}
+
+	/**
+	 * Retrieve a single option for the SEO plugin.
+	 *
+	 * @static
+	 *
+	 * @param string $option_name the name of the option you want to get.
+	 *
+	 * @return array Array containing the requested option
+	 */
+	public static function get_option( $option_name ) {
+		$option = null;
+		if ( is_string( $option_name ) && ! empty( $option_name ) ) {
+			if ( isset( self::$option_instances[ $option_name ] ) ) {
 				if ( self::$option_instances[ $option_name ]->multisite_only !== true ) {
 					$option = get_option( $option_name );
 				}
 				else {
 					$option = get_site_option( $option_name );
 				}
-
-				if ( is_array( $option ) && $option !== array() ) {
-					$all_options = array_merge( $all_options, $option );
-				}
 			}
 		}
 
-		return $all_options;
+		return $option;
 	}
 
 
