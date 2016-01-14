@@ -27,25 +27,13 @@ $yform->admin_header( true, 'wpseo_titles' );
 
 	<div class="tabwrapper">
 		<div id="general" class="wpseotab">
+			<?php
+			if ( ! current_theme_supports( 'title-tag' ) ) {
+				$yform->light_switch( 'forcerewritetitle', __( 'Force rewrite titles', 'wordpress-seo' ) );
+				echo '<p class="description">', sprintf( __( '%1$s has auto-detected whether it needs to force rewrite the titles for your pages, if you think it\'s wrong and you know what you\'re doing, you can change the setting here.', 'wordpress-seo' ), 'Yoast SEO' ) . '</p>';
+			}
+			?>
 			<table class="form-table">
-				<?php
-				if ( ! current_theme_supports( 'title-tag' ) ) {
-					?>
-					<tr>
-						<th>
-							<?php _e( 'Force rewrite titles', 'wordpress-seo' ); ?>
-						</th>
-						<td>
-							<?php
-							$yform->checkbox( 'forcerewritetitle', __( 'Enable force rewrite titles', 'wordpress-seo' ) );
-							/* translators: %1$s expands to Yoast SEO */
-							echo '<p class="description">', sprintf( __( '%1$s has auto-detected whether it needs to force rewrite the titles for your pages, if you think it\'s wrong and you know what you\'re doing, you can change the setting here.', 'wordpress-seo' ), 'Yoast SEO' ) . '</p>';
-							?>
-						</td>
-					</tr>
-					<?php
-				}
-				?>
 				<tr>
 					<th>
 						<?php _e( 'Title Separator', 'wordpress-seo' ); ?>
@@ -83,6 +71,10 @@ $yform->admin_header( true, 'wpseo_titles' );
 		<div id="post_types" class="wpseotab">
 			<?php
 			$post_types = get_post_types( array( 'public' => true ), 'objects' );
+			$index_switch_values = array(
+				'off' => '<code>index</code>',
+				'on'  => '<code>noindex</code>',
+			);
 			if ( is_array( $post_types ) && $post_types !== array() ) {
 				foreach ( $post_types as $pt ) {
 					$warn = false;
@@ -105,10 +97,16 @@ $yform->admin_header( true, 'wpseo_titles' );
 					if ( $options['usemetakeywords'] === true ) {
 						$yform->textinput( 'metakey-' . $name, __( 'Meta keywords template', 'wordpress-seo' ) );
 					}
-					$yform->checkbox( 'noindex-' . $name, '<code>noindex, follow</code>', __( 'Meta Robots', 'wordpress-seo' ) );
-					$yform->checkbox( 'showdate-' . $name, __( 'Show date in snippet preview?', 'wordpress-seo' ), __( 'Date in Snippet Preview', 'wordpress-seo' ) );
-					/* translators: %1$s expands to Yoast SEO */
-					$yform->checkbox( 'hideeditbox-' . $name, __( 'Hide', 'wordpress-seo' ), sprintf( __( '%1$s Meta Box', 'wordpress-seo' ), 'Yoast SEO' ) );
+					$yform->toggle_switch( 'noindex-' . $name, $index_switch_values, __( 'Meta Robots', 'wordpress-seo' ) );
+					$yform->toggle_switch( 'showdate-' . $name, array(
+						'on'  => __( 'Show', 'wordpress-seo' ),
+						'off' => __( 'Hide', 'wordpress-seo' ),
+					), __( 'Date in Snippet Preview', 'wordpress-seo' ) );
+					$yform->toggle_switch( 'hideeditbox-' . $name, array(
+						'off' => __( 'Show', 'wordpress-seo' ),
+						'on'  => __( 'Hide', 'wordpress-seo' ),
+						/* translators: %1$s expands to Yoast SEO */
+					), sprintf( __( '%1$s Meta Box', 'wordpress-seo' ), 'Yoast SEO' ) );
 
 					/**
 					 * Allow adding a custom checkboxes to the admin meta page - Post Types tab
@@ -145,7 +143,7 @@ $yform->admin_header( true, 'wpseo_titles' );
 					if ( $options['breadcrumbs-enable'] === true ) {
 						$yform->textinput( 'bctitle-ptarchive-' . $name, __( 'Breadcrumbs title', 'wordpress-seo' ) );
 					}
-					$yform->checkbox( 'noindex-ptarchive-' . $name, '<code>noindex, follow</code>', __( 'Meta Robots', 'wordpress-seo' ) );
+					$yform->toggle_switch( 'noindex-ptarchive-' . $name, $index_switch_values, __( 'Meta Robots', 'wordpress-seo' ) );
 
 					echo '<br/><br/>';
 				}
@@ -166,9 +164,12 @@ $yform->admin_header( true, 'wpseo_titles' );
 					if ( $options['usemetakeywords'] === true ) {
 						$yform->textinput( 'metakey-tax-' . $tax->name, __( 'Meta keywords template', 'wordpress-seo' ) );
 					}
-					$yform->checkbox( 'noindex-tax-' . $tax->name, '<code>noindex, follow</code>', __( 'Meta Robots', 'wordpress-seo' ) );
-					/* translators: %1$s expands to Yoast SEO */
-					$yform->checkbox( 'hideeditbox-tax-' . $tax->name, __( 'Hide', 'wordpress-seo' ), sprintf( __( '%1$s Meta Box', 'wordpress-seo' ), 'Yoast SEO' ) );
+					$yform->toggle_switch( 'noindex-tax-' . $tax->name, $index_switch_values, __( 'Meta Robots', 'wordpress-seo' ) );
+					$yform->toggle_switch( 'hideeditbox-' . $tax->name, array(
+						'off' => __( 'Show', 'wordpress-seo' ),
+						'on'  => __( 'Hide', 'wordpress-seo' ),
+						/* translators: %1$s expands to Yoast SEO */
+					), sprintf( __( '%1$s Meta Box', 'wordpress-seo' ), 'Yoast SEO' ) );
 					echo '<br/><br/>';
 				}
 				unset( $tax );
@@ -192,6 +193,7 @@ $yform->admin_header( true, 'wpseo_titles' );
 			echo '<br/>';
 
 			echo '<h3>' . __( 'Duplicate content prevention', 'wordpress-seo' ) . '</h3>';
+			echo '<h4>' . __( 'Author archives', 'wordpress-seo' ) . '</h4>';
 			echo '<p>';
 			/* translators: %1$s / %2$s: links to an article about duplicate content on yoast.com */
 			printf( __( 'If you\'re running a one author blog, the author archive will be exactly the same as your homepage. This is what\'s called a %1$sduplicate content problem%2$s.', 'wordpress-seo' ), '<a href="https://yoast.com/articles/duplicate-content/">', '</a>' );
@@ -199,15 +201,20 @@ $yform->admin_header( true, 'wpseo_titles' );
 			/* translators: %s expands to <code>noindex, follow</code> */
 			echo sprintf( __( 'If this is the case on your site, you can choose to either disable it (which makes it redirect to the homepage), or to add %s to it so it doesn\'t show up in the search results.', 'wordpress-seo' ), '<code>noindex,follow</code>' );
 			echo '</p>';
-			/* translators: %s expands to <code>noindex, follow</code> */
-			$yform->checkbox( 'noindex-author-wpseo', sprintf( __( 'Add %s to the author archives', 'wordpress-seo' ), '<code>noindex, follow</code>' ) );
-			$yform->checkbox( 'disable-author', __( 'Disable the author archives', 'wordpress-seo' ) );
+			$yform->toggle_switch( 'disable-author', array(
+				'off' => __( 'Enabled', 'wordpress-seo' ),
+				'on'  => __( 'Disabled', 'wordpress-seo' ),
+			), __( 'Author archives', 'wordpress-seo' ) );
+			$yform->toggle_switch( 'noindex-author-wpseo', $index_switch_values, __( 'Meta Robots', 'wordpress-seo' ) );
+			echo '<h4>' . __( 'Date-based archives', 'wordpress-seo' ) . '</h4>';
 			echo '<p>';
 			_e( 'Date-based archives could in some cases also be seen as duplicate content.', 'wordpress-seo' );
 			echo '</p>';
-			/* translators: %s expands to <code>noindex, follow</code> */
-			$yform->checkbox( 'noindex-archive-wpseo', sprintf( __( 'Add %s to the date-based archives', 'wordpress-seo' ), '<code>noindex, follow</code>' ) );
-			$yform->checkbox( 'disable-date', __( 'Disable the date-based archives', 'wordpress-seo' ) );
+			$yform->toggle_switch( 'disable-date', array(
+				'off' => __( 'Enabled', 'wordpress-seo' ),
+				'on'  => __( 'Disabled', 'wordpress-seo' ),
+			), __( 'Date-based archives', 'wordpress-seo' ) );
+			$yform->toggle_switch( 'noindex-archive-wpseo', $index_switch_values, __( 'Meta Robots', 'wordpress-seo' ) );
 
 			echo '<br/>';
 
@@ -228,18 +235,18 @@ $yform->admin_header( true, 'wpseo_titles' );
 			<br/>
 			<?php
 			echo '<p>', __( 'If you want to prevent /page/2/ and further of any archive to show up in the search results, enable this.', 'wordpress-seo' ), '</p>';
-			$yform->checkbox( 'noindex-subpages-wpseo', __( 'Noindex subpages of archives', 'wordpress-seo' ) );
+			$yform->toggle_switch( 'noindex-subpages-wpseo', $index_switch_values, __( 'Subpages of archives', 'wordpress-seo' ) );
 
-			echo '<p>', __( 'I don\'t know why you\'d want to use meta keywords, but if you want to, check this box.', 'wordpress-seo' ), '</p>';
-			$yform->checkbox( 'usemetakeywords', __( 'Use meta keywords tag?', 'wordpress-seo' ) );
+			echo '<p>', __( 'I don\'t know why you\'d want to use meta keywords, but if you want to, enable this.', 'wordpress-seo' ), '</p>';
+			$yform->light_switch( 'usemetakeywords', __( 'Use meta keywords tag?', 'wordpress-seo' ) );
 
 			echo '<p>', __( 'Prevents search engines from using the DMOZ description for pages from this site in the search results.', 'wordpress-seo' ), '</p>';
 			/* translators: %s expands to <code>noodp</code> */
-			$yform->checkbox( 'noodp', sprintf( __( 'Add %s meta robots tag sitewide', 'wordpress-seo' ), '<code>noodp</code>' ) );
+			$yform->light_switch( 'noodp', sprintf( __( 'Add %s meta robots tag sitewide', 'wordpress-seo' ), '<code>noodp</code>' ) );
 
 			echo '<p>', __( 'Prevents search engines from using the Yahoo! directory description for pages from this site in the search results.', 'wordpress-seo' ), '</p>';
 			/* translators: %s expands to <code>noydir</code> */
-			$yform->checkbox( 'noydir', sprintf( __( 'Add %s meta robots tag sitewide', 'wordpress-seo' ), '<code>noydir</code>' ) );
+			$yform->light_switch( 'noydir', sprintf( __( 'Add %s meta robots tag sitewide', 'wordpress-seo' ), '<code>noydir</code>' ) );
 
 			?>
 		</div>
