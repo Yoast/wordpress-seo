@@ -11,7 +11,9 @@
 	.switch-light.switch-yoast-seo > strong {
 		display: block;
 		float: left;
+		box-sizing: border-box;
 		min-width: 200px;
+		padding-right: 1em;
 		line-height: 2em;
 		vertical-align: middle;
 	}
@@ -69,5 +71,14 @@
 
 	.switch-light.switch-yoast-seo-reverse span span {
 		float: right;
+	}
+
+	label.switch-yoast-seo {
+		margin-left: 0;
+	}
+
+	.switch-toggle.switch-yoast-seo label code,
+	.switch-light.switch-yoast-seo label code {
+		background-color: inherit;
 	}
 }

@@ -10,7 +10,7 @@ p.desc {
 
 p.desc.label {
 	margin-bottom: 20px;
-	padding: 2px 0 10px 185px;
+	padding: 2px 0 10px 200px;
 }
 
 tr.yst_row {
@@ -54,7 +54,7 @@ textarea.textinput,
 select.select,
 input.checkbox {
 	float: left;
-	margin: 5px 3px 5px 0;
+	margin: 5px 3px 10px 0;
 	padding: 5px;
 }
 
@@ -78,7 +78,7 @@ textarea.import {
 label.textinput,
 label.select,
 label.checkbox {
-	width: 180px;
+	width: 200px;
 	margin: 5px 0 5px 0;
 	background-color: transparent;
 }
