@@ -21,12 +21,9 @@ class WPSEO_OnPage_Double extends WPSEO_OnPage {
 	/**
 	 * Overwrite the method because is has a dependency.
 	 *
-	 * @param int|null $old_status The old indexable status.
-	 * @param int      $new_status The new indexable status.
-	 *
 	 * @return bool
 	 */
-	protected function notify_admins( $old_status, $new_status ) {
+	protected function notify_admins() {
 
 	}
 

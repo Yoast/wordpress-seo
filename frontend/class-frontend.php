@@ -10,7 +10,7 @@
 class WPSEO_Frontend {
 
 	/**
-	 * @var    object    Instance of this class
+	 * @var    object    Instance of this class.
 	 */
 	public static $instance;
 
@@ -20,44 +20,52 @@ class WPSEO_Frontend {
 	public $options = array();
 
 	/**
-	 * @var boolean Boolean indicating wether output buffering has been started
+	 * @var boolean Boolean indicating wether output buffering has been started.
 	 */
 	private $ob_started = false;
 
 	/**
-	 * Holds the canonical URL for the current page
+	 * Holds the canonical URL for the current page.
 	 *
 	 * @var string
 	 */
 	private $canonical = null;
 
 	/**
-	 * Holds the canonical URL for the current page that cannot be overriden by a manual canonical input
+	 * Holds the canonical URL for the current page that cannot be overriden by a manual canonical input.
 	 *
 	 * @var string
 	 */
 	private $canonical_no_override = null;
 
 	/**
-	 * Holds the canonical URL for the current page without pagination
+	 * Holds the canonical URL for the current page without pagination.
 	 *
 	 * @var string
 	 */
 	private $canonical_unpaged = null;
 
 	/**
-	 * Holds the pages meta description
+	 * Holds the pages meta description.
 	 *
 	 * @var string
 	 */
 	private $metadesc = null;
 
 	/**
-	 * Holds the generated title for the page
+	 * Holds the generated title for the page.
 	 *
 	 * @var string
 	 */
 	private $title = null;
+
+	/**
+	 * Holds the names of the required options.
+	 *
+	 * @var array
+	 */
+	private $required_options = array( 'wpseo', 'wpseo_rss', 'wpseo_social', 'wpseo_permalinks', 'wpseo_titles' );
+
 
 	/**
 	 * Class constructor
@@ -66,7 +74,7 @@ class WPSEO_Frontend {
 	 */
 	protected function __construct() {
 
-		$this->options = WPSEO_Options::get_all();
+		$this->options = WPSEO_Options::get_options( $this->required_options );
 
 		add_action( 'wp_head', array( $this, 'front_page_specific_init' ), 0 );
 		add_action( 'wp_head', array( $this, 'head' ), 1 );
@@ -176,7 +184,7 @@ class WPSEO_Frontend {
 				$this->$name = $default;
 			}
 		}
-		$this->options = WPSEO_Options::get_all();
+		$this->options = WPSEO_Options::get_options( $this->required_options );
 	}
 
 	/**
@@ -701,21 +709,20 @@ class WPSEO_Frontend {
 	 * @return string
 	 */
 	public function robots() {
-		global $wp_query;
+		global $wp_query, $post;
 
 		$robots           = array();
 		$robots['index']  = 'index';
 		$robots['follow'] = 'follow';
 		$robots['other']  = array();
 
-		if ( is_singular() ) {
-			global $post;
+		if ( is_singular() && is_object( $post ) ) {
 
-			if ( is_object( $post ) && ( isset( $this->options[ 'noindex-' . $post->post_type ] ) && $this->options[ 'noindex-' . $post->post_type ] === true ) ) {
-				$robots['index'] = 'noindex';
-			}
+			$option_name = 'noindex-' . $post->post_type;
+			$noindex     = isset( $this->options[ $option_name ] ) && $this->options[ $option_name ] === true;
+			$private     = 'private' === $post->post_status;
 
-			if ( 'private' == $post->post_status ) {
+			if ( $noindex || $private ) {
 				$robots['index'] = 'noindex';
 			}
 
@@ -1887,7 +1894,7 @@ class WPSEO_Frontend {
 	 * @param String $description The content of the meta description.
 	 */
 	private function add_robot_content_noodp( $description ) {
-		if ( ! ( empty( $description )  ) && $this->options['noodp'] === false ) {
+		if ( ! ( empty( $description ) ) && $this->options['noodp'] === false ) {
 			$this->options['noodp'] = true;
 		}
 	}

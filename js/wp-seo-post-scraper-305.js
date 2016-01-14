@@ -53,7 +53,7 @@
 			postNameElem.value = document.getElementById('editable-post-name-full').textContent;
 
 			YoastSEO.app.snippetPreview.unformattedText.snippet_cite = document.getElementById('editable-post-name-full').textContent;
-			YoastSEO.app.refresh();
+			YoastSEO.app.analyzeTimer();
 		} else if ( time < 5000 ) {
 			time += 200;
 			setTimeout( this.bindSnippetCiteEvents.bind( this, time ), 200 );
@@ -296,7 +296,7 @@
 	PostScraper.prototype.updateSnippet = function( ev ) {
 		this.updateSnippetValues( ev );
 		YoastSEO.app.snippetPreview.checkTextLength( ev );
-		YoastSEO.app.refresh();
+		YoastSEO.app.analyzeTimer();
 	};
 
 	/**
@@ -432,7 +432,7 @@
 				}, function( data ) {
 					if ( data ) {
 						wpseoPostScraperL10n.keyword_usage[ keyword ] = data;
-						YoastSEO.app.refresh();
+						YoastSEO.app.analyzeTimer();
 					}
 				}, 'json'
 			);
