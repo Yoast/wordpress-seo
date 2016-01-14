@@ -37,9 +37,14 @@ class WPSEO_Primary_Term {
 	public function get_primary_term() {
 		$primary_term = get_post_meta( $this->post_ID, WPSEO_Meta::$meta_prefix . 'primary_' . $this->taxonomy_name, true );
 
+		$terms = get_the_terms( $this->post_ID, $this->taxonomy_name );
+
+		if ( ! in_array( $primary_term, wp_list_pluck( $terms, 'term_id' ) ) ) {
+			$primary_term = false;
+		}
+
 		// By default the first term (sorted by ID) is the primary term.
 		if ( ! $primary_term ) {
-			$terms = get_the_terms( $this->post_ID, $this->taxonomy_name );
 
 			if ( ! empty( $terms ) ) {
 				usort( $terms, '_usort_terms_by_ID' );
