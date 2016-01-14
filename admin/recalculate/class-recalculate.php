@@ -57,11 +57,16 @@ abstract class WPSEO_Recalculate {
 		if ( $items = $this->get_items( $paged ) ) {
 			$this->options = WPSEO_Options::get_all();
 
-			return array(
+			$return = array(
 				'items'       => $this->parse_items( $items ),
 				'total_items' => count( $items ),
-				'next_page'   => ( $paged + 1 ),
 			);
+
+			if ( $return['total_items'] >= $this->items_per_page ) {
+				$return['next_page'] = ( $paged + 1 );
+			}
+
+			return $return;
 		}
 
 		return false;
