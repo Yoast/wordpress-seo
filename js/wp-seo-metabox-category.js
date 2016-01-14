@@ -140,10 +140,7 @@
 				makeFirstTermPrimary( taxonomyName );
 			}
 
-			// If we check a term while there is no primary term we make that one the primary term.
-			if ( '' === getPrimaryTerm( taxonomyName ) ) {
-				makeFirstTermPrimary( taxonomyName );
-			}
+			ensurePrimaryTerm(taxonomyName);
 
 			updatePrimaryTermSelectors( taxonomyName );
 		};
@@ -157,8 +154,20 @@
 	 */
 	function termListAddHandler( taxonomyName ) {
 		return function() {
+			ensurePrimaryTerm(taxonomyName);
 			updatePrimaryTermSelectors( taxonomyName );
 		};
+	}
+
+	/**
+	 * If we check a term while there is no primary term we make that one the primary term.
+	 *
+	 * @param {string} taxonomyName
+	 */
+	function ensurePrimaryTerm(taxonomyName) {
+		if ('' === getPrimaryTerm(taxonomyName)) {
+			makeFirstTermPrimary(taxonomyName);
+		}
 	}
 
 	/**
@@ -198,7 +207,10 @@
 			updatePrimaryTermSelectors( taxonomy.name );
 
 			metaboxTaxonomy.on( 'click', 'input[type="checkbox"]', termCheckboxHandler( taxonomy.name ) );
+
+			// When the AJAX Request is done, this event will be fired.
 			metaboxTaxonomy.on( 'wpListAddEnd', '#' + taxonomy.name + 'checklist', termListAddHandler( taxonomy.name ) );
+
 			metaboxTaxonomy.on( 'click', '.wpseo-make-primary-term', makePrimaryHandler( taxonomy.name ) );
 		});
 	};

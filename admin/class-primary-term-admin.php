@@ -202,10 +202,14 @@ class WPSEO_Primary_Term_Admin {
 	private function map_taxonomies_for_js( $taxonomy ) {
 		$primary_term = $this->get_primary_term( $taxonomy->name );
 
+		if ( empty( $primary_term ) ) {
+			$primary_term = '';
+		}
+
 		return array(
 			'title'   => $taxonomy->labels->singular_name,
 			'name'    => $taxonomy->name,
-			'primary' => ( $primary_term ? $primary_term : '' ),
+			'primary' => $primary_term,
 			'terms'   => array_map( array( $this, 'map_terms_for_js' ), get_terms( $taxonomy->name ) ),
 		);
 	}
