@@ -50,7 +50,7 @@ $yform->admin_header( true, 'wpseo_social' );
 				printf( __( 'Add Open Graph meta data to your site\'s %s section, Facebook and other social networks use this data when your pages are shared.', 'wordpress-seo' ), '<code>&lt;head&gt;</code>' );
 			?>
 		</p>
-		<?php $yform->checkbox( 'opengraph', __( 'Add Open Graph meta data', 'wordpress-seo' ) ); ?>
+		<?php $yform->light_switch( 'opengraph', __( 'Add Open Graph meta data', 'wordpress-seo' ) ); ?>
 
 		<?php
 		if ( 'posts' == get_option( 'show_on_front' ) ) {
@@ -87,7 +87,7 @@ $yform->admin_header( true, 'wpseo_social' );
 			?>
 		</p>
 
-		<?php $yform->checkbox( 'twitter', __( 'Add Twitter card meta data', 'wordpress-seo' ) ); ?>
+		<?php $yform->light_switch( 'twitter', __( 'Add Twitter card meta data', 'wordpress-seo' ) ); ?>
 
 		<?php
 		$yform->select( 'twitter_card_type', __( 'The default card type to use', 'wordpress-seo' ), WPSEO_Option_Social::$twitter_card_types );
@@ -115,7 +115,7 @@ $yform->admin_header( true, 'wpseo_social' );
 
 	<div id="google" class="wpseotab">
 		<p>
-			<?php $yform->checkbox( 'googleplus', __( 'Add Google+ specific post meta data', 'wordpress-seo' ) ); ?>
+			<?php $yform->light_switch( 'googleplus', __( 'Add Google+ specific post meta data', 'wordpress-seo' ) ); ?>
 		</p>
 
 		<p><?php _e( 'If you have a Google+ page for your business, add that URL here and link it on your Google+ page\'s about page.', 'wordpress-seo' ); ?></p>
