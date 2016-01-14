@@ -318,7 +318,7 @@ class Yoast_Form {
 		}
 
 		if ( empty( $buttons ) ) {
-			$buttons = array( __( 'Off', 'wordpress-seo' ), __( 'On','wordpress-seo' ) );
+			$buttons = array( __( 'Disabled', 'wordpress-seo' ), __( 'Enabled', 'wordpress-seo' ) );
 		}
 
 		list( $off_button, $on_button ) = $buttons;

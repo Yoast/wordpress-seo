@@ -26,11 +26,7 @@ $options = get_option( 'wpseo_xml' );
 
 echo '<br/>';
 
-$yform->light_switch(
-	'enablexmlsitemap',
-	__( 'XML sitemap functionality', 'wordpress-seo' ),
-	array( __( 'Disabled', 'wordpress-seo' ), __( 'Enabled', 'wordpress-seo' ) )
-);
+$yform->light_switch( 'enablexmlsitemap', __( 'XML sitemap functionality', 'wordpress-seo' ) );
 
 ?>
 	<div id="sitemapinfo">
