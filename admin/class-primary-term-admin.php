@@ -205,7 +205,7 @@ class WPSEO_Primary_Term_Admin {
 		return array(
 			'title'   => $taxonomy->labels->singular_name,
 			'name'    => $taxonomy->name,
-			'primary' => $primary_term ? $primary_term : '',
+			'primary' => ( $primary_term ? $primary_term : '' ),
 			'terms'   => array_map( array( $this, 'map_terms_for_js' ), get_terms( $taxonomy->name ) ),
 		);
 	}
