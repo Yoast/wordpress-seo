@@ -26,7 +26,7 @@ jQuery( document ).ready( function() {
 		).change();
 
 		jQuery( '#disable_author_sitemap' ).find( 'input:radio' ).change( function () {
-				if ( jQuery( this ).is( ':checked' ) ) {
+				if( jQuery( this ).is( ':checked' ) ) {
 					jQuery( '#xml_user_block' ).toggle( jQuery( this ).val() === 'off' );
 				}
 			}
