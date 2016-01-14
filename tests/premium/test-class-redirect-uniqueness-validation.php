@@ -54,9 +54,8 @@ class WPSEO_Redirect_Uniqueness_Validation_Test extends WPSEO_UnitTestCase {
 		);
 
 		$this->assertEquals(
-			new WPSEO_Validation_Error(
-				'The old url already exists as a redirect.' ),
-				$this->class_instance->get_error()
+			new WPSEO_Validation_Error( 'The old url already exists as a redirect.', 'origin' ),
+			$this->class_instance->get_error()
 		);
 	}
 
