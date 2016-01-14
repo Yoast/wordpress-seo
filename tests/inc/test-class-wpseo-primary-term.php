@@ -27,6 +27,17 @@ class WPSEO_Primary_Term_Test extends WPSEO_UnitTestCase {
 
         $class_instance->set_primary_term( $this->primary_term_id );
 
+        $class_instance = $this->getMock( 'WPSEO_Primary_Term', array( 'get_terms' ) );
+
+        $terms = ( object ) array(
+            'term_id' => 54,
+        );
+
+        $class_instance
+            ->expects( $this->once() )
+            ->method( 'get_terms' )
+            ->will ( $this->returnValue( $terms ) );
+        
         $this->assertEquals( $this->primary_term_id, $class_instance->get_primary_term() );
     }
 

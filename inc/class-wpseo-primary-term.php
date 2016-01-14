@@ -37,9 +37,7 @@ class WPSEO_Primary_Term {
 	public function get_primary_term() {
 		$primary_term = get_post_meta( $this->post_ID, WPSEO_Meta::$meta_prefix . 'primary_' . $this->taxonomy_name, true );
 
-		$terms = get_the_terms( $this->post_ID, $this->taxonomy_name );
-
-		if ( empty( $terms ) || ! in_array( $primary_term, wp_list_pluck( $terms, 'term_id' ) ) ) {
+		if ( ! in_array( $primary_term, wp_list_pluck( $this->get_terms(), 'term_id' ) ) ) {
 			$primary_term = false;
 		}
 
@@ -64,5 +62,21 @@ class WPSEO_Primary_Term {
 	 */
 	public function set_primary_term( $new_primary_term ) {
 		update_post_meta( $this->post_ID, WPSEO_Meta::$meta_prefix . 'primary_' . $this->taxonomy_name, $new_primary_term );
+	}
+
+	/**
+	 * Get the terms for the current post ID.
+	 * When $terms is not an array, set $terms to an array.
+	 *
+	 * @return array
+	 */
+	protected function get_terms() {
+		$terms = get_the_terms( $this->post_ID, $this->taxonomy_name );
+
+		if ( ! is_array( $terms ) ) {
+			$terms = array();
+		}
+
+		return $terms;
 	}
 }
