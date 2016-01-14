@@ -70,19 +70,9 @@ class WPSEO_Primary_Term_Admin_Test extends WPSEO_UnitTestCase {
      * @covers WPSEO_Primary_Term_Admin::enqueue_assets()
      */
     public function test_enqueue_assets_DO_NOT_enqueue_scripts() {
-        $taxonomies = array(
-            'category' => ( object ) array(
-                'labels' => ( object ) array(
-                    'singular_name' => 'Category',
-                ),
-                'name' => 'category',
-            ),
-        );
-
         $this->class_instance
-            ->expects( $this->once() )
-            ->method( 'get_primary_term_taxonomies' )
-            ->will( $this->returnValue( $taxonomies ) );
+            ->expects( $this->never() )
+            ->method( 'get_primary_term_taxonomies' );
 
         $this->class_instance->enqueue_assets();
 
