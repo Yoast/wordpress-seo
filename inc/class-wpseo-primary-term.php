@@ -39,7 +39,7 @@ class WPSEO_Primary_Term {
 
 		$terms = get_the_terms( $this->post_ID, $this->taxonomy_name );
 
-		if ( ! in_array( $primary_term, wp_list_pluck( $terms, 'term_id' ) ) ) {
+		if ( empty( $terms ) || ! in_array( $primary_term, wp_list_pluck( $terms, 'term_id' ) ) ) {
 			$primary_term = false;
 		}
 
