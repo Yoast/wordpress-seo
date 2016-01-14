@@ -1,5 +1,21 @@
 <?php
 
+class WPSEO_Primary_Term_Double extends WPSEO_Primary_Term {
+
+    /**
+     * Overwrite the get_terms method, because it uses a dependency
+     *
+     * @return array
+     */
+    protected function get_terms() {
+        return array(
+            ( object ) array(
+                'term_id' => 54,
+            )
+        );
+    }
+}
+
 class WPSEO_Primary_Term_Test extends WPSEO_UnitTestCase {
 
     /**
@@ -23,22 +39,10 @@ class WPSEO_Primary_Term_Test extends WPSEO_UnitTestCase {
      * @covers WPSEO_Primary_Term::get_primary_term
      */
     public function test_get_primary_term_WHERE_primary_term_EXISTS() {
-        $class_instance = new WPSEO_Primary_Term( $this->taxonomy_name, $this->post_id );
+        $class_instance = new WPSEO_Primary_Term_Double( $this->taxonomy_name, $this->post_id );
 
-        $class_instance->set_primary_term( $this->primary_term_id );
-
-        $class_instance = $this->getMock( 'WPSEO_Primary_Term', array( 'get_terms' ) );
-
-        $terms = ( object ) array(
-            'term_id' => 54,
-        );
-
-        $class_instance
-            ->expects( $this->once() )
-            ->method( 'get_terms' )
-            ->will ( $this->returnValue( $terms ) );
-        
         $this->assertEquals( $this->primary_term_id, $class_instance->get_primary_term() );
+
     }
 
     /**
