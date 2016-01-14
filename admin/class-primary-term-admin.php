@@ -194,10 +194,12 @@ class WPSEO_Primary_Term_Admin {
 	 * @return array
 	 */
 	private function map_taxonomies_for_js( $taxonomy ) {
+		$primary_term = $this->get_primary_term( $taxonomy->name );
+
 		return array(
 			'title'   => $taxonomy->labels->singular_name,
 			'name'    => $taxonomy->name,
-			'primary' => $this->get_primary_term( $taxonomy->name ),
+			'primary' => $primary_term ? $primary_term : '',
 			'terms'   => array_map( array( $this, 'map_terms_for_js' ), get_terms( $taxonomy->name ) ),
 		);
 	}
