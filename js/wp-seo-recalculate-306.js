@@ -145,12 +145,24 @@
 			if ( response.next_page !== undefined ) {
 				this.getItemsToRecalculate( response.next_page );
 			}
+			else {
+				this.onCompleteRequest();
+			}
 
 			return true;
 		}
 
+		this.onCompleteRequest();
+	};
+
+	/**
+	 * Run the oncomplete method when the process is done..
+	 */
+	YoastRecalculateScore.prototype.onCompleteRequest = function() {
+		// When there is nothing to do.
 		if ( this.oncomplete !== false ) {
 			this.oncomplete();
+			this.oncomplete = false;
 		}
 	};
 
