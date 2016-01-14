@@ -37,6 +37,12 @@ class WPSEO_Primary_Term_Admin {
 	 * @return void
 	 */
 	public function enqueue_assets() {
+		global $pagenow;
+
+		if ( $pagenow !== 'post.php' && $pagenow !== 'post-new.php' ) {
+			return;
+		}
+
 		$taxonomies = $this->get_primary_term_taxonomies();
 
 		// Only enqueue if there are taxonomies that need a primary term.
@@ -46,7 +52,7 @@ class WPSEO_Primary_Term_Admin {
 
 		wp_enqueue_style( 'wpseo-primary-category', plugins_url( 'css/metabox-primary-category' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
 
-		wp_enqueue_script( 'wpseo-primary-category', plugins_url( 'js/wp-seo-metabox-category' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'jquery' ), WPSEO_VERSION, true );
+		wp_enqueue_script( 'wpseo-primary-category', plugins_url( 'js/wp-seo-metabox-category' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'jquery', 'wp-util' ), WPSEO_VERSION, true );
 
 		$taxonomies = array_map( array( $this, 'map_taxonomies_for_js' ), $taxonomies );
 
