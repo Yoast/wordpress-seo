@@ -526,7 +526,7 @@ class Yoast_Form {
 
 		$var_esc = esc_attr( $var );
 
-		echo '<fieldset class="fieldset-switch-toggle"><legend>', $label, '</legend>
+		echo '<fieldset id="', $var_esc, '" class="fieldset-switch-toggle" ><legend>', $label, '</legend>
 	<div class="switch-toggle switch-candy switch-yoast-seo">';
 
 		foreach ( $values as $key => $value ) {

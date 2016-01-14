@@ -72,8 +72,11 @@ $yform->light_switch( 'enablexmlsitemap', __( 'XML sitemap functionality', 'word
 		<div id="user-sitemap" class="wpseotab">
 			<p class="expl"><?php _e( 'The user sitemap contains the author archive URLs for every user on your site. You can choose to not include users without posts.', 'wordpress-seo' ); ?></p>
 			<?php
-			$switch_buttons = array( __( 'Enabled', 'wordpress-seo' ), __( 'Disabled', 'wordpress-seo' ) );
-			$yform->light_switch( 'disable_author_sitemap', __( 'Author / user sitemap', 'wordpress-seo' ), $switch_buttons, true );
+			$yform->toggle_switch(
+				'disable_author_sitemap',
+				array( 'off' => __( 'Enabled', 'wordpress-seo' ), 'on' => __( 'Disabled', 'wordpress-seo' ) ),
+				__( 'Author / user sitemap', 'wordpress-seo' )
+			);
 			?>
 			<div id="xml_user_block">
 					<?php
