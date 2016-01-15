@@ -32,7 +32,7 @@ class WPSEO_Term_Slug_Watcher {
 	public function hook_unique_term_slug( $slug, $term, $original_slug ) {
 		if ( $this->check_for_redirect( $this->get_term_slug( $slug, $term ) ) ) {
 			$suffix = $this->get_suffix( $slug, $original_slug );
-			$slug   = $slug . '-' . $suffix;
+			$slug   = $original_slug . '-' . $suffix;
 			$slug   = wp_unique_term_slug( $slug, $term );
 		}
 

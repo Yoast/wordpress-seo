@@ -30,7 +30,7 @@ class WPSEO_Post_Slug_Watcher {
 	public function hook_unique_post_slug( $slug, $post_ID, $post_status, $post_type, $post_parent, $original_slug ) {
 		if ( $this->check_for_redirect( $slug ) ) {
 			$suffix = $this->get_suffix( $slug, $original_slug );
-			$slug   = $slug . '-' . $suffix;
+			$slug   = $original_slug . '-' . $suffix;
 			$slug   = wp_unique_post_slug( $slug, $post_ID, $post_status, $post_type, $post_parent );
 		}
 
@@ -63,6 +63,9 @@ class WPSEO_Post_Slug_Watcher {
 		if ( $slug === $original_slug ) {
 			return 2;
 		}
+
+		var_dump($slug);
+		var_dump($original_slug);
 
 		return ( str_replace( $original_slug . '-', '', $slug ) + 1 );
 	}

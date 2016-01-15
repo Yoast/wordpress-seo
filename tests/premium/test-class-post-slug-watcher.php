@@ -25,14 +25,13 @@ class WPSEO_Post_Slug_Watcher_Test extends WPSEO_UnitTestCase {
 		$redirect_manager->create_redirect( new WPSEO_Redirect( 'another-slug-2', '', 410 ) );
 		$redirect_manager->save_redirects();
 
-
 		$this->class_instance = new WPSEO_Post_Slug_Watcher();
 	}
 
 	/**
 	 * Test if the action is set in the constructor.
 	 *
-	 * @covers: WPSEO_Post_Slug_Watcher::__construct();
+	 * @covers WPSEO_Post_Slug_Watcher::__construct();
 	 */
 	public function test_setting_hook_in_constructor() {
 		$this->assertEquals(
@@ -44,8 +43,8 @@ class WPSEO_Post_Slug_Watcher_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Test the result of the post_name in case of the slug isn't used before.
 	 *
-	 * @covers: WPSEO_Post_Slug_Watcher::hook_unique_post_slug
-	 * @covers: WPSEO_Post_Slug_Watcher::check_for_redirect
+	 * @covers WPSEO_Post_Slug_Watcher::hook_unique_post_slug
+	 * @covers WPSEO_Post_Slug_Watcher::check_for_redirect
 	 */
 	public function test_with_non_existing_slug() {
 		$post = $this->factory->post->create_and_get( array( 'post_name' => 'non-existing' ) );
@@ -62,8 +61,8 @@ class WPSEO_Post_Slug_Watcher_Test extends WPSEO_UnitTestCase {
 	 *
 	 * Expected result is a suffix of -2 added by WordPress
 	 *
-	 * @covers: WPSEO_Post_Slug_Watcher::hook_unique_post_slug
-	 * @covers: WPSEO_Post_Slug_Watcher::check_for_redirect
+	 * @covers WPSEO_Post_Slug_Watcher::hook_unique_post_slug
+	 * @covers WPSEO_Post_Slug_Watcher::check_for_redirect
 	 */
 	public function test_with_existing_slug() {
 		$this->factory->post->create( array( 'post_name' => 'i-do-exist' ) );
@@ -82,9 +81,9 @@ class WPSEO_Post_Slug_Watcher_Test extends WPSEO_UnitTestCase {
 	 *
 	 * Expected result is a suffix of -2 added by the watcher
 	 *
-	 * @covers: WPSEO_Post_Slug_Watcher::hook_unique_post_slug
-	 * @covers: WPSEO_Post_Slug_Watcher::check_for_redirect
-	 * @covers: WPSEO_Post_Slug_Watcher::get_suffix
+	 * @covers WPSEO_Post_Slug_Watcher::hook_unique_post_slug
+	 * @covers WPSEO_Post_Slug_Watcher::check_for_redirect
+	 * @covers WPSEO_Post_Slug_Watcher::get_suffix
 	 */
 	public function test_with_a_slug_being_redirected() {
 
@@ -103,9 +102,9 @@ class WPSEO_Post_Slug_Watcher_Test extends WPSEO_UnitTestCase {
 	 *
 	 * Expected result is a suffix of -2 added by the WordPress and -3 after it added by that wather
 	 *
-	 * @covers: WPSEO_Post_Slug_Watcher::hook_unique_post_slug
-	 * @covers: WPSEO_Post_Slug_Watcher::check_for_redirect
-	 * @covers: WPSEO_Post_Slug_Watcher::get_suffix
+	 * @covers WPSEO_Post_Slug_Watcher::hook_unique_post_slug
+	 * @covers WPSEO_Post_Slug_Watcher::check_for_redirect
+	 * @covers WPSEO_Post_Slug_Watcher::get_suffix
 	 */
 	public function test_with_an_new_slug_that_will_be_redirected() {
 		$this->factory->post->create( array( 'post_name' => 'another-slug' ) );
@@ -113,7 +112,7 @@ class WPSEO_Post_Slug_Watcher_Test extends WPSEO_UnitTestCase {
 		$post = $this->factory->post->create_and_get( array( 'post_name' => 'another-slug' ) );
 
 		$this->assertEquals(
-			'another-slug-2-3',
+			'another-slug-3',
 			$post->post_name
 		);
 
