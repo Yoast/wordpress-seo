@@ -86,9 +86,7 @@ class WPSEO_Post_Slug_Watcher_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Post_Slug_Watcher::get_suffix
 	 */
 	public function test_with_a_slug_being_redirected() {
-
-		$post_id = $this->factory->post->create( array( 'post_name' => 'redirected-slug' ) );
-		$post    = get_post( $post_id );
+		$post = $this->factory->post->create_and_get( array( 'post_name' => 'redirected-slug' ) );
 
 		$this->assertEquals(
 			'redirected-slug-2',
