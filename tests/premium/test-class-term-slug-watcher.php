@@ -107,17 +107,17 @@ class WPSEO_Term_Slug_Watcher_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Term_Slug_Watcher::get_suffix
 	 */
 	public function test_with_a_slug_being_redirected() {
-		if ( function_exists( 'wp_unique_term_slug' ) ) {
-			add_action( 'wp_unique_term_slug', array( $this->class_instance, 'hook_unique_term_slug' ), 10, 3 );
+		global $wp_version;
 
-			$term_id = $this->factory->term->create( array( 'slug' => 'redirected-slug', 'taxonomy' => 'category' ) );
-			$term    = get_term( $term_id, 'category' );
-
-			$this->assertEquals( 'redirected-slug-2', wp_unique_term_slug( 'redirected-slug', $term ) );
-		}
-		else {
+		if ( version_compare( $wp_version, 4.3, '<' ) ) {
 			$this->markTestSkipped( 'Function `wp_unique_term_slug` is not implemented in this WordPress version' );
 		}
+		add_action( 'wp_unique_term_slug', array( $this->class_instance, 'hook_unique_term_slug' ), 10, 3 );
+
+		$term_id = $this->factory->term->create( array( 'slug' => 'redirected-slug', 'taxonomy' => 'category' ) );
+		$term    = get_term( $term_id, 'category' );
+
+		$this->assertEquals( 'redirected-slug-2', wp_unique_term_slug( 'redirected-slug', $term ) );
 	}
 
 	/**
@@ -131,23 +131,20 @@ class WPSEO_Term_Slug_Watcher_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Term_Slug_Watcher::get_suffix
 	 */
 	public function test_with_an_new_slug_that_will_be_redirected() {
-		if ( function_exists( 'wp_unique_term_slug' ) ) {
+		global $wp_version;
 
-			add_action( 'wp_unique_term_slug', array( $this->class_instance, 'hook_unique_term_slug' ), 10, 3 );
-
-			$this->factory->term->create( array( 'slug' => 'another-slug', 'taxonomy' => 'category' ) );
-
-			$term_id = $this->factory->term->create( array( 'slug' => 'another-slug', 'taxonomy' => 'category' ) );
-			$term    = get_term( $term_id, 'category' );
-
-			$this->assertEquals(
-				'another-slug-3',
-				wp_unique_term_slug( 'another-slug', $term )
-			);
-		}
-		else {
+		if ( version_compare( $wp_version, 4.3, '<' ) ) {
 			$this->markTestSkipped( 'Function `wp_unique_term_slug` is not implemented in this WordPress version' );
 		}
+
+		add_action( 'wp_unique_term_slug', array( $this->class_instance, 'hook_unique_term_slug' ), 10, 3 );
+
+		$this->factory->term->create( array( 'slug' => 'another-slug', 'taxonomy' => 'category' ) );
+
+		$term_id = $this->factory->term->create( array( 'slug' => 'another-slug', 'taxonomy' => 'category' ) );
+		$term    = get_term( $term_id, 'category' );
+
+		$this->assertEquals( 'another-slug-3', wp_unique_term_slug( 'another-slug', $term ) );
 	}
 
 	/**
