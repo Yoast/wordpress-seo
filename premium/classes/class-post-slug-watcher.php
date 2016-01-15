@@ -18,7 +18,7 @@ class WPSEO_Post_Slug_Watcher {
 	/**
 	 * Generate an unique slug if it is necessary. This might be the case when given slug is redirected.
 	 *
-	 * @param string $slug          The slug that have to be unique.
+	 * @param string $slug          The slug that has to be unique.
 	 * @param int    $post_ID       Post ID.
 	 * @param string $post_status   The post status.
 	 * @param string $post_type     Post type.

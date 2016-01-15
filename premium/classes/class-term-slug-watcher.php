@@ -23,7 +23,7 @@ class WPSEO_Term_Slug_Watcher {
 	/**
 	 * Generate an unique slug if it is necessary. This might be the case when given slug is redirected.
 	 *
-	 * @param string $slug          The slug that have to be unique.
+	 * @param string $slug          The slug that has to be unique.
 	 * @param object $term          Term object.
 	 * @param string $original_slug Slug originally passed to the function for testing.
 	 *
