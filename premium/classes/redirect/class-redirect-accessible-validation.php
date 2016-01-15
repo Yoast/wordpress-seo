@@ -31,7 +31,8 @@ class WPSEO_Redirect_Accessible_Validation implements WPSEO_Redirect_Validation 
 
 		if ( is_wp_error( $response ) ) {
 			$this->error = new WPSEO_Validation_Warning(
-				__( 'The URL you entered could not be resolved.', 'wordpress-seo-premium' )
+				__( 'The URL you entered could not be resolved.', 'wordpress-seo-premium' ),
+				'target'
 			);
 
 			return false;
@@ -45,7 +46,7 @@ class WPSEO_Redirect_Accessible_Validation implements WPSEO_Redirect_Validation 
 			$this->error = new WPSEO_Validation_Warning( sprintf(
 				__( 'The url you are redirecting to returns a %1$s status. You might want to consider redirecting to another url.', 'wordpress-seo-premium' ),
 				$response_code
-			) );
+			), 'target' );
 
 			return false;
 		}
@@ -53,7 +54,8 @@ class WPSEO_Redirect_Accessible_Validation implements WPSEO_Redirect_Validation 
 		// Check if the response code is 301.
 		if ( $response_code === 301 ) {
 			$this->error = new WPSEO_Validation_Error(
-				__( 'You\'re redirecting to a target that returns a 301 HTTP code (permanently moved). Make sure the target you specify is directly reachable.' )
+				__( 'You\'re redirecting to a target that returns a 301 HTTP code (permanently moved). Make sure the target you specify is directly reachable.', 'wordpress-seo-premium' ),
+				'target'
 			);
 
 			return false;
@@ -64,7 +66,7 @@ class WPSEO_Redirect_Accessible_Validation implements WPSEO_Redirect_Validation 
 			$this->error = new WPSEO_Validation_Warning( sprintf(
 				__( 'The URL you entered returned a HTTP code different than 200(OK). The received HTTP code is %1$s.', 'wordpress-seo-premium' ),
 				$response_code
-			) );
+			), 'target' );
 
 			return false;
 		}

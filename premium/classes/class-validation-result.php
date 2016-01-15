@@ -19,10 +19,19 @@ abstract class WPSEO_Validation_Result {
 	protected $type;
 
 	/**
-	 * @param string $message The validation message contained by the result.
+	 * @var array The field that has the error.
 	 */
-	public function __construct( $message ) {
+	private $fields = array();
+
+	/**
+	 * Constructing the object
+	 *
+	 * @param string       $message The validation message contained by the result.
+	 * @param string|array $fields  The fields that errored.
+	 */
+	public function __construct( $message, $fields = array() ) {
 		$this->message = $message;
+		$this->set_fields( $fields );
 	}
 
 	/**
@@ -52,6 +61,20 @@ abstract class WPSEO_Validation_Result {
 		return array(
 			'type'    => $this->type,
 			'message' => $this->message,
+			'fields'  => $this->fields,
 		);
+	}
+
+	/**
+	 * Setting the fields with errors.
+	 *
+	 * @param string $fields The fields with errors on it.
+	 */
+	protected function set_fields( $fields = '' ) {
+		if ( ! is_array( $fields ) && is_string( $fields ) ) {
+			$fields = array( $fields );
+		}
+
+		$this->fields = $fields;
 	}
 }

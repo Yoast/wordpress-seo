@@ -1,0 +1,7 @@
+.redirect_form_row.field_error label {
+	color: #dc3232;
+}
+
+.redirect_form_row.field_error input {
+	border-color: #dc3232;
+}

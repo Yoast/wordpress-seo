@@ -57,6 +57,7 @@ class WPSEO_Redirect_Page {
 			WPSEO_VERSION
 		);
 		wp_localize_script( 'wp-seo-premium-admin-redirects', 'wpseo_premium_strings', WPSEO_Premium_Javascript_Strings::strings() );
+		wp_enqueue_style( 'wpseo-premium-redirects', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/css/premium-redirects' . WPSEO_CSSJS_SUFFIX . '.css', array(), WPSEO_VERSION );
 
 		wp_enqueue_style( 'wp-jquery-ui-dialog' );
 
