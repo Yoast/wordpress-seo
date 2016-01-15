@@ -53,7 +53,8 @@ class WPSEO_Term_Slug_Watcher_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Term_Slug_Watcher::hook_unique_term_slug
 	 */
 	public function test_wp_unique_term_slug_being_set() {
-		$term = $this->factory->term->create_and_get( array( 'slug' => 'hook_call', 'taxonomy' => 'category' ) );
+		$term_id = $this->factory->term->create( array( 'slug' => 'hook_call', 'taxonomy' => 'category' ) );
+		$term    = get_term( $term_id, 'category' );
 
 		wp_update_term( $term->term_id, 'category', array( 'slug' => 'non-hook_call' ) );
 
@@ -70,7 +71,8 @@ class WPSEO_Term_Slug_Watcher_Test extends WPSEO_UnitTestCase {
 	 * @covers: WPSEO_Term_Slug_Watcher::check_for_redirect
 	 */
 	public function test_with_non_existing_slug() {
-		$term = $this->factory->term->create_and_get( array( 'slug' => 'non-existing', 'taxonomy' => 'category' ) );
+		$term_id = $this->factory->term->create( array( 'slug' => 'non-existing', 'taxonomy' => 'category' ) );
+		$term    = get_term( $term_id, 'category' );
 
 		$this->assertEquals( 'non-existing', $term->slug );
 	}
@@ -87,7 +89,8 @@ class WPSEO_Term_Slug_Watcher_Test extends WPSEO_UnitTestCase {
 	public function test_with_existing_slug() {
 		$this->factory->term->create( array( 'slug' => 'i-do-exist' ) );
 
-		$term = $this->factory->term->create_and_get( array( 'slug' => 'i-do-exist' ) );
+		$term_id = $this->factory->term->create( array( 'slug' => 'i-do-exist' ) );
+		$term    = get_term( $term_id, 'category' );
 
 		$this->assertEquals( 'i-do-exist-2', $term->slug );
 	}
@@ -104,7 +107,8 @@ class WPSEO_Term_Slug_Watcher_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Term_Slug_Watcher::get_suffix
 	 */
 	public function test_with_a_slug_being_redirected() {
-		$term = $this->factory->term->create_and_get( array( 'slug' => 'redirected-slug', 'taxonomy' => 'category' ) );
+		$term_id = $this->factory->term->create( array( 'slug' => 'redirected-slug', 'taxonomy' => 'category' ) );
+		$term    = get_term( $term_id, 'category' );
 
 		wp_update_term( $term->term_id, 'category', array( 'slug' => 'redirected-slug' ) );
 
