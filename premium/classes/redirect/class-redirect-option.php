@@ -101,7 +101,8 @@ class WPSEO_Redirect_Option {
 	 * @return WPSEO_Redirect|bool
 	 */
 	public function get( $origin ) {
-		if ( $found = $this->search( $origin ) ) {
+		$found = $this->search( $origin );
+		if ( $found !== false ) {
 			return $this->redirects[ $found ];
 		}
 
