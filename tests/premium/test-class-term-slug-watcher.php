@@ -133,6 +133,8 @@ class WPSEO_Term_Slug_Watcher_Test extends WPSEO_UnitTestCase {
 
 		wp_update_term( $term->term_id, 'category', array( 'name' => 'another-slug', 'slug' => '' ) );
 
+		wp_cache_delete( $term->term_id, 'terms' );
+
 		$term = get_term( $term->term_id, 'category' );
 
 		$this->assertEquals(
@@ -141,8 +143,6 @@ class WPSEO_Term_Slug_Watcher_Test extends WPSEO_UnitTestCase {
 		);
 
 	}
-
-
 
 	/**
 	 * Prepend category/ to the slug
