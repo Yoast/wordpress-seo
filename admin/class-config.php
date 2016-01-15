@@ -69,7 +69,7 @@ class WPSEO_Admin_Pages {
 		$this->asset_manager->enqueue_script( 'admin-script' );
 
 
-		wp_localize_script( 'wpseo-admin-script', 'wpseoAdminL10n', $this->localize_admin_script() );
+		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'admin-script', 'wpseoAdminL10n', $this->localize_admin_script() );
 		wp_enqueue_script( 'dashboard' );
 		wp_enqueue_script( 'thickbox' );
 
@@ -80,7 +80,7 @@ class WPSEO_Admin_Pages {
 			wp_enqueue_media();
 
 			$this->asset_manager->enqueue_script( 'admin-media' );
-			wp_localize_script( 'wpseo-admin-media', 'wpseoMediaL10n', $this->localize_media_script() );
+			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'admin-media', 'wpseoMediaL10n', $this->localize_media_script() );
 		}
 
 		if ( 'wpseo_tools' === $page && 'bulk-editor' === $tool ) {

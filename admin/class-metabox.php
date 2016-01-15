@@ -912,10 +912,10 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 			$asset_manager->enqueue_script( 'admin-media' );
 
-			wp_localize_script( 'wpseo-admin-media', 'wpseoMediaL10n', $this->localize_media_script() );
+			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'admin-media', 'wpseoMediaL10n', $this->localize_media_script() );
 
 			// Text strings to pass to metabox for keyword analysis.
-			wp_localize_script( 'wp-seo-metabox', 'wpseoMetaboxL10n', $this->localize_script() );
+			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'metabox', 'wpseoMetaboxL10n', $this->localize_script() );
 		}
 	}
 

@@ -68,7 +68,7 @@ class WPSEO_Taxonomy {
 			$asset_manager->enqueue_script( 'jquery-qtip' );
 			$asset_manager->enqueue_script( 'admin-media' );
 
-			wp_localize_script( 'wpseo-admin-media', 'wpseoMediaL10n', array(
+			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'admin-media', 'wpseoMediaL10n', array(
 				'choose_image' => __( 'Use Image', 'wordpress-seo' ),
 			) );
 		}
