@@ -6,7 +6,14 @@
 /**
  * The watcher to fetch changes in the slug for the post.
  */
-class WPSEO_Post_Slug_Watcher extends WPSEO_Slug_Watcher {
+class WPSEO_Post_Slug_Watcher {
+
+	/**
+	 * Setting the hooks
+	 */
+	public function __construct() {
+		add_action( 'wp_unique_post_slug', array( $this, 'hook_unique_post_slug' ), 10, 6 );
+	}
 
 	/**
 	 * Generate an unique slug if it is necessary. This might be the case when given slug is redirected.
@@ -31,10 +38,33 @@ class WPSEO_Post_Slug_Watcher extends WPSEO_Slug_Watcher {
 	}
 
 	/**
-	 * Setting the hooks
+	 * Check if the slug already exists as a redirect.
+	 *
+	 * @param string $slug The slug to look for.
+	 *
+	 * @return bool
 	 */
-	protected function set_hooks() {
-		add_action( 'wp_unique_post_slug', array( $this, 'hook_unique_post_slug' ), 10, 6 );
+	protected function check_for_redirect( $slug ) {
+		$redirect_manager = new WPSEO_Redirect_Manager();
+		$redirect         = $redirect_manager->get_redirect( $slug );
+
+		return $redirect instanceof WPSEO_Redirect;
+	}
+
+	/**
+	 * Get the new suffix.
+	 *
+	 * @param string $slug          The new slug.
+	 * @param string $original_slug The original slug.
+	 *
+	 * @return integer
+	 */
+	protected function get_suffix( $slug, $original_slug ) {
+		if ( $slug === $original_slug ) {
+			return 2;
+		}
+
+		return ( str_replace( $original_slug . '-', '', $slug ) + 1 );
 	}
 
 }

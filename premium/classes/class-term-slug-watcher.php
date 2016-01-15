@@ -6,12 +6,19 @@
 /**
  * The watcher to fetch changes in the slug for the term.
  */
-class WPSEO_Term_Slug_Watcher extends WPSEO_Slug_Watcher {
+class WPSEO_Term_Slug_Watcher {
 
 	/**
 	 * @var bool
 	 */
 	protected $edited_terms = false;
+
+	/**
+	 * Setting the hooks
+	 */
+	public function __construct() {
+		add_action( 'edited_terms', array( $this, 'hook_make_term_slug_unique' ), 10, 2 );
+	}
 
 	/**
 	 * Generate an unique slug if it is necessary. This might be the case when given slug is redirected.
@@ -53,13 +60,6 @@ class WPSEO_Term_Slug_Watcher extends WPSEO_Slug_Watcher {
 
 	}
 
-	/**
-	 * Setting the hooks
-	 */
-	protected function set_hooks() {
-		add_action( 'edited_terms', array( $this, 'hook_make_term_slug_unique' ), 10, 2 );
-	}
-
 
 	/**
 	 * Overrides the term slug to use the given $slug and returns the part that is used for a redirect.
@@ -73,6 +73,36 @@ class WPSEO_Term_Slug_Watcher extends WPSEO_Slug_Watcher {
 		$term->slug = $slug;
 
 		return str_replace( trailingslashit( home_url() ), '', get_term_link( $term, $term->taxonomy ) );
+	}
+
+	/**
+	 * Get the new suffix.
+	 *
+	 * @param string $slug          The new slug.
+	 * @param string $original_slug The original slug.
+	 *
+	 * @return integer
+	 */
+	protected function get_suffix( $slug, $original_slug ) {
+		if ( $slug === $original_slug ) {
+			return 2;
+		}
+
+		return ( str_replace( $original_slug . '-', '', $slug ) + 1 );
+	}
+
+	/**
+	 * Check if the slug already exists as a redirect.
+	 *
+	 * @param string $slug The slug to look for.
+	 *
+	 * @return bool
+	 */
+	protected function check_for_redirect( $slug ) {
+		$redirect_manager = new WPSEO_Redirect_Manager();
+		$redirect         = $redirect_manager->get_redirect( $slug );
+
+		return $redirect instanceof WPSEO_Redirect;
 	}
 
 }
