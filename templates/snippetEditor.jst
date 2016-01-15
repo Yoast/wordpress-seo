@@ -53,15 +53,15 @@
     <div class="snippet-editor__form">
         <label for="snippet-editor-title" class="snippet-editor__label">
             <%- i18n.title %>
-            <input type="text" class="snippet-editor__input snippet-editor__title js-snippet-editor-title" id="snippet-editor-title" value="<%- raw.title %>" />
+            <input type="text" class="snippet-editor__input snippet-editor__title js-snippet-editor-title" id="snippet-editor-title" value="<%- raw.title %>" placeholder="<%- placeholder.title %>" />
         </label>
         <label for="snippet-editor-slug" class="snippet-editor__label">
             <%- i18n.slug %>
-            <input type="text" class="snippet-editor__input snippet-editor__slug js-snippet-editor-slug" id="snippet-editor-slug" value="<%- raw.snippetCite %>" />
+            <input type="text" class="snippet-editor__input snippet-editor__slug js-snippet-editor-slug" id="snippet-editor-slug" value="<%- raw.snippetCite %>" placeholder="<%- placeholder.urlPath %>" />
         </label>
         <label for="snippet-editor-meta-description" class="snippet-editor__label">
             <%- i18n.metaDescription %>
-            <textarea class="snippet-editor__input snippet-editor__meta-description js-snippet-editor-meta-description" id="snippet-editor-meta-description"><%- raw.meta %></textarea>
+            <textarea class="snippet-editor__input snippet-editor__meta-description js-snippet-editor-meta-description" id="snippet-editor-meta-description" placeholder="<%- placeholder.metaDesc %>"><%- raw.meta %></textarea>
         </label>
 
         <button class="snippet-editor__submit button" type="button"><%- i18n.save %></button>

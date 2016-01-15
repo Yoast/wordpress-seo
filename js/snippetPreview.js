@@ -213,6 +213,7 @@ SnippetPreview.prototype.renderTemplate = function() {
 			snippetCite: this.formatCite(),
 			meta: this.formatMeta()
 		},
+		placeholder: this.opts.placeholder,
 		i18n: {
 			edit: this.i18n.dgettext( "js-text-analysis", "Edit title, description & slug" ),
 			title: this.i18n.dgettext( "js-text-analysis", "Meta title" ),

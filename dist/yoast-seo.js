@@ -3321,6 +3321,7 @@ SnippetPreview.prototype.renderTemplate = function() {
 			snippetCite: this.formatCite(),
 			meta: this.formatMeta()
 		},
+		placeholder: this.opts.placeholder,
 		i18n: {
 			edit: this.i18n.dgettext( "js-text-analysis", "Edit title, description & slug" ),
 			title: this.i18n.dgettext( "js-text-analysis", "Meta title" ),
@@ -4870,13 +4871,19 @@ YoastSEO.getStringHelper = function() {
     __e( i18n.title ) +
     '\n            <input type="text" class="snippet-editor__input snippet-editor__title js-snippet-editor-title" id="snippet-editor-title" value="' +
     __e( raw.title ) +
+    '" placeholder="' +
+    __e( placeholder.title ) +
     '" />\n        </label>\n        <label for="snippet-editor-slug" class="snippet-editor__label">\n            ' +
     __e( i18n.slug ) +
     '\n            <input type="text" class="snippet-editor__input snippet-editor__slug js-snippet-editor-slug" id="snippet-editor-slug" value="' +
     __e( raw.snippetCite ) +
+    '" placeholder="' +
+    __e( placeholder.urlPath ) +
     '" />\n        </label>\n        <label for="snippet-editor-meta-description" class="snippet-editor__label">\n            ' +
     __e( i18n.metaDescription ) +
-    '\n            <textarea class="snippet-editor__input snippet-editor__meta-description js-snippet-editor-meta-description" id="snippet-editor-meta-description">' +
+    '\n            <textarea class="snippet-editor__input snippet-editor__meta-description js-snippet-editor-meta-description" id="snippet-editor-meta-description" placeholder="' +
+    __e( placeholder.metaDesc ) +
+    '">' +
     __e( raw.meta ) +
     '</textarea>\n        </label>\n\n        <button class="snippet-editor__submit button" type="button">' +
     __e( i18n.save ) +
