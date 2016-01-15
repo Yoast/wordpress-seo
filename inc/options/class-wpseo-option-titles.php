@@ -20,32 +20,33 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 	 */
 	protected $defaults = array(
 		// Non-form fields, set via (ajax) function.
-		'title_test'             => 0,
+		'title_test'                  => 0,
 		// Form fields.
-		'forcerewritetitle'      => false,
-		'separator'              => 'sc-dash',
-		'noodp'                  => false,
-		'noydir'                 => false,
-		'usemetakeywords'        => false,
-		'title-home-wpseo'       => '%%sitename%% %%page%% %%sep%% %%sitedesc%%', // Text field.
-		'title-author-wpseo'     => '', // Text field.
-		'title-archive-wpseo'    => '%%date%% %%page%% %%sep%% %%sitename%%', // Text field.
-		'title-search-wpseo'     => '', // Text field.
-		'title-404-wpseo'        => '', // Text field.
+		'forcerewritetitle'           => false,
+		'separator'                   => 'sc-dash',
+		'noodp'                       => false,
+		'noydir'                      => false,
+		'usemetakeywords'             => false,
+		'title-home-wpseo'            => '%%sitename%% %%page%% %%sep%% %%sitedesc%%', // Text field.
+		'title-author-wpseo'          => '', // Text field.
+		'title-archive-wpseo'         => '%%date%% %%page%% %%sep%% %%sitename%%', // Text field.
+		'title-search-wpseo'          => '', // Text field.
+		'title-404-wpseo'             => '', // Text field.
 
-		'metadesc-home-wpseo'    => '', // Text area.
-		'metadesc-author-wpseo'  => '', // Text area.
-		'metadesc-archive-wpseo' => '', // Text area.
+		'metadesc-home-wpseo'         => '', // Text area.
+		'metadesc-author-wpseo'       => '', // Text area.
+		'metadesc-archive-wpseo'      => '', // Text area.
+		'metakey-home-wpseo'          => '', // Text field.
+		'metakey-author-wpseo'        => '', // Text field.
 
-		'metakey-home-wpseo'     => '', // Text field.
-		'metakey-author-wpseo'   => '', // Text field.
+		'noindex-subpages-wpseo'      => false,
+		'noindex-author-wpseo'        => false,
+		'noindex-archive-wpseo'       => true,
+		'noindex-archive-post_format' => true,
 
-		'noindex-subpages-wpseo' => false,
-		'noindex-author-wpseo'   => false,
-		'noindex-archive-wpseo'  => true,
-		'disable-author'         => false,
-		'disable-date'           => false,
-
+		'disable-author'              => false,
+		'disable-date'                => false,
+		'disable-post_format'         => false,
 
 		/**
 		 * Uses enrich_defaults to add more along the lines of:
@@ -254,7 +255,6 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 	 * @return  array      Validated clean value for the option to be saved to the database
 	 */
 	protected function validate_option( $dirty, $clean, $old ) {
-
 		foreach ( $clean as $key => $value ) {
 			$switch_key = $this->get_switch_key( $key );
 
@@ -345,6 +345,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 				 *		'noindex-ptarchive-' . $pt->name
 				 *		'noindex-tax-' . $tax->name
 				 *		'forcerewritetitle':
+				 *		'noindex-archive-post_type'
 				 *		'usemetakeywords':
 				 *		'noodp':
 				 *		'noydir':
