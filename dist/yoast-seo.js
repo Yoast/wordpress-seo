@@ -3281,9 +3281,9 @@ var SnippetPreview = function( opts ) {
 		metaDesc: this.refObj.rawData.snippetMeta || ""
 	};
 
-	// For backwards compatibility use the pageTitle if the title is empty at this point.
-	if ( !_.isEmpty( this.refObj.rawData.pageTitle ) && _.isEmpty( this.data.title ) ) {
-		this.data.title = this.refObj.rawData.pageTitle;
+	// For backwards compatibility set the pageTitle as placeholder.
+	if ( !_.isEmpty( this.refObj.rawData.pageTitle ) ) {
+		this.opts.placeholder.title = this.refObj.rawData.pageTitle;
 	}
 
 	// For backwards compatibility monitor the unformatted text for changes and reflect them in the preview
