@@ -27,8 +27,8 @@ function wpseo_undo_redirect( origin, target, type, nonce, id ) {
 			},
 			id: id
 		},
-		function( response ) {
-			jQuery( '#' + response ).fadeOut( 'slow' );
+		function() {
+			jQuery( '#' + id ).fadeOut( 'slow' );
 		}
 	);
 }
@@ -37,36 +37,71 @@ function wpseo_undo_redirect( origin, target, type, nonce, id ) {
  * Creates a redirect
  *
  * @param {string} origin
+ * @param {string} type
  * @param {string} nonce
  * @param {string} id
  */
-function wpseo_create_redirect( origin, nonce, id ) {
-	var target = window.prompt( wpseo_premium_strings.enter_new_url.replace( '%s', origin ) );
+function wpseo_create_redirect( origin, type, nonce, id ) {
+	var target = '';
+	if( parseInt( type, 10 ) !== 410 ) {
+		target = window.prompt(wpseo_premium_strings.enter_new_url.replace('%s', origin));
 
-	if ( null !== target ) {
-		if ( '' !== target ) {
-			jQuery.post(
-				ajaxurl,
-				{
-					action: 'wpseo_add_redirect_plain',
-					ajax_nonce: nonce,
-					redirect : {
-						origin : origin,
-						target : target,
-						type   : 301
-					},
-					id: id
-				},
-				function( response ) {
-					var resp = JSON.parse( response );
-					jQuery( '#' + resp.id + ' p' ).html( wpseo_premium_strings.redirect_saved.replace( '%1$s', '<code>' + resp.old_url + '</code>' ).replace( '%2$s', '<code>' + resp.new_url + '</code>' ) );
-				}
-			);
-		}
-		else {
+		if ( target === '' ) {
 			window.alert( wpseo_premium_strings.error_new_url );
+			return;
 		}
 	}
+
+	jQuery.post(
+		ajaxurl,
+		{
+			action: 'wpseo_add_redirect_plain',
+			ajax_nonce: nonce,
+			redirect: {
+				origin: origin,
+				target: target,
+				type:   type
+			},
+			id: id
+		},
+		function( response ) {
+			var notice = jQuery( '#' + id);
+
+			// Remove the classes first.
+			jQuery(notice)
+				.removeClass ('updated' )
+				.removeClass( 'error' );
+
+			// Remove possibly added redirect errors
+			jQuery( notice).find('.redirect_error').remove();
+
+			if(response.error) {
+				// Add paragraph on top of the notice with actions and set class to error.
+				jQuery(notice)
+					.addClass( 'error' )
+					.prepend( '<p class="redirect_error">' + response.error.message + '</p>'  );
+
+				return;
+			}
+
+			// Parse the success message
+			var success_message = '';
+			if( parseInt( type, 10 ) === 410 ) {
+				success_message = wpseo_premium_strings.redirect_saved_no_target;
+			}
+			else {
+				success_message = wpseo_premium_strings.redirect_saved.replace('%2$s', '<code>' + response.target + '</code>');
+			}
+
+			success_message = success_message.replace('%1$s', '<code>' + response.origin + '</code>');
+
+			// Set class to updated and replace html with the success message
+			jQuery(notice)
+				.addClass( 'updated' )
+				.html( '<p>' + success_message + '</p>'  );
+		},
+		'json'
+	);
 }
 
 (function( $ ) {
