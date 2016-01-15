@@ -26,11 +26,11 @@
     cursor: pointer;
     background: none;
 
-    color: blue;
+    color: #1075a8;
 }
 
 .snippet-editor__edit-button--close {
-    color: gray;
+    color: #585858;
 }
 
 .snippet-editor__edit-button::before {
