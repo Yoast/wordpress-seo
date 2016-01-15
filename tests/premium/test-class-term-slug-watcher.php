@@ -87,7 +87,7 @@ class WPSEO_Term_Slug_Watcher_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Term_Slug_Watcher::get_term_slug
 	 */
 	public function test_with_existing_slug() {
-		$this->factory->term->create( array( 'slug' => 'i-do-exist' ) );
+		$this->factory->term->create( array( 'slug' => 'i-do-exist', 'taxonomy' => 'category' ) );
 
 		$term_id = $this->factory->term->create( array( 'slug' => 'i-do-exist' ) );
 		$term    = get_term( $term_id, 'category' );
