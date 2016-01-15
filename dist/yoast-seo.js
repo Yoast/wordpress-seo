@@ -1476,7 +1476,7 @@ require( "./preprocessor.js" );
 require( "./analyzescorer.js" );
 require( "./scoreFormatter.js" );
 require( "./stringhelper.js" );
-require( "./snippetPreview.js" );
+YoastSEO.SnippetPreview = require( "./snippetPreview.js" );
 require( "./app.js" );
 require( "./pluggable.js" );
 
