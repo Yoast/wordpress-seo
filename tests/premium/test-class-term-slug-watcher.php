@@ -112,7 +112,9 @@ class WPSEO_Term_Slug_Watcher_Test extends WPSEO_UnitTestCase {
 		$term_id = $this->factory->term->create( array( 'slug' => 'redirected-slug', 'taxonomy' => 'category' ) );
 		$term    = get_term( $term_id, 'category' );
 
-		$this->assertEquals( 'redirected-slug-2', wp_unique_term_slug( 'redirected-slug',  $term ) );
+		print_r($term);
+
+		$this->assertEquals( 'redirected-slug-2', wp_unique_term_slug( 'redirected-slug', $term ) );
 	}
 
 	/**
