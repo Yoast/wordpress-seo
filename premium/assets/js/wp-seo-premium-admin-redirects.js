@@ -528,7 +528,6 @@
 				},
 				function( response ) {
 					if (response.error) {
-						validateRedirect.addValidationError( response.error.message );
 						that.handleError( validateRedirect, response.error );
 
 						return true;
@@ -592,8 +591,6 @@
 				},
 				function( response ) {
 					if (response.error) {
-						validateRedirect.addValidationError( response.error.message );
-
 						that.handleError( validateRedirect, response.error );
 
 						return true;
