@@ -64,9 +64,6 @@ class WPSEO_Post_Slug_Watcher {
 			return 2;
 		}
 
-		var_dump($slug);
-		var_dump($original_slug);
-
 		return ( str_replace( $original_slug . '-', '', $slug ) + 1 );
 	}
 
