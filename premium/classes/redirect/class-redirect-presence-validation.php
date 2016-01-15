@@ -23,9 +23,8 @@ class WPSEO_Redirect_Presence_Validation implements WPSEO_Redirect_Validation {
 	 * @return bool
 	 */
 	public function run( WPSEO_Redirect $redirect, WPSEO_Redirect $old_redirect = null, array $redirects = null ) {
-
-		// If redirect type id 410, the target doesn't have to be filled.
-		if ( $redirect->get_type() === WPSEO_Redirect::DELETED && $redirect->get_origin() !== '' ) {
+		// If redirect type is 410 or 451, the target doesn't have to be filled.
+		if ( $this->allow_empty_target( $redirect->get_type() ) && $redirect->get_origin() !== '' ) {
 			return true;
 		}
 
@@ -47,6 +46,20 @@ class WPSEO_Redirect_Presence_Validation implements WPSEO_Redirect_Validation {
 	 */
 	public function get_error() {
 		return $this->error;
+	}
+
+	/**
+	 * Allows an empty target when the given redirect type matches one of the values in the array
+	 *
+	 * @param string $redirect_type The type to match.
+	 *
+	 * @return bool
+	 */
+	private function allow_empty_target( $redirect_type ) {
+		$allowed_redirect_types = array( WPSEO_Redirect::DELETED, WPSEO_Redirect::UNAVAILABLE );
+
+		return in_array( $redirect_type, $allowed_redirect_types );
+
 	}
 
 }

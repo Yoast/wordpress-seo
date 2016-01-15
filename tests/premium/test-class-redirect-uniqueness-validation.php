@@ -82,6 +82,21 @@ class WPSEO_Redirect_Uniqueness_Validation_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Test the validation of a redirect being edited (in that case to redirects objects are given.
+	 *	 *
+	 * @covers WPSEO_Redirect_Uniqueness_Validation::run
+	 */
+	public function test_validate_edit_redirect_equal_origin(  ) {
+		$this->assertTrue(
+			$this->class_instance->run(
+				new WPSEO_Redirect( 'old_url' , 'target', 301 ),
+				new WPSEO_Redirect( 'old_url' , 'target', 301 ),
+				$this->redirects
+			)
+		);
+	}
+
+	/**
 	 * Provide array with redirects that already exists
 	 *
 	 * @return array
@@ -91,6 +106,7 @@ class WPSEO_Redirect_Uniqueness_Validation_Test extends WPSEO_UnitTestCase {
 			array( 'old_url', 'my_old_url', 301 ),
 			array( 'older_url', 'my_older_url', 301 ),
 			array( 'my_old_url', '', 410 ),
+			array( 'my_old_url', '', 451 ),
 		);
 	}
 
@@ -104,6 +120,7 @@ class WPSEO_Redirect_Uniqueness_Validation_Test extends WPSEO_UnitTestCase {
 			array( 'the_old_url', 'my_old_url', 301 ),
 			array( 'the_older_url', 'my_older_url', 301 ),
 			array( 'the_deleted_url', '', 410 ),
+			array( 'the_deleted_url', '', 451 ),
 		);
 	}
 

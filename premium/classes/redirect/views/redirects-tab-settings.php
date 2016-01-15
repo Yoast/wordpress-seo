@@ -32,7 +32,7 @@ if ( ! empty( $redirect_file ) ) {
 			?>
 			<div style="margin: 5px 0; padding: 3px 10px; background-color: #ffffe0; border: 1px solid #E6DB55; border-radius: 3px">
 				<p><?php _e( 'As you\'re on Nginx, you should add the following include to the NGINX config file:', 'wordpress-seo-premium' ); ?></p>
-				<pre>include <?php $file_path; ?></pre>
+				<pre>include <?php echo $file_path; ?></pre>
 			</div>
 			<?php
 			break;

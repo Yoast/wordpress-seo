@@ -8,9 +8,9 @@
 'use strict';
 
 ( function($) {
-	var REDIRECT = {
-		DELETED: 410
-	};
+	var ALLOW_EMPTY_TARGET = [
+		410, 451
+	];
 
 	var TABLE_COLUMNS = {
 		ORIGIN: 1,
@@ -164,7 +164,7 @@
 		}
 
 		// Only when the redirect type is not deleted.
-		if( REDIRECT.DELETED !== parseInt( typeField.val(), 10 ) ) {
+		if(  jQuery.inArray( parseInt( typeField.val(), 10 ), ALLOW_EMPTY_TARGET ) === -1 ) {
 			// Check new URL
 			if ( '' === targetField.val() ) {
 				this.form.highlightRow( targetField );
@@ -224,8 +224,8 @@
 			type: this.form.getTypeField().val().toString()
 		};
 
-		// When the redirect type is deleted, the target can be emptied
-		if ( parseInt( values.type, 10 ) === REDIRECT.DELETED ) {
+		// When the redirect type is deleted or unavailable, the target can be emptied
+		if ( jQuery.inArray( parseInt( values.type, 10 ), ALLOW_EMPTY_TARGET ) > -1 ) {
 			values.target = '';
 		}
 
@@ -453,7 +453,10 @@
 		this.create_redirect_row = function( old_url, new_url, redirect_type ) {
 			var tr = $( '<tr>' ).append(
 				$( '<th>' ).addClass( 'check-column' ).attr( 'role', 'row' ).append(
-					$( '<input>' ).attr( 'type', 'checkbox' ).val( old_url )
+					$( '<input>' )
+						.attr( 'name', 'wpseo_redirects_bulk_delete[]' )
+						.attr( 'type', 'checkbox' )
+						.val( old_url )
 				)
 			).append(
 				$( '<td>' ).append(
@@ -661,7 +664,7 @@
 					var field_to_toggle = $( evt.target ).closest( '.wpseo_redirect_form' ).find( '.wpseo_redirect_target_holder' );
 
 					// Hide the target field in case of a 410 redirect.
-					if( type === REDIRECT.DELETED ) {
+					if( jQuery.inArray( type, ALLOW_EMPTY_TARGET ) > -1 ) {
 						$( field_to_toggle ).hide();
 					}
 					else {
