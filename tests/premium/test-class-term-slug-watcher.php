@@ -107,15 +107,36 @@ class WPSEO_Term_Slug_Watcher_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Term_Slug_Watcher::get_suffix
 	 */
 	public function test_with_a_slug_being_redirected() {
+		add_action( 'wp_unique_term_slug', array( $this->class_instance, 'hook_unique_term_slug' ), 10, 3 );
+
 		$term_id = $this->factory->term->create( array( 'slug' => 'redirected-slug', 'taxonomy' => 'category' ) );
 		$term    = get_term( $term_id, 'category' );
 
-		wp_update_term( $term->term_id, 'category', array( 'slug' => 'redirected-slug' ) );
+		$this->assertEquals( 'redirected-slug-2', wp_unique_term_slug( 'redirected-slug',  $term ) );
+	}
 
-		$term = get_term( $term->term_id, 'category' );
+	/**
+	 * Test if the handling of a redirect will work fine for an existing redirect
+	 *
+	 * Expected result is a suffix of -2 added by the WordPress and -3 after it added by that wather
+	 *
+	 * @covers WPSEO_Term_Slug_Watcher::hook_unique_term_slug
+	 * @covers WPSEO_Term_Slug_Watcher::check_for_redirect
+	 * @covers WPSEO_Term_Slug_Watcher::get_term_slug
+	 * @covers WPSEO_Term_Slug_Watcher::get_suffix
+	 */
+	public function test_with_an_new_slug_that_will_be_redirected() {
+		add_action( 'wp_unique_term_slug', array( $this->class_instance, 'hook_unique_term_slug' ), 10, 3 );
 
-		$this->assertEquals( 'redirected-slug-2', $term->slug );
+		$this->factory->term->create( array( 'slug' => 'another-slug', 'taxonomy' => 'category' ) );
 
+		$term_id = $this->factory->term->create( array( 'slug' => 'another-slug', 'taxonomy' => 'category' ) );
+		$term    = get_term( $term_id, 'category' );
+
+		$this->assertEquals(
+			'another-slug-3',
+			wp_unique_term_slug( 'another-slug', $term )
+		);
 	}
 
 	/**
