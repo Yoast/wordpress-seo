@@ -44,6 +44,11 @@
             </cite>
         </div>
         <div class="snippet_container" id="meta_container">
+            <% if ( "" !== metaDescriptionDate ) { %>
+                <span class="snippet-editor__date">
+                    <%- metaDescriptionDate %> -
+                </span>
+            <% } %>
             <span class="desc" id="snippet_meta">
                 <%- rendered.meta %>
             </span>
