@@ -53,7 +53,6 @@ var getBaseURL = function() {
  * @param {string} key The key to retrieve.
  */
 function retrieveUnformattedText( key ) {
-	console.log( key, this, arguments );
 	return this.data[ key ];
 }
 
@@ -67,7 +66,6 @@ function retrieveUnformattedText( key ) {
  * @param {string} value The value to update.
  */
 function updateUnformattedText( key, value ) {
-	console.log( key, value, this, arguments );
 	this.element.input[ key ].value = value;
 
 	this.data[ key ] = value;
