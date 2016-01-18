@@ -36,7 +36,7 @@ var getBaseURL = function() {
 
 	/*
 	 * For backwards compatibility, if no URL was passed to the snippet editor we try to retrieve the base URL from the
-	 * rawData in the App. This is because the scrapers used to be responsible for retrieving the baseURL. But the base
+	 * rawData in the App. This is because the scrapers used to be responsible for retrieving the baseURL, but the base
 	 * URL is static so we can just pass it to the snippet editor.
 	 */
 	if ( !isEmpty( this.refObj.rawData.baseUrl ) && this.opts.baseURL === defaults.baseURL ) {
@@ -702,9 +702,8 @@ SnippetPreview.prototype.bindEvents = function() {
 			}
 		];
 
-	for ( var i = 0; i < elems.length; i++ ) {
-		targetElement = document.getElementsByClassName( "js-snippet-editor-" + elems[ i ] );
-		targetElement = targetElement[0];
+	forEach( elems, function( elem ) {
+		targetElement = document.getElementsByClassName( "js-snippet-editor-" + elem )[0];
 
 		targetElement.addEventListener( "keydown", this.changedInput.bind( this ) );
 		targetElement.addEventListener( "keyup", this.changedInput.bind( this ) );
@@ -712,7 +711,7 @@ SnippetPreview.prototype.bindEvents = function() {
 		targetElement.addEventListener( "input", this.changedInput.bind( this ) );
 		targetElement.addEventListener( "focus", this.changedInput.bind( this ) );
 		targetElement.addEventListener( "blur", this.changedInput.bind( this ) );
-	}
+	}.bind( this ) );
 
 	this.element.editToggle.addEventListener( "click", this.toggleEditor.bind( this ) );
 	this.element.closeEditor.addEventListener( "click", this.closeEditor.bind( this ) );
