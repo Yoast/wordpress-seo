@@ -5,6 +5,8 @@ var isEmpty = require( "lodash/lang/isEmpty" );
 var isElement = require( "lodash/lang/isElement" );
 var clone = require( "lodash/lang/clone" );
 var defaultsDeep = require( "lodash/object/defaultsDeep" );
+var forEach = require( "lodash/collection/forEach" );
+var map = require( "lodash/collection/map" );
 
 var defaults = {
 	placeholder: {
@@ -657,7 +659,25 @@ SnippetPreview.prototype.setFocus = function( ev ) {
  */
 SnippetPreview.prototype.bindEvents = function() {
 	var targetElement,
-		elems = [ "title", "slug", "meta-description" ];
+		elems = [ "title", "slug", "meta-description" ],
+		focusBindings = [
+			{
+				"click": "title",
+				"focus": "title"
+			},
+			{
+				"click": "urlPath",
+				"focus": "urlPath"
+			},
+			{
+				"click": "urlBase",
+				"focus": "urlPath"
+			},
+			{
+				"click": "metaDesc",
+				"focus": "metaDesc"
+			}
+		];
 
 	for ( var i = 0; i < elems.length; i++ ) {
 		targetElement = document.getElementsByClassName( "js-snippet-editor-" + elems[ i ] );
@@ -669,6 +689,24 @@ SnippetPreview.prototype.bindEvents = function() {
 
 	this.element.editToggle.addEventListener( "click", this.toggleEditor.bind( this ) );
 	this.element.closeEditor.addEventListener( "click", this.closeEditor.bind( this ) );
+
+	// Map binding keys to the actual elements
+	focusBindings = map( focusBindings, function( binding ) {
+		return {
+			"click": this.element.rendered[ binding.click ],
+			"focus": this.element.input[ binding.focus ]
+		};
+	}.bind( this ) );
+
+	// Loop through the bindings and bind a click handler to the click to focus the focus element.
+	forEach( focusBindings, function( focusBinding ) {
+
+		focusBinding.click.addEventListener( "click", function() {
+			this.openEditor();
+			focusBinding.focus.focus();
+		}.bind( this ) ); // Bind the focus element to make sure we work with the correct object.
+
+	}.bind( this ) );
 };
 
 SnippetPreview.prototype.changedInput = function() {
