@@ -58,7 +58,7 @@ class WPSEO_Redirect_Nginx_Exporter extends WPSEO_Redirect_File_Exporter {
 		 * @api bool
 		 */
 		if ( apply_filters( 'wpseo_add_x_redirect', true ) === true ) {
-			return 'add_header X-Redirect-By "Yoast SEO Premium"; ';
+			return 'add_header X-Redirect-By "Yoast SEO Premium";';
 		}
 
 		return '';

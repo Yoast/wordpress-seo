@@ -56,7 +56,29 @@ class WPSEO_Redirect_Nginx_Exporter_Test extends WPSEO_UnitTestCase {
 		);
 
 		$this->assertEquals(
-			'location ~ test([a-z]*) { return 301 target; }',
+			'location ~ test([a-z]*) { add_header X-Redirect-By "Yoast SEO Premium"; return 301 target; }',
+			$class_instance->format( new WPSEO_Redirect( 'test([a-z]*)', 'target', '301', WPSEO_Redirect::FORMAT_REGEX ) )
+		);
+	}
+
+	/**
+	 * Test if formatting will be done correctly
+	 *
+	 * @covers WPSEO_Redirect_Nginx_Exporter::format
+	 */
+	public function test_format_with_filter_to_disable_add_header() {
+
+		add_filter( 'wpseo_add_x_redirect', '__return_false' );
+
+		$class_instance = new WPSEO_Redirect_Nginx_Exporter();
+
+		$this->assertEquals(
+			'location /origin {  return 301 target; }',
+			$class_instance->format( new WPSEO_Redirect( 'origin', 'target', '301', WPSEO_Redirect::FORMAT_PLAIN ) )
+		);
+
+		$this->assertEquals(
+			'location ~ test([a-z]*) {  return 301 target; }',
 			$class_instance->format( new WPSEO_Redirect( 'test([a-z]*)', 'target', '301', WPSEO_Redirect::FORMAT_REGEX ) )
 		);
 	}
