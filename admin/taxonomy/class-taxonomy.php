@@ -30,6 +30,11 @@ class WPSEO_Taxonomy {
 		add_action( 'init', array( $this, 'custom_category_descriptions_allow_html' ) );
 		add_filter( 'category_description', array( $this, 'custom_category_descriptions_add_shortcode_support' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
+
+		if ( $GLOBALS['pagenow'] === 'edit-tags.php' ) {
+			new WPSEO_Taxonomy_Columns();
+		}
+
 	}
 
 	/**
@@ -70,7 +75,14 @@ class WPSEO_Taxonomy {
 	 * @since 1.5.0
 	 */
 	public function admin_enqueue_scripts() {
-		if ( $GLOBALS['pagenow'] === 'edit-tags.php' && filter_input( INPUT_GET, 'action' ) === 'edit' ) {
+
+		if ( $GLOBALS['pagenow'] !== 'edit-tags.php' ) {
+			return;
+		}
+
+		wp_enqueue_style( 'seo_score', plugins_url( 'css/yst_seo_score-' . '302' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
+
+		if ( filter_input( INPUT_GET, 'action' ) === 'edit' ) {
 			wp_enqueue_media(); // Enqueue files needed for upload functionality.
 
 			wp_enqueue_style( 'yoast-seo', plugins_url( 'css/dist/yoast-seo/yoast-seo-' . '307' . '.min.css', WPSEO_FILE ), array(), WPSEO_VERSION );

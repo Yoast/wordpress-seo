@@ -80,13 +80,6 @@
 			case 'baseUrl':
 				val = wpseoTermScraperL10n.base_url;
 				break;
-
-			case 'cite':
-				elem = document.getElementById( 'snippet_cite' );
-				if ( elem !== null ) {
-					val = elem.textContent;
-				}
-				break;
 		}
 		return val;
 	};

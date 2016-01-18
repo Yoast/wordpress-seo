@@ -63,7 +63,7 @@ class WPSEO_Customizer {
 	 * @return bool
 	 */
 	public function breadcrumbs_active_callback() {
-		$options = WPSEO_Options::get_option( 'wpseo_permalinks' );
+		$options = WPSEO_Options::get_option( 'wpseo_internallinks' );
 
 		return true === ( current_theme_supports( 'yoast-seo-breadcrumbs' ) || $options['breadcrumbs-enable'] );
 	}
