@@ -3323,7 +3323,7 @@ SnippetPreview.prototype.renderTemplate = function() {
 		placeholder: this.opts.placeholder,
 		i18n: {
 			edit: this.i18n.dgettext( "js-text-analysis", "Edit title, description & slug" ),
-			title: this.i18n.dgettext( "js-text-analysis", "Meta title" ),
+			title: this.i18n.dgettext( "js-text-analysis", "SEO title" ),
 			slug:  this.i18n.dgettext( "js-text-analysis", "Slug" ),
 			metaDescription: this.i18n.dgettext( "js-text-analysis", "Meta description" ),
 			save: this.i18n.dgettext( "js-text-analysis", "Close snippet editor" )
