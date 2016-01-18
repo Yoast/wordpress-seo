@@ -1,45 +1,91 @@
 /* css for snippet */
-#snippet_preview:hover *[contenteditable="true"] {
-    background: #ebebeb url(editicon.png) no-repeat right top;
-    background-image: url(edit.svg);
-    cursor: pointer;
-}
-
-#snippet_preview *[contenteditable="true"]:hover {
-    background: #bbdefb url("editicon.png") no-repeat right top;
-    background-image: url( edit.svg );
-    cursor: pointer;
-}
-
-#snippet_preview *[contenteditable="false"]:hover {
-    cursor: auto;
-}
-
-#snippet_preview *[contenteditable="true"]:focus {
-    background: #bbdefb;
-    cursor: text;
-}
-
 #snippet_preview {
-    padding:20px 20px 20px 80px;
+    padding: 0 0 20px 0;
     border: 1px solid #eee;
     border-radius: 20px;
     background-color: #fff;
     position: relative;
 }
 
-#snippet_preview .edit-icon {
-    position: absolute;
+.snippet-editor__preview {
+    padding: 20px 20px 0 20px;
+}
+
+.snippet-editor__edit-button {
     left: 0;
     top: 0;
-    height: 100%;
-    width: 60px;
-    border-radius: 20px 0 0 20px;
-    border-right: 1px solid #eee;
-    text-align: center;
 
-    background: url( edit.svg ) center no-repeat;
-    background-size: 40px;
+    padding: 0 20px;
+
+    width: 100%;
+    height: 30px;
+    border-radius: 20px 20px 0 0;
+    border: none;
+    border-bottom: 1px solid #eee;
+    text-align: left;
+    cursor: pointer;
+    background: none;
+
+    color: #1075a8;
+}
+
+.snippet-editor__edit-button--close {
+    color: #585858;
+}
+
+.snippet-editor__edit-button::before {
+    background: url( images/pencil.svg ) left no-repeat;
+}
+
+.snippet-editor__edit-icon,
+.snippet-editor__chevron-right-icon,
+.snippet-editor__chevron-down-icon {
+    fill: currentColor;
+    width: auto;
+    height: 1em;
+    position: relative;
+    top: 2px;
+}
+
+.snippet-editor__edit-button--close .snippet-editor__chevron-right-icon {
+    display: none;
+}
+
+.snippet-editor__edit-button .snippet-editor__chevron-down-icon {
+    display: none;
+}
+
+.snippet-editor__edit-button--close .snippet-editor__chevron-down-icon {
+    display: inline;
+}
+
+.snippet-editor__form {
+    padding: 0 20px;
+    display: none;
+}
+
+.snippet-editor__form--shown {
+    display: block;
+}
+
+.snippet-editor__label {
+    display: block;
+    width: 100%;
+    margin-top: 1em;
+}
+
+.snippet-editor__input {
+    display: block;
+    width: 100%;
+    margin-top: 5px;
+}
+
+.snippet-editor__meta-description {
+    height: 70px;
+}
+
+.snippet-editor__submit {
+    margin-top: 1em;
 }
 
 #snippet_cite {
@@ -48,10 +94,6 @@
 
 #meta_container {
     clear: both;
-}
-
-.snippet_container {
-    margin-top: 2px;
 }
 
 .snippet_container .title {
@@ -96,6 +138,10 @@
 
 .snippet_container .tooLong {
     color: #f00 !important;
+}
+
+.snippet-editor__field--invalid {
+    border: 1px solid #f00;
 }
 
 /* css for analyzer */

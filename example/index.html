@@ -28,8 +28,8 @@
                 snippet: "snippet"
             },
             sampleText: {
-                baseUrl: "",
-                snippetCite: "example.org/example-post/",
+                baseUrl: "example.org/",
+                snippetCite: "example-post/",
                 title: "This is an example title - edit by clicking here",
                 keyword: "Choose a focus keyword",
                 meta: "Modify your meta description by editing it right here",
@@ -45,7 +45,6 @@
             YoastSEO.analyzerArgs.callbacks = {
                 getData: exampleScraper.getData.bind( exampleScraper ),
                 bindElementEvents: exampleScraper.bindElementEvents.bind( exampleScraper ),
-                updateSnippetValues: exampleScraper.updateSnippetValues.bind( exampleScraper ),
                 saveScores: exampleScraper.saveScores.bind( exampleScraper )
             };
             window.YoastSEO.app = new YoastSEO.App( YoastSEO.analyzerArgs );

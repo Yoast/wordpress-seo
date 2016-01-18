@@ -1,6 +1,8 @@
 // Make sure the Jed object is globally available
 Jed = require('jed');
 
+_ = require("lodash");
+
 FactoryProto = function(){};
 
 FactoryProto.prototype.buildJed = function() {

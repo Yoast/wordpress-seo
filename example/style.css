@@ -19,7 +19,6 @@ h2{
     width: 512px;
 }
 
-.snippetForm label,
 .inputForm label {
     width: 250px;
     color: #777;
@@ -32,13 +31,14 @@ h2{
     margin: 5px 0;
 }
 
-.inputForm textArea {
+.inputForm textarea {
     height: 400px;
     margin: 5px 0;
     float: left;
 }
 
-input, textarea {
+.inputForm input,
+.inputForm textarea {
     width: 540px;
     padding: 5px;
     margin: 5px 5px 5px 0;
@@ -46,11 +46,7 @@ input, textarea {
     display: block
 }
 
-textarea {
-    height: 60px
-}
-
-label {
+.inputForm label {
     display: block;
     width: 200px;
     font-size: 14px;

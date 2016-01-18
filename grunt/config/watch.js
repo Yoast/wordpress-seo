@@ -12,6 +12,10 @@ module.exports = {
 		files: "<%= files.css %>",
 		tasks: [ "cssmin" ]
 	},
+	"cssmin-example": {
+		files: [ "example/style.css" ],
+		tasks: [ "cssmin" ]
+	},
 	templates: {
 		files: "<%= files.templates %>",
 		tasks: [ "build:jst" ]

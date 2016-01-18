@@ -1,3 +1,15 @@
+### 1.1
+
+#### Backwards incompatible changes
+* Passing the title, url and meta description meant for the snippet editor is no longer taken into account. The snippet
+editor keeps track of these values itself.
+* `callbacks.updateSnippetValues` has been deprecated in favor of `callback.saveSnippetData`. Currently a raw event is
+passed to `updateSnippetValues`. This is undesirable because it couples the callback to the DOM. The new
+`saveSnippetData` passes the actual data that the user put in the fields.
+* The `SnippetPreview` object now requires an options object instead of an `App` object. The `App` object should still
+be passed inside the options object with the `analyzerApp` key.
+
+
 ### 1.0: November 18th, 2015
 
 #### Backwards incompatible changes

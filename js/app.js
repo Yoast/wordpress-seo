@@ -65,6 +65,7 @@ YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
  *        snippet values need to be updated.
  * @param {YoastSEO.App~saveScores} args.callbacks.saveScores Called when the score has been
  *        determined by the analyzer.
+ * @param {Function} args.callbacks.saveSnippetData Function called when the snippet data is changed.
  *
  *
  * @constructor
@@ -163,7 +164,18 @@ YoastSEO.App.prototype.constructI18n = function( translations ) {
  * Retrieves data from the callbacks.getData and applies modification to store these in this.rawData.
  */
 YoastSEO.App.prototype.getData = function() {
+	var isUndefined = require( "lodash/lang/isUndefined" );
+
 	this.rawData = this.callbacks.getData();
+
+	if ( !isUndefined( this.snippetPreview ) ) {
+		var data = this.snippetPreview.getAnalyzerData();
+
+		this.rawData.pageTitle = data.title;
+		this.rawData.url = data.url;
+		this.rawData.meta = data.metaDesc;
+	}
+
 	if ( this.pluggable.loaded ) {
 		this.rawData.pageTitle = this.pluggable._applyModifications( "data_page_title", this.rawData.pageTitle );
 		this.rawData.meta = this.pluggable._applyModifications( "data_meta_desc", this.rawData.meta );
@@ -183,27 +195,21 @@ YoastSEO.App.prototype.refresh = function() {
  * creates the elements for the snippetPreview
  */
 YoastSEO.App.prototype.createSnippetPreview = function() {
+	var SnippetPreview = require( "../js/snippetPreview.js" );
+
 	var targetElement = document.getElementById( this.config.targets.snippet );
 
-	var snippetEditorTemplate = require( "./templates.js" ).snippetEditor;
-
-	targetElement.innerHTML = snippetEditorTemplate( {
-		title: this.config.sampleText.title,
-		baseUrl: this.config.sampleText.baseUrl,
-		snippetCite: this.config.sampleText.snippetCite,
-		meta: this.config.sampleText.meta
+	this.snippetPreview = new SnippetPreview( {
+		analyzerApp: this,
+		targetElement: targetElement,
+		callbacks: {
+			saveSnippetData: this.config.callbacks.saveSnippetData
+		}
 	} );
-
-	this.snippetPreview = new YoastSEO.SnippetPreview( this );
-	this.bindEvent();
-	this.bindSnippetEvents();
-};
-
-/**
- * binds the events to the generated inputs. Binds events on the snippetinputs if editable
- */
-YoastSEO.App.prototype.bindEvent = function() {
-	this.callbacks.bindElementEvents( this );
+	this.snippetPreview.renderTemplate();
+	this.snippetPreview.callRegisteredEventBinder();
+	this.snippetPreview.bindEvents();
+	this.snippetPreview.init();
 };
 
 /**
@@ -213,17 +219,6 @@ YoastSEO.App.prototype.bindInputEvent = function() {
 	for ( var i = 0; i < this.config.elementTarget.length; i++ ) {
 		var elem = document.getElementById( this.config.elementTarget[ i ] );
 		elem.addEventListener( "input", this.analyzeTimer.bind( this ) );
-	}
-};
-
-/**
- * binds the reloadSnippetText function to the blur of the snippet inputs.
- */
-YoastSEO.App.prototype.bindSnippetEvents = function() {
-	var elems = [ "meta", "cite", "title" ];
-	for ( var i = 0; i < elems.length; i++ ) {
-		var targetElement = document.getElementById( "snippet_" + elems[ i ] );
-		targetElement.addEventListener( "blur", this.callbacks.updateSnippetValues );
 	}
 };
 
