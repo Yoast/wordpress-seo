@@ -3806,8 +3806,8 @@ SnippetPreview.prototype.bindEvents = function() {
 			}
 		];
 
-	for ( var i = 0; i < elems.length; i++ ) {
-		targetElement = document.getElementsByClassName( "js-snippet-editor-" + elems[ i ] );
+	forEach( elems, function( elem ) {
+		targetElement = document.getElementsByClassName( "js-snippet-editor-" + elem );
 		targetElement = targetElement[0];
 
 		targetElement.addEventListener( "keydown", this.changedInput.bind( this ) );
@@ -3816,7 +3816,7 @@ SnippetPreview.prototype.bindEvents = function() {
 		targetElement.addEventListener( "input", this.changedInput.bind( this ) );
 		targetElement.addEventListener( "focus", this.changedInput.bind( this ) );
 		targetElement.addEventListener( "blur", this.changedInput.bind( this ) );
-	}
+	}.bind( this ) );
 
 	this.element.editToggle.addEventListener( "click", this.toggleEditor.bind( this ) );
 	this.element.closeEditor.addEventListener( "click", this.closeEditor.bind( this ) );
