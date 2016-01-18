@@ -20,32 +20,32 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 	 */
 	protected $defaults = array(
 		// Non-form fields, set via (ajax) function.
-		'title_test'                  => 0,
+		'title_test'             => 0,
 		// Form fields.
-		'forcerewritetitle'           => false,
-		'separator'                   => 'sc-dash',
-		'noodp'                       => false,
-		'noydir'                      => false,
-		'usemetakeywords'             => false,
-		'title-home-wpseo'            => '%%sitename%% %%page%% %%sep%% %%sitedesc%%', // Text field.
-		'title-author-wpseo'          => '', // Text field.
-		'title-archive-wpseo'         => '%%date%% %%page%% %%sep%% %%sitename%%', // Text field.
-		'title-search-wpseo'          => '', // Text field.
-		'title-404-wpseo'             => '', // Text field.
+		'forcerewritetitle'      => false,
+		'separator'              => 'sc-dash',
+		'noodp'                  => false,
+		'noydir'                 => false,
+		'usemetakeywords'        => false,
+		'title-home-wpseo'       => '%%sitename%% %%page%% %%sep%% %%sitedesc%%', // Text field.
+		'title-author-wpseo'     => '', // Text field.
+		'title-archive-wpseo'    => '%%date%% %%page%% %%sep%% %%sitename%%', // Text field.
+		'title-search-wpseo'     => '', // Text field.
+		'title-404-wpseo'        => '', // Text field.
 
-		'metadesc-home-wpseo'         => '', // Text area.
-		'metadesc-author-wpseo'       => '', // Text area.
-		'metadesc-archive-wpseo'      => '', // Text area.
-		'metakey-home-wpseo'          => '', // Text field.
-		'metakey-author-wpseo'        => '', // Text field.
+		'metadesc-home-wpseo'    => '', // Text area.
+		'metadesc-author-wpseo'  => '', // Text area.
+		'metadesc-archive-wpseo' => '', // Text area.
+		'metakey-home-wpseo'     => '', // Text field.
+		'metakey-author-wpseo'   => '', // Text field.
 
-		'noindex-subpages-wpseo'      => false,
-		'noindex-author-wpseo'        => false,
-		'noindex-archive-wpseo'       => true,
+		'noindex-subpages-wpseo' => false,
+		'noindex-author-wpseo'   => false,
+		'noindex-archive-wpseo'  => true,
 
-		'disable-author'              => false,
-		'disable-date'                => false,
-		'disable-post_format'         => false,
+		'disable-author'         => false,
+		'disable-date'           => false,
+		'disable-post_format'    => false,
 
 		/**
 		 * Uses enrich_defaults to add more along the lines of:
