@@ -373,7 +373,7 @@ SnippetPreview.prototype.formatCite = function() {
 		cite = this.formatKeywordUrl( cite );
 	}
 
-	if ( this.opts.addTrailingSlash && ! hasTrailingSlash( cite ) ) {
+	if ( this.opts.addTrailingSlash && !hasTrailingSlash( cite ) ) {
 		cite = cite + "/";
 	}
 
