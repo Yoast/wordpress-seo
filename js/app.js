@@ -173,7 +173,7 @@ YoastSEO.App.prototype.getData = function() {
 
 		this.rawData.pageTitle = data.title;
 		this.rawData.url = data.url;
-		this.rawData.snippetMeta = data.metaDesc;
+		this.rawData.meta = data.metaDesc;
 	}
 
 	if ( this.pluggable.loaded ) {
