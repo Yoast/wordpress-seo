@@ -555,11 +555,15 @@ SnippetPreview.prototype.renderOutput = function() {
  * Sets the classname of the meta field in the snippet, based on the rawData.snippetMeta
  */
 SnippetPreview.prototype.renderSnippetStyle = function() {
-	var cssClass = "desc-default";
-	if ( this.refObj.rawData.meta === "" ) {
-		cssClass = "desc-render";
+	var metaDesc = this.element.rendered.metaDesc;
+
+	if ( this.data.metaDesc === "" ) {
+		addClass( metaDesc, "desc-render" );
+		removeClass( metaDesc, "desc-default" );
+	} else {
+		addClass( metaDesc, "desc-default" );
+		removeClass( metaDesc, "desc-render" );
 	}
-	document.getElementById( "snippet_meta" ).className = "desc " + cssClass;
 };
 
 /**
