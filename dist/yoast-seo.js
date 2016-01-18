@@ -3813,9 +3813,9 @@ SnippetPreview.prototype.bindEvents = function() {
 		targetElement.addEventListener( "keydown", this.changedInput.bind( this ) );
 		targetElement.addEventListener( "keyup", this.changedInput.bind( this ) );
 
-		targetElement.addEventListener( 'input', this.changedInput.bind( this ) );
-		targetElement.addEventListener( 'focus', this.changedInput.bind( this ) );
-		targetElement.addEventListener( 'blur', this.changedInput.bind( this ) );
+		targetElement.addEventListener( "input", this.changedInput.bind( this ) );
+		targetElement.addEventListener( "focus", this.changedInput.bind( this ) );
+		targetElement.addEventListener( "blur", this.changedInput.bind( this ) );
 	}
 
 	this.element.editToggle.addEventListener( "click", this.toggleEditor.bind( this ) );
