@@ -3485,6 +3485,9 @@ SnippetPreview.prototype.formatCite = function() {
 		cite = cite + "/";
 	}
 
+	// URL's cannot contain whitespace so replace it by dashes.
+	cite = cite.replace( /\s/g, "-" );
+
 	return cite;
 };
 
