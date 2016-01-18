@@ -27,7 +27,7 @@ class WPSEO_Admin_Pages {
 	 */
 	function __construct() {
 		add_action( 'init', array( $this, 'init' ), 20 );
-		$this -> asset_manager = new WPSEO_Admin_Asset_Manager();
+		$this->asset_manager = new WPSEO_Admin_Asset_Manager();
 	}
 
 
