@@ -76,10 +76,10 @@ class WPSEO_Redirect_Upgrade {
 			$old_redirects = $redirect_option->get_from_option( $redirect_option_name );
 
 			foreach ( $old_redirects as $origin => $redirect ) {
-				/*
-				 *  @todo For release the line below have to be uncommented.
+				// Only when URL and type is set.
+				if ( array_key_exists( 'url', $redirect ) && array_key_exists( 'type', $redirect ) ) {
 					$redirects[] = new WPSEO_Redirect( $origin, $redirect['url'], $redirect['type'], $redirect_format );
-				 */
+				}
 			}
 		}
 
