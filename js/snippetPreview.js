@@ -35,7 +35,7 @@ var getBaseURL = function() {
 
 	/*
 	 * For backwards compatibility, if no URL was passed to the snippet editor we try to retrieve the base URL from the
-	 * rawData in the App. This is because the scrapers used to be responsible for retrieving the baseURL. But the base
+	 * rawData in the App. This is because the scrapers used to be responsible for retrieving the baseURL, but the base
 	 * URL is static so we can just pass it to the snippet editor.
 	 */
 	if ( !isEmpty( this.refObj.rawData.baseUrl ) && this.opts.baseURL === defaults.baseURL ) {
