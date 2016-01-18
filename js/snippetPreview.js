@@ -1,13 +1,10 @@
 /* jshint browser: true */
 /* global YoastSEO: false */
 
-var _ = {
-	isObject: require( "lodash/lang/isObject" ),
-	isEmpty: require( "lodash/lang/isEmpty" ),
-	isElement: require( "lodash/lang/isElement" ),
-	clone: require( "lodash/lang/clone" ),
-	defaultsDeep: require( "lodash/object/defaultsDeep" )
-};
+var isEmpty = require( "lodash/lang/isEmpty" );
+var isElement = require( "lodash/lang/isElement" );
+var clone = require( "lodash/lang/clone" );
+var defaultsDeep = require( "lodash/object/defaultsDeep" );
 
 var defaults = {
 	placeholder: {
@@ -37,7 +34,7 @@ var getBaseURL = function() {
 	 * rawData in the App. This is because the scrapers used to be responsible for retrieving the baseURL. But the base
 	 * URL is static so we can just pass it to the snippet editor.
 	 */
-	if ( !_.isEmpty( this.refObj.rawData.baseUrl ) && this.opts.baseURL === defaults.baseURL ) {
+	if ( !isEmpty( this.refObj.rawData.baseUrl ) && this.opts.baseURL === defaults.baseURL ) {
 		baseURL = this.refObj.rawData.baseUrl;
 	}
 
@@ -157,13 +154,13 @@ function removeClass( element, className ) {
  * @constructor
  */
 var SnippetPreview = function( opts ) {
-	_.defaultsDeep( opts, defaults );
+	defaultsDeep( opts, defaults );
 
 	this.refObj = opts.analyzerApp;
 	this.i18n = this.refObj.i18n;
 	this.opts = opts;
 
-	if ( !_.isElement( opts.targetElement ) ) {
+	if ( !isElement( opts.targetElement ) ) {
 		throw new Error( "The snippet preview requires a valid target element" );
 	}
 
@@ -174,7 +171,7 @@ var SnippetPreview = function( opts ) {
 	};
 
 	// For backwards compatibility set the pageTitle as placeholder.
-	if ( !_.isEmpty( this.refObj.rawData.pageTitle ) ) {
+	if ( !isEmpty( this.refObj.rawData.pageTitle ) ) {
 		this.opts.placeholder.title = this.refObj.rawData.pageTitle;
 	}
 
@@ -309,7 +306,7 @@ SnippetPreview.prototype.formatTitle = function() {
 	var title = this.data.title;
 
 	// Fallback to the default if the title is empty.
-	if ( _.isEmpty( title ) ) {
+	if ( isEmpty( title ) ) {
 		title = this.refObj.config.sampleText.title;
 	}
 
@@ -322,7 +319,7 @@ SnippetPreview.prototype.formatTitle = function() {
 	}
 
 	// If a keyword is set we want to highlight it in the title.
-	if ( !_.isEmpty( this.refObj.rawData.keyword ) ) {
+	if ( !isEmpty( this.refObj.rawData.keyword ) ) {
 		return this.formatKeyword( title );
 	}
 
@@ -353,11 +350,11 @@ SnippetPreview.prototype.formatCite = function() {
 	cite = this.refObj.stringHelper.stripAllTags( cite );
 
 	// Fallback to the default if the cite is empty.
-	if ( _.isEmpty( cite ) ) {
+	if ( isEmpty( cite ) ) {
 		cite = this.refObj.config.sampleText.snippetCite;
 	}
 
-	if ( !_.isEmpty( this.refObj.rawData.keyword ) ) {
+	if ( !isEmpty( this.refObj.rawData.keyword ) ) {
 		cite = this.formatKeywordUrl( cite );
 	}
 
@@ -373,7 +370,7 @@ SnippetPreview.prototype.formatMeta = function() {
 	var meta = this.data.metaDesc;
 
 	// If no meta has been set, generate one.
-	if ( _.isEmpty( meta ) ) {
+	if ( isEmpty( meta ) ) {
 		meta = this.getMetaText();
 	}
 
@@ -383,7 +380,7 @@ SnippetPreview.prototype.formatMeta = function() {
 	// Cut-off the meta description according to the maximum length
 	meta = meta.substring( 0, YoastSEO.analyzerConfig.maxMeta );
 
-	if ( !_.isEmpty( this.refObj.rawData.keyword ) ) {
+	if ( !isEmpty( this.refObj.rawData.keyword ) ) {
 		meta = this.formatKeyword( meta );
 	}
 
@@ -405,7 +402,7 @@ SnippetPreview.prototype.getMetaText = function() {
 	if ( typeof this.refObj.rawData.text !== "undefined" ) {
 		metaText = this.refObj.rawData.text;
 	}
-	if ( _.isEmpty( metaText ) ) {
+	if ( isEmpty( metaText ) ) {
 		metaText = this.refObj.config.sampleText.meta;
 	}
 
@@ -692,7 +689,7 @@ SnippetPreview.prototype.updateDataFromDOM = function() {
 	this.data.metaDesc = this.element.input.metaDesc.value;
 
 	// Clone so the data isn't changeable.
-	this.opts.callbacks.saveSnippetData( _.clone( this.data ) );
+	this.opts.callbacks.saveSnippetData( clone( this.data ) );
 };
 
 /**
