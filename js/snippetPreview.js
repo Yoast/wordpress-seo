@@ -7,6 +7,7 @@ var clone = require( "lodash/lang/clone" );
 var defaultsDeep = require( "lodash/object/defaultsDeep" );
 var forEach = require( "lodash/collection/forEach" );
 var map = require( "lodash/collection/map" );
+var debounce = require( "lodash/function/debounce" );
 
 var defaults = {
 	placeholder: {
@@ -703,6 +704,10 @@ SnippetPreview.prototype.bindEvents = function() {
 
 		targetElement.addEventListener( "keydown", this.changedInput.bind( this ) );
 		targetElement.addEventListener( "keyup", this.changedInput.bind( this ) );
+
+		targetElement.addEventListener( 'input', this.changedInput.bind( this ) );
+		targetElement.addEventListener( 'focus', this.changedInput.bind( this ) );
+		targetElement.addEventListener( 'blur', this.changedInput.bind( this ) );
 	}
 
 	this.element.editToggle.addEventListener( "click", this.toggleEditor.bind( this ) );
@@ -727,14 +732,17 @@ SnippetPreview.prototype.bindEvents = function() {
 	}.bind( this ) );
 };
 
-SnippetPreview.prototype.changedInput = function() {
+/**
+ * Updates snippet preview on changed input. It's debounced so that we can call this function as much as we want.
+ */
+SnippetPreview.prototype.changedInput = debounce( function() {
 	this.updateDataFromDOM();
 	this.validateFields();
 
 	this.refresh();
 
 	this.refObj.refresh.call( this.refObj );
-};
+}, 25 );
 
 /**
  * Updates our data object from the DOM
