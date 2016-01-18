@@ -127,9 +127,9 @@ class WPSEO_Frontend {
 			remove_action( 'wp_head', 'feed_links_extra', 3 );
 		}
 
-		if ( ( $this->options['disable-date'] === true ||
-		       $this->options['disable-author'] === true ) ||
-		     ( isset( $this->options['disable-post_format'] ) && $this->options['disable-post_format'] )
+		if ( $this->options['disable-date'] === true ||
+		     $this->options['disable-author'] === true ||
+		     $this->options['disable-post_format'] === true
 		) {
 			add_action( 'wp', array( $this, 'archive_redirect' ) );
 		}
