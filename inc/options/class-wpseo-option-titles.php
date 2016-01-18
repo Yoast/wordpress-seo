@@ -42,7 +42,6 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		'noindex-subpages-wpseo'      => false,
 		'noindex-author-wpseo'        => false,
 		'noindex-archive-wpseo'       => true,
-		'noindex-archive-post_format' => true,
 
 		'disable-author'              => false,
 		'disable-date'                => false,
@@ -345,12 +344,12 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 				 *		'noindex-ptarchive-' . $pt->name
 				 *		'noindex-tax-' . $tax->name
 				 *		'forcerewritetitle':
-				 *		'noindex-archive-post_type'
 				 *		'usemetakeywords':
 				 *		'noodp':
 				 *		'noydir':
 				 *		'disable-author':
 				 *		'disable-date':
+				 *		'disable-post_format';
 				 *		'noindex-'
 				 *		'showdate-'
 				 *		'showdate-'. $pt->name
