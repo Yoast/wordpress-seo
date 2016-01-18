@@ -17,7 +17,8 @@ var defaults = {
 	baseURL: "http://example.com/",
 	callbacks: {
 		saveSnippetData: function() {}
-	}
+	},
+	addTrailingSlash: true
 };
 
 /**
@@ -106,6 +107,16 @@ function removeClass( element, className ) {
 }
 
 /**
+ * Returns if a url has a trailing slash or not.
+ *
+ * @param {string} url
+ * @returns {boolean}
+ */
+function hasTrailingSlash( url ) {
+	return url.indexOf( "/" ) === ( url.length - 1 );
+}
+
+/**
  * @module snippetPreview
  */
 
@@ -124,6 +135,8 @@ function removeClass( element, className ) {
  *
  * @param {Object}         opts.callbacks                 - Functions that are called on specific instances.
  * @param {Function}       opts.callbacks.saveSnippetData - Function called when the snippet data is changed.
+ *
+ * @param {boolean}        opts.addTrailingSlash          - Whether or not to add a trailing slash to the URL.
  *
  * @property {App}         refObj                         - The connected app object.
  * @property {Jed}         i18n                           - The translation object.
@@ -358,6 +371,10 @@ SnippetPreview.prototype.formatCite = function() {
 
 	if ( !isEmpty( this.refObj.rawData.keyword ) ) {
 		cite = this.formatKeywordUrl( cite );
+	}
+
+	if ( this.opts.addTrailingSlash && ! hasTrailingSlash( cite ) ) {
+		cite = cite + "/";
 	}
 
 	return cite;
