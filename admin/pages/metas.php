@@ -153,16 +153,21 @@ $yform->admin_header( true, 'wpseo_titles' );
 			$taxonomies = get_taxonomies( array( 'public' => true ), 'objects' );
 			if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
 				foreach ( $taxonomies as $tax ) {
-					echo "<div id='" . esc_attr( $tax->name ) . "-titles-metas'>";
 					echo '<strong>' . esc_html( ucfirst( $tax->labels->name ) ) . '</strong><br/>';
+					if ( $tax->name === 'post_format' ) {
+						$yform->checkbox( 'disable-post_format', __( 'Disable format-based archives', 'wordpress-seo' ), __( 'Format-based archives', 'wordpress-seo' ) );
+					}
+					echo "<div id='" . esc_attr( $tax->name ) . "-titles-metas'>";
 					$yform->textinput( 'title-tax-' . $tax->name, __( 'Title template', 'wordpress-seo' ), 'template taxonomy-template' );
 					$yform->textarea( 'metadesc-tax-' . $tax->name, __( 'Meta description template', 'wordpress-seo' ), array( 'class' => 'template taxonomy-template' ) );
 					if ( $options['usemetakeywords'] === true ) {
 						$yform->textinput( 'metakey-tax-' . $tax->name, __( 'Meta keywords template', 'wordpress-seo' ) );
 					}
 					$yform->checkbox( 'noindex-tax-' . $tax->name, '<code>noindex, follow</code>', __( 'Meta Robots', 'wordpress-seo' ) );
-					/* translators: %1$s expands to Yoast SEO */
-					$yform->checkbox( 'hideeditbox-tax-' . $tax->name, __( 'Hide', 'wordpress-seo' ), sprintf( __( '%1$s Meta Box', 'wordpress-seo' ), 'Yoast SEO' ) );
+					if ( $tax->name !== 'post_format' ) {
+						/* translators: %1$s expands to Yoast SEO */
+						$yform->checkbox( 'hideeditbox-tax-' . $tax->name, __( 'Hide', 'wordpress-seo' ), sprintf( __( '%1$s Meta Box', 'wordpress-seo' ), 'Yoast SEO' ) );
+					}
 					echo '<br/><br/>';
 					echo '</div>';
 				}
@@ -205,14 +210,6 @@ $yform->admin_header( true, 'wpseo_titles' );
 			/* translators: %s expands to <code>noindex, follow</code> */
 			$yform->checkbox( 'noindex-archive-wpseo', sprintf( __( 'Add %s to the date-based archives', 'wordpress-seo' ), '<code>noindex, follow</code>' ) );
 			$yform->checkbox( 'disable-date', __( 'Disable the date-based archives', 'wordpress-seo' ) );
-
-			echo '<p>';
-			_e( 'PLACEHOLDER. REPLACE WITH WHY/WHEN YOU SHOULD WANT THIS.', 'wordpress-seo' );
-			echo '</p>';
-			/* translators: %s expands to <code>noindex, follow</code> */
-			$yform->checkbox( 'noindex-tax-post_format-archives', sprintf( __( 'Add %s to the format-based archives', 'wordpress-seo' ), '<code>noindex, follow</code>' ) );
-			$yform->checkbox( 'disable-post_format', __( 'Disable the format-based archives', 'wordpress-seo' ) );
-
 			echo '</div>';
 			echo '<br/>';
 			echo '<div id="special-pages-titles-metas">';

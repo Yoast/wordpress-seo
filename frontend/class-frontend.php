@@ -129,7 +129,7 @@ class WPSEO_Frontend {
 
 		if ( ( $this->options['disable-date'] === true ||
 		       $this->options['disable-author'] === true ) ||
-		     ( isset( $this->options['disable-post_formats'] ) && $this->options['disable-post_formats'] )
+		     ( isset( $this->options['disable-post_format'] ) && $this->options['disable-post_format'] )
 		) {
 			add_action( 'wp', array( $this, 'archive_redirect' ) );
 		}
@@ -1440,7 +1440,7 @@ class WPSEO_Frontend {
 		if (
 			( $this->options['disable-date'] === true && $wp_query->is_date ) ||
 			( $this->options['disable-author'] === true && $wp_query->is_author ) ||
-			( isset( $this->options['disable-post_formats'] ) && $this->options['disable-post_formats'] && $wp_query->is_tax( 'post_format' ) )
+			( $this->options['disable-post_format'] === true && $wp_query->is_tax( 'post_format' ) )
 		) {
 			wp_safe_redirect( get_bloginfo( 'url' ), 301 );
 			exit;
