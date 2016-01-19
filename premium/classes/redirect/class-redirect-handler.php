@@ -265,7 +265,16 @@ class WPSEO_Redirect_Handler {
 			require_once( ABSPATH . 'wp-includes/pluggable.php' );
 		}
 
-		header( 'X-Redirect-By: Yoast SEO Premium' );
+		/**
+		 * Filter: 'wpseo_add_x_redirect' - can be used to remove the X-Redirect-By header Yoast SEO creates
+		 * (only available in Yoast SEO Premium, defaults to true, which is adding it)
+		 *
+		 * @api bool
+		 */
+		if ( apply_filters( 'wpseo_add_x_redirect', true ) === true ) {
+			header( 'X-Redirect-By: Yoast SEO Premium' );
+		}
+
 		wp_redirect( $this->parse_target_url( $redirect_url ), $redirect_type );
 		exit;
 	}
