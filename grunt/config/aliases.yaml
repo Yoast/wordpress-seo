@@ -19,7 +19,6 @@ build:
   - 'uglify'
 # Build internationalisation features
 'build:i18n':
-  - 'addtextdomain'
   - 'makepot'
   - 'shell:combine-pot-files'
   - 'glotpress_download'

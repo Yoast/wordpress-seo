@@ -148,6 +148,7 @@ if ( get_option( 'page_comments' ) && $options['ignore_page_comments'] === false
 		<a class="nav-tab" id="webmaster-tools-tab"
 		   href="#top#webmaster-tools"><?php _e( 'Webmaster Tools', 'wordpress-seo' ); ?></a>
 		<a class="nav-tab" id="security-tab" href="#top#security"><?php _e( 'Security', 'wordpress-seo' ); ?></a>
+		<a class="nav-tab" id="onpage-tab" href="#top#onpage">OnPage.org</a>
 	</h2>
 
 	<div id="general" class="wpseotab">
@@ -242,6 +243,12 @@ if ( get_option( 'page_comments' ) && $options['ignore_page_comments'] === false
 		echo '<p>', __( 'Unchecking this box allows authors and editors to redirect posts, noindex them and do other things you might not want if you don\'t trust your authors.', 'wordpress-seo' ), '</p>';
 		/* translators: %1$s expands to Yoast SEO */
 		$yform->checkbox( 'disableadvanced_meta', sprintf( __( 'Disable the Advanced part of the %1$s meta box', 'wordpress-seo' ), 'Yoast SEO' ) );
+		?>
+	</div>
+	<div id="onpage" class="wpseotab">
+		<?php
+		/* translators: %1$s expands to OnPage.org */
+		$yform->checkbox( 'onpage_indexability', sprintf( __( 'Enable %1$s indexability check', 'wordpress-seo' ), 'OnPage.org' ) );
 		?>
 	</div>
 <?php
