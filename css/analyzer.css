@@ -11,6 +11,16 @@
     margin-top: 2px;
 }
 
+.snippet_container:before,
+.snippet_container:after {
+    content: ' ';
+    display: table;
+}
+
+.snippet_container:after {
+    clear: both;
+}
+
 #snippet_preview:hover .snippet_container {
     background: #ebebeb url(images/edit.svg) no-repeat right;
     background-size: 20px;
