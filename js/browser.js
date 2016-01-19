@@ -10,3 +10,5 @@ require( "./stringhelper.js" );
 YoastSEO.SnippetPreview = require( "./snippetPreview.js" );
 require( "./app.js" );
 require( "./pluggable.js" );
+
+YoastSEO.Jed = require( "Jed" );
