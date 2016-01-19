@@ -337,7 +337,7 @@ SnippetPreview.prototype.formatTitle = function() {
 
 	// Fallback to the default if the title is empty.
 	if ( isEmpty( title ) ) {
-		title = this.refObj.config.sampleText.title;
+		title = this.opts.placeholder.title;
 	}
 
 	// TODO: Replace this with the stripAllTags module.
@@ -381,7 +381,7 @@ SnippetPreview.prototype.formatCite = function() {
 
 	// Fallback to the default if the cite is empty.
 	if ( isEmpty( cite ) ) {
-		cite = this.refObj.config.sampleText.snippetCite;
+		cite = this.opts.placeholder.urlPath;
 	}
 
 	if ( !isEmpty( this.refObj.rawData.keyword ) ) {
@@ -444,7 +444,7 @@ SnippetPreview.prototype.getMetaText = function() {
 		}
 	}
 	if ( isEmpty( metaText ) ) {
-		metaText = this.refObj.config.sampleText.meta;
+		metaText = this.opts.placeholder.metaDesc;
 	}
 
 	metaText = this.refObj.stringHelper.stripAllTags( metaText );
@@ -473,7 +473,7 @@ SnippetPreview.prototype.getMetaText = function() {
 		}
 	}
 	if ( this.refObj.stringHelper.stripAllTags( metaText ) === "" ) {
-		return this.refObj.config.sampleText.meta;
+		return this.opts.placeholder.metaDesc;
 	}
 	return metaText.substring( 0, YoastSEO.analyzerConfig.maxMeta );
 };
