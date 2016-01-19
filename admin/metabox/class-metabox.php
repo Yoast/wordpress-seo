@@ -298,10 +298,10 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 *
 	 * @return string
 	 */
-	public static function get_metadesc_date( $post ) {
+	public function get_metadesc_date( $post ) {
 		$date = '';
 
-		if ( is_a( $post, 'WP_Post' ) ) {
+		if ( is_a( $post, 'WP_Post' ) && $this->is_show_date_enabled( $post ) ) {
 			$date = date_i18n( 'M j, Y', mysql2date( 'U', $post->post_date ) );
 		}
 
@@ -967,6 +967,21 @@ SVG;
 			return json_decode( $file, true );
 		}
 		return array();
+	}
+
+	/**
+	 * Returns whether or not showing the date in the snippet preview is enabled.
+	 *
+	 * @param WP_Post $post The post to retrieve this for.
+	 * @return bool
+	 */
+	private static function is_show_date_enabled( $post ) {
+		$post_type = $post->post_type;
+
+		$options = WPSEO_Options::get_option( 'wpseo_titles' );
+		$key = sprintf( 'showdate-%s', $post_type );
+
+		return isset( $options[ $key ] ) && true === $options[ $key ];
 	}
 
 	/********************** DEPRECATED METHODS **********************/
