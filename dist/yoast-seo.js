@@ -3384,7 +3384,7 @@ SnippetPreview.prototype.refresh = function() {
 
 var getMetaDesc = function() {
 	var metaDesc = this.data.metaDesc;
-	if ( !isEmpty( this.opts.metaDescriptionDate  ) ){
+	if ( !isEmpty( this.opts.metaDescriptionDate  ) ) {
 		metaDesc = this.opts.metaDescriptionDate + " - " + this.data.metaDesc;
 	}
 	return metaDesc;
