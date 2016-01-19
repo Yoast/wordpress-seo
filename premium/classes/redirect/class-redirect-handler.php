@@ -368,7 +368,7 @@ class WPSEO_Redirect_Handler {
 	 * @return bool
 	 */
 	private function set_template_include_hook( $template_to_set ) {
-		$this->template = get_query_template( $template_to_set );
+		$this->template_include = get_query_template( $template_to_set );
 		if ( ! empty( $this->template_include ) ) {
 			add_filter( 'template_include', array( $this, 'set_template_include' ) );
 
