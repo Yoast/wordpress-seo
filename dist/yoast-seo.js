@@ -1099,6 +1099,31 @@ module.exports = YoastSEO.AnalyzeScorer;
 /* global YoastSEO: true */
 YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 
+var isUndefined = require( "lodash/lang/isUndefined" );
+
+var SnippetPreview = require( "./snippetPreview.js" );
+
+/**
+ * Creates a default snippet preview, this can be used if no snippet preview has been passed.
+ *
+ * @private
+ * @this App
+ *
+ * @returns {SnippetPreview}
+ */
+function createDefaultSnippetPreview() {
+	var targetElement = document.getElementById( this.config.targets.snippet ),
+		SnippetPreview = require( "../js/snippetPreview.js" );
+
+	return new SnippetPreview( {
+		analyzerApp: this,
+		targetElement: targetElement,
+		callbacks: {
+			saveSnippetData: this.config.callbacks.saveSnippetData
+		}
+	} );
+}
+
 /**
  * This should return an object with the given properties
  *
@@ -1164,6 +1189,7 @@ YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
  *        determined by the analyzer.
  * @param {Function} args.callbacks.saveSnippetData Function called when the snippet data is changed.
  *
+ * @param {SnippetPreview} args.snippetPreview
  *
  * @constructor
  */
@@ -1178,7 +1204,24 @@ YoastSEO.App = function( args ) {
 	this.getData();
 
 	this.showLoadingDialog();
-	this.createSnippetPreview();
+
+	SnippetPreview.prototype.isPrototypeOf( args.snippetPreview );
+
+	if ( !isUndefined( args.snippetPreview ) && SnippetPreview.prototype.isPrototypeOf( args.snippetPreview ) ) {
+		this.snippetPreview = args.snippetPreview;
+
+		// Hack to make sure the snippet preview always has a reference to this App. This way we solve the circular
+		// dependency issue. In the future this should be solved by the snippet preview not having a reference to the
+		// app.
+		if ( this.snippetPreview.refObj !== this ) {
+			this.snippetPreview.refObj = this;
+			this.snippetPreview.i18n = this.i18n;
+		}
+	} else {
+		this.snippetPreview = createDefaultSnippetPreview.call( this );
+	}
+	this.initSnippetPreview();
+
 	this.runAnalyzer();
 };
 
@@ -1290,19 +1333,19 @@ YoastSEO.App.prototype.refresh = function() {
 
 /**
  * creates the elements for the snippetPreview
+ *
+ * @deprecated Don't create a snippet preview using this method, create it directly using the prototype and pass it as
+ * an argument instead.
  */
 YoastSEO.App.prototype.createSnippetPreview = function() {
-	var SnippetPreview = require( "../js/snippetPreview.js" );
+	this.snippetPreview = createDefaultSnippetPreview.call( this );
+	this.initSnippetPreview();
+};
 
-	var targetElement = document.getElementById( this.config.targets.snippet );
-
-	this.snippetPreview = new SnippetPreview( {
-		analyzerApp: this,
-		targetElement: targetElement,
-		callbacks: {
-			saveSnippetData: this.config.callbacks.saveSnippetData
-		}
-	} );
+/**
+ * Initializes the snippet preview for this App.
+ */
+YoastSEO.App.prototype.initSnippetPreview = function() {
 	this.snippetPreview.renderTemplate();
 	this.snippetPreview.callRegisteredEventBinder();
 	this.snippetPreview.bindEvents();
@@ -1466,7 +1509,7 @@ YoastSEO.App.prototype.removeLoadingDialog = function() {
 	document.getElementById( this.config.targets.output ).removeChild( document.getElementById( "YoastSEO-plugin-loading" ) );
 };
 
-},{"../js/snippetPreview.js":28,"jed":54,"lodash/lang/isUndefined":124}],17:[function(require,module,exports){
+},{"../js/snippetPreview.js":28,"./snippetPreview.js":28,"jed":54,"lodash/lang/isUndefined":124}],17:[function(require,module,exports){
 YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 
 require( "./config/config.js" );
@@ -3111,6 +3154,7 @@ YoastSEO.ScoreFormatter.prototype.getSEOScoreText = function( scoreRating ) {
 
 var isEmpty = require( "lodash/lang/isEmpty" );
 var isElement = require( "lodash/lang/isElement" );
+var isUndefined = require( "lodash/lang/isUndefined" );
 var clone = require( "lodash/lang/clone" );
 var defaultsDeep = require( "lodash/object/defaultsDeep" );
 var forEach = require( "lodash/collection/forEach" );
@@ -3118,6 +3162,11 @@ var map = require( "lodash/collection/map" );
 var debounce = require( "lodash/function/debounce" );
 
 var defaults = {
+	data: {
+		title: "",
+		metaDesc: "",
+		urlPath: ""
+	},
 	placeholder: {
 		title:    "This is an example title - edit by clicking here",
 		metaDesc: "Modify your meta description by editing it right here",
@@ -3279,24 +3328,29 @@ function hasTrailingSlash( url ) {
 var SnippetPreview = function( opts ) {
 	defaultsDeep( opts, defaults );
 
-	this.refObj = opts.analyzerApp;
-	this.i18n = this.refObj.i18n;
-	this.opts = opts;
+	this.data = opts.data;
+
+	if ( !isUndefined( opts.analyzerApp ) ) {
+		this.refObj = opts.analyzerApp;
+		this.i18n = this.refObj.i18n;
+
+		this.data = {
+			title: this.refObj.rawData.snippetTitle || "",
+			urlPath: this.refObj.rawData.snippetCite || "",
+			metaDesc: this.refObj.rawData.snippetMeta || ""
+		};
+
+		// For backwards compatibility set the pageTitle as placeholder.
+		if ( !isEmpty( this.refObj.rawData.pageTitle ) ) {
+			opts.placeholder.title = this.refObj.rawData.pageTitle;
+		}
+	}
 
 	if ( !isElement( opts.targetElement ) ) {
 		throw new Error( "The snippet preview requires a valid target element" );
 	}
 
-	this.data = {
-		title: this.refObj.rawData.snippetTitle || "",
-		urlPath: this.refObj.rawData.snippetCite || "",
-		metaDesc: this.refObj.rawData.snippetMeta || ""
-	};
-
-	// For backwards compatibility set the pageTitle as placeholder.
-	if ( !isEmpty( this.refObj.rawData.pageTitle ) ) {
-		this.opts.placeholder.title = this.refObj.rawData.pageTitle;
-	}
+	this.opts = opts;
 
 	// For backwards compatibility monitor the unformatted text for changes and reflect them in the preview
 	this.unformattedText = {};
@@ -3940,7 +3994,7 @@ SnippetPreview.prototype.textFeedback = function( ev ) {};
 
 module.exports = SnippetPreview;
 
-},{"./templates.js":53,"lodash/collection/forEach":56,"lodash/collection/map":57,"lodash/function/debounce":59,"lodash/lang/clone":113,"lodash/lang/isElement":116,"lodash/lang/isEmpty":117,"lodash/object/defaultsDeep":126}],29:[function(require,module,exports){
+},{"./templates.js":53,"lodash/collection/forEach":56,"lodash/collection/map":57,"lodash/function/debounce":59,"lodash/lang/clone":113,"lodash/lang/isElement":116,"lodash/lang/isEmpty":117,"lodash/lang/isUndefined":124,"lodash/object/defaultsDeep":126}],29:[function(require,module,exports){
 /** @module stringProcessing/addWordboundary */
 
 /**

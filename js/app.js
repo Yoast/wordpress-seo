@@ -2,6 +2,31 @@
 /* global YoastSEO: true */
 YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 
+var isUndefined = require( "lodash/lang/isUndefined" );
+
+var SnippetPreview = require( "./snippetPreview.js" );
+
+/**
+ * Creates a default snippet preview, this can be used if no snippet preview has been passed.
+ *
+ * @private
+ * @this App
+ *
+ * @returns {SnippetPreview}
+ */
+function createDefaultSnippetPreview() {
+	var targetElement = document.getElementById( this.config.targets.snippet ),
+		SnippetPreview = require( "../js/snippetPreview.js" );
+
+	return new SnippetPreview( {
+		analyzerApp: this,
+		targetElement: targetElement,
+		callbacks: {
+			saveSnippetData: this.config.callbacks.saveSnippetData
+		}
+	} );
+}
+
 /**
  * This should return an object with the given properties
  *
@@ -67,6 +92,7 @@ YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
  *        determined by the analyzer.
  * @param {Function} args.callbacks.saveSnippetData Function called when the snippet data is changed.
  *
+ * @param {SnippetPreview} args.snippetPreview
  *
  * @constructor
  */
@@ -81,7 +107,24 @@ YoastSEO.App = function( args ) {
 	this.getData();
 
 	this.showLoadingDialog();
-	this.createSnippetPreview();
+
+	SnippetPreview.prototype.isPrototypeOf( args.snippetPreview );
+
+	if ( !isUndefined( args.snippetPreview ) && SnippetPreview.prototype.isPrototypeOf( args.snippetPreview ) ) {
+		this.snippetPreview = args.snippetPreview;
+
+		// Hack to make sure the snippet preview always has a reference to this App. This way we solve the circular
+		// dependency issue. In the future this should be solved by the snippet preview not having a reference to the
+		// app.
+		if ( this.snippetPreview.refObj !== this ) {
+			this.snippetPreview.refObj = this;
+			this.snippetPreview.i18n = this.i18n;
+		}
+	} else {
+		this.snippetPreview = createDefaultSnippetPreview.call( this );
+	}
+	this.initSnippetPreview();
+
 	this.runAnalyzer();
 };
 
@@ -193,19 +236,19 @@ YoastSEO.App.prototype.refresh = function() {
 
 /**
  * creates the elements for the snippetPreview
+ *
+ * @deprecated Don't create a snippet preview using this method, create it directly using the prototype and pass it as
+ * an argument instead.
  */
 YoastSEO.App.prototype.createSnippetPreview = function() {
-	var SnippetPreview = require( "../js/snippetPreview.js" );
+	this.snippetPreview = createDefaultSnippetPreview.call( this );
+	this.initSnippetPreview();
+};
 
-	var targetElement = document.getElementById( this.config.targets.snippet );
-
-	this.snippetPreview = new SnippetPreview( {
-		analyzerApp: this,
-		targetElement: targetElement,
-		callbacks: {
-			saveSnippetData: this.config.callbacks.saveSnippetData
-		}
-	} );
+/**
+ * Initializes the snippet preview for this App.
+ */
+YoastSEO.App.prototype.initSnippetPreview = function() {
 	this.snippetPreview.renderTemplate();
 	this.snippetPreview.callRegisteredEventBinder();
 	this.snippetPreview.bindEvents();
