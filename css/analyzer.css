@@ -110,14 +110,14 @@
     margin: 0;
 }
 
-.snippet_container .url, .desc {
+.snippet_container .url,
+.snippet_container .desc {
     font-size: 13px;
     line-height: 1.4;
-    display: block;
-
 }
 
 .snippet_container .url {
+    display: block;
     font-size: 14px;
     line-height: 16px;
     color: #006621;
@@ -142,6 +142,12 @@
 
 .snippet-editor__field--invalid {
     border: 1px solid #f00;
+}
+
+.snippet-editor__date {
+    color: #808080;
+    font-size: 13px;
+    line-height: 1.4;
 }
 
 /* css for analyzer */
