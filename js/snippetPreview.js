@@ -442,10 +442,10 @@ SnippetPreview.prototype.getMetaText = function() {
 	if ( isEmpty( metaText ) ) {
 		metaText = this.refObj.config.sampleText.meta;
 	}
-	metaText = this.refObj.stringHelper.stripAllTags( metaText );
 	if ( this.refObj.pluggable.loaded ) {
 		metaText = this.refObj.pluggable._applyModifications( "content", metaText );
 	}
+	metaText = this.refObj.stringHelper.stripAllTags( metaText );
 	if (
 		this.refObj.rawData.keyword !== "" &&
 		this.refObj.rawData.text !== ""
