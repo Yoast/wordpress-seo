@@ -3811,19 +3811,15 @@ SnippetPreview.prototype.bindEvents = function() {
 		elems = [ "title", "slug", "meta-description" ],
 		focusBindings = [
 			{
-				"click": "title",
+				"click": "title_container",
 				"focus": "title"
 			},
 			{
-				"click": "urlPath",
+				"click": "url_container",
 				"focus": "urlPath"
 			},
 			{
-				"click": "urlBase",
-				"focus": "urlPath"
-			},
-			{
-				"click": "metaDesc",
+				"click": "meta_container",
 				"focus": "metaDesc"
 			}
 		];
@@ -3845,7 +3841,7 @@ SnippetPreview.prototype.bindEvents = function() {
 	// Map binding keys to the actual elements
 	focusBindings = map( focusBindings, function( binding ) {
 		return {
-			"click": this.element.rendered[ binding.click ],
+			"click": document.getElementById( binding.click ),
 			"focus": this.element.input[ binding.focus ]
 		};
 	}.bind( this ) );
