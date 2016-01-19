@@ -17,8 +17,6 @@ $yform->admin_header( false );
 
 if ( '' === $tool_page ) {
 
-	new WPSEO_Recalculate_Scores();
-
 	$tools = array(
 		'bulk-editor' => array(
 			'title' => __( 'Bulk editor', 'wordpress-seo' ),
@@ -53,11 +51,15 @@ if ( '' === $tool_page ) {
 	asort( $tools );
 
 	echo '<ul class="ul-disc">';
+
+	$admin_url = admin_url( 'admin.php?page=wpseo_tools' );
+
 	foreach ( $tools as $slug => $tool ) {
-		$href = ( ! empty( $tool['href'] ) ) ? esc_attr( $tool['href'] ) : '&tool=' . $slug;
+		$href = ( ! empty( $tool['href'] ) ) ? $admin_url . $tool['href'] : add_query_arg( array( 'tool' => $slug ) , $admin_url );
 		$attr = ( ! empty( $tool['attr'] ) ) ? $tool['attr'] : '';
+
 		echo '<li>';
-		echo '<strong><a href="', admin_url( 'admin.php?page=wpseo_tools' . $href ), '" ' , $attr, '>', $tool['title'], '</a></strong><br/>';
+		echo '<strong><a href="' , esc_attr( $href ) , '" ' , $attr , '>', esc_html( $tool['title'] ), '</a></strong><br/>';
 		echo $tool['desc'];
 		echo '</li>';
 	}

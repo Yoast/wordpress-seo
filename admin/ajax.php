@@ -389,5 +389,8 @@ new Yoast_OnPage_Ajax();
 
 new WPSEO_Shortcode_Filter();
 
+new WPSEO_Taxonomy_Columns();
+
+
 // Setting the notice for the recalculate the posts.
 new Yoast_Dismissable_Notice_Ajax( 'recalculate', Yoast_Dismissable_Notice_Ajax::FOR_SITE );
