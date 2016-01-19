@@ -3,6 +3,7 @@
 
 var isEmpty = require( "lodash/lang/isEmpty" );
 var isElement = require( "lodash/lang/isElement" );
+var isUndefined = require( "lodash/lang/isUndefined" );
 var clone = require( "lodash/lang/clone" );
 var defaultsDeep = require( "lodash/object/defaultsDeep" );
 var forEach = require( "lodash/collection/forEach" );
@@ -10,6 +11,11 @@ var map = require( "lodash/collection/map" );
 var debounce = require( "lodash/function/debounce" );
 
 var defaults = {
+	data: {
+		title: "",
+		metaDesc: "",
+		urlPath: ""
+	},
 	placeholder: {
 		title:    "This is an example title - edit by clicking here",
 		metaDesc: "Modify your meta description by editing it right here",
@@ -171,24 +177,29 @@ function hasTrailingSlash( url ) {
 var SnippetPreview = function( opts ) {
 	defaultsDeep( opts, defaults );
 
-	this.refObj = opts.analyzerApp;
-	this.i18n = this.refObj.i18n;
-	this.opts = opts;
+	this.data = opts.data;
+
+	if ( !isUndefined( opts.analyzerApp ) ) {
+		this.refObj = opts.analyzerApp;
+		this.i18n = this.refObj.i18n;
+
+		this.data = {
+			title: this.refObj.rawData.snippetTitle || "",
+			urlPath: this.refObj.rawData.snippetCite || "",
+			metaDesc: this.refObj.rawData.snippetMeta || ""
+		};
+
+		// For backwards compatibility set the pageTitle as placeholder.
+		if ( !isEmpty( this.refObj.rawData.pageTitle ) ) {
+			opts.placeholder.title = this.refObj.rawData.pageTitle;
+		}
+	}
 
 	if ( !isElement( opts.targetElement ) ) {
 		throw new Error( "The snippet preview requires a valid target element" );
 	}
 
-	this.data = {
-		title: this.refObj.rawData.snippetTitle || "",
-		urlPath: this.refObj.rawData.snippetCite || "",
-		metaDesc: this.refObj.rawData.snippetMeta || ""
-	};
-
-	// For backwards compatibility set the pageTitle as placeholder.
-	if ( !isEmpty( this.refObj.rawData.pageTitle ) ) {
-		this.opts.placeholder.title = this.refObj.rawData.pageTitle;
-	}
+	this.opts = opts;
 
 	// For backwards compatibility monitor the unformatted text for changes and reflect them in the preview
 	this.unformattedText = {};
@@ -367,7 +378,7 @@ SnippetPreview.prototype.formatCite = function() {
 
 	// Fallback to the default if the cite is empty.
 	if ( isEmpty( cite ) ) {
-		cite = this.refObj.config.sampleText.snippetCite;
+		cite = this.opts.placeholder.urlPath;
 	}
 
 	if ( !isEmpty( this.refObj.rawData.keyword ) ) {
