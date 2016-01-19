@@ -179,7 +179,6 @@ YoastSEO.App.prototype.getData = function() {
 	if ( this.pluggable.loaded ) {
 		this.rawData.pageTitle = this.pluggable._applyModifications( "data_page_title", this.rawData.pageTitle );
 		this.rawData.meta = this.pluggable._applyModifications( "data_meta_desc", this.rawData.meta );
-		this.rawData.text = this.pluggable._applyModifications( "text", this.rawData.text );
 	}
 	this.rawData.locale = this.config.locale;
 };

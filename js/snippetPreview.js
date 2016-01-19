@@ -275,7 +275,7 @@ SnippetPreview.prototype.refresh = function() {
 
 var getMetaDesc = function() {
 	var metaDesc = this.data.metaDesc;
-	if ( !isEmpty( this.opts.metaDescriptionDate  ) ) {
+	if ( !isEmpty( this.opts.metaDescriptionDate ) ) {
 		metaDesc = this.opts.metaDescriptionDate + " - " + this.data.metaDesc;
 	}
 	return metaDesc;
@@ -442,8 +442,10 @@ SnippetPreview.prototype.getMetaText = function() {
 	if ( isEmpty( metaText ) ) {
 		metaText = this.refObj.config.sampleText.meta;
 	}
-
 	metaText = this.refObj.stringHelper.stripAllTags( metaText );
+	if ( this.refObj.pluggable.loaded ) {
+		metaText = this.refObj.pluggable._applyModifications( "content", metaText );
+	}
 	if (
 		this.refObj.rawData.keyword !== "" &&
 		this.refObj.rawData.text !== ""

@@ -1276,7 +1276,6 @@ YoastSEO.App.prototype.getData = function() {
 	if ( this.pluggable.loaded ) {
 		this.rawData.pageTitle = this.pluggable._applyModifications( "data_page_title", this.rawData.pageTitle );
 		this.rawData.meta = this.pluggable._applyModifications( "data_meta_desc", this.rawData.meta );
-		this.rawData.text = this.pluggable._applyModifications( "text", this.rawData.text );
 	}
 	this.rawData.locale = this.config.locale;
 };
@@ -3384,7 +3383,7 @@ SnippetPreview.prototype.refresh = function() {
 
 var getMetaDesc = function() {
 	var metaDesc = this.data.metaDesc;
-	if ( !isEmpty( this.opts.metaDescriptionDate  ) ) {
+	if ( !isEmpty( this.opts.metaDescriptionDate ) ) {
 		metaDesc = this.opts.metaDescriptionDate + " - " + this.data.metaDesc;
 	}
 	return metaDesc;
@@ -3551,8 +3550,10 @@ SnippetPreview.prototype.getMetaText = function() {
 	if ( isEmpty( metaText ) ) {
 		metaText = this.refObj.config.sampleText.meta;
 	}
-
 	metaText = this.refObj.stringHelper.stripAllTags( metaText );
+	if ( this.refObj.pluggable.loaded ) {
+		metaText = this.refObj.pluggable._applyModifications( "content", metaText );
+	}
 	if (
 		this.refObj.rawData.keyword !== "" &&
 		this.refObj.rawData.text !== ""
