@@ -3376,6 +3376,20 @@ SnippetPreview.prototype.refresh = function() {
 };
 
 /**
+ * Returns the metaDescription, includes the date if it is set.
+ *
+ * @returns {string}
+ */
+
+var getMetaDesc = function() {
+	var metaDesc = this.data.metaDesc;
+	if ( !isEmpty( this.opts.metaDescriptionDate ) ) {
+		metaDesc = this.opts.metaDescriptionDate + " - " + this.data.metaDesc;
+	}
+	return metaDesc;
+};
+
+/**
  * Returns the data from the snippet preview.
  *
  * @returns {Object}
@@ -3384,7 +3398,7 @@ SnippetPreview.prototype.getAnalyzerData = function() {
 	return {
 		title:    this.data.title,
 		url:      getBaseURL.call( this ) + this.data.urlPath,
-		metaDesc: this.opts.metaDescriptionDate + " - " + this.data.metaDesc
+		metaDesc: getMetaDesc.call( this )
 	};
 };
 
@@ -3431,7 +3445,7 @@ SnippetPreview.prototype.formatTitle = function() {
 
 	// Fallback to the default if the title is empty.
 	if ( isEmpty( title ) ) {
-		title = this.refObj.config.sampleText.title;
+		title = this.opts.placeholder.title;
 	}
 
 	// TODO: Replace this with the stripAllTags module.
@@ -3475,7 +3489,7 @@ SnippetPreview.prototype.formatCite = function() {
 
 	// Fallback to the default if the cite is empty.
 	if ( isEmpty( cite ) ) {
-		cite = this.refObj.config.sampleText.snippetCite;
+		cite = this.opts.placeholder.urlPath;
 	}
 
 	if ( !isEmpty( this.refObj.rawData.keyword ) ) {
@@ -3532,9 +3546,13 @@ SnippetPreview.prototype.getMetaText = function() {
 	}
 	if ( typeof this.refObj.rawData.text !== "undefined" ) {
 		metaText = this.refObj.rawData.text;
+
+		if ( this.refObj.pluggable.loaded ) {
+			metaText = this.refObj.pluggable._applyModifications( "content", metaText );
+		}
 	}
 	if ( isEmpty( metaText ) ) {
-		metaText = this.refObj.config.sampleText.meta;
+		metaText = this.opts.placeholder.metaDesc;
 	}
 
 	metaText = this.refObj.stringHelper.stripAllTags( metaText );
@@ -3563,7 +3581,7 @@ SnippetPreview.prototype.getMetaText = function() {
 		}
 	}
 	if ( this.refObj.stringHelper.stripAllTags( metaText ) === "" ) {
-		return this.refObj.config.sampleText.meta;
+		return this.opts.placeholder.metaDesc;
 	}
 	return metaText.substring( 0, YoastSEO.analyzerConfig.maxMeta );
 };
@@ -3797,19 +3815,15 @@ SnippetPreview.prototype.bindEvents = function() {
 		elems = [ "title", "slug", "meta-description" ],
 		focusBindings = [
 			{
-				"click": "title",
+				"click": "title_container",
 				"focus": "title"
 			},
 			{
-				"click": "urlPath",
+				"click": "url_container",
 				"focus": "urlPath"
 			},
 			{
-				"click": "urlBase",
-				"focus": "urlPath"
-			},
-			{
-				"click": "metaDesc",
+				"click": "meta_container",
 				"focus": "metaDesc"
 			}
 		];
@@ -3831,7 +3845,7 @@ SnippetPreview.prototype.bindEvents = function() {
 	// Map binding keys to the actual elements
 	focusBindings = map( focusBindings, function( binding ) {
 		return {
-			"click": this.element.rendered[ binding.click ],
+			"click": document.getElementById( binding.click ),
 			"focus": this.element.input[ binding.focus ]
 		};
 	}.bind( this ) );

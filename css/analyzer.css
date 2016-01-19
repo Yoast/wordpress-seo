@@ -7,6 +7,20 @@
     position: relative;
 }
 
+.snippet_container {
+    margin-top: 2px;
+}
+
+#snippet_preview:hover .snippet_container {
+    background: #ebebeb url(images/edit.svg) no-repeat right;
+    background-size: 20px;
+}
+
+#snippet_preview .snippet_container:hover {
+    background-color: #bbdefb;
+    cursor: pointer;
+}
+
 .snippet-editor__preview {
     padding: 20px 20px 0 20px;
 }
