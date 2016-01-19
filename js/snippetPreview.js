@@ -19,7 +19,8 @@ var defaults = {
 	callbacks: {
 		saveSnippetData: function() {}
 	},
-	addTrailingSlash: true
+	addTrailingSlash: true,
+	metaDescriptionDate: ""
 };
 
 /**
@@ -224,6 +225,7 @@ SnippetPreview.prototype.renderTemplate = function() {
 			snippetCite: this.formatCite(),
 			meta: this.formatMeta()
 		},
+		metaDescriptionDate: this.opts.metaDescriptionDate,
 		placeholder: this.opts.placeholder,
 		i18n: {
 			edit: this.i18n.dgettext( "js-text-analysis", "Edit title, description & slug" ),
@@ -274,7 +276,7 @@ SnippetPreview.prototype.getAnalyzerData = function() {
 	return {
 		title:    this.data.title,
 		url:      getBaseURL.call( this ) + this.data.urlPath,
-		metaDesc: this.data.metaDesc
+		metaDesc: this.opts.metaDescriptionDate + " - " + this.data.metaDesc
 	};
 };
 
@@ -625,7 +627,9 @@ SnippetPreview.prototype.setUnformattedText = function( ev ) {
  * Validates all fields and highlights errors.
  */
 SnippetPreview.prototype.validateFields = function() {
-	if ( this.data.metaDesc.length > YoastSEO.analyzerConfig.maxMeta ) {
+	var metaDescription = this.opts.metaDescriptionDate + " - " + this.data.metaDesc;
+
+	if ( metaDescription.length > YoastSEO.analyzerConfig.maxMeta ) {
 		addClass( this.element.input.metaDesc, "snippet-editor__field--invalid" );
 	} else {
 		removeClass( this.element.input.metaDesc, "snippet-editor__field--invalid" );

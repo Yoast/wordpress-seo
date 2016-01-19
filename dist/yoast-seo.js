@@ -3127,7 +3127,8 @@ var defaults = {
 	callbacks: {
 		saveSnippetData: function() {}
 	},
-	addTrailingSlash: true
+	addTrailingSlash: true,
+	metaDescriptionDate: ""
 };
 
 /**
@@ -3332,6 +3333,7 @@ SnippetPreview.prototype.renderTemplate = function() {
 			snippetCite: this.formatCite(),
 			meta: this.formatMeta()
 		},
+		metaDescriptionDate: this.opts.metaDescriptionDate,
 		placeholder: this.opts.placeholder,
 		i18n: {
 			edit: this.i18n.dgettext( "js-text-analysis", "Edit title, description & slug" ),
@@ -3382,7 +3384,7 @@ SnippetPreview.prototype.getAnalyzerData = function() {
 	return {
 		title:    this.data.title,
 		url:      getBaseURL.call( this ) + this.data.urlPath,
-		metaDesc: this.data.metaDesc
+		metaDesc: this.opts.metaDescriptionDate + " - " + this.data.metaDesc
 	};
 };
 
@@ -3733,7 +3735,9 @@ SnippetPreview.prototype.setUnformattedText = function( ev ) {
  * Validates all fields and highlights errors.
  */
 SnippetPreview.prototype.validateFields = function() {
-	if ( this.data.metaDesc.length > YoastSEO.analyzerConfig.maxMeta ) {
+	var metaDescription = this.opts.metaDescriptionDate + " - " + this.data.metaDesc;
+
+	if ( metaDescription.length > YoastSEO.analyzerConfig.maxMeta ) {
 		addClass( this.element.input.metaDesc, "snippet-editor__field--invalid" );
 	} else {
 		removeClass( this.element.input.metaDesc, "snippet-editor__field--invalid" );
@@ -4915,7 +4919,8 @@ YoastSEO.getStringHelper = function() {
 
   templates['snippetEditor'] =   function(obj) {
     obj || (obj = {});
-    var __t, __p = '', __e = _.escape;
+    var __t, __p = '', __e = _.escape, __j = Array.prototype.join;
+    function print() { __p += __j.call(arguments, '') }
     with (obj) {
     __p += '<div id="snippet_preview">\n    <button class="snippet-editor__edit-button" type="button">\n        <svg class="snippet-editor__edit-icon" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"\n             width="216px" height="146px" viewBox="0 0 216 146" enable-background="new 0 0 216 146" xml:space="preserve">\n            <g>\n                <path d="M46.284,100.823v33.893h33.893l67.786-67.786L114.07,33.037L46.284,100.823z M75.859,124.287L75.859,124.287l-8.718,0.001\n                    v-10.429H56.713v-8.719l7.414-7.414l19.146,19.146L75.859,124.287z M116.678,46.888c1.194,0,1.791,0.598,1.791,1.792\n                    c0,0.544-0.189,1.005-0.57,1.386L73.74,94.225c-0.38,0.379-0.842,0.569-1.385,0.569c-1.194,0-1.792-0.599-1.792-1.792\n                    c0-0.544,0.19-1.005,0.57-1.386l44.159-44.158C115.672,47.078,116.134,46.888,116.678,46.888z"/>\n                <path d="M166.701,33.443l-19.146-19.064c-2.063-2.063-4.535-3.096-7.414-3.096c-2.934,0-5.377,1.033-7.332,3.096l-13.524,13.443\n                    l33.893,33.893l13.525-13.524c2.01-2.01,3.014-4.454,3.014-7.333C169.716,38.034,168.712,35.562,166.701,33.443z"/>\n            </g>\n        </svg>\n        ' +
     __e( i18n.edit ) +
@@ -4925,7 +4930,13 @@ YoastSEO.getStringHelper = function() {
     __e( rendered.baseUrl ) +
     '\n            </cite>\n            <cite class="url" id="snippet_cite">\n                ' +
     __e( rendered.snippetCite ) +
-    '\n            </cite>\n        </div>\n        <div class="snippet_container" id="meta_container">\n            <span class="desc" id="snippet_meta">\n                ' +
+    '\n            </cite>\n        </div>\n        <div class="snippet_container" id="meta_container">\n            ';
+     if ( "" !== metaDescriptionDate ) {
+    __p += '\n                <span class="snippet-editor__date">\n                    ' +
+    __e( metaDescriptionDate ) +
+    ' -\n                </span>\n            ';
+     }
+    __p += '\n            <span class="desc" id="snippet_meta">\n                ' +
     __e( rendered.meta ) +
     '\n            </span>\n        </div>\n    </section>\n\n    <div class="snippet-editor__form">\n        <label for="snippet-editor-title" class="snippet-editor__label">\n            ' +
     __e( i18n.title ) +
