@@ -2,6 +2,12 @@
 /* global YoastSEO: true */
 YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 
+var defaultsDeep = require( "lodash/object/defaultsDeep" );
+
+var defaults = {
+
+};
+
 /**
  * This should return an object with the given properties
  *
@@ -71,6 +77,8 @@ YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
  * @constructor
  */
 YoastSEO.App = function( args ) {
+	defaultsDeep( args, defaults );
+
 	this.config = this.extendConfig( args );
 	this.callbacks = this.config.callbacks;
 
