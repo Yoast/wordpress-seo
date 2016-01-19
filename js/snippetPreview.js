@@ -268,6 +268,20 @@ SnippetPreview.prototype.refresh = function() {
 };
 
 /**
+ * Returns the metaDescription, includes the date if it is set.
+ *
+ * @returns {string}
+ */
+
+var getMetaDesc = function() {
+	var metaDesc = this.data.metaDesc;
+	if ( !isEmpty( this.opts.metaDescriptionDate ) ) {
+		metaDesc = this.opts.metaDescriptionDate + " - " + this.data.metaDesc;
+	}
+	return metaDesc;
+};
+
+/**
  * Returns the data from the snippet preview.
  *
  * @returns {Object}
@@ -276,7 +290,7 @@ SnippetPreview.prototype.getAnalyzerData = function() {
 	return {
 		title:    this.data.title,
 		url:      getBaseURL.call( this ) + this.data.urlPath,
-		metaDesc: this.opts.metaDescriptionDate + " - " + this.data.metaDesc
+		metaDesc: getMetaDesc.call( this )
 	};
 };
 
@@ -424,6 +438,10 @@ SnippetPreview.prototype.getMetaText = function() {
 	}
 	if ( typeof this.refObj.rawData.text !== "undefined" ) {
 		metaText = this.refObj.rawData.text;
+
+		if ( this.refObj.pluggable.loaded ) {
+			metaText = this.refObj.pluggable._applyModifications( "content", metaText );
+		}
 	}
 	if ( isEmpty( metaText ) ) {
 		metaText = this.opts.placeholder.metaDesc;
