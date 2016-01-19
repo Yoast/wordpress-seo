@@ -554,7 +554,7 @@ SnippetPreview.prototype.renderOutput = function() {
 };
 
 /**
- * Sets the classname of the meta field in the snippet, based on the rawData.snippetMeta
+ * Makes the rendered meta description gray if no meta description has been set by the user.
  */
 SnippetPreview.prototype.renderSnippetStyle = function() {
 	var metaDesc = this.element.rendered.metaDesc;
