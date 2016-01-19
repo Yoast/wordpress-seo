@@ -73,8 +73,8 @@ class WPSEO_Redirect_Handler {
 
 		if ( ! $is_include_hook_set ) {
 			$this->set_404();
-			status_header( 451, 'Unavailable For Legal Reasons' );
 		}
+		status_header( 451, 'Unavailable For Legal Reasons' );
 	}
 
 	/**
