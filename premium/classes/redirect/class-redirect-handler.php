@@ -61,13 +61,8 @@ class WPSEO_Redirect_Handler {
 	 * Handle the 410 status code
 	 */
 	public function do_410() {
-
-		$is_include_hook_set = $this->set_template_include_hook( '410' );
-
-		if ( ! $is_include_hook_set ) {
-			$this->set_404();
-			status_header( 410 );
-		}
+		$this->set_404();
+		status_header( 410 );
 	}
 
 	/**
