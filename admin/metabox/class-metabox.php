@@ -220,7 +220,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'title_template'      => WPSEO_Metabox::get_title_template( $post ),
 			'metadesc_template'   => WPSEO_Metabox::get_metadesc_template( $post ),
 			'contentTab'          => __( 'Content:' , 'wordpress-seo' ),
-			'metaDescriptionDate' => date_i18n( 'M j, Y', mysql2date( 'U', $post->post_date ) ),
+			'metaDescriptionDate' => $this->get_metadesc_date( $post ),
 			'locale'              => get_locale(),
 		);
 	}
@@ -289,6 +289,23 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			}
 		}
 		return $metadesc_template;
+	}
+
+	/**
+	 * Determines the date to be displayed in the snippet preview
+	 *
+	 * @param WP_Post $post The metabox post.
+	 *
+	 * @return string
+	 */
+	public static function get_metadesc_date( $post ) {
+		$date = '';
+
+		if ( is_a( $post, 'WP_Post' ) ) {
+			$date = date_i18n( 'M j, Y', mysql2date( 'U', $post->post_date ) );
+		}
+
+		return $date;
 	}
 
 	/**
