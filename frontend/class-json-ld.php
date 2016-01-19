@@ -31,7 +31,7 @@ class WPSEO_JSON_LD {
 	 * Class constructor
 	 */
 	public function __construct() {
-		$this->options = WPSEO_Options::get_all();
+		$this->options = WPSEO_Options::get_options( array( 'wpseo', 'wpseo_social' ) );
 
 		add_action( 'wpseo_head', array( $this, 'json_ld' ), 90 );
 		add_action( 'wpseo_json_ld', array( $this, 'website' ), 10 );

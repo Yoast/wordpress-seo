@@ -32,7 +32,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		add_action( 'admin_init', array( $this, 'translate_meta_boxes' ) );
 		add_action( 'admin_footer', array( $this, 'template_keyword_tab' ) );
 
-		$this->options = WPSEO_Options::get_all();
+		$this->options = WPSEO_Options::get_option( 'wpseo_social' );
 
 		// Check if on of the social settings is checked in the options, if so, initialize the social_admin object.
 		if ( $this->options['opengraph'] === true || $this->options['twitter'] === true || $this->options['googleplus'] === true ) {
@@ -212,15 +212,16 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$translations = $this->get_scraper_translations();
 
 		return array(
-			'translations'      => $translations,
-			'keyword_usage'     => $this->get_focus_keyword_usage(),
-			'search_url'        => admin_url( 'edit.php?seo_kw_filter={keyword}' ),
-			'post_edit_url'     => admin_url( 'post.php?post={id}&action=edit' ),
-			'base_url'          => $this->get_base_url_for_js(),
-			'title_template'    => WPSEO_Metabox::get_title_template( $post ),
-			'metadesc_template' => WPSEO_Metabox::get_metadesc_template( $post ),
-			'contentTab'        => __( 'Content:' , 'wordpress-seo' ),
-			'locale'            => get_locale(),
+			'translations'        => $translations,
+			'keyword_usage'       => $this->get_focus_keyword_usage(),
+			'search_url'          => admin_url( 'edit.php?seo_kw_filter={keyword}' ),
+			'post_edit_url'       => admin_url( 'post.php?post={id}&action=edit' ),
+			'base_url'            => $this->get_base_url_for_js(),
+			'title_template'      => WPSEO_Metabox::get_title_template( $post ),
+			'metadesc_template'   => WPSEO_Metabox::get_metadesc_template( $post ),
+			'contentTab'          => __( 'Content:' , 'wordpress-seo' ),
+			'metaDescriptionDate' => $this->get_metadesc_date( $post ),
+			'locale'              => get_locale(),
 		);
 	}
 
@@ -288,6 +289,23 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			}
 		}
 		return $metadesc_template;
+	}
+
+	/**
+	 * Determines the date to be displayed in the snippet preview
+	 *
+	 * @param WP_Post $post The metabox post.
+	 *
+	 * @return string
+	 */
+	public function get_metadesc_date( $post ) {
+		$date = '';
+
+		if ( is_a( $post, 'WP_Post' ) && $this->is_show_date_enabled( $post ) ) {
+			$date = date_i18n( 'M j, Y', mysql2date( 'U', $post->post_date ) );
+		}
+
+		return $date;
 	}
 
 	/**
@@ -949,6 +967,21 @@ SVG;
 			return json_decode( $file, true );
 		}
 		return array();
+	}
+
+	/**
+	 * Returns whether or not showing the date in the snippet preview is enabled.
+	 *
+	 * @param WP_Post $post The post to retrieve this for.
+	 * @return bool
+	 */
+	private static function is_show_date_enabled( $post ) {
+		$post_type = $post->post_type;
+
+		$options = WPSEO_Options::get_option( 'wpseo_titles' );
+		$key = sprintf( 'showdate-%s', $post_type );
+
+		return isset( $options[ $key ] ) && true === $options[ $key ];
 	}
 
 	/********************** DEPRECATED METHODS **********************/
