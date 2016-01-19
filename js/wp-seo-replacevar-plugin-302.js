@@ -110,23 +110,15 @@
 	 * @return {String}
 	 */
 	YoastReplaceVarPlugin.prototype.defaultReplace = function( textString ) {
-		return textString.replace( /%%sitedesc%%/g, this.replaceVars.sitedesc )
-			.replace( /%%sitename%%/g, this.replaceVars.sitename )
-			.replace( /%%term_title%%/g, this.replaceVars.term_title )
-			.replace( /%%term_description%%/g, this.replaceVars.term_description )
-			.replace( /%%category_description%%/g, this.replaceVars.category_description )
-			.replace( /%%tag_description%%/g, this.replaceVars.tag_description )
-			.replace( /%%searchphrase%%/g, this.replaceVars.searchphrase )
-			.replace( /%%sep%%/g, this.replaceVars.sep )
-			.replace( /%%date%%/g, this.replaceVars.date )
-			.replace( /%%id%%/g, this.replaceVars.id )
-			.replace( /%%page%%/g, this.replaceVars.page )
-			.replace( /%%currenttime%%/g, this.replaceVars.currenttime )
-			.replace( /%%currentdate%%/g, this.replaceVars.currentdate )
-			.replace( /%%currentday%%/g, this.replaceVars.currentday )
-			.replace( /%%currentmonth%%/g, this.replaceVars.currentmonth )
-			.replace( /%%currentyear%%/g, this.replaceVars.currentyear )
-			.replace( /%%focuskw%%/g, YoastSEO.app.stringHelper.stripAllTags( YoastSEO.app.rawData.keyword ) );
+
+		textString = textString.replace( /%%focuskw%%/g, YoastSEO.app.stringHelper.stripAllTags( YoastSEO.app.rawData.keyword ) );
+
+		jQuery.each( this.replaceVars, function( original, replacement ) {
+			textString = textString.replace( '%%' + original + '%%', replacement );
+		} );
+
+		return textString;
+
 	};
 
 	window.YoastReplaceVarPlugin = YoastReplaceVarPlugin;
