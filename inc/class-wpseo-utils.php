@@ -733,7 +733,7 @@ class WPSEO_Utils {
 		}
 
 		// Append 'query' string if it exists.
-		if ( isset( $parsed_url['query'] ) && '' != $parsed_url['query'] ) {
+		if ( isset( $parsed_url['query'] ) && '' !== $parsed_url['query'] ) {
 			$formatted_url .= '?' . $parsed_url['query'];
 		}
 

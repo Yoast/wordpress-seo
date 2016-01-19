@@ -2,300 +2,465 @@
 /* jshint -W098 */
 /* jshint -W107 */
 /* global yoast_overlay */
+/* global alert */
+/* global wpseo_premium_strings */
+/* global wp */
 'use strict';
-(function( $ ) {
-	$.fn.wpseo_redirects = function( arg_type ) {
-		var that = this;
-		var type = arg_type.replace( 'tab-', '' );
-		var table = that.find( 'table' );
 
-		this.encode = function( str ) {
-			return encodeURIComponent( str );
-		};
+( function($) {
+	var ALLOW_EMPTY_TARGET = [
+		410, 451
+	];
 
-		this.edit_row = function( row, cancellable ) {
-			// Add row edit class
-			$( row ).addClass( 'row_edit' );
+	var TABLE_COLUMNS = {
+		ORIGIN: 1,
+		TARGET: 2,
+		TYPE: 0
+	};
 
-			// Add current redirect as data to the row
-			$( row ).data( 'old_redirect', {
-				key: $( row ).find( '.val' ).eq( 0 ).html().toString(),
-				value: $( row ).find( '.val' ).eq( 1 ).html().toString(),
-				type: $( row ).find( '.val' ).eq( 2 ).html().toString()
+	var KEYS = {
+		ENTER: 13
+	};
+
+	var templateQuickEdit;
+
+	/**
+	 * Initialize a redirect form object.
+	 *
+	 * @param {element} form
+	 * @constructor
+	 */
+	var RedirectForm = function( form ) {
+		this.form = form;
+	};
+
+	/**
+	 * Returns the origin field
+	 *
+	 * @returns {element}
+	 */
+	RedirectForm.prototype.getOriginField = function() {
+		return this.form.find( 'input[name=wpseo_redirects_origin]');
+	};
+
+	/**
+	 * Returns the target field
+	 *
+	 * @returns {element}
+	 */
+	RedirectForm.prototype.getTargetField = function() {
+		return this.form.find( 'input[name=wpseo_redirects_target]');
+	};
+
+	/**
+	 * Returns the type field
+	 *
+	 * @returns {element}
+	 */
+	RedirectForm.prototype.getTypeField = function() {
+		return this.form.find( 'select[name=wpseo_redirects_type]');
+	};
+
+	/**
+	 * Clears the form error message.
+	 */
+	RedirectForm.prototype.clearErrorMessage = function() {
+		this.form.find('.wpseo_redirect_form .form_error').remove();
+	};
+
+	/**
+	 * Sets a form error message.
+	 *
+	 * @param {string} errorMessage
+	 */
+	RedirectForm.prototype.setErrorMessage = function( errorMessage ) {
+		this.form.find('.wpseo_redirect_form').prepend( '<div class="form_error error"><p>' + errorMessage + '</p></div>' );
+	};
+
+	/**
+	 * Removing the row errors
+	 */
+	RedirectForm.prototype.removeRowHighlights = function() {
+		this.form.find( '.redirect_form_row').removeClass('field_error');
+	};
+
+	/**
+	 * Higlighting the row errors.
+	 *
+	 * @param {array} fields_to_highlight
+	 */
+	RedirectForm.prototype.highLightRowErrors = function(fields_to_highlight) {
+		for( var i = 0; i < fields_to_highlight.length; i++) {
+			switch(fields_to_highlight[ i ] ) {
+				case 'origin':
+					this.highlightRow( this.getOriginField() );
+					break;
+				case 'target':
+					this.highlightRow( this.getTargetField() );
+					break;
+				case 'type':
+					this.highlightRow( this.getTypeField() );
+					break;
 			}
-			);
+		}
+	};
 
-			// Add input fields
-			var ti = 1;
-			$.each( $( row ).find( '.val' ), function( k, v ) {
-				var current_val = $( v ).html().toString();
+	/**
+	 * Highlights the closest row with an error class.
+	 */
+	RedirectForm.prototype.highlightRow = function( errorField ) {
+		jQuery( errorField ).closest( 'div.redirect_form_row' ).addClass( 'field_error' );
+	};
 
-				var new_el = null;
-				if ( $( v ).hasClass( 'type' ) ) {
-					new_el = $( '<select>' ).attr( 'tabindex', ti );
-					$.each( $( that ).find( '#wpseo_redirects_new_type option' ), function( k, v ) {
-						var el_option = $( v ).clone();
-						if ( $( el_option ).val() === current_val ) {
-							$( el_option ).attr( 'selected', 'selected' );
-						}
-						$( new_el ).append( el_option );
-					}
-					);
-				}
-				else {
-					new_el = $( '<input>' ).val( current_val ).attr( 'tabindex', ti );
-				}
+	/**
+	 * Clientside validator for the redirect
+	 *
+	 * @param {RedirectForm} form
+	 * @param {string} type
+	 */
+	var ValidateRedirect = function( form, type ) {
+		this.form = form;
+		this.type = type;
+		this.validation_error = '';
+	};
 
-				$( v ).empty().append( new_el );
-				ti++;
-			}
-			);
+	/**
+	 * Validates for the form fields
+	 *
+	 * @returns {boolean}
+	 */
+	ValidateRedirect.prototype.validate = function() {
+		this.form.clearErrorMessage();
 
-			// Hide default row actions
-			$( row ).find( '.row-actions' ).hide();
+		this.form.removeRowHighlights();
 
-			// Wrap inputs in form elements
-			var wrap_form = $( '<form>' ).submit( function( e ) {
-				e.preventDefault();
-				if ( that.save_redirect( row ) ) {
-					that.restore_row( row );
-				}
-				return false;
-			}
-			);
+		if( this.runValidation( this.form.getOriginField(), this.form.getTargetField(), this.form.getTypeField() ) === false ) {
+			this.addValidationError( this.validation_error );
 
-			$( row ).find( 'td .val input' ).wrap( wrap_form );
+			return false;
+		}
 
-			// Add Save Button
-			$( row ).find( '.row-actions' ).parent().append(
-				$( '<div>' ).addClass( 'edit-actions' ).append(
-					$( '<button>' ).addClass( 'button-primary' ).attr( 'tabindex', 4 ).html( 'Save' ).click( function() {
-						if ( that.save_redirect( row ) ) {
-							that.restore_row( row );
-						}
-						return false;
-					}
-					)
-				)
-			);
+		return true;
+	};
 
-			// Add Cancel button
-			if ( cancellable ) {
-				$( row ).find( '.edit-actions' ).append(
-					$( '<button>' ).addClass( 'button' ).attr( 'tabindex', 5 ).html( 'Cancel' ).click( function() {
-						that.restore_row( row );
-						return false;
-					}
-					)
-				);
-			}
-		};
+	/**
+	 * Executes the validation.
+	 *
+	 * @param {element} originField
+	 * @param {element} targetField
+	 * @param {element} typeField
+	 * @returns {boolean}
+	 */
+	ValidateRedirect.prototype.runValidation = function( originField, targetField, typeField ) {
+		// Check old URL.
+		if ( '' === originField.val() ) {
+			this.form.highlightRow( originField );
 
-		this.delete_row = function( row ) {
-			$( row ).fadeTo( 'fast', 0 ).slideUp( function() {
-				$( this ).remove();
-				$.post(
-					ajaxurl,
-					{
-						action: 'wpseo_delete_redirect_' + type,
-						ajax_nonce: $( '.wpseo_redirects_ajax_nonce' ).val(),
-						redirect: { key: that.encode( $( row ).find( '.val' ).eq( 0 ).html().toString() ) }
-					},
-					function( response ) {
-					}
-				);
-			}
-			);
-		};
-
-		this.restore_row = function( row ) {
-			$( row ).removeClass( 'row_edit' );
-
-			$.each( $( row ).find( '.val' ), function( k, v ) {
-				var new_val = null;
-				if ( $( v ).hasClass( 'type' ) ) {
-					new_val = $( v ).find( 'select option:selected' ).val().toString();
-				}
-				else {
-					new_val = $( v ).find( 'input' ).val().toString();
-				}
-
-				$( v ).empty().html( new_val );
-			}
-			);
-
-			$( row ).find( '.edit-actions' ).remove();
-			$( row ).find( '.row-actions' ).show();
-		};
-
-		this.save_redirect = function( row ) {
-			var old_url = $( row ).find( '.val' ).eq( 0 ).find( 'input' ).val().toString();
-			var new_url = $( row ).find( '.val' ).eq( 1 ).find( 'input' ).val().toString();
-			var redirect_type = $( row ).find( '.val' ).eq( 2 ).find( 'select option:selected' ).val().toString();
-
-			// Check old URL
-			if ( '' === old_url ) {
-				yoast_overlay.add_message( wpseo_premium_strings.error_saving_redirect, wpseo_premium_strings.error_old_url, 5 );
-				return false;
+			if ( 'plain' === this.type ) {
+				return this.setError( wpseo_premium_strings.error_old_url );
 			}
 
+			return this.setError( wpseo_premium_strings.error_regex );
+		}
+
+		// Only when the redirect type is not deleted.
+		if(  jQuery.inArray( parseInt( typeField.val(), 10 ), ALLOW_EMPTY_TARGET ) === -1 ) {
 			// Check new URL
-			if ( '' === new_url && '410' !== redirect_type ) {
-				yoast_overlay.add_message( wpseo_premium_strings.error_saving_redirect, wpseo_premium_strings.error_new_url, 5 );
-				return false;
+			if ( '' === targetField.val() ) {
+				this.form.highlightRow( targetField );
+				return this.setError( wpseo_premium_strings.error_new_url );
 			}
 
-			// GCheck the redirect type
-			if ( '' === redirect_type ) {
-				yoast_overlay.add_message( wpseo_premium_strings.error_saving_redirect, wpseo_premium_strings.error_new_type, 5 );
-				return false;
+			// Check if both fields aren't the same.
+			if ( targetField.val() === originField.val() ) {
+				this.form.highlightRow( targetField );
+				return this.setError( wpseo_premium_strings.error_circular );
+			}
+		}
+
+		// Check the redirect type
+		if ( '' === typeField.val() ) {
+			this.form.highlightRow( typeField );
+			return this.setError( wpseo_premium_strings.error_new_type );
+		}
+
+		return true;
+	};
+
+	/**
+	 * Sets the validation error and return false.
+	 *
+	 * @param {string} error
+	 * @returns {boolean}
+	 */
+	ValidateRedirect.prototype.setError = function( error ) {
+		this.validation_error = error;
+		return false;
+	};
+
+	/**
+	 * Adding the validation error
+	 *
+	 * @param {string} error
+	 * @param {object} fields
+	 */
+	ValidateRedirect.prototype.addValidationError = function( error, fields ) {
+		this.form.setErrorMessage( error );
+
+		if( fields !== undefined) {
+			this.form.highLightRowErrors(fields);
+		}
+	};
+
+	/**
+	 * Returns the values on the quick edit form
+	 *
+	 * @returns {{origin: (string|*), target: (string|*), type: (string|*)}}
+	 */
+	ValidateRedirect.prototype.getFormValues = function() {
+		var values = {
+			origin: this.form.getOriginField().val().toString(),
+			target: this.form.getTargetField().val().toString(),
+			type: this.form.getTypeField().val().toString()
+		};
+
+		// When the redirect type is deleted or unavailable, the target can be emptied
+		if ( jQuery.inArray( parseInt( values.type, 10 ), ALLOW_EMPTY_TARGET ) > -1 ) {
+			values.target = '';
+		}
+
+		return values;
+	};
+
+	/**
+	 * The quick edit prototype for handling the quick edit on form rows.
+	 * @constructor
+	 */
+	var RedirectQuickEdit = function() {
+		this.row = null;
+		this.quick_edit_row = null;
+	};
+
+	/**
+	 * setting upt the quick edit for a row, with the given row values.
+	 * @param {element} row
+	 * @param {object} row_cells
+	 */
+	RedirectQuickEdit.prototype.setup = function(row, row_cells ) {
+		this.row            = row;
+		this.quick_edit_row = $(
+			templateQuickEdit({
+				origin: row_cells.origin.html(),
+				target: row_cells.target.html(),
+				type: parseInt( row_cells.type.html(), 10 ),
+				suffix: $( '#the-list').find( 'tr' ).index( row )
+			})
+		);
+	};
+
+	/**
+	 * Returns the original row element
+	 *
+	 * @returns {element}
+	 */
+	RedirectQuickEdit.prototype.getRow = function() {
+		return this.row;
+	};
+
+	/**
+	 * Returns the original row element
+	 *
+	 * @returns {element}
+	 */
+	RedirectQuickEdit.prototype.getForm = function() {
+		return this.quick_edit_row;
+	};
+
+	/**
+	 * Shows the quick edit form and hides the redirect row.
+	 */
+	RedirectQuickEdit.prototype.show = function() {
+		this.row.addClass('hidden');
+		this.quick_edit_row.insertAfter( this.row ).show();
+	};
+
+	/**
+	 * Hides the quick edit form and show the redirect row.
+	 */
+	RedirectQuickEdit.prototype.remove = function() {
+		this.row.removeClass('hidden');
+		this.quick_edit_row.remove();
+	};
+
+	// Instantiate the quick edit form.
+	var redirectsQuickEdit = new RedirectQuickEdit();
+
+	/**
+	 * Extending the elements with a wpseo_redirects object
+	 * @param {string} arg_type
+	 */
+	$.fn.wpseo_redirects = function( arg_type ) {
+		var that   = this;
+		var type   = arg_type.replace( 'table-', '' );
+		var ignore = false;
+
+		var last_action;
+
+		/**
+		 * Resets the ignore and last_action.
+		 */
+		var reset_ignore = function() {
+			ignore      = false;
+			last_action = null;
+		};
+
+		this.get_buttons = function( type ) {
+			if ( type === 'default' ) {
+				return [
+					{
+						text: wpseo_premium_strings.button_ok,
+						click: function() {
+							$(this).dialog('close');
+						}
+					}
+				];
 			}
 
-			// Add prepending slash if not exists
-			if ( 'url' === type && old_url.indexOf( '/' ) !== 0 ) {
-				old_url = '/' + old_url;
-				$( row ).find( '.val' ).eq( 0 ).find( 'input' ).val( old_url );
-			}
-
-			// Encode old URL's
-			var data_old_url = that.encode( $( row ).data( 'old_redirect' ).key );
-			var data_new_url = that.encode( $( row ).data( 'old_redirect' ).value );
-			var data_type = that.encode( $( row ).data( 'old_redirect' ).type );
-
-			// Encode new URL's
-			old_url = that.encode( old_url );
-			new_url = that.encode( new_url );
-			redirect_type = that.encode( redirect_type );
-
-			// Post request
-			$.post(
-				ajaxurl,
+			return [
 				{
-					action: 'wpseo_save_redirect_' + type,
-					ajax_nonce: $( '.wpseo_redirects_ajax_nonce' ).val(),
-					old_redirect: { key: data_old_url, value: data_new_url, type: data_type },
-					new_redirect: { key: old_url, value: new_url, type: redirect_type }
+					text: wpseo_premium_strings.button_cancel,
+					click: function() {
+						reset_ignore();
+						$(this).dialog('close');
+					}
 				},
-				function( response ) {
-				}
-			);
-
-			return true;
-		};
-
-		this.bind_row = function( row ) {
-			$( row ).find( '.edit' ).click( function() {
-				that.edit_row( row, true );
-			}
-			);
-			$( row ).find( '.trash' ).click( function() {
-				that.delete_row( row );
-			}
-			);
-		};
-
-		this.remove_no_items_row = function() {
-			that.find( '.no-items' ).remove();
-		};
-
-		this.add_redirect = function( old_redirect, new_redirect, redirect_type ) {
-			if ( '' === old_redirect ) {
-				if ( 'url' === type ) {
-					yoast_overlay.add_message( wpseo_premium_strings.error_saving_redirect, wpseo_premium_strings.error_old_url, 5 );
-				}
-				else {
-					yoast_overlay.add_message( wpseo_premium_strings.error_saving_redirect, wpseo_premium_strings.error_regex, 5 );
-				}
-
-				return false;
-			}
-
-			if ( new_redirect === old_redirect ) {
-				yoast_overlay.add_message( wpseo_premium_strings.error_saving_redirect, wpseo_premium_strings.error_circular, 5 );
-
-				return false;
-			}
-
-			if ( '' === new_redirect && '410' !== redirect_type ) {
-				yoast_overlay.add_message( wpseo_premium_strings.error_saving_redirect, wpseo_premium_strings.error_new_url, 5 );
-				return false;
-			}
-
-			// Prepend a / to the old url and if there is none and the type is url
-			if ( 'url' === type && old_redirect.indexOf( '/' ) !== 0 ) {
-				old_redirect = '/' + old_redirect;
-			}
-
-			// Remove the no items row
-			that.remove_no_items_row();
-
-			// Creating tr
-			var tr = that.create_redirect_row( old_redirect, new_redirect, redirect_type );
-
-			// Add the new row
-			$( 'form#' + type ).find( '#the-list' ).prepend( tr );
-
-			// Empty fields
-			that.find( '#wpseo_redirects_new_old' ).val( '' );
-			that.find( '#wpseo_redirects_new_new' ).val( '' );
-
-			// Encode strings
-			old_redirect = that.encode( old_redirect );
-			new_redirect = that.encode( new_redirect );
-
-			// Check the destination URL
-			if ( 'url' === type && '410' !== redirect_type ) {
-				that.check_url_status( new_redirect );
-			}
-
-			// Do post
-			$.post(
-				ajaxurl,
 				{
-					action: 'wpseo_create_redirect_' + type,
-					ajax_nonce: $( '.wpseo_redirects_ajax_nonce' ).val(),
-					old_url: old_redirect,
-					new_url: new_redirect,
-					type: redirect_type
-				},
-				function( response ) {
-				}
-			);
+					text: wpseo_premium_strings.button_save_anyway,
+					'class': 'button-primary',
+					click: function() {
+						ignore = true;
 
-			return true;
-		};
+						// The value of last action will be the button pressed to save the redirect.
+						last_action();
 
-		this.check_url_status = function( url ) {
-			// Add the domain
-			if ( 0 === url.indexOf( that.encode( '/' ) ) ) {
-				url = that.encode( window.location.protocol + '//' + window.location.host ) + url;
-			}
+						$(this).dialog('close');
 
-			// Do the AJAX call
-			$.post(
-				ajaxurl,
-				{
-					action: 'wpseo_check_url',
-					ajax_nonce: $( '.wpseo_redirects_ajax_nonce' ).val(),
-					url: url
-				},
-				function( response ) {
-					var response_obj = $.parseJSON( response );
-					if ( '200' !== response_obj.reponse_code ) {
-						yoast_overlay.add_message( wpseo_premium_strings.redirect_possibly_bad, wpseo_premium_strings.redirect_not_ok + ( ( response_obj.reponse_code !== '' ) ? '<br/><br/><b>HTTP Code: ' + response_obj.reponse_code + '</b>' : '' ) );
+						reset_ignore();
 					}
 				}
+			];
+		};
+
+		/**
+		 * Returns a mapped object with the row column elements
+		 *
+		 * @param {Object} row
+		 * @returns {{origin: *, target: *, type: *}}
+		 */
+		this.row_cells = function(row ) {
+			var row_values = row.find( '.val' );
+
+			return {
+				origin: row_values.eq( TABLE_COLUMNS.ORIGIN ),
+				target: row_values.eq( TABLE_COLUMNS.TARGET ),
+				type: row_values.eq( TABLE_COLUMNS.TYPE )
+			};
+		};
+
+		/**
+		 * Showing a dialog on the screen
+		 *
+		 * @param {string} title
+		 * @param {string} text
+		 * @param {string} type
+		 */
+		this.dialog = function( title, text, type ) {
+			if ( type === undefined || type === 'error' ) {
+				type = 'default';
+			}
+
+			var buttons = this.get_buttons( type );
+
+			$('#YoastRedirectDialogText').html( text );
+			$('#YoastRedirectDialog').dialog(
+				{
+					title: title,
+					width: 500,
+					draggable: false,
+					resizable: false,
+					position: {
+						at: 'center center',
+						my: 'center center',
+						of: window
+					},
+					buttons: buttons
+				}
 			);
 		};
 
+		/**
+		 * Handle the response
+		 *
+		 * @param {object} success_message The message that will be displayed on success
+		 *
+		 * @returns {boolean}
+		 */
+		this.open_dialog = function( success_message ) {
+			this.dialog( success_message.title, success_message.message );
+		};
+
+		/**
+		 * Sending post request
+		 *
+		 * @param {object}   data
+		 * @param {function} oncomplete
+		 */
+		this.post = function(data, oncomplete ) {
+			$.post( ajaxurl, data, oncomplete, ' json' );
+		};
+
+		/**
+		 * Creating an edit row for editting a redirect.
+		 *
+		 * @param {object} row
+		 */
+		this.edit_row = function( row ) {
+			// Just show a dialog when there is already a quick edit form opened.
+			if( $('#the-list').find('#inline-edit').length > 0 ) {
+				this.dialog(
+					wpseo_premium_strings.edit_redirect,
+					wpseo_premium_strings.editing_redirect
+				);
+
+				return;
+			}
+
+			// Running the setup and show the quick edit form.
+			redirectsQuickEdit.setup( row, this.row_cells( row ) );
+			redirectsQuickEdit.show();
+
+			new RedirectForm( redirectsQuickEdit.quick_edit_row ).getTypeField().trigger('change');
+		};
+
+		/**
+		 * Create a table row element with the new added redirect data
+		 *
+		 * @param {string} old_url
+		 * @param {string} new_url
+		 * @param {string} redirect_type
+		 * @returns {void|*|jQuery}
+		 */
 		this.create_redirect_row = function( old_url, new_url, redirect_type ) {
 			var tr = $( '<tr>' ).append(
 				$( '<th>' ).addClass( 'check-column' ).attr( 'role', 'row' ).append(
-					$( '<input>' ).attr( 'type', 'checkbox' ).val( old_url )
+					$( '<input>' )
+						.attr( 'name', 'wpseo_redirects_bulk_delete[]' )
+						.attr( 'type', 'checkbox' )
+						.val( old_url )
 				)
 			).append(
 				$( '<td>' ).append(
-					$( '<div>' ).addClass( 'val' ).html( old_url )
+					$( '<div>' ).addClass( 'val type' ).html( redirect_type )
 				).append(
 					$( '<div>' ).addClass( 'row-actions' ).append(
 						$( '<span>' ).addClass( 'edit' ).append(
@@ -309,79 +474,272 @@
 				)
 			).append(
 				$( '<td>' ).append(
-					$( '<div>' ).addClass( 'val' ).html( new_url )
+					$( '<div>' ).addClass( 'val' ).html( old_url )
 				)
 			).append(
 				$( '<td>' ).append(
-					$( '<div>' ).addClass( 'val type' ).html( redirect_type )
+					$( '<div>' ).addClass( 'val' ).html( new_url )
 				)
 			);
-
-			// bind the tr
-			that.bind_row( tr );
 
 			return tr;
 		};
 
-		this.setup = function() {
-			$.each( that.find( 'table tr' ), function( k, tr ) {
-				that.bind_row( tr );
-			}
-			);
+		/**
+		 * Handles the error.
+		 *
+		 * @param {ValidateRedirect} validateRedirect
+		 * @param {array} error
+		 */
+		this.handleError = function( validateRedirect, error ) {
+			validateRedirect.addValidationError(error.message, error.fields);
 
-			that.find( '.wpseo-new-redirect-form a.button-primary' ).click( function() {
-				that.add_redirect( that.find( '#wpseo_redirects_new_old' ).val(), that.find( '#wpseo_redirects_new_new' ).val(), that.find( '#wpseo_redirects_new_type' ).val() );
+			if (error.type === 'warning') {
+				that.dialog(wpseo_premium_strings.error_saving_redirect, error.message, error.type);
+			}
+		};
+
+		/**
+		 * Adding the redirect
+		 *
+		 * @returns {boolean}
+		 */
+		this.add_redirect = function() {
+			// Do the validation.
+			var redirectForm     = new RedirectForm( $( '.wpseo-new-redirect-form' ) );
+			var validateRedirect = new ValidateRedirect( redirectForm, type );
+			if( validateRedirect.validate() === false ) {
 				return false;
 			}
+
+			var redirect_values = validateRedirect.getFormValues();
+
+			// Do post
+			that.post(
+				{
+					action: 'wpseo_add_redirect_' + type,
+					ajax_nonce: $( '.wpseo_redirects_ajax_nonce' ).val(),
+					redirect: {
+						origin: encodeURIComponent( redirect_values.origin ),
+						target: encodeURIComponent( redirect_values.target ),
+						type: redirect_values.type
+					},
+					ignore_warning: ignore
+				},
+				function( response ) {
+					if (response.error) {
+						that.handleError( validateRedirect, response.error );
+
+						return true;
+					}
+
+					// Empty the form fields.
+					redirectForm.getOriginField().val( '' );
+					redirectForm.getTargetField().val( '' );
+
+					// Remove the no items row
+					that.find( '.no-items' ).remove();
+
+					// Creating tr
+					var tr = that.create_redirect_row( response.origin, response.target, response.type );
+
+					// Add the new row
+					$('form#' + type).find('#the-list').prepend(tr);
+
+					that.open_dialog( wpseo_premium_strings.redirect_added );
+				}
 			);
 
-			that.find( '.wpseo-new-redirect-form input' ).keypress( function( event ) {
-				if ( event.which === 13 ) {
-					event.preventDefault();
-					that.add_redirect( that.find( '#wpseo_redirects_new_old' ).val(), that.find( '#wpseo_redirects_new_new' ).val(), that.find( '#wpseo_redirects_new_type' ).val() );
-				}
+			return true;
+		};
+
+		/**
+		 * Updating the redirect
+		 *
+		 * @returns {boolean}
+		 */
+		this.update_redirect = function() {
+			// Do the validation.
+			var redirectForm     = new RedirectForm( redirectsQuickEdit.getForm() );
+			var validateRedirect = new ValidateRedirect( redirectForm, type );
+			if( validateRedirect.validate() === false ) {
+				return false;
 			}
+
+			var redirect_values = validateRedirect.getFormValues();
+
+			// Setting the vars for the row and its values.
+			var row = redirectsQuickEdit.getRow();
+			var row_cells = this.row_cells( row );
+
+			// Post the request.
+			that.post(
+				{
+					action: 'wpseo_update_redirect_' + type,
+					ajax_nonce: $( '.wpseo_redirects_ajax_nonce' ).val(),
+					old_redirect: {
+						origin: encodeURIComponent( row_cells.origin.html() ),
+						target: encodeURIComponent( row_cells.target.html() ),
+						type: encodeURIComponent( row_cells.type.html() )
+					},
+					new_redirect: {
+						origin: encodeURIComponent( redirect_values.origin ),
+						target: encodeURIComponent( redirect_values.target ),
+						type: encodeURIComponent( redirect_values.type )
+					},
+					ignore_warning: ignore
+				},
+				function( response ) {
+					if (response.error) {
+						that.handleError( validateRedirect, response.error );
+
+						return true;
+					}
+
+					// Updates the table cells.
+					row_cells.origin.html( response.origin );
+					row_cells.target.html( response.target );
+					row_cells.type.html( response.type );
+
+					redirectsQuickEdit.remove();
+
+					that.open_dialog( wpseo_premium_strings.redirect_updated );
+				}
 			);
 
-			$( window ).on( 'beforeunload', function() {
-				if ( $( '.row_edit' ).length > 0 ) {
-					return wpseo_premium_strings.unsaved_redirects;
-				}
-			}
-			);
+			return true;
+		};
 
-			$( that ).find( '.yoast_help' ).qtip( {
-				position: {
-					corner: {
-						target: 'topMiddle',
-						tooltip: 'bottomLeft'
+		/**
+		 * Removes the redirect
+		 *
+		 * @param {Object} row
+		 */
+		this.delete_redirect = function(row) {
+			var row_cells = this.row_cells( row );
+
+			that.post(
+				{
+					action:     'wpseo_delete_redirect_' + type,
+					ajax_nonce: $( '.wpseo_redirects_ajax_nonce' ).val(),
+					redirect: {
+						origin: encodeURIComponent( row_cells.origin.html() ),
+						target: encodeURIComponent( row_cells.target.html() ),
+						type: encodeURIComponent( row_cells.type.html() )
 					}
 				},
-				show: {
-					when: {
-						event: 'click'
-					}
-				},
-				hide: {
-					when: {
-						event: 'click'
-					}
-				},
-				style: {
-					tip: 'bottomLeft',
-					name: 'blue'
+				function() {
+					// When the redirect is removed, just fade out the row and remove it after its faded
+					row.fadeTo('fast', 0).slideUp(
+						function() {
+							$(this).remove();
+						}
+					);
+
+					that.open_dialog( wpseo_premium_strings.redirect_deleted );
 				}
-			}
 			);
 		};
+
+		/**
+		 * Running the setup of this element.
+		 */
+		this.setup = function() {
+			// Adding dialog
+			$('body').append('<div id="YoastRedirectDialog"><div id="YoastRedirectDialogText"></div></div>');
+
+			// When the window will be closed/reloaded and there is a inline edit opened show a message.
+			$( window ).on( 'beforeunload',
+				function() {
+					if( $('#the-list').find('#inline-edit').length > 0 ) {
+						return wpseo_premium_strings.unsaved_redirects;
+					}
+				}
+			);
+
+			// Adding the onchange event.
+			$('.redirect-table-tab')
+				.on( 'change', 'select[name=wpseo_redirects_type]', function( evt ) {
+					var type            = parseInt( $( evt.target ).val(), 10 );
+					var field_to_toggle = $( evt.target ).closest( '.wpseo_redirect_form' ).find( '.wpseo_redirect_target_holder' );
+
+					// Hide the target field in case of a 410 redirect.
+					if( jQuery.inArray( type, ALLOW_EMPTY_TARGET ) > -1 ) {
+						$( field_to_toggle ).hide();
+					}
+					else {
+						$( field_to_toggle ).show();
+					}
+				} );
+
+			// Adding events for the add form
+			$('.wpseo-new-redirect-form')
+				.on( 'click', 'a.button-primary', function() {
+					last_action = function() {
+						that.add_redirect();
+					};
+
+					that.add_redirect();
+					return false;
+				} )
+				.on( 'keypress', 'input', function( evt ) {
+					if ( evt.which === KEYS.ENTER ) {
+						last_action = function() {
+							that.add_redirect();
+						};
+
+						evt.preventDefault();
+						that.add_redirect();
+					}
+				});
+
+			$( '.wp-list-table' )
+				.on( 'click', '.edit', function( evt ) {
+					var row = $( evt.target ).closest( 'tr' );
+
+					that.edit_row( row );
+				})
+				.on( 'click', '.trash', function( evt ) {
+					var row = $( evt.target ).closest( 'tr' );
+
+					that.delete_redirect( row );
+				})
+				.on( 'keypress', 'input', function( evt ) {
+					if ( evt.which === KEYS.ENTER ) {
+						last_action = function() {
+							that.update_redirect();
+						};
+
+						evt.preventDefault();
+						that.update_redirect();
+					}
+				})
+				.on( 'click', '.save', function() {
+					last_action = function() {
+						that.update_redirect();
+					};
+
+					last_action();
+				})
+				.on( 'click', '.cancel', function() {
+					last_action = null;
+					redirectsQuickEdit.remove();
+				});
+		};
+
 		that.setup();
 	};
 
-	$( window ).load( function() {
-		$.each( $( '.redirect-table-tab' ), function( k, v ) {
-			$( v ).wpseo_redirects( $( v ).attr( 'id' ) );
-		}
+	function init() {
+		templateQuickEdit = wp.template( 'redirects-inline-edit' );
+
+		$.each(
+			$('.redirect-table-tab'),
+			function(key, element) {
+				$(element).wpseo_redirects($(element).attr('id'));
+			}
 		);
 	}
-	);
-})( jQuery );
+
+	$(init);
+}(jQuery));

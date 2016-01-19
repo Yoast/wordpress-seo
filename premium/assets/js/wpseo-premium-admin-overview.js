@@ -1,5 +1,6 @@
 /* global wpseo_premium_strings */
 /* global wpseoMakeDismissible */
+/* global wpseo_undo_redirect */
 /* jshint -W097 */
 /* jshint -W098 */
 'use strict';
@@ -7,17 +8,23 @@
 /**
  * Undoes a redirect
  *
- * @param {string} url
+ * @param {string} origin
+ * @param {string} target
+ * @param {string} type
  * @param {string} nonce
  * @param {string} id
  */
-function wpseo_undo_redirect( url, nonce, id ) {
+function wpseo_undo_redirect( origin, target, type, nonce, id ) {
 	jQuery.post(
 		ajaxurl,
 		{
-			action: 'wpseo_delete_redirect_url',
+			action: 'wpseo_delete_redirect_plain',
 			ajax_nonce: nonce,
-			redirect: { key: url },
+			redirect: {
+				origin: origin,
+				target: target,
+				type:   type
+			},
 			id: id
 		},
 		function( response ) {
@@ -29,24 +36,26 @@ function wpseo_undo_redirect( url, nonce, id ) {
 /**
  * Creates a redirect
  *
- * @param {string} old_url
+ * @param {string} origin
  * @param {string} nonce
  * @param {string} id
  */
-function wpseo_create_redirect( old_url, nonce, id ) {
-	var new_url = window.prompt( wpseo_premium_strings.enter_new_url.replace( '%s', old_url ) );
+function wpseo_create_redirect( origin, nonce, id ) {
+	var target = window.prompt( wpseo_premium_strings.enter_new_url.replace( '%s', origin ) );
 
-	if ( null !== new_url ) {
-		if ( '' !== new_url ) {
+	if ( null !== target ) {
+		if ( '' !== target ) {
 			jQuery.post(
 				ajaxurl,
 				{
-					action: 'wpseo_create_redirect_url',
+					action: 'wpseo_add_redirect_plain',
 					ajax_nonce: nonce,
-					old_url: old_url,
-					new_url: new_url,
-					id: id,
-					type: '301'
+					redirect : {
+						origin : origin,
+						target : target,
+						type   : 301
+					},
+					id: id
 				},
 				function( response ) {
 					var resp = JSON.parse( response );
