@@ -498,6 +498,8 @@
 			titlePlaceholder = '%%title%% - %%sitename%%';
 		}
 
+		var data = postScraper.getData();
+
 		YoastSEO.analyzerArgs.snippetPreview = new YoastSEO.SnippetPreview({
 			targetElement: document.getElementById( 'wpseosnippet' ),
 			placeholder: {
@@ -508,7 +510,12 @@
 			callbacks: {
 				saveSnippetData: postScraper.saveSnippetData.bind( postScraper )
 			},
-			metaDescriptionDate: wpseoPostScraperL10n.metaDescriptionDate
+			metaDescriptionDate: wpseoPostScraperL10n.metaDescriptionDate,
+			data: {
+				title: data.snippetTitle,
+				urlPath: data.snippetCite,
+				metaDesc: data.snippetMeta
+			}
 		});
 
 		window.YoastSEO.app = new YoastSEO.App( YoastSEO.analyzerArgs );
