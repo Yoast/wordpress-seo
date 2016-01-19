@@ -65,7 +65,7 @@
 .snippet-editor__chevron-right-icon,
 .snippet-editor__chevron-down-icon {
     fill: currentColor;
-    width: auto;
+    width: 1.5em;
     height: 1em;
     position: relative;
     top: 2px;
