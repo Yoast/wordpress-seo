@@ -507,7 +507,8 @@
 			baseURL: wpseoPostScraperL10n.base_url,
 			callbacks: {
 				saveSnippetData: postScraper.saveSnippetData.bind( postScraper )
-			}
+			},
+			metaDescriptionDate: wpseoPostScraperL10n.metaDescriptionDate
 		});
 
 		window.YoastSEO.app = new YoastSEO.App( YoastSEO.analyzerArgs );

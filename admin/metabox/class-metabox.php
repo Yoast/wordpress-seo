@@ -212,15 +212,16 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$translations = $this->get_scraper_translations();
 
 		return array(
-			'translations'      => $translations,
-			'keyword_usage'     => $this->get_focus_keyword_usage(),
-			'search_url'        => admin_url( 'edit.php?seo_kw_filter={keyword}' ),
-			'post_edit_url'     => admin_url( 'post.php?post={id}&action=edit' ),
-			'base_url'          => $this->get_base_url_for_js(),
-			'title_template'    => WPSEO_Metabox::get_title_template( $post ),
-			'metadesc_template' => WPSEO_Metabox::get_metadesc_template( $post ),
-			'contentTab'        => __( 'Content:' , 'wordpress-seo' ),
-			'locale'            => get_locale(),
+			'translations'        => $translations,
+			'keyword_usage'       => $this->get_focus_keyword_usage(),
+			'search_url'          => admin_url( 'edit.php?seo_kw_filter={keyword}' ),
+			'post_edit_url'       => admin_url( 'post.php?post={id}&action=edit' ),
+			'base_url'            => $this->get_base_url_for_js(),
+			'title_template'      => WPSEO_Metabox::get_title_template( $post ),
+			'metadesc_template'   => WPSEO_Metabox::get_metadesc_template( $post ),
+			'contentTab'          => __( 'Content:' , 'wordpress-seo' ),
+			'metaDescriptionDate' => date_i18n( 'M j, Y', mysql2date( 'U', $post->post_date ) ),
+			'locale'              => get_locale(),
 		);
 	}
 
