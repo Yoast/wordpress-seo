@@ -34,6 +34,11 @@ class WPSEO_Redirect_Handler {
 	private $url_matches = array();
 
 	/**
+	 * @var string Sets the error template to include.
+	 */
+	private $template_include;
+
+	/**
 	 * Constructor
 	 */
 	public function __construct() {
@@ -64,8 +69,27 @@ class WPSEO_Redirect_Handler {
 	 * Handle the 451 status code
 	 */
 	public function do_451() {
-		$this->set_404();
+		$is_include_hook_set = $this->set_template_include_hook( '451' );
+
+		if ( ! $is_include_hook_set ) {
+			$this->set_404();
+		}
 		status_header( 451, 'Unavailable For Legal Reasons' );
+	}
+
+	/**
+	 * Returns the template that should be included.
+	 *
+	 * @param string $template The template that will included before executing hook.
+	 *
+	 * @return string
+	 */
+	public function set_template_include( $template ) {
+		if ( ! empty( $this->template_include ) ) {
+			return $this->template_include;
+		}
+
+		return $template;
 	}
 
 	/**
@@ -336,5 +360,22 @@ class WPSEO_Redirect_Handler {
 		return true;
 	}
 
+	/**
+	 * Sets the hook for setting the template include. This is the file that we want to show.
+	 *
+	 * @param string $template_to_set The template to look for..
+	 *
+	 * @return bool
+	 */
+	private function set_template_include_hook( $template_to_set ) {
+		$this->template_include = get_query_template( $template_to_set );
+		if ( ! empty( $this->template_include ) ) {
+			add_filter( 'template_include', array( $this, 'set_template_include' ) );
+
+			return true;
+		}
+
+		return false;
+	}
 
 }
