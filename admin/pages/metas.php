@@ -165,7 +165,7 @@ $yform->admin_header( true, 'wpseo_titles' );
 						$yform->textinput( 'metakey-tax-' . $tax->name, __( 'Meta keywords template', 'wordpress-seo' ) );
 					}
 					$yform->toggle_switch( 'noindex-tax-' . $tax->name, $index_switch_values, __( 'Meta Robots', 'wordpress-seo' ) );
-					$yform->toggle_switch( 'hideeditbox-' . $tax->name, array(
+					$yform->toggle_switch( 'hideeditbox-tax-' . $tax->name, array(
 						'off' => __( 'Show', 'wordpress-seo' ),
 						'on'  => __( 'Hide', 'wordpress-seo' ),
 						/* translators: %1$s expands to Yoast SEO */
