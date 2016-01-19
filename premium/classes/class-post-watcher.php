@@ -286,6 +286,9 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 
 		// Detect a post delete.
 		add_action( 'before_delete_post', array( $this, 'detect_post_delete' ) );
+
+
+		new WPSEO_Post_Slug_Watcher();
 	}
 
 	/**
