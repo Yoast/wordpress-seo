@@ -80,10 +80,8 @@
 			keyword: this.getDataFromInput( 'keyword' ),
 			meta: this.getDataFromInput( 'meta' ),
 			text: this.getDataFromInput( 'text' ),
-			pageTitle: this.getDataFromInput( 'pageTitle' ),
 			title: this.getDataFromInput( 'title' ),
 			url: this.getDataFromInput( 'url' ),
-			baseUrl: this.getDataFromInput( 'baseUrl' ),
 			excerpt: this.getDataFromInput( 'excerpt' ),
 			snippetTitle: this.getDataFromInput( 'snippetTitle' ),
 			snippetMeta: this.getDataFromInput( 'snippetMeta' ),
@@ -116,9 +114,6 @@
 					val = document.getElementById( 'editable-post-name-full' ).textContent;
 				}
 				break;
-			case 'baseUrl':
-				val = wpseoPostScraperL10n.base_url;
-				break;
 			case 'meta':
 				val = document.getElementById( 'yoast_wpseo_metadesc' ) && document.getElementById( 'yoast_wpseo_metadesc' ).value || '';
 				if ( val === '' ) {
@@ -137,15 +132,6 @@
 				break;
 			case 'snippetTitle':
 				val = document.getElementById( 'yoast_wpseo_title' ) && document.getElementById( 'yoast_wpseo_title' ).value || '';
-				break;
-			case 'pageTitle':
-				val = document.getElementById( 'yoast_wpseo_title' ) && document.getElementById( 'yoast_wpseo_title' ).value || '';
-				if ( val === '' ) {
-					val = wpseoPostScraperL10n.title_template;
-				}
-				if (val === '' ) {
-					val = '%%title%% - %%sitename%%';
-				}
 				break;
 			case 'excerpt':
 				if ( document.getElementById( 'excerpt' ) !== null ) {
@@ -503,6 +489,27 @@
 			delete( translations.locale_data['wordpress-seo'] );
 			YoastSEO.analyzerArgs.translations = translations;
 		}
+
+		var titlePlaceholder = '';
+		if ( titlePlaceholder === '' ) {
+			titlePlaceholder = wpseoPostScraperL10n.title_template;
+		}
+		if (titlePlaceholder === '' ) {
+			titlePlaceholder = '%%title%% - %%sitename%%';
+		}
+
+		YoastSEO.analyzerArgs.snippetPreview = new YoastSEO.SnippetPreview({
+			targetElement: document.getElementById( 'wpseosnippet' ),
+			placeholder: {
+				title:    titlePlaceholder,
+				urlPath:  ''
+			},
+			baseURL: wpseoPostScraperL10n.base_url,
+			callbacks: {
+				saveSnippetData: postScraper.saveSnippetData.bind( postScraper )
+			}
+		});
+
 		window.YoastSEO.app = new YoastSEO.App( YoastSEO.analyzerArgs );
 		jQuery( window).trigger( 'YoastSEO:ready' );
 
