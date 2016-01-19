@@ -438,13 +438,15 @@ SnippetPreview.prototype.getMetaText = function() {
 	}
 	if ( typeof this.refObj.rawData.text !== "undefined" ) {
 		metaText = this.refObj.rawData.text;
+
+		if ( this.refObj.pluggable.loaded ) {
+			metaText = this.refObj.pluggable._applyModifications( "content", metaText );
+		}
 	}
 	if ( isEmpty( metaText ) ) {
 		metaText = this.refObj.config.sampleText.meta;
 	}
-	if ( this.refObj.pluggable.loaded ) {
-		metaText = this.refObj.pluggable._applyModifications( "content", metaText );
-	}
+
 	metaText = this.refObj.stringHelper.stripAllTags( metaText );
 	if (
 		this.refObj.rawData.keyword !== "" &&
