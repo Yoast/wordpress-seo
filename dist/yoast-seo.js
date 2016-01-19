@@ -1106,6 +1106,7 @@ var SnippetPreview = require( "./snippetPreview.js" );
 /**
  * Creates a default snippet preview, this can be used if no snippet preview has been passed.
  *
+ * @private
  * @this App
  *
  * @returns {SnippetPreview}
