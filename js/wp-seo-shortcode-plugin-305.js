@@ -52,6 +52,8 @@
 	 */
 	YoastShortcodePlugin.prototype.registerModifications = function() {
 		YoastSEO.app.registerModification( 'content', this.replaceShortcodes.bind( this ), 'YoastShortcodePlugin' );
+		YoastSEO.app.registerModification( 'text', this.replaceShortcodes.bind( this ), 'YoastShortcodePlugin' );
+		YoastSEO.app.registerModification( 'data_meta_desc', this.replaceShortcodes.bind( this ), 'YoastShortcodePlugin' );
 	};
 
 	/**
