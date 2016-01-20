@@ -10,10 +10,8 @@ require("../js/scoreFormatter.js");
 require("../js/stringHelper.js");
 require("../js/templates.js");
 
-var args = {};
-
 describe( "Creating an app without any arguments", function(){
-	it( "throws error for missing argument", function(){
-		var app = new YoastSEO.App();
+	it( "throws error for missing callbacks object", function(){
+		expect( function(){ YoastSEO.App() } ).toThrow( new Error( "The app requires an object with callbacks" ) );
 	} )
 } );

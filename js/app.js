@@ -4,6 +4,7 @@ YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 
 var defaultsDeep = require( "lodash/object/defaultsDeep" );
 var isObject = require( "lodash/lang/isObject" );
+var isElement = require( "lodash/lang/isElement" );
 
 var defaults = {
 	sampleText: {
@@ -92,6 +93,10 @@ YoastSEO.App = function( args ) {
 
 	this.config = args;
 	this.callbacks = this.config.callbacks;
+
+	if ( !isElement( this.config.callbacks ) ) {
+		throw new Error( "The app requires an object with callbacks" );
+	}
 
 	this.i18n = this.constructI18n( this.config.translations );
 	this.stringHelper = new YoastSEO.StringHelper();
