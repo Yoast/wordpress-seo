@@ -15,3 +15,18 @@ describe( "Creating an app without any arguments", function(){
 		expect( function(){ YoastSEO.App() } ).toThrow( new Error( "The app requires an object with callbacks" ) );
 	} )
 } );
+
+var args = {
+	callbacks: {
+		getData: function(){ return {} },
+		bindElementEvents: function(){},
+		updateSnippetValues: function(){},
+		saveScores: function(){}
+	}
+};
+
+describe( "Creating an app with only callbacks", function() {
+	it( "throws error for missing targets", function(){
+		expect( function(){ YoastSEO.App( args ) } ).toThrow( new Error( "No targetElement is defined" ) );
+	} )
+} );

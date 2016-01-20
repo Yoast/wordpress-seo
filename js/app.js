@@ -94,8 +94,11 @@ YoastSEO.App = function( args ) {
 	this.config = args;
 	this.callbacks = this.config.callbacks;
 
-	if ( !isElement( this.config.callbacks ) ) {
+	if ( !isObject( this.callbacks ) ) {
 		throw new Error( "The app requires an object with callbacks" );
+	}
+	if ( !isObject( this.config.targets ) ){
+		throw new Error( "No targetElement is defined" );
 	}
 
 	this.i18n = this.constructI18n( this.config.translations );
