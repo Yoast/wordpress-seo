@@ -14,20 +14,19 @@ class WPSEO_Admin {
 	private $options;
 
 	/**
-	 * @var Yoast_Dashboard_Widget
+	 * Array of classes that add admin functionality
+	 *
+	 * @var array
 	 */
-	public $dashboard_widget;
-
-	/**
-	 * @var WPSEO_GSC
-	 */
-	private $page_gsc;
+	protected $admin_features;
 
 	/**
 	 * Class constructor
 	 */
 	function __construct() {
-		$this->options = WPSEO_Options::get_all();
+		global $pagenow;
+
+		$this->options = WPSEO_Options::get_options( array( 'wpseo', 'wpseo_permalinks' ) );
 
 		if ( is_multisite() ) {
 			WPSEO_Options::maybe_set_multisite_defaults( false );
@@ -39,9 +38,19 @@ class WPSEO_Admin {
 			add_action( 'delete_category', array( $this, 'schedule_rewrite_flush' ) );
 		}
 
-		$this->page_gsc         = new WPSEO_GSC();
-		$this->dashboard_widget = new Yoast_Dashboard_Widget();
+		$this->admin_features = array(
+			// Google Search Console.
+			'google_search_console' => new WPSEO_GSC(),
+			'dashboard_widget'      => new Yoast_Dashboard_Widget(),
+		);
 
+		if ( in_array( $pagenow, array( 'post-new.php', 'post.php', 'edit.php' ) ) ) {
+			$this->admin_features['primary_category'] = new WPSEO_Primary_Term_Admin();
+		}
+
+		if ( filter_input( INPUT_GET, 'page' ) === 'wpseo_tools' && filter_input( INPUT_GET, 'tool' ) === null ) {
+			new WPSEO_Recalculate_Scores();
+		}
 
 		// Needs the lower than default priority so other plugins can hook underneath it without issue.
 		add_action( 'admin_menu', array( $this, 'register_settings_page' ), 5 );
@@ -96,6 +105,15 @@ class WPSEO_Admin {
 	 */
 	function schedule_rewrite_flush() {
 		add_action( 'shutdown', 'flush_rewrite_rules' );
+	}
+
+	/**
+	 * Returns all the classes for the admin features
+	 *
+	 * @return array
+	 */
+	public function get_admin_features() {
+		return $this->admin_features;
 	}
 
 	/**
@@ -172,8 +190,8 @@ class WPSEO_Admin {
 				__( 'Search Console', 'wordpress-seo' ),
 				$manage_options_cap,
 				'wpseo_search_console',
-				array( $this->page_gsc, 'display' ),
-				array( array( $this->page_gsc, 'set_help' ) ),
+				array( $this->admin_features['google_search_console'], 'display' ),
+				array( array( $this->admin_features['google_search_console'], 'set_help' ) ),
 			),
 			array(
 				'wpseo_dashboard',

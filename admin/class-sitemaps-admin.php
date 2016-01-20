@@ -22,7 +22,7 @@ class WPSEO_Sitemaps_Admin {
 	 * @todo issue #561 https://github.com/Yoast/wordpress-seo/issues/561
 	 */
 	function delete_sitemaps() {
-		$options = WPSEO_Options::get_all();
+		$options = WPSEO_Options::get_options( array( 'wpseo', 'wpseo_xml' ) );
 		if ( $options['enablexmlsitemap'] === true ) {
 
 			$file_to_check_for = array(
@@ -66,7 +66,7 @@ class WPSEO_Sitemaps_Admin {
 
 		wp_cache_delete( 'lastpostmodified:gmt:' . $post->post_type, 'timeinfo' ); // #17455.
 
-		$options = WPSEO_Options::get_all();
+		$options = WPSEO_Options::get_options( array( 'wpseo_xml', 'wpseo_titles' ) );
 		if ( isset( $options[ 'post_types-' . $post->post_type . '-not_in_sitemap' ] ) && $options[ 'post_types-' . $post->post_type . '-not_in_sitemap' ] === true ) {
 			return;
 		}
