@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Yoast SEO 3.0.7\n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo/issues\n"
-"POT-Creation-Date: 2016-01-20 14:03:08+00:00\n"
+"POT-Creation-Date: 2016-01-20 14:07:26+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -334,18 +334,18 @@ msgstr ""
 msgid "New Yoast SEO Title"
 msgstr ""
 
-#: admin/class-config.php:102 admin/metabox/class-metabox.php:777
+#: admin/class-config.php:105 admin/metabox/class-metabox.php:777
 #: admin/taxonomy/class-taxonomy.php:114
 msgid "Use Image"
 msgstr ""
 
 #. translators: %s: '%%term_title%%' variable used in titles and meta's
 #. template that's not compatible with the given template
-#: admin/class-config.php:116
+#: admin/class-config.php:119
 msgid "Warning: the variable %s cannot be used in this template."
 msgstr ""
 
-#: admin/class-config.php:116
+#: admin/class-config.php:119
 msgid "See the help tab for more info."
 msgstr ""
 
@@ -1018,7 +1018,19 @@ msgstr ""
 msgid "Upgrade to %1$s &raquo;"
 msgstr ""
 
-#: admin/class-yoast-form.php:429
+#: admin/class-yoast-form.php:321 admin/pages/dashboard.php:246
+#: admin/pages/metas.php:208 admin/pages/metas.php:217
+#: admin/pages/xml-sitemaps.php:77
+msgid "Disabled"
+msgstr ""
+
+#: admin/class-yoast-form.php:321 admin/pages/dashboard.php:246
+#: admin/pages/metas.php:207 admin/pages/metas.php:216
+#: admin/pages/xml-sitemaps.php:77
+msgid "Enabled"
+msgstr ""
+
+#: admin/class-yoast-form.php:470
 #: admin/taxonomy/class-taxonomy-fields-presenter.php:88
 msgid "Upload Image"
 msgstr ""
@@ -1413,11 +1425,11 @@ msgid ""
 ">Read %sthis post%s for more info."
 msgstr ""
 
-#: admin/metabox/class-metabox.php:61 admin/pages/metas.php:136
+#: admin/metabox/class-metabox.php:61 admin/pages/metas.php:138
 msgid "Meta description"
 msgstr ""
 
-#: admin/metabox/class-metabox.php:63 admin/pages/metas.php:138
+#: admin/metabox/class-metabox.php:63 admin/pages/metas.php:140
 #: admin/taxonomy/class-taxonomy-settings-fields.php:37
 msgid "Meta keywords"
 msgstr ""
@@ -1476,7 +1488,7 @@ msgid "Site-wide default: %s"
 msgstr ""
 
 #: admin/metabox/class-metabox.php:82 admin/pages/network.php:53
-#: admin/views/tab-breadcrumbs.php:40 admin/views/tab-breadcrumbs.php:57
+#: admin/views/tab-breadcrumbs.php:46 admin/views/tab-breadcrumbs.php:63
 #: inc/class-wpseo-meta.php:412
 msgid "None"
 msgstr ""
@@ -1777,18 +1789,19 @@ msgstr ""
 
 #: admin/pages/dashboard.php:243
 msgid ""
-"Unchecking this box allows authors and editors to redirect posts, noindex "
-"them and do other things you might not want if you don't trust your authors."
+"Advanced part of the meta box allows authors and editors to redirect posts, "
+"noindex them and do other things you might not want if you don't trust your "
+"authors."
 msgstr ""
 
 #. translators: %1$s expands to Yoast SEO
-#: admin/pages/dashboard.php:245
-msgid "Disable the Advanced part of the %1$s meta box"
+#: admin/pages/dashboard.php:248
+msgid "Advanced part of the %1$s meta box"
 msgstr ""
 
 #. translators: %1$s expands to OnPage.org
-#: admin/pages/dashboard.php:251
-msgid "Enable %1$s indexability check"
+#: admin/pages/dashboard.php:255
+msgid "%1$s indexability check"
 msgstr ""
 
 #. translators: %1$s expands to Yoast SEO
@@ -1831,7 +1844,7 @@ msgid ""
 "plugins, should you activate one."
 msgstr ""
 
-#: admin/pages/metas.php:21 admin/pages/metas.php:66
+#: admin/pages/metas.php:21 admin/pages/metas.php:54
 msgid "Homepage"
 msgstr ""
 
@@ -1843,142 +1856,152 @@ msgstr ""
 msgid "Taxonomies"
 msgstr ""
 
-#: admin/pages/metas.php:36
+#: admin/pages/metas.php:32
 msgid "Force rewrite titles"
 msgstr ""
 
-#: admin/pages/metas.php:40
-msgid "Enable force rewrite titles"
-msgstr ""
-
-#. translators: %1$s expands to Yoast SEO
-#: admin/pages/metas.php:42
+#: admin/pages/metas.php:33
 msgid ""
 "%1$s has auto-detected whether it needs to force rewrite the titles for your "
 "pages, if you think it's wrong and you know what you're doing, you can "
 "change the setting here."
 msgstr ""
 
-#: admin/pages/metas.php:51
+#: admin/pages/metas.php:39
 msgid "Title Separator"
 msgstr ""
 
-#: admin/pages/metas.php:56
+#: admin/pages/metas.php:44
 msgid ""
 "Choose the symbol to use as your title separator. This will display, for "
 "instance, between your post title and site name."
 msgstr ""
 
-#: admin/pages/metas.php:56
+#: admin/pages/metas.php:44
 msgid "Symbols are shown in the size they'll appear in in search results."
 msgstr ""
 
-#: admin/pages/metas.php:67 admin/pages/metas.php:103 admin/pages/metas.php:158
-#: admin/pages/metas.php:178 admin/pages/metas.php:186
-#: admin/pages/metas.php:215 admin/pages/metas.php:218
+#: admin/pages/metas.php:55 admin/pages/metas.php:95 admin/pages/metas.php:161
+#: admin/pages/metas.php:184 admin/pages/metas.php:192
+#: admin/pages/metas.php:227 admin/pages/metas.php:230
 msgid "Title template"
 msgstr ""
 
-#: admin/pages/metas.php:68 admin/pages/metas.php:104 admin/pages/metas.php:159
-#: admin/pages/metas.php:179 admin/pages/metas.php:187
+#: admin/pages/metas.php:56 admin/pages/metas.php:96 admin/pages/metas.php:162
+#: admin/pages/metas.php:185 admin/pages/metas.php:193
 msgid "Meta description template"
 msgstr ""
 
-#: admin/pages/metas.php:70 admin/pages/metas.php:106 admin/pages/metas.php:161
-#: admin/pages/metas.php:181
+#: admin/pages/metas.php:58 admin/pages/metas.php:98 admin/pages/metas.php:164
+#: admin/pages/metas.php:187
 msgid "Meta keywords template"
 msgstr ""
 
-#: admin/pages/metas.php:76
+#: admin/pages/metas.php:64
 msgid "Homepage &amp; Front page"
 msgstr ""
 
-#: admin/pages/metas.php:77
+#: admin/pages/metas.php:65
 msgid ""
 "You can determine the title and description for the front page by %sediting "
 "the front page itself &raquo;%s"
 msgstr ""
 
-#: admin/pages/metas.php:80
+#: admin/pages/metas.php:68
 msgid ""
 "You can determine the title and description for the blog page by %sediting "
 "the blog page itself &raquo;%s"
 msgstr ""
 
-#: admin/pages/metas.php:99 admin/pages/network.php:115
+#: admin/pages/metas.php:91 admin/pages/network.php:115
 msgid "Take note:"
 msgstr ""
 
-#: admin/pages/metas.php:100
+#: admin/pages/metas.php:92
 msgid ""
 "As you are redirecting attachment URLs to parent post URLs, these settings "
 "will currently only have an effect on <strong>unattached</strong> media "
 "items!"
 msgstr ""
 
-#: admin/pages/metas.php:101
+#: admin/pages/metas.php:93
 msgid ""
 "So remember: If you change the %sattachment redirection setting%s in the "
 "future, the below settings will take effect for *all* media items."
 msgstr ""
 
-#: admin/pages/metas.php:108 admin/pages/metas.php:143
-#: admin/pages/metas.php:163
+#: admin/pages/metas.php:100 admin/pages/metas.php:104
+#: admin/pages/metas.php:145 admin/pages/metas.php:166
+#: admin/pages/metas.php:210 admin/pages/metas.php:219
 msgid "Meta Robots"
 msgstr ""
 
-#: admin/pages/metas.php:109
+#: admin/pages/metas.php:101
 msgid "Show date in snippet preview?"
 msgstr ""
 
-#: admin/pages/metas.php:109
+#: admin/pages/metas.php:101 admin/pages/metas.php:108
 msgid "Date in Snippet Preview"
 msgstr ""
 
 #. translators: %1$s expands to Yoast SEO
-#: admin/pages/metas.php:111 admin/pages/metas.php:165
+#: admin/pages/metas.php:103 admin/pages/metas.php:107
+#: admin/pages/metas.php:111 admin/pages/metas.php:169
+#: admin/views/tab-breadcrumbs.php:31 admin/views/tab-permalinks.php:60
 msgid "Hide"
 msgstr ""
 
-#: admin/pages/metas.php:111 admin/pages/metas.php:165
+#. translators: %1$s expands to Yoast SEO
+#: admin/pages/metas.php:103 admin/pages/metas.php:113
+#: admin/pages/metas.php:171
 msgid "%1$s Meta Box"
 msgstr ""
 
-#: admin/pages/metas.php:130
+#: admin/pages/metas.php:106 admin/pages/metas.php:110
+#: admin/pages/metas.php:168 admin/views/tab-breadcrumbs.php:30
+#: admin/views/tab-permalinks.php:60
+msgid "Show"
+msgstr ""
+
+#: admin/pages/metas.php:132
 msgid "Custom Post Type Archives"
 msgstr ""
 
-#: admin/pages/metas.php:131
+#: admin/pages/metas.php:133
 msgid ""
 "Note: instead of templates these are the actual titles and meta descriptions "
 "for these custom post type archive pages."
 msgstr ""
 
-#: admin/pages/metas.php:135 admin/pages/social.php:61
+#: admin/pages/metas.php:137 admin/pages/social.php:61
 #: admin/views/tool-bulk-editor.php:33
 msgid "Title"
 msgstr ""
 
-#: admin/pages/metas.php:141
+#: admin/pages/metas.php:143
 #: admin/taxonomy/class-taxonomy-settings-fields.php:48
 msgid "Breadcrumbs title"
 msgstr ""
 
-#: admin/pages/metas.php:177
+#: admin/pages/metas.php:183
 msgid "Author Archives"
 msgstr ""
 
-#: admin/pages/metas.php:185
+#: admin/pages/metas.php:191
 msgid "Date Archives"
 msgstr ""
 
-#: admin/pages/metas.php:191
+#: admin/pages/metas.php:197
 msgid "Duplicate content prevention"
+msgstr ""
+
+#: admin/pages/metas.php:198 admin/pages/metas.php:209
+msgid "Author archives"
 msgstr ""
 
 #. translators: %1$s / %2$s: links to an article about duplicate content on
 #. yoast.com
-#: admin/pages/metas.php:194
+#: admin/pages/metas.php:201
 msgid ""
 "If you're running a one author blog, the author archive will be exactly the "
 "same as your homepage. This is what's called a %1$sduplicate content problem"
@@ -1986,80 +2009,66 @@ msgid ""
 msgstr ""
 
 #. translators: %s expands to <code>noindex, follow</code>
-#: admin/pages/metas.php:197
+#: admin/pages/metas.php:204
 msgid ""
 "If this is the case on your site, you can choose to either disable it (which "
 "makes it redirect to the homepage), or to add %s to it so it doesn't show up "
 "in the search results."
 msgstr ""
 
-#. translators: %s expands to <code>noindex, follow</code>
-#: admin/pages/metas.php:200
-msgid "Add %s to the author archives"
+#: admin/pages/metas.php:211 admin/pages/metas.php:218
+msgid "Date-based archives"
 msgstr ""
 
-#: admin/pages/metas.php:201
-msgid "Disable the author archives"
-msgstr ""
-
-#: admin/pages/metas.php:203
+#: admin/pages/metas.php:213
 msgid ""
 "Date-based archives could in some cases also be seen as duplicate content."
 msgstr ""
 
-#. translators: %s expands to <code>noindex, follow</code>
-#: admin/pages/metas.php:206
-msgid "Add %s to the date-based archives"
-msgstr ""
-
-#: admin/pages/metas.php:207
-msgid "Disable the date-based archives"
-msgstr ""
-
-#: admin/pages/metas.php:211
+#: admin/pages/metas.php:223
 msgid "Special Pages"
 msgstr ""
 
 #. translators: %s expands to <code>noindex, follow</code>
-#: admin/pages/metas.php:213
+#: admin/pages/metas.php:225
 msgid ""
 "These pages will be %s by default, so they will never show up in search "
 "results."
 msgstr ""
 
-#: admin/pages/metas.php:214
+#: admin/pages/metas.php:226
 msgid "Search pages"
 msgstr ""
 
-#: admin/pages/metas.php:217
+#: admin/pages/metas.php:229
 msgid "404 pages"
 msgstr ""
 
-#: admin/pages/metas.php:225
+#: admin/pages/metas.php:237
 msgid "Sitewide meta settings"
 msgstr ""
 
-#: admin/pages/metas.php:228
+#: admin/pages/metas.php:240
 msgid ""
 "If you want to prevent /page/2/ and further of any archive to show up in the "
 "search results, enable this."
 msgstr ""
 
-#: admin/pages/metas.php:229
-msgid "Noindex subpages of archives"
+#: admin/pages/metas.php:241
+msgid "Subpages of archives"
 msgstr ""
 
-#: admin/pages/metas.php:230
+#: admin/pages/metas.php:243
 msgid ""
-"I don't know why you'd want to use meta keywords, but if you want to, check "
-"this box."
+"I don't know why you'd want to use meta keywords, but if you want to, enable "
+"this."
 msgstr ""
 
-#: admin/pages/metas.php:231
+#: admin/pages/metas.php:244
 msgid "Use meta keywords tag?"
 msgstr ""
 
-#: admin/pages/metas.php:232
+#: admin/pages/metas.php:246
 msgid ""
 "Prevents search engines from using the DMOZ description for pages from this "
 "site in the search results."
@@ -2067,11 +2076,11 @@ msgstr ""
 
 #. translators: %s expands to <code>noodp</code>
 #. translators: %s expands to <code>noydir</code>
-#: admin/pages/metas.php:234 admin/pages/metas.php:237
+#: admin/pages/metas.php:248 admin/pages/metas.php:252
 msgid "Add %s meta robots tag sitewide"
 msgstr ""
 
-#: admin/pages/metas.php:235
+#: admin/pages/metas.php:250
 msgid ""
 "Prevents search engines from using the Yahoo! directory description for "
 "pages from this site in the search results."
@@ -2346,7 +2355,7 @@ msgid "&laquo; Back to Tools page"
 msgstr ""
 
 #: admin/pages/xml-sitemaps.php:29
-msgid "Check this box to enable XML sitemap functionality."
+msgid "XML sitemap functionality"
 msgstr ""
 
 #: admin/pages/xml-sitemaps.php:38
@@ -2385,49 +2394,41 @@ msgstr ""
 msgid "Max entries per sitemap"
 msgstr ""
 
-#: admin/pages/xml-sitemaps.php:74
-msgid "Disable author/user sitemap"
-msgstr ""
-
-#: admin/pages/xml-sitemaps.php:77
-msgid "Exclude users without posts"
+#: admin/pages/xml-sitemaps.php:73
+msgid ""
+"The user sitemap contains the author archive URLs for every user on your "
+"site. You can choose to not include users without posts."
 msgstr ""
 
 #: admin/pages/xml-sitemaps.php:78
-msgid "Disable all users with zero posts"
-msgstr ""
-
-#: admin/pages/xml-sitemaps.php:82
-msgid "Exclude user roles"
+msgid "Author / user sitemap"
 msgstr ""
 
 #: admin/pages/xml-sitemaps.php:83
-msgid ""
-"Please check the appropriate box below if there's a user role that you do "
-"<strong>NOT</strong> want to include in your sitemap:"
+msgid "In sitemap"
 msgstr ""
 
-#: admin/pages/xml-sitemaps.php:96
-msgid ""
-"Please check the appropriate box below if there's a post type that you do "
-"<strong>NOT</strong> want to include in your sitemap:"
+#: admin/pages/xml-sitemaps.php:83
+msgid "Not in sitemap"
+msgstr ""
+
+#: admin/pages/xml-sitemaps.php:84
+msgid "Users with zero posts"
+msgstr ""
+
+#: admin/pages/xml-sitemaps.php:88
+msgid "Filter specific user roles"
 msgstr ""
 
 #. Translators: %1$s: expands to '<code>1,2,99,100</code>'
-#: admin/pages/xml-sitemaps.php:109
+#: admin/pages/xml-sitemaps.php:117
 msgid ""
 "You can exclude posts from the sitemap by entering a comma separated string "
 "with the Post ID's. The format will become something like: %1$s."
 msgstr ""
 
-#: admin/pages/xml-sitemaps.php:110
+#: admin/pages/xml-sitemaps.php:118
 msgid "Posts to exclude"
-msgstr ""
-
-#: admin/pages/xml-sitemaps.php:119
-msgid ""
-"Please check the appropriate box below if there's a taxonomy that you do "
-"<strong>NOT</strong> want to include in your sitemap:"
 msgstr ""
 
 #: admin/taxonomy/class-taxonomy-columns.php:95
@@ -2678,33 +2679,41 @@ msgstr ""
 msgid "Breadcrumb for 404 Page"
 msgstr ""
 
-#: admin/views/tab-breadcrumbs.php:29
-msgid "Remove Blog page from Breadcrumbs"
+#: admin/views/tab-breadcrumbs.php:32
+msgid "Show Blog page"
 msgstr ""
 
-#: admin/views/tab-breadcrumbs.php:31
-msgid "Bold the last page in the breadcrumb"
+#: admin/views/tab-breadcrumbs.php:35
+msgid "Bold"
 msgstr ""
 
 #: admin/views/tab-breadcrumbs.php:36
+msgid "Regular"
+msgstr ""
+
+#: admin/views/tab-breadcrumbs.php:37
+msgid "Bold the last page"
+msgstr ""
+
+#: admin/views/tab-breadcrumbs.php:42
 msgid "Taxonomy to show in breadcrumbs for post types"
 msgstr ""
 
-#: admin/views/tab-breadcrumbs.php:55
+#: admin/views/tab-breadcrumbs.php:61
 msgid "Post type archive to show in breadcrumbs for taxonomies"
 msgstr ""
 
-#: admin/views/tab-breadcrumbs.php:59
+#: admin/views/tab-breadcrumbs.php:65
 msgid "Blog"
 msgstr ""
 
-#: admin/views/tab-breadcrumbs.php:79
+#: admin/views/tab-breadcrumbs.php:85
 msgid "How to insert breadcrumbs in your theme"
 msgstr ""
 
 #. translators: %1$s / %2$s: links to the breadcrumbs implementation page on
 #. the Yoast knowledgebase
-#: admin/views/tab-breadcrumbs.php:83
+#: admin/views/tab-breadcrumbs.php:89
 msgid ""
 "Usage of this breadcrumbs feature is explained in %1$sour knowledge-base "
 "article on breadcrumbs implementation%2$s."
@@ -2714,37 +2723,53 @@ msgstr ""
 msgid "Change URLs"
 msgstr ""
 
+#: admin/views/tab-permalinks.php:17
+msgid "Keep"
+msgstr ""
+
+#: admin/views/tab-permalinks.php:17
+msgid "Remove"
+msgstr ""
+
 #. translators: %s expands to <code>/category/</code>
-#: admin/views/tab-permalinks.php:18
+#: admin/views/tab-permalinks.php:21
 msgid "Strip the category base (usually %s) from the category URL."
 msgstr ""
 
-#: admin/views/tab-permalinks.php:20
+#: admin/views/tab-permalinks.php:26
 msgid ""
 "Attachments to posts are stored in the database as posts, this means they're "
 "accessible under their own URL's if you do not redirect them, enabling this "
 "will redirect them to the post they were attached to."
 msgstr ""
 
-#: admin/views/tab-permalinks.php:21
+#: admin/views/tab-permalinks.php:27
+msgid "No redirect"
+msgstr ""
+
+#: admin/views/tab-permalinks.php:27
+msgid "Redirect"
+msgstr ""
+
+#: admin/views/tab-permalinks.php:28
 msgid "Redirect attachment URL's to parent post URL."
 msgstr ""
 
-#: admin/views/tab-permalinks.php:23
+#: admin/views/tab-permalinks.php:30
 msgid "Clean up permalinks"
 msgstr ""
 
-#: admin/views/tab-permalinks.php:24
+#: admin/views/tab-permalinks.php:31
 msgid ""
 "This helps you to create cleaner URLs by automatically removing the "
 "stopwords from them."
 msgstr ""
 
-#: admin/views/tab-permalinks.php:25
+#: admin/views/tab-permalinks.php:32
 msgid "Remove stop words from slugs."
 msgstr ""
 
-#: admin/views/tab-permalinks.php:27
+#: admin/views/tab-permalinks.php:34
 msgid ""
 "This prevents threaded replies from working when the user has JavaScript "
 "disabled, but on a large site can mean a <em>huge</em> improvement in crawl "
@@ -2752,23 +2777,23 @@ msgid ""
 msgstr ""
 
 #. translators: %s expands to <code>?replytocom</code>
-#: admin/views/tab-permalinks.php:30
+#: admin/views/tab-permalinks.php:37
 msgid "Remove the %s variables."
 msgstr ""
 
 #. translators: %s expands to <code>.html</code>
-#: admin/views/tab-permalinks.php:33
+#: admin/views/tab-permalinks.php:40
 msgid ""
 "If you choose a permalink for your posts with %1$s, or anything else but a "
 "%2$s at the end, this will force WordPress to add a trailing slash to non-"
 "post pages nonetheless."
 msgstr ""
 
-#: admin/views/tab-permalinks.php:34
+#: admin/views/tab-permalinks.php:41
 msgid "Enforce a trailing slash on all category and tag URL's"
 msgstr ""
 
-#: admin/views/tab-permalinks.php:36
+#: admin/views/tab-permalinks.php:43
 msgid ""
 "People make mistakes in their links towards you sometimes, or unwanted "
 "parameters are added to the end of your URLs, this allows you to redirect "
@@ -2778,62 +2803,62 @@ msgid ""
 "this plugin."
 msgstr ""
 
-#: admin/views/tab-permalinks.php:37
+#: admin/views/tab-permalinks.php:44
 msgid ""
 "Redirect ugly URL's to clean permalinks. (Not recommended in many cases!)"
 msgstr ""
 
-#: admin/views/tab-permalinks.php:40
+#: admin/views/tab-permalinks.php:47
 msgid ""
 "Google Site Search URL's look weird, and ugly, but if you're using Google "
 "Site Search, you probably do not want them cleaned out."
 msgstr ""
 
-#: admin/views/tab-permalinks.php:41
+#: admin/views/tab-permalinks.php:48
 msgid "Prevent cleaning out Google Site Search URL's."
 msgstr ""
 
 #. translators: %s expands to <code>?utm_</code>
-#: admin/views/tab-permalinks.php:44
+#: admin/views/tab-permalinks.php:51
 msgid ""
 "If you use Google Analytics campaign parameters starting with %s, check this "
 "box. However, you're advised not to use these. Instead, use the version with "
 "a hash."
 msgstr ""
 
-#: admin/views/tab-permalinks.php:45
+#: admin/views/tab-permalinks.php:52
 msgid ""
 "Prevent cleaning out Google Analytics Campaign & Google AdWords Parameters."
 msgstr ""
 
-#: admin/views/tab-permalinks.php:47
+#: admin/views/tab-permalinks.php:54
 msgid ""
 "You might have extra variables you want to prevent from cleaning out, add "
 "them here, comma separated."
 msgstr ""
 
-#: admin/views/tab-permalinks.php:48
+#: admin/views/tab-permalinks.php:55
 msgid "Other variables not to clean"
 msgstr ""
 
 #. translators: %s expands to <code>&lt;head&gt;</code>
-#: admin/views/tab-permalinks.php:52
+#: admin/views/tab-permalinks.php:59
 msgid "Clean up the %s"
 msgstr ""
 
-#: admin/views/tab-permalinks.php:53
+#: admin/views/tab-permalinks.php:61
 msgid "Hide RSD Links"
 msgstr ""
 
-#: admin/views/tab-permalinks.php:54
+#: admin/views/tab-permalinks.php:62
 msgid "Hide WLW Manifest Links"
 msgstr ""
 
-#: admin/views/tab-permalinks.php:55
+#: admin/views/tab-permalinks.php:63
 msgid "Hide Shortlink for posts"
 msgstr ""
 
-#: admin/views/tab-permalinks.php:56
+#: admin/views/tab-permalinks.php:64
 msgid "Hide RSS Links"
 msgstr ""
 
