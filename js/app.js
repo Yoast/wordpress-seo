@@ -3,9 +3,17 @@
 YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 
 var defaultsDeep = require( "lodash/object/defaultsDeep" );
+var isObject = require( "lodash/lang/isObject" );
 
 var defaults = {
-
+	sampleText: {
+		baseUrl: "example.org/",
+		snippetCite: "example-post/",
+		title: "This is an example title - edit by clicking here",
+		keyword: "Choose a focus keyword",
+		meta: "Modify your meta description by editing it right here",
+		text: "Start writing your text!"
+	}
 };
 
 /**
@@ -77,9 +85,12 @@ var defaults = {
  * @constructor
  */
 YoastSEO.App = function( args ) {
+	if( !isObject( args ) ){
+		args = {};
+	}
 	defaultsDeep( args, defaults );
 
-	this.config = this.extendConfig( args );
+	this.config = args;
 	this.callbacks = this.config.callbacks;
 
 	this.i18n = this.constructI18n( this.config.translations );
