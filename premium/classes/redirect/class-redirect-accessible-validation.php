@@ -44,7 +44,7 @@ class WPSEO_Redirect_Accessible_Validation implements WPSEO_Redirect_Validation 
 		if ( $this->is_temporary( $response_code ) ) {
 			/* translators: %1$s expands to the returned http code  */
 			$this->error = new WPSEO_Validation_Warning( sprintf(
-				__( 'The url you are redirecting to returns a %1$s status. You might want to consider redirecting to another url.', 'wordpress-seo-premium' ),
+				__( 'The url you are redirecting seems to return a %1$s status. You might want to check if the target can be reached manually before saving.', 'wordpress-seo-premium' ),
 				$response_code
 			), 'target' );
 
