@@ -45,7 +45,10 @@ class WPSEO_Admin_Pages {
 		wp_enqueue_style( 'thickbox' );
 		wp_enqueue_style( 'global' );
 		wp_enqueue_style( 'wp-admin' );
-		wp_enqueue_style( 'yoast-admin-css', plugins_url( 'css/yst_plugin_tools-' . '302' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
+		// TODO minified toggle styles. R.
+		wp_register_style( 'yoast-toggle-switch-lib', plugins_url( 'css/toggle-switch/toggle-switch.css', WPSEO_FILE ), array(), '4.0.2' );
+		wp_register_style( 'yoast-toggle-switch', plugins_url( 'css/toggle-switch.css', WPSEO_FILE ), array( 'yoast-toggle-switch-lib' ), WPSEO_VERSION );
+		wp_enqueue_style( 'yoast-admin-css', plugins_url( 'css/yst_plugin_tools-' . '302' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array( 'yoast-toggle-switch' ), WPSEO_VERSION );
 
 		if ( is_rtl() ) {
 			wp_enqueue_style( 'wpseo-rtl', plugins_url( 'css/wpseo-rtl' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
