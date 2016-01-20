@@ -68,7 +68,7 @@ class WPSEO_Redirect_Accessible_Validation_Test extends WPSEO_UnitTestCase {
 		);
 
 		$this->assertEquals(
-			new WPSEO_Validation_Error( 'You\'re redirecting to a target that returns a 301 HTTP code (permanently moved). Make sure the target you specify is directly reachable.', 'target' ),
+			new WPSEO_Validation_Warning( 'You\'re redirecting to a target that returns a 301 HTTP code (permanently moved). Make sure the target you specify is directly reachable.', 'target' ),
 			$this->class_instance->get_error()
 		);
 	}
