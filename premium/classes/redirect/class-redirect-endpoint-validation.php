@@ -38,7 +38,7 @@ class WPSEO_Redirect_Endpoint_Validation implements WPSEO_Redirect_Validation {
 		if ( is_string( $endpoint ) && in_array( $endpoint, array( $origin, $target ) ) ) {
 			// There might be a redirect loop.
 			$this->error = new WPSEO_Validation_Error(
-				__( 'There might be a redirect loop.', 'wordpress-seo-premium' ),
+				__( 'The redirect you are trying to save will create a redirect loop. This means there probably already exists a redirect that points to the origin of the redirect you are trying to save', 'wordpress-seo-premium' ),
 				array( 'origin', 'target' )
 			);
 
