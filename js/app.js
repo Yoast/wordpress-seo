@@ -132,6 +132,13 @@ YoastSEO.App = function( args ) {
 	if ( !isObject( this.config.targets ) ){
 		throw new Error( "No targetElement is defined" );
 	}
+	if ( !isObject( this.config.targets.output ) ){
+		throw new Error( "no output target defined" )
+	}
+	if ( !isObject( this.config.targets.snippet ) ){
+		throw new Error( "no snippet target defined" )
+	}
+
 	//elements used for eventbinding
 	if ( !isObject( this.config.replaceTarget ) ){
 		throw new Error( "No replaceTarget is defined" );
