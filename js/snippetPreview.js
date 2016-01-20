@@ -428,6 +428,11 @@ SnippetPreview.prototype.formatMeta = function() {
 	// Cut-off the meta description according to the maximum length
 	meta = meta.substring( 0, YoastSEO.analyzerConfig.maxMeta );
 
+	// Apply modification to the desc before showing it.
+	if ( this.refObj.pluggable.loaded ) {
+		meta = this.refObj.pluggable._applyModifications( "data_meta_desc", meta );
+	}
+
 	if ( !isEmpty( this.refObj.rawData.keyword ) ) {
 		meta = this.formatKeyword( meta );
 	}
