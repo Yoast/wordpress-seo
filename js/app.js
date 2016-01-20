@@ -6,6 +6,11 @@ var defaultsDeep = require( "lodash/object/defaultsDeep" );
 var isObject = require( "lodash/lang/isObject" );
 var isElement = require( "lodash/lang/isElement" );
 
+/**
+ * Default config for YoastSEO.js
+ *
+ * @type {Object}
+ */
 var defaults = {
 	sampleText: {
 		baseUrl: "example.org/",
@@ -127,7 +132,18 @@ YoastSEO.App = function( args ) {
 	if ( !isObject( this.config.targets ) ){
 		throw new Error( "No targetElement is defined" );
 	}
+	//elements used for eventbinding
+	if ( !isObject( this.config.replaceTarget ) ){
+		throw new Error( "No replaceTarget is defined" );
+	}
+	if ( !isObject( this.config.resetTarget ) ){
+		throw new Error( "No resetTarget is defined" );
+	}
+	if ( !isObject( this.config.elementTarget ) ){
+		throw new Error( "No elementTarget is defined" );
+	}
 
+	console.log( this.constructI18n);
 	this.i18n = this.constructI18n( this.config.translations );
 	this.stringHelper = new YoastSEO.StringHelper();
 	this.pluggable = new YoastSEO.Pluggable( this );
@@ -139,21 +155,6 @@ YoastSEO.App = function( args ) {
 	this.runAnalyzer();
 };
 
-/**
- * Default config for YoastSEO.js
- *
- * @type {Object}
- */
-YoastSEO.App.defaultConfig = {
-	sampleText: {
-		baseUrl: "example.org/",
-		snippetCite: "example-post/",
-		title: "This is an example title - edit by clicking here",
-		keyword: "Choose a focus keyword",
-		meta: "Modify your meta description by editing it right here",
-		text: "Start writing your text!"
-	}
-};
 
 /**
  * Extend the config with defaults.
