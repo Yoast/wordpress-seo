@@ -80,10 +80,8 @@
 			keyword: this.getDataFromInput( 'keyword' ),
 			meta: this.getDataFromInput( 'meta' ),
 			text: this.getDataFromInput( 'text' ),
-			pageTitle: this.getDataFromInput( 'pageTitle' ),
 			title: this.getDataFromInput( 'title' ),
 			url: this.getDataFromInput( 'url' ),
-			baseUrl: this.getDataFromInput( 'baseUrl' ),
 			excerpt: this.getDataFromInput( 'excerpt' ),
 			snippetTitle: this.getDataFromInput( 'snippetTitle' ),
 			snippetMeta: this.getDataFromInput( 'snippetMeta' ),
@@ -116,9 +114,6 @@
 					val = document.getElementById( 'editable-post-name-full' ).textContent;
 				}
 				break;
-			case 'baseUrl':
-				val = wpseoPostScraperL10n.base_url;
-				break;
 			case 'meta':
 				val = document.getElementById( 'yoast_wpseo_metadesc' ) && document.getElementById( 'yoast_wpseo_metadesc' ).value || '';
 				if ( val === '' ) {
@@ -137,15 +132,6 @@
 				break;
 			case 'snippetTitle':
 				val = document.getElementById( 'yoast_wpseo_title' ) && document.getElementById( 'yoast_wpseo_title' ).value || '';
-				break;
-			case 'pageTitle':
-				val = document.getElementById( 'yoast_wpseo_title' ) && document.getElementById( 'yoast_wpseo_title' ).value || '';
-				if ( val === '' ) {
-					val = wpseoPostScraperL10n.title_template;
-				}
-				if (val === '' ) {
-					val = '%%title%% - %%sitename%%';
-				}
 				break;
 			case 'excerpt':
 				if ( document.getElementById( 'excerpt' ) !== null ) {
@@ -181,6 +167,20 @@
 			default:
 				break;
 		}
+	};
+
+	/**
+	 * The data passed from the snippet editor.
+	 *
+	 * @param {Object} data
+	 * @param {string} data.title
+	 * @param {string} data.urlPath
+	 * @param {string} data.metaDesc
+	 */
+	PostScraper.prototype.saveSnippetData = function( data ) {
+		this.setDataFromSnippet( data.title, 'snippet_title' );
+		this.setDataFromSnippet( data.urlPath, 'snippet_cite' );
+		this.setDataFromSnippet( data.metaDesc, 'snippet_meta' );
 	};
 
 	/**
@@ -283,35 +283,6 @@
 		if ( YoastSEO.app.rawData.keyword !== '' ) {
 			YoastSEO.app.runAnalyzer( this.rawData );
 		}
-	};
-
-	/**
-	 * Updates the snippet values, is bound by the loader when generating the elements for the snippet.
-	 * calls the update snippet values to save snippet in the hidden fields
-	 * calls checkTextLength to update the snippet editor fields (move too long texts)
-	 * refreshes the app to run with new data.
-	 *
-	 * @param {Object} ev
-	 */
-	PostScraper.prototype.updateSnippet = function( ev ) {
-		this.updateSnippetValues( ev );
-		YoastSEO.app.snippetPreview.checkTextLength( ev );
-		YoastSEO.app.analyzeTimer();
-	};
-
-	/**
-	 * Uses the unformattedText object of the snippetpreview if the textFeedback function has put a string there (if text was too long).
-	 * clears this after use.
-	 *
-	 * @param {Object} ev
-	 */
-	PostScraper.prototype.updateSnippetValues = function( ev ) {
-		var dataFromSnippet = ev.currentTarget.textContent;
-		var currentElement = ev.currentTarget.id;
-		if ( typeof YoastSEO.app.snippetPreview.unformattedText[ currentElement ] !== 'undefined' ) {
-			ev.currentTarget.textContent = YoastSEO.app.snippetPreview.unformattedText[ currentElement ];
-		}
-		this.setDataFromSnippet( dataFromSnippet, ev.currentTarget.id );
 	};
 
 	/**
@@ -501,8 +472,8 @@
 			callbacks: {
 				getData: postScraper.getData.bind( postScraper ),
 				bindElementEvents: postScraper.bindElementEvents.bind( postScraper ),
-				updateSnippetValues: postScraper.updateSnippet.bind( postScraper ),
-				saveScores: postScraper.saveScores.bind( postScraper )
+				saveScores: postScraper.saveScores.bind( postScraper ),
+				saveSnippetData: postScraper.saveSnippetData.bind( postScraper )
 			},
 			locale: wpseoPostScraperL10n.locale
 		};
@@ -518,6 +489,35 @@
 			delete( translations.locale_data['wordpress-seo'] );
 			YoastSEO.analyzerArgs.translations = translations;
 		}
+
+		var titlePlaceholder = '';
+		if ( titlePlaceholder === '' ) {
+			titlePlaceholder = wpseoPostScraperL10n.title_template;
+		}
+		if (titlePlaceholder === '' ) {
+			titlePlaceholder = '%%title%% - %%sitename%%';
+		}
+
+		var data = postScraper.getData();
+
+		YoastSEO.analyzerArgs.snippetPreview = new YoastSEO.SnippetPreview({
+			targetElement: document.getElementById( 'wpseosnippet' ),
+			placeholder: {
+				title:    titlePlaceholder,
+				urlPath:  ''
+			},
+			baseURL: wpseoPostScraperL10n.base_url,
+			callbacks: {
+				saveSnippetData: postScraper.saveSnippetData.bind( postScraper )
+			},
+			metaDescriptionDate: wpseoPostScraperL10n.metaDescriptionDate,
+			data: {
+				title: data.snippetTitle,
+				urlPath: data.snippetCite,
+				metaDesc: data.snippetMeta
+			}
+		});
+
 		window.YoastSEO.app = new YoastSEO.App( YoastSEO.analyzerArgs );
 		jQuery( window).trigger( 'YoastSEO:ready' );
 

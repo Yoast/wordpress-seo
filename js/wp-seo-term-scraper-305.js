@@ -119,6 +119,20 @@
 	};
 
 	/**
+	 * The data passed from the snippet editor.
+	 *
+	 * @param {Object} data
+	 * @param {string} data.title
+	 * @param {string} data.urlPath
+	 * @param {string} data.metaDesc
+	 */
+	TermScraper.prototype.saveSnippetData = function( data ) {
+		this.setDataFromSnippet( data.title, 'snippet_title' );
+		this.setDataFromSnippet( data.urlPath, 'snippet_cite' );
+		this.setDataFromSnippet( data.metaDesc, 'snippet_meta' );
+	};
+
+	/**
 	 * binds elements
 	 */
 	TermScraper.prototype.bindElementEvents = function( app ) {
@@ -275,35 +289,6 @@
 	};
 
 	/**
-	 * Updates the snippet values, is bound by the loader when generating the elements for the snippet.
-	 * calls the update snippet values to save snippet in the hidden fields
-	 * calls checkTextLength to update the snippet editor fields (move too long texts)
-	 * refreshes the app to run with new data.
-	 *
-	 * @param {Object} ev
-	 */
-	TermScraper.prototype.updateSnippet = function( ev ) {
-		this.updateSnippetValues( ev );
-		YoastSEO.app.snippetPreview.checkTextLength( ev );
-		YoastSEO.app.analyzeTimer();
-	};
-
-	/**
-	 * Uses the unformattedText object of the snippetpreview if the textFeedback function has put a string there (if text was too long).
-	 * clears this after use.
-	 *
-	 * @param {Object} ev
-	 */
-	TermScraper.prototype.updateSnippetValues = function( ev ) {
-		var dataFromSnippet = ev.currentTarget.textContent;
-		var currentElement = ev.currentTarget.id;
-		if ( typeof YoastSEO.app.snippetPreview.unformattedText[ currentElement ] !== 'undefined' ) {
-			ev.currentTarget.textContent = YoastSEO.app.snippetPreview.unformattedText[ currentElement ];
-		}
-		this.setDataFromSnippet( dataFromSnippet, ev.currentTarget.id );
-	};
-
-	/**
 	 * add new descriptionfield to content, creates new element via wp_editor and appends this to the term-description-wrap
 	 * this way we can use the wp tinyMCE editor on the descriptionfield.
 	 */
@@ -374,8 +359,8 @@
 			callbacks: {
 				getData: termScraper.getData.bind( termScraper ),
 				bindElementEvents: termScraper.bindElementEvents.bind( termScraper ),
-				updateSnippetValues: termScraper.updateSnippet.bind( termScraper ),
-				saveScores: termScraper.saveScores.bind( termScraper )
+				saveScores: termScraper.saveScores.bind( termScraper ),
+				saveSnippetData: termScraper.saveSnippetData.bind( termScraper )
 			},
 			locale: wpseoTermScraperL10n.locale
 		};

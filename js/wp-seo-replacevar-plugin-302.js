@@ -52,9 +52,6 @@
 	 */
 	YoastReplaceVarPlugin.prototype.titleReplace = function( data ) {
 		var title = YoastSEO.app.rawData.title;
-		if ( typeof title === 'undefined' ) {
-			title = YoastSEO.app.rawData.pageTitle;
-		}
 
 		data = data.replace( /%%title%%/g, title );
 
