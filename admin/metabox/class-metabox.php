@@ -873,7 +873,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'currentyear',
 		);
 
-		$custom_taxonomies =  get_taxonomies( array( '_builtin' => false ) );
+		$custom_taxonomies = get_taxonomies( array( '_builtin' => false ) );
 		foreach ( $custom_taxonomies as $custom_taxonomy ) {
 			$vars_to_cache[] = 'ct_' . $custom_taxonomy;
 		}
