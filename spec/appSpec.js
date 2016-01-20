@@ -16,7 +16,7 @@ describe( "Creating an app without any arguments", function(){
 	} )
 } );
 
-var args = {
+var argsCallbacks = {
 	callbacks: {
 		getData: function(){ return {} },
 		bindElementEvents: function(){},
@@ -27,6 +27,32 @@ var args = {
 
 describe( "Creating an app with only callbacks", function() {
 	it( "throws error for missing targets", function(){
-		expect( function(){ YoastSEO.App( args ) } ).toThrow( new Error( "No targetElement is defined" ) );
+		expect( function(){ YoastSEO.App( argsCallbacks ) } ).toThrow( new Error( "No targetElement is defined" ) );
+	} )
+} );
+
+// Makes lodash think this is a valid HTML element
+var mockElement = [];
+mockElement.nodeType = 1;
+
+var mockSnippet = [];
+mockSnippet.nodeType = 1;
+
+var argsCallbacksElements = {
+	callbacks: {
+		getData: function(){ return {} },
+		bindElementEvents: function(){},
+		updateSnippetValues: function(){},
+		saveScores: function(){}
+	},targets: {
+		output: mockElement,
+		snippet: mockSnippet
+	}
+};
+
+describe( "Creating an app with callbacks and elements", function(){
+	it( "throws error", function(){
+		var app = new YoastSEO.App( argsCallbacksElements );
+		//expect( function(){ YoastSEO.App( argsCallbacksElements ) } ).toThrow( new Error( "error" ) );
 	} )
 } );
