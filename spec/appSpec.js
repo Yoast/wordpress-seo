@@ -50,6 +50,15 @@ var argsCallbacksElements = {
 	}
 };
 
+var HTMLElements = {};
+document.getElementById = jasmine.createSpy('HTML Element').andCallFake(function(ID) {
+	if(!HTMLElements[ID]) {
+		var newElement = document.createElement('div');
+		HTMLElements[ID] = newElement;
+	}
+	return HTMLElements[ID];
+});
+
 describe( "Creating an app with callbacks and elements", function(){
 	it( "throws error", function(){
 		var app = new YoastSEO.App( argsCallbacksElements );
