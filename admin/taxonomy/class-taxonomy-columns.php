@@ -30,6 +30,10 @@ class WPSEO_Taxonomy_Columns {
 	 */
 	public function add_columns( array $columns ) {
 
+		if ( $this->is_metabox_hidden() === true ) {
+			return $columns;
+		}
+
 		$new_columns = array();
 
 		foreach ( $columns as $column_name => $column_value ) {
@@ -46,9 +50,9 @@ class WPSEO_Taxonomy_Columns {
 	/**
 	 * Parses the column.
 	 *
-	 * @param string  $content		The current content of the column.
-	 * @param string  $column_name  The name of the column.
-	 * @param integer $term_id      ID of requested taxonomy.
+	 * @param string  $content The current content of the column.
+	 * @param string  $column_name The name of the column.
+	 * @param integer $term_id ID of requested taxonomy.
 	 *
 	 * @return string
 	 */
@@ -114,7 +118,7 @@ class WPSEO_Taxonomy_Columns {
 	/**
 	 * Creates an icon by the given values.
 	 *
-	 * @param WPSEO_Rank $rank  The ranking object.
+	 * @param WPSEO_Rank $rank The ranking object.
 	 * @param string     $title The title to show.
 	 *
 	 * @return string
@@ -166,6 +170,48 @@ class WPSEO_Taxonomy_Columns {
 		}
 
 		return $term->name;
+	}
+
+	/**
+	 * Checks if a taxonomy is being added via a POST method. If not, it defaults to a GET request.
+	 *
+	 * @return int
+	 */
+	private function get_taxonomy_input_type() {
+		$request_type = filter_input( INPUT_SERVER, 'REQUEST_METHOD' );
+
+		if ( $request_type === 'POST' ) {
+			return INPUT_POST;
+		}
+
+		return INPUT_GET;
+	}
+
+	/**
+	 * Test whether the metabox should be hidden either by choice of the admin
+	 *
+	 * @since 3.1
+	 *
+	 * @param  string $taxonomy (optional) The post type to test, defaults to the current post post_type.
+	 *
+	 * @return  bool        Whether or not the meta box (and associated columns etc) should be hidden
+	 */
+	private function is_metabox_hidden( $taxonomy = null ) {
+		$get_taxonomy_type = filter_input( $this->get_taxonomy_input_type(), 'taxonomy' );
+
+		if ( ! isset( $taxonomy ) && $get_taxonomy_type ) {
+			$taxonomy = sanitize_text_field( $get_taxonomy_type );
+		}
+
+		if ( isset( $taxonomy ) ) {
+			// Don't make static as taxonomies may still be added during the run.
+			$cpts    = get_taxonomies( array( 'public' => true ), 'names' );
+			$options = get_option( 'wpseo_titles' );
+
+			return ( ( isset( $options[ 'hideeditbox-tax-' . $taxonomy ] ) && $options[ 'hideeditbox-tax-' . $taxonomy ] === true ) || in_array( $taxonomy, $cpts ) === false );
+		}
+
+		return false;
 	}
 
 }
