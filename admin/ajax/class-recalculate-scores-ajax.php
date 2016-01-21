@@ -85,7 +85,7 @@ class WPSEO_Recalculate_Scores_Ajax {
 			array(
 				'post_type'      => 'any',
 				'meta_key'       => '_yoast_wpseo_focuskw',
-				'posts_per_page' => -1
+				'posts_per_page' => -1,
 			)
 		);
 
