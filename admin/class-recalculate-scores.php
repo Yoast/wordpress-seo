@@ -11,11 +11,6 @@
 class WPSEO_Recalculate_Scores {
 
 	/**
-	 * @var array The totals for the terms and posts
-	 */
-	private $recalculate_totals = array();
-
-	/**
 	 * Constructing the object by modalbox, the localization and the totals.
 	 */
 	public function __construct() {
@@ -26,8 +21,6 @@ class WPSEO_Recalculate_Scores {
 	 * Initialize the recalculate class by setting the needed values.
 	 */
 	public function init() {
-		$this->recalculate_totals = $this->get_totals();
-
 		add_action( 'admin_enqueue_scripts', array( $this, 'recalculate_assets' ) );
 
 		// Loading the modal box.
@@ -43,51 +36,6 @@ class WPSEO_Recalculate_Scores {
 			'jquery-ui-core',
 			'jquery-ui-progressbar',
 		), WPSEO_VERSION, true );
-		wp_localize_script( 'wpseo-recalculate-script', 'wpseoRecalculateL10n', $this->recalculate_totals );
-	}
-
-	/**
-	 * Gets the totals for the posts and terms.
-	 *
-	 * @return array
-	 */
-	private function get_totals() {
-		return array(
-			'posts' => $this->calculate_posts(),
-			'terms' => $this->calculate_terms(),
-		);
-	}
-
-	/**
-	 * Gets the total number of posts
-	 *
-	 * @return int
-	 */
-	private function calculate_posts() {
-		$count_posts_query = new WP_Query(
-			array(
-				'post_type'      => 'any',
-				'meta_key'       => '_yoast_wpseo_focuskw',
-				'posts_per_page' => -1,
-				'fields'		 => 'ids',
-			)
-		);
-
-		return $count_posts_query->found_posts;
-	}
-
-	/**
-	 * Get the total number of terms
-	 *
-	 * @return int
-	 */
-	private function calculate_terms() {
-		$total = 0;
-		foreach ( get_taxonomies( array(), 'objects' ) as $taxonomy ) {
-			$total += wp_count_terms( $taxonomy->name );
-		}
-
-		return $total;
 	}
 
 	/**
@@ -101,7 +49,7 @@ class WPSEO_Recalculate_Scores {
 			/* translators: 1: expands to a <span> containing the number of posts recalculated. 2: expands to a <strong> containing the total number of posts. */
 			__( '%1$s of %2$s done.', 'wordpress-seo' ),
 			'<span id="wpseo_count">0</span>',
-			'<strong id="wpseo_count_total">' . ( $this->recalculate_totals['posts'] + $this->recalculate_totals['terms'] ) . '</strong>'
+			'<strong id="wpseo_count_total">0</strong>'
 		);
 
 		?>
