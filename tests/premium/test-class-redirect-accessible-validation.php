@@ -131,7 +131,7 @@ class WPSEO_Redirect_Accessible_Validation_Test extends WPSEO_UnitTestCase {
 		);
 
 		$this->assertEquals(
-			new WPSEO_Validation_Warning( 'The url you are redirecting to returns a 302 status. You might want to consider redirecting to another url.', 'target' ),
+			new WPSEO_Validation_Warning( 'The url you are redirecting seems to return a 302 status. You might want to check if the target can be reached manually before saving.', 'target' ),
 			$this->class_instance->get_error()
 		);
 	}
@@ -158,7 +158,7 @@ class WPSEO_Redirect_Accessible_Validation_Test extends WPSEO_UnitTestCase {
 		);
 
 		$this->assertEquals(
-			new WPSEO_Validation_Warning( 'The url you are redirecting to returns a 404 status. You might want to consider redirecting to another url.', 'target' ),
+			new WPSEO_Validation_Warning( 'The url you are redirecting seems to return a 404 status. You might want to check if the target can be reached manually before saving.', 'target' ),
 			$this->class_instance->get_error()
 		);
 	}
