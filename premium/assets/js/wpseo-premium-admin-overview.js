@@ -98,7 +98,7 @@ function wpseo_create_redirect( origin, type, nonce, id ) {
 			// Set class to updated and replace html with the success message
 			jQuery(notice)
 				.addClass( 'updated' )
-				.html( '<p>' + success_message + '</p>'  );
+				.html( '<p>' + success_message + '</p>' );
 		},
 		'json'
 	);
