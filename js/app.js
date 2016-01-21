@@ -4,7 +4,6 @@ YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 
 var defaultsDeep = require( "lodash/object/defaultsDeep" );
 var isObject = require( "lodash/lang/isObject" );
-var isElement = require( "lodash/lang/isElement" );
 
 /**
  * Default config for YoastSEO.js
@@ -12,6 +11,11 @@ var isElement = require( "lodash/lang/isElement" );
  * @type {Object}
  */
 var defaults = {
+	callbacks: {
+		bindElementEvents: function(){},
+		updateSnippetValues: function(){},
+		saveScores: function(){}
+	},
 	sampleText: {
 		baseUrl: "example.org/",
 		snippetCite: "example-post/",
@@ -46,7 +50,10 @@ var defaults = {
 				"": {}
 			}
 		}
-	}
+	},
+	replaceTarget: [],
+	resetTarget: [],
+	elementTarget: []
 };
 
 /**
@@ -126,31 +133,19 @@ YoastSEO.App = function( args ) {
 	this.config = args;
 	this.callbacks = this.config.callbacks;
 
-	if ( !isObject( this.callbacks ) ) {
-		throw new Error( "The app requires an object with callbacks" );
+	if ( !isObject( this.callbacks.getData ) ) {
+		throw new Error( "The app requires an object with a getdata callback." );
 	}
 	if ( !isObject( this.config.targets ) ){
-		throw new Error( "No targetElement is defined" );
+		throw new Error( "No targetElement is defined." );
 	}
 	if ( !isObject( this.config.targets.output ) ){
-		throw new Error( "no output target defined" )
+		throw new Error( "No output target defined." );
 	}
 	if ( !isObject( this.config.targets.snippet ) ){
-		throw new Error( "no snippet target defined" )
+		throw new Error( "No snippet target defined." );
 	}
 
-	//elements used for eventbinding
-	if ( !isObject( this.config.replaceTarget ) ){
-		throw new Error( "No replaceTarget is defined" );
-	}
-	if ( !isObject( this.config.resetTarget ) ){
-		throw new Error( "No resetTarget is defined" );
-	}
-	if ( !isObject( this.config.elementTarget ) ){
-		throw new Error( "No elementTarget is defined" );
-	}
-
-	console.log( this.constructI18n);
 	this.i18n = this.constructI18n( this.config.translations );
 	this.stringHelper = new YoastSEO.StringHelper();
 	this.pluggable = new YoastSEO.Pluggable( this );

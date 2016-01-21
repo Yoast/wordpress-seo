@@ -19,7 +19,7 @@ mockSnippet.nodeType = 1;
 
 describe( "Creating an app without any arguments", function(){
 	it( "throws error for missing callbacks object", function(){
-		expect( function(){ YoastSEO.App() } ).toThrow( new Error( "The app requires an object with callbacks" ) );
+		expect( function(){ YoastSEO.App() } ).toThrow( new Error( "The app requires an object with a getdata callback." ) );
 	} )
 } );
 
@@ -34,7 +34,7 @@ var argsCallbacks = {
 
 describe( "Creating an app with only callbacks", function() {
 	it( "throws error for missing targets", function(){
-		expect( function(){ YoastSEO.App( argsCallbacks ) } ).toThrow( new Error( "No targetElement is defined" ) );
+		expect( function(){ YoastSEO.App( argsCallbacks ) } ).toThrow( new Error( "No targetElement is defined." ) );
 	} )
 } );
 
@@ -49,7 +49,7 @@ var argsTargetsNoOutput = {
 
 describe( "Creating an app with only callbacks", function() {
 	it( "throws error for missing targets", function(){
-		expect( function(){ YoastSEO.App( argsTargetsNoOutput ) } ).toThrow( new Error( "no output target defined" ) );
+		expect( function(){ YoastSEO.App( argsTargetsNoOutput ) } ).toThrow( new Error( "No output target defined." ) );
 	} )
 } );
 
@@ -64,64 +64,7 @@ var argsTargetsNoSnippet = {
 
 describe( "Creating an app with only callbacks", function() {
 	it( "throws error for missing targets", function(){
-		expect( function(){ YoastSEO.App( argsTargetsNoSnippet ) } ).toThrow( new Error( "no snippet target defined" ) );
-	} )
-} );
-
-var argsCallbacksElements = {
-	callbacks: {
-		getData: function(){ return {} },
-		bindElementEvents: function(){},
-		updateSnippetValues: function(){},
-		saveScores: function(){}
-	},targets: {
-		output: mockElement,
-		snippet: mockSnippet
-	}
-};
-
-describe( "Creating an app with callbacks and elements", function(){
-	it( "throws no replacetarget error", function(){
-		expect( function(){ YoastSEO.App( argsCallbacksElements ) } ).toThrow( new Error( "No replaceTarget is defined" ) );
-	} )
-} );
-
-var argsReplaceTarget = {
-	callbacks: {
-		getData: function(){ return {} },
-		bindElementEvents: function(){},
-		updateSnippetValues: function(){},
-		saveScores: function(){}
-	},targets: {
-		output: mockElement,
-		snippet: mockSnippet
-	},
-	replaceTarget: ["content"]
-};
-
-describe( "Creating an app with callbacks and elements", function(){
-	it( "throws no replacetarget error", function(){
-		expect( function(){ YoastSEO.App( argsReplaceTarget ) } ).toThrow( new Error( "No resetTarget is defined" ) );
-	} )
-} );
-
-var argsResetTarget = {
-	callbacks: {
-		getData: function(){ return {} },
-		bindElementEvents: function(){},
-		updateSnippetValues: function(){},
-		saveScores: function(){}
-	},targets: {
-		output: mockElement,
-		snippet: mockSnippet
-	},
-	replaceTarget: [ "content" ],
-	resetTarget: [ "content" ]
-};
-
-describe( "Creating an app with callbacks and elements", function(){
-	it( "throws no replacetarget error", function(){
-		expect( function(){ YoastSEO.App( argsResetTarget ) } ).toThrow( new Error( "No elementTarget is defined" ) );
+		expect( function(){ YoastSEO.App( argsTargetsNoSnippet ) } ).toThrow( new Error( "No snippet target defined." ) );
 	} )
 } );
 
@@ -139,6 +82,12 @@ var argsElementTarget = {
 	resetTarget: [ "content" ],
 	elementTarget: [ "content" ]
 };
+
+
+YoastSEO.App.prototype.createSnippetPreview = function(){};
+YoastSEO.App.prototype.showLoadingDialog = function(){};
+YoastSEO.App.prototype.updateLoadingDialog = function(){};
+YoastSEO.App.prototype.removeLoadingDialog = function(){};
 
 describe( "Creating an app with callbacks and elements", function(){
 	it( "throws no replacetarget error", function(){
