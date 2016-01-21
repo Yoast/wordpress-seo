@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: seo, SEO, Yoast SEO, google, meta, meta description, search engine optimization, xml sitemap, xml sitemaps, google sitemap, sitemap, sitemaps, robots meta, rss, rss footer, yahoo, bing, news sitemaps, XML News Sitemaps, WordPress SEO, WordPress SEO by Yoast, yoast, multisite, canonical, nofollow, noindex, keywords, meta keywords, description, webmaster tools, google webmaster tools, seo pack
 Requires at least: 4.0
 Tested up to: 4.4
-Stable tag: 3.0.4
+Stable tag: 3.0.7
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using Yoast SEO plugin.
 
@@ -119,6 +119,35 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 7. The advanced section of the Yoast SEO meta box.
 
 == Changelog ==
+
+= 3.0.7 =
+
+Release Date: December 23rd, 2015
+
+* Enhancements:
+	* Removes email notifications for OnPage.org indexability check. It caused more issues than it solved.
+	* Adds several UX improvements to the snippet editor, making it more clear it is editable.
+
+= 3.0.6 =
+
+Release Date: December 1st, 2015
+
+* Bugfixes:
+	* Fixes the recalculate tool that was broken with the Localized Flesch Reading ease change...
+
+= 3.0.5 =
+
+Release Date: December 1st, 2015
+
+* Enhancements:
+	* Made it possible to opt out from the OnPage.org indexability check.
+	* Contains a few small performance enhancements in the Content Analysis.
+	* Only includes Flesch Reading ease test when site language is set to English, since it doesn't really add value in other languages yet.
+
+* Bugfixes:
+	* Fixes a lot of issues with dismissible notices. Thanks [Craig Pearson](https://github.com/craigpearson) for writing the patch!
+	* Fixes several issues with keyword recognition for keywords which contain punctuation.
+	* Fixes an issue where keywords containing diacritics were not recognized in alt tags.
 
 = 3.0.4 =
 

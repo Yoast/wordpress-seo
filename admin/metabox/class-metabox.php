@@ -32,7 +32,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		add_action( 'admin_init', array( $this, 'translate_meta_boxes' ) );
 		add_action( 'admin_footer', array( $this, 'template_keyword_tab' ) );
 
-		$this->options = WPSEO_Options::get_all();
+		$this->options = WPSEO_Options::get_option( 'wpseo_social' );
 
 		// Check if on of the social settings is checked in the options, if so, initialize the social_admin object.
 		if ( $this->options['opengraph'] === true || $this->options['twitter'] === true || $this->options['googleplus'] === true ) {
@@ -212,14 +212,16 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$translations = $this->get_scraper_translations();
 
 		return array(
-			'translations'      => $translations,
-			'keyword_usage'     => $this->get_focus_keyword_usage(),
-			'search_url'        => admin_url( 'edit.php?seo_kw_filter={keyword}' ),
-			'post_edit_url'     => admin_url( 'post.php?post={id}&action=edit' ),
-			'base_url'          => $this->get_base_url_for_js(),
-			'title_template'    => WPSEO_Metabox::get_title_template( $post ),
-			'metadesc_template' => WPSEO_Metabox::get_metadesc_template( $post ),
-			'contentTab'    => __( 'Content:' , 'wordpress-seo' ),
+			'translations'        => $translations,
+			'keyword_usage'       => $this->get_focus_keyword_usage(),
+			'search_url'          => admin_url( 'edit.php?seo_kw_filter={keyword}' ),
+			'post_edit_url'       => admin_url( 'post.php?post={id}&action=edit' ),
+			'base_url'            => $this->get_base_url_for_js(),
+			'title_template'      => WPSEO_Metabox::get_title_template( $post ),
+			'metadesc_template'   => WPSEO_Metabox::get_metadesc_template( $post ),
+			'contentTab'          => __( 'Content:' , 'wordpress-seo' ),
+			'metaDescriptionDate' => $this->get_metadesc_date( $post ),
+			'locale'              => get_locale(),
 		);
 	}
 
@@ -287,6 +289,23 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			}
 		}
 		return $metadesc_template;
+	}
+
+	/**
+	 * Determines the date to be displayed in the snippet preview
+	 *
+	 * @param WP_Post $post The metabox post.
+	 *
+	 * @return string
+	 */
+	public function get_metadesc_date( $post ) {
+		$date = '';
+
+		if ( is_a( $post, 'WP_Post' ) && $this->is_show_date_enabled( $post ) ) {
+			$date = date_i18n( 'M j, Y', mysql2date( 'U', $post->post_date ) );
+		}
+
+		return $date;
 	}
 
 	/**
@@ -712,8 +731,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 			wp_enqueue_style( 'wp-seo-metabox', plugins_url( 'css/metabox-' . '302' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
 			wp_enqueue_style( 'wp-seo-scoring', plugins_url( 'css/yst_seo_score-' . '302' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
-			wp_enqueue_style( 'wp-seo-snippet', plugins_url( 'css/snippet-' . '302' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
-			wp_enqueue_style( 'yoast-seo', plugins_url( 'css/dist/yoast-seo/yoast-seo-' . '302' . '.min.css', WPSEO_FILE ), array(), WPSEO_VERSION );
+			wp_enqueue_style( 'wp-seo-snippet', plugins_url( 'css/snippet-' . '307' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
+			wp_enqueue_style( 'yoast-seo', plugins_url( 'css/dist/yoast-seo/yoast-seo-' . '307' . '.min.css', WPSEO_FILE ), array(), WPSEO_VERSION );
 			wp_enqueue_style( 'jquery-qtip', plugins_url( 'css/jquery.qtip' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), '2.2.1' );
 
 			wp_enqueue_script( 'wp-seo-metabox', plugins_url( 'js/wp-seo-metabox-' . '302' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array(
@@ -726,10 +745,10 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				'jquery-ui-core',
 			), WPSEO_VERSION, true );
 
-			wp_enqueue_script( 'yoast-seo', plugins_url( 'js/dist/yoast-seo/yoast-seo-' . '302' . '.min.js', WPSEO_FILE ), null, WPSEO_VERSION, true );
-			wp_enqueue_script( 'wp-seo-post-scraper', plugins_url( 'js/wp-seo-post-scraper-' . '302' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'yoast-seo' ), WPSEO_VERSION, true );
+			wp_enqueue_script( 'yoast-seo', plugins_url( 'js/dist/yoast-seo/yoast-seo-' . '307' . '.min.js', WPSEO_FILE ), null, WPSEO_VERSION, true );
+			wp_enqueue_script( 'wp-seo-post-scraper', plugins_url( 'js/wp-seo-post-scraper-' . '305' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'yoast-seo' ), WPSEO_VERSION, true );
 			wp_enqueue_script( 'wp-seo-replacevar-plugin', plugins_url( 'js/wp-seo-replacevar-plugin-' . '302' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'yoast-seo', 'wp-seo-post-scraper' ), WPSEO_VERSION, true );
-			wp_enqueue_script( 'wp-seo-shortcode-plugin', plugins_url( 'js/wp-seo-shortcode-plugin-' . '302' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'yoast-seo', 'wp-seo-post-scraper' ), WPSEO_VERSION, true );
+			wp_enqueue_script( 'wp-seo-shortcode-plugin', plugins_url( 'js/wp-seo-shortcode-plugin-' . '305' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'yoast-seo', 'wp-seo-post-scraper' ), WPSEO_VERSION, true );
 			wp_enqueue_script( 'jquery-ui-autocomplete' );
 			wp_enqueue_script( 'jquery-qtip', plugins_url( 'js/jquery.qtip.min.js', WPSEO_FILE ), array( 'jquery' ), '2.2.1', true );
 
@@ -948,6 +967,21 @@ SVG;
 			return json_decode( $file, true );
 		}
 		return array();
+	}
+
+	/**
+	 * Returns whether or not showing the date in the snippet preview is enabled.
+	 *
+	 * @param WP_Post $post The post to retrieve this for.
+	 * @return bool
+	 */
+	private static function is_show_date_enabled( $post ) {
+		$post_type = $post->post_type;
+
+		$options = WPSEO_Options::get_option( 'wpseo_titles' );
+		$key = sprintf( 'showdate-%s', $post_type );
+
+		return isset( $options[ $key ] ) && true === $options[ $key ];
 	}
 
 	/********************** DEPRECATED METHODS **********************/

@@ -33,7 +33,7 @@ class WPSEO_Redirect_Endpoint_Validation_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Validate if the end point result in a redirectloop. In this case there won't be a loop.
+	 * Validate if the end point is in a redirect loop. In this case there won't be a loop.
 	 *
 	 * @covers WPSEO_Redirect_Endpoint_Validation::run
 	 */
@@ -48,7 +48,7 @@ class WPSEO_Redirect_Endpoint_Validation_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Validate if the end point result in a redirect loop. In this case the redirect is a 410.
+	 * Validate if the end point is in a redirect loop. In this case the redirect is a 410.
 	 *
 	 * @covers WPSEO_Redirect_Endpoint_Validation::run
 	 */
@@ -63,7 +63,22 @@ class WPSEO_Redirect_Endpoint_Validation_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Validate if the end point result in a redirect loop
+	 * Validate if the end point is in a redirect loop. In this case the redirect is a 451.
+	 *
+	 * @covers WPSEO_Redirect_Endpoint_Validation::run
+	 */
+	public function test_validate_end_point_451( ) {
+		$this->assertTrue(
+			$this->class_instance->run(
+				new WPSEO_Redirect( 'end_url', '', 451 ),
+				new WPSEO_Redirect( 'end_url', '', 451 ),
+				$this->redirects
+			)
+		);
+	}
+
+	/**
+	 * Validate if the end point is in a redirect loop
 	 *
 	 * @covers WPSEO_Redirect_Endpoint_Validation::run
 	 * @covers WPSEO_Redirect_Endpoint_Validation::get_error
@@ -77,7 +92,7 @@ class WPSEO_Redirect_Endpoint_Validation_Test extends WPSEO_UnitTestCase {
 			)
 		);
 		$this->assertEquals(
-			new WPSEO_Validation_Error( 'There might be a redirect loop.' ),
+			new WPSEO_Validation_Error( 'There might be a redirect loop.', array( 'origin', 'target' ) ),
 			$this->class_instance->get_error()
 		);
 	}
@@ -97,7 +112,7 @@ class WPSEO_Redirect_Endpoint_Validation_Test extends WPSEO_UnitTestCase {
 			)
 		);
 		$this->assertEquals(
-			new WPSEO_Validation_Warning( "my_old_url will be redirected to new_url. Maybe it's worth considering to create a direct redirect to new_url." ),
+			new WPSEO_Validation_Warning( "my_old_url will be redirected to new_url. Maybe it's worth considering to create a direct redirect to new_url.", 'target' ),
 			$this->class_instance->get_error()
 		);
 	}

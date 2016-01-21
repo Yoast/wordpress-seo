@@ -8,9 +8,9 @@
 'use strict';
 
 ( function($) {
-	var REDIRECT = {
-		DELETED: 410
-	};
+	var ALLOW_EMPTY_TARGET = [
+		410, 451
+	];
 
 	var TABLE_COLUMNS = {
 		ORIGIN: 1,
@@ -78,6 +78,41 @@
 	};
 
 	/**
+	 * Removing the row errors
+	 */
+	RedirectForm.prototype.removeRowHighlights = function() {
+		this.form.find( '.redirect_form_row').removeClass('field_error');
+	};
+
+	/**
+	 * Higlighting the row errors.
+	 *
+	 * @param {array} fields_to_highlight
+	 */
+	RedirectForm.prototype.highLightRowErrors = function(fields_to_highlight) {
+		for( var i = 0; i < fields_to_highlight.length; i++) {
+			switch(fields_to_highlight[ i ] ) {
+				case 'origin':
+					this.highlightRow( this.getOriginField() );
+					break;
+				case 'target':
+					this.highlightRow( this.getTargetField() );
+					break;
+				case 'type':
+					this.highlightRow( this.getTypeField() );
+					break;
+			}
+		}
+	};
+
+	/**
+	 * Highlights the closest row with an error class.
+	 */
+	RedirectForm.prototype.highlightRow = function( errorField ) {
+		jQuery( errorField ).closest( 'div.redirect_form_row' ).addClass( 'field_error' );
+	};
+
+	/**
 	 * Clientside validator for the redirect
 	 *
 	 * @param {RedirectForm} form
@@ -96,6 +131,8 @@
 	 */
 	ValidateRedirect.prototype.validate = function() {
 		this.form.clearErrorMessage();
+
+		this.form.removeRowHighlights();
 
 		if( this.runValidation( this.form.getOriginField(), this.form.getTargetField(), this.form.getTypeField() ) === false ) {
 			this.addValidationError( this.validation_error );
@@ -117,6 +154,8 @@
 	ValidateRedirect.prototype.runValidation = function( originField, targetField, typeField ) {
 		// Check old URL.
 		if ( '' === originField.val() ) {
+			this.form.highlightRow( originField );
+
 			if ( 'plain' === this.type ) {
 				return this.setError( wpseo_premium_strings.error_old_url );
 			}
@@ -125,20 +164,23 @@
 		}
 
 		// Only when the redirect type is not deleted.
-		if( REDIRECT.DELETED !== parseInt( typeField.val(), 10 ) ) {
+		if(  jQuery.inArray( parseInt( typeField.val(), 10 ), ALLOW_EMPTY_TARGET ) === -1 ) {
 			// Check new URL
 			if ( '' === targetField.val() ) {
+				this.form.highlightRow( targetField );
 				return this.setError( wpseo_premium_strings.error_new_url );
 			}
 
 			// Check if both fields aren't the same.
 			if ( targetField.val() === originField.val() ) {
+				this.form.highlightRow( targetField );
 				return this.setError( wpseo_premium_strings.error_circular );
 			}
 		}
 
 		// Check the redirect type
 		if ( '' === typeField.val() ) {
+			this.form.highlightRow( typeField );
 			return this.setError( wpseo_premium_strings.error_new_type );
 		}
 
@@ -160,9 +202,14 @@
 	 * Adding the validation error
 	 *
 	 * @param {string} error
+	 * @param {object} fields
 	 */
-	ValidateRedirect.prototype.addValidationError = function( error ) {
+	ValidateRedirect.prototype.addValidationError = function( error, fields ) {
 		this.form.setErrorMessage( error );
+
+		if( fields !== undefined) {
+			this.form.highLightRowErrors(fields);
+		}
 	};
 
 	/**
@@ -177,8 +224,8 @@
 			type: this.form.getTypeField().val().toString()
 		};
 
-		// When the redirect type is deleted, the target can be emptied
-		if ( parseInt( values.type, 10 ) === REDIRECT.DELETED ) {
+		// When the redirect type is deleted or unavailable, the target can be emptied
+		if ( jQuery.inArray( parseInt( values.type, 10 ), ALLOW_EMPTY_TARGET ) > -1 ) {
 			values.target = '';
 		}
 
@@ -259,12 +306,20 @@
 
 		var last_action;
 
+		/**
+		 * Resets the ignore and last_action.
+		 */
+		var reset_ignore = function() {
+			ignore      = false;
+			last_action = null;
+		};
+
 		this.get_buttons = function( type ) {
 			if ( type === 'default' ) {
 				return [
 					{
-						text : wpseo_premium_strings.button_ok,
-						click: function () {
+						text: wpseo_premium_strings.button_ok,
+						click: function() {
 							$(this).dialog('close');
 						}
 					}
@@ -273,24 +328,24 @@
 
 			return [
 				{
-					text : wpseo_premium_strings.button_cancel,
-					click: function () {
+					text: wpseo_premium_strings.button_cancel,
+					click: function() {
+						reset_ignore();
 						$(this).dialog('close');
 					}
 				},
 				{
-					text : wpseo_premium_strings.button_save,
+					text: wpseo_premium_strings.button_save_anyway,
 					'class': 'button-primary',
-					click: function () {
+					click: function() {
 						ignore = true;
 
 						// The value of last action will be the button pressed to save the redirect.
-						$( last_action ).click();
+						last_action();
 
 						$(this).dialog('close');
 
-						last_action = null;
-						ignore      = false;
+						reset_ignore();
 					}
 				}
 			];
@@ -320,7 +375,6 @@
 		 * @param {string} type
 		 */
 		this.dialog = function( title, text, type ) {
-
 			if ( type === undefined || type === 'error' ) {
 				type = 'default';
 			}
@@ -330,13 +384,14 @@
 			$('#YoastRedirectDialogText').html( text );
 			$('#YoastRedirectDialog').dialog(
 				{
-					title : title,
+					title: title,
 					width: 500,
 					draggable: false,
 					resizable: false,
 					position: {
-						at: 'center top+10%',
-						my: 'center top+10%'
+						at: 'center center',
+						my: 'center center',
+						of: window
 					},
 					buttons: buttons
 				}
@@ -398,7 +453,10 @@
 		this.create_redirect_row = function( old_url, new_url, redirect_type ) {
 			var tr = $( '<tr>' ).append(
 				$( '<th>' ).addClass( 'check-column' ).attr( 'role', 'row' ).append(
-					$( '<input>' ).attr( 'type', 'checkbox' ).val( old_url )
+					$( '<input>' )
+						.attr( 'name', 'wpseo_redirects_bulk_delete[]' )
+						.attr( 'type', 'checkbox' )
+						.val( old_url )
 				)
 			).append(
 				$( '<td>' ).append(
@@ -425,6 +483,20 @@
 			);
 
 			return tr;
+		};
+
+		/**
+		 * Handles the error.
+		 *
+		 * @param {ValidateRedirect} validateRedirect
+		 * @param {array} error
+		 */
+		this.handleError = function( validateRedirect, error ) {
+			validateRedirect.addValidationError(error.message, error.fields);
+
+			if (error.type === 'warning') {
+				that.dialog(wpseo_premium_strings.error_saving_redirect, error.message, error.type);
+			}
 		};
 
 		/**
@@ -456,7 +528,7 @@
 				},
 				function( response ) {
 					if (response.error) {
-						validateRedirect.addValidationError( response.error );
+						that.handleError( validateRedirect, response.error );
 
 						return true;
 					}
@@ -519,7 +591,7 @@
 				},
 				function( response ) {
 					if (response.error) {
-						validateRedirect.addValidationError( response.error );
+						that.handleError( validateRedirect, response.error );
 
 						return true;
 					}
@@ -592,7 +664,7 @@
 					var field_to_toggle = $( evt.target ).closest( '.wpseo_redirect_form' ).find( '.wpseo_redirect_target_holder' );
 
 					// Hide the target field in case of a 410 redirect.
-					if( type === REDIRECT.DELETED ) {
+					if( jQuery.inArray( type, ALLOW_EMPTY_TARGET ) > -1 ) {
 						$( field_to_toggle ).hide();
 					}
 					else {
@@ -603,11 +675,19 @@
 			// Adding events for the add form
 			$('.wpseo-new-redirect-form')
 				.on( 'click', 'a.button-primary', function() {
+					last_action = function() {
+						that.add_redirect();
+					};
+
 					that.add_redirect();
 					return false;
 				} )
 				.on( 'keypress', 'input', function( evt ) {
 					if ( evt.which === KEYS.ENTER ) {
+						last_action = function() {
+							that.add_redirect();
+						};
+
 						evt.preventDefault();
 						that.add_redirect();
 					}
@@ -626,14 +706,23 @@
 				})
 				.on( 'keypress', 'input', function( evt ) {
 					if ( evt.which === KEYS.ENTER ) {
+						last_action = function() {
+							that.update_redirect();
+						};
+
 						evt.preventDefault();
 						that.update_redirect();
 					}
 				})
 				.on( 'click', '.save', function() {
-					that.update_redirect();
+					last_action = function() {
+						that.update_redirect();
+					};
+
+					last_action();
 				})
 				.on( 'click', '.cancel', function() {
+					last_action = null;
 					redirectsQuickEdit.remove();
 				});
 		};

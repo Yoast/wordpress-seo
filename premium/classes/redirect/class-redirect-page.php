@@ -57,6 +57,7 @@ class WPSEO_Redirect_Page {
 			WPSEO_VERSION
 		);
 		wp_localize_script( 'wp-seo-premium-admin-redirects', 'wpseo_premium_strings', WPSEO_Premium_Javascript_Strings::strings() );
+		wp_enqueue_style( 'wpseo-premium-redirects', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/css/premium-redirects' . WPSEO_CSSJS_SUFFIX . '.css', array(), WPSEO_VERSION );
 
 		wp_enqueue_style( 'wp-jquery-ui-dialog' );
 
@@ -130,6 +131,11 @@ class WPSEO_Redirect_Page {
 			// Remove the .htaccess redirect entries.
 			WPSEO_Redirect_Htaccess_Util::clear_htaccess_entries();
 		}
+
+		if ( ! $disable_php_redirect && WPSEO_Utils::is_nginx() ) {
+			$this->clear_nginx_redirects();
+		}
+
 	}
 
 	/**
@@ -143,6 +149,16 @@ class WPSEO_Redirect_Page {
 	 */
 	private function remove_htaccess_entries( $disable_php_redirect, $separate_file ) {
 		return ( WPSEO_Utils::is_apache() && ( ! $disable_php_redirect || ( $disable_php_redirect && $separate_file ) ) );
+	}
+
+	/**
+	 * Clears the redirects from the nginx config.
+	 */
+	private function clear_nginx_redirects() {
+		$redirect_file = WPSEO_Redirect_File_Util::get_file_path();
+		if ( is_writable( $redirect_file ) ) {
+			WPSEO_Redirect_File_Util::write_file( $redirect_file, '' );
+		}
 	}
 
 	/**

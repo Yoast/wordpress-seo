@@ -21,7 +21,7 @@ class WPSEO_Taxonomy {
 	public function __construct() {
 		$this->taxonomy = $this->get_taxonomy();
 
-		if ( is_admin() && $this->taxonomy !== '' && $this->show_metabox( ) ) {
+		if ( is_admin() && $this->taxonomy !== '' && $this->show_metabox() ) {
 			add_action( sanitize_text_field( $this->taxonomy ) . '_edit_form', array( $this, 'term_metabox' ), 90, 1 );
 		}
 
@@ -30,6 +30,11 @@ class WPSEO_Taxonomy {
 		add_action( 'init', array( $this, 'custom_category_descriptions_allow_html' ) );
 		add_filter( 'category_description', array( $this, 'custom_category_descriptions_add_shortcode_support' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
+
+		if ( $GLOBALS['pagenow'] === 'edit-tags.php' ) {
+			new WPSEO_Taxonomy_Columns();
+		}
+
 	}
 
 	/**
@@ -70,12 +75,19 @@ class WPSEO_Taxonomy {
 	 * @since 1.5.0
 	 */
 	public function admin_enqueue_scripts() {
-		if ( $GLOBALS['pagenow'] === 'edit-tags.php' && filter_input( INPUT_GET, 'action' ) === 'edit' ) {
+
+		if ( $GLOBALS['pagenow'] !== 'edit-tags.php' ) {
+			return;
+		}
+
+		wp_enqueue_style( 'seo_score', plugins_url( 'css/yst_seo_score-' . '302' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
+
+		if ( filter_input( INPUT_GET, 'action' ) === 'edit' ) {
 			wp_enqueue_media(); // Enqueue files needed for upload functionality.
 
-			wp_enqueue_style( 'yoast-seo', plugins_url( 'css/dist/yoast-seo/yoast-seo-' . '302' . '.min.css', WPSEO_FILE ), array(), WPSEO_VERSION );
+			wp_enqueue_style( 'yoast-seo', plugins_url( 'css/dist/yoast-seo/yoast-seo-' . '307' . '.min.css', WPSEO_FILE ), array(), WPSEO_VERSION );
 			wp_enqueue_style( 'yoast-metabox-css', plugins_url( 'css/metabox-' . '302' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
-			wp_enqueue_style( 'snippet', plugins_url( 'css/snippet-' . '302' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
+			wp_enqueue_style( 'snippet', plugins_url( 'css/snippet-' . '307' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
 			wp_enqueue_style( 'seo_score', plugins_url( 'css/yst_seo_score-' . '302' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
 			wp_editor( '', 'description' );
 			wp_enqueue_script( 'wp-seo-metabox', plugins_url( 'js/wp-seo-metabox-' . '302' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array(
@@ -83,8 +95,9 @@ class WPSEO_Taxonomy {
 				'jquery-ui-core',
 				'jquery-ui-autocomplete',
 			), WPSEO_VERSION, true );
-			wp_enqueue_script( 'yoast-seo', plugins_url( 'js/dist/yoast-seo/yoast-seo-' . '302' . '.min.js', WPSEO_FILE ), null, WPSEO_VERSION, true );
-			wp_enqueue_script( 'wp-seo-term-scraper', plugins_url( 'js/wp-seo-term-scraper-' . '302' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'yoast-seo' ), WPSEO_VERSION, true );
+
+			wp_enqueue_script( 'yoast-seo', plugins_url( 'js/dist/yoast-seo/yoast-seo-' . '307' . '.min.js', WPSEO_FILE ), null, WPSEO_VERSION, true );
+			wp_enqueue_script( 'wp-seo-term-scraper', plugins_url( 'js/wp-seo-term-scraper-' . '305' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'yoast-seo' ), WPSEO_VERSION, true );
 			wp_enqueue_script( 'wp-seo-replacevar-plugin', plugins_url( 'js/wp-seo-replacevar-plugin-' . '302' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'yoast-seo', 'wp-seo-term-scraper' ), WPSEO_VERSION, true );
 			wp_localize_script( 'wp-seo-term-scraper', 'wpseoTermScraperL10n', $this->localize_term_scraper_script() );
 			wp_localize_script( 'wp-seo-replacevar-plugin', 'wpseoReplaceVarsL10n', $this->localize_replace_vars_script() );
@@ -163,7 +176,7 @@ class WPSEO_Taxonomy {
 	 * @return bool
 	 */
 	private function show_metabox() {
-		$options    = WPSEO_Options::get_all();
+		$options    = WPSEO_Options::get_option( 'wpseo_titles' );
 		$option_key = 'hideeditbox-tax-' . $this->taxonomy;
 
 		return ( empty( $options[ $option_key ] ) );
@@ -186,11 +199,11 @@ class WPSEO_Taxonomy {
 	public function localize_term_scraper_script() {
 		$translations = $this->get_scraper_translations();
 
-		$term_id = filter_input( INPUT_GET, 'tag_ID' );
-		$term    = get_term_by( 'id', $term_id, $this->get_taxonomy() );
-		$focuskw = WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'focuskw' );
+		$term_id  = filter_input( INPUT_GET, 'tag_ID' );
+		$term     = get_term_by( 'id', $term_id, $this->get_taxonomy() );
+		$focuskw  = WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'focuskw' );
 		$taxonomy = get_taxonomy( $term->taxonomy );
-		$options = WPSEO_Options::get_all();
+		$options  = WPSEO_Options::get_option( 'wpseo_permalinks' );
 
 		$base_url = home_url( '/', null );
 		if ( ! $options['stripcategorybase'] ) {
@@ -198,16 +211,17 @@ class WPSEO_Taxonomy {
 		}
 
 		return array(
-			'translations'                  => $translations,
-			'base_url'                      => $base_url,
-			'taxonomy'                      => $term->taxonomy,
-			'keyword_usage'                 => WPSEO_Taxonomy_Meta::get_keyword_usage( $focuskw, $term->term_id, $term->taxonomy ),
+			'translations'      => $translations,
+			'base_url'          => $base_url,
+			'taxonomy'          => $term->taxonomy,
+			'keyword_usage'     => WPSEO_Taxonomy_Meta::get_keyword_usage( $focuskw, $term->term_id, $term->taxonomy ),
 			// Todo: a column needs to be added on the termpages to add a filter for the keyword, so this can be used in the focus kw doubles.
-			'search_url'                    => admin_url( 'edit-tags.php?taxonomy=' . $term->taxonomy . '&seo_kw_filter={keyword}' ),
-			'post_edit_url'                 => admin_url( 'edit-tags.php?action=edit&taxonomy=' . $term->taxonomy . '&tag_ID={id}' ),
-			'title_template'                => WPSEO_Taxonomy::get_title_template( $term ),
-			'metadesc_template'             => WPSEO_Taxonomy::get_metadesc_template( $term ),
-			'contentTab'                    => __( 'Content:', 'wordpress-seo' ),
+			'search_url'        => admin_url( 'edit-tags.php?taxonomy=' . $term->taxonomy . '&seo_kw_filter={keyword}' ),
+			'post_edit_url'     => admin_url( 'edit-tags.php?action=edit&taxonomy=' . $term->taxonomy . '&tag_ID={id}' ),
+			'title_template'    => WPSEO_Taxonomy::get_title_template( $term ),
+			'metadesc_template' => WPSEO_Taxonomy::get_metadesc_template( $term ),
+			'contentTab'        => __( 'Content:', 'wordpress-seo' ),
+			'locale'            => get_locale(),
 		);
 	}
 
@@ -219,15 +233,13 @@ class WPSEO_Taxonomy {
 	 * @return string
 	 */
 	public static function get_title_template( $term ) {
-		$options = get_option( 'wpseo_titles' );
-		$title_template = '';
 		if ( is_object( $term ) && property_exists( $term, 'taxonomy' ) ) {
 			$needed_option = 'title-tax-' . $term->taxonomy;
-			if ( isset( $options[ $needed_option ] ) && $options[ $needed_option ] !== '' ) {
-				$title_template = $options[ $needed_option ];
-			}
+
+			return self::get_template( $needed_option );
 		}
-		return $title_template;
+
+		return '';
 	}
 
 	/**
@@ -238,15 +250,13 @@ class WPSEO_Taxonomy {
 	 * @return string
 	 */
 	public static function get_metadesc_template( $term ) {
-		$options = get_option( 'wpseo_titles' );
-		$metadesc_template = '';
 		if ( is_object( $term ) && property_exists( $term, 'taxonomy' ) ) {
-			$needed_option = 'metadesc-tax-' . $term->taxonomy;
-			if ( isset( $options[ $needed_option ] ) && $options[ $needed_option ] !== '' ) {
-				$metadesc_template = $options[ $needed_option ];
-			}
+			$template_option_name = 'metadesc-tax-' . $term->taxonomy;
+
+			return self::get_template( $template_option_name );
 		}
-		return $metadesc_template;
+
+		return '';
 	}
 
 	/**
@@ -260,13 +270,30 @@ class WPSEO_Taxonomy {
 	}
 
 	/**
+	 * Retrieves a template.
+	 *
+	 * @param String $template_option_name The name of the option in which the template you want to get is saved.
+	 *
+	 * @return string
+	 */
+	private static function get_template( $template_option_name ) {
+		$options  = WPSEO_Options::get_option( 'wpseo_titles' );
+		$template = '';
+		if ( isset( $options[ $template_option_name ] ) && $options[ $template_option_name ] !== '' ) {
+			$template = $options[ $template_option_name ];
+		}
+
+		return $template;
+	}
+
+	/**
 	 * Prepares the replace vars for localization.
 	 *
 	 * @return array replace vars.
 	 */
 	private function get_replace_vars() {
-		$term_id = filter_input( INPUT_GET, 'tag_ID' );
-		$term = get_term_by( 'id', $term_id, $this->get_taxonomy() );
+		$term_id                 = filter_input( INPUT_GET, 'tag_ID' );
+		$term                    = get_term_by( 'id', $term_id, $this->get_taxonomy() );
 		$cached_replacement_vars = array();
 
 		$vars_to_cache = array(
@@ -305,6 +332,7 @@ class WPSEO_Taxonomy {
 		if ( file_exists( $file ) && $file = file_get_contents( $file ) ) {
 			return json_decode( $file, true );
 		}
+
 		return array();
 	}
 

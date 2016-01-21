@@ -49,7 +49,7 @@ class WPSEO_Redirect_Accessible_Validation_Test extends WPSEO_UnitTestCase {
 		);
 
 		$this->assertEquals(
-			new WPSEO_Validation_Warning( 'The URL you entered returned a HTTP code different than 200(OK). The received HTTP code is 305.' ),
+			new WPSEO_Validation_Warning( 'The URL you entered returned a HTTP code different than 200(OK). The received HTTP code is 305.', 'target' ),
 			$this->class_instance->get_error()
 		);
 	}
@@ -57,7 +57,7 @@ class WPSEO_Redirect_Accessible_Validation_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Validate if the target URL is accessible, in this test it will be an url that should give a 301 response.
 	 *
-	 * @covers WPSEO_Redirect_Accessible_Validation::validate
+	 * @covers WPSEO_Redirect_Accessible_Validation::run
 	 * @covers WPSEO_Redirect_Accessible_Validation::get_error
 	 */
 	public function test_validate_redirect_to_301( ) {
@@ -68,7 +68,7 @@ class WPSEO_Redirect_Accessible_Validation_Test extends WPSEO_UnitTestCase {
 		);
 
 		$this->assertEquals(
-			new WPSEO_Validation_Error( 'You\'re redirecting to a target that returns a 301 HTTP code (permanently moved). Make sure the target you specify is directly reachable.' ),
+			new WPSEO_Validation_Warning( 'You\'re redirecting to a target that returns a 301 HTTP code (permanently moved). Make sure the target you specify is directly reachable.', 'target' ),
 			$this->class_instance->get_error()
 		);
 	}
@@ -77,7 +77,7 @@ class WPSEO_Redirect_Accessible_Validation_Test extends WPSEO_UnitTestCase {
 	 * Validate if the target URL is resolvable, in this test it will be a unexisting url that should give a WP_Error
 	 *
 	 * @covers WPSEO_Redirect_Accessible_Validation::run
-	 * @covers WPSEO_Redirect_Accessible_Validation::get_warning
+	 * @covers WPSEO_Redirect_Accessible_Validation::get_error
 	 */
 	public function test_validate_cannot_resolve( ) {
 		$this->assertFalse(
@@ -87,7 +87,7 @@ class WPSEO_Redirect_Accessible_Validation_Test extends WPSEO_UnitTestCase {
 		);
 
 		$this->assertEquals(
-			new WPSEO_Validation_Warning( 'The URL you entered could not be resolved.' ),
+			new WPSEO_Validation_Warning( 'The URL you entered could not be resolved.', 'target' ),
 			$this->class_instance->get_error()
 		);
 	}
@@ -106,6 +106,19 @@ class WPSEO_Redirect_Accessible_Validation_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Validate if the target URL is accessible, in this test it will be a 451 redirect, that doesn't have an endpoint.
+	 *
+	 * @covers WPSEO_Redirect_Accessible_Validation::run
+	 */
+	public function test_validate_accessible_451( ) {
+		$this->assertTrue(
+			$this->class_instance->run(
+				new WPSEO_Redirect( 'accessible_url', '', 451 )
+			)
+		);
+	}
+
+	/**
 	 * Validate if the target URL is accessible, in this test it will be a 410 redirect, that doesn't have an endpoint.
 	 *
 	 * @covers WPSEO_Redirect_Accessible_Validation::run
@@ -118,7 +131,7 @@ class WPSEO_Redirect_Accessible_Validation_Test extends WPSEO_UnitTestCase {
 		);
 
 		$this->assertEquals(
-			new WPSEO_Validation_Warning( 'The url you are redirecting to returns a 302 status. You might want to consider redirecting to another url.' ),
+			new WPSEO_Validation_Warning( 'The url you are redirecting to returns a 302 status. You might want to consider redirecting to another url.', 'target' ),
 			$this->class_instance->get_error()
 		);
 	}
@@ -129,7 +142,7 @@ class WPSEO_Redirect_Accessible_Validation_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @covers WPSEO_Redirect_Accessible_Validation::run
 	 * @covers WPSEO_Redirect_Accessible_Validation::parse_target
-	 * @covers WPSEO_Redirect_Accessible_Validation::get_warning
+	 * @covers WPSEO_Redirect_Accessible_Validation::get_error
 	 */
 	public function test_validate_relative( ) {
 		$this->assertTrue(
@@ -145,7 +158,7 @@ class WPSEO_Redirect_Accessible_Validation_Test extends WPSEO_UnitTestCase {
 		);
 
 		$this->assertEquals(
-			new WPSEO_Validation_Warning( 'The url you are redirecting to returns a 404 status. You might want to consider redirecting to another url.' ),
+			new WPSEO_Validation_Warning( 'The url you are redirecting to returns a 404 status. You might want to consider redirecting to another url.', 'target' ),
 			$this->class_instance->get_error()
 		);
 	}

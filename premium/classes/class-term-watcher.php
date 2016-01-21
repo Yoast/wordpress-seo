@@ -171,6 +171,8 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 
 		// Detect a term delete.
 		add_action( 'delete_term_taxonomy', array( $this, 'detect_term_delete' ) );
+
+		new WPSEO_Term_Slug_Watcher();
 	}
 
 	/**

@@ -34,20 +34,62 @@ class WPSEO_Redirect_Handler {
 	private $url_matches = array();
 
 	/**
+	 * @var string Sets the error template to include.
+	 */
+	private $template_include;
+
+	/**
 	 * Constructor
 	 */
 	public function __construct() {
 		// Only handle the redirect when the option for php redirects is enabled.
 		if ( $this->load_php_redirects() ) {
 			// Set the requested url.
-			$this->request_url = htmlspecialchars_decode( rawurldecode( filter_input( INPUT_SERVER, 'REQUEST_URI' ) ) );
+			$this->set_request_url();
 
 			// Check the normal redirects.
 			$this->handle_normal_redirects();
 
 			// Check the regex redirects.
 			$this->handle_regex_redirects();
+
+			return;
 		}
+	}
+
+	/**
+	 * Handle the 410 status code
+	 */
+	public function do_410() {
+		$this->set_404();
+		status_header( 410 );
+	}
+
+	/**
+	 * Handle the 451 status code
+	 */
+	public function do_451() {
+		$is_include_hook_set = $this->set_template_include_hook( '451' );
+
+		if ( ! $is_include_hook_set ) {
+			$this->set_404();
+		}
+		status_header( 451, 'Unavailable For Legal Reasons' );
+	}
+
+	/**
+	 * Returns the template that should be included.
+	 *
+	 * @param string $template The template that will included before executing hook.
+	 *
+	 * @return string
+	 */
+	public function set_template_include( $template ) {
+		if ( ! empty( $this->template_include ) ) {
+			return $this->template_include;
+		}
+
+		return $template;
 	}
 
 	/**
@@ -68,6 +110,27 @@ class WPSEO_Redirect_Handler {
 	}
 
 	/**
+	 * Sets the wp_query to 404 when this is an object
+	 */
+	public function set_404() {
+		global $wp_query;
+
+		if ( is_object( $wp_query ) ) {
+			$wp_query->is_404 = true;
+		}
+	}
+
+	/**
+	 * Sets the request url and sanitize the slashes for it.
+	 */
+	private function set_request_url() {
+		$this->request_url = htmlspecialchars_decode( rawurldecode( filter_input( INPUT_SERVER, 'REQUEST_URI' ) ) );
+		if ( $this->request_url !== '/' ) {
+			$this->request_url = trim( $this->request_url, '/' );
+		}
+	}
+
+	/**
 	 * Checking if current url matches a normal redirect
 	 */
 	private function handle_normal_redirects() {
@@ -84,6 +147,9 @@ class WPSEO_Redirect_Handler {
 	 * Check if current url matches a regex redirect
 	 */
 	private function handle_regex_redirects() {
+		// Setting the redirects.
+		$this->redirects = $this->get_redirects( $this->regex_option_name );
+
 		foreach ( $this->redirects as $regex => $redirect ) {
 			// Check if the URL matches the $regex.
 			$this->match_regex_redirect( $regex, $redirect );
@@ -155,7 +221,7 @@ class WPSEO_Redirect_Handler {
 	 * @return string|bool
 	 */
 	private function search( $url ) {
-		if ( isset( $this->redirects[ $url ] ) ) {
+		if ( ! empty( $this->redirects[ $url ] ) ) {
 			return $this->redirects[ $url ];
 		}
 
@@ -208,8 +274,14 @@ class WPSEO_Redirect_Handler {
 	 * @param string $redirect_type The type of the redirect.
 	 */
 	private function do_redirect( $redirect_url, $redirect_type ) {
+
 		if ( 410 === $redirect_type ) {
-			$this->do_410();
+			add_action( 'wp', array( $this, 'do_410' ) );
+			return;
+		}
+
+		if ( 451 === $redirect_type ) {
+			add_action( 'wp', array( $this, 'do_451' ) );
 			return;
 		}
 
@@ -217,18 +289,35 @@ class WPSEO_Redirect_Handler {
 			require_once( ABSPATH . 'wp-includes/pluggable.php' );
 		}
 
-		header( 'X-Redirect-By: Yoast SEO Premium' );
-		wp_redirect( $redirect_url, $redirect_type );
+		/**
+		 * Filter: 'wpseo_add_x_redirect' - can be used to remove the X-Redirect-By header Yoast SEO creates
+		 * (only available in Yoast SEO Premium, defaults to true, which is adding it)
+		 *
+		 * @api bool
+		 */
+		if ( apply_filters( 'wpseo_add_x_redirect', true ) === true ) {
+			header( 'X-Redirect-By: Yoast SEO Premium' );
+		}
+
+		wp_redirect( $this->parse_target_url( $redirect_url ), $redirect_type );
 		exit;
 	}
 
 	/**
-	 * Handle the 410 status codes
+	 * Parses the target URL.
+	 *
+	 * @param string $target_url The URL to parse. When there isn't found a scheme, just parse it based on the home url.
+	 *
+	 * @return string
 	 */
-	private function do_410() {
-		header( 'HTTP/1.1 410 Gone' );
-		global $wp_query;
-		$wp_query->is_404 = true;
+	private function parse_target_url( $target_url ) {
+		$scheme = parse_url( $target_url, PHP_URL_SCHEME );
+		if ( empty( $scheme ) ) {
+			$target_url = home_url( $target_url );
+		}
+
+		return $target_url;
+
 	}
 
 	/**
@@ -271,5 +360,22 @@ class WPSEO_Redirect_Handler {
 		return true;
 	}
 
+	/**
+	 * Sets the hook for setting the template include. This is the file that we want to show.
+	 *
+	 * @param string $template_to_set The template to look for..
+	 *
+	 * @return bool
+	 */
+	private function set_template_include_hook( $template_to_set ) {
+		$this->template_include = get_query_template( $template_to_set );
+		if ( ! empty( $this->template_include ) ) {
+			add_filter( 'template_include', array( $this, 'set_template_include' ) );
+
+			return true;
+		}
+
+		return false;
+	}
 
 }

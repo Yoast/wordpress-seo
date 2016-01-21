@@ -1,3 +1,13 @@
+### 3.0.7: December 23rd, 2015
+* Merge with Yoast SEO core 3.0.7, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
+
+### 3.0.6: December 1st, 2015
+* Merge with Yoast SEO core 3.0.6, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
+
+### 3.0.5: December 1st, 2015
+* Fixed performance issues in custom fields integration.
+* Merge with Yoast SEO core 3.0.5, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
+
 ### 3.0.4: November 25th, 2015
 * Merge with Yoast SEO core 3.0.4, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
 

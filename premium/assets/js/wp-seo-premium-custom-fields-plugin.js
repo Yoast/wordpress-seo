@@ -56,7 +56,7 @@
 	 */
 	YoastCustomFieldsPlugin.prototype.updateCustomFields = function() {
 		var customFields = {};
-		jQuery( '#postcustom #the-list > tr:visible' ).each(
+		jQuery( '#the-list > tr:visible' ).each(
 			function( i, el ) {
 				var customFieldName = jQuery( '#' + el.id + '-key' ).val();
 				if ( YoastCustomFieldsPluginL10.custom_field_names.indexOf( customFieldName ) !== -1 ) {
@@ -75,10 +75,10 @@
 	YoastCustomFieldsPlugin.prototype.bindCustomFields = function() {
 		var callback = _.debounce( this.updateCustomFields.bind( this ), 500, true );
 
-		jQuery( '#postcustom #the-list .button + .update_meta' ).off( 'click', callback ).on( 'click', callback );
-		jQuery( '#postcustom #the-list' ).off( 'wpListDelEnd', callback ).on( 'wpListDelEnd', callback );
-		jQuery( '#postcustom #the-list' ).off( 'wpListAddEnd', callback ).on( 'wpListAddEnd', callback );
-		jQuery( '#postcustom #the-list textarea' ).off( 'input', callback ).on( 'input', callback );
+		jQuery( '#the-list .button + .update_meta' ).off( 'click.wpseoCustomFields' ).on( 'click.wpseoCustomFields', callback );
+		jQuery( '#the-list' ).off( 'wpListDelEnd.wpseoCustomFields' ).on( 'wpListDelEnd.wpseoCustomFields', callback );
+		jQuery( '#the-list' ).off( 'wpListAddEnd.wpseoCustomFields' ).on( 'wpListAddEnd.wpseoCustomFields', callback );
+		jQuery( '#the-list textarea' ).off( 'input.wpseoCustomFields' ).on( 'input.wpseoCustomFields', callback );
 	};
 
 	if ( typeof YoastSEO !== 'undefined' && typeof YoastSEO.app !== 'undefined' ) {

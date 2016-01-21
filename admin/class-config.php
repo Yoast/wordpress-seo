@@ -45,7 +45,10 @@ class WPSEO_Admin_Pages {
 		wp_enqueue_style( 'thickbox' );
 		wp_enqueue_style( 'global' );
 		wp_enqueue_style( 'wp-admin' );
-		wp_enqueue_style( 'yoast-admin-css', plugins_url( 'css/yst_plugin_tools-' . '302' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
+		// TODO minified toggle styles. R.
+		wp_register_style( 'yoast-toggle-switch-lib', plugins_url( 'css/toggle-switch/toggle-switch.css', WPSEO_FILE ), array(), '4.0.2' );
+		wp_register_style( 'yoast-toggle-switch', plugins_url( 'css/toggle-switch.css', WPSEO_FILE ), array( 'yoast-toggle-switch-lib' ), WPSEO_VERSION );
+		wp_enqueue_style( 'yoast-admin-css', plugins_url( 'css/yst_plugin_tools-' . '302' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array( 'yoast-toggle-switch' ), WPSEO_VERSION );
 
 		if ( is_rtl() ) {
 			wp_enqueue_style( 'wpseo-rtl', plugins_url( 'css/wpseo-rtl' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
@@ -56,7 +59,7 @@ class WPSEO_Admin_Pages {
 	 * Loads the required scripts for the config page.
 	 */
 	function config_page_scripts() {
-		wp_enqueue_script( 'wpseo-admin-script', plugins_url( 'js/wp-seo-admin-' . '302' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array(
+		wp_enqueue_script( 'wpseo-admin-script', plugins_url( 'js/wp-seo-admin-' . '306' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array(
 			'jquery',
 			'jquery-ui-core',
 			'jquery-ui-progressbar',
@@ -80,7 +83,7 @@ class WPSEO_Admin_Pages {
 		}
 
 		if ( 'wpseo_tools' === $page && empty( $tool ) ) {
-			wp_enqueue_script( 'yoast-seo', plugins_url( 'js/dist/yoast-seo/yoast-seo-' . '302' . '.min.js', WPSEO_FILE ), null, WPSEO_VERSION, true );
+			wp_enqueue_script( 'yoast-seo', plugins_url( 'js/dist/yoast-seo/yoast-seo-' . '307' . '.min.js', WPSEO_FILE ), null, WPSEO_VERSION, true );
 		}
 
 		if ( 'wpseo_tools' === $page && 'bulk-editor' === $tool ) {
@@ -114,6 +117,7 @@ class WPSEO_Admin_Pages {
 		return array(
 			/* translators: %s: '%%term_title%%' variable used in titles and meta's template that's not compatible with the given template */
 			'variable_warning' => sprintf( __( 'Warning: the variable %s cannot be used in this template.', 'wordpress-seo' ), '<code>%s</code>' ) . ' ' . __( 'See the help tab for more info.', 'wordpress-seo' ),
+			'locale' => get_locale(),
 		);
 	}
 
