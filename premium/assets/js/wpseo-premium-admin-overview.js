@@ -65,19 +65,19 @@ function wpseo_create_redirect( origin, type, nonce, id ) {
 			id: id
 		},
 		function( response ) {
-			var notice = jQuery( '#' + id  );
+			var notice = jQuery( '#' + id );
 
 			// Remove the classes first.
-			jQuery(notice)
-				.removeClass ( 'updated' )
+			jQuery( notice )
+				.removeClass( 'updated' )
 				.removeClass( 'error' );
 
 			// Remove possibly added redirect errors
-			jQuery( notice).find('.redirect_error').remove();
+			jQuery( notice ).find( '.redirect_error' ).remove();
 
 			if( response.error ) {
 				// Add paragraph on top of the notice with actions and set class to error.
-				jQuery(notice)
+				jQuery( notice )
 					.addClass( 'error' )
 					.prepend( '<p class="redirect_error">' + response.error.message + '</p>' );
 
