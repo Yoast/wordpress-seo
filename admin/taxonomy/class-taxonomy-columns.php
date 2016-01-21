@@ -205,10 +205,10 @@ class WPSEO_Taxonomy_Columns {
 
 		if ( isset( $taxonomy ) ) {
 			// Don't make static as taxonomies may still be added during the run.
-			$cpts    = get_taxonomies( array( 'public' => true ), 'names' );
-			$options = get_option( 'wpseo_titles' );
+			$custom_taxonomies = get_taxonomies( array( 'public' => true ), 'names' );
+			$options           = get_option( 'wpseo_titles' );
 
-			return ( ( isset( $options[ 'hideeditbox-tax-' . $taxonomy ] ) && $options[ 'hideeditbox-tax-' . $taxonomy ] === true ) || in_array( $taxonomy, $cpts ) === false );
+			return ( ( isset( $options[ 'hideeditbox-tax-' . $taxonomy ] ) && $options[ 'hideeditbox-tax-' . $taxonomy ] === true ) || in_array( $taxonomy, $custom_taxonomies ) === false );
 		}
 
 		return false;
