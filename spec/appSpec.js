@@ -7,7 +7,7 @@ require("../js/browser.js");
 require("../js/pluggable.js");
 require("../js/preprocessor.js");
 require("../js/scoreFormatter.js");
-require("../js/stringHelper.js");
+require("../js/stringhelper.js");
 require("../js/templates.js");
 
 // Makes lodash think this is a valid HTML element
