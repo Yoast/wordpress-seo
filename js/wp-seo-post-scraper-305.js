@@ -81,6 +81,7 @@
 			meta: this.getDataFromInput( 'meta' ),
 			text: this.getDataFromInput( 'text' ),
 			title: this.getDataFromInput( 'title' ),
+			pageTitle: this.getDataFromInput( 'pageTitle' ),
 			url: this.getDataFromInput( 'url' ),
 			excerpt: this.getDataFromInput( 'excerpt' ),
 			snippetTitle: this.getDataFromInput( 'snippetTitle' ),
@@ -130,6 +131,15 @@
 			case 'title':
 				val = document.getElementById( 'title' ) && document.getElementById( 'title' ).value || '';
 				break;
+			case 'pageTitle':
+				val = document.getElementById( 'yoast_wpseo_title' ) && document.getElementById( 'yoast_wpseo_title' ).value || '';
+				if ( val === '' ) {
+					val = wpseoPostScraperL10n.title_template;
+				}
+				if (val === '' ) {
+					val = '%%title%% - %%sitename%%';
+				}
+			break;
 			case 'snippetTitle':
 				val = document.getElementById( 'yoast_wpseo_title' ) && document.getElementById( 'yoast_wpseo_title' ).value || '';
 				break;
