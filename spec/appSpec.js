@@ -9,6 +9,7 @@ require("../js/preprocessor.js");
 require("../js/scoreFormatter.js");
 require("../js/stringhelper.js");
 require("../js/templates.js");
+require("../js/snippetPreview.js");
 
 // Makes lodash think this is a valid HTML element
 var mockElement = [];
@@ -88,10 +89,14 @@ YoastSEO.App.prototype.createSnippetPreview = function(){};
 YoastSEO.App.prototype.showLoadingDialog = function(){};
 YoastSEO.App.prototype.updateLoadingDialog = function(){};
 YoastSEO.App.prototype.removeLoadingDialog = function(){};
+YoastSEO.App.prototype.initSnippetPreview = function(){};
+YoastSEO.App.prototype.runAnalyzer = function(){};
+
+document = {};
+document.getElementById = function(){ return mockElement;}
 
 describe( "Creating an app with callbacks and elements", function(){
 	it( "throws no replacetarget error", function(){
 		var app = new YoastSEO.App( argsElementTarget );
-		//expect( function(){ YoastSEO.App( argsResetTarget ) } ).toThrow( new Error( "No elementTarget is defined" ) );
 	} )
 } );
