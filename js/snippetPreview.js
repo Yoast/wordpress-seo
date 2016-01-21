@@ -351,13 +351,13 @@ SnippetPreview.prototype.formatTitle = function() {
 		title = this.opts.placeholder.title;
 	}
 
-	// TODO: Replace this with the stripAllTags module.
-	title = this.refObj.stringHelper.stripAllTags( title );
-
 	// Apply modification to the title before showing it.
 	if ( this.refObj.pluggable.loaded ) {
 		title = this.refObj.pluggable._applyModifications( "data_page_title", title );
 	}
+
+	// TODO: Replace this with the stripAllTags module.
+	title = this.refObj.stringHelper.stripAllTags( title );
 
 	// If a keyword is set we want to highlight it in the title.
 	if ( !isEmpty( this.refObj.rawData.keyword ) ) {
@@ -420,6 +420,11 @@ SnippetPreview.prototype.formatMeta = function() {
 	// If no meta has been set, generate one.
 	if ( isEmpty( meta ) ) {
 		meta = this.getMetaText();
+	}
+
+	// Apply modification to the desc before showing it.
+	if ( this.refObj.pluggable.loaded ) {
+		meta = this.refObj.pluggable._applyModifications( "data_meta_desc", meta );
 	}
 
 	// TODO: Replace this with the stripAllTags module.
