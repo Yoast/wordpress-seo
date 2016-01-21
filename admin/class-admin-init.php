@@ -96,7 +96,10 @@ class WPSEO_Admin_Init {
 	 * @return bool
 	 */
 	private function seen_about() {
-		return get_user_meta( get_current_user_id(), 'wpseo_seen_about_version', true ) === WPSEO_VERSION;
+		$seen_about_version = substr( get_user_meta( get_current_user_id(), 'wpseo_seen_about_version', true ), 0, 3 );
+		$last_minor_version = substr( WPSEO_VERSION, 0, 3 );
+
+		return version_compare( $seen_about_version, $last_minor_version, '>=' );
 	}
 
 	/**
