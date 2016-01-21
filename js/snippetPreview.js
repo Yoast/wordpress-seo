@@ -300,7 +300,7 @@ var getMetaDesc = function() {
 SnippetPreview.prototype.getAnalyzerData = function() {
 	return {
 		title:    this.data.title,
-		url:      getBaseURL.call( this ) + this.data.urlPath,
+		url:      this.data.urlPath,
 		metaDesc: getMetaDesc.call( this )
 	};
 };
