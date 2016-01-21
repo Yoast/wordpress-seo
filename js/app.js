@@ -151,7 +151,7 @@ function createDefaultSnippetPreview() {
  * @constructor
  */
 YoastSEO.App = function( args ) {
-	if ( !isObject( args ) ){
+	if ( !isObject( args ) ) {
 		args = {};
 	}
 	defaultsDeep( args, defaults );

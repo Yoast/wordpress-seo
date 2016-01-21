@@ -1248,7 +1248,7 @@ function createDefaultSnippetPreview() {
  * @constructor
  */
 YoastSEO.App = function( args ) {
-	if ( !isObject( args ) ){
+	if ( !isObject( args ) ) {
 		args = {};
 	}
 	defaultsDeep( args, defaults );
@@ -5052,43 +5052,43 @@ YoastSEO.getStringHelper = function() {
     var __t, __p = '', __e = _.escape, __j = Array.prototype.join;
     function print() { __p += __j.call(arguments, '') }
     with (obj) {
-    __p += '<div id="snippet_preview">\r\n    <button class="snippet-editor__edit-button" type="button">\r\n        <svg class="snippet-editor__edit-icon" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"\r\n             width="216px" height="146px" viewBox="0 0 216 146" enable-background="new 0 0 216 146" xml:space="preserve">\r\n            <g>\r\n                <path d="M46.284,100.823v33.893h33.893l67.786-67.786L114.07,33.037L46.284,100.823z M75.859,124.287L75.859,124.287l-8.718,0.001\r\n                    v-10.429H56.713v-8.719l7.414-7.414l19.146,19.146L75.859,124.287z M116.678,46.888c1.194,0,1.791,0.598,1.791,1.792\r\n                    c0,0.544-0.189,1.005-0.57,1.386L73.74,94.225c-0.38,0.379-0.842,0.569-1.385,0.569c-1.194,0-1.792-0.599-1.792-1.792\r\n                    c0-0.544,0.19-1.005,0.57-1.386l44.159-44.158C115.672,47.078,116.134,46.888,116.678,46.888z"/>\r\n                <path d="M166.701,33.443l-19.146-19.064c-2.063-2.063-4.535-3.096-7.414-3.096c-2.934,0-5.377,1.033-7.332,3.096l-13.524,13.443\r\n                    l33.893,33.893l13.525-13.524c2.01-2.01,3.014-4.454,3.014-7.333C169.716,38.034,168.712,35.562,166.701,33.443z"/>\r\n            </g>\r\n        </svg>\r\n        ' +
+    __p += '<div id="snippet_preview">\n    <button class="snippet-editor__edit-button" type="button">\n        <svg class="snippet-editor__edit-icon" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"\n             width="216px" height="146px" viewBox="0 0 216 146" enable-background="new 0 0 216 146" xml:space="preserve">\n            <g>\n                <path d="M46.284,100.823v33.893h33.893l67.786-67.786L114.07,33.037L46.284,100.823z M75.859,124.287L75.859,124.287l-8.718,0.001\n                    v-10.429H56.713v-8.719l7.414-7.414l19.146,19.146L75.859,124.287z M116.678,46.888c1.194,0,1.791,0.598,1.791,1.792\n                    c0,0.544-0.189,1.005-0.57,1.386L73.74,94.225c-0.38,0.379-0.842,0.569-1.385,0.569c-1.194,0-1.792-0.599-1.792-1.792\n                    c0-0.544,0.19-1.005,0.57-1.386l44.159-44.158C115.672,47.078,116.134,46.888,116.678,46.888z"/>\n                <path d="M166.701,33.443l-19.146-19.064c-2.063-2.063-4.535-3.096-7.414-3.096c-2.934,0-5.377,1.033-7.332,3.096l-13.524,13.443\n                    l33.893,33.893l13.525-13.524c2.01-2.01,3.014-4.454,3.014-7.333C169.716,38.034,168.712,35.562,166.701,33.443z"/>\n            </g>\n        </svg>\n        ' +
     __e( i18n.edit ) +
-    '\r\n        <svg class="snippet-editor__chevron-right-icon" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"\r\n             width="216px" height="146px" viewBox="0 0 216 146" enable-background="new 0 0 216 146" xml:space="preserve">\r\n            <path d="M144.988,65.667L91.869,12.628c-1.956-2.064-4.399-3.096-7.333-3.096s-5.377,1.033-7.333,3.096l-6.192,6.111\r\n            c-2.01,2.01-3.015,4.453-3.015,7.332c0,2.824,1.005,5.296,3.015,7.414L110.607,73L71.01,112.596c-2.01,2.01-3.015,4.454-3.015,7.333\r\n            c0,2.824,1.005,5.296,3.015,7.414l6.192,6.11c2.01,2.01,4.455,3.015,7.333,3.015c2.879,0,5.324-1.005,7.333-3.015l53.12-53.039\r\n            c2.01-2.118,3.016-4.59,3.016-7.414C148.004,70.121,146.998,67.677,144.988,65.667z"/>\r\n        </svg>\r\n        <svg class="snippet-editor__chevron-down-icon" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"\r\n             width="216px" height="146px" viewBox="0 0 216 146" enable-background="new 0 0 216 146" xml:space="preserve">\r\n            <path d="M168.452,42.121l-6.109-6.111c-2.118-2.009-4.59-3.014-7.413-3.014c-2.88,0-5.324,1.005-7.334,3.014L108,75.607\r\n            L68.404,36.011c-2.01-2.009-4.454-3.014-7.333-3.014c-2.824,0-5.296,1.005-7.414,3.014l-6.029,6.111\r\n            c-2.064,2.063-3.096,4.535-3.096,7.414c0,2.933,1.033,5.377,3.096,7.332l53.039,53.039c1.956,2.064,4.399,3.096,7.333,3.096\r\n            c2.879,0,5.35-1.032,7.413-3.096l53.039-53.039c2.01-2.01,3.016-4.454,3.016-7.332C171.468,46.711,170.462,44.24,168.452,42.121z"/>\r\n        </svg>\r\n    </button>\r\n\r\n    <section class="snippet-editor__preview">\r\n        <div class="snippet_container" id="title_container">\r\n            <span class="title" id="snippet_title">\r\n                ' +
+    '\n        <svg class="snippet-editor__chevron-right-icon" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"\n             width="216px" height="146px" viewBox="0 0 216 146" enable-background="new 0 0 216 146" xml:space="preserve">\n            <path d="M144.988,65.667L91.869,12.628c-1.956-2.064-4.399-3.096-7.333-3.096s-5.377,1.033-7.333,3.096l-6.192,6.111\n            c-2.01,2.01-3.015,4.453-3.015,7.332c0,2.824,1.005,5.296,3.015,7.414L110.607,73L71.01,112.596c-2.01,2.01-3.015,4.454-3.015,7.333\n            c0,2.824,1.005,5.296,3.015,7.414l6.192,6.11c2.01,2.01,4.455,3.015,7.333,3.015c2.879,0,5.324-1.005,7.333-3.015l53.12-53.039\n            c2.01-2.118,3.016-4.59,3.016-7.414C148.004,70.121,146.998,67.677,144.988,65.667z"/>\n        </svg>\n        <svg class="snippet-editor__chevron-down-icon" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"\n             width="216px" height="146px" viewBox="0 0 216 146" enable-background="new 0 0 216 146" xml:space="preserve">\n            <path d="M168.452,42.121l-6.109-6.111c-2.118-2.009-4.59-3.014-7.413-3.014c-2.88,0-5.324,1.005-7.334,3.014L108,75.607\n            L68.404,36.011c-2.01-2.009-4.454-3.014-7.333-3.014c-2.824,0-5.296,1.005-7.414,3.014l-6.029,6.111\n            c-2.064,2.063-3.096,4.535-3.096,7.414c0,2.933,1.033,5.377,3.096,7.332l53.039,53.039c1.956,2.064,4.399,3.096,7.333,3.096\n            c2.879,0,5.35-1.032,7.413-3.096l53.039-53.039c2.01-2.01,3.016-4.454,3.016-7.332C171.468,46.711,170.462,44.24,168.452,42.121z"/>\n        </svg>\n    </button>\n\n    <section class="snippet-editor__preview">\n        <div class="snippet_container" id="title_container">\n            <span class="title" id="snippet_title">\n                ' +
     __e( rendered.title ) +
-    '\r\n            </span>\r\n            <span class="title" id="snippet_sitename"></span>\r\n        </div>\r\n        <div class="snippet_container" id="url_container">\r\n            <cite class="url urlBase" id="snippet_citeBase">\r\n                ' +
+    '\n            </span>\n            <span class="title" id="snippet_sitename"></span>\n        </div>\n        <div class="snippet_container" id="url_container">\n            <cite class="url urlBase" id="snippet_citeBase">\n                ' +
     __e( rendered.baseUrl ) +
-    '\r\n            </cite>\r\n            <cite class="url" id="snippet_cite">\r\n                ' +
+    '\n            </cite>\n            <cite class="url" id="snippet_cite">\n                ' +
     __e( rendered.snippetCite ) +
-    '\r\n            </cite>\r\n        </div>\r\n        <div class="snippet_container" id="meta_container">\r\n            ';
+    '\n            </cite>\n        </div>\n        <div class="snippet_container" id="meta_container">\n            ';
      if ( "" !== metaDescriptionDate ) {
-    __p += '\r\n                <span class="snippet-editor__date">\r\n                    ' +
+    __p += '\n                <span class="snippet-editor__date">\n                    ' +
     __e( metaDescriptionDate ) +
-    ' -\r\n                </span>\r\n            ';
+    ' -\n                </span>\n            ';
      }
-    __p += '\r\n            <span class="desc" id="snippet_meta">\r\n                ' +
+    __p += '\n            <span class="desc" id="snippet_meta">\n                ' +
     __e( rendered.meta ) +
-    '\r\n            </span>\r\n        </div>\r\n    </section>\r\n\r\n    <div class="snippet-editor__form">\r\n        <label for="snippet-editor-title" class="snippet-editor__label">\r\n            ' +
+    '\n            </span>\n        </div>\n    </section>\n\n    <div class="snippet-editor__form">\n        <label for="snippet-editor-title" class="snippet-editor__label">\n            ' +
     __e( i18n.title ) +
-    '\r\n            <input type="text" class="snippet-editor__input snippet-editor__title js-snippet-editor-title" id="snippet-editor-title" value="' +
+    '\n            <input type="text" class="snippet-editor__input snippet-editor__title js-snippet-editor-title" id="snippet-editor-title" value="' +
     __e( raw.title ) +
     '" placeholder="' +
     __e( placeholder.title ) +
-    '" />\r\n        </label>\r\n        <label for="snippet-editor-slug" class="snippet-editor__label">\r\n            ' +
+    '" />\n        </label>\n        <label for="snippet-editor-slug" class="snippet-editor__label">\n            ' +
     __e( i18n.slug ) +
-    '\r\n            <input type="text" class="snippet-editor__input snippet-editor__slug js-snippet-editor-slug" id="snippet-editor-slug" value="' +
+    '\n            <input type="text" class="snippet-editor__input snippet-editor__slug js-snippet-editor-slug" id="snippet-editor-slug" value="' +
     __e( raw.snippetCite ) +
     '" placeholder="' +
     __e( placeholder.urlPath ) +
-    '" />\r\n        </label>\r\n        <label for="snippet-editor-meta-description" class="snippet-editor__label">\r\n            ' +
+    '" />\n        </label>\n        <label for="snippet-editor-meta-description" class="snippet-editor__label">\n            ' +
     __e( i18n.metaDescription ) +
-    '\r\n            <textarea class="snippet-editor__input snippet-editor__meta-description js-snippet-editor-meta-description" id="snippet-editor-meta-description" placeholder="' +
+    '\n            <textarea class="snippet-editor__input snippet-editor__meta-description js-snippet-editor-meta-description" id="snippet-editor-meta-description" placeholder="' +
     __e( placeholder.metaDesc ) +
     '">' +
     __e( raw.meta ) +
-    '</textarea>\r\n        </label>\r\n\r\n        <button class="snippet-editor__submit button" type="button">' +
+    '</textarea>\n        </label>\n\n        <button class="snippet-editor__submit button" type="button">' +
     __e( i18n.save ) +
-    '</button>\r\n    </div>\r\n</div>\r\n';
+    '</button>\n    </div>\n</div>\n';
 
     }
     return __p
