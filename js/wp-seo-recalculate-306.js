@@ -1,5 +1,4 @@
 /* global wpseoAdminL10n */
-/* global wpseoRecalculateL10n */
 /* global ajaxurl */
 /* global YoastSEO */
 
@@ -15,9 +14,6 @@
 		}
 	} );
 
-	var PostsToFetch = parseInt( wpseoRecalculateL10n.posts, 10 );
-	var TermsToFetch = parseInt( wpseoRecalculateL10n.terms, 10 );
-
 	/**
 	 * Constructs the recalculate score.
 	 *
@@ -27,6 +23,8 @@
 		// Sets the total count
 		this.total_count = total_count;
 		this.oncomplete  = false;
+
+		$( '#wpseo_count_total' ).html( total_count );
 
 		jQuery( '#wpseo_progressbar' ).progressbar( { value: 0 } );
 	};
@@ -202,7 +200,20 @@
 		);
 	};
 
-	var RecalculateScore = new YoastRecalculateScore( PostsToFetch + TermsToFetch );
+	/**
+	 * Starting the recalculation process
+	 *
+	 * @param {object} response
+	 */
+	function start_recalculate( response ) {
+		var PostsToFetch = parseInt( response.posts, 10 );
+		var TermsToFetch = parseInt( response.terms, 10 );
+
+		var RecalculateScore = new YoastRecalculateScore( PostsToFetch + TermsToFetch );
+		RecalculateScore.start(PostsToFetch, 'post', 'post_id', function() {
+			RecalculateScore.start(TermsToFetch, 'term', 'term_id', false );
+		});
+	}
 
 	// Initialize the recalculate.
 	function init() {
@@ -213,9 +224,15 @@
 					// Reset the count element and the progressbar
 					jQuery( '#wpseo_count' ).text( 0 );
 
-					RecalculateScore.start(PostsToFetch, 'post', 'post_id', function() {
-						RecalculateScore.start(TermsToFetch, 'term', 'term_id', false );
-					});
+					$.post(
+						ajaxurl,
+						{
+							action: 'wpseo_recalculate_total',
+							nonce: jQuery( '#wpseo_recalculate_nonce' ).val()
+						},
+						start_recalculate,
+						'json'
+					);
 				}
 			);
 
