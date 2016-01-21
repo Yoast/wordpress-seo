@@ -44,7 +44,7 @@ function wpseo_undo_redirect( origin, target, type, nonce, id ) {
 function wpseo_create_redirect( origin, type, nonce, id ) {
 	var target = '';
 	if( parseInt( type, 10 ) !== 410 ) {
-		target = window.prompt(wpseo_premium_strings.enter_new_url.replace('%s', origin));
+		target = window.prompt( wpseo_premium_strings.enter_new_url.replace( '%s', origin ) );
 
 		if ( target === '' ) {
 			window.alert( wpseo_premium_strings.error_new_url );
@@ -65,21 +65,21 @@ function wpseo_create_redirect( origin, type, nonce, id ) {
 			id: id
 		},
 		function( response ) {
-			var notice = jQuery( '#' + id);
+			var notice = jQuery( '#' + id  );
 
 			// Remove the classes first.
 			jQuery(notice)
-				.removeClass ('updated' )
+				.removeClass ( 'updated' )
 				.removeClass( 'error' );
 
 			// Remove possibly added redirect errors
 			jQuery( notice).find('.redirect_error').remove();
 
-			if(response.error) {
+			if( response.error ) {
 				// Add paragraph on top of the notice with actions and set class to error.
 				jQuery(notice)
 					.addClass( 'error' )
-					.prepend( '<p class="redirect_error">' + response.error.message + '</p>'  );
+					.prepend( '<p class="redirect_error">' + response.error.message + '</p>' );
 
 				return;
 			}
@@ -90,10 +90,10 @@ function wpseo_create_redirect( origin, type, nonce, id ) {
 				success_message = wpseo_premium_strings.redirect_saved_no_target;
 			}
 			else {
-				success_message = wpseo_premium_strings.redirect_saved.replace('%2$s', '<code>' + response.target + '</code>');
+				success_message = wpseo_premium_strings.redirect_saved.replace( '%2$s', '<code>' + response.target + '</code>' );
 			}
 
-			success_message = success_message.replace('%1$s', '<code>' + response.origin + '</code>');
+			success_message = success_message.replace( '%1$s', '<code>' + response.origin + '</code>' );
 
 			// Set class to updated and replace html with the success message
 			jQuery(notice)
