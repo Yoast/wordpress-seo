@@ -2,18 +2,6 @@
 /* jshint -W097 */
 /* jshint unused:false */
 'use strict';
-/**
- * Used to dismiss the after-update admin notice for a specific user until the next update.
- *
- * @param {string} nonce
- */
-function wpseoDismissAbout( nonce ) {
-	jQuery.post( ajaxurl, {
-			action: 'wpseo_dismiss_about',
-			_wpnonce: nonce
-		}
-	);
-}
 
 /**
  * Used to dismiss the tagline notice for a specific user.
@@ -73,9 +61,13 @@ function wpseoMakeDismissible() {
 }
 
 jQuery( document ).ready( function() {
-	jQuery( '#wpseo-dismiss-about > .notice-dismiss' ).click( function() {
-		wpseoDismissAbout( jQuery( '#wpseo-dismiss-about' ).data( 'nonce' ) );
-	});
+	var dismissLink = jQuery(
+		'<a href="' +
+		wpseoAdminGlobalL10n.dismiss_about_url +
+		'" type="button" class="notice-dismiss"><span class="screen-reader-text">Dismiss this notice.</span></a>'
+	);
+
+	jQuery( '#wpseo-dismiss-about > .notice-dismiss').replaceWith( dismissLink );
 
 	jQuery( '#wpseo-dismiss-tagline-notice > .notice-dismiss').click( function() {
 		wpseoDismissTaglineNotice( jQuery( '#wpseo-dismiss-tagline-notice').data( 'nonce' ) );
