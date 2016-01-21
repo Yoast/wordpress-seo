@@ -196,9 +196,9 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 	 * @return string
 	 */
 	protected function get_delete_notification() {
-		/* translators %1$s expands to Yoast SEO Premium, %2$s expands to <a href='{create_redirect_url}'> and %3$s </a> */
+		/* translators %1$s: Yoast SEO Premium, %2$s: List with actions, %3$s: <a href='{post_with_explaination.}'>, %4$s: </a> */
 		return __(
-			'%1$s detected that you deleted a term. %2$sClick here to create a redirect from the old term URL%3$s.',
+			'%1$s detected that you deleted a term. You can either: %2$s Don\'t know what to do? %3$sRead this post %4$s.',
 			'wordpress-seo-premium'
 		);
 	}

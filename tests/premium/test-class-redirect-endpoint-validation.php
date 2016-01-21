@@ -92,7 +92,7 @@ class WPSEO_Redirect_Endpoint_Validation_Test extends WPSEO_UnitTestCase {
 			)
 		);
 		$this->assertEquals(
-			new WPSEO_Validation_Error( 'There might be a redirect loop.', array( 'origin', 'target' ) ),
+			new WPSEO_Validation_Error( 'The redirect you are trying to save will create a redirect loop. This means there probably already exists a redirect that points to the origin of the redirect you are trying to save', array( 'origin', 'target' ) ),
 			$this->class_instance->get_error()
 		);
 	}

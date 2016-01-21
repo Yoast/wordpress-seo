@@ -99,7 +99,8 @@ abstract class WPSEO_Watcher {
 		$message = sprintf(
 			$this->get_delete_notification(),
 			'Yoast SEO Premium',
-			'<a href=\''. $this->javascript_create_redirect( $url, $id ) . '\'>',
+			$this->get_delete_action_list( $url, $id ),
+			'<a href="https://yoast.com/deleting-pages-from-your-site/#utm_source=wordpress-seo-premium-' . $this->watch_type . '-watcher&amp;utm_medium=dialog&amp;utm_campaign=410-redirect">',
 			'</a>'
 		);
 
@@ -148,15 +149,17 @@ abstract class WPSEO_Watcher {
 	/**
 	 * Returns the string to the javascript method from where a new redirect can be added
 	 *
-	 * @param string $url The URL that can be redirected.
-	 * @param string $id  ID of the notice that is displayed.
+	 * @param string $url  The URL that can be redirected.
+	 * @param string $id   ID of the notice that is displayed.
+	 * @param int    $type The redirect type. Default is 301.
 	 *
 	 * @return string
 	 */
-	protected function javascript_create_redirect( $url, $id ) {
+	protected function javascript_create_redirect( $url, $id, $type = WPSEO_Redirect::PERMANENT ) {
 		return sprintf(
-			'javascript:wpseo_create_redirect( "%1$s", "%2$s", "%3$s" );',
+			'javascript:wpseo_create_redirect( "%1$s", "%2$s", "%3$s", "%4$s" );',
 			urlencode( $url ),
+			$type,
 			wp_create_nonce( 'wpseo-redirects-ajax-security' ),
 			esc_attr( $id )
 		);}
@@ -206,6 +209,22 @@ abstract class WPSEO_Watcher {
 
 		// Only set notification when the slug change was not saved through quick edit.
 		$this->create_notification( $message, 'slug_change', $id );
+	}
+
+	/**
+	 * Returns a list with the actions that the user can do on deleting a post/term
+	 *
+	 * @param string $url The url that will be redirected.
+	 * @param string $id  The ID of the element.
+	 *
+	 * @return string.
+	 */
+	protected function get_delete_action_list( $url, $id ) {
+		return sprintf(
+			'<ul>%1$s %2$s</ul>',
+			'<li><a href=\'' . $this->javascript_create_redirect( $url, $id, WPSEO_Redirect::PERMANENT ) . '\'>' . __( 'Redirect it to another URL.', 'wordpress-seo-premium' ) . '</a></li>',
+			'<li><a href=\'' . $this->javascript_create_redirect( $url, $id, WPSEO_Redirect::DELETED ) . '\'>' . __( 'Make it serve a 410 Content Deleted header.', 'wordpress-seo-premium' ) . '</a></li>'
+		);
 	}
 
 }
