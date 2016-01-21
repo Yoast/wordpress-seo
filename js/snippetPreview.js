@@ -351,13 +351,13 @@ SnippetPreview.prototype.formatTitle = function() {
 		title = this.opts.placeholder.title;
 	}
 
-	// TODO: Replace this with the stripAllTags module.
-	title = this.refObj.stringHelper.stripAllTags( title );
-
 	// Apply modification to the title before showing it.
 	if ( this.refObj.pluggable.loaded ) {
 		title = this.refObj.pluggable._applyModifications( "data_page_title", title );
 	}
+
+	// TODO: Replace this with the stripAllTags module.
+	title = this.refObj.stringHelper.stripAllTags( title );
 
 	// If a keyword is set we want to highlight it in the title.
 	if ( !isEmpty( this.refObj.rawData.keyword ) ) {
@@ -422,16 +422,16 @@ SnippetPreview.prototype.formatMeta = function() {
 		meta = this.getMetaText();
 	}
 
+	// Apply modification to the desc before showing it.
+	if ( this.refObj.pluggable.loaded ) {
+		meta = this.refObj.pluggable._applyModifications( "data_meta_desc", meta );
+	}
+
 	// TODO: Replace this with the stripAllTags module.
 	meta = this.refObj.stringHelper.stripAllTags( meta );
 
 	// Cut-off the meta description according to the maximum length
 	meta = meta.substring( 0, YoastSEO.analyzerConfig.maxMeta );
-
-	// Apply modification to the desc before showing it.
-	if ( this.refObj.pluggable.loaded ) {
-		meta = this.refObj.pluggable._applyModifications( "data_meta_desc", meta );
-	}
 
 	if ( !isEmpty( this.refObj.rawData.keyword ) ) {
 		meta = this.formatKeyword( meta );
