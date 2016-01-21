@@ -311,8 +311,8 @@ add_shortcode( 'wpseo_breadcrumb', 'wpseo_shortcode_yoast_breadcrumb' );
  */
 function wpseo_invalidate_sitemap_cache( $type ) {
 	// Always delete the main index sitemaps cache, as that's always invalidated by any other change.
-	delete_transient( 'wpseo_sitemap_cache_1' );
-	delete_transient( 'wpseo_sitemap_cache_' . $type );
+	delete_transient( 'wpseo_sitemap_cache_1_1' );
+	delete_transient( 'wpseo_sitemap_cache_' . $type . '_1' );
 
 	WPSEO_Utils::clear_sitemap_cache( array( $type ) );
 }
