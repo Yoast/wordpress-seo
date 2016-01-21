@@ -78,8 +78,8 @@ class WPSEO_Sitemaps_Cache {
 	 */
 	public static function invalidate( $type ) {
 
-		delete_transient( 'wpseo_sitemap_cache_1' );
-		delete_transient( 'wpseo_sitemap_cache_' . $type );
+		delete_transient( 'wpseo_sitemap_cache_1_1' );
+		delete_transient( 'wpseo_sitemap_cache_' . $type . '_1' );
 
 		return self::clear( array( $type ) );
 	}
