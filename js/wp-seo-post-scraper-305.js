@@ -186,6 +186,8 @@
 	/**
 	 * Gets content from the content field, if tinyMCE is initialized, use the getContent function to get the data from tinyMCE
 	 * If tiny is hidden, take the value from the contentfield, since tinyMCE isn't updated when it isn't visible.
+	 * TinyMCE doesn't update the content field realtime, it has a delay in updating this field, so getting the value of the content
+	 * field isn't always reliable.
 	 * @returns {String}
 	 */
 	PostScraper.prototype.getContentTinyMCE = function() {
