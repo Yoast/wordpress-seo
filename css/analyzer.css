@@ -7,6 +7,30 @@
     position: relative;
 }
 
+.snippet_container {
+    margin-top: 2px;
+}
+
+.snippet_container:before,
+.snippet_container:after {
+    content: ' ';
+    display: table;
+}
+
+.snippet_container:after {
+    clear: both;
+}
+
+#snippet_preview:hover .snippet_container {
+    background: #ebebeb url(images/edit.svg) no-repeat right;
+    background-size: 20px;
+}
+
+#snippet_preview .snippet_container:hover {
+    background-color: #bbdefb;
+    cursor: pointer;
+}
+
 .snippet-editor__preview {
     padding: 20px 20px 0 20px;
 }
@@ -41,7 +65,7 @@
 .snippet-editor__chevron-right-icon,
 .snippet-editor__chevron-down-icon {
     fill: currentColor;
-    width: auto;
+    width: 1.5em;
     height: 1em;
     position: relative;
     top: 2px;
