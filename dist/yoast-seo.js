@@ -1101,9 +1101,18 @@ YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 
 var defaultsDeep = require( "lodash/object/defaultsDeep" );
 var isObject = require( "lodash/lang/isObject" );
-var isElement = require( "lodash/lang/isElement" );
 
+/**
+ * Default config for YoastSEO.js
+ *
+ * @type {Object}
+ */
 var defaults = {
+	callbacks: {
+		bindElementEvents: function( ) { },
+		updateSnippetValues: function( ) { },
+		saveScores: function( ) { }
+	},
 	sampleText: {
 		baseUrl: "example.org/",
 		snippetCite: "example-post/",
@@ -1111,7 +1120,37 @@ var defaults = {
 		keyword: "Choose a focus keyword",
 		meta: "Modify your meta description by editing it right here",
 		text: "Start writing your text!"
-	}
+	},
+	queue: [ "wordCount",
+		"keywordDensity",
+		"subHeadings",
+		"stopwords",
+		"fleschReading",
+		"linkCount",
+		"imageCount",
+		"urlKeyword",
+		"urlLength",
+		"metaDescription",
+		"pageTitleKeyword",
+		"pageTitleLength",
+		"firstParagraph",
+		"'keywordDoubles" ],
+	typeDelay: 300,
+	typeDelayStep: 100,
+	maxTypeDelay: 1500,
+	dynamicDelay: true,
+	locale: "en_US",
+	translations: {
+		"domain": "js-text-analysis",
+		"locale_data": {
+			"js-text-analysis": {
+				"": {}
+			}
+		}
+	},
+	replaceTarget: [],
+	resetTarget: [],
+	elementTarget: []
 };
 
 /**
@@ -1183,7 +1222,7 @@ var defaults = {
  * @constructor
  */
 YoastSEO.App = function( args ) {
-	if( !isObject( args ) ){
+	if ( !isObject( args ) ){
 		args = {};
 	}
 	defaultsDeep( args, defaults );
@@ -1191,8 +1230,17 @@ YoastSEO.App = function( args ) {
 	this.config = args;
 	this.callbacks = this.config.callbacks;
 
-	if ( !isElement( this.config.callbacks ) ) {
-		throw new Error( "The app requires an object with callbacks" );
+	if ( !isObject( this.callbacks.getData ) ) {
+		throw new Error( "The app requires an object with a getdata callback." );
+	}
+	if ( !isObject( this.config.targets ) ) {
+		throw new Error( "No targetElement is defined." );
+	}
+	if ( !isObject( this.config.targets.output ) ) {
+		throw new Error( "No output target defined." );
+	}
+	if ( !isObject( this.config.targets.snippet ) ) {
+		throw new Error( "No snippet target defined." );
 	}
 
 	this.i18n = this.constructI18n( this.config.translations );
@@ -1204,22 +1252,6 @@ YoastSEO.App = function( args ) {
 	this.showLoadingDialog();
 	this.createSnippetPreview();
 	this.runAnalyzer();
-};
-
-/**
- * Default config for YoastSEO.js
- *
- * @type {Object}
- */
-YoastSEO.App.defaultConfig = {
-	sampleText: {
-		baseUrl: "example.org/",
-		snippetCite: "example-post/",
-		title: "This is an example title - edit by clicking here",
-		keyword: "Choose a focus keyword",
-		meta: "Modify your meta description by editing it right here",
-		text: "Start writing your text!"
-	}
 };
 
 /**
@@ -1490,7 +1522,7 @@ YoastSEO.App.prototype.removeLoadingDialog = function() {
 	document.getElementById( this.config.targets.output ).removeChild( document.getElementById( "YoastSEO-plugin-loading" ) );
 };
 
-},{"../js/snippetPreview.js":28,"jed":54,"lodash/lang/isElement":116,"lodash/lang/isObject":120,"lodash/lang/isUndefined":124,"lodash/object/defaultsDeep":126}],17:[function(require,module,exports){
+},{"../js/snippetPreview.js":28,"jed":54,"lodash/lang/isObject":120,"lodash/lang/isUndefined":124,"lodash/object/defaultsDeep":126}],17:[function(require,module,exports){
 YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 
 require( "./config/config.js" );

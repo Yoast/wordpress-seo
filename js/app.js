@@ -12,9 +12,9 @@ var isObject = require( "lodash/lang/isObject" );
  */
 var defaults = {
 	callbacks: {
-		bindElementEvents: function(){},
-		updateSnippetValues: function(){},
-		saveScores: function(){}
+		bindElementEvents: function( ) { },
+		updateSnippetValues: function( ) { },
+		saveScores: function( ) { }
 	},
 	sampleText: {
 		baseUrl: "example.org/",
@@ -37,7 +37,7 @@ var defaults = {
 		"pageTitleKeyword",
 		"pageTitleLength",
 		"firstParagraph",
-		"'keywordDoubles"],
+		"'keywordDoubles" ],
 	typeDelay: 300,
 	typeDelayStep: 100,
 	maxTypeDelay: 1500,
@@ -125,7 +125,7 @@ var defaults = {
  * @constructor
  */
 YoastSEO.App = function( args ) {
-	if( !isObject( args ) ){
+	if ( !isObject( args ) ){
 		args = {};
 	}
 	defaultsDeep( args, defaults );
@@ -136,13 +136,13 @@ YoastSEO.App = function( args ) {
 	if ( !isObject( this.callbacks.getData ) ) {
 		throw new Error( "The app requires an object with a getdata callback." );
 	}
-	if ( !isObject( this.config.targets ) ){
+	if ( !isObject( this.config.targets ) ) {
 		throw new Error( "No targetElement is defined." );
 	}
-	if ( !isObject( this.config.targets.output ) ){
+	if ( !isObject( this.config.targets.output ) ) {
 		throw new Error( "No output target defined." );
 	}
-	if ( !isObject( this.config.targets.snippet ) ){
+	if ( !isObject( this.config.targets.snippet ) ) {
 		throw new Error( "No snippet target defined." );
 	}
 
@@ -156,7 +156,6 @@ YoastSEO.App = function( args ) {
 	this.createSnippetPreview();
 	this.runAnalyzer();
 };
-
 
 /**
  * Extend the config with defaults.
