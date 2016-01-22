@@ -66,7 +66,7 @@ class WPSEO_Admin_Init {
 
 		if ( $can_access && $this->has_ignored_tour() && ! $this->seen_about() ) {
 
-			if ( filter_input( INPUT_GET, 'intro' ) === '1' || filter_input( INPUT_GET, 'wpseo-dismiss-about' ) === '1' ) {
+			if ( ( filter_input( INPUT_GET, 'intro' ) === '1' || $this->dismiss_notice( 'wpseo-dismiss-about' )) ) {
 				update_user_meta( get_current_user_id(), 'wpseo_seen_about_version' , WPSEO_VERSION );
 
 				return;
@@ -382,5 +382,16 @@ class WPSEO_Admin_Init {
 				'javascript'
 			);
 		}
+	}
+
+	/**
+	 * Check if there is a dismiss notice action.
+	 *
+	 * @param string $notice_name The name of the notice to dismiss.
+	 *
+	 * @return bool
+	 */
+	private function dismiss_notice( $notice_name ) {
+		return filter_input( INPUT_GET, $notice_name ) === '1' && wp_verify_nonce( filter_input( INPUT_GET, 'nonce' ), $notice_name );
 	}
 }
