@@ -165,7 +165,7 @@
 }
 
 .snippet-editor__field--invalid {
-    border: 1px solid #f00;
+    color: #f00;
 }
 
 .snippet-editor__date {
