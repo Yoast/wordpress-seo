@@ -718,6 +718,11 @@ class WPSEO_Admin {
 		return $icon_svg;
 	}
 
+	/**
+	 * Localization for the dismiss urls.
+	 *
+	 * @return array
+	 */
 	private function localize_admin_global_script() {
 		return array(
 			'dismiss_about_url' => $this->get_dismiss_url( 'wpseo-dismiss-about' ),
