@@ -676,7 +676,7 @@ class WPSEO_Admin {
 	private function get_dismiss_url( $dismiss_param ) {
 		$arr_params = array(
 			$dismiss_param => '1',
-			'nonce'        => wp_create_nonce( $dismiss_param )
+			'nonce'        => wp_create_nonce( $dismiss_param ),
 		);
 
 		return esc_url( add_query_arg( $arr_params ) );
