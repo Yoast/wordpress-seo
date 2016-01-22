@@ -764,29 +764,49 @@ function rateMetaDescLength( metaDescLength ) {
 }
 
 /**
+ * Updates a progress bar
+ *
+ * @param {HTMLElement} element The progress element that's rendered.
+ * @param {number} value The current value.
+ * @param {number} maximum The maximum allowed value.
+ * @param {string} rating The SEO score rating for this value.
+ */
+function updateProgressBar( element, value, maximum, rating ) {
+	var allClasses = [
+		"snippet-editor__progress--bad",
+		"snippet-editor__progress--ok",
+		"snippet-editor__progress--good"
+	];
+
+	element.value = value;
+	removeClasses( element, allClasses );
+	addClass( element, "snippet-editor__progress--" + rating );
+}
+
+/**
  * Updates progress bars based on the data
  */
 SnippetPreview.prototype.updateProgressBars = function() {
-	var metaDescriptionRating, titleRating, metaDescription,
-		allClasses = [
-			"snippet-editor__progress--bad",
-			"snippet-editor__progress--ok",
-			"snippet-editor__progress--good"
-		];
+	var metaDescriptionRating, titleRating, metaDescription;
 
 	metaDescription = getMetaDescWithDate.call( this );
 
 	titleRating = rateTitleLength( this.data.title.length );
 	metaDescriptionRating = rateMetaDescLength( metaDescription.length );
 
-	this.element.progress.title.value = this.data.title.length;
-	this.element.progress.metaDesc.value = metaDescription.length;
+	updateProgressBar(
+		this.element.progress.title,
+		this.data.title.length,
+		titleMaxLength,
+		titleRating
+	);
 
-	removeClasses( this.element.progress.title,  allClasses );
-	removeClasses( this.element.progress.metaDesc, allClasses );
-
-	addClass( this.element.progress.title, "snippet-editor__progress--" + titleRating );
-	addClass( this.element.progress.metaDesc, "snippet-editor__progress--" + metaDescriptionRating );
+	updateProgressBar(
+		this.element.progress.metaDesc,
+		metaDescription.length,
+		YoastSEO.analyzerConfig.maxMeta,
+		metaDescriptionRating
+	);
 };
 
 /**
