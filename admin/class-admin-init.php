@@ -66,11 +66,12 @@ class WPSEO_Admin_Init {
 
 		if ( $can_access && $this->has_ignored_tour() && ! $this->seen_about() ) {
 
-			if ( ( filter_input( INPUT_GET, 'intro' ) === '1' || $this->dismiss_notice( 'wpseo-dismiss-about' )) ) {
+			if ( filter_input( INPUT_GET, 'intro' ) === '1' || $this->dismiss_notice( 'wpseo-dismiss-about' ) ) {
 				update_user_meta( get_current_user_id(), 'wpseo_seen_about_version' , WPSEO_VERSION );
 
 				return;
 			}
+
 			/* translators: %1$s expands to Yoast SEO, $2%s to the version number, %3$s and %4$s to anchor tags with link to intro page  */
 			$info_message = sprintf(
 				__( '%1$s has been updated to version %2$s. %3$sClick here%4$s to find out what\'s new!', 'wordpress-seo' ),
@@ -150,6 +151,11 @@ class WPSEO_Admin_Init {
 	 * @return bool
 	 */
 	public function seen_tagline_notice() {
+		// Check if the current request contain action to dismiss the notice.
+		if ( $this->dismiss_notice( 'wpseo-dismiss-tagline-notice' ) ) {
+			update_user_meta( get_current_user_id(), 'wpseo_seen_tagline_notice', 'seen' );
+		}
+
 		return 'seen' === get_user_meta( get_current_user_id(), 'wpseo_seen_tagline_notice', true );
 	}
 
@@ -346,7 +352,6 @@ class WPSEO_Admin_Init {
 		if ( filter_input( INPUT_GET, 'wpseo_ignore_tour' ) && wp_verify_nonce( filter_input( INPUT_GET, 'nonce' ), 'wpseo-ignore-tour' ) ) {
 			update_user_meta( get_current_user_id(), 'wpseo_ignore_tour', true );
 		}
-
 	}
 
 	/**
@@ -394,4 +399,6 @@ class WPSEO_Admin_Init {
 	private function dismiss_notice( $notice_name ) {
 		return filter_input( INPUT_GET, $notice_name ) === '1' && wp_verify_nonce( filter_input( INPUT_GET, 'nonce' ), $notice_name );
 	}
+
+
 }

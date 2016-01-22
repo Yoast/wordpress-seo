@@ -1,4 +1,5 @@
 /* global ajaxurl */
+/* global wpseoAdminGlobalL10n */
 /* jshint -W097 */
 /* jshint unused:false */
 'use strict';
@@ -60,18 +61,24 @@ function wpseoMakeDismissible() {
 	});
 }
 
-jQuery( document ).ready( function() {
-	var dismissLink = jQuery(
-		'<a href="' +
-		wpseoAdminGlobalL10n.dismiss_about_url +
-		'" type="button" class="notice-dismiss"><span class="screen-reader-text">Dismiss this notice.</span></a>'
+/**
+ * Generates a dismissable anchor button
+ *
+ * @param {string} dismiss_link
+ *
+ * @returns {*}
+ */
+function wpseoDismissLink( dismiss_link ) {
+	return jQuery(
+		'<a href="' + dismiss_link + '" type="button" class="notice-dismiss">' +
+		'<span class="screen-reader-text">Dismiss this notice.</span>' +
+		'</a>'
 	);
+}
 
-	jQuery( '#wpseo-dismiss-about > .notice-dismiss').replaceWith( dismissLink );
-
-	jQuery( '#wpseo-dismiss-tagline-notice > .notice-dismiss').click( function() {
-		wpseoDismissTaglineNotice( jQuery( '#wpseo-dismiss-tagline-notice').data( 'nonce' ) );
-	});
+jQuery( document ).ready( function() {
+	jQuery( '#wpseo-dismiss-about > .notice-dismiss').replaceWith( wpseoDismissLink( wpseoAdminGlobalL10n.dismiss_about_url ) );
+	jQuery( '#wpseo-dismiss-tagline-notice > .notice-dismiss').replaceWith( wpseoDismissLink( wpseoAdminGlobalL10n.dismiss_tagline_url ) );
 
 	jQuery( '.yoast-dismissible > .notice-dismiss').click( function() {
 		var parent_div = jQuery( this ).parent('.yoast-dismissible');

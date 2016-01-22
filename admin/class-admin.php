@@ -661,7 +661,8 @@ class WPSEO_Admin {
 	 */
 	private function localize_admin_global_script() {
 		return array(
-			'dismiss_about_url' => $this->get_dismiss_url( 'wpseo-dismiss-about' ),
+			'dismiss_about_url'   => $this->get_dismiss_url( 'wpseo-dismiss-about' ),
+			'dismiss_tagline_url' => $this->get_dismiss_url( 'wpseo-dismiss-tagline-notice' ),
 		);
 	}
 
