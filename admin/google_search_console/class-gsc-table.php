@@ -360,7 +360,7 @@ class WPSEO_GSC_Table extends WP_List_Table {
 				$redirect_manager = new WPSEO_Redirect_Manager();
 			}
 
-			if ( $current_redirect = $redirect_manager->search_url( $url ) ) {
+			if ( $current_redirect = $redirect_manager->get_redirect( $url ) ) {
 				return 'already_exists';
 			}
 
