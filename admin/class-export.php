@@ -220,5 +220,4 @@ class WPSEO_Export {
 
 		return true;
 	}
-
 }

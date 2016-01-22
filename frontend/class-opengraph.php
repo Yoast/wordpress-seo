@@ -17,7 +17,7 @@ class WPSEO_OpenGraph {
 	 * Class constructor.
 	 */
 	public function __construct() {
-		$this->options = WPSEO_Options::get_all();
+		$this->options = WPSEO_Options::get_option( 'wpseo_social' );
 
 		if ( isset( $GLOBALS['fb_ver'] ) || class_exists( 'Facebook_Loader', false ) ) {
 			add_filter( 'fb_meta_tags', array( $this, 'facebook_filter' ), 10, 1 );
@@ -230,6 +230,16 @@ class WPSEO_OpenGraph {
 		else if ( is_front_page() ) {
 			$title = ( isset( $this->options['og_frontpage_title'] ) && $this->options['og_frontpage_title'] !== '' ) ? $this->options['og_frontpage_title'] : $frontend->title( '' );
 		}
+		elseif ( is_category() || is_tax() || is_tag() ) {
+			$title = WPSEO_Taxonomy_Meta::get_meta_without_term( 'opengraph-title' );
+			if ( $title === '' ) {
+				$title = $frontend->get_taxonomy_title( '' );
+			}
+			else {
+				// Replace Yoast SEO Variables.
+				$title = wpseo_replace_vars( $title, $GLOBALS['wp_query']->get_queried_object() );
+			}
+		}
 		else {
 			$title = $frontend->title( '' );
 		}
@@ -325,13 +335,21 @@ class WPSEO_OpenGraph {
 		// These are the locales FB supports.
 		$fb_valid_fb_locales = array(
 			'af_ZA', // Afrikaans.
+			'ak_GH', // Akan.
+			'am_ET', // Amharic.
 			'ar_AR', // Arabic.
+			'as_IN', // Assamese.
+			'ay_BO', // Aymara.
 			'az_AZ', // Azerbaijani.
 			'be_BY', // Belarusian.
 			'bg_BG', // Bulgarian.
 			'bn_IN', // Bengali.
+			'br_FR', // Breton.
 			'bs_BA', // Bosnian.
 			'ca_ES', // Catalan.
+			'cb_IQ', // Sorani Kurdish.
+			'ck_US', // Cherokee.
+			'co_FR', // Corsican.
 			'cs_CZ', // Czech.
 			'cx_PH', // Cebuano.
 			'cy_GB', // Welsh.
@@ -339,16 +357,22 @@ class WPSEO_OpenGraph {
 			'de_DE', // German.
 			'el_GR', // Greek.
 			'en_GB', // English (UK).
+			'en_IN', // English (India).
 			'en_PI', // English (Pirate).
 			'en_UD', // English (Upside Down).
 			'en_US', // English (US).
 			'eo_EO', // Esperanto.
+			'es_CL', // Spanish (Chile).
+			'es_CO', // Spanish (Colombia).
 			'es_ES', // Spanish (Spain).
 			'es_LA', // Spanish.
+			'es_MX', // Spanish (Mexico).
+			'es_VE', // Spanish (Venezuela).
 			'et_EE', // Estonian.
 			'eu_ES', // Basque.
 			'fa_IR', // Persian.
 			'fb_LT', // Leet Speak.
+			'ff_NG', // Fulah.
 			'fi_FI', // Finnish.
 			'fo_FO', // Faroese.
 			'fr_CA', // French (Canada).
@@ -358,12 +382,15 @@ class WPSEO_OpenGraph {
 			'gl_ES', // Galician.
 			'gn_PY', // Guarani.
 			'gu_IN', // Gujarati.
+			'gx_GR', // Classical Greek.
+			'ha_NG', // Hausa.
 			'he_IL', // Hebrew.
 			'hi_IN', // Hindi.
 			'hr_HR', // Croatian.
 			'hu_HU', // Hungarian.
 			'hy_AM', // Armenian.
 			'id_ID', // Indonesian.
+			'ig_NG', // Igbo.
 			'is_IS', // Icelandic.
 			'it_IT', // Italian.
 			'ja_JP', // Japanese.
@@ -374,46 +401,79 @@ class WPSEO_OpenGraph {
 			'km_KH', // Khmer.
 			'kn_IN', // Kannada.
 			'ko_KR', // Korean.
-			'ku_TR', // Kurdish.
+			'ku_TR', // Kurdish (Kurmanji).
+			'ky_KG', // Kyrgyz.
 			'la_VA', // Latin.
+			'lg_UG', // Ganda.
+			'li_NL', // Limburgish.
+			'ln_CD', // Lingala.
+			'lo_LA', // Lao.
 			'lt_LT', // Lithuanian.
 			'lv_LV', // Latvian.
+			'mg_MG', // Malagasy.
+			'mi_NZ', // Maori.
 			'mk_MK', // Macedonian.
 			'ml_IN', // Malayalam.
 			'mn_MN', // Mongolian.
 			'mr_IN', // Marathi.
 			'ms_MY', // Malay.
+			'mt_MT', // Maltese.
+			'my_MM', // Burmese.
 			'nb_NO', // Norwegian (bokmal).
+			'nd_ZW', // Ndebele.
 			'ne_NP', // Nepali.
+			'nl_BE', // Dutch (Belgie).
 			'nl_NL', // Dutch.
 			'nn_NO', // Norwegian (nynorsk).
+			'ny_MW', // Chewa.
+			'or_IN', // Oriya.
 			'pa_IN', // Punjabi.
 			'pl_PL', // Polish.
 			'ps_AF', // Pashto.
 			'pt_BR', // Portuguese (Brazil).
 			'pt_PT', // Portuguese (Portugal).
+			'qu_PE', // Quechua.
+			'rm_CH', // Romansh.
 			'ro_RO', // Romanian.
 			'ru_RU', // Russian.
+			'rw_RW', // Kinyarwanda.
+			'sa_IN', // Sanskrit.
+			'sc_IT', // Sardinian.
+			'se_NO', // Northern Sami.
 			'si_LK', // Sinhala.
 			'sk_SK', // Slovak.
 			'sl_SI', // Slovenian.
+			'sn_ZW', // Shona.
+			'so_SO', // Somali.
 			'sq_AL', // Albanian.
 			'sr_RS', // Serbian.
 			'sv_SE', // Swedish.
 			'sw_KE', // Swahili.
+			'sy_SY', // Syriac.
+			'sz_PL', // Silesian.
 			'ta_IN', // Tamil.
 			'te_IN', // Telugu.
 			'tg_TJ', // Tajik.
 			'th_TH', // Thai.
+			'tk_TM', // Turkmen.
 			'tl_PH', // Filipino.
+			'tl_ST', // Klingon.
 			'tr_TR', // Turkish.
+			'tt_RU', // Tatar.
+			'tz_MA', // Tamazight.
 			'uk_UA', // Ukrainian.
 			'ur_PK', // Urdu.
 			'uz_UZ', // Uzbek.
 			'vi_VN', // Vietnamese.
+			'wo_SN', // Wolof.
+			'xh_ZA', // Xhosa.
+			'yi_DE', // Yiddish.
+			'yo_NG', // Yoruba.
 			'zh_CN', // Simplified Chinese (China).
 			'zh_HK', // Traditional Chinese (Hong Kong).
 			'zh_TW', // Traditional Chinese (Taiwan).
+			'zu_ZA', // Zulu.
+			'zz_TR', // Zazaki.
 		);
 
 		// Check to see if the locale is a valid FB one, if not, use en_US as a fallback.
@@ -489,6 +549,16 @@ class WPSEO_OpenGraph {
 		foreach ( $opengraph_images->get_images() as $img ) {
 			$this->og_tag( 'og:image', esc_url( $img ) );
 		}
+
+		$dimensions = $opengraph_images->get_dimensions();
+
+		if ( ! empty( $dimensions['width'] ) ) {
+			$this->og_tag( 'og:image:width', absint( $dimensions['width'] ) );
+		}
+
+		if ( ! empty( $dimensions['height'] ) ) {
+			$this->og_tag( 'og:image:height', absint( $dimensions['height'] ) );
+		}
 	}
 
 	/**
@@ -542,16 +612,17 @@ class WPSEO_OpenGraph {
 		}
 
 		if ( is_category() || is_tag() || is_tax() ) {
+			$ogdesc = WPSEO_Taxonomy_Meta::get_meta_without_term( 'opengraph-description' );
+			if ( $ogdesc === '' ) {
+				$ogdesc = $frontend->metadesc( false );
+			}
 
-			$ogdesc = $frontend->metadesc( false );
-
-			if ( '' == $ogdesc ) {
+			if ( $ogdesc === '' ) {
 				$ogdesc = trim( strip_tags( term_description() ) );
 			}
 
-			if ( '' == $ogdesc ) {
-				$term   = $GLOBALS['wp_query']->get_queried_object();
-				$ogdesc = WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'desc' );
+			if ( $ogdesc === '' ) {
+				$ogdesc = WPSEO_Taxonomy_Meta::get_meta_without_term( 'desc' );
 			}
 		}
 
@@ -659,10 +730,10 @@ class WPSEO_OpenGraph {
 			}
 		}
 
-		$pub = get_the_date( 'c' );
+		$pub = get_the_date( DATE_W3C );
 		$this->og_tag( 'article:published_time', $pub );
 
-		$mod = get_the_modified_date( 'c' );
+		$mod = get_the_modified_date( DATE_W3C );
 		if ( $mod != $pub ) {
 			$this->og_tag( 'article:modified_time', $mod );
 			$this->og_tag( 'og:updated_time', $mod );
@@ -670,7 +741,6 @@ class WPSEO_OpenGraph {
 
 		return true;
 	}
-
 } /* End of class */
 
 /**
@@ -687,6 +757,9 @@ class WPSEO_OpenGraph_Image {
 	 * @var array $images Holds the images that have been put out as OG image.
 	 */
 	private $images = array();
+
+	/** @var array $dimensions Holds image dimensions, if determined. */
+	protected $dimensions = array();
 
 	/**
 	 * Constructor
@@ -713,6 +786,15 @@ class WPSEO_OpenGraph_Image {
 	}
 
 	/**
+	 * Return the dimensions array.
+	 *
+	 * @return array
+	 */
+	public function get_dimensions() {
+		return $this->dimensions;
+	}
+
+	/**
 	 * Check if page is front page or singular and call the corresponding functions. If not, call get_default_image.
 	 */
 	private function set_images() {
@@ -722,6 +804,10 @@ class WPSEO_OpenGraph_Image {
 
 		if ( is_singular() ) {
 			$this->get_singular_image();
+		}
+
+		if ( is_category() || is_tax() || is_tag() ) {
+			$this->get_opengraph_image_taxonomy();
 		}
 
 		$this->get_default_image();
@@ -742,7 +828,7 @@ class WPSEO_OpenGraph_Image {
 	private function get_singular_image() {
 		global $post;
 
-		if ( $this->get_opengraph_image() ) {
+		if ( $this->get_opengraph_image_post() ) {
 			return;
 		}
 
@@ -767,12 +853,23 @@ class WPSEO_OpenGraph_Image {
 	 *
 	 * @return bool
 	 */
-	private function get_opengraph_image() {
+	private function get_opengraph_image_post() {
 		$ogimg = WPSEO_Meta::get_value( 'opengraph-image' );
 		if ( $ogimg !== '' ) {
 			$this->add_image( $ogimg );
 
 			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Check if taxonomy has an image and add this image
+	 */
+	private function get_opengraph_image_taxonomy() {
+		if ( ( $ogimg = WPSEO_Taxonomy_Meta::get_meta_without_term( 'opengraph-image' ) ) !== '' ) {
+			$this->add_image( $ogimg );
 		}
 	}
 
@@ -784,7 +881,8 @@ class WPSEO_OpenGraph_Image {
 	 * @return bool
 	 */
 	private function get_featured_image( $post_id ) {
-		if ( function_exists( 'has_post_thumbnail' ) && has_post_thumbnail( $post_id ) ) {
+
+		if ( has_post_thumbnail( $post_id ) ) {
 			/**
 			 * Filter: 'wpseo_opengraph_image_size' - Allow changing the image size used for OpenGraph sharing
 			 *
@@ -793,6 +891,10 @@ class WPSEO_OpenGraph_Image {
 			$thumb = wp_get_attachment_image_src( get_post_thumbnail_id( $post_id ), apply_filters( 'wpseo_opengraph_image_size', 'original' ) );
 
 			if ( $this->check_featured_image_size( $thumb ) ) {
+
+				$this->dimensions['width']  = $thumb[1];
+				$this->dimensions['height'] = $thumb[2];
+
 				return $this->add_image( $thumb[0] );
 			}
 		}
@@ -886,5 +988,4 @@ class WPSEO_OpenGraph_Image {
 
 		return $img;
 	}
-
 }

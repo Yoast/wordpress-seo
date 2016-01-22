@@ -102,5 +102,4 @@ class Yoast_Plugin_Conflict_Ajax {
 			$this->dismissed_conflicts[] = $posted_plugin;
 		}
 	}
-
 }

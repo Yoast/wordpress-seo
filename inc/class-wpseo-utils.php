@@ -36,15 +36,12 @@ class WPSEO_Utils {
 		}
 
 		$options = get_site_option( 'wpseo_ms' );
-		if ( $options['access'] === 'admin' && current_user_can( 'manage_options' ) ) {
-			return true;
+
+		if ( empty( $options['access'] ) || $options['access'] === 'admin' ) {
+			return current_user_can( 'manage_options' );
 		}
 
-		if ( $options['access'] === 'superadmin' && ! is_super_admin() ) {
-			return false;
-		}
-
-		return true;
+		return is_super_admin();
 	}
 
 	/**
@@ -191,42 +188,13 @@ class WPSEO_Utils {
 	 * @return string
 	 */
 	public static function translate_score( $val, $css_value = true ) {
-		if ( $val > 10 ) {
-			$val = round( $val / 10 );
-		}
-		switch ( $val ) {
-			case 0:
-				$score = __( 'N/A', 'wordpress-seo' );
-				$css   = 'na';
-				break;
-			case 4:
-			case 5:
-				$score = __( 'Poor', 'wordpress-seo' );
-				$css   = 'poor';
-				break;
-			case 6:
-			case 7:
-				$score = __( 'OK', 'wordpress-seo' );
-				$css   = 'ok';
-				break;
-			case 8:
-			case 9:
-			case 10:
-				$score = __( 'Good', 'wordpress-seo' );
-				$css   = 'good';
-				break;
-			default:
-				$score = __( 'Bad', 'wordpress-seo' );
-				$css   = 'bad';
-				break;
-		}
+		$seo_rank = WPSEO_Rank::from_numeric_score( $val );
 
 		if ( $css_value ) {
-			return $css;
+			return $seo_rank->get_css_class();
 		}
-		else {
-			return $score;
-		}
+
+		return $seo_rank->get_label();
 	}
 
 	/**
@@ -527,7 +495,7 @@ class WPSEO_Utils {
 		}
 
 		// Not sure about efficiency, but that's what code elsewhere does R.
-		$options = WPSEO_Options::get_all();
+		$options = WPSEO_Options::get_option( 'wpseo_xml' );
 
 		if ( true !== $options['enablexmlsitemap'] ) {
 			return;
@@ -791,6 +759,41 @@ class WPSEO_Utils {
 	}
 
 	/**
+	 * Retrieves the sitename.
+	 *
+	 * @return string
+	 */
+	public static function get_site_name() {
+		return trim( strip_tags( get_bloginfo( 'name' ) ) );
+	}
+
+	/**
+	 * Retrieves the title separator.
+	 *
+	 * @return string
+	 */
+	public static function get_title_separator() {
+		$replacement = WPSEO_Options::get_default( 'wpseo_titles', 'separator' );
+
+		// Get the titles option and the separator options.
+		$titles_options    = WPSEO_Options::get_option( 'wpseo_titles' );
+		$seperator_options = WPSEO_Option_Titles::get_instance()->get_separator_options();
+
+		// This should always be set, but just to be sure.
+		if ( isset( $seperator_options[ $titles_options['separator'] ] ) ) {
+			// Set the new replacement.
+			$replacement = $seperator_options[ $titles_options['separator'] ];
+		}
+
+		/**
+		 * Filter: 'wpseo_replacements_filter_sep' - Allow customization of the separator character(s)
+		 *
+		 * @api string $replacement The current separator
+		 */
+		return apply_filters( 'wpseo_replacements_filter_sep', $replacement );
+	}
+
+	/**
 	 * Wrapper for encoding the array as a json string. Includes a fallback if wp_json_encode doesn't exists
 	 *
 	 * @param array $array_to_encode The array which will be encoded.
@@ -807,6 +810,50 @@ class WPSEO_Utils {
 		// @codingStandardsIgnoreStart
 		return json_encode( $array_to_encode );
 		// @codingStandardsIgnoreEnd
+	}
+
+	/**
+	 * Check if the current opened page is a Yoast SEO page.
+	 *
+	 * @return bool
+	 */
+	public static function is_yoast_seo_page() {
+		static $is_yoast_seo;
+
+		if ( $is_yoast_seo === null ) {
+			$current_page = filter_input( INPUT_GET, 'page' );
+			$is_yoast_seo = ( substr( $current_page, 0, 6 ) === 'wpseo_' );
+		}
+
+		return $is_yoast_seo;
+	}
+
+	/**
+	 * Determine if Yoast SEO is in development mode?
+	 *
+	 * Inspired by JetPack (https://github.com/Automattic/jetpack/blob/master/class.jetpack.php#L1383-L1406).
+	 *
+	 * @return bool
+	 */
+	public static function is_development_mode() {
+		$development_mode = false;
+
+		if ( defined( 'WPSEO_DEBUG' ) ) {
+			$development_mode = WPSEO_DEBUG;
+		}
+		elseif ( site_url() && false === strpos( site_url(), '.' ) ) {
+			$development_mode = true;
+		}
+
+		/**
+		 * Filter the Yoast SEO development mode.
+		 *
+		 * @since 3.0
+		 *
+		 * @param bool $development_mode Is Yoast SEOs development mode active.
+		 */
+
+		return apply_filters( 'yoast_seo_development_mode', $development_mode );
 	}
 
 } /* End of class WPSEO_Utils */

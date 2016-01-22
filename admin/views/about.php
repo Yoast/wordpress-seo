@@ -17,7 +17,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 function wpseo_display_contributors( $contributors ) {
 	foreach ( $contributors as $username => $dev ) {
 		echo '<li class="wp-person" id="wp-person-', $username, '">';
-		echo '<a href="https://github.com/', $username, '"><img	src="https://secure.gravatar.com/avatar/', $dev->gravatar, '?s=60" class="gravatar" alt="', $dev->name, '"></a>';
+		echo '<a href="https://github.com/', $username, '"><img	src="//gravatar.com/avatar/', $dev->gravatar, '?s=60" class="gravatar" alt="', $dev->name, '"></a>';
 		echo '<a class="web" href="https://github.com/', $username, '">', $dev->name, '</a>';
 		echo '<span class="title">', $dev->role, '</span></li>';
 	}
@@ -33,145 +33,90 @@ function wpseo_display_contributors( $contributors ) {
 		?></h1>
 
 	<p class="about-text">
-		Yoast SEO 2.3 helps you optimize your site showing you errors straight from Google Search Console, and pointing you at posts that need work.
+		Yoast SEO 3.0 is about feedback. Feedback on what <em>you</em> can do to improve your site and your post(s).
+		Feedback when you are doing what you should be doing: writing awesome content.
 	</p>
+
+	<div class="wp-badge"></div>
 
 	<h2 class="nav-tab-wrapper" id="wpseo-tabs">
 		<a class="nav-tab" href="#top#new" id="new-tab">
 			<?php
-			/* translators: %s: '2.3' version number */
-			echo sprintf( __( 'What’s new in %s', 'wordpress-seo' ), '2.3' );
+			/* translators: %s: '3.0' version number */
+			echo sprintf( __( 'What’s new in %s', 'wordpress-seo' ), '3.0' );
 			?>
 		</a>
 		<a class="nav-tab" href="#top#credits" id="credits-tab"><?php _e( 'Credits', 'wordpress-seo' ); ?></a>
 	</h2>
 
 	<div id="new" class="wpseotab">
-		<div class="headline-feature">
-			<h2 style="margin:30px 0 0 0;">Some of the changes we're most proud of:</h2>
 
-			<div class="feature-section">
-				<div class="col">
-					<h3 class="alignleft">Fully integrated with Google's new Search Console</h3>
+		<h2>Real time content analysis</h2>
 
-					<div class="clear"></div>
-					<p>
-						Google has renamed its Webmaster Tools to Search Console recently and has also rolled out a new
-						API for it. This release brings the power of Google's Search Console straight to your WordPress
-						install. All the errors Google gets, you will be able to see in your WordPress install.
-					</p>
+		<p>No longer will you have to save your post or page for the content analysis to update, it'll be there in real
+			time. Which is also why it's now in plain sight all the time.</p>
 
-					<p>
-						If you have <a target="_blank" href="https://yoast.com/wordpress/plugins/seo-premium/#utm_source=wordpress-seo-config&utm_medium=textlink&utm_campaign=about-page">Yoast SEO Premium</a>, you'll even be able to fix those errors by redirecting the broken
-						URLs. Through the integration, we'll mark them as fixed in Google Search Console too!
-					</p>
-				</div>
-				<div class="col">
-					<img class="aligncenter"
-					     src="https://yoast-mercury.s3.amazonaws.com/uploads/2015/07/search-console-screenshot.png"
-					     alt="Yoast SEO Search Console integration screenshot"/>
+		<div class="headline-feature feature-video">
+			<?php // @codingStandardsIgnoreStart ?>
+			<script charset="ISO-8859-1" src="//fast.wistia.com/assets/external/E-v1.js" async></script>
+			<?php // @codingStandardsIgnoreEnd ?>
+			<div class="wistia_responsive_padding" style="padding:56.25% 0 0 0;position:relative;">
+				<div class="wistia_responsive_wrapper" style="height:100%;left:0;position:absolute;top:0;width:100%;">
+					<div class="wistia_embed wistia_async_vdcuq7tfh1 videoFoam=true" style="height:100%;width:100%">
+						&nbsp;</div>
 				</div>
 			</div>
 		</div>
 
-		<div class="headline-feature">
-			<div class="feature-section">
-				<div class="col">
-					<img src="https://yoast-mercury.s3.amazonaws.com/uploads/2015/07/dashboard-widget.png"
-					     alt="Yoast SEO Dashboard widget"/>
+		<div class="feature-section two-col">
+			<div class="col">
+				<div class="media-container">
+					<img src="//yoast-30.s3.amazonaws.com/snippet-editor.png" alt="Snippet editor">
 				</div>
-				<div class="col">
-					<h3 class="alignleft">Point you at posts that need work</h3>
+				<h3>A snippet editor</h3>
 
-					<div class="clear"></div>
-					<p>
-						It's sometimes easy to just keep on writing new posts, when you actually have old posts that
-						need work. The new dashboard widget we've added points you at exactly those post that need work.
-					</p>
-					<p>
-						Don't know how to optimize your posts? Read our <a target="_blank" href="https://yoast.com/ebooks/content-seo/#utm_source=wordpress-seo-config&utm_medium=textlink&utm_campaign=about-page">Content SEO eBook</a>!
-					</p>
-				</div>
+				<p>Our snippet preview got turned into a snippet editor. Click it, modify it, make it work. With instant
+					inline feedback when it's too long and the content analysis updating straight away too.</p>
 			</div>
-		</div>
-
-		<div class="headline-feature">
-			<div class="feature-section">
-				<div class="col">
-					<h3 class="alignleft">Breadcrumbs in the Customizer</h3>
-
-					<div class="clear"></div>
-					<p>
-						If your theme declares support for <code>yoast-seo-breadcrumbs</code>, you will get a Customizer
-						panel for Yoast SEO breadcrumbs. Automagically.
-					</p>
-
-					<p>
-						Are you a developer? Learn <a href='http://kb.yoast.com/article/274-add-theme-support-for-yoast-seo-breadcrumbs'>how
-							to implement this feature</a> for your theme(s).
-					</p>
+			<div class="col">
+				<div class="media-container">
+					<img src="//yoast-30.s3.amazonaws.com/onpage.png" alt="OnPage.org indexability check">
 				</div>
-				<div class="col">
-					<img src="https://yoast-mercury.s3.amazonaws.com/uploads/2015/07/breadcrumbs-customizer1.png"
-					     alt="Breadcrumbs in the customizer"/>
-				</div>
+				<h3>Is your site indexable?</h3>
+
+				<p>in collaboration with our friends at <a href="https://onpage.org/yoast-indexability/">OnPage.org</a>
+					we now give you an indexability check for your site. It automatically tells you whether your site
+					can be indexed by search engines and will alert you when that changes.</p>
 			</div>
-		</div>
+			<div class="col">
+				<div class="media-container">
+					<img src="//yoast-30.s3.amazonaws.com/category-fixes.png" alt="Supercharged categories">
+				</div>
+				<h3>Supercharged categories</h3>
 
-		<div class="changelog feature-list finer-points">
-			<h2 class="alignleft">More in this release</h2>
+				<p>We've supercharged categories and tags: we've given them a snippet editor, social meta fields, etc.
+					The entire post experience in Yoast SEO is now available for categories and tags too. Using custom
+					taxonomies? Cool, we support those too!</p>
+			</div>
+			<div class="col">
+				<div class="svg-container">
+					<span class="dashicons dashicons-wordpress"></span>
+				</div>
+				<h3>WordPress 4.4? We're ready!</h3>
+
+				<p>
+					WordPress 4.4 is nearing completion. We've tested Yoast SEO extensively with it, and we're ready.
+					With the new embeds functionality, our canonical URLs just work. Without you needing to do anything.
+				</p>
+			</div>
 
 			<div class="clear"></div>
 
-			<div class="feature-section col two-col">
-				<div>
-					<span class="dashicons dashicons-megaphone"></span>
-					<h4>Yoast SEO now truly Yoast SEO</h4>
-					</ul>
-					<p>
-						Everyone already did it, so we finally caved. The plugin formerly known as WordPress SEO by
-						Yoast, will now officially be called Yoast SEO. for WordPress.
-					</p>
-				</div>
-
-				<div class="last-feature">
-					<span class="dashicons dashicons-admin-appearance"></span>
-					<h4>Less admin clutter</h4>
-
-					<p>
-						We've changed the default for the edit posts overview page. No longer will you see multiple
-						columns from Yoast SEO, you'll now only see one small column with the SEO score image.
-					</p>
-				</div>
-
-				<div>
-					<span class="dashicons dashicons-tag"></span>
-					<h4>Just another WordPress site??</h4>
-
-					<p>
-						If your site has the default WordPress tagline "just another WordPress site", we'll actually
-						give you a warning, asking you to change it.
-					</p>
-				</div>
-
-				<div class="last-feature">
-					<span class="dashicons dashicons-translation"></span>
-					<h4><?php _e( 'More Translations', 'wordpress-seo' ); ?></h4>
-
-					<p>
-						<?php
-						/* translators: %1$s expands to Yoast SEO, %2$s and %3$s to the anchor tags to the translate.yoast.com link, %4$d to the number of translations, %5$d to the number of translations, */
-						printf( __( '%1$s ships, at time of release, with %4$d translations, of which %5$d are complete. That\'s a huge improvement from last time, and we\'re improving every week. Join us at %2$stranslate.yoast.com%3$s!', 'wordpress-seo' ), 'Yoast SEO', '<a target="_blank" href="https://translate.yoast.com/projects/wordpress-seo">', '</a>', 32, 10 );
-						?>
-					</p>
-				</div>
+			<div class="return-to-dashboard">
+				<a href="<?php echo esc_url( admin_url( 'admin.php?page=wpseo_dashboard' ) ); ?>"><?php _e( 'Go to the General settings page →', 'wordpress-seo' ); ?></a>
 			</div>
-		</div>
 
-		<div class="return-to-dashboard">
-			<a href="<?php echo esc_url( admin_url( 'admin.php?page=wpseo_dashboard' ) ); ?>"><?php _e( 'Go to The General settings page →', 'wordpress-seo' ); ?></a>
 		</div>
-
 	</div>
 
 	<div id="credits" class="wpseotab">
@@ -193,15 +138,15 @@ function wpseo_display_contributors( $contributors ) {
 					'role'     => __( 'Project Lead', 'wordpress-seo' ),
 					'gravatar' => 'f08c3c3253bf14b5616b4db53cea6b78',
 				),
-				'jrfnl'     => (object) array(
-					'name'     => 'Juliette Reinders Folmer',
-					'role'     => __( 'Lead Developer', 'wordpress-seo' ),
-					'gravatar' => 'cbbac3e529102364dc3b026af3cc2988',
-				),
 				'omarreiss' => (object) array(
 					'name'     => 'Omar Reiss',
-					'role'     => __( 'Lead Developer', 'wordpress-seo' ),
+					'role'     => __( 'Lead Architect', 'wordpress-seo' ),
 					'gravatar' => '86aaa606a1904e7e0cf9857a663c376e',
+				),
+				'atimmer'   => (object) array(
+					'name'     => 'Anton Timmermans',
+					'role'     => __( 'Architect', 'wordpress-seo' ),
+					'gravatar' => 'b3acbabfdd208ecbf950d864b86fe968',
 				),
 				'tacoverdo' => (object) array(
 					'name'     => 'Taco Verdonschot',
@@ -213,54 +158,51 @@ function wpseo_display_contributors( $contributors ) {
 			wpseo_display_contributors( $leaders );
 			?>
 		</ul>
-		<h4 class="wp-people-group"><?php _e( 'Recent Rockstars', 'wordpress-seo' ); ?></h4>
-		<ul class="wp-people-group " id="wp-people-group-rockstars">
+		<h4 class="wp-people-group"><?php _e( 'Contributing Developers', 'wordpress-seo' ); ?></h4>
+		<ul class="wp-people-group " id="wp-people-group-core-developers">
 			<?php
 			$contributors = array(
-				'bhubbard'      => (object) array(
-					'name'     => 'Brandon Hubbard',
-					'role'     => 'New Feature Instigator',
-					'gravatar' => '3596404cbc9ffb7d4f48524e08340d86',
+				'CarolineGeven' => (object) array(
+					'name'     => 'Caroline Geven',
+					'role'     => __( 'Developer', 'wordpress-seo' ),
+					'gravatar' => 'f2596a568c3974e35f051266a63d791f',
 				),
-				'garyjones'         => (object) array(
+				'jrfnl'         => (object) array(
+					'name'     => 'Juliette Reinders Folmer',
+					'role'     => __( 'Developer', 'wordpress-seo' ),
+					'gravatar' => 'cbbac3e529102364dc3b026af3cc2988',
+				),
+				'terw-dan'      => (object) array(
+					'name'     => 'Danny Terwindt',
+					'role'     => __( 'Developer', 'wordpress-seo' ),
+					'gravatar' => '20a04b0736e630e80ce2dbefe3f1d62f',
+				),
+				'garyjones'     => (object) array(
 					'name'     => 'Gary Jones',
 					'role'     => 'Developer, QA & Accessibility',
 					'gravatar' => 'f00cf4e7f02e10152f60ec3507fa8ba8',
 				),
 				'andizer'       => (object) array(
 					'name'     => 'Andy Meerwaldt',
-					'role'     => 'Developer of the Search Console integration',
+					'role'     => __( 'Developer', 'wordpress-seo' ),
 					'gravatar' => 'a9b43e766915b48031eab78f9916ca8e',
 				),
 				'rarst'         => (object) array(
 					'name'     => 'Andrey Savchenko',
 					'role'     => 'For the 100+ fixes that didn\'t make the about page',
-					'gravatar' => 'ab89ce39f47b327f1c85e4019e865a71',
+					'gravatar' => 'c445c2491f9f55409b2e4dccee357961',
 				),
-			);
+				'boblinthorst'  => (object) array(
+					'name'     => 'Bob Linthorst',
+					'role'     => 'For testing ridiculously hard',
+					'gravatar' => '8063b1955f54681ef3a2deb21972faa1',
+				),
+				'diedexx'       => (object) array(
+					'name'     => 'Diede Exterkate',
+					'role'     => 'For testing ridiculously hard',
+					'gravatar' => '59908788f406037240ee011388db29f8',
+				),
 
-			wpseo_display_contributors( $contributors );
-			?>
-		</ul>
-		<h4 class="wp-people-group"><?php _e( 'Contributing Developers', 'wordpress-seo' ); ?></h4>
-		<ul class="wp-people-group " id="wp-people-group-core-developers">
-			<?php
-			$contributors = array(
-				'atimmer'       => (object) array(
-					'name'     => 'Anton Timmermans',
-					'role'     => __( 'Developer', 'wordpress-seo' ),
-					'gravatar' => 'b3acbabfdd208ecbf950d864b86fe968',
-				),
-				'petervw'       => (object) array(
-					'name'     => 'Peter van Wilderen',
-					'role'     => __( 'Developer', 'wordpress-seo' ),
-					'gravatar' => 'e4662ebd4b59d3c196e2ba721d8a1efc',
-				),
-				'CarolineGeven' => (object) array(
-					'name'     => 'Caroline Geven',
-					'role'     => __( 'Developer', 'wordpress-seo' ),
-					'gravatar' => 'f2596a568c3974e35f051266a63d791f',
-				),
 			);
 
 			wpseo_display_contributors( $contributors );
@@ -269,14 +211,12 @@ function wpseo_display_contributors( $contributors ) {
 		<h4 class="wp-people-group"><?php _e( 'Contributors to this release', 'wordpress-seo' ); ?></h4>
 		<?php
 		$patches_from = array(
-			'Pete Nelson'             => 'https://github.com/petenelson',
-			'Ajay D\'Souza' => 'https://github.com/ajaydsouza',
-			'Filippo Buratti' => 'https://github.com/fburatti',
-			'Michael Nordmeyer' => 'https://github.com/michaelnordmeyer',
-			'Lars Schenk' => 'https://github.com/larsschenk',
+			'Daniel Homer' => 'https://github.com/danielhomer',
 		);
 		?>
-		<p>We're always grateful for patches from non-regular contributors, in Yoast SEO 2.2 and 2.3, patches from the following people made it in:</p>
+		<p>We're always grateful for patches from non-regular contributors, in Yoast SEO 3.0, patches from
+			the
+			following people made it in:</p>
 		<ul class="ul-square">
 			<?php
 			foreach ( $patches_from as $patcher => $link ) {

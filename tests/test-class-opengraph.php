@@ -540,9 +540,7 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 		// Checking meta-description and after obtaining its value, reset the meta value for it
 		$meta_description = self::$class_instance->description( false );
 		$this->assertEquals( $expected_meta_description, $meta_description );
-
 	}
-
 
 	/**
 	 * @covers WPSEO_OpenGraph::site_name
@@ -606,7 +604,7 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 		$this->go_to( get_permalink( $post_id ) );
 
 		// test published_time tags output
-		$published_time   = get_the_date( 'c' );
+		$published_time   = get_the_date( DATE_W3C );
 		$published_output = '<meta property="article:published_time" content="' . $published_time . '" />' . "\n";
 		$this->assertTrue( self::$class_instance->publish_date() );
 		$this->expectOutput( $published_output );
@@ -618,11 +616,81 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 		$post->post_modified_gmt = gmdate( 'Y-m-d H:i:s', ( time() + 1 + ( get_option( 'gmt_offset' ) * HOUR_IN_SECONDS ) ) );
 
 		// test modified tags output
-		$modified_time   = get_the_modified_date( 'c' );
+		$modified_time   = get_the_modified_date( DATE_W3C );
 		$modified_output = '<meta property="article:modified_time" content="' . $modified_time . '" />' . "\n" . '<meta property="og:updated_time" content="' . $modified_time . '" />' . "\n";
 		$this->assertTrue( self::$class_instance->publish_date() );
 		$this->expectOutput( $published_output . $modified_output );
 	}
+
+	/**
+	 * Testing with an Open Graph title for the taxonomy
+	 *
+	 * @covers WPSEO_OpenGraph::opengraph
+	 */
+	public function test_taxonomy_title() {
+		$term_id = $this->factory->term->create( array( 'taxonomy' => 'category' ) );
+
+		WPSEO_Taxonomy_Meta::set_value( $term_id, 'category', 'wpseo_opengraph-title', 'Custom taxonomy open graph title' );
+
+		$this->go_to( get_term_link( $term_id, 'category' ) );
+
+		$class_instance = new WPSEO_OpenGraph();
+
+		ob_start();
+
+		$class_instance->opengraph();
+
+		$output = ob_get_clean();
+
+		$this->assertContains( '<meta property="og:title" content="Custom taxonomy open graph title" />', $output );
+	}
+
+	/**
+	 * Testing with an Open Graph meta description for the taxonomy
+	 *
+	 * @covers WPSEO_OpenGraph::description
+	 */
+	public function test_taxonomy_description() {
+		$term_id = $this->factory->term->create( array( 'taxonomy' => 'category' ) );
+
+		WPSEO_Taxonomy_Meta::set_value( $term_id, 'category', 'opengraph-description', 'Custom taxonomy open graph description' );
+
+		$this->go_to( get_term_link( $term_id, 'category' ) );
+
+		$class_instance = new WPSEO_OpenGraph();
+
+		ob_start();
+
+		$class_instance->opengraph();
+
+		$output = ob_get_clean();
+
+		$this->assertContains( '<meta property="og:description" content="Custom taxonomy open graph description" />', $output );
+	}
+
+	/**
+	 * Testing with an Open Graph meta image for the taxonomy
+	 *
+	 * @covers WPSEO_OpenGraph::image
+	 */
+	public function test_taxonomy_image() {
+		$term_id = $this->factory->term->create( array( 'taxonomy' => 'category' ) );
+
+		WPSEO_Taxonomy_Meta::set_value( $term_id, 'category', 'wpseo_opengraph-image', home_url( 'custom_twitter_image.png' ) );
+
+		$this->go_to( get_term_link( $term_id, 'category' ) );
+
+		$class_instance = new WPSEO_OpenGraph();
+
+		ob_start();
+
+		$class_instance->opengraph();
+
+		$output = ob_get_clean();
+
+		$this->assertContains( '<meta property="og:image" content="'.home_url( 'custom_twitter_image.png' ). '" />', $output );
+	}
+
 
 	/**
 	 * @param string  $image   path

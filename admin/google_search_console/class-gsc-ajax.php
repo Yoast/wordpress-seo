@@ -22,7 +22,7 @@ class WPSEO_GSC_Ajax {
 	 *
 	 * First it will do a request to the Google API
 	 */
-	public function ajax_mark_as_fixed( ) {
+	public function ajax_mark_as_fixed() {
 		if ( $this->valid_nonce() ) {
 			$marker = new WPSEO_GSC_Marker( filter_input( INPUT_POST, 'url' ) );
 
@@ -73,5 +73,4 @@ class WPSEO_GSC_Ajax {
 	private function valid_nonce() {
 		return wp_verify_nonce( filter_input( INPUT_POST, 'ajax_nonce' ), 'wpseo-gsc-ajax-security' );
 	}
-
 }

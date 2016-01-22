@@ -1,0 +1,34 @@
+{
+  "name": "yoast-wordpress-seo",
+  "version": "3.0.7",
+  "homepage": "https://github.com/Yoast/wordpress-seo",
+  "authors": [
+    "Yoast.com"
+  ],
+  "dependencies": {
+    "yoast-seo": "https://github.com/Yoast/YoastSEO.js.git#master"
+  },
+  "install": {
+    "path": {
+      "css": "css/dist",
+      "js": "js/dist",
+      "svg": "css/dist"
+    },
+    "sources": {
+      "yoast-seo": {
+        "mapping": [
+          {"bower_components/yoast-seo/dist/yoast-seo.min.css": "yoast-seo-307.min.css"},
+          {"bower_components/yoast-seo/dist/images/edit.svg": "images/edit.svg"},
+          {"bower_components/yoast-seo/dist/yoast-seo.min.js": "yoast-seo-307.min.js"}
+        ]
+      }
+    }
+  },
+  "description": "Yoast SEO for WordPress",
+  "keywords": [
+    "SEO",
+    "WordPress",
+    "Text analysis"
+  ],
+  "license": "GPLv3"
+}

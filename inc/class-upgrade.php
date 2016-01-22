@@ -20,7 +20,7 @@ class WPSEO_Upgrade {
 	 * Class constructor
 	 */
 	public function __construct() {
-		$this->options = WPSEO_Options::get_all();
+		$this->options = WPSEO_Options::get_option( 'wpseo' );
 
 		WPSEO_Options::maybe_set_multisite_defaults( false );
 
@@ -46,8 +46,8 @@ class WPSEO_Upgrade {
 			$this->upgrade_23();
 		}
 
-		if ( version_compare( $this->options['version'], '2.4', '<' ) ) {
-			$this->upgrade_24();
+		if ( version_compare( $this->options['version'], '3.0', '<' ) ) {
+			$this->upgrade_30();
 		}
 
 		/**
@@ -174,9 +174,9 @@ class WPSEO_Upgrade {
 	}
 
 	/**
-	 * Performs upgrade functions to Yoast SEO 2.4
+	 * Performs upgrade functions to Yoast SEO 3.0
 	 */
-	private function upgrade_24() {
+	private function upgrade_30() {
 		// Remove the meta fields for sitemap prio.
 		delete_post_meta_by_key( '_yoast_wpseo_sitemap-prio' );
 	}
@@ -216,7 +216,7 @@ class WPSEO_Upgrade {
 	 * Runs the needed cleanup after an update, setting the DB version to latest version, flushing caches etc.
 	 */
 	private function finish_up() {
-		$this->options = get_option( 'wpseo' );                             // Re-get to make sure we have the latest version.
+		$this->options = WPSEO_Options::get_option( 'wpseo' );              // Re-get to make sure we have the latest version.
 		update_option( 'wpseo', $this->options );                           // This also ensures the DB version is equal to WPSEO_VERSION.
 
 		add_action( 'shutdown', 'flush_rewrite_rules' );                    // Just flush rewrites, always, to at least make them work after an upgrade.
@@ -224,5 +224,4 @@ class WPSEO_Upgrade {
 
 		WPSEO_Options::ensure_options_exist();                              // Make sure all our options always exist - issue #1245.
 	}
-
 }

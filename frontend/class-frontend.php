@@ -10,7 +10,7 @@
 class WPSEO_Frontend {
 
 	/**
-	 * @var    object    Instance of this class
+	 * @var    object    Instance of this class.
 	 */
 	public static $instance;
 
@@ -20,44 +20,52 @@ class WPSEO_Frontend {
 	public $options = array();
 
 	/**
-	 * @var boolean Boolean indicating wether output buffering has been started
+	 * @var boolean Boolean indicating wether output buffering has been started.
 	 */
 	private $ob_started = false;
 
 	/**
-	 * Holds the canonical URL for the current page
+	 * Holds the canonical URL for the current page.
 	 *
 	 * @var string
 	 */
 	private $canonical = null;
 
 	/**
-	 * Holds the canonical URL for the current page that cannot be overriden by a manual canonical input
+	 * Holds the canonical URL for the current page that cannot be overriden by a manual canonical input.
 	 *
 	 * @var string
 	 */
 	private $canonical_no_override = null;
 
 	/**
-	 * Holds the canonical URL for the current page without pagination
+	 * Holds the canonical URL for the current page without pagination.
 	 *
 	 * @var string
 	 */
 	private $canonical_unpaged = null;
 
 	/**
-	 * Holds the pages meta description
+	 * Holds the pages meta description.
 	 *
 	 * @var string
 	 */
 	private $metadesc = null;
 
 	/**
-	 * Holds the generated title for the page
+	 * Holds the generated title for the page.
 	 *
 	 * @var string
 	 */
 	private $title = null;
+
+	/**
+	 * Holds the names of the required options.
+	 *
+	 * @var array
+	 */
+	private $required_options = array( 'wpseo', 'wpseo_rss', 'wpseo_social', 'wpseo_permalinks', 'wpseo_titles' );
+
 
 	/**
 	 * Class constructor
@@ -66,15 +74,15 @@ class WPSEO_Frontend {
 	 */
 	protected function __construct() {
 
-		$this->options = WPSEO_Options::get_all();
+		$this->options = WPSEO_Options::get_options( $this->required_options );
 
 		add_action( 'wp_head', array( $this, 'front_page_specific_init' ), 0 );
 		add_action( 'wp_head', array( $this, 'head' ), 1 );
 
 		// The head function here calls action wpseo_head, to which we hook all our functionality.
 		add_action( 'wpseo_head', array( $this, 'debug_marker' ), 2 );
-		add_action( 'wpseo_head', array( $this, 'robots' ), 6 );
-		add_action( 'wpseo_head', array( $this, 'metadesc' ), 10 );
+		add_action( 'wpseo_head', array( $this, 'metadesc' ), 6 );
+		add_action( 'wpseo_head', array( $this, 'robots' ), 10 );
 		add_action( 'wpseo_head', array( $this, 'metakeywords' ), 11 );
 		add_action( 'wpseo_head', array( $this, 'canonical' ), 20 );
 		add_action( 'wpseo_head', array( $this, 'adjacent_rel_links' ), 21 );
@@ -87,7 +95,10 @@ class WPSEO_Frontend {
 		remove_action( 'wp_head', 'adjacent_posts_rel_link_wp_head' );
 		remove_action( 'wp_head', 'noindex', 1 );
 
+		// When using WP 4.4, just use the new hook.
+		add_filter( 'pre_get_document_title', array( $this, 'title' ), 15 );
 		add_filter( 'wp_title', array( $this, 'title' ), 15, 3 );
+
 		add_filter( 'thematic_doctitle', array( $this, 'title' ), 15 );
 
 		add_action( 'wp', array( $this, 'page_redirect' ), 99 );
@@ -138,7 +149,8 @@ class WPSEO_Frontend {
 		add_filter( 'the_content_feed', array( $this, 'embed_rssfooter' ) );
 		add_filter( 'the_excerpt_rss', array( $this, 'embed_rssfooter_excerpt' ) );
 
-		if ( $this->options['forcerewritetitle'] === true ) {
+		// For WordPress functions below 4.4.
+		if ( ! current_theme_supports( 'title-tag' ) && $this->options['forcerewritetitle'] === true ) {
 			add_action( 'template_redirect', array( $this, 'force_rewrite_output_buffer' ), 99999 );
 			add_action( 'wp_footer', array( $this, 'flush_cache' ), - 1 );
 		}
@@ -172,7 +184,7 @@ class WPSEO_Frontend {
 				$this->$name = $default;
 			}
 		}
-		$this->options = WPSEO_Options::get_all();
+		$this->options = WPSEO_Options::get_options( $this->required_options );
 	}
 
 	/**
@@ -621,7 +633,7 @@ class WPSEO_Frontend {
 			 *
 			 * @api bool
 			 */
-			( ( apply_filters( 'wpseo_hide_version', false ) && $this->is_premium() ) ? '' : ' v' . WPSEO_VERSION  )
+			( ( apply_filters( 'wpseo_hide_version', false ) && $this->is_premium() ) ? '' : ' v' . WPSEO_VERSION )
 		);
 
 		if ( $echo === false ) {
@@ -697,21 +709,20 @@ class WPSEO_Frontend {
 	 * @return string
 	 */
 	public function robots() {
-		global $wp_query;
+		global $wp_query, $post;
 
 		$robots           = array();
 		$robots['index']  = 'index';
 		$robots['follow'] = 'follow';
 		$robots['other']  = array();
 
-		if ( is_singular() ) {
-			global $post;
+		if ( is_singular() && is_object( $post ) ) {
 
-			if ( is_object( $post ) && ( isset( $this->options[ 'noindex-' . $post->post_type ] ) && $this->options[ 'noindex-' . $post->post_type ] === true ) ) {
-				$robots['index'] = 'noindex';
-			}
+			$option_name = 'noindex-' . $post->post_type;
+			$noindex     = isset( $this->options[ $option_name ] ) && $this->options[ $option_name ] === true;
+			$private     = 'private' === $post->post_status;
 
-			if ( 'private' == $post->post_status ) {
+			if ( $noindex || $private ) {
 				$robots['index'] = 'noindex';
 			}
 
@@ -983,19 +994,16 @@ class WPSEO_Frontend {
 			}
 		}
 
+		if ( is_string( $canonical_override ) && $canonical_override !== '' ) {
+			$canonical = $canonical_override;
+		}
+
 		/**
 		 * Filter: 'wpseo_canonical' - Allow filtering of the canonical URL put out by Yoast SEO
 		 *
 		 * @api string $canonical The canonical URL
 		 */
-		$canonical = apply_filters( 'wpseo_canonical', $canonical );
-
-		if ( is_string( $canonical_override ) && $canonical_override !== '' ) {
-			$this->canonical = $canonical_override;
-		}
-		else {
-			$this->canonical = $canonical;
-		}
+		$this->canonical = apply_filters( 'wpseo_canonical', $canonical );
 	}
 
 	/**
@@ -1243,6 +1251,7 @@ class WPSEO_Frontend {
 		if ( $echo !== false ) {
 			if ( is_string( $this->metadesc ) && $this->metadesc !== '' ) {
 				echo '<meta name="description" content="', esc_attr( strip_tags( stripslashes( $this->metadesc ) ) ), '"/>', "\n";
+				$this->add_robot_content_noodp( $this->metadesc );
 			}
 			elseif ( current_user_can( 'manage_options' ) && is_singular() ) {
 				echo '<!-- ', __( 'Admin only notice: this page doesn\'t show a meta description because it doesn\'t have one, either write it for this page specifically or go into the SEO -> Titles menu and set up a template.', 'wordpress-seo' ), ' -->', "\n";
@@ -1748,6 +1757,7 @@ class WPSEO_Frontend {
 		 * Filter: 'wpseo_include_rss_footer' - Allow the the RSS footer to be dynamically shown/hidden
 		 *
 		 * @api boolean $show_embed Indicates if the RSS footer should be shown or not
+		 *
 		 * @param string $context The context of the RSS content - 'full' or 'excerpt'.
 		 */
 		if ( ! apply_filters( 'wpseo_include_rss_footer', true, $context ) ) {
@@ -1879,6 +1889,17 @@ class WPSEO_Frontend {
 	}
 
 	/**
+	 * Checks whether the user has written a meta-description. If written,  makes sure meta robots content is noodp.
+	 *
+	 * @param String $description The content of the meta description.
+	 */
+	private function add_robot_content_noodp( $description ) {
+		if ( ! ( empty( $description ) ) && $this->options['noodp'] === false ) {
+			$this->options['noodp'] = true;
+		}
+	}
+
+	/**
 	 * Getting the keywords
 	 *
 	 * @param WP_Post $post The post object with the values.
@@ -1895,5 +1916,4 @@ class WPSEO_Frontend {
 
 		return $keywords;
 	}
-
 } /* End of class */

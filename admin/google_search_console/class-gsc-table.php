@@ -381,5 +381,4 @@ class WPSEO_GSC_Table extends WP_List_Table {
 		echo "<input id='field_platform' type='hidden' name='platform' value='{$platform}' />";
 		echo "<input id='field_category' type='hidden' name='category' value='{$this->current_view}' />";
 	}
-
 }

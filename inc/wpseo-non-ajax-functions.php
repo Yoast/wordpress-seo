@@ -245,15 +245,11 @@ function wpseo_admin_bar_menu() {
 	) {
 		$focuskw    = WPSEO_Meta::get_value( 'focuskw', $post->ID );
 		$perc_score = WPSEO_Meta::get_value( 'linkdex', $post->ID );
-		$calc_score = WPSEO_Utils::calc( $perc_score, '/', 10, true );
-		$txtscore   = WPSEO_Utils::translate_score( $calc_score );
-		$title      = WPSEO_Utils::translate_score( $calc_score, false );
+		$txtscore   = WPSEO_Utils::translate_score( $perc_score );
+		$title      = WPSEO_Utils::translate_score( $perc_score, false );
 		$score      = '<div title="' . esc_attr( $title ) . '" class="' . esc_attr( 'wpseo-score-icon ' . $txtscore . ' ' . $perc_score ) . '"></div>';
 
 		$seo_url = get_edit_post_link( $post->ID );
-		if ( $txtscore !== 'na' ) {
-			$seo_url .= '#wpseo_linkdex';
-		}
 	}
 
 	$wp_admin_bar->add_menu( array(
@@ -426,14 +422,26 @@ function wpseo_admin_bar_menu() {
 		) );
 		$wp_admin_bar->add_menu( array(
 			'parent' => 'wpseo-settings',
-			'id'     => 'wpseo-wpseo_advanced',
+			'id'     => 'wpseo-wpseo-advanced',
 			'title'  => __( 'Advanced', 'wordpress-seo' ),
 			'href'   => admin_url( 'admin.php?page=wpseo_advanced' ),
 		) );
 		$wp_admin_bar->add_menu( array(
+				'parent' => 'wpseo-settings',
+				'id'     => 'wpseo-tools',
+				'title'  => __( 'Tools', 'wordpress-seo' ),
+				'href'   => admin_url( 'admin.php?page=wpseo_tools' ),
+		) );
+		$wp_admin_bar->add_menu( array(
+				'parent' => 'wpseo-settings',
+				'id'     => 'wpseo-search-console',
+				'title'  => __( 'Search Console', 'wordpress-seo' ),
+				'href'   => admin_url( 'admin.php?page=wpseo_search_console' ),
+		) );
+		$wp_admin_bar->add_menu( array(
 			'parent' => 'wpseo-settings',
 			'id'     => 'wpseo-licenses',
-			'title'  => __( 'Extensions', 'wordpress-seo' ),
+			'title'  => '<span style="color:#f18500">' . __( 'Extensions', 'wordpress-seo' ) . '</span>',
 			'href'   => admin_url( 'admin.php?page=wpseo_licenses' ),
 		) );
 	}
@@ -446,7 +454,7 @@ add_action( 'admin_bar_menu', 'wpseo_admin_bar_menu', 95 );
  */
 function wpseo_admin_bar_css() {
 	if ( is_admin_bar_showing() && is_singular() ) {
-		wp_enqueue_style( 'boxes', plugins_url( 'css/adminbar' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
+		wp_enqueue_style( 'boxes', plugins_url( 'css/adminbar-' . '302' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
 	}
 }
 
@@ -480,115 +488,6 @@ function allow_custom_field_edits( $allcaps, $cap, $args ) {
 
 add_filter( 'user_has_cap', 'allow_custom_field_edits', 0, 3 );
 
-/**
- * Display an import message when robots-meta is active
- *
- * @since 1.5.0
- */
-function wpseo_robots_meta_message() {
-	// Check if robots meta is running.
-	if ( ( ! isset( $_GET['page'] ) || 'wpseo_import' !== $_GET['page'] ) && is_plugin_active( 'robots-meta/robots-meta.php' ) ) {
-		add_action( 'admin_notices', 'wpseo_import_robots_meta_notice' );
-	}
-}
-
-add_action( 'admin_init', 'wpseo_robots_meta_message' );
-
-/**
- * Handle deactivation Robots Meta
- *
- * @since 1.5.0
- */
-function wpseo_disable_robots_meta() {
-	if ( isset( $_GET['deactivate_robots_meta'] ) && $_GET['deactivate_robots_meta'] === '1' && is_plugin_active( 'robots-meta/robots-meta.php' ) ) {
-		// Deactivate the plugin.
-		deactivate_plugins( 'robots-meta/robots-meta.php' );
-
-		// Show notice that robots meta has been deactivated.
-		add_action( 'admin_notices', 'wpseo_deactivate_robots_meta_notice' );
-
-		// Clean up the referrer url for later use.
-		if ( isset( $_SERVER['REQUEST_URI'] ) ) {
-			$_SERVER['REQUEST_URI'] = remove_query_arg( array( 'deactivate_robots_meta' ), sanitize_text_field( $_SERVER['REQUEST_URI'] ) );
-		}
-	}
-}
-
-add_action( 'admin_init', 'wpseo_disable_robots_meta' );
-
-/**
- * Handle deactivation & import of AIOSEO data
- *
- * @since 1.5.0
- */
-function wpseo_aioseo_message() {
-	// Check if aioseo is running.
-	if ( ( ! isset( $_GET['page'] ) || 'wpseo_import' != $_GET['page'] ) && is_plugin_active( 'all-in-one-seo-pack/all_in_one_seo_pack.php' ) ) {
-		add_action( 'admin_notices', 'wpseo_import_aioseo_setting_notice' );
-	}
-}
-
-add_action( 'admin_init', 'wpseo_aioseo_message' );
-
-/**
- * Handle deactivation AIOSEO
- *
- * @since 1.5.0
- */
-function wpseo_disable_aioseo() {
-	if ( isset( $_GET['deactivate_aioseo'] ) && $_GET['deactivate_aioseo'] === '1' && is_plugin_active( 'all-in-one-seo-pack/all_in_one_seo_pack.php' ) ) {
-		// Deactivate AIO.
-		deactivate_plugins( 'all-in-one-seo-pack/all_in_one_seo_pack.php' );
-
-		// Show notice that aioseo has been deactivated.
-		add_action( 'admin_notices', 'wpseo_deactivate_aioseo_notice' );
-
-		// Clean up the referrer url for later use.
-		if ( isset( $_SERVER['REQUEST_URI'] ) ) {
-			$_SERVER['REQUEST_URI'] = remove_query_arg( array( 'deactivate_aioseo' ), sanitize_text_field( $_SERVER['REQUEST_URI'] ) );
-		}
-	}
-}
-
-add_action( 'admin_init', 'wpseo_disable_aioseo' );
-
-/**
- * Throw a notice to import AIOSEO.
- *
- * @since 1.4.8
- */
-function wpseo_import_aioseo_setting_notice() {
-	$url = add_query_arg( array( '_wpnonce' => wp_create_nonce( 'wpseo-import' ) ), admin_url( 'admin.php?page=wpseo_tools&tool=import-export&import=1&importaioseo=1#top#import-seo' ) );
-	echo '<div class="error"><p>', sprintf( esc_html__( 'The plugin All-In-One-SEO has been detected. Do you want to %simport its settings%s?', 'wordpress-seo' ), sprintf( '<a href="%s">', esc_url( $url ) ), '</a>' ), '</p></div>';
-}
-
-/**
- * Throw a notice to inform the user AIOSEO has been deactivated
- *
- * @since 1.4.8
- */
-function wpseo_deactivate_aioseo_notice() {
-	echo '<div class="updated"><p>', esc_html__( 'All-In-One-SEO has been deactivated', 'wordpress-seo' ), '</p></div>';
-}
-
-/**
- * Throw a notice to import Robots Meta.
- *
- * @since 1.4.8
- */
-function wpseo_import_robots_meta_notice() {
-	$url = add_query_arg( array( '_wpnonce' => wp_create_nonce( 'wpseo-import' ) ), admin_url( 'admin.php?page=wpseo_tools&tool=import-export&import=1&importrobotsmeta=1#top#import-other' ) );
-	echo '<div class="error"><p>', sprintf( esc_html__( 'The plugin Robots-Meta has been detected. Do you want to %simport its settings%s.', 'wordpress-seo' ), sprintf( '<a href="%s">', esc_url( $url ) ), '</a>' ), '</p></div>';
-}
-
-/**
- * Throw a notice to inform the user Robots Meta has been deactivated
- *
- * @since 1.4.8
- */
-function wpseo_deactivate_robots_meta_notice() {
-	echo '<div class="updated"><p>', esc_html__( 'Robots-Meta has been deactivated', 'wordpress-seo' ), '</p></div>';
-}
 
 /********************** DEPRECATED FUNCTIONS **********************/
 

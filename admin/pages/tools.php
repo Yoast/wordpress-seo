@@ -16,6 +16,7 @@ $yform = Yoast_Form::get_instance();
 $yform->admin_header( false );
 
 if ( '' === $tool_page ) {
+
 	$tools = array(
 		'bulk-editor' => array(
 			'title' => __( 'Bulk editor', 'wordpress-seo' ),
@@ -33,24 +34,46 @@ if ( '' === $tool_page ) {
 		);
 	}
 
+	$tools['recalculate'] = array(
+		'href'    => '#TB_inline?width=300&height=150&inlineId=wpseo_recalculate',
+		'attr'    => "id='wpseo_recalculate_link' class='thickbox'",
+		'title'   => __( 'Recalculate SEO scores', 'wordpress-seo' ),
+		'desc'    => __( 'Recalculate SEO scores for all pieces of content with a focus keyword.', 'wordpress-seo' ),
+	);
+
+	if ( filter_input( INPUT_GET, 'recalculate' ) === '1' ) {
+		$tools['recalculate']['attr'] .= "data-open='open'";
+	}
+
 	/* translators: %1$s expands to Yoast SEO */
 	echo '<p>', sprintf( __( '%1$s comes with some very powerful built-in tools:', 'wordpress-seo' ), 'Yoast SEO' ), '</p>';
 
 	asort( $tools );
 
 	echo '<ul class="ul-disc">';
+
+	$admin_url = admin_url( 'admin.php?page=wpseo_tools' );
+
 	foreach ( $tools as $slug => $tool ) {
+		$href = ( ! empty( $tool['href'] ) ) ? $admin_url . $tool['href'] : add_query_arg( array( 'tool' => $slug ) , $admin_url );
+		$attr = ( ! empty( $tool['attr'] ) ) ? $tool['attr'] : '';
+
 		echo '<li>';
-		echo '<strong><a href="', admin_url( 'admin.php?page=wpseo_tools&tool=' . $slug ), '">', $tool['title'], '</a></strong><br/>';
+		echo '<strong><a href="' , esc_attr( $href ) , '" ' , $attr , '>', esc_html( $tool['title'] ), '</a></strong><br/>';
 		echo $tool['desc'];
 		echo '</li>';
 	}
 	echo '</ul>';
 
+	echo '<input type="hidden" id="wpseo_recalculate_nonce" name="wpseo_recalculate_nonce" value="' . wp_create_nonce( 'wpseo_recalculate' ) . '" />';
+
 }
 else {
 	echo '<a href="', admin_url( 'admin.php?page=wpseo_tools' ), '">', __( '&laquo; Back to Tools page', 'wordpress-seo' ), '</a>';
-	require_once WPSEO_PATH . 'admin/views/tool-' . $tool_page . '.php';
+
+	if ( in_array( $tool_page, array( 'bulk-editor', 'import-export', 'file-editor' ) ) ) {
+		require_once WPSEO_PATH . 'admin/views/tool-' . $tool_page . '.php';
+	}
 }
 
 $yform->admin_footer( false );

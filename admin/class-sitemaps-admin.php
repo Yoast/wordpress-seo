@@ -22,7 +22,7 @@ class WPSEO_Sitemaps_Admin {
 	 * @todo issue #561 https://github.com/Yoast/wordpress-seo/issues/561
 	 */
 	function delete_sitemaps() {
-		$options = WPSEO_Options::get_all();
+		$options = WPSEO_Options::get_options( array( 'wpseo', 'wpseo_xml' ) );
 		if ( $options['enablexmlsitemap'] === true ) {
 
 			$file_to_check_for = array(
@@ -66,13 +66,22 @@ class WPSEO_Sitemaps_Admin {
 
 		wp_cache_delete( 'lastpostmodified:gmt:' . $post->post_type, 'timeinfo' ); // #17455.
 
-		$options = WPSEO_Options::get_all();
+		$options = WPSEO_Options::get_options( array( 'wpseo_xml', 'wpseo_titles' ) );
 		if ( isset( $options[ 'post_types-' . $post->post_type . '-not_in_sitemap' ] ) && $options[ 'post_types-' . $post->post_type . '-not_in_sitemap' ] === true ) {
 			return;
 		}
 
 		if ( WP_CACHE ) {
 			wp_schedule_single_event( ( time() + 300 ), 'wpseo_hit_sitemap_index' );
+		}
+
+		/**
+		 * Filter: 'wpseo_allow_xml_sitemap_ping' - Check if pinging is not allowed (allowed by default)
+		 *
+		 * @api boolean $allow_ping The boolean that is set to true by default.
+		 */
+		if ( apply_filters( 'wpseo_allow_xml_sitemap_ping', true ) === false ) {
+			return;
 		}
 
 		// Allow the pinging to happen slightly after the hit sitemap index so the sitemap is fully regenerated when the ping happens.
@@ -87,4 +96,3 @@ class WPSEO_Sitemaps_Admin {
 		}
 	}
 } /* End of class */
-
