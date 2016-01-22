@@ -732,8 +732,12 @@ class WPSEO_Admin {
 	 * @return string
 	 */
 	private function get_dismiss_url( $dismiss_param ) {
-		$arr_params = array( $dismiss_param => '1' );
+		$arr_params = array(
+			$dismiss_param => '1',
+			'nonce'        => wp_create_nonce( $dismiss_param )
+		);
 
 		return esc_url( add_query_arg( $arr_params ) );
 	}
+
 } /* End of class */
