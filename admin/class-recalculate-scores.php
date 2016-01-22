@@ -14,7 +14,7 @@ class WPSEO_Recalculate_Scores {
 	 * Constructing the object by modalbox, the localization and the totals.
 	 */
 	public function __construct() {
-		add_action( 'admin_init', array( $this, 'init' ), 20 );
+		add_action( 'admin_footer', array( $this, 'init' ), 20 );
 	}
 
 	/**
@@ -46,7 +46,7 @@ class WPSEO_Recalculate_Scores {
 		add_thickbox();
 
 		$progress = sprintf(
-			/* translators: 1: expands to a <span> containing the number of posts recalculated. 2: expands to a <strong> containing the total number of posts. */
+		/* translators: 1: expands to a <span> containing the number of posts recalculated. 2: expands to a <strong> containing the total number of posts. */
 			__( '%1$s of %2$s done.', 'wordpress-seo' ),
 			'<span id="wpseo_count">0</span>',
 			'<strong id="wpseo_count_total">0</strong>'
