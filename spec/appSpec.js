@@ -3,12 +3,10 @@ require("../js/config/config.js");
 require("../js/config/scoring.js");
 require("../js/analyzer.js");
 require("../js/app.js");
-require("../js/browser.js");
 require("../js/pluggable.js");
 require("../js/preprocessor.js");
 require("../js/scoreFormatter.js");
 require("../js/stringhelper.js");
-require("../js/templates.js");
 require("../js/snippetPreview.js");
 
 // Makes lodash think this is a valid HTML element
