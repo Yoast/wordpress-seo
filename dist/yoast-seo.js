@@ -3458,11 +3458,13 @@ SnippetPreview.prototype.refresh = function() {
  * @returns {string}
  */
 
-var getMetaDesc = function() {
+var getMetaDescWithDate = function() {
 	var metaDesc = this.data.metaDesc;
+
 	if ( !isEmpty( this.opts.metaDescriptionDate ) ) {
-		metaDesc = this.opts.metaDescriptionDate + " - " + this.data.metaDesc;
+		metaDesc = this.opts.metaDescriptionDate + " - " + metaDesc;
 	}
+
 	return metaDesc;
 };
 
@@ -3475,7 +3477,7 @@ SnippetPreview.prototype.getAnalyzerData = function() {
 	return {
 		title:    this.data.title,
 		url:      this.data.urlPath,
-		metaDesc: getMetaDesc.call( this )
+		metaDesc: getMetaDescWithDate.call( this )
 	};
 };
 
@@ -3839,7 +3841,7 @@ SnippetPreview.prototype.setUnformattedText = function( ev ) {
  * Validates all fields and highlights errors.
  */
 SnippetPreview.prototype.validateFields = function() {
-	var metaDescription = this.opts.metaDescriptionDate + " - " + this.data.metaDesc;
+	var metaDescription = getMetaDescWithDate.call( this );
 
 	if ( metaDescription.length > YoastSEO.analyzerConfig.maxMeta ) {
 		addClass( this.element.input.metaDesc, "snippet-editor__field--invalid" );
@@ -3925,7 +3927,7 @@ SnippetPreview.prototype.updateProgressBars = function() {
 			"snippet-editor__progress--good"
 		];
 
-	metaDescription = this.opts.metaDescriptionDate + " - " + this.data.metaDesc;
+	metaDescription = getMetaDescWithDate.call( this );
 
 	titleRating = rateTitleLength( this.data.title.length );
 	metaDescriptionRating = rateMetaDescLength( metaDescription.length );
