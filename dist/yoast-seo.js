@@ -592,8 +592,13 @@ YoastSEO.Analyzer.prototype.keyphraseSizeCheck = function() {
 YoastSEO.Analyzer.prototype.keywordDensity = function() {
 	var getKeywordDensity = require( "./analyses/getKeywordDensity.js" );
 	var countWords = require( "./stringProcessing/countWords.js" );
-	if ( countWords ( this.config.text ) >= 100 ) {
+	var keywordCount = countWords( this.config.text );
+
+	if ( keywordCount >= 100 ) {
 		var density = getKeywordDensity( this.config.text, this.config.keyword );
+
+		// Present for backwards compatibility with the .refObj.__store.keywordCount option in scoring.js
+		this.__store.keywordCount = keywordCount;
 
 		return [ { test: "keywordDensity", result: density } ];
 	}
@@ -3451,18 +3456,6 @@ function getAnalyzerTitle() {
 }
 
 /**
- * Returns the url as meant for the analyzer
- *
- * @private
- * @this SnippetPreview
- *
- * @returns {string}
- */
-function getAnalyzerUrl() {
-	return getBaseURL.call( this ) + this.data.urlPath;
-}
-
-/**
  * Returns the metaDescription, includes the date if it is set.
  *
  * @private
@@ -3480,7 +3473,7 @@ var getAnalyzerMetaDesc = function() {
 		metaDesc = this.getMetaText();
 	}
 
-	if ( !isEmpty( this.opts.metaDescriptionDate ) ) {
+	if ( !isEmpty( this.opts.metaDescriptionDate ) && !isEmpty( metaDesc ) ) {
 		metaDesc = this.opts.metaDescriptionDate + " - " + this.data.metaDesc;
 	}
 
@@ -3495,7 +3488,7 @@ var getAnalyzerMetaDesc = function() {
 SnippetPreview.prototype.getAnalyzerData = function() {
 	return {
 		title:    getAnalyzerTitle.call( this ),
-		url:      getAnalyzerUrl.call( this ),
+		url:      this.data.urlPath,
 		metaDesc: getAnalyzerMetaDesc.call( this )
 	};
 };
@@ -3546,13 +3539,13 @@ SnippetPreview.prototype.formatTitle = function() {
 		title = this.opts.placeholder.title;
 	}
 
-	// TODO: Replace this with the stripAllTags module.
-	title = this.refObj.stringHelper.stripAllTags( title );
-
 	// Apply modification to the title before showing it.
 	if ( this.refObj.pluggable.loaded ) {
 		title = this.refObj.pluggable._applyModifications( "data_page_title", title );
 	}
+
+	// TODO: Replace this with the stripAllTags module.
+	title = this.refObj.stringHelper.stripAllTags( title );
 
 	// If a keyword is set we want to highlight it in the title.
 	if ( !isEmpty( this.refObj.rawData.keyword ) ) {
@@ -3615,6 +3608,11 @@ SnippetPreview.prototype.formatMeta = function() {
 	// If no meta has been set, generate one.
 	if ( isEmpty( meta ) ) {
 		meta = this.getMetaText();
+	}
+
+	// Apply modification to the desc before showing it.
+	if ( this.refObj.pluggable.loaded ) {
+		meta = this.refObj.pluggable._applyModifications( "data_meta_desc", meta );
 	}
 
 	// TODO: Replace this with the stripAllTags module.
