@@ -81,6 +81,26 @@ function createDefaultSnippetPreview() {
 	} );
 }
 
+function checkArguments( args ) {
+
+	if ( !isObject( args.callbacks.getData ) ) {
+		throw new Error( "The app requires an object with a getdata callback." );
+	}
+
+	if ( !isObject( args.targets ) ) {
+		throw new Error( "No targetElement is defined." );
+	}
+
+	if ( !isObject( args.targets.output ) ) {
+		throw new Error( "No output target defined." );
+	}
+
+	if ( !isObject( args.targets.snippet ) ) {
+		throw new Error( "No snippet target defined." );
+	}
+
+};
+
 /**
  * This should return an object with the given properties
  *
@@ -157,20 +177,10 @@ YoastSEO.App = function( args ) {
 	defaultsDeep( args, defaults );
 
 	this.config = args;
-	this.callbacks = this.config.callbacks;
 
-	if ( !isObject( this.callbacks.getData ) ) {
-		throw new Error( "The app requires an object with a getdata callback." );
-	}
-	if ( !isObject( this.config.targets ) ) {
-		throw new Error( "No targetElement is defined." );
-	}
-	if ( !isObject( this.config.targets.output ) ) {
-		throw new Error( "No output target defined." );
-	}
-	if ( !isObject( this.config.targets.snippet ) ) {
-		throw new Error( "No snippet target defined." );
-	}
+	checkArguments( this.config );
+
+	this.callbacks = this.config.callbacks;
 
 	this.i18n = this.constructI18n( this.config.translations );
 	this.stringHelper = new YoastSEO.StringHelper();
