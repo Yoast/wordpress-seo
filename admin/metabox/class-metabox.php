@@ -56,9 +56,9 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		self::$meta_fields['general']['focuskw_text_input']['title'] = __( 'Focus Keyword', 'wordpress-seo' );
 		self::$meta_fields['general']['focuskw_text_input']['help']  = sprintf( __( 'Pick the main keyword or keyphrase that this post/page is about.<br/><br/>Read %sthis post%s for more info.', 'wordpress-seo' ), '<a href="https://yoast.com/focus-keyword/#utm_source=wordpress-seo-metabox&amp;utm_medium=inline-help&amp;utm_campaign=focus-keyword">', '</a>' );
 
-		self::$meta_fields['general']['title']['title']       = __( 'SEO Title', 'wordpress-seo' );
+		self::$meta_fields['general']['title']['title'] = __( 'SEO Title', 'wordpress-seo' );
 
-		self::$meta_fields['general']['metadesc']['title']       = __( 'Meta description', 'wordpress-seo' );
+		self::$meta_fields['general']['metadesc']['title'] = __( 'Meta description', 'wordpress-seo' );
 
 		self::$meta_fields['general']['metakeywords']['title']       = __( 'Meta keywords', 'wordpress-seo' );
 		self::$meta_fields['general']['metakeywords']['description'] = __( 'If you type something above it will override your %smeta keywords template%s.', 'wordpress-seo' );
@@ -109,12 +109,13 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @return  bool        Whether or not the meta box (and associated columns etc) should be hidden
 	 */
 	function is_metabox_hidden( $post_type = null ) {
-		if ( 'attachment' === $post_type ) {
-			return true;
-		}
 
 		if ( ! isset( $post_type ) && ( isset( $GLOBALS['post'] ) && ( is_object( $GLOBALS['post'] ) && isset( $GLOBALS['post']->post_type ) ) ) ) {
 			$post_type = $GLOBALS['post']->post_type;
+		}
+
+		if ( $post_type === 'attachment' ) {
+			return true;
 		}
 
 		if ( isset( $post_type ) ) {
@@ -124,6 +125,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 			return ( ( isset( $options[ 'hideeditbox-' . $post_type ] ) && $options[ 'hideeditbox-' . $post_type ] === true ) || in_array( $post_type, $cpts ) === false );
 		}
+
 		return false;
 	}
 
@@ -219,7 +221,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'base_url'            => $this->get_base_url_for_js(),
 			'title_template'      => WPSEO_Metabox::get_title_template( $post ),
 			'metadesc_template'   => WPSEO_Metabox::get_metadesc_template( $post ),
-			'contentTab'          => __( 'Content:' , 'wordpress-seo' ),
+			'contentTab'          => __( 'Content:', 'wordpress-seo' ),
 			'metaDescriptionDate' => $this->get_metadesc_date( $post ),
 			'locale'              => get_locale(),
 		);
@@ -263,11 +265,12 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		if ( is_a( $post, 'WP_Post' ) ) {
 			$needed_option = 'title-' . $post->post_type;
-			$options = get_option( 'wpseo_titles' );
+			$options       = get_option( 'wpseo_titles' );
 			if ( isset( $options[ $needed_option ] ) && $options[ $needed_option ] !== '' ) {
 				$title_template = $options[ $needed_option ];
 			}
 		}
+
 		return $title_template;
 	}
 
@@ -283,11 +286,12 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		if ( is_a( $post, 'WP_Post' ) ) {
 			$needed_option = 'metadesc-' . $post->post_type;
-			$options = get_option( 'wpseo_titles' );
+			$options       = get_option( 'wpseo_titles' );
 			if ( isset( $options[ $needed_option ] ) && $options[ $needed_option ] !== '' ) {
 				$metadesc_template = $options[ $needed_option ];
 			}
 		}
+
 		return $metadesc_template;
 	}
 
@@ -345,7 +349,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				<?php echo $content ?>
 			</table>
 		</div>
-	<?php
+		<?php
 	}
 
 	/**
@@ -387,6 +391,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		if ( has_action( 'wpseo_tab_header' ) || has_action( 'wpseo_tab_content' ) ) {
 			$content_sections[] = $this->get_addons_meta_section();
 		}
+
 		return $content_sections;
 	}
 
@@ -417,7 +422,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'<span class="yst-traffic-light-container">' . $this->traffic_light_svg() . '</span>',
 			$tabs,
 			array(
-				'link_alt' => __( 'Content', 'wordpress-seo' ),
+				'link_alt'   => __( 'Content', 'wordpress-seo' ),
 				'link_title' => __( 'Content', 'wordpress-seo' ),
 			)
 		);
@@ -445,7 +450,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'<span class="dashicons dashicons-admin-generic"></span>',
 			array( $tab ),
 			array(
-				'link_alt' => __( 'Advanced', 'wordpress-seo' ),
+				'link_alt'   => __( 'Advanced', 'wordpress-seo' ),
 				'link_title' => __( 'Advanced', 'wordpress-seo' ),
 			)
 		);
@@ -463,7 +468,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'<span class="dashicons dashicons-admin-plugins"></span>',
 			array(),
 			array(
-				'link_alt' => __( 'Add-ons', 'wordpress-seo' ),
+				'link_alt'   => __( 'Add-ons', 'wordpress-seo' ),
 				'link_title' => __( 'Add-ons', 'wordpress-seo' ),
 			)
 		);
@@ -710,6 +715,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 */
 	public function enqueue() {
 		global $pagenow;
+
 		/* Filter 'wpseo_always_register_metaboxes_on_admin' documented in wpseo-main.php */
 		if ( ( ! in_array( $pagenow, array(
 					'post-new.php',
@@ -966,6 +972,7 @@ SVG;
 		if ( file_exists( $file ) && $file = file_get_contents( $file ) ) {
 			return json_decode( $file, true );
 		}
+
 		return array();
 	}
 
@@ -973,13 +980,14 @@ SVG;
 	 * Returns whether or not showing the date in the snippet preview is enabled.
 	 *
 	 * @param WP_Post $post The post to retrieve this for.
+	 *
 	 * @return bool
 	 */
 	private static function is_show_date_enabled( $post ) {
 		$post_type = $post->post_type;
 
 		$options = WPSEO_Options::get_option( 'wpseo_titles' );
-		$key = sprintf( 'showdate-%s', $post_type );
+		$key     = sprintf( 'showdate-%s', $post_type );
 
 		return isset( $options[ $key ] ) && true === $options[ $key ];
 	}
@@ -1086,6 +1094,7 @@ SVG;
 
 		/** @var WPSEO_Meta_Columns $meta_columns */
 		$meta_columns = $GLOBALS['wpseo_meta_columns'];
+
 		return $meta_columns->column_heading( $columns );
 	}
 
@@ -1115,6 +1124,7 @@ SVG;
 
 		/** @var WPSEO_Meta_Columns $meta_columns */
 		$meta_columns = $GLOBALS['wpseo_meta_columns'];
+
 		return $meta_columns->column_sort( $columns );
 	}
 
@@ -1130,6 +1140,7 @@ SVG;
 
 		/** @var WPSEO_Meta_Columns $meta_columns */
 		$meta_columns = $GLOBALS['wpseo_meta_columns'];
+
 		return $meta_columns->column_sort_orderby( $vars );
 	}
 
@@ -1138,7 +1149,7 @@ SVG;
 	 *
 	 * @param array|false $result The hidden columns.
 	 * @param string      $option The option name used to set which columns should be hidden.
-	 * @param WP_User     $user The User.
+	 * @param WP_User     $user   The User.
 	 *
 	 * @return array|false $result
 	 */
@@ -1147,13 +1158,14 @@ SVG;
 
 		/** @var WPSEO_Meta_Columns $meta_columns */
 		$meta_columns = $GLOBALS['wpseo_meta_columns'];
+
 		return $meta_columns->column_hidden( $result, $option, $user );
 	}
 
 	/**
 	 * @deprecated 3.0 Use WPSEO_Meta_Columns::seo_score_posts_where instead.
 	 *
-	 * @param string $where  Where clause.
+	 * @param string $where Where clause.
 	 *
 	 * @return string
 	 */
@@ -1162,6 +1174,7 @@ SVG;
 
 		/** @var WPSEO_Meta_Columns $meta_columns */
 		$meta_columns = $GLOBALS['wpseo_meta_columns'];
+
 		return $meta_columns->seo_score_posts_where( $where );
 	}
 
