@@ -99,7 +99,7 @@ function checkArguments( args ) {
 		throw new Error( "No snippet target defined." );
 	}
 
-};
+}
 
 /**
  * This should return an object with the given properties
