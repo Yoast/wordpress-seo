@@ -116,9 +116,6 @@
 				break;
 			case 'meta':
 				val = document.getElementById( 'yoast_wpseo_metadesc' ) && document.getElementById( 'yoast_wpseo_metadesc' ).value || '';
-				if ( val === '' ) {
-					val = wpseoPostScraperL10n.metadesc_template;
-				}
 				break;
 			case 'snippetMeta':
 				val = document.getElementById( 'yoast_wpseo_metadesc' ) && document.getElementById( 'yoast_wpseo_metadesc' ).value || '';
@@ -490,12 +487,14 @@
 			YoastSEO.analyzerArgs.translations = translations;
 		}
 
-		var titlePlaceholder = '';
-		if ( titlePlaceholder === '' ) {
-			titlePlaceholder = wpseoPostScraperL10n.title_template;
-		}
+		var titlePlaceholder = wpseoPostScraperL10n.title_template;
 		if (titlePlaceholder === '' ) {
 			titlePlaceholder = '%%title%% - %%sitename%%';
+		}
+
+		var metaPlaceholder = wpseoPostScraperL10n.metadesc_template
+		if ( metaPlaceholder === '' ) {
+			metaPlaceholder = 'Modify your meta description by editing it right here';
 		}
 
 		var data = postScraper.getData();
@@ -504,6 +503,7 @@
 			targetElement: document.getElementById( 'wpseosnippet' ),
 			placeholder: {
 				title:    titlePlaceholder,
+				metaDesc: metaPlaceholder,
 				urlPath:  ''
 			},
 			baseURL: wpseoPostScraperL10n.base_url,
