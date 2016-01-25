@@ -298,16 +298,18 @@ SnippetPreview.prototype.renderTemplate = function() {
 		formFields: targetElement.getElementsByClassName( "snippet-editor__form-field" )
 	};
 
-	this.element.progress.title.max = titleMaxLength;
-	this.element.progress.metaDesc.max = YoastSEO.analyzerConfig.maxMeta;
-
-	this.opened = false;
 	this.hasProgressSupport = hasProgressSupport();
-	if ( !this.hasProgressSupport ) {
+
+	if ( this.hasProgressSupport ) {
+		this.element.progress.title.max = titleMaxLength;
+		this.element.progress.metaDesc.max = YoastSEO.analyzerConfig.maxMeta;
+	} else {
 		forEach( this.element.progress, function( progressElement ) {
 			addClass( progressElement, "snippet-editor__progress--fallback" );
 		} );
 	}
+
+	this.opened = false;
 	this.updateProgressBars();
 };
 
