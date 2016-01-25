@@ -156,7 +156,7 @@ function hasProgressSupport() {
 var getMetaDescWithDate = function() {
 	var metaDesc = this.data.metaDesc;
 
-	if ( !isEmpty( this.opts.metaDescriptionDate ) ) {
+	if ( !isEmpty( this.opts.metaDescriptionDate ) && !isEmpty( metaDesc ) ) {
 		metaDesc = this.opts.metaDescriptionDate + " - " + metaDesc;
 	}
 
