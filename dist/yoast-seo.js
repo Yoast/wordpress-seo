@@ -3332,9 +3332,6 @@ function rateTitleLength( titleLength ) {
 
 	switch ( true ) {
 		case titleLength > 0 && titleLength <= 39:
-			rating = "ok";
-			break;
-
 		case titleLength >= 71:
 			rating = "ok";
 			break;
@@ -3362,9 +3359,6 @@ function rateMetaDescLength( metaDescLength ) {
 
 	switch ( true ) {
 		case metaDescLength > 0 && metaDescLength <= 120:
-			rating = "ok";
-			break;
-
 		case metaDescLength >= 157:
 			rating = "ok";
 			break;
