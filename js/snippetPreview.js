@@ -148,22 +148,6 @@ function hasProgressSupport() {
 }
 
 /**
- * Returns the metaDescription, includes the date if it is set.
- *
- * @returns {string}
- */
-
-var getMetaDescWithDate = function() {
-	var metaDesc = this.data.metaDesc;
-
-	if ( !isEmpty( this.opts.metaDescriptionDate ) && !isEmpty( metaDesc ) ) {
-		metaDesc = this.opts.metaDescriptionDate + " - " + metaDesc;
-	}
-
-	return metaDesc;
-};
-
-/**
  * Returns a rating based on the length of the title
  *
  * @param {string} titleLength
@@ -840,7 +824,7 @@ SnippetPreview.prototype.setUnformattedText = function( ev ) {
  * Validates all fields and highlights errors.
  */
 SnippetPreview.prototype.validateFields = function() {
-	var metaDescription = getMetaDescWithDate.call( this );
+	var metaDescription = getAnalyzerMetaDesc.call( this );
 
 	if ( metaDescription.length > YoastSEO.analyzerConfig.maxMeta ) {
 		addClass( this.element.input.metaDesc, "snippet-editor__field--invalid" );
@@ -861,7 +845,7 @@ SnippetPreview.prototype.validateFields = function() {
 SnippetPreview.prototype.updateProgressBars = function() {
 	var metaDescriptionRating, titleRating, metaDescription;
 
-	metaDescription = getMetaDescWithDate.call( this );
+	metaDescription = getAnalyzerMetaDesc.call( this );
 
 	titleRating = rateTitleLength( this.data.title.length );
 	metaDescriptionRating = rateMetaDescLength( metaDescription.length );
