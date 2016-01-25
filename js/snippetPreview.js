@@ -826,6 +826,7 @@ SnippetPreview.prototype.setUnformattedText = function( ev ) {
  */
 SnippetPreview.prototype.validateFields = function() {
 	var metaDescription = getAnalyzerMetaDesc.call( this );
+	var title = getAnalyzerTitle.call( this );
 
 	if ( metaDescription.length > YoastSEO.analyzerConfig.maxMeta ) {
 		addClass( this.element.input.metaDesc, "snippet-editor__field--invalid" );
@@ -833,7 +834,7 @@ SnippetPreview.prototype.validateFields = function() {
 		removeClass( this.element.input.metaDesc, "snippet-editor__field--invalid" );
 	}
 
-	if ( this.data.title.length > titleMaxLength ) {
+	if ( title.length > titleMaxLength ) {
 		addClass( this.element.input.title, "snippet-editor__field--invalid" );
 	} else {
 		removeClass( this.element.input.title, "snippet-editor__field--invalid" );
@@ -844,16 +845,17 @@ SnippetPreview.prototype.validateFields = function() {
  * Updates progress bars based on the data
  */
 SnippetPreview.prototype.updateProgressBars = function() {
-	var metaDescriptionRating, titleRating, metaDescription;
+	var metaDescriptionRating, titleRating, metaDescription, title;
 
 	metaDescription = getAnalyzerMetaDesc.call( this );
+	title = getAnalyzerTitle.call( this );
 
-	titleRating = rateTitleLength( this.data.title.length );
+	titleRating = rateTitleLength( title.length );
 	metaDescriptionRating = rateMetaDescLength( metaDescription.length );
 
 	updateProgressBar(
 		this.element.progress.title,
-		this.data.title.length,
+		title.length,
 		titleMaxLength,
 		titleRating
 	);
