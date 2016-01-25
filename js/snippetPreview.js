@@ -405,6 +405,7 @@ SnippetPreview.prototype.refresh = function() {
 	this.output = this.htmlOutput();
 	this.renderOutput();
 	this.renderSnippetStyle();
+	this.updateProgressBars();
 };
 
 /**
