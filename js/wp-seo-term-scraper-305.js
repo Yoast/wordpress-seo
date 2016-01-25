@@ -60,12 +60,6 @@
 				break;
 			case 'pageTitle':
 				val = document.getElementById( 'hidden_wpseo_title' ).value;
-				if ( val === '' ) {
-					val = wpseoTermScraperL10n.title_template;
-				}
-				if (val === '' ) {
-					val = '%%title%% - %%sitename%%';
-				}
 				break;
 			case 'title':
 				val = document.getElementById( 'hidden_wpseo_title' ).value;
