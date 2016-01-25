@@ -369,24 +369,23 @@
 			YoastSEO.analyzerArgs.translations = translations;
 		}
 
+		var placeholder = {urlPath:  ''};
+
 		var titlePlaceholder = wpseoTermScraperL10n.title_template;
 		if (titlePlaceholder === '' ) {
 			titlePlaceholder = '%%title%% - %%sitename%%';
 		}
+		placeholder.title = titlePlaceholder;
 
 		var metaPlaceholder = wpseoTermScraperL10n.metadesc_template;
-		if (metaPlaceholder === '' ) {
-			metaPlaceholder = 'Modify your meta description by editing it right here';
+		if (metaPlaceholder !== '' ) {
+			placeholder.metaDesc = metaPlaceholder;
 		}
 		var data = termScraper.getData();
 
 		YoastSEO.analyzerArgs.snippetPreview = new YoastSEO.SnippetPreview({
 			targetElement: document.getElementById( 'wpseo_snippet' ),
-			placeholder: {
-				title:    titlePlaceholder,
-				metaDesc: metaPlaceholder,
-				urlPath:  ''
-			},
+			placeholder: placeholder,
 			baseURL: wpseoTermScraperL10n.base_url,
 			callbacks: {
 				saveSnippetData: termScraper.saveSnippetData.bind( termScraper )
