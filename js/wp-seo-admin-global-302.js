@@ -66,7 +66,7 @@ function wpseoMakeDismissible() {
  *
  * @param {string} dismiss_link The URL that leads to the dismissing of the notice.
  *
- * @returns {object} Anchor to dismiss.
+ * @returns {Object} Anchor to dismiss.
  */
 function wpseoDismissLink( dismiss_link ) {
 	return jQuery(
