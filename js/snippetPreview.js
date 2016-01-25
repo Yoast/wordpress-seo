@@ -424,15 +424,59 @@ SnippetPreview.prototype.refresh = function() {
 };
 
 /**
+ * Returns the title as meant for the analyzer
+ *
+ * @private
+ * @this SnippetPreview
+ *
+ * @returns {string}
+ */
+function getAnalyzerTitle() {
+	var title = this.data.title;
+
+	if ( isEmpty( title ) ) {
+		title = this.opts.placeholder.title;
+	}
+	title = this.refObj.pluggable._applyModifications( "data_page_title", title );
+
+	return title;
+}
+
+/**
+ * Returns the metaDescription, includes the date if it is set.
+ *
+ * @private
+ * @this SnippetPreview
+ *
+ * @returns {string}
+ */
+var getAnalyzerMetaDesc = function() {
+	var metaDesc = this.data.metaDesc;
+
+	metaDesc = this.refObj.pluggable._applyModifications( "data_meta_desc", metaDesc );
+
+	// If no meta has been set, generate one.
+	if ( isEmpty( metaDesc ) ) {
+		metaDesc = this.getMetaText();
+	}
+
+	if ( !isEmpty( this.opts.metaDescriptionDate ) && !isEmpty( metaDesc ) ) {
+		metaDesc = this.opts.metaDescriptionDate + " - " + this.data.metaDesc;
+	}
+
+	return metaDesc;
+};
+
+/**
  * Returns the data from the snippet preview.
  *
  * @returns {Object}
  */
 SnippetPreview.prototype.getAnalyzerData = function() {
 	return {
-		title:    this.data.title,
+		title:    getAnalyzerTitle.call( this ),
 		url:      this.data.urlPath,
-		metaDesc: getMetaDescWithDate.call( this )
+		metaDesc: getAnalyzerMetaDesc.call( this )
 	};
 };
 
