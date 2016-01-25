@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo-premium/issues\n"
-"POT-Creation-Date: 2016-01-20 14:12:04+00:00\n"
+"POT-Creation-Date: 2016-01-25 11:35:00+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -133,26 +133,26 @@ msgstr ""
 
 #: classes/class-post-watcher.php:129
 msgid ""
-"%1$s detected that you moved a post to the trash. %2$sClick here to create "
-"a redirect from the old post URL%3$s."
+"%1$s detected that you moved a post to the trash. You can either: %2$s "
+"Don't know what to do? %3$sRead this post%4$s."
 msgstr ""
 
-#: classes/class-post-watcher.php:154
+#: classes/class-post-watcher.php:155
 msgid ""
 "%1$s detected that you restored a post from the trash. %2$sClick here to "
 "remove the redirect%3$s."
 msgstr ""
 
-#: classes/class-post-watcher.php:301
+#: classes/class-post-watcher.php:302
 msgid ""
 "%1$s created a %2$sredirect%4$s from the old post URL to the new post URL. "
 "%3$sClick here to undo this%4$s."
 msgstr ""
 
-#: classes/class-post-watcher.php:314
+#: classes/class-post-watcher.php:315
 msgid ""
-"%1$s detected that you deleted a post. %2$sClick here to create a redirect "
-"from the old post URL%3$s."
+"%1$s detected that you deleted a post. You can either: %2$s Don't know what "
+"to do? %3$sRead this post %4$s."
 msgstr ""
 
 #: classes/class-premium-import-manager.php:34
@@ -238,52 +238,56 @@ msgstr ""
 msgid "Redirect created from %1$s to %2$s!"
 msgstr ""
 
-#: classes/class-premium-javascript-strings.php:35
-msgid "Redirect added."
+#: classes/class-premium-javascript-strings.php:33
+msgid "410 Redirect created from %1$s!"
 msgstr ""
 
 #: classes/class-premium-javascript-strings.php:36
-msgid "The redirect is added successfully."
+msgid "Redirect added."
 msgstr ""
 
-#: classes/class-premium-javascript-strings.php:39
-msgid "Redirect updated."
+#: classes/class-premium-javascript-strings.php:37
+msgid "The redirect was added successfully."
 msgstr ""
 
 #: classes/class-premium-javascript-strings.php:40
-msgid "The redirect is updated successfully."
+msgid "Redirect updated."
 msgstr ""
 
-#: classes/class-premium-javascript-strings.php:43
-msgid "Redirect deleted."
+#: classes/class-premium-javascript-strings.php:41
+msgid "The redirect was updated successfully."
 msgstr ""
 
 #: classes/class-premium-javascript-strings.php:44
-msgid "The redirect is deleted successfully."
+msgid "Redirect deleted."
 msgstr ""
 
-#: classes/class-premium-javascript-strings.php:47
-msgid "OK"
+#: classes/class-premium-javascript-strings.php:45
+msgid "The redirect was deleted successfully."
 msgstr ""
 
 #: classes/class-premium-javascript-strings.php:48
-msgid "Cancel"
+msgid "OK"
 msgstr ""
 
 #: classes/class-premium-javascript-strings.php:49
-msgid "Save"
+msgid "Cancel"
 msgstr ""
 
 #: classes/class-premium-javascript-strings.php:50
+msgid "Save"
+msgstr ""
+
+#: classes/class-premium-javascript-strings.php:51
 msgid "Save anyway"
 msgstr ""
 
-#: classes/class-premium-javascript-strings.php:52
+#: classes/class-premium-javascript-strings.php:53
 #: classes/redirect/views/redirects-quick-edit.php:12
 msgid "Edit redirect"
 msgstr ""
 
-#: classes/class-premium-javascript-strings.php:53
+#: classes/class-premium-javascript-strings.php:54
 msgid "You are already editing a redirect, please finish this one first"
 msgstr ""
 
@@ -295,8 +299,8 @@ msgstr ""
 
 #: classes/class-term-watcher.php:200
 msgid ""
-"%1$s detected that you deleted a term. %2$sClick here to create a redirect "
-"from the old term URL%3$s."
+"%1$s detected that you deleted a term. You can either: %2$s Don't know what "
+"to do? %3$sRead this post %4$s."
 msgstr ""
 
 #: classes/class-tutorial-videos.php:36
@@ -314,6 +318,14 @@ msgstr ""
 msgid ""
 "Please ask your site administrator to activate %s to be able to see the "
 "videos."
+msgstr ""
+
+#: classes/class-watcher.php:225
+msgid "Redirect it to another URL."
+msgstr ""
+
+#: classes/class-watcher.php:226
+msgid "Make it serve a 410 Content Deleted header."
 msgstr ""
 
 #: classes/redirect/class-redirect-accessible-validation.php:34
@@ -424,7 +436,7 @@ msgid "Edit"
 msgstr ""
 
 #: classes/redirect/class-redirect-uniqueness-validation.php:34
-msgid "The old url already exists as a redirect."
+msgid "The old URL already exists as a redirect."
 msgstr ""
 
 #: classes/redirect/views/redirects-form.php:32
