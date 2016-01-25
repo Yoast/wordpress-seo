@@ -503,7 +503,13 @@ class WPSEO_Breadcrumbs {
 
 				if ( is_array( $terms ) && $terms !== array() ) {
 
-					$deepest_term = $this->find_deepest_term( $terms );
+					$primary_term = new WPSEO_Primary_Term( $main_tax, $this->post->ID );
+					if ( $primary_term->get_primary_term() ) {
+						$deepest_term = get_term( $primary_term->get_primary_term(), $main_tax );
+					}
+					else {
+						$deepest_term = $this->find_deepest_term( $terms );
+					}
 
 					if ( is_taxonomy_hierarchical( $main_tax ) && $deepest_term->parent != 0 ) {
 						$parent_terms = $this->get_term_parents( $deepest_term );
