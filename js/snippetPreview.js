@@ -135,6 +135,19 @@ function hasTrailingSlash( url ) {
 }
 
 /**
+ * Detects if this browser has <progress> support. Also serves as a poor man's HTML5shiv.
+ *
+ * @private
+ *
+ * @returns {boolean}
+ */
+function hasProgressSupport() {
+	var progressElement = document.createElement( "progress" );
+
+	return progressElement.max !== undefined;
+}
+
+/**
  * @module snippetPreview
  */
 
@@ -184,6 +197,8 @@ function hasTrailingSlash( url ) {
  * @property {string}      data.metaDesc                  - The meta description.
  *
  * @property {string}      baseURL                        - The basic URL as it will be displayed in google.
+ *
+ * @property {boolean}     hasProgressSupport             - Whether this browser supports the <progress> element.
  *
  * @constructor
  */
@@ -287,6 +302,12 @@ SnippetPreview.prototype.renderTemplate = function() {
 	this.element.progress.metaDesc.max = YoastSEO.analyzerConfig.maxMeta;
 
 	this.opened = false;
+	this.hasProgressSupport = hasProgressSupport();
+	if ( !this.hasProgressSupport ) {
+		forEach( this.element.progress, function( progressElement ) {
+			addClass( progressElement, "snippet-editor__progress--fallback" );
+		} );
+	}
 	this.updateProgressBars();
 };
 
@@ -766,13 +787,17 @@ function rateMetaDescLength( metaDescLength ) {
 /**
  * Updates a progress bar
  *
+ * @private
+ * @this SnippetPreview
+ *
  * @param {HTMLElement} element The progress element that's rendered.
  * @param {number} value The current value.
  * @param {number} maximum The maximum allowed value.
  * @param {string} rating The SEO score rating for this value.
  */
 function updateProgressBar( element, value, maximum, rating ) {
-	var allClasses = [
+	var barElement, progress,
+		allClasses = [
 		"snippet-editor__progress--bad",
 		"snippet-editor__progress--ok",
 		"snippet-editor__progress--good"
@@ -781,6 +806,13 @@ function updateProgressBar( element, value, maximum, rating ) {
 	element.value = value;
 	removeClasses( element, allClasses );
 	addClass( element, "snippet-editor__progress--" + rating );
+
+	if ( !this.hasProgressSupport ) {
+		barElement = element.getElementsByClassName( "snippet-editor__progress-bar" )[ 0 ];
+		progress = ( value / maximum ) * 100;
+
+		barElement.style.width = progress + "%";
+	}
 }
 
 /**

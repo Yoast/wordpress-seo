@@ -3288,6 +3288,19 @@ function hasTrailingSlash( url ) {
 }
 
 /**
+ * Detects if this browser has <progress> support. Also serves as a poor man's HTML5shiv.
+ *
+ * @private
+ *
+ * @returns {boolean}
+ */
+function hasProgressSupport() {
+	var progressElement = document.createElement( "progress" );
+
+	return progressElement.max !== undefined;
+}
+
+/**
  * @module snippetPreview
  */
 
@@ -3337,6 +3350,8 @@ function hasTrailingSlash( url ) {
  * @property {string}      data.metaDesc                  - The meta description.
  *
  * @property {string}      baseURL                        - The basic URL as it will be displayed in google.
+ *
+ * @property {boolean}     hasProgressSupport             - Whether this browser supports the <progress> element.
  *
  * @constructor
  */
@@ -3440,6 +3455,12 @@ SnippetPreview.prototype.renderTemplate = function() {
 	this.element.progress.metaDesc.max = YoastSEO.analyzerConfig.maxMeta;
 
 	this.opened = false;
+	this.hasProgressSupport = hasProgressSupport();
+	if ( !this.hasProgressSupport ) {
+		forEach( this.element.progress, function( progressElement ) {
+			addClass( progressElement, "snippet-editor__progress--fallback" );
+		} );
+	}
 	this.updateProgressBars();
 };
 
@@ -3917,29 +3938,60 @@ function rateMetaDescLength( metaDescLength ) {
 }
 
 /**
+ * Updates a progress bar
+ *
+ * @private
+ * @this SnippetPreview
+ *
+ * @param {HTMLElement} element The progress element that's rendered.
+ * @param {number} value The current value.
+ * @param {number} maximum The maximum allowed value.
+ * @param {string} rating The SEO score rating for this value.
+ */
+function updateProgressBar( element, value, maximum, rating ) {
+	var barElement, progress,
+		allClasses = [
+		"snippet-editor__progress--bad",
+		"snippet-editor__progress--ok",
+		"snippet-editor__progress--good"
+	];
+
+	element.value = value;
+	removeClasses( element, allClasses );
+	addClass( element, "snippet-editor__progress--" + rating );
+
+	if ( !this.hasProgressSupport ) {
+		barElement = element.getElementsByClassName( "snippet-editor__progress-bar" )[ 0 ];
+		progress = ( value / maximum ) * 100;
+
+		barElement.style.width = progress + "%";
+	}
+}
+
+/**
  * Updates progress bars based on the data
  */
 SnippetPreview.prototype.updateProgressBars = function() {
-	var metaDescriptionRating, titleRating, metaDescription,
-		allClasses = [
-			"snippet-editor__progress--bad",
-			"snippet-editor__progress--ok",
-			"snippet-editor__progress--good"
-		];
+	var metaDescriptionRating, titleRating, metaDescription;
 
 	metaDescription = getMetaDescWithDate.call( this );
 
 	titleRating = rateTitleLength( this.data.title.length );
 	metaDescriptionRating = rateMetaDescLength( metaDescription.length );
 
-	this.element.progress.title.value = this.data.title.length;
-	this.element.progress.metaDesc.value = metaDescription.length;
+	updateProgressBar(
+		this.element.progress.title,
+		this.data.title.length,
+		titleMaxLength,
+		titleRating
+	);
 
-	removeClasses( this.element.progress.title,  allClasses );
-	removeClasses( this.element.progress.metaDesc, allClasses );
-
-	addClass( this.element.progress.title, "snippet-editor__progress--" + titleRating );
-	addClass( this.element.progress.metaDesc, "snippet-editor__progress--" + metaDescriptionRating );
+	updateProgressBar(
+		this.element.progress.metaDesc,
+		metaDescription.length,
+		YoastSEO.analyzerConfig.maxMeta,
+		metaDescriptionRating
+	);
 };
 
 /**
@@ -5133,7 +5185,7 @@ YoastSEO.getStringHelper = function() {
     __e( raw.title ) +
     '" placeholder="' +
     __e( placeholder.title ) +
-    '" />\n            <progress value="0.0" class="snippet-editor__progress snippet-editor__progress-title"></progress>\n        </label>\n        <label for="snippet-editor-slug" class="snippet-editor__label">\n            ' +
+    '" />\n            <progress value="0.0" class="snippet-editor__progress snippet-editor__progress-title">\n                <div class="snippet-editor__progress-bar"></div>\n            </progress>\n        </label>\n        <label for="snippet-editor-slug" class="snippet-editor__label">\n            ' +
     __e( i18n.slug ) +
     '\n            <input type="text" class="snippet-editor__input snippet-editor__slug js-snippet-editor-slug" id="snippet-editor-slug" value="' +
     __e( raw.snippetCite ) +
@@ -5145,7 +5197,7 @@ YoastSEO.getStringHelper = function() {
     __e( placeholder.metaDesc ) +
     '">' +
     __e( raw.meta ) +
-    '</textarea>\n            <progress value="0.0" class="snippet-editor__progress snippet-editor__progress-meta-description"></progress>\n        </label>\n\n        <button class="snippet-editor__submit button" type="button">' +
+    '</textarea>\n            <progress value="0.0" class="snippet-editor__progress snippet-editor__progress-meta-description">\n                <div class="snippet-editor__progress-bar"></div>\n            </progress>\n        </label>\n\n        <button class="snippet-editor__submit button" type="button">' +
     __e( i18n.save ) +
     '</button>\n    </div>\n</div>\n';
 

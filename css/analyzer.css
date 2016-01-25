@@ -212,8 +212,12 @@
     border-radius: 4px;
 }
 
-.snippet-editor__progress {
+.snippet-editor__progress[value].snippet-editor__progress--bad {
     color: #dd3d36
+}
+
+.snippet-editor__progress--bad .snippet-editor__progress-bar {
+    background-color: #dd3d36;
 }
 
 .snippet-editor__progress[value].snippet-editor__progress--ok::-webkit-progress-value {
@@ -226,8 +230,12 @@
     border-radius: 4px;
 }
 
-.snippet-editor__progress {
+.snippet-editor__progress[value].snippet-editor__progress--ok {
     color: #ee7c1b
+}
+
+.snippet-editor__progress--ok .snippet-editor__progress-bar {
+    background-color: #ee7c1b;
 }
 
 .snippet-editor__progress[value].snippet-editor__progress--good::-webkit-progress-value {
@@ -240,8 +248,30 @@
     border-radius: 4px;
 }
 
-.snippet-editor__progress {
+.snippet-editor__progress[value].snippet-editor__progress--good {
     color: #7ad03a
+}
+
+.snippet-editor__progress--good .snippet-editor__progress-bar {
+    background-color: #7ad03a;
+}
+
+.snippet-editor__progress--fallback {
+    background-color: #eee;
+    border-radius: 4px;
+    height: 8px;
+    border: 1px solid rgba( 0, 0, 0, .25 );
+    box-shadow: 0 1px 2px rgba( 0, 0, 0, .1 ) inset;
+}
+
+.snippet-editor__progress-bar {
+    width: 50%;
+    height: 100%;
+    max-width: 100%;
+
+    -webkit-border-radius: inherit;
+    -moz-border-radius: inherit;
+    border-radius: inherit;
 }
 
 .snippet-editor__date {
