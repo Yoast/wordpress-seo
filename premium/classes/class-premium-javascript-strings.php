@@ -34,15 +34,15 @@ class WPSEO_Premium_Javascript_Strings {
 
 			'redirect_added'        => array(
 				'title'   => __( 'Redirect added.', 'wordpress-seo-premium' ),
-				'message' => __( 'The redirect is added successfully.', 'wordpress-seo-premium' ),
+				'message' => __( 'The redirect was added successfully.', 'wordpress-seo-premium' ),
 			),
 			'redirect_updated'        => array(
 				'title'   => __( 'Redirect updated.', 'wordpress-seo-premium' ),
-				'message' => __( 'The redirect is updated successfully.', 'wordpress-seo-premium' ),
+				'message' => __( 'The redirect was updated successfully.', 'wordpress-seo-premium' ),
 			),
 			'redirect_deleted'        => array(
 				'title'   => __( 'Redirect deleted.', 'wordpress-seo-premium' ),
-				'message' => __( 'The redirect is deleted successfully.', 'wordpress-seo-premium' ),
+				'message' => __( 'The redirect was deleted successfully.', 'wordpress-seo-premium' ),
 			),
 
 			'button_ok'          => __( 'OK', 'wordpress-seo-premium' ),
