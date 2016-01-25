@@ -487,7 +487,7 @@
 			YoastSEO.analyzerArgs.translations = translations;
 		}
 
-		var placeholder = {urlPath:  ''};
+		var placeholder = { urlPath:  '' };
 
 		var titlePlaceholder = wpseoPostScraperL10n.title_template;
 		if (titlePlaceholder === '' ) {
