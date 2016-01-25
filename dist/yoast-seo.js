@@ -3301,6 +3301,113 @@ function hasProgressSupport() {
 }
 
 /**
+ * Returns the metaDescription, includes the date if it is set.
+ *
+ * @returns {string}
+ */
+
+var getMetaDescWithDate = function() {
+	var metaDesc = this.data.metaDesc;
+
+	if ( !isEmpty( this.opts.metaDescriptionDate ) ) {
+		metaDesc = this.opts.metaDescriptionDate + " - " + metaDesc;
+	}
+
+	return metaDesc;
+};
+
+/**
+ * Returns a rating based on the length of the title
+ *
+ * @param {string} titleLength
+ * @returns {string}
+ */
+function rateTitleLength( titleLength ) {
+	var rating;
+
+	switch ( true ) {
+		case titleLength > 0 && titleLength <= 39:
+			rating = "ok";
+			break;
+
+		case titleLength >= 71:
+			rating = "ok";
+			break;
+
+		case titleLength >= 40 && titleLength <= 70:
+			rating = "good";
+			break;
+
+		default:
+			rating = "bad";
+			break;
+	}
+
+	return rating;
+}
+
+/**
+ * Returns a rating based on the length of the meta description
+ *
+ * @param {string} metaDescLength
+ * @returns {string}
+ */
+function rateMetaDescLength( metaDescLength ) {
+	var rating;
+
+	switch ( true ) {
+		case metaDescLength > 0 && metaDescLength <= 120:
+			rating = "ok";
+			break;
+
+		case metaDescLength >= 157:
+			rating = "ok";
+			break;
+
+		case metaDescLength >= 120 && metaDescLength <= 157:
+			rating = "good";
+			break;
+
+		default:
+			rating = "bad";
+			break;
+	}
+
+	return rating;
+}
+
+/**
+ * Updates a progress bar
+ *
+ * @private
+ * @this SnippetPreview
+ *
+ * @param {HTMLElement} element The progress element that's rendered.
+ * @param {number} value The current value.
+ * @param {number} maximum The maximum allowed value.
+ * @param {string} rating The SEO score rating for this value.
+ */
+function updateProgressBar( element, value, maximum, rating ) {
+	var barElement, progress,
+		allClasses = [
+			"snippet-editor__progress--bad",
+			"snippet-editor__progress--ok",
+			"snippet-editor__progress--good"
+		];
+
+	element.value = value;
+	removeClasses( element, allClasses );
+	addClass( element, "snippet-editor__progress--" + rating );
+
+	if ( !this.hasProgressSupport ) {
+		barElement = element.getElementsByClassName( "snippet-editor__progress-bar" )[ 0 ];
+		progress = ( value / maximum ) * 100;
+
+		barElement.style.width = progress + "%";
+	}
+}
+
+/**
  * @module snippetPreview
  */
 
@@ -3473,22 +3580,6 @@ SnippetPreview.prototype.refresh = function() {
 	this.output = this.htmlOutput();
 	this.renderOutput();
 	this.renderSnippetStyle();
-};
-
-/**
- * Returns the metaDescription, includes the date if it is set.
- *
- * @returns {string}
- */
-
-var getMetaDescWithDate = function() {
-	var metaDesc = this.data.metaDesc;
-
-	if ( !isEmpty( this.opts.metaDescriptionDate ) ) {
-		metaDesc = this.opts.metaDescriptionDate + " - " + metaDesc;
-	}
-
-	return metaDesc;
 };
 
 /**
@@ -3878,97 +3969,6 @@ SnippetPreview.prototype.validateFields = function() {
 		removeClass( this.element.input.title, "snippet-editor__field--invalid" );
 	}
 };
-
-/**
- * Returns a rating based on the length of the title
- *
- * @param {string} titleLength
- * @returns {string}
- */
-function rateTitleLength( titleLength ) {
-	var rating;
-
-	switch ( true ) {
-		case titleLength > 0 && titleLength <= 39:
-			rating = "ok";
-			break;
-
-		case titleLength >= 71:
-			rating = "ok";
-			break;
-
-		case titleLength >= 40 && titleLength <= 70:
-			rating = "good";
-			break;
-
-		default:
-			rating = "bad";
-			break;
-	}
-
-	return rating;
-}
-
-/**
- * Returns a rating based on the length of the meta description
- *
- * @param {string} metaDescLength
- * @returns {string}
- */
-function rateMetaDescLength( metaDescLength ) {
-	var rating;
-
-	switch ( true ) {
-		case metaDescLength > 0 && metaDescLength <= 120:
-			rating = "ok";
-			break;
-
-		case metaDescLength >= 157:
-			rating = "ok";
-			break;
-
-		case metaDescLength >= 120 && metaDescLength <= 157:
-			rating = "good";
-			break;
-
-		default:
-			rating = "bad";
-			break;
-	}
-
-	return rating;
-}
-
-/**
- * Updates a progress bar
- *
- * @private
- * @this SnippetPreview
- *
- * @param {HTMLElement} element The progress element that's rendered.
- * @param {number} value The current value.
- * @param {number} maximum The maximum allowed value.
- * @param {string} rating The SEO score rating for this value.
- */
-function updateProgressBar( element, value, maximum, rating ) {
-	var barElement, progress,
-		allClasses = [
-		"snippet-editor__progress--bad",
-		"snippet-editor__progress--ok",
-		"snippet-editor__progress--good"
-	];
-
-	element.value = value;
-	removeClasses( element, allClasses );
-	addClass( element, "snippet-editor__progress--" + rating );
-
-	if ( !this.hasProgressSupport ) {
-		barElement = element.getElementsByClassName( "snippet-editor__progress-bar" )[ 0 ];
-		progress = ( value / maximum ) * 100;
-
-		barElement.style.width = progress + "%";
-	}
-}
 
 /**
  * Updates progress bars based on the data
