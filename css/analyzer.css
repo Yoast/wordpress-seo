@@ -202,17 +202,17 @@
     box-shadow: 0 1px 2px rgba(0,0,0,.1) inset;
 }
 
-.snippet-editor__progress[value].snippet-editor__progress--bad::-webkit-progress-value {
+.snippet-editor__progress--bad[value]::-webkit-progress-value {
     background-color: #dd3d36;
     transition: width, 250ms;
 }
 
-.snippet-editor__progress[value].snippet-editor__progress--bad::-moz-progress-bar {
+.snippet-editor__progress--bad[value]::-moz-progress-bar {
     background-color: #dd3d36;
     border-radius: 4px;
 }
 
-.snippet-editor__progress[value].snippet-editor__progress--bad {
+.snippet-editor__progress--bad[value] {
     color: #dd3d36
 }
 
@@ -220,17 +220,17 @@
     background-color: #dd3d36;
 }
 
-.snippet-editor__progress[value].snippet-editor__progress--ok::-webkit-progress-value {
+.snippet-editor__progress--ok[value]::-webkit-progress-value {
     background-color: #ee7c1b;
     transition: width 250ms;
 }
 
-.snippet-editor__progress[value].snippet-editor__progress--ok::-moz-progress-bar {
+.snippet-editor__progress--ok[value]::-moz-progress-bar {
     background-color: #ee7c1b;
     border-radius: 4px;
 }
 
-.snippet-editor__progress[value].snippet-editor__progress--ok {
+.snippet-editor__progress--ok[value] {
     color: #ee7c1b
 }
 
@@ -238,17 +238,17 @@
     background-color: #ee7c1b;
 }
 
-.snippet-editor__progress[value].snippet-editor__progress--good::-webkit-progress-value {
+.snippet-editor__progress--good[value]::-webkit-progress-value {
     background-color: #7ad03a;
     transition: width 250ms;
 }
 
-.snippet-editor__progress[value].snippet-editor__progress--good::-moz-progress-bar {
+.snippet-editor__progress--good[value]::-moz-progress-bar {
     background-color: #7ad03a;
     border-radius: 4px;
 }
 
-.snippet-editor__progress[value].snippet-editor__progress--good {
+.snippet-editor__progress--good[value] {
     color: #7ad03a
 }
 
