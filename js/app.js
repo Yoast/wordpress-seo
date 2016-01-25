@@ -81,6 +81,13 @@ function createDefaultSnippetPreview() {
 	} );
 }
 
+/**
+ * Check arguments passed to the Snippetpreview to check if all necessary arguments
+ * are set.
+ *
+ * @private
+ * @param {Object} args The arguments object passed to the Snippetpreview.
+ */
 function checkArguments( args ) {
 
 	if ( !isObject( args.callbacks.getData ) ) {
@@ -176,9 +183,9 @@ YoastSEO.App = function( args ) {
 	}
 	defaultsDeep( args, defaults );
 
-	this.config = args;
+	checkArguments( args );
 
-	checkArguments( this.config );
+	this.config = args;
 
 	this.callbacks = this.config.callbacks;
 
