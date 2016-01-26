@@ -456,11 +456,11 @@
 					$( '<input>' )
 						.attr( 'name', 'wpseo_redirects_bulk_delete[]' )
 						.attr( 'type', 'checkbox' )
-						.val( old_url )
+						.val( _.escape( old_url ) )
 				)
 			).append(
 				$( '<td>' ).append(
-					$( '<div>' ).addClass( 'val type' ).html( redirect_type )
+					$( '<div>' ).addClass( 'val type' ).html( _.escape( redirect_type ) )
 				).append(
 					$( '<div>' ).addClass( 'row-actions' ).append(
 						$( '<span>' ).addClass( 'edit' ).append(
@@ -474,11 +474,11 @@
 				)
 			).append(
 				$( '<td>' ).append(
-					$( '<div>' ).addClass( 'val' ).html( old_url )
+					$( '<div>' ).addClass( 'val' ).html( _.escape( old_url ) )
 				)
 			).append(
 				$( '<td>' ).append(
-					$( '<div>' ).addClass( 'val' ).html( new_url )
+					$( '<div>' ).addClass( 'val' ).html( _.escape( new_url ) )
 				)
 			);
 

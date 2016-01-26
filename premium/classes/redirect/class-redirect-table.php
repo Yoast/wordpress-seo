@@ -166,7 +166,7 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	 * @return string
 	 */
 	public function column_cb( $item ) {
-		return sprintf( '<input type="checkbox" name="wpseo_redirects_bulk_delete[]" value="%s" />', $item['old'] );
+		return sprintf( '<input type="checkbox" name="wpseo_redirects_bulk_delete[]" value="%s" />', esc_attr( $item['old'] ) );
 	}
 
 	/**
@@ -183,13 +183,13 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 
 		switch ( $column_name ) {
 			case 'new':
-				return "<div class='val'>" . $item['new'] . '</div>' . $row_actions;
+				return "<div class='val'>" . esc_html( $item['new'] ) . '</div>' . $row_actions;
 				break;
 			case 'old':
-				return "<div class='val'>" . $item['old'] . '</div>' . $row_actions;
+				return "<div class='val'>" . esc_html( $item['old'] ). '</div>' . $row_actions;
 				break;
 			case 'type';
-				return '<div class="val type">' . $item['type'] .'</div>' . $row_actions;
+				return '<div class="val type">' . esc_html( $item['type'] ) .'</div>' . $row_actions;
 				break;
 			default:
 				return $item[ $column_name ];
