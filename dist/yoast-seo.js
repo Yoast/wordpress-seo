@@ -592,8 +592,13 @@ YoastSEO.Analyzer.prototype.keyphraseSizeCheck = function() {
 YoastSEO.Analyzer.prototype.keywordDensity = function() {
 	var getKeywordDensity = require( "./analyses/getKeywordDensity.js" );
 	var countWords = require( "./stringProcessing/countWords.js" );
-	if ( countWords ( this.config.text ) >= 100 ) {
+	var keywordCount = countWords( this.config.text );
+
+	if ( keywordCount >= 100 ) {
 		var density = getKeywordDensity( this.config.text, this.config.keyword );
+
+		// Present for backwards compatibility with the .refObj.__store.keywordCount option in scoring.js
+		this.__store.keywordCount = keywordCount;
 
 		return [ { test: "keywordDensity", result: density } ];
 	}
@@ -3505,16 +3510,46 @@ SnippetPreview.prototype.refresh = function() {
 };
 
 /**
- * Returns the metaDescription, includes the date if it is set.
+ * Returns the title as meant for the analyzer
+ *
+ * @private
+ * @this SnippetPreview
  *
  * @returns {string}
  */
+function getAnalyzerTitle() {
+	var title = this.data.title;
 
-var getMetaDesc = function() {
+	if ( isEmpty( title ) ) {
+		title = this.opts.placeholder.title;
+	}
+	title = this.refObj.pluggable._applyModifications( "data_page_title", title );
+
+	return title;
+}
+
+/**
+ * Returns the metaDescription, includes the date if it is set.
+ *
+ * @private
+ * @this SnippetPreview
+ *
+ * @returns {string}
+ */
+var getAnalyzerMetaDesc = function() {
 	var metaDesc = this.data.metaDesc;
-	if ( !isEmpty( this.opts.metaDescriptionDate ) ) {
+
+	metaDesc = this.refObj.pluggable._applyModifications( "data_meta_desc", metaDesc );
+
+	// If no meta has been set, generate one.
+	if ( isEmpty( metaDesc ) ) {
+		metaDesc = this.getMetaText();
+	}
+
+	if ( !isEmpty( this.opts.metaDescriptionDate ) && !isEmpty( metaDesc ) ) {
 		metaDesc = this.opts.metaDescriptionDate + " - " + this.data.metaDesc;
 	}
+
 	return metaDesc;
 };
 
@@ -3525,9 +3560,9 @@ var getMetaDesc = function() {
  */
 SnippetPreview.prototype.getAnalyzerData = function() {
 	return {
-		title:    this.data.title,
-		url:      getBaseURL.call( this ) + this.data.urlPath,
-		metaDesc: getMetaDesc.call( this )
+		title:    getAnalyzerTitle.call( this ),
+		url:      this.data.urlPath,
+		metaDesc: getAnalyzerMetaDesc.call( this )
 	};
 };
 
@@ -3577,13 +3612,13 @@ SnippetPreview.prototype.formatTitle = function() {
 		title = this.opts.placeholder.title;
 	}
 
-	// TODO: Replace this with the stripAllTags module.
-	title = this.refObj.stringHelper.stripAllTags( title );
-
 	// Apply modification to the title before showing it.
 	if ( this.refObj.pluggable.loaded ) {
 		title = this.refObj.pluggable._applyModifications( "data_page_title", title );
 	}
+
+	// TODO: Replace this with the stripAllTags module.
+	title = this.refObj.stringHelper.stripAllTags( title );
 
 	// If a keyword is set we want to highlight it in the title.
 	if ( !isEmpty( this.refObj.rawData.keyword ) ) {
@@ -3646,6 +3681,11 @@ SnippetPreview.prototype.formatMeta = function() {
 	// If no meta has been set, generate one.
 	if ( isEmpty( meta ) ) {
 		meta = this.getMetaText();
+	}
+
+	// Apply modification to the desc before showing it.
+	if ( this.refObj.pluggable.loaded ) {
+		meta = this.refObj.pluggable._applyModifications( "data_meta_desc", meta );
 	}
 
 	// TODO: Replace this with the stripAllTags module.

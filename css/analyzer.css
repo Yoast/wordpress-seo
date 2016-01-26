@@ -50,7 +50,7 @@
     cursor: pointer;
     background: none;
 
-    color: #1075a8;
+    color: #0073aa;
 }
 
 .snippet-editor__edit-button--close {
@@ -165,7 +165,7 @@
 }
 
 .snippet-editor__field--invalid {
-    border: 1px solid #f00;
+    color: #f00;
 }
 
 .snippet-editor__date {
