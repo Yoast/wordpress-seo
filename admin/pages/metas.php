@@ -97,10 +97,6 @@ $yform->admin_header( true, 'wpseo_titles' );
 					if ( $options['usemetakeywords'] === true ) {
 						$yform->textinput( 'metakey-' . $name, __( 'Meta keywords template', 'wordpress-seo' ) );
 					}
-					$yform->checkbox( 'noindex-' . $name, '<code>noindex, follow</code>', __( 'Meta Robots', 'wordpress-seo' ) );
-					$yform->checkbox( 'showdate-' . $name, __( 'Show date in snippet preview?', 'wordpress-seo' ), __( 'Date in Snippet Preview', 'wordpress-seo' ) );
-					/* translators: %1$s expands to Yoast SEO */
-					$yform->checkbox( 'hideeditbox-' . $name, __( 'Hide', 'wordpress-seo' ), sprintf( __( '%1$s Meta Box', 'wordpress-seo' ), 'Yoast SEO' ) );
 					$yform->toggle_switch( 'noindex-' . $name, $index_switch_values, __( 'Meta Robots', 'wordpress-seo' ) );
 					$yform->toggle_switch( 'showdate-' . $name, array(
 						'on'  => __( 'Show', 'wordpress-seo' ),

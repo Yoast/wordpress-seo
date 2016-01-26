@@ -37,6 +37,7 @@
 	YoastReplaceVarPlugin.prototype.replaceVariablesPlugin = function( data ) {
 		if( typeof data !== 'undefined' ) {
 			data = this.titleReplace( data );
+			data = this.termtitleReplace( data );
 			data = this.defaultReplace( data );
 			data = this.parentReplace( data );
 			data = this.doubleSepReplace( data );
@@ -54,6 +55,19 @@
 		var title = YoastSEO.app.rawData.title;
 
 		data = data.replace( /%%title%%/g, title );
+
+		return data;
+	};
+
+	/**
+	 * Replaces %%term_title%% with the title of the term
+	 * @param {String} data the data to replace the term_title var
+	 * @returns {String} the data with the replaced variables
+	 */
+	YoastReplaceVarPlugin.prototype.termtitleReplace = function( data ) {
+		var term_title = YoastSEO.app.rawData.name;
+
+		data = data.replace( /%%term_title%%/g, term_title);
 
 		return data;
 	};

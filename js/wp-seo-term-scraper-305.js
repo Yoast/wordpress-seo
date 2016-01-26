@@ -14,6 +14,7 @@
 	 */
 	TermScraper.prototype.getData = function() {
 		return {
+			name: this.getDataFromInput( 'name' ),
 			title: this.getDataFromInput( 'title' ),
 			keyword: this.getDataFromInput( 'keyword' ),
 			text: this.getDataFromInput( 'text' ),
@@ -43,13 +44,13 @@
 					elem.placeholder = val;
 				}
 				break;
+			case 'name':
+				val = document.getElementById( 'name' ).value;
+				break;
 			case 'meta':
 				elem = document.getElementById( 'hidden_wpseo_desc' );
 				if ( elem !== null ) {
 					val = elem.value;
-				}
-				if ( val === '' ) {
-					val = wpseoTermScraperL10n.metadesc_template;
 				}
 				break;
 			case 'snippetMeta':
@@ -63,12 +64,6 @@
 				break;
 			case 'pageTitle':
 				val = document.getElementById( 'hidden_wpseo_title' ).value;
-				if ( val === '' ) {
-					val = wpseoTermScraperL10n.title_template;
-				}
-				if (val === '' ) {
-					val = '%%title%% - %%sitename%%';
-				}
 				break;
 			case 'title':
 				val = document.getElementById( 'hidden_wpseo_title' ).value;
@@ -223,8 +218,8 @@
 		alt = YoastSEO.app.scoreFormatter.getSEOScoreText( cssClass );
 
 		$( '.yst-traffic-light' )
-				.attr( 'class', 'yst-traffic-light ' + cssClass )
-				.attr( 'alt', alt );
+			.attr( 'class', 'yst-traffic-light ' + cssClass )
+			.attr( 'alt', alt );
 	};
 
 	/**
@@ -377,6 +372,36 @@
 
 			YoastSEO.analyzerArgs.translations = translations;
 		}
+
+		var placeholder = { urlPath:  '' };
+
+		var titlePlaceholder = wpseoTermScraperL10n.title_template;
+		if (titlePlaceholder === '' ) {
+			titlePlaceholder = '%%title%% - %%sitename%%';
+		}
+		placeholder.title = titlePlaceholder;
+
+		var metaPlaceholder = wpseoTermScraperL10n.metadesc_template;
+		if (metaPlaceholder !== '' ) {
+			placeholder.metaDesc = metaPlaceholder;
+		}
+		var data = termScraper.getData();
+
+		YoastSEO.analyzerArgs.snippetPreview = new YoastSEO.SnippetPreview({
+			targetElement: document.getElementById( 'wpseo_snippet' ),
+			placeholder: placeholder,
+			baseURL: wpseoTermScraperL10n.base_url,
+			callbacks: {
+				saveSnippetData: termScraper.saveSnippetData.bind( termScraper )
+			},
+			metaDescriptionDate: wpseoTermScraperL10n.metaDescriptionDate,
+			data: {
+				title: data.snippetTitle,
+				urlPath: data.snippetCite,
+				metaDesc: data.snippetMeta
+			}
+		});
+
 		window.YoastSEO.app = new YoastSEO.App( YoastSEO.analyzerArgs );
 		jQuery( window ).trigger( 'YoastSEO:ready' );
 
