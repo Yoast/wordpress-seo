@@ -118,6 +118,7 @@
 
 #meta_container {
     clear: both;
+    min-height: 20px;
 }
 
 .snippet_container .title {
