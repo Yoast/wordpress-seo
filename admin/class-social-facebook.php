@@ -288,8 +288,8 @@ class Yoast_Social_Facebook_Form {
 	 * @return $this
 	 */
 	private function form_head() {
-		echo '<p><strong>' . esc_html__( 'Facebook Insights and Admins', 'wordpress-seo' ) . '</strong><br />';
-		echo sprintf(
+		echo '<h4>' . esc_html__( 'Facebook Insights and Admins', 'wordpress-seo' ) . '</h4>';
+		echo '<p>', sprintf(
 			esc_html__(
 				'To be able to access %sFacebook Insights%s for your site, you need to specify a Facebook Admin. This can be a user. If you have an app for your site, you could use that as well.', 'wordpress-seo'
 			),
