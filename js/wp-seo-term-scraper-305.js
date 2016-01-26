@@ -14,6 +14,7 @@
 	 */
 	TermScraper.prototype.getData = function() {
 		return {
+			name: this.getDataFromInput( 'name' ),
 			title: this.getDataFromInput( 'title' ),
 			keyword: this.getDataFromInput( 'keyword' ),
 			text: this.getDataFromInput( 'text' ),
@@ -42,6 +43,9 @@
 					val = document.getElementById( 'name' ).value;
 					elem.placeholder = val;
 				}
+				break;
+			case 'name':
+				val = document.getElementById( 'name' ).value;
 				break;
 			case 'meta':
 				elem = document.getElementById( 'hidden_wpseo_desc' );
