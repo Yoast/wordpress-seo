@@ -592,13 +592,14 @@ YoastSEO.Analyzer.prototype.keyphraseSizeCheck = function() {
 YoastSEO.Analyzer.prototype.keywordDensity = function() {
 	var getKeywordDensity = require( "./analyses/getKeywordDensity.js" );
 	var countWords = require( "./stringProcessing/countWords.js" );
+	var matchWords = require( "./stringProcessing/matchTextWithWord.js" );
 	var keywordCount = countWords( this.config.text );
 
 	if ( keywordCount >= 100 ) {
 		var density = getKeywordDensity( this.config.text, this.config.keyword );
 
 		// Present for backwards compatibility with the .refObj.__store.keywordCount option in scoring.js
-		this.__store.keywordCount = keywordCount;
+		this.__store.keywordCount = matchWords( this.config.text, this.config.keyword );
 
 		return [ { test: "keywordDensity", result: density } ];
 	}
