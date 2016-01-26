@@ -5,6 +5,7 @@
 /* global alert */
 /* global wpseo_premium_strings */
 /* global wp */
+/* global _ */
 'use strict';
 
 ( function($) {
