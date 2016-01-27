@@ -847,8 +847,8 @@ SnippetPreview.prototype.validateFields = function() {
 SnippetPreview.prototype.updateProgressBars = function() {
 	var metaDescriptionRating, titleRating, metaDescription, title;
 
-	metaDescription = getAnalyzerMetaDesc.call( this );
-	title = getAnalyzerTitle.call( this );
+	metaDescription = YoastSEO.getStringHelper().stripSpaces( getAnalyzerMetaDesc.call( this ) );
+	title = YoastSEO.getStringHelper().stripSpaces( getAnalyzerTitle.call( this ) );
 
 	titleRating = rateTitleLength( title.length );
 	metaDescriptionRating = rateMetaDescLength( metaDescription.length );
