@@ -834,7 +834,7 @@ SnippetPreview.prototype.validateFields = function() {
 		removeClass( this.element.input.metaDesc, "snippet-editor__field--invalid" );
 	}
 
-	if ( title.length > titleMaxLength ) {
+	if ( YoastSEO.getStringHelper().stripSpaces( title ).length > titleMaxLength ) {
 		addClass( this.element.input.title, "snippet-editor__field--invalid" );
 	} else {
 		removeClass( this.element.input.title, "snippet-editor__field--invalid" );
