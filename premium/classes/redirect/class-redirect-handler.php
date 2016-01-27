@@ -165,7 +165,7 @@ class WPSEO_Redirect_Handler {
 	private function match_regex_redirect( $regex, array $redirect ) {
 		if ( 1 === preg_match( "`{$regex}`", $this->request_url, $this->url_matches ) ) {
 			// Replace the $regex vars with URL matches.
-			$redirect_url = preg_replace_callback( '/[\$0-9]+/', array(
+			$redirect_url = preg_replace_callback( '/\$[0-9]+/', array(
 				$this,
 				'format_regex_redirect_url',
 			), $redirect['url'] );
