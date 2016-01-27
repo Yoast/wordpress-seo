@@ -136,6 +136,7 @@ class WPSEO_Frontend {
 		if ( $this->options['redirectattachment'] === true ) {
 			add_action( 'template_redirect', array( $this, 'attachment_redirect' ), 1 );
 		}
+
 		/*
 		 * The setting to get here has been deprecated, but don't remove the code as that would break
 		 * the functionality for those that still have it!

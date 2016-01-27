@@ -197,10 +197,10 @@ $yform->admin_header( true, 'wpseo_titles' );
 			), __( 'Author archives are', 'wordpress-seo' ) );
 			$yform->toggle_switch( 'noindex-author-wpseo', $index_switch_values, __( 'Meta Robots', 'wordpress-seo' ) );
 			echo '<p>';
-			/* translators: %s expands to <code>noindex, follow</code> */
 			/* translators: %1$s / %2$s: links to an article about duplicate content on yoast.com */
 			printf( __( 'If you\'re running a one author blog, the author archive will be exactly the same as your homepage. This is what\'s called a %1$sduplicate content problem%2$s.', 'wordpress-seo' ), '<a href="https://yoast.com/articles/duplicate-content/">', '</a>' );
 			echo ' ';
+			/* translators: %s expands to <code>noindex, follow</code> */
 			printf( __( 'If this is the case on your site, you can choose to either disable it (which makes it redirect to the homepage), or to add %s to it so it doesn\'t show up in the search results.', 'wordpress-seo' ), '<code>noindex,follow</code>' );
 			echo '</p>';
 			echo '<h3>' . __( 'Date-based archives', 'wordpress-seo' ) . '</h3>';
