@@ -40,9 +40,8 @@ class WPSEO_Recalculate_Posts extends WPSEO_Recalculate {
 			array(
 				'post_type'      => 'any',
 				'meta_key'       => '_yoast_wpseo_focuskw',
-				'items_per_page' => $this->items_per_page,
+				'posts_per_page' => $this->items_per_page,
 				'paged'          => $paged,
-				'posts'          => array(),
 			)
 		);
 

@@ -116,9 +116,6 @@
 				break;
 			case 'meta':
 				val = document.getElementById( 'yoast_wpseo_metadesc' ) && document.getElementById( 'yoast_wpseo_metadesc' ).value || '';
-				if ( val === '' ) {
-					val = wpseoPostScraperL10n.metadesc_template;
-				}
 				break;
 			case 'snippetMeta':
 				val = document.getElementById( 'yoast_wpseo_metadesc' ) && document.getElementById( 'yoast_wpseo_metadesc' ).value || '';
@@ -494,22 +491,24 @@
 			YoastSEO.analyzerArgs.translations = translations;
 		}
 
-		var titlePlaceholder = '';
-		if ( titlePlaceholder === '' ) {
-			titlePlaceholder = wpseoPostScraperL10n.title_template;
-		}
+		var placeholder = { urlPath:  '' };
+
+		var titlePlaceholder = wpseoPostScraperL10n.title_template;
 		if (titlePlaceholder === '' ) {
 			titlePlaceholder = '%%title%% - %%sitename%%';
+		}
+		placeholder.title = titlePlaceholder;
+
+		var metaPlaceholder = wpseoPostScraperL10n.metadesc_template;
+		if (metaPlaceholder !== '' ) {
+			placeholder.metaDesc = metaPlaceholder;
 		}
 
 		var data = postScraper.getData();
 
 		YoastSEO.analyzerArgs.snippetPreview = new YoastSEO.SnippetPreview({
 			targetElement: document.getElementById( 'wpseosnippet' ),
-			placeholder: {
-				title:    titlePlaceholder,
-				urlPath:  ''
-			},
+			placeholder: placeholder,
 			baseURL: wpseoPostScraperL10n.base_url,
 			callbacks: {
 				saveSnippetData: postScraper.saveSnippetData.bind( postScraper )
