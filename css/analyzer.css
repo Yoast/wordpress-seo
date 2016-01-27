@@ -171,8 +171,9 @@
     color: #f00 !important;
 }
 
+.snippet-editor__form .snippet-editor__field--invalid,
 .snippet-editor__field--invalid {
-    color: #f00;
+    color: #f00
 }
 
 .snippet-editor__progress {
