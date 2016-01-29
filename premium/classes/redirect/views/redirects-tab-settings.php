@@ -56,18 +56,24 @@ if ( ! empty( $redirect_file ) ) {
 
 <div id="table-settings" class="tab-url redirect-table-tab">
 	<form action="<?php echo admin_url( 'options.php' ); ?>" method="post">
+		<br class="clear" />
 		<?php
 		settings_fields( 'yoast_wpseo_redirect_options' );
 
-		Yoast_Form::get_instance()->set_option( 'wpseo_redirect' );
+		$yform = Yoast_Form::get_instance();
 
-		Yoast_Form::get_instance()->checkbox( 'disable_php_redirect', __( 'Disable PHP redirects', 'wordpress-seo-premium' ) );
+		$yform->set_option( 'wpseo_redirect' );
+
+		$yform->toggle_switch( 'disable_php_redirect', array(
+			'off' => '<code>PHP</code>',
+			'on'  => '<code>.htaccess</code>',
+		), __( 'Disable PHP redirects', 'wordpress-seo-premium' ) );
 
 		if ( WPSEO_Utils::is_apache() ) {
 			/* translators: 1: '.htaccess' file name */
 			echo '<p class="desc">' . sprintf( __( 'Write redirects to the %1$s file. Make sure the %1$s file is writable.', 'wordpress-seo-premium' ), '<code>.htaccess</code>' ) . '</p>';
 
-			echo Yoast_Form::get_instance()->checkbox( 'separate_file', __( 'Generate a separate redirect file', 'wordpress-seo-premium' ) );
+			$yform->light_switch( 'separate_file', __( 'Generate a separate redirect file', 'wordpress-seo-premium' ) );
 
 			/* translators: %s: '.htaccess' file name */
 			echo '<p class="desc">' . sprintf( __( 'By default we write the redirects to your %s file, check this if you want the redirects written to a separate file. Only check this option if you know what you are doing!', 'wordpress-seo-premium' ), '<code>.htaccess</code>' ) . '</p>';
