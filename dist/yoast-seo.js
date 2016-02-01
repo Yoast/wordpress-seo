@@ -3190,6 +3190,21 @@ var defaults = {
 
 var titleMaxLength = 70;
 
+var inputPreviewBindings = [
+	{
+		"preview": "title_container",
+		"inputField": "title"
+	},
+	{
+		"preview": "url_container",
+		"inputField": "urlPath"
+	},
+	{
+		"preview": "meta_container",
+		"inputField": "metaDesc"
+	}
+];
+
 /**
  * Get's the base URL for this instance of the snippet preview.
  *
@@ -4068,20 +4083,7 @@ SnippetPreview.prototype.setFocus = function( ev ) {
 SnippetPreview.prototype.bindEvents = function() {
 	var targetElement,
 		elems = [ "title", "slug", "meta-description" ],
-		focusBindings = [
-			{
-				"click": "title_container",
-				"focus": "title"
-			},
-			{
-				"click": "url_container",
-				"focus": "urlPath"
-			},
-			{
-				"click": "meta_container",
-				"focus": "metaDesc"
-			}
-		];
+		focusBindings;
 
 	forEach( elems, function( elem ) {
 		targetElement = document.getElementsByClassName( "js-snippet-editor-" + elem )[0];
@@ -4098,19 +4100,19 @@ SnippetPreview.prototype.bindEvents = function() {
 	this.element.closeEditor.addEventListener( "click", this.closeEditor.bind( this ) );
 
 	// Map binding keys to the actual elements
-	focusBindings = map( focusBindings, function( binding ) {
+	focusBindings = map( inputPreviewBindings, function( binding ) {
 		return {
-			"click": document.getElementById( binding.click ),
-			"focus": this.element.input[ binding.focus ]
+			"preview": document.getElementById( binding.preview ),
+			"inputField": this.element.input[ binding.inputField ]
 		};
 	}.bind( this ) );
 
 	// Loop through the bindings and bind a click handler to the click to focus the focus element.
 	forEach( focusBindings, function( focusBinding ) {
 
-		focusBinding.click.addEventListener( "click", function() {
+		focusBinding.preview.addEventListener( "click", function() {
 			this.openEditor();
-			focusBinding.focus.focus();
+			focusBinding.inputField.focus();
 		}.bind( this ) ); // Bind the focus element to make sure we work with the correct object.
 
 	}.bind( this ) );
