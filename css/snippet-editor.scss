@@ -175,28 +175,49 @@
 	color: #f00;
 }
 
-.snippet-editor__progress {
-	-webkit-appearance: none;
-	-moz-appearance: none;
-	appearance: none;
+.snippet-editor {
+	&__progress {
+		-webkit-appearance: none;
+		-moz-appearance: none;
+		appearance: none;
 
-	border: none;
+		border: none;
 
-	box-sizing: border-box;
-	display: inline-block;
+		box-sizing: border-box;
+		display: inline-block;
 
-	vertical-align: -0.2em;
+		vertical-align: -0.2em;
 
-	margin-top: 5px;
-	height: 8px;
-	width: 100%;
-}
+		margin-top: 5px;
+		height: 8px;
+		width: 100%;
 
-.snippet-editor__progress::-webkit-progress-bar {
-	background-color: #eee;
-	height: 8px;
-	border: 1px solid rgba( 0,0,0, .25 );
-	box-shadow: 0 1px 2px rgba(0,0,0,.1) inset;
+		&::-webkit-progress-bar {
+			background-color: #eee;
+			height: 8px;
+			border: 1px solid rgba( 0,0,0, .25 );
+			box-shadow: 0 1px 2px rgba(0,0,0,.1) inset;
+		}
+
+		&--fallback {
+			background-color: #eee;
+			height: 8px;
+			border: 1px solid rgba( 0, 0, 0, .25 );
+			box-shadow: 0 1px 2px rgba( 0, 0, 0, .1 ) inset;
+		}
+	}
+
+	&__progress-bar {
+		width: 0;
+		height: 100%;
+		max-width: 100%;
+	}
+
+	&__date {
+		color: #808080;
+		font-size: 13px;
+		line-height: 1.4;
+	}
 }
 
 @mixin progress-bar-color ($class, $color) {
@@ -221,22 +242,3 @@
 @include progress-bar-color(".snippet-editor__progress--bad", #dd3d36);
 @include progress-bar-color(".snippet-editor__progress--ok", #ee7c1b);
 @include progress-bar-color(".snippet-editor__progress--good", #7ad03a);
-
-.snippet-editor__progress--fallback {
-	background-color: #eee;
-	height: 8px;
-	border: 1px solid rgba( 0, 0, 0, .25 );
-	box-shadow: 0 1px 2px rgba( 0, 0, 0, .1 ) inset;
-}
-
-.snippet-editor__progress-bar {
-	width: 0;
-	height: 100%;
-	max-width: 100%;
-}
-
-.snippet-editor__date {
-	color: #808080;
-	font-size: 13px;
-	line-height: 1.4;
-}
