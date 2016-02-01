@@ -1,10 +1,20 @@
 $color_caret: black;
 $color_caret_hover: #c0c0c0;
+$color_caret_focus: #1a72a6;
 
-@mixin svg_caret ($color) {
+@mixin svg-caret-before($color) {
 	background-image: url('data:image/svg+xml;utf8,<svg width="1792" height="1792" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path fill="#{$color}" d="M1152 896q0 26-19 45l-448 448q-19 19-45 19t-45-19-19-45v-896q0-26 19-45t45-19 45 19l448 448q19 19 19 45z"/></svg>');
-}
 
+	position: absolute;
+	content: '';
+	top: -3px;
+	left: -22px;
+
+	display: block;
+	width: 24px;
+	height: 24px;
+	background-size: 25px;
+}
 
 /* css for snippet */
 #snippet_preview {
@@ -14,10 +24,6 @@ $color_caret_hover: #c0c0c0;
 	background-color: #fff;
 	position: relative;
 	width: 552px;
-}
-
-.snippet_container {
-	margin-top: 2px;
 }
 
 .snippet_container:after {
@@ -34,7 +40,7 @@ $color_caret_hover: #c0c0c0;
 	cursor: pointer;
 
 	&:before {
-		@include svg_caret($color_caret_hover);
+		@include svg-caret-before($color_caret_hover);
 	}
 }
 
@@ -43,27 +49,14 @@ $color_caret_hover: #c0c0c0;
 
 		&:hover {
 			&:before {
-				@include svg_caret($color_caret_hover);
+				@include svg-caret-before($color_caret_hover);
 			}
 		}
 
-		&--focused {
+		&--focus {
 			&:before {
-				@include svg_caret($color_caret);
+				@include svg-caret-before($color_caret);
 			}
-		}
-
-		&:before {
-			content: '';
-
-			position: absolute;
-			left: -20px;
-			top: 0;
-
-			display: block;
-			width: 20px;
-			height: 20px;
-			background-size: 20px;
 		}
 	}
 
@@ -125,13 +118,28 @@ $color_caret_hover: #c0c0c0;
 	display: block;
 }
 
-.snippet-editor__label {
-	display: block;
-	width: 100%;
-	margin-top: 1em;
-}
-
 .snippet-editor {
+	&__label {
+		display: block;
+		width: 100%;
+		margin-top: 1em;
+		position: relative;
+
+		&--focus {
+			&:before {
+				@include svg_caret_before($color_caret_focus);
+				top: 21px;
+			}
+		}
+
+		&--hover {
+			&:before {
+				@include svg_caret-before($color_caret_hover);
+				top: 21px;
+			}
+		}
+	}
+
 	&__input {
 		display: block;
 		width: 100%;
