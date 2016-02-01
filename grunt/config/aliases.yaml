@@ -16,6 +16,7 @@ build:
 'build:css':
   - 'copy'
   - 'sass:build'
+  - 'postcss:build'
 # Check health of the project
 check:
   - 'jshint'

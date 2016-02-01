@@ -10,7 +10,7 @@ module.exports = {
 	},
 	sass: {
 		files: "<%= files.scss %>",
-		tasks: [ "sass:build" ]
+		tasks: [ "sass:build", "postcss:build" ]
 	},
 	"cssmin-example": {
 		files: [ "example/style.css" ],

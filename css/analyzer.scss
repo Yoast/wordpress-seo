@@ -104,10 +104,7 @@ li.score {
     height: 12px;
     /*multiple background definitions for the sake of browsercompatibility*/
 
-    background-image: -webkit-linear-gradient(left, #ffffff, #0063ff, #ffffff,#0063ff);
-    background-image: -moz-linear-gradient(left, #ffffff, #0063ff, #ffffff,#0063ff);
-    background-image: -ms-linear-gradient(left, #ffffff, #0063ff, #ffffff,#0063ff);
-    background-image: -o-linear-gradient(left, #ffffff, #0063ff, #ffffff,#0063ff);
+    background-image: linear-gradient(to left, #ffffff, #0063ff, #ffffff,#0063ff );
     background-size: 300% 100%;
     background-position: 0px 0px;
     margin: 10px 0 10px 0;

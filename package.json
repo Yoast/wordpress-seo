@@ -22,6 +22,7 @@
   },
   "browser": "js/browser.js",
   "devDependencies": {
+    "autoprefixer": "^6.3.1",
     "grunt": "^0.4.5",
     "grunt-browserify": "^4.0.1",
     "grunt-contrib-clean": "^0.6.0",
@@ -34,6 +35,7 @@
     "grunt-jsvalidate": "^0.2.2",
     "grunt-lodash": "^0.5.0",
     "grunt-po2json": "^0.3.0",
+    "grunt-postcss": "^0.7.1",
     "grunt-sass": "^1.1.0",
     "grunt-shell": "^1.1.2",
     "io.js": "0.0.0",

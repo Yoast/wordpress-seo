@@ -131,15 +131,15 @@ $color_caret_hover: #c0c0c0;
 	margin-top: 1em;
 }
 
-.snippet-editor__input {
-	display: block;
-	width: 100%;
-	margin-top: 5px;
+.snippet-editor {
+	&__input {
+		display: block;
+		width: 100%;
+		margin-top: 5px;
 
-	max-width: 100%;
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
+		max-width: 100%;
+		box-sizing: border-box;
+	}
 }
 
 .snippet-editor__meta-description {
@@ -209,8 +209,6 @@ $color_caret_hover: #c0c0c0;
 
 .snippet-editor {
 	&__progress {
-		-webkit-appearance: none;
-		-moz-appearance: none;
 		appearance: none;
 
 		border: none;
