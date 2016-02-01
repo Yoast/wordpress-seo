@@ -5,7 +5,7 @@ module.exports = {
 			options: {
 				noProcess:[ "**/*, png" ]
 			},
-			cwd: "<%= paths.css %>",
+			cwd: "<%= paths.css %>/images/",
 			src:  "*.{png,svg}",
 			dest: "dist/images"
 		} ]

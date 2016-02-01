@@ -29,13 +29,13 @@
     </button>
 
     <section class="snippet-editor__preview">
-        <div class="snippet_container" id="title_container">
+        <div class="snippet_container snippet-editor__container" id="title_container">
             <span class="title" id="snippet_title">
                 <%- rendered.title %>
             </span>
             <span class="title" id="snippet_sitename"></span>
         </div>
-        <div class="snippet_container" id="url_container">
+        <div class="snippet_container snippet-editor__container" id="url_container">
             <cite class="url urlBase" id="snippet_citeBase">
                 <%- rendered.baseUrl %>
             </cite>
@@ -43,7 +43,7 @@
                 <%- rendered.snippetCite %>
             </cite>
         </div>
-        <div class="snippet_container" id="meta_container">
+        <div class="snippet_container snippet-editor__container" id="meta_container">
             <% if ( "" !== metaDescriptionDate ) { %>
                 <span class="snippet-editor__date">
                     <%- metaDescriptionDate %> -
