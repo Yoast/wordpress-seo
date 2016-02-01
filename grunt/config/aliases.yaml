@@ -15,7 +15,7 @@ build:
 # Build CSS
 'build:css':
   - 'copy'
-  - 'cssmin'
+  - 'sass:build'
 # Check health of the project
 check:
   - 'jshint'

@@ -8,9 +8,9 @@ module.exports = {
 		files: [ "<%= files.js %>", "<%= files.jsDontLint %>" ],
 		tasks: [ "jshint", "jscs" ]
 	},
-	cssmin: {
-		files: "<%= files.css %>",
-		tasks: [ "cssmin" ]
+	sass: {
+		files: "<%= files.scss %>",
+		tasks: [ "sass:build" ]
 	},
 	"cssmin-example": {
 		files: [ "example/style.css" ],
