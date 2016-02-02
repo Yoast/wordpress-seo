@@ -329,6 +329,7 @@ var SnippetPreview = function( opts ) {
 
 	this.opts = opts;
 	this._currentFocus = null;
+	this._currentHover = null;
 
 	// For backwards compatibility monitor the unformatted text for changes and reflect them in the preview
 	this.unformattedText = {};
@@ -986,6 +987,18 @@ SnippetPreview.prototype.bindEvents = function() {
 			this._updateFocusCarets();
 		}.bind( this ) );
 
+		previewElement.addEventListener( "mouseover", function() {
+			this._currentHover = binding.inputField;
+
+			this._updateHoverCarets();
+		}.bind( this ) );
+
+		previewElement.addEventListener( "mouseout", function() {
+			this._currentHover = null;
+
+			this._updateHoverCarets();
+		}.bind( this ) );
+
 	}.bind( this ) );
 };
 
@@ -1071,6 +1084,25 @@ SnippetPreview.prototype._updateFocusCarets = function() {
 
 		addClass( focusedLabel, "snippet-editor__label--focus" );
 		addClass( focusedPreview, "snippet-editor__container--focus" );
+	}
+};
+
+/**
+ * Updates hover carets before the input fields.
+ *
+ * @private
+ */
+SnippetPreview.prototype._updateHoverCarets = function() {
+	var hoveredLabel;
+
+	forEach( this.element.label, function( element ) {
+		removeClass( element, "snippet-editor__label--hover" );
+	} );
+
+	if ( null !== this._currentHover ) {
+		hoveredLabel = this.element.label[ this._currentHover ];
+
+		addClass( hoveredLabel, "snippet-editor__label--hover" );
 	}
 };
 

@@ -38,10 +38,6 @@ $color_caret_focus: #1a72a6;
 
 #snippet_preview .snippet_container:hover {
 	cursor: pointer;
-
-	&:before {
-		@include svg-caret-before($color_caret_hover);
-	}
 }
 
 .snippet-editor {
@@ -54,6 +50,7 @@ $color_caret_focus: #1a72a6;
 		}
 
 		&--focus {
+			&:hover:before,
 			&:before {
 				@include svg-caret-before($color_caret);
 			}
@@ -125,16 +122,16 @@ $color_caret_focus: #1a72a6;
 		margin-top: 1em;
 		position: relative;
 
-		&--focus {
+		&--hover {
 			&:before {
-				@include svg_caret_before($color_caret_focus);
+				@include svg_caret-before($color_caret_hover);
 				top: 20px;
 			}
 		}
 
-		&--hover {
+		&--focus {
 			&:before {
-				@include svg_caret-before($color_caret_hover);
+				@include svg_caret_before($color_caret_focus);
 				top: 20px;
 			}
 		}
