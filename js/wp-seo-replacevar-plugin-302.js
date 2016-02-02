@@ -107,7 +107,6 @@
 	 * @return {String}
 	 */
 	YoastReplaceVarPlugin.prototype.defaultReplace = function( textString ) {
-
 		textString = textString.replace( /%%focuskw%%/g, YoastSEO.app.stringHelper.stripAllTags( YoastSEO.app.rawData.keyword ) );
 
 		jQuery.each( this.replaceVars, function( original, replacement ) {
@@ -115,7 +114,6 @@
 		} );
 
 		return textString;
-
 	};
 
 	window.YoastReplaceVarPlugin = YoastReplaceVarPlugin;
