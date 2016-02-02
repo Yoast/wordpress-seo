@@ -49,8 +49,8 @@ echo '<div id="cleanpermalinksdiv">';
 $yform->light_switch( 'cleanpermalink-googlesitesearch', __( 'Prevent cleaning out Google Site Search URL\'s.', 'wordpress-seo' ) );
 echo '<p>' . __( 'Google Site Search URL\'s look weird, and ugly, but if you\'re using Google Site Search, you probably do not want them cleaned out.', 'wordpress-seo' ) . '</p>';
 
-/* translators: %s expands to <code>?utm_</code> */
 $yform->light_switch( 'cleanpermalink-googlecampaign', __( 'Prevent cleaning out Google Analytics Campaign & Google AdWords Parameters.', 'wordpress-seo' ) );
+/* translators: %s expands to <code>?utm_</code> */
 echo '<p>' . sprintf( __( 'If you use Google Analytics campaign parameters starting with %s, check this box. However, you\'re advised not to use these. Instead, use the version with a hash.', 'wordpress-seo' ), '<code>?utm_</code>' ) . '</p>';
 
 $yform->textinput( 'cleanpermalink-extravars', __( 'Other variables not to clean', 'wordpress-seo' ) );
