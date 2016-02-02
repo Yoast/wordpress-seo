@@ -181,21 +181,24 @@
 	};
 
 	/**
-	 * Gets content from the content field, if tinyMCE is initialized, use the getContent function to get the data from tinyMCE
-	 * If tiny is hidden, take the value from the contentfield, since tinyMCE isn't updated when it isn't visible.
-	 * TinyMCE doesn't update the content field realtime, it has a delay in updating this field, so getting the value of the content
-	 * field isn't always reliable.
+	 * Returns the value of the contentfield. If tinyMCE isn't initialized, or has no editors
+	 * or is hidden it gets it's contents from getTinyMCEElementContent.
 	 * @returns {String}
 	 */
 	PostScraper.prototype.getContentTinyMCE = function() {
-		var val = document.getElementById( 'content' ) && document.getElementById( 'content' ).value || '';
-		if ( typeof tinyMCE !== 'undefined' && typeof tinyMCE.editors !== 'undefined' && tinyMCE.editors.length !== 0) {
-			var tinyMceContent = tinyMCE.get( 'content' );
-			if( tinyMceContent !== null && !tinyMceContent.isHidden() ) {
-				val = tinyMceContent && tinyMceContent.getContent() || '';
-			}
+		if ( typeof tinyMCE === 'undefined' || typeof tinyMCE.editors === 'undefined' || tinyMCE.editors.length === 0 || tinyMCE.get( 'content' ).isHidden() ) {
+			return this.getTinyMCEElementContent();
 		}
-		return val;
+		return tinyMCE.get( 'content' ).getContent();
+	};
+
+	/**
+	 * Gets content from the contentfield.
+	 *
+	 * @returns {String}
+	 */
+	PostScraper.prototype.getTinyMCEElementContent = function() {
+		return document.getElementById( 'content' ) && document.getElementById( 'content' ).value || '';
 	};
 
 	/**
