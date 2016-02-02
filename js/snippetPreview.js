@@ -10,6 +10,8 @@ var forEach = require( "lodash/collection/forEach" );
 var map = require( "lodash/collection/map" );
 var debounce = require( "lodash/function/debounce" );
 
+var stripSpaces = require( "../js/stringProcessing/stripSpaces.js" );
+
 var defaults = {
 	data: {
 		title: "",
@@ -424,7 +426,7 @@ function getAnalyzerTitle() {
 	}
 	title = this.refObj.pluggable._applyModifications( "data_page_title", title );
 
-	return title;
+	return stripSpaces( title );
 }
 
 /**
@@ -449,7 +451,7 @@ var getAnalyzerMetaDesc = function() {
 		metaDesc = this.opts.metaDescriptionDate + " - " + this.data.metaDesc;
 	}
 
-	return metaDesc;
+	return stripSpaces( metaDesc );
 };
 
 /**
@@ -828,13 +830,13 @@ SnippetPreview.prototype.validateFields = function() {
 	var metaDescription = getAnalyzerMetaDesc.call( this );
 	var title = getAnalyzerTitle.call( this );
 
-	if ( YoastSEO.getStringHelper().stripSpaces( metaDescription ).length > YoastSEO.analyzerConfig.maxMeta ) {
+	if ( metaDescription.length > YoastSEO.analyzerConfig.maxMeta ) {
 		addClass( this.element.input.metaDesc, "snippet-editor__field--invalid" );
 	} else {
 		removeClass( this.element.input.metaDesc, "snippet-editor__field--invalid" );
 	}
 
-	if ( YoastSEO.getStringHelper().stripSpaces( title ).length > titleMaxLength ) {
+	if ( title.length > titleMaxLength ) {
 		addClass( this.element.input.title, "snippet-editor__field--invalid" );
 	} else {
 		removeClass( this.element.input.title, "snippet-editor__field--invalid" );
@@ -847,8 +849,8 @@ SnippetPreview.prototype.validateFields = function() {
 SnippetPreview.prototype.updateProgressBars = function() {
 	var metaDescriptionRating, titleRating, metaDescription, title;
 
-	metaDescription = YoastSEO.getStringHelper().stripSpaces( getAnalyzerMetaDesc.call( this ) );
-	title = YoastSEO.getStringHelper().stripSpaces( getAnalyzerTitle.call( this ) );
+	metaDescription = getAnalyzerMetaDesc.call( this );
+	title = getAnalyzerTitle.call( this );
 
 	titleRating = rateTitleLength( title.length );
 	metaDescriptionRating = rateMetaDescLength( metaDescription.length );
