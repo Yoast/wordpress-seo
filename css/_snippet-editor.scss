@@ -1,6 +1,17 @@
-$color_caret: black;
+$color_caret: #515050;
 $color_caret_hover: #c0c0c0;
 $color_caret_focus: #1a72a6;
+
+$color_border: #eee;
+
+$color_input_border: #c6c6c6;
+$color_input_border_focus: #426f84;
+
+$color_progress_background: #f9f9f9;
+
+$color_progress_bad: #ef826b;
+$color_progress_ok: #f2a869;
+$color_progress_good: #c7d98d;
 
 @mixin svg-caret-before($color) {
 	background-image: url('data:image/svg+xml;utf8,<svg width="1792" height="1792" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path fill="#{$color}" d="M1152 896q0 26-19 45l-448 448q-19 19-45 19t-45-19-19-45v-896q0-26 19-45t45-19 45 19l448 448q19 19 19 45z"/></svg>');
@@ -19,7 +30,7 @@ $color_caret_focus: #1a72a6;
 /* css for snippet */
 #snippet_preview {
 	padding: 0 0 20px 0;
-	border: 1px solid #eee;
+	border: 1px solid $color_border;
 	border-radius: 20px;
 	background-color: #fff;
 	position: relative;
@@ -72,7 +83,7 @@ $color_caret_focus: #1a72a6;
 	height: 30px;
 	border-radius: 20px 20px 0 0;
 	border: none;
-	border-bottom: 1px solid #eee;
+	border-bottom: 1px solid $color_border;
 	text-align: left;
 	cursor: pointer;
 	background: none;
@@ -141,9 +152,15 @@ $color_caret_focus: #1a72a6;
 		display: block;
 		width: 100%;
 		margin-top: 5px;
+		border: 1px solid $color_input_border;
 
 		max-width: 100%;
 		box-sizing: border-box;
+
+		&:focus {
+			border: 1px solid $color_input_border_focus;
+			outline: none;
+		}
 	}
 }
 
@@ -219,26 +236,22 @@ $color_caret_focus: #1a72a6;
 		border: none;
 
 		box-sizing: border-box;
-		display: inline-block;
-
-		vertical-align: -0.2em;
+		display: block;
 
 		margin-top: 5px;
 		height: 8px;
 		width: 100%;
 
 		&::-webkit-progress-bar {
-			background-color: #eee;
+			background-color: $color_progress_background;
 			height: 8px;
-			border: 1px solid rgba( 0,0,0, .25 );
-			box-shadow: 0 1px 2px rgba(0,0,0,.1) inset;
+			border: 1px solid $color_input_border;
 		}
 
 		&--fallback {
-			background-color: #eee;
+			background-color: $color_progress_background;
 			height: 8px;
-			border: 1px solid rgba( 0, 0, 0, .25 );
-			box-shadow: 0 1px 2px rgba( 0, 0, 0, .1 ) inset;
+			border: 1px solid $color_input_border;
 		}
 	}
 
@@ -274,6 +287,6 @@ $color_caret_focus: #1a72a6;
 	}
 }
 
-@include progress-bar-color(".snippet-editor__progress--bad", #dd3d36);
-@include progress-bar-color(".snippet-editor__progress--ok", #ee7c1b);
-@include progress-bar-color(".snippet-editor__progress--good", #7ad03a);
+@include progress-bar-color(".snippet-editor__progress--bad", $color_progress_bad);
+@include progress-bar-color(".snippet-editor__progress--ok", $color_progress_ok);
+@include progress-bar-color(".snippet-editor__progress--good", $color_progress_good);
