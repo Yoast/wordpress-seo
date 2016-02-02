@@ -9,7 +9,25 @@
 class WPSEO_Upgrade_Manager {
 
 	/**
-	 * Check if there's a plugin update
+	 * Run the upgrade routine when it's necessary.
+	 *
+	 * @param string $current_version The current WPSEO version.
+	 */
+	public function run_upgrade( $current_version ) {
+		$options       = WPSEO_Options::get_option( 'wpseo' );
+		$saved_version = isset( $options['premium_version'] ) ? $options['premium_version'] : '3.0.7';
+
+		if ( version_compare( $saved_version, $current_version, '<' ) ) {
+			$this->check_update( $saved_version );
+
+			$options['premium_version'] = $current_version;
+
+			update_option( 'wpseo', $options );
+		}
+	}
+
+	/**
+	 * Run the specific updates when it is necessary.
 	 *
 	 * @param string $version_number The version number that will be compared.
 	 */
