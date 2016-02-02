@@ -36,9 +36,9 @@ $yform->light_switch( 'cleanreplytocom', sprintf( __( 'Remove the %s variables.'
 
 $options = WPSEO_Options::get_all();
 if ( substr( get_option( 'permalink_structure' ), -1 ) !== '/' && $options['trailingslash'] ) {
-	/* translators: %s expands to <code>.html</code> */
 	$yform->light_switch( 'trailingslash', __( 'Enforce a trailing slash on all category and tag URL\'s', 'wordpress-seo' ) );
 	echo '<p><strong>' . __( 'Note: this feature has been deprecated, as the SEO value is close to 0 these days. If you disable it you will not be able to put it back on.', 'wordpress-seo' ) . '</strong></p>';
+	/* translators: %1$s expands to <code>.html</code>, %2$s expands to <code>/</code> */
 	echo '<p>' . sprintf( __( 'If you choose a permalink for your posts with %1$s, or anything else but a %2$s at the end, this will force WordPress to add a trailing slash to non-post pages nonetheless.', 'wordpress-seo' ), '<code>.html</code>', '<code>/</code>' ) . '</p>';
 }
 
