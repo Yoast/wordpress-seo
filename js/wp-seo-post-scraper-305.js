@@ -44,9 +44,10 @@
 	PostScraper.prototype.bindSnippetCiteEvents = function( time ) {
 		time = time || 0;
 		var slugElem = document.getElementById( 'editable-post-name' );
+		var titleElem = document.getElementById( 'title' );
 		var postNameElem = document.getElementById('post_name');
 
-		if ( slugElem !== null ) {
+		if ( slugElem !== null && titleElem.value !== '' ) {
 			this.bindSlugEditor();
 
 			// Always set the post name element.
