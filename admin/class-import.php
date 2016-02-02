@@ -185,33 +185,9 @@ class WPSEO_Import {
 			unlink( $this->file['file'] );
 		}
 		if ( file_exists( $this->path ) && is_writable( $this->path ) ) {
-			$this->remove_directory( $this->path );
+			$wp_file = new WP_Filesystem_Direct( $this->path );
+			$wp_file->rmdir( $this->path, true );
 		}
 	}
 
-	/**
-	 * Removes a directory with its content.
-	 *
-	 * @param string $directory The directory to remove.
-	 */
-	private function remove_directory( $directory ) {
-		$current_directory = opendir( $directory );
-		while ( $filename = readdir( $current_directory ) ) {
-
-			if ( $filename === '.' || $filename === '..' ) {
-				continue;
-			}
-
-			if ( is_dir( $directory . '/' . $filename ) ) {
-				$this->remove_directory( $directory . '/' . $filename );
-			}
-
-			if ( is_file( $directory . '/' . $filename ) ) {
-				unlink( $directory . '/' . $filename );
-			}
-		}
-
-		closedir( $current_directory );
-		rmdir( $directory );
-	}
 }
