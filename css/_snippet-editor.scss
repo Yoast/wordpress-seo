@@ -128,14 +128,14 @@ $color_caret_focus: #1a72a6;
 		&--focus {
 			&:before {
 				@include svg_caret_before($color_caret_focus);
-				top: 21px;
+				top: 20px;
 			}
 		}
 
 		&--hover {
 			&:before {
 				@include svg_caret-before($color_caret_hover);
-				top: 21px;
+				top: 20px;
 			}
 		}
 	}

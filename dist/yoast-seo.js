@@ -3487,6 +3487,7 @@ var SnippetPreview = function( opts ) {
 	}
 
 	this.opts = opts;
+	this._currentFocus = null;
 
 	// For backwards compatibility monitor the unformatted text for changes and reflect them in the preview
 	this.unformattedText = {};
@@ -3555,6 +3556,18 @@ SnippetPreview.prototype.renderTemplate = function() {
 		editToggle: targetElement.getElementsByClassName( "snippet-editor__edit-button" )[0],
 		closeEditor: targetElement.getElementsByClassName( "snippet-editor__submit" )[0],
 		formFields: targetElement.getElementsByClassName( "snippet-editor__form-field" )
+	};
+
+	this.element.label = {
+		title: this.element.input.title.parentNode,
+		urlPath: this.element.input.urlPath.parentNode,
+		metaDesc: this.element.input.metaDesc.parentNode
+	};
+
+	this.element.preview = {
+		title: this.element.rendered.title.parentNode,
+		urlPath: this.element.rendered.urlPath.parentNode,
+		metaDesc: this.element.rendered.metaDesc.parentNode
 	};
 
 	this.hasProgressSupport = hasProgressSupport();
@@ -4108,12 +4121,29 @@ SnippetPreview.prototype.bindEvents = function() {
 	}.bind( this ) );
 
 	// Loop through the bindings and bind a click handler to the click to focus the focus element.
-	forEach( focusBindings, function( focusBinding ) {
+	forEach( inputPreviewBindings, function( binding ) {
+		var previewElement = document.getElementById( binding.preview );
+		var inputElement = this.element.input[ binding.inputField ];
 
-		focusBinding.preview.addEventListener( "click", function() {
+		// Make the preview element click open the editor and focus the correct input.
+		previewElement.addEventListener( "click", function() {
 			this.openEditor();
-			focusBinding.inputField.focus();
-		}.bind( this ) ); // Bind the focus element to make sure we work with the correct object.
+			inputElement.focus();
+		}.bind( this ) );
+
+		// Make focusing an input, update the carets.
+		inputElement.addEventListener( "focus", function() {
+			this._currentFocus = binding.inputField;
+
+			this._updateFocusCarets();
+		}.bind( this ) );
+
+		// Make removing focus from an element, update the carets.
+		inputElement.addEventListener( "blur", function() {
+			this._currentFocus = null;
+
+			this._updateFocusCarets();
+		}.bind( this ) );
 
 	}.bind( this ) );
 };
@@ -4173,6 +4203,33 @@ SnippetPreview.prototype.toggleEditor = function() {
 		this.closeEditor();
 	} else {
 		this.openEditor();
+	}
+};
+
+/**
+ * Updates carets before the preview and input fields.
+ *
+ * @private
+ */
+SnippetPreview.prototype._updateFocusCarets = function() {
+	var focusedLabel, focusedPreview;
+
+	// Disable all carets on the labels.
+	forEach( this.element.label, function( element ) {
+		removeClass( element, "snippet-editor__label--focus" );
+	} );
+
+	// Disable all carets on the previews.
+	forEach( this.element.preview, function( element ) {
+		removeClass( element, "snippet-editor__container--focus" );
+	} );
+
+	if ( null !== this._currentFocus ) {
+		focusedLabel = this.element.label[ this._currentFocus ];
+		focusedPreview = this.element.preview[ this._currentFocus ];
+
+		addClass( focusedLabel, "snippet-editor__label--focus" );
+		addClass( focusedPreview, "snippet-editor__container--focus" );
 	}
 };
 
