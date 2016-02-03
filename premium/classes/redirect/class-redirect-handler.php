@@ -39,6 +39,11 @@ class WPSEO_Redirect_Handler {
 	private $template_include;
 
 	/**
+	 * @var bool Is the current page being redirected.
+	 */
+	private $is_redirected = false;
+
+	/**
 	 * Constructor
 	 */
 	public function __construct() {
@@ -51,7 +56,9 @@ class WPSEO_Redirect_Handler {
 			$this->handle_normal_redirects();
 
 			// Check the regex redirects.
-			$this->handle_regex_redirects();
+			if ( $this->is_redirected === false ) {
+				$this->handle_regex_redirects();
+			}
 
 			return;
 		}
@@ -164,12 +171,12 @@ class WPSEO_Redirect_Handler {
 	 */
 	private function match_regex_redirect( $regex, array $redirect ) {
 		if ( 1 === preg_match( "`{$regex}`", $this->request_url, $this->url_matches ) ) {
+
 			// Replace the $regex vars with URL matches.
 			$redirect_url = preg_replace_callback( '/\$[0-9]+/', array(
 				$this,
 				'format_regex_redirect_url',
 			), $redirect['url'] );
-
 			$this->do_redirect( $this->redirect_url( $redirect_url ), $redirect['type'] );
 		}
 
@@ -274,6 +281,8 @@ class WPSEO_Redirect_Handler {
 	 * @param string $redirect_type The type of the redirect.
 	 */
 	private function do_redirect( $redirect_url, $redirect_type ) {
+
+		$this->is_redirected = true;
 
 		if ( 410 === $redirect_type ) {
 			add_action( 'wp', array( $this, 'do_410' ) );
