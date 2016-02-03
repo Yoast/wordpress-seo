@@ -4,6 +4,7 @@ require("../js/analyzer.js");
 require("../js/preprocessor.js");
 require("../js/analyzescorer.js");
 require("../js/stringhelper.js");
+require("../js/scoreFormatter.js");
 
 scoreArgs = {
     text: "<p>One of the speakers at our upcoming <a href='https://yoast.com/conference/'>YoastCon</a> is Marcus Tandler, one of my best friends in the industry. I met Marcus&nbsp;almost at the beginning of my career as an&nbsp;SEO consultant, we’ve since&nbsp;had fun at numerous conferences throughout the world, most notably <a href='http://seoktoberfest.net/' onclick='__gaTracker('send', 'event', 'outbound-article', 'http://seoktoberfest.net/', 'SEOktoberfest');'>SEOktoberfest</a>, which Marcus organizes in his hometown Munich.</p><p>I’m very proud that he’ll be speaking at YoastCon and wanted to show you all, as a warmup, this presentation he gave at TedX Munich, about the (past, present &amp;) future of search:</p><p>At YoastCon, Marcus will <a href='https://yoast.com/conference/program/#marcus-tandler'>talk about the “rise of the machines”</a>: the next big step in search engine ranking. He will explain how Google is now using machine learning and why he thinks links, currently a major factor of the ranking process, will soon become irrelevant.</p>",
@@ -39,8 +40,9 @@ describe("a test for the scoring function of all functions in the analyzer", fun
        expect(analyzeScore[5].score).toBe(3);
        expect(analyzeScore[5].text).toBe("A meta description has been specified, but it does not contain the focus keyword.");
        expect(analyzeScore[6].name).toBe("stopwordKeywordCount");
-       expect(analyzeScore[6].score).toBe(5);
-       expect(analyzeScore[6].text).toBe("The focus keyword for this page contains one or more <a href='https://en.wikipedia.org/wiki/Stop_words' target='new'>stop words</a>, consider removing them. Found &#39;about&#39;.");
+       // Score is undefined if keyword has stopwords
+       expect(analyzeScore[6].score).toBe(undefined);
+       expect(analyzeScore[6].text).toBe("Your focus keyword contains one or more stop words. This may or may not be wise depending on the circumstances. Read <a href='https://yoast.com/handling-stopwords/' target='new'>this article</a> for more info.");
        expect(analyzeScore[7].name).toBe("subHeadings");
        expect(analyzeScore[7].score).toBe(7);
        expect(analyzeScore[8].name).toBe("pageTitleLength");
@@ -69,6 +71,7 @@ var scoreArgs2 = {
     meta: "Liquorice sweet roll sesame snaps sweet roll croissant gummies. Chocolate bar gummies icing cake jelly beans. Jelly beans pie soufflé fruitcake pie jelly br", // Meta description with length 156
     queue: ["metaDescriptionLength"]
 };
+
 describe("A meta description scoring", function() {
     it("should correctly report maximum length", function() {
         var analyzer = Factory.buildAnalyzer(scoreArgs2);
@@ -85,6 +88,7 @@ var scoreArgs3 = {
     keyword: "keyword",
     queue: ["imageCount"]
 };
+
 describe("A word count scoring", function() {
     it("should correctly report alt tags with keywords", function() {
         var analyzer, score;
@@ -97,4 +101,20 @@ describe("A word count scoring", function() {
         expect(score[0].text).toBe("The images on this page contain alt tags with the focus keyword.");
         expect(score[0].score).toBe(9);
     });
+});
+
+describe("A function to remove undefined scores", function() {
+   it("should return an array of scorers with an undefined score", function() {
+      var args = {
+          scores: [
+              { name: 'positiveScorer', score: 10 },
+              { name: 'negativeScorer', score: -100 },
+              { name: 'undefinedScorer', score: undefined }
+          ]
+      };
+
+       var formatter = new YoastSEO.ScoreFormatter(args);
+
+        expect(formatter.excludeUndefinedScores(args.scores) ).toContain( { name: 'undefinedScorer', score: undefined } );
+   });
 });

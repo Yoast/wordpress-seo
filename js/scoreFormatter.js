@@ -2,6 +2,8 @@
 /* global YoastSEO: true */
 YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 
+var isUndefined = require( "lodash/lang/isUndefined" );
+
 /**
  * defines the variables used for the scoreformatter, runs the outputScore en overallScore
  * functions.
@@ -70,9 +72,30 @@ YoastSEO.ScoreFormatter.prototype.outputScore = function() {
  * sorts the scores array on ascending scores
  */
 YoastSEO.ScoreFormatter.prototype.sortScores = function() {
+	var unsortables = this.excludeUndefinedScores( this.scores );
+
 	this.scores = this.scores.sort( function( a, b ) {
 		return a.score - b.score;
 	} );
+
+	this.scores = unsortables.concat( this.scores );
+};
+
+/**
+ * Extracts scorers with a score of undefined
+ * @param {Array} scorers The scorers that are being sorted
+ * @returns {Array} The scorers that cannot be sorted
+ */
+YoastSEO.ScoreFormatter.prototype.excludeUndefinedScores = function( scorers ) {
+	var unsortable = [];
+
+	scorers.map( function( scorer ) {
+		if ( isUndefined( scorer.score ) ) {
+			unsortable = unsortable.concat( scorers.splice( scorers.indexOf( scorer ), 1 ) );
+		}
+	} );
+
+	return unsortable;
 };
 
 /**
