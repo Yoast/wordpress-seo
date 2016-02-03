@@ -153,7 +153,7 @@ $yform->admin_header( true, 'wpseo_titles' );
 			if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
 				foreach ( $taxonomies as $tax ) {
 					echo "<div id='". esc_attr( $tax->name ) ."-titles-metas'>";
-					echo '<strong>' . esc_html( ucfirst( $tax->labels->name ) ) . '</strong><br/>';
+					echo '<h4>' . esc_html( ucfirst( $tax->labels->name ) ) . '</h4>';
 					$yform->textinput( 'title-tax-' . $tax->name, __( 'Title template', 'wordpress-seo' ), 'template taxonomy-template' );
 					$yform->textarea( 'metadesc-tax-' . $tax->name, __( 'Meta description template', 'wordpress-seo' ), array( 'class' => 'template taxonomy-template' ) );
 					if ( $options['usemetakeywords'] === true ) {
@@ -190,29 +190,28 @@ $yform->admin_header( true, 'wpseo_titles' );
 			echo '</div>';
 			echo '<br/>';
 			echo '<div id="duplicate-content-prevention">';
-			echo '<h3>' . __( 'Duplicate content prevention', 'wordpress-seo' ) . '</h3>';
-			echo '<h4>' . __( 'Author archives', 'wordpress-seo' ) . '</h4>';
-			echo '<p>';
-			/* translators: %1$s / %2$s: links to an article about duplicate content on yoast.com */
-			printf( __( 'If you\'re running a one author blog, the author archive will be exactly the same as your homepage. This is what\'s called a %1$sduplicate content problem%2$s.', 'wordpress-seo' ), '<a href="https://yoast.com/articles/duplicate-content/">', '</a>' );
-			echo '<br />';
-			/* translators: %s expands to <code>noindex, follow</code> */
-			echo sprintf( __( 'If this is the case on your site, you can choose to either disable it (which makes it redirect to the homepage), or to add %s to it so it doesn\'t show up in the search results.', 'wordpress-seo' ), '<code>noindex,follow</code>' );
-			echo '</p>';
+			echo '<h3>' . __( 'Author archives', 'wordpress-seo' ) . '</h3>';
 			$yform->toggle_switch( 'disable-author', array(
 				'off' => __( 'Enabled', 'wordpress-seo' ),
 				'on'  => __( 'Disabled', 'wordpress-seo' ),
-			), __( 'Author archives', 'wordpress-seo' ) );
+			), __( 'Author archives are', 'wordpress-seo' ) );
 			$yform->toggle_switch( 'noindex-author-wpseo', $index_switch_values, __( 'Meta Robots', 'wordpress-seo' ) );
-			echo '<h4>' . __( 'Date-based archives', 'wordpress-seo' ) . '</h4>';
 			echo '<p>';
-			_e( 'Date-based archives could in some cases also be seen as duplicate content.', 'wordpress-seo' );
+			/* translators: %1$s / %2$s: links to an article about duplicate content on yoast.com */
+			printf( __( 'If you\'re running a one author blog, the author archive will be exactly the same as your homepage. This is what\'s called a %1$sduplicate content problem%2$s.', 'wordpress-seo' ), '<a href="https://yoast.com/articles/duplicate-content/">', '</a>' );
+			echo ' ';
+			/* translators: %s expands to <code>noindex, follow</code> */
+			printf( __( 'If this is the case on your site, you can choose to either disable it (which makes it redirect to the homepage), or to add %s to it so it doesn\'t show up in the search results.', 'wordpress-seo' ), '<code>noindex,follow</code>' );
 			echo '</p>';
+			echo '<h3>' . __( 'Date-based archives', 'wordpress-seo' ) . '</h3>';
 			$yform->toggle_switch( 'disable-date', array(
 				'off' => __( 'Enabled', 'wordpress-seo' ),
 				'on'  => __( 'Disabled', 'wordpress-seo' ),
-			), __( 'Date-based archives', 'wordpress-seo' ) );
+			), __( 'Date-based archives are', 'wordpress-seo' ) );
 			$yform->toggle_switch( 'noindex-archive-wpseo', $index_switch_values, __( 'Meta Robots', 'wordpress-seo' ) );
+			echo '<p>';
+			_e( 'Date-based archives could in some cases also be seen as duplicate content.', 'wordpress-seo' );
+			echo '</p>';
 			echo '</div>';
 			echo '<br/>';
 			echo '<div id="special-pages-titles-metas">';
@@ -230,22 +229,21 @@ $yform->admin_header( true, 'wpseo_titles' );
 			?>
 		</div>
 		<div id="other" class="wpseotab">
-			<strong><?php _e( 'Sitewide meta settings', 'wordpress-seo' ); ?></strong><br/>
-			<br/>
+			<h3><?php _e( 'Sitewide meta settings', 'wordpress-seo' ); ?></h3>
 			<?php
-			echo '<p>', __( 'If you want to prevent /page/2/ and further of any archive to show up in the search results, enable this.', 'wordpress-seo' ), '</p>';
 			$yform->toggle_switch( 'noindex-subpages-wpseo', $index_switch_values, __( 'Subpages of archives', 'wordpress-seo' ) );
+			echo '<p>', __( 'If you want to prevent /page/2/ and further of any archive to show up in the search results, enable this.', 'wordpress-seo' ), '</p>';
 
-			echo '<p>', __( 'I don\'t know why you\'d want to use meta keywords, but if you want to, enable this.', 'wordpress-seo' ), '</p>';
 			$yform->light_switch( 'usemetakeywords', __( 'Use meta keywords tag?', 'wordpress-seo' ) );
+			echo '<p>', __( 'I don\'t know why you\'d want to use meta keywords, but if you want to, enable this.', 'wordpress-seo' ), '</p>';
 
-			echo '<p>', __( 'Prevents search engines from using the DMOZ description for pages from this site in the search results.', 'wordpress-seo' ), '</p>';
 			/* translators: %s expands to <code>noodp</code> */
 			$yform->light_switch( 'noodp', sprintf( __( 'Add %s meta robots tag sitewide', 'wordpress-seo' ), '<code>noodp</code>' ) );
+			echo '<p>', __( 'Prevents search engines from using the DMOZ description for pages from this site in the search results.', 'wordpress-seo' ), '</p>';
 
-			echo '<p>', __( 'Prevents search engines from using the Yahoo! directory description for pages from this site in the search results.', 'wordpress-seo' ), '</p>';
 			/* translators: %s expands to <code>noydir</code> */
 			$yform->light_switch( 'noydir', sprintf( __( 'Add %s meta robots tag sitewide', 'wordpress-seo' ), '<code>noydir</code>' ) );
+			echo '<p>', __( 'Prevents search engines from using the Yahoo! directory description for pages from this site in the search results.', 'wordpress-seo' ), '</p>';
 
 			?>
 		</div>
