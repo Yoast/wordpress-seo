@@ -30,7 +30,7 @@ class WPSEO_Options {
 	/**
 	 * @var  array   Array of instantiated option objects
 	 */
-	protected static $option_instances;
+	protected static $option_instances = array();
 
 	/**
 	 * @var  object  Instance of this class
