@@ -4060,41 +4060,6 @@ SnippetPreview.prototype.updateProgressBars = function() {
 };
 
 /**
- * shows the edit icon corresponding to the hovered element
- * @param ev
- */
-SnippetPreview.prototype.showEditIcon = function( ev ) {
-	ev.currentTarget.parentElement.className = "editIcon snippet_container";
-};
-
-/**
- * removes all editIcon-classes, sets to snippet_container
- */
-SnippetPreview.prototype.hideEditIcon = function() {
-	var elems = document.getElementsByClassName( "editIcon " );
-	for ( var i = 0; i < elems.length; i++ ) {
-		elems[ i ].className = "snippet_container";
-	}
-};
-
-/**
- * sets focus on child element of the snippet_container that is clicked. Hides the editicon.
- * @param ev
- */
-SnippetPreview.prototype.setFocus = function( ev ) {
-	var targetElem = ev.currentTarget.firstChild;
-	while ( targetElem !== null ) {
-		if ( targetElem.contentEditable === "true" ) {
-			targetElem.focus();
-			this.hideEditIcon();
-			break;
-		} else {
-			targetElem = targetElem.nextSibling;
-		}
-	}
-};
-
-/**
  * Binds the reloadSnippetText function to the blur of the snippet inputs.
  */
 SnippetPreview.prototype.bindEvents = function() {
@@ -4294,6 +4259,32 @@ SnippetPreview.prototype.disableEnter = function( ev ) {};
  * @param ev
  */
 SnippetPreview.prototype.textFeedback = function( ev ) {};
+
+/**
+ * shows the edit icon corresponding to the hovered element
+ *
+ * @deprecated
+ *
+ * @param ev
+ */
+SnippetPreview.prototype.showEditIcon = function( ev ) {
+
+};
+
+/**
+ * removes all editIcon-classes, sets to snippet_container
+ *
+ * @deprecated
+ */
+SnippetPreview.prototype.hideEditIcon = function() {};
+
+/**
+ * sets focus on child element of the snippet_container that is clicked. Hides the editicon.
+ *
+ * @deprecated
+ * @param ev
+ */
+SnippetPreview.prototype.setFocus = function( ev ) {};
 /* jshint ignore:end */
 
 module.exports = SnippetPreview;
