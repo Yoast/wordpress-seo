@@ -59,6 +59,9 @@
         <label for="snippet-editor-title" class="snippet-editor__label">
             <%- i18n.title %>
             <input type="text" class="snippet-editor__input snippet-editor__title js-snippet-editor-title" id="snippet-editor-title" value="<%- raw.title %>" placeholder="<%- placeholder.title %>" />
+            <progress value="0.0" class="snippet-editor__progress snippet-editor__progress-title">
+                <div class="snippet-editor__progress-bar"></div>
+            </progress>
         </label>
         <label for="snippet-editor-slug" class="snippet-editor__label">
             <%- i18n.slug %>
@@ -67,6 +70,9 @@
         <label for="snippet-editor-meta-description" class="snippet-editor__label">
             <%- i18n.metaDescription %>
             <textarea class="snippet-editor__input snippet-editor__meta-description js-snippet-editor-meta-description" id="snippet-editor-meta-description" placeholder="<%- placeholder.metaDesc %>"><%- raw.meta %></textarea>
+            <progress value="0.0" class="snippet-editor__progress snippet-editor__progress-meta-description">
+                <div class="snippet-editor__progress-bar"></div>
+            </progress>
         </label>
 
         <button class="snippet-editor__submit button" type="button"><%- i18n.save %></button>

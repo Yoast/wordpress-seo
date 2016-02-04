@@ -10,6 +10,8 @@ var forEach = require( "lodash/collection/forEach" );
 var map = require( "lodash/collection/map" );
 var debounce = require( "lodash/function/debounce" );
 
+var stripSpaces = require( "../js/stringProcessing/stripSpaces.js" );
+
 var defaults = {
 	data: {
 		title: "",
@@ -28,6 +30,8 @@ var defaults = {
 	addTrailingSlash: true,
 	metaDescriptionDate: ""
 };
+
+var titleMaxLength = 70;
 
 /**
  * Get's the base URL for this instance of the snippet preview.
@@ -113,6 +117,16 @@ function removeClass( element, className ) {
 }
 
 /**
+ * Removes multiple classes from an element
+ *
+ * @param {HTMLElement} element The element to remove the classes from.
+ * @param {Array} classes A list of classes to remove
+ */
+function removeClasses( element, classes ) {
+	forEach( classes, removeClass.bind( null, element ) );
+}
+
+/**
  * Returns if a url has a trailing slash or not.
  *
  * @param {string} url
@@ -120,6 +134,104 @@ function removeClass( element, className ) {
  */
 function hasTrailingSlash( url ) {
 	return url.indexOf( "/" ) === ( url.length - 1 );
+}
+
+/**
+ * Detects if this browser has <progress> support. Also serves as a poor man's HTML5shiv.
+ *
+ * @private
+ *
+ * @returns {boolean}
+ */
+function hasProgressSupport() {
+	var progressElement = document.createElement( "progress" );
+
+	return progressElement.max !== undefined;
+}
+
+/**
+ * Returns a rating based on the length of the title
+ *
+ * @param {string} titleLength
+ * @returns {string}
+ */
+function rateTitleLength( titleLength ) {
+	var rating;
+
+	switch ( true ) {
+		case titleLength > 0 && titleLength <= 39:
+		case titleLength >= 71:
+			rating = "ok";
+			break;
+
+		case titleLength >= 40 && titleLength <= 70:
+			rating = "good";
+			break;
+
+		default:
+			rating = "bad";
+			break;
+	}
+
+	return rating;
+}
+
+/**
+ * Returns a rating based on the length of the meta description
+ *
+ * @param {string} metaDescLength
+ * @returns {string}
+ */
+function rateMetaDescLength( metaDescLength ) {
+	var rating;
+
+	switch ( true ) {
+		case metaDescLength > 0 && metaDescLength <= 120:
+		case metaDescLength >= 157:
+			rating = "ok";
+			break;
+
+		case metaDescLength >= 120 && metaDescLength <= 157:
+			rating = "good";
+			break;
+
+		default:
+			rating = "bad";
+			break;
+	}
+
+	return rating;
+}
+
+/**
+ * Updates a progress bar
+ *
+ * @private
+ * @this SnippetPreview
+ *
+ * @param {HTMLElement} element The progress element that's rendered.
+ * @param {number} value The current value.
+ * @param {number} maximum The maximum allowed value.
+ * @param {string} rating The SEO score rating for this value.
+ */
+function updateProgressBar( element, value, maximum, rating ) {
+	var barElement, progress,
+		allClasses = [
+			"snippet-editor__progress--bad",
+			"snippet-editor__progress--ok",
+			"snippet-editor__progress--good"
+		];
+
+	element.value = value;
+	removeClasses( element, allClasses );
+	addClass( element, "snippet-editor__progress--" + rating );
+
+	if ( !this.hasProgressSupport ) {
+		barElement = element.getElementsByClassName( "snippet-editor__progress-bar" )[ 0 ];
+		progress = ( value / maximum ) * 100;
+
+		barElement.style.width = progress + "%";
+	}
 }
 
 /**
@@ -143,6 +255,7 @@ function hasTrailingSlash( url ) {
  * @param {Function}       opts.callbacks.saveSnippetData - Function called when the snippet data is changed.
  *
  * @param {boolean}        opts.addTrailingSlash          - Whether or not to add a trailing slash to the URL.
+ * @param {string}         opts.metaDescriptionDate       - The date to display before the meta description.
  *
  * @property {App}         refObj                         - The connected app object.
  * @property {Jed}         i18n                           - The translation object.
@@ -171,6 +284,8 @@ function hasTrailingSlash( url ) {
  * @property {string}      data.metaDesc                  - The meta description.
  *
  * @property {string}      baseURL                        - The basic URL as it will be displayed in google.
+ *
+ * @property {boolean}     hasProgressSupport             - Whether this browser supports the <progress> element.
  *
  * @constructor
  */
@@ -259,6 +374,10 @@ SnippetPreview.prototype.renderTemplate = function() {
 			urlPath: targetElement.getElementsByClassName( "js-snippet-editor-slug" )[0],
 			metaDesc: targetElement.getElementsByClassName( "js-snippet-editor-meta-description" )[0]
 		},
+		progress: {
+			title: targetElement.getElementsByClassName( "snippet-editor__progress-title" )[0],
+			metaDesc: targetElement.getElementsByClassName( "snippet-editor__progress-meta-description" )[0]
+		},
 		container: document.getElementById( "snippet_preview" ),
 		formContainer: targetElement.getElementsByClassName( "snippet-editor__form" )[0],
 		editToggle: targetElement.getElementsByClassName( "snippet-editor__edit-button" )[0],
@@ -266,7 +385,19 @@ SnippetPreview.prototype.renderTemplate = function() {
 		formFields: targetElement.getElementsByClassName( "snippet-editor__form-field" )
 	};
 
+	this.hasProgressSupport = hasProgressSupport();
+
+	if ( this.hasProgressSupport ) {
+		this.element.progress.title.max = titleMaxLength;
+		this.element.progress.metaDesc.max = YoastSEO.analyzerConfig.maxMeta;
+	} else {
+		forEach( this.element.progress, function( progressElement ) {
+			addClass( progressElement, "snippet-editor__progress--fallback" );
+		} );
+	}
+
 	this.opened = false;
+	this.updateProgressBars();
 };
 
 /**
@@ -276,6 +407,7 @@ SnippetPreview.prototype.refresh = function() {
 	this.output = this.htmlOutput();
 	this.renderOutput();
 	this.renderSnippetStyle();
+	this.updateProgressBars();
 };
 
 /**
@@ -294,7 +426,7 @@ function getAnalyzerTitle() {
 	}
 	title = this.refObj.pluggable._applyModifications( "data_page_title", title );
 
-	return title;
+	return stripSpaces( title );
 }
 
 /**
@@ -319,7 +451,7 @@ var getAnalyzerMetaDesc = function() {
 		metaDesc = this.opts.metaDescriptionDate + " - " + this.data.metaDesc;
 	}
 
-	return metaDesc;
+	return stripSpaces( metaDesc );
 };
 
 /**
@@ -659,9 +791,9 @@ SnippetPreview.prototype.checkTextLength = function( ev ) {
 			break;
 		case "snippet_title":
 			ev.currentTarget.className = "title";
-			if ( text.length > 70 ) {
+			if ( text.length > titleMaxLength ) {
 				YoastSEO.app.snippetPreview.unformattedText.snippet_title = ev.currentTarget.textContent;
-				ev.currentTarget.textContent = text.substring( 0, 70 );
+				ev.currentTarget.textContent = text.substring( 0, titleMaxLength );
 			}
 			break;
 		default:
@@ -695,7 +827,8 @@ SnippetPreview.prototype.setUnformattedText = function( ev ) {
  * Validates all fields and highlights errors.
  */
 SnippetPreview.prototype.validateFields = function() {
-	var metaDescription = this.opts.metaDescriptionDate + " - " + this.data.metaDesc;
+	var metaDescription = getAnalyzerMetaDesc.call( this );
+	var title = getAnalyzerTitle.call( this );
 
 	if ( metaDescription.length > YoastSEO.analyzerConfig.maxMeta ) {
 		addClass( this.element.input.metaDesc, "snippet-editor__field--invalid" );
@@ -703,11 +836,38 @@ SnippetPreview.prototype.validateFields = function() {
 		removeClass( this.element.input.metaDesc, "snippet-editor__field--invalid" );
 	}
 
-	if ( this.data.title.length > 70 ) {
+	if ( title.length > titleMaxLength ) {
 		addClass( this.element.input.title, "snippet-editor__field--invalid" );
 	} else {
 		removeClass( this.element.input.title, "snippet-editor__field--invalid" );
 	}
+};
+
+/**
+ * Updates progress bars based on the data
+ */
+SnippetPreview.prototype.updateProgressBars = function() {
+	var metaDescriptionRating, titleRating, metaDescription, title;
+
+	metaDescription = getAnalyzerMetaDesc.call( this );
+	title = getAnalyzerTitle.call( this );
+
+	titleRating = rateTitleLength( title.length );
+	metaDescriptionRating = rateMetaDescLength( metaDescription.length );
+
+	updateProgressBar(
+		this.element.progress.title,
+		title.length,
+		titleMaxLength,
+		titleRating
+	);
+
+	updateProgressBar(
+		this.element.progress.metaDesc,
+		metaDescription.length,
+		YoastSEO.analyzerConfig.maxMeta,
+		metaDescriptionRating
+	);
 };
 
 /**
@@ -805,6 +965,7 @@ SnippetPreview.prototype.bindEvents = function() {
 SnippetPreview.prototype.changedInput = debounce( function() {
 	this.updateDataFromDOM();
 	this.validateFields();
+	this.updateProgressBars();
 
 	this.refresh();
 
