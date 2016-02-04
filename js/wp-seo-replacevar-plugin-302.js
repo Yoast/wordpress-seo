@@ -52,6 +52,12 @@
 			data = this.excerptReplace( data );
 			data = this.categoryReplace( data );
 			data = this.tagReplace( data );
+
+			// Taxonomy replacements
+			if ( jQuery( 'input[name=tag_ID]').val() !== undefined ) {
+				data = this.taxonomyNameReplace( data );
+			}
+
 		}
 		return data;
 	};
@@ -197,6 +203,20 @@
 		if ( jQuery( '#post_ID').val() !== undefined ) {
 			data = data.replace( /%%tag%%/g, jQuery( ' #tax-input-post_tag' ).val() );
 		}
+
+		return data;
+	};
+
+	/**
+	 *
+	 * @param data
+	 */
+	YoastReplaceVarPlugin.prototype.taxonomyNameReplace = function( data ) {
+		var text = YoastSEO.app.rawData.text;
+
+		data = data.replace( /%%category_description%%/g, text );
+		data = data.replace( /%%tag_description%%/g, text );
+		data = data.replace( /%%term_description%%/g, text );
 
 		return data;
 	};
