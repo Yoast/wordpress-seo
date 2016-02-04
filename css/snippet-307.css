@@ -16,3 +16,7 @@
 .wp-core-ui .button.snippet-editor__submit {
 	margin-top: 1em;
 }
+
+input[type="text"].snippet-editor__field--invalid {
+	color: #f00;
+}
