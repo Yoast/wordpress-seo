@@ -86,7 +86,6 @@
 						fixed: true,
 						delay: 500
 					}
-	
 				}
 			);
 		}
