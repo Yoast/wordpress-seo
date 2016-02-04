@@ -22,7 +22,7 @@ class WPSEO_Replace_Vars_Ajax {
 
 		$needed_categories = filter_input( INPUT_POST, 'data', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY );
 		$parsed_categories = array();
-		foreach( $needed_categories as $category_id ) {
+		foreach ( $needed_categories as $category_id ) {
 			$category = get_category( $category_id );
 
 			$parsed_categories[] = array(
