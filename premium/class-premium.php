@@ -26,7 +26,7 @@ class WPSEO_Premium {
 	const PLUGIN_VERSION_NAME = '3.0.7';
 	const PLUGIN_VERSION_CODE = '16';
 	const PLUGIN_AUTHOR = 'Yoast';
-	const EDD_STORE_URL = 'https://yoast.com';
+	const EDD_STORE_URL = 'http://yoast.com';
 	const EDD_PLUGIN_NAME = 'Yoast SEO Premium';
 
 	/**
