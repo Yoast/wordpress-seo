@@ -287,7 +287,7 @@
 	 * add new descriptionfield to content, creates new element via wp_editor and appends this to the term-description-wrap
 	 * this way we can use the wp tinyMCE editor on the descriptionfield.
 	 */
-	var replaceTinyMCE = function() {
+	var insertTinyMCE = function() {
 		//gets the textNode from the original textField.
 		var textNode = jQuery( '.term-description-wrap' ).find( 'td' ).find( 'textarea' ).val();
 
@@ -305,7 +305,7 @@
 	jQuery( document ).ready(function() {
 		var args, termScraper, translations;
 
-		replaceTinyMCE();
+		insertTinyMCE();
 
 		termScraper = new TermScraper();
 
