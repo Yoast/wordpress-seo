@@ -32,8 +32,8 @@ describe( "The SnippetPreview format functions", function(){
 		var mockApp = {
 			rawData: {
 				snippetTitle: "<span>snippetTitle</span>",
-				snippetCite: "",
-				snippetMeta: "",
+				snippetCite: "homeurl",
+				snippetMeta: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ultricies placerat nisl, in tempor ligula. Pellentesque in risus non quam maximus maximus sed a dui. In sed.",
 				keyword: "keyword"
 			},
 			pluggable: {
@@ -48,5 +48,8 @@ describe( "The SnippetPreview format functions", function(){
 		});
 
 		expect( snippetPreview.formatTitle() ).toBe( "snippetTitle" );
+		expect( snippetPreview.formatMeta() ).toBe( "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ultricies placerat nisl, in tempor ligula. Pellentesque in risus non quam maximus maximus sed " );
+		expect( snippetPreview.formatCite() ).toBe( "homeurl/" );
+		expect( snippetPreview.formatKeyword( "a string with keyword" ) ).toBe( "a string with<strong> keyword</strong>" );
 	});
 } );
