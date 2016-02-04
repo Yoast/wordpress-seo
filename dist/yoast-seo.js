@@ -5336,7 +5336,7 @@ YoastSEO.getStringHelper = function() {
     __e( placeholder.metaDesc ) +
     '">' +
     __e( raw.meta ) +
-    '</textarea>\n            <progress value="0.0" class="snippet-editor__progress snippet-editor__progress-meta-description">\n                <div class="snippet-editor__progress-bar"></div>\n            </progress>\n        </label>\n\n        <button class="snippet-editor__submit button" type="button">' +
+    '</textarea>\n            <progress value="0.0" class="snippet-editor__progress snippet-editor__progress-meta-description">\n                <div class="snippet-editor__progress-bar"></div>\n            </progress>\n        </label>\n\n        <button class="snippet-editor__submit snippet-editor__button" type="button">' +
     __e( i18n.save ) +
     '</button>\n    </div>\n</div>\n';
 
