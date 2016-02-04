@@ -3169,6 +3169,9 @@ var forEach = require( "lodash/collection/forEach" );
 var map = require( "lodash/collection/map" );
 var debounce = require( "lodash/function/debounce" );
 
+var getWordboundaryRegex = require( "../js/stringProcessing/addWordboundary.js" );
+var stripHTMLTags = require( "../js/stringProcessing/stripHTMLTags.js" );
+
 var defaults = {
 	data: {
 		title: "",
@@ -3675,8 +3678,7 @@ SnippetPreview.prototype.formatTitle = function() {
 		title = this.refObj.pluggable._applyModifications( "data_page_title", title );
 	}
 
-	// TODO: Replace this with the stripAllTags module.
-	title = this.refObj.stringHelper.stripAllTags( title );
+	title = stripHTMLTags( title );
 
 	// If a keyword is set we want to highlight it in the title.
 	if ( !isEmpty( this.refObj.rawData.keyword ) ) {
@@ -3706,8 +3708,7 @@ SnippetPreview.prototype.formatUrl = function() {
 SnippetPreview.prototype.formatCite = function() {
 	var cite = this.data.urlPath;
 
-	// TODO: Replace this with the stripAllTags module.
-	cite = this.refObj.stringHelper.stripAllTags( cite );
+	cite = stripHTMLTags( cite );
 
 	// Fallback to the default if the cite is empty.
 	if ( isEmpty( cite ) ) {
@@ -3746,8 +3747,7 @@ SnippetPreview.prototype.formatMeta = function() {
 		meta = this.refObj.pluggable._applyModifications( "data_meta_desc", meta );
 	}
 
-	// TODO: Replace this with the stripAllTags module.
-	meta = this.refObj.stringHelper.stripAllTags( meta );
+	meta = stripHTMLTags( meta );
 
 	// Cut-off the meta description according to the maximum length
 	meta = meta.substring( 0, YoastSEO.analyzerConfig.maxMeta );
@@ -3782,7 +3782,7 @@ SnippetPreview.prototype.getMetaText = function() {
 		metaText = this.opts.placeholder.metaDesc;
 	}
 
-	metaText = this.refObj.stringHelper.stripAllTags( metaText );
+	metaText = stripHTMLTags( metaText );
 	if (
 		this.refObj.rawData.keyword !== "" &&
 		this.refObj.rawData.text !== ""
@@ -3807,7 +3807,7 @@ SnippetPreview.prototype.getMetaText = function() {
 			}
 		}
 	}
-	if ( this.refObj.stringHelper.stripAllTags( metaText ) === "" ) {
+	if ( stripHTMLTags( metaText ) === "" ) {
 		return this.opts.placeholder.metaDesc;
 	}
 	return metaText.substring( 0, YoastSEO.analyzerConfig.maxMeta );
@@ -3869,7 +3869,7 @@ SnippetPreview.prototype.formatKeyword = function( textString ) {
 	var keyword = this.refObj.rawData.keyword.replace( /[\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, " " );
 
 	// Match keyword case-insensitively
-	var keywordRegex = YoastSEO.getStringHelper().getWordBoundaryRegex( keyword );
+	var keywordRegex = getWordboundaryRegex( keyword );
 	return textString.replace( keywordRegex, function( str ) {
 		return "<strong>" + str + "</strong>";
 	} );
@@ -3888,7 +3888,7 @@ SnippetPreview.prototype.formatKeywordUrl = function( textString ) {
 	var dashedKeyword = keyword.replace( /\s/g, "-" );
 
 	// Match keyword case-insensitively.
-	var keywordRegex = YoastSEO.getStringHelper().getWordBoundaryRegex( dashedKeyword );
+	var keywordRegex = getWordboundaryRegex( dashedKeyword );
 
 	// Make the keyword bold in the textString.
 	return textString.replace( keywordRegex, function( str ) {
@@ -4196,7 +4196,7 @@ SnippetPreview.prototype.textFeedback = function( ev ) {};
 
 module.exports = SnippetPreview;
 
-},{"./templates.js":53,"lodash/collection/forEach":57,"lodash/collection/map":58,"lodash/function/debounce":60,"lodash/lang/clone":114,"lodash/lang/isElement":117,"lodash/lang/isEmpty":118,"lodash/lang/isUndefined":125,"lodash/object/defaultsDeep":127}],29:[function(require,module,exports){
+},{"../js/stringProcessing/addWordboundary.js":29,"../js/stringProcessing/stripHTMLTags.js":46,"./templates.js":53,"lodash/collection/forEach":57,"lodash/collection/map":58,"lodash/function/debounce":60,"lodash/lang/clone":114,"lodash/lang/isElement":117,"lodash/lang/isEmpty":118,"lodash/lang/isUndefined":125,"lodash/object/defaultsDeep":127}],29:[function(require,module,exports){
 /** @module stringProcessing/addWordboundary */
 
 /**

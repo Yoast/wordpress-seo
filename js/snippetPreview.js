@@ -11,6 +11,8 @@ var map = require( "lodash/collection/map" );
 var debounce = require( "lodash/function/debounce" );
 
 var getWordboundaryRegex = require( "../js/stringProcessing/addWordboundary.js" );
+var stripHTMLTags = require( "../js/stringProcessing/stripHTMLTags.js" );
+
 var defaults = {
 	data: {
 		title: "",
@@ -517,8 +519,7 @@ SnippetPreview.prototype.formatTitle = function() {
 		title = this.refObj.pluggable._applyModifications( "data_page_title", title );
 	}
 
-	// TODO: Replace this with the stripAllTags module.
-	title = this.refObj.stringHelper.stripAllTags( title );
+	title = stripHTMLTags( title );
 
 	// If a keyword is set we want to highlight it in the title.
 	if ( !isEmpty( this.refObj.rawData.keyword ) ) {
@@ -548,8 +549,7 @@ SnippetPreview.prototype.formatUrl = function() {
 SnippetPreview.prototype.formatCite = function() {
 	var cite = this.data.urlPath;
 
-	// TODO: Replace this with the stripAllTags module.
-	cite = this.refObj.stringHelper.stripAllTags( cite );
+	cite = stripHTMLTags( cite );
 
 	// Fallback to the default if the cite is empty.
 	if ( isEmpty( cite ) ) {
@@ -588,8 +588,7 @@ SnippetPreview.prototype.formatMeta = function() {
 		meta = this.refObj.pluggable._applyModifications( "data_meta_desc", meta );
 	}
 
-	// TODO: Replace this with the stripAllTags module.
-	meta = this.refObj.stringHelper.stripAllTags( meta );
+	meta = stripHTMLTags( meta );
 
 	// Cut-off the meta description according to the maximum length
 	meta = meta.substring( 0, YoastSEO.analyzerConfig.maxMeta );
@@ -624,7 +623,7 @@ SnippetPreview.prototype.getMetaText = function() {
 		metaText = this.opts.placeholder.metaDesc;
 	}
 
-	metaText = this.refObj.stringHelper.stripAllTags( metaText );
+	metaText = stripHTMLTags( metaText );
 	if (
 		this.refObj.rawData.keyword !== "" &&
 		this.refObj.rawData.text !== ""
@@ -649,7 +648,7 @@ SnippetPreview.prototype.getMetaText = function() {
 			}
 		}
 	}
-	if ( this.refObj.stringHelper.stripAllTags( metaText ) === "" ) {
+	if ( stripHTMLTags( metaText ) === "" ) {
 		return this.opts.placeholder.metaDesc;
 	}
 	return metaText.substring( 0, YoastSEO.analyzerConfig.maxMeta );
