@@ -308,7 +308,6 @@ class WPSEO_Taxonomy {
 			'currentday',
 			'currentmonth',
 			'currentyear',
-			'term_title',
 			'searchphrase',
 		);
 

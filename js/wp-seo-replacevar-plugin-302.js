@@ -56,7 +56,7 @@
 
 			// Taxonomy replacements
 			if ( jQuery( 'input[name=tag_ID]').val() !== undefined ) {
-				data = this.taxonomyNameReplace( data );
+				data = this.taxonomyDescriptionReplace( data );
 			}
 
 		}
@@ -225,7 +225,7 @@
 	 *
 	 * @param data
 	 */
-	YoastReplaceVarPlugin.prototype.taxonomyNameReplace = function( data ) {
+	YoastReplaceVarPlugin.prototype.taxonomyDescriptionReplace = function( data ) {
 		var text = YoastSEO.app.rawData.text;
 
 		data = data.replace( /%%category_description%%/g, text );
