@@ -22,3 +22,31 @@ describe("The snippet preview constructor", function() {
 		expect(snippetPreview.refObj).toBe(mockApp);
 	})
 });
+
+describe( "The SnippetPreview format functions", function(){
+	it( "formats texts to use in the SnippetPreview", function(){
+		// Makes lodash think this is a valid HTML element
+		var mockElement = [];
+		mockElement.nodeType = 1;
+
+		var mockApp = {
+			rawData: {
+				snippetTitle: "<span>snippetTitle</span>",
+				snippetCite: "",
+				snippetMeta: "",
+				keyword: "keyword"
+			},
+			pluggable: {
+				loaded: true,
+				_applyModifications: function(name, text){return text}
+			}
+		};
+
+		var snippetPreview = new SnippetPreview({
+			analyzerApp: mockApp,
+			targetElement: mockElement
+		});
+
+		expect( snippetPreview.formatTitle() ).toBe( "snippetTitle" );
+	});
+} );
