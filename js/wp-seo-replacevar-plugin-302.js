@@ -1,4 +1,4 @@
-/* global wpseoReplaceVarsL10n, YoastSEO */
+/* global wpseoReplaceVarsL10n, YoastSEO, ajaxurl */
 (function() {
 	'use strict';
 
@@ -16,7 +16,9 @@
 		this.registerModifications();
 
 		// Adding events to the dom, to fetch changes.
-		this.addCategoryEvents();
+		if ( jQuery( '#post_ID').val() !== undefined ) {
+			this.addCategoryEvents();
+		}
 	};
 
 	/**
@@ -55,15 +57,19 @@
 	/**
 	 * Adding events to the dom, to fetch possibly changed taxonomies.
 	 */
-	YoastReplaceVarPlugin.prototype.addCategoryEvents = function () {
+	YoastReplaceVarPlugin.prototype.addCategoryEvents = function() {
 		var categoryMetaBox = jQuery( '#taxonomy-category');
 
 		// Set the events.
-		categoryMetaBox.on( 'wpListAddEnd', '#categorychecklist', function() { this.fetchTaxonomies( categoryMetaBox ); }.bind( this ) );
-		categoryMetaBox.on( 'change', 'input[type=checkbox]', function() { this.fetchTaxonomies( categoryMetaBox ); }.bind( this ) );
+		categoryMetaBox.on( 'wpListAddEnd', '#categorychecklist', function() {
+			this.fetchCategories( categoryMetaBox );
+		}.bind( this ) );
+		categoryMetaBox.on( 'change', 'input[type=checkbox]', function() {
+			this.fetchCategories( categoryMetaBox );
+		}.bind( this ) );
 
 		// We always wanted it to be ran
-		this.fetchTaxonomies( categoryMetaBox );
+		this.fetchCategories( categoryMetaBox );
 	};
 
 	/**
@@ -144,8 +150,9 @@
 	 * @return {String}
 	 */
 	YoastReplaceVarPlugin.prototype.categoryReplace = function( data ) {
-
-		data = data.replace( /%%category%%/g, jQuery.unique( this.currentCategories ).join( ', ' ) );
+		if ( jQuery( '#post_ID').val() !== undefined ) {
+			data = data.replace( /%%category%%/g, jQuery.unique( this.currentCategories ).join( ', ' ) );
+		}
 
 		return data;
 	};
@@ -157,41 +164,45 @@
 	 *
 	 * @return {void}
 	 */
-	YoastReplaceVarPlugin.prototype.fetchTaxonomies = function( targetMetaBox ) {
-		if ( jQuery( '#post_ID') !== undefined ) {
-			var activeCheckboxes   = jQuery( targetMetaBox ).find( 'input:checked' );
-			var unparsedTaxonomies = this.getUnparsedTaxonomies( activeCheckboxes );
+	YoastReplaceVarPlugin.prototype.fetchCategories = function(targetMetaBox ) {
+		var activeCheckboxes   = jQuery( targetMetaBox ).find( 'input:checked' );
+		var unparsedTaxonomies = this.getUnparsedCategories( activeCheckboxes );
 
-			if ( unparsedTaxonomies.length > 0  ) {
-				jQuery.post(
-					ajaxurl,
-					{
-						action: 'wpseo_replace_category',
-						_wpnonce: wpseoReplaceVarsL10n.wpseo_replace_vars_nonce,
-						data: unparsedTaxonomies
-					},
-					function( categories ) {
-						jQuery(categories).each(
-							function( index, category ) {
-								this.categoriesRepository[ category.id ] = category.name;
-							}.bind( this )
-						);
+		if ( unparsedTaxonomies.length > 0  ) {
+			jQuery.post(
+				ajaxurl,
+				{
+					action: 'wpseo_replace_category',
+					_wpnonce: wpseoReplaceVarsL10n.wpseo_replace_vars_nonce,
+					data: unparsedTaxonomies
+				},
+				function( categories ) {
+					jQuery(categories).each(
+						function( index, category ) {
+							this.categoriesRepository[ category.id ] = category.name;
+						}.bind( this )
+					);
 
-						this.setCurrentCategories( activeCheckboxes );
-						this.declareReloaded();
-					}.bind( this ),
-					'json'
-				);
+					this.setCurrentCategories( activeCheckboxes );
+					this.declareReloaded();
+				}.bind( this ),
+				'json'
+			);
 
-				return;
-			}
-
-			this.setCurrentCategories( activeCheckboxes );
-			this.declareReloaded();
+			return;
 		}
+
+		this.setCurrentCategories( activeCheckboxes );
+		this.declareReloaded();
 	};
 
-	YoastReplaceVarPlugin.prototype.getUnparsedTaxonomies = function( activeCheckboxes ) {
+	/**
+	 * Filters the already fetch categories
+	 *
+	 * @param {Object[]} activeCheckboxes
+	 * @returns {Array}
+	 */
+	YoastReplaceVarPlugin.prototype.getUnparsedCategories = function(activeCheckboxes ) {
 		var unparsedTaxonomies = [];
 		activeCheckboxes.each(
 			function( index, checkbox ) {
@@ -205,13 +216,17 @@
 		return unparsedTaxonomies;
 	};
 
+	/**
+	 * Sets the current categories based on the selected ones.
+	 *
+	 * @param {Object[]} activeCheckboxes
+	 */
 	YoastReplaceVarPlugin.prototype.setCurrentCategories = function( activeCheckboxes ) {
 		this.currentCategories = [];
 
 		activeCheckboxes.each( function( index, checkbox ) {
 			this.currentCategories.push( this.categoriesRepository[ jQuery(checkbox).val() ] );
 		}.bind( this ) );
-
 	};
 
 	/**
