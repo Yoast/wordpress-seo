@@ -1034,11 +1034,13 @@ SnippetPreview.prototype.updateDataFromDOM = function() {
  * Opens the snippet editor.
  */
 SnippetPreview.prototype.openEditor = function() {
-	addClass( this.element.container,      "editing" );
-	addClass( this.element.formContainer,  "snippet-editor__form--shown" );
-	addClass( this.element.editToggle,     "snippet-editor__edit-button--close" );
 
-	removeClass( this.element.headingEditor, "snippet-editor__heading--hidden" );
+	// Hide these elements.
+	addClass( this.element.editToggle,       "snippet-editor--hidden" );
+
+	// Show these elements.
+	removeClass( this.element.formContainer, "snippet-editor--hidden" );
+	removeClass( this.element.headingEditor, "snippet-editor--hidden" );
 
 	this.opened = true;
 };
@@ -1047,11 +1049,13 @@ SnippetPreview.prototype.openEditor = function() {
  * Closes the snippet editor.
  */
 SnippetPreview.prototype.closeEditor = function() {
-	removeClass( this.element.container,     "editing" );
-	removeClass( this.element.formContainer, "snippet-editor__form--shown" );
-	removeClass( this.element.editToggle,    "snippet-editor__edit-button--close" );
 
-	addClass( this.element.headingEditor,     "snippet-editor__heading--hidden" );
+	// Hide these elements.
+	addClass( this.element.formContainer,     "snippet-editor--hidden" );
+	addClass( this.element.headingEditor,     "snippet-editor--hidden" );
+
+	// Show these elements.
+	removeClass( this.element.editToggle,     "snippet-editor--hidden" );
 
 	this.opened = false;
 };

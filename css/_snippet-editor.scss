@@ -65,10 +65,6 @@ $svg_icon_eye: 'data:image/svg+xml;utf8,<svg width="1792" height="1792" viewBox=
 		font-family: "Open Sans", sans-serif;
 		font-weight: 300;
 
-		&--hidden {
-			display:none;
-		}
-
 		&-editor {
 			border-top: 1px solid $color_border;
 		}
@@ -124,44 +120,11 @@ $svg_icon_eye: 'data:image/svg+xml;utf8,<svg width="1792" height="1792" viewBox=
 		display: block;
 		margin-top: 1em;
 	}
-}
 
-.snippet-editor__edit-button--close {
-	color: #585858;
-}
+	&__form {
+		padding: 20px;
+	}
 
-.snippet-editor__edit-icon,
-.snippet-editor__chevron-right-icon,
-.snippet-editor__chevron-down-icon {
-	fill: currentColor;
-	width: 1.5em;
-	height: 1em;
-	position: relative;
-	top: 2px;
-}
-
-.snippet-editor__edit-button--close .snippet-editor__chevron-right-icon {
-	display: none;
-}
-
-.snippet-editor__edit-button .snippet-editor__chevron-down-icon {
-	display: none;
-}
-
-.snippet-editor__edit-button--close .snippet-editor__chevron-down-icon {
-	display: inline;
-}
-
-.snippet-editor__form {
-	padding: 20px;
-	display: none;
-}
-
-.snippet-editor__form--shown {
-	display: block;
-}
-
-.snippet-editor {
 	&__label {
 		display: block;
 		width: 100%;
@@ -304,6 +267,10 @@ $svg_icon_eye: 'data:image/svg+xml;utf8,<svg width="1792" height="1792" viewBox=
 		color: #808080;
 		font-size: 13px;
 		line-height: 1.4;
+	}
+
+	&--hidden {
+		display: none;
 	}
 }
 
