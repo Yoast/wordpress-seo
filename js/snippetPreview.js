@@ -369,11 +369,13 @@ SnippetPreview.prototype.renderTemplate = function() {
 		metaDescriptionDate: this.opts.metaDescriptionDate,
 		placeholder: this.opts.placeholder,
 		i18n: {
-			edit: this.i18n.dgettext( "js-text-analysis", "Edit title, description & slug" ),
+			edit: this.i18n.dgettext( "js-text-analysis", "Edit snippet" ),
 			title: this.i18n.dgettext( "js-text-analysis", "SEO title" ),
 			slug:  this.i18n.dgettext( "js-text-analysis", "Slug" ),
 			metaDescription: this.i18n.dgettext( "js-text-analysis", "Meta description" ),
-			save: this.i18n.dgettext( "js-text-analysis", "Close snippet editor" )
+			save: this.i18n.dgettext( "js-text-analysis", "Close snippet editor" ),
+			snippetPreview: this.i18n.dgettext( "js-text-analysis", "Snippet preview" ),
+			snippetEditor: this.i18n.dgettext( "js-text-analysis", "Snippet editor" )
 		}
 	} );
 
@@ -397,7 +399,8 @@ SnippetPreview.prototype.renderTemplate = function() {
 		formContainer: targetElement.getElementsByClassName( "snippet-editor__form" )[0],
 		editToggle: targetElement.getElementsByClassName( "snippet-editor__edit-button" )[0],
 		closeEditor: targetElement.getElementsByClassName( "snippet-editor__submit" )[0],
-		formFields: targetElement.getElementsByClassName( "snippet-editor__form-field" )
+		formFields: targetElement.getElementsByClassName( "snippet-editor__form-field" ),
+		headingEditor: targetElement.getElementsByClassName( "snippet-editor__heading-editor" )[0]
 	};
 
 	this.element.label = {
@@ -1031,9 +1034,11 @@ SnippetPreview.prototype.updateDataFromDOM = function() {
  * Opens the snippet editor.
  */
 SnippetPreview.prototype.openEditor = function() {
-	addClass( this.element.container,     "editing" );
-	addClass( this.element.formContainer, "snippet-editor__form--shown" );
-	addClass( this.element.editToggle,    "snippet-editor__edit-button--close" );
+	addClass( this.element.container,      "editing" );
+	addClass( this.element.formContainer,  "snippet-editor__form--shown" );
+	addClass( this.element.editToggle,     "snippet-editor__edit-button--close" );
+
+	removeClass( this.element.headingEditor, "snippet-editor__heading--hidden" );
 
 	this.opened = true;
 };
@@ -1045,6 +1050,8 @@ SnippetPreview.prototype.closeEditor = function() {
 	removeClass( this.element.container,     "editing" );
 	removeClass( this.element.formContainer, "snippet-editor__form--shown" );
 	removeClass( this.element.editToggle,    "snippet-editor__edit-button--close" );
+
+	addClass( this.element.headingEditor,     "snippet-editor__heading--hidden" );
 
 	this.opened = false;
 };

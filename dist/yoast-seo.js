@@ -3528,11 +3528,13 @@ SnippetPreview.prototype.renderTemplate = function() {
 		metaDescriptionDate: this.opts.metaDescriptionDate,
 		placeholder: this.opts.placeholder,
 		i18n: {
-			edit: this.i18n.dgettext( "js-text-analysis", "Edit title, description & slug" ),
+			edit: this.i18n.dgettext( "js-text-analysis", "Edit snippet" ),
 			title: this.i18n.dgettext( "js-text-analysis", "SEO title" ),
 			slug:  this.i18n.dgettext( "js-text-analysis", "Slug" ),
 			metaDescription: this.i18n.dgettext( "js-text-analysis", "Meta description" ),
-			save: this.i18n.dgettext( "js-text-analysis", "Close snippet editor" )
+			save: this.i18n.dgettext( "js-text-analysis", "Close snippet editor" ),
+			snippetPreview: this.i18n.dgettext( "js-text-analysis", "Snippet preview" ),
+			snippetEditor: this.i18n.dgettext( "js-text-analysis", "Snippet editor" )
 		}
 	} );
 
@@ -3556,7 +3558,8 @@ SnippetPreview.prototype.renderTemplate = function() {
 		formContainer: targetElement.getElementsByClassName( "snippet-editor__form" )[0],
 		editToggle: targetElement.getElementsByClassName( "snippet-editor__edit-button" )[0],
 		closeEditor: targetElement.getElementsByClassName( "snippet-editor__submit" )[0],
-		formFields: targetElement.getElementsByClassName( "snippet-editor__form-field" )
+		formFields: targetElement.getElementsByClassName( "snippet-editor__form-field" ),
+		headingEditor: targetElement.getElementsByClassName( "snippet-editor__heading-editor" )[0]
 	};
 
 	this.element.label = {
@@ -4190,9 +4193,11 @@ SnippetPreview.prototype.updateDataFromDOM = function() {
  * Opens the snippet editor.
  */
 SnippetPreview.prototype.openEditor = function() {
-	addClass( this.element.container,     "editing" );
-	addClass( this.element.formContainer, "snippet-editor__form--shown" );
-	addClass( this.element.editToggle,    "snippet-editor__edit-button--close" );
+	addClass( this.element.container,      "editing" );
+	addClass( this.element.formContainer,  "snippet-editor__form--shown" );
+	addClass( this.element.editToggle,     "snippet-editor__edit-button--close" );
+
+	removeClass( this.element.headingEditor, "snippet-editor__heading--hidden" );
 
 	this.opened = true;
 };
@@ -4204,6 +4209,8 @@ SnippetPreview.prototype.closeEditor = function() {
 	removeClass( this.element.container,     "editing" );
 	removeClass( this.element.formContainer, "snippet-editor__form--shown" );
 	removeClass( this.element.editToggle,    "snippet-editor__edit-button--close" );
+
+	addClass( this.element.headingEditor,     "snippet-editor__heading--hidden" );
 
 	this.opened = false;
 };
@@ -5287,9 +5294,9 @@ YoastSEO.getStringHelper = function() {
     var __t, __p = '', __e = _.escape, __j = Array.prototype.join;
     function print() { __p += __j.call(arguments, '') }
     with (obj) {
-    __p += '<div id="snippet_preview">\n    <button class="snippet-editor__edit-button" type="button">\n        <svg class="snippet-editor__edit-icon" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"\n             width="216px" height="146px" viewBox="0 0 216 146" enable-background="new 0 0 216 146" xml:space="preserve">\n            <g>\n                <path d="M46.284,100.823v33.893h33.893l67.786-67.786L114.07,33.037L46.284,100.823z M75.859,124.287L75.859,124.287l-8.718,0.001\n                    v-10.429H56.713v-8.719l7.414-7.414l19.146,19.146L75.859,124.287z M116.678,46.888c1.194,0,1.791,0.598,1.791,1.792\n                    c0,0.544-0.189,1.005-0.57,1.386L73.74,94.225c-0.38,0.379-0.842,0.569-1.385,0.569c-1.194,0-1.792-0.599-1.792-1.792\n                    c0-0.544,0.19-1.005,0.57-1.386l44.159-44.158C115.672,47.078,116.134,46.888,116.678,46.888z"/>\n                <path d="M166.701,33.443l-19.146-19.064c-2.063-2.063-4.535-3.096-7.414-3.096c-2.934,0-5.377,1.033-7.332,3.096l-13.524,13.443\n                    l33.893,33.893l13.525-13.524c2.01-2.01,3.014-4.454,3.014-7.333C169.716,38.034,168.712,35.562,166.701,33.443z"/>\n            </g>\n        </svg>\n        ' +
-    __e( i18n.edit ) +
-    '\n        <svg class="snippet-editor__chevron-right-icon" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"\n             width="216px" height="146px" viewBox="0 0 216 146" enable-background="new 0 0 216 146" xml:space="preserve">\n            <path d="M144.988,65.667L91.869,12.628c-1.956-2.064-4.399-3.096-7.333-3.096s-5.377,1.033-7.333,3.096l-6.192,6.111\n            c-2.01,2.01-3.015,4.453-3.015,7.332c0,2.824,1.005,5.296,3.015,7.414L110.607,73L71.01,112.596c-2.01,2.01-3.015,4.454-3.015,7.333\n            c0,2.824,1.005,5.296,3.015,7.414l6.192,6.11c2.01,2.01,4.455,3.015,7.333,3.015c2.879,0,5.324-1.005,7.333-3.015l53.12-53.039\n            c2.01-2.118,3.016-4.59,3.016-7.414C148.004,70.121,146.998,67.677,144.988,65.667z"/>\n        </svg>\n        <svg class="snippet-editor__chevron-down-icon" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"\n             width="216px" height="146px" viewBox="0 0 216 146" enable-background="new 0 0 216 146" xml:space="preserve">\n            <path d="M168.452,42.121l-6.109-6.111c-2.118-2.009-4.59-3.014-7.413-3.014c-2.88,0-5.324,1.005-7.334,3.014L108,75.607\n            L68.404,36.011c-2.01-2.009-4.454-3.014-7.333-3.014c-2.824,0-5.296,1.005-7.414,3.014l-6.029,6.111\n            c-2.064,2.063-3.096,4.535-3.096,7.414c0,2.933,1.033,5.377,3.096,7.332l53.039,53.039c1.956,2.064,4.399,3.096,7.333,3.096\n            c2.879,0,5.35-1.032,7.413-3.096l53.039-53.039c2.01-2.01,3.016-4.454,3.016-7.332C171.468,46.711,170.462,44.24,168.452,42.121z"/>\n        </svg>\n    </button>\n\n    <section class="snippet-editor__preview">\n        <div class="snippet_container snippet-editor__container" id="title_container">\n            <span class="title" id="snippet_title">\n                ' +
+    __p += '<div id="snippet_preview">\n    <h4 class="snippet-editor__heading snippet-editor__heading-icon-eye">' +
+    __e( i18n.snippetPreview ) +
+    '</h4>\n\n    <section class="snippet-editor__preview">\n        <div class="snippet_container snippet-editor__container" id="title_container">\n            <span class="title" id="snippet_title">\n                ' +
     __e( rendered.title ) +
     '\n            </span>\n            <span class="title" id="snippet_sitename"></span>\n        </div>\n        <div class="snippet_container snippet-editor__container" id="url_container">\n            <cite class="url urlBase" id="snippet_citeBase">\n                ' +
     __e( rendered.baseUrl ) +
@@ -5303,7 +5310,11 @@ YoastSEO.getStringHelper = function() {
      }
     __p += '\n            <span class="desc" id="snippet_meta">\n                ' +
     __e( rendered.meta ) +
-    '\n            </span>\n        </div>\n    </section>\n\n    <div class="snippet-editor__form">\n        <label for="snippet-editor-title" class="snippet-editor__label">\n            ' +
+    '\n            </span>\n        </div>\n\n        <button class="snippet-editor__button snippet-editor__edit-button" type="button">\n            ' +
+    __e( i18n.edit ) +
+    '\n        </button>\n    </section>\n\n    <h4 class="snippet-editor__heading snippet-editor__heading--hidden snippet-editor__heading-editor snippet-editor__heading-icon-edit">' +
+    __e( i18n.snippetEditor ) +
+    '</h4>\n\n    <div class="snippet-editor__form">\n        <label for="snippet-editor-title" class="snippet-editor__label">\n            ' +
     __e( i18n.title ) +
     '\n            <input type="text" class="snippet-editor__input snippet-editor__title js-snippet-editor-title" id="snippet-editor-title" value="' +
     __e( raw.title ) +
