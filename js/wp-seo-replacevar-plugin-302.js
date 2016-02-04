@@ -8,9 +8,15 @@
 	var YoastReplaceVarPlugin = function() {
 		this.replaceVars = wpseoReplaceVarsL10n.replace_vars;
 
+		this.categoriesRepository = [];
+		this.currentCategories    = [];
+
 		YoastSEO.app.registerPlugin( 'replaceVariablePlugin', { status: 'ready' } );
 
 		this.registerModifications();
+
+		// Adding events to the dom, to fetch changes.
+		this.addCategoryEvents();
 	};
 
 	/**
@@ -41,8 +47,23 @@
 			data = this.parentReplace( data );
 			data = this.doubleSepReplace( data );
 			data = this.excerptReplace( data );
+			data = this.categoryReplace( data );
 		}
 		return data;
+	};
+
+	/**
+	 * Adding events to the dom, to fetch possibly changed taxonomies.
+	 */
+	YoastReplaceVarPlugin.prototype.addCategoryEvents = function () {
+		var categoryMetaBox = jQuery( '#taxonomy-category');
+
+		// Set the events.
+		categoryMetaBox.on( 'wpListAddEnd', '#categorychecklist', function() { this.fetchTaxonomies( categoryMetaBox ); }.bind( this ) );
+		categoryMetaBox.on( 'change', 'input[type=checkbox]', function() { this.fetchTaxonomies( categoryMetaBox ); }.bind( this ) );
+
+		// We always wanted it to be ran
+		this.fetchTaxonomies( categoryMetaBox );
 	};
 
 	/**
@@ -114,6 +135,90 @@
 		} );
 
 		return textString;
+	};
+
+	/**
+	 * replaces the category strings with the category names.
+	 *
+	 * @param {String} data
+	 * @return {String}
+	 */
+	YoastReplaceVarPlugin.prototype.categoryReplace = function( data ) {
+
+		data = data.replace( /%%category%%/g, jQuery.unique( this.currentCategories ).join( ', ' ) );
+
+		return data;
+	};
+
+	/**
+	 * Fetch the taxonomies, based on the checked checkboxes
+	 *
+	 * @param {object} targetMetaBox
+	 *
+	 * @return {void}
+	 */
+	YoastReplaceVarPlugin.prototype.fetchTaxonomies = function( targetMetaBox ) {
+		if ( jQuery( '#post_ID') !== undefined ) {
+			var activeCheckboxes   = jQuery( targetMetaBox ).find( 'input:checked' );
+			var unparsedTaxonomies = this.getUnparsedTaxonomies( activeCheckboxes );
+
+			if ( unparsedTaxonomies.length > 0  ) {
+				jQuery.post(
+					ajaxurl,
+					{
+						action: 'wpseo_replace_category',
+						_wpnonce: wpseoReplaceVarsL10n.wpseo_replace_vars_nonce,
+						data: unparsedTaxonomies
+					},
+					function( categories ) {
+						jQuery(categories).each(
+							function( index, category ) {
+								this.categoriesRepository[ category.id ] = category.name;
+							}.bind( this )
+						);
+
+						this.setCurrentCategories( activeCheckboxes );
+						this.declareReloaded();
+					}.bind( this ),
+					'json'
+				);
+
+				return;
+			}
+
+			this.setCurrentCategories( activeCheckboxes );
+			this.declareReloaded();
+		}
+	};
+
+	YoastReplaceVarPlugin.prototype.getUnparsedTaxonomies = function( activeCheckboxes ) {
+		var unparsedTaxonomies = [];
+		activeCheckboxes.each(
+			function( index, checkbox ) {
+				var category_id = jQuery(checkbox).val();
+				if(  this.categoriesRepository[ category_id ] === undefined && jQuery.inArray( category_id, unparsedTaxonomies ) === -1 ) {
+					unparsedTaxonomies.push( category_id );
+				}
+			}.bind( this )
+		);
+
+		return unparsedTaxonomies;
+	};
+
+	YoastReplaceVarPlugin.prototype.setCurrentCategories = function( activeCheckboxes ) {
+		this.currentCategories = [];
+
+		activeCheckboxes.each( function( index, checkbox ) {
+			this.currentCategories.push( this.categoriesRepository[ jQuery(checkbox).val() ] );
+		}.bind( this ) );
+
+	};
+
+	/**
+	 * Declares reloaded with YoastSEO.
+	 */
+	YoastReplaceVarPlugin.prototype.declareReloaded = function() {
+		YoastSEO.app.pluginReloaded( 'replaceVariablePlugin' );
 	};
 
 	window.YoastReplaceVarPlugin = YoastReplaceVarPlugin;
