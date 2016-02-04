@@ -65,7 +65,7 @@
 		jQuery( '.wpseo-metabox-tabs' ).show();
 		// End Tabs code
 
-		jQuery( '.yoast_help' ).qtip(
+		if(jQuery( '.yoast_help' ).length) jQuery( '.yoast_help' ).qtip(
 			{
 				content: {
 					attr: 'alt'
