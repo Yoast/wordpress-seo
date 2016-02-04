@@ -6,13 +6,18 @@
 
 .form-table td .snippet-editor__label {
 	font-size: 1rem;
-	line-height: 2;
+	line-height: 1;
 }
 
 .form-table td textarea {
-	margin-top: 0;
+	margin-top: 5px;
 }
 
 .wp-core-ui .button.snippet-editor__submit {
 	margin-top: 1em;
+}
+
+/* In the snippet editor reset the margin that throws of the layout */
+.inside .wpseotab .form-table td input.snippet-editor__input {
+	margin-top: 5px;
 }
