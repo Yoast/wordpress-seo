@@ -18,6 +18,7 @@
 		// Adding events to the dom, to fetch changes.
 		if ( jQuery( '#post_ID').val() !== undefined ) {
 			this.addCategoryEvents();
+			this.addTagEvents();
 		}
 	};
 
@@ -50,6 +51,7 @@
 			data = this.doubleSepReplace( data );
 			data = this.excerptReplace( data );
 			data = this.categoryReplace( data );
+			data = this.tagReplace( data );
 		}
 		return data;
 	};
@@ -68,8 +70,36 @@
 			this.fetchCategories( categoryMetaBox );
 		}.bind( this ) );
 
-		// We always wanted it to be ran
+		// We always wanted it to be fetched
 		this.fetchCategories( categoryMetaBox );
+	};
+
+	/**
+	 * Adding tag events to the dom, to fetch added/removed tags.
+	 */
+	YoastReplaceVarPlugin.prototype.addTagEvents = function() {
+		if ( typeof MutationObserver === 'undefined' ) {
+			jQuery( '#post_tag' ).on( 'DOMSubtreeModified propertychange', '.tagchecklist', function() {
+				this.declareReloaded();
+			}.bind( this ) );
+		}
+		else {
+			// Select the target node
+			var target = document.querySelector('.tagchecklist');
+
+			// create an observer instance
+			var observer = new MutationObserver(
+				function() {
+					this.declareReloaded();
+				}.bind( this )
+			);
+
+			// configuration of the observer:
+			var config = { attributes: false, childList: true, characterData: false };
+
+			// pass in the target node, as well as the observer options
+			observer.observe(target, config);
+		}
 	};
 
 	/**
@@ -152,6 +182,20 @@
 	YoastReplaceVarPlugin.prototype.categoryReplace = function( data ) {
 		if ( jQuery( '#post_ID').val() !== undefined ) {
 			data = data.replace( /%%category%%/g, jQuery.unique( this.currentCategories ).join( ', ' ) );
+		}
+
+		return data;
+	};
+
+	/**
+	 * replaces the category strings with the category names.
+	 *
+	 * @param {String} data
+	 * @return {String}
+	 */
+	YoastReplaceVarPlugin.prototype.tagReplace = function( data ) {
+		if ( jQuery( '#post_ID').val() !== undefined ) {
+			data = data.replace( /%%tag%%/g, jQuery( ' #tax-input-post_tag' ).val() );
 		}
 
 		return data;
