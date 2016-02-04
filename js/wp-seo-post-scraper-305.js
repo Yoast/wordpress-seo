@@ -44,9 +44,10 @@
 	PostScraper.prototype.bindSnippetCiteEvents = function( time ) {
 		time = time || 0;
 		var slugElem = document.getElementById( 'editable-post-name' );
+		var titleElem = document.getElementById( 'title' );
 		var postNameElem = document.getElementById('post_name');
 
-		if ( slugElem !== null ) {
+		if ( slugElem !== null && titleElem.value !== '' ) {
 			this.bindSlugEditor();
 
 			// Always set the post name element.
@@ -116,9 +117,6 @@
 				break;
 			case 'meta':
 				val = document.getElementById( 'yoast_wpseo_metadesc' ) && document.getElementById( 'yoast_wpseo_metadesc' ).value || '';
-				if ( val === '' ) {
-					val = wpseoPostScraperL10n.metadesc_template;
-				}
 				break;
 			case 'snippetMeta':
 				val = document.getElementById( 'yoast_wpseo_metadesc' ) && document.getElementById( 'yoast_wpseo_metadesc' ).value || '';
@@ -184,17 +182,24 @@
 	};
 
 	/**
-	 * Gets content from the content field, if tinyMCE is initialized, use the getContent function to get the data from tinyMCE
-	 * If tiny is hidden, take the value from the contentfield, since tinyMCE isn't updated when it isn't visible.
+	 * Returns the value of the contentfield. If tinyMCE isn't initialized, or has no editors
+	 * or is hidden it gets it's contents from getTinyMCEElementContent.
 	 * @returns {String}
 	 */
 	PostScraper.prototype.getContentTinyMCE = function() {
-		var val = document.getElementById( 'content' ) && document.getElementById( 'content' ).value || '';
-		if ( typeof tinyMCE !== 'undefined' && typeof tinyMCE.editors !== 'undefined' && tinyMCE.editors.length !== 0) {
-			var tinyMceContent = tinyMCE.get( 'content' );
-			val = tinyMceContent && tinyMceContent.hidden === false && tinyMceContent.getContent() || '';
+		if ( typeof tinyMCE === 'undefined' || typeof tinyMCE.editors === 'undefined' || tinyMCE.editors.length === 0 || tinyMCE.get( 'content' ).isHidden() ) {
+			return this.getTinyMCEElementContent();
 		}
-		return val;
+		return tinyMCE.get( 'content' ).getContent();
+	};
+
+	/**
+	 * Gets content from the contentfield.
+	 *
+	 * @returns {String}
+	 */
+	PostScraper.prototype.getTinyMCEElementContent = function() {
+		return document.getElementById( 'content' ) && document.getElementById( 'content' ).value || '';
 	};
 
 	/**
@@ -414,8 +419,13 @@
 	 * binds to the WordPress jQuery function to put the permalink on the page.
 	 * If the response matches with permalinkstring, the snippet can be rerendered.
 	 */
-	jQuery( document ).on( 'ajaxComplete', function( ev, response ) {
-		if ( response.responseText.match( 'Permalink:' ) !== null ) {
+	jQuery( document ).on( 'ajaxComplete', function( ev, response, ajaxOptions ) {
+		var ajax_end_point = '/admin-ajax.php';
+		if ( ajax_end_point !== ajaxOptions.url.substr( 0 - ajax_end_point.length ) ) {
+			return;
+		}
+
+		if ( 'string' === typeof ajaxOptions.data && false !== ajaxOptions.data.indexOf( 'action=sample-permalink' ) ) {
 			YoastSEO.app.callbacks.getData();
 			YoastSEO.app.runAnalyzer();
 			YoastSEO.app.snippetPreview.reRender();
@@ -490,22 +500,24 @@
 			YoastSEO.analyzerArgs.translations = translations;
 		}
 
-		var titlePlaceholder = '';
-		if ( titlePlaceholder === '' ) {
-			titlePlaceholder = wpseoPostScraperL10n.title_template;
-		}
+		var placeholder = { urlPath:  '' };
+
+		var titlePlaceholder = wpseoPostScraperL10n.title_template;
 		if (titlePlaceholder === '' ) {
 			titlePlaceholder = '%%title%% - %%sitename%%';
+		}
+		placeholder.title = titlePlaceholder;
+
+		var metaPlaceholder = wpseoPostScraperL10n.metadesc_template;
+		if (metaPlaceholder !== '' ) {
+			placeholder.metaDesc = metaPlaceholder;
 		}
 
 		var data = postScraper.getData();
 
 		YoastSEO.analyzerArgs.snippetPreview = new YoastSEO.SnippetPreview({
 			targetElement: document.getElementById( 'wpseosnippet' ),
-			placeholder: {
-				title:    titlePlaceholder,
-				urlPath:  ''
-			},
+			placeholder: placeholder,
 			baseURL: wpseoPostScraperL10n.base_url,
 			callbacks: {
 				saveSnippetData: postScraper.saveSnippetData.bind( postScraper )

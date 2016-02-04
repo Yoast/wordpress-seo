@@ -1,6 +1,6 @@
 h4 {
 	clear: both;
-	margin: 2em 0 0 0;
+	margin: 1.2em 0 0.5em 0;
 }
 
 p.desc {
@@ -10,7 +10,7 @@ p.desc {
 
 p.desc.label {
 	margin-bottom: 20px;
-	padding: 2px 0 10px 185px;
+	padding: 2px 0 10px 200px;
 }
 
 tr.yst_row {
@@ -54,7 +54,7 @@ textarea.textinput,
 select.select,
 input.checkbox {
 	float: left;
-	margin: 5px 3px 5px 0;
+	margin: 5px 3px 10px 0;
 	padding: 5px;
 }
 
@@ -78,7 +78,7 @@ textarea.import {
 label.textinput,
 label.select,
 label.checkbox {
-	width: 180px;
+	width: 200px;
 	margin: 5px 0 5px 0;
 	background-color: transparent;
 }
@@ -94,6 +94,11 @@ label.radio {
 .wpseo_content_wrapper {
 	display: table;
 	width: 100%;
+}
+
+.wpseo_content_wrapper p,
+.wpseo_content_wrapper li {
+	max-width: 600px;
 }
 
 .wpseo_content_cell {
@@ -131,8 +136,12 @@ textarea.wpseo_variable_warning {
 	background-color: #dedede;
 }
 
+.wpseo_content_wrapper h3 {
+	margin: 1em 0 0.5em 0;
+}
+
 .wpseo_content_wrapper div.wpseo-warning h4 {
-	margin: 1em 0 0 0;
+	margin: 0.5em 0 0 0;
 }
 
 .wpseo_content_wrapper div.wpseo-warning p.error-message {
@@ -245,6 +254,10 @@ table.yoast_help tr:hover {
 	margin-right: 8px;
 }
 
+.wpseo_content_wrapper input.wpseo_image_upload_button {
+	margin-top: 5px;
+}
+
 .button {
 	color: #000 !important;
 }
@@ -266,7 +279,11 @@ table.yoast_help tr:hover {
 	display: block;
 }
 
-.wpseotab strong {
+.wpseotab p.expl {
+	margin-left: 6px;
+}
+
+.wpseotab p.expl strong {
 	font-size: 115%;
 }
 
