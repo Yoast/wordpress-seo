@@ -261,28 +261,6 @@ class WPSEO_Replace_Vars {
 	/* *********************** BASIC VARIABLES ************************** */
 
 	/**
-	 * Retrieve the post/cpt categories (comma separated) for use as replacement string.
-	 *
-	 * @return string|null
-	 */
-	private function retrieve_category() {
-		$replacement = null;
-
-		if ( ! empty( $this->args->ID ) ) {
-			$cat = $this->get_terms( $this->args->ID, 'category' );
-			if ( $cat !== '' ) {
-				$replacement = $cat;
-			}
-		}
-
-		if ( ( ! isset( $replacement ) || $replacement === '' ) && ( isset( $this->args->cat_name ) && ! empty( $this->args->cat_name ) ) ) {
-			$replacement = $this->args->cat_name;
-		}
-
-		return $replacement;
-	}
-
-	/**
 	 * Retrieve the category description for use as replacement string.
 	 *
 	 * @return string|null
