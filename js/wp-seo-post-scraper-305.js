@@ -418,8 +418,13 @@
 	 * binds to the WordPress jQuery function to put the permalink on the page.
 	 * If the response matches with permalinkstring, the snippet can be rerendered.
 	 */
-	jQuery( document ).on( 'ajaxComplete', function( ev, response ) {
-		if ( response.responseText.match( 'Permalink:' ) !== null ) {
+	jQuery( document ).on( 'ajaxComplete', function( ev, response, ajaxOptions ) {
+		var ajax_end_point = '/admin-ajax.php';
+		if ( ajax_end_point !== ajaxOptions.url.substr( 0 - ajax_end_point.length ) ) {
+			return;
+		}
+
+		if ( 'string' === typeof ajaxOptions.data && false !== ajaxOptions.data.indexOf( 'action=sample-permalink' ) ) {
 			YoastSEO.app.callbacks.getData();
 			YoastSEO.app.runAnalyzer();
 			YoastSEO.app.snippetPreview.reRender();

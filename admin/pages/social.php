@@ -44,17 +44,17 @@ $yform->admin_header( true, 'wpseo_social' );
 	</div>
 
 	<div id="facebook" class="wpseotab">
+		<?php $yform->light_switch( 'opengraph', __( 'Add Open Graph meta data', 'wordpress-seo' ) ); ?>
 		<p>
 			<?php
-				/* translators: %s expands to <code>&lt;head&gt;</code> */
-				printf( __( 'Add Open Graph meta data to your site\'s %s section, Facebook and other social networks use this data when your pages are shared.', 'wordpress-seo' ), '<code>&lt;head&gt;</code>' );
+			/* translators: %s expands to <code>&lt;head&gt;</code> */
+			printf( __( 'Add Open Graph meta data to your site\'s %s section, Facebook and other social networks use this data when your pages are shared.', 'wordpress-seo' ), '<code>&lt;head&gt;</code>' );
 			?>
 		</p>
-		<?php $yform->light_switch( 'opengraph', __( 'Add Open Graph meta data', 'wordpress-seo' ) ); ?>
 
 		<?php
 		if ( 'posts' == get_option( 'show_on_front' ) ) {
-			echo '<p><strong>' . esc_html__( 'Frontpage settings', 'wordpress-seo' ) . '</strong></p>';
+			echo '<h4>' . esc_html__( 'Frontpage settings', 'wordpress-seo' ) . '</h4>';
 			echo '<p>' . esc_html__( 'These are the title, description and image used in the Open Graph meta tags on the front page of your site.', 'wordpress-seo' ) . '</p>';
 
 			$yform->media_input( 'og_frontpage_image', __( 'Image URL', 'wordpress-seo' ) );
@@ -68,7 +68,7 @@ $yform->admin_header( true, 'wpseo_social' );
 
 		} ?>
 
-		<p><strong><?php esc_html_e( 'Default settings', 'wordpress-seo' ); ?></strong></p>
+		<h4><?php esc_html_e( 'Default settings', 'wordpress-seo' ); ?></h4>
 		<?php $yform->media_input( 'og_default_image', __( 'Image URL', 'wordpress-seo' ) ); ?>
 		<p class="desc label">
 			<?php esc_html_e( 'This image is used if the post/page being shared does not contain any images.', 'wordpress-seo' ); ?>
@@ -80,15 +80,14 @@ $yform->admin_header( true, 'wpseo_social' );
 	</div>
 
 	<div id="twitterbox" class="wpseotab">
+		<?php $yform->light_switch( 'twitter', __( 'Add Twitter card meta data', 'wordpress-seo' ) ); ?>
 		<p>
 			<?php
 			/* translators: %s expands to <code>&lt;head&gt;</code> */
 			printf( __( 'Add Twitter card meta data to your site\'s %s section.', 'wordpress-seo' ), '<code>&lt;head&gt;</code>' );
 			?>
 		</p>
-
-		<?php $yform->light_switch( 'twitter', __( 'Add Twitter card meta data', 'wordpress-seo' ) ); ?>
-
+		<br/>
 		<?php
 		$yform->select( 'twitter_card_type', __( 'The default card type to use', 'wordpress-seo' ), WPSEO_Option_Social::$twitter_card_types );
 		do_action( 'wpseo_admin_twitter_section' );
@@ -114,9 +113,7 @@ $yform->admin_header( true, 'wpseo_social' );
 	</div>
 
 	<div id="google" class="wpseotab">
-		<p>
-			<?php $yform->light_switch( 'googleplus', __( 'Add Google+ specific post meta data', 'wordpress-seo' ) ); ?>
-		</p>
+		<?php $yform->light_switch( 'googleplus', __( 'Add Google+ specific post meta data', 'wordpress-seo' ) ); ?>
 
 		<p><?php _e( 'If you have a Google+ page for your business, add that URL here and link it on your Google+ page\'s about page.', 'wordpress-seo' ); ?></p>
 

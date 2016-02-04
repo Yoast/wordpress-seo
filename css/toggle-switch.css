@@ -4,16 +4,17 @@
 
 @media only screen {
 	.switch-light.switch-yoast-seo {
-		margin-bottom: 1.5em;
+		margin-bottom: 0.2em;
 	}
 
 	.fieldset-switch-toggle legend,
 	.switch-light.switch-yoast-seo > strong {
 		display: block;
-		float: left;
 		box-sizing: border-box;
 		min-width: 200px;
+		margin-top: 10px;
 		padding-right: 1em;
+		font-weight: bold;
 		line-height: 2em;
 		vertical-align: middle;
 	}
@@ -31,7 +32,7 @@
 	}
 
 	.switch-light.switch-yoast-seo > span {
-		float: right;
+		/*float: right;*/
 	}
 
 	.switch-toggle.switch-yoast-seo a,
@@ -80,5 +81,22 @@
 	.switch-toggle.switch-yoast-seo label code,
 	.switch-light.switch-yoast-seo label code {
 		background-color: inherit;
+	}
+
+	.switch-container h4 {
+		margin: 0.5em 0;
+	}
+
+	.switch-container {
+		clear: both;
+		margin: 0 0 1em 0;
+	}
+
+	.switch-container + .switch-container {
+		margin-top: 0.5em;
+	}
+
+	.switch-container + p {
+		margin: -0.5em 0 1em 0;
 	}
 }

@@ -1,6 +1,6 @@
 h4 {
 	clear: both;
-	margin: 2em 0 0 0;
+	margin: 1.2em 0 0.5em 0;
 }
 
 p.desc {
@@ -96,6 +96,11 @@ label.radio {
 	width: 100%;
 }
 
+.wpseo_content_wrapper p,
+.wpseo_content_wrapper li {
+	max-width: 600px;
+}
+
 .wpseo_content_cell {
 	display: table-cell;
 	height: 500px;
@@ -131,8 +136,12 @@ textarea.wpseo_variable_warning {
 	background-color: #dedede;
 }
 
+.wpseo_content_wrapper h3 {
+	margin: 1em 0 0.5em 0;
+}
+
 .wpseo_content_wrapper div.wpseo-warning h4 {
-	margin: 1em 0 0 0;
+	margin: 0.5em 0 0 0;
 }
 
 .wpseo_content_wrapper div.wpseo-warning p.error-message {
@@ -243,6 +252,10 @@ table.yoast_help tr:hover {
 .fb-buttons .button-primary,
 .fb-buttons .button {
 	margin-right: 8px;
+}
+
+.wpseo_content_wrapper input.wpseo_image_upload_button {
+	margin-top: 5px;
 }
 
 .button {
