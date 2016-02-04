@@ -7,82 +7,13 @@ require("../js/pluggable.js");
 require("../js/preprocessor.js");
 require("../js/scoreFormatter.js");
 require("../js/stringhelper.js");
-require("../js/snippetPreview.js");
 
-// Makes lodash think this is a valid HTML element
-var mockElement = [];
-mockElement.nodeType = 1;
+var MissingArgument = require( "../js/errors/missingArgument.js" );
+var SnippetPreview = require( "../js/snippetPreview.js" );
 
-var mockSnippet = [];
-mockSnippet.nodeType = 1;
+var clone = require( "lodash/lang/clone" );
 
-describe( "Creating an app without any arguments", function(){
-	it( "throws error for missing callbacks object", function(){
-		expect( function(){ YoastSEO.App() } ).toThrow( new Error( "The app requires an object with a getdata callback." ) );
-	} )
-} );
-
-var argsCallbacks = {
-	callbacks: {
-		getData: function(){ return {} },
-		bindElementEvents: function(){},
-		updateSnippetValues: function(){},
-		saveScores: function(){}
-	}
-};
-
-describe( "Creating an app with only callbacks", function() {
-	it( "throws error for missing targets", function(){
-		expect( function(){ YoastSEO.App( argsCallbacks ) } ).toThrow( new Error( "No targetElement is defined." ) );
-	} )
-} );
-
-var argsTargetsNoOutput = {
-	callbacks: {
-		getData: function(){ return {} },
-		bindElementEvents: function(){},
-		updateSnippetValues: function(){},
-		saveScores: function(){}
-	},targets: { snipppet: mockSnippet }
-};
-
-describe( "Creating an app with only callbacks", function() {
-	it( "throws error for missing targets", function(){
-		expect( function(){ YoastSEO.App( argsTargetsNoOutput ) } ).toThrow( new Error( "No output target defined." ) );
-	} )
-} );
-
-var argsTargetsNoSnippet = {
-	callbacks: {
-		getData: function(){ return {} },
-		bindElementEvents: function(){},
-		updateSnippetValues: function(){},
-		saveScores: function(){}
-	},targets: { output: mockElement }
-};
-
-describe( "Creating an app with only callbacks", function() {
-	it( "throws error for missing targets", function(){
-		expect( function(){ YoastSEO.App( argsTargetsNoSnippet ) } ).toThrow( new Error( "No snippet target defined." ) );
-	} )
-} );
-
-var argsElementTarget = {
-	callbacks: {
-		getData: function(){ return {} },
-		bindElementEvents: function(){},
-		updateSnippetValues: function(){},
-		saveScores: function(){}
-	},targets: {
-		output: mockElement,
-		snippet: mockSnippet
-	},
-	replaceTarget: [ "content" ],
-	resetTarget: [ "content" ],
-	elementTarget: [ "content" ]
-};
-
-
+// Mock these function to prevent us from needing an actual DOM in the tests.
 YoastSEO.App.prototype.createSnippetPreview = function(){};
 YoastSEO.App.prototype.showLoadingDialog = function(){};
 YoastSEO.App.prototype.updateLoadingDialog = function(){};
@@ -91,10 +22,93 @@ YoastSEO.App.prototype.initSnippetPreview = function(){};
 YoastSEO.App.prototype.runAnalyzer = function(){};
 
 document = {};
-document.getElementById = function(){ return mockElement;}
+document.getElementById = function() { return mockElement; };
 
-describe( "Creating an app with callbacks and elements", function(){
-	it( "throws no replacetarget error", function(){
-		var app = new YoastSEO.App( argsElementTarget );
-	} )
+// Makes lodash think this is a valid HTML element
+var mockElement = [];
+mockElement.nodeType = 1;
+
+describe( "Creating an App", function(){
+	it( "throws an error when no args are given", function(){
+		expect( YoastSEO.App ).toThrowError( MissingArgument );
+	});
+
+	it( "throws on an empty args object", function() {
+		expect( function() {
+			new YoastSEO.App({});
+		} ).toThrowError( MissingArgument ) ;
+	});
+
+	it( "throws on an invalid targets argument", function() {
+		expect( function() {
+			new YoastSEO.App({
+				callbacks: {
+					getData: function() { return {} }
+				}
+			});
+		} ).toThrowError( MissingArgument );
+	});
+
+	it( "throws on a missing getData callback", function() {
+		expect( function() {
+			new YoastSEO.App({
+				targets: {
+					snippet: "snippetID",
+					output: "outputID"
+				}
+			} );
+		} ).toThrowError( MissingArgument );
+	});
+
+	it( "throws on a missing snippet preview", function() {
+		expect( function() {
+			new YoastSEO.App({
+				targets: {
+					output: "outputID"
+				},
+				callbacks: {
+					getData: function() { return {} }
+				}
+			});
+		} ).toThrowError( MissingArgument );
+	});
+
+	it( "accepts a Snippet Preview object", function() {
+		var app = new YoastSEO.App({
+			targets: {
+				output: "outputID"
+			},
+			callbacks: {
+				getData: function() { return {} }
+			},
+			snippetPreview: new SnippetPreview({
+				targetElement: mockElement
+			})
+		});
+	});
+
+	it( "throws on a missing output element ID", function() {
+		expect( function() {
+			new YoastSEO.App({
+				targets: {
+					snippet: "snippetID"
+				},
+				callbacks: {
+					getData: function() { return {} }
+				}
+			} )
+		} ).toThrowError( MissingArgument );
+	});
+
+	it( "works with correct arguments", function() {
+		new YoastSEO.App({
+			targets: {
+				snippet: "snippetID",
+				output: "outputID"
+			},
+			callbacks: {
+				getData: function() { return {} }
+			}
+		});
+	});
 } );

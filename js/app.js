@@ -4,6 +4,8 @@ YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 
 var defaultsDeep = require( "lodash/object/defaultsDeep" );
 var isObject = require( "lodash/lang/isObject" );
+var isString = require( "lodash/lang/isString" );
+var MissingArgument = require( "./errors/missingArgument" );
 
 /**
  * Default config for YoastSEO.js
@@ -82,30 +84,40 @@ function createDefaultSnippetPreview() {
 }
 
 /**
- * Check arguments passed to the Snippetpreview to check if all necessary arguments
- * are set.
+ * Returns whether or not the given argument is a valid SnippetPreview object.
+ *
+ * @param {*} snippetPreview
+ * @returns {boolean}
+ */
+function isValidSnippetPreview( snippetPreview ) {
+	return !isUndefined( snippetPreview ) && SnippetPreview.prototype.isPrototypeOf( snippetPreview );
+}
+
+/**
+ * Check arguments passed to the App to check if all necessary arguments are set.
  *
  * @private
- * @param {Object} args The arguments object passed to the Snippetpreview.
+ * @param {Object} args The arguments object passed to the App.
  */
-function checkArguments( args ) {
+function verifyArguments( args ) {
 
 	if ( !isObject( args.callbacks.getData ) ) {
-		throw new Error( "The app requires an object with a getdata callback." );
+		throw new MissingArgument( "The app requires an object with a getdata callback." );
 	}
 
 	if ( !isObject( args.targets ) ) {
-		throw new Error( "No targetElement is defined." );
+		throw new MissingArgument( "`targets` is a required App argument, `targets` is not an object." );
 	}
 
-	if ( !isObject( args.targets.output ) ) {
-		throw new Error( "No output target defined." );
+	if ( !isString( args.targets.output ) ) {
+		throw new MissingArgument( "`targets.output` is a required App argument, `targets.output` is not a string." );
 	}
 
-	if ( !isObject( args.targets.snippet ) ) {
-		throw new Error( "No snippet target defined." );
+	// The args.targets.snippet argument is only required if not SnippetPreview object has been passed.
+	if ( !isValidSnippetPreview( args.snippetPreview ) && !isString( args.targets.snippet ) ) {
+		throw new MissingArgument( "A snippet preview is required. When no SnippetPreview object isn't passed to " +
+			"the App, the `targets.snippet` is a required App argument. `targets.snippet` is not a string." );
 	}
-
 }
 
 /**
@@ -183,7 +195,7 @@ YoastSEO.App = function( args ) {
 	}
 	defaultsDeep( args, defaults );
 
-	checkArguments( args );
+	verifyArguments( args );
 
 	this.config = args;
 
@@ -197,9 +209,7 @@ YoastSEO.App = function( args ) {
 
 	this.showLoadingDialog();
 
-	SnippetPreview.prototype.isPrototypeOf( args.snippetPreview );
-
-	if ( !isUndefined( args.snippetPreview ) && SnippetPreview.prototype.isPrototypeOf( args.snippetPreview ) ) {
+	if ( isValidSnippetPreview( args.snippetPreview ) ) {
 		this.snippetPreview = args.snippetPreview;
 
 		// Hack to make sure the snippet preview always has a reference to this App. This way we solve the circular
