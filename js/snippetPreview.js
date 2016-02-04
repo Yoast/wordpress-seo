@@ -12,6 +12,7 @@ var debounce = require( "lodash/function/debounce" );
 
 var getWordboundaryRegex = require( "../js/stringProcessing/addWordboundary.js" );
 var stripHTMLTags = require( "../js/stringProcessing/stripHTMLTags.js" );
+var sanitizeString = require( "../js/stringProcessing/sanitizeString.js" );
 
 var defaults = {
 	data: {
@@ -725,7 +726,7 @@ SnippetPreview.prototype.formatKeyword = function( textString ) {
  * @returns {XML|string|void}
  */
 SnippetPreview.prototype.formatKeywordUrl = function( textString ) {
-	var keyword = this.refObj.stringHelper.sanitizeKeyword( this.refObj.rawData.keyword );
+	var keyword = sanitizeString( this.refObj.rawData.keyword );
 	var dashedKeyword = keyword.replace( /\s/g, "-" );
 
 	// Match keyword case-insensitively.
