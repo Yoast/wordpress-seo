@@ -3169,7 +3169,7 @@ var forEach = require( "lodash/collection/forEach" );
 var map = require( "lodash/collection/map" );
 var debounce = require( "lodash/function/debounce" );
 
-var getWordboundaryRegex = require( "../js/stringProcessing/addWordboundary.js" );
+var stringToRegex = require( "../js/stringProcessing/stringToRegex.js" );
 var stripHTMLTags = require( "../js/stringProcessing/stripHTMLTags.js" );
 var sanitizeString = require( "../js/stringProcessing/sanitizeString.js" );
 
@@ -3870,7 +3870,7 @@ SnippetPreview.prototype.formatKeyword = function( textString ) {
 	var keyword = this.refObj.rawData.keyword.replace( /[\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, " " );
 
 	// Match keyword case-insensitively
-	var keywordRegex = getWordboundaryRegex( keyword );
+	var keywordRegex = stringToRegex( keyword );
 	return textString.replace( keywordRegex, function( str ) {
 		return "<strong>" + str + "</strong>";
 	} );
@@ -3889,7 +3889,7 @@ SnippetPreview.prototype.formatKeywordUrl = function( textString ) {
 	var dashedKeyword = keyword.replace( /\s/g, "-" );
 
 	// Match keyword case-insensitively.
-	var keywordRegex = getWordboundaryRegex( dashedKeyword );
+	var keywordRegex = stringToRegex( dashedKeyword );
 
 	// Make the keyword bold in the textString.
 	return textString.replace( keywordRegex, function( str ) {
@@ -4197,7 +4197,7 @@ SnippetPreview.prototype.textFeedback = function( ev ) {};
 
 module.exports = SnippetPreview;
 
-},{"../js/stringProcessing/addWordboundary.js":29,"../js/stringProcessing/sanitizeString.js":44,"../js/stringProcessing/stripHTMLTags.js":46,"./templates.js":53,"lodash/collection/forEach":57,"lodash/collection/map":58,"lodash/function/debounce":60,"lodash/lang/clone":114,"lodash/lang/isElement":117,"lodash/lang/isEmpty":118,"lodash/lang/isUndefined":125,"lodash/object/defaultsDeep":127}],29:[function(require,module,exports){
+},{"../js/stringProcessing/sanitizeString.js":44,"../js/stringProcessing/stringToRegex.js":45,"../js/stringProcessing/stripHTMLTags.js":46,"./templates.js":53,"lodash/collection/forEach":57,"lodash/collection/map":58,"lodash/function/debounce":60,"lodash/lang/clone":114,"lodash/lang/isElement":117,"lodash/lang/isEmpty":118,"lodash/lang/isUndefined":125,"lodash/object/defaultsDeep":127}],29:[function(require,module,exports){
 /** @module stringProcessing/addWordboundary */
 
 /**
@@ -4719,6 +4719,8 @@ module.exports = function( string, extraBoundary ) {
 },{"../stringProcessing/addWordboundary.js":29,"../stringProcessing/replaceDiacritics.js":42,"../stringProcessing/sanitizeString.js":44}],46:[function(require,module,exports){
 /** @module stringProcessing/stripHTMLTags */
 
+var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
+
 /**
  * Strip HTML-tags from text
  *
@@ -4727,10 +4729,11 @@ module.exports = function( string, extraBoundary ) {
  */
 module.exports = function( text ) {
 	text = text.replace( /(<([^>]+)>)/ig, " " );
+	text = stripSpaces( text );
 	return text;
 };
 
-},{}],47:[function(require,module,exports){
+},{"../stringProcessing/stripSpaces.js":49}],47:[function(require,module,exports){
 /** @module stringProcessing/stripNonTextTags */
 
 var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
