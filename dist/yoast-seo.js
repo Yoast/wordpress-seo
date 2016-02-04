@@ -3657,6 +3657,13 @@ SnippetPreview.prototype.getAnalyzerData = function() {
 };
 
 /**
+ * Calls the event binder that has been registered using the callbacks option in the arguments of the App.
+ */
+SnippetPreview.prototype.callRegisteredEventBinder = function() {
+	this.refObj.callbacks.bindElementEvents( this.refObj );
+};
+
+/**
  *  checks if title and url are set so they can be rendered in the snippetPreview
  */
 SnippetPreview.prototype.init = function() {
@@ -4278,13 +4285,6 @@ SnippetPreview.prototype.hideEditIcon = function() {};
  * @param ev
  */
 SnippetPreview.prototype.setFocus = function( ev ) {};
-
-/**
- * Calls the event binder that has been registered using the callbacks option in the arguments of the App.
- *
- * @deprecated
- */
-SnippetPreview.prototype.callRegisteredEventBinder = function() {};
 /* jshint ignore:end */
 
 module.exports = SnippetPreview;
