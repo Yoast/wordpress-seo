@@ -4718,6 +4718,8 @@ module.exports = function( string, extraBoundary ) {
 },{"../stringProcessing/addWordboundary.js":29,"../stringProcessing/replaceDiacritics.js":42,"../stringProcessing/sanitizeString.js":44}],46:[function(require,module,exports){
 /** @module stringProcessing/stripHTMLTags */
 
+var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
+
 /**
  * Strip HTML-tags from text
  *
@@ -4726,10 +4728,11 @@ module.exports = function( string, extraBoundary ) {
  */
 module.exports = function( text ) {
 	text = text.replace( /(<([^>]+)>)/ig, " " );
+	text = stripSpaces( text );
 	return text;
 };
 
-},{}],47:[function(require,module,exports){
+},{"../stringProcessing/stripSpaces.js":49}],47:[function(require,module,exports){
 /** @module stringProcessing/stripNonTextTags */
 
 var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
