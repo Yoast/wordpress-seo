@@ -285,6 +285,8 @@ class WPSEO_Replace_Vars {
 	/**
 	 * Retrieve the category description for use as replacement string.
 	 *
+	 * Note: Replacement is taxonomy pages only
+	 *
 	 * @return string|null
 	 */
 	private function retrieve_category_description() {
@@ -460,6 +462,8 @@ class WPSEO_Replace_Vars {
 	/**
 	 * Retrieve the tag description for use as replacement string.
 	 *
+	 * Note: Replacement is taxonomy pages only
+	 *
 	 * @return string|null
 	 */
 	private function retrieve_tag_description() {
@@ -468,6 +472,8 @@ class WPSEO_Replace_Vars {
 
 	/**
 	 * Retrieve the term description for use as replacement string.
+	 *
+	 * Note: Replacement is taxonomy pages only
 	 *
 	 * @return string|null
 	 */
@@ -486,6 +492,8 @@ class WPSEO_Replace_Vars {
 
 	/**
 	 * Retrieve the term name for use as replacement string.
+	 *
+	 * Note: Replacement is taxonomy pages only
 	 *
 	 * @return string|null
 	 */
