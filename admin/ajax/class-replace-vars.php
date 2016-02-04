@@ -1,10 +1,10 @@
 <?php
+/**
+ * @package WPSEO\Admin|Ajax
+ */
 
 /**
- * Created by PhpStorm.
- * User: andy
- * Date: 04/02/16
- * Time: 10:33
+ * Fetching the category with AJAX to replace in the snippet preview.
  */
 class WPSEO_Replace_Vars_Ajax {
 	/**
@@ -33,4 +33,5 @@ class WPSEO_Replace_Vars_Ajax {
 
 		wp_die( wp_json_encode( $parsed_categories ) );
 	}
+
 }
