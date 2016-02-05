@@ -87,9 +87,6 @@ YoastSEO.Analyzer.prototype.formatKeyword = function() {
  */
 YoastSEO.Analyzer.prototype.initDependencies = function() {
 
-	//init preprocessor
-	this.preProcessor = new YoastSEO.getPreProcessor( this.config.text );
-
 	//init scorer
 	this.analyzeScorer = new YoastSEO.AnalyzeScorer( this );
 };
@@ -175,8 +172,8 @@ YoastSEO.Analyzer.prototype.addAnalysis = function( analysis ) {
 };
 
 /**
- * returns wordcount from the preprocessor storage to include them in the results.
- * @returns {{test: string, result: (Function|YoastSEO.PreProcessor.wordcount|Number)}[]}
+ * returns wordcount from this.config.text
+ * @returns {{test: string, result: Number)}}
  */
 YoastSEO.Analyzer.prototype.wordCount = function() {
 	var countWords = require( "./stringProcessing/countWords.js" );
