@@ -1,4 +1,5 @@
 var SnippetPreview = require("../js/snippetPreview.js");
+
 require("../js/app.js");
 
 describe("The snippet preview constructor", function() {
