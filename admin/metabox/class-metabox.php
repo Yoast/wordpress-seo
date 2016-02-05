@@ -313,9 +313,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 */
 	public function localize_replace_vars_script() {
 		return array(
-			'no_parent_text'           => __( '(no parent)', 'wordpress-seo' ),
-			'wpseo_replace_vars_nonce' => wp_create_nonce( 'wpseo-replace-vars' ),
-			'replace_vars'             => $this->get_replace_vars(),
+			'no_parent_text' => __( '(no parent)', 'wordpress-seo' ),
+			'replace_vars'   => $this->get_replace_vars(),
 		);
 	}
 
