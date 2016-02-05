@@ -3,6 +3,7 @@
 YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 
 var isUndefined = require( "lodash/lang/isUndefined" );
+var difference = require( "lodash/array/difference" );
 
 /**
  * defines the variables used for the scoreformatter, runs the outputScore en overallScore
@@ -36,7 +37,10 @@ YoastSEO.ScoreFormatter.prototype.renderScore = function() {
 YoastSEO.ScoreFormatter.prototype.outputScore = function() {
 	var seoScoreText, scoreRating;
 
+
 	this.sortScores();
+
+
 	var outputTarget = document.getElementById( this.outputTarget );
 	outputTarget.innerHTML = "";
 	var newList = document.createElement( "ul" );
@@ -73,16 +77,18 @@ YoastSEO.ScoreFormatter.prototype.outputScore = function() {
  */
 YoastSEO.ScoreFormatter.prototype.sortScores = function() {
 	var unsortables = this.getUndefinedScores( this.scores );
+	var sortables = difference( this.scores, unsortables );
 
-	this.scores = this.scores.sort( function( a, b ) {
+	sortables.sort( function( a, b ) {
 		return a.score - b.score;
 	} );
 
-	this.scores = unsortables.concat( this.scores );
+	this.scores = unsortables.concat( sortables );
 };
 
 /**
  * Extracts scorers with a score of undefined
+ *
  * @param {Array} scorers The scorers that are being sorted
  * @returns {Array} The scorers that cannot be sorted
  */
@@ -112,6 +118,7 @@ YoastSEO.ScoreFormatter.prototype.outputOverallScore = function() {
 
 /**
  * Retuns a string that is used as a CSSclass, based on the numeric score or the NA string.
+ *
  * @param {number|string} score
  * @returns {string} scoreRate
  */
@@ -137,6 +144,7 @@ YoastSEO.ScoreFormatter.prototype.scoreRating = function( score ) {
 
 /**
  * Divides the total score by ten and calls the scoreRating function.
+ *
  * @param {number|string} score
  * @returns {string} scoreRate
  */

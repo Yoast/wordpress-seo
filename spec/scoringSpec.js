@@ -115,6 +115,19 @@ describe("A function to remove undefined scores", function() {
 
        var formatter = new YoastSEO.ScoreFormatter(args);
 
-        expect(formatter.getUndefinedScores(args.scores) ).toContain( { name: 'undefinedScorer', score: undefined } );
+        expect(formatter.getUndefinedScores(args.scores) ).toEqual( [{ name: 'undefinedScorer', score: undefined }] );
    });
+
+    it("should return an empty array when there are no undefined scores", function() {
+        var args = {
+            scores: [
+                { name: 'positiveScorer', score: 10 },
+                { name: 'negativeScorer', score: -100 }
+            ]
+        };
+
+        var formatter = new YoastSEO.ScoreFormatter(args);
+
+        expect(formatter.getUndefinedScores(args.scores) ).toEqual( [] );
+    });
 });
