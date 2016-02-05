@@ -269,6 +269,11 @@
 		data = data.replace( /%%tag_description%%/g, text );
 		data = data.replace( /%%term_description%%/g, text );
 
+		// We want to replace 'ct_desc_{custom_taxonomy_name}' with the value of `text`.
+		if ( wpseoReplaceVarsL10n.taxonomy_description !== '' ) {
+			data = data.replace( '%%' + wpseoReplaceVarsL10n.taxonomy_description + '%%', text );
+		}
+
 		return data;
 	};
 

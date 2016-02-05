@@ -264,8 +264,9 @@ class WPSEO_Taxonomy {
 	 */
 	public function localize_replace_vars_script() {
 		return array(
-			'no_parent_text' => __( '(no parent)', 'wordpress-seo' ),
-			'replace_vars'   => $this->get_replace_vars(),
+			'no_parent_text'       => __( '(no parent)', 'wordpress-seo' ),
+			'replace_vars'         => $this->get_replace_vars(),
+			'taxonomy_description' => $this->get_taxonomy_description_replacement()
 		);
 	}
 
@@ -330,6 +331,21 @@ class WPSEO_Taxonomy {
 		}
 
 		return array();
+	}
+
+	/**
+	 * Return ct_desc_{taxonomy_name} when the current taxonomy is a custom one. The value will be used in javascript to
+	 * replace ct_desc_{taxonomy_name} with the value of the description field.
+	 *
+	 * @return string
+	 */
+	private function get_taxonomy_description_replacement() {
+		$taxonomy = get_taxonomy( $this->get_taxonomy() );
+		if ( $taxonomy->_builtin === false ) {
+			return 'ct_desc_' . $taxonomy->name;
+		}
+
+		return '';
 	}
 
 } /* End of class */
