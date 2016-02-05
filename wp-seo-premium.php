@@ -39,13 +39,8 @@ if ( ! defined( 'WPSEO_FILE' ) ) {
 
 $wpseo_premium_dir = plugin_dir_path( WPSEO_FILE ) . 'premium/';
 
-// If the user is admin, check for the upgrade manager.
-if ( is_admin() ) {
-	// Add the hook to upgrade premium.
-	require_once( $wpseo_premium_dir . 'classes/class-upgrade-manager.php' );
-	add_action( 'wpseo_run_upgrade', array( new WPSEO_Upgrade_Manager, 'check_update' ) );
-}
-else {
+// Run the redirects when frontend is being opened.
+if ( ! is_admin() ) {
 	require_once( $wpseo_premium_dir . 'classes/redirect/class-redirect-handler.php' );
 
 	new WPSEO_Redirect_Handler();
@@ -56,6 +51,12 @@ require_once( 'wp-seo-main.php' );
 require_once( WPSEO_PATH . 'premium/class-premium.php' );
 
 WPSEO_Premium::autoloader();
+
+// If the user is admin, check for the upgrade manager.
+if ( is_admin() ) {
+	$upgrade_manager = new WPSEO_Upgrade_Manager();
+	$upgrade_manager->run_upgrade( WPSEO_VERSION );
+}
 
 /**
  * The premium setup
