@@ -10,6 +10,8 @@ var forEach = require( "lodash/collection/forEach" );
 var map = require( "lodash/collection/map" );
 var debounce = require( "lodash/function/debounce" );
 
+var stripSpaces = require( "../js/stringProcessing/stripSpaces.js" );
+
 var defaults = {
 	data: {
 		title: "",
@@ -28,6 +30,23 @@ var defaults = {
 	addTrailingSlash: true,
 	metaDescriptionDate: ""
 };
+
+var titleMaxLength = 70;
+
+var inputPreviewBindings = [
+	{
+		"preview": "title_container",
+		"inputField": "title"
+	},
+	{
+		"preview": "url_container",
+		"inputField": "urlPath"
+	},
+	{
+		"preview": "meta_container",
+		"inputField": "metaDesc"
+	}
+];
 
 /**
  * Get's the base URL for this instance of the snippet preview.
@@ -113,6 +132,16 @@ function removeClass( element, className ) {
 }
 
 /**
+ * Removes multiple classes from an element
+ *
+ * @param {HTMLElement} element The element to remove the classes from.
+ * @param {Array} classes A list of classes to remove
+ */
+function removeClasses( element, classes ) {
+	forEach( classes, removeClass.bind( null, element ) );
+}
+
+/**
  * Returns if a url has a trailing slash or not.
  *
  * @param {string} url
@@ -120,6 +149,104 @@ function removeClass( element, className ) {
  */
 function hasTrailingSlash( url ) {
 	return url.indexOf( "/" ) === ( url.length - 1 );
+}
+
+/**
+ * Detects if this browser has <progress> support. Also serves as a poor man's HTML5shiv.
+ *
+ * @private
+ *
+ * @returns {boolean}
+ */
+function hasProgressSupport() {
+	var progressElement = document.createElement( "progress" );
+
+	return progressElement.max !== undefined;
+}
+
+/**
+ * Returns a rating based on the length of the title
+ *
+ * @param {string} titleLength
+ * @returns {string}
+ */
+function rateTitleLength( titleLength ) {
+	var rating;
+
+	switch ( true ) {
+		case titleLength > 0 && titleLength <= 39:
+		case titleLength >= 71:
+			rating = "ok";
+			break;
+
+		case titleLength >= 40 && titleLength <= 70:
+			rating = "good";
+			break;
+
+		default:
+			rating = "bad";
+			break;
+	}
+
+	return rating;
+}
+
+/**
+ * Returns a rating based on the length of the meta description
+ *
+ * @param {string} metaDescLength
+ * @returns {string}
+ */
+function rateMetaDescLength( metaDescLength ) {
+	var rating;
+
+	switch ( true ) {
+		case metaDescLength > 0 && metaDescLength <= 120:
+		case metaDescLength >= 157:
+			rating = "ok";
+			break;
+
+		case metaDescLength >= 120 && metaDescLength <= 157:
+			rating = "good";
+			break;
+
+		default:
+			rating = "bad";
+			break;
+	}
+
+	return rating;
+}
+
+/**
+ * Updates a progress bar
+ *
+ * @private
+ * @this SnippetPreview
+ *
+ * @param {HTMLElement} element The progress element that's rendered.
+ * @param {number} value The current value.
+ * @param {number} maximum The maximum allowed value.
+ * @param {string} rating The SEO score rating for this value.
+ */
+function updateProgressBar( element, value, maximum, rating ) {
+	var barElement, progress,
+		allClasses = [
+			"snippet-editor__progress--bad",
+			"snippet-editor__progress--ok",
+			"snippet-editor__progress--good"
+		];
+
+	element.value = value;
+	removeClasses( element, allClasses );
+	addClass( element, "snippet-editor__progress--" + rating );
+
+	if ( !this.hasProgressSupport ) {
+		barElement = element.getElementsByClassName( "snippet-editor__progress-bar" )[ 0 ];
+		progress = ( value / maximum ) * 100;
+
+		barElement.style.width = progress + "%";
+	}
 }
 
 /**
@@ -143,6 +270,7 @@ function hasTrailingSlash( url ) {
  * @param {Function}       opts.callbacks.saveSnippetData - Function called when the snippet data is changed.
  *
  * @param {boolean}        opts.addTrailingSlash          - Whether or not to add a trailing slash to the URL.
+ * @param {string}         opts.metaDescriptionDate       - The date to display before the meta description.
  *
  * @property {App}         refObj                         - The connected app object.
  * @property {Jed}         i18n                           - The translation object.
@@ -172,6 +300,8 @@ function hasTrailingSlash( url ) {
  *
  * @property {string}      baseURL                        - The basic URL as it will be displayed in google.
  *
+ * @property {boolean}     hasProgressSupport             - Whether this browser supports the <progress> element.
+ *
  * @constructor
  */
 var SnippetPreview = function( opts ) {
@@ -200,6 +330,8 @@ var SnippetPreview = function( opts ) {
 	}
 
 	this.opts = opts;
+	this._currentFocus = null;
+	this._currentHover = null;
 
 	// For backwards compatibility monitor the unformatted text for changes and reflect them in the preview
 	this.unformattedText = {};
@@ -239,11 +371,13 @@ SnippetPreview.prototype.renderTemplate = function() {
 		metaDescriptionDate: this.opts.metaDescriptionDate,
 		placeholder: this.opts.placeholder,
 		i18n: {
-			edit: this.i18n.dgettext( "js-text-analysis", "Edit title, description & slug" ),
+			edit: this.i18n.dgettext( "js-text-analysis", "Edit snippet" ),
 			title: this.i18n.dgettext( "js-text-analysis", "SEO title" ),
 			slug:  this.i18n.dgettext( "js-text-analysis", "Slug" ),
 			metaDescription: this.i18n.dgettext( "js-text-analysis", "Meta description" ),
-			save: this.i18n.dgettext( "js-text-analysis", "Close snippet editor" )
+			save: this.i18n.dgettext( "js-text-analysis", "Close snippet editor" ),
+			snippetPreview: this.i18n.dgettext( "js-text-analysis", "Snippet preview" ),
+			snippetEditor: this.i18n.dgettext( "js-text-analysis", "Snippet editor" )
 		}
 	} );
 
@@ -259,14 +393,43 @@ SnippetPreview.prototype.renderTemplate = function() {
 			urlPath: targetElement.getElementsByClassName( "js-snippet-editor-slug" )[0],
 			metaDesc: targetElement.getElementsByClassName( "js-snippet-editor-meta-description" )[0]
 		},
+		progress: {
+			title: targetElement.getElementsByClassName( "snippet-editor__progress-title" )[0],
+			metaDesc: targetElement.getElementsByClassName( "snippet-editor__progress-meta-description" )[0]
+		},
 		container: document.getElementById( "snippet_preview" ),
 		formContainer: targetElement.getElementsByClassName( "snippet-editor__form" )[0],
 		editToggle: targetElement.getElementsByClassName( "snippet-editor__edit-button" )[0],
 		closeEditor: targetElement.getElementsByClassName( "snippet-editor__submit" )[0],
-		formFields: targetElement.getElementsByClassName( "snippet-editor__form-field" )
+		formFields: targetElement.getElementsByClassName( "snippet-editor__form-field" ),
+		headingEditor: targetElement.getElementsByClassName( "snippet-editor__heading-editor" )[0]
 	};
 
+	this.element.label = {
+		title: this.element.input.title.parentNode,
+		urlPath: this.element.input.urlPath.parentNode,
+		metaDesc: this.element.input.metaDesc.parentNode
+	};
+
+	this.element.preview = {
+		title: this.element.rendered.title.parentNode,
+		urlPath: this.element.rendered.urlPath.parentNode,
+		metaDesc: this.element.rendered.metaDesc.parentNode
+	};
+
+	this.hasProgressSupport = hasProgressSupport();
+
+	if ( this.hasProgressSupport ) {
+		this.element.progress.title.max = titleMaxLength;
+		this.element.progress.metaDesc.max = YoastSEO.analyzerConfig.maxMeta;
+	} else {
+		forEach( this.element.progress, function( progressElement ) {
+			addClass( progressElement, "snippet-editor__progress--fallback" );
+		} );
+	}
+
 	this.opened = false;
+	this.updateProgressBars();
 };
 
 /**
@@ -276,6 +439,7 @@ SnippetPreview.prototype.refresh = function() {
 	this.output = this.htmlOutput();
 	this.renderOutput();
 	this.renderSnippetStyle();
+	this.updateProgressBars();
 };
 
 /**
@@ -294,7 +458,7 @@ function getAnalyzerTitle() {
 	}
 	title = this.refObj.pluggable._applyModifications( "data_page_title", title );
 
-	return title;
+	return stripSpaces( title );
 }
 
 /**
@@ -319,7 +483,7 @@ var getAnalyzerMetaDesc = function() {
 		metaDesc = this.opts.metaDescriptionDate + " - " + this.data.metaDesc;
 	}
 
-	return metaDesc;
+	return stripSpaces( metaDesc );
 };
 
 /**
@@ -605,7 +769,7 @@ SnippetPreview.prototype.formatKeywordUrl = function( textString ) {
 	var dashedKeyword = keyword.replace( /\s/g, "-" );
 
 	// Match keyword case-insensitively.
-	var keywordRegex = YoastSEO.getStringHelper().getWordBoundaryRegex( dashedKeyword );
+	var keywordRegex = YoastSEO.getStringHelper().getWordBoundaryRegex( dashedKeyword, "\\-" );
 
 	// Make the keyword bold in the textString.
 	return textString.replace( keywordRegex, function( str ) {
@@ -665,9 +829,9 @@ SnippetPreview.prototype.checkTextLength = function( ev ) {
 			break;
 		case "snippet_title":
 			ev.currentTarget.className = "title";
-			if ( text.length > 70 ) {
+			if ( text.length > titleMaxLength ) {
 				YoastSEO.app.snippetPreview.unformattedText.snippet_title = ev.currentTarget.textContent;
-				ev.currentTarget.textContent = text.substring( 0, 70 );
+				ev.currentTarget.textContent = text.substring( 0, titleMaxLength );
 			}
 			break;
 		default:
@@ -701,7 +865,8 @@ SnippetPreview.prototype.setUnformattedText = function( ev ) {
  * Validates all fields and highlights errors.
  */
 SnippetPreview.prototype.validateFields = function() {
-	var metaDescription = this.opts.metaDescriptionDate + " - " + this.data.metaDesc;
+	var metaDescription = getAnalyzerMetaDesc.call( this );
+	var title = getAnalyzerTitle.call( this );
 
 	if ( metaDescription.length > YoastSEO.analyzerConfig.maxMeta ) {
 		addClass( this.element.input.metaDesc, "snippet-editor__field--invalid" );
@@ -709,7 +874,7 @@ SnippetPreview.prototype.validateFields = function() {
 		removeClass( this.element.input.metaDesc, "snippet-editor__field--invalid" );
 	}
 
-	if ( this.data.title.length > 70 ) {
+	if ( title.length > titleMaxLength ) {
 		addClass( this.element.input.title, "snippet-editor__field--invalid" );
 	} else {
 		removeClass( this.element.input.title, "snippet-editor__field--invalid" );
@@ -717,38 +882,30 @@ SnippetPreview.prototype.validateFields = function() {
 };
 
 /**
- * shows the edit icon corresponding to the hovered element
- * @param ev
+ * Updates progress bars based on the data
  */
-SnippetPreview.prototype.showEditIcon = function( ev ) {
-	ev.currentTarget.parentElement.className = "editIcon snippet_container";
-};
+SnippetPreview.prototype.updateProgressBars = function() {
+	var metaDescriptionRating, titleRating, metaDescription, title;
 
-/**
- * removes all editIcon-classes, sets to snippet_container
- */
-SnippetPreview.prototype.hideEditIcon = function() {
-	var elems = document.getElementsByClassName( "editIcon " );
-	for ( var i = 0; i < elems.length; i++ ) {
-		elems[ i ].className = "snippet_container";
-	}
-};
+	metaDescription = getAnalyzerMetaDesc.call( this );
+	title = getAnalyzerTitle.call( this );
 
-/**
- * sets focus on child element of the snippet_container that is clicked. Hides the editicon.
- * @param ev
- */
-SnippetPreview.prototype.setFocus = function( ev ) {
-	var targetElem = ev.currentTarget.firstChild;
-	while ( targetElem !== null ) {
-		if ( targetElem.contentEditable === "true" ) {
-			targetElem.focus();
-			this.hideEditIcon();
-			break;
-		} else {
-			targetElem = targetElem.nextSibling;
-		}
-	}
+	titleRating = rateTitleLength( title.length );
+	metaDescriptionRating = rateMetaDescLength( metaDescription.length );
+
+	updateProgressBar(
+		this.element.progress.title,
+		title.length,
+		titleMaxLength,
+		titleRating
+	);
+
+	updateProgressBar(
+		this.element.progress.metaDesc,
+		metaDescription.length,
+		YoastSEO.analyzerConfig.maxMeta,
+		metaDescriptionRating
+	);
 };
 
 /**
@@ -757,20 +914,7 @@ SnippetPreview.prototype.setFocus = function( ev ) {
 SnippetPreview.prototype.bindEvents = function() {
 	var targetElement,
 		elems = [ "title", "slug", "meta-description" ],
-		focusBindings = [
-			{
-				"click": "title_container",
-				"focus": "title"
-			},
-			{
-				"click": "url_container",
-				"focus": "urlPath"
-			},
-			{
-				"click": "meta_container",
-				"focus": "metaDesc"
-			}
-		];
+		focusBindings;
 
 	forEach( elems, function( elem ) {
 		targetElement = document.getElementsByClassName( "js-snippet-editor-" + elem )[0];
@@ -787,20 +931,49 @@ SnippetPreview.prototype.bindEvents = function() {
 	this.element.closeEditor.addEventListener( "click", this.closeEditor.bind( this ) );
 
 	// Map binding keys to the actual elements
-	focusBindings = map( focusBindings, function( binding ) {
+	focusBindings = map( inputPreviewBindings, function( binding ) {
 		return {
-			"click": document.getElementById( binding.click ),
-			"focus": this.element.input[ binding.focus ]
+			"preview": document.getElementById( binding.preview ),
+			"inputField": this.element.input[ binding.inputField ]
 		};
 	}.bind( this ) );
 
 	// Loop through the bindings and bind a click handler to the click to focus the focus element.
-	forEach( focusBindings, function( focusBinding ) {
+	forEach( inputPreviewBindings, function( binding ) {
+		var previewElement = document.getElementById( binding.preview );
+		var inputElement = this.element.input[ binding.inputField ];
 
-		focusBinding.click.addEventListener( "click", function() {
+		// Make the preview element click open the editor and focus the correct input.
+		previewElement.addEventListener( "click", function() {
 			this.openEditor();
-			focusBinding.focus.focus();
-		}.bind( this ) ); // Bind the focus element to make sure we work with the correct object.
+			inputElement.focus();
+		}.bind( this ) );
+
+		// Make focusing an input, update the carets.
+		inputElement.addEventListener( "focus", function() {
+			this._currentFocus = binding.inputField;
+
+			this._updateFocusCarets();
+		}.bind( this ) );
+
+		// Make removing focus from an element, update the carets.
+		inputElement.addEventListener( "blur", function() {
+			this._currentFocus = null;
+
+			this._updateFocusCarets();
+		}.bind( this ) );
+
+		previewElement.addEventListener( "mouseover", function() {
+			this._currentHover = binding.inputField;
+
+			this._updateHoverCarets();
+		}.bind( this ) );
+
+		previewElement.addEventListener( "mouseout", function() {
+			this._currentHover = null;
+
+			this._updateHoverCarets();
+		}.bind( this ) );
 
 	}.bind( this ) );
 };
@@ -811,6 +984,7 @@ SnippetPreview.prototype.bindEvents = function() {
 SnippetPreview.prototype.changedInput = debounce( function() {
 	this.updateDataFromDOM();
 	this.validateFields();
+	this.updateProgressBars();
 
 	this.refresh();
 
@@ -833,9 +1007,13 @@ SnippetPreview.prototype.updateDataFromDOM = function() {
  * Opens the snippet editor.
  */
 SnippetPreview.prototype.openEditor = function() {
-	addClass( this.element.container,     "editing" );
-	addClass( this.element.formContainer, "snippet-editor__form--shown" );
-	addClass( this.element.editToggle,    "snippet-editor__edit-button--close" );
+
+	// Hide these elements.
+	addClass( this.element.editToggle,       "snippet-editor--hidden" );
+
+	// Show these elements.
+	removeClass( this.element.formContainer, "snippet-editor--hidden" );
+	removeClass( this.element.headingEditor, "snippet-editor--hidden" );
 
 	this.opened = true;
 };
@@ -844,9 +1022,13 @@ SnippetPreview.prototype.openEditor = function() {
  * Closes the snippet editor.
  */
 SnippetPreview.prototype.closeEditor = function() {
-	removeClass( this.element.container,     "editing" );
-	removeClass( this.element.formContainer, "snippet-editor__form--shown" );
-	removeClass( this.element.editToggle,    "snippet-editor__edit-button--close" );
+
+	// Hide these elements.
+	addClass( this.element.formContainer,     "snippet-editor--hidden" );
+	addClass( this.element.headingEditor,     "snippet-editor--hidden" );
+
+	// Show these elements.
+	removeClass( this.element.editToggle,     "snippet-editor--hidden" );
 
 	this.opened = false;
 };
@@ -859,6 +1041,52 @@ SnippetPreview.prototype.toggleEditor = function() {
 		this.closeEditor();
 	} else {
 		this.openEditor();
+	}
+};
+
+/**
+ * Updates carets before the preview and input fields.
+ *
+ * @private
+ */
+SnippetPreview.prototype._updateFocusCarets = function() {
+	var focusedLabel, focusedPreview;
+
+	// Disable all carets on the labels.
+	forEach( this.element.label, function( element ) {
+		removeClass( element, "snippet-editor__label--focus" );
+	} );
+
+	// Disable all carets on the previews.
+	forEach( this.element.preview, function( element ) {
+		removeClass( element, "snippet-editor__container--focus" );
+	} );
+
+	if ( null !== this._currentFocus ) {
+		focusedLabel = this.element.label[ this._currentFocus ];
+		focusedPreview = this.element.preview[ this._currentFocus ];
+
+		addClass( focusedLabel, "snippet-editor__label--focus" );
+		addClass( focusedPreview, "snippet-editor__container--focus" );
+	}
+};
+
+/**
+ * Updates hover carets before the input fields.
+ *
+ * @private
+ */
+SnippetPreview.prototype._updateHoverCarets = function() {
+	var hoveredLabel;
+
+	forEach( this.element.label, function( element ) {
+		removeClass( element, "snippet-editor__label--hover" );
+	} );
+
+	if ( null !== this._currentHover ) {
+		hoveredLabel = this.element.label[ this._currentHover ];
+
+		addClass( hoveredLabel, "snippet-editor__label--hover" );
 	}
 };
 
@@ -880,6 +1108,32 @@ SnippetPreview.prototype.disableEnter = function( ev ) {};
  * @param ev
  */
 SnippetPreview.prototype.textFeedback = function( ev ) {};
+
+/**
+ * shows the edit icon corresponding to the hovered element
+ *
+ * @deprecated
+ *
+ * @param ev
+ */
+SnippetPreview.prototype.showEditIcon = function( ev ) {
+
+};
+
+/**
+ * removes all editIcon-classes, sets to snippet_container
+ *
+ * @deprecated
+ */
+SnippetPreview.prototype.hideEditIcon = function() {};
+
+/**
+ * sets focus on child element of the snippet_container that is clicked. Hides the editicon.
+ *
+ * @deprecated
+ * @param ev
+ */
+SnippetPreview.prototype.setFocus = function( ev ) {};
 /* jshint ignore:end */
 
 module.exports = SnippetPreview;

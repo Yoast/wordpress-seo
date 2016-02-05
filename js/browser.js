@@ -11,4 +11,4 @@ YoastSEO.SnippetPreview = require( "./snippetPreview.js" );
 require( "./app.js" );
 require( "./pluggable.js" );
 
-YoastSEO.Jed = require( "Jed" );
+YoastSEO.Jed = require( "jed" );

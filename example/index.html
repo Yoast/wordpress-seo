@@ -14,40 +14,26 @@
     <script>
         YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 
-        YoastSEO.analyzerArgs = {
-            analyzer: true,
-            snippetPreview: true,
-            typeDelay: 300,
-            typeDelayStep: 100,
-            maxTypeDelay: 1500,
-            dynamicDelay: true,
-            multiKeyword: false,
+        var exampleScraper = new YoastSEO.ExampleScraper();
+
+        var args = {
             targets: {
-                output: "output",
-                overall: "overallScore",
-                snippet: "snippet"
-            },
-            sampleText: {
-                baseUrl: "example.org/",
-                snippetCite: "example-post/",
-                title: "This is an example title - edit by clicking here",
-                keyword: "Choose a focus keyword",
-                meta: "Modify your meta description by editing it right here",
-                text: "Start writing your text!"
+                output: "output"
             },
             callbacks: {
-                getData: function() { return {} }
+                getData: exampleScraper.getData.bind( exampleScraper ),
+                bindElementEvents: exampleScraper.bindElementEvents.bind( exampleScraper ),
+                saveScores: exampleScraper.saveScores.bind( exampleScraper )
             }
         };
 
         window.onload = function() {
-            var exampleScraper = new YoastSEO.ExampleScraper( YoastSEO.analyzerArgs, YoastSEO.app );
-            YoastSEO.analyzerArgs.callbacks = {
-                getData: exampleScraper.getData.bind( exampleScraper ),
-                bindElementEvents: exampleScraper.bindElementEvents.bind( exampleScraper ),
-                saveScores: exampleScraper.saveScores.bind( exampleScraper )
-            };
-            window.YoastSEO.app = new YoastSEO.App( YoastSEO.analyzerArgs );
+            args.snippetPreview = new YoastSEO.SnippetPreview({
+                targetElement: document.getElementById( "snippet" )
+            });
+
+            window.YoastSEO.app = new YoastSEO.App( args );
+
             YoastSEO.app.refresh();
         };
     </script>
