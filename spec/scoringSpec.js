@@ -115,6 +115,6 @@ describe("A function to remove undefined scores", function() {
 
        var formatter = new YoastSEO.ScoreFormatter(args);
 
-        expect(formatter.excludeUndefinedScores(args.scores) ).toContain( { name: 'undefinedScorer', score: undefined } );
+        expect(formatter.getUndefinedScores(args.scores) ).toContain( { name: 'undefinedScorer', score: undefined } );
    });
 });

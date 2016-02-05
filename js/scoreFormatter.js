@@ -72,7 +72,7 @@ YoastSEO.ScoreFormatter.prototype.outputScore = function() {
  * sorts the scores array on ascending scores
  */
 YoastSEO.ScoreFormatter.prototype.sortScores = function() {
-	var unsortables = this.excludeUndefinedScores( this.scores );
+	var unsortables = this.getUndefinedScores( this.scores );
 
 	this.scores = this.scores.sort( function( a, b ) {
 		return a.score - b.score;
@@ -86,16 +86,12 @@ YoastSEO.ScoreFormatter.prototype.sortScores = function() {
  * @param {Array} scorers The scorers that are being sorted
  * @returns {Array} The scorers that cannot be sorted
  */
-YoastSEO.ScoreFormatter.prototype.excludeUndefinedScores = function( scorers ) {
-	var unsortable = [];
-
-	scorers.map( function( scorer ) {
-		if ( isUndefined( scorer.score ) ) {
-			unsortable = unsortable.concat( scorers.splice( scorers.indexOf( scorer ), 1 ) );
-		}
+YoastSEO.ScoreFormatter.prototype.getUndefinedScores = function( scorers ) {
+	var filtered = scorers.filter( function( scorer ) {
+		return isUndefined( scorer.score );
 	} );
 
-	return unsortable;
+	return filtered;
 };
 
 /**
