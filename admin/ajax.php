@@ -371,6 +371,7 @@ new Yoast_Dashboard_Widget();
 new Yoast_OnPage_Ajax();
 
 new WPSEO_Shortcode_Filter();
+new WPSEO_Replace_Vars_Ajax();
 
 new WPSEO_Taxonomy_Columns();
 

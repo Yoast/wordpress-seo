@@ -1,4 +1,4 @@
-/* global wpseoReplaceVarsL10n, YoastSEO */
+/* global wpseoReplaceVarsL10n, YoastSEO, ajaxurl */
 (function() {
 	'use strict';
 
@@ -8,9 +8,18 @@
 	var YoastReplaceVarPlugin = function() {
 		this.replaceVars = wpseoReplaceVarsL10n.replace_vars;
 
+		this.categoriesRepository = [];
+		this.currentCategories    = [];
+
 		YoastSEO.app.registerPlugin( 'replaceVariablePlugin', { status: 'ready' } );
 
 		this.registerModifications();
+
+		// Adding events to the dom, to fetch changes.
+		if ( jQuery( '#post_ID').val() !== undefined ) {
+			this.addCategoryEvents();
+			this.addTagEvents();
+		}
 	};
 
 	/**
@@ -42,8 +51,61 @@
 			data = this.parentReplace( data );
 			data = this.doubleSepReplace( data );
 			data = this.excerptReplace( data );
+			data = this.categoryReplace( data );
+			data = this.tagReplace( data );
+
+			// Taxonomy replacements
+			if ( jQuery( 'input[name=tag_ID]').val() !== undefined ) {
+				data = this.taxonomyDescriptionReplace( data );
+			}
 		}
 		return data;
+	};
+
+	/**
+	 * Adding events to the dom, to fetch possibly changed taxonomies.
+	 */
+	YoastReplaceVarPlugin.prototype.addCategoryEvents = function() {
+		var categoryMetaBox = jQuery( '#taxonomy-category');
+
+		// Set the events.
+		categoryMetaBox.on( 'wpListAddEnd', '#categorychecklist', function() {
+			this.fetchCategories( categoryMetaBox );
+		}.bind( this ) );
+		categoryMetaBox.on( 'change', 'input[type=checkbox]', function() {
+			this.fetchCategories( categoryMetaBox );
+		}.bind( this ) );
+
+		// We always wanted it to be fetched
+		this.fetchCategories( categoryMetaBox );
+	};
+
+	/**
+	 * Adding tag events to the dom, to fetch added/removed tags.
+	 */
+	YoastReplaceVarPlugin.prototype.addTagEvents = function() {
+		if ( typeof MutationObserver === 'undefined' ) {
+			jQuery( '#post_tag' ).on( 'DOMSubtreeModified propertychange', '.tagchecklist', function() {
+				this.declareReloaded();
+			}.bind( this ) );
+		}
+		else {
+			// Select the target node
+			var target = document.querySelector('.tagchecklist');
+
+			// create an observer instance
+			var observer = new MutationObserver(
+				function() {
+					this.declareReloaded();
+				}.bind( this )
+			);
+
+			// configuration of the observer:
+			var config = { attributes: false, childList: true, characterData: false };
+
+			// pass in the target node, as well as the observer options
+			observer.observe(target, config);
+		}
 	};
 
 	/**
@@ -121,23 +183,136 @@
 	 * @return {String}
 	 */
 	YoastReplaceVarPlugin.prototype.defaultReplace = function( textString ) {
-		return textString.replace( /%%sitedesc%%/g, this.replaceVars.sitedesc )
-			.replace( /%%sitename%%/g, this.replaceVars.sitename )
-			.replace( /%%term_title%%/g, this.replaceVars.term_title )
-			.replace( /%%term_description%%/g, this.replaceVars.term_description )
-			.replace( /%%category_description%%/g, this.replaceVars.category_description )
-			.replace( /%%tag_description%%/g, this.replaceVars.tag_description )
-			.replace( /%%searchphrase%%/g, this.replaceVars.searchphrase )
-			.replace( /%%sep%%/g, this.replaceVars.sep )
-			.replace( /%%date%%/g, this.replaceVars.date )
-			.replace( /%%id%%/g, this.replaceVars.id )
-			.replace( /%%page%%/g, this.replaceVars.page )
-			.replace( /%%currenttime%%/g, this.replaceVars.currenttime )
-			.replace( /%%currentdate%%/g, this.replaceVars.currentdate )
-			.replace( /%%currentday%%/g, this.replaceVars.currentday )
-			.replace( /%%currentmonth%%/g, this.replaceVars.currentmonth )
-			.replace( /%%currentyear%%/g, this.replaceVars.currentyear )
-			.replace( /%%focuskw%%/g, YoastSEO.app.stringHelper.stripAllTags( YoastSEO.app.rawData.keyword ) );
+		textString = textString.replace( /%%focuskw%%/g, YoastSEO.app.stringHelper.stripAllTags( YoastSEO.app.rawData.keyword ) );
+
+		jQuery.each( this.replaceVars, function( original, replacement ) {
+			textString = textString.replace( '%%' + original + '%%', replacement );
+		} );
+
+		return textString;
+	};
+
+	/**
+	 * replaces the category strings with the category names.
+	 *
+	 * @param {String} data
+	 * @return {String}
+	 */
+	YoastReplaceVarPlugin.prototype.categoryReplace = function( data ) {
+		if ( jQuery( '#post_ID').val() !== undefined ) {
+			data = data.replace( /%%category%%/g, jQuery.unique( this.currentCategories ).join( ', ' ) );
+		}
+
+		return data;
+	};
+
+	/**
+	 * replaces the category strings with the category names.
+	 *
+	 * @param {String} data
+	 * @return {String}
+	 */
+	YoastReplaceVarPlugin.prototype.tagReplace = function( data ) {
+		if ( jQuery( '#post_ID').val() !== undefined ) {
+			data = data.replace( /%%tag%%/g, jQuery( ' #tax-input-post_tag' ).val() );
+		}
+
+		return data;
+	};
+
+	/**
+	 * Replaces the taxonomy description
+	 *
+	 * @param {String} data
+	 * @return {String}
+	 */
+	YoastReplaceVarPlugin.prototype.taxonomyDescriptionReplace = function( data ) {
+		var text = YoastSEO.app.rawData.text;
+
+		data = data.replace( /%%category_description%%/g, text );
+		data = data.replace( /%%tag_description%%/g, text );
+		data = data.replace( /%%term_description%%/g, text );
+
+		return data;
+	};
+
+	/**
+	 * Fetch the taxonomies, based on the checked checkboxes
+	 *
+	 * @param {object} targetMetaBox
+	 *
+	 * @return {void}
+	 */
+	YoastReplaceVarPlugin.prototype.fetchCategories = function(targetMetaBox ) {
+		var activeCheckboxes   = jQuery( targetMetaBox ).find( 'input:checked' );
+		var unparsedTaxonomies = this.getUnparsedCategories( activeCheckboxes );
+
+		if ( unparsedTaxonomies.length > 0  ) {
+			jQuery.post(
+				ajaxurl,
+				{
+					action: 'wpseo_replace_category',
+					_wpnonce: wpseoReplaceVarsL10n.wpseo_replace_vars_nonce,
+					data: unparsedTaxonomies
+				},
+				function( categories ) {
+					jQuery(categories).each(
+						function( index, category ) {
+							this.categoriesRepository[ category.id ] = category.name;
+						}.bind( this )
+					);
+
+					this.setCurrentCategories( activeCheckboxes );
+					this.declareReloaded();
+				}.bind( this ),
+				'json'
+			);
+
+			return;
+		}
+
+		this.setCurrentCategories( activeCheckboxes );
+		this.declareReloaded();
+	};
+
+	/**
+	 * Filters the already fetch categories
+	 *
+	 * @param {Object[]} activeCheckboxes
+	 * @returns {Array}
+	 */
+	YoastReplaceVarPlugin.prototype.getUnparsedCategories = function(activeCheckboxes ) {
+		var unparsedTaxonomies = [];
+		activeCheckboxes.each(
+			function( index, checkbox ) {
+				var category_id = jQuery(checkbox).val();
+				if(  this.categoriesRepository[ category_id ] === undefined && jQuery.inArray( category_id, unparsedTaxonomies ) === -1 ) {
+					unparsedTaxonomies.push( category_id );
+				}
+			}.bind( this )
+		);
+
+		return unparsedTaxonomies;
+	};
+
+	/**
+	 * Sets the current categories based on the selected ones.
+	 *
+	 * @param {Object[]} activeCheckboxes
+	 */
+	YoastReplaceVarPlugin.prototype.setCurrentCategories = function( activeCheckboxes ) {
+		this.currentCategories = [];
+
+		activeCheckboxes.each( function( index, checkbox ) {
+			this.currentCategories.push( this.categoriesRepository[ jQuery(checkbox).val() ] );
+		}.bind( this ) );
+	};
+
+	/**
+	 * Declares reloaded with YoastSEO.
+	 */
+	YoastReplaceVarPlugin.prototype.declareReloaded = function() {
+		YoastSEO.app.pluginReloaded( 'replaceVariablePlugin' );
 	};
 
 	window.YoastReplaceVarPlugin = YoastReplaceVarPlugin;

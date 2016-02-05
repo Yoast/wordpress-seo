@@ -313,8 +313,9 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 */
 	public function localize_replace_vars_script() {
 		return array(
-			'no_parent_text' => __( '(no parent)', 'wordpress-seo' ),
-			'replace_vars'   => $this->get_replace_vars(),
+			'no_parent_text'           => __( '(no parent)', 'wordpress-seo' ),
+			'wpseo_replace_vars_nonce' => wp_create_nonce( 'wpseo-replace-vars' ),
+			'replace_vars'             => $this->get_replace_vars(),
 		);
 	}
 
@@ -872,6 +873,12 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'currentmonth',
 			'currentyear',
 		);
+
+		$custom_taxonomies = get_taxonomies( array( '_builtin' => false ) );
+		foreach ( $custom_taxonomies as $custom_taxonomy ) {
+			$vars_to_cache[] = 'ct_' . $custom_taxonomy;
+			$vars_to_cache[] = 'ct_desc_' . $custom_taxonomy;
+		}
 
 		foreach ( $vars_to_cache as $var ) {
 			$cached_replacement_vars[ $var ] = wpseo_replace_vars( '%%' . $var . '%%', $post );

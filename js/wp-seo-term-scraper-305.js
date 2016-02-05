@@ -21,7 +21,7 @@
 			pageTitle: this.getDataFromInput( 'pageTitle' ),
 			url: this.getDataFromInput( 'url' ),
 			baseUrl: this.getDataFromInput( 'baseUrl' ),
-			snippetTitle: this.getDataFromInput( 'title' ),
+			snippetTitle: this.getDataFromInput( 'snippetTitle' ),
 			meta: this.getDataFromInput( 'meta' ),
 			snippetMeta: this.getDataFromInput( 'snippetMeta' ),
 			snippetCite: this.getDataFromInput( 'cite' )
@@ -53,6 +53,9 @@
 					val = elem.value;
 				}
 				break;
+			case 'snippetTitle' :
+				val = document.getElementById( 'hidden_wpseo_title' ).value;
+				break;
 			case 'snippetMeta':
 				elem = document.getElementById( 'hidden_wpseo_desc' );
 				if ( elem !== null ) {
@@ -66,7 +69,7 @@
 				val = document.getElementById( 'hidden_wpseo_title' ).value;
 				break;
 			case 'title':
-				val = document.getElementById( 'hidden_wpseo_title' ).value;
+				val = document.getElementById( 'name' ).value;
 				break;
 			case 'url':
 			case 'cite':
