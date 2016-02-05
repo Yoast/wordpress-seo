@@ -3,6 +3,7 @@ YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 
 var sanitizeString = require( "../js/stringProcessing/sanitizeString.js" );
 var stringToRegex = require( "../js/stringProcessing/stringToRegex.js" );
+var replaceDiacritics = require( "../js/stringProcessing/replaceDiacritics.js" );
 
 /**
  * Text Analyzer, accepts args for config and calls init for initialization
@@ -68,13 +69,13 @@ YoastSEO.Analyzer.prototype.formatKeyword = function() {
 		// Creates new regex from keyword with global and caseinsensitive option,
 
 		this.keywordRegex = stringToRegex(
-			this.preProcessor.replaceDiacritics( keyword.replace( /[-_]/g, " " )
+			replaceDiacritics( keyword.replace( /[-_]/g, " " )
 		) );
 
 		// Creates new regex from keyword with global and caseinsensitive option,
 		// replaces space with -. Used for URL matching
 		this.keywordRegexInverse = stringToRegex(
-			this.preProcessor.replaceDiacritics( keyword.replace( /\s/g, "-" ) ),
+			replaceDiacritics( keyword.replace( /\s/g, "-" ) ),
 			"\\-"
 		);
 	}
