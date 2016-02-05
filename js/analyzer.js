@@ -1,6 +1,9 @@
 /* global YoastSEO: true */
 YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 
+var sanitizeString = require( "../js/stringProcessing/sanitizeString.js" );
+var stringToRegex = require( "../js/stringProcessing/stringToRegex.js" );
+
 /**
  * Text Analyzer, accepts args for config and calls init for initialization
  *
@@ -60,17 +63,17 @@ YoastSEO.Analyzer.prototype.formatKeyword = function() {
 
 		// removes characters from the keyword that could break the regex, or give unwanted results.
 		// leaves the - since this is replaced later on in the function
-		var keyword = this.stringHelper.sanitizeKeyword( this.config.keyword );
+		var keyword = sanitizeString( this.config.keyword );
 
 		// Creates new regex from keyword with global and caseinsensitive option,
 
-		this.keywordRegex = this.stringHelper.getWordBoundaryRegex(
+		this.keywordRegex = stringToRegex(
 			this.preProcessor.replaceDiacritics( keyword.replace( /[-_]/g, " " )
 		) );
 
 		// Creates new regex from keyword with global and caseinsensitive option,
 		// replaces space with -. Used for URL matching
-		this.keywordRegexInverse = this.stringHelper.getWordBoundaryRegex(
+		this.keywordRegexInverse = stringToRegex(
 			this.preProcessor.replaceDiacritics( keyword.replace( /\s/g, "-" ) ),
 			"\\-"
 		);
@@ -85,9 +88,6 @@ YoastSEO.Analyzer.prototype.initDependencies = function() {
 
 	//init preprocessor
 	this.preProcessor = new YoastSEO.getPreProcessor( this.config.text );
-
-	//init helper
-	this.stringHelper = YoastSEO.getStringHelper();
 
 	//init scorer
 	this.analyzeScorer = new YoastSEO.AnalyzeScorer( this );

@@ -10,7 +10,7 @@ YoastSEO.PreProcessor = function( text ) {
 	//create __store object to store data
 	this.__store = {};
 	this.__store.originalText = text;
-	this.stringHelper = YoastSEO.getStringHelper();
+	//this.stringHelper = YoastSEO.getStringHelper();
 	this.init();
 };
 
