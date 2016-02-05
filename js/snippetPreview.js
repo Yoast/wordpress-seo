@@ -643,16 +643,22 @@ SnippetPreview.prototype.formatMeta = function() {
  */
 SnippetPreview.prototype.getMetaText = function() {
 	var metaText;
-	if ( typeof this.refObj.rawData.excerpt !== "undefined" ) {
+	if ( this.opts.placeholder.metaDesc !== defaults.placeholder.metaDesc ) {
+		metaText = this.opts.placeholder.metaDesc;
+	}
+
+	if ( !isUndefined( this.refObj.rawData.excerpt ) && isEmpty( metaText ) ) {
 		metaText = this.refObj.rawData.excerpt;
 	}
-	if ( typeof this.refObj.rawData.text !== "undefined" ) {
+
+	if ( !isUndefined( this.refObj.rawData.text ) && isEmpty( metaText ) ) {
 		metaText = this.refObj.rawData.text;
 
 		if ( this.refObj.pluggable.loaded ) {
 			metaText = this.refObj.pluggable._applyModifications( "content", metaText );
 		}
 	}
+
 	if ( isEmpty( metaText ) ) {
 		metaText = this.opts.placeholder.metaDesc;
 	}
