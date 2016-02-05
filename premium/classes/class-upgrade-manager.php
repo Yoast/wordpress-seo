@@ -14,6 +14,7 @@ class WPSEO_Upgrade_Manager {
 	 * @param string $current_version The current WPSEO version.
 	 */
 	public function run_upgrade( $current_version ) {
+		WPSEO_Options::get_instance();
 		$options       = WPSEO_Options::get_option( 'wpseo' );
 		$saved_version = isset( $options['premium_version'] ) ? $options['premium_version'] : '3.0.7';
 
