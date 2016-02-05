@@ -33,8 +33,7 @@ YoastSEO.Analyzer = function( args ) {
 };
 
 /**
- * sets value to "" of text if it is undefined to make sure it doesn' break the preprocessor and
- * analyzer
+ * sets value to "" of text if it is undefined to make sure it doesn' break the analyzer
  */
 YoastSEO.Analyzer.prototype.checkConfig = function() {
 	if ( typeof this.config.text === "undefined" ) {
