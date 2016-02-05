@@ -206,7 +206,7 @@
 	 */
 	YoastReplaceVarPlugin.prototype.categoryReplace = function( data ) {
 		if ( jQuery( '#post_ID').val() !== undefined ) {
-			data = data.replace( /%%category%%/g, jQuery.unique( this.currentTaxonomies[ 'category' ] ).join( ', ' ) );
+			data = data.replace( /%%category%%/g, this.getTaxonomyReplaceVar( 'category' ) );
 		}
 
 		return data;
@@ -219,14 +219,27 @@
 	 * @returns {String}
 	 */
 	YoastReplaceVarPlugin.prototype.customTaxonomyReplace = function( data ) {
-
-		jQuery.each( this.currentTaxonomies, function( taxonomy, replaceVariables ) {
+		jQuery.each( this.currentTaxonomies, function( taxonomy ) {
 			if ( taxonomy !== 'category' ) {
-				data = data.replace( '%%ct_' + taxonomy  + '%%', jQuery.unique( replaceVariables ).join( ', ' ) );
+				data = data.replace( '%%ct_' + taxonomy  + '%%', this.getTaxonomyReplaceVar( taxonomy ) );
 			}
-		});
+		}.bind( this ) );
 
 		return data;
+	};
+
+	/**
+	 * Returns the string to replace the taxonomy var.
+	 *
+	 * @param {String} taxonomy
+	 * @returns {String}
+	 */
+	YoastReplaceVarPlugin.prototype.getTaxonomyReplaceVar = function( taxonomy ) {
+		if ( this.currentTaxonomies[ taxonomy ] !== undefined ) {
+			return jQuery.unique( this.currentTaxonomies[ taxonomy ] ).join( ', ' );
+		}
+
+		return '';
 	};
 
 	/**
