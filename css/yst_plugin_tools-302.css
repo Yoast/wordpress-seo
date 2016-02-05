@@ -468,3 +468,7 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 	font-size: 14px;
 	font-weight: bold;
 }
+
+.wpseo-redirect-clear {
+	clear: both;
+}
