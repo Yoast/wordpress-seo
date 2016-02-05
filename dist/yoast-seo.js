@@ -3286,6 +3286,21 @@ var defaults = {
 
 var titleMaxLength = 70;
 
+var inputPreviewBindings = [
+	{
+		"preview": "title_container",
+		"inputField": "title"
+	},
+	{
+		"preview": "url_container",
+		"inputField": "urlPath"
+	},
+	{
+		"preview": "meta_container",
+		"inputField": "metaDesc"
+	}
+];
+
 /**
  * Get's the base URL for this instance of the snippet preview.
  *
@@ -3568,6 +3583,8 @@ var SnippetPreview = function( opts ) {
 	}
 
 	this.opts = opts;
+	this._currentFocus = null;
+	this._currentHover = null;
 
 	// For backwards compatibility monitor the unformatted text for changes and reflect them in the preview
 	this.unformattedText = {};
@@ -3607,11 +3624,13 @@ SnippetPreview.prototype.renderTemplate = function() {
 		metaDescriptionDate: this.opts.metaDescriptionDate,
 		placeholder: this.opts.placeholder,
 		i18n: {
-			edit: this.i18n.dgettext( "js-text-analysis", "Edit title, description & slug" ),
+			edit: this.i18n.dgettext( "js-text-analysis", "Edit snippet" ),
 			title: this.i18n.dgettext( "js-text-analysis", "SEO title" ),
 			slug:  this.i18n.dgettext( "js-text-analysis", "Slug" ),
 			metaDescription: this.i18n.dgettext( "js-text-analysis", "Meta description" ),
-			save: this.i18n.dgettext( "js-text-analysis", "Close snippet editor" )
+			save: this.i18n.dgettext( "js-text-analysis", "Close snippet editor" ),
+			snippetPreview: this.i18n.dgettext( "js-text-analysis", "Snippet preview" ),
+			snippetEditor: this.i18n.dgettext( "js-text-analysis", "Snippet editor" )
 		}
 	} );
 
@@ -3635,7 +3654,20 @@ SnippetPreview.prototype.renderTemplate = function() {
 		formContainer: targetElement.getElementsByClassName( "snippet-editor__form" )[0],
 		editToggle: targetElement.getElementsByClassName( "snippet-editor__edit-button" )[0],
 		closeEditor: targetElement.getElementsByClassName( "snippet-editor__submit" )[0],
-		formFields: targetElement.getElementsByClassName( "snippet-editor__form-field" )
+		formFields: targetElement.getElementsByClassName( "snippet-editor__form-field" ),
+		headingEditor: targetElement.getElementsByClassName( "snippet-editor__heading-editor" )[0]
+	};
+
+	this.element.label = {
+		title: this.element.input.title.parentNode,
+		urlPath: this.element.input.urlPath.parentNode,
+		metaDesc: this.element.input.metaDesc.parentNode
+	};
+
+	this.element.preview = {
+		title: this.element.rendered.title.parentNode,
+		urlPath: this.element.rendered.urlPath.parentNode,
+		metaDesc: this.element.rendered.metaDesc.parentNode
 	};
 
 	this.hasProgressSupport = hasProgressSupport();
@@ -4124,60 +4156,12 @@ SnippetPreview.prototype.updateProgressBars = function() {
 };
 
 /**
- * shows the edit icon corresponding to the hovered element
- * @param ev
- */
-SnippetPreview.prototype.showEditIcon = function( ev ) {
-	ev.currentTarget.parentElement.className = "editIcon snippet_container";
-};
-
-/**
- * removes all editIcon-classes, sets to snippet_container
- */
-SnippetPreview.prototype.hideEditIcon = function() {
-	var elems = document.getElementsByClassName( "editIcon " );
-	for ( var i = 0; i < elems.length; i++ ) {
-		elems[ i ].className = "snippet_container";
-	}
-};
-
-/**
- * sets focus on child element of the snippet_container that is clicked. Hides the editicon.
- * @param ev
- */
-SnippetPreview.prototype.setFocus = function( ev ) {
-	var targetElem = ev.currentTarget.firstChild;
-	while ( targetElem !== null ) {
-		if ( targetElem.contentEditable === "true" ) {
-			targetElem.focus();
-			this.hideEditIcon();
-			break;
-		} else {
-			targetElem = targetElem.nextSibling;
-		}
-	}
-};
-
-/**
  * Binds the reloadSnippetText function to the blur of the snippet inputs.
  */
 SnippetPreview.prototype.bindEvents = function() {
 	var targetElement,
 		elems = [ "title", "slug", "meta-description" ],
-		focusBindings = [
-			{
-				"click": "title_container",
-				"focus": "title"
-			},
-			{
-				"click": "url_container",
-				"focus": "urlPath"
-			},
-			{
-				"click": "meta_container",
-				"focus": "metaDesc"
-			}
-		];
+		focusBindings;
 
 	forEach( elems, function( elem ) {
 		targetElement = document.getElementsByClassName( "js-snippet-editor-" + elem )[0];
@@ -4194,20 +4178,49 @@ SnippetPreview.prototype.bindEvents = function() {
 	this.element.closeEditor.addEventListener( "click", this.closeEditor.bind( this ) );
 
 	// Map binding keys to the actual elements
-	focusBindings = map( focusBindings, function( binding ) {
+	focusBindings = map( inputPreviewBindings, function( binding ) {
 		return {
-			"click": document.getElementById( binding.click ),
-			"focus": this.element.input[ binding.focus ]
+			"preview": document.getElementById( binding.preview ),
+			"inputField": this.element.input[ binding.inputField ]
 		};
 	}.bind( this ) );
 
 	// Loop through the bindings and bind a click handler to the click to focus the focus element.
-	forEach( focusBindings, function( focusBinding ) {
+	forEach( inputPreviewBindings, function( binding ) {
+		var previewElement = document.getElementById( binding.preview );
+		var inputElement = this.element.input[ binding.inputField ];
 
-		focusBinding.click.addEventListener( "click", function() {
+		// Make the preview element click open the editor and focus the correct input.
+		previewElement.addEventListener( "click", function() {
 			this.openEditor();
-			focusBinding.focus.focus();
-		}.bind( this ) ); // Bind the focus element to make sure we work with the correct object.
+			inputElement.focus();
+		}.bind( this ) );
+
+		// Make focusing an input, update the carets.
+		inputElement.addEventListener( "focus", function() {
+			this._currentFocus = binding.inputField;
+
+			this._updateFocusCarets();
+		}.bind( this ) );
+
+		// Make removing focus from an element, update the carets.
+		inputElement.addEventListener( "blur", function() {
+			this._currentFocus = null;
+
+			this._updateFocusCarets();
+		}.bind( this ) );
+
+		previewElement.addEventListener( "mouseover", function() {
+			this._currentHover = binding.inputField;
+
+			this._updateHoverCarets();
+		}.bind( this ) );
+
+		previewElement.addEventListener( "mouseout", function() {
+			this._currentHover = null;
+
+			this._updateHoverCarets();
+		}.bind( this ) );
 
 	}.bind( this ) );
 };
@@ -4241,9 +4254,13 @@ SnippetPreview.prototype.updateDataFromDOM = function() {
  * Opens the snippet editor.
  */
 SnippetPreview.prototype.openEditor = function() {
-	addClass( this.element.container,     "editing" );
-	addClass( this.element.formContainer, "snippet-editor__form--shown" );
-	addClass( this.element.editToggle,    "snippet-editor__edit-button--close" );
+
+	// Hide these elements.
+	addClass( this.element.editToggle,       "snippet-editor--hidden" );
+
+	// Show these elements.
+	removeClass( this.element.formContainer, "snippet-editor--hidden" );
+	removeClass( this.element.headingEditor, "snippet-editor--hidden" );
 
 	this.opened = true;
 };
@@ -4252,9 +4269,13 @@ SnippetPreview.prototype.openEditor = function() {
  * Closes the snippet editor.
  */
 SnippetPreview.prototype.closeEditor = function() {
-	removeClass( this.element.container,     "editing" );
-	removeClass( this.element.formContainer, "snippet-editor__form--shown" );
-	removeClass( this.element.editToggle,    "snippet-editor__edit-button--close" );
+
+	// Hide these elements.
+	addClass( this.element.formContainer,     "snippet-editor--hidden" );
+	addClass( this.element.headingEditor,     "snippet-editor--hidden" );
+
+	// Show these elements.
+	removeClass( this.element.editToggle,     "snippet-editor--hidden" );
 
 	this.opened = false;
 };
@@ -4267,6 +4288,52 @@ SnippetPreview.prototype.toggleEditor = function() {
 		this.closeEditor();
 	} else {
 		this.openEditor();
+	}
+};
+
+/**
+ * Updates carets before the preview and input fields.
+ *
+ * @private
+ */
+SnippetPreview.prototype._updateFocusCarets = function() {
+	var focusedLabel, focusedPreview;
+
+	// Disable all carets on the labels.
+	forEach( this.element.label, function( element ) {
+		removeClass( element, "snippet-editor__label--focus" );
+	} );
+
+	// Disable all carets on the previews.
+	forEach( this.element.preview, function( element ) {
+		removeClass( element, "snippet-editor__container--focus" );
+	} );
+
+	if ( null !== this._currentFocus ) {
+		focusedLabel = this.element.label[ this._currentFocus ];
+		focusedPreview = this.element.preview[ this._currentFocus ];
+
+		addClass( focusedLabel, "snippet-editor__label--focus" );
+		addClass( focusedPreview, "snippet-editor__container--focus" );
+	}
+};
+
+/**
+ * Updates hover carets before the input fields.
+ *
+ * @private
+ */
+SnippetPreview.prototype._updateHoverCarets = function() {
+	var hoveredLabel;
+
+	forEach( this.element.label, function( element ) {
+		removeClass( element, "snippet-editor__label--hover" );
+	} );
+
+	if ( null !== this._currentHover ) {
+		hoveredLabel = this.element.label[ this._currentHover ];
+
+		addClass( hoveredLabel, "snippet-editor__label--hover" );
 	}
 };
 
@@ -4288,6 +4355,32 @@ SnippetPreview.prototype.disableEnter = function( ev ) {};
  * @param ev
  */
 SnippetPreview.prototype.textFeedback = function( ev ) {};
+
+/**
+ * shows the edit icon corresponding to the hovered element
+ *
+ * @deprecated
+ *
+ * @param ev
+ */
+SnippetPreview.prototype.showEditIcon = function( ev ) {
+
+};
+
+/**
+ * removes all editIcon-classes, sets to snippet_container
+ *
+ * @deprecated
+ */
+SnippetPreview.prototype.hideEditIcon = function() {};
+
+/**
+ * sets focus on child element of the snippet_container that is clicked. Hides the editicon.
+ *
+ * @deprecated
+ * @param ev
+ */
+SnippetPreview.prototype.setFocus = function( ev ) {};
 /* jshint ignore:end */
 
 module.exports = SnippetPreview;
@@ -5292,15 +5385,15 @@ YoastSEO.getStringHelper = function() {
     var __t, __p = '', __e = _.escape, __j = Array.prototype.join;
     function print() { __p += __j.call(arguments, '') }
     with (obj) {
-    __p += '<div id="snippet_preview">\n    <button class="snippet-editor__edit-button" type="button">\n        <svg class="snippet-editor__edit-icon" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"\n             width="216px" height="146px" viewBox="0 0 216 146" enable-background="new 0 0 216 146" xml:space="preserve">\n            <g>\n                <path d="M46.284,100.823v33.893h33.893l67.786-67.786L114.07,33.037L46.284,100.823z M75.859,124.287L75.859,124.287l-8.718,0.001\n                    v-10.429H56.713v-8.719l7.414-7.414l19.146,19.146L75.859,124.287z M116.678,46.888c1.194,0,1.791,0.598,1.791,1.792\n                    c0,0.544-0.189,1.005-0.57,1.386L73.74,94.225c-0.38,0.379-0.842,0.569-1.385,0.569c-1.194,0-1.792-0.599-1.792-1.792\n                    c0-0.544,0.19-1.005,0.57-1.386l44.159-44.158C115.672,47.078,116.134,46.888,116.678,46.888z"/>\n                <path d="M166.701,33.443l-19.146-19.064c-2.063-2.063-4.535-3.096-7.414-3.096c-2.934,0-5.377,1.033-7.332,3.096l-13.524,13.443\n                    l33.893,33.893l13.525-13.524c2.01-2.01,3.014-4.454,3.014-7.333C169.716,38.034,168.712,35.562,166.701,33.443z"/>\n            </g>\n        </svg>\n        ' +
-    __e( i18n.edit ) +
-    '\n        <svg class="snippet-editor__chevron-right-icon" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"\n             width="216px" height="146px" viewBox="0 0 216 146" enable-background="new 0 0 216 146" xml:space="preserve">\n            <path d="M144.988,65.667L91.869,12.628c-1.956-2.064-4.399-3.096-7.333-3.096s-5.377,1.033-7.333,3.096l-6.192,6.111\n            c-2.01,2.01-3.015,4.453-3.015,7.332c0,2.824,1.005,5.296,3.015,7.414L110.607,73L71.01,112.596c-2.01,2.01-3.015,4.454-3.015,7.333\n            c0,2.824,1.005,5.296,3.015,7.414l6.192,6.11c2.01,2.01,4.455,3.015,7.333,3.015c2.879,0,5.324-1.005,7.333-3.015l53.12-53.039\n            c2.01-2.118,3.016-4.59,3.016-7.414C148.004,70.121,146.998,67.677,144.988,65.667z"/>\n        </svg>\n        <svg class="snippet-editor__chevron-down-icon" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"\n             width="216px" height="146px" viewBox="0 0 216 146" enable-background="new 0 0 216 146" xml:space="preserve">\n            <path d="M168.452,42.121l-6.109-6.111c-2.118-2.009-4.59-3.014-7.413-3.014c-2.88,0-5.324,1.005-7.334,3.014L108,75.607\n            L68.404,36.011c-2.01-2.009-4.454-3.014-7.333-3.014c-2.824,0-5.296,1.005-7.414,3.014l-6.029,6.111\n            c-2.064,2.063-3.096,4.535-3.096,7.414c0,2.933,1.033,5.377,3.096,7.332l53.039,53.039c1.956,2.064,4.399,3.096,7.333,3.096\n            c2.879,0,5.35-1.032,7.413-3.096l53.039-53.039c2.01-2.01,3.016-4.454,3.016-7.332C171.468,46.711,170.462,44.24,168.452,42.121z"/>\n        </svg>\n    </button>\n\n    <section class="snippet-editor__preview">\n        <div class="snippet_container" id="title_container">\n            <span class="title" id="snippet_title">\n                ' +
+    __p += '<div id="snippet_preview">\n    <h4 class="snippet-editor__heading snippet-editor__heading-icon-eye">' +
+    __e( i18n.snippetPreview ) +
+    '</h4>\n\n    <section class="snippet-editor__preview">\n        <div class="snippet_container snippet-editor__container" id="title_container">\n            <span class="title" id="snippet_title">\n                ' +
     __e( rendered.title ) +
-    '\n            </span>\n            <span class="title" id="snippet_sitename"></span>\n        </div>\n        <div class="snippet_container" id="url_container">\n            <cite class="url urlBase" id="snippet_citeBase">\n                ' +
+    '\n            </span>\n            <span class="title" id="snippet_sitename"></span>\n        </div>\n        <div class="snippet_container snippet-editor__container" id="url_container">\n            <cite class="url urlBase" id="snippet_citeBase">\n                ' +
     __e( rendered.baseUrl ) +
     '\n            </cite>\n            <cite class="url" id="snippet_cite">\n                ' +
     __e( rendered.snippetCite ) +
-    '\n            </cite>\n        </div>\n        <div class="snippet_container" id="meta_container">\n            ';
+    '\n            </cite>\n        </div>\n        <div class="snippet_container snippet-editor__container" id="meta_container">\n            ';
      if ( "" !== metaDescriptionDate ) {
     __p += '\n                <span class="snippet-editor__date">\n                    ' +
     __e( metaDescriptionDate ) +
@@ -5308,7 +5401,11 @@ YoastSEO.getStringHelper = function() {
      }
     __p += '\n            <span class="desc" id="snippet_meta">\n                ' +
     __e( rendered.meta ) +
-    '\n            </span>\n        </div>\n    </section>\n\n    <div class="snippet-editor__form">\n        <label for="snippet-editor-title" class="snippet-editor__label">\n            ' +
+    '\n            </span>\n        </div>\n\n        <button class="snippet-editor__button snippet-editor__edit-button" type="button">\n            ' +
+    __e( i18n.edit ) +
+    '\n        </button>\n    </section>\n\n    <h4 class="snippet-editor__heading snippet-editor__heading-editor snippet-editor__heading-icon-edit snippet-editor--hidden">' +
+    __e( i18n.snippetEditor ) +
+    '</h4>\n\n    <div class="snippet-editor__form snippet-editor--hidden">\n        <label for="snippet-editor-title" class="snippet-editor__label">\n            ' +
     __e( i18n.title ) +
     '\n            <input type="text" class="snippet-editor__input snippet-editor__title js-snippet-editor-title" id="snippet-editor-title" value="' +
     __e( raw.title ) +
@@ -5326,7 +5423,7 @@ YoastSEO.getStringHelper = function() {
     __e( placeholder.metaDesc ) +
     '">' +
     __e( raw.meta ) +
-    '</textarea>\n            <progress value="0.0" class="snippet-editor__progress snippet-editor__progress-meta-description">\n                <div class="snippet-editor__progress-bar"></div>\n            </progress>\n        </label>\n\n        <button class="snippet-editor__submit button" type="button">' +
+    '</textarea>\n            <progress value="0.0" class="snippet-editor__progress snippet-editor__progress-meta-description">\n                <div class="snippet-editor__progress-bar"></div>\n            </progress>\n        </label>\n\n        <button class="snippet-editor__submit snippet-editor__button" type="button">' +
     __e( i18n.save ) +
     '</button>\n    </div>\n</div>\n';
 
