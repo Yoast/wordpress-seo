@@ -66,7 +66,6 @@ class WPSEO_Taxonomy {
 		$this->sitemap_include_options['never']  = __( 'Never include', 'wordpress-seo' );
 	}
 
-
 	/**
 	 * Test whether we are on a public taxonomy - no metabox actions needed if we are not
 	 * Unfortunately we have to hook most everything in before the point where all taxonomies are registered and
@@ -266,7 +265,7 @@ class WPSEO_Taxonomy {
 		return array(
 			'no_parent_text'       => __( '(no parent)', 'wordpress-seo' ),
 			'replace_vars'         => $this->get_replace_vars(),
-			'taxonomy_description' => $this->get_taxonomy_description_replacement()
+			'taxonomy_description' => $this->get_taxonomy_description_replacement(),
 		);
 	}
 
