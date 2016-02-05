@@ -51,5 +51,24 @@ describe( "The SnippetPreview format functions", function(){
 		expect( snippetPreview.formatMeta() ).toBe( "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ultricies placerat nisl, in tempor ligula. Pellentesque in risus non quam maximus maximus sed " );
 		expect( snippetPreview.formatCite() ).toBe( "homeurl/" );
 		expect( snippetPreview.formatKeyword( "a string with keyword" ) ).toBe( "a string with<strong> keyword</strong>" );
+
+		mockApp = {
+			rawData: {
+				snippetCite: "key-word",
+				keyword: "key word"
+			},
+			pluggable: {
+				loaded: true,
+				_applyModifications: function(name, text){return text}
+			}
+		};
+
+		snippetPreview = new SnippetPreview({
+			analyzerApp: mockApp,
+			targetElement: mockElement
+		});
+
+		expect( snippetPreview.formatCite() ).toBe ("<strong>key-word</strong>/" );
+
 	});
 } );
