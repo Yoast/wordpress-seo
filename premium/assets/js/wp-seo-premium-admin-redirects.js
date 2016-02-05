@@ -598,9 +598,9 @@
 					}
 
 					// Updates the table cells.
-					row_cells.origin.html( response.origin );
-					row_cells.target.html( response.target );
-					row_cells.type.html( response.type );
+					row_cells.origin.html( _.escape( response.origin ) );
+					row_cells.target.html( _.escape( response.target ) );
+					row_cells.type.html( _.escape( response.type ) );
 
 					redirectsQuickEdit.remove();
 
