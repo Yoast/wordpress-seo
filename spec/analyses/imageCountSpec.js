@@ -11,5 +11,11 @@ describe( "Counts images in an text", function(){
 		imageCount = imageCountFunction( "string <img src='http://plaatje' alt='keyword' />", "" );
 		expect( imageCount.noAlt ).toBe( 0 );
 		expect( imageCount.altNaKeyword ).toBe( 1 );
+
+		imageCount = imageCountFunction( "<img src='http://picture.com' alt='текст' />", "текст");
+		expect( imageCount.altKeyword ).toBe( 1 );
+
+		imageCount = imageCountFunction( "<img src='http://picture.com' alt='maïs' />", "maïs");
+		expect( imageCount.altKeyword ).toBe( 1 );
 	});
 });
