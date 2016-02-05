@@ -66,21 +66,21 @@ if ( ! empty( $redirect_file ) ) {
 
 		$yform->toggle_switch( 'disable_php_redirect', array(
 			'off' => '<code>PHP</code>',
-			'on'  => '<code>.htaccess</code>',
-		), __( 'Disable PHP redirects', 'wordpress-seo-premium' ) );
+			'on'  => ( WPSEO_Utils::is_apache() ) ? '<code>.htaccess</code>' : __( 'Web server', 'wordpress-seo-premium' ),
+		), __( 'Redirect method', 'wordpress-seo-premium' ) );
 
 		if ( WPSEO_Utils::is_apache() ) {
 			/* translators: 1: '.htaccess' file name */
-			echo '<p class="desc">' . sprintf( __( 'Write redirects to the %1$s file. Make sure the %1$s file is writable.', 'wordpress-seo-premium' ), '<code>.htaccess</code>' ) . '</p>';
+			echo '<p>' . sprintf( __( 'Write redirects to the %1$s file. Make sure the %1$s file is writable.', 'wordpress-seo-premium' ), '<code>.htaccess</code>' ) . '</p>';
 
 			$yform->light_switch( 'separate_file', __( 'Generate a separate redirect file', 'wordpress-seo-premium' ) );
 
 			/* translators: %s: '.htaccess' file name */
-			echo '<p class="desc">' . sprintf( __( 'By default we write the redirects to your %s file, check this if you want the redirects written to a separate file. Only check this option if you know what you are doing!', 'wordpress-seo-premium' ), '<code>.htaccess</code>' ) . '</p>';
+			echo '<p>' . sprintf( __( 'By default we write the redirects to your %s file, check this if you want the redirects written to a separate file. Only check this option if you know what you are doing!', 'wordpress-seo-premium' ), '<code>.htaccess</code>' ) . '</p>';
 		}
 		else {
 			/* translators: %s: 'Yoast SEO Premium' */
-			echo '<p class="desc">' . sprintf( __( '%s will generate redirect files that can be included in your website configuration. You can disable PHP redirect if this is done correctly. Only check this option if you know what you are doing!', 'wordpress-seo-premium' ), 'Yoast SEO Premium' ) . '</p>';
+			echo '<p>' . sprintf( __( '%s can generate redirect files that can be included in your website web server configuration. If you choose this option the PHP redirects will be disabled. Only check this option if you know what you are doing!', 'wordpress-seo-premium' ), 'Yoast SEO Premium' ) . '</p>';
 		}
 		?>
 		<p class="submit">
