@@ -21,3 +21,7 @@
 .inside .wpseotab .form-table td input.snippet-editor__input {
 	margin-top: 5px;
 }
+
+input[type="text"].snippet-editor__field--invalid {
+	color: #f00;
+}

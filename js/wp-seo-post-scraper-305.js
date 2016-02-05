@@ -44,9 +44,10 @@
 	PostScraper.prototype.bindSnippetCiteEvents = function( time ) {
 		time = time || 0;
 		var slugElem = document.getElementById( 'editable-post-name' );
+		var titleElem = document.getElementById( 'title' );
 		var postNameElem = document.getElementById('post_name');
 
-		if ( slugElem !== null ) {
+		if ( slugElem !== null && titleElem.value !== '' ) {
 			this.bindSlugEditor();
 
 			// Always set the post name element.
@@ -205,54 +206,9 @@
 	 * Calls the eventbinders.
 	 */
 	PostScraper.prototype.bindElementEvents = function( app ) {
-		this.snippetPreviewEventBinder( app.snippetPreview );
 		this.inputElementEventBinder( app );
 		document.getElementById( 'yoast_wpseo_focuskw_text_input' ).addEventListener( 'keydown', app.snippetPreview.disableEnter );
 		document.getElementById( 'yoast_wpseo_focuskw_text_input' ).addEventListener( 'keyup', this.updateKeywordUsage );
-	};
-
-	/**
-	 * binds the getinputfieldsdata to the snippetelements.
-	 *
-	 * @param {YoastSEO.SnippetPreview} snippetPreview The snippet preview object to bind the events on.
-	 */
-	PostScraper.prototype.snippetPreviewEventBinder = function( snippetPreview ) {
-		var elems = [ 'snippet_meta', 'snippet_title', 'snippet_cite' ];
-
-		for ( var i = 0; i < elems.length; i++ ) {
-			this.bindSnippetEvents( document.getElementById( elems [ i ] ), snippetPreview );
-		}
-	};
-
-	/**
-	 * binds the snippetEvents to a snippet element.
-	 * @param { HTMLElement } elem snippet_meta, snippet_title, snippet_cite
-	 * @param { YoastSEO.SnippetPreview } snippetPreview
-	 */
-	PostScraper.prototype.bindSnippetEvents = function( elem, snippetPreview ) {
-		elem.addEventListener( 'keydown', snippetPreview.disableEnter.bind( snippetPreview ) );
-		//textFeedback is given on input (when user types or pastests), but also on focus. If a string that is too long is being recalled
-		//from the saved values, it gets the correct classname right away.
-		elem.addEventListener( 'input', snippetPreview.textFeedback.bind( snippetPreview ) );
-		elem.addEventListener( 'focus', snippetPreview.textFeedback.bind( snippetPreview ) );
-		elem.addEventListener( 'blur', snippetPreview.textFeedback.bind( snippetPreview ) );
-		//shows edit icon by hovering over element
-		elem.addEventListener( 'mouseover', snippetPreview.showEditIcon.bind( snippetPreview ) );
-		//hides the edit icon onmouseout, on focus and on keyup. If user clicks or types AND moves his mouse, the edit icon could return while editting
-		//by binding to these 3 events
-		elem.addEventListener( 'mouseout', snippetPreview.hideEditIcon.bind( snippetPreview ) );
-		elem.addEventListener( 'focus', snippetPreview.hideEditIcon.bind( snippetPreview ) );
-		elem.addEventListener( 'keyup', snippetPreview.hideEditIcon.bind( snippetPreview ) );
-
-		//adds 'paste' and 'cut' eventbindings to the snippetPreview to make sure event is triggered when c/p with mouse.
-		elem.addEventListener( 'focus', snippetPreview.getUnformattedText.bind( snippetPreview ) );
-		elem.addEventListener( 'keyup', snippetPreview.setUnformattedText.bind( snippetPreview ) );
-		elem.addEventListener( 'paste', snippetPreview.setUnformattedText.bind( snippetPreview ) );
-		elem.addEventListener( 'cut', snippetPreview.setUnformattedText.bind( snippetPreview ) );
-		elem.addEventListener( 'click', snippetPreview.setFocus.bind( snippetPreview ) );
-
-		//adds the showIcon class to show the editIcon;
-		elem.className = elem.className + ' showIcon' ;
 	};
 
 	/**
