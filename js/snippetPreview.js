@@ -10,6 +10,8 @@ var forEach = require( "lodash/collection/forEach" );
 var map = require( "lodash/collection/map" );
 var debounce = require( "lodash/function/debounce" );
 
+var stripSpaces = require( "../js/stringProcessing/stripSpaces.js" );
+
 var defaults = {
 	data: {
 		title: "",
@@ -424,7 +426,7 @@ function getAnalyzerTitle() {
 	}
 	title = this.refObj.pluggable._applyModifications( "data_page_title", title );
 
-	return title;
+	return stripSpaces( title );
 }
 
 /**
@@ -449,7 +451,7 @@ var getAnalyzerMetaDesc = function() {
 		metaDesc = this.opts.metaDescriptionDate + " - " + this.data.metaDesc;
 	}
 
-	return metaDesc;
+	return stripSpaces( metaDesc );
 };
 
 /**
@@ -729,7 +731,7 @@ SnippetPreview.prototype.formatKeywordUrl = function( textString ) {
 	var dashedKeyword = keyword.replace( /\s/g, "-" );
 
 	// Match keyword case-insensitively.
-	var keywordRegex = YoastSEO.getStringHelper().getWordBoundaryRegex( dashedKeyword );
+	var keywordRegex = YoastSEO.getStringHelper().getWordBoundaryRegex( dashedKeyword, "\\-" );
 
 	// Make the keyword bold in the textString.
 	return textString.replace( keywordRegex, function( str ) {
