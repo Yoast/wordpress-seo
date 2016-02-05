@@ -44,6 +44,7 @@
     "jsdom": "^5.4.3",
     "load-grunt-config": "^0.17.0",
     "lodash-cli": "^3.10.1",
+    "sassdash": "^0.8.1",
     "zombie": "^4.0.10"
   },
   "bugs": {
