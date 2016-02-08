@@ -17,7 +17,7 @@ class WPSEO_Sitemaps_Admin {
 	 * Class constructor
 	 */
 	function __construct() {
-		if ( defined( 'WP_IMPORTING' ) && WP_IMPORTING === true ) {
+		if ( ! defined( 'WP_IMPORTING' ) ) {
 			add_action( 'transition_post_status', array( $this, 'status_transition' ), 10, 3 );
 		}
 		else {
