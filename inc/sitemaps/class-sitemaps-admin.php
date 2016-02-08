@@ -8,11 +8,19 @@
  */
 class WPSEO_Sitemaps_Admin {
 
+	static $importing_post_types = array();
+
 	/**
 	 * Class constructor
 	 */
 	function __construct() {
-		add_action( 'transition_post_status', array( $this, 'status_transition' ), 10, 3 );
+		if ( defined('WP_IMPORTING') && WP_IMPORTING === true ) {
+			add_action( 'transition_post_status', array( $this, 'status_transition' ), 10, 3 );
+		} else {
+			add_action( 'transition_post_status', array( $this, 'status_transition_bulk' ), 10, 3 );
+			add_action( 'admin_footer', array( $this, 'status_transition_bulk_finished') );
+		}
+
 		add_action( 'admin_init', array( $this, 'delete_sitemaps' ) );
 	}
 
@@ -97,5 +105,64 @@ class WPSEO_Sitemaps_Admin {
 				wp_schedule_single_event( ( time() + 300 ), 'wpseo_ping_search_engines' );
 			}
 		}
+	}
+
+	/**
+	 * While bulk importing, just save unique post_types
+	 *
+	 * When importing is done, if we have a post_type that is saved in the sitemap
+	 * try to ping the search engines
+	 *
+	 * @param string   $new_status New post status.
+	 * @param string   $old_status Old post status.
+	 * @param \WP_Post $post       Post object.
+	 */
+	function status_transition_bulk( $new_status, $old_status, $post ) {
+		if ( $new_status != 'publish' ) {
+			return;
+		}
+
+		// None of our interest..
+		if ( 'nav_menu_item' === $post->post_type ) {
+			return;
+		}
+
+		self::$importing_post_types[] = $post->post_type;
+		self::$importing_post_types   = array_unique( self::$importing_post_types );
+	}
+
+	/**
+	 * After import finished, walk through imported post_types and update info.
+	 */
+	function status_transition_bulk_finished() {
+		if ( empty( self::$importing_post_types ) ) {
+			return;
+		}
+
+		$options = WPSEO_Options::get_option( 'wpseo_xml' );
+
+		$ping_search_engines = false;
+
+		do {
+			$post_type = array_shift( self::$importing_post_types );
+
+			wp_cache_delete( 'lastpostmodified:gmt:' . $post_type, 'timeinfo' ); // #17455.
+
+			$option = sprintf('post_types-%s-not_in_sitemap', $post_type);
+			if ( ! isset( $options[ $option ] ) || $options[ $option ] !== true ) {
+				$ping_search_engines = true;
+			}
+		} while ( ! empty( self::$importing_post_types ) );
+
+		// Nothing to do.
+		if ( false === $ping_search_engines ) {
+			return;
+		}
+
+		if ( WP_CACHE ) {
+			do_action( 'wpseo_hit_sitemap_index' );
+		}
+
+		wpseo_ping_search_engines();
 	}
 } /* End of class */
