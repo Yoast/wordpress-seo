@@ -13,17 +13,16 @@ var wordMatch = require( "../stringProcessing/matchTextWithWord.js" );
  * @returns {string} The property of the imageCount object that needs to be updated
  */
 var matchKeywordInAlttags = function( alttag, keyword ) {
-	if ( keyword !== "" ) {
-		if ( wordMatch( alttag, keyword ) > 0 ) {
-			return "altKeyword";
-		} else {
-
-			//this counts all alt-tags w/o the keyword when a keyword is set.
-			return "alt";
-		}
-	} else {
+	if ( keyword === "" ) {
 		return "altNaKeyword";
 	}
+
+	if ( wordMatch( alttag, keyword ) > 0 ) {
+			return "altKeyword";
+	}
+
+	// This counts all alt-tags w/o the keyword when a keyword is set.
+	return "alt";
 };
 
 /**
