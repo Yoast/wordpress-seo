@@ -729,6 +729,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				wp_enqueue_media( array( 'post' => get_queried_object_id() ) ); // Enqueue files needed for upload functionality.
 			}
 
+			wp_enqueue_style( 'yoast-seo-select2', plugins_url( 'css/dist/select2/select2.min.css', WPSEO_FILE ), array(), '4.0.1' );
 			wp_enqueue_style( 'wp-seo-metabox', plugins_url( 'css/metabox-' . '302' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
 			wp_enqueue_style( 'wp-seo-scoring', plugins_url( 'css/yst_seo_score-' . '302' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
 			wp_enqueue_style( 'wp-seo-snippet', plugins_url( 'css/snippet-' . '307' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
