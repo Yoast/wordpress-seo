@@ -251,8 +251,8 @@
 		this.row            = row;
 		this.quick_edit_row = $(
 			templateQuickEdit({
-				origin: row_cells.origin.html(),
-				target: row_cells.target.html(),
+				origin: _.unescape( row_cells.origin.html() ),
+				target: _.unescape( row_cells.target.html() ),
 				type: parseInt( row_cells.type.html(), 10 ),
 				suffix: $( '#the-list').find( 'tr' ).index( row )
 			})
