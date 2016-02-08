@@ -7,7 +7,6 @@ var isUndefined = require( "lodash/lang/isUndefined" );
 var clone = require( "lodash/lang/clone" );
 var defaultsDeep = require( "lodash/object/defaultsDeep" );
 var forEach = require( "lodash/collection/forEach" );
-var map = require( "lodash/collection/map" );
 var debounce = require( "lodash/function/debounce" );
 
 var stringToRegex = require( "../js/stringProcessing/stringToRegex.js" );
