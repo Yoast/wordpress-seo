@@ -735,9 +735,14 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			wp_enqueue_style( 'yoast-seo', plugins_url( 'css/dist/yoast-seo/yoast-seo-' . '307' . '.min.css', WPSEO_FILE ), array(), WPSEO_VERSION );
 			wp_enqueue_style( 'jquery-qtip', plugins_url( 'css/jquery.qtip' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), '2.2.1' );
 
+			wp_enqueue_script( 'yoast-seo-select2', plugins_url( 'js/dist/select2/select2.min.js', WPSEO_FILE ), array(
+				'jquery',
+			), '4.0.1', true );
+
 			wp_enqueue_script( 'wp-seo-metabox', plugins_url( 'js/wp-seo-metabox-' . '302' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array(
 				'jquery',
 				'jquery-ui-core',
+				'yoast-seo-select2',
 			), WPSEO_VERSION );
 
 			wp_enqueue_script( 'wpseo-admin-media', plugins_url( 'js/wp-seo-admin-media-' . '302' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array(
