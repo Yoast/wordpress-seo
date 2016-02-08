@@ -68,8 +68,44 @@ describe( "The SnippetPreview format functions", function(){
 			analyzerApp: mockApp,
 			targetElement: mockElement
 		});
-
 		expect( snippetPreview.formatCite() ).toBe ("<strong>key-word</strong>/" );
 
 	});
 } );
+
+describe( "Adds dashes to the keyword for highlighting in the snippet", function() {
+	it( "returns a keyword with strong tags", function() {
+		var mockApp = {
+			rawData: {
+				keyword: "keyword"
+			}
+		};
+		var mockElement = [];
+		mockElement.nodeType = 1;
+
+		var snippetPreview = new SnippetPreview({
+			analyzerApp: mockApp,
+			targetElement: mockElement
+		});
+
+		expect(snippetPreview.formatKeyword( "this is a keyword" ) ).toBe( "this is a<strong> keyword</strong>" );
+	});
+});
+
+describe( "Adds dashes to the keyword for highlighting in the snippet", function() {
+	it( "returns a keyword with strong tags", function() {
+		var mockApp = {
+			rawData: {
+				keyword: "key-word"
+			}
+		};
+		var mockElement = [];
+		mockElement.nodeType = 1;
+
+		var snippetPreview = new SnippetPreview({
+			analyzerApp: mockApp,
+			targetElement: mockElement
+		});
+		expect(snippetPreview.formatKeyword( "this is a key-word with dash" ) ).toBe( "this is a<strong> key-word </strong>with dash" );
+	});
+});

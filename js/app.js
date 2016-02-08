@@ -4,6 +4,61 @@ YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 
 require( "./config/config.js" );
 var sanitizeString = require( "../js/stringProcessing/sanitizeString.js" );
+var defaultsDeep = require( "lodash/object/defaultsDeep" );
+var isObject = require( "lodash/lang/isObject" );
+var isString = require( "lodash/lang/isString" );
+var MissingArgument = require( "./errors/missingArgument" );
+
+/**
+ * Default config for YoastSEO.js
+ *
+ * @type {Object}
+ */
+var defaults = {
+	callbacks: {
+		bindElementEvents: function( ) { },
+		updateSnippetValues: function( ) { },
+		saveScores: function( ) { }
+	},
+	sampleText: {
+		baseUrl: "example.org/",
+		snippetCite: "example-post/",
+		title: "This is an example title - edit by clicking here",
+		keyword: "Choose a focus keyword",
+		meta: "Modify your meta description by editing it right here",
+		text: "Start writing your text!"
+	},
+	queue: [ "wordCount",
+		"keywordDensity",
+		"subHeadings",
+		"stopwords",
+		"fleschReading",
+		"linkCount",
+		"imageCount",
+		"urlKeyword",
+		"urlLength",
+		"metaDescription",
+		"pageTitleKeyword",
+		"pageTitleLength",
+		"firstParagraph",
+		"'keywordDoubles" ],
+	typeDelay: 300,
+	typeDelayStep: 100,
+	maxTypeDelay: 1500,
+	dynamicDelay: true,
+	locale: "en_US",
+	translations: {
+		"domain": "js-text-analysis",
+		"locale_data": {
+			"js-text-analysis": {
+				"": {}
+			}
+		}
+	},
+	replaceTarget: [],
+	resetTarget: [],
+	elementTarget: []
+};
 
 var isUndefined = require( "lodash/lang/isUndefined" );
 
@@ -28,6 +83,43 @@ function createDefaultSnippetPreview() {
 			saveSnippetData: this.config.callbacks.saveSnippetData
 		}
 	} );
+}
+
+/**
+ * Returns whether or not the given argument is a valid SnippetPreview object.
+ *
+ * @param {*} snippetPreview
+ * @returns {boolean}
+ */
+function isValidSnippetPreview( snippetPreview ) {
+	return !isUndefined( snippetPreview ) && SnippetPreview.prototype.isPrototypeOf( snippetPreview );
+}
+
+/**
+ * Check arguments passed to the App to check if all necessary arguments are set.
+ *
+ * @private
+ * @param {Object} args The arguments object passed to the App.
+ */
+function verifyArguments( args ) {
+
+	if ( !isObject( args.callbacks.getData ) ) {
+		throw new MissingArgument( "The app requires an object with a getdata callback." );
+	}
+
+	if ( !isObject( args.targets ) ) {
+		throw new MissingArgument( "`targets` is a required App argument, `targets` is not an object." );
+	}
+
+	if ( !isString( args.targets.output ) ) {
+		throw new MissingArgument( "`targets.output` is a required App argument, `targets.output` is not a string." );
+	}
+
+	// The args.targets.snippet argument is only required if not SnippetPreview object has been passed.
+	if ( !isValidSnippetPreview( args.snippetPreview ) && !isString( args.targets.snippet ) ) {
+		throw new MissingArgument( "A snippet preview is required. When no SnippetPreview object isn't passed to " +
+			"the App, the `targets.snippet` is a required App argument. `targets.snippet` is not a string." );
+	}
 }
 
 /**
@@ -100,7 +192,15 @@ function createDefaultSnippetPreview() {
  * @constructor
  */
 YoastSEO.App = function( args ) {
-	this.config = this.extendConfig( args );
+	if ( !isObject( args ) ) {
+		args = {};
+	}
+	defaultsDeep( args, defaults );
+
+	verifyArguments( args );
+
+	this.config = args;
+
 	this.callbacks = this.config.callbacks;
 
 	this.i18n = this.constructI18n( this.config.translations );
@@ -110,9 +210,7 @@ YoastSEO.App = function( args ) {
 
 	this.showLoadingDialog();
 
-	SnippetPreview.prototype.isPrototypeOf( args.snippetPreview );
-
-	if ( !isUndefined( args.snippetPreview ) && SnippetPreview.prototype.isPrototypeOf( args.snippetPreview ) ) {
+	if ( isValidSnippetPreview( args.snippetPreview ) ) {
 		this.snippetPreview = args.snippetPreview;
 
 		// Hack to make sure the snippet preview always has a reference to this App. This way we solve the circular
@@ -128,22 +226,6 @@ YoastSEO.App = function( args ) {
 	this.initSnippetPreview();
 
 	this.runAnalyzer();
-};
-
-/**
- * Default config for YoastSEO.js
- *
- * @type {Object}
- */
-YoastSEO.App.defaultConfig = {
-	sampleText: {
-		baseUrl: "example.org/",
-		snippetCite: "example-post/",
-		title: "This is an example title - edit by clicking here",
-		keyword: "Choose a focus keyword",
-		meta: "Modify your meta description by editing it right here",
-		text: "Start writing your text!"
-	}
 };
 
 /**
