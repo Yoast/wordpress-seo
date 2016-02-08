@@ -66,11 +66,12 @@ class WPSEO_Admin_Init {
 
 		if ( $can_access && $this->has_ignored_tour() && ! $this->seen_about() ) {
 
-			if ( filter_input( INPUT_GET, 'intro' ) === '1' ) {
+			if ( filter_input( INPUT_GET, 'intro' ) === '1' || $this->dismiss_notice( 'wpseo-dismiss-about' ) ) {
 				update_user_meta( get_current_user_id(), 'wpseo_seen_about_version' , WPSEO_VERSION );
 
 				return;
 			}
+
 			/* translators: %1$s expands to Yoast SEO, $2%s to the version number, %3$s and %4$s to anchor tags with link to intro page  */
 			$info_message = sprintf(
 				__( '%1$s has been updated to version %2$s. %3$sClick here%4$s to find out what\'s new!', 'wordpress-seo' ),
@@ -96,7 +97,10 @@ class WPSEO_Admin_Init {
 	 * @return bool
 	 */
 	private function seen_about() {
-		return get_user_meta( get_current_user_id(), 'wpseo_seen_about_version', true ) === WPSEO_VERSION;
+		$seen_about_version = substr( get_user_meta( get_current_user_id(), 'wpseo_seen_about_version', true ), 0, 3 );
+		$last_minor_version = substr( WPSEO_VERSION, 0, 3 );
+
+		return version_compare( $seen_about_version, $last_minor_version, '>=' );
 	}
 
 	/**
@@ -147,6 +151,11 @@ class WPSEO_Admin_Init {
 	 * @return bool
 	 */
 	public function seen_tagline_notice() {
+		// Check if the current request contain action to dismiss the notice.
+		if ( $this->dismiss_notice( 'wpseo-dismiss-tagline-notice' ) ) {
+			update_user_meta( get_current_user_id(), 'wpseo_seen_tagline_notice', 'seen' );
+		}
+
 		return 'seen' === get_user_meta( get_current_user_id(), 'wpseo_seen_tagline_notice', true );
 	}
 
@@ -294,10 +303,10 @@ class WPSEO_Admin_Init {
 				'project_slug'   => 'wordpress-seo',
 				'plugin_name'    => 'Yoast SEO',
 				'hook'           => 'wpseo_admin_footer',
-				'glotpress_url'  => 'https://translate.yoast.com/',
+				'glotpress_url'  => 'http://translate.yoast.com/gp/',
 				'glotpress_name' => 'Yoast Translate',
-				'glotpress_logo' => 'https://cdn.yoast.com/wp-content/uploads/i18n-images/Yoast_Translate.svg',
-				'register_url'   => 'https://translate.yoast.com/projects#utm_source=plugin&utm_medium=promo-box&utm_campaign=wpseo-i18n-promo',
+				'glotpress_logo' => 'https://translate.yoast.com/gp-templates/images/Yoast_Translate.svg',
+				'register_url'   => 'http://translate.yoast.com/gp/projects#utm_source=plugin&utm_medium=promo-box&utm_campaign=wpseo-i18n-promo',
 			)
 		);
 	}
@@ -343,7 +352,6 @@ class WPSEO_Admin_Init {
 		if ( filter_input( INPUT_GET, 'wpseo_ignore_tour' ) && wp_verify_nonce( filter_input( INPUT_GET, 'nonce' ), 'wpseo-ignore-tour' ) ) {
 			update_user_meta( get_current_user_id(), 'wpseo_ignore_tour', true );
 		}
-
 	}
 
 	/**
@@ -380,4 +388,17 @@ class WPSEO_Admin_Init {
 			);
 		}
 	}
+
+	/**
+	 * Check if there is a dismiss notice action.
+	 *
+	 * @param string $notice_name The name of the notice to dismiss.
+	 *
+	 * @return bool
+	 */
+	private function dismiss_notice( $notice_name ) {
+		return filter_input( INPUT_GET, $notice_name ) === '1' && wp_verify_nonce( filter_input( INPUT_GET, 'nonce' ), $notice_name );
+	}
+
+
 }

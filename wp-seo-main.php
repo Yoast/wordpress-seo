@@ -13,7 +13,7 @@ if ( ! function_exists( 'add_filter' ) ) {
  * @internal Nobody should be able to overrule the real version number as this can cause serious issues
  * with the options, so no if ( ! defined() )
  */
-define( 'WPSEO_VERSION', '3.0.7' );
+define( 'WPSEO_VERSION', '3.1-beta' );
 
 if ( ! defined( 'WPSEO_PATH' ) ) {
 	define( 'WPSEO_PATH', plugin_dir_path( WPSEO_FILE ) );
@@ -260,10 +260,9 @@ function wpseo_init() {
  * Used to load the required files on the plugins_loaded hook, instead of immediately.
  */
 function wpseo_frontend_init() {
-	WPSEO_Frontend::get_instance();
+	add_action( 'init', 'initialize_wpseo_front' );
 
 	$options = WPSEO_Options::get_option( 'wpseo_internallinks' );
-
 	if ( $options['breadcrumbs-enable'] === true ) {
 		/**
 		 * If breadcrumbs are active (which they supposedly are if the users has enabled this settings,
@@ -317,7 +316,7 @@ if ( ! $filter_exists ) {
 }
 
 if ( ( ! defined( 'WP_INSTALLING' ) || WP_INSTALLING === false ) && ( $spl_autoload_exists && $filter_exists ) ) {
-	add_action( 'init', 'wpseo_init', 14 );
+	add_action( 'plugins_loaded', 'wpseo_init', 14 );
 
 	if ( is_admin() ) {
 		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
@@ -330,15 +329,15 @@ if ( ( ! defined( 'WP_INSTALLING' ) || WP_INSTALLING === false ) && ( $spl_autol
 			new Yoast_Plugin_Conflict_Ajax();
 
 			if ( filter_input( INPUT_POST, 'action' ) === 'inline-save' ) {
-				add_action( 'init', 'wpseo_admin_init', 15 );
+				add_action( 'plugins_loaded', 'wpseo_admin_init', 15 );
 			}
 		}
 		else {
-			add_action( 'init', 'wpseo_admin_init', 15 );
+			add_action( 'plugins_loaded', 'wpseo_admin_init', 15 );
 		}
 	}
 	else {
-		add_action( 'init', 'wpseo_frontend_init', 15 );
+		add_action( 'plugins_loaded', 'wpseo_frontend_init', 15 );
 	}
 
 	add_action( 'admin_init', 'load_yoast_notifications' );

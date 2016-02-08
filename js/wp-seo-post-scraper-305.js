@@ -44,9 +44,10 @@
 	PostScraper.prototype.bindSnippetCiteEvents = function( time ) {
 		time = time || 0;
 		var slugElem = document.getElementById( 'editable-post-name' );
+		var titleElem = document.getElementById( 'title' );
 		var postNameElem = document.getElementById('post_name');
 
-		if ( slugElem !== null ) {
+		if ( slugElem !== null && titleElem.value !== '' ) {
 			this.bindSlugEditor();
 
 			// Always set the post name element.
@@ -80,10 +81,8 @@
 			keyword: this.getDataFromInput( 'keyword' ),
 			meta: this.getDataFromInput( 'meta' ),
 			text: this.getDataFromInput( 'text' ),
-			pageTitle: this.getDataFromInput( 'pageTitle' ),
 			title: this.getDataFromInput( 'title' ),
 			url: this.getDataFromInput( 'url' ),
-			baseUrl: this.getDataFromInput( 'baseUrl' ),
 			excerpt: this.getDataFromInput( 'excerpt' ),
 			snippetTitle: this.getDataFromInput( 'snippetTitle' ),
 			snippetMeta: this.getDataFromInput( 'snippetMeta' ),
@@ -116,14 +115,8 @@
 					val = document.getElementById( 'editable-post-name-full' ).textContent;
 				}
 				break;
-			case 'baseUrl':
-				val = wpseoPostScraperL10n.base_url;
-				break;
 			case 'meta':
 				val = document.getElementById( 'yoast_wpseo_metadesc' ) && document.getElementById( 'yoast_wpseo_metadesc' ).value || '';
-				if ( val === '' ) {
-					val = wpseoPostScraperL10n.metadesc_template;
-				}
 				break;
 			case 'snippetMeta':
 				val = document.getElementById( 'yoast_wpseo_metadesc' ) && document.getElementById( 'yoast_wpseo_metadesc' ).value || '';
@@ -137,15 +130,6 @@
 				break;
 			case 'snippetTitle':
 				val = document.getElementById( 'yoast_wpseo_title' ) && document.getElementById( 'yoast_wpseo_title' ).value || '';
-				break;
-			case 'pageTitle':
-				val = document.getElementById( 'yoast_wpseo_title' ) && document.getElementById( 'yoast_wpseo_title' ).value || '';
-				if ( val === '' ) {
-					val = wpseoPostScraperL10n.title_template;
-				}
-				if (val === '' ) {
-					val = '%%title%% - %%sitename%%';
-				}
 				break;
 			case 'excerpt':
 				if ( document.getElementById( 'excerpt' ) !== null ) {
@@ -184,71 +168,47 @@
 	};
 
 	/**
-	 * Gets content from the content field, if tinyMCE is initialized, use the getContent function to get the data from tinyMCE
-	 * If tiny is hidden, take the value from the contentfield, since tinyMCE isn't updated when it isn't visible.
+	 * The data passed from the snippet editor.
+	 *
+	 * @param {Object} data
+	 * @param {string} data.title
+	 * @param {string} data.urlPath
+	 * @param {string} data.metaDesc
+	 */
+	PostScraper.prototype.saveSnippetData = function( data ) {
+		this.setDataFromSnippet( data.title, 'snippet_title' );
+		this.setDataFromSnippet( data.urlPath, 'snippet_cite' );
+		this.setDataFromSnippet( data.metaDesc, 'snippet_meta' );
+	};
+
+	/**
+	 * Returns the value of the contentfield. If tinyMCE isn't initialized, or has no editors
+	 * or is hidden it gets it's contents from getTinyMCEElementContent.
 	 * @returns {String}
 	 */
 	PostScraper.prototype.getContentTinyMCE = function() {
-		var val = document.getElementById( 'content' ) && document.getElementById( 'content' ).value || '';
-		if ( typeof tinyMCE !== 'undefined' && typeof tinyMCE.editors !== 'undefined' && tinyMCE.editors.length !== 0) {
-			var tinyMceContent = tinyMCE.get( 'content' );
-			val = tinyMceContent && tinyMceContent.hidden === false && tinyMceContent.getContent() || '';
+		if ( typeof tinyMCE === 'undefined' || typeof tinyMCE.editors === 'undefined' || tinyMCE.editors.length === 0 || tinyMCE.get( 'content' ).isHidden() ) {
+			return this.getTinyMCEElementContent();
 		}
-		return val;
+		return tinyMCE.get( 'content' ).getContent();
+	};
+
+	/**
+	 * Gets content from the contentfield.
+	 *
+	 * @returns {String}
+	 */
+	PostScraper.prototype.getTinyMCEElementContent = function() {
+		return document.getElementById( 'content' ) && document.getElementById( 'content' ).value || '';
 	};
 
 	/**
 	 * Calls the eventbinders.
 	 */
 	PostScraper.prototype.bindElementEvents = function( app ) {
-		this.snippetPreviewEventBinder( app.snippetPreview );
 		this.inputElementEventBinder( app );
 		document.getElementById( 'yoast_wpseo_focuskw_text_input' ).addEventListener( 'keydown', app.snippetPreview.disableEnter );
 		document.getElementById( 'yoast_wpseo_focuskw_text_input' ).addEventListener( 'keyup', this.updateKeywordUsage );
-	};
-
-	/**
-	 * binds the getinputfieldsdata to the snippetelements.
-	 *
-	 * @param {YoastSEO.SnippetPreview} snippetPreview The snippet preview object to bind the events on.
-	 */
-	PostScraper.prototype.snippetPreviewEventBinder = function( snippetPreview ) {
-		var elems = [ 'snippet_meta', 'snippet_title', 'snippet_cite' ];
-
-		for ( var i = 0; i < elems.length; i++ ) {
-			this.bindSnippetEvents( document.getElementById( elems [ i ] ), snippetPreview );
-		}
-	};
-
-	/**
-	 * binds the snippetEvents to a snippet element.
-	 * @param { HTMLElement } elem snippet_meta, snippet_title, snippet_cite
-	 * @param { YoastSEO.SnippetPreview } snippetPreview
-	 */
-	PostScraper.prototype.bindSnippetEvents = function( elem, snippetPreview ) {
-		elem.addEventListener( 'keydown', snippetPreview.disableEnter.bind( snippetPreview ) );
-		//textFeedback is given on input (when user types or pastests), but also on focus. If a string that is too long is being recalled
-		//from the saved values, it gets the correct classname right away.
-		elem.addEventListener( 'input', snippetPreview.textFeedback.bind( snippetPreview ) );
-		elem.addEventListener( 'focus', snippetPreview.textFeedback.bind( snippetPreview ) );
-		elem.addEventListener( 'blur', snippetPreview.textFeedback.bind( snippetPreview ) );
-		//shows edit icon by hovering over element
-		elem.addEventListener( 'mouseover', snippetPreview.showEditIcon.bind( snippetPreview ) );
-		//hides the edit icon onmouseout, on focus and on keyup. If user clicks or types AND moves his mouse, the edit icon could return while editting
-		//by binding to these 3 events
-		elem.addEventListener( 'mouseout', snippetPreview.hideEditIcon.bind( snippetPreview ) );
-		elem.addEventListener( 'focus', snippetPreview.hideEditIcon.bind( snippetPreview ) );
-		elem.addEventListener( 'keyup', snippetPreview.hideEditIcon.bind( snippetPreview ) );
-
-		//adds 'paste' and 'cut' eventbindings to the snippetPreview to make sure event is triggered when c/p with mouse.
-		elem.addEventListener( 'focus', snippetPreview.getUnformattedText.bind( snippetPreview ) );
-		elem.addEventListener( 'keyup', snippetPreview.setUnformattedText.bind( snippetPreview ) );
-		elem.addEventListener( 'paste', snippetPreview.setUnformattedText.bind( snippetPreview ) );
-		elem.addEventListener( 'cut', snippetPreview.setUnformattedText.bind( snippetPreview ) );
-		elem.addEventListener( 'click', snippetPreview.setFocus.bind( snippetPreview ) );
-
-		//adds the showIcon class to show the editIcon;
-		elem.className = elem.className + ' showIcon' ;
 	};
 
 	/**
@@ -283,35 +243,6 @@
 		if ( YoastSEO.app.rawData.keyword !== '' ) {
 			YoastSEO.app.runAnalyzer( this.rawData );
 		}
-	};
-
-	/**
-	 * Updates the snippet values, is bound by the loader when generating the elements for the snippet.
-	 * calls the update snippet values to save snippet in the hidden fields
-	 * calls checkTextLength to update the snippet editor fields (move too long texts)
-	 * refreshes the app to run with new data.
-	 *
-	 * @param {Object} ev
-	 */
-	PostScraper.prototype.updateSnippet = function( ev ) {
-		this.updateSnippetValues( ev );
-		YoastSEO.app.snippetPreview.checkTextLength( ev );
-		YoastSEO.app.analyzeTimer();
-	};
-
-	/**
-	 * Uses the unformattedText object of the snippetpreview if the textFeedback function has put a string there (if text was too long).
-	 * clears this after use.
-	 *
-	 * @param {Object} ev
-	 */
-	PostScraper.prototype.updateSnippetValues = function( ev ) {
-		var dataFromSnippet = ev.currentTarget.textContent;
-		var currentElement = ev.currentTarget.id;
-		if ( typeof YoastSEO.app.snippetPreview.unformattedText[ currentElement ] !== 'undefined' ) {
-			ev.currentTarget.textContent = YoastSEO.app.snippetPreview.unformattedText[ currentElement ];
-		}
-		this.setDataFromSnippet( dataFromSnippet, ev.currentTarget.id );
 	};
 
 	/**
@@ -443,8 +374,13 @@
 	 * binds to the WordPress jQuery function to put the permalink on the page.
 	 * If the response matches with permalinkstring, the snippet can be rerendered.
 	 */
-	jQuery( document ).on( 'ajaxComplete', function( ev, response ) {
-		if ( response.responseText.match( 'Permalink:' ) !== null ) {
+	jQuery( document ).on( 'ajaxComplete', function( ev, response, ajaxOptions ) {
+		var ajax_end_point = '/admin-ajax.php';
+		if ( ajax_end_point !== ajaxOptions.url.substr( 0 - ajax_end_point.length ) ) {
+			return;
+		}
+
+		if ( 'string' === typeof ajaxOptions.data && false !== ajaxOptions.data.indexOf( 'action=sample-permalink' ) ) {
 			YoastSEO.app.callbacks.getData();
 			YoastSEO.app.runAnalyzer();
 			YoastSEO.app.snippetPreview.reRender();
@@ -501,8 +437,8 @@
 			callbacks: {
 				getData: postScraper.getData.bind( postScraper ),
 				bindElementEvents: postScraper.bindElementEvents.bind( postScraper ),
-				updateSnippetValues: postScraper.updateSnippet.bind( postScraper ),
-				saveScores: postScraper.saveScores.bind( postScraper )
+				saveScores: postScraper.saveScores.bind( postScraper ),
+				saveSnippetData: postScraper.saveSnippetData.bind( postScraper )
 			},
 			locale: wpseoPostScraperL10n.locale
 		};
@@ -518,6 +454,37 @@
 			delete( translations.locale_data['wordpress-seo'] );
 			YoastSEO.analyzerArgs.translations = translations;
 		}
+
+		var placeholder = { urlPath:  '' };
+
+		var titlePlaceholder = wpseoPostScraperL10n.title_template;
+		if (titlePlaceholder === '' ) {
+			titlePlaceholder = '%%title%% - %%sitename%%';
+		}
+		placeholder.title = titlePlaceholder;
+
+		var metaPlaceholder = wpseoPostScraperL10n.metadesc_template;
+		if (metaPlaceholder !== '' ) {
+			placeholder.metaDesc = metaPlaceholder;
+		}
+
+		var data = postScraper.getData();
+
+		YoastSEO.analyzerArgs.snippetPreview = new YoastSEO.SnippetPreview({
+			targetElement: document.getElementById( 'wpseosnippet' ),
+			placeholder: placeholder,
+			baseURL: wpseoPostScraperL10n.base_url,
+			callbacks: {
+				saveSnippetData: postScraper.saveSnippetData.bind( postScraper )
+			},
+			metaDescriptionDate: wpseoPostScraperL10n.metaDescriptionDate,
+			data: {
+				title: data.snippetTitle,
+				urlPath: data.snippetCite,
+				metaDesc: data.snippetMeta
+			}
+		});
+
 		window.YoastSEO.app = new YoastSEO.App( YoastSEO.analyzerArgs );
 		jQuery( window).trigger( 'YoastSEO:ready' );
 
