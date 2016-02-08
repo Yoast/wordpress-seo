@@ -8,6 +8,6 @@ describe( "checks for keyword doubles", function(){
 		expect( keywordDoubles( "keyword", usedKeywords ).id).toBe(1);
 		expect( keywordDoubles( "test", usedKeywords ).count).toBe(3);
 		expect( keywordDoubles( "test", usedKeywords ).id).toBe(0);
-
+		expect( keywordDoubles( "not-used", usedKeywords ).count ).toBe( 0 )
 	});
 });
