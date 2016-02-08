@@ -913,8 +913,7 @@ SnippetPreview.prototype.updateProgressBars = function() {
  */
 SnippetPreview.prototype.bindEvents = function() {
 	var targetElement,
-		elems = [ "title", "slug", "meta-description" ],
-		focusBindings;
+		elems = [ "title", "slug", "meta-description" ];
 
 	forEach( elems, function( elem ) {
 		targetElement = document.getElementsByClassName( "js-snippet-editor-" + elem )[0];
@@ -929,14 +928,6 @@ SnippetPreview.prototype.bindEvents = function() {
 
 	this.element.editToggle.addEventListener( "click", this.toggleEditor.bind( this ) );
 	this.element.closeEditor.addEventListener( "click", this.closeEditor.bind( this ) );
-
-	// Map binding keys to the actual elements
-	focusBindings = map( inputPreviewBindings, function( binding ) {
-		return {
-			"preview": document.getElementById( binding.preview ),
-			"inputField": this.element.input[ binding.inputField ]
-		};
-	}.bind( this ) );
 
 	// Loop through the bindings and bind a click handler to the click to focus the focus element.
 	forEach( inputPreviewBindings, function( binding ) {
