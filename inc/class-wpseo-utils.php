@@ -528,7 +528,7 @@ class WPSEO_Utils {
 	/**
 	 * Clear sitemap transient caches
 	 *
-	 * @param array $types Set of sitemap types to clear
+	 * @param array $types Set of sitemap types to clear.
 	 */
 	public static function clear_sitemap_transient_cache( $types = array() ) {
 		// Always delete the main index sitemaps cache, as that's always invalidated by any other change.
