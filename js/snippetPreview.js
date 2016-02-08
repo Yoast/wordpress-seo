@@ -1091,6 +1091,8 @@ SnippetPreview.prototype._updateHoverCarets = function() {
 };
 
 /* jshint ignore:start */
+/* eslint-disable */
+
 /**
  * Used to disable enter as input. Returns false to prevent enter, and preventDefault and
  * cancelBubble to prevent
@@ -1135,5 +1137,5 @@ SnippetPreview.prototype.hideEditIcon = function() {};
  */
 SnippetPreview.prototype.setFocus = function( ev ) {};
 /* jshint ignore:end */
-
+/* eslint-disable */
 module.exports = SnippetPreview;
