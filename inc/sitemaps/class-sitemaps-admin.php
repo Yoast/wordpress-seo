@@ -8,17 +8,21 @@
  */
 class WPSEO_Sitemaps_Admin {
 
+	/**
+	 * @var array Post_types that are being imported.
+	 */
 	static $importing_post_types = array();
 
 	/**
 	 * Class constructor
 	 */
 	function __construct() {
-		if ( defined('WP_IMPORTING') && WP_IMPORTING === true ) {
+		if ( defined( 'WP_IMPORTING' ) && WP_IMPORTING === true ) {
 			add_action( 'transition_post_status', array( $this, 'status_transition' ), 10, 3 );
-		} else {
+		}
+		else {
 			add_action( 'transition_post_status', array( $this, 'status_transition_bulk' ), 10, 3 );
-			add_action( 'admin_footer', array( $this, 'status_transition_bulk_finished') );
+			add_action( 'admin_footer', array( $this, 'status_transition_bulk_finished' ) );
 		}
 
 		add_action( 'admin_init', array( $this, 'delete_sitemaps' ) );
@@ -148,7 +152,7 @@ class WPSEO_Sitemaps_Admin {
 
 			wp_cache_delete( 'lastpostmodified:gmt:' . $post_type, 'timeinfo' ); // #17455.
 
-			$option = sprintf('post_types-%s-not_in_sitemap', $post_type);
+			$option = sprintf( 'post_types-%s-not_in_sitemap', $post_type );
 			if ( ! isset( $options[ $option ] ) || $options[ $option ] !== true ) {
 				$ping_search_engines = true;
 			}
