@@ -2,6 +2,8 @@
 /* global YoastSEO: true */
 YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 
+require( "./config/config.js" );
+var sanitizeString = require( "../js/stringProcessing/sanitizeString.js" );
 var defaultsDeep = require( "lodash/object/defaultsDeep" );
 var isObject = require( "lodash/lang/isObject" );
 var isString = require( "lodash/lang/isString" );
@@ -202,7 +204,6 @@ YoastSEO.App = function( args ) {
 	this.callbacks = this.config.callbacks;
 
 	this.i18n = this.constructI18n( this.config.translations );
-	this.stringHelper = new YoastSEO.StringHelper();
 	this.pluggable = new YoastSEO.Pluggable( this );
 
 	this.getData();
@@ -403,7 +404,7 @@ YoastSEO.App.prototype.runAnalyzer = function() {
 	this.analyzerData = this.modifyData( this.rawData );
 	this.analyzerData.i18n = this.i18n;
 
-	var keyword = this.stringHelper.sanitizeKeyword( this.rawData.keyword );
+	var keyword = sanitizeString( this.rawData.keyword );
 	if ( keyword === "" ) {
 		this.analyzerData.queue = [ "keyphraseSizeCheck", "wordCount", "fleschReading", "pageTitleLength", "urlStopwords", "metaDescriptionLength" ];
 	}

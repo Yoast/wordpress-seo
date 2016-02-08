@@ -1,5 +1,7 @@
 /* global YoastSEO: true */
 
+var escapeHTML = require( "lodash/string/escape" );
+
 /**
  * inits the analyzerscorer used for scoring of the output from the textanalyzer
  *
@@ -145,7 +147,7 @@ YoastSEO.AnalyzeScorer.prototype.returnScore = function( score, scoreObj, i ) {
 YoastSEO.AnalyzeScorer.prototype.scoreTextFormat = function( scoreObj, replaceArray ) {
 	var replaceWord;
 	var resultText = scoreObj.text;
-	resultText = this.refObj.stringHelper.escapeHTML( resultText );
+	resultText = escapeHTML( resultText );
 	if ( typeof replaceArray !== "undefined" ) {
 		for ( var i = 0; i < replaceArray.length; i++ ) {
 			switch ( true ) {
@@ -163,7 +165,7 @@ YoastSEO.AnalyzeScorer.prototype.scoreTextFormat = function( scoreObj, replaceAr
 					// given position
 					resultText = resultText.replace(
 						replaceArray[ i ].position,
-						this.refObj.stringHelper.escapeHTML( this[ replaceArray[ i ].source ] )
+						escapeHTML( this[ replaceArray[ i ].source ] )
 					);
 					break;
 				case ( typeof replaceArray[ i ].sourceObj !== "undefined" ):
@@ -172,7 +174,7 @@ YoastSEO.AnalyzeScorer.prototype.scoreTextFormat = function( scoreObj, replaceAr
 					// replaces is on the given position
 					replaceWord = this.parseReplaceWord( replaceArray[ i ].sourceObj );
 					if ( typeof replaceArray[ i ].rawOutput === "undefined" || replaceArray[ i ].rawOutput !== true ) {
-						replaceWord = this.refObj.stringHelper.escapeHTML( replaceWord );
+						replaceWord = escapeHTML( replaceWord );
 					}
 
 					resultText = resultText.replace( replaceArray[ i ].position, replaceWord );
@@ -183,7 +185,7 @@ YoastSEO.AnalyzeScorer.prototype.scoreTextFormat = function( scoreObj, replaceAr
 					// the textString.
 					resultText = resultText.replace(
 						replaceArray[ i ].position,
-						this.refObj.stringHelper.escapeHTML( scoreObj[ replaceArray[ i ].scoreObj ] )
+						escapeHTML( scoreObj[ replaceArray[ i ].scoreObj ] )
 					);
 					break;
 				default:

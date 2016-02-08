@@ -10,6 +10,9 @@ var forEach = require( "lodash/collection/forEach" );
 var map = require( "lodash/collection/map" );
 var debounce = require( "lodash/function/debounce" );
 
+var stringToRegex = require( "../js/stringProcessing/stringToRegex.js" );
+var stripHTMLTags = require( "../js/stringProcessing/stripHTMLTags.js" );
+var sanitizeString = require( "../js/stringProcessing/sanitizeString.js" );
 var stripSpaces = require( "../js/stringProcessing/stripSpaces.js" );
 
 var defaults = {
@@ -550,8 +553,7 @@ SnippetPreview.prototype.formatTitle = function() {
 		title = this.refObj.pluggable._applyModifications( "data_page_title", title );
 	}
 
-	// TODO: Replace this with the stripAllTags module.
-	title = this.refObj.stringHelper.stripAllTags( title );
+	title = stripHTMLTags( title );
 
 	// If a keyword is set we want to highlight it in the title.
 	if ( !isEmpty( this.refObj.rawData.keyword ) ) {
@@ -581,8 +583,7 @@ SnippetPreview.prototype.formatUrl = function() {
 SnippetPreview.prototype.formatCite = function() {
 	var cite = this.data.urlPath;
 
-	// TODO: Replace this with the stripAllTags module.
-	cite = this.refObj.stringHelper.stripAllTags( cite );
+	cite = stripHTMLTags( cite );
 
 	// Fallback to the default if the cite is empty.
 	if ( isEmpty( cite ) ) {
@@ -621,8 +622,7 @@ SnippetPreview.prototype.formatMeta = function() {
 		meta = this.refObj.pluggable._applyModifications( "data_meta_desc", meta );
 	}
 
-	// TODO: Replace this with the stripAllTags module.
-	meta = this.refObj.stringHelper.stripAllTags( meta );
+	meta = stripHTMLTags( meta );
 
 	// Cut-off the meta description according to the maximum length
 	meta = meta.substring( 0, YoastSEO.analyzerConfig.maxMeta );
@@ -663,7 +663,7 @@ SnippetPreview.prototype.getMetaText = function() {
 		metaText = this.opts.placeholder.metaDesc;
 	}
 
-	metaText = this.refObj.stringHelper.stripAllTags( metaText );
+	metaText = stripHTMLTags( metaText );
 	if (
 		this.refObj.rawData.keyword !== "" &&
 		this.refObj.rawData.text !== ""
@@ -688,7 +688,7 @@ SnippetPreview.prototype.getMetaText = function() {
 			}
 		}
 	}
-	if ( this.refObj.stringHelper.stripAllTags( metaText ) === "" ) {
+	if ( stripHTMLTags( metaText ) === "" ) {
 		return this.opts.placeholder.metaDesc;
 	}
 	return metaText.substring( 0, YoastSEO.analyzerConfig.maxMeta );
@@ -750,7 +750,7 @@ SnippetPreview.prototype.formatKeyword = function( textString ) {
 	var keyword = this.refObj.rawData.keyword.replace( /[\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, " " );
 
 	// Match keyword case-insensitively
-	var keywordRegex = YoastSEO.getStringHelper().getWordBoundaryRegex( keyword );
+	var keywordRegex = stringToRegex( keyword );
 	return textString.replace( keywordRegex, function( str ) {
 		return "<strong>" + str + "</strong>";
 	} );
@@ -765,11 +765,11 @@ SnippetPreview.prototype.formatKeyword = function( textString ) {
  * @returns {XML|string|void}
  */
 SnippetPreview.prototype.formatKeywordUrl = function( textString ) {
-	var keyword = this.refObj.stringHelper.sanitizeKeyword( this.refObj.rawData.keyword );
+	var keyword = sanitizeString( this.refObj.rawData.keyword );
 	var dashedKeyword = keyword.replace( /\s/g, "-" );
 
 	// Match keyword case-insensitively.
-	var keywordRegex = YoastSEO.getStringHelper().getWordBoundaryRegex( dashedKeyword, "\\-" );
+	var keywordRegex = stringToRegex( dashedKeyword, "\\-" );
 
 	// Make the keyword bold in the textString.
 	return textString.replace( keywordRegex, function( str ) {

@@ -4,9 +4,7 @@ require("../js/config/scoring.js");
 require("../js/analyzer.js");
 require("../js/app.js");
 require("../js/pluggable.js");
-require("../js/preprocessor.js");
 require("../js/scoreFormatter.js");
-require("../js/stringhelper.js");
 
 var MissingArgument = require( "../js/errors/missingArgument.js" );
 var SnippetPreview = require( "../js/snippetPreview.js" );

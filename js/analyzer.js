@@ -1,6 +1,10 @@
 /* global YoastSEO: true */
 YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 
+var sanitizeString = require( "../js/stringProcessing/sanitizeString.js" );
+var stringToRegex = require( "../js/stringProcessing/stringToRegex.js" );
+var replaceDiacritics = require( "../js/stringProcessing/replaceDiacritics.js" );
+
 /**
  * Text Analyzer, accepts args for config and calls init for initialization
  *
@@ -29,8 +33,7 @@ YoastSEO.Analyzer = function( args ) {
 };
 
 /**
- * sets value to "" of text if it is undefined to make sure it doesn' break the preprocessor and
- * analyzer
+ * sets value to "" of text if it is undefined to make sure it doesn' break the analyzer
  */
 YoastSEO.Analyzer.prototype.checkConfig = function() {
 	if ( typeof this.config.text === "undefined" ) {
@@ -60,18 +63,18 @@ YoastSEO.Analyzer.prototype.formatKeyword = function() {
 
 		// removes characters from the keyword that could break the regex, or give unwanted results.
 		// leaves the - since this is replaced later on in the function
-		var keyword = this.stringHelper.sanitizeKeyword( this.config.keyword );
+		var keyword = sanitizeString( this.config.keyword );
 
 		// Creates new regex from keyword with global and caseinsensitive option,
 
-		this.keywordRegex = this.stringHelper.getWordBoundaryRegex(
-			this.preProcessor.replaceDiacritics( keyword.replace( /[-_]/g, " " )
+		this.keywordRegex = stringToRegex(
+			replaceDiacritics( keyword.replace( /[-_]/g, " " )
 		) );
 
 		// Creates new regex from keyword with global and caseinsensitive option,
 		// replaces space with -. Used for URL matching
-		this.keywordRegexInverse = this.stringHelper.getWordBoundaryRegex(
-			this.preProcessor.replaceDiacritics( keyword.replace( /\s/g, "-" ) ),
+		this.keywordRegexInverse = stringToRegex(
+			replaceDiacritics( keyword.replace( /\s/g, "-" ) ),
 			"\\-"
 		);
 	}
@@ -82,12 +85,6 @@ YoastSEO.Analyzer.prototype.formatKeyword = function() {
  * For the analyzeScorer a new object is always defined, to make sure there are no duplicate scores
  */
 YoastSEO.Analyzer.prototype.initDependencies = function() {
-
-	//init preprocessor
-	this.preProcessor = new YoastSEO.getPreProcessor( this.config.text );
-
-	//init helper
-	this.stringHelper = YoastSEO.getStringHelper();
 
 	//init scorer
 	this.analyzeScorer = new YoastSEO.AnalyzeScorer( this );
@@ -174,8 +171,8 @@ YoastSEO.Analyzer.prototype.addAnalysis = function( analysis ) {
 };
 
 /**
- * returns wordcount from the preprocessor storage to include them in the results.
- * @returns {{test: string, result: (Function|YoastSEO.PreProcessor.wordcount|Number)}[]}
+ * returns wordcount from this.config.text
+ * @returns {{test: string, result: Number)}}
  */
 YoastSEO.Analyzer.prototype.wordCount = function() {
 	var countWords = require( "./stringProcessing/countWords.js" );

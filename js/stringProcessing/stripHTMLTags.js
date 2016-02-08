@@ -1,5 +1,7 @@
 /** @module stringProcessing/stripHTMLTags */
 
+var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
+
 /**
  * Strip HTML-tags from text
  *
@@ -8,5 +10,6 @@
  */
 module.exports = function( text ) {
 	text = text.replace( /(<([^>]+)>)/ig, " " );
+	text = stripSpaces( text );
 	return text;
 };
