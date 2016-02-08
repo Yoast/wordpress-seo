@@ -380,7 +380,7 @@
 			return;
 		}
 
-		if ( 'string' === typeof ajaxOptions.data && false !== ajaxOptions.data.indexOf( 'action=sample-permalink' ) ) {
+		if ( 'string' === typeof ajaxOptions.data && -1 !== ajaxOptions.data.indexOf( 'action=sample-permalink' ) ) {
 			YoastSEO.app.callbacks.getData();
 			YoastSEO.app.runAnalyzer();
 			YoastSEO.app.snippetPreview.reRender();
