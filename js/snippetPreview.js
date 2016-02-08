@@ -979,7 +979,7 @@ SnippetPreview.prototype.changedInput = debounce( function() {
 
 	this.refresh();
 
-	this.refObj.refresh.call( this.refObj );
+	this.refObj.refresh();
 }, 25 );
 
 /**
