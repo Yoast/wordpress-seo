@@ -530,21 +530,21 @@ class WPSEO_Utils {
 	 *
 	 * @param array $types Set of sitemap types to clear
 	 */
-	public static function clear_sitemap_transient_cache($types = array()) {
+	public static function clear_sitemap_transient_cache( $types = array() ) {
 		// Always delete the main index sitemaps cache, as that's always invalidated by any other change.
-		if ( ! in_array(1, $types, true) ){
-			array_unshift($types, 1);
+		if ( ! in_array( 1, $types, true ) ) {
+			array_unshift( $types, 1 );
 		}
 
-		foreach ($types as $type ) {
+		foreach ( $types as $type ) {
 			$page = 0;
 			do {
-				$key = sprintf('wpseo_sitemap_cache_%s_%d', $type, ++$page);
+				$key   = sprintf( 'wpseo_sitemap_cache_%s_%d', $type, ++ $page );
 				$cache = get_transient( $key );
-				if ( ! empty($cache) ) {
+				if ( ! empty( $cache ) ) {
 					delete_transient( $key );
 				}
-			} while( ! empty($cache) );
+			} while ( ! empty( $cache ) );
 		}
 	}
 
