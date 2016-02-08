@@ -1,14 +1,69 @@
-### 1.1
+### 1.1: February 16th, 2016
 
 #### Backwards incompatible changes
+
 * Passing the title, url and meta description meant for the snippet editor is no longer taken into account. The snippet
 editor keeps track of these values itself.
 * `callbacks.updateSnippetValues` has been deprecated in favor of `callback.saveSnippetData`. Currently a raw event is
 passed to `updateSnippetValues`. This is undesirable because it couples the callback to the DOM. The new
 `saveSnippetData` passes the actual data that the user put in the fields.
-* The `SnippetPreview` object now requires an options object instead of an `App` object. The `App` object should still
-be passed inside the options object with the `analyzerApp` key.
+* The `SnippetPreview` object now requires an options object instead of an `App` object. The `App` object should still be passed inside the options object with the `analyzerApp` key.
+* Removed `SnippetPreview` methods:
+	* `setFocus`
+	* `hideEditIcon`
+	* `showEditIcon`
+	* `textFeedback` 
+	* `disableEnter`
+* Removed `App` methods:
+	* `bindSnippetEvents`
+	* `bindEvent`
+	* `createEditIcon`
+	* `createSnippetPreviewEditIcon`
+	* `createSnippetPreviewMeta`
+	* `createSnippetPreviewUrl`
+	* `createSnippetPreviewTitle`
+* Deprecated `App.createSnippetPreview`
 
+#### Features
+
+* Completely redesign the snippet editor editing experience:
+	* Remove the contenteditable fields
+	* Add a decoupled form to edit the title, slug and meta description fields.
+	* Add a button to clearly show how to open the snippet editor.
+	* Add headings to clearly indicate which part is the snippet preview and which is the editor.
+	* Add progress bars to show an indication about the length of the title and meta description.
+	* Add carets before the preview and form fields to show which preview belongs to which input field.
+* Introduce modules. All non-trivial modules are moved out of `analyzer.js` and moved to the `analyses` folder as module. Where it makes sense we added a `stringProcessing` folder with all the string helper modules.
+* Introduces new SnippetPreview functions:
+	* toggleEditor
+	* closeEditor
+	* openEditor
+	* updateDataFromDOM
+	* changedInput
+	* bindEvents
+	* updateProgressBars
+	* validateFields
+	* callRegisteredEventBinder
+	* getAnalyzerData
+	* refresh
+	* renderTemplate
+* Introduce `ScoreFormatter.getUndefinedScores` to retrieve all the undefined scores from a scores array.
+* Introduce `missingArgument` error that is thrown when an argument is missing in the `App`.
+* Massively reduce the required config of the `App`.
+
+#### Enhancements
+
+* Start to decouple the SnippetPreview from the scrapers and the analyzer.
+* Depend on lodash to improve the readability of our codebase and to standardize certain actions.
+* Add an option to the `SnippetPreview` to include a date before the meta description.
+* Add a `baseURL` option to the `SnippetPreview` to change the base URL.
+* Change the stopwords check to a grey bullet that doesn't count towards the total score.
+
+#### Bugfixes
+
+* By default add a trailing slash to the rendered URL, add an option to the `SnippetPreview` to disable this behaviour.
+* Show the protocol in the snippet preview if it is HTTPS. Google has this behaviour as well.
+* Color the meta description preview gray if the user hasn't set it explicitly.
 
 ### 1.0: November 18th, 2015
 
