@@ -546,8 +546,6 @@ class WPSEO_Utils {
 				}
 			} while( ! empty($cache) );
 		}
-
-		die();
 	}
 
 	/**
