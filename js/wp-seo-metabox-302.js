@@ -101,6 +101,13 @@
 	}
 
 	/**
+	 *
+	 */
+	function initSelect2() {
+		$( '#yoast_wpseo_meta-robots-noindex').select2();
+	}
+
+	/**
 	 * Shows a informational popup if someone click the add keyword button
 	 */
 	function addKeywordPopup() {
@@ -121,6 +128,7 @@
 		window.wpseo_init_tabs();
 
 		initAddKeywordPopup();
+		initSelect2();
 	});
 }( jQuery ));
 
