@@ -154,7 +154,12 @@ $yform->admin_header( true, 'wpseo_titles' );
 				foreach ( $taxonomies as $tax ) {
 					echo '<h4>' . esc_html( ucfirst( $tax->labels->name ) ) . '</h4>';
 					if ( $tax->name === 'post_format' ) {
-						$yform->checkbox( 'disable-post_format', __( 'Disable format-based archives', 'wordpress-seo' ), __( 'Format-based archives', 'wordpress-seo' ) );
+						$yform->light_switch(
+							'disable-post_format',
+							__( 'Format-based archives', 'wordpress-seo' ),
+							array( __( 'Enabled', 'wordpress-seo' ), __( 'Disabled', 'wordpress-seo' ) ),
+							false
+						);
 					}
 					echo "<div id='" . esc_attr( $tax->name ) . "-titles-metas'>";
 					$yform->textinput( 'title-tax-' . $tax->name, __( 'Title template', 'wordpress-seo' ), 'template taxonomy-template' );
