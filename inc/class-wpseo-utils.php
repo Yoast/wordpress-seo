@@ -486,6 +486,8 @@ class WPSEO_Utils {
 	public static function clear_sitemap_cache( $types = array() ) {
 		global $wpdb;
 
+		self::clear_sitemap_transient_cache( $types );
+
 		if ( wp_using_ext_object_cache() ) {
 			return;
 		}
@@ -521,6 +523,31 @@ class WPSEO_Utils {
 		}
 
 		$wpdb->query( $query );
+	}
+
+	/**
+	 * Clear sitemap transient caches
+	 *
+	 * @param array $types Set of sitemap types to clear
+	 */
+	public static function clear_sitemap_transient_cache($types = array()) {
+		// Always delete the main index sitemaps cache, as that's always invalidated by any other change.
+		if ( ! in_array(1, $types, true) ){
+			array_unshift($types, 1);
+		}
+
+		foreach ($types as $type ) {
+			$page = 0;
+			do {
+				$key = sprintf('wpseo_sitemap_cache_%s_%d', $type, ++$page);
+				$cache = get_transient( $key );
+				if ( ! empty($cache) ) {
+					delete_transient( $key );
+				}
+			} while( ! empty($cache) );
+		}
+
+		die();
 	}
 
 	/**
