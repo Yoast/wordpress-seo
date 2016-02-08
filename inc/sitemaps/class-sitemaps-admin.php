@@ -11,19 +11,14 @@ class WPSEO_Sitemaps_Admin {
 	/**
 	 * @var array Post_types that are being imported.
 	 */
-	static $importing_post_types = array();
+	private $importing_post_types = array();
 
 	/**
 	 * Class constructor
 	 */
-	function __construct() {
-		if ( ! defined( 'WP_IMPORTING' ) ) {
-			add_action( 'transition_post_status', array( $this, 'status_transition' ), 10, 3 );
-		}
-		else {
-			add_action( 'transition_post_status', array( $this, 'status_transition_bulk' ), 10, 3 );
-			add_action( 'admin_footer', array( $this, 'status_transition_bulk_finished' ) );
-		}
+	public function __construct() {
+		add_action( 'transition_post_status', array( $this, 'status_transition' ), 10, 3 );
+		add_action( 'admin_footer', array( $this, 'status_transition_bulk_finished' ) );
 
 		add_action( 'admin_init', array( $this, 'delete_sitemaps' ) );
 	}
@@ -33,7 +28,7 @@ class WPSEO_Sitemaps_Admin {
 	 *
 	 * @todo issue #561 https://github.com/Yoast/wordpress-seo/issues/561
 	 */
-	function delete_sitemaps() {
+	public function delete_sitemaps() {
 		$options = WPSEO_Options::get_options( array( 'wpseo', 'wpseo_xml' ) );
 		if ( $options['enablexmlsitemap'] === true ) {
 
@@ -71,7 +66,13 @@ class WPSEO_Sitemaps_Admin {
 	 * @param string   $old_status Old post status.
 	 * @param \WP_Post $post       Post object.
 	 */
-	function status_transition( $new_status, $old_status, $post ) {
+	public function status_transition( $new_status, $old_status, $post ) {
+		if ( defined( 'WP_IMPORTING' ) ) {
+			$this->status_transition_bulk( $new_status, $old_status, $post );
+
+			return;
+		}
+
 		if ( $new_status != 'publish' ) {
 			return;
 		}
@@ -121,7 +122,11 @@ class WPSEO_Sitemaps_Admin {
 	 * @param string   $old_status Old post status.
 	 * @param \WP_Post $post       Post object.
 	 */
-	function status_transition_bulk( $new_status, $old_status, $post ) {
+	private function status_transition_bulk( $new_status, $old_status, $post ) {
+		if ( ! defined( 'WP_IMPORTING' ) ) {
+			return;
+		}
+
 		if ( $new_status != 'publish' ) {
 			return;
 		}
@@ -131,15 +136,19 @@ class WPSEO_Sitemaps_Admin {
 			return;
 		}
 
-		self::$importing_post_types[] = $post->post_type;
-		self::$importing_post_types   = array_unique( self::$importing_post_types );
+		$this->importing_post_types[] = $post->post_type;
+		$this->importing_post_types   = array_unique( $this->importing_post_types );
 	}
 
 	/**
 	 * After import finished, walk through imported post_types and update info.
 	 */
-	function status_transition_bulk_finished() {
-		if ( empty( self::$importing_post_types ) ) {
+	public function status_transition_bulk_finished() {
+		if ( ! defined( 'WP_IMPORTING' ) ) {
+			return;
+		}
+
+		if ( empty( $this->importing_post_types ) ) {
 			return;
 		}
 
@@ -148,15 +157,15 @@ class WPSEO_Sitemaps_Admin {
 		$ping_search_engines = false;
 
 		do {
-			$post_type = array_shift( self::$importing_post_types );
+			$post_type = array_shift( $this->importing_post_types );
 
 			wp_cache_delete( 'lastpostmodified:gmt:' . $post_type, 'timeinfo' ); // #17455.
 
 			$option = sprintf( 'post_types-%s-not_in_sitemap', $post_type );
-			if ( ! isset( $options[ $option ] ) || $options[ $option ] !== true ) {
+			if ( ! isset( $options[ $option ] ) || $options[ $option ] === false ) {
 				$ping_search_engines = true;
 			}
-		} while ( ! empty( self::$importing_post_types ) );
+		} while ( ! empty( $this->importing_post_types ) );
 
 		// Nothing to do.
 		if ( false === $ping_search_engines ) {
