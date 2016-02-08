@@ -109,9 +109,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @return  bool        Whether or not the meta box (and associated columns etc) should be hidden
 	 */
 	function is_metabox_hidden( $post_type = null ) {
-		if ( 'attachment' === $post_type ) {
-			return true;
-		}
 
 		if ( ! isset( $post_type ) && ( isset( $GLOBALS['post'] ) && ( is_object( $GLOBALS['post'] ) && isset( $GLOBALS['post']->post_type ) ) ) ) {
 			$post_type = $GLOBALS['post']->post_type;
@@ -121,6 +118,10 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			// Don't make static as post_types may still be added during the run.
 			$cpts    = get_post_types( array( 'public' => true ), 'names' );
 			$options = get_option( 'wpseo_titles' );
+
+			if ( 'attachment' === $post_type ) {
+				return true;
+			}
 
 			return ( ( isset( $options[ 'hideeditbox-' . $post_type ] ) && $options[ 'hideeditbox-' . $post_type ] === true ) || in_array( $post_type, $cpts ) === false );
 		}
