@@ -37,9 +37,7 @@ YoastSEO.ScoreFormatter.prototype.renderScore = function() {
 YoastSEO.ScoreFormatter.prototype.outputScore = function() {
 	var seoScoreText, scoreRating;
 
-
 	this.sortScores();
-
 
 	var outputTarget = document.getElementById( this.outputTarget );
 	outputTarget.innerHTML = "";
