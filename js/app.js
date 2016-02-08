@@ -8,6 +8,9 @@ var defaultsDeep = require( "lodash/object/defaultsDeep" );
 var isObject = require( "lodash/lang/isObject" );
 var isString = require( "lodash/lang/isString" );
 var MissingArgument = require( "./errors/missingArgument" );
+var isUndefined = require( "lodash/lang/isUndefined" );
+var forEach = require( "lodash/collection/forEach" );
+var SnippetPreview = require( "./snippetPreview.js" );
 
 /**
  * Default config for YoastSEO.js
@@ -59,10 +62,6 @@ var defaults = {
 	resetTarget: [],
 	elementTarget: []
 };
-
-var isUndefined = require( "lodash/lang/isUndefined" );
-
-var SnippetPreview = require( "./snippetPreview.js" );
 
 /**
  * Creates a default snippet preview, this can be used if no snippet preview has been passed.
@@ -251,11 +250,11 @@ YoastSEO.App.prototype.extendConfig = function( args ) {
 YoastSEO.App.prototype.extendSampleText = function( sampleText ) {
 	var defaultSampleText = YoastSEO.App.defaultConfig.sampleText;
 
-	if ( sampleText === undefined ) {
+	if ( isUndefined( sampleText ) ) {
 		sampleText = defaultSampleText;
 	} else {
 		for ( var key in sampleText ) {
-			if ( sampleText[ key ] === undefined ) {
+			if ( isUndefined( sampleText[ key ] ) ) {
 				sampleText[ key ] = defaultSampleText[ key ];
 			}
 		}
@@ -291,8 +290,6 @@ YoastSEO.App.prototype.constructI18n = function( translations ) {
  * Retrieves data from the callbacks.getData and applies modification to store these in this.rawData.
  */
 YoastSEO.App.prototype.getData = function() {
-	var isUndefined = require( "lodash/lang/isUndefined" );
-
 	this.rawData = this.callbacks.getData();
 
 	if ( !isUndefined( this.snippetPreview ) ) {
@@ -353,7 +350,7 @@ YoastSEO.App.prototype.bindInputEvent = function() {
  * runs the rerender function of the snippetPreview if that object is defined.
  */
 YoastSEO.App.prototype.reloadSnippetText = function() {
-	if ( typeof this.snippetPreview !== "undefined" ) {
+	if ( isUndefined( this.snippetPreview ) ) {
 		this.snippetPreview.reRender();
 	}
 };
@@ -411,7 +408,7 @@ YoastSEO.App.prototype.runAnalyzer = function() {
 
 	this.analyzerData.keyword = keyword;
 
-	if ( typeof this.pageAnalyzer === "undefined" ) {
+	if ( isUndefined( this.pageAnalyzer ) ) {
 		this.pageAnalyzer = new YoastSEO.Analyzer( this.analyzerData );
 
 		this.pluggable._addPluginTests( this.pageAnalyzer );

@@ -2,6 +2,7 @@
 /* global setTimeout: true */
 /* global YoastSEO: true */
 YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
+var isUndefined = require( "lodash/lang/isUndefined" );
 
 /**
  * The plugins object takes care of plugin registrations, preloading and managing data modifications.
@@ -122,7 +123,7 @@ YoastSEO.Pluggable.prototype._registerPlugin = function( pluginName, options ) {
 		return false;
 	}
 
-	if ( typeof options !== "undefined" && typeof options !== "object" ) {
+	if ( !isUndefined( options ) && typeof options !== "object" ) {
 		console.error( "Failed to register plugin " + pluginName + ". Expected parameters `options` to be a string." );
 		return false;
 	}
@@ -149,7 +150,7 @@ YoastSEO.Pluggable.prototype._ready = function( pluginName ) {
 		return false;
 	}
 
-	if ( this.plugins[pluginName] === undefined ) {
+	if ( isUndefined( this.plugins[pluginName] ) ) {
 		console.error( "Failed to modify status for plugin " + pluginName + ". The plugin was not properly registered." );
 		return false;
 	}
@@ -171,7 +172,7 @@ YoastSEO.Pluggable.prototype._reloaded = function( pluginName ) {
 		return false;
 	}
 
-	if ( this.plugins[pluginName] === undefined ) {
+	if ( isUndefined( this.plugins[pluginName] ) ) {
 		console.error( "Failed to reload Content Analysis for plugin " + pluginName + ". The plugin was not properly registered." );
 		return false;
 	}
@@ -222,7 +223,7 @@ YoastSEO.Pluggable.prototype._registerModification = function( modification, cal
 	};
 
 	// Make sure modification is defined on modifications object
-	if ( this.modifications[modification] === undefined ) {
+	if ( isUndefined( this.modifications[modification] ) ) {
 		this.modifications[modification] = [];
 	}
 
@@ -283,7 +284,7 @@ YoastSEO.Pluggable.prototype._registerTest = function( name, analysis, scoring, 
  * @private
  */
 YoastSEO.Pluggable.prototype._pollLoadingPlugins = function( pollTime ) {
-	pollTime = pollTime === undefined ? 0 : pollTime;
+	pollTime = isUndefined( pollTime ) ? 0 : pollTime;
 	if ( this._allReady() === true ) {
 		this.loaded = true;
 		this.app.pluginsLoaded();
@@ -317,7 +318,7 @@ YoastSEO.Pluggable.prototype._allReady = function() {
  */
 YoastSEO.Pluggable.prototype._pollTimeExceeded = function() {
 	for ( var plugin in this.plugins ) {
-		if ( this.plugins[plugin].options !== undefined && this.plugins[plugin].options.status !== "ready" ) {
+		if ( !isUndefined( this.plugins[plugin].options ) && this.plugins[plugin].options.status !== "ready" ) {
 			console.error( "Error: Plugin " + plugin + ". did not finish loading in time." );
 			delete this.plugins[plugin];
 		}
@@ -433,7 +434,7 @@ YoastSEO.Pluggable.prototype._validateOrigin = function( pluginName ) {
  * @private
  */
 YoastSEO.Pluggable.prototype._validateUniqueness = function( pluginName ) {
-	if ( this.plugins[pluginName] !== undefined ) {
+	if ( !isUndefined( this.plugins[pluginName] ) ) {
 		return false;
 	}
 	return true;

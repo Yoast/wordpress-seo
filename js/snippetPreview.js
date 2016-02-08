@@ -164,7 +164,7 @@ function hasTrailingSlash( url ) {
 function hasProgressSupport() {
 	var progressElement = document.createElement( "progress" );
 
-	return progressElement.max !== undefined;
+	return !isUndefined( progressElement.max );
 }
 
 /**

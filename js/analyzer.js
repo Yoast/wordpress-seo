@@ -134,7 +134,7 @@ YoastSEO.Analyzer.prototype.runQueue = function() {
 	if ( this.queue.length > 0 ) {
 		var currentQueueItem = this.queue.shift();
 
-		if ( undefined !== this[ currentQueueItem ] ) {
+		if ( "undefined" !== typeof this[ currentQueueItem ] ) {
 			output = this[ currentQueueItem ]();
 		} else if ( this.analyses.hasOwnProperty( currentQueueItem ) ) {
 			score = this.analyses[ currentQueueItem ].callable();
