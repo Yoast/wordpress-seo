@@ -5,6 +5,7 @@
 /* global alert */
 /* global wpseo_premium_strings */
 /* global wp */
+/* global _ */
 'use strict';
 
 ( function($) {
@@ -250,8 +251,8 @@
 		this.row            = row;
 		this.quick_edit_row = $(
 			templateQuickEdit({
-				origin: row_cells.origin.html(),
-				target: row_cells.target.html(),
+				origin: _.unescape( row_cells.origin.html() ),
+				target: _.unescape( row_cells.target.html() ),
 				type: parseInt( row_cells.type.html(), 10 ),
 				suffix: $( '#the-list').find( 'tr' ).index( row )
 			})
@@ -456,11 +457,11 @@
 					$( '<input>' )
 						.attr( 'name', 'wpseo_redirects_bulk_delete[]' )
 						.attr( 'type', 'checkbox' )
-						.val( old_url )
+						.val( _.escape( old_url ) )
 				)
 			).append(
 				$( '<td>' ).append(
-					$( '<div>' ).addClass( 'val type' ).html( redirect_type )
+					$( '<div>' ).addClass( 'val type' ).html( _.escape( redirect_type ) )
 				).append(
 					$( '<div>' ).addClass( 'row-actions' ).append(
 						$( '<span>' ).addClass( 'edit' ).append(
@@ -474,11 +475,11 @@
 				)
 			).append(
 				$( '<td>' ).append(
-					$( '<div>' ).addClass( 'val' ).html( old_url )
+					$( '<div>' ).addClass( 'val' ).html( _.escape( old_url ) )
 				)
 			).append(
 				$( '<td>' ).append(
-					$( '<div>' ).addClass( 'val' ).html( new_url )
+					$( '<div>' ).addClass( 'val' ).html( _.escape( new_url ) )
 				)
 			);
 
@@ -597,9 +598,9 @@
 					}
 
 					// Updates the table cells.
-					row_cells.origin.html( response.origin );
-					row_cells.target.html( response.target );
-					row_cells.type.html( response.type );
+					row_cells.origin.html( _.escape( response.origin ) );
+					row_cells.target.html( _.escape( response.target ) );
+					row_cells.type.html( _.escape( response.type ) );
 
 					redirectsQuickEdit.remove();
 
