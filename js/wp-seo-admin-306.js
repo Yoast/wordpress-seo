@@ -81,8 +81,18 @@ jQuery( document ).ready( function() {
 		jQuery( '#' + activeTab + '-tab' ).addClass( 'nav-tab-active' );
 
 		jQuery( '.nav-tab-active' ).click();
+
+		initSelect2();
 	}
 );
+
+/**
+ * Adds select2 for selected fields.
+ */
+function initSelect2() {
+	// Select2 for General settings: your info: company or person. Width is the same as the width for the other fields on this page.
+	jQuery( '#company_or_person' ).select2( {width: '400px'} );
+}
 
 /**
  * Detects the wrong use of variables in title and description templates
