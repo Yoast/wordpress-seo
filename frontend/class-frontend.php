@@ -779,6 +779,10 @@ class WPSEO_Frontend {
 					$robots['index'] = 'noindex';
 				}
 			}
+			elseif ( is_404() ){
+				$robots['index'] = 'noindex';
+				$robots['follow']= 'follow';
+			}
 
 			if ( isset( $wp_query->query_vars['paged'] ) && ( $wp_query->query_vars['paged'] && $wp_query->query_vars['paged'] > 1 ) && ( $this->options['noindex-subpages-wpseo'] === true ) ) {
 				$robots['index']  = 'noindex';

@@ -369,6 +369,12 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		self::$class_instance->options['noindex-author-wpseo'] = true;
 		$this->assertEquals( $expected, self::$class_instance->robots() );
 
+		// test 404
+		$expected = 'noindex,follow';
+		global $wp_query;
+		$wp_query->is_404 = true;
+		$this->assertEquals( 'noindex,follow' , self::$class_instance->robots() );
+
 		// clean-up
 		self::$class_instance->options['noindex-author-wpseo'] = false;
 	}
