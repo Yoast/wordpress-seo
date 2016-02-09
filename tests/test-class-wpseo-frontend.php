@@ -1,8 +1,8 @@
 <?php
+
 /**
  * @package WPSEO\Unittests
  */
-
 class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 
 	/**
@@ -373,7 +373,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		$expected = 'noindex,follow';
 		global $wp_query;
 		$wp_query->is_404 = true;
-		$this->assertEquals( 'noindex,follow' , self::$class_instance->robots() );
+		$this->assertEquals( 'noindex,follow', self::$class_instance->robots() );
 
 		// clean-up
 		self::$class_instance->options['noindex-author-wpseo'] = false;
@@ -986,18 +986,36 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		// from all over the place (globals, GET, etc), which makes it tricky
 		// to run them more than once without very carefully clearing everything
 		$_GET = $_POST = array();
-		foreach (array('query_string', 'id', 'postdata', 'authordata', 'day', 'currentmonth', 'page', 'pages', 'multipage', 'more', 'numpages', 'pagenow') as $v) {
-			if ( isset( $GLOBALS[$v] ) ) unset( $GLOBALS[$v] );
+		foreach (
+			array(
+				'query_string',
+				'id',
+				'postdata',
+				'authordata',
+				'day',
+				'currentmonth',
+				'page',
+				'pages',
+				'multipage',
+				'more',
+				'numpages',
+				'pagenow'
+			) as $v
+		) {
+			if ( isset( $GLOBALS[ $v ] ) ) {
+				unset( $GLOBALS[ $v ] );
+			}
 		}
-		$parts = parse_url($url);
-		if (isset($parts['scheme'])) {
+		$parts = parse_url( $url );
+		if ( isset( $parts['scheme'] ) ) {
 			$req = isset( $parts['path'] ) ? $parts['path'] : '';
-			if (isset($parts['query'])) {
+			if ( isset( $parts['query'] ) ) {
 				$req .= '?' . $parts['query'];
 				// parse the url query vars into $_GET
-				parse_str($parts['query'], $_GET);
+				parse_str( $parts['query'], $_GET );
 			}
-		} else {
+		}
+		else {
 			$req = $url;
 		}
 		if ( ! isset( $parts['query'] ) ) {
@@ -1005,15 +1023,15 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		}
 
 		$_SERVER['REQUEST_URI'] = $req;
-		unset($_SERVER['PATH_INFO']);
+		unset( $_SERVER['PATH_INFO'] );
 
 		$this->flush_cache();
-		unset($GLOBALS['wp_query'], $GLOBALS['wp_the_query']);
+		unset( $GLOBALS['wp_query'], $GLOBALS['wp_the_query'] );
 		$GLOBALS['wp_the_query'] = new WP_Query();
-		$GLOBALS['wp_query'] = $GLOBALS['wp_the_query'];
-		$GLOBALS['wp'] = new WP();
+		$GLOBALS['wp_query']     = $GLOBALS['wp_the_query'];
+		$GLOBALS['wp']           = new WP();
 		_cleanup_query_vars();
 
-		$GLOBALS['wp']->main($parts['query']);
+		$GLOBALS['wp']->main( $parts['query'] );
 	}
 }
