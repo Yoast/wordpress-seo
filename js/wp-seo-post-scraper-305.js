@@ -454,7 +454,8 @@
 		};
 
 		translations = wpseoPostScraperL10n.translations;
-		if ( translations.length > 0 ) {
+
+		if ( typeof translations !== 'undefined' && typeof translations.domain !== 'undefined' ) {
 			translations.domain = 'js-text-analysis';
 			translations.locale_data['js-text-analysis'] = translations.locale_data['wordpress-seo'];
 
