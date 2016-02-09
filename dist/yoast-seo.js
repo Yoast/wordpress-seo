@@ -3509,7 +3509,12 @@ SnippetPreview.prototype.formatTitle = function() {
 
 	// If a keyword is set we want to highlight it in the title.
 	if ( !isEmpty( this.refObj.rawData.keyword ) ) {
-		return this.formatKeyword( title );
+		title = this.formatKeyword( title );
+	}
+
+	// As an ultimate fallback provide the user with a helpful message.
+	if ( isEmpty( title ) ) {
+		title = this.i18n.dgettext( "js-text-analysis", "Please provide an SEO title by editing the snippet below." );
 	}
 
 	return title;
@@ -3583,7 +3588,7 @@ SnippetPreview.prototype.formatMeta = function() {
 		meta = this.formatKeyword( meta );
 	}
 
-	// As an ultimate cut-off provide the user with a helpful message.
+	// As an ultimate fallback provide the user with a helpful message.
 	if ( isEmpty( meta ) ) {
 		meta = this.i18n.dgettext( "js-text-analysis", "Please provide a meta description by editing the snippet below." );
 	}
