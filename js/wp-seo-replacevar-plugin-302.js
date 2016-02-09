@@ -94,9 +94,7 @@
 	 * @returns {String}
 	 */
 	YoastReplaceVarPlugin.prototype.replaceSeparators = function( data ) {
-		data = data.replace( /%%sep%%(\s+%%sep%%)*/g, this.replaceVars.sep );
-
-		return data;
+		return data.replace( /%%sep%%(\s+%%sep%%)*/g, this.replaceVars.sep );
 	};
 
 	/**
