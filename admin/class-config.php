@@ -49,6 +49,7 @@ class WPSEO_Admin_Pages {
 		wp_register_style( 'yoast-toggle-switch-lib', plugins_url( 'css/toggle-switch/toggle-switch.css', WPSEO_FILE ), array(), '4.0.2' );
 		wp_register_style( 'yoast-toggle-switch', plugins_url( 'css/toggle-switch.css', WPSEO_FILE ), array( 'yoast-toggle-switch-lib' ), WPSEO_VERSION );
 		wp_enqueue_style( 'yoast-admin-css', plugins_url( 'css/yst_plugin_tools-' . '302' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array( 'yoast-toggle-switch' ), WPSEO_VERSION );
+		wp_enqueue_style( 'yoast-seo-select2', plugins_url( 'css/dist/select2/select2.min.css', WPSEO_FILE ), array(), '4.0.1' );
 
 		if ( is_rtl() ) {
 			wp_enqueue_style( 'wpseo-rtl', plugins_url( 'css/wpseo-rtl' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
@@ -59,16 +60,18 @@ class WPSEO_Admin_Pages {
 	 * Loads the required scripts for the config page.
 	 */
 	function config_page_scripts() {
+		wp_enqueue_script( 'yoast-seo-select2', plugins_url( 'js/dist/select2/select2.min.js', WPSEO_FILE ), array(
+			'jquery',
+		), '4.0.1', true );
 		wp_enqueue_script( 'wpseo-admin-script', plugins_url( 'js/wp-seo-admin-' . '306' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array(
 			'jquery',
 			'jquery-ui-core',
 			'jquery-ui-progressbar',
+			'yoast-seo-select2'
 		), WPSEO_VERSION, true );
 		wp_localize_script( 'wpseo-admin-script', 'wpseoAdminL10n', $this->localize_admin_script() );
 		wp_enqueue_script( 'dashboard' );
 		wp_enqueue_script( 'thickbox' );
-
-
 
 		$page = filter_input( INPUT_GET, 'page' );
 		$tool = filter_input( INPUT_GET, 'tool' );
