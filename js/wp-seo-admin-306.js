@@ -96,8 +96,11 @@ function initSelect2() {
 	// Select2 for Twitter card meta data in Settings
 	jQuery( '#twitter_card_type' ).select2( { width: '400px' } );
 
-	//Select2 for taxonomy breadcrumbs in Advanced
+	// Select2 for taxonomy breadcrumbs in Advanced
 	jQuery( '#post_types-post-maintax').select2( { width: '400px' } );
+
+	// Select2 for profile in Search Console
+	jQuery( '#profile' ).select2( { width: '400px' } );
 }
 
 /**
