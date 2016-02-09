@@ -1,4 +1,4 @@
-### 1.1: February 16th, 2016
+### 1.1-rc: February 9th, 2016
 
 #### Backwards incompatible changes
 
