@@ -468,8 +468,8 @@ class WPSEO_Utils {
 	 * @param string $option The option that's being updated.
 	 */
 	public static function clear_transient_cache( $option ) {
-		if ( isset( self::$cache_clear[ $option ] ) ) {
-			if ( '' !== self::$cache_clear[ $option ] ) {
+		if ( array_key_exists( $option, self::$cache_clear ) ) {
+			if ( ! empty( self::$cache_clear[ $option ] ) ) {
 				wpseo_invalidate_sitemap_cache( self::$cache_clear[ $option ] );
 			}
 			else {
@@ -501,21 +501,12 @@ class WPSEO_Utils {
 	 * Because we can use LIKE statements this is much quicker and more efficient than
 	 * using the transients API to clear specific keys.
 	 *
+	 * Generalised method would be to query all transient keys and delete those, coming from DB or external cache.
+	 *
 	 * @param array $types Types of Sitemaps to clear.
 	 */
 	private static function clear_sitemap_database_cache( $types = array() ) {
 		global $wpdb;
-
-		if ( ! apply_filters( 'wpseo_enable_xml_sitemap_transient_caching', true ) ) {
-			return;
-		}
-
-		// Not sure about efficiency, but that's what code elsewhere does R.
-		$options = WPSEO_Options::get_option( 'wpseo_xml' );
-
-		if ( true !== $options['enablexmlsitemap'] ) {
-			return;
-		}
 
 		// Build up the query.
 		$query_parts = array();
@@ -542,7 +533,7 @@ class WPSEO_Utils {
 	 */
 	private static function clear_sitemap_transient_cache( $types = array() ) {
 		if ( empty( $types ) ) {
-			$types = self::get_sitemap_types();
+			$types = self::get_sitemap_cache_types();
 		}
 		else {
 			// Always delete the main index sitemaps cache, as that's always invalidated by any other change.
@@ -568,9 +559,11 @@ class WPSEO_Utils {
 	/**
 	 * Get the list of sitemap types that are enabled
 	 *
+	 * This is only used to clear external cache keys.
+	 *
 	 * @return array List of enabled Sitemap types.
 	 */
-	public static function get_sitemap_types() {
+	private static function get_sitemap_cache_types() {
 		static $types;
 
 		// Caching of types.
@@ -587,72 +580,26 @@ class WPSEO_Utils {
 		// Add post_types to the list.
 		$post_types = get_post_types( array( 'public' => true ) );
 		if ( ! empty( $post_types ) ) {
-
-			$post_types = array_filter( $post_types, array( __CLASS__, 'filter_sitemap_post_types' ) );
-			if ( ! empty( $post_types ) ) {
-				$types = array_merge( $types, array_values( $post_types ) );
-			}
+			$types = array_merge( $types, array_values( $post_types ) );
 		}
 
 		// Add taxonomies to the list.
 		$taxonomies = get_taxonomies( array( 'public' => true ), 'objects' );
 		if ( ! empty( $taxonomies ) ) {
-
 			$taxonomy_names = array_keys( $taxonomies );
-			$taxonomy_names = array_filter( $taxonomy_names, array( __CLASS__, 'filter_sitemap_taxonomies' ) );
-			if ( ! empty( $taxonomy_names ) ) {
-				$types = array_merge( $types, $taxonomy_names );
-			}
+			$types = array_merge( $types, $taxonomy_names );
 		}
 
 		// Add author to the list.
-		$options = WPSEO_Options::get_option( 'wpseo_xml' );
-		if ( isset( $options['disable_author_sitemap'] ) && $options['disable_author_sitemap'] !== true ) {
-			$types[] = 'author';
+		$types[] = 'author';
+
+		// Add additionally added sitemaps to the list.
+		$registered_types = WPSEO_Sitemaps::get_registered_sitemap_types();
+		if ( ! empty( $registered_types ) ) {
+			$types = array_merge( $types, $registered_types );
 		}
 
 		return $types;
-	}
-
-	/**
-	 * Filter out post types that should not be in the XML Sitemap.
-	 *
-	 * @param string $post_type Name of the post_type to check.
-	 *
-	 * @return bool
-	 */
-	private static function filter_sitemap_post_types( $post_type ) {
-		$options = WPSEO_Options::get_option( 'wpseo_xml' );
-
-		// Invalid conditions.
-		switch ( true ) {
-			case ( isset( $options[ 'post_types-' . $post_type . '-not_in_sitemap' ] ) && $options[ 'post_types-' . $post_type . '-not_in_sitemap' ] === true ):
-			case ( apply_filters( 'wpseo_sitemap_exclude_post_type', false, $post_type ) ):
-				return false;
-		}
-
-		return true;
-	}
-
-	/**
-	 * Filter out taxonomies that should not be in the XML Sitemap
-	 *
-	 * @param string $taxonomy_name Name of the taxonomy to check.
-	 *
-	 * @return bool
-	 */
-	private static function filter_sitemap_taxonomies( $taxonomy_name ) {
-		$options = WPSEO_Options::get_option( 'wpseo_xml' );
-
-		// Invalid conditions.
-		switch ( true ) {
-			case ( in_array( $taxonomy_name, array( 'link_category', 'nav_menu', 'post_format' ) ) ):
-			case ( apply_filters( 'wpseo_sitemap_exclude_taxonomy', false, $taxonomy_name ) ):
-			case ( isset( $options[ 'taxonomies-' . $taxonomy_name . '-not_in_sitemap' ] ) && $options[ 'taxonomies-' . $taxonomy_name . '-not_in_sitemap' ] === true ):
-				return false;
-		}
-
-		return true;
 	}
 
 	/**

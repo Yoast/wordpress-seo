@@ -86,6 +86,15 @@ class WPSEO_Sitemaps {
 	private $timezone;
 
 	/**
+	 * Custom sitemap types that have been registered
+	 *
+	 * This list is used for clearing transient cache when external cache is enabled.
+	 *
+	 * @var array $registered_sitemap_types
+	 */
+	private static $registered_sitemap_types = array();
+
+	/**
 	 * Class constructor
 	 */
 	function __construct() {
@@ -167,6 +176,18 @@ class WPSEO_Sitemaps {
 		if ( ! empty( $rewrite ) ) {
 			add_rewrite_rule( $rewrite, 'index.php?sitemap=' . $name, 'top' );
 		}
+
+		// Save registered 'type' so we can clear it when needed.
+		self::$registered_sitemap_types[] = $name;
+	}
+
+	/**
+	 * Get all registered sitemaps types
+	 *
+	 * @return array
+	 */
+	public static function get_registered_sitemap_types() {
+		return self::$registered_sitemap_types;
 	}
 
 	/**
