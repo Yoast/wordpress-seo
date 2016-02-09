@@ -317,7 +317,7 @@ if ( ! $filter_exists ) {
 
 if ( ! function_exists( 'wp_installing' ) ) {
 	/**
-	 * We need to mock wp_installing in WordPress versions older than 4.4
+	 * We need to define wp_installing in WordPress versions older than 4.4
 	 *
 	 * @return bool
 	 */
