@@ -1,4 +1,5 @@
 @import "snippet-editor";
+@import "colors";
 
 /* css for analyzer */
 
@@ -20,15 +21,15 @@
 }
 
 .wpseo-score-icon.good {
-    background-color: #7ad03a;
+    background-color: $color_good;
 }
 
 .wpseo-score-icon.ok {
-    background-color: #ee7c1b;
+    background-color: $color_ok;
 }
 
 .wpseo-score-icon.bad {
-    background-color: #dd3d36;
+    background-color: $color_bad;
 }
 
 .wpseo-score-icon.na {
