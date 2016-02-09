@@ -257,6 +257,49 @@
 		document.getElementById('description').value = textNode;
 	};
 
+	/**
+	 * Initializes the snippet preview
+	 *
+	 * @param {TermScraper} termScraper
+	 * @returns {YoastSEO.SnippetPreview}
+	 */
+	function initSnippetPreview( termScraper ) {
+		var data = termScraper.getData();
+
+		var snippetPreviewArgs = {
+			targetElement: document.getElementById( 'wpseo_snippet' ),
+			placeholder: {
+				urlPath: ''
+			},
+			defaultValue: {},
+			baseURL: wpseoTermScraperL10n.base_url,
+			callbacks: {
+				saveSnippetData: termScraper.saveSnippetData.bind( termScraper )
+			},
+			metaDescriptionDate: wpseoTermScraperL10n.metaDescriptionDate,
+			data: {
+				title: data.snippetTitle,
+				urlPath: data.snippetCite,
+				metaDesc: data.snippetMeta
+			}
+		};
+
+		var titlePlaceholder = wpseoTermScraperL10n.title_template;
+		if ( titlePlaceholder === '' ) {
+			titlePlaceholder = '%%title%% - %%sitename%%';
+		}
+		snippetPreviewArgs.placeholder.title = titlePlaceholder;
+		snippetPreviewArgs.defaultValue.title = titlePlaceholder;
+
+		var metaPlaceholder = wpseoTermScraperL10n.metadesc_template;
+		if ( metaPlaceholder !== '' ) {
+			snippetPreviewArgs.placeholder.metaDesc = metaPlaceholder;
+			snippetPreviewArgs.defaultValue.metaDesc = metaPlaceholder;
+		}
+
+		return new YoastSEO.SnippetPreview( snippetPreviewArgs );
+	}
+
 	jQuery( document ).ready(function() {
 		var args, termScraper, translations;
 
@@ -295,34 +338,7 @@
 			args.translations = translations;
 		}
 
-		var placeholder = { urlPath:  '' };
-
-		var titlePlaceholder = wpseoTermScraperL10n.title_template;
-		if (titlePlaceholder === '' ) {
-			titlePlaceholder = '%%title%% - %%sitename%%';
-		}
-		placeholder.title = titlePlaceholder;
-
-		var metaPlaceholder = wpseoTermScraperL10n.metadesc_template;
-		if (metaPlaceholder !== '' ) {
-			placeholder.metaDesc = metaPlaceholder;
-		}
-		var data = termScraper.getData();
-
-		args.snippetPreview = new YoastSEO.SnippetPreview({
-			targetElement: document.getElementById( 'wpseo_snippet' ),
-			placeholder: placeholder,
-			baseURL: wpseoTermScraperL10n.base_url,
-			callbacks: {
-				saveSnippetData: termScraper.saveSnippetData.bind( termScraper )
-			},
-			metaDescriptionDate: wpseoTermScraperL10n.metaDescriptionDate,
-			data: {
-				title: data.snippetTitle,
-				urlPath: data.snippetCite,
-				metaDesc: data.snippetMeta
-			}
-		});
+		args.snippetPreview = initSnippetPreview( termScraper );
 
 		window.YoastSEO.app = new YoastSEO.App( args );
 		jQuery( window ).trigger( 'YoastSEO:ready' );

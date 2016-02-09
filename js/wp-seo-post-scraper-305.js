@@ -387,6 +387,49 @@
 		}
 	} );
 
+	/**
+	 * Initializes the snippet preview
+	 *
+	 * @param {PostScraper} postScraper
+	 * @returns {YoastSEO.SnippetPreview}
+	 */
+	function initSnippetPreview( postScraper ) {
+		var data = postScraper.getData();
+
+		var snippetPreviewArgs = {
+			targetElement: document.getElementById( 'wpseosnippet' ),
+			placeholder: {
+				urlPath: ''
+			},
+			defaultValue: {},
+			baseURL: wpseoPostScraperL10n.base_url,
+			callbacks: {
+				saveSnippetData: postScraper.saveSnippetData.bind( postScraper )
+			},
+			metaDescriptionDate: wpseoPostScraperL10n.metaDescriptionDate,
+			data: {
+				title: data.snippetTitle,
+				urlPath: data.snippetCite,
+				metaDesc: data.snippetMeta
+			}
+		};
+
+		var titlePlaceholder = wpseoPostScraperL10n.title_template;
+		if ( titlePlaceholder === '' ) {
+			titlePlaceholder = '%%title%% - %%sitename%%';
+		}
+		snippetPreviewArgs.placeholder.title = titlePlaceholder;
+		snippetPreviewArgs.defaultValue.title = titlePlaceholder;
+
+		var metaPlaceholder = wpseoPostScraperL10n.metadesc_template;
+		if ( metaPlaceholder !== '' ) {
+			snippetPreviewArgs.placeholder.metaDesc = metaPlaceholder;
+			snippetPreviewArgs.defaultValue.metaDesc = metaPlaceholder;
+		}
+
+		return new YoastSEO.SnippetPreview( snippetPreviewArgs );
+	}
+
 	jQuery( document ).ready(function() {
 		var translations;
 		var postScraper = new PostScraper();
@@ -420,35 +463,7 @@
 			args.translations = translations;
 		}
 
-		var placeholder = { urlPath:  '' };
-
-		var titlePlaceholder = wpseoPostScraperL10n.title_template;
-		if (titlePlaceholder === '' ) {
-			titlePlaceholder = '%%title%% - %%sitename%%';
-		}
-		placeholder.title = titlePlaceholder;
-
-		var metaPlaceholder = wpseoPostScraperL10n.metadesc_template;
-		if (metaPlaceholder !== '' ) {
-			placeholder.metaDesc = metaPlaceholder;
-		}
-
-		var data = postScraper.getData();
-
-		args.snippetPreview = new YoastSEO.SnippetPreview({
-			targetElement: document.getElementById( 'wpseosnippet' ),
-			placeholder: placeholder,
-			baseURL: wpseoPostScraperL10n.base_url,
-			callbacks: {
-				saveSnippetData: postScraper.saveSnippetData.bind( postScraper )
-			},
-			metaDescriptionDate: wpseoPostScraperL10n.metaDescriptionDate,
-			data: {
-				title: data.snippetTitle,
-				urlPath: data.snippetCite,
-				metaDesc: data.snippetMeta
-			}
-		});
+		args.snippetPreview = initSnippetPreview( postScraper );
 
 		window.YoastSEO.app = new YoastSEO.App( args );
 		jQuery( window).trigger( 'YoastSEO:ready' );
