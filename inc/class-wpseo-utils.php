@@ -484,13 +484,27 @@ class WPSEO_Utils {
 	 * @param array $types Set of sitemap types to invalidate cache for.
 	 */
 	public static function clear_sitemap_cache( $types = array() ) {
-		global $wpdb;
-
-		self::clear_sitemap_transient_cache( $types );
+		// Filter out optional empty items.
+		$types = array_filter( $types );
 
 		if ( wp_using_ext_object_cache() ) {
-			return;
+			self::clear_sitemap_transient_cache( $types );
 		}
+		else {
+			self::clear_sitemap_database_cache( $types );
+		}
+	}
+
+	/**
+	 * Clear all transient database cache for sitemaps
+	 *
+	 * Because we can use LIKE statements this is much quicker and more efficient than
+	 * using the transients API to clear specific keys.
+	 *
+	 * @param array $types Types of Sitemaps to clear.
+	 */
+	private static function clear_sitemap_database_cache( $types = array() ) {
+		global $wpdb;
 
 		if ( ! apply_filters( 'wpseo_enable_xml_sitemap_transient_caching', true ) ) {
 			return;
@@ -503,49 +517,142 @@ class WPSEO_Utils {
 			return;
 		}
 
-		$query = "DELETE FROM $wpdb->options WHERE";
+		// Build up the query.
+		$query_parts = array();
 
-		if ( ! empty( $types ) ) {
-			$first = true;
-
-			foreach ( $types as $sitemap_type ) {
-				if ( ! $first ) {
-					$query .= ' OR ';
-				}
-
-				$query .= " option_name LIKE '_transient_wpseo_sitemap_cache_" . $sitemap_type . "_%' OR option_name LIKE '_transient_timeout_wpseo_sitemap_cache_" . $sitemap_type . "_%'";
-
-				$first = false;
-			}
+		if ( empty( $types ) ) {
+			$query_parts[] = "option_name LIKE '_transient_wpseo_sitemap_cache_%' OR option_name LIKE '_transient_timeout_wpseo_sitemap_cache_%'";
 		}
 		else {
-			$query .= " option_name LIKE '_transient_wpseo_sitemap_%' OR option_name LIKE '_transient_timeout_wpseo_sitemap_%'";
+			foreach ( $types as $sitemap_type ) {
+				$query_parts[] = "option_name LIKE '_transient_wpseo_sitemap_cache_" . $sitemap_type . "_%' OR option_name LIKE '_transient_timeout_wpseo_sitemap_cache_" . $sitemap_type . "_%'";
+			}
 		}
 
-		$wpdb->query( $query );
+		if ( ! empty( $query_parts ) ) {
+			$query = "DELETE FROM {$wpdb->options} WHERE " . implode( ' OR ', $query_parts );
+			$wpdb->query( $query );
+		}
 	}
 
 	/**
 	 * Clear sitemap transient caches
 	 *
-	 * @param array $types Set of sitemap types to clear
+	 * @param array $types Set of sitemap types to clear.
 	 */
-	public static function clear_sitemap_transient_cache( $types = array() ) {
-		// Always delete the main index sitemaps cache, as that's always invalidated by any other change.
-		if ( ! in_array( 1, $types, true ) ) {
-			array_unshift( $types, 1 );
+	private static function clear_sitemap_transient_cache( $types = array() ) {
+		if ( empty( $types ) ) {
+			$types = self::get_sitemap_types();
+		}
+		else {
+			// Always delete the main index sitemaps cache, as that's always invalidated by any other change.
+			if ( ! in_array( 1, $types, true ) ) {
+				array_unshift( $types, 1 );
+			}
 		}
 
-		foreach ( $types as $type ) {
-			$page = 0;
-			do {
-				$key   = sprintf( 'wpseo_sitemap_cache_%s_%d', $type, ++ $page );
-				$cache = get_transient( $key );
-				if ( ! empty( $cache ) ) {
-					delete_transient( $key );
-				}
-			} while ( ! empty( $cache ) );
+		if ( ! empty( $types ) ) {
+			foreach ( $types as $type ) {
+				$page = 0;
+				do {
+					$key   = sprintf( 'wpseo_sitemap_cache_%s_%d', $type, ++ $page );
+					$cache = get_transient( $key );
+					if ( ! empty( $cache ) ) {
+						delete_transient( $key );
+					}
+				} while ( ! empty( $cache ) );
+			}
 		}
+	}
+
+	/**
+	 * Get the list of sitemap types that are enabled
+	 *
+	 * @return array List of enabled Sitemap types.
+	 */
+	public static function get_sitemap_types() {
+		static $types;
+
+		// Caching of types.
+		if ( ! isset( $types ) ) {
+			return $types;
+		}
+
+		// Build up types.
+		$types = array();
+
+		// Add the index to the list.
+		$types[] = 1;
+
+		// Add post_types to the list.
+		$post_types = get_post_types( array( 'public' => true ) );
+		if ( ! empty( $post_types ) ) {
+
+			$post_types = array_filter( $post_types, array( __CLASS__, 'filter_sitemap_post_types' ) );
+			if ( ! empty( $post_types ) ) {
+				$types = array_merge( $types, array_values( $post_types ) );
+			}
+		}
+
+		// Add taxonomies to the list.
+		$taxonomies = get_taxonomies( array( 'public' => true ), 'objects' );
+		if ( ! empty( $taxonomies ) ) {
+
+			$taxonomy_names = array_keys( $taxonomies );
+			$taxonomy_names = array_filter( $taxonomy_names, array( __CLASS__, 'filter_sitemap_taxonomies' ) );
+			if ( ! empty( $taxonomy_names ) ) {
+				$types = array_merge( $types, $taxonomy_names );
+			}
+		}
+
+		// Add author to the list.
+		$options = WPSEO_Options::get_option( 'wpseo_xml' );
+		if ( isset( $options['disable_author_sitemap'] ) && $options['disable_author_sitemap'] !== true ) {
+			$types[] = 'author';
+		}
+
+		return $types;
+	}
+
+	/**
+	 * Filter out post types that should not be in the XML Sitemap.
+	 *
+	 * @param string $post_type Name of the post_type to check.
+	 *
+	 * @return bool
+	 */
+	private static function filter_sitemap_post_types( $post_type ) {
+		$options = WPSEO_Options::get_option( 'wpseo_xml' );
+
+		// Invalid conditions.
+		switch ( true ) {
+			case ( isset( $options[ 'post_types-' . $post_type . '-not_in_sitemap' ] ) && $options[ 'post_types-' . $post_type . '-not_in_sitemap' ] === true ):
+			case ( apply_filters( 'wpseo_sitemap_exclude_post_type', false, $post_type ) ):
+				return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Filter out taxonomies that should not be in the XML Sitemap
+	 *
+	 * @param string $taxonomy_name Name of the taxonomy to check.
+	 *
+	 * @return bool
+	 */
+	private static function filter_sitemap_taxonomies( $taxonomy_name ) {
+		$options = WPSEO_Options::get_option( 'wpseo_xml' );
+
+		// Invalid conditions.
+		switch ( true ) {
+			case ( in_array( $taxonomy_name, array( 'link_category', 'nav_menu', 'post_format' ) ) ):
+			case ( apply_filters( 'wpseo_sitemap_exclude_taxonomy', false, $taxonomy_name ) ):
+			case ( isset( $options[ 'taxonomies-' . $taxonomy_name . '-not_in_sitemap' ] ) && $options[ 'taxonomies-' . $taxonomy_name . '-not_in_sitemap' ] === true ):
+				return false;
+		}
+
+		return true;
 	}
 
 	/**
