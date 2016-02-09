@@ -224,9 +224,7 @@ YoastSEO.Analyzer.prototype.keywordDensity = function() {
  * @returns keywordCount
  */
 YoastSEO.Analyzer.prototype.keywordCount = function() {
-	var keywordCount = matchTextWithWord( this.config.text, this.config.keyword );
-
-	return keywordCount;
+	return matchTextWithWord( this.config.text, this.config.keyword );
 };
 
 /**
@@ -234,9 +232,7 @@ YoastSEO.Analyzer.prototype.keywordCount = function() {
  * @returns resultObject
  */
 YoastSEO.Analyzer.prototype.subHeadings = function() {
-	var result = [ { test: "subHeadings", result: getSubheadings( this.config.text, this.config.keyword ) } ];
-
-	return result;
+	return [ { test: "subHeadings", result: getSubheadings( this.config.text, this.config.keyword ) } ];
 };
 
 /**
@@ -352,8 +348,7 @@ YoastSEO.Analyzer.prototype.pageTitleKeyword = function() {
  * @returns {{name: string, count: number}}
  */
 YoastSEO.Analyzer.prototype.firstParagraph = function() {
-	var result = [ { test: "firstParagraph", result: findKeywordInFirstParagraph( this.config.text, this.config.keyword ) } ];
-	return result;
+	return [ { test: "firstParagraph", result: findKeywordInFirstParagraph( this.config.text, this.config.keyword ) } ];
 };
 
 /**
@@ -419,9 +414,7 @@ YoastSEO.Analyzer.prototype.urlLength = function() {
  * @returns {{test: string, result: number}[]}
  */
 YoastSEO.Analyzer.prototype.urlStopwords = function() {
-	var result = [ { test: "urlStopwords", result: checkUrlForStopwords( this.config.url ) } ];
-
-	return result;
+	return [ { test: "urlStopwords", result: checkUrlForStopwords( this.config.url ) } ];
 };
 
 /**
