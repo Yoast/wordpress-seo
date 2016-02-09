@@ -2962,6 +2962,10 @@ var defaults = {
 		metaDesc: "Modify your meta description by editing it right here",
 		urlPath:  "example-post/"
 	},
+	defaultValue: {
+		title: "",
+		metaDesc: ""
+	},
 	baseURL: "http://example.com/",
 	callbacks: {
 		saveSnippetData: function() {}
@@ -3197,10 +3201,17 @@ function updateProgressBar( element, value, maximum, rating ) {
  *
  * @param {Object}         opts                           - Snippet preview options.
  * @param {App}            opts.analyzerApp               - The app object the snippet preview is part of.
- * @param {Object}         opts.placeholder               - The fallback values for the snippet preview rendering.
- * @param {string}         opts.placeholder.title         - The fallback value for the title.
- * @param {string}         opts.placeholder.metaDesc      - The fallback value for the meta description.
- * @param {string}         opts.placeholder.urlPath       - The fallback value for the URL path.
+ * @param {Object}         opts.placeholder               - The placeholder values for the fields, will be shown as
+ * actual placeholders in the inputs and as a fallback for the preview.
+ * @param {string}         opts.placeholder.title
+ * @param {string}         opts.placeholder.metaDesc
+ * @param {string}         opts.placeholder.urlPath
+ *
+ * @param {Object}         opts.defaultValue              - The default value for the fields, if the user has not
+ * changed a field, this value will be used for the analyzer, preview and the progress bars.
+ * @param {string}         opts.defaultValue.title
+ * @param {string}         opts.defaultValue.metaDesc
+ * it.
  *
  * @param {string}         opts.baseURL                   - The basic URL as it will be displayed in google.
  * @param {HTMLElement}    opts.targetElement             - The target element that contains this snippet editor.
@@ -3393,8 +3404,9 @@ function getAnalyzerTitle() {
 	var title = this.data.title;
 
 	if ( isEmpty( title ) ) {
-		title = this.opts.placeholder.title;
+		title = this.opts.defaultValue.title;
 	}
+
 	title = this.refObj.pluggable._applyModifications( "data_page_title", title );
 
 	return stripSpaces( title );
@@ -3411,12 +3423,11 @@ function getAnalyzerTitle() {
 var getAnalyzerMetaDesc = function() {
 	var metaDesc = this.data.metaDesc;
 
-	metaDesc = this.refObj.pluggable._applyModifications( "data_meta_desc", metaDesc );
-
-	// If no meta has been set, generate one.
 	if ( isEmpty( metaDesc ) ) {
-		metaDesc = this.getMetaText();
+		metaDesc = this.opts.defaultValue.metaDesc;
 	}
+
+	metaDesc = this.refObj.pluggable._applyModifications( "data_meta_desc", metaDesc );
 
 	if ( !isEmpty( this.opts.metaDescriptionDate ) && !isEmpty( metaDesc ) ) {
 		metaDesc = this.opts.metaDescriptionDate + " - " + this.data.metaDesc;
@@ -3481,6 +3492,11 @@ SnippetPreview.prototype.formatTitle = function() {
 
 	// Fallback to the default if the title is empty.
 	if ( isEmpty( title ) ) {
+		title = this.opts.defaultValue.title;
+	}
+
+	// For rendering we can fallback to the placeholder as well.
+	if ( isEmpty( title ) ) {
 		title = this.opts.placeholder.title;
 	}
 
@@ -3493,7 +3509,12 @@ SnippetPreview.prototype.formatTitle = function() {
 
 	// If a keyword is set we want to highlight it in the title.
 	if ( !isEmpty( this.refObj.rawData.keyword ) ) {
-		return this.formatKeyword( title );
+		title = this.formatKeyword( title );
+	}
+
+	// As an ultimate fallback provide the user with a helpful message.
+	if ( isEmpty( title ) ) {
+		title = this.i18n.dgettext( "js-text-analysis", "Please provide an SEO title by editing the snippet below." );
 	}
 
 	return title;
@@ -3567,6 +3588,11 @@ SnippetPreview.prototype.formatMeta = function() {
 		meta = this.formatKeyword( meta );
 	}
 
+	// As an ultimate fallback provide the user with a helpful message.
+	if ( isEmpty( meta ) ) {
+		meta = this.i18n.dgettext( "js-text-analysis", "Please provide a meta description by editing the snippet below." );
+	}
+
 	return meta;
 };
 
@@ -3579,9 +3605,8 @@ SnippetPreview.prototype.formatMeta = function() {
  */
 SnippetPreview.prototype.getMetaText = function() {
 	var metaText;
-	if ( this.opts.placeholder.metaDesc !== defaults.placeholder.metaDesc ) {
-		metaText = this.opts.placeholder.metaDesc;
-	}
+
+	metaText = this.opts.defaultValue.metaDesc;
 
 	if ( !isUndefined( this.refObj.rawData.excerpt ) && isEmpty( metaText ) ) {
 		metaText = this.refObj.rawData.excerpt;
@@ -3595,10 +3620,6 @@ SnippetPreview.prototype.getMetaText = function() {
 		}
 	}
 
-	if ( isEmpty( metaText ) ) {
-		metaText = this.opts.placeholder.metaDesc;
-	}
-
 	metaText = stripHTMLTags( metaText );
 	if (
 		this.refObj.rawData.keyword !== "" &&
@@ -3606,6 +3627,7 @@ SnippetPreview.prototype.getMetaText = function() {
 	) {
 		var indexMatches = this.getIndexMatches();
 		var periodMatches = this.getPeriodMatches();
+
 		metaText = metaText.substring(
 			0,
 			YoastSEO.analyzerConfig.maxMeta
@@ -3624,9 +3646,7 @@ SnippetPreview.prototype.getMetaText = function() {
 			}
 		}
 	}
-	if ( stripHTMLTags( metaText ) === "" ) {
-		return this.opts.placeholder.metaDesc;
-	}
+
 	return metaText.substring( 0, YoastSEO.analyzerConfig.maxMeta );
 };
 
@@ -3727,14 +3747,15 @@ SnippetPreview.prototype.renderOutput = function() {
  * Makes the rendered meta description gray if no meta description has been set by the user.
  */
 SnippetPreview.prototype.renderSnippetStyle = function() {
-	var metaDesc = this.element.rendered.metaDesc;
+	var metaDescElement = this.element.rendered.metaDesc;
+	var metaDesc = getAnalyzerMetaDesc.call( this );
 
-	if ( this.data.metaDesc === "" ) {
-		addClass( metaDesc, "desc-render" );
-		removeClass( metaDesc, "desc-default" );
+	if ( isEmpty( metaDesc ) ) {
+		addClass( metaDescElement, "desc-render" );
+		removeClass( metaDescElement, "desc-default" );
 	} else {
-		addClass( metaDesc, "desc-default" );
-		removeClass( metaDesc, "desc-render" );
+		addClass( metaDescElement, "desc-default" );
+		removeClass( metaDescElement, "desc-render" );
 	}
 };
 
