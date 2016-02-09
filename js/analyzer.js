@@ -1,6 +1,21 @@
 /* global YoastSEO: true */
 YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 
+var calculateFleschReading = require( "./analyses/calculateFleschReading.js" );
+var checkStringForStopwords = require( "./analyses/checkStringForStopwords.js" );
+var checkUrlForStopwords = require( "./analyses/checkUrlForStopwords.js" );
+var checkForKeywordInUrl = require( "./analyses/countKeywordInUrl.js" );
+var checkForKeywordDoubles = require( "./analyses/checkForKeywordDoubles.js" );
+var findKeywordInFirstParagraph = require( "./analyses/findKeywordInFirstParagraph.js" );
+var findKeywordInPageTitle = require( "./analyses/findKeywordInPageTitle.js" );
+var getKeywordDensity = require( "./analyses/getKeywordDensity.js" );
+var countImages = require( "./analyses/getImageStatistics.js" );
+var countLinks = require( "./analyses/getLinkStatistics.js" );
+var getKeyphraseLength = require( "./analyses/getWordCount.js" );
+var isUrlTooLong = require( "./analyses/isUrlTooLong.js" );
+var getSubheadings = require( "./analyses/matchKeywordInSubheadings.js" );
+var countWords = require( "./stringProcessing/countWords.js" );
+var matchTextWithWord = require( "./stringProcessing/matchTextWithWord.js" );
 var sanitizeString = require( "../js/stringProcessing/sanitizeString.js" );
 var stringToRegex = require( "../js/stringProcessing/stringToRegex.js" );
 var replaceDiacritics = require( "../js/stringProcessing/replaceDiacritics.js" );
@@ -175,7 +190,6 @@ YoastSEO.Analyzer.prototype.addAnalysis = function( analysis ) {
  * @returns {{test: string, result: Number)}}
  */
 YoastSEO.Analyzer.prototype.wordCount = function() {
-	var countWords = require( "./stringProcessing/countWords.js" );
 	return [ { test: "wordCount", result: countWords( this.config.text ) } ];
 };
 
@@ -184,7 +198,6 @@ YoastSEO.Analyzer.prototype.wordCount = function() {
  * @returns {{test: string, result: number}[]}
  */
 YoastSEO.Analyzer.prototype.keyphraseSizeCheck = function() {
-	var getKeyphraseLength = require( "./analyses/getWordCount.js" );
 	return [ { test: "keyphraseSizeCheck", result: getKeyphraseLength( this.config.keyword ) } ];
 };
 
@@ -193,16 +206,13 @@ YoastSEO.Analyzer.prototype.keyphraseSizeCheck = function() {
  * @returns resultObject
  */
 YoastSEO.Analyzer.prototype.keywordDensity = function() {
-	var getKeywordDensity = require( "./analyses/getKeywordDensity.js" );
-	var countWords = require( "./stringProcessing/countWords.js" );
-	var matchWords = require( "./stringProcessing/matchTextWithWord.js" );
 	var keywordCount = countWords( this.config.text );
 
 	if ( keywordCount >= 100 ) {
 		var density = getKeywordDensity( this.config.text, this.config.keyword );
 
 		// Present for backwards compatibility with the .refObj.__store.keywordCount option in scoring.js
-		this.__store.keywordCount = matchWords( this.config.text, this.config.keyword );
+		this.__store.keywordCount = matchTextWithWord( this.config.text, this.config.keyword );
 
 		return [ { test: "keywordDensity", result: density } ];
 	}
@@ -214,7 +224,6 @@ YoastSEO.Analyzer.prototype.keywordDensity = function() {
  * @returns keywordCount
  */
 YoastSEO.Analyzer.prototype.keywordCount = function() {
-	var matchTextWithWord = require( "./stringProcessing/matchTextWithWord.js" );
 	var keywordCount = matchTextWithWord( this.config.text, this.config.keyword );
 
 	return keywordCount;
@@ -225,8 +234,6 @@ YoastSEO.Analyzer.prototype.keywordCount = function() {
  * @returns resultObject
  */
 YoastSEO.Analyzer.prototype.subHeadings = function() {
-	var getSubheadings = require( "./analyses/matchKeywordInSubheadings.js" );
-
 	var result = [ { test: "subHeadings", result: getSubheadings( this.config.text, this.config.keyword ) } ];
 
 	return result;
@@ -237,7 +244,6 @@ YoastSEO.Analyzer.prototype.subHeadings = function() {
  * @returns {result object}
  */
 YoastSEO.Analyzer.prototype.stopwords = function() {
-	var checkStringForStopwords = require( "./analyses/checkStringForStopwords.js" );
 	var matches = checkStringForStopwords( this.config.keyword );
 
 	/* Matchestext is used for scoring, we should move this to the scoring */
@@ -258,7 +264,6 @@ YoastSEO.Analyzer.prototype.stopwords = function() {
  * @returns {result object}
  */
 YoastSEO.Analyzer.prototype.fleschReading = function() {
-	var calculateFleschReading = require( "./analyses/calculateFleschReading.js" );
 	var score = calculateFleschReading( this.config.text );
 	if ( score < 0 ) {
 		score = 0;
@@ -294,7 +299,6 @@ YoastSEO.Analyzer.prototype.fleschReading = function() {
  * 	}
  */
 YoastSEO.Analyzer.prototype.linkCount = function() {
-	var countLinks = require( "./analyses/getLinkStatistics.js" );
 	var keyword = this.config.keyword;
 
 	if ( typeof keyword === "undefined" ) {
@@ -313,7 +317,6 @@ YoastSEO.Analyzer.prototype.linkCount = function() {
  * @returns {{name: string, result: {total: number, alt: number, noAlt: number}}}
  */
 YoastSEO.Analyzer.prototype.imageCount = function() {
-	var countImages = require( "./analyses/getImageStatistics.js" );
 	return [ { test: "imageCount", result: countImages( this.config.text, this.config.keyword ) } ];
 };
 
@@ -336,7 +339,6 @@ YoastSEO.Analyzer.prototype.pageTitleLength = function() {
  * @returns {{name: string, count: number}}
  */
 YoastSEO.Analyzer.prototype.pageTitleKeyword = function() {
-	var findKeywordInPageTitle = require( "./analyses/findKeywordInPageTitle.js" );
 	var result = [ { test: "pageTitleKeyword", result: { position: -1, matches: 0 } } ];
 	if ( typeof this.config.pageTitle !== "undefined" && typeof this.config.keyword !== "undefined" ) {
 		result[0].result = findKeywordInPageTitle( this.config.pageTitle, this.config.keyword );
@@ -350,7 +352,6 @@ YoastSEO.Analyzer.prototype.pageTitleKeyword = function() {
  * @returns {{name: string, count: number}}
  */
 YoastSEO.Analyzer.prototype.firstParagraph = function() {
-	var findKeywordInFirstParagraph = require( "./analyses/findKeywordInFirstParagraph.js" );
 	var result = [ { test: "firstParagraph", result: findKeywordInFirstParagraph( this.config.text, this.config.keyword ) } ];
 	return result;
 };
@@ -361,12 +362,11 @@ YoastSEO.Analyzer.prototype.firstParagraph = function() {
  * @returns {{name: string, count: number}}
  */
 YoastSEO.Analyzer.prototype.metaDescriptionKeyword = function() {
-	var wordMatch = require( "./stringProcessing/matchTextWithWord.js" );
 	var result = [ { test: "metaDescriptionKeyword", result: -1 } ];
 
 	if ( typeof this.config.meta !== "undefined" && typeof this.config.keyword !== "undefined" &&
 		this.config.meta !== "" && this.config.keyword !== "" ) {
-		result[ 0 ].result = wordMatch( this.config.meta, this.config.keyword );
+		result[ 0 ].result = matchTextWithWord( this.config.meta, this.config.keyword );
 	}
 
 	return result;
@@ -390,7 +390,6 @@ YoastSEO.Analyzer.prototype.metaDescriptionLength = function() {
  * @returns {{name: string, count: number}}
  */
 YoastSEO.Analyzer.prototype.urlKeyword = function() {
-	var checkForKeywordInUrl = require( "./analyses/countKeywordInUrl.js" );
 	var score = 0;
 
 	if ( typeof this.config.keyword !== "undefined" && typeof this.config.url !== "undefined" ) {
@@ -406,7 +405,6 @@ YoastSEO.Analyzer.prototype.urlKeyword = function() {
  * @returns {{test: string, result: number}[]}
  */
 YoastSEO.Analyzer.prototype.urlLength = function() {
-	var isUrlTooLong = require( "./analyses/isUrlTooLong.js" );
 	var result = [ { test: "urlLength", result: { urlTooLong: isUrlTooLong(
 		this.config.url,
 		this.config.keyword,
@@ -421,7 +419,6 @@ YoastSEO.Analyzer.prototype.urlLength = function() {
  * @returns {{test: string, result: number}[]}
  */
 YoastSEO.Analyzer.prototype.urlStopwords = function() {
-	var checkUrlForStopwords = require( "./analyses/checkUrlForStopwords.js" );
 	var result = [ { test: "urlStopwords", result: checkUrlForStopwords( this.config.url ) } ];
 
 	return result;
@@ -434,7 +431,6 @@ YoastSEO.Analyzer.prototype.urlStopwords = function() {
 YoastSEO.Analyzer.prototype.keywordDoubles = function() {
 	var result = [ { test: "keywordDoubles", result: { count: 0, id: 0 } } ];
 	if ( typeof this.config.keyword !== "undefined" && typeof this.config.usedKeywords !== "undefined" ) {
-		var checkForKeywordDoubles = require( "./analyses/checkForKeywordDoubles.js" );
 		result[0].result = checkForKeywordDoubles( this.config.keyword, this.config.usedKeywords );
 	}
 	return result;

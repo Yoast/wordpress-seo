@@ -14,6 +14,8 @@ var stripHTMLTags = require( "../js/stringProcessing/stripHTMLTags.js" );
 var sanitizeString = require( "../js/stringProcessing/sanitizeString.js" );
 var stripSpaces = require( "../js/stringProcessing/stripSpaces.js" );
 
+var snippetEditorTemplate = require( "./templates.js" ).snippetEditor;
+
 var defaults = {
 	data: {
 		title: "",
@@ -355,7 +357,6 @@ var SnippetPreview = function( opts ) {
  * Renders snippet editor and adds it to the targetElement
  */
 SnippetPreview.prototype.renderTemplate = function() {
-	var snippetEditorTemplate = require( "./templates.js" ).snippetEditor;
 	var targetElement = this.opts.targetElement;
 
 	targetElement.innerHTML = snippetEditorTemplate( {

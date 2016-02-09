@@ -4,13 +4,16 @@ YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 
 require( "./config/config.js" );
 var sanitizeString = require( "../js/stringProcessing/sanitizeString.js" );
+var SnippetPreview = require( "./snippetPreview.js" );
+
 var defaultsDeep = require( "lodash/object/defaultsDeep" );
 var isObject = require( "lodash/lang/isObject" );
 var isString = require( "lodash/lang/isString" );
 var MissingArgument = require( "./errors/missingArgument" );
 var isUndefined = require( "lodash/lang/isUndefined" );
 var forEach = require( "lodash/collection/forEach" );
-var SnippetPreview = require( "./snippetPreview.js" );
+
+var Jed = require( "jed" );
 
 /**
  * Default config for YoastSEO.js
@@ -72,8 +75,7 @@ var defaults = {
  * @returns {SnippetPreview}
  */
 function createDefaultSnippetPreview() {
-	var targetElement = document.getElementById( this.config.targets.snippet ),
-		SnippetPreview = require( "../js/snippetPreview.js" );
+	var targetElement = document.getElementById( this.config.targets.snippet );
 
 	return new SnippetPreview( {
 		analyzerApp: this,
@@ -269,8 +271,6 @@ YoastSEO.App.prototype.extendSampleText = function( sampleText ) {
  * @param {Object} translations
  */
 YoastSEO.App.prototype.constructI18n = function( translations ) {
-	var Jed = require( "jed" );
-
 	var defaultTranslations = {
 		"domain": "js-text-analysis",
 		"locale_data": {
