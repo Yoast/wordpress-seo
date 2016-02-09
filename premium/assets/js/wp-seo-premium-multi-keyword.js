@@ -319,7 +319,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 		analyzerData.i18n = YoastSEO.app.i18n;
 
 		// Sanitize keyword
-		keyword = YoastSEO.app.stringHelper.sanitizeKeyword( keyword );
+		keyword = YoastSEO.app._sanitizeKeyword( keyword );
 
 		// Set the keyword we want to analyze instead of the on-page one.
 		analyzerData.keyword = keyword;
