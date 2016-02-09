@@ -315,7 +315,18 @@ if ( ! $filter_exists ) {
 	add_action( 'admin_init', 'yoast_wpseo_missing_filter', 1 );
 }
 
-if ( ( ! defined( 'WP_INSTALLING' ) || WP_INSTALLING === false ) && ( $spl_autoload_exists && $filter_exists ) ) {
+if ( ! function_exists( 'wp_installing' ) ) {
+	/**
+	 * We need to mock wp_installing in WordPress versions older than 4.4
+	 *
+	 * @return bool
+	 */
+	function wp_installing() {
+		return defined( 'WP_INSTALLING' );
+	}
+}
+
+if ( ! wp_installing() && ( $spl_autoload_exists && $filter_exists ) ) {
 	add_action( 'plugins_loaded', 'wpseo_init', 14 );
 
 	if ( is_admin() ) {
