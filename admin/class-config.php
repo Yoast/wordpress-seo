@@ -67,7 +67,7 @@ class WPSEO_Admin_Pages {
 			'jquery',
 			'jquery-ui-core',
 			'jquery-ui-progressbar',
-			'yoast-seo-select2'
+			'yoast-seo-select2',
 		), WPSEO_VERSION, true );
 		wp_localize_script( 'wpseo-admin-script', 'wpseoAdminL10n', $this->localize_admin_script() );
 		wp_enqueue_script( 'dashboard' );
