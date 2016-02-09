@@ -3747,14 +3747,15 @@ SnippetPreview.prototype.renderOutput = function() {
  * Makes the rendered meta description gray if no meta description has been set by the user.
  */
 SnippetPreview.prototype.renderSnippetStyle = function() {
-	var metaDesc = this.element.rendered.metaDesc;
+	var metaDescElement = this.element.rendered.metaDesc;
+	var metaDesc = getAnalyzerMetaDesc.call( this );
 
-	if ( this.data.metaDesc === "" ) {
-		addClass( metaDesc, "desc-render" );
-		removeClass( metaDesc, "desc-default" );
+	if ( isEmpty( metaDesc ) ) {
+		addClass( metaDescElement, "desc-render" );
+		removeClass( metaDescElement, "desc-default" );
 	} else {
-		addClass( metaDesc, "desc-default" );
-		removeClass( metaDesc, "desc-render" );
+		addClass( metaDescElement, "desc-default" );
+		removeClass( metaDescElement, "desc-render" );
 	}
 };
 
