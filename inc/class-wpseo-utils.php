@@ -594,7 +594,7 @@ class WPSEO_Utils {
 		$types[] = 'author';
 
 		// Add additionally added sitemaps to the list.
-		$registered_types = WPSEO_Sitemaps::get_registered_sitemap_types();
+		$registered_types = WPSEO_Sitemaps::get_registered_types();
 		if ( ! empty( $registered_types ) ) {
 			$types = array_merge( $types, $registered_types );
 		}

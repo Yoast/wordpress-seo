@@ -90,9 +90,9 @@ class WPSEO_Sitemaps {
 	 *
 	 * This list is used for clearing transient cache when external cache is enabled.
 	 *
-	 * @var array $registered_sitemap_types
+	 * @var array $registered_types
 	 */
-	private static $registered_sitemap_types = array();
+	private static $registered_types = array();
 
 	/**
 	 * Class constructor
@@ -178,7 +178,7 @@ class WPSEO_Sitemaps {
 		}
 
 		// Save registered 'type' so we can clear it when needed.
-		self::$registered_sitemap_types[] = $name;
+		self::$registered_types[] = $name;
 	}
 
 	/**
@@ -186,8 +186,8 @@ class WPSEO_Sitemaps {
 	 *
 	 * @return array
 	 */
-	public static function get_registered_sitemap_types() {
-		return self::$registered_sitemap_types;
+	public static function get_registered_types() {
+		return self::$registered_types;
 	}
 
 	/**
