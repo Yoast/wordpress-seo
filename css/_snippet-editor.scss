@@ -1,25 +1,22 @@
 @import "functions";
+@import "colors";
 
-$color_caret: #515050;
-$color_caret_hover: #c0c0c0;
-$color_caret_focus: #1a72a6;
+$color_caret: #555555;
+$color_caret_hover: #bfbfbf;
+$color_caret_focus: #1074a8;
 
-$color_border: #eee;
+$color_border: #f7f7f7;
 
-$color_input_border: #c6c6c6;
-$color_input_border_focus: #426f84;
+$color_input_border: #bfbfbf;
+$color_input_border_focus: #1074a8;
 
-$color_progress_background: #f9f9f9;
+$color_progress_background: #f7f7f7;
 
-$color_progress_bad: #ef826b;
-$color_progress_ok: #f2a869;
-$color_progress_good: #c7d98d;
-
-$color_button: #f8f8f8;
+$color_button: #f7f7f7;
 $color_button_border: #dbdbdb;
 
-$color_headings: #595959;
-$color_buttons: #595959;
+$color_headings: #555555;
+$color_buttons: #555555;
 
 @function svg-icon-edit($color) {
 	@return inline-svg('<svg width="1792" height="1792" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path fill="#{$color}" d="M491 1536l91-91-235-235-91 91v107h128v128h107zm523-928q0-22-22-22-10 0-17 7l-542 542q-7 7-7 17 0 22 22 22 10 0 17-7l542-542q7-7 7-17zm-54-192l416 416-832 832h-416v-416zm683 96q0 53-37 90l-166 166-416-416 166-165q36-38 90-38 53 0 91 38l235 234q37 39 37 91z" /></svg>');
@@ -311,6 +308,6 @@ $color_buttons: #595959;
 	}
 }
 
-@include progress-bar-color(".snippet-editor__progress--bad", $color_progress_bad);
-@include progress-bar-color(".snippet-editor__progress--ok", $color_progress_ok);
-@include progress-bar-color(".snippet-editor__progress--good", $color_progress_good);
+@include progress-bar-color(".snippet-editor__progress--bad", $color_bad);
+@include progress-bar-color(".snippet-editor__progress--ok", $color_ok);
+@include progress-bar-color(".snippet-editor__progress--good", $color_good);
