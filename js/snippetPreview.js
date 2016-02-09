@@ -26,7 +26,7 @@ var defaults = {
 		metaDesc: "Modify your meta description by editing it right here",
 		urlPath:  "example-post/"
 	},
-	default: {
+	defaultValue: {
 		title: "",
 		metaDesc: ""
 	},
@@ -271,10 +271,10 @@ function updateProgressBar( element, value, maximum, rating ) {
  * @param {string}         opts.placeholder.metaDesc
  * @param {string}         opts.placeholder.urlPath
  *
- * @param {Object}         opts.default                   - The default value for the fields, if the user has not
+ * @param {Object}         opts.defaultValue              - The default value for the fields, if the user has not
  * changed a field, this value will be used for the analyzer, preview and the progress bars.
- * @param {string}         opts.default.title
- * @param {string}         opts.default.metaDesc
+ * @param {string}         opts.defaultValue.title
+ * @param {string}         opts.defaultValue.metaDesc
  * it.
  *
  * @param {string}         opts.baseURL                   - The basic URL as it will be displayed in google.
@@ -468,7 +468,7 @@ function getAnalyzerTitle() {
 	var title = this.data.title;
 
 	if ( isEmpty( title ) ) {
-		title = this.opts.default.title;
+		title = this.opts.defaultValue.title;
 	}
 
 	title = this.refObj.pluggable._applyModifications( "data_page_title", title );
@@ -488,7 +488,7 @@ var getAnalyzerMetaDesc = function() {
 	var metaDesc = this.data.metaDesc;
 
 	if ( isEmpty( metaDesc ) ) {
-		metaDesc = this.opts.default.metaDesc;
+		metaDesc = this.opts.defaultValue.metaDesc;
 	}
 
 	metaDesc = this.refObj.pluggable._applyModifications( "data_meta_desc", metaDesc );
@@ -556,7 +556,7 @@ SnippetPreview.prototype.formatTitle = function() {
 
 	// Fallback to the default if the title is empty.
 	if ( isEmpty( title ) ) {
-		title = this.opts.default.title;
+		title = this.opts.defaultValue.title;
 	}
 
 	// For rendering we can fallback to the placeholder as well.
@@ -665,7 +665,7 @@ SnippetPreview.prototype.formatMeta = function() {
 SnippetPreview.prototype.getMetaText = function() {
 	var metaText;
 
-	metaText = this.opts.default.metaDesc;
+	metaText = this.opts.defaultValue.metaDesc;
 
 	if ( !isUndefined( this.refObj.rawData.excerpt ) && isEmpty( metaText ) ) {
 		metaText = this.refObj.rawData.excerpt;
