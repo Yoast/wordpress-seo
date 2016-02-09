@@ -544,13 +544,15 @@ class WPSEO_Utils {
 
 		if ( ! empty( $types ) ) {
 			foreach ( $types as $type ) {
-				$page = 0;
+				$page = 1;
 				do {
-					$key   = sprintf( 'wpseo_sitemap_cache_%s_%d', $type, ++ $page );
+					$key   = sprintf( 'wpseo_sitemap_cache_%s_%d', $type, $page );
 					$cache = get_transient( $key );
 					if ( ! empty( $cache ) ) {
 						delete_transient( $key );
 					}
+
+					$page += 1;
 				} while ( ! empty( $cache ) );
 			}
 		}
