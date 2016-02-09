@@ -1614,9 +1614,16 @@ YoastSEO.SnippetPreview = require( "./snippetPreview.js" );
 require( "./app.js" );
 require( "./pluggable.js" );
 
+/**
+ * Temporary access for the Yoast SEO multi keyword implementation until we publish to npm.
+ *
+ * @private
+ */
+YoastSEO.App.prototype._sanitizeKeyword = require( "../js/stringProcessing/sanitizeString.js" );
+
 YoastSEO.Jed = require( "jed" );
 
-},{"./analyzer.js":14,"./analyzescorer.js":15,"./app.js":16,"./config/config.js":19,"./config/scoring.js":22,"./pluggable.js":26,"./scoreFormatter.js":27,"./snippetPreview.js":28,"jed":54}],18:[function(require,module,exports){
+},{"../js/stringProcessing/sanitizeString.js":44,"./analyzer.js":14,"./analyzescorer.js":15,"./app.js":16,"./config/config.js":19,"./config/scoring.js":22,"./pluggable.js":26,"./scoreFormatter.js":27,"./snippetPreview.js":28,"jed":54}],18:[function(require,module,exports){
 /**
  * Returns a configobject with maxSlugLength, maxUrlLength and MaxMeta to be used
  * for analysis

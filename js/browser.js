@@ -9,4 +9,11 @@ YoastSEO.SnippetPreview = require( "./snippetPreview.js" );
 require( "./app.js" );
 require( "./pluggable.js" );
 
+/**
+ * Temporary access for the Yoast SEO multi keyword implementation until we publish to npm.
+ *
+ * @private
+ */
+YoastSEO.App.prototype._sanitizeKeyword = require( "../js/stringProcessing/sanitizeString.js" );
+
 YoastSEO.Jed = require( "jed" );
