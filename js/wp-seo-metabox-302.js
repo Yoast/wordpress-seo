@@ -101,10 +101,12 @@
 	}
 
 	/**
-	 *
+	 * Adds select2 for selected fields.
 	 */
 	function initSelect2() {
-		$( '#yoast_wpseo_meta-robots-noindex').select2();
+		// Select2 for Yoast SEO Metabox Advanced tab
+		$( '#yoast_wpseo_meta-robots-noindex' ).select2();
+		$( '#yoast_wpseo_meta-robots-adv' ).select2();
 	}
 
 	/**
