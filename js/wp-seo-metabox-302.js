@@ -65,29 +65,30 @@
 		jQuery( '.wpseo-metabox-tabs' ).show();
 		// End Tabs code
 
-		jQuery( '.yoast_help' ).qtip(
-			{
-				content: {
-					attr: 'alt'
-				},
-				position: {
-					my: 'bottom left',
-					at: 'top center'
-				},
-				style: {
-					tip: {
-						corner: true
+		if(jQuery( '.yoast_help' ).length) {
+			jQuery( '.yoast_help' ).qtip(
+				{
+					content: {
+						attr: 'alt'
 					},
-					classes: 'yoast-qtip qtip-rounded qtip-blue'
-				},
-				show: 'click',
-				hide: {
-					fixed: true,
-					delay: 500
+					position: {
+						my: 'bottom left',
+						at: 'top center'
+					},
+					style: {
+						tip: {
+							corner: true
+						},
+						classes: 'yoast-qtip qtip-rounded qtip-blue'
+					},
+					show: 'click',
+					hide: {
+						fixed: true,
+						delay: 500
+					}
 				}
-
-			}
-		);
+			);
+		}
 	};
 
 	/**
