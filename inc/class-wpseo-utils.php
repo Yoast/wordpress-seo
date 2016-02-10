@@ -515,6 +515,11 @@ class WPSEO_Utils {
 			$query_parts[] = "option_name LIKE '_transient_wpseo_sitemap_cache_%' OR option_name LIKE '_transient_timeout_wpseo_sitemap_cache_%'";
 		}
 		else {
+			// Always delete the main index sitemaps cache, as that's always invalidated by any other change.
+			if ( ! in_array( 1, $types, true ) ) {
+				array_unshift( $types, 1 );
+			}
+
 			foreach ( $types as $sitemap_type ) {
 				$query_parts[] = "option_name LIKE '_transient_wpseo_sitemap_cache_" . $sitemap_type . "_%' OR option_name LIKE '_transient_timeout_wpseo_sitemap_cache_" . $sitemap_type . "_%'";
 			}
