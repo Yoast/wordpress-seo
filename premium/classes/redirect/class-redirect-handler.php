@@ -132,9 +132,6 @@ class WPSEO_Redirect_Handler {
 	 */
 	private function set_request_url() {
 		$this->request_url = htmlspecialchars_decode( rawurldecode( filter_input( INPUT_SERVER, 'REQUEST_URI' ) ) );
-		if ( $this->request_url !== '/' ) {
-			$this->request_url = trim( $this->request_url, '/' );
-		}
 	}
 
 	/**
@@ -144,8 +141,14 @@ class WPSEO_Redirect_Handler {
 		// Setting the redirects.
 		$this->redirects = $this->get_redirects( $this->normal_option_name );
 
+		// Trim the slashes, to match the variants of a request url (Like: url, /url, /url/, url/)
+		$request_url = $this->request_url;
+		if ( $request_url !== '/' ) {
+			$request_url = trim( $request_url, '/' );
+		}
+
 		// Get the URL and doing the redirect.
-		if ( $redirect_url = $this->find_url( $this->request_url ) ) {
+		if ( $redirect_url = $this->find_url( $request_url ) ) {
 			$this->do_redirect( $this->redirect_url( $redirect_url['url'] ), $redirect_url['type'] );
 		}
 	}
