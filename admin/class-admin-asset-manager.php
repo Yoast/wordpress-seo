@@ -35,7 +35,7 @@ class WPSEO_Admin_Asset_Manager {
 	 * Registers scripts based on it's parameters.
 	 *
 	 * @param string       $handle The unique name of the registered script.
-	 * @param string       $src The URL to the script.
+	 * @param string       $src The path to the script relative to the plugin JS root.
 	 * @param string|array $deps Array of the handles of the registered scripts this script depends on.
 	 * @param string       $ver The script version number.
 	 * @param bool         $in_footer Option to have the script placed at the bottom of the body.
@@ -54,7 +54,7 @@ class WPSEO_Admin_Asset_Manager {
 	 * Registers styles based on it's parameters.
 	 *
 	 * @param string       $handle The unique name of the registered style.
-	 * @param string       $src The URL to the style.
+	 * @param string       $src The path to the style relative to the plugin CSS root.
 	 * @param string|array $deps Array of the handles of the registered style this style depends on.
 	 * @param string       $ver The style version number.
 	 */
@@ -82,19 +82,19 @@ class WPSEO_Admin_Asset_Manager {
 	 */
 	protected function register_scripts( $scripts ) {
 		foreach ( $scripts as $item ) {
-			if ( ! isset( $item['ver'] ) ) {
-				$item['ver'] = WPSEO_VERSION;
+			if ( ! isset( $item['version'] ) ) {
+				$item['version'] = WPSEO_VERSION;
 			}
 
-			if ( ! isset( $item['inf'] ) ) {
-				$item['inf'] = true;
+			if ( ! isset( $item['in_footer'] ) ) {
+				$item['in_footer'] = true;
 			}
 			$this->register_script(
 				$item['name'],
 				$item['src'],
 				$item['deps'],
-				$item['ver'],
-				$item['inf']
+				$item['version'],
+				$item['in_footer']
 			);
 		}
 	}
@@ -106,14 +106,14 @@ class WPSEO_Admin_Asset_Manager {
 	 */
 	protected function register_styles( $styles ) {
 		foreach ( $styles as $item ) {
-			if ( ! isset( $item['ver'] ) ) {
-				$item['ver'] = WPSEO_VERSION;
+			if ( ! isset( $item['version'] ) ) {
+				$item['version'] = WPSEO_VERSION;
 			}
 			$this->register_style(
 				$item['name'],
 				$item['src'],
 				array(),
-				$item['ver']
+				$item['version']
 			);
 		}
 	}
