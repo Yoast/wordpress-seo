@@ -10,6 +10,7 @@ var isString = require( "lodash/lang/isString" );
 var MissingArgument = require( "./errors/missingArgument" );
 
 var Analyzer = require( "./analyzer.js" );
+var ScoreFormatter = require( "./scoreFormatter.js" );
 
 /**
  * Default config for YoastSEO.js
@@ -424,7 +425,7 @@ YoastSEO.App.prototype.runAnalyzer = function() {
 	}
 
 	this.pageAnalyzer.runQueue();
-	this.scoreFormatter = new YoastSEO.ScoreFormatter( {
+	this.scoreFormatter = new ScoreFormatter( {
 		scores: this.pageAnalyzer.analyzeScorer.__score,
 		overallScore: this.pageAnalyzer.analyzeScorer.__totalScore,
 		outputTarget: this.config.targets.output,

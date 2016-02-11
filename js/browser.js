@@ -4,7 +4,7 @@ require( "./config/config.js" );
 require( "./config/scoring.js" );
 YoastSEO.Analyzer = require( "./analyzer.js" );
 YoastSEO.AnalyzeScorer = require( "./analyzescorer.js" );
-require( "./scoreFormatter.js" );
+YoastSEO.ScoreFormatter = require( "./scoreFormatter.js" );
 YoastSEO.SnippetPreview = require( "./snippetPreview.js" );
 require( "./app.js" );
 require( "./pluggable.js" );

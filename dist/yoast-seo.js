@@ -1120,6 +1120,7 @@ var isString = require( "lodash/lang/isString" );
 var MissingArgument = require( "./errors/missingArgument" );
 
 var Analyzer = require( "./analyzer.js" );
+var ScoreFormatter = require( "./scoreFormatter.js" );
 
 /**
  * Default config for YoastSEO.js
@@ -1534,7 +1535,7 @@ YoastSEO.App.prototype.runAnalyzer = function() {
 	}
 
 	this.pageAnalyzer.runQueue();
-	this.scoreFormatter = new YoastSEO.ScoreFormatter( {
+	this.scoreFormatter = new ScoreFormatter( {
 		scores: this.pageAnalyzer.analyzeScorer.__score,
 		overallScore: this.pageAnalyzer.analyzeScorer.__totalScore,
 		outputTarget: this.config.targets.output,
@@ -1608,14 +1609,14 @@ YoastSEO.App.prototype.removeLoadingDialog = function() {
 	document.getElementById( this.config.targets.output ).removeChild( document.getElementById( "YoastSEO-plugin-loading" ) );
 };
 
-},{"../js/snippetPreview.js":28,"../js/stringProcessing/sanitizeString.js":44,"./analyzer.js":14,"./config/config.js":19,"./errors/missingArgument":25,"./snippetPreview.js":28,"jed":54,"lodash/lang/isObject":131,"lodash/lang/isString":133,"lodash/lang/isUndefined":135,"lodash/object/defaultsDeep":137}],17:[function(require,module,exports){
+},{"../js/snippetPreview.js":28,"../js/stringProcessing/sanitizeString.js":44,"./analyzer.js":14,"./config/config.js":19,"./errors/missingArgument":25,"./scoreFormatter.js":27,"./snippetPreview.js":28,"jed":54,"lodash/lang/isObject":131,"lodash/lang/isString":133,"lodash/lang/isUndefined":135,"lodash/object/defaultsDeep":137}],17:[function(require,module,exports){
 YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 
 require( "./config/config.js" );
 require( "./config/scoring.js" );
 YoastSEO.Analyzer = require( "./analyzer.js" );
 YoastSEO.AnalyzeScorer = require( "./analyzescorer.js" );
-require( "./scoreFormatter.js" );
+YoastSEO.ScoreFormatter = require( "./scoreFormatter.js" );
 YoastSEO.SnippetPreview = require( "./snippetPreview.js" );
 require( "./app.js" );
 require( "./pluggable.js" );
@@ -2767,7 +2768,7 @@ var difference = require( "lodash/array/difference" );
  * @param {YoastSEO.App} args
  * @constructor
  */
-YoastSEO.ScoreFormatter = function( args ) {
+var ScoreFormatter = function( args ) {
 	this.scores = args.scores;
 	this.overallScore = args.overallScore;
 	this.outputTarget = args.outputTarget;
@@ -2781,7 +2782,7 @@ YoastSEO.ScoreFormatter = function( args ) {
 /**
  * Renders the score in the HTML.
  */
-YoastSEO.ScoreFormatter.prototype.renderScore = function() {
+ScoreFormatter.prototype.renderScore = function() {
 	this.outputScore();
 	this.outputOverallScore();
 };
@@ -2789,7 +2790,7 @@ YoastSEO.ScoreFormatter.prototype.renderScore = function() {
 /**
  * creates the list for showing the results from the analyzerscorer
  */
-YoastSEO.ScoreFormatter.prototype.outputScore = function() {
+ScoreFormatter.prototype.outputScore = function() {
 	var seoScoreText, scoreRating;
 
 	this.sortScores();
@@ -2828,7 +2829,7 @@ YoastSEO.ScoreFormatter.prototype.outputScore = function() {
 /**
  * sorts the scores array on ascending scores
  */
-YoastSEO.ScoreFormatter.prototype.sortScores = function() {
+ScoreFormatter.prototype.sortScores = function() {
 	var unsortables = this.getUndefinedScores( this.scores );
 	var sortables = difference( this.scores, unsortables );
 
@@ -2845,7 +2846,7 @@ YoastSEO.ScoreFormatter.prototype.sortScores = function() {
  * @param {Array} scorers The scorers that are being sorted
  * @returns {Array} The scorers that cannot be sorted
  */
-YoastSEO.ScoreFormatter.prototype.getUndefinedScores = function( scorers ) {
+ScoreFormatter.prototype.getUndefinedScores = function( scorers ) {
 	var filtered = scorers.filter( function( scorer ) {
 		return isUndefined( scorer.score );
 	} );
@@ -2856,7 +2857,7 @@ YoastSEO.ScoreFormatter.prototype.getUndefinedScores = function( scorers ) {
 /**
  * outputs the overallScore in the overallTarget element.
  */
-YoastSEO.ScoreFormatter.prototype.outputOverallScore = function() {
+ScoreFormatter.prototype.outputOverallScore = function() {
 	var overallTarget = document.getElementById( this.overallTarget );
 
 	if ( overallTarget ) {
@@ -2875,7 +2876,7 @@ YoastSEO.ScoreFormatter.prototype.outputOverallScore = function() {
  * @param {number|string} score
  * @returns {string} scoreRate
  */
-YoastSEO.ScoreFormatter.prototype.scoreRating = function( score ) {
+ScoreFormatter.prototype.scoreRating = function( score ) {
 	var scoreRate;
 	switch ( true ) {
 		case score <= 4:
@@ -2901,7 +2902,7 @@ YoastSEO.ScoreFormatter.prototype.scoreRating = function( score ) {
  * @param {number|string} score
  * @returns {string} scoreRate
  */
-YoastSEO.ScoreFormatter.prototype.overallScoreRating = function( score ) {
+ScoreFormatter.prototype.overallScoreRating = function( score ) {
 	if ( typeof score === "number" ) {
 		score = ( score / 10 );
 	}
@@ -2915,7 +2916,7 @@ YoastSEO.ScoreFormatter.prototype.overallScoreRating = function( score ) {
  *
  * @return {string}
  */
-YoastSEO.ScoreFormatter.prototype.getSEOScoreText = function( scoreRating ) {
+ScoreFormatter.prototype.getSEOScoreText = function( scoreRating ) {
 	var scoreText = "";
 
 	switch ( scoreRating ) {
@@ -2938,6 +2939,8 @@ YoastSEO.ScoreFormatter.prototype.getSEOScoreText = function( scoreRating ) {
 
 	return scoreText;
 };
+
+module.exports = ScoreFormatter;
 
 },{"lodash/array/difference":55,"lodash/lang/isUndefined":135}],28:[function(require,module,exports){
 /* jshint browser: true */
