@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, Google, xml sitemap, google search console, google webmaster tools, canonical, meta description, meta title, noindex, snippet preview, redirects, focus keyword, seo copywriting, content marketing
 Requires at least: 4.0
 Tested up to: 4.4
-Stable tag: 3.0.7
+Stable tag: 3.1-RC
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using Yoast SEO plugin.
 
@@ -115,6 +115,51 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 7. The advanced section of the Yoast SEO meta box.
 
 == Changelog ==
+
+= 3.1-RC =
+
+Release Date: February 9th, 2015
+
+* Features:
+	* Added an interface to select a primary category for a post, which are used in the post's breadcrumbs and have a few other nice SEO advantages.
+	* Added SEO score column to the taxonomy overviews.
+
+* Enhancements:
+	* Replaces all checkboxes and radio buttons on settings pages with styled toggles.
+	* Adds a new interface for the snippet preview which addresses most of the known UX issues:
+		* To clarify how the snippet preview can be edited, we've added an 'edit' button.
+		* Many users were looking for the "SEO title" and "Meta description" input fields. Those have been reintroduced and can be edited by clicking the edit button.
+		* We've gotten rid of the horribly inaccessible contenteditable elements and moved back to labeled input elements.
+		* The progress indicator for both SEO title and meta description has returned in the form of progress bars underneath the input elements.
+		* We've made a clear distinction between the snippet preview and the snippet editor and have tried to clearly signify which input fields affect which parts of the snippet preview.
+		* We've made sure both preview and snippet editor handle "%%" variables well. In the editor we show the variables and in the preview we render them.
+		* We've made sure templates that are set under "Titles & Metas" are well reflected in the snippet preview and editor. When they are set, they are shown as placeholder text in the input fields.
+		* The progress bars also take into account templates and "%%" variables, giving clearer indication if anything should still be added to the SEO title or meta description.
+		* We've reintroduced behavior where a (generated) example meta description is made grey in the snippet preview to indicate that it's not been set.
+	* Adds og:image:width and og:image:height metatags to ensure an image is properly rendered for a user the first time a page is shared on Facebook.
+	* Includes a few minor performance improvements for the content analysis.
+	* Slightly optimizes the way options are handled. We now only fetch the options we need.
+	* Makes sure SEO scores for taxonomies are also taken into account when recalculating the SEO scores.
+	* Updated the list of locales supported by Facebook.
+	* Makes sure the notification to see the latest changes only pops up on major and minor version and is dismissible even if JavaScript is broken.
+	* Corrected priority of gallery images in Twitter cards.
+
+* Bugfixes:
+	* Fixes a bug where the date was no longer shown in the snippet preview even when the option to show it was selected under "Titles & Metas".
+	* Fixes a reported "property of non-object" notice that occured when no valid screen object was available. Thanks [Chris Jean](https://github.com/chrisbliss18) for the fix.
+	* Fixes a bug where Google Search Console would display last_crawled and last_received dates in the wrong format.
+	* Fixes a bug where the `wpseo_canonical` filter could still be overridden by an admin setting. This is no longer the case.
+	* Fixes shorthand date formats for Open Graph tags.
+	* Fixes a bug where calls to translate.yoast.com would fail because of issues with HTTPS.
+	* Fixes a bug where the content analysis would not work properly anymore when switching multiple times between "text" and "visual" in tinyMCE.
+	* Fixes a bug where the Yoast SEO metabox was no longer loaded on the Media edit page.
+	* Fixes an "invalid argument warning" in the options. Thanks [Melvin Tercan](https://github.com/melvinmt) for fixing.
+	* Fixes a bug where the post slug would be overwritten with the post ID in case a post was autosaved and did not have a title yet.
+	* Fixes a bug where we were causing JS errors by hooking to erroneously on AjaxComplete. This solves multiple compatibility issues including the ones with "Advanced Custom Fields".
+	* Fixes a bug where saving a nav menu item would cause unnecessary pings to search engines, also resulting in timeouts and long load times for saving menu's. Thanks [Ben Constable](https://github.com/BenConstable) for providing a fix.
+	* Fixes memory issues caused by doing post counts with WP_Query. Thanks [Emre Erkan](https://github.com/karalamalar) for fixing.
+
+
 
 = 3.0.7 =
 
