@@ -136,6 +136,14 @@ var removeThumb;
  * If not, check again after 100ms. Do not do this for more than 10 times so we do not end up in an endless loop
  */
 function yst_overrideElemFunction() {
+	/**
+	 * Don't set it again when it has been replaced by yst_removeOpengraphWarning.
+	 * Otherwise an infinite loop will occur which results in a call stack overflow (fortunately).
+	 */
+	if ( 'undefined' !== typeof removeThumb ) {
+		return;
+	}
+
 	if ( document.getElementById( 'remove-post-thumbnail' ) != null ) {
 		thumbIdCounter = 0;
 		removeThumb = document.getElementById( 'remove-post-thumbnail' ).onclick; // This variable is needed for core functionality to work
