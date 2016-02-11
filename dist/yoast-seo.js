@@ -107,6 +107,7 @@ var wordMatch = require( "../stringProcessing/matchTextWithWord.js" );
  * @returns {int} Number of times the keyword is found.
  */
 module.exports = function( url, keyword ) {
+	keyword = keyword.replace( "'", "" );
 	keyword = keyword.replace( /\s/ig, "-" );
 
 	return wordMatch( url, keyword );
@@ -3722,6 +3723,8 @@ SnippetPreview.prototype.formatKeyword = function( textString ) {
  */
 SnippetPreview.prototype.formatKeywordUrl = function( textString ) {
 	var keyword = sanitizeString( this.refObj.rawData.keyword );
+	keyword = keyword.replace( /'/, "" );
+
 	var dashedKeyword = keyword.replace( /\s/g, "-" );
 
 	// Match keyword case-insensitively.
