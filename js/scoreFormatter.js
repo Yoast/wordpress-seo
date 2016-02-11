@@ -9,7 +9,7 @@ var difference = require( "lodash/array/difference" );
  * defines the variables used for the scoreformatter, runs the outputScore en overallScore
  * functions.
  *
- * @param {YoastSEO.App} args
+ * @param {App} args
  * @constructor
  */
 var ScoreFormatter = function( args ) {
