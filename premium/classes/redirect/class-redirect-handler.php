@@ -173,6 +173,10 @@ class WPSEO_Redirect_Handler {
 	 * @param array  $redirect The URL that might be matched with the regex.
 	 */
 	private function match_regex_redirect( $regex, array $redirect ) {
+
+		// Escape the ` because we use ` to delimit the regex to prevent faulty redirects.
+		$regex = str_replace( '`', '\\`', $regex );
+
 		if ( 1 === preg_match( "`{$regex}`", $this->request_url, $this->url_matches ) ) {
 
 			// Replace the $regex vars with URL matches.
