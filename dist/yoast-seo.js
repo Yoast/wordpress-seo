@@ -4047,6 +4047,33 @@ SnippetPreview.prototype._updateHoverCarets = function() {
 	}
 };
 
+/**
+ * Updates the title data and the the title input field
+ *
+ * @param {string} title
+ */
+SnippetPreview.prototype.setTitle = function( title ) {
+	this.element.input.title.value = title;
+};
+
+/**
+ * Updates the url path data and the the url path input field
+ *
+ * @param {string} urlPath
+ */
+SnippetPreview.prototype.setUrlPath = function( urlPath ) {
+	this.element.input.urlPath.value = urlPath;
+};
+
+/**
+ * Updates the meta description data and the the meta description input field
+ *
+ * @param {string} metaDesc
+ */
+SnippetPreview.prototype.setTitle = function( metaDesc ) {
+	this.element.input.metaDesc.value = metaDesc;
+};
+
 /* jshint ignore:start */
 /**
  * Used to disable enter as input. Returns false to prevent enter, and preventDefault and
