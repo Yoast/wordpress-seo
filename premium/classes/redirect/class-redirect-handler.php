@@ -141,7 +141,7 @@ class WPSEO_Redirect_Handler {
 		// Setting the redirects.
 		$this->redirects = $this->get_redirects( $this->normal_option_name );
 
-		// Trim the slashes, to match the variants of a request url (Like: url, /url, /url/, url/)
+		// Trim the slashes, to match the variants of a request url (Like: url, /url, /url/, url/).
 		$request_url = $this->request_url;
 		if ( $request_url !== '/' ) {
 			$request_url = trim( $request_url, '/' );
