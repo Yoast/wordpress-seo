@@ -60,7 +60,8 @@ class WPSEO_Redirect_File_Util {
 	 * @return int
 	 */
 	public static function write_file( $file_path, $file_content ) {
-		$has_written = (bool) file_put_contents( $file_path, $file_content );
+		$has_written = file_put_contents( $file_path, $file_content );
+
 		if ( $has_written === false ) {
 			Yoast_Notification_Center::get()->add_notification(
 				new Yoast_Notification(
@@ -68,9 +69,11 @@ class WPSEO_Redirect_File_Util {
 					array( 'type' => 'error', 'id' => md5( $file_path ) )
 				)
 			);
+
+			return false;
 		}
 
-		return $has_written;
+		return true;
 	}
 
 	/**
