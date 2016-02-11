@@ -9,6 +9,8 @@ var isObject = require( "lodash/lang/isObject" );
 var isString = require( "lodash/lang/isString" );
 var MissingArgument = require( "./errors/missingArgument" );
 
+var Analyzer = require( "./analyzer.js" );
+
 /**
  * Default config for YoastSEO.js
  *
@@ -412,7 +414,7 @@ YoastSEO.App.prototype.runAnalyzer = function() {
 	this.analyzerData.keyword = keyword;
 
 	if ( typeof this.pageAnalyzer === "undefined" ) {
-		this.pageAnalyzer = new YoastSEO.Analyzer( this.analyzerData );
+		this.pageAnalyzer = new Analyzer( this.analyzerData );
 
 		this.pluggable._addPluginTests( this.pageAnalyzer );
 	} else {

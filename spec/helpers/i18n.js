@@ -3,6 +3,8 @@ Jed = require('jed');
 
 _ = require("lodash");
 
+var Analyzer = require( "../../js/analyzer.js" );
+
 FactoryProto = function(){};
 
 FactoryProto.prototype.buildJed = function() {
@@ -21,7 +23,7 @@ FactoryProto.prototype.buildJed = function() {
  *
  * @param {Object} args
  *
- * @returns {YoastSEO.Analyzer}
+ * @returns {Analyzer}
  */
 FactoryProto.prototype.buildAnalyzer = function ( args ) {
 
@@ -30,7 +32,7 @@ FactoryProto.prototype.buildAnalyzer = function ( args ) {
 		args.locale = 'en_US';
 	}
 
-	return new YoastSEO.Analyzer( args );
+	return new Analyzer( args );
 };
 
 Factory = new FactoryProto;
