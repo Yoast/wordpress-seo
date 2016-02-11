@@ -46,9 +46,9 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 
 		self::$class_instance->twitter();
 
-		$expected = '<meta name="twitter:card" content="summary"/>
-<meta name="twitter:description" content="Twitter Test Excerpt"/>
-<meta name="twitter:title" content="Twitter Test Post - Test Blog"/>
+		$expected = '<meta name="twitter:card" content="summary" />
+<meta name="twitter:description" content="Twitter Test Excerpt" />
+<meta name="twitter:title" content="Twitter Test Post - Test Blog" />
 ';
 		$this->expectOutput( $expected );
 	}
@@ -82,7 +82,7 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	 * @return string
 	 */
 	private function metatag( $name, $value ) {
-		return '<meta name="twitter:' . $name . '" content="' . $value . '"/>' . "\n";
+		return '<meta name="twitter:' . $name . '" content="' . $value . '" />' . "\n";
 	}
 
 	/**

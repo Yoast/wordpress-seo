@@ -323,15 +323,16 @@ class Yoast_Form {
 
 		list( $off_button, $on_button ) = $buttons;
 
-		echo '<label class="', esc_attr( $class ), '" onclick="">',
+		echo '<div class="switch-container">',
+		'<label class="', esc_attr( $class ), '" onclick="">',
 		'<input type="checkbox" id="', esc_attr( $var ), '" name="', esc_attr( $this->option_name ), '[', esc_attr( $var ), ']" value="on"', checked( $this->options[ $var ], 'on', false ), '/>',
-		"<strong>{$label}</strong>",
+		"<h4>{$label}</h4>",
 		'<span aria-hidden="true">
 			<span>', esc_html( $off_button ) ,'</span>
 			<span>', esc_html( $on_button ) ,'</span>
 			<a></a>
 		 </span>
-		 </label><br class="clear" />';
+		 </label><div class="clear"></div></div>';
 	}
 
 	/**
@@ -526,6 +527,7 @@ class Yoast_Form {
 
 		$var_esc = esc_attr( $var );
 
+		echo '<div class="switch-container">';
 		echo '<fieldset id="', $var_esc, '" class="fieldset-switch-toggle" ><legend>', $label, '</legend>
 	<div class="switch-toggle switch-candy switch-yoast-seo">';
 
@@ -536,6 +538,6 @@ class Yoast_Form {
 			'<label for="', $for, '" onclick="">', $value, '</label>';
 		}
 
-		echo '<a></a></div></fieldset><br class="clear" />' . "\n\n";
+		echo '<a></a></div></fieldset><div class="clear"></div></div>' . "\n\n";
 	}
 }
