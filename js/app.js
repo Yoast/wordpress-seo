@@ -11,6 +11,7 @@ var MissingArgument = require( "./errors/missingArgument" );
 
 var Analyzer = require( "./analyzer.js" );
 var ScoreFormatter = require( "./scoreFormatter.js" );
+var Pluggable = require( "./pluggable.js" );
 
 /**
  * Default config for YoastSEO.js
@@ -207,7 +208,7 @@ YoastSEO.App = function( args ) {
 	this.callbacks = this.config.callbacks;
 
 	this.i18n = this.constructI18n( this.config.translations );
-	this.pluggable = new YoastSEO.Pluggable( this );
+	this.pluggable = new Pluggable( this );
 
 	this.getData();
 
@@ -497,4 +498,75 @@ YoastSEO.App.prototype.updateLoadingDialog = function( plugins ) {
  */
 YoastSEO.App.prototype.removeLoadingDialog = function() {
 	document.getElementById( this.config.targets.output ).removeChild( document.getElementById( "YoastSEO-plugin-loading" ) );
+};
+
+/**************** PLUGGABLE PUBLIC DSL ****************/
+
+/**
+ * Delegates to `YoastSEO.app.pluggable.registerPlugin`
+ *
+ * @param pluginName	{string}
+ * @param options 		{{status: "ready"|"loading"}}
+ * @returns 			{boolean}
+ */
+YoastSEO.App.prototype.registerPlugin = function( pluginName, options ) {
+	return this.pluggable._registerPlugin( pluginName, options );
+};
+
+/**
+ * Delegates to `YoastSEO.app.pluggable.ready`
+ *
+ * @param pluginName	{string}
+ * @returns 			{boolean}
+ */
+YoastSEO.App.prototype.pluginReady = function( pluginName ) {
+	return this.pluggable._ready( pluginName );
+};
+
+/**
+ * Delegates to `YoastSEO.app.pluggable.reloaded`
+ *
+ * @param pluginName	{string}
+ * @returns 			{boolean}
+ */
+YoastSEO.App.prototype.pluginReloaded = function( pluginName ) {
+	return this.pluggable._reloaded( pluginName );
+};
+
+/**
+ * Delegates to `YoastSEO.app.pluggable.registerModification`
+ *
+ * @param modification 	{string} 	The name of the filter
+ * @param callable 		{function} 	The callable
+ * @param pluginName 	{string} 	The plugin that is registering the modification.
+ * @param priority 		{number} 	(optional) Used to specify the order in which the callables associated with a particular filter are called.
+ * 									Lower numbers correspond with earlier execution.
+ * @returns 			{boolean}
+ */
+YoastSEO.App.prototype.registerModification = function( modification, callable, pluginName, priority ) {
+	return this.pluggable._registerModification( modification, callable, pluginName, priority );
+};
+
+/**
+ * Registers a custom test for use in the analyzer, this will result in a new line in the analyzer results. The function
+ * has to return a result based on the contents of the page/posts.
+ *
+ * The scoring object is a special object with definitions about how to translate a result from your analysis function
+ * to a SEO score.
+ *
+ * Negative scores result in a red circle
+ * Scores 1, 2, 3, 4 and 5 result in a orange circle
+ * Scores 6 and 7 result in a yellow circle
+ * Scores 8, 9 and 10 result in a red circle
+ *
+ * @param {string}   name       Name of the test.
+ * @param {function} analysis   A function that analyzes the content and determines a score for a certain trait.
+ * @param {Object}   scoring    A scoring object that defines how the analysis translates to a certain SEO score.
+ * @param {string}   pluginName The plugin that is registering the test.
+ * @param {number}   priority   (optional) Determines when this test is run in the analyzer queue. Is currently ignored,
+ *                              tests are added to the end of the queue.
+ * @returns {boolean}
+ */
+YoastSEO.App.prototype.registerTest = function( name, analysis, scoring, pluginName, priority ) {
+	return this.pluggable._registerTest( name, analysis, scoring, pluginName, priority );
 };

@@ -7,7 +7,7 @@ YoastSEO.AnalyzeScorer = require( "./analyzescorer.js" );
 YoastSEO.ScoreFormatter = require( "./scoreFormatter.js" );
 YoastSEO.SnippetPreview = require( "./snippetPreview.js" );
 require( "./app.js" );
-require( "./pluggable.js" );
+YoastSEO.Pluggable = require( "./pluggable.js" );
 
 /**
  * Temporary access for the Yoast SEO multi keyword implementation until we publish to npm.
