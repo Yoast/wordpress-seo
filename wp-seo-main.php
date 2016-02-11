@@ -220,7 +220,7 @@ function wpseo_load_textdomain() {
 	}
 }
 
-add_action( 'init', 'wpseo_load_textdomain', 1 );
+add_action( 'plugins_loaded', 'wpseo_load_textdomain' );
 
 
 /**
