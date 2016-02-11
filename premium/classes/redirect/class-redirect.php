@@ -172,7 +172,12 @@ class WPSEO_Redirect implements ArrayAccess {
 	 * @return bool
 	 */
 	public function origin_is( $url ) {
-		return (string) $this->origin === (string) $this->sanitize_slash( $url );
+		// Sanitize the slash in case of plain redirect.
+		if ( $this->format === WPSEO_Redirect::FORMAT_PLAIN ) {
+			$url = $this->sanitize_slash( $url );
+		}
+
+		return (string) $this->origin === (string) $url;
 	}
 
 	/**
