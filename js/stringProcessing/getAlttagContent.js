@@ -2,6 +2,8 @@
 
 var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
 
+var regexAltTag = /alt=(['"])(.*?)\1/i;
+
 /**
  * Checks for an alttag in the image and returns its content
  *
@@ -10,12 +12,13 @@ var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
  */
 module.exports = function( text ) {
 	var alt = "";
-	var image = text.match( /alt=([\'\"])(.*?)\1/ig );
-	if ( image !== null ) {
 
-		// Matches the value of the alt attribute (alphanumeric chars), global and case insensitive
-		alt = image[ 0 ].split( "=" )[ 1 ];
-		alt = stripSpaces( alt.replace( /[\'\"]*/g, "" ) );
+	var matches = text.match( regexAltTag );
+
+	if ( matches !== null ) {
+		alt = matches[ 2 ];
+
+		alt = stripSpaces( alt );
 	}
 	return alt;
 };
