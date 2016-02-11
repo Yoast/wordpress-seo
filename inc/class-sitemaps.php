@@ -1383,7 +1383,8 @@ class WPSEO_Sitemaps {
 				else {
 					$user_role    = $user->roles[0];
 					$target_key   = "user_role-{$user_role}-not_in_sitemap";
-					$exclude_user = $options[ $target_key ];
+					$exclude_user = isset( $options[ $target_key ] ) && $options[ $target_key ] === true;
+
 					unset( $user_rol, $target_key );
 				}
 
