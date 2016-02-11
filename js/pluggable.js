@@ -1,7 +1,5 @@
 /* global console: true */
 /* global setTimeout: true */
-/* global YoastSEO: true */
-YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 
 /**
  * The plugins object takes care of plugin registrations, preloading and managing data modifications.

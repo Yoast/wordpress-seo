@@ -1,5 +1,3 @@
-/* global YoastSEO: true */
-
 var escapeHTML = require( "lodash/string/escape" );
 
 /**

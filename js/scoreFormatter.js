@@ -1,6 +1,4 @@
 /* jshint browser: true */
-/* global YoastSEO: true */
-YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 
 var isUndefined = require( "lodash/lang/isUndefined" );
 var difference = require( "lodash/array/difference" );

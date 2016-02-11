@@ -392,9 +392,6 @@ module.exports = function( text, keyword ) {
 
 
 },{"../stringProcessing/stripNonTextTags.js":47,"../stringProcessing/subheadingsMatch.js":50}],14:[function(require,module,exports){
-/* global YoastSEO: true */
-YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
-
 var sanitizeString = require( "../js/stringProcessing/sanitizeString.js" );
 var stringToRegex = require( "../js/stringProcessing/stringToRegex.js" );
 var replaceDiacritics = require( "../js/stringProcessing/replaceDiacritics.js" );
@@ -846,8 +843,6 @@ Analyzer.prototype.score = function() {
 module.exports = Analyzer;
 
 },{"../js/stringProcessing/replaceDiacritics.js":42,"../js/stringProcessing/sanitizeString.js":44,"../js/stringProcessing/stringToRegex.js":45,"./analyses/calculateFleschReading.js":1,"./analyses/checkForKeywordDoubles.js":2,"./analyses/checkStringForStopwords.js":3,"./analyses/checkUrlForStopwords.js":4,"./analyses/countKeywordInUrl.js":5,"./analyses/findKeywordInFirstParagraph.js":6,"./analyses/findKeywordInPageTitle.js":7,"./analyses/getImageStatistics.js":8,"./analyses/getKeywordDensity.js":9,"./analyses/getLinkStatistics.js":10,"./analyses/getWordCount.js":11,"./analyses/isUrlTooLong.js":12,"./analyses/matchKeywordInSubheadings.js":13,"./analyzescorer.js":15,"./stringProcessing/countWords.js":34,"./stringProcessing/matchTextWithWord.js":41}],15:[function(require,module,exports){
-/* global YoastSEO: true */
-
 var escapeHTML = require( "lodash/string/escape" );
 
 /**
@@ -1109,8 +1104,6 @@ module.exports = AnalyzeScorer;
 
 },{"lodash/string/escape":142}],16:[function(require,module,exports){
 /* jshint browser: true */
-/* global YoastSEO: true */
-YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 
 require( "./config/config.js" );
 var sanitizeString = require( "../js/stringProcessing/sanitizeString.js" );
@@ -2388,8 +2381,6 @@ require( "util" ).inherits( module.exports, Error );
 },{"util":147}],26:[function(require,module,exports){
 /* global console: true */
 /* global setTimeout: true */
-/* global YoastSEO: true */
-YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 
 /**
  * The plugins object takes care of plugin registrations, preloading and managing data modifications.
@@ -2760,8 +2751,6 @@ module.exports = Pluggable;
 
 },{}],27:[function(require,module,exports){
 /* jshint browser: true */
-/* global YoastSEO: true */
-YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 
 var isUndefined = require( "lodash/lang/isUndefined" );
 var difference = require( "lodash/array/difference" );
@@ -2949,7 +2938,7 @@ module.exports = ScoreFormatter;
 
 },{"lodash/array/difference":55,"lodash/lang/isUndefined":135}],28:[function(require,module,exports){
 /* jshint browser: true */
-/* global YoastSEO: false */
+
 
 var isEmpty = require( "lodash/lang/isEmpty" );
 var isElement = require( "lodash/lang/isElement" );

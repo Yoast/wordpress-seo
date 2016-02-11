@@ -1,5 +1,4 @@
 /* jshint browser: true */
-/* global YoastSEO: false */
 
 var isEmpty = require( "lodash/lang/isEmpty" );
 var isElement = require( "lodash/lang/isElement" );
