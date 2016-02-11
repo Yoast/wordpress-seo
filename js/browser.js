@@ -1,7 +1,8 @@
 YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 
-require( "./config/config.js" );
-require( "./config/scoring.js" );
+YoastSEO.analyzerConfig = require( "./config/config.js" );
+YoastSEO.AnalyzerScoring = require( "./config/scoring.js" ).AnalyzerScoring;
+YoastSEO.analyzerScoreRating = require( "./config/scoring.js" ).analyzerScoreRating;
 YoastSEO.Analyzer = require( "./analyzer.js" );
 YoastSEO.AnalyzeScorer = require( "./analyzescorer.js" );
 YoastSEO.ScoreFormatter = require( "./scoreFormatter.js" );

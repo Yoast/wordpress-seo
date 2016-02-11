@@ -10,6 +10,7 @@ var MissingArgument = require( "./errors/missingArgument" );
 var Analyzer = require( "./analyzer.js" );
 var ScoreFormatter = require( "./scoreFormatter.js" );
 var Pluggable = require( "./pluggable.js" );
+var analyzerConfig = require( "./config/config.js" );
 
 /**
  * Default config for YoastSEO.js
@@ -238,7 +239,7 @@ var App = function( args ) {
  */
 App.prototype.extendConfig = function( args ) {
 	args.sampleText = this.extendSampleText( args.sampleText );
-	args.queue = args.queue || YoastSEO.analyzerConfig.queue;
+	args.queue = args.queue || analyzerConfig.queue;
 	args.locale = args.locale || "en_US";
 
 	return args;

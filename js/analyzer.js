@@ -3,6 +3,7 @@ var stringToRegex = require( "../js/stringProcessing/stringToRegex.js" );
 var replaceDiacritics = require( "../js/stringProcessing/replaceDiacritics.js" );
 
 var AnalyzeScorer = require( "./analyzescorer.js" );
+var analyzerConfig = require( "./config/config.js" );
 
 /**
  * Text Analyzer, accepts args for config and calls init for initialization
@@ -100,7 +101,7 @@ Analyzer.prototype.initQueue = function() {
 	if ( typeof this.config.queue !== "undefined" && this.config.queue.length !== 0 ) {
 		this.queue = this.config.queue.slice();
 	} else {
-		this.queue = YoastSEO.analyzerConfig.queue.slice();
+		this.queue = analyzerConfig.queue.slice();
 	}
 
 	// Exclude the flesh easy reading score for non-english languages
@@ -116,10 +117,10 @@ Analyzer.prototype.loadWordlists = function() {
 
 	//if no available keywords, load default array
 	if ( typeof this.config.wordsToRemove === "undefined" ) {
-		this.config.wordsToRemove = YoastSEO.analyzerConfig.wordsToRemove;
+		this.config.wordsToRemove = analyzerConfig.wordsToRemove;
 	}
 	if ( typeof this.config.stopWords === "undefined" ) {
-		this.config.stopWords = YoastSEO.analyzerConfig.stopWords;
+		this.config.stopWords = analyzerConfig.stopWords;
 	}
 };
 

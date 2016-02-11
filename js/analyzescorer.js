@@ -1,5 +1,8 @@
 var escapeHTML = require( "lodash/string/escape" );
 
+var AnalyzerScoring = require( "./config/scoring.js" ).AnalyzerScoring;
+var analyzerScoreRating = require( "./config/scoring.js" ).analyzerScoreRating;
+
 /**
  * inits the analyzerscorer used for scoring of the output from the textanalyzer
  *
@@ -17,7 +20,7 @@ var AnalyzeScorer = function( refObj ) {
  * loads the analyzerScoring from the config file.
  */
 AnalyzeScorer.prototype.init = function() {
-	var scoringConfig = new YoastSEO.AnalyzerScoring( this.i18n );
+	var scoringConfig = new AnalyzerScoring( this.i18n );
 	this.scoring = scoringConfig.analyzerScoring;
 };
 
@@ -227,7 +230,7 @@ AnalyzeScorer.prototype.totalScore = function() {
 			scoreAmount--;
 		}
 	}
-	var totalAmount = scoreAmount * YoastSEO.analyzerScoreRating;
+	var totalAmount = scoreAmount * analyzerScoreRating;
 	return Math.round( ( totalScore / totalAmount ) * 100 );
 };
 

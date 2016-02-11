@@ -397,6 +397,7 @@ var stringToRegex = require( "../js/stringProcessing/stringToRegex.js" );
 var replaceDiacritics = require( "../js/stringProcessing/replaceDiacritics.js" );
 
 var AnalyzeScorer = require( "./analyzescorer.js" );
+var analyzerConfig = require( "./config/config.js" );
 
 /**
  * Text Analyzer, accepts args for config and calls init for initialization
@@ -494,7 +495,7 @@ Analyzer.prototype.initQueue = function() {
 	if ( typeof this.config.queue !== "undefined" && this.config.queue.length !== 0 ) {
 		this.queue = this.config.queue.slice();
 	} else {
-		this.queue = YoastSEO.analyzerConfig.queue.slice();
+		this.queue = analyzerConfig.queue.slice();
 	}
 
 	// Exclude the flesh easy reading score for non-english languages
@@ -510,10 +511,10 @@ Analyzer.prototype.loadWordlists = function() {
 
 	//if no available keywords, load default array
 	if ( typeof this.config.wordsToRemove === "undefined" ) {
-		this.config.wordsToRemove = YoastSEO.analyzerConfig.wordsToRemove;
+		this.config.wordsToRemove = analyzerConfig.wordsToRemove;
 	}
 	if ( typeof this.config.stopWords === "undefined" ) {
-		this.config.stopWords = YoastSEO.analyzerConfig.stopWords;
+		this.config.stopWords = analyzerConfig.stopWords;
 	}
 };
 
@@ -842,8 +843,11 @@ Analyzer.prototype.score = function() {
 
 module.exports = Analyzer;
 
-},{"../js/stringProcessing/replaceDiacritics.js":42,"../js/stringProcessing/sanitizeString.js":44,"../js/stringProcessing/stringToRegex.js":45,"./analyses/calculateFleschReading.js":1,"./analyses/checkForKeywordDoubles.js":2,"./analyses/checkStringForStopwords.js":3,"./analyses/checkUrlForStopwords.js":4,"./analyses/countKeywordInUrl.js":5,"./analyses/findKeywordInFirstParagraph.js":6,"./analyses/findKeywordInPageTitle.js":7,"./analyses/getImageStatistics.js":8,"./analyses/getKeywordDensity.js":9,"./analyses/getLinkStatistics.js":10,"./analyses/getWordCount.js":11,"./analyses/isUrlTooLong.js":12,"./analyses/matchKeywordInSubheadings.js":13,"./analyzescorer.js":15,"./stringProcessing/countWords.js":34,"./stringProcessing/matchTextWithWord.js":41}],15:[function(require,module,exports){
+},{"../js/stringProcessing/replaceDiacritics.js":42,"../js/stringProcessing/sanitizeString.js":44,"../js/stringProcessing/stringToRegex.js":45,"./analyses/calculateFleschReading.js":1,"./analyses/checkForKeywordDoubles.js":2,"./analyses/checkStringForStopwords.js":3,"./analyses/checkUrlForStopwords.js":4,"./analyses/countKeywordInUrl.js":5,"./analyses/findKeywordInFirstParagraph.js":6,"./analyses/findKeywordInPageTitle.js":7,"./analyses/getImageStatistics.js":8,"./analyses/getKeywordDensity.js":9,"./analyses/getLinkStatistics.js":10,"./analyses/getWordCount.js":11,"./analyses/isUrlTooLong.js":12,"./analyses/matchKeywordInSubheadings.js":13,"./analyzescorer.js":15,"./config/config.js":19,"./stringProcessing/countWords.js":34,"./stringProcessing/matchTextWithWord.js":41}],15:[function(require,module,exports){
 var escapeHTML = require( "lodash/string/escape" );
+
+var AnalyzerScoring = require( "./config/scoring.js" ).AnalyzerScoring;
+var analyzerScoreRating = require( "./config/scoring.js" ).analyzerScoreRating;
 
 /**
  * inits the analyzerscorer used for scoring of the output from the textanalyzer
@@ -862,7 +866,7 @@ var AnalyzeScorer = function( refObj ) {
  * loads the analyzerScoring from the config file.
  */
 AnalyzeScorer.prototype.init = function() {
-	var scoringConfig = new YoastSEO.AnalyzerScoring( this.i18n );
+	var scoringConfig = new AnalyzerScoring( this.i18n );
 	this.scoring = scoringConfig.analyzerScoring;
 };
 
@@ -1072,7 +1076,7 @@ AnalyzeScorer.prototype.totalScore = function() {
 			scoreAmount--;
 		}
 	}
-	var totalAmount = scoreAmount * YoastSEO.analyzerScoreRating;
+	var totalAmount = scoreAmount * analyzerScoreRating;
 	return Math.round( ( totalScore / totalAmount ) * 100 );
 };
 
@@ -1102,7 +1106,7 @@ AnalyzeScorer.prototype.addScoring = function( scoring ) {
 
 module.exports = AnalyzeScorer;
 
-},{"lodash/string/escape":142}],16:[function(require,module,exports){
+},{"./config/scoring.js":22,"lodash/string/escape":142}],16:[function(require,module,exports){
 /* jshint browser: true */
 
 require( "./config/config.js" );
@@ -1115,6 +1119,7 @@ var MissingArgument = require( "./errors/missingArgument" );
 var Analyzer = require( "./analyzer.js" );
 var ScoreFormatter = require( "./scoreFormatter.js" );
 var Pluggable = require( "./pluggable.js" );
+var analyzerConfig = require( "./config/config.js" );
 
 /**
  * Default config for YoastSEO.js
@@ -1343,7 +1348,7 @@ var App = function( args ) {
  */
 App.prototype.extendConfig = function( args ) {
 	args.sampleText = this.extendSampleText( args.sampleText );
-	args.queue = args.queue || YoastSEO.analyzerConfig.queue;
+	args.queue = args.queue || analyzerConfig.queue;
 	args.locale = args.locale || "en_US";
 
 	return args;
@@ -1679,8 +1684,9 @@ module.exports = App;
 },{"../js/snippetPreview.js":28,"../js/stringProcessing/sanitizeString.js":44,"./analyzer.js":14,"./config/config.js":19,"./errors/missingArgument":25,"./pluggable.js":26,"./scoreFormatter.js":27,"./snippetPreview.js":28,"jed":54,"lodash/lang/isObject":131,"lodash/lang/isString":133,"lodash/lang/isUndefined":135,"lodash/object/defaultsDeep":137}],17:[function(require,module,exports){
 YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 
-require( "./config/config.js" );
-require( "./config/scoring.js" );
+YoastSEO.analyzerConfig = require( "./config/config.js" );
+YoastSEO.AnalyzerScoring = require( "./config/scoring.js" ).AnalyzerScoring;
+YoastSEO.analyzerScoreRating = require( "./config/scoring.js" ).analyzerScoreRating;
 YoastSEO.Analyzer = require( "./analyzer.js" );
 YoastSEO.AnalyzeScorer = require( "./analyzescorer.js" );
 YoastSEO.ScoreFormatter = require( "./scoreFormatter.js" );
@@ -1713,9 +1719,7 @@ module.exports = function(){
 };
 
 },{}],19:[function(require,module,exports){
-YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
-
-YoastSEO.analyzerConfig = {
+var analyzerConfig = {
 	queue: [ "wordCount", "keywordDensity", "subHeadings", "stopwords", "fleschReading", "linkCount", "imageCount", "urlKeyword", "urlLength", "metaDescriptionLength", "metaDescriptionKeyword", "pageTitleKeyword", "pageTitleLength", "firstParagraph", "urlStopwords", "keywordDoubles", "keyphraseSizeCheck" ],
 	stopWords: [ "a", "about", "above", "after", "again", "against", "all", "am", "an", "and", "any", "are", "as", "at", "be", "because", "been", "before", "being", "below", "between", "both", "but", "by", "could", "did", "do", "does", "doing", "down", "during", "each", "few", "for", "from", "further", "had", "has", "have", "having", "he", "he'd", "he'll", "he's", "her", "here", "here's", "hers", "herself", "him", "himself", "his", "how", "how's", "i", "i'd", "i'll", "i'm", "i've", "if", "in", "into", "is", "it", "it's", "its", "itself", "let's", "me", "more", "most", "my", "myself", "nor", "of", "on", "once", "only", "or", "other", "ought", "our", "ours", "ourselves", "out", "over", "own", "same", "she", "she'd", "she'll", "she's", "should", "so", "some", "such", "than", "that", "that's", "the", "their", "theirs", "them", "themselves", "then", "there", "there's", "these", "they", "they'd", "they'll", "they're", "they've", "this", "those", "through", "to", "too", "under", "until", "up", "very", "was", "we", "we'd", "we'll", "we're", "we've", "were", "what", "what's", "when", "when's", "where", "where's", "which", "while", "who", "who's", "whom", "why", "why's", "with", "would", "you", "you'd", "you'll", "you're", "you've", "your", "yours", "yourself", "yourselves" ],
 	wordsToRemove: [ " a", " in", " an", " on", " for", " the", " and" ],
@@ -1723,6 +1727,8 @@ YoastSEO.analyzerConfig = {
 	maxUrlLength: 40,
 	maxMeta: 156
 };
+
+module.exports = analyzerConfig;
 
 },{}],20:[function(require,module,exports){
 /** @module config/diacritics */
@@ -1845,15 +1851,12 @@ module.exports = function(){
 };
 
 },{}],22:[function(require,module,exports){
-YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
-
-YoastSEO.analyzerScoreRating = 9;
 /**
  *
  * @param {Jed} i18n
  * @constructor
  */
-YoastSEO.AnalyzerScoring = function( i18n ) {
+var AnalyzerScoring = function( i18n ) {
     this.analyzerScoring = [
         {
             scoreName: "wordCount",
@@ -2331,6 +2334,11 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
             ]
         }
     ];
+};
+
+module.exports = {
+    AnalyzerScoring: AnalyzerScoring,
+    analyzerScoreRating: 9
 };
 
 },{}],23:[function(require,module,exports){
@@ -2939,7 +2947,6 @@ module.exports = ScoreFormatter;
 },{"lodash/array/difference":55,"lodash/lang/isUndefined":135}],28:[function(require,module,exports){
 /* jshint browser: true */
 
-
 var isEmpty = require( "lodash/lang/isEmpty" );
 var isElement = require( "lodash/lang/isElement" );
 var isUndefined = require( "lodash/lang/isUndefined" );
@@ -2953,6 +2960,7 @@ var stringToRegex = require( "../js/stringProcessing/stringToRegex.js" );
 var stripHTMLTags = require( "../js/stringProcessing/stripHTMLTags.js" );
 var sanitizeString = require( "../js/stringProcessing/sanitizeString.js" );
 var stripSpaces = require( "../js/stringProcessing/stripSpaces.js" );
+var analyzerConfig = require( "./config/config.js" );
 
 var defaults = {
 	data: {
@@ -3374,7 +3382,7 @@ SnippetPreview.prototype.renderTemplate = function() {
 
 	if ( this.hasProgressSupport ) {
 		this.element.progress.title.max = titleMaxLength;
-		this.element.progress.metaDesc.max = YoastSEO.analyzerConfig.maxMeta;
+		this.element.progress.metaDesc.max = analyzerConfig.maxMeta;
 	} else {
 		forEach( this.element.progress, function( progressElement ) {
 			addClass( progressElement, "snippet-editor__progress--fallback" );
@@ -3585,7 +3593,7 @@ SnippetPreview.prototype.formatMeta = function() {
 	meta = stripHTMLTags( meta );
 
 	// Cut-off the meta description according to the maximum length
-	meta = meta.substring( 0, YoastSEO.analyzerConfig.maxMeta );
+	meta = meta.substring( 0, analyzerConfig.maxMeta );
 
 	if ( !isEmpty( this.refObj.rawData.keyword ) ) {
 		meta = this.formatKeyword( meta );
@@ -3633,7 +3641,7 @@ SnippetPreview.prototype.getMetaText = function() {
 
 		metaText = metaText.substring(
 			0,
-			YoastSEO.analyzerConfig.maxMeta
+			analyzerConfig.maxMeta
 		);
 		var curStart = 0;
 		if ( indexMatches.length > 0 ) {
@@ -3650,7 +3658,7 @@ SnippetPreview.prototype.getMetaText = function() {
 		}
 	}
 
-	return metaText.substring( 0, YoastSEO.analyzerConfig.maxMeta );
+	return metaText.substring( 0, analyzerConfig.maxMeta );
 };
 
 /**
@@ -3778,11 +3786,11 @@ SnippetPreview.prototype.checkTextLength = function( ev ) {
 	switch ( ev.currentTarget.id ) {
 		case "snippet_meta":
 			ev.currentTarget.className = "desc";
-			if ( text.length > YoastSEO.analyzerConfig.maxMeta ) {
+			if ( text.length > analyzerConfig.maxMeta ) {
 				YoastSEO.app.snippetPreview.unformattedText.snippet_meta = ev.currentTarget.textContent;
 				ev.currentTarget.textContent = text.substring(
 					0,
-					YoastSEO.analyzerConfig.maxMeta
+					analyzerConfig.maxMeta
 				);
 
 			}
@@ -3828,7 +3836,7 @@ SnippetPreview.prototype.validateFields = function() {
 	var metaDescription = getAnalyzerMetaDesc.call( this );
 	var title = getAnalyzerTitle.call( this );
 
-	if ( metaDescription.length > YoastSEO.analyzerConfig.maxMeta ) {
+	if ( metaDescription.length > analyzerConfig.maxMeta ) {
 		addClass( this.element.input.metaDesc, "snippet-editor__field--invalid" );
 	} else {
 		removeClass( this.element.input.metaDesc, "snippet-editor__field--invalid" );
@@ -3863,7 +3871,7 @@ SnippetPreview.prototype.updateProgressBars = function() {
 	updateProgressBar(
 		this.element.progress.metaDesc,
 		metaDescription.length,
-		YoastSEO.analyzerConfig.maxMeta,
+		analyzerConfig.maxMeta,
 		metaDescriptionRating
 	);
 };
@@ -4098,7 +4106,7 @@ SnippetPreview.prototype.setFocus = function( ev ) {};
 
 module.exports = SnippetPreview;
 
-},{"../js/stringProcessing/sanitizeString.js":44,"../js/stringProcessing/stringToRegex.js":45,"../js/stringProcessing/stripHTMLTags.js":46,"../js/stringProcessing/stripSpaces.js":49,"./templates.js":52,"lodash/collection/forEach":57,"lodash/collection/map":58,"lodash/function/debounce":60,"lodash/lang/clone":124,"lodash/lang/isElement":127,"lodash/lang/isEmpty":128,"lodash/lang/isUndefined":135,"lodash/object/defaultsDeep":137}],29:[function(require,module,exports){
+},{"../js/stringProcessing/sanitizeString.js":44,"../js/stringProcessing/stringToRegex.js":45,"../js/stringProcessing/stripHTMLTags.js":46,"../js/stringProcessing/stripSpaces.js":49,"./config/config.js":19,"./templates.js":52,"lodash/collection/forEach":57,"lodash/collection/map":58,"lodash/function/debounce":60,"lodash/lang/clone":124,"lodash/lang/isElement":127,"lodash/lang/isEmpty":128,"lodash/lang/isUndefined":135,"lodash/object/defaultsDeep":137}],29:[function(require,module,exports){
 /** @module stringProcessing/addWordboundary */
 
 /**
