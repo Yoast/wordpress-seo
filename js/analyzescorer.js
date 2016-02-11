@@ -8,7 +8,7 @@ var escapeHTML = require( "lodash/string/escape" );
  * @param {YoastSEO.Analyzer} refObj
  * @constructor
  */
-YoastSEO.AnalyzeScorer = function( refObj ) {
+var AnalyzeScorer = function( refObj ) {
 	this.__score = [];
 	this.refObj = refObj;
 	this.i18n = refObj.config.i18n;
@@ -18,7 +18,7 @@ YoastSEO.AnalyzeScorer = function( refObj ) {
 /**
  * loads the analyzerScoring from the config file.
  */
-YoastSEO.AnalyzeScorer.prototype.init = function() {
+AnalyzeScorer.prototype.init = function() {
 	var scoringConfig = new YoastSEO.AnalyzerScoring( this.i18n );
 	this.scoring = scoringConfig.analyzerScoring;
 };
@@ -27,7 +27,7 @@ YoastSEO.AnalyzeScorer.prototype.init = function() {
  * Starts the scoring by taking the resultObject from the analyzer. Then runs the scorequeue.
  * @param resultObj
  */
-YoastSEO.AnalyzeScorer.prototype.score = function( resultObj ) {
+AnalyzeScorer.prototype.score = function( resultObj ) {
 	this.resultObj = resultObj;
 	this.runQueue();
 };
@@ -35,7 +35,7 @@ YoastSEO.AnalyzeScorer.prototype.score = function( resultObj ) {
 /**
  * runs the queue and saves the result in the __score-object.
  */
-YoastSEO.AnalyzeScorer.prototype.runQueue = function() {
+AnalyzeScorer.prototype.runQueue = function() {
 	for ( var i = 0; i < this.resultObj.length; i++ ) {
 		var subScore = this.genericScore( this.resultObj[ i ] );
 		if ( typeof subScore !== "undefined" ) {
@@ -51,7 +51,7 @@ YoastSEO.AnalyzeScorer.prototype.runQueue = function() {
  * @param obj
  * @returns {{name: (analyzerScoring.scoreName), score: number, text: string}}
  */
-YoastSEO.AnalyzeScorer.prototype.genericScore = function( obj ) {
+AnalyzeScorer.prototype.genericScore = function( obj ) {
 	if ( typeof obj !== "undefined" ) {
 		var scoreObj = this.scoreLookup( obj.test );
 
@@ -103,7 +103,7 @@ YoastSEO.AnalyzeScorer.prototype.genericScore = function( obj ) {
  * @param scoreObj
  * @param i
  */
-YoastSEO.AnalyzeScorer.prototype.setMatcher = function( obj, scoreObj, i ) {
+AnalyzeScorer.prototype.setMatcher = function( obj, scoreObj, i ) {
 	this.matcher = parseFloat( obj.result );
 	this.result = obj.result;
 	if ( typeof scoreObj.scoreArray[ i ].matcher !== "undefined" ) {
@@ -116,7 +116,7 @@ YoastSEO.AnalyzeScorer.prototype.setMatcher = function( obj, scoreObj, i ) {
  * @param name
  * @returns scoringObject
  */
-YoastSEO.AnalyzeScorer.prototype.scoreLookup = function( name ) {
+AnalyzeScorer.prototype.scoreLookup = function( name ) {
 	for ( var ii = 0; ii < this.scoring.length; ii++ ) {
 		if ( name === this.scoring[ ii ].scoreName ) {
 			return this.scoring[ ii ];
@@ -131,7 +131,7 @@ YoastSEO.AnalyzeScorer.prototype.scoreLookup = function( name ) {
  * @param i
  * @returns scoreObject
  */
-YoastSEO.AnalyzeScorer.prototype.returnScore = function( score, scoreObj, i ) {
+AnalyzeScorer.prototype.returnScore = function( score, scoreObj, i ) {
 	score.score = scoreObj.scoreArray[ i ].score;
 	score.text = this.scoreTextFormat( scoreObj.scoreArray[ i ], scoreObj.replaceArray );
 	return score;
@@ -144,7 +144,7 @@ YoastSEO.AnalyzeScorer.prototype.returnScore = function( score, scoreObj, i ) {
  * @param replaceArray
  * @returns formatted resultText
  */
-YoastSEO.AnalyzeScorer.prototype.scoreTextFormat = function( scoreObj, replaceArray ) {
+AnalyzeScorer.prototype.scoreTextFormat = function( scoreObj, replaceArray ) {
 	var replaceWord;
 	var resultText = scoreObj.text;
 	resultText = escapeHTML( resultText );
@@ -201,7 +201,7 @@ YoastSEO.AnalyzeScorer.prototype.scoreTextFormat = function( scoreObj, replaceAr
  * @param replaceWord
  * @returns {YoastSEO.AnalyzeScorer}
  */
-YoastSEO.AnalyzeScorer.prototype.parseReplaceWord = function( replaceWord ) {
+AnalyzeScorer.prototype.parseReplaceWord = function( replaceWord ) {
 	var parts = replaceWord.split( "." );
 	var source = this;
 	for ( var i = 1; i < parts.length; i++ ) {
@@ -215,7 +215,7 @@ YoastSEO.AnalyzeScorer.prototype.parseReplaceWord = function( replaceWord ) {
  * array. Removes unused results that have no score
  * @returns score
  */
-YoastSEO.AnalyzeScorer.prototype.totalScore = function() {
+AnalyzeScorer.prototype.totalScore = function() {
 	var scoreAmount = this.__score.length;
 	var totalScore = 0;
 	for ( var i = 0; i < this.__score.length; i++ ) {
@@ -238,7 +238,7 @@ YoastSEO.AnalyzeScorer.prototype.totalScore = function() {
  *
  * @returns {number}
  */
-YoastSEO.AnalyzeScorer.prototype.getTotalScore = function() {
+AnalyzeScorer.prototype.getTotalScore = function() {
 	return this.__totalScore;
 };
 
@@ -249,7 +249,7 @@ YoastSEO.AnalyzeScorer.prototype.getTotalScore = function() {
  * @param {string} scoring.name
  * @param {Object} scoring.scoring
  */
-YoastSEO.AnalyzeScorer.prototype.addScoring = function( scoring ) {
+AnalyzeScorer.prototype.addScoring = function( scoring ) {
 	var scoringObject = scoring.scoring;
 
 	scoringObject.scoreName = scoring.name;
@@ -257,4 +257,4 @@ YoastSEO.AnalyzeScorer.prototype.addScoring = function( scoring ) {
 	this.scoring.push( scoringObject );
 };
 
-module.exports = YoastSEO.AnalyzeScorer;
+module.exports = AnalyzeScorer;

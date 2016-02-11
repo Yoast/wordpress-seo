@@ -5,6 +5,8 @@ var sanitizeString = require( "../js/stringProcessing/sanitizeString.js" );
 var stringToRegex = require( "../js/stringProcessing/stringToRegex.js" );
 var replaceDiacritics = require( "../js/stringProcessing/replaceDiacritics.js" );
 
+var AnalyzeScorer = require( "./analyzescorer.js" );
+
 /**
  * Text Analyzer, accepts args for config and calls init for initialization
  *
@@ -87,7 +89,7 @@ Analyzer.prototype.formatKeyword = function() {
 Analyzer.prototype.initDependencies = function() {
 
 	//init scorer
-	this.analyzeScorer = new YoastSEO.AnalyzeScorer( this );
+	this.analyzeScorer = new AnalyzeScorer( this );
 };
 
 /**

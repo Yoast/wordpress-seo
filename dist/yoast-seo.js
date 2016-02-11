@@ -399,6 +399,8 @@ var sanitizeString = require( "../js/stringProcessing/sanitizeString.js" );
 var stringToRegex = require( "../js/stringProcessing/stringToRegex.js" );
 var replaceDiacritics = require( "../js/stringProcessing/replaceDiacritics.js" );
 
+var AnalyzeScorer = require( "./analyzescorer.js" );
+
 /**
  * Text Analyzer, accepts args for config and calls init for initialization
  *
@@ -481,7 +483,7 @@ Analyzer.prototype.formatKeyword = function() {
 Analyzer.prototype.initDependencies = function() {
 
 	//init scorer
-	this.analyzeScorer = new YoastSEO.AnalyzeScorer( this );
+	this.analyzeScorer = new AnalyzeScorer( this );
 };
 
 /**
@@ -843,7 +845,7 @@ Analyzer.prototype.score = function() {
 
 module.exports = Analyzer;
 
-},{"../js/stringProcessing/replaceDiacritics.js":42,"../js/stringProcessing/sanitizeString.js":44,"../js/stringProcessing/stringToRegex.js":45,"./analyses/calculateFleschReading.js":1,"./analyses/checkForKeywordDoubles.js":2,"./analyses/checkStringForStopwords.js":3,"./analyses/checkUrlForStopwords.js":4,"./analyses/countKeywordInUrl.js":5,"./analyses/findKeywordInFirstParagraph.js":6,"./analyses/findKeywordInPageTitle.js":7,"./analyses/getImageStatistics.js":8,"./analyses/getKeywordDensity.js":9,"./analyses/getLinkStatistics.js":10,"./analyses/getWordCount.js":11,"./analyses/isUrlTooLong.js":12,"./analyses/matchKeywordInSubheadings.js":13,"./stringProcessing/countWords.js":34,"./stringProcessing/matchTextWithWord.js":41}],15:[function(require,module,exports){
+},{"../js/stringProcessing/replaceDiacritics.js":42,"../js/stringProcessing/sanitizeString.js":44,"../js/stringProcessing/stringToRegex.js":45,"./analyses/calculateFleschReading.js":1,"./analyses/checkForKeywordDoubles.js":2,"./analyses/checkStringForStopwords.js":3,"./analyses/checkUrlForStopwords.js":4,"./analyses/countKeywordInUrl.js":5,"./analyses/findKeywordInFirstParagraph.js":6,"./analyses/findKeywordInPageTitle.js":7,"./analyses/getImageStatistics.js":8,"./analyses/getKeywordDensity.js":9,"./analyses/getLinkStatistics.js":10,"./analyses/getWordCount.js":11,"./analyses/isUrlTooLong.js":12,"./analyses/matchKeywordInSubheadings.js":13,"./analyzescorer.js":15,"./stringProcessing/countWords.js":34,"./stringProcessing/matchTextWithWord.js":41}],15:[function(require,module,exports){
 /* global YoastSEO: true */
 
 var escapeHTML = require( "lodash/string/escape" );
@@ -854,7 +856,7 @@ var escapeHTML = require( "lodash/string/escape" );
  * @param {YoastSEO.Analyzer} refObj
  * @constructor
  */
-YoastSEO.AnalyzeScorer = function( refObj ) {
+var AnalyzeScorer = function( refObj ) {
 	this.__score = [];
 	this.refObj = refObj;
 	this.i18n = refObj.config.i18n;
@@ -864,7 +866,7 @@ YoastSEO.AnalyzeScorer = function( refObj ) {
 /**
  * loads the analyzerScoring from the config file.
  */
-YoastSEO.AnalyzeScorer.prototype.init = function() {
+AnalyzeScorer.prototype.init = function() {
 	var scoringConfig = new YoastSEO.AnalyzerScoring( this.i18n );
 	this.scoring = scoringConfig.analyzerScoring;
 };
@@ -873,7 +875,7 @@ YoastSEO.AnalyzeScorer.prototype.init = function() {
  * Starts the scoring by taking the resultObject from the analyzer. Then runs the scorequeue.
  * @param resultObj
  */
-YoastSEO.AnalyzeScorer.prototype.score = function( resultObj ) {
+AnalyzeScorer.prototype.score = function( resultObj ) {
 	this.resultObj = resultObj;
 	this.runQueue();
 };
@@ -881,7 +883,7 @@ YoastSEO.AnalyzeScorer.prototype.score = function( resultObj ) {
 /**
  * runs the queue and saves the result in the __score-object.
  */
-YoastSEO.AnalyzeScorer.prototype.runQueue = function() {
+AnalyzeScorer.prototype.runQueue = function() {
 	for ( var i = 0; i < this.resultObj.length; i++ ) {
 		var subScore = this.genericScore( this.resultObj[ i ] );
 		if ( typeof subScore !== "undefined" ) {
@@ -897,7 +899,7 @@ YoastSEO.AnalyzeScorer.prototype.runQueue = function() {
  * @param obj
  * @returns {{name: (analyzerScoring.scoreName), score: number, text: string}}
  */
-YoastSEO.AnalyzeScorer.prototype.genericScore = function( obj ) {
+AnalyzeScorer.prototype.genericScore = function( obj ) {
 	if ( typeof obj !== "undefined" ) {
 		var scoreObj = this.scoreLookup( obj.test );
 
@@ -949,7 +951,7 @@ YoastSEO.AnalyzeScorer.prototype.genericScore = function( obj ) {
  * @param scoreObj
  * @param i
  */
-YoastSEO.AnalyzeScorer.prototype.setMatcher = function( obj, scoreObj, i ) {
+AnalyzeScorer.prototype.setMatcher = function( obj, scoreObj, i ) {
 	this.matcher = parseFloat( obj.result );
 	this.result = obj.result;
 	if ( typeof scoreObj.scoreArray[ i ].matcher !== "undefined" ) {
@@ -962,7 +964,7 @@ YoastSEO.AnalyzeScorer.prototype.setMatcher = function( obj, scoreObj, i ) {
  * @param name
  * @returns scoringObject
  */
-YoastSEO.AnalyzeScorer.prototype.scoreLookup = function( name ) {
+AnalyzeScorer.prototype.scoreLookup = function( name ) {
 	for ( var ii = 0; ii < this.scoring.length; ii++ ) {
 		if ( name === this.scoring[ ii ].scoreName ) {
 			return this.scoring[ ii ];
@@ -977,7 +979,7 @@ YoastSEO.AnalyzeScorer.prototype.scoreLookup = function( name ) {
  * @param i
  * @returns scoreObject
  */
-YoastSEO.AnalyzeScorer.prototype.returnScore = function( score, scoreObj, i ) {
+AnalyzeScorer.prototype.returnScore = function( score, scoreObj, i ) {
 	score.score = scoreObj.scoreArray[ i ].score;
 	score.text = this.scoreTextFormat( scoreObj.scoreArray[ i ], scoreObj.replaceArray );
 	return score;
@@ -990,7 +992,7 @@ YoastSEO.AnalyzeScorer.prototype.returnScore = function( score, scoreObj, i ) {
  * @param replaceArray
  * @returns formatted resultText
  */
-YoastSEO.AnalyzeScorer.prototype.scoreTextFormat = function( scoreObj, replaceArray ) {
+AnalyzeScorer.prototype.scoreTextFormat = function( scoreObj, replaceArray ) {
 	var replaceWord;
 	var resultText = scoreObj.text;
 	resultText = escapeHTML( resultText );
@@ -1047,7 +1049,7 @@ YoastSEO.AnalyzeScorer.prototype.scoreTextFormat = function( scoreObj, replaceAr
  * @param replaceWord
  * @returns {YoastSEO.AnalyzeScorer}
  */
-YoastSEO.AnalyzeScorer.prototype.parseReplaceWord = function( replaceWord ) {
+AnalyzeScorer.prototype.parseReplaceWord = function( replaceWord ) {
 	var parts = replaceWord.split( "." );
 	var source = this;
 	for ( var i = 1; i < parts.length; i++ ) {
@@ -1061,7 +1063,7 @@ YoastSEO.AnalyzeScorer.prototype.parseReplaceWord = function( replaceWord ) {
  * array. Removes unused results that have no score
  * @returns score
  */
-YoastSEO.AnalyzeScorer.prototype.totalScore = function() {
+AnalyzeScorer.prototype.totalScore = function() {
 	var scoreAmount = this.__score.length;
 	var totalScore = 0;
 	for ( var i = 0; i < this.__score.length; i++ ) {
@@ -1084,7 +1086,7 @@ YoastSEO.AnalyzeScorer.prototype.totalScore = function() {
  *
  * @returns {number}
  */
-YoastSEO.AnalyzeScorer.prototype.getTotalScore = function() {
+AnalyzeScorer.prototype.getTotalScore = function() {
 	return this.__totalScore;
 };
 
@@ -1095,7 +1097,7 @@ YoastSEO.AnalyzeScorer.prototype.getTotalScore = function() {
  * @param {string} scoring.name
  * @param {Object} scoring.scoring
  */
-YoastSEO.AnalyzeScorer.prototype.addScoring = function( scoring ) {
+AnalyzeScorer.prototype.addScoring = function( scoring ) {
 	var scoringObject = scoring.scoring;
 
 	scoringObject.scoreName = scoring.name;
@@ -1103,7 +1105,7 @@ YoastSEO.AnalyzeScorer.prototype.addScoring = function( scoring ) {
 	this.scoring.push( scoringObject );
 };
 
-module.exports = YoastSEO.AnalyzeScorer;
+module.exports = AnalyzeScorer;
 
 },{"lodash/string/escape":142}],16:[function(require,module,exports){
 /* jshint browser: true */
@@ -1612,7 +1614,7 @@ YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 require( "./config/config.js" );
 require( "./config/scoring.js" );
 YoastSEO.Analyzer = require( "./analyzer.js" );
-require( "./analyzescorer.js" );
+YoastSEO.AnalyzeScorer = require( "./analyzescorer.js" );
 require( "./scoreFormatter.js" );
 YoastSEO.SnippetPreview = require( "./snippetPreview.js" );
 require( "./app.js" );
