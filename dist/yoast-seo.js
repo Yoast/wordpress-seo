@@ -4054,6 +4054,8 @@ SnippetPreview.prototype._updateHoverCarets = function() {
  */
 SnippetPreview.prototype.setTitle = function( title ) {
 	this.element.input.title.value = title;
+
+	this.changedInput();
 };
 
 /**
@@ -4063,6 +4065,8 @@ SnippetPreview.prototype.setTitle = function( title ) {
  */
 SnippetPreview.prototype.setUrlPath = function( urlPath ) {
 	this.element.input.urlPath.value = urlPath;
+
+	this.changedInput();
 };
 
 /**
@@ -4072,6 +4076,8 @@ SnippetPreview.prototype.setUrlPath = function( urlPath ) {
  */
 SnippetPreview.prototype.setTitle = function( metaDesc ) {
 	this.element.input.metaDesc.value = metaDesc;
+
+	this.changedInput();
 };
 
 /* jshint ignore:start */
