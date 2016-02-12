@@ -42,10 +42,8 @@ class WPSEO_Bulk_Title_Editor_List_Table extends WPSEO_Bulk_List_Table {
 	public function get_columns() {
 
 		$columns = array(
-			/* translators: %1$s expands to Yoast SEO */
-			'col_existing_yoast_seo_title' => sprintf( __( 'Existing %1$s Title', 'wordpress-seo' ), 'Yoast SEO' ),
-			/* translators: %1$s expands to Yoast SEO */
-			'col_new_yoast_seo_title'      => sprintf( __( 'New %1$s Title', 'wordpress-seo' ), 'Yoast SEO' ),
+			'col_existing_yoast_seo_title' => __( 'Existing Yoast SEO Title', 'wordpress-seo' ),
+			'col_new_yoast_seo_title'      => __( 'New Yoast SEO Title', 'wordpress-seo' ),
 		);
 
 		return $this->merge_columns( $columns );
