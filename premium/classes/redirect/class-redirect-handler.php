@@ -324,9 +324,9 @@ class WPSEO_Redirect_Handler {
 		if ( empty( $scheme ) ) {
 			// Add slash to target url when permalink structure ends with a slash.
 			if ( substr( get_option( 'permalink_structure' ), -1 ) === '/' ) {
-				$target_url = rtrim( $target_url, '/' ). '/';
+				$target_url = trailingslashit( $target_url );
 			}
-			
+
 			$target_url = home_url( $target_url );
 		}
 
