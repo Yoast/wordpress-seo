@@ -1,5 +1,7 @@
 require("../js/scoreFormatter.js");
 
+var Factory = require( "./helpers/factory.js" );
+
 describe("A function to transform a textual score into a description", function() {
 	YoastSEO.ScoreFormatter.prototype.outputScore = function() {};
 	YoastSEO.ScoreFormatter.prototype.outputOverallScore = function() {};
