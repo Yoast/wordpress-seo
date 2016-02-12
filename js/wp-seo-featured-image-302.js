@@ -1,5 +1,4 @@
 /* global wp */
-/* global removeThumb:true */
 /* global wpseoFeaturedImageL10n */
 /* global YoastSEO */
 /* jshint -W097 */
@@ -69,7 +68,7 @@
 
 		if ( attachment.width < 200 || attachment.height < 200 ) {
 			//Show warning to user and do not add image to OG
-			if ( $( '#yst_opengraph_image_warning' ).length == 0 ) {
+			if ( 0 === $( '#yst_opengraph_image_warning' ).length ) {
 				$( '<div id="yst_opengraph_image_warning"><p>' + wpseoFeaturedImageL10n.featured_image_notice + '</p></div>' ).insertBefore( '#postimagediv' );
 				var $postImageDiv = $( '#postimagediv' );
 				$postImageDiv.css( {
@@ -134,6 +133,7 @@
 	});
 }( jQuery ));
 
+/* jshint ignore:start */
 /**
  * Check if image is smaller than 200x200 pixels. If this is the case, show a warning
  * @param {object} featuredImage
@@ -176,3 +176,4 @@ function yst_overrideElemFunction() {
 function yst_removeOpengraphWarning() {
 	return;
 }
+/* jshint ignore:end */
