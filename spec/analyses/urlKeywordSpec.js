@@ -7,5 +7,7 @@ describe("test to check url for keyword", function(){
 		expect( urlKeyword( "url-with-key-word", "keyword" ) ).toBe(0);
 		expect( urlKeyword( "url-with-key-word", "këyword" ) ).toBe(0);
 		expect( urlKeyword( "url-with-yoast-seo-3", "yoast seo 3" ) ).toBe(1);
+
+		expect( urlKeyword( "yoasts-analyzer", "Yoast's analyzer" ) ).toBe( 1 );
 	});
 });
