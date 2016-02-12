@@ -1559,9 +1559,6 @@ YoastSEO.App.prototype.modifyData = function( data ) {
 	data.text = this.pluggable._applyModifications( "content", data.text );
 	data.title = this.pluggable._applyModifications( "title", data.title );
 
-	data.text = data.text.replace( /&quot;/g, "\"" );
-	data.text = data.text.replace( /&#039;/g, "'" );
-
 	return data;
 };
 
@@ -4440,6 +4437,9 @@ module.exports = function( text ) {
 		alt = matches[ 2 ];
 
 		alt = stripSpaces( alt );
+
+		alt = alt.replace( /&quot;/g, "\"" );
+		alt = alt.replace( /&#039;/g, "'" );
 	}
 	return alt;
 };

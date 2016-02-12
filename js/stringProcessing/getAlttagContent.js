@@ -19,6 +19,9 @@ module.exports = function( text ) {
 		alt = matches[ 2 ];
 
 		alt = stripSpaces( alt );
+
+		alt = alt.replace( /&quot;/g, "\"" );
+		alt = alt.replace( /&#039;/g, "'" );
 	}
 	return alt;
 };
