@@ -15,8 +15,9 @@ describe("Counts the occurences of a word in a string", function(){
 		expect( wordMatch( "<img width='100' />", "width" ) ).toBe( 0 );
 	});
 
-	it( "should match apostrophes", function() {
+	it( "should match quotes", function() {
 		expect( wordMatch( "Yoast's analyzer", "Yoast's" ) ).toBe( 1 );
+		expect( wordMatch( "Yoast\"s analyzer", "Yoast\"s analyzer" ) ).toBe( 1 );
 	});
 
 	it( "should match special characters", function() {
