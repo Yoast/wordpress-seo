@@ -1114,7 +1114,7 @@ SnippetPreview.prototype._updateHoverCarets = function() {
 };
 
 /**
- * Updates the title data and the the title input field
+ * Updates the title data and the the title input field. This also means the snippet editor view is updated.
  *
  * @param {string} title
  */
@@ -1125,7 +1125,7 @@ SnippetPreview.prototype.setTitle = function( title ) {
 };
 
 /**
- * Updates the url path data and the the url path input field
+ * Updates the url path data and the the url path input field. This also means the snippet editor view is updated.
  *
  * @param {string} urlPath
  */
@@ -1136,7 +1136,7 @@ SnippetPreview.prototype.setUrlPath = function( urlPath ) {
 };
 
 /**
- * Updates the meta description data and the the meta description input field
+ * Updates the meta description data and the the meta description input field. This also means the snippet editor view is updated.
  *
  * @param {string} metaDesc
  */
