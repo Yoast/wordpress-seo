@@ -48,7 +48,7 @@ class WPSEO_Admin_Pages {
 		// TODO minified toggle styles. R.
 		wp_register_style( 'yoast-toggle-switch-lib', plugins_url( 'css/toggle-switch/toggle-switch.css', WPSEO_FILE ), array(), '4.0.2' );
 		wp_register_style( 'yoast-toggle-switch', plugins_url( 'css/toggle-switch.css', WPSEO_FILE ), array( 'yoast-toggle-switch-lib' ), WPSEO_VERSION );
-		wp_enqueue_style( 'yoast-admin-css', plugins_url( 'css/yst_plugin_tools-' . '302' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array( 'yoast-toggle-switch' ), WPSEO_VERSION );
+		wp_enqueue_style( 'yoast-admin-css', plugins_url( 'css/yst_plugin_tools-' . '310' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array( 'yoast-toggle-switch' ), WPSEO_VERSION );
 
 		if ( is_rtl() ) {
 			wp_enqueue_style( 'wpseo-rtl', plugins_url( 'css/wpseo-rtl' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
@@ -59,7 +59,7 @@ class WPSEO_Admin_Pages {
 	 * Loads the required scripts for the config page.
 	 */
 	function config_page_scripts() {
-		wp_enqueue_script( 'wpseo-admin-script', plugins_url( 'js/wp-seo-admin-' . '306' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array(
+		wp_enqueue_script( 'wpseo-admin-script', plugins_url( 'js/wp-seo-admin-' . '310' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array(
 			'jquery',
 			'jquery-ui-core',
 			'jquery-ui-progressbar',
@@ -75,7 +75,7 @@ class WPSEO_Admin_Pages {
 
 		if ( in_array( $page, array( 'wpseo_social', 'wpseo_dashboard' ) ) ) {
 			wp_enqueue_media();
-			wp_enqueue_script( 'wpseo-admin-media', plugins_url( 'js/wp-seo-admin-media-' . '302' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array(
+			wp_enqueue_script( 'wpseo-admin-media', plugins_url( 'js/wp-seo-admin-media-' . '310' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array(
 				'jquery',
 				'jquery-ui-core',
 			), WPSEO_VERSION, true );
