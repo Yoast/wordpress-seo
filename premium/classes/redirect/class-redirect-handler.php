@@ -322,6 +322,11 @@ class WPSEO_Redirect_Handler {
 	private function parse_target_url( $target_url ) {
 		$scheme = parse_url( $target_url, PHP_URL_SCHEME );
 		if ( empty( $scheme ) ) {
+			// Add slash to target url when permalink structure ends with a slash.
+			if ( substr( get_option( 'permalink_structure' ), -1 ) === '/' ) {
+				$target_url = trailingslashit( $target_url );
+			}
+
 			$target_url = home_url( $target_url );
 		}
 
