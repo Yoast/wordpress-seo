@@ -372,12 +372,17 @@
 
 	/**
 	 * Retrieves either a generated slug or the page title as slug for the preview
+	 * @param {Object} response The AJAX response object
+	 * @returns {string}
 	 */
 	function getUrlPath( response ) {
 		if ( response.responseText === '' ) {
 			return jQuery( '#title' ).val();
 		}
-		return jQuery( '<div>' + response.responseText + '</div>' ).find( '#editable-post-name-full' ).text();
+		// Added divs to the response text, otherwise jQuery won't parse to HTML, but an array.
+		return jQuery( '<div>' + response.responseText + '</div>' )
+			.find( '#editable-post-name-full' )
+			.text();
 	}
 
 	/**
