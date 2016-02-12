@@ -371,6 +371,21 @@
 	};
 
 	/**
+	 * Retrieves either a generated slug or the page title as slug for the preview
+	 * @param {Object} response The AJAX response object
+	 * @returns {string}
+	 */
+	function getUrlPath( response ) {
+		if ( response.responseText === '' ) {
+			return jQuery( '#title' ).val();
+		}
+		// Added divs to the response text, otherwise jQuery won't parse to HTML, but an array.
+		return jQuery( '<div>' + response.responseText + '</div>' )
+			.find( '#editable-post-name-full' )
+			.text();
+	}
+
+	/**
 	 * binds to the WordPress jQuery function to put the permalink on the page.
 	 * If the response matches with permalinkstring, the snippet can be rerendered.
 	 */
@@ -381,9 +396,7 @@
 		}
 
 		if ( 'string' === typeof ajaxOptions.data && -1 !== ajaxOptions.data.indexOf( 'action=sample-permalink' ) ) {
-			YoastSEO.app.callbacks.getData();
-			YoastSEO.app.runAnalyzer();
-			YoastSEO.app.snippetPreview.reRender();
+			YoastSEO.app.snippetPreview.setUrlPath( getUrlPath( response ) );
 		}
 	} );
 
