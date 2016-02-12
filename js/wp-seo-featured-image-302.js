@@ -129,7 +129,6 @@
 		if ( 'undefined' !== typeof featuredImageElement.prop( 'src' ) ) {
 			featuredImagePlugin.setFeaturedImage( $( '#set-post-thumbnail ' ).html() );
 		}
-
 	});
 }( jQuery ));
 
