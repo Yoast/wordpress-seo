@@ -396,10 +396,7 @@
 		}
 
 		if ( 'string' === typeof ajaxOptions.data && -1 !== ajaxOptions.data.indexOf( 'action=sample-permalink' ) ) {
-			YoastSEO.app.callbacks.getData();
-			YoastSEO.app.runAnalyzer();
 			YoastSEO.app.snippetPreview.setUrlPath( getUrlPath( response ) );
-			YoastSEO.app.snippetPreview.reRender();
 		}
 	} );
 
