@@ -1362,15 +1362,10 @@ class WPSEO_Sitemaps {
 				}
 
 				if ( ! $exclude_user ) {
-					foreach ( $user->roles as $role ) {
-						$target_key   = "user_role-{$role}-not_in_sitemap";
-						$exclude_user = isset( $options[ $target_key ] ) && true === $options[ $target_key ];
-						unset( $user_role, $target_key );
-
-						if ( $exclude_user ) {
-							break;
-						}
-					}
+					$user_role    = $user->roles[0];
+					$target_key   = "user_role-{$user_role}-not_in_sitemap";
+					$exclude_user = isset( $options[ $target_key ] ) && true === $options[ $target_key ];
+					unset( $user_role, $target_key );
 				}
 
 				if ( $exclude_user === true ) {
