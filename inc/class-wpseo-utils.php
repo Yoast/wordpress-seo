@@ -494,26 +494,14 @@ class WPSEO_Utils {
 			return;
 		}
 
-		// Not sure about efficiency, but that's what code elsewhere does R.
-		$options = WPSEO_Options::get_option( 'wpseo_xml' );
-
-		if ( true !== $options['enablexmlsitemap'] ) {
-			return;
-		}
-
 		$query = "DELETE FROM $wpdb->options WHERE";
 
 		if ( ! empty( $types ) ) {
-			$first = true;
+			$query .= " option_name LIKE '_transient_wpseo_sitemap_cache_1_%' OR option_name LIKE '_transient_timeout_wpseo_sitemap_cache_1_%'";
 
 			foreach ( $types as $sitemap_type ) {
-				if ( ! $first ) {
-					$query .= ' OR ';
-				}
-
+				$query .= ' OR ';
 				$query .= " option_name LIKE '_transient_wpseo_sitemap_cache_" . $sitemap_type . "_%' OR option_name LIKE '_transient_timeout_wpseo_sitemap_cache_" . $sitemap_type . "_%'";
-
-				$first = false;
 			}
 		}
 		else {
