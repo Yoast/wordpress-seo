@@ -1,14 +1,14 @@
-require("../js/scoreFormatter.js");
+var ScoreFormatter = require("../js/scoreFormatter.js");
 
 var Factory = require( "./helpers/factory.js" );
 
 describe("A function to transform a textual score into a description", function() {
-	YoastSEO.ScoreFormatter.prototype.outputScore = function() {};
-	YoastSEO.ScoreFormatter.prototype.outputOverallScore = function() {};
+	ScoreFormatter.prototype.outputScore = function() {};
+	ScoreFormatter.prototype.outputOverallScore = function() {};
 
 	var i18n = Factory.buildJed();
 
-	scoreFormatter = new YoastSEO.ScoreFormatter({
+	scoreFormatter = new ScoreFormatter({
 		scores: [],
 		overallScore: 0,
 		outputTarget: '',
@@ -34,7 +34,7 @@ describe("A function to transform a textual score into a description", function(
 describe("A function to transform a numeric overall score into a textual score", function() {
 	var i18n = Factory.buildJed();
 
-	scoreFormatter = new YoastSEO.ScoreFormatter({
+	scoreFormatter = new ScoreFormatter({
 		scores: [],
 		overallScore: 0,
 		outputTarget: '',
