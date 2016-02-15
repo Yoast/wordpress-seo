@@ -16,6 +16,7 @@ build:
   - 'imagemin'
 # Build JavaScript from assets to production
 'build:js':
+  - 'browserify'
   - 'uglify'
 # Build internationalisation features
 'build:i18n':
