@@ -89,6 +89,11 @@ class WPSEO_Admin_Asset_Manager {
 			if ( ! isset( $item['in_footer'] ) ) {
 				$item['in_footer'] = true;
 			}
+
+			if ( ! isset( $item['deps'] ) ) {
+				$item['deps'] = array();
+			}
+
 			$this->register_script(
 				$item['name'],
 				$item['src'],
@@ -109,6 +114,11 @@ class WPSEO_Admin_Asset_Manager {
 			if ( ! isset( $item['version'] ) ) {
 				$item['version'] = WPSEO_VERSION;
 			}
+
+			if ( ! isset( $item['deps'] ) ) {
+				$item['deps'] = array();
+			}
+
 			$this->register_style(
 				$item['name'],
 				$item['src'],
