@@ -24,6 +24,14 @@ class WPSEO_Sitemaps_Double extends WPSEO_Sitemaps {
 	}
 }
 
+/**
+ * Exposes protected defaults from WPSEO_Option_XML class
+ */
+class WPSEO_Option_XML_Double extends WPSEO_Option_XML {
+	public function get_defaults() {
+		return $this->defaults;
+	}
+}
 
 /**
  * Class WPSEO_Sitemaps_Test
@@ -52,6 +60,20 @@ class WPSEO_Sitemaps_Test extends WPSEO_UnitTestCase {
 
 		remove_filter( 'get_the_author_wpseo_excludeauthorsitemap',
 			array( $this, 'filter_user_meta_exclude_author_from_sitemap' ) );
+	}
+
+	/**
+	 * Get a test user
+	 *
+	 * @return stdClass
+	 */
+	public function get_user() {
+		static $userID = 1;
+		$user        = new stdClass();
+		$user->roles = array( 'administrator' );
+		$user->ID    = $userID ++;
+
+		return $user;
 	}
 
 	/**
@@ -139,14 +161,14 @@ class WPSEO_Sitemaps_Test extends WPSEO_UnitTestCase {
 	 * Exclude user from sitemaps by excluding the entire role
 	 */
 	public function test_author_exclusion_from_sitemap_by_role() {
-		$user        = new stdClass();
-		$user->roles = array( 'administrator' );
-		$user->ID    = 1;
+		$user = $this->get_user();
 
-		add_filter( 'pre_option_wpseo_xml', array( $this, 'filter_exclude_author_by_role' ) );
+		// Filter out all administrators.
+		add_filter( 'pre_option_wpseo_xml', array( $this, 'filter_exclude_author_by_administrator_role' ) );
 
 		$result = self::$class_instance->user_sitemap_remove_excluded_authors( array( $user ) );
 
+		// User should be removed.
 		$this->assertEquals( $result, array() );
 	}
 
@@ -154,9 +176,7 @@ class WPSEO_Sitemaps_Test extends WPSEO_UnitTestCase {
 	 * Test if a user is excluded from sitemaps when disabled on profile
 	 */
 	public function test_author_exclusion_from_sitemap_by_preference() {
-		$user        = new stdClass();
-		$user->roles = array( 'administrator' );
-		$user->ID    = - 1;
+		$user = $this->get_user();
 
 		// Enable author sitemaps.
 		add_filter( 'pre_option_wpseo_xml', array( $this, 'filter_enable_author_sitemaps' ) );
@@ -178,17 +198,16 @@ class WPSEO_Sitemaps_Test extends WPSEO_UnitTestCase {
 	 * Test if a user is excluded from the sitemap when there are no posts
 	 */
 	public function test_author_exclusion_from_sitemap_by_zero_posts() {
-		$user        = new stdClass();
-		$user->roles = array( 'administrator' );
-		$user->ID    = - 1;
+		$user = $this->get_user();
 
 		// Don't allow no posts.
 		add_filter( 'pre_option_wpseo_xml', array( $this, 'filter_exclude_author_by_no_posts' ) );
 
-		// Make the user have -no- posts
+		// Make the user have -no- posts.
 		add_filter( 'get_usernumposts', array( $this, 'filter_user_has_no_posts' ) );
 
 		$result = self::$class_instance->user_sitemap_remove_excluded_authors( array( $user ) );
+
 		// User should be removed.
 		$this->assertEquals( $result, array() );
 	}
@@ -197,9 +216,7 @@ class WPSEO_Sitemaps_Test extends WPSEO_UnitTestCase {
 	 * Test if a user is excluded from the sitemap when there are no posts
 	 */
 	public function test_author_not_exclused_from_sitemap_by_zero_posts() {
-		$user        = new stdClass();
-		$user->roles = array( 'administrator' );
-		$user->ID    = - 1;
+		$user = $this->get_user();
 
 		// Don't allow no posts.
 		add_filter( 'pre_option_wpseo_xml', array( $this, 'filter_exclude_author_by_no_posts' ) );
@@ -208,6 +225,7 @@ class WPSEO_Sitemaps_Test extends WPSEO_UnitTestCase {
 		add_filter( 'get_usernumposts', array( $this, 'filter_user_has_posts' ) );
 
 		$result = self::$class_instance->user_sitemap_remove_excluded_authors( array( $user ) );
+
 		// User should not be removed.
 		$this->assertEquals( $result, array( $user ) );
 	}
@@ -221,33 +239,12 @@ class WPSEO_Sitemaps_Test extends WPSEO_UnitTestCase {
 		static $defaults;
 
 		if ( ! isset( $defaults ) ) {
+			$wpseo_option_xml = WPSEO_Option_XML_Double::get_instance();
+			$defaults         = $wpseo_option_xml->get_defaults();
 
-			/*
-			if ( version_compare( PHP_VERSION, '5.3', '>=' ) ) {
-				$wpseo = WPSEO_Option_XML::get_instance();
-
-				$get_defaults = function () {
-					return $this->defaults;
-				};
-
-				$get_defaults = $get_defaults->bindTo( $wpseo, $wpseo );
-				$defaults     = $get_defaults();
-			}
-			else {
-			*/
-			$defaults = array(
-				'disable_author_sitemap' => true,
-				'disable_author_noposts' => true,
-				'enablexmlsitemap'       => true,
-				'entries-per-page'       => 1000,
-				'excluded-posts'         => ''
-			);
-			//}
-
+			// Make sure the author sitemaps are enabled.
+			$defaults['disable_author_sitemap'] = false;
 		}
-
-		// Make sure the author sitemaps are enabled.
-		$defaults['disable_author_sitemap'] = false;
 
 		return $defaults;
 	}
@@ -259,7 +256,7 @@ class WPSEO_Sitemaps_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @return array
 	 */
-	public function filter_exclude_author_by_role( $false ) {
+	public function filter_exclude_author_by_administrator_role( $false ) {
 		return array_merge(
 			$this->wpseo_option_xml_defaults(),
 			array(
@@ -287,7 +284,6 @@ class WPSEO_Sitemaps_Test extends WPSEO_UnitTestCase {
 	 * @return array
 	 */
 	public function filter_exclude_author_by_no_posts( $false ) {
-
 		return array_merge(
 			$this->wpseo_option_xml_defaults(),
 			array(
