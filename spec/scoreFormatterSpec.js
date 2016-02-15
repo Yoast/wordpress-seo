@@ -1,5 +1,7 @@
 var ScoreFormatter = require("../js/scoreFormatter.js");
 
+var Factory = require( "./helpers/factory.js" );
+
 describe("A function to transform a textual score into a description", function() {
 	ScoreFormatter.prototype.outputScore = function() {};
 	ScoreFormatter.prototype.outputOverallScore = function() {};

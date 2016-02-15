@@ -18,6 +18,9 @@ describe( "Counts images in an text", function(){
 		imageCount = imageCountFunction( "<img src='http://picture.com' alt='maïs' />", "maïs");
 		expect( imageCount.altKeyword ).toBe( 1 );
 
+		imageCount = imageCountFunction( '<img src="http://picture.com" alt="Yoast\'s analyzer" />', "Yoast's analyzer" );
+		expect( imageCount.altKeyword ).toBe( 1 );
+
 		imageCount = imageCountFunction(
 			"<img src='' alt='something' />" +
 			"<img src='' />" +

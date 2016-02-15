@@ -35,4 +35,18 @@ FactoryProto.prototype.buildAnalyzer = function ( args ) {
 	return new Analyzer( args );
 };
 
+/**
+ * Returns a mock element that lodash accepts as an element
+ */
+FactoryProto.prototype.buildMockElement = function() {
+	var mockElement;
+
+	mockElement = [];
+	mockElement.nodeType = 1;
+
+	return mockElement;
+};
+
 Factory = new FactoryProto;
+
+module.exports = Factory;
