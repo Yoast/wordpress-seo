@@ -217,11 +217,12 @@ class WPSEO_Sitemaps_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @return array
 	 */
-	private function wpso_option_xml_defaults() {
+	private function wpseo_option_xml_defaults() {
 		static $defaults;
 
 		if ( ! isset( $defaults ) ) {
 
+			/*
 			if ( version_compare( PHP_VERSION, '5.3', '>=' ) ) {
 				$wpseo = WPSEO_Option_XML::get_instance();
 
@@ -233,14 +234,15 @@ class WPSEO_Sitemaps_Test extends WPSEO_UnitTestCase {
 				$defaults     = $get_defaults();
 			}
 			else {
-				$defaults = array(
-					'disable_author_sitemap' => true,
-					'disable_author_noposts' => true,
-					'enablexmlsitemap'       => true,
-					'entries-per-page'       => 1000,
-					'excluded-posts'         => ''
-				);
-			}
+			*/
+			$defaults = array(
+				'disable_author_sitemap' => true,
+				'disable_author_noposts' => true,
+				'enablexmlsitemap'       => true,
+				'entries-per-page'       => 1000,
+				'excluded-posts'         => ''
+			);
+			//}
 
 		}
 
@@ -259,7 +261,7 @@ class WPSEO_Sitemaps_Test extends WPSEO_UnitTestCase {
 	 */
 	public function filter_exclude_author_by_role( $false ) {
 		return array_merge(
-			$this->wpso_option_xml_defaults(),
+			$this->wpseo_option_xml_defaults(),
 			array(
 				'user_role-administrator-not_in_sitemap' => true,
 			)
@@ -274,7 +276,7 @@ class WPSEO_Sitemaps_Test extends WPSEO_UnitTestCase {
 	 * @return array
 	 */
 	public function filter_enable_author_sitemaps( $false ) {
-		return $this->wpso_option_xml_defaults();
+		return $this->wpseo_option_xml_defaults();
 	}
 
 	/**
@@ -287,7 +289,7 @@ class WPSEO_Sitemaps_Test extends WPSEO_UnitTestCase {
 	public function filter_exclude_author_by_no_posts( $false ) {
 
 		return array_merge(
-			$this->wpso_option_xml_defaults(),
+			$this->wpseo_option_xml_defaults(),
 			array(
 				'disable_author_noposts' => true
 			)
