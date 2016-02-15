@@ -50,6 +50,9 @@ class WPSEO_Sitemaps_Test extends WPSEO_UnitTestCase {
 		self::$class_instance = new WPSEO_Sitemaps_Double;
 	}
 
+	/**
+	 * Remove all created filters.
+	 */
 	public function tearDown() {
 		remove_filter( 'get_usernumposts', array( $this, 'filter_user_has_no_posts' ) );
 		remove_filter( 'get_usernumposts', array( $this, 'filter_user_has_posts' ) );
@@ -197,7 +200,7 @@ class WPSEO_Sitemaps_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Test if a user is excluded from the sitemap when there are no posts
 	 */
-	public function test_author_exclusion_from_sitemap_by_zero_posts() {
+	public function test_author_excluded_from_sitemap_by_zero_posts() {
 		$user = $this->get_user();
 
 		// Don't allow no posts.
@@ -213,7 +216,7 @@ class WPSEO_Sitemaps_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test if a user is excluded from the sitemap when there are no posts
+	 * Test if a user is -not- excluded from the sitemap when there are posts
 	 */
 	public function test_author_not_exclused_from_sitemap_by_zero_posts() {
 		$user = $this->get_user();
