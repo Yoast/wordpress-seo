@@ -104,7 +104,7 @@ class WPSEO_Meta {
 				'title' => '', // Translation added later.
 				'help'  => '', // Translation added later.
 			),
-			'focuskw'        => array(
+			'focuskw_text_input' => array(
 				'type'          => 'text',
 				'title'         => '', // Translation added later.
 				'default_value' => '',
@@ -112,15 +112,19 @@ class WPSEO_Meta {
 				'help'          => '', // Translation added later.
 				'description'   => '<div id="focuskwresults"></div>',
 			),
+			'focuskw' => array(
+				'type'  => 'hidden',
+				'title' => '',
+			),
 			'title'          => array(
-				'type'          => 'text',
+				'type'          => 'hidden',
 				'title'         => '', // Translation added later.
 				'default_value' => '',
 				'description'   => '', // Translation added later.
 				'help'          => '', // Translation added later.
 			),
 			'metadesc'       => array(
-				'type'          => 'textarea',
+				'type'          => 'hidden',
 				'title'         => '', // Translation added later.
 				'default_value' => '',
 				'class'         => 'metadesc',
@@ -128,12 +132,23 @@ class WPSEO_Meta {
 				'description'   => '', // Translation added later.
 				'help'          => '', // Translation added later.
 			),
+			'linkdex'        => array(
+				'type'          => 'hidden',
+				'title'         => 'linkdex',
+				'default_value' => '0',
+				'description'   => '',
+			),
 			'metakeywords'   => array(
 				'type'          => 'text',
 				'title'         => '', // Translation added later.
 				'default_value' => '',
 				'class'         => 'metakeywords',
 				'description'   => '', // Translation added later.
+			),
+			'pageanalysis'   => array(
+				'type'  => 'pageanalysis',
+				'title' => '', // Translation added later.
+				'help'  => '', // Translation added later.
 			),
 		),
 		'advanced' => array(
@@ -1000,5 +1015,35 @@ class WPSEO_Meta {
 	 */
 	public static function get_post_value( $key ) {
 		return ( array_key_exists( $key, $_POST ) ) ? $_POST[ $key ] : '';
+	}
+
+	/**
+	 * Counts the total of all the keywords being used for posts except the given one
+	 *
+	 * @param string  $keyword The keyword to be counted.
+	 * @param integer $post_id The is of the post to which the keyword belongs.
+	 *
+	 * @return array
+	 */
+	public static function keyword_usage( $keyword, $post_id ) {
+		$get_posts = new WP_Query(
+			array(
+				'meta_key'       => '_yoast_wpseo_focuskw',
+				'meta_value'     => $keyword,
+				'post__not_in'   => array( $post_id ),
+				'fields'         => 'ids',
+				'post_type'      => 'any',
+
+				/*
+				 * We only need to return zero, one or two results:
+				 * - Zero: keyword hasn't been used before
+				 * - One: Keyword has been used once before
+				 * - Two or more: Keyword has been used twice before
+				 */
+				'posts_per_page' => 2,
+			)
+		);
+
+		return $get_posts->posts;
 	}
 } /* End of class */

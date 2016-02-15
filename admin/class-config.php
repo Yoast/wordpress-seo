@@ -68,7 +68,6 @@ class WPSEO_Admin_Pages {
 	function config_page_scripts() {
 		$this->asset_manager->enqueue_script( 'admin-script' );
 
-
 		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'admin-script', 'wpseoAdminL10n', $this->localize_admin_script() );
 		wp_enqueue_script( 'dashboard' );
 		wp_enqueue_script( 'thickbox' );
@@ -81,6 +80,10 @@ class WPSEO_Admin_Pages {
 
 			$this->asset_manager->enqueue_script( 'admin-media' );
 			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'admin-media', 'wpseoMediaL10n', $this->localize_media_script() );
+		}
+
+		if ( 'wpseo_tools' === $page && empty( $tool ) ) {
+			wp_enqueue_script( 'yoast-seo', plugins_url( 'js/dist/yoast-seo/yoast-seo-' . '307' . '.min.js', WPSEO_FILE ), null, WPSEO_VERSION, true );
 		}
 
 		if ( 'wpseo_tools' === $page && 'bulk-editor' === $tool ) {
@@ -114,6 +117,7 @@ class WPSEO_Admin_Pages {
 		return array(
 			/* translators: %s: '%%term_title%%' variable used in titles and meta's template that's not compatible with the given template */
 			'variable_warning' => sprintf( __( 'Warning: the variable %s cannot be used in this template.', 'wordpress-seo' ), '<code>%s</code>' ) . ' ' . __( 'See the help tab for more info.', 'wordpress-seo' ),
+			'locale' => get_locale(),
 		);
 	}
 

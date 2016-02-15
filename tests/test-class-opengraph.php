@@ -625,7 +625,7 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Testing with an Open Graph title for the taxonomy
 	 *
-	 * @covers WPSEO_OpenGraph::title
+	 * @covers WPSEO_OpenGraph::opengraph
 	 */
 	public function test_taxonomy_title() {
 		$term_id = $this->factory->term->create( array( 'taxonomy' => 'category' ) );
