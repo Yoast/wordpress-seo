@@ -22,9 +22,9 @@
 
 	<filter>
 		<whitelist>
-			<directory>./inc</directory>
-			<directory>./frontend</directory>
-			<directory>./admin</directory>
+			<directory>./premium/classes</directory>
+			<file>./premium/class-premium.php</file>
+			<file>./wp-seo-premium.php</file>
 		</whitelist>
 	</filter>
 </phpunit>
