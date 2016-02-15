@@ -16,7 +16,7 @@
 	>
 	<testsuites>
 		<testsuite>
-			<directory prefix="test-" suffix=".php">./tests/</directory>
+			<directory prefix="test-" suffix=".php">./tests/premium/</directory>
 		</testsuite>
 	</testsuites>
 
