@@ -1,6 +1,7 @@
 /* global YoastSEO: true */
 
 var escapeHTML = require( "lodash/string/escape" );
+var Score = require( "./values/Score.js" );
 
 /**
  * inits the analyzerscorer used for scoring of the output from the textanalyzer
@@ -132,9 +133,15 @@ YoastSEO.AnalyzeScorer.prototype.scoreLookup = function( name ) {
  * @returns scoreObject
  */
 YoastSEO.AnalyzeScorer.prototype.returnScore = function( score, scoreObj, i ) {
-	score.score = scoreObj.scoreArray[ i ].score;
-	score.text = this.scoreTextFormat( scoreObj.scoreArray[ i ], scoreObj.replaceArray );
-	return score;
+
+	return new Score( this.i18n, score, {
+		value: scoreObj.scoreArray[ i ],
+		replacements: scoreObj.replaceArray
+	} );
+
+//	score.score = scoreObj.scoreArray[ i ].score;
+//	score.text = this.scoreTextFormat( scoreObj.scoreArray[ i ], scoreObj.replaceArray );
+//	return score;
 };
 
 /**
