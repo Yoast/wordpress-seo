@@ -229,7 +229,7 @@ if ( get_option( 'page_comments' ) && $options['ignore_page_comments'] === false
 		</div>
 	</div>
 	<div id="webmaster-tools" class="wpseotab">
-		<h3><?php _e( 'Verification Webmaster Tools', 'wordpress-seo' ); ?></h3>
+		<h3><?php _e( 'Webmaster Tools verification', 'wordpress-seo' ); ?></h3>
 		<?php
 		echo '<p>', __( 'You can use the boxes below to verify with the different Webmaster Tools, if your site is already verified, you can just forget about these. Enter the verify meta values for:', 'wordpress-seo' ), '</p>';
 		$yform->textinput( 'alexaverify', '<a target="_blank" href="http://www.alexa.com/siteowners/claim">' . __( 'Alexa Verification ID', 'wordpress-seo' ) . '</a>' );
