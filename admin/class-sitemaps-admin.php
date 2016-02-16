@@ -13,7 +13,7 @@ class WPSEO_Sitemaps_Admin {
 	 */
 	function __construct() {
 		add_action( 'transition_post_status', array( $this, 'status_transition' ), 10, 3 );
-		add_action( 'admin_init', array( $this, 'delete_sitemaps' ) );
+		add_action( 'admin_init', array( $this, 'detect_blocking_filesystem_sitemaps' ) );
 	}
 
 	/**
@@ -21,7 +21,7 @@ class WPSEO_Sitemaps_Admin {
 	 *
 	 * @todo issue #561 https://github.com/Yoast/wordpress-seo/issues/561
 	 */
-	public function delete_sitemaps() {
+	public function detect_blocking_filesystem_sitemaps() {
 		$wpseo_options = WPSEO_Options::get_option('wpseo');
 		if ( $wpseo_options['enablexmlsitemap'] !== true ) {
 			return;
