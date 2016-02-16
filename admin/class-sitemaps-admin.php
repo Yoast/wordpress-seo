@@ -22,8 +22,8 @@ class WPSEO_Sitemaps_Admin {
 	 * @todo issue #561 https://github.com/Yoast/wordpress-seo/issues/561
 	 */
 	public function delete_sitemaps() {
-		$options = WPSEO_Options::get_options( array( 'wpseo', 'wpseo_xml' ) );
-		if ( $options['enablexmlsitemap'] !== true ) {
+		$wpseo_options = WPSEO_Options::get_option('wpseo');
+		if ( $wpseo_options['enablexmlsitemap'] !== true ) {
 			return;
 		}
 
@@ -36,8 +36,8 @@ class WPSEO_Sitemaps_Admin {
 			ABSPATH . 'sitemap_index.xml',
 		);
 
-		if ( ! is_array( $options['blocking_files'] ) ) {
-			$options['blocking_files'] = array();
+		if ( ! is_array( $wpseo_options['blocking_files'] ) ) {
+			$wpseo_options['blocking_files'] = array();
 		}
 
 		$update_option = false;
@@ -45,23 +45,23 @@ class WPSEO_Sitemaps_Admin {
 		foreach ( $file_to_check_for as $file ) {
 
 			$file_exists = is_file( $file );
-			$in_options = array_search( $file, $options['blocking_files'] );
+			$in_options = array_search( $file, $wpseo_options['blocking_files'] );
 
 			if ( $file_exists && false === $in_options ) {
-				$options['blocking_files'][] = $file;
+				$wpseo_xml_options['blocking_files'][] = $file;
 
 				$update_option = true;
 			}
 
 			if ( ! $file_exists && false !== $in_options ) {
-				unset( $options['blocking_files'][ $in_options ] );
+				unset( $wpseo_options['blocking_files'][ $in_options ] );
 
 				$update_option = true;
 			}
 		}
 
 		if ( $update_option === true ) {
-			update_option( 'wpseo', $options );
+			update_option( 'wpseo', $wpseo_options );
 		}
 	}
 
