@@ -22,11 +22,11 @@ class WPSEO_Sitemaps_Admin {
 	 * @todo issue #561 https://github.com/Yoast/wordpress-seo/issues/561
 	 */
 	public function detect_blocking_filesystem_sitemaps() {
-		$wpseo_xml_options = WPSEO_Options::get_option('wpseo_xml');
+		$wpseo_xml_options = WPSEO_Options::get_option( 'wpseo_xml' );
 		if ( $wpseo_xml_options['enablexmlsitemap'] !== true ) {
 			return;
 		}
-		unset($wpseo_xml_options);
+		unset( $wpseo_xml_options );
 
 		$blocking_files = (array) glob( ABSPATH . '*sitemap*.xml' );
 
