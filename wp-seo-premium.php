@@ -52,10 +52,14 @@ require_once( WPSEO_PATH . 'premium/class-premium.php' );
 
 WPSEO_Premium::autoloader();
 
-// If the user is admin, check for the upgrade manager.
-if ( is_admin() ) {
+function wpseo_premium_run_upgrade() {
 	$upgrade_manager = new WPSEO_Upgrade_Manager();
 	$upgrade_manager->run_upgrade( WPSEO_VERSION );
+}
+
+// If the user is admin, check for the upgrade manager.
+if ( is_admin() ) {
+	add_action( 'init', 'wpseo_premium_run_upgrade' );
 }
 
 /**
