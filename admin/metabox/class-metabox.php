@@ -294,7 +294,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 *
 	 * @return string
 	 */
-	public function get_metadesc_date( $post ) {
+	private function get_metadesc_date( $post ) {
 		$date = '';
 
 		if ( is_a( $post, 'WP_Post' ) && $this->is_show_date_enabled( $post ) ) {
