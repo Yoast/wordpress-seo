@@ -132,9 +132,6 @@ class WPSEO_Redirect_Handler {
 	 */
 	private function set_request_url() {
 		$this->request_url = htmlspecialchars_decode( rawurldecode( filter_input( INPUT_SERVER, 'REQUEST_URI' ) ) );
-		if ( $this->request_url !== '/' ) {
-			$this->request_url = trim( $this->request_url, '/' );
-		}
 	}
 
 	/**
@@ -144,8 +141,14 @@ class WPSEO_Redirect_Handler {
 		// Setting the redirects.
 		$this->redirects = $this->get_redirects( $this->normal_option_name );
 
+		// Trim the slashes, to match the variants of a request url (Like: url, /url, /url/, url/).
+		$request_url = $this->request_url;
+		if ( $request_url !== '/' ) {
+			$request_url = trim( $request_url, '/' );
+		}
+
 		// Get the URL and doing the redirect.
-		if ( $redirect_url = $this->find_url( $this->request_url ) ) {
+		if ( $redirect_url = $this->find_url( $request_url ) ) {
 			$this->do_redirect( $this->redirect_url( $redirect_url['url'] ), $redirect_url['type'] );
 		}
 	}
@@ -170,6 +173,10 @@ class WPSEO_Redirect_Handler {
 	 * @param array  $redirect The URL that might be matched with the regex.
 	 */
 	private function match_regex_redirect( $regex, array $redirect ) {
+
+		// Escape the ` because we use ` to delimit the regex to prevent faulty redirects.
+		$regex = str_replace( '`', '\\`', $regex );
+
 		if ( 1 === preg_match( "`{$regex}`", $this->request_url, $this->url_matches ) ) {
 
 			// Replace the $regex vars with URL matches.
@@ -322,6 +329,11 @@ class WPSEO_Redirect_Handler {
 	private function parse_target_url( $target_url ) {
 		$scheme = parse_url( $target_url, PHP_URL_SCHEME );
 		if ( empty( $scheme ) ) {
+			// Add slash to target url when permalink structure ends with a slash.
+			if ( substr( get_option( 'permalink_structure' ), -1 ) === '/' ) {
+				$target_url = trailingslashit( $target_url );
+			}
+
 			$target_url = home_url( $target_url );
 		}
 
