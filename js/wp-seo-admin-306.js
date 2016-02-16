@@ -93,17 +93,19 @@
 	 * Adds select2 for selected fields.
 	 */
 	function initSelect2() {
+		var select2Width = '400px';
+
 		// Select2 for General settings: your info: company or person. Width is the same as the width for the other fields on this page.
-		jQuery( '#company_or_person' ).select2( { width: '400px' } );
+		jQuery( '#company_or_person' ).select2( { width: select2Width } );
 
 		// Select2 for Twitter card meta data in Settings
-		jQuery( '#twitter_card_type' ).select2( { width: '400px' } );
+		jQuery( '#twitter_card_type' ).select2( { width: select2Width} );
 
 		// Select2 for taxonomy breadcrumbs in Advanced
-		jQuery( '#post_types-post-maintax').select2( { width: '400px' } );
+		jQuery( '#post_types-post-maintax').select2( { width: select2Width } );
 
 		// Select2 for profile in Search Console
-		jQuery( '#profile' ).select2( { width: '400px' } );
+		jQuery( '#profile' ).select2( { width: select2Width } );
 	}
 }( jQuery ));
 
