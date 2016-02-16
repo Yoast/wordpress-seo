@@ -197,66 +197,13 @@ class WPSEO_Taxonomy {
 	 * @return array
 	 */
 	public function localize_term_scraper_script() {
-		$translations = $this->get_scraper_translations();
-
 		$term_id  = filter_input( INPUT_GET, 'tag_ID' );
 		$term     = get_term_by( 'id', $term_id, $this->get_taxonomy() );
-		$focuskw  = WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'focuskw' );
 		$taxonomy = get_taxonomy( $term->taxonomy );
-		$options  = WPSEO_Options::get_option( 'wpseo_permalinks' );
 
-		$base_url = home_url( '/', null );
-		if ( ! $options['stripcategorybase'] ) {
-			$base_url = trailingslashit( $base_url . $taxonomy->rewrite['slug'] );
-		}
+		$term_scraper = new WPSEO_Term_Scraper( $taxonomy, $term );
 
-		return array(
-			'translations'      => $translations,
-			'base_url'          => $base_url,
-			'taxonomy'          => $term->taxonomy,
-			'keyword_usage'     => WPSEO_Taxonomy_Meta::get_keyword_usage( $focuskw, $term->term_id, $term->taxonomy ),
-			// Todo: a column needs to be added on the termpages to add a filter for the keyword, so this can be used in the focus kw doubles.
-			'search_url'        => admin_url( 'edit-tags.php?taxonomy=' . $term->taxonomy . '&seo_kw_filter={keyword}' ),
-			'post_edit_url'     => admin_url( 'edit-tags.php?action=edit&taxonomy=' . $term->taxonomy . '&tag_ID={id}' ),
-			'title_template'    => WPSEO_Taxonomy::get_title_template( $term ),
-			'metadesc_template' => WPSEO_Taxonomy::get_metadesc_template( $term ),
-			'contentTab'        => __( 'Content:', 'wordpress-seo' ),
-			'locale'            => get_locale(),
-		);
-	}
-
-	/**
-	 * Retrieves the title template.
-	 *
-	 * @param object $term taxonomy term.
-	 *
-	 * @return string
-	 */
-	public static function get_title_template( $term ) {
-		if ( is_object( $term ) && property_exists( $term, 'taxonomy' ) ) {
-			$needed_option = 'title-tax-' . $term->taxonomy;
-
-			return self::get_template( $needed_option );
-		}
-
-		return '';
-	}
-
-	/**
-	 * Retrieves the metadesc template.
-	 *
-	 * @param object $term taxonomy term.
-	 *
-	 * @return string
-	 */
-	public static function get_metadesc_template( $term ) {
-		if ( is_object( $term ) && property_exists( $term, 'taxonomy' ) ) {
-			$template_option_name = 'metadesc-tax-' . $term->taxonomy;
-
-			return self::get_template( $template_option_name );
-		}
-
-		return '';
+		return $term_scraper->get_values();
 	}
 
 	/**
@@ -267,23 +214,6 @@ class WPSEO_Taxonomy {
 			'no_parent_text' => __( '(no parent)', 'wordpress-seo' ),
 			'replace_vars'   => $this->get_replace_vars(),
 		);
-	}
-
-	/**
-	 * Retrieves a template.
-	 *
-	 * @param String $template_option_name The name of the option in which the template you want to get is saved.
-	 *
-	 * @return string
-	 */
-	private static function get_template( $template_option_name ) {
-		$options  = WPSEO_Options::get_option( 'wpseo_titles' );
-		$template = '';
-		if ( isset( $options[ $template_option_name ] ) && $options[ $template_option_name ] !== '' ) {
-			$template = $options[ $template_option_name ];
-		}
-
-		return $template;
 	}
 
 	/**
@@ -322,18 +252,33 @@ class WPSEO_Taxonomy {
 		return $cached_replacement_vars;
 	}
 
-	/**
-	 * Returns Jed compatible YoastSEO.js translations.
-	 *
-	 * @return array
-	 */
-	private function get_scraper_translations() {
-		$file = plugin_dir_path( WPSEO_FILE ) . 'languages/wordpress-seo-' . get_locale() . '.json';
-		if ( file_exists( $file ) && $file = file_get_contents( $file ) ) {
-			return json_decode( $file, true );
-		}
 
-		return array();
+	/********************** DEPRECATED METHODS **********************/
+
+	/**
+	 * @deprecated 3.2
+	 *
+	 * Retrieves the title template.
+	 *
+	 * @param object $term taxonomy term.
+	 *
+	 * @return string
+	 */
+	public static function get_title_template( $term ) {
+		_deprecated_function( 'WPSEO_Taxonomy::get_title_template', 'WPSEO 3.2', 'WPSEO_Term_Scraper::get_title_template' );
+	}
+
+	/**
+	 * @deprecated 3.2
+	 *
+	 * Retrieves the metadesc template.
+	 *
+	 * @param object $term taxonomy term.
+	 *
+	 * @return string
+	 */
+	public static function get_metadesc_template( $term ) {
+		_deprecated_function( 'WPSEO_Taxonomy::get_metadesc_template', 'WPSEO 3.2', 'WPSEO_Term_Scraper::get_metadesc_template' );
 	}
 
 } /* End of class */
