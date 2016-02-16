@@ -972,7 +972,7 @@ SVG;
 	 * @param WP_Post $post The post to retrieve this for.
 	 * @return bool
 	 */
-	private static function is_show_date_enabled( $post ) {
+	private function is_show_date_enabled( $post ) {
 		$post_type = $post->post_type;
 
 		$options = WPSEO_Options::get_option( 'wpseo_titles' );
