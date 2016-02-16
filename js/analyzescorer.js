@@ -133,9 +133,8 @@ YoastSEO.AnalyzeScorer.prototype.scoreLookup = function( name ) {
  * @returns scoreObject
  */
 YoastSEO.AnalyzeScorer.prototype.returnScore = function( score, scoreObj, i ) {
-
 	return new Score( this.i18n, score, {
-		value: scoreObj.scoreArray[ i ],
+		value: scoreObj.scoreArray[ i ].text,
 		replacements: scoreObj.replaceArray
 	} );
 

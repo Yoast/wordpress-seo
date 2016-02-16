@@ -8,8 +8,7 @@ module.exports = function (i18n, descriptionValue, descriptionReplacements) {
 
 	if ( replacements.length > 0)  {
 		// Return formatted value
-		console.log(descriptionReplacements)
-		return i18n.sprintf(value.text, descriptionReplacements);
+		return i18n.sprintf( value, descriptionReplacements );
 	}
 
 	// Return translated value

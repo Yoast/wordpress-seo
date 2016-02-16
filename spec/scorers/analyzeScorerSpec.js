@@ -32,14 +32,15 @@ describe("Checks for valid score", function(){
 					min: 1,
 					max: 9,
 					score: 1,
-
 					/* translators: %1$d expands to the number of words in the text, %2$s to the recommended minimum of words */
-					text: i18n.dgettext( "js-text-analysis", "The text contains %1$d words, this is slightly below the %2$d word recommended minimum. Add a bit more copy.")
+					text: i18n.dgettext( "js-text-analysis", "%2$d The text contains %1$d words, this is slightly below the  word recommended minimum. Add a bit more copy.")
 				}
 			],
 			replaceArray: [
-				{ name: "wordCount", position: "%1$d", source: "matcher" },
-				{ name: "recommendedWordcount", position: "%2$d", value: 300 }
+				1,3
+
+				//				{ name: "wordCount", position: "%1$d", source: "matcher" },
+//				{ name: "recommendedWordcount", position: "%2$d", value: 300 }
 			]
 		};
 
