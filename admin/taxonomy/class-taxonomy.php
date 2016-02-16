@@ -266,6 +266,8 @@ class WPSEO_Taxonomy {
 	 */
 	public static function get_title_template( $term ) {
 		_deprecated_function( 'WPSEO_Taxonomy::get_title_template', 'WPSEO 3.2', 'WPSEO_Term_Scraper::get_title_template' );
+		
+		return '';
 	}
 
 	/**
@@ -279,6 +281,8 @@ class WPSEO_Taxonomy {
 	 */
 	public static function get_metadesc_template( $term ) {
 		_deprecated_function( 'WPSEO_Taxonomy::get_metadesc_template', 'WPSEO 3.2', 'WPSEO_Term_Scraper::get_metadesc_template' );
+
+		return '';
 	}
 
 } /* End of class */
