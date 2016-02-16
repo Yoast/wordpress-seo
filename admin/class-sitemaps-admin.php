@@ -28,18 +28,7 @@ class WPSEO_Sitemaps_Admin {
 		}
 		unset($wpseo_xml_options);
 
-		$sitemap_xml_files  = glob( ABSPATH . '*sitemap*.xml' );
-		$sitemap_xsl_files  = glob( ABSPATH . '*sitemap*.xsl' );
-		$sitemap_xslt_files = glob( ABSPATH . '*sitemap*.xslt' );
-
-		/**
-		 * Combine all results into one array
-		 */
-		$blocking_files = array_merge(
-			(array) $sitemap_xml_files,
-			(array) $sitemap_xsl_files,
-			(array) $sitemap_xslt_files
-		);
+		$blocking_files = (array) glob( ABSPATH . '*sitemap*.xml' );
 
 		/**
 		 * Save if we have changes
