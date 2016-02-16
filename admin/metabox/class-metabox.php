@@ -681,24 +681,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	}
 
 	/**
-	 * Retrieve a post date when post is published, or return current date when it's not.
-	 *
-	 * @param WP_Post $post The post for which to retrieve the post date.
-	 *
-	 * @return string
-	 */
-	public function get_post_date( $post ) {
-		if ( isset( $post->post_date ) && $post->post_status === 'publish' ) {
-			$date = date_i18n( 'j M Y', strtotime( $post->post_date ) );
-		}
-		else {
-			$date = date_i18n( 'j M Y' );
-		}
-
-		return (string) $date;
-	}
-
-	/**
 	 * Returns post in metabox context
 	 *
 	 * @returns WP_Post|array
@@ -1311,7 +1293,7 @@ SVG;
 	}
 
 	/**
-	 * @deprecated  3.2
+	 * @deprecated 3.2
 	 *
 	 * Retrieves the metadesc template.
 	 *
@@ -1321,6 +1303,21 @@ SVG;
 	 */
 	public static function get_metadesc_template( $post ) {
 		_deprecated_function( 'WPSEO_Metabox::get_metadesc_template', 'WPSEO 3.2', 'WPSEO_Post_Scraper::get_metadesc_template' );
+		return '';
+	}
+
+	/**
+	 * @deprecated 3.2
+	 * Retrieve a post date when post is published, or return current date when it's not.
+	 *
+	 * @param WP_Post $post The post for which to retrieve the post date.
+	 *
+	 * @return string
+	 */
+	public function get_post_date( $post ) {
+		_deprecated_function( 'WPSEO_Metabox::get_post_date', 'WPSEO 3.2', 'WPSEO_Post_Scraper::get_post_date' );
+		_deprecated_function( 'WPSEO_Metabox::get_post_date', 'WPSEO 3.2', 'WPSEO_Post_Scraper::get_post_date' );
+
 		return '';
 	}
 

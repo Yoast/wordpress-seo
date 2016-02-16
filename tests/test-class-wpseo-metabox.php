@@ -15,21 +15,6 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @covers WPSEO_Metabox::get_post_date()
-	 */
-	public function test_get_post_date() {
-
-		// create and go to post
-		$post_id = $this->factory->post->create();
-		$this->go_to( get_permalink( $post_id ) );
-
-		$post = get_post( $post_id );
-
-		$expected_date = date( 'j M Y', strtotime( $post->post_date ) );
-		$this->assertEquals( $expected_date, self::$class_instance->get_post_date( $post ) );
-	}
-
-	/**
 	 * @covers WPSEO_Metabox::enqueue()
 	 */
 	public function test_enqueue_not_firing_on_options_page() {
