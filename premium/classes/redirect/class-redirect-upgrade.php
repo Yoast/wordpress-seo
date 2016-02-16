@@ -69,11 +69,10 @@ class WPSEO_Redirect_Upgrade {
 	 * Upgrade routine to merge plain and regex redirects in a single option.
 	 */
 	public static function upgrade_3_1() {
-		$redirect_option  = self::get_redirect_option();
 		$redirects = array();
 
 		foreach ( self::$redirect_option_names as $redirect_option_name => $redirect_format ) {
-			$old_redirects = $redirect_option->get_from_option( $redirect_option_name );
+			$old_redirects = get_option( $redirect_option_name, array() );
 
 			foreach ( $old_redirects as $origin => $redirect ) {
 				// Only when URL and type is set.
@@ -99,7 +98,7 @@ class WPSEO_Redirect_Upgrade {
 		}
 
 		$redirect_option  = self::get_redirect_option();
-		$redirect_manager = new WPSEO_Redirect_Manager( null, $exporters );
+		$redirect_manager = new WPSEO_Redirect_Manager( null, $exporters, $redirect_option );
 
 		foreach ( $redirects as $redirect ) {
 			$redirect_option->add( $redirect );
@@ -118,7 +117,7 @@ class WPSEO_Redirect_Upgrade {
 		static $redirect_option;
 
 		if ( empty( $redirect_option ) ) {
-			$redirect_option  = new WPSEO_Redirect_Option();
+			$redirect_option  = new WPSEO_Redirect_Option( false );
 		}
 
 		return $redirect_option;
