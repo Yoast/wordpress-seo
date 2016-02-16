@@ -9,21 +9,23 @@
 class WPSEO_Upgrade_Manager {
 
 	/**
+	 * Option key to save the version of Premium
+	 */
+	const VERSION_OPTION_KEY = 'wpseo_premium_version';
+
+	/**
 	 * Run the upgrade routine when it's necessary.
 	 *
 	 * @param string $current_version The current WPSEO version.
 	 */
 	public function run_upgrade( $current_version ) {
 		WPSEO_Options::get_instance();
-		$options       = WPSEO_Options::get_option( 'wpseo' );
-		$saved_version = isset( $options['premium_version'] ) ? $options['premium_version'] : '3.0.7';
+		$saved_version = get_option( self::VERSION_OPTION_KEY, '3.0.7' );
 
 		if ( version_compare( $saved_version, $current_version, '<' ) ) {
 			$this->check_update( $saved_version );
 
-			$options['premium_version'] = $current_version;
-
-			update_option( 'wpseo', $options );
+			update_option( self::VERSION_OPTION_KEY, $current_version );
 		}
 	}
 

@@ -2,6 +2,9 @@
 (function( $ ) {
 	'use strict';
 
+	var snippetPreview;
+	var termSlugInput;
+
 	var TermScraper = function() {
 		if ( typeof CKEDITOR === 'object' ) {
 			console.warn( 'YoastSEO currently doesn\'t support ckEditor. The content analysis currently only works with the HTML editor or TinyMCE.' );
@@ -300,6 +303,21 @@
 		return new YoastSEO.SnippetPreview( snippetPreviewArgs );
 	}
 
+	/**
+	 * Adds a watcher on the term slug input field
+	 */
+	function initTermSlugWatcher() {
+		termSlugInput = $( '#slug' );
+		termSlugInput.on( 'change', updatedTermSlug );
+	}
+
+	/**
+	 * Function to handle when the user updates the term slug
+	 */
+	function updatedTermSlug() {
+		snippetPreview.setUrlPath( termSlugInput.val() );
+	}
+
 	jQuery( document ).ready(function() {
 		var args, termScraper, translations;
 
@@ -338,7 +356,8 @@
 			args.translations = translations;
 		}
 
-		args.snippetPreview = initSnippetPreview( termScraper );
+		snippetPreview = initSnippetPreview( termScraper );
+		args.snippetPreview = snippetPreview;
 
 		window.YoastSEO.app = new YoastSEO.App( args );
 		jQuery( window ).trigger( 'YoastSEO:ready' );
@@ -350,5 +369,7 @@
 
 		// For backwards compatibility.
 		YoastSEO.analyzerArgs = args;
+
+		initTermSlugWatcher();
 	} );
 }( jQuery ));
