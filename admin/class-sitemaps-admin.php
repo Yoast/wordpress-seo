@@ -123,10 +123,6 @@ class WPSEO_Sitemaps_Admin {
 	 * @param \WP_Post $post       Post object.
 	 */
 	private function status_transition_bulk( $new_status, $old_status, $post ) {
-		if ( ! defined( 'WP_IMPORTING' ) ) {
-			return;
-		}
-
 		if ( $new_status != 'publish' ) {
 			return;
 		}
@@ -156,8 +152,7 @@ class WPSEO_Sitemaps_Admin {
 
 		$ping_search_engines = false;
 
-		do {
-			$post_type = array_shift( $this->importing_post_types );
+		foreach ($this->importing_post_types as $post_type) {
 
 			wp_cache_delete( 'lastpostmodified:gmt:' . $post_type, 'timeinfo' ); // #17455.
 
@@ -165,7 +160,7 @@ class WPSEO_Sitemaps_Admin {
 			if ( ! isset( $options[ $option ] ) || $options[ $option ] === false ) {
 				$ping_search_engines = true;
 			}
-		} while ( ! empty( $this->importing_post_types ) );
+		}
 
 		// Nothing to do.
 		if ( false === $ping_search_engines ) {
