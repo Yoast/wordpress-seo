@@ -28,7 +28,7 @@ class WPSEO_Sitemaps_Admin {
 		}
 		unset( $wpseo_xml_options );
 
-		$blocking_files = (array) glob( ABSPATH . '*sitemap*.xml' );
+		$blocking_files = glob( ABSPATH . '*sitemap*.xml' );
 
 		/**
 		 * Save if we have changes
