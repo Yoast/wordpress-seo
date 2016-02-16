@@ -393,12 +393,12 @@ module.exports = function( text, keyword ) {
 
 
 },{"../stringProcessing/stripNonTextTags.js":47,"../stringProcessing/subheadingsMatch.js":50}],14:[function(require,module,exports){
-/* global YoastSEO: true */
-YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
-
 var sanitizeString = require( "../js/stringProcessing/sanitizeString.js" );
 var stringToRegex = require( "../js/stringProcessing/stringToRegex.js" );
 var replaceDiacritics = require( "../js/stringProcessing/replaceDiacritics.js" );
+
+var AnalyzeScorer = require( "./analyzescorer.js" );
+var analyzerConfig = require( "./config/config.js" );
 
 /**
  * Text Analyzer, accepts args for config and calls init for initialization
@@ -419,7 +419,7 @@ var replaceDiacritics = require( "../js/stringProcessing/replaceDiacritics.js" )
  *
  * @constructor
  */
-YoastSEO.Analyzer = function( args ) {
+var Analyzer = function( args ) {
 	this.config = args;
 	this.checkConfig();
 	this.init( args );
@@ -430,7 +430,7 @@ YoastSEO.Analyzer = function( args ) {
 /**
  * sets value to "" of text if it is undefined to make sure it doesn' break the analyzer
  */
-YoastSEO.Analyzer.prototype.checkConfig = function() {
+Analyzer.prototype.checkConfig = function() {
 	if ( typeof this.config.text === "undefined" ) {
 		this.config.text = "";
 	}
@@ -439,7 +439,7 @@ YoastSEO.Analyzer.prototype.checkConfig = function() {
 /**
  * YoastSEO.Analyzer initialization. Loads defaults and overloads custom settings.
  */
-YoastSEO.Analyzer.prototype.init = function( args ) {
+Analyzer.prototype.init = function( args ) {
 	this.config = args;
 	this.initDependencies();
 	this.formatKeyword();
@@ -453,7 +453,7 @@ YoastSEO.Analyzer.prototype.init = function( args ) {
  * creates a regex from the keyword including /ig switch so it is case insensitive and global.
  * replaces a number of characters that can break the regex.
 */
-YoastSEO.Analyzer.prototype.formatKeyword = function() {
+Analyzer.prototype.formatKeyword = function() {
 	if ( typeof this.config.keyword !== "undefined" && this.config.keyword !== "" ) {
 
 		// removes characters from the keyword that could break the regex, or give unwanted results.
@@ -479,24 +479,24 @@ YoastSEO.Analyzer.prototype.formatKeyword = function() {
  * initializes required objects.
  * For the analyzeScorer a new object is always defined, to make sure there are no duplicate scores
  */
-YoastSEO.Analyzer.prototype.initDependencies = function() {
+Analyzer.prototype.initDependencies = function() {
 
 	//init scorer
-	this.analyzeScorer = new YoastSEO.AnalyzeScorer( this );
+	this.analyzeScorer = new AnalyzeScorer( this );
 };
 
 /**
  * initializes the function queue. Uses slice for assignment so it duplicates array in stead of
  * referencing it.
  */
-YoastSEO.Analyzer.prototype.initQueue = function() {
+Analyzer.prototype.initQueue = function() {
 	var fleschReadingIndex;
 
 	//if custom queue available load queue, otherwise load default queue.
 	if ( typeof this.config.queue !== "undefined" && this.config.queue.length !== 0 ) {
 		this.queue = this.config.queue.slice();
 	} else {
-		this.queue = YoastSEO.analyzerConfig.queue.slice();
+		this.queue = analyzerConfig.queue.slice();
 	}
 
 	// Exclude the flesh easy reading score for non-english languages
@@ -508,21 +508,21 @@ YoastSEO.Analyzer.prototype.initQueue = function() {
 /**
  * load wordlists.
  */
-YoastSEO.Analyzer.prototype.loadWordlists = function() {
+Analyzer.prototype.loadWordlists = function() {
 
 	//if no available keywords, load default array
 	if ( typeof this.config.wordsToRemove === "undefined" ) {
-		this.config.wordsToRemove = YoastSEO.analyzerConfig.wordsToRemove;
+		this.config.wordsToRemove = analyzerConfig.wordsToRemove;
 	}
 	if ( typeof this.config.stopWords === "undefined" ) {
-		this.config.stopWords = YoastSEO.analyzerConfig.stopWords;
+		this.config.stopWords = analyzerConfig.stopWords;
 	}
 };
 
 /**
  * starts queue of functions executing the analyzer functions untill queue is empty.
  */
-YoastSEO.Analyzer.prototype.runQueue = function() {
+Analyzer.prototype.runQueue = function() {
 	var output, score;
 
 	// Remove the first item from the queue and execute it.
@@ -560,7 +560,7 @@ YoastSEO.Analyzer.prototype.runQueue = function() {
  * @param {string}   analysis.name The name of this analysis.
  * @param {function} analysis.callable The function to call to calculate this the score.
  */
-YoastSEO.Analyzer.prototype.addAnalysis = function( analysis ) {
+Analyzer.prototype.addAnalysis = function( analysis ) {
 	this.analyses[ analysis.name ] = analysis;
 	this.queue.push( analysis.name );
 };
@@ -569,7 +569,7 @@ YoastSEO.Analyzer.prototype.addAnalysis = function( analysis ) {
  * returns wordcount from this.config.text
  * @returns {{test: string, result: Number)}}
  */
-YoastSEO.Analyzer.prototype.wordCount = function() {
+Analyzer.prototype.wordCount = function() {
 	var countWords = require( "./stringProcessing/countWords.js" );
 	return [ { test: "wordCount", result: countWords( this.config.text ) } ];
 };
@@ -578,7 +578,7 @@ YoastSEO.Analyzer.prototype.wordCount = function() {
  * Checks if keyword is present, if not returns 0
  * @returns {{test: string, result: number}[]}
  */
-YoastSEO.Analyzer.prototype.keyphraseSizeCheck = function() {
+Analyzer.prototype.keyphraseSizeCheck = function() {
 	var getKeyphraseLength = require( "./analyses/getWordCount.js" );
 	return [ { test: "keyphraseSizeCheck", result: getKeyphraseLength( this.config.keyword ) } ];
 };
@@ -587,7 +587,7 @@ YoastSEO.Analyzer.prototype.keyphraseSizeCheck = function() {
  * checks the keyword density of given keyword against the cleantext stored in __store.
  * @returns resultObject
  */
-YoastSEO.Analyzer.prototype.keywordDensity = function() {
+Analyzer.prototype.keywordDensity = function() {
 	var getKeywordDensity = require( "./analyses/getKeywordDensity.js" );
 	var countWords = require( "./stringProcessing/countWords.js" );
 	var matchWords = require( "./stringProcessing/matchTextWithWord.js" );
@@ -608,7 +608,7 @@ YoastSEO.Analyzer.prototype.keywordDensity = function() {
  * it.
  * @returns keywordCount
  */
-YoastSEO.Analyzer.prototype.keywordCount = function() {
+Analyzer.prototype.keywordCount = function() {
 	var matchTextWithWord = require( "./stringProcessing/matchTextWithWord.js" );
 	var keywordCount = matchTextWithWord( this.config.text, this.config.keyword );
 
@@ -619,7 +619,7 @@ YoastSEO.Analyzer.prototype.keywordCount = function() {
  * checks if keywords appear in subheaders of stored cleanTextSomeTags text.
  * @returns resultObject
  */
-YoastSEO.Analyzer.prototype.subHeadings = function() {
+Analyzer.prototype.subHeadings = function() {
 	var getSubheadings = require( "./analyses/matchKeywordInSubheadings.js" );
 
 	var result = [ { test: "subHeadings", result: getSubheadings( this.config.text, this.config.keyword ) } ];
@@ -631,7 +631,7 @@ YoastSEO.Analyzer.prototype.subHeadings = function() {
  * check if the keyword contains stopwords.
  * @returns {result object}
  */
-YoastSEO.Analyzer.prototype.stopwords = function() {
+Analyzer.prototype.stopwords = function() {
 	var checkStringForStopwords = require( "./analyses/checkStringForStopwords.js" );
 	var matches = checkStringForStopwords( this.config.keyword );
 
@@ -652,7 +652,7 @@ YoastSEO.Analyzer.prototype.stopwords = function() {
  * formula: 206.835 - 1.015 (total words / total sentences) - 84.6 ( total syllables / total words);
  * @returns {result object}
  */
-YoastSEO.Analyzer.prototype.fleschReading = function() {
+Analyzer.prototype.fleschReading = function() {
 	var calculateFleschReading = require( "./analyses/calculateFleschReading.js" );
 	var score = calculateFleschReading( this.config.text );
 	if ( score < 0 ) {
@@ -688,7 +688,7 @@ YoastSEO.Analyzer.prototype.fleschReading = function() {
  * 		}
  * 	}
  */
-YoastSEO.Analyzer.prototype.linkCount = function() {
+Analyzer.prototype.linkCount = function() {
 	var countLinks = require( "./analyses/getLinkStatistics.js" );
 	var keyword = this.config.keyword;
 
@@ -707,7 +707,7 @@ YoastSEO.Analyzer.prototype.linkCount = function() {
  *
  * @returns {{name: string, result: {total: number, alt: number, noAlt: number}}}
  */
-YoastSEO.Analyzer.prototype.imageCount = function() {
+Analyzer.prototype.imageCount = function() {
 	var countImages = require( "./analyses/getImageStatistics.js" );
 	return [ { test: "imageCount", result: countImages( this.config.text, this.config.keyword ) } ];
 };
@@ -716,7 +716,7 @@ YoastSEO.Analyzer.prototype.imageCount = function() {
  * counts the number of characters in the pagetitle, returns 0 if empty or not set.
  * @returns {{name: string, count: *}}
  */
-YoastSEO.Analyzer.prototype.pageTitleLength = function() {
+Analyzer.prototype.pageTitleLength = function() {
 	var result =  [ { test: "pageTitleLength", result:  0 } ];
 	if ( typeof this.config.pageTitle !== "undefined" ) {
 		result[ 0 ].result = this.config.pageTitle.length;
@@ -730,7 +730,7 @@ YoastSEO.Analyzer.prototype.pageTitleLength = function() {
  *
  * @returns {{name: string, count: number}}
  */
-YoastSEO.Analyzer.prototype.pageTitleKeyword = function() {
+Analyzer.prototype.pageTitleKeyword = function() {
 	var findKeywordInPageTitle = require( "./analyses/findKeywordInPageTitle.js" );
 	var result = [ { test: "pageTitleKeyword", result: { position: -1, matches: 0 } } ];
 	if ( typeof this.config.pageTitle !== "undefined" && typeof this.config.keyword !== "undefined" ) {
@@ -744,7 +744,7 @@ YoastSEO.Analyzer.prototype.pageTitleKeyword = function() {
  * if there is no paragraph tag or 0 hits, it checks for 2 newlines
  * @returns {{name: string, count: number}}
  */
-YoastSEO.Analyzer.prototype.firstParagraph = function() {
+Analyzer.prototype.firstParagraph = function() {
 	var findKeywordInFirstParagraph = require( "./analyses/findKeywordInFirstParagraph.js" );
 	var result = [ { test: "firstParagraph", result: findKeywordInFirstParagraph( this.config.text, this.config.keyword ) } ];
 	return result;
@@ -755,7 +755,7 @@ YoastSEO.Analyzer.prototype.firstParagraph = function() {
  * empty or not set. Default is -1, if the meta is empty, this way we can score for empty meta.
  * @returns {{name: string, count: number}}
  */
-YoastSEO.Analyzer.prototype.metaDescriptionKeyword = function() {
+Analyzer.prototype.metaDescriptionKeyword = function() {
 	var wordMatch = require( "./stringProcessing/matchTextWithWord.js" );
 	var result = [ { test: "metaDescriptionKeyword", result: -1 } ];
 
@@ -771,7 +771,7 @@ YoastSEO.Analyzer.prototype.metaDescriptionKeyword = function() {
  * returns the length of the metadescription
  * @returns {{test: string, result: Number}[]}
  */
-YoastSEO.Analyzer.prototype.metaDescriptionLength = function() {
+Analyzer.prototype.metaDescriptionLength = function() {
 	var result = [ { test: "metaDescriptionLength", result: 0 } ];
 	if ( typeof  this.config.meta !== "undefined" ) {
 		result[ 0 ].result =  this.config.meta.length;
@@ -784,7 +784,7 @@ YoastSEO.Analyzer.prototype.metaDescriptionLength = function() {
  * counts the occurences of the keyword in the URL, returns 0 if no URL is set or is empty.
  * @returns {{name: string, count: number}}
  */
-YoastSEO.Analyzer.prototype.urlKeyword = function() {
+Analyzer.prototype.urlKeyword = function() {
 	var checkForKeywordInUrl = require( "./analyses/countKeywordInUrl.js" );
 	var score = 0;
 
@@ -800,7 +800,7 @@ YoastSEO.Analyzer.prototype.urlKeyword = function() {
  * returns the length of the URL
  * @returns {{test: string, result: number}[]}
  */
-YoastSEO.Analyzer.prototype.urlLength = function() {
+Analyzer.prototype.urlLength = function() {
 	var isUrlTooLong = require( "./analyses/isUrlTooLong.js" );
 	var result = [ { test: "urlLength", result: { urlTooLong: isUrlTooLong(
 		this.config.url,
@@ -815,7 +815,7 @@ YoastSEO.Analyzer.prototype.urlLength = function() {
  * checks if there are stopwords used in the URL.
  * @returns {{test: string, result: number}[]}
  */
-YoastSEO.Analyzer.prototype.urlStopwords = function() {
+Analyzer.prototype.urlStopwords = function() {
 	var checkUrlForStopwords = require( "./analyses/checkUrlForStopwords.js" );
 	var result = [ { test: "urlStopwords", result: checkUrlForStopwords( this.config.url ) } ];
 
@@ -826,7 +826,7 @@ YoastSEO.Analyzer.prototype.urlStopwords = function() {
  * checks if the keyword has been used before. Uses usedkeywords array. If empty, returns 0.
  * @returns {{test: string, result: number}[]}
  */
-YoastSEO.Analyzer.prototype.keywordDoubles = function() {
+Analyzer.prototype.keywordDoubles = function() {
 	var result = [ { test: "keywordDoubles", result: { count: 0, id: 0 } } ];
 	if ( typeof this.config.keyword !== "undefined" && typeof this.config.usedKeywords !== "undefined" ) {
 		var checkForKeywordDoubles = require( "./analyses/checkForKeywordDoubles.js" );
@@ -838,15 +838,18 @@ YoastSEO.Analyzer.prototype.keywordDoubles = function() {
 /**
  * runs the scorefunction of the analyzeScorer with the generated output that is used as a queue.
  */
-YoastSEO.Analyzer.prototype.score = function() {
+Analyzer.prototype.score = function() {
 	this.analyzeScorer.score( this.__output );
 };
 
-},{"../js/stringProcessing/replaceDiacritics.js":42,"../js/stringProcessing/sanitizeString.js":44,"../js/stringProcessing/stringToRegex.js":45,"./analyses/calculateFleschReading.js":1,"./analyses/checkForKeywordDoubles.js":2,"./analyses/checkStringForStopwords.js":3,"./analyses/checkUrlForStopwords.js":4,"./analyses/countKeywordInUrl.js":5,"./analyses/findKeywordInFirstParagraph.js":6,"./analyses/findKeywordInPageTitle.js":7,"./analyses/getImageStatistics.js":8,"./analyses/getKeywordDensity.js":9,"./analyses/getLinkStatistics.js":10,"./analyses/getWordCount.js":11,"./analyses/isUrlTooLong.js":12,"./analyses/matchKeywordInSubheadings.js":13,"./stringProcessing/countWords.js":34,"./stringProcessing/matchTextWithWord.js":41}],15:[function(require,module,exports){
-/* global YoastSEO: true */
+module.exports = Analyzer;
 
+},{"../js/stringProcessing/replaceDiacritics.js":42,"../js/stringProcessing/sanitizeString.js":44,"../js/stringProcessing/stringToRegex.js":45,"./analyses/calculateFleschReading.js":1,"./analyses/checkForKeywordDoubles.js":2,"./analyses/checkStringForStopwords.js":3,"./analyses/checkUrlForStopwords.js":4,"./analyses/countKeywordInUrl.js":5,"./analyses/findKeywordInFirstParagraph.js":6,"./analyses/findKeywordInPageTitle.js":7,"./analyses/getImageStatistics.js":8,"./analyses/getKeywordDensity.js":9,"./analyses/getLinkStatistics.js":10,"./analyses/getWordCount.js":11,"./analyses/isUrlTooLong.js":12,"./analyses/matchKeywordInSubheadings.js":13,"./analyzescorer.js":15,"./config/config.js":19,"./stringProcessing/countWords.js":34,"./stringProcessing/matchTextWithWord.js":41}],15:[function(require,module,exports){
 var escapeHTML = require( "lodash/string/escape" );
 var Score = require( "./values/Score.js" );
+
+var AnalyzerScoring = require( "./config/scoring.js" ).AnalyzerScoring;
+var analyzerScoreRating = require( "./config/scoring.js" ).analyzerScoreRating;
 
 /**
  * inits the analyzerscorer used for scoring of the output from the textanalyzer
@@ -854,7 +857,7 @@ var Score = require( "./values/Score.js" );
  * @param {YoastSEO.Analyzer} refObj
  * @constructor
  */
-YoastSEO.AnalyzeScorer = function( refObj ) {
+var AnalyzeScorer = function( refObj ) {
 	this.__score = [];
 	this.refObj = refObj;
 	this.i18n = refObj.config.i18n;
@@ -864,8 +867,8 @@ YoastSEO.AnalyzeScorer = function( refObj ) {
 /**
  * loads the analyzerScoring from the config file.
  */
-YoastSEO.AnalyzeScorer.prototype.init = function() {
-	var scoringConfig = new YoastSEO.AnalyzerScoring( this.i18n );
+AnalyzeScorer.prototype.init = function() {
+	var scoringConfig = new AnalyzerScoring( this.i18n );
 	this.scoring = scoringConfig.analyzerScoring;
 };
 
@@ -873,7 +876,7 @@ YoastSEO.AnalyzeScorer.prototype.init = function() {
  * Starts the scoring by taking the resultObject from the analyzer. Then runs the scorequeue.
  * @param resultObj
  */
-YoastSEO.AnalyzeScorer.prototype.score = function( resultObj ) {
+AnalyzeScorer.prototype.score = function( resultObj ) {
 	this.resultObj = resultObj;
 	this.runQueue();
 };
@@ -881,7 +884,7 @@ YoastSEO.AnalyzeScorer.prototype.score = function( resultObj ) {
 /**
  * runs the queue and saves the result in the __score-object.
  */
-YoastSEO.AnalyzeScorer.prototype.runQueue = function() {
+AnalyzeScorer.prototype.runQueue = function() {
 	for ( var i = 0; i < this.resultObj.length; i++ ) {
 		var subScore = this.genericScore( this.resultObj[ i ] );
 		if ( typeof subScore !== "undefined" ) {
@@ -897,7 +900,7 @@ YoastSEO.AnalyzeScorer.prototype.runQueue = function() {
  * @param obj
  * @returns {{name: (analyzerScoring.scoreName), score: number, text: string}}
  */
-YoastSEO.AnalyzeScorer.prototype.genericScore = function( obj ) {
+AnalyzeScorer.prototype.genericScore = function( obj ) {
 	if ( typeof obj !== "undefined" ) {
 		var scoreObj = this.scoreLookup( obj.test );
 
@@ -949,7 +952,7 @@ YoastSEO.AnalyzeScorer.prototype.genericScore = function( obj ) {
  * @param scoreObj
  * @param i
  */
-YoastSEO.AnalyzeScorer.prototype.setMatcher = function( obj, scoreObj, i ) {
+AnalyzeScorer.prototype.setMatcher = function( obj, scoreObj, i ) {
 	this.matcher = parseFloat( obj.result );
 	this.result = obj.result;
 	if ( typeof scoreObj.scoreArray[ i ].matcher !== "undefined" ) {
@@ -962,7 +965,7 @@ YoastSEO.AnalyzeScorer.prototype.setMatcher = function( obj, scoreObj, i ) {
  * @param name
  * @returns scoringObject
  */
-YoastSEO.AnalyzeScorer.prototype.scoreLookup = function( name ) {
+AnalyzeScorer.prototype.scoreLookup = function( name ) {
 	for ( var ii = 0; ii < this.scoring.length; ii++ ) {
 		if ( name === this.scoring[ ii ].scoreName ) {
 			return this.scoring[ ii ];
@@ -977,15 +980,11 @@ YoastSEO.AnalyzeScorer.prototype.scoreLookup = function( name ) {
  * @param i
  * @returns scoreObject
  */
-YoastSEO.AnalyzeScorer.prototype.returnScore = function( score, scoreObj, i ) {
+AnalyzeScorer.prototype.returnScore = function( score, scoreObj, i ) {
 	return new Score( this.i18n, score, {
 		value: scoreObj.scoreArray[ i ].text,
 		replacements: scoreObj.replaceArray
 	} );
-
-//	score.score = scoreObj.scoreArray[ i ].score;
-//	score.text = this.scoreTextFormat( scoreObj.scoreArray[ i ], scoreObj.replaceArray );
-//	return score;
 };
 
 /**
@@ -995,7 +994,7 @@ YoastSEO.AnalyzeScorer.prototype.returnScore = function( score, scoreObj, i ) {
  * @param replaceArray
  * @returns formatted resultText
  */
-YoastSEO.AnalyzeScorer.prototype.scoreTextFormat = function( scoreObj, replaceArray ) {
+AnalyzeScorer.prototype.scoreTextFormat = function( scoreObj, replaceArray ) {
 	var replaceWord;
 	var resultText = scoreObj.text;
 	resultText = escapeHTML( resultText );
@@ -1052,7 +1051,7 @@ YoastSEO.AnalyzeScorer.prototype.scoreTextFormat = function( scoreObj, replaceAr
  * @param replaceWord
  * @returns {YoastSEO.AnalyzeScorer}
  */
-YoastSEO.AnalyzeScorer.prototype.parseReplaceWord = function( replaceWord ) {
+AnalyzeScorer.prototype.parseReplaceWord = function( replaceWord ) {
 	var parts = replaceWord.split( "." );
 	var source = this;
 	for ( var i = 1; i < parts.length; i++ ) {
@@ -1066,7 +1065,7 @@ YoastSEO.AnalyzeScorer.prototype.parseReplaceWord = function( replaceWord ) {
  * array. Removes unused results that have no score
  * @returns score
  */
-YoastSEO.AnalyzeScorer.prototype.totalScore = function() {
+AnalyzeScorer.prototype.totalScore = function() {
 	var scoreAmount = this.__score.length;
 	var totalScore = 0;
 	for ( var i = 0; i < this.__score.length; i++ ) {
@@ -1080,7 +1079,7 @@ YoastSEO.AnalyzeScorer.prototype.totalScore = function() {
 			scoreAmount--;
 		}
 	}
-	var totalAmount = scoreAmount * YoastSEO.analyzerScoreRating;
+	var totalAmount = scoreAmount * analyzerScoreRating;
 	return Math.round( ( totalScore / totalAmount ) * 100 );
 };
 
@@ -1089,7 +1088,7 @@ YoastSEO.AnalyzeScorer.prototype.totalScore = function() {
  *
  * @returns {number}
  */
-YoastSEO.AnalyzeScorer.prototype.getTotalScore = function() {
+AnalyzeScorer.prototype.getTotalScore = function() {
 	return this.__totalScore;
 };
 
@@ -1100,7 +1099,7 @@ YoastSEO.AnalyzeScorer.prototype.getTotalScore = function() {
  * @param {string} scoring.name
  * @param {Object} scoring.scoring
  */
-YoastSEO.AnalyzeScorer.prototype.addScoring = function( scoring ) {
+AnalyzeScorer.prototype.addScoring = function( scoring ) {
 	var scoringObject = scoring.scoring;
 
 	scoringObject.scoreName = scoring.name;
@@ -1108,12 +1107,10 @@ YoastSEO.AnalyzeScorer.prototype.addScoring = function( scoring ) {
 	this.scoring.push( scoringObject );
 };
 
-module.exports = YoastSEO.AnalyzeScorer;
+module.exports = AnalyzeScorer;
 
-},{"./values/Score.js":54,"lodash/string/escape":144}],16:[function(require,module,exports){
+},{"./config/scoring.js":22,"./values/Score.js":54,"lodash/string/escape":144}],16:[function(require,module,exports){
 /* jshint browser: true */
-/* global YoastSEO: true */
-YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 
 require( "./config/config.js" );
 var sanitizeString = require( "../js/stringProcessing/sanitizeString.js" );
@@ -1121,6 +1118,11 @@ var defaultsDeep = require( "lodash/object/defaultsDeep" );
 var isObject = require( "lodash/lang/isObject" );
 var isString = require( "lodash/lang/isString" );
 var MissingArgument = require( "./errors/missingArgument" );
+
+var Analyzer = require( "./analyzer.js" );
+var ScoreFormatter = require( "./scoreFormatter.js" );
+var Pluggable = require( "./pluggable.js" );
+var analyzerConfig = require( "./config/config.js" );
 
 /**
  * Default config for YoastSEO.js
@@ -1304,7 +1306,7 @@ function verifyArguments( args ) {
  *
  * @constructor
  */
-YoastSEO.App = function( args ) {
+var App = function( args ) {
 	if ( !isObject( args ) ) {
 		args = {};
 	}
@@ -1317,7 +1319,7 @@ YoastSEO.App = function( args ) {
 	this.callbacks = this.config.callbacks;
 
 	this.i18n = this.constructI18n( this.config.translations );
-	this.pluggable = new YoastSEO.Pluggable( this );
+	this.pluggable = new Pluggable( this );
 
 	this.getData();
 
@@ -1347,9 +1349,9 @@ YoastSEO.App = function( args ) {
  * @param {Object} args
  * @returns {Object} args
  */
-YoastSEO.App.prototype.extendConfig = function( args ) {
+App.prototype.extendConfig = function( args ) {
 	args.sampleText = this.extendSampleText( args.sampleText );
-	args.queue = args.queue || YoastSEO.analyzerConfig.queue;
+	args.queue = args.queue || analyzerConfig.queue;
 	args.locale = args.locale || "en_US";
 
 	return args;
@@ -1361,7 +1363,7 @@ YoastSEO.App.prototype.extendConfig = function( args ) {
  * @param {Object} sampleText
  * @returns {Object} sampleText
  */
-YoastSEO.App.prototype.extendSampleText = function( sampleText ) {
+App.prototype.extendSampleText = function( sampleText ) {
 	var defaultSampleText = YoastSEO.App.defaultConfig.sampleText;
 
 	if ( sampleText === undefined ) {
@@ -1382,7 +1384,7 @@ YoastSEO.App.prototype.extendSampleText = function( sampleText ) {
  *
  * @param {Object} translations
  */
-YoastSEO.App.prototype.constructI18n = function( translations ) {
+App.prototype.constructI18n = function( translations ) {
 	var Jed = require( "jed" );
 
 	var defaultTranslations = {
@@ -1403,7 +1405,7 @@ YoastSEO.App.prototype.constructI18n = function( translations ) {
 /**
  * Retrieves data from the callbacks.getData and applies modification to store these in this.rawData.
  */
-YoastSEO.App.prototype.getData = function() {
+App.prototype.getData = function() {
 	var isUndefined = require( "lodash/lang/isUndefined" );
 
 	this.rawData = this.callbacks.getData();
@@ -1426,7 +1428,7 @@ YoastSEO.App.prototype.getData = function() {
 /**
  * Refreshes the analyzer and output of the analyzer
  */
-YoastSEO.App.prototype.refresh = function() {
+App.prototype.refresh = function() {
 	this.getData();
 	this.runAnalyzer();
 };
@@ -1437,7 +1439,7 @@ YoastSEO.App.prototype.refresh = function() {
  * @deprecated Don't create a snippet preview using this method, create it directly using the prototype and pass it as
  * an argument instead.
  */
-YoastSEO.App.prototype.createSnippetPreview = function() {
+App.prototype.createSnippetPreview = function() {
 	this.snippetPreview = createDefaultSnippetPreview.call( this );
 	this.initSnippetPreview();
 };
@@ -1445,7 +1447,7 @@ YoastSEO.App.prototype.createSnippetPreview = function() {
 /**
  * Initializes the snippet preview for this App.
  */
-YoastSEO.App.prototype.initSnippetPreview = function() {
+App.prototype.initSnippetPreview = function() {
 	this.snippetPreview.renderTemplate();
 	this.snippetPreview.callRegisteredEventBinder();
 	this.snippetPreview.bindEvents();
@@ -1455,7 +1457,7 @@ YoastSEO.App.prototype.initSnippetPreview = function() {
 /**
  * binds the analyzeTimer function to the input of the targetElement on the page.
  */
-YoastSEO.App.prototype.bindInputEvent = function() {
+App.prototype.bindInputEvent = function() {
 	for ( var i = 0; i < this.config.elementTarget.length; i++ ) {
 		var elem = document.getElementById( this.config.elementTarget[ i ] );
 		elem.addEventListener( "input", this.analyzeTimer.bind( this ) );
@@ -1465,7 +1467,7 @@ YoastSEO.App.prototype.bindInputEvent = function() {
 /**
  * runs the rerender function of the snippetPreview if that object is defined.
  */
-YoastSEO.App.prototype.reloadSnippetText = function() {
+App.prototype.reloadSnippetText = function() {
 	if ( typeof this.snippetPreview !== "undefined" ) {
 		this.snippetPreview.reRender();
 	}
@@ -1476,7 +1478,7 @@ YoastSEO.App.prototype.reloadSnippetText = function() {
  * at every keystroke checks the reference object, so this function can be called from anywhere,
  * without problems with different scopes.
  */
-YoastSEO.App.prototype.analyzeTimer = function() {
+App.prototype.analyzeTimer = function() {
 	clearTimeout( window.timer );
 	window.timer = setTimeout( this.refresh.bind( this ), this.config.typeDelay );
 };
@@ -1484,14 +1486,14 @@ YoastSEO.App.prototype.analyzeTimer = function() {
 /**
  * sets the startTime timestamp
  */
-YoastSEO.App.prototype.startTime = function() {
+App.prototype.startTime = function() {
 	this.startTimestamp = new Date().getTime();
 };
 
 /**
  * sets the endTime timestamp and compares with startTime to determine typeDelayincrease.
  */
-YoastSEO.App.prototype.endTime = function() {
+App.prototype.endTime = function() {
 	this.endTimestamp = new Date().getTime();
 	if ( this.endTimestamp - this.startTimestamp > this.config.typeDelay ) {
 		if ( this.config.typeDelay < ( this.config.maxTypeDelay - this.config.typeDelayStep ) ) {
@@ -1504,7 +1506,7 @@ YoastSEO.App.prototype.endTime = function() {
  * inits a new pageAnalyzer with the inputs from the getInput function and calls the scoreFormatter
  * to format outputs.
  */
-YoastSEO.App.prototype.runAnalyzer = function() {
+App.prototype.runAnalyzer = function() {
 
 	if ( this.pluggable.loaded === false ) {
 		return;
@@ -1525,7 +1527,7 @@ YoastSEO.App.prototype.runAnalyzer = function() {
 	this.analyzerData.keyword = keyword;
 
 	if ( typeof this.pageAnalyzer === "undefined" ) {
-		this.pageAnalyzer = new YoastSEO.Analyzer( this.analyzerData );
+		this.pageAnalyzer = new Analyzer( this.analyzerData );
 
 		this.pluggable._addPluginTests( this.pageAnalyzer );
 	} else {
@@ -1535,7 +1537,7 @@ YoastSEO.App.prototype.runAnalyzer = function() {
 	}
 
 	this.pageAnalyzer.runQueue();
-	this.scoreFormatter = new YoastSEO.ScoreFormatter( {
+	this.scoreFormatter = new ScoreFormatter( {
 		scores: this.pageAnalyzer.analyzeScorer.__score,
 		overallScore: this.pageAnalyzer.analyzeScorer.__totalScore,
 		outputTarget: this.config.targets.output,
@@ -1558,7 +1560,7 @@ YoastSEO.App.prototype.runAnalyzer = function() {
  * @param data
  * @returns {*}
  */
-YoastSEO.App.prototype.modifyData = function( data ) {
+App.prototype.modifyData = function( data ) {
 
 	// Copy rawdata to lose object reference.
 	data = JSON.parse( JSON.stringify( data ) );
@@ -1572,7 +1574,7 @@ YoastSEO.App.prototype.modifyData = function( data ) {
 /**
  * Function to fire the analyzer when all plugins are loaded, removes the loading dialog.
  */
-YoastSEO.App.prototype.pluginsLoaded = function() {
+App.prototype.pluginsLoaded = function() {
 	this.getData();
 	this.removeLoadingDialog();
 	this.runAnalyzer();
@@ -1581,7 +1583,7 @@ YoastSEO.App.prototype.pluginsLoaded = function() {
 /**
  * Shows the loading dialog which shows the loading of the plugins.
  */
-YoastSEO.App.prototype.showLoadingDialog = function() {
+App.prototype.showLoadingDialog = function() {
 	var dialogDiv = document.createElement( "div" );
 	dialogDiv.className = "YoastSEO_msg";
 	dialogDiv.id = "YoastSEO-plugin-loading";
@@ -1592,7 +1594,7 @@ YoastSEO.App.prototype.showLoadingDialog = function() {
  * Updates the loading plugins. Uses the plugins as arguments to show which plugins are loading
  * @param plugins
  */
-YoastSEO.App.prototype.updateLoadingDialog = function( plugins ) {
+App.prototype.updateLoadingDialog = function( plugins ) {
 	var dialog = document.getElementById( "YoastSEO-plugin-loading" );
 	dialog.textContent = "";
 	for ( var plugin in this.pluggable.plugins ) {
@@ -1605,21 +1607,95 @@ YoastSEO.App.prototype.updateLoadingDialog = function( plugins ) {
 /**
  * removes the pluging load dialog.
  */
-YoastSEO.App.prototype.removeLoadingDialog = function() {
+App.prototype.removeLoadingDialog = function() {
 	document.getElementById( this.config.targets.output ).removeChild( document.getElementById( "YoastSEO-plugin-loading" ) );
 };
 
-},{"../js/snippetPreview.js":28,"../js/stringProcessing/sanitizeString.js":44,"./config/config.js":19,"./errors/missingArgument":25,"./snippetPreview.js":28,"jed":56,"lodash/lang/isObject":133,"lodash/lang/isString":135,"lodash/lang/isUndefined":137,"lodash/object/defaultsDeep":139}],17:[function(require,module,exports){
+/**************** PLUGGABLE PUBLIC DSL ****************/
+
+/**
+ * Delegates to `YoastSEO.app.pluggable.registerPlugin`
+ *
+ * @param pluginName	{string}
+ * @param options 		{{status: "ready"|"loading"}}
+ * @returns 			{boolean}
+ */
+App.prototype.registerPlugin = function( pluginName, options ) {
+	return this.pluggable._registerPlugin( pluginName, options );
+};
+
+/**
+ * Delegates to `YoastSEO.app.pluggable.ready`
+ *
+ * @param pluginName	{string}
+ * @returns 			{boolean}
+ */
+App.prototype.pluginReady = function( pluginName ) {
+	return this.pluggable._ready( pluginName );
+};
+
+/**
+ * Delegates to `YoastSEO.app.pluggable.reloaded`
+ *
+ * @param pluginName	{string}
+ * @returns 			{boolean}
+ */
+App.prototype.pluginReloaded = function( pluginName ) {
+	return this.pluggable._reloaded( pluginName );
+};
+
+/**
+ * Delegates to `YoastSEO.app.pluggable.registerModification`
+ *
+ * @param modification 	{string} 	The name of the filter
+ * @param callable 		{function} 	The callable
+ * @param pluginName 	{string} 	The plugin that is registering the modification.
+ * @param priority 		{number} 	(optional) Used to specify the order in which the callables associated with a particular filter are called.
+ * 									Lower numbers correspond with earlier execution.
+ * @returns 			{boolean}
+ */
+App.prototype.registerModification = function( modification, callable, pluginName, priority ) {
+	return this.pluggable._registerModification( modification, callable, pluginName, priority );
+};
+
+/**
+ * Registers a custom test for use in the analyzer, this will result in a new line in the analyzer results. The function
+ * has to return a result based on the contents of the page/posts.
+ *
+ * The scoring object is a special object with definitions about how to translate a result from your analysis function
+ * to a SEO score.
+ *
+ * Negative scores result in a red circle
+ * Scores 1, 2, 3, 4 and 5 result in a orange circle
+ * Scores 6 and 7 result in a yellow circle
+ * Scores 8, 9 and 10 result in a red circle
+ *
+ * @param {string}   name       Name of the test.
+ * @param {function} analysis   A function that analyzes the content and determines a score for a certain trait.
+ * @param {Object}   scoring    A scoring object that defines how the analysis translates to a certain SEO score.
+ * @param {string}   pluginName The plugin that is registering the test.
+ * @param {number}   priority   (optional) Determines when this test is run in the analyzer queue. Is currently ignored,
+ *                              tests are added to the end of the queue.
+ * @returns {boolean}
+ */
+App.prototype.registerTest = function( name, analysis, scoring, pluginName, priority ) {
+	return this.pluggable._registerTest( name, analysis, scoring, pluginName, priority );
+};
+
+module.exports = App;
+
+},{"../js/snippetPreview.js":28,"../js/stringProcessing/sanitizeString.js":44,"./analyzer.js":14,"./config/config.js":19,"./errors/missingArgument":25,"./pluggable.js":26,"./scoreFormatter.js":27,"./snippetPreview.js":28,"jed":56,"lodash/lang/isObject":133,"lodash/lang/isString":135,"lodash/lang/isUndefined":137,"lodash/object/defaultsDeep":139}],17:[function(require,module,exports){
 YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 
-require( "./config/config.js" );
-require( "./config/scoring.js" );
-require( "./analyzer.js" );
-require( "./analyzescorer.js" );
-require( "./scoreFormatter.js" );
+YoastSEO.analyzerConfig = require( "./config/config.js" );
+YoastSEO.AnalyzerScoring = require( "./config/scoring.js" ).AnalyzerScoring;
+YoastSEO.analyzerScoreRating = require( "./config/scoring.js" ).analyzerScoreRating;
+YoastSEO.Analyzer = require( "./analyzer.js" );
+YoastSEO.AnalyzeScorer = require( "./analyzescorer.js" );
+YoastSEO.ScoreFormatter = require( "./scoreFormatter.js" );
 YoastSEO.SnippetPreview = require( "./snippetPreview.js" );
-require( "./app.js" );
-require( "./pluggable.js" );
+YoastSEO.Pluggable = require( "./pluggable.js" );
+YoastSEO.App = require( "./app.js" );
 
 /**
  * Temporary access for the Yoast SEO multi keyword implementation until we publish to npm.
@@ -1646,9 +1722,7 @@ module.exports = function(){
 };
 
 },{}],19:[function(require,module,exports){
-YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
-
-YoastSEO.analyzerConfig = {
+var analyzerConfig = {
 	queue: [ "wordCount", "keywordDensity", "subHeadings", "stopwords", "fleschReading", "linkCount", "imageCount", "urlKeyword", "urlLength", "metaDescriptionLength", "metaDescriptionKeyword", "pageTitleKeyword", "pageTitleLength", "firstParagraph", "urlStopwords", "keywordDoubles", "keyphraseSizeCheck" ],
 	stopWords: [ "a", "about", "above", "after", "again", "against", "all", "am", "an", "and", "any", "are", "as", "at", "be", "because", "been", "before", "being", "below", "between", "both", "but", "by", "could", "did", "do", "does", "doing", "down", "during", "each", "few", "for", "from", "further", "had", "has", "have", "having", "he", "he'd", "he'll", "he's", "her", "here", "here's", "hers", "herself", "him", "himself", "his", "how", "how's", "i", "i'd", "i'll", "i'm", "i've", "if", "in", "into", "is", "it", "it's", "its", "itself", "let's", "me", "more", "most", "my", "myself", "nor", "of", "on", "once", "only", "or", "other", "ought", "our", "ours", "ourselves", "out", "over", "own", "same", "she", "she'd", "she'll", "she's", "should", "so", "some", "such", "than", "that", "that's", "the", "their", "theirs", "them", "themselves", "then", "there", "there's", "these", "they", "they'd", "they'll", "they're", "they've", "this", "those", "through", "to", "too", "under", "until", "up", "very", "was", "we", "we'd", "we'll", "we're", "we've", "were", "what", "what's", "when", "when's", "where", "where's", "which", "while", "who", "who's", "whom", "why", "why's", "with", "would", "you", "you'd", "you'll", "you're", "you've", "your", "yours", "yourself", "yourselves" ],
 	wordsToRemove: [ " a", " in", " an", " on", " for", " the", " and" ],
@@ -1656,6 +1730,8 @@ YoastSEO.analyzerConfig = {
 	maxUrlLength: 40,
 	maxMeta: 156
 };
+
+module.exports = analyzerConfig;
 
 },{}],20:[function(require,module,exports){
 /** @module config/diacritics */
@@ -1778,15 +1854,12 @@ module.exports = function(){
 };
 
 },{}],22:[function(require,module,exports){
-YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
-
-YoastSEO.analyzerScoreRating = 9;
 /**
  *
  * @param {Jed} i18n
  * @constructor
  */
-YoastSEO.AnalyzerScoring = function( i18n ) {
+var AnalyzerScoring = function( i18n ) {
     this.analyzerScoring = [
         {
             scoreName: "wordCount",
@@ -2266,6 +2339,11 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
     ];
 };
 
+module.exports = {
+    AnalyzerScoring: AnalyzerScoring,
+    analyzerScoreRating: 9
+};
+
 },{}],23:[function(require,module,exports){
 /** @module config/stopwords */
 
@@ -2314,8 +2392,6 @@ require( "util" ).inherits( module.exports, Error );
 },{"util":149}],26:[function(require,module,exports){
 /* global console: true */
 /* global setTimeout: true */
-/* global YoastSEO: true */
-YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 
 /**
  * The plugins object takes care of plugin registrations, preloading and managing data modifications.
@@ -2338,7 +2414,7 @@ YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
  * @property modifications 		{object} The modifications that have been registered. Every modification contains an array with callables.
  * @property customTests        {Array} All tests added by plugins.
  */
-YoastSEO.Pluggable = function( app ) {
+var Pluggable = function( app ) {
 	this.app = app;
 	this.loaded = false;
 	this.preloadThreshold = 3000;
@@ -2350,77 +2426,6 @@ YoastSEO.Pluggable = function( app ) {
 	setTimeout( this._pollLoadingPlugins.bind( this ), 1500 );
 };
 
-/**************** PUBLIC DSL ****************/
-
-/**
- * Delegates to `YoastSEO.app.pluggable.registerPlugin`
- *
- * @param pluginName	{string}
- * @param options 		{{status: "ready"|"loading"}}
- * @returns 			{boolean}
- */
-YoastSEO.App.prototype.registerPlugin = function( pluginName, options ) {
-	return this.pluggable._registerPlugin( pluginName, options );
-};
-
-/**
- * Delegates to `YoastSEO.app.pluggable.ready`
- *
- * @param pluginName	{string}
- * @returns 			{boolean}
- */
-YoastSEO.App.prototype.pluginReady = function( pluginName ) {
-	return this.pluggable._ready( pluginName );
-};
-
-/**
- * Delegates to `YoastSEO.app.pluggable.reloaded`
- *
- * @param pluginName	{string}
- * @returns 			{boolean}
- */
-YoastSEO.App.prototype.pluginReloaded = function( pluginName ) {
-	return this.pluggable._reloaded( pluginName );
-};
-
-/**
- * Delegates to `YoastSEO.app.pluggable.registerModification`
- *
- * @param modification 	{string} 	The name of the filter
- * @param callable 		{function} 	The callable
- * @param pluginName 	{string} 	The plugin that is registering the modification.
- * @param priority 		{number} 	(optional) Used to specify the order in which the callables associated with a particular filter are called.
- * 									Lower numbers correspond with earlier execution.
- * @returns 			{boolean}
- */
-YoastSEO.App.prototype.registerModification = function( modification, callable, pluginName, priority ) {
-	return this.pluggable._registerModification( modification, callable, pluginName, priority );
-};
-
-/**
- * Registers a custom test for use in the analyzer, this will result in a new line in the analyzer results. The function
- * has to return a result based on the contents of the page/posts.
- *
- * The scoring object is a special object with definitions about how to translate a result from your analysis function
- * to a SEO score.
- *
- * Negative scores result in a red circle
- * Scores 1, 2, 3, 4 and 5 result in a orange circle
- * Scores 6 and 7 result in a yellow circle
- * Scores 8, 9 and 10 result in a red circle
- *
- * @param {string}   name       Name of the test.
- * @param {function} analysis   A function that analyzes the content and determines a score for a certain trait.
- * @param {Object}   scoring    A scoring object that defines how the analysis translates to a certain SEO score.
- * @param {string}   pluginName The plugin that is registering the test.
- * @param {number}   priority   (optional) Determines when this test is run in the analyzer queue. Is currently ignored,
- *                              tests are added to the end of the queue.
- * @returns {boolean}
- */
-YoastSEO.App.prototype.registerTest = function( name, analysis, scoring, pluginName, priority ) {
-	return this.pluggable._registerTest( name, analysis, scoring, pluginName, priority );
-};
-
 /**************** DSL IMPLEMENTATION ****************/
 
 /**
@@ -2430,7 +2435,7 @@ YoastSEO.App.prototype.registerTest = function( name, analysis, scoring, pluginN
  * @param options 		{{status: "ready"|"loading"}}
  * @returns 			{boolean}
  */
-YoastSEO.Pluggable.prototype._registerPlugin = function( pluginName, options ) {
+Pluggable.prototype._registerPlugin = function( pluginName, options ) {
 	if ( typeof pluginName !== "string" ) {
 		console.error( "Failed to register plugin. Expected parameter `pluginName` to be a string." );
 		return false;
@@ -2457,7 +2462,7 @@ YoastSEO.Pluggable.prototype._registerPlugin = function( pluginName, options ) {
  * @param pluginName	{string}
  * @returns 			{boolean}
  */
-YoastSEO.Pluggable.prototype._ready = function( pluginName ) {
+Pluggable.prototype._ready = function( pluginName ) {
 	if ( typeof pluginName !== "string" ) {
 		console.error( "Failed to modify status for plugin " + pluginName + ". Expected parameter `pluginName` to be a string." );
 		return false;
@@ -2479,7 +2484,7 @@ YoastSEO.Pluggable.prototype._ready = function( pluginName ) {
  * @param pluginName	{string}
  * @returns 			{boolean}
  */
-YoastSEO.Pluggable.prototype._reloaded = function( pluginName ) {
+Pluggable.prototype._reloaded = function( pluginName ) {
 	if ( typeof pluginName !== "string" ) {
 		console.error( "Failed to reload Content Analysis for " + pluginName + ". Expected parameter `pluginName` to be a string." );
 		return false;
@@ -2504,7 +2509,7 @@ YoastSEO.Pluggable.prototype._reloaded = function( pluginName ) {
  * 									Lower numbers correspond with earlier execution.
  * @returns 			{boolean}
  */
-YoastSEO.Pluggable.prototype._registerModification = function( modification, callable, pluginName, priority ) {
+Pluggable.prototype._registerModification = function( modification, callable, pluginName, priority ) {
 	if ( typeof modification !== "string" ) {
 		console.error( "Failed to register modification for plugin " + pluginName + ". Expected parameter `modification` to be a string." );
 		return false;
@@ -2548,7 +2553,7 @@ YoastSEO.Pluggable.prototype._registerModification = function( modification, cal
 /**
  * @private
  */
-YoastSEO.Pluggable.prototype._registerTest = function( name, analysis, scoring, pluginName, priority ) {
+Pluggable.prototype._registerTest = function( name, analysis, scoring, pluginName, priority ) {
 	if ( typeof name !== "string" ) {
 		console.error( "Failed to register test for plugin " + pluginName + ". Expected parameter `name` to be a string." );
 		return false;
@@ -2596,7 +2601,7 @@ YoastSEO.Pluggable.prototype._registerTest = function( name, analysis, scoring, 
  * @param pollTime {number} (optional) The accumulated time to compare with the pre-load threshold.
  * @private
  */
-YoastSEO.Pluggable.prototype._pollLoadingPlugins = function( pollTime ) {
+Pluggable.prototype._pollLoadingPlugins = function( pollTime ) {
 	pollTime = pollTime === undefined ? 0 : pollTime;
 	if ( this._allReady() === true ) {
 		this.loaded = true;
@@ -2615,7 +2620,7 @@ YoastSEO.Pluggable.prototype._pollLoadingPlugins = function( pollTime ) {
  * @returns {boolean}
  * @private
  */
-YoastSEO.Pluggable.prototype._allReady = function() {
+Pluggable.prototype._allReady = function() {
 	for ( var plugin in this.plugins ) {
 		if ( this.plugins[plugin].status !== "ready" ) {
 			return false;
@@ -2629,7 +2634,7 @@ YoastSEO.Pluggable.prototype._allReady = function() {
  *
  * @private
  */
-YoastSEO.Pluggable.prototype._pollTimeExceeded = function() {
+Pluggable.prototype._pollTimeExceeded = function() {
 	for ( var plugin in this.plugins ) {
 		if ( this.plugins[plugin].options !== undefined && this.plugins[plugin].options.status !== "ready" ) {
 			console.error( "Error: Plugin " + plugin + ". did not finish loading in time." );
@@ -2649,7 +2654,7 @@ YoastSEO.Pluggable.prototype._pollTimeExceeded = function() {
  * @returns 			{*} 		The filtered data
  * @private
  */
-YoastSEO.Pluggable.prototype._applyModifications = function( modification, data, context ) {
+Pluggable.prototype._applyModifications = function( modification, data, context ) {
 	var callChain = this.modifications[modification];
 
 	if ( callChain instanceof Array && callChain.length > 0 ) {
@@ -2680,7 +2685,7 @@ YoastSEO.Pluggable.prototype._applyModifications = function( modification, data,
  * @param {YoastSEO.Analyzer} analyzer The analyzer object to add the tests to
  * @private
  */
-YoastSEO.Pluggable.prototype._addPluginTests = function( analyzer ) {
+Pluggable.prototype._addPluginTests = function( analyzer ) {
 	this.customTests.map( function( customTest ) {
 		this._addPluginTest( analyzer, customTest );
 	}, this );
@@ -2696,7 +2701,7 @@ YoastSEO.Pluggable.prototype._addPluginTests = function( analyzer ) {
  * @param {Object}            pluginTest.scoring
  * @private
  */
-YoastSEO.Pluggable.prototype._addPluginTest = function( analyzer, pluginTest ) {
+Pluggable.prototype._addPluginTest = function( analyzer, pluginTest ) {
 	analyzer.addAnalysis( {
 		"name": pluginTest.name,
 		"callable": pluginTest.analysis
@@ -2715,7 +2720,7 @@ YoastSEO.Pluggable.prototype._addPluginTest = function( analyzer, pluginTest ) {
  * @returns callChain 	{Array}
  * @private
  */
-YoastSEO.Pluggable.prototype._stripIllegalModifications = function( callChain ) {
+Pluggable.prototype._stripIllegalModifications = function( callChain ) {
 	for ( var callableObject in callChain ) {
 		if ( this._validateOrigin( callChain[callableObject].origin ) === false ) {
 			delete callChain[callableObject];
@@ -2732,7 +2737,7 @@ YoastSEO.Pluggable.prototype._stripIllegalModifications = function( callChain ) 
  * @returns 			{boolean}
  * @private
  */
-YoastSEO.Pluggable.prototype._validateOrigin = function( pluginName ) {
+Pluggable.prototype._validateOrigin = function( pluginName ) {
 	if ( this.plugins[pluginName].status !== "ready" ) {
 		return false;
 	}
@@ -2746,17 +2751,17 @@ YoastSEO.Pluggable.prototype._validateOrigin = function( pluginName ) {
  * @returns 			{boolean}
  * @private
  */
-YoastSEO.Pluggable.prototype._validateUniqueness = function( pluginName ) {
+Pluggable.prototype._validateUniqueness = function( pluginName ) {
 	if ( this.plugins[pluginName] !== undefined ) {
 		return false;
 	}
 	return true;
 };
 
+module.exports = Pluggable;
+
 },{}],27:[function(require,module,exports){
 /* jshint browser: true */
-/* global YoastSEO: true */
-YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 
 var isUndefined = require( "lodash/lang/isUndefined" );
 var difference = require( "lodash/array/difference" );
@@ -2765,10 +2770,10 @@ var difference = require( "lodash/array/difference" );
  * defines the variables used for the scoreformatter, runs the outputScore en overallScore
  * functions.
  *
- * @param {YoastSEO.App} args
+ * @param {App} args
  * @constructor
  */
-YoastSEO.ScoreFormatter = function( args ) {
+var ScoreFormatter = function( args ) {
 	this.scores = args.scores;
 	this.overallScore = args.overallScore;
 	this.outputTarget = args.outputTarget;
@@ -2782,7 +2787,7 @@ YoastSEO.ScoreFormatter = function( args ) {
 /**
  * Renders the score in the HTML.
  */
-YoastSEO.ScoreFormatter.prototype.renderScore = function() {
+ScoreFormatter.prototype.renderScore = function() {
 	this.outputScore();
 	this.outputOverallScore();
 };
@@ -2790,7 +2795,7 @@ YoastSEO.ScoreFormatter.prototype.renderScore = function() {
 /**
  * creates the list for showing the results from the analyzerscorer
  */
-YoastSEO.ScoreFormatter.prototype.outputScore = function() {
+ScoreFormatter.prototype.outputScore = function() {
 	var seoScoreText, scoreRating;
 
 	this.sortScores();
@@ -2829,7 +2834,7 @@ YoastSEO.ScoreFormatter.prototype.outputScore = function() {
 /**
  * sorts the scores array on ascending scores
  */
-YoastSEO.ScoreFormatter.prototype.sortScores = function() {
+ScoreFormatter.prototype.sortScores = function() {
 	var unsortables = this.getUndefinedScores( this.scores );
 	var sortables = difference( this.scores, unsortables );
 
@@ -2846,7 +2851,7 @@ YoastSEO.ScoreFormatter.prototype.sortScores = function() {
  * @param {Array} scorers The scorers that are being sorted
  * @returns {Array} The scorers that cannot be sorted
  */
-YoastSEO.ScoreFormatter.prototype.getUndefinedScores = function( scorers ) {
+ScoreFormatter.prototype.getUndefinedScores = function( scorers ) {
 	var filtered = scorers.filter( function( scorer ) {
 		return isUndefined( scorer.score );
 	} );
@@ -2857,7 +2862,7 @@ YoastSEO.ScoreFormatter.prototype.getUndefinedScores = function( scorers ) {
 /**
  * outputs the overallScore in the overallTarget element.
  */
-YoastSEO.ScoreFormatter.prototype.outputOverallScore = function() {
+ScoreFormatter.prototype.outputOverallScore = function() {
 	var overallTarget = document.getElementById( this.overallTarget );
 
 	if ( overallTarget ) {
@@ -2876,7 +2881,7 @@ YoastSEO.ScoreFormatter.prototype.outputOverallScore = function() {
  * @param {number|string} score
  * @returns {string} scoreRate
  */
-YoastSEO.ScoreFormatter.prototype.scoreRating = function( score ) {
+ScoreFormatter.prototype.scoreRating = function( score ) {
 	var scoreRate;
 	switch ( true ) {
 		case score <= 4:
@@ -2902,7 +2907,7 @@ YoastSEO.ScoreFormatter.prototype.scoreRating = function( score ) {
  * @param {number|string} score
  * @returns {string} scoreRate
  */
-YoastSEO.ScoreFormatter.prototype.overallScoreRating = function( score ) {
+ScoreFormatter.prototype.overallScoreRating = function( score ) {
 	if ( typeof score === "number" ) {
 		score = ( score / 10 );
 	}
@@ -2916,7 +2921,7 @@ YoastSEO.ScoreFormatter.prototype.overallScoreRating = function( score ) {
  *
  * @return {string}
  */
-YoastSEO.ScoreFormatter.prototype.getSEOScoreText = function( scoreRating ) {
+ScoreFormatter.prototype.getSEOScoreText = function( scoreRating ) {
 	var scoreText = "";
 
 	switch ( scoreRating ) {
@@ -2940,9 +2945,10 @@ YoastSEO.ScoreFormatter.prototype.getSEOScoreText = function( scoreRating ) {
 	return scoreText;
 };
 
+module.exports = ScoreFormatter;
+
 },{"lodash/array/difference":57,"lodash/lang/isUndefined":137}],28:[function(require,module,exports){
 /* jshint browser: true */
-/* global YoastSEO: false */
 
 var isEmpty = require( "lodash/lang/isEmpty" );
 var isElement = require( "lodash/lang/isElement" );
@@ -2957,6 +2963,7 @@ var stringToRegex = require( "../js/stringProcessing/stringToRegex.js" );
 var stripHTMLTags = require( "../js/stringProcessing/stripHTMLTags.js" );
 var sanitizeString = require( "../js/stringProcessing/sanitizeString.js" );
 var stripSpaces = require( "../js/stringProcessing/stripSpaces.js" );
+var analyzerConfig = require( "./config/config.js" );
 
 var defaults = {
 	data: {
@@ -3378,7 +3385,7 @@ SnippetPreview.prototype.renderTemplate = function() {
 
 	if ( this.hasProgressSupport ) {
 		this.element.progress.title.max = titleMaxLength;
-		this.element.progress.metaDesc.max = YoastSEO.analyzerConfig.maxMeta;
+		this.element.progress.metaDesc.max = analyzerConfig.maxMeta;
 	} else {
 		forEach( this.element.progress, function( progressElement ) {
 			addClass( progressElement, "snippet-editor__progress--fallback" );
@@ -3589,7 +3596,7 @@ SnippetPreview.prototype.formatMeta = function() {
 	meta = stripHTMLTags( meta );
 
 	// Cut-off the meta description according to the maximum length
-	meta = meta.substring( 0, YoastSEO.analyzerConfig.maxMeta );
+	meta = meta.substring( 0, analyzerConfig.maxMeta );
 
 	if ( !isEmpty( this.refObj.rawData.keyword ) ) {
 		meta = this.formatKeyword( meta );
@@ -3637,7 +3644,7 @@ SnippetPreview.prototype.getMetaText = function() {
 
 		metaText = metaText.substring(
 			0,
-			YoastSEO.analyzerConfig.maxMeta
+			analyzerConfig.maxMeta
 		);
 		var curStart = 0;
 		if ( indexMatches.length > 0 ) {
@@ -3654,7 +3661,7 @@ SnippetPreview.prototype.getMetaText = function() {
 		}
 	}
 
-	return metaText.substring( 0, YoastSEO.analyzerConfig.maxMeta );
+	return metaText.substring( 0, analyzerConfig.maxMeta );
 };
 
 /**
@@ -3784,11 +3791,11 @@ SnippetPreview.prototype.checkTextLength = function( ev ) {
 	switch ( ev.currentTarget.id ) {
 		case "snippet_meta":
 			ev.currentTarget.className = "desc";
-			if ( text.length > YoastSEO.analyzerConfig.maxMeta ) {
+			if ( text.length > analyzerConfig.maxMeta ) {
 				YoastSEO.app.snippetPreview.unformattedText.snippet_meta = ev.currentTarget.textContent;
 				ev.currentTarget.textContent = text.substring(
 					0,
-					YoastSEO.analyzerConfig.maxMeta
+					analyzerConfig.maxMeta
 				);
 
 			}
@@ -3834,7 +3841,7 @@ SnippetPreview.prototype.validateFields = function() {
 	var metaDescription = getAnalyzerMetaDesc.call( this );
 	var title = getAnalyzerTitle.call( this );
 
-	if ( metaDescription.length > YoastSEO.analyzerConfig.maxMeta ) {
+	if ( metaDescription.length > analyzerConfig.maxMeta ) {
 		addClass( this.element.input.metaDesc, "snippet-editor__field--invalid" );
 	} else {
 		removeClass( this.element.input.metaDesc, "snippet-editor__field--invalid" );
@@ -3869,7 +3876,7 @@ SnippetPreview.prototype.updateProgressBars = function() {
 	updateProgressBar(
 		this.element.progress.metaDesc,
 		metaDescription.length,
-		YoastSEO.analyzerConfig.maxMeta,
+		analyzerConfig.maxMeta,
 		metaDescriptionRating
 	);
 };
@@ -4137,7 +4144,7 @@ SnippetPreview.prototype.setFocus = function( ev ) {};
 
 module.exports = SnippetPreview;
 
-},{"../js/stringProcessing/sanitizeString.js":44,"../js/stringProcessing/stringToRegex.js":45,"../js/stringProcessing/stripHTMLTags.js":46,"../js/stringProcessing/stripSpaces.js":49,"./templates.js":52,"lodash/collection/forEach":59,"lodash/collection/map":60,"lodash/function/debounce":62,"lodash/lang/clone":126,"lodash/lang/isElement":129,"lodash/lang/isEmpty":130,"lodash/lang/isUndefined":137,"lodash/object/defaultsDeep":139}],29:[function(require,module,exports){
+},{"../js/stringProcessing/sanitizeString.js":44,"../js/stringProcessing/stringToRegex.js":45,"../js/stringProcessing/stripHTMLTags.js":46,"../js/stringProcessing/stripSpaces.js":49,"./config/config.js":19,"./templates.js":52,"lodash/collection/forEach":59,"lodash/collection/map":60,"lodash/function/debounce":62,"lodash/lang/clone":126,"lodash/lang/isElement":129,"lodash/lang/isEmpty":130,"lodash/lang/isUndefined":137,"lodash/object/defaultsDeep":139}],29:[function(require,module,exports){
 /** @module stringProcessing/addWordboundary */
 
 /**
