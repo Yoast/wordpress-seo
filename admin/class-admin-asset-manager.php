@@ -122,7 +122,7 @@ class WPSEO_Admin_Asset_Manager {
 			$this->register_style(
 				$item['name'],
 				$item['src'],
-				array(),
+				$item['deps'],
 				$item['version']
 			);
 		}

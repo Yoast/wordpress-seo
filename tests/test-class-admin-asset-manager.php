@@ -103,21 +103,34 @@ class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 	public function test_register_style() {
 		$class_instance =
 			$this
-				->getMock( 'WPSEO_Admin_Asset_Manager', array( 'styles_to_be_registered' ) );
+				->getMock( 'WPSEO_Admin_Asset_Manager', array( 'styles_to_be_registered', 'register_style' ) );
 
 		$class_instance
 			->expects( $this->once() )
-			->method ( 'styles_to_be_registered' )
-			->will ( $this->returnValue(
+			->method( 'styles_to_be_registered' )
+			->will( $this->returnValue(
 				array(
-					array (
-						'name'  =>  'testfile',
-						'src'   =>  'testfile'
-					)
+					array(
+						'name' => 'testfile',
+						'src'  => 'testfile',
+					),
+					array(
+						'name'    => 'testfile2',
+						'src'     => 'testfile2',
+						'deps'    => array( 'dep1' ),
+						'version' => 'version1',
+					),
 				)
 			) );
+		$class_instance
+			->expects( $this->exactly(2) )
+			->method( 'register_style' )
+			->withConsecutive(
+				array( 'testfile', 'testfile' ),
+				array( 'testfile2', 'testfile2', array( 'dep1' ), 'version1' )
+			);
+
 		$class_instance->register_assets();
-		$this->assertTrue( wp_style_is( WPSEO_Admin_Asset_Manager::PREFIX . 'testfile', 'registered' ) );
 	}
 
 	/**
@@ -139,5 +152,4 @@ class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 
 		$class_instance->register_assets();
 	}
-
 }
