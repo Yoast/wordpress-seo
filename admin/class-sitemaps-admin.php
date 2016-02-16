@@ -44,7 +44,7 @@ class WPSEO_Sitemaps_Admin {
 
 		foreach ( $file_to_check_for as $file ) {
 
-			$file_exists = is_file( $file );
+			$file_exists = file_exists( $file );
 			$in_options = array_search( $file, $wpseo_options['blocking_files'] );
 
 			if ( $file_exists && false === $in_options ) {
