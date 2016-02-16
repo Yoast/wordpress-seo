@@ -40,7 +40,7 @@ class WPSEO_Admin_Asset_Manager {
 	 * @param string       $ver The script version number.
 	 * @param bool         $in_footer Option to have the script placed at the bottom of the body.
 	 */
-	protected function register_script( $handle, $src, $deps, $ver = WPSEO_VERSION, $in_footer = true ) {
+	public function register_script( $handle, $src, $deps, $ver = WPSEO_VERSION, $in_footer = true ) {
 		wp_register_script(
 			self::PREFIX . $handle,
 			plugins_url( 'js/' . $src . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ),
@@ -54,16 +54,18 @@ class WPSEO_Admin_Asset_Manager {
 	 * Registers styles based on it's parameters.
 	 *
 	 * @param string       $handle The unique name of the registered style.
-	 * @param string       $src The path to the style relative to the plugin CSS root.
-	 * @param string|array $deps Array of the handles of the registered style this style depends on.
-	 * @param string       $ver The style version number.
+	 * @param string       $src    The path to the style relative to the plugin CSS root.
+	 * @param string|array $deps   Array of the handles of the registered style this style depends on.
+	 * @param string       $ver    The style version number.
+	 * @param string       $media  The media for which this stylesheet has been defined.
 	 */
-	protected function register_style( $handle, $src, $deps = array(), $ver = WPSEO_VERSION ) {
+	public function register_style( $handle, $src, $deps = array(), $ver = WPSEO_VERSION, $media = 'all' ) {
 		wp_register_style(
 			self::PREFIX . $handle,
 			plugins_url( 'css/' . $src . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ),
 			$deps,
-			$ver
+			$ver,
+			$media
 		);
 	}
 
@@ -80,7 +82,7 @@ class WPSEO_Admin_Asset_Manager {
 	 *
 	 * @param array $scripts The scripts passed to it.
 	 */
-	protected function register_scripts( $scripts ) {
+	public function register_scripts( $scripts ) {
 		foreach ( $scripts as $item ) {
 			if ( ! isset( $item['version'] ) ) {
 				$item['version'] = WPSEO_VERSION;
@@ -109,7 +111,7 @@ class WPSEO_Admin_Asset_Manager {
 	 *
 	 * @param array $styles Styles that need to be registerd.
 	 */
-	protected function register_styles( $styles ) {
+	public function register_styles( $styles ) {
 		foreach ( $styles as $item ) {
 			if ( ! isset( $item['version'] ) ) {
 				$item['version'] = WPSEO_VERSION;
@@ -133,7 +135,7 @@ class WPSEO_Admin_Asset_Manager {
 	 *
 	 * @return array scripts that need to be registered.
 	 */
-	protected function scripts_to_be_registered() {
+	private function scripts_to_be_registered() {
 		return array(
 			array(
 				'name' => 'admin-script',
@@ -255,7 +257,7 @@ class WPSEO_Admin_Asset_Manager {
 	 *
 	 * @return array styles that need to be registered.
 	 */
-	protected function styles_to_be_registered() {
+	private function styles_to_be_registered() {
 		return array(
 			array(
 				'name' => 'admin-css',
