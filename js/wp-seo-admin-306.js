@@ -7,101 +7,106 @@
 /* jshint -W003 */
 /* jshint unused:false */
 'use strict';
-jQuery( document ).ready( function() {
-		/* Fix banner images overlapping help texts */
-		jQuery( '.screen-meta-toggle a' ).click( function() {
-				jQuery( '#sidebar-container' ).toggle();
-			}
-		);
 
-		// events
-		jQuery( '#enablexmlsitemap' ).change( function() {
-				jQuery( '#sitemapinfo' ).toggle( jQuery( this ).is( ':checked' ) );
-			}
-		).change();
-
-		jQuery( '#breadcrumbs-enable' ).change( function() {
-				jQuery( '#breadcrumbsinfo' ).toggle( jQuery( this ).is( ':checked' ) );
-			}
-		).change();
-
-		jQuery( '#disable_author_sitemap' ).find( 'input:radio' ).change( function() {
-				if ( jQuery( this ).is( ':checked' ) ) {
-					jQuery( '#xml_user_block' ).toggle( jQuery( this ).val() === 'off' );
+(function( $ ) {
+	jQuery(document).ready(function () {
+			/* Fix banner images overlapping help texts */
+			jQuery('.screen-meta-toggle a').click(function () {
+					jQuery('#sidebar-container').toggle();
 				}
-			}
-		).change();
+			);
 
-		jQuery( '#cleanpermalinks' ).change( function() {
-				jQuery( '#cleanpermalinksdiv' ).toggle( jQuery( this ).is( ':checked' ) );
-			}
-		).change();
-
-		jQuery( '#wpseo-tabs' ).find( 'a' ).click( function() {
-				jQuery( '#wpseo-tabs' ).find( 'a' ).removeClass( 'nav-tab-active' );
-				jQuery( '.wpseotab' ).removeClass( 'active' );
-
-				var id = jQuery( this ).attr( 'id' ).replace( '-tab', '' );
-				jQuery( '#' + id ).addClass( 'active' );
-				jQuery( this ).addClass( 'nav-tab-active' );
-			}
-		);
-
-		jQuery( '#company_or_person' ).change( function() {
-				var companyOrPerson = jQuery( this ).val();
-				if ( 'company' === companyOrPerson ) {
-					jQuery( '#knowledge-graph-company' ).show();
-					jQuery( '#knowledge-graph-person' ).hide();
+			// events
+			jQuery('#enablexmlsitemap').change(function () {
+					jQuery('#sitemapinfo').toggle(jQuery(this).is(':checked'));
 				}
-				else if ( 'person' === companyOrPerson ) {
-					jQuery( '#knowledge-graph-company' ).hide();
-					jQuery( '#knowledge-graph-person' ).show();
+			).change();
+
+			jQuery('#breadcrumbs-enable').change(function () {
+					jQuery('#breadcrumbsinfo').toggle(jQuery(this).is(':checked'));
 				}
-				else {
-					jQuery( '#knowledge-graph-company' ).hide();
-					jQuery( '#knowledge-graph-person' ).hide();
+			).change();
+
+			jQuery('#disable_author_sitemap').find('input:radio').change(function () {
+					if (jQuery(this).is(':checked')) {
+						jQuery('#xml_user_block').toggle(jQuery(this).val() === 'off');
+					}
 				}
+			).change();
+
+			jQuery('#cleanpermalinks').change(function () {
+					jQuery('#cleanpermalinksdiv').toggle(jQuery(this).is(':checked'));
+				}
+			).change();
+
+			jQuery('#wpseo-tabs').find('a').click(function () {
+					jQuery('#wpseo-tabs').find('a').removeClass('nav-tab-active');
+					jQuery('.wpseotab').removeClass('active');
+
+					var id = jQuery(this).attr('id').replace('-tab', '');
+					jQuery('#' + id).addClass('active');
+					jQuery(this).addClass('nav-tab-active');
+				}
+			);
+
+			jQuery('#company_or_person').change(function () {
+					var companyOrPerson = jQuery(this).val();
+					if ('company' === companyOrPerson) {
+						jQuery('#knowledge-graph-company').show();
+						jQuery('#knowledge-graph-person').hide();
+					}
+					else if ('person' === companyOrPerson) {
+						jQuery('#knowledge-graph-company').hide();
+						jQuery('#knowledge-graph-person').show();
+					}
+					else {
+						jQuery('#knowledge-graph-company').hide();
+						jQuery('#knowledge-graph-person').hide();
+					}
+				}
+			).change();
+
+			jQuery('.template').change(function () {
+					wpseoDetectWrongVariables(jQuery(this));
+				}
+			).change();
+
+			// init
+			var activeTab = window.location.hash.replace('#top#', '');
+
+			// default to first tab
+			if (activeTab === '' || activeTab === '#_=_') {
+				activeTab = jQuery('.wpseotab').attr('id');
 			}
-		).change();
 
-		jQuery( '.template' ).change( function() {
-				wpseoDetectWrongVariables( jQuery( this ) );
-			}
-		).change();
+			jQuery('#' + activeTab).addClass('active');
+			jQuery('#' + activeTab + '-tab').addClass('nav-tab-active');
 
-		// init
-		var activeTab = window.location.hash.replace( '#top#', '' );
+			jQuery('.nav-tab-active').click();
 
-		// default to first tab
-		if ( activeTab === '' || activeTab === '#_=_' ) {
-			activeTab = jQuery( '.wpseotab' ).attr( 'id' );
+
+			initSelect2();
 		}
+	);
 
-		jQuery( '#' + activeTab ).addClass( 'active' );
-		jQuery( '#' + activeTab + '-tab' ).addClass( 'nav-tab-active' );
+	/**
+	 * Adds select2 for selected fields.
+	 */
+	function initSelect2() {
+		// Select2 for General settings: your info: company or person. Width is the same as the width for the other fields on this page.
+		jQuery( '#company_or_person' ).select2( { width: '400px' } );
 
-		jQuery( '.nav-tab-active' ).click();
+		// Select2 for Twitter card meta data in Settings
+		jQuery( '#twitter_card_type' ).select2( { width: '400px' } );
 
-		initSelect2();
+		// Select2 for taxonomy breadcrumbs in Advanced
+		jQuery( '#post_types-post-maintax').select2( { width: '400px' } );
+
+		// Select2 for profile in Search Console
+		jQuery( '#profile' ).select2( { width: '400px' } );
 	}
-);
+}( jQuery ));
 
-/**
- * Adds select2 for selected fields.
- */
-function initSelect2() {
-	// Select2 for General settings: your info: company or person. Width is the same as the width for the other fields on this page.
-	jQuery( '#company_or_person' ).select2( { width: '400px' } );
-
-	// Select2 for Twitter card meta data in Settings
-	jQuery( '#twitter_card_type' ).select2( { width: '400px' } );
-
-	// Select2 for taxonomy breadcrumbs in Advanced
-	jQuery( '#post_types-post-maintax').select2( { width: '400px' } );
-
-	// Select2 for profile in Search Console
-	jQuery( '#profile' ).select2( { width: '400px' } );
-}
 
 /**
  * Detects the wrong use of variables in title and description templates
