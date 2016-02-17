@@ -36,11 +36,12 @@ class WPSEO_Recalculate_Posts extends WPSEO_Recalculate {
 	 * @return string
 	 */
 	protected function get_items( $paged ) {
+		$items_per_page = max( 1, $this->items_per_page );
 		$post_query = new WP_Query(
 			array(
 				'post_type'      => 'any',
 				'meta_key'       => '_yoast_wpseo_focuskw',
-				'posts_per_page' => $this->items_per_page,
+				'posts_per_page' => $items_per_page,
 				'paged'          => $paged,
 			)
 		);
@@ -58,9 +59,21 @@ class WPSEO_Recalculate_Posts extends WPSEO_Recalculate {
 	protected function item_to_response( $item ) {
 		$focus_keyword = WPSEO_Meta::get_value( 'focuskw', $item->ID );
 
+		$content = $item->post_content;
+		/**
+		 * Filter the post content for use in the SEO score recalculation.
+		 *
+		 * @param string $content Content of the post. Modify to reflect front-end content.
+		 * @param WP_Post $item The Post object the content comes from.
+		 */
+		$content = apply_filters( 'wpseo_post_content_for_recalculation', $content, $item );
+
+		// Apply shortcodes.
+		$content = do_shortcode( $content );
+
 		return array(
 			'post_id'       => $item->ID,
-			'text'          => $item->post_content,
+			'text'          => $content,
 			'keyword'       => $focus_keyword,
 			'url'           => urldecode( $item->post_name ),
 			'pageTitle'     => apply_filters( 'wpseo_title', wpseo_replace_vars( $this->get_title( $item->ID, $item->post_type ), $item ) ),
@@ -74,17 +87,19 @@ class WPSEO_Recalculate_Posts extends WPSEO_Recalculate {
 	/**
 	 * Get the title for given post
 	 *
-	 * @param integer $post_id The ID of the post for which to get the title.
+	 * @param integer $post_id   The ID of the post for which to get the title.
 	 * @param string  $post_type The post type.
 	 *
 	 * @return mixed|string
 	 */
 	private function get_title( $post_id, $post_type ) {
-		if ( ( $title = WPSEO_Meta::get_value( 'title', $post_id )  ) !== '' ) {
+		$title = WPSEO_Meta::get_value( 'title', $post_id );
+		if ( '' !== $title ) {
 			return $title;
 		}
 
-		if ( $default_from_options = $this->default_from_options( 'title-tax', $post_type ) ) {
+		$default_from_options = $this->default_from_options( 'title-tax', $post_type );
+		if ( false !== $default_from_options ) {
 			return str_replace( ' %%page%% ', ' ', $default_from_options );
 		}
 
@@ -94,17 +109,19 @@ class WPSEO_Recalculate_Posts extends WPSEO_Recalculate {
 	/**
 	 * Get the meta description for given post
 	 *
-	 * @param integer $post_id The ID of the post for which to get the meta description.
+	 * @param integer $post_id   The ID of the post for which to get the meta description.
 	 * @param string  $post_type The post type.
 	 *
 	 * @return bool|string
 	 */
 	private function get_meta_description( $post_id, $post_type ) {
-		if ( ( $meta_description = WPSEO_Meta::get_value( 'metadesc', $post_id ) ) !== '' ) {
+		$meta_description = WPSEO_Meta::get_value( 'metadesc', $post_id );
+		if ( '' !== $meta_description ) {
 			return $meta_description;
 		}
 
-		if ( $default_from_options = $this->default_from_options( 'metadesc', $post_type ) ) {
+		$default_from_options = $this->default_from_options( 'metadesc', $post_type );
+		if ( false !== $default_from_options ) {
 			return $default_from_options;
 		}
 

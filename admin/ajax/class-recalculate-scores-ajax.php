@@ -41,8 +41,14 @@ class WPSEO_Recalculate_Scores_Ajax {
 	public function recalculate_scores() {
 		check_ajax_referer( 'wpseo_recalculate', 'nonce' );
 
-		if ( $response = $this->get_fetch_object()->get_items_to_recalculate( filter_input( INPUT_POST, 'paged', FILTER_VALIDATE_INT ) ) ) {
-			wp_die( WPSEO_Utils::json_encode( $response ) );
+		$fetch_object = $this->get_fetch_object();
+		if ( ! empty( $fetch_object ) ) {
+			$paged    = filter_input( INPUT_POST, 'paged', FILTER_VALIDATE_INT );
+			$response = $fetch_object->get_items_to_recalculate( $paged );
+
+			if ( ! empty( $response ) ) {
+				wp_die( WPSEO_Utils::json_encode( $response ) );
+			}
 		}
 
 		wp_die( '' );
@@ -54,7 +60,11 @@ class WPSEO_Recalculate_Scores_Ajax {
 	public function save_score() {
 		check_ajax_referer( 'wpseo_recalculate', 'nonce' );
 
-		$this->get_fetch_object()->save_scores( $scores = filter_input( INPUT_POST, 'scores', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY ) );
+		$fetch_object = $this->get_fetch_object();
+		if ( ! empty( $fetch_object ) ) {
+			$scores = filter_input( INPUT_POST, 'scores', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY );
+			$fetch_object->save_scores( $scores );
+		}
 
 		wp_die();
 	}
@@ -68,11 +78,11 @@ class WPSEO_Recalculate_Scores_Ajax {
 		switch ( filter_input( INPUT_POST, 'type' ) ) {
 			case 'post':
 				return new WPSEO_Recalculate_Posts();
-				break;
-			default:
+			case 'term':
 				return new WPSEO_Recalculate_Terms();
-				break;
 		}
+
+		return null;
 	}
 
 	/**
@@ -85,7 +95,8 @@ class WPSEO_Recalculate_Scores_Ajax {
 			array(
 				'post_type'      => 'any',
 				'meta_key'       => '_yoast_wpseo_focuskw',
-				'posts_per_page' => -1,
+				'posts_per_page' => 1,
+				'fields'         => 'ids',
 			)
 		);
 
