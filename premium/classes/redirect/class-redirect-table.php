@@ -23,6 +23,11 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	private $current_column;
 
 	/**
+	 * @var WPSEO_Redirect[] The redirects
+	 */
+	private $redirects;
+
+	/**
 	 * @var string The primary column
 	 */
 	private $primary_column = 'type';
@@ -38,6 +43,8 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 		parent::__construct( array( 'plural' => $type ) );
 
 		$this->current_column = $current_column;
+
+		$this->redirects = $redirects;
 
 		$this->set_items( $redirects );
 
@@ -216,7 +223,8 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	 * @return WPSEO_Redirect $redirect the redirect
 	 */
 	private function get_redirect_by_origin( $origin ) {
-		foreach( $this->items as $redirect ) {
+
+		foreach( $this->redirects as $redirect ) {
 			if( $origin === $redirect->get_origin() ) {
 				return $redirect;
 			}
@@ -230,8 +238,9 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	 *
 	 * @return string value to display in table.
 	 */
-	private function column_old( $row ){
+	protected function column_old( $row ){
 		$redirect = $this->get_redirect_by_origin( $row['old'] );
+
 
 		return apply_filters( 'wpseo_format_origin_redirect_column', $row['old'], $redirect );
 	}
