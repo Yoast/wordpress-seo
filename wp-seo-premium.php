@@ -52,6 +52,9 @@ require_once( WPSEO_PATH . 'premium/class-premium.php' );
 
 WPSEO_Premium::autoloader();
 
+/**
+ * Run the upgrade for Yoast SEO Premium.
+ */
 function wpseo_premium_run_upgrade() {
 	$upgrade_manager = new WPSEO_Upgrade_Manager();
 	$upgrade_manager->run_upgrade( WPSEO_VERSION );
