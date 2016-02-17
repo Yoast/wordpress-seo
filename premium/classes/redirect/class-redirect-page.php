@@ -12,6 +12,8 @@ class WPSEO_Redirect_Page {
 	 * Constructing redirect module
 	 */
 	public function __construct() {
+		$this->initialize_filters();
+
 		if ( is_admin() ) {
 			$this->initialize_admin();
 		}
@@ -248,5 +250,14 @@ class WPSEO_Redirect_Page {
 			}
 		}
 	}
+
+	/**
+	 * Initialize the filters.
+	 */
+	private function initialize_filters(){
+		add_filter( 'wpseo_format_origin_redirect_column', array( 'WPSEO_Redirect_Output_Decorator', 'decorate_origin_column' ), 10, 2 );
+		add_filter( 'wpseo_format_target_redirect_column', array( 'WPSEO_Redirect_Output_Decorator', 'decorate_target_column' ), 10, 1 );
+	}
+
 
 }
