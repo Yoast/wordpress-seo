@@ -16,7 +16,7 @@ abstract class WPSEO_Recalculate {
 	/**
 	 * @var int
 	 */
-	protected $items_per_page = 10;
+	protected $items_per_page = 20;
 
 	/**
 	 * Saves the array with scores to the database.
