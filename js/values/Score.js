@@ -1,12 +1,9 @@
-var Description = require ('./Description');
-
-module.exports = function ( i18n, value, description ) {
+module.exports = function( value, description ) {
 	this.value = value;
-	this.description = new Description( i18n, description.value, description.replacements );
+	this.description = description;
 
 	// Added to not break BC
 	this.score = this.value;
 	this.text = this.description;
 
-	return this;
-}
+};
