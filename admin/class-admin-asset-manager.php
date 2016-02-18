@@ -34,38 +34,30 @@ class WPSEO_Admin_Asset_Manager {
 	/**
 	 * Registers scripts based on it's parameters.
 	 *
-	 * @param string       $handle The unique name of the registered script.
-	 * @param string       $src The path to the script relative to the plugin JS root.
-	 * @param string|array $deps Array of the handles of the registered scripts this script depends on.
-	 * @param string       $ver The script version number.
-	 * @param bool         $in_footer Option to have the script placed at the bottom of the body.
+	 * @param WPSEO_Admin_Asset $script The script to register.
 	 */
-	public function register_script( $handle, $src, $deps, $ver = WPSEO_VERSION, $in_footer = true ) {
+	public function register_script( WPSEO_Admin_Asset $script ) {
 		wp_register_script(
-			self::PREFIX . $handle,
-			plugins_url( 'js/' . $src . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ),
-			$deps,
-			$ver,
-			$in_footer
+			self::PREFIX . $script->get_name(),
+			plugins_url( 'js/' . $script->get_src() . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ),
+			$script->get_deps(),
+			$script->get_version(),
+			$script->is_in_footer()
 		);
 	}
 
 	/**
 	 * Registers styles based on it's parameters.
 	 *
-	 * @param string       $handle The unique name of the registered style.
-	 * @param string       $src    The path to the style relative to the plugin CSS root.
-	 * @param string|array $deps   Array of the handles of the registered style this style depends on.
-	 * @param string       $ver    The style version number.
-	 * @param string       $media  The media for which this stylesheet has been defined.
+	 * @param WPSEO_Admin_Asset $style The style to register.
 	 */
-	public function register_style( $handle, $src, $deps = array(), $ver = WPSEO_VERSION, $media = 'all' ) {
+	public function register_style( WPSEO_Admin_Asset $style ) {
 		wp_register_style(
-			self::PREFIX . $handle,
-			plugins_url( 'css/' . $src . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ),
-			$deps,
-			$ver,
-			$media
+			self::PREFIX . $style->get_name(),
+			plugins_url( 'css/' . $style->get_src() . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ),
+			$style->get_deps(),
+			$style->get_version(),
+			$style->get_media()
 		);
 	}
 
@@ -83,26 +75,9 @@ class WPSEO_Admin_Asset_Manager {
 	 * @param array $scripts The scripts passed to it.
 	 */
 	public function register_scripts( $scripts ) {
-		foreach ( $scripts as $item ) {
-			if ( ! isset( $item['version'] ) ) {
-				$item['version'] = WPSEO_VERSION;
-			}
-
-			if ( ! isset( $item['in_footer'] ) ) {
-				$item['in_footer'] = true;
-			}
-
-			if ( ! isset( $item['deps'] ) ) {
-				$item['deps'] = array();
-			}
-
-			$this->register_script(
-				$item['name'],
-				$item['src'],
-				$item['deps'],
-				$item['version'],
-				$item['in_footer']
-			);
+		foreach ( $scripts as $script ) {
+			$script = new WPSEO_Admin_Asset( $script );
+			$this->register_script( $script );
 		}
 	}
 
@@ -112,21 +87,9 @@ class WPSEO_Admin_Asset_Manager {
 	 * @param array $styles Styles that need to be registerd.
 	 */
 	public function register_styles( $styles ) {
-		foreach ( $styles as $item ) {
-			if ( ! isset( $item['version'] ) ) {
-				$item['version'] = WPSEO_VERSION;
-			}
-
-			if ( ! isset( $item['deps'] ) ) {
-				$item['deps'] = array();
-			}
-
-			$this->register_style(
-				$item['name'],
-				$item['src'],
-				$item['deps'],
-				$item['version']
-			);
+		foreach ( $styles as $style ) {
+			$style = new WPSEO_Admin_Asset( $style );
+			$this->register_style( $style );
 		}
 	}
 

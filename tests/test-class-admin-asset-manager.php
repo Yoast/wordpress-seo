@@ -64,7 +64,13 @@ class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Admin_Asset_Manager::register_script
 	 */
 	public function test_register_script() {
-		$this->asset_manager->register_script( 'handle', 'src', array( 'deps' ), 'version', 'in_footer' );
+		$this->asset_manager->register_script( new WPSEO_Admin_Asset( array(
+			'name'      => 'handle',
+			'src'       => 'src',
+			'deps'      => array( 'deps' ),
+			'version'   => 'version',
+			'in_footer' => 'in_footer',
+		) ) );
 
 		// We really want to mock wp_enqueue_script here but we can't because of PHP 5.2
 		// Use the WordPress internals to assert instead.
@@ -85,7 +91,13 @@ class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Admin_Asset_Manager::register_style
 	 */
 	public function test_register_style() {
-		$this->asset_manager->register_style( 'handle', 'src', array( 'deps' ), 'version', 'print' );
+		$this->asset_manager->register_style( new WPSEO_Admin_Asset( array(
+			'name'    => 'handle',
+			'src'     => 'src',
+			'deps'    => array( 'deps' ),
+			'version' => 'version',
+			'media'   => 'print',
+		) ) );
 
 		// We really want to mock wp_enqueue_style here but we can't because of PHP 5.2
 		// Use the WordPress internals to assert instead.
@@ -114,8 +126,17 @@ class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 			->expects( $this->exactly(2) )
 			->method( 'register_script' )
 			->withConsecutive(
-				array( 'testfile', 'testfile', array(), WPSEO_VERSION, true ),
-				array( 'testfile2', 'testfile2', array( 'dep1' ), 'version1', false )
+				$this->equalTo( new WPSEO_Admin_Asset( array(
+					'name'      => 'testfile',
+					'src'       => 'testfile',
+				))),
+				$this->equalTo( new WPSEO_Admin_Asset( array(
+					'name'      => 'testfile2',
+					'src'       => 'testfile2',
+					'deps'      => array( 'dep1' ),
+					'ver'       => 'version1',
+					'in_footer' => false,
+				)))
 			);
 
 		$class_instance->register_scripts( array(
@@ -147,8 +168,17 @@ class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 			->expects( $this->exactly(2) )
 			->method( 'register_style' )
 			->withConsecutive(
-				array( 'testfile', 'testfile' ),
-				array( 'testfile2', 'testfile2', array( 'dep1' ), 'version1' )
+				$this->equalTo( new WPSEO_Admin_Asset( array(
+					'name'      => 'testfile',
+					'src'       => 'testfile',
+				))),
+				$this->equalTo( new WPSEO_Admin_Asset( array(
+					'name'      => 'testfile2',
+					'src'       => 'testfile2',
+					'deps'      => array( 'dep1' ),
+					'ver'       => 'version1',
+					'media'     => 'screen',
+				)))
 			);
 
 		$class_instance->register_styles( array(
@@ -161,6 +191,7 @@ class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 				'src'     => 'testfile2',
 				'deps'    => array( 'dep1' ),
 				'version' => 'version1',
+				'media'   => 'screen',
 			),
 		) );
 	}
