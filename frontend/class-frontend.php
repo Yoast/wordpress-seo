@@ -735,7 +735,7 @@ class WPSEO_Frontend {
 
 		}
 		else {
-			if ( is_search() ) {
+			if ( is_search() || is_404() ) {
 				$robots['index'] = 'noindex';
 			}
 			elseif ( is_tax() || is_tag() || is_category() ) {
@@ -779,14 +779,11 @@ class WPSEO_Frontend {
 					$robots['index'] = 'noindex';
 				}
 			}
-			elseif ( is_404() ) {
-				$robots['index']  = 'noindex';
-				$robots['follow'] = 'follow';
-			}
 
-			if ( isset( $wp_query->query_vars['paged'] ) && ( $wp_query->query_vars['paged'] && $wp_query->query_vars['paged'] > 1 ) && ( $this->options['noindex-subpages-wpseo'] === true ) ) {
-				$robots['index']  = 'noindex';
-				$robots['follow'] = 'follow';
+			$is_paged         = isset( $wp_query->query_vars['paged'] ) && ( $wp_query->query_vars['paged'] && $wp_query->query_vars['paged'] > 1 );
+			$noindex_subpages = $this->options['noindex-subpages-wpseo'] === true;
+			if ( $is_paged && $noindex_subpages ) {
+				$robots['index'] = 'noindex';
 			}
 
 			foreach ( array( 'noodp', 'noydir' ) as $robot ) {
