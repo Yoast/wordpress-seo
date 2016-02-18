@@ -267,7 +267,9 @@ class WPSEO_Sitemaps {
 
 		if ( $caching ) {
 			do_action( 'wpseo_sitemap_stylesheet_cache_' . $type, $this );
-			$this->sitemap = get_transient( 'wpseo_sitemap_cache_' . $type . '_' . $this->n );
+
+			$sitemap_cache_key = WPSEO_Utils::get_sitemap_cache_key( $type, $this->n );
+			$this->sitemap = get_transient( $sitemap_cache_key );
 		}
 
 		if ( ! $this->sitemap || '' == $this->sitemap ) {
@@ -282,7 +284,7 @@ class WPSEO_Sitemaps {
 			}
 
 			if ( $caching ) {
-				set_transient( 'wpseo_sitemap_cache_' . $type . '_' . $this->n, $this->sitemap, DAY_IN_SECONDS );
+				set_transient( $sitemap_cache_key, $this->sitemap );
 			}
 		}
 		else {
