@@ -125,4 +125,12 @@ class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
 			array( 100, false, 'Good' ),
 		);
 	}
+
+	/**
+	 * Test base 10 to base 61 converter
+	 *
+	 * @covers WPSEO_Utils::convert_base10_to_base61
+	 *
+	 * todo: make
+	 */
 }
