@@ -563,7 +563,7 @@ class WPSEO_Utils {
 
 		// Clear only validator cache for type.
 		if ( ! is_null( $validator ) && ! is_null( $type ) ) {
-			// clear all cache.
+			// Clear all cache.
 			$where = sprintf( "option_name LIKE '_transient_%%_%s'", $validator );
 		}
 
@@ -577,9 +577,9 @@ class WPSEO_Utils {
 	 * Get the cache key for a certain type and page
 	 *
 	 * @param null|string $type The type to get the key for. Null or '1' for index cache.
-	 * @param int $page The page of cache to get the key for.
+	 * @param int         $page The page of cache to get the key for.
 	 *
-	 * @return string
+	 * @return string The key where the cache is stored on.
 	 */
 	public static function get_sitemap_cache_key( $type = null, $page = 1 ) {
 		// Using '1' for index "type".
@@ -613,16 +613,19 @@ class WPSEO_Utils {
 	private static function get_safe_sitemap_cache_type( $type, $prefix = '', $postfix = '' ) {
 		// Length of key should not be over 53.
 		$max_length = 53;
-		$max_length -= strlen($prefix);
-		$max_length -= strlen($postfix);
+		$max_length -= strlen( $prefix );
+		$max_length -= strlen( $postfix );
 
 		// If we go below 15 problems with overlap will surely occur.
 		$max_length = max( 15, $max_length );
 
 		if ( strlen( $type ) > $max_length ) {
-			$half = $max_length / 2;
+			$half = ( $max_length / 2 );
 
-			$type = substr( $type, 0, ceil( $half ) - 1 ) . '..' . substr( $type, 0 - ( floor( $half ) - 1 ) );
+			$first_part = substr( $type, 0, ( ceil( $half ) - 1 ) );
+			$last_part  = substr( $type, ( - 1 - floor( $half ) ) );
+
+			$type = $first_part . '..' . $last_part;
 		}
 
 		return $type;
@@ -688,7 +691,7 @@ class WPSEO_Utils {
 		list( $milliseconds, $seconds ) = explode( ' ', $microtime );
 
 		// Transients are purged every 24h.
-		$seconds      = $seconds % 86400;
+		$seconds      = ( $seconds % 86400 );
 		$milliseconds = substr( $milliseconds, 2, 5 );
 
 		// Combine seconds and milliseconds and convert to integer.
@@ -703,11 +706,13 @@ class WPSEO_Utils {
 	/**
 	 * Encode to base61 format.
 	 *
-	 * This is base64 (numeric + alhpa + alpha upper case) without the 0
+	 * This is base64 (numeric + alhpa + alpha upper case) without the 0.
 	 *
-	 * @param int $input The number that has to be converted to base 61
+	 * @param int $input The number that has to be converted to base 61.
 	 *
 	 * @return string Base 61 converted string.
+	 *
+	 * @throws InvalidArgumentException When the input is not an integer.
 	 */
 	public static function convert_base10_to_base61( $input ) {
 		if ( ! is_int( $input ) ) {
@@ -717,11 +722,11 @@ class WPSEO_Utils {
 		$characters = '123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 		$length     = strlen( $characters );
 
-		$index    = $input % $length;
+		$index    = ( $input % $length );
 		$output   = $characters[ $index ];
 		$position = floor( $input / $length );
 		while ( $position ) {
-			$index    = $position % $length;
+			$index    = ( $position % $length );
 			$output   = $characters[ $index ] . $output;
 			$position = floor( $position / $length );
 		}
