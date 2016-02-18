@@ -240,13 +240,13 @@ if ( get_option( 'page_comments' ) && $options['ignore_page_comments'] === false
 	</div>
 	<div id="security" class="wpseotab">
 		<?php
-		echo '<p>', __( 'Advanced part of the meta box allows authors and editors to redirect posts, noindex them and do other things you might not want if you don\'t trust your authors.', 'wordpress-seo' ), '</p>';
 		$yform->toggle_switch(
 			'disableadvanced_meta',
 			array( 'off' => __( 'Enabled', 'wordpress-seo' ), 'on' => __( 'Disabled', 'wordpress-seo' ) ),
 			/* translators: %1$s expands to Yoast SEO */
 			sprintf( __( 'Advanced part of the %1$s meta box', 'wordpress-seo' ), 'Yoast SEO' )
 		);
+		echo '<p>', __( 'The advanced section of the Yoast SEO meta box allows a user to noindex posts or change the canonical. These are things you might not want if you don\'t trust your authors, so by default, only administrators can do this. Enabling the advanced box allows all users to change these settings.', 'wordpress-seo' ), '</p>';
 		?>
 	</div>
 	<div id="onpage" class="wpseotab">
