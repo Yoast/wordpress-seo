@@ -81,10 +81,29 @@ class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 		$result = $wp_scripts->registered[ WPSEO_Admin_Asset_Manager::PREFIX . 'handle' ];
 
 		$this->assertEquals( WPSEO_Admin_Asset_Manager::PREFIX . 'handle', $result->handle );
-		$this->assertEquals( 'http://example.org/wp-content/plugins/wordpress-seo/js/src.js', $result->src );
+		$this->assertEquals( 'http://' . WP_TESTS_DOMAIN . '/wp-content/plugins/wordpress-seo/js/src' . WPSEO_CSSJS_SUFFIX . '.js', $result->src );
 		$this->assertEquals( array( 'deps' ), $result->deps );
 		$this->assertEquals( 'version', $result->ver );
 		$this->assertEquals( array( 'group' => 1 ), $result->extra );
+	}
+
+	/**
+	 * @covers WPSEO_Admin_Asset_Manager::register_script
+	 */
+	public function test_register_script_suffix() {
+		$this->asset_manager->register_script( new WPSEO_Admin_Asset( array(
+			'name'   => 'handle2', // Handles have to be unique, isolation YaY ¯\_(ツ)_/¯.
+			'src'    => 'src',
+			'suffix' => '.suffix',
+		) ) );
+
+		// We really want to mock wp_enqueue_script here but we can't because of PHP 5.2
+		// Use the WordPress internals to assert instead.
+		global $wp_scripts;
+
+		$result = $wp_scripts->registered[ WPSEO_Admin_Asset_Manager::PREFIX . 'handle2' ];
+
+		$this->assertEquals( 'http://example.org/wp-content/plugins/wordpress-seo/js/src.suffix.js', $result->src );
 	}
 
 	/**
@@ -108,10 +127,29 @@ class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 		$result = $wp_styles->registered[ WPSEO_Admin_Asset_Manager::PREFIX . 'handle' ];
 
 		$this->assertEquals( WPSEO_Admin_Asset_Manager::PREFIX . 'handle', $result->handle );
-		$this->assertEquals( 'http://example.org/wp-content/plugins/wordpress-seo/css/src.css', $result->src );
+		$this->assertEquals( 'http://' . WP_TESTS_DOMAIN . '/wp-content/plugins/wordpress-seo/css/src' . WPSEO_CSSJS_SUFFIX . '.css', $result->src );
 		$this->assertEquals( array( 'deps' ), $result->deps );
 		$this->assertEquals( 'version', $result->ver );
 		$this->assertEquals( 'print', $result->args );
+	}
+
+	/**
+	 * @covers WPSEO_Admin_Asset_Manager::register_script
+	 */
+	public function test_register_style_suffix() {
+		$this->asset_manager->register_script( new WPSEO_Admin_Asset( array(
+			'name'   => 'handle2', // Handles have to be unique, isolation YaY ¯\_(ツ)_/¯.
+			'src'    => 'src',
+			'suffix' => '.suffix',
+		) ) );
+
+		// We really want to mock wp_enqueue_script here but we can't because of PHP 5.2
+		// Use the WordPress internals to assert instead.
+		global $wp_scripts;
+
+		$result = $wp_scripts->registered[ WPSEO_Admin_Asset_Manager::PREFIX . 'handle2' ];
+
+		$this->assertEquals( 'http://example.org/wp-content/plugins/wordpress-seo/css/src.suffix.css', $result->src );
 	}
 
 	/**

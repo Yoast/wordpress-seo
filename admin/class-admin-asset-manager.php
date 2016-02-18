@@ -39,7 +39,7 @@ class WPSEO_Admin_Asset_Manager {
 	public function register_script( WPSEO_Admin_Asset $script ) {
 		wp_register_script(
 			self::PREFIX . $script->get_name(),
-			plugins_url( 'js/' . $script->get_src() . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ),
+			plugins_url( 'js/' . $script->get_src() . $script->get_suffix() . '.js', WPSEO_FILE ),
 			$script->get_deps(),
 			$script->get_version(),
 			$script->is_in_footer()
@@ -54,7 +54,7 @@ class WPSEO_Admin_Asset_Manager {
 	public function register_style( WPSEO_Admin_Asset $style ) {
 		wp_register_style(
 			self::PREFIX . $style->get_name(),
-			plugins_url( 'css/' . $style->get_src() . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ),
+			plugins_url( 'css/' . $style->get_src() . $style->get_suffix() . '.css', WPSEO_FILE ),
 			$style->get_deps(),
 			$style->get_version(),
 			$style->get_media()
@@ -138,10 +138,11 @@ class WPSEO_Admin_Asset_Manager {
 				'deps' => array( 'jquery' ),
 			),
 			array(
-				'name' => 'jquery-qtip',
-				'src'  => 'jquery.qtip',
-				'deps' => array( 'jquery' ),
-				'ver'  => '2.2.1',
+				'name'   => 'jquery-qtip',
+				'src'    => 'jquery.qtip',
+				'deps'   => array( 'jquery' ),
+				'ver'    => '2.2.1',
+				'suffix' => '.min',
 			),
 			array(
 				'name' => 'metabox',
@@ -178,8 +179,9 @@ class WPSEO_Admin_Asset_Manager {
 				'inf'  => false,
 			),
 			array(
-				'name' => 'yoast-seo',
-				'src'  => 'dist/yoast-seo/yoast-seo-307',
+				'name'   => 'yoast-seo',
+				'src'    => 'dist/yoast-seo/yoast-seo-307',
+				'suffix' => '.min',
 			),
 			array(
 				'name' => 'post-scraper',
@@ -264,8 +266,9 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'snippet-307',
 			),
 			array(
-				'name' => 'yoast-seo',
-				'src'  => 'dist/yoast-seo/yoast-seo-307',
+				'name'   => 'yoast-seo',
+				'src'    => 'dist/yoast-seo/yoast-seo-307',
+				'suffix' => '.min',
 			),
 			array(
 				'name' => 'adminbar',

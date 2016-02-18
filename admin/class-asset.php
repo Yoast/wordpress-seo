@@ -50,6 +50,11 @@ class WPSEO_Admin_Asset {
 	protected $in_footer;
 
 	/**
+	 * @var string
+	 */
+	protected $suffix;
+
+	/**
 	 * @param array $args The arguments for this asset.
 	 *
 	 * @throws InvalidArgumentException Throws when no name or src has been provided.
@@ -68,6 +73,7 @@ class WPSEO_Admin_Asset {
 			'version'   => WPSEO_VERSION,
 			'in_footer' => true,
 			'media'     => 'all',
+			'suffix'    => WPSEO_CSSJS_SUFFIX,
 		), $args );
 
 		$this->name = $args['name'];
@@ -76,6 +82,7 @@ class WPSEO_Admin_Asset {
 		$this->version = $args['version'];
 		$this->media = $args['media'];
 		$this->in_footer = $args['in_footer'];
+		$this->suffix = $args['suffix'];
 	}
 
 	/**
@@ -118,5 +125,12 @@ class WPSEO_Admin_Asset {
 	 */
 	public function is_in_footer() {
 		return $this->in_footer;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function get_suffix() {
+		return $this->suffix;
 	}
 }

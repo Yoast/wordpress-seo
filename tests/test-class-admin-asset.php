@@ -30,6 +30,7 @@ class WPSEO_Admin_Asset_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( WPSEO_VERSION, $asset->get_version() );
 		$this->assertEquals( 'all', $asset->get_media() );
 		$this->assertEquals( true, $asset->is_in_footer() );
+		$this->assertEquals( WPSEO_CSSJS_SUFFIX, $asset->get_suffix() );
 	}
 
 	public function test_getters() {
@@ -40,11 +41,13 @@ class WPSEO_Admin_Asset_Test extends WPSEO_UnitTestCase {
 			'version'   => 'version',
 			'media'     => 'screen',
 			'in_footer' => false,
+			'suffix'    => '.suffix',
 		) );
 
 		$this->assertEquals( array( 'deps' ), $asset->get_deps() );
 		$this->assertEquals( 'version', $asset->get_version() );
 		$this->assertEquals( 'screen', $asset->get_media() );
 		$this->assertEquals( false, $asset->is_in_footer() );
+		$this->assertEquals( '.suffix', $asset->get_suffix() );
 	}
 }
