@@ -4,6 +4,7 @@ var replaceDiacritics = require( "../js/stringProcessing/replaceDiacritics.js" )
 
 var AnalyzeScorer = require( "./analyzescorer.js" );
 var analyzerConfig = require( "./config/config.js" );
+var Paper = require( "./values/Paper.js" );
 
 /**
  * Text Analyzer, accepts args for config and calls init for initialization
@@ -45,6 +46,13 @@ Analyzer.prototype.checkConfig = function() {
  * YoastSEO.Analyzer initialization. Loads defaults and overloads custom settings.
  */
 Analyzer.prototype.init = function( args ) {
+
+	if ( typeof args.Paper === 'undefined' ) {
+		args.Paper = new Paper( args.keyword );
+	}
+
+	this.Paper = args.Paper;
+
 	this.config = args;
 	this.initDependencies();
 	this.formatKeyword();
@@ -59,24 +67,18 @@ Analyzer.prototype.init = function( args ) {
  * replaces a number of characters that can break the regex.
 */
 Analyzer.prototype.formatKeyword = function() {
-	if ( typeof this.config.keyword !== "undefined" && this.config.keyword !== "" ) {
+	if ( this.Paper.hasKeyword() ) {
 
 		// removes characters from the keyword that could break the regex, or give unwanted results.
 		// leaves the - since this is replaced later on in the function
-		var keyword = sanitizeString( this.config.keyword );
+		var keyword = sanitizeString( this.Paper.getKeyword() );
 
 		// Creates new regex from keyword with global and caseinsensitive option,
-
-		this.keywordRegex = stringToRegex(
-			replaceDiacritics( keyword.replace( /[-_]/g, " " )
-		) );
+		this.keywordRegex = stringToRegex( replaceDiacritics( keyword.replace( /[-_]/g, " " ) ) );
 
 		// Creates new regex from keyword with global and caseinsensitive option,
 		// replaces space with -. Used for URL matching
-		this.keywordRegexInverse = stringToRegex(
-			replaceDiacritics( keyword.replace( /\s/g, "-" ) ),
-			"\\-"
-		);
+		this.keywordRegexInverse = stringToRegex( replaceDiacritics( keyword.replace( /\s/g, "-" ) ), "\\-" );
 	}
 };
 
