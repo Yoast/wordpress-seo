@@ -1,6 +1,5 @@
 var escapeHTML = require( "lodash/string/escape" );
 var Score = require( "./values/Score.js" );
-
 var AnalyzerScoring = require( "./config/scoring.js" ).AnalyzerScoring;
 var analyzerScoreRating = require( "./config/scoring.js" ).analyzerScoreRating;
 
@@ -128,16 +127,13 @@ AnalyzeScorer.prototype.scoreLookup = function( name ) {
 
 /**
  * fills the score with score and text from the scoreArray and runs the textformatter.
- * @param score
- * @param scoreObj
- * @param i
- * @returns scoreObject
+ * @param {Object} score
+ * @param {Object} scoreObj
+ * @param {number} i
+ * @returns {Score}
  */
 AnalyzeScorer.prototype.returnScore = function( score, scoreObj, i ) {
-	return new Score( this.i18n, score, {
-		value: scoreObj.scoreArray[ i ].text,
-		replacements: scoreObj.replaceArray
-	} );
+	return new Score( scoreObj.scoreArray[ i ].score, this.scoreTextFormat( scoreObj.scoreArray[ i ], scoreObj.replaceArray ) );
 };
 
 /**

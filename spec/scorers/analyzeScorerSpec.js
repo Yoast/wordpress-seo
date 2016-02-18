@@ -33,20 +33,15 @@ describe("Checks for valid score", function(){
 					max: 9,
 					score: 1,
 					/* translators: %1$d expands to the number of words in the text, %2$s to the recommended minimum of words */
-					text: i18n.dgettext( "js-text-analysis", "%2$d The text contains %1$d words, this is slightly below the  word recommended minimum. Add a bit more copy.")
+					text: i18n.dgettext( "js-text-analysis", "The text contains %1$d words, this is slightly below the %2$d word recommended minimum. Add a bit more copy.")
 				}
 			],
-			replaceArray: [
-				1,3
-
-				//				{ name: "wordCount", position: "%1$d", source: "matcher" },
-//				{ name: "recommendedWordcount", position: "%2$d", value: 300 }
-			]
+			replaceArray: [ 1, 3 ]
 		};
 
 		var result = analyzeScorer.returnScore( 1, scoreObj, 0 );
 
-		expect( result.weight ).toBe( 1 );
+		expect( result.value ).toBe( 1 );
 
 	});
 });
