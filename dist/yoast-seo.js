@@ -442,7 +442,7 @@ Analyzer.prototype.checkConfig = function() {
  */
 Analyzer.prototype.init = function( args ) {
 
-	if ( typeof args.Paper === 'undefined' ) {
+	if ( typeof args.Paper === "undefined" ) {
 		args.Paper = new Paper( args.keyword );
 	}
 
