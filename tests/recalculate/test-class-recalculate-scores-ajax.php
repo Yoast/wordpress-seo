@@ -76,6 +76,38 @@ class WPSEO_Recalculate_Scores_Ajax_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Recalculate scores
 	 */
+	public function test_recalculate_scores() {
+
+		/**
+		 * We cannot test this, because filter_input is not mockable/overrideable at this moment.
+		 */
+//		$ajax_nonce = wp_create_nonce( "wpseo_recalculate" );
+//		$_REQUEST['nonce'] = $ajax_nonce;
+//
+//		$_POST['paged'] = 1;
+//		$_POST['type'] = 'post';
+//
+//		WPSEO_Meta::set_value( 'focuskw', 'focus keyword', $this->posts[1] );
+//		WPSEO_Meta::set_value( 'focuskw', 'testable', $this->posts[3] );
+//
+//		add_filter( 'wp_die_handler', array( $this, 'set_recalculate_post_ajax_catcher' ) );
+//
+//		$this->instance->recalculate_scores();
+//
+//		remove_filter( 'wp_die_handler', array( $this, 'set_recalculate_post_ajax_catcher' ) );
+	}
+
+	/*
+	public function set_recalculate_post_ajax_catcher( $response ) {
+		return array($this, 'get_recalculate_post_ajax_catcher');
+	}
+
+	public function get_recalculate_post_ajax_catcher( $response ) {
+		$object = json_decode( $response );
+		print_r($object);
+	}
+	*/
+
 
 	/**
 	 * Save scores
