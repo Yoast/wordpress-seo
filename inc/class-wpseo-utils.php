@@ -490,7 +490,7 @@ class WPSEO_Utils {
 	 *
 	 * @param array $types Set of sitemap types to invalidate cache for.
 	 */
-	public static function clear_sitemap_cache( $types = array() ) {
+	public static function clear_sitemap_cache( array $types = array() ) {
 		// Filter out optional empty items.
 		$types = array_filter( $types );
 
@@ -517,7 +517,7 @@ class WPSEO_Utils {
 	 *
 	 * @param null|string $type The type to get the key for. Null for all cache.
 	 */
-	public static function invalidate_sitemap_cache( $type = null ) {
+	private static function invalidate_sitemap_cache( $type = null ) {
 		// Global validator gets cleared when not type is provided.
 		$old_validator = null;
 
@@ -548,29 +548,23 @@ class WPSEO_Utils {
 	private static function cleanup_sitemap_database_cache( $type = null, $validator = null ) {
 		global $wpdb;
 
-		// Build up the query.
-		$where = '';
-
-		// Clear all cache if no type is provided.
 		if ( is_null( $type ) ) {
+			// Clear all cache if no type is provided.
 			$where = sprintf( "option_name LIKE '_transient_%s%%'", self::$sitemap_cache_key_prefix );
 		}
-
-		// Clear type cache for all validators.
-		if ( is_null( $validator ) && ! is_null( $type ) ) {
-			$where = sprintf( "option_name LIKE '_transient_%s%s_%%'", self::$sitemap_cache_key_prefix, $type );
+		else {
+			if ( ! is_null( $validator ) ) {
+				// Clear all cache for provided type-validator.
+				$where = sprintf( "option_name LIKE '_transient_%%_%s'", $validator );
+			}
+			else {
+				// Clear type cache for all type keys.
+				$where = sprintf( "option_name LIKE '_transient_%s%s_%%'", self::$sitemap_cache_key_prefix, $type );
+			}
 		}
 
-		// Clear only validator cache for type.
-		if ( ! is_null( $validator ) && ! is_null( $type ) ) {
-			// Clear all cache.
-			$where = sprintf( "option_name LIKE '_transient_%%_%s'", $validator );
-		}
-
-		if ( ! empty( $where ) ) {
-			$query = sprintf( 'DELETE FROM %s WHERE %s', $wpdb->options, $where );
-			$wpdb->query( $query );
-		}
+		$query = sprintf( 'DELETE FROM %s WHERE %s', $wpdb->options, $where );
+		$wpdb->query( $query );
 	}
 
 	/**
@@ -582,8 +576,8 @@ class WPSEO_Utils {
 	 * @return string The key where the cache is stored on.
 	 */
 	public static function get_sitemap_cache_key( $type = null, $page = 1 ) {
-		// Using '1' for index "type".
-		$type = ! is_null( $type ) ? $type : 1;
+		// Using '1' for sitemap index cache.
+		$type = is_null( $type ) ? 1 : $type;
 
 		$global_cache_validator = self::get_sitemap_cache_validator();
 		$type_cache_validator   = self::get_sitemap_cache_validator( $type );
@@ -593,6 +587,7 @@ class WPSEO_Utils {
 
 		$type = self::get_safe_sitemap_cache_type( $type, $prefix, $postfix );
 
+		// Build key.
 		$full_key = $prefix . $type . $postfix;
 
 		return $full_key;
@@ -695,7 +690,7 @@ class WPSEO_Utils {
 		$milliseconds = substr( $milliseconds, 2, 5 );
 
 		// Combine seconds and milliseconds and convert to integer.
-		$validator    = intval( $seconds . '' . $milliseconds, 10 );
+		$validator = intval( $seconds . '' . $milliseconds, 10 );
 
 		// Apply base 61 encoding.
 		$compressed = self::convert_base10_to_base61( $validator );
