@@ -201,9 +201,11 @@ class WPSEO_Taxonomy {
 		$term     = get_term_by( 'id', $term_id, $this->get_taxonomy() );
 		$taxonomy = get_taxonomy( $term->taxonomy );
 
-		$term_scraper = new WPSEO_Term_Scraper( $taxonomy, $term );
+		$term_formatter = new WPSEO_Metabox_Formatter(
+			new WPSEO_Term_Metabox_Formatter( $taxonomy, $term, WPSEO_Options::get_option( 'wpseo_titles' ) )
+		);
 
-		return $term_scraper->get_values();
+		return $term_formatter->get_values();
 	}
 
 	/**
@@ -266,7 +268,7 @@ class WPSEO_Taxonomy {
 	 */
 	public static function get_title_template( $term ) {
 		_deprecated_function( 'WPSEO_Taxonomy::get_title_template', 'WPSEO 3.2', 'WPSEO_Term_Scraper::get_title_template' );
-		
+
 		return '';
 	}
 

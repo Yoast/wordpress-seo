@@ -4,9 +4,9 @@
  */
 
 /**
- * This class provides data for the js postscraper by return its values for localization
+ * This class provides data for the post metabox by return its values for localization
  */
-class WPSEO_Post_Scraper extends WPSEO_Scraper {
+class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface {
 
 	/**
 	 * @var WP_Post
@@ -14,13 +14,19 @@ class WPSEO_Post_Scraper extends WPSEO_Scraper {
 	private $post;
 
 	/**
-	 * WPSEO_Post_Scraper constructor.
-	 *
-	 * @param WP_Post $post
+	 * @var array Array with the WPSEO_Titles options.
 	 */
-	public function __construct( WP_Post $post ) {
+	protected $options;
+
+	/**
+	 * Constructor.
+	 *
+	 * @param WP_Post $post    Post object.
+	 * @param array   $options Title options to use.
+	 */
+	public function __construct( WP_Post $post, array $options ) {
 		$this->post    = $post;
-		$this->options = WPSEO_Options::get_option( 'wpseo_titles' );
+		$this->options = $options;
 	}
 
 	/**
@@ -29,9 +35,12 @@ class WPSEO_Post_Scraper extends WPSEO_Scraper {
 	 * @return array
 	 */
 	public function get_values() {
-		$values = parent::get_defaults();
-
-		$values['metaDescriptionDate'] = '';
+		$values = array(
+			'search_url'          => $this->search_url(),
+			'post_edit_url'       => $this->edit_url(),
+			'base_url'            => $this->base_url_for_js(),
+			'metaDescriptionDate' => '',
+		);
 
 		if ( is_a( $this->post, 'WP_Post' ) ) {
 			$values_to_set = array(
@@ -52,7 +61,7 @@ class WPSEO_Post_Scraper extends WPSEO_Scraper {
 	 *
 	 * @return string
 	 */
-	protected function search_url(  ) {
+	private function search_url(  ) {
 		admin_url( 'edit.php?seo_kw_filter={keyword}' );
 	}
 
@@ -61,8 +70,8 @@ class WPSEO_Post_Scraper extends WPSEO_Scraper {
 	 *
 	 * @return string
 	 */
-	protected function edit_url() {
-			return admin_url( 'post.php?post={id}&action=edit' );
+	private function edit_url() {
+		return admin_url( 'post.php?post={id}&action=edit' );
 	}
 
 	/**
@@ -70,7 +79,7 @@ class WPSEO_Post_Scraper extends WPSEO_Scraper {
 	 *
 	 * @return string
 	 */
-	protected function get_base_url_for_js() {
+	private function base_url_for_js() {
 		global $pagenow;
 
 		// The default base is the home_url.
@@ -91,13 +100,12 @@ class WPSEO_Post_Scraper extends WPSEO_Scraper {
 		return $base_url;
 	}
 
-
 	/**
 	 * Counting the number of given keyword used for other posts than given post_id
 	 *
 	 * @return array
 	 */
-	protected function get_focus_keyword_usage() {
+	private function get_focus_keyword_usage() {
 		$keyword = WPSEO_Meta::get_value( 'focuskw', $this->post->ID );
 
 		return array(
@@ -110,10 +118,8 @@ class WPSEO_Post_Scraper extends WPSEO_Scraper {
 	 *
 	 * @return string
 	 */
-	protected function get_title_template() {
-		$needed_option = 'title-' . $this->post->post_type;
-
-		return $this->get_template( $needed_option );
+	private function get_title_template() {
+		return $this->get_template( 'title' );
 	}
 
 	/**
@@ -121,10 +127,25 @@ class WPSEO_Post_Scraper extends WPSEO_Scraper {
 	 *
 	 * @return string
 	 */
-	protected function get_metadesc_template() {
-		$needed_option = 'metadesc-' . $this->post->post_type;
+	private function get_metadesc_template() {
+		return $this->get_template( 'metadesc' );
+	}
 
-		return $this->get_template( $needed_option );
+	/**
+	 * Retrieves a template.
+	 *
+	 * @param String $template_option_name The name of the option in which the template you want to get is saved.
+	 *
+	 * @return string
+	 */
+	private function get_template( $template_option_name ) {
+		$needed_option = $template_option_name . '-' . $this->post->post_type;
+
+		if ( isset( $this->options[ $needed_option ] ) && $this->options[ $needed_option ] !== '' ) {
+			return $this->options[ $needed_option ];
+		}
+
+		return '';
 	}
 
 	/**

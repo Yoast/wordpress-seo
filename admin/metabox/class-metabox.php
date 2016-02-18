@@ -205,9 +205,11 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	public function localize_post_scraper_script() {
 		$post = $this->get_metabox_post();
 
-		$post_scraper = new WPSEO_Post_Scraper( $post );
+		$post_formatter = new WPSEO_Metabox_Formatter(
+			new WPSEO_Post_Metabox_Formatter( $post, WPSEO_Options::get_option( 'wpseo_titles' ) )
+		);
 
-		return $post_scraper->get_values();
+		return $post_formatter->get_values();
 	}
 
 	/**
