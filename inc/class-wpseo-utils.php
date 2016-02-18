@@ -706,7 +706,7 @@ class WPSEO_Utils {
 	/**
 	 * Encode to base61 format.
 	 *
-	 * This is base64 (numeric + alhpa + alpha upper case) without the 0.
+	 * This is base64 (numeric + alpha + alpha upper case) without the 0.
 	 *
 	 * @param int $input The number that has to be converted to base 61.
 	 *
