@@ -250,13 +250,23 @@
 		var textNode = jQuery( '.term-description-wrap' ).find( 'td' ).find( 'textarea' ).val();
 
 		var newEditor = document.getElementById( 'wp-description-wrap' );
-		newEditor.style.display = 'none';
-		var text = jQuery( '.term-description-wrap' ).find( 'td' ).find( 'p' );
-		//empty the TD with the old description textarea
-		jQuery( '.term-description-wrap' ).find( 'td' ).html( '' );
-		//append the editor and the helptext
-		jQuery( '.term-description-wrap' ).find( 'td' ).append( newEditor ).append( text );
-		newEditor.style.display = 'block';
+		if(typeof(newEditor) === 'undefined' || newEditor === null) {
+			newEditor = document.getElementById( 'description-wrap' );
+		}
+
+		if(typeof(newEditor) !== 'undefined' && newEditor !== null) {
+			console.log(newEditor);
+			newEditor.style.display = 'none';
+
+			var text = jQuery( '.term-description-wrap' ).find( 'td' ).find( 'p' );
+			//empty the TD with the old description textarea
+			jQuery( '.term-description-wrap' ).find( 'td' ).html( '' );
+			//append the editor and the helptext
+			jQuery( '.term-description-wrap' ).find( 'td' ).append( newEditor ).append( text );
+			
+			newEditor.style.display = 'block';
+		}
+		
 		document.getElementById('description').value = textNode;
 	};
 
