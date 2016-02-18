@@ -13,13 +13,27 @@ class WPSEO_Sitemaps_Admin {
 	 */
 	function __construct() {
 		add_action( 'transition_post_status', array( $this, 'status_transition' ), 10, 3 );
-		add_action( 'admin_init', array( $this, 'detect_blocking_filesystem_sitemaps' ) );
+		add_action( 'admin_init', array( $this, 'delete_sitemaps' ) );
 	}
 
 	/**
 	 * Find sitemaps residing on disk as they will block our rewrite.
 	 *
 	 * @todo issue #561 https://github.com/Yoast/wordpress-seo/issues/561
+
+	 * @deprecated since 3.1 in favor of 'detect_blocking_filesystem_sitemaps'
+	 */
+	public function delete_sitemaps() {
+		/**
+		 * When removing this, make sure the 'admin_init' action is replaced with the following function:
+		 */
+		$this->detect_blocking_filesystem_sitemaps();
+	}
+
+	/**
+	 * Find sitemaps residing on disk as they will block our rewrite.
+	 *
+	 * @since 3.1
 	 */
 	public function detect_blocking_filesystem_sitemaps() {
 		$wpseo_xml_options = WPSEO_Options::get_option( 'wpseo_xml' );
@@ -28,11 +42,10 @@ class WPSEO_Sitemaps_Admin {
 		}
 		unset( $wpseo_xml_options );
 
+		// Find all files and directories containing 'sitemap' and are post-fixed .xml.
 		$blocking_files = glob( ABSPATH . '*sitemap*.xml' );
 
-		/**
-		 * Save if we have changes
-		 */
+		// Save if we have changes.
 		$wpseo_options = WPSEO_Options::get_option( 'wpseo' );
 
 		if ( $wpseo_options['blocking_files'] !== $blocking_files ) {
