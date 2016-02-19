@@ -92,7 +92,7 @@ class WPSEO_Breadcrumbs {
 	 * Create the breadcrumb
 	 */
 	private function __construct() {
-		$this->options        = WPSEO_Options::get_all();
+		$this->options        = WPSEO_Options::get_options( array( 'wpseo_titles', 'wpseo_internallinks', 'wpseo_xml' ) );
 		$this->post           = ( isset( $GLOBALS['post'] ) ? $GLOBALS['post'] : null );
 		$this->show_on_front  = get_option( 'show_on_front' );
 		$this->page_for_posts = get_option( 'page_for_posts' );
@@ -503,16 +503,22 @@ class WPSEO_Breadcrumbs {
 
 				if ( is_array( $terms ) && $terms !== array() ) {
 
-					$deepest_term = $this->find_deepest_term( $terms );
+					$primary_term = new WPSEO_Primary_Term( $main_tax, $this->post->ID );
+					if ( $primary_term->get_primary_term() ) {
+						$breadcrumb_term = get_term( $primary_term->get_primary_term(), $main_tax );
+					}
+					else {
+						$breadcrumb_term = $this->find_deepest_term( $terms );
+					}
 
-					if ( is_taxonomy_hierarchical( $main_tax ) && $deepest_term->parent != 0 ) {
-						$parent_terms = $this->get_term_parents( $deepest_term );
+					if ( is_taxonomy_hierarchical( $main_tax ) && $breadcrumb_term->parent != 0 ) {
+						$parent_terms = $this->get_term_parents( $breadcrumb_term );
 						foreach ( $parent_terms as $parent_term ) {
 							$this->add_term_crumb( $parent_term );
 						}
 					}
 
-					$this->add_term_crumb( $deepest_term );
+					$this->add_term_crumb( $breadcrumb_term );
 				}
 			}
 		}

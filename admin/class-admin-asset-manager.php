@@ -190,6 +190,7 @@ class WPSEO_Admin_Asset_Manager {
 					self::PREFIX . 'yoast-seo',
 					self::PREFIX . 'replacevar-plugin',
 					self::PREFIX . 'shortcode-plugin',
+					'wp-util',
 				),
 			),
 			array(
@@ -214,6 +215,24 @@ class WPSEO_Admin_Asset_Manager {
 					self::PREFIX . 'yoast-seo',
 				),
 			),
+			array(
+				'name' => 'recalculate',
+				'src'  => 'wp-seo-recalculate-306',
+				'deps' => array(
+					'jquery',
+					'jquery-ui-core',
+					'jquery-ui-progressbar',
+					self::PREFIX . 'yoast-seo',
+				),
+			),
+			array(
+				'name' => 'primary-category',
+				'src'  => 'wp-seo-metabox-category',
+				'deps' => array(
+					'jquery',
+					'wp-util',
+				),
+			),
 		);
 	}
 
@@ -227,6 +246,19 @@ class WPSEO_Admin_Asset_Manager {
 			array(
 				'name' => 'admin-css',
 				'src'  => 'yst_plugin_tools-302',
+				'deps' => array( self::PREFIX . 'toggle-switch' ),
+			),
+			// TODO minify toggle styles. R.
+			array(
+				'name'    => 'toggle-switch-lib',
+				'src'     => 'toggle-switch/toggle-switch.css',
+				'version' => '4.0.2',
+				'suffix'  => '',
+			),
+			array(
+				'name'   => 'toggle-switch',
+				'src'    => 'toggle-switch.css',
+				'deps'   => array( self::PREFIX . 'toggle-switch-lib' ),
 			),
 			array(
 				'name' => 'rtl',
@@ -273,6 +305,10 @@ class WPSEO_Admin_Asset_Manager {
 			array(
 				'name' => 'adminbar',
 				'src'  => 'adminbar-302',
+			),
+			array(
+				'name' => 'primary-category',
+				'src'  => 'metabox-primary-category',
 			),
 		);
 	}

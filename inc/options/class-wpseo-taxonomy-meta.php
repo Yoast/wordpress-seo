@@ -48,6 +48,7 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 		'wpseo_noindex'         => 'default',
 		'wpseo_sitemap_include' => '-',
 		'wpseo_focuskw'         => '',
+		'wpseo_linkdex'         => '',
 
 		// Social fields.
 		'wpseo_opengraph-title'         => '',
@@ -311,6 +312,7 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 				case 'wpseo_focuskw':
 				case 'wpseo_title':
 				case 'wpseo_desc':
+				case 'wpseo_linkdex':
 				default:
 					if ( isset( $meta_data[ $key ] ) && is_string( $meta_data[ $key ] ) ) {
 						$clean[ $key ] = WPSEO_Utils::sanitize_text_field( stripslashes( $meta_data[ $key ] ) );
@@ -370,6 +372,7 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 									case 'wpseo_bctitle':
 									case 'wpseo_title':
 									case 'wpseo_desc':
+									case 'wpseo_linkdex':
 										// @todo [JRF => whomever] needs checking, I don't have example data [JRF].
 										if ( $value !== '' ) {
 											// Fix incorrectly saved (encoded) canonical urls and texts.

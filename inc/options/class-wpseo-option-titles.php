@@ -134,7 +134,6 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		do_action( 'wpseo_double_clean_titles' );
 	}
 
-
 	/**
 	 * Get the singleton instance of this class
 	 *

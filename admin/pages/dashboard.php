@@ -240,15 +240,21 @@ if ( get_option( 'page_comments' ) && $options['ignore_page_comments'] === false
 	</div>
 	<div id="security" class="wpseotab">
 		<?php
-		echo '<p>', __( 'Unchecking this box allows authors and editors to redirect posts, noindex them and do other things you might not want if you don\'t trust your authors.', 'wordpress-seo' ), '</p>';
+		$yform->toggle_switch(
+			'disableadvanced_meta',
+			array( 'off' => __( 'Enabled', 'wordpress-seo' ), 'on' => __( 'Disabled', 'wordpress-seo' ) ),
+			/* translators: %1$s expands to Yoast SEO */
+			sprintf( __( 'Advanced part of the %1$s meta box', 'wordpress-seo' ), 'Yoast SEO' )
+		);
+
 		/* translators: %1$s expands to Yoast SEO */
-		$yform->checkbox( 'disableadvanced_meta', sprintf( __( 'Disable the Advanced part of the %1$s meta box', 'wordpress-seo' ), 'Yoast SEO' ) );
+		echo '<p>', sprintf( __( 'The advanced section of the %1$s meta box allows a user to noindex posts or change the canonical. These are things you might not want if you don\'t trust your authors, so by default, only administrators can do this. Enabling the advanced box allows all users to change these settings.', 'wordpress-seo' ), 'Yoast SEO' ), '</p>';
 		?>
 	</div>
 	<div id="onpage" class="wpseotab">
 		<?php
 		/* translators: %1$s expands to OnPage.org */
-		$yform->checkbox( 'onpage_indexability', sprintf( __( 'Enable %1$s indexability check', 'wordpress-seo' ), 'OnPage.org' ) );
+		$yform->light_switch( 'onpage_indexability', sprintf( __( '%1$s indexability check', 'wordpress-seo' ), 'OnPage.org' ) );
 		?>
 	</div>
 <?php

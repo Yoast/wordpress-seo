@@ -66,23 +66,6 @@ function wpseo_set_ignore() {
 add_action( 'wp_ajax_wpseo_set_ignore', 'wpseo_set_ignore' );
 
 /**
- * Hides the after-update notification until the next update for a specific user.
- */
-function wpseo_dismiss_about() {
-	if ( ! current_user_can( 'manage_options' ) ) {
-		die( '-1' );
-	}
-
-	check_ajax_referer( 'wpseo-dismiss-about' );
-
-	update_user_meta( get_current_user_id(), 'wpseo_seen_about_version' , WPSEO_VERSION );
-
-	die( '1' );
-}
-
-add_action( 'wp_ajax_wpseo_dismiss_about', 'wpseo_dismiss_about' );
-
-/**
  * Hides the default tagline notice for a specific user.
  */
 function wpseo_dismiss_tagline_notice() {
@@ -388,6 +371,9 @@ new Yoast_Dashboard_Widget();
 new Yoast_OnPage_Ajax();
 
 new WPSEO_Shortcode_Filter();
+
+new WPSEO_Taxonomy_Columns();
+
 
 // Setting the notice for the recalculate the posts.
 new Yoast_Dismissable_Notice_Ajax( 'recalculate', Yoast_Dismissable_Notice_Ajax::FOR_SITE );

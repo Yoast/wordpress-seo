@@ -55,6 +55,7 @@ class WPSEO_Admin_Pages {
 		wp_enqueue_style( 'thickbox' );
 		wp_enqueue_style( 'global' );
 		wp_enqueue_style( 'wp-admin' );
+
 		$this->asset_manager->enqueue_style( 'admin-css' );
 
 		if ( is_rtl() ) {
@@ -83,7 +84,7 @@ class WPSEO_Admin_Pages {
 		}
 
 		if ( 'wpseo_tools' === $page && empty( $tool ) ) {
-			wp_enqueue_script( 'yoast-seo', plugins_url( 'js/dist/yoast-seo/yoast-seo-' . '307' . '.min.js', WPSEO_FILE ), null, WPSEO_VERSION, true );
+			$this->asset_manager->enqueue_script( 'yoast-seo' );
 		}
 
 		if ( 'wpseo_tools' === $page && 'bulk-editor' === $tool ) {

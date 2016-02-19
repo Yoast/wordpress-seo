@@ -62,15 +62,18 @@ class WPSEO_GSC_Issue {
 	/**
 	 * Converting the date to a date format
 	 *
-	 * @todo Should use WP locale functionality, PHP one is unreliable in WP environment. R.
-	 *
 	 * @param DateTime $date_to_convert Date instance.
 	 * @param string   $format          Format string.
 	 *
 	 * @return string
 	 */
-	private function to_date_format( DateTime $date_to_convert, $format = 'Y-m-d H:i:s' ) {
-		return (string) strftime( '%x', strtotime( $date_to_convert->format( $format ) ) );
+	private function to_date_format( DateTime $date_to_convert, $format = '' ) {
+
+		if ( empty( $format ) ) {
+			$format = get_option( 'date_format' );
+		}
+
+		return date_i18n( $format, $date_to_convert->format( 'U' ) );
 	}
 
 	/**
