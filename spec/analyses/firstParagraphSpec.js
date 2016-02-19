@@ -11,5 +11,6 @@ describe( "checks for the keyword in the first paragraph", function(){
 		expect( firstParagraph( "dit is een test keyword", "keyword" ) ).toBe( 1 );
 		expect( firstParagraph( "<p class='p'>keyword</p>", "keyword" ) ).toBe( 1 );
 		expect( firstParagraph( "<table><tr><td>keyword</td></tr></table>", "keyword" ) ).toBe( 1 );
+		expect( firstParagraph( "<p>this is a kapaklı</p>", "kapaklı" ) ).toBe( 1 );
 	});
 });
