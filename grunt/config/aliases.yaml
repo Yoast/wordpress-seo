@@ -19,6 +19,7 @@ build:
   - 'postcss:build'
 # Check health of the project
 check:
+  - 'eslint'
   - 'jshint'
   - 'jsonlint'
   - 'jsvalidate'
