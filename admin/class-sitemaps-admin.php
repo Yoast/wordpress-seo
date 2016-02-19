@@ -43,7 +43,7 @@ class WPSEO_Sitemaps_Admin {
 		unset( $wpseo_xml_options );
 
 		// Find all files and directories containing 'sitemap' and are post-fixed .xml.
-		$blocking_files = glob( ABSPATH . '*sitemap*.xml' );
+		$blocking_files = glob( ABSPATH . '*sitemap*.xml', GLOB_NOSORT | GLOB_MARK );
 
 		// Save if we have changes.
 		$wpseo_options = WPSEO_Options::get_option( 'wpseo' );
