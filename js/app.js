@@ -253,7 +253,7 @@ App.prototype.extendConfig = function( args ) {
  * @returns {Object} sampleText
  */
 App.prototype.extendSampleText = function( sampleText ) {
-	var defaultSampleText = YoastSEO.App.defaultConfig.sampleText;
+	var defaultSampleText = defaults.sampleText;
 
 	if ( isUndefined( sampleText ) ) {
 		sampleText = defaultSampleText;
