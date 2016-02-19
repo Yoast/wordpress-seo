@@ -425,19 +425,9 @@ var Paper = require( "./values/Paper.js" );
  */
 var Analyzer = function( args ) {
 	this.config = args;
-	this.checkConfig();
 	this.init( args );
 
 	this.analyses = {};
-};
-
-/**
- * sets value to "" of text if it is undefined to make sure it doesn' break the analyzer
- */
-Analyzer.prototype.checkConfig = function() {
-	if ( isUndefined( this.config.text ) ) {
-		this.config.text = "";
-	}
 };
 
 /**
@@ -445,13 +435,12 @@ Analyzer.prototype.checkConfig = function() {
  */
 Analyzer.prototype.init = function( args ) {
 
-	if ( typeof args.paper === "undefined" ) {
-		args.paper = new Paper( args.keyword );
+	if ( isUndefined( args.paper ) ) {
+		args.paper = new Paper( args.keyword, args.text );
 	}
 
 	this.paper = args.paper;
 
-	this.config = args;
 	this.initDependencies();
 	this.formatKeyword();
 	this.initQueue();
@@ -571,12 +560,12 @@ Analyzer.prototype.addAnalysis = function( analysis ) {
 };
 
 /**
- * returns wordcount from this.config.text
+ * returns wordcount from this.paper.getText()
  * @returns {{test: string, result: Number)}}
  */
 Analyzer.prototype.wordCount = function() {
 	var countWords = require( "./stringProcessing/countWords.js" );
-	return [ { test: "wordCount", result: countWords( this.config.text ) } ];
+	return [ { test: "wordCount", result: countWords( this.paper.getText() ) } ];
 };
 
 /**
@@ -596,13 +585,13 @@ Analyzer.prototype.keywordDensity = function() {
 	var matchWords = require( "./stringProcessing/matchTextWithWord.js" );
 	var countWords = require( "./stringProcessing/countWords.js" );
 	var getKeywordDensity = require( "./analyses/getKeywordDensity.js" );
-	var keywordCount = countWords( this.config.text );
+	var keywordCount = countWords( this.paper.getText() );
 
 	if ( keywordCount >= 100 ) {
-		var density = getKeywordDensity( this.config.text, this.paper.getKeyword() );
+		var density = getKeywordDensity( this.paper.getText(), this.paper.getKeyword() );
 
 		// Present for backwards compatibility with the .refObj.__store.keywordCount option in scoring.js
-		this.__store.keywordCount = matchWords( this.config.text, this.paper.getKeyword() );
+		this.__store.keywordCount = matchWords( this.paper.getText(), this.paper.getKeyword() );
 
 		return [ { test: "keywordDensity", result: density } ];
 	}
@@ -615,7 +604,7 @@ Analyzer.prototype.keywordDensity = function() {
  */
 Analyzer.prototype.keywordCount = function() {
 	var matchTextWithWord = require( "./stringProcessing/matchTextWithWord.js" );
-	var keywordCount = matchTextWithWord( this.config.text, this.paper.getKeyword() );
+	var keywordCount = matchTextWithWord( this.paper.getText(), this.paper.getKeyword() );
 
 	return keywordCount;
 };
@@ -627,7 +616,7 @@ Analyzer.prototype.keywordCount = function() {
 Analyzer.prototype.subHeadings = function() {
 	var getSubheadings = require( "./analyses/matchKeywordInSubheadings.js" );
 
-	var result = [ { test: "subHeadings", result: getSubheadings( this.config.text, this.paper.getKeyword() ) } ];
+	var result = [ { test: "subHeadings", result: getSubheadings( this.paper.getText(), this.paper.getKeyword() ) } ];
 
 	return result;
 };
@@ -659,7 +648,7 @@ Analyzer.prototype.stopwords = function() {
  */
 Analyzer.prototype.fleschReading = function() {
 	var calculateFleschReading = require( "./analyses/calculateFleschReading.js" );
-	var score = calculateFleschReading( this.config.text );
+	var score = calculateFleschReading( this.paper.getText() );
 	if ( score < 0 ) {
 		score = 0;
 	}
@@ -701,7 +690,7 @@ Analyzer.prototype.linkCount = function() {
 		keyword = "";
 	}
 
-	return [ { test: "linkCount", result: countLinks( this.config.text, keyword, this.config.baseUrl ) } ];
+	return [ { test: "linkCount", result: countLinks( this.paper.getText(), keyword, this.config.baseUrl ) } ];
 };
 
 /**
@@ -714,7 +703,7 @@ Analyzer.prototype.linkCount = function() {
  */
 Analyzer.prototype.imageCount = function() {
 	var countImages = require( "./analyses/getImageStatistics.js" );
-	return [ { test: "imageCount", result: countImages( this.config.text, this.paper.getKeyword() ) } ];
+	return [ { test: "imageCount", result: countImages( this.paper.getText(), this.paper.getKeyword() ) } ];
 };
 
 /**
@@ -751,7 +740,7 @@ Analyzer.prototype.pageTitleKeyword = function() {
  */
 Analyzer.prototype.firstParagraph = function() {
 	var findKeywordInFirstParagraph = require( "./analyses/findKeywordInFirstParagraph.js" );
-	var result = [ { test: "firstParagraph", result: findKeywordInFirstParagraph( this.config.text, this.paper.getKeyword() ) } ];
+	var result = [ { test: "firstParagraph", result: findKeywordInFirstParagraph( this.paper.getText(), this.paper.getKeyword() ) } ];
 	return result;
 };
 
@@ -4995,8 +4984,9 @@ module.exports = function( text ) {
  * @param {string} keyword
  * @constructor
  */
-var Paper = function( keyword ) {
+var Paper = function( keyword, text ) {
 	this._keyword = keyword || "";
+	this._text = text || "";
 };
 
 /**
@@ -5013,6 +5003,14 @@ Paper.prototype.hasKeyword = function() {
  */
 Paper.prototype.getKeyword = function() {
 	return this._keyword;
+};
+
+Paper.prototype.hasText = function() {
+	return this._text !== "";
+};
+
+Paper.prototype.getText = function() {
+	return this._text;
 };
 
 module.exports = Paper;

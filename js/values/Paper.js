@@ -3,8 +3,9 @@
  * @param {string} keyword
  * @constructor
  */
-var Paper = function( keyword ) {
+var Paper = function( keyword, text ) {
 	this._keyword = keyword || "";
+	this._text = text || "";
 };
 
 /**
@@ -21,6 +22,14 @@ Paper.prototype.hasKeyword = function() {
  */
 Paper.prototype.getKeyword = function() {
 	return this._keyword;
+};
+
+Paper.prototype.hasText = function() {
+	return this._text !== "";
+};
+
+Paper.prototype.getText = function() {
+	return this._text;
 };
 
 module.exports = Paper;
