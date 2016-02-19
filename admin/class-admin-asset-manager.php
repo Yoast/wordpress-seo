@@ -250,13 +250,13 @@ class WPSEO_Admin_Asset_Manager {
 			// TODO minify toggle styles. R.
 			array(
 				'name'    => 'toggle-switch-lib',
-				'src'     => 'toggle-switch/toggle-switch.css',
+				'src'     => 'toggle-switch/toggle-switch',
 				'version' => '4.0.2',
 				'suffix'  => '',
 			),
 			array(
 				'name'   => 'toggle-switch',
-				'src'    => 'toggle-switch.css',
+				'src'    => 'toggle-switch',
 				'deps'   => array( self::PREFIX . 'toggle-switch-lib' ),
 			),
 			array(
