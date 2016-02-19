@@ -397,6 +397,8 @@ var sanitizeString = require( "../js/stringProcessing/sanitizeString.js" );
 var stringToRegex = require( "../js/stringProcessing/stringToRegex.js" );
 var replaceDiacritics = require( "../js/stringProcessing/replaceDiacritics.js" );
 
+var isUndefined = require( "lodash/lang/isUndefined" );
+
 var AnalyzeScorer = require( "./analyzescorer.js" );
 var analyzerConfig = require( "./config/config.js" );
 var Paper = require( "./values/Paper.js" );
@@ -415,6 +417,7 @@ var Paper = require( "./values/Paper.js" );
  * @param {String} args.snippetTitle The title as displayed in the snippet preview.
  * @param {String} args.snippetMeta The meta description as displayed in the snippet preview.
  * @param {String} args.snippetCite  The URL as displayed in the snippet preview.
+ * @param {Paper} args.paper The content to be researched.
  *
  * @property {Object} analyses Object that contains all analyses.
  *
@@ -432,7 +435,7 @@ var Analyzer = function( args ) {
  * sets value to "" of text if it is undefined to make sure it doesn' break the analyzer
  */
 Analyzer.prototype.checkConfig = function() {
-	if ( typeof this.config.text === "undefined" ) {
+	if ( isUndefined( this.config.text) ) {
 		this.config.text = "";
 	}
 };
@@ -442,11 +445,11 @@ Analyzer.prototype.checkConfig = function() {
  */
 Analyzer.prototype.init = function( args ) {
 
-	if ( typeof args.Paper === "undefined" ) {
-		args.Paper = new Paper( args.keyword );
+	if ( typeof args.paper === "undefined" ) {
+		args.paper = new Paper( args.keyword );
 	}
 
-	this.Paper = args.Paper;
+	this.paper = args.paper;
 
 	this.config = args;
 	this.initDependencies();
@@ -462,11 +465,11 @@ Analyzer.prototype.init = function( args ) {
  * replaces a number of characters that can break the regex.
 */
 Analyzer.prototype.formatKeyword = function() {
-	if ( this.Paper.hasKeyword() ) {
+	if ( this.paper.hasKeyword() ) {
 
 		// removes characters from the keyword that could break the regex, or give unwanted results.
 		// leaves the - since this is replaced later on in the function
-		var keyword = sanitizeString( this.Paper.getKeyword() );
+		var keyword = sanitizeString( this.paper.getKeyword() );
 
 		// Creates new regex from keyword with global and caseinsensitive option,
 		this.keywordRegex = stringToRegex( replaceDiacritics( keyword.replace( /[-_]/g, " " ) ) );
@@ -582,7 +585,7 @@ Analyzer.prototype.wordCount = function() {
  */
 Analyzer.prototype.keyphraseSizeCheck = function() {
 	var getKeyphraseLength = require( "./analyses/getWordCount.js" );
-	return [ { test: "keyphraseSizeCheck", result: getKeyphraseLength( this.config.keyword ) } ];
+	return [ { test: "keyphraseSizeCheck", result: getKeyphraseLength( this.paper.getKeyword() ) } ];
 };
 
 /**
@@ -590,16 +593,16 @@ Analyzer.prototype.keyphraseSizeCheck = function() {
  * @returns resultObject
  */
 Analyzer.prototype.keywordDensity = function() {
-	var getKeywordDensity = require( "./analyses/getKeywordDensity.js" );
-	var countWords = require( "./stringProcessing/countWords.js" );
 	var matchWords = require( "./stringProcessing/matchTextWithWord.js" );
+	var countWords = require( "./stringProcessing/countWords.js" );
+	var getKeywordDensity = require( "./analyses/getKeywordDensity.js" );
 	var keywordCount = countWords( this.config.text );
 
 	if ( keywordCount >= 100 ) {
-		var density = getKeywordDensity( this.config.text, this.config.keyword );
+		var density = getKeywordDensity( this.config.text, this.paper.getKeyword() );
 
 		// Present for backwards compatibility with the .refObj.__store.keywordCount option in scoring.js
-		this.__store.keywordCount = matchWords( this.config.text, this.config.keyword );
+		this.__store.keywordCount = matchWords( this.config.text, this.paper.getKeyword() );
 
 		return [ { test: "keywordDensity", result: density } ];
 	}
@@ -612,7 +615,7 @@ Analyzer.prototype.keywordDensity = function() {
  */
 Analyzer.prototype.keywordCount = function() {
 	var matchTextWithWord = require( "./stringProcessing/matchTextWithWord.js" );
-	var keywordCount = matchTextWithWord( this.config.text, this.config.keyword );
+	var keywordCount = matchTextWithWord( this.config.text, this.paper.getKeyword() );
 
 	return keywordCount;
 };
@@ -624,7 +627,7 @@ Analyzer.prototype.keywordCount = function() {
 Analyzer.prototype.subHeadings = function() {
 	var getSubheadings = require( "./analyses/matchKeywordInSubheadings.js" );
 
-	var result = [ { test: "subHeadings", result: getSubheadings( this.config.text, this.config.keyword ) } ];
+	var result = [ { test: "subHeadings", result: getSubheadings( this.config.text, this.paper.getKeyword() ) } ];
 
 	return result;
 };
@@ -635,7 +638,7 @@ Analyzer.prototype.subHeadings = function() {
  */
 Analyzer.prototype.stopwords = function() {
 	var checkStringForStopwords = require( "./analyses/checkStringForStopwords.js" );
-	var matches = checkStringForStopwords( this.config.keyword );
+	var matches = checkStringForStopwords( this.paper.getKeyword() );
 
 	/* Matchestext is used for scoring, we should move this to the scoring */
 	var matchesText = matches.join( ", " );
@@ -692,7 +695,7 @@ Analyzer.prototype.fleschReading = function() {
  */
 Analyzer.prototype.linkCount = function() {
 	var countLinks = require( "./analyses/getLinkStatistics.js" );
-	var keyword = this.config.keyword;
+	var keyword = this.paper.getKeyword();
 
 	if ( typeof keyword === "undefined" ) {
 		keyword = "";
@@ -711,7 +714,7 @@ Analyzer.prototype.linkCount = function() {
  */
 Analyzer.prototype.imageCount = function() {
 	var countImages = require( "./analyses/getImageStatistics.js" );
-	return [ { test: "imageCount", result: countImages( this.config.text, this.config.keyword ) } ];
+	return [ { test: "imageCount", result: countImages( this.config.text, this.paper.getKeyword() ) } ];
 };
 
 /**
@@ -735,8 +738,8 @@ Analyzer.prototype.pageTitleLength = function() {
 Analyzer.prototype.pageTitleKeyword = function() {
 	var findKeywordInPageTitle = require( "./analyses/findKeywordInPageTitle.js" );
 	var result = [ { test: "pageTitleKeyword", result: { position: -1, matches: 0 } } ];
-	if ( typeof this.config.pageTitle !== "undefined" && typeof this.config.keyword !== "undefined" ) {
-		result[0].result = findKeywordInPageTitle( this.config.pageTitle, this.config.keyword );
+	if ( typeof this.config.pageTitle !== "undefined" && typeof this.paper.hasKeyword() ) {
+		result[0].result = findKeywordInPageTitle( this.config.pageTitle, this.paper.getKeyword() );
 	}
 	return result;
 };
@@ -748,7 +751,7 @@ Analyzer.prototype.pageTitleKeyword = function() {
  */
 Analyzer.prototype.firstParagraph = function() {
 	var findKeywordInFirstParagraph = require( "./analyses/findKeywordInFirstParagraph.js" );
-	var result = [ { test: "firstParagraph", result: findKeywordInFirstParagraph( this.config.text, this.config.keyword ) } ];
+	var result = [ { test: "firstParagraph", result: findKeywordInFirstParagraph( this.config.text, this.paper.getKeyword() ) } ];
 	return result;
 };
 
@@ -761,9 +764,8 @@ Analyzer.prototype.metaDescriptionKeyword = function() {
 	var wordMatch = require( "./stringProcessing/matchTextWithWord.js" );
 	var result = [ { test: "metaDescriptionKeyword", result: -1 } ];
 
-	if ( typeof this.config.meta !== "undefined" && typeof this.config.keyword !== "undefined" &&
-		this.config.meta !== "" && this.config.keyword !== "" ) {
-		result[ 0 ].result = wordMatch( this.config.meta, this.config.keyword );
+	if ( typeof this.config.meta !== "undefined" && this.config.meta !== "" && this.paper.hasKeyword() ) {
+		result[ 0 ].result = wordMatch( this.config.meta, this.paper.getKeyword() );
 	}
 
 	return result;
@@ -790,8 +792,8 @@ Analyzer.prototype.urlKeyword = function() {
 	var checkForKeywordInUrl = require( "./analyses/countKeywordInUrl.js" );
 	var score = 0;
 
-	if ( typeof this.config.keyword !== "undefined" && typeof this.config.url !== "undefined" ) {
-		score = checkForKeywordInUrl( this.config.url, this.config.keyword );
+	if ( this.paper.hasKeyword() && typeof this.config.url !== "undefined" ) {
+		score = checkForKeywordInUrl( this.config.url, this.paper.getKeyword() );
 	}
 
 	var result = [ { test: "urlKeyword", result: score } ];
@@ -806,7 +808,7 @@ Analyzer.prototype.urlLength = function() {
 	var isUrlTooLong = require( "./analyses/isUrlTooLong.js" );
 	var result = [ { test: "urlLength", result: { urlTooLong: isUrlTooLong(
 		this.config.url,
-		this.config.keyword,
+		this.paper.getKeyword(),
 		this.config.maxSlugLength,
 		this.config.maxUrlLength
 	) } } ];
@@ -830,9 +832,9 @@ Analyzer.prototype.urlStopwords = function() {
  */
 Analyzer.prototype.keywordDoubles = function() {
 	var result = [ { test: "keywordDoubles", result: { count: 0, id: 0 } } ];
-	if ( typeof this.config.keyword !== "undefined" && typeof this.config.usedKeywords !== "undefined" ) {
+	if ( this.paper.hasKeyword() && typeof this.config.usedKeywords !== "undefined" ) {
 		var checkForKeywordDoubles = require( "./analyses/checkForKeywordDoubles.js" );
-		result[0].result = checkForKeywordDoubles( this.config.keyword, this.config.usedKeywords );
+		result[0].result = checkForKeywordDoubles( this.paper.getKeyword(), this.config.usedKeywords );
 	}
 	return result;
 };
@@ -846,7 +848,7 @@ Analyzer.prototype.score = function() {
 
 module.exports = Analyzer;
 
-},{"../js/stringProcessing/replaceDiacritics.js":42,"../js/stringProcessing/sanitizeString.js":44,"../js/stringProcessing/stringToRegex.js":45,"./analyses/calculateFleschReading.js":1,"./analyses/checkForKeywordDoubles.js":2,"./analyses/checkStringForStopwords.js":3,"./analyses/checkUrlForStopwords.js":4,"./analyses/countKeywordInUrl.js":5,"./analyses/findKeywordInFirstParagraph.js":6,"./analyses/findKeywordInPageTitle.js":7,"./analyses/getImageStatistics.js":8,"./analyses/getKeywordDensity.js":9,"./analyses/getLinkStatistics.js":10,"./analyses/getWordCount.js":11,"./analyses/isUrlTooLong.js":12,"./analyses/matchKeywordInSubheadings.js":13,"./analyzescorer.js":15,"./config/config.js":19,"./stringProcessing/countWords.js":34,"./stringProcessing/matchTextWithWord.js":41,"./values/Paper.js":53}],15:[function(require,module,exports){
+},{"../js/stringProcessing/replaceDiacritics.js":42,"../js/stringProcessing/sanitizeString.js":44,"../js/stringProcessing/stringToRegex.js":45,"./analyses/calculateFleschReading.js":1,"./analyses/checkForKeywordDoubles.js":2,"./analyses/checkStringForStopwords.js":3,"./analyses/checkUrlForStopwords.js":4,"./analyses/countKeywordInUrl.js":5,"./analyses/findKeywordInFirstParagraph.js":6,"./analyses/findKeywordInPageTitle.js":7,"./analyses/getImageStatistics.js":8,"./analyses/getKeywordDensity.js":9,"./analyses/getLinkStatistics.js":10,"./analyses/getWordCount.js":11,"./analyses/isUrlTooLong.js":12,"./analyses/matchKeywordInSubheadings.js":13,"./analyzescorer.js":15,"./config/config.js":19,"./stringProcessing/countWords.js":34,"./stringProcessing/matchTextWithWord.js":41,"./values/Paper.js":53,"lodash/lang/isUndefined":137}],15:[function(require,module,exports){
 var escapeHTML = require( "lodash/string/escape" );
 var Score = require( "./values/Score.js" );
 var AnalyzerScoring = require( "./config/scoring.js" ).AnalyzerScoring;
@@ -4990,11 +4992,11 @@ module.exports = function( text ) {
 },{}],53:[function(require,module,exports){
 /**
  * Construct the Paper object and set the keyword property
- * @param keyword
+ * @param {string} keyword
  * @constructor
  */
 var Paper = function( keyword ) {
-	this.keyword = keyword || "";
+	this._keyword = keyword || "";
 };
 
 /**
@@ -5002,7 +5004,7 @@ var Paper = function( keyword ) {
  * @returns {boolean}
  */
 Paper.prototype.hasKeyword = function() {
-	return ( typeof this.keyword !== "undefined" && this.keyword !== "" );
+	return this._keyword !== "";
 };
 
 /**
@@ -5010,11 +5012,7 @@ Paper.prototype.hasKeyword = function() {
  * @returns {string}
  */
 Paper.prototype.getKeyword = function() {
-	if ( this.hasKeyword() ) {
-		return this.keyword;
-	}
-
-	return "";
+	return this._keyword;
 };
 
 module.exports = Paper;

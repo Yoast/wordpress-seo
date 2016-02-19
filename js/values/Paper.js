@@ -1,10 +1,10 @@
 /**
  * Construct the Paper object and set the keyword property
- * @param keyword
+ * @param {string} keyword
  * @constructor
  */
 var Paper = function( keyword ) {
-	this.keyword = keyword || "";
+	this._keyword = keyword || "";
 };
 
 /**
@@ -12,7 +12,7 @@ var Paper = function( keyword ) {
  * @returns {boolean}
  */
 Paper.prototype.hasKeyword = function() {
-	return ( typeof this.keyword !== "undefined" && this.keyword !== "" );
+	return this._keyword !== "";
 };
 
 /**
@@ -20,11 +20,7 @@ Paper.prototype.hasKeyword = function() {
  * @returns {string}
  */
 Paper.prototype.getKeyword = function() {
-	if ( this.hasKeyword() ) {
-		return this.keyword;
-	}
-
-	return "";
+	return this._keyword;
 };
 
 module.exports = Paper;
