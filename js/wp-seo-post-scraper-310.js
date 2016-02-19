@@ -187,10 +187,26 @@
 	 * @returns {String}
 	 */
 	PostScraper.prototype.getContentTinyMCE = function() {
-		if ( typeof tinyMCE === 'undefined' || typeof tinyMCE.editors === 'undefined' || tinyMCE.editors.length === 0 || tinyMCE.get( 'content' ).isHidden() ) {
+		if ( this.isTinyMCEAvailable() === false ) {
 			return this.getTinyMCEElementContent();
 		}
 		return tinyMCE.get( 'content' ).getContent();
+	};
+
+	/**
+	 * Returns whether or not TinyMCE is available.
+	 * @returns {boolean}
+	 */
+	PostScraper.prototype.isTinyMCEAvailable = function() {
+		if ( typeof tinyMCE === 'undefined' ||
+		    typeof tinyMCE.editors === 'undefined' ||
+		    tinyMCE.editors.length === 0 ||
+		    tinyMCE.get( 'content' ) === null ||
+		    tinyMCE.get( 'content' ).isHidden() ) {
+			return false;
+		}
+
+		return true;
 	};
 
 	/**
