@@ -42,22 +42,19 @@ class WPSEO_Term_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	 * @return array
 	 */
 	public function get_values() {
-		$values = array(
-			'search_url'    => $this->search_url(),
-			'post_edit_url' => $this->edit_url(),
-			'base_url'      => $this->base_url_for_js(),
-		);
+		$values = array();
 
+		// Todo: a column needs to be added on the termpages to add a filter for the keyword, so this can be used in the focus kw doubles.
 		if ( is_object( $this->term ) && property_exists( $this->term, 'taxonomy' ) ) {
-			// Todo: a column needs to be added on the termpages to add a filter for the keyword, so this can be used in the focus kw doubles.
-			$values_to_set = array(
+			$values = array(
+				'search_url'        => $this->search_url(),
+				'post_edit_url'     => $this->edit_url(),
+				'base_url'          => $this->base_url_for_js(),
 				'taxonomy'          => $this->term->taxonomy,
 				'keyword_usage'     => $this->get_focus_keyword_usage(),
 				'title_template'    => $this->get_title_template(),
 				'metadesc_template' => $this->get_metadesc_template(),
 			);
-
-			$values = ( $values_to_set + $values );
 		}
 
 		return $values;
@@ -87,6 +84,7 @@ class WPSEO_Term_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	 * @return string
 	 */
 	private function base_url_for_js() {
+
 		$base_url = home_url( '/', null );
 		$options  = WPSEO_Options::get_option( 'wpseo_permalinks' );
 		if ( ! $options['stripcategorybase'] ) {

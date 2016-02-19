@@ -3,9 +3,6 @@
  * @package WPSEO\Unittests\Formatter
  */
 
-/**
- * @group test
- */
 class WPSEO_Post_Metabox_Formatter_Test extends WPSEO_UnitTestCase {
 
 	/**
