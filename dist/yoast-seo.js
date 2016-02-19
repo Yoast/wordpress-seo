@@ -5005,10 +5005,18 @@ Paper.prototype.getKeyword = function() {
 	return this._keyword;
 };
 
+/**
+ * Check whether the text is available
+ * @returns {boolean}
+ */
 Paper.prototype.hasText = function() {
 	return this._text !== "";
 };
 
+/**
+ * Return the associated text or am empty string if no text is available
+ * @returns {string}
+ */
 Paper.prototype.getText = function() {
 	return this._text;
 };
