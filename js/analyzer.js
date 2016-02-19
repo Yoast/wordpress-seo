@@ -40,7 +40,7 @@ var Analyzer = function( args ) {
  * sets value to "" of text if it is undefined to make sure it doesn' break the analyzer
  */
 Analyzer.prototype.checkConfig = function() {
-	if ( isUndefined( this.config.text) ) {
+	if ( isUndefined( this.config.text ) ) {
 		this.config.text = "";
 	}
 };
