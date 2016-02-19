@@ -161,18 +161,24 @@ class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 				->getMock( 'WPSEO_Admin_Asset_Manager', array( 'register_script' ) );
 
 		$class_instance
-			->expects( $this->exactly(2) )
+			->expects( $this->at( 0 ) )
 			->method( 'register_script' )
-			->withConsecutive(
+			->with(
 				$this->equalTo( new WPSEO_Admin_Asset( array(
-					'name'      => 'testfile',
-					'src'       => 'testfile',
-				))),
+					'name' => 'testfile',
+					'src'  => 'testfile',
+				)))
+			);
+
+		$class_instance
+			->expects( $this->at( 1 ) )
+			->method( 'register_script' )
+			->with(
 				$this->equalTo( new WPSEO_Admin_Asset( array(
 					'name'      => 'testfile2',
 					'src'       => 'testfile2',
 					'deps'      => array( 'dep1' ),
-					'ver'       => 'version1',
+					'version'   => 'version1',
 					'in_footer' => false,
 				)))
 			);
@@ -203,18 +209,24 @@ class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 				->getMock( 'WPSEO_Admin_Asset_Manager', array( 'register_style' ) );
 
 		$class_instance
-			->expects( $this->exactly(2) )
+			->expects( $this->at( 0 ) )
 			->method( 'register_style' )
-			->withConsecutive(
+			->with(
 				$this->equalTo( new WPSEO_Admin_Asset( array(
 					'name'      => 'testfile',
 					'src'       => 'testfile',
-				))),
+				)))
+			);
+
+		$class_instance
+			->expects( $this->at( 1 ) )
+			->method( 'register_style' )
+			->with(
 				$this->equalTo( new WPSEO_Admin_Asset( array(
 					'name'      => 'testfile2',
 					'src'       => 'testfile2',
 					'deps'      => array( 'dep1' ),
-					'ver'       => 'version1',
+					'version'   => 'version1',
 					'media'     => 'screen',
 				)))
 			);
