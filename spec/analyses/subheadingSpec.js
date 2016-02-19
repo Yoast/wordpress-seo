@@ -9,6 +9,9 @@ describe("a test for matching keywords in subheadings", function(){
 		result = subheadingFunction( "Pellentesque sit amet justo ex. Suspendisse feugiat pulvinar leo eu consectetur", "keyword" );
 		expect( result.count ).toBe(0);
 
+		result = subheadingFunction( "<h2>this is a heading with a diacritic keyword kapaklı </h2>", "kapaklı" );
+		expect( result.matches ).toBe( 1 );
+
 		result = subheadingFunction( "<h2>this is a heading with a dashed key-word</h2>", "key-word" );
 		expect( result.matches ).toBe(1);
 
