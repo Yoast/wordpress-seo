@@ -69,7 +69,7 @@ class Yoast_Dashboard_Widget {
 
 		if ( $current_screen instanceof WP_Screen && 'dashboard' === $current_screen->id ) {
 			$asset_manager = new WPSEO_Admin_Asset_Manager();
-			$asset_manager -> enqueue_style( 'wp-dashboard' );
+			$asset_manager->enqueue_style( 'wp-dashboard' );
 		}
 	}
 
