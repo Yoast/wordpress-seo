@@ -1,3 +1,6 @@
+var path = require( "path" );
+var loadGruntConfig = require( "load-grunt-config" );
+
 module.exports = function( grunt ) {
 	"use strict";
 
@@ -35,8 +38,8 @@ module.exports = function( grunt ) {
 	};
 
 	// Load Grunt configurations and tasks
-	require( "load-grunt-config" )( grunt, {
-		configPath: require( "path" ).join( process.cwd(), project.paths.config ),
+	loadGruntConfig( grunt, {
+		configPath: path.join( process.cwd(), project.paths.config ),
 		data: project
 	} );
 };
