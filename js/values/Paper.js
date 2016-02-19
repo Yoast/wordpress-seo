@@ -1,7 +1,7 @@
 /**
- * Construct the Paper object and set the keyword property
- * @param {string} keyword
- * @param {string} text
+ * Construct the Paper object and set the keyword property.
+ * @param {string} keyword The keyword to use in the analysis.
+ * @param {string} text The text to use in the analysis.
  * @constructor
  */
 var Paper = function( keyword, text ) {
@@ -10,7 +10,7 @@ var Paper = function( keyword, text ) {
 };
 
 /**
- * Check whether a keyword is available
+ * Check whether a keyword is available.
  * @returns {boolean}
  */
 Paper.prototype.hasKeyword = function() {
@@ -18,7 +18,7 @@ Paper.prototype.hasKeyword = function() {
 };
 
 /**
- * Return the associated keyword or an empty string if no keyword is available
+ * Return the associated keyword or an empty string if no keyword is available.
  * @returns {string}
  */
 Paper.prototype.getKeyword = function() {
@@ -26,7 +26,7 @@ Paper.prototype.getKeyword = function() {
 };
 
 /**
- * Check whether the text is available
+ * Check whether the text is available.
  * @returns {boolean}
  */
 Paper.prototype.hasText = function() {
@@ -34,7 +34,7 @@ Paper.prototype.hasText = function() {
 };
 
 /**
- * Return the associated text or am empty string if no text is available
+ * Return the associated text or am empty string if no text is available.
  * @returns {string}
  */
 Paper.prototype.getText = function() {
