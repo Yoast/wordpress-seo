@@ -4981,6 +4981,7 @@ module.exports = function( text ) {
 /**
  * Construct the Paper object and set the keyword property
  * @param {string} keyword
+ * @param {string} text
  * @constructor
  */
 var Paper = function( keyword, text ) {
