@@ -616,7 +616,7 @@ class WPSEO_Utils {
 	 *
 	 * @return string The type with a safe length to use
 	 *
-	 * @throws Exception
+	 * @throws OutOfRangeException When there is less than 15 characters of space for a key that is originally longer.
 	 */
 	private static function get_safe_sitemap_cache_type( $type, $prefix = '', $postfix = '' ) {
 		// Length of key should not be over 53.
