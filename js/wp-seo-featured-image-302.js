@@ -69,8 +69,8 @@
 		if ( attachment.width < 200 || attachment.height < 200 ) {
 			//Show warning to user and do not add image to OG
 			if ( 0 === $( '#yst_opengraph_image_warning' ).length ) {
-				$( '<div id="yst_opengraph_image_warning"><p>' + wpseoFeaturedImageL10n.featured_image_notice + '</p></div>' ).insertBefore( '#postimagediv' );
 				var $postImageDiv = $( '#postimagediv' );
+				$( '<div id="yst_opengraph_image_warning"><p>' + wpseoFeaturedImageL10n.featured_image_notice + '</p></div>' ).insertBefore( $postImageDiv );
 				$postImageDiv.css( {
 					border: 'solid #dd3d36',
 					borderWidth: '3px 4px 4px 4px'
