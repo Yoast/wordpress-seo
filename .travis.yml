@@ -12,6 +12,7 @@ before_script:
 - npm install
 
 script:
+- grunt build:jst
 - npm test --coverage
 - codeclimate-test-reporter < coverage/lcov.info
 - grunt check

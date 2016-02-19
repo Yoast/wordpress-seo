@@ -1,5 +1,8 @@
 /* global console: true */
 /* global setTimeout: true */
+var isUndefined = require( "lodash/lang/isUndefined" );
+var forEach = require( "lodash/collection/forEach" );
+var reduce = require( "lodash/collection/reduce" );
 
 /**
  * The plugins object takes care of plugin registrations, preloading and managing data modifications.
@@ -49,7 +52,7 @@ Pluggable.prototype._registerPlugin = function( pluginName, options ) {
 		return false;
 	}
 
-	if ( typeof options !== "undefined" && typeof options !== "object" ) {
+	if ( !isUndefined( options ) && typeof options !== "object" ) {
 		console.error( "Failed to register plugin " + pluginName + ". Expected parameters `options` to be a string." );
 		return false;
 	}
@@ -76,7 +79,7 @@ Pluggable.prototype._ready = function( pluginName ) {
 		return false;
 	}
 
-	if ( this.plugins[pluginName] === undefined ) {
+	if ( isUndefined( this.plugins[pluginName] ) ) {
 		console.error( "Failed to modify status for plugin " + pluginName + ". The plugin was not properly registered." );
 		return false;
 	}
@@ -98,7 +101,7 @@ Pluggable.prototype._reloaded = function( pluginName ) {
 		return false;
 	}
 
-	if ( this.plugins[pluginName] === undefined ) {
+	if ( isUndefined( this.plugins[pluginName] ) ) {
 		console.error( "Failed to reload Content Analysis for plugin " + pluginName + ". The plugin was not properly registered." );
 		return false;
 	}
@@ -149,7 +152,7 @@ Pluggable.prototype._registerModification = function( modification, callable, pl
 	};
 
 	// Make sure modification is defined on modifications object
-	if ( this.modifications[modification] === undefined ) {
+	if ( isUndefined( this.modifications[modification] ) ) {
 		this.modifications[modification] = [];
 	}
 
@@ -210,7 +213,7 @@ Pluggable.prototype._registerTest = function( name, analysis, scoring, pluginNam
  * @private
  */
 Pluggable.prototype._pollLoadingPlugins = function( pollTime ) {
-	pollTime = pollTime === undefined ? 0 : pollTime;
+	pollTime = isUndefined( pollTime ) ? 0 : pollTime;
 	if ( this._allReady() === true ) {
 		this.loaded = true;
 		this.app.pluginsLoaded();
@@ -229,12 +232,9 @@ Pluggable.prototype._pollLoadingPlugins = function( pollTime ) {
  * @private
  */
 Pluggable.prototype._allReady = function() {
-	for ( var plugin in this.plugins ) {
-		if ( this.plugins[plugin].status !== "ready" ) {
-			return false;
-		}
-	}
-	return true;
+	return reduce( this.plugins, function( allReady, plugin ) {
+		return allReady && plugin.status === "ready";
+	}, true );
 };
 
 /**
@@ -243,12 +243,12 @@ Pluggable.prototype._allReady = function() {
  * @private
  */
 Pluggable.prototype._pollTimeExceeded = function() {
-	for ( var plugin in this.plugins ) {
-		if ( this.plugins[plugin].options !== undefined && this.plugins[plugin].options.status !== "ready" ) {
-			console.error( "Error: Plugin " + plugin + ". did not finish loading in time." );
-			delete this.plugins[plugin];
+	forEach ( this.plugins, function( plugin, pluginName ) {
+		if ( !isUndefined( plugin.options ) && plugin.options.status !== "ready" ) {
+			console.error( "Error: Plugin " + pluginName + ". did not finish loading in time." );
+			delete this.plugins[pluginName];
 		}
-	}
+	} );
 	this.loaded = true;
 	this.app.pluginsLoaded();
 };
@@ -271,17 +271,17 @@ Pluggable.prototype._applyModifications = function( modification, data, context 
 		callChain.sort( function( a, b ) {
 			return a.priority - b.priority;
 		} );
-		for ( var callableObject in callChain ) {
-			var callable = callChain[callableObject].callable;
+		forEach( callChain, function( callableObject ) {
+			var callable = callableObject.callable;
 			var newData = callable( data, context );
 			if ( typeof newData === typeof data ) {
 				data = newData;
 			} else {
 				console.error( "Modification with name " + modification + " performed by plugin with name " +
-				callChain[callableObject].origin +
+				callableObject.origin +
 				" was ignored because the data that was returned by it was of a different type than the data we had passed it." );
 			}
-		}
+		} );
 	}
 	return data;
 
@@ -329,11 +329,11 @@ Pluggable.prototype._addPluginTest = function( analyzer, pluginTest ) {
  * @private
  */
 Pluggable.prototype._stripIllegalModifications = function( callChain ) {
-	for ( var callableObject in callChain ) {
-		if ( this._validateOrigin( callChain[callableObject].origin ) === false ) {
-			delete callChain[callableObject];
+	forEach ( callChain, function( callableObject, index ) {
+		if ( this._validateOrigin( callableObject.origin ) === false ) {
+			delete callChain[index];
 		}
-	}
+	} );
 
 	return callChain;
 };
@@ -360,7 +360,7 @@ Pluggable.prototype._validateOrigin = function( pluginName ) {
  * @private
  */
 Pluggable.prototype._validateUniqueness = function( pluginName ) {
-	if ( this.plugins[pluginName] !== undefined ) {
+	if ( !isUndefined( this.plugins[pluginName] ) ) {
 		return false;
 	}
 	return true;

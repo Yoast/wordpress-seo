@@ -6,7 +6,6 @@ var isUndefined = require( "lodash/lang/isUndefined" );
 var clone = require( "lodash/lang/clone" );
 var defaultsDeep = require( "lodash/object/defaultsDeep" );
 var forEach = require( "lodash/collection/forEach" );
-var map = require( "lodash/collection/map" );
 var debounce = require( "lodash/function/debounce" );
 
 var stringToRegex = require( "../js/stringProcessing/stringToRegex.js" );
@@ -14,6 +13,8 @@ var stripHTMLTags = require( "../js/stringProcessing/stripHTMLTags.js" );
 var sanitizeString = require( "../js/stringProcessing/sanitizeString.js" );
 var stripSpaces = require( "../js/stringProcessing/stripSpaces.js" );
 var analyzerConfig = require( "./config/config.js" );
+
+var snippetEditorTemplate = require( "./templates.js" ).snippetEditor;
 
 var defaults = {
 	data: {
@@ -168,7 +169,7 @@ function hasTrailingSlash( url ) {
 function hasProgressSupport() {
 	var progressElement = document.createElement( "progress" );
 
-	return progressElement.max !== undefined;
+	return !isUndefined( progressElement.max );
 }
 
 /**
@@ -367,7 +368,6 @@ var SnippetPreview = function( opts ) {
  * Renders snippet editor and adds it to the targetElement
  */
 SnippetPreview.prototype.renderTemplate = function() {
-	var snippetEditorTemplate = require( "./templates.js" ).snippetEditor;
 	var targetElement = this.opts.targetElement;
 
 	targetElement.innerHTML = snippetEditorTemplate( {
@@ -842,7 +842,9 @@ SnippetPreview.prototype.checkTextLength = function( ev ) {
 		case "snippet_meta":
 			ev.currentTarget.className = "desc";
 			if ( text.length > analyzerConfig.maxMeta ) {
+				/* eslint-disable */
 				YoastSEO.app.snippetPreview.unformattedText.snippet_meta = ev.currentTarget.textContent;
+				/* eslint-enable */
 				ev.currentTarget.textContent = text.substring(
 					0,
 					analyzerConfig.maxMeta
@@ -853,7 +855,9 @@ SnippetPreview.prototype.checkTextLength = function( ev ) {
 		case "snippet_title":
 			ev.currentTarget.className = "title";
 			if ( text.length > titleMaxLength ) {
+				/* eslint-disable */
 				YoastSEO.app.snippetPreview.unformattedText.snippet_title = ev.currentTarget.textContent;
+				/* eslint-enable */
 				ev.currentTarget.textContent = text.substring( 0, titleMaxLength );
 			}
 			break;
@@ -936,8 +940,7 @@ SnippetPreview.prototype.updateProgressBars = function() {
  */
 SnippetPreview.prototype.bindEvents = function() {
 	var targetElement,
-		elems = [ "title", "slug", "meta-description" ],
-		focusBindings;
+		elems = [ "title", "slug", "meta-description" ];
 
 	forEach( elems, function( elem ) {
 		targetElement = document.getElementsByClassName( "js-snippet-editor-" + elem )[0];
@@ -952,14 +955,6 @@ SnippetPreview.prototype.bindEvents = function() {
 
 	this.element.editToggle.addEventListener( "click", this.toggleEditor.bind( this ) );
 	this.element.closeEditor.addEventListener( "click", this.closeEditor.bind( this ) );
-
-	// Map binding keys to the actual elements
-	focusBindings = map( inputPreviewBindings, function( binding ) {
-		return {
-			"preview": document.getElementById( binding.preview ),
-			"inputField": this.element.input[ binding.inputField ]
-		};
-	}.bind( this ) );
 
 	// Loop through the bindings and bind a click handler to the click to focus the focus element.
 	forEach( inputPreviewBindings, function( binding ) {
@@ -1011,7 +1006,7 @@ SnippetPreview.prototype.changedInput = debounce( function() {
 
 	this.refresh();
 
-	this.refObj.refresh.call( this.refObj );
+	this.refObj.refresh();
 }, 25 );
 
 /**
@@ -1147,6 +1142,8 @@ SnippetPreview.prototype.setTitle = function( metaDesc ) {
 };
 
 /* jshint ignore:start */
+/* eslint-disable */
+
 /**
  * Used to disable enter as input. Returns false to prevent enter, and preventDefault and
  * cancelBubble to prevent
@@ -1191,5 +1188,5 @@ SnippetPreview.prototype.hideEditIcon = function() {};
  */
 SnippetPreview.prototype.setFocus = function( ev ) {};
 /* jshint ignore:end */
-
+/* eslint-disable */
 module.exports = SnippetPreview;

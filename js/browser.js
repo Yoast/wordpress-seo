@@ -1,3 +1,4 @@
+/* global YoastSEO: true */
 YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 
 YoastSEO.analyzerConfig = require( "./config/config.js" );

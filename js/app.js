@@ -2,10 +2,16 @@
 
 require( "./config/config.js" );
 var sanitizeString = require( "../js/stringProcessing/sanitizeString.js" );
+var SnippetPreview = require( "./snippetPreview.js" );
+
 var defaultsDeep = require( "lodash/object/defaultsDeep" );
 var isObject = require( "lodash/lang/isObject" );
 var isString = require( "lodash/lang/isString" );
 var MissingArgument = require( "./errors/missingArgument" );
+var isUndefined = require( "lodash/lang/isUndefined" );
+var forEach = require( "lodash/collection/forEach" );
+
+var Jed = require( "jed" );
 
 var Analyzer = require( "./analyzer.js" );
 var ScoreFormatter = require( "./scoreFormatter.js" );
@@ -63,10 +69,6 @@ var defaults = {
 	elementTarget: []
 };
 
-var isUndefined = require( "lodash/lang/isUndefined" );
-
-var SnippetPreview = require( "./snippetPreview.js" );
-
 /**
  * Creates a default snippet preview, this can be used if no snippet preview has been passed.
  *
@@ -76,8 +78,7 @@ var SnippetPreview = require( "./snippetPreview.js" );
  * @returns {SnippetPreview}
  */
 function createDefaultSnippetPreview() {
-	var targetElement = document.getElementById( this.config.targets.snippet ),
-		SnippetPreview = require( "../js/snippetPreview.js" );
+	var targetElement = document.getElementById( this.config.targets.snippet );
 
 	return new SnippetPreview( {
 		analyzerApp: this,
@@ -252,13 +253,13 @@ App.prototype.extendConfig = function( args ) {
  * @returns {Object} sampleText
  */
 App.prototype.extendSampleText = function( sampleText ) {
-	var defaultSampleText = YoastSEO.App.defaultConfig.sampleText;
+	var defaultSampleText = defaults.sampleText;
 
-	if ( sampleText === undefined ) {
+	if ( isUndefined( sampleText ) ) {
 		sampleText = defaultSampleText;
 	} else {
 		for ( var key in sampleText ) {
-			if ( sampleText[ key ] === undefined ) {
+			if ( isUndefined( sampleText[ key ] ) ) {
 				sampleText[ key ] = defaultSampleText[ key ];
 			}
 		}
@@ -273,8 +274,6 @@ App.prototype.extendSampleText = function( sampleText ) {
  * @param {Object} translations
  */
 App.prototype.constructI18n = function( translations ) {
-	var Jed = require( "jed" );
-
 	var defaultTranslations = {
 		"domain": "js-text-analysis",
 		"locale_data": {
@@ -294,8 +293,6 @@ App.prototype.constructI18n = function( translations ) {
  * Retrieves data from the callbacks.getData and applies modification to store these in this.rawData.
  */
 App.prototype.getData = function() {
-	var isUndefined = require( "lodash/lang/isUndefined" );
-
 	this.rawData = this.callbacks.getData();
 
 	if ( !isUndefined( this.snippetPreview ) ) {
@@ -356,7 +353,7 @@ App.prototype.bindInputEvent = function() {
  * runs the rerender function of the snippetPreview if that object is defined.
  */
 App.prototype.reloadSnippetText = function() {
-	if ( typeof this.snippetPreview !== "undefined" ) {
+	if ( isUndefined( this.snippetPreview ) ) {
 		this.snippetPreview.reRender();
 	}
 };
@@ -414,7 +411,7 @@ App.prototype.runAnalyzer = function() {
 
 	this.analyzerData.keyword = keyword;
 
-	if ( typeof this.pageAnalyzer === "undefined" ) {
+	if ( isUndefined( this.pageAnalyzer ) ) {
 		this.pageAnalyzer = new Analyzer( this.analyzerData );
 
 		this.pluggable._addPluginTests( this.pageAnalyzer );
@@ -485,10 +482,10 @@ App.prototype.showLoadingDialog = function() {
 App.prototype.updateLoadingDialog = function( plugins ) {
 	var dialog = document.getElementById( "YoastSEO-plugin-loading" );
 	dialog.textContent = "";
-	for ( var plugin in this.pluggable.plugins ) {
-		dialog.innerHTML += "<span class=left>" + plugin + "</span><span class=right " +
-							plugins[ plugin ].status + ">" + plugins[ plugin ].status + "</span><br />";
-	}
+	forEach ( plugins, function( plugin, pluginName ) {
+		dialog.innerHTML += "<span class=left>" + pluginName + "</span><span class=right " +
+							plugin.status + ">" + plugin.status + "</span><br />";
+	} );
 	dialog.innerHTML += "<span class=bufferbar></span>";
 };
 
