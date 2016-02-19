@@ -138,11 +138,11 @@ class WPSEO_Admin_Asset_Manager {
 				'deps' => array( 'jquery' ),
 			),
 			array(
-				'name'   => 'jquery-qtip',
-				'src'    => 'jquery.qtip',
-				'deps'   => array( 'jquery' ),
-				'ver'    => '2.2.1',
-				'suffix' => '.min',
+				'name'    => 'jquery-qtip',
+				'src'     => 'jquery.qtip',
+				'deps'    => array( 'jquery' ),
+				'version' => '2.2.1',
+				'suffix'  => '.min',
 			),
 			array(
 				'name' => 'metabox',
@@ -152,7 +152,7 @@ class WPSEO_Admin_Asset_Manager {
 					'jquery-ui-core',
 					self::PREFIX . 'jquery-qtip',
 				),
-				'inf' => false,
+				'in_footer' => false,
 			),
 			array(
 				'name' => 'featured-image',
@@ -172,11 +172,10 @@ class WPSEO_Admin_Asset_Manager {
 				),
 			),
 			array(
-				'name' => 'admin-gsc',
-				'src'  => 'wp-seo-admin-gsc-302',
-				'deps' => array( 'jquery' ),
-				'ver'  => WPSEO_VERSION,
-				'inf'  => false,
+				'name'      => 'admin-gsc',
+				'src'       => 'wp-seo-admin-gsc-302',
+				'deps'      => array( 'jquery' ),
+				'in_footer' => false,
 			),
 			array(
 				'name'   => 'yoast-seo',
@@ -277,9 +276,9 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'featured-image',
 			),
 			array(
-				'name' => 'jquery-qtip.js',
-				'src'  => 'jquery.qtip',
-				'ver'  => '2.2.1',
+				'name'    => 'jquery-qtip.js',
+				'src'     => 'jquery.qtip',
+				'version' => '2.2.1',
 			),
 			array(
 				'name' => 'metabox-css',
