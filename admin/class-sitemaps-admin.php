@@ -14,6 +14,8 @@ class WPSEO_Sitemaps_Admin {
 	function __construct() {
 		add_action( 'transition_post_status', array( $this, 'status_transition' ), 10, 3 );
 		add_action( 'admin_init', array( $this, 'delete_sitemaps' ) );
+
+		WPSEO_Utils::register_cache_clear_option( 'wpseo_xml', '' );
 	}
 
 	/**
