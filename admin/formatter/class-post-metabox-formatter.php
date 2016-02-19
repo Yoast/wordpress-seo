@@ -19,14 +19,21 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	protected $options;
 
 	/**
+	 * @var string The permalink to follow.
+	 */
+	private $permalink;
+
+	/**
 	 * Constructor.
 	 *
-	 * @param WP_Post $post    Post object.
-	 * @param array   $options Title options to use.
+	 * @param WP_Post|array $post      Post object.
+	 * @param array         $options   Title options to use.
+	 * @param string        $structure The permalink to follow.
 	 */
-	public function __construct( WP_Post $post, array $options ) {
-		$this->post    = $post;
-		$this->options = $options;
+	public function __construct( $post, array $options, $structure ) {
+		$this->post      = $post;
+		$this->options   = $options;
+		$this->permalink = $structure;
 	}
 
 	/**
@@ -62,7 +69,7 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	 * @return string
 	 */
 	private function search_url(  ) {
-		admin_url( 'edit.php?seo_kw_filter={keyword}' );
+		return admin_url( 'edit.php?seo_kw_filter={keyword}' );
 	}
 
 	/**
@@ -89,12 +96,9 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 			return $base_url;
 		}
 
-		$permalink = get_sample_permalink( null );
-		$permalink = $permalink[0];
-
 		// If %postname% is the last tag, just strip it and use that as a base.
-		if ( 1 === preg_match( '#%postname%/?$#', $permalink ) ) {
-			$base_url = preg_replace( '#%postname%/?$#', '', $permalink );
+		if ( 1 === preg_match( '#%postname%/?$#', $this->permalink ) ) {
+			$base_url = preg_replace( '#%postname%/?$#', '', $this->permalink );
 		}
 
 		return $base_url;
