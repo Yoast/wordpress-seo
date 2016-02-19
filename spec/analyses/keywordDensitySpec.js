@@ -9,6 +9,7 @@ describe("Test for counting the keywordDensity in a text", function(){
 		expect( keywordDensity( "a string of text with the key-word in it, density should be 7.7%", "key-word" ) ).toBe( "7.7" );
 		expect( keywordDensity( "a string of text with the key_word in it, density should be 7.7%", "key_word" ) ).toBe( "7.7" );
 		expect( keywordDensity( "a string of text with the key_word in it, density should be 7.7%", "key word" ) ).toBe( "0.0" );
-		expect( keywordDensity( "a string of text with the key-word in it, density should be 7.7%", "keyword" ) ).toBe( "0.0" );
+		expect( keywordDensity( "a string of text with the key-word in it, density should be 7.7%", "key word" ) ).toBe( "0.0" );
+		expect( keywordDensity( "a string of text with the key&word in it, density should be 7.7%", "key&word" ) ).toBe( "7.7" );
 	});
 });
