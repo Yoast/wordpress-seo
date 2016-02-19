@@ -152,7 +152,7 @@ class WPSEO_Sitemaps_Admin {
 
 		$ping_search_engines = false;
 
-		foreach ($this->importing_post_types as $post_type) {
+		foreach ( $this->importing_post_types as $post_type ) {
 
 			wp_cache_delete( 'lastpostmodified:gmt:' . $post_type, 'timeinfo' ); // #17455.
 
