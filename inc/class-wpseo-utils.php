@@ -711,10 +711,14 @@ class WPSEO_Utils {
 		$seconds      = ( $seconds % 86400 );
 		$milliseconds = substr( $milliseconds, 2, 5 );
 
-		// Combine seconds and milliseconds and convert to integer.
+		// Combine seconds and milliseconds and convert to integer (base 10).
 		$validator = intval( $seconds . '' . $milliseconds, 10 );
 
-		// Apply base 61 encoding.
+		/**
+		 * Apply base 61 encoding.
+		 *
+		 * Decided not to use base 62, so removed the 0 to prevent confusion.
+		 */
 		$compressed = self::convert_base10_to_base61( $validator );
 
 		return update_option( $key, $compressed );
