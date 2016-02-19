@@ -57,7 +57,7 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 				'metaDescriptionDate' => $this->get_metadesc_date(),
 			);
 
-			$values = $values_to_set + $values;
+			$values = ( $values_to_set + $values );
 		}
 
 		return $values;

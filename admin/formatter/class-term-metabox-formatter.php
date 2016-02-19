@@ -57,7 +57,7 @@ class WPSEO_Term_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 				'metadesc_template' => $this->get_metadesc_template(),
 			);
 
-			$values = $values_to_set + $values;
+			$values = ( $values_to_set + $values );
 		}
 
 		return $values;

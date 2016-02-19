@@ -31,7 +31,7 @@ class WPSEO_Metabox_Formatter {
 		$defaults = $this->get_defaults();
 		$values   = $this->formatter->get_values();
 
-		return $values + $defaults;
+		return ( $values + $defaults );
 	}
 
 	/**
