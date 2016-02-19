@@ -8,18 +8,18 @@
  *
  * Public
  *
- * ::register_cache_clear_option to-do
+ * ::register_cache_clear_option .done
  * ::clear_transient_cache - can't be done.
- * ::get_sitemap_cache_validator_key to do
- * ::get_sitemap_cache_key todo
- * ::clear_sitemap_cache todo
- * ::invalidate_sitemap_cache todo
+ * ::get_sitemap_cache_validator_key .done
+ * ::get_sitemap_cache_key .done
+ * ::clear_sitemap_cache .done
  *
  * Private (determine by coverage)
  *
- * ::new_sitemap_cache_validator
- * ::get_sitemap_cache_validator
- * ::get_safe_sitemap_cache_type
+ * ::invalidate_sitemap_cache .implied
+ * ::new_sitemap_cache_validator .implied
+ * ::get_sitemap_cache_validator .implied
+ * ::get_safe_sitemap_cache_type .implied
  */
 class WPSEO_Utils_Sitemap_Cache_Test extends WPSEO_UnitTestCase {
 
