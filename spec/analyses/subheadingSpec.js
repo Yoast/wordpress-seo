@@ -12,5 +12,12 @@ describe("a test for matching keywords in subheadings", function(){
 		result = subheadingFunction( "<h2>this is a heading with a dashed key-word</h2>", "key-word" );
 		expect( result.count ).toBe(1);
 
+		result = subheadingFunction( "<h2>this is a heading with a underscored key_word</h2>", "key_word" );
+		expect( result.count ).toBe(1);
+
+		result = subheadingFunction( "<h2>this is a heading with a underscored key_word</h2>", "key word" );
+		expect( result.count ).toBe( 0 );
+
+
 	});
 });
