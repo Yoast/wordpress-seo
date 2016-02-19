@@ -42,5 +42,17 @@ describe( "Counts images in an text", function(){
 
 		imageCount = imageCountFunction( '<img src="http://picture.com" alt="kapaklı" />', "kapaklı");
 		expect( imageCount.altKeyword ).toBe( 1 );
+
+		imageCount = imageCountFunction( '<img src="http://picture.com" alt="key-word" />', "key-word");
+		expect( imageCount.altKeyword ).toBe( 1 );
+
+		imageCount = imageCountFunction( '<img src="http://picture.com" alt="key word" />', "key-word");
+		expect( imageCount.altKeyword ).toBe( 0 );
+
+		imageCount = imageCountFunction( '<img src="http://picture.com" alt="key_word" />', "key_word");
+		expect( imageCount.altKeyword ).toBe( 1 );
+
+		imageCount = imageCountFunction( '<img src="http://picture.com" alt="key_word" />', "key word");
+		expect( imageCount.altKeyword ).toBe( 0 );
 	})
 });
