@@ -89,6 +89,9 @@ class WPSEO_Primary_Term_Admin_Test extends WPSEO_UnitTestCase {
     public function test_enqueue_assets_WITH_taxonomies_DO_enqueue_scripts() {
         global $pagenow;
 
+        $asset_manager = new WPSEO_Admin_Asset_Manager();
+        $asset_manager->register_assets();
+
         $pagenow = 'post-new.php';
 
         $taxonomies = array(
@@ -107,8 +110,8 @@ class WPSEO_Primary_Term_Admin_Test extends WPSEO_UnitTestCase {
 
         $this->class_instance->enqueue_assets();
 
-        $this->assertTrue( wp_style_is( 'wpseo-primary-category', 'registered' ) );
-        $this->assertTrue( wp_script_is( 'wpseo-primary-category', 'registered' ) );
+        $this->assertTrue( wp_style_is( WPSEO_Admin_Asset_Manager::PREFIX . 'primary-category', 'registered' ) );
+        $this->assertTrue( wp_script_is( WPSEO_Admin_Asset_Manager::PREFIX . 'primary-category', 'registered' ) );
     }
 
     /**
