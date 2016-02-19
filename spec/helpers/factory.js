@@ -3,6 +3,8 @@ Jed = require('jed');
 
 _ = require("lodash");
 
+var Analyzer = require( "../../js/analyzer.js" );
+
 FactoryProto = function(){};
 
 FactoryProto.prototype.buildJed = function() {
@@ -21,7 +23,7 @@ FactoryProto.prototype.buildJed = function() {
  *
  * @param {Object} args
  *
- * @returns {YoastSEO.Analyzer}
+ * @returns {Analyzer}
  */
 FactoryProto.prototype.buildAnalyzer = function ( args ) {
 
@@ -30,7 +32,21 @@ FactoryProto.prototype.buildAnalyzer = function ( args ) {
 		args.locale = 'en_US';
 	}
 
-	return new YoastSEO.Analyzer( args );
+	return new Analyzer( args );
+};
+
+/**
+ * Returns a mock element that lodash accepts as an element
+ */
+FactoryProto.prototype.buildMockElement = function() {
+	var mockElement;
+
+	mockElement = [];
+	mockElement.nodeType = 1;
+
+	return mockElement;
 };
 
 Factory = new FactoryProto;
+
+module.exports = Factory;

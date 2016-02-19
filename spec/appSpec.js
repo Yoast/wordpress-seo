@@ -1,23 +1,22 @@
-require("./helpers/i18n.js");
 require("../js/config/config.js");
 require("../js/config/scoring.js");
 require("../js/analyzer.js");
 require("../js/app.js");
-require("../js/pluggable.js");
 require("../js/scoreFormatter.js");
 
 var MissingArgument = require( "../js/errors/missingArgument.js" );
 var SnippetPreview = require( "../js/snippetPreview.js" );
 
 var clone = require( "lodash/lang/clone" );
+var App = require( "../js/app.js" );
 
 // Mock these function to prevent us from needing an actual DOM in the tests.
-YoastSEO.App.prototype.createSnippetPreview = function(){};
-YoastSEO.App.prototype.showLoadingDialog = function(){};
-YoastSEO.App.prototype.updateLoadingDialog = function(){};
-YoastSEO.App.prototype.removeLoadingDialog = function(){};
-YoastSEO.App.prototype.initSnippetPreview = function(){};
-YoastSEO.App.prototype.runAnalyzer = function(){};
+App.prototype.createSnippetPreview = function(){};
+App.prototype.showLoadingDialog = function(){};
+App.prototype.updateLoadingDialog = function(){};
+App.prototype.removeLoadingDialog = function(){};
+App.prototype.initSnippetPreview = function(){};
+App.prototype.runAnalyzer = function(){};
 
 document = {};
 document.getElementById = function() { return mockElement; };
@@ -28,18 +27,18 @@ mockElement.nodeType = 1;
 
 describe( "Creating an App", function(){
 	it( "throws an error when no args are given", function(){
-		expect( YoastSEO.App ).toThrowError( MissingArgument );
+		expect( App ).toThrowError( MissingArgument );
 	});
 
 	it( "throws on an empty args object", function() {
 		expect( function() {
-			new YoastSEO.App({});
+			new App({});
 		} ).toThrowError( MissingArgument ) ;
 	});
 
 	it( "throws on an invalid targets argument", function() {
 		expect( function() {
-			new YoastSEO.App({
+			new App({
 				callbacks: {
 					getData: function() { return {} }
 				}
@@ -49,7 +48,7 @@ describe( "Creating an App", function(){
 
 	it( "throws on a missing getData callback", function() {
 		expect( function() {
-			new YoastSEO.App({
+			new App({
 				targets: {
 					snippet: "snippetID",
 					output: "outputID"
@@ -60,7 +59,7 @@ describe( "Creating an App", function(){
 
 	it( "throws on a missing snippet preview", function() {
 		expect( function() {
-			new YoastSEO.App({
+			new App({
 				targets: {
 					output: "outputID"
 				},
@@ -72,7 +71,7 @@ describe( "Creating an App", function(){
 	});
 
 	it( "accepts a Snippet Preview object", function() {
-		var app = new YoastSEO.App({
+		var app = new App({
 			targets: {
 				output: "outputID"
 			},
@@ -87,7 +86,7 @@ describe( "Creating an App", function(){
 
 	it( "throws on a missing output element ID", function() {
 		expect( function() {
-			new YoastSEO.App({
+			new App({
 				targets: {
 					snippet: "snippetID"
 				},
@@ -99,7 +98,7 @@ describe( "Creating an App", function(){
 	});
 
 	it( "works with correct arguments", function() {
-		new YoastSEO.App({
+		new App({
 			targets: {
 				snippet: "snippetID",
 				output: "outputID"

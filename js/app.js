@@ -1,6 +1,4 @@
 /* jshint browser: true */
-/* global YoastSEO: true */
-YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 
 require( "./config/config.js" );
 var sanitizeString = require( "../js/stringProcessing/sanitizeString.js" );
@@ -14,6 +12,11 @@ var isUndefined = require( "lodash/lang/isUndefined" );
 var forEach = require( "lodash/collection/forEach" );
 
 var Jed = require( "jed" );
+
+var Analyzer = require( "./analyzer.js" );
+var ScoreFormatter = require( "./scoreFormatter.js" );
+var Pluggable = require( "./pluggable.js" );
+var analyzerConfig = require( "./config/config.js" );
 
 /**
  * Default config for YoastSEO.js
@@ -192,7 +195,7 @@ function verifyArguments( args ) {
  *
  * @constructor
  */
-YoastSEO.App = function( args ) {
+var App = function( args ) {
 	if ( !isObject( args ) ) {
 		args = {};
 	}
@@ -205,7 +208,7 @@ YoastSEO.App = function( args ) {
 	this.callbacks = this.config.callbacks;
 
 	this.i18n = this.constructI18n( this.config.translations );
-	this.pluggable = new YoastSEO.Pluggable( this );
+	this.pluggable = new Pluggable( this );
 
 	this.getData();
 
@@ -235,9 +238,9 @@ YoastSEO.App = function( args ) {
  * @param {Object} args
  * @returns {Object} args
  */
-YoastSEO.App.prototype.extendConfig = function( args ) {
+App.prototype.extendConfig = function( args ) {
 	args.sampleText = this.extendSampleText( args.sampleText );
-	args.queue = args.queue || YoastSEO.analyzerConfig.queue;
+	args.queue = args.queue || analyzerConfig.queue;
 	args.locale = args.locale || "en_US";
 
 	return args;
@@ -249,7 +252,7 @@ YoastSEO.App.prototype.extendConfig = function( args ) {
  * @param {Object} sampleText
  * @returns {Object} sampleText
  */
-YoastSEO.App.prototype.extendSampleText = function( sampleText ) {
+App.prototype.extendSampleText = function( sampleText ) {
 	var defaultSampleText = YoastSEO.App.defaultConfig.sampleText;
 
 	if ( isUndefined( sampleText ) ) {
@@ -270,7 +273,7 @@ YoastSEO.App.prototype.extendSampleText = function( sampleText ) {
  *
  * @param {Object} translations
  */
-YoastSEO.App.prototype.constructI18n = function( translations ) {
+App.prototype.constructI18n = function( translations ) {
 	var defaultTranslations = {
 		"domain": "js-text-analysis",
 		"locale_data": {
@@ -289,7 +292,7 @@ YoastSEO.App.prototype.constructI18n = function( translations ) {
 /**
  * Retrieves data from the callbacks.getData and applies modification to store these in this.rawData.
  */
-YoastSEO.App.prototype.getData = function() {
+App.prototype.getData = function() {
 	this.rawData = this.callbacks.getData();
 
 	if ( !isUndefined( this.snippetPreview ) ) {
@@ -310,7 +313,7 @@ YoastSEO.App.prototype.getData = function() {
 /**
  * Refreshes the analyzer and output of the analyzer
  */
-YoastSEO.App.prototype.refresh = function() {
+App.prototype.refresh = function() {
 	this.getData();
 	this.runAnalyzer();
 };
@@ -321,7 +324,7 @@ YoastSEO.App.prototype.refresh = function() {
  * @deprecated Don't create a snippet preview using this method, create it directly using the prototype and pass it as
  * an argument instead.
  */
-YoastSEO.App.prototype.createSnippetPreview = function() {
+App.prototype.createSnippetPreview = function() {
 	this.snippetPreview = createDefaultSnippetPreview.call( this );
 	this.initSnippetPreview();
 };
@@ -329,7 +332,7 @@ YoastSEO.App.prototype.createSnippetPreview = function() {
 /**
  * Initializes the snippet preview for this App.
  */
-YoastSEO.App.prototype.initSnippetPreview = function() {
+App.prototype.initSnippetPreview = function() {
 	this.snippetPreview.renderTemplate();
 	this.snippetPreview.callRegisteredEventBinder();
 	this.snippetPreview.bindEvents();
@@ -339,7 +342,7 @@ YoastSEO.App.prototype.initSnippetPreview = function() {
 /**
  * binds the analyzeTimer function to the input of the targetElement on the page.
  */
-YoastSEO.App.prototype.bindInputEvent = function() {
+App.prototype.bindInputEvent = function() {
 	for ( var i = 0; i < this.config.elementTarget.length; i++ ) {
 		var elem = document.getElementById( this.config.elementTarget[ i ] );
 		elem.addEventListener( "input", this.analyzeTimer.bind( this ) );
@@ -349,7 +352,7 @@ YoastSEO.App.prototype.bindInputEvent = function() {
 /**
  * runs the rerender function of the snippetPreview if that object is defined.
  */
-YoastSEO.App.prototype.reloadSnippetText = function() {
+App.prototype.reloadSnippetText = function() {
 	if ( isUndefined( this.snippetPreview ) ) {
 		this.snippetPreview.reRender();
 	}
@@ -360,7 +363,7 @@ YoastSEO.App.prototype.reloadSnippetText = function() {
  * at every keystroke checks the reference object, so this function can be called from anywhere,
  * without problems with different scopes.
  */
-YoastSEO.App.prototype.analyzeTimer = function() {
+App.prototype.analyzeTimer = function() {
 	clearTimeout( window.timer );
 	window.timer = setTimeout( this.refresh.bind( this ), this.config.typeDelay );
 };
@@ -368,14 +371,14 @@ YoastSEO.App.prototype.analyzeTimer = function() {
 /**
  * sets the startTime timestamp
  */
-YoastSEO.App.prototype.startTime = function() {
+App.prototype.startTime = function() {
 	this.startTimestamp = new Date().getTime();
 };
 
 /**
  * sets the endTime timestamp and compares with startTime to determine typeDelayincrease.
  */
-YoastSEO.App.prototype.endTime = function() {
+App.prototype.endTime = function() {
 	this.endTimestamp = new Date().getTime();
 	if ( this.endTimestamp - this.startTimestamp > this.config.typeDelay ) {
 		if ( this.config.typeDelay < ( this.config.maxTypeDelay - this.config.typeDelayStep ) ) {
@@ -388,7 +391,7 @@ YoastSEO.App.prototype.endTime = function() {
  * inits a new pageAnalyzer with the inputs from the getInput function and calls the scoreFormatter
  * to format outputs.
  */
-YoastSEO.App.prototype.runAnalyzer = function() {
+App.prototype.runAnalyzer = function() {
 
 	if ( this.pluggable.loaded === false ) {
 		return;
@@ -409,7 +412,7 @@ YoastSEO.App.prototype.runAnalyzer = function() {
 	this.analyzerData.keyword = keyword;
 
 	if ( isUndefined( this.pageAnalyzer ) ) {
-		this.pageAnalyzer = new YoastSEO.Analyzer( this.analyzerData );
+		this.pageAnalyzer = new Analyzer( this.analyzerData );
 
 		this.pluggable._addPluginTests( this.pageAnalyzer );
 	} else {
@@ -419,7 +422,7 @@ YoastSEO.App.prototype.runAnalyzer = function() {
 	}
 
 	this.pageAnalyzer.runQueue();
-	this.scoreFormatter = new YoastSEO.ScoreFormatter( {
+	this.scoreFormatter = new ScoreFormatter( {
 		scores: this.pageAnalyzer.analyzeScorer.__score,
 		overallScore: this.pageAnalyzer.analyzeScorer.__totalScore,
 		outputTarget: this.config.targets.output,
@@ -442,7 +445,7 @@ YoastSEO.App.prototype.runAnalyzer = function() {
  * @param data
  * @returns {*}
  */
-YoastSEO.App.prototype.modifyData = function( data ) {
+App.prototype.modifyData = function( data ) {
 
 	// Copy rawdata to lose object reference.
 	data = JSON.parse( JSON.stringify( data ) );
@@ -456,7 +459,7 @@ YoastSEO.App.prototype.modifyData = function( data ) {
 /**
  * Function to fire the analyzer when all plugins are loaded, removes the loading dialog.
  */
-YoastSEO.App.prototype.pluginsLoaded = function() {
+App.prototype.pluginsLoaded = function() {
 	this.getData();
 	this.removeLoadingDialog();
 	this.runAnalyzer();
@@ -465,7 +468,7 @@ YoastSEO.App.prototype.pluginsLoaded = function() {
 /**
  * Shows the loading dialog which shows the loading of the plugins.
  */
-YoastSEO.App.prototype.showLoadingDialog = function() {
+App.prototype.showLoadingDialog = function() {
 	var dialogDiv = document.createElement( "div" );
 	dialogDiv.className = "YoastSEO_msg";
 	dialogDiv.id = "YoastSEO-plugin-loading";
@@ -476,7 +479,7 @@ YoastSEO.App.prototype.showLoadingDialog = function() {
  * Updates the loading plugins. Uses the plugins as arguments to show which plugins are loading
  * @param plugins
  */
-YoastSEO.App.prototype.updateLoadingDialog = function( plugins ) {
+App.prototype.updateLoadingDialog = function( plugins ) {
 	var dialog = document.getElementById( "YoastSEO-plugin-loading" );
 	dialog.textContent = "";
 	forEach ( plugins, function( plugin, pluginName ) {
@@ -489,6 +492,79 @@ YoastSEO.App.prototype.updateLoadingDialog = function( plugins ) {
 /**
  * removes the pluging load dialog.
  */
-YoastSEO.App.prototype.removeLoadingDialog = function() {
+App.prototype.removeLoadingDialog = function() {
 	document.getElementById( this.config.targets.output ).removeChild( document.getElementById( "YoastSEO-plugin-loading" ) );
 };
+
+/**************** PLUGGABLE PUBLIC DSL ****************/
+
+/**
+ * Delegates to `YoastSEO.app.pluggable.registerPlugin`
+ *
+ * @param pluginName	{string}
+ * @param options 		{{status: "ready"|"loading"}}
+ * @returns 			{boolean}
+ */
+App.prototype.registerPlugin = function( pluginName, options ) {
+	return this.pluggable._registerPlugin( pluginName, options );
+};
+
+/**
+ * Delegates to `YoastSEO.app.pluggable.ready`
+ *
+ * @param pluginName	{string}
+ * @returns 			{boolean}
+ */
+App.prototype.pluginReady = function( pluginName ) {
+	return this.pluggable._ready( pluginName );
+};
+
+/**
+ * Delegates to `YoastSEO.app.pluggable.reloaded`
+ *
+ * @param pluginName	{string}
+ * @returns 			{boolean}
+ */
+App.prototype.pluginReloaded = function( pluginName ) {
+	return this.pluggable._reloaded( pluginName );
+};
+
+/**
+ * Delegates to `YoastSEO.app.pluggable.registerModification`
+ *
+ * @param modification 	{string} 	The name of the filter
+ * @param callable 		{function} 	The callable
+ * @param pluginName 	{string} 	The plugin that is registering the modification.
+ * @param priority 		{number} 	(optional) Used to specify the order in which the callables associated with a particular filter are called.
+ * 									Lower numbers correspond with earlier execution.
+ * @returns 			{boolean}
+ */
+App.prototype.registerModification = function( modification, callable, pluginName, priority ) {
+	return this.pluggable._registerModification( modification, callable, pluginName, priority );
+};
+
+/**
+ * Registers a custom test for use in the analyzer, this will result in a new line in the analyzer results. The function
+ * has to return a result based on the contents of the page/posts.
+ *
+ * The scoring object is a special object with definitions about how to translate a result from your analysis function
+ * to a SEO score.
+ *
+ * Negative scores result in a red circle
+ * Scores 1, 2, 3, 4 and 5 result in a orange circle
+ * Scores 6 and 7 result in a yellow circle
+ * Scores 8, 9 and 10 result in a red circle
+ *
+ * @param {string}   name       Name of the test.
+ * @param {function} analysis   A function that analyzes the content and determines a score for a certain trait.
+ * @param {Object}   scoring    A scoring object that defines how the analysis translates to a certain SEO score.
+ * @param {string}   pluginName The plugin that is registering the test.
+ * @param {number}   priority   (optional) Determines when this test is run in the analyzer queue. Is currently ignored,
+ *                              tests are added to the end of the queue.
+ * @returns {boolean}
+ */
+App.prototype.registerTest = function( name, analysis, scoring, pluginName, priority ) {
+	return this.pluggable._registerTest( name, analysis, scoring, pluginName, priority );
+};
+
+module.exports = App;

@@ -1,6 +1,7 @@
 var SnippetPreview = require("../js/snippetPreview.js");
 
 require("../js/app.js");
+var Factory = require( "./helpers/factory.js" );
 
 describe("The snippet preview constructor", function() {
 	it("accepts an App object as an opts property", function() {
@@ -69,7 +70,30 @@ describe( "The SnippetPreview format functions", function(){
 			targetElement: mockElement
 		});
 		expect( snippetPreview.formatCite() ).toBe ("<strong>key-word</strong>/" );
+	});
 
+	describe( "#formatKeywordUrl", function() {
+		var snippetPreview, refObj, mockElement;
+
+		beforeEach( function() {
+			mockElement = Factory.buildMockElement();
+
+			refObj = {
+				rawData: { keyword: "key'word" }
+			};
+
+			snippetPreview = new SnippetPreview({
+				analyzerApp: refObj,
+				targetElement: mockElement
+			});
+		});
+
+		it( "should highlight a keyword with an apostrophe", function() {
+			//var keyword = "apo's";
+			snippetPreview.data.urlPath = "keyword";
+
+			expect( snippetPreview.formatCite() ).toBe( "<strong>keyword</strong>/")
+		});
 	});
 } );
 

@@ -1,5 +1,4 @@
 /* jshint browser: true */
-/* global YoastSEO: false */
 
 var isEmpty = require( "lodash/lang/isEmpty" );
 var isElement = require( "lodash/lang/isElement" );
@@ -13,6 +12,7 @@ var stringToRegex = require( "../js/stringProcessing/stringToRegex.js" );
 var stripHTMLTags = require( "../js/stringProcessing/stripHTMLTags.js" );
 var sanitizeString = require( "../js/stringProcessing/sanitizeString.js" );
 var stripSpaces = require( "../js/stringProcessing/stripSpaces.js" );
+var analyzerConfig = require( "./config/config.js" );
 
 var snippetEditorTemplate = require( "./templates.js" ).snippetEditor;
 
@@ -26,6 +26,10 @@ var defaults = {
 		title:    "This is an example title - edit by clicking here",
 		metaDesc: "Modify your meta description by editing it right here",
 		urlPath:  "example-post/"
+	},
+	defaultValue: {
+		title: "",
+		metaDesc: ""
 	},
 	baseURL: "http://example.com/",
 	callbacks: {
@@ -262,10 +266,17 @@ function updateProgressBar( element, value, maximum, rating ) {
  *
  * @param {Object}         opts                           - Snippet preview options.
  * @param {App}            opts.analyzerApp               - The app object the snippet preview is part of.
- * @param {Object}         opts.placeholder               - The fallback values for the snippet preview rendering.
- * @param {string}         opts.placeholder.title         - The fallback value for the title.
- * @param {string}         opts.placeholder.metaDesc      - The fallback value for the meta description.
- * @param {string}         opts.placeholder.urlPath       - The fallback value for the URL path.
+ * @param {Object}         opts.placeholder               - The placeholder values for the fields, will be shown as
+ * actual placeholders in the inputs and as a fallback for the preview.
+ * @param {string}         opts.placeholder.title
+ * @param {string}         opts.placeholder.metaDesc
+ * @param {string}         opts.placeholder.urlPath
+ *
+ * @param {Object}         opts.defaultValue              - The default value for the fields, if the user has not
+ * changed a field, this value will be used for the analyzer, preview and the progress bars.
+ * @param {string}         opts.defaultValue.title
+ * @param {string}         opts.defaultValue.metaDesc
+ * it.
  *
  * @param {string}         opts.baseURL                   - The basic URL as it will be displayed in google.
  * @param {HTMLElement}    opts.targetElement             - The target element that contains this snippet editor.
@@ -424,7 +435,7 @@ SnippetPreview.prototype.renderTemplate = function() {
 
 	if ( this.hasProgressSupport ) {
 		this.element.progress.title.max = titleMaxLength;
-		this.element.progress.metaDesc.max = YoastSEO.analyzerConfig.maxMeta;
+		this.element.progress.metaDesc.max = analyzerConfig.maxMeta;
 	} else {
 		forEach( this.element.progress, function( progressElement ) {
 			addClass( progressElement, "snippet-editor__progress--fallback" );
@@ -457,8 +468,9 @@ function getAnalyzerTitle() {
 	var title = this.data.title;
 
 	if ( isEmpty( title ) ) {
-		title = this.opts.placeholder.title;
+		title = this.opts.defaultValue.title;
 	}
+
 	title = this.refObj.pluggable._applyModifications( "data_page_title", title );
 
 	return stripSpaces( title );
@@ -475,12 +487,11 @@ function getAnalyzerTitle() {
 var getAnalyzerMetaDesc = function() {
 	var metaDesc = this.data.metaDesc;
 
-	metaDesc = this.refObj.pluggable._applyModifications( "data_meta_desc", metaDesc );
-
-	// If no meta has been set, generate one.
 	if ( isEmpty( metaDesc ) ) {
-		metaDesc = this.getMetaText();
+		metaDesc = this.opts.defaultValue.metaDesc;
 	}
+
+	metaDesc = this.refObj.pluggable._applyModifications( "data_meta_desc", metaDesc );
 
 	if ( !isEmpty( this.opts.metaDescriptionDate ) && !isEmpty( metaDesc ) ) {
 		metaDesc = this.opts.metaDescriptionDate + " - " + this.data.metaDesc;
@@ -545,6 +556,11 @@ SnippetPreview.prototype.formatTitle = function() {
 
 	// Fallback to the default if the title is empty.
 	if ( isEmpty( title ) ) {
+		title = this.opts.defaultValue.title;
+	}
+
+	// For rendering we can fallback to the placeholder as well.
+	if ( isEmpty( title ) ) {
 		title = this.opts.placeholder.title;
 	}
 
@@ -557,7 +573,12 @@ SnippetPreview.prototype.formatTitle = function() {
 
 	// If a keyword is set we want to highlight it in the title.
 	if ( !isEmpty( this.refObj.rawData.keyword ) ) {
-		return this.formatKeyword( title );
+		title = this.formatKeyword( title );
+	}
+
+	// As an ultimate fallback provide the user with a helpful message.
+	if ( isEmpty( title ) ) {
+		title = this.i18n.dgettext( "js-text-analysis", "Please provide an SEO title by editing the snippet below." );
 	}
 
 	return title;
@@ -625,10 +646,15 @@ SnippetPreview.prototype.formatMeta = function() {
 	meta = stripHTMLTags( meta );
 
 	// Cut-off the meta description according to the maximum length
-	meta = meta.substring( 0, YoastSEO.analyzerConfig.maxMeta );
+	meta = meta.substring( 0, analyzerConfig.maxMeta );
 
 	if ( !isEmpty( this.refObj.rawData.keyword ) ) {
 		meta = this.formatKeyword( meta );
+	}
+
+	// As an ultimate fallback provide the user with a helpful message.
+	if ( isEmpty( meta ) ) {
+		meta = this.i18n.dgettext( "js-text-analysis", "Please provide a meta description by editing the snippet below." );
 	}
 
 	return meta;
@@ -643,9 +669,8 @@ SnippetPreview.prototype.formatMeta = function() {
  */
 SnippetPreview.prototype.getMetaText = function() {
 	var metaText;
-	if ( this.opts.placeholder.metaDesc !== defaults.placeholder.metaDesc ) {
-		metaText = this.opts.placeholder.metaDesc;
-	}
+
+	metaText = this.opts.defaultValue.metaDesc;
 
 	if ( !isUndefined( this.refObj.rawData.excerpt ) && isEmpty( metaText ) ) {
 		metaText = this.refObj.rawData.excerpt;
@@ -659,10 +684,6 @@ SnippetPreview.prototype.getMetaText = function() {
 		}
 	}
 
-	if ( isEmpty( metaText ) ) {
-		metaText = this.opts.placeholder.metaDesc;
-	}
-
 	metaText = stripHTMLTags( metaText );
 	if (
 		this.refObj.rawData.keyword !== "" &&
@@ -670,9 +691,10 @@ SnippetPreview.prototype.getMetaText = function() {
 	) {
 		var indexMatches = this.getIndexMatches();
 		var periodMatches = this.getPeriodMatches();
+
 		metaText = metaText.substring(
 			0,
-			YoastSEO.analyzerConfig.maxMeta
+			analyzerConfig.maxMeta
 		);
 		var curStart = 0;
 		if ( indexMatches.length > 0 ) {
@@ -688,10 +710,8 @@ SnippetPreview.prototype.getMetaText = function() {
 			}
 		}
 	}
-	if ( stripHTMLTags( metaText ) === "" ) {
-		return this.opts.placeholder.metaDesc;
-	}
-	return metaText.substring( 0, YoastSEO.analyzerConfig.maxMeta );
+
+	return metaText.substring( 0, analyzerConfig.maxMeta );
 };
 
 /**
@@ -766,6 +786,8 @@ SnippetPreview.prototype.formatKeyword = function( textString ) {
  */
 SnippetPreview.prototype.formatKeywordUrl = function( textString ) {
 	var keyword = sanitizeString( this.refObj.rawData.keyword );
+	keyword = keyword.replace( /'/, "" );
+
 	var dashedKeyword = keyword.replace( /\s/g, "-" );
 
 	// Match keyword case-insensitively.
@@ -791,14 +813,15 @@ SnippetPreview.prototype.renderOutput = function() {
  * Makes the rendered meta description gray if no meta description has been set by the user.
  */
 SnippetPreview.prototype.renderSnippetStyle = function() {
-	var metaDesc = this.element.rendered.metaDesc;
+	var metaDescElement = this.element.rendered.metaDesc;
+	var metaDesc = getAnalyzerMetaDesc.call( this );
 
-	if ( this.data.metaDesc === "" ) {
-		addClass( metaDesc, "desc-render" );
-		removeClass( metaDesc, "desc-default" );
+	if ( isEmpty( metaDesc ) ) {
+		addClass( metaDescElement, "desc-render" );
+		removeClass( metaDescElement, "desc-default" );
 	} else {
-		addClass( metaDesc, "desc-default" );
-		removeClass( metaDesc, "desc-render" );
+		addClass( metaDescElement, "desc-default" );
+		removeClass( metaDescElement, "desc-render" );
 	}
 };
 
@@ -818,13 +841,13 @@ SnippetPreview.prototype.checkTextLength = function( ev ) {
 	switch ( ev.currentTarget.id ) {
 		case "snippet_meta":
 			ev.currentTarget.className = "desc";
-			if ( text.length > YoastSEO.analyzerConfig.maxMeta ) {
+			if ( text.length > analyzerConfig.maxMeta ) {
 				/* eslint-disable */
 				YoastSEO.app.snippetPreview.unformattedText.snippet_meta = ev.currentTarget.textContent;
 				/* eslint-enable */
 				ev.currentTarget.textContent = text.substring(
 					0,
-					YoastSEO.analyzerConfig.maxMeta
+					analyzerConfig.maxMeta
 				);
 
 			}
@@ -872,7 +895,7 @@ SnippetPreview.prototype.validateFields = function() {
 	var metaDescription = getAnalyzerMetaDesc.call( this );
 	var title = getAnalyzerTitle.call( this );
 
-	if ( metaDescription.length > YoastSEO.analyzerConfig.maxMeta ) {
+	if ( metaDescription.length > analyzerConfig.maxMeta ) {
 		addClass( this.element.input.metaDesc, "snippet-editor__field--invalid" );
 	} else {
 		removeClass( this.element.input.metaDesc, "snippet-editor__field--invalid" );
@@ -907,7 +930,7 @@ SnippetPreview.prototype.updateProgressBars = function() {
 	updateProgressBar(
 		this.element.progress.metaDesc,
 		metaDescription.length,
-		YoastSEO.analyzerConfig.maxMeta,
+		analyzerConfig.maxMeta,
 		metaDescriptionRating
 	);
 };
@@ -1083,6 +1106,39 @@ SnippetPreview.prototype._updateHoverCarets = function() {
 
 		addClass( hoveredLabel, "snippet-editor__label--hover" );
 	}
+};
+
+/**
+ * Updates the title data and the the title input field. This also means the snippet editor view is updated.
+ *
+ * @param {string} title
+ */
+SnippetPreview.prototype.setTitle = function( title ) {
+	this.element.input.title.value = title;
+
+	this.changedInput();
+};
+
+/**
+ * Updates the url path data and the the url path input field. This also means the snippet editor view is updated.
+ *
+ * @param {string} urlPath
+ */
+SnippetPreview.prototype.setUrlPath = function( urlPath ) {
+	this.element.input.urlPath.value = urlPath;
+
+	this.changedInput();
+};
+
+/**
+ * Updates the meta description data and the the meta description input field. This also means the snippet editor view is updated.
+ *
+ * @param {string} metaDesc
+ */
+SnippetPreview.prototype.setTitle = function( metaDesc ) {
+	this.element.input.metaDesc.value = metaDesc;
+
+	this.changedInput();
 };
 
 /* jshint ignore:start */
