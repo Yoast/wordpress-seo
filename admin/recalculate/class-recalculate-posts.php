@@ -60,6 +60,7 @@ class WPSEO_Recalculate_Posts extends WPSEO_Recalculate {
 		$focus_keyword = WPSEO_Meta::get_value( 'focuskw', $item->ID );
 
 		$content = $item->post_content;
+
 		/**
 		 * Filter the post content for use in the SEO score recalculation.
 		 *

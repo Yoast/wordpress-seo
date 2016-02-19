@@ -49,7 +49,7 @@ abstract class WPSEO_Recalculate {
 	 *
 	 * @param int $paged The current page number.
 	 *
-	 * @return string
+	 * @return array Items that can be recalculated.
 	 */
 	public function get_items_to_recalculate( $paged ) {
 		$return = array();

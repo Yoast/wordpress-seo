@@ -80,6 +80,8 @@ class WPSEO_Recalculate_Posts_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Test adding content to the post
+	 *
+	 * @covers WPSEO_Recalculate_Posts::get_items_to_recalculate
 	 */
 	public function test_add_content() {
 		WPSEO_Meta::set_value( 'focuskw', 'focus keyword', $this->posts[1] );
@@ -98,6 +100,8 @@ class WPSEO_Recalculate_Posts_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Test adding content to the post with a shortcode
+	 *
+	 * @covers WPSEO_Recalculate_Posts::get_items_to_recalculate
 	 */
 	public function test_add_content_with_shortcode() {
 		WPSEO_Meta::set_value( 'focuskw', 'focus keyword', $this->posts[1] );
