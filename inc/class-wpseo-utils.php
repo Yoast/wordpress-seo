@@ -615,15 +615,28 @@ class WPSEO_Utils {
 	 * @param string $postfix The part after the type in the cache key. Only the length is used.
 	 *
 	 * @return string The type with a safe length to use
+	 *
+	 * @throws Exception
 	 */
 	private static function get_safe_sitemap_cache_type( $type, $prefix = '', $postfix = '' ) {
 		// Length of key should not be over 53.
-		$max_length = 53 - ( strlen( $prefix ) + strlen( $postfix ) );
-
-		// If we go below 15 problems with overlap will surely occur.
-		$max_length = max( 15, $max_length );
+		$max_length = 53;
+		$max_length -= strlen( $prefix );
+		$max_length -= strlen( $postfix );
 
 		if ( strlen( $type ) > $max_length ) {
+
+			if ( $max_length < 15 ) {
+				/**
+				 * If this happens the most likely cause is a 'page' that is too big.
+				 * "Normally" the max_length is 24 + strlen( page ), which is unlikely to go above 10 in the first place.
+				 *
+				 * So this would not happen unintentionally..
+				 * Either by trying to cause a high server load, finding backdoors or misconfiguration.
+				 */
+				throw new OutOfRangeException( 'Trying to build a safe sitemap cache key, but the postfix and prefix combination leaves too little room to do this. You are probably requesting a page that is way out of expected range.' );
+			}
+
 			$half = ( $max_length / 2 );
 
 			$first_part = substr( $type, 0, ( ceil( $half ) - 1 ) );
