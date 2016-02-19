@@ -436,9 +436,6 @@ class WPSEO_Utils {
 	/**
 	 * Flush W3TC cache after succesfull update/add of taxonomy meta option
 	 *
-	 * @todo [JRF => whomever] check the above and this function to see if they should be combined or really
-	 * do something significantly different
-	 *
 	 * @static
 	 */
 	public static function flush_w3tc_cache() {
@@ -464,7 +461,12 @@ class WPSEO_Utils {
 	 */
 	public static function register_cache_clear_option( $option, $type = '' ) {
 		self::$cache_clear[ $option ] = $type;
-		add_action( 'update_option', array( 'WPSEO_Utils', 'clear_transient_cache' ) );
+
+		$function = array( __CLASS__, 'clear_transient_cache' );
+		$hook = 'update_option';
+		if ( ! has_action( $hook, $function ) ) {
+			add_action( $hook, $function );
+		}
 	}
 
 	/**
@@ -568,6 +570,15 @@ class WPSEO_Utils {
 	}
 
 	/**
+	 * Get the sitemap cache key prefix
+	 *
+	 * @return string
+	 */
+	public static function get_sitemap_cache_key_prefix() {
+		return self::$sitemap_cache_key_prefix;
+	}
+
+	/**
 	 * Get the cache key for a certain type and page
 	 *
 	 * @param null|string $type The type to get the key for. Null or '1' for index cache.
@@ -577,7 +588,7 @@ class WPSEO_Utils {
 	 */
 	public static function get_sitemap_cache_key( $type = null, $page = 1 ) {
 		// Using '1' for sitemap index cache.
-		$type = is_null( $type ) ? 1 : $type;
+		$type = is_null( $type ) ? '1' : $type;
 
 		$global_cache_validator = self::get_sitemap_cache_validator();
 		$type_cache_validator   = self::get_sitemap_cache_validator( $type );
@@ -607,9 +618,7 @@ class WPSEO_Utils {
 	 */
 	private static function get_safe_sitemap_cache_type( $type, $prefix = '', $postfix = '' ) {
 		// Length of key should not be over 53.
-		$max_length = 53;
-		$max_length -= strlen( $prefix );
-		$max_length -= strlen( $postfix );
+		$max_length = 53 - ( strlen( $prefix ) + strlen( $postfix ) );
 
 		// If we go below 15 problems with overlap will surely occur.
 		$max_length = max( 15, $max_length );
@@ -618,7 +627,7 @@ class WPSEO_Utils {
 			$half = ( $max_length / 2 );
 
 			$first_part = substr( $type, 0, ( ceil( $half ) - 1 ) );
-			$last_part  = substr( $type, ( - 1 - floor( $half ) ) );
+			$last_part  = substr( $type, ( 1 - floor( $half ) ) );
 
 			$type = $first_part . '..' . $last_part;
 		}
@@ -633,7 +642,7 @@ class WPSEO_Utils {
 	 *
 	 * @return string Validator to be used to generate the cache key.
 	 */
-	private static function get_sitemap_cache_validator_key( $type = null ) {
+	public static function get_sitemap_cache_validator_key( $type = null ) {
 		if ( is_null( $type ) ) {
 			return 'wpseo_sitemap_cache_validator_global';
 		}
