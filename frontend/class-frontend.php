@@ -1538,18 +1538,7 @@ class WPSEO_Frontend {
 		global $wp_query;
 
 		// Recreate current URL.
-		$cururl = 'http';
-		if ( isset( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] == 'on' ) {
-			$cururl .= 's';
-		}
-		$cururl .= '://';
-
-		if ( $_SERVER['SERVER_PORT'] != '80' && $_SERVER['SERVER_PORT'] != '443' ) {
-			$cururl .= $_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'] . $_SERVER['REQUEST_URI'];
-		}
-		else {
-			$cururl .= $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
-		}
+		$cururl = home_url( sanitize_text_field( filter_input( INPUT_SERVER, 'REQUEST_URI' ) ) );
 		$properurl = '';
 
 		if ( is_singular() ) {
