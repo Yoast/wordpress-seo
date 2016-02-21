@@ -152,6 +152,10 @@ $yform->admin_header( true, 'wpseo_titles' );
 			$taxonomies = get_taxonomies( array( 'public' => true ), 'objects' );
 			if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
 				foreach ( $taxonomies as $tax ) {
+					// Explicitly hide all the core taxonomies we never want to do stuff for
+					if ( in_array( $tax->name, array( 'link_category', 'nav_menu', 'post_format' ) ) ) {
+						continue;
+					}
 					echo "<div id='". esc_attr( $tax->name ) ."-titles-metas'>";
 					echo '<h4>' . esc_html( ucfirst( $tax->labels->name ) ) . '</h4>';
 					$yform->textinput( 'title-tax-' . $tax->name, __( 'Title template', 'wordpress-seo' ), 'template taxonomy-template' );
