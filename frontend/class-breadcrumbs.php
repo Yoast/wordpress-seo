@@ -488,7 +488,7 @@ class WPSEO_Breadcrumbs {
 	 */
 	private function maybe_add_pt_archive_crumb_for_post() {
 		// Never do this for the Post type archive for posts, as that would break `maybe_add_blog_crumb`
-		if ( $this->post->post_type === 'post' && $this->page_for_posts ) {
+		if ( $this->post->post_type === 'post' ) {
 			return;
 		}
 		if ( isset( $this->post->post_type ) && get_post_type_archive_link( $this->post->post_type ) ) {
