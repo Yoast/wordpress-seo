@@ -180,7 +180,6 @@ class WPSEO_Meta {
 					'-'            => '', // Site-wide default - translation added later.
 					'none'         => '', // Translation added later.
 					'noodp'        => '', // Translation added later.
-					'noydir'       => '', // Translation added later.
 					'noimageindex' => '', // Translation added later.
 					'noarchive'    => '', // Translation added later.
 					'nosnippet'    => '', // Translation added later.
@@ -397,15 +396,12 @@ class WPSEO_Meta {
 				$field_defs['meta-robots-noindex']['options']['0'] = sprintf( $field_defs['meta-robots-noindex']['options']['0'], ( ( isset( $options[ 'noindex-' . $post_type ] ) && $options[ 'noindex-' . $post_type ] === true ) ? 'noindex' : 'index' ) );
 
 				/* Adjust the robots advanced 'site-wide default' text string based on those settings */
-				if ( $options['noodp'] !== false || $options['noydir'] !== false ) {
+				if ( $options['noodp'] !== false ) {
 					$robots_adv = array();
-					foreach ( array( 'noodp', 'noydir' ) as $robot ) {
-						if ( $options[ $robot ] === true ) {
-							// Use translation from field def options - mind that $options and $field_def['options'] keys should be the same!
-							$robots_adv[] = $field_defs['meta-robots-adv']['options'][ $robot ];
-						}
+					if ( $options[ 'noodp' ] === true ) {
+						// Use translation from field def options - mind that $options and $field_def['options'] keys should be the same!
+						$robots_adv[] = $field_defs['meta-robots-adv']['options']['noodp'];
 					}
-					unset( $robot );
 					$robots_adv = implode( ', ', $robots_adv );
 				}
 				else {

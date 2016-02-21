@@ -90,15 +90,13 @@ class WPSEO_Import_External {
 				if ( isset( $custom['_headspace_noodp'] ) ) {
 					$robotsmeta_adv .= 'noodp,';
 				}
-				if ( isset( $custom['_headspace_noydir'] ) ) {
-					$robotsmeta_adv .= 'noydir';
-				}
 				$robotsmeta_adv = preg_replace( '`,$`', '', $robotsmeta_adv );
 				WPSEO_Meta::set_value( 'meta-robots-adv', $robotsmeta_adv, $post->ID );
 			}
 		}
 
 		if ( $this->replace ) {
+			// We no longer use noydir, but we remove the meta key as it's uneeded
 			$hs_meta = array( 'noarchive', 'noodp', 'noydir' );
 			foreach ( $hs_meta as $meta ) {
 				delete_post_meta_by_key( '_headspace_' . $meta );
