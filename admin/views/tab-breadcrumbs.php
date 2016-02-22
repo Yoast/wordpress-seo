@@ -14,7 +14,7 @@ $yform = Yoast_Form::get_instance();
 $yform->currentoption = 'wpseo_internallinks';
 
 if ( ! current_theme_supports( 'yoast-seo-breadcrumbs' ) ) {
-	$yform->checkbox( 'breadcrumbs-enable', __( 'Enable Breadcrumbs', 'wordpress-seo' ) );
+	$yform->light_switch( 'breadcrumbs-enable', __( 'Enable Breadcrumbs', 'wordpress-seo' ) );
 	echo '<br/>';
 }
 echo '<div id="breadcrumbsinfo">';
@@ -26,9 +26,15 @@ $yform->textinput( 'breadcrumbs-searchprefix', __( 'Prefix for Search Page bread
 $yform->textinput( 'breadcrumbs-404crumb', __( 'Breadcrumb for 404 Page', 'wordpress-seo' ) );
 echo '<br/>';
 if ( get_option( 'show_on_front' ) == 'page' && get_option( 'page_for_posts' ) > 0 ) {
-	$yform->checkbox( 'breadcrumbs-blog-remove', __( 'Remove Blog page from Breadcrumbs', 'wordpress-seo' ) );
+	$yform->toggle_switch( 'breadcrumbs-blog-remove', array(
+		'off' => __( 'Show', 'wordpress-seo' ),
+		'on' => __( 'Hide', 'wordpress-seo' ),
+	), __( 'Show Blog page', 'wordpress-seo' ) );
 }
-$yform->checkbox( 'breadcrumbs-boldlast', __( 'Bold the last page in the breadcrumb', 'wordpress-seo' ) );
+$yform->toggle_switch( 'breadcrumbs-boldlast', array(
+	'on'  => __( 'Bold', 'wordpress-seo' ),
+	'off' => __( 'Regular', 'wordpress-seo' ),
+), __( 'Bold the last page', 'wordpress-seo' ) );
 echo '<br/><br/>';
 
 $post_types = get_post_types( array( 'public' => true ), 'objects' );

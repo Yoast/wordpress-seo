@@ -294,6 +294,48 @@ class Yoast_Form {
 	}
 
 	/**
+	 * Create a light switch input field.
+	 *
+	 * @param string  $var        The variable within the option to create the checkbox for.
+	 * @param string  $label      The label to show for the variable.
+	 * @param array   $buttons    Array of two labels for the buttons (defaults Off/On).
+	 * @param boolean $reverse    Reverse order of buttons (default true).
+	 */
+	public function light_switch( $var, $label, $buttons = array(), $reverse = true ) {
+
+		if ( ! isset( $this->options[ $var ] ) ) {
+			$this->options[ $var ] = false;
+		}
+
+		if ( $this->options[ $var ] === true ) {
+			$this->options[ $var ] = 'on';
+		}
+
+		$class = 'switch-light switch-candy switch-yoast-seo';
+
+		if ( $reverse ) {
+			$class .= ' switch-yoast-seo-reverse';
+		}
+
+		if ( empty( $buttons ) ) {
+			$buttons = array( __( 'Disabled', 'wordpress-seo' ), __( 'Enabled', 'wordpress-seo' ) );
+		}
+
+		list( $off_button, $on_button ) = $buttons;
+
+		echo '<div class="switch-container">',
+		'<label class="', esc_attr( $class ), '" onclick="">',
+		'<input type="checkbox" id="', esc_attr( $var ), '" name="', esc_attr( $this->option_name ), '[', esc_attr( $var ), ']" value="on"', checked( $this->options[ $var ], 'on', false ), '/>',
+		"<h4>{$label}</h4>",
+		'<span aria-hidden="true">
+			<span>', esc_html( $off_button ) ,'</span>
+			<span>', esc_html( $on_button ) ,'</span>
+			<a></a>
+		 </span>
+		 </label><div class="clear"></div></div>';
+	}
+
+	/**
 	 * Create a Text input field.
 	 *
 	 * @param string       $var   The variable within the option to create the text input field for.
@@ -459,5 +501,43 @@ class Yoast_Form {
 		}
 		echo '<div class="clear"></div>';
 		echo '</div><br/>';
+	}
+
+
+	/**
+	 * Create a toggle switch input field.
+	 *
+	 * @param string $var    The variable within the option to create the file upload field for.
+	 * @param array  $values The radio options to choose from.
+	 * @param string $label  The label to show for the variable.
+	 */
+	public function toggle_switch( $var, $values, $label ) {
+		if ( ! is_array( $values ) || $values === array() ) {
+			return;
+		}
+		if ( ! isset( $this->options[ $var ] ) ) {
+			$this->options[ $var ] = false;
+		}
+		if ( $this->options[ $var ] === true ) {
+			$this->options[ $var ] = 'on';
+		}
+		if ( $this->options[ $var ] === false ) {
+			$this->options[ $var ] = 'off';
+		}
+
+		$var_esc = esc_attr( $var );
+
+		echo '<div class="switch-container">';
+		echo '<fieldset id="', $var_esc, '" class="fieldset-switch-toggle" ><legend>', $label, '</legend>
+	<div class="switch-toggle switch-candy switch-yoast-seo">';
+
+		foreach ( $values as $key => $value ) {
+			$key_esc = esc_attr( $key );
+			$for     = $var_esc . '-' . $key_esc;
+			echo '<input type="radio" id="' . $for . '" name="' . esc_attr( $this->option_name ) . '[' . $var_esc . ']" value="' . $key_esc . '" ' . checked( $this->options[ $var ], $key_esc, false ) . ' />',
+			'<label for="', $for, '" onclick="">', $value, '</label>';
+		}
+
+		echo '<a></a></div></fieldset><div class="clear"></div></div>' . "\n\n";
 	}
 }

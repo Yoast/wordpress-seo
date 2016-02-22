@@ -680,7 +680,7 @@ class WPSEO_Utils {
 		$replacement = WPSEO_Options::get_default( 'wpseo_titles', 'separator' );
 
 		// Get the titles option and the separator options.
-		$titles_options    = get_option( 'wpseo_titles' );
+		$titles_options    = WPSEO_Options::get_option( 'wpseo_titles' );
 		$seperator_options = WPSEO_Option_Titles::get_instance()->get_separator_options();
 
 		// This should always be set, but just to be sure.

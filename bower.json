@@ -1,6 +1,6 @@
 {
   "name": "yoast-wordpress-seo",
-  "version": "3.0.5",
+  "version": "3.0.7",
   "homepage": "https://github.com/Yoast/wordpress-seo",
   "authors": [
     "Yoast.com"
@@ -12,14 +12,13 @@
     "path": {
       "css": "css/dist",
       "js": "js/dist",
-      "png": "css/dist"
+      "svg": "css/dist"
     },
     "sources": {
       "yoast-seo": {
         "mapping": [
-          {"bower_components/yoast-seo/dist/yoast-seo.min.css": "yoast-seo-305.min.css"},
-          {"bower_components/yoast-seo/dist/images/editicon.png": "editicon.png"},
-          {"bower_components/yoast-seo/dist/yoast-seo.min.js": "yoast-seo-305.min.js"}
+          {"bower_components/yoast-seo/dist/yoast-seo.min.css": "yoast-seo-307.min.css"},
+          {"bower_components/yoast-seo/dist/yoast-seo.min.js": "yoast-seo-307.min.js"}
         ]
       }
     }

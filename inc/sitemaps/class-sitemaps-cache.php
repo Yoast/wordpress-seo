@@ -135,7 +135,7 @@ class WPSEO_Sitemaps_Cache {
 		}
 
 		// Not sure about efficiency, but that's what code elsewhere does R.
-		$options = WPSEO_Options::get_all();
+		$options = WPSEO_Options::get_option( 'wpseo_xml' );
 
 		if ( true !== $options['enablexmlsitemap'] ) {
 			return false;

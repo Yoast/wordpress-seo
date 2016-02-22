@@ -37,9 +37,10 @@
 	YoastReplaceVarPlugin.prototype.replaceVariablesPlugin = function( data ) {
 		if( typeof data !== 'undefined' ) {
 			data = this.titleReplace( data );
+			data = this.termtitleReplace( data );
 			data = this.defaultReplace( data );
 			data = this.parentReplace( data );
-			data = this.doubleSepReplace( data );
+			data = this.replaceSeparators( data );
 			data = this.excerptReplace( data );
 		}
 		return data;
@@ -52,11 +53,21 @@
 	 */
 	YoastReplaceVarPlugin.prototype.titleReplace = function( data ) {
 		var title = YoastSEO.app.rawData.title;
-		if ( typeof title === 'undefined' ) {
-			title = YoastSEO.app.rawData.pageTitle;
-		}
 
 		data = data.replace( /%%title%%/g, title );
+
+		return data;
+	};
+
+	/**
+	 * Replaces %%term_title%% with the title of the term
+	 * @param {String} data the data to replace the term_title var
+	 * @returns {String} the data with the replaced variables
+	 */
+	YoastReplaceVarPlugin.prototype.termtitleReplace = function( data ) {
+		var term_title = YoastSEO.app.rawData.name;
+
+		data = data.replace( /%%term_title%%/g, term_title);
 
 		return data;
 	};
@@ -77,16 +88,13 @@
 	};
 
 	/**
-	 * removes double seperators and replaces them with a single seperator
+	 * Replaces separators in the string.
 	 *
 	 * @param {String} data
 	 * @returns {String}
 	 */
-	YoastReplaceVarPlugin.prototype.doubleSepReplace = function( data ) {
-		var escaped_seperator = YoastSEO.app.stringHelper.addEscapeChars( this.replaceVars.sep );
-		var pattern = new RegExp( escaped_seperator + ' ' + escaped_seperator, 'g' );
-		data = data.replace( pattern, this.replaceVars.sep );
-		return data;
+	YoastReplaceVarPlugin.prototype.replaceSeparators = function( data ) {
+		return data.replace( /%%sep%%(\s+%%sep%%)*/g, this.replaceVars.sep );
 	};
 
 	/**
@@ -110,6 +118,8 @@
 	 * @return {String}
 	 */
 	YoastReplaceVarPlugin.prototype.defaultReplace = function( textString ) {
+		var focusKeyword = YoastSEO.app.rawData.keyword;
+
 		return textString.replace( /%%sitedesc%%/g, this.replaceVars.sitedesc )
 			.replace( /%%sitename%%/g, this.replaceVars.sitename )
 			.replace( /%%term_title%%/g, this.replaceVars.term_title )
@@ -117,7 +127,6 @@
 			.replace( /%%category_description%%/g, this.replaceVars.category_description )
 			.replace( /%%tag_description%%/g, this.replaceVars.tag_description )
 			.replace( /%%searchphrase%%/g, this.replaceVars.searchphrase )
-			.replace( /%%sep%%/g, this.replaceVars.sep )
 			.replace( /%%date%%/g, this.replaceVars.date )
 			.replace( /%%id%%/g, this.replaceVars.id )
 			.replace( /%%page%%/g, this.replaceVars.page )
@@ -126,7 +135,7 @@
 			.replace( /%%currentday%%/g, this.replaceVars.currentday )
 			.replace( /%%currentmonth%%/g, this.replaceVars.currentmonth )
 			.replace( /%%currentyear%%/g, this.replaceVars.currentyear )
-			.replace( /%%focuskw%%/g, YoastSEO.app.stringHelper.stripAllTags( YoastSEO.app.rawData.keyword ) );
+			.replace( /%%focuskw%%/g, focusKeyword );
 	};
 
 	window.YoastReplaceVarPlugin = YoastReplaceVarPlugin;

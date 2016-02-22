@@ -2,6 +2,9 @@
 (function( $ ) {
 	'use strict';
 
+	var snippetPreview;
+	var termSlugInput;
+
 	var TermScraper = function() {
 		if ( typeof CKEDITOR === 'object' ) {
 			console.warn( 'YoastSEO currently doesn\'t support ckEditor. The content analysis currently only works with the HTML editor or TinyMCE.' );
@@ -14,6 +17,7 @@
 	 */
 	TermScraper.prototype.getData = function() {
 		return {
+			name: this.getDataFromInput( 'name' ),
 			title: this.getDataFromInput( 'title' ),
 			keyword: this.getDataFromInput( 'keyword' ),
 			text: this.getDataFromInput( 'text' ),
@@ -43,13 +47,13 @@
 					elem.placeholder = val;
 				}
 				break;
+			case 'name':
+				val = document.getElementById( 'name' ).value;
+				break;
 			case 'meta':
 				elem = document.getElementById( 'hidden_wpseo_desc' );
 				if ( elem !== null ) {
 					val = elem.value;
-				}
-				if ( val === '' ) {
-					val = wpseoTermScraperL10n.metadesc_template;
 				}
 				break;
 			case 'snippetMeta':
@@ -63,12 +67,6 @@
 				break;
 			case 'pageTitle':
 				val = document.getElementById( 'hidden_wpseo_title' ).value;
-				if ( val === '' ) {
-					val = wpseoTermScraperL10n.title_template;
-				}
-				if (val === '' ) {
-					val = '%%title%% - %%sitename%%';
-				}
 				break;
 			case 'title':
 				val = document.getElementById( 'hidden_wpseo_title' ).value;
@@ -79,13 +77,6 @@
 				break;
 			case 'baseUrl':
 				val = wpseoTermScraperL10n.base_url;
-				break;
-
-			case 'cite':
-				elem = document.getElementById( 'snippet_cite' );
-				if ( elem !== null ) {
-					val = elem.textContent;
-				}
 				break;
 		}
 		return val;
@@ -126,56 +117,25 @@
 	};
 
 	/**
+	 * The data passed from the snippet editor.
+	 *
+	 * @param {Object} data
+	 * @param {string} data.title
+	 * @param {string} data.urlPath
+	 * @param {string} data.metaDesc
+	 */
+	TermScraper.prototype.saveSnippetData = function( data ) {
+		this.setDataFromSnippet( data.title, 'snippet_title' );
+		this.setDataFromSnippet( data.urlPath, 'snippet_cite' );
+		this.setDataFromSnippet( data.metaDesc, 'snippet_meta' );
+	};
+
+	/**
 	 * binds elements
 	 */
 	TermScraper.prototype.bindElementEvents = function( app ) {
-		this.snippetPreviewEventBinder ( app.snippetPreview );
 		this.inputElementEventBinder( app );
 		document.getElementById( 'wpseo_focuskw' ).addEventListener( 'keydown', app.snippetPreview.disableEnter );
-	};
-
-	/**
-	 * binds the getinputfieldsdata to the snippetelements.
-	 *
-	 * @param {YoastSEO.SnippetPreview} snippetPreview The snippet preview object to bind the events on.
-	 */
-	TermScraper.prototype.snippetPreviewEventBinder = function( snippetPreview ) {
-		var elems = [ 'snippet_meta', 'snippet_title', 'snippet_cite' ];
-
-		for ( var i = 0; i < elems.length; i++ ) {
-			this.bindSnippetEvents( document.getElementById( elems [ i ] ), snippetPreview );
-		}
-	};
-
-	/**
-	 * binds the snippetEvents to a snippet element.
-	 * @param { HTMLElement } elem snippet_meta, snippet_title, snippet_cite
-	 * @param { YoastSEO.SnippetPreview } snippetPreview
-	 */
-	TermScraper.prototype.bindSnippetEvents = function( elem, snippetPreview ) {
-		elem.addEventListener( 'keydown', snippetPreview.disableEnter.bind( snippetPreview ) );
-		//textFeedback is given on input (when user types or pastests), but also on focus. If a string that is too long is being recalled
-		//from the saved values, it gets the correct classname right away.
-		elem.addEventListener( 'input', snippetPreview.textFeedback.bind( snippetPreview ) );
-		elem.addEventListener( 'focus', snippetPreview.textFeedback.bind( snippetPreview ) );
-		elem.addEventListener( 'blur', snippetPreview.textFeedback.bind( snippetPreview ) );
-		//shows edit icon by hovering over element
-		elem.addEventListener( 'mouseover', snippetPreview.showEditIcon.bind( snippetPreview ) );
-		//hides the edit icon onmouseout, on focus and on keyup. If user clicks or types AND moves his mouse, the edit icon could return while editting
-		//by binding to these 3 events
-		elem.addEventListener( 'mouseout', snippetPreview.hideEditIcon.bind( snippetPreview ) );
-		elem.addEventListener( 'focus', snippetPreview.hideEditIcon.bind( snippetPreview ) );
-		elem.addEventListener( 'keyup', snippetPreview.hideEditIcon.bind( snippetPreview ) );
-
-		//adds 'paste' and 'cut' eventbindings to the snippetPreview to make sure event is triggered when c/p with mouse.
-		elem.addEventListener( 'focus', snippetPreview.getUnformattedText.bind( snippetPreview ) );
-		elem.addEventListener( 'keyup', snippetPreview.setUnformattedText.bind( snippetPreview ) );
-		elem.addEventListener( 'paste', snippetPreview.setUnformattedText.bind( snippetPreview ) );
-		elem.addEventListener( 'cut', snippetPreview.setUnformattedText.bind( snippetPreview ) );
-		elem.addEventListener( 'click', snippetPreview.setFocus.bind( snippetPreview ) );
-
-		//adds the showIcon class to show the editIcon;
-		elem.className = elem.className + ' showIcon' ;
 	};
 
 	/**
@@ -216,8 +176,8 @@
 		alt = YoastSEO.app.scoreFormatter.getSEOScoreText( cssClass );
 
 		$( '.yst-traffic-light' )
-				.attr( 'class', 'yst-traffic-light ' + cssClass )
-				.attr( 'alt', alt );
+			.attr( 'class', 'yst-traffic-light ' + cssClass )
+			.attr( 'alt', alt );
 	};
 
 	/**
@@ -282,39 +242,10 @@
 	};
 
 	/**
-	 * Updates the snippet values, is bound by the loader when generating the elements for the snippet.
-	 * calls the update snippet values to save snippet in the hidden fields
-	 * calls checkTextLength to update the snippet editor fields (move too long texts)
-	 * refreshes the app to run with new data.
-	 *
-	 * @param {Object} ev
-	 */
-	TermScraper.prototype.updateSnippet = function( ev ) {
-		this.updateSnippetValues( ev );
-		YoastSEO.app.snippetPreview.checkTextLength( ev );
-		YoastSEO.app.analyzeTimer();
-	};
-
-	/**
-	 * Uses the unformattedText object of the snippetpreview if the textFeedback function has put a string there (if text was too long).
-	 * clears this after use.
-	 *
-	 * @param {Object} ev
-	 */
-	TermScraper.prototype.updateSnippetValues = function( ev ) {
-		var dataFromSnippet = ev.currentTarget.textContent;
-		var currentElement = ev.currentTarget.id;
-		if ( typeof YoastSEO.app.snippetPreview.unformattedText[ currentElement ] !== 'undefined' ) {
-			ev.currentTarget.textContent = YoastSEO.app.snippetPreview.unformattedText[ currentElement ];
-		}
-		this.setDataFromSnippet( dataFromSnippet, ev.currentTarget.id );
-	};
-
-	/**
 	 * add new descriptionfield to content, creates new element via wp_editor and appends this to the term-description-wrap
 	 * this way we can use the wp tinyMCE editor on the descriptionfield.
 	 */
-	var tinyMCEReplacer = function() {
+	var insertTinyMCE = function() {
 		//gets the textNode from the original textField.
 		var textNode = jQuery( '.term-description-wrap' ).find( 'td' ).find( 'textarea' ).val();
 
@@ -329,82 +260,116 @@
 		document.getElementById('description').value = textNode;
 	};
 
-	jQuery( document ).ready(function() {
-		tinyMCEReplacer();
-		var termScraper = new TermScraper();
+	/**
+	 * Initializes the snippet preview
+	 *
+	 * @param {TermScraper} termScraper
+	 * @returns {YoastSEO.SnippetPreview}
+	 */
+	function initSnippetPreview( termScraper ) {
+		var data = termScraper.getData();
 
-		YoastSEO.analyzerArgs = {
-			//if it must run the analyzer
-			analyzer: true,
-			//if it uses ajax to get data
-			ajax: true,
-			//if it must generate snippetpreview
-			snippetPreview: true,
-			//string to be added to the snippetTitle
-			snippetSuffix: ' ' + wpseoTermScraperL10n.sep + ' ' + wpseoTermScraperL10n.sitename,
-			//element Target Array
-			elementTarget: ['content', 'yoast_wpseo_focuskw', 'yoast_wpseo_metadesc', 'excerpt', 'editable-post-name', 'editable-post-name-full'],
-			//replacement target array, elements that must trigger the replace variables function.
-			replaceTarget: ['yoast_wpseo_metadesc', 'excerpt', 'yoast_wpseo_title'],
-			//rest target array, elements that must be reset on focus
-			resetTarget: ['snippet_meta', 'snippet_title', 'snippet_cite'],
-			//typeDelay is used as the timeout between stopping with typing and triggering the analyzer
-			typeDelay: 300,
-			//Dynamic delay makes sure the delay is increased if the analyzer takes longer than the default, to prevent slow systems.
-			typeDelayStep: 100,
-			maxTypeDelay: 1500,
-			dynamicDelay: true,
-			//used for multiple keywords (future use)
-			multiKeyword: false,
-			//targets for the objects
+		var snippetPreviewArgs = {
+			targetElement: document.getElementById( 'wpseo_snippet' ),
+			placeholder: {
+				urlPath: ''
+			},
+			defaultValue: {},
+			baseURL: wpseoTermScraperL10n.base_url,
+			callbacks: {
+				saveSnippetData: termScraper.saveSnippetData.bind( termScraper )
+			},
+			metaDescriptionDate: wpseoTermScraperL10n.metaDescriptionDate,
+			data: {
+				title: data.snippetTitle,
+				urlPath: data.snippetCite,
+				metaDesc: data.snippetMeta
+			}
+		};
+
+		var titlePlaceholder = wpseoTermScraperL10n.title_template;
+		if ( titlePlaceholder === '' ) {
+			titlePlaceholder = '%%title%% - %%sitename%%';
+		}
+		snippetPreviewArgs.placeholder.title = titlePlaceholder;
+		snippetPreviewArgs.defaultValue.title = titlePlaceholder;
+
+		var metaPlaceholder = wpseoTermScraperL10n.metadesc_template;
+		if ( metaPlaceholder !== '' ) {
+			snippetPreviewArgs.placeholder.metaDesc = metaPlaceholder;
+			snippetPreviewArgs.defaultValue.metaDesc = metaPlaceholder;
+		}
+
+		return new YoastSEO.SnippetPreview( snippetPreviewArgs );
+	}
+
+	/**
+	 * Adds a watcher on the term slug input field
+	 */
+	function initTermSlugWatcher() {
+		termSlugInput = $( '#slug' );
+		termSlugInput.on( 'change', updatedTermSlug );
+	}
+
+	/**
+	 * Function to handle when the user updates the term slug
+	 */
+	function updatedTermSlug() {
+		snippetPreview.setUrlPath( termSlugInput.val() );
+	}
+
+	jQuery( document ).ready(function() {
+		var args, termScraper, translations;
+
+		insertTinyMCE();
+
+		termScraper = new TermScraper();
+
+		args = {
+
+			// ID's of elements that need to trigger updating the analyzer.
+			elementTarget: [ 'content', 'yoast_wpseo_focuskw', 'yoast_wpseo_metadesc', 'excerpt', 'editable-post-name', 'editable-post-name-full' ],
+
 			targets: {
 				output: 'wpseo_analysis',
 				snippet: 'wpseo_snippet'
 			},
-			translations: wpseoTermScraperL10n.translations,
-			queue: ['wordCount',
-				'keywordDensity',
-				'subHeadings',
-				'stopwords',
-				'fleschReading',
-				'linkCount',
-				'imageCount',
-				'urlKeyword',
-				'urlLength',
-				'metaDescription',
-				'pageTitleKeyword',
-				'pageTitleLength',
-				'firstParagraph'],
+
 			usedKeywords: wpseoTermScraperL10n.keyword_usage,
 			searchUrl: '<a target="new" href=' + wpseoTermScraperL10n.search_url + '>',
 			postUrl: '<a target="new" href=' + wpseoTermScraperL10n.post_edit_url + '>',
 			callbacks: {
 				getData: termScraper.getData.bind( termScraper ),
 				bindElementEvents: termScraper.bindElementEvents.bind( termScraper ),
-				updateSnippetValues: termScraper.updateSnippet.bind( termScraper ),
-				saveScores: termScraper.saveScores.bind( termScraper )
+				saveScores: termScraper.saveScores.bind( termScraper ),
+				saveSnippetData: termScraper.saveSnippetData.bind( termScraper )
 			},
 			locale: wpseoTermScraperL10n.locale
 		};
 
-		// If there are no translations let the analyzer fallback onto the english translations.
-		if (0 === wpseoTermScraperL10n.translations.length) {
-			delete( YoastSEO.analyzerArgs.translations );
-		} else {
-			// Make sure the correct text domain is set for analyzer.
-			var translations = wpseoTermScraperL10n.translations;
+		translations = wpseoTermScraperL10n.translations;
+		if ( translations.length > 0 ) {
 			translations.domain = 'js-text-analysis';
 			translations.locale_data['js-text-analysis'] = translations.locale_data['wordpress-seo'];
 			delete( translations.locale_data['wordpress-seo'] );
 
-			YoastSEO.analyzerArgs.translations = translations;
+			args.translations = translations;
 		}
-		window.YoastSEO.app = new YoastSEO.App( YoastSEO.analyzerArgs );
+
+		snippetPreview = initSnippetPreview( termScraper );
+		args.snippetPreview = snippetPreview;
+
+		window.YoastSEO.app = new YoastSEO.App( args );
 		jQuery( window ).trigger( 'YoastSEO:ready' );
 
 		termScraper.initKeywordTabTemplate();
 
-		//init Plugins
+		// Init Plugins.
 		new YoastReplaceVarPlugin();
+
+		// For backwards compatibility.
+		YoastSEO.analyzerArgs = args;
+
+		initTermSlugWatcher();
 	} );
 }( jQuery ));
