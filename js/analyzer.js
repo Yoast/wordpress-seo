@@ -57,13 +57,13 @@ var Analyzer = function( args ) {
  * YoastSEO.Analyzer initialization. Loads defaults and overloads custom settings.
  */
 Analyzer.prototype.init = function( args ) {
-
 	if ( isUndefined( args.paper ) ) {
 		args.paper = new Paper( args.keyword, args.text );
 	}
 
 	this.paper = args.paper;
 
+	this.config = args;
 	this.initDependencies();
 	this.formatKeyword();
 	this.initQueue();
