@@ -48,26 +48,6 @@ class WPSEO_Taxonomy {
 	}
 
 	/**
-	 * Translate options text strings for use in the select fields
-	 *
-	 * @internal IMPORTANT: if you want to add a new string (option) somewhere, make sure you add
-	 * that array key to the main options definition array in the class WPSEO_Taxonomy_Meta() as well!!!!
-	 */
-	public function translate_meta_options() {
-		$this->no_index_options        = WPSEO_Taxonomy_Meta::$no_index_options;
-		$this->sitemap_include_options = WPSEO_Taxonomy_Meta::$sitemap_include_options;
-
-		$this->no_index_options['default'] = __( 'Use %s default (Currently: %s)', 'wordpress-seo' );
-		$this->no_index_options['index']   = __( 'Always index', 'wordpress-seo' );
-		$this->no_index_options['noindex'] = __( 'Always noindex', 'wordpress-seo' );
-
-		$this->sitemap_include_options['-']      = __( 'Auto detect', 'wordpress-seo' );
-		$this->sitemap_include_options['always'] = __( 'Always include', 'wordpress-seo' );
-		$this->sitemap_include_options['never']  = __( 'Never include', 'wordpress-seo' );
-	}
-
-
-	/**
 	 * Test whether we are on a public taxonomy - no metabox actions needed if we are not
 	 * Unfortunately we have to hook most everything in before the point where all taxonomies are registered and
 	 * we know which taxonomy is being requested, so we need to use this check in nearly every hooked in function.
@@ -171,27 +151,6 @@ class WPSEO_Taxonomy {
 	}
 
 	/**
-	 * Check if metabox for current taxonomy should be displayed.
-	 *
-	 * @return bool
-	 */
-	private function show_metabox() {
-		$options    = WPSEO_Options::get_option( 'wpseo_titles' );
-		$option_key = 'hideeditbox-tax-' . $this->taxonomy;
-
-		return ( empty( $options[ $option_key ] ) );
-	}
-
-	/**
-	 * Getting the taxonomy from the URL
-	 *
-	 * @return string
-	 */
-	private function get_taxonomy() {
-		return filter_input( INPUT_GET, 'taxonomy', FILTER_DEFAULT, array( 'options' => array( 'default' => '' ) ) );
-	}
-
-	/**
 	 * Pass variables to js for use with the term-scraper
 	 *
 	 * @return array
@@ -216,6 +175,27 @@ class WPSEO_Taxonomy {
 			'no_parent_text' => __( '(no parent)', 'wordpress-seo' ),
 			'replace_vars'   => $this->get_replace_vars(),
 		);
+	}
+
+	/**
+	 * Check if metabox for current taxonomy should be displayed.
+	 *
+	 * @return bool
+	 */
+	private function show_metabox() {
+		$options    = WPSEO_Options::get_option( 'wpseo_titles' );
+		$option_key = 'hideeditbox-tax-' . $this->taxonomy;
+
+		return ( empty( $options[ $option_key ] ) );
+	}
+
+	/**
+	 * Getting the taxonomy from the URL
+	 *
+	 * @return string
+	 */
+	private function get_taxonomy() {
+		return filter_input( INPUT_GET, 'taxonomy', FILTER_DEFAULT, array( 'options' => array( 'default' => '' ) ) );
 	}
 
 	/**
@@ -285,6 +265,18 @@ class WPSEO_Taxonomy {
 		_deprecated_function( 'WPSEO_Taxonomy::get_metadesc_template', 'WPSEO 3.2', 'WPSEO_Term_Scraper::get_metadesc_template' );
 
 		return '';
+	}
+
+	/**
+	 * @deprecated 3.2
+	 *
+	 * Translate options text strings for use in the select fields
+	 *
+	 * @internal IMPORTANT: if you want to add a new string (option) somewhere, make sure you add
+	 * that array key to the main options definition array in the class WPSEO_Taxonomy_Meta() as well!!!!
+	 */
+	public function translate_meta_options() {
+		_deprecated_function( 'WPSEO_Taxonomy::translate_meta_options', 'WPSEO 3.2', 'WPSEO_Taxonomy_Settings_Fields::translate_meta_options' );
 	}
 
 } /* End of class */
