@@ -120,6 +120,14 @@ class WPSEO_Redirect_Ajax {
 		wp_die( WPSEO_Utils::json_encode( $response ) );
 	}
 
+	/**
+	 *
+	 *
+	 * @param string            $origin     origin URL
+	 * @param WPSEO_Redirect    $redirect   The redirect
+	 *
+	 * @return string
+	 */
 	private function format_origin_url( $origin, $redirect ) {
 		return apply_filters( 'wpseo_format_origin_redirect_column', $origin, $redirect );
 	}
