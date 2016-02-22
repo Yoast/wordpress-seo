@@ -216,22 +216,6 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Return the redirect by the origin url
-	 *
-	 * @param  string         $origin   origin url of redirect
-	 *
-	 * @return WPSEO_Redirect $redirect the redirect
-	 */
-	private function get_redirect_by_origin( $origin ) {
-
-		foreach( $this->redirects as $redirect ) {
-			if( $origin === $redirect->get_origin() ) {
-				return $redirect;
-			}
-		}
-	}
-
-	/**
 	 * Make sure the column_old is formatted correctly.
 	 *
 	 * @param  array $row the current row
@@ -252,8 +236,24 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	 *
 	 * @return string value to display in table.
 	 */
-	private function column_new( $row ){
+	protected function column_new( $row ){
 		return apply_filters( 'wpseo_format_target_redirect_column', $row['new'] );
+	}
+
+	/**
+	 * Return the redirect by the origin url
+	 *
+	 * @param  string         $origin   origin url of redirect
+	 *
+	 * @return WPSEO_Redirect $redirect the redirect
+	 */
+	private function get_redirect_by_origin( $origin ) {
+
+		foreach( $this->redirects as $redirect ) {
+			if( $origin === $redirect->get_origin() ) {
+				return $redirect;
+			}
+		}
 	}
 
 	/**
