@@ -275,7 +275,7 @@ class WPSEO_Sitemaps {
 		if ( ! $this->sitemap || '' == $this->sitemap ) {
 			$this->build_sitemap( $type );
 
-			// 404 for invalid or emtpy sitemaps.
+			// 404 for invalid or empty sitemaps.
 			if ( $this->bad_sitemap ) {
 				$GLOBALS['wp_query']->set_404();
 				status_header( 404 );
@@ -284,7 +284,17 @@ class WPSEO_Sitemaps {
 			}
 
 			if ( $caching ) {
-				set_transient( $sitemap_cache_key, $this->sitemap );
+				/**
+				 * We need to set a timeout, otherwise the transient is loaded every request!
+				 *
+				 * See: https://codex.wordpress.org/Function_Reference/set_transient
+				 * NB: transients that never expire are autoloaded, whereas transients with an expiration time
+				 * are not autoloaded. Consider this when adding transients that may not be needed on every
+				 * page, and thus do not need to be autoloaded, impacting page performance.
+				 *
+				 * Using 24h in seconds: 60*60*24 = 86400
+				 */
+				set_transient( $sitemap_cache_key, $this->sitemap, 86400 );
 			}
 		}
 		else {

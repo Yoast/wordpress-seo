@@ -26,7 +26,7 @@ class WPSEO_Utils {
 	/**
 	 * @var string Sitemap Cache key prefix
 	 */
-	private static $sitemap_cache_key_prefix = 'wpseo_sitemap_';
+	private static $sitemap_cache_key_prefix = 'yst_sm_';
 
 	const SITEMAP_INDEX_TYPE = '1';
 
@@ -633,6 +633,7 @@ class WPSEO_Utils {
 	private static function get_safe_sitemap_cache_type( $type, $prefix = '', $postfix = '' ) {
 		// Length of key should not be over 53.
 		$max_length = 53;
+		$max_length -= strlen( 'timeout_' );
 		$max_length -= strlen( $prefix );
 		$max_length -= strlen( $postfix );
 

@@ -60,7 +60,7 @@ class WPSEO_Utils_Sitemap_Cache_Test extends WPSEO_UnitTestCase {
 		update_option( $type_validator_key, $type_validator );
 
 		$prefix  = WPSEO_Utils::get_sitemap_cache_key_prefix();
-		$postfix = sprintf( ':%d:%s:%s', $n, $global_validator, $type_validator );
+		$postfix = sprintf( '_%d:%s_%s', $n, $global_validator, $type_validator );
 
 		$expected = $prefix . $type . $postfix;
 
@@ -72,7 +72,9 @@ class WPSEO_Utils_Sitemap_Cache_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Key length should never be over 53 characters
+	 * Key length should never be over 45 characters
+	 *
+	 * This would be 53 if we don't use a timeout, but we can't because all sitemaps would be autoloaded every request.
 	 */
 	public function test_get_sitemap_cache_key_very_long_type() {
 		$n    = 1;
@@ -82,7 +84,7 @@ class WPSEO_Utils_Sitemap_Cache_Test extends WPSEO_UnitTestCase {
 		$result = WPSEO_Utils::get_sitemap_cache_key( $type, $n );
 
 		// Assert
-		$this->assertEquals( 53, strlen( $result ) );
+		$this->assertEquals( 45, strlen( $result ) );
 	}
 
 	/**
