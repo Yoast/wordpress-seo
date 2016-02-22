@@ -188,7 +188,7 @@ $yform->admin_header( true, 'wpseo_titles' );
 		<div id="archives" class="wpseotab">
 			<?php
 			echo "<div id='author-archives-titles-metas'>";
-			echo '<h3>' . __( 'Author Archives', 'wordpress-seo' ) . '</h3>';
+			echo '<h3>' . __( 'Author archives', 'wordpress-seo' ) . '</h3>';
 			$yform->textinput( 'title-author-wpseo', __( 'Title template', 'wordpress-seo' ), 'template author-template' );
 			$yform->textarea( 'metadesc-author-wpseo', __( 'Meta description template', 'wordpress-seo' ), array( 'class' => 'template author-template' ) );
 			if ( $options['usemetakeywords'] === true ) {
@@ -196,7 +196,7 @@ $yform->admin_header( true, 'wpseo_titles' );
 			}
 			echo '</div>';
 			echo "<div id='date-archives-titles-metas'>";
-			echo '<h3>' . __( 'Date Archives', 'wordpress-seo' ) . '</h3>';
+			echo '<h3>' . __( 'Date archives', 'wordpress-seo' ) . '</h3>';
 			$yform->textinput( 'title-archive-wpseo', __( 'Title template', 'wordpress-seo' ), 'template date-template' );
 			$yform->textarea( 'metadesc-archive-wpseo', __( 'Meta description template', 'wordpress-seo' ), array( 'class' => 'template date-template' ) );
 			echo '</div>';
