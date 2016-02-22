@@ -1,6 +1,6 @@
 <?php
 /**
- * @package WPSEO\Admin|Formatter
+ * @package WPSEO\Admin\Formatter
  */
 
 /**

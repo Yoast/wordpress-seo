@@ -1,6 +1,6 @@
 <?php
 /**
- * @package WPSEO\Admin|Scraper
+ * @package WPSEO\Admin\Formatter
  */
 
 /**
