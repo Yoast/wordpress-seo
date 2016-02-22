@@ -68,7 +68,7 @@ Analyzer.prototype.checkConfig = function() {
  */
 Analyzer.prototype.init = function( args ) {
 	var metaValues = {
-		metaDescription: args.metaDescription
+		metaDescription: args.meta
 	};
 
 	if ( typeof args.paper === "undefined" ) {
