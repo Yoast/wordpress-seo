@@ -60,6 +60,9 @@ class WPSEO_Sitemaps_Admin {
 	 * @param \WP_Post $post       Post object.
 	 */
 	function status_transition( $new_status, $old_status, $post ) {
+		if ( defined( 'WP_IMPORTING' ) ) {
+			return;
+		}
 		if ( $new_status != 'publish' ) {
 			return;
 		}
