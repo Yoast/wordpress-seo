@@ -152,7 +152,7 @@ $yform->admin_header( true, 'wpseo_titles' );
 			$taxonomies = get_taxonomies( array( 'public' => true ), 'objects' );
 			if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
 				foreach ( $taxonomies as $tax ) {
-					// Explicitly hide all the core taxonomies we never want to do stuff for
+					// Explicitly hide all the core taxonomies we never want to do stuff for.
 					if ( in_array( $tax->name, array( 'link_category', 'nav_menu', 'post_format' ) ) ) {
 						continue;
 					}
