@@ -28,6 +28,8 @@ class WPSEO_Utils {
 	 */
 	private static $sitemap_cache_key_prefix = 'wpseo_sitemap_';
 
+	const SITEMAP_INDEX_TYPE = '1';
+
 	/**
 	 * Check whether the current user is allowed to access the configuration.
 	 *
@@ -462,8 +464,9 @@ class WPSEO_Utils {
 	public static function register_cache_clear_option( $option, $type = '' ) {
 		self::$cache_clear[ $option ] = $type;
 
+		$hook     = 'update_option';
 		$function = array( __CLASS__, 'clear_transient_cache' );
-		$hook = 'update_option';
+
 		if ( ! has_action( $hook, $function ) ) {
 			add_action( $hook, $function );
 		}
@@ -504,8 +507,8 @@ class WPSEO_Utils {
 		}
 
 		// Make sure the index cache always gets invalidated.
-		if ( ! in_array( '1', $types ) ) {
-			array_unshift( $types, '1' );
+		if ( ! in_array( self::SITEMAP_INDEX_TYPE, $types ) ) {
+			array_unshift( $types, self::SITEMAP_INDEX_TYPE );
 		}
 
 		// Invalidate separate type caches.
@@ -542,7 +545,7 @@ class WPSEO_Utils {
 	/**
 	 * Cleanup invalidated database cache
 	 *
-	 * @param null|string $type The type of sitemap to clear cache for.
+	 * @param null|string $type      The type of sitemap to clear cache for.
 	 * @param null|string $validator The validator to clear cache of.
 	 *
 	 * @return void
@@ -552,18 +555,25 @@ class WPSEO_Utils {
 
 		if ( is_null( $type ) ) {
 			// Clear all cache if no type is provided.
-			$where = sprintf( "option_name LIKE '_transient_%s%%'", self::$sitemap_cache_key_prefix );
+			$like = sprintf( '_transient_%s%%', self::$sitemap_cache_key_prefix );
 		}
 		else {
 			if ( ! is_null( $validator ) ) {
 				// Clear all cache for provided type-validator.
-				$where = sprintf( "option_name LIKE '_transient_%%_%s'", $validator );
+				$like = sprintf( '_transient_%%_%s', $validator );
 			}
 			else {
 				// Clear type cache for all type keys.
-				$where = sprintf( "option_name LIKE '_transient_%s%s_%%'", self::$sitemap_cache_key_prefix, $type );
+				$like = sprintf( '_transient_%s%s_%%', self::$sitemap_cache_key_prefix, $type );
 			}
 		}
+
+		/**
+		 * Add slashes to the LIKE "_" single character wildcard.
+		 *
+		 * We can't use `esc_like` here because we need the % in the query.
+		 */
+		$where = sprintf( "option_name LIKE '%s'", addcslashes( $like, '_' ) );
 
 		$query = sprintf( 'DELETE FROM %s WHERE %s', $wpdb->options, $where );
 		$wpdb->query( $query );
@@ -581,20 +591,22 @@ class WPSEO_Utils {
 	/**
 	 * Get the cache key for a certain type and page
 	 *
-	 * @param null|string $type The type to get the key for. Null or '1' for index cache.
+	 * Example key format for type "post", page 1: wpseo_sitemap_post_1:akfw3e_23azBa
+	 *
+	 * @param null|string $type The type to get the key for. Null or self::SITEMAP_INDEX_TYPE for index cache.
 	 * @param int         $page The page of cache to get the key for.
 	 *
 	 * @return string The key where the cache is stored on.
 	 */
 	public static function get_sitemap_cache_key( $type = null, $page = 1 ) {
-		// Using '1' for sitemap index cache.
-		$type = is_null( $type ) ? '1' : $type;
+		// Using SITEMAP_INDEX_TYPE for sitemap index cache.
+		$type = is_null( $type ) ? self::SITEMAP_INDEX_TYPE : $type;
 
 		$global_cache_validator = self::get_sitemap_cache_validator();
 		$type_cache_validator   = self::get_sitemap_cache_validator( $type );
 
 		$prefix = self::$sitemap_cache_key_prefix;
-		$postfix = sprintf( ':%d:%s:%s', $page, $global_cache_validator, $type_cache_validator );
+		$postfix = sprintf( '_%d:%s_%s', $page, $global_cache_validator, $type_cache_validator );
 
 		$type = self::get_safe_sitemap_cache_type( $type, $prefix, $postfix );
 
@@ -840,7 +852,7 @@ class WPSEO_Utils {
 			case 'mod':
 			case 'modulus':
 				if ( $bc ) {
-					$result = bcmod( $number1, $number2, $precision ); // String, or NULL if modulus is 0.
+					$result = bcmod( $number1, $number2 ); // String, or NULL if modulus is 0.
 				}
 				elseif ( $number2 != 0 ) {
 					$result = ( $number1 % $number2 );
