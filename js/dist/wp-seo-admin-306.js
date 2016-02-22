@@ -21,6 +21,11 @@ jQuery( document ).ready( function() {
 			}
 		).change();
 
+		jQuery( '#disable-post_format' ).change( function() {
+				jQuery( '#post_format-titles-metas' ).toggle( jQuery( this ).is( ':not(:checked)' ) );
+			}
+		).change();
+
 		jQuery( '#breadcrumbs-enable' ).change( function() {
 				jQuery( '#breadcrumbsinfo' ).toggle( jQuery( this ).is( ':checked' ) );
 			}
