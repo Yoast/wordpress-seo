@@ -85,7 +85,7 @@ $yform->admin_header( true, 'wpseo_titles' );
 						$warn = true;
 					}
 					$name = $pt->name;
-					echo "<div id='". esc_attr( $name ) ."-titles-metas'>";
+					echo "<div id='" . esc_attr( $name ) . "-titles-metas'>";
 					echo '<strong id="' . esc_attr( $name ) . '">' . esc_html( ucfirst( $pt->labels->name ) ) . '</strong><br/>';
 					if ( $warn === true ) {
 						echo '<h4 class="error-message">' . __( 'Take note:', 'wordpress-seo' ) . '</h4>';
@@ -152,19 +152,31 @@ $yform->admin_header( true, 'wpseo_titles' );
 			$taxonomies = get_taxonomies( array( 'public' => true ), 'objects' );
 			if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
 				foreach ( $taxonomies as $tax ) {
-					echo "<div id='". esc_attr( $tax->name ) ."-titles-metas'>";
 					echo '<h4>' . esc_html( ucfirst( $tax->labels->name ) ) . '</h4>';
+					if ( $tax->name === 'post_format' ) {
+						$yform->light_switch(
+							'disable-post_format',
+							__( 'Format-based archives', 'wordpress-seo' ),
+							array( __( 'Enabled', 'wordpress-seo' ), __( 'Disabled', 'wordpress-seo' ) ),
+							false
+						);
+					}
+					echo "<div id='" . esc_attr( $tax->name ) . "-titles-metas'>";
 					$yform->textinput( 'title-tax-' . $tax->name, __( 'Title template', 'wordpress-seo' ), 'template taxonomy-template' );
 					$yform->textarea( 'metadesc-tax-' . $tax->name, __( 'Meta description template', 'wordpress-seo' ), array( 'class' => 'template taxonomy-template' ) );
 					if ( $options['usemetakeywords'] === true ) {
 						$yform->textinput( 'metakey-tax-' . $tax->name, __( 'Meta keywords template', 'wordpress-seo' ) );
 					}
 					$yform->toggle_switch( 'noindex-tax-' . $tax->name, $index_switch_values, __( 'Meta Robots', 'wordpress-seo' ) );
-					$yform->toggle_switch( 'hideeditbox-tax-' . $tax->name, array(
-						'off' => __( 'Show', 'wordpress-seo' ),
-						'on'  => __( 'Hide', 'wordpress-seo' ),
+					if ( $tax->name !== 'post_format' ) {
 						/* translators: %1$s expands to Yoast SEO */
-					), sprintf( __( '%1$s Meta Box', 'wordpress-seo' ), 'Yoast SEO' ) );
+						$yform->toggle_switch( 'hideeditbox-tax-' . $tax->name,
+							array(
+								'off' => __( 'Show', 'wordpress-seo' ),
+								'on'  => __( 'Hide', 'wordpress-seo' ),
+								/* translators: %1$s expands to Yoast SEO */
+							), sprintf( __( '%1$s Meta Box', 'wordpress-seo' ), 'Yoast SEO' ) );
+					}
 					echo '<br/><br/>';
 					echo '</div>';
 				}
