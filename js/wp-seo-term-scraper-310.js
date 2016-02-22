@@ -2,6 +2,9 @@
 (function( $ ) {
 	'use strict';
 
+	var snippetPreview;
+	var termSlugInput;
+
 	var TermScraper = function() {
 		if ( typeof CKEDITOR === 'object' ) {
 			console.warn( 'YoastSEO currently doesn\'t support ckEditor. The content analysis currently only works with the HTML editor or TinyMCE.' );
@@ -242,7 +245,7 @@
 	 * add new descriptionfield to content, creates new element via wp_editor and appends this to the term-description-wrap
 	 * this way we can use the wp tinyMCE editor on the descriptionfield.
 	 */
-	var tinyMCEReplacer = function() {
+	var insertTinyMCE = function() {
 		//gets the textNode from the original textField.
 		var textNode = jQuery( '.term-description-wrap' ).find( 'td' ).find( 'textarea' ).val();
 
@@ -257,52 +260,81 @@
 		document.getElementById('description').value = textNode;
 	};
 
-	jQuery( document ).ready(function() {
-		tinyMCEReplacer();
-		var termScraper = new TermScraper();
+	/**
+	 * Initializes the snippet preview
+	 *
+	 * @param {TermScraper} termScraper
+	 * @returns {YoastSEO.SnippetPreview}
+	 */
+	function initSnippetPreview( termScraper ) {
+		var data = termScraper.getData();
 
-		YoastSEO.analyzerArgs = {
-			//if it must run the analyzer
-			analyzer: true,
-			//if it uses ajax to get data
-			ajax: true,
-			//if it must generate snippetpreview
-			snippetPreview: true,
-			//string to be added to the snippetTitle
-			snippetSuffix: ' ' + wpseoTermScraperL10n.sep + ' ' + wpseoTermScraperL10n.sitename,
-			//element Target Array
-			elementTarget: ['content', 'yoast_wpseo_focuskw', 'yoast_wpseo_metadesc', 'excerpt', 'editable-post-name', 'editable-post-name-full'],
-			//replacement target array, elements that must trigger the replace variables function.
-			replaceTarget: ['yoast_wpseo_metadesc', 'excerpt', 'yoast_wpseo_title'],
-			//rest target array, elements that must be reset on focus
-			resetTarget: ['snippet_meta', 'snippet_title', 'snippet_cite'],
-			//typeDelay is used as the timeout between stopping with typing and triggering the analyzer
-			typeDelay: 300,
-			//Dynamic delay makes sure the delay is increased if the analyzer takes longer than the default, to prevent slow systems.
-			typeDelayStep: 100,
-			maxTypeDelay: 1500,
-			dynamicDelay: true,
-			//used for multiple keywords (future use)
-			multiKeyword: false,
-			//targets for the objects
+		var snippetPreviewArgs = {
+			targetElement: document.getElementById( 'wpseo_snippet' ),
+			placeholder: {
+				urlPath: ''
+			},
+			defaultValue: {},
+			baseURL: wpseoTermScraperL10n.base_url,
+			callbacks: {
+				saveSnippetData: termScraper.saveSnippetData.bind( termScraper )
+			},
+			metaDescriptionDate: wpseoTermScraperL10n.metaDescriptionDate,
+			data: {
+				title: data.snippetTitle,
+				urlPath: data.snippetCite,
+				metaDesc: data.snippetMeta
+			}
+		};
+
+		var titlePlaceholder = wpseoTermScraperL10n.title_template;
+		if ( titlePlaceholder === '' ) {
+			titlePlaceholder = '%%title%% - %%sitename%%';
+		}
+		snippetPreviewArgs.placeholder.title = titlePlaceholder;
+		snippetPreviewArgs.defaultValue.title = titlePlaceholder;
+
+		var metaPlaceholder = wpseoTermScraperL10n.metadesc_template;
+		if ( metaPlaceholder !== '' ) {
+			snippetPreviewArgs.placeholder.metaDesc = metaPlaceholder;
+			snippetPreviewArgs.defaultValue.metaDesc = metaPlaceholder;
+		}
+
+		return new YoastSEO.SnippetPreview( snippetPreviewArgs );
+	}
+
+	/**
+	 * Adds a watcher on the term slug input field
+	 */
+	function initTermSlugWatcher() {
+		termSlugInput = $( '#slug' );
+		termSlugInput.on( 'change', updatedTermSlug );
+	}
+
+	/**
+	 * Function to handle when the user updates the term slug
+	 */
+	function updatedTermSlug() {
+		snippetPreview.setUrlPath( termSlugInput.val() );
+	}
+
+	jQuery( document ).ready(function() {
+		var args, termScraper, translations;
+
+		insertTinyMCE();
+
+		termScraper = new TermScraper();
+
+		args = {
+
+			// ID's of elements that need to trigger updating the analyzer.
+			elementTarget: [ 'content', 'yoast_wpseo_focuskw', 'yoast_wpseo_metadesc', 'excerpt', 'editable-post-name', 'editable-post-name-full' ],
+
 			targets: {
 				output: 'wpseo_analysis',
 				snippet: 'wpseo_snippet'
 			},
-			translations: wpseoTermScraperL10n.translations,
-			queue: ['wordCount',
-				'keywordDensity',
-				'subHeadings',
-				'stopwords',
-				'fleschReading',
-				'linkCount',
-				'imageCount',
-				'urlKeyword',
-				'urlLength',
-				'metaDescription',
-				'pageTitleKeyword',
-				'pageTitleLength',
-				'firstParagraph'],
+
 			usedKeywords: wpseoTermScraperL10n.keyword_usage,
 			searchUrl: '<a target="new" href=' + wpseoTermScraperL10n.search_url + '>',
 			postUrl: '<a target="new" href=' + wpseoTermScraperL10n.post_edit_url + '>',
@@ -315,54 +347,29 @@
 			locale: wpseoTermScraperL10n.locale
 		};
 
-		// If there are no translations let the analyzer fallback onto the english translations.
-		if (0 === wpseoTermScraperL10n.translations.length) {
-			delete( YoastSEO.analyzerArgs.translations );
-		} else {
-			// Make sure the correct text domain is set for analyzer.
-			var translations = wpseoTermScraperL10n.translations;
+		translations = wpseoTermScraperL10n.translations;
+		if ( translations.length > 0 ) {
 			translations.domain = 'js-text-analysis';
 			translations.locale_data['js-text-analysis'] = translations.locale_data['wordpress-seo'];
 			delete( translations.locale_data['wordpress-seo'] );
 
-			YoastSEO.analyzerArgs.translations = translations;
+			args.translations = translations;
 		}
 
-		var placeholder = { urlPath:  '' };
+		snippetPreview = initSnippetPreview( termScraper );
+		args.snippetPreview = snippetPreview;
 
-		var titlePlaceholder = wpseoTermScraperL10n.title_template;
-		if (titlePlaceholder === '' ) {
-			titlePlaceholder = '%%title%% - %%sitename%%';
-		}
-		placeholder.title = titlePlaceholder;
-
-		var metaPlaceholder = wpseoTermScraperL10n.metadesc_template;
-		if (metaPlaceholder !== '' ) {
-			placeholder.metaDesc = metaPlaceholder;
-		}
-		var data = termScraper.getData();
-
-		YoastSEO.analyzerArgs.snippetPreview = new YoastSEO.SnippetPreview({
-			targetElement: document.getElementById( 'wpseo_snippet' ),
-			placeholder: placeholder,
-			baseURL: wpseoTermScraperL10n.base_url,
-			callbacks: {
-				saveSnippetData: termScraper.saveSnippetData.bind( termScraper )
-			},
-			metaDescriptionDate: wpseoTermScraperL10n.metaDescriptionDate,
-			data: {
-				title: data.snippetTitle,
-				urlPath: data.snippetCite,
-				metaDesc: data.snippetMeta
-			}
-		});
-
-		window.YoastSEO.app = new YoastSEO.App( YoastSEO.analyzerArgs );
+		window.YoastSEO.app = new YoastSEO.App( args );
 		jQuery( window ).trigger( 'YoastSEO:ready' );
 
 		termScraper.initKeywordTabTemplate();
 
-		//init Plugins
+		// Init Plugins.
 		new YoastReplaceVarPlugin();
+
+		// For backwards compatibility.
+		YoastSEO.analyzerArgs = args;
+
+		initTermSlugWatcher();
 	} );
 }( jQuery ));

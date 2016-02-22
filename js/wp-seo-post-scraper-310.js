@@ -187,10 +187,26 @@
 	 * @returns {String}
 	 */
 	PostScraper.prototype.getContentTinyMCE = function() {
-		if ( typeof tinyMCE === 'undefined' || typeof tinyMCE.editors === 'undefined' || tinyMCE.editors.length === 0 || tinyMCE.get( 'content' ).isHidden() ) {
+		if ( this.isTinyMCEAvailable() === false ) {
 			return this.getTinyMCEElementContent();
 		}
 		return tinyMCE.get( 'content' ).getContent();
+	};
+
+	/**
+	 * Returns whether or not TinyMCE is available.
+	 * @returns {boolean}
+	 */
+	PostScraper.prototype.isTinyMCEAvailable = function() {
+		if ( typeof tinyMCE === 'undefined' ||
+		    typeof tinyMCE.editors === 'undefined' ||
+		    tinyMCE.editors.length === 0 ||
+		    tinyMCE.get( 'content' ) === null ||
+		    tinyMCE.get( 'content' ).isHidden() ) {
+			return false;
+		}
+
+		return true;
 	};
 
 	/**
@@ -371,6 +387,21 @@
 	};
 
 	/**
+	 * Retrieves either a generated slug or the page title as slug for the preview
+	 * @param {Object} response The AJAX response object
+	 * @returns {string}
+	 */
+	function getUrlPath( response ) {
+		if ( response.responseText === '' ) {
+			return jQuery( '#title' ).val();
+		}
+		// Added divs to the response text, otherwise jQuery won't parse to HTML, but an array.
+		return jQuery( '<div>' + response.responseText + '</div>' )
+			.find( '#editable-post-name-full' )
+			.text();
+	}
+
+	/**
 	 * binds to the WordPress jQuery function to put the permalink on the page.
 	 * If the response matches with permalinkstring, the snippet can be rerendered.
 	 */
@@ -380,57 +411,65 @@
 			return;
 		}
 
-		if ( 'string' === typeof ajaxOptions.data && false !== ajaxOptions.data.indexOf( 'action=sample-permalink' ) ) {
-			YoastSEO.app.callbacks.getData();
-			YoastSEO.app.runAnalyzer();
-			YoastSEO.app.snippetPreview.reRender();
+		if ( 'string' === typeof ajaxOptions.data && -1 !== ajaxOptions.data.indexOf( 'action=sample-permalink' ) ) {
+			YoastSEO.app.snippetPreview.setUrlPath( getUrlPath( response ) );
 		}
 	} );
 
+	/**
+	 * Initializes the snippet preview
+	 *
+	 * @param {PostScraper} postScraper
+	 * @returns {YoastSEO.SnippetPreview}
+	 */
+	function initSnippetPreview( postScraper ) {
+		var data = postScraper.getData();
+
+		var snippetPreviewArgs = {
+			targetElement: document.getElementById( 'wpseosnippet' ),
+			placeholder: {
+				urlPath: ''
+			},
+			defaultValue: {},
+			baseURL: wpseoPostScraperL10n.base_url,
+			callbacks: {
+				saveSnippetData: postScraper.saveSnippetData.bind( postScraper )
+			},
+			metaDescriptionDate: wpseoPostScraperL10n.metaDescriptionDate,
+			data: {
+				title: data.snippetTitle,
+				urlPath: data.snippetCite,
+				metaDesc: data.snippetMeta
+			}
+		};
+
+		var titlePlaceholder = wpseoPostScraperL10n.title_template;
+		if ( titlePlaceholder === '' ) {
+			titlePlaceholder = '%%title%% - %%sitename%%';
+		}
+		snippetPreviewArgs.placeholder.title = titlePlaceholder;
+		snippetPreviewArgs.defaultValue.title = titlePlaceholder;
+
+		var metaPlaceholder = wpseoPostScraperL10n.metadesc_template;
+		if ( metaPlaceholder !== '' ) {
+			snippetPreviewArgs.placeholder.metaDesc = metaPlaceholder;
+			snippetPreviewArgs.defaultValue.metaDesc = metaPlaceholder;
+		}
+
+		return new YoastSEO.SnippetPreview( snippetPreviewArgs );
+	}
+
 	jQuery( document ).ready(function() {
+		var translations;
 		var postScraper = new PostScraper();
 
-		YoastSEO.analyzerArgs = {
-			//if it must run the analyzer
-			analyzer: true,
-			//if it uses ajax to get data
-			ajax: true,
-			//if it must generate snippetpreview
-			snippetPreview: true,
-			//element Target Array
+		var args = {
+
+			// ID's of elements that need to trigger updating the analyzer.
 			elementTarget: ['content', 'yoast_wpseo_focuskw_text_input', 'yoast_wpseo_metadesc', 'excerpt', 'editable-post-name', 'editable-post-name-full'],
-			//replacement target array, elements that must trigger the replace variables function.
-			replaceTarget: ['yoast_wpseo_metadesc', 'excerpt', 'yoast_wpseo_title'],
-			//rest target array, elements that must be reset on focus
-			resetTarget: ['snippet_meta', 'snippet_title', 'snippet_cite'],
-			//typeDelay is used as the timeout between stopping with typing and triggering the analyzer
-			typeDelay: 300,
-			//Dynamic delay makes sure the delay is increased if the analyzer takes longer than the default, to prevent slow systems.
-			typeDelayStep: 100,
-			maxTypeDelay: 1500,
-			dynamicDelay: true,
-			//used for multiple keywords (future use)
-			multiKeyword: false,
-			//targets for the objects
 			targets: {
-				output: 'wpseo-pageanalysis',
-				snippet: 'wpseosnippet'
+				output: 'wpseo-pageanalysis'
 			},
-			translations: wpseoPostScraperL10n.translations,
-			queue: ['wordCount',
-				'keywordDensity',
-				'subHeadings',
-				'stopwords',
-				'fleschReading',
-				'linkCount',
-				'imageCount',
-				'urlKeyword',
-				'urlLength',
-				'metaDescription',
-				'pageTitleKeyword',
-				'pageTitleLength',
-				'firstParagraph',
-				'keywordDoubles'],
 			usedKeywords: wpseoPostScraperL10n.keyword_usage,
 			searchUrl: '<a target="_blank" href=' + wpseoPostScraperL10n.search_url + '>',
 			postUrl: '<a target="_blank" href=' + wpseoPostScraperL10n.post_edit_url + '>',
@@ -443,55 +482,29 @@
 			locale: wpseoPostScraperL10n.locale
 		};
 
-		// If there are no translations let the analyzer fallback onto the english translations.
-		if (0 === wpseoPostScraperL10n.translations.length) {
-			delete( YoastSEO.analyzerArgs.translations );
-		} else {
-			// Make sure the correct text domain is set for analyzer.
-			var translations = wpseoPostScraperL10n.translations;
+		translations = wpseoPostScraperL10n.translations;
+
+		if ( typeof translations !== 'undefined' && typeof translations.domain !== 'undefined' ) {
 			translations.domain = 'js-text-analysis';
 			translations.locale_data['js-text-analysis'] = translations.locale_data['wordpress-seo'];
+
 			delete( translations.locale_data['wordpress-seo'] );
-			YoastSEO.analyzerArgs.translations = translations;
+
+			args.translations = translations;
 		}
 
-		var placeholder = { urlPath:  '' };
+		args.snippetPreview = initSnippetPreview( postScraper );
 
-		var titlePlaceholder = wpseoPostScraperL10n.title_template;
-		if (titlePlaceholder === '' ) {
-			titlePlaceholder = '%%title%% - %%sitename%%';
-		}
-		placeholder.title = titlePlaceholder;
-
-		var metaPlaceholder = wpseoPostScraperL10n.metadesc_template;
-		if (metaPlaceholder !== '' ) {
-			placeholder.metaDesc = metaPlaceholder;
-		}
-
-		var data = postScraper.getData();
-
-		YoastSEO.analyzerArgs.snippetPreview = new YoastSEO.SnippetPreview({
-			targetElement: document.getElementById( 'wpseosnippet' ),
-			placeholder: placeholder,
-			baseURL: wpseoPostScraperL10n.base_url,
-			callbacks: {
-				saveSnippetData: postScraper.saveSnippetData.bind( postScraper )
-			},
-			metaDescriptionDate: wpseoPostScraperL10n.metaDescriptionDate,
-			data: {
-				title: data.snippetTitle,
-				urlPath: data.snippetCite,
-				metaDesc: data.snippetMeta
-			}
-		});
-
-		window.YoastSEO.app = new YoastSEO.App( YoastSEO.analyzerArgs );
+		window.YoastSEO.app = new YoastSEO.App( args );
 		jQuery( window).trigger( 'YoastSEO:ready' );
 
-		//Init Plugins
+		// Init Plugins
 		new YoastReplaceVarPlugin();
 		new YoastShortcodePlugin();
 
 		postScraper.initKeywordTabTemplate();
+
+		// Backwards compatibility.
+		YoastSEO.analyzerArgs = args;
 	} );
 }( jQuery ));
