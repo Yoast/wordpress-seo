@@ -148,6 +148,7 @@ class WPSEO_Sitemaps_Admin {
 			return;
 		}
 
+		// Get the WPSEO XML options.
 		$options = WPSEO_Options::get_option( 'wpseo_xml' );
 
 		$ping_search_engines = false;
