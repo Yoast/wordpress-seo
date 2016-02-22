@@ -721,7 +721,7 @@ class WPSEO_Utils {
 		list( $milliseconds, $seconds ) = explode( ' ', $microtime );
 
 		// Transients are purged every 24h.
-		$seconds      = ( $seconds % 86400 );
+		$seconds      = ( $seconds % DAY_IN_SECONDS );
 		$milliseconds = substr( $milliseconds, 2, 5 );
 
 		// Combine seconds and milliseconds and convert to integer.

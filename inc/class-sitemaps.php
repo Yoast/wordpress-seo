@@ -291,10 +291,8 @@ class WPSEO_Sitemaps {
 				 * NB: transients that never expire are autoloaded, whereas transients with an expiration time
 				 * are not autoloaded. Consider this when adding transients that may not be needed on every
 				 * page, and thus do not need to be autoloaded, impacting page performance.
-				 *
-				 * Using 24h in seconds: 60*60*24 = 86400
 				 */
-				set_transient( $sitemap_cache_key, $this->sitemap, 86400 );
+				set_transient( $sitemap_cache_key, $this->sitemap, DAY_IN_SECONDS );
 			}
 		}
 		else {
