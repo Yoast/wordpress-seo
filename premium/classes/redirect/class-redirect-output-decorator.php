@@ -20,9 +20,6 @@ class WPSEO_Redirect_Output_Decorator {
 		if ( $redirect->get_format() === WPSEO_Redirect::FORMAT_PLAIN ) {
 			$value = '<span class=\'redirect_table_row_origin_slash\'>/</span>' . $value . '<span class="redirect_table_row_origin_slash">/</span>';
 		}
-		if ( $redirect->get_format() === WPSEO_Redirect::FORMAT_REGEX ) {
-			//return regex formatter
-		}
 
 		return $value;
 	}
@@ -37,7 +34,7 @@ class WPSEO_Redirect_Output_Decorator {
 	public static function decorate_target_column( $value ) {
 		$scheme = parse_url( $value, PHP_URL_SCHEME );
 
-		// Check whether $scheme is a relative or absolute URL
+		// Check whether $scheme is a relative or absolute URL.
 		if ( empty( $scheme ) ) {
 			$value = '<span class="redirect_table_row_origin_slash">/</span>' . $value . '<span class="redirect_table_row_target_slash">/</span>';
 		}

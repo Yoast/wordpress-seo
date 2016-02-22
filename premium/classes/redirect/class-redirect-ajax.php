@@ -121,10 +121,10 @@ class WPSEO_Redirect_Ajax {
 	}
 
 	/**
+	 * Call filter wpseo_format_origin_redirect_column
 	 *
-	 *
-	 * @param string            $origin     origin URL
-	 * @param WPSEO_Redirect    $redirect   The redirect
+	 * @param string         $origin     origin URL.
+	 * @param WPSEO_Redirect $redirect   The redirect.
 	 *
 	 * @return string
 	 */
@@ -132,6 +132,13 @@ class WPSEO_Redirect_Ajax {
 		return apply_filters( 'wpseo_format_origin_redirect_column', $origin, $redirect );
 	}
 
+	/**
+	 * Call filter wpseo_format_target_redirect_column.
+	 *
+	 * @param string $target target URL.
+	 *
+	 * @return string
+	 */
 	private function format_target_url( $target ) {
 		return apply_filters( 'wpseo_format_target_redirect_column', $target );
 	}
