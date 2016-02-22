@@ -187,7 +187,6 @@ Analyzer.prototype.addAnalysis = function( analysis ) {
  * @returns {{test: string, result: Number)}}
  */
 Analyzer.prototype.wordCount = function() {
-	var countWords = require( "./stringProcessing/countWords.js" );
 	return [ { test: "wordCount", result: countWords( this.paper.getText() ) } ];
 };
 
@@ -204,16 +203,13 @@ Analyzer.prototype.keyphraseSizeCheck = function() {
  * @returns resultObject
  */
 Analyzer.prototype.keywordDensity = function() {
-	var matchWords = require( "./stringProcessing/matchTextWithWord.js" );
-	var countWords = require( "./stringProcessing/countWords.js" );
-	var getKeywordDensity = require( "./analyses/getKeywordDensity.js" );
 	var keywordCount = countWords( this.paper.getText() );
 
 	if ( keywordCount >= 100 ) {
 		var density = getKeywordDensity( this.paper.getText(), this.paper.getKeyword() );
 
 		// Present for backwards compatibility with the .refObj.__store.keywordCount option in scoring.js
-		this.__store.keywordCount = matchWords( this.paper.getText(), this.paper.getKeyword() );
+		this.__store.keywordCount = matchTextWithWord( this.paper.getText(), this.paper.getKeyword() );
 
 		return [ { test: "keywordDensity", result: density } ];
 	}
@@ -225,7 +221,6 @@ Analyzer.prototype.keywordDensity = function() {
  * @returns keywordCount
  */
 Analyzer.prototype.keywordCount = function() {
-	var matchTextWithWord = require( "./stringProcessing/matchTextWithWord.js" );
 	var keywordCount = matchTextWithWord( this.paper.getText(), this.paper.getKeyword() );
 
 	return keywordCount;
@@ -236,11 +231,7 @@ Analyzer.prototype.keywordCount = function() {
  * @returns resultObject
  */
 Analyzer.prototype.subHeadings = function() {
-	var getSubheadings = require( "./analyses/matchKeywordInSubheadings.js" );
-
-	var result = [ { test: "subHeadings", result: getSubheadings( this.paper.getText(), this.paper.getKeyword() ) } ];
-
-	return result;
+	return [ { test: "subHeadings", result: getSubheadings( this.paper.getText(), this.paper.getKeyword() ) } ];
 };
 
 /**
@@ -268,7 +259,6 @@ Analyzer.prototype.stopwords = function() {
  * @returns {result object}
  */
 Analyzer.prototype.fleschReading = function() {
-	var calculateFleschReading = require( "./analyses/calculateFleschReading.js" );
 	var score = calculateFleschReading( this.paper.getText() );
 
 	if ( score < 0 ) {
@@ -323,7 +313,6 @@ Analyzer.prototype.linkCount = function() {
  * @returns {{name: string, result: {total: number, alt: number, noAlt: number}}}
  */
 Analyzer.prototype.imageCount = function() {
-	var countImages = require( "./analyses/getImageStatistics.js" );
 	return [ { test: "imageCount", result: countImages( this.paper.getText(), this.paper.getKeyword() ) } ];
 };
 
@@ -347,7 +336,7 @@ Analyzer.prototype.pageTitleLength = function() {
  */
 Analyzer.prototype.pageTitleKeyword = function() {
 	var result = [ { test: "pageTitleKeyword", result: { position: -1, matches: 0 } } ];
-	if ( typeof this.config.pageTitle !== "undefined" && typeof this.paper.hasKeyword() ) {
+	if ( typeof this.config.pageTitle !== "undefined" && this.paper.hasKeyword() ) {
 		result[0].result = findKeywordInPageTitle( this.config.pageTitle, this.paper.getKeyword() );
 	}
 	return result;
@@ -359,9 +348,7 @@ Analyzer.prototype.pageTitleKeyword = function() {
  * @returns {{name: string, count: number}}
  */
 Analyzer.prototype.firstParagraph = function() {
-	var findKeywordInFirstParagraph = require( "./analyses/findKeywordInFirstParagraph.js" );
-	var result = [ { test: "firstParagraph", result: findKeywordInFirstParagraph( this.paper.getText(), this.paper.getKeyword() ) } ];
-	return result;
+	return [ { test: "firstParagraph", result: findKeywordInFirstParagraph( this.paper.getText(), this.paper.getKeyword() ) } ];
 };
 
 /**
