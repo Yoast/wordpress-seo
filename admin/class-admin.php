@@ -498,8 +498,10 @@ class WPSEO_Admin {
 	 */
 	function config_page_scripts() {
 		if ( WPSEO_Utils::grant_access() ) {
-			wp_enqueue_script( 'wpseo-admin-global-script', plugins_url( 'js/wp-seo-admin-global-' . '302' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'jquery' ), WPSEO_VERSION, true );
-			wp_localize_script( 'wpseo-admin-global-script', 'wpseoAdminGlobalL10n', $this->localize_admin_global_script() );
+			$asset_manager = new WPSEO_Admin_Asset_Manager();
+			$asset_manager->enqueue_script( 'admin-global-script' );
+
+			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'admin-global-script', 'wpseoAdminGlobalL10n', $this->localize_admin_global_script() );
 		}
 	}
 

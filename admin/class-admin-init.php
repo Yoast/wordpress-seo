@@ -23,6 +23,13 @@ class WPSEO_Admin_Init {
 	private $pagenow;
 
 	/**
+	 * Holds the asset manager.
+	 *
+	 * @var WPSEO_Admin_Asset_Manager
+	 */
+	private $asset_manager;
+
+	/**
 	 * Class constructor
 	 */
 	public function __construct() {
@@ -32,6 +39,8 @@ class WPSEO_Admin_Init {
 
 		$this->pagenow = $GLOBALS['pagenow'];
 
+		$this->asset_manager = new WPSEO_Admin_Asset_Manager();
+
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_dismissible' ) );
 		add_action( 'admin_init', array( $this, 'after_update_notice' ), 15 );
 		add_action( 'admin_init', array( $this, 'tagline_notice' ), 15 );
@@ -39,6 +48,7 @@ class WPSEO_Admin_Init {
 		add_action( 'admin_init', array( $this, 'recalculate_notice' ), 15 );
 		add_action( 'admin_init', array( $this, 'ignore_tour' ) );
 		add_action( 'admin_init', array( $this, 'load_tour' ) );
+		add_action( 'admin_init', array( $this->asset_manager, 'register_assets' ) );
 		add_action( 'admin_init', array( $this, 'show_hook_deprecation_warnings' ) );
 
 		$this->load_meta_boxes();
@@ -53,10 +63,11 @@ class WPSEO_Admin_Init {
 	 */
 	public function enqueue_dismissible() {
 		if ( version_compare( $GLOBALS['wp_version'], '4.2', '<' ) ) {
-			wp_enqueue_style( 'wpseo-dismissible', plugins_url( 'css/wpseo-dismissible' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
-			wp_enqueue_script( 'wpseo-dismissible', plugins_url( 'js/wp-seo-dismissible' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'jquery' ), WPSEO_VERSION, true );
+			$this->asset_manager->enqueue_script( 'dismissable' );
+			$this->asset_manager->enqueue_style( 'dismissable' );
 		}
 	}
+
 	/**
 	 * Redirect first time or just upgraded users to the about screen.
 	 */
@@ -82,8 +93,8 @@ class WPSEO_Admin_Init {
 			);
 
 			$notification_options = array(
-				'type' => 'updated',
-				'id' => 'wpseo-dismiss-about',
+				'type'  => 'updated',
+				'id'    => 'wpseo-dismiss-about',
 				'nonce' => wp_create_nonce( 'wpseo-dismiss-about' ),
 			);
 
