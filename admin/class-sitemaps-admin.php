@@ -9,10 +9,17 @@
 class WPSEO_Sitemaps_Admin {
 
 	/**
+	 * @var array Post_types that are being imported.
+	 */
+	private $importing_post_types = array();
+
+	/**
 	 * Class constructor
 	 */
-	function __construct() {
+	public function __construct() {
 		add_action( 'transition_post_status', array( $this, 'status_transition' ), 10, 3 );
+		add_action( 'admin_footer', array( $this, 'status_transition_bulk_finished' ) );
+
 		add_action( 'admin_init', array( $this, 'delete_sitemaps' ) );
 	}
 
@@ -21,7 +28,7 @@ class WPSEO_Sitemaps_Admin {
 	 *
 	 * @todo issue #561 https://github.com/Yoast/wordpress-seo/issues/561
 	 */
-	function delete_sitemaps() {
+	public function delete_sitemaps() {
 		$options = WPSEO_Options::get_options( array( 'wpseo', 'wpseo_xml' ) );
 		if ( $options['enablexmlsitemap'] === true ) {
 
@@ -59,7 +66,13 @@ class WPSEO_Sitemaps_Admin {
 	 * @param string   $old_status Old post status.
 	 * @param \WP_Post $post       Post object.
 	 */
-	function status_transition( $new_status, $old_status, $post ) {
+	public function status_transition( $new_status, $old_status, $post ) {
+		if ( defined( 'WP_IMPORTING' ) ) {
+			$this->status_transition_bulk( $new_status, $old_status, $post );
+
+			return;
+		}
+
 		if ( $new_status != 'publish' ) {
 			return;
 		}
@@ -97,5 +110,67 @@ class WPSEO_Sitemaps_Admin {
 				wp_schedule_single_event( ( time() + 300 ), 'wpseo_ping_search_engines' );
 			}
 		}
+	}
+
+	/**
+	 * While bulk importing, just save unique post_types
+	 *
+	 * When importing is done, if we have a post_type that is saved in the sitemap
+	 * try to ping the search engines
+	 *
+	 * @param string   $new_status New post status.
+	 * @param string   $old_status Old post status.
+	 * @param \WP_Post $post       Post object.
+	 */
+	private function status_transition_bulk( $new_status, $old_status, $post ) {
+		if ( $new_status != 'publish' ) {
+			return;
+		}
+
+		// None of our interest..
+		if ( 'nav_menu_item' === $post->post_type ) {
+			return;
+		}
+
+		$this->importing_post_types[] = $post->post_type;
+		$this->importing_post_types   = array_unique( $this->importing_post_types );
+	}
+
+	/**
+	 * After import finished, walk through imported post_types and update info.
+	 */
+	public function status_transition_bulk_finished() {
+		if ( ! defined( 'WP_IMPORTING' ) ) {
+			return;
+		}
+
+		if ( empty( $this->importing_post_types ) ) {
+			return;
+		}
+
+		$options = WPSEO_Options::get_option( 'wpseo_xml' );
+
+		$ping_search_engines = false;
+
+		foreach ( $this->importing_post_types as $post_type ) {
+
+			wp_cache_delete( 'lastpostmodified:gmt:' . $post_type, 'timeinfo' ); // #17455.
+
+			$option = sprintf( 'post_types-%s-not_in_sitemap', $post_type );
+			if ( ! isset( $options[ $option ] ) || $options[ $option ] === false ) {
+				$ping_search_engines = true;
+			}
+		}
+
+		// Nothing to do.
+		if ( false === $ping_search_engines ) {
+			return;
+		}
+
+		if ( WP_CACHE ) {
+			do_action( 'wpseo_hit_sitemap_index' );
+		}
+
+		wpseo_ping_search_engines();
 	}
 } /* End of class */
