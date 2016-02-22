@@ -405,6 +405,7 @@ App.prototype.runAnalyzer = function() {
 	this.analyzerData.i18n = this.i18n;
 
 	var keyword = sanitizeString( this.rawData.keyword );
+
 	if ( keyword === "" ) {
 		this.analyzerData.queue = [ "keyphraseSizeCheck", "wordCount", "fleschReading", "pageTitleLength", "urlStopwords", "metaDescriptionLength" ];
 	}
