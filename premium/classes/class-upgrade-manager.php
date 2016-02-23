@@ -19,6 +19,10 @@ class WPSEO_Upgrade_Manager {
 	 * @param string $current_version The current WPSEO version.
 	 */
 	public function run_upgrade( $current_version ) {
+		if ( defined('DOING_AJAX') && DOING_AJAX === true ) {
+			return;
+		}
+
 		$saved_version = get_option( self::VERSION_OPTION_KEY, '3.0.7' );
 
 		if ( version_compare( $saved_version, $current_version, '<' ) ) {
