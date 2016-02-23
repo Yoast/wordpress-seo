@@ -18,7 +18,9 @@ class WPSEO_Admin_Stop_WordsTest extends PHPUnit_Framework_TestCase {
 		$expected = 'without-stop-words';
 		$subject = $this->getMock( 'WPSEO_Admin_Stop_Words', array( 'list_stop_words' ) );
 
-		$subject->method( 'list_stop_words' )
+		$subject
+			->expects( $this->once() )
+			->method( 'list_stop_words' )
 			->willReturn( array( 'and', 'about', 'blaat' ) );
 
 		/* @type WPSEO_Admin_Stop_Words $subject */
