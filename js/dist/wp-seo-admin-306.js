@@ -259,4 +259,5 @@
 	window.wpseoKillBlockingFiles = wpseoKillBlockingFiles;
 	window.wpseoCopyHomeMeta = wpseoCopyHomeMeta;
 })();
+
 },{}]},{},[1]);

@@ -100,4 +100,5 @@
 	window.wpseoMakeDismissible = wpseoMakeDismissible;
 	window.wpseoDismissLink = wpseoDismissLink;
 }());
+
 },{}]},{},[1]);
