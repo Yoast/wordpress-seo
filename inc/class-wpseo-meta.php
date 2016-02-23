@@ -398,7 +398,7 @@ class WPSEO_Meta {
 				/* Adjust the robots advanced 'site-wide default' text string based on those settings */
 				if ( $options['noodp'] !== false ) {
 					$robots_adv = array();
-					if ( $options[ 'noodp' ] === true ) {
+					if ( $options['noodp'] === true ) {
 						// Use translation from field def options - mind that $options and $field_def['options'] keys should be the same!
 						$robots_adv[] = $field_defs['meta-robots-adv']['options']['noodp'];
 					}

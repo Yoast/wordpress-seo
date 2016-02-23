@@ -785,7 +785,7 @@ class WPSEO_Frontend {
 				$robots['follow'] = 'follow';
 			}
 
-			if ( $this->options[ 'noodp' ] === true ) {
+			if ( $this->options['noodp'] === true ) {
 				$robots['other'][] = 'noodp';
 			}
 			unset( $robot );
@@ -851,7 +851,7 @@ class WPSEO_Frontend {
 			unset( $robot );
 		}
 		elseif ( $meta_robots_adv === '' || $meta_robots_adv === '-' ) {
-			if ( $this->options[ 'noodp' ] === true ) {
+			if ( $this->options['noodp'] === true ) {
 				$robots['other'][] = 'noodp';
 			}
 		}
