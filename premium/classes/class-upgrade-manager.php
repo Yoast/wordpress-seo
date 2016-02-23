@@ -19,7 +19,7 @@ class WPSEO_Upgrade_Manager {
 	 * @param string $current_version The current WPSEO version.
 	 */
 	public function run_upgrade( $current_version ) {
-		if ( defined('DOING_AJAX') && DOING_AJAX === true ) {
+		if ( defined( 'DOING_AJAX' ) && DOING_AJAX === true ) {
 			return;
 		}
 

@@ -60,7 +60,10 @@ function wpseo_premium_run_upgrade() {
 	$upgrade_manager->run_upgrade( WPSEO_VERSION );
 }
 
-// If the user is admin, check for the upgrade manager.
+/*
+ * If the user is admin, check for the upgrade manager.
+ * Considered to use 'admin_init' but that is called too late in the process.
+ */
 if ( is_admin() ) {
 	add_action( 'init', 'wpseo_premium_run_upgrade' );
 }
