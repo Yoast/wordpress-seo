@@ -67,23 +67,23 @@ class WPSEO_Sitemaps_Admin {
 	 * @param \WP_Post $post       Post object.
 	 */
 	public function status_transition( $new_status, $old_status, $post ) {
+		if ( $new_status !== 'publish' ) {
+			return;
+		}
+
 		if ( defined( 'WP_IMPORTING' ) ) {
 			$this->status_transition_bulk( $new_status, $old_status, $post );
 
 			return;
 		}
 
-		if ( $new_status != 'publish' ) {
-			return;
-		}
-
 		wp_cache_delete( 'lastpostmodified:gmt:' . $post->post_type, 'timeinfo' ); // #17455.
 
 		$options = WPSEO_Options::get_options( array( 'wpseo_xml', 'wpseo_titles' ) );
-		if (
-			( isset( $options[ 'post_types-' . $post->post_type . '-not_in_sitemap' ] ) && $options[ 'post_types-' . $post->post_type . '-not_in_sitemap' ] === true )
-			|| ( $post->post_type === 'nav_menu_item' )
-		) {
+
+		// If the post type is excluded in options, we can stop.
+		$option = sprintf( 'post_types-%s-not_in_sitemap', $post->post_type );
+		if ( isset( $options[ $option ] ) && $options[ $option ] === true ) {
 			return;
 		}
 
@@ -123,14 +123,6 @@ class WPSEO_Sitemaps_Admin {
 	 * @param \WP_Post $post       Post object.
 	 */
 	private function status_transition_bulk( $new_status, $old_status, $post ) {
-		if ( ! defined( 'WP_IMPORTING' ) ) {
-			return;
-		}
-
-		if ( $new_status != 'publish' ) {
-			return;
-		}
-
 		// None of our interest..
 		if ( 'nav_menu_item' === $post->post_type ) {
 			return;
