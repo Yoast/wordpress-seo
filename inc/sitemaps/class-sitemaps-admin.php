@@ -77,12 +77,19 @@ class WPSEO_Sitemaps_Admin {
 			return;
 		}
 
-		wp_cache_delete( 'lastpostmodified:gmt:' . $post->post_type, 'timeinfo' ); // #17455.
+		$post_type = get_post_type( $post );
+
+		wp_cache_delete( 'lastpostmodified:gmt:' . $post_type, 'timeinfo' ); // #17455.
+
+		// None of our interest..
+		if ( 'nav_menu_item' === $post_type ) {
+			return;
+		}
 
 		$options = WPSEO_Options::get_options( array( 'wpseo_xml', 'wpseo_titles' ) );
 
 		// If the post type is excluded in options, we can stop.
-		$option = sprintf( 'post_types-%s-not_in_sitemap', $post->post_type );
+		$option = sprintf( 'post_types-%s-not_in_sitemap', $post_type );
 		if ( isset( $options[ $option ] ) && $options[ $option ] === true ) {
 			return;
 		}
@@ -123,12 +130,7 @@ class WPSEO_Sitemaps_Admin {
 	 * @param \WP_Post $post       Post object.
 	 */
 	private function status_transition_bulk( $new_status, $old_status, $post ) {
-		// None of our interest..
-		if ( 'nav_menu_item' === $post->post_type ) {
-			return;
-		}
-
-		$this->importing_post_types[] = $post->post_type;
+		$this->importing_post_types[] = get_post_type( $post );
 		$this->importing_post_types   = array_unique( $this->importing_post_types );
 	}
 
@@ -150,6 +152,11 @@ class WPSEO_Sitemaps_Admin {
 
 		foreach ( $this->importing_post_types as $post_type ) {
 			wp_cache_delete( 'lastpostmodified:gmt:' . $post_type, 'timeinfo' ); // #17455.
+
+			// Just have the cache deleted for nav_menu_item.
+			if ( 'nav_menu_item' === $post_type ) {
+				continue;
+			}
 
 			$option = sprintf( 'post_types-%s-not_in_sitemap', $post_type );
 			if ( ! isset( $options[ $option ] ) || $options[ $option ] === false ) {
