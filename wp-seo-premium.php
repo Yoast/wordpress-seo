@@ -61,9 +61,9 @@ function wpseo_premium_run_upgrade() {
 }
 
 // If the user is admin, check for the upgrade manager.
-
-add_action( 'admin_init', 'wpseo_premium_run_upgrade' );
-
+if ( is_admin() ) {
+	add_action( 'init', 'wpseo_premium_run_upgrade' );
+}
 
 /**
  * The premium setup
