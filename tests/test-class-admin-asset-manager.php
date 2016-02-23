@@ -81,7 +81,7 @@ class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 		$result = $wp_scripts->registered[ WPSEO_Admin_Asset_Manager::PREFIX . 'handle' ];
 
 		$this->assertEquals( WPSEO_Admin_Asset_Manager::PREFIX . 'handle', $result->handle );
-		$this->assertEquals( 'http://' . WP_TESTS_DOMAIN . '/wp-content/plugins/wordpress-seo/js/src' . WPSEO_CSSJS_SUFFIX . '.js', $result->src );
+		$this->assertEquals( 'http://' . WP_TESTS_DOMAIN . '/wp-content/plugins/wordpress-seo/js/dist/src' . WPSEO_CSSJS_SUFFIX . '.js', $result->src );
 		$this->assertEquals( array( 'deps' ), $result->deps );
 		$this->assertEquals( 'version', $result->ver );
 		$this->assertEquals( array( 'group' => 1 ), $result->extra );
@@ -103,7 +103,7 @@ class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 
 		$result = $wp_scripts->registered[ WPSEO_Admin_Asset_Manager::PREFIX . 'handle2' ];
 
-		$this->assertEquals( 'http://example.org/wp-content/plugins/wordpress-seo/js/src.suffix.js', $result->src );
+		$this->assertEquals( 'http://example.org/wp-content/plugins/wordpress-seo/js/dist/src.suffix.js', $result->src );
 	}
 
 	/**
