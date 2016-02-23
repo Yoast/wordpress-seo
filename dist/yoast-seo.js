@@ -4975,7 +4975,7 @@ var Paper = function( keyword, text, metaData ) {
 	this._text = text || "";
 
 	// if there is no metaData object given, use an empty object so checks on metaData keep working
-	if ( isUndefined( metaData ) ){
+	if ( isUndefined( metaData ) ) {
 		metaData = {};
 	}
 
