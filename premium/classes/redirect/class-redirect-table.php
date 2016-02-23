@@ -224,7 +224,7 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	 */
 	protected function column_old( $row ) {
 		$redirect = $this->get_redirect_by_origin( $row['old'] );
-		
+
 		return apply_filters( 'wpseo_format_origin_redirect_column', $row['old'], $redirect );
 	}
 
