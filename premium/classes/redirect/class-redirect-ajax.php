@@ -76,8 +76,6 @@ class WPSEO_Redirect_Ajax {
 		$new_redirect     = $this->get_redirect_from_post( 'new_redirect' );
 		$this->validate( $new_redirect, $current_redirect );
 
-
-
 		// The method always returns the added redirect.
 		if (  $this->redirect_manager->update_redirect( $current_redirect, $new_redirect ) ) {
 			$response = array(
