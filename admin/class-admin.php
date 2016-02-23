@@ -562,47 +562,30 @@ class WPSEO_Admin {
 		}
 
 		// Lowercase the slug and strip slashes.
-		$clean_slug = sanitize_title( stripslashes( $post_title ) );
+		$new_slug = sanitize_title( stripslashes( $post_title ) );
 
-		// Turn it to an array and strip stopwords by comparing against an array of stopwords.
-		$clean_slug_array = array_diff( explode( '-', $clean_slug ), $this->stopwords() );
-
-		// Don't change the slug if there are less than 3 words left.
-		if ( count( $clean_slug_array ) < 3 ) {
-			return $clean_slug;
-		}
-
-		// Turn the sanitized array into a string.
-		$clean_slug = join( '-', $clean_slug_array );
-
-		return $clean_slug;
+		$stop_words = new WPSEO_Admin_Stop_Words();
+		return $stop_words->remove_in( $new_slug );
 	}
 
 	/**
 	 * Returns the stopwords for the current language
 	 *
 	 * @since 1.1.7
+	 * @deprecated 3.1 Use WPSEO_Admin_Stop_Words::list_stop_words() instead.
 	 *
 	 * @return array $stopwords array of stop words to check and / or remove from slug
 	 */
 	function stopwords() {
-		/* translators: this should be an array of stopwords for your language, separated by comma's. */
-		$stopwords = explode( ',', __( "a,about,above,after,again,against,all,am,an,and,any,are,as,at,be,because,been,before,being,below,between,both,but,by,could,did,do,does,doing,down,during,each,few,for,from,further,had,has,have,having,he,he'd,he'll,he's,her,here,here's,hers,herself,him,himself,his,how,how's,i,i'd,i'll,i'm,i've,if,in,into,is,it,it's,its,itself,let's,me,more,most,my,myself,nor,of,on,once,only,or,other,ought,our,ours,ourselves,out,over,own,same,she,she'd,she'll,she's,should,so,some,such,than,that,that's,the,their,theirs,them,themselves,then,there,there's,these,they,they'd,they'll,they're,they've,this,those,through,to,too,under,until,up,very,was,we,we'd,we'll,we're,we've,were,what,what's,when,when's,where,where's,which,while,who,who's,whom,why,why's,with,would,you,you'd,you'll,you're,you've,your,yours,yourself,yourselves", 'wordpress-seo' ) );
-
-		/**
-		 * Allows filtering of the stop words list
-		 * Especially useful for users on a language in which WPSEO is not available yet
-		 * and/or users who want to turn off stop word filtering
-		 * @api  array  $stopwords  Array of all lowercase stopwords to check and/or remove from slug
-		 */
-		$stopwords = apply_filters( 'wpseo_stopwords', $stopwords );
-
-		return $stopwords;
+		$stop_words = new WPSEO_Admin_Stop_Words();
+		return $stop_words->list_stop_words();
 	}
 
 
 	/**
 	 * Check whether the stopword appears in the string
+	 *
+	 * @deprecated 3.1
 	 *
 	 * @param string $haystack    The string to be checked for the stopword.
 	 * @param bool   $checkingUrl Whether or not we're checking a URL.
