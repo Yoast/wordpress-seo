@@ -647,7 +647,12 @@ class WPSEO_Utils {
 				 * So this would not happen unintentionally..
 				 * Either by trying to cause a high server load, finding backdoors or misconfiguration.
 				 */
-				throw new OutOfRangeException( 'Trying to build a safe sitemap cache key, but the postfix and prefix combination leaves too little room to do this. You are probably requesting a page that is way out of expected range.' );
+				throw new OutOfRangeException(
+					__(
+						'Trying to build a safe sitemap cache key, but the postfix and prefix combination leaves too little room to do this. You are probably requesting a page that is way out of the expected range.',
+						'wordpress-seo'
+					)
+				);
 			}
 
 			$half = ( $max_length / 2 );
@@ -746,7 +751,7 @@ class WPSEO_Utils {
 	 */
 	public static function convert_base10_to_base61( $input ) {
 		if ( ! is_int( $input ) ) {
-			throw new InvalidArgumentException( 'Expected integer as input.' );
+			throw new InvalidArgumentException( __( 'Expected an integer as input.', 'wordpress-seo' ) );
 		}
 
 		$characters = '123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -754,10 +759,12 @@ class WPSEO_Utils {
 
 		$index    = ( $input % $length );
 		$output   = $characters[ $index ];
+
 		$position = floor( $input / $length );
 		while ( $position ) {
 			$index    = ( $position % $length );
 			$output   = $characters[ $index ] . $output;
+
 			$position = floor( $position / $length );
 		}
 
