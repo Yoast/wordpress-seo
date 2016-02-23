@@ -1,6 +1,6 @@
 /* jshint -W097 */
 /* global wpseoMakeDismissible */
-(function(){
+(function() {
 	'use strict';
 	/**
 	 * Make notices dismissible
