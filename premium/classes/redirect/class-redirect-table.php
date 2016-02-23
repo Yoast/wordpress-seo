@@ -23,6 +23,11 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	private $current_column;
 
 	/**
+	 * @var WPSEO_Redirect[] The redirects
+	 */
+	private $redirects;
+
+	/**
 	 * @var string The primary column
 	 */
 	private $primary_column = 'type';
@@ -38,6 +43,8 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 		parent::__construct( array( 'plural' => $type ) );
 
 		$this->current_column = $current_column;
+
+		$this->redirects = $redirects;
 
 		$this->set_items( $redirects );
 
@@ -206,6 +213,46 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 		);
 
 		return $actions;
+	}
+
+	/**
+	 * Make sure the column_old is formatted correctly.
+	 *
+	 * @param  array $row the current row.
+	 *
+	 * @return string value to display in table.
+	 */
+	protected function column_old( $row ) {
+		$redirect = $this->get_redirect_by_origin( $row['old'] );
+
+		return apply_filters( 'wpseo_format_origin_redirect_column', $row['old'], $redirect );
+	}
+
+	/**
+	 * Make sure the column_new is formatted correctly.
+	 *
+	 * @param  array $row  the current row.
+	 *
+	 * @return string value to display in table.
+	 */
+	protected function column_new( $row ) {
+		return apply_filters( 'wpseo_format_target_redirect_column', $row['new'] );
+	}
+
+	/**
+	 * Return the redirect by the origin url.
+	 *
+	 * @param  string $origin   origin url of redirect.
+	 *
+	 * @return WPSEO_Redirect $redirect the redirect
+	 */
+	private function get_redirect_by_origin( $origin ) {
+
+		foreach ( $this->redirects as $redirect ) {
+			if ( $origin === $redirect->get_origin() ) {
+				return $redirect;
+			}
+		}
 	}
 
 	/**
