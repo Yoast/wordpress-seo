@@ -240,11 +240,6 @@ $yform->admin_header( true, 'wpseo_titles' );
 			/* translators: %s expands to <code>noodp</code> */
 			$yform->light_switch( 'noodp', sprintf( __( 'Add %s meta robots tag sitewide', 'wordpress-seo' ), '<code>noodp</code>' ) );
 			echo '<p>', __( 'Prevents search engines from using the DMOZ description for pages from this site in the search results.', 'wordpress-seo' ), '</p>';
-
-			/* translators: %s expands to <code>noydir</code> */
-			$yform->light_switch( 'noydir', sprintf( __( 'Add %s meta robots tag sitewide', 'wordpress-seo' ), '<code>noydir</code>' ) );
-			echo '<p>', __( 'Prevents search engines from using the Yahoo! directory description for pages from this site in the search results.', 'wordpress-seo' ), '</p>';
-
 			?>
 		</div>
 

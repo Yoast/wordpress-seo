@@ -69,19 +69,18 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			self::$meta_fields['advanced']['meta-robots-noindex']['description'] = '<p class="error-message">' . __( 'Warning: even though you can set the meta robots setting here, the entire site is set to noindex in the sitewide privacy settings, so these settings won\'t have an effect.', 'wordpress-seo' ) . '</p>';
 		}
 		self::$meta_fields['advanced']['meta-robots-noindex']['options']['0'] = __( 'Default for post type, currently: %s', 'wordpress-seo' );
-		self::$meta_fields['advanced']['meta-robots-noindex']['options']['2'] = __( 'index', 'wordpress-seo' );
-		self::$meta_fields['advanced']['meta-robots-noindex']['options']['1'] = __( 'noindex', 'wordpress-seo' );
+		self::$meta_fields['advanced']['meta-robots-noindex']['options']['2'] = 'index';
+		self::$meta_fields['advanced']['meta-robots-noindex']['options']['1'] = 'noindex';
 
 		self::$meta_fields['advanced']['meta-robots-nofollow']['title']        = __( 'Meta Robots Follow', 'wordpress-seo' );
-		self::$meta_fields['advanced']['meta-robots-nofollow']['options']['0'] = __( 'Follow', 'wordpress-seo' );
-		self::$meta_fields['advanced']['meta-robots-nofollow']['options']['1'] = __( 'Nofollow', 'wordpress-seo' );
+		self::$meta_fields['advanced']['meta-robots-nofollow']['options']['0'] = 'follow';
+		self::$meta_fields['advanced']['meta-robots-nofollow']['options']['1'] = 'nofollow';
 
 		self::$meta_fields['advanced']['meta-robots-adv']['title']                   = __( 'Meta Robots Advanced', 'wordpress-seo' );
 		self::$meta_fields['advanced']['meta-robots-adv']['description']             = __( 'Advanced <code>meta</code> robots settings for this page.', 'wordpress-seo' );
 		self::$meta_fields['advanced']['meta-robots-adv']['options']['-']            = __( 'Site-wide default: %s', 'wordpress-seo' );
 		self::$meta_fields['advanced']['meta-robots-adv']['options']['none']         = __( 'None', 'wordpress-seo' );
 		self::$meta_fields['advanced']['meta-robots-adv']['options']['noodp']        = __( 'NO ODP', 'wordpress-seo' );
-		self::$meta_fields['advanced']['meta-robots-adv']['options']['noydir']       = __( 'NO YDIR', 'wordpress-seo' );
 		self::$meta_fields['advanced']['meta-robots-adv']['options']['noimageindex'] = __( 'No Image Index', 'wordpress-seo' );
 		self::$meta_fields['advanced']['meta-robots-adv']['options']['noarchive']    = __( 'No Archive', 'wordpress-seo' );
 		self::$meta_fields['advanced']['meta-robots-adv']['options']['nosnippet']    = __( 'No Snippet', 'wordpress-seo' );
