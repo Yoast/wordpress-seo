@@ -127,9 +127,9 @@ class WPSEO_Frontend {
 			remove_action( 'wp_head', 'feed_links_extra', 3 );
 		}
 
-		if ( ( $this->options['disable-date'] === true ||
-		       $this->options['disable-author'] === true ) ||
-		     ( isset( $this->options['disable-post_formats'] ) && $this->options['disable-post_formats'] )
+		if ( $this->options['disable-date'] === true ||
+		     $this->options['disable-author'] === true ||
+		     $this->options['disable-post_format'] === true
 		) {
 			add_action( 'wp', array( $this, 'archive_redirect' ) );
 		}
@@ -983,7 +983,7 @@ class WPSEO_Frontend {
 				}
 				else {
 					if ( is_front_page() ) {
-						$canonical = wpseo_xml_sitemaps_base_url( '' );
+						$canonical = WPSEO_Sitemaps_Router::get_base_url( '' );
 					}
 					$canonical = user_trailingslashit( trailingslashit( $canonical ) . trailingslashit( $wp_rewrite->pagination_base ) . get_query_var( 'paged' ) );
 				}
@@ -1067,7 +1067,7 @@ class WPSEO_Frontend {
 
 				// Make sure to use index.php when needed, done after paged == 2 check so the prev links to homepage will not have index.php erroneously.
 				if ( is_front_page() ) {
-					$url = wpseo_xml_sitemaps_base_url( '' );
+					$url = WPSEO_Sitemaps_Router::get_base_url( '' );
 				}
 
 				if ( $paged > 2 ) {
@@ -1445,7 +1445,7 @@ class WPSEO_Frontend {
 		if (
 			( $this->options['disable-date'] === true && $wp_query->is_date ) ||
 			( $this->options['disable-author'] === true && $wp_query->is_author ) ||
-			( isset( $this->options['disable-post_formats'] ) && $this->options['disable-post_formats'] && $wp_query->is_tax( 'post_format' ) )
+			( $this->options['disable-post_format'] === true && $wp_query->is_tax( 'post_format' ) )
 		) {
 			wp_safe_redirect( get_bloginfo( 'url' ), 301 );
 			exit;
