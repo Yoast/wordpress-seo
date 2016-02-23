@@ -96,7 +96,7 @@ class WPSEO_Import_External {
 		}
 
 		if ( $this->replace ) {
-			// We no longer use noydir, but we remove the meta key as it's uneeded
+			// We no longer use noydir, but we remove the meta key as it's uneeded.
 			$hs_meta = array( 'noarchive', 'noodp', 'noydir' );
 			foreach ( $hs_meta as $meta ) {
 				delete_post_meta_by_key( '_headspace_' . $meta );
