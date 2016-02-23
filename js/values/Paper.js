@@ -1,17 +1,23 @@
+var isUndefined = require( "lodash/lang/isUndefined" );
+
 /**
- * Construct the Paper object and set the keyword property
- * @param {string} keyword The keyword to use for analyses.
- * @param {object} metas The object containing all metavalues.
+ * Construct the Paper object and set the keyword property.
+ * @param {string} keyword The keyword to use in the analysis.
+ * @param {string} text The text to use in the analysis.
+ * @param {object} metaData The object containing all metavalues.
  * @constructor
  */
-var Paper = function( keyword, metas ) {
+var Paper = function( keyword, text, metaData ) {
 	this._keyword = keyword || "";
-
-	this._metaDescription = metas.metaDescription || "";
+	this._text = text || "";
+	if ( isUndefined( metaData ) ){
+		metaData = {};
+	}
+	this._metaDescription = metaData.metaDescription || "";
 };
 
 /**
- * Check whether a keyword is available
+ * Check whether a keyword is available.
  * @returns {boolean} Returns true if keyword isn't empty
  */
 Paper.prototype.hasKeyword = function() {
@@ -25,6 +31,23 @@ Paper.prototype.hasKeyword = function() {
 Paper.prototype.getKeyword = function() {
 	return this._keyword;
 };
+
+/**
+ * Check whether the text is available.
+ * @returns {boolean} Returns true if text isn't empty
+ */
+Paper.prototype.hasText = function() {
+	return this._text !== "";
+};
+
+/**
+ * Return the associated text or am empty string if no text is available.
+ * @returns {string} Returns text
+ */
+Paper.prototype.getText = function() {
+	return this._text;
+};
+
 
 /**
  * Check whether a metaDescription is available
@@ -41,4 +64,5 @@ Paper.prototype.hasMetaDescription = function() {
 Paper.prototype.getMetaDescription = function() {
 	return this._metaDescription;
 };
+
 module.exports = Paper;

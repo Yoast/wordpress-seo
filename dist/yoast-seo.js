@@ -442,19 +442,9 @@ var Paper = require( "./values/Paper.js" );
  */
 var Analyzer = function( args ) {
 	this.config = args;
-	this.checkConfig();
 	this.init( args );
 
 	this.analyses = {};
-};
-
-/**
- * sets value to "" of text if it is undefined to make sure it doesn' break the analyzer
- */
-Analyzer.prototype.checkConfig = function() {
-	if ( isUndefined( this.config.text ) ) {
-		this.config.text = "";
-	}
 };
 
 /**
@@ -465,8 +455,8 @@ Analyzer.prototype.init = function( args ) {
 		metaDescription: args.meta
 	};
 
-	if ( typeof args.paper === "undefined" ) {
-		args.paper = new Paper( args.keyword, metaValues );
+	if ( isUndefined( args.paper ) ) {
+		args.paper = new Paper( args.keyword, args.text, metaValues );
 	}
 
 	this.paper = args.paper;
@@ -591,11 +581,11 @@ Analyzer.prototype.addAnalysis = function( analysis ) {
 };
 
 /**
- * returns wordcount from this.config.text
+ * returns wordcount from this.paper.getText()
  * @returns {{test: string, result: Number)}}
  */
 Analyzer.prototype.wordCount = function() {
-	return [ { test: "wordCount", result: countWords( this.config.text ) } ];
+	return [ { test: "wordCount", result: countWords( this.paper.getText() ) } ];
 };
 
 /**
@@ -611,13 +601,13 @@ Analyzer.prototype.keyphraseSizeCheck = function() {
  * @returns resultObject
  */
 Analyzer.prototype.keywordDensity = function() {
-	var keywordCount = countWords( this.config.text );
+	var keywordCount = countWords( this.paper.getText() );
 
 	if ( keywordCount >= 100 ) {
-		var density = getKeywordDensity( this.config.text, this.paper.getKeyword() );
+		var density = getKeywordDensity( this.paper.getText(), this.paper.getKeyword() );
 
 		// Present for backwards compatibility with the .refObj.__store.keywordCount option in scoring.js
-		this.__store.keywordCount = matchTextWithWord( this.config.text, this.paper.getKeyword() );
+		this.__store.keywordCount = matchTextWithWord( this.paper.getText(), this.paper.getKeyword() );
 
 		return [ { test: "keywordDensity", result: density } ];
 	}
@@ -629,7 +619,9 @@ Analyzer.prototype.keywordDensity = function() {
  * @returns keywordCount
  */
 Analyzer.prototype.keywordCount = function() {
-	return matchTextWithWord( this.config.text, this.paper.getKeyword() );
+	var keywordCount = matchTextWithWord( this.paper.getText(), this.paper.getKeyword() );
+
+	return keywordCount;
 };
 
 /**
@@ -637,7 +629,7 @@ Analyzer.prototype.keywordCount = function() {
  * @returns resultObject
  */
 Analyzer.prototype.subHeadings = function() {
-	return [ { test: "subHeadings", result: getSubheadings( this.config.text, this.paper.getKeyword() ) } ];
+	return [ { test: "subHeadings", result: getSubheadings( this.paper.getText(), this.paper.getKeyword() ) } ];
 };
 
 /**
@@ -665,7 +657,8 @@ Analyzer.prototype.stopwords = function() {
  * @returns {result object}
  */
 Analyzer.prototype.fleschReading = function() {
-	var score = calculateFleschReading( this.config.text );
+	var score = calculateFleschReading( this.paper.getText() );
+
 	if ( score < 0 ) {
 		score = 0;
 	}
@@ -706,7 +699,7 @@ Analyzer.prototype.linkCount = function() {
 		keyword = "";
 	}
 
-	return [ { test: "linkCount", result: countLinks( this.config.text, keyword, this.config.baseUrl ) } ];
+	return [ { test: "linkCount", result: countLinks( this.paper.getText(), keyword, this.config.baseUrl ) } ];
 };
 
 /**
@@ -718,7 +711,7 @@ Analyzer.prototype.linkCount = function() {
  * @returns {{name: string, result: {total: number, alt: number, noAlt: number}}}
  */
 Analyzer.prototype.imageCount = function() {
-	return [ { test: "imageCount", result: countImages( this.config.text, this.paper.getKeyword() ) } ];
+	return [ { test: "imageCount", result: countImages( this.paper.getText(), this.paper.getKeyword() ) } ];
 };
 
 /**
@@ -741,7 +734,7 @@ Analyzer.prototype.pageTitleLength = function() {
  */
 Analyzer.prototype.pageTitleKeyword = function() {
 	var result = [ { test: "pageTitleKeyword", result: { position: -1, matches: 0 } } ];
-	if ( typeof this.config.pageTitle !== "undefined" && typeof this.paper.hasKeyword() ) {
+	if ( typeof this.config.pageTitle !== "undefined" && this.paper.hasKeyword() ) {
 		result[0].result = findKeywordInPageTitle( this.config.pageTitle, this.paper.getKeyword() );
 	}
 	return result;
@@ -753,7 +746,7 @@ Analyzer.prototype.pageTitleKeyword = function() {
  * @returns {{name: string, count: number}}
  */
 Analyzer.prototype.firstParagraph = function() {
-	return [ { test: "firstParagraph", result: findKeywordInFirstParagraph( this.config.text, this.paper.getKeyword() ) } ];
+	return [ { test: "firstParagraph", result: findKeywordInFirstParagraph( this.paper.getText(), this.paper.getKeyword() ) } ];
 };
 
 /**
@@ -1506,6 +1499,7 @@ App.prototype.runAnalyzer = function() {
 	this.analyzerData.i18n = this.i18n;
 
 	var keyword = sanitizeString( this.rawData.keyword );
+
 	if ( keyword === "" ) {
 		this.analyzerData.queue = [ "keyphraseSizeCheck", "wordCount", "fleschReading", "pageTitleLength", "urlStopwords", "metaDescriptionLength" ];
 	}
@@ -4971,21 +4965,27 @@ module.exports = function( text ) {
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{}],53:[function(require,module,exports){
+var isUndefined = require( "lodash/lang/isUndefined" );
+
 /**
- * Construct the Paper object and set the keyword property
- * @param {string} keyword
- * @param {object} metas The object containing all metavalues.
+ * Construct the Paper object and set the keyword property.
+ * @param {string} keyword The keyword to use in the analysis.
+ * @param {string} text The text to use in the analysis.
+ * @param {object} metaData The object containing all metavalues.
  * @constructor
  */
-var Paper = function( keyword, metas ) {
+var Paper = function( keyword, text, metaData ) {
 	this._keyword = keyword || "";
-
-	this._metaDescription = metas.metaDescription || "";
+	this._text = text || "";
+	if ( isUndefined( metaData ) ){
+		metaData = {};
+	}
+	this._metaDescription = metaData.metaDescription || "";
 };
 
 /**
- * Check whether a keyword is available
- * @returns {boolean}
+ * Check whether a keyword is available.
+ * @returns {boolean} Returns true if keyword isn't empty
  */
 Paper.prototype.hasKeyword = function() {
 	return this._keyword !== "";
@@ -4993,15 +4993,32 @@ Paper.prototype.hasKeyword = function() {
 
 /**
  * Return the associated keyword or an empty string if no keyword is available
- * @returns {string}
+ * @returns {string} Returns Keyword
  */
 Paper.prototype.getKeyword = function() {
 	return this._keyword;
 };
 
 /**
+ * Check whether the text is available.
+ * @returns {boolean} Returns true if text isn't empty
+ */
+Paper.prototype.hasText = function() {
+	return this._text !== "";
+};
+
+/**
+ * Return the associated text or am empty string if no text is available.
+ * @returns {string} Returns text
+ */
+Paper.prototype.getText = function() {
+	return this._text;
+};
+
+
+/**
  * Check whether a metaDescription is available
- * @returns {boolean}
+ * @returns {boolean} Returns true if metaDescription isn't empty
  */
 Paper.prototype.hasMetaDescription = function() {
 	return this._metaDescription !== "";
@@ -5009,14 +5026,15 @@ Paper.prototype.hasMetaDescription = function() {
 
 /**
  * Return the metaDescription or an empty string if no metaDescription is available
- * @returns {string}
+ * @returns {string} Returns the metaDescription
  */
 Paper.prototype.getMetaDescription = function() {
 	return this._metaDescription;
 };
+
 module.exports = Paper;
 
-},{}],54:[function(require,module,exports){
+},{"lodash/lang/isUndefined":141}],54:[function(require,module,exports){
 module.exports = function( value, description ) {
 	this.value = value;
 	this.description = description;
