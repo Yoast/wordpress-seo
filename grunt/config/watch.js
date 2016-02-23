@@ -6,11 +6,11 @@ module.exports = {
 	},
 	checks: {
 		files: [ "<%= files.js %>", "<%= files.jsDontLint %>" ],
-		tasks: [ "jshint", "jscs" ]
+		tasks: [ "eslint", "jshint", "jscs" ]
 	},
-	cssmin: {
-		files: "<%= files.css %>",
-		tasks: [ "cssmin" ]
+	sass: {
+		files: "<%= files.scss %>",
+		tasks: [ "sass:build", "postcss:build" ]
 	},
 	"cssmin-example": {
 		files: [ "example/style.css" ],

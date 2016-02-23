@@ -1,5 +1,4 @@
 /* jshint browser: true */
-/* global YoastSEO: false */
 
 var isEmpty = require( "lodash/lang/isEmpty" );
 var isElement = require( "lodash/lang/isElement" );
@@ -7,8 +6,15 @@ var isUndefined = require( "lodash/lang/isUndefined" );
 var clone = require( "lodash/lang/clone" );
 var defaultsDeep = require( "lodash/object/defaultsDeep" );
 var forEach = require( "lodash/collection/forEach" );
-var map = require( "lodash/collection/map" );
 var debounce = require( "lodash/function/debounce" );
+
+var stringToRegex = require( "../js/stringProcessing/stringToRegex.js" );
+var stripHTMLTags = require( "../js/stringProcessing/stripHTMLTags.js" );
+var sanitizeString = require( "../js/stringProcessing/sanitizeString.js" );
+var stripSpaces = require( "../js/stringProcessing/stripSpaces.js" );
+var analyzerConfig = require( "./config/config.js" );
+
+var snippetEditorTemplate = require( "./templates.js" ).snippetEditor;
 
 var defaults = {
 	data: {
@@ -21,6 +27,10 @@ var defaults = {
 		metaDesc: "Modify your meta description by editing it right here",
 		urlPath:  "example-post/"
 	},
+	defaultValue: {
+		title: "",
+		metaDesc: ""
+	},
 	baseURL: "http://example.com/",
 	callbacks: {
 		saveSnippetData: function() {}
@@ -30,6 +40,21 @@ var defaults = {
 };
 
 var titleMaxLength = 70;
+
+var inputPreviewBindings = [
+	{
+		"preview": "title_container",
+		"inputField": "title"
+	},
+	{
+		"preview": "url_container",
+		"inputField": "urlPath"
+	},
+	{
+		"preview": "meta_container",
+		"inputField": "metaDesc"
+	}
+];
 
 /**
  * Get's the base URL for this instance of the snippet preview.
@@ -144,7 +169,7 @@ function hasTrailingSlash( url ) {
 function hasProgressSupport() {
 	var progressElement = document.createElement( "progress" );
 
-	return progressElement.max !== undefined;
+	return !isUndefined( progressElement.max );
 }
 
 /**
@@ -241,10 +266,17 @@ function updateProgressBar( element, value, maximum, rating ) {
  *
  * @param {Object}         opts                           - Snippet preview options.
  * @param {App}            opts.analyzerApp               - The app object the snippet preview is part of.
- * @param {Object}         opts.placeholder               - The fallback values for the snippet preview rendering.
- * @param {string}         opts.placeholder.title         - The fallback value for the title.
- * @param {string}         opts.placeholder.metaDesc      - The fallback value for the meta description.
- * @param {string}         opts.placeholder.urlPath       - The fallback value for the URL path.
+ * @param {Object}         opts.placeholder               - The placeholder values for the fields, will be shown as
+ * actual placeholders in the inputs and as a fallback for the preview.
+ * @param {string}         opts.placeholder.title
+ * @param {string}         opts.placeholder.metaDesc
+ * @param {string}         opts.placeholder.urlPath
+ *
+ * @param {Object}         opts.defaultValue              - The default value for the fields, if the user has not
+ * changed a field, this value will be used for the analyzer, preview and the progress bars.
+ * @param {string}         opts.defaultValue.title
+ * @param {string}         opts.defaultValue.metaDesc
+ * it.
  *
  * @param {string}         opts.baseURL                   - The basic URL as it will be displayed in google.
  * @param {HTMLElement}    opts.targetElement             - The target element that contains this snippet editor.
@@ -313,6 +345,8 @@ var SnippetPreview = function( opts ) {
 	}
 
 	this.opts = opts;
+	this._currentFocus = null;
+	this._currentHover = null;
 
 	// For backwards compatibility monitor the unformatted text for changes and reflect them in the preview
 	this.unformattedText = {};
@@ -334,7 +368,6 @@ var SnippetPreview = function( opts ) {
  * Renders snippet editor and adds it to the targetElement
  */
 SnippetPreview.prototype.renderTemplate = function() {
-	var snippetEditorTemplate = require( "./templates.js" ).snippetEditor;
 	var targetElement = this.opts.targetElement;
 
 	targetElement.innerHTML = snippetEditorTemplate( {
@@ -352,11 +385,13 @@ SnippetPreview.prototype.renderTemplate = function() {
 		metaDescriptionDate: this.opts.metaDescriptionDate,
 		placeholder: this.opts.placeholder,
 		i18n: {
-			edit: this.i18n.dgettext( "js-text-analysis", "Edit title, description & slug" ),
+			edit: this.i18n.dgettext( "js-text-analysis", "Edit snippet" ),
 			title: this.i18n.dgettext( "js-text-analysis", "SEO title" ),
 			slug:  this.i18n.dgettext( "js-text-analysis", "Slug" ),
 			metaDescription: this.i18n.dgettext( "js-text-analysis", "Meta description" ),
-			save: this.i18n.dgettext( "js-text-analysis", "Close snippet editor" )
+			save: this.i18n.dgettext( "js-text-analysis", "Close snippet editor" ),
+			snippetPreview: this.i18n.dgettext( "js-text-analysis", "Snippet preview" ),
+			snippetEditor: this.i18n.dgettext( "js-text-analysis", "Snippet editor" )
 		}
 	} );
 
@@ -380,14 +415,27 @@ SnippetPreview.prototype.renderTemplate = function() {
 		formContainer: targetElement.getElementsByClassName( "snippet-editor__form" )[0],
 		editToggle: targetElement.getElementsByClassName( "snippet-editor__edit-button" )[0],
 		closeEditor: targetElement.getElementsByClassName( "snippet-editor__submit" )[0],
-		formFields: targetElement.getElementsByClassName( "snippet-editor__form-field" )
+		formFields: targetElement.getElementsByClassName( "snippet-editor__form-field" ),
+		headingEditor: targetElement.getElementsByClassName( "snippet-editor__heading-editor" )[0]
+	};
+
+	this.element.label = {
+		title: this.element.input.title.parentNode,
+		urlPath: this.element.input.urlPath.parentNode,
+		metaDesc: this.element.input.metaDesc.parentNode
+	};
+
+	this.element.preview = {
+		title: this.element.rendered.title.parentNode,
+		urlPath: this.element.rendered.urlPath.parentNode,
+		metaDesc: this.element.rendered.metaDesc.parentNode
 	};
 
 	this.hasProgressSupport = hasProgressSupport();
 
 	if ( this.hasProgressSupport ) {
 		this.element.progress.title.max = titleMaxLength;
-		this.element.progress.metaDesc.max = YoastSEO.analyzerConfig.maxMeta;
+		this.element.progress.metaDesc.max = analyzerConfig.maxMeta;
 	} else {
 		forEach( this.element.progress, function( progressElement ) {
 			addClass( progressElement, "snippet-editor__progress--fallback" );
@@ -420,11 +468,12 @@ function getAnalyzerTitle() {
 	var title = this.data.title;
 
 	if ( isEmpty( title ) ) {
-		title = this.opts.placeholder.title;
+		title = this.opts.defaultValue.title;
 	}
+
 	title = this.refObj.pluggable._applyModifications( "data_page_title", title );
 
-	return title;
+	return stripSpaces( title );
 }
 
 /**
@@ -438,18 +487,17 @@ function getAnalyzerTitle() {
 var getAnalyzerMetaDesc = function() {
 	var metaDesc = this.data.metaDesc;
 
-	metaDesc = this.refObj.pluggable._applyModifications( "data_meta_desc", metaDesc );
-
-	// If no meta has been set, generate one.
 	if ( isEmpty( metaDesc ) ) {
-		metaDesc = this.getMetaText();
+		metaDesc = this.opts.defaultValue.metaDesc;
 	}
+
+	metaDesc = this.refObj.pluggable._applyModifications( "data_meta_desc", metaDesc );
 
 	if ( !isEmpty( this.opts.metaDescriptionDate ) && !isEmpty( metaDesc ) ) {
 		metaDesc = this.opts.metaDescriptionDate + " - " + this.data.metaDesc;
 	}
 
-	return metaDesc;
+	return stripSpaces( metaDesc );
 };
 
 /**
@@ -508,6 +556,11 @@ SnippetPreview.prototype.formatTitle = function() {
 
 	// Fallback to the default if the title is empty.
 	if ( isEmpty( title ) ) {
+		title = this.opts.defaultValue.title;
+	}
+
+	// For rendering we can fallback to the placeholder as well.
+	if ( isEmpty( title ) ) {
 		title = this.opts.placeholder.title;
 	}
 
@@ -516,12 +569,16 @@ SnippetPreview.prototype.formatTitle = function() {
 		title = this.refObj.pluggable._applyModifications( "data_page_title", title );
 	}
 
-	// TODO: Replace this with the stripAllTags module.
-	title = this.refObj.stringHelper.stripAllTags( title );
+	title = stripHTMLTags( title );
 
 	// If a keyword is set we want to highlight it in the title.
 	if ( !isEmpty( this.refObj.rawData.keyword ) ) {
-		return this.formatKeyword( title );
+		title = this.formatKeyword( title );
+	}
+
+	// As an ultimate fallback provide the user with a helpful message.
+	if ( isEmpty( title ) ) {
+		title = this.i18n.dgettext( "js-text-analysis", "Please provide an SEO title by editing the snippet below." );
 	}
 
 	return title;
@@ -547,8 +604,7 @@ SnippetPreview.prototype.formatUrl = function() {
 SnippetPreview.prototype.formatCite = function() {
 	var cite = this.data.urlPath;
 
-	// TODO: Replace this with the stripAllTags module.
-	cite = this.refObj.stringHelper.stripAllTags( cite );
+	cite = stripHTMLTags( cite );
 
 	// Fallback to the default if the cite is empty.
 	if ( isEmpty( cite ) ) {
@@ -587,14 +643,18 @@ SnippetPreview.prototype.formatMeta = function() {
 		meta = this.refObj.pluggable._applyModifications( "data_meta_desc", meta );
 	}
 
-	// TODO: Replace this with the stripAllTags module.
-	meta = this.refObj.stringHelper.stripAllTags( meta );
+	meta = stripHTMLTags( meta );
 
 	// Cut-off the meta description according to the maximum length
-	meta = meta.substring( 0, YoastSEO.analyzerConfig.maxMeta );
+	meta = meta.substring( 0, analyzerConfig.maxMeta );
 
 	if ( !isEmpty( this.refObj.rawData.keyword ) ) {
 		meta = this.formatKeyword( meta );
+	}
+
+	// As an ultimate fallback provide the user with a helpful message.
+	if ( isEmpty( meta ) ) {
+		meta = this.i18n.dgettext( "js-text-analysis", "Please provide a meta description by editing the snippet below." );
 	}
 
 	return meta;
@@ -609,30 +669,32 @@ SnippetPreview.prototype.formatMeta = function() {
  */
 SnippetPreview.prototype.getMetaText = function() {
 	var metaText;
-	if ( typeof this.refObj.rawData.excerpt !== "undefined" ) {
+
+	metaText = this.opts.defaultValue.metaDesc;
+
+	if ( !isUndefined( this.refObj.rawData.excerpt ) && isEmpty( metaText ) ) {
 		metaText = this.refObj.rawData.excerpt;
 	}
-	if ( typeof this.refObj.rawData.text !== "undefined" ) {
+
+	if ( !isUndefined( this.refObj.rawData.text ) && isEmpty( metaText ) ) {
 		metaText = this.refObj.rawData.text;
 
 		if ( this.refObj.pluggable.loaded ) {
 			metaText = this.refObj.pluggable._applyModifications( "content", metaText );
 		}
 	}
-	if ( isEmpty( metaText ) ) {
-		metaText = this.opts.placeholder.metaDesc;
-	}
 
-	metaText = this.refObj.stringHelper.stripAllTags( metaText );
+	metaText = stripHTMLTags( metaText );
 	if (
 		this.refObj.rawData.keyword !== "" &&
 		this.refObj.rawData.text !== ""
 	) {
 		var indexMatches = this.getIndexMatches();
 		var periodMatches = this.getPeriodMatches();
+
 		metaText = metaText.substring(
 			0,
-			YoastSEO.analyzerConfig.maxMeta
+			analyzerConfig.maxMeta
 		);
 		var curStart = 0;
 		if ( indexMatches.length > 0 ) {
@@ -648,10 +710,8 @@ SnippetPreview.prototype.getMetaText = function() {
 			}
 		}
 	}
-	if ( this.refObj.stringHelper.stripAllTags( metaText ) === "" ) {
-		return this.opts.placeholder.metaDesc;
-	}
-	return metaText.substring( 0, YoastSEO.analyzerConfig.maxMeta );
+
+	return metaText.substring( 0, analyzerConfig.maxMeta );
 };
 
 /**
@@ -710,7 +770,7 @@ SnippetPreview.prototype.formatKeyword = function( textString ) {
 	var keyword = this.refObj.rawData.keyword.replace( /[\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, " " );
 
 	// Match keyword case-insensitively
-	var keywordRegex = YoastSEO.getStringHelper().getWordBoundaryRegex( keyword );
+	var keywordRegex = stringToRegex( keyword );
 	return textString.replace( keywordRegex, function( str ) {
 		return "<strong>" + str + "</strong>";
 	} );
@@ -725,11 +785,13 @@ SnippetPreview.prototype.formatKeyword = function( textString ) {
  * @returns {XML|string|void}
  */
 SnippetPreview.prototype.formatKeywordUrl = function( textString ) {
-	var keyword = this.refObj.stringHelper.sanitizeKeyword( this.refObj.rawData.keyword );
+	var keyword = sanitizeString( this.refObj.rawData.keyword );
+	keyword = keyword.replace( /'/, "" );
+
 	var dashedKeyword = keyword.replace( /\s/g, "-" );
 
 	// Match keyword case-insensitively.
-	var keywordRegex = YoastSEO.getStringHelper().getWordBoundaryRegex( dashedKeyword );
+	var keywordRegex = stringToRegex( dashedKeyword, "\\-" );
 
 	// Make the keyword bold in the textString.
 	return textString.replace( keywordRegex, function( str ) {
@@ -751,14 +813,15 @@ SnippetPreview.prototype.renderOutput = function() {
  * Makes the rendered meta description gray if no meta description has been set by the user.
  */
 SnippetPreview.prototype.renderSnippetStyle = function() {
-	var metaDesc = this.element.rendered.metaDesc;
+	var metaDescElement = this.element.rendered.metaDesc;
+	var metaDesc = getAnalyzerMetaDesc.call( this );
 
-	if ( this.data.metaDesc === "" ) {
-		addClass( metaDesc, "desc-render" );
-		removeClass( metaDesc, "desc-default" );
+	if ( isEmpty( metaDesc ) ) {
+		addClass( metaDescElement, "desc-render" );
+		removeClass( metaDescElement, "desc-default" );
 	} else {
-		addClass( metaDesc, "desc-default" );
-		removeClass( metaDesc, "desc-render" );
+		addClass( metaDescElement, "desc-default" );
+		removeClass( metaDescElement, "desc-render" );
 	}
 };
 
@@ -778,11 +841,13 @@ SnippetPreview.prototype.checkTextLength = function( ev ) {
 	switch ( ev.currentTarget.id ) {
 		case "snippet_meta":
 			ev.currentTarget.className = "desc";
-			if ( text.length > YoastSEO.analyzerConfig.maxMeta ) {
+			if ( text.length > analyzerConfig.maxMeta ) {
+				/* eslint-disable */
 				YoastSEO.app.snippetPreview.unformattedText.snippet_meta = ev.currentTarget.textContent;
+				/* eslint-enable */
 				ev.currentTarget.textContent = text.substring(
 					0,
-					YoastSEO.analyzerConfig.maxMeta
+					analyzerConfig.maxMeta
 				);
 
 			}
@@ -790,7 +855,9 @@ SnippetPreview.prototype.checkTextLength = function( ev ) {
 		case "snippet_title":
 			ev.currentTarget.className = "title";
 			if ( text.length > titleMaxLength ) {
+				/* eslint-disable */
 				YoastSEO.app.snippetPreview.unformattedText.snippet_title = ev.currentTarget.textContent;
+				/* eslint-enable */
 				ev.currentTarget.textContent = text.substring( 0, titleMaxLength );
 			}
 			break;
@@ -828,7 +895,7 @@ SnippetPreview.prototype.validateFields = function() {
 	var metaDescription = getAnalyzerMetaDesc.call( this );
 	var title = getAnalyzerTitle.call( this );
 
-	if ( metaDescription.length > YoastSEO.analyzerConfig.maxMeta ) {
+	if ( metaDescription.length > analyzerConfig.maxMeta ) {
 		addClass( this.element.input.metaDesc, "snippet-editor__field--invalid" );
 	} else {
 		removeClass( this.element.input.metaDesc, "snippet-editor__field--invalid" );
@@ -863,44 +930,9 @@ SnippetPreview.prototype.updateProgressBars = function() {
 	updateProgressBar(
 		this.element.progress.metaDesc,
 		metaDescription.length,
-		YoastSEO.analyzerConfig.maxMeta,
+		analyzerConfig.maxMeta,
 		metaDescriptionRating
 	);
-};
-
-/**
- * shows the edit icon corresponding to the hovered element
- * @param ev
- */
-SnippetPreview.prototype.showEditIcon = function( ev ) {
-	ev.currentTarget.parentElement.className = "editIcon snippet_container";
-};
-
-/**
- * removes all editIcon-classes, sets to snippet_container
- */
-SnippetPreview.prototype.hideEditIcon = function() {
-	var elems = document.getElementsByClassName( "editIcon " );
-	for ( var i = 0; i < elems.length; i++ ) {
-		elems[ i ].className = "snippet_container";
-	}
-};
-
-/**
- * sets focus on child element of the snippet_container that is clicked. Hides the editicon.
- * @param ev
- */
-SnippetPreview.prototype.setFocus = function( ev ) {
-	var targetElem = ev.currentTarget.firstChild;
-	while ( targetElem !== null ) {
-		if ( targetElem.contentEditable === "true" ) {
-			targetElem.focus();
-			this.hideEditIcon();
-			break;
-		} else {
-			targetElem = targetElem.nextSibling;
-		}
-	}
 };
 
 /**
@@ -908,21 +940,7 @@ SnippetPreview.prototype.setFocus = function( ev ) {
  */
 SnippetPreview.prototype.bindEvents = function() {
 	var targetElement,
-		elems = [ "title", "slug", "meta-description" ],
-		focusBindings = [
-			{
-				"click": "title_container",
-				"focus": "title"
-			},
-			{
-				"click": "url_container",
-				"focus": "urlPath"
-			},
-			{
-				"click": "meta_container",
-				"focus": "metaDesc"
-			}
-		];
+		elems = [ "title", "slug", "meta-description" ];
 
 	forEach( elems, function( elem ) {
 		targetElement = document.getElementsByClassName( "js-snippet-editor-" + elem )[0];
@@ -938,21 +956,42 @@ SnippetPreview.prototype.bindEvents = function() {
 	this.element.editToggle.addEventListener( "click", this.toggleEditor.bind( this ) );
 	this.element.closeEditor.addEventListener( "click", this.closeEditor.bind( this ) );
 
-	// Map binding keys to the actual elements
-	focusBindings = map( focusBindings, function( binding ) {
-		return {
-			"click": document.getElementById( binding.click ),
-			"focus": this.element.input[ binding.focus ]
-		};
-	}.bind( this ) );
-
 	// Loop through the bindings and bind a click handler to the click to focus the focus element.
-	forEach( focusBindings, function( focusBinding ) {
+	forEach( inputPreviewBindings, function( binding ) {
+		var previewElement = document.getElementById( binding.preview );
+		var inputElement = this.element.input[ binding.inputField ];
 
-		focusBinding.click.addEventListener( "click", function() {
+		// Make the preview element click open the editor and focus the correct input.
+		previewElement.addEventListener( "click", function() {
 			this.openEditor();
-			focusBinding.focus.focus();
-		}.bind( this ) ); // Bind the focus element to make sure we work with the correct object.
+			inputElement.focus();
+		}.bind( this ) );
+
+		// Make focusing an input, update the carets.
+		inputElement.addEventListener( "focus", function() {
+			this._currentFocus = binding.inputField;
+
+			this._updateFocusCarets();
+		}.bind( this ) );
+
+		// Make removing focus from an element, update the carets.
+		inputElement.addEventListener( "blur", function() {
+			this._currentFocus = null;
+
+			this._updateFocusCarets();
+		}.bind( this ) );
+
+		previewElement.addEventListener( "mouseover", function() {
+			this._currentHover = binding.inputField;
+
+			this._updateHoverCarets();
+		}.bind( this ) );
+
+		previewElement.addEventListener( "mouseout", function() {
+			this._currentHover = null;
+
+			this._updateHoverCarets();
+		}.bind( this ) );
 
 	}.bind( this ) );
 };
@@ -967,7 +1006,7 @@ SnippetPreview.prototype.changedInput = debounce( function() {
 
 	this.refresh();
 
-	this.refObj.refresh.call( this.refObj );
+	this.refObj.refresh();
 }, 25 );
 
 /**
@@ -986,9 +1025,13 @@ SnippetPreview.prototype.updateDataFromDOM = function() {
  * Opens the snippet editor.
  */
 SnippetPreview.prototype.openEditor = function() {
-	addClass( this.element.container,     "editing" );
-	addClass( this.element.formContainer, "snippet-editor__form--shown" );
-	addClass( this.element.editToggle,    "snippet-editor__edit-button--close" );
+
+	// Hide these elements.
+	addClass( this.element.editToggle,       "snippet-editor--hidden" );
+
+	// Show these elements.
+	removeClass( this.element.formContainer, "snippet-editor--hidden" );
+	removeClass( this.element.headingEditor, "snippet-editor--hidden" );
 
 	this.opened = true;
 };
@@ -997,9 +1040,13 @@ SnippetPreview.prototype.openEditor = function() {
  * Closes the snippet editor.
  */
 SnippetPreview.prototype.closeEditor = function() {
-	removeClass( this.element.container,     "editing" );
-	removeClass( this.element.formContainer, "snippet-editor__form--shown" );
-	removeClass( this.element.editToggle,    "snippet-editor__edit-button--close" );
+
+	// Hide these elements.
+	addClass( this.element.formContainer,     "snippet-editor--hidden" );
+	addClass( this.element.headingEditor,     "snippet-editor--hidden" );
+
+	// Show these elements.
+	removeClass( this.element.editToggle,     "snippet-editor--hidden" );
 
 	this.opened = false;
 };
@@ -1015,7 +1062,88 @@ SnippetPreview.prototype.toggleEditor = function() {
 	}
 };
 
+/**
+ * Updates carets before the preview and input fields.
+ *
+ * @private
+ */
+SnippetPreview.prototype._updateFocusCarets = function() {
+	var focusedLabel, focusedPreview;
+
+	// Disable all carets on the labels.
+	forEach( this.element.label, function( element ) {
+		removeClass( element, "snippet-editor__label--focus" );
+	} );
+
+	// Disable all carets on the previews.
+	forEach( this.element.preview, function( element ) {
+		removeClass( element, "snippet-editor__container--focus" );
+	} );
+
+	if ( null !== this._currentFocus ) {
+		focusedLabel = this.element.label[ this._currentFocus ];
+		focusedPreview = this.element.preview[ this._currentFocus ];
+
+		addClass( focusedLabel, "snippet-editor__label--focus" );
+		addClass( focusedPreview, "snippet-editor__container--focus" );
+	}
+};
+
+/**
+ * Updates hover carets before the input fields.
+ *
+ * @private
+ */
+SnippetPreview.prototype._updateHoverCarets = function() {
+	var hoveredLabel;
+
+	forEach( this.element.label, function( element ) {
+		removeClass( element, "snippet-editor__label--hover" );
+	} );
+
+	if ( null !== this._currentHover ) {
+		hoveredLabel = this.element.label[ this._currentHover ];
+
+		addClass( hoveredLabel, "snippet-editor__label--hover" );
+	}
+};
+
+/**
+ * Updates the title data and the the title input field. This also means the snippet editor view is updated.
+ *
+ * @param {string} title
+ */
+SnippetPreview.prototype.setTitle = function( title ) {
+	this.element.input.title.value = title;
+
+	this.changedInput();
+};
+
+/**
+ * Updates the url path data and the the url path input field. This also means the snippet editor view is updated.
+ *
+ * @param {string} urlPath
+ */
+SnippetPreview.prototype.setUrlPath = function( urlPath ) {
+	this.element.input.urlPath.value = urlPath;
+
+	this.changedInput();
+};
+
+/**
+ * Updates the meta description data and the the meta description input field. This also means the snippet editor view is updated.
+ *
+ * @param {string} metaDesc
+ */
+SnippetPreview.prototype.setTitle = function( metaDesc ) {
+	this.element.input.metaDesc.value = metaDesc;
+
+	this.changedInput();
+};
+
 /* jshint ignore:start */
+/* eslint-disable */
+
 /**
  * Used to disable enter as input. Returns false to prevent enter, and preventDefault and
  * cancelBubble to prevent
@@ -1033,6 +1161,32 @@ SnippetPreview.prototype.disableEnter = function( ev ) {};
  * @param ev
  */
 SnippetPreview.prototype.textFeedback = function( ev ) {};
-/* jshint ignore:end */
 
+/**
+ * shows the edit icon corresponding to the hovered element
+ *
+ * @deprecated
+ *
+ * @param ev
+ */
+SnippetPreview.prototype.showEditIcon = function( ev ) {
+
+};
+
+/**
+ * removes all editIcon-classes, sets to snippet_container
+ *
+ * @deprecated
+ */
+SnippetPreview.prototype.hideEditIcon = function() {};
+
+/**
+ * sets focus on child element of the snippet_container that is clicked. Hides the editicon.
+ *
+ * @deprecated
+ * @param ev
+ */
+SnippetPreview.prototype.setFocus = function( ev ) {};
+/* jshint ignore:end */
+/* eslint-disable */
 module.exports = SnippetPreview;

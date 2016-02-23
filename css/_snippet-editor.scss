@@ -1,0 +1,313 @@
+@import "functions";
+@import "colors";
+
+$color_caret: #555555;
+$color_caret_hover: #bfbfbf;
+$color_caret_focus: #1074a8;
+
+$color_border: #f7f7f7;
+
+$color_input_border: #bfbfbf;
+$color_input_border_focus: #1074a8;
+
+$color_progress_background: #f7f7f7;
+
+$color_button: #f7f7f7;
+$color_button_border: #dbdbdb;
+
+$color_headings: #555555;
+$color_buttons: #555555;
+
+@function svg-icon-edit($color) {
+	@return inline-svg('<svg width="1792" height="1792" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path fill="#{$color}" d="M491 1536l91-91-235-235-91 91v107h128v128h107zm523-928q0-22-22-22-10 0-17 7l-542 542q-7 7-7 17 0 22 22 22 10 0 17-7l542-542q7-7 7-17zm-54-192l416 416-832 832h-416v-416zm683 96q0 53-37 90l-166 166-416-416 166-165q36-38 90-38 53 0 91 38l235 234q37 39 37 91z" /></svg>');
+}
+
+@function svg-icon-eye($color) {
+	@return inline-svg('<svg width="1792" height="1792" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path fill="#{$color}" d="M1664 960q-152-236-381-353 61 104 61 225 0 185-131.5 316.5t-316.5 131.5-316.5-131.5-131.5-316.5q0-121 61-225-229 117-381 353 133 205 333.5 326.5t434.5 121.5 434.5-121.5 333.5-326.5zm-720-384q0-20-14-34t-34-14q-125 0-214.5 89.5t-89.5 214.5q0 20 14 34t34 14 34-14 14-34q0-86 61-147t147-61q20 0 34-14t14-34zm848 384q0 34-20 69-140 230-376.5 368.5t-499.5 138.5-499.5-139-376.5-368q-20-35-20-69t20-69q140-229 376.5-368t499.5-139 499.5 139 376.5 368q20 35 20 69z" /></svg>');
+}
+
+@function svg-icon-caret-right($color) {
+	@return inline-svg('<svg width="1792" height="1792" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path fill="#{$color}" d="M1152 896q0 26-19 45l-448 448q-19 19-45 19t-45-19-19-45v-896q0-26 19-45t45-19 45 19l448 448q19 19 19 45z" /></svg>');
+}
+
+@mixin svg-caret-before($color) {
+	background-image: url(svg-icon-caret-right($color));
+
+	position: absolute;
+	content: '';
+	top: -3px;
+	left: -22px;
+
+	display: block;
+	width: 24px;
+	height: 24px;
+	background-size: 25px;
+}
+
+/* css for snippet */
+#snippet_preview {
+	border: 1px solid $color_border;
+	border-radius: 20px;
+	background-color: #fff;
+	position: relative;
+	width: 552px;
+}
+
+.snippet_container:after {
+	content: ' ';
+	display: table;
+	clear: both;
+}
+
+.snippet-editor {
+	&__container {
+		position: relative;
+		cursor: pointer;
+	}
+
+	&__heading {
+		padding: 8px 20px;
+		font-size: 0.9rem;
+		margin: 0;
+
+		border-bottom: 1px solid $color_border;
+
+		font-family: "Open Sans", sans-serif;
+		font-weight: 300;
+		color: $color_headings;
+
+		&-editor {
+			border-top: 1px solid $color_border;
+		}
+
+		&-icon-eye {
+			background: url(svg-icon-eye($color_headings)) no-repeat 20px center;
+			background-size: 16px;
+
+			padding-left: 45px;
+		}
+
+		&-icon-edit {
+			background: url(svg-icon-edit($color_headings)) no-repeat 20px center;
+			background-size: 16px;
+
+			padding-left: 45px;
+		}
+	}
+
+	&__container {
+
+		&:hover {
+			&:before {
+				@include svg-caret-before($color_caret_hover);
+			}
+		}
+
+		&--focus {
+			&:hover:before,
+			&:before {
+				@include svg-caret-before($color_caret);
+			}
+		}
+	}
+
+	&__preview {
+		padding: 15px 20px;
+	}
+
+	&__button {
+		background: $color_button;
+		border: 1px solid $color_button_border;
+		border-radius: 4px;
+		color: $color_buttons;
+
+		padding: 8px 10px;
+		cursor: pointer;
+
+		font-size: 0.8rem;
+	}
+
+	&__edit-button {
+		background: $color_button url(svg-icon-edit($color_buttons)) no-repeat 8px center;
+		background-size: 16px;
+		padding-left: 32px;
+
+		display: block;
+		margin-top: 1em;
+	}
+
+	&__form {
+		padding: 20px;
+	}
+
+	&__label {
+		display: block;
+		width: 100%;
+		margin-top: 1em;
+		position: relative;
+
+		&:first-child {
+			margin-top: 0;
+		}
+
+		&--hover {
+			&:before {
+				@include svg_caret-before($color_caret_hover);
+				top: 20px;
+			}
+		}
+
+		&--focus {
+			&:before {
+				@include svg_caret_before($color_caret_focus);
+				top: 20px;
+			}
+		}
+	}
+
+	&__input {
+		display: block;
+		width: 100%;
+		margin-top: 5px;
+		border: 1px solid $color_input_border;
+
+		max-width: 100%;
+		box-sizing: border-box;
+
+		&:focus {
+			border: 1px solid $color_input_border_focus;
+			outline: none;
+		}
+	}
+}
+
+.snippet-editor__meta-description {
+	height: 70px;
+}
+
+.snippet-editor__submit {
+	margin-top: 1em;
+}
+
+#snippet_cite {
+	min-width: 20px;
+}
+
+#meta_container {
+	clear: both;
+	min-height: 20px;
+}
+
+.snippet_container .title {
+	color: #1e0fbe;
+	display: block;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	text-decoration: none;
+	white-space: nowrap;
+	width: 512px;
+	font-size: 18px;
+	line-height: 1.2;
+	font-weight: normal;
+	margin: 0;
+}
+
+.snippet_container .url,
+.snippet_container .desc {
+	font-size: 13px;
+	line-height: 1.4;
+}
+
+.snippet_container .url {
+	display: block;
+	font-size: 14px;
+	line-height: 16px;
+	color: #006621;
+	font-style: normal;
+}
+
+.snippet_container .urlBase{
+	float: left;
+}
+
+.snippet_container .desc-default {
+	color: #333;
+}
+
+.snippet_container .desc-render {
+	color: #777;
+}
+
+.snippet_container .tooLong {
+	color: #f00 !important;
+}
+
+.snippet-editor__field--invalid {
+	color: #f00;
+}
+
+.snippet-editor {
+	&__progress {
+		appearance: none;
+
+		border: none;
+
+		box-sizing: border-box;
+		display: block;
+
+		margin-top: 5px;
+		height: 8px;
+		width: 100%;
+
+		&::-webkit-progress-bar {
+			background-color: $color_progress_background;
+			height: 8px;
+			border: 1px solid $color_input_border;
+		}
+
+		&--fallback {
+			background-color: $color_progress_background;
+			height: 8px;
+			border: 1px solid $color_input_border;
+		}
+	}
+
+	&__progress-bar {
+		width: 0;
+		height: 100%;
+		max-width: 100%;
+	}
+
+	&__date {
+		color: #808080;
+		font-size: 13px;
+		line-height: 1.4;
+	}
+
+	&--hidden {
+		display: none;
+	}
+}
+
+@mixin progress-bar-color ($class, $color) {
+	#{$class}[value] {
+		color: $color;
+
+		&::-webkit-progress-value {
+			background-color: $color;
+			transition: width 250ms;
+		}
+
+		&::-moz-progress-bar {
+			background-color: $color;
+		}
+
+		.snippet-editor__progress-bar {
+			background-color: $color;
+		}
+	}
+}
+
+@include progress-bar-color(".snippet-editor__progress--bad", $color_bad);
+@include progress-bar-color(".snippet-editor__progress--ok", $color_ok);
+@include progress-bar-color(".snippet-editor__progress--good", $color_good);

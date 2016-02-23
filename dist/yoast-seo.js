@@ -107,6 +107,7 @@ var wordMatch = require( "../stringProcessing/matchTextWithWord.js" );
  * @returns {int} Number of times the keyword is found.
  */
 module.exports = function( url, keyword ) {
+	keyword = keyword.replace( "'", "" );
 	keyword = keyword.replace( /\s/ig, "-" );
 
 	return wordMatch( url, keyword );
@@ -186,17 +187,16 @@ var wordMatch = require( "../stringProcessing/matchTextWithWord.js" );
  * @returns {string} The property of the imageCount object that needs to be updated
  */
 var matchKeywordInAlttags = function( alttag, keyword ) {
-	if ( keyword !== "" ) {
-		if ( wordMatch( alttag, keyword ) > 0 ) {
-			return "altKeyword";
-		} else {
-
-			//this counts all alt-tags w/o the keyword when a keyword is set.
-			return "alt";
-		}
-	} else {
+	if ( keyword === "" ) {
 		return "altNaKeyword";
 	}
+
+	if ( wordMatch( alttag, keyword ) > 0 ) {
+			return "altKeyword";
+	}
+
+	// This counts all alt-tags w/o the keyword when a keyword is set.
+	return "alt";
 };
 
 /**
@@ -395,6 +395,31 @@ module.exports = function( text, keyword ) {
 /* global YoastSEO: true */
 YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 
+var calculateFleschReading = require( "./analyses/calculateFleschReading.js" );
+var checkStringForStopwords = require( "./analyses/checkStringForStopwords.js" );
+var checkUrlForStopwords = require( "./analyses/checkUrlForStopwords.js" );
+var checkForKeywordInUrl = require( "./analyses/countKeywordInUrl.js" );
+var checkForKeywordDoubles = require( "./analyses/checkForKeywordDoubles.js" );
+var findKeywordInFirstParagraph = require( "./analyses/findKeywordInFirstParagraph.js" );
+var findKeywordInPageTitle = require( "./analyses/findKeywordInPageTitle.js" );
+var getKeywordDensity = require( "./analyses/getKeywordDensity.js" );
+var countImages = require( "./analyses/getImageStatistics.js" );
+var countLinks = require( "./analyses/getLinkStatistics.js" );
+var getKeyphraseLength = require( "./analyses/getWordCount.js" );
+var isUrlTooLong = require( "./analyses/isUrlTooLong.js" );
+var getSubheadings = require( "./analyses/matchKeywordInSubheadings.js" );
+var countWords = require( "./stringProcessing/countWords.js" );
+var matchTextWithWord = require( "./stringProcessing/matchTextWithWord.js" );
+var sanitizeString = require( "../js/stringProcessing/sanitizeString.js" );
+var stringToRegex = require( "../js/stringProcessing/stringToRegex.js" );
+var replaceDiacritics = require( "../js/stringProcessing/replaceDiacritics.js" );
+
+var isUndefined = require( "lodash/lang/isUndefined" );
+
+var AnalyzeScorer = require( "./analyzescorer.js" );
+var analyzerConfig = require( "./config/config.js" );
+var Paper = require( "./values/Paper.js" );
+
 /**
  * Text Analyzer, accepts args for config and calls init for initialization
  *
@@ -409,33 +434,29 @@ YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
  * @param {String} args.snippetTitle The title as displayed in the snippet preview.
  * @param {String} args.snippetMeta The meta description as displayed in the snippet preview.
  * @param {String} args.snippetCite  The URL as displayed in the snippet preview.
+ * @param {Paper} args.paper The content to be researched.
  *
  * @property {Object} analyses Object that contains all analyses.
  *
  * @constructor
  */
-YoastSEO.Analyzer = function( args ) {
+var Analyzer = function( args ) {
 	this.config = args;
-	this.checkConfig();
 	this.init( args );
 
 	this.analyses = {};
 };
 
 /**
- * sets value to "" of text if it is undefined to make sure it doesn' break the preprocessor and
- * analyzer
- */
-YoastSEO.Analyzer.prototype.checkConfig = function() {
-	if ( typeof this.config.text === "undefined" ) {
-		this.config.text = "";
-	}
-};
-
-/**
  * YoastSEO.Analyzer initialization. Loads defaults and overloads custom settings.
  */
-YoastSEO.Analyzer.prototype.init = function( args ) {
+Analyzer.prototype.init = function( args ) {
+	if ( isUndefined( args.paper ) ) {
+		args.paper = new Paper( args.keyword, args.text );
+	}
+
+	this.paper = args.paper;
+
 	this.config = args;
 	this.initDependencies();
 	this.formatKeyword();
@@ -449,25 +470,19 @@ YoastSEO.Analyzer.prototype.init = function( args ) {
  * creates a regex from the keyword including /ig switch so it is case insensitive and global.
  * replaces a number of characters that can break the regex.
 */
-YoastSEO.Analyzer.prototype.formatKeyword = function() {
-	if ( typeof this.config.keyword !== "undefined" && this.config.keyword !== "" ) {
+Analyzer.prototype.formatKeyword = function() {
+	if ( this.paper.hasKeyword() ) {
 
 		// removes characters from the keyword that could break the regex, or give unwanted results.
 		// leaves the - since this is replaced later on in the function
-		var keyword = this.stringHelper.sanitizeKeyword( this.config.keyword );
+		var keyword = sanitizeString( this.paper.getKeyword() );
 
 		// Creates new regex from keyword with global and caseinsensitive option,
-
-		this.keywordRegex = this.stringHelper.getWordBoundaryRegex(
-			this.preProcessor.replaceDiacritics( keyword.replace( /[-_]/g, " " )
-		) );
+		this.keywordRegex = stringToRegex( replaceDiacritics( keyword.replace( /[-_]/g, " " ) ) );
 
 		// Creates new regex from keyword with global and caseinsensitive option,
 		// replaces space with -. Used for URL matching
-		this.keywordRegexInverse = this.stringHelper.getWordBoundaryRegex(
-			this.preProcessor.replaceDiacritics( keyword.replace( /\s/g, "-" ) ),
-			"\\-"
-		);
+		this.keywordRegexInverse = stringToRegex( replaceDiacritics( keyword.replace( /\s/g, "-" ) ), "\\-" );
 	}
 };
 
@@ -475,30 +490,24 @@ YoastSEO.Analyzer.prototype.formatKeyword = function() {
  * initializes required objects.
  * For the analyzeScorer a new object is always defined, to make sure there are no duplicate scores
  */
-YoastSEO.Analyzer.prototype.initDependencies = function() {
-
-	//init preprocessor
-	this.preProcessor = new YoastSEO.getPreProcessor( this.config.text );
-
-	//init helper
-	this.stringHelper = YoastSEO.getStringHelper();
+Analyzer.prototype.initDependencies = function() {
 
 	//init scorer
-	this.analyzeScorer = new YoastSEO.AnalyzeScorer( this );
+	this.analyzeScorer = new AnalyzeScorer( this );
 };
 
 /**
  * initializes the function queue. Uses slice for assignment so it duplicates array in stead of
  * referencing it.
  */
-YoastSEO.Analyzer.prototype.initQueue = function() {
+Analyzer.prototype.initQueue = function() {
 	var fleschReadingIndex;
 
 	//if custom queue available load queue, otherwise load default queue.
 	if ( typeof this.config.queue !== "undefined" && this.config.queue.length !== 0 ) {
 		this.queue = this.config.queue.slice();
 	} else {
-		this.queue = YoastSEO.analyzerConfig.queue.slice();
+		this.queue = analyzerConfig.queue.slice();
 	}
 
 	// Exclude the flesh easy reading score for non-english languages
@@ -510,28 +519,28 @@ YoastSEO.Analyzer.prototype.initQueue = function() {
 /**
  * load wordlists.
  */
-YoastSEO.Analyzer.prototype.loadWordlists = function() {
+Analyzer.prototype.loadWordlists = function() {
 
 	//if no available keywords, load default array
 	if ( typeof this.config.wordsToRemove === "undefined" ) {
-		this.config.wordsToRemove = YoastSEO.analyzerConfig.wordsToRemove;
+		this.config.wordsToRemove = analyzerConfig.wordsToRemove;
 	}
 	if ( typeof this.config.stopWords === "undefined" ) {
-		this.config.stopWords = YoastSEO.analyzerConfig.stopWords;
+		this.config.stopWords = analyzerConfig.stopWords;
 	}
 };
 
 /**
  * starts queue of functions executing the analyzer functions untill queue is empty.
  */
-YoastSEO.Analyzer.prototype.runQueue = function() {
+Analyzer.prototype.runQueue = function() {
 	var output, score;
 
 	// Remove the first item from the queue and execute it.
 	if ( this.queue.length > 0 ) {
 		var currentQueueItem = this.queue.shift();
 
-		if ( undefined !== this[ currentQueueItem ] ) {
+		if ( "undefined" !== typeof this[ currentQueueItem ] ) {
 			output = this[ currentQueueItem ]();
 		} else if ( this.analyses.hasOwnProperty( currentQueueItem ) ) {
 			score = this.analyses[ currentQueueItem ].callable();
@@ -562,44 +571,39 @@ YoastSEO.Analyzer.prototype.runQueue = function() {
  * @param {string}   analysis.name The name of this analysis.
  * @param {function} analysis.callable The function to call to calculate this the score.
  */
-YoastSEO.Analyzer.prototype.addAnalysis = function( analysis ) {
+Analyzer.prototype.addAnalysis = function( analysis ) {
 	this.analyses[ analysis.name ] = analysis;
 	this.queue.push( analysis.name );
 };
 
 /**
- * returns wordcount from the preprocessor storage to include them in the results.
- * @returns {{test: string, result: (Function|YoastSEO.PreProcessor.wordcount|Number)}[]}
+ * returns wordcount from this.paper.getText()
+ * @returns {{test: string, result: Number)}}
  */
-YoastSEO.Analyzer.prototype.wordCount = function() {
-	var countWords = require( "./stringProcessing/countWords.js" );
-	return [ { test: "wordCount", result: countWords( this.config.text ) } ];
+Analyzer.prototype.wordCount = function() {
+	return [ { test: "wordCount", result: countWords( this.paper.getText() ) } ];
 };
 
 /**
  * Checks if keyword is present, if not returns 0
  * @returns {{test: string, result: number}[]}
  */
-YoastSEO.Analyzer.prototype.keyphraseSizeCheck = function() {
-	var getKeyphraseLength = require( "./analyses/getWordCount.js" );
-	return [ { test: "keyphraseSizeCheck", result: getKeyphraseLength( this.config.keyword ) } ];
+Analyzer.prototype.keyphraseSizeCheck = function() {
+	return [ { test: "keyphraseSizeCheck", result: getKeyphraseLength( this.paper.getKeyword() ) } ];
 };
 
 /**
  * checks the keyword density of given keyword against the cleantext stored in __store.
  * @returns resultObject
  */
-YoastSEO.Analyzer.prototype.keywordDensity = function() {
-	var getKeywordDensity = require( "./analyses/getKeywordDensity.js" );
-	var countWords = require( "./stringProcessing/countWords.js" );
-	var matchWords = require( "./stringProcessing/matchTextWithWord.js" );
-	var keywordCount = countWords( this.config.text );
+Analyzer.prototype.keywordDensity = function() {
+	var keywordCount = countWords( this.paper.getText() );
 
 	if ( keywordCount >= 100 ) {
-		var density = getKeywordDensity( this.config.text, this.config.keyword );
+		var density = getKeywordDensity( this.paper.getText(), this.paper.getKeyword() );
 
 		// Present for backwards compatibility with the .refObj.__store.keywordCount option in scoring.js
-		this.__store.keywordCount = matchWords( this.config.text, this.config.keyword );
+		this.__store.keywordCount = matchTextWithWord( this.paper.getText(), this.paper.getKeyword() );
 
 		return [ { test: "keywordDensity", result: density } ];
 	}
@@ -610,9 +614,8 @@ YoastSEO.Analyzer.prototype.keywordDensity = function() {
  * it.
  * @returns keywordCount
  */
-YoastSEO.Analyzer.prototype.keywordCount = function() {
-	var matchTextWithWord = require( "./stringProcessing/matchTextWithWord.js" );
-	var keywordCount = matchTextWithWord( this.config.text, this.config.keyword );
+Analyzer.prototype.keywordCount = function() {
+	var keywordCount = matchTextWithWord( this.paper.getText(), this.paper.getKeyword() );
 
 	return keywordCount;
 };
@@ -621,21 +624,16 @@ YoastSEO.Analyzer.prototype.keywordCount = function() {
  * checks if keywords appear in subheaders of stored cleanTextSomeTags text.
  * @returns resultObject
  */
-YoastSEO.Analyzer.prototype.subHeadings = function() {
-	var getSubheadings = require( "./analyses/matchKeywordInSubheadings.js" );
-
-	var result = [ { test: "subHeadings", result: getSubheadings( this.config.text, this.config.keyword ) } ];
-
-	return result;
+Analyzer.prototype.subHeadings = function() {
+	return [ { test: "subHeadings", result: getSubheadings( this.paper.getText(), this.paper.getKeyword() ) } ];
 };
 
 /**
  * check if the keyword contains stopwords.
  * @returns {result object}
  */
-YoastSEO.Analyzer.prototype.stopwords = function() {
-	var checkStringForStopwords = require( "./analyses/checkStringForStopwords.js" );
-	var matches = checkStringForStopwords( this.config.keyword );
+Analyzer.prototype.stopwords = function() {
+	var matches = checkStringForStopwords( this.paper.getKeyword() );
 
 	/* Matchestext is used for scoring, we should move this to the scoring */
 	var matchesText = matches.join( ", " );
@@ -654,9 +652,9 @@ YoastSEO.Analyzer.prototype.stopwords = function() {
  * formula: 206.835 - 1.015 (total words / total sentences) - 84.6 ( total syllables / total words);
  * @returns {result object}
  */
-YoastSEO.Analyzer.prototype.fleschReading = function() {
-	var calculateFleschReading = require( "./analyses/calculateFleschReading.js" );
-	var score = calculateFleschReading( this.config.text );
+Analyzer.prototype.fleschReading = function() {
+	var score = calculateFleschReading( this.paper.getText() );
+
 	if ( score < 0 ) {
 		score = 0;
 	}
@@ -690,15 +688,14 @@ YoastSEO.Analyzer.prototype.fleschReading = function() {
  * 		}
  * 	}
  */
-YoastSEO.Analyzer.prototype.linkCount = function() {
-	var countLinks = require( "./analyses/getLinkStatistics.js" );
-	var keyword = this.config.keyword;
+Analyzer.prototype.linkCount = function() {
+	var keyword = this.paper.getKeyword();
 
 	if ( typeof keyword === "undefined" ) {
 		keyword = "";
 	}
 
-	return [ { test: "linkCount", result: countLinks( this.config.text, keyword, this.config.baseUrl ) } ];
+	return [ { test: "linkCount", result: countLinks( this.paper.getText(), keyword, this.config.baseUrl ) } ];
 };
 
 /**
@@ -709,16 +706,15 @@ YoastSEO.Analyzer.prototype.linkCount = function() {
  *
  * @returns {{name: string, result: {total: number, alt: number, noAlt: number}}}
  */
-YoastSEO.Analyzer.prototype.imageCount = function() {
-	var countImages = require( "./analyses/getImageStatistics.js" );
-	return [ { test: "imageCount", result: countImages( this.config.text, this.config.keyword ) } ];
+Analyzer.prototype.imageCount = function() {
+	return [ { test: "imageCount", result: countImages( this.paper.getText(), this.paper.getKeyword() ) } ];
 };
 
 /**
  * counts the number of characters in the pagetitle, returns 0 if empty or not set.
  * @returns {{name: string, count: *}}
  */
-YoastSEO.Analyzer.prototype.pageTitleLength = function() {
+Analyzer.prototype.pageTitleLength = function() {
 	var result =  [ { test: "pageTitleLength", result:  0 } ];
 	if ( typeof this.config.pageTitle !== "undefined" ) {
 		result[ 0 ].result = this.config.pageTitle.length;
@@ -732,11 +728,10 @@ YoastSEO.Analyzer.prototype.pageTitleLength = function() {
  *
  * @returns {{name: string, count: number}}
  */
-YoastSEO.Analyzer.prototype.pageTitleKeyword = function() {
-	var findKeywordInPageTitle = require( "./analyses/findKeywordInPageTitle.js" );
+Analyzer.prototype.pageTitleKeyword = function() {
 	var result = [ { test: "pageTitleKeyword", result: { position: -1, matches: 0 } } ];
-	if ( typeof this.config.pageTitle !== "undefined" && typeof this.config.keyword !== "undefined" ) {
-		result[0].result = findKeywordInPageTitle( this.config.pageTitle, this.config.keyword );
+	if ( typeof this.config.pageTitle !== "undefined" && this.paper.hasKeyword() ) {
+		result[0].result = findKeywordInPageTitle( this.config.pageTitle, this.paper.getKeyword() );
 	}
 	return result;
 };
@@ -746,10 +741,8 @@ YoastSEO.Analyzer.prototype.pageTitleKeyword = function() {
  * if there is no paragraph tag or 0 hits, it checks for 2 newlines
  * @returns {{name: string, count: number}}
  */
-YoastSEO.Analyzer.prototype.firstParagraph = function() {
-	var findKeywordInFirstParagraph = require( "./analyses/findKeywordInFirstParagraph.js" );
-	var result = [ { test: "firstParagraph", result: findKeywordInFirstParagraph( this.config.text, this.config.keyword ) } ];
-	return result;
+Analyzer.prototype.firstParagraph = function() {
+	return [ { test: "firstParagraph", result: findKeywordInFirstParagraph( this.paper.getText(), this.paper.getKeyword() ) } ];
 };
 
 /**
@@ -757,13 +750,11 @@ YoastSEO.Analyzer.prototype.firstParagraph = function() {
  * empty or not set. Default is -1, if the meta is empty, this way we can score for empty meta.
  * @returns {{name: string, count: number}}
  */
-YoastSEO.Analyzer.prototype.metaDescriptionKeyword = function() {
-	var wordMatch = require( "./stringProcessing/matchTextWithWord.js" );
+Analyzer.prototype.metaDescriptionKeyword = function() {
 	var result = [ { test: "metaDescriptionKeyword", result: -1 } ];
 
-	if ( typeof this.config.meta !== "undefined" && typeof this.config.keyword !== "undefined" &&
-		this.config.meta !== "" && this.config.keyword !== "" ) {
-		result[ 0 ].result = wordMatch( this.config.meta, this.config.keyword );
+	if ( typeof this.config.meta !== "undefined" && this.config.meta !== "" && this.paper.hasKeyword() ) {
+		result[ 0 ].result = matchTextWithWord( this.config.meta, this.paper.getKeyword() );
 	}
 
 	return result;
@@ -773,7 +764,7 @@ YoastSEO.Analyzer.prototype.metaDescriptionKeyword = function() {
  * returns the length of the metadescription
  * @returns {{test: string, result: Number}[]}
  */
-YoastSEO.Analyzer.prototype.metaDescriptionLength = function() {
+Analyzer.prototype.metaDescriptionLength = function() {
 	var result = [ { test: "metaDescriptionLength", result: 0 } ];
 	if ( typeof  this.config.meta !== "undefined" ) {
 		result[ 0 ].result =  this.config.meta.length;
@@ -786,12 +777,11 @@ YoastSEO.Analyzer.prototype.metaDescriptionLength = function() {
  * counts the occurences of the keyword in the URL, returns 0 if no URL is set or is empty.
  * @returns {{name: string, count: number}}
  */
-YoastSEO.Analyzer.prototype.urlKeyword = function() {
-	var checkForKeywordInUrl = require( "./analyses/countKeywordInUrl.js" );
+Analyzer.prototype.urlKeyword = function() {
 	var score = 0;
 
-	if ( typeof this.config.keyword !== "undefined" && typeof this.config.url !== "undefined" ) {
-		score = checkForKeywordInUrl( this.config.url, this.config.keyword );
+	if ( this.paper.hasKeyword() && typeof this.config.url !== "undefined" ) {
+		score = checkForKeywordInUrl( this.config.url, this.paper.getKeyword() );
 	}
 
 	var result = [ { test: "urlKeyword", result: score } ];
@@ -802,11 +792,10 @@ YoastSEO.Analyzer.prototype.urlKeyword = function() {
  * returns the length of the URL
  * @returns {{test: string, result: number}[]}
  */
-YoastSEO.Analyzer.prototype.urlLength = function() {
-	var isUrlTooLong = require( "./analyses/isUrlTooLong.js" );
+Analyzer.prototype.urlLength = function() {
 	var result = [ { test: "urlLength", result: { urlTooLong: isUrlTooLong(
 		this.config.url,
-		this.config.keyword,
+		this.paper.getKeyword(),
 		this.config.maxSlugLength,
 		this.config.maxUrlLength
 	) } } ];
@@ -817,22 +806,18 @@ YoastSEO.Analyzer.prototype.urlLength = function() {
  * checks if there are stopwords used in the URL.
  * @returns {{test: string, result: number}[]}
  */
-YoastSEO.Analyzer.prototype.urlStopwords = function() {
-	var checkUrlForStopwords = require( "./analyses/checkUrlForStopwords.js" );
-	var result = [ { test: "urlStopwords", result: checkUrlForStopwords( this.config.url ) } ];
-
-	return result;
+Analyzer.prototype.urlStopwords = function() {
+	return [ { test: "urlStopwords", result: checkUrlForStopwords( this.config.url ) } ];
 };
 
 /**
  * checks if the keyword has been used before. Uses usedkeywords array. If empty, returns 0.
  * @returns {{test: string, result: number}[]}
  */
-YoastSEO.Analyzer.prototype.keywordDoubles = function() {
+Analyzer.prototype.keywordDoubles = function() {
 	var result = [ { test: "keywordDoubles", result: { count: 0, id: 0 } } ];
-	if ( typeof this.config.keyword !== "undefined" && typeof this.config.usedKeywords !== "undefined" ) {
-		var checkForKeywordDoubles = require( "./analyses/checkForKeywordDoubles.js" );
-		result[0].result = checkForKeywordDoubles( this.config.keyword, this.config.usedKeywords );
+	if ( this.paper.hasKeyword() && typeof this.config.usedKeywords !== "undefined" ) {
+		result[0].result = checkForKeywordDoubles( this.paper.getKeyword(), this.config.usedKeywords );
 	}
 	return result;
 };
@@ -840,12 +825,17 @@ YoastSEO.Analyzer.prototype.keywordDoubles = function() {
 /**
  * runs the scorefunction of the analyzeScorer with the generated output that is used as a queue.
  */
-YoastSEO.Analyzer.prototype.score = function() {
+Analyzer.prototype.score = function() {
 	this.analyzeScorer.score( this.__output );
 };
 
-},{"./analyses/calculateFleschReading.js":1,"./analyses/checkForKeywordDoubles.js":2,"./analyses/checkStringForStopwords.js":3,"./analyses/checkUrlForStopwords.js":4,"./analyses/countKeywordInUrl.js":5,"./analyses/findKeywordInFirstParagraph.js":6,"./analyses/findKeywordInPageTitle.js":7,"./analyses/getImageStatistics.js":8,"./analyses/getKeywordDensity.js":9,"./analyses/getLinkStatistics.js":10,"./analyses/getWordCount.js":11,"./analyses/isUrlTooLong.js":12,"./analyses/matchKeywordInSubheadings.js":13,"./stringProcessing/countWords.js":34,"./stringProcessing/matchTextWithWord.js":41}],15:[function(require,module,exports){
-/* global YoastSEO: true */
+module.exports = Analyzer;
+
+},{"../js/stringProcessing/replaceDiacritics.js":42,"../js/stringProcessing/sanitizeString.js":44,"../js/stringProcessing/stringToRegex.js":45,"./analyses/calculateFleschReading.js":1,"./analyses/checkForKeywordDoubles.js":2,"./analyses/checkStringForStopwords.js":3,"./analyses/checkUrlForStopwords.js":4,"./analyses/countKeywordInUrl.js":5,"./analyses/findKeywordInFirstParagraph.js":6,"./analyses/findKeywordInPageTitle.js":7,"./analyses/getImageStatistics.js":8,"./analyses/getKeywordDensity.js":9,"./analyses/getLinkStatistics.js":10,"./analyses/getWordCount.js":11,"./analyses/isUrlTooLong.js":12,"./analyses/matchKeywordInSubheadings.js":13,"./analyzescorer.js":15,"./config/config.js":19,"./stringProcessing/countWords.js":34,"./stringProcessing/matchTextWithWord.js":41,"./values/Paper.js":53,"lodash/lang/isUndefined":141}],15:[function(require,module,exports){
+var escapeHTML = require( "lodash/string/escape" );
+var Score = require( "./values/Score.js" );
+var AnalyzerScoring = require( "./config/scoring.js" ).AnalyzerScoring;
+var analyzerScoreRating = require( "./config/scoring.js" ).analyzerScoreRating;
 
 /**
  * inits the analyzerscorer used for scoring of the output from the textanalyzer
@@ -853,7 +843,7 @@ YoastSEO.Analyzer.prototype.score = function() {
  * @param {YoastSEO.Analyzer} refObj
  * @constructor
  */
-YoastSEO.AnalyzeScorer = function( refObj ) {
+var AnalyzeScorer = function( refObj ) {
 	this.__score = [];
 	this.refObj = refObj;
 	this.i18n = refObj.config.i18n;
@@ -863,8 +853,8 @@ YoastSEO.AnalyzeScorer = function( refObj ) {
 /**
  * loads the analyzerScoring from the config file.
  */
-YoastSEO.AnalyzeScorer.prototype.init = function() {
-	var scoringConfig = new YoastSEO.AnalyzerScoring( this.i18n );
+AnalyzeScorer.prototype.init = function() {
+	var scoringConfig = new AnalyzerScoring( this.i18n );
 	this.scoring = scoringConfig.analyzerScoring;
 };
 
@@ -872,7 +862,7 @@ YoastSEO.AnalyzeScorer.prototype.init = function() {
  * Starts the scoring by taking the resultObject from the analyzer. Then runs the scorequeue.
  * @param resultObj
  */
-YoastSEO.AnalyzeScorer.prototype.score = function( resultObj ) {
+AnalyzeScorer.prototype.score = function( resultObj ) {
 	this.resultObj = resultObj;
 	this.runQueue();
 };
@@ -880,7 +870,7 @@ YoastSEO.AnalyzeScorer.prototype.score = function( resultObj ) {
 /**
  * runs the queue and saves the result in the __score-object.
  */
-YoastSEO.AnalyzeScorer.prototype.runQueue = function() {
+AnalyzeScorer.prototype.runQueue = function() {
 	for ( var i = 0; i < this.resultObj.length; i++ ) {
 		var subScore = this.genericScore( this.resultObj[ i ] );
 		if ( typeof subScore !== "undefined" ) {
@@ -896,7 +886,7 @@ YoastSEO.AnalyzeScorer.prototype.runQueue = function() {
  * @param obj
  * @returns {{name: (analyzerScoring.scoreName), score: number, text: string}}
  */
-YoastSEO.AnalyzeScorer.prototype.genericScore = function( obj ) {
+AnalyzeScorer.prototype.genericScore = function( obj ) {
 	if ( typeof obj !== "undefined" ) {
 		var scoreObj = this.scoreLookup( obj.test );
 
@@ -948,7 +938,7 @@ YoastSEO.AnalyzeScorer.prototype.genericScore = function( obj ) {
  * @param scoreObj
  * @param i
  */
-YoastSEO.AnalyzeScorer.prototype.setMatcher = function( obj, scoreObj, i ) {
+AnalyzeScorer.prototype.setMatcher = function( obj, scoreObj, i ) {
 	this.matcher = parseFloat( obj.result );
 	this.result = obj.result;
 	if ( typeof scoreObj.scoreArray[ i ].matcher !== "undefined" ) {
@@ -961,7 +951,7 @@ YoastSEO.AnalyzeScorer.prototype.setMatcher = function( obj, scoreObj, i ) {
  * @param name
  * @returns scoringObject
  */
-YoastSEO.AnalyzeScorer.prototype.scoreLookup = function( name ) {
+AnalyzeScorer.prototype.scoreLookup = function( name ) {
 	for ( var ii = 0; ii < this.scoring.length; ii++ ) {
 		if ( name === this.scoring[ ii ].scoreName ) {
 			return this.scoring[ ii ];
@@ -971,15 +961,13 @@ YoastSEO.AnalyzeScorer.prototype.scoreLookup = function( name ) {
 
 /**
  * fills the score with score and text from the scoreArray and runs the textformatter.
- * @param score
- * @param scoreObj
- * @param i
- * @returns scoreObject
+ * @param {Object} score
+ * @param {Object} scoreObj
+ * @param {number} i
+ * @returns {Score}
  */
-YoastSEO.AnalyzeScorer.prototype.returnScore = function( score, scoreObj, i ) {
-	score.score = scoreObj.scoreArray[ i ].score;
-	score.text = this.scoreTextFormat( scoreObj.scoreArray[ i ], scoreObj.replaceArray );
-	return score;
+AnalyzeScorer.prototype.returnScore = function( score, scoreObj, i ) {
+	return new Score( scoreObj.scoreArray[ i ].score, this.scoreTextFormat( scoreObj.scoreArray[ i ], scoreObj.replaceArray ) );
 };
 
 /**
@@ -989,10 +977,10 @@ YoastSEO.AnalyzeScorer.prototype.returnScore = function( score, scoreObj, i ) {
  * @param replaceArray
  * @returns formatted resultText
  */
-YoastSEO.AnalyzeScorer.prototype.scoreTextFormat = function( scoreObj, replaceArray ) {
+AnalyzeScorer.prototype.scoreTextFormat = function( scoreObj, replaceArray ) {
 	var replaceWord;
 	var resultText = scoreObj.text;
-	resultText = this.refObj.stringHelper.escapeHTML( resultText );
+	resultText = escapeHTML( resultText );
 	if ( typeof replaceArray !== "undefined" ) {
 		for ( var i = 0; i < replaceArray.length; i++ ) {
 			switch ( true ) {
@@ -1010,7 +998,7 @@ YoastSEO.AnalyzeScorer.prototype.scoreTextFormat = function( scoreObj, replaceAr
 					// given position
 					resultText = resultText.replace(
 						replaceArray[ i ].position,
-						this.refObj.stringHelper.escapeHTML( this[ replaceArray[ i ].source ] )
+						escapeHTML( this[ replaceArray[ i ].source ] )
 					);
 					break;
 				case ( typeof replaceArray[ i ].sourceObj !== "undefined" ):
@@ -1019,7 +1007,7 @@ YoastSEO.AnalyzeScorer.prototype.scoreTextFormat = function( scoreObj, replaceAr
 					// replaces is on the given position
 					replaceWord = this.parseReplaceWord( replaceArray[ i ].sourceObj );
 					if ( typeof replaceArray[ i ].rawOutput === "undefined" || replaceArray[ i ].rawOutput !== true ) {
-						replaceWord = this.refObj.stringHelper.escapeHTML( replaceWord );
+						replaceWord = escapeHTML( replaceWord );
 					}
 
 					resultText = resultText.replace( replaceArray[ i ].position, replaceWord );
@@ -1030,7 +1018,7 @@ YoastSEO.AnalyzeScorer.prototype.scoreTextFormat = function( scoreObj, replaceAr
 					// the textString.
 					resultText = resultText.replace(
 						replaceArray[ i ].position,
-						this.refObj.stringHelper.escapeHTML( scoreObj[ replaceArray[ i ].scoreObj ] )
+						escapeHTML( scoreObj[ replaceArray[ i ].scoreObj ] )
 					);
 					break;
 				default:
@@ -1046,7 +1034,7 @@ YoastSEO.AnalyzeScorer.prototype.scoreTextFormat = function( scoreObj, replaceAr
  * @param replaceWord
  * @returns {YoastSEO.AnalyzeScorer}
  */
-YoastSEO.AnalyzeScorer.prototype.parseReplaceWord = function( replaceWord ) {
+AnalyzeScorer.prototype.parseReplaceWord = function( replaceWord ) {
 	var parts = replaceWord.split( "." );
 	var source = this;
 	for ( var i = 1; i < parts.length; i++ ) {
@@ -1060,17 +1048,21 @@ YoastSEO.AnalyzeScorer.prototype.parseReplaceWord = function( replaceWord ) {
  * array. Removes unused results that have no score
  * @returns score
  */
-YoastSEO.AnalyzeScorer.prototype.totalScore = function() {
+AnalyzeScorer.prototype.totalScore = function() {
 	var scoreAmount = this.__score.length;
 	var totalScore = 0;
 	for ( var i = 0; i < this.__score.length; i++ ) {
-		if ( typeof this.__score[ i ] !== "undefined" && this.__score[ i ].text !== "" ) {
+		if (
+			typeof this.__score[ i ] !== "undefined" &&
+			this.__score[ i ].text !== "" &&
+		    typeof this.__score[ i ].score !== "undefined"
+		) {
 			totalScore += this.__score[ i ].score;
 		} else {
 			scoreAmount--;
 		}
 	}
-	var totalAmount = scoreAmount * YoastSEO.analyzerScoreRating;
+	var totalAmount = scoreAmount * analyzerScoreRating;
 	return Math.round( ( totalScore / totalAmount ) * 100 );
 };
 
@@ -1079,7 +1071,7 @@ YoastSEO.AnalyzeScorer.prototype.totalScore = function() {
  *
  * @returns {number}
  */
-YoastSEO.AnalyzeScorer.prototype.getTotalScore = function() {
+AnalyzeScorer.prototype.getTotalScore = function() {
 	return this.__totalScore;
 };
 
@@ -1090,7 +1082,7 @@ YoastSEO.AnalyzeScorer.prototype.getTotalScore = function() {
  * @param {string} scoring.name
  * @param {Object} scoring.scoring
  */
-YoastSEO.AnalyzeScorer.prototype.addScoring = function( scoring ) {
+AnalyzeScorer.prototype.addScoring = function( scoring ) {
 	var scoringObject = scoring.scoring;
 
 	scoringObject.scoreName = scoring.name;
@@ -1098,16 +1090,79 @@ YoastSEO.AnalyzeScorer.prototype.addScoring = function( scoring ) {
 	this.scoring.push( scoringObject );
 };
 
-module.exports = YoastSEO.AnalyzeScorer;
+module.exports = AnalyzeScorer;
 
-},{}],16:[function(require,module,exports){
+},{"./config/scoring.js":22,"./values/Score.js":54,"lodash/string/escape":148}],16:[function(require,module,exports){
 /* jshint browser: true */
-/* global YoastSEO: true */
-YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 
-var isUndefined = require( "lodash/lang/isUndefined" );
-
+require( "./config/config.js" );
+var sanitizeString = require( "../js/stringProcessing/sanitizeString.js" );
 var SnippetPreview = require( "./snippetPreview.js" );
+
+var defaultsDeep = require( "lodash/object/defaultsDeep" );
+var isObject = require( "lodash/lang/isObject" );
+var isString = require( "lodash/lang/isString" );
+var MissingArgument = require( "./errors/missingArgument" );
+var isUndefined = require( "lodash/lang/isUndefined" );
+var forEach = require( "lodash/collection/forEach" );
+
+var Jed = require( "jed" );
+
+var Analyzer = require( "./analyzer.js" );
+var ScoreFormatter = require( "./scoreFormatter.js" );
+var Pluggable = require( "./pluggable.js" );
+var analyzerConfig = require( "./config/config.js" );
+
+/**
+ * Default config for YoastSEO.js
+ *
+ * @type {Object}
+ */
+var defaults = {
+	callbacks: {
+		bindElementEvents: function( ) { },
+		updateSnippetValues: function( ) { },
+		saveScores: function( ) { }
+	},
+	sampleText: {
+		baseUrl: "example.org/",
+		snippetCite: "example-post/",
+		title: "This is an example title - edit by clicking here",
+		keyword: "Choose a focus keyword",
+		meta: "Modify your meta description by editing it right here",
+		text: "Start writing your text!"
+	},
+	queue: [ "wordCount",
+		"keywordDensity",
+		"subHeadings",
+		"stopwords",
+		"fleschReading",
+		"linkCount",
+		"imageCount",
+		"urlKeyword",
+		"urlLength",
+		"metaDescription",
+		"pageTitleKeyword",
+		"pageTitleLength",
+		"firstParagraph",
+		"'keywordDoubles" ],
+	typeDelay: 300,
+	typeDelayStep: 100,
+	maxTypeDelay: 1500,
+	dynamicDelay: true,
+	locale: "en_US",
+	translations: {
+		"domain": "js-text-analysis",
+		"locale_data": {
+			"js-text-analysis": {
+				"": {}
+			}
+		}
+	},
+	replaceTarget: [],
+	resetTarget: [],
+	elementTarget: []
+};
 
 /**
  * Creates a default snippet preview, this can be used if no snippet preview has been passed.
@@ -1118,8 +1173,7 @@ var SnippetPreview = require( "./snippetPreview.js" );
  * @returns {SnippetPreview}
  */
 function createDefaultSnippetPreview() {
-	var targetElement = document.getElementById( this.config.targets.snippet ),
-		SnippetPreview = require( "../js/snippetPreview.js" );
+	var targetElement = document.getElementById( this.config.targets.snippet );
 
 	return new SnippetPreview( {
 		analyzerApp: this,
@@ -1128,6 +1182,43 @@ function createDefaultSnippetPreview() {
 			saveSnippetData: this.config.callbacks.saveSnippetData
 		}
 	} );
+}
+
+/**
+ * Returns whether or not the given argument is a valid SnippetPreview object.
+ *
+ * @param {*} snippetPreview
+ * @returns {boolean}
+ */
+function isValidSnippetPreview( snippetPreview ) {
+	return !isUndefined( snippetPreview ) && SnippetPreview.prototype.isPrototypeOf( snippetPreview );
+}
+
+/**
+ * Check arguments passed to the App to check if all necessary arguments are set.
+ *
+ * @private
+ * @param {Object} args The arguments object passed to the App.
+ */
+function verifyArguments( args ) {
+
+	if ( !isObject( args.callbacks.getData ) ) {
+		throw new MissingArgument( "The app requires an object with a getdata callback." );
+	}
+
+	if ( !isObject( args.targets ) ) {
+		throw new MissingArgument( "`targets` is a required App argument, `targets` is not an object." );
+	}
+
+	if ( !isString( args.targets.output ) ) {
+		throw new MissingArgument( "`targets.output` is a required App argument, `targets.output` is not a string." );
+	}
+
+	// The args.targets.snippet argument is only required if not SnippetPreview object has been passed.
+	if ( !isValidSnippetPreview( args.snippetPreview ) && !isString( args.targets.snippet ) ) {
+		throw new MissingArgument( "A snippet preview is required. When no SnippetPreview object isn't passed to " +
+			"the App, the `targets.snippet` is a required App argument. `targets.snippet` is not a string." );
+	}
 }
 
 /**
@@ -1199,21 +1290,26 @@ function createDefaultSnippetPreview() {
  *
  * @constructor
  */
-YoastSEO.App = function( args ) {
-	this.config = this.extendConfig( args );
+var App = function( args ) {
+	if ( !isObject( args ) ) {
+		args = {};
+	}
+	defaultsDeep( args, defaults );
+
+	verifyArguments( args );
+
+	this.config = args;
+
 	this.callbacks = this.config.callbacks;
 
 	this.i18n = this.constructI18n( this.config.translations );
-	this.stringHelper = new YoastSEO.StringHelper();
-	this.pluggable = new YoastSEO.Pluggable( this );
+	this.pluggable = new Pluggable( this );
 
 	this.getData();
 
 	this.showLoadingDialog();
 
-	SnippetPreview.prototype.isPrototypeOf( args.snippetPreview );
-
-	if ( !isUndefined( args.snippetPreview ) && SnippetPreview.prototype.isPrototypeOf( args.snippetPreview ) ) {
+	if ( isValidSnippetPreview( args.snippetPreview ) ) {
 		this.snippetPreview = args.snippetPreview;
 
 		// Hack to make sure the snippet preview always has a reference to this App. This way we solve the circular
@@ -1232,30 +1328,14 @@ YoastSEO.App = function( args ) {
 };
 
 /**
- * Default config for YoastSEO.js
- *
- * @type {Object}
- */
-YoastSEO.App.defaultConfig = {
-	sampleText: {
-		baseUrl: "example.org/",
-		snippetCite: "example-post/",
-		title: "This is an example title - edit by clicking here",
-		keyword: "Choose a focus keyword",
-		meta: "Modify your meta description by editing it right here",
-		text: "Start writing your text!"
-	}
-};
-
-/**
  * Extend the config with defaults.
  *
  * @param {Object} args
  * @returns {Object} args
  */
-YoastSEO.App.prototype.extendConfig = function( args ) {
+App.prototype.extendConfig = function( args ) {
 	args.sampleText = this.extendSampleText( args.sampleText );
-	args.queue = args.queue || YoastSEO.analyzerConfig.queue;
+	args.queue = args.queue || analyzerConfig.queue;
 	args.locale = args.locale || "en_US";
 
 	return args;
@@ -1267,14 +1347,14 @@ YoastSEO.App.prototype.extendConfig = function( args ) {
  * @param {Object} sampleText
  * @returns {Object} sampleText
  */
-YoastSEO.App.prototype.extendSampleText = function( sampleText ) {
-	var defaultSampleText = YoastSEO.App.defaultConfig.sampleText;
+App.prototype.extendSampleText = function( sampleText ) {
+	var defaultSampleText = defaults.sampleText;
 
-	if ( sampleText === undefined ) {
+	if ( isUndefined( sampleText ) ) {
 		sampleText = defaultSampleText;
 	} else {
 		for ( var key in sampleText ) {
-			if ( sampleText[ key ] === undefined ) {
+			if ( isUndefined( sampleText[ key ] ) ) {
 				sampleText[ key ] = defaultSampleText[ key ];
 			}
 		}
@@ -1288,9 +1368,7 @@ YoastSEO.App.prototype.extendSampleText = function( sampleText ) {
  *
  * @param {Object} translations
  */
-YoastSEO.App.prototype.constructI18n = function( translations ) {
-	var Jed = require( "jed" );
-
+App.prototype.constructI18n = function( translations ) {
 	var defaultTranslations = {
 		"domain": "js-text-analysis",
 		"locale_data": {
@@ -1309,9 +1387,7 @@ YoastSEO.App.prototype.constructI18n = function( translations ) {
 /**
  * Retrieves data from the callbacks.getData and applies modification to store these in this.rawData.
  */
-YoastSEO.App.prototype.getData = function() {
-	var isUndefined = require( "lodash/lang/isUndefined" );
-
+App.prototype.getData = function() {
 	this.rawData = this.callbacks.getData();
 
 	if ( !isUndefined( this.snippetPreview ) ) {
@@ -1332,7 +1408,7 @@ YoastSEO.App.prototype.getData = function() {
 /**
  * Refreshes the analyzer and output of the analyzer
  */
-YoastSEO.App.prototype.refresh = function() {
+App.prototype.refresh = function() {
 	this.getData();
 	this.runAnalyzer();
 };
@@ -1343,7 +1419,7 @@ YoastSEO.App.prototype.refresh = function() {
  * @deprecated Don't create a snippet preview using this method, create it directly using the prototype and pass it as
  * an argument instead.
  */
-YoastSEO.App.prototype.createSnippetPreview = function() {
+App.prototype.createSnippetPreview = function() {
 	this.snippetPreview = createDefaultSnippetPreview.call( this );
 	this.initSnippetPreview();
 };
@@ -1351,7 +1427,7 @@ YoastSEO.App.prototype.createSnippetPreview = function() {
 /**
  * Initializes the snippet preview for this App.
  */
-YoastSEO.App.prototype.initSnippetPreview = function() {
+App.prototype.initSnippetPreview = function() {
 	this.snippetPreview.renderTemplate();
 	this.snippetPreview.callRegisteredEventBinder();
 	this.snippetPreview.bindEvents();
@@ -1361,7 +1437,7 @@ YoastSEO.App.prototype.initSnippetPreview = function() {
 /**
  * binds the analyzeTimer function to the input of the targetElement on the page.
  */
-YoastSEO.App.prototype.bindInputEvent = function() {
+App.prototype.bindInputEvent = function() {
 	for ( var i = 0; i < this.config.elementTarget.length; i++ ) {
 		var elem = document.getElementById( this.config.elementTarget[ i ] );
 		elem.addEventListener( "input", this.analyzeTimer.bind( this ) );
@@ -1371,8 +1447,8 @@ YoastSEO.App.prototype.bindInputEvent = function() {
 /**
  * runs the rerender function of the snippetPreview if that object is defined.
  */
-YoastSEO.App.prototype.reloadSnippetText = function() {
-	if ( typeof this.snippetPreview !== "undefined" ) {
+App.prototype.reloadSnippetText = function() {
+	if ( isUndefined( this.snippetPreview ) ) {
 		this.snippetPreview.reRender();
 	}
 };
@@ -1382,7 +1458,7 @@ YoastSEO.App.prototype.reloadSnippetText = function() {
  * at every keystroke checks the reference object, so this function can be called from anywhere,
  * without problems with different scopes.
  */
-YoastSEO.App.prototype.analyzeTimer = function() {
+App.prototype.analyzeTimer = function() {
 	clearTimeout( window.timer );
 	window.timer = setTimeout( this.refresh.bind( this ), this.config.typeDelay );
 };
@@ -1390,14 +1466,14 @@ YoastSEO.App.prototype.analyzeTimer = function() {
 /**
  * sets the startTime timestamp
  */
-YoastSEO.App.prototype.startTime = function() {
+App.prototype.startTime = function() {
 	this.startTimestamp = new Date().getTime();
 };
 
 /**
  * sets the endTime timestamp and compares with startTime to determine typeDelayincrease.
  */
-YoastSEO.App.prototype.endTime = function() {
+App.prototype.endTime = function() {
 	this.endTimestamp = new Date().getTime();
 	if ( this.endTimestamp - this.startTimestamp > this.config.typeDelay ) {
 		if ( this.config.typeDelay < ( this.config.maxTypeDelay - this.config.typeDelayStep ) ) {
@@ -1410,7 +1486,7 @@ YoastSEO.App.prototype.endTime = function() {
  * inits a new pageAnalyzer with the inputs from the getInput function and calls the scoreFormatter
  * to format outputs.
  */
-YoastSEO.App.prototype.runAnalyzer = function() {
+App.prototype.runAnalyzer = function() {
 
 	if ( this.pluggable.loaded === false ) {
 		return;
@@ -1423,15 +1499,16 @@ YoastSEO.App.prototype.runAnalyzer = function() {
 	this.analyzerData = this.modifyData( this.rawData );
 	this.analyzerData.i18n = this.i18n;
 
-	var keyword = this.stringHelper.sanitizeKeyword( this.rawData.keyword );
+	var keyword = sanitizeString( this.rawData.keyword );
+
 	if ( keyword === "" ) {
 		this.analyzerData.queue = [ "keyphraseSizeCheck", "wordCount", "fleschReading", "pageTitleLength", "urlStopwords", "metaDescriptionLength" ];
 	}
 
 	this.analyzerData.keyword = keyword;
 
-	if ( typeof this.pageAnalyzer === "undefined" ) {
-		this.pageAnalyzer = new YoastSEO.Analyzer( this.analyzerData );
+	if ( isUndefined( this.pageAnalyzer ) ) {
+		this.pageAnalyzer = new Analyzer( this.analyzerData );
 
 		this.pluggable._addPluginTests( this.pageAnalyzer );
 	} else {
@@ -1441,7 +1518,7 @@ YoastSEO.App.prototype.runAnalyzer = function() {
 	}
 
 	this.pageAnalyzer.runQueue();
-	this.scoreFormatter = new YoastSEO.ScoreFormatter( {
+	this.scoreFormatter = new ScoreFormatter( {
 		scores: this.pageAnalyzer.analyzeScorer.__score,
 		overallScore: this.pageAnalyzer.analyzeScorer.__totalScore,
 		outputTarget: this.config.targets.output,
@@ -1464,7 +1541,7 @@ YoastSEO.App.prototype.runAnalyzer = function() {
  * @param data
  * @returns {*}
  */
-YoastSEO.App.prototype.modifyData = function( data ) {
+App.prototype.modifyData = function( data ) {
 
 	// Copy rawdata to lose object reference.
 	data = JSON.parse( JSON.stringify( data ) );
@@ -1478,7 +1555,7 @@ YoastSEO.App.prototype.modifyData = function( data ) {
 /**
  * Function to fire the analyzer when all plugins are loaded, removes the loading dialog.
  */
-YoastSEO.App.prototype.pluginsLoaded = function() {
+App.prototype.pluginsLoaded = function() {
 	this.getData();
 	this.removeLoadingDialog();
 	this.runAnalyzer();
@@ -1487,7 +1564,7 @@ YoastSEO.App.prototype.pluginsLoaded = function() {
 /**
  * Shows the loading dialog which shows the loading of the plugins.
  */
-YoastSEO.App.prototype.showLoadingDialog = function() {
+App.prototype.showLoadingDialog = function() {
 	var dialogDiv = document.createElement( "div" );
 	dialogDiv.className = "YoastSEO_msg";
 	dialogDiv.id = "YoastSEO-plugin-loading";
@@ -1498,40 +1575,120 @@ YoastSEO.App.prototype.showLoadingDialog = function() {
  * Updates the loading plugins. Uses the plugins as arguments to show which plugins are loading
  * @param plugins
  */
-YoastSEO.App.prototype.updateLoadingDialog = function( plugins ) {
+App.prototype.updateLoadingDialog = function( plugins ) {
 	var dialog = document.getElementById( "YoastSEO-plugin-loading" );
 	dialog.textContent = "";
-	for ( var plugin in this.pluggable.plugins ) {
-		dialog.innerHTML += "<span class=left>" + plugin + "</span><span class=right " +
-							plugins[ plugin ].status + ">" + plugins[ plugin ].status + "</span><br />";
-	}
+	forEach ( plugins, function( plugin, pluginName ) {
+		dialog.innerHTML += "<span class=left>" + pluginName + "</span><span class=right " +
+							plugin.status + ">" + plugin.status + "</span><br />";
+	} );
 	dialog.innerHTML += "<span class=bufferbar></span>";
 };
 
 /**
  * removes the pluging load dialog.
  */
-YoastSEO.App.prototype.removeLoadingDialog = function() {
+App.prototype.removeLoadingDialog = function() {
 	document.getElementById( this.config.targets.output ).removeChild( document.getElementById( "YoastSEO-plugin-loading" ) );
 };
 
-},{"../js/snippetPreview.js":28,"./snippetPreview.js":28,"jed":55,"lodash/lang/isUndefined":125}],17:[function(require,module,exports){
+/**************** PLUGGABLE PUBLIC DSL ****************/
+
+/**
+ * Delegates to `YoastSEO.app.pluggable.registerPlugin`
+ *
+ * @param pluginName	{string}
+ * @param options 		{{status: "ready"|"loading"}}
+ * @returns 			{boolean}
+ */
+App.prototype.registerPlugin = function( pluginName, options ) {
+	return this.pluggable._registerPlugin( pluginName, options );
+};
+
+/**
+ * Delegates to `YoastSEO.app.pluggable.ready`
+ *
+ * @param pluginName	{string}
+ * @returns 			{boolean}
+ */
+App.prototype.pluginReady = function( pluginName ) {
+	return this.pluggable._ready( pluginName );
+};
+
+/**
+ * Delegates to `YoastSEO.app.pluggable.reloaded`
+ *
+ * @param pluginName	{string}
+ * @returns 			{boolean}
+ */
+App.prototype.pluginReloaded = function( pluginName ) {
+	return this.pluggable._reloaded( pluginName );
+};
+
+/**
+ * Delegates to `YoastSEO.app.pluggable.registerModification`
+ *
+ * @param modification 	{string} 	The name of the filter
+ * @param callable 		{function} 	The callable
+ * @param pluginName 	{string} 	The plugin that is registering the modification.
+ * @param priority 		{number} 	(optional) Used to specify the order in which the callables associated with a particular filter are called.
+ * 									Lower numbers correspond with earlier execution.
+ * @returns 			{boolean}
+ */
+App.prototype.registerModification = function( modification, callable, pluginName, priority ) {
+	return this.pluggable._registerModification( modification, callable, pluginName, priority );
+};
+
+/**
+ * Registers a custom test for use in the analyzer, this will result in a new line in the analyzer results. The function
+ * has to return a result based on the contents of the page/posts.
+ *
+ * The scoring object is a special object with definitions about how to translate a result from your analysis function
+ * to a SEO score.
+ *
+ * Negative scores result in a red circle
+ * Scores 1, 2, 3, 4 and 5 result in a orange circle
+ * Scores 6 and 7 result in a yellow circle
+ * Scores 8, 9 and 10 result in a red circle
+ *
+ * @param {string}   name       Name of the test.
+ * @param {function} analysis   A function that analyzes the content and determines a score for a certain trait.
+ * @param {Object}   scoring    A scoring object that defines how the analysis translates to a certain SEO score.
+ * @param {string}   pluginName The plugin that is registering the test.
+ * @param {number}   priority   (optional) Determines when this test is run in the analyzer queue. Is currently ignored,
+ *                              tests are added to the end of the queue.
+ * @returns {boolean}
+ */
+App.prototype.registerTest = function( name, analysis, scoring, pluginName, priority ) {
+	return this.pluggable._registerTest( name, analysis, scoring, pluginName, priority );
+};
+
+module.exports = App;
+
+},{"../js/stringProcessing/sanitizeString.js":44,"./analyzer.js":14,"./config/config.js":19,"./errors/missingArgument":25,"./pluggable.js":26,"./scoreFormatter.js":27,"./snippetPreview.js":28,"jed":59,"lodash/collection/forEach":62,"lodash/lang/isObject":137,"lodash/lang/isString":139,"lodash/lang/isUndefined":141,"lodash/object/defaultsDeep":143}],17:[function(require,module,exports){
+/* global YoastSEO: true */
 YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 
-require( "./config/config.js" );
-require( "./config/scoring.js" );
-require( "./analyzer.js" );
-require( "./preprocessor.js" );
-require( "./analyzescorer.js" );
-require( "./scoreFormatter.js" );
-require( "./stringhelper.js" );
+YoastSEO.analyzerConfig = require( "./config/config.js" );
+YoastSEO.AnalyzerScoring = require( "./config/scoring.js" ).AnalyzerScoring;
+YoastSEO.analyzerScoreRating = require( "./config/scoring.js" ).analyzerScoreRating;
+YoastSEO.Analyzer = require( "./analyzer.js" );
+YoastSEO.AnalyzeScorer = require( "./analyzescorer.js" );
+YoastSEO.ScoreFormatter = require( "./scoreFormatter.js" );
 YoastSEO.SnippetPreview = require( "./snippetPreview.js" );
-require( "./app.js" );
-require( "./pluggable.js" );
+YoastSEO.Pluggable = require( "./pluggable.js" );
+YoastSEO.App = require( "./app.js" );
 
-YoastSEO.Jed = require( "Jed" );
+/**
+ * Temporary access for the Yoast SEO multi keyword implementation until we publish to npm.
+ *
+ * @private
+ */
+YoastSEO.App.prototype._sanitizeKeyword = require( "../js/stringProcessing/sanitizeString.js" );
 
-},{"./analyzer.js":14,"./analyzescorer.js":15,"./app.js":16,"./config/config.js":19,"./config/scoring.js":22,"./pluggable.js":25,"./preprocessor.js":26,"./scoreFormatter.js":27,"./snippetPreview.js":28,"./stringhelper.js":52,"Jed":54}],18:[function(require,module,exports){
+YoastSEO.Jed = require( "jed" );
+
+},{"../js/stringProcessing/sanitizeString.js":44,"./analyzer.js":14,"./analyzescorer.js":15,"./app.js":16,"./config/config.js":19,"./config/scoring.js":22,"./pluggable.js":26,"./scoreFormatter.js":27,"./snippetPreview.js":28,"jed":59}],18:[function(require,module,exports){
 /**
  * Returns a configobject with maxSlugLength, maxUrlLength and MaxMeta to be used
  * for analysis
@@ -1547,9 +1704,7 @@ module.exports = function(){
 };
 
 },{}],19:[function(require,module,exports){
-YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
-
-YoastSEO.analyzerConfig = {
+var analyzerConfig = {
 	queue: [ "wordCount", "keywordDensity", "subHeadings", "stopwords", "fleschReading", "linkCount", "imageCount", "urlKeyword", "urlLength", "metaDescriptionLength", "metaDescriptionKeyword", "pageTitleKeyword", "pageTitleLength", "firstParagraph", "urlStopwords", "keywordDoubles", "keyphraseSizeCheck" ],
 	stopWords: [ "a", "about", "above", "after", "again", "against", "all", "am", "an", "and", "any", "are", "as", "at", "be", "because", "been", "before", "being", "below", "between", "both", "but", "by", "could", "did", "do", "does", "doing", "down", "during", "each", "few", "for", "from", "further", "had", "has", "have", "having", "he", "he'd", "he'll", "he's", "her", "here", "here's", "hers", "herself", "him", "himself", "his", "how", "how's", "i", "i'd", "i'll", "i'm", "i've", "if", "in", "into", "is", "it", "it's", "its", "itself", "let's", "me", "more", "most", "my", "myself", "nor", "of", "on", "once", "only", "or", "other", "ought", "our", "ours", "ourselves", "out", "over", "own", "same", "she", "she'd", "she'll", "she's", "should", "so", "some", "such", "than", "that", "that's", "the", "their", "theirs", "them", "themselves", "then", "there", "there's", "these", "they", "they'd", "they'll", "they're", "they've", "this", "those", "through", "to", "too", "under", "until", "up", "very", "was", "we", "we'd", "we'll", "we're", "we've", "were", "what", "what's", "when", "when's", "where", "where's", "which", "while", "who", "who's", "whom", "why", "why's", "with", "would", "you", "you'd", "you'll", "you're", "you've", "your", "yours", "yourself", "yourselves" ],
 	wordsToRemove: [ " a", " in", " an", " on", " for", " the", " and" ],
@@ -1557,113 +1712,8 @@ YoastSEO.analyzerConfig = {
 	maxUrlLength: 40,
 	maxMeta: 156
 };
-YoastSEO.preprocessorConfig = {
-	syllables: {
-		subtractSyllables: [ "cial", "tia", "cius", "cious", "giu", "ion", "iou", "sia$", "[^aeiuoyt]{2,}ed$", "[aeiouy][^aeiuoyts]{1,}e\\b", ".ely$", "[cg]h?e[sd]", "rved$", "rved", "[aeiouy][dt]es?$", "[aeiouy][^aeiouydt]e[sd]?$", "^[dr]e[aeiou][^aeiou]+$", "[aeiouy]rse$" ],
-		addSyllables: [ "ia", "riet", "dien", "iu", "io", "ii", "[aeiouym][bdp]l", "[aeiou]{3}", "^mc", "ism$", "([^aeiouy])\1l$", "[^l]lien", "^coa[dglx].", "[^gq]ua[^auieo]", "dnt$", "uity$", "ie(r|st)", "[aeiouy]ing", "[aeiouw]y[aeiou]" ],
-		exclusionWords: [
-			{ word: "shoreline", syllables: 2 },
-			{ word: "simile", syllables: 3 }
-		]
-	},
-	diacriticsRemovalMap: [
-		{
-			base: "a",
-			letters: /[\u0061\u24D0\uFF41\u1E9A\u00E0\u00E1\u00E2\u1EA7\u1EA5\u1EAB\u1EA9\u00E3\u0101\u0103\u1EB1\u1EAF\u1EB5\u1EB3\u0227\u01E1\u00E4\u01DF\u1EA3\u00E5\u01FB\u01CE\u0201\u0203\u1EA1\u1EAD\u1EB7\u1E01\u0105\u2C65\u0250]/g
-		},
-		{ base: "aa", letters: /[\uA733]/g },
-		{ base: "ae", letters: /[\u00E6\u01FD\u01E3]/g },
-		{ base: "ao", letters: /[\uA735]/g },
-		{ base: "au", letters: /[\uA737]/g },
-		{ base: "av", letters: /[\uA739\uA73B]/g },
-		{ base: "ay", letters: /[\uA73D]/g },
-		{ base: "b", letters: /[\u0062\u24D1\uFF42\u1E03\u1E05\u1E07\u0180\u0183\u0253]/g },
-		{
-			base: "c",
-			letters: /[\u0063\u24D2\uFF43\u0107\u0109\u010B\u010D\u00E7\u1E09\u0188\u023C\uA73F\u2184]/g
-		},
-		{
-			base: "d",
-			letters: /[\u0064\u24D3\uFF44\u1E0B\u010F\u1E0D\u1E11\u1E13\u1E0F\u0111\u018C\u0256\u0257\uA77A]/g
-		},
-		{ base: "dz", letters: /[\u01F3\u01C6]/g },
-		{
-			base: "e",
-			letters: /[\u0065\u24D4\uFF45\u00E8\u00E9\u00EA\u1EC1\u1EBF\u1EC5\u1EC3\u1EBD\u0113\u1E15\u1E17\u0115\u0117\u00EB\u1EBB\u011B\u0205\u0207\u1EB9\u1EC7\u0229\u1E1D\u0119\u1E19\u1E1B\u0247\u025B\u01DD]/g
-		},
-		{ base: "f", letters: /[\u0066\u24D5\uFF46\u1E1F\u0192\uA77C]/g },
-		{
-			base: "g",
-			letters: /[\u0067\u24D6\uFF47\u01F5\u011D\u1E21\u011F\u0121\u01E7\u0123\u01E5\u0260\uA7A1\u1D79\uA77F]/g
-		},
-		{
-			base: "h",
-			letters: /[\u0068\u24D7\uFF48\u0125\u1E23\u1E27\u021F\u1E25\u1E29\u1E2B\u1E96\u0127\u2C68\u2C76\u0265]/g
-		},
-		{ base: "hv", letters: /[\u0195]/g },
-		{
-			base: "i",
-			letters: /[\u0069\u24D8\uFF49\u00EC\u00ED\u00EE\u0129\u012B\u012D\u00EF\u1E2F\u1EC9\u01D0\u0209\u020B\u1ECB\u012F\u1E2D\u0268\u0131]/g
-		},
-		{ base: "j", letters: /[\u006A\u24D9\uFF4A\u0135\u01F0\u0249]/g },
-		{
-			base: "k",
-			letters: /[\u006B\u24DA\uFF4B\u1E31\u01E9\u1E33\u0137\u1E35\u0199\u2C6A\uA741\uA743\uA745\uA7A3]/g
-		},
-		{
-			base: "l",
-			letters: /[\u006C\u24DB\uFF4C\u0140\u013A\u013E\u1E37\u1E39\u013C\u1E3D\u1E3B\u017F\u0142\u019A\u026B\u2C61\uA749\uA781\uA747]/g
-		},
-		{ base: "lj", letters: /[\u01C9]/g },
-		{ base: "m", letters: /[\u006D\u24DC\uFF4D\u1E3F\u1E41\u1E43\u0271\u026F]/g },
-		{
-			base: "n",
-			letters: /[\u006E\u24DD\uFF4E\u01F9\u0144\u00F1\u1E45\u0148\u1E47\u0146\u1E4B\u1E49\u019E\u0272\u0149\uA791\uA7A5]/g
-		},
-		{ base: "nj", letters: /[\u01CC]/g },
-		{
-			base: "o",
-			letters: /[\u006F\u24DE\uFF4F\u00F2\u00F3\u00F4\u1ED3\u1ED1\u1ED7\u1ED5\u00F5\u1E4D\u022D\u1E4F\u014D\u1E51\u1E53\u014F\u022F\u0231\u00F6\u022B\u1ECF\u0151\u01D2\u020D\u020F\u01A1\u1EDD\u1EDB\u1EE1\u1EDF\u1EE3\u1ECD\u1ED9\u01EB\u01ED\u00F8\u01FF\u0254\uA74B\uA74D\u0275]/g
-		},
-		{ base: "oi", letters: /[\u01A3]/g },
-		{ base: "ou", letters: /[\u0223]/g },
-		{ base: "oo", letters: /[\uA74F]/g },
-		{ base: "p", letters: /[\u0070\u24DF\uFF50\u1E55\u1E57\u01A5\u1D7D\uA751\uA753\uA755]/g },
-		{ base: "q", letters: /[\u0071\u24E0\uFF51\u024B\uA757\uA759]/g },
-		{
-			base: "r",
-			letters: /[\u0072\u24E1\uFF52\u0155\u1E59\u0159\u0211\u0213\u1E5B\u1E5D\u0157\u1E5F\u024D\u027D\uA75B\uA7A7\uA783]/g
-		},
-		{
-			base: "s",
-			letters: /[\u0073\u24E2\uFF53\u00DF\u015B\u1E65\u015D\u1E61\u0161\u1E67\u1E63\u1E69\u0219\u015F\u023F\uA7A9\uA785\u1E9B]/g
-		},
-		{
-			base: "t",
-			letters: /[\u0074\u24E3\uFF54\u1E6B\u1E97\u0165\u1E6D\u021B\u0163\u1E71\u1E6F\u0167\u01AD\u0288\u2C66\uA787]/g
-		},
-		{ base: "tz", letters: /[\uA729]/g },
-		{
-			base: "u",
-			letters: /[\u0075\u24E4\uFF55\u00F9\u00FA\u00FB\u0169\u1E79\u016B\u1E7B\u016D\u00FC\u01DC\u01D8\u01D6\u01DA\u1EE7\u016F\u0171\u01D4\u0215\u0217\u01B0\u1EEB\u1EE9\u1EEF\u1EED\u1EF1\u1EE5\u1E73\u0173\u1E77\u1E75\u0289]/g
-		},
-		{ base: "v", letters: /[\u0076\u24E5\uFF56\u1E7D\u1E7F\u028B\uA75F\u028C]/g },
-		{ base: "vy", letters: /[\uA761]/g },
-		{
-			base: "w",
-			letters: /[\u0077\u24E6\uFF57\u1E81\u1E83\u0175\u1E87\u1E85\u1E98\u1E89\u2C73]/g
-		},
-		{ base: "x", letters: /[\u0078\u24E7\uFF58\u1E8B\u1E8D]/g },
-		{
-			base: "y",
-			letters: /[\u0079\u24E8\uFF59\u1EF3\u00FD\u0177\u1EF9\u0233\u1E8F\u00FF\u1EF7\u1E99\u1EF5\u01B4\u024F\u1EFF]/g
-		},
-		{
-			base: "z",
-			letters: /[\u007A\u24E9\uFF5A\u017A\u1E91\u017C\u017E\u1E93\u1E95\u01B6\u0225\u0240\u2C6C\uA763]/g
-		}
-	]
-};
+
+module.exports = analyzerConfig;
 
 },{}],20:[function(require,module,exports){
 /** @module config/diacritics */
@@ -1786,15 +1836,12 @@ module.exports = function(){
 };
 
 },{}],22:[function(require,module,exports){
-YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
-
-YoastSEO.analyzerScoreRating = 9;
 /**
  *
  * @param {Jed} i18n
  * @constructor
  */
-YoastSEO.AnalyzerScoring = function( i18n ) {
+var AnalyzerScoring = function( i18n ) {
     this.analyzerScoring = [
         {
             scoreName: "wordCount",
@@ -1987,7 +2034,7 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
                     name: "scoreText",
                     position: "{{text}}",
 
-                    /* translators: %1$s expands to the numeric flesh reading ease score, %2$s to a link to a Yoast.com article about Flesh ease reading score, %3$s to the easyness of reading, %4$s expands to a note about the flesh reading score. */
+                    /* translators: %1$s expands to the numeric flesch reading ease score, %2$s to a link to a Yoast.com article about Flesch ease reading score, %3$s to the easyness of reading, %4$s expands to a note about the flesch reading score. */
                     value: i18n.dgettext('js-text-analysis', "The copy scores %1$s in the %2$s test, which is considered %3$s to read. %4$s")
                 },
                 { name: "text", position: "%1$s", sourceObj: ".result" },
@@ -2063,20 +2110,22 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
                 {
                     matcher: "count",
                     min: 1,
-                    score: 5,
-
-                    /* translators: %1$s expands to a link to the wikipedia article about stop words, %2$s expands to the actual stop words found in the text */
-                    text: i18n.dgettext( "js-text-analysis", "The focus keyword for this page contains one or more %1$s, consider removing them. Found \'%2$s\'." )
+                    /* translators: %1$s opens a link to a Yoast article about stop words, %2$s closes the link */
+                    text: i18n.dgettext( "js-text-analysis", "Your focus keyword contains one or more stop words. This may or may not be wise depending on the circumstances. Read %1$sthis article%2$s for more info." )
                 },
                 { matcher: "count", max: 0, score: 0, text: "" }
             ],
             replaceArray: [
                 {
-                    name: "scoreUrl",
+                    name: "urlOpen",
                     position: "%1$s",
-                    value: i18n.dgettext( "js-text-analysis", "<a href='https://en.wikipedia.org/wiki/Stop_words' target='new'>stop words</a>" )
+                    value: "<a href='https://yoast.com/handling-stopwords/' target='new'>"
                 },
-                { name: "stopwords", position: "%2$s", sourceObj: ".result.matches" }
+                {
+                    name: "urlClose",
+                    position: "%2$s",
+                    value: "</a>"
+                }
             ]
         }, {
             scoreName: "subHeadings",
@@ -2272,6 +2321,11 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
     ];
 };
 
+module.exports = {
+    AnalyzerScoring: AnalyzerScoring,
+    analyzerScoreRating: 9
+};
+
 },{}],23:[function(require,module,exports){
 /** @module config/stopwords */
 
@@ -2307,10 +2361,20 @@ module.exports = function(){
 };
 
 },{}],25:[function(require,module,exports){
+module.exports = function MissingArgumentError( message ) {
+	Error.captureStackTrace( this, this.constructor );
+	this.name = this.constructor.name;
+	this.message = message;
+};
+
+require( "util" ).inherits( module.exports, Error );
+
+},{"util":58}],26:[function(require,module,exports){
 /* global console: true */
 /* global setTimeout: true */
-/* global YoastSEO: true */
-YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
+var isUndefined = require( "lodash/lang/isUndefined" );
+var forEach = require( "lodash/collection/forEach" );
+var reduce = require( "lodash/collection/reduce" );
 
 /**
  * The plugins object takes care of plugin registrations, preloading and managing data modifications.
@@ -2333,7 +2397,7 @@ YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
  * @property modifications 		{object} The modifications that have been registered. Every modification contains an array with callables.
  * @property customTests        {Array} All tests added by plugins.
  */
-YoastSEO.Pluggable = function( app ) {
+var Pluggable = function( app ) {
 	this.app = app;
 	this.loaded = false;
 	this.preloadThreshold = 3000;
@@ -2345,77 +2409,6 @@ YoastSEO.Pluggable = function( app ) {
 	setTimeout( this._pollLoadingPlugins.bind( this ), 1500 );
 };
 
-/**************** PUBLIC DSL ****************/
-
-/**
- * Delegates to `YoastSEO.app.pluggable.registerPlugin`
- *
- * @param pluginName	{string}
- * @param options 		{{status: "ready"|"loading"}}
- * @returns 			{boolean}
- */
-YoastSEO.App.prototype.registerPlugin = function( pluginName, options ) {
-	return this.pluggable._registerPlugin( pluginName, options );
-};
-
-/**
- * Delegates to `YoastSEO.app.pluggable.ready`
- *
- * @param pluginName	{string}
- * @returns 			{boolean}
- */
-YoastSEO.App.prototype.pluginReady = function( pluginName ) {
-	return this.pluggable._ready( pluginName );
-};
-
-/**
- * Delegates to `YoastSEO.app.pluggable.reloaded`
- *
- * @param pluginName	{string}
- * @returns 			{boolean}
- */
-YoastSEO.App.prototype.pluginReloaded = function( pluginName ) {
-	return this.pluggable._reloaded( pluginName );
-};
-
-/**
- * Delegates to `YoastSEO.app.pluggable.registerModification`
- *
- * @param modification 	{string} 	The name of the filter
- * @param callable 		{function} 	The callable
- * @param pluginName 	{string} 	The plugin that is registering the modification.
- * @param priority 		{number} 	(optional) Used to specify the order in which the callables associated with a particular filter are called.
- * 									Lower numbers correspond with earlier execution.
- * @returns 			{boolean}
- */
-YoastSEO.App.prototype.registerModification = function( modification, callable, pluginName, priority ) {
-	return this.pluggable._registerModification( modification, callable, pluginName, priority );
-};
-
-/**
- * Registers a custom test for use in the analyzer, this will result in a new line in the analyzer results. The function
- * has to return a result based on the contents of the page/posts.
- *
- * The scoring object is a special object with definitions about how to translate a result from your analysis function
- * to a SEO score.
- *
- * Negative scores result in a red circle
- * Scores 1, 2, 3, 4 and 5 result in a orange circle
- * Scores 6 and 7 result in a yellow circle
- * Scores 8, 9 and 10 result in a red circle
- *
- * @param {string}   name       Name of the test.
- * @param {function} analysis   A function that analyzes the content and determines a score for a certain trait.
- * @param {Object}   scoring    A scoring object that defines how the analysis translates to a certain SEO score.
- * @param {string}   pluginName The plugin that is registering the test.
- * @param {number}   priority   (optional) Determines when this test is run in the analyzer queue. Is currently ignored,
- *                              tests are added to the end of the queue.
- * @returns {boolean}
- */
-YoastSEO.App.prototype.registerTest = function( name, analysis, scoring, pluginName, priority ) {
-	return this.pluggable._registerTest( name, analysis, scoring, pluginName, priority );
-};
-
 /**************** DSL IMPLEMENTATION ****************/
 
 /**
@@ -2425,13 +2418,13 @@ YoastSEO.App.prototype.registerTest = function( name, analysis, scoring, pluginN
  * @param options 		{{status: "ready"|"loading"}}
  * @returns 			{boolean}
  */
-YoastSEO.Pluggable.prototype._registerPlugin = function( pluginName, options ) {
+Pluggable.prototype._registerPlugin = function( pluginName, options ) {
 	if ( typeof pluginName !== "string" ) {
 		console.error( "Failed to register plugin. Expected parameter `pluginName` to be a string." );
 		return false;
 	}
 
-	if ( typeof options !== "undefined" && typeof options !== "object" ) {
+	if ( !isUndefined( options ) && typeof options !== "object" ) {
 		console.error( "Failed to register plugin " + pluginName + ". Expected parameters `options` to be a string." );
 		return false;
 	}
@@ -2452,13 +2445,13 @@ YoastSEO.Pluggable.prototype._registerPlugin = function( pluginName, options ) {
  * @param pluginName	{string}
  * @returns 			{boolean}
  */
-YoastSEO.Pluggable.prototype._ready = function( pluginName ) {
+Pluggable.prototype._ready = function( pluginName ) {
 	if ( typeof pluginName !== "string" ) {
 		console.error( "Failed to modify status for plugin " + pluginName + ". Expected parameter `pluginName` to be a string." );
 		return false;
 	}
 
-	if ( this.plugins[pluginName] === undefined ) {
+	if ( isUndefined( this.plugins[pluginName] ) ) {
 		console.error( "Failed to modify status for plugin " + pluginName + ". The plugin was not properly registered." );
 		return false;
 	}
@@ -2474,13 +2467,13 @@ YoastSEO.Pluggable.prototype._ready = function( pluginName ) {
  * @param pluginName	{string}
  * @returns 			{boolean}
  */
-YoastSEO.Pluggable.prototype._reloaded = function( pluginName ) {
+Pluggable.prototype._reloaded = function( pluginName ) {
 	if ( typeof pluginName !== "string" ) {
 		console.error( "Failed to reload Content Analysis for " + pluginName + ". Expected parameter `pluginName` to be a string." );
 		return false;
 	}
 
-	if ( this.plugins[pluginName] === undefined ) {
+	if ( isUndefined( this.plugins[pluginName] ) ) {
 		console.error( "Failed to reload Content Analysis for plugin " + pluginName + ". The plugin was not properly registered." );
 		return false;
 	}
@@ -2499,7 +2492,7 @@ YoastSEO.Pluggable.prototype._reloaded = function( pluginName ) {
  * 									Lower numbers correspond with earlier execution.
  * @returns 			{boolean}
  */
-YoastSEO.Pluggable.prototype._registerModification = function( modification, callable, pluginName, priority ) {
+Pluggable.prototype._registerModification = function( modification, callable, pluginName, priority ) {
 	if ( typeof modification !== "string" ) {
 		console.error( "Failed to register modification for plugin " + pluginName + ". Expected parameter `modification` to be a string." );
 		return false;
@@ -2531,7 +2524,7 @@ YoastSEO.Pluggable.prototype._registerModification = function( modification, cal
 	};
 
 	// Make sure modification is defined on modifications object
-	if ( this.modifications[modification] === undefined ) {
+	if ( isUndefined( this.modifications[modification] ) ) {
 		this.modifications[modification] = [];
 	}
 
@@ -2543,7 +2536,7 @@ YoastSEO.Pluggable.prototype._registerModification = function( modification, cal
 /**
  * @private
  */
-YoastSEO.Pluggable.prototype._registerTest = function( name, analysis, scoring, pluginName, priority ) {
+Pluggable.prototype._registerTest = function( name, analysis, scoring, pluginName, priority ) {
 	if ( typeof name !== "string" ) {
 		console.error( "Failed to register test for plugin " + pluginName + ". Expected parameter `name` to be a string." );
 		return false;
@@ -2591,8 +2584,8 @@ YoastSEO.Pluggable.prototype._registerTest = function( name, analysis, scoring, 
  * @param pollTime {number} (optional) The accumulated time to compare with the pre-load threshold.
  * @private
  */
-YoastSEO.Pluggable.prototype._pollLoadingPlugins = function( pollTime ) {
-	pollTime = pollTime === undefined ? 0 : pollTime;
+Pluggable.prototype._pollLoadingPlugins = function( pollTime ) {
+	pollTime = isUndefined( pollTime ) ? 0 : pollTime;
 	if ( this._allReady() === true ) {
 		this.loaded = true;
 		this.app.pluginsLoaded();
@@ -2610,13 +2603,10 @@ YoastSEO.Pluggable.prototype._pollLoadingPlugins = function( pollTime ) {
  * @returns {boolean}
  * @private
  */
-YoastSEO.Pluggable.prototype._allReady = function() {
-	for ( var plugin in this.plugins ) {
-		if ( this.plugins[plugin].status !== "ready" ) {
-			return false;
-		}
-	}
-	return true;
+Pluggable.prototype._allReady = function() {
+	return reduce( this.plugins, function( allReady, plugin ) {
+		return allReady && plugin.status === "ready";
+	}, true );
 };
 
 /**
@@ -2624,13 +2614,13 @@ YoastSEO.Pluggable.prototype._allReady = function() {
  *
  * @private
  */
-YoastSEO.Pluggable.prototype._pollTimeExceeded = function() {
-	for ( var plugin in this.plugins ) {
-		if ( this.plugins[plugin].options !== undefined && this.plugins[plugin].options.status !== "ready" ) {
-			console.error( "Error: Plugin " + plugin + ". did not finish loading in time." );
-			delete this.plugins[plugin];
+Pluggable.prototype._pollTimeExceeded = function() {
+	forEach ( this.plugins, function( plugin, pluginName ) {
+		if ( !isUndefined( plugin.options ) && plugin.options.status !== "ready" ) {
+			console.error( "Error: Plugin " + pluginName + ". did not finish loading in time." );
+			delete this.plugins[pluginName];
 		}
-	}
+	} );
 	this.loaded = true;
 	this.app.pluginsLoaded();
 };
@@ -2644,7 +2634,7 @@ YoastSEO.Pluggable.prototype._pollTimeExceeded = function() {
  * @returns 			{*} 		The filtered data
  * @private
  */
-YoastSEO.Pluggable.prototype._applyModifications = function( modification, data, context ) {
+Pluggable.prototype._applyModifications = function( modification, data, context ) {
 	var callChain = this.modifications[modification];
 
 	if ( callChain instanceof Array && callChain.length > 0 ) {
@@ -2653,17 +2643,17 @@ YoastSEO.Pluggable.prototype._applyModifications = function( modification, data,
 		callChain.sort( function( a, b ) {
 			return a.priority - b.priority;
 		} );
-		for ( var callableObject in callChain ) {
-			var callable = callChain[callableObject].callable;
+		forEach( callChain, function( callableObject ) {
+			var callable = callableObject.callable;
 			var newData = callable( data, context );
 			if ( typeof newData === typeof data ) {
 				data = newData;
 			} else {
 				console.error( "Modification with name " + modification + " performed by plugin with name " +
-				callChain[callableObject].origin +
+				callableObject.origin +
 				" was ignored because the data that was returned by it was of a different type than the data we had passed it." );
 			}
-		}
+		} );
 	}
 	return data;
 
@@ -2675,7 +2665,7 @@ YoastSEO.Pluggable.prototype._applyModifications = function( modification, data,
  * @param {YoastSEO.Analyzer} analyzer The analyzer object to add the tests to
  * @private
  */
-YoastSEO.Pluggable.prototype._addPluginTests = function( analyzer ) {
+Pluggable.prototype._addPluginTests = function( analyzer ) {
 	this.customTests.map( function( customTest ) {
 		this._addPluginTest( analyzer, customTest );
 	}, this );
@@ -2691,7 +2681,7 @@ YoastSEO.Pluggable.prototype._addPluginTests = function( analyzer ) {
  * @param {Object}            pluginTest.scoring
  * @private
  */
-YoastSEO.Pluggable.prototype._addPluginTest = function( analyzer, pluginTest ) {
+Pluggable.prototype._addPluginTest = function( analyzer, pluginTest ) {
 	analyzer.addAnalysis( {
 		"name": pluginTest.name,
 		"callable": pluginTest.analysis
@@ -2710,12 +2700,12 @@ YoastSEO.Pluggable.prototype._addPluginTest = function( analyzer, pluginTest ) {
  * @returns callChain 	{Array}
  * @private
  */
-YoastSEO.Pluggable.prototype._stripIllegalModifications = function( callChain ) {
-	for ( var callableObject in callChain ) {
-		if ( this._validateOrigin( callChain[callableObject].origin ) === false ) {
-			delete callChain[callableObject];
+Pluggable.prototype._stripIllegalModifications = function( callChain ) {
+	forEach ( callChain, function( callableObject, index ) {
+		if ( this._validateOrigin( callableObject.origin ) === false ) {
+			delete callChain[index];
 		}
-	}
+	} );
 
 	return callChain;
 };
@@ -2727,7 +2717,7 @@ YoastSEO.Pluggable.prototype._stripIllegalModifications = function( callChain ) 
  * @returns 			{boolean}
  * @private
  */
-YoastSEO.Pluggable.prototype._validateOrigin = function( pluginName ) {
+Pluggable.prototype._validateOrigin = function( pluginName ) {
 	if ( this.plugins[pluginName].status !== "ready" ) {
 		return false;
 	}
@@ -2741,272 +2731,29 @@ YoastSEO.Pluggable.prototype._validateOrigin = function( pluginName ) {
  * @returns 			{boolean}
  * @private
  */
-YoastSEO.Pluggable.prototype._validateUniqueness = function( pluginName ) {
-	if ( this.plugins[pluginName] !== undefined ) {
+Pluggable.prototype._validateUniqueness = function( pluginName ) {
+	if ( !isUndefined( this.plugins[pluginName] ) ) {
 		return false;
 	}
 	return true;
 };
 
-},{}],26:[function(require,module,exports){
-/* global YoastSEO: true */
-YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
+module.exports = Pluggable;
 
-/**
- * YoastSEO.PreProcessor object definition. Creates __store object and calls init.
- * @params textString
- */
-YoastSEO.PreProcessor = function( text ) {
-
-	//create __store object to store data
-	this.__store = {};
-	this.__store.originalText = text;
-	this.stringHelper = YoastSEO.getStringHelper();
-	this.init();
-};
-
-/**
- * init function calling all necessary PreProcessorfunctions
- */
-YoastSEO.PreProcessor.prototype.init = function() {
-
-	//call function to clean text
-	this.textFormat();
-
-	//call function to count words
-	this.countStore();
-};
-
-/**
- * formats the original text from __store and save as cleantext, cleantextSomeTags en
- * cleanTextNoTags
- */
-YoastSEO.PreProcessor.prototype.textFormat = function() {
-	this.__store.cleanText = this.cleanText( this.__store.originalText );
-	this.__store.cleanTextSomeTags = this.stringHelper.stripSomeTags( this.__store.cleanText );
-	this.__store.cleanTextNoTags = this.stringHelper.stripAllTags( this.__store.cleanTextSomeTags );
-	this.__store.cleanTextNoDigits = this.stringHelper.stripNonWords( this.__store.cleanTextNoTags );
-};
-
-/**
- * saves wordcount (all words) and wordcountNoTags (all words except those in tags) in the __store
- * saves sentencecount and syllable count in __store
- * object
- */
-YoastSEO.PreProcessor.prototype.countStore = function() {
-
-	/*wordcounters*/
-	var wordcountString = this.__store.cleanText;
-
-	this.__store.wordcount = wordcountString === "" ?
-		0 :
-		wordcountString.split( /\s/g ).length;
-
-	var wordcountStringNoTags = this.__store.cleanTextNoTags;
-
-	this.__store.wordcountNoTags = wordcountStringNoTags === "" ?
-		0 :
-		wordcountStringNoTags.split( /\s/g ).length;
-
-	var wordcountStringNoDigits = this.__store.cleanTextNoDigits;
-
-	this.__store.wordcountNoDigits = wordcountStringNoDigits === "" ?
-		0 :
-		wordcountStringNoDigits.split ( /\s/g ).length;
-
-	/*sentencecounters*/
-	this.__store.sentenceCountNoTags = this.sentenceCount( this.__store.cleanTextNoDigits );
-
-	/*syllablecounters*/
-	this.__store.syllablecount = this.syllableCount( this.__store.cleanTextNoDigits );
-};
-
-/**
- * counts the number of sentences in a textstring by splitting on a period. Removes sentences that
- * are empty or have only a space.
- * @param textString
- */
-YoastSEO.PreProcessor.prototype.sentenceCount = function( textString ) {
-	var sentences = textString.split( "." );
-	var sentenceCount = 0;
-	for ( var i = 0; i < sentences.length; i++ ) {
-		if ( sentences[ i ] !== "" && sentences[ i ] !== " " ) {
-			sentenceCount++;
-		}
-	}
-	return sentenceCount;
-};
-
-/**
- * counts the number of syllables in a textstring, calls exclusionwordsfunction, basic syllable
- * counter and advanced syllable counter.
- * @param textString
- * @returns syllable count
- */
-YoastSEO.PreProcessor.prototype.syllableCount = function( textString ) {
-	this.syllableCount = 0;
-	textString = textString.replace( /[.]/g, " " );
-	textString = this.removeWords( textString );
-	var words = textString.split( " " );
-	var subtractSyllablesRegexp = this.stringHelper.stringToRegex(
-		YoastSEO.preprocessorConfig.syllables.subtractSyllables,
-		true
-	);
-	var addSyllablesRegexp = this.stringHelper.stringToRegex(
-		YoastSEO.preprocessorConfig.syllables.addSyllables,
-		true
-	);
-	for ( var i = 0; i < words.length; i++ ) {
-		this.basicSyllableCount( words[ i ].split( /[^aeiouy]/g ) );
-		this.advancedSyllableCount( words[ i ], subtractSyllablesRegexp, "subtract" );
-		this.advancedSyllableCount( words[ i ], addSyllablesRegexp, "add" );
-	}
-	return this.syllableCount;
-};
-
-/**
- * counts the syllables by splitting on consonants
- * @param splitWordArray
- */
-
-YoastSEO.PreProcessor.prototype.basicSyllableCount = function( splitWordArray ) {
-	for ( var j = 0; j < splitWordArray.length; j++ ) {
-		if ( splitWordArray[ j ].length > 0 ) {
-			this.syllableCount++;
-		}
-	}
-};
-
-/**
- * counts the syllables by validating against regexxes, and adding and subtracting the number of
- * matches.
- * @param inputString
- * @param regex
- * @param operator
- */
-YoastSEO.PreProcessor.prototype.advancedSyllableCount = function( inputString, regex, operator ) {
-	var match = inputString.match( regex );
-	if ( match !== null ) {
-		if ( operator === "subtract" ) {
-			this.syllableCount -= match.length;
-		} else if ( operator === "add" ) {
-			this.syllableCount += match.length;
-		}
-	}
-};
-
-/**
- * removes words from textstring and count syllables. Used for words that fail against regexes.
- * @param textString
- * @returns textString with exclusionwords removed
- */
-YoastSEO.PreProcessor.prototype.removeWords = function( textString ) {
-	var config = YoastSEO.preprocessorConfig;
-
-	for ( var i = 0; i < config.syllables.exclusionWords.length; i++ ) {
-		var exclusionRegex = new RegExp(
-			config.syllables.exclusionWords[ i ].word,
-			"g"
-		);
-		var matches = textString.match( exclusionRegex );
-		if ( matches !== null ) {
-			this.syllableCount += config.syllables.exclusionWords[ i ].syllables;
-			textString = textString.replace( exclusionRegex, "" );
-		}
-	}
-	return textString;
-};
-
-/**
- * cleans text by removing special characters, numberonly words and replacing all terminators by
- * periods
- * @param textString
- * @returns textString
- */
-YoastSEO.PreProcessor.prototype.cleanText = function( textString ) {
-	if ( textString !== "" ) {
-		textString = this.replaceDiacritics( textString );
-		textString = textString.toLocaleLowerCase();
-
-		// Remove some HTML entities as first action
-		textString = textString.replace( "&nbsp;", " " );
-
-		// unify all terminators
-		textString = textString.replace( /[.?!]/g, "." );
-
-		// Remove double spaces
-		textString = this.stringHelper.stripSpaces( textString );
-
-		// add period in case it is missing
-		textString += ".";
-
-		// replace newlines with spaces
-		textString = textString.replace( /[ ]*(\n|\r\n|\r)[ ]*/g, " " );
-
-		// remove duplicate terminators
-		textString = textString.replace( /([\.])[\. ]+/g, "$1" );
-
-		// pad sentence terminators
-		textString = textString.replace( /[ ]*([\.])+/g, "$1 " );
-
-		// Remove double spaces
-		textString = this.stringHelper.stripSpaces( textString );
-
-		if ( textString === "." ) {
-			textString = "";
-		}
-	}
-	return textString;
-};
-
-/**
- * replaces all diacritics with standard characters following the diacritics removal map from the
- * config.
- * @param textString
- * @returns textString
- */
-YoastSEO.PreProcessor.prototype.replaceDiacritics = function( textString ) {
-	var config = YoastSEO.preprocessorConfig;
-
-	for ( var i = 0; i < config.diacriticsRemovalMap.length; i++ ) {
-		textString = textString.replace(
-			config.diacriticsRemovalMap[ i ].letters,
-			config.diacriticsRemovalMap[ i ].base
-		);
-	}
-	return textString;
-};
-
-/**
- * Checks if the preprocessor is already initialized and if so if the textstring differs from the
- * input.
- *
- * @param inputString
- * @returns {YoastSEO.PreProcessor}
- */
-YoastSEO.getPreProcessor = function( inputString ) {
-	if (
-		typeof YoastSEO.cachedPreProcessor !== "object" ||
-		YoastSEO.cachedPreProcessor.inputText !== inputString
-	) {
-		YoastSEO.cachedPreProcessor = new YoastSEO.PreProcessor( inputString );
-	}
-	return YoastSEO.cachedPreProcessor;
-};
-
-},{}],27:[function(require,module,exports){
+},{"lodash/collection/forEach":62,"lodash/collection/reduce":63,"lodash/lang/isUndefined":141}],27:[function(require,module,exports){
 /* jshint browser: true */
-/* global YoastSEO: true */
-YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
+
+var isUndefined = require( "lodash/lang/isUndefined" );
+var difference = require( "lodash/array/difference" );
 
 /**
  * defines the variables used for the scoreformatter, runs the outputScore en overallScore
  * functions.
  *
- * @param {YoastSEO.App} args
+ * @param {App} args
  * @constructor
  */
-YoastSEO.ScoreFormatter = function( args ) {
+var ScoreFormatter = function( args ) {
 	this.scores = args.scores;
 	this.overallScore = args.overallScore;
 	this.outputTarget = args.outputTarget;
@@ -3020,7 +2767,7 @@ YoastSEO.ScoreFormatter = function( args ) {
 /**
  * Renders the score in the HTML.
  */
-YoastSEO.ScoreFormatter.prototype.renderScore = function() {
+ScoreFormatter.prototype.renderScore = function() {
 	this.outputScore();
 	this.outputOverallScore();
 };
@@ -3028,10 +2775,11 @@ YoastSEO.ScoreFormatter.prototype.renderScore = function() {
 /**
  * creates the list for showing the results from the analyzerscorer
  */
-YoastSEO.ScoreFormatter.prototype.outputScore = function() {
+ScoreFormatter.prototype.outputScore = function() {
 	var seoScoreText, scoreRating;
 
 	this.sortScores();
+
 	var outputTarget = document.getElementById( this.outputTarget );
 	outputTarget.innerHTML = "";
 	var newList = document.createElement( "ul" );
@@ -3066,16 +2814,35 @@ YoastSEO.ScoreFormatter.prototype.outputScore = function() {
 /**
  * sorts the scores array on ascending scores
  */
-YoastSEO.ScoreFormatter.prototype.sortScores = function() {
-	this.scores = this.scores.sort( function( a, b ) {
+ScoreFormatter.prototype.sortScores = function() {
+	var unsortables = this.getUndefinedScores( this.scores );
+	var sortables = difference( this.scores, unsortables );
+
+	sortables.sort( function( a, b ) {
 		return a.score - b.score;
 	} );
+
+	this.scores = unsortables.concat( sortables );
+};
+
+/**
+ * Extracts scorers with a score of undefined
+ *
+ * @param {Array} scorers The scorers that are being sorted
+ * @returns {Array} The scorers that cannot be sorted
+ */
+ScoreFormatter.prototype.getUndefinedScores = function( scorers ) {
+	var filtered = scorers.filter( function( scorer ) {
+		return isUndefined( scorer.score );
+	} );
+
+	return filtered;
 };
 
 /**
  * outputs the overallScore in the overallTarget element.
  */
-YoastSEO.ScoreFormatter.prototype.outputOverallScore = function() {
+ScoreFormatter.prototype.outputOverallScore = function() {
 	var overallTarget = document.getElementById( this.overallTarget );
 
 	if ( overallTarget ) {
@@ -3090,10 +2857,11 @@ YoastSEO.ScoreFormatter.prototype.outputOverallScore = function() {
 
 /**
  * Retuns a string that is used as a CSSclass, based on the numeric score or the NA string.
+ *
  * @param {number|string} score
  * @returns {string} scoreRate
  */
-YoastSEO.ScoreFormatter.prototype.scoreRating = function( score ) {
+ScoreFormatter.prototype.scoreRating = function( score ) {
 	var scoreRate;
 	switch ( true ) {
 		case score <= 4:
@@ -3115,10 +2883,11 @@ YoastSEO.ScoreFormatter.prototype.scoreRating = function( score ) {
 
 /**
  * Divides the total score by ten and calls the scoreRating function.
+ *
  * @param {number|string} score
  * @returns {string} scoreRate
  */
-YoastSEO.ScoreFormatter.prototype.overallScoreRating = function( score ) {
+ScoreFormatter.prototype.overallScoreRating = function( score ) {
 	if ( typeof score === "number" ) {
 		score = ( score / 10 );
 	}
@@ -3132,7 +2901,7 @@ YoastSEO.ScoreFormatter.prototype.overallScoreRating = function( score ) {
  *
  * @return {string}
  */
-YoastSEO.ScoreFormatter.prototype.getSEOScoreText = function( scoreRating ) {
+ScoreFormatter.prototype.getSEOScoreText = function( scoreRating ) {
 	var scoreText = "";
 
 	switch ( scoreRating ) {
@@ -3156,9 +2925,10 @@ YoastSEO.ScoreFormatter.prototype.getSEOScoreText = function( scoreRating ) {
 	return scoreText;
 };
 
-},{}],28:[function(require,module,exports){
+module.exports = ScoreFormatter;
+
+},{"lodash/array/difference":60,"lodash/lang/isUndefined":141}],28:[function(require,module,exports){
 /* jshint browser: true */
-/* global YoastSEO: false */
 
 var isEmpty = require( "lodash/lang/isEmpty" );
 var isElement = require( "lodash/lang/isElement" );
@@ -3166,8 +2936,15 @@ var isUndefined = require( "lodash/lang/isUndefined" );
 var clone = require( "lodash/lang/clone" );
 var defaultsDeep = require( "lodash/object/defaultsDeep" );
 var forEach = require( "lodash/collection/forEach" );
-var map = require( "lodash/collection/map" );
 var debounce = require( "lodash/function/debounce" );
+
+var stringToRegex = require( "../js/stringProcessing/stringToRegex.js" );
+var stripHTMLTags = require( "../js/stringProcessing/stripHTMLTags.js" );
+var sanitizeString = require( "../js/stringProcessing/sanitizeString.js" );
+var stripSpaces = require( "../js/stringProcessing/stripSpaces.js" );
+var analyzerConfig = require( "./config/config.js" );
+
+var snippetEditorTemplate = require( "./templates.js" ).snippetEditor;
 
 var defaults = {
 	data: {
@@ -3180,6 +2957,10 @@ var defaults = {
 		metaDesc: "Modify your meta description by editing it right here",
 		urlPath:  "example-post/"
 	},
+	defaultValue: {
+		title: "",
+		metaDesc: ""
+	},
 	baseURL: "http://example.com/",
 	callbacks: {
 		saveSnippetData: function() {}
@@ -3189,6 +2970,21 @@ var defaults = {
 };
 
 var titleMaxLength = 70;
+
+var inputPreviewBindings = [
+	{
+		"preview": "title_container",
+		"inputField": "title"
+	},
+	{
+		"preview": "url_container",
+		"inputField": "urlPath"
+	},
+	{
+		"preview": "meta_container",
+		"inputField": "metaDesc"
+	}
+];
 
 /**
  * Get's the base URL for this instance of the snippet preview.
@@ -3303,7 +3099,7 @@ function hasTrailingSlash( url ) {
 function hasProgressSupport() {
 	var progressElement = document.createElement( "progress" );
 
-	return progressElement.max !== undefined;
+	return !isUndefined( progressElement.max );
 }
 
 /**
@@ -3400,10 +3196,17 @@ function updateProgressBar( element, value, maximum, rating ) {
  *
  * @param {Object}         opts                           - Snippet preview options.
  * @param {App}            opts.analyzerApp               - The app object the snippet preview is part of.
- * @param {Object}         opts.placeholder               - The fallback values for the snippet preview rendering.
- * @param {string}         opts.placeholder.title         - The fallback value for the title.
- * @param {string}         opts.placeholder.metaDesc      - The fallback value for the meta description.
- * @param {string}         opts.placeholder.urlPath       - The fallback value for the URL path.
+ * @param {Object}         opts.placeholder               - The placeholder values for the fields, will be shown as
+ * actual placeholders in the inputs and as a fallback for the preview.
+ * @param {string}         opts.placeholder.title
+ * @param {string}         opts.placeholder.metaDesc
+ * @param {string}         opts.placeholder.urlPath
+ *
+ * @param {Object}         opts.defaultValue              - The default value for the fields, if the user has not
+ * changed a field, this value will be used for the analyzer, preview and the progress bars.
+ * @param {string}         opts.defaultValue.title
+ * @param {string}         opts.defaultValue.metaDesc
+ * it.
  *
  * @param {string}         opts.baseURL                   - The basic URL as it will be displayed in google.
  * @param {HTMLElement}    opts.targetElement             - The target element that contains this snippet editor.
@@ -3472,6 +3275,8 @@ var SnippetPreview = function( opts ) {
 	}
 
 	this.opts = opts;
+	this._currentFocus = null;
+	this._currentHover = null;
 
 	// For backwards compatibility monitor the unformatted text for changes and reflect them in the preview
 	this.unformattedText = {};
@@ -3493,7 +3298,6 @@ var SnippetPreview = function( opts ) {
  * Renders snippet editor and adds it to the targetElement
  */
 SnippetPreview.prototype.renderTemplate = function() {
-	var snippetEditorTemplate = require( "./templates.js" ).snippetEditor;
 	var targetElement = this.opts.targetElement;
 
 	targetElement.innerHTML = snippetEditorTemplate( {
@@ -3511,11 +3315,13 @@ SnippetPreview.prototype.renderTemplate = function() {
 		metaDescriptionDate: this.opts.metaDescriptionDate,
 		placeholder: this.opts.placeholder,
 		i18n: {
-			edit: this.i18n.dgettext( "js-text-analysis", "Edit title, description & slug" ),
+			edit: this.i18n.dgettext( "js-text-analysis", "Edit snippet" ),
 			title: this.i18n.dgettext( "js-text-analysis", "SEO title" ),
 			slug:  this.i18n.dgettext( "js-text-analysis", "Slug" ),
 			metaDescription: this.i18n.dgettext( "js-text-analysis", "Meta description" ),
-			save: this.i18n.dgettext( "js-text-analysis", "Close snippet editor" )
+			save: this.i18n.dgettext( "js-text-analysis", "Close snippet editor" ),
+			snippetPreview: this.i18n.dgettext( "js-text-analysis", "Snippet preview" ),
+			snippetEditor: this.i18n.dgettext( "js-text-analysis", "Snippet editor" )
 		}
 	} );
 
@@ -3539,14 +3345,27 @@ SnippetPreview.prototype.renderTemplate = function() {
 		formContainer: targetElement.getElementsByClassName( "snippet-editor__form" )[0],
 		editToggle: targetElement.getElementsByClassName( "snippet-editor__edit-button" )[0],
 		closeEditor: targetElement.getElementsByClassName( "snippet-editor__submit" )[0],
-		formFields: targetElement.getElementsByClassName( "snippet-editor__form-field" )
+		formFields: targetElement.getElementsByClassName( "snippet-editor__form-field" ),
+		headingEditor: targetElement.getElementsByClassName( "snippet-editor__heading-editor" )[0]
+	};
+
+	this.element.label = {
+		title: this.element.input.title.parentNode,
+		urlPath: this.element.input.urlPath.parentNode,
+		metaDesc: this.element.input.metaDesc.parentNode
+	};
+
+	this.element.preview = {
+		title: this.element.rendered.title.parentNode,
+		urlPath: this.element.rendered.urlPath.parentNode,
+		metaDesc: this.element.rendered.metaDesc.parentNode
 	};
 
 	this.hasProgressSupport = hasProgressSupport();
 
 	if ( this.hasProgressSupport ) {
 		this.element.progress.title.max = titleMaxLength;
-		this.element.progress.metaDesc.max = YoastSEO.analyzerConfig.maxMeta;
+		this.element.progress.metaDesc.max = analyzerConfig.maxMeta;
 	} else {
 		forEach( this.element.progress, function( progressElement ) {
 			addClass( progressElement, "snippet-editor__progress--fallback" );
@@ -3579,11 +3398,12 @@ function getAnalyzerTitle() {
 	var title = this.data.title;
 
 	if ( isEmpty( title ) ) {
-		title = this.opts.placeholder.title;
+		title = this.opts.defaultValue.title;
 	}
+
 	title = this.refObj.pluggable._applyModifications( "data_page_title", title );
 
-	return title;
+	return stripSpaces( title );
 }
 
 /**
@@ -3597,18 +3417,17 @@ function getAnalyzerTitle() {
 var getAnalyzerMetaDesc = function() {
 	var metaDesc = this.data.metaDesc;
 
-	metaDesc = this.refObj.pluggable._applyModifications( "data_meta_desc", metaDesc );
-
-	// If no meta has been set, generate one.
 	if ( isEmpty( metaDesc ) ) {
-		metaDesc = this.getMetaText();
+		metaDesc = this.opts.defaultValue.metaDesc;
 	}
+
+	metaDesc = this.refObj.pluggable._applyModifications( "data_meta_desc", metaDesc );
 
 	if ( !isEmpty( this.opts.metaDescriptionDate ) && !isEmpty( metaDesc ) ) {
 		metaDesc = this.opts.metaDescriptionDate + " - " + this.data.metaDesc;
 	}
 
-	return metaDesc;
+	return stripSpaces( metaDesc );
 };
 
 /**
@@ -3667,6 +3486,11 @@ SnippetPreview.prototype.formatTitle = function() {
 
 	// Fallback to the default if the title is empty.
 	if ( isEmpty( title ) ) {
+		title = this.opts.defaultValue.title;
+	}
+
+	// For rendering we can fallback to the placeholder as well.
+	if ( isEmpty( title ) ) {
 		title = this.opts.placeholder.title;
 	}
 
@@ -3675,12 +3499,16 @@ SnippetPreview.prototype.formatTitle = function() {
 		title = this.refObj.pluggable._applyModifications( "data_page_title", title );
 	}
 
-	// TODO: Replace this with the stripAllTags module.
-	title = this.refObj.stringHelper.stripAllTags( title );
+	title = stripHTMLTags( title );
 
 	// If a keyword is set we want to highlight it in the title.
 	if ( !isEmpty( this.refObj.rawData.keyword ) ) {
-		return this.formatKeyword( title );
+		title = this.formatKeyword( title );
+	}
+
+	// As an ultimate fallback provide the user with a helpful message.
+	if ( isEmpty( title ) ) {
+		title = this.i18n.dgettext( "js-text-analysis", "Please provide an SEO title by editing the snippet below." );
 	}
 
 	return title;
@@ -3706,8 +3534,7 @@ SnippetPreview.prototype.formatUrl = function() {
 SnippetPreview.prototype.formatCite = function() {
 	var cite = this.data.urlPath;
 
-	// TODO: Replace this with the stripAllTags module.
-	cite = this.refObj.stringHelper.stripAllTags( cite );
+	cite = stripHTMLTags( cite );
 
 	// Fallback to the default if the cite is empty.
 	if ( isEmpty( cite ) ) {
@@ -3746,14 +3573,18 @@ SnippetPreview.prototype.formatMeta = function() {
 		meta = this.refObj.pluggable._applyModifications( "data_meta_desc", meta );
 	}
 
-	// TODO: Replace this with the stripAllTags module.
-	meta = this.refObj.stringHelper.stripAllTags( meta );
+	meta = stripHTMLTags( meta );
 
 	// Cut-off the meta description according to the maximum length
-	meta = meta.substring( 0, YoastSEO.analyzerConfig.maxMeta );
+	meta = meta.substring( 0, analyzerConfig.maxMeta );
 
 	if ( !isEmpty( this.refObj.rawData.keyword ) ) {
 		meta = this.formatKeyword( meta );
+	}
+
+	// As an ultimate fallback provide the user with a helpful message.
+	if ( isEmpty( meta ) ) {
+		meta = this.i18n.dgettext( "js-text-analysis", "Please provide a meta description by editing the snippet below." );
 	}
 
 	return meta;
@@ -3768,30 +3599,32 @@ SnippetPreview.prototype.formatMeta = function() {
  */
 SnippetPreview.prototype.getMetaText = function() {
 	var metaText;
-	if ( typeof this.refObj.rawData.excerpt !== "undefined" ) {
+
+	metaText = this.opts.defaultValue.metaDesc;
+
+	if ( !isUndefined( this.refObj.rawData.excerpt ) && isEmpty( metaText ) ) {
 		metaText = this.refObj.rawData.excerpt;
 	}
-	if ( typeof this.refObj.rawData.text !== "undefined" ) {
+
+	if ( !isUndefined( this.refObj.rawData.text ) && isEmpty( metaText ) ) {
 		metaText = this.refObj.rawData.text;
 
 		if ( this.refObj.pluggable.loaded ) {
 			metaText = this.refObj.pluggable._applyModifications( "content", metaText );
 		}
 	}
-	if ( isEmpty( metaText ) ) {
-		metaText = this.opts.placeholder.metaDesc;
-	}
 
-	metaText = this.refObj.stringHelper.stripAllTags( metaText );
+	metaText = stripHTMLTags( metaText );
 	if (
 		this.refObj.rawData.keyword !== "" &&
 		this.refObj.rawData.text !== ""
 	) {
 		var indexMatches = this.getIndexMatches();
 		var periodMatches = this.getPeriodMatches();
+
 		metaText = metaText.substring(
 			0,
-			YoastSEO.analyzerConfig.maxMeta
+			analyzerConfig.maxMeta
 		);
 		var curStart = 0;
 		if ( indexMatches.length > 0 ) {
@@ -3807,10 +3640,8 @@ SnippetPreview.prototype.getMetaText = function() {
 			}
 		}
 	}
-	if ( this.refObj.stringHelper.stripAllTags( metaText ) === "" ) {
-		return this.opts.placeholder.metaDesc;
-	}
-	return metaText.substring( 0, YoastSEO.analyzerConfig.maxMeta );
+
+	return metaText.substring( 0, analyzerConfig.maxMeta );
 };
 
 /**
@@ -3869,7 +3700,7 @@ SnippetPreview.prototype.formatKeyword = function( textString ) {
 	var keyword = this.refObj.rawData.keyword.replace( /[\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, " " );
 
 	// Match keyword case-insensitively
-	var keywordRegex = YoastSEO.getStringHelper().getWordBoundaryRegex( keyword );
+	var keywordRegex = stringToRegex( keyword );
 	return textString.replace( keywordRegex, function( str ) {
 		return "<strong>" + str + "</strong>";
 	} );
@@ -3884,11 +3715,13 @@ SnippetPreview.prototype.formatKeyword = function( textString ) {
  * @returns {XML|string|void}
  */
 SnippetPreview.prototype.formatKeywordUrl = function( textString ) {
-	var keyword = this.refObj.stringHelper.sanitizeKeyword( this.refObj.rawData.keyword );
+	var keyword = sanitizeString( this.refObj.rawData.keyword );
+	keyword = keyword.replace( /'/, "" );
+
 	var dashedKeyword = keyword.replace( /\s/g, "-" );
 
 	// Match keyword case-insensitively.
-	var keywordRegex = YoastSEO.getStringHelper().getWordBoundaryRegex( dashedKeyword );
+	var keywordRegex = stringToRegex( dashedKeyword, "\\-" );
 
 	// Make the keyword bold in the textString.
 	return textString.replace( keywordRegex, function( str ) {
@@ -3910,14 +3743,15 @@ SnippetPreview.prototype.renderOutput = function() {
  * Makes the rendered meta description gray if no meta description has been set by the user.
  */
 SnippetPreview.prototype.renderSnippetStyle = function() {
-	var metaDesc = this.element.rendered.metaDesc;
+	var metaDescElement = this.element.rendered.metaDesc;
+	var metaDesc = getAnalyzerMetaDesc.call( this );
 
-	if ( this.data.metaDesc === "" ) {
-		addClass( metaDesc, "desc-render" );
-		removeClass( metaDesc, "desc-default" );
+	if ( isEmpty( metaDesc ) ) {
+		addClass( metaDescElement, "desc-render" );
+		removeClass( metaDescElement, "desc-default" );
 	} else {
-		addClass( metaDesc, "desc-default" );
-		removeClass( metaDesc, "desc-render" );
+		addClass( metaDescElement, "desc-default" );
+		removeClass( metaDescElement, "desc-render" );
 	}
 };
 
@@ -3937,11 +3771,13 @@ SnippetPreview.prototype.checkTextLength = function( ev ) {
 	switch ( ev.currentTarget.id ) {
 		case "snippet_meta":
 			ev.currentTarget.className = "desc";
-			if ( text.length > YoastSEO.analyzerConfig.maxMeta ) {
+			if ( text.length > analyzerConfig.maxMeta ) {
+				/* eslint-disable */
 				YoastSEO.app.snippetPreview.unformattedText.snippet_meta = ev.currentTarget.textContent;
+				/* eslint-enable */
 				ev.currentTarget.textContent = text.substring(
 					0,
-					YoastSEO.analyzerConfig.maxMeta
+					analyzerConfig.maxMeta
 				);
 
 			}
@@ -3949,7 +3785,9 @@ SnippetPreview.prototype.checkTextLength = function( ev ) {
 		case "snippet_title":
 			ev.currentTarget.className = "title";
 			if ( text.length > titleMaxLength ) {
+				/* eslint-disable */
 				YoastSEO.app.snippetPreview.unformattedText.snippet_title = ev.currentTarget.textContent;
+				/* eslint-enable */
 				ev.currentTarget.textContent = text.substring( 0, titleMaxLength );
 			}
 			break;
@@ -3987,7 +3825,7 @@ SnippetPreview.prototype.validateFields = function() {
 	var metaDescription = getAnalyzerMetaDesc.call( this );
 	var title = getAnalyzerTitle.call( this );
 
-	if ( metaDescription.length > YoastSEO.analyzerConfig.maxMeta ) {
+	if ( metaDescription.length > analyzerConfig.maxMeta ) {
 		addClass( this.element.input.metaDesc, "snippet-editor__field--invalid" );
 	} else {
 		removeClass( this.element.input.metaDesc, "snippet-editor__field--invalid" );
@@ -4022,44 +3860,9 @@ SnippetPreview.prototype.updateProgressBars = function() {
 	updateProgressBar(
 		this.element.progress.metaDesc,
 		metaDescription.length,
-		YoastSEO.analyzerConfig.maxMeta,
+		analyzerConfig.maxMeta,
 		metaDescriptionRating
 	);
-};
-
-/**
- * shows the edit icon corresponding to the hovered element
- * @param ev
- */
-SnippetPreview.prototype.showEditIcon = function( ev ) {
-	ev.currentTarget.parentElement.className = "editIcon snippet_container";
-};
-
-/**
- * removes all editIcon-classes, sets to snippet_container
- */
-SnippetPreview.prototype.hideEditIcon = function() {
-	var elems = document.getElementsByClassName( "editIcon " );
-	for ( var i = 0; i < elems.length; i++ ) {
-		elems[ i ].className = "snippet_container";
-	}
-};
-
-/**
- * sets focus on child element of the snippet_container that is clicked. Hides the editicon.
- * @param ev
- */
-SnippetPreview.prototype.setFocus = function( ev ) {
-	var targetElem = ev.currentTarget.firstChild;
-	while ( targetElem !== null ) {
-		if ( targetElem.contentEditable === "true" ) {
-			targetElem.focus();
-			this.hideEditIcon();
-			break;
-		} else {
-			targetElem = targetElem.nextSibling;
-		}
-	}
 };
 
 /**
@@ -4067,21 +3870,7 @@ SnippetPreview.prototype.setFocus = function( ev ) {
  */
 SnippetPreview.prototype.bindEvents = function() {
 	var targetElement,
-		elems = [ "title", "slug", "meta-description" ],
-		focusBindings = [
-			{
-				"click": "title_container",
-				"focus": "title"
-			},
-			{
-				"click": "url_container",
-				"focus": "urlPath"
-			},
-			{
-				"click": "meta_container",
-				"focus": "metaDesc"
-			}
-		];
+		elems = [ "title", "slug", "meta-description" ];
 
 	forEach( elems, function( elem ) {
 		targetElement = document.getElementsByClassName( "js-snippet-editor-" + elem )[0];
@@ -4097,21 +3886,42 @@ SnippetPreview.prototype.bindEvents = function() {
 	this.element.editToggle.addEventListener( "click", this.toggleEditor.bind( this ) );
 	this.element.closeEditor.addEventListener( "click", this.closeEditor.bind( this ) );
 
-	// Map binding keys to the actual elements
-	focusBindings = map( focusBindings, function( binding ) {
-		return {
-			"click": document.getElementById( binding.click ),
-			"focus": this.element.input[ binding.focus ]
-		};
-	}.bind( this ) );
-
 	// Loop through the bindings and bind a click handler to the click to focus the focus element.
-	forEach( focusBindings, function( focusBinding ) {
+	forEach( inputPreviewBindings, function( binding ) {
+		var previewElement = document.getElementById( binding.preview );
+		var inputElement = this.element.input[ binding.inputField ];
 
-		focusBinding.click.addEventListener( "click", function() {
+		// Make the preview element click open the editor and focus the correct input.
+		previewElement.addEventListener( "click", function() {
 			this.openEditor();
-			focusBinding.focus.focus();
-		}.bind( this ) ); // Bind the focus element to make sure we work with the correct object.
+			inputElement.focus();
+		}.bind( this ) );
+
+		// Make focusing an input, update the carets.
+		inputElement.addEventListener( "focus", function() {
+			this._currentFocus = binding.inputField;
+
+			this._updateFocusCarets();
+		}.bind( this ) );
+
+		// Make removing focus from an element, update the carets.
+		inputElement.addEventListener( "blur", function() {
+			this._currentFocus = null;
+
+			this._updateFocusCarets();
+		}.bind( this ) );
+
+		previewElement.addEventListener( "mouseover", function() {
+			this._currentHover = binding.inputField;
+
+			this._updateHoverCarets();
+		}.bind( this ) );
+
+		previewElement.addEventListener( "mouseout", function() {
+			this._currentHover = null;
+
+			this._updateHoverCarets();
+		}.bind( this ) );
 
 	}.bind( this ) );
 };
@@ -4126,7 +3936,7 @@ SnippetPreview.prototype.changedInput = debounce( function() {
 
 	this.refresh();
 
-	this.refObj.refresh.call( this.refObj );
+	this.refObj.refresh();
 }, 25 );
 
 /**
@@ -4145,9 +3955,13 @@ SnippetPreview.prototype.updateDataFromDOM = function() {
  * Opens the snippet editor.
  */
 SnippetPreview.prototype.openEditor = function() {
-	addClass( this.element.container,     "editing" );
-	addClass( this.element.formContainer, "snippet-editor__form--shown" );
-	addClass( this.element.editToggle,    "snippet-editor__edit-button--close" );
+
+	// Hide these elements.
+	addClass( this.element.editToggle,       "snippet-editor--hidden" );
+
+	// Show these elements.
+	removeClass( this.element.formContainer, "snippet-editor--hidden" );
+	removeClass( this.element.headingEditor, "snippet-editor--hidden" );
 
 	this.opened = true;
 };
@@ -4156,9 +3970,13 @@ SnippetPreview.prototype.openEditor = function() {
  * Closes the snippet editor.
  */
 SnippetPreview.prototype.closeEditor = function() {
-	removeClass( this.element.container,     "editing" );
-	removeClass( this.element.formContainer, "snippet-editor__form--shown" );
-	removeClass( this.element.editToggle,    "snippet-editor__edit-button--close" );
+
+	// Hide these elements.
+	addClass( this.element.formContainer,     "snippet-editor--hidden" );
+	addClass( this.element.headingEditor,     "snippet-editor--hidden" );
+
+	// Show these elements.
+	removeClass( this.element.editToggle,     "snippet-editor--hidden" );
 
 	this.opened = false;
 };
@@ -4174,7 +3992,88 @@ SnippetPreview.prototype.toggleEditor = function() {
 	}
 };
 
+/**
+ * Updates carets before the preview and input fields.
+ *
+ * @private
+ */
+SnippetPreview.prototype._updateFocusCarets = function() {
+	var focusedLabel, focusedPreview;
+
+	// Disable all carets on the labels.
+	forEach( this.element.label, function( element ) {
+		removeClass( element, "snippet-editor__label--focus" );
+	} );
+
+	// Disable all carets on the previews.
+	forEach( this.element.preview, function( element ) {
+		removeClass( element, "snippet-editor__container--focus" );
+	} );
+
+	if ( null !== this._currentFocus ) {
+		focusedLabel = this.element.label[ this._currentFocus ];
+		focusedPreview = this.element.preview[ this._currentFocus ];
+
+		addClass( focusedLabel, "snippet-editor__label--focus" );
+		addClass( focusedPreview, "snippet-editor__container--focus" );
+	}
+};
+
+/**
+ * Updates hover carets before the input fields.
+ *
+ * @private
+ */
+SnippetPreview.prototype._updateHoverCarets = function() {
+	var hoveredLabel;
+
+	forEach( this.element.label, function( element ) {
+		removeClass( element, "snippet-editor__label--hover" );
+	} );
+
+	if ( null !== this._currentHover ) {
+		hoveredLabel = this.element.label[ this._currentHover ];
+
+		addClass( hoveredLabel, "snippet-editor__label--hover" );
+	}
+};
+
+/**
+ * Updates the title data and the the title input field. This also means the snippet editor view is updated.
+ *
+ * @param {string} title
+ */
+SnippetPreview.prototype.setTitle = function( title ) {
+	this.element.input.title.value = title;
+
+	this.changedInput();
+};
+
+/**
+ * Updates the url path data and the the url path input field. This also means the snippet editor view is updated.
+ *
+ * @param {string} urlPath
+ */
+SnippetPreview.prototype.setUrlPath = function( urlPath ) {
+	this.element.input.urlPath.value = urlPath;
+
+	this.changedInput();
+};
+
+/**
+ * Updates the meta description data and the the meta description input field. This also means the snippet editor view is updated.
+ *
+ * @param {string} metaDesc
+ */
+SnippetPreview.prototype.setTitle = function( metaDesc ) {
+	this.element.input.metaDesc.value = metaDesc;
+
+	this.changedInput();
+};
+
 /* jshint ignore:start */
+/* eslint-disable */
+
 /**
  * Used to disable enter as input. Returns false to prevent enter, and preventDefault and
  * cancelBubble to prevent
@@ -4192,11 +4091,37 @@ SnippetPreview.prototype.disableEnter = function( ev ) {};
  * @param ev
  */
 SnippetPreview.prototype.textFeedback = function( ev ) {};
-/* jshint ignore:end */
 
+/**
+ * shows the edit icon corresponding to the hovered element
+ *
+ * @deprecated
+ *
+ * @param ev
+ */
+SnippetPreview.prototype.showEditIcon = function( ev ) {
+
+};
+
+/**
+ * removes all editIcon-classes, sets to snippet_container
+ *
+ * @deprecated
+ */
+SnippetPreview.prototype.hideEditIcon = function() {};
+
+/**
+ * sets focus on child element of the snippet_container that is clicked. Hides the editicon.
+ *
+ * @deprecated
+ * @param ev
+ */
+SnippetPreview.prototype.setFocus = function( ev ) {};
+/* jshint ignore:end */
+/* eslint-disable */
 module.exports = SnippetPreview;
 
-},{"./templates.js":53,"lodash/collection/forEach":57,"lodash/collection/map":58,"lodash/function/debounce":60,"lodash/lang/clone":114,"lodash/lang/isElement":117,"lodash/lang/isEmpty":118,"lodash/lang/isUndefined":125,"lodash/object/defaultsDeep":127}],29:[function(require,module,exports){
+},{"../js/stringProcessing/sanitizeString.js":44,"../js/stringProcessing/stringToRegex.js":45,"../js/stringProcessing/stripHTMLTags.js":46,"../js/stringProcessing/stripSpaces.js":49,"./config/config.js":19,"./templates.js":52,"lodash/collection/forEach":62,"lodash/function/debounce":65,"lodash/lang/clone":130,"lodash/lang/isElement":133,"lodash/lang/isEmpty":134,"lodash/lang/isUndefined":141,"lodash/object/defaultsDeep":143}],29:[function(require,module,exports){
 /** @module stringProcessing/addWordboundary */
 
 /**
@@ -4213,7 +4138,7 @@ module.exports = function( matchString, extraWordBoundary ) {
 		extraWordBoundary = "";
 	}
 
-	wordBoundary = "[ \n\r\t\.,'\(\)\"\+\-;!?:\/" + extraWordBoundary + "<>]";
+	wordBoundary = "[ \n\r\t\.,'\(\)\"\+\-;!?:\/»«‹›" + extraWordBoundary + "<>]";
 	wordBoundaryStart = "(^|" + wordBoundary + ")";
 	wordBoundaryEnd = "($|" + wordBoundary + ")";
 
@@ -4482,9 +4407,8 @@ module.exports = function( array, disableWordBoundary ) {
 	array = array.map( function( string ) {
 		if ( disableWordBoundary ) {
 			return string;
-		} else {
-			return addWordBoundary( string );
 		}
+		return addWordBoundary( string );
 	} );
 
 	regexString = "(" + array.join( ")|(" ) + ")";
@@ -4521,6 +4445,8 @@ module.exports = function( url, keyword ) {
 
 var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
 
+var regexAltTag = /alt=(['"])(.*?)\1/i;
+
 /**
  * Checks for an alttag in the image and returns its content
  *
@@ -4529,12 +4455,16 @@ var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
  */
 module.exports = function( text ) {
 	var alt = "";
-	var image = text.match( /alt=([\'\"])(.*?)\1/ig );
-	if ( image !== null ) {
 
-		// Matches the value of the alt attribute (alphanumeric chars), global and case insensitive
-		alt = image[ 0 ].split( "=" )[ 1 ];
-		alt = stripSpaces( alt.replace( /[\'\"]*/g, "" ) );
+	var matches = text.match( regexAltTag );
+
+	if ( matches !== null ) {
+		alt = matches[ 2 ];
+
+		alt = stripSpaces( alt );
+
+		alt = alt.replace( /&quot;/g, "\"" );
+		alt = alt.replace( /&#039;/g, "'" );
 	}
 	return alt;
 };
@@ -4855,231 +4785,6 @@ module.exports = function( text ) {
 
 
 },{}],52:[function(require,module,exports){
-/* global YoastSEO: true */
-YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
-
-/**helper functions*/
-YoastSEO.StringHelper = function() {};
-
-/**
- * removes strings from array and replaces them with keyword.
- * @param textString
- * @param stringsToRemove []
- * @param replacement (default == space)
- * @returns {textString}
- */
-YoastSEO.StringHelper.prototype.replaceString = function(
-	textString,
-	stringsToRemove,
-	replacement
-) {
-	if ( typeof replacement === "undefined" ) {
-		replacement = " ";
-	}
-	textString = textString.replace( this.stringToRegex( stringsToRemove ), replacement );
-	return this.stripSpaces( textString );
-};
-
-/**
- * matches string with given array of strings to match.
- * @param textString
- * @param stringsToMatch
- * @returns {matches}
- */
-YoastSEO.StringHelper.prototype.matchString = function( textString, stringsToMatch ) {
-	return textString.match( this.stringToRegex( stringsToMatch, false ) );
-};
-
-/**
- * checks if the match on textStrings is not null. If it has matches returns the length.
- * Otherwise it returns 0 (no matches).
- * @param textString
- * @param regex
- * @returns {number}
- */
-YoastSEO.StringHelper.prototype.countMatches = function( textString, regex ) {
-	return textString.match( regex ) !== null ? textString.match.length : 0;
-};
-
-/**
- * builds regex from array with multiple strings
- * @param stringArray
- * @returns {RegExp}
- */
-YoastSEO.StringHelper.prototype.stringToRegex = function( stringArray, disableWordBoundary ) {
-	var regexString;
-
-	stringArray = stringArray.map( function( string ) {
-		if ( disableWordBoundary ) {
-			return string;
-		} else {
-			return this.getWordBoundaryString( string );
-		}
-	}.bind( this ) );
-
-	regexString = "(" + stringArray.join( ")|(" ) + ")";
-
-	return new RegExp( regexString, "g" );
-};
-
-/**
- * Returns a string that can be used in a regex to match a matchString with word boundaries.
- *
- * @param {String} matchString The string to generate a regex string for.
- * @param {String} extraWordBoundary Extra characters to match a word boundary on.
- * @return {String} A regex string that matches the matchString with word boundaries
- */
-YoastSEO.StringHelper.prototype.getWordBoundaryString = function( matchString, extraWordBoundary ) {
-	var wordBoundary, wordBoundaryStart, wordBoundaryEnd;
-
-	if ( typeof extraWordBoundary === "undefined" ) {
-		extraWordBoundary = "";
-	}
-
-	wordBoundary = "[ \n\r\t\.,'\(\)\"\+;!?:\/" + extraWordBoundary + "<>]";
-	wordBoundaryEnd = "($|" + wordBoundary + ")";
-	wordBoundaryStart = "(^|" + wordBoundary + ")";
-
-	return wordBoundaryStart + matchString + wordBoundaryEnd;
-};
-
-/**
- * Creates a regex with a wordboundary. Since /b isn't working properly in JavaScript we have to
- * use an alternative regex.
- */
-YoastSEO.StringHelper.prototype.getWordBoundaryRegex = function( textString, extraWordBoundary ) {
-	return new RegExp( this.getWordBoundaryString( textString, extraWordBoundary ), "ig" );
-};
-
-/**
- * Strip extra spaces, replace duplicates with single space. Remove space at front / end of string
- * @param textString
- * @returns textString
- */
-YoastSEO.StringHelper.prototype.stripSpaces = function( textString ) {
-
-	//replace multiple spaces with single space
-	textString = textString.replace( /\s{2,}/g, " " );
-
-	//replace spaces followed by periods with only the period.
-	textString = textString.replace( /\s\./g, "." );
-
-	//remove first/last character if space
-	textString = textString.replace( /^\s+|\s+$/g, "" );
-	return textString;
-};
-
-/**
- * adds escape characters to string
- * @param textString
- * @returns textString
- */
-YoastSEO.StringHelper.prototype.addEscapeChars = function( textString ) {
-	return textString.replace( /[\-\[\]\/\{}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&" );
-};
-
-/**
- * removes all HTMLtags from input string, except h1-6, li, p and dd
- * @param textString
- * @returns textString
- */
-YoastSEO.StringHelper.prototype.stripSomeTags = function( textString ) {
-
-	//remove tags, except li, p, h1-6, dd
-	textString = textString.replace(
-		/<(?!li|\/li|p|\/p|h1|\/h1|h2|\/h2|h3|\/h3|h4|\/h4|h5|\/h5|h6|\/h6|dd).*?\>/g,
-		" "
-	);
-	textString = this.stripSpaces( textString );
-	return textString;
-};
-
-/**
- * remove all HTMLtags from input string.
- * @param textString
- * @returns textString
- */
-YoastSEO.StringHelper.prototype.stripAllTags = function( textString ) {
-
-	//remove all tags
-	textString = textString.replace( /(<([^>]+)>)/ig, " " );
-
-	//remove < and > if any are used
-	textString = textString.replace( /[<>]/g, "" );
-	textString = this.stripSpaces( textString );
-	return textString;
-};
-
-/**
- * Removes all words comprised only of numbers and remove special characters.
- * @param textString {String}
- * @returns {string}
- */
-YoastSEO.StringHelper.prototype.stripNonWords = function( textString ) {
-
-	// replace comma', hyphens etc with spaces
-	textString = textString.replace( /[\-\;\:\,\(\)\"\'\|\“\”]/g, " " );
-
-	// remove apostrophe
-	textString = textString.replace( /[\’]/g, "" );
-
-	// Remove "words" comprised only of numbers
-	textString = textString.replace( this.getWordBoundaryRegex( "[0-9]+" ), "$1$3" );
-
-	textString = this.stripSpaces( textString );
-
-	if ( textString === "." ) {
-		textString = "";
-	}
-	return textString;
-};
-
-/**
- * Removes all invalid characters from a certain keyword
- *
- * @param {string} keyword The un-sanitized keyword.
- * @returns {string} The sanitized keyword.
- */
-YoastSEO.StringHelper.prototype.sanitizeKeyword = function( keyword ) {
-	keyword = keyword.replace( /[\[\]\/\{\}\(\)\*\+\?\\\^\$\|]/g, "" );
-
-	keyword = this.stripAllTags( keyword );
-
-	return keyword;
-};
-
-/**
- * Escapes HTML characters from strings.
- *
- * @param textString
- * @returns {string}
- */
-YoastSEO.StringHelper.prototype.escapeHTML = function( textString ) {
-	if ( typeof textString === "string" ) {
-		textString = textString.replace( /&/g, "&amp;" )
-					.replace( /</g, "&lt;" )
-					.replace( />/g, "&gt;" )
-					.replace( /\"/, "&quot;" )
-					.replace( /\'/g, "&#39;" );
-	}
-
-	return textString;
-};
-
-/**
- * Checks if the stringhelper is already initialized. Returns stringHelper.
- *
- * @returns {YoastSEO.StringHelper}
- */
-YoastSEO.getStringHelper = function() {
-	if ( typeof YoastSEO.cachedStringHelper !== "object" ) {
-		YoastSEO.cachedStringHelper = new YoastSEO.StringHelper();
-	}
-	return YoastSEO.cachedStringHelper;
-};
-
-
-},{}],53:[function(require,module,exports){
 (function (global){
 ;(function() {
   var undefined;
@@ -5199,15 +4904,15 @@ YoastSEO.getStringHelper = function() {
     var __t, __p = '', __e = _.escape, __j = Array.prototype.join;
     function print() { __p += __j.call(arguments, '') }
     with (obj) {
-    __p += '<div id="snippet_preview">\n    <button class="snippet-editor__edit-button" type="button">\n        <svg class="snippet-editor__edit-icon" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"\n             width="216px" height="146px" viewBox="0 0 216 146" enable-background="new 0 0 216 146" xml:space="preserve">\n            <g>\n                <path d="M46.284,100.823v33.893h33.893l67.786-67.786L114.07,33.037L46.284,100.823z M75.859,124.287L75.859,124.287l-8.718,0.001\n                    v-10.429H56.713v-8.719l7.414-7.414l19.146,19.146L75.859,124.287z M116.678,46.888c1.194,0,1.791,0.598,1.791,1.792\n                    c0,0.544-0.189,1.005-0.57,1.386L73.74,94.225c-0.38,0.379-0.842,0.569-1.385,0.569c-1.194,0-1.792-0.599-1.792-1.792\n                    c0-0.544,0.19-1.005,0.57-1.386l44.159-44.158C115.672,47.078,116.134,46.888,116.678,46.888z"/>\n                <path d="M166.701,33.443l-19.146-19.064c-2.063-2.063-4.535-3.096-7.414-3.096c-2.934,0-5.377,1.033-7.332,3.096l-13.524,13.443\n                    l33.893,33.893l13.525-13.524c2.01-2.01,3.014-4.454,3.014-7.333C169.716,38.034,168.712,35.562,166.701,33.443z"/>\n            </g>\n        </svg>\n        ' +
-    __e( i18n.edit ) +
-    '\n        <svg class="snippet-editor__chevron-right-icon" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"\n             width="216px" height="146px" viewBox="0 0 216 146" enable-background="new 0 0 216 146" xml:space="preserve">\n            <path d="M144.988,65.667L91.869,12.628c-1.956-2.064-4.399-3.096-7.333-3.096s-5.377,1.033-7.333,3.096l-6.192,6.111\n            c-2.01,2.01-3.015,4.453-3.015,7.332c0,2.824,1.005,5.296,3.015,7.414L110.607,73L71.01,112.596c-2.01,2.01-3.015,4.454-3.015,7.333\n            c0,2.824,1.005,5.296,3.015,7.414l6.192,6.11c2.01,2.01,4.455,3.015,7.333,3.015c2.879,0,5.324-1.005,7.333-3.015l53.12-53.039\n            c2.01-2.118,3.016-4.59,3.016-7.414C148.004,70.121,146.998,67.677,144.988,65.667z"/>\n        </svg>\n        <svg class="snippet-editor__chevron-down-icon" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"\n             width="216px" height="146px" viewBox="0 0 216 146" enable-background="new 0 0 216 146" xml:space="preserve">\n            <path d="M168.452,42.121l-6.109-6.111c-2.118-2.009-4.59-3.014-7.413-3.014c-2.88,0-5.324,1.005-7.334,3.014L108,75.607\n            L68.404,36.011c-2.01-2.009-4.454-3.014-7.333-3.014c-2.824,0-5.296,1.005-7.414,3.014l-6.029,6.111\n            c-2.064,2.063-3.096,4.535-3.096,7.414c0,2.933,1.033,5.377,3.096,7.332l53.039,53.039c1.956,2.064,4.399,3.096,7.333,3.096\n            c2.879,0,5.35-1.032,7.413-3.096l53.039-53.039c2.01-2.01,3.016-4.454,3.016-7.332C171.468,46.711,170.462,44.24,168.452,42.121z"/>\n        </svg>\n    </button>\n\n    <section class="snippet-editor__preview">\n        <div class="snippet_container" id="title_container">\n            <span class="title" id="snippet_title">\n                ' +
+    __p += '<div id="snippet_preview">\n    <h4 class="snippet-editor__heading snippet-editor__heading-icon-eye">' +
+    __e( i18n.snippetPreview ) +
+    '</h4>\n\n    <section class="snippet-editor__preview">\n        <div class="snippet_container snippet-editor__container" id="title_container">\n            <span class="title" id="snippet_title">\n                ' +
     __e( rendered.title ) +
-    '\n            </span>\n            <span class="title" id="snippet_sitename"></span>\n        </div>\n        <div class="snippet_container" id="url_container">\n            <cite class="url urlBase" id="snippet_citeBase">\n                ' +
+    '\n            </span>\n            <span class="title" id="snippet_sitename"></span>\n        </div>\n        <div class="snippet_container snippet-editor__container" id="url_container">\n            <cite class="url urlBase" id="snippet_citeBase">\n                ' +
     __e( rendered.baseUrl ) +
     '\n            </cite>\n            <cite class="url" id="snippet_cite">\n                ' +
     __e( rendered.snippetCite ) +
-    '\n            </cite>\n        </div>\n        <div class="snippet_container" id="meta_container">\n            ';
+    '\n            </cite>\n        </div>\n        <div class="snippet_container snippet-editor__container" id="meta_container">\n            ';
      if ( "" !== metaDescriptionDate ) {
     __p += '\n                <span class="snippet-editor__date">\n                    ' +
     __e( metaDescriptionDate ) +
@@ -5215,7 +4920,11 @@ YoastSEO.getStringHelper = function() {
      }
     __p += '\n            <span class="desc" id="snippet_meta">\n                ' +
     __e( rendered.meta ) +
-    '\n            </span>\n        </div>\n    </section>\n\n    <div class="snippet-editor__form">\n        <label for="snippet-editor-title" class="snippet-editor__label">\n            ' +
+    '\n            </span>\n        </div>\n\n        <button class="snippet-editor__button snippet-editor__edit-button" type="button">\n            ' +
+    __e( i18n.edit ) +
+    '\n        </button>\n    </section>\n\n    <h4 class="snippet-editor__heading snippet-editor__heading-editor snippet-editor__heading-icon-edit snippet-editor--hidden">' +
+    __e( i18n.snippetEditor ) +
+    '</h4>\n\n    <div class="snippet-editor__form snippet-editor--hidden">\n        <label for="snippet-editor-title" class="snippet-editor__label">\n            ' +
     __e( i18n.title ) +
     '\n            <input type="text" class="snippet-editor__input snippet-editor__title js-snippet-editor-title" id="snippet-editor-title" value="' +
     __e( raw.title ) +
@@ -5233,7 +4942,7 @@ YoastSEO.getStringHelper = function() {
     __e( placeholder.metaDesc ) +
     '">' +
     __e( raw.meta ) +
-    '</textarea>\n            <progress value="0.0" class="snippet-editor__progress snippet-editor__progress-meta-description">\n                <div class="snippet-editor__progress-bar"></div>\n            </progress>\n        </label>\n\n        <button class="snippet-editor__submit button" type="button">' +
+    '</textarea>\n            <progress value="0.0" class="snippet-editor__progress snippet-editor__progress-meta-description">\n                <div class="snippet-editor__progress-bar"></div>\n            </progress>\n        </label>\n\n        <button class="snippet-editor__submit snippet-editor__button" type="button">' +
     __e( i18n.save ) +
     '</button>\n    </div>\n</div>\n';
 
@@ -5256,7 +4965,779 @@ YoastSEO.getStringHelper = function() {
 }.call(this));
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{}],53:[function(require,module,exports){
+/**
+ * Construct the Paper object and set the keyword property.
+ * @param {string} keyword The keyword to use in the analysis.
+ * @param {string} text The text to use in the analysis.
+ * @constructor
+ */
+var Paper = function( keyword, text ) {
+	this._keyword = keyword || "";
+	this._text = text || "";
+};
+
+/**
+ * Check whether a keyword is available.
+ * @returns {boolean}
+ */
+Paper.prototype.hasKeyword = function() {
+	return this._keyword !== "";
+};
+
+/**
+ * Return the associated keyword or an empty string if no keyword is available.
+ * @returns {string}
+ */
+Paper.prototype.getKeyword = function() {
+	return this._keyword;
+};
+
+/**
+ * Check whether the text is available.
+ * @returns {boolean}
+ */
+Paper.prototype.hasText = function() {
+	return this._text !== "";
+};
+
+/**
+ * Return the associated text or am empty string if no text is available.
+ * @returns {string}
+ */
+Paper.prototype.getText = function() {
+	return this._text;
+};
+
+module.exports = Paper;
+
 },{}],54:[function(require,module,exports){
+module.exports = function( value, description ) {
+	this.value = value;
+	this.description = description;
+
+	// Added to not break BC
+	this.score = this.value;
+	this.text = this.description;
+
+};
+
+},{}],55:[function(require,module,exports){
+if (typeof Object.create === 'function') {
+  // implementation from standard node.js 'util' module
+  module.exports = function inherits(ctor, superCtor) {
+    ctor.super_ = superCtor
+    ctor.prototype = Object.create(superCtor.prototype, {
+      constructor: {
+        value: ctor,
+        enumerable: false,
+        writable: true,
+        configurable: true
+      }
+    });
+  };
+} else {
+  // old school shim for old browsers
+  module.exports = function inherits(ctor, superCtor) {
+    ctor.super_ = superCtor
+    var TempCtor = function () {}
+    TempCtor.prototype = superCtor.prototype
+    ctor.prototype = new TempCtor()
+    ctor.prototype.constructor = ctor
+  }
+}
+
+},{}],56:[function(require,module,exports){
+// shim for using process in browser
+
+var process = module.exports = {};
+var queue = [];
+var draining = false;
+var currentQueue;
+var queueIndex = -1;
+
+function cleanUpNextTick() {
+    draining = false;
+    if (currentQueue.length) {
+        queue = currentQueue.concat(queue);
+    } else {
+        queueIndex = -1;
+    }
+    if (queue.length) {
+        drainQueue();
+    }
+}
+
+function drainQueue() {
+    if (draining) {
+        return;
+    }
+    var timeout = setTimeout(cleanUpNextTick);
+    draining = true;
+
+    var len = queue.length;
+    while(len) {
+        currentQueue = queue;
+        queue = [];
+        while (++queueIndex < len) {
+            if (currentQueue) {
+                currentQueue[queueIndex].run();
+            }
+        }
+        queueIndex = -1;
+        len = queue.length;
+    }
+    currentQueue = null;
+    draining = false;
+    clearTimeout(timeout);
+}
+
+process.nextTick = function (fun) {
+    var args = new Array(arguments.length - 1);
+    if (arguments.length > 1) {
+        for (var i = 1; i < arguments.length; i++) {
+            args[i - 1] = arguments[i];
+        }
+    }
+    queue.push(new Item(fun, args));
+    if (queue.length === 1 && !draining) {
+        setTimeout(drainQueue, 0);
+    }
+};
+
+// v8 likes predictible objects
+function Item(fun, array) {
+    this.fun = fun;
+    this.array = array;
+}
+Item.prototype.run = function () {
+    this.fun.apply(null, this.array);
+};
+process.title = 'browser';
+process.browser = true;
+process.env = {};
+process.argv = [];
+process.version = ''; // empty string to avoid regexp issues
+process.versions = {};
+
+function noop() {}
+
+process.on = noop;
+process.addListener = noop;
+process.once = noop;
+process.off = noop;
+process.removeListener = noop;
+process.removeAllListeners = noop;
+process.emit = noop;
+
+process.binding = function (name) {
+    throw new Error('process.binding is not supported');
+};
+
+process.cwd = function () { return '/' };
+process.chdir = function (dir) {
+    throw new Error('process.chdir is not supported');
+};
+process.umask = function() { return 0; };
+
+},{}],57:[function(require,module,exports){
+module.exports = function isBuffer(arg) {
+  return arg && typeof arg === 'object'
+    && typeof arg.copy === 'function'
+    && typeof arg.fill === 'function'
+    && typeof arg.readUInt8 === 'function';
+}
+},{}],58:[function(require,module,exports){
+(function (process,global){
+// Copyright Joyent, Inc. and other Node contributors.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to permit
+// persons to whom the Software is furnished to do so, subject to the
+// following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+// USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+var formatRegExp = /%[sdj%]/g;
+exports.format = function(f) {
+  if (!isString(f)) {
+    var objects = [];
+    for (var i = 0; i < arguments.length; i++) {
+      objects.push(inspect(arguments[i]));
+    }
+    return objects.join(' ');
+  }
+
+  var i = 1;
+  var args = arguments;
+  var len = args.length;
+  var str = String(f).replace(formatRegExp, function(x) {
+    if (x === '%%') return '%';
+    if (i >= len) return x;
+    switch (x) {
+      case '%s': return String(args[i++]);
+      case '%d': return Number(args[i++]);
+      case '%j':
+        try {
+          return JSON.stringify(args[i++]);
+        } catch (_) {
+          return '[Circular]';
+        }
+      default:
+        return x;
+    }
+  });
+  for (var x = args[i]; i < len; x = args[++i]) {
+    if (isNull(x) || !isObject(x)) {
+      str += ' ' + x;
+    } else {
+      str += ' ' + inspect(x);
+    }
+  }
+  return str;
+};
+
+
+// Mark that a method should not be used.
+// Returns a modified function which warns once by default.
+// If --no-deprecation is set, then it is a no-op.
+exports.deprecate = function(fn, msg) {
+  // Allow for deprecating things in the process of starting up.
+  if (isUndefined(global.process)) {
+    return function() {
+      return exports.deprecate(fn, msg).apply(this, arguments);
+    };
+  }
+
+  if (process.noDeprecation === true) {
+    return fn;
+  }
+
+  var warned = false;
+  function deprecated() {
+    if (!warned) {
+      if (process.throwDeprecation) {
+        throw new Error(msg);
+      } else if (process.traceDeprecation) {
+        console.trace(msg);
+      } else {
+        console.error(msg);
+      }
+      warned = true;
+    }
+    return fn.apply(this, arguments);
+  }
+
+  return deprecated;
+};
+
+
+var debugs = {};
+var debugEnviron;
+exports.debuglog = function(set) {
+  if (isUndefined(debugEnviron))
+    debugEnviron = process.env.NODE_DEBUG || '';
+  set = set.toUpperCase();
+  if (!debugs[set]) {
+    if (new RegExp('\\b' + set + '\\b', 'i').test(debugEnviron)) {
+      var pid = process.pid;
+      debugs[set] = function() {
+        var msg = exports.format.apply(exports, arguments);
+        console.error('%s %d: %s', set, pid, msg);
+      };
+    } else {
+      debugs[set] = function() {};
+    }
+  }
+  return debugs[set];
+};
+
+
+/**
+ * Echos the value of a value. Trys to print the value out
+ * in the best way possible given the different types.
+ *
+ * @param {Object} obj The object to print out.
+ * @param {Object} opts Optional options object that alters the output.
+ */
+/* legacy: obj, showHidden, depth, colors*/
+function inspect(obj, opts) {
+  // default options
+  var ctx = {
+    seen: [],
+    stylize: stylizeNoColor
+  };
+  // legacy...
+  if (arguments.length >= 3) ctx.depth = arguments[2];
+  if (arguments.length >= 4) ctx.colors = arguments[3];
+  if (isBoolean(opts)) {
+    // legacy...
+    ctx.showHidden = opts;
+  } else if (opts) {
+    // got an "options" object
+    exports._extend(ctx, opts);
+  }
+  // set default options
+  if (isUndefined(ctx.showHidden)) ctx.showHidden = false;
+  if (isUndefined(ctx.depth)) ctx.depth = 2;
+  if (isUndefined(ctx.colors)) ctx.colors = false;
+  if (isUndefined(ctx.customInspect)) ctx.customInspect = true;
+  if (ctx.colors) ctx.stylize = stylizeWithColor;
+  return formatValue(ctx, obj, ctx.depth);
+}
+exports.inspect = inspect;
+
+
+// http://en.wikipedia.org/wiki/ANSI_escape_code#graphics
+inspect.colors = {
+  'bold' : [1, 22],
+  'italic' : [3, 23],
+  'underline' : [4, 24],
+  'inverse' : [7, 27],
+  'white' : [37, 39],
+  'grey' : [90, 39],
+  'black' : [30, 39],
+  'blue' : [34, 39],
+  'cyan' : [36, 39],
+  'green' : [32, 39],
+  'magenta' : [35, 39],
+  'red' : [31, 39],
+  'yellow' : [33, 39]
+};
+
+// Don't use 'blue' not visible on cmd.exe
+inspect.styles = {
+  'special': 'cyan',
+  'number': 'yellow',
+  'boolean': 'yellow',
+  'undefined': 'grey',
+  'null': 'bold',
+  'string': 'green',
+  'date': 'magenta',
+  // "name": intentionally not styling
+  'regexp': 'red'
+};
+
+
+function stylizeWithColor(str, styleType) {
+  var style = inspect.styles[styleType];
+
+  if (style) {
+    return '\u001b[' + inspect.colors[style][0] + 'm' + str +
+           '\u001b[' + inspect.colors[style][1] + 'm';
+  } else {
+    return str;
+  }
+}
+
+
+function stylizeNoColor(str, styleType) {
+  return str;
+}
+
+
+function arrayToHash(array) {
+  var hash = {};
+
+  array.forEach(function(val, idx) {
+    hash[val] = true;
+  });
+
+  return hash;
+}
+
+
+function formatValue(ctx, value, recurseTimes) {
+  // Provide a hook for user-specified inspect functions.
+  // Check that value is an object with an inspect function on it
+  if (ctx.customInspect &&
+      value &&
+      isFunction(value.inspect) &&
+      // Filter out the util module, it's inspect function is special
+      value.inspect !== exports.inspect &&
+      // Also filter out any prototype objects using the circular check.
+      !(value.constructor && value.constructor.prototype === value)) {
+    var ret = value.inspect(recurseTimes, ctx);
+    if (!isString(ret)) {
+      ret = formatValue(ctx, ret, recurseTimes);
+    }
+    return ret;
+  }
+
+  // Primitive types cannot have properties
+  var primitive = formatPrimitive(ctx, value);
+  if (primitive) {
+    return primitive;
+  }
+
+  // Look up the keys of the object.
+  var keys = Object.keys(value);
+  var visibleKeys = arrayToHash(keys);
+
+  if (ctx.showHidden) {
+    keys = Object.getOwnPropertyNames(value);
+  }
+
+  // IE doesn't make error fields non-enumerable
+  // http://msdn.microsoft.com/en-us/library/ie/dww52sbt(v=vs.94).aspx
+  if (isError(value)
+      && (keys.indexOf('message') >= 0 || keys.indexOf('description') >= 0)) {
+    return formatError(value);
+  }
+
+  // Some type of object without properties can be shortcutted.
+  if (keys.length === 0) {
+    if (isFunction(value)) {
+      var name = value.name ? ': ' + value.name : '';
+      return ctx.stylize('[Function' + name + ']', 'special');
+    }
+    if (isRegExp(value)) {
+      return ctx.stylize(RegExp.prototype.toString.call(value), 'regexp');
+    }
+    if (isDate(value)) {
+      return ctx.stylize(Date.prototype.toString.call(value), 'date');
+    }
+    if (isError(value)) {
+      return formatError(value);
+    }
+  }
+
+  var base = '', array = false, braces = ['{', '}'];
+
+  // Make Array say that they are Array
+  if (isArray(value)) {
+    array = true;
+    braces = ['[', ']'];
+  }
+
+  // Make functions say that they are functions
+  if (isFunction(value)) {
+    var n = value.name ? ': ' + value.name : '';
+    base = ' [Function' + n + ']';
+  }
+
+  // Make RegExps say that they are RegExps
+  if (isRegExp(value)) {
+    base = ' ' + RegExp.prototype.toString.call(value);
+  }
+
+  // Make dates with properties first say the date
+  if (isDate(value)) {
+    base = ' ' + Date.prototype.toUTCString.call(value);
+  }
+
+  // Make error with message first say the error
+  if (isError(value)) {
+    base = ' ' + formatError(value);
+  }
+
+  if (keys.length === 0 && (!array || value.length == 0)) {
+    return braces[0] + base + braces[1];
+  }
+
+  if (recurseTimes < 0) {
+    if (isRegExp(value)) {
+      return ctx.stylize(RegExp.prototype.toString.call(value), 'regexp');
+    } else {
+      return ctx.stylize('[Object]', 'special');
+    }
+  }
+
+  ctx.seen.push(value);
+
+  var output;
+  if (array) {
+    output = formatArray(ctx, value, recurseTimes, visibleKeys, keys);
+  } else {
+    output = keys.map(function(key) {
+      return formatProperty(ctx, value, recurseTimes, visibleKeys, key, array);
+    });
+  }
+
+  ctx.seen.pop();
+
+  return reduceToSingleString(output, base, braces);
+}
+
+
+function formatPrimitive(ctx, value) {
+  if (isUndefined(value))
+    return ctx.stylize('undefined', 'undefined');
+  if (isString(value)) {
+    var simple = '\'' + JSON.stringify(value).replace(/^"|"$/g, '')
+                                             .replace(/'/g, "\\'")
+                                             .replace(/\\"/g, '"') + '\'';
+    return ctx.stylize(simple, 'string');
+  }
+  if (isNumber(value))
+    return ctx.stylize('' + value, 'number');
+  if (isBoolean(value))
+    return ctx.stylize('' + value, 'boolean');
+  // For some reason typeof null is "object", so special case here.
+  if (isNull(value))
+    return ctx.stylize('null', 'null');
+}
+
+
+function formatError(value) {
+  return '[' + Error.prototype.toString.call(value) + ']';
+}
+
+
+function formatArray(ctx, value, recurseTimes, visibleKeys, keys) {
+  var output = [];
+  for (var i = 0, l = value.length; i < l; ++i) {
+    if (hasOwnProperty(value, String(i))) {
+      output.push(formatProperty(ctx, value, recurseTimes, visibleKeys,
+          String(i), true));
+    } else {
+      output.push('');
+    }
+  }
+  keys.forEach(function(key) {
+    if (!key.match(/^\d+$/)) {
+      output.push(formatProperty(ctx, value, recurseTimes, visibleKeys,
+          key, true));
+    }
+  });
+  return output;
+}
+
+
+function formatProperty(ctx, value, recurseTimes, visibleKeys, key, array) {
+  var name, str, desc;
+  desc = Object.getOwnPropertyDescriptor(value, key) || { value: value[key] };
+  if (desc.get) {
+    if (desc.set) {
+      str = ctx.stylize('[Getter/Setter]', 'special');
+    } else {
+      str = ctx.stylize('[Getter]', 'special');
+    }
+  } else {
+    if (desc.set) {
+      str = ctx.stylize('[Setter]', 'special');
+    }
+  }
+  if (!hasOwnProperty(visibleKeys, key)) {
+    name = '[' + key + ']';
+  }
+  if (!str) {
+    if (ctx.seen.indexOf(desc.value) < 0) {
+      if (isNull(recurseTimes)) {
+        str = formatValue(ctx, desc.value, null);
+      } else {
+        str = formatValue(ctx, desc.value, recurseTimes - 1);
+      }
+      if (str.indexOf('\n') > -1) {
+        if (array) {
+          str = str.split('\n').map(function(line) {
+            return '  ' + line;
+          }).join('\n').substr(2);
+        } else {
+          str = '\n' + str.split('\n').map(function(line) {
+            return '   ' + line;
+          }).join('\n');
+        }
+      }
+    } else {
+      str = ctx.stylize('[Circular]', 'special');
+    }
+  }
+  if (isUndefined(name)) {
+    if (array && key.match(/^\d+$/)) {
+      return str;
+    }
+    name = JSON.stringify('' + key);
+    if (name.match(/^"([a-zA-Z_][a-zA-Z_0-9]*)"$/)) {
+      name = name.substr(1, name.length - 2);
+      name = ctx.stylize(name, 'name');
+    } else {
+      name = name.replace(/'/g, "\\'")
+                 .replace(/\\"/g, '"')
+                 .replace(/(^"|"$)/g, "'");
+      name = ctx.stylize(name, 'string');
+    }
+  }
+
+  return name + ': ' + str;
+}
+
+
+function reduceToSingleString(output, base, braces) {
+  var numLinesEst = 0;
+  var length = output.reduce(function(prev, cur) {
+    numLinesEst++;
+    if (cur.indexOf('\n') >= 0) numLinesEst++;
+    return prev + cur.replace(/\u001b\[\d\d?m/g, '').length + 1;
+  }, 0);
+
+  if (length > 60) {
+    return braces[0] +
+           (base === '' ? '' : base + '\n ') +
+           ' ' +
+           output.join(',\n  ') +
+           ' ' +
+           braces[1];
+  }
+
+  return braces[0] + base + ' ' + output.join(', ') + ' ' + braces[1];
+}
+
+
+// NOTE: These type checking functions intentionally don't use `instanceof`
+// because it is fragile and can be easily faked with `Object.create()`.
+function isArray(ar) {
+  return Array.isArray(ar);
+}
+exports.isArray = isArray;
+
+function isBoolean(arg) {
+  return typeof arg === 'boolean';
+}
+exports.isBoolean = isBoolean;
+
+function isNull(arg) {
+  return arg === null;
+}
+exports.isNull = isNull;
+
+function isNullOrUndefined(arg) {
+  return arg == null;
+}
+exports.isNullOrUndefined = isNullOrUndefined;
+
+function isNumber(arg) {
+  return typeof arg === 'number';
+}
+exports.isNumber = isNumber;
+
+function isString(arg) {
+  return typeof arg === 'string';
+}
+exports.isString = isString;
+
+function isSymbol(arg) {
+  return typeof arg === 'symbol';
+}
+exports.isSymbol = isSymbol;
+
+function isUndefined(arg) {
+  return arg === void 0;
+}
+exports.isUndefined = isUndefined;
+
+function isRegExp(re) {
+  return isObject(re) && objectToString(re) === '[object RegExp]';
+}
+exports.isRegExp = isRegExp;
+
+function isObject(arg) {
+  return typeof arg === 'object' && arg !== null;
+}
+exports.isObject = isObject;
+
+function isDate(d) {
+  return isObject(d) && objectToString(d) === '[object Date]';
+}
+exports.isDate = isDate;
+
+function isError(e) {
+  return isObject(e) &&
+      (objectToString(e) === '[object Error]' || e instanceof Error);
+}
+exports.isError = isError;
+
+function isFunction(arg) {
+  return typeof arg === 'function';
+}
+exports.isFunction = isFunction;
+
+function isPrimitive(arg) {
+  return arg === null ||
+         typeof arg === 'boolean' ||
+         typeof arg === 'number' ||
+         typeof arg === 'string' ||
+         typeof arg === 'symbol' ||  // ES6 symbol
+         typeof arg === 'undefined';
+}
+exports.isPrimitive = isPrimitive;
+
+exports.isBuffer = require('./support/isBuffer');
+
+function objectToString(o) {
+  return Object.prototype.toString.call(o);
+}
+
+
+function pad(n) {
+  return n < 10 ? '0' + n.toString(10) : n.toString(10);
+}
+
+
+var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep',
+              'Oct', 'Nov', 'Dec'];
+
+// 26 Feb 16:19:34
+function timestamp() {
+  var d = new Date();
+  var time = [pad(d.getHours()),
+              pad(d.getMinutes()),
+              pad(d.getSeconds())].join(':');
+  return [d.getDate(), months[d.getMonth()], time].join(' ');
+}
+
+
+// log is just a thin wrapper to console.log that prepends a timestamp
+exports.log = function() {
+  console.log('%s - %s', timestamp(), exports.format.apply(exports, arguments));
+};
+
+
+/**
+ * Inherit the prototype methods from one constructor into another.
+ *
+ * The Function.prototype.inherits from lang.js rewritten as a standalone
+ * function (not on Function.prototype). NOTE: If this file is to be loaded
+ * during bootstrapping this function needs to be rewritten using some native
+ * functions as prototype setup using normal JavaScript does not work as
+ * expected during bootstrapping (see mirror.js in r114903).
+ *
+ * @param {function} ctor Constructor function which needs to inherit the
+ *     prototype.
+ * @param {function} superCtor Constructor function to inherit prototype from.
+ */
+exports.inherits = require('inherits');
+
+exports._extend = function(origin, add) {
+  // Don't do anything if add isn't an object
+  if (!add || !isObject(add)) return origin;
+
+  var keys = Object.keys(add);
+  var i = keys.length;
+  while (i--) {
+    origin[keys[i]] = add[keys[i]];
+  }
+  return origin;
+};
+
+function hasOwnProperty(obj, prop) {
+  return Object.prototype.hasOwnProperty.call(obj, prop);
+}
+
+}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"./support/isBuffer":57,"_process":56,"inherits":55}],59:[function(require,module,exports){
 /**
  * @preserve jed.js https://github.com/SlexAxton/Jed
  */
@@ -6280,9 +6761,38 @@ return parser;
 
 })(this);
 
-},{}],55:[function(require,module,exports){
-arguments[4][54][0].apply(exports,arguments)
-},{"dup":54}],56:[function(require,module,exports){
+},{}],60:[function(require,module,exports){
+var baseDifference = require('../internal/baseDifference'),
+    baseFlatten = require('../internal/baseFlatten'),
+    isArrayLike = require('../internal/isArrayLike'),
+    isObjectLike = require('../internal/isObjectLike'),
+    restParam = require('../function/restParam');
+
+/**
+ * Creates an array of unique `array` values not included in the other
+ * provided arrays using [`SameValueZero`](http://ecma-international.org/ecma-262/6.0/#sec-samevaluezero)
+ * for equality comparisons.
+ *
+ * @static
+ * @memberOf _
+ * @category Array
+ * @param {Array} array The array to inspect.
+ * @param {...Array} [values] The arrays of values to exclude.
+ * @returns {Array} Returns the new array of filtered values.
+ * @example
+ *
+ * _.difference([1, 2, 3], [4, 2]);
+ * // => [1, 3]
+ */
+var difference = restParam(function(array, values) {
+  return (isObjectLike(array) && isArrayLike(array))
+    ? baseDifference(array, baseFlatten(values, false, true))
+    : [];
+});
+
+module.exports = difference;
+
+},{"../function/restParam":66,"../internal/baseDifference":77,"../internal/baseFlatten":79,"../internal/isArrayLike":119,"../internal/isObjectLike":124}],61:[function(require,module,exports){
 /**
  * Gets the last element of `array`.
  *
@@ -6303,7 +6813,7 @@ function last(array) {
 
 module.exports = last;
 
-},{}],57:[function(require,module,exports){
+},{}],62:[function(require,module,exports){
 var arrayEach = require('../internal/arrayEach'),
     baseEach = require('../internal/baseEach'),
     createForEach = require('../internal/createForEach');
@@ -6342,77 +6852,53 @@ var forEach = createForEach(arrayEach, baseEach);
 
 module.exports = forEach;
 
-},{"../internal/arrayEach":63,"../internal/baseEach":70,"../internal/createForEach":93}],58:[function(require,module,exports){
-var arrayMap = require('../internal/arrayMap'),
-    baseCallback = require('../internal/baseCallback'),
-    baseMap = require('../internal/baseMap'),
-    isArray = require('../lang/isArray');
+},{"../internal/arrayEach":69,"../internal/baseEach":78,"../internal/createForEach":106}],63:[function(require,module,exports){
+var arrayReduce = require('../internal/arrayReduce'),
+    baseEach = require('../internal/baseEach'),
+    createReduce = require('../internal/createReduce');
 
 /**
- * Creates an array of values by running each element in `collection` through
- * `iteratee`. The `iteratee` is bound to `thisArg` and invoked with three
- * arguments: (value, index|key, collection).
- *
- * If a property name is provided for `iteratee` the created `_.property`
- * style callback returns the property value of the given element.
- *
- * If a value is also provided for `thisArg` the created `_.matchesProperty`
- * style callback returns `true` for elements that have a matching property
- * value, else `false`.
- *
- * If an object is provided for `iteratee` the created `_.matches` style
- * callback returns `true` for elements that have the properties of the given
- * object, else `false`.
+ * Reduces `collection` to a value which is the accumulated result of running
+ * each element in `collection` through `iteratee`, where each successive
+ * invocation is supplied the return value of the previous. If `accumulator`
+ * is not provided the first element of `collection` is used as the initial
+ * value. The `iteratee` is bound to `thisArg` and invoked with four arguments:
+ * (accumulator, value, index|key, collection).
  *
  * Many lodash methods are guarded to work as iteratees for methods like
- * `_.every`, `_.filter`, `_.map`, `_.mapValues`, `_.reject`, and `_.some`.
+ * `_.reduce`, `_.reduceRight`, and `_.transform`.
  *
  * The guarded methods are:
- * `ary`, `callback`, `chunk`, `clone`, `create`, `curry`, `curryRight`,
- * `drop`, `dropRight`, `every`, `fill`, `flatten`, `invert`, `max`, `min`,
- * `parseInt`, `slice`, `sortBy`, `take`, `takeRight`, `template`, `trim`,
- * `trimLeft`, `trimRight`, `trunc`, `random`, `range`, `sample`, `some`,
- * `sum`, `uniq`, and `words`
+ * `assign`, `defaults`, `defaultsDeep`, `includes`, `merge`, `sortByAll`,
+ * and `sortByOrder`
  *
  * @static
  * @memberOf _
- * @alias collect
+ * @alias foldl, inject
  * @category Collection
  * @param {Array|Object|string} collection The collection to iterate over.
- * @param {Function|Object|string} [iteratee=_.identity] The function invoked
- *  per iteration.
+ * @param {Function} [iteratee=_.identity] The function invoked per iteration.
+ * @param {*} [accumulator] The initial value.
  * @param {*} [thisArg] The `this` binding of `iteratee`.
- * @returns {Array} Returns the new mapped array.
+ * @returns {*} Returns the accumulated value.
  * @example
  *
- * function timesThree(n) {
- *   return n * 3;
- * }
+ * _.reduce([1, 2], function(total, n) {
+ *   return total + n;
+ * });
+ * // => 3
  *
- * _.map([1, 2], timesThree);
- * // => [3, 6]
- *
- * _.map({ 'a': 1, 'b': 2 }, timesThree);
- * // => [3, 6] (iteration order is not guaranteed)
- *
- * var users = [
- *   { 'user': 'barney' },
- *   { 'user': 'fred' }
- * ];
- *
- * // using the `_.property` callback shorthand
- * _.map(users, 'user');
- * // => ['barney', 'fred']
+ * _.reduce({ 'a': 1, 'b': 2 }, function(result, n, key) {
+ *   result[key] = n * 3;
+ *   return result;
+ * }, {});
+ * // => { 'a': 3, 'b': 6 } (iteration order is not guaranteed)
  */
-function map(collection, iteratee, thisArg) {
-  var func = isArray(collection) ? arrayMap : baseMap;
-  iteratee = baseCallback(iteratee, thisArg, 3);
-  return func(collection, iteratee);
-}
+var reduce = createReduce(arrayReduce, baseEach);
 
-module.exports = map;
+module.exports = reduce;
 
-},{"../internal/arrayMap":64,"../internal/baseCallback":67,"../internal/baseMap":78,"../lang/isArray":116}],59:[function(require,module,exports){
+},{"../internal/arrayReduce":71,"../internal/baseEach":78,"../internal/createReduce":107}],64:[function(require,module,exports){
 var getNative = require('../internal/getNative');
 
 /* Native method references for those with the same name as other `lodash` methods. */
@@ -6438,7 +6924,7 @@ var now = nativeNow || function() {
 
 module.exports = now;
 
-},{"../internal/getNative":99}],60:[function(require,module,exports){
+},{"../internal/getNative":114}],65:[function(require,module,exports){
 var isObject = require('../lang/isObject'),
     now = require('../date/now');
 
@@ -6621,7 +7107,7 @@ function debounce(func, wait, options) {
 
 module.exports = debounce;
 
-},{"../date/now":59,"../lang/isObject":121}],61:[function(require,module,exports){
+},{"../date/now":64,"../lang/isObject":137}],66:[function(require,module,exports){
 /** Used as the `TypeError` message for "Functions" methods. */
 var FUNC_ERROR_TEXT = 'Expected a function';
 
@@ -6681,7 +7167,40 @@ function restParam(func, start) {
 
 module.exports = restParam;
 
-},{}],62:[function(require,module,exports){
+},{}],67:[function(require,module,exports){
+(function (global){
+var cachePush = require('./cachePush'),
+    getNative = require('./getNative');
+
+/** Native method references. */
+var Set = getNative(global, 'Set');
+
+/* Native method references for those with the same name as other `lodash` methods. */
+var nativeCreate = getNative(Object, 'create');
+
+/**
+ *
+ * Creates a cache object to store unique values.
+ *
+ * @private
+ * @param {Array} [values] The values to cache.
+ */
+function SetCache(values) {
+  var length = values ? values.length : 0;
+
+  this.data = { 'hash': nativeCreate(null), 'set': new Set };
+  while (length--) {
+    this.push(values[length]);
+  }
+}
+
+// Add functions to the `Set` cache.
+SetCache.prototype.push = cachePush;
+
+module.exports = SetCache;
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"./cachePush":100,"./getNative":114}],68:[function(require,module,exports){
 /**
  * Copies the values of `source` to `array`.
  *
@@ -6703,7 +7222,7 @@ function arrayCopy(source, array) {
 
 module.exports = arrayCopy;
 
-},{}],63:[function(require,module,exports){
+},{}],69:[function(require,module,exports){
 /**
  * A specialized version of `_.forEach` for arrays without support for callback
  * shorthands and `this` binding.
@@ -6727,30 +7246,57 @@ function arrayEach(array, iteratee) {
 
 module.exports = arrayEach;
 
-},{}],64:[function(require,module,exports){
+},{}],70:[function(require,module,exports){
 /**
- * A specialized version of `_.map` for arrays without support for callback
+ * Appends the elements of `values` to `array`.
+ *
+ * @private
+ * @param {Array} array The array to modify.
+ * @param {Array} values The values to append.
+ * @returns {Array} Returns `array`.
+ */
+function arrayPush(array, values) {
+  var index = -1,
+      length = values.length,
+      offset = array.length;
+
+  while (++index < length) {
+    array[offset + index] = values[index];
+  }
+  return array;
+}
+
+module.exports = arrayPush;
+
+},{}],71:[function(require,module,exports){
+/**
+ * A specialized version of `_.reduce` for arrays without support for callback
  * shorthands and `this` binding.
  *
  * @private
  * @param {Array} array The array to iterate over.
  * @param {Function} iteratee The function invoked per iteration.
- * @returns {Array} Returns the new mapped array.
+ * @param {*} [accumulator] The initial value.
+ * @param {boolean} [initFromArray] Specify using the first element of `array`
+ *  as the initial value.
+ * @returns {*} Returns the accumulated value.
  */
-function arrayMap(array, iteratee) {
+function arrayReduce(array, iteratee, accumulator, initFromArray) {
   var index = -1,
-      length = array.length,
-      result = Array(length);
+      length = array.length;
 
-  while (++index < length) {
-    result[index] = iteratee(array[index], index, array);
+  if (initFromArray && length) {
+    accumulator = array[++index];
   }
-  return result;
+  while (++index < length) {
+    accumulator = iteratee(accumulator, array[index], index, array);
+  }
+  return accumulator;
 }
 
-module.exports = arrayMap;
+module.exports = arrayReduce;
 
-},{}],65:[function(require,module,exports){
+},{}],72:[function(require,module,exports){
 /**
  * A specialized version of `_.some` for arrays without support for callback
  * shorthands and `this` binding.
@@ -6775,7 +7321,7 @@ function arraySome(array, predicate) {
 
 module.exports = arraySome;
 
-},{}],66:[function(require,module,exports){
+},{}],73:[function(require,module,exports){
 var baseCopy = require('./baseCopy'),
     keys = require('../object/keys');
 
@@ -6796,7 +7342,7 @@ function baseAssign(object, source) {
 
 module.exports = baseAssign;
 
-},{"../object/keys":128,"./baseCopy":69}],67:[function(require,module,exports){
+},{"../object/keys":144,"./baseCopy":76}],74:[function(require,module,exports){
 var baseMatches = require('./baseMatches'),
     baseMatchesProperty = require('./baseMatchesProperty'),
     bindCallback = require('./bindCallback'),
@@ -6833,7 +7379,7 @@ function baseCallback(func, thisArg, argCount) {
 
 module.exports = baseCallback;
 
-},{"../utility/identity":132,"../utility/property":133,"./baseMatches":79,"./baseMatchesProperty":80,"./bindCallback":87}],68:[function(require,module,exports){
+},{"../utility/identity":149,"../utility/property":150,"./baseMatches":88,"./baseMatchesProperty":89,"./bindCallback":97}],75:[function(require,module,exports){
 var arrayCopy = require('./arrayCopy'),
     arrayEach = require('./arrayEach'),
     baseAssign = require('./baseAssign'),
@@ -6963,7 +7509,7 @@ function baseClone(value, isDeep, customizer, key, object, stackA, stackB) {
 
 module.exports = baseClone;
 
-},{"../lang/isArray":116,"../lang/isObject":121,"./arrayCopy":62,"./arrayEach":63,"./baseAssign":66,"./baseForOwn":73,"./initCloneArray":100,"./initCloneByTag":101,"./initCloneObject":102}],69:[function(require,module,exports){
+},{"../lang/isArray":132,"../lang/isObject":137,"./arrayCopy":68,"./arrayEach":69,"./baseAssign":73,"./baseForOwn":82,"./initCloneArray":116,"./initCloneByTag":117,"./initCloneObject":118}],76:[function(require,module,exports){
 /**
  * Copies properties of `source` to `object`.
  *
@@ -6988,7 +7534,64 @@ function baseCopy(source, props, object) {
 
 module.exports = baseCopy;
 
-},{}],70:[function(require,module,exports){
+},{}],77:[function(require,module,exports){
+var baseIndexOf = require('./baseIndexOf'),
+    cacheIndexOf = require('./cacheIndexOf'),
+    createCache = require('./createCache');
+
+/** Used as the size to enable large array optimizations. */
+var LARGE_ARRAY_SIZE = 200;
+
+/**
+ * The base implementation of `_.difference` which accepts a single array
+ * of values to exclude.
+ *
+ * @private
+ * @param {Array} array The array to inspect.
+ * @param {Array} values The values to exclude.
+ * @returns {Array} Returns the new array of filtered values.
+ */
+function baseDifference(array, values) {
+  var length = array ? array.length : 0,
+      result = [];
+
+  if (!length) {
+    return result;
+  }
+  var index = -1,
+      indexOf = baseIndexOf,
+      isCommon = true,
+      cache = (isCommon && values.length >= LARGE_ARRAY_SIZE) ? createCache(values) : null,
+      valuesLength = values.length;
+
+  if (cache) {
+    indexOf = cacheIndexOf;
+    isCommon = false;
+    values = cache;
+  }
+  outer:
+  while (++index < length) {
+    var value = array[index];
+
+    if (isCommon && value === value) {
+      var valuesIndex = valuesLength;
+      while (valuesIndex--) {
+        if (values[valuesIndex] === value) {
+          continue outer;
+        }
+      }
+      result.push(value);
+    }
+    else if (indexOf(values, value, 0) < 0) {
+      result.push(value);
+    }
+  }
+  return result;
+}
+
+module.exports = baseDifference;
+
+},{"./baseIndexOf":84,"./cacheIndexOf":99,"./createCache":104}],78:[function(require,module,exports){
 var baseForOwn = require('./baseForOwn'),
     createBaseEach = require('./createBaseEach');
 
@@ -7005,7 +7608,50 @@ var baseEach = createBaseEach(baseForOwn);
 
 module.exports = baseEach;
 
-},{"./baseForOwn":73,"./createBaseEach":90}],71:[function(require,module,exports){
+},{"./baseForOwn":82,"./createBaseEach":102}],79:[function(require,module,exports){
+var arrayPush = require('./arrayPush'),
+    isArguments = require('../lang/isArguments'),
+    isArray = require('../lang/isArray'),
+    isArrayLike = require('./isArrayLike'),
+    isObjectLike = require('./isObjectLike');
+
+/**
+ * The base implementation of `_.flatten` with added support for restricting
+ * flattening and specifying the start index.
+ *
+ * @private
+ * @param {Array} array The array to flatten.
+ * @param {boolean} [isDeep] Specify a deep flatten.
+ * @param {boolean} [isStrict] Restrict flattening to arrays-like objects.
+ * @param {Array} [result=[]] The initial result value.
+ * @returns {Array} Returns the new flattened array.
+ */
+function baseFlatten(array, isDeep, isStrict, result) {
+  result || (result = []);
+
+  var index = -1,
+      length = array.length;
+
+  while (++index < length) {
+    var value = array[index];
+    if (isObjectLike(value) && isArrayLike(value) &&
+        (isStrict || isArray(value) || isArguments(value))) {
+      if (isDeep) {
+        // Recursively flatten arrays (susceptible to call stack limits).
+        baseFlatten(value, isDeep, isStrict, result);
+      } else {
+        arrayPush(result, value);
+      }
+    } else if (!isStrict) {
+      result[result.length] = value;
+    }
+  }
+  return result;
+}
+
+module.exports = baseFlatten;
+
+},{"../lang/isArguments":131,"../lang/isArray":132,"./arrayPush":70,"./isArrayLike":119,"./isObjectLike":124}],80:[function(require,module,exports){
 var createBaseFor = require('./createBaseFor');
 
 /**
@@ -7024,7 +7670,7 @@ var baseFor = createBaseFor();
 
 module.exports = baseFor;
 
-},{"./createBaseFor":91}],72:[function(require,module,exports){
+},{"./createBaseFor":103}],81:[function(require,module,exports){
 var baseFor = require('./baseFor'),
     keysIn = require('../object/keysIn');
 
@@ -7043,7 +7689,7 @@ function baseForIn(object, iteratee) {
 
 module.exports = baseForIn;
 
-},{"../object/keysIn":129,"./baseFor":71}],73:[function(require,module,exports){
+},{"../object/keysIn":145,"./baseFor":80}],82:[function(require,module,exports){
 var baseFor = require('./baseFor'),
     keys = require('../object/keys');
 
@@ -7062,7 +7708,7 @@ function baseForOwn(object, iteratee) {
 
 module.exports = baseForOwn;
 
-},{"../object/keys":128,"./baseFor":71}],74:[function(require,module,exports){
+},{"../object/keys":144,"./baseFor":80}],83:[function(require,module,exports){
 var toObject = require('./toObject');
 
 /**
@@ -7093,7 +7739,36 @@ function baseGet(object, path, pathKey) {
 
 module.exports = baseGet;
 
-},{"./toObject":112}],75:[function(require,module,exports){
+},{"./toObject":128}],84:[function(require,module,exports){
+var indexOfNaN = require('./indexOfNaN');
+
+/**
+ * The base implementation of `_.indexOf` without support for binary searches.
+ *
+ * @private
+ * @param {Array} array The array to search.
+ * @param {*} value The value to search for.
+ * @param {number} fromIndex The index to search from.
+ * @returns {number} Returns the index of the matched value, else `-1`.
+ */
+function baseIndexOf(array, value, fromIndex) {
+  if (value !== value) {
+    return indexOfNaN(array, fromIndex);
+  }
+  var index = fromIndex - 1,
+      length = array.length;
+
+  while (++index < length) {
+    if (array[index] === value) {
+      return index;
+    }
+  }
+  return -1;
+}
+
+module.exports = baseIndexOf;
+
+},{"./indexOfNaN":115}],85:[function(require,module,exports){
 var baseIsEqualDeep = require('./baseIsEqualDeep'),
     isObject = require('../lang/isObject'),
     isObjectLike = require('./isObjectLike');
@@ -7123,7 +7798,7 @@ function baseIsEqual(value, other, customizer, isLoose, stackA, stackB) {
 
 module.exports = baseIsEqual;
 
-},{"../lang/isObject":121,"./baseIsEqualDeep":76,"./isObjectLike":108}],76:[function(require,module,exports){
+},{"../lang/isObject":137,"./baseIsEqualDeep":86,"./isObjectLike":124}],86:[function(require,module,exports){
 var equalArrays = require('./equalArrays'),
     equalByTag = require('./equalByTag'),
     equalObjects = require('./equalObjects'),
@@ -7227,7 +7902,7 @@ function baseIsEqualDeep(object, other, equalFunc, customizer, isLoose, stackA, 
 
 module.exports = baseIsEqualDeep;
 
-},{"../lang/isArray":116,"../lang/isTypedArray":124,"./equalArrays":94,"./equalByTag":95,"./equalObjects":96}],77:[function(require,module,exports){
+},{"../lang/isArray":132,"../lang/isTypedArray":140,"./equalArrays":108,"./equalByTag":109,"./equalObjects":110}],87:[function(require,module,exports){
 var baseIsEqual = require('./baseIsEqual'),
     toObject = require('./toObject');
 
@@ -7281,32 +7956,7 @@ function baseIsMatch(object, matchData, customizer) {
 
 module.exports = baseIsMatch;
 
-},{"./baseIsEqual":75,"./toObject":112}],78:[function(require,module,exports){
-var baseEach = require('./baseEach'),
-    isArrayLike = require('./isArrayLike');
-
-/**
- * The base implementation of `_.map` without support for callback shorthands
- * and `this` binding.
- *
- * @private
- * @param {Array|Object|string} collection The collection to iterate over.
- * @param {Function} iteratee The function invoked per iteration.
- * @returns {Array} Returns the new mapped array.
- */
-function baseMap(collection, iteratee) {
-  var index = -1,
-      result = isArrayLike(collection) ? Array(collection.length) : [];
-
-  baseEach(collection, function(value, key, collection) {
-    result[++index] = iteratee(value, key, collection);
-  });
-  return result;
-}
-
-module.exports = baseMap;
-
-},{"./baseEach":70,"./isArrayLike":103}],79:[function(require,module,exports){
+},{"./baseIsEqual":85,"./toObject":128}],88:[function(require,module,exports){
 var baseIsMatch = require('./baseIsMatch'),
     getMatchData = require('./getMatchData'),
     toObject = require('./toObject');
@@ -7338,7 +7988,7 @@ function baseMatches(source) {
 
 module.exports = baseMatches;
 
-},{"./baseIsMatch":77,"./getMatchData":98,"./toObject":112}],80:[function(require,module,exports){
+},{"./baseIsMatch":87,"./getMatchData":113,"./toObject":128}],89:[function(require,module,exports){
 var baseGet = require('./baseGet'),
     baseIsEqual = require('./baseIsEqual'),
     baseSlice = require('./baseSlice'),
@@ -7385,7 +8035,7 @@ function baseMatchesProperty(path, srcValue) {
 
 module.exports = baseMatchesProperty;
 
-},{"../array/last":56,"../lang/isArray":116,"./baseGet":74,"./baseIsEqual":75,"./baseSlice":85,"./isKey":106,"./isStrictComparable":109,"./toObject":112,"./toPath":113}],81:[function(require,module,exports){
+},{"../array/last":61,"../lang/isArray":132,"./baseGet":83,"./baseIsEqual":85,"./baseSlice":95,"./isKey":122,"./isStrictComparable":125,"./toObject":128,"./toPath":129}],90:[function(require,module,exports){
 var arrayEach = require('./arrayEach'),
     baseMergeDeep = require('./baseMergeDeep'),
     isArray = require('../lang/isArray'),
@@ -7443,7 +8093,7 @@ function baseMerge(object, source, customizer, stackA, stackB) {
 
 module.exports = baseMerge;
 
-},{"../lang/isArray":116,"../lang/isObject":121,"../lang/isTypedArray":124,"../object/keys":128,"./arrayEach":63,"./baseMergeDeep":82,"./isArrayLike":103,"./isObjectLike":108}],82:[function(require,module,exports){
+},{"../lang/isArray":132,"../lang/isObject":137,"../lang/isTypedArray":140,"../object/keys":144,"./arrayEach":69,"./baseMergeDeep":91,"./isArrayLike":119,"./isObjectLike":124}],91:[function(require,module,exports){
 var arrayCopy = require('./arrayCopy'),
     isArguments = require('../lang/isArguments'),
     isArray = require('../lang/isArray'),
@@ -7512,7 +8162,7 @@ function baseMergeDeep(object, source, key, mergeFunc, customizer, stackA, stack
 
 module.exports = baseMergeDeep;
 
-},{"../lang/isArguments":115,"../lang/isArray":116,"../lang/isPlainObject":122,"../lang/isTypedArray":124,"../lang/toPlainObject":126,"./arrayCopy":62,"./isArrayLike":103}],83:[function(require,module,exports){
+},{"../lang/isArguments":131,"../lang/isArray":132,"../lang/isPlainObject":138,"../lang/isTypedArray":140,"../lang/toPlainObject":142,"./arrayCopy":68,"./isArrayLike":119}],92:[function(require,module,exports){
 /**
  * The base implementation of `_.property` without support for deep paths.
  *
@@ -7528,7 +8178,7 @@ function baseProperty(key) {
 
 module.exports = baseProperty;
 
-},{}],84:[function(require,module,exports){
+},{}],93:[function(require,module,exports){
 var baseGet = require('./baseGet'),
     toPath = require('./toPath');
 
@@ -7549,7 +8199,33 @@ function basePropertyDeep(path) {
 
 module.exports = basePropertyDeep;
 
-},{"./baseGet":74,"./toPath":113}],85:[function(require,module,exports){
+},{"./baseGet":83,"./toPath":129}],94:[function(require,module,exports){
+/**
+ * The base implementation of `_.reduce` and `_.reduceRight` without support
+ * for callback shorthands and `this` binding, which iterates over `collection`
+ * using the provided `eachFunc`.
+ *
+ * @private
+ * @param {Array|Object|string} collection The collection to iterate over.
+ * @param {Function} iteratee The function invoked per iteration.
+ * @param {*} accumulator The initial value.
+ * @param {boolean} initFromCollection Specify using the first or last element
+ *  of `collection` as the initial value.
+ * @param {Function} eachFunc The function to iterate over `collection`.
+ * @returns {*} Returns the accumulated value.
+ */
+function baseReduce(collection, iteratee, accumulator, initFromCollection, eachFunc) {
+  eachFunc(collection, function(value, index, collection) {
+    accumulator = initFromCollection
+      ? (initFromCollection = false, value)
+      : iteratee(accumulator, value, index, collection);
+  });
+  return accumulator;
+}
+
+module.exports = baseReduce;
+
+},{}],95:[function(require,module,exports){
 /**
  * The base implementation of `_.slice` without an iteratee call guard.
  *
@@ -7583,7 +8259,7 @@ function baseSlice(array, start, end) {
 
 module.exports = baseSlice;
 
-},{}],86:[function(require,module,exports){
+},{}],96:[function(require,module,exports){
 /**
  * Converts `value` to a string if it's not one. An empty string is returned
  * for `null` or `undefined` values.
@@ -7598,7 +8274,7 @@ function baseToString(value) {
 
 module.exports = baseToString;
 
-},{}],87:[function(require,module,exports){
+},{}],97:[function(require,module,exports){
 var identity = require('../utility/identity');
 
 /**
@@ -7639,7 +8315,7 @@ function bindCallback(func, thisArg, argCount) {
 
 module.exports = bindCallback;
 
-},{"../utility/identity":132}],88:[function(require,module,exports){
+},{"../utility/identity":149}],98:[function(require,module,exports){
 (function (global){
 /** Native method references. */
 var ArrayBuffer = global.ArrayBuffer,
@@ -7663,7 +8339,50 @@ function bufferClone(buffer) {
 module.exports = bufferClone;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],89:[function(require,module,exports){
+},{}],99:[function(require,module,exports){
+var isObject = require('../lang/isObject');
+
+/**
+ * Checks if `value` is in `cache` mimicking the return signature of
+ * `_.indexOf` by returning `0` if the value is found, else `-1`.
+ *
+ * @private
+ * @param {Object} cache The cache to search.
+ * @param {*} value The value to search for.
+ * @returns {number} Returns `0` if `value` is found, else `-1`.
+ */
+function cacheIndexOf(cache, value) {
+  var data = cache.data,
+      result = (typeof value == 'string' || isObject(value)) ? data.set.has(value) : data.hash[value];
+
+  return result ? 0 : -1;
+}
+
+module.exports = cacheIndexOf;
+
+},{"../lang/isObject":137}],100:[function(require,module,exports){
+var isObject = require('../lang/isObject');
+
+/**
+ * Adds `value` to the cache.
+ *
+ * @private
+ * @name push
+ * @memberOf SetCache
+ * @param {*} value The value to cache.
+ */
+function cachePush(value) {
+  var data = this.data;
+  if (typeof value == 'string' || isObject(value)) {
+    data.set.add(value);
+  } else {
+    data.hash[value] = true;
+  }
+}
+
+module.exports = cachePush;
+
+},{"../lang/isObject":137}],101:[function(require,module,exports){
 var bindCallback = require('./bindCallback'),
     isIterateeCall = require('./isIterateeCall'),
     restParam = require('../function/restParam');
@@ -7706,7 +8425,7 @@ function createAssigner(assigner) {
 
 module.exports = createAssigner;
 
-},{"../function/restParam":61,"./bindCallback":87,"./isIterateeCall":105}],90:[function(require,module,exports){
+},{"../function/restParam":66,"./bindCallback":97,"./isIterateeCall":121}],102:[function(require,module,exports){
 var getLength = require('./getLength'),
     isLength = require('./isLength'),
     toObject = require('./toObject');
@@ -7739,7 +8458,7 @@ function createBaseEach(eachFunc, fromRight) {
 
 module.exports = createBaseEach;
 
-},{"./getLength":97,"./isLength":107,"./toObject":112}],91:[function(require,module,exports){
+},{"./getLength":112,"./isLength":123,"./toObject":128}],103:[function(require,module,exports){
 var toObject = require('./toObject');
 
 /**
@@ -7768,7 +8487,32 @@ function createBaseFor(fromRight) {
 
 module.exports = createBaseFor;
 
-},{"./toObject":112}],92:[function(require,module,exports){
+},{"./toObject":128}],104:[function(require,module,exports){
+(function (global){
+var SetCache = require('./SetCache'),
+    getNative = require('./getNative');
+
+/** Native method references. */
+var Set = getNative(global, 'Set');
+
+/* Native method references for those with the same name as other `lodash` methods. */
+var nativeCreate = getNative(Object, 'create');
+
+/**
+ * Creates a `Set` cache object to optimize linear searches of large arrays.
+ *
+ * @private
+ * @param {Array} [values] The values to cache.
+ * @returns {null|Object} Returns the new cache object if `Set` is supported, else `null`.
+ */
+function createCache(values) {
+  return (nativeCreate && Set) ? new SetCache(values) : null;
+}
+
+module.exports = createCache;
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"./SetCache":67,"./getNative":114}],105:[function(require,module,exports){
 var restParam = require('../function/restParam');
 
 /**
@@ -7792,7 +8536,7 @@ function createDefaults(assigner, customizer) {
 
 module.exports = createDefaults;
 
-},{"../function/restParam":61}],93:[function(require,module,exports){
+},{"../function/restParam":66}],106:[function(require,module,exports){
 var bindCallback = require('./bindCallback'),
     isArray = require('../lang/isArray');
 
@@ -7814,7 +8558,31 @@ function createForEach(arrayFunc, eachFunc) {
 
 module.exports = createForEach;
 
-},{"../lang/isArray":116,"./bindCallback":87}],94:[function(require,module,exports){
+},{"../lang/isArray":132,"./bindCallback":97}],107:[function(require,module,exports){
+var baseCallback = require('./baseCallback'),
+    baseReduce = require('./baseReduce'),
+    isArray = require('../lang/isArray');
+
+/**
+ * Creates a function for `_.reduce` or `_.reduceRight`.
+ *
+ * @private
+ * @param {Function} arrayFunc The function to iterate over an array.
+ * @param {Function} eachFunc The function to iterate over a collection.
+ * @returns {Function} Returns the new each function.
+ */
+function createReduce(arrayFunc, eachFunc) {
+  return function(collection, iteratee, accumulator, thisArg) {
+    var initFromArray = arguments.length < 3;
+    return (typeof iteratee == 'function' && thisArg === undefined && isArray(collection))
+      ? arrayFunc(collection, iteratee, accumulator, initFromArray)
+      : baseReduce(collection, baseCallback(iteratee, thisArg, 4), accumulator, initFromArray, eachFunc);
+  };
+}
+
+module.exports = createReduce;
+
+},{"../lang/isArray":132,"./baseCallback":74,"./baseReduce":94}],108:[function(require,module,exports){
 var arraySome = require('./arraySome');
 
 /**
@@ -7867,7 +8635,7 @@ function equalArrays(array, other, equalFunc, customizer, isLoose, stackA, stack
 
 module.exports = equalArrays;
 
-},{"./arraySome":65}],95:[function(require,module,exports){
+},{"./arraySome":72}],109:[function(require,module,exports){
 /** `Object#toString` result references. */
 var boolTag = '[object Boolean]',
     dateTag = '[object Date]',
@@ -7917,7 +8685,7 @@ function equalByTag(object, other, tag) {
 
 module.exports = equalByTag;
 
-},{}],96:[function(require,module,exports){
+},{}],110:[function(require,module,exports){
 var keys = require('../object/keys');
 
 /** Used for native method references. */
@@ -7986,7 +8754,31 @@ function equalObjects(object, other, equalFunc, customizer, isLoose, stackA, sta
 
 module.exports = equalObjects;
 
-},{"../object/keys":128}],97:[function(require,module,exports){
+},{"../object/keys":144}],111:[function(require,module,exports){
+/** Used to map characters to HTML entities. */
+var htmlEscapes = {
+  '&': '&amp;',
+  '<': '&lt;',
+  '>': '&gt;',
+  '"': '&quot;',
+  "'": '&#39;',
+  '`': '&#96;'
+};
+
+/**
+ * Used by `_.escape` to convert characters to HTML entities.
+ *
+ * @private
+ * @param {string} chr The matched character to escape.
+ * @returns {string} Returns the escaped character.
+ */
+function escapeHtmlChar(chr) {
+  return htmlEscapes[chr];
+}
+
+module.exports = escapeHtmlChar;
+
+},{}],112:[function(require,module,exports){
 var baseProperty = require('./baseProperty');
 
 /**
@@ -8003,7 +8795,7 @@ var getLength = baseProperty('length');
 
 module.exports = getLength;
 
-},{"./baseProperty":83}],98:[function(require,module,exports){
+},{"./baseProperty":92}],113:[function(require,module,exports){
 var isStrictComparable = require('./isStrictComparable'),
     pairs = require('../object/pairs');
 
@@ -8026,7 +8818,7 @@ function getMatchData(object) {
 
 module.exports = getMatchData;
 
-},{"../object/pairs":131,"./isStrictComparable":109}],99:[function(require,module,exports){
+},{"../object/pairs":147,"./isStrictComparable":125}],114:[function(require,module,exports){
 var isNative = require('../lang/isNative');
 
 /**
@@ -8044,7 +8836,32 @@ function getNative(object, key) {
 
 module.exports = getNative;
 
-},{"../lang/isNative":120}],100:[function(require,module,exports){
+},{"../lang/isNative":136}],115:[function(require,module,exports){
+/**
+ * Gets the index at which the first occurrence of `NaN` is found in `array`.
+ *
+ * @private
+ * @param {Array} array The array to search.
+ * @param {number} fromIndex The index to search from.
+ * @param {boolean} [fromRight] Specify iterating from right to left.
+ * @returns {number} Returns the index of the matched `NaN`, else `-1`.
+ */
+function indexOfNaN(array, fromIndex, fromRight) {
+  var length = array.length,
+      index = fromIndex + (fromRight ? 0 : -1);
+
+  while ((fromRight ? index-- : ++index < length)) {
+    var other = array[index];
+    if (other !== other) {
+      return index;
+    }
+  }
+  return -1;
+}
+
+module.exports = indexOfNaN;
+
+},{}],116:[function(require,module,exports){
 /** Used for native method references. */
 var objectProto = Object.prototype;
 
@@ -8072,7 +8889,7 @@ function initCloneArray(array) {
 
 module.exports = initCloneArray;
 
-},{}],101:[function(require,module,exports){
+},{}],117:[function(require,module,exports){
 var bufferClone = require('./bufferClone');
 
 /** `Object#toString` result references. */
@@ -8137,7 +8954,7 @@ function initCloneByTag(object, tag, isDeep) {
 
 module.exports = initCloneByTag;
 
-},{"./bufferClone":88}],102:[function(require,module,exports){
+},{"./bufferClone":98}],118:[function(require,module,exports){
 /**
  * Initializes an object clone.
  *
@@ -8155,7 +8972,7 @@ function initCloneObject(object) {
 
 module.exports = initCloneObject;
 
-},{}],103:[function(require,module,exports){
+},{}],119:[function(require,module,exports){
 var getLength = require('./getLength'),
     isLength = require('./isLength');
 
@@ -8172,7 +8989,7 @@ function isArrayLike(value) {
 
 module.exports = isArrayLike;
 
-},{"./getLength":97,"./isLength":107}],104:[function(require,module,exports){
+},{"./getLength":112,"./isLength":123}],120:[function(require,module,exports){
 /** Used to detect unsigned integer values. */
 var reIsUint = /^\d+$/;
 
@@ -8198,7 +9015,7 @@ function isIndex(value, length) {
 
 module.exports = isIndex;
 
-},{}],105:[function(require,module,exports){
+},{}],121:[function(require,module,exports){
 var isArrayLike = require('./isArrayLike'),
     isIndex = require('./isIndex'),
     isObject = require('../lang/isObject');
@@ -8228,7 +9045,7 @@ function isIterateeCall(value, index, object) {
 
 module.exports = isIterateeCall;
 
-},{"../lang/isObject":121,"./isArrayLike":103,"./isIndex":104}],106:[function(require,module,exports){
+},{"../lang/isObject":137,"./isArrayLike":119,"./isIndex":120}],122:[function(require,module,exports){
 var isArray = require('../lang/isArray'),
     toObject = require('./toObject');
 
@@ -8258,7 +9075,7 @@ function isKey(value, object) {
 
 module.exports = isKey;
 
-},{"../lang/isArray":116,"./toObject":112}],107:[function(require,module,exports){
+},{"../lang/isArray":132,"./toObject":128}],123:[function(require,module,exports){
 /**
  * Used as the [maximum length](http://ecma-international.org/ecma-262/6.0/#sec-number.max_safe_integer)
  * of an array-like value.
@@ -8280,7 +9097,7 @@ function isLength(value) {
 
 module.exports = isLength;
 
-},{}],108:[function(require,module,exports){
+},{}],124:[function(require,module,exports){
 /**
  * Checks if `value` is object-like.
  *
@@ -8294,7 +9111,7 @@ function isObjectLike(value) {
 
 module.exports = isObjectLike;
 
-},{}],109:[function(require,module,exports){
+},{}],125:[function(require,module,exports){
 var isObject = require('../lang/isObject');
 
 /**
@@ -8311,7 +9128,7 @@ function isStrictComparable(value) {
 
 module.exports = isStrictComparable;
 
-},{"../lang/isObject":121}],110:[function(require,module,exports){
+},{"../lang/isObject":137}],126:[function(require,module,exports){
 var merge = require('../object/merge');
 
 /**
@@ -8328,7 +9145,7 @@ function mergeDefaults(objectValue, sourceValue) {
 
 module.exports = mergeDefaults;
 
-},{"../object/merge":130}],111:[function(require,module,exports){
+},{"../object/merge":146}],127:[function(require,module,exports){
 var isArguments = require('../lang/isArguments'),
     isArray = require('../lang/isArray'),
     isIndex = require('./isIndex'),
@@ -8371,7 +9188,7 @@ function shimKeys(object) {
 
 module.exports = shimKeys;
 
-},{"../lang/isArguments":115,"../lang/isArray":116,"../object/keysIn":129,"./isIndex":104,"./isLength":107}],112:[function(require,module,exports){
+},{"../lang/isArguments":131,"../lang/isArray":132,"../object/keysIn":145,"./isIndex":120,"./isLength":123}],128:[function(require,module,exports){
 var isObject = require('../lang/isObject');
 
 /**
@@ -8387,7 +9204,7 @@ function toObject(value) {
 
 module.exports = toObject;
 
-},{"../lang/isObject":121}],113:[function(require,module,exports){
+},{"../lang/isObject":137}],129:[function(require,module,exports){
 var baseToString = require('./baseToString'),
     isArray = require('../lang/isArray');
 
@@ -8417,7 +9234,7 @@ function toPath(value) {
 
 module.exports = toPath;
 
-},{"../lang/isArray":116,"./baseToString":86}],114:[function(require,module,exports){
+},{"../lang/isArray":132,"./baseToString":96}],130:[function(require,module,exports){
 var baseClone = require('../internal/baseClone'),
     bindCallback = require('../internal/bindCallback'),
     isIterateeCall = require('../internal/isIterateeCall');
@@ -8489,7 +9306,7 @@ function clone(value, isDeep, customizer, thisArg) {
 
 module.exports = clone;
 
-},{"../internal/baseClone":68,"../internal/bindCallback":87,"../internal/isIterateeCall":105}],115:[function(require,module,exports){
+},{"../internal/baseClone":75,"../internal/bindCallback":97,"../internal/isIterateeCall":121}],131:[function(require,module,exports){
 var isArrayLike = require('../internal/isArrayLike'),
     isObjectLike = require('../internal/isObjectLike');
 
@@ -8525,7 +9342,7 @@ function isArguments(value) {
 
 module.exports = isArguments;
 
-},{"../internal/isArrayLike":103,"../internal/isObjectLike":108}],116:[function(require,module,exports){
+},{"../internal/isArrayLike":119,"../internal/isObjectLike":124}],132:[function(require,module,exports){
 var getNative = require('../internal/getNative'),
     isLength = require('../internal/isLength'),
     isObjectLike = require('../internal/isObjectLike');
@@ -8567,7 +9384,7 @@ var isArray = nativeIsArray || function(value) {
 
 module.exports = isArray;
 
-},{"../internal/getNative":99,"../internal/isLength":107,"../internal/isObjectLike":108}],117:[function(require,module,exports){
+},{"../internal/getNative":114,"../internal/isLength":123,"../internal/isObjectLike":124}],133:[function(require,module,exports){
 var isObjectLike = require('../internal/isObjectLike'),
     isPlainObject = require('./isPlainObject');
 
@@ -8593,7 +9410,7 @@ function isElement(value) {
 
 module.exports = isElement;
 
-},{"../internal/isObjectLike":108,"./isPlainObject":122}],118:[function(require,module,exports){
+},{"../internal/isObjectLike":124,"./isPlainObject":138}],134:[function(require,module,exports){
 var isArguments = require('./isArguments'),
     isArray = require('./isArray'),
     isArrayLike = require('../internal/isArrayLike'),
@@ -8642,7 +9459,7 @@ function isEmpty(value) {
 
 module.exports = isEmpty;
 
-},{"../internal/isArrayLike":103,"../internal/isObjectLike":108,"../object/keys":128,"./isArguments":115,"./isArray":116,"./isFunction":119,"./isString":123}],119:[function(require,module,exports){
+},{"../internal/isArrayLike":119,"../internal/isObjectLike":124,"../object/keys":144,"./isArguments":131,"./isArray":132,"./isFunction":135,"./isString":139}],135:[function(require,module,exports){
 var isObject = require('./isObject');
 
 /** `Object#toString` result references. */
@@ -8682,7 +9499,7 @@ function isFunction(value) {
 
 module.exports = isFunction;
 
-},{"./isObject":121}],120:[function(require,module,exports){
+},{"./isObject":137}],136:[function(require,module,exports){
 var isFunction = require('./isFunction'),
     isObjectLike = require('../internal/isObjectLike');
 
@@ -8732,7 +9549,7 @@ function isNative(value) {
 
 module.exports = isNative;
 
-},{"../internal/isObjectLike":108,"./isFunction":119}],121:[function(require,module,exports){
+},{"../internal/isObjectLike":124,"./isFunction":135}],137:[function(require,module,exports){
 /**
  * Checks if `value` is the [language type](https://es5.github.io/#x8) of `Object`.
  * (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
@@ -8762,7 +9579,7 @@ function isObject(value) {
 
 module.exports = isObject;
 
-},{}],122:[function(require,module,exports){
+},{}],138:[function(require,module,exports){
 var baseForIn = require('../internal/baseForIn'),
     isArguments = require('./isArguments'),
     isObjectLike = require('../internal/isObjectLike');
@@ -8835,7 +9652,7 @@ function isPlainObject(value) {
 
 module.exports = isPlainObject;
 
-},{"../internal/baseForIn":72,"../internal/isObjectLike":108,"./isArguments":115}],123:[function(require,module,exports){
+},{"../internal/baseForIn":81,"../internal/isObjectLike":124,"./isArguments":131}],139:[function(require,module,exports){
 var isObjectLike = require('../internal/isObjectLike');
 
 /** `Object#toString` result references. */
@@ -8872,7 +9689,7 @@ function isString(value) {
 
 module.exports = isString;
 
-},{"../internal/isObjectLike":108}],124:[function(require,module,exports){
+},{"../internal/isObjectLike":124}],140:[function(require,module,exports){
 var isLength = require('../internal/isLength'),
     isObjectLike = require('../internal/isObjectLike');
 
@@ -8948,7 +9765,7 @@ function isTypedArray(value) {
 
 module.exports = isTypedArray;
 
-},{"../internal/isLength":107,"../internal/isObjectLike":108}],125:[function(require,module,exports){
+},{"../internal/isLength":123,"../internal/isObjectLike":124}],141:[function(require,module,exports){
 /**
  * Checks if `value` is `undefined`.
  *
@@ -8971,7 +9788,7 @@ function isUndefined(value) {
 
 module.exports = isUndefined;
 
-},{}],126:[function(require,module,exports){
+},{}],142:[function(require,module,exports){
 var baseCopy = require('../internal/baseCopy'),
     keysIn = require('../object/keysIn');
 
@@ -9004,7 +9821,7 @@ function toPlainObject(value) {
 
 module.exports = toPlainObject;
 
-},{"../internal/baseCopy":69,"../object/keysIn":129}],127:[function(require,module,exports){
+},{"../internal/baseCopy":76,"../object/keysIn":145}],143:[function(require,module,exports){
 var createDefaults = require('../internal/createDefaults'),
     merge = require('./merge'),
     mergeDefaults = require('../internal/mergeDefaults');
@@ -9031,7 +9848,7 @@ var defaultsDeep = createDefaults(merge, mergeDefaults);
 
 module.exports = defaultsDeep;
 
-},{"../internal/createDefaults":92,"../internal/mergeDefaults":110,"./merge":130}],128:[function(require,module,exports){
+},{"../internal/createDefaults":105,"../internal/mergeDefaults":126,"./merge":146}],144:[function(require,module,exports){
 var getNative = require('../internal/getNative'),
     isArrayLike = require('../internal/isArrayLike'),
     isObject = require('../lang/isObject'),
@@ -9078,7 +9895,7 @@ var keys = !nativeKeys ? shimKeys : function(object) {
 
 module.exports = keys;
 
-},{"../internal/getNative":99,"../internal/isArrayLike":103,"../internal/shimKeys":111,"../lang/isObject":121}],129:[function(require,module,exports){
+},{"../internal/getNative":114,"../internal/isArrayLike":119,"../internal/shimKeys":127,"../lang/isObject":137}],145:[function(require,module,exports){
 var isArguments = require('../lang/isArguments'),
     isArray = require('../lang/isArray'),
     isIndex = require('../internal/isIndex'),
@@ -9144,7 +9961,7 @@ function keysIn(object) {
 
 module.exports = keysIn;
 
-},{"../internal/isIndex":104,"../internal/isLength":107,"../lang/isArguments":115,"../lang/isArray":116,"../lang/isObject":121}],130:[function(require,module,exports){
+},{"../internal/isIndex":120,"../internal/isLength":123,"../lang/isArguments":131,"../lang/isArray":132,"../lang/isObject":137}],146:[function(require,module,exports){
 var baseMerge = require('../internal/baseMerge'),
     createAssigner = require('../internal/createAssigner');
 
@@ -9200,7 +10017,7 @@ var merge = createAssigner(baseMerge);
 
 module.exports = merge;
 
-},{"../internal/baseMerge":81,"../internal/createAssigner":89}],131:[function(require,module,exports){
+},{"../internal/baseMerge":90,"../internal/createAssigner":101}],147:[function(require,module,exports){
 var keys = require('./keys'),
     toObject = require('../internal/toObject');
 
@@ -9235,7 +10052,57 @@ function pairs(object) {
 
 module.exports = pairs;
 
-},{"../internal/toObject":112,"./keys":128}],132:[function(require,module,exports){
+},{"../internal/toObject":128,"./keys":144}],148:[function(require,module,exports){
+var baseToString = require('../internal/baseToString'),
+    escapeHtmlChar = require('../internal/escapeHtmlChar');
+
+/** Used to match HTML entities and HTML characters. */
+var reUnescapedHtml = /[&<>"'`]/g,
+    reHasUnescapedHtml = RegExp(reUnescapedHtml.source);
+
+/**
+ * Converts the characters "&", "<", ">", '"', "'", and "\`", in `string` to
+ * their corresponding HTML entities.
+ *
+ * **Note:** No other characters are escaped. To escape additional characters
+ * use a third-party library like [_he_](https://mths.be/he).
+ *
+ * Though the ">" character is escaped for symmetry, characters like
+ * ">" and "/" don't need escaping in HTML and have no special meaning
+ * unless they're part of a tag or unquoted attribute value.
+ * See [Mathias Bynens's article](https://mathiasbynens.be/notes/ambiguous-ampersands)
+ * (under "semi-related fun fact") for more details.
+ *
+ * Backticks are escaped because in Internet Explorer < 9, they can break out
+ * of attribute values or HTML comments. See [#59](https://html5sec.org/#59),
+ * [#102](https://html5sec.org/#102), [#108](https://html5sec.org/#108), and
+ * [#133](https://html5sec.org/#133) of the [HTML5 Security Cheatsheet](https://html5sec.org/)
+ * for more details.
+ *
+ * When working with HTML you should always [quote attribute values](http://wonko.com/post/html-escaping)
+ * to reduce XSS vectors.
+ *
+ * @static
+ * @memberOf _
+ * @category String
+ * @param {string} [string=''] The string to escape.
+ * @returns {string} Returns the escaped string.
+ * @example
+ *
+ * _.escape('fred, barney, & pebbles');
+ * // => 'fred, barney, &amp; pebbles'
+ */
+function escape(string) {
+  // Reset `lastIndex` because in IE < 9 `String#replace` does not.
+  string = baseToString(string);
+  return (string && reHasUnescapedHtml.test(string))
+    ? string.replace(reUnescapedHtml, escapeHtmlChar)
+    : string;
+}
+
+module.exports = escape;
+
+},{"../internal/baseToString":96,"../internal/escapeHtmlChar":111}],149:[function(require,module,exports){
 /**
  * This method returns the first argument provided to it.
  *
@@ -9257,7 +10124,7 @@ function identity(value) {
 
 module.exports = identity;
 
-},{}],133:[function(require,module,exports){
+},{}],150:[function(require,module,exports){
 var baseProperty = require('../internal/baseProperty'),
     basePropertyDeep = require('../internal/basePropertyDeep'),
     isKey = require('../internal/isKey');
@@ -9290,4 +10157,4 @@ function property(path) {
 
 module.exports = property;
 
-},{"../internal/baseProperty":83,"../internal/basePropertyDeep":84,"../internal/isKey":106}]},{},[17]);
+},{"../internal/baseProperty":92,"../internal/basePropertyDeep":93,"../internal/isKey":122}]},{},[17]);

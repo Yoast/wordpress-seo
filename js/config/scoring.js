@@ -1,12 +1,9 @@
-YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
-
-YoastSEO.analyzerScoreRating = 9;
 /**
  *
  * @param {Jed} i18n
  * @constructor
  */
-YoastSEO.AnalyzerScoring = function( i18n ) {
+var AnalyzerScoring = function( i18n ) {
     this.analyzerScoring = [
         {
             scoreName: "wordCount",
@@ -199,7 +196,7 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
                     name: "scoreText",
                     position: "{{text}}",
 
-                    /* translators: %1$s expands to the numeric flesh reading ease score, %2$s to a link to a Yoast.com article about Flesh ease reading score, %3$s to the easyness of reading, %4$s expands to a note about the flesh reading score. */
+                    /* translators: %1$s expands to the numeric flesch reading ease score, %2$s to a link to a Yoast.com article about Flesch ease reading score, %3$s to the easyness of reading, %4$s expands to a note about the flesch reading score. */
                     value: i18n.dgettext('js-text-analysis', "The copy scores %1$s in the %2$s test, which is considered %3$s to read. %4$s")
                 },
                 { name: "text", position: "%1$s", sourceObj: ".result" },
@@ -275,20 +272,22 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
                 {
                     matcher: "count",
                     min: 1,
-                    score: 5,
-
-                    /* translators: %1$s expands to a link to the wikipedia article about stop words, %2$s expands to the actual stop words found in the text */
-                    text: i18n.dgettext( "js-text-analysis", "The focus keyword for this page contains one or more %1$s, consider removing them. Found \'%2$s\'." )
+                    /* translators: %1$s opens a link to a Yoast article about stop words, %2$s closes the link */
+                    text: i18n.dgettext( "js-text-analysis", "Your focus keyword contains one or more stop words. This may or may not be wise depending on the circumstances. Read %1$sthis article%2$s for more info." )
                 },
                 { matcher: "count", max: 0, score: 0, text: "" }
             ],
             replaceArray: [
                 {
-                    name: "scoreUrl",
+                    name: "urlOpen",
                     position: "%1$s",
-                    value: i18n.dgettext( "js-text-analysis", "<a href='https://en.wikipedia.org/wiki/Stop_words' target='new'>stop words</a>" )
+                    value: "<a href='https://yoast.com/handling-stopwords/' target='new'>"
                 },
-                { name: "stopwords", position: "%2$s", sourceObj: ".result.matches" }
+                {
+                    name: "urlClose",
+                    position: "%2$s",
+                    value: "</a>"
+                }
             ]
         }, {
             scoreName: "subHeadings",
@@ -482,4 +481,9 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
             ]
         }
     ];
+};
+
+module.exports = {
+    AnalyzerScoring: AnalyzerScoring,
+    analyzerScoreRating: 9
 };

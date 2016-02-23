@@ -1,7 +1,26 @@
-languages:
-  JavaScript: true
+---
+engines:
+  csslint:
+    enabled: true
+  duplication:
+    enabled: true
+    config:
+      languages:
+      - javascript
+  eslint:
+    enabled: true
+  fixme:
+    enabled: true
+ratings:
+  paths:
+  - "**.css"
+  - "**.js"
 exclude_paths:
-- "js/config/*"
-- "dist/*"
-- "example/*"
-- "grunt/**/*"
+- js/config/*
+- spec/**/*
+- dist/*
+- example/*
+- grunt/**/*
+- templates/*
+- languages/*
+- Gruntfile.js
