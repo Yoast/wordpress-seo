@@ -39,7 +39,7 @@ class WPSEO_Admin_Asset_Manager {
 	public function register_script( WPSEO_Admin_Asset $script ) {
 		wp_register_script(
 			self::PREFIX . $script->get_name(),
-			plugins_url( 'js/' . $script->get_src() . $script->get_suffix() . '.js', WPSEO_FILE ),
+			plugins_url( 'js/dist/' . $script->get_src() . $script->get_suffix() . '.js', WPSEO_FILE ),
 			$script->get_deps(),
 			$script->get_version(),
 			$script->is_in_footer()
@@ -179,7 +179,7 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name'   => 'yoast-seo',
-				'src'    => 'dist/yoast-seo/yoast-seo-307',
+				'src'    => 'yoast-seo/yoast-seo-307',
 				'suffix' => '.min',
 			),
 			array(
