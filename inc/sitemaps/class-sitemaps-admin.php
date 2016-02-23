@@ -176,6 +176,6 @@ class WPSEO_Sitemaps_Admin {
 			do_action( 'wpseo_hit_sitemap_index' );
 		}
 
-		wpseo_ping_search_engines();
+		WPSEO_Sitemaps::ping_search_engines();
 	}
 } /* End of class */
