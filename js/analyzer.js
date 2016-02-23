@@ -57,12 +57,8 @@ var Analyzer = function( args ) {
  * YoastSEO.Analyzer initialization. Loads defaults and overloads custom settings.
  */
 Analyzer.prototype.init = function( args ) {
-	var metaValues = {
-		metaDescription: args.meta
-	};
-
-	if ( isUndefined( args.paper ) ) {
-		args.paper = new Paper( args.keyword, args.text, metaValues );
+if ( isUndefined( args.paper ) ) {
+		args.paper = new Paper( args.keyword, args.text, { metaDescription: args.meta } );
 	}
 
 	this.paper = args.paper;

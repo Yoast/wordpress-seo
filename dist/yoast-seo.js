@@ -451,12 +451,8 @@ var Analyzer = function( args ) {
  * YoastSEO.Analyzer initialization. Loads defaults and overloads custom settings.
  */
 Analyzer.prototype.init = function( args ) {
-	var metaValues = {
-		metaDescription: args.meta
-	};
-
-	if ( isUndefined( args.paper ) ) {
-		args.paper = new Paper( args.keyword, args.text, metaValues );
+if ( isUndefined( args.paper ) ) {
+		args.paper = new Paper( args.keyword, args.text, { metaDescription: args.meta } );
 	}
 
 	this.paper = args.paper;
@@ -4971,15 +4967,18 @@ var isUndefined = require( "lodash/lang/isUndefined" );
  * Construct the Paper object and set the keyword property.
  * @param {string} keyword The keyword to use in the analysis.
  * @param {string} text The text to use in the analysis.
- * @param {object} metaData The object containing all metavalues.
+ * @param {object} metaData The object containing all meta values.
  * @constructor
  */
 var Paper = function( keyword, text, metaData ) {
 	this._keyword = keyword || "";
 	this._text = text || "";
+
+	// if there is no metaData object given, use an empty object so checks on metaData keep working
 	if ( isUndefined( metaData ) ){
 		metaData = {};
 	}
+
 	this._metaDescription = metaData.metaDescription || "";
 };
 
@@ -5014,7 +5013,6 @@ Paper.prototype.hasText = function() {
 Paper.prototype.getText = function() {
 	return this._text;
 };
-
 
 /**
  * Check whether a metaDescription is available
