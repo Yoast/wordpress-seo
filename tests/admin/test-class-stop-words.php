@@ -21,7 +21,7 @@ class WPSEO_Admin_Stop_WordsTest extends PHPUnit_Framework_TestCase {
 		$subject
 			->expects( $this->once() )
 			->method( 'list_stop_words' )
-			->willReturn( array( 'and', 'about', 'blaat' ) );
+			->will( $this->returnValue( array( 'and', 'about', 'blaat' ) ) );
 
 		/* @type WPSEO_Admin_Stop_Words $subject */
 		$this->assertEquals( $expected, $subject->remove_in( $original ) );
