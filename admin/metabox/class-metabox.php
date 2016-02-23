@@ -732,7 +732,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$asset_manager->enqueue_style( 'scoring' );
 			$asset_manager->enqueue_style( 'snippet' );
 			$asset_manager->enqueue_style( 'yoast-seo' );
-			$asset_manager->enqueue_style( 'jquery-qtip' );
+			$asset_manager->enqueue_style( 'jquery-qtip.js' );
 
 			$asset_manager->enqueue_script( 'metabox' );
 			$asset_manager->enqueue_script( 'admin-media' );
