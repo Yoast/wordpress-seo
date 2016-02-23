@@ -156,16 +156,14 @@ class WPSEO_Sitemaps_Admin {
 
 		$ping_search_engines = false;
 
-		do {
-			$post_type = array_shift( $this->importing_post_types );
-
+		foreach ( $this->importing_post_types as $post_type ) {
 			wp_cache_delete( 'lastpostmodified:gmt:' . $post_type, 'timeinfo' ); // #17455.
 
 			$option = sprintf( 'post_types-%s-not_in_sitemap', $post_type );
 			if ( ! isset( $options[ $option ] ) || $options[ $option ] === false ) {
 				$ping_search_engines = true;
 			}
-		} while ( ! empty( $this->importing_post_types ) );
+		}
 
 		// Nothing to do.
 		if ( false === $ping_search_engines ) {
