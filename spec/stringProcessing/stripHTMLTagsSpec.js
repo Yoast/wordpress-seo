@@ -12,5 +12,6 @@ describe( "strips the HTMLtags from a string", function(){
 		expect(stripHTMLTags( "<li>test</li>")).toBe( "test" );
 		expect(stripHTMLTags( "<li></li>")).toBe( "" );
 		expect(stripHTMLTags( "<span><b>this is</b> </span> a <p>textstring</p>" )).toBe( "this is a textstring" );
+		expect(stripHTMLTags( "this    <b> is    a </b> textstring" )).toBe( "this is a textstring" );
 	} );
 } );
