@@ -10,13 +10,20 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	 */
 	private static $class_instance;
 
+	/**
+	 * Setting up
+	 */
 	public static function setUpBeforeClass() {
 		self::$class_instance = WPSEO_Frontend::get_instance();
 	}
 
+	/**
+	 * Reset after running a test
+	 */
 	public function tearDown() {
 		ob_clean();
 		self::$class_instance->reset();
+		update_option( 'posts_per_page', 10 );
 	}
 
 	/**
@@ -30,7 +37,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		update_option( 'show_on_front', 'page' );
 		$this->assertFalse( self::$class_instance->is_home_posts_page() );
 
-		// create and go to post
+		// Create and go to post.
 		update_option( 'show_on_front', 'notapage' );
 		$post_id = $this->factory->post->create();
 		$this->go_to( get_permalink( $post_id ) );
@@ -454,7 +461,9 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Frontend::canonical
 	 */
 	public function test_canonical_home() {
-		$this->factory->post->create_many( 22 );
+		update_option( 'posts_per_page', 1 );
+
+		$this->factory->post->create_many( 3 );
 
 		$url = home_url();
 
@@ -465,8 +474,9 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Frontend::canonical
 	 */
 	public function test_canonical_search() {
+		update_option( 'posts_per_page', 1 );
 
-		$this->factory->post->create_many( 22, array( 'post_title' => 'sample post %d' ) );
+		$this->factory->post->create_many( 3, array( 'post_title' => 'sample post %d' ) );
 
 		// test search
 		$search_link = get_search_link( 'sample post' );
@@ -479,9 +489,11 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Frontend::canonical
 	 */
 	public function test_adjacent_rel_links_canonical_post_type() {
+		update_option( 'posts_per_page', 1 );
+
 		register_post_type( 'yoast', array( 'public' => true, 'has_archive' => true ) );
 
-		$this->factory->post->create_many( 22, array( 'post_type' => 'yoast' ) );
+		$this->factory->post->create_many( 3, array( 'post_type' => 'yoast' ) );
 
 		flush_rewrite_rules();
 
@@ -495,10 +507,11 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Frontend::canonical
 	 */
 	public function test_adjacent_rel_links_canonical_author() {
+		update_option( 'posts_per_page', 1 );
 
 		$user_id = $this->factory->user->create( array( 'role' => 'editor' ) );
 
-		$this->factory->post->create_many( 22, array( 'post_author' => $user_id ) );
+		$this->factory->post->create_many( 3, array( 'post_author' => $user_id ) );
 
 		$user     = new WP_User( $user_id );
 		$user_url = get_author_posts_url( $user_id, $user->user_nicename );
@@ -511,7 +524,9 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Frontend::canonical
 	 */
 	public function test_adjacent_rel_links_canonical_date_archive() {
-		$this->factory->post->create_many( 22 );
+		update_option( 'posts_per_page', 1 );
+
+		$this->factory->post->create_many( 3 );
 
 		$date_link = get_day_link( false, false, false );  // Having three times false generates a link for today, which is what we need
 		$this->run_test_on_consecutive_pages( $date_link );
@@ -522,9 +537,11 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Frontend::canonical
 	 */
 	public function test_adjacent_rel_links_canonical_category() {
+		update_option( 'posts_per_page', 1 );
+
 		// create a category, add 26 posts to it, go to page 2 of its archives
 		$category_id = wp_create_category( 'Yoast SEO Plugins' );
-		$this->factory->post->create_many( 22, array( 'post_category' => array( $category_id ) ) );
+		$this->factory->post->create_many( 3, array( 'post_category' => array( $category_id ) ) );
 
 		// This shouldn't be necessary but apparently multisite's rewrites are borked when you create a category and you don't flush (on 4.0 only).
 		flush_rewrite_rules();
