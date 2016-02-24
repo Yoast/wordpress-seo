@@ -203,105 +203,15 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @return array
 	 */
 	public function localize_post_scraper_script() {
-		$post = $this->get_metabox_post();
-
-		$translations = $this->get_scraper_translations();
-
-		return array(
-			'translations'        => $translations,
-			'keyword_usage'       => $this->get_focus_keyword_usage(),
-			'search_url'          => admin_url( 'edit.php?seo_kw_filter={keyword}' ),
-			'post_edit_url'       => admin_url( 'post.php?post={id}&action=edit' ),
-			'base_url'            => $this->get_base_url_for_js(),
-			'title_template'      => WPSEO_Metabox::get_title_template( $post ),
-			'metadesc_template'   => WPSEO_Metabox::get_metadesc_template( $post ),
-			'contentTab'          => __( 'Content:' , 'wordpress-seo' ),
-			'metaDescriptionDate' => $this->get_metadesc_date( $post ),
-			'locale'              => get_locale(),
-		);
-	}
-
-	/**
-	 * Returns a base URL for use in the JS, takes permalink structure into account
-	 *
-	 * @return string
-	 */
-	private function get_base_url_for_js() {
-		global $pagenow;
-
-		// The default base is the home_url.
-		$base_url = home_url( '/', null );
-
-		if ( 'post-new.php' === $pagenow ) {
-			return $base_url;
-		}
-
+		$post      = $this->get_metabox_post();
 		$permalink = get_sample_permalink( null );
 		$permalink = $permalink[0];
 
-		// If %postname% is the last tag, just strip it and use that as a base.
-		if ( 1 === preg_match( '#%postname%/?$#', $permalink ) ) {
-			$base_url = preg_replace( '#%postname%/?$#', '', $permalink );
-		}
+		$post_formatter = new WPSEO_Metabox_Formatter(
+			new WPSEO_Post_Metabox_Formatter( $post, WPSEO_Options::get_option( 'wpseo_titles' ), $permalink )
+		);
 
-		return $base_url;
-	}
-
-	/**
-	 * Retrieves the title template.
-	 *
-	 * @param object $post metabox post.
-	 *
-	 * @return string
-	 */
-	public static function get_title_template( $post ) {
-		$title_template = '';
-
-		if ( is_a( $post, 'WP_Post' ) ) {
-			$needed_option = 'title-' . $post->post_type;
-			$options = get_option( 'wpseo_titles' );
-			if ( isset( $options[ $needed_option ] ) && $options[ $needed_option ] !== '' ) {
-				$title_template = $options[ $needed_option ];
-			}
-		}
-		return $title_template;
-	}
-
-	/**
-	 * Retrieves the metadesc template.
-	 *
-	 * @param object $post metabox post.
-	 *
-	 * @return string
-	 */
-	public static function get_metadesc_template( $post ) {
-		$metadesc_template = '';
-
-		if ( is_a( $post, 'WP_Post' ) ) {
-			$needed_option = 'metadesc-' . $post->post_type;
-			$options = get_option( 'wpseo_titles' );
-			if ( isset( $options[ $needed_option ] ) && $options[ $needed_option ] !== '' ) {
-				$metadesc_template = $options[ $needed_option ];
-			}
-		}
-		return $metadesc_template;
-	}
-
-	/**
-	 * Determines the date to be displayed in the snippet preview
-	 *
-	 * @param WP_Post $post The metabox post.
-	 *
-	 * @return string
-	 */
-	public function get_metadesc_date( $post ) {
-		$date = '';
-
-		if ( is_a( $post, 'WP_Post' ) && $this->is_show_date_enabled( $post ) ) {
-			$date = date_i18n( 'M j, Y', mysql2date( 'U', $post->post_date ) );
-		}
-
-		return $date;
+		return $post_formatter->get_values();
 	}
 
 	/**
@@ -772,24 +682,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	}
 
 	/**
-	 * Retrieve a post date when post is published, or return current date when it's not.
-	 *
-	 * @param WP_Post $post The post for which to retrieve the post date.
-	 *
-	 * @return string
-	 */
-	public function get_post_date( $post ) {
-		if ( isset( $post->post_date ) && $post->post_status === 'publish' ) {
-			$date = date_i18n( 'j M Y', strtotime( $post->post_date ) );
-		}
-		else {
-			$date = date_i18n( 'j M Y' );
-		}
-
-		return (string) $date;
-	}
-
-	/**
 	 * Returns post in metabox context
 	 *
 	 * @returns WP_Post|array
@@ -809,23 +701,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		return array();
 	}
 
-	/**
-	 * Counting the number of given keyword used for other posts than given post_id
-	 *
-	 * @return array
-	 */
-	private function get_focus_keyword_usage() {
-		$post = $this->get_metabox_post();
-		if ( is_object( $post ) ) {
-			$keyword = WPSEO_Meta::get_value( 'focuskw', $post->ID );
 
-			return array(
-				$keyword => WPSEO_Meta::keyword_usage( $keyword, $post->ID ),
-			);
-		}
-
-		return array();
-	}
 
 	/**
 	 * Returns an array with shortcode tags for all registered shortcodes.
@@ -947,34 +823,6 @@ SVG;
 					<# } #>
 				</li>
 			</script>';
-	}
-
-	/**
-	 * Returns Jed compatible YoastSEO.js translations.
-	 *
-	 * @return array
-	 */
-	private function get_scraper_translations() {
-		$file = plugin_dir_path( WPSEO_FILE ) . 'languages/wordpress-seo-' . get_locale() . '.json';
-		if ( file_exists( $file ) && $file = file_get_contents( $file ) ) {
-			return json_decode( $file, true );
-		}
-		return array();
-	}
-
-	/**
-	 * Returns whether or not showing the date in the snippet preview is enabled.
-	 *
-	 * @param WP_Post $post The post to retrieve this for.
-	 * @return bool
-	 */
-	private static function is_show_date_enabled( $post ) {
-		$post_type = $post->post_type;
-
-		$options = WPSEO_Options::get_option( 'wpseo_titles' );
-		$key = sprintf( 'showdate-%s', $post_type );
-
-		return isset( $options[ $key ] ) && true === $options[ $key ];
 	}
 
 	/********************** DEPRECATED METHODS **********************/
@@ -1233,6 +1081,7 @@ SVG;
 	 * @param string $rawScore     The raw score, to be used by other filters.
 	 */
 	public function save_score_result( &$results, $scoreValue, $scoreMessage, $scoreLabel, $rawScore = null ) {
+
 		_deprecated_function( 'WPSEO_Metabox::save_score_result', 'WPSEO 3.0' );
 	}
 
@@ -1428,4 +1277,49 @@ SVG;
 
 		return '';
 	}
+
+	/**
+	 * @deprecated 3.2
+	 *
+	 * Retrieves the title template.
+	 *
+	 * @param object $post metabox post.
+	 *
+	 * @return string
+	 */
+	public static function get_title_template( $post ) {
+		_deprecated_function( 'WPSEO_Metabox::get_title_template', 'WPSEO 3.2', 'WPSEO_Post_Scraper::get_title_template' );
+
+		return '';
+	}
+
+	/**
+	 * @deprecated 3.2
+	 *
+	 * Retrieves the metadesc template.
+	 *
+	 * @param object $post metabox post.
+	 *
+	 * @return string
+	 */
+	public static function get_metadesc_template( $post ) {
+		_deprecated_function( 'WPSEO_Metabox::get_metadesc_template', 'WPSEO 3.2', 'WPSEO_Post_Scraper::get_metadesc_template' );
+		return '';
+	}
+
+	/**
+	 * @deprecated 3.2
+	 * Retrieve a post date when post is published, or return current date when it's not.
+	 *
+	 * @param WP_Post $post The post for which to retrieve the post date.
+	 *
+	 * @return string
+	 */
+	public function get_post_date( $post ) {
+		_deprecated_function( 'WPSEO_Metabox::get_post_date', 'WPSEO 3.2', 'WPSEO_Post_Scraper::get_post_date' );
+		_deprecated_function( 'WPSEO_Metabox::get_post_date', 'WPSEO 3.2', 'WPSEO_Post_Scraper::get_post_date' );
+
+		return '';
+	}
+
 } /* End of class */

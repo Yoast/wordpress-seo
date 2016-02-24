@@ -48,26 +48,6 @@ class WPSEO_Taxonomy {
 	}
 
 	/**
-	 * Translate options text strings for use in the select fields
-	 *
-	 * @internal IMPORTANT: if you want to add a new string (option) somewhere, make sure you add
-	 * that array key to the main options definition array in the class WPSEO_Taxonomy_Meta() as well!!!!
-	 */
-	public function translate_meta_options() {
-		$this->no_index_options        = WPSEO_Taxonomy_Meta::$no_index_options;
-		$this->sitemap_include_options = WPSEO_Taxonomy_Meta::$sitemap_include_options;
-
-		$this->no_index_options['default'] = __( 'Use %s default (Currently: %s)', 'wordpress-seo' );
-		$this->no_index_options['index']   = __( 'Always index', 'wordpress-seo' );
-		$this->no_index_options['noindex'] = __( 'Always noindex', 'wordpress-seo' );
-
-		$this->sitemap_include_options['-']      = __( 'Auto detect', 'wordpress-seo' );
-		$this->sitemap_include_options['always'] = __( 'Always include', 'wordpress-seo' );
-		$this->sitemap_include_options['never']  = __( 'Never include', 'wordpress-seo' );
-	}
-
-
-	/**
 	 * Test whether we are on a public taxonomy - no metabox actions needed if we are not
 	 * Unfortunately we have to hook most everything in before the point where all taxonomies are registered and
 	 * we know which taxonomy is being requested, so we need to use this check in nearly every hooked in function.
@@ -165,6 +145,33 @@ class WPSEO_Taxonomy {
 	}
 
 	/**
+	 * Pass variables to js for use with the term-scraper
+	 *
+	 * @return array
+	 */
+	public function localize_term_scraper_script() {
+		$term_id  = filter_input( INPUT_GET, 'tag_ID' );
+		$term     = get_term_by( 'id', $term_id, $this->get_taxonomy() );
+		$taxonomy = get_taxonomy( $term->taxonomy );
+
+		$term_formatter = new WPSEO_Metabox_Formatter(
+			new WPSEO_Term_Metabox_Formatter( $taxonomy, $term, WPSEO_Options::get_option( 'wpseo_titles' ) )
+		);
+
+		return $term_formatter->get_values();
+	}
+
+	/**
+	 * Pass some variables to js for replacing variables.
+	 */
+	public function localize_replace_vars_script() {
+		return array(
+			'no_parent_text' => __( '(no parent)', 'wordpress-seo' ),
+			'replace_vars'   => $this->get_replace_vars(),
+		);
+	}
+
+	/**
 	 * Check if metabox for current taxonomy should be displayed.
 	 *
 	 * @return bool
@@ -183,101 +190,6 @@ class WPSEO_Taxonomy {
 	 */
 	private function get_taxonomy() {
 		return filter_input( INPUT_GET, 'taxonomy', FILTER_DEFAULT, array( 'options' => array( 'default' => '' ) ) );
-	}
-
-	/**
-	 * Pass variables to js for use with the term-scraper
-	 *
-	 * @return array
-	 */
-	public function localize_term_scraper_script() {
-		$translations = $this->get_scraper_translations();
-
-		$term_id  = filter_input( INPUT_GET, 'tag_ID' );
-		$term     = get_term_by( 'id', $term_id, $this->get_taxonomy() );
-		$focuskw  = WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'focuskw' );
-		$taxonomy = get_taxonomy( $term->taxonomy );
-		$options  = WPSEO_Options::get_option( 'wpseo_permalinks' );
-
-		$base_url = home_url( '/', null );
-		if ( ! $options['stripcategorybase'] ) {
-			$base_url = trailingslashit( $base_url . $taxonomy->rewrite['slug'] );
-		}
-
-		return array(
-			'translations'      => $translations,
-			'base_url'          => $base_url,
-			'taxonomy'          => $term->taxonomy,
-			'keyword_usage'     => WPSEO_Taxonomy_Meta::get_keyword_usage( $focuskw, $term->term_id, $term->taxonomy ),
-			// Todo: a column needs to be added on the termpages to add a filter for the keyword, so this can be used in the focus kw doubles.
-			'search_url'        => admin_url( 'edit-tags.php?taxonomy=' . $term->taxonomy . '&seo_kw_filter={keyword}' ),
-			'post_edit_url'     => admin_url( 'edit-tags.php?action=edit&taxonomy=' . $term->taxonomy . '&tag_ID={id}' ),
-			'title_template'    => WPSEO_Taxonomy::get_title_template( $term ),
-			'metadesc_template' => WPSEO_Taxonomy::get_metadesc_template( $term ),
-			'contentTab'        => __( 'Content:', 'wordpress-seo' ),
-			'locale'            => get_locale(),
-		);
-	}
-
-	/**
-	 * Retrieves the title template.
-	 *
-	 * @param object $term taxonomy term.
-	 *
-	 * @return string
-	 */
-	public static function get_title_template( $term ) {
-		if ( is_object( $term ) && property_exists( $term, 'taxonomy' ) ) {
-			$needed_option = 'title-tax-' . $term->taxonomy;
-
-			return self::get_template( $needed_option );
-		}
-
-		return '';
-	}
-
-	/**
-	 * Retrieves the metadesc template.
-	 *
-	 * @param object $term taxonomy term.
-	 *
-	 * @return string
-	 */
-	public static function get_metadesc_template( $term ) {
-		if ( is_object( $term ) && property_exists( $term, 'taxonomy' ) ) {
-			$template_option_name = 'metadesc-tax-' . $term->taxonomy;
-
-			return self::get_template( $template_option_name );
-		}
-
-		return '';
-	}
-
-	/**
-	 * Pass some variables to js for replacing variables.
-	 */
-	public function localize_replace_vars_script() {
-		return array(
-			'no_parent_text' => __( '(no parent)', 'wordpress-seo' ),
-			'replace_vars'   => $this->get_replace_vars(),
-		);
-	}
-
-	/**
-	 * Retrieves a template.
-	 *
-	 * @param String $template_option_name The name of the option in which the template you want to get is saved.
-	 *
-	 * @return string
-	 */
-	private static function get_template( $template_option_name ) {
-		$options  = WPSEO_Options::get_option( 'wpseo_titles' );
-		$template = '';
-		if ( isset( $options[ $template_option_name ] ) && $options[ $template_option_name ] !== '' ) {
-			$template = $options[ $template_option_name ];
-		}
-
-		return $template;
 	}
 
 	/**
@@ -316,18 +228,49 @@ class WPSEO_Taxonomy {
 		return $cached_replacement_vars;
 	}
 
-	/**
-	 * Returns Jed compatible YoastSEO.js translations.
-	 *
-	 * @return array
-	 */
-	private function get_scraper_translations() {
-		$file = plugin_dir_path( WPSEO_FILE ) . 'languages/wordpress-seo-' . get_locale() . '.json';
-		if ( file_exists( $file ) && $file = file_get_contents( $file ) ) {
-			return json_decode( $file, true );
-		}
 
-		return array();
+	/********************** DEPRECATED METHODS **********************/
+
+	/**
+	 * @deprecated 3.2
+	 *
+	 * Retrieves the title template.
+	 *
+	 * @param object $term taxonomy term.
+	 *
+	 * @return string
+	 */
+	public static function get_title_template( $term ) {
+		_deprecated_function( 'WPSEO_Taxonomy::get_title_template', 'WPSEO 3.2', 'WPSEO_Term_Scraper::get_title_template' );
+
+		return '';
+	}
+
+	/**
+	 * @deprecated 3.2
+	 *
+	 * Retrieves the metadesc template.
+	 *
+	 * @param object $term taxonomy term.
+	 *
+	 * @return string
+	 */
+	public static function get_metadesc_template( $term ) {
+		_deprecated_function( 'WPSEO_Taxonomy::get_metadesc_template', 'WPSEO 3.2', 'WPSEO_Term_Scraper::get_metadesc_template' );
+
+		return '';
+	}
+
+	/**
+	 * @deprecated 3.2
+	 *
+	 * Translate options text strings for use in the select fields
+	 *
+	 * @internal IMPORTANT: if you want to add a new string (option) somewhere, make sure you add
+	 * that array key to the main options definition array in the class WPSEO_Taxonomy_Meta() as well!!!!
+	 */
+	public function translate_meta_options() {
+		_deprecated_function( 'WPSEO_Taxonomy::translate_meta_options', 'WPSEO 3.2', 'WPSEO_Taxonomy_Settings_Fields::translate_meta_options' );
 	}
 
 } /* End of class */
