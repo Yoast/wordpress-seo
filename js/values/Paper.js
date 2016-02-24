@@ -7,16 +7,11 @@ var isUndefined = require( "lodash/lang/isUndefined" );
  * @param {object} metaData The object containing all meta values.
  * @constructor
  */
-var Paper = function( keyword, text, metaData ) {
-	this._keyword = keyword || "";
+var Paper = function( text, attributes ) {
 	this._text = text || "";
-
-	// if there is no metaData object given, use an empty object so checks on metaData keep working
-	if ( isUndefined( metaData ) ) {
-		metaData = {};
-	}
-
-	this._metaDescription = metaData.metaDescription || "";
+	this._attributes = attributes || {};
+	this._keyword = this._attributes.keyword || "";
+	this._metaDescription = this._attributes.metaDescription || "";
 };
 
 /**
