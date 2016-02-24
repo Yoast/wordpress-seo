@@ -252,4 +252,6 @@ jQuery( document ).ready( function() {
 	window.setWPOption = setWPOption;
 	window.wpseoKillBlockingFiles = wpseoKillBlockingFiles;
 	window.wpseoCopyHomeMeta = wpseoCopyHomeMeta;
+	window.wpseo_add_fb_admin = wpseo_add_fb_admin;
+	window.wpseoSetTabHash = wpseoSetTabHash;
 }());
