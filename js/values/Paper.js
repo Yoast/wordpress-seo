@@ -2,9 +2,8 @@ var isUndefined = require( "lodash/lang/isUndefined" );
 
 /**
  * Construct the Paper object and set the keyword property.
- * @param {string} keyword The keyword to use in the analysis.
  * @param {string} text The text to use in the analysis.
- * @param {object} metaData The object containing all meta values.
+ * @param {object} attributes The object containing all attributes.
  * @constructor
  */
 var Paper = function( text, attributes ) {
