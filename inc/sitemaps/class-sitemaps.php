@@ -183,20 +183,7 @@ class WPSEO_Sitemaps {
 
 		$this->set_n( get_query_var( 'sitemap_n' ) );
 
-		$caching = $this->cache->is_enabled();
-
-		if ( $caching ) {
-			/**
-			 * Fires before the attempt to retrieve XML sitemap from the transient cache.
-			 *
-			 * @param WPSEO_Sitemaps $sitemaps Sitemaps object.
-			 */
-			do_action( 'wpseo_sitemap_stylesheet_cache_' . $type, $this );
-			$this->sitemap   = $this->cache->get_sitemap( $type, $this->current_page );
-			$this->transient = ! empty( $this->sitemap );
-		}
-
-		if ( empty( $this->sitemap ) ) {
+		if ( ! $this->get_sitemap_from_cache( $type, $this->current_page ) ) {
 			$this->build_sitemap( $type );
 		}
 
@@ -207,12 +194,49 @@ class WPSEO_Sitemaps {
 			return;
 		}
 
-		if ( $caching && ! $this->transient ) {
-			$this->cache->store_sitemap( $type, $this->current_page, $this->sitemap );
-		}
-
 		$this->output();
 		$this->sitemap_close();
+	}
+
+	/**
+	 * Try to get the sitemap from cache
+	 *
+	 * @param string $type        Sitemap type.
+	 * @param int    $page_number The page number to retrieve.
+	 *
+	 * @return bool If the sitemap has been retrieved from cache.
+	 */
+	public function get_sitemap_from_cache( $type, $page_number ) {
+		$caching = $this->cache->is_enabled();
+		if ( true !== $caching ) {
+			return false;
+		}
+
+		/**
+		 * Fires before the attempt to retrieve XML sitemap from the transient cache.
+		 *
+		 * @param WPSEO_Sitemaps $sitemaps Sitemaps object.
+		 */
+		do_action( 'wpseo_sitemap_stylesheet_cache_' . $type, $this );
+
+		$sitemap_cache_data = $this->cache->get_sitemap_data( $type, $page_number );
+
+		// No cache was found, build it and save to cache.
+		if ( empty( $sitemap_cache_data ) ) {
+			$this->build_sitemap( $type );
+
+			$this->cache->store_sitemap( $type, $page_number, $this->sitemap, ! $this->bad_sitemap );
+		}
+
+		// Cache object was found, parse information.
+		if ( ! empty( $sitemap_cache_data ) ) {
+			$this->transient = true;
+
+			$this->sitemap     = $sitemap_cache_data->get_sitemap();
+			$this->bad_sitemap = ! $sitemap_cache_data->is_usable();
+		}
+
+		return true;
 	}
 
 	/**
@@ -274,6 +298,13 @@ class WPSEO_Sitemaps {
 
 		foreach ( $this->providers as $provider ) {
 			$links = array_merge( $links, $provider->get_index_links( $this->max_entries ) );
+		}
+
+		if ( empty( $links ) ) {
+			$this->bad_sitemap = true;
+			$this->sitemap = '';
+
+			return;
 		}
 
 		$this->sitemap = $this->renderer->get_index( $links );

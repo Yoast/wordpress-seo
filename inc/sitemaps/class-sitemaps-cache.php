@@ -54,17 +54,60 @@ class WPSEO_Sitemaps_Cache {
 	}
 
 	/**
+	 * Get the sitemap that is cached
+	 *
+	 * @param string $type Sitemap type.
+	 * @param int    $page Page number to retrieve.
+	 *
+	 * @return null|WPSEO_Sitemap_Cache_Data Null on no cache found otherwise object containing sitemap and meta data.
+	 */
+	public function get_sitemap_data( $type, $page ) {
+
+		$sitemap = $this->get_sitemap( $type, $page );
+
+		if ( empty( $sitemap ) ) {
+			return null;
+		}
+
+		// This should happend automatically, but it doesn't.
+		if ( false !== strpos( $sitemap, 'C:24:"WPSEO_Sitemap_Cache_Data"' ) ) {
+			$sitemap = unserialize( $sitemap );
+		}
+
+		// What we expect it to be if it is set.
+		if ( $sitemap instanceof WPSEO_Sitemap_Cache_Data_Interface ) {
+			return $sitemap;
+		}
+
+		// Convert old type to new type, this will invalidate soon enough.
+		if ( is_string( $sitemap ) ) {
+			$sitemap_data = new WPSEO_Sitemap_Cache_Data();
+			$sitemap_data->set_sitemap( $sitemap );
+			$sitemap_data->set_status( ! empty( $sitemap ) );
+
+			return $sitemap_data;
+		}
+
+		return null;
+	}
+
+	/**
 	 * Store the sitemap page from cache.
 	 *
-	 * @param string $type    Sitemap type.
-	 * @param int    $page    Page number to store.
-	 * @param string $sitemap Sitemap body to store.
+	 * @param string $type      Sitemap type.
+	 * @param int    $page      Page number to store.
+	 * @param string $sitemap   Sitemap body to store.
+	 * @param bool   $is_usable Is this a valid sitemap or a cache of an invalid sitemap.
 	 *
 	 * @return bool
 	 */
-	public function store_sitemap( $type, $page, $sitemap ) {
+	public function store_sitemap( $type, $page, $sitemap, $is_usable = true ) {
 
-		return set_transient( 'wpseo_sitemap_cache_' . $type . '_' . $page, $sitemap, DAY_IN_SECONDS );
+		$sitemap_data = new WPSEO_Sitemap_Cache_Data();
+		$sitemap_data->set_sitemap( $sitemap );
+		$sitemap_data->set_status( $is_usable );
+
+		return set_transient( 'wpseo_sitemap_cache_' . $type . '_' . $page, $sitemap_data, DAY_IN_SECONDS );
 	}
 
 	/**
