@@ -151,17 +151,17 @@
 		return instance;
 	};
 	window.bulk_editor = bulk_editor;
+
+	jQuery( document ).ready( function() {
+			var parent_tables = jQuery( 'table[class*="wpseo_bulk"]' );
+			parent_tables.each(
+				function( number, parent_table ) {
+					var current_table = jQuery( parent_table );
+					var bulk_edit = bulk_editor( current_table );
+
+					bulk_edit.set_events();
+				}
+			);
+		}
+	);
 }());
-
-jQuery( document ).ready( function() {
-		var parent_tables = jQuery( 'table[class*="wpseo_bulk"]' );
-		parent_tables.each(
-			function( number, parent_table ) {
-				var current_table = jQuery( parent_table );
-				var bulk_edit = bulk_editor( current_table );
-
-				bulk_edit.set_events();
-			}
-		);
-	}
-);

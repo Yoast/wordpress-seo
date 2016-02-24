@@ -1,5 +1,4 @@
 /* global wp */
-/* global removeThumb:true */
 /* global wpseoFeaturedImageL10n */
 /* global YoastSEO */
 /* jshint -W097 */
@@ -99,14 +98,12 @@
 			featuredImagePlugin.setFeaturedImage( $( '#set-post-thumbnail ' ).html() );
 		}
 	});
-}( jQuery ));
 
-(function() {
 	/**
 	 * Check if image is smaller than 200x200 pixels. If this is the case, show a warning
 	 * @param {object} featuredImage
 	 */
-	function yst_checkFeaturedImage(featuredImage) {
+	var yst_checkFeaturedImage = function(featuredImage) {
 		var attachment = featuredImage.state().get('selection').first().toJSON();
 
 		if (attachment.width < 200 || attachment.height < 200) {
@@ -119,7 +116,7 @@
 		}
 
 		yst_overrideElemFunction();
-	}
+	};
 
 	/**
 	 * Counter to make sure we do not end up in an endless loop if there' no remove-post-thumbnail id
@@ -137,7 +134,7 @@
 	 * If there's a remove-post-thumbnail id, add an onclick. When this id is clicked, call yst_removeOpengraphWarning
 	 * If not, check again after 100ms. Do not do this for more than 10 times so we do not end up in an endless loop
 	 */
-	function yst_overrideElemFunction() {
+	var yst_overrideElemFunction = function() {
 		if (document.getElementById('remove-post-thumbnail') != null) {
 			thumbIdCounter = 0;
 			removeThumb = document.getElementById('remove-post-thumbnail').onclick; // This variable is needed for core functionality to work
@@ -149,21 +146,22 @@
 				setTimeout(yst_overrideElemFunction, 100);
 			}
 		}
-	}
+	};
 
 	/**
 	 * Remove error message
 	 */
-	function yst_removeOpengraphWarning() {
+	var yst_removeOpengraphWarning = function() {
 		jQuery('#yst_opengraph_image_warning').remove();
 		document.getElementById('postimagediv').style.border = 'none';
 
 		//Make sure the original function does its work
 		removeThumb();
-	}
+	};
+
 	window.yst_checkFeaturedImage = yst_checkFeaturedImage;
 	window.thumbIdCounter = thumbIdCounter;
 	window.removeThumb = removeThumb;
 	window.yst_overrideElemFunction = yst_overrideElemFunction;
 	window.yst_removeOpengraphWarning = yst_removeOpengraphWarning;
-}());
+}( jQuery ));

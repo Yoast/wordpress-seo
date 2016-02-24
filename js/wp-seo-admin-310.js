@@ -6,85 +6,9 @@
 /* jshint -W097 */
 /* jshint -W003 */
 /* jshint unused:false */
-jQuery( document ).ready( function() {
-		'use strict';
-		/* Fix banner images overlapping help texts */
-		jQuery( '.screen-meta-toggle a' ).click( function() {
-				jQuery( '#sidebar-container' ).toggle();
-			}
-		);
+(function() {
+	'use strict';
 
-		// events
-		jQuery( '#enablexmlsitemap' ).change( function() {
-				jQuery( '#sitemapinfo' ).toggle( jQuery( this ).is( ':checked' ) );
-			}
-		).change();
-
-		jQuery( '#breadcrumbs-enable' ).change( function() {
-				jQuery( '#breadcrumbsinfo' ).toggle( jQuery( this ).is( ':checked' ) );
-			}
-		).change();
-
-		jQuery( '#disable_author_sitemap' ).find( 'input:radio' ).change( function() {
-				if ( jQuery( this ).is( ':checked' ) ) {
-					jQuery( '#xml_user_block' ).toggle( jQuery( this ).val() === 'off' );
-				}
-			}
-		).change();
-
-		jQuery( '#cleanpermalinks' ).change( function() {
-				jQuery( '#cleanpermalinksdiv' ).toggle( jQuery( this ).is( ':checked' ) );
-			}
-		).change();
-
-		jQuery( '#wpseo-tabs' ).find( 'a' ).click( function() {
-				jQuery( '#wpseo-tabs' ).find( 'a' ).removeClass( 'nav-tab-active' );
-				jQuery( '.wpseotab' ).removeClass( 'active' );
-
-				var id = jQuery( this ).attr( 'id' ).replace( '-tab', '' );
-				jQuery( '#' + id ).addClass( 'active' );
-				jQuery( this ).addClass( 'nav-tab-active' );
-			}
-		);
-
-		jQuery( '#company_or_person' ).change( function() {
-				var companyOrPerson = jQuery( this ).val();
-				if ( 'company' === companyOrPerson ) {
-					jQuery( '#knowledge-graph-company' ).show();
-					jQuery( '#knowledge-graph-person' ).hide();
-				}
-				else if ( 'person' === companyOrPerson ) {
-					jQuery( '#knowledge-graph-company' ).hide();
-					jQuery( '#knowledge-graph-person' ).show();
-				}
-				else {
-					jQuery( '#knowledge-graph-company' ).hide();
-					jQuery( '#knowledge-graph-person' ).hide();
-				}
-			}
-		).change();
-
-		jQuery( '.template' ).change( function() {
-				wpseoDetectWrongVariables( jQuery( this ) );
-			}
-		).change();
-
-		// init
-		var activeTab = window.location.hash.replace( '#top#', '' );
-
-		// default to first tab
-		if ( activeTab === '' || activeTab === '#_=_' ) {
-			activeTab = jQuery( '.wpseotab' ).attr( 'id' );
-		}
-
-		jQuery( '#' + activeTab ).addClass( 'active' );
-		jQuery( '#' + activeTab + '-tab' ).addClass( 'nav-tab-active' );
-
-		jQuery( '.nav-tab-active' ).click();
-	}
-);
-
-(function(){
 	/**
 	 * Detects the wrong use of variables in title and description templates
 	 *
@@ -247,11 +171,89 @@ jQuery( document ).ready( function() {
 				}
 			}
 		);
-	};
+	}
+
 	window.wpseoDetectWrongVariables = wpseoDetectWrongVariables;
 	window.setWPOption = setWPOption;
 	window.wpseoKillBlockingFiles = wpseoKillBlockingFiles;
 	window.wpseoCopyHomeMeta = wpseoCopyHomeMeta;
 	window.wpseo_add_fb_admin = wpseo_add_fb_admin;
 	window.wpseoSetTabHash = wpseoSetTabHash;
+
+	jQuery( document ).ready( function() {
+			/* Fix banner images overlapping help texts */
+			jQuery( '.screen-meta-toggle a' ).click( function() {
+					jQuery( '#sidebar-container' ).toggle();
+				}
+			);
+
+			// events
+			jQuery( '#enablexmlsitemap' ).change( function() {
+					jQuery( '#sitemapinfo' ).toggle( jQuery( this ).is( ':checked' ) );
+				}
+			).change();
+
+			jQuery( '#breadcrumbs-enable' ).change( function() {
+					jQuery( '#breadcrumbsinfo' ).toggle( jQuery( this ).is( ':checked' ) );
+				}
+			).change();
+
+			jQuery( '#disable_author_sitemap' ).find( 'input:radio' ).change( function() {
+					if ( jQuery( this ).is( ':checked' ) ) {
+						jQuery( '#xml_user_block' ).toggle( jQuery( this ).val() === 'off' );
+					}
+				}
+			).change();
+
+			jQuery( '#cleanpermalinks' ).change( function() {
+					jQuery( '#cleanpermalinksdiv' ).toggle( jQuery( this ).is( ':checked' ) );
+				}
+			).change();
+
+			jQuery( '#wpseo-tabs' ).find( 'a' ).click( function() {
+					jQuery( '#wpseo-tabs' ).find( 'a' ).removeClass( 'nav-tab-active' );
+					jQuery( '.wpseotab' ).removeClass( 'active' );
+
+					var id = jQuery( this ).attr( 'id' ).replace( '-tab', '' );
+					jQuery( '#' + id ).addClass( 'active' );
+					jQuery( this ).addClass( 'nav-tab-active' );
+				}
+			);
+
+			jQuery( '#company_or_person' ).change( function() {
+					var companyOrPerson = jQuery( this ).val();
+					if ( 'company' === companyOrPerson ) {
+						jQuery( '#knowledge-graph-company' ).show();
+						jQuery( '#knowledge-graph-person' ).hide();
+					}
+					else if ( 'person' === companyOrPerson ) {
+						jQuery( '#knowledge-graph-company' ).hide();
+						jQuery( '#knowledge-graph-person' ).show();
+					}
+					else {
+						jQuery( '#knowledge-graph-company' ).hide();
+						jQuery( '#knowledge-graph-person' ).hide();
+					}
+				}
+			).change();
+
+			jQuery( '.template' ).change( function() {
+					wpseoDetectWrongVariables( jQuery( this ) );
+				}
+			).change();
+
+			// init
+			var activeTab = window.location.hash.replace( '#top#', '' );
+
+			// default to first tab
+			if ( activeTab === '' || activeTab === '#_=_' ) {
+				activeTab = jQuery( '.wpseotab' ).attr( 'id' );
+			}
+
+			jQuery( '#' + activeTab ).addClass( 'active' );
+			jQuery( '#' + activeTab + '-tab' ).addClass( 'nav-tab-active' );
+
+			jQuery( '.nav-tab-active' ).click();
+		}
+	);
 }());
