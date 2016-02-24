@@ -258,6 +258,9 @@
 	window.setWPOption = setWPOption;
 	window.wpseoKillBlockingFiles = wpseoKillBlockingFiles;
 	window.wpseoCopyHomeMeta = wpseoCopyHomeMeta;
+	window.wpseoSetTabHash = wpseoSetTabHash;
+	window.wpseo_add_fb_admin = wpseo_add_fb_admin;
+
 })();
 
 },{}]},{},[1]);
