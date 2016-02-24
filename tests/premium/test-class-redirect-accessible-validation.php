@@ -42,11 +42,18 @@ class WPSEO_Redirect_Accessible_Validation_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Redirect_Accessible_Validation::get_error
 	 */
 	public function test_validate_not_accessible( ) {
+		// Set up fake request response
+		$fake_request_response = array( $this, 'fake_305_request_response' );
+		add_filter( 'pre_http_request', $fake_request_response );
+
 		$this->assertFalse(
 			$this->class_instance->run(
 				new WPSEO_Redirect( 'accessible_url', 'http://httpstat.us/305', 301 )
 			)
 		);
+
+		// Cleanup
+		remove_filter( 'pre_http_request', $fake_request_response );
 
 		$this->assertEquals(
 			new WPSEO_Validation_Warning( 'The URL you entered returned a HTTP code different than 200(OK). The received HTTP code is 305.', 'target' ),
@@ -61,11 +68,18 @@ class WPSEO_Redirect_Accessible_Validation_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Redirect_Accessible_Validation::get_error
 	 */
 	public function test_validate_redirect_to_301( ) {
+		// Set up fake request response
+		$fake_request_response = array( $this, 'fake_301_request_response' );
+		add_filter( 'pre_http_request', $fake_request_response );
+
 		$this->assertFalse(
 			$this->class_instance->run(
 				new WPSEO_Redirect( 'accessible_url', 'http://httpstat.us/301', 301 )
 			)
 		);
+
+		// Cleanup
+		remove_filter( 'pre_http_request', $fake_request_response );
 
 		$this->assertEquals(
 			new WPSEO_Validation_Warning( 'You\'re redirecting to a target that returns a 301 HTTP code (permanently moved). Make sure the target you specify is directly reachable.', 'target' ),
@@ -163,4 +177,41 @@ class WPSEO_Redirect_Accessible_Validation_Test extends WPSEO_UnitTestCase {
 		);
 	}
 
+	/**
+	 * Fake a 305 request code
+	 *
+	 * @param mixed $in Filter input value.
+	 *
+	 * @return array Response array.
+	 */
+	function fake_305_request_response( $in = false ) {
+		return array(
+			'headers' => array(),
+			'body' => '',
+			'response' => array(
+				'code' => 305
+			),
+			'cookies' => '',
+			'filename' => ''
+		);
+	}
+
+	/**
+	 * Fake a 305 request code
+	 *
+	 * @param mixed $in Filter input value.
+	 *
+	 * @return array Response array.
+	 */
+	function fake_301_request_response( $in = false ) {
+		return array(
+			'headers' => array(),
+			'body' => '',
+			'response' => array(
+				'code' => 301
+			),
+			'cookies' => '',
+			'filename' => ''
+		);
+	}
 }
