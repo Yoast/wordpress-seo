@@ -131,20 +131,15 @@
 			featuredImagePlugin.setFeaturedImage( $( '#set-post-thumbnail ' ).html() );
 		}
 	});
-}( jQuery ));
 
-(function(){
-	'use strict';
-	/* jshint ignore:start */
 	/**
 	 * Check if image is smaller than 200x200 pixels. If this is the case, show a warning
-	 * @param {object} featuredImage
 	 *
 	 * @deprecated since 3.1
 	 */
-	function yst_checkFeaturedImage( featuredImage ) {
+	var yst_checkFeaturedImage = function() {
 		return;
-	}
+	};
 
 	/**
 	 * Counter to make sure we do not end up in an endless loop if there' no remove-post-thumbnail id
@@ -168,17 +163,16 @@
 	 *
 	 * @deprecated since 3.1
 	 */
-	function yst_overrideElemFunction() {
+	var yst_overrideElemFunction = function() {
 		return;
-	}
+	};
 
 	/**
 	 * Remove error message
 	 */
-	function yst_removeOpengraphWarning() {
+	var yst_removeOpengraphWarning = function() {
 		return;
-	}
-	/* jshint ignore:end */
+	};
 
 	window.yst_checkFeaturedImage = yst_checkFeaturedImage;
 	window.thumbIdCounter = thumbIdCounter;
@@ -186,4 +180,4 @@
 	window.yst_overrideElemFunction = yst_overrideElemFunction;
 	window.yst_removeOpengraphWarning = yst_removeOpengraphWarning;
 
-}());
+}( jQuery ));

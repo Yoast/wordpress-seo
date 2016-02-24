@@ -6,7 +6,7 @@
 /* jshint -W097 */
 /* jshint -W003 */
 /* jshint unused:false */
-(function(){
+(function() {
 	'use strict';
 	jQuery( document ).ready( function() {
 			/* Fix banner images overlapping help texts */
