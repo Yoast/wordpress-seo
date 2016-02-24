@@ -58,7 +58,7 @@ var Analyzer = function( args ) {
  */
 Analyzer.prototype.init = function( args ) {
 	if ( isUndefined( args.paper ) ) {
-		args.paper = new Paper( args.keyword, args.text );
+		args.paper = new Paper( args.keyword, args.text, { metaDescription: args.meta } );
 	}
 
 	this.paper = args.paper;
@@ -359,8 +359,8 @@ Analyzer.prototype.firstParagraph = function() {
 Analyzer.prototype.metaDescriptionKeyword = function() {
 	var result = [ { test: "metaDescriptionKeyword", result: -1 } ];
 
-	if ( typeof this.config.meta !== "undefined" && this.config.meta !== "" && this.paper.hasKeyword() ) {
-		result[ 0 ].result = matchTextWithWord( this.config.meta, this.paper.getKeyword() );
+	if ( this.paper.hasMetaDescription() && this.paper.hasKeyword() ) {
+		result[ 0 ].result = matchTextWithWord( this.paper.getMetaDescription(), this.paper.getKeyword() );
 	}
 
 	return result;
@@ -371,12 +371,7 @@ Analyzer.prototype.metaDescriptionKeyword = function() {
  * @returns {{test: string, result: Number}[]}
  */
 Analyzer.prototype.metaDescriptionLength = function() {
-	var result = [ { test: "metaDescriptionLength", result: 0 } ];
-	if ( typeof  this.config.meta !== "undefined" ) {
-		result[ 0 ].result =  this.config.meta.length;
-	}
-
-	return result;
+	return [ { test: "metaDescriptionLength", result: this.paper.getMetaDescription().length } ];
 };
 
 /**

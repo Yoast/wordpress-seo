@@ -1,25 +1,35 @@
+var isUndefined = require( "lodash/lang/isUndefined" );
+
 /**
  * Construct the Paper object and set the keyword property.
  * @param {string} keyword The keyword to use in the analysis.
  * @param {string} text The text to use in the analysis.
+ * @param {object} metaData The object containing all meta values.
  * @constructor
  */
-var Paper = function( keyword, text ) {
+var Paper = function( keyword, text, metaData ) {
 	this._keyword = keyword || "";
 	this._text = text || "";
+
+	// if there is no metaData object given, use an empty object so checks on metaData keep working
+	if ( isUndefined( metaData ) ) {
+		metaData = {};
+	}
+
+	this._metaDescription = metaData.metaDescription || "";
 };
 
 /**
  * Check whether a keyword is available.
- * @returns {boolean}
+ * @returns {boolean} Returns true if keyword isn't empty
  */
 Paper.prototype.hasKeyword = function() {
 	return this._keyword !== "";
 };
 
 /**
- * Return the associated keyword or an empty string if no keyword is available.
- * @returns {string}
+ * Return the associated keyword or an empty string if no keyword is available
+ * @returns {string} Returns Keyword
  */
 Paper.prototype.getKeyword = function() {
 	return this._keyword;
@@ -27,7 +37,7 @@ Paper.prototype.getKeyword = function() {
 
 /**
  * Check whether the text is available.
- * @returns {boolean}
+ * @returns {boolean} Returns true if text isn't empty
  */
 Paper.prototype.hasText = function() {
 	return this._text !== "";
@@ -35,10 +45,26 @@ Paper.prototype.hasText = function() {
 
 /**
  * Return the associated text or am empty string if no text is available.
- * @returns {string}
+ * @returns {string} Returns text
  */
 Paper.prototype.getText = function() {
 	return this._text;
+};
+
+/**
+ * Check whether a metaDescription is available
+ * @returns {boolean} Returns true if metaDescription isn't empty
+ */
+Paper.prototype.hasMetaDescription = function() {
+	return this._metaDescription !== "";
+};
+
+/**
+ * Return the metaDescription or an empty string if no metaDescription is available
+ * @returns {string} Returns the metaDescription
+ */
+Paper.prototype.getMetaDescription = function() {
+	return this._metaDescription;
 };
 
 module.exports = Paper;
