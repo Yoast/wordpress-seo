@@ -1,5 +1,3 @@
-var isUndefined = require( "lodash/lang/isUndefined" );
-
 /**
  * Construct the Paper object and set the keyword property.
  * @param {string} text The text to use in the analysis.
