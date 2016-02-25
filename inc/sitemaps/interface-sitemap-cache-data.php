@@ -7,6 +7,21 @@
  * Cache Data interface
  */
 interface WPSEO_Sitemap_Cache_Data_Interface {
+
+	/**
+	 * Status for normal, usable sitemap.
+	 */
+	const OK = 'ok';
+	/**
+	 * Status for unusable sitemap.
+	 */
+	const ERROR = 'error';
+
+	/**
+	 * Status for unusable sitemap because it cannot be identified.
+	 */
+	const UNKNOWN = 'unknown';
+
 	/**
 	 * Set the content of the sitemap
 	 *
@@ -40,7 +55,9 @@ interface WPSEO_Sitemap_Cache_Data_Interface {
 	/**
 	 * Is the sitemap content usable
 	 *
+	 * @param null|bool $usable If set; adjust error to value.
+	 *
 	 * @return bool True if the sitemap is usable, False if not.
 	 */
-	public function is_usable();
+	public function is_usable( $usable = null );
 }

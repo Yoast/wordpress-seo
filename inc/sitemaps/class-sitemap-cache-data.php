@@ -8,10 +8,6 @@
  */
 class WPSEO_Sitemap_Cache_Data implements WPSEO_Sitemap_Cache_Data_Interface, Serializable {
 
-	const OK = 'ok';
-	const ERROR = 'error';
-	const UNKNOWN = 'unknown';
-
 	/**
 	 * @var string Sitemap XML data.
 	 */
@@ -27,6 +23,7 @@ class WPSEO_Sitemap_Cache_Data implements WPSEO_Sitemap_Cache_Data_Interface, Se
 	 * @param string $sitemap XML Content of the sitemap.
 	 */
 	public function set_sitemap( $sitemap = '' ) {
+
 		if ( ! is_string( $sitemap ) ) {
 			$sitemap = '';
 		}
@@ -36,39 +33,48 @@ class WPSEO_Sitemap_Cache_Data implements WPSEO_Sitemap_Cache_Data_Interface, Se
 		/**
 		 * Empty sitemap is not usable.
 		 */
-		if ( empty( $sitemap ) ) {
-			$this->set_status( false );
-		}
+		$this->is_usable( ! empty( $sitemap ) );
 	}
 
 	/**
 	 * Set the status of the sitemap, is it usable.
 	 *
 	 * @param bool|string $valid Is the sitemap valid or not.
+	 *
+	 * @return string The status that was set.
 	 */
 	public function set_status( $valid ) {
-		if ( $valid || self::OK === $valid ) {
+
+		if ( self::OK === $valid ) {
 			$this->status = self::OK;
 
-			return;
+			return $this->status;
 		}
 
-		if ( ! $valid || self::ERROR === $valid ) {
+		if ( self::ERROR === $valid ) {
 			$this->status  = self::ERROR;
 			$this->sitemap = '';
 
-			return;
+			return $this->status;
 		}
 
 		$this->status = self::UNKNOWN;
+
+		return $this->status;
 	}
 
 	/**
 	 * Is the sitemap usable.
 	 *
+	 * @param null $usable If set; adjust status accordingly.
+	 *
 	 * @return bool True if usable, False if bad or unknown.
 	 */
-	public function is_usable() {
+	public function is_usable( $usable = null ) {
+		if ( ! is_null( $usable ) && is_bool( $usable ) ) {
+			$this->status = ( $usable ) ? self::OK : self::ERROR;
+		}
+
 		return self::OK === $this->status;
 	}
 
@@ -78,6 +84,7 @@ class WPSEO_Sitemap_Cache_Data implements WPSEO_Sitemap_Cache_Data_Interface, Se
 	 * @return string The content of the sitemap.
 	 */
 	public function get_sitemap() {
+
 		return $this->sitemap;
 	}
 
@@ -87,6 +94,7 @@ class WPSEO_Sitemap_Cache_Data implements WPSEO_Sitemap_Cache_Data_Interface, Se
 	 * @return string Status of the sitemap, 'ok'/'error'/'unknown'
 	 */
 	public function get_status() {
+
 		return $this->status;
 	}
 
@@ -97,6 +105,7 @@ class WPSEO_Sitemap_Cache_Data implements WPSEO_Sitemap_Cache_Data_Interface, Se
 	 * @since 5.1.0
 	 */
 	public function serialize() {
+
 		$data           = array();
 		$data['xml']    = $this->sitemap;
 		$data['status'] = $this->status;
@@ -115,6 +124,7 @@ class WPSEO_Sitemap_Cache_Data implements WPSEO_Sitemap_Cache_Data_Interface, Se
 	 * @since 5.1.0
 	 */
 	public function unserialize( $serialized ) {
+
 		$data = unserialize( $serialized );
 		$this->set_sitemap( $data['xml'] );
 		$this->set_status( $data['status'] );

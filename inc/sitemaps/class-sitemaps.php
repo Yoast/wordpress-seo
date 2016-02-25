@@ -34,7 +34,7 @@ class WPSEO_Sitemaps {
 	/** @var WPSEO_Sitemaps_Router $router */
 	public $router;
 
-	/** @var WPSEO_Sitemaps_Renderer $renderer  */
+	/** @var WPSEO_Sitemaps_Renderer $renderer */
 	public $renderer;
 
 	/** @var WPSEO_Sitemaps_Cache $cache */
@@ -80,7 +80,7 @@ class WPSEO_Sitemaps {
 		}
 
 		$request_uri = $_SERVER['REQUEST_URI'];
-		$extension   = substr( $request_uri, -4 );
+		$extension   = substr( $request_uri, - 4 );
 
 		if ( false !== stripos( $request_uri, 'sitemap' ) && in_array( $extension, array( '.xml', '.xsl' ) ) ) {
 			remove_all_actions( 'widgets_init' );
@@ -207,8 +207,7 @@ class WPSEO_Sitemaps {
 	 * @return bool If the sitemap has been retrieved from cache.
 	 */
 	public function get_sitemap_from_cache( $type, $page_number ) {
-		$caching = $this->cache->is_enabled();
-		if ( true !== $caching ) {
+		if ( true !== $this->cache->is_enabled() ) {
 			return false;
 		}
 
@@ -257,6 +256,7 @@ class WPSEO_Sitemaps {
 
 		if ( $type === '1' ) {
 			$this->build_root_map();
+
 			return;
 		}
 
@@ -283,6 +283,7 @@ class WPSEO_Sitemaps {
 			 * Fires custom handler, if hooked to generate sitemap for the type.
 			 */
 			do_action( 'wpseo_do_sitemap_' . $type );
+
 			return;
 		}
 
@@ -302,7 +303,7 @@ class WPSEO_Sitemaps {
 
 		if ( empty( $links ) ) {
 			$this->bad_sitemap = true;
-			$this->sitemap = '';
+			$this->sitemap     = '';
 
 			return;
 		}
@@ -313,7 +314,8 @@ class WPSEO_Sitemaps {
 	/**
 	 * Function to dynamically filter the change frequency.
 	 *
-	 * @param string $filter  Expands to wpseo_sitemap_$filter_change_freq, allowing for a change of the frequency for numerous specific URLs.
+	 * @param string $filter  Expands to wpseo_sitemap_$filter_change_freq, allowing for a change of the frequency for
+	 *                        numerous specific URLs.
 	 * @param string $default The default value for the frequency.
 	 * @param string $url     The URL of the current entry.
 	 *
@@ -410,29 +412,27 @@ class WPSEO_Sitemaps {
 
 		global $wpdb;
 
-		static $post_type_dates = array();
+		$post_type_dates = array();
 
 		if ( ! is_array( $post_types ) ) {
 			$post_types = array( $post_types );
 		}
 
-		if ( empty( $post_type_dates ) ) {
 
-			$sql             = "
-				SELECT post_type, MAX(post_modified_gmt) AS date
-				FROM $wpdb->posts
-				WHERE post_status IN ('publish','inherit')
-					AND post_type IN ('" . implode( "','", get_post_types( array( 'public' => true ) ) ) . "')
-				GROUP BY post_type
-				ORDER BY post_modified_gmt DESC
-			";
-			$results         = $wpdb->get_results( $sql );
+		$sql = "
+			SELECT post_type, MAX(post_modified_gmt) AS date
+			FROM $wpdb->posts
+			WHERE post_status IN ('publish','inherit')
+				AND post_type IN ('" . implode( "','", get_post_types( array( 'public' => true ) ) ) . "')
+			GROUP BY post_type
+			ORDER BY post_modified_gmt DESC
+		";
 
-			foreach ( $results as $obj ) {
-				$post_type_dates[ $obj->post_type ] = $obj->date;
-			}
-			unset( $sql, $results, $obj );
+		$results = $wpdb->get_results( $sql );
+		foreach ( $results as $obj ) {
+			$post_type_dates[ $obj->post_type ] = $obj->date;
 		}
+		unset( $sql, $results, $obj );
 
 		$dates = array_intersect_key( $post_type_dates, array_flip( $post_types ) );
 
