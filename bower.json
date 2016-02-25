@@ -18,7 +18,6 @@
       "yoast-seo": {
         "mapping": [
           {"bower_components/yoast-seo/dist/yoast-seo.min.css": "yoast-seo-307.min.css"},
-          {"bower_components/yoast-seo/dist/images/edit.svg": "images/edit.svg"},
           {"bower_components/yoast-seo/dist/yoast-seo.min.js": "yoast-seo-307.min.js"}
         ]
       }

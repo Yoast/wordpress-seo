@@ -13,7 +13,7 @@ module.exports = function(grunt) {
 			css: 'css/',
 			grunt: 'grunt/',
 			images: 'images/',
-			js: 'js/',
+			js: 'js/src/',
 			languages: 'languages/',
 			logs: 'logs/'
 		},
@@ -23,8 +23,7 @@ module.exports = function(grunt) {
 				'!css/*.min.css'
 			],
 			js: [
-				'js/*.js',
-				'!js/*.min.js'
+				'js/src/*.js'
 			],
 			php: [
 				'*.php',
