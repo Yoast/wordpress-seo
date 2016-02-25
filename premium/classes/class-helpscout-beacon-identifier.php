@@ -53,11 +53,11 @@ class WPSEO_HelpScout_Beacon_Identifier {
 	 * @return string
 	 */
 	private function get_yoast_seo_info() {
-		$license_manager = new Yoast_Plugin_License_Manager( new WPSEO_Product_Premium() );
+		$license_manager = WPSEO_Premium::get_license_manager();
 
 		$out = '<table>';
 		$out .= '<tr><td>Version</td><td>' . WPSEO_VERSION . '</td></tr>';
-		$out .= '<tr><td>License</td><td>' . '<a href=" ' . admin_url( 'admin.php?page=wpseo_licenses#top#licenses' ) . ' ">' . $license_manager->get_license_key() . '</a>' . '</td></tr>';
+		$out .= '<tr><td>License</td><td>' . '<a href="' . admin_url( 'admin.php?page=wpseo_licenses#top#licenses' ) . '">' . $license_manager->get_license_key() . '</a>' . '</td></tr>';
 		$out .= '<tr><td>Status</td><td>' . $license_manager->get_license_status() . '</td></tr>';
 		$out .= '</table>';
 
