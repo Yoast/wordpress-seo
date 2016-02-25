@@ -46,6 +46,8 @@ class WPSEO_Premium {
 		WPSEO_Redirect_File_Util::create_upload_dir();
 
 		WPSEO_Premium::import_redirects_from_free();
+
+		WPSEO_Premium::activate_license();
 	}
 
 	/**
@@ -181,6 +183,14 @@ class WPSEO_Premium {
 		new WPSEO_Premium_Autoloader( 'WPSEO_Redirect', 'redirect/', 'WPSEO_' );
 
 		$this->redirects = new WPSEO_Redirect_Page();
+	}
+
+	/**
+	 * We might want to reactivate the license.
+	 */
+	private static function activate_license() {
+		$license_manager = new Yoast_Plugin_License_Manager( new WPSEO_Product_Premium() );
+		$license_manager->activate_license();
 	}
 
 	/**
