@@ -267,13 +267,15 @@ class WPSEO_Sitemaps {
 
 		if ( $caching ) {
 			do_action( 'wpseo_sitemap_stylesheet_cache_' . $type, $this );
-			$this->sitemap = get_transient( 'wpseo_sitemap_cache_' . $type . '_' . $this->n );
+
+			$sitemap_cache_key = WPSEO_Utils::get_sitemap_cache_key( $type, $this->n );
+			$this->sitemap = get_transient( $sitemap_cache_key );
 		}
 
 		if ( ! $this->sitemap || '' == $this->sitemap ) {
 			$this->build_sitemap( $type );
 
-			// 404 for invalid or emtpy sitemaps.
+			// 404 for invalid or empty sitemaps.
 			if ( $this->bad_sitemap ) {
 				$GLOBALS['wp_query']->set_404();
 				status_header( 404 );
@@ -282,7 +284,15 @@ class WPSEO_Sitemaps {
 			}
 
 			if ( $caching ) {
-				set_transient( 'wpseo_sitemap_cache_' . $type . '_' . $this->n, $this->sitemap, DAY_IN_SECONDS );
+				/**
+				 * We need to set a timeout, otherwise the transient is loaded every request!
+				 *
+				 * See: https://codex.wordpress.org/Function_Reference/set_transient
+				 * NB: transients that never expire are autoloaded, whereas transients with an expiration time
+				 * are not autoloaded. Consider this when adding transients that may not be needed on every
+				 * page, and thus do not need to be autoloaded, impacting page performance.
+				 */
+				set_transient( $sitemap_cache_key, $this->sitemap, DAY_IN_SECONDS );
 			}
 		}
 		else {
@@ -1350,22 +1360,36 @@ class WPSEO_Sitemaps {
 			foreach ( $users as $user_key => $user ) {
 				$exclude_user = false;
 
-				$is_exclude_on = get_the_author_meta( 'wpseo_excludeauthorsitemap', $user->ID );
-				if ( $is_exclude_on === 'on' ) {
-					$exclude_user = true;
+				/**
+				 * Cheapest condition first; we have all information already.
+				 */
+				if ( ! $exclude_user ) {
+					$user_role    = $user->roles[0];
+					$target_key   = "user_role-{$user_role}-not_in_sitemap";
+					$exclude_user = isset( $options[ $target_key ] ) && true === $options[ $target_key ];
+					unset( $user_role, $target_key );
 				}
-				elseif ( $options['disable_author_noposts'] === true ) {
+
+				/**
+				 * If the author has been excluded by preference on profile.
+				 */
+				if ( ! $exclude_user ) {
+					$is_exclude_on = get_the_author_meta( 'wpseo_excludeauthorsitemap', $user->ID );
+					$exclude_user = ( $is_exclude_on === 'on' );
+				}
+
+				/**
+				 * If the author has been excluded by general settings because there are no posts.
+				 */
+				if ( ! $exclude_user && $options['disable_author_noposts'] === true ) {
 					$count_posts  = count_user_posts( $user->ID );
 					$exclude_user = ( $count_posts == 0 );
 					unset( $count_posts );
 				}
-				else {
-					$user_role    = $user->roles[0];
-					$target_key   = "user_role-{$user_role}-not_in_sitemap";
-					$exclude_user = $options[ $target_key ];
-					unset( $user_rol, $target_key );
-				}
 
+				/**
+				 * Remove the user from the list if excluded.
+				 */
 				if ( $exclude_user === true ) {
 					unset( $users[ $user_key ] );
 				}

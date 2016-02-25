@@ -2,9 +2,9 @@
 # This file is distributed under the GPL v3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Yoast SEO 3.0.7\n"
+"Project-Id-Version: Yoast SEO 3.1-RC\n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo/issues\n"
-"POT-Creation-Date: 2016-02-09 16:21:23+00:00\n"
+"POT-Creation-Date: 2016-02-24 10:57:27+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -113,9 +113,9 @@ msgstr ""
 msgid "XML Sitemaps"
 msgstr ""
 
-#: admin/class-admin.php:172 admin/metabox/class-metabox.php:433
-#: admin/metabox/class-metabox.php:435 admin/metabox/class-metabox.php:444
-#: admin/metabox/class-metabox.php:445 inc/wpseo-non-ajax-functions.php:426
+#: admin/class-admin.php:172 admin/metabox/class-metabox.php:432
+#: admin/metabox/class-metabox.php:434 admin/metabox/class-metabox.php:443
+#: admin/metabox/class-metabox.php:444 inc/wpseo-non-ajax-functions.php:426
 msgid "Advanced"
 msgstr ""
 
@@ -242,23 +242,6 @@ msgstr ""
 
 #: admin/class-admin.php:521
 msgid "Facebook profile URL"
-msgstr ""
-
-#. translators: this should be an array of stopwords for your language,
-#. separated by comma's.
-#: admin/class-admin.php:590
-msgid ""
-"a,about,above,after,again,against,all,am,an,and,any,are,as,at,be,because,"
-"been,before,being,below,between,both,but,by,could,did,do,does,doing,down,"
-"during,each,few,for,from,further,had,has,have,having,he,he'd,he'll,he's,her,"
-"here,here's,hers,herself,him,himself,his,how,how's,i,i'd,i'll,i'm,i've,if,in,"
-"into,is,it,it's,its,itself,let's,me,more,most,my,myself,nor,of,on,once,only,"
-"or,other,ought,our,ours,ourselves,out,over,own,same,she,she'd,she'll,she's,"
-"should,so,some,such,than,that,that's,the,their,theirs,them,themselves,then,"
-"there,there's,these,they,they'd,they'll,they're,they've,this,those,through,"
-"to,too,under,until,up,very,was,we,we'd,we'll,we're,we've,were,what,what's,"
-"when,when's,where,where's,which,while,who,who's,whom,why,why's,with,would,"
-"you,you'd,you'll,you're,you've,your,yours,yourself,yourselves"
 msgstr ""
 
 #: admin/class-bulk-description-editor-list-table.php:43
@@ -412,23 +395,23 @@ msgstr ""
 msgid "No taxonomy metadata found"
 msgstr ""
 
-#: admin/class-import-external.php:108
+#: admin/class-import-external.php:106
 msgid "HeadSpace2 data successfully imported"
 msgstr ""
 
-#: admin/class-import-external.php:120
+#: admin/class-import-external.php:118
 msgid "Error: no Robots Meta data found to import."
 msgstr ""
 
-#: admin/class-import-external.php:168
+#: admin/class-import-external.php:166
 msgid "RSS Footer options imported successfully."
 msgstr ""
 
-#: admin/class-import-external.php:189
+#: admin/class-import-external.php:187
 msgid "Yoast Breadcrumbs options imported successfully."
 msgstr ""
 
-#: admin/class-import-external.php:192
+#: admin/class-import-external.php:190
 msgid "Yoast Breadcrumbs options could not be found"
 msgstr ""
 
@@ -482,7 +465,7 @@ msgstr ""
 msgid "All SEO Scores"
 msgstr ""
 
-#: admin/class-meta-columns.php:330 admin/metabox/class-metabox.php:146
+#: admin/class-meta-columns.php:330 admin/metabox/class-metabox.php:145
 msgid "Post is set to noindex."
 msgstr ""
 
@@ -976,6 +959,23 @@ msgstr ""
 msgid "Clear all Facebook Data"
 msgstr ""
 
+#. translators: this should be an array of stop words for your language,
+#. separated by comma's.
+#: admin/class-stop-words.php:39
+msgid ""
+"a,about,above,after,again,against,all,am,an,and,any,are,as,at,be,because,"
+"been,before,being,below,between,both,but,by,could,did,do,does,doing,down,"
+"during,each,few,for,from,further,had,has,have,having,he,he'd,he'll,he's,her,"
+"here,here's,hers,herself,him,himself,his,how,how's,i,i'd,i'll,i'm,i've,if,in,"
+"into,is,it,it's,its,itself,let's,me,more,most,my,myself,nor,of,on,once,only,"
+"or,other,ought,our,ours,ourselves,out,over,own,same,she,she'd,she'll,she's,"
+"should,so,some,such,than,that,that's,the,their,theirs,them,themselves,then,"
+"there,there's,these,they,they'd,they'll,they're,they've,this,those,through,"
+"to,too,under,until,up,very,was,we,we'd,we'll,we're,we've,were,what,what's,"
+"when,when's,where,where's,which,while,who,who's,whom,why,why's,with,would,"
+"you,you'd,you'll,you're,you've,your,yours,yourself,yourselves"
+msgstr ""
+
 #. translators: %s is the plugin name
 #: admin/class-yoast-dashboard-widget.php:41
 msgid "%s Posts Overview"
@@ -1020,13 +1020,13 @@ msgid "Upgrade to %1$s &raquo;"
 msgstr ""
 
 #: admin/class-yoast-form.php:321 admin/pages/dashboard.php:245
-#: admin/pages/metas.php:196 admin/pages/metas.php:209
+#: admin/pages/metas.php:200 admin/pages/metas.php:213
 #: admin/pages/xml-sitemaps.php:74
 msgid "Disabled"
 msgstr ""
 
 #: admin/class-yoast-form.php:321 admin/pages/dashboard.php:245
-#: admin/pages/metas.php:195 admin/pages/metas.php:208
+#: admin/pages/metas.php:199 admin/pages/metas.php:212
 #: admin/pages/xml-sitemaps.php:74
 msgid "Enabled"
 msgstr ""
@@ -1456,24 +1456,8 @@ msgstr ""
 msgid "Default for post type, currently: %s"
 msgstr ""
 
-#: admin/metabox/class-metabox.php:72
-msgid "index"
-msgstr ""
-
-#: admin/metabox/class-metabox.php:73
-msgid "noindex"
-msgstr ""
-
 #: admin/metabox/class-metabox.php:75
 msgid "Meta Robots Follow"
-msgstr ""
-
-#: admin/metabox/class-metabox.php:76
-msgid "Follow"
-msgstr ""
-
-#: admin/metabox/class-metabox.php:77
-msgid "Nofollow"
 msgstr ""
 
 #: admin/metabox/class-metabox.php:79
@@ -1490,7 +1474,7 @@ msgstr ""
 
 #: admin/metabox/class-metabox.php:82 admin/pages/network.php:53
 #: admin/views/tab-breadcrumbs.php:46 admin/views/tab-breadcrumbs.php:63
-#: inc/class-wpseo-meta.php:412
+#: inc/class-wpseo-meta.php:408
 msgid "None"
 msgstr ""
 
@@ -1499,73 +1483,69 @@ msgid "NO ODP"
 msgstr ""
 
 #: admin/metabox/class-metabox.php:84
-msgid "NO YDIR"
-msgstr ""
-
-#: admin/metabox/class-metabox.php:85
 msgid "No Image Index"
 msgstr ""
 
-#: admin/metabox/class-metabox.php:86
+#: admin/metabox/class-metabox.php:85
 msgid "No Archive"
 msgstr ""
 
-#: admin/metabox/class-metabox.php:87
+#: admin/metabox/class-metabox.php:86
 msgid "No Snippet"
 msgstr ""
 
-#: admin/metabox/class-metabox.php:89
+#: admin/metabox/class-metabox.php:88
 msgid "Breadcrumbs Title"
 msgstr ""
 
-#: admin/metabox/class-metabox.php:90
+#: admin/metabox/class-metabox.php:89
 msgid "Title to use for this page in breadcrumb paths"
 msgstr ""
 
-#: admin/metabox/class-metabox.php:92
+#: admin/metabox/class-metabox.php:91
 msgid "Canonical URL"
 msgstr ""
 
-#: admin/metabox/class-metabox.php:93
+#: admin/metabox/class-metabox.php:92
 msgid ""
 "The canonical URL that this page should point to, leave empty to default to "
 "permalink. %sCross domain canonical%s supported too."
 msgstr ""
 
-#: admin/metabox/class-metabox.php:95
+#: admin/metabox/class-metabox.php:94
 msgid "301 Redirect"
 msgstr ""
 
-#: admin/metabox/class-metabox.php:96
+#: admin/metabox/class-metabox.php:95
 msgid "The URL that this page should redirect to."
 msgstr ""
 
-#: admin/metabox/class-metabox.php:153
+#: admin/metabox/class-metabox.php:152
 msgid "No focus keyword set."
 msgstr ""
 
-#: admin/metabox/class-metabox.php:169
+#: admin/metabox/class-metabox.php:168
 msgid "SEO score"
 msgstr ""
 
-#: admin/metabox/class-metabox.php:171
+#: admin/metabox/class-metabox.php:170
 msgid "SEO:"
 msgstr ""
 
-#: admin/metabox/class-metabox.php:173
+#: admin/metabox/class-metabox.php:172
 msgid "Check"
 msgstr ""
 
-#: admin/metabox/class-metabox.php:218 admin/taxonomy/class-taxonomy.php:223
+#: admin/metabox/class-metabox.php:217 admin/taxonomy/class-taxonomy.php:223
 msgid "Content:"
 msgstr ""
 
-#: admin/metabox/class-metabox.php:312 admin/taxonomy/class-taxonomy.php:267
+#: admin/metabox/class-metabox.php:311 admin/taxonomy/class-taxonomy.php:267
 msgid "(no parent)"
 msgstr ""
 
-#: admin/metabox/class-metabox.php:402 admin/metabox/class-metabox.php:405
-#: admin/metabox/class-metabox.php:416 admin/metabox/class-metabox.php:417
+#: admin/metabox/class-metabox.php:401 admin/metabox/class-metabox.php:404
+#: admin/metabox/class-metabox.php:415 admin/metabox/class-metabox.php:416
 #: admin/taxonomy/class-taxonomy-metabox.php:99
 #: admin/taxonomy/class-taxonomy-metabox.php:102
 #: admin/taxonomy/class-taxonomy-metabox.php:111
@@ -1573,7 +1553,7 @@ msgstr ""
 msgid "Content"
 msgstr ""
 
-#: admin/metabox/class-metabox.php:462 admin/metabox/class-metabox.php:463
+#: admin/metabox/class-metabox.php:461 admin/metabox/class-metabox.php:462
 msgid "Add-ons"
 msgstr ""
 
@@ -1883,19 +1863,19 @@ msgstr ""
 msgid "Symbols are shown in the size they'll appear in in search results."
 msgstr ""
 
-#: admin/pages/metas.php:55 admin/pages/metas.php:95 admin/pages/metas.php:157
-#: admin/pages/metas.php:180 admin/pages/metas.php:188
-#: admin/pages/metas.php:222 admin/pages/metas.php:225
+#: admin/pages/metas.php:55 admin/pages/metas.php:95 admin/pages/metas.php:161
+#: admin/pages/metas.php:184 admin/pages/metas.php:192
+#: admin/pages/metas.php:226 admin/pages/metas.php:229
 msgid "Title template"
 msgstr ""
 
-#: admin/pages/metas.php:56 admin/pages/metas.php:96 admin/pages/metas.php:158
-#: admin/pages/metas.php:181 admin/pages/metas.php:189
+#: admin/pages/metas.php:56 admin/pages/metas.php:96 admin/pages/metas.php:162
+#: admin/pages/metas.php:185 admin/pages/metas.php:193
 msgid "Meta description template"
 msgstr ""
 
-#: admin/pages/metas.php:58 admin/pages/metas.php:98 admin/pages/metas.php:160
-#: admin/pages/metas.php:183
+#: admin/pages/metas.php:58 admin/pages/metas.php:98 admin/pages/metas.php:164
+#: admin/pages/metas.php:187
 msgid "Meta keywords template"
 msgstr ""
 
@@ -1933,19 +1913,19 @@ msgid ""
 msgstr ""
 
 #: admin/pages/metas.php:100 admin/pages/metas.php:141
-#: admin/pages/metas.php:162 admin/pages/metas.php:198
-#: admin/pages/metas.php:211
+#: admin/pages/metas.php:166 admin/pages/metas.php:202
+#: admin/pages/metas.php:215
 msgid "Meta Robots"
 msgstr ""
 
 #: admin/pages/metas.php:102 admin/pages/metas.php:106
-#: admin/pages/metas.php:164 admin/views/tab-breadcrumbs.php:30
+#: admin/pages/metas.php:168 admin/views/tab-breadcrumbs.php:30
 #: admin/views/tab-permalinks.php:62
 msgid "Show"
 msgstr ""
 
 #: admin/pages/metas.php:103 admin/pages/metas.php:107
-#: admin/pages/metas.php:165 admin/views/tab-breadcrumbs.php:31
+#: admin/pages/metas.php:169 admin/views/tab-breadcrumbs.php:31
 #: admin/views/tab-permalinks.php:62
 msgid "Hide"
 msgstr ""
@@ -1955,7 +1935,7 @@ msgid "Date in Snippet Preview"
 msgstr ""
 
 #. translators: %1$s expands to Yoast SEO
-#: admin/pages/metas.php:109 admin/pages/metas.php:167
+#: admin/pages/metas.php:109 admin/pages/metas.php:171
 msgid "%1$s Meta Box"
 msgstr ""
 
@@ -1979,25 +1959,25 @@ msgstr ""
 msgid "Breadcrumbs title"
 msgstr ""
 
-#: admin/pages/metas.php:179
+#: admin/pages/metas.php:183
 msgid "Author Archives"
 msgstr ""
 
-#: admin/pages/metas.php:187
+#: admin/pages/metas.php:191
 msgid "Date Archives"
 msgstr ""
 
-#: admin/pages/metas.php:193
+#: admin/pages/metas.php:197
 msgid "Author archives"
 msgstr ""
 
-#: admin/pages/metas.php:197
+#: admin/pages/metas.php:201
 msgid "Author archives are"
 msgstr ""
 
 #. translators: %1$s / %2$s: links to an article about duplicate content on
 #. yoast.com
-#: admin/pages/metas.php:201
+#: admin/pages/metas.php:205
 msgid ""
 "If you're running a one author blog, the author archive will be exactly the "
 "same as your homepage. This is what's called a %1$sduplicate content problem"
@@ -2005,85 +1985,78 @@ msgid ""
 msgstr ""
 
 #. translators: %s expands to <code>noindex, follow</code>
-#: admin/pages/metas.php:204
+#: admin/pages/metas.php:208
 msgid ""
 "If this is the case on your site, you can choose to either disable it (which "
 "makes it redirect to the homepage), or to add %s to it so it doesn't show up "
 "in the search results."
 msgstr ""
 
-#: admin/pages/metas.php:206
+#: admin/pages/metas.php:210
 msgid "Date-based archives"
 msgstr ""
 
-#: admin/pages/metas.php:210
+#: admin/pages/metas.php:214
 msgid "Date-based archives are"
 msgstr ""
 
-#: admin/pages/metas.php:213
+#: admin/pages/metas.php:217
 msgid ""
 "Date-based archives could in some cases also be seen as duplicate content."
 msgstr ""
 
-#: admin/pages/metas.php:218
+#: admin/pages/metas.php:222
 msgid "Special Pages"
 msgstr ""
 
 #. translators: %s expands to <code>noindex, follow</code>
-#: admin/pages/metas.php:220
+#: admin/pages/metas.php:224
 msgid ""
 "These pages will be %s by default, so they will never show up in search "
 "results."
 msgstr ""
 
-#: admin/pages/metas.php:221
+#: admin/pages/metas.php:225
 msgid "Search pages"
 msgstr ""
 
-#: admin/pages/metas.php:224
+#: admin/pages/metas.php:228
 msgid "404 pages"
 msgstr ""
 
-#: admin/pages/metas.php:232
+#: admin/pages/metas.php:236
 msgid "Sitewide meta settings"
 msgstr ""
 
-#: admin/pages/metas.php:234
+#: admin/pages/metas.php:238
 msgid "Subpages of archives"
 msgstr ""
 
-#: admin/pages/metas.php:235
+#: admin/pages/metas.php:239
 msgid ""
 "If you want to prevent /page/2/ and further of any archive to show up in the "
 "search results, enable this."
 msgstr ""
 
-#: admin/pages/metas.php:237
+#: admin/pages/metas.php:241
 msgid "Use meta keywords tag?"
 msgstr ""
 
-#: admin/pages/metas.php:238
+#: admin/pages/metas.php:242
 msgid ""
 "I don't know why you'd want to use meta keywords, but if you want to, enable "
 "this."
 msgstr ""
 
 #. translators: %s expands to <code>noodp</code>
-#. translators: %s expands to <code>noydir</code>
-#: admin/pages/metas.php:241 admin/pages/metas.php:245
+#: admin/pages/metas.php:245
 msgid "Add %s meta robots tag sitewide"
-msgstr ""
-
-#: admin/pages/metas.php:242
-msgid ""
-"Prevents search engines from using the DMOZ description for pages from this "
-"site in the search results."
 msgstr ""
 
 #: admin/pages/metas.php:246
 msgid ""
-"Prevents search engines from using the Yahoo! directory description for "
-"pages from this site in the search results."
+"Prevents search engines from using the DMOZ description for pages from this "
+"site in the search results."
 msgstr ""
 
 #: admin/pages/network.php:24
@@ -3105,16 +3078,16 @@ msgstr ""
 #: frontend/class-frontend.php:531 frontend/class-frontend.php:534
 #: frontend/class-frontend.php:537 frontend/class-frontend.php:552
 #: frontend/class-frontend.php:555 frontend/class-frontend.php:558
-#: inc/options/class-wpseo-option-titles.php:227
+#: inc/options/class-wpseo-option-titles.php:226
 msgid "%s Archives"
 msgstr ""
 
 #: frontend/class-frontend.php:571
-#: inc/options/class-wpseo-option-titles.php:179
+#: inc/options/class-wpseo-option-titles.php:178
 msgid "Page not found"
 msgstr ""
 
-#: frontend/class-frontend.php:1262
+#: frontend/class-frontend.php:1257
 msgid ""
 "Admin only notice: this page doesn't show a meta description because it "
 "doesn't have one, either write it for this page specifically or go into the "
@@ -3337,6 +3310,17 @@ msgstr ""
 msgid "Replaced with a custom taxonomies description"
 msgstr ""
 
+#: inc/class-wpseo-utils.php:651
+msgid ""
+"Trying to build a safe sitemap cache key, but the postfix and prefix "
+"combination leaves too little room to do this. You are probably requesting a "
+"page that is way out of the expected range."
+msgstr ""
+
+#: inc/class-wpseo-utils.php:754
+msgid "Expected an integer as input."
+msgstr ""
+
 #: inc/options/class-wpseo-option-internallinks.php:68
 msgid "Error 404: Page not found"
 msgstr ""
@@ -3401,15 +3385,15 @@ msgstr ""
 msgid "%s does not seem to be a valid Twitter user-id. Please correct."
 msgstr ""
 
-#: inc/options/class-wpseo-option-titles.php:177
+#: inc/options/class-wpseo-option-titles.php:176
 msgid "%s, Author at %s"
 msgstr ""
 
-#: inc/options/class-wpseo-option-titles.php:178
+#: inc/options/class-wpseo-option-titles.php:177
 msgid "You searched for %s"
 msgstr ""
 
-#: inc/options/class-wpseo-option-titles.php:211
+#: inc/options/class-wpseo-option-titles.php:210
 msgid "%s Archive"
 msgstr ""
 

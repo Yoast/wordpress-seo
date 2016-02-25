@@ -404,11 +404,6 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		$expected['other']                      = array( 'noodp' );
 		$this->assertEquals( $expected, self::$class_instance->robots_for_single_post( $robots, $post_id ) );
 
-		// test noydir with default meta-robots-adv
-		self::$class_instance->options['noydir'] = true;
-		$expected['other']                       = array( 'noodp', 'noydir' );
-		$this->assertEquals( $expected, self::$class_instance->robots_for_single_post( $robots, $post_id ) );
-
 		// test meta-robots adv noodp and nosnippet
 		WPSEO_Meta::set_value( 'meta-robots-adv', 'noodp,nosnippet', $post_id );
 		$expected['other'] = array( 'noodp', 'nosnippet' );
