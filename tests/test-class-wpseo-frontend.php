@@ -373,17 +373,20 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		self::$class_instance->options['noindex-author-wpseo'] = false;
 	}
 
+	/**
+	 * @covers WPSEO_Frontend::robots
+	 */
 	public function test_robots_for_404() {
-		// save 404 state
+		// Save 404 state.
 		global $wp_query;
 		$original_404_state = is_404();
 
-		// assertion
+		// Assertion.
 		$wp_query->is_404 = true;
 		$expected         = 'noindex,follow';
 		$this->assertEquals( $expected, self::$class_instance->robots() );
 
-		// clean-up
+		// Clean-up.
 		$wp_query->is_404 = $original_404_state;
 	}
 
