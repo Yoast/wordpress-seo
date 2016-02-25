@@ -22,7 +22,7 @@ class WPSEO_Sitemap_Cache_Data implements WPSEO_Sitemap_Cache_Data_Interface, Se
 	 *
 	 * @param string $sitemap XML Content of the sitemap.
 	 */
-	public function set_sitemap( $sitemap = '' ) {
+	public function set_sitemap( $sitemap ) {
 
 		if ( ! is_string( $sitemap ) ) {
 			$sitemap = '';
