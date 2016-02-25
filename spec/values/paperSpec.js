@@ -20,15 +20,15 @@ describe( "Creating a Paper", function() {
 	it("returns metaDescription", function () {
 		var metaValues = {};
 		var paper = new Paper("text, metaValues");
-		expect(paper.hasMetaDescription()).toBe(false);
-		expect(paper.getMetaDescription()).toBe("");
+		expect(paper.hasDescription()).toBe(false);
+		expect(paper.getDescription()).toBe("");
 
 		metaValues = {
 			keyword: "keyword",
-			metaDescription: "this is a meta"
+			description: "this is a meta"
 		};
 		paper = new Paper("text", metaValues);
-		expect(paper.hasMetaDescription()).toBe(true);
-		expect(paper.getMetaDescription()).toBe("this is a meta");
+		expect(paper.hasDescription()).toBe(true);
+		expect(paper.getDescription()).toBe("this is a meta");
 	});
 } );

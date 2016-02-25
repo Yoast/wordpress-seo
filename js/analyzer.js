@@ -58,7 +58,7 @@ var Analyzer = function( args ) {
  */
 Analyzer.prototype.init = function( args ) {
 	if ( isUndefined( args.paper ) ) {
-		args.paper = new Paper( args.text, { keyword: args.keyword, metaDescription: args.meta } );
+		args.paper = new Paper( args.text, { keyword:  args.keyword, description: args.meta } );
 	}
 
 	this.paper = args.paper;
@@ -359,8 +359,8 @@ Analyzer.prototype.firstParagraph = function() {
 Analyzer.prototype.metaDescriptionKeyword = function() {
 	var result = [ { test: "metaDescriptionKeyword", result: -1 } ];
 
-	if ( this.paper.hasMetaDescription() && this.paper.hasKeyword() ) {
-		result[ 0 ].result = matchTextWithWord( this.paper.getMetaDescription(), this.paper.getKeyword() );
+	if ( this.paper.hasDescription() && this.paper.hasKeyword() ) {
+		result[ 0 ].result = matchTextWithWord( this.paper.getDescription(), this.paper.getKeyword() );
 	}
 
 	return result;
@@ -371,7 +371,7 @@ Analyzer.prototype.metaDescriptionKeyword = function() {
  * @returns {{test: string, result: Number}[]}
  */
 Analyzer.prototype.metaDescriptionLength = function() {
-	return [ { test: "metaDescriptionLength", result: this.paper.getMetaDescription().length } ];
+	return [ { test: "metaDescriptionLength", result: this.paper.getDescription().length } ];
 };
 
 /**

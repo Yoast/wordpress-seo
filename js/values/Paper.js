@@ -1,3 +1,10 @@
+var defaults = require( "lodash/object/defaults" );
+
+var defaultAttributes = {
+	keyword: "",
+	description: ""
+};
+
 /**
  * Construct the Paper object and set the keyword property.
  * @param {string} text The text to use in the analysis.
@@ -6,9 +13,10 @@
  */
 var Paper = function( text, attributes ) {
 	this._text = text || "";
+
 	this._attributes = attributes || {};
-	this._keyword = this._attributes.keyword || "";
-	this._metaDescription = this._attributes.metaDescription || "";
+
+	defaults( this._attributes, defaultAttributes );
 };
 
 /**
@@ -16,7 +24,7 @@ var Paper = function( text, attributes ) {
  * @returns {boolean} Returns true if keyword isn't empty
  */
 Paper.prototype.hasKeyword = function() {
-	return this._keyword !== "";
+	return this._attributes.keyword !== "";
 };
 
 /**
@@ -24,7 +32,7 @@ Paper.prototype.hasKeyword = function() {
  * @returns {string} Returns Keyword
  */
 Paper.prototype.getKeyword = function() {
-	return this._keyword;
+	return this._attributes.keyword;
 };
 
 /**
@@ -47,16 +55,16 @@ Paper.prototype.getText = function() {
  * Check whether a metaDescription is available
  * @returns {boolean} Returns true if metaDescription isn't empty
  */
-Paper.prototype.hasMetaDescription = function() {
-	return this._metaDescription !== "";
+Paper.prototype.hasDescription = function() {
+	return this._attributes.description !== "";
 };
 
 /**
  * Return the metaDescription or an empty string if no metaDescription is available
  * @returns {string} Returns the metaDescription
  */
-Paper.prototype.getMetaDescription = function() {
-	return this._metaDescription;
+Paper.prototype.getDescription = function() {
+	return this._attributes.description;
 };
 
 module.exports = Paper;
