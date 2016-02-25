@@ -261,12 +261,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Yoast/wp-helpscout.git",
-                "reference": "55c3465141a3e51ef3164a99b4127dfb9db2352d"
+                "reference": "781dee1731614dc7b6ae408610fdc3aa5e75e4e9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Yoast/wp-helpscout/zipball/55c3465141a3e51ef3164a99b4127dfb9db2352d",
-                "reference": "55c3465141a3e51ef3164a99b4127dfb9db2352d",
+                "url": "https://api.github.com/repos/Yoast/wp-helpscout/zipball/781dee1731614dc7b6ae408610fdc3aa5e75e4e9",
+                "reference": "781dee1731614dc7b6ae408610fdc3aa5e75e4e9",
                 "shasum": ""
             },
             "require": {
@@ -276,6 +276,9 @@
             "autoload": {
                 "classmap": [
                     "src/"
+                ],
+                "files": [
+                    "src/functions.php"
                 ]
             },
             "license": [
@@ -293,7 +296,7 @@
                 "source": "https://github.com/Yoast/wp-helpscout/tree/master",
                 "issues": "https://github.com/Yoast/wp-helpscout/issues"
             },
-            "time": "2016-02-25 10:49:42"
+            "time": "2016-02-25 14:53:07"
         }
     ],
     "packages-dev": [
