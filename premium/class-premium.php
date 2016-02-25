@@ -97,8 +97,7 @@ class WPSEO_Premium {
 			if ( substr( $query_var, 0, 5 ) === 'wpseo' ) {
 				new WPSEO_HelpScout_Beacon(
 					$query_var,
-					new WPSEO_HelpScout_Beacon_Identifier( new WPSEO_Product_Premium() ),
-					new WPSEO_Premium_Beacon_Suggestions()
+					array( new WPSEO_Premium_Beacon_Setting() )
 				);
 			}
 

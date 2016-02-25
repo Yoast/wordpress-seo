@@ -6,7 +6,7 @@
 /**
  * Implements the suggestions for Yoast SEO Premium
  */
-class WPSEO_Premium_Beacon_Suggestions implements Yoast_HelpScout_Beacon_Suggestions {
+class WPSEO_Premium_Beacon_Setting implements Yoast_HelpScout_Beacon_Setting {
 	/**
 	 * {@inheritdoc}
 	 */
@@ -71,6 +71,28 @@ class WPSEO_Premium_Beacon_Suggestions implements Yoast_HelpScout_Beacon_Suggest
 					'5375f3f9e4b0d833740d5760',
 					// See: http://kb.yoast.com/article/51-import-redirects.
 				);
+		}
+
+		return array();
+	}
+
+	/**
+	 * Returns a product for a a certain admin page.
+	 *
+	 * @param string $page The current admin page we are on.
+	 *
+	 * @return Yoast_Product[] A product to use for sending data to helpscout
+	 */
+	public function get_products( $page ) {
+		switch ( $page ) {
+			case 'wpseo_dashboard':
+			case 'wpseo_titles':
+			case 'wpseo_social':
+			case 'wpseo_xml':
+			case 'wpseo_advanced':
+			case 'wpseo_tools':
+			case 'wpseo_search_console':
+				return array( new WPSEO_Product_Premium() );
 		}
 
 		return array();
