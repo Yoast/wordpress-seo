@@ -1,22 +1,22 @@
-var isUndefined = require( "lodash/lang/isUndefined" );
+var defaults = require( "lodash/object/defaults" );
+
+var defaultAttributes = {
+	keyword: "",
+	description: ""
+};
 
 /**
  * Construct the Paper object and set the keyword property.
- * @param {string} keyword The keyword to use in the analysis.
  * @param {string} text The text to use in the analysis.
- * @param {object} metaData The object containing all meta values.
+ * @param {object} attributes The object containing all attributes.
  * @constructor
  */
-var Paper = function( keyword, text, metaData ) {
-	this._keyword = keyword || "";
+var Paper = function( text, attributes ) {
 	this._text = text || "";
 
-	// if there is no metaData object given, use an empty object so checks on metaData keep working
-	if ( isUndefined( metaData ) ) {
-		metaData = {};
-	}
+	this._attributes = attributes || {};
 
-	this._metaDescription = metaData.metaDescription || "";
+	defaults( this._attributes, defaultAttributes );
 };
 
 /**
@@ -24,7 +24,7 @@ var Paper = function( keyword, text, metaData ) {
  * @returns {boolean} Returns true if keyword isn't empty
  */
 Paper.prototype.hasKeyword = function() {
-	return this._keyword !== "";
+	return this._attributes.keyword !== "";
 };
 
 /**
@@ -32,7 +32,7 @@ Paper.prototype.hasKeyword = function() {
  * @returns {string} Returns Keyword
  */
 Paper.prototype.getKeyword = function() {
-	return this._keyword;
+	return this._attributes.keyword;
 };
 
 /**
@@ -55,16 +55,16 @@ Paper.prototype.getText = function() {
  * Check whether a metaDescription is available
  * @returns {boolean} Returns true if metaDescription isn't empty
  */
-Paper.prototype.hasMetaDescription = function() {
-	return this._metaDescription !== "";
+Paper.prototype.hasDescription = function() {
+	return this._attributes.description !== "";
 };
 
 /**
  * Return the metaDescription or an empty string if no metaDescription is available
  * @returns {string} Returns the metaDescription
  */
-Paper.prototype.getMetaDescription = function() {
-	return this._metaDescription;
+Paper.prototype.getDescription = function() {
+	return this._attributes.description;
 };
 
 module.exports = Paper;

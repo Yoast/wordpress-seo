@@ -9,7 +9,7 @@ describe( "Creating an Paper", function(){
 	} );
 
 	it( "returns and a valid keyword and text when args are given", function() {
-		var mockPaper = new Paper( "keyword", "text with keyword" );
+		var mockPaper = new Paper( "text with keyword", { keyword: "keyword" } );
 
 		expect( mockPaper.getKeyword() ).toBe( "keyword" );
 		expect( mockPaper.getText() ).toBe( "text with keyword" );
@@ -19,15 +19,16 @@ describe( "Creating an Paper", function(){
 describe( "Creating a Paper", function() {
 	it("returns metaDescription", function () {
 		var metaValues = {};
-		var paper = new Paper("keyword", "text, metaValues");
-		expect(paper.hasMetaDescription()).toBe(false);
-		expect(paper.getMetaDescription()).toBe("");
+		var paper = new Paper("text, metaValues");
+		expect(paper.hasDescription()).toBe(false);
+		expect(paper.getDescription()).toBe("");
 
 		metaValues = {
-			metaDescription: "this is a meta"
+			keyword: "keyword",
+			description: "this is a meta"
 		};
-		paper = new Paper("keyword", "text", metaValues);
-		expect(paper.hasMetaDescription()).toBe(true);
-		expect(paper.getMetaDescription()).toBe("this is a meta");
+		paper = new Paper("text", metaValues);
+		expect(paper.hasDescription()).toBe(true);
+		expect(paper.getDescription()).toBe("this is a meta");
 	});
 } );
