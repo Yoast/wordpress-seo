@@ -27,7 +27,7 @@ class WPSEO_Sitemaps_Test extends WPSEO_UnitTestCase {
 	 * Other tests pre-heat it and provide an erronous value for slow tests (coverage/CI)
 	 *
 	 * @covers WPSEO_Sitemaps::get_last_modified
-	 *
+	 */
 	public function test_get_last_modified() {
 		// Create and go to post.
 		$post_id = $this->factory->post->create();
@@ -39,7 +39,6 @@ class WPSEO_Sitemaps_Test extends WPSEO_UnitTestCase {
 
 		$this->assertEquals( date( 'c', strtotime( $post->post_modified_gmt ) ), $date );
 	}
-	/*/
 
 	/**
 	 * @covers WPSEO_Post_Type_Sitemap_Provider::get_index_links
