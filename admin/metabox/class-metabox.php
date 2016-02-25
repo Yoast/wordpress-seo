@@ -740,6 +740,13 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				'jquery',
 			), '4.0.1', true );
 
+			$language = substr( get_locale(), 0, 2 );
+
+			wp_enqueue_script( 'yoast-seo-select2-' . $language , plugins_url( 'js/dist/select2/i18n/' . $language . '.js', WPSEO_FILE ), array(
+				'jquery',
+				'yoast-seo-select2',
+			), '4.0.1', true );
+
 			wp_enqueue_script( 'wp-seo-metabox', plugins_url( 'js/wp-seo-metabox-' . '302' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array(
 				'jquery',
 				'jquery-ui-core',
@@ -762,6 +769,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			wp_localize_script( 'wp-seo-post-scraper', 'wpseoPostScraperL10n', $this->localize_post_scraper_script() );
 			wp_localize_script( 'wp-seo-replacevar-plugin', 'wpseoReplaceVarsL10n', $this->localize_replace_vars_script() );
 			wp_localize_script( 'wp-seo-shortcode-plugin', 'wpseoShortcodePluginL10n', $this->localize_shortcode_plugin_script() );
+			wp_localize_script( 'wp-seo-metabox', 'wpseoSelect2Locale', $language );
 
 			if ( post_type_supports( get_post_type(), 'thumbnail' ) ) {
 				wp_enqueue_style( 'featured-image', plugins_url( 'css/featured-image' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
