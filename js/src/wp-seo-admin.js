@@ -8,7 +8,7 @@
 /* jshint unused:false */
 'use strict';
 
-(function( $ ) {
+(function ($) {
 	jQuery(document).ready(function () {
 			/* Fix banner images overlapping help texts */
 			jQuery('.screen-meta-toggle a').click(function () {
@@ -16,23 +16,16 @@
 				}
 			);
 
-<<<<<<< HEAD:js/wp-seo-admin-306.js
 			// events
 			jQuery('#enablexmlsitemap').change(function () {
 					jQuery('#sitemapinfo').toggle(jQuery(this).is(':checked'));
 				}
 			).change();
-=======
-		jQuery( '#disable-post_format' ).change( function() {
-				jQuery( '#post_format-titles-metas' ).toggle( jQuery( this ).is( ':not(:checked)' ) );
-			}
-		).change();
 
-		jQuery( '#breadcrumbs-enable' ).change( function() {
-				jQuery( '#breadcrumbsinfo' ).toggle( jQuery( this ).is( ':checked' ) );
-			}
-		).change();
->>>>>>> a1b003eb6326f5e22e3e169d12b1df16f8e13090:js/src/wp-seo-admin.js
+			jQuery('#disable-post_format').change(function () {
+					jQuery('#post_format-titles-metas').toggle(jQuery(this).is(':not(:checked)'));
+				}
+			).change();
 
 			jQuery('#breadcrumbs-enable').change(function () {
 					jQuery('#breadcrumbsinfo').toggle(jQuery(this).is(':checked'));
@@ -96,7 +89,6 @@
 
 			jQuery('.nav-tab-active').click();
 
-
 			initSelect2();
 		}
 	);
@@ -108,18 +100,18 @@
 		var select2Width = '400px';
 
 		// Select2 for General settings: your info: company or person. Width is the same as the width for the other fields on this page.
-		jQuery( '#company_or_person' ).select2( { width: select2Width } );
+		jQuery('#company_or_person').select2({width: select2Width});
 
 		// Select2 for Twitter card meta data in Settings
-		jQuery( '#twitter_card_type' ).select2( { width: select2Width} );
+		jQuery('#twitter_card_type').select2({width: select2Width});
 
 		// Select2 for taxonomy breadcrumbs in Advanced
-		jQuery( '#post_types-post-maintax').select2( { width: select2Width } );
+		jQuery('#post_types-post-maintax').select2({width: select2Width});
 
 		// Select2 for profile in Search Console
-		jQuery( '#profile' ).select2( { width: select2Width } );
+		jQuery('#profile').select2({width: select2Width});
 	}
-}( jQuery ));
+}(jQuery));
 
 
 /**
@@ -191,15 +183,15 @@ function wpseoDetectWrongVariables( e ) {
  * @param {string} hide The ID of the element to hide on success
  * @param {string} nonce The nonce for the action
  */
-function setWPOption( option, newval, hide, nonce ) {
-	jQuery.post( ajaxurl, {
-			action: 'wpseo_set_option',
-			option: option,
-			newval: newval,
+function setWPOption(option, newval, hide, nonce) {
+	jQuery.post(ajaxurl, {
+			action  : 'wpseo_set_option',
+			option  : option,
+			newval  : newval,
 			_wpnonce: nonce
-		}, function( data ) {
-			if ( data ) {
-				jQuery( '#' + hide ).hide();
+		}, function (data) {
+			if (data) {
+				jQuery('#' + hide).hide();
 			}
 		}
 	);
@@ -210,16 +202,16 @@ function setWPOption( option, newval, hide, nonce ) {
  *
  * @param {string} nonce
  */
-function wpseoKillBlockingFiles( nonce ) {
-	jQuery.post( ajaxurl, {
-			action: 'wpseo_kill_blocking_files',
+function wpseoKillBlockingFiles(nonce) {
+	jQuery.post(ajaxurl, {
+			action     : 'wpseo_kill_blocking_files',
 			_ajax_nonce: nonce
-		}, function( data ) {
-			if ( data === 'success' ) {
-				jQuery( '#blocking_files' ).hide();
+		}, function (data) {
+			if (data === 'success') {
+				jQuery('#blocking_files').hide();
 			}
 			else {
-				jQuery( '#block_files' ).html( data );
+				jQuery('#block_files').html(data);
 			}
 		}
 	);
@@ -229,57 +221,57 @@ function wpseoKillBlockingFiles( nonce ) {
  * Copies the meta description for the homepage
  */
 function wpseoCopyHomeMeta() {
-	jQuery( '#og_frontpage_desc' ).val( jQuery( '#meta_description' ).val() );
+	jQuery('#og_frontpage_desc').val(jQuery('#meta_description').val());
 }
 
 /**
  * Makes sure we store the action hash so we can return to the right hash
  */
 function wpseoSetTabHash() {
-	var conf = jQuery( '#wpseo-conf' );
-	if ( conf.length ) {
-		var currentUrl = conf.attr( 'action' ).split( '#' )[ 0 ];
-		conf.attr( 'action', currentUrl + window.location.hash );
+	var conf = jQuery('#wpseo-conf');
+	if (conf.length) {
+		var currentUrl = conf.attr('action').split('#')[0];
+		conf.attr('action', currentUrl + window.location.hash);
 	}
 }
 
 /**
  * When the hash changes, get the base url from the action and then add the current hash
  */
-jQuery( window ).on( 'hashchange', wpseoSetTabHash );
+jQuery(window).on('hashchange', wpseoSetTabHash);
 
 /**
  * When the hash changes, get the base url from the action and then add the current hash
  */
-jQuery( document ).on( 'ready', wpseoSetTabHash );
+jQuery(document).on('ready', wpseoSetTabHash);
 
 function wpseo_add_fb_admin() {
-	var target_form = jQuery( '#TB_ajaxContent' );
+	var target_form = jQuery('#TB_ajaxContent');
 
 	jQuery.post(
 		ajaxurl,
 		{
-			_wpnonce: target_form.find( 'input[name=fb_admin_nonce]' ).val(),
-			admin_name: target_form.find( 'input[name=fb_admin_name]' ).val(),
-			admin_id: target_form.find( 'input[name=fb_admin_id]' ).val(),
-			action: 'wpseo_add_fb_admin'
+			_wpnonce  : target_form.find('input[name=fb_admin_nonce]').val(),
+			admin_name: target_form.find('input[name=fb_admin_name]').val(),
+			admin_id  : target_form.find('input[name=fb_admin_id]').val(),
+			action    : 'wpseo_add_fb_admin'
 		},
-		function( response ) {
-			var resp = jQuery.parseJSON( response );
+		function (response) {
+			var resp = jQuery.parseJSON(response);
 
-			target_form.find( 'p.notice' ).remove();
+			target_form.find('p.notice').remove();
 
-			switch ( resp.success ) {
+			switch (resp.success) {
 				case 1:
 
-					target_form.find( 'input[type=text]' ).val( '' );
+					target_form.find('input[type=text]').val('');
 
-					jQuery( '#user_admin' ).append( resp.html );
-					jQuery( '#connected_fb_admins' ).show();
+					jQuery('#user_admin').append(resp.html);
+					jQuery('#connected_fb_admins').show();
 					tb_remove();
 					break;
 				case 0 :
-					jQuery( resp.html ).insertAfter( target_form.find( 'h3' ) );
+					jQuery(resp.html).insertAfter(target_form.find('h3'));
 					break;
 			}
 		}
