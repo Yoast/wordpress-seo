@@ -41,12 +41,14 @@ class WPSEO_Recalculate_Terms extends WPSEO_Recalculate {
 	 * @return array
 	 */
 	protected function get_items( $paged ) {
+		$items_per_page = max( 1, $this->items_per_page );
+
 		return get_terms(
 			get_taxonomies(),
 			array(
 				'hide_empty' => false,
-				'number'     => $this->items_per_page,
-				'offset'     => $this->items_per_page * abs( $paged - 1 ),
+				'number'     => $items_per_page,
+				'offset'     => $items_per_page * abs( $paged - 1 ),
 			)
 		);
 	}
@@ -63,10 +65,20 @@ class WPSEO_Recalculate_Terms extends WPSEO_Recalculate {
 		$title         = str_replace( ' %%page%% ', ' ', $this->get_title( $item ) );
 		$meta          = $this->get_meta_description( $item );
 
+		$description = $item->description;
+
+		/**
+		 * Filter the term description for recalculation.
+		 *
+		 * @param string $description Content of the term. Modify to reflect front-end content.
+		 * @oaram WP_Term $item The term the description comes from.
+		 */
+		$description = apply_filters( 'wpseo_term_description_for_recalculation', $description, $item );
+
 		return array(
 			'term_id'       => $item->term_id,
 			'taxonomy'      => $item->taxonomy,
-			'text'          => $item->description,
+			'text'          => $description,
 			'keyword'       => $focus_keyword,
 			'url'           => urldecode( $item->slug ),
 			'pageTitle'     => apply_filters( 'wpseo_title', wpseo_replace_vars( $title, $item, array( 'page' ) ) ),
@@ -85,7 +97,8 @@ class WPSEO_Recalculate_Terms extends WPSEO_Recalculate {
 	 * @return bool|string
 	 */
 	private function get_focus_keyword( $term ) {
-		if ( $focus_keyword = WPSEO_Taxonomy_Meta::get_term_meta( 'focuskw', $term->term_id, $term->taxonomy ) ) {
+		$focus_keyword = WPSEO_Taxonomy_Meta::get_term_meta( 'focuskw', $term->term_id, $term->taxonomy );
+		if ( ! empty( $focus_keyword ) ) {
 			return $focus_keyword;
 		}
 
@@ -100,11 +113,13 @@ class WPSEO_Recalculate_Terms extends WPSEO_Recalculate {
 	 * @return mixed|string
 	 */
 	private function get_title( $term ) {
-		if ( ( $title = WPSEO_Taxonomy_Meta::get_term_meta( $term->term_id, $term->taxonomy, 'title' )  ) !== '' ) {
+		$title = WPSEO_Taxonomy_Meta::get_term_meta( $term->term_id, $term->taxonomy, 'title' );
+		if ( '' !== $title ) {
 			return $title;
 		}
 
-		if ( $default_from_options = $this->default_from_options( 'title-tax', $term->taxonomy ) ) {
+		$default_from_options = $this->default_from_options( 'title-tax', $term->taxonomy );
+		if ( false !== $default_from_options ) {
 			return $default_from_options;
 		}
 
@@ -119,11 +134,13 @@ class WPSEO_Recalculate_Terms extends WPSEO_Recalculate {
 	 * @return bool|string
 	 */
 	private function get_meta_description( $term ) {
-		if ( ( $meta_description = WPSEO_Taxonomy_Meta::get_term_meta( $term->term_id, $term->taxonomy, 'desc' ) ) !== '' ) {
+		$meta_description = WPSEO_Taxonomy_Meta::get_term_meta( $term->term_id, $term->taxonomy, 'desc' );
+		if ( '' !== $meta_description ) {
 			return $meta_description;
 		}
 
-		if ( $default_from_options = $this->default_from_options( 'metadesc-tax', $term->taxonomy ) ) {
+		$default_from_options = $this->default_from_options( 'metadesc-tax', $term->taxonomy );
+		if ( false !== $default_from_options ) {
 			return $default_from_options;
 		}
 

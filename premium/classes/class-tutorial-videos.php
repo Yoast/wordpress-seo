@@ -13,7 +13,7 @@ class WPSEO_Tutorial_Videos {
 	 */
 	public static function display() {
 		// Licensing part.
-		$license_manager = new Yoast_Plugin_License_Manager( new WPSEO_Product_Premium() );
+		$license_manager = WPSEO_Premium::get_license_manager();
 
 		// Setup constant name.
 		$license_manager->set_license_constant_name( 'WPSEO_LICENSE' );

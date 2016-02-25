@@ -19,7 +19,10 @@ class WPSEO_Upgrade_Manager {
 	 * @param string $current_version The current WPSEO version.
 	 */
 	public function run_upgrade( $current_version ) {
-		WPSEO_Options::get_instance();
+		if ( defined( 'DOING_AJAX' ) && DOING_AJAX === true ) {
+			return;
+		}
+
 		$saved_version = get_option( self::VERSION_OPTION_KEY, '3.0.7' );
 
 		if ( version_compare( $saved_version, $current_version, '<' ) ) {
@@ -76,7 +79,7 @@ class WPSEO_Upgrade_Manager {
 			 */
 
 			// Save the old license to the new license option.
-			$license_manager = new Yoast_Plugin_License_Manager( new WPSEO_Product_Premium() );
+			$license_manager = WPSEO_Premium::get_license_manager();
 			$license_manager->set_license_key( trim( get_option( 'wpseo_license_key', '' ) ) );
 			$license_manager->set_license_status( trim( get_option( 'wpseo_license_status', '' ) ) );
 

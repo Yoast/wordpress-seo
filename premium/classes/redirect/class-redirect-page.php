@@ -12,6 +12,8 @@ class WPSEO_Redirect_Page {
 	 * Constructing redirect module
 	 */
 	public function __construct() {
+		$this->initialize_filters();
+
 		if ( is_admin() ) {
 			$this->initialize_admin();
 		}
@@ -53,11 +55,12 @@ class WPSEO_Redirect_Page {
 			'wp-seo-premium-admin-redirects',
 			plugin_dir_url( WPSEO_PREMIUM_FILE ) .
 			'assets/js/wp-seo-premium-admin-redirects' . WPSEO_CSSJS_SUFFIX . '.js',
-			array( 'jquery', 'jquery-ui-dialog', 'wp-util' ),
+			array( 'jquery', 'jquery-ui-dialog', 'wp-util',  'underscore' ),
 			WPSEO_VERSION
 		);
 		wp_localize_script( 'wp-seo-premium-admin-redirects', 'wpseo_premium_strings', WPSEO_Premium_Javascript_Strings::strings() );
-		wp_enqueue_style( 'wpseo-premium-redirects', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/css/premium-redirects' . WPSEO_CSSJS_SUFFIX . '.css', array( 'underscore' ), WPSEO_VERSION );
+
+		wp_enqueue_style( 'wpseo-premium-redirects', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/css/premium-redirects' . WPSEO_CSSJS_SUFFIX . '.css', array(), WPSEO_VERSION );
 
 		wp_enqueue_style( 'wp-jquery-ui-dialog' );
 
@@ -248,5 +251,14 @@ class WPSEO_Redirect_Page {
 			}
 		}
 	}
+
+	/**
+	 * Initialize the filters.
+	 */
+	private function initialize_filters() {
+		add_filter( 'wpseo_format_origin_redirect_column', array( 'WPSEO_Redirect_Output_Decorator', 'decorate_origin_column' ), 10, 2 );
+		add_filter( 'wpseo_format_target_redirect_column', array( 'WPSEO_Redirect_Output_Decorator', 'decorate_target_column' ), 10, 1 );
+	}
+
 
 }

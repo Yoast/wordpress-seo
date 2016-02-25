@@ -46,6 +46,23 @@ class WPSEO_Premium {
 		WPSEO_Redirect_File_Util::create_upload_dir();
 
 		WPSEO_Premium::import_redirects_from_free();
+
+		WPSEO_Premium::activate_license();
+	}
+
+	/**
+	 * Creates instance of license manager if needed and returns the instance of it.
+	 *
+	 * @return Yoast_Plugin_License_Manager
+	 */
+	public static function get_license_manager() {
+		static $license_manager;
+
+		if ( $license_manager === null ) {
+			$license_manager = new Yoast_Plugin_License_Manager( new WPSEO_Product_Premium() );
+		}
+
+		return $license_manager;
 	}
 
 	/**
@@ -125,7 +142,7 @@ class WPSEO_Premium {
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_overview_script' ) );
 
 			// Licensing part.
-			$license_manager = new Yoast_Plugin_License_Manager( new WPSEO_Product_Premium() );
+			$license_manager = WPSEO_Premium::get_license_manager();
 
 			// Setup constant name.
 			$license_manager->set_license_constant_name( 'WPSEO_LICENSE' );
@@ -176,6 +193,14 @@ class WPSEO_Premium {
 		new WPSEO_Premium_Autoloader( 'WPSEO_Redirect', 'redirect/', 'WPSEO_' );
 
 		$this->redirects = new WPSEO_Redirect_Page();
+	}
+
+	/**
+	 * We might want to reactivate the license.
+	 */
+	private static function activate_license() {
+		$license_manager = self::get_license_manager();
+		$license_manager->activate_license();
 	}
 
 	/**
