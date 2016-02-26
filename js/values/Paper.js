@@ -79,7 +79,7 @@ Paper.prototype.hasTitle = function() {
 
 /**
  * Return the title, or an empty string of no title is available.
- * @returns {string}
+ * @returns {string} Returns the title
  */
 Paper.prototype.getTitle = function() {
 	return this._attributes.title;
@@ -95,7 +95,7 @@ Paper.prototype.hasUrl = function() {
 
 /**
  * Return the url, or an empty string of no url is available.
- * @returns {string}
+ * @returns {string} Returns the url
  */
 Paper.prototype.getUrl = function() {
 	return this._attributes.url;
