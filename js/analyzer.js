@@ -58,7 +58,14 @@ var Analyzer = function( args ) {
  */
 Analyzer.prototype.init = function( args ) {
 	if ( isUndefined( args.paper ) ) {
-		args.paper = new Paper( args.text, { keyword:  args.keyword, description: args.meta, url: args.url, title: args.pageTitle } );
+		args.paper = new Paper( args.text,
+			{
+				keyword:  args.keyword,
+				description: args.meta,
+				url: args.url,
+				title: args.pageTitle
+			}
+		);
 	}
 
 	this.paper = args.paper;
