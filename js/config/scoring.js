@@ -320,22 +320,22 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
             scoreArray: [
                 {max: 0, score: 1, text: i18n.dgettext( "js-text-analysis", "Please create a page title.")},
                 {
-                    max: 39,
+                    max: 34,
                     score: 6,
 
                     /* translators: %3$d expands to the number of characters in the page title, %1$d to the minimum number of characters for the title */
                     text: i18n.dgettext( "js-text-analysis", "The page title contains %3$d characters, which is less than the recommended minimum of %1$d characters. Use the space to add keyword variations or create compelling call-to-action copy.")
                 },
                 {
-                    min: 71,
+                    min: 66,
                     score: 6,
 
                     /* translators: %3$d expands to the number of characters in the page title, %2$d to the maximum number of characters for the title */
                     text: i18n.dgettext( "js-text-analysis", "The page title contains %3$d characters, which is more than the viewable limit of %2$d characters; some words will not be visible to users in your listing.")
                 },
                 {
-                    min: 40,
-                    max: 70,
+                    min: 35,
+                    max: 65,
                     score: 9,
 
                     /* translators: %1$d expands to the minimum number of characters in the page title, %2$d to the maximum number of characters */
@@ -343,8 +343,8 @@ YoastSEO.AnalyzerScoring = function( i18n ) {
                 }
             ],
             replaceArray: [
-                { name: "minLength", position: "%1$d", value: 40 },
-                { name: "maxLength", position: "%2$d", value: 70 },
+                { name: "minLength", position: "%1$d", value: 35 },
+                { name: "maxLength", position: "%2$d", value: 65 },
                 { name: "length", position: "%3$d", source: "matcher" }
             ]
         }, {
