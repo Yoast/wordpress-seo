@@ -216,22 +216,23 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 		// TODO there are still bugs in this logic, issues on tracker. R.
 		foreach ( $users as $user_key => $user ) {
+			$exclude_user = false;
 
 			$is_exclude_on = get_the_author_meta( 'wpseo_excludeauthorsitemap', $user->ID );
 
 			if ( $is_exclude_on === 'on' ) {
 				$exclude_user = true;
 			}
-			elseif ( $options['disable_author_noposts'] === true ) {
+			elseif ( ($user_role = $user->roles[0]) && isset($options["user_role-{$user_role}-not_in_sitemap"] ) ) {
+				$target_key   = "user_role-{$user_role}-not_in_sitemap";
+				$exclude_user = $options[ $target_key ];
+				unset( $user_role, $target_key );
+			}
+
+			if ( !$exclude_user  && $options['disable_author_noposts'] === true ) {
 				$count_posts  = (int) count_user_posts( $user->ID );
 				$exclude_user = ( $count_posts === 0 );
 				unset( $count_posts );
-			}
-			else {
-				$user_role    = $user->roles[0];
-				$target_key   = "user_role-{$user_role}-not_in_sitemap";
-				$exclude_user = $options[ $target_key ];
-				unset( $user_rol, $target_key );
 			}
 
 			if ( $exclude_user === true ) {
