@@ -23,14 +23,14 @@ var Paper = function( text, attributes ) {
 
 /**
  * Check whether a keyword is available.
- * @returns {boolean} Returns true if keyword isn't empty
+ * @returns {boolean} Returns true if the Paper has a keyword.
  */
 Paper.prototype.hasKeyword = function() {
 	return this._attributes.keyword !== "";
 };
 
 /**
- * Return the associated keyword or an empty string if no keyword is available
+ * Return the associated keyword or an empty string if no keyword is available.
  * @returns {string} Returns Keyword
  */
 Paper.prototype.getKeyword = function() {
@@ -39,7 +39,7 @@ Paper.prototype.getKeyword = function() {
 
 /**
  * Check whether the text is available.
- * @returns {boolean} Returns true if text isn't empty
+ * @returns {boolean} Returns true if the paper has a text.
  */
 Paper.prototype.hasText = function() {
 	return this._text !== "";
@@ -54,16 +54,16 @@ Paper.prototype.getText = function() {
 };
 
 /**
- * Check whether a metaDescription is available
- * @returns {boolean} Returns true if metaDescription isn't empty
+ * Check whether a description is available.
+ * @returns {boolean} Returns true if the paper has a description.
  */
 Paper.prototype.hasDescription = function() {
 	return this._attributes.description !== "";
 };
 
 /**
- * Return the metaDescription or an empty string if no metaDescription is available
- * @returns {string} Returns the metaDescription
+ * Return the description or an empty string if no description is available.
+ * @returns {string} Returns the description.
  */
 Paper.prototype.getDescription = function() {
 	return this._attributes.description;
