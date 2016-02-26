@@ -8,7 +8,7 @@
  */
 class Yoast_Notification_Center implements Yoast_Notification_Center_Interface {
 
-	const TRANSIENT_KEY = 'yoast_notifications';
+	const STORAGE_KEY = 'yoast_notifications';
 
 	/**
 	 * The singleton instance of this object
@@ -28,7 +28,7 @@ class Yoast_Notification_Center implements Yoast_Notification_Center_Interface {
 	 */
 	private function __construct() {
 
-		// Load the notifications from cookie.
+		// Load the notifications from transient.
 		$this->notifications = $this->get_notifications_from_transient();
 
 		if ( ! defined( 'DOING_AJAX' ) ) {
@@ -53,239 +53,6 @@ class Yoast_Notification_Center implements Yoast_Notification_Center_Interface {
 		}
 
 		return self::$instance;
-	}
-
-	/**
-	 * Get the notifications from cookie
-	 *
-	 * @return array
-	 */
-	private function get_notifications_from_transient() {
-
-		// The notifications array.
-		$notifications = array();
-
-		$transient_notifications = get_transient( self::TRANSIENT_KEY );
-
-		// Check if cookie is set.
-		if ( false !== $transient_notifications ) {
-
-			// Get json notifications from cookie.
-			$json_notifications = json_decode( $transient_notifications, true );
-
-			// Create Yoast_Notification objects.
-			if ( count( $json_notifications ) > 0 ) {
-				foreach ( $json_notifications as $json_notification ) {
-					$notifications[] = new Yoast_Notification(
-						$json_notification['message'],
-						$json_notification['options']
-					);
-				}
-			}
-		}
-
-		return $notifications;
-	}
-
-	/**
-	 * Clear the cookie
-	 */
-	private function remove_transient() {
-		delete_transient( self::TRANSIENT_KEY );
-	}
-
-	/**
-	 * Clear local stored notifications
-	 */
-	private function clear_notifications() {
-		$this->notifications = array();
-	}
-
-	/**
-	 * Remove transient when the plugin is deactivated
-	 */
-	public function deactivate_hook() {
-		$this->clear_notifications();
-	}
-
-	/**
-	 * Write the notifications to a cookie (hooked on shutdown)
-	 */
-	public function set_transient() {
-
-		if ( count( $this->notifications ) === 0 ) {
-			$this->remove_transient();
-
-			return;
-		}
-
-		// Create array with all notifications.
-		$arr_notifications = array();
-
-		// Add each notification as array to $arr_notifications.
-		foreach ( $this->notifications as $notification ) {
-			$arr_notifications[] = $notification->to_array();
-		}
-
-		// Set the cookie with notifications.
-		set_transient(
-			self::TRANSIENT_KEY,
-			WPSEO_Utils::json_encode( $arr_notifications ),
-			( MINUTE_IN_SECONDS * 10 )
-		);
-	}
-
-	/**
-	 * Add notification to the cookie
-	 *
-	 * @param Yoast_Notification $notification Notification object instance.
-	 */
-	public function add_notification( Yoast_Notification $notification ) {
-		$this->notifications[] = $notification;
-	}
-
-	/**
-	 * Dismiss a notification
-	 */
-	public static function ajax_dismiss_notification() {
-		$notification_center = self::get();
-
-		$notification_id = filter_input( INPUT_POST, 'notification' );
-		$notification    = $notification_center->get_notification( $notification_id );
-
-		if ( false === ( $notification instanceof Yoast_Notification ) ) {
-			die( '-1' );
-		}
-
-		if ( $notification_center->maybe_dismiss_notification( $notification ) ) {
-			die( '1' );
-		}
-
-		die( '-2' );
-	}
-
-	/**
-	 * Get the notification by ID
-	 *
-	 * @param string $notification_id The ID of the notification to search for.
-	 *
-	 * @return null|Yoast_Notification
-	 */
-	public function get_notification( $notification_id ) {
-		foreach ( $this->notifications as $notification ) {
-			if ( $notification_id === $notification->get_id() ) {
-				return $notification;
-			}
-		}
-
-		return null;
-	}
-
-	/**
-	 * Display the notifications
-	 */
-	public function display_notifications() {
-
-		// Never display notifications for network admin.
-		if ( function_exists( 'is_network_admin' ) && is_network_admin() ) {
-			return;
-		}
-
-		$this->notifications = array_unique( $this->notifications );
-
-		// Display notifications.
-		if ( count( $this->notifications ) > 0 ) {
-			foreach ( $this->notifications as $notification ) {
-				// Don't display if it has been dismissed for the current user.
-				if ( $this->maybe_dismiss_notification( $notification ) ) {
-					continue;
-				}
-
-				// Don't display if the user doesn't have enough capabilities and such.
-				if ( $notification->display_for_current_user() ) {
-					echo $notification;
-				}
-			}
-		}
-
-		// Clear the local stored notifications.
-		$this->clear_notifications();
-	}
-
-	/**
-	 * AJAX display notifications
-	 */
-	public function ajax_get_notifications() {
-
-		// Display the notices.
-		$this->display_notifications();
-
-		// AJAX die.
-		exit;
-	}
-
-	/**
-	 * Initialise global notifiers
-	 *
-	 * Notifiers that are not dependent of a class concretion should be registered here.
-	 */
-	public static function initialise_notifiers() {
-		$instance = self::get();
-
-		$instance->register_notifier( new Yoast_Search_Engine_Visibility_Notifier() );
-		$instance->register_notifier( new Yoast_Default_Tagline_Notifier() );
-		$instance->register_notifier( new Yoast_Algorithm_Update_Notifier() );
-
-		$instance->register_notifier( new Yoast_API_Libs_Required_Version_Notifier() );
-		$instance->register_notifier( new Yoast_GA_Incompatible_Version_Notifier() );
-		$instance->register_notifier( new Yoast_GA_Compatibility_Notifier() );
-
-		$instance->register_notifier( new Yoast_Google_Search_Console_Configuration_Notifier() );
-	}
-
-	/**
-	 * Register a notifier and apply notification
-	 *
-	 * @param Yoast_Notifier_Interface $notifier Notifier to add to the stack.
-	 */
-	public function register_notifier( Yoast_Notifier_Interface $notifier ) {
-		if ( $this->has_notifier( $notifier ) ) {
-			return;
-		}
-
-		$this->add_notifier( $notifier );
-
-		$notification = $notifier->get_notification();
-		if ( $notifier->notify() ) {
-			$this->add_notification( $notification );
-
-			return;
-		}
-
-		// Remove notification from the system.
-		/**
-		 * This will be added later. (see #4007)
-		 */
-	}
-
-	/**
-	 * Keep a list of notifiers so we don't add duplicates
-	 *
-	 * @param Yoast_Notifier_Interface $notifier Notifier to add to the stack.
-	 */
-	private function add_notifier( Yoast_Notifier_Interface $notifier ) {
-		$this->notifiers[] = $notifier;
-	}
-
-	/**
-	 * Check if the notifier is already registered
-	 *
-	 * @param Yoast_Notifier_Interface $notifier Notifier to check for.
-	 *
-	 * @return bool
-	 */
-	private function has_notifier( Yoast_Notifier_Interface $notifier ) {
-		return in_array( $notifier, $this->notifiers, true );
 	}
 
 	/**
@@ -322,8 +89,7 @@ class Yoast_Notification_Center implements Yoast_Notification_Center_Interface {
 		}
 
 		// Can be dismissed by dismissal_key or notification_id.
-		if ( '1' !== filter_input( $filter_input_type, $notification_id )
-		     && '1' !== filter_input( $filter_input_type, $dismissal_key )
+		if ( '1' !== filter_input( $filter_input_type, $notification_id ) && '1' !== filter_input( $filter_input_type, $dismissal_key )
 		) {
 			return false;
 		}
@@ -333,9 +99,9 @@ class Yoast_Notification_Center implements Yoast_Notification_Center_Interface {
 		}
 
 		// Dismiss notification.
-		$result = update_user_meta( get_current_user_id(), $dismissal_key, $meta_value );
+		update_user_meta( get_current_user_id(), $dismissal_key, $meta_value );
 
-		return ( false !== $result );
+		return true;
 	}
 
 	/**
@@ -357,5 +123,249 @@ class Yoast_Notification_Center implements Yoast_Notification_Center_Interface {
 		$current_value = get_user_meta( $user_id, $dismissal_key, $single = true );
 
 		return ! empty( $current_value );
+	}
+
+	/**
+	 * Add notification to the cookie
+	 *
+	 * @param Yoast_Notification $notification Notification object instance.
+	 */
+	public function add_notification( Yoast_Notification $notification ) {
+		$this->notifications[] = $notification;
+	}
+
+	/**
+	 * Get the notification by ID
+	 *
+	 * @param string $notification_id The ID of the notification to search for.
+	 *
+	 * @return null|Yoast_Notification
+	 */
+	public function get_notification( $notification_id ) {
+		foreach ( $this->notifications as $notification ) {
+			if ( $notification_id === $notification->get_id() ) {
+				return $notification;
+			}
+		}
+
+		return null;
+	}
+
+	/**
+	 * Dismiss a notification
+	 */
+	public static function ajax_dismiss_notification() {
+		$notification_center = self::get();
+
+		$notification_id = filter_input( INPUT_POST, 'notification' );
+		$notification    = $notification_center->get_notification( $notification_id );
+
+		if ( false === ( $notification instanceof Yoast_Notification ) ) {
+			die( '-1' );
+		}
+
+		if ( $notification_center->maybe_dismiss_notification( $notification ) ) {
+			die( '1' );
+		}
+
+		die( '-1' );
+	}
+
+	/**
+	 * Display the notifications
+	 */
+	public function display_notifications() {
+
+		// Never display notifications for network admin.
+		if ( function_exists( 'is_network_admin' ) && is_network_admin() ) {
+			return;
+		}
+
+		$this->notifications = array_unique( $this->notifications );
+
+		// Display notifications.
+		if ( count( $this->notifications ) > 0 ) {
+			foreach ( $this->notifications as $notification ) {
+
+				if ( $this->show_notification( $notification ) ) {
+					echo $notification;
+				}
+			}
+		}
+
+		// Clear the local stored notifications.
+		$this->clear_notifications();
+	}
+
+	/**
+	 * AJAX display notifications
+	 */
+	public function ajax_get_notifications() {
+		// Display the notices.
+		$this->display_notifications();
+
+		// AJAX die.
+		exit;
+	}
+
+	/**
+	 * Initialise global notifiers
+	 *
+	 * Notifiers that are not dependent of a class concretion should be registered here.
+	 */
+	public static function initialise_notifiers() {
+		$instance = self::get();
+
+		$instance->register_notifier( new Yoast_Search_Engine_Visibility_Notifier() );
+		$instance->register_notifier( new Yoast_Default_Tagline_Notifier() );
+		$instance->register_notifier( new Yoast_Algorithm_Update_Notifier() );
+
+		$instance->register_notifier( new Yoast_API_Libs_Required_Version_Notifier() );
+		$instance->register_notifier( new Yoast_GA_Incompatible_Version_Notifier() );
+		$instance->register_notifier( new Yoast_GA_Compatibility_Notifier() );
+
+		$instance->register_notifier( new Yoast_Google_Search_Console_Configuration_Notifier() );
+	}
+
+	/**
+	 * Register a notifier and apply notification
+	 *
+	 * @param Yoast_Notifier_Interface $notifier Notifier to add to the stack.
+	 */
+	public function register_notifier( Yoast_Notifier_Interface $notifier ) {
+		// Prevent duplicates.
+		if ( $this->has_notifier( $notifier ) ) {
+			return;
+		}
+
+		$this->add_notifier( $notifier );
+
+		$notification = $notifier->get_notification();
+		if ( $notifier->notify() ) {
+			$this->add_notification( $notification );
+
+			return;
+		}
+	}
+
+	/**
+	 * Remove transient when the plugin is deactivated
+	 */
+	public function deactivate_hook() {
+		$this->clear_notifications();
+	}
+
+	/**
+	 * Write the notifications to a cookie (hooked on shutdown)
+	 */
+	public function set_transient() {
+
+		if ( count( $this->notifications ) === 0 ) {
+			$this->remove_transient();
+
+			return;
+		}
+
+		// Create array with all notifications.
+		$arr_notifications = array();
+
+		// Add each notification as array to $arr_notifications.
+		foreach ( $this->notifications as $notification ) {
+			$arr_notifications[] = $notification->to_array();
+		}
+
+		// Set the cookie with notifications.
+		update_option(
+			self::STORAGE_KEY,
+			WPSEO_Utils::json_encode( $arr_notifications ),
+			false
+		);
+	}
+
+	/**
+	 * Keep a list of notifiers so we don't add duplicates
+	 *
+	 * @param Yoast_Notifier_Interface $notifier Notifier to add to the stack.
+	 */
+	private function add_notifier( Yoast_Notifier_Interface $notifier ) {
+		$this->notifiers[] = $notifier;
+	}
+
+	/**
+	 * Check if the notifier is already registered
+	 *
+	 * @param Yoast_Notifier_Interface $notifier Notifier to check for.
+	 *
+	 * @return bool
+	 */
+	private function has_notifier( Yoast_Notifier_Interface $notifier ) {
+		return in_array( $notifier, $this->notifiers, true );
+	}
+
+	/**
+	 * Check if the notification can be shown for the current user
+	 *
+	 * @param Yoast_Notification $notification Notification to check.
+	 *
+	 * @return bool
+	 */
+	private function show_notification( Yoast_Notification $notification ) {
+		// Don't display if it has been dismissed for the current user.
+		if ( $this->maybe_dismiss_notification( $notification ) ) {
+			return false;
+		}
+
+		// Don't display if the user doesn't have enough capabilities and such.
+		if ( ! $notification->display_for_current_user() ) {
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Get the notifications from storage
+	 *
+	 * @return array Yoast_Notification[] Notifcations
+	 */
+	private function get_notifications_from_transient() {
+
+		// The notifications array.
+		$notifications = array();
+
+		$transient_notifications = get_option( self::STORAGE_KEY );
+
+		// Check if transient is set.
+		if ( false !== $transient_notifications ) {
+
+			// Get json notifications from transient.
+			$json_notifications = json_decode( $transient_notifications, true );
+
+			// Create Yoast_Notification objects.
+			if ( count( $json_notifications ) > 0 ) {
+				foreach ( $json_notifications as $json_notification ) {
+					$notifications[] = new Yoast_Notification(
+						$json_notification['message'],
+						$json_notification['options']
+					);
+				}
+			}
+		}
+
+		return $notifications;
+	}
+
+	/**
+	 * Clear the notifications in storage
+	 */
+	private function remove_transient() {
+		delete_option( self::STORAGE_KEY );
+	}
+
+	/**
+	 * Clear local stored notifications
+	 */
+	private function clear_notifications() {
+		$this->notifications = array();
 	}
 }
