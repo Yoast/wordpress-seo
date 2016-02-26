@@ -108,12 +108,7 @@ class WPSEO_Premium {
 		$this->redirect_setup();
 
 		if ( is_admin() ) {
-			$query_var = ( $page = filter_input( INPUT_GET, 'page' ) ) ? $page : '';
-
-			// Only add the helpscout beacon on Yoast SEO pages.
-			if ( substr( $query_var, 0, 5 ) === 'wpseo' ) {
-				new WPSEO_HelpScout_Beacon( $query_var );
-			}
+			add_action( 'admin_init', array( $this, 'init_beacon' ) );
 
 			// Add custom fields plugin to post and page edit pages.
 			global $pagenow;
@@ -419,6 +414,19 @@ class WPSEO_Premium {
 			// Setup autoloader.
 			require_once( dirname( __FILE__ ) . '/classes/class-premium-autoloader.php' );
 			$autoloader = new WPSEO_Premium_Autoloader( 'WPSEO_', '' );
+		}
+	}
+
+	/**
+	 * Initializes beacon
+	 */
+	public function init_beacon() {
+		$query_var = ( $page = filter_input( INPUT_GET, 'page' ) ) ? $page : '';
+
+		// Only add the helpscout beacon on Yoast SEO pages.
+		if ( substr( $query_var, 0, 5 ) === 'wpseo' ) {
+			$beacon = yoast_get_helpscout_beacon( $query_var );
+			$beacon->add_setting( new WPSEO_Premium_Beacon_Setting() );
 		}
 	}
 }
