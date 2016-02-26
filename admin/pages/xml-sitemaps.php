@@ -75,11 +75,13 @@ $yform->light_switch( 'enablexmlsitemap', __( 'XML sitemap functionality', 'word
 				__( 'Author / user sitemap', 'wordpress-seo' )
 			);
 			?>
-			<p class="expl"><?php _e( 'The user sitemap contains the author archive URLs for every user on your site. You can choose to not include users without posts.', 'wordpress-seo' ); ?></p>
+			<p class="expl"><?php _e( 'The user sitemap contains the author archive URLs for every user on your site.', 'wordpress-seo' ); ?></p>
 			<div id="xml_user_block">
 					<?php
 					$switch_values = array( 'off' => __( 'In sitemap', 'wordpress-seo' ), 'on' => __( 'Not in sitemap', 'wordpress-seo' ) );
-					$yform->toggle_switch( 'disable_author_noposts', $switch_values, __( 'Users with zero posts', 'wordpress-seo' ) );
+					$yform->toggle_switch( 'disable_author_noposts', $switch_values, __( 'Users without posts', 'wordpress-seo' ) );
+
+					echo '<p class="expl">' . __( 'You can choose to not include users without posts.', 'wordpress-seo' ) . '</p>';
 
 					$roles = WPSEO_Utils::get_roles();
 					if ( is_array( $roles ) && $roles !== array() ) {
