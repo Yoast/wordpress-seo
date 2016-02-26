@@ -452,7 +452,7 @@ var Analyzer = function( args ) {
  */
 Analyzer.prototype.init = function( args ) {
 	if ( isUndefined( args.paper ) ) {
-		args.paper = new Paper( args.text, { keyword:  args.keyword, description: args.meta } );
+		args.paper = new Paper( args.text, { keyword:  args.keyword, description: args.meta, url: args.url, title: args.pageTitle } );
 	}
 
 	this.paper = args.paper;
@@ -716,8 +716,8 @@ Analyzer.prototype.imageCount = function() {
  */
 Analyzer.prototype.pageTitleLength = function() {
 	var result =  [ { test: "pageTitleLength", result:  0 } ];
-	if ( typeof this.config.pageTitle !== "undefined" ) {
-		result[ 0 ].result = this.config.pageTitle.length;
+	if ( this.paper.hasTitle() ) {
+		result[ 0 ].result = this.paper.getTitle().length;
 	}
 	return result;
 };
@@ -730,8 +730,8 @@ Analyzer.prototype.pageTitleLength = function() {
  */
 Analyzer.prototype.pageTitleKeyword = function() {
 	var result = [ { test: "pageTitleKeyword", result: { position: -1, matches: 0 } } ];
-	if ( typeof this.config.pageTitle !== "undefined" && this.paper.hasKeyword() ) {
-		result[0].result = findKeywordInPageTitle( this.config.pageTitle, this.paper.getKeyword() );
+	if ( typeof this.paper.hasTitle() && this.paper.hasKeyword() ) {
+		result[0].result = findKeywordInPageTitle( this.paper.getTitle(), this.paper.getKeyword() );
 	}
 	return result;
 };
@@ -775,8 +775,8 @@ Analyzer.prototype.metaDescriptionLength = function() {
 Analyzer.prototype.urlKeyword = function() {
 	var score = 0;
 
-	if ( this.paper.hasKeyword() && typeof this.config.url !== "undefined" ) {
-		score = checkForKeywordInUrl( this.config.url, this.paper.getKeyword() );
+	if ( this.paper.hasKeyword() && this.paper.hasUrl() ) {
+		score = checkForKeywordInUrl( this.paper.getUrl(), this.paper.getKeyword() );
 	}
 
 	var result = [ { test: "urlKeyword", result: score } ];
@@ -789,7 +789,7 @@ Analyzer.prototype.urlKeyword = function() {
  */
 Analyzer.prototype.urlLength = function() {
 	var result = [ { test: "urlLength", result: { urlTooLong: isUrlTooLong(
-		this.config.url,
+		this.paper.getUrl(),
 		this.paper.getKeyword(),
 		this.config.maxSlugLength,
 		this.config.maxUrlLength
@@ -802,7 +802,7 @@ Analyzer.prototype.urlLength = function() {
  * @returns {{test: string, result: number}[]}
  */
 Analyzer.prototype.urlStopwords = function() {
-	return [ { test: "urlStopwords", result: checkUrlForStopwords( this.config.url ) } ];
+	return [ { test: "urlStopwords", result: checkUrlForStopwords( this.paper.getUrl() ) } ];
 };
 
 /**
@@ -4965,7 +4965,9 @@ var defaults = require( "lodash/object/defaults" );
 
 var defaultAttributes = {
 	keyword: "",
-	description: ""
+	description: "",
+	title: "",
+	url: ""
 };
 
 /**
@@ -4984,14 +4986,14 @@ var Paper = function( text, attributes ) {
 
 /**
  * Check whether a keyword is available.
- * @returns {boolean} Returns true if keyword isn't empty
+ * @returns {boolean} Returns true if the Paper has a keyword.
  */
 Paper.prototype.hasKeyword = function() {
 	return this._attributes.keyword !== "";
 };
 
 /**
- * Return the associated keyword or an empty string if no keyword is available
+ * Return the associated keyword or an empty string if no keyword is available.
  * @returns {string} Returns Keyword
  */
 Paper.prototype.getKeyword = function() {
@@ -5000,7 +5002,7 @@ Paper.prototype.getKeyword = function() {
 
 /**
  * Check whether the text is available.
- * @returns {boolean} Returns true if text isn't empty
+ * @returns {boolean} Returns true if the paper has a text.
  */
 Paper.prototype.hasText = function() {
 	return this._text !== "";
@@ -5015,19 +5017,51 @@ Paper.prototype.getText = function() {
 };
 
 /**
- * Check whether a metaDescription is available
- * @returns {boolean} Returns true if metaDescription isn't empty
+ * Check whether a description is available.
+ * @returns {boolean} Returns true if the paper has a description.
  */
 Paper.prototype.hasDescription = function() {
 	return this._attributes.description !== "";
 };
 
 /**
- * Return the metaDescription or an empty string if no metaDescription is available
- * @returns {string} Returns the metaDescription
+ * Return the description or an empty string if no description is available.
+ * @returns {string} Returns the description.
  */
 Paper.prototype.getDescription = function() {
 	return this._attributes.description;
+};
+
+/**
+ * Check whether an title is available
+ * @returns {boolean} Returns true if the Paper has a title.
+ */
+Paper.prototype.hasTitle = function() {
+	return this._attributes.title !== "";
+};
+
+/**
+ * Return the title, or an empty string of no title is available.
+ * @returns {string} Returns the title
+ */
+Paper.prototype.getTitle = function() {
+	return this._attributes.title;
+};
+
+/**
+ * Check whether an url is available
+ * @returns {boolean} Returns true if the Paper has an Url.
+ */
+Paper.prototype.hasUrl = function() {
+	return this._attributes.url !== "";
+};
+
+/**
+ * Return the url, or an empty string of no url is available.
+ * @returns {string} Returns the url
+ */
+Paper.prototype.getUrl = function() {
+	return this._attributes.url;
 };
 
 module.exports = Paper;

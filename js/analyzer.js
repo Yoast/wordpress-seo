@@ -336,7 +336,7 @@ Analyzer.prototype.pageTitleLength = function() {
  */
 Analyzer.prototype.pageTitleKeyword = function() {
 	var result = [ { test: "pageTitleKeyword", result: { position: -1, matches: 0 } } ];
-	if ( typeof this.paper.hasTitle && this.paper.hasKeyword() ) {
+	if ( typeof this.paper.hasTitle() && this.paper.hasKeyword() ) {
 		result[0].result = findKeywordInPageTitle( this.paper.getTitle(), this.paper.getKeyword() );
 	}
 	return result;
@@ -381,7 +381,7 @@ Analyzer.prototype.metaDescriptionLength = function() {
 Analyzer.prototype.urlKeyword = function() {
 	var score = 0;
 
-	if ( this.paper.hasKeyword() && this.paper.hasUrl ) {
+	if ( this.paper.hasKeyword() && this.paper.hasUrl() ) {
 		score = checkForKeywordInUrl( this.paper.getUrl(), this.paper.getKeyword() );
 	}
 
