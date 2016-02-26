@@ -2,7 +2,9 @@ var defaults = require( "lodash/object/defaults" );
 
 var defaultAttributes = {
 	keyword: "",
-	description: ""
+	description: "",
+	title: "",
+	url: ""
 };
 
 /**
