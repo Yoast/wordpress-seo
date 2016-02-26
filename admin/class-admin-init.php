@@ -122,7 +122,7 @@ class WPSEO_Admin_Init {
 		 * If we are recalculating, dismiss the notice.
 		 * This should be in the recalculation module.
 		 *
-		 * todo: move this to the recalculation module.
+		 * Todo: move this to the recalculation module.
 		 */
 		if ( filter_input( INPUT_GET, 'recalculate' ) === '1' ) {
 			update_option( 'wpseo_dismiss_recalculate', '1' );
@@ -286,7 +286,7 @@ class WPSEO_Admin_Init {
 
 		foreach ( $deprecated_notices as $deprecated_filter ) {
 			_deprecated_function(
-			/* %s expands to the actual filter/action that has been used. */
+				/* %s expands to the actual filter/action that has been used. */
 				sprintf( __( '%s filter/action', 'wordpress-seo' ), $deprecated_filter ),
 				'WPSEO 3.0',
 				'javascript'
@@ -305,7 +305,7 @@ class WPSEO_Admin_Init {
 	 */
 	private function dismiss_notice( $notice_name ) {
 		return filter_input( INPUT_GET, $notice_name ) === '1' && wp_verify_nonce( filter_input( INPUT_GET, 'nonce' ),
-			$notice_name );
+		$notice_name );
 	}
 
 	/**

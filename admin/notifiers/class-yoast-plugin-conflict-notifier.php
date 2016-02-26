@@ -56,7 +56,7 @@ class Yoast_Plugin_Conflict_Notifier implements Yoast_Notifier_Interface {
 
 		$error_message .= '<p>';
 		$error_message .= sprintf(
-		/* translators: %1$s: 'Facebook & Open Graph' plugin name(s) of possibly conflicting plugin(s), %2$s to Yoast SEO */
+			/* translators: %1$s: 'Facebook & Open Graph' plugin name(s) of possibly conflicting plugin(s), %2$s to Yoast SEO */
 			__( 'The %1$s plugin(s) might cause issues when used in conjunction with %2$s.', 'wordpress-seo' ),
 			$plugins_as_string,
 			'Yoast SEO'
@@ -67,9 +67,9 @@ class Yoast_Plugin_Conflict_Notifier implements Yoast_Notifier_Interface {
 
 		$error_message .= '<p><strong>' . __( 'Recommended solution', 'wordpress-seo' ) . '</strong><br/>';
 		$error_message .= sprintf(
-		/* Translators: %1$s: 'Facebook & Open Graph' plugin name(s) of possibly conflicting plugin(s). %2$s to Yoast SEO */
+			/* Translators: %1$s: 'Facebook & Open Graph' plugin name(s) of possibly conflicting plugin(s). %2$s to Yoast SEO */
 			__( 'We recommend you deactivate %1$s and have another look at your %2$s configuration using the button above.',
-				'wordpress-seo' ),
+			'wordpress-seo' ),
 			$plugins_as_string,
 			'Yoast SEO'
 		);
@@ -85,7 +85,7 @@ class Yoast_Plugin_Conflict_Notifier implements Yoast_Notifier_Interface {
 			$error_message .= '<a target="_blank" class="button-primary" href="' . $href . '">';
 			/* translators: %s: 'Facebook' plugin name of possibly conflicting plugin */
 			$error_message .= sprintf( __( 'Deactivate %s', 'wordpress-seo' ),
-				WPSEO_Utils::get_plugin_name( $plugin_file ) );
+			WPSEO_Utils::get_plugin_name( $plugin_file ) );
 			$error_message .= '</a> ';
 		}
 

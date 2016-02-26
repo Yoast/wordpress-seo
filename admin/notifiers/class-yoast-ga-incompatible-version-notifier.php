@@ -1,5 +1,11 @@
 <?php
+/**
+ * @package WPSEO\Admin
+ */
 
+/**
+ * Class Yoast_GA_Incompatible_Version_Notifier
+ */
 class Yoast_GA_Incompatible_Version_Notifier implements Yoast_Notifier_Interface {
 
 	/**

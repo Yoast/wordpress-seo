@@ -24,7 +24,7 @@ class Yoast_Google_Search_Console_Configuration_Notifier implements Yoast_Notifi
 	 */
 	public function get_notification() {
 		$message = sprintf(
-		/* translators: 1: is a link to 'admin_url / admin.php?page=wpseo_search_console&tab=settings' 2: closing link tag */
+			/* translators: 1: is a link to 'admin_url / admin.php?page=wpseo_search_console&tab=settings' 2: closing link tag */
 			__(
 				'Don\'t miss your crawl errors: %1$sconnect with Google Search Console here%2$s.',
 				'wordpress-seo'
