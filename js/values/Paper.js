@@ -69,4 +69,36 @@ Paper.prototype.getDescription = function() {
 	return this._attributes.description;
 };
 
+/**
+ * Check whether an title is available
+ * @returns {boolean} Returns true if the Paper has a title.
+ */
+Paper.prototype.hasTitle = function() {
+	return this._attributes.title !== "";
+};
+
+/**
+ * Return the title, or an empty string of no title is available.
+ * @returns {string}
+ */
+Paper.prototype.getTitle = function() {
+	return this._attributes.title;
+};
+
+/**
+ * Check whether an url is available
+ * @returns {boolean} Returns true if the Paper has an Url.
+ */
+Paper.prototype.hasUrl = function() {
+	return this._attributes.url !== "";
+};
+
+/**
+ * Return the url, or an empty string of no url is available.
+ * @returns {string}
+ */
+Paper.prototype.getUrl = function() {
+	return this._attributes.url;
+};
+
 module.exports = Paper;
