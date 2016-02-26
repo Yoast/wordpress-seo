@@ -427,6 +427,7 @@ class WPSEO_Premium {
 		if ( substr( $query_var, 0, 5 ) === 'wpseo' ) {
 			$beacon = yoast_get_helpscout_beacon( $query_var );
 			$beacon->add_setting( new WPSEO_Premium_Beacon_Setting() );
+			$beacon->register_hooks();
 		}
 	}
 }
