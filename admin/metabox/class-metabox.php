@@ -204,8 +204,12 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 */
 	public function localize_post_scraper_script() {
 		$post      = $this->get_metabox_post();
-		$permalink = get_sample_permalink( null );
-		$permalink = $permalink[0];
+		$permalink = '';
+
+		if ( is_object( $post ) ) {
+			$permalink = get_sample_permalink( $post->ID );
+			$permalink = $permalink[0];
+		}
 
 		$post_formatter = new WPSEO_Metabox_Formatter(
 			new WPSEO_Post_Metabox_Formatter( $post, WPSEO_Options::get_option( 'wpseo_titles' ), $permalink )
