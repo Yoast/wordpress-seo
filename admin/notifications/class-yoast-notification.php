@@ -132,7 +132,8 @@ class Yoast_Notification {
 	 * @return bool True if persistent, False if fire and forget.
 	 */
 	public function is_persistent() {
-		return ! empty( $this->get_id() );
+		$id = $this->get_id();
+		return ! empty( $id );
 	}
 
 	/**
