@@ -89,8 +89,9 @@ class WPSEO_Rewrite_Test extends WPSEO_UnitTestCase {
 		$c = self::$class_instance;
 
 		$categories = get_categories( array( 'hide_empty' => false ) );
+		$permalink_structure = get_option( 'permalink_structure' );
 
-		if ( false == is_multisite() ) {
+		if ( ! (is_multisite() && 0 === strpos( $permalink_structure, '/blog/' ) ) ) {
 			$expected = array(
 				'(uncategorized)/(?:feed/)?(feed|rdf|rss|rss2|atom)/?$' => 'index.php?category_name=$matches[1]&feed=$matches[2]',
 				'(uncategorized)/page/?([0-9]{1,})/?$' => 'index.php?category_name=$matches[1]&paged=$matches[2]',

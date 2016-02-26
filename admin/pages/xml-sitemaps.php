@@ -46,7 +46,7 @@ $yform->light_switch( 'enablexmlsitemap', __( 'XML sitemap functionality', 'word
 
 			if ( $options['enablexmlsitemap'] === true ) {
 				echo '<p>';
-				printf( esc_html__( 'You can find your XML Sitemap here: %sXML Sitemap%s', 'wordpress-seo' ), '<a target="_blank" class="button-secondary" href="' . esc_url( wpseo_xml_sitemaps_base_url( 'sitemap_index.xml' ) ) . '">', '</a>' );
+				printf( esc_html__( 'You can find your XML Sitemap here: %sXML Sitemap%s', 'wordpress-seo' ), '<a target="_blank" class="button-secondary" href="' . esc_url( WPSEO_Sitemaps_Router::get_base_url( 'sitemap_index.xml' ) ) . '">', '</a>' );
 				echo '<br/>';
 				echo '<br/>';
 				_e( 'You do <strong>not</strong> need to generate the XML sitemap, nor will it take up time to generate after publishing a post.', 'wordpress-seo' );
@@ -75,11 +75,13 @@ $yform->light_switch( 'enablexmlsitemap', __( 'XML sitemap functionality', 'word
 				__( 'Author / user sitemap', 'wordpress-seo' )
 			);
 			?>
-			<p class="expl"><?php _e( 'The user sitemap contains the author archive URLs for every user on your site. You can choose to not include users without posts.', 'wordpress-seo' ); ?></p>
+			<p class="expl"><?php _e( 'The user sitemap contains the author archive URLs for every user on your site.', 'wordpress-seo' ); ?></p>
 			<div id="xml_user_block">
 					<?php
 					$switch_values = array( 'off' => __( 'In sitemap', 'wordpress-seo' ), 'on' => __( 'Not in sitemap', 'wordpress-seo' ) );
-					$yform->toggle_switch( 'disable_author_noposts', $switch_values, __( 'Users with zero posts', 'wordpress-seo' ) );
+					$yform->toggle_switch( 'disable_author_noposts', $switch_values, __( 'Users without posts', 'wordpress-seo' ) );
+
+					echo '<p class="expl">' . __( 'You can choose to not include users without posts.', 'wordpress-seo' ) . '</p>';
 
 					$roles = WPSEO_Utils::get_roles();
 					if ( is_array( $roles ) && $roles !== array() ) {
@@ -94,6 +96,11 @@ $yform->light_switch( 'enablexmlsitemap', __( 'XML sitemap functionality', 'word
 		<div id="post-types" class="wpseotab">
 
 			<?php
+			/**
+			 * Filter the post types to present in interface for exclusion.
+			 *
+			 * @param array $post_types Array of post type objects.
+			 */
 			$post_types = apply_filters( 'wpseo_sitemaps_supported_post_types', get_post_types( array( 'public' => true ), 'objects' ) );
 			if ( is_array( $post_types ) && $post_types !== array() ) {
 				foreach ( $post_types as $pt ) {
@@ -120,6 +127,11 @@ $yform->light_switch( 'enablexmlsitemap', __( 'XML sitemap functionality', 'word
 		<div id="taxonomies" class="wpseotab">
 
 			<?php
+			/**
+			 * Filter the taxonomies to present in interface for exclusion.
+			 *
+			 * @param array $taxonomies Array of taxonomy objects.
+			 */
 			$taxonomies = apply_filters( 'wpseo_sitemaps_supported_taxonomies', get_taxonomies( array( 'public' => true ), 'objects' ) );
 			if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
 				foreach ( $taxonomies as $tax ) {
@@ -138,6 +150,9 @@ $yform->light_switch( 'enablexmlsitemap', __( 'XML sitemap functionality', 'word
 	</div>
 <?php
 
+/**
+ * Fires at the end of XML Sitemaps configuration form.
+ */
 do_action( 'wpseo_xmlsitemaps_config' );
 
 $yform->admin_footer();

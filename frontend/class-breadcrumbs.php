@@ -757,6 +757,7 @@ class WPSEO_Breadcrumbs {
 	 * @param  array $link Link info array containing the keys:
 	 *                     'text'    => (string) link text
 	 *                     'url'    => (string) link url
+	 *                     (optional) 'title'         => (string) link title attribute text
 	 *                     (optional) 'allow_html'    => (bool) whether to (not) escape html in the link text
 	 *                     This prevents html stripping from the text strings set in the
 	 *                     WPSEO -> Internal Links options page.
@@ -788,7 +789,8 @@ class WPSEO_Breadcrumbs {
 				else {
 					$link_output .= '<' . $this->element . ' rel="v:child" typeof="v:Breadcrumb">';
 				}
-				$link_output .= '<a href="' . esc_url( $link['url'] ) . '" rel="v:url" property="v:title">' . $link['text'] . '</a>';
+				$title_attr   = isset( $link['title'] ) ? ' title="' . esc_attr( $link['title'] ) . '"' : '';
+				$link_output .= '<a href="' . esc_url( $link['url'] ) . '" rel="v:url" property="v:title"' . $title_attr . '>' . $link['text'] . '</a>';
 			}
 			else {
 				$link_output .= '<' . $inner_elm . ' class="breadcrumb_last">' . $link['text'] . '</' . $inner_elm . '>';
