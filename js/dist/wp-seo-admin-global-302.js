@@ -83,14 +83,19 @@ jQuery( document ).ready( function() {
 
 	jQuery( '.yoast-dismissible > .notice-dismiss').click( function() {
 		var parent_div = jQuery( this ).parent('.yoast-dismissible');
+		var notification = parent_div.attr( 'id' );
+		var options = {
+			action: 'yoast_dismiss_notification',
+			notification: notification,
+			nonce: parent_div.data( 'nonce' ),
+			data: parent_div.data( 'json' )
+		};
+
+		options[notification] = '1';
 
 		jQuery.post(
 			ajaxurl,
-			{
-				action: parent_div.attr( 'id').replace( /-/g, '_' ),
-				_wpnonce: parent_div.data( 'nonce' ),
-				data: parent_div.data( 'json' )
-			}
+			options
 		);
 	});
 });

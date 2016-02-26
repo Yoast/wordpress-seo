@@ -93,28 +93,16 @@ class WPSEO_OnPage {
 	 * Show a notice when the website is not indexable
 	 */
 	public function show_notice() {
-		// Just a return, because we want to temporary disable this notice (#3998).
-		return;
+		Yoast_Notification_Center::get()->register_notifier( new Yoast_Not_Indexable_Homepage_Notifier( $this ) );
+	}
 
-		if ( $this->should_show_notice() ) {
-			$notice = sprintf(
-				/* translators: 1: opens a link to a related knowledge base article. 2: closes the link */
-				__( '%1$sYour homepage cannot be indexed by search engines%2$s. This is very bad for SEO and should be fixed.', 'wordpress-seo' ),
-				'<a href="http://yoa.st/onpageindexerror" target="_blank">',
-				'</a>'
-			);
-
-			Yoast_Notification_Center::get()->add_notification(
-				new Yoast_Notification(
-					$notice,
-					array(
-						'type'  => 'error yoast-dismissible',
-						'id'    => 'wpseo-dismiss-onpageorg',
-						'nonce' => wp_create_nonce( 'wpseo-dismiss-onpageorg' ),
-					)
-				)
-			);
-		}
+	/**
+	 * Get the onpage option
+	 *
+	 * @return WPSEO_OnPage_Option
+	 */
+	public function get_onpage_option() {
+		return $this->onpage_option;
 	}
 
 	/**
@@ -169,7 +157,7 @@ class WPSEO_OnPage {
 		add_filter( 'cron_schedules', array( $this, 'add_weekly_schedule' ) );
 
 		// Adding admin notice if necessary.
-		add_filter( 'admin_init', array( $this, 'show_notice' ) );
+		add_filter( 'init', array( $this, 'show_notice' ) );
 
 		// Setting the action for the OnPage fetch.
 		add_action( 'wpseo_onpage_fetch', array( $this, 'fetch_from_onpage' ) );

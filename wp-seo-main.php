@@ -331,6 +331,9 @@ if ( ! wp_installing() && ( $spl_autoload_exists && $filter_exists ) ) {
 	add_action( 'plugins_loaded', 'wpseo_init', 14 );
 
 	if ( is_admin() ) {
+
+		Yoast_Notification_Center::initialise_notifiers();
+
 		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
 			require_once( WPSEO_PATH . 'admin/ajax.php' );
 
@@ -393,7 +396,8 @@ function yoast_wpseo_missing_spl() {
  * Returns the notice in case of missing spl extension
  */
 function yoast_wpseo_missing_spl_notice() {
-	$message = esc_html__( 'The Standard PHP Library (SPL) extension seem to be unavailable. Please ask your web host to enable it.', 'wordpress-seo' );
+	$message = esc_html__( 'The Standard PHP Library (SPL) extension seem to be unavailable. Please ask your web host to enable it.',
+		'wordpress-seo' );
 	yoast_wpseo_activation_failed_notice( $message );
 }
 
@@ -415,8 +419,10 @@ function yoast_wpseo_missing_autoload() {
  */
 function yoast_wpseo_missing_autoload_notice() {
 	/* translators: %1$s expands to Yoast SEO, %2$s / %3$s: links to the installation manual in the Readme for the Yoast SEO code repository on GitHub */
-	$message = esc_html__( 'The %1$s plugin installation is incomplete. Please refer to %2$sinstallation instructions%3$s.', 'wordpress-seo' );
-	$message = sprintf( $message, 'Yoast SEO', '<a href="https://github.com/Yoast/wordpress-seo#installation">', '</a>' );
+	$message = esc_html__( 'The %1$s plugin installation is incomplete. Please refer to %2$sinstallation instructions%3$s.',
+		'wordpress-seo' );
+	$message = sprintf( $message, 'Yoast SEO', '<a href="https://github.com/Yoast/wordpress-seo#installation">',
+		'</a>' );
 	yoast_wpseo_activation_failed_notice( $message );
 }
 
@@ -439,7 +445,8 @@ function yoast_wpseo_missing_filter() {
  * Returns the notice in case of missing filter extension
  */
 function yoast_wpseo_missing_filter_notice() {
-	$message = esc_html__( 'The filter extension seem to be unavailable. Please ask your web host to enable it.', 'wordpress-seo' );
+	$message = esc_html__( 'The filter extension seem to be unavailable. Please ask your web host to enable it.',
+		'wordpress-seo' );
 	yoast_wpseo_activation_failed_notice( $message );
 }
 
