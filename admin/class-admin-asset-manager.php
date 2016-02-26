@@ -107,6 +107,8 @@ class WPSEO_Admin_Asset_Manager {
 					'jquery',
 					'jquery-ui-core',
 					'jquery-ui-progressbar',
+					self::PREFIX . 'select2',
+					self::PREFIX . 'select2-translations',
 				),
 			),
 			array(

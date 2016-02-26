@@ -100,16 +100,28 @@
 		var select2Width = '400px';
 
 		// Select2 for General settings: your info: company or person. Width is the same as the width for the other fields on this page.
-		jQuery('#company_or_person').select2({width: select2Width});
+		jQuery('#company_or_person').select2({
+			width: select2Width,
+			language: wpseoSelect2Locale
+		});
 
 		// Select2 for Twitter card meta data in Settings
-		jQuery('#twitter_card_type').select2({width: select2Width});
+		jQuery('#twitter_card_type').select2({
+			width: select2Width,
+			language: wpseoSelect2Locale
+		});
 
 		// Select2 for taxonomy breadcrumbs in Advanced
-		jQuery('#post_types-post-maintax').select2({width: select2Width});
+		jQuery('#post_types-post-maintax').select2({
+			width: select2Width,
+			language: wpseoSelect2Locale
+		});
 
 		// Select2 for profile in Search Console
-		jQuery('#profile').select2({width: select2Width});
+		jQuery('#profile').select2({
+			width: select2Width,
+			language: wpseoSelect2Locale
+		});
 	}
 }(jQuery));
 
@@ -183,7 +195,7 @@ function wpseoDetectWrongVariables( e ) {
  * @param {string} hide The ID of the element to hide on success
  * @param {string} nonce The nonce for the action
  */
-function setWPOption(option, newval, hide, nonce) {
+function setWPOption( option, newval, hide, nonce ) {
 	jQuery.post(ajaxurl, {
 			action  : 'wpseo_set_option',
 			option  : option,
