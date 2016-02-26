@@ -186,7 +186,7 @@ function wpseoKillBlockingFiles( nonce ) {
 				jQuery( '#blocking_files' ).hide();
 			}
 			else {
-				jQuery( '#block_files' ).html( data );
+				jQuery( '#blocking_files' ).html( data );
 			}
 		}
 	);

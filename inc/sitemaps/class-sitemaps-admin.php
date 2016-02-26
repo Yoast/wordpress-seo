@@ -1,6 +1,6 @@
 <?php
 /**
- * @package WPSEO\XML_Sitemaps
+ * @package WPSEO\Admin\XML Sitemaps
  */
 
 /**
@@ -27,33 +27,38 @@ class WPSEO_Sitemaps_Admin {
 	 * Find sitemaps residing on disk as they will block our rewrite.
 	 *
 	 * @todo issue #561 https://github.com/Yoast/wordpress-seo/issues/561
+
+	 * @deprecated since 3.1 in favor of 'detect_blocking_filesystem_sitemaps'
 	 */
 	public function delete_sitemaps() {
-		$options = WPSEO_Options::get_options( array( 'wpseo', 'wpseo_xml' ) );
-		if ( $options['enablexmlsitemap'] === true ) {
+		/**
+		 * When removing this, make sure the 'admin_init' action is replaced with the following function:
+		 */
+		$this->detect_blocking_filesystem_sitemaps();
+	}
 
-			$file_to_check_for = array(
-				/**
-				 * ABSPATH . 'sitemap.xml',
-				 * ABSPATH . 'sitemap.xslt',
-				 * ABSPATH . 'sitemap.xsl',
-				 */
-				ABSPATH . 'sitemap_index.xml',
-			);
+	/**
+	 * Find sitemaps residing on disk as they will block our rewrite.
+	 *
+	 * @since 3.1
+	 */
+	public function detect_blocking_filesystem_sitemaps() {
+		$wpseo_xml_options = WPSEO_Options::get_option( 'wpseo_xml' );
+		if ( $wpseo_xml_options['enablexmlsitemap'] !== true ) {
+			return;
+		}
+		unset( $wpseo_xml_options );
 
-			$new_files_found = false;
+		// Find all files and directories containing 'sitemap' and are post-fixed .xml.
+		$blocking_files = glob( ABSPATH . '*sitemap*.xml', ( GLOB_NOSORT | GLOB_MARK ) );
 
-			foreach ( $file_to_check_for as $file ) {
-				if ( ( $options['blocking_files'] === array() || ( $options['blocking_files'] !== array() && in_array( $file, $options['blocking_files'] ) === false ) ) && file_exists( $file ) ) {
-					$options['blocking_files'][] = $file;
-					$new_files_found             = true;
-				}
-			}
-			unset( $file );
+		// Save if we have changes.
+		$wpseo_options = WPSEO_Options::get_option( 'wpseo' );
 
-			if ( $new_files_found === true ) {
-				update_option( 'wpseo', $options );
-			}
+		if ( $wpseo_options['blocking_files'] !== $blocking_files ) {
+			$wpseo_options['blocking_files'] = $blocking_files;
+
+			update_option( 'wpseo', $wpseo_options );
 		}
 	}
 
