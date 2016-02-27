@@ -29,7 +29,7 @@ class Yoast_Notification_Center implements Yoast_Notification_Center_Interface {
 	private function __construct() {
 
 		// Load the notifications from transient.
-		$this->notifications = $this->get_notifications_from_transient();
+		$this->notifications = $this->get_notifications_from_storage();
 
 		if ( ! defined( 'DOING_AJAX' ) ) {
 			$this->clear_notifications();
@@ -102,6 +102,35 @@ class Yoast_Notification_Center implements Yoast_Notification_Center_Interface {
 		update_user_meta( get_current_user_id(), $dismissal_key, $meta_value );
 
 		return true;
+	}
+
+	/**
+	 * Clear dismissal information for the specified Notification
+	 *
+	 * When a cause is resolved, the next time it is present we want to show
+	 * the message again.
+	 *
+	 * @param string|Yoast_Notification $notification Notification to clear the dismissal of.
+	 *
+	 * @return bool
+	 */
+	public function clear_dismissal( $notification ) {
+		if ( $notification instanceof Yoast_Notification ) {
+			$dismissal_key = $notification->get_dismissal_key();
+		}
+
+		if ( is_string( $notification ) ) {
+			$dismissal_key = $notification;
+		}
+
+		if ( ! isset( $dismissal_key ) ) {
+			return false;
+		}
+
+		// Remove notification dismissal for all users.
+		$deleted = delete_metadata( 'user', $user_id = 0, $dismissal_key, $meta_value = '', $delete_all = true );
+
+		return $deleted;
 	}
 
 	/**
@@ -246,6 +275,9 @@ class Yoast_Notification_Center implements Yoast_Notification_Center_Interface {
 
 			return;
 		}
+
+		// Remove dismissal so it will be shown next time.
+		$this->clear_dismissal( $notification );
 	}
 
 	/**
@@ -261,7 +293,7 @@ class Yoast_Notification_Center implements Yoast_Notification_Center_Interface {
 	public function set_transient() {
 
 		if ( count( $this->notifications ) === 0 ) {
-			$this->remove_transient();
+			$this->clear_storage();
 
 			return;
 		}
@@ -328,7 +360,7 @@ class Yoast_Notification_Center implements Yoast_Notification_Center_Interface {
 	 *
 	 * @return array Yoast_Notification[] Notifcations
 	 */
-	private function get_notifications_from_transient() {
+	private function get_notifications_from_storage() {
 
 		// The notifications array.
 		$notifications = array();
@@ -358,7 +390,7 @@ class Yoast_Notification_Center implements Yoast_Notification_Center_Interface {
 	/**
 	 * Clear the notifications in storage
 	 */
-	private function remove_transient() {
+	private function clear_storage() {
 		delete_option( self::STORAGE_KEY );
 	}
 
