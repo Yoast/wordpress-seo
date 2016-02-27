@@ -82,13 +82,13 @@ jQuery( document ).ready( function() {
 	jQuery( '#wpseo-dismiss-tagline-notice > .notice-dismiss').replaceWith( wpseoDismissLink( wpseoAdminGlobalL10n.dismiss_tagline_url ) );
 
 	jQuery( '.yoast-dismissible > .notice-dismiss').click( function() {
-		var parent_div = jQuery( this ).parent('.yoast-dismissible');
-		var notification = parent_div.attr( 'id' );
+		var $parent_div = jQuery( this ).parent('.yoast-dismissible');
+		var notification = $parent_div.attr( 'id' );
 		var options = {
 			action: 'yoast_dismiss_notification',
 			notification: notification,
-			nonce: parent_div.data( 'nonce' ),
-			data: parent_div.data( 'json' )
+			nonce: $parent_div.data( 'nonce' ),
+			data: $parent_div.data( 'json' )
 		};
 
 		options[notification] = '1';
@@ -97,6 +97,14 @@ jQuery( document ).ready( function() {
 			ajaxurl,
 			options
 		);
+
+		$parent_div.fadeTo( 100 , 0, function() {
+			jQuery(this).slideUp( 100, function() {
+				jQuery(this).remove();
+			});
+		});
+
+		return false;
 	});
 });
 
