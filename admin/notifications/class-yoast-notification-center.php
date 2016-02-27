@@ -75,6 +75,26 @@ class Yoast_Notification_Center implements Yoast_Notification_Center_Interface {
 	}
 
 	/**
+	 * Dismiss a notification
+	 */
+	public static function ajax_dismiss_notification() {
+		$notification_center = self::get();
+
+		$notification_id = filter_input( INPUT_POST, 'notification' );
+		$notification    = $notification_center->get_notification( $notification_id );
+
+		if ( false === ( $notification instanceof Yoast_Notification ) ) {
+			die( '-1' );
+		}
+
+		if ( $notification_center->maybe_dismiss_notification( $notification ) ) {
+			die( '1' );
+		}
+
+		die( '-1' );
+	}
+
+	/**
 	 * Check if the user has dismissed a notification
 	 *
 	 * @param string   $dismissal_key The dismissal key.
@@ -136,22 +156,6 @@ class Yoast_Notification_Center implements Yoast_Notification_Center_Interface {
 	}
 
 	/**
-	 * Get information from the User input
-	 *
-	 * @param string $key Key to retrieve.
-	 *
-	 * @return mixed value of key if set.
-	 */
-	private static function get_user_input( $key ) {
-		$filter_input_type = INPUT_GET;
-		if ( 'POST' === filter_input( INPUT_SERVER, 'REQUEST_METHOD' ) ) {
-			$filter_input_type = INPUT_POST;
-		}
-
-		return filter_input( $filter_input_type, $key );
-	}
-
-	/**
 	 * Clear dismissal information for the specified Notification
 	 *
 	 * When a cause is resolved, the next time it is present we want to show
@@ -204,26 +208,6 @@ class Yoast_Notification_Center implements Yoast_Notification_Center_Interface {
 		}
 
 		return null;
-	}
-
-	/**
-	 * Dismiss a notification
-	 */
-	public static function ajax_dismiss_notification() {
-		$notification_center = self::get();
-
-		$notification_id = filter_input( INPUT_POST, 'notification' );
-		$notification    = $notification_center->get_notification( $notification_id );
-
-		if ( false === ( $notification instanceof Yoast_Notification ) ) {
-			die( '-1' );
-		}
-
-		if ( $notification_center->maybe_dismiss_notification( $notification ) ) {
-			die( '1' );
-		}
-
-		die( '-1' );
 	}
 
 	/**
@@ -322,6 +306,22 @@ class Yoast_Notification_Center implements Yoast_Notification_Center_Interface {
 	}
 
 	/**
+	 * Get information from the User input
+	 *
+	 * @param string $key Key to retrieve.
+	 *
+	 * @return mixed value of key if set.
+	 */
+	private static function get_user_input( $key ) {
+		$filter_input_type = INPUT_GET;
+		if ( 'POST' === filter_input( INPUT_SERVER, 'REQUEST_METHOD' ) ) {
+			$filter_input_type = INPUT_POST;
+		}
+
+		return filter_input( $filter_input_type, $key );
+	}
+
+	/**
 	 * Get Notification Identifier
 	 *
 	 * @param string|Yoast_Notification $notification Notification to get the ID of.
@@ -410,20 +410,20 @@ class Yoast_Notification_Center implements Yoast_Notification_Center_Interface {
 		// The notifications array.
 		$notifications = array();
 
-		$transient_notifications = get_option( self::STORAGE_KEY );
+		$stored_notifications = get_option( self::STORAGE_KEY );
 
 		// Check if transient is set.
-		if ( false !== $transient_notifications ) {
+		if ( false !== $stored_notifications ) {
 
 			// Get json notifications from transient.
-			$json_notifications = json_decode( $transient_notifications, true );
+			$stored_notifications = json_decode( $stored_notifications, true );
 
 			// Create Yoast_Notification objects.
-			if ( count( $json_notifications ) > 0 ) {
-				foreach ( $json_notifications as $json_notification ) {
+			if ( count( $stored_notifications ) > 0 ) {
+				foreach ( $stored_notifications as $notification_data ) {
 					$notifications[] = new Yoast_Notification(
-						$json_notification['message'],
-						$json_notification['options']
+						$notification_data['message'],
+						$notification_data['options']
 					);
 				}
 			}
