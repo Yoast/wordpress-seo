@@ -56,6 +56,46 @@ class Yoast_Notification_Center implements Yoast_Notification_Center_Interface {
 	}
 
 	/**
+	 * Initialise global notifiers
+	 *
+	 * Notifiers that are not dependent of a class concretion should be registered here.
+	 */
+	public static function initialise_notifiers() {
+		$instance = self::get();
+
+		$instance->register_notifier( new Yoast_Search_Engine_Visibility_Notifier() );
+		$instance->register_notifier( new Yoast_Default_Tagline_Notifier() );
+		$instance->register_notifier( new Yoast_Algorithm_Update_Notifier() );
+
+		$instance->register_notifier( new Yoast_API_Libs_Required_Version_Notifier() );
+		$instance->register_notifier( new Yoast_GA_Incompatible_Version_Notifier() );
+		$instance->register_notifier( new Yoast_GA_Compatibility_Notifier() );
+
+		$instance->register_notifier( new Yoast_Google_Search_Console_Configuration_Notifier() );
+	}
+
+	/**
+	 * Check if the user has dismissed a notification
+	 *
+	 * @param string   $dismissal_key The dismissal key.
+	 * @param null|int $user_id       User ID to check on.
+	 *
+	 * @return bool
+	 */
+	public static function is_notification_dismissed( $dismissal_key, $user_id = null ) {
+		// Empty dismissal keys can never be set i.e. Non-persistent notifications are always active.
+		if ( empty( $dismissal_key ) ) {
+			return false;
+		}
+
+		$user_id = ( ! is_null( $user_id ) ? $user_id : get_current_user_id() );
+
+		$current_value = get_user_meta( $user_id, $dismissal_key, $single = true );
+
+		return ! empty( $current_value );
+	}
+
+	/**
 	 * Check if the nofitication is being dismissed
 	 *
 	 * @param string|Yoast_Notification $notification Notification to check dismissal of.
@@ -65,16 +105,10 @@ class Yoast_Notification_Center implements Yoast_Notification_Center_Interface {
 	 * @return bool
 	 */
 	public static function maybe_dismiss_notification( $notification, $meta_value = 'seen' ) {
-		if ( $notification instanceof Yoast_Notification ) {
-			$notification_id = $notification->get_id();
-			$dismissal_key   = $notification->get_dismissal_key();
-		}
+		$notification_id = self::get_notification_id( $notification );
+		$dismissal_key   = self::get_dismissal_key( $notification );
 
-		if ( is_string( $notification ) ) {
-			$notification_id = $dismissal_key = $notification;
-		}
-
-		if ( ! isset( $dismissal_key ) ) {
+		if ( false === $notification_id || false === $dismissal_key ) {
 			return false;
 		}
 
@@ -83,18 +117,15 @@ class Yoast_Notification_Center implements Yoast_Notification_Center_Interface {
 			return true;
 		}
 
-		$filter_input_type = INPUT_GET;
-		if ( 'POST' === filter_input( INPUT_SERVER, 'REQUEST_METHOD' ) ) {
-			$filter_input_type = INPUT_POST;
-		}
+		$is_dismissing = ( '1' === self::get_user_input( $notification_id ) || '1' === self::get_user_input( $dismissal_key ) );
+		$user_nonce    = self::get_user_input( 'nonce' );
 
 		// Can be dismissed by dismissal_key or notification_id.
-		if ( '1' !== filter_input( $filter_input_type, $notification_id ) && '1' !== filter_input( $filter_input_type, $dismissal_key )
-		) {
+		if ( ! $is_dismissing ) {
 			return false;
 		}
 
-		if ( false === wp_verify_nonce( filter_input( $filter_input_type, 'nonce' ), $notification_id ) ) {
+		if ( false === wp_verify_nonce( $user_nonce, $notification_id ) ) {
 			return false;
 		}
 
@@ -102,6 +133,22 @@ class Yoast_Notification_Center implements Yoast_Notification_Center_Interface {
 		update_user_meta( get_current_user_id(), $dismissal_key, $meta_value );
 
 		return true;
+	}
+
+	/**
+	 * Get information from the User input
+	 *
+	 * @param string $key Key to retrieve.
+	 *
+	 * @return mixed value of key if set.
+	 */
+	private static function get_user_input( $key ) {
+		$filter_input_type = INPUT_GET;
+		if ( 'POST' === filter_input( INPUT_SERVER, 'REQUEST_METHOD' ) ) {
+			$filter_input_type = INPUT_POST;
+		}
+
+		return filter_input( $filter_input_type, $key );
 	}
 
 	/**
@@ -131,27 +178,6 @@ class Yoast_Notification_Center implements Yoast_Notification_Center_Interface {
 		$deleted = delete_metadata( 'user', $user_id = 0, $dismissal_key, $meta_value = '', $delete_all = true );
 
 		return $deleted;
-	}
-
-	/**
-	 * Check if the user has dismissed a notification
-	 *
-	 * @param string   $dismissal_key The dismissal key.
-	 * @param null|int $user_id       User ID to check on.
-	 *
-	 * @return bool
-	 */
-	public static function is_notification_dismissed( $dismissal_key, $user_id = null ) {
-		// Empty dismissal keys can never be set i.e. Non-persistent notifications are always active.
-		if ( empty( $dismissal_key ) ) {
-			return false;
-		}
-
-		$user_id = ( ! is_null( $user_id ) ? $user_id : get_current_user_id() );
-
-		$current_value = get_user_meta( $user_id, $dismissal_key, $single = true );
-
-		return ! empty( $current_value );
 	}
 
 	/**
@@ -238,25 +264,6 @@ class Yoast_Notification_Center implements Yoast_Notification_Center_Interface {
 	}
 
 	/**
-	 * Initialise global notifiers
-	 *
-	 * Notifiers that are not dependent of a class concretion should be registered here.
-	 */
-	public static function initialise_notifiers() {
-		$instance = self::get();
-
-		$instance->register_notifier( new Yoast_Search_Engine_Visibility_Notifier() );
-		$instance->register_notifier( new Yoast_Default_Tagline_Notifier() );
-		$instance->register_notifier( new Yoast_Algorithm_Update_Notifier() );
-
-		$instance->register_notifier( new Yoast_API_Libs_Required_Version_Notifier() );
-		$instance->register_notifier( new Yoast_GA_Incompatible_Version_Notifier() );
-		$instance->register_notifier( new Yoast_GA_Compatibility_Notifier() );
-
-		$instance->register_notifier( new Yoast_Google_Search_Console_Configuration_Notifier() );
-	}
-
-	/**
 	 * Register a notifier and apply notification
 	 *
 	 * @param Yoast_Notifier_Interface $notifier Notifier to add to the stack.
@@ -312,6 +319,44 @@ class Yoast_Notification_Center implements Yoast_Notification_Center_Interface {
 			WPSEO_Utils::json_encode( $arr_notifications ),
 			false
 		);
+	}
+
+	/**
+	 * Get Notification Identifier
+	 *
+	 * @param string|Yoast_Notification $notification Notification to get the ID of.
+	 *
+	 * @return bool|string Identifier if found, False if not found.
+	 */
+	private static function get_notification_id( $notification ) {
+		if ( $notification instanceof Yoast_Notification ) {
+			return $notification->get_id();
+		}
+
+		if ( is_string( $notification ) ) {
+			return $notification;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Get the dismissal key for the notification
+	 *
+	 * @param string|Yoast_Notification $notification Notification to get the dismissal key of.
+	 *
+	 * @return bool|string Dismissal key if found, False if not found.
+	 */
+	private static function get_dismissal_key( $notification ) {
+		if ( $notification instanceof Yoast_Notification ) {
+			return $notification->get_dismissal_key();
+		}
+
+		if ( is_string( $notification ) ) {
+			return $notification;
+		}
+
+		return false;
 	}
 
 	/**
