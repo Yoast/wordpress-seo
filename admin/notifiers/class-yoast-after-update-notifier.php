@@ -50,10 +50,10 @@ class Yoast_After_Update_Notifier implements Yoast_Notifier_Interface {
 		);
 
 		$notification_options = array(
-			'type'                  => 'updated',
-			'id'                    => 'wpseo-dismiss-about',
-			'nonce'                 => wp_create_nonce( 'wpseo-dismiss-about' ),
-			'capabilities_required' => array( 'manage_options' ),
+			'type'         => 'updated',
+			'id'           => 'wpseo-dismiss-about',
+			'nonce'        => wp_create_nonce( 'wpseo-dismiss-about' ),
+			'capabilities' => array( 'manage_options' ),
 		);
 
 		return new Yoast_Notification( $info_message, $notification_options );

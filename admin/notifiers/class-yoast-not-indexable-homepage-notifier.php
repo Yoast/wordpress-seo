@@ -42,10 +42,7 @@ class Yoast_Not_Indexable_Homepage_Notifier implements Yoast_Notifier_Interface 
 	public function get_notification() {
 		$notice = sprintf(
 			/* translators: 1: opens a link to a related knowledge base article. 2: closes the link */
-			__(
-				'%1$sYour homepage cannot be indexed by search engines%2$s. This is very bad for SEO and should be fixed.',
-				'wordpress-seo'
-			),
+			__( '%1$sYour homepage cannot be indexed by search engines%2$s. This is very bad for SEO and should be fixed.', 'wordpress-seo' ),
 			'<a href="http://yoa.st/onpageindexerror" target="_blank">',
 			'</a>'
 		);
@@ -53,10 +50,10 @@ class Yoast_Not_Indexable_Homepage_Notifier implements Yoast_Notifier_Interface 
 		return new Yoast_Notification(
 			$notice,
 			array(
-				'type'                  => 'error yoast-dismissible',
-				'id'                    => 'wpseo-dismiss-onpageorg',
-				'nonce'                 => wp_create_nonce( 'wpseo-dismiss-onpageorg' ),
-				'capabilities_required' => array( 'manage_options' ),
+				'type'         => 'error yoast-dismissible',
+				'id'           => 'wpseo-dismiss-onpageorg',
+				'nonce'        => wp_create_nonce( 'wpseo-dismiss-onpageorg' ),
+				'capabilities' => array( 'manage_options' ),
 			)
 		);
 	}

@@ -40,9 +40,9 @@ class Yoast_Default_Tagline_Notifier implements Yoast_Notifier_Interface {
 		);
 
 		$notification_options = array(
-			'type'                  => 'error',
-			'id'                    => 'wpseo-dismiss-tagline-notice',
-			'capabilities_required' => array( 'manage_options' ),
+			'type'         => 'error',
+			'id'           => 'wpseo-dismiss-tagline-notice',
+			'capabilities' => array( 'manage_options' ),
 		);
 
 		return new Yoast_Notification( $info_message, $notification_options );

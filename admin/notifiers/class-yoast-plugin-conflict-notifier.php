@@ -24,11 +24,7 @@ class Yoast_Plugin_Conflict_Notifier implements Yoast_Notifier_Interface {
 	 * @param string                $plugin_section          Plugin section to display notification on.
 	 * @param string                $readable_plugin_section Textual representation.
 	 */
-	public function __construct(
-		Yoast_Plugin_Conflict $yoast_plugin_conflict,
-		$plugin_section,
-		$readable_plugin_section
-	) {
+	public function __construct( Yoast_Plugin_Conflict $yoast_plugin_conflict, $plugin_section, $readable_plugin_section ) {
 		$this->yoast_plugin_conflict   = $yoast_plugin_conflict;
 		$this->plugin_section          = $plugin_section;
 		$this->readable_plugin_section = $readable_plugin_section;
@@ -67,9 +63,8 @@ class Yoast_Plugin_Conflict_Notifier implements Yoast_Notifier_Interface {
 
 		$error_message .= '<p><strong>' . __( 'Recommended solution', 'wordpress-seo' ) . '</strong><br/>';
 		$error_message .= sprintf(
-			/* Translators: %1$s: 'Facebook & Open Graph' plugin name(s) of possibly conflicting plugin(s). %2$s to Yoast SEO */
-			__( 'We recommend you deactivate %1$s and have another look at your %2$s configuration using the button above.',
-			'wordpress-seo' ),
+			/* translators: %1$s: 'Facebook & Open Graph' plugin name(s) of possibly conflicting plugin(s). %2$s to Yoast SEO */
+			__( 'We recommend you deactivate %1$s and have another look at your %2$s configuration using the button above.', 'wordpress-seo' ),
 			$plugins_as_string,
 			'Yoast SEO'
 		);
@@ -84,8 +79,7 @@ class Yoast_Plugin_Conflict_Notifier implements Yoast_Notifier_Interface {
 
 			$error_message .= '<a target="_blank" class="button-primary" href="' . $href . '">';
 			/* translators: %s: 'Facebook' plugin name of possibly conflicting plugin */
-			$error_message .= sprintf( __( 'Deactivate %s', 'wordpress-seo' ),
-			WPSEO_Utils::get_plugin_name( $plugin_file ) );
+			$error_message .= sprintf( __( 'Deactivate %s', 'wordpress-seo' ), WPSEO_Utils::get_plugin_name( $plugin_file ) );
 			$error_message .= '</a> ';
 		}
 
@@ -95,10 +89,10 @@ class Yoast_Plugin_Conflict_Notifier implements Yoast_Notifier_Interface {
 		$error_message .= '</small></p><div class="clear"></div>';
 
 		$options = array(
-			'type'                  => 'error yoast-dismissible',
-			'id'                    => 'wpseo-plugin-conflict',
-			'capabilities_required' => array( 'update_plugins' ),
-			'data_json'             => array(
+			'type'         => 'error yoast-dismissible',
+			'id'           => 'wpseo-plugin-conflict',
+			'capabilities' => array( 'update_plugins' ),
+			'data_json'    => array(
 				'section' => $this->plugin_section,
 				'plugins' => $active_plugins[ $this->plugin_section ],
 			),

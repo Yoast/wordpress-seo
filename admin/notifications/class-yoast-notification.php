@@ -25,13 +25,13 @@ class Yoast_Notification {
 	 * @var array
 	 */
 	private $defaults = array(
-		'type'                  => 'updated',
-		'id'                    => '',
-		'nonce'                 => null,
-		'data_json'             => array(),
-		'dismissal_key'         => null,
-		'capabilities_required' => array(),
-		'wpseo_page_only'       => false,
+		'type'            => 'updated',
+		'id'              => '',
+		'nonce'           => null,
+		'data_json'       => array(),
+		'dismissal_key'   => null,
+		'capabilities'    => array(),
+		'wpseo_page_only' => false,
 	);
 
 	/**
@@ -114,8 +114,8 @@ class Yoast_Notification {
 			return WPSEO_Utils::grant_access();
 		}
 
-		if ( ! empty( $this->options['capabilities_required'] ) ) {
-			foreach ( $this->options['capabilities_required'] as $capability ) {
+		if ( ! empty( $this->options['capabilities'] ) ) {
+			foreach ( $this->options['capabilities'] as $capability ) {
 				$user_can = current_user_can( $capability );
 				if ( ! $user_can ) {
 					return false;
@@ -133,6 +133,7 @@ class Yoast_Notification {
 	 */
 	public function is_persistent() {
 		$id = $this->get_id();
+
 		return ! empty( $id );
 	}
 

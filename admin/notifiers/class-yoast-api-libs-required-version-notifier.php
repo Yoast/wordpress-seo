@@ -35,9 +35,9 @@ class Yoast_API_Libs_Required_Version_Notifier implements Yoast_Notifier_Interfa
 		);
 
 		$options = array(
-			'type'                  => 'error',
-			'id'                    => 'wpseo-api-libs-required-version',
-			'capabilities_required' => array( 'update_plugins' ),
+			'type'         => 'error',
+			'id'           => 'wpseo-api-libs-required-version',
+			'capabilities' => array( 'update_plugins' ),
 		);
 
 		return new Yoast_Notification( $notice, $options );

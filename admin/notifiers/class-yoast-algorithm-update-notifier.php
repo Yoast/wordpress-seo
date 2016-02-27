@@ -40,11 +40,11 @@ class Yoast_Algorithm_Update_Notifier implements Yoast_Notifier_Interface {
 		);
 
 		$options = array(
-			'type'                  => 'updated',
-			'id'                    => 'wpseo-dismiss-recalculate',
-			'dismissal_key'         => 'wpseo_dismiss_recalculate',
-			'dismissal_value'       => '1',
-			'capabilities_required' => array( 'manage_options' ),
+			'type'            => 'updated',
+			'id'              => 'wpseo-dismiss-recalculate',
+			'dismissal_key'   => 'wpseo_dismiss_recalculate',
+			'dismissal_value' => '1',
+			'capabilities'    => array( 'manage_options' ),
 		);
 
 		return new Yoast_Notification( $message, $options );

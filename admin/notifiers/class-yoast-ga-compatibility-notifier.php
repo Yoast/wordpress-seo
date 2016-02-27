@@ -16,19 +16,16 @@ class Yoast_GA_Compatibility_Notifier implements Yoast_Notifier_Interface {
 	public function get_notification() {
 		$info_message = sprintf(
 			/* Translators: %1$s expands to Yoast SEO, %2$s expands to 5.4.3, %3$s expands to Google Analytics by Yoast. */
-			__(
-				'%1$s detected you are using version %2$s of %3$s, please update to the latest version to prevent compatibility issues.',
-				'wordpress-seo'
-			),
+			__( '%1$s detected you are using version %2$s of %3$s, please update to the latest version to prevent compatibility issues.', 'wordpress-seo' ),
 			'Yoast SEO',
 			'5.4.3',
 			'Google Analytics by Yoast'
 		);
 
 		$notification_options = array(
-			'id'                    => 'ga_compatibility',
-			'type'                  => 'error',
-			'capabilities_required' => array( 'update_plugins' ),
+			'id'           => 'ga_compatibility',
+			'type'         => 'error',
+			'capabilities' => array( 'update_plugins' ),
 		);
 
 		return new Yoast_Notification( $info_message, $notification_options );
