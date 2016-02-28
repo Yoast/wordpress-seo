@@ -328,25 +328,27 @@ class Yoast_Notification_Center implements Yoast_Notification_Center_Interface {
 	 * Write the notifications to a cookie (hooked on shutdown)
 	 */
 	public function set_transient() {
+		// Create array with all notifications.
+		$notifications = array();
 
-		if ( count( $this->notifications ) === 0 ) {
+		// Add each notification as array to $arr_notifications.
+		foreach ( $this->notifications as $notification ) {
+			if ( $notification->is_persistent() ) {
+				$notifications[] = $notification->to_array();
+			}
+		}
+
+		// No notifications to store, clear strage.
+		if ( count( $notifications ) === 0 ) {
 			$this->clear_storage();
 
 			return;
 		}
 
-		// Create array with all notifications.
-		$arr_notifications = array();
-
-		// Add each notification as array to $arr_notifications.
-		foreach ( $this->notifications as $notification ) {
-			$arr_notifications[] = $notification->to_array();
-		}
-
-		// Set the cookie with notifications.
+		// Save the notifications to the storage.
 		update_option(
 			self::STORAGE_KEY,
-			WPSEO_Utils::json_encode( $arr_notifications ),
+			WPSEO_Utils::json_encode( $notifications ),
 			false
 		);
 	}
