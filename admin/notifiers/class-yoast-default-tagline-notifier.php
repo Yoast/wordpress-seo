@@ -31,16 +31,14 @@ class Yoast_Default_Tagline_Notifier implements Yoast_Notifier_Interface {
 		), wp_customize_url() );
 
 		$info_message = sprintf(
-			__(
-				'You still have the default WordPress tagline, even an empty one is probably better. %1$sYou can fix this in the customizer%2$s.',
-				'wordpress-seo'
-			),
+			__( 'You still have the default WordPress tagline, even an empty one is probably better. %1$sYou can fix this in the customizer%2$s.', 'wordpress-seo' ),
 			'<a href="' . esc_attr( $customize_url ) . '">',
 			'</a>'
 		);
 
 		$notification_options = array(
 			'type'         => 'error',
+			'priority'     => 0.8,
 			'id'           => 'wpseo-dismiss-tagline-notice',
 			'capabilities' => array( 'manage_options' ),
 		);

@@ -9,6 +9,15 @@
 class Yoast_GA_Compatibility_Notifier implements Yoast_Notifier_Interface {
 
 	/**
+	 * Check if the cause for the notification is present
+	 *
+	 * @return bool True if notification is no longer relevant, False if it is still active.
+	 */
+	public function notify() {
+		return ( defined( 'GAWP_VERSION' ) && '5.4.3' === GAWP_VERSION );
+	}
+
+	/**
 	 * Create the notification
 	 *
 	 * @return Yoast_Notification
@@ -29,14 +38,5 @@ class Yoast_GA_Compatibility_Notifier implements Yoast_Notifier_Interface {
 		);
 
 		return new Yoast_Notification( $info_message, $notification_options );
-	}
-
-	/**
-	 * Check if the cause for the notification is present
-	 *
-	 * @return bool True if notification is no longer relevant, False if it is still active.
-	 */
-	public function notify() {
-		return ( defined( 'GAWP_VERSION' ) && '5.4.3' === GAWP_VERSION );
 	}
 }

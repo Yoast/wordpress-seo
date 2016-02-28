@@ -38,6 +38,7 @@ class Yoast_Search_Engine_Visibility_Notifier implements Yoast_Notifier_Interfac
 
 		$options = array(
 			'type'         => 'error',
+			'priority'     => 1.0,
 			'id'           => 'wpseo-search-engine-visibility',
 			'capabilities' => array( 'manage_options' ),
 		);

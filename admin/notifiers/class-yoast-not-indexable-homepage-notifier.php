@@ -50,9 +50,9 @@ class Yoast_Not_Indexable_Homepage_Notifier implements Yoast_Notifier_Interface 
 		return new Yoast_Notification(
 			$notice,
 			array(
-				'type'         => 'error yoast-dismissible',
+				'type'         => 'error',
 				'id'           => 'wpseo-dismiss-onpageorg',
-				'nonce'        => wp_create_nonce( 'wpseo-dismiss-onpageorg' ),
+				'priority'     => 0.9,
 				'capabilities' => array( 'manage_options' ),
 			)
 		);

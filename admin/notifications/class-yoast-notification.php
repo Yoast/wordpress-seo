@@ -28,6 +28,7 @@ class Yoast_Notification {
 		'type'            => 'updated',
 		'id'              => '',
 		'nonce'           => null,
+		'priority'        => 0.5,
 		'data_json'       => array(),
 		'dismissal_key'   => null,
 		'capabilities'    => array(),
@@ -65,6 +66,26 @@ class Yoast_Notification {
 		}
 
 		return $this->options['nonce'];
+	}
+
+	/**
+	 * Get the type of the notification
+	 *
+	 * @return string
+	 */
+	public function get_type() {
+		return $this->options['type'];
+	}
+
+	/**
+	 * Priority of the notification
+	 *
+	 * Relative to the type
+	 *
+	 * @return float 0-1
+	 */
+	public function get_priority() {
+		return $this->options['priority'];
 	}
 
 	/**

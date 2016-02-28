@@ -89,7 +89,7 @@ class Yoast_Plugin_Conflict_Notifier implements Yoast_Notifier_Interface {
 		$error_message .= '</small></p><div class="clear"></div>';
 
 		$options = array(
-			'type'         => 'error yoast-dismissible',
+			'type'         => 'error',
 			'id'           => 'wpseo-plugin-conflict',
 			'capabilities' => array( 'update_plugins' ),
 			'data_json'    => array(

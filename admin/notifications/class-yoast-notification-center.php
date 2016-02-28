@@ -35,6 +35,7 @@ class Yoast_Notification_Center implements Yoast_Notification_Center_Interface {
 			$this->clear_notifications();
 		}
 
+		add_action( 'admin_init', array( $this, 'register_notifications' ) );
 		add_action( 'all_admin_notices', array( $this, 'display_notifications' ) );
 		add_action( 'shutdown', array( $this, 'set_transient' ) );
 		add_action( 'wp_ajax_yoast_get_notifications', array( $this, 'ajax_get_notifications' ) );
@@ -72,6 +73,25 @@ class Yoast_Notification_Center implements Yoast_Notification_Center_Interface {
 		$instance->register_notifier( new Yoast_GA_Compatibility_Notifier() );
 
 		$instance->register_notifier( new Yoast_Google_Search_Console_Configuration_Notifier() );
+	}
+
+	/**
+	 * Register notifications of notifiers
+	 *
+	 * This has to happen after the translations have been loaded.
+	 */
+	public function register_notifications() {
+		/** @var Yoast_Notifier_Interface $notifier */
+		foreach ( $this->notifiers as $notifier ) {
+			$notification = $notifier->get_notification();
+			if ( $notifier->notify() ) {
+				$this->add_notification( $notification );
+			}
+			else {
+				// Remove dismissal so it will be shown next time.
+				$this->clear_dismissal( $notification );
+			}
+		}
 	}
 
 	/**
@@ -224,8 +244,10 @@ class Yoast_Notification_Center implements Yoast_Notification_Center_Interface {
 
 		// Display notifications.
 		if ( count( $this->notifications ) > 0 ) {
-			foreach ( $this->notifications as $notification ) {
+			// Sort by severity, error first.
+			usort( $this->notifications, array( $this, 'sort_notifications' ) );
 
+			foreach ( $this->notifications as $notification ) {
 				if ( $this->show_notification( $notification ) ) {
 					echo $notification;
 				}
@@ -234,6 +256,40 @@ class Yoast_Notification_Center implements Yoast_Notification_Center_Interface {
 
 		// Clear the local stored notifications.
 		$this->clear_notifications();
+	}
+
+	/**
+	 * Sort on type then priority
+	 *
+	 * @param Yoast_Notification $a Compare with B.
+	 * @param Yoast_Notification $b Compare with A.
+	 *
+	 * @return int 1, 0 or -1 for sorting offset.
+	 */
+	private function sort_notifications( Yoast_Notification $a, Yoast_Notification $b ) {
+		$a_type = $a->get_type();
+		$b_type = $b->get_type();
+
+		if ( $a_type === $b_type ) {
+			$a_priority = $a->get_priority();
+			$b_priority = $b->get_priority();
+
+			if ( $a_priority === $b_priority ) {
+				return 0;
+			}
+
+			return ( ( $a_priority < $b_priority ) ? 1 : - 1 );
+		}
+
+		if ( 'error' === $a_type ) {
+			return - 1;
+		}
+
+		if ( 'error' === $b_type ) {
+			return 1;
+		}
+
+		return 0;
 	}
 
 	/**
@@ -259,16 +315,6 @@ class Yoast_Notification_Center implements Yoast_Notification_Center_Interface {
 		}
 
 		$this->add_notifier( $notifier );
-
-		$notification = $notifier->get_notification();
-		if ( $notifier->notify() ) {
-			$this->add_notification( $notification );
-
-			return;
-		}
-
-		// Remove dismissal so it will be shown next time.
-		$this->clear_dismissal( $notification );
 	}
 
 	/**

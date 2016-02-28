@@ -31,7 +31,7 @@ class Yoast_Google_Search_Console_Configuration_Notifier implements Yoast_Notifi
 		);
 
 		$options = array(
-			'type'            => 'updated yoast-dismissible',
+			'type'            => 'updated',
 			'id'              => 'wpseo-dismiss-gsc',
 			'dismissal_key'   => 'wpseo_dismissed_gsc_notice',
 			'capabilities'    => array( 'manage_options' ),

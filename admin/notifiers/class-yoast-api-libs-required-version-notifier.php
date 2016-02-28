@@ -29,13 +29,11 @@ class Yoast_API_Libs_Required_Version_Notifier implements Yoast_Notifier_Interfa
 	 * @return Yoast_Notification
 	 */
 	public function get_notification() {
-		$notice = __(
-			'Yoast plugins share some code between them to make your site faster. As a result of that, we need all Yoast plugins to be up to date. We\'ve detected this isn\'t the case, so please update the Yoast plugins that aren\'t up to date yet.',
-			'wordpress-seo'
-		);
+		$notice = __( 'Yoast plugins share some code between them to make your site faster. As a result of that, we need all Yoast plugins to be up to date. We\'ve detected this isn\'t the case, so please update the Yoast plugins that aren\'t up to date yet.', 'wordpress-seo' );
 
 		$options = array(
 			'type'         => 'error',
+			'priority'     => 0.9,
 			'id'           => 'wpseo-api-libs-required-version',
 			'capabilities' => array( 'update_plugins' ),
 		);
