@@ -756,7 +756,6 @@ class WPSEO_Utils {
 		 *
 		 * @param bool $development_mode Is Yoast SEOs development mode active.
 		 */
-
 		return apply_filters( 'yoast_seo_development_mode', $development_mode );
 	}
 

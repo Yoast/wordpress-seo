@@ -73,6 +73,14 @@ class Yoast_Notification_Center implements Yoast_Notification_Center_Interface {
 		$instance->register_notifier( new Yoast_GA_Compatibility_Notifier() );
 
 		$instance->register_notifier( new Yoast_Google_Search_Console_Configuration_Notifier() );
+
+		$instance->register_notifier( new Yoast_After_Update_Notifier() );
+
+		/**
+		 * Context dependent notifications:
+		 * - Yoast_Not_Indexable_Homepage_Notifier - WPSEO_OnPage, needs option information.
+		 * - Yoast_Plugin_Conflict_Notifier - Yoast_Plugin_Conflict, needs plugin+conflict information.
+		 */
 	}
 
 	/**

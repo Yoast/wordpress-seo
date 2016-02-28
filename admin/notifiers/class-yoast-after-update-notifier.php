@@ -8,27 +8,13 @@
  */
 class Yoast_After_Update_Notifier implements Yoast_Notifier_Interface {
 
-	/** @var WPSEO_Admin_Init Object to check conditions on */
-	private $wpseo_admin_init;
-
-	/**
-	 * Yoast_After_Update_Notifier constructor.
-	 *
-	 * @param WPSEO_Admin_Init $wpseo_admin_init Admin Init to check conditions on.
-	 */
-	public function __construct( WPSEO_Admin_Init $wpseo_admin_init ) {
-		$this->wpseo_admin_init = $wpseo_admin_init;
-	}
-
 	/**
 	 * Check if the cause for the notification is present
 	 *
 	 * @return bool True if notification is no longer relevant, False if it is still active.
 	 */
 	public function notify() {
-
-
-		return ( $this->wpseo_admin_init->has_ignored_tour() && ! $this->wpseo_admin_init->seen_about() );
+		return ( WPSEO_Admin_Init::has_ignored_tour() && ! WPSEO_Admin_Init::seen_about() );
 	}
 
 	/**

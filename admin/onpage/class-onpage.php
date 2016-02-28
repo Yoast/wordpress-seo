@@ -9,11 +9,6 @@
 class WPSEO_OnPage {
 
 	/**
-	 * The name of the user meta key for storing the dismissed status.
-	 */
-	const USER_META_KEY = 'wpseo_dismiss_onpage';
-
-	/**
 	 * @var WPSEO_OnPage_Option The OnPage.org option class.
 	 */
 	private $onpage_option;
@@ -34,6 +29,7 @@ class WPSEO_OnPage {
 			if ( $this->onpage_option->is_enabled() ) {
 				$this->set_hooks();
 				$this->catch_redo_listener();
+				$this->register_notifier();
 			}
 		}
 	}
@@ -78,11 +74,6 @@ class WPSEO_OnPage {
 			// Saving the option.
 			$this->onpage_option->save_option();
 
-			// Check if the status has been changed.
-			if ( $old_status !== $new_status && $new_status !== WPSEO_OnPage_Option::CANNOT_FETCH ) {
-				$this->notify_admins();
-			}
-
 			return true;
 		}
 
@@ -92,7 +83,7 @@ class WPSEO_OnPage {
 	/**
 	 * Show a notice when the website is not indexable
 	 */
-	public function show_notice() {
+	public function register_notifier() {
 		Yoast_Notification_Center::get()->register_notifier( new Yoast_Not_Indexable_Homepage_Notifier( $this ) );
 	}
 
@@ -122,31 +113,6 @@ class WPSEO_OnPage {
 	}
 
 	/**
-	 * Should the notice being given?
-	 *
-	 * @return bool
-	 */
-	protected function should_show_notice() {
-		// If development note is on or the tagline notice is shown, just don't show this notice.
-		if ( WPSEO_Utils::is_development_mode() || ( '0' === get_option( 'blog_public' ) ) ) {
-			return false;
-		}
-
-		return WPSEO_Utils::grant_access() && ! $this->user_has_dismissed() && $this->onpage_option->get_status() === WPSEO_OnPage_Option::IS_NOT_INDEXABLE;
-	}
-
-	/**
-	 * Notify the admins
-	 */
-	protected function notify_admins() {
-		/*
-		 * Let's start showing the notices to all admins by removing the hide-notice meta data for each admin resulting
-		 * in popping up the notice again.
-		 */
-		delete_metadata( 'user', 0, WPSEO_OnPage::USER_META_KEY, '', true );
-	}
-
-	/**
 	 * Setting up the hooks.
 	 */
 	private function set_hooks() {
@@ -155,9 +121,6 @@ class WPSEO_OnPage {
 
 		// Add weekly schedule to the cron job schedules.
 		add_filter( 'cron_schedules', array( $this, 'add_weekly_schedule' ) );
-
-		// Adding admin notice if necessary.
-		add_filter( 'init', array( $this, 'show_notice' ) );
 
 		// Setting the action for the OnPage fetch.
 		add_action( 'wpseo_onpage_fetch', array( $this, 'fetch_from_onpage' ) );
@@ -170,15 +133,6 @@ class WPSEO_OnPage {
 		if ( ! wp_next_scheduled( 'wpseo_onpage_fetch' ) ) {
 			wp_schedule_event( time(), 'weekly', 'wpseo_onpage_fetch' );
 		}
-	}
-
-	/**
-	 * Get the state from the user to check if the current user has dismissed
-	 *
-	 * @return mixed
-	 */
-	private function user_has_dismissed() {
-		return '1' === get_user_meta( get_current_user_id(), WPSEO_OnPage::USER_META_KEY, true );
 	}
 
 	/**

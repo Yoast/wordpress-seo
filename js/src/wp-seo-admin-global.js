@@ -7,6 +7,8 @@
 /**
  * Used to dismiss the tagline notice for a specific user.
  *
+ * @deprecated 3.2
+ *
  * @param {string} nonce
  */
 function wpseoDismissTaglineNotice( nonce ) {
@@ -19,6 +21,8 @@ function wpseoDismissTaglineNotice( nonce ) {
 
 /**
  * Used to remove the admin notices for several purposes, dies on exit.
+ *
+ * @deprecated 3.2
  *
  * @param {string} option
  * @param {string} hide
@@ -78,7 +82,6 @@ function wpseoDismissLink( dismiss_link ) {
 
 jQuery( document ).ready( function() {
 	jQuery( '#wpseo-dismiss-about > .notice-dismiss').replaceWith( wpseoDismissLink( wpseoAdminGlobalL10n.dismiss_about_url ) );
-	// jQuery( '#wpseo-dismiss-tagline-notice > .notice-dismiss').replaceWith( wpseoDismissLink( wpseoAdminGlobalL10n.dismiss_tagline_url ) );
 
 	jQuery( '.yoast-dismissible > .notice-dismiss').click( function() {
 		var $parent_div = jQuery( this ).parent('.yoast-dismissible');

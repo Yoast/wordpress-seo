@@ -41,11 +41,7 @@ class WPSEO_Admin_Init {
 
 		$this->asset_manager = new WPSEO_Admin_Asset_Manager();
 
-		add_action( 'init', array( $this, 'recalculate_notice' ), 15 );
-		add_action( 'init', array( $this, 'after_update_notice' ), 15 );
-
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_dismissible' ) );
-		add_action( 'admin_init', array( $this, 'tagline_notice' ), 15 );
 		add_action( 'admin_init', array( $this, 'update_seen_about_check' ), 15 );
 		add_action( 'admin_init', array( $this, 'ga_compatibility_notice' ), 15 );
 		add_action( 'admin_init', array( $this, 'ignore_tour' ) );
@@ -71,16 +67,10 @@ class WPSEO_Admin_Init {
 	}
 
 	/**
-	 * Redirect first time or just upgraded users to the about screen.
-	 */
-	public function after_update_notice() {
-		Yoast_Notification_Center::get()->register_notifier( new Yoast_After_Update_Notifier( $this ) );
-	}
-
-	/**
 	 * Set the 'seen about' version if conditions meet
 	 */
-	public function update_seen_about_check() {
+	public static function update_seen_about_check() {
+		// Todo: be more specific for the 'intro' variable (Jip).
 		if ( filter_input( INPUT_GET, 'intro' ) === '1' || Yoast_Notification_Center::maybe_dismiss_notification( 'wpseo-dismiss-about' ) ) {
 			update_user_meta( get_current_user_id(), 'wpseo_seen_about_version', WPSEO_VERSION );
 		}
@@ -91,44 +81,11 @@ class WPSEO_Admin_Init {
 	 *
 	 * @return bool
 	 */
-	public function seen_about() {
+	public static function seen_about() {
 		$seen_about_version = substr( get_user_meta( get_current_user_id(), 'wpseo_seen_about_version', true ), 0, 3 );
 		$last_minor_version = substr( WPSEO_VERSION, 0, 3 );
 
 		return version_compare( $seen_about_version, $last_minor_version, '>=' );
-	}
-
-	/**
-	 * Notify about the default tagline if the user hasn't changed it
-	 */
-	public function tagline_notice() {
-
-	}
-
-	/**
-	 * Shows a notice to the user if they have Google Analytics for WordPress 5.4.3 installed because it causes an error
-	 * on the google search console page.
-	 */
-	public function ga_compatibility_notice() {
-
-	}
-
-	/**
-	 * Shows the notice for recalculating the post. the Notice will only be shown if the user hasn't dismissed it
-	 * before.
-	 */
-	public function recalculate_notice() {
-		/**
-		 * If we are recalculating, dismiss the notice.
-		 * This should be in the recalculation module.
-		 *
-		 * Todo: move this to the recalculation module.
-		 */
-		if ( filter_input( INPUT_GET, 'recalculate' ) === '1' ) {
-			update_option( 'wpseo_dismiss_recalculate', '1' );
-
-			return;
-		}
 	}
 
 	/**
@@ -248,8 +205,8 @@ class WPSEO_Admin_Init {
 	 *
 	 * @return bool
 	 */
-	public function has_ignored_tour() {
-		return Yoast_Notification_Center::is_notification_dismissed( 'wpseo_ignore_tour', '1' );
+	public static function has_ignored_tour() {
+		return Yoast_Notification_Center::is_notification_dismissed( 'wpseo_ignore_tour' );
 	}
 
 	/**
@@ -295,33 +252,6 @@ class WPSEO_Admin_Init {
 	}
 
 	/**
-	 * Check if there is a dismiss notice action.
-	 *
-	 * @param string $notice_name The name of the notice to dismiss.
-	 *
-	 * @return bool
-	 *
-	 * @deprecated 3.2 remove on 3.5
-	 */
-	private function dismiss_notice( $notice_name ) {
-		return filter_input( INPUT_GET, $notice_name ) === '1' && wp_verify_nonce( filter_input( INPUT_GET, 'nonce' ),
-		$notice_name );
-	}
-
-	/**
-	 * Check if the user has dismissed the given notice (by $notice_name)
-	 *
-	 * @param string $notice_name The name of the notice that might be dismissed.
-	 *
-	 * @return bool
-	 *
-	 * @deprecated 3.2 remove in 3.5
-	 */
-	private function is_site_notice_dismissed( $notice_name ) {
-		return '1' === get_option( $notice_name, true );
-	}
-
-	/**
 	 * Returns whether or not the site has the default tagline
 	 *
 	 * @return bool
@@ -341,5 +271,29 @@ class WPSEO_Admin_Init {
 	 */
 	public function seen_tagline_notice() {
 		return Yoast_Notification_Center::maybe_dismiss_notification( 'wpseo-dismiss-tagline-notice' );
+	}
+
+	/**
+	 * @deprecated 3.2 remove in 3.5
+	 */
+	public function tagline_notice() {
+
+	}
+
+	/**
+	 * Shows a notice to the user if they have Google Analytics for WordPress 5.4.3 installed because it causes an error
+	 * on the google search console page.
+	 *
+	 * @deprecated 3.2 remove in 3.5
+	 */
+	public function ga_compatibility_notice() {
+
+	}
+
+	/**
+	 * @deprecated 3.2 remove in 3.5
+	 */
+	public function recalculate_notice() {
+
 	}
 }

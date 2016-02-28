@@ -50,10 +50,11 @@ class Yoast_Not_Indexable_Homepage_Notifier implements Yoast_Notifier_Interface 
 		return new Yoast_Notification(
 			$notice,
 			array(
-				'type'         => 'error',
-				'id'           => 'wpseo-dismiss-onpageorg',
-				'priority'     => 0.9,
-				'capabilities' => array( 'manage_options' ),
+				'type'          => 'error',
+				'id'            => 'wpseo-dismiss-onpageorg',
+				'dismissal_key' => 'wpseo_dismiss_onpage',
+				'priority'      => 0.9,
+				'capabilities'  => array( 'manage_options' ),
 			)
 		);
 	}
