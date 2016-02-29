@@ -24,11 +24,7 @@ class Yoast_Algorithm_Update_Notifier implements Yoast_Notifier_Interface {
 		}
 
 		// If the recalculated version is before the current version we need to recalculate.
-		$outdated = version_compare(
-			substr( $last_recalculated_version, 0, 3 ),
-			substr( WPSEO_VERSION, 0, 3 ),
-			'<'
-		);
+		$outdated = version_compare( $last_recalculated_version, WPSEO_ALGORITHM_VERSION, '<' );
 
 		return $outdated;
 	}

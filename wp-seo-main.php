@@ -15,6 +15,11 @@ if ( ! function_exists( 'add_filter' ) ) {
  */
 define( 'WPSEO_VERSION', '3.1-beta' );
 
+/**
+ * @internal Algorithm version to trigger recalculation notification if updated.
+ */
+define( 'WPSEO_ALGORITHM_VERSION', '3.2.0' );
+
 if ( ! defined( 'WPSEO_PATH' ) ) {
 	define( 'WPSEO_PATH', plugin_dir_path( WPSEO_FILE ) );
 }
