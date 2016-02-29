@@ -75,6 +75,9 @@ class WPSEO_Premium_Beacon_Setting implements Yoast_HelpScout_Beacon_Setting {
 					'5375f3f9e4b0d833740d5760',
 					// See: http://kb.yoast.com/article/51-import-redirects.
 				);
+
+			case 'wpseo_redirects':
+				return array( '5385c1c9e4b06542b1a212e2', '55c2b57ee4b01fdb81eb0de7' );
 		}
 
 		return array();
