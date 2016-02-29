@@ -451,7 +451,17 @@
 		 * @param {string} redirect_type
 		 * @returns {void|*|jQuery}
 		 */
-		this.create_redirect_row = function( old_url, new_url, redirect_type ) {
+		this.create_redirect_row = function( old_url, new_url, redirect_type, redirectInfo ) {
+			var targetClasses = [ 'val' ];
+
+			if ( ! redirectInfo.isTargetRelative ) {
+				targetClasses.push( 'remove-slashes' );
+			}
+
+			if ( redirectInfo.hasPermalinkTrailingSlash ) {
+				targetClasses.push( 'has-trailing-slash' );
+			}
+
 			var tr = $( '<tr>' ).append(
 				$( '<th>' ).addClass( 'check-column' ).attr( 'role', 'row' ).append(
 					$( '<input>' )
@@ -474,12 +484,12 @@
 					)
 				)
 			).append(
-				$( '<td>' ).append(
-					$( '<div>' ).addClass( 'val' ).html( old_url )
+				$( '<td>' ).addClass( 'column-old' ).append(
+					$( '<div>' ).addClass( 'val' ).html( _.escape( old_url ) )
 				)
 			).append(
-				$( '<td>' ).append(
-					$( '<div>' ).addClass( 'val' ).html( new_url )
+				$( '<td>' ).addClass( 'column-new' ).append(
+					$( '<div>' ).addClass( targetClasses.join( ' ' ) ).html( _.escape( new_url ) )
 				)
 			);
 
@@ -542,7 +552,7 @@
 					that.find( '.no-items' ).remove();
 
 					// Creating tr
-					var tr = that.create_redirect_row( response.origin, response.target, response.type );
+					var tr = that.create_redirect_row( response.origin, response.target, response.type, response.info );
 
 					// Add the new row
 					$('form#' + type).find('#the-list').prepend(tr);
