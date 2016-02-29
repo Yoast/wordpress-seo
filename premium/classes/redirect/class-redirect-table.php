@@ -191,7 +191,7 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 				$classes = array( 'val' );
 				$new_url = $item['new'];
 
-				if ( $this->has_target_trailing_slash() ) {
+				if ( WPSEO_Redirect_Util::has_permalink_trailing_slash() ) {
 					$classes[] = 'has-trailing-slash';
 				}
 
