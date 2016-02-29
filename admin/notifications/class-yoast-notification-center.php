@@ -109,7 +109,7 @@ class Yoast_Notification_Center implements Yoast_Notification_Center_Interface {
 		$notification_center = self::get();
 
 		$notification_id = filter_input( INPUT_POST, 'notification' );
-		$notification    = $notification_center->get_notification( $notification_id );
+		$notification    = $notification_center->get_notification_by_id( $notification_id );
 
 		if ( false === ( $notification instanceof Yoast_Notification ) ) {
 			die( '-1' );
@@ -131,7 +131,7 @@ class Yoast_Notification_Center implements Yoast_Notification_Center_Interface {
 	 * @return bool
 	 */
 	public static function is_notification_dismissed( $dismissal_key, $user_id = null ) {
-		// Empty dismissal keys can never be set i.e. Non-persistent notifications are always active.
+		// Empty dismissal keys can never be set i.e. non-persistent notifications are always active.
 		if ( empty( $dismissal_key ) ) {
 			return false;
 		}
@@ -147,10 +147,9 @@ class Yoast_Notification_Center implements Yoast_Notification_Center_Interface {
 	 * Check if the nofitication is being dismissed
 	 *
 	 * @param string|Yoast_Notification $notification Notification to check dismissal of.
-	 *
 	 * @param string                    $meta_value   Value to set the meta value to if dismissed.
 	 *
-	 * @return bool
+	 * @return bool True if dismissed.
 	 */
 	public static function maybe_dismiss_notification( $notification, $meta_value = 'seen' ) {
 		$notification_id = self::get_notification_id( $notification );
@@ -228,7 +227,7 @@ class Yoast_Notification_Center implements Yoast_Notification_Center_Interface {
 	 *
 	 * @return null|Yoast_Notification
 	 */
-	public function get_notification( $notification_id ) {
+	public function get_notification_by_id( $notification_id ) {
 		foreach ( $this->notifications as $notification ) {
 			if ( $notification_id === $notification->get_id() ) {
 				return $notification;
@@ -346,7 +345,7 @@ class Yoast_Notification_Center implements Yoast_Notification_Center_Interface {
 			}
 		}
 
-		// No notifications to store, clear strage.
+		// No notifications to store, clear storage.
 		if ( count( $notifications ) === 0 ) {
 			$this->clear_storage();
 

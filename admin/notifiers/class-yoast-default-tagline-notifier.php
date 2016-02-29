@@ -25,6 +25,7 @@ class Yoast_Default_Tagline_Notifier implements Yoast_Notifier_Interface {
 	 * @return Yoast_Notification
 	 */
 	public function get_notification() {
+		// Todo: Depends on capability, which url is displayed.
 		$current_url = ( is_ssl() ? 'https://' : 'http://' );
 		$current_url .= sanitize_text_field( $_SERVER['SERVER_NAME'] ) . sanitize_text_field( $_SERVER['REQUEST_URI'] );
 		$customize_url = add_query_arg( array( 'url' => urlencode( $current_url ) ), wp_customize_url() );

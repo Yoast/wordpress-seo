@@ -71,7 +71,6 @@ class Yoast_Plugin_Conflict_Notifier implements Yoast_Notifier_Interface {
 		$error_message .= '</p>';
 
 		foreach ( $active_plugins[ $this->plugin_section ] as $plugin_file ) {
-
 			$href = wp_nonce_url(
 				'plugins.php?action=deactivate&amp;plugin=' . $plugin_file . '&amp;plugin_status=all',
 				'deactivate-plugin_' . $plugin_file
