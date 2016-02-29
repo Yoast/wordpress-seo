@@ -4,6 +4,10 @@
 
 	var currentKeyword = '';
 
+	// Initialize the keyword tab module.
+	var keywordTab;
+	var KeywordTab = require( './analysis/keywordTab' );
+
 	/**
 	 * wordpress scraper to gather inputfields.
 	 * @constructor
@@ -272,7 +276,10 @@
 
 		// If multi keyword isn't available we need to update the first tab (content)
 		if ( ! YoastSEO.multiKeyword ) {
-			this.updateKeywordTabContent( currentKeyword, score );
+			keywordTab.update( score, currentKeyword );
+
+			// Updates the input with the currentKeyword value
+			$( '#yoast_wpseo_focuskw' ).val( currentKeyword );
 		}
 
 		jQuery( window ).trigger( 'YoastSEO:numericScore', score );
@@ -318,36 +325,8 @@
 
 		$( '#yoast_wpseo_focuskw_text_input' ).val( keyword );
 
-		this.updateKeywordTabContent( keyword, score );
-	};
-
-	/**
-	 * Updates keyword tab with new content
-	 */
-	PostScraper.prototype.updateKeywordTabContent = function( keyword, score ) {
-		var placeholder, keyword_tab;
-
-		score = parseInt( score, 10 );
-
-		if ( typeof keyword === 'undefined' || keyword === '' ) {
-			score = 'na';
-		}
-		placeholder = keyword && keyword.length > 0 ? keyword : '...';
-
-		score = YoastSEO.ScoreFormatter.prototype.overallScoreRating( score );
-
-		keyword_tab = wp.template( 'keyword_tab' )({
-			keyword: keyword,
-			placeholder: placeholder,
-			score: score,
-			hideRemove: true,
-			prefix: wpseoPostScraperL10n.contentTab + ' ',
-			active: true
-		});
-
-		$( '#yoast_wpseo_focuskw' ).val( keyword );
-
-		$( '.wpseo_keyword_tab' ).replaceWith( keyword_tab );
+		// Updates
+		keywordTab.update( score, keyword );
 	};
 
 	/**
@@ -432,6 +411,15 @@
 
 	jQuery( document ).ready(function() {
 		var translations;
+
+		// Initialize an instance of the keywordword tab.
+		keywordTab = new KeywordTab(
+			{
+				prefix: wpseoPostScraperL10n.contentTab
+			}
+		);
+		keywordTab.setElem( $('.wpseo_keyword_tab') );
+
 		var postScraper = new PostScraper();
 
 		var args = {

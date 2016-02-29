@@ -5,6 +5,10 @@
 	var snippetPreview;
 	var termSlugInput;
 
+	// Initialize the keyword tab module.
+	var keywordTab;
+	var KeywordTab = require( './analysis/keywordTab' );
+
 	var TermScraper = function() {
 		if ( typeof CKEDITOR === 'object' ) {
 			console.warn( 'YoastSEO currently doesn\'t support ckEditor. The content analysis currently only works with the HTML editor or TinyMCE.' );
@@ -170,7 +174,7 @@
 		document.getElementById( 'hidden_wpseo_linkdex' ).value = score;
 		jQuery( window ).trigger( 'YoastSEO:numericScore', score );
 
-		this.updateKeywordTabContent( $( '#wpseo_focuskw' ).val(), score );
+		keywordTab.update( score, $( '#wpseo_focuskw' ).val() );
 
 		cssClass = YoastSEO.app.scoreFormatter.overallScoreRating( parseInt( score, 10 ) );
 		alt = YoastSEO.app.scoreFormatter.getSEOScoreText( cssClass );
@@ -194,30 +198,7 @@
 		keyword = $( '#wpseo_focuskw' ).val();
 		score   = $( '#hidden_wpseo_linkdex' ).val();
 
-		this.updateKeywordTabContent( keyword, score );
-	};
-
-	/**
-	 * Updates keyword tab with new content
-	 */
-	TermScraper.prototype.updateKeywordTabContent = function( keyword, score ) {
-		var placeholder, keyword_tab;
-
-		placeholder = keyword.length > 0 ? keyword : '...';
-
-		score = parseInt( score, 10 );
-		score = YoastSEO.ScoreFormatter.prototype.overallScoreRating( score );
-
-		keyword_tab = wp.template( 'keyword_tab' )({
-			keyword: keyword,
-			placeholder: placeholder,
-			score: score,
-			hideRemove: true,
-			prefix: wpseoTermScraperL10n.contentTab + ' ',
-			active: true
-		});
-
-		$( '.wpseo_keyword_tab' ).replaceWith( keyword_tab );
+		keywordTab.update( score, keyword );
 	};
 
 	/**
@@ -322,6 +303,14 @@
 		var args, termScraper, translations;
 
 		insertTinyMCE();
+
+		// Initialize an instance of the keywordword tab.
+		keywordTab = new KeywordTab(
+			{
+				prefix: wpseoTermScraperL10n.contentTab
+			}
+		);
+		keywordTab.setElem( $('.wpseo_keyword_tab') );
 
 		termScraper = new TermScraper();
 
