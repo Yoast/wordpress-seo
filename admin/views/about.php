@@ -33,8 +33,8 @@ function wpseo_display_contributors( $contributors ) {
 		?></h1>
 
 	<p class="about-text">
-		Yoast SEO 3.0 is about feedback. Feedback on what <em>you</em> can do to improve your site and your post(s).
-		Feedback when you are doing what you should be doing: writing awesome content.
+		Yoast SEO 3.1 has, next to tons of bugfixes, 4 sections of "major" changes: an improved snippet editor, a
+		primary category feature, an overhauled admin section and (in Premium), an improved redirects feature.
 	</p>
 
 	<div class="wp-badge"></div>
@@ -43,7 +43,7 @@ function wpseo_display_contributors( $contributors ) {
 		<a class="nav-tab" href="#top#new" id="new-tab">
 			<?php
 			/* translators: %s: '3.0' version number */
-			echo sprintf( __( 'What’s new in %s', 'wordpress-seo' ), '3.0' );
+			echo sprintf( __( 'What’s new in %s', 'wordpress-seo' ), '3.1' );
 			?>
 		</a>
 		<a class="nav-tab" href="#top#credits" id="credits-tab"><?php _e( 'Credits', 'wordpress-seo' ); ?></a>
@@ -51,63 +51,59 @@ function wpseo_display_contributors( $contributors ) {
 
 	<div id="new" class="wpseotab">
 
-		<h2>Real time content analysis</h2>
-
-		<p>No longer will you have to save your post or page for the content analysis to update, it'll be there in real
-			time. Which is also why it's now in plain sight all the time.</p>
+		<h2>Release video and post</h2>
+		<p>In <a href="https://yoast.com/yoast-seo-3-1/">this post</a>, Joost explains the features of Yoast SEO 3.1. If
+			you're more of a video type, check the release video below:</p>
 
 		<div class="headline-feature feature-video">
 			<?php // @codingStandardsIgnoreStart ?>
-			<script charset="ISO-8859-1" src="//fast.wistia.com/assets/external/E-v1.js" async></script>
+			<iframe width="1050" height="591" src="https://www.youtube.com/embed/Qt1yGL_spW4?rel=0&VQ=HD720"
+			        frameborder="0" allowfullscreen></iframe>
 			<?php // @codingStandardsIgnoreEnd ?>
-			<div class="wistia_responsive_padding" style="padding:56.25% 0 0 0;position:relative;">
-				<div class="wistia_responsive_wrapper" style="height:100%;left:0;position:absolute;top:0;width:100%;">
-					<div class="wistia_embed wistia_async_vdcuq7tfh1 videoFoam=true" style="height:100%;width:100%">
-						&nbsp;</div>
-				</div>
-			</div>
 		</div>
 
 		<div class="feature-section two-col">
 			<div class="col">
 				<div class="media-container">
-					<img src="//yoast-30.s3.amazonaws.com/snippet-editor.png" alt="Snippet editor">
+					<img style="height: 225px; margin: 0 0 10px 0;"
+					     src="//yoast-30.s3.amazonaws.com/snippet-editor-new.png" alt="Snippet editor">
 				</div>
-				<h3>A snippet editor</h3>
+				<h3>An improved snippet editor</h3>
 
-				<p>Our snippet preview got turned into a snippet editor. Click it, modify it, make it work. With instant
-					inline feedback when it's too long and the content analysis updating straight away too.</p>
+				<p>All of the user feedback on Yoast SEO 3.0 has made us improve on the snippet editor some more. This
+					is
+					what it looks like now!</p>
+			</div>
+			<div class="col">
+				<div class="media-containerr">
+					<img style="height: 225px; margin: 0 0 10px 0;"
+					     src="//yoast-30.s3.amazonaws.com/primary-category.png" alt="Primary category">
+				</div>
+				<h3>Primary category</h3>
+
+				<p>If you've ever been annoyed by a breadcrumb showing the wrong category: this one's for you!</p>
 			</div>
 			<div class="col">
 				<div class="media-container">
-					<img src="//yoast-30.s3.amazonaws.com/onpage.png" alt="OnPage.org indexability check">
+					<img style="height: 225px; margin: 0 0 10px 0;" src="//yoast-30.s3.amazonaws.com/admin-toggles.png"
+					     alt="Admin overhaul">
 				</div>
-				<h3>Is your site indexable?</h3>
+				<h3>Admin overhaul</h3>
 
-				<p>in collaboration with our friends at <a href="https://onpage.org/yoast-indexability/">OnPage.org</a>
-					we now give you an indexability check for your site. It automatically tells you whether your site
-					can be indexed by search engines and will alert you when that changes.</p>
+				<p>We had checboxes that enabled things and checkboxes that disabled things. That's, of course,
+					completely unusable. So now we have toggles. Everywhere.</p>
 			</div>
 			<div class="col">
 				<div class="media-container">
-					<img src="//yoast-30.s3.amazonaws.com/category-fixes.png" alt="Supercharged categories">
+					<img style="height: 225px; margin: 0 0 10px 0;" src="//yoast-30.s3.amazonaws.com/redirect.png"
+					     alt="Redirects overhaul">
 				</div>
-				<h3>Supercharged categories</h3>
+				<h3>Redirects improvements</h3>
 
-				<p>We've supercharged categories and tags: we've given them a snippet editor, social meta fields, etc.
-					The entire post experience in Yoast SEO is now available for categories and tags too. Using custom
-					taxonomies? Cool, we support those too!</p>
-			</div>
-			<div class="col">
-				<div class="svg-container">
-					<span class="dashicons dashicons-wordpress"></span>
-				</div>
-				<h3>WordPress 4.4? We're ready!</h3>
-
-				<p>
-					WordPress 4.4 is nearing completion. We've tested Yoast SEO extensively with it, and we're ready.
-					With the new embeds functionality, our canonical URLs just work. Without you needing to do anything.
-				</p>
+				<p>We've worked hard on making our Redirects feature in Yoast SEO Premium even better. Mostly by
+					improving our validation features, like preventing you from making infinite loops. But: we've also
+					added a neat inline editor, the option to do HTTP
+					451 statuses and more.</p>
 			</div>
 
 			<div class="clear"></div>
@@ -162,45 +158,50 @@ function wpseo_display_contributors( $contributors ) {
 		<ul class="wp-people-group " id="wp-people-group-core-developers">
 			<?php
 			$contributors = array(
-				'CarolineGeven' => (object) array(
-					'name'     => 'Caroline Geven',
+				'andizer'       => (object) array(
+					'name'     => 'Andy Meerwaldt',
 					'role'     => __( 'Developer', 'wordpress-seo' ),
-					'gravatar' => 'f2596a568c3974e35f051266a63d791f',
-				),
-				'jrfnl'         => (object) array(
-					'name'     => 'Juliette Reinders Folmer',
-					'role'     => __( 'Developer', 'wordpress-seo' ),
-					'gravatar' => 'cbbac3e529102364dc3b026af3cc2988',
+					'gravatar' => 'a9b43e766915b48031eab78f9916ca8e',
 				),
 				'terw-dan'      => (object) array(
 					'name'     => 'Danny Terwindt',
 					'role'     => __( 'Developer', 'wordpress-seo' ),
 					'gravatar' => '20a04b0736e630e80ce2dbefe3f1d62f',
 				),
-				'garyjones'     => (object) array(
-					'name'     => 'Gary Jones',
-					'role'     => 'Developer, QA & Accessibility',
-					'gravatar' => 'f00cf4e7f02e10152f60ec3507fa8ba8',
-				),
-				'andizer'       => (object) array(
-					'name'     => 'Andy Meerwaldt',
+				'CarolineGeven' => (object) array(
+					'name'     => 'Caroline Geven',
 					'role'     => __( 'Developer', 'wordpress-seo' ),
-					'gravatar' => 'a9b43e766915b48031eab78f9916ca8e',
+					'gravatar' => 'f2596a568c3974e35f051266a63d791f',
+				),
+				'jcomack'       => (object) array(
+					'name'     => 'Jimmy Comack',
+					'role'     => __( 'Developer', 'wordpress-seo' ),
+					'gravatar' => '41073ef9e1f3e01b03cbee75cee33bd4',
+				),
+				'moorscode'     => (object) array(
+					'name'     => 'Jip Moors',
+					'role'     => __( 'Developer', 'wordpress-seo' ),
+					'gravatar' => '1751c5afc377ef4ec07a50791db1bc52',
 				),
 				'rarst'         => (object) array(
 					'name'     => 'Andrey Savchenko',
-					'role'     => 'For the 100+ fixes that didn\'t make the about page',
+					'role'     => __( 'Developer', 'wordpress-seo' ),
 					'gravatar' => 'c445c2491f9f55409b2e4dccee357961',
 				),
 				'boblinthorst'  => (object) array(
 					'name'     => 'Bob Linthorst',
-					'role'     => 'For testing ridiculously hard',
+					'role'     => __( 'Tester / Developer', 'wordpress-seo' ),
 					'gravatar' => '8063b1955f54681ef3a2deb21972faa1',
 				),
 				'diedexx'       => (object) array(
 					'name'     => 'Diede Exterkate',
-					'role'     => 'For testing ridiculously hard',
+					'role'     => __( 'Tester / Developer', 'wordpress-seo' ),
 					'gravatar' => '59908788f406037240ee011388db29f8',
+				),
+				'jrfnl'         => (object) array(
+					'name'     => 'Juliette Reinders Folmer',
+					'role'     => __( 'Developer', 'wordpress-seo' ),
+					'gravatar' => 'cbbac3e529102364dc3b026af3cc2988',
 				),
 
 			);
