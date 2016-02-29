@@ -57,7 +57,7 @@ function wpseo_display_contributors( $contributors ) {
 
 		<div class="headline-feature feature-video">
 			<?php // @codingStandardsIgnoreStart ?>
-			<iframe width="1050" height="591" src="https://www.youtube.com/embed/Qt1yGL_spW4?rel=0&VQ=HD720"
+			<iframe style="width:1050px;height:591px;" src="https://www.youtube.com/embed/Qt1yGL_spW4?rel=0&vq=hd720"
 			        frameborder="0" allowfullscreen></iframe>
 			<?php // @codingStandardsIgnoreEnd ?>
 		</div>
@@ -65,7 +65,7 @@ function wpseo_display_contributors( $contributors ) {
 		<div class="feature-section two-col">
 			<div class="col">
 				<div class="media-container">
-					<img style="height: 225px; margin: 0 0 10px 0;"
+					<img style="height: 350px; margin: 0 0 10px 0;"
 					     src="//yoast-30.s3.amazonaws.com/snippet-editor-new.png" alt="Snippet editor">
 				</div>
 				<h3>An improved snippet editor</h3>
@@ -75,6 +75,15 @@ function wpseo_display_contributors( $contributors ) {
 					what it looks like now!</p>
 			</div>
 			<div class="col">
+				<div class="media-container">
+					<img style="height: 350px; margin: 0 0 10px 0;" src="//yoast-30.s3.amazonaws.com/admin-toggles.png"
+					     alt="Admin overhaul">
+				</div>
+				<h3>Admin overhaul</h3>
+
+				<p>We had checboxes that enabled things and checkboxes that disabled things. That's, of course,
+					completely unusable. So now we have toggles. Everywhere.</p>
+			</div>			<div class="col">
 				<div class="media-containerr">
 					<img style="height: 225px; margin: 0 0 10px 0;"
 					     src="//yoast-30.s3.amazonaws.com/primary-category.png" alt="Primary category">
@@ -82,16 +91,6 @@ function wpseo_display_contributors( $contributors ) {
 				<h3>Primary category</h3>
 
 				<p>If you've ever been annoyed by a breadcrumb showing the wrong category: this one's for you!</p>
-			</div>
-			<div class="col">
-				<div class="media-container">
-					<img style="height: 225px; margin: 0 0 10px 0;" src="//yoast-30.s3.amazonaws.com/admin-toggles.png"
-					     alt="Admin overhaul">
-				</div>
-				<h3>Admin overhaul</h3>
-
-				<p>We had checboxes that enabled things and checkboxes that disabled things. That's, of course,
-					completely unusable. So now we have toggles. Everywhere.</p>
 			</div>
 			<div class="col">
 				<div class="media-container">
