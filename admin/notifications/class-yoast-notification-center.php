@@ -164,8 +164,11 @@ class Yoast_Notification_Center implements Yoast_Notification_Center_Interface {
 			return true;
 		}
 
-		$is_dismissing = ( '1' === self::get_user_input( $notification_id ) || '1' === self::get_user_input( $dismissal_key ) );
-		$user_nonce    = self::get_user_input( 'nonce' );
+		$is_dismissing = $dismissal_key === self::get_user_input( 'notification' );
+		$is_dismissing = $is_dismissing || ( '1' === self::get_user_input( $notification_id ) );
+		$is_dismissing = $is_dismissing || ( '1' === self::get_user_input( $dismissal_key ) );
+
+		$user_nonce = self::get_user_input( 'nonce' );
 
 		// Can be dismissed by dismissal_key or notification_id.
 		if ( ! $is_dismissing ) {

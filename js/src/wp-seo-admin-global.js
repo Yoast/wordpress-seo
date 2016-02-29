@@ -93,8 +93,6 @@ jQuery( document ).ready( function() {
 			data: $parent_div.data( 'json' )
 		};
 
-		options[notification] = '1';
-
 		jQuery.post(
 			ajaxurl,
 			options
