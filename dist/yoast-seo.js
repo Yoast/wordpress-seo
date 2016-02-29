@@ -452,7 +452,7 @@ var Analyzer = function( args ) {
  */
 Analyzer.prototype.init = function( args ) {
 	if ( isUndefined( args.paper ) ) {
-		args.paper = new Paper( args.text, { keyword:  args.keyword, description: args.meta } );
+		args.paper = new Paper( args.text, { keyword:  args.keyword, description: args.meta, locale: args.locale } );
 	}
 
 	this.paper = args.paper;
@@ -4965,7 +4965,8 @@ var defaults = require( "lodash/object/defaults" );
 
 var defaultAttributes = {
 	keyword: "",
-	description: ""
+	description: "",
+	locale: ""
 };
 
 /**
@@ -5028,6 +5029,22 @@ Paper.prototype.hasDescription = function() {
  */
 Paper.prototype.getDescription = function() {
 	return this._attributes.description;
+};
+
+/**
+ * Check whether a locale is available
+ * @returns {boolean} Returns true if locale isn't empty
+ */
+Paper.prototype.hasLocale = function() {
+	return this._attributes.locale !== "";
+};
+
+/**
+ * Return the locale or an empty string if no locale is available
+ * @returns {string} Returns the locale
+ */
+Paper.prototype.getLocale = function() {
+	return this._attributes.locale;
 };
 
 module.exports = Paper;
