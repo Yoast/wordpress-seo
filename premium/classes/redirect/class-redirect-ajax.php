@@ -42,12 +42,9 @@ class WPSEO_Redirect_Ajax {
 
 		// The method always returns the added redirect.
 		if ( $this->redirect_manager->create_redirect( $redirect ) ) {
-			$origin = $this->format_origin_url( $redirect->get_origin(), $redirect );
-			$target = $this->format_target_url( $redirect->get_target() );
-
 			$response = array(
-				'origin' => $origin,
-				'target' => $target,
+				'origin' => $redirect->get_origin(),
+				'target' => $redirect->get_target(),
 				'type'   => $redirect->get_type(),
 			);
 		}
@@ -116,29 +113,6 @@ class WPSEO_Redirect_Ajax {
 
 		// Response.
 		wp_die( WPSEO_Utils::json_encode( $response ) );
-	}
-
-	/**
-	 * Call filter wpseo_format_origin_redirect_column
-	 *
-	 * @param string         $origin     origin URL.
-	 * @param WPSEO_Redirect $redirect   The redirect.
-	 *
-	 * @return string
-	 */
-	private function format_origin_url( $origin, $redirect ) {
-		return apply_filters( 'wpseo_format_origin_redirect_column', $origin, $redirect );
-	}
-
-	/**
-	 * Call filter wpseo_format_target_redirect_column.
-	 *
-	 * @param string $target target URL.
-	 *
-	 * @return string
-	 */
-	private function format_target_url( $target ) {
-		return apply_filters( 'wpseo_format_target_redirect_column', $target );
 	}
 
 	/**

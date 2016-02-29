@@ -17,30 +17,12 @@ class WPSEO_Redirect_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Redirect::get_type
 	 * @covers WPSEO_Redirect::get_format
 	 */
-	public function test_construct_relative_url() {
+	public function test_construct() {
 
 		$redirect = new WPSEO_Redirect( 'origin', 'target', 301, 'plain' );
 
 		$this->assertEquals( 'origin', $redirect->get_origin() );
 		$this->assertEquals( 'target', $redirect->get_target() );
-		$this->assertEquals( 301,      $redirect->get_type() );
-		$this->assertEquals( 'plain',  $redirect->get_format() );
-	}
-
-	/**
-	 * Test if constructor does not sanitize absolute URLs
-	 *
-	 * @covers WPSEO_Redirect::__construct
-	 * @covers WPSEO_Redirect::get_origin
-	 * @covers WPSEO_Redirect::get_target
-	 * @covers WPSEO_Redirect::get_type
-	 * @covers WPSEO_Redirect::get_format
-	 */
-	public function test_construct_absolute_url() {
-		$redirect = new WPSEO_Redirect( 'origin', 'https://yoast.com/', 301, 'plain' );
-
-		$this->assertEquals( 'origin', $redirect->get_origin() );
-		$this->assertEquals( 'https://yoast.com/', $redirect->get_target() );
 		$this->assertEquals( 301,      $redirect->get_type() );
 		$this->assertEquals( 'plain',  $redirect->get_format() );
 	}
