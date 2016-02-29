@@ -2,7 +2,8 @@ var defaults = require( "lodash/object/defaults" );
 
 var defaultAttributes = {
 	keyword: "",
-	description: ""
+	description: "",
+	locale: ""
 };
 
 /**
@@ -65,6 +66,22 @@ Paper.prototype.hasDescription = function() {
  */
 Paper.prototype.getDescription = function() {
 	return this._attributes.description;
+};
+
+/**
+ * Check whether a locale is available
+ * @returns {boolean} Returns true if the paper has a locale
+ */
+Paper.prototype.hasLocale = function() {
+	return this._attributes.locale !== "";
+};
+
+/**
+ * Return the locale or an empty string if no locale is available
+ * @returns {string} Returns the locale
+ */
+Paper.prototype.getLocale = function() {
+	return this._attributes.locale;
 };
 
 module.exports = Paper;
