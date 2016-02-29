@@ -20,8 +20,8 @@ function wpseo_show_notification() {
 		{ action: 'yoast_get_notifications' },
 		function(response) {
 			if (response !== '') {
-				var insertAfterElem = jQuery( '.wrap' ).children().eq( 0 );
-				jQuery(response ).insertAfter( insertAfterElem );
+				var insertAfterElement = jQuery( '.wrap' ).children().eq( 0 );
+				jQuery(response ).insertAfter( insertAfterElement );
 				wpseoMakeDismissible();
 				wpseo_notification_counter = 0;
 			} else if (wpseo_notification_counter < 20 && response === '') {
