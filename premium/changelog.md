@@ -2,9 +2,9 @@
 * Made PHP redirects faster and more efficient.
 * Added an interface to easily serve 410 (content deleted) headers for posts you have just deleted.
 * Added support for creating 451 (legal takedown) headers in the redirect manager.
-* Improved many existing validations, ensuring redirects are complete and unique.
-* Added a validation that checks for a redirect loop.
-* Added warnings for the following cases:
+* Improved existing validations, ensuring redirects are complete and unique.
+* Added a validation error that checks for a redirect loop.
+* Added validation warnings for the following cases:
   * when a redirect points to an url that is redirected.
   * when a redirect point to a url that cannot be resolved.
   * when a redirect points to a url that doesn't return a 200 OK status code.
