@@ -31,7 +31,7 @@ class WPSEO_Post_Slug_Watcher_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Test if the action is set in the constructor.
 	 *
-	 * @covers WPSEO_Post_Slug_Watcher::__construct;
+	 * @covers WPSEO_Post_Slug_Watcher::__construct
 	 */
 	public function test_setting_hook_in_constructor() {
 		$this->assertEquals(
