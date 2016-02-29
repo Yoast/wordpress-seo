@@ -197,7 +197,7 @@ class WPSEO_Redirect_Accessible_Validation_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Fake a 305 request code
+	 * Fake a 301 request code
 	 *
 	 * @param mixed $in Filter input value.
 	 *
