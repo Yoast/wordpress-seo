@@ -1,4 +1,4 @@
-/* global YoastSEO, wp, wpseoTermScraperL10n, ajaxurl, tinyMCE, YoastReplaceVarPlugin, console */
+/* global YoastSEO, wpseoTermScraperL10n, ajaxurl, tinyMCE, YoastReplaceVarPlugin, console, require */
 (function( $ ) {
 	'use strict';
 

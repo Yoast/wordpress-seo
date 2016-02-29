@@ -100,7 +100,7 @@ KeywordTab.prototype.setScore = function( score ) {
 module.exports = KeywordTab;
 
 },{}],2:[function(require,module,exports){
-/* global YoastSEO, wp, wpseoTermScraperL10n, ajaxurl, tinyMCE, YoastReplaceVarPlugin, console */
+/* global YoastSEO, wpseoTermScraperL10n, ajaxurl, tinyMCE, YoastReplaceVarPlugin, console, require */
 (function( $ ) {
 	'use strict';
 
