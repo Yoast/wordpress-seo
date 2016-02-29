@@ -5033,7 +5033,7 @@ Paper.prototype.getDescription = function() {
 
 /**
  * Check whether a locale is available
- * @returns {boolean} Returns true if locale isn't empty
+ * @returns {boolean} Returns true if the paper has a locale
  */
 Paper.prototype.hasLocale = function() {
 	return this._attributes.locale !== "";
