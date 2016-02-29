@@ -58,7 +58,7 @@ var Analyzer = function( args ) {
  */
 Analyzer.prototype.init = function( args ) {
 	if ( isUndefined( args.paper ) ) {
-		args.paper = new Paper( args.text, { keyword:  args.keyword, description: args.meta } );
+		args.paper = new Paper( args.text, { keyword:  args.keyword, description: args.meta, locale: args.locale } );
 	}
 
 	this.paper = args.paper;
