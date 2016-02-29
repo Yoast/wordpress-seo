@@ -474,11 +474,11 @@
 					)
 				)
 			).append(
-				$( '<td>' ).append(
+				$( '<td>' ).addClass( 'column-old' ).append(
 					$( '<div>' ).addClass( 'val' ).html( _.escape( old_url ) )
 				)
 			).append(
-				$( '<td>' ).append(
+				$( '<td>' ).addClass( 'column-new' ).append(
 					$( '<div>' ).addClass( 'val' ).html( _.escape( new_url ) )
 				)
 			);
