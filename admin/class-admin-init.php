@@ -254,6 +254,8 @@ class WPSEO_Admin_Init {
 	/**
 	 * Returns whether or not the site has the default tagline
 	 *
+	 * This is now checked inside the Yoast_Default_Tagline_Notifier.
+	 *
 	 * @return bool
 	 *
 	 * @deprecated 3.2 remove in 3.5
@@ -291,6 +293,8 @@ class WPSEO_Admin_Init {
 	}
 
 	/**
+	 * Shows the notice for recalculating the post. the Notice will only be shown if the user hasn't dismissed it before.
+	 *
 	 * @deprecated 3.2 remove in 3.5
 	 */
 	public function recalculate_notice() {

@@ -11,28 +11,30 @@ class Yoast_Notification {
 	/**
 	 * Contains optional arguments:
 	 *
-	 * -  type: The notification type, i.e. 'updated' or 'error'
-	 * -    id: The ID of the notification
-	 * - nonce: Security nonce to use in case of dismissible notice.
+	 * -             type: The notification type, i.e. 'updated' or 'error'
+	 * -               id: The ID of the notification
+	 * -            nonce: Security nonce to use in case of dismissible notice.
+	 * -         priority: From 0 to 1, determines the order of Notifications.
+	 * -    dismissal_key: Option name to save dismissal information in, ID will be used if not supplied.
+	 * -     capabilities: Capabilities that a user must have for this Notification to show.
+	 * - capability_check: How to check capability pass: all or any.
+	 * -  wpseo_page_only: Only display on wpseo page or on every page.
 	 *
-	 * @var array
+	 * @var array Options of this Notification.
 	 */
-	private $options;
+	private $options = array();
 
-	/**
-	 * Contains default values for the optional arguments
-	 *
-	 * @var array
-	 */
+	/** @var array Contains default values for the optional arguments */
 	private $defaults = array(
-		'type'            => 'updated',
-		'id'              => '',
-		'nonce'           => null,
-		'priority'        => 0.5,
-		'data_json'       => array(),
-		'dismissal_key'   => null,
-		'capabilities'    => array(),
-		'wpseo_page_only' => false,
+		'type'             => 'updated',
+		'id'               => '',
+		'nonce'            => null,
+		'priority'         => 0.5,
+		'data_json'        => array(),
+		'dismissal_key'    => null,
+		'capabilities'     => array(),
+		'capability_check' => 'all',
+		'wpseo_page_only'  => false,
 	);
 
 	/**
@@ -42,8 +44,10 @@ class Yoast_Notification {
 	 * @param array  $options Set of options.
 	 */
 	public function __construct( $message, $options = array() ) {
-		$this->options = wp_parse_args( $options, $this->defaults );
 		$this->message = $message;
+		$this->options = wp_parse_args( $options, $this->defaults );
+
+		$this->verify_options();
 	}
 
 	/**
@@ -102,6 +106,17 @@ class Yoast_Notification {
 	}
 
 	/**
+	 * Is this Notification persistent
+	 *
+	 * @return bool True if persistent, False if fire and forget.
+	 */
+	public function is_persistent() {
+		$id = $this->get_id();
+
+		return ! empty( $id );
+	}
+
+	/**
 	 * Check if the notification is relevant for the current user
 	 *
 	 * @return bool True if a user needs to see this Notification, False if not.
@@ -136,26 +151,27 @@ class Yoast_Notification {
 		}
 
 		if ( ! empty( $this->options['capabilities'] ) ) {
+
+			// Type of check: all or one is enough.
+			$any_or_all = $this->options['capability_check'];
+
 			foreach ( $this->options['capabilities'] as $capability ) {
 				$user_can = current_user_can( $capability );
-				if ( ! $user_can ) {
-					return false;
+				if ( 'all' === $any_or_all ) {
+					if ( ! $user_can ) {
+						return false;
+					}
+				}
+
+				if ( 'any' === $any_or_all ) {
+					if ( $user_can ) {
+						return true;
+					}
 				}
 			}
 		}
 
 		return true;
-	}
-
-	/**
-	 * Is this Notification persistent
-	 *
-	 * @return bool True if persistent, False if fire and forget.
-	 */
-	public function is_persistent() {
-		$id = $this->get_id();
-
-		return ! empty( $id );
 	}
 
 	/**
@@ -178,6 +194,7 @@ class Yoast_Notification {
 	public function __toString() {
 		$attributes = array();
 
+		// Default notification classes.
 		$classes = array(
 			'yoast-notice',
 			'notice',
@@ -187,7 +204,7 @@ class Yoast_Notification {
 			$classes[] = $this->options['type'];
 		}
 
-		if ( $this->options['id'] ) {
+		if ( $this->is_persistent() ) {
 			$attributes['id'] = $this->options['id'];
 
 			$classes[] = 'yoast-dismissible';
@@ -207,9 +224,53 @@ class Yoast_Notification {
 			$attributes['data-json'] = WPSEO_Utils::json_encode( $this->options['data_json'] );
 		}
 
+		// Combined attribute key and value into a string.
 		array_walk( $attributes, array( $this, 'parse_attributes' ) );
 
+		// Build the output DIV.
 		return '<div ' . implode( ' ', $attributes ) . '>' . wpautop( $this->message ) . '</div>' . PHP_EOL;
+	}
+
+	/**
+	 * Make sure we only have values that we can work with
+	 */
+	private function verify_options() {
+		/**
+		 * Filter capabilities that enable the displaying of this notification.
+		 *
+		 * @since 3.2
+		 *
+		 * @param array              $capabilities The capabilities that must be present for this Notification.
+		 * @param string             $id           The ID of the notification.
+		 * @param Yoast_Notification $notification The notification object.
+		 *
+		 * @return array of capabilities or empty for no restrictions.
+		 */
+		$this->options['capabilities'] = apply_filters( 'wpseo_notification_capabilities', $this->options['capabilities'], $this->options['id'], $this );
+		if ( is_string( $this->options['capabilities'] ) ) {
+			$this->options['capabilities'] = array( $this->options['capabilities'] );
+		}
+
+		// Should be an array.
+		if ( ! is_array( $this->options['capabilities'] ) ) {
+			$this->options['capabilities'] = array();
+		}
+
+		/**
+		 * Filter capability check to enable 'all' or 'any' capabilities.
+		 *
+		 * @since 3.2
+		 *
+		 * @param string             $capability_check The type of check that will be used to determine if an capability is present.
+		 * @param string             $id               The ID of the notification.
+		 * @param Yoast_Notification $notification     The notification object.
+		 *
+		 * @return string 'all' or 'any'.
+		 */
+		$this->options['capability_check'] = apply_filters( 'wpseo_notification_capability_check', $this->options['capability_check'], $this->options['id'], $this );
+		if ( ! in_array( $this->options['capability_check'], array( 'all', 'any' ) ) ) {
+			$this->options['capability_check'] = 'all';
+		}
 	}
 
 	/**

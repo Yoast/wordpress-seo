@@ -3,6 +3,9 @@
 * @package WPSEO\Unittests
 */
 
+/**
+ * Class WPSEO_OnPage_Double
+ */
 class WPSEO_OnPage_Double extends WPSEO_OnPage {
 
 	/**
@@ -17,18 +20,11 @@ class WPSEO_OnPage_Double extends WPSEO_OnPage {
 
 		return 0;
 	}
-
-	/**
-	 * Overwrite the method because is has a dependency.
-	 *
-	 * @return bool
-	 */
-	protected function notify_admins() {
-
-	}
-
 }
 
+/**
+ * Class WPSEO_OnPage_Test
+ */
 class WPSEO_OnPage_Test extends WPSEO_UnitTestCase {
 
 	/**
@@ -107,24 +103,4 @@ class WPSEO_OnPage_Test extends WPSEO_UnitTestCase {
 		$this->assertTrue( $this->class_instance->fetch_from_onpage() );
 		$this->assertFalse( $this->class_instance->fetch_from_onpage() );
 	}
-
-	/**
-	 * Test is the old status (null) is overwritten by the new status (0)
-	 *
-	 * @covers WPSEO_OnPage::fetch_from_onpage
-	 */
-	public function test_notify_admins() {
-		update_option( 'home', 'http://example.org' );
-
-		$class_instance =
-			$this
-				->getMock( 'WPSEO_OnPage_Double', array( 'notify_admins' ) );
-
-		$class_instance
-			->expects( $this->once() )
-			->method( 'notify_admins' );
-
-		$class_instance->fetch_from_onpage();
-	}
-
 }
