@@ -1,5 +1,5 @@
 /* browser:true */
-/* global tb_show */
+/* global tb_show, wpseoSelect2Locale */
 (function( $ ) {
 	'use strict';
 

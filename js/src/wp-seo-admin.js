@@ -1,8 +1,4 @@
-/* global wpseoAdminL10n */
-/* global ajaxurl */
-/* global setWPOption */
-/* global tb_remove */
-/* global YoastSEO */
+/* global wpseoAdminL10n, ajaxurl, setWPOption, tb_remove, YoastSEO, wpseoSelect2Locale */
 /* jshint -W097 */
 /* jshint -W003 */
 /* jshint unused:false */
