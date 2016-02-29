@@ -8,13 +8,30 @@
  */
 class WPSEO_Redirect_Option {
 
+	/**
+	 * The plain redirect option before 3.1
+	 */
 	const OLD_OPTION_PLAIN = 'wpseo-premium-redirects';
+
+	/**
+	 * The regex redirect option before 3.1
+	 */
 	const OLD_OPTION_REGEX = 'wpseo-premium-redirects-regex';
 
-	const OPTION = 'wpseo-premium-redirects';
+	/**
+	 * @since 3.1
+	 */
+	const OPTION = 'wpseo-premium-redirects-base';
 
-	const OPTION_PLAIN = 'wpseo-premium-redirects-plain';
-	const OPTION_REGEX = 'wpseo-premium-redirects-regex';
+	/**
+	 * @since 3.1
+	 */
+	const OPTION_PLAIN = 'wpseo-premium-redirects-export-plain';
+
+	/**
+	 * @since 3.1
+	 */
+	const OPTION_REGEX = 'wpseo-premium-redirects-export-regex';
 
 	/**
 	 * @var WPSEO_Redirect[]
