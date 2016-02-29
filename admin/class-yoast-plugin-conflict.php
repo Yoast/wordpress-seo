@@ -142,11 +142,8 @@ class Yoast_Plugin_Conflict {
 	 */
 	public function check_plugin_conflicts( $plugin_sections ) {
 		$notification_center = Yoast_Notification_Center::get();
-
 		foreach ( $plugin_sections as $plugin_section => $readable_plugin_section ) {
-			$notification_center->register_notifier(
-				new Yoast_Plugin_Conflict_Notifier( $this, $plugin_section, $readable_plugin_section )
-			);
+			$notification_center->register_notifier( new Yoast_Plugin_Conflict_Notifier( $this, $plugin_section, $readable_plugin_section ) );
 		}
 	}
 

@@ -45,8 +45,8 @@ class Yoast_Plugin_Conflict_Notifier implements Yoast_Notifier_Interface {
 	 * @return Yoast_Notification
 	 */
 	public function get_notification() {
-		$plugins_as_string = $this->yoast_plugin_conflict->get_conflicting_plugins_as_string( $this->plugin_section );
 		$active_plugins    = $this->yoast_plugin_conflict->get_active_plugins();
+		$plugins_as_string = $this->yoast_plugin_conflict->get_conflicting_plugins_as_string( $this->plugin_section );
 
 		$error_message = '<h3>' . __( 'Warning!', 'wordpress-seo' ) . '</h3>';
 

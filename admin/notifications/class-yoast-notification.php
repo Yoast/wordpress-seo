@@ -271,6 +271,9 @@ class Yoast_Notification {
 		if ( ! in_array( $this->options['capability_check'], array( 'all', 'any' ) ) ) {
 			$this->options['capability_check'] = 'all';
 		}
+
+		// Should not exceed 0 or 1.
+		$this->options['priority'] = min( 1, max( 0, $this->options['priority'] ) );
 	}
 
 	/**

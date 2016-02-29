@@ -92,6 +92,11 @@ class Yoast_Notification_Center implements Yoast_Notification_Center_Interface {
 		/** @var Yoast_Notifier_Interface $notifier */
 		foreach ( $this->notifiers as $notifier ) {
 			$notification = $notifier->get_notification();
+			// Make sure we are working with a proper Notification.
+			if ( false === ( $notification instanceof Yoast_Notification ) ) {
+				continue;
+			}
+
 			if ( $notifier->notify() ) {
 				$this->add_notification( $notification );
 			}
@@ -336,8 +341,19 @@ class Yoast_Notification_Center implements Yoast_Notification_Center_Interface {
 
 	/**
 	 * Write the notifications to a cookie (hooked on shutdown)
+	 *
+	 * @depreacted 3.2 remove in 3.5
 	 */
 	public function set_transient() {
+	}
+
+	/**
+	 *
+	 *
+	 *
+	 * @since 3.2
+	 */
+	public function update_storage() {
 		// Create array with all notifications.
 		$notifications = array();
 
