@@ -58,7 +58,14 @@ var Analyzer = function( args ) {
  */
 Analyzer.prototype.init = function( args ) {
 	if ( isUndefined( args.paper ) ) {
-		args.paper = new Paper( args.text, { keyword:  args.keyword, description: args.meta } );
+		args.paper = new Paper( args.text,
+			{
+				keyword:  args.keyword,
+				description: args.meta,
+				url: args.url,
+				title: args.pageTitle
+			}
+		);
 	}
 
 	this.paper = args.paper;
@@ -322,8 +329,8 @@ Analyzer.prototype.imageCount = function() {
  */
 Analyzer.prototype.pageTitleLength = function() {
 	var result =  [ { test: "pageTitleLength", result:  0 } ];
-	if ( typeof this.config.pageTitle !== "undefined" ) {
-		result[ 0 ].result = this.config.pageTitle.length;
+	if ( this.paper.hasTitle() ) {
+		result[ 0 ].result = this.paper.getTitle().length;
 	}
 	return result;
 };
@@ -336,8 +343,8 @@ Analyzer.prototype.pageTitleLength = function() {
  */
 Analyzer.prototype.pageTitleKeyword = function() {
 	var result = [ { test: "pageTitleKeyword", result: { position: -1, matches: 0 } } ];
-	if ( typeof this.config.pageTitle !== "undefined" && this.paper.hasKeyword() ) {
-		result[0].result = findKeywordInPageTitle( this.config.pageTitle, this.paper.getKeyword() );
+	if ( typeof this.paper.hasTitle() && this.paper.hasKeyword() ) {
+		result[0].result = findKeywordInPageTitle( this.paper.getTitle(), this.paper.getKeyword() );
 	}
 	return result;
 };
@@ -381,8 +388,8 @@ Analyzer.prototype.metaDescriptionLength = function() {
 Analyzer.prototype.urlKeyword = function() {
 	var score = 0;
 
-	if ( this.paper.hasKeyword() && typeof this.config.url !== "undefined" ) {
-		score = checkForKeywordInUrl( this.config.url, this.paper.getKeyword() );
+	if ( this.paper.hasKeyword() && this.paper.hasUrl() ) {
+		score = checkForKeywordInUrl( this.paper.getUrl(), this.paper.getKeyword() );
 	}
 
 	var result = [ { test: "urlKeyword", result: score } ];
@@ -395,7 +402,7 @@ Analyzer.prototype.urlKeyword = function() {
  */
 Analyzer.prototype.urlLength = function() {
 	var result = [ { test: "urlLength", result: { urlTooLong: isUrlTooLong(
-		this.config.url,
+		this.paper.getUrl(),
 		this.paper.getKeyword(),
 		this.config.maxSlugLength,
 		this.config.maxUrlLength
@@ -408,7 +415,7 @@ Analyzer.prototype.urlLength = function() {
  * @returns {{test: string, result: number}[]}
  */
 Analyzer.prototype.urlStopwords = function() {
-	return [ { test: "urlStopwords", result: checkUrlForStopwords( this.config.url ) } ];
+	return [ { test: "urlStopwords", result: checkUrlForStopwords( this.paper.getUrl() ) } ];
 };
 
 /**
