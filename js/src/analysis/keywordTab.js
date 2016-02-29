@@ -1,6 +1,5 @@
-'use strict';
-
-var $ = jQuery;
+/* global wp, jQuery, YoastSEO */
+"use strict";
 
 /**
  * Renders a keyword tab as a jQuery HTML object.
@@ -22,7 +21,7 @@ function renderKeywordTab( score, keyword, prefix ) {
 		active: true
 	});
 
-	return $( html );
+	return jQuery( html );
 }
 
 /**
@@ -32,7 +31,7 @@ function renderKeywordTab( score, keyword, prefix ) {
  */
 function KeywordTab( args ) {
 	this.setScore(0);
-	this.keyword = "";
+	this.keyword = '';
 	this.prefix = args.prefix || '';
 }
 
@@ -44,7 +43,7 @@ function KeywordTab( args ) {
 KeywordTab.prototype.init = function( parent ) {
 	this.setElem( renderKeywordTab( this.score, this.keyword, this.prefix ) );
 
-	$( parent ).append( elem );
+	jQuery( parent ).append( this.elem );
 };
 
 /**
@@ -76,13 +75,13 @@ KeywordTab.prototype.refresh = function() {
  * @param {HTMLElement} elem
  */
 KeywordTab.prototype.setElem = function( elem ) {
-	this.elem = $( elem );
+	this.elem = jQuery( elem );
 };
 
 /**
  * Formats the given score and store it in the attribute.
  *
- * @param {integer} score
+ * @param {number} score
  */
 KeywordTab.prototype.setScore = function( score ) {
 	score = parseInt( score, 10 );
