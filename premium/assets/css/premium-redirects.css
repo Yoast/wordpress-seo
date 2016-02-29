@@ -19,3 +19,8 @@ tbody .column-new div:before {
 tbody .column-new .has-trailing-slash:after {
 	content: "/";
 }
+
+tbody .column-new .remove-slashes:before,
+tbody .column-new .remove-slashes:after {
+	content: none;
+}

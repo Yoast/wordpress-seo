@@ -189,28 +189,10 @@ class WPSEO_Redirect implements ArrayAccess {
 	 */
 	private function sanitize_slash( $url_to_sanitize ) {
 		$url = $url_to_sanitize;
-		if ( ! $this->is_absolute_url( $url_to_sanitize ) && $url !== '/' ) {
+		if ( WPSEO_Redirect_Util::is_relative_url( $url_to_sanitize ) && $url !== '/' ) {
 			$url = trim( $url_to_sanitize, '/' );
 		}
 
 		return $url;
-	}
-
-
-	/**
-	 * Check if given URL is an absolute or relative URL.
-	 *
-	 * @param string $url the url to check if url is absolute.
-	 *
-	 * @return bool
-	 */
-	private function is_absolute_url( $url ) {
-		$url = parse_url( $url, PHP_URL_SCHEME );
-
-		if ( $url ) {
-			return true;
-		}
-
-		return false;
 	}
 }

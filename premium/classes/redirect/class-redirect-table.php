@@ -189,12 +189,17 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 		switch ( $column_name ) {
 			case 'new':
 				$classes = array( 'val' );
+				$new_url = $item['new'];
 
 				if ( $this->has_target_trailing_slash() ) {
 					$classes[] = 'has-trailing-slash';
 				}
 
-				return "<div class='" . esc_attr( implode( ' ', $classes ) ) . "'>" . esc_html( $item['new'] ) . '</div>' . $row_actions;
+				if ( ! WPSEO_Redirect_Util::is_relative_url( $new_url ) ) {
+					$classes[] = 'remove-slashes';
+				}
+
+				return "<div class='" . esc_attr( implode( ' ', $classes ) ) . "'>" . esc_html( $new_url ) . '</div>' . $row_actions;
 				break;
 			case 'old':
 				return "<div class='val'>" . esc_html( $item['old'] ). '</div>' . $row_actions;
