@@ -240,10 +240,13 @@ function wpseo_display_contributors( $contributors ) {
 		<h4 class="wp-people-group"><?php _e( 'Contributors to this release', 'wordpress-seo' ); ?></h4>
 		<?php
 		$patches_from = array(
-			'Daniel Homer' => 'https://github.com/danielhomer',
+			'Chris Jean' => 'https://github.com/chrisbliss18',
+			'Melvin Tercan' => 'https://github.com/melvinmt',
+			'Ben Constable' => 'https://github.com/BenConstable',
+			'Emre Erkan' => 'https://github.com/karalamalar',
 		);
 		?>
-		<p>We're always grateful for patches from non-regular contributors, in Yoast SEO 3.0, patches from
+		<p>We're always grateful for patches from non-regular contributors, in Yoast SEO 3.1, patches from
 			the
 			following people made it in:</p>
 		<ul class="ul-square">
