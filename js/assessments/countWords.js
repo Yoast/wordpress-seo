@@ -80,7 +80,8 @@ var countWordsAssessment = function( paper ){
 	assessmentResult.result = result;
 	assessmentResult.score = {
 		scoreName: "wordCount",
-		scoreArray: countWordsScore.scoreArray
+		scoreArray: countWordsScore.scoreArray,
+		replaceArray: countWordsScore.replaceArray
 	};
 	return assessmentResult;
 };
