@@ -17,18 +17,45 @@ describe( "Creating an Paper", function(){
 } );
 
 describe( "Creating a Paper", function() {
-	it("returns metaDescription", function () {
-		var metaValues = {};
+	it("returns description", function () {
+		var attributes = {};
 		var paper = new Paper("text, metaValues");
 		expect(paper.hasDescription()).toBe(false);
 		expect(paper.getDescription()).toBe("");
 
-		metaValues = {
+		attributes = {
 			keyword: "keyword",
 			description: "this is a meta"
 		};
-		paper = new Paper("text", metaValues);
+		paper = new Paper("text", attributes);
 		expect(paper.hasDescription()).toBe(true);
 		expect(paper.getDescription()).toBe("this is a meta");
+	});
+
+	it("returns url", function () {
+		var attributes = {
+			url: "http://yoast.com/post"
+		};
+
+		var paper = new Paper( "text", attributes );
+		expect( paper.hasUrl()).toBe(true);
+		expect( paper.getUrl()).toBe("http://yoast.com/post");
+	});
+
+	it("returns title", function () {
+		var attributes = {
+			title: "title"
+		};
+		var paper = new Paper( "text", attributes );
+		expect( paper.hasTitle()).toBe(true);
+		expect( paper.getTitle()).toBe("title");
+	});
+
+	it( "returns nothing", function () {
+		var paper = new Paper ( "text" );
+		expect( paper.hasTitle()).toBe(false);
+		expect( paper.hasDescription()).toBe(false);
+		expect( paper.hasUrl()).toBe(false);
+		expect( paper.hasKeyword()).toBe(false);
 	});
 } );

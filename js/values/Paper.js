@@ -3,7 +3,8 @@ var defaults = require( "lodash/object/defaults" );
 var defaultAttributes = {
 	keyword: "",
 	description: "",
-	locale: ""
+	title: "",
+	url: ""
 };
 
 /**
@@ -22,14 +23,14 @@ var Paper = function( text, attributes ) {
 
 /**
  * Check whether a keyword is available.
- * @returns {boolean} Returns true if keyword isn't empty
+ * @returns {boolean} Returns true if the Paper has a keyword.
  */
 Paper.prototype.hasKeyword = function() {
 	return this._attributes.keyword !== "";
 };
 
 /**
- * Return the associated keyword or an empty string if no keyword is available
+ * Return the associated keyword or an empty string if no keyword is available.
  * @returns {string} Returns Keyword
  */
 Paper.prototype.getKeyword = function() {
@@ -38,7 +39,7 @@ Paper.prototype.getKeyword = function() {
 
 /**
  * Check whether the text is available.
- * @returns {boolean} Returns true if text isn't empty
+ * @returns {boolean} Returns true if the paper has a text.
  */
 Paper.prototype.hasText = function() {
 	return this._text !== "";
@@ -53,35 +54,51 @@ Paper.prototype.getText = function() {
 };
 
 /**
- * Check whether a metaDescription is available
- * @returns {boolean} Returns true if metaDescription isn't empty
+ * Check whether a description is available.
+ * @returns {boolean} Returns true if the paper has a description.
  */
 Paper.prototype.hasDescription = function() {
 	return this._attributes.description !== "";
 };
 
 /**
- * Return the metaDescription or an empty string if no metaDescription is available
- * @returns {string} Returns the metaDescription
+ * Return the description or an empty string if no description is available.
+ * @returns {string} Returns the description.
  */
 Paper.prototype.getDescription = function() {
 	return this._attributes.description;
 };
 
 /**
- * Check whether a locale is available
- * @returns {boolean} Returns true if the paper has a locale
+ * Check whether an title is available
+ * @returns {boolean} Returns true if the Paper has a title.
  */
-Paper.prototype.hasLocale = function() {
-	return this._attributes.locale !== "";
+Paper.prototype.hasTitle = function() {
+	return this._attributes.title !== "";
 };
 
 /**
- * Return the locale or an empty string if no locale is available
- * @returns {string} Returns the locale
+ * Return the title, or an empty string of no title is available.
+ * @returns {string} Returns the title
  */
-Paper.prototype.getLocale = function() {
-	return this._attributes.locale;
+Paper.prototype.getTitle = function() {
+	return this._attributes.title;
+};
+
+/**
+ * Check whether an url is available
+ * @returns {boolean} Returns true if the Paper has an Url.
+ */
+Paper.prototype.hasUrl = function() {
+	return this._attributes.url !== "";
+};
+
+/**
+ * Return the url, or an empty string of no url is available.
+ * @returns {string} Returns the url
+ */
+Paper.prototype.getUrl = function() {
+	return this._attributes.url;
 };
 
 module.exports = Paper;

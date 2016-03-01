@@ -39,7 +39,7 @@ var defaults = {
 	metaDescriptionDate: ""
 };
 
-var titleMaxLength = 70;
+var titleMaxLength = 65;
 
 var inputPreviewBindings = [
 	{
@@ -182,12 +182,12 @@ function rateTitleLength( titleLength ) {
 	var rating;
 
 	switch ( true ) {
-		case titleLength > 0 && titleLength <= 39:
-		case titleLength >= 71:
+		case titleLength > 0 && titleLength <= 34:
+		case titleLength >= 66:
 			rating = "ok";
 			break;
 
-		case titleLength >= 40 && titleLength <= 70:
+		case titleLength >= 35 && titleLength <= 65:
 			rating = "good";
 			break;
 

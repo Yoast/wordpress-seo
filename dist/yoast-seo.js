@@ -452,7 +452,14 @@ var Analyzer = function( args ) {
  */
 Analyzer.prototype.init = function( args ) {
 	if ( isUndefined( args.paper ) ) {
-		args.paper = new Paper( args.text, { keyword:  args.keyword, description: args.meta, locale: args.locale } );
+		args.paper = new Paper( args.text,
+			{
+				keyword:  args.keyword,
+				description: args.meta,
+				url: args.url,
+				title: args.pageTitle
+			}
+		);
 	}
 
 	this.paper = args.paper;
@@ -716,8 +723,8 @@ Analyzer.prototype.imageCount = function() {
  */
 Analyzer.prototype.pageTitleLength = function() {
 	var result =  [ { test: "pageTitleLength", result:  0 } ];
-	if ( typeof this.config.pageTitle !== "undefined" ) {
-		result[ 0 ].result = this.config.pageTitle.length;
+	if ( this.paper.hasTitle() ) {
+		result[ 0 ].result = this.paper.getTitle().length;
 	}
 	return result;
 };
@@ -730,8 +737,8 @@ Analyzer.prototype.pageTitleLength = function() {
  */
 Analyzer.prototype.pageTitleKeyword = function() {
 	var result = [ { test: "pageTitleKeyword", result: { position: -1, matches: 0 } } ];
-	if ( typeof this.config.pageTitle !== "undefined" && this.paper.hasKeyword() ) {
-		result[0].result = findKeywordInPageTitle( this.config.pageTitle, this.paper.getKeyword() );
+	if ( typeof this.paper.hasTitle() && this.paper.hasKeyword() ) {
+		result[0].result = findKeywordInPageTitle( this.paper.getTitle(), this.paper.getKeyword() );
 	}
 	return result;
 };
@@ -775,8 +782,8 @@ Analyzer.prototype.metaDescriptionLength = function() {
 Analyzer.prototype.urlKeyword = function() {
 	var score = 0;
 
-	if ( this.paper.hasKeyword() && typeof this.config.url !== "undefined" ) {
-		score = checkForKeywordInUrl( this.config.url, this.paper.getKeyword() );
+	if ( this.paper.hasKeyword() && this.paper.hasUrl() ) {
+		score = checkForKeywordInUrl( this.paper.getUrl(), this.paper.getKeyword() );
 	}
 
 	var result = [ { test: "urlKeyword", result: score } ];
@@ -789,7 +796,7 @@ Analyzer.prototype.urlKeyword = function() {
  */
 Analyzer.prototype.urlLength = function() {
 	var result = [ { test: "urlLength", result: { urlTooLong: isUrlTooLong(
-		this.config.url,
+		this.paper.getUrl(),
 		this.paper.getKeyword(),
 		this.config.maxSlugLength,
 		this.config.maxUrlLength
@@ -802,7 +809,7 @@ Analyzer.prototype.urlLength = function() {
  * @returns {{test: string, result: number}[]}
  */
 Analyzer.prototype.urlStopwords = function() {
-	return [ { test: "urlStopwords", result: checkUrlForStopwords( this.config.url ) } ];
+	return [ { test: "urlStopwords", result: checkUrlForStopwords( this.paper.getUrl() ) } ];
 };
 
 /**
@@ -2215,22 +2222,22 @@ var AnalyzerScoring = function( i18n ) {
             scoreArray: [
                 {max: 0, score: 1, text: i18n.dgettext( "js-text-analysis", "Please create a page title.")},
                 {
-                    max: 39,
+                    max: 34,
                     score: 6,
 
                     /* translators: %3$d expands to the number of characters in the page title, %1$d to the minimum number of characters for the title */
                     text: i18n.dgettext( "js-text-analysis", "The page title contains %3$d characters, which is less than the recommended minimum of %1$d characters. Use the space to add keyword variations or create compelling call-to-action copy.")
                 },
                 {
-                    min: 71,
+                    min: 66,
                     score: 6,
 
                     /* translators: %3$d expands to the number of characters in the page title, %2$d to the maximum number of characters for the title */
                     text: i18n.dgettext( "js-text-analysis", "The page title contains %3$d characters, which is more than the viewable limit of %2$d characters; some words will not be visible to users in your listing.")
                 },
                 {
-                    min: 40,
-                    max: 70,
+                    min: 35,
+                    max: 65,
                     score: 9,
 
                     /* translators: %1$d expands to the minimum number of characters in the page title, %2$d to the maximum number of characters */
@@ -2238,8 +2245,8 @@ var AnalyzerScoring = function( i18n ) {
                 }
             ],
             replaceArray: [
-                { name: "minLength", position: "%1$d", value: 40 },
-                { name: "maxLength", position: "%2$d", value: 70 },
+                { name: "minLength", position: "%1$d", value: 35 },
+                { name: "maxLength", position: "%2$d", value: 65 },
                 { name: "length", position: "%3$d", source: "matcher" }
             ]
         }, {
@@ -3029,7 +3036,7 @@ var defaults = {
 	metaDescriptionDate: ""
 };
 
-var titleMaxLength = 70;
+var titleMaxLength = 65;
 
 var inputPreviewBindings = [
 	{
@@ -3172,12 +3179,12 @@ function rateTitleLength( titleLength ) {
 	var rating;
 
 	switch ( true ) {
-		case titleLength > 0 && titleLength <= 39:
-		case titleLength >= 71:
+		case titleLength > 0 && titleLength <= 34:
+		case titleLength >= 66:
 			rating = "ok";
 			break;
 
-		case titleLength >= 40 && titleLength <= 70:
+		case titleLength >= 35 && titleLength <= 65:
 			rating = "good";
 			break;
 
@@ -4791,6 +4798,7 @@ module.exports = function( text ) {
 var stringToRegex = require( "../stringProcessing/stringToRegex.js" );
 var replaceString = require( "../stringProcessing/replaceString.js" );
 var removalWords = require( "../config/removalWords.js" );
+var replaceDiacritics = require( "../stringProcessing/replaceDiacritics.js" );
 
 /**
  * Matches the keyword in an array of strings
@@ -4812,8 +4820,8 @@ module.exports = function( matches, keyword ) {
 				matches[ i ], removalWords
 			);
 			if (
-				formattedHeaders.match( stringToRegex( keyword ) ) ||
-				matches[ i ].match( stringToRegex( keyword ) )
+				replaceDiacritics( formattedHeaders ).match( stringToRegex( keyword ) ) ||
+				replaceDiacritics( matches[ i ] ).match( stringToRegex( keyword ) )
 			) {
 				foundInHeader++;
 			}
@@ -4822,7 +4830,7 @@ module.exports = function( matches, keyword ) {
 	return foundInHeader;
 };
 
-},{"../config/removalWords.js":22,"../stringProcessing/replaceString.js":44,"../stringProcessing/stringToRegex.js":46}],52:[function(require,module,exports){
+},{"../config/removalWords.js":22,"../stringProcessing/replaceDiacritics.js":43,"../stringProcessing/replaceString.js":44,"../stringProcessing/stringToRegex.js":46}],52:[function(require,module,exports){
 /** @module stringProcessing/unifyWhitespace */
 
 /**
@@ -5031,7 +5039,8 @@ var defaults = require( "lodash/object/defaults" );
 var defaultAttributes = {
 	keyword: "",
 	description: "",
-	locale: ""
+	title: "",
+	url: ""
 };
 
 /**
@@ -5050,14 +5059,14 @@ var Paper = function( text, attributes ) {
 
 /**
  * Check whether a keyword is available.
- * @returns {boolean} Returns true if keyword isn't empty
+ * @returns {boolean} Returns true if the Paper has a keyword.
  */
 Paper.prototype.hasKeyword = function() {
 	return this._attributes.keyword !== "";
 };
 
 /**
- * Return the associated keyword or an empty string if no keyword is available
+ * Return the associated keyword or an empty string if no keyword is available.
  * @returns {string} Returns Keyword
  */
 Paper.prototype.getKeyword = function() {
@@ -5066,7 +5075,7 @@ Paper.prototype.getKeyword = function() {
 
 /**
  * Check whether the text is available.
- * @returns {boolean} Returns true if text isn't empty
+ * @returns {boolean} Returns true if the paper has a text.
  */
 Paper.prototype.hasText = function() {
 	return this._text !== "";
@@ -5081,35 +5090,51 @@ Paper.prototype.getText = function() {
 };
 
 /**
- * Check whether a metaDescription is available
- * @returns {boolean} Returns true if metaDescription isn't empty
+ * Check whether a description is available.
+ * @returns {boolean} Returns true if the paper has a description.
  */
 Paper.prototype.hasDescription = function() {
 	return this._attributes.description !== "";
 };
 
 /**
- * Return the metaDescription or an empty string if no metaDescription is available
- * @returns {string} Returns the metaDescription
+ * Return the description or an empty string if no description is available.
+ * @returns {string} Returns the description.
  */
 Paper.prototype.getDescription = function() {
 	return this._attributes.description;
 };
 
 /**
- * Check whether a locale is available
- * @returns {boolean} Returns true if the paper has a locale
+ * Check whether an title is available
+ * @returns {boolean} Returns true if the Paper has a title.
  */
-Paper.prototype.hasLocale = function() {
-	return this._attributes.locale !== "";
+Paper.prototype.hasTitle = function() {
+	return this._attributes.title !== "";
 };
 
 /**
- * Return the locale or an empty string if no locale is available
- * @returns {string} Returns the locale
+ * Return the title, or an empty string of no title is available.
+ * @returns {string} Returns the title
  */
-Paper.prototype.getLocale = function() {
-	return this._attributes.locale;
+Paper.prototype.getTitle = function() {
+	return this._attributes.title;
+};
+
+/**
+ * Check whether an url is available
+ * @returns {boolean} Returns true if the Paper has an Url.
+ */
+Paper.prototype.hasUrl = function() {
+	return this._attributes.url !== "";
+};
+
+/**
+ * Return the url, or an empty string of no url is available.
+ * @returns {string} Returns the url
+ */
+Paper.prototype.getUrl = function() {
+	return this._attributes.url;
 };
 
 module.exports = Paper;
