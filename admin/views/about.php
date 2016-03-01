@@ -46,6 +46,8 @@ function wpseo_display_contributors( $contributors ) {
 			echo sprintf( __( 'What’s new in %s', 'wordpress-seo' ), '3.1' );
 			?>
 		</a>
+		<a class="nav-tab" href="#top#integrations"
+		   id="integrations-tab"><?php _e( 'Integrations', 'wordpress-seo' ); ?></a>
 		<a class="nav-tab" href="#top#credits" id="credits-tab"><?php _e( 'Credits', 'wordpress-seo' ); ?></a>
 	</h2>
 
@@ -83,7 +85,8 @@ function wpseo_display_contributors( $contributors ) {
 
 				<p>We had checboxes that enabled things and checkboxes that disabled things. That's, of course,
 					completely unusable. So now we have toggles. Everywhere.</p>
-			</div>			<div class="col">
+			</div>
+			<div class="col">
 				<div class="media-containerr">
 					<img style="height: 225px; margin: 0 0 10px 0;"
 					     src="//yoast-30.s3.amazonaws.com/primary-category.png" alt="Primary category">
@@ -113,6 +116,32 @@ function wpseo_display_contributors( $contributors ) {
 
 		</div>
 	</div>
+
+	<div id="integrations" class="wpseotab">
+		<h2>Yoast SEO Integrations</h2>
+		<p class="about-description">
+			Yoast SEO 3.0 brought a way for theme builders and custom field plugins to integrate with Yoast SEO. These
+			integrations make sure that <em>all</em> the data on your page is used for the content analysis. On this
+			page, we highlight the frameworks that have nicely working integrations.
+		</p>
+
+		<ol>
+			<li><a target="_blank" href="https://wordpress.org/plugins/yoast-seo-acf-analysis/">Yoast ACF Integration</a> - an integration built by <a href="https://forsberg.ax">Marcus Forsberg</a> and Team Yoast</li>
+			<li><a target="_blank" href="https://www.elegantthemes.com/plugins/divi-builder/">Divi Builder</a></li>
+			<li><a target="_blank" href="https://vc.wpbakery.com/">Visual Composer</a></li>
+		</ol>
+
+		<h3>Other integrations</h3>
+		<p class="about-description">
+			We've got another integration we'd like to tell you about:
+		</p>
+
+		<ol>
+			<li><a target="_blank" href="https://wordpress.org/plugins/glue-for-yoast-seo-amp/">Glue for Yoast SEO &amp; AMP</a> - an integration between <a href="https://wordpress.org/plugins/amp/">the WordPress AMP plugin</a> and Yoast SEO.</li>
+		</ol>
+
+
+		</div>
 
 	<div id="credits" class="wpseotab">
 		<p class="about-description">
