@@ -56,11 +56,3 @@ echo '<p>' . sprintf( __( 'If you use Google Analytics campaign parameters start
 $yform->textinput( 'cleanpermalink-extravars', __( 'Other variables not to clean', 'wordpress-seo' ) );
 echo '<p>' . __( 'You might have extra variables you want to prevent from cleaning out, add them here, comma separated.', 'wordpress-seo' ) . '</p>';
 echo '</div>';
-
-/* translators: %s expands to <code>&lt;head&gt;</code> */
-echo '<h3>', sprintf( __( 'Clean up the %s', 'wordpress-seo' ), '<code>&lt;head&gt;</code>' ), '</h3>';
-$show_buttons = array( __( 'Show', 'wordpress-seo' ), __( 'Hide', 'wordpress-seo' ) );
-$yform->light_switch( 'hide-rsdlink', __( 'Hide RSD Links', 'wordpress-seo' ), $show_buttons, false );
-$yform->light_switch( 'hide-wlwmanifest', __( 'Hide WLW Manifest Links', 'wordpress-seo' ), $show_buttons, false );
-$yform->light_switch( 'hide-shortlink', __( 'Hide Shortlink for posts', 'wordpress-seo' ), $show_buttons, false );
-$yform->light_switch( 'hide-feedlinks', __( 'Hide RSS Links', 'wordpress-seo' ), $show_buttons, false );
