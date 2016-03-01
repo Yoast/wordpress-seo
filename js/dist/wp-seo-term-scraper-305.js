@@ -1,102 +1,107 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 /* global wp, jQuery, YoastSEO */
+module.exports = (function() {
+	'use strict';
 
-/**
- * Renders a keyword tab as a jQuery HTML object.
- *
- * @param {int}    score
- * @param {string} keyword
- * @param {string} prefix
- *
- * @returns {HTMLElement}
- */
-function renderKeywordTab( score, keyword, prefix ) {
-	var placeholder = keyword.length > 0 ? keyword : '...';
-	var html = wp.template( 'keyword_tab' )({
-		keyword: keyword,
-		placeholder: placeholder,
-		score: score,
-		hideRemove: true,
-		prefix: prefix + ' ',
-		active: true
-	});
+	console.log(1234);
 
-	return jQuery( html );
-}
+	/**
+	 * Renders a keyword tab as a jQuery HTML object.
+	 *
+	 * @param {int}    score
+	 * @param {string} keyword
+	 * @param {string} prefix
+	 *
+	 * @returns {HTMLElement}
+	 */
+	function renderKeywordTab( score, keyword, prefix ) {
+		var placeholder = keyword.length > 0 ? keyword : '...';
+		var html = wp.template( 'keyword_tab' )({
+			keyword: keyword,
+			placeholder: placeholder,
+			score: score,
+			hideRemove: true,
+			prefix: prefix + ' ',
+			active: true
+		});
 
-/**
- * Constructor for a keyword tab object
- * @param {Object} args
- * @constructor
- */
-function KeywordTab( args ) {
-	this.setScore(0);
-	this.keyword = '';
-	this.prefix = args.prefix || '';
-}
-
-/**
- * Initialize a keyword tab.
- *
- * @param {HTMLElement} parent
- */
-KeywordTab.prototype.init = function( parent ) {
-	this.setElement( renderKeywordTab( this.score, this.keyword, this.prefix ) );
-
-	jQuery( parent ).append( this.element );
-};
-
-/**
- * Updates the keyword tabs with new values.
- *
- * @param {integer} score
- * @param {string}  keyword
- */
-KeywordTab.prototype.update = function( score, keyword ) {
-	this.setScore( score );
-	this.keyword = keyword;
-
-	this.refresh();
-};
-
-/**
- * Renders a new keyword tab with the current values and replaces the old tab with this one.
- */
-KeywordTab.prototype.refresh = function() {
-	var newElem = renderKeywordTab( this.score, this.keyword, this.prefix );
-
-	this.element.replaceWith( newElem );
-	this.setElement( newElem );
-};
-
-/**
- * Sets the current element
- *
- * @param {HTMLElement} element
- */
-KeywordTab.prototype.setElement = function( element ) {
-	this.element = jQuery( element );
-};
-
-/**
- * Formats the given score and store it in the attribute.
- *
- * @param {number} score
- */
-KeywordTab.prototype.setScore = function( score ) {
-	score = parseInt( score, 10 );
-
-	if ( this.keyword === '' ) {
-		score = 'na';
+		return jQuery( html );
 	}
 
-	score = YoastSEO.ScoreFormatter.prototype.overallScoreRating( score );
+	/**
+	 * Constructor for a keyword tab object
+	 * @param {Object} args
+	 * @constructor
+	 */
+	function KeywordTab( args ) {
+		this.setScore(0);
+		this.keyword = '';
+		this.prefix = args.prefix || '';
+	}
 
-	this.score = score;
-};
+	/**
+	 * Initialize a keyword tab.
+	 *
+	 * @param {HTMLElement} parent
+	 */
+	KeywordTab.prototype.init = function( parent ) {
+		this.setElement( renderKeywordTab( this.score, this.keyword, this.prefix ) );
 
-module.exports = KeywordTab;
+		jQuery( parent ).append( this.element );
+	};
 
+	/**
+	 * Updates the keyword tabs with new values.
+	 *
+	 * @param {integer} score
+	 * @param {string}  keyword
+	 */
+	KeywordTab.prototype.update = function( score, keyword ) {
+		this.setScore( score );
+		this.keyword = keyword;
+
+		this.refresh();
+	};
+
+	/**
+	 * Renders a new keyword tab with the current values and replaces the old tab with this one.
+	 */
+	KeywordTab.prototype.refresh = function() {
+		var newElem = renderKeywordTab( this.score, this.keyword, this.prefix );
+
+		this.element.replaceWith( newElem );
+		this.setElement( newElem );
+	};
+
+	/**
+	 * Sets the current element
+	 *
+	 * @param {HTMLElement} element
+	 */
+	KeywordTab.prototype.setElement = function( element ) {
+		this.element = jQuery( element );
+	};
+
+	/**
+	 * Formats the given score and store it in the attribute.
+	 *
+	 * @param {number} score
+	 */
+	KeywordTab.prototype.setScore = function( score ) {
+		score = parseInt( score, 10 );
+
+		if ( this.keyword === '' ) {
+			score = 'na';
+		}
+
+		score = YoastSEO.ScoreFormatter.prototype.overallScoreRating( score );
+
+		this.score = score;
+	};
+
+
+	return KeywordTab;
+})();
 },{}],2:[function(require,module,exports){
 /* global YoastSEO, wpseoTermScraperL10n, ajaxurl, tinyMCE, YoastReplaceVarPlugin, console, require */
 (function( $ ) {
