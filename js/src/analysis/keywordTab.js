@@ -1,5 +1,4 @@
 /* global wp, jQuery, YoastSEO */
-"use strict";
 
 /**
  * Renders a keyword tab as a jQuery HTML object.
