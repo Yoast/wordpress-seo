@@ -111,22 +111,6 @@ class WPSEO_Frontend {
 		// Fix the WooThemes woo_title() output.
 		add_filter( 'woo_title', array( $this, 'fix_woo_title' ), 99 );
 
-		if ( $this->options['hide-rsdlink'] === true ) {
-			remove_action( 'wp_head', 'rsd_link' );
-		}
-		if ( $this->options['hide-wlwmanifest'] === true ) {
-			remove_action( 'wp_head', 'wlwmanifest_link' );
-		}
-		if ( $this->options['hide-shortlink'] === true ) {
-			remove_action( 'wp_head', 'wp_shortlink_wp_head' );
-			remove_action( 'template_redirect', 'wp_shortlink_header', 11 );
-		}
-		if ( $this->options['hide-feedlinks'] === true ) {
-			// @todo: add option to display just normal feed and hide comment feed.
-			remove_action( 'wp_head', 'feed_links', 2 );
-			remove_action( 'wp_head', 'feed_links_extra', 3 );
-		}
-
 		if ( $this->options['disable-date'] === true ||
 		     $this->options['disable-author'] === true ||
 		     $this->options['disable-post_format'] === true

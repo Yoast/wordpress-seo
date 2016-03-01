@@ -184,23 +184,6 @@ class WPSEO_Upgrade {
 	}
 
 	/**
-	 * Moves the hide- links options from the permalinks option to the titles option
-	 */
-	private function move_hide_links_options() {
-		$options_titles = get_option( 'wpseo_titles' );
-		$options_permalinks = get_option( 'wpseo_permalinks' );
-
-		foreach ( array( 'hide-feedlinks', 'hide-rsdlink', 'hide-shortlink', 'hide-wlwmanifest' ) as $hide ) {
-			if ( isset( $options_titles[ $hide ] ) ) {
-				$options_permalinks[ $hide ] = $options_titles[ $hide ];
-				unset( $options_titles[ $hide ] );
-				update_option( 'wpseo_permalinks', $options_permalinks );
-				update_option( 'wpseo_titles', $options_titles );
-			}
-		}
-	}
-
-	/**
 	 * Move the pinterest verification option from the wpseo option to the wpseo_social option
 	 */
 	private function move_pinterest_option() {
