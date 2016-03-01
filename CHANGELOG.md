@@ -1,4 +1,4 @@
-### 1.1-rc: February 9th, 2016
+### 1.1: March 1st, 2016
 
 #### Backwards incompatible changes
 
@@ -23,6 +23,8 @@ passed to `updateSnippetValues`. This is undesirable because it couples the call
 	* `createSnippetPreviewUrl`
 	* `createSnippetPreviewTitle`
 * Deprecated `App.createSnippetPreview`
+* Removed `StringHelper` prototype.
+* Removed `PreProcessor` prototype.
 
 #### Features
 
