@@ -8,13 +8,10 @@
  */
 class WPSEO_Sitemap_Cache_Data implements WPSEO_Sitemap_Cache_Data_Interface, Serializable {
 
-	/**
-	 * @var string Sitemap XML data.
-	 */
+	/** @var string Sitemap XML data. */
 	private $sitemap = '';
-	/**
-	 * @var string Status of the sitemap, usable or not.
-	 */
+
+	/** @var string Status of the sitemap, usable or not. */
 	private $status = self::UNKNOWN;
 
 	/**
@@ -66,7 +63,7 @@ class WPSEO_Sitemap_Cache_Data implements WPSEO_Sitemap_Cache_Data_Interface, Se
 	/**
 	 * Is the sitemap usable.
 	 *
-	 * @param null $usable If set; adjust status accordingly.
+	 * @param bool|null $usable If set; adjust status accordingly.
 	 *
 	 * @return bool True if usable, False if bad or unknown.
 	 */

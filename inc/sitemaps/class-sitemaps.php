@@ -206,7 +206,7 @@ class WPSEO_Sitemaps {
 	 *
 	 * @return bool If the sitemap has been retrieved from cache.
 	 */
-	public function get_sitemap_from_cache( $type, $page_number ) {
+	private function get_sitemap_from_cache( $type, $page_number ) {
 		if ( true !== $this->cache->is_enabled() ) {
 			return false;
 		}
