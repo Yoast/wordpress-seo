@@ -54,7 +54,7 @@ class WPSEO_Admin_Init {
 	public function enqueue_dismissible() {
 		if ( version_compare( $GLOBALS['wp_version'], '4.2', '<' ) ) {
 			wp_enqueue_style( 'wpseo-dismissible', plugins_url( 'css/wpseo-dismissible' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
-			wp_enqueue_script( 'wpseo-dismissible', plugins_url( 'js/wp-seo-dismissible' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'jquery' ), WPSEO_VERSION, true );
+			wp_enqueue_script( 'wpseo-dismissible', plugins_url( 'js/wp-seo-dismissible-' . '310' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'jquery' ), WPSEO_VERSION, true );
 		}
 	}
 	/**
@@ -107,6 +107,10 @@ class WPSEO_Admin_Init {
 	 * Notify about the default tagline if the user hasn't changed it
 	 */
 	public function tagline_notice() {
+
+		// Just a return, because we want to temporary disable this notice (#3998).
+		return;
+
 		if ( current_user_can( 'manage_options' ) && $this->has_default_tagline() && ! $this->seen_tagline_notice() ) {
 
 			// Only add the notice on GET requests, not in the customizer, and not in "action" type submits to prevent faulty return url.
@@ -186,6 +190,10 @@ class WPSEO_Admin_Init {
 	 * Shows the notice for recalculating the post. the Notice will only be shown if the user hasn't dismissed it before.
 	 */
 	public function recalculate_notice() {
+
+		// Just a return, because we want to temporary disable this notice (#3998).
+		return;
+
 		if ( filter_input( INPUT_GET, 'recalculate' ) === '1' ) {
 			update_option( 'wpseo_dismiss_recalculate', '1' );
 			return;
