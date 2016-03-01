@@ -2,9 +2,9 @@
 # This file is distributed under the GPL v3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Yoast SEO 3.1-RC\n"
+"Project-Id-Version: Yoast SEO 3.1\n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo/issues\n"
-"POT-Creation-Date: 2016-02-24 10:57:27+00:00\n"
+"POT-Creation-Date: 2016-03-01 09:44:21+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -2518,55 +2518,65 @@ msgstr ""
 msgid "What’s new in %s"
 msgstr ""
 
-#: admin/views/about.php:49
+#: admin/views/about.php:50
+msgid "Integrations"
+msgstr ""
+
+#: admin/views/about.php:51
 msgid "Credits"
 msgstr ""
 
-#: admin/views/about.php:116
+#: admin/views/about.php:114
 msgid "Go to the General settings page →"
 msgstr ""
 
 #. translators: %1$s and %2$s expands to anchor tags, %3$s expands to Yoast SEO
-#: admin/views/about.php:126
+#: admin/views/about.php:150
 msgid ""
 "While most of the development team is at %1$sYoast%2$s in the Netherlands, "
 "%3$s is created by a worldwide team."
 msgstr ""
 
-#: admin/views/about.php:128
+#: admin/views/about.php:152
 msgid "Want to help us develop? Read our %1$scontribution guidelines%2$s!"
 msgstr ""
 
-#: admin/views/about.php:132
+#: admin/views/about.php:156
 msgid "Project Leaders"
 msgstr ""
 
-#: admin/views/about.php:138
+#: admin/views/about.php:162
 msgid "Project Lead"
 msgstr ""
 
-#: admin/views/about.php:143
+#: admin/views/about.php:167
 msgid "Lead Architect"
 msgstr ""
 
-#: admin/views/about.php:148
+#: admin/views/about.php:172
 msgid "Architect"
 msgstr ""
 
-#: admin/views/about.php:153
+#: admin/views/about.php:177
 msgid "QA & Translations Manager"
 msgstr ""
 
-#: admin/views/about.php:161
+#: admin/views/about.php:185
 msgid "Contributing Developers"
 msgstr ""
 
-#: admin/views/about.php:167 admin/views/about.php:172
-#: admin/views/about.php:177 admin/views/about.php:187
+#: admin/views/about.php:191 admin/views/about.php:196
+#: admin/views/about.php:201 admin/views/about.php:206
+#: admin/views/about.php:211 admin/views/about.php:216
+#: admin/views/about.php:231
 msgid "Developer"
 msgstr ""
 
-#: admin/views/about.php:211
+#: admin/views/about.php:221 admin/views/about.php:226
+msgid "Tester / Developer"
+msgstr ""
+
+#: admin/views/about.php:240
 msgid "Contributors to this release"
 msgstr ""
 
