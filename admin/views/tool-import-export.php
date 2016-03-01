@@ -51,21 +51,6 @@ if ( filter_input( INPUT_POST, 'import' ) || filter_input( INPUT_GET, 'import' )
 		$import = new WPSEO_Import_WPSEO( $replace );
 	}
 
-	if ( ! empty( $post_wpseo['importrobotsmeta'] ) || filter_input( INPUT_GET, 'importrobotsmeta' ) ) {
-		$import = new WPSEO_Import_External( $replace );
-		$import->import_robots_meta();
-	}
-
-	if ( ! empty( $post_wpseo['importrssfooter'] ) ) {
-		$import = new WPSEO_Import_External( $replace );
-		$import->import_rss_footer();
-	}
-
-	if ( ! empty( $post_wpseo['importbreadcrumbs'] ) ) {
-		$import = new WPSEO_Import_External( $replace );
-		$import->import_yoast_breadcrumbs();
-	}
-
 	// Allow custom import actions.
 	do_action( 'wpseo_handle_import' );
 
@@ -102,8 +87,6 @@ if ( isset( $import ) ) {
 	<a class="nav-tab" id="wpseo-export-tab" href="#top#wpseo-export"><?php _e( 'Export', 'wordpress-seo' ); ?></a>
 	<a class="nav-tab" id="import-seo-tab"
 	   href="#top#import-seo"><?php _e( 'Import from other SEO plugins', 'wordpress-seo' ); ?></a>
-	<a class="nav-tab" id="import-other-tab"
-	   href="#top#import-other"><?php _e( 'Import from other plugins', 'wordpress-seo' ); ?></a>
 	<?php
 	/**
 	 * Allow adding a custom import tab header
@@ -169,30 +152,6 @@ if ( isset( $import ) ) {
 	<br/>
 </div>
 
-<div id="import-other" class="wpseotab">
-	<p><?php _e( 'If you want to import data from (by now ancient) Yoast plugins, you can do so here:', 'wordpress-seo' ); ?></p>
-
-	<form
-		action="<?php echo esc_attr( admin_url( 'admin.php?page=wpseo_tools&tool=import-export#top#import-other' ) ); ?>"
-		method="post" accept-charset="<?php echo esc_attr( get_bloginfo( 'charset' ) ); ?>">
-		<?php
-		wp_nonce_field( 'wpseo-import', '_wpnonce', true, true );
-		$yform->checkbox( 'importrobotsmeta', __( 'Import from Robots Meta (by Yoast)?', 'wordpress-seo' ) );
-		$yform->checkbox( 'importrssfooter', __( 'Import from RSS Footer (by Yoast)?', 'wordpress-seo' ) );
-		$yform->checkbox( 'importbreadcrumbs', __( 'Import from Yoast Breadcrumbs?', 'wordpress-seo' ) );
-
-		/**
-		 * Allow option of importing from other 'other' plugins
-		 * @api  string  $content  The content containing all import and export methods
-		 */
-		echo apply_filters( 'wpseo_import_other_plugins', '' );
-
-		?>
-		<br/>
-		<input type="submit" class="button-primary" name="import" value="<?php _e( 'Import', 'wordpress-seo' ); ?>"/>
-	</form>
-	<br/>
-</div>
 <?php
 /**
  * Allow adding a custom import tab

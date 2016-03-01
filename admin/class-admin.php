@@ -95,7 +95,6 @@ class WPSEO_Admin {
 			$plugin_imports = array(
 				'wpSEO'       => new WPSEO_Import_WPSEO_Hooks(),
 				'aioseo'      => new WPSEO_Import_AIOSEO_Hooks(),
-				'robots_meta' => new WPSEO_Import_Robots_Meta_Hooks(),
 			);
 		}
 	}
