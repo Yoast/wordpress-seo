@@ -92,23 +92,35 @@ function wpseo_kill_blocking_files() {
 
 	check_ajax_referer( 'wpseo-blocking-files' );
 
-	$message = 'There were no files to delete.';
+	$message = 'success';
+	$errors  = array();
+
+	// Todo: Use WP_Filesystem, but not so easy to use in AJAX with credentials form still internal.
 	$options = get_option( 'wpseo' );
 	if ( is_array( $options['blocking_files'] ) && $options['blocking_files'] !== array() ) {
-		$message       = 'success';
-		$files_removed = 0;
-		foreach ( $options['blocking_files'] as $k => $file ) {
-			if ( ! @unlink( $file ) ) {
-				$message = __( 'Some files could not be removed. Please remove them via FTP.', 'wordpress-seo' );
+		foreach ( $options['blocking_files'] as $file ) {
+			if ( is_file( $file ) ) {
+				if ( ! @unlink( $file ) ) {
+					$errors[] = __(
+						sprintf( 'The file "%s" could not be removed. Please remove it via FTP.', $file ),
+						'wordpress-seo'
+					);
+				}
 			}
-			else {
-				unset( $options['blocking_files'][ $k ] );
-				$files_removed ++;
+
+			if ( is_dir( $file ) ) {
+				if ( ! @ rmdir( $file ) ) {
+					$errors[] = __(
+						sprintf( 'The directory "%s" could not be removed. Please remove it via FTP.', $file ),
+						'wordpress-seo'
+					);
+				}
 			}
 		}
-		if ( $files_removed > 0 ) {
-			update_option( 'wpseo', $options );
-		}
+	}
+
+	if ( $errors ) {
+		$message = implode( '<br />', $errors );
 	}
 
 	die( $message );

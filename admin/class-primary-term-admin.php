@@ -50,16 +50,16 @@ class WPSEO_Primary_Term_Admin {
 			return;
 		}
 
-		wp_enqueue_style( 'wpseo-primary-category', plugins_url( 'css/metabox-primary-category' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
-
-		wp_enqueue_script( 'wpseo-primary-category', plugins_url( 'js/wp-seo-metabox-category' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'jquery', 'wp-util' ), WPSEO_VERSION, true );
+		$asset_manager = new WPSEO_Admin_Asset_Manager();
+		$asset_manager->enqueue_style( 'primary-category' );
+		$asset_manager->enqueue_script( 'primary-category' );
 
 		$taxonomies = array_map( array( $this, 'map_taxonomies_for_js' ), $taxonomies );
 
 		$data = array(
 			'taxonomies' => $taxonomies,
 		);
-		wp_localize_script( 'wpseo-primary-category', 'wpseoPrimaryCategoryL10n', $data );
+		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'primary-category', 'wpseoPrimaryCategoryL10n', $data );
 	}
 
 	/**

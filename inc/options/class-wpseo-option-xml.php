@@ -59,7 +59,7 @@ class WPSEO_Option_XML extends WPSEO_Option {
 	protected function __construct() {
 		parent::__construct();
 		add_action( 'update_option_' . $this->option_name, array( 'WPSEO_Utils', 'clear_rewrites' ) );
-		add_action( 'update_option_' . $this->option_name, array( 'WPSEO_Utils', 'clear_sitemap_cache' ) );
+		add_action( 'update_option_' . $this->option_name, array( 'WPSEO_Sitemaps_Cache', 'clear' ) );
 	}
 
 
