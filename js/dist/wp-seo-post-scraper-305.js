@@ -3,8 +3,6 @@
 module.exports = (function() {
 	'use strict';
 
-	console.log(1234);
-
 	/**
 	 * Renders a keyword tab as a jQuery HTML object.
 	 *
@@ -98,7 +96,6 @@ module.exports = (function() {
 
 		this.score = score;
 	};
-
 
 	return KeywordTab;
 })();
