@@ -55,7 +55,7 @@ class WPSEO_Upgrade {
 		 *
 		 * @deprecated Since 3.1
 		 *
-		 * @api string - The current version of Yoast SEO
+		 * @api        string - The current version of Yoast SEO
 		 */
 		do_action( 'wpseo_run_upgrade', $this->options['version'] );
 
@@ -99,7 +99,6 @@ class WPSEO_Upgrade {
 		 */
 		delete_option( 'wpseo_ms' );
 
-		$this->move_hide_links_options();
 		$this->move_pinterest_option();
 	}
 
