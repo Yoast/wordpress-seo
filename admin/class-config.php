@@ -87,7 +87,7 @@ class WPSEO_Admin_Pages {
 		}
 
 		if ( 'wpseo_tools' === $page && 'bulk-editor' === $tool ) {
-			wp_enqueue_script( 'wpseo-bulk-editor', plugins_url( 'js/wp-seo-bulk-editor' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'jquery' ), WPSEO_VERSION, true );
+			wp_enqueue_script( 'wpseo-bulk-editor', plugins_url( 'js/wp-seo-bulk-editor-' . '310' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'jquery' ), WPSEO_VERSION, true );
 		}
 
 		if ( 'wpseo_tools' === $page && 'import-export' === $tool ) {

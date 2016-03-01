@@ -54,7 +54,7 @@ class WPSEO_Admin_Init {
 	public function enqueue_dismissible() {
 		if ( version_compare( $GLOBALS['wp_version'], '4.2', '<' ) ) {
 			wp_enqueue_style( 'wpseo-dismissible', plugins_url( 'css/wpseo-dismissible' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
-			wp_enqueue_script( 'wpseo-dismissible', plugins_url( 'js/wp-seo-dismissible' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'jquery' ), WPSEO_VERSION, true );
+			wp_enqueue_script( 'wpseo-dismissible', plugins_url( 'js/wp-seo-dismissible-' . '310' . WPSEO_CSSJS_SUFFIX . '.js', WPSEO_FILE ), array( 'jquery' ), WPSEO_VERSION, true );
 		}
 	}
 	/**
