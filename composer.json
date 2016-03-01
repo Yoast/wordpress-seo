@@ -21,19 +21,13 @@
 		"wiki": "https://github.com/Yoast/wordpress-seo/wiki",
 		"source": "https://github.com/Yoast/wordpress-seo"
 	},
-	"repositories": [
-		{
-			"type": "vcs",
-			"url": "https://github.com/Yoast/wp-helpscout"
-		}
-	],
 	"require": {
 		"composer/installers": "~1.0",
 		"yoast/license-manager": "^1.2",
 		"yoast/i18n-module": "^1.0",
 		"yoast/api-libs": "^2.0",
 		"xrstf/composer-php52": "^1.0.19",
-		"yoast/wp-helpscout": "dev-master"
+		"yoast/wp-helpscout": "^1.0"
 	},
 	"require-dev": {
 		"yoast/yoastcs": "dev-master",
