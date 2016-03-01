@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "ce95fe2243ff378d86397104a3cfab72",
-    "content-hash": "97bd4b5fb575ecba279bbd4987107cab",
+    "hash": "8aa4bd6def35f1cb281e483d5d03cf4e",
+    "content-hash": "5ab091ccff2161bddb8e4d6231d272ad",
     "packages": [
         {
             "name": "composer/installers",
@@ -257,16 +257,16 @@
         },
         {
             "name": "yoast/wp-helpscout",
-            "version": "dev-master",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Yoast/wp-helpscout.git",
-                "reference": "624be69461b091eb19229787f1ce103668c87762"
+                "reference": "61d402a7f89ea4d55bbb477c739151d69840e5ee"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Yoast/wp-helpscout/zipball/624be69461b091eb19229787f1ce103668c87762",
-                "reference": "624be69461b091eb19229787f1ce103668c87762",
+                "url": "https://api.github.com/repos/Yoast/wp-helpscout/zipball/61d402a7f89ea4d55bbb477c739151d69840e5ee",
+                "reference": "61d402a7f89ea4d55bbb477c739151d69840e5ee",
                 "shasum": ""
             },
             "type": "library",
@@ -278,6 +278,7 @@
                     "src/functions.php"
                 ]
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "GPL-3.0+"
             ],
@@ -289,11 +290,7 @@
                 }
             ],
             "description": "A package to integrate the helpscout beacon into WordPress",
-            "support": {
-                "source": "https://github.com/Yoast/wp-helpscout/tree/master",
-                "issues": "https://github.com/Yoast/wp-helpscout/issues"
-            },
-            "time": "2016-02-26 07:41:53"
+            "time": "2016-02-26 13:11:02"
         }
     ],
     "packages-dev": [
@@ -2091,7 +2088,6 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "yoast/wp-helpscout": 20,
         "yoast/yoastcs": 20,
         "codeclimate/php-test-reporter": 20
     },
