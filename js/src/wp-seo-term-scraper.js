@@ -310,7 +310,7 @@
 				prefix: wpseoTermScraperL10n.contentTab
 			}
 		);
-		keywordTab.setElem( $('.wpseo_keyword_tab') );
+		keywordTab.setElement( $('.wpseo_keyword_tab') );
 
 		termScraper = new TermScraper();
 

@@ -41,9 +41,9 @@ function KeywordTab( args ) {
  * @param {HTMLElement} parent
  */
 KeywordTab.prototype.init = function( parent ) {
-	this.setElem( renderKeywordTab( this.score, this.keyword, this.prefix ) );
+	this.setElement( renderKeywordTab( this.score, this.keyword, this.prefix ) );
 
-	jQuery( parent ).append( this.elem );
+	jQuery( parent ).append( this.element );
 };
 
 /**
@@ -65,17 +65,17 @@ KeywordTab.prototype.update = function( score, keyword ) {
 KeywordTab.prototype.refresh = function() {
 	var newElem = renderKeywordTab( this.score, this.keyword, this.prefix );
 
-	this.elem.replaceWith( newElem );
-	this.setElem( newElem );
+	this.element.replaceWith( newElem );
+	this.setElement( newElem );
 };
 
 /**
  * Sets the current element
  *
- * @param {HTMLElement} elem
+ * @param {HTMLElement} element
  */
-KeywordTab.prototype.setElem = function( elem ) {
-	this.elem = jQuery( elem );
+KeywordTab.prototype.setElement = function( element ) {
+	this.element = jQuery( element );
 };
 
 /**

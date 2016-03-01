@@ -418,7 +418,7 @@
 				prefix: wpseoPostScraperL10n.contentTab
 			}
 		);
-		keywordTab.setElem( $('.wpseo_keyword_tab') );
+		keywordTab.setElement( $('.wpseo_keyword_tab') );
 
 		var postScraper = new PostScraper();
 

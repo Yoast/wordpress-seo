@@ -67,7 +67,7 @@ KeywordTab.prototype.update = function( score, keyword ) {
 KeywordTab.prototype.refresh = function() {
 	var newElem = renderKeywordTab( this.score, this.keyword, this.prefix );
 
-	this.elem.replaceWith( newElem );
+	this.element.replaceWith( newElem );
 	this.setElem( newElem );
 };
 
@@ -77,7 +77,7 @@ KeywordTab.prototype.refresh = function() {
  * @param {HTMLElement} elem
  */
 KeywordTab.prototype.setElem = function( elem ) {
-	this.elem = $( elem );
+	this.element = $( elem );
 };
 
 /**
