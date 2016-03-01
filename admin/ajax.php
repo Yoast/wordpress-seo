@@ -44,26 +44,7 @@ function wpseo_set_option() {
 
 add_action( 'wp_ajax_wpseo_set_option', 'wpseo_set_option' );
 
-/**
- * Function used to remove the admin notices for several purposes, dies on exit.
- */
-function wpseo_set_ignore() {
-	if ( ! current_user_can( 'manage_options' ) ) {
-		die( '-1' );
-	}
-
-	check_ajax_referer( 'wpseo-ignore' );
-
-	$ignore_key = sanitize_text_field( filter_input( INPUT_POST, 'option' ) );
-
-	$options                          = get_option( 'wpseo' );
-	$options[ 'ignore_' . $ignore_key ] = true;
-	update_option( 'wpseo', $options );
-
-	die( '1' );
-}
-
-add_action( 'wp_ajax_wpseo_set_ignore', 'wpseo_set_ignore' );
+add_action( 'wp_ajax_yoast_dismiss_notification', array( 'Yoast_Notification_Center', 'ajax_dismiss_notification' ) );
 
 /**
  * Hides the default tagline notice for a specific user.
@@ -380,12 +361,6 @@ new WPSEO_Recalculate_Scores_Ajax;
 
 new Yoast_Dashboard_Widget();
 
-new Yoast_OnPage_Ajax();
-
 new WPSEO_Shortcode_Filter();
 
 new WPSEO_Taxonomy_Columns();
-
-
-// Setting the notice for the recalculate the posts.
-new Yoast_Dismissable_Notice_Ajax( 'recalculate', Yoast_Dismissable_Notice_Ajax::FOR_SITE );

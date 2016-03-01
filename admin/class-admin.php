@@ -60,13 +60,7 @@ class WPSEO_Admin {
 
 		add_action( 'admin_enqueue_scripts', array( $this, 'config_page_scripts' ) );
 
-		if ( '0' == get_option( 'blog_public' ) ) {
-			add_action( 'admin_footer', array( $this, 'blog_public_warning' ) );
-		}
-
-		if ( ( ( isset( $this->options['theme_has_description'] ) && $this->options['theme_has_description'] === true ) ||
-		       $this->options['theme_description_found'] !== '' ) && $this->options['ignore_meta_description_warning'] !== true
-		) {
+		if ( ( ( isset( $this->options['theme_has_description'] ) && $this->options['theme_has_description'] === true ) || $this->options['theme_description_found'] !== '' ) && $this->options['ignore_meta_description_warning'] !== true ) {
 			add_action( 'admin_footer', array( $this, 'meta_description_warning' ) );
 		}
 
@@ -132,10 +126,18 @@ class WPSEO_Admin {
 		$manage_options_cap = $this->get_manage_options_cap();
 
 		// Add main page.
-		$admin_page = add_menu_page( 'Yoast SEO: ' . __( 'General Settings', 'wordpress-seo' ), __( 'SEO', 'wordpress-seo' ), $manage_options_cap, 'wpseo_dashboard', array(
-			$this,
-			'load_page',
-		), $icon_svg, '99.31337' );
+		$admin_page = add_menu_page(
+			'Yoast SEO: ' . __( 'General Settings', 'wordpress-seo' ),
+			__( 'SEO', 'wordpress-seo' ),
+			$manage_options_cap,
+			'wpseo_dashboard',
+			array(
+				$this,
+				'load_page',
+			),
+			$icon_svg,
+			'99.31337'
+		);
 
 		// Sub menu pages.
 		$submenu_pages = array(
@@ -291,23 +293,36 @@ class WPSEO_Admin {
 		if ( WPSEO_Utils::grant_access() ) {
 			// Base 64 encoded SVG image.
 			$icon_svg = $this->get_menu_svg();
-			add_menu_page( 'Yoast SEO: ' . __( 'MultiSite Settings', 'wordpress-seo' ), __( 'SEO', 'wordpress-seo' ), 'delete_users', 'wpseo_dashboard', array(
-				$this,
-				'network_config_page',
-			), $icon_svg );
+			add_menu_page(
+				'Yoast SEO: ' . __( 'MultiSite Settings', 'wordpress-seo' ),
+				__( 'SEO', 'wordpress-seo' ),
+				'delete_users', 'wpseo_dashboard', array(
+					$this,
+					'network_config_page',
+				),
+				$icon_svg
+			);
 
 			if ( WPSEO_Utils::allow_system_file_edit() === true ) {
-				add_submenu_page( 'wpseo_dashboard', 'Yoast SEO: ' . __( 'Edit Files', 'wordpress-seo' ), __( 'Edit Files', 'wordpress-seo' ), 'delete_users', 'wpseo_files', array(
-					$this,
-					'load_page',
-				) );
+				add_submenu_page(
+					'wpseo_dashboard',
+					'Yoast SEO: ' . __( 'Edit Files', 'wordpress-seo' ),
+					__( 'Edit Files', 'wordpress-seo' ),
+					'delete_users',
+					'wpseo_files',
+					array(
+						$this,
+						'load_page',
+					)
+				);
 			}
 
 			// Add Extension submenu page.
-			add_submenu_page( 'wpseo_dashboard', 'Yoast SEO: ' . __( 'Extensions', 'wordpress-seo' ), __( 'Extensions', 'wordpress-seo' ), 'delete_users', 'wpseo_licenses', array(
-				$this,
-				'load_page',
-			) );
+			add_submenu_page( 'wpseo_dashboard', 'Yoast SEO: ' . __( 'Extensions', 'wordpress-seo' ),
+				__( 'Extensions', 'wordpress-seo' ), 'delete_users', 'wpseo_licenses', array(
+					$this,
+					'load_page',
+				) );
 		}
 	}
 
@@ -396,32 +411,11 @@ class WPSEO_Admin {
 
 	/**
 	 * Display an error message when the blog is set to private.
+	 *
+	 * @deprecated 3.2 remove 3.4
 	 */
 	function blog_public_warning() {
-		if ( ( function_exists( 'is_network_admin' ) && is_network_admin() ) || WPSEO_Utils::grant_access() !== true ) {
-			return;
-		}
-
-		if ( ! current_user_can( 'manage_options' ) ) {
-			return;
-		}
-
-		if ( $this->options['ignore_blog_public_warning'] === true ) {
-			return;
-		}
-		printf( '
-			<div id="robotsmessage" class="error">
-				<p>
-					<strong>%1$s</strong>
-					%2$s
-					<a href="javascript:wpseoSetIgnore(\'blog_public_warning\',\'robotsmessage\',\'%3$s\');" class="button">%4$s</a>
-				</p>
-			</div>',
-			__( 'Huge SEO Issue: You\'re blocking access to robots.', 'wordpress-seo' ),
-			sprintf( __( 'You must %sgo to your Reading Settings%s and uncheck the box for Search Engine Visibility.', 'wordpress-seo' ), sprintf( '<a href="%s">', esc_url( admin_url( 'options-reading.php' ) ) ), '</a>' ),
-			esc_js( wp_create_nonce( 'wpseo-ignore' ) ),
-			__( 'I know, don\'t bug me.', 'wordpress-seo' )
-		);
+		return;
 	}
 
 	/**
@@ -453,7 +447,12 @@ class WPSEO_Admin {
 			</div>',
 			__( 'SEO Issue:', 'wordpress-seo' ),
 			/* translators: %1$s expands to Yoast SEO, %2$s to opening anchor and %3$s the anchor closing tag */
-			sprintf( __( 'Your theme contains a meta description, which blocks %1$s from working properly. Please visit the %2$sSEO Dashboard%3$s to fix this.', 'wordpress-seo' ), 'Yoast SEO', sprintf( '<a href="%s">', esc_url( admin_url( 'admin.php?page=wpseo_dashboard' ) ) ), '</a>' ),
+			sprintf(
+				__( 'Your theme contains a meta description, which blocks %1$s from working properly. Please visit the %2$sSEO Dashboard%3$s to fix this.', 'wordpress-seo' ),
+				'Yoast SEO',
+				sprintf( '<a href="%s">', esc_url( admin_url( 'admin.php?page=wpseo_dashboard' ) ) ),
+				'</a>'
+			),
 			esc_js( wp_create_nonce( 'wpseo-ignore' ) ),
 			__( 'I know, don\'t bug me.', 'wordpress-seo' )
 		);

@@ -15,6 +15,11 @@ if ( ! function_exists( 'add_filter' ) ) {
  */
 define( 'WPSEO_VERSION', '3.1-beta' );
 
+/**
+ * @internal Algorithm version to trigger recalculation notification if updated.
+ */
+define( 'WPSEO_ALGORITHM_VERSION', '3.2.0' );
+
 if ( ! defined( 'WPSEO_PATH' ) ) {
 	define( 'WPSEO_PATH', plugin_dir_path( WPSEO_FILE ) );
 }
@@ -331,14 +336,11 @@ if ( ! wp_installing() && ( $spl_autoload_exists && $filter_exists ) ) {
 	add_action( 'plugins_loaded', 'wpseo_init', 14 );
 
 	if ( is_admin() ) {
+
+		Yoast_Notification_Center::initialise_notifiers();
+
 		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
 			require_once( WPSEO_PATH . 'admin/ajax.php' );
-
-			// Crawl Issue Manager AJAX hooks.
-			new WPSEO_GSC_Ajax;
-
-			// Plugin conflict ajax hooks.
-			new Yoast_Plugin_Conflict_Ajax();
 
 			if ( filter_input( INPUT_POST, 'action' ) === 'inline-save' ) {
 				add_action( 'plugins_loaded', 'wpseo_admin_init', 15 );

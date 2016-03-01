@@ -41,11 +41,18 @@ class WPSEO_Recalculate_Scores_Ajax {
 	public function recalculate_scores() {
 		check_ajax_referer( 'wpseo_recalculate', 'nonce' );
 
-		if ( $response = $this->get_fetch_object()->get_items_to_recalculate( filter_input( INPUT_POST, 'paged', FILTER_VALIDATE_INT ) ) ) {
-			wp_die( WPSEO_Utils::json_encode( $response ) );
+		$response = $this->get_fetch_object()->get_items_to_recalculate( filter_input( INPUT_POST, 'paged', FILTER_VALIDATE_INT ) );
+		if ( ! empty( $response ) ) {
+			$response = WPSEO_Utils::json_encode( $response );
+		}
+		else {
+			$response = '';
 		}
 
-		wp_die( '' );
+		// Set WPSEO version to current recalculation.
+		update_option( 'wpseo_last_recalculation', WPSEO_VERSION );
+
+		wp_die( $response );
 	}
 
 	/**
