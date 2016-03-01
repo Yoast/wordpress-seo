@@ -5,43 +5,43 @@
 /* jshint unused:false */
 'use strict';
 
-(function ($) {
-	jQuery(document).ready(function () {
-			/* Fix banner images overlapping help texts */
-			jQuery('.screen-meta-toggle a').click(function () {
+(function($) {
+	jQuery(document).ready(function() {
+			// Fix banner images overlapping help texts
+			jQuery('.screen-meta-toggle a').click(function() {
 					jQuery('#sidebar-container').toggle();
 				}
 			);
 
 			// events
-			jQuery('#enablexmlsitemap').change(function () {
+			jQuery('#enablexmlsitemap').change(function() {
 					jQuery('#sitemapinfo').toggle(jQuery(this).is(':checked'));
 				}
 			).change();
 
-			jQuery('#disable-post_format').change(function () {
+			jQuery('#disable-post_format').change(function() {
 					jQuery('#post_format-titles-metas').toggle(jQuery(this).is(':not(:checked)'));
 				}
 			).change();
 
-			jQuery('#breadcrumbs-enable').change(function () {
+			jQuery('#breadcrumbs-enable').change(function() {
 					jQuery('#breadcrumbsinfo').toggle(jQuery(this).is(':checked'));
 				}
 			).change();
 
-			jQuery('#disable_author_sitemap').find('input:radio').change(function () {
+			jQuery('#disable_author_sitemap').find('input:radio').change(function() {
 					if (jQuery(this).is(':checked')) {
 						jQuery('#xml_user_block').toggle(jQuery(this).val() === 'off');
 					}
 				}
 			).change();
 
-			jQuery('#cleanpermalinks').change(function () {
+			jQuery('#cleanpermalinks').change(function() {
 					jQuery('#cleanpermalinksdiv').toggle(jQuery(this).is(':checked'));
 				}
 			).change();
 
-			jQuery('#wpseo-tabs').find('a').click(function () {
+			jQuery('#wpseo-tabs').find('a').click(function() {
 					jQuery('#wpseo-tabs').find('a').removeClass('nav-tab-active');
 					jQuery('.wpseotab').removeClass('active');
 
@@ -51,7 +51,7 @@
 				}
 			);
 
-			jQuery('#company_or_person').change(function () {
+			jQuery('#company_or_person').change(function() {
 					var companyOrPerson = jQuery(this).val();
 					if ('company' === companyOrPerson) {
 						jQuery('#knowledge-graph-company').show();
@@ -68,7 +68,7 @@
 				}
 			).change();
 
-			jQuery('.template').change(function () {
+			jQuery('.template').change(function() {
 					wpseoDetectWrongVariables(jQuery(this));
 				}
 			).change();
@@ -121,7 +121,6 @@
 		});
 	}
 }(jQuery));
-
 
 /**
  * Detects the wrong use of variables in title and description templates
@@ -194,11 +193,11 @@ function wpseoDetectWrongVariables( e ) {
  */
 function setWPOption( option, newval, hide, nonce ) {
 	jQuery.post(ajaxurl, {
-			action  : 'wpseo_set_option',
-			option  : option,
-			newval  : newval,
+			action: 'wpseo_set_option',
+			option: option,
+			newval: newval,
 			_wpnonce: nonce
-		}, function (data) {
+		}, function(data) {
 			if (data) {
 				jQuery('#' + hide).hide();
 			}
@@ -213,9 +212,9 @@ function setWPOption( option, newval, hide, nonce ) {
  */
 function wpseoKillBlockingFiles(nonce) {
 	jQuery.post(ajaxurl, {
-			action     : 'wpseo_kill_blocking_files',
+			action: 'wpseo_kill_blocking_files',
 			_ajax_nonce: nonce
-		}, function (data) {
+		}, function(data) {
 			if (data === 'success') {
 				jQuery('#blocking_files').hide();
 			}
@@ -260,12 +259,12 @@ function wpseo_add_fb_admin() {
 	jQuery.post(
 		ajaxurl,
 		{
-			_wpnonce  : target_form.find('input[name=fb_admin_nonce]').val(),
+			_wpnonce: target_form.find('input[name=fb_admin_nonce]').val(),
 			admin_name: target_form.find('input[name=fb_admin_name]').val(),
-			admin_id  : target_form.find('input[name=fb_admin_id]').val(),
-			action    : 'wpseo_add_fb_admin'
+			admin_id: target_form.find('input[name=fb_admin_id]').val(),
+			action: 'wpseo_add_fb_admin'
 		},
-		function (response) {
+		function(response) {
 			var resp = jQuery.parseJSON(response);
 
 			target_form.find('p.notice').remove();
