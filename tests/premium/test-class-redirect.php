@@ -41,9 +41,10 @@ class WPSEO_Redirect_Test extends WPSEO_UnitTestCase {
 
 		$this->assertEquals( 'origin', $redirect->get_origin() );
 		$this->assertEquals( 'https://yoast.com/', $redirect->get_target() );
-		$this->assertEquals( 301,      $redirect->get_type() );
-		$this->assertEquals( 'plain',  $redirect->get_format() );
+		$this->assertEquals( 301, $redirect->get_type() );
+		$this->assertEquals( 'plain', $redirect->get_format() );
 	}
+
 	/**
 	 * Test if constructor works
 	 *

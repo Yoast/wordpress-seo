@@ -6,10 +6,21 @@
 	border-color: #dc3232;
 }
 
-.redirect_table_row_origin_slash {
+tbody .column-old div:after {
 	color: #d3d3d3;
+	content: "/";
 }
 
-.redirect_table_row_target_slash {
-	color: #000;
+tbody .column-old div:before,
+tbody .column-new div:before {
+	content: "/";
+}
+
+tbody .column-new .has-trailing-slash:after {
+	content: "/";
+}
+
+tbody .column-new .remove-slashes:before,
+tbody .column-new .remove-slashes:after {
+	content: none;
 }

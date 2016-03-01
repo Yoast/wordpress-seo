@@ -23,14 +23,14 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	private $current_column;
 
 	/**
-	 * @var WPSEO_Redirect[] The redirects
-	 */
-	private $redirects;
-
-	/**
 	 * @var string The primary column
 	 */
 	private $primary_column = 'type';
+
+	/**
+	 * @var boolean Whether or not the target column has a trailing slash
+	 */
+	private $target_has_trailing_slash = null;
 
 	/**
 	 * WPSEO_Redirect_Table constructor
@@ -43,8 +43,6 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 		parent::__construct( array( 'plural' => $type ) );
 
 		$this->current_column = $current_column;
-
-		$this->redirects = $redirects;
 
 		$this->set_items( $redirects );
 
@@ -190,7 +188,18 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 
 		switch ( $column_name ) {
 			case 'new':
-				return "<div class='val'>" . esc_html( $item['new'] ) . '</div>' . $row_actions;
+				$classes = array( 'val' );
+				$new_url = $item['new'];
+
+				if ( WPSEO_Redirect_Util::has_permalink_trailing_slash() ) {
+					$classes[] = 'has-trailing-slash';
+				}
+
+				if ( ! WPSEO_Redirect_Util::is_relative_url( $new_url ) ) {
+					$classes[] = 'remove-slashes';
+				}
+
+				return "<div class='" . esc_attr( implode( ' ', $classes ) ) . "'>" . esc_html( $new_url ) . '</div>' . $row_actions;
 				break;
 			case 'old':
 				return "<div class='val'>" . esc_html( $item['old'] ). '</div>' . $row_actions;
@@ -216,43 +225,16 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Make sure the column_old is formatted correctly.
-	 *
-	 * @param  array $row the current row.
-	 *
-	 * @return string value to display in table.
+	 * Returns whether or not the target should have a trailing slash
 	 */
-	protected function column_old( $row ) {
-		$redirect = $this->get_redirect_by_origin( $row['old'] );
+	private function has_target_trailing_slash() {
+		if ( null === $this->target_has_trailing_slash ) {
+			$permalink_structure = get_option( 'permalink_structure' );
 
-		return apply_filters( 'wpseo_format_origin_redirect_column', $row['old'], $redirect );
-	}
-
-	/**
-	 * Make sure the column_new is formatted correctly.
-	 *
-	 * @param  array $row  the current row.
-	 *
-	 * @return string value to display in table.
-	 */
-	protected function column_new( $row ) {
-		return apply_filters( 'wpseo_format_target_redirect_column', $row['new'] );
-	}
-
-	/**
-	 * Return the redirect by the origin url.
-	 *
-	 * @param  string $origin   origin url of redirect.
-	 *
-	 * @return WPSEO_Redirect $redirect the redirect
-	 */
-	private function get_redirect_by_origin( $origin ) {
-
-		foreach ( $this->redirects as $redirect ) {
-			if ( $origin === $redirect->get_origin() ) {
-				return $redirect;
-			}
+			$this->target_has_trailing_slash = substr( $permalink_structure, -1 ) === '/';
 		}
+
+		return $this->target_has_trailing_slash;
 	}
 
 	/**
