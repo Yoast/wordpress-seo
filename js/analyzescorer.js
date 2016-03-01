@@ -3,6 +3,9 @@ var Score = require( "./values/Score.js" );
 var AnalyzerScoring = require( "./config/scoring.js" ).AnalyzerScoring;
 var analyzerScoreRating = require( "./config/scoring.js" ).analyzerScoreRating;
 
+var assessments = {};
+assessments.wordCount = require( "./assessments/countWords.js" );
+
 var isUndefined = require( "lodash/lang/isUndefined" );
 
 /**
@@ -61,6 +64,9 @@ AnalyzeScorer.prototype.genericScore = function( obj ) {
 		//defines default score Object.
 		if ( !isUndefined( scoreObj ) ) {
 			return this.calculateScore( obj, scoreObj, scoreObj.scoreName );
+		} else {
+			var resultObj = assessments[ obj.test ]( this.refObj.paper );
+			return this.calculateScore( resultObj.result, resultObj.score, resultObj.test )
 		}
 	}
 };
@@ -86,28 +92,28 @@ AnalyzeScorer.prototype.calculateScore = function( obj, scoreObj, scoreName ){
 				typeof scoreObj.scoreArray[i].type === "string" &&
 				this.result[ scoreObj.scoreArray[i].type ]
 			):
-				return this.returnScore( score, scoreObj, i );
+				return this.returnScore( scoreObj, i );
 
 			// looks if the value from the score is below the maximum value
 			case (
 				typeof scoreObj.scoreArray[i].min === "undefined" &&
 				this.matcher <= scoreObj.scoreArray[i].max
 			):
-				return this.returnScore( score, scoreObj, i );
+				return this.returnScore( scoreObj, i );
 
 			// looks if the value from the score is above the minimum value
 			case (
 				typeof scoreObj.scoreArray[i].max === "undefined" &&
 				this.matcher >= scoreObj.scoreArray[i].min
 			):
-				return this.returnScore( score, scoreObj, i );
+				return this.returnScore( scoreObj, i );
 
 			// looks if the value from the score is between the minimum and maximum value
 			case (
 				this.matcher >= scoreObj.scoreArray[i].min &&
 				this.matcher <= scoreObj.scoreArray[i].max
 			):
-				return this.returnScore( score, scoreObj, i );
+				return this.returnScore( scoreObj, i );
 			default:
 				break;
 		}
@@ -144,12 +150,11 @@ AnalyzeScorer.prototype.scoreLookup = function( name ) {
 
 /**
  * fills the score with score and text from the scoreArray and runs the textformatter.
- * @param {Object} score
  * @param {Object} scoreObj
  * @param {number} i
  * @returns {Score}
  */
-AnalyzeScorer.prototype.returnScore = function( score, scoreObj, i ) {
+AnalyzeScorer.prototype.returnScore = function( scoreObj, i ) {
 	return new Score( scoreObj.scoreArray[ i ].score, this.scoreTextFormat( scoreObj.scoreArray[ i ], scoreObj.replaceArray ) );
 };
 
