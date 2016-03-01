@@ -1,7 +1,6 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-'use strict';
-
-var $ = jQuery;
+/* global wp, jQuery, YoastSEO */
+"use strict";
 
 /**
  * Renders a keyword tab as a jQuery HTML object.
@@ -23,7 +22,7 @@ function renderKeywordTab( score, keyword, prefix ) {
 		active: true
 	});
 
-	return $( html );
+	return jQuery( html );
 }
 
 /**
@@ -33,7 +32,7 @@ function renderKeywordTab( score, keyword, prefix ) {
  */
 function KeywordTab( args ) {
 	this.setScore(0);
-	this.keyword = "";
+	this.keyword = '';
 	this.prefix = args.prefix || '';
 }
 
@@ -43,9 +42,9 @@ function KeywordTab( args ) {
  * @param {HTMLElement} parent
  */
 KeywordTab.prototype.init = function( parent ) {
-	this.setElem( renderKeywordTab( this.score, this.keyword, this.prefix ) );
+	this.setElement( renderKeywordTab( this.score, this.keyword, this.prefix ) );
 
-	$( parent ).append( elem );
+	jQuery( parent ).append( this.element );
 };
 
 /**
@@ -68,22 +67,22 @@ KeywordTab.prototype.refresh = function() {
 	var newElem = renderKeywordTab( this.score, this.keyword, this.prefix );
 
 	this.element.replaceWith( newElem );
-	this.setElem( newElem );
+	this.setElement( newElem );
 };
 
 /**
  * Sets the current element
  *
- * @param {HTMLElement} elem
+ * @param {HTMLElement} element
  */
-KeywordTab.prototype.setElem = function( elem ) {
-	this.element = $( elem );
+KeywordTab.prototype.setElement = function( element ) {
+	this.element = jQuery( element );
 };
 
 /**
  * Formats the given score and store it in the attribute.
  *
- * @param {integer} score
+ * @param {number} score
  */
 KeywordTab.prototype.setScore = function( score ) {
 	score = parseInt( score, 10 );
@@ -520,7 +519,7 @@ module.exports = KeywordTab;
 				prefix: wpseoPostScraperL10n.contentTab
 			}
 		);
-		keywordTab.setElem( $('.wpseo_keyword_tab') );
+		keywordTab.setElement( $('.wpseo_keyword_tab') );
 
 		var postScraper = new PostScraper();
 
