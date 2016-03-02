@@ -197,6 +197,7 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 
 				if (
 					'' === $new_url ||
+					'/' === $new_url ||
 					! WPSEO_Redirect_Util::is_relative_url( $new_url )
 				) {
 					$classes[] = 'remove-slashes';
