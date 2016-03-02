@@ -454,7 +454,11 @@
 		this.create_redirect_row = function( old_url, new_url, redirect_type, redirectInfo ) {
 			var targetClasses = [ 'val' ];
 
-			if ( ! redirectInfo.isTargetRelative ) {
+			if (
+				! redirectInfo.isTargetRelative ||
+				'' === new_url ||
+				'/' === new_url
+			) {
 				targetClasses.push( 'remove-slashes' );
 			}
 
