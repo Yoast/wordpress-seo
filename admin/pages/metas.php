@@ -206,7 +206,7 @@ $yform->admin_header( true, 'wpseo_titles' );
 			$yform->toggle_switch( 'disable-author', array(
 				'off' => __( 'Enabled', 'wordpress-seo' ),
 				'on'  => __( 'Disabled', 'wordpress-seo' ),
-			), __( 'Author archives are', 'wordpress-seo' ) );
+			), __( 'Author archives', 'wordpress-seo' ) );
 			$yform->toggle_switch( 'noindex-author-wpseo', $index_switch_values, __( 'Meta Robots', 'wordpress-seo' ) );
 			echo '<p>';
 			/* translators: %1$s / %2$s: links to an article about duplicate content on yoast.com */
@@ -219,7 +219,7 @@ $yform->admin_header( true, 'wpseo_titles' );
 			$yform->toggle_switch( 'disable-date', array(
 				'off' => __( 'Enabled', 'wordpress-seo' ),
 				'on'  => __( 'Disabled', 'wordpress-seo' ),
-			), __( 'Date-based archives are', 'wordpress-seo' ) );
+			), __( 'Date-based archives', 'wordpress-seo' ) );
 			$yform->toggle_switch( 'noindex-archive-wpseo', $index_switch_values, __( 'Meta Robots', 'wordpress-seo' ) );
 			echo '<p>';
 			_e( 'Date-based archives could in some cases also be seen as duplicate content.', 'wordpress-seo' );
