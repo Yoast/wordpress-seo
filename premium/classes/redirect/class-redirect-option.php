@@ -149,9 +149,18 @@ class WPSEO_Redirect_Option {
 
 	/**
 	 * Saving the redirects
+	 *
+	 * @param bool $retry_upgrade Whether or not to retry the 3.1 upgrade. Used to prevent infinite recursion.
 	 */
-	public function save() {
+	public function save( $retry_upgrade = true ) {
 		$redirects = $this->redirects;
+
+		// Retry the 3.1 upgrade routine to make sure we're always dealing with valid redirects.
+		$upgrade_manager = new WPSEO_Upgrade_Manager();
+		if ( $retry_upgrade && $upgrade_manager->should_retry_upgrade_31() ) {
+			$upgrade_manager->retry_upgrade_31( true );
+			$redirects = array_merge( $redirects, $this->get_all() );
+		}
 
 		array_walk( $redirects, array( $this, 'map_object_to_option' ) );
 

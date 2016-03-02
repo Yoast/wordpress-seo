@@ -104,7 +104,7 @@ class WPSEO_Redirect_Upgrade {
 			$redirect_option->add( $redirect );
 		}
 
-		$redirect_option->save();
+		$redirect_option->save( false );
 		$redirect_manager->export_redirects();
 	}
 

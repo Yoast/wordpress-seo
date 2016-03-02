@@ -172,6 +172,9 @@ class WPSEO_Redirect_Page {
 
 		// Convert post into get on search and loading the page scripts.
 		if ( filter_input( INPUT_GET, 'page' ) === 'wpseo_redirects' ) {
+			$upgrade_manager = new WPSEO_Upgrade_Manager();
+			$upgrade_manager->retry_upgrade_31();
+
 			add_action( 'admin_init', array( $this, 'list_table_search' ) );
 
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets' ) );
