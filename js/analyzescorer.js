@@ -3,10 +3,10 @@ var Score = require( "./values/Score.js" );
 var AnalyzerScoring = require( "./config/scoring.js" ).AnalyzerScoring;
 var analyzerScoreRating = require( "./config/scoring.js" ).analyzerScoreRating;
 
+var isUndefined = require( "lodash/lang/isUndefined" );
+
 var assessments = {};
 assessments.wordCount = require( "./assessments/countWords.js" );
-
-var isUndefined = require( "lodash/lang/isUndefined" );
 
 /**
  * inits the analyzerscorer used for scoring of the output from the textanalyzer
@@ -18,6 +18,7 @@ var AnalyzeScorer = function( refObj ) {
 	this.__score = [];
 	this.refObj = refObj;
 	this.i18n = refObj.config.i18n;
+	this.paper = refObj.paper;
 	this.init();
 };
 
@@ -58,18 +59,18 @@ AnalyzeScorer.prototype.runQueue = function() {
  * @returns {{name: (analyzerScoring.scoreName), score: number, text: string}}
  */
 AnalyzeScorer.prototype.genericScore = function( obj ) {
-	if ( !isUndefined( obj ) ) {
-		var scoreObj = this.scoreLookup( obj.test );
-
-		//defines default score Object.
-		if ( !isUndefined( scoreObj ) ) {
-			return this.calculateScore( obj, scoreObj, scoreObj.scoreName );
-		}
-		if ( isUndefined( scoreObj ) ) {
-			var resultObj = assessments[ obj.test ]( this.refObj.paper );
-			return this.calculateScore( resultObj.result, resultObj.score, resultObj.test );
-		}
+	if ( isUndefined( obj ) ) {
+		return undefined;
 	}
+
+	var scoreObj = this.scoreLookup( obj.test );
+
+	if ( isUndefined( scoreObj ) ) {
+		var resultObj = assessments[ obj.test ]( this.paper, this.i18n );
+		return this.calculateScore( resultObj.result, resultObj.score, resultObj.test );
+	}
+
+	return this.calculateScore( obj, scoreObj, scoreObj.scoreName );
 };
 
 /**
