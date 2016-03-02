@@ -64,9 +64,10 @@ AnalyzeScorer.prototype.genericScore = function( obj ) {
 		//defines default score Object.
 		if ( !isUndefined( scoreObj ) ) {
 			return this.calculateScore( obj, scoreObj, scoreObj.scoreName );
-		} else {
+		}
+		if ( isUndefined( scoreObj ) ) {
 			var resultObj = assessments[ obj.test ]( this.refObj.paper );
-			return this.calculateScore( resultObj.result, resultObj.score, resultObj.test )
+			return this.calculateScore( resultObj.result, resultObj.score, resultObj.test );
 		}
 	}
 };
@@ -79,12 +80,12 @@ AnalyzeScorer.prototype.genericScore = function( obj ) {
  * @param {string} scoreName The name of the score
  * @returns {*} The score from the analysis.
  */
-AnalyzeScorer.prototype.calculateScore = function( obj, scoreObj, scoreName ){
+AnalyzeScorer.prototype.calculateScore = function( obj, scoreObj, scoreName ) {
 	var score = { name: scoreName, score: 0, text: "" };
 
-	for (var i = 0; i < scoreObj.scoreArray.length; i++) {
+	for ( var i = 0; i < scoreObj.scoreArray.length; i++ ) {
 		this.setMatcher( obj, scoreObj, i );
-		switch (true) {
+		switch ( true ) {
 
 			// if a type is given, the scorer looks for that object in the resultObject to use
 			// for scoring
@@ -155,6 +156,7 @@ AnalyzeScorer.prototype.scoreLookup = function( name ) {
  * @returns {Score}
  */
 AnalyzeScorer.prototype.returnScore = function( scoreObj, i ) {
+
 	return new Score( scoreObj.scoreArray[ i ].score, this.scoreTextFormat( scoreObj.scoreArray[ i ], scoreObj.replaceArray ) );
 };
 
