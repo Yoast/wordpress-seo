@@ -3,12 +3,8 @@ var defaults = require( "lodash/object/defaults" );
 var defaultAttributes = {
 	keyword: "",
 	description: "",
-<<<<<<< HEAD
-	locale: ""
-=======
 	title: "",
 	url: ""
->>>>>>> 981a506f56576960490400ce37ddaa426e2bc74e
 };
 
 /**
