@@ -11,12 +11,12 @@ class WPSEO_Redirect_Handler {
 	/**
 	 * @var string The options where the url redirects are stored.
 	 */
-	private $normal_option_name = 'wpseo-premium-redirects-plain';
+	private $normal_option_name = 'wpseo-premium-redirects-export-plain';
 
 	/**
 	 * @var string The option name where the regex redirects are stored.
 	 */
-	private $regex_option_name  = 'wpseo-premium-redirects-regex';
+	private $regex_option_name  = 'wpseo-premium-redirects-export-regex';
 
 	/**
 	 * @var string The url that is called at the moment.
