@@ -17,6 +17,7 @@ class WPSEO_Sitemaps_Cache_Data_Test extends WPSEO_UnitTestCase {
 	 * Create subject instance
 	 */
 	public function setUp() {
+		parent::setUp();
 		$this->subject = new WPSEO_Sitemap_Cache_Data();
 	}
 
@@ -35,6 +36,9 @@ class WPSEO_Sitemaps_Cache_Data_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Setting a sitemap that is not a string
+	 *
+	 * @covers WPSEO_Sitemap_Cache_Data::get_sitemap()
+	 * @covers WPSEO_Sitemap_Cache_Data::is_usable()
 	 */
 	public function test_set_sitemap_not_string() {
 		$sitemap      = new StdClass();
@@ -45,10 +49,15 @@ class WPSEO_Sitemaps_Cache_Data_Test extends WPSEO_UnitTestCase {
 		$this->assertFalse( $this->subject->is_usable() );
 	}
 
+	/**
+	 * Test with invalid status
+	 *
+	 * @covers WPSEO_Sitemap_Cache_Data::get_status()
+	 */
 	public function test_set_invalid_status() {
 		$status = 'bla';
 
-		$this->subject->set_status($status);
+		$this->subject->set_status( $status );
 		$this->assertEquals( WPSEO_Sitemap_Cache_Data_Interface::UNKNOWN, $this->subject->get_status() );
 		$this->assertFalse( $this->subject->is_usable() );
 	}
