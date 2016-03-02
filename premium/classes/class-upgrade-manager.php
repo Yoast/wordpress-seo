@@ -64,6 +64,50 @@ class WPSEO_Upgrade_Manager {
 	}
 
 	/**
+	 * Returns whether or not we should retry the 31 upgrade
+	 *
+	 * @return bool
+	 */
+	public function should_retry_upgrade_31() {
+		$retry = false;
+
+		$new_redirects = get_option( WPSEO_Redirect_Option::OPTION, null );
+		if ( null === $new_redirects ) {
+			$old_plain_redirects = get_option( WPSEO_Redirect_Option::OLD_OPTION_PLAIN, array() );
+			$old_regex_redirects = get_option( WPSEO_Redirect_Option::OLD_OPTION_REGEX, array() );
+
+			if ( ! empty( $old_plain_redirects ) || ! empty( $old_regex_redirects ) ) {
+				$retry = true;
+			}
+		}
+
+		return $retry;
+	}
+
+	/**
+	 * Validates if the 31 upgrade routine has correctly run and if not retries to run it
+	 *
+	 * @param bool $immediately Whether to do the upgrade immediately when this function is called.
+	 */
+	public function retry_upgrade_31( $immediately = false ) {
+		/*
+		 * If we detect that the new redirect option doesn't exist but there are redirects in the old option we try the
+		 * upgrade routine again. This brings the redirects back for people if the upgrade routine failed the first
+		 * time.
+		 */
+		if ( $this->should_retry_upgrade_31() ) {
+			if ( $immediately ) {
+				WPSEO_Redirect_Upgrade::upgrade_3_1();
+			}
+			else {
+				add_action( 'wp', array( 'WPSEO_Redirect_Upgrade', 'upgrade_3_1' ), 12 );
+				add_action( 'admin_head', array( 'WPSEO_Redirect_Upgrade', 'upgrade_3_1' ), 12 );
+			}
+		}
+
+	}
+
+	/**
 	 * An update is required, do it
 	 *
 	 * @param string $current_version The current version number of the installation.
