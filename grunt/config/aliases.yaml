@@ -5,6 +5,7 @@ build:
   - 'build:css'
   - 'build:jst'
   - 'build:js'
+  - 'build:translations'
 # Precompile JavaScript templates
 'build:jst':
   - 'lodash:templates'
@@ -17,6 +18,8 @@ build:
   - 'copy'
   - 'sass:build'
   - 'postcss:build'
+'build:translations':
+  - 'shell:makepot'
 # Check health of the project
 check:
   - 'jshint'
