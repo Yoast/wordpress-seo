@@ -1,8 +1,6 @@
 var countWords = require( "../stringProcessing/countWords.js" );
-var AnalyzeScorer = require( "../analyzescorer.js" );
 
 var Jed = require( "jed" );
-
 
 var i18n = function() {
 	var defaultTranslations = {

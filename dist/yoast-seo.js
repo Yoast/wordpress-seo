@@ -1691,10 +1691,8 @@ module.exports = App;
 
 },{"../js/stringProcessing/sanitizeString.js":45,"./analyzer.js":14,"./config/config.js":20,"./errors/missingArgument":26,"./pluggable.js":27,"./scoreFormatter.js":28,"./snippetPreview.js":29,"jed":60,"lodash/collection/forEach":63,"lodash/lang/isObject":140,"lodash/lang/isString":142,"lodash/lang/isUndefined":144,"lodash/object/defaultsDeep":148}],17:[function(require,module,exports){
 var countWords = require( "../stringProcessing/countWords.js" );
-var AnalyzeScorer = require( "../analyzescorer.js" );
 
 var Jed = require( "jed" );
-
 
 var i18n = function() {
 	var defaultTranslations = {
@@ -1780,7 +1778,7 @@ var countWordsAssessment = function( paper ){
 
 module.exports =  countWordsAssessment;
 
-},{"../analyzescorer.js":15,"../stringProcessing/countWords.js":35,"jed":60}],18:[function(require,module,exports){
+},{"../stringProcessing/countWords.js":35,"jed":60}],18:[function(require,module,exports){
 /* global YoastSEO: true */
 YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 

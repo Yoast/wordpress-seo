@@ -2,11 +2,10 @@ var wordCountAssessment = require( "../../js/assessments/countWords.js" );
 var Paper = require( "../../js/values/Paper.js" );
 
 describe( "An assessor running the wordCount", function(){
-	it( "Accepts an paper and returns a score", function(){
-
+	it( "Accepts an paper and ", function(){
 		var mockPaper = new Paper( "hier komt een heleboel tekst in te staan" );
-		var result = wordCountAssessment( mockPaper );
-		expect(result.score).toBe(-20);
-		expect(result.text).toBe("The text contains 8 words. This is far too low and should be increased.");
+		var assessment = wordCountAssessment( mockPaper );
+		expect( assessment.result.result ).toBe( 8 );
+		expect( assessment.result.test ).toBe( "wordCount" );
 	} );
 } );
