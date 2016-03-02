@@ -20,7 +20,6 @@ class WPSEO_Sitemaps_Cache_Test extends WPSEO_UnitTestCase {
 	 */
 	public function setUp() {
 		self::$class_instance = new WPSEO_Sitemaps_Double;
-		$this->factory = self::factory();
 	}
 
 	/**
