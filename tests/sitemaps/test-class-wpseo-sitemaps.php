@@ -3,8 +3,6 @@
  * @package WPSEO\Unittests
  */
 
-require_once 'class-wpseo-sitemaps-double.php';
-
 /**
  * Class WPSEO_Sitemaps_Test
  */
@@ -19,6 +17,7 @@ class WPSEO_Sitemaps_Test extends WPSEO_UnitTestCase {
 	 * Set up our double class
 	 */
 	public function setUp() {
+		require_once 'class-wpseo-sitemaps-double.php';
 		self::$class_instance = new WPSEO_Sitemaps_Double;
 	}
 

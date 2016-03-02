@@ -3,8 +3,6 @@
  * @package WPSEO\Unittests
  */
 
-require_once 'class-wpseo-sitemaps-double.php';
-
 /**
  * Class WPSEO_Sitemaps_Test
  */
@@ -19,6 +17,7 @@ class WPSEO_Sitemaps_Cache_Test extends WPSEO_UnitTestCase {
 	 * Set up our double class
 	 */
 	public function setUp() {
+		require_once 'class-wpseo-sitemaps-double.php';
 		self::$class_instance = new WPSEO_Sitemaps_Double;
 	}
 
@@ -49,7 +48,7 @@ class WPSEO_Sitemaps_Cache_Test extends WPSEO_UnitTestCase {
 		$page    = 1;
 
 		/**
-		 * todo: change this to dynamic key when 3.1 is merged into trunk.
+		 * Todo: change this to dynamic key when 3.1 is merged into trunk.
 		 */
 		$transient_key = 'wpseo_sitemap_cache_' . $type . '_' . $page;
 
@@ -74,7 +73,7 @@ class WPSEO_Sitemaps_Cache_Test extends WPSEO_UnitTestCase {
 		$sitemap_data->is_usable( true );
 
 		/**
-		 * todo: change this to dynamic key when 3.1 is merged into trunk.
+		 * Todo: change this to dynamic key when 3.1 is merged into trunk.
 		 */
 		$transient_key = 'wpseo_sitemap_cache_' . $type . '_' . $page;
 
@@ -115,7 +114,7 @@ class WPSEO_Sitemaps_Cache_Test extends WPSEO_UnitTestCase {
 
 		set_query_var( 'sitemap', '1' );
 
-		$this->factory->post->create();
+		$post_id = $this->factory->post->create();
 
 		// Go to the XML sitemap twice, see if transient cache is set.
 		self::$class_instance->redirect( $GLOBALS['wp_the_query'] );
@@ -147,7 +146,7 @@ class WPSEO_Sitemaps_Cache_Test extends WPSEO_UnitTestCase {
 
 		set_query_var( 'sitemap', '1' );
 
-		$this->factory->post->create();
+		$post_id = $this->factory->post->create();
 
 		// Go to the XML sitemap twice, see if transient cache is not set.
 		self::$class_instance->redirect( $GLOBALS['wp_the_query'] );
