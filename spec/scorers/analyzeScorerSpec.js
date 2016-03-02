@@ -39,7 +39,7 @@ describe("Checks for valid score", function(){
 			replaceArray: [ 1, 3 ]
 		};
 
-		var result = analyzeScorer.returnScore( 1, scoreObj, 0 );
+		var result = analyzeScorer.returnScore( scoreObj, 0 );
 
 		expect( result.value ).toBe( 1 );
 

@@ -3,6 +3,11 @@ var Score = require( "./values/Score.js" );
 var AnalyzerScoring = require( "./config/scoring.js" ).AnalyzerScoring;
 var analyzerScoreRating = require( "./config/scoring.js" ).analyzerScoreRating;
 
+var isUndefined = require( "lodash/lang/isUndefined" );
+
+var assessments = {};
+assessments.wordCount = require( "./assessments/countWords.js" );
+
 /**
  * inits the analyzerscorer used for scoring of the output from the textanalyzer
  *
@@ -13,6 +18,7 @@ var AnalyzeScorer = function( refObj ) {
 	this.__score = [];
 	this.refObj = refObj;
 	this.i18n = refObj.config.i18n;
+	this.paper = refObj.paper;
 	this.init();
 };
 
@@ -39,7 +45,7 @@ AnalyzeScorer.prototype.score = function( resultObj ) {
 AnalyzeScorer.prototype.runQueue = function() {
 	for ( var i = 0; i < this.resultObj.length; i++ ) {
 		var subScore = this.genericScore( this.resultObj[ i ] );
-		if ( typeof subScore !== "undefined" ) {
+		if ( typeof subScore !== "undefined" || subScore === "" ) {
 			this.__score = this.__score.concat( subScore );
 		}
 	}
@@ -47,55 +53,74 @@ AnalyzeScorer.prototype.runQueue = function() {
 };
 
 /**
- * scoring function that returns results based on the resultobj from the analyzer matched with
- * the scorearrays in the scoring config.
- * @param obj
+ * Looks up the score based on the scorename in the object and calls calculate score
+ * if a scoreObject is found.
+ * @param {object} obj The resultobject from the resultarray.
  * @returns {{name: (analyzerScoring.scoreName), score: number, text: string}}
  */
 AnalyzeScorer.prototype.genericScore = function( obj ) {
-	if ( typeof obj !== "undefined" ) {
-		var scoreObj = this.scoreLookup( obj.test );
-
-		//defines default score Object.
-		var score = { name: scoreObj.scoreName, score: 0, text: "" };
-		for ( var i = 0; i < scoreObj.scoreArray.length; i++ ) {
-			this.setMatcher( obj, scoreObj, i );
-			switch ( true ) {
-
-				// if a type is given, the scorer looks for that object in the resultObject to use
-				// for scoring
-				case (
-					typeof scoreObj.scoreArray[ i ].type === "string" &&
-					this.result[ scoreObj.scoreArray[ i ].type ]
-				):
-					return this.returnScore( score, scoreObj, i );
-
-				// looks if the value from the score is below the maximum value
-				case (
-					typeof scoreObj.scoreArray[ i ].min === "undefined" &&
-					this.matcher <= scoreObj.scoreArray[ i ].max
-				):
-					return this.returnScore( score, scoreObj, i );
-
-				// looks if the value from the score is above the minimum value
-				case (
-					typeof scoreObj.scoreArray[ i ].max === "undefined" &&
-					this.matcher >= scoreObj.scoreArray[ i ].min
-				):
-					return this.returnScore( score, scoreObj, i );
-
-				// looks if the value from the score is between the minimum and maximum value
-				case (
-					this.matcher >= scoreObj.scoreArray[ i ].min &&
-					this.matcher <= scoreObj.scoreArray[ i ].max
-				):
-					return this.returnScore( score, scoreObj, i );
-				default:
-					break;
-			}
-		}
-		return score;
+	if ( isUndefined( obj ) ) {
+		return "";
 	}
+
+	var scoreObj = this.scoreLookup( obj.test );
+
+	if ( isUndefined( scoreObj ) ) {
+		var resultObj = assessments[ obj.test ]( this.paper, this.i18n );
+		return this.calculateScore( resultObj.result, resultObj.score, resultObj.test );
+	}
+
+	return this.calculateScore( obj, scoreObj, scoreObj.scoreName );
+};
+
+/**
+ * calculates score based on the scoreObject
+ *
+ * @param {object} obj The object with the testresult.
+ * @param {object} scoreObj The object containing all scores.
+ * @param {string} scoreName The name of the score
+ * @returns {*} The score from the analysis.
+ */
+AnalyzeScorer.prototype.calculateScore = function( obj, scoreObj, scoreName ) {
+	var score = { name: scoreName, score: 0, text: "" };
+
+	for ( var i = 0; i < scoreObj.scoreArray.length; i++ ) {
+		this.setMatcher( obj, scoreObj, i );
+		switch ( true ) {
+
+			// if a type is given, the scorer looks for that object in the resultObject to use
+			// for scoring
+			case (
+				typeof scoreObj.scoreArray[i].type === "string" &&
+				this.result[ scoreObj.scoreArray[i].type ]
+			):
+				return this.returnScore( scoreObj, i );
+
+			// looks if the value from the score is below the maximum value
+			case (
+				typeof scoreObj.scoreArray[i].min === "undefined" &&
+				this.matcher <= scoreObj.scoreArray[i].max
+			):
+				return this.returnScore( scoreObj, i );
+
+			// looks if the value from the score is above the minimum value
+			case (
+				typeof scoreObj.scoreArray[i].max === "undefined" &&
+				this.matcher >= scoreObj.scoreArray[i].min
+			):
+				return this.returnScore( scoreObj, i );
+
+			// looks if the value from the score is between the minimum and maximum value
+			case (
+				this.matcher >= scoreObj.scoreArray[i].min &&
+				this.matcher <= scoreObj.scoreArray[i].max
+			):
+				return this.returnScore( scoreObj, i );
+			default:
+				break;
+		}
+	}
+	return score;
 };
 
 /**
@@ -127,12 +152,12 @@ AnalyzeScorer.prototype.scoreLookup = function( name ) {
 
 /**
  * fills the score with score and text from the scoreArray and runs the textformatter.
- * @param {Object} score
  * @param {Object} scoreObj
  * @param {number} i
  * @returns {Score}
  */
-AnalyzeScorer.prototype.returnScore = function( score, scoreObj, i ) {
+AnalyzeScorer.prototype.returnScore = function( scoreObj, i ) {
+
 	return new Score( scoreObj.scoreArray[ i ].score, this.scoreTextFormat( scoreObj.scoreArray[ i ], scoreObj.replaceArray ) );
 };
 
