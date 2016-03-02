@@ -1,3 +1,9 @@
+### 3.1.1: March 2nd, 2015
+* Fixes a bug where PHP redirects were broken.
+* Fixes a bug where users could (temporarily) lose their redirects if our upgrade routine would for some reason not be triggered while updating to versions greater than 3.0.7
+* Fixes a bug where slashes were shown in the redirect manager for a redirect without a target url (ie. 410)
+* Fixes a Fatal error that occured when switching from Free to Premium.
+
 ### 3.1: March 1st, 2015
 * Made PHP redirects faster and more efficient.
 * Added an interface to easily serve 410 (content deleted) headers for posts you have just deleted.
