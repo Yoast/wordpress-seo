@@ -1,6 +1,6 @@
 var countWords = require( "../stringProcessing/countWords.js" );
 
-var getScore = function( i18n ){
+var getScore = function( i18n ) {
 	return {
 		scoreArray: [
 			{

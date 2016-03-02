@@ -45,7 +45,7 @@ AnalyzeScorer.prototype.score = function( resultObj ) {
 AnalyzeScorer.prototype.runQueue = function() {
 	for ( var i = 0; i < this.resultObj.length; i++ ) {
 		var subScore = this.genericScore( this.resultObj[ i ] );
-		if ( typeof subScore !== "undefined" ) {
+		if ( typeof subScore !== "undefined" || subScore === "" ) {
 			this.__score = this.__score.concat( subScore );
 		}
 	}
@@ -60,7 +60,7 @@ AnalyzeScorer.prototype.runQueue = function() {
  */
 AnalyzeScorer.prototype.genericScore = function( obj ) {
 	if ( isUndefined( obj ) ) {
-		return undefined;
+		return "";
 	}
 
 	var scoreObj = this.scoreLookup( obj.test );
