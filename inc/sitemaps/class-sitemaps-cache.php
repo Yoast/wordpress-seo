@@ -11,11 +11,17 @@ class WPSEO_Sitemaps_Cache {
 	/** @var array $cache_clear Holds the options that, when updated, should cause the cache to clear. */
 	protected static $cache_clear = array();
 
-	/** @var string Storage Key prefix */
-	private static $storage_key_prefix = 'yst_sm_';
+	/** @var string Prefix of the transient key for sitemap caches */
+	const STORAGE_KEY_PREFIX = 'yst_sm_';
 
-	/** Sitemap index indetifier */
+	/** Sitemap index indentifier */
 	const SITEMAP_INDEX_TYPE = '1';
+
+	/** Name of the option that holds the global validation value */
+	const VALIDATION_GLOBAL_KEY = 'wpseo_sitemap_cache_validator_global';
+
+	/** The format which creates the key of the option that holds the type validation value */
+	const VALIDATION_TYPE_KEY_FORMAT = 'wpseo_sitemap_%s_cache_validator';
 
 	/**
 	 * Hook methods for invalidation on necessary events.
@@ -23,6 +29,8 @@ class WPSEO_Sitemaps_Cache {
 	public function __construct() {
 
 		add_action( 'deleted_term_relationships', array( __CLASS__, 'invalidate' ) );
+
+		add_action( 'update_option', array( __CLASS__, 'clear_on_option_update' ) );
 
 		add_action( 'edited_terms', array( __CLASS__, 'invalidate_helper' ), 10, 2 );
 		add_action( 'clean_term_cache', array( __CLASS__, 'invalidate_helper' ), 10, 2 );
@@ -49,12 +57,14 @@ class WPSEO_Sitemaps_Cache {
 	/**
 	 * Get the cache key for a certain type and page
 	 *
-	 * Example key format for type "post", page 1: wpseo_sitemap_post_1:akfw3e_23azBa
+	 * A type of cache would be something like 'page', 'post' or 'video'.
+	 *
+	 * Example key format for sitemap type "post", page 1: wpseo_sitemap_post_1:akfw3e_23azBa
 	 *
 	 * @param null|string $type The type to get the key for. Null or self::SITEMAP_INDEX_TYPE for index cache.
 	 * @param int         $page The page of cache to get the key for.
 	 *
-	 * @return string The key where the cache is stored on.
+	 * @return bool|string The key where the cache is stored on. False if the key could not be generated.
 	 */
 	public static function get_storage_key( $type = null, $page = 1 ) {
 
@@ -64,10 +74,15 @@ class WPSEO_Sitemaps_Cache {
 		$global_cache_validator = self::get_validator();
 		$type_cache_validator   = self::get_validator( $type );
 
-		$prefix  = self::$storage_key_prefix;
+		$prefix  = self::STORAGE_KEY_PREFIX;
 		$postfix = sprintf( '_%d:%s_%s', $page, $global_cache_validator, $type_cache_validator );
 
-		$type = self::get_safe_type( $type, $prefix, $postfix );
+		try {
+			$type = self::truncate_type( $type, $prefix, $postfix );
+		} catch ( OutOfBoundsException $exception ) {
+			// Maybe do something with the exception, for now just mark as invalid.
+			return false;
+		}
 
 		// Build key.
 		$full_key = $prefix . $type . $postfix;
@@ -89,10 +104,14 @@ class WPSEO_Sitemaps_Cache {
 	 *
 	 * @throws OutOfRangeException When there is less than 15 characters of space for a key that is originally longer.
 	 */
-	public static function get_safe_type( $type, $prefix = '', $postfix = '' ) {
-		// Length of key should not be over 53.
-		$max_length = 53;
-		$max_length -= strlen( 'timeout_' );
+	public static function truncate_type( $type, $prefix = '', $postfix = '' ) {
+		/**
+		 * This length has been restricted by the database column length of 64 in the past.
+		 * The prefix added by WordPress is '_transient_' because we are saving to a transient.
+		 * We need to use a timeout on the transient, otherwise the values get autoloaded, this adds
+		 * another restriction to the length.
+		 */
+		$max_length = 45; // 64 - 19 ('_transient_timeout_')
 		$max_length -= strlen( $prefix );
 		$max_length -= strlen( $postfix );
 
@@ -100,15 +119,14 @@ class WPSEO_Sitemaps_Cache {
 
 			if ( $max_length < 15 ) {
 				/**
-				 * If this happens the most likely cause is a 'page' that is too big.
-				 * "Normally" the max_length is 24 + strlen( page ), which is unlikely to go above 10 in the first place.
+				 * If this happens the most likely cause is a page number that is too high.
 				 *
 				 * So this would not happen unintentionally..
 				 * Either by trying to cause a high server load, finding backdoors or misconfiguration.
 				 */
 				throw new OutOfRangeException(
 					__(
-						'Trying to build a safe sitemap cache key, but the postfix and prefix combination leaves too little room to do this. You are probably requesting a page that is way out of the expected range.',
+						'Trying to build truncate the sitemap cache key, but the postfix and prefix combination leaves too little room to do this. You are probably requesting a page that is way out of the expected range.',
 						'wordpress-seo'
 					)
 				);
@@ -126,7 +144,7 @@ class WPSEO_Sitemaps_Cache {
 	}
 
 	/**
-	 * Get the cache validator for the specified type
+	 * Get the cache validator option key for the specified type
 	 *
 	 * @param string|null $type Provide a type for a specific type validator, null for global validator.
 	 *
@@ -134,10 +152,10 @@ class WPSEO_Sitemaps_Cache {
 	 */
 	public static function get_validator_key( $type = null ) {
 		if ( is_null( $type ) ) {
-			return 'wpseo_sitemap_cache_validator_global';
+			return self::VALIDATION_GLOBAL_KEY;
 		}
 
-		return sprintf( 'wpseo_sitemap_%s_cache_validator', $type );
+		return sprintf( self::VALIDATION_TYPE_KEY_FORMAT, $type );
 	}
 
 	/**
@@ -161,7 +179,7 @@ class WPSEO_Sitemaps_Cache {
 			return $current;
 		}
 
-		if ( self::new_validator( $type ) ) {
+		if ( self::create_validator( $type ) ) {
 			return self::get_validator( $type );
 		}
 
@@ -175,7 +193,7 @@ class WPSEO_Sitemaps_Cache {
 	 *
 	 * @return bool True if validator key has been saved as option.
 	 */
-	public static function new_validator( $type = null ) {
+	public static function create_validator( $type = null ) {
 		$key = self::get_validator_key( $type );
 
 		// Generate new validator.
@@ -198,39 +216,6 @@ class WPSEO_Sitemaps_Cache {
 	}
 
 	/**
-	 * Encode to base61 format.
-	 *
-	 * This is base64 (numeric + alpha + alpha upper case) without the 0.
-	 *
-	 * @param int $input The number that has to be converted to base 61.
-	 *
-	 * @return string Base 61 converted string.
-	 *
-	 * @throws InvalidArgumentException When the input is not an integer.
-	 */
-	public static function convert_base10_to_base61( $input ) {
-		if ( ! is_int( $input ) ) {
-			throw new InvalidArgumentException( __( 'Expected an integer as input.', 'wordpress-seo' ) );
-		}
-
-		$characters = '123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-		$length     = strlen( $characters );
-
-		$index  = ( $input % $length );
-		$output = $characters[ $index ];
-
-		$position = floor( $input / $length );
-		while ( $position ) {
-			$index  = ( $position % $length );
-			$output = $characters[ $index ] . $output;
-
-			$position = floor( $position / $length );
-		}
-
-		return $output;
-	}
-
-	/**
 	 * Retrieve the sitemap page from cache.
 	 *
 	 * @param string $type Sitemap type.
@@ -240,7 +225,12 @@ class WPSEO_Sitemaps_Cache {
 	 */
 	public function get_sitemap( $type, $page ) {
 
-		return get_transient( self::get_storage_key( $type, $page ) );
+		$transient_key = self::get_storage_key( $type, $page );
+		if ( false === $transient_key ) {
+			return false;
+		}
+
+		return get_transient( $transient_key );
 	}
 
 	/**
@@ -254,7 +244,12 @@ class WPSEO_Sitemaps_Cache {
 	 */
 	public function store_sitemap( $type, $page, $sitemap ) {
 
-		return set_transient( self::get_storage_key( $type, $page ), $sitemap, DAY_IN_SECONDS );
+		$transient_key = self::get_storage_key( $type, $page );
+		if ( false === $transient_key ) {
+			return false;
+		}
+
+		return set_transient( $transient_key, $sitemap, DAY_IN_SECONDS );
 	}
 
 	/**
@@ -264,7 +259,7 @@ class WPSEO_Sitemaps_Cache {
 	 */
 	public static function get_storage_key_prefix() {
 
-		return self::$storage_key_prefix;
+		return self::STORAGE_KEY_PREFIX;
 	}
 
 	/**
@@ -327,6 +322,7 @@ class WPSEO_Sitemaps_Cache {
 			return;
 		}
 
+		// Always invalidate the index sitemap aswel.
 		if ( ! in_array( self::SITEMAP_INDEX_TYPE, $types ) ) {
 			array_unshift( $types, self::SITEMAP_INDEX_TYPE );
 		}
@@ -339,13 +335,13 @@ class WPSEO_Sitemaps_Cache {
 	/**
 	 * Invalidate sitemap cache
 	 *
-	 * @param null|string $type The type to get the key for. Null for all cache.
+	 * @param null|string $type The type to get the key for. Null for all caches.
 	 *
 	 * @return void
 	 */
 	public static function invalidate_storage( $type = null ) {
 
-		// Global validator gets cleared when not type is provided.
+		// Global validator gets cleared when no type is provided.
 		$old_validator = null;
 
 		// Get the current type validator.
@@ -354,7 +350,7 @@ class WPSEO_Sitemaps_Cache {
 		}
 
 		// Refresh validator.
-		self::new_validator( $type );
+		self::create_validator( $type );
 
 		if ( ! wp_using_ext_object_cache() ) {
 			// Clean up current cache from the database.
@@ -378,7 +374,7 @@ class WPSEO_Sitemaps_Cache {
 
 		if ( is_null( $type ) ) {
 			// Clear all cache if no type is provided.
-			$like = sprintf( '_transient_%s%%', self::$storage_key_prefix );
+			$like = sprintf( '_transient_%s%%', self::STORAGE_KEY_PREFIX );
 		}
 		else {
 			if ( ! is_null( $validator ) ) {
@@ -387,7 +383,7 @@ class WPSEO_Sitemaps_Cache {
 			}
 			else {
 				// Clear type cache for all type keys.
-				$like = sprintf( '_transient_%s%s_%%', self::$storage_key_prefix, $type );
+				$like = sprintf( '_transient_%1$s%2$s_%%', self::STORAGE_KEY_PREFIX, $type );
 			}
 		}
 
@@ -398,7 +394,7 @@ class WPSEO_Sitemaps_Cache {
 		 */
 		$where = sprintf( "option_name LIKE '%s'", addcslashes( $like, '_' ) );
 
-		$query = sprintf( 'DELETE FROM %s WHERE %s', $wpdb->options, $where );
+		$query = sprintf( 'DELETE FROM %1$s WHERE %2$s', $wpdb->options, $where );
 		$wpdb->query( $query );
 	}
 
@@ -411,11 +407,6 @@ class WPSEO_Sitemaps_Cache {
 	public static function register_clear_on_option_update( $option, $type = '' ) {
 
 		self::$cache_clear[ $option ] = $type;
-
-		$function = array( __CLASS__, 'clear_on_option_update' );
-		if ( false === has_action( 'update_option', $function ) ) {
-			add_action( 'update_option', $function );
-		}
 	}
 
 	/**
@@ -428,13 +419,55 @@ class WPSEO_Sitemaps_Cache {
 	public static function clear_on_option_update( $option ) {
 
 		if ( array_key_exists( $option, self::$cache_clear ) ) {
-			$types = array();
 
-			if ( ! empty( self::$cache_clear[ $option ] ) ) {
-				$types[] = self::$cache_clear[ $option ];
+			if ( empty( self::$cache_clear[ $option ] ) ) {
+				// Clear all caches.
+				self::clear();
 			}
-
-			self::clear( $types );
+			else {
+				// Clear specific provided type(s).
+				$types = (array) self::$cache_clear[ $option ];
+				self::clear( $types );
+			}
 		}
+	}
+
+	/**
+	 * Encode to base61 format.
+	 *
+	 * This is base64 (numeric + alpha + alpha upper case) without the 0.
+	 *
+	 * @param int $base10 The number that has to be converted to base 61.
+	 *
+	 * @return string Base 61 converted string.
+	 *
+	 * @throws InvalidArgumentException When the input is not an integer.
+	 */
+	public static function convert_base10_to_base61( $base10 ) {
+		if ( ! is_int( $base10 ) ) {
+			throw new InvalidArgumentException( __( 'Expected an integer as input.', 'wordpress-seo' ) );
+		}
+
+		// Characters that will be used in the conversion.
+		$characters = '123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+		$length     = strlen( $characters );
+
+		$remainder = $base10;
+		$output    = '';
+
+		do {
+			// Building from right to left in the result.
+			$index = ( $remainder % $length );
+
+			// Prepend the character to the output.
+			$output = $characters[ $index ] . $output;
+
+			// Determine the remainder after removing the applied number.
+			$remainder = floor( $remainder / $length );
+
+			// Keep doing it until we have no remainder left.
+		} while ( $remainder );
+
+		return $output;
 	}
 }

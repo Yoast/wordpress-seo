@@ -1,22 +1,10 @@
 <?php
+/**
+ * @package WPSEO\Unittests\Sitemaps
+ */
 
 /**
- * apply_filters( 'wpseo_enable_xml_sitemap_transient_caching', true ); -- only applicable for retrieval (awesome!)
- *
- * Public
- *
- * ::register_clear_on_option_update .done
- * ::clear_transient_cache - can't be done.
- * ::get_validator_key .done
- * ::get_storage_key .done
- * ::clear .done
- *
- * Private (determine by coverage)
- *
- * ::invalidate_sitemap_cache .implied
- * ::new_sitemap_cache_validator .implied
- * ::get_sitemap_cache_validator .implied
- * ::get_safe_sitemap_cache_type .implied
+ * Class WPSEO_Sitemaps_Cache_Test
  */
 class WPSEO_Sitemaps_Cache_Test extends WPSEO_UnitTestCase {
 
@@ -35,7 +23,7 @@ class WPSEO_Sitemaps_Cache_Test extends WPSEO_UnitTestCase {
 	public function test_get_validator_key_global() {
 		$result = WPSEO_Sitemaps_Cache::get_validator_key();
 
-		$this->assertEquals( 'wpseo_sitemap_cache_validator_global', $result );
+		$this->assertEquals( WPSEO_Sitemaps_Cache::VALIDATION_GLOBAL_KEY, $result );
 	}
 
 	/**
@@ -43,7 +31,7 @@ class WPSEO_Sitemaps_Cache_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_get_validator_key_type() {
 		$type     = 'blabla';
-		$expected = sprintf( 'wpseo_sitemap_%s_cache_validator', $type );
+		$expected = sprintf( WPSEO_Sitemaps_Cache::VALIDATION_TYPE_KEY_FORMAT, $type );
 
 		$result = WPSEO_Sitemaps_Cache::get_validator_key( $type );
 
@@ -66,7 +54,7 @@ class WPSEO_Sitemaps_Cache_Test extends WPSEO_UnitTestCase {
 		update_option( $type_validator_key, $type_validator );
 
 		$prefix  = WPSEO_Sitemaps_Cache::get_storage_key_prefix();
-		$postfix = sprintf( '_%d:%s_%s', $n, $global_validator, $type_validator );
+		$postfix = '_1:global_type';
 
 		$expected = $prefix . $type . $postfix;
 
@@ -102,17 +90,15 @@ class WPSEO_Sitemaps_Cache_Test extends WPSEO_UnitTestCase {
 		$test_content = 'test_content';
 
 		$cache_key = WPSEO_Sitemaps_Cache::get_storage_key( $type, $n );
-
 		set_transient( $cache_key, $test_content );
 
-		// Clear all.
+		// Act.
 		WPSEO_Sitemaps_Cache::clear();
 
-		// Get the key again.
 		$cache_key = WPSEO_Sitemaps_Cache::get_storage_key( $type, $n );
+		$content   = get_transient( $cache_key );
 
-		$content = get_transient( $cache_key );
-
+		// Assert.
 		$this->assertEmpty( $content );
 	}
 
@@ -127,13 +113,14 @@ class WPSEO_Sitemaps_Cache_Test extends WPSEO_UnitTestCase {
 		$cache_key = WPSEO_Sitemaps_Cache::get_storage_key( $type, $n );
 		set_transient( $cache_key, $test_content );
 
-		// Clear specific cache.
+		// Act.
 		WPSEO_Sitemaps_Cache::clear( array( $type ) );
 
 		// Get the key again.
 		$cache_key = WPSEO_Sitemaps_Cache::get_storage_key( $type, $n );
 		$result    = get_transient( $cache_key );
 
+		// Assert.
 		$this->assertEmpty( $result );
 	}
 
@@ -146,13 +133,14 @@ class WPSEO_Sitemaps_Cache_Test extends WPSEO_UnitTestCase {
 		$index_cache_key = WPSEO_Sitemaps_Cache::get_storage_key();
 		set_transient( $index_cache_key, $test_index_content );
 
-		// Clear specific cache.
+		// Act.
 		WPSEO_Sitemaps_Cache::clear( array( 'page' ) );
 
 		// Get the key again.
 		$index_cache_key = WPSEO_Sitemaps_Cache::get_storage_key();
 		$result          = get_transient( $index_cache_key );
 
+		// Assert.
 		$this->assertEmpty( $result );
 	}
 
@@ -172,13 +160,14 @@ class WPSEO_Sitemaps_Cache_Test extends WPSEO_UnitTestCase {
 		$type_b_key = WPSEO_Sitemaps_Cache::get_storage_key( $type_b );
 		set_transient( $type_b_key, $type_b_content );
 
-		// Clear specific cache.
+		// Act.
 		WPSEO_Sitemaps_Cache::clear( array( $type_a ) );
 
 		// Get the key again.
 		$type_b_key = WPSEO_Sitemaps_Cache::get_storage_key( $type_b );
 		$result     = get_transient( $type_b_key );
 
+		// Assert.
 		$this->assertEquals( $type_b_content, $result );
 	}
 
@@ -186,12 +175,12 @@ class WPSEO_Sitemaps_Cache_Test extends WPSEO_UnitTestCase {
 	 * Make sure the hook is registered on registration
 	 */
 	public function test_register_clear_on_option_update() {
-		$option = 'test_option';
-
-		WPSEO_Sitemaps_Cache::register_clear_on_option_update( $option );
-
+		new WPSEO_Sitemaps_Cache();
 		// Hook will be added on default priority.
-		$this->assertEquals( 10, has_action( 'update_option', array( 'WPSEO_Sitemaps_Cache', 'clear_on_option_update' ) ) );
+		$this->assertEquals( 10, has_action( 'update_option', array(
+			'WPSEO_Sitemaps_Cache',
+			'clear_on_option_update'
+		) ) );
 	}
 
 	/**
@@ -203,11 +192,14 @@ class WPSEO_Sitemaps_Cache_Test extends WPSEO_UnitTestCase {
 		$test_content = 'test_content';
 		$option       = 'my_option';
 
+		new WPSEO_Sitemaps_Cache();
+
 		WPSEO_Sitemaps_Cache::register_clear_on_option_update( $option, $type );
 
 		$cache_key = WPSEO_Sitemaps_Cache::get_storage_key( $type, $n );
 		set_transient( $cache_key, $test_content );
 
+		// Act.
 		// Updating the option should clear cache for specified type.
 		do_action( 'update_option', $option );
 
@@ -215,6 +207,7 @@ class WPSEO_Sitemaps_Cache_Test extends WPSEO_UnitTestCase {
 		$cache_key = WPSEO_Sitemaps_Cache::get_storage_key( $type, $n );
 		$result    = get_transient( $cache_key );
 
+		// Assert.
 		$this->assertEmpty( $result );
 	}
 
