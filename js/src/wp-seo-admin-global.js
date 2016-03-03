@@ -50,7 +50,7 @@
 
 				$notice.append( $button );
 
-				$button.on( 'click.wp-dismiss-notice', function ( ev ) {
+				$button.on( 'click.wp-dismiss-notice', function( ev ) {
 					ev.preventDefault();
 					$notice.fadeTo( 100, 0, function() {
 						jQuery( this ).slideUp( 100, function() {
