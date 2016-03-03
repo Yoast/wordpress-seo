@@ -8,6 +8,10 @@
  * Implements individual notification.
  */
 class Yoast_Notification {
+
+	const MATCH_ALL = 'all';
+	const MATCH_ANY = 'any';
+
 	/**
 	 * Contains optional arguments:
 	 *
@@ -33,7 +37,7 @@ class Yoast_Notification {
 		'data_json'        => array(),
 		'dismissal_key'    => null,
 		'capabilities'     => array(),
-		'capability_check' => 'all',
+		'capability_check' => self::MATCH_ALL,
 		'wpseo_page_only'  => false,
 	);
 
@@ -45,9 +49,7 @@ class Yoast_Notification {
 	 */
 	public function __construct( $message, $options = array() ) {
 		$this->message = $message;
-		$this->options = wp_parse_args( $options, $this->defaults );
-
-		$this->verify_options();
+		$this->options = $this->normalize_options( $options );
 	}
 
 	/**
@@ -84,9 +86,9 @@ class Yoast_Notification {
 	/**
 	 * Priority of the notification
 	 *
-	 * Relative to the type
+	 * Relative to the type.
 	 *
-	 * @return float 0-1
+	 * @return float Returns the priority between 0 and 1.
 	 */
 	public function get_priority() {
 		return $this->options['priority'];
@@ -146,8 +148,9 @@ class Yoast_Notification {
 	 * @return bool
 	 */
 	public function match_capabilities() {
-		if ( is_multisite() ) {
-			return WPSEO_Utils::grant_access();
+		// Super Admin can do anything.
+		if ( is_multisite() && is_super_admin() ) {
+			return true;
 		}
 
 		/**
@@ -163,17 +166,13 @@ class Yoast_Notification {
 		 */
 		$capabilities = apply_filters( 'wpseo_notification_capabilities', $this->options['capabilities'], $this->options['id'], $this );
 
-		if ( is_string( $capabilities ) && ! empty( $capabilities ) ) {
-			$capabilities = array( $capabilities );
-		}
-
 		// Should be an array.
 		if ( ! is_array( $capabilities ) ) {
 			$capabilities = array();
 		}
 
 		/**
-		 * Filter capability check to enable 'all' or 'any' capabilities.
+		 * Filter capability check to enable all or any capabilities.
 		 *
 		 * @since 3.2
 		 *
@@ -181,41 +180,38 @@ class Yoast_Notification {
 		 * @param string             $id               The ID of the notification.
 		 * @param Yoast_Notification $notification     The notification object.
 		 *
-		 * @return string 'all' or 'any'.
+		 * @return string self::MATCH_ALL or self::MATCH_ANY.
 		 */
 		$capability_check = apply_filters( 'wpseo_notification_capability_check', $this->options['capability_check'], $this->options['id'], $this );
 
-		if ( ! in_array( $capability_check, array( 'all', 'any' ), true ) ) {
-			$capability_check = 'all';
+		if ( ! in_array( $capability_check, array( self::MATCH_ALL, self::MATCH_ANY ), true ) ) {
+			$capability_check = self::MATCH_ALL;
 		}
 
 		if ( ! empty( $capabilities ) ) {
 
-			foreach ( $capabilities as $capability ) {
-				$user_can = current_user_can( $capability );
-				if ( 'all' === $capability_check ) {
-					if ( ! $user_can ) {
-						return false;
-					}
-				}
+			$has_capabilities = array_filter( $capabilities, array( $this, 'has_capability' ) );
 
-				if ( 'any' === $capability_check ) {
-					if ( $user_can ) {
-						return true;
-					}
-				}
-			}
-
-			if ( 'all' === $capability_check ) {
-				return true;
-			}
-
-			if ( 'any' === $capability_check ) {
-				return false;
+			switch ( $capability_check ) {
+				case self::MATCH_ALL:
+					return $has_capabilities === $capabilities;
+				case self::MATCH_ANY:
+					return ! empty( $has_capabilities );
 			}
 		}
 
 		return true;
+	}
+
+	/**
+	 * Array filter function to find matched capabilities
+	 *
+	 * @param string $capability Capability to test.
+	 *
+	 * @return bool
+	 */
+	private function has_capability( $capability ) {
+		return current_user_can( $capability );
 	}
 
 	/**
@@ -277,10 +273,18 @@ class Yoast_Notification {
 
 	/**
 	 * Make sure we only have values that we can work with
+	 *
+	 * @param array $options Options to normalize.
+	 *
+	 * @return array
 	 */
-	private function verify_options() {
+	private function normalize_options( $options ) {
+		$options = wp_parse_args( $options, $this->defaults );
+
 		// Should not exceed 0 or 1.
-		$this->options['priority'] = min( 1, max( 0, $this->options['priority'] ) );
+		$options['priority'] = min( 1, max( 0, $options['priority'] ) );
+
+		return $options;
 	}
 
 	/**
