@@ -34,7 +34,7 @@ class WPSEO_Sitemaps {
 	/** @var WPSEO_Sitemaps_Router $router */
 	public $router;
 
-	/** @var WPSEO_Sitemaps_Renderer $renderer  */
+	/** @var WPSEO_Sitemaps_Renderer $renderer */
 	public $renderer;
 
 	/** @var WPSEO_Sitemaps_Cache $cache */
@@ -80,7 +80,7 @@ class WPSEO_Sitemaps {
 		}
 
 		$request_uri = $_SERVER['REQUEST_URI'];
-		$extension   = substr( $request_uri, -4 );
+		$extension   = substr( $request_uri, - 4 );
 
 		if ( false !== stripos( $request_uri, 'sitemap' ) && in_array( $extension, array( '.xml', '.xsl' ) ) ) {
 			remove_all_actions( 'widgets_init' );
@@ -233,6 +233,7 @@ class WPSEO_Sitemaps {
 
 		if ( $type === '1' ) {
 			$this->build_root_map();
+
 			return;
 		}
 
@@ -259,6 +260,7 @@ class WPSEO_Sitemaps {
 			 * Fires custom handler, if hooked to generate sitemap for the type.
 			 */
 			do_action( 'wpseo_do_sitemap_' . $type );
+
 			return;
 		}
 
@@ -387,7 +389,7 @@ class WPSEO_Sitemaps {
 
 		if ( empty( $post_type_dates ) ) {
 
-			$sql             = "
+			$sql     = "
 				SELECT post_type, MAX(post_modified_gmt) AS date
 				FROM $wpdb->posts
 				WHERE post_status IN ('publish','inherit')
@@ -395,7 +397,7 @@ class WPSEO_Sitemaps {
 				GROUP BY post_type
 				ORDER BY post_modified_gmt DESC
 			";
-			$results         = $wpdb->get_results( $sql );
+			$results = $wpdb->get_results( $sql );
 
 			foreach ( $results as $obj ) {
 				$post_type_dates[ $obj->post_type ] = $obj->date;
@@ -436,7 +438,7 @@ class WPSEO_Sitemaps {
 			return;
 		}
 
-		if ( '0' == get_option( 'blog_public' ) ) { // Don't ping if blog is not public.
+		if ( '0' === get_option( 'blog_public' ) ) { // Don't ping if blog is not public.
 			return;
 		}
 

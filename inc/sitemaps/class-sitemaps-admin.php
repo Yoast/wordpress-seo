@@ -22,7 +22,7 @@ class WPSEO_Sitemaps_Admin {
 
 		add_action( 'admin_init', array( $this, 'delete_sitemaps' ) );
 
-		WPSEO_Sitemaps_Cache::register_cache_clear_option( 'wpseo_xml', '' );
+		WPSEO_Sitemaps_Cache::register_clear_on_option_update( 'wpseo_xml', '' );
 	}
 
 	/**
