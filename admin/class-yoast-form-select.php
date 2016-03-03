@@ -87,7 +87,7 @@ class Yoast_Form_Select {
 		$sanitized_options = array();
 
 		foreach ( $this->options as $value => $label ) {
-			if( $this->sanitize_option( $label, $value ) ) {
+			if ( $this->sanitize_option( $label, $value ) ) {
 				$sanitized_options[ $value ] = $label;
 			}
 		}
