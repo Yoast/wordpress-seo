@@ -11,12 +11,12 @@ class WPSEO_Redirect_Handler {
 	/**
 	 * @var string The options where the url redirects are stored.
 	 */
-	private $normal_option_name = 'wpseo-premium-redirects-plain';
+	private $normal_option_name = 'wpseo-premium-redirects-export-plain';
 
 	/**
 	 * @var string The option name where the regex redirects are stored.
 	 */
-	private $regex_option_name  = 'wpseo-premium-redirects-regex';
+	private $regex_option_name  = 'wpseo-premium-redirects-export-regex';
 
 	/**
 	 * @var string The url that is called at the moment.
@@ -329,6 +329,11 @@ class WPSEO_Redirect_Handler {
 	private function parse_target_url( $target_url ) {
 		$scheme = parse_url( $target_url, PHP_URL_SCHEME );
 		if ( empty( $scheme ) ) {
+			// Add slash to target url when permalink structure ends with a slash.
+			if ( substr( get_option( 'permalink_structure' ), -1 ) === '/' ) {
+				$target_url = trailingslashit( $target_url );
+			}
+
 			$target_url = home_url( $target_url );
 		}
 

@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo-premium/issues\n"
-"POT-Creation-Date: 2016-01-25 11:35:00+00:00\n"
+"POT-Creation-Date: 2016-03-01 10:58:03+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -24,111 +24,20 @@ msgstr ""
 "X-Poedit-Bookmarks: \n"
 "X-Textdomain-Support: yes\n"
 
-#: class-premium.php:285
+#: class-premium.php:305
 msgid "Create Redirect"
 msgstr ""
 
-#: class-premium.php:317
+#: class-premium.php:337
 msgid "Add custom fields to page analysis"
 msgstr ""
 
-#: class-premium.php:336 classes/redirect/class-redirect-presenter.php:57
+#: class-premium.php:356 classes/redirect/class-redirect-presenter.php:57
 msgid "Redirects"
 msgstr ""
 
-#: class-premium.php:345
+#: class-premium.php:365
 msgid "Video Tutorials"
-msgstr ""
-
-#: classes/class-helpscout-beacon.php:61
-msgid ""
-"Please explain what you're trying to find or do. If something isn't "
-"working, please explain what you expect to happen. If you can make a "
-"screenshot, please attach it."
-msgstr ""
-
-#: classes/class-helpscout-beacon.php:63
-msgid "Note: submitting this form also sends us debug info about your server."
-msgstr ""
-
-#: classes/class-helpscout-beacon.php:75
-msgid "What can we help you with?"
-msgstr ""
-
-#: classes/class-helpscout-beacon.php:76
-msgid ""
-"Your search timed out. Please double-check your internet connection and try "
-"again."
-msgstr ""
-
-#: classes/class-helpscout-beacon.php:77
-msgid "No results found for"
-msgstr ""
-
-#: classes/class-helpscout-beacon.php:78
-msgid "Send a Message"
-msgstr ""
-
-#: classes/class-helpscout-beacon.php:79
-msgid "Attach a file"
-msgstr ""
-
-#: classes/class-helpscout-beacon.php:80
-msgid "The maximum file size is 10mb"
-msgstr ""
-
-#: classes/class-helpscout-beacon.php:81
-msgid "Your Name"
-msgstr ""
-
-#: classes/class-helpscout-beacon.php:82
-msgid "Please enter your name"
-msgstr ""
-
-#: classes/class-helpscout-beacon.php:83
-msgid "Email address"
-msgstr ""
-
-#: classes/class-helpscout-beacon.php:84
-msgid "Please enter a valid email address"
-msgstr ""
-
-#: classes/class-helpscout-beacon.php:85
-msgid "Select a topic"
-msgstr ""
-
-#: classes/class-helpscout-beacon.php:86
-msgid "Please select a topic from the list"
-msgstr ""
-
-#: classes/class-helpscout-beacon.php:87
-msgid "Subject"
-msgstr ""
-
-#: classes/class-helpscout-beacon.php:88
-msgid "Please enter a subject"
-msgstr ""
-
-#: classes/class-helpscout-beacon.php:89
-msgid "How can we help you?"
-msgstr ""
-
-#: classes/class-helpscout-beacon.php:90
-msgid "Please enter a message"
-msgstr ""
-
-#: classes/class-helpscout-beacon.php:91
-msgid "Send"
-msgstr ""
-
-#: classes/class-helpscout-beacon.php:92
-msgid "Message sent, thank you!"
-msgstr ""
-
-#: classes/class-helpscout-beacon.php:93
-msgid ""
-"Someone from Team Yoast will get back to you soon, normally within a couple "
-"of hours."
 msgstr ""
 
 #: classes/class-post-watcher.php:129
@@ -352,11 +261,11 @@ msgid ""
 "received HTTP code is %1$s."
 msgstr ""
 
-#: classes/redirect/class-redirect-ajax.php:55
+#: classes/redirect/class-redirect-ajax.php:59
 msgid "Unknown error. Failed to create redirect."
 msgstr ""
 
-#: classes/redirect/class-redirect-ajax.php:88
+#: classes/redirect/class-redirect-ajax.php:92
 msgid "Unknown error. Failed to update redirect."
 msgstr ""
 
@@ -374,7 +283,7 @@ msgid ""
 "direct redirect to %2$s."
 msgstr ""
 
-#: classes/redirect/class-redirect-file-util.php:67
+#: classes/redirect/class-redirect-file-util.php:68
 msgid "We're unable to write data to the file %s"
 msgstr ""
 
@@ -422,16 +331,16 @@ msgstr ""
 msgid "Old URL"
 msgstr ""
 
-#: classes/redirect/class-redirect-table.php:57
+#: classes/redirect/class-redirect-table.php:62
 msgid "New URL"
 msgstr ""
 
-#: classes/redirect/class-redirect-table.php:205
-#: classes/redirect/class-redirect-table.php:278
+#: classes/redirect/class-redirect-table.php:221
+#: classes/redirect/class-redirect-table.php:307
 msgid "Delete"
 msgstr ""
 
-#: classes/redirect/class-redirect-table.php:277
+#: classes/redirect/class-redirect-table.php:306
 msgid "Edit"
 msgstr ""
 
@@ -439,14 +348,14 @@ msgstr ""
 msgid "The old URL already exists as a redirect."
 msgstr ""
 
-#: classes/redirect/views/redirects-form.php:32
+#: classes/redirect/views/redirects-form.php:30
 msgid ""
 "The redirect type is the HTTP response code sent to the browser telling the "
 "browser what type of redirect is served.<br/><br/>Read <a href='%s' "
 "target='_blank'>this page</a> for more info."
 msgstr ""
 
-#: classes/redirect/views/redirects-form.php:47
+#: classes/redirect/views/redirects-form.php:45
 msgid "URL"
 msgstr ""
 
@@ -498,20 +407,24 @@ msgstr ""
 msgid "We're unable to save the redirect file to %s"
 msgstr ""
 
-#: classes/redirect/views/redirects-tab-settings.php:64
-msgid "Disable PHP redirects"
+#: classes/redirect/views/redirects-tab-settings.php:69
+msgid "Web server"
 msgstr ""
 
-#: classes/redirect/views/redirects-tab-settings.php:68
+#: classes/redirect/views/redirects-tab-settings.php:70
+msgid "Redirect method"
+msgstr ""
+
+#: classes/redirect/views/redirects-tab-settings.php:74
 #. translators: 1: '.htaccess' file name
 msgid "Write redirects to the %1$s file. Make sure the %1$s file is writable."
 msgstr ""
 
-#: classes/redirect/views/redirects-tab-settings.php:70
+#: classes/redirect/views/redirects-tab-settings.php:76
 msgid "Generate a separate redirect file"
 msgstr ""
 
-#: classes/redirect/views/redirects-tab-settings.php:73
+#: classes/redirect/views/redirects-tab-settings.php:79
 #. translators: %s: '.htaccess' file name
 msgid ""
 "By default we write the redirects to your %s file, check this if you want "
@@ -519,19 +432,19 @@ msgid ""
 "know what you are doing!"
 msgstr ""
 
-#: classes/redirect/views/redirects-tab-settings.php:77
+#: classes/redirect/views/redirects-tab-settings.php:83
 #. translators: %s: 'Yoast SEO Premium'
 msgid ""
-"%s will generate redirect files that can be included in your website "
-"configuration. You can disable PHP redirect if this is done correctly. Only "
-"check this option if you know what you are doing!"
+"%s can generate redirect files that can be included in your website web "
+"server configuration. If you choose this option the PHP redirects will be "
+"disabled. Only check this option if you know what you are doing!"
 msgstr ""
 
-#: classes/redirect/views/redirects-tab-settings.php:81
+#: classes/redirect/views/redirects-tab-settings.php:87
 msgid "Save Changes"
 msgstr ""
 
-#: classes/redirect/class-redirect-table.php:55
+#: classes/redirect/class-redirect-table.php:60
 #: classes/redirect/views/redirects-form.php:14
 msgctxt "noun"
 msgid "Type"

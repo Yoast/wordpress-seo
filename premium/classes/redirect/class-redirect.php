@@ -181,7 +181,7 @@ class WPSEO_Redirect implements ArrayAccess {
 	}
 
 	/**
-	 * Strip the trailing slashes
+	 * Strip the trailing slashes for relative URLs.
 	 *
 	 * @param string $url_to_sanitize The url to sanitize.
 	 *
@@ -189,7 +189,7 @@ class WPSEO_Redirect implements ArrayAccess {
 	 */
 	private function sanitize_slash( $url_to_sanitize ) {
 		$url = $url_to_sanitize;
-		if ( $url !== '/' ) {
+		if ( WPSEO_Redirect_Util::is_relative_url( $url_to_sanitize ) && $url !== '/' ) {
 			$url = trim( $url_to_sanitize, '/' );
 		}
 

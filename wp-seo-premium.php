@@ -5,7 +5,7 @@
 
 /**
  * Plugin Name: Yoast SEO Premium
- * Version: 3.1
+ * Version: 3.1.1
  * Plugin URI: https://yoast.com/wordpress/plugins/seo/#utm_source=wpadmin&utm_medium=plugin&utm_campaign=wpseoplugin
  * Description: The first true all-in-one SEO solution for WordPress, including on-page content analysis, XML sitemaps and much more.
  * Author: Team Yoast
@@ -52,10 +52,20 @@ require_once( WPSEO_PATH . 'premium/class-premium.php' );
 
 WPSEO_Premium::autoloader();
 
-// If the user is admin, check for the upgrade manager.
-if ( is_admin() ) {
+/**
+ * Run the upgrade for Yoast SEO Premium.
+ */
+function wpseo_premium_run_upgrade() {
 	$upgrade_manager = new WPSEO_Upgrade_Manager();
 	$upgrade_manager->run_upgrade( WPSEO_VERSION );
+}
+
+/*
+ * If the user is admin, check for the upgrade manager.
+ * Considered to use 'admin_init' but that is called too late in the process.
+ */
+if ( is_admin() ) {
+	add_action( 'init', 'wpseo_premium_run_upgrade' );
 }
 
 /**
