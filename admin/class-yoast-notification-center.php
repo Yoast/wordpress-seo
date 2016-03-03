@@ -61,20 +61,8 @@ class Yoast_Notification_Center implements Yoast_Notification_Center_Interface {
 	 *
 	 * Notifiers that are not dependent of a class concretion should be registered here.
 	 */
-	public static function initialise_notifiers() {
+	public static function initialize_notifiers() {
 		$instance = self::get();
-
-		$instance->add_notifier( new Yoast_Search_Engine_Visibility_Notifier() );
-		$instance->add_notifier( new Yoast_Default_Tagline_Notifier() );
-		$instance->add_notifier( new Yoast_Algorithm_Update_Notifier() );
-
-		$instance->add_notifier( new Yoast_API_Libs_Required_Version_Notifier() );
-		$instance->add_notifier( new Yoast_GA_Incompatible_Version_Notifier() );
-		$instance->add_notifier( new Yoast_GA_Compatibility_Notifier() );
-
-		$instance->add_notifier( new Yoast_Google_Search_Console_Configuration_Notifier() );
-
-		$instance->add_notifier( new Yoast_After_Update_Notifier() );
 
 		/**
 		 * Context dependent notifications:
