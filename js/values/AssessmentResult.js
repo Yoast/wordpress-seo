@@ -14,15 +14,15 @@ var hasRange = function( item ) {
 /**
  * Check whether the result falls within a certain range.
  * @param result
- * @param item
+ * @param entry
  * @returns {*}
  */
-var resultInRange = function( result, item ) {
-    if ( item.hasOwnProperty( "range" ) ) {
-        return inRange( result, item.range[0], item.range[1] );
+var entryInRange = function( entry, result ) {
+    if ( entry.hasOwnProperty( "range" ) ) {
+        return inRange( result, entry.range[0], entry.range[1] );
     }
 
-    return inRange( result, item.min, item.max );
+    return inRange( result, entry.min, entry.max );
 };
 
 /**
@@ -46,14 +46,14 @@ var hasMaximum = function( item ) {
 /**
  * Construct the AssessmentResult object.
  * @param score
- * @param scoreConfiguration
+ * @param analysisConfiguration
  * @constructor
  */
-var AssessmentResult = function( score, scoreConfiguration ) {
-    this.score = score;
-    this.configuration = scoreConfiguration;
+var AssessmentResult = function( analysisResult, analysisConfiguration ) {
+    this.analysisResult = analysisResult;
+    this.configuration = analysisConfiguration;
 
-    if ( isUndefined( scoreConfiguration ) ) {
+    if ( isUndefined( analysisConfiguration ) ) {
         return;
     }
 
@@ -67,16 +67,19 @@ AssessmentResult.prototype.retrieveAssesmentResultScore = function() {
     var entries = this.configuration.scoreArray;
 
     for ( var i = 0; i < entries.length; i++ ) {
-        if ( hasRange( entries[i] ) && resultInRange( this.score, entries[i] ) ) {
-            return this.getResultObject( entries[i], this.configuration.replacements );
+
+        var entry = entries[i];
+
+        if ( hasRange( entry ) && entryInRange( entry, this.analysisResult ) ) {
+            return this.getResultObject( entry, this.configuration.replacements );
         }
 
-        if ( hasMinimum( entries[i] ) && this.score > entries[i].min ) {
-            return this.getResultObject( entries[i], this.configuration.replacements );
+        if ( hasMinimum( entry ) && this.analysisResult > entry.min ) {
+            return this.getResultObject( entry, this.configuration.replacements );
         }
 
-        if ( hasMaximum( entries[i] ) ) {
-            return this.getResultObject( entries[i], this.configuration.replacements );
+        if ( hasMaximum( entry ) ) {
+            return this.getResultObject( entry, this.configuration.replacements );
         }
     }
 };
@@ -105,7 +108,7 @@ AssessmentResult.prototype.formatResultMessage = function( result, replacements 
 
     // If there's a placeholder, replace that with the actual result value
     if ( result.text.indexOf( "%%result%%" ) > -1 ) {
-        result.text = result.text.replace( "%%result%%", this.score );
+        result.text = result.text.replace( "%%result%%", this.analysisResult );
     }
 
     return result;
