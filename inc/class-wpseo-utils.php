@@ -424,9 +424,6 @@ class WPSEO_Utils {
 	/**
 	 * Flush W3TC cache after succesfull update/add of taxonomy meta option
 	 *
-	 * @todo [JRF => whomever] check the above and this function to see if they should be combined or really
-	 * do something significantly different
-	 *
 	 * @static
 	 */
 	public static function flush_w3tc_cache() {
@@ -533,7 +530,7 @@ class WPSEO_Utils {
 			case 'mod':
 			case 'modulus':
 				if ( $bc ) {
-					$result = bcmod( $number1, $number2, $precision ); // String, or NULL if modulus is 0.
+					$result = bcmod( $number1, $number2 ); // String, or NULL if modulus is 0.
 				}
 				elseif ( $number2 != 0 ) {
 					$result = ( $number1 % $number2 );

@@ -24,6 +24,14 @@ class WPSEO_Sitemaps_Double extends WPSEO_Sitemaps {
 	}
 }
 
+/**
+ * Exposes protected defaults from WPSEO_Option_XML class
+ */
+class WPSEO_Option_XML_Double extends WPSEO_Option_XML {
+	public function get_defaults() {
+		return $this->defaults;
+	}
+}
 
 /**
  * Class WPSEO_Sitemaps_Test
@@ -40,6 +48,35 @@ class WPSEO_Sitemaps_Test extends WPSEO_UnitTestCase {
 	 */
 	public static function setUpBeforeClass() {
 		self::$class_instance = new WPSEO_Sitemaps_Double;
+	}
+
+	/**
+	 * Remove all created filters.
+	 */
+	public function tearDown() {
+		remove_filter( 'get_usernumposts', array( $this, 'filter_user_has_no_posts' ) );
+		remove_filter( 'get_usernumposts', array( $this, 'filter_user_has_posts' ) );
+
+		remove_filter( 'pre_option_wpseo_xml', array( $this, 'filter_enable_author_sitemaps' ) );
+		remove_filter( 'pre_option_wpseo_xml', array( $this, 'filter_exclude_author_by_role' ) );
+		remove_filter( 'pre_option_wpseo_xml', array( $this, 'filter_exclude_author_by_no_posts' ) );
+
+		remove_filter( 'get_the_author_wpseo_excludeauthorsitemap',
+			array( $this, 'filter_user_meta_exclude_author_from_sitemap' ) );
+	}
+
+	/**
+	 * Get a test user
+	 *
+	 * @return stdClass
+	 */
+	public function get_user() {
+		static $userID = 1;
+		$user        = new stdClass();
+		$user->roles = array( 'administrator' );
+		$user->ID    = $userID ++;
+
+		return $user;
 	}
 
 	/**

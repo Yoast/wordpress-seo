@@ -102,7 +102,7 @@ class WPSEO_Admin_Asset_Manager {
 		return array(
 			array(
 				'name' => 'admin-script',
-				'src'  => 'wp-seo-admin-306',
+				'src'  => 'wp-seo-admin-310',
 				'deps' => array(
 					'jquery',
 					'jquery-ui-core',
@@ -113,7 +113,7 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'admin-media',
-				'src'  => 'wp-seo-admin-media-302',
+				'src'  => 'wp-seo-admin-media-310',
 				'deps' => array(
 					'jquery',
 					'jquery-ui-core',
@@ -121,22 +121,22 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'bulk-editor',
-				'src'  => 'wp-seo-bulk-editor',
+				'src'  => 'wp-seo-bulk-editor-310',
 				'deps' => array( 'jquery' ),
 			),
 			array(
 				'name' => 'export',
-				'src'  => 'wp-seo-export-302',
+				'src'  => 'wp-seo-export-310',
 				'deps' => array( 'jquery' ),
 			),
 			array(
 				'name' => 'dismissible',
-				'src'  => 'wp-seo-dismissible',
+				'src'  => 'wp-seo-dismissible-310',
 				'deps' => array( 'jquery' ),
 			),
 			array(
 				'name' => 'admin-global-script',
-				'src'  => 'wp-seo-admin-global-302',
+				'src'  => 'wp-seo-admin-global-310',
 				'deps' => array( 'jquery' ),
 			),
 			array(
@@ -152,6 +152,7 @@ class WPSEO_Admin_Asset_Manager {
 				'deps' => array(
 					'jquery',
 					'jquery-ui-core',
+					'jquery-ui-autocomplete',
 					self::PREFIX . 'jquery-qtip',
 					self::PREFIX . 'select2',
 					self::PREFIX . 'select2-translations',
@@ -160,7 +161,7 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'featured-image',
-				'src'  => 'wp-seo-featured-image-302',
+				'src'  => 'wp-seo-featured-image-310',
 				'deps' => array(
 					'jquery',
 					self::PREFIX . 'yoast-seo',
@@ -173,6 +174,7 @@ class WPSEO_Admin_Asset_Manager {
 					'jquery',
 					'jquery-ui-core',
 					'jquery-ui-autocomplete',
+					self::PREFIX . 'jquery-qtip',
 				),
 			),
 			array(
@@ -183,12 +185,12 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name'   => 'yoast-seo',
-				'src'    => 'yoast-seo/yoast-seo-307',
+				'src'    => 'yoast-seo/yoast-seo-310',
 				'suffix' => '.min',
 			),
 			array(
 				'name' => 'post-scraper',
-				'src'  => 'wp-seo-post-scraper-305',
+				'src'  => 'wp-seo-post-scraper-310',
 				'deps' => array(
 					self::PREFIX . 'yoast-seo',
 					self::PREFIX . 'replacevar-plugin',
@@ -198,7 +200,7 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'term-scraper',
-				'src'  => 'wp-seo-term-scraper-305',
+				'src'  => 'wp-seo-term-scraper-310',
 				'deps' => array(
 					self::PREFIX . 'yoast-seo',
 					self::PREFIX . 'replacevar-plugin',
@@ -206,7 +208,7 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'replacevar-plugin',
-				'src'  => 'wp-seo-replacevar-plugin-302',
+				'src'  => 'wp-seo-replacevar-plugin-310',
 				'deps' => array(
 					self::PREFIX . 'yoast-seo',
 				),
@@ -220,7 +222,7 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'recalculate',
-				'src'  => 'wp-seo-recalculate-306',
+				'src'  => 'wp-seo-recalculate-310',
 				'deps' => array(
 					'jquery',
 					'jquery-ui-core',
@@ -267,7 +269,7 @@ class WPSEO_Admin_Asset_Manager {
 		return array(
 			array(
 				'name' => 'admin-css',
-				'src'  => 'yst_plugin_tools-302',
+				'src'  => 'yst_plugin_tools-310',
 				'deps' => array( self::PREFIX . 'toggle-switch' ),
 			),
 			// TODO minify toggle styles. R.
@@ -305,8 +307,9 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'metabox-css',
-				'src'  => 'metabox-302',
+				'src'  => 'metabox-310',
 				'deps' => array(
+					self::PREFIX . 'jquery-qtip.js',
 					self::PREFIX . 'select2',
 				),
 			),
@@ -316,15 +319,15 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'scoring',
-				'src'  => 'yst_seo_score-302',
+				'src'  => 'yst_seo_score-310',
 			),
 			array(
 				'name' => 'snippet',
-				'src'  => 'snippet-307',
+				'src'  => 'snippet-310',
 			),
 			array(
 				'name'   => 'yoast-seo',
-				'src'    => 'dist/yoast-seo/yoast-seo-307',
+				'src'    => 'dist/yoast-seo/yoast-seo-310',
 				'suffix' => '.min',
 			),
 			array(

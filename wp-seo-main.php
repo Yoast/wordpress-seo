@@ -13,7 +13,7 @@ if ( ! function_exists( 'add_filter' ) ) {
  * @internal Nobody should be able to overrule the real version number as this can cause serious issues
  * with the options, so no if ( ! defined() )
  */
-define( 'WPSEO_VERSION', '3.1-beta' );
+define( 'WPSEO_VERSION', '3.1' );
 
 if ( ! defined( 'WPSEO_PATH' ) ) {
 	define( 'WPSEO_PATH', plugin_dir_path( WPSEO_FILE ) );
@@ -220,7 +220,7 @@ function wpseo_load_textdomain() {
 	}
 }
 
-add_action( 'init', 'wpseo_load_textdomain', 1 );
+add_action( 'plugins_loaded', 'wpseo_load_textdomain' );
 
 
 /**
