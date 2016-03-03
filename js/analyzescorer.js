@@ -67,8 +67,6 @@ AnalyzeScorer.prototype.genericScore = function( obj ) {
 
 	if ( isUndefined( scoreObj ) ) {
 		return assessments[ obj.test ]( this.paper, this.i18n );
-
-		//return this.calculateScore( resultObj.result, resultObj.score, resultObj.test );
 	}
 
 	return this.calculateScore( obj, scoreObj, scoreObj.scoreName );

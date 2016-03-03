@@ -903,8 +903,6 @@ AnalyzeScorer.prototype.genericScore = function( obj ) {
 
 	if ( isUndefined( scoreObj ) ) {
 		return assessments[ obj.test ]( this.paper, this.i18n );
-
-		//return this.calculateScore( resultObj.result, resultObj.score, resultObj.test );
 	}
 
 	return this.calculateScore( obj, scoreObj, scoreObj.scoreName );
@@ -5031,18 +5029,18 @@ var replaceAll = require( "../helpers/replaceAll.js" );
 
 /**
  * Check whether the current item can be seen as a range.
- * @param item
- * @returns {boolean}
+ * @param entry The entry in the assessment configuration.
+ * @returns {boolean} Whether or not a range is available.
  */
-var hasRange = function( item ) {
-    return item.hasOwnProperty( "range" ) || ( item.hasOwnProperty( "min" ) && item.hasOwnProperty( "max" ) );
+var hasRange = function( entry ) {
+    return entry.hasOwnProperty( "range" ) || ( entry.hasOwnProperty( "min" ) && entry.hasOwnProperty( "max" ) );
 };
 
 /**
  * Check whether the result falls within a certain range.
- * @param result
- * @param entry
- * @returns {*}
+ * @param {object} entry The entry in the assessment configuration.
+ * @param {number} result The result given by the analysis.
+ * @returns {boolean} Whether or not the entry falls within the given range.
  */
 var entryInRange = function( entry, result ) {
     if ( entry.hasOwnProperty( "range" ) ) {
@@ -5054,26 +5052,26 @@ var entryInRange = function( entry, result ) {
 
 /**
  * Check whether only a min property is available.
- * @param item
- * @returns {boolean}
+ * @param {object} entry The entry in the assessment configuration.
+ * @returns {boolean} Whether or not the entry has a min property and no max property.
  */
-var hasMinimum = function( item ) {
-    return ( item.hasOwnProperty( "min" ) && !item.hasOwnProperty( "max" ) );
+var hasMinimum = function( entry ) {
+    return ( entry.hasOwnProperty( "min" ) && !entry.hasOwnProperty( "max" ) );
 };
 
 /**
  * Check whether only a max property is available.
- * @param item
- * @returns {boolean}
+ * @param entry The entry in the assessment configuration.
+ * @returns {boolean} Whether or not the entry has a max property and no min property.
  */
-var hasMaximum = function( item ) {
-    return ( !item.hasOwnProperty( "min" ) && item.hasOwnProperty( "max" ) );
+var hasMaximum = function( entry ) {
+    return ( !entry.hasOwnProperty( "min" ) && entry.hasOwnProperty( "max" ) );
 };
 
 /**
  * Construct the AssessmentResult object.
- * @param score
- * @param analysisConfiguration
+ * @param analysisResult {number} The result of the analysis being assessed.
+ * @param analysisConfiguration {object} The configuration containing all the possible scores.
  * @constructor
  */
 var AssessmentResult = function( analysisResult, analysisConfiguration ) {
@@ -5113,8 +5111,8 @@ AssessmentResult.prototype.retrieveAssesmentResultScore = function() {
 
 /**
  * Get a formatted result object.
- * @param entry
- * @param replacements
+ * @param {object} entry The entry in the assessment configuration.
+ * @param {object} replacements The replacements to be used within the return message.
  */
 AssessmentResult.prototype.getResultObject = function( entry, replacements ) {
     return this.formatResultMessage( { "score":  entry.score, "text":  entry.text }, replacements );
@@ -5122,8 +5120,8 @@ AssessmentResult.prototype.getResultObject = function( entry, replacements ) {
 
 /**
  * Format the result message.
- * @param result
- * @param replacements
+ * @param {object} result The result of the assessment.
+ * @param {object} replacements The replacements to be used within the return message.
  * @returns {*}
  */
 AssessmentResult.prototype.formatResultMessage = function( result, replacements ) {
