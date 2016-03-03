@@ -90,15 +90,13 @@ class WPSEO_Import_External {
 				if ( isset( $custom['_headspace_noodp'] ) ) {
 					$robotsmeta_adv .= 'noodp,';
 				}
-				if ( isset( $custom['_headspace_noydir'] ) ) {
-					$robotsmeta_adv .= 'noydir';
-				}
 				$robotsmeta_adv = preg_replace( '`,$`', '', $robotsmeta_adv );
 				WPSEO_Meta::set_value( 'meta-robots-adv', $robotsmeta_adv, $post->ID );
 			}
 		}
 
 		if ( $this->replace ) {
+			// We no longer use noydir, but we remove the meta key as it's unneeded.
 			$hs_meta = array( 'noarchive', 'noodp', 'noydir' );
 			foreach ( $hs_meta as $meta ) {
 				delete_post_meta_by_key( '_headspace_' . $meta );
@@ -106,90 +104,5 @@ class WPSEO_Import_External {
 			unset( $hs_meta, $meta );
 		}
 		$this->set_msg( __( 'HeadSpace2 data successfully imported', 'wordpress-seo' ) );
-	}
-
-	/**
-	 * Import from Joost's old robots meta plugin
-	 */
-	public function import_robots_meta() {
-		global $wpdb;
-
-		$posts = $wpdb->get_results( "SELECT ID, robotsmeta FROM $wpdb->posts" );
-
-		if ( ! $posts ) {
-			$this->set_msg( __( 'Error: no Robots Meta data found to import.', 'wordpress-seo' ) );
-
-			return;
-		}
-		if ( is_array( $posts ) && $posts !== array() ) {
-			foreach ( $posts as $post ) {
-				// Sync all possible settings.
-				if ( $post->robotsmeta ) {
-					$pieces = explode( ',', $post->robotsmeta );
-					foreach ( $pieces as $meta ) {
-						switch ( $meta ) {
-							case 'noindex':
-								WPSEO_Meta::set_value( 'meta-robots-noindex', '1', $post->ID );
-								break;
-
-							case 'index':
-								WPSEO_Meta::set_value( 'meta-robots-noindex', '2', $post->ID );
-								break;
-
-							case 'nofollow':
-								WPSEO_Meta::set_value( 'meta-robots-nofollow', '1', $post->ID );
-								break;
-						}
-					}
-				}
-			}
-		}
-		$this->set_msg( __( sprintf( 'Robots Meta values imported. We recommend %sdisabling the Robots-Meta plugin%s to avoid any conflicts.', '<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_tools&tool=import-export&deactivate_robots_meta=1#top#import-other' ) ) . '">', '</a>' ), 'wordpress-seo' ) );
-	}
-
-	/**
-	 * Import from old Yoast RSS Footer plugin
-	 */
-	public function import_rss_footer() {
-		$optold = get_option( 'RSSFooterOptions' );
-		$optnew = get_option( 'wpseo_rss' );
-		if ( $optold['position'] == 'after' ) {
-			if ( $optnew['rssafter'] === '' || $optnew['rssafter'] === WPSEO_Options::get_default( 'wpseo_rss', 'rssafter' ) ) {
-				$optnew['rssafter'] = $optold['footerstring'];
-			}
-		}
-		else {
-			/* @internal Uncomment the second part if a default would be given to the rssbefore value */
-			if ( $optnew['rssbefore'] === '' /*|| $optnew['rssbefore'] === WPSEO_Options::get_default( 'wpseo_rss', 'rssbefore' )*/ ) {
-				$optnew['rssbefore'] = $optold['footerstring'];
-			}
-		}
-		update_option( 'wpseo_rss', $optnew );
-		$this->set_msg( __( 'RSS Footer options imported successfully.', 'wordpress-seo' ) );
-	}
-
-	/**
-	 * Import from Yoast Breadcrumbs plugin
-	 */
-	public function import_yoast_breadcrumbs() {
-		$optold = get_option( 'yoast_breadcrumbs' );
-		$optnew = get_option( 'wpseo_internallinks' );
-
-		if ( is_array( $optold ) && $optold !== array() ) {
-			foreach ( $optold as $opt => $val ) {
-				if ( is_bool( $val ) && $val === true ) {
-					$optnew[ 'breadcrumbs-' . $opt ] = true;
-				}
-				else {
-					$optnew[ 'breadcrumbs-' . $opt ] = $val;
-				}
-			}
-			unset( $opt, $val );
-			update_option( 'wpseo_internallinks', $optnew );
-			$this->set_msg( __( 'Yoast Breadcrumbs options imported successfully.', 'wordpress-seo' ) );
-		}
-		else {
-			$this->set_msg( __( 'Yoast Breadcrumbs options could not be found', 'wordpress-seo' ) );
-		}
 	}
 }
