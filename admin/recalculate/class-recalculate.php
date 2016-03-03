@@ -49,27 +49,24 @@ abstract class WPSEO_Recalculate {
 	 *
 	 * @param int $paged The current page number.
 	 *
-	 * @return string
+	 * @return array Items that can be recalculated.
 	 */
 	public function get_items_to_recalculate( $paged ) {
+		$return = array();
+
 		$paged = abs( $paged );
+		$this->options = WPSEO_Options::get_all();
 
-		if ( $items = $this->get_items( $paged ) ) {
-			$this->options = WPSEO_Options::get_all();
+		$items = $this->get_items( $paged );
 
-			$return = array(
-				'items'       => $this->parse_items( $items ),
-				'total_items' => count( $items ),
-			);
+		$return['items']       = $this->parse_items( $items );
+		$return['total_items'] = count( $items );
 
-			if ( $return['total_items'] >= $this->items_per_page ) {
-				$return['next_page'] = ( $paged + 1 );
-			}
-
-			return $return;
+		if ( $return['total_items'] >= $this->items_per_page ) {
+			$return['next_page'] = ( $paged + 1 );
 		}
 
-		return false;
+		return $return;
 	}
 
 	/**
@@ -82,7 +79,10 @@ abstract class WPSEO_Recalculate {
 	protected function parse_items( array $items ) {
 		$return = array();
 		foreach ( $items as $item ) {
-			$return[] = $this->item_to_response( $item );
+			$response = $this->item_to_response( $item );
+			if ( ! empty( $response ) ) {
+				$return[] = $response;
+			}
 		}
 
 		return $return;

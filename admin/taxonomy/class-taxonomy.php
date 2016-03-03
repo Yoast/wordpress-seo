@@ -68,19 +68,16 @@ class WPSEO_Taxonomy {
 			$asset_manager->enqueue_style( 'yoast-seo' );
 			$asset_manager->enqueue_style( 'metabox-css' );
 			$asset_manager->enqueue_style( 'snippet' );
+			$asset_manager->enqueue_style( 'scoring' );
 
 			wp_editor( '', 'description' );
 
 			$asset_manager->enqueue_script( 'metabox-taxonomypage' );
 			$asset_manager->enqueue_script( 'yoast-seo' );
 			$asset_manager->enqueue_script( 'term-scraper' );
-			$asset_manager->enqueue_script( 'replacevar-plugin' );
 
 			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'term-scraper', 'wpseoTermScraperL10n', $this->localize_term_scraper_script() );
 			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'replacevar-plugin', 'wpseoReplaceVarsL10n', $this->localize_replace_vars_script() );
-
-			$asset_manager->enqueue_style( 'jquery-qtip.js' );
-			$asset_manager->enqueue_script( 'jquery-qtip' );
 
 			$asset_manager->enqueue_script( 'admin-media' );
 
