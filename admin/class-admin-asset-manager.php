@@ -164,16 +164,6 @@ class WPSEO_Admin_Asset_Manager {
 				),
 			),
 			array(
-				'name' => 'metabox-taxonomypage',
-				'src'  => 'wp-seo-metabox-302',
-				'deps' => array(
-					'jquery',
-					'jquery-ui-core',
-					'jquery-ui-autocomplete',
-					self::PREFIX . 'jquery-qtip',
-				),
-			),
-			array(
 				'name'      => 'admin-gsc',
 				'src'       => 'wp-seo-admin-gsc-302',
 				'deps'      => array( 'jquery' ),
