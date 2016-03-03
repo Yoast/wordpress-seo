@@ -106,8 +106,7 @@ module.exports = (function() {
 
 	var currentKeyword = '';
 
-	// Initialize the keyword tab module.
-	var keywordTab;
+	var mainKeywordTab;
 	var KeywordTab = require( './analysis/keywordTab' );
 
 	/**
@@ -378,7 +377,7 @@ module.exports = (function() {
 
 		// If multi keyword isn't available we need to update the first tab (content)
 		if ( ! YoastSEO.multiKeyword ) {
-			keywordTab.update( score, currentKeyword );
+			mainKeywordTab.update( score, currentKeyword );
 
 			// Updates the input with the currentKeyword value
 			$( '#yoast_wpseo_focuskw' ).val( currentKeyword );
@@ -428,7 +427,7 @@ module.exports = (function() {
 		$( '#yoast_wpseo_focuskw_text_input' ).val( keyword );
 
 		// Updates
-		keywordTab.update( score, keyword );
+		mainKeywordTab.update( score, keyword );
 	};
 
 	/**
@@ -515,12 +514,12 @@ module.exports = (function() {
 		var translations;
 
 		// Initialize an instance of the keywordword tab.
-		keywordTab = new KeywordTab(
+		mainKeywordTab = new KeywordTab(
 			{
 				prefix: wpseoPostScraperL10n.contentTab
 			}
 		);
-		keywordTab.setElement( $('.wpseo_keyword_tab') );
+		mainKeywordTab.setElement( $('.wpseo_keyword_tab') );
 
 		var postScraper = new PostScraper();
 

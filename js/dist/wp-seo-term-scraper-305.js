@@ -107,8 +107,7 @@ module.exports = (function() {
 	var snippetPreview;
 	var termSlugInput;
 
-	// Initialize the keyword tab module.
-	var keywordTab;
+	var mainKeywordTab;
 	var KeywordTab = require( './analysis/keywordTab' );
 
 	var TermScraper = function() {
@@ -276,7 +275,7 @@ module.exports = (function() {
 		document.getElementById( 'hidden_wpseo_linkdex' ).value = score;
 		jQuery( window ).trigger( 'YoastSEO:numericScore', score );
 
-		keywordTab.update( score, $( '#wpseo_focuskw' ).val() );
+		mainKeywordTab.update( score, $( '#wpseo_focuskw' ).val() );
 
 		cssClass = YoastSEO.app.scoreFormatter.overallScoreRating( parseInt( score, 10 ) );
 		alt = YoastSEO.app.scoreFormatter.getSEOScoreText( cssClass );
@@ -300,7 +299,7 @@ module.exports = (function() {
 		keyword = $( '#wpseo_focuskw' ).val();
 		score   = $( '#hidden_wpseo_linkdex' ).val();
 
-		keywordTab.update( score, keyword );
+		mainKeywordTab.update( score, keyword );
 	};
 
 	/**
@@ -407,12 +406,12 @@ module.exports = (function() {
 		insertTinyMCE();
 
 		// Initialize an instance of the keywordword tab.
-		keywordTab = new KeywordTab(
+		mainKeywordTab = new KeywordTab(
 			{
 				prefix: wpseoTermScraperL10n.contentTab
 			}
 		);
-		keywordTab.setElement( $('.wpseo_keyword_tab') );
+		mainKeywordTab.setElement( $('.wpseo_keyword_tab') );
 
 		termScraper = new TermScraper();
 
