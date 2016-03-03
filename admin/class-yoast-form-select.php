@@ -119,7 +119,7 @@ class Yoast_Form_Select {
 	 */
 	private function parse_option( $label, $value ) {
 		$html = sprintf(
-			'<option value="%1$s" %2$s>%3$s</option>',
+			'<option value="%1$s"%2$s>%3$s</option>',
 			esc_attr( $value ),
 			selected( $this->selected_option, $value, false ),
 			esc_html( $label )
