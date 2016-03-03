@@ -1,11 +1,7 @@
 /* jshint -W097 */
 /* jshint -W098 */
 /* jshint -W107 */
-/* global yoast_overlay */
-/* global alert */
-/* global wpseo_premium_strings */
-/* global wp */
-/* global _ */
+/* global yoast_overlay, alert, wpseo_premium_strings, wp, _, wpseoSelect2Locale */
 'use strict';
 
 ( function($) {
@@ -731,6 +727,16 @@
 		that.setup();
 	};
 
+	/**
+	 * Adds select2 for selected fields
+	 */
+	function initSelect2() {
+		$( '#wpseo_redirects_type').select2( {
+			width: '400px',
+			language: wpseoSelect2Locale
+		} );
+	}
+
 	function init() {
 		templateQuickEdit = wp.template( 'redirects-inline-edit' );
 
@@ -740,6 +746,8 @@
 				$(element).wpseo_redirects($(element).attr('id'));
 			}
 		);
+
+		initSelect2();
 	}
 
 	$(init);
