@@ -218,73 +218,102 @@ class Test_Yoast_Notification extends WPSEO_UnitTestCase {
 			)
 		);
 
+		$me = wp_get_current_user();
+		$me->add_cap( 'bla' );
+
 		$this->assertFalse( $subject->display_for_current_user() );
 	}
 
 	/**
-	 * Test capability filter
+	 * Test capability if we recieve the expected arguments.
 	 */
-	public function test_wpseo_notification_capabilities() {
-		$filter_function = array( $this, 'add_wpseo_notification_capabilities' );
+	public function test_filter_capability_arguments() {
 
-		$me = wp_get_current_user();
+		$capabilities = array( 'caps' );
+		$id           = 'my_id';
 
-		$capabilities = $this->add_wpseo_notification_capabilities();
-		foreach ( $capabilities as $capability ) {
-			$me->add_cap( $capability );
-		}
+		$notification = new Yoast_Notification( 'message', array( 'id' => $id, 'capabilities' => $capabilities ) );
 
-		$me->remove_cap( 'manage_options' );
+		$this->verify_capability_filter_args = array(
+			$capabilities,
+			$id,
+			$notification,
+		);
 
-		$subject = new Yoast_Notification( 'message', array( 'id' => 'id', 'capabilities' => 'manage_options' ) );
+		apply_filters(
+			'wpseo_notification_capabilities',
+			array( $this, 'verify_wpseo_notification_capabilities_filter' ),
+			10,
+			3
+		);
 
-		$this->assertFalse( $subject->display_for_current_user() );
-
-		add_filter( 'wpseo_notification_capabilities', $filter_function );
-		$this->assertTrue( $subject->display_for_current_user() );
-		remove_filter( 'wpseo_notification_capabilities', $filter_function );
+		unset( $this->verify_capability_filter_args );
 	}
 
 	/**
-	 * Test capability filter
+	 * Verify capability filter arguments
+	 *
+	 * @param array              $capabilities Capabilities.
+	 * @param string             $id           ID of the Notification.
+	 * @param Yoast_Notification $notification Notification.
+	 *
+	 * @return mixed
 	 */
-	public function test_wpseo_notification_capability_match() {
-		$filter_function = array( $this, 'add_wpseo_notification_capabilities' );
-		$match_function  = array( $this, 'add_wpseo_notification_capability_check' );
+	public function verify_wpseo_notification_capabilities_filter( $capabilities, $id, $notification ) {
+		$test = array( $capabilities, $id, $notification );
+		$this->assertEquals( $this->verify_capability_filter_args, $test );
 
-		// Only add 1 of the provided capabilities. We need 'any' to match this.
-		$capabilities = $this->add_wpseo_notification_capabilities();
+		return $capabilities;
+	}
 
-		$me = wp_get_current_user();
-		$me->add_cap( $capabilities[0] );
-		$me->remove_cap( $capabilities[1] );
+	/**
+	 * Test capability_check if we recieve the expected arguments.
+	 */
+	public function test_filter_capability_check_arguments() {
 
-		$me->remove_cap( 'manage_options' );
+		$capabilities = array( 'caps' );
+		$id           = 'my_id';
 
-		$subject = new Yoast_Notification( 'message', array( 'id' => 'id', 'capabilities' => array( 'manage_options' ) ) );
+		$notification = new Yoast_Notification( 'message', array( 'id' => $id, 'capabilities' => $capabilities ) );
 
-		$this->assertFalse( $subject->display_for_current_user() );
+		$this->verify_capability_match_filter_args = array(
+			Yoast_Notification::MATCH_ALL,
+			$id,
+			$notification,
+		);
 
-		add_filter( 'wpseo_notification_capability_check', $match_function );
-		add_filter( 'wpseo_notification_capabilities', $filter_function );
-		$this->assertTrue( $subject->display_for_current_user() );
-		remove_filter( 'wpseo_notification_capabilities', $filter_function );
-		remove_filter( 'wpseo_notification_capability_check', $match_function );
+		apply_filters(
+			'wpseo_notification_capability_check',
+			array( $this, 'verify_wpseo_notification_capability_check_filter' ),
+			10,
+			3
+		);
+
+		unset( $this->verify_capability_match_filter_args );
+	}
+
+	/**
+	 * Verify capability_check filter arguments.
+	 *
+	 * @param string             $check        Type of the check.
+	 * @param string             $id           ID of the notification.
+	 * @param Yoast_Notification $notification Notification.
+	 *
+	 * @return mixed
+	 */
+	public function verify_wpseo_notification_capability_check_filter( $check, $id, $notification ) {
+		$test = array( $check, $id, $notification );
+		$this->assertEquals( $this->verify_capability_match_filter_args, $test );
+
+		return $check;
 	}
 
 	/**
 	 * Invalid filter return value
 	 */
 	public function test_invalid_filter_return_values() {
-		$match_function = array( $this, 'empty_output' );
-
-		$subject = new Yoast_Notification( 'message', array( 'id' => 'id', 'capabilities' => array( 'xijwe' ) ) );
-
-		add_filter( 'wpseo_notification_capability_check', $match_function );
-		add_filter( 'wpseo_notification_capabilities', $match_function );
+		$subject = new Yoast_Notification( 'message', array( 'id' => 'id', 'capabilities' => 'not_an_array' ) );
 		$this->assertTrue( $subject->display_for_current_user() );
-		remove_filter( 'wpseo_notification_capabilities', $match_function );
-		remove_filter( 'wpseo_notification_capability_check', $match_function );
 	}
 
 	/**
@@ -307,16 +336,5 @@ class Test_Yoast_Notification extends WPSEO_UnitTestCase {
 	 */
 	public function add_wpseo_notification_capability_check( $input = array() ) {
 		return 'any';
-	}
-
-	/**
-	 * Return invalid output
-	 *
-	 * @param null $input Input.
-	 *
-	 * @return string
-	 */
-	public function empty_output( $input = null ) {
-		return '';
 	}
 }
