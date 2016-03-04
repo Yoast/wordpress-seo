@@ -31,7 +31,7 @@ AssessmentResult.prototype.getScore = function() {
  * Check if a text is available.
  * @returns {boolean} Whether or not a text is available.
  */
-AssessmentResult.prototype.hasText = function () {
+AssessmentResult.prototype.hasText = function() {
 	return this.text !== "" && !isUndefined( this.text );
 };
 
@@ -39,7 +39,7 @@ AssessmentResult.prototype.hasText = function () {
  * Get the available text
  * @returns {string} The text associated with the AssessmentResult.
  */
-AssessmentResult.prototype.getText = function () {
+AssessmentResult.prototype.getText = function() {
 	return this.text;
 };
 
