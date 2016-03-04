@@ -72,7 +72,7 @@ class WPSEO_Taxonomy {
 
 			wp_editor( '', 'description' );
 
-			$asset_manager->enqueue_script( 'metabox-taxonomypage' );
+			$asset_manager->enqueue_script( 'metabox' );
 			$asset_manager->enqueue_script( 'yoast-seo' );
 			$asset_manager->enqueue_script( 'term-scraper' );
 
