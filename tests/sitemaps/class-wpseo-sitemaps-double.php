@@ -14,4 +14,12 @@ class WPSEO_Sitemaps_Double extends WPSEO_Sitemaps {
 	function sitemap_close() {
 		remove_all_actions( 'wp_footer' );
 	}
+
+	/**
+	 * Reset
+	 */
+	function reset() {
+		$this->bad_sitemap = false;
+		$this->sitemap = '';
+	}
 }
