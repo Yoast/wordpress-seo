@@ -93,6 +93,10 @@ class WPSEO_OnPage {
 	 * Show a notice when the website is not indexable
 	 */
 	public function show_notice() {
+
+		// Just a return, because we want to temporary disable this notice (#3998).
+		return;
+
 		if ( $this->should_show_notice() ) {
 			$notice = sprintf(
 				/* translators: 1: opens a link to a related knowledge base article. 2: closes the link */

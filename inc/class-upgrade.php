@@ -55,7 +55,7 @@ class WPSEO_Upgrade {
 		 *
 		 * @deprecated Since 3.1
 		 *
-		 * @api string - The current version of Yoast SEO
+		 * @api        string - The current version of Yoast SEO
 		 */
 		do_action( 'wpseo_run_upgrade', $this->options['version'] );
 
@@ -99,7 +99,6 @@ class WPSEO_Upgrade {
 		 */
 		delete_option( 'wpseo_ms' );
 
-		$this->move_hide_links_options();
 		$this->move_pinterest_option();
 	}
 
@@ -181,23 +180,6 @@ class WPSEO_Upgrade {
 	private function upgrade_30() {
 		// Remove the meta fields for sitemap prio.
 		delete_post_meta_by_key( '_yoast_wpseo_sitemap-prio' );
-	}
-
-	/**
-	 * Moves the hide- links options from the permalinks option to the titles option
-	 */
-	private function move_hide_links_options() {
-		$options_titles = get_option( 'wpseo_titles' );
-		$options_permalinks = get_option( 'wpseo_permalinks' );
-
-		foreach ( array( 'hide-feedlinks', 'hide-rsdlink', 'hide-shortlink', 'hide-wlwmanifest' ) as $hide ) {
-			if ( isset( $options_titles[ $hide ] ) ) {
-				$options_permalinks[ $hide ] = $options_titles[ $hide ];
-				unset( $options_titles[ $hide ] );
-				update_option( 'wpseo_permalinks', $options_permalinks );
-				update_option( 'wpseo_titles', $options_titles );
-			}
-		}
 	}
 
 	/**

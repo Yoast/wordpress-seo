@@ -30,14 +30,4 @@ class Filters_Test extends WPSEO_UnitTestCase {
 		$this->assertArrayNotHasKey( 'wp_no_robots', $wp_head[10] );
 	}
 
-	public function test_wp_head_options() {
-		$wp_head = $this->wp_filter['wp_head'];
-
-		$this->assertEquals( get_option( 'hide-rsdlink' ), ! array_key_exists( 'rsd_link', $wp_head[10] ) );
-		$this->assertEquals( get_option( 'hide-wlwmanifest' ), ! array_key_exists( 'wlwmanifest_link', $wp_head[10] ) );
-		$this->assertEquals( get_option( 'hide-shortlink' ), ! array_key_exists( 'wp_shortlink_wp_head', $wp_head[10] ) );
-		$this->assertEquals( get_option( 'hide-feedlinks' ), ! array_key_exists( 'feed_links', $wp_head[2] ) );
-		$this->assertEquals( get_option( 'hide-feedlinks' ), ! array_key_exists( 'feed_links_extra', $wp_head[3] ) );
-	}
-
 }

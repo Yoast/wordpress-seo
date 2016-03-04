@@ -1,8 +1,8 @@
 <?php
+
 /**
  * @package WPSEO\Unittests
  */
-
 class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 
 	/**
@@ -10,13 +10,20 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	 */
 	private static $class_instance;
 
+	/**
+	 * Setting up
+	 */
 	public static function setUpBeforeClass() {
 		self::$class_instance = WPSEO_Frontend::get_instance();
 	}
 
+	/**
+	 * Reset after running a test
+	 */
 	public function tearDown() {
 		ob_clean();
 		self::$class_instance->reset();
+		update_option( 'posts_per_page', 10 );
 	}
 
 	/**
@@ -30,7 +37,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		update_option( 'show_on_front', 'page' );
 		$this->assertFalse( self::$class_instance->is_home_posts_page() );
 
-		// create and go to post
+		// Create and go to post.
 		update_option( 'show_on_front', 'notapage' );
 		$post_id = $this->factory->post->create();
 		$this->go_to( get_permalink( $post_id ) );
@@ -374,6 +381,23 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * @covers WPSEO_Frontend::robots
+	 */
+	public function test_robots_for_404() {
+		// Save 404 state.
+		global $wp_query;
+		$original_404_state = is_404();
+
+		// Assertion.
+		$wp_query->is_404 = true;
+		$expected         = 'noindex,follow';
+		$this->assertEquals( $expected, self::$class_instance->robots() );
+
+		// Clean-up.
+		$wp_query->is_404 = $original_404_state;
+	}
+
+	/**
 	 * @covers WPSEO_Frontend::robots_for_single_post
 	 */
 	public function test_robots_for_single_post() {
@@ -402,11 +426,6 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		// test noodp with default meta-robots-adv
 		self::$class_instance->options['noodp'] = true;
 		$expected['other']                      = array( 'noodp' );
-		$this->assertEquals( $expected, self::$class_instance->robots_for_single_post( $robots, $post_id ) );
-
-		// test noydir with default meta-robots-adv
-		self::$class_instance->options['noydir'] = true;
-		$expected['other']                       = array( 'noodp', 'noydir' );
 		$this->assertEquals( $expected, self::$class_instance->robots_for_single_post( $robots, $post_id ) );
 
 		// test meta-robots adv noodp and nosnippet
@@ -454,7 +473,9 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Frontend::canonical
 	 */
 	public function test_canonical_home() {
-		$this->factory->post->create_many( 22 );
+		update_option( 'posts_per_page', 1 );
+
+		$this->factory->post->create_many( 3 );
 
 		$url = home_url();
 
@@ -465,8 +486,9 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Frontend::canonical
 	 */
 	public function test_canonical_search() {
+		update_option( 'posts_per_page', 1 );
 
-		$this->factory->post->create_many( 22, array( 'post_title' => 'sample post %d' ) );
+		$this->factory->post->create_many( 3, array( 'post_title' => 'sample post %d' ) );
 
 		// test search
 		$search_link = get_search_link( 'sample post' );
@@ -479,9 +501,11 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Frontend::canonical
 	 */
 	public function test_adjacent_rel_links_canonical_post_type() {
+		update_option( 'posts_per_page', 1 );
+
 		register_post_type( 'yoast', array( 'public' => true, 'has_archive' => true ) );
 
-		$this->factory->post->create_many( 22, array( 'post_type' => 'yoast' ) );
+		$this->factory->post->create_many( 3, array( 'post_type' => 'yoast' ) );
 
 		flush_rewrite_rules();
 
@@ -495,10 +519,11 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Frontend::canonical
 	 */
 	public function test_adjacent_rel_links_canonical_author() {
+		update_option( 'posts_per_page', 1 );
 
 		$user_id = $this->factory->user->create( array( 'role' => 'editor' ) );
 
-		$this->factory->post->create_many( 22, array( 'post_author' => $user_id ) );
+		$this->factory->post->create_many( 3, array( 'post_author' => $user_id ) );
 
 		$user     = new WP_User( $user_id );
 		$user_url = get_author_posts_url( $user_id, $user->user_nicename );
@@ -511,7 +536,9 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Frontend::canonical
 	 */
 	public function test_adjacent_rel_links_canonical_date_archive() {
-		$this->factory->post->create_many( 22 );
+		update_option( 'posts_per_page', 1 );
+
+		$this->factory->post->create_many( 3 );
 
 		$date_link = get_day_link( false, false, false );  // Having three times false generates a link for today, which is what we need
 		$this->run_test_on_consecutive_pages( $date_link );
@@ -522,9 +549,11 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Frontend::canonical
 	 */
 	public function test_adjacent_rel_links_canonical_category() {
+		update_option( 'posts_per_page', 1 );
+
 		// create a category, add 26 posts to it, go to page 2 of its archives
 		$category_id = wp_create_category( 'Yoast SEO Plugins' );
-		$this->factory->post->create_many( 22, array( 'post_category' => array( $category_id ) ) );
+		$this->factory->post->create_many( 3, array( 'post_category' => array( $category_id ) ) );
 
 		// This shouldn't be necessary but apparently multisite's rewrites are borked when you create a category and you don't flush (on 4.0 only).
 		flush_rewrite_rules();
@@ -980,18 +1009,36 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		// from all over the place (globals, GET, etc), which makes it tricky
 		// to run them more than once without very carefully clearing everything
 		$_GET = $_POST = array();
-		foreach (array('query_string', 'id', 'postdata', 'authordata', 'day', 'currentmonth', 'page', 'pages', 'multipage', 'more', 'numpages', 'pagenow') as $v) {
-			if ( isset( $GLOBALS[$v] ) ) unset( $GLOBALS[$v] );
+		foreach (
+			array(
+				'query_string',
+				'id',
+				'postdata',
+				'authordata',
+				'day',
+				'currentmonth',
+				'page',
+				'pages',
+				'multipage',
+				'more',
+				'numpages',
+				'pagenow'
+			) as $v
+		) {
+			if ( isset( $GLOBALS[ $v ] ) ) {
+				unset( $GLOBALS[ $v ] );
+			}
 		}
-		$parts = parse_url($url);
-		if (isset($parts['scheme'])) {
+		$parts = parse_url( $url );
+		if ( isset( $parts['scheme'] ) ) {
 			$req = isset( $parts['path'] ) ? $parts['path'] : '';
-			if (isset($parts['query'])) {
+			if ( isset( $parts['query'] ) ) {
 				$req .= '?' . $parts['query'];
 				// parse the url query vars into $_GET
-				parse_str($parts['query'], $_GET);
+				parse_str( $parts['query'], $_GET );
 			}
-		} else {
+		}
+		else {
 			$req = $url;
 		}
 		if ( ! isset( $parts['query'] ) ) {
@@ -999,15 +1046,15 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase {
 		}
 
 		$_SERVER['REQUEST_URI'] = $req;
-		unset($_SERVER['PATH_INFO']);
+		unset( $_SERVER['PATH_INFO'] );
 
 		$this->flush_cache();
-		unset($GLOBALS['wp_query'], $GLOBALS['wp_the_query']);
+		unset( $GLOBALS['wp_query'], $GLOBALS['wp_the_query'] );
 		$GLOBALS['wp_the_query'] = new WP_Query();
-		$GLOBALS['wp_query'] = $GLOBALS['wp_the_query'];
-		$GLOBALS['wp'] = new WP();
+		$GLOBALS['wp_query']     = $GLOBALS['wp_the_query'];
+		$GLOBALS['wp']           = new WP();
 		_cleanup_query_vars();
 
-		$GLOBALS['wp']->main($parts['query']);
+		$GLOBALS['wp']->main( $parts['query'] );
 	}
 }

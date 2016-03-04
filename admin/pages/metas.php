@@ -152,6 +152,11 @@ $yform->admin_header( true, 'wpseo_titles' );
 			$taxonomies = get_taxonomies( array( 'public' => true ), 'objects' );
 			if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
 				foreach ( $taxonomies as $tax ) {
+					// Explicitly hide all the core taxonomies we never want to do stuff for.
+					if ( in_array( $tax->name, array( 'link_category', 'nav_menu', 'post_format' ) ) ) {
+						continue;
+					}
+
 					echo '<h4>' . esc_html( ucfirst( $tax->labels->name ) ) . '</h4>';
 					if ( $tax->name === 'post_format' ) {
 						$yform->light_switch(
@@ -252,11 +257,6 @@ $yform->admin_header( true, 'wpseo_titles' );
 			/* translators: %s expands to <code>noodp</code> */
 			$yform->light_switch( 'noodp', sprintf( __( 'Add %s meta robots tag sitewide', 'wordpress-seo' ), '<code>noodp</code>' ) );
 			echo '<p>', __( 'Prevents search engines from using the DMOZ description for pages from this site in the search results.', 'wordpress-seo' ), '</p>';
-
-			/* translators: %s expands to <code>noydir</code> */
-			$yform->light_switch( 'noydir', sprintf( __( 'Add %s meta robots tag sitewide', 'wordpress-seo' ), '<code>noydir</code>' ) );
-			echo '<p>', __( 'Prevents search engines from using the Yahoo! directory description for pages from this site in the search results.', 'wordpress-seo' ), '</p>';
-
 			?>
 		</div>
 
