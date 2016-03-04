@@ -55,7 +55,7 @@ var AssessmentResultCalculator = function( analysisResult, analysisConfiguration
 	this.configuration = analysisConfiguration;
 
 	if ( isUndefined( analysisConfiguration ) ) {
-		throw new MissingArgument( "Cannot calculate result without a configuration." )
+		throw new MissingArgument( "Cannot calculate result without a configuration." );
 	}
 
 	return this.retrieveAssesmentResultScore();
