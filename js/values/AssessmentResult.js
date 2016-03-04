@@ -8,7 +8,7 @@ var isUndefined = require( "lodash/lang/isUndefined" );
  */
 var AssessmentResult = function( score, text ) {
 	this.score = score;
-	this.text = text || ""
+	this.text = text || "";
 };
 
 /**
@@ -17,7 +17,7 @@ var AssessmentResult = function( score, text ) {
  */
 AssessmentResult.prototype.hasScore = function() {
 	return !isUndefined( this.score );
-}
+};
 
 /**
  * Get the available score
@@ -25,7 +25,7 @@ AssessmentResult.prototype.hasScore = function() {
  */
 AssessmentResult.prototype.getScore = function() {
 	return this.score;
-}
+};
 
 /**
  * Check if a text is available.
@@ -33,7 +33,7 @@ AssessmentResult.prototype.getScore = function() {
  */
 AssessmentResult.prototype.hasText = function () {
 	return this.text !== "" && !isUndefined( this.text );
-}
+};
 
 /**
  * Get the available text
@@ -41,6 +41,6 @@ AssessmentResult.prototype.hasText = function () {
  */
 AssessmentResult.prototype.getText = function () {
 	return this.text;
-}
+};
 
 module.exports = AssessmentResult;
