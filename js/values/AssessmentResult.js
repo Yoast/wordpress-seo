@@ -32,7 +32,7 @@ AssessmentResult.prototype.getScore = function() {
  * @returns {boolean} Whether or not a text is available.
  */
 AssessmentResult.prototype.hasText = function() {
-	return this.text !== "" && !isUndefined( this.text );
+	return this.text !== "";
 };
 
 /**

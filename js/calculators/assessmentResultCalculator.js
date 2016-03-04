@@ -1,6 +1,7 @@
 var inRange = require( "lodash/number/inRange" );
 var isUndefined = require( "lodash/lang/isUndefined" );
 var replaceAll = require( "../helpers/replaceAll.js" );
+var MissingArgument = require( "../errors/missingArgument.js" );
 
 /**
  * Check whether the current item can be seen as a range.
@@ -30,7 +31,7 @@ var entryInRange = function( entry, result ) {
  * @param {object} entry The entry in the assessment configuration.
  * @returns {boolean} Whether or not the entry has a min property and no max property.
  */
-var hasMinimum = function( entry ) {
+var hasOnlyMinimum = function( entry ) {
 	return ( entry.hasOwnProperty( "min" ) && !entry.hasOwnProperty( "max" ) );
 };
 
@@ -39,7 +40,7 @@ var hasMinimum = function( entry ) {
  * @param {object} entry The entry in the assessment configuration.
  * @returns {boolean} Whether or not the entry has a max property and no min property.
  */
-var hasMaximum = function( entry ) {
+var hasOnlyMaximum = function( entry ) {
 	return ( !entry.hasOwnProperty( "min" ) && entry.hasOwnProperty( "max" ) );
 };
 
@@ -54,7 +55,7 @@ var AssessmentResultCalculator = function( analysisResult, analysisConfiguration
 	this.configuration = analysisConfiguration;
 
 	if ( isUndefined( analysisConfiguration ) ) {
-		return;
+		throw new MissingArgument( "Cannot calculate result without a configuration." )
 	}
 
 	return this.retrieveAssesmentResultScore();
@@ -75,11 +76,11 @@ AssessmentResultCalculator.prototype.retrieveAssesmentResultScore = function() {
 			return this.getResultObject( entry, this.configuration.replacements );
 		}
 
-		if ( hasMinimum( entry ) && this.analysisResult > entry.min ) {
+		if ( hasOnlyMinimum( entry ) && this.analysisResult > entry.min ) {
 			return this.getResultObject( entry, this.configuration.replacements );
 		}
 
-		if ( hasMaximum( entry ) ) {
+		if ( hasOnlyMaximum( entry ) ) {
 			return this.getResultObject( entry, this.configuration.replacements );
 		}
 	}
