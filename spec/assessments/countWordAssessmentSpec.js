@@ -22,9 +22,7 @@ describe( "An assessor running the wordCount", function(){
 		var mockPaper = new Paper( "hier komt een heleboel tekst in te staan" );
 		var assessment = wordCountAssessment( mockPaper, i18n );
 
-		expect( assessment ).toEqual( {
-			score: -20,
-			text: 'The text contains 8 words. This is far too low and should be increased.'
-		} );
+		expect( assessment.getScore() ).toEqual( -20 );
+		expect( assessment.getText() ).toEqual ( 'The text contains 8 words. This is far too low and should be increased.' );
 	} );
 } );

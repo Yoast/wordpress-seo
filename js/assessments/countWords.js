@@ -1,4 +1,5 @@
 var countWords = require( "../stringProcessing/countWords.js" );
+var AssessmentResultCalculator = require( "../calculators/assessmentResultCalculator.js" );
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 
 var getScoringConfiguration = function( i18n ) {
@@ -57,7 +58,9 @@ var countWordsAssessment = function( paper, i18n ) {
 		result = countWords( paper.getText() );
 	}
 
-	return new AssessmentResult( result, getScoringConfiguration( i18n ) );
+	var calculatedResult = new AssessmentResultCalculator( result, getScoringConfiguration( i18n ) );
+
+	return new AssessmentResult( calculatedResult.score, calculatedResult.text );
 };
 
 module.exports =  countWordsAssessment;
