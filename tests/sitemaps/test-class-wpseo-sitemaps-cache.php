@@ -70,8 +70,8 @@ class WPSEO_Sitemaps_Cache_Test extends WPSEO_UnitTestCase {
 	 * Test sitemap cache XML set as value
 	 *
 	 * @covers WPSEO_Sitemaps_Cache::get_sitemap_data()
-	 * @covers WPSEO_Sitemaps_Cache_Data::set_sitemap()
-	 * @covers WPSEO_Sitemaps_Cache_Data::is_usable()
+	 * @covers WPSEO_Sitemap_Cache_Data::set_sitemap()
+	 * @covers WPSEO_Sitemap_Cache_Data::is_usable()
 	 */
 	public function test_transient_string_to_cache_data() {
 		$sitemap = 'this is not a wpseo_sitemap_cache_data object';
