@@ -33,6 +33,8 @@ class WPSEO_Sitemaps_Cache_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Test sitemap cache not set
+	 *
+	 * @covers WPSEO_Sitemaps_Cache::get_sitemap_data()
 	 */
 	public function test_transient_not_set() {
 		$cache  = new WPSEO_Sitemaps_Cache();
@@ -43,6 +45,8 @@ class WPSEO_Sitemaps_Cache_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Test sitemap cache XML set as value
+	 *
+	 * @covers WPSEO_Sitemaps_Cache::get_sitemap()
 	 */
 	public function test_transient_sitemap_xml_string() {
 		$sitemap = 'this is not a wpseo_sitemap_cache_data object';
@@ -64,6 +68,10 @@ class WPSEO_Sitemaps_Cache_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Test sitemap cache XML set as value
+	 *
+	 * @covers WPSEO_Sitemaps_Cache::get_sitemap_data()
+	 * @covers WPSEO_Sitemaps_Cache_Data::set_sitemap()
+	 * @covers WPSEO_Sitemaps_Cache_Data::is_usable()
 	 */
 	public function test_transient_string_to_cache_data() {
 		$sitemap = 'this is not a wpseo_sitemap_cache_data object';
@@ -89,6 +97,10 @@ class WPSEO_Sitemaps_Cache_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Test if the transient cache is set as a cache data object
+	 *
+	 * @covers WPSEO_Sitemaps_Cache::store_sitemap()
+	 * @covers WPSEO_Sitemaps_Cache::get_sitemap()
+	 * @covers WPSEO_Sitemaps_Cache::get_sitemap_data()
 	 */
 	public function test_transient_cache_data_object() {
 		$sitemap = 'this_is_a_sitemap';
@@ -141,14 +153,16 @@ class WPSEO_Sitemaps_Cache_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Test disabled transient cache usage
+	 *
+	 * @covers WPSEO_Sitemaps::get_sitemap_from_cache()
 	 */
 	public function test_disabled_transient_cache() {
-		$disable_transient_cache_callback = array( $this, 'return_false' );
+		$disable_transient_cache_callback = '__return_false';
 		add_filter( 'wpseo_enable_xml_sitemap_transient_caching', $disable_transient_cache_callback, 1 );
 
 		set_query_var( 'sitemap', '1' );
 
-		$post_id = $this->factory->post->create();
+		$this->factory->post->create();
 
 		// Go to the XML sitemap twice, see if transient cache is not set.
 		self::$class_instance->redirect( $GLOBALS['wp_the_query'] );
@@ -176,14 +190,5 @@ class WPSEO_Sitemaps_Cache_Test extends WPSEO_UnitTestCase {
 		// Clean up set_query_var.
 		global $wp_query;
 		unset( $wp_query->query_vars['sitemap'] );
-	}
-
-	/**
-	 * Force return false.
-	 *
-	 * @return bool false
-	 */
-	public function return_false() {
-		return false;
 	}
 }

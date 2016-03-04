@@ -207,6 +207,9 @@ class WPSEO_Sitemaps {
 	 * @return bool If the sitemap has been retrieved from cache.
 	 */
 	private function get_sitemap_from_cache( $type, $page_number ) {
+
+		$this->transient = false;
+
 		if ( true !== $this->cache->is_enabled() ) {
 			return false;
 		}
@@ -220,22 +223,33 @@ class WPSEO_Sitemaps {
 
 		$sitemap_cache_data = $this->cache->get_sitemap_data( $type, $page_number );
 
-		// No cache was found, build it and save to cache.
+		// No cache was found, refresh it because cache is enabled.
 		if ( empty( $sitemap_cache_data ) ) {
-			$this->build_sitemap( $type );
-
-			$this->cache->store_sitemap( $type, $page_number, $this->sitemap, ! $this->bad_sitemap );
+			return $this->refresh_sitemap_cache( $type, $page_number );
 		}
 
 		// Cache object was found, parse information.
-		if ( ! empty( $sitemap_cache_data ) ) {
-			$this->transient = true;
+		$this->transient = true;
 
-			$this->sitemap     = $sitemap_cache_data->get_sitemap();
-			$this->bad_sitemap = ! $sitemap_cache_data->is_usable();
-		}
+		$this->sitemap     = $sitemap_cache_data->get_sitemap();
+		$this->bad_sitemap = ! $sitemap_cache_data->is_usable();
 
 		return true;
+	}
+
+	/**
+	 * Build and save sitemap to cache.
+	 *
+	 * @param string $type        Sitemap type.
+	 * @param int    $page_number The page number to save to.
+	 *
+	 * @return bool
+	 */
+	private function refresh_sitemap_cache( $type, $page_number ) {
+		$this->set_n( $page_number );
+		$this->build_sitemap( $type );
+
+		return $this->cache->store_sitemap( $type, $page_number, $this->sitemap, ! $this->bad_sitemap );
 	}
 
 	/**

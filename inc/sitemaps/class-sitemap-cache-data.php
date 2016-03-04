@@ -86,7 +86,7 @@ class WPSEO_Sitemap_Cache_Data implements WPSEO_Sitemap_Cache_Data_Interface, Se
 	}
 
 	/**
-	 * Get the usability of the sitemap.
+	 * Get the status of the sitemap.
 	 *
 	 * @return string Status of the sitemap, 'ok'/'error'/'unknown'
 	 */
@@ -103,9 +103,10 @@ class WPSEO_Sitemap_Cache_Data implements WPSEO_Sitemap_Cache_Data_Interface, Se
 	 */
 	public function serialize() {
 
-		$data           = array();
-		$data['xml']    = $this->sitemap;
-		$data['status'] = $this->status;
+		$data = array(
+			'status' => $this->status,
+			'xml'    => $this->sitemap,
+		);
 
 		return serialize( $data );
 	}
