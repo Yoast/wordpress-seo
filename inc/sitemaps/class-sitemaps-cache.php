@@ -146,12 +146,12 @@ class WPSEO_Sitemaps_Cache {
 	/**
 	 * Get the cache validator option key for the specified type
 	 *
-	 * @param string|null $type Provide a type for a specific type validator, null for global validator.
+	 * @param string $type Provide a type for a specific type validator, empty for global validator.
 	 *
 	 * @return string Validator to be used to generate the cache key.
 	 */
-	public static function get_validator_key( $type = null ) {
-		if ( is_null( $type ) ) {
+	public static function get_validator_key( $type = '' ) {
+		if ( empty( $type ) ) {
 			return self::VALIDATION_GLOBAL_KEY;
 		}
 
@@ -167,11 +167,11 @@ class WPSEO_Sitemaps_Cache {
 	 * With the type parameter the validator for that specific
 	 *  type can be invalidated
 	 *
-	 * @param string|null $type Provide a type for a specific type validator, null for global validator.
+	 * @param string $type Provide a type for a specific type validator, empty for global validator.
 	 *
 	 * @return null|string The validator for the supplied type.
 	 */
-	private static function get_validator( $type = null ) {
+	private static function get_validator( $type = '' ) {
 		$key = self::get_validator_key( $type );
 
 		$current = get_option( $key, null );
@@ -189,11 +189,11 @@ class WPSEO_Sitemaps_Cache {
 	/**
 	 * Refresh the cache validator value
 	 *
-	 * @param string|null $type Provide a type for a specific type validator, null for global validator.
+	 * @param string $type Provide a type for a specific type validator, empty for global validator.
 	 *
 	 * @return bool True if validator key has been saved as option.
 	 */
-	public static function create_validator( $type = null ) {
+	public static function create_validator( $type = '' ) {
 		$key = self::get_validator_key( $type );
 
 		// Generate new validator.
@@ -253,16 +253,6 @@ class WPSEO_Sitemaps_Cache {
 	}
 
 	/**
-	 * Get the sitemap cache key prefix
-	 *
-	 * @return string
-	 */
-	public static function get_storage_key_prefix() {
-
-		return self::STORAGE_KEY_PREFIX;
-	}
-
-	/**
 	 * Delete cache transients for index and specific type.
 	 *
 	 * Always deletes the main index sitemaps cache, as that's always invalidated by any other change.
@@ -316,6 +306,7 @@ class WPSEO_Sitemaps_Cache {
 	 */
 	public static function clear( $types = array() ) {
 
+		// No types provided, clear all.
 		if ( empty( $types ) ) {
 			self::invalidate_storage();
 
@@ -374,16 +365,16 @@ class WPSEO_Sitemaps_Cache {
 
 		if ( is_null( $type ) ) {
 			// Clear all cache if no type is provided.
-			$like = sprintf( '_transient_%s%%', self::STORAGE_KEY_PREFIX );
+			$like = sprintf( '%s%%', self::STORAGE_KEY_PREFIX );
 		}
 		else {
 			if ( ! is_null( $validator ) ) {
 				// Clear all cache for provided type-validator.
-				$like = sprintf( '_transient_%%_%s', $validator );
+				$like = sprintf( '%%_%s', $validator );
 			}
 			else {
 				// Clear type cache for all type keys.
-				$like = sprintf( '_transient_%1$s%2$s_%%', self::STORAGE_KEY_PREFIX, $type );
+				$like = sprintf( '%1$s%2$s_%%', self::STORAGE_KEY_PREFIX, $type );
 			}
 		}
 
@@ -392,9 +383,12 @@ class WPSEO_Sitemaps_Cache {
 		 *
 		 * We can't use `esc_like` here because we need the % in the query.
 		 */
-		$where = sprintf( "option_name LIKE '%s'", addcslashes( $like, '_' ) );
+		$where   = array();
+		$where[] = sprintf( "option_name LIKE '%s'", addcslashes( '_transient_' . $like, '_' ) );
+		$where[] = sprintf( "option_name LIKE '%s'", addcslashes( '_transient_timeout_' . $like, '_' ) );
 
-		$query = sprintf( 'DELETE FROM %1$s WHERE %2$s', $wpdb->options, $where );
+		// Delete transients.
+		$query = sprintf( 'DELETE FROM %1$s WHERE %2$s', $wpdb->options, implode( ' OR ', $where ) );
 		$wpdb->query( $query );
 	}
 

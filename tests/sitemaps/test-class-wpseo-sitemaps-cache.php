@@ -53,7 +53,7 @@ class WPSEO_Sitemaps_Cache_Test extends WPSEO_UnitTestCase {
 		$type_validator_key = WPSEO_Sitemaps_Cache::get_validator_key( $type );
 		update_option( $type_validator_key, $type_validator );
 
-		$prefix  = WPSEO_Sitemaps_Cache::get_storage_key_prefix();
+		$prefix  = WPSEO_Sitemaps_Cache::STORAGE_KEY_PREFIX;
 		$postfix = '_1:global_type';
 
 		$expected = $prefix . $type . $postfix;
