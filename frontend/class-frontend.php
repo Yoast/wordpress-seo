@@ -770,10 +770,8 @@ class WPSEO_Frontend {
 				$robots['index'] = 'noindex';
 			}
 
-			foreach ( array( 'noodp', 'noydir' ) as $robot ) {
-				if ( $this->options[ $robot ] === true ) {
-					$robots['other'][] = $robot;
-				}
+			if ( $this->options['noodp'] === true ) {
+				$robots['other'][] = 'noodp';
 			}
 			unset( $robot );
 		}
@@ -838,12 +836,9 @@ class WPSEO_Frontend {
 			unset( $robot );
 		}
 		elseif ( $meta_robots_adv === '' || $meta_robots_adv === '-' ) {
-			foreach ( array( 'noodp', 'noydir' ) as $robot ) {
-				if ( $this->options[ $robot ] === true ) {
-					$robots['other'][] = $robot;
-				}
+			if ( $this->options['noodp'] === true ) {
+				$robots['other'][] = 'noodp';
 			}
-			unset( $robot );
 		}
 		unset( $meta_robots_adv );
 

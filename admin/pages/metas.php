@@ -152,6 +152,11 @@ $yform->admin_header( true, 'wpseo_titles' );
 			$taxonomies = get_taxonomies( array( 'public' => true ), 'objects' );
 			if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
 				foreach ( $taxonomies as $tax ) {
+					// Explicitly hide all the core taxonomies we never want to do stuff for.
+					if ( in_array( $tax->name, array( 'link_category', 'nav_menu', 'post_format' ) ) ) {
+						continue;
+					}
+
 					echo '<h4>' . esc_html( ucfirst( $tax->labels->name ) ) . '</h4>';
 					if ( $tax->name === 'post_format' ) {
 						$yform->light_switch(
@@ -206,7 +211,7 @@ $yform->admin_header( true, 'wpseo_titles' );
 			$yform->toggle_switch( 'disable-author', array(
 				'off' => __( 'Enabled', 'wordpress-seo' ),
 				'on'  => __( 'Disabled', 'wordpress-seo' ),
-			), __( 'Author archives are', 'wordpress-seo' ) );
+			), __( 'Author archives', 'wordpress-seo' ) );
 			$yform->toggle_switch( 'noindex-author-wpseo', $index_switch_values, __( 'Meta Robots', 'wordpress-seo' ) );
 			echo '<p>';
 			/* translators: %1$s / %2$s: links to an article about duplicate content on yoast.com */
@@ -219,7 +224,7 @@ $yform->admin_header( true, 'wpseo_titles' );
 			$yform->toggle_switch( 'disable-date', array(
 				'off' => __( 'Enabled', 'wordpress-seo' ),
 				'on'  => __( 'Disabled', 'wordpress-seo' ),
-			), __( 'Date-based archives are', 'wordpress-seo' ) );
+			), __( 'Date-based archives', 'wordpress-seo' ) );
 			$yform->toggle_switch( 'noindex-archive-wpseo', $index_switch_values, __( 'Meta Robots', 'wordpress-seo' ) );
 			echo '<p>';
 			_e( 'Date-based archives could in some cases also be seen as duplicate content.', 'wordpress-seo' );
@@ -244,7 +249,7 @@ $yform->admin_header( true, 'wpseo_titles' );
 			<h3><?php _e( 'Sitewide meta settings', 'wordpress-seo' ); ?></h3>
 			<?php
 			$yform->toggle_switch( 'noindex-subpages-wpseo', $index_switch_values, __( 'Subpages of archives', 'wordpress-seo' ) );
-			echo '<p>', __( 'If you want to prevent /page/2/ and further of any archive to show up in the search results, enable this.', 'wordpress-seo' ), '</p>';
+			echo '<p>', __( 'If you want to prevent /page/2/ and further of any archive to show up in the search results, set this to "noindex".', 'wordpress-seo' ), '</p>';
 
 			$yform->light_switch( 'usemetakeywords', __( 'Use meta keywords tag?', 'wordpress-seo' ) );
 			echo '<p>', __( 'I don\'t know why you\'d want to use meta keywords, but if you want to, enable this.', 'wordpress-seo' ), '</p>';
@@ -252,11 +257,6 @@ $yform->admin_header( true, 'wpseo_titles' );
 			/* translators: %s expands to <code>noodp</code> */
 			$yform->light_switch( 'noodp', sprintf( __( 'Add %s meta robots tag sitewide', 'wordpress-seo' ), '<code>noodp</code>' ) );
 			echo '<p>', __( 'Prevents search engines from using the DMOZ description for pages from this site in the search results.', 'wordpress-seo' ), '</p>';
-
-			/* translators: %s expands to <code>noydir</code> */
-			$yform->light_switch( 'noydir', sprintf( __( 'Add %s meta robots tag sitewide', 'wordpress-seo' ), '<code>noydir</code>' ) );
-			echo '<p>', __( 'Prevents search engines from using the Yahoo! directory description for pages from this site in the search results.', 'wordpress-seo' ), '</p>';
-
 			?>
 		</div>
 
