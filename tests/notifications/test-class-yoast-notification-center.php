@@ -33,7 +33,7 @@ class Test_Yoast_Notification_Center extends WPSEO_UnitTestCase {
 
 		$notification = new Yoast_Notification( 'notification' );
 
-		$condition = $this->getMockBuilder( 'Yoast_Notification_Condition' )->getMock();
+		$condition = $this->getMock( 'Yoast_Notification_Condition', array( 'is_met', 'get_notification' ) );
 		$condition->expects( $this->any() )->method( 'is_met' )->will( $this->returnValue( true ) );
 		$condition->expects( $this->any() )->method( 'get_notification' )->will( $this->returnValue( $notification ) );
 
@@ -50,7 +50,7 @@ class Test_Yoast_Notification_Center extends WPSEO_UnitTestCase {
 
 		$notification = new Yoast_Notification( 'notification' );
 
-		$condition = $this->getMock( 'Yoast_Notification_Condition' );
+		$condition = $this->getMock( 'Yoast_Notification_Condition', array( 'is_met', 'get_notification' ) );
 		$condition->method( 'is_met' )->will( $this->returnValue( true ) );
 		$condition->method( 'get_notification' )->will( $this->returnValue( $notification ) );
 
@@ -67,7 +67,7 @@ class Test_Yoast_Notification_Center extends WPSEO_UnitTestCase {
 	public function test_clear_notifications() {
 		$notification = new Yoast_Notification( 'notification' );
 
-		$condition = $this->getMock( 'Yoast_Notification_Condition' );
+		$condition = $this->getMock( 'Yoast_Notification_Condition', array( 'is_met', 'get_notification' ) );
 		$condition->method( 'is_met' )->will( $this->returnValue( true ) );
 		$condition->method( 'get_notification' )->will( $this->returnValue( $notification ) );
 
