@@ -31,9 +31,9 @@ module.exports = (function() {
 	 * @constructor
 	 */
 	function KeywordTab( args ) {
-		this.setScore(0);
+		this.setScore( 0 );
 		this.keyword = '';
-		this.prefix = args.prefix || '';
+		this.prefix  = args.prefix || '';
 	}
 
 	/**
