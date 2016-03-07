@@ -33,9 +33,9 @@ class Test_Yoast_Notification_Center extends WPSEO_UnitTestCase {
 
 		$notification = new Yoast_Notification( 'notification' );
 
-		$condition = $this->getMock( 'Yoast_Notification_Condition' );
-		$condition->method( 'is_met' )->will( $this->returnValue( true ) );
-		$condition->method( 'get_notification' )->will( $this->returnValue( $notification ) );
+		$condition = $this->getMockBuilder( 'Yoast_Notification_Condition' )->getMock();
+		$condition->expects( $this->any() )->method( 'is_met' )->will( $this->returnValue( true ) );
+		$condition->expects( $this->any() )->method( 'get_notification' )->will( $this->returnValue( $notification ) );
 
 		$subject = Yoast_Notification_Center::get();
 		$subject->add_notification_condition( $condition );
