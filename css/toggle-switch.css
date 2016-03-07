@@ -74,8 +74,19 @@
 		float: right;
 	}
 
-	label.switch-yoast-seo {
+	.switch-toggle.switch-yoast-seo label,
+	label.switch-light.switch-yoast-seo {
 		margin-left: 0;
+		/* to help old iOS: ensure labels have cursor pointer instead of
+		   using the empty onclick hack */
+		cursor: pointer;
+	}
+
+	/* IE11 and JAWS 17.0 need this hack */
+	.switch-yoast-seo .switch-yoast-seo-jaws-a11y {
+		height: 1px;
+		margin-bottom: -1px;
+		overflow: hidden;
 	}
 
 	.switch-toggle.switch-yoast-seo label code,
@@ -83,7 +94,9 @@
 		background-color: inherit;
 	}
 
-	.switch-container h4 {
+	.switch-container .label-text {
+		display: block;
+		font-weight: 600;
 		margin: 0.5em 0;
 	}
 
