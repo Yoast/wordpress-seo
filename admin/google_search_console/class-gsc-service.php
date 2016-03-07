@@ -132,11 +132,7 @@ class WPSEO_GSC_Service {
 			new Yoast_Api_Libs( '2.0' );
 		}
 		catch ( Exception $exception ) {
-			if ( $exception->getMessage() === 'required_version' ) {
-				$this->incompatible_api_libs(
-					__( 'Yoast plugins share some code between them to make your site faster. As a result of that, we need all Yoast plugins to be up to date. We\'ve detected this isn\'t the case, so please update the Yoast plugins that aren\'t up to date yet.', 'wordpress-seo' )
-				);
-			}
+			// The notification is handled in the Notifier.
 		}
 
 		if ( class_exists( 'Yoast_Api_Google_Client' ) === false ) {
