@@ -29,65 +29,65 @@ class Test_Yoast_Notification_Center extends WPSEO_UnitTestCase {
 	/**
 	 * Registering a condition
 	 *
-	public function test_register_condition() {
-
-		$notification = new Yoast_Notification( 'notification' );
-
-		$condition = $this->getMock( 'Yoast_Notification_Condition', array( 'is_met', 'get_notification' ) );
-
-		$condition
-			->expects( $this->any() )
-			->method( 'is_met' )
-			->will( $this->returnValue( true ) );
-
-		$condition
-			->expects( $this->any() )
-			->method( 'get_notification' )
-			->will( $this->returnValue( $notification ) );
-
-		$subject = Yoast_Notification_Center::get();
-		$subject->add_notification_condition( $condition );
-
-		$this->assertEquals( array( $condition ), $subject->get_notification_conditions() );
-	}
+	 * public function test_register_condition() {
+	 *
+	 * $notification = new Yoast_Notification( 'notification' );
+	 *
+	 * $condition = $this->getMock( 'Yoast_Notification_Condition', array( 'is_met', 'get_notification' ) );
+	 *
+	 * $condition
+	 * ->expects( $this->any() )
+	 * ->method( 'is_met' )
+	 * ->will( $this->returnValue( true ) );
+	 *
+	 * $condition
+	 * ->expects( $this->any() )
+	 * ->method( 'get_notification' )
+	 * ->will( $this->returnValue( $notification ) );
+	 *
+	 * $subject = Yoast_Notification_Center::get();
+	 * $subject->add_notification_condition( $condition );
+	 *
+	 * $this->assertEquals( array( $condition ), $subject->get_notification_conditions() );
+	 * }
 	 */
 
 	/**
 	 * Registering a condition
 	 *
-	public function test_register_condition_twice() {
-
-		$notification = new Yoast_Notification( 'notification' );
-
-		$condition = $this->getMock( 'Yoast_Notification_Condition', array( 'is_met', 'get_notification' ) );
-		$condition->method( 'is_met' )->will( $this->returnValue( true ) );
-		$condition->method( 'get_notification' )->will( $this->returnValue( $notification ) );
-
-		$subject = Yoast_Notification_Center::get();
-		$subject->add_notification_condition( $condition );
-		$subject->add_notification_condition( $condition );
-
-		$this->assertEquals( array( $condition ), $subject->get_notification_conditions() );
-	}
+	 * public function test_register_condition_twice() {
+	 *
+	 * $notification = new Yoast_Notification( 'notification' );
+	 *
+	 * $condition = $this->getMock( 'Yoast_Notification_Condition', array( 'is_met', 'get_notification' ) );
+	 * $condition->method( 'is_met' )->will( $this->returnValue( true ) );
+	 * $condition->method( 'get_notification' )->will( $this->returnValue( $notification ) );
+	 *
+	 * $subject = Yoast_Notification_Center::get();
+	 * $subject->add_notification_condition( $condition );
+	 * $subject->add_notification_condition( $condition );
+	 *
+	 * $this->assertEquals( array( $condition ), $subject->get_notification_conditions() );
+	 * }
 	 */
 
 	/**
 	 * Clear notification after setting
 	 *
-	public function test_clear_notifications() {
-		$notification = new Yoast_Notification( 'notification' );
-
-		$condition = $this->getMock( 'Yoast_Notification_Condition', array( 'is_met', 'get_notification' ) );
-		$condition->method( 'is_met' )->will( $this->returnValue( true ) );
-		$condition->method( 'get_notification' )->will( $this->returnValue( $notification ) );
-
-		$subject = Yoast_Notification_Center::get();
-		$subject->add_notification_condition( $condition );
-
-		$subject->deactivate_hook();
-
-		$this->assertEquals( array(), $subject->get_notification_conditions() );
-	}
+	 * public function test_clear_notifications() {
+	 * $notification = new Yoast_Notification( 'notification' );
+	 *
+	 * $condition = $this->getMock( 'Yoast_Notification_Condition', array( 'is_met', 'get_notification' ) );
+	 * $condition->method( 'is_met' )->will( $this->returnValue( true ) );
+	 * $condition->method( 'get_notification' )->will( $this->returnValue( $notification ) );
+	 *
+	 * $subject = Yoast_Notification_Center::get();
+	 * $subject->add_notification_condition( $condition );
+	 *
+	 * $subject->deactivate_hook();
+	 *
+	 * $this->assertEquals( array(), $subject->get_notification_conditions() );
+	 * }
 	 */
 
 	/**
@@ -325,6 +325,7 @@ class Test_Yoast_Notification_Center extends WPSEO_UnitTestCase {
 
 		$notification = $this->getMockBuilder( 'Yoast_Notification' )
 		                     ->setConstructorArgs( array( $message, $options ) )
+		                     ->setMethods( array( 'display_for_current_user', '__toString' ) )
 		                     ->getMock();
 
 		$notification->method( 'display_for_current_user' )->will( $this->returnValue( true ) );
@@ -346,6 +347,7 @@ class Test_Yoast_Notification_Center extends WPSEO_UnitTestCase {
 
 		$notification = $this->getMockBuilder( 'Yoast_Notification' )
 		                     ->setConstructorArgs( array( $message, $options ) )
+		                     ->setMethods( array( 'display_for_current_user', '__toString' ) )
 		                     ->getMock();
 
 		$notification->method( 'display_for_current_user' )->will( $this->returnValue( false ) );
@@ -367,9 +369,7 @@ class Test_Yoast_Notification_Center extends WPSEO_UnitTestCase {
 		$message = 'c';
 		$options = array( 'dismissal_key' => $notification_dismissal_key );
 
-		$notification = $this->getMockBuilder( 'Yoast_Notification' )
-		                     ->setConstructorArgs( array( $message, $options ) )
-		                     ->getMock();
+		$notification = new Yoast_Notification( $message, $options );
 
 		// Dismiss the key for the current user.
 		$user_id = $this->factory->user->create();
