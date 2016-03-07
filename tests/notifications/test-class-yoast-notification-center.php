@@ -67,8 +67,15 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 			->setMethods( array( 'is_met', 'get_notification' ) )
 			->getMock();
 
-		$condition->method( 'is_met' )->will( $this->returnValue( true ) );
-		$condition->method( 'get_notification' )->will( $this->returnValue( $notification ) );
+		$condition
+			->expects( $this->any() )
+			->method( 'is_met' )
+			->will( $this->returnValue( true ) );
+
+		$condition
+			->expects( $this->any() )
+			->method( 'get_notification' )
+			->will( $this->returnValue( $notification ) );
 
 		$subject = Yoast_Notification_Center::get();
 		$subject->add_notification_condition( $condition );
@@ -89,8 +96,15 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 			->setMethods( array( 'is_met', 'get_notification' ) )
 			->getMock();
 
-		$condition->method( 'is_met' )->will( $this->returnValue( true ) );
-		$condition->method( 'get_notification' )->will( $this->returnValue( $notification ) );
+		$condition
+			->expects( $this->any() )
+			->method( 'is_met' )
+			->will( $this->returnValue( true ) );
+
+		$condition
+			->expects( $this->any() )
+			->method( 'get_notification' )
+			->will( $this->returnValue( $notification ) );
 
 		$subject = Yoast_Notification_Center::get();
 		$subject->add_notification_condition( $condition );
@@ -334,13 +348,21 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 		$message = 'c';
 		$options = array();
 
-		$notification = $this->getMockBuilder( 'Yoast_Notification' )
-		                     ->setConstructorArgs( array( $message, $options ) )
-		                     ->setMethods( array( 'display_for_current_user', '__toString' ) )
-		                     ->getMock();
+		$notification = $this
+			->getMockBuilder( 'Yoast_Notification' )
+			->setConstructorArgs( array( $message, $options ) )
+			->setMethods( array( 'display_for_current_user', '__toString' ) )
+			->getMock();
 
-		$notification->method( 'display_for_current_user' )->will( $this->returnValue( true ) );
-		$notification->method( '__toString' )->will( $this->returnValue( 'a' ) );
+		$notification
+			->expects( $this->any() )
+			->method( 'display_for_current_user' )
+			->will( $this->returnValue( true ) );
+
+		$notification
+			->expects( $this->any() )
+			->method( '__toString' )
+			->will( $this->returnValue( 'a' ) );
 
 		$subject = Yoast_Notification_Center::get();
 		$subject->add_notification( $notification );
@@ -356,13 +378,21 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 		$message = 'c';
 		$options = array();
 
-		$notification = $this->getMockBuilder( 'Yoast_Notification' )
-		                     ->setConstructorArgs( array( $message, $options ) )
-		                     ->setMethods( array( 'display_for_current_user', '__toString' ) )
-		                     ->getMock();
+		$notification = $this
+			->getMockBuilder( 'Yoast_Notification' )
+			->setConstructorArgs( array( $message, $options ) )
+			->setMethods( array( 'display_for_current_user', '__toString' ) )
+			->getMock();
 
-		$notification->method( 'display_for_current_user' )->will( $this->returnValue( false ) );
-		$notification->method( '__toString' )->will( $this->returnValue( 'a' ) );
+		$notification
+			->expects( $this->any() )
+			->method( 'display_for_current_user' )
+			->will( $this->returnValue( false ) );
+
+		$notification
+			->expects( $this->any() )
+			->method( '__toString' )
+			->will( $this->returnValue( 'a' ) );
 
 		$subject = Yoast_Notification_Center::get();
 		$subject->add_notification( $notification );
