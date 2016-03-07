@@ -808,7 +808,7 @@ SVG;
 	 */
 	public function template_keyword_tab() {
 		// Only do this on the edit post pages.
-		if ( 'post' !== get_current_screen()->base && 'post-new' !== get_current_screen()->base ) {
+		if ( 'post' !== get_current_screen()->base && 'post-new' !== get_current_screen()->base && ! apply_filters( 'wpseo_always_register_metaboxes_on_admin', false ) ) {
 			return;
 		}
 
