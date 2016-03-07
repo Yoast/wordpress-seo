@@ -64,8 +64,6 @@ class Yoast_Notification_Center implements Yoast_Notification_Center_Interface {
 	public static function initialize_notifiers() {
 		$instance = self::get();
 
-		$instance->add_notifier( new Yoast_After_Update_Notifier() );
-
 		/**
 		 * Context dependent notifications:
 		 * - Yoast_Not_Indexable_Homepage_Notifier - WPSEO_OnPage, needs option information.
