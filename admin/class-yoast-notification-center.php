@@ -64,6 +64,8 @@ class Yoast_Notification_Center implements Yoast_Notification_Center_Interface {
 	public static function initialize_notifiers() {
 		$instance = self::get();
 
+		$instance->add_notifier( new Yoast_Search_Engine_Visibility_Notifier() );
+
 		/**
 		 * Context dependent notifications:
 		 * - Yoast_Not_Indexable_Homepage_Notifier - WPSEO_OnPage, needs option information.
@@ -389,7 +391,7 @@ class Yoast_Notification_Center implements Yoast_Notification_Center_Interface {
 	 *
 	 * @return array|Yoast_Notifier_Interface[] Registered notifiers.
 	 */
-	public 	function get_notifiers() {
+	public function get_notifiers() {
 		return $this->notifiers;
 	}
 
