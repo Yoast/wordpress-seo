@@ -12,7 +12,7 @@ interface Yoast_Notification_Condition {
 	/**
 	 * Check if the cause for the notification is present
 	 *
-	 * @return bool True if notification is no longer relevant, False if it is still active.
+	 * @return bool True if notification is relevant, False if it is no longer present.
 	 */
 	public function is_met();
 

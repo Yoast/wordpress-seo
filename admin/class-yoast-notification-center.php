@@ -388,7 +388,7 @@ class Yoast_Notification_Center implements Yoast_Notification_Center_Interface {
 	 *
 	 * @return array|Yoast_Notification_Condition[] Registered conditions.
 	 */
-	public 	function get_notificationconditions() {
+	public 	function get_notification_conditions() {
 		return $this->notification_conditions;
 	}
 

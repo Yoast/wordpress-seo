@@ -34,13 +34,21 @@ class Test_Yoast_Notification_Center extends WPSEO_UnitTestCase {
 		$notification = new Yoast_Notification( 'notification' );
 
 		$condition = $this->getMock( 'Yoast_Notification_Condition', array( 'is_met', 'get_notification' ) );
-		$condition->expects( $this->any() )->method( 'is_met' )->will( $this->returnValue( true ) );
-		$condition->expects( $this->any() )->method( 'get_notification' )->will( $this->returnValue( $notification ) );
+
+		$condition
+			->expects( $this->any() )
+			->method( 'is_met' )
+			->will( $this->returnValue( true ) );
+
+		$condition
+			->expects( $this->any() )
+			->method( 'get_notification' )
+			->will( $this->returnValue( $notification ) );
 
 		$subject = Yoast_Notification_Center::get();
 		$subject->add_notification_condition( $condition );
 
-		$this->assertEquals( array( $condition ), $subject->get_notificationconditions() );
+		$this->assertEquals( array( $condition ), $subject->get_notification_conditions() );
 	}
 
 	/**
@@ -58,7 +66,7 @@ class Test_Yoast_Notification_Center extends WPSEO_UnitTestCase {
 		$subject->add_notification_condition( $condition );
 		$subject->add_notification_condition( $condition );
 
-		$this->assertEquals( array( $condition ), $subject->get_notificationconditions() );
+		$this->assertEquals( array( $condition ), $subject->get_notification_conditions() );
 	}
 
 	/**
@@ -76,7 +84,7 @@ class Test_Yoast_Notification_Center extends WPSEO_UnitTestCase {
 
 		$subject->deactivate_hook();
 
-		$this->assertEquals( array(), $subject->get_notificationconditions() );
+		$this->assertEquals( array(), $subject->get_notification_conditions() );
 	}
 
 	/**
