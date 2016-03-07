@@ -7,18 +7,12 @@
  * Class Test_Yoast_Notification
  */
 class Test_Yoast_Notification extends WPSEO_UnitTestCase {
-	/**
-	 * Tests:
-	 *  - Set options
-	 *  - Verify options
-	 *  - Apply filter 'wpseo_notification_capabilities'
-	 *  - Apply filter 'wpseo_notification_capability_check'
-	 *  - Match capabilities
-	 *  display_for_current_user
-	 *  is_persistent
-	 *  get_dismissal_key
-	 *  get_priority
-	 */
+
+	/** @var array Test capability filters get set */
+	private $verify_capability_filter_args = array();
+
+	/** @var array Test filter capability match */
+	private $verify_capability_match_filter_args = array();
 
 	/**
 	 * No ID is not persistent.
@@ -319,22 +313,22 @@ class Test_Yoast_Notification extends WPSEO_UnitTestCase {
 	/**
 	 * Test notification filter
 	 *
-	 * @param array $input Input.
+	 * @param array $current_capabilities Input.
 	 *
 	 * @return array
 	 */
-	public function add_wpseo_notification_capabilities( $input = array() ) {
+	public function add_wpseo_notification_capabilities( $current_capabilities = array() ) {
 		return array( 'jip', 'janneke' );
 	}
 
 	/**
 	 * Any
 	 *
-	 * @param array $input Input.
+	 * @param array $current_capabilities Input.
 	 *
 	 * @return string
 	 */
-	public function add_wpseo_notification_capability_check( $input = array() ) {
+	public function add_wpseo_notification_capability_check( $current_capabilities = array() ) {
 		return 'any';
 	}
 }
