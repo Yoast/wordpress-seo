@@ -344,7 +344,6 @@ class Test_Yoast_Notification extends WPSEO_UnitTestCase {
 
 		// Needed for WP < 4.2.
 		$me->get_role_caps();
-		$me->update_user_level_from_caps();
 	}
 
 	/**
@@ -362,6 +361,5 @@ class Test_Yoast_Notification extends WPSEO_UnitTestCase {
 
 		// Needed for WP < 4.2.
 		$me->get_role_caps();
-		$me->update_user_level_from_caps();
 	}
 }
