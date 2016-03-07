@@ -131,7 +131,7 @@ class WPSEO_Redirect_Handler {
 	 * Sets the request url and sanitize the slashes for it.
 	 */
 	private function set_request_url() {
-		$this->request_url = htmlspecialchars_decode( rawurldecode( $this->get_request_uri() ) );
+		$this->request_url = $this->get_request_uri();
 	}
 
 	/**
@@ -402,18 +402,21 @@ class WPSEO_Redirect_Handler {
 	/**
 	 * Gets the quest uri, with fallback for super global
 	 *
-	 * @return mixed|string
+	 * @return string
 	 */
 	private function get_request_uri() {
-		if ( filter_has_var( INPUT_SERVER, 'REQUEST_URI' ) ) {
-			return filter_input( INPUT_SERVER, 'REQUEST_URI' );
+		$options     = array( 'options' => array( 'default' => '' ) );
+		$request_uri = filter_input( INPUT_SERVER, 'REQUEST_URI', FILTER_SANITIZE_URL, $options );
+
+		// Because there isn't an usable value, try the fallback.
+		if ( $request_uri === null || $request_uri === false ) {
+			$request_uri = '';
+			if ( array_key_exists( $_SERVER, 'REQUEST_URI' ) ) {
+				$request_uri = filter_var( $_SERVER['REQUEST_URI'], FILTER_SANITIZE_URL, $options );
+			}
 		}
 
-		if ( array_key_exists( $_SERVER, 'REQUEST_URI' ) ) {
-			return filter_var( $_SERVER['REQUEST_URI'] );
-		}
-
-		return '';
+		return rawurldecode( $request_uri );
 	}
 
 }
