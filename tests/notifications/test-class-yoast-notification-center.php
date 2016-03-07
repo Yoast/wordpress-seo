@@ -325,17 +325,8 @@ class Test_Yoast_Notification_Center extends WPSEO_UnitTestCase {
 		$message_2 = '2';
 		$options_2 = array( 'type' => 'error' );
 
-		$notification_1 = $this->getMockBuilder( Yoast_Notification::class )
-		                       ->setConstructorArgs( array( $message_1, $options_1 ) )
-		                       ->getMock();
-
-		$notification_1->method( 'get_type' )->will( $this->returnValue( 'update' ) );
-
-		$notification_2 = $this->getMockBuilder( Yoast_Notification::class )
-		                       ->setConstructorArgs( array( $message_2, $options_2 ) )
-		                       ->getMock();
-
-		$notification_2->method( 'get_type' )->will( $this->returnValue( 'error' ) );
+		$notification_1 = new Yoast_Notification( $message_1, $options_1 );
+		$notification_2 = new Yoast_Notification( $message_2, $options_2 );
 
 		$subject = Yoast_Notification_Center::get();
 		$subject->add_notification( $notification_1 );
@@ -356,19 +347,8 @@ class Test_Yoast_Notification_Center extends WPSEO_UnitTestCase {
 		$message_2 = '2';
 		$options_2 = array( 'type' => 'error', 'priority' => 1 );
 
-		$notification_1 = $this->getMockBuilder( Yoast_Notification::class )
-		                       ->setConstructorArgs( array( $message_1, $options_1 ) )
-		                       ->getMock();
-
-		$notification_1->method( 'get_type' )->will( $this->returnValue( 'error' ) );
-		$notification_1->method( 'get_priority' )->will( $this->returnValue( 0.5 ) );
-
-		$notification_2 = $this->getMockBuilder( Yoast_Notification::class )
-		                       ->setConstructorArgs( array( $message_2, $options_2 ) )
-		                       ->getMock();
-
-		$notification_2->method( 'get_type' )->will( $this->returnValue( 'error' ) );
-		$notification_2->method( 'get_priority' )->will( $this->returnValue( 1 ) );
+		$notification_1 = new Yoast_Notification( $message_1, $options_1 );
+		$notification_2 = new Yoast_Notification( $message_2, $options_2 );
 
 		$subject = Yoast_Notification_Center::get();
 		$subject->add_notification( $notification_1 );

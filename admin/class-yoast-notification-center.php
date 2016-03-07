@@ -309,11 +309,11 @@ class Yoast_Notification_Center implements Yoast_Notification_Center_Interface {
 				return 0;
 			}
 
-			return ( ( $a_priority < $b_priority ) ? 1 : - 1 );
+			return ( ( $a_priority < $b_priority ) ? 1 : -1 );
 		}
 
 		if ( 'error' === $a_type ) {
-			return - 1;
+			return -1;
 		}
 
 		if ( 'error' === $b_type ) {
