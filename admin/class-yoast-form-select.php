@@ -36,16 +36,17 @@ class Yoast_Form_Select {
 	/**
 	 * Constructor.
 	 *
-	 * @param string $select_id       The field name for the select.
-	 * @param string $select_name     Complete name for the selects' name attribute.
-	 * @param string $select_class    The classname that the select will get.
-	 * @param array  $select_options  Array with the options to parse.
-	 * @param string $selected_option The current selected option.
+	 * @param array  $select_attributes Attributes for the select, should contains: id, name and class.
+	 * @param array  $select_options    Array with the options to parse.
+	 * @param string $selected_option   The current selected option.
 	 */
-	public function __construct( $select_id, $select_name, $select_class, array $select_options, $selected_option ) {
-		$this->select_id       = $select_id;
-		$this->select_name     = $select_name;
-		$this->select_class    = $select_class;
+	public function __construct( array $select_attributes, array $select_options, $selected_option ) {
+
+		$this->validate_attributes( $select_attributes );
+
+		$this->select_id       = $select_attributes['select_id'];
+		$this->select_name     = $select_attributes['select_name'];
+		$this->select_class    = $select_attributes['select_class'];
 		$this->select_options  = $select_options;
 		$this->selected_option = $selected_option;
 	}
@@ -96,6 +97,27 @@ class Yoast_Form_Select {
 		$option_is_blank = $label === '' && $value === '';
 
 		return $label !== '' || $option_is_blank;
+	}
+
+	/**
+	 * Check if the required attributes are given. When one is missing throw an InvalidArgumentException
+	 *
+	 * @param array $select_attributes
+	 *
+	 * @throws InvalidArgumentException
+	 */
+	private function validate_attributes( array $select_attributes ) {
+		if ( ! array_key_exists( 'select_id', $select_attributes ) ) {
+			throw new InvalidArgumentException( 'The select attributes should contain a `select_id` value' );
+		}
+
+		if ( ! array_key_exists( 'select_name', $select_attributes ) ) {
+			throw new InvalidArgumentException( 'The select attributes should contain a `select_name` value' );
+		}
+
+		if ( ! array_key_exists( 'select_class', $select_attributes ) ) {
+			throw new InvalidArgumentException( 'The select attributes should contain a `select_class` value' );
+		}
 	}
 
 }

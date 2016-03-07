@@ -418,8 +418,13 @@ class Yoast_Form {
 
 		$select_name   = esc_attr( $this->option_name ) . '[' . esc_attr( $field_name ) . ']';
 		$active_option = ( isset( $this->options[ $field_name ] ) ) ? $this->options[ $field_name ] : '';
+		$attributes    = array(
+			'select_id'    => $field_name,
+			'select_name'  => $select_name,
+			'select_class' => 'select',
+		);
 
-		$select      = new Yoast_Form_Select( $field_name, $select_name, 'select', $options, $active_option );
+		$select      = new Yoast_Form_Select( $attributes, $options, $active_option );
 		$select_view = new Yoast_Form_Select_View( $select );
 		$select_view->print_html();
 

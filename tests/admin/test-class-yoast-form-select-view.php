@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @group test
+ */
 class Yoast_Form_Select_View_Test extends PHPUnit_Framework_TestCase {
 
 	/**
@@ -9,9 +12,10 @@ class Yoast_Form_Select_View_Test extends PHPUnit_Framework_TestCase {
 	 * @covers Yoast_Form_Select_View::get_html
 	 */
 	public function test_with_options() {
-		$select = new Yoast_Form_Select( 'test-id', 'test-field', 'test', array( 'foo' => 'bar', 'baz' => 'foo' ), false );
-		$view   = new Yoast_Form_Select_View( $select );
-		$html   = $view->get_html();
+		$attributes = array( 'select_id' => 'test-id', 'select_name' => 'test-field', 'select_class' => 'test');
+		$select     = new Yoast_Form_Select( $attributes, array( 'foo' => 'bar', 'baz' => 'foo' ), false );
+		$view       = new Yoast_Form_Select_View( $select );
+		$html       = $view->get_html();
 
 		$this->assertContains( '<select class="test" name="test-field" id="test-id">', $html );
 		$this->assertContains( '<option value="foo">bar</option>', $html );
@@ -25,9 +29,10 @@ class Yoast_Form_Select_View_Test extends PHPUnit_Framework_TestCase {
 	 * @covers Yoast_Form_Select_View::get_html
 	 */
 	public function test_without_options() {
-		$select = new Yoast_Form_Select( 'test-id', 'test-field', 'test', array(), false );
-		$view   = new Yoast_Form_Select_View( $select );
-		$html   = $view->get_html();
+		$attributes = array( 'select_id' => 'test-id', 'select_name' => 'test-field', 'select_class' => 'test');
+		$select     = new Yoast_Form_Select( $attributes, array(), false );
+		$view       = new Yoast_Form_Select_View( $select );
+		$html       = $view->get_html();
 
 		$this->assertContains( '<select class="test" name="test-field" id="test-id">', $html );
 		$this->assertNotContains( '<option', $html );
@@ -41,9 +46,10 @@ class Yoast_Form_Select_View_Test extends PHPUnit_Framework_TestCase {
 	 * @covers Yoast_Form_Select_View::get_html
 	 */
 	public function test_with_options_and_one_active() {
-		$select = new Yoast_Form_Select( 'test-id', 'test-field', 'test', array( 'foo' => 'bar', 'baz' => 'foo' ), 'baz' );
-		$view   = new Yoast_Form_Select_View( $select );
-		$html   = $view->get_html();
+		$attributes = array( 'select_id' => 'test-id', 'select_name' => 'test-field', 'select_class' => 'test');
+		$select     = new Yoast_Form_Select( $attributes, array( 'foo' => 'bar', 'baz' => 'foo' ), 'baz' );
+		$view       = new Yoast_Form_Select_View( $select );
+		$html       = $view->get_html();
 
 		$this->assertContains( '<select class="test" name="test-field" id="test-id">', $html );
 		$this->assertContains( '<option value="foo">bar</option>', $html );
@@ -58,8 +64,9 @@ class Yoast_Form_Select_View_Test extends PHPUnit_Framework_TestCase {
 	 * @covers Yoast_Form_Select_View::get_html
 	 */
 	public function test_printing_the_output() {
-		$select = new Yoast_Form_Select( 'test-id', 'test-field', 'test', array(), false );
-		$view   = new Yoast_Form_Select_View( $select );
+		$attributes = array( 'select_id' => 'test-id', 'select_name' => 'test-field', 'select_class' => 'test');
+		$select     = new Yoast_Form_Select( $attributes, array(), false );
+		$view       = new Yoast_Form_Select_View( $select );
 
 		$view->print_html();
 
