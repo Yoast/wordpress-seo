@@ -1840,7 +1840,7 @@ var AssessmentResultCalculator = function( analysisResult, analysisConfiguration
 	this.configuration = analysisConfiguration;
 
 	if ( isUndefined( analysisConfiguration ) ) {
-		throw new MissingArgument( "Cannot calculate result without a configuration." )
+		throw new MissingArgument( "Cannot calculate result without a configuration." );
 	}
 
 	return this.retrieveAssesmentResultScore();
@@ -2894,7 +2894,7 @@ Pluggable.prototype._stripIllegalModifications = function( callChain ) {
 		if ( this._validateOrigin( callableObject.origin ) === false ) {
 			delete callChain[index];
 		}
-	} );
+	}.bind( this ) );
 
 	return callChain;
 };
