@@ -494,12 +494,8 @@ class Yoast_Notification_Center implements Yoast_Notification_Center_Interface {
 			return false;
 		}
 
-		// Don't display if the user doesn't have enough capabilities and such.
-		if ( ! $notification->display_for_current_user() ) {
-			return false;
-		}
-
-		return true;
+		// Don't display if the user doesn't have enough capabilities.
+		return $notification->display_for_current_user();
 	}
 
 	/**
