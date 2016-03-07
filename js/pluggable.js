@@ -333,7 +333,7 @@ Pluggable.prototype._stripIllegalModifications = function( callChain ) {
 		if ( this._validateOrigin( callableObject.origin ) === false ) {
 			delete callChain[index];
 		}
-	} );
+	}.bind( this ) );
 
 	return callChain;
 };
