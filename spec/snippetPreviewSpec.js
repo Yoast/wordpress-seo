@@ -133,3 +133,21 @@ describe( "Adds dashes to the keyword for highlighting in the snippet", function
 		expect(snippetPreview.formatKeyword( "this is a key-word with dash" ) ).toBe( "this is a<strong> key-word </strong>with dash" );
 	});
 });
+
+describe( "Formats the keyword in the title with diacritics", function() {
+	it( "returns a keyword with strong tags", function(){
+		var mockApp = {
+			rawData: {
+				keyword: "Slovníček pojmû"
+			}
+		};
+		var mockElement = [];
+		mockElement.nodeType = 1;
+
+		var snippetPreview = new SnippetPreview({
+			analyzerApp: mockApp,
+			targetElement: mockElement
+		});
+		expect(snippetPreview.formatKeyword( "this is a Slovníček pojmû with diacritic" ) ).toBe( "this is a<strong> Slovníček pojmû </strong>with diacritic" );
+	});
+});
