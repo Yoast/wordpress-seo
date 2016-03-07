@@ -127,9 +127,8 @@ class Test_Yoast_Notification extends WPSEO_UnitTestCase {
 	 */
 	public function test_match_any_pass() {
 
-		$me = wp_get_current_user();
-		$me->add_cap( 'bla' );
-		$me->remove_cap( 'foo' );
+		$this->add_cap( 'bla' );
+		$this->remove_cap( 'foo' );
 
 		$subject = new Yoast_Notification(
 			'message',
@@ -145,7 +144,7 @@ class Test_Yoast_Notification extends WPSEO_UnitTestCase {
 
 		$this->assertTrue( $subject->display_for_current_user() );
 
-		$me->remove_cap( 'bla' );
+		$this->remove_cap( 'bla' );
 	}
 
 	/**
@@ -153,9 +152,8 @@ class Test_Yoast_Notification extends WPSEO_UnitTestCase {
 	 */
 	public function test_match_any_fail() {
 
-		$me = wp_get_current_user();
-		$me->remove_cap( 'bla' );
-		$me->remove_cap( 'foo' );
+		$this->remove_cap( 'bla' );
+		$this->remove_cap( 'foo' );
 
 		$subject = new Yoast_Notification(
 			'message',
@@ -177,9 +175,8 @@ class Test_Yoast_Notification extends WPSEO_UnitTestCase {
 	 */
 	public function test_match_all_pass() {
 
-		$me = wp_get_current_user();
-		$me->add_cap( 'bla' );
-		$me->add_cap( 'foo' );
+		$this->add_cap( 'bla' );
+		$this->add_cap( 'foo' );
 
 		$subject = new Yoast_Notification(
 			'message',
@@ -195,8 +192,8 @@ class Test_Yoast_Notification extends WPSEO_UnitTestCase {
 
 		$this->assertTrue( $subject->display_for_current_user() );
 
-		$me->remove_cap( 'bla' );
-		$me->remove_cap( 'foo' );
+		$this->remove_cap( 'bla' );
+		$this->remove_cap( 'foo' );
 	}
 
 	/**
@@ -216,8 +213,7 @@ class Test_Yoast_Notification extends WPSEO_UnitTestCase {
 			)
 		);
 
-		$me = wp_get_current_user();
-		$me->add_cap( 'bla' );
+		$this->add_cap( 'bla' );
 
 		$this->assertFalse( $subject->display_for_current_user() );
 	}
@@ -330,5 +326,33 @@ class Test_Yoast_Notification extends WPSEO_UnitTestCase {
 	 */
 	public function add_wpseo_notification_capability_check( $current_capabilities = array() ) {
 		return 'any';
+	}
+
+	/**
+	 * Wrapper for WP_User::add_cap()
+	 *
+	 * @param string $capability Capability to add.
+	 */
+	private function add_cap( $capability ) {
+		$me = wp_get_current_user();
+		$me->add_cap( $capability );
+
+		// Needed for WP < 4.2.
+		$me->get_role_caps();
+		$me->update_user_level_from_caps();
+	}
+
+	/**
+	 * Wrapper for WP_User::remove_cap()
+	 *
+	 * @param string $capability Capability to remove.
+	 */
+	private function remove_cap( $capability ) {
+		$me = wp_get_current_user();
+		$me->remove_cap( $capability );
+
+		// Needed for WP < 4.2.
+		$me->get_role_caps();
+		$me->update_user_level_from_caps();
 	}
 }
