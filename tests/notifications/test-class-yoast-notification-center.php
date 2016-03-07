@@ -28,7 +28,7 @@ class Test_Yoast_Notification_Center extends WPSEO_UnitTestCase {
 
 	/**
 	 * Registering a condition
-	 */
+	 *
 	public function test_register_condition() {
 
 		$notification = new Yoast_Notification( 'notification' );
@@ -50,10 +50,11 @@ class Test_Yoast_Notification_Center extends WPSEO_UnitTestCase {
 
 		$this->assertEquals( array( $condition ), $subject->get_notification_conditions() );
 	}
+	 */
 
 	/**
 	 * Registering a condition
-	 */
+	 *
 	public function test_register_condition_twice() {
 
 		$notification = new Yoast_Notification( 'notification' );
@@ -68,10 +69,11 @@ class Test_Yoast_Notification_Center extends WPSEO_UnitTestCase {
 
 		$this->assertEquals( array( $condition ), $subject->get_notification_conditions() );
 	}
+	 */
 
 	/**
 	 * Clear notification after setting
-	 */
+	 *
 	public function test_clear_notifications() {
 		$notification = new Yoast_Notification( 'notification' );
 
@@ -86,6 +88,7 @@ class Test_Yoast_Notification_Center extends WPSEO_UnitTestCase {
 
 		$this->assertEquals( array(), $subject->get_notification_conditions() );
 	}
+	 */
 
 	/**
 	 * Add notification
