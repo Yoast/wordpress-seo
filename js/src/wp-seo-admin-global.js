@@ -94,16 +94,14 @@
 				}
 			);
 
-			var options = {
-				action: 'yoast_dismiss_notification',
-				notification: $parent_div.attr( 'id' ),
-				nonce: $parent_div.data( 'nonce' ),
-				data: $parent_div.data( 'json' )
-			};
-
 			jQuery.post(
 				ajaxurl,
-				options
+				{
+					action: 'yoast_dismiss_notification',
+					notification: $parent_div.attr( 'id' ),
+					nonce: $parent_div.data( 'nonce' ),
+					data: $parent_div.data( 'json' )
+				}
 			);
 
 			$parent_div.fadeTo( 100 , 0, function() {
