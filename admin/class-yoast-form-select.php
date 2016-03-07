@@ -102,9 +102,9 @@ class Yoast_Form_Select {
 	/**
 	 * Check if the required attributes are given. When one is missing throw an InvalidArgumentException
 	 *
-	 * @param array $select_attributes
+	 * @param array $select_attributes The attributes we want to validate.
 	 *
-	 * @throws InvalidArgumentException
+	 * @throws InvalidArgumentException The exception when a field is missing.
 	 */
 	private function validate_attributes( array $select_attributes ) {
 		if ( ! array_key_exists( 'select_id', $select_attributes ) ) {
