@@ -3756,7 +3756,7 @@ SnippetPreview.prototype.formatKeyword = function( textString ) {
 	var keyword = this.refObj.rawData.keyword.replace( /[\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, " " );
 
 	// Match keyword case-insensitively
-	var keywordRegex = stringToRegex( keyword );
+	var keywordRegex = stringToRegex( keyword, "", true );
 	return textString.replace( keywordRegex, function( str ) {
 		return "<strong>" + str + "</strong>";
 	} );
@@ -4692,10 +4692,13 @@ var addWordBoundary = require( "../stringProcessing/addWordboundary.js" );
  *
  * @param {string} string The string to make a regex from.
  * @param {string} extraBoundary A string that is used as extra boundary for the regex.
+ * @param {boolean} dontReplaceDiacritics If set to true, it doesn't replace diacritics.
  * @returns {string} regex The regex made from the keyword
  */
-module.exports = function( string, extraBoundary ) {
-	string = replaceDiacritics( string );
+module.exports = function( string, extraBoundary, dontReplaceDiacritics ) {
+	if ( !dontReplaceDiacritics ) {
+		string = replaceDiacritics( string );
+	}
 	string = sanitizeString( string );
 	string = addWordBoundary( string, extraBoundary );
 	return new RegExp ( string, "ig" );
