@@ -135,11 +135,7 @@ class Yoast_Notification {
 		}
 
 		// If the current user doesn't match capabilities.
-		if ( ! $this->match_capabilities() ) {
-			return false;
-		}
-
-		return true;
+		return $this->match_capabilities();
 	}
 
 	/**
@@ -159,12 +155,11 @@ class Yoast_Notification {
 		 * @since 3.2
 		 *
 		 * @param array              $capabilities The capabilities that must be present for this Notification.
-		 * @param string             $id           The ID of the notification.
 		 * @param Yoast_Notification $notification The notification object.
 		 *
 		 * @return array of capabilities or empty for no restrictions.
 		 */
-		$capabilities = apply_filters( 'wpseo_notification_capabilities', $this->options['capabilities'], $this->options['id'], $this );
+		$capabilities = apply_filters( 'wpseo_notification_capabilities', $this->options['capabilities'], $this );
 
 		// Should be an array.
 		if ( ! is_array( $capabilities ) ) {
@@ -177,12 +172,11 @@ class Yoast_Notification {
 		 * @since 3.2
 		 *
 		 * @param string             $capability_check The type of check that will be used to determine if an capability is present.
-		 * @param string             $id               The ID of the notification.
 		 * @param Yoast_Notification $notification     The notification object.
 		 *
 		 * @return string self::MATCH_ALL or self::MATCH_ANY.
 		 */
-		$capability_check = apply_filters( 'wpseo_notification_capability_check', $this->options['capability_check'], $this->options['id'], $this );
+		$capability_check = apply_filters( 'wpseo_notification_capability_check', $this->options['capability_check'], $this );
 
 		if ( ! in_array( $capability_check, array( self::MATCH_ALL, self::MATCH_ANY ), true ) ) {
 			$capability_check = self::MATCH_ALL;
