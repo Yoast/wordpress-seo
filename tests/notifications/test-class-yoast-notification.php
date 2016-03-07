@@ -153,6 +153,10 @@ class Test_Yoast_Notification extends WPSEO_UnitTestCase {
 	 */
 	public function test_match_any_fail() {
 
+		$me = wp_get_current_user();
+		$me->remove_cap( 'bla' );
+		$me->remove_cap( 'foo' );
+
 		$subject = new Yoast_Notification(
 			'message',
 			array(
@@ -230,7 +234,6 @@ class Test_Yoast_Notification extends WPSEO_UnitTestCase {
 
 		$this->verify_capability_filter_args = array(
 			$capabilities,
-			$id,
 			$notification,
 		);
 
@@ -238,7 +241,7 @@ class Test_Yoast_Notification extends WPSEO_UnitTestCase {
 			'wpseo_notification_capabilities',
 			array( $this, 'verify_wpseo_notification_capabilities_filter' ),
 			10,
-			3
+			2
 		);
 
 		unset( $this->verify_capability_filter_args );
@@ -248,13 +251,12 @@ class Test_Yoast_Notification extends WPSEO_UnitTestCase {
 	 * Verify capability filter arguments
 	 *
 	 * @param array              $capabilities Capabilities.
-	 * @param string             $id           ID of the Notification.
 	 * @param Yoast_Notification $notification Notification.
 	 *
 	 * @return mixed
 	 */
-	public function verify_wpseo_notification_capabilities_filter( $capabilities, $id, $notification ) {
-		$test = array( $capabilities, $id, $notification );
+	public function verify_wpseo_notification_capabilities_filter( $capabilities, $notification ) {
+		$test = array( $capabilities, $notification );
 		$this->assertEquals( $this->verify_capability_filter_args, $test );
 
 		return $capabilities;
@@ -272,7 +274,6 @@ class Test_Yoast_Notification extends WPSEO_UnitTestCase {
 
 		$this->verify_capability_match_filter_args = array(
 			Yoast_Notification::MATCH_ALL,
-			$id,
 			$notification,
 		);
 
@@ -280,7 +281,7 @@ class Test_Yoast_Notification extends WPSEO_UnitTestCase {
 			'wpseo_notification_capability_check',
 			array( $this, 'verify_wpseo_notification_capability_check_filter' ),
 			10,
-			3
+			2
 		);
 
 		unset( $this->verify_capability_match_filter_args );
@@ -290,13 +291,12 @@ class Test_Yoast_Notification extends WPSEO_UnitTestCase {
 	 * Verify capability_check filter arguments.
 	 *
 	 * @param string             $check        Type of the check.
-	 * @param string             $id           ID of the notification.
 	 * @param Yoast_Notification $notification Notification.
 	 *
 	 * @return mixed
 	 */
-	public function verify_wpseo_notification_capability_check_filter( $check, $id, $notification ) {
-		$test = array( $check, $id, $notification );
+	public function verify_wpseo_notification_capability_check_filter( $check, $notification ) {
+		$test = array( $check, $notification );
 		$this->assertEquals( $this->verify_capability_match_filter_args, $test );
 
 		return $check;
