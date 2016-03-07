@@ -839,10 +839,10 @@ var Score = require( "./values/Score.js" );
 var AnalyzerScoring = require( "./config/scoring.js" ).AnalyzerScoring;
 var analyzerScoreRating = require( "./config/scoring.js" ).analyzerScoreRating;
 
+var isUndefined = require( "lodash/lang/isUndefined" );
+
 var assessments = {};
 assessments.wordCount = require( "./assessments/countWords.js" );
-
-var isUndefined = require( "lodash/lang/isUndefined" );
 
 /**
  * inits the analyzerscorer used for scoring of the output from the textanalyzer
@@ -854,6 +854,7 @@ var AnalyzeScorer = function( refObj ) {
 	this.__score = [];
 	this.refObj = refObj;
 	this.i18n = refObj.config.i18n;
+	this.paper = refObj.paper;
 	this.init();
 };
 
@@ -880,7 +881,7 @@ AnalyzeScorer.prototype.score = function( resultObj ) {
 AnalyzeScorer.prototype.runQueue = function() {
 	for ( var i = 0; i < this.resultObj.length; i++ ) {
 		var subScore = this.genericScore( this.resultObj[ i ] );
-		if ( typeof subScore !== "undefined" ) {
+		if ( typeof subScore !== "undefined" && subScore !== "" ) {
 			this.__score = this.__score.concat( subScore );
 		}
 	}
@@ -894,17 +895,18 @@ AnalyzeScorer.prototype.runQueue = function() {
  * @returns {{name: (analyzerScoring.scoreName), score: number, text: string}}
  */
 AnalyzeScorer.prototype.genericScore = function( obj ) {
-	if ( !isUndefined( obj ) ) {
-		var scoreObj = this.scoreLookup( obj.test );
-
-		//defines default score Object.
-		if ( !isUndefined( scoreObj ) ) {
-			return this.calculateScore( obj, scoreObj, scoreObj.scoreName );
-		} else {
-			var resultObj = assessments[ obj.test ]( this.refObj.paper );
-			return this.calculateScore( resultObj.result, resultObj.score, resultObj.test )
-		}
+	if ( isUndefined( obj ) ) {
+		return "";
 	}
+
+	var scoreObj = this.scoreLookup( obj.test );
+
+	if ( isUndefined( scoreObj ) ) {
+		var resultObj = assessments[ obj.test ]( this.paper, this.i18n );
+		return this.calculateScore( resultObj.result, resultObj.score, resultObj.test );
+	}
+
+	return this.calculateScore( obj, scoreObj, scoreObj.scoreName );
 };
 
 /**
@@ -915,12 +917,12 @@ AnalyzeScorer.prototype.genericScore = function( obj ) {
  * @param {string} scoreName The name of the score
  * @returns {*} The score from the analysis.
  */
-AnalyzeScorer.prototype.calculateScore = function( obj, scoreObj, scoreName ){
+AnalyzeScorer.prototype.calculateScore = function( obj, scoreObj, scoreName ) {
 	var score = { name: scoreName, score: 0, text: "" };
 
-	for (var i = 0; i < scoreObj.scoreArray.length; i++) {
+	for ( var i = 0; i < scoreObj.scoreArray.length; i++ ) {
 		this.setMatcher( obj, scoreObj, i );
-		switch (true) {
+		switch ( true ) {
 
 			// if a type is given, the scorer looks for that object in the resultObject to use
 			// for scoring
@@ -991,6 +993,7 @@ AnalyzeScorer.prototype.scoreLookup = function( name ) {
  * @returns {Score}
  */
 AnalyzeScorer.prototype.returnScore = function( scoreObj, i ) {
+
 	return new Score( scoreObj.scoreArray[ i ].score, this.scoreTextFormat( scoreObj.scoreArray[ i ], scoreObj.replaceArray ) );
 };
 
@@ -1692,81 +1695,69 @@ module.exports = App;
 },{"../js/stringProcessing/sanitizeString.js":45,"./analyzer.js":14,"./config/config.js":20,"./errors/missingArgument":26,"./pluggable.js":27,"./scoreFormatter.js":28,"./snippetPreview.js":29,"jed":60,"lodash/collection/forEach":63,"lodash/lang/isObject":140,"lodash/lang/isString":142,"lodash/lang/isUndefined":144,"lodash/object/defaultsDeep":148}],17:[function(require,module,exports){
 var countWords = require( "../stringProcessing/countWords.js" );
 
-var Jed = require( "jed" );
+var getScore = function( i18n ) {
+	return {
+		scoreArray: [
+			{
+				min: 300,
+				score: 9,
 
-var i18n = function() {
-	var defaultTranslations = {
-		"domain": "js-text-analysis",
-		"locale_data": {
-			"js-text-analysis": {
-				"": {}
+				/* translators: %1$d expands to the number of words in the text, %2$s to the recommended minimum of words */
+				text: i18n.dgettext( "js-text-analysis", "The text contains %1$d words, this is more than the %2$d word recommended minimum." )
+			},
+			{
+				min: 250,
+				max: 299,
+				score: 7,
+
+				/* translators: %1$d expands to the number of words in the text, %2$s to the recommended minimum of words */
+				text: i18n.dgettext( "js-text-analysis", "The text contains %1$d words, this is slightly below the %2$d word recommended minimum. " +
+					"Add a bit more copy." )
+			},
+			{
+				min: 200,
+				max: 249,
+				score: 5,
+
+				/* translators: %1$d expands to the number of words in the text, %2$d to the recommended minimum of words */
+				text: i18n.dgettext( "js-text-analysis", "The text contains %1$d words, this is below the %2$d word recommended minimum. Add more useful " +
+					"content on this topic for readers." )
+			},
+			{
+				min: 100,
+				max: 199,
+				score: -10,
+
+				//* translators: %1$d expands to the number of words in the text, %2$d to the recommended minimum of words */
+				text: i18n.dgettext( "js-text-analysis", "The text contains %1$d words, this is below the %2$d word recommended minimum. Add more useful " +
+					"content on this topic for readers." )
+			},
+			{
+				min: 0,
+				max: 99,
+				score: -20,
+
+				/* translators: %1$d expands to the number of words in the text */
+				text: i18n.dgettext( "js-text-analysis", "The text contains %1$d words. This is far too low and should be increased." )
 			}
-		}
+		],
+		replaceArray: [
+			{ name: "wordCount", position: "%1$d", source: "matcher" },
+			{ name: "recommendedWordcount", position: "%2$d", value: 300 }
+
+		]
 	};
-	return new Jed( defaultTranslations );
-}();
-
-var countWordsScore = {
-	scoreArray: [
-		{
-			min: 300,
-			score: 9,
-
-			/* translators: %1$d expands to the number of words in the text, %2$s to the recommended minimum of words */
-			text: i18n.dgettext( "js-text-analysis", "The text contains %1$d words, this is more than the %2$d word recommended minimum.")
-		},
-		{
-			min: 250,
-			max: 299,
-			score: 7,
-
-			/* translators: %1$d expands to the number of words in the text, %2$s to the recommended minimum of words */
-			text: i18n.dgettext( "js-text-analysis", "The text contains %1$d words, this is slightly below the %2$d word recommended minimum. Add a bit more copy.")
-		},
-		{
-			min: 200,
-			max: 249,
-			score: 5,
-
-			/* translators: %1$d expands to the number of words in the text, %2$d to the recommended minimum of words */
-			text: i18n.dgettext( "js-text-analysis", "The text contains %1$d words, this is below the %2$d word recommended minimum. Add more useful content on this topic for readers.")
-		},
-		{
-			min: 100,
-			max: 199,
-			score: -10,
-
-			//* translators: %1$d expands to the number of words in the text, %2$d to the recommended minimum of words */
-			text: i18n.dgettext( "js-text-analysis", "The text contains %1$d words, this is below the %2$d word recommended minimum. Add more useful content on this topic for readers.")
-		},
-		{
-			min: 0,
-			max: 99,
-			score: -20,
-
-			/* translators: %1$d expands to the number of words in the text */
-			text: i18n.dgettext( "js-text-analysis", "The text contains %1$d words. This is far too low and should be increased.")
-		}
-	],
-	replaceArray: [
-		{ name: "wordCount", position: "%1$d", source: "matcher" },
-		{ name: "recommendedWordcount", position: "%2$d", value: 300 }
-
-	]
 };
 
-var countWordsAssessment = function( paper ){
+var countWordsAssessment = function( paper, i18n ) {
 	var assessmentResult = {};
-	var result = { test: "wordCount"};
+	var result = { test: "wordCount" };
 	result.result = 0;
-	if ( paper.hasText() ){
-
+	if ( paper.hasText() ) {
 		result.result = countWords( paper.getText() );
-		var refObj = { config:{
-			i18n: i18n
-			}
-		};
 	}
+
+	var countWordsScore = getScore( i18n );
 	assessmentResult.result = result;
 	assessmentResult.score = {
 		scoreName: "wordCount",
@@ -1778,7 +1769,7 @@ var countWordsAssessment = function( paper ){
 
 module.exports =  countWordsAssessment;
 
-},{"../stringProcessing/countWords.js":35,"jed":60}],18:[function(require,module,exports){
+},{"../stringProcessing/countWords.js":35}],18:[function(require,module,exports){
 /* global YoastSEO: true */
 YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 
