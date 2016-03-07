@@ -45,6 +45,11 @@ function wpseo_set_option() {
 add_action( 'wp_ajax_wpseo_set_option', 'wpseo_set_option' );
 
 /**
+ * Since 3.2 Notifications are dismissed in the Notification Center.
+ */
+add_action( 'wp_ajax_yoast_dismiss_notification', array( 'Yoast_Notification_Center', 'ajax_dismiss_notification' ) );
+
+/**
  * Function used to remove the admin notices for several purposes, dies on exit.
  */
 function wpseo_set_ignore() {
