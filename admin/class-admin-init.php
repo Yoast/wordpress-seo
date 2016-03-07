@@ -42,7 +42,6 @@ class WPSEO_Admin_Init {
 		$this->asset_manager = new WPSEO_Admin_Asset_Manager();
 
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_dismissible' ) );
-		add_action( 'admin_init', array( $this, 'after_update_notice' ), 15 );
 		add_action( 'admin_init', array( $this, 'tagline_notice' ), 15 );
 		add_action( 'admin_init', array( $this, 'ga_compatibility_notice' ), 15 );
 		add_action( 'admin_init', array( $this, 'recalculate_notice' ), 15 );
@@ -70,36 +69,11 @@ class WPSEO_Admin_Init {
 
 	/**
 	 * Redirect first time or just upgraded users to the about screen.
+	 *
+	 * @deprecated 3.2
 	 */
 	public function after_update_notice() {
-
-		$can_access = is_multisite() ? WPSEO_Utils::grant_access() : current_user_can( 'manage_options' );
-
-		if ( $can_access && $this->has_ignored_tour() && ! $this->seen_about() ) {
-
-			if ( filter_input( INPUT_GET, 'intro' ) === '1' || $this->dismiss_notice( 'wpseo-dismiss-about' ) ) {
-				update_user_meta( get_current_user_id(), 'wpseo_seen_about_version' , WPSEO_VERSION );
-
-				return;
-			}
-
-			/* translators: %1$s expands to Yoast SEO, $2%s to the version number, %3$s and %4$s to anchor tags with link to intro page  */
-			$info_message = sprintf(
-				__( '%1$s has been updated to version %2$s. %3$sClick here%4$s to find out what\'s new!', 'wordpress-seo' ),
-				'Yoast SEO',
-				WPSEO_VERSION,
-				'<a href="' . admin_url( 'admin.php?page=wpseo_dashboard&intro=1' ) . '">',
-				'</a>'
-			);
-
-			$notification_options = array(
-				'type'  => 'updated',
-				'id'    => 'wpseo-dismiss-about',
-				'nonce' => wp_create_nonce( 'wpseo-dismiss-about' ),
-			);
-
-			Yoast_Notification_Center::get()->add_notification( new Yoast_Notification( $info_message, $notification_options ) );
-		}
+		return;
 	}
 
 	/**
@@ -107,7 +81,7 @@ class WPSEO_Admin_Init {
 	 *
 	 * @return bool
 	 */
-	private function seen_about() {
+	public static function seen_about() {
 		$seen_about_version = substr( get_user_meta( get_current_user_id(), 'wpseo_seen_about_version', true ), 0, 3 );
 		$last_minor_version = substr( WPSEO_VERSION, 0, 3 );
 
@@ -338,7 +312,7 @@ class WPSEO_Admin_Init {
 			delete_user_meta( get_current_user_id(), 'wpseo_ignore_tour' );
 		}
 
-		if ( ! $this->has_ignored_tour() ) {
+		if ( ! self::has_ignored_tour() ) {
 			add_action( 'admin_enqueue_scripts', array( 'WPSEO_Pointers', 'get_instance' ) );
 		}
 	}
@@ -357,7 +331,7 @@ class WPSEO_Admin_Init {
 	 *
 	 * @return bool
 	 */
-	private function has_ignored_tour() {
+	public static function has_ignored_tour() {
 		$user_meta = get_user_meta( get_current_user_id(), 'wpseo_ignore_tour' );
 
 		return ! empty( $user_meta );
