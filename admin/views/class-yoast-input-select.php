@@ -42,7 +42,7 @@ class Yoast_Input_Select {
 	/**
 	 * Print the rendered view.
 	 */
-	public function print_html() {
+	public function output_html() {
 		echo $this->get_html();
 	}
 
@@ -92,11 +92,11 @@ class Yoast_Input_Select {
 	 */
 	private function get_select_values() {
 		return array(
-			'select_id'       => $this->select_attributes['id'],
-			'select_name'     => $this->select_attributes['name'],
-			'select_class'    => $this->select_attributes['class'],
-			'select_options'  => $this->select_options,
-			'selected_option' => $this->selected_option,
+			'id'       => $this->select_attributes['id'],
+			'name'     => $this->select_attributes['name'],
+			'class'    => $this->select_attributes['class'],
+			'options'  => $this->select_options,
+			'selected' => $this->selected_option,
 		);
 	}
 

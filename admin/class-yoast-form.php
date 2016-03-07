@@ -408,9 +408,9 @@ class Yoast_Form {
 	 * @param string $label          The label to show for the variable.
 	 * @param array  $select_options The select options to choose from.
 	 */
-	public function select( $field_name, $label, $select_options ) {
+	public function select( $field_name, $label, array $select_options ) {
 
-		if ( ! is_array( $select_options ) || $select_options === array() ) {
+		if ( ! empty( $select_options ) ) {
 			return;
 		}
 
@@ -425,7 +425,7 @@ class Yoast_Form {
 		);
 
 		$select = new Yoast_Input_Select( $attributes, $select_options, $active_option );
-		$select->print_html();
+		$select->output_html();
 
 		echo '<br class="clear"/>';
 	}

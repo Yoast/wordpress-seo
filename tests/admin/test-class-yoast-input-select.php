@@ -148,7 +148,7 @@ class Yoast_Input_Select_Test extends PHPUnit_Framework_TestCase {
 	 */
 	public function test_html_printing_the_output() {
 		$select = new Yoast_Input_Select( $this->attributes, array(), false );
-		$select->print_html();
+		$select->output_html();
 
 		// Because the output has empty values.
 		$this->expectOutputString( "<select class=\"test\" name=\"test-field\" id=\"test-id\">\n\t</select>\n" );
