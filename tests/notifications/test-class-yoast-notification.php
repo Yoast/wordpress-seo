@@ -335,6 +335,11 @@ class Test_Yoast_Notification extends WPSEO_UnitTestCase {
 	 */
 	private function add_cap( $capability ) {
 		$me = wp_get_current_user();
+		if ( empty( $me ) ) {
+			$user_id = self::factory()->user->create();
+			$me = wp_set_current_user( $user_id );
+		}
+
 		$me->add_cap( $capability );
 
 		// Needed for WP < 4.2.
@@ -349,6 +354,10 @@ class Test_Yoast_Notification extends WPSEO_UnitTestCase {
 	 */
 	private function remove_cap( $capability ) {
 		$me = wp_get_current_user();
+		if ( empty( $me ) ) {
+			return;
+		}
+
 		$me->remove_cap( $capability );
 
 		// Needed for WP < 4.2.
