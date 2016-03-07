@@ -404,13 +404,13 @@ class Yoast_Form {
 	/**
 	 * Create a Select Box.
 	 *
-	 * @param string $field_name The variable within the option to create the select for.
-	 * @param string $label      The label to show for the variable.
-	 * @param array  $options    The select options to choose from.
+	 * @param string $field_name     The variable within the option to create the select for.
+	 * @param string $label          The label to show for the variable.
+	 * @param array  $select_options The select options to choose from.
 	 */
-	public function select( $field_name, $label, $options ) {
+	public function select( $field_name, $label, $select_options ) {
 
-		if ( ! is_array( $options ) || $options === array() ) {
+		if ( ! is_array( $select_options ) || $select_options === array() ) {
 			return;
 		}
 
@@ -424,7 +424,7 @@ class Yoast_Form {
 			'class' => 'select',
 		);
 
-		$select = new Yoast_Input_Select( $attributes, $options, $active_option );
+		$select = new Yoast_Input_Select( $attributes, $select_options, $active_option );
 		$select->print_html();
 
 		echo '<br class="clear"/>';
