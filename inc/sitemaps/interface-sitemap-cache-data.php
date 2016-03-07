@@ -50,9 +50,7 @@ interface WPSEO_Sitemap_Cache_Data_Interface {
 	/**
 	 * Is the sitemap content usable
 	 *
-	 * @param null|bool $usable If set; adjust error to value.
-	 *
 	 * @return bool True if the sitemap is usable, False if not.
 	 */
-	public function is_usable( $usable = null );
+	public function is_usable();
 }

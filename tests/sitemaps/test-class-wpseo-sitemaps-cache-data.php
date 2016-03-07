@@ -41,8 +41,8 @@ class WPSEO_Sitemaps_Cache_Data_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Sitemap_Cache_Data::is_usable()
 	 */
 	public function test_set_sitemap_not_string() {
-		$sitemap      = new StdClass();
-		$sitemap->bla = 'hoi';
+		$sitemap         = new StdClass();
+		$sitemap->doesnt = 'matter';
 
 		$this->subject->set_sitemap( $sitemap );
 		$this->assertEquals( '', $this->subject->get_sitemap() );
@@ -55,7 +55,7 @@ class WPSEO_Sitemaps_Cache_Data_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Sitemap_Cache_Data::get_status()
 	 */
 	public function test_set_invalid_status() {
-		$status = 'bla';
+		$status = 'invalid';
 
 		$this->subject->set_status( $status );
 		$this->assertEquals( WPSEO_Sitemap_Cache_Data_Interface::UNKNOWN, $this->subject->get_status() );
@@ -85,31 +85,16 @@ class WPSEO_Sitemaps_Cache_Data_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test setting status boolean
+	 * Test is_usable with status
 	 *
 	 * @covers WPSEO_Sitemap_Cache_Data::get_status()
 	 * @covers WPSEO_Sitemap_Cache_Data::is_usable()
 	 */
-	public function test_set_usable() {
-		$this->subject->is_usable( true );
-		$this->assertEquals( WPSEO_Sitemap_Cache_Data::OK, $this->subject->get_status() );
-
-		$this->subject->is_usable( false );
-		$this->assertEquals( WPSEO_Sitemap_Cache_Data::ERROR, $this->subject->get_status() );
-	}
-
-	/**
-	 * Test to see if is_usable returns what we expect
-	 *
-	 * @covers WPSEO_Sitemap_Cache_Data::is_usable()
-	 */
-	public function test_is_usable() {
-		$this->assertFalse( $this->subject->is_usable() );
-
-		$this->subject->is_usable( true );
+	public function test_set_status_is_usable() {
+		$this->subject->set_status( WPSEO_Sitemap_Cache_Data::OK );
 		$this->assertTrue( $this->subject->is_usable() );
 
-		$this->subject->is_usable( false );
+		$this->subject->set_status( WPSEO_Sitemap_Cache_Data::ERROR );
 		$this->assertFalse( $this->subject->is_usable() );
 	}
 

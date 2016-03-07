@@ -30,7 +30,12 @@ class WPSEO_Sitemap_Cache_Data implements WPSEO_Sitemap_Cache_Data_Interface, Se
 		/**
 		 * Empty sitemap is not usable.
 		 */
-		$this->is_usable( ! empty( $sitemap ) );
+		if ( ! empty( $sitemap ) ) {
+			$this->set_status( self::OK );
+		}
+		else {
+			$this->set_status( self::ERROR );
+		}
 	}
 
 	/**
@@ -63,14 +68,9 @@ class WPSEO_Sitemap_Cache_Data implements WPSEO_Sitemap_Cache_Data_Interface, Se
 	/**
 	 * Is the sitemap usable.
 	 *
-	 * @param bool|null $usable If set; adjust status accordingly.
-	 *
 	 * @return bool True if usable, False if bad or unknown.
 	 */
-	public function is_usable( $usable = null ) {
-		if ( ! is_null( $usable ) && is_bool( $usable ) ) {
-			$this->status = ( $usable ) ? self::OK : self::ERROR;
-		}
+	public function is_usable() {
 
 		return self::OK === $this->status;
 	}

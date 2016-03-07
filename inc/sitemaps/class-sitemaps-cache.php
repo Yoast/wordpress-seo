@@ -102,9 +102,11 @@ class WPSEO_Sitemaps_Cache {
 	 */
 	public function store_sitemap( $type, $page, $sitemap, $usable = true ) {
 
+		$status = ( $usable ) ? WPSEO_Sitemap_Cache_Data::OK : WPSEO_Sitemap_Cache_Data::ERROR;
+
 		$sitemap_data = new WPSEO_Sitemap_Cache_Data();
 		$sitemap_data->set_sitemap( $sitemap );
-		$sitemap_data->is_usable( $usable );
+		$sitemap_data->set_status( $status );
 
 		return set_transient( 'wpseo_sitemap_cache_' . $type . '_' . $page, $sitemap_data, DAY_IN_SECONDS );
 	}
