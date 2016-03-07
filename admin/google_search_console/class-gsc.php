@@ -132,9 +132,9 @@ class WPSEO_GSC {
 			'option'  => 'errors_per_page',
 		) );
 
-		$asset_manager->enqueue_style( 'jquery-qtip.js' );
-		$asset_manager->enqueue_style( 'metabox-css' );
-		$asset_manager->enqueue_script( 'jquery-qtip' );
+		wp_enqueue_style( 'jquery-qtip.js', plugins_url( 'css/jquery.qtip' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
+		wp_enqueue_style( 'metabox', plugins_url( 'css/metabox-' . '310' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
+		wp_enqueue_script( 'jquery-qtip', plugins_url( 'js/jquery.qtip.min.js', WPSEO_FILE ), array( 'jquery' ), WPSEO_VERSION, true );
 	}
 
 	/**
