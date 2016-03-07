@@ -8,26 +8,6 @@
  */
 class Test_Yoast_Notification_Center extends WPSEO_UnitTestCase {
 	/**
-	 * Tests:
-	 *  + Set notifications to storage
-	 *  - Get notifications from storage
-	 *  + Clear stored notificatoins
-	 *  + register_notifications
-	 *  ajax_dismiss_notification
-	 *  + is_notification_dismissed
-	 *  + maybe_dismiss_notification
-	 *      -- extensive arguments
-	 *  + clear_dismissal
-	 *  + add_notification
-	 *  + get_notification_by_id
-	 *  + display_notifications
-	 *
-	 *  + Notification display for user is called
-	 *  + Notifier resolve is called
-	 *  + Notifier notification is added
-	 */
-
-	/**
 	 * Remove notifications on tearDown
 	 */
 	public function tearDown() {
@@ -47,42 +27,42 @@ class Test_Yoast_Notification_Center extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Registering a notifier
+	 * Registering a condition
 	 */
-	public function test_register_notifier() {
+	public function test_register_condition() {
 
 		$notification = $this->getMockBuilder( Yoast_Notification::class )
 		                     ->setConstructorArgs( array( 'notification', array() ) )
 		                     ->getMock();
 
-		$notifier = $this->getMockBuilder( Yoast_Notifier_Interface::class )->getMock();
-		$notifier->method( 'apply' )->will( $this->returnValue( true ) );
-		$notifier->method( 'get_notification' )->will( $this->returnValue( $notification ) );
+		$condition = $this->getMockBuilder( Yoast_Notification_Condition::class )->getMock();
+		$condition->method( 'apply' )->will( $this->returnValue( true ) );
+		$condition->method( 'get_notification' )->will( $this->returnValue( $notification ) );
 
 		$subject = Yoast_Notification_Center::get();
-		$subject->add_notifier( $notifier );
+		$subject->add_notification_condition( $condition );
 
-		$this->assertEquals( array( $notifier ), $subject->get_notifiers() );
+		$this->assertEquals( array( $condition ), $subject->get_notificationconditions() );
 	}
 
 	/**
-	 * Registering a notifier
+	 * Registering a condition
 	 */
-	public function test_register_notifier_twice() {
+	public function test_register_condition_twice() {
 
 		$notification = $this->getMockBuilder( Yoast_Notification::class )
 		                     ->setConstructorArgs( array( 'notification', array() ) )
 		                     ->getMock();
 
-		$notifier = $this->getMockBuilder( Yoast_Notifier_Interface::class )->getMock();
-		$notifier->method( 'apply' )->will( $this->returnValue( true ) );
-		$notifier->method( 'get_notification' )->will( $this->returnValue( $notification ) );
+		$condition = $this->getMockBuilder( Yoast_Notification_Condition::class )->getMock();
+		$condition->method( 'apply' )->will( $this->returnValue( true ) );
+		$condition->method( 'get_notification' )->will( $this->returnValue( $notification ) );
 
 		$subject = Yoast_Notification_Center::get();
-		$subject->add_notifier( $notifier );
-		$subject->add_notifier( $notifier );
+		$subject->add_notification_condition( $condition );
+		$subject->add_notification_condition( $condition );
 
-		$this->assertEquals( array( $notifier ), $subject->get_notifiers() );
+		$this->assertEquals( array( $condition ), $subject->get_notificationconditions() );
 	}
 
 	/**
@@ -93,16 +73,16 @@ class Test_Yoast_Notification_Center extends WPSEO_UnitTestCase {
 		                     ->setConstructorArgs( array( 'notification', array() ) )
 		                     ->getMock();
 
-		$notifier = $this->getMockBuilder( Yoast_Notifier_Interface::class )->getMock();
-		$notifier->method( 'apply' )->will( $this->returnValue( true ) );
-		$notifier->method( 'get_notification' )->will( $this->returnValue( $notification ) );
+		$condition = $this->getMockBuilder( Yoast_Notification_Condition::class )->getMock();
+		$condition->method( 'apply' )->will( $this->returnValue( true ) );
+		$condition->method( 'get_notification' )->will( $this->returnValue( $notification ) );
 
 		$subject = Yoast_Notification_Center::get();
-		$subject->add_notifier( $notifier );
+		$subject->add_notification_condition( $condition );
 
 		$subject->deactivate_hook();
 
-		$this->assertEquals( array(), $subject->get_notifiers() );
+		$this->assertEquals( array(), $subject->get_notificationconditions() );
 	}
 
 	/**
@@ -243,7 +223,7 @@ class Test_Yoast_Notification_Center extends WPSEO_UnitTestCase {
 	 */
 	public function test_update_storage() {
 		$message = 'b';
-		$options = array( 'id' => 'id ' );
+		$options = array( 'id' => 'id' );
 
 		$notification = $this->getMockBuilder( Yoast_Notification::class )
 		                     ->setConstructorArgs( array( $message, $options ) )

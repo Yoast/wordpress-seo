@@ -20,8 +20,8 @@ class Yoast_Notification_Center implements Yoast_Notification_Center_Interface {
 	/** @var $notifications Yoast_Notification[] */
 	private $notifications = array();
 
-	/** @var array Yoast_Notifier_Interface[] Registered Notifiers */
-	private $notifiers = array();
+	/** @var array Yoast_Notification_Condition_Interface[] Registered Notification Conditions */
+	private $notification_conditions = array();
 
 	/**
 	 * Construct
@@ -57,44 +57,44 @@ class Yoast_Notification_Center implements Yoast_Notification_Center_Interface {
 	}
 
 	/**
-	 * Initialise global notifiers
+	 * Initialise global notification conditions
 	 *
-	 * Notifiers that are not dependent of a class concretion should be registered here.
+	 * Conditions that are not dependent of a class concretion should be registered here.
 	 */
-	public static function initialize_notifiers() {
+	public static function initialize_conditions() {
 		$instance = self::get();
 
 		/**
 		 * Context dependent notifications:
-		 * - Yoast_Not_Indexable_Homepage_Notifier - WPSEO_OnPage, needs option information.
-		 * - Yoast_Plugin_Conflict_Notifier - Yoast_Plugin_Conflict, needs plugin+conflict information.
+		 * - Yoast_Not_Indexable_Homepage_Condition - WPSEO_OnPage, needs option information.
+		 * - Yoast_Plugin_Conflict_Condition - Yoast_Plugin_Conflict, needs plugin+conflict information.
 		 */
 
 		/**
-		 * Action Register Notifiers
+		 * Action Register Notification Conditionns
 		 *
-		 * Allow to hook into the notification center notifier registration.
+		 * Allow to hook into the notification center conditions registration.
 		 *
-		 * @param $instance Yoast_Notification_Center Instance to register notifier on.
+		 * @param $instance Yoast_Notification_Center Instance to register condition on.
 		 */
-		do_action( 'yoast_register_notifiers', $instance );
+		do_action( 'yoast_register_notification_conditions', $instance );
 	}
 
 	/**
-	 * Register notifications of notifiers
+	 * Register notifications of conditions
 	 *
 	 * This has to happen after the translations have been loaded.
 	 */
 	public function register_notifications() {
-		/** @var Yoast_Notifier_Interface $notifier */
-		foreach ( $this->notifiers as $notifier ) {
-			$notification = $notifier->get_notification();
+		/** @var Yoast_Notification_Condition $condition */
+		foreach ( $this->notification_conditions as $condition ) {
+			$notification = $condition->get_notification();
 			// Make sure we are working with a proper Notification.
 			if ( false === ( $notification instanceof Yoast_Notification ) ) {
 				continue;
 			}
 
-			if ( $notifier->notify() ) {
+			if ( $condition->is_met() ) {
 				$this->add_notification( $notification );
 			}
 			else {
@@ -338,7 +338,7 @@ class Yoast_Notification_Center implements Yoast_Notification_Center_Interface {
 	 * Remove transient when the plugin is deactivated
 	 */
 	public function deactivate_hook() {
-		$this->clear_notifiers();
+		$this->clear_notification_conditions();
 		$this->clear_notifications();
 	}
 
@@ -384,12 +384,12 @@ class Yoast_Notification_Center implements Yoast_Notification_Center_Interface {
 	}
 
 	/**
-	 * Provide a way to verify registered notifiers
+	 * Provide a way to verify registered conditions
 	 *
-	 * @return array|Yoast_Notifier_Interface[] Registered notifiers.
+	 * @return array|Yoast_Notification_Condition[] Registered conditions.
 	 */
-	public 	function get_notifiers() {
-		return $this->notifiers;
+	public 	function get_notificationconditions() {
+		return $this->notification_conditions;
 	}
 
 	/**
@@ -456,28 +456,28 @@ class Yoast_Notification_Center implements Yoast_Notification_Center_Interface {
 	}
 
 	/**
-	 * Keep a list of notifiers so we don't add duplicates
+	 * Keep a list of conditions so we don't add duplicates
 	 *
-	 * @param Yoast_Notifier_Interface $notifier Notifier to add to the stack.
+	 * @param Yoast_Notification_Condition $condition Condition to add to the stack.
 	 */
-	public function add_notifier( Yoast_Notifier_Interface $notifier ) {
+	public function add_notification_condition( Yoast_Notification_Condition $condition ) {
 		// Prevent duplicates.
-		if ( $this->has_notifier( $notifier ) ) {
+		if ( $this->has_notification_condition( $condition ) ) {
 			return;
 		}
 
-		$this->notifiers[] = $notifier;
+		$this->notification_conditions[] = $condition;
 	}
 
 	/**
-	 * Check if the notifier is already registered
+	 * Check if the notification condition is already registered
 	 *
-	 * @param Yoast_Notifier_Interface $notifier Notifier to check for.
+	 * @param Yoast_Notification_Condition $condition Condition to check for.
 	 *
 	 * @return bool
 	 */
-	private function has_notifier( Yoast_Notifier_Interface $notifier ) {
-		return in_array( $notifier, $this->notifiers, true );
+	private function has_notification_condition( Yoast_Notification_Condition $condition ) {
+		return in_array( $condition, $this->notification_conditions, true );
 	}
 
 	/**
@@ -545,9 +545,9 @@ class Yoast_Notification_Center implements Yoast_Notification_Center_Interface {
 	}
 
 	/**
-	 * Clear notifiers (mostly for testing)
+	 * Clear notification conditions (mostly for testing)
 	 */
-	private function clear_notifiers() {
-		$this->notifiers = array();
+	private function clear_notification_conditions() {
+		$this->notification_conditions = array();
 	}
 }

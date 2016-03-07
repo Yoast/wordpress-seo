@@ -8,13 +8,13 @@
  *
  * @since 3.2
  */
-interface Yoast_Notifier_Interface {
+interface Yoast_Notification_Condition {
 	/**
 	 * Check if the cause for the notification is present
 	 *
 	 * @return bool True if notification is no longer relevant, False if it is still active.
 	 */
-	public function notify();
+	public function is_met();
 
 	/**
 	 * Create the notification

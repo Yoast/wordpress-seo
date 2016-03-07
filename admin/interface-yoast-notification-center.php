@@ -33,7 +33,7 @@ interface Yoast_Notification_Center_Interface {
 	/**
 	 * Register a notifier
 	 *
-	 * @param Yoast_Notifier_Interface $notifier Notifier to add to the stack.
+	 * @param Yoast_Notification_Condition $notification_condition Notifier to add to the stack.
 	 */
-	public function add_notifier( Yoast_Notifier_Interface $notifier );
+	public function add_notification_condition( Yoast_Notification_Condition $notification_condition );
 }
