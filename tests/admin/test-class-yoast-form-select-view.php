@@ -1,8 +1,5 @@
 <?php
 
-/**
- * @group test
- */
 class Yoast_Form_Select_View_Test extends PHPUnit_Framework_TestCase {
 
 	/**
