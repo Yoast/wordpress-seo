@@ -334,16 +334,15 @@ class Test_Yoast_Notification extends WPSEO_UnitTestCase {
 	 * @param string $capability Capability to add.
 	 */
 	private function add_cap( $capability ) {
-		$me = wp_get_current_user();
-		if ( empty( $me ) ) {
-			$user_id = self::factory()->user->create();
-			$me = wp_set_current_user( $user_id );
+		// Capabilities have been changed in 4.2: code doesn't fail, just the test.
+		if ( version_compare( $GLOBALS['wp_version'], '4.2', '<' ) ) {
+			$this->markTestSkipped();
 		}
 
-		$me->add_cap( $capability );
-
-		// Needed for WP < 4.2.
-		$me->get_role_caps();
+		$me = wp_get_current_user();
+		if ( ! empty( $me ) ) {
+			$me->add_cap( $capability );
+		}
 	}
 
 	/**
@@ -352,14 +351,14 @@ class Test_Yoast_Notification extends WPSEO_UnitTestCase {
 	 * @param string $capability Capability to remove.
 	 */
 	private function remove_cap( $capability ) {
-		$me = wp_get_current_user();
-		if ( empty( $me ) ) {
-			return;
+		// Capabilities have been changed in 4.2: code doesn't fail, just the test.
+		if ( version_compare( $GLOBALS['wp_version'], '4.2', '<' ) ) {
+			$this->markTestSkipped();
 		}
 
-		$me->remove_cap( $capability );
-
-		// Needed for WP < 4.2.
-		$me->get_role_caps();
+		$me = wp_get_current_user();
+		if ( ! empty( $me ) ) {
+			$me->remove_cap( $capability );
+		}
 	}
 }
