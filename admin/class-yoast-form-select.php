@@ -9,9 +9,9 @@
 class Yoast_Form_Select {
 
 	/**
-	 * @var string The field name for the select.
+	 * @var string The ID name for the select.
 	 */
-	private $field_name;
+	private $select_id;
 
 	/**
 	 * @var string Complete name for the selects' name attribute.
@@ -19,9 +19,14 @@ class Yoast_Form_Select {
 	private $select_name;
 
 	/**
+	 * @var string
+	 */
+	private $select_class;
+
+	/**
 	 * @var array Array with the options to parse.
 	 */
-	private $options;
+	private $select_options;
 
 	/**
 	 * @var string The current selected option.
@@ -31,63 +36,47 @@ class Yoast_Form_Select {
 	/**
 	 * Constructor.
 	 *
-	 * @param string $field_name      The field name for the select.
+	 * @param string $select_id       The field name for the select.
 	 * @param string $select_name     Complete name for the selects' name attribute.
-	 * @param array  $options         Array with the options to parse.
+	 * @param string $select_class    The classname that the select will get.
+	 * @param array  $select_options  Array with the options to parse.
 	 * @param string $selected_option The current selected option.
 	 */
-	public function __construct( $field_name, $select_name, array $options, $selected_option ) {
-		$this->field_name      = $field_name;
+	public function __construct( $select_id, $select_name, $select_class, array $select_options, $selected_option ) {
+		$this->select_id       = $select_id;
 		$this->select_name     = $select_name;
-		$this->options         = $options;
+		$this->select_class    = $select_class;
+		$this->select_options  = $select_options;
 		$this->selected_option = $selected_option;
 	}
 
 	/**
-	 * Returns the generated html for the select.
-	 *
-	 * @return string
+	 * Returns the set fields for the select
+	 * @return array
 	 */
-	public function get_html() {
-		$html = sprintf(
-			'<select class="select" name="%1$s" id="%2$s">%3$s</select>',
-			$this->select_name,
-			esc_attr( $this->field_name ),
-			$this->parse_options()
+	public function get_select_values() {
+		return array(
+			'select_id'       => $this->select_id,
+			'select_name'     => $this->select_name,
+			'select_class'    => $this->select_class,
+			'select_options'  => $this->filter_invalid_options(),
+			'selected_option' => $this->selected_option,
 		);
-
-		return $html;
 	}
 
 	/**
-	 * Parses the option and return the rendered html.
-	 *
-	 * @return string
-	 */
-	private function parse_options() {
-		$return = '';
-
-		// This should be done with php array_filter, but then we need at least version 5.6.
-		$sanitized_options = $this->sanitize_options();
-
-		foreach ( $sanitized_options as $value => $label ) {
-			$return .= $this->parse_option( $label, $value );
-		}
-
-		return $return;
-	}
-
-	/**
-	 * Filters the unwanted options of the array. We only want options with an empty key and empty value or options where
+	 * Filters the invalid options of the array. We only want options with empty key and empty value or options where
 	 * at least the label is filled.
+	 *
+	 * In a fancy world: this should be done with php array_filter, but then we need at least version 5.6.
 	 *
 	 * @return array
 	 */
-	private function sanitize_options() {
+	private function filter_invalid_options() {
 		$sanitized_options = array();
 
-		foreach ( $this->options as $value => $label ) {
-			if ( $this->sanitize_option( $label, $value ) ) {
+		foreach ( $this->select_options as $value => $label ) {
+			if ( $this->is_valid_option( $label, $value ) ) {
 				$sanitized_options[ $value ] = $label;
 			}
 		}
@@ -103,29 +92,10 @@ class Yoast_Form_Select {
 	 *
 	 * @return bool
 	 */
-	protected function sanitize_option( $label, $value ) {
+	protected function is_valid_option( $label, $value ) {
 		$option_is_blank = $label === '' && $value === '';
 
 		return $label !== '' || $option_is_blank;
-	}
-
-	/**
-	 * Parses the options and return it as a string.
-	 *
-	 * @param string $label The textual-value the option will get.
-	 * @param string $value The value for the value attribute.
-	 *
-	 * @return string
-	 */
-	private function parse_option( $label, $value ) {
-		$html = sprintf(
-			'<option value="%1$s"%2$s>%3$s</option>',
-			esc_attr( $value ),
-			selected( $this->selected_option, $value, false ),
-			esc_html( $label )
-		);
-
-		return $html;
 	}
 
 }
