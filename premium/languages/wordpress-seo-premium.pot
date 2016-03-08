@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo-premium/issues\n"
-"POT-Creation-Date: 2016-03-01 10:58:03+00:00\n"
+"POT-Creation-Date: 2016-03-08 14:34:12+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -24,19 +24,19 @@ msgstr ""
 "X-Poedit-Bookmarks: \n"
 "X-Textdomain-Support: yes\n"
 
-#: class-premium.php:305
+#: class-premium.php:279
 msgid "Create Redirect"
 msgstr ""
 
-#: class-premium.php:337
+#: class-premium.php:311
 msgid "Add custom fields to page analysis"
 msgstr ""
 
-#: class-premium.php:356 classes/redirect/class-redirect-presenter.php:57
+#: class-premium.php:330 classes/redirect/class-redirect-presenter.php:57
 msgid "Redirects"
 msgstr ""
 
-#: class-premium.php:365
+#: class-premium.php:339
 msgid "Video Tutorials"
 msgstr ""
 
@@ -335,12 +335,12 @@ msgstr ""
 msgid "New URL"
 msgstr ""
 
-#: classes/redirect/class-redirect-table.php:221
-#: classes/redirect/class-redirect-table.php:307
+#: classes/redirect/class-redirect-table.php:225
+#: classes/redirect/class-redirect-table.php:311
 msgid "Delete"
 msgstr ""
 
-#: classes/redirect/class-redirect-table.php:306
+#: classes/redirect/class-redirect-table.php:310
 msgid "Edit"
 msgstr ""
 
