@@ -315,7 +315,7 @@
 	/**
 	 * Filters the already fetch categories
 	 *
-	 * @param {Object[]} activeCheckboxes
+	 * @param {array} activeCheckboxes
 	 * @param {String}   taxonomyName
 	 */
 	YoastReplaceVarPlugin.prototype.setUnparsedTaxonomies = function( activeCheckboxes, taxonomyName ) {
@@ -336,11 +336,29 @@
 	/**
 	 * Gets the taxonomy name.
 	 *
+	 * The logic of this function is inspired by: http://viralpatel.net/blogs/jquery-get-text-element-without-child-element/
+	 *
 	 * @param {Object} checkbox
 	 * @returns String
 	 */
 	YoastReplaceVarPlugin.prototype.getTaxonomyName = function( checkbox ) {
-		return jQuery(checkbox).parent( 'label' ).clone().find('span').remove().end().text().trim();
+		// Take parent of checkbox with type label.
+		var label = jQuery(checkbox).parent( 'label' );
+
+		// We don't want to touch the element itself, thus we will clone it.
+		var cloned_label = label.clone();
+
+		// Finds the span element.
+		var span = cloned_label.find( 'span' );
+
+		// Remove the span, because it could contain some text.
+		span.remove();
+
+		// Get the text value,
+		var text_only = cloned_label.text();
+
+		// Return the trimmed value.
+		return text_only.trim();
 	};
 
 	/**
