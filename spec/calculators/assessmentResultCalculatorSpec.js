@@ -1,18 +1,8 @@
-var Jed = require( "jed" );
 var AssessmentResultCalculator = require( "../../js/calculators/assessmentResultCalculator.js" );
 var MissingArgument = require( "../../js/errors/missingArgument.js" );
 
-var constructi18n = function() {
-	var defaultTranslations = {
-		"domain": "js-text-analysis",
-		"locale_data": {
-			"js-text-analysis": {
-				"": {}
-			}
-		}
-	};
-	return new Jed( defaultTranslations );
-};
+var factory = require( "../helpers/factory.js" );
+var i18n = factory.buildJed();
 
 var getScoringConfiguration = function( i18n ) {
 	return {
@@ -65,9 +55,9 @@ var getScoringConfiguration = function( i18n ) {
 
 describe( "An assessment retrieving a formatted assessment result", function(){
 	it( "Accepts an assessment and configuration", function() {
-		var calculatedResult = new AssessmentResultCalculator( 99, getScoringConfiguration( constructi18n() ) );
+		var calculatedResult = new AssessmentResultCalculator( 99, getScoringConfiguration( i18n ) );
 
-		expect( calculatedResult ).toEqual( { score: -20, text: "The text contains 99 words. This is far too low and should be increased." } );
+		expect( calculatedResult ).toEqual( { range: [ 0, 100 ], score: -20, text: "The text contains 99 words. This is far too low and should be increased." } );
 	} );
 
 	it( "Rejects an assessment when a configuration is missing", function() {

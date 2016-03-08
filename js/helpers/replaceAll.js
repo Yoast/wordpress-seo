@@ -3,7 +3,7 @@ var forEach = require( "lodash/collection/forEach" );
 
 /**
  * Replace placeholders in the passed string.
- * @param {object} string The string that needs placeholders to be replaced.
+ * @param {object} obj The object to be used for replacements.
  * @param {object} replacements The replacement values to be used.
  * @returns {string} The string with the replaced placeholders.
  */
