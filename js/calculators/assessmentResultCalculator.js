@@ -106,7 +106,7 @@ AssessmentResultCalculator.prototype.formatResultMessage = function( result, rep
 		result.text = result.text.replace( "%%result%%", this.analysisResult );
 	}
 
-	if ( result.text.indexOf( "%%note%%" ) > - 1 ) {
+	if ( result.text.indexOf( "%%note%%" ) > -1 ) {
 		result.text = result.text.replace( "%%note%%", result.note || "" );
 	}
 

@@ -11,16 +11,16 @@ var replaceAll = function( obj, replacements ) {
 	var string = obj.text;
 
 	var replacementString = "";
-	forEach( Object.keys( replacements ), function( value ){
-		if( replacementString !== "" ){
-			replacementString += "|"
+	forEach( Object.keys( replacements ), function( value ) {
+		if ( replacementString !== "" ) {
+			replacementString += "|";
 		}
-		replacementString += "(" + escapeRegExp( value ) + ")"
-	});
+		replacementString += "(" + escapeRegExp( value ) + ")";
+	} );
 
 	var replaceObj = obj;
-	return string.replace( new RegExp( replacementString, "gi"), function( matched ) {
-		if( typeof replacements[ matched ] === "function" ){
+	return string.replace( new RegExp( replacementString, "gi" ), function( matched ) {
+		if ( typeof replacements[ matched ] === "function" ) {
 			return replacements[ matched ]( replaceObj );
 		}
 

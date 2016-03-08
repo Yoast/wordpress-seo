@@ -7,7 +7,7 @@ var AssessmentResult = require( "../values/AssessmentResult.js" );
  * @param { object } scoreEntry the entry of the scoreArray with the currentScore
  * @returns {string} the textString to use for replacements
  */
-var getResultText = function( scoreEntry ){
+var getResultText = function( scoreEntry ) {
 	return scoreEntry.resultText;
 };
 
@@ -16,10 +16,11 @@ var getResultText = function( scoreEntry ){
  * @param {object} i18n The i18n object used for translating strings
  * @returns {object} object with scoreArray and replacements
  */
-var getScoringConfiguration = function( i18n ){
+var getScoringConfiguration = function( i18n ) {
 
-	/* translators: %1$s expands to the numeric flesch reading ease score, %2$s to a link to a Yoast.com article about Flesch ease reading score, %3$s to the easyness of reading, %4$s expands to a note about the flesch reading score. */
-	var replaceableText = i18n.dgettext( 'js-text-analysis', "The copy scores %1$s in the %2$s test, which is considered %3$s to read. %4$s" );
+	/* translators: %1$s expands to the numeric flesch reading ease score, %2$s to a link to a Yoast.com article about Flesch ease reading score,
+	%3$s to the easyness of reading, %4$s expands to a note about the flesch reading score. */
+	var replaceableText = i18n.dgettext( "js-text-analysis", "The copy scores %1$s in the %2$s test, which is considered %3$s to read. %4$s" );
 
 	return {
 		scoreArray: [
@@ -66,7 +67,7 @@ var getScoringConfiguration = function( i18n ){
 				score: 4,
 				text: replaceableText,
 				resultText: i18n.dgettext( "js-text-analysis", "very difficult" ),
-				note: i18n.dgettext( "js-text-analysis", "Try to make shorter sentences, using less difficult words to improve readability.")
+				note: i18n.dgettext( "js-text-analysis", "Try to make shorter sentences, using less difficult words to improve readability." )
 			}
 		],
 		replacements: {
@@ -75,7 +76,7 @@ var getScoringConfiguration = function( i18n ){
 			"%3$s": getResultText,
 			"%4$s": "%%note%%"
 		}
-	}
+	};
 };
 
 /**
@@ -84,7 +85,7 @@ var getScoringConfiguration = function( i18n ){
  * @param {object} paper The paper to run this assessment on
  * @param {object} i18n The i18n-object used for parsing translations
  */
-var fleschReadingAssessment = function( paper, i18n ){
+var fleschReadingAssessment = function( paper, i18n ) {
 	var result = calculateFleschReading( paper.getText() );
 
 	//scores must be between 0 and 100;
