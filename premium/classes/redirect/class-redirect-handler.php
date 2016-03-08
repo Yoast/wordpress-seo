@@ -409,11 +409,8 @@ class WPSEO_Redirect_Handler {
 		$request_uri = filter_input( INPUT_SERVER, 'REQUEST_URI', FILTER_SANITIZE_URL, $options );
 
 		// Because there isn't an usable value, try the fallback.
-		if ( $request_uri === null || $request_uri === false ) {
-			$request_uri = '';
-			if ( array_key_exists( $_SERVER, 'REQUEST_URI' ) ) {
-				$request_uri = filter_var( $_SERVER['REQUEST_URI'], FILTER_SANITIZE_URL, $options );
-			}
+		if ( ! empty( $request_uri ) ) {
+			$request_uri = filter_var( $_SERVER['REQUEST_URI'], FILTER_SANITIZE_URL, $options );
 		}
 
 		return rawurldecode( $request_uri );
