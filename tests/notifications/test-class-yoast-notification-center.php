@@ -139,7 +139,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 
 		$notifications = $subject->get_notifications();
 
-		$this->assertEquals( 2, count( $notifications ) );
+		$this->assertEquals( 1, count( $notifications ) );
 	}
 
 	/**
@@ -160,26 +160,18 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test for not set dismissal key.
-	 */
-	public function test_is_notification_dismissed_non_existent_key() {
-		$subject = Yoast_Notification_Center::get();
-		$this->assertFalse( $subject->is_notification_dismissed( '' ) );
-		$this->assertFalse( $subject->is_notification_dismissed( 'invalid' ) );
-	}
-
-	/**
 	 * Test dismissed notification
 	 */
 	public function test_is_notification_dismissed() {
 		$notification_dismissal_key = 'notification_dismissal';
+		$notification = new Yoast_Notification( 'dismiss', array( 'dismissal_key' => $notification_dismissal_key ) );
 
 		$user_id = $this->factory->user->create();
 		wp_set_current_user( $user_id );
 		update_user_meta( $user_id, $notification_dismissal_key, '1' );
 
 		$subject = Yoast_Notification_Center::get();
-		$this->assertTrue( $subject->is_notification_dismissed( $notification_dismissal_key ) );
+		$this->assertTrue( $subject->is_notification_dismissed( $notification ) );
 	}
 
 	/**
@@ -195,11 +187,11 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 
 		update_user_meta( $user_id, $notification->get_dismissal_key(), '1' );
 
-		$this->assertTrue( $subject->is_notification_dismissed( $notification->get_dismissal_key() ) );
+		$this->assertTrue( $subject->is_notification_dismissed( $notification ) );
 
 		$this->assertTrue( $subject->clear_dismissal( $notification ) );
 
-		$this->assertFalse( $subject->is_notification_dismissed( $notification->get_dismissal_key() ) );
+		$this->assertFalse( $subject->is_notification_dismissed( $notification ) );
 	}
 
 	/**
@@ -215,11 +207,11 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 
 		update_user_meta( $user_id, $notification->get_dismissal_key(), '1' );
 
-		$this->assertTrue( $subject->is_notification_dismissed( $notification->get_dismissal_key() ) );
+		$this->assertTrue( $subject->is_notification_dismissed( $notification ) );
 
 		$this->assertTrue( $subject->clear_dismissal( $notification->get_dismissal_key() ) );
 
-		$this->assertFalse( $subject->is_notification_dismissed( $notification->get_dismissal_key() ) );
+		$this->assertFalse( $subject->is_notification_dismissed( $notification ) );
 	}
 
 	/**
@@ -424,28 +416,5 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 
 		// It should not be displayed.
 		$this->expectOutput( '' );
-	}
-
-	/**
-	 * Maybe dismissing
-	 */
-	public function test_maybe_dismiss_notification() {
-		$this->assertFalse( Yoast_Notification_Center::maybe_dismiss_notification( false ) );
-		$this->assertFalse( Yoast_Notification_Center::maybe_dismiss_notification( new StdClass() ) );
-		$this->assertFalse( Yoast_Notification_Center::maybe_dismiss_notification( '' ) );
-		$this->assertFalse( Yoast_Notification_Center::maybe_dismiss_notification( 'maybe' ) );
-	}
-
-	/**
-	 * Test dismissed notification maybe dismiss
-	 */
-	public function test_maybe_dismiss_notification_dismissed() {
-		$notification_dismissal_key = 'notification_dismissal';
-
-		$user_id = $this->factory->user->create();
-		wp_set_current_user( $user_id );
-		update_user_meta( $user_id, $notification_dismissal_key, '1' );
-
-		$this->assertTrue( Yoast_Notification_Center::maybe_dismiss_notification( $notification_dismissal_key ) );
 	}
 }
