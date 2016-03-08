@@ -43,26 +43,24 @@ class WPSEO_Sitemap_Cache_Data implements WPSEO_Sitemap_Cache_Data_Interface, Se
 	 *
 	 * @param bool|string $valid Is the sitemap valid or not.
 	 *
-	 * @return string The status that was set.
+	 * @return void
 	 */
 	public function set_status( $valid ) {
 
 		if ( self::OK === $valid ) {
 			$this->status = self::OK;
 
-			return $this->status;
+			return;
 		}
 
 		if ( self::ERROR === $valid ) {
 			$this->status  = self::ERROR;
 			$this->sitemap = '';
 
-			return $this->status;
+			return;
 		}
 
 		$this->status = self::UNKNOWN;
-
-		return $this->status;
 	}
 
 	/**
