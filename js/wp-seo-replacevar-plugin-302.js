@@ -205,7 +205,7 @@
 	 * Replaces default variables with the values stored in the wpseoMetaboxL10n object.
 	 *
 	 * @param {String} textString
-	 * @return {String}
+	 * @returns {String}
 	 */
 	YoastReplaceVarPlugin.prototype.replaceDefault = function(textString ) {
 		textString = textString.replace( /%%focuskw%%/g, YoastSEO.app.stringHelper.stripAllTags( YoastSEO.app.rawData.keyword ) );
@@ -221,7 +221,7 @@
 	 * Replaces the category strings with the category names.
 	 *
 	 * @param {String} data
-	 * @return {String}
+	 * @returns {String}
 	 */
 	YoastReplaceVarPlugin.prototype.replaceCategory = function( data ) {
 		if ( this.isPost() ) {
@@ -265,7 +265,7 @@
 	 * replaces the category strings with the category names.
 	 *
 	 * @param {String} data
-	 * @return {String}
+	 * @returns {String}
 	 */
 	YoastReplaceVarPlugin.prototype.replaceTag = function(data ) {
 		if ( this.isPost() ) {
@@ -279,7 +279,7 @@
 	 * Replaces the taxonomy description
 	 *
 	 * @param {String} data
-	 * @return {String}
+	 * @returns {String}
 	 */
 	YoastReplaceVarPlugin.prototype.replaceTaxonomyDescription = function(data ) {
 		var text = YoastSEO.app.rawData.text;
@@ -301,7 +301,7 @@
 	 *
 	 * @param {object} targetMetaBox
 	 *
-	 * @return {void}
+	 * @returns {void}
 	 */
 	YoastReplaceVarPlugin.prototype.fetchTaxonomies = function( targetMetaBox ) {
 		var activeCheckboxes = jQuery( targetMetaBox ).find( 'input:checked' );
