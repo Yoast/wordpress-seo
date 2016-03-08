@@ -31,9 +31,10 @@ module.exports = (function() {
 	 * @constructor
 	 */
 	function KeywordTab( args ) {
-		this.setScore( 0 );
 		this.keyword = '';
 		this.prefix  = args.prefix || '';
+
+		this.setScore( 0 );
 	}
 
 	/**
@@ -54,9 +55,8 @@ module.exports = (function() {
 	 * @param {string}  keyword
 	 */
 	KeywordTab.prototype.update = function( score, keyword ) {
-		this.setScore( score );
 		this.keyword = keyword;
-
+		this.setScore( score );
 		this.refresh();
 	};
 
