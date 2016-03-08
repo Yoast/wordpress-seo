@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/Yoast/yoast-social-previews/issues"
   },
-  "homepage": "https://github.com/Yoast/yoast-social-previews#readme"
+  "homepage": "https://github.com/Yoast/yoast-social-previews#readme",
+  "dependencies": {
+    "yoastseo": "github:yoast/YoastSEO.js#develop"
+  }
 }
