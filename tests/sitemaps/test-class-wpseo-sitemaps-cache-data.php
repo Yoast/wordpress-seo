@@ -117,6 +117,8 @@ class WPSEO_Sitemaps_Cache_Data_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Test serializing/unserializing
+	 *
+	 * Tests if the class is serializable.
 	 */
 	public function test_serialize_unserialize() {
 		$sitemap = 'this is a sitemap';
