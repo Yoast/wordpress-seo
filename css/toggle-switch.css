@@ -82,11 +82,11 @@
 		cursor: pointer;
 	}
 
-	/* IE11 and JAWS 17.0 need this hack */
+/* IE11 and JAWS 17.0 need this hack */
 	.switch-yoast-seo .switch-yoast-seo-jaws-a11y {
+		overflow: hidden;
 		height: 1px;
 		margin-bottom: -1px;
-		overflow: hidden;
 	}
 
 	.switch-toggle.switch-yoast-seo label code,
@@ -96,8 +96,8 @@
 
 	.switch-container .label-text {
 		display: block;
-		font-weight: 600;
 		margin: 0.5em 0;
+		font-weight: 600;
 	}
 
 	.switch-container {
