@@ -48,7 +48,7 @@ var countWordsAssessment = function( paper, i18n ) {
 	}
 
 	if ( inRange( wordCount, 100, 200 ) ) {
-		score = -10,
+		score = -10;
 
 		//* translators: %1$d expands to the number of words in the text, %2$d to the recommended minimum of words */
 		text = i18n.dngettext(
@@ -59,7 +59,7 @@ var countWordsAssessment = function( paper, i18n ) {
 		);
 	}
 
-	if ( inRange( wordCount, 0, 100) ) {
+	if ( inRange( wordCount, 0, 100 ) ) {
 		score = -20;
 
 		/* translators: %1$d expands to the number of words in the text */
@@ -71,7 +71,7 @@ var countWordsAssessment = function( paper, i18n ) {
 		);
 	}
 
-	text = i18n.sprintf( text, wordCount, 300);
+	text = i18n.sprintf( text, wordCount, 300 );
 
 	return new AssessmentResult( score, text );
 };
