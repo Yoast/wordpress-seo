@@ -88,7 +88,7 @@ var getScoringConfiguration = function( i18n ) {
 var fleschReadingAssessment = function( paper, i18n ) {
 	var result = calculateFleschReading( paper.getText() );
 
-	//scores must be between 0 and 100;
+	// scores must be between 0 and 100;
 	if ( result < 0 ) {
 		result = 0;
 	}
