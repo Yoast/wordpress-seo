@@ -25,7 +25,6 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		'forcerewritetitle'      => false,
 		'separator'              => 'sc-dash',
 		'noodp'                  => false,
-		'noydir'                 => false,
 		'usemetakeywords'        => false,
 		'title-home-wpseo'       => '%%sitename%% %%page%% %%sep%% %%sitedesc%%', // Text field.
 		'title-author-wpseo'     => '', // Text field.
@@ -416,10 +415,6 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 				'noindextag'        => 'noindex-post_tag',
 				'noindexpostformat' => 'noindex-post_format',
 				'noindexsubpages'   => 'noindex-subpages',
-				'hidersdlink'       => 'hide-rsdlink',
-				'hidefeedlinks'     => 'hide-feedlinks',
-				'hidewlwmanifest'   => 'hide-wlwmanifest',
-				'hideshortlink'     => 'hide-shortlink',
 			);
 			foreach ( $move as $old => $new ) {
 				if ( isset( $old_option[ $old ] ) && ! isset( $option_value[ $new ] ) ) {

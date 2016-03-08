@@ -75,11 +75,13 @@ $yform->light_switch( 'enablexmlsitemap', __( 'XML sitemap functionality', 'word
 				__( 'Author / user sitemap', 'wordpress-seo' )
 			);
 			?>
-			<p class="expl"><?php _e( 'The user sitemap contains the author archive URLs for every user on your site. You can choose to not include users without posts.', 'wordpress-seo' ); ?></p>
+			<p class="expl"><?php _e( 'The user sitemap contains the author archive URLs for every user on your site.', 'wordpress-seo' ); ?></p>
 			<div id="xml_user_block">
 					<?php
 					$switch_values = array( 'off' => __( 'In sitemap', 'wordpress-seo' ), 'on' => __( 'Not in sitemap', 'wordpress-seo' ) );
-					$yform->toggle_switch( 'disable_author_noposts', $switch_values, __( 'Users with zero posts', 'wordpress-seo' ) );
+					$yform->toggle_switch( 'disable_author_noposts', $switch_values, __( 'Users without posts', 'wordpress-seo' ) );
+
+					echo '<p class="expl">' . __( 'You can choose to not include users without posts.', 'wordpress-seo' ) . '</p>';
 
 					$roles = WPSEO_Utils::get_roles();
 					if ( is_array( $roles ) && $roles !== array() ) {
@@ -133,6 +135,10 @@ $yform->light_switch( 'enablexmlsitemap', __( 'XML sitemap functionality', 'word
 			$taxonomies = apply_filters( 'wpseo_sitemaps_supported_taxonomies', get_taxonomies( array( 'public' => true ), 'objects' ) );
 			if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
 				foreach ( $taxonomies as $tax ) {
+					// Explicitly hide all the core taxonomies we never want in our sitemap.
+					if ( in_array( $tax->name, array( 'link_category', 'nav_menu', 'post_format' ) ) ) {
+						continue;
+					}
 					if ( isset( $tax->labels->name ) && trim( $tax->labels->name ) != '' ) {
 						$yform->toggle_switch(
 							'taxonomies-' . $tax->name . '-not_in_sitemap',

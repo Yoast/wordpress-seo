@@ -1,6 +1,6 @@
 <?php
 /**
- * @package WPSEO\XML_Sitemaps
+ * @package WPSEO\Admin\XML Sitemaps
  */
 
 /**
@@ -9,44 +9,58 @@
 class WPSEO_Sitemaps_Admin {
 
 	/**
+	 * @var array Post_types that are being imported.
+	 */
+	private $importing_post_types = array();
+
+	/**
 	 * Class constructor
 	 */
-	function __construct() {
+	public function __construct() {
 		add_action( 'transition_post_status', array( $this, 'status_transition' ), 10, 3 );
+		add_action( 'admin_footer', array( $this, 'status_transition_bulk_finished' ) );
+
 		add_action( 'admin_init', array( $this, 'delete_sitemaps' ) );
+
+		WPSEO_Utils::register_cache_clear_option( 'wpseo_xml', '' );
 	}
 
 	/**
 	 * Find sitemaps residing on disk as they will block our rewrite.
 	 *
 	 * @todo issue #561 https://github.com/Yoast/wordpress-seo/issues/561
+
+	 * @deprecated since 3.1 in favor of 'detect_blocking_filesystem_sitemaps'
 	 */
-	function delete_sitemaps() {
-		$options = WPSEO_Options::get_options( array( 'wpseo', 'wpseo_xml' ) );
-		if ( $options['enablexmlsitemap'] === true ) {
+	public function delete_sitemaps() {
+		/**
+		 * When removing this, make sure the 'admin_init' action is replaced with the following function:
+		 */
+		$this->detect_blocking_filesystem_sitemaps();
+	}
 
-			$file_to_check_for = array(
-				/**
-				 * ABSPATH . 'sitemap.xml',
-				 * ABSPATH . 'sitemap.xslt',
-				 * ABSPATH . 'sitemap.xsl',
-				 */
-				ABSPATH . 'sitemap_index.xml',
-			);
+	/**
+	 * Find sitemaps residing on disk as they will block our rewrite.
+	 *
+	 * @since 3.1
+	 */
+	public function detect_blocking_filesystem_sitemaps() {
+		$wpseo_xml_options = WPSEO_Options::get_option( 'wpseo_xml' );
+		if ( $wpseo_xml_options['enablexmlsitemap'] !== true ) {
+			return;
+		}
+		unset( $wpseo_xml_options );
 
-			$new_files_found = false;
+		// Find all files and directories containing 'sitemap' and are post-fixed .xml.
+		$blocking_files = glob( ABSPATH . '*sitemap*.xml', ( GLOB_NOSORT | GLOB_MARK ) );
 
-			foreach ( $file_to_check_for as $file ) {
-				if ( ( $options['blocking_files'] === array() || ( $options['blocking_files'] !== array() && in_array( $file, $options['blocking_files'] ) === false ) ) && file_exists( $file ) ) {
-					$options['blocking_files'][] = $file;
-					$new_files_found             = true;
-				}
-			}
-			unset( $file );
+		// Save if we have changes.
+		$wpseo_options = WPSEO_Options::get_option( 'wpseo' );
 
-			if ( $new_files_found === true ) {
-				update_option( 'wpseo', $options );
-			}
+		if ( $wpseo_options['blocking_files'] !== $blocking_files ) {
+			$wpseo_options['blocking_files'] = $blocking_files;
+
+			update_option( 'wpseo', $wpseo_options );
 		}
 	}
 
@@ -59,18 +73,31 @@ class WPSEO_Sitemaps_Admin {
 	 * @param string   $old_status Old post status.
 	 * @param \WP_Post $post       Post object.
 	 */
-	function status_transition( $new_status, $old_status, $post ) {
-		if ( $new_status != 'publish' ) {
+	public function status_transition( $new_status, $old_status, $post ) {
+		if ( $new_status !== 'publish' ) {
 			return;
 		}
 
-		wp_cache_delete( 'lastpostmodified:gmt:' . $post->post_type, 'timeinfo' ); // #17455.
+		if ( defined( 'WP_IMPORTING' ) ) {
+			$this->status_transition_bulk( $new_status, $old_status, $post );
+
+			return;
+		}
+
+		$post_type = get_post_type( $post );
+
+		wp_cache_delete( 'lastpostmodified:gmt:' . $post_type, 'timeinfo' ); // #17455.
+
+		// None of our interest..
+		if ( 'nav_menu_item' === $post_type ) {
+			return;
+		}
 
 		$options = WPSEO_Options::get_options( array( 'wpseo_xml', 'wpseo_titles' ) );
-		if (
-			( isset( $options[ 'post_types-' . $post->post_type . '-not_in_sitemap' ] ) && $options[ 'post_types-' . $post->post_type . '-not_in_sitemap' ] === true )
-			|| ( $post->post_type === 'nav_menu_item' )
-		) {
+
+		// If the post type is excluded in options, we can stop.
+		$option = sprintf( 'post_types-%s-not_in_sitemap', $post_type );
+		if ( isset( $options[ $option ] ) && $options[ $option ] === true ) {
 			return;
 		}
 
@@ -97,5 +124,62 @@ class WPSEO_Sitemaps_Admin {
 				wp_schedule_single_event( ( time() + 300 ), 'wpseo_ping_search_engines' );
 			}
 		}
+	}
+
+	/**
+	 * While bulk importing, just save unique post_types
+	 *
+	 * When importing is done, if we have a post_type that is saved in the sitemap
+	 * try to ping the search engines
+	 *
+	 * @param string   $new_status New post status.
+	 * @param string   $old_status Old post status.
+	 * @param \WP_Post $post       Post object.
+	 */
+	private function status_transition_bulk( $new_status, $old_status, $post ) {
+		$this->importing_post_types[] = get_post_type( $post );
+		$this->importing_post_types   = array_unique( $this->importing_post_types );
+	}
+
+	/**
+	 * After import finished, walk through imported post_types and update info.
+	 */
+	public function status_transition_bulk_finished() {
+		if ( ! defined( 'WP_IMPORTING' ) ) {
+			return;
+		}
+
+		if ( empty( $this->importing_post_types ) ) {
+			return;
+		}
+
+		$options = WPSEO_Options::get_option( 'wpseo_xml' );
+
+		$ping_search_engines = false;
+
+		foreach ( $this->importing_post_types as $post_type ) {
+			wp_cache_delete( 'lastpostmodified:gmt:' . $post_type, 'timeinfo' ); // #17455.
+
+			// Just have the cache deleted for nav_menu_item.
+			if ( 'nav_menu_item' === $post_type ) {
+				continue;
+			}
+
+			$option = sprintf( 'post_types-%s-not_in_sitemap', $post_type );
+			if ( ! isset( $options[ $option ] ) || $options[ $option ] === false ) {
+				$ping_search_engines = true;
+			}
+		}
+
+		// Nothing to do.
+		if ( false === $ping_search_engines ) {
+			return;
+		}
+
+		if ( WP_CACHE ) {
+			do_action( 'wpseo_hit_sitemap_index' );
+		}
+
+		WPSEO_Sitemaps::ping_search_engines();
 	}
 } /* End of class */

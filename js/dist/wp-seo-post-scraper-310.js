@@ -293,10 +293,26 @@ module.exports = (function() {
 	 * @returns {String}
 	 */
 	PostScraper.prototype.getContentTinyMCE = function() {
-		if ( typeof tinyMCE === 'undefined' || typeof tinyMCE.editors === 'undefined' || tinyMCE.editors.length === 0 || tinyMCE.get( 'content' ).isHidden() ) {
+		if ( this.isTinyMCEAvailable() === false ) {
 			return this.getTinyMCEElementContent();
 		}
 		return tinyMCE.get( 'content' ).getContent();
+	};
+
+	/**
+	 * Returns whether or not TinyMCE is available.
+	 * @returns {boolean}
+	 */
+	PostScraper.prototype.isTinyMCEAvailable = function() {
+		if ( typeof tinyMCE === 'undefined' ||
+			typeof tinyMCE.editors === 'undefined' ||
+			tinyMCE.editors.length === 0 ||
+			tinyMCE.get( 'content' ) === null ||
+			tinyMCE.get( 'content' ).isHidden() ) {
+			return false;
+		}
+
+		return true;
 	};
 
 	/**
@@ -452,6 +468,21 @@ module.exports = (function() {
 	};
 
 	/**
+	 * Retrieves either a generated slug or the page title as slug for the preview
+	 * @param {Object} response The AJAX response object
+	 * @returns {string}
+	 */
+	function getUrlPath( response ) {
+		if ( response.responseText === '' ) {
+			return jQuery( '#title' ).val();
+		}
+		// Added divs to the response text, otherwise jQuery won't parse to HTML, but an array.
+		return jQuery( '<div>' + response.responseText + '</div>' )
+			.find( '#editable-post-name-full' )
+			.text();
+	}
+
+	/**
 	 * binds to the WordPress jQuery function to put the permalink on the page.
 	 * If the response matches with permalinkstring, the snippet can be rerendered.
 	 */
@@ -462,9 +493,7 @@ module.exports = (function() {
 		}
 
 		if ( 'string' === typeof ajaxOptions.data && -1 !== ajaxOptions.data.indexOf( 'action=sample-permalink' ) ) {
-			YoastSEO.app.callbacks.getData();
-			YoastSEO.app.runAnalyzer();
-			YoastSEO.app.snippetPreview.reRender();
+			YoastSEO.app.snippetPreview.setUrlPath( getUrlPath( response ) );
 		}
 	} );
 

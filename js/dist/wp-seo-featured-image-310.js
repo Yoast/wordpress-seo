@@ -4,8 +4,9 @@
 /* global YoastSEO */
 /* jshint -W097 */
 /* jshint -W003 */
-'use strict';
+
 (function( $ ) {
+	'use strict';
 	var featuredImagePlugin;
 	var featuredImageElement;
 
@@ -112,11 +113,11 @@
 			}
 
 			selectedImageHTML = '<img' +
-					' src="' + selectedImage.get( 'url' ) + '"' +
-					' width="' + selectedImage.get( 'width' ) + '"' +
-					' height="' + selectedImage.get( 'height' ) + '"' +
-					' alt="' + alt +
-					'"/>';
+				' src="' + selectedImage.get( 'url' ) + '"' +
+				' width="' + selectedImage.get( 'width' ) + '"' +
+				' height="' + selectedImage.get( 'height' ) + '"' +
+				' alt="' + alt +
+				'"/>';
 
 			featuredImagePlugin.setFeaturedImage( selectedImageHTML );
 		});
