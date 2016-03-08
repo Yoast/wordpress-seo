@@ -409,7 +409,7 @@ class WPSEO_Redirect_Handler {
 		$request_uri = filter_input( INPUT_SERVER, 'REQUEST_URI', FILTER_SANITIZE_URL, $options );
 
 		// Because there isn't an usable value, try the fallback.
-		if ( ! empty( $request_uri ) ) {
+		if ( empty( $request_uri ) ) {
 			$request_uri = filter_var( $_SERVER['REQUEST_URI'], FILTER_SANITIZE_URL, $options );
 		}
 
