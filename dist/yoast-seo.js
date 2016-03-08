@@ -1780,6 +1780,7 @@ var getScoringConfiguration = function( i18n ){
  * @param {object} i18n The i18n-object used for parsing translations
  */
 var fleschReadingAssessment = function( paper, i18n ){
+
 	var result = calculateFleschReading( paper.getText() );
 
 	//scores must be between 0 and 100;
@@ -1999,7 +2000,7 @@ AssessmentResultCalculator.prototype.formatResultMessage = function( result, rep
 	}
 
 	if ( result.text.indexOf( "%%note%%" ) > - 1 ) {
-		result.text = result.text.replace( "%%note%%", result.note );
+		result.text = result.text.replace( "%%note%%", result.note || "" );
 	}
 
 	return result;
