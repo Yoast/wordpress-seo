@@ -73,15 +73,15 @@ AssessmentResultCalculator.prototype.retrieveAssesmentResultScore = function() {
 		var entry = entries[i];
 
 		if ( hasRange( entry ) && entryInRange( entry, this.analysisResult ) ) {
-			return this.getResultObject( entry, this.configuration.replacements );
+			return this.formatResultMessage( entry, this.configuration.replacements );
 		}
 
 		if ( hasOnlyMinimum( entry ) && this.analysisResult > entry.min ) {
-			return this.getResultObject( entry, this.configuration.replacements );
+			return this.formatResultMessage( entry, this.configuration.replacements );
 		}
 
 		if ( hasOnlyMaximum( entry ) ) {
-			return this.getResultObject( entry, this.configuration.replacements );
+			return this.formatResultMessage( entry, this.configuration.replacements );
 		}
 	}
 
@@ -89,17 +89,7 @@ AssessmentResultCalculator.prototype.retrieveAssesmentResultScore = function() {
 };
 
 /**
- * Get a formatted result object.
- * @param {object} entry The entry in the assessment configuration.
- * @param {object} replacements The replacements to be used within the return message.
- * @returns {object} The resulting object after being formatted.
- */
-AssessmentResultCalculator.prototype.getResultObject = function( entry, replacements ) {
-	return this.formatResultMessage( { "score":  entry.score, "text":  entry.text }, replacements );
-};
-
-/**
- * Format the result message.
+ * Get the formatted result message.
  * @param {object} result The result of the assessment.
  * @param {object} replacements The replacements to be used within the return message.
  * @returns {object} The formatted and evaluated result object.
@@ -109,11 +99,15 @@ AssessmentResultCalculator.prototype.formatResultMessage = function( result, rep
 		return result;
 	}
 
-	result.text = replaceAll( result.text, replacements );
+	result.text = replaceAll( result, replacements );
 
 	// If there's a placeholder, replace that with the actual result value
 	if ( result.text.indexOf( "%%result%%" ) > -1 ) {
 		result.text = result.text.replace( "%%result%%", this.analysisResult );
+	}
+
+	if ( result.text.indexOf( "%%note%%" ) > - 1 ) {
+		result.text = result.text.replace( "%%note%%", result.note );
 	}
 
 	return result;
