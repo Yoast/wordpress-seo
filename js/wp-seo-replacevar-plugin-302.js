@@ -3,7 +3,7 @@
 	'use strict';
 
 	/**
-	 * variable replacement plugin for wordpress.
+	 * Variable replacement plugin for wordpress.
 	 */
 	var YoastReplaceVarPlugin = function() {
 		this.replaceVars = wpseoReplaceVarsL10n.replace_vars;
@@ -59,7 +59,8 @@
 	};
 
 	/**
-	 * runs the different replacements on the data-string
+	 * Runs the different replacements on the data-string
+	 *
 	 * @param {String} data
 	 * @returns {string}
 	 */
@@ -132,6 +133,7 @@
 
 	/**
 	 * Replaces %%title%% with the title
+	 *
 	 * @param {String} data
 	 * @returns {string}
 	 */
@@ -145,6 +147,7 @@
 
 	/**
 	 * Replaces %%term_title%% with the title of the term
+	 *
 	 * @param {String} data the data to replace the term_title var
 	 * @returns {String} the data with the replaced variables
 	 */
@@ -172,7 +175,7 @@
 	};
 
 	/**
-	 * removes double separators and replaces them with a single separator
+	 * Removes double separators and replaces them with a single separator
 	 *
 	 * @param {String} data
 	 * @returns {String}
@@ -185,7 +188,7 @@
 	};
 
 	/**
-	 * replaces the excerpts strings with strings for the excerpts, if not empty.
+	 * Replaces the excerpts strings with strings for the excerpts, if not empty.
 	 *
 	 * @param {String} data
 	 * @returns {String}
@@ -199,7 +202,7 @@
 	};
 
 	/**
-	 * replaces default variables with the values stored in the wpseoMetaboxL10n object.
+	 * Replaces default variables with the values stored in the wpseoMetaboxL10n object.
 	 *
 	 * @param {String} textString
 	 * @return {String}
@@ -215,7 +218,7 @@
 	};
 
 	/**
-	 * replaces the category strings with the category names.
+	 * Replaces the category strings with the category names.
 	 *
 	 * @param {String} data
 	 * @return {String}
