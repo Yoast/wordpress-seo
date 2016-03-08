@@ -1,14 +1,23 @@
 var escapeRegExp = require( "lodash/string/escapeRegExp" );
+var forEach = require( "lodash/collection/forEach" );
 
 /**
  * Replace placeholders in the passed string.
- * @param {string} string The string that needs placeholders to be replaced.
+ * @param {object} string The string that needs placeholders to be replaced.
  * @param {object} replacements The replacement values to be used.
  * @returns {string} The string with the replaced placeholders.
  */
 var replaceAll = function( obj, replacements ) {
 	var string = obj.text;
-	var replacementString = escapeRegExp( Object.keys( replacements ).join( "|" ) ).replace( "\\|", "|" );
+
+	var replacementString = "";
+	forEach( Object.keys( replacements ), function( value ){
+		if( replacementString !== "" ){
+			replacementString += "|"
+		}
+		replacementString += "(" + escapeRegExp( value ) + ")"
+	});
+
 	var replaceObj = obj;
 	return string.replace( new RegExp( replacementString, "gi"), function( matched ) {
 		if( typeof replacements[ matched ] === "function" ){

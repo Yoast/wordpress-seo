@@ -70,7 +70,7 @@ AssessmentResultCalculator.prototype.retrieveAssesmentResultScore = function() {
 
 	for ( var i = 0; i < entries.length; i++ ) {
 
-		var entry = entries[i];
+		var entry = entries[ i ];
 
 		if ( hasRange( entry ) && entryInRange( entry, this.analysisResult ) ) {
 			return this.formatResultMessage( entry, this.configuration.replacements );
@@ -90,7 +90,7 @@ AssessmentResultCalculator.prototype.retrieveAssesmentResultScore = function() {
 
 /**
  * Get the formatted result message.
- * @param {object} result The result of the assessment.
+ * @param {object} result The resultentry of the assessment.
  * @param {object} replacements The replacements to be used within the return message.
  * @returns {object} The formatted and evaluated result object.
  */
