@@ -16,12 +16,30 @@
 		this.registerModifications();
 
 		// Adding events to the dom, to fetch changes.
-		if ( jQuery( '#post_ID').val() !== undefined ) {
+		if ( this.isPost() ) {
 			// Set events for each taxonomy box.
-			jQuery.each( jQuery( '.categorydiv' ),  this.setTaxonomyEvents.bind( this ) );
+			jQuery( '.categorydiv' ).each( this.bindTaxonomyEvents.bind( this ) );
 
 			this.addTagEvents();
 		}
+	};
+
+	/**
+	 * Return true when current page is a taxonomy page.
+	 *
+	 * @returns {boolean}
+	 */
+	YoastReplaceVarPlugin.prototype.isPost = function() {
+		return jQuery( '#post_ID').length !== 0;
+	};
+
+	/**
+	 * Return true when current page is a taxonomy page.
+	 *
+	 * @returns {boolean}
+	 */
+	YoastReplaceVarPlugin.prototype.isTaxonomy = function() {
+		return jQuery( 'input[name=tag_ID]').length !== 0;
 	};
 
 	/**
@@ -47,19 +65,21 @@
 	 */
 	YoastReplaceVarPlugin.prototype.replaceVariablesPlugin = function( data ) {
 		if( typeof data !== 'undefined' ) {
-			data = this.titleReplace( data );
-			data = this.termtitleReplace( data );
-			data = this.defaultReplace( data );
-			data = this.parentReplace( data );
-			data = this.doubleSepReplace( data );
-			data = this.excerptReplace( data );
-			data = this.categoryReplace( data );
-			data = this.customTaxonomyReplace( data );
-			data = this.tagReplace( data );
+			data = this.replaceTitle( data );
+			data = this.replaceTermTitle( data );
+			data = this.replaceDefault( data );
+			data = this.replaceParent( data );
+			data = this.replaceDoubleSeparators( data );
+			data = this.replaceExcerpt( data );
 
-			// Taxonomy replacements
-			if ( jQuery( 'input[name=tag_ID]').val() !== undefined ) {
-				data = this.taxonomyDescriptionReplace( data );
+			if ( this.isPost() ) {
+				data = this.replaceCategory(data);
+				data = this.replaceTag(data);
+				data = this.replaceCustomTaxonomy(data);
+			}
+
+			if ( this.isTaxonomy() ) {
+				data = this.replaceTaxonomyDescription( data );
 			}
 		}
 		return data;
@@ -71,16 +91,12 @@
 	 * @param {int} index
 	 * @param {Object} taxonomyMetaBox
 	 */
-	YoastReplaceVarPlugin.prototype.setTaxonomyEvents = function( index, taxonomyMetaBox ) {
-		// Set the events.
+	YoastReplaceVarPlugin.prototype.bindTaxonomyEvents = function(index, taxonomyMetaBox ) {
 		taxonomyMetaBox = jQuery( taxonomyMetaBox );
 
-		taxonomyMetaBox.on( 'wpListAddEnd', '.categorychecklist', function() {
-			this.fetchTaxonomies( taxonomyMetaBox );
-		}.bind( this ) );
-		taxonomyMetaBox.on( 'change', 'input[type=checkbox]', function() {
-			this.fetchTaxonomies( taxonomyMetaBox );
-		}.bind( this ) );
+		// Set the events.
+		taxonomyMetaBox.on( 'wpListAddEnd', '.categorychecklist', this.fetchTaxonomies.bind( this, taxonomyMetaBox ) );
+		taxonomyMetaBox.on( 'change', 'input[type=checkbox]', this.fetchTaxonomies.bind( this, taxonomyMetaBox ) );
 
 		// We always wanted it to be fetched
 		this.fetchTaxonomies( taxonomyMetaBox );
@@ -88,29 +104,29 @@
 
 	/**
 	 * Adding tag events to the dom, to fetch added/removed tags.
+	 *
+	 * Where are using the MutationObserver (https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver) to
+	 * determine if there is a change in the .tagchecklist. This happens when a user is adding, editing or removing an
+	 * element. When MutationObserver doesn't exist (because of browser support) fallback on the property change.
 	 */
 	YoastReplaceVarPlugin.prototype.addTagEvents = function() {
 		if ( typeof MutationObserver === 'undefined' ) {
-			jQuery( '#post_tag' ).on( 'DOMSubtreeModified propertychange', '.tagchecklist', function() {
-				this.declareReloaded();
-			}.bind( this ) );
+			jQuery( '.tagsdiv' ).on( 'DOMSubtreeModified propertychange', '.tagchecklist', this.declareReloaded.bind( this ) );
 		}
 		else {
-			// Select the target node
-			var target = document.querySelector('.tagchecklist');
-
 			// create an observer instance
-			var observer = new MutationObserver(
-				function() {
-					this.declareReloaded();
-				}.bind( this )
+			var tag_observer = new MutationObserver( this.declareReloaded.bind( this ) );
+
+			tag_observer.observe(
+				document.querySelector('.tagchecklist'),
+
+				// The configuration.
+				{
+					attributes: false,
+					childList: true,
+					characterData: false
+				}
 			);
-
-			// configuration of the observer:
-			var config = { attributes: false, childList: true, characterData: false };
-
-			// pass in the target node, as well as the observer options
-			observer.observe(target, config);
 		}
 	};
 
@@ -119,7 +135,7 @@
 	 * @param {String} data
 	 * @returns {string}
 	 */
-	YoastReplaceVarPlugin.prototype.titleReplace = function( data ) {
+	YoastReplaceVarPlugin.prototype.replaceTitle = function( data ) {
 		var title = YoastSEO.app.rawData.title;
 
 		data = data.replace( /%%title%%/g, title );
@@ -132,7 +148,7 @@
 	 * @param {String} data the data to replace the term_title var
 	 * @returns {String} the data with the replaced variables
 	 */
-	YoastReplaceVarPlugin.prototype.termtitleReplace = function( data ) {
+	YoastReplaceVarPlugin.prototype.replaceTermTitle = function( data ) {
 		var term_title = YoastSEO.app.rawData.name;
 
 		data = data.replace( /%%term_title%%/g, term_title);
@@ -146,7 +162,7 @@
 	 * @param {String} data
 	 * @returns {String}
 	 */
-	YoastReplaceVarPlugin.prototype.parentReplace = function( data ) {
+	YoastReplaceVarPlugin.prototype.replaceParent = function( data ) {
 		var parentId = document.getElementById( 'parent_id' );
 
 		if ( parentId !== null && typeof parentId.options !== 'undefined' && parentId.options[ parentId.selectedIndex ].text !== wpseoReplaceVarsL10n.no_parent_text ) {
@@ -156,12 +172,12 @@
 	};
 
 	/**
-	 * removes double seperators and replaces them with a single seperator
+	 * removes double separators and replaces them with a single separator
 	 *
 	 * @param {String} data
 	 * @returns {String}
 	 */
-	YoastReplaceVarPlugin.prototype.doubleSepReplace = function( data ) {
+	YoastReplaceVarPlugin.prototype.replaceDoubleSeparators = function(data ) {
 		var escaped_seperator = YoastSEO.app.stringHelper.addEscapeChars( this.replaceVars.sep );
 		var pattern = new RegExp( escaped_seperator + ' ' + escaped_seperator, 'g' );
 		data = data.replace( pattern, this.replaceVars.sep );
@@ -174,7 +190,7 @@
 	 * @param {String} data
 	 * @returns {String}
 	 */
-	YoastReplaceVarPlugin.prototype.excerptReplace = function( data ) {
+	YoastReplaceVarPlugin.prototype.replaceExcerpt = function(data ) {
 		if ( typeof YoastSEO.app.rawData.excerpt !== 'undefined' ) {
 			data = data.replace( /%%excerpt_only%%/g, YoastSEO.app.rawData.excerpt );
 			data = data.replace( /%%excerpt%%/g, YoastSEO.app.rawData.excerpt );
@@ -188,7 +204,7 @@
 	 * @param {String} textString
 	 * @return {String}
 	 */
-	YoastReplaceVarPlugin.prototype.defaultReplace = function( textString ) {
+	YoastReplaceVarPlugin.prototype.replaceDefault = function(textString ) {
 		textString = textString.replace( /%%focuskw%%/g, YoastSEO.app.stringHelper.stripAllTags( YoastSEO.app.rawData.keyword ) );
 
 		jQuery.each( this.replaceVars, function( original, replacement ) {
@@ -204,8 +220,8 @@
 	 * @param {String} data
 	 * @return {String}
 	 */
-	YoastReplaceVarPlugin.prototype.categoryReplace = function( data ) {
-		if ( jQuery( '#post_ID').val() !== undefined ) {
+	YoastReplaceVarPlugin.prototype.replaceCategory = function( data ) {
+		if ( this.isPost() ) {
 			data = data.replace( /%%category%%/g, this.getTaxonomyReplaceVar( 'category' ) );
 		}
 
@@ -218,7 +234,7 @@
 	 * @param {String} data
 	 * @returns {String}
 	 */
-	YoastReplaceVarPlugin.prototype.customTaxonomyReplace = function( data ) {
+	YoastReplaceVarPlugin.prototype.replaceCustomTaxonomy = function(data ) {
 		jQuery.each( this.currentTaxonomies, function( taxonomy ) {
 			if ( taxonomy !== 'category' ) {
 				data = data.replace( '%%ct_' + taxonomy  + '%%', this.getTaxonomyReplaceVar( taxonomy ) );
@@ -248,8 +264,8 @@
 	 * @param {String} data
 	 * @return {String}
 	 */
-	YoastReplaceVarPlugin.prototype.tagReplace = function( data ) {
-		if ( jQuery( '#post_ID').val() !== undefined ) {
+	YoastReplaceVarPlugin.prototype.replaceTag = function(data ) {
+		if ( this.isPost() ) {
 			data = data.replace( /%%tag%%/g, jQuery( ' #tax-input-post_tag' ).val() );
 		}
 
@@ -262,7 +278,7 @@
 	 * @param {String} data
 	 * @return {String}
 	 */
-	YoastReplaceVarPlugin.prototype.taxonomyDescriptionReplace = function( data ) {
+	YoastReplaceVarPlugin.prototype.replaceTaxonomyDescription = function(data ) {
 		var text = YoastSEO.app.rawData.text;
 
 		data = data.replace( /%%category_description%%/g, text );
@@ -300,6 +316,7 @@
 	 * Filters the already fetch categories
 	 *
 	 * @param {Object[]} activeCheckboxes
+	 * @param {String}   taxonomyName
 	 */
 	YoastReplaceVarPlugin.prototype.setUnparsedTaxonomies = function( activeCheckboxes, taxonomyName ) {
 		if ( this.taxonomyRepository[ taxonomyName ] === undefined ) {
