@@ -16,10 +16,6 @@
   "scripts": {
     "test": "istanbul test jasmine"
   },
-  "bin": {
-    "jasmine": "./bin/jasmine.js",
-    "istanbul": "./bin/istanbul.js"
-  },
   "browser": "js/browser.js",
   "devDependencies": {
     "autoprefixer": "^6.3.1",
