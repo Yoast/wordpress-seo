@@ -1,3 +1,7 @@
+### 3.1.2: March 8th, 2015
+* Fixes a bug where PHP redirects were still broken on servers that disable accessing the server input by making use of the filter extension.
+* Merge with Yoast SEO core 3.1.1, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
+
 ### 3.1.1: March 2nd, 2015
 * Fixes a bug where PHP redirects were broken.
 * Fixes a bug where users could (temporarily) lose their redirects if our upgrade routine would for some reason not be triggered while updating to versions greater than 3.0.7
