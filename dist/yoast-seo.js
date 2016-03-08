@@ -882,7 +882,7 @@ AnalyzeScorer.prototype.score = function( resultObj ) {
 AnalyzeScorer.prototype.runQueue = function() {
 	for ( var i = 0; i < this.resultObj.length; i++ ) {
 		var subScore = this.genericScore( this.resultObj[ i ] );
-		if ( typeof subScore !== "undefined" || subScore === "" ) {
+		if ( typeof subScore !== "undefined" && subScore !== "" ) {
 			this.__score = this.__score.concat( subScore );
 		}
 	}
@@ -1780,7 +1780,6 @@ var getScoringConfiguration = function( i18n ){
  * @param {object} i18n The i18n-object used for parsing translations
  */
 var fleschReadingAssessment = function( paper, i18n ){
-
 	var result = calculateFleschReading( paper.getText() );
 
 	//scores must be between 0 and 100;
