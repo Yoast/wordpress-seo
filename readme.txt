@@ -118,7 +118,7 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 
 = 3.1.1 =
 
-Release Date: March 7th, 2015
+Release Date: March 8th, 2015
 
 * Bugfixes:
 	* Fixes a bug where part of the Yoast SEO metabox was no longer translated.
