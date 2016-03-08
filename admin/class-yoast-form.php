@@ -410,7 +410,7 @@ class Yoast_Form {
 	 */
 	public function select( $field_name, $label, array $select_options ) {
 
-		if ( ! empty( $select_options ) ) {
+		if ( empty( $select_options ) ) {
 			return;
 		}
 
