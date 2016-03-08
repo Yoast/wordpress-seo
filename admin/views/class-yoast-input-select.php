@@ -9,6 +9,16 @@
 class Yoast_Input_Select {
 
 	/**
+	 * @var string
+	 */
+	private $select_id;
+
+	/**
+	 * @var string
+	 */
+	private $select_name;
+
+	/**
 	 * @var array
 	 */
 	private $select_attributes = array();
@@ -26,15 +36,14 @@ class Yoast_Input_Select {
 	/**
 	 * Constructor.
 	 *
-	 * @param array  $select_attributes Attributes for the select, should contains: id, name and class.
-	 * @param array  $select_options    Array with the options to parse.
-	 * @param string $selected_option   The current selected option.
+	 * @param string $select_id       ID for the select.
+	 * @param string $select_name     Name for the select.
+	 * @param array  $select_options  Array with the options to parse.
+	 * @param string $selected_option The current selected option.
 	 */
-	public function __construct( array $select_attributes, array $select_options, $selected_option ) {
-
-		$this->validate_attributes( $select_attributes );
-
-		$this->select_attributes = $select_attributes;
+	public function __construct( $select_id, $select_name, array $select_options, $selected_option ) {
+		$this->select_id         = $select_id;
+		$this->select_name       = $select_name;
 		$this->select_options    = $select_options;
 		$this->selected_option   = $selected_option;
 	}
@@ -43,7 +52,10 @@ class Yoast_Input_Select {
 	 * Print the rendered view.
 	 */
 	public function output_html() {
-		echo $this->get_html();
+		// Extract it, because we want each value accessible via a variable instead of accessing it as an array.
+		extract( $this->get_select_values() );
+
+		require( dirname( WPSEO_FILE ) . '/admin/views/form/select.php' );
 	}
 
 	/**
@@ -54,10 +66,7 @@ class Yoast_Input_Select {
 	public function get_html() {
 		ob_start();
 
-		// Extract it, because we want each value accessible via a variable instead of accessing it as an array.
-		extract( $this->get_select_values() );
-
-		require( dirname( WPSEO_FILE ) . '/admin/views/form/select.php' );
+		$this->output_html();
 
 		$rendered_output = ob_get_contents();
 		ob_end_clean();
@@ -66,38 +75,55 @@ class Yoast_Input_Select {
 	}
 
 	/**
-	 * Check if the required attributes are given. When one is missing throw an InvalidArgumentException
+	 * Add an attribute to the attributes property
 	 *
-	 * @param array $select_attributes The attributes we want to validate.
-	 *
-	 * @throws InvalidArgumentException The exception when a field is missing.
+	 * @param string $attribute The name of the attribute to add.
+	 * @param string $value     The value of the attribute.
 	 */
-	private function validate_attributes( array $select_attributes ) {
-		if ( ! array_key_exists( 'id', $select_attributes ) ) {
-			throw new InvalidArgumentException( 'The select attributes should contain a `id` value' );
-		}
-
-		if ( ! array_key_exists( 'name', $select_attributes ) ) {
-			throw new InvalidArgumentException( 'The select attributes should contain a `name` value' );
-		}
-
-		if ( ! array_key_exists( 'class', $select_attributes ) ) {
-			throw new InvalidArgumentException( 'The select attributes should contain a `class` value' );
-		}
+	public function add_attribute( $attribute, $value ) {
+		$this->select_attributes[ $attribute ] = $value;
 	}
 
 	/**
-	 * Returns the set fields for the select
+	 * Return the set fields for the select
+	 *
 	 * @return array
 	 */
 	private function get_select_values() {
 		return array(
-			'id'       => $this->select_attributes['id'],
-			'name'     => $this->select_attributes['name'],
-			'class'    => $this->select_attributes['class'],
-			'options'  => $this->select_options,
-			'selected' => $this->selected_option,
+			'id'         => $this->select_id,
+			'name'       => $this->select_name,
+			'attributes' => $this->get_attributes(),
+			'options'    => $this->select_options,
+			'selected'   => $this->selected_option,
 		);
+	}
+
+	/**
+	 * Return the attribute string, when there are attributes set.
+	 *
+	 * @return string
+	 */
+	private function get_attributes() {
+		$attributes = $this->select_attributes;
+
+		if ( ! empty( $attributes ) ) {
+			array_walk( $attributes, array( $this, 'parse_attribute' ) );
+
+			return implode( ' ', $attributes ). ' ';
+		}
+
+		return '';
+	}
+
+	/**
+	 * Get an attribute from the attributes.
+	 *
+	 * @param string $value     The value of the attribute.
+	 * @param string $attribute The attribute to look for.
+	 */
+	private function parse_attribute( & $value, $attribute ) {
+		$value = sprintf( '%s="%s"', esc_html( $attribute ), esc_attr( $value ) );
 	}
 
 }
