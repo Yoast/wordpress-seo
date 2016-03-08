@@ -173,7 +173,7 @@
 		document.getElementById( 'hidden_wpseo_linkdex' ).value = score;
 		jQuery( window ).trigger( 'YoastSEO:numericScore', score );
 
-		mainKeywordTab.update( score, $( '#wpseo_focuskw' ).val() );
+		mainKeywordTab.update( score, this.getDataFromInput( 'keyword' ) );
 
 		cssClass = YoastSEO.app.scoreFormatter.overallScoreRating( parseInt( score, 10 ) );
 		alt = YoastSEO.app.scoreFormatter.getSEOScoreText( cssClass );
