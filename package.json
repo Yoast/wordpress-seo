@@ -1,0 +1,19 @@
+{
+  "name": "yoast-social-previews",
+  "version": "0.1.0",
+  "description": "",
+  "private": true,
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Yoast/yoast-social-previews.git"
+  },
+  "author": "Team Yoast <support@yoast.com>",
+  "bugs": {
+    "url": "https://github.com/Yoast/yoast-social-previews/issues"
+  },
+  "homepage": "https://github.com/Yoast/yoast-social-previews#readme"
+}
