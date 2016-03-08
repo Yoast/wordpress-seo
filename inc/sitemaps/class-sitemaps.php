@@ -80,7 +80,7 @@ class WPSEO_Sitemaps {
 		}
 
 		$request_uri = $_SERVER['REQUEST_URI'];
-		$extension   = substr( $request_uri, - 4 );
+		$extension   = substr( $request_uri, -4 );
 
 		if ( false !== stripos( $request_uri, 'sitemap' ) && in_array( $extension, array( '.xml', '.xsl' ) ) ) {
 			remove_all_actions( 'widgets_init' );

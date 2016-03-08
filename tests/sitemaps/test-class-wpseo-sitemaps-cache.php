@@ -42,7 +42,7 @@ class WPSEO_Sitemaps_Cache_Test extends WPSEO_UnitTestCase {
 	 * Normal cache key retrieval
 	 */
 	public function test_get_storage_key() {
-		$n                = 1;
+		$page             = 1;
 		$type             = 'page';
 		$global_validator = 'global';
 		$type_validator   = 'type';
@@ -59,7 +59,7 @@ class WPSEO_Sitemaps_Cache_Test extends WPSEO_UnitTestCase {
 		$expected = $prefix . $type . $postfix;
 
 		// Act.
-		$result = WPSEO_Sitemaps_Cache::get_storage_key( $type, $n );
+		$result = WPSEO_Sitemaps_Cache::get_storage_key( $type, $page );
 
 		// Assert.
 		$this->assertEquals( $expected, $result );
@@ -71,11 +71,11 @@ class WPSEO_Sitemaps_Cache_Test extends WPSEO_UnitTestCase {
 	 * This would be 53 if we don't use a timeout, but we can't because all sitemaps would be autoloaded every request.
 	 */
 	public function test_get_storage_key_very_long_type() {
-		$n    = 1;
+		$page = 1;
 		$type = str_repeat( 'a', 60 );
 
 		// Act.
-		$result = WPSEO_Sitemaps_Cache::get_storage_key( $type, $n );
+		$result = WPSEO_Sitemaps_Cache::get_storage_key( $type, $page );
 
 		// Assert.
 		$this->assertEquals( 45, strlen( $result ) );
@@ -86,16 +86,16 @@ class WPSEO_Sitemaps_Cache_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_clear() {
 		$type         = 'page';
-		$n            = 1;
+		$page         = 1;
 		$test_content = 'test_content';
 
-		$cache_key = WPSEO_Sitemaps_Cache::get_storage_key( $type, $n );
+		$cache_key = WPSEO_Sitemaps_Cache::get_storage_key( $type, $page );
 		set_transient( $cache_key, $test_content );
 
 		// Act.
 		WPSEO_Sitemaps_Cache::clear();
 
-		$cache_key = WPSEO_Sitemaps_Cache::get_storage_key( $type, $n );
+		$cache_key = WPSEO_Sitemaps_Cache::get_storage_key( $type, $page );
 		$content   = get_transient( $cache_key );
 
 		// Assert.
@@ -107,17 +107,17 @@ class WPSEO_Sitemaps_Cache_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_clear_type() {
 		$type         = 'page';
-		$n            = 1;
+		$page         = 1;
 		$test_content = 'test_content';
 
-		$cache_key = WPSEO_Sitemaps_Cache::get_storage_key( $type, $n );
+		$cache_key = WPSEO_Sitemaps_Cache::get_storage_key( $type, $page );
 		set_transient( $cache_key, $test_content );
 
 		// Act.
 		WPSEO_Sitemaps_Cache::clear( array( $type ) );
 
 		// Get the key again.
-		$cache_key = WPSEO_Sitemaps_Cache::get_storage_key( $type, $n );
+		$cache_key = WPSEO_Sitemaps_Cache::get_storage_key( $type, $page );
 		$result    = get_transient( $cache_key );
 
 		// Assert.
@@ -188,7 +188,7 @@ class WPSEO_Sitemaps_Cache_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_clear_transient_cache() {
 		$type         = 'page';
-		$n            = 1;
+		$page         = 1;
 		$test_content = 'test_content';
 		$option       = 'my_option';
 
@@ -196,7 +196,7 @@ class WPSEO_Sitemaps_Cache_Test extends WPSEO_UnitTestCase {
 
 		WPSEO_Sitemaps_Cache::register_clear_on_option_update( $option, $type );
 
-		$cache_key = WPSEO_Sitemaps_Cache::get_storage_key( $type, $n );
+		$cache_key = WPSEO_Sitemaps_Cache::get_storage_key( $type, $page );
 		set_transient( $cache_key, $test_content );
 
 		// Act.
@@ -204,7 +204,7 @@ class WPSEO_Sitemaps_Cache_Test extends WPSEO_UnitTestCase {
 		do_action( 'update_option', $option );
 
 		// Get the key again.
-		$cache_key = WPSEO_Sitemaps_Cache::get_storage_key( $type, $n );
+		$cache_key = WPSEO_Sitemaps_Cache::get_storage_key( $type, $page );
 		$result    = get_transient( $cache_key );
 
 		// Assert.
