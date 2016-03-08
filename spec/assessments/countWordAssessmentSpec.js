@@ -17,12 +17,48 @@ var constructi18n = function() {
 
 var i18n = constructi18n();
 
-describe( "An assessor running the wordCount", function(){
-	it( "Accepts an paper and ", function(){
-		var mockPaper = new Paper( "hier komt een heleboel tekst in te staan" );
+describe( "A word count assessment", function(){
+	it( "assesses a single word", function(){
+		var mockPaper = new Paper( "sample" );
 		var assessment = wordCountAssessment( mockPaper, i18n );
 
 		expect( assessment.getScore() ).toEqual( -20 );
-		expect( assessment.getText() ).toEqual ( 'The text contains 8 words. This is far too low and should be increased.' );
+		expect( assessment.getText() ).toEqual ( 'The text contains 1 word, this is far too low and should be increased.' );
+	} );
+
+	it( "assesses a low word count", function(){
+		var mockPaper = new Paper( "Here is some sample text" );
+		var assessment = wordCountAssessment( mockPaper, i18n );
+
+		expect( assessment.getScore() ).toEqual( -20 );
+		expect( assessment.getText() ).toEqual ( 'The text contains 5 words, this is far too low and should be increased.' );
+	} );
+
+	it( "assesses a medium word count", function(){
+		var mockPaper = new Paper( "Sample ".repeat(150) );
+		var assessment = wordCountAssessment( mockPaper, i18n );
+
+		expect( assessment.getScore() ).toEqual( -10 );
+	} );
+
+	it( "assesses a slightly higher than medium word count", function(){
+		var mockPaper = new Paper( "Sample ".repeat(225) );
+		var assessment = wordCountAssessment( mockPaper, i18n );
+
+		expect( assessment.getScore() ).toEqual( 5 );
+	} );
+
+	it( "assesses a almost at the recommended amount, word count", function(){
+		var mockPaper = new Paper( "Sample ".repeat(275) );
+		var assessment = wordCountAssessment( mockPaper, i18n );
+
+		expect( assessment.getScore() ).toEqual( 7 );
+	} );
+
+	it( "assesses high word count", function(){
+		var mockPaper = new Paper( "Sample ".repeat(325) );
+		var assessment = wordCountAssessment( mockPaper, i18n );
+
+		expect( assessment.getScore() ).toEqual( 9 );
 	} );
 } );
