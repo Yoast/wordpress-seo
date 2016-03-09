@@ -1696,7 +1696,7 @@ var countWords = require( "../stringProcessing/countWords.js" );
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 var inRange = require( "lodash/number/inRange" );
 
-var countWordsAssessment = function ( paper, i18n ) {
+var countWordsAssessment = function( paper, i18n ) {
 	var score = 0;
 	var text = "";
 	var wordCount = countWords( paper.getText() );
@@ -1738,7 +1738,7 @@ var countWordsAssessment = function ( paper, i18n ) {
 	}
 
 	if ( inRange( wordCount, 100, 200 ) ) {
-		score = - 10;
+		score = -10;
 
 		/* translators: %1$d expands to the number of words in the text, %2$d to the recommended minimum of words */
 		text = i18n.dngettext(
@@ -1750,7 +1750,7 @@ var countWordsAssessment = function ( paper, i18n ) {
 	}
 
 	if ( inRange( wordCount, 0, 100 ) ) {
-		score = - 20;
+		score = -20;
 
 		/* translators: %1$d expands to the number of words in the text */
 		text = i18n.dngettext(
