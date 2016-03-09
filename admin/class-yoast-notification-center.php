@@ -15,7 +15,7 @@ class Yoast_Notification_Center {
 	 *
 	 * @var \Yoast_Notification_Center
 	 */
-	public static $instance = null;
+	private static $instance = null;
 
 	/** @var $notifications Yoast_Notification[] */
 	private $notifications = array();
