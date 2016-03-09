@@ -318,7 +318,7 @@ class Yoast_Notification_Center {
 
 		// No notifications to store, clear storage.
 		if ( empty( $notifications ) ) {
-			$this->clear_storage();
+			$this->remove_storage();
 
 			return;
 		}
@@ -474,9 +474,9 @@ class Yoast_Notification_Center {
 	}
 
 	/**
-	 * Clear the notifications in storage
+	 * Remove all notifications from storage
 	 */
-	private function clear_storage() {
+	private function remove_storage() {
 
 		delete_option( self::STORAGE_KEY );
 	}
