@@ -69,7 +69,7 @@ class WPSEO_Sitemaps_Cache {
 			return null;
 		}
 
-		// Unserialize Cache Data object (is_serialized doesn't recognize strings).
+		// Unserialize Cache Data object (is_serialized doesn't recognize classes).
 		if ( 0 === strpos( $sitemap, 'C:24:"WPSEO_Sitemap_Cache_Data"' ) ) {
 
 			$sitemap = unserialize( $sitemap );
