@@ -7,7 +7,7 @@
 ul.wpseo-metabox-tabs {
 	display: none;
 	margin-top: 12px;
-	margin-bottom: 3px;
+	margin-bottom: 0;
 }
 
 .wpseo-metabox-tabs-div ul {
@@ -50,8 +50,9 @@ ul.wpseo-metabox-tabs li.active {
 }
 
 ul.wpseo-metabox-tabs li {
-	display: inline;
+	display: inline-block;
 	margin-right: 5px;
+	margin-bottom: -1px;
 	padding: 5px;
 	border-width: 1px 1px 0;
 	border-style: solid solid none;
@@ -83,6 +84,7 @@ ul.wpseo-metabox-tabs li {
 }
 
 .wpseo-metabox-sidebar a {
+	display: block;
 	font-size: 20px;
 	line-height: 30px;
 	text-decoration: none;
@@ -205,17 +207,37 @@ table.wpseoanalysis td.score {
 }
 
 ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
+	padding: 0;
 	border: none;
+	vertical-align: top;
 }
 
-.wpseo-add-keyword {
-	padding: 0 3px;
-	border: 1px solid #ccc;
+.wpseo-tab-add-keyword .wpseo-add-keyword.button {
+	height: auto;
+	margin-top: 1px;
+	padding: 5px 7px;
 	color: #000;
 	background: transparent;
 	font-size: 10px;
+	line-height: 1;
+	vertical-align: top;
 	text-decoration: none;
 	cursor: pointer;
+}
+
+/**
+ * Edit Snippet Button focus style.
+ *
+ * This should be abstracted and applied to all buttons.
+ * Or, maybe, take advantage of the `.button` CSS class in WordPress.
+ */
+.snippet-editor__button.snippet-editor__edit-button:focus {
+	outline: none;
+	background-color: #fafafa;
+	color: #23282d;
+	border-color: #5b9dd9;
+	-webkit-box-shadow: 0 0 3px rgba( 0, 115, 170, .8 );
+	box-shadow: 0 0 3px rgba( 0, 115, 170, .8 );
 }
 
 /*
