@@ -4,7 +4,7 @@ var inRange = require( "lodash/number/inRange" );
 
 /**
  * Calculates the assessment result based on the fleschReadingScore
- * * @param {object} i18n The i18n-object used for parsing translations
+ * @param {object} i18n The i18n-object used for parsing translations
  * @param {int} fleschReadingScore The score from the fleschReadingtest
  * @returns {object} object with score, resultText and note
  */
