@@ -118,7 +118,7 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 
 = 3.1 =
 
-Release Date: March 1st, 2015
+Release Date: March 1st, 2016
 
 * Features:
 	* Added an interface to select a primary category for a post, which are used in the post's breadcrumbs and have a few other nice SEO advantages.
