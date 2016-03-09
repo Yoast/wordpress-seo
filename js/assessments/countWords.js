@@ -2,14 +2,10 @@ var countWords = require( "../stringProcessing/countWords.js" );
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 var inRange = require( "lodash/number/inRange" );
 
-var countWordsAssessment = function( paper, i18n ) {
-	var wordCount = 0;
+var countWordsAssessment = function ( paper, i18n ) {
 	var score = 0;
 	var text = "";
-
-	if ( paper.hasText() ) {
-		wordCount = countWords( paper.getText() );
-	}
+	var wordCount = countWords( paper.getText() );
 
 	if ( wordCount > 300 ) {
 		score = 9;
@@ -18,7 +14,7 @@ var countWordsAssessment = function( paper, i18n ) {
 		text = i18n.dngettext(
 			"js-text-analysis",
 			"The text contains %1$d word, this is more than the %2$d word recommended minimum.",
-			"The text contains %1$d words, this is more than the %2$d words recommended minimum.",
+			"The text contains %1$d words, this is more than the %2$d word recommended minimum.",
 			wordCount
 		);
 	}
@@ -30,7 +26,7 @@ var countWordsAssessment = function( paper, i18n ) {
 		text = i18n.dngettext(
 			"js-text-analysis",
 			"The text contains %1$d word, this is slightly below the %2$d word recommended minimum. Add a bit more copy.",
-			"The text contains %1$d words, this is slightly below the %2$d words recommended minimum. Add a bit more copy.",
+			"The text contains %1$d words, this is slightly below the %2$d word recommended minimum. Add a bit more copy.",
 			wordCount
 		);
 	}
@@ -42,25 +38,25 @@ var countWordsAssessment = function( paper, i18n ) {
 		text = i18n.dngettext(
 			"js-text-analysis",
 			"The text contains %1$d word, this is below the %2$d word recommended minimum. Add more useful content on this topic for readers.",
-			"The text contains %1$d words, this is below the %2$d words recommended minimum. Add more useful content on this topic for readers.",
+			"The text contains %1$d words, this is below the %2$d word recommended minimum. Add more useful content on this topic for readers.",
 			wordCount
 		);
 	}
 
 	if ( inRange( wordCount, 100, 200 ) ) {
-		score = -10;
+		score = - 10;
 
-		//* translators: %1$d expands to the number of words in the text, %2$d to the recommended minimum of words */
+		/* translators: %1$d expands to the number of words in the text, %2$d to the recommended minimum of words */
 		text = i18n.dngettext(
 			"js-text-analysis",
 			"The text contains %1$d word, this is below the %2$d word recommended minimum. Add more useful content on this topic for readers.",
-			"The text contains %1$d words, this is below the %2$d words recommended minimum. Add more useful content on this topic for readers.",
+			"The text contains %1$d words, this is below the %2$d word recommended minimum. Add more useful content on this topic for readers.",
 			wordCount
 		);
 	}
 
 	if ( inRange( wordCount, 0, 100 ) ) {
-		score = -20;
+		score = - 20;
 
 		/* translators: %1$d expands to the number of words in the text */
 		text = i18n.dngettext(
@@ -76,4 +72,4 @@ var countWordsAssessment = function( paper, i18n ) {
 	return new AssessmentResult( score, text );
 };
 
-module.exports =  countWordsAssessment;
+module.exports = countWordsAssessment;

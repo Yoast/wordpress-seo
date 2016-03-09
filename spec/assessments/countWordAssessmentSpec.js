@@ -43,7 +43,7 @@ describe( "A word count assessment", function(){
 	} );
 
 	it( "assesses a low word count", function(){
-		var mockPaper = new Paper( "Here is some sample text" );
+		var mockPaper = new Paper( "These are just five words" );
 		var assessment = wordCountAssessment( mockPaper, i18n );
 
 		expect( assessment.getScore() ).toEqual( -20 );
