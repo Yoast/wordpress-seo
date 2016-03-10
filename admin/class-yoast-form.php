@@ -404,25 +404,24 @@ class Yoast_Form {
 	/**
 	 * Create a Select Box.
 	 *
-	 * @param string $var    The variable within the option to create the select for.
-	 * @param string $label  The label to show for the variable.
-	 * @param array  $values The select options to choose from.
+	 * @param string $field_name     The variable within the option to create the select for.
+	 * @param string $label          The label to show for the variable.
+	 * @param array  $select_options The select options to choose from.
 	 */
-	public function select( $var, $label, $values ) {
-		if ( ! is_array( $values ) || $values === array() ) {
+	public function select( $field_name, $label, array $select_options ) {
+
+		if ( empty( $select_options ) ) {
 			return;
 		}
-		$val = ( isset( $this->options[ $var ] ) ) ? $this->options[ $var ] : '';
 
-		$this->label( $label . ':', array( 'for' => $var, 'class' => 'select' ) );
-		echo '<select class="select" name="', esc_attr( $this->option_name ), '[', esc_attr( $var ), ']" id="', esc_attr( $var ), '">';
+		$this->label( $label . ':', array( 'for' => $field_name, 'class' => 'select' ) );
 
-		foreach ( $values as $value => $label ) {
-			if ( ! empty( $label ) ) {
-				echo '<option value="', esc_attr( $value ), '"', selected( $val, $value, false ), '>', $label, '</option>';
-			}
-		}
-		echo '</select>';
+		$select_name   = esc_attr( $this->option_name ) . '[' . esc_attr( $field_name ) . ']';
+		$active_option = ( isset( $this->options[ $field_name ] ) ) ? $this->options[ $field_name ] : '';
+
+		$select = new Yoast_Input_Select( $field_name, $select_name, $select_options, $active_option );
+		$select->add_attribute( 'class', 'select' );
+		$select->output_html();
 
 		echo '<br class="clear"/>';
 	}
