@@ -150,7 +150,7 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		$links    = array();
 		$taxonomy = get_taxonomy( $type );
 
-		if ( $taxonomy === false || ! $this->is_valid_taxonomy( $taxonomy->name ) ) {
+		if ( $taxonomy === false || ! $this->is_public_taxonomy( $taxonomy ) || ! $this->is_valid_taxonomy( $taxonomy->name ) ) {
 			return $links;
 		}
 
@@ -255,6 +255,26 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		 * @param string  $taxonomy_name  Name of the taxonomy to exclude..
 		 */
 		if ( apply_filters( 'wpseo_sitemap_exclude_taxonomy', false, $taxonomy_name ) ) {
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Check if taxonomy object is public.
+	 *
+	 * @param object $taxonomy Taxonomy object to check.
+	 *
+	 * @return bool
+	 */
+	public function is_public_taxonomy( $taxonomy ) {
+
+		if ( empty( $taxonomy->public ) ) {
+			return false;
+		}
+
+		if ( ! $taxonomy->public ) {
 			return false;
 		}
 
