@@ -3,8 +3,6 @@ var isNumber = require( "lodash/lang/isNumber" );
 
 /**
  * Construct the AssessmentResult value object.
- * @param {number} score The score that was found by assessment.
- * @param {string} text The user facing message regarding the score.
  * @constructor
  */
 var AssessmentResult = function() {
@@ -30,7 +28,7 @@ AssessmentResult.prototype.getScore = function() {
 
 /**
  * Set the score for the assessment.
- * @param score
+ * @param {number} score The score to be used for the score property
  */
 AssessmentResult.prototype.setScore = function( score ) {
 	if ( !isNumber( score ) ) {
@@ -58,7 +56,7 @@ AssessmentResult.prototype.getText = function() {
 
 /**
  * Set the text for the assessment.
- * @param text
+ * @param {string} text The text to be used for the text property
  */
 AssessmentResult.prototype.setText = function( text ) {
 	this.text = text;
