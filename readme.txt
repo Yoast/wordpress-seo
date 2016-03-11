@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, Google, xml sitemap, google search console, google webmaster tools, canonical, meta description, meta title, noindex, snippet preview, redirects, focus keyword, seo copywriting, content marketing
 Requires at least: 4.0
 Tested up to: 4.4
-Stable tag: 3.1
+Stable tag: 3.1.1
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using Yoast SEO plugin.
 
@@ -116,6 +116,14 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 
 == Changelog ==
 
+= 3.1.1 =
+
+Release Date: March 8th, 2015
+
+* Bugfixes:
+	* Fixes a bug where part of the Yoast SEO metabox was no longer translated.
+	* Fixes a bug where the post slug would be overwritten with the post ID in case a post was autosaved and did not have a title yet.
+
 = 3.1 =
 
 Release Date: March 1st, 2015
@@ -161,7 +169,6 @@ Release Date: March 1st, 2015
 	* Fixes a bug where the content analysis would not work properly anymore when switching multiple times between "text" and "visual" in tinyMCE.
 	* Fixes a bug where the Yoast SEO metabox was no longer loaded on the Media edit page.
 	* Fixes an "invalid argument warning" in the options. Thanks [Melvin Tercan](https://github.com/melvinmt) for fixing.
-	* Fixes a bug where the post slug would be overwritten with the post ID in case a post was autosaved and did not have a title yet.
 	* Fixes a bug where we were causing JS errors by hooking to erroneously on AjaxComplete. This solves multiple compatibility issues including the ones with "Advanced Custom Fields".
 	* Fixes a bug where saving a nav menu item would cause unnecessary pings to search engines, also resulting in timeouts and long load times for saving menu's. Thanks [Ben Constable](https://github.com/BenConstable) for providing a fix.
 	* Fixes memory issues caused by doing post counts with WP_Query. Thanks [Emre Erkan](https://github.com/karalamalar) for fixing.
