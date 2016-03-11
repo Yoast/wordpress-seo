@@ -38,7 +38,7 @@ class Yoast_Notification_Center {
 		add_action( 'wp_ajax_yoast_get_notifications', array( $this, 'ajax_get_notifications' ) );
 
 		add_action( 'wpseo_deactivate', array( $this, 'deactivate_hook' ) );
-		add_action( 'shutdown', array( $this, 'remove_storage' ) );
+		add_action( 'shutdown', array( $this, 'update_storage' ) );
 	}
 
 	/**
@@ -314,7 +314,6 @@ class Yoast_Notification_Center {
 	public function update_storage() {
 
 		$notifications = array_filter( $this->notifications, array( $this, 'filter_persistent_notifications' ) );
-		$notifications = array_map( array( $this, 'notification_to_array' ), $notifications );
 
 		// No notifications to store, clear storage.
 		if ( empty( $notifications ) ) {
@@ -322,6 +321,8 @@ class Yoast_Notification_Center {
 
 			return;
 		}
+
+		$notifications = array_map( array( $this, 'notification_to_array' ), $notifications );
 
 		// Save the notifications to the storage.
 		update_option( self::STORAGE_KEY, WPSEO_Utils::json_encode( $notifications ), true );
