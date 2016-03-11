@@ -58,7 +58,7 @@ var getLinkStatisticsAssessment = function( paper, i18n ) {
 
 	var linkStatisticsResult = calculateLinkStatisticsResult( linkStatistics, i18n );
 
-	var text = i18n.sprintf( linkStatisticsResult.text, linkStatistics.externalTotal, linkStatistics.externalNoFollow, linkStatistics.externalDoFollow );
+	var text = i18n.sprintf( linkStatisticsResult.text, linkStatistics.externalTotal, linkStatistics.externalNofollow, linkStatistics.externalDofollow );
 
 	return new AssessmentResult( linkStatisticsResult.score, text );
 
