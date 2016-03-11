@@ -29,6 +29,7 @@ AssessmentResult.prototype.getScore = function() {
 /**
  * Set the score for the assessment.
  * @param {number} score The score to be used for the score property
+ * @returns {void}
  */
 AssessmentResult.prototype.setScore = function( score ) {
 	if ( !isNumber( score ) ) {
@@ -57,6 +58,7 @@ AssessmentResult.prototype.getText = function() {
 /**
  * Set the text for the assessment.
  * @param {string} text The text to be used for the text property
+ * @returns {void}
  */
 AssessmentResult.prototype.setText = function( text ) {
 	this.text = text;
