@@ -1,6 +1,13 @@
 var getLinkStatistics = require( "../analyses/getLinkStatistics.js" );
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 
+/**
+ * Returns a score and text based on the linkStatistics object.
+ *
+ * @param {object} linkStatistics The object with all linkstatistics.
+ * @param {object} i18n The object used for translations
+ * @returns {object} resultObject with score and text
+ */
 var calculateLinkStatisticsResult = function( linkStatistics, i18n ) {
 	if ( linkStatistics.total === 0 ) {
 		return {
@@ -52,6 +59,13 @@ var calculateLinkStatisticsResult = function( linkStatistics, i18n ) {
 	}
 };
 
+/**
+ * Runs the getLinkStatistics module, based on this returns an assessment result with score. 
+ *
+ * @param {object} paper The paper to use for the assessment.
+ * @param {object} i18n The object used for translations
+ * @returns {object} the Assessmentresult
+ */
 var getLinkStatisticsAssessment = function( paper, i18n ) {
 
 	var linkStatistics = getLinkStatistics ( paper.getText(), paper.getKeyword(), paper.getUrl() );
