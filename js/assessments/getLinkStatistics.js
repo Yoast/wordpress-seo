@@ -60,7 +60,7 @@ var calculateLinkStatisticsResult = function( linkStatistics, i18n ) {
 };
 
 /**
- * Runs the getLinkStatistics module, based on this returns an assessment result with score. 
+ * Runs the getLinkStatistics module, based on this returns an assessment result with score.
  *
  * @param {object} paper The paper to use for the assessment.
  * @param {object} i18n The object used for translations
