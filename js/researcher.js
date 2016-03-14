@@ -13,7 +13,7 @@ var isEmpty = require( "lodash/lang/isEmpty" );
  * @throws {InvalidTypeError} Parameter needs to be an instance of the Paper object.
  */
 var Researcher = function( paper ) {
-	this.updatePaper( paper );
+	this.setPaper( paper );
 
 	this.defaultResearches = {
 		"wordCount": wordCount
@@ -23,11 +23,11 @@ var Researcher = function( paper ) {
 };
 
 /**
- * Update the Paper associated with the Researcher.
+ * Set the Paper associated with the Researcher.
  * @param {Paper} paper The Paper to use within the Researcher
  * @throws {InvalidTypeError} Parameter needs to be an instance of the Paper object.
  */
-Researcher.prototype.updatePaper = function( paper ) {
+Researcher.prototype.setPaper = function( paper ) {
 	if ( !( paper instanceof Paper ) ) {
 		throw new InvalidTypeError( "The researcher requires an Paper object." );
 	}
@@ -39,6 +39,8 @@ Researcher.prototype.updatePaper = function( paper ) {
  * Add a custom research that will be available within the Researcher.
  * @param {string} name A name to reference the research by.
  * @param {function} research The function to be added to the Researcher.
+ * @throws {MissingArgument} Research name cannot be empty.
+ * @throws {InvalidTypeError} The research requires a valid Function callback.
  */
 Researcher.prototype.addResearch = function( name, research ) {
 	if ( isUndefined( name ) || isEmpty( name ) ) {
@@ -46,7 +48,7 @@ Researcher.prototype.addResearch = function( name, research ) {
 	}
 
 	if ( !( research instanceof Function ) ) {
-		throw new InvalidTypeError( "The research requires an Function callback." );
+		throw new InvalidTypeError( "The research requires a Function callback." );
 	}
 
 	this.customResearches[name] = research;
@@ -75,7 +77,8 @@ Researcher.prototype.getAvailableResearches = function() {
 /**
  * Return the Research by name.
  * @param {string} name The name to reference the research by.
- * @returns {boolean|callback}
+ * @returns {*} Returns the result of the research or false if research does not exist.
+ * @throws {MissingArgument} Research name cannot be empty.
  */
 Researcher.prototype.getResearch = function( name ) {
 	if ( isUndefined( name ) || isEmpty( name ) ) {

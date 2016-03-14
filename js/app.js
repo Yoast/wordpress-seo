@@ -425,10 +425,8 @@ App.prototype.runAnalyzer = function() {
 	// The new researcher
 	if ( isUndefined( this.researcher ) ) {
 		this.researcher = new Researcher( this.paper );
-		this.pluggable._addPluginTests( this.researcher );
 	} else {
-		this.researcher.updatePaper( this.paper );
-		this.pluggable._addPluginTests( this.researcher );
+		this.researcher.setPaper( this.paper );
 	}
 
 	if ( isUndefined( this.pageAnalyzer ) ) {
