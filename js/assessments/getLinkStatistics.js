@@ -13,9 +13,10 @@ var calculateLinkStatisticsResult = function( linkStatistics, i18n ) {
 		return {
 			score: 6,
 			text: i18n.dgettext( "js-text-analysis", "No outbound links appear in this page, consider adding some as appropriate." )
+
 		};
 	}
-	if ( linkStatistics.externalTotal === 0   ) {
+	if ( linkStatistics.externalTotal === 0 ) {
 		return {
 			score: 6,
 			text: i18n.dgettext( "js-text-analysis", "No outbound links appear in this page, consider adding some as appropriate." )
@@ -37,16 +38,18 @@ var calculateLinkStatisticsResult = function( linkStatistics, i18n ) {
 	if ( linkStatistics.externalNofollow === linkStatistics.total ) {
 		return {
 			score: 7,
-			/* translators: %2$s expands the number of outbound links */
-			text: i18n.dgettext( "js-text-analysis", "This page has %2$s outbound link(s), all nofollowed." )
+			/* translators: %1$s expands the number of outbound links */
+			text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "This page has %1$s outbound link(s), all nofollowed." ),
+				linkStatistics.externalNofollow )
 		};
 	}
 
 	if ( linkStatistics.externalNofollow < linkStatistics.total ) {
 		return {
 			score: 8,
-			/* translators: %2$s expands to the number of nofollow links, %3$s to the number of outbound links */
-			text: i18n.dgettext( "js-text-analysis", "This page has %2$s nofollowed link(s) and %3$s normal outbound link(s)." )
+			/* translators: %1$s expands to the number of nofollow links, %2$s to the number of outbound links */
+			text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "This page has %1$s nofollowed link(s) and %2$s normal outbound link(s)." ),
+				linkStatistics.externalNofollow, linkStatistics.externalDofollow )
 		};
 	}
 
@@ -54,7 +57,7 @@ var calculateLinkStatisticsResult = function( linkStatistics, i18n ) {
 		return {
 			score: 9,
 			/* translators: %1$s expands to the number of outbound links */
-			text: i18n.dgettext( "js-text-analysis", "This page has %1$s outbound link(s)." )
+			text: i18n.sprint( i18n.dgettext( "js-text-analysis", "This page has %1$s outbound link(s)." ), linkStatistics.externalTotal )
 		};
 	}
 };
@@ -72,9 +75,7 @@ var getLinkStatisticsAssessment = function( paper, i18n ) {
 
 	var linkStatisticsResult = calculateLinkStatisticsResult( linkStatistics, i18n );
 
-	var text = i18n.sprintf( linkStatisticsResult.text, linkStatistics.externalTotal, linkStatistics.externalNofollow, linkStatistics.externalDofollow );
-
-	return new AssessmentResult( linkStatisticsResult.score, text );
+	return new AssessmentResult( linkStatisticsResult.score, linkStatisticsResult.text );
 
 };
 
