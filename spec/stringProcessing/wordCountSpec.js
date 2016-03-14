@@ -1,4 +1,4 @@
-var Paper = require("../../js/values/paper.js");
+var Paper = require("../../js/values/Paper.js");
 var wordCountFunction = require( "../../js/stringProcessing/countWords.js" );
 
 describe("counts words in a string", function(){
