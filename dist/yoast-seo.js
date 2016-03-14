@@ -843,7 +843,7 @@ var isUndefined = require( "lodash/lang/isUndefined" );
 
 var assessments = {};
 assessments.wordCount = require( "./assessments/countWords.js" );
-assessments.linkCount = require( "./assessments/getLinkStatistics" );
+assessments.linkCount = require( "./assessments/getLinkStatistics.js" );
 
 /**
  * inits the analyzerscorer used for scoring of the output from the textanalyzer
@@ -1119,7 +1119,7 @@ AnalyzeScorer.prototype.addScoring = function( scoring ) {
 
 module.exports = AnalyzeScorer;
 
-},{"./assessments/countWords.js":17,"./assessments/getLinkStatistics":18,"./config/scoring.js":24,"./values/Score.js":57,"lodash/lang/isUndefined":146,"lodash/string/escape":156}],16:[function(require,module,exports){
+},{"./assessments/countWords.js":17,"./assessments/getLinkStatistics.js":18,"./config/scoring.js":24,"./values/Score.js":57,"lodash/lang/isUndefined":146,"lodash/string/escape":156}],16:[function(require,module,exports){
 /* jshint browser: true */
 
 require( "./config/config.js" );
@@ -1785,9 +1785,10 @@ var calculateLinkStatisticsResult = function( linkStatistics, i18n ) {
 		return {
 			score: 6,
 			text: i18n.dgettext( "js-text-analysis", "No outbound links appear in this page, consider adding some as appropriate." )
+
 		};
 	}
-	if ( linkStatistics.externalTotal === 0   ) {
+	if ( linkStatistics.externalTotal === 0 ) {
 		return {
 			score: 6,
 			text: i18n.dgettext( "js-text-analysis", "No outbound links appear in this page, consider adding some as appropriate." )
@@ -1809,16 +1810,18 @@ var calculateLinkStatisticsResult = function( linkStatistics, i18n ) {
 	if ( linkStatistics.externalNofollow === linkStatistics.total ) {
 		return {
 			score: 7,
-			/* translators: %2$s expands the number of outbound links */
-			text: i18n.dgettext( "js-text-analysis", "This page has %2$s outbound link(s), all nofollowed." )
+			/* translators: %1$s expands the number of outbound links */
+			text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "This page has %1$s outbound link(s), all nofollowed." ),
+				linkStatistics.externalNofollow )
 		};
 	}
 
 	if ( linkStatistics.externalNofollow < linkStatistics.total ) {
 		return {
 			score: 8,
-			/* translators: %2$s expands to the number of nofollow links, %3$s to the number of outbound links */
-			text: i18n.dgettext( "js-text-analysis", "This page has %2$s nofollowed link(s) and %3$s normal outbound link(s)." )
+			/* translators: %1$s expands to the number of nofollow links, %2$s to the number of outbound links */
+			text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "This page has %1$s nofollowed link(s) and %2$s normal outbound link(s)." ),
+				linkStatistics.externalNofollow, linkStatistics.externalDofollow )
 		};
 	}
 
@@ -1826,13 +1829,13 @@ var calculateLinkStatisticsResult = function( linkStatistics, i18n ) {
 		return {
 			score: 9,
 			/* translators: %1$s expands to the number of outbound links */
-			text: i18n.dgettext( "js-text-analysis", "This page has %1$s outbound link(s)." )
+			text: i18n.sprint( i18n.dgettext( "js-text-analysis", "This page has %1$s outbound link(s)." ), linkStatistics.externalTotal )
 		};
 	}
 };
 
 /**
- * Runs the getLinkStatistics module, based on this returns an assessment result with score. 
+ * Runs the getLinkStatistics module, based on this returns an assessment result with score.
  *
  * @param {object} paper The paper to use for the assessment.
  * @param {object} i18n The object used for translations
@@ -1844,9 +1847,7 @@ var getLinkStatisticsAssessment = function( paper, i18n ) {
 
 	var linkStatisticsResult = calculateLinkStatisticsResult( linkStatistics, i18n );
 
-	var text = i18n.sprintf( linkStatisticsResult.text, linkStatistics.externalTotal, linkStatistics.externalNofollow, linkStatistics.externalDofollow );
-
-	return new AssessmentResult( linkStatisticsResult.score, text );
+	return new AssessmentResult( linkStatisticsResult.score, linkStatisticsResult.text );
 
 };
 
