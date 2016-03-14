@@ -13,5 +13,19 @@ describe( "An assessment for the fleschReading", function(){
 
 		expect( result.score ).toBe( 8 );
 		expect( result.text ).toBe( "The copy scores 63.9 in the <a href='https://yoast.com/flesch-reading-ease-score/' target='new'>Flesch Reading Ease</a> test, which is considered ok to read. " );
+
+		paper = new Paper( "A piece of text to calculate scores." );
+
+		result = fleschReadingAssessment( paper, i18n );
+
+		expect( result.score ).toBe( 8 );
+		expect( result.text ).toBe( "The copy scores 78.9 in the <a href='https://yoast.com/flesch-reading-ease-score/' target='new'>Flesch Reading Ease</a> test, which is considered fairly easy to read. " );
+
+		paper = new Paper( "aaaaa" );
+
+		result = fleschReadingAssessment( paper, i18n );
+
+		expect( result.score ).toBe( 5 );
+		expect( result.text ).toBe( "The copy scores 36.6 in the <a href='https://yoast.com/flesch-reading-ease-score/' target='new'>Flesch Reading Ease</a> test, which is considered difficult to read. Try to make shorter sentences, using less difficult words to improve readability." );
 	} );
 } );
