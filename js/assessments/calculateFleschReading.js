@@ -89,11 +89,11 @@ var fleschReadingAssessment = function( paper, i18n ) {
 		fleschReadingScore = 100;
 	}
 
-	var result = calculateFleschReadingResult( fleschReadingScore, i18n );
+	var fleschReadingResult = calculateFleschReadingResult( fleschReadingScore, i18n );
 
-	text = i18n.sprintf( text, fleschReadingScore, url, result.resultText, result.note );
+	text = i18n.sprintf( text, fleschReadingScore, url, fleschReadingResult.resultText, fleschReadingResult.note );
 
-	return new AssessmentResult( result.score, text );
+	return new AssessmentResult( fleschReadingResult.score, text );
 };
 
 module.exports = fleschReadingAssessment;
