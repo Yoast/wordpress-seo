@@ -54,7 +54,7 @@ class WPSEO_UnitTestCase extends WP_UnitTestCase {
 
 		foreach ( $expected as $needle ) {
 			$found = strpos( $output, $needle );
-			$this->assertTrue( $found !== false );
+			$this->assertTrue( $found !== false, sprintf( 'Expected "%s" to be found in "%s" but couldn\'t find it.', $needle, $output ) );
 		}
 	}
 }
