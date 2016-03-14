@@ -1,3 +1,5 @@
+/* global YoastSEO: true */
+
 var escapeHTML = require( "lodash/string/escape" );
 var Score = require( "./values/Score.js" );
 var AnalyzerScoring = require( "./config/scoring.js" ).AnalyzerScoring;
@@ -67,7 +69,7 @@ AnalyzeScorer.prototype.genericScore = function( obj ) {
 	var scoreObj = this.scoreLookup( obj.test );
 
 	if ( isUndefined( scoreObj ) ) {
-		return assessments[ obj.test ]( this.paper, this.i18n );
+		return assessments[ obj.test ]( this.paper, YoastSEO.app.researcher,  this.i18n );
 	}
 
 	return this.calculateScore( obj, scoreObj, scoreObj.scoreName );
