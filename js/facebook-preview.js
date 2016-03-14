@@ -8,11 +8,10 @@ var defaultsDeep = require( "lodash/object/defaultsDeep" );
 var forEach = require( "lodash/collection/forEach" );
 var debounce = require( "lodash/function/debounce" );
 
-var stringToRegex = require( "../js/stringProcessing/stringToRegex.js" );
-var stripHTMLTags = require( "../js/stringProcessing/stripHTMLTags.js" );
-var sanitizeString = require( "../js/stringProcessing/sanitizeString.js" );
-var stripSpaces = require( "../js/stringProcessing/stripSpaces.js" );
-var analyzerConfig = require( "./config/config.js" );
+var stringToRegex = require( "yoastseo/js/stringProcessing/stringToRegex.js" );
+var stripHTMLTags = require( "yoastseo/js/stringProcessing/stripHTMLTags.js" );
+var sanitizeString = require( "yoastseo/js/stringProcessing/sanitizeString.js" );
+var stripSpaces = require( "yoastseo/js/stringProcessing/stripSpaces.js" );
 
 var snippetEditorTemplate = require( "./templates.js" ).snippetEditor;
 
