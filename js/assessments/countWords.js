@@ -1,11 +1,10 @@
-var countWords = require( "../stringProcessing/countWords.js" );
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 var inRange = require( "lodash/number/inRange" );
 
-var countWordsAssessment = function( paper, i18n ) {
+var countWordsAssessment = function( paper, researcher, i18n ) {
 	var score = 0;
 	var text = "";
-	var wordCount = countWords( paper.getText() );
+	var wordCount = researcher.getResearch( "wordCount" );
 
 	if ( wordCount > 300 ) {
 		score = 9;

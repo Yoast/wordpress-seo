@@ -14,9 +14,11 @@ var forEach = require( "lodash/collection/forEach" );
 var Jed = require( "jed" );
 
 var Analyzer = require( "./analyzer.js" );
+var Researcher = require( "./researcher.js" );
 var ScoreFormatter = require( "./scoreFormatter.js" );
 var Pluggable = require( "./pluggable.js" );
 var analyzerConfig = require( "./config/config.js" );
+var Paper = require( "./values/Paper.js" );
 
 /**
  * Default config for YoastSEO.js
@@ -211,7 +213,6 @@ var App = function( args ) {
 	this.pluggable = new Pluggable( this );
 
 	this.getData();
-
 	this.showLoadingDialog();
 
 	if ( isValidSnippetPreview( args.snippetPreview ) ) {
@@ -296,6 +297,8 @@ App.prototype.getData = function() {
 	this.rawData = this.callbacks.getData();
 
 	if ( !isUndefined( this.snippetPreview ) ) {
+
+		// Gets the data FOR the analyzer
 		var data = this.snippetPreview.getAnalyzerData();
 
 		this.rawData.pageTitle = data.title;
@@ -392,7 +395,6 @@ App.prototype.endTime = function() {
  * to format outputs.
  */
 App.prototype.runAnalyzer = function() {
-
 	if ( this.pluggable.loaded === false ) {
 		return;
 	}
@@ -404,6 +406,14 @@ App.prototype.runAnalyzer = function() {
 	this.analyzerData = this.modifyData( this.rawData );
 	this.analyzerData.i18n = this.i18n;
 
+	// Create a paper object for the Researcher
+	this.paper = new Paper( this.analyzerData.text, {
+		keyword:  this.analyzerData.keyword,
+		description: this.analyzerData.meta,
+		url: this.analyzerData.url,
+		title: this.analyzerData.pageTitle
+	} );
+
 	var keyword = sanitizeString( this.rawData.keyword );
 
 	if ( keyword === "" ) {
@@ -411,6 +421,13 @@ App.prototype.runAnalyzer = function() {
 	}
 
 	this.analyzerData.keyword = keyword;
+
+	// The new researcher
+	if ( isUndefined( this.researcher ) ) {
+		this.researcher = new Researcher( this.paper );
+	} else {
+		this.researcher.setPaper( this.paper );
+	}
 
 	if ( isUndefined( this.pageAnalyzer ) ) {
 		this.pageAnalyzer = new Analyzer( this.analyzerData );
