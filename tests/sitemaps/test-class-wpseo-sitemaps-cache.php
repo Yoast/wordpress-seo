@@ -1,190 +1,239 @@
 <?php
 /**
- * @package WPSEO\Unittests
+ * @package WPSEO\Unittests\Sitemaps
  */
-
-require_once 'class-wpseo-sitemaps-double.php';
 
 /**
- * Class WPSEO_Sitemaps_Test
+ * Class WPSEO_Sitemaps_Cache_Test
  */
 class WPSEO_Sitemaps_Cache_Test extends WPSEO_UnitTestCase {
-
-	/**
-	 * @var WPSEO_Sitemaps
-	 */
-	private static $class_instance;
-
-	/**
-	 * Set up our double class
-	 */
-	public function setUp() {
-		parent::setUp();
-		self::$class_instance = new WPSEO_Sitemaps_Double;
-	}
 
 	/**
 	 * Clean up
 	 */
 	public function tearDown() {
-		$transient_key = 'wpseo_sitemap_cache_post_1';
-		delete_transient( $transient_key );
+		parent::tearDown();
+
+		remove_action( 'update_option', array( 'WPSEO_Sitemaps_Cache', 'clear_on_option_update' ) );
 	}
 
 	/**
-	 * Test sitemap cache not set
-	 *
-	 * @covers WPSEO_Sitemaps_Cache::get_sitemap_data()
+	 * Test the building of cache keys
 	 */
-	public function test_transient_not_set() {
-		$cache  = new WPSEO_Sitemaps_Cache();
-		$result = $cache->get_sitemap_data( 'post', 1 );
+	public function test_get_validator_key_global() {
+		$result = WPSEO_Sitemaps_Cache::get_validator_key();
 
-		$this->assertNull( $result );
+		$this->assertEquals( WPSEO_Sitemaps_Cache::VALIDATION_GLOBAL_KEY, $result );
 	}
 
 	/**
-	 * Test sitemap cache XML set as value
-	 *
-	 * @covers WPSEO_Sitemaps_Cache::get_sitemap()
+	 * Test the building of cache keys
 	 */
-	public function test_transient_sitemap_xml_string() {
-		$sitemap = 'this is not a wpseo_sitemap_cache_data object';
-		$type    = 'post';
-		$page    = 1;
+	public function test_get_validator_key_type() {
+		$type     = 'blabla';
+		$expected = sprintf( WPSEO_Sitemaps_Cache::VALIDATION_TYPE_KEY_FORMAT, $type );
 
-		/**
-		 * Todo: change this to dynamic key when 3.1 is merged into trunk.
-		 */
-		$transient_key = 'wpseo_sitemap_cache_' . $type . '_' . $page;
+		$result = WPSEO_Sitemaps_Cache::get_validator_key( $type );
 
-		set_transient( $transient_key, $sitemap, DAY_IN_SECONDS );
-
-		$cache  = new WPSEO_Sitemaps_Cache();
-		$result = $cache->get_sitemap( $type, $page );
-
-		$this->assertEquals( $sitemap, $result );
+		$this->assertEquals( $expected, $result );
 	}
 
 	/**
-	 * Test sitemap cache XML set as string not being validated
-	 *
-	 * @covers WPSEO_Sitemaps_Cache::get_sitemap_data()
-	 * @covers WPSEO_Sitemap_Cache_Data::set_sitemap()
-	 * @covers WPSEO_Sitemap_Cache_Data::is_usable()
+	 * Normal cache key retrieval
 	 */
-	public function test_transient_string_to_cache_data() {
-		$sitemap = 'this is not a wpseo_sitemap_cache_data object';
-		$type    = 'post';
-		$page    = 1;
+	public function test_get_storage_key() {
+		$page             = 1;
+		$type             = 'page';
+		$global_validator = 'global';
+		$type_validator   = 'type';
 
-		/**
-		 * Todo: change this to dynamic key when 3.1 is merged into trunk.
-		 */
-		$transient_key = 'wpseo_sitemap_cache_' . $type . '_' . $page;
+		$global_validator_key = WPSEO_Sitemaps_Cache::get_validator_key();
+		update_option( $global_validator_key, $global_validator );
 
-		set_transient( $transient_key, $sitemap, DAY_IN_SECONDS );
+		$type_validator_key = WPSEO_Sitemaps_Cache::get_validator_key( $type );
+		update_option( $type_validator_key, $type_validator );
 
-		$cache  = new WPSEO_Sitemaps_Cache();
-		$result = $cache->get_sitemap_data( $type, $page );
+		$prefix  = WPSEO_Sitemaps_Cache::STORAGE_KEY_PREFIX;
+		$postfix = '_1:global_type';
 
-		$this->assertNull( $result );
+		$expected = $prefix . $type . $postfix;
+
+		// Act.
+		$result = WPSEO_Sitemaps_Cache::get_storage_key( $type, $page );
+
+		// Assert.
+		$this->assertEquals( $expected, $result );
 	}
 
 	/**
-	 * Test if the transient cache is set as a cache data object
+	 * Key length should never be over 45 characters
 	 *
-	 * @covers WPSEO_Sitemaps_Cache::store_sitemap()
-	 * @covers WPSEO_Sitemaps_Cache::get_sitemap()
-	 * @covers WPSEO_Sitemaps_Cache::get_sitemap_data()
+	 * This would be 53 if we don't use a timeout, but we can't because all sitemaps would be autoloaded every request.
 	 */
-	public function test_transient_cache_data_object() {
-		$sitemap = 'this_is_a_sitemap';
-		$type    = 'post';
-		$page    = 1;
+	public function test_get_storage_key_very_long_type() {
+		$page = 1;
+		$type = str_repeat( 'a', 60 );
 
-		$test = new WPSEO_Sitemap_Cache_Data();
-		$test->set_sitemap( $sitemap );
+		// Act.
+		$result = WPSEO_Sitemaps_Cache::get_storage_key( $type, $page );
 
-		$cache = new WPSEO_Sitemaps_Cache();
-		$this->assertTrue( $cache->store_sitemap( $type, $page, $sitemap, true ) );
-
-		$result = $cache->get_sitemap( $type, $page );
-
-		$this->assertEquals( $test, unserialize( $result ) );
-		$this->assertEquals( $test, $cache->get_sitemap_data( $type, $page ) );
+		// Assert.
+		$this->assertEquals( 45, strlen( $result ) );
 	}
 
 	/**
-	 * Tests the main sitemap and also tests the transient cache
-	 *
-	 * @covers WPSEO_Sitemaps::redirect
+	 * Clearing all cache.
 	 */
-	public function test_main_sitemap() {
+	public function test_clear() {
+		$type         = 'page';
+		$page         = 1;
+		$test_content = 'test_content';
 
-		set_query_var( 'sitemap', '1' );
+		$cache_key = WPSEO_Sitemaps_Cache::get_storage_key( $type, $page );
+		set_transient( $cache_key, $test_content );
 
-		$post_id = $this->factory->post->create();
+		// Act.
+		WPSEO_Sitemaps_Cache::clear();
 
-		// Go to the XML sitemap twice, see if transient cache is set.
-		self::$class_instance->redirect( $GLOBALS['wp_the_query'] );
-		$this->expectOutputContains( array(
-			'<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
-			'<sitemap>',
-			'<lastmod>',
-			'</sitemapindex>',
-			'Queries executed ',
-		) );
+		$cache_key = WPSEO_Sitemaps_Cache::get_storage_key( $type, $page );
+		$content   = get_transient( $cache_key );
 
-		self::$class_instance->redirect( $GLOBALS['wp_the_query'] );
-
-		$this->expectOutputContains( array(
-			'<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
-			'<sitemap>',
-			'<lastmod>',
-			'</sitemapindex>',
-			'Served from transient cache',
-		) );
+		// Assert.
+		$this->assertEmpty( $content );
 	}
 
 	/**
-	 * Test disabled transient cache usage
-	 *
-	 * @covers WPSEO_Sitemaps::get_sitemap_from_cache()
+	 * Clearing specific cache.
 	 */
-	public function test_disabled_transient_cache() {
-		$disable_transient_cache_callback = '__return_false';
-		add_filter( 'wpseo_enable_xml_sitemap_transient_caching', $disable_transient_cache_callback, 1 );
+	public function test_clear_type() {
+		$type         = 'page';
+		$page         = 1;
+		$test_content = 'test_content';
 
-		set_query_var( 'sitemap', '1' );
+		$cache_key = WPSEO_Sitemaps_Cache::get_storage_key( $type, $page );
+		set_transient( $cache_key, $test_content );
 
-		$this->factory->post->create();
+		// Act.
+		WPSEO_Sitemaps_Cache::clear( array( $type ) );
 
-		// Go to the XML sitemap twice, see if transient cache is not set.
-		self::$class_instance->redirect( $GLOBALS['wp_the_query'] );
+		// Get the key again.
+		$cache_key = WPSEO_Sitemaps_Cache::get_storage_key( $type, $page );
+		$result    = get_transient( $cache_key );
 
-		$this->expectOutputContains( array(
-			'<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
-			'<sitemap>',
-			'<lastmod>',
-			'</sitemapindex>',
-			'Queries executed ',
-		) );
+		// Assert.
+		$this->assertEmpty( $result );
+	}
 
-		self::$class_instance->redirect( $GLOBALS['wp_the_query'] );
+	/**
+	 * Clearing specific cache should also clear index.
+	 */
+	public function test_clear_index_also_cleared() {
+		$test_index_content = 'test_content';
 
-		$this->expectOutputContains( array(
-			'<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
-			'<sitemap>',
-			'<lastmod>',
-			'</sitemapindex>',
-			'Queries executed ',
-		) );
+		$index_cache_key = WPSEO_Sitemaps_Cache::get_storage_key();
+		set_transient( $index_cache_key, $test_index_content );
 
-		remove_filter( 'wpseo_enable_xml_sitemap_transient_caching', $disable_transient_cache_callback );
+		// Act.
+		WPSEO_Sitemaps_Cache::clear( array( 'page' ) );
 
-		// Clean up set_query_var.
-		global $wp_query;
-		unset( $wp_query->query_vars['sitemap'] );
+		// Get the key again.
+		$index_cache_key = WPSEO_Sitemaps_Cache::get_storage_key();
+		$result          = get_transient( $index_cache_key );
+
+		// Assert.
+		$this->assertEmpty( $result );
+	}
+
+	/**
+	 * Clearing specific cache should not touch other type.
+	 */
+	public function test_clear_type_isolation() {
+		$type_a         = 'page';
+		$type_a_content = 'content_a';
+
+		$type_b         = 'post';
+		$type_b_content = 'content_b';
+
+		$type_a_key = WPSEO_Sitemaps_Cache::get_storage_key( $type_a );
+		set_transient( $type_a_key, $type_a_content );
+
+		$type_b_key = WPSEO_Sitemaps_Cache::get_storage_key( $type_b );
+		set_transient( $type_b_key, $type_b_content );
+
+		// Act.
+		WPSEO_Sitemaps_Cache::clear( array( $type_a ) );
+
+		// Get the key again.
+		$type_b_key = WPSEO_Sitemaps_Cache::get_storage_key( $type_b );
+		$result     = get_transient( $type_b_key );
+
+		// Assert.
+		$this->assertEquals( $type_b_content, $result );
+	}
+
+	/**
+	 * Make sure the hook is registered on registration
+	 */
+	public function test_register_clear_on_option_update() {
+		new WPSEO_Sitemaps_Cache();
+		// Hook will be added on default priority.
+		$this->assertEquals( 10, has_action( 'update_option', array(
+			'WPSEO_Sitemaps_Cache',
+			'clear_on_option_update'
+		) ) );
+	}
+
+	/**
+	 * Option update should clear cache for registered type.
+	 */
+	public function test_clear_transient_cache() {
+		$type         = 'page';
+		$page         = 1;
+		$test_content = 'test_content';
+		$option       = 'my_option';
+
+		new WPSEO_Sitemaps_Cache();
+
+		WPSEO_Sitemaps_Cache::register_clear_on_option_update( $option, $type );
+
+		$cache_key = WPSEO_Sitemaps_Cache::get_storage_key( $type, $page );
+		set_transient( $cache_key, $test_content );
+
+		// Act.
+		// Updating the option should clear cache for specified type.
+		do_action( 'update_option', $option );
+
+		// Get the key again.
+		$cache_key = WPSEO_Sitemaps_Cache::get_storage_key( $type, $page );
+		$result    = get_transient( $cache_key );
+
+		// Assert.
+		$this->assertEmpty( $result );
+	}
+
+	/**
+	 * Test base 10 to base 61 converter
+	 *
+	 * @covers WPSEO_Sitemaps_Cache::convert_base10_to_base61
+	 */
+	public function test_base_10_to_base_61() {
+		// Because of not using 0, everything has an offset.
+		$this->assertEquals( '1', WPSEO_Sitemaps_Cache::convert_base10_to_base61( 0 ) );
+		$this->assertEquals( '2', WPSEO_Sitemaps_Cache::convert_base10_to_base61( 1 ) );
+		$this->assertEquals( 'Z', WPSEO_Sitemaps_Cache::convert_base10_to_base61( 60 ) );
+
+		// Not using 10, because 0 offsets all positions -> 1+1=2, 0+1=1, makes 21 (this is a string not a number!).
+		$this->assertEquals( '21', WPSEO_Sitemaps_Cache::convert_base10_to_base61( 61 ) );
+		$this->assertEquals( '22', WPSEO_Sitemaps_Cache::convert_base10_to_base61( 62 ) );
+		$this->assertEquals( '32', WPSEO_Sitemaps_Cache::convert_base10_to_base61( 123 ) );
+
+		$this->assertEquals( 'iINbb6W', WPSEO_Sitemaps_Cache::convert_base10_to_base61( 912830912830 ) );
+	}
+
+	/**
+	 * @expectedException InvalidArgumentException
+	 */
+	public function test_base_10_to_base_61_non_integer() {
+		WPSEO_Sitemaps_Cache::convert_base10_to_base61( 'ab' );
 	}
 }

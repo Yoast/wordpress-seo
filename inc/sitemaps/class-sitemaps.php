@@ -481,7 +481,7 @@ class WPSEO_Sitemaps {
 			return;
 		}
 
-		if ( '0' == get_option( 'blog_public' ) ) { // Don't ping if blog is not public.
+		if ( '0' === get_option( 'blog_public' ) ) { // Don't ping if blog is not public.
 			return;
 		}
 
