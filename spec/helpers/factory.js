@@ -68,7 +68,7 @@ FactoryProto.prototype.buildMockString = function( string, repetitions ) {
 	var resultString = "";
 
 	string = string || "Test ";
-	repetitions = repetitions || 10;
+	repetitions = repetitions || 1;
 
 	for (var i = 0; i < repetitions; i++) {
 		resultString += string;
