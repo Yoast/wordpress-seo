@@ -18,7 +18,7 @@ var matchKeywordInAlttags = function( alttag, keyword ) {
 	}
 
 	if ( wordMatch( alttag, keyword ) > 0 ) {
-			return "altKeyword";
+		return "altKeyword";
 	}
 
 	// This counts all alt-tags w/o the keyword when a keyword is set.

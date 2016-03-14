@@ -9,7 +9,7 @@
 module.exports = function( text ) {
 	var matches;
 
-	//regex matches everything between <a> and </a>
+	// regex matches everything between <a> and </a>
 	matches = text.match( /<a(?:[^>]+)?>(.*?)<\/a>/ig );
 	if ( matches === null ) {
 		matches = [];
