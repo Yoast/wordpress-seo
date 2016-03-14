@@ -67,7 +67,7 @@ class WPSEO_Sitemaps_Cache_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test sitemap cache XML set as value
+	 * Test sitemap cache XML set as string not being validated
 	 *
 	 * @covers WPSEO_Sitemaps_Cache::get_sitemap_data()
 	 * @covers WPSEO_Sitemap_Cache_Data::set_sitemap()
@@ -77,10 +77,6 @@ class WPSEO_Sitemaps_Cache_Test extends WPSEO_UnitTestCase {
 		$sitemap = 'this is not a wpseo_sitemap_cache_data object';
 		$type    = 'post';
 		$page    = 1;
-
-		$sitemap_data = new WPSEO_Sitemap_Cache_Data();
-		$sitemap_data->set_sitemap( $sitemap );
-		$sitemap_data->is_usable( true );
 
 		/**
 		 * Todo: change this to dynamic key when 3.1 is merged into trunk.
@@ -92,7 +88,7 @@ class WPSEO_Sitemaps_Cache_Test extends WPSEO_UnitTestCase {
 		$cache  = new WPSEO_Sitemaps_Cache();
 		$result = $cache->get_sitemap_data( $type, $page );
 
-		$this->assertEquals( $sitemap_data, $result );
+		$this->assertNull( $result );
 	}
 
 	/**
