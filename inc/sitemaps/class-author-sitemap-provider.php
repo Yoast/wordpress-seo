@@ -83,7 +83,7 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 			if ( empty( $count ) || $count === $max_pages ) {
 				$sql = $wpdb->prepare(
-					$date_query . ' ASC LIMIT 1',
+					$date_query . ' DESC LIMIT 1',
 					$wpdb->get_blog_prefix() . 'user_level'
 				);
 				// Retrieve the newest updated profile timestamp by an offset.
