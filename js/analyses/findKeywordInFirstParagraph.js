@@ -15,7 +15,7 @@ var wordMatch = require( "../stringProcessing/matchTextWithWord.js" );
 module.exports = function( text, keyword ) {
 	var paragraph;
 
-	//matches everything between the <p> and </p> tags.
+	// matches everything between the <p> and </p> tags.
 	paragraph = regexMatch( text, "<p(?:[^>]+)?>(.*?)<\/p>" );
 	if ( paragraph.length > 0 ) {
 		return wordMatch( paragraph[0], keyword );
@@ -29,6 +29,6 @@ module.exports = function( text, keyword ) {
 		return wordMatch( paragraph[0], keyword );
 	}
 
-	//if no double linebreaks found, return the keyword count of the entire text
+	// if no double linebreaks found, return the keyword count of the entire text
 	return wordMatch( text, keyword );
 };
