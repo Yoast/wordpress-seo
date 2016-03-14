@@ -47,6 +47,36 @@ FactoryProto.prototype.buildMockElement = function() {
 	return mockElement;
 };
 
+/**
+ * Returns a mock researcher
+ */
+FactoryProto.prototype.buildMockResearcher = function( expectedValue ) {
+	return {
+		getResearch: function() {
+			return expectedValue;
+		}
+	};
+};
+
+/**
+ * This method repeats a string and returns a new string based on the string and the amount of repetitions.
+ * @param string
+ * @param times
+ * @returns {string}
+ */
+FactoryProto.prototype.buildMockString = function( string, repetitions ) {
+	var resultString = "";
+
+	string = string || "Test ";
+	repetitions = repetitions || 1;
+
+	for (var i = 0; i < repetitions; i++) {
+		resultString += string;
+	}
+
+	return resultString;
+};
+
 Factory = new FactoryProto;
 
 module.exports = Factory;
