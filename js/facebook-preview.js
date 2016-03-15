@@ -42,10 +42,10 @@ var inputPreviewBindings = [
 		"preview": "title_container",
 		"inputField": "title"
 	},
-	/*{
-		"preview": "url_container",
+	{
+		"preview": "image_container",
 		"inputField": "imageUrl"
-	},*/
+	},
 	{
 		"preview": "description_container",
 		"inputField": "description"
@@ -204,9 +204,9 @@ FacebookPreview.prototype.renderTemplate = function() {
 		},
 		rendered: {
 			title: this.formatTitle(),
-			baseUrl: this.formatUrl(),
 			description: this.formatDescription(),
-			imageUrl: ''
+			imageUrl: this.formatImageUrl(),
+			baseUrl: this.formatUrl()
 		},
 		placeholder: this.opts.placeholder,
 		i18n: {
@@ -281,7 +281,7 @@ FacebookPreview.prototype.htmlOutput = function() {
 	var html = {};
 	html.title = this.formatTitle();
 	html.description = this.formatDescription();
-	html.cite = this.formatImageUrl();
+	html.imageUrl = this.formatImageUrl();
 	html.url = this.formatUrl();
 
 	return html;
@@ -333,23 +333,16 @@ FacebookPreview.prototype.formatUrl = function() {
  * @returns {string} Formatted URL for the snippet preview.
  */
 FacebookPreview.prototype.formatImageUrl = function() {
-	var cite = this.data.imageUrl;
+	var imageUrl = this.data.imageUrl;
 
-	cite = stripHTMLTags( cite );
+	imageUrl = stripHTMLTags( imageUrl );
 
 	// Fallback to the default if the cite is empty.
-	if ( isEmpty( cite ) ) {
-		cite = this.opts.placeholder.imageUrl;
+	if ( isEmpty( imageUrl ) ) {
+		imageUrl = this.opts.placeholder.imageUrl;
 	}
 
-	if ( this.opts.addTrailingSlash && !hasTrailingSlash( cite ) ) {
-		cite = cite + "/";
-	}
-
-	// URL's cannot contain whitespace so replace it by dashes.
-	cite = cite.replace( /\s/g, "-" );
-
-	return cite;
+	return imageUrl;
 };
 
 /**
@@ -387,7 +380,7 @@ FacebookPreview.prototype.reRender = function() {
  */
 FacebookPreview.prototype.bindEvents = function() {
 	var targetElement,
-		elems = [ "title", "description" ];
+		elems = [ "title", "description", "imageUrl" ];
 
 	forEach( elems, function( elem ) {
 		targetElement = document.getElementsByClassName( "js-snippet-editor-" + elem )[0];
@@ -473,11 +466,47 @@ FacebookPreview.prototype.refresh = function() {
 };
 
 /**
+ * Updates the image object with the new URL.
+ * @param {String} image
+ * @param {String} imageURL
+ */
+FacebookPreview.prototype.setImageUrl = function( image, imageURL ) {
+	image.src = imageURL;
+
+	// Hide the image element, while resizing the image.
+	addClass( image, 'snippet-editor--hidden' );
+
+	this.setImageRatio( image );
+
+	// Show the image, because it's done.
+	removeClass( image, 'snippet-editor--hidden' );
+};
+
+
+FacebookPreview.prototype.setImageRatio = function( image ) {
+
+	var maxWidth = 470; // Max width for the image
+	var ratio    = 0;
+	var width    = image.width;    // Current image width
+	var height   = image.height;  // Current image height
+
+	// Check if the current width is larger than the max
+	if(width > maxWidth) {
+		ratio = maxWidth / width;   // get ratio for scaling image
+		image.width = maxWidth; // Set new width
+		image.height = height * ratio;  // Scale height based on ratio
+	}
+};
+
+/**
  * Renders the outputs to the elements on the page.
  */
 FacebookPreview.prototype.renderOutput = function() {
 	this.element.rendered.title.innerHTML = this.output.title;
-	this.element.rendered.imageUrl.innerHTML = this.output.cite;
+
+	if( typeof this.output.imageUrl !== "undefined" ) {
+		this.setImageUrl( this.element.rendered.imageUrl, this.output.imageUrl );
+	}
 	this.element.rendered.urlBase.innerHTML = this.output.url;
 	this.element.rendered.description.innerHTML = this.output.description;
 };
