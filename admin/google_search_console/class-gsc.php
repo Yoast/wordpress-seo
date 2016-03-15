@@ -126,15 +126,12 @@ class WPSEO_GSC {
 
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
 		$asset_manager->enqueue_script( 'admin-gsc' );
+		$asset_manager->enqueue_style( 'metabox-css' );
 		add_screen_option( 'per_page', array(
 			'label'   => __( 'Crawl errors per page', 'wordpress-seo' ),
 			'default' => 50,
 			'option'  => 'errors_per_page',
 		) );
-
-		wp_enqueue_style( 'jquery-qtip.js', plugins_url( 'css/jquery.qtip' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
-		wp_enqueue_style( 'metabox', plugins_url( 'css/metabox-' . '310' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
-		wp_enqueue_script( 'jquery-qtip', plugins_url( 'js/jquery.qtip.min.js', WPSEO_FILE ), array( 'jquery' ), WPSEO_VERSION, true );
 	}
 
 	/**
