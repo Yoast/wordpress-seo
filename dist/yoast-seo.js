@@ -133,7 +133,7 @@ var wordMatch = require( "../stringProcessing/matchTextWithWord.js" );
 module.exports = function( text, keyword ) {
 	var paragraph;
 
-	//matches everything between the <p> and </p> tags.
+	// matches everything between the <p> and </p> tags.
 	paragraph = regexMatch( text, "<p(?:[^>]+)?>(.*?)<\/p>" );
 	if ( paragraph.length > 0 ) {
 		return wordMatch( paragraph[0], keyword );
@@ -147,7 +147,7 @@ module.exports = function( text, keyword ) {
 		return wordMatch( paragraph[0], keyword );
 	}
 
-	//if no double linebreaks found, return the keyword count of the entire text
+	// if no double linebreaks found, return the keyword count of the entire text
 	return wordMatch( text, keyword );
 };
 
@@ -194,7 +194,7 @@ var matchKeywordInAlttags = function( alttag, keyword ) {
 	}
 
 	if ( wordMatch( alttag, keyword ) > 0 ) {
-			return "altKeyword";
+		return "altKeyword";
 	}
 
 	// This counts all alt-tags w/o the keyword when a keyword is set.
@@ -214,10 +214,10 @@ var matchImageTags = function( imageMatches, keyword ) {
 	for ( var i = 0; i < imageMatches.length; i++ ) {
 		var alttag = imageAlttag( imageMatches[i] );
 
-		if ( alttag !== "" ) {
-			imageCount[ matchKeywordInAlttags( alttag, keyword ) ]++;
-		} else {
+		if ( alttag === "" ) {
 			imageCount.noAlt++;
+		} else {
+			imageCount[ matchKeywordInAlttags( alttag, keyword ) ]++;
 		}
 	}
 	return imageCount;
@@ -307,15 +307,18 @@ module.exports = function( text, keyword, url ) {
 	var linkKeyword;
 	for ( var i = 0; i < anchors.length; i++ ) {
 		linkKeyword = findKeywordInUrl( anchors[i], keyword );
+
 		if ( linkKeyword ) {
-			if ( keyword !== "" ) {
-				linkCount.totalKeyword++;
-			} else {
+			if ( keyword === "" ) {
 				linkCount.totalNaKeyword++;
+			} else {
+				linkCount.totalKeyword++;
 			}
 		}
+
 		var linkType = getLinkType( anchors[i], url );
 		linkCount[linkType + "Total"]++;
+
 		var linkFollow = checkNofollow( anchors[i] );
 		linkCount[linkType + linkFollow]++;
 	}
@@ -1204,7 +1207,7 @@ var defaults = {
  * @private
  * @this App
  *
- * @returns {SnippetPreview}
+ * @returns {SnippetPreview} The SnippetPreview object.
  */
 function createDefaultSnippetPreview() {
 	var targetElement = document.getElementById( this.config.targets.snippet );
@@ -1221,8 +1224,8 @@ function createDefaultSnippetPreview() {
 /**
  * Returns whether or not the given argument is a valid SnippetPreview object.
  *
- * @param {*} snippetPreview
- * @returns {boolean}
+ * @param   {*}         snippetPreview  The 'object' to check against.
+ * @returns {boolean}                   Whether or not it's a valid SnippetPreview object.
  */
 function isValidSnippetPreview( snippetPreview ) {
 	return !isUndefined( snippetPreview ) && SnippetPreview.prototype.isPrototypeOf( snippetPreview );
@@ -1232,7 +1235,8 @@ function isValidSnippetPreview( snippetPreview ) {
  * Check arguments passed to the App to check if all necessary arguments are set.
  *
  * @private
- * @param {Object} args The arguments object passed to the App.
+ * @param {Object}      args            The arguments object passed to the App.
+ * @returns {void}
  */
 function verifyArguments( args ) {
 
@@ -1296,31 +1300,25 @@ function verifyArguments( args ) {
 /**
  * Loader for the analyzer, loads the eventbinder and the elementdefiner
  *
- * @param {Object} args
+ * @param {Object} args The arguments passed to the loader.
  * @param {Object} args.translations Jed compatible translations.
  * @param {Object} args.targets Targets to retrieve or set on.
  * @param {String} args.targets.snippet ID for the snippet preview element.
  * @param {String} args.targets.output ID for the element to put the output of the analyzer in.
- * @param {int} args.typeDelay Number of milliseconds to wait between typing to refresh the
- *        analyzer output.
- * @param {boolean} args.dynamicDelay Whether to enable dynamic delay, will ignore type delay if the
- *        analyzer takes a long time. Applicable on slow devices.
+ * @param {int} args.typeDelay Number of milliseconds to wait between typing to refresh the analyzer output.
+ * @param {boolean} args.dynamicDelay   Whether to enable dynamic delay, will ignore type delay if the analyzer takes a long time.
+ *                                      Applicable on slow devices.
  * @param {int} args.maxTypeDelay The maximum amount of type delay even if dynamic delay is on.
- * @param {int} args.typeDelayStep The amount with which to increase the typeDelay on each step when
- *        dynamic delay is enabled.
+ * @param {int} args.typeDelayStep The amount with which to increase the typeDelay on each step when dynamic delay is enabled.
  * @param {Object} args.callbacks The callbacks that the app requires.
  * @param {YoastSEO.App~getData} args.callbacks.getData Called to retrieve input data
- * @param {YoastSEO.App~getAnalyzerInput} args.callbacks.getAnalyzerInput Called to retrieve input
- *        for the analyzer.
- * @param {YoastSEO.App~bindElementEvents} args.callbacks.bindElementEvents Called to bind events to
- *        the DOM elements.
- * @param {YoastSEO.App~updateSnippetValues} args.callbacks.updateSnippetValues Called when the
- *        snippet values need to be updated.
- * @param {YoastSEO.App~saveScores} args.callbacks.saveScores Called when the score has been
- *        determined by the analyzer.
+ * @param {YoastSEO.App~getAnalyzerInput} args.callbacks.getAnalyzerInput Called to retrieve input for the analyzer.
+ * @param {YoastSEO.App~bindElementEvents} args.callbacks.bindElementEvents Called to bind events to the DOM elements.
+ * @param {YoastSEO.App~updateSnippetValues} args.callbacks.updateSnippetValues Called when the snippet values need to be updated.
+ * @param {YoastSEO.App~saveScores} args.callbacks.saveScores Called when the score has been determined by the analyzer.
  * @param {Function} args.callbacks.saveSnippetData Function called when the snippet data is changed.
  *
- * @param {SnippetPreview} args.snippetPreview
+ * @param {SnippetPreview} args.snippetPreview The SnippetPreview object to be used.
  *
  * @constructor
  */
@@ -1363,8 +1361,8 @@ var App = function( args ) {
 /**
  * Extend the config with defaults.
  *
- * @param {Object} args
- * @returns {Object} args
+ * @param   {Object}    args    The arguments to be extended.
+ * @returns {Object}    args    The extended arguments.
  */
 App.prototype.extendConfig = function( args ) {
 	args.sampleText = this.extendSampleText( args.sampleText );
@@ -1377,8 +1375,8 @@ App.prototype.extendConfig = function( args ) {
 /**
  * Extend sample text config with defaults.
  *
- * @param {Object} sampleText
- * @returns {Object} sampleText
+ * @param   {Object}    sampleText  The sample text to be extended.
+ * @returns {Object}    sampleText  The extended sample text.
  */
 App.prototype.extendSampleText = function( sampleText ) {
 	var defaultSampleText = defaults.sampleText;
@@ -1399,7 +1397,8 @@ App.prototype.extendSampleText = function( sampleText ) {
 /**
  * Initializes i18n object based on passed configuration
  *
- * @param {Object} translations
+ * @param {Object}  translations    The translations to be used in the current instance.
+ * @returns {void}
  */
 App.prototype.constructI18n = function( translations ) {
 	var defaultTranslations = {
@@ -1419,6 +1418,7 @@ App.prototype.constructI18n = function( translations ) {
 
 /**
  * Retrieves data from the callbacks.getData and applies modification to store these in this.rawData.
+ * @returns {void}
  */
 App.prototype.getData = function() {
 	this.rawData = this.callbacks.getData();
@@ -1442,6 +1442,7 @@ App.prototype.getData = function() {
 
 /**
  * Refreshes the analyzer and output of the analyzer
+ * @returns {void}
  */
 App.prototype.refresh = function() {
 	this.getData();
@@ -1449,10 +1450,11 @@ App.prototype.refresh = function() {
 };
 
 /**
- * creates the elements for the snippetPreview
+ * Creates the elements for the snippetPreview
  *
  * @deprecated Don't create a snippet preview using this method, create it directly using the prototype and pass it as
  * an argument instead.
+ * @returns {void}
  */
 App.prototype.createSnippetPreview = function() {
 	this.snippetPreview = createDefaultSnippetPreview.call( this );
@@ -1461,6 +1463,7 @@ App.prototype.createSnippetPreview = function() {
 
 /**
  * Initializes the snippet preview for this App.
+ * @returns {void}
  */
 App.prototype.initSnippetPreview = function() {
 	this.snippetPreview.renderTemplate();
@@ -1471,6 +1474,7 @@ App.prototype.initSnippetPreview = function() {
 
 /**
  * binds the analyzeTimer function to the input of the targetElement on the page.
+ * @returns {void}
  */
 App.prototype.bindInputEvent = function() {
 	for ( var i = 0; i < this.config.elementTarget.length; i++ ) {
@@ -1481,6 +1485,7 @@ App.prototype.bindInputEvent = function() {
 
 /**
  * runs the rerender function of the snippetPreview if that object is defined.
+ * @returns {void}
  */
 App.prototype.reloadSnippetText = function() {
 	if ( isUndefined( this.snippetPreview ) ) {
@@ -1492,6 +1497,7 @@ App.prototype.reloadSnippetText = function() {
  * the analyzeTimer calls the checkInputs function with a delay, so the function won't be executed
  * at every keystroke checks the reference object, so this function can be called from anywhere,
  * without problems with different scopes.
+ * @returns {void}
  */
 App.prototype.analyzeTimer = function() {
 	clearTimeout( window.timer );
@@ -1500,6 +1506,7 @@ App.prototype.analyzeTimer = function() {
 
 /**
  * sets the startTime timestamp
+ * @returns {void}
  */
 App.prototype.startTime = function() {
 	this.startTimestamp = new Date().getTime();
@@ -1507,6 +1514,7 @@ App.prototype.startTime = function() {
 
 /**
  * sets the endTime timestamp and compares with startTime to determine typeDelayincrease.
+ * @returns {void}
  */
 App.prototype.endTime = function() {
 	this.endTimestamp = new Date().getTime();
@@ -1520,6 +1528,7 @@ App.prototype.endTime = function() {
 /**
  * inits a new pageAnalyzer with the inputs from the getInput function and calls the scoreFormatter
  * to format outputs.
+ * @returns {void}
  */
 App.prototype.runAnalyzer = function() {
 	if ( this.pluggable.loaded === false ) {
@@ -1587,8 +1596,8 @@ App.prototype.runAnalyzer = function() {
 
 /**
  * Modifies the data with plugins before it is sent to the analyzer.
- * @param data
- * @returns {*}
+ * @param   {Object}  data      The data to be modified.
+ * @returns {Object}            The data with the applied modifications.
  */
 App.prototype.modifyData = function( data ) {
 
@@ -1603,6 +1612,7 @@ App.prototype.modifyData = function( data ) {
 
 /**
  * Function to fire the analyzer when all plugins are loaded, removes the loading dialog.
+ * @returns {void}
  */
 App.prototype.pluginsLoaded = function() {
 	this.getData();
@@ -1612,6 +1622,7 @@ App.prototype.pluginsLoaded = function() {
 
 /**
  * Shows the loading dialog which shows the loading of the plugins.
+ * @returns {void}
  */
 App.prototype.showLoadingDialog = function() {
 	var dialogDiv = document.createElement( "div" );
@@ -1622,7 +1633,8 @@ App.prototype.showLoadingDialog = function() {
 
 /**
  * Updates the loading plugins. Uses the plugins as arguments to show which plugins are loading
- * @param plugins
+ * @param   {Object}  plugins   The plugins to be parsed into the dialog.
+ * @returns {void}
  */
 App.prototype.updateLoadingDialog = function( plugins ) {
 	var dialog = document.getElementById( "YoastSEO-plugin-loading" );
@@ -1635,20 +1647,22 @@ App.prototype.updateLoadingDialog = function( plugins ) {
 };
 
 /**
- * removes the pluging load dialog.
+ * Removes the pluging load dialog.
+ * @returns {void}
  */
 App.prototype.removeLoadingDialog = function() {
 	document.getElementById( this.config.targets.output ).removeChild( document.getElementById( "YoastSEO-plugin-loading" ) );
 };
 
-/**************** PLUGGABLE PUBLIC DSL ****************/
+// ***** PLUGGABLE PUBLIC DSL ***** //
 
 /**
  * Delegates to `YoastSEO.app.pluggable.registerPlugin`
  *
- * @param pluginName	{string}
- * @param options 		{{status: "ready"|"loading"}}
- * @returns 			{boolean}
+ * @param {string}  pluginName      The name of the plugin to be registered.
+ * @param {object}  options         The options object.
+ * @param {string}  options.status  The status of the plugin being registered. Can either be "loading" or "ready".
+ * @returns {boolean}               Whether or not it was successfully registered.
  */
 App.prototype.registerPlugin = function( pluginName, options ) {
 	return this.pluggable._registerPlugin( pluginName, options );
@@ -1657,8 +1671,8 @@ App.prototype.registerPlugin = function( pluginName, options ) {
 /**
  * Delegates to `YoastSEO.app.pluggable.ready`
  *
- * @param pluginName	{string}
- * @returns 			{boolean}
+ * @param {string}  pluginName  The name of the plugin to check.
+ * @returns {boolean}           Whether or not the plugin is ready.
  */
 App.prototype.pluginReady = function( pluginName ) {
 	return this.pluggable._ready( pluginName );
@@ -1667,8 +1681,8 @@ App.prototype.pluginReady = function( pluginName ) {
 /**
  * Delegates to `YoastSEO.app.pluggable.reloaded`
  *
- * @param pluginName	{string}
- * @returns 			{boolean}
+ * @param {string} pluginName   The name of the plugin to reload
+ * @returns {boolean}           Whether or not the plugin was reloaded.
  */
 App.prototype.pluginReloaded = function( pluginName ) {
 	return this.pluggable._reloaded( pluginName );
@@ -1677,12 +1691,12 @@ App.prototype.pluginReloaded = function( pluginName ) {
 /**
  * Delegates to `YoastSEO.app.pluggable.registerModification`
  *
- * @param modification 	{string} 	The name of the filter
- * @param callable 		{function} 	The callable
- * @param pluginName 	{string} 	The plugin that is registering the modification.
- * @param priority 		{number} 	(optional) Used to specify the order in which the callables associated with a particular filter are called.
- * 									Lower numbers correspond with earlier execution.
- * @returns 			{boolean}
+ * @param {string}      modification 		The name of the filter
+ * @param {function}    callable 		 	The callable function
+ * @param {string}      pluginName 		    The plugin that is registering the modification.
+ * @param {number}      priority 		 	(optional) Used to specify the order in which the callables associated with a particular filter are called.
+ * 									        Lower numbers correspond with earlier execution.
+ * @returns 			{boolean}           Whether or not the modification was successfully registered.
  */
 App.prototype.registerModification = function( modification, callable, pluginName, priority ) {
 	return this.pluggable._registerModification( modification, callable, pluginName, priority );
@@ -1706,7 +1720,7 @@ App.prototype.registerModification = function( modification, callable, pluginNam
  * @param {string}   pluginName The plugin that is registering the test.
  * @param {number}   priority   (optional) Determines when this test is run in the analyzer queue. Is currently ignored,
  *                              tests are added to the end of the queue.
- * @returns {boolean}
+ * @returns {boolean}           Whether or not the test was successfully registered.
  */
 App.prototype.registerTest = function( name, analysis, scoring, pluginName, priority ) {
 	return this.pluggable._registerTest( name, analysis, scoring, pluginName, priority );
@@ -2441,6 +2455,7 @@ module.exports = function(){
 /**
  * Throws an invalid type error
  * @param {string} message The message to show when the error is thrown
+ * @returns {void}
  */
 module.exports = function InvalidTypeError( message ) {
 	Error.captureStackTrace( this, this.constructor );
@@ -2480,12 +2495,17 @@ var reduce = require( "lodash/collection/reduce" );
  * by calling `reloaded`.
  *
  * @todo: add list of supported modifications and compare on registration of modification
+ */
+
+/**
+ * Setup Pluggable and set its default values.
  *
  * @constructor
- * @property preloadThreshold	{number} The maximum time plugins are allowed to preload before we load our content analysis.
- * @property plugins			{object} The plugins that have been registered.
- * @property modifications 		{object} The modifications that have been registered. Every modification contains an array with callables.
- * @property customTests        {Array} All tests added by plugins.
+ * @param       {App}       app                 The App object to attach to.
+ * @property    {number}    preloadThreshold	The maximum time plugins are allowed to preload before we load our content analysis.
+ * @property    {object}    plugins             The plugins that have been registered.
+ * @property    {object}    modifications 	    The modifications that have been registered. Every modification contains an array with callables.
+ * @property    {Array}     customTests         All tests added by plugins.
  */
 var Pluggable = function( app ) {
 	this.app = app;
@@ -2499,14 +2519,15 @@ var Pluggable = function( app ) {
 	setTimeout( this._pollLoadingPlugins.bind( this ), 1500 );
 };
 
-/**************** DSL IMPLEMENTATION ****************/
+//  ***** DSL IMPLEMENTATION ***** //
 
 /**
  * Register a plugin with YoastSEO. A plugin can be declared "ready" right at registration or later using `this.ready`.
  *
- * @param pluginName	{string}
- * @param options 		{{status: "ready"|"loading"}}
- * @returns 			{boolean}
+ * @param {string}  pluginName      The name of the plugin to be registered.
+ * @param {object}  options         The options passed by the plugin.
+ * @param {string}  options.status  The status of the plugin being registered. Can either be "loading" or "ready".
+ * @returns {boolean}               Whether or not the plugin was successfully registered.
  */
 Pluggable.prototype._registerPlugin = function( pluginName, options ) {
 	if ( typeof pluginName !== "string" ) {
@@ -2515,7 +2536,7 @@ Pluggable.prototype._registerPlugin = function( pluginName, options ) {
 	}
 
 	if ( !isUndefined( options ) && typeof options !== "object" ) {
-		console.error( "Failed to register plugin " + pluginName + ". Expected parameters `options` to be a string." );
+		console.error( "Failed to register plugin " + pluginName + ". Expected parameters `options` to be a object." );
 		return false;
 	}
 
@@ -2532,8 +2553,8 @@ Pluggable.prototype._registerPlugin = function( pluginName, options ) {
 /**
  * Declare a plugin "ready". Use this if you need to preload data with AJAX.
  *
- * @param pluginName	{string}
- * @returns 			{boolean}
+ * @param {string} pluginName	The name of the plugin to be declared as ready.
+ * @returns {boolean}           Whether or not the plugin was successfully declared ready.
  */
 Pluggable.prototype._ready = function( pluginName ) {
 	if ( typeof pluginName !== "string" ) {
@@ -2554,8 +2575,8 @@ Pluggable.prototype._ready = function( pluginName ) {
 /**
  * Used to declare a plugin has been reloaded. If an analysis is currently running. We will reset it to ensure running the latest modifications.
  *
- * @param pluginName	{string}
- * @returns 			{boolean}
+ * @param {string} pluginName   The name of the plugin to be declared as reloaded.
+ * @returns {boolean}           Whether or not the plugin was successfully declared as reloaded.
  */
 Pluggable.prototype._reloaded = function( pluginName ) {
 	if ( typeof pluginName !== "string" ) {
@@ -2575,12 +2596,12 @@ Pluggable.prototype._reloaded = function( pluginName ) {
 /**
  * Enables hooking a callable to a specific data filter supported by YoastSEO. Can only be performed for plugins that have finished loading.
  *
- * @param modification 	{string} 	The name of the filter
- * @param callable 		{function} 	The callable
- * @param pluginName 	{string} 	The plugin that is registering the modification.
- * @param priority 		{number} 	(optional) Used to specify the order in which the callables associated with a particular filter are called.
- * 									Lower numbers correspond with earlier execution.
- * @returns 			{boolean}
+ * @param {string}      modification	The name of the filter
+ * @param {function}    callable 	    The callable
+ * @param {string}      pluginName 	    The plugin that is registering the modification.
+ * @param {number}      priority	    (optional) Used to specify the order in which the callables associated with a particular filter are called.
+ * 									    Lower numbers correspond with earlier execution.
+ * @returns {boolean}                   Whether or not applying the hook was successfull.
  */
 Pluggable.prototype._registerModification = function( modification, callable, pluginName, priority ) {
 	if ( typeof modification !== "string" ) {
@@ -2624,6 +2645,14 @@ Pluggable.prototype._registerModification = function( modification, callable, pl
 };
 
 /**
+ * Register test for a specific plugin
+ *
+ * @param   {string}      name          The name of the test.
+ * @param   {function}    analysis      The function to be run within the test.
+ * @param   {object}      scoring       The scoring associated with the test.
+ * @param   {string}      pluginName    The name of the plugin associated with the test.
+ * @param   {number}      priority      The priority that this test has.
+ * @returns {boolean}                   Whether or not the test was successfully registered.
  * @private
  */
 Pluggable.prototype._registerTest = function( name, analysis, scoring, pluginName, priority ) {
@@ -2664,14 +2693,15 @@ Pluggable.prototype._registerTest = function( name, analysis, scoring, pluginNam
 	return true;
 };
 
-/**************** PRIVATE HANDLERS ****************/
+// ***** PRIVATE HANDLERS *****//
 
 /**
  * Poller to handle loading of plugins. Plugins can register with our app to let us know they are going to hook into our Javascript. They are allowed
  * 5 seconds of pre-loading time to fetch all the data they need to be able to perform their data modifications. We will only apply data modifications
  * from plugins that have declared ready within the pre-loading time in order to safeguard UX and data integrity.
  *
- * @param pollTime {number} (optional) The accumulated time to compare with the pre-load threshold.
+ * @param   {number} pollTime (optional) The accumulated time to compare with the pre-load threshold.
+ * @returns {void}
  * @private
  */
 Pluggable.prototype._pollLoadingPlugins = function( pollTime ) {
@@ -2690,7 +2720,7 @@ Pluggable.prototype._pollLoadingPlugins = function( pollTime ) {
 /**
  * Checks if all registered plugins have finished loading
  *
- * @returns {boolean}
+ * @returns {boolean} Whether or not all registered plugins are loaded.
  * @private
  */
 Pluggable.prototype._allReady = function() {
@@ -2702,6 +2732,7 @@ Pluggable.prototype._allReady = function() {
 /**
  * Removes the plugins that were not loaded within time and calls `pluginsLoaded` on the app.
  *
+ * @returns {void}
  * @private
  */
 Pluggable.prototype._pollTimeExceeded = function() {
@@ -2718,10 +2749,10 @@ Pluggable.prototype._pollTimeExceeded = function() {
 /**
  * Calls the callables added to a modification hook. See the YoastSEO.js Readme for a list of supported modification hooks.
  *
- * @param modification	{string}	The name of the filter
- * @param data 			{*} 		The data to filter
- * @param context 		{*} 		(optional) Object for passing context parameters to the callable.
- * @returns 			{*} 		The filtered data
+ * @param	{string}    modification	The name of the filter
+ * @param   {*}         data 		    The data to filter
+ * @param   {*}         context		    (optional) Object for passing context parameters to the callable.
+ * @returns {*} 		                The filtered data
  * @private
  */
 Pluggable.prototype._applyModifications = function( modification, data, context ) {
@@ -2753,6 +2784,7 @@ Pluggable.prototype._applyModifications = function( modification, data, context 
  * Adds new tests to the analyzer and it's scoring object.
  *
  * @param {YoastSEO.Analyzer} analyzer The analyzer object to add the tests to
+ * @returns {void}
  * @private
  */
 Pluggable.prototype._addPluginTests = function( analyzer ) {
@@ -2764,11 +2796,13 @@ Pluggable.prototype._addPluginTests = function( analyzer ) {
 /**
  * Adds one new test to the analyzer and it's scoring object.
  *
- * @param {YoastSEO.Analyzer} analyzer
- * @param {Object}            pluginTest
- * @param {string}            pluginTest.name
- * @param {function}          pluginTest.callable
- * @param {Object}            pluginTest.scoring
+ * @param {YoastSEO.Analyzer} analyzer              The analyzer that the test will be added to.
+ * @param {Object}            pluginTest            The test to be added.
+ * @param {string}            pluginTest.name       The name of the test.
+ * @param {function}          pluginTest.callable   The function associated with the test.
+ * @param {function}          pluginTest.analysis   The function associated with the analyzer.
+ * @param {Object}            pluginTest.scoring    The scoring object to be used.
+ * @returns {void}
  * @private
  */
 Pluggable.prototype._addPluginTest = function( analyzer, pluginTest ) {
@@ -2786,8 +2820,8 @@ Pluggable.prototype._addPluginTest = function( analyzer, pluginTest ) {
 /**
  * Strips modifications from a callChain if they were not added with a valid origin.
  *
- * @param callChain		{Array}
- * @returns callChain 	{Array}
+ * @param   {Array} callChain	 The callChain that contains items with possible invalid origins.
+ * @returns {Array} callChain 	 The stripped version of the callChain.
  * @private
  */
 Pluggable.prototype._stripIllegalModifications = function( callChain ) {
@@ -2803,8 +2837,8 @@ Pluggable.prototype._stripIllegalModifications = function( callChain ) {
 /**
  * Validates if origin of a modification has been registered and finished preloading.
  *
- * @param pluginName	{string}
- * @returns 			{boolean}
+ * @param 	{string}    pluginName      The name of the plugin that needs to be validated.
+ * @returns {boolean}                   Whether or not the origin is valid.
  * @private
  */
 Pluggable.prototype._validateOrigin = function( pluginName ) {
@@ -2817,8 +2851,8 @@ Pluggable.prototype._validateOrigin = function( pluginName ) {
 /**
  * Validates if registered plugin has a unique name.
  *
- * @param pluginName	{string}
- * @returns 			{boolean}
+ * @param 	{string}    pluginName      The name of the plugin that needs to be validated for uniqueness.
+ * @returns {boolean}                   Whether or not the plugin has a unique name.
  * @private
  */
 Pluggable.prototype._validateUniqueness = function( pluginName ) {
@@ -2859,6 +2893,7 @@ var Researcher = function( paper ) {
  * Set the Paper associated with the Researcher.
  * @param {Paper} paper The Paper to use within the Researcher
  * @throws {InvalidTypeError} Parameter needs to be an instance of the Paper object.
+ * @returns {void}
  */
 Researcher.prototype.setPaper = function( paper ) {
 	if ( !( paper instanceof Paper ) ) {
@@ -2874,6 +2909,7 @@ Researcher.prototype.setPaper = function( paper ) {
  * @param {function} research The function to be added to the Researcher.
  * @throws {MissingArgument} Research name cannot be empty.
  * @throws {InvalidTypeError} The research requires a valid Function callback.
+ * @returns {void}
  */
 Researcher.prototype.addResearch = function( name, research ) {
 	if ( isUndefined( name ) || isEmpty( name ) ) {
@@ -2893,10 +2929,10 @@ Researcher.prototype.addResearch = function( name, research ) {
  * @returns {boolean} Whether or not the research is known by the Researcher
  */
 Researcher.prototype.hasResearch = function( name ) {
-	return Object.keys( this.getAvailableResearches() )
-	             .filter( function( research ) {
-		             return research === name;
-				} ).length > 0;
+	return Object.keys( this.getAvailableResearches() ).filter(
+	function( research ) {
+		return research === name;
+	} ).length > 0;
 };
 
 /**
@@ -3203,6 +3239,7 @@ var getBaseURL = function() {
  * @this SnippetPreview
  *
  * @param {string} key The key to retrieve.
+ * @returns {string} The unformatted text.
  */
 function retrieveUnformattedText( key ) {
 	return this.data[ key ];
@@ -3216,6 +3253,7 @@ function retrieveUnformattedText( key ) {
  *
  * @param {string} key The data key to update.
  * @param {string} value The value to update.
+ * @return {void}
  */
 function updateUnformattedText( key, value ) {
 	this.element.input[ key ].value = value;
@@ -3228,6 +3266,7 @@ function updateUnformattedText( key, value ) {
  *
  * @param {HTMLElement} element The element to add the class to.
  * @param {string} className The class to add.
+ * @return {void}
  */
 function addClass( element, className ) {
 	var classes = element.className.split( " " );
@@ -3244,6 +3283,7 @@ function addClass( element, className ) {
  *
  * @param {HTMLElement} element The element to remove the class from.
  * @param {string} className The class to remove.
+ * @return {void}
  */
 function removeClass( element, className ) {
 	var classes = element.className.split( " " );
@@ -3261,6 +3301,7 @@ function removeClass( element, className ) {
  *
  * @param {HTMLElement} element The element to remove the classes from.
  * @param {Array} classes A list of classes to remove
+ * @return {void}
  */
 function removeClasses( element, classes ) {
 	forEach( classes, removeClass.bind( null, element ) );
@@ -3269,8 +3310,8 @@ function removeClasses( element, classes ) {
 /**
  * Returns if a url has a trailing slash or not.
  *
- * @param {string} url
- * @returns {boolean}
+ * @param {string} url The url to check for a trailing slash.
+ * @returns {boolean} Whether or not the url contains a trailing slash.
  */
 function hasTrailingSlash( url ) {
 	return url.indexOf( "/" ) === ( url.length - 1 );
@@ -3281,7 +3322,7 @@ function hasTrailingSlash( url ) {
  *
  * @private
  *
- * @returns {boolean}
+ * @returns {boolean} Whether or not the browser supports a <progress> element
  */
 function hasProgressSupport() {
 	var progressElement = document.createElement( "progress" );
@@ -3292,8 +3333,8 @@ function hasProgressSupport() {
 /**
  * Returns a rating based on the length of the title
  *
- * @param {string} titleLength
- * @returns {string}
+ * @param {number} titleLength the length of the title.
+ * @returns {string} The rating given based on the title length.
  */
 function rateTitleLength( titleLength ) {
 	var rating;
@@ -3319,8 +3360,8 @@ function rateTitleLength( titleLength ) {
 /**
  * Returns a rating based on the length of the meta description
  *
- * @param {string} metaDescLength
- * @returns {string}
+ * @param {number} metaDescLength the length of the meta description.
+ * @returns {string} The rating given based on the description length.
  */
 function rateMetaDescLength( metaDescLength ) {
 	var rating;
@@ -3353,6 +3394,7 @@ function rateMetaDescLength( metaDescLength ) {
  * @param {number} value The current value.
  * @param {number} maximum The maximum allowed value.
  * @param {string} rating The SEO score rating for this value.
+ * @returns {void}
  */
 function updateProgressBar( element, value, maximum, rating ) {
 	var barElement, progress,
@@ -3385,14 +3427,14 @@ function updateProgressBar( element, value, maximum, rating ) {
  * @param {App}            opts.analyzerApp               - The app object the snippet preview is part of.
  * @param {Object}         opts.placeholder               - The placeholder values for the fields, will be shown as
  * actual placeholders in the inputs and as a fallback for the preview.
- * @param {string}         opts.placeholder.title
- * @param {string}         opts.placeholder.metaDesc
- * @param {string}         opts.placeholder.urlPath
+ * @param {string}         opts.placeholder.title         - The placeholder title.
+ * @param {string}         opts.placeholder.metaDesc      - The placeholder meta description.
+ * @param {string}         opts.placeholder.urlPath       - The placeholder url.
  *
  * @param {Object}         opts.defaultValue              - The default value for the fields, if the user has not
  * changed a field, this value will be used for the analyzer, preview and the progress bars.
- * @param {string}         opts.defaultValue.title
- * @param {string}         opts.defaultValue.metaDesc
+ * @param {string}         opts.defaultValue.title        - The default title.
+ * @param {string}         opts.defaultValue.metaDesc     - The default meta description.
  * it.
  *
  * @param {string}         opts.baseURL                   - The basic URL as it will be displayed in google.
@@ -3483,6 +3525,7 @@ var SnippetPreview = function( opts ) {
 
 /**
  * Renders snippet editor and adds it to the targetElement
+ * @returns {void}
  */
 SnippetPreview.prototype.renderTemplate = function() {
 	var targetElement = this.opts.targetElement;
@@ -3565,6 +3608,7 @@ SnippetPreview.prototype.renderTemplate = function() {
 
 /**
  * Refreshes the snippet editor rendered HTML
+ * @returns {void}
  */
 SnippetPreview.prototype.refresh = function() {
 	this.output = this.htmlOutput();
@@ -3579,7 +3623,7 @@ SnippetPreview.prototype.refresh = function() {
  * @private
  * @this SnippetPreview
  *
- * @returns {string}
+ * @returns {string} The title that is meant for the analyzer.
  */
 function getAnalyzerTitle() {
 	var title = this.data.title;
@@ -3599,7 +3643,7 @@ function getAnalyzerTitle() {
  * @private
  * @this SnippetPreview
  *
- * @returns {string}
+ * @returns {string} The meta data for the analyzer.
  */
 var getAnalyzerMetaDesc = function() {
 	var metaDesc = this.data.metaDesc;
@@ -3620,7 +3664,7 @@ var getAnalyzerMetaDesc = function() {
 /**
  * Returns the data from the snippet preview.
  *
- * @returns {Object}
+ * @returns {Object} The collected data for the analyzer.
  */
 SnippetPreview.prototype.getAnalyzerData = function() {
 	return {
@@ -3632,6 +3676,7 @@ SnippetPreview.prototype.getAnalyzerData = function() {
 
 /**
  * Calls the event binder that has been registered using the callbacks option in the arguments of the App.
+ * @returns {void}
  */
 SnippetPreview.prototype.callRegisteredEventBinder = function() {
 	this.refObj.callbacks.bindElementEvents( this.refObj );
@@ -3639,6 +3684,7 @@ SnippetPreview.prototype.callRegisteredEventBinder = function() {
 
 /**
  *  checks if title and url are set so they can be rendered in the snippetPreview
+ *  @returns {void}
  */
 SnippetPreview.prototype.init = function() {
 	if (
@@ -3652,7 +3698,7 @@ SnippetPreview.prototype.init = function() {
 /**
  * creates html object to contain the strings for the snippetpreview
  *
- * @returns {Object}
+ * @returns {Object} The HTML output of the collected data.
  */
 SnippetPreview.prototype.htmlOutput = function() {
 	var html = {};
@@ -3664,9 +3710,9 @@ SnippetPreview.prototype.htmlOutput = function() {
 };
 
 /**
- * formats the title for the snippet preview. If title and pageTitle are empty, sampletext is used
+ * Formats the title for the snippet preview. If title and pageTitle are empty, sampletext is used
  *
- * @returns {string}
+ * @returns {string} The correctly formatted title.
  */
 SnippetPreview.prototype.formatTitle = function() {
 	var title = this.data.title;
@@ -3702,7 +3748,7 @@ SnippetPreview.prototype.formatTitle = function() {
 };
 
 /**
- * Formates the base url for the snippet preview. Removes the protocol name from the URL.
+ * Formats the base url for the snippet preview. Removes the protocol name from the URL.
  *
  * @returns {string} Formatted base url for the snippet preview.
  */
@@ -3785,9 +3831,7 @@ SnippetPreview.prototype.formatMeta = function() {
  * @returns {string} A generated meta description.
  */
 SnippetPreview.prototype.getMetaText = function() {
-	var metaText;
-
-	metaText = this.opts.defaultValue.metaDesc;
+	var metaText = this.opts.defaultValue.metaDesc;
 
 	if ( !isUndefined( this.refObj.rawData.excerpt ) && isEmpty( metaText ) ) {
 		metaText = this.refObj.rawData.excerpt;
@@ -3802,26 +3846,24 @@ SnippetPreview.prototype.getMetaText = function() {
 	}
 
 	metaText = stripHTMLTags( metaText );
-	if (
-		this.refObj.rawData.keyword !== "" &&
-		this.refObj.rawData.text !== ""
-	) {
+
+	// Generate a meta description based on where in the text the keyword is found first
+	if ( this.refObj.rawData.keyword !== "" && this.refObj.rawData.text !== "" ) {
+		var curStart = 0;
 		var indexMatches = this.getIndexMatches();
 		var periodMatches = this.getPeriodMatches();
 
-		metaText = metaText.substring(
-			0,
-			analyzerConfig.maxMeta
-		);
-		var curStart = 0;
+		metaText = metaText.substring( 0, analyzerConfig.maxMeta );
+
 		if ( indexMatches.length > 0 ) {
-			for ( var j = 0; j < periodMatches.length; ) {
+			var j = 0;
+
+			while ( j < periodMatches.length ) {
 				if ( periodMatches[ 0 ] < indexMatches[ 0 ] ) {
 					curStart = periodMatches.shift();
+				} else if ( curStart > 0 ) {
+					curStart += 2;
 				} else {
-					if ( curStart > 0 ) {
-						curStart += 2;
-					}
 					break;
 				}
 			}
@@ -3833,23 +3875,23 @@ SnippetPreview.prototype.getMetaText = function() {
 
 /**
  * Builds an array with all indexes of the keyword
- * @returns Array with matches
+ * @returns {Array} Array with matches
  */
 SnippetPreview.prototype.getIndexMatches = function() {
 	var indexMatches = [];
 	var i = 0;
 
-	//starts at 0, locates first match of the keyword.
+	// Starts at 0, locates first match of the keyword.
 	var match = this.refObj.rawData.text.indexOf(
 		this.refObj.rawData.keyword,
 		i
 	);
 
-	//runs the loop untill no more indexes are found, and match returns -1.
+	// Runs the loop untill no more indexes are found, and match returns -1.
 	while ( match > -1 ) {
 		indexMatches.push( match );
 
-		//pushes location to indexMatches and increase i with the length of keyword.
+		// Pushes location to indexMatches and increase i with the length of keyword.
 		i = match + this.refObj.rawData.keyword.length;
 		match = this.refObj.rawData.text.indexOf(
 			this.refObj.rawData.keyword,
@@ -3861,7 +3903,7 @@ SnippetPreview.prototype.getIndexMatches = function() {
 
 /**
  * Builds an array with indexes of all sentence ends (select on .)
- * @returns array with sentences
+ * @returns {Array} Array with sentences.
  */
 SnippetPreview.prototype.getPeriodMatches = function() {
 	var periodMatches = [ 0 ];
@@ -3875,11 +3917,11 @@ SnippetPreview.prototype.getPeriodMatches = function() {
 };
 
 /**
- * formats the keyword for use in the snippetPreview by adding <strong>-tags
- * strips unwanted characters that could break the regex or give unwanted results
+ * Formats the keyword for use in the snippetPreview by adding <strong>-tags
+ * strips unwanted characters that could break the regex or give unwanted results.
  *
- * @param {string} textString
- * @returns {string}
+ * @param {string} textString The keyword string that needs to be formatted.
+ * @returns {string} The formatted keyword.
  */
 SnippetPreview.prototype.formatKeyword = function( textString ) {
 
@@ -3898,8 +3940,8 @@ SnippetPreview.prototype.formatKeyword = function( textString ) {
  * <strong>-tags
  * strips unwanted characters that could break the regex or give unwanted results
  *
- * @param textString
- * @returns {XML|string|void}
+ * @param {string} textString The keyword string that needs to be formatted.
+ * @returns {XML|string|void} The formatted keyword string to be used in the URL.
  */
 SnippetPreview.prototype.formatKeywordUrl = function( textString ) {
 	var keyword = sanitizeString( this.refObj.rawData.keyword );
@@ -3918,6 +3960,7 @@ SnippetPreview.prototype.formatKeywordUrl = function( textString ) {
 
 /**
  * Renders the outputs to the elements on the page.
+ * @returns {void}
  */
 SnippetPreview.prototype.renderOutput = function() {
 	this.element.rendered.title.innerHTML = this.output.title;
@@ -3928,6 +3971,7 @@ SnippetPreview.prototype.renderOutput = function() {
 
 /**
  * Makes the rendered meta description gray if no meta description has been set by the user.
+ * @returns {void}
  */
 SnippetPreview.prototype.renderSnippetStyle = function() {
 	var metaDescElement = this.element.rendered.metaDesc;
@@ -3943,26 +3987,28 @@ SnippetPreview.prototype.renderSnippetStyle = function() {
 };
 
 /**
- * function to call init, to rerender the snippetpreview
+ * Function to call init, to rerender the snippetpreview
+ * @returns {void}
  */
 SnippetPreview.prototype.reRender = function() {
 	this.init();
 };
 
 /**
- * checks text length of the snippetmeta and snippettitle, shortens it if it is too long.
- * @param event
+ * Checks text length of the snippetmeta and snippet title, shortens it if it is too long.
+ * @param {Object} event The event to check the text length from.
+ * @returns {void}
  */
-SnippetPreview.prototype.checkTextLength = function( ev ) {
-	var text = ev.currentTarget.textContent;
-	switch ( ev.currentTarget.id ) {
+SnippetPreview.prototype.checkTextLength = function( event ) {
+	var text = event.currentTarget.textContent;
+	switch ( event.currentTarget.id ) {
 		case "snippet_meta":
-			ev.currentTarget.className = "desc";
+			event.currentTarget.className = "desc";
 			if ( text.length > analyzerConfig.maxMeta ) {
 				/* eslint-disable */
-				YoastSEO.app.snippetPreview.unformattedText.snippet_meta = ev.currentTarget.textContent;
+				YoastSEO.app.snippetPreview.unformattedText.snippet_meta = event.currentTarget.textContent;
 				/* eslint-enable */
-				ev.currentTarget.textContent = text.substring(
+				event.currentTarget.textContent = text.substring(
 					0,
 					analyzerConfig.maxMeta
 				);
@@ -3970,12 +4016,12 @@ SnippetPreview.prototype.checkTextLength = function( ev ) {
 			}
 			break;
 		case "snippet_title":
-			ev.currentTarget.className = "title";
+			event.currentTarget.className = "title";
 			if ( text.length > titleMaxLength ) {
 				/* eslint-disable */
-				YoastSEO.app.snippetPreview.unformattedText.snippet_title = ev.currentTarget.textContent;
+				YoastSEO.app.snippetPreview.unformattedText.snippet_title = event.currentTarget.textContent;
 				/* eslint-enable */
-				ev.currentTarget.textContent = text.substring( 0, titleMaxLength );
+				event.currentTarget.textContent = text.substring( 0, titleMaxLength );
 			}
 			break;
 		default:
@@ -3984,29 +4030,32 @@ SnippetPreview.prototype.checkTextLength = function( ev ) {
 };
 
 /**
- * when clicked on an element in the snippet, checks fills the textContent with the data from the unformatted text.
+ * When clicked on an element in the snippet, checks fills the textContent with the data from the unformatted text.
  * This removes the keyword highlighting and modified data so the original content can be editted.
- * @param ev {event}
+ * @param {Object} event The event to get the unformatted text from.
+ * @returns {void}
  */
-SnippetPreview.prototype.getUnformattedText = function( ev ) {
-	var currentElement = ev.currentTarget.id;
+SnippetPreview.prototype.getUnformattedText = function( event ) {
+	var currentElement = event.currentTarget.id;
 	if ( typeof this.unformattedText[ currentElement ] !== "undefined" ) {
-		ev.currentTarget.textContent = this.unformattedText[currentElement];
+		event.currentTarget.textContent = this.unformattedText[currentElement];
 	}
 };
 
 /**
- * when text is entered into the snippetPreview elements, the text is set in the unformattedText object.
+ * When text is entered into the snippetPreview elements, the text is set in the unformattedText object.
  * This allows the visible data to be editted in the snippetPreview.
- * @param ev
+ * @param {Object} event The event to set the unformatted text from.
+ * @returns {void}
  */
-SnippetPreview.prototype.setUnformattedText = function( ev ) {
-	var elem =  ev.currentTarget.id;
+SnippetPreview.prototype.setUnformattedText = function( event ) {
+	var elem =  event.currentTarget.id;
 	this.unformattedText[ elem ] = document.getElementById( elem ).textContent;
 };
 
 /**
  * Validates all fields and highlights errors.
+ * @returns {void}
  */
 SnippetPreview.prototype.validateFields = function() {
 	var metaDescription = getAnalyzerMetaDesc.call( this );
@@ -4027,6 +4076,7 @@ SnippetPreview.prototype.validateFields = function() {
 
 /**
  * Updates progress bars based on the data
+ * @returns {void}
  */
 SnippetPreview.prototype.updateProgressBars = function() {
 	var metaDescriptionRating, titleRating, metaDescription, title;
@@ -4054,6 +4104,7 @@ SnippetPreview.prototype.updateProgressBars = function() {
 
 /**
  * Binds the reloadSnippetText function to the blur of the snippet inputs.
+ * @returns {void}
  */
 SnippetPreview.prototype.bindEvents = function() {
 	var targetElement,
@@ -4115,6 +4166,7 @@ SnippetPreview.prototype.bindEvents = function() {
 
 /**
  * Updates snippet preview on changed input. It's debounced so that we can call this function as much as we want.
+ * @returns {void}
  */
 SnippetPreview.prototype.changedInput = debounce( function() {
 	this.updateDataFromDOM();
@@ -4128,6 +4180,7 @@ SnippetPreview.prototype.changedInput = debounce( function() {
 
 /**
  * Updates our data object from the DOM
+ * @returns {void}
  */
 SnippetPreview.prototype.updateDataFromDOM = function() {
 	this.data.title = this.element.input.title.value;
@@ -4140,6 +4193,7 @@ SnippetPreview.prototype.updateDataFromDOM = function() {
 
 /**
  * Opens the snippet editor.
+ * @returns {void}
  */
 SnippetPreview.prototype.openEditor = function() {
 
@@ -4155,6 +4209,7 @@ SnippetPreview.prototype.openEditor = function() {
 
 /**
  * Closes the snippet editor.
+ * @returns {void}
  */
 SnippetPreview.prototype.closeEditor = function() {
 
@@ -4170,6 +4225,7 @@ SnippetPreview.prototype.closeEditor = function() {
 
 /**
  * Toggles the snippet editor.
+ * @returns {void}
  */
 SnippetPreview.prototype.toggleEditor = function() {
 	if ( this.opened ) {
@@ -4183,6 +4239,7 @@ SnippetPreview.prototype.toggleEditor = function() {
  * Updates carets before the preview and input fields.
  *
  * @private
+ * @returns {void}
  */
 SnippetPreview.prototype._updateFocusCarets = function() {
 	var focusedLabel, focusedPreview;
@@ -4210,6 +4267,7 @@ SnippetPreview.prototype._updateFocusCarets = function() {
  * Updates hover carets before the input fields.
  *
  * @private
+ * @returns {void}
  */
 SnippetPreview.prototype._updateHoverCarets = function() {
 	var hoveredLabel;
@@ -4228,7 +4286,8 @@ SnippetPreview.prototype._updateHoverCarets = function() {
 /**
  * Updates the title data and the the title input field. This also means the snippet editor view is updated.
  *
- * @param {string} title
+ * @param {string} title The title to use in the input field.
+ * @returns {void}
  */
 SnippetPreview.prototype.setTitle = function( title ) {
 	this.element.input.title.value = title;
@@ -4239,7 +4298,8 @@ SnippetPreview.prototype.setTitle = function( title ) {
 /**
  * Updates the url path data and the the url path input field. This also means the snippet editor view is updated.
  *
- * @param {string} urlPath
+ * @param {string} urlPath the URL path to use in the input field.
+ * @returns {void}
  */
 SnippetPreview.prototype.setUrlPath = function( urlPath ) {
 	this.element.input.urlPath.value = urlPath;
@@ -4250,7 +4310,8 @@ SnippetPreview.prototype.setUrlPath = function( urlPath ) {
 /**
  * Updates the meta description data and the the meta description input field. This also means the snippet editor view is updated.
  *
- * @param {string} metaDesc
+ * @param {string} metaDesc the meta description to use in the input field.
+ * @returns {void}
  */
 SnippetPreview.prototype.setTitle = function( metaDesc ) {
 	this.element.input.metaDesc.value = metaDesc;
@@ -4338,7 +4399,7 @@ module.exports = function( matchString, extraWordBoundary ) {
 /**
  * Checks if a links has a nofollow attribute. If it has, returns Nofollow, otherwise Dofollow.
  *
- * @param {string} text
+ * @param {string} text The text to check against.
  * @returns {string} Returns Dofollow or Nofollow.
  */
 module.exports = function( text ) {
@@ -4484,13 +4545,13 @@ var countBasicSyllables = function( text ) {
 	var array = text.split( " " );
 	var i, j, splitWord, count = 0;
 
-	//split textstring to individual words
+	// split textstring to individual words
 	for ( i = 0; i < array.length; i++ ) {
 
-		//split on consonants
+		// split on consonants
 		splitWord = array[ i ].split( /[^aeiouy]/g );
 
-		//if the string isn't empty, a consonant was found, up the counter
+		// if the string isn't empty, a consonant was found, up the counter
 		for ( j = 0; j < splitWord.length; j++ ) {
 			if ( splitWord[ j ] !== "" ) {
 				count++;
@@ -4668,7 +4729,7 @@ module.exports = function( text ) {
 module.exports = function( text ) {
 	var matches;
 
-	//regex matches everything between <a> and </a>
+	// regex matches everything between <a> and </a>
 	matches = text.match( /<a(?:[^>]+)?>(.*?)<\/a>/ig );
 	if ( matches === null ) {
 		matches = [];

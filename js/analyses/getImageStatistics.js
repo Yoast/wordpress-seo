@@ -38,10 +38,10 @@ var matchImageTags = function( imageMatches, keyword ) {
 	for ( var i = 0; i < imageMatches.length; i++ ) {
 		var alttag = imageAlttag( imageMatches[i] );
 
-		if ( alttag !== "" ) {
-			imageCount[ matchKeywordInAlttags( alttag, keyword ) ]++;
-		} else {
+		if ( alttag === "" ) {
 			imageCount.noAlt++;
+		} else {
+			imageCount[ matchKeywordInAlttags( alttag, keyword ) ]++;
 		}
 	}
 	return imageCount;

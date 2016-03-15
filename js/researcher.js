@@ -26,6 +26,7 @@ var Researcher = function( paper ) {
  * Set the Paper associated with the Researcher.
  * @param {Paper} paper The Paper to use within the Researcher
  * @throws {InvalidTypeError} Parameter needs to be an instance of the Paper object.
+ * @returns {void}
  */
 Researcher.prototype.setPaper = function( paper ) {
 	if ( !( paper instanceof Paper ) ) {
@@ -41,6 +42,7 @@ Researcher.prototype.setPaper = function( paper ) {
  * @param {function} research The function to be added to the Researcher.
  * @throws {MissingArgument} Research name cannot be empty.
  * @throws {InvalidTypeError} The research requires a valid Function callback.
+ * @returns {void}
  */
 Researcher.prototype.addResearch = function( name, research ) {
 	if ( isUndefined( name ) || isEmpty( name ) ) {
@@ -60,10 +62,10 @@ Researcher.prototype.addResearch = function( name, research ) {
  * @returns {boolean} Whether or not the research is known by the Researcher
  */
 Researcher.prototype.hasResearch = function( name ) {
-	return Object.keys( this.getAvailableResearches() )
-	             .filter( function( research ) {
-		             return research === name;
-				} ).length > 0;
+	return Object.keys( this.getAvailableResearches() ).filter(
+	function( research ) {
+		return research === name;
+	} ).length > 0;
 };
 
 /**
