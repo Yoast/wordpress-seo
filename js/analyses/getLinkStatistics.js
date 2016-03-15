@@ -45,15 +45,18 @@ module.exports = function( text, keyword, url ) {
 	var linkKeyword;
 	for ( var i = 0; i < anchors.length; i++ ) {
 		linkKeyword = findKeywordInUrl( anchors[i], keyword );
+
 		if ( linkKeyword ) {
-			if ( keyword !== "" ) {
-				linkCount.totalKeyword++;
-			} else {
+			if ( keyword === "" ) {
 				linkCount.totalNaKeyword++;
+			} else {
+				linkCount.totalKeyword++;
 			}
 		}
+
 		var linkType = getLinkType( anchors[i], url );
 		linkCount[linkType + "Total"]++;
+
 		var linkFollow = checkNofollow( anchors[i] );
 		linkCount[linkType + linkFollow]++;
 	}

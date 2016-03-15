@@ -678,9 +678,7 @@ SnippetPreview.prototype.formatMeta = function() {
  * @returns {string} A generated meta description.
  */
 SnippetPreview.prototype.getMetaText = function() {
-	var metaText;
-
-	metaText = this.opts.defaultValue.metaDesc;
+	var metaText = this.opts.defaultValue.metaDesc;
 
 	if ( !isUndefined( this.refObj.rawData.excerpt ) && isEmpty( metaText ) ) {
 		metaText = this.refObj.rawData.excerpt;
@@ -695,26 +693,24 @@ SnippetPreview.prototype.getMetaText = function() {
 	}
 
 	metaText = stripHTMLTags( metaText );
-	if (
-		this.refObj.rawData.keyword !== "" &&
-		this.refObj.rawData.text !== ""
-	) {
+
+	// Generate a meta description based on where in the text the keyword is found first
+	if ( this.refObj.rawData.keyword !== "" && this.refObj.rawData.text !== "" ) {
+		var curStart = 0;
 		var indexMatches = this.getIndexMatches();
 		var periodMatches = this.getPeriodMatches();
 
-		metaText = metaText.substring(
-			0,
-			analyzerConfig.maxMeta
-		);
-		var curStart = 0;
+		metaText = metaText.substring( 0, analyzerConfig.maxMeta );
+
 		if ( indexMatches.length > 0 ) {
-			for ( var j = 0; j < periodMatches.length; ) {
+			var j = 0;
+
+			while ( j < periodMatches.length ) {
 				if ( periodMatches[ 0 ] < indexMatches[ 0 ] ) {
 					curStart = periodMatches.shift();
+				} else if ( curStart > 0 ) {
+					curStart += 2;
 				} else {
-					if ( curStart > 0 ) {
-						curStart += 2;
-					}
 					break;
 				}
 			}
@@ -1136,7 +1132,7 @@ SnippetPreview.prototype._updateHoverCarets = function() {
 /**
  * Updates the title data and the the title input field. This also means the snippet editor view is updated.
  *
- * @param {string} title
+ * @param {string} title The title to use in the input field.
  * @returns {void}
  */
 SnippetPreview.prototype.setTitle = function( title ) {
@@ -1148,7 +1144,7 @@ SnippetPreview.prototype.setTitle = function( title ) {
 /**
  * Updates the url path data and the the url path input field. This also means the snippet editor view is updated.
  *
- * @param {string} urlPath
+ * @param {string} urlPath the URL path to use in the input field.
  * @returns {void}
  */
 SnippetPreview.prototype.setUrlPath = function( urlPath ) {
@@ -1160,7 +1156,7 @@ SnippetPreview.prototype.setUrlPath = function( urlPath ) {
 /**
  * Updates the meta description data and the the meta description input field. This also means the snippet editor view is updated.
  *
- * @param {string} metaDesc
+ * @param {string} metaDesc the meta description to use in the input field.
  * @returns {void}
  */
 SnippetPreview.prototype.setTitle = function( metaDesc ) {
