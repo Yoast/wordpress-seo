@@ -771,6 +771,7 @@ SnippetPreview.prototype.getPeriodMatches = function() {
  * @returns {string} The formatted keyword.
  */
 SnippetPreview.prototype.formatKeyword = function( textString ) {
+
 	// removes characters from the keyword that could break the regex, or give unwanted results
 	var keyword = this.refObj.rawData.keyword.replace( /[\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, " " );
 

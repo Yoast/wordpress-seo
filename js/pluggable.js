@@ -42,9 +42,7 @@ var Pluggable = function( app ) {
 	setTimeout( this._pollLoadingPlugins.bind( this ), 1500 );
 };
 
-
 //  ***** DSL IMPLEMENTATION ***** //
-
 
 /**
  * Register a plugin with YoastSEO. A plugin can be declared "ready" right at registration or later using `this.ready`.

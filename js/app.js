@@ -176,7 +176,8 @@ function verifyArguments( args ) {
  * @param {String} args.targets.snippet ID for the snippet preview element.
  * @param {String} args.targets.output ID for the element to put the output of the analyzer in.
  * @param {int} args.typeDelay Number of milliseconds to wait between typing to refresh the analyzer output.
- * @param {boolean} args.dynamicDelay Whether to enable dynamic delay, will ignore type delay if the analyzer takes a long time. Applicable on slow devices.
+ * @param {boolean} args.dynamicDelay   Whether to enable dynamic delay, will ignore type delay if the analyzer takes a long time.
+ *                                      Applicable on slow devices.
  * @param {int} args.maxTypeDelay The maximum amount of type delay even if dynamic delay is on.
  * @param {int} args.typeDelayStep The amount with which to increase the typeDelay on each step when dynamic delay is enabled.
  * @param {Object} args.callbacks The callbacks that the app requires.

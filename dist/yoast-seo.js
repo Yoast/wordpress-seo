@@ -1306,7 +1306,8 @@ function verifyArguments( args ) {
  * @param {String} args.targets.snippet ID for the snippet preview element.
  * @param {String} args.targets.output ID for the element to put the output of the analyzer in.
  * @param {int} args.typeDelay Number of milliseconds to wait between typing to refresh the analyzer output.
- * @param {boolean} args.dynamicDelay Whether to enable dynamic delay, will ignore type delay if the analyzer takes a long time. Applicable on slow devices.
+ * @param {boolean} args.dynamicDelay   Whether to enable dynamic delay, will ignore type delay if the analyzer takes a long time.
+ *                                      Applicable on slow devices.
  * @param {int} args.maxTypeDelay The maximum amount of type delay even if dynamic delay is on.
  * @param {int} args.typeDelayStep The amount with which to increase the typeDelay on each step when dynamic delay is enabled.
  * @param {Object} args.callbacks The callbacks that the app requires.
@@ -2518,9 +2519,7 @@ var Pluggable = function( app ) {
 	setTimeout( this._pollLoadingPlugins.bind( this ), 1500 );
 };
 
-
 //  ***** DSL IMPLEMENTATION ***** //
-
 
 /**
  * Register a plugin with YoastSEO. A plugin can be declared "ready" right at registration or later using `this.ready`.
@@ -3925,6 +3924,7 @@ SnippetPreview.prototype.getPeriodMatches = function() {
  * @returns {string} The formatted keyword.
  */
 SnippetPreview.prototype.formatKeyword = function( textString ) {
+
 	// removes characters from the keyword that could break the regex, or give unwanted results
 	var keyword = this.refObj.rawData.keyword.replace( /[\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, " " );
 
