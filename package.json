@@ -45,7 +45,10 @@
     "lodash-cli": "^3.10.1",
     "sassdash": "^0.8.1",
     "zombie": "^4.0.10"
+  },
+  "dependencies": {
+    "jed": "^1.1.0",
+    "lodash": "^3.10.1"
   }
-
 
 }
