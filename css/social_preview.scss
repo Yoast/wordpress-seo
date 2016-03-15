@@ -18,9 +18,13 @@
 	}
 
 	&__image {
-		background: #F6C6CE;
 		width:      470px;
-		height:     235px;
+		max-height: 470px;
+
+		img {
+			max-height: 470px;
+			max-width:  470px;
+		}
 	}
 
 	&__text-keeper {

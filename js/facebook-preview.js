@@ -22,7 +22,7 @@ var defaults = {
 	},
 	placeholder: {
 		title:    "This is an example title - edit by clicking here",
-		description: "Modify your meta description by editing it right here",
+		description: "Modify your facebook description by editing it right here",
 		imageUrl : ""
 	},
 	defaultValue: {
@@ -30,11 +30,10 @@ var defaults = {
 		description: "",
 		imageUrl: ""
 	},
-	baseURL: "http://example.com/",
+	baseURL: "http://example.com",
 	callbacks: {
 		saveSnippetData: function() {}
-	},
-	addTrailingSlash: true
+	}
 };
 
 var inputPreviewBindings = [
@@ -86,16 +85,6 @@ function removeClass( element, className ) {
 }
 
 /**
- * Returns if a url has a trailing slash or not.
- *
- * @param {string} url
- * @returns {boolean}
- */
-function hasTrailingSlash( url ) {
-	return url.indexOf( "/" ) === ( url.length - 1 );
-}
-
-/**
  * @module snippetPreview
  */
 
@@ -103,7 +92,6 @@ function hasTrailingSlash( url ) {
  * defines the config and outputTarget for the SnippetPreview
  *
  * @param {Object}         opts                           - Snippet preview options.
- * @param {App}            opts.analyzerApp               - The app object the snippet preview is part of.
  * @param {Object}         opts.placeholder               - The placeholder values for the fields, will be shown as
  * actual placeholders in the inputs and as a fallback for the preview.
  * @param {string}         opts.placeholder.title
@@ -114,17 +102,15 @@ function hasTrailingSlash( url ) {
  * changed a field, this value will be used for the analyzer, preview and the progress bars.
  * @param {string}         opts.defaultValue.title
  * @param {string}         opts.defaultValue.description
+ * @param {string}         opts.defaultValue.imageUrl
  * it.
  *
- * @param {string}         opts.baseURL                   - The basic URL as it will be displayed in google.
+ * @param {string}         opts.baseURL                   - The basic URL as it will be displayed in facebook.
  * @param {HTMLElement}    opts.targetElement             - The target element that contains this snippet editor.
  *
  * @param {Object}         opts.callbacks                 - Functions that are called on specific instances.
  * @param {Function}       opts.callbacks.saveSnippetData - Function called when the snippet data is changed.
  *
- * @param {boolean}        opts.addTrailingSlash          - Whether or not to add a trailing slash to the URL.
- *
- * @property {App}         refObj                         - The connected app object.
  * @property {Jed}         i18n                           - The translation object.
  *
  * @property {HTMLElement} targetElement                  - The target element that contains this snippet editor.
@@ -132,9 +118,9 @@ function hasTrailingSlash( url ) {
  * @property {Object}      element                        - The elements for this snippet editor.
  * @property {Object}      element.rendered               - The rendered elements.
  * @property {HTMLElement} element.rendered.title         - The rendered title element.
- * @property {HTMLElement} element.rendered.imageUrl       - The rendered url path element.
+ * @property {HTMLElement} element.rendered.imageUrl      - The rendered url path element.
  * @property {HTMLElement} element.rendered.urlBase       - The rendered url base element.
- * @property {HTMLElement} element.rendered.description   - The rendered meta description element.
+ * @property {HTMLElement} element.rendered.description   - The rendered facebook description element.
  *
  * @property {Object}      element.input                  - The input elements.
  * @property {HTMLElement} element.input.title            - The title input element.
@@ -191,6 +177,20 @@ FacebookPreview.prototype.constructI18n = function( translations ) {
 };
 
 /**
+ * Renders the template and bind the events.
+ */
+FacebookPreview.prototype.init = function() {
+	this.renderTemplate();
+	this.bindEvents();
+
+	// Sets the image ratio.
+	this.setImageRatio( this.element.rendered.imageUrl );
+
+	// Renders the snippet style.
+	this.renderSnippetStyle();
+};
+
+/**
  * Renders snippet editor and adds it to the targetElement.
  */
 FacebookPreview.prototype.renderTemplate = function() {
@@ -212,8 +212,8 @@ FacebookPreview.prototype.renderTemplate = function() {
 		i18n: {
 			edit: this.i18n.dgettext( "js-text-analysis", "Edit snippet" ),
 			title: this.i18n.dgettext( "js-text-analysis", "Facebook title" ),
-			imageUrl:  this.i18n.dgettext( "js-text-analysis", "Image URL" ),
-			description: this.i18n.dgettext( "js-text-analysis", "Meta description" ),
+			imageUrl:  this.i18n.dgettext( "js-text-analysis", "Facebook image URL" ),
+			description: this.i18n.dgettext( "js-text-analysis", "Facebook description" ),
 			save: this.i18n.dgettext( "js-text-analysis", "Close snippet editor" ),
 			snippetPreview: this.i18n.dgettext( "js-text-analysis", "Snippet preview" ),
 			snippetEditor: this.i18n.dgettext( "js-text-analysis", "Snippet editor" )
@@ -255,25 +255,7 @@ FacebookPreview.prototype.renderTemplate = function() {
 
 
 /**
- * Returns the descriptionription, includes the date if it is set.
- *
- * @private
- * @this FacebookPreview
- *
- * @returns {string}
- */
-var getAnalyzerMetaDesc = function() {
-	var description = this.data.description;
-
-	if ( isEmpty( description ) ) {
-		description = this.opts.defaultValue.description;
-	}
-
-	return stripSpaces( description );
-};
-
-/**
- * creates html object to contain the strings for the snippetpreview
+ * Creates html object to contain the strings for the Facebook preview
  *
  * @returns {Object}
  */
@@ -288,11 +270,29 @@ FacebookPreview.prototype.htmlOutput = function() {
 };
 
 /**
- * formats the title for the snippet preview. If title and pageTitle are empty, sampletext is used
+ * Formats the title for the Facebook preview. If title is empty, sampletext is used
  *
  * @returns {string}
  */
 FacebookPreview.prototype.formatTitle = function() {
+	var title = this.getTitle();
+
+	title = stripHTMLTags( title );
+
+	// As an ultimate fallback provide the user with a helpful message.
+	if ( isEmpty( title ) ) {
+		title = this.i18n.dgettext( "js-text-analysis", "Please provide a Facebook title by editing the snippet below." );
+	}
+
+	return title;
+};
+
+/**
+ * Gets the title for the preview.
+ *
+ * @returns {string}
+ */
+FacebookPreview.prototype.getTitle = function() {
 	var title = this.data.title;
 
 	// Fallback to the default if the title is empty.
@@ -305,14 +305,105 @@ FacebookPreview.prototype.formatTitle = function() {
 		title = this.opts.placeholder.title;
 	}
 
-	title = stripHTMLTags( title );
+	return title;
+};
+/**
+ * Formats the description for the facebook preview..
+ *
+ * @returns {string} Formatted description.
+ */
+FacebookPreview.prototype.formatDescription = function() {
+	var description = this.getDescription();
+
+	description = stripHTMLTags( description );
 
 	// As an ultimate fallback provide the user with a helpful message.
-	if ( isEmpty( title ) ) {
-		title = this.i18n.dgettext( "js-text-analysis", "Please provide an SEO title by editing the snippet below." );
+	if ( isEmpty( description ) ) {
+		description = this.i18n.dgettext( "js-text-analysis", "Please provide a description by editing the snippet below." );
 	}
 
-	return title;
+	return description;
+};
+
+/**
+ * Returns the description.
+ *
+ * @returns {String}
+ */
+FacebookPreview.prototype.getDescription = function() {
+	var description = this.data.description;
+
+	if ( isEmpty( description ) ) {
+		description = this.opts.defaultValue.description;
+	}
+
+	return stripSpaces( description );
+};
+
+/**
+ * Formats the imageUrl for the facebook preview
+ *
+ * @returns {string} Formatted URL for the facebook preview.
+ */
+FacebookPreview.prototype.formatImageUrl = function() {
+	var imageUrl = this.getImageUrl();
+
+	imageUrl = stripHTMLTags( imageUrl );
+
+	return imageUrl;
+};
+
+/**
+ * Gets the imageUrl
+ *
+ * @returns {string}
+ */
+FacebookPreview.prototype.getImageUrl = function() {
+	var imageUrl = this.data.imageUrl;
+
+	// Fallback to the default if the imageUrl is empty.
+	if ( isEmpty( imageUrl ) ) {
+		imageUrl = this.opts.placeholder.imageUrl;
+	}
+
+	return imageUrl;
+};
+
+/**
+ * Updates the image object with the new URL.
+ *
+ * @param {Object} image
+ * @param {String} imageURL
+ */
+FacebookPreview.prototype.setImageUrl = function( image, imageURL ) {
+	image.src = imageURL;
+
+	// Hide the image element, while resizing the image.
+	addClass( image, 'snippet-editor--hidden' );
+
+	this.setImageRatio( image );
+
+	// Show the image, because it's done.
+	removeClass( image, 'snippet-editor--hidden' );
+};
+
+/**
+ * Sets the image dimensions by ratio
+ *
+ * @param {Object} image
+ */
+FacebookPreview.prototype.setImageRatio = function( image ) {
+	var maxWidth = 470;
+	var width    = image.width;
+
+	if(width > maxWidth) {
+		// The image width is bigger than the maxWidth, so set it with maxWidth.
+		image.width = maxWidth;
+
+		var height = image.height;
+
+		image.height = height * ( maxWidth / width );
+	}
 };
 
 /**
@@ -325,54 +416,6 @@ FacebookPreview.prototype.formatUrl = function() {
 
 	// Removes the http part of the url, google displays https:// if the website supports it.
 	return url.replace( /http:\/\//ig, "" );
-};
-
-/**
- * Formats the url for the snippet preview
- *
- * @returns {string} Formatted URL for the snippet preview.
- */
-FacebookPreview.prototype.formatImageUrl = function() {
-	var imageUrl = this.data.imageUrl;
-
-	imageUrl = stripHTMLTags( imageUrl );
-
-	// Fallback to the default if the cite is empty.
-	if ( isEmpty( imageUrl ) ) {
-		imageUrl = this.opts.placeholder.imageUrl;
-	}
-
-	return imageUrl;
-};
-
-/**
- * Formats the description for the snippet preview, if it's empty retrieves it using getMetaText.
- *
- * @returns {string} Formatted description.
- */
-FacebookPreview.prototype.formatDescription = function() {
-	var description = this.data.description;
-
-	// If no description has been set, generate one.
-	if ( isEmpty( description ) ) {
-		description = this.opts.defaultValue.description;
-	}
-
-	description = stripHTMLTags( description ).substring( 0, 145 );
-
-	// As an ultimate fallback provide the user with a helpful message.
-	if ( isEmpty( description ) ) {
-		description = this.i18n.dgettext( "js-text-analysis", "Please provide a description by editing the snippet below." );
-	}
-
-	return description;
-};
-
-/**
- * function to call init, to rerender the snippetpreview
- */
-FacebookPreview.prototype.reRender = function() {
-	this.init();
 };
 
 /**
@@ -466,39 +509,6 @@ FacebookPreview.prototype.refresh = function() {
 };
 
 /**
- * Updates the image object with the new URL.
- * @param {String} image
- * @param {String} imageURL
- */
-FacebookPreview.prototype.setImageUrl = function( image, imageURL ) {
-	image.src = imageURL;
-
-	// Hide the image element, while resizing the image.
-	addClass( image, 'snippet-editor--hidden' );
-
-	this.setImageRatio( image );
-
-	// Show the image, because it's done.
-	removeClass( image, 'snippet-editor--hidden' );
-};
-
-
-FacebookPreview.prototype.setImageRatio = function( image ) {
-
-	var maxWidth = 470; // Max width for the image
-	var ratio    = 0;
-	var width    = image.width;    // Current image width
-	var height   = image.height;  // Current image height
-
-	// Check if the current width is larger than the max
-	if(width > maxWidth) {
-		ratio = maxWidth / width;   // get ratio for scaling image
-		image.width = maxWidth; // Set new width
-		image.height = height * ratio;  // Scale height based on ratio
-	}
-};
-
-/**
  * Renders the outputs to the elements on the page.
  */
 FacebookPreview.prototype.renderOutput = function() {
@@ -516,7 +526,7 @@ FacebookPreview.prototype.renderOutput = function() {
  */
 FacebookPreview.prototype.renderSnippetStyle = function() {
 	var descriptionElement = this.element.rendered.description;
-	var description = getAnalyzerMetaDesc.call( this );
+	var description = this.getDescription();
 
 	if ( isEmpty( description ) ) {
 		addClass( descriptionElement, "desc-render" );

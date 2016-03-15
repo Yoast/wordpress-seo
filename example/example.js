@@ -5,4 +5,5 @@ var facebookPreview = new FacebookPreview(
 		targetElement: document.getElementById(  'output-container' )
 	}
 );
-facebookPreview.renderTemplate();
+
+facebookPreview.init();
