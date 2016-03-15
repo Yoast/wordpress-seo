@@ -951,7 +951,7 @@ class WPSEO_Frontend {
 				}
 			}
 
-			$this->canonical_unpaged = $canonical;
+			$this->canonical_unpaged = user_trailingslashit( $canonical );
 
 			if ( $canonical && get_query_var( 'paged' ) > 1 ) {
 				global $wp_rewrite;
@@ -988,7 +988,7 @@ class WPSEO_Frontend {
 		 *
 		 * @api string $canonical The canonical URL
 		 */
-		$this->canonical = apply_filters( 'wpseo_canonical', $canonical );
+		$this->canonical = apply_filters( 'wpseo_canonical', user_trailingslashit( $canonical ) );
 	}
 
 	/**
