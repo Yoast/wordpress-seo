@@ -36,8 +36,8 @@ ul.wpseo-metabox-tabs li.active {
 }
 
 .wpseo-metabox-sidebar li span {
-	margin-left: -5px;
-	padding-left: 5px;
+	margin: 3px 0 0 -5px;
+	padding: 0 2px 0 5px;
 	border-width: 0 0 0 3px;
 	border-style: solid;
 	border-color: transparent;
@@ -84,13 +84,20 @@ ul.wpseo-metabox-tabs li {
 }
 
 .wpseo-metabox-sidebar a {
-	display: block;
+	display: inline-block;
+	width: 35px;
+	height: 35px;
 	font-size: 20px;
 	line-height: 30px;
 	text-decoration: none;
 }
 
+.wpseo-metabox-sidebar ul {
+	margin: 0;
+}
+
 .wpseo-metabox-sidebar li {
+	margin-bottom: 0;
 	padding: 5px;
 }
 
@@ -128,6 +135,10 @@ ul.wpseo-metabox-tabs li {
 
 .inside .wpseotab .form-table td select[multiple] {
 	margin-top: 0;
+}
+
+.wpseotab .wpseo_image_upload_button {
+	margin-left: 3px;
 }
 
 .wpseotab .wpseoanalysis {
@@ -232,12 +243,11 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
  * Or, maybe, take advantage of the `.button` CSS class in WordPress.
  */
 .snippet-editor__button.snippet-editor__edit-button:focus {
-	outline: none;
-	background-color: #fafafa;
-	color: #23282d;
 	border-color: #5b9dd9;
-	-webkit-box-shadow: 0 0 3px rgba( 0, 115, 170, .8 );
-	box-shadow: 0 0 3px rgba( 0, 115, 170, .8 );
+	outline: none;
+	color: #23282d;
+	background-color: #fafafa;
+	box-shadow: 0 0 3px rgba( 0, 115, 170, 0.8 );
 }
 
 /*
