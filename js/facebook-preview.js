@@ -8,6 +8,8 @@ var defaultsDeep = require( "lodash/object/defaultsDeep" );
 var forEach = require( "lodash/collection/forEach" );
 var debounce = require( "lodash/function/debounce" );
 
+var Jed = require( "jed" );
+
 var stringToRegex = require( "yoastseo/js/stringProcessing/stringToRegex.js" );
 var stripHTMLTags = require( "yoastseo/js/stringProcessing/stripHTMLTags.js" );
 var sanitizeString = require( "yoastseo/js/stringProcessing/sanitizeString.js" );
@@ -19,16 +21,17 @@ var defaults = {
 	data: {
 		title: "",
 		description: "",
-		imageURL: ""
+		imageUrl: ""
 	},
 	placeholder: {
 		title:    "This is an example title - edit by clicking here",
-		description: "Modify your meta description by editing it right here"
+		description: "Modify your meta description by editing it right here",
+		imageUrl : ""
 	},
 	defaultValue: {
 		title: "",
 		description: "",
-		imageURL: ""
+		imageUrl: ""
 	},
 	baseURL: "http://example.com/",
 	callbacks: {
@@ -37,19 +40,17 @@ var defaults = {
 	addTrailingSlash: true
 };
 
-var titleMaxLength = 65;
-
 var inputPreviewBindings = [
 	{
 		"preview": "title_container",
 		"inputField": "title"
 	},
-	{
+	/*{
 		"preview": "url_container",
-		"inputField": "imageURL"
-	},
+		"inputField": "imageUrl"
+	},*/
 	{
-		"preview": "meta_container",
+		"preview": "description_container",
 		"inputField": "description"
 	}
 ];
@@ -76,33 +77,6 @@ var getBaseURL = function() {
 
 	return baseURL;
 };
-
-/**
- * Retrieves unformatted text from the data object
- *
- * @private
- * @this FacebookPreview
- *
- * @param {string} key The key to retrieve.
- */
-function retrieveUnformattedText( key ) {
-	return this.data[ key ];
-}
-
-/**
- * Update data and DOM objects when the unformatted text is updated, here for backwards compatibility
- *
- * @private
- * @this FacebookPreview
- *
- * @param {string} key The data key to update.
- * @param {string} value The value to update.
- */
-function updateUnformattedText( key, value ) {
-	this.element.input[ key ].value = value;
-
-	this.data[ key ] = value;
-}
 
 /**
  * Adds a class to an element
@@ -138,16 +112,6 @@ function removeClass( element, className ) {
 }
 
 /**
- * Removes multiple classes from an element
- *
- * @param {HTMLElement} element The element to remove the classes from.
- * @param {Array} classes A list of classes to remove
- */
-function removeClasses( element, classes ) {
-	forEach( classes, removeClass.bind( null, element ) );
-}
-
-/**
  * Returns if a url has a trailing slash or not.
  *
  * @param {string} url
@@ -155,104 +119,6 @@ function removeClasses( element, classes ) {
  */
 function hasTrailingSlash( url ) {
 	return url.indexOf( "/" ) === ( url.length - 1 );
-}
-
-/**
- * Detects if this browser has <progress> support. Also serves as a poor man's HTML5shiv.
- *
- * @private
- *
- * @returns {boolean}
- */
-function hasProgressSupport() {
-	var progressElement = document.createElement( "progress" );
-
-	return !isUndefined( progressElement.max );
-}
-
-/**
- * Returns a rating based on the length of the title
- *
- * @param {string} titleLength
- * @returns {string}
- */
-function rateTitleLength( titleLength ) {
-	var rating;
-
-	switch ( true ) {
-		case titleLength > 0 && titleLength <= 34:
-		case titleLength >= 66:
-			rating = "ok";
-			break;
-
-		case titleLength >= 35 && titleLength <= 65:
-			rating = "good";
-			break;
-
-		default:
-			rating = "bad";
-			break;
-	}
-
-	return rating;
-}
-
-/**
- * Returns a rating based on the length of the meta description
- *
- * @param {string} descriptionLength
- * @returns {string}
- */
-function rateMetaDescLength( descriptionLength ) {
-	var rating;
-
-	switch ( true ) {
-		case descriptionLength > 0 && descriptionLength <= 120:
-		case descriptionLength >= 157:
-			rating = "ok";
-			break;
-
-		case descriptionLength >= 120 && descriptionLength <= 157:
-			rating = "good";
-			break;
-
-		default:
-			rating = "bad";
-			break;
-	}
-
-	return rating;
-}
-
-/**
- * Updates a progress bar
- *
- * @private
- * @this FacebookPreview
- *
- * @param {HTMLElement} element The progress element that's rendered.
- * @param {number} value The current value.
- * @param {number} maximum The maximum allowed value.
- * @param {string} rating The SEO score rating for this value.
- */
-function updateProgressBar( element, value, maximum, rating ) {
-	var barElement, progress,
-		allClasses = [
-			"snippet-editor__progress--bad",
-			"snippet-editor__progress--ok",
-			"snippet-editor__progress--good"
-		];
-
-	element.value = value;
-	removeClasses( element, allClasses );
-	addClass( element, "snippet-editor__progress--" + rating );
-
-	if ( !this.hasProgressSupport ) {
-		barElement = element.getElementsByClassName( "snippet-editor__progress-bar" )[ 0 ];
-		progress = ( value / maximum ) * 100;
-
-		barElement.style.width = progress + "%";
-	}
 }
 
 /**
@@ -268,7 +134,7 @@ function updateProgressBar( element, value, maximum, rating ) {
  * actual placeholders in the inputs and as a fallback for the preview.
  * @param {string}         opts.placeholder.title
  * @param {string}         opts.placeholder.description
- * @param {string}         opts.placeholder.imageURL
+ * @param {string}         opts.placeholder.imageUrl
  *
  * @param {Object}         opts.defaultValue              - The default value for the fields, if the user has not
  * changed a field, this value will be used for the analyzer, preview and the progress bars.
@@ -292,14 +158,14 @@ function updateProgressBar( element, value, maximum, rating ) {
  * @property {Object}      element                        - The elements for this snippet editor.
  * @property {Object}      element.rendered               - The rendered elements.
  * @property {HTMLElement} element.rendered.title         - The rendered title element.
- * @property {HTMLElement} element.rendered.imageURL       - The rendered url path element.
+ * @property {HTMLElement} element.rendered.imageUrl       - The rendered url path element.
  * @property {HTMLElement} element.rendered.urlBase       - The rendered url base element.
- * @property {HTMLElement} element.rendered.description      - The rendered meta description element.
+ * @property {HTMLElement} element.rendered.description   - The rendered meta description element.
  *
  * @property {Object}      element.input                  - The input elements.
  * @property {HTMLElement} element.input.title            - The title input element.
- * @property {HTMLElement} element.input.imageURL          - The url path input element.
- * @property {HTMLElement} element.input.description         - The meta description input element.
+ * @property {HTMLElement} element.input.imageUrl         - The url path input element.
+ * @property {HTMLElement} element.input.description      - The meta description input element.
  *
  * @property {HTMLElement} element.container              - The main container element.
  * @property {HTMLElement} element.formContainer          - The form container element.
@@ -307,7 +173,7 @@ function updateProgressBar( element, value, maximum, rating ) {
  *
  * @property {Object}      data                           - The data for this snippet editor.
  * @property {string}      data.title                     - The title.
- * @property {string}      data.imageURL                   - The url path.
+ * @property {string}      data.imageUrl                   - The url path.
  * @property {string}      data.description                  - The meta description.
  *
  * @property {string}      baseURL                        - The basic URL as it will be displayed in google.
@@ -324,7 +190,7 @@ var FacebookPreview = function(opts, i18n ) {
 	}
 
 	this.data = opts.data;
-	this.i18n = i18n;
+	this.i18n = i18n || this.constructI18n();
 	this.opts = opts;
 
 	this._currentFocus = null;
@@ -332,7 +198,28 @@ var FacebookPreview = function(opts, i18n ) {
 };
 
 /**
- * Renders snippet editor and adds it to the targetElement
+ * Initializes i18n object based on passed configuration
+ *
+ * @param {Object} translations
+ */
+FacebookPreview.prototype.constructI18n = function( translations ) {
+	var defaultTranslations = {
+		"domain": "js-text-analysis",
+		"locale_data": {
+			"js-text-analysis": {
+				"": {}
+			}
+		}
+	};
+
+	// Use default object to prevent Jed from erroring out.
+	translations = translations || defaultTranslations;
+
+	return new Jed( translations );
+};
+
+/**
+ * Renders snippet editor and adds it to the targetElement.
  */
 FacebookPreview.prototype.renderTemplate = function() {
 	var targetElement = this.opts.targetElement;
@@ -340,21 +227,21 @@ FacebookPreview.prototype.renderTemplate = function() {
 	targetElement.innerHTML = snippetEditorTemplate( {
 		raw: {
 			title: this.data.title,
-			snippetCite: this.data.imageURL,
-			meta: this.data.description
+			imageUrl: this.data.imageUrl,
+			description: this.data.description
 		},
 		rendered: {
 			title: this.formatTitle(),
 			baseUrl: this.formatUrl(),
-			snippetCite: this.formatCite(),
-			meta: this.formatMeta()
+			description: this.formatDescription(),
+			imageUrl: ''
 		},
 		placeholder: this.opts.placeholder,
 		i18n: {
 			edit: this.i18n.dgettext( "js-text-analysis", "Edit snippet" ),
-			title: this.i18n.dgettext( "js-text-analysis", "SEO title" ),
-			slug:  this.i18n.dgettext( "js-text-analysis", "Slug" ),
-			descriptionription: this.i18n.dgettext( "js-text-analysis", "Meta description" ),
+			title: this.i18n.dgettext( "js-text-analysis", "Facebook title" ),
+			imageUrl:  this.i18n.dgettext( "js-text-analysis", "Image URL" ),
+			description: this.i18n.dgettext( "js-text-analysis", "Meta description" ),
 			save: this.i18n.dgettext( "js-text-analysis", "Close snippet editor" ),
 			snippetPreview: this.i18n.dgettext( "js-text-analysis", "Snippet preview" ),
 			snippetEditor: this.i18n.dgettext( "js-text-analysis", "Snippet editor" )
@@ -364,18 +251,14 @@ FacebookPreview.prototype.renderTemplate = function() {
 	this.element = {
 		rendered: {
 			title: document.getElementById( "snippet_title" ),
-			urlBase: document.getElementById( "snippet_citeBase" ),
-			imageURL: document.getElementById( "snippet_cite" ),
-			description: document.getElementById( "snippet_meta" )
+			urlBase: document.getElementById( "snippet_base_url" ),
+			imageUrl: document.getElementById( "snippet_image" ),
+			description: document.getElementById( "snippet_description" )
 		},
 		input: {
 			title: targetElement.getElementsByClassName( "js-snippet-editor-title" )[0],
-			imageURL: targetElement.getElementsByClassName( "js-snippet-editor-slug" )[0],
-			description: targetElement.getElementsByClassName( "js-snippet-editor-meta-description" )[0]
-		},
-		progress: {
-			title: targetElement.getElementsByClassName( "snippet-editor__progress-title" )[0],
-			description: targetElement.getElementsByClassName( "snippet-editor__progress-meta-description" )[0]
+			imageUrl: targetElement.getElementsByClassName( "js-snippet-editor-imageUrl" )[0],
+			description: targetElement.getElementsByClassName( "js-snippet-editor-description" )[0]
 		},
 		container: document.getElementById( "snippet_preview" ),
 		formContainer: targetElement.getElementsByClassName( "snippet-editor__form" )[0],
@@ -387,39 +270,15 @@ FacebookPreview.prototype.renderTemplate = function() {
 
 	this.element.label = {
 		title: this.element.input.title.parentNode,
-		imageURL: this.element.input.imageURL.parentNode,
+		imageUrl: this.element.input.imageUrl.parentNode,
 		description: this.element.input.description.parentNode
 	};
 
 	this.element.preview = {
 		title: this.element.rendered.title.parentNode,
-		imageURL: this.element.rendered.imageURL.parentNode,
+		imageUrl: this.element.rendered.imageUrl.parentNode,
 		description: this.element.rendered.description.parentNode
 	};
-
-	this.hasProgressSupport = hasProgressSupport();
-
-	if ( this.hasProgressSupport ) {
-		this.element.progress.title.max = titleMaxLength;
-		this.element.progress.description.max = analyzerConfig.maxMeta;
-	} else {
-		forEach( this.element.progress, function( progressElement ) {
-			addClass( progressElement, "snippet-editor__progress--fallback" );
-		} );
-	}
-
-	this.opened = false;
-	this.updateProgressBars();
-};
-
-/**
- * Refreshes the snippet editor rendered HTML
- */
-FacebookPreview.prototype.refresh = function() {
-	this.output = this.htmlOutput();
-	this.renderOutput();
-	this.renderSnippetStyle();
-	this.updateProgressBars();
 };
 
 /**
@@ -436,8 +295,6 @@ function getAnalyzerTitle() {
 	if ( isEmpty( title ) ) {
 		title = this.opts.defaultValue.title;
 	}
-
-	title = this.refObj.pluggable._applyModifications( "data_page_title", title );
 
 	return stripSpaces( title );
 }
@@ -457,34 +314,7 @@ var getAnalyzerMetaDesc = function() {
 		description = this.opts.defaultValue.description;
 	}
 
-	description = this.refObj.pluggable._applyModifications( "data_meta_desc", description );
-
 	return stripSpaces( description );
-};
-
-/**
- * Returns the data from the snippet preview.
- *
- * @returns {Object}
- */
-FacebookPreview.prototype.getAnalyzerData = function() {
-	return {
-		title:    getAnalyzerTitle.call( this ),
-		url:      this.data.imageURL,
-		description: getAnalyzerMetaDesc.call( this )
-	};
-};
-
-/**
- *  checks if title and url are set so they can be rendered in the snippetPreview
- */
-FacebookPreview.prototype.init = function() {
-	if (
-		this.refObj.rawData.pageTitle !== null &&
-		this.refObj.rawData.cite !== null
-	) {
-		this.refresh();
-	}
 };
 
 /**
@@ -495,9 +325,10 @@ FacebookPreview.prototype.init = function() {
 FacebookPreview.prototype.htmlOutput = function() {
 	var html = {};
 	html.title = this.formatTitle();
-	html.cite = this.formatCite();
-	html.meta = this.formatMeta();
+	html.description = this.formatDescription();
+	html.cite = this.formatImageUrl();
 	html.url = this.formatUrl();
+
 	return html;
 };
 
@@ -519,17 +350,7 @@ FacebookPreview.prototype.formatTitle = function() {
 		title = this.opts.placeholder.title;
 	}
 
-	// Apply modification to the title before showing it.
-	if ( this.refObj.pluggable.loaded ) {
-		title = this.refObj.pluggable._applyModifications( "data_page_title", title );
-	}
-
 	title = stripHTMLTags( title );
-
-	// If a keyword is set we want to highlight it in the title.
-	if ( !isEmpty( this.refObj.rawData.keyword ) ) {
-		title = this.formatKeyword( title );
-	}
 
 	// As an ultimate fallback provide the user with a helpful message.
 	if ( isEmpty( title ) ) {
@@ -540,12 +361,12 @@ FacebookPreview.prototype.formatTitle = function() {
 };
 
 /**
- * Formates the base url for the snippet preview. Removes the protocol name from the URL.
+ * Formats the base url for the snippet preview. Removes the protocol name from the URL.
  *
  * @returns {string} Formatted base url for the snippet preview.
  */
 FacebookPreview.prototype.formatUrl = function() {
-	var url = getBaseURL.call( this );
+	var url = this.opts.baseURL;
 
 	// Removes the http part of the url, google displays https:// if the website supports it.
 	return url.replace( /http:\/\//ig, "" );
@@ -556,18 +377,14 @@ FacebookPreview.prototype.formatUrl = function() {
  *
  * @returns {string} Formatted URL for the snippet preview.
  */
-FacebookPreview.prototype.formatCite = function() {
-	var cite = this.data.imageURL;
+FacebookPreview.prototype.formatImageUrl = function() {
+	var cite = this.data.imageUrl;
 
 	cite = stripHTMLTags( cite );
 
 	// Fallback to the default if the cite is empty.
 	if ( isEmpty( cite ) ) {
-		cite = this.opts.placeholder.imageURL;
-	}
-
-	if ( !isEmpty( this.refObj.rawData.keyword ) ) {
-		cite = this.formatKeywordUrl( cite );
+		cite = this.opts.placeholder.imageUrl;
 	}
 
 	if ( this.opts.addTrailingSlash && !hasTrailingSlash( cite ) ) {
@@ -581,203 +398,26 @@ FacebookPreview.prototype.formatCite = function() {
 };
 
 /**
- * Formats the meta description for the snippet preview, if it's empty retrieves it using getMetaText.
+ * Formats the description for the snippet preview, if it's empty retrieves it using getMetaText.
  *
- * @returns {string} Formatted meta description.
+ * @returns {string} Formatted description.
  */
-FacebookPreview.prototype.formatMeta = function() {
-	var meta = this.data.description;
+FacebookPreview.prototype.formatDescription = function() {
+	var description = this.data.description;
 
-	// If no meta has been set, generate one.
-	if ( isEmpty( meta ) ) {
-		meta = this.getMetaText();
+	// If no description has been set, generate one.
+	if ( isEmpty( description ) ) {
+		description = this.opts.defaultValue.description;
 	}
 
-	// Apply modification to the desc before showing it.
-	if ( this.refObj.pluggable.loaded ) {
-		meta = this.refObj.pluggable._applyModifications( "data_meta_desc", meta );
-	}
-
-	meta = stripHTMLTags( meta );
-
-	// Cut-off the meta description according to the maximum length
-	meta = meta.substring( 0, analyzerConfig.maxMeta );
-
-	if ( !isEmpty( this.refObj.rawData.keyword ) ) {
-		meta = this.formatKeyword( meta );
-	}
+	description = stripHTMLTags( description ).substring( 0, 145 );
 
 	// As an ultimate fallback provide the user with a helpful message.
-	if ( isEmpty( meta ) ) {
-		meta = this.i18n.dgettext( "js-text-analysis", "Please provide a meta description by editing the snippet below." );
-	}
-
-	return meta;
-};
-
-/**
- * Generates a meta description with an educated guess based on the passed text and excerpt. It uses the keyword to
- * select an appropriate part of the text. If the keyword isn't present it takes the first 156 characters of the text.
- * If both the keyword, text and excerpt are empty this function returns the sample text.
- *
- * @returns {string} A generated meta description.
- */
-FacebookPreview.prototype.getMetaText = function() {
-	var metaText;
-
-	metaText = this.opts.defaultValue.description;
-
-	if ( !isUndefined( this.refObj.rawData.excerpt ) && isEmpty( metaText ) ) {
-		metaText = this.refObj.rawData.excerpt;
-	}
-
-	if ( !isUndefined( this.refObj.rawData.text ) && isEmpty( metaText ) ) {
-		metaText = this.refObj.rawData.text;
-
-		if ( this.refObj.pluggable.loaded ) {
-			metaText = this.refObj.pluggable._applyModifications( "content", metaText );
-		}
-	}
-
-	metaText = stripHTMLTags( metaText );
-	if (
-		this.refObj.rawData.keyword !== "" &&
-		this.refObj.rawData.text !== ""
-	) {
-		var indexMatches = this.getIndexMatches();
-		var periodMatches = this.getPeriodMatches();
-
-		metaText = metaText.substring(
-			0,
-			analyzerConfig.maxMeta
-		);
-		var curStart = 0;
-		if ( indexMatches.length > 0 ) {
-			for ( var j = 0; j < periodMatches.length; ) {
-				if ( periodMatches[ 0 ] < indexMatches[ 0 ] ) {
-					curStart = periodMatches.shift();
-				} else {
-					if ( curStart > 0 ) {
-						curStart += 2;
-					}
-					break;
-				}
-			}
-		}
-	}
-
-	return metaText.substring( 0, analyzerConfig.maxMeta );
-};
-
-/**
- * Builds an array with all indexes of the keyword
- * @returns Array with matches
- */
-FacebookPreview.prototype.getIndexMatches = function() {
-	var indexMatches = [];
-	var i = 0;
-
-	//starts at 0, locates first match of the keyword.
-	var match = this.refObj.rawData.text.indexOf(
-		this.refObj.rawData.keyword,
-		i
-	);
-
-	//runs the loop untill no more indexes are found, and match returns -1.
-	while ( match > -1 ) {
-		indexMatches.push( match );
-
-		//pushes location to indexMatches and increase i with the length of keyword.
-		i = match + this.refObj.rawData.keyword.length;
-		match = this.refObj.rawData.text.indexOf(
-			this.refObj.rawData.keyword,
-			i
-		);
-	}
-	return indexMatches;
-};
-
-/**
- * Builds an array with indexes of all sentence ends (select on .)
- * @returns array with sentences
- */
-FacebookPreview.prototype.getPeriodMatches = function() {
-	var periodMatches = [ 0 ];
-	var match;
-	var i = 0;
-	while ( ( match = this.refObj.rawData.text.indexOf( ".", i ) ) > -1 ) {
-		periodMatches.push( match );
-		i = match + 1;
-	}
-	return periodMatches;
-};
-
-/**
- * formats the keyword for use in the snippetPreview by adding <strong>-tags
- * strips unwanted characters that could break the regex or give unwanted results
- *
- * @param {string} textString
- * @returns {string}
- */
-FacebookPreview.prototype.formatKeyword = function(textString ) {
-
-	// removes characters from the keyword that could break the regex, or give unwanted results
-	var keyword = this.refObj.rawData.keyword.replace( /[\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, " " );
-
-	// Match keyword case-insensitively
-	var keywordRegex = stringToRegex( keyword, "", true );
-	return textString.replace( keywordRegex, function( str ) {
-		return "<strong>" + str + "</strong>";
-	} );
-};
-
-/**
- * formats the keyword for use in the URL by accepting - and _ in stead of space and by adding
- * <strong>-tags
- * strips unwanted characters that could break the regex or give unwanted results
- *
- * @param textString
- * @returns {XML|string|void}
- */
-FacebookPreview.prototype.formatKeywordUrl = function(textString ) {
-	var keyword = sanitizeString( this.refObj.rawData.keyword );
-	keyword = keyword.replace( /'/, "" );
-
-	var dashedKeyword = keyword.replace( /\s/g, "-" );
-
-	// Match keyword case-insensitively.
-	var keywordRegex = stringToRegex( dashedKeyword, "\\-" );
-
-	// Make the keyword bold in the textString.
-	return textString.replace( keywordRegex, function( str ) {
-		return "<strong>" + str + "</strong>";
-	} );
-};
-
-/**
- * Renders the outputs to the elements on the page.
- */
-FacebookPreview.prototype.renderOutput = function() {
-	this.element.rendered.title.innerHTML = this.output.title;
-	this.element.rendered.imageURL.innerHTML = this.output.cite;
-	this.element.rendered.urlBase.innerHTML = this.output.url;
-	this.element.rendered.description.innerHTML = this.output.meta;
-};
-
-/**
- * Makes the rendered meta description gray if no meta description has been set by the user.
- */
-FacebookPreview.prototype.renderSnippetStyle = function() {
-	var descriptionElement = this.element.rendered.description;
-	var description = getAnalyzerMetaDesc.call( this );
-
 	if ( isEmpty( description ) ) {
-		addClass( descriptionElement, "desc-render" );
-		removeClass( descriptionElement, "desc-default" );
-	} else {
-		addClass( descriptionElement, "desc-default" );
-		removeClass( descriptionElement, "desc-render" );
+		description = this.i18n.dgettext( "js-text-analysis", "Please provide a description by editing the snippet below." );
 	}
+
+	return description;
 };
 
 /**
@@ -788,114 +428,11 @@ FacebookPreview.prototype.reRender = function() {
 };
 
 /**
- * checks text length of the snippetmeta and snippettitle, shortens it if it is too long.
- * @param event
- */
-FacebookPreview.prototype.checkTextLength = function(ev ) {
-	var text = ev.currentTarget.textContent;
-	switch ( ev.currentTarget.id ) {
-		case "snippet_meta":
-			ev.currentTarget.className = "desc";
-			if ( text.length > analyzerConfig.maxMeta ) {
-				/* eslint-disable */
-				YoastSEO.app.snippetPreview.unformattedText.snippet_meta = ev.currentTarget.textContent;
-				/* eslint-enable */
-				ev.currentTarget.textContent = text.substring(
-					0,
-					analyzerConfig.maxMeta
-				);
-
-			}
-			break;
-		case "snippet_title":
-			ev.currentTarget.className = "title";
-			if ( text.length > titleMaxLength ) {
-				/* eslint-disable */
-				YoastSEO.app.snippetPreview.unformattedText.snippet_title = ev.currentTarget.textContent;
-				/* eslint-enable */
-				ev.currentTarget.textContent = text.substring( 0, titleMaxLength );
-			}
-			break;
-		default:
-			break;
-	}
-};
-
-/**
- * when clicked on an element in the snippet, checks fills the textContent with the data from the unformatted text.
- * This removes the keyword highlighting and modified data so the original content can be editted.
- * @param ev {event}
- */
-FacebookPreview.prototype.getUnformattedText = function(ev ) {
-	var currentElement = ev.currentTarget.id;
-	if ( typeof this.unformattedText[ currentElement ] !== "undefined" ) {
-		ev.currentTarget.textContent = this.unformattedText[currentElement];
-	}
-};
-
-/**
- * when text is entered into the snippetPreview elements, the text is set in the unformattedText object.
- * This allows the visible data to be editted in the snippetPreview.
- * @param ev
- */
-FacebookPreview.prototype.setUnformattedText = function(ev ) {
-	var elem =  ev.currentTarget.id;
-	this.unformattedText[ elem ] = document.getElementById( elem ).textContent;
-};
-
-/**
- * Validates all fields and highlights errors.
- */
-FacebookPreview.prototype.validateFields = function() {
-	var descriptionription = getAnalyzerMetaDesc.call( this );
-	var title = getAnalyzerTitle.call( this );
-
-	if ( descriptionription.length > analyzerConfig.maxMeta ) {
-		addClass( this.element.input.description, "snippet-editor__field--invalid" );
-	} else {
-		removeClass( this.element.input.description, "snippet-editor__field--invalid" );
-	}
-
-	if ( title.length > titleMaxLength ) {
-		addClass( this.element.input.title, "snippet-editor__field--invalid" );
-	} else {
-		removeClass( this.element.input.title, "snippet-editor__field--invalid" );
-	}
-};
-
-/**
- * Updates progress bars based on the data
- */
-FacebookPreview.prototype.updateProgressBars = function() {
-	var descriptionriptionRating, titleRating, descriptionription, title;
-
-	descriptionription = getAnalyzerMetaDesc.call( this );
-	title = getAnalyzerTitle.call( this );
-
-	titleRating = rateTitleLength( title.length );
-	descriptionriptionRating = rateMetaDescLength( descriptionription.length );
-
-	updateProgressBar(
-		this.element.progress.title,
-		title.length,
-		titleMaxLength,
-		titleRating
-	);
-
-	updateProgressBar(
-		this.element.progress.description,
-		descriptionription.length,
-		analyzerConfig.maxMeta,
-		descriptionriptionRating
-	);
-};
-
-/**
  * Binds the reloadSnippetText function to the blur of the snippet inputs.
  */
 FacebookPreview.prototype.bindEvents = function() {
 	var targetElement,
-		elems = [ "title", "slug", "meta-description" ];
+		elems = [ "title", "description" ];
 
 	forEach( elems, function( elem ) {
 		targetElement = document.getElementsByClassName( "js-snippet-editor-" + elem )[0];
@@ -956,12 +493,7 @@ FacebookPreview.prototype.bindEvents = function() {
  */
 FacebookPreview.prototype.changedInput = debounce( function() {
 	this.updateDataFromDOM();
-	this.validateFields();
-	this.updateProgressBars();
-
 	this.refresh();
-
-	this.refObj.refresh();
 }, 25 );
 
 /**
@@ -969,11 +501,46 @@ FacebookPreview.prototype.changedInput = debounce( function() {
  */
 FacebookPreview.prototype.updateDataFromDOM = function() {
 	this.data.title = this.element.input.title.value;
-	this.data.imageURL = this.element.input.imageURL.value;
+	this.data.imageUrl = this.element.input.imageUrl.value;
 	this.data.description = this.element.input.description.value;
 
 	// Clone so the data isn't changeable.
 	this.opts.callbacks.saveSnippetData( clone( this.data ) );
+};
+
+/**
+ * Refreshes the snippet editor rendered HTML
+ */
+FacebookPreview.prototype.refresh = function() {
+	this.output = this.htmlOutput();
+	this.renderOutput();
+	this.renderSnippetStyle();
+};
+
+/**
+ * Renders the outputs to the elements on the page.
+ */
+FacebookPreview.prototype.renderOutput = function() {
+	this.element.rendered.title.innerHTML = this.output.title;
+	this.element.rendered.imageUrl.innerHTML = this.output.cite;
+	this.element.rendered.urlBase.innerHTML = this.output.url;
+	this.element.rendered.description.innerHTML = this.output.description;
+};
+
+/**
+ * Makes the rendered description gray if no description has been set by the user.
+ */
+FacebookPreview.prototype.renderSnippetStyle = function() {
+	var descriptionElement = this.element.rendered.description;
+	var description = getAnalyzerMetaDesc.call( this );
+
+	if ( isEmpty( description ) ) {
+		addClass( descriptionElement, "desc-render" );
+		removeClass( descriptionElement, "desc-default" );
+	} else {
+		addClass( descriptionElement, "desc-default" );
+		removeClass( descriptionElement, "desc-render" );
+	}
 };
 
 /**
@@ -1063,85 +630,4 @@ FacebookPreview.prototype._updateHoverCarets = function() {
 	}
 };
 
-/**
- * Updates the title data and the the title input field. This also means the snippet editor view is updated.
- *
- * @param {string} title
- */
-FacebookPreview.prototype.setTitle = function(title ) {
-	this.element.input.title.value = title;
-
-	this.changedInput();
-};
-
-/**
- * Updates the url path data and the the url path input field. This also means the snippet editor view is updated.
- *
- * @param {string} imageURL
- */
-FacebookPreview.prototype.setUrlPath = function(imageURL ) {
-	this.element.input.imageURL.value = imageURL;
-
-	this.changedInput();
-};
-
-/**
- * Updates the meta description data and the the meta description input field. This also means the snippet editor view is updated.
- *
- * @param {string} description
- */
-FacebookPreview.prototype.setTitle = function(description ) {
-	this.element.input.description.value = description;
-
-	this.changedInput();
-};
-
-/* jshint ignore:start */
-/* eslint-disable */
-
-/**
- * Used to disable enter as input. Returns false to prevent enter, and preventDefault and
- * cancelBubble to prevent
- * other elements from capturing this event.
- *
- * @deprecated
- * @param {KeyboardEvent} ev
- */
-FacebookPreview.prototype.disableEnter = function(ev ) {};
-
-/**
- * Adds and remove the tooLong class when a text is too long.
- *
- * @deprecated
- * @param ev
- */
-FacebookPreview.prototype.textFeedback = function(ev ) {};
-
-/**
- * shows the edit icon corresponding to the hovered element
- *
- * @deprecated
- *
- * @param ev
- */
-FacebookPreview.prototype.showEditIcon = function(ev ) {
-
-};
-
-/**
- * removes all editIcon-classes, sets to snippet_container
- *
- * @deprecated
- */
-FacebookPreview.prototype.hideEditIcon = function() {};
-
-/**
- * sets focus on child element of the snippet_container that is clicked. Hides the editicon.
- *
- * @deprecated
- * @param ev
- */
-FacebookPreview.prototype.setFocus = function(ev ) {};
-/* jshint ignore:end */
-/* eslint-disable */
 module.exports = FacebookPreview;
