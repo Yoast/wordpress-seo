@@ -1300,7 +1300,7 @@ function verifyArguments( args ) {
 /**
  * Loader for the analyzer, loads the eventbinder and the elementdefiner
  *
- * @param {Object} args The arguments oassed to the loader.
+ * @param {Object} args The arguments passed to the loader.
  * @param {Object} args.translations Jed compatible translations.
  * @param {Object} args.targets Targets to retrieve or set on.
  * @param {String} args.targets.snippet ID for the snippet preview element.
