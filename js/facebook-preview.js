@@ -2,7 +2,6 @@
 
 var isEmpty = require( "lodash/lang/isEmpty" );
 var isElement = require( "lodash/lang/isElement" );
-var isUndefined = require( "lodash/lang/isUndefined" );
 var clone = require( "lodash/lang/clone" );
 var defaultsDeep = require( "lodash/object/defaultsDeep" );
 var forEach = require( "lodash/collection/forEach" );
@@ -10,9 +9,7 @@ var debounce = require( "lodash/function/debounce" );
 
 var Jed = require( "jed" );
 
-var stringToRegex = require( "yoastseo/js/stringProcessing/stringToRegex.js" );
 var stripHTMLTags = require( "yoastseo/js/stringProcessing/stripHTMLTags.js" );
-var sanitizeString = require( "yoastseo/js/stringProcessing/sanitizeString.js" );
 var stripSpaces = require( "yoastseo/js/stringProcessing/stripSpaces.js" );
 
 var snippetEditorTemplate = require( "./templates.js" ).snippetEditor;
