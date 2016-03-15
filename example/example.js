@@ -1,2 +1,8 @@
 var FacebookPreview = require( "../js/facebook-preview.js" );
-var Jed = require( "jed" );
+
+var facebookPreview = new FacebookPreview(
+	{
+		targetElement: document.getElementById(  'output-container' )
+	}
+);
+facebookPreview.renderTemplate();
