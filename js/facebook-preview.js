@@ -53,29 +53,6 @@ var inputPreviewBindings = [
 ];
 
 /**
- * Get's the base URL for this instance of the snippet preview.
- *
- * @private
- * @this FacebookPreview
- *
- * @returns {string} The base URL.
- */
-var getBaseURL = function() {
-	var baseURL = this.opts.baseURL;
-
-	/*
-	 * For backwards compatibility, if no URL was passed to the snippet editor we try to retrieve the base URL from the
-	 * rawData in the App. This is because the scrapers used to be responsible for retrieving the baseURL, but the base
-	 * URL is static so we can just pass it to the snippet editor.
-	 */
-	if ( !isEmpty( this.refObj.rawData.baseUrl ) && this.opts.baseURL === defaults.baseURL ) {
-		baseURL = this.refObj.rawData.baseUrl;
-	}
-
-	return baseURL;
-};
-
-/**
  * Adds a class to an element
  *
  * @param {HTMLElement} element The element to add the class to.
@@ -174,8 +151,6 @@ function hasTrailingSlash( url ) {
  * @property {string}      data.description                  - The meta description.
  *
  * @property {string}      baseURL                        - The basic URL as it will be displayed in google.
- *
- * @property {boolean}     hasProgressSupport             - Whether this browser supports the <progress> element.
  *
  * @constructor
  */
@@ -278,23 +253,6 @@ FacebookPreview.prototype.renderTemplate = function() {
 	};
 };
 
-/**
- * Returns the title as meant for the analyzer
- *
- * @private
- * @this FacebookPreview
- *
- * @returns {string}
- */
-function getAnalyzerTitle() {
-	var title = this.data.title;
-
-	if ( isEmpty( title ) ) {
-		title = this.opts.defaultValue.title;
-	}
-
-	return stripSpaces( title );
-}
 
 /**
  * Returns the descriptionription, includes the date if it is set.
