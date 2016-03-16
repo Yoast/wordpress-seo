@@ -105,13 +105,50 @@
 	 * Shows a informational popup if someone click the add keyword button
 	 */
 	function addKeywordPopup() {
-		var title = $( '#wpseo-add-keyword-popup' ).find( 'h3' ).html();
+		var $buyButton = $( '#wpseo-add-keyword-popup-button' ),
+			title = $buyButton.text(),
+			$tbWindow,
+			$closeButton;
 
 		tb_show( title, '#TB_inline?width=650&height=350&inlineId=wpseo-add-keyword-popup', 'group' );
 
-		// The container window isn't the correct size, rectify this.
-		jQuery( '#TB_window' ).css( 'height', 235 );
-		jQuery( '#TB_window' ).css( 'width', 680 );
+		// The thicbox popup UI is now available.
+		$tbWindow = $( '#TB_window' );
+		$closeButton = $( '#TB_closeWindowButton' );
+
+		// The container window isn't the correct size, rectify this and also the centering.
+		$tbWindow.css({ width: 680, height: 235, 'margin-left': -340 });
+
+		// Accessibility improvements.
+		$tbWindow
+			.attr({
+				role: 'dialog',
+				'aria-labelledby': 'TB_ajaxWindowTitle',
+				'aria-describedby': 'TB_ajaxContent'
+			})
+			.on( 'keydown', function( event ) {
+				var id;
+
+				// Constrain tabbing within the modal.
+				if ( 9 === event.which ) {
+					id = event.target.id;
+
+					if ( id === 'wpseo-add-keyword-popup-button' && ! event.shiftKey ) {
+						$closeButton.focus();
+						event.preventDefault();
+					} else if ( id === 'TB_closeWindowButton' && event.shiftKey ) {
+						$buyButton.focus();
+						event.preventDefault();
+					}
+				}
+			});
+
+		$closeButton.attr( 'role', 'button' );
+
+		// Move focus back to the element that opened the modal.
+		$( 'body' ).on( 'thickbox:removed', function() {
+			$( '.wpseo-add-keyword' ).focus();
+		});
 	}
 
 	jQuery( document ).ready( function() {
