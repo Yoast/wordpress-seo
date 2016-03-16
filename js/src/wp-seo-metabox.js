@@ -142,8 +142,6 @@
 				}
 			});
 
-		$closeButton.attr( 'role', 'button' );
-
 		// Move focus back to the element that opened the modal.
 		$( 'body' ).on( 'thickbox:removed', function() {
 			$( '.wpseo-add-keyword' ).focus();
