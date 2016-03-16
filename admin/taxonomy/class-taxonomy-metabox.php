@@ -41,9 +41,6 @@ class WPSEO_Taxonomy_Metabox {
 	 * Shows the Yoast SEO metabox for the term.
 	 */
 	public function display() {
-		if ( $this->tax_is_public() === false ) {
-			return;
-		}
 
 		$content_sections = $this->get_content_sections();
 
