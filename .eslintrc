@@ -141,7 +141,7 @@ rules:
   id-match: 0
   indent: [1, tab, {"SwitchCase": 1}]
   jsx-quotes: 0
-  key-spacing: 0
+  key-spacing: [2, {"mode": "minimum"}]
   linebreak-style: [2, unix]
   lines-around-comment: 0
   max-depth: 1
@@ -179,7 +179,7 @@ rules:
   quote-props: 0
   quotes: [2, double, avoid-escape]
   require-jsdoc: 2
-  semi-spacing: 0
+  semi-spacing: 2
   semi: [2, always]
   sort-vars: 0
   space-after-keywords: 0
