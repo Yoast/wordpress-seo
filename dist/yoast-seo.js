@@ -1716,7 +1716,6 @@ App.prototype.registerTest = function( name, analysis, scoring, pluginName, prio
 module.exports = App;
 
 },{"../js/stringProcessing/sanitizeString.js":48,"./analyzer.js":14,"./config/config.js":21,"./errors/missingArgument":28,"./pluggable.js":29,"./researcher.js":30,"./scoreFormatter.js":31,"./snippetPreview.js":32,"./values/Paper.js":58,"jed":64,"lodash/collection/forEach":67,"lodash/lang/isObject":144,"lodash/lang/isString":146,"lodash/lang/isUndefined":148,"lodash/object/defaultsDeep":153}],17:[function(require,module,exports){
-var calculateFleschReading = require( "../analyses/calculateFleschReading.js" );
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 var inRange = require( "lodash/number/inRange" );
 
@@ -1788,11 +1787,13 @@ var calculateFleschReadingResult = function( fleschReadingScore, i18n ) {
  * The assessment that runs the FleschReading on the paper.
  *
  * @param {object} paper The paper to run this assessment on
+ * @param {object} researcher The researcher used for the assessment
  * @param {object} i18n The i18n-object used for parsing translations
  * @returns {object} an assessmentresult with the score and formatted text.
  */
-var fleschReadingAssessment = function( paper, i18n ) {
-	var fleschReadingScore = calculateFleschReading( paper.getText() );
+var fleschReadingAssessment = function( paper, researcher, i18n ) {
+
+	var fleschReadingScore = researcher.getResearch( "calculateFleschReading" );
 
 	/* translators: %1$s expands to the numeric flesch reading ease score, %2$s to a link to a Yoast.com article about Flesch ease reading score,
 	 %3$s to the easyness of reading, %4$s expands to a note about the flesch reading score. */
@@ -1816,7 +1817,7 @@ var fleschReadingAssessment = function( paper, i18n ) {
 
 module.exports = fleschReadingAssessment;
 
-},{"../analyses/calculateFleschReading.js":1,"../values/AssessmentResult.js":57,"lodash/number/inRange":150}],18:[function(require,module,exports){
+},{"../values/AssessmentResult.js":57,"lodash/number/inRange":150}],18:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 var inRange = require( "lodash/number/inRange" );
 
@@ -2886,6 +2887,7 @@ module.exports = Pluggable;
 var Paper = require( "./values/Paper.js" );
 var merge = require( "lodash/object/merge" );
 var wordCount = require( "./stringProcessing/countWords.js" );
+var calculateFleschReading = require( "./analyses/calculateFleschReading" );
 var InvalidTypeError = require( "./errors/invalidType" );
 var MissingArgument = require( "./errors/missingArgument" );
 var isUndefined = require( "lodash/lang/isUndefined" );
@@ -2901,7 +2903,8 @@ var Researcher = function( paper ) {
 	this.setPaper( paper );
 
 	this.defaultResearches = {
-		"wordCount": wordCount
+		"wordCount": wordCount,
+		"calculateFleschReading": calculateFleschReading
 	};
 
 	this.customResearches = {};
@@ -2979,7 +2982,7 @@ Researcher.prototype.getResearch = function( name ) {
 
 module.exports = Researcher;
 
-},{"./errors/invalidType":27,"./errors/missingArgument":28,"./stringProcessing/countWords.js":38,"./values/Paper.js":58,"lodash/lang/isEmpty":141,"lodash/lang/isUndefined":148,"lodash/object/merge":156}],31:[function(require,module,exports){
+},{"./analyses/calculateFleschReading":1,"./errors/invalidType":27,"./errors/missingArgument":28,"./stringProcessing/countWords.js":38,"./values/Paper.js":58,"lodash/lang/isEmpty":141,"lodash/lang/isUndefined":148,"lodash/object/merge":156}],31:[function(require,module,exports){
 /* jshint browser: true */
 
 var isUndefined = require( "lodash/lang/isUndefined" );

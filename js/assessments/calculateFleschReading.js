@@ -1,4 +1,3 @@
-var calculateFleschReading = require( "../analyses/calculateFleschReading.js" );
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 var inRange = require( "lodash/number/inRange" );
 
@@ -70,11 +69,13 @@ var calculateFleschReadingResult = function( fleschReadingScore, i18n ) {
  * The assessment that runs the FleschReading on the paper.
  *
  * @param {object} paper The paper to run this assessment on
+ * @param {object} researcher The researcher used for the assessment
  * @param {object} i18n The i18n-object used for parsing translations
  * @returns {object} an assessmentresult with the score and formatted text.
  */
-var fleschReadingAssessment = function( paper, i18n ) {
-	var fleschReadingScore = calculateFleschReading( paper.getText() );
+var fleschReadingAssessment = function( paper, researcher, i18n ) {
+
+	var fleschReadingScore = researcher.getResearch( "calculateFleschReading" );
 
 	/* translators: %1$s expands to the numeric flesch reading ease score, %2$s to a link to a Yoast.com article about Flesch ease reading score,
 	 %3$s to the easyness of reading, %4$s expands to a note about the flesch reading score. */
