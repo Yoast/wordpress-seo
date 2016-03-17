@@ -6,7 +6,7 @@
 
 ul.wpseo-metabox-tabs {
 	display: none;
-	margin-top: 12px;
+	margin-top: 6px;
 	margin-bottom: 0;
 }
 
@@ -30,7 +30,7 @@ ul.wpseo-metabox-tabs li.active {
 .wpseo-metabox-sidebar {
 	display: inline-block;
 	width: 40px;
-	padding: 5px;
+	padding: 0 5px 5px;
 	background-color: #fff;
 	vertical-align: top;
 }
@@ -53,7 +53,7 @@ ul.wpseo-metabox-tabs li {
 	display: inline-block;
 	margin-right: 5px;
 	margin-bottom: -1px;
-	padding: 5px;
+	padding: 5px 12px;
 	border-width: 1px 1px 0;
 	border-style: solid solid none;
 	border-color: #dfdfdf;
@@ -218,6 +218,7 @@ table.wpseoanalysis td.score {
 }
 
 ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
+	margin-left: -3px;
 	padding: 0;
 	border: none;
 	vertical-align: top;
@@ -226,10 +227,10 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 .wpseo-tab-add-keyword .wpseo-add-keyword.button {
 	height: auto;
 	margin-top: 1px;
-	padding: 5px 7px;
+	padding: 3px 6px;
 	color: #000;
 	background: transparent;
-	font-size: 10px;
+	font-size: 14px;
 	line-height: 1;
 	vertical-align: top;
 	text-decoration: none;
