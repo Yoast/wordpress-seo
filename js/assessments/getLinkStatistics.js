@@ -1,4 +1,3 @@
-var getLinkStatistics = require( "../analyses/getLinkStatistics.js" );
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 
 /**
@@ -69,10 +68,10 @@ var calculateLinkStatisticsResult = function( linkStatistics, i18n ) {
  * @param {object} i18n The object used for translations
  * @returns {object} the Assessmentresult
  */
-var getLinkStatisticsAssessment = function( paper, i18n ) {
+var getLinkStatisticsAssessment = function( paper,  researcher, i18n ) {
 
-	var linkStatistics = getLinkStatistics ( paper.getText(), paper.getKeyword(), paper.getUrl() );
-
+	//var linkStatistics = getLinkStatistics ( paper.getText(), paper.getKeyword(), paper.getUrl() );
+	var linkStatistics = researcher.getResearch( "getLinkStatistics" );
 	var linkStatisticsResult = calculateLinkStatisticsResult( linkStatistics, i18n );
 
 	return new AssessmentResult( linkStatisticsResult.score, linkStatisticsResult.text );

@@ -25,7 +25,10 @@ var checkNofollow = require( "../stringProcessing/checkNofollow.js" );
  * otherDofollow: other links without a nofollow attribute
  * otherNofollow: other links with a nofollow attribute
  */
-module.exports = function( text, keyword, url ) {
+module.exports = function( paper ) {
+	var text = paper.getText();
+	var keyword = paper.getKeyword();
+	var url = paper.getUrl();
 	var anchors = getAnchors( text );
 
 	var linkCount = {

@@ -287,7 +287,10 @@ var checkNofollow = require( "../stringProcessing/checkNofollow.js" );
  * otherDofollow: other links without a nofollow attribute
  * otherNofollow: other links with a nofollow attribute
  */
-module.exports = function( text, keyword, url ) {
+module.exports = function( paper ) {
+	var text = paper.getText();
+	var keyword = paper.getKeyword();
+	var url = paper.getUrl();
 	var anchors = getAnchors( text );
 
 	var linkCount = {
@@ -709,7 +712,7 @@ Analyzer.prototype.linkCount = function() {
 		keyword = "";
 	}
 
-	return [ { test: "linkCount", result: countLinks( this.paper.getText(), keyword, this.config.baseUrl ) } ];
+	return [ { test: "linkCount", result: countLinks( this.paper ) } ];
 };
 
 /**
@@ -1879,7 +1882,7 @@ var calculateLinkStatisticsResult = function( linkStatistics, i18n ) {
 var getLinkStatisticsAssessment = function( paper,  researcher, i18n ) {
 
 	//var linkStatistics = getLinkStatistics ( paper.getText(), paper.getKeyword(), paper.getUrl() );
-	var linkStatistics = researcher.getResearch( paper );
+	var linkStatistics = researcher.getResearch( "getLinkStatistics" );
 	var linkStatisticsResult = calculateLinkStatisticsResult( linkStatistics, i18n );
 
 	return new AssessmentResult( linkStatisticsResult.score, linkStatisticsResult.text );
@@ -2907,7 +2910,7 @@ var isEmpty = require( "lodash/lang/isEmpty" );
 
 // assessments
 var wordCount = require( "./stringProcessing/countWords.js" );
-var getLinkStatistics = require( "./stringProcessing/countWords.js" );
+var getLinkStatistics = require( "./analyses/getLinkStatistics.js" );
 
 /**
  * This contains all possible, default researches.
@@ -3000,7 +3003,7 @@ Researcher.prototype.getResearch = function( name ) {
 
 module.exports = Researcher;
 
-},{"./errors/invalidType":27,"./errors/missingArgument":28,"./stringProcessing/countWords.js":38,"./values/Paper.js":58,"lodash/lang/isEmpty":141,"lodash/lang/isUndefined":148,"lodash/object/merge":156}],31:[function(require,module,exports){
+},{"./analyses/getLinkStatistics.js":10,"./errors/invalidType":27,"./errors/missingArgument":28,"./stringProcessing/countWords.js":38,"./values/Paper.js":58,"lodash/lang/isEmpty":141,"lodash/lang/isUndefined":148,"lodash/object/merge":156}],31:[function(require,module,exports){
 /* jshint browser: true */
 
 var isUndefined = require( "lodash/lang/isUndefined" );

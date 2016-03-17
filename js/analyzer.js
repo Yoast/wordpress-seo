@@ -308,7 +308,7 @@ Analyzer.prototype.linkCount = function() {
 		keyword = "";
 	}
 
-	return [ { test: "linkCount", result: countLinks( this.paper.getText(), keyword, this.config.baseUrl ) } ];
+	return [ { test: "linkCount", result: countLinks( this.paper ) } ];
 };
 
 /**
