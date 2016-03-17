@@ -1,6 +1,5 @@
-var inRange = require( "lodash/number/inRange" );
-var countWords = require( "../stringProcessing/countWords.js" );
 var AssessmentResult = require( "../values/AssessmentResult.js" );
+var inRange = require( "lodash/number/inRange" );
 
 var calculateWordCountResult = function( wordCount, i18n ) {
 	if ( wordCount > 300 ) {
@@ -69,10 +68,10 @@ var calculateWordCountResult = function( wordCount, i18n ) {
 	}
 };
 
-var countWordsAssessment = function( paper, i18n ) {
-	var assessmentResult = new AssessmentResult();
-	var wordCount = countWords( paper.getText() );
+var countWordsAssessment = function( paper, researcher, i18n ) {
+	var wordCount = researcher.getResearch( "wordCount" );
 	var wordCountResult = calculateWordCountResult( wordCount, i18n );
+	var assessmentResult = new AssessmentResult();
 
 	assessmentResult.setScore( wordCountResult.score );
 	assessmentResult.setText( i18n.sprintf( wordCountResult.text, wordCount, 300 ) );

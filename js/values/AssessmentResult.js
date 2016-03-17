@@ -61,6 +61,10 @@ AssessmentResult.prototype.getText = function() {
  * @returns {void}
  */
 AssessmentResult.prototype.setText = function( text ) {
+	if ( isUndefined( text ) ) {
+		text = "";
+	}
+
 	this.text = text;
 };
 
