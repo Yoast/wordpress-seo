@@ -82,7 +82,7 @@ var calculateWordCountResult = function( wordCount, i18n ) {
  * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
  */
 var countWordsAssessment = function( paper, researcher, i18n ) {
-	var wordCount = researcher.getResearch( "wordCount" );
+	var wordCount = researcher.getResearch( "wordCountInText" );
 	var wordCountResult = calculateWordCountResult( wordCount, i18n );
 	var assessmentResult = new AssessmentResult();
 

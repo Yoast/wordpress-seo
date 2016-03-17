@@ -6,7 +6,7 @@ var isUndefined = require( "lodash/lang/isUndefined" );
 var isEmpty = require( "lodash/lang/isEmpty" );
 
 // assessments
-var wordCount = require( "./stringProcessing/countWords.js" );
+var wordCountInText = require( "./researches/wordCountInText.js" );
 var getLinkStatistics = require( "./analyses/getLinkStatistics.js" );
 
 /**
@@ -19,7 +19,7 @@ var Researcher = function( paper ) {
 	this.setPaper( paper );
 
 	this.defaultResearches = {
-		"wordCount": wordCount,
+		"wordCountInText": wordCountInText,
 		"getLinkStatistics": getLinkStatistics
 	};
 
