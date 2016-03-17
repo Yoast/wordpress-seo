@@ -5,7 +5,9 @@ var MissingArgument = require( "./errors/missingArgument" );
 var isUndefined = require( "lodash/lang/isUndefined" );
 var isEmpty = require( "lodash/lang/isEmpty" );
 
+// assessments
 var wordCountInText = require( "./researches/wordCountInText.js" );
+var getLinkStatistics = require( "./analyses/getLinkStatistics.js" );
 
 /**
  * This contains all possible, default researches.
@@ -17,7 +19,8 @@ var Researcher = function( paper ) {
 	this.setPaper( paper );
 
 	this.defaultResearches = {
-		"wordCountInText": wordCountInText
+		"wordCountInText": wordCountInText,
+		"getLinkStatistics": getLinkStatistics
 	};
 
 	this.customResearches = {};
