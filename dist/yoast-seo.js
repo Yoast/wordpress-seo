@@ -1732,6 +1732,12 @@ module.exports = App;
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 var inRange = require( "lodash/number/inRange" );
 
+/**
+ * Calculate the score based on the current word count.
+ * @param {number} wordCount The amount of words to be checked against.
+ * @param {object} i18n The locale object.
+ * @returns {object} The resulting score object.
+ */
 var calculateWordCountResult = function( wordCount, i18n ) {
 	if ( wordCount > 300 ) {
 		return {
@@ -1799,6 +1805,13 @@ var calculateWordCountResult = function( wordCount, i18n ) {
 	}
 };
 
+/**
+ * Execute the Assessment and return a result.
+ * @param {Paper} paper The Paper object to assess.
+ * @param {Researcher} researcher The Researcher object containing all available researches.
+ * @param {object} i18n The locale object.
+ * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
+ */
 var countWordsAssessment = function( paper, researcher, i18n ) {
 	var wordCount = researcher.getResearch( "wordCount" );
 	var wordCountResult = calculateWordCountResult( wordCount, i18n );
