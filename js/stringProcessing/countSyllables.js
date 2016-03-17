@@ -50,13 +50,13 @@ var countBasicSyllables = function( text ) {
 	var array = text.split( " " );
 	var i, j, splitWord, count = 0;
 
-	//split textstring to individual words
+	// split textstring to individual words
 	for ( i = 0; i < array.length; i++ ) {
 
-		//split on consonants
+		// split on consonants
 		splitWord = array[ i ].split( /[^aeiouy]/g );
 
-		//if the string isn't empty, a consonant was found, up the counter
+		// if the string isn't empty, a consonant was found, up the counter
 		for ( j = 0; j < splitWord.length; j++ ) {
 			if ( splitWord[ j ] !== "" ) {
 				count++;

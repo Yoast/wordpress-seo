@@ -86,6 +86,7 @@ var getBaseURL = function() {
  * @this SnippetPreview
  *
  * @param {string} key The key to retrieve.
+ * @returns {string} The unformatted text.
  */
 function retrieveUnformattedText( key ) {
 	return this.data[ key ];
@@ -99,6 +100,7 @@ function retrieveUnformattedText( key ) {
  *
  * @param {string} key The data key to update.
  * @param {string} value The value to update.
+ * @return {void}
  */
 function updateUnformattedText( key, value ) {
 	this.element.input[ key ].value = value;
@@ -111,6 +113,7 @@ function updateUnformattedText( key, value ) {
  *
  * @param {HTMLElement} element The element to add the class to.
  * @param {string} className The class to add.
+ * @return {void}
  */
 function addClass( element, className ) {
 	var classes = element.className.split( " " );
@@ -127,6 +130,7 @@ function addClass( element, className ) {
  *
  * @param {HTMLElement} element The element to remove the class from.
  * @param {string} className The class to remove.
+ * @return {void}
  */
 function removeClass( element, className ) {
 	var classes = element.className.split( " " );
@@ -144,6 +148,7 @@ function removeClass( element, className ) {
  *
  * @param {HTMLElement} element The element to remove the classes from.
  * @param {Array} classes A list of classes to remove
+ * @return {void}
  */
 function removeClasses( element, classes ) {
 	forEach( classes, removeClass.bind( null, element ) );
@@ -152,8 +157,8 @@ function removeClasses( element, classes ) {
 /**
  * Returns if a url has a trailing slash or not.
  *
- * @param {string} url
- * @returns {boolean}
+ * @param {string} url The url to check for a trailing slash.
+ * @returns {boolean} Whether or not the url contains a trailing slash.
  */
 function hasTrailingSlash( url ) {
 	return url.indexOf( "/" ) === ( url.length - 1 );
@@ -164,7 +169,7 @@ function hasTrailingSlash( url ) {
  *
  * @private
  *
- * @returns {boolean}
+ * @returns {boolean} Whether or not the browser supports a <progress> element
  */
 function hasProgressSupport() {
 	var progressElement = document.createElement( "progress" );
@@ -175,8 +180,8 @@ function hasProgressSupport() {
 /**
  * Returns a rating based on the length of the title
  *
- * @param {string} titleLength
- * @returns {string}
+ * @param {number} titleLength the length of the title.
+ * @returns {string} The rating given based on the title length.
  */
 function rateTitleLength( titleLength ) {
 	var rating;
@@ -202,8 +207,8 @@ function rateTitleLength( titleLength ) {
 /**
  * Returns a rating based on the length of the meta description
  *
- * @param {string} metaDescLength
- * @returns {string}
+ * @param {number} metaDescLength the length of the meta description.
+ * @returns {string} The rating given based on the description length.
  */
 function rateMetaDescLength( metaDescLength ) {
 	var rating;
@@ -236,6 +241,7 @@ function rateMetaDescLength( metaDescLength ) {
  * @param {number} value The current value.
  * @param {number} maximum The maximum allowed value.
  * @param {string} rating The SEO score rating for this value.
+ * @returns {void}
  */
 function updateProgressBar( element, value, maximum, rating ) {
 	var barElement, progress,
@@ -268,14 +274,14 @@ function updateProgressBar( element, value, maximum, rating ) {
  * @param {App}            opts.analyzerApp               - The app object the snippet preview is part of.
  * @param {Object}         opts.placeholder               - The placeholder values for the fields, will be shown as
  * actual placeholders in the inputs and as a fallback for the preview.
- * @param {string}         opts.placeholder.title
- * @param {string}         opts.placeholder.metaDesc
- * @param {string}         opts.placeholder.urlPath
+ * @param {string}         opts.placeholder.title         - The placeholder title.
+ * @param {string}         opts.placeholder.metaDesc      - The placeholder meta description.
+ * @param {string}         opts.placeholder.urlPath       - The placeholder url.
  *
  * @param {Object}         opts.defaultValue              - The default value for the fields, if the user has not
  * changed a field, this value will be used for the analyzer, preview and the progress bars.
- * @param {string}         opts.defaultValue.title
- * @param {string}         opts.defaultValue.metaDesc
+ * @param {string}         opts.defaultValue.title        - The default title.
+ * @param {string}         opts.defaultValue.metaDesc     - The default meta description.
  * it.
  *
  * @param {string}         opts.baseURL                   - The basic URL as it will be displayed in google.
@@ -366,6 +372,7 @@ var SnippetPreview = function( opts ) {
 
 /**
  * Renders snippet editor and adds it to the targetElement
+ * @returns {void}
  */
 SnippetPreview.prototype.renderTemplate = function() {
 	var targetElement = this.opts.targetElement;
@@ -448,6 +455,7 @@ SnippetPreview.prototype.renderTemplate = function() {
 
 /**
  * Refreshes the snippet editor rendered HTML
+ * @returns {void}
  */
 SnippetPreview.prototype.refresh = function() {
 	this.output = this.htmlOutput();
@@ -462,7 +470,7 @@ SnippetPreview.prototype.refresh = function() {
  * @private
  * @this SnippetPreview
  *
- * @returns {string}
+ * @returns {string} The title that is meant for the analyzer.
  */
 function getAnalyzerTitle() {
 	var title = this.data.title;
@@ -482,7 +490,7 @@ function getAnalyzerTitle() {
  * @private
  * @this SnippetPreview
  *
- * @returns {string}
+ * @returns {string} The meta data for the analyzer.
  */
 var getAnalyzerMetaDesc = function() {
 	var metaDesc = this.data.metaDesc;
@@ -503,7 +511,7 @@ var getAnalyzerMetaDesc = function() {
 /**
  * Returns the data from the snippet preview.
  *
- * @returns {Object}
+ * @returns {Object} The collected data for the analyzer.
  */
 SnippetPreview.prototype.getAnalyzerData = function() {
 	return {
@@ -515,6 +523,7 @@ SnippetPreview.prototype.getAnalyzerData = function() {
 
 /**
  * Calls the event binder that has been registered using the callbacks option in the arguments of the App.
+ * @returns {void}
  */
 SnippetPreview.prototype.callRegisteredEventBinder = function() {
 	this.refObj.callbacks.bindElementEvents( this.refObj );
@@ -522,6 +531,7 @@ SnippetPreview.prototype.callRegisteredEventBinder = function() {
 
 /**
  *  checks if title and url are set so they can be rendered in the snippetPreview
+ *  @returns {void}
  */
 SnippetPreview.prototype.init = function() {
 	if (
@@ -535,7 +545,7 @@ SnippetPreview.prototype.init = function() {
 /**
  * creates html object to contain the strings for the snippetpreview
  *
- * @returns {Object}
+ * @returns {Object} The HTML output of the collected data.
  */
 SnippetPreview.prototype.htmlOutput = function() {
 	var html = {};
@@ -547,9 +557,9 @@ SnippetPreview.prototype.htmlOutput = function() {
 };
 
 /**
- * formats the title for the snippet preview. If title and pageTitle are empty, sampletext is used
+ * Formats the title for the snippet preview. If title and pageTitle are empty, sampletext is used
  *
- * @returns {string}
+ * @returns {string} The correctly formatted title.
  */
 SnippetPreview.prototype.formatTitle = function() {
 	var title = this.data.title;
@@ -585,7 +595,7 @@ SnippetPreview.prototype.formatTitle = function() {
 };
 
 /**
- * Formates the base url for the snippet preview. Removes the protocol name from the URL.
+ * Formats the base url for the snippet preview. Removes the protocol name from the URL.
  *
  * @returns {string} Formatted base url for the snippet preview.
  */
@@ -668,9 +678,7 @@ SnippetPreview.prototype.formatMeta = function() {
  * @returns {string} A generated meta description.
  */
 SnippetPreview.prototype.getMetaText = function() {
-	var metaText;
-
-	metaText = this.opts.defaultValue.metaDesc;
+	var metaText = this.opts.defaultValue.metaDesc;
 
 	if ( !isUndefined( this.refObj.rawData.excerpt ) && isEmpty( metaText ) ) {
 		metaText = this.refObj.rawData.excerpt;
@@ -685,26 +693,24 @@ SnippetPreview.prototype.getMetaText = function() {
 	}
 
 	metaText = stripHTMLTags( metaText );
-	if (
-		this.refObj.rawData.keyword !== "" &&
-		this.refObj.rawData.text !== ""
-	) {
+
+	// Generate a meta description based on where in the text the keyword is found first
+	if ( this.refObj.rawData.keyword !== "" && this.refObj.rawData.text !== "" ) {
+		var curStart = 0;
 		var indexMatches = this.getIndexMatches();
 		var periodMatches = this.getPeriodMatches();
 
-		metaText = metaText.substring(
-			0,
-			analyzerConfig.maxMeta
-		);
-		var curStart = 0;
+		metaText = metaText.substring( 0, analyzerConfig.maxMeta );
+
 		if ( indexMatches.length > 0 ) {
-			for ( var j = 0; j < periodMatches.length; ) {
+			var j = 0;
+
+			while ( j < periodMatches.length ) {
 				if ( periodMatches[ 0 ] < indexMatches[ 0 ] ) {
 					curStart = periodMatches.shift();
+				} else if ( curStart > 0 ) {
+					curStart += 2;
 				} else {
-					if ( curStart > 0 ) {
-						curStart += 2;
-					}
 					break;
 				}
 			}
@@ -716,23 +722,23 @@ SnippetPreview.prototype.getMetaText = function() {
 
 /**
  * Builds an array with all indexes of the keyword
- * @returns Array with matches
+ * @returns {Array} Array with matches
  */
 SnippetPreview.prototype.getIndexMatches = function() {
 	var indexMatches = [];
 	var i = 0;
 
-	//starts at 0, locates first match of the keyword.
+	// Starts at 0, locates first match of the keyword.
 	var match = this.refObj.rawData.text.indexOf(
 		this.refObj.rawData.keyword,
 		i
 	);
 
-	//runs the loop untill no more indexes are found, and match returns -1.
+	// Runs the loop untill no more indexes are found, and match returns -1.
 	while ( match > -1 ) {
 		indexMatches.push( match );
 
-		//pushes location to indexMatches and increase i with the length of keyword.
+		// Pushes location to indexMatches and increase i with the length of keyword.
 		i = match + this.refObj.rawData.keyword.length;
 		match = this.refObj.rawData.text.indexOf(
 			this.refObj.rawData.keyword,
@@ -744,7 +750,7 @@ SnippetPreview.prototype.getIndexMatches = function() {
 
 /**
  * Builds an array with indexes of all sentence ends (select on .)
- * @returns array with sentences
+ * @returns {Array} Array with sentences.
  */
 SnippetPreview.prototype.getPeriodMatches = function() {
 	var periodMatches = [ 0 ];
@@ -758,11 +764,11 @@ SnippetPreview.prototype.getPeriodMatches = function() {
 };
 
 /**
- * formats the keyword for use in the snippetPreview by adding <strong>-tags
- * strips unwanted characters that could break the regex or give unwanted results
+ * Formats the keyword for use in the snippetPreview by adding <strong>-tags
+ * strips unwanted characters that could break the regex or give unwanted results.
  *
- * @param {string} textString
- * @returns {string}
+ * @param {string} textString The keyword string that needs to be formatted.
+ * @returns {string} The formatted keyword.
  */
 SnippetPreview.prototype.formatKeyword = function( textString ) {
 
@@ -781,8 +787,8 @@ SnippetPreview.prototype.formatKeyword = function( textString ) {
  * <strong>-tags
  * strips unwanted characters that could break the regex or give unwanted results
  *
- * @param textString
- * @returns {XML|string|void}
+ * @param {string} textString The keyword string that needs to be formatted.
+ * @returns {XML|string|void} The formatted keyword string to be used in the URL.
  */
 SnippetPreview.prototype.formatKeywordUrl = function( textString ) {
 	var keyword = sanitizeString( this.refObj.rawData.keyword );
@@ -801,6 +807,7 @@ SnippetPreview.prototype.formatKeywordUrl = function( textString ) {
 
 /**
  * Renders the outputs to the elements on the page.
+ * @returns {void}
  */
 SnippetPreview.prototype.renderOutput = function() {
 	this.element.rendered.title.innerHTML = this.output.title;
@@ -811,6 +818,7 @@ SnippetPreview.prototype.renderOutput = function() {
 
 /**
  * Makes the rendered meta description gray if no meta description has been set by the user.
+ * @returns {void}
  */
 SnippetPreview.prototype.renderSnippetStyle = function() {
 	var metaDescElement = this.element.rendered.metaDesc;
@@ -826,26 +834,28 @@ SnippetPreview.prototype.renderSnippetStyle = function() {
 };
 
 /**
- * function to call init, to rerender the snippetpreview
+ * Function to call init, to rerender the snippetpreview
+ * @returns {void}
  */
 SnippetPreview.prototype.reRender = function() {
 	this.init();
 };
 
 /**
- * checks text length of the snippetmeta and snippettitle, shortens it if it is too long.
- * @param event
+ * Checks text length of the snippetmeta and snippet title, shortens it if it is too long.
+ * @param {Object} event The event to check the text length from.
+ * @returns {void}
  */
-SnippetPreview.prototype.checkTextLength = function( ev ) {
-	var text = ev.currentTarget.textContent;
-	switch ( ev.currentTarget.id ) {
+SnippetPreview.prototype.checkTextLength = function( event ) {
+	var text = event.currentTarget.textContent;
+	switch ( event.currentTarget.id ) {
 		case "snippet_meta":
-			ev.currentTarget.className = "desc";
+			event.currentTarget.className = "desc";
 			if ( text.length > analyzerConfig.maxMeta ) {
 				/* eslint-disable */
-				YoastSEO.app.snippetPreview.unformattedText.snippet_meta = ev.currentTarget.textContent;
+				YoastSEO.app.snippetPreview.unformattedText.snippet_meta = event.currentTarget.textContent;
 				/* eslint-enable */
-				ev.currentTarget.textContent = text.substring(
+				event.currentTarget.textContent = text.substring(
 					0,
 					analyzerConfig.maxMeta
 				);
@@ -853,12 +863,12 @@ SnippetPreview.prototype.checkTextLength = function( ev ) {
 			}
 			break;
 		case "snippet_title":
-			ev.currentTarget.className = "title";
+			event.currentTarget.className = "title";
 			if ( text.length > titleMaxLength ) {
 				/* eslint-disable */
-				YoastSEO.app.snippetPreview.unformattedText.snippet_title = ev.currentTarget.textContent;
+				YoastSEO.app.snippetPreview.unformattedText.snippet_title = event.currentTarget.textContent;
 				/* eslint-enable */
-				ev.currentTarget.textContent = text.substring( 0, titleMaxLength );
+				event.currentTarget.textContent = text.substring( 0, titleMaxLength );
 			}
 			break;
 		default:
@@ -867,29 +877,32 @@ SnippetPreview.prototype.checkTextLength = function( ev ) {
 };
 
 /**
- * when clicked on an element in the snippet, checks fills the textContent with the data from the unformatted text.
+ * When clicked on an element in the snippet, checks fills the textContent with the data from the unformatted text.
  * This removes the keyword highlighting and modified data so the original content can be editted.
- * @param ev {event}
+ * @param {Object} event The event to get the unformatted text from.
+ * @returns {void}
  */
-SnippetPreview.prototype.getUnformattedText = function( ev ) {
-	var currentElement = ev.currentTarget.id;
+SnippetPreview.prototype.getUnformattedText = function( event ) {
+	var currentElement = event.currentTarget.id;
 	if ( typeof this.unformattedText[ currentElement ] !== "undefined" ) {
-		ev.currentTarget.textContent = this.unformattedText[currentElement];
+		event.currentTarget.textContent = this.unformattedText[currentElement];
 	}
 };
 
 /**
- * when text is entered into the snippetPreview elements, the text is set in the unformattedText object.
+ * When text is entered into the snippetPreview elements, the text is set in the unformattedText object.
  * This allows the visible data to be editted in the snippetPreview.
- * @param ev
+ * @param {Object} event The event to set the unformatted text from.
+ * @returns {void}
  */
-SnippetPreview.prototype.setUnformattedText = function( ev ) {
-	var elem =  ev.currentTarget.id;
+SnippetPreview.prototype.setUnformattedText = function( event ) {
+	var elem =  event.currentTarget.id;
 	this.unformattedText[ elem ] = document.getElementById( elem ).textContent;
 };
 
 /**
  * Validates all fields and highlights errors.
+ * @returns {void}
  */
 SnippetPreview.prototype.validateFields = function() {
 	var metaDescription = getAnalyzerMetaDesc.call( this );
@@ -910,6 +923,7 @@ SnippetPreview.prototype.validateFields = function() {
 
 /**
  * Updates progress bars based on the data
+ * @returns {void}
  */
 SnippetPreview.prototype.updateProgressBars = function() {
 	var metaDescriptionRating, titleRating, metaDescription, title;
@@ -937,6 +951,7 @@ SnippetPreview.prototype.updateProgressBars = function() {
 
 /**
  * Binds the reloadSnippetText function to the blur of the snippet inputs.
+ * @returns {void}
  */
 SnippetPreview.prototype.bindEvents = function() {
 	var targetElement,
@@ -998,6 +1013,7 @@ SnippetPreview.prototype.bindEvents = function() {
 
 /**
  * Updates snippet preview on changed input. It's debounced so that we can call this function as much as we want.
+ * @returns {void}
  */
 SnippetPreview.prototype.changedInput = debounce( function() {
 	this.updateDataFromDOM();
@@ -1011,6 +1027,7 @@ SnippetPreview.prototype.changedInput = debounce( function() {
 
 /**
  * Updates our data object from the DOM
+ * @returns {void}
  */
 SnippetPreview.prototype.updateDataFromDOM = function() {
 	this.data.title = this.element.input.title.value;
@@ -1023,6 +1040,7 @@ SnippetPreview.prototype.updateDataFromDOM = function() {
 
 /**
  * Opens the snippet editor.
+ * @returns {void}
  */
 SnippetPreview.prototype.openEditor = function() {
 
@@ -1038,6 +1056,7 @@ SnippetPreview.prototype.openEditor = function() {
 
 /**
  * Closes the snippet editor.
+ * @returns {void}
  */
 SnippetPreview.prototype.closeEditor = function() {
 
@@ -1053,6 +1072,7 @@ SnippetPreview.prototype.closeEditor = function() {
 
 /**
  * Toggles the snippet editor.
+ * @returns {void}
  */
 SnippetPreview.prototype.toggleEditor = function() {
 	if ( this.opened ) {
@@ -1066,6 +1086,7 @@ SnippetPreview.prototype.toggleEditor = function() {
  * Updates carets before the preview and input fields.
  *
  * @private
+ * @returns {void}
  */
 SnippetPreview.prototype._updateFocusCarets = function() {
 	var focusedLabel, focusedPreview;
@@ -1093,6 +1114,7 @@ SnippetPreview.prototype._updateFocusCarets = function() {
  * Updates hover carets before the input fields.
  *
  * @private
+ * @returns {void}
  */
 SnippetPreview.prototype._updateHoverCarets = function() {
 	var hoveredLabel;
@@ -1111,7 +1133,8 @@ SnippetPreview.prototype._updateHoverCarets = function() {
 /**
  * Updates the title data and the the title input field. This also means the snippet editor view is updated.
  *
- * @param {string} title
+ * @param {string} title The title to use in the input field.
+ * @returns {void}
  */
 SnippetPreview.prototype.setTitle = function( title ) {
 	this.element.input.title.value = title;
@@ -1122,7 +1145,8 @@ SnippetPreview.prototype.setTitle = function( title ) {
 /**
  * Updates the url path data and the the url path input field. This also means the snippet editor view is updated.
  *
- * @param {string} urlPath
+ * @param {string} urlPath the URL path to use in the input field.
+ * @returns {void}
  */
 SnippetPreview.prototype.setUrlPath = function( urlPath ) {
 	this.element.input.urlPath.value = urlPath;
@@ -1133,7 +1157,8 @@ SnippetPreview.prototype.setUrlPath = function( urlPath ) {
 /**
  * Updates the meta description data and the the meta description input field. This also means the snippet editor view is updated.
  *
- * @param {string} metaDesc
+ * @param {string} metaDesc the meta description to use in the input field.
+ * @returns {void}
  */
 SnippetPreview.prototype.setTitle = function( metaDesc ) {
 	this.element.input.metaDesc.value = metaDesc;

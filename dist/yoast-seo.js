@@ -7,6 +7,7 @@ var stripHTMLTags = require( "../stringProcessing/stripHTMLTags.js" );
 var countSentences = require( "../stringProcessing/countSentences.js" );
 var countWords = require( "../stringProcessing/countWords.js" );
 var countSyllables = require( "../stringProcessing/countSyllables.js" );
+var Paper = require( "../values/Paper.js" );
 
 /**
  * This calculates the fleschreadingscore for a given text
@@ -20,9 +21,10 @@ module.exports = function( text ) {
 	if ( text === "" ) {
 		return 0;
 	}
+
 	text = cleanText ( text );
 	text = stripHTMLTags( text );
-	var wordCount = countWords( text  );
+	var wordCount = countWords( new Paper( text )  );
 
 	text = stripNumbers ( text );
 	var sentenceCount = countSentences( text );
@@ -32,7 +34,7 @@ module.exports = function( text ) {
 	return score.toFixed( 1 );
 };
 
-},{"../stringProcessing/cleanText.js":33,"../stringProcessing/countSentences.js":34,"../stringProcessing/countSyllables.js":35,"../stringProcessing/countWords.js":36,"../stringProcessing/stripHTMLTags.js":48,"../stringProcessing/stripNumbers.js":50}],2:[function(require,module,exports){
+},{"../stringProcessing/cleanText.js":35,"../stringProcessing/countSentences.js":36,"../stringProcessing/countSyllables.js":37,"../stringProcessing/countWords.js":38,"../stringProcessing/stripHTMLTags.js":50,"../stringProcessing/stripNumbers.js":52,"../values/Paper.js":58}],2:[function(require,module,exports){
 /** @module analyses/checkForKeywordDoubles */
 
 /**
@@ -78,7 +80,7 @@ module.exports = function( text ) {
 };
 
 
-},{"../config/stopwords.js":25,"../stringProcessing/stringToRegex.js":47}],4:[function(require,module,exports){
+},{"../config/stopwords.js":25,"../stringProcessing/stringToRegex.js":49}],4:[function(require,module,exports){
 /** @module analyses/checkUrlForStopwords */
 
 var stopwords = require( "../analyses/checkStringForStopwords.js" );
@@ -113,7 +115,7 @@ module.exports = function( url, keyword ) {
 	return wordMatch( url, keyword );
 };
 
-},{"../stringProcessing/matchTextWithWord.js":43}],6:[function(require,module,exports){
+},{"../stringProcessing/matchTextWithWord.js":45}],6:[function(require,module,exports){
 /** @module analyses/findKeywordInFirstParagraph */
 
 var regexMatch = require( "../stringProcessing/matchStringWithRegex.js" );
@@ -131,7 +133,7 @@ var wordMatch = require( "../stringProcessing/matchTextWithWord.js" );
 module.exports = function( text, keyword ) {
 	var paragraph;
 
-	//matches everything between the <p> and </p> tags.
+	// matches everything between the <p> and </p> tags.
 	paragraph = regexMatch( text, "<p(?:[^>]+)?>(.*?)<\/p>" );
 	if ( paragraph.length > 0 ) {
 		return wordMatch( paragraph[0], keyword );
@@ -145,11 +147,11 @@ module.exports = function( text, keyword ) {
 		return wordMatch( paragraph[0], keyword );
 	}
 
-	//if no double linebreaks found, return the keyword count of the entire text
+	// if no double linebreaks found, return the keyword count of the entire text
 	return wordMatch( text, keyword );
 };
 
-},{"../stringProcessing/matchStringWithRegex.js":42,"../stringProcessing/matchTextWithWord.js":43}],7:[function(require,module,exports){
+},{"../stringProcessing/matchStringWithRegex.js":44,"../stringProcessing/matchTextWithWord.js":45}],7:[function(require,module,exports){
 /** @module analyses/findKeywordInPageTitle */
 
 var wordMatch = require( "../stringProcessing/matchTextWithWord.js" );
@@ -171,7 +173,7 @@ module.exports = function( text, keyword ) {
 	return result;
 };
 
-},{"../stringProcessing/matchTextWithWord.js":43}],8:[function(require,module,exports){
+},{"../stringProcessing/matchTextWithWord.js":45}],8:[function(require,module,exports){
 /** @module analyses/getImageStatistics */
 
 var matchStringWithRegex = require( "../stringProcessing/matchStringWithRegex" );
@@ -192,7 +194,7 @@ var matchKeywordInAlttags = function( alttag, keyword ) {
 	}
 
 	if ( wordMatch( alttag, keyword ) > 0 ) {
-			return "altKeyword";
+		return "altKeyword";
 	}
 
 	// This counts all alt-tags w/o the keyword when a keyword is set.
@@ -212,10 +214,10 @@ var matchImageTags = function( imageMatches, keyword ) {
 	for ( var i = 0; i < imageMatches.length; i++ ) {
 		var alttag = imageAlttag( imageMatches[i] );
 
-		if ( alttag !== "" ) {
-			imageCount[ matchKeywordInAlttags( alttag, keyword ) ]++;
-		} else {
+		if ( alttag === "" ) {
 			imageCount.noAlt++;
+		} else {
+			imageCount[ matchKeywordInAlttags( alttag, keyword ) ]++;
 		}
 	}
 	return imageCount;
@@ -236,11 +238,13 @@ module.exports = function( text, keyword ) {
 	return imageCount;
 };
 
-},{"../stringProcessing/getAlttagContent.js":39,"../stringProcessing/matchStringWithRegex":42,"../stringProcessing/matchTextWithWord.js":43}],9:[function(require,module,exports){
+},{"../stringProcessing/getAlttagContent.js":41,"../stringProcessing/matchStringWithRegex":44,"../stringProcessing/matchTextWithWord.js":45}],9:[function(require,module,exports){
 /** @module analyses/getKeywordDensity */
 
 var countWords = require( "../stringProcessing/countWords.js" );
 var matchWords = require( "../stringProcessing/matchTextWithWord.js" );
+var Paper = require( "../values/Paper.js" );
+
 /**
  * Calculates the keyword density .
  *
@@ -249,13 +253,13 @@ var matchWords = require( "../stringProcessing/matchTextWithWord.js" );
  * @returns {number} The keyword density.
  */
 module.exports = function( text, keyword ) {
-	var wordCount = countWords( text );
+	var wordCount = countWords( new Paper( text ) );
 	var keywordCount = matchWords ( text, keyword );
 	var keywordDensity = ( keywordCount / wordCount ) * 100;
 	return keywordDensity.toFixed( 1 );
 };
 
-},{"../stringProcessing/countWords.js":36,"../stringProcessing/matchTextWithWord.js":43}],10:[function(require,module,exports){
+},{"../stringProcessing/countWords.js":38,"../stringProcessing/matchTextWithWord.js":45,"../values/Paper.js":58}],10:[function(require,module,exports){
 /** @module analyses/getLinkStatistics */
 
 var getAnchors = require( "../stringProcessing/getAnchorsFromText.js" );
@@ -303,22 +307,25 @@ module.exports = function( text, keyword, url ) {
 	var linkKeyword;
 	for ( var i = 0; i < anchors.length; i++ ) {
 		linkKeyword = findKeywordInUrl( anchors[i], keyword );
+
 		if ( linkKeyword ) {
-			if ( keyword !== "" ) {
-				linkCount.totalKeyword++;
-			} else {
+			if ( keyword === "" ) {
 				linkCount.totalNaKeyword++;
+			} else {
+				linkCount.totalKeyword++;
 			}
 		}
+
 		var linkType = getLinkType( anchors[i], url );
 		linkCount[linkType + "Total"]++;
+
 		var linkFollow = checkNofollow( anchors[i] );
 		linkCount[linkType + linkFollow]++;
 	}
 	return linkCount;
 };
 
-},{"../stringProcessing/checkNofollow.js":32,"../stringProcessing/findKeywordInUrl.js":38,"../stringProcessing/getAnchorsFromText.js":40,"../stringProcessing/getLinkType.js":41}],11:[function(require,module,exports){
+},{"../stringProcessing/checkNofollow.js":34,"../stringProcessing/findKeywordInUrl.js":40,"../stringProcessing/getAnchorsFromText.js":42,"../stringProcessing/getLinkType.js":43}],11:[function(require,module,exports){
 /** @module analyses/getWordCount */
 
 var sanitizeString = require( "../stringProcessing/sanitizeString.js" );
@@ -339,7 +346,7 @@ module.exports = function( text ) {
 	return text.split( /\s/g ).length;
 };
 
-},{"../stringProcessing/sanitizeString.js":46}],12:[function(require,module,exports){
+},{"../stringProcessing/sanitizeString.js":48}],12:[function(require,module,exports){
 /** @module analyses/isUrlTooLong */
 
 var analyzerConfig = require( "../config/analyzerConfig" )();
@@ -391,7 +398,7 @@ module.exports = function( text, keyword ) {
 };
 
 
-},{"../stringProcessing/stripNonTextTags.js":49,"../stringProcessing/subheadingsMatch.js":52}],14:[function(require,module,exports){
+},{"../stringProcessing/stripNonTextTags.js":51,"../stringProcessing/subheadingsMatch.js":54}],14:[function(require,module,exports){
 /* global YoastSEO: true */
 YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 
@@ -588,7 +595,7 @@ Analyzer.prototype.addAnalysis = function( analysis ) {
  * @returns {{test: string, result: Number)}}
  */
 Analyzer.prototype.wordCount = function() {
-	return [ { test: "wordCount", result: countWords( this.paper.getText() ) } ];
+	return [ { test: "wordCount", result: countWords( this.paper ) } ];
 };
 
 /**
@@ -604,7 +611,7 @@ Analyzer.prototype.keyphraseSizeCheck = function() {
  * @returns resultObject
  */
 Analyzer.prototype.keywordDensity = function() {
-	var keywordCount = countWords( this.paper.getText() );
+	var keywordCount = countWords( this.paper );
 
 	if ( keywordCount >= 100 ) {
 		var density = getKeywordDensity( this.paper.getText(), this.paper.getKeyword() );
@@ -833,7 +840,9 @@ Analyzer.prototype.score = function() {
 
 module.exports = Analyzer;
 
-},{"../js/stringProcessing/replaceDiacritics.js":44,"../js/stringProcessing/sanitizeString.js":46,"../js/stringProcessing/stringToRegex.js":47,"./analyses/calculateFleschReading.js":1,"./analyses/checkForKeywordDoubles.js":2,"./analyses/checkStringForStopwords.js":3,"./analyses/checkUrlForStopwords.js":4,"./analyses/countKeywordInUrl.js":5,"./analyses/findKeywordInFirstParagraph.js":6,"./analyses/findKeywordInPageTitle.js":7,"./analyses/getImageStatistics.js":8,"./analyses/getKeywordDensity.js":9,"./analyses/getLinkStatistics.js":10,"./analyses/getWordCount.js":11,"./analyses/isUrlTooLong.js":12,"./analyses/matchKeywordInSubheadings.js":13,"./analyzescorer.js":15,"./config/config.js":21,"./stringProcessing/countWords.js":36,"./stringProcessing/matchTextWithWord.js":43,"./values/Paper.js":56,"lodash/lang/isUndefined":146}],15:[function(require,module,exports){
+},{"../js/stringProcessing/replaceDiacritics.js":46,"../js/stringProcessing/sanitizeString.js":48,"../js/stringProcessing/stringToRegex.js":49,"./analyses/calculateFleschReading.js":1,"./analyses/checkForKeywordDoubles.js":2,"./analyses/checkStringForStopwords.js":3,"./analyses/checkUrlForStopwords.js":4,"./analyses/countKeywordInUrl.js":5,"./analyses/findKeywordInFirstParagraph.js":6,"./analyses/findKeywordInPageTitle.js":7,"./analyses/getImageStatistics.js":8,"./analyses/getKeywordDensity.js":9,"./analyses/getLinkStatistics.js":10,"./analyses/getWordCount.js":11,"./analyses/isUrlTooLong.js":12,"./analyses/matchKeywordInSubheadings.js":13,"./analyzescorer.js":15,"./config/config.js":21,"./stringProcessing/countWords.js":38,"./stringProcessing/matchTextWithWord.js":45,"./values/Paper.js":58,"lodash/lang/isUndefined":148}],15:[function(require,module,exports){
+/* global YoastSEO: true */
+
 var escapeHTML = require( "lodash/string/escape" );
 var Score = require( "./values/Score.js" );
 var AnalyzerScoring = require( "./config/scoring.js" ).AnalyzerScoring;
@@ -903,7 +912,7 @@ AnalyzeScorer.prototype.genericScore = function( obj ) {
 	var scoreObj = this.scoreLookup( obj.test );
 
 	if ( isUndefined( scoreObj ) ) {
-		return assessments[ obj.test ]( this.paper, this.i18n );
+		return assessments[ obj.test ]( this.paper, YoastSEO.app.researcher,  this.i18n );
 	}
 
 	return this.calculateScore( obj, scoreObj, scoreObj.scoreName );
@@ -1119,7 +1128,7 @@ AnalyzeScorer.prototype.addScoring = function( scoring ) {
 
 module.exports = AnalyzeScorer;
 
-},{"./assessments/countWords.js":17,"./assessments/getLinkStatistics.js":18,"./config/scoring.js":24,"./values/Score.js":57,"lodash/lang/isUndefined":146,"lodash/string/escape":156}],16:[function(require,module,exports){
+},{"./assessments/countWords.js":17,"./assessments/getLinkStatistics.js":18,"./config/scoring.js":24,"./values/Score.js":59,"lodash/lang/isUndefined":148,"lodash/string/escape":158}],16:[function(require,module,exports){
 /* jshint browser: true */
 
 require( "./config/config.js" );
@@ -1136,9 +1145,11 @@ var forEach = require( "lodash/collection/forEach" );
 var Jed = require( "jed" );
 
 var Analyzer = require( "./analyzer.js" );
+var Researcher = require( "./researcher.js" );
 var ScoreFormatter = require( "./scoreFormatter.js" );
 var Pluggable = require( "./pluggable.js" );
 var analyzerConfig = require( "./config/config.js" );
+var Paper = require( "./values/Paper.js" );
 
 /**
  * Default config for YoastSEO.js
@@ -1197,7 +1208,7 @@ var defaults = {
  * @private
  * @this App
  *
- * @returns {SnippetPreview}
+ * @returns {SnippetPreview} The SnippetPreview object.
  */
 function createDefaultSnippetPreview() {
 	var targetElement = document.getElementById( this.config.targets.snippet );
@@ -1214,8 +1225,8 @@ function createDefaultSnippetPreview() {
 /**
  * Returns whether or not the given argument is a valid SnippetPreview object.
  *
- * @param {*} snippetPreview
- * @returns {boolean}
+ * @param   {*}         snippetPreview  The 'object' to check against.
+ * @returns {boolean}                   Whether or not it's a valid SnippetPreview object.
  */
 function isValidSnippetPreview( snippetPreview ) {
 	return !isUndefined( snippetPreview ) && SnippetPreview.prototype.isPrototypeOf( snippetPreview );
@@ -1225,7 +1236,8 @@ function isValidSnippetPreview( snippetPreview ) {
  * Check arguments passed to the App to check if all necessary arguments are set.
  *
  * @private
- * @param {Object} args The arguments object passed to the App.
+ * @param {Object}      args            The arguments object passed to the App.
+ * @returns {void}
  */
 function verifyArguments( args ) {
 
@@ -1289,31 +1301,25 @@ function verifyArguments( args ) {
 /**
  * Loader for the analyzer, loads the eventbinder and the elementdefiner
  *
- * @param {Object} args
+ * @param {Object} args The arguments oassed to the loader.
  * @param {Object} args.translations Jed compatible translations.
  * @param {Object} args.targets Targets to retrieve or set on.
  * @param {String} args.targets.snippet ID for the snippet preview element.
  * @param {String} args.targets.output ID for the element to put the output of the analyzer in.
- * @param {int} args.typeDelay Number of milliseconds to wait between typing to refresh the
- *        analyzer output.
- * @param {boolean} args.dynamicDelay Whether to enable dynamic delay, will ignore type delay if the
- *        analyzer takes a long time. Applicable on slow devices.
+ * @param {int} args.typeDelay Number of milliseconds to wait between typing to refresh the analyzer output.
+ * @param {boolean} args.dynamicDelay   Whether to enable dynamic delay, will ignore type delay if the analyzer takes a long time.
+ *                                      Applicable on slow devices.
  * @param {int} args.maxTypeDelay The maximum amount of type delay even if dynamic delay is on.
- * @param {int} args.typeDelayStep The amount with which to increase the typeDelay on each step when
- *        dynamic delay is enabled.
+ * @param {int} args.typeDelayStep The amount with which to increase the typeDelay on each step when dynamic delay is enabled.
  * @param {Object} args.callbacks The callbacks that the app requires.
  * @param {YoastSEO.App~getData} args.callbacks.getData Called to retrieve input data
- * @param {YoastSEO.App~getAnalyzerInput} args.callbacks.getAnalyzerInput Called to retrieve input
- *        for the analyzer.
- * @param {YoastSEO.App~bindElementEvents} args.callbacks.bindElementEvents Called to bind events to
- *        the DOM elements.
- * @param {YoastSEO.App~updateSnippetValues} args.callbacks.updateSnippetValues Called when the
- *        snippet values need to be updated.
- * @param {YoastSEO.App~saveScores} args.callbacks.saveScores Called when the score has been
- *        determined by the analyzer.
+ * @param {YoastSEO.App~getAnalyzerInput} args.callbacks.getAnalyzerInput Called to retrieve input for the analyzer.
+ * @param {YoastSEO.App~bindElementEvents} args.callbacks.bindElementEvents Called to bind events to the DOM elements.
+ * @param {YoastSEO.App~updateSnippetValues} args.callbacks.updateSnippetValues Called when the snippet values need to be updated.
+ * @param {YoastSEO.App~saveScores} args.callbacks.saveScores Called when the score has been determined by the analyzer.
  * @param {Function} args.callbacks.saveSnippetData Function called when the snippet data is changed.
  *
- * @param {SnippetPreview} args.snippetPreview
+ * @param {SnippetPreview} args.snippetPreview The SnippetPreview object to be used.
  *
  * @constructor
  */
@@ -1333,7 +1339,6 @@ var App = function( args ) {
 	this.pluggable = new Pluggable( this );
 
 	this.getData();
-
 	this.showLoadingDialog();
 
 	if ( isValidSnippetPreview( args.snippetPreview ) ) {
@@ -1357,8 +1362,8 @@ var App = function( args ) {
 /**
  * Extend the config with defaults.
  *
- * @param {Object} args
- * @returns {Object} args
+ * @param   {Object}    args    The arguments to be extended.
+ * @returns {Object}    args    The extended arguments.
  */
 App.prototype.extendConfig = function( args ) {
 	args.sampleText = this.extendSampleText( args.sampleText );
@@ -1371,8 +1376,8 @@ App.prototype.extendConfig = function( args ) {
 /**
  * Extend sample text config with defaults.
  *
- * @param {Object} sampleText
- * @returns {Object} sampleText
+ * @param   {Object}    sampleText  The sample text to be extended.
+ * @returns {Object}    sampleText  The extended sample text.
  */
 App.prototype.extendSampleText = function( sampleText ) {
 	var defaultSampleText = defaults.sampleText;
@@ -1393,7 +1398,8 @@ App.prototype.extendSampleText = function( sampleText ) {
 /**
  * Initializes i18n object based on passed configuration
  *
- * @param {Object} translations
+ * @param {Object}  translations    The translations to be used in the current instance.
+ * @returns {void}
  */
 App.prototype.constructI18n = function( translations ) {
 	var defaultTranslations = {
@@ -1413,11 +1419,14 @@ App.prototype.constructI18n = function( translations ) {
 
 /**
  * Retrieves data from the callbacks.getData and applies modification to store these in this.rawData.
+ * @returns {void}
  */
 App.prototype.getData = function() {
 	this.rawData = this.callbacks.getData();
 
 	if ( !isUndefined( this.snippetPreview ) ) {
+
+		// Gets the data FOR the analyzer
 		var data = this.snippetPreview.getAnalyzerData();
 
 		this.rawData.pageTitle = data.title;
@@ -1434,6 +1443,7 @@ App.prototype.getData = function() {
 
 /**
  * Refreshes the analyzer and output of the analyzer
+ * @returns {void}
  */
 App.prototype.refresh = function() {
 	this.getData();
@@ -1441,10 +1451,11 @@ App.prototype.refresh = function() {
 };
 
 /**
- * creates the elements for the snippetPreview
+ * Creates the elements for the snippetPreview
  *
  * @deprecated Don't create a snippet preview using this method, create it directly using the prototype and pass it as
  * an argument instead.
+ * @returns {void}
  */
 App.prototype.createSnippetPreview = function() {
 	this.snippetPreview = createDefaultSnippetPreview.call( this );
@@ -1453,6 +1464,7 @@ App.prototype.createSnippetPreview = function() {
 
 /**
  * Initializes the snippet preview for this App.
+ * @returns {void}
  */
 App.prototype.initSnippetPreview = function() {
 	this.snippetPreview.renderTemplate();
@@ -1463,6 +1475,7 @@ App.prototype.initSnippetPreview = function() {
 
 /**
  * binds the analyzeTimer function to the input of the targetElement on the page.
+ * @returns {void}
  */
 App.prototype.bindInputEvent = function() {
 	for ( var i = 0; i < this.config.elementTarget.length; i++ ) {
@@ -1473,6 +1486,7 @@ App.prototype.bindInputEvent = function() {
 
 /**
  * runs the rerender function of the snippetPreview if that object is defined.
+ * @returns {void}
  */
 App.prototype.reloadSnippetText = function() {
 	if ( isUndefined( this.snippetPreview ) ) {
@@ -1484,6 +1498,7 @@ App.prototype.reloadSnippetText = function() {
  * the analyzeTimer calls the checkInputs function with a delay, so the function won't be executed
  * at every keystroke checks the reference object, so this function can be called from anywhere,
  * without problems with different scopes.
+ * @returns {void}
  */
 App.prototype.analyzeTimer = function() {
 	clearTimeout( window.timer );
@@ -1492,6 +1507,7 @@ App.prototype.analyzeTimer = function() {
 
 /**
  * sets the startTime timestamp
+ * @returns {void}
  */
 App.prototype.startTime = function() {
 	this.startTimestamp = new Date().getTime();
@@ -1499,6 +1515,7 @@ App.prototype.startTime = function() {
 
 /**
  * sets the endTime timestamp and compares with startTime to determine typeDelayincrease.
+ * @returns {void}
  */
 App.prototype.endTime = function() {
 	this.endTimestamp = new Date().getTime();
@@ -1512,9 +1529,9 @@ App.prototype.endTime = function() {
 /**
  * inits a new pageAnalyzer with the inputs from the getInput function and calls the scoreFormatter
  * to format outputs.
+ * @returns {void}
  */
 App.prototype.runAnalyzer = function() {
-
 	if ( this.pluggable.loaded === false ) {
 		return;
 	}
@@ -1526,6 +1543,14 @@ App.prototype.runAnalyzer = function() {
 	this.analyzerData = this.modifyData( this.rawData );
 	this.analyzerData.i18n = this.i18n;
 
+	// Create a paper object for the Researcher
+	this.paper = new Paper( this.analyzerData.text, {
+		keyword:  this.analyzerData.keyword,
+		description: this.analyzerData.meta,
+		url: this.analyzerData.url,
+		title: this.analyzerData.pageTitle
+	} );
+
 	var keyword = sanitizeString( this.rawData.keyword );
 
 	if ( keyword === "" ) {
@@ -1533,6 +1558,13 @@ App.prototype.runAnalyzer = function() {
 	}
 
 	this.analyzerData.keyword = keyword;
+
+	// The new researcher
+	if ( isUndefined( this.researcher ) ) {
+		this.researcher = new Researcher( this.paper );
+	} else {
+		this.researcher.setPaper( this.paper );
+	}
 
 	if ( isUndefined( this.pageAnalyzer ) ) {
 		this.pageAnalyzer = new Analyzer( this.analyzerData );
@@ -1565,8 +1597,8 @@ App.prototype.runAnalyzer = function() {
 
 /**
  * Modifies the data with plugins before it is sent to the analyzer.
- * @param data
- * @returns {*}
+ * @param   {Object}  data      The data to be modified.
+ * @returns {Object}            The data with the applied modifications.
  */
 App.prototype.modifyData = function( data ) {
 
@@ -1581,6 +1613,7 @@ App.prototype.modifyData = function( data ) {
 
 /**
  * Function to fire the analyzer when all plugins are loaded, removes the loading dialog.
+ * @returns {void}
  */
 App.prototype.pluginsLoaded = function() {
 	this.getData();
@@ -1590,6 +1623,7 @@ App.prototype.pluginsLoaded = function() {
 
 /**
  * Shows the loading dialog which shows the loading of the plugins.
+ * @returns {void}
  */
 App.prototype.showLoadingDialog = function() {
 	var dialogDiv = document.createElement( "div" );
@@ -1600,7 +1634,8 @@ App.prototype.showLoadingDialog = function() {
 
 /**
  * Updates the loading plugins. Uses the plugins as arguments to show which plugins are loading
- * @param plugins
+ * @param   {Object}  plugins   The plugins to be parsed into the dialog.
+ * @returns {void}
  */
 App.prototype.updateLoadingDialog = function( plugins ) {
 	var dialog = document.getElementById( "YoastSEO-plugin-loading" );
@@ -1613,20 +1648,22 @@ App.prototype.updateLoadingDialog = function( plugins ) {
 };
 
 /**
- * removes the pluging load dialog.
+ * Removes the pluging load dialog.
+ * @returns {void}
  */
 App.prototype.removeLoadingDialog = function() {
 	document.getElementById( this.config.targets.output ).removeChild( document.getElementById( "YoastSEO-plugin-loading" ) );
 };
 
-/**************** PLUGGABLE PUBLIC DSL ****************/
+// ***** PLUGGABLE PUBLIC DSL ***** //
 
 /**
  * Delegates to `YoastSEO.app.pluggable.registerPlugin`
  *
- * @param pluginName	{string}
- * @param options 		{{status: "ready"|"loading"}}
- * @returns 			{boolean}
+ * @param {string}  pluginName      The name of the plugin to be registered.
+ * @param {object}  options         The options object.
+ * @param {string}  options.status  The status of the plugin being registered. Can either be "loading" or "ready".
+ * @returns {boolean}               Whether or not it was successfully registered.
  */
 App.prototype.registerPlugin = function( pluginName, options ) {
 	return this.pluggable._registerPlugin( pluginName, options );
@@ -1635,8 +1672,8 @@ App.prototype.registerPlugin = function( pluginName, options ) {
 /**
  * Delegates to `YoastSEO.app.pluggable.ready`
  *
- * @param pluginName	{string}
- * @returns 			{boolean}
+ * @param {string}  pluginName  The name of the plugin to check.
+ * @returns {boolean}           Whether or not the plugin is ready.
  */
 App.prototype.pluginReady = function( pluginName ) {
 	return this.pluggable._ready( pluginName );
@@ -1645,8 +1682,8 @@ App.prototype.pluginReady = function( pluginName ) {
 /**
  * Delegates to `YoastSEO.app.pluggable.reloaded`
  *
- * @param pluginName	{string}
- * @returns 			{boolean}
+ * @param {string} pluginName   The name of the plugin to reload
+ * @returns {boolean}           Whether or not the plugin was reloaded.
  */
 App.prototype.pluginReloaded = function( pluginName ) {
 	return this.pluggable._reloaded( pluginName );
@@ -1655,12 +1692,12 @@ App.prototype.pluginReloaded = function( pluginName ) {
 /**
  * Delegates to `YoastSEO.app.pluggable.registerModification`
  *
- * @param modification 	{string} 	The name of the filter
- * @param callable 		{function} 	The callable
- * @param pluginName 	{string} 	The plugin that is registering the modification.
- * @param priority 		{number} 	(optional) Used to specify the order in which the callables associated with a particular filter are called.
- * 									Lower numbers correspond with earlier execution.
- * @returns 			{boolean}
+ * @param {string}      modification 		The name of the filter
+ * @param {function}    callable 		 	The callable function
+ * @param {string}      pluginName 		    The plugin that is registering the modification.
+ * @param {number}      priority 		 	(optional) Used to specify the order in which the callables associated with a particular filter are called.
+ * 									        Lower numbers correspond with earlier execution.
+ * @returns 			{boolean}           Whether or not the modification was successfully registered.
  */
 App.prototype.registerModification = function( modification, callable, pluginName, priority ) {
 	return this.pluggable._registerModification( modification, callable, pluginName, priority );
@@ -1684,7 +1721,7 @@ App.prototype.registerModification = function( modification, callable, pluginNam
  * @param {string}   pluginName The plugin that is registering the test.
  * @param {number}   priority   (optional) Determines when this test is run in the analyzer queue. Is currently ignored,
  *                              tests are added to the end of the queue.
- * @returns {boolean}
+ * @returns {boolean}           Whether or not the test was successfully registered.
  */
 App.prototype.registerTest = function( name, analysis, scoring, pluginName, priority ) {
 	return this.pluggable._registerTest( name, analysis, scoring, pluginName, priority );
@@ -1692,15 +1729,14 @@ App.prototype.registerTest = function( name, analysis, scoring, pluginName, prio
 
 module.exports = App;
 
-},{"../js/stringProcessing/sanitizeString.js":46,"./analyzer.js":14,"./config/config.js":21,"./errors/missingArgument":27,"./pluggable.js":28,"./scoreFormatter.js":29,"./snippetPreview.js":30,"jed":62,"lodash/collection/forEach":65,"lodash/lang/isObject":142,"lodash/lang/isString":144,"lodash/lang/isUndefined":146,"lodash/object/defaultsDeep":151}],17:[function(require,module,exports){
-var countWords = require( "../stringProcessing/countWords.js" );
+},{"../js/stringProcessing/sanitizeString.js":48,"./analyzer.js":14,"./config/config.js":21,"./errors/missingArgument":28,"./pluggable.js":29,"./researcher.js":30,"./scoreFormatter.js":31,"./snippetPreview.js":32,"./values/Paper.js":58,"jed":64,"lodash/collection/forEach":67,"lodash/lang/isObject":144,"lodash/lang/isString":146,"lodash/lang/isUndefined":148,"lodash/object/defaultsDeep":153}],17:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 var inRange = require( "lodash/number/inRange" );
 
-var countWordsAssessment = function( paper, i18n ) {
+var countWordsAssessment = function( paper, researcher, i18n ) {
 	var score = 0;
 	var text = "";
-	var wordCount = countWords( paper.getText() );
+	var wordCount = researcher.getResearch( "wordCount" );
 
 	if ( wordCount > 300 ) {
 		score = 9;
@@ -1769,8 +1805,7 @@ var countWordsAssessment = function( paper, i18n ) {
 
 module.exports = countWordsAssessment;
 
-},{"../stringProcessing/countWords.js":36,"../values/AssessmentResult.js":55,"lodash/number/inRange":148}],18:[function(require,module,exports){
-var getLinkStatistics = require( "../analyses/getLinkStatistics.js" );
+},{"../values/AssessmentResult.js":57,"lodash/number/inRange":150}],18:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 
 /**
@@ -1841,10 +1876,10 @@ var calculateLinkStatisticsResult = function( linkStatistics, i18n ) {
  * @param {object} i18n The object used for translations
  * @returns {object} the Assessmentresult
  */
-var getLinkStatisticsAssessment = function( paper, i18n ) {
+var getLinkStatisticsAssessment = function( paper,  researcher, i18n ) {
 
-	var linkStatistics = getLinkStatistics ( paper.getText(), paper.getKeyword(), paper.getUrl() );
-
+	//var linkStatistics = getLinkStatistics ( paper.getText(), paper.getKeyword(), paper.getUrl() );
+	var linkStatistics = researcher.getResearch( paper );
 	var linkStatisticsResult = calculateLinkStatisticsResult( linkStatistics, i18n );
 
 	return new AssessmentResult( linkStatisticsResult.score, linkStatisticsResult.text );
@@ -1853,7 +1888,7 @@ var getLinkStatisticsAssessment = function( paper, i18n ) {
 
 module.exports = getLinkStatisticsAssessment;
 
-},{"../analyses/getLinkStatistics.js":10,"../values/AssessmentResult.js":55}],19:[function(require,module,exports){
+},{"../values/AssessmentResult.js":57}],19:[function(require,module,exports){
 /* global YoastSEO: true */
 YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 
@@ -1876,7 +1911,7 @@ YoastSEO.App.prototype._sanitizeKeyword = require( "../js/stringProcessing/sanit
 
 YoastSEO.Jed = require( "jed" );
 
-},{"../js/stringProcessing/sanitizeString.js":46,"./analyzer.js":14,"./analyzescorer.js":15,"./app.js":16,"./config/config.js":21,"./config/scoring.js":24,"./pluggable.js":28,"./scoreFormatter.js":29,"./snippetPreview.js":30,"jed":62}],20:[function(require,module,exports){
+},{"../js/stringProcessing/sanitizeString.js":48,"./analyzer.js":14,"./analyzescorer.js":15,"./app.js":16,"./config/config.js":21,"./config/scoring.js":24,"./pluggable.js":29,"./scoreFormatter.js":31,"./snippetPreview.js":32,"jed":64}],20:[function(require,module,exports){
 /**
  * Returns a configobject with maxSlugLength, maxUrlLength and MaxMeta to be used
  * for analysis
@@ -2450,6 +2485,20 @@ module.exports = function(){
 };
 
 },{}],27:[function(require,module,exports){
+/**
+ * Throws an invalid type error
+ * @param {string} message The message to show when the error is thrown
+ * @returns {void}
+ */
+module.exports = function InvalidTypeError( message ) {
+	Error.captureStackTrace( this, this.constructor );
+	this.name = this.constructor.name;
+	this.message = message;
+};
+
+require( "util" ).inherits( module.exports, Error );
+
+},{"util":63}],28:[function(require,module,exports){
 module.exports = function MissingArgumentError( message ) {
 	Error.captureStackTrace( this, this.constructor );
 	this.name = this.constructor.name;
@@ -2458,7 +2507,7 @@ module.exports = function MissingArgumentError( message ) {
 
 require( "util" ).inherits( module.exports, Error );
 
-},{"util":61}],28:[function(require,module,exports){
+},{"util":63}],29:[function(require,module,exports){
 /* global console: true */
 /* global setTimeout: true */
 var isUndefined = require( "lodash/lang/isUndefined" );
@@ -2479,12 +2528,17 @@ var reduce = require( "lodash/collection/reduce" );
  * by calling `reloaded`.
  *
  * @todo: add list of supported modifications and compare on registration of modification
+ */
+
+/**
+ * Setup Pluggable and set its default values.
  *
  * @constructor
- * @property preloadThreshold	{number} The maximum time plugins are allowed to preload before we load our content analysis.
- * @property plugins			{object} The plugins that have been registered.
- * @property modifications 		{object} The modifications that have been registered. Every modification contains an array with callables.
- * @property customTests        {Array} All tests added by plugins.
+ * @param       {App}       app                 The App object to attach to.
+ * @property    {number}    preloadThreshold	The maximum time plugins are allowed to preload before we load our content analysis.
+ * @property    {object}    plugins             The plugins that have been registered.
+ * @property    {object}    modifications 	    The modifications that have been registered. Every modification contains an array with callables.
+ * @property    {Array}     customTests         All tests added by plugins.
  */
 var Pluggable = function( app ) {
 	this.app = app;
@@ -2498,14 +2552,15 @@ var Pluggable = function( app ) {
 	setTimeout( this._pollLoadingPlugins.bind( this ), 1500 );
 };
 
-/**************** DSL IMPLEMENTATION ****************/
+//  ***** DSL IMPLEMENTATION ***** //
 
 /**
  * Register a plugin with YoastSEO. A plugin can be declared "ready" right at registration or later using `this.ready`.
  *
- * @param pluginName	{string}
- * @param options 		{{status: "ready"|"loading"}}
- * @returns 			{boolean}
+ * @param {string}  pluginName      The name of the plugin to be registered.
+ * @param {object}  options         The options passed by the plugin.
+ * @param {string}  options.status  The status of the plugin being registered. Can either be "loading" or "ready".
+ * @returns {boolean}               Whether or not the plugin was successfully registered.
  */
 Pluggable.prototype._registerPlugin = function( pluginName, options ) {
 	if ( typeof pluginName !== "string" ) {
@@ -2514,7 +2569,7 @@ Pluggable.prototype._registerPlugin = function( pluginName, options ) {
 	}
 
 	if ( !isUndefined( options ) && typeof options !== "object" ) {
-		console.error( "Failed to register plugin " + pluginName + ". Expected parameters `options` to be a string." );
+		console.error( "Failed to register plugin " + pluginName + ". Expected parameters `options` to be a object." );
 		return false;
 	}
 
@@ -2531,8 +2586,8 @@ Pluggable.prototype._registerPlugin = function( pluginName, options ) {
 /**
  * Declare a plugin "ready". Use this if you need to preload data with AJAX.
  *
- * @param pluginName	{string}
- * @returns 			{boolean}
+ * @param {string} pluginName	The name of the plugin to be declared as ready.
+ * @returns {boolean}           Whether or not the plugin was successfully declared ready.
  */
 Pluggable.prototype._ready = function( pluginName ) {
 	if ( typeof pluginName !== "string" ) {
@@ -2553,8 +2608,8 @@ Pluggable.prototype._ready = function( pluginName ) {
 /**
  * Used to declare a plugin has been reloaded. If an analysis is currently running. We will reset it to ensure running the latest modifications.
  *
- * @param pluginName	{string}
- * @returns 			{boolean}
+ * @param {string} pluginName   The name of the plugin to be declared as reloaded.
+ * @returns {boolean}           Whether or not the plugin was successfully declared as reloaded.
  */
 Pluggable.prototype._reloaded = function( pluginName ) {
 	if ( typeof pluginName !== "string" ) {
@@ -2574,12 +2629,12 @@ Pluggable.prototype._reloaded = function( pluginName ) {
 /**
  * Enables hooking a callable to a specific data filter supported by YoastSEO. Can only be performed for plugins that have finished loading.
  *
- * @param modification 	{string} 	The name of the filter
- * @param callable 		{function} 	The callable
- * @param pluginName 	{string} 	The plugin that is registering the modification.
- * @param priority 		{number} 	(optional) Used to specify the order in which the callables associated with a particular filter are called.
- * 									Lower numbers correspond with earlier execution.
- * @returns 			{boolean}
+ * @param {string}      modification	The name of the filter
+ * @param {function}    callable 	    The callable
+ * @param {string}      pluginName 	    The plugin that is registering the modification.
+ * @param {number}      priority	    (optional) Used to specify the order in which the callables associated with a particular filter are called.
+ * 									    Lower numbers correspond with earlier execution.
+ * @returns {boolean}                   Whether or not applying the hook was successfull.
  */
 Pluggable.prototype._registerModification = function( modification, callable, pluginName, priority ) {
 	if ( typeof modification !== "string" ) {
@@ -2623,6 +2678,14 @@ Pluggable.prototype._registerModification = function( modification, callable, pl
 };
 
 /**
+ * Register test for a specific plugin
+ *
+ * @param   {string}      name          The name of the test.
+ * @param   {function}    analysis      The function to be run within the test.
+ * @param   {object}      scoring       The scoring associated with the test.
+ * @param   {string}      pluginName    The name of the plugin associated with the test.
+ * @param   {number}      priority      The priority that this test has.
+ * @returns {boolean}                   Whether or not the test was successfully registered.
  * @private
  */
 Pluggable.prototype._registerTest = function( name, analysis, scoring, pluginName, priority ) {
@@ -2663,14 +2726,15 @@ Pluggable.prototype._registerTest = function( name, analysis, scoring, pluginNam
 	return true;
 };
 
-/**************** PRIVATE HANDLERS ****************/
+// ***** PRIVATE HANDLERS *****//
 
 /**
  * Poller to handle loading of plugins. Plugins can register with our app to let us know they are going to hook into our Javascript. They are allowed
  * 5 seconds of pre-loading time to fetch all the data they need to be able to perform their data modifications. We will only apply data modifications
  * from plugins that have declared ready within the pre-loading time in order to safeguard UX and data integrity.
  *
- * @param pollTime {number} (optional) The accumulated time to compare with the pre-load threshold.
+ * @param   {number} pollTime (optional) The accumulated time to compare with the pre-load threshold.
+ * @returns {void}
  * @private
  */
 Pluggable.prototype._pollLoadingPlugins = function( pollTime ) {
@@ -2689,7 +2753,7 @@ Pluggable.prototype._pollLoadingPlugins = function( pollTime ) {
 /**
  * Checks if all registered plugins have finished loading
  *
- * @returns {boolean}
+ * @returns {boolean} Whether or not all registered plugins are loaded.
  * @private
  */
 Pluggable.prototype._allReady = function() {
@@ -2701,6 +2765,7 @@ Pluggable.prototype._allReady = function() {
 /**
  * Removes the plugins that were not loaded within time and calls `pluginsLoaded` on the app.
  *
+ * @returns {void}
  * @private
  */
 Pluggable.prototype._pollTimeExceeded = function() {
@@ -2717,10 +2782,10 @@ Pluggable.prototype._pollTimeExceeded = function() {
 /**
  * Calls the callables added to a modification hook. See the YoastSEO.js Readme for a list of supported modification hooks.
  *
- * @param modification	{string}	The name of the filter
- * @param data 			{*} 		The data to filter
- * @param context 		{*} 		(optional) Object for passing context parameters to the callable.
- * @returns 			{*} 		The filtered data
+ * @param	{string}    modification	The name of the filter
+ * @param   {*}         data 		    The data to filter
+ * @param   {*}         context		    (optional) Object for passing context parameters to the callable.
+ * @returns {*} 		                The filtered data
  * @private
  */
 Pluggable.prototype._applyModifications = function( modification, data, context ) {
@@ -2752,6 +2817,7 @@ Pluggable.prototype._applyModifications = function( modification, data, context 
  * Adds new tests to the analyzer and it's scoring object.
  *
  * @param {YoastSEO.Analyzer} analyzer The analyzer object to add the tests to
+ * @returns {void}
  * @private
  */
 Pluggable.prototype._addPluginTests = function( analyzer ) {
@@ -2763,11 +2829,13 @@ Pluggable.prototype._addPluginTests = function( analyzer ) {
 /**
  * Adds one new test to the analyzer and it's scoring object.
  *
- * @param {YoastSEO.Analyzer} analyzer
- * @param {Object}            pluginTest
- * @param {string}            pluginTest.name
- * @param {function}          pluginTest.callable
- * @param {Object}            pluginTest.scoring
+ * @param {YoastSEO.Analyzer} analyzer              The analyzer that the test will be added to.
+ * @param {Object}            pluginTest            The test to be added.
+ * @param {string}            pluginTest.name       The name of the test.
+ * @param {function}          pluginTest.callable   The function associated with the test.
+ * @param {function}          pluginTest.analysis   The function associated with the analyzer.
+ * @param {Object}            pluginTest.scoring    The scoring object to be used.
+ * @returns {void}
  * @private
  */
 Pluggable.prototype._addPluginTest = function( analyzer, pluginTest ) {
@@ -2785,8 +2853,8 @@ Pluggable.prototype._addPluginTest = function( analyzer, pluginTest ) {
 /**
  * Strips modifications from a callChain if they were not added with a valid origin.
  *
- * @param callChain		{Array}
- * @returns callChain 	{Array}
+ * @param   {Array} callChain	 The callChain that contains items with possible invalid origins.
+ * @returns {Array} callChain 	 The stripped version of the callChain.
  * @private
  */
 Pluggable.prototype._stripIllegalModifications = function( callChain ) {
@@ -2802,8 +2870,8 @@ Pluggable.prototype._stripIllegalModifications = function( callChain ) {
 /**
  * Validates if origin of a modification has been registered and finished preloading.
  *
- * @param pluginName	{string}
- * @returns 			{boolean}
+ * @param 	{string}    pluginName      The name of the plugin that needs to be validated.
+ * @returns {boolean}                   Whether or not the origin is valid.
  * @private
  */
 Pluggable.prototype._validateOrigin = function( pluginName ) {
@@ -2816,8 +2884,8 @@ Pluggable.prototype._validateOrigin = function( pluginName ) {
 /**
  * Validates if registered plugin has a unique name.
  *
- * @param pluginName	{string}
- * @returns 			{boolean}
+ * @param 	{string}    pluginName      The name of the plugin that needs to be validated for uniqueness.
+ * @returns {boolean}                   Whether or not the plugin has a unique name.
  * @private
  */
 Pluggable.prototype._validateUniqueness = function( pluginName ) {
@@ -2829,7 +2897,110 @@ Pluggable.prototype._validateUniqueness = function( pluginName ) {
 
 module.exports = Pluggable;
 
-},{"lodash/collection/forEach":65,"lodash/collection/reduce":66,"lodash/lang/isUndefined":146}],29:[function(require,module,exports){
+},{"lodash/collection/forEach":67,"lodash/collection/reduce":68,"lodash/lang/isUndefined":148}],30:[function(require,module,exports){
+var Paper = require( "./values/Paper.js" );
+var merge = require( "lodash/object/merge" );
+var InvalidTypeError = require( "./errors/invalidType" );
+var MissingArgument = require( "./errors/missingArgument" );
+var isUndefined = require( "lodash/lang/isUndefined" );
+var isEmpty = require( "lodash/lang/isEmpty" );
+
+// assessments
+var wordCount = require( "./stringProcessing/countWords.js" );
+var getLinkStatistics = require( "./stringProcessing/countWords.js" );
+
+/**
+ * This contains all possible, default researches.
+ * @param {Paper} paper The Paper object that is needed within the researches.
+ * @constructor
+ * @throws {InvalidTypeError} Parameter needs to be an instance of the Paper object.
+ */
+var Researcher = function( paper ) {
+	this.setPaper( paper );
+
+	this.defaultResearches = {
+		"wordCount": wordCount,
+		"getLinkStatistics": getLinkStatistics
+	};
+
+	this.customResearches = {};
+};
+
+/**
+ * Set the Paper associated with the Researcher.
+ * @param {Paper} paper The Paper to use within the Researcher
+ * @throws {InvalidTypeError} Parameter needs to be an instance of the Paper object.
+ * @returns {void}
+ */
+Researcher.prototype.setPaper = function( paper ) {
+	if ( !( paper instanceof Paper ) ) {
+		throw new InvalidTypeError( "The researcher requires an Paper object." );
+	}
+
+	this.paper = paper;
+};
+
+/**
+ * Add a custom research that will be available within the Researcher.
+ * @param {string} name A name to reference the research by.
+ * @param {function} research The function to be added to the Researcher.
+ * @throws {MissingArgument} Research name cannot be empty.
+ * @throws {InvalidTypeError} The research requires a valid Function callback.
+ * @returns {void}
+ */
+Researcher.prototype.addResearch = function( name, research ) {
+	if ( isUndefined( name ) || isEmpty( name ) ) {
+		throw new MissingArgument( "Research name cannot be empty" );
+	}
+
+	if ( !( research instanceof Function ) ) {
+		throw new InvalidTypeError( "The research requires a Function callback." );
+	}
+
+	this.customResearches[name] = research;
+};
+
+/**
+ * Check wheter or not the research is known by the Researcher.
+ * @param {string} name The name to reference the research by.
+ * @returns {boolean} Whether or not the research is known by the Researcher
+ */
+Researcher.prototype.hasResearch = function( name ) {
+	return Object.keys( this.getAvailableResearches() ).filter(
+	function( research ) {
+		return research === name;
+	} ).length > 0;
+};
+
+/**
+ * Return all available researches.
+ * @returns {Object} An object containing all available researches.
+ */
+Researcher.prototype.getAvailableResearches = function() {
+	return merge( this.defaultResearches, this.customResearches );
+};
+
+/**
+ * Return the Research by name.
+ * @param {string} name The name to reference the research by.
+ * @returns {*} Returns the result of the research or false if research does not exist.
+ * @throws {MissingArgument} Research name cannot be empty.
+ */
+Researcher.prototype.getResearch = function( name ) {
+	if ( isUndefined( name ) || isEmpty( name ) ) {
+		throw new MissingArgument( "Research name cannot be empty" );
+	}
+
+	if ( !this.hasResearch( name ) ) {
+		return false;
+	}
+
+	return this.getAvailableResearches()[ name ]( this.paper );
+};
+
+module.exports = Researcher;
+
+},{"./errors/invalidType":27,"./errors/missingArgument":28,"./stringProcessing/countWords.js":38,"./values/Paper.js":58,"lodash/lang/isEmpty":141,"lodash/lang/isUndefined":148,"lodash/object/merge":156}],31:[function(require,module,exports){
 /* jshint browser: true */
 
 var isUndefined = require( "lodash/lang/isUndefined" );
@@ -3016,7 +3187,7 @@ ScoreFormatter.prototype.getSEOScoreText = function( scoreRating ) {
 
 module.exports = ScoreFormatter;
 
-},{"lodash/array/difference":63,"lodash/lang/isUndefined":146}],30:[function(require,module,exports){
+},{"lodash/array/difference":65,"lodash/lang/isUndefined":148}],32:[function(require,module,exports){
 /* jshint browser: true */
 
 var isEmpty = require( "lodash/lang/isEmpty" );
@@ -3105,6 +3276,7 @@ var getBaseURL = function() {
  * @this SnippetPreview
  *
  * @param {string} key The key to retrieve.
+ * @returns {string} The unformatted text.
  */
 function retrieveUnformattedText( key ) {
 	return this.data[ key ];
@@ -3118,6 +3290,7 @@ function retrieveUnformattedText( key ) {
  *
  * @param {string} key The data key to update.
  * @param {string} value The value to update.
+ * @return {void}
  */
 function updateUnformattedText( key, value ) {
 	this.element.input[ key ].value = value;
@@ -3130,6 +3303,7 @@ function updateUnformattedText( key, value ) {
  *
  * @param {HTMLElement} element The element to add the class to.
  * @param {string} className The class to add.
+ * @return {void}
  */
 function addClass( element, className ) {
 	var classes = element.className.split( " " );
@@ -3146,6 +3320,7 @@ function addClass( element, className ) {
  *
  * @param {HTMLElement} element The element to remove the class from.
  * @param {string} className The class to remove.
+ * @return {void}
  */
 function removeClass( element, className ) {
 	var classes = element.className.split( " " );
@@ -3163,6 +3338,7 @@ function removeClass( element, className ) {
  *
  * @param {HTMLElement} element The element to remove the classes from.
  * @param {Array} classes A list of classes to remove
+ * @return {void}
  */
 function removeClasses( element, classes ) {
 	forEach( classes, removeClass.bind( null, element ) );
@@ -3171,8 +3347,8 @@ function removeClasses( element, classes ) {
 /**
  * Returns if a url has a trailing slash or not.
  *
- * @param {string} url
- * @returns {boolean}
+ * @param {string} url The url to check for a trailing slash.
+ * @returns {boolean} Whether or not the url contains a trailing slash.
  */
 function hasTrailingSlash( url ) {
 	return url.indexOf( "/" ) === ( url.length - 1 );
@@ -3183,7 +3359,7 @@ function hasTrailingSlash( url ) {
  *
  * @private
  *
- * @returns {boolean}
+ * @returns {boolean} Whether or not the browser supports a <progress> element
  */
 function hasProgressSupport() {
 	var progressElement = document.createElement( "progress" );
@@ -3194,8 +3370,8 @@ function hasProgressSupport() {
 /**
  * Returns a rating based on the length of the title
  *
- * @param {string} titleLength
- * @returns {string}
+ * @param {number} titleLength the length of the title.
+ * @returns {string} The rating given based on the title length.
  */
 function rateTitleLength( titleLength ) {
 	var rating;
@@ -3221,8 +3397,8 @@ function rateTitleLength( titleLength ) {
 /**
  * Returns a rating based on the length of the meta description
  *
- * @param {string} metaDescLength
- * @returns {string}
+ * @param {number} metaDescLength the length of the meta description.
+ * @returns {string} The rating given based on the description length.
  */
 function rateMetaDescLength( metaDescLength ) {
 	var rating;
@@ -3255,6 +3431,7 @@ function rateMetaDescLength( metaDescLength ) {
  * @param {number} value The current value.
  * @param {number} maximum The maximum allowed value.
  * @param {string} rating The SEO score rating for this value.
+ * @returns {void}
  */
 function updateProgressBar( element, value, maximum, rating ) {
 	var barElement, progress,
@@ -3287,14 +3464,14 @@ function updateProgressBar( element, value, maximum, rating ) {
  * @param {App}            opts.analyzerApp               - The app object the snippet preview is part of.
  * @param {Object}         opts.placeholder               - The placeholder values for the fields, will be shown as
  * actual placeholders in the inputs and as a fallback for the preview.
- * @param {string}         opts.placeholder.title
- * @param {string}         opts.placeholder.metaDesc
- * @param {string}         opts.placeholder.urlPath
+ * @param {string}         opts.placeholder.title         - The placeholder title.
+ * @param {string}         opts.placeholder.metaDesc      - The placeholder meta description.
+ * @param {string}         opts.placeholder.urlPath       - The placeholder url.
  *
  * @param {Object}         opts.defaultValue              - The default value for the fields, if the user has not
  * changed a field, this value will be used for the analyzer, preview and the progress bars.
- * @param {string}         opts.defaultValue.title
- * @param {string}         opts.defaultValue.metaDesc
+ * @param {string}         opts.defaultValue.title        - The default title.
+ * @param {string}         opts.defaultValue.metaDesc     - The default meta description.
  * it.
  *
  * @param {string}         opts.baseURL                   - The basic URL as it will be displayed in google.
@@ -3385,6 +3562,7 @@ var SnippetPreview = function( opts ) {
 
 /**
  * Renders snippet editor and adds it to the targetElement
+ * @returns {void}
  */
 SnippetPreview.prototype.renderTemplate = function() {
 	var targetElement = this.opts.targetElement;
@@ -3467,6 +3645,7 @@ SnippetPreview.prototype.renderTemplate = function() {
 
 /**
  * Refreshes the snippet editor rendered HTML
+ * @returns {void}
  */
 SnippetPreview.prototype.refresh = function() {
 	this.output = this.htmlOutput();
@@ -3481,7 +3660,7 @@ SnippetPreview.prototype.refresh = function() {
  * @private
  * @this SnippetPreview
  *
- * @returns {string}
+ * @returns {string} The title that is meant for the analyzer.
  */
 function getAnalyzerTitle() {
 	var title = this.data.title;
@@ -3501,7 +3680,7 @@ function getAnalyzerTitle() {
  * @private
  * @this SnippetPreview
  *
- * @returns {string}
+ * @returns {string} The meta data for the analyzer.
  */
 var getAnalyzerMetaDesc = function() {
 	var metaDesc = this.data.metaDesc;
@@ -3522,7 +3701,7 @@ var getAnalyzerMetaDesc = function() {
 /**
  * Returns the data from the snippet preview.
  *
- * @returns {Object}
+ * @returns {Object} The collected data for the analyzer.
  */
 SnippetPreview.prototype.getAnalyzerData = function() {
 	return {
@@ -3534,6 +3713,7 @@ SnippetPreview.prototype.getAnalyzerData = function() {
 
 /**
  * Calls the event binder that has been registered using the callbacks option in the arguments of the App.
+ * @returns {void}
  */
 SnippetPreview.prototype.callRegisteredEventBinder = function() {
 	this.refObj.callbacks.bindElementEvents( this.refObj );
@@ -3541,6 +3721,7 @@ SnippetPreview.prototype.callRegisteredEventBinder = function() {
 
 /**
  *  checks if title and url are set so they can be rendered in the snippetPreview
+ *  @returns {void}
  */
 SnippetPreview.prototype.init = function() {
 	if (
@@ -3554,7 +3735,7 @@ SnippetPreview.prototype.init = function() {
 /**
  * creates html object to contain the strings for the snippetpreview
  *
- * @returns {Object}
+ * @returns {Object} The HTML output of the collected data.
  */
 SnippetPreview.prototype.htmlOutput = function() {
 	var html = {};
@@ -3566,9 +3747,9 @@ SnippetPreview.prototype.htmlOutput = function() {
 };
 
 /**
- * formats the title for the snippet preview. If title and pageTitle are empty, sampletext is used
+ * Formats the title for the snippet preview. If title and pageTitle are empty, sampletext is used
  *
- * @returns {string}
+ * @returns {string} The correctly formatted title.
  */
 SnippetPreview.prototype.formatTitle = function() {
 	var title = this.data.title;
@@ -3604,7 +3785,7 @@ SnippetPreview.prototype.formatTitle = function() {
 };
 
 /**
- * Formates the base url for the snippet preview. Removes the protocol name from the URL.
+ * Formats the base url for the snippet preview. Removes the protocol name from the URL.
  *
  * @returns {string} Formatted base url for the snippet preview.
  */
@@ -3687,9 +3868,7 @@ SnippetPreview.prototype.formatMeta = function() {
  * @returns {string} A generated meta description.
  */
 SnippetPreview.prototype.getMetaText = function() {
-	var metaText;
-
-	metaText = this.opts.defaultValue.metaDesc;
+	var metaText = this.opts.defaultValue.metaDesc;
 
 	if ( !isUndefined( this.refObj.rawData.excerpt ) && isEmpty( metaText ) ) {
 		metaText = this.refObj.rawData.excerpt;
@@ -3704,26 +3883,24 @@ SnippetPreview.prototype.getMetaText = function() {
 	}
 
 	metaText = stripHTMLTags( metaText );
-	if (
-		this.refObj.rawData.keyword !== "" &&
-		this.refObj.rawData.text !== ""
-	) {
+
+	// Generate a meta description based on where in the text the keyword is found first
+	if ( this.refObj.rawData.keyword !== "" && this.refObj.rawData.text !== "" ) {
+		var curStart = 0;
 		var indexMatches = this.getIndexMatches();
 		var periodMatches = this.getPeriodMatches();
 
-		metaText = metaText.substring(
-			0,
-			analyzerConfig.maxMeta
-		);
-		var curStart = 0;
+		metaText = metaText.substring( 0, analyzerConfig.maxMeta );
+
 		if ( indexMatches.length > 0 ) {
-			for ( var j = 0; j < periodMatches.length; ) {
+			var j = 0;
+
+			while ( j < periodMatches.length ) {
 				if ( periodMatches[ 0 ] < indexMatches[ 0 ] ) {
 					curStart = periodMatches.shift();
+				} else if ( curStart > 0 ) {
+					curStart += 2;
 				} else {
-					if ( curStart > 0 ) {
-						curStart += 2;
-					}
 					break;
 				}
 			}
@@ -3735,23 +3912,23 @@ SnippetPreview.prototype.getMetaText = function() {
 
 /**
  * Builds an array with all indexes of the keyword
- * @returns Array with matches
+ * @returns {Array} Array with matches
  */
 SnippetPreview.prototype.getIndexMatches = function() {
 	var indexMatches = [];
 	var i = 0;
 
-	//starts at 0, locates first match of the keyword.
+	// Starts at 0, locates first match of the keyword.
 	var match = this.refObj.rawData.text.indexOf(
 		this.refObj.rawData.keyword,
 		i
 	);
 
-	//runs the loop untill no more indexes are found, and match returns -1.
+	// Runs the loop untill no more indexes are found, and match returns -1.
 	while ( match > -1 ) {
 		indexMatches.push( match );
 
-		//pushes location to indexMatches and increase i with the length of keyword.
+		// Pushes location to indexMatches and increase i with the length of keyword.
 		i = match + this.refObj.rawData.keyword.length;
 		match = this.refObj.rawData.text.indexOf(
 			this.refObj.rawData.keyword,
@@ -3763,7 +3940,7 @@ SnippetPreview.prototype.getIndexMatches = function() {
 
 /**
  * Builds an array with indexes of all sentence ends (select on .)
- * @returns array with sentences
+ * @returns {Array} Array with sentences.
  */
 SnippetPreview.prototype.getPeriodMatches = function() {
 	var periodMatches = [ 0 ];
@@ -3777,11 +3954,11 @@ SnippetPreview.prototype.getPeriodMatches = function() {
 };
 
 /**
- * formats the keyword for use in the snippetPreview by adding <strong>-tags
- * strips unwanted characters that could break the regex or give unwanted results
+ * Formats the keyword for use in the snippetPreview by adding <strong>-tags
+ * strips unwanted characters that could break the regex or give unwanted results.
  *
- * @param {string} textString
- * @returns {string}
+ * @param {string} textString The keyword string that needs to be formatted.
+ * @returns {string} The formatted keyword.
  */
 SnippetPreview.prototype.formatKeyword = function( textString ) {
 
@@ -3800,8 +3977,8 @@ SnippetPreview.prototype.formatKeyword = function( textString ) {
  * <strong>-tags
  * strips unwanted characters that could break the regex or give unwanted results
  *
- * @param textString
- * @returns {XML|string|void}
+ * @param {string} textString The keyword string that needs to be formatted.
+ * @returns {XML|string|void} The formatted keyword string to be used in the URL.
  */
 SnippetPreview.prototype.formatKeywordUrl = function( textString ) {
 	var keyword = sanitizeString( this.refObj.rawData.keyword );
@@ -3820,6 +3997,7 @@ SnippetPreview.prototype.formatKeywordUrl = function( textString ) {
 
 /**
  * Renders the outputs to the elements on the page.
+ * @returns {void}
  */
 SnippetPreview.prototype.renderOutput = function() {
 	this.element.rendered.title.innerHTML = this.output.title;
@@ -3830,6 +4008,7 @@ SnippetPreview.prototype.renderOutput = function() {
 
 /**
  * Makes the rendered meta description gray if no meta description has been set by the user.
+ * @returns {void}
  */
 SnippetPreview.prototype.renderSnippetStyle = function() {
 	var metaDescElement = this.element.rendered.metaDesc;
@@ -3845,26 +4024,28 @@ SnippetPreview.prototype.renderSnippetStyle = function() {
 };
 
 /**
- * function to call init, to rerender the snippetpreview
+ * Function to call init, to rerender the snippetpreview
+ * @returns {void}
  */
 SnippetPreview.prototype.reRender = function() {
 	this.init();
 };
 
 /**
- * checks text length of the snippetmeta and snippettitle, shortens it if it is too long.
- * @param event
+ * Checks text length of the snippetmeta and snippet title, shortens it if it is too long.
+ * @param {Object} event The event to check the text length from.
+ * @returns {void}
  */
-SnippetPreview.prototype.checkTextLength = function( ev ) {
-	var text = ev.currentTarget.textContent;
-	switch ( ev.currentTarget.id ) {
+SnippetPreview.prototype.checkTextLength = function( event ) {
+	var text = event.currentTarget.textContent;
+	switch ( event.currentTarget.id ) {
 		case "snippet_meta":
-			ev.currentTarget.className = "desc";
+			event.currentTarget.className = "desc";
 			if ( text.length > analyzerConfig.maxMeta ) {
 				/* eslint-disable */
-				YoastSEO.app.snippetPreview.unformattedText.snippet_meta = ev.currentTarget.textContent;
+				YoastSEO.app.snippetPreview.unformattedText.snippet_meta = event.currentTarget.textContent;
 				/* eslint-enable */
-				ev.currentTarget.textContent = text.substring(
+				event.currentTarget.textContent = text.substring(
 					0,
 					analyzerConfig.maxMeta
 				);
@@ -3872,12 +4053,12 @@ SnippetPreview.prototype.checkTextLength = function( ev ) {
 			}
 			break;
 		case "snippet_title":
-			ev.currentTarget.className = "title";
+			event.currentTarget.className = "title";
 			if ( text.length > titleMaxLength ) {
 				/* eslint-disable */
-				YoastSEO.app.snippetPreview.unformattedText.snippet_title = ev.currentTarget.textContent;
+				YoastSEO.app.snippetPreview.unformattedText.snippet_title = event.currentTarget.textContent;
 				/* eslint-enable */
-				ev.currentTarget.textContent = text.substring( 0, titleMaxLength );
+				event.currentTarget.textContent = text.substring( 0, titleMaxLength );
 			}
 			break;
 		default:
@@ -3886,29 +4067,32 @@ SnippetPreview.prototype.checkTextLength = function( ev ) {
 };
 
 /**
- * when clicked on an element in the snippet, checks fills the textContent with the data from the unformatted text.
+ * When clicked on an element in the snippet, checks fills the textContent with the data from the unformatted text.
  * This removes the keyword highlighting and modified data so the original content can be editted.
- * @param ev {event}
+ * @param {Object} event The event to get the unformatted text from.
+ * @returns {void}
  */
-SnippetPreview.prototype.getUnformattedText = function( ev ) {
-	var currentElement = ev.currentTarget.id;
+SnippetPreview.prototype.getUnformattedText = function( event ) {
+	var currentElement = event.currentTarget.id;
 	if ( typeof this.unformattedText[ currentElement ] !== "undefined" ) {
-		ev.currentTarget.textContent = this.unformattedText[currentElement];
+		event.currentTarget.textContent = this.unformattedText[currentElement];
 	}
 };
 
 /**
- * when text is entered into the snippetPreview elements, the text is set in the unformattedText object.
+ * When text is entered into the snippetPreview elements, the text is set in the unformattedText object.
  * This allows the visible data to be editted in the snippetPreview.
- * @param ev
+ * @param {Object} event The event to set the unformatted text from.
+ * @returns {void}
  */
-SnippetPreview.prototype.setUnformattedText = function( ev ) {
-	var elem =  ev.currentTarget.id;
+SnippetPreview.prototype.setUnformattedText = function( event ) {
+	var elem =  event.currentTarget.id;
 	this.unformattedText[ elem ] = document.getElementById( elem ).textContent;
 };
 
 /**
  * Validates all fields and highlights errors.
+ * @returns {void}
  */
 SnippetPreview.prototype.validateFields = function() {
 	var metaDescription = getAnalyzerMetaDesc.call( this );
@@ -3929,6 +4113,7 @@ SnippetPreview.prototype.validateFields = function() {
 
 /**
  * Updates progress bars based on the data
+ * @returns {void}
  */
 SnippetPreview.prototype.updateProgressBars = function() {
 	var metaDescriptionRating, titleRating, metaDescription, title;
@@ -3956,6 +4141,7 @@ SnippetPreview.prototype.updateProgressBars = function() {
 
 /**
  * Binds the reloadSnippetText function to the blur of the snippet inputs.
+ * @returns {void}
  */
 SnippetPreview.prototype.bindEvents = function() {
 	var targetElement,
@@ -4017,6 +4203,7 @@ SnippetPreview.prototype.bindEvents = function() {
 
 /**
  * Updates snippet preview on changed input. It's debounced so that we can call this function as much as we want.
+ * @returns {void}
  */
 SnippetPreview.prototype.changedInput = debounce( function() {
 	this.updateDataFromDOM();
@@ -4030,6 +4217,7 @@ SnippetPreview.prototype.changedInput = debounce( function() {
 
 /**
  * Updates our data object from the DOM
+ * @returns {void}
  */
 SnippetPreview.prototype.updateDataFromDOM = function() {
 	this.data.title = this.element.input.title.value;
@@ -4042,6 +4230,7 @@ SnippetPreview.prototype.updateDataFromDOM = function() {
 
 /**
  * Opens the snippet editor.
+ * @returns {void}
  */
 SnippetPreview.prototype.openEditor = function() {
 
@@ -4057,6 +4246,7 @@ SnippetPreview.prototype.openEditor = function() {
 
 /**
  * Closes the snippet editor.
+ * @returns {void}
  */
 SnippetPreview.prototype.closeEditor = function() {
 
@@ -4072,6 +4262,7 @@ SnippetPreview.prototype.closeEditor = function() {
 
 /**
  * Toggles the snippet editor.
+ * @returns {void}
  */
 SnippetPreview.prototype.toggleEditor = function() {
 	if ( this.opened ) {
@@ -4085,6 +4276,7 @@ SnippetPreview.prototype.toggleEditor = function() {
  * Updates carets before the preview and input fields.
  *
  * @private
+ * @returns {void}
  */
 SnippetPreview.prototype._updateFocusCarets = function() {
 	var focusedLabel, focusedPreview;
@@ -4112,6 +4304,7 @@ SnippetPreview.prototype._updateFocusCarets = function() {
  * Updates hover carets before the input fields.
  *
  * @private
+ * @returns {void}
  */
 SnippetPreview.prototype._updateHoverCarets = function() {
 	var hoveredLabel;
@@ -4130,7 +4323,8 @@ SnippetPreview.prototype._updateHoverCarets = function() {
 /**
  * Updates the title data and the the title input field. This also means the snippet editor view is updated.
  *
- * @param {string} title
+ * @param {string} title The title to use in the input field.
+ * @returns {void}
  */
 SnippetPreview.prototype.setTitle = function( title ) {
 	this.element.input.title.value = title;
@@ -4141,7 +4335,8 @@ SnippetPreview.prototype.setTitle = function( title ) {
 /**
  * Updates the url path data and the the url path input field. This also means the snippet editor view is updated.
  *
- * @param {string} urlPath
+ * @param {string} urlPath the URL path to use in the input field.
+ * @returns {void}
  */
 SnippetPreview.prototype.setUrlPath = function( urlPath ) {
 	this.element.input.urlPath.value = urlPath;
@@ -4152,7 +4347,8 @@ SnippetPreview.prototype.setUrlPath = function( urlPath ) {
 /**
  * Updates the meta description data and the the meta description input field. This also means the snippet editor view is updated.
  *
- * @param {string} metaDesc
+ * @param {string} metaDesc the meta description to use in the input field.
+ * @returns {void}
  */
 SnippetPreview.prototype.setTitle = function( metaDesc ) {
 	this.element.input.metaDesc.value = metaDesc;
@@ -4210,7 +4406,7 @@ SnippetPreview.prototype.setFocus = function( ev ) {};
 /* eslint-disable */
 module.exports = SnippetPreview;
 
-},{"../js/stringProcessing/sanitizeString.js":46,"../js/stringProcessing/stringToRegex.js":47,"../js/stringProcessing/stripHTMLTags.js":48,"../js/stringProcessing/stripSpaces.js":51,"./config/config.js":21,"./templates.js":54,"lodash/collection/forEach":65,"lodash/function/debounce":68,"lodash/lang/clone":135,"lodash/lang/isElement":138,"lodash/lang/isEmpty":139,"lodash/lang/isUndefined":146,"lodash/object/defaultsDeep":151}],31:[function(require,module,exports){
+},{"../js/stringProcessing/sanitizeString.js":48,"../js/stringProcessing/stringToRegex.js":49,"../js/stringProcessing/stripHTMLTags.js":50,"../js/stringProcessing/stripSpaces.js":53,"./config/config.js":21,"./templates.js":56,"lodash/collection/forEach":67,"lodash/function/debounce":70,"lodash/lang/clone":137,"lodash/lang/isElement":140,"lodash/lang/isEmpty":141,"lodash/lang/isUndefined":148,"lodash/object/defaultsDeep":153}],33:[function(require,module,exports){
 /** @module stringProcessing/addWordboundary */
 
 /**
@@ -4234,13 +4430,13 @@ module.exports = function( matchString, extraWordBoundary ) {
 	return wordBoundaryStart + matchString + wordBoundaryEnd;
 };
 
-},{}],32:[function(require,module,exports){
+},{}],34:[function(require,module,exports){
 /** @module stringProcessing/checkNofollow */
 
 /**
  * Checks if a links has a nofollow attribute. If it has, returns Nofollow, otherwise Dofollow.
  *
- * @param {string} text
+ * @param {string} text The text to check against.
  * @returns {string} Returns Dofollow or Nofollow.
  */
 module.exports = function( text ) {
@@ -4253,7 +4449,7 @@ module.exports = function( text ) {
 	return linkFollow;
 };
 
-},{}],33:[function(require,module,exports){
+},{}],35:[function(require,module,exports){
 /** @module stringProcessing/cleanText */
 
 var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
@@ -4311,7 +4507,7 @@ module.exports = function( text ) {
 	return text;
 };
 
-},{"../stringProcessing/replaceDiacritics.js":44,"../stringProcessing/stripSpaces.js":51,"../stringProcessing/unifyWhitespace.js":53}],34:[function(require,module,exports){
+},{"../stringProcessing/replaceDiacritics.js":46,"../stringProcessing/stripSpaces.js":53,"../stringProcessing/unifyWhitespace.js":55}],36:[function(require,module,exports){
 /** @module stringProcessing/countSentences */
 
 var cleanText = require( "../stringProcessing/cleanText.js" );
@@ -4333,7 +4529,7 @@ module.exports = function( text ) {
 	return sentenceCount;
 };
 
-},{"../stringProcessing/cleanText.js":33}],35:[function(require,module,exports){
+},{"../stringProcessing/cleanText.js":35}],37:[function(require,module,exports){
 /** @module stringProcessing/countSyllables */
 
 var cleanText = require( "../stringProcessing/cleanText.js" );
@@ -4386,13 +4582,13 @@ var countBasicSyllables = function( text ) {
 	var array = text.split( " " );
 	var i, j, splitWord, count = 0;
 
-	//split textstring to individual words
+	// split textstring to individual words
 	for ( i = 0; i < array.length; i++ ) {
 
-		//split on consonants
+		// split on consonants
 		splitWord = array[ i ].split( /[^aeiouy]/g );
 
-		//if the string isn't empty, a consonant was found, up the counter
+		// if the string isn't empty, a consonant was found, up the counter
 		for ( j = 0; j < splitWord.length; j++ ) {
 			if ( splitWord[ j ] !== "" ) {
 				count++;
@@ -4455,7 +4651,7 @@ module.exports = function( text ) {
 };
 
 
-},{"../config/syllables.js":26,"../stringProcessing/cleanText.js":33,"../stringProcessing/createRegexFromArray.js":37}],36:[function(require,module,exports){
+},{"../config/syllables.js":26,"../stringProcessing/cleanText.js":35,"../stringProcessing/createRegexFromArray.js":39}],38:[function(require,module,exports){
 /** @module stringProcessing/countWords */
 
 var stripTags = require( "../stringProcessing/stripHTMLTags.js" );
@@ -4464,12 +4660,12 @@ var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
 /**
  * Calculates the wordcount of a certain text.
  *
- * @param {String} text The text to count words in.
- * @returns {int} The wordcount of the given text.
+ * @param {Paper} paper The paper to use for the word count.
+ * @returns {int} The word count of the given text.
  */
-module.exports = function( text ) {
+module.exports = function( paper ) {
 
-	text = stripTags( text );
+	var text = stripTags( paper.getText() );
 	text = stripSpaces( text );
 	if ( text === "" ) {
 		return 0;
@@ -4478,7 +4674,7 @@ module.exports = function( text ) {
 	return text.split( /\s/g ).length;
 };
 
-},{"../stringProcessing/stripHTMLTags.js":48,"../stringProcessing/stripSpaces.js":51}],37:[function(require,module,exports){
+},{"../stringProcessing/stripHTMLTags.js":50,"../stringProcessing/stripSpaces.js":53}],39:[function(require,module,exports){
 /** @module stringProcessing/createRegexFromArray */
 
 var addWordBoundary = require( "../stringProcessing/addWordboundary.js" );
@@ -4505,7 +4701,7 @@ module.exports = function( array, disableWordBoundary ) {
 	return new RegExp( regexString, "ig" );
 };
 
-},{"../stringProcessing/addWordboundary.js":31}],38:[function(require,module,exports){
+},{"../stringProcessing/addWordboundary.js":33}],40:[function(require,module,exports){
 /** @module stringProcessing/findKeywordInUrl */
 
 var keywordRegex = require( "../stringProcessing/stringToRegex.js" );
@@ -4529,7 +4725,7 @@ module.exports = function( url, keyword ) {
 	return keywordFound;
 };
 
-},{"../stringProcessing/stringToRegex.js":47}],39:[function(require,module,exports){
+},{"../stringProcessing/stringToRegex.js":49}],41:[function(require,module,exports){
 /** @module stringProcessing/getAlttagContent */
 
 var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
@@ -4558,7 +4754,7 @@ module.exports = function( text ) {
 	return alt;
 };
 
-},{"../stringProcessing/stripSpaces.js":51}],40:[function(require,module,exports){
+},{"../stringProcessing/stripSpaces.js":53}],42:[function(require,module,exports){
 /** @module stringProcessing/getAnchorsFromText */
 
 /**
@@ -4570,7 +4766,7 @@ module.exports = function( text ) {
 module.exports = function( text ) {
 	var matches;
 
-	//regex matches everything between <a> and </a>
+	// regex matches everything between <a> and </a>
 	matches = text.match( /<a(?:[^>]+)?>(.*?)<\/a>/ig );
 	if ( matches === null ) {
 		matches = [];
@@ -4579,7 +4775,7 @@ module.exports = function( text ) {
 	return matches;
 };
 
-},{}],41:[function(require,module,exports){
+},{}],43:[function(require,module,exports){
 /** @module stringProcess/getLinkType */
 
 /**
@@ -4604,7 +4800,7 @@ module.exports = function( text, url ) {
 	return linkType;
 };
 
-},{}],42:[function(require,module,exports){
+},{}],44:[function(require,module,exports){
 /** @module stringProcessing/matchStringWithRegex */
 
 /**
@@ -4624,7 +4820,7 @@ module.exports = function( text, regexString ) {
 	return matches;
 };
 
-},{}],43:[function(require,module,exports){
+},{}],45:[function(require,module,exports){
 /** @module stringProcessing/matchTextWithWord */
 
 var stringToRegex = require( "../stringProcessing/stringToRegex.js" );
@@ -4653,7 +4849,7 @@ module.exports = function( text, wordToMatch, extraBoundary ) {
 	return matches.length;
 };
 
-},{"../stringProcessing/replaceDiacritics.js":44,"../stringProcessing/stringToRegex.js":47,"../stringProcessing/stripNonTextTags.js":49,"../stringProcessing/unifyWhitespace.js":53}],44:[function(require,module,exports){
+},{"../stringProcessing/replaceDiacritics.js":46,"../stringProcessing/stringToRegex.js":49,"../stringProcessing/stripNonTextTags.js":51,"../stringProcessing/unifyWhitespace.js":55}],46:[function(require,module,exports){
 /** @module stringProcessing/replaceDiacritics */
 
 var diacritisRemovalMap = require( "../config/diacritics.js" );
@@ -4676,7 +4872,7 @@ module.exports = function( text ) {
 	return text;
 };
 
-},{"../config/diacritics.js":22}],45:[function(require,module,exports){
+},{"../config/diacritics.js":22}],47:[function(require,module,exports){
 /** @module stringProcessing/replaceString */
 
 /**
@@ -4693,7 +4889,7 @@ module.exports = function( text, stringToReplace, replacement ) {
 	return text;
 };
 
-},{}],46:[function(require,module,exports){
+},{}],48:[function(require,module,exports){
 /** @module stringProcessing/sanitizeString */
 
 var stripTags = require( "../stringProcessing/stripHTMLTags.js" );
@@ -4713,7 +4909,7 @@ module.exports = function( text ) {
 	return text;
 };
 
-},{"../stringProcessing/stripHTMLTags.js":48,"../stringProcessing/stripSpaces.js":51}],47:[function(require,module,exports){
+},{"../stringProcessing/stripHTMLTags.js":50,"../stringProcessing/stripSpaces.js":53}],49:[function(require,module,exports){
 /** @module stringProcessing/stringToRegex */
 
 var replaceDiacritics = require( "../stringProcessing/replaceDiacritics.js" );
@@ -4737,7 +4933,7 @@ module.exports = function( string, extraBoundary, dontReplaceDiacritics ) {
 	return new RegExp ( string, "ig" );
 };
 
-},{"../stringProcessing/addWordboundary.js":31,"../stringProcessing/replaceDiacritics.js":44,"../stringProcessing/sanitizeString.js":46}],48:[function(require,module,exports){
+},{"../stringProcessing/addWordboundary.js":33,"../stringProcessing/replaceDiacritics.js":46,"../stringProcessing/sanitizeString.js":48}],50:[function(require,module,exports){
 /** @module stringProcessing/stripHTMLTags */
 
 var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
@@ -4754,7 +4950,7 @@ module.exports = function( text ) {
 	return text;
 };
 
-},{"../stringProcessing/stripSpaces.js":51}],49:[function(require,module,exports){
+},{"../stringProcessing/stripSpaces.js":53}],51:[function(require,module,exports){
 /** @module stringProcessing/stripNonTextTags */
 
 var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
@@ -4771,7 +4967,7 @@ module.exports = function( text ) {
 	return text;
 };
 
-},{"../stringProcessing/stripSpaces.js":51}],50:[function(require,module,exports){
+},{"../stringProcessing/stripSpaces.js":53}],52:[function(require,module,exports){
 /** @module stringProcessing/stripNumbers */
 
 var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
@@ -4796,7 +4992,7 @@ module.exports = function( text ) {
 	return text;
 };
 
-},{"../stringProcessing/stripSpaces.js":51}],51:[function(require,module,exports){
+},{"../stringProcessing/stripSpaces.js":53}],53:[function(require,module,exports){
 /** @module stringProcessing/stripSpaces */
 
 /**
@@ -4819,7 +5015,7 @@ module.exports = function( text ) {
 	return text;
 };
 
-},{}],52:[function(require,module,exports){
+},{}],54:[function(require,module,exports){
 var stringToRegex = require( "../stringProcessing/stringToRegex.js" );
 var replaceString = require( "../stringProcessing/replaceString.js" );
 var removalWords = require( "../config/removalWords.js" );
@@ -4855,7 +5051,7 @@ module.exports = function( matches, keyword ) {
 	return foundInHeader;
 };
 
-},{"../config/removalWords.js":23,"../stringProcessing/replaceDiacritics.js":44,"../stringProcessing/replaceString.js":45,"../stringProcessing/stringToRegex.js":47}],53:[function(require,module,exports){
+},{"../config/removalWords.js":23,"../stringProcessing/replaceDiacritics.js":46,"../stringProcessing/replaceString.js":47,"../stringProcessing/stringToRegex.js":49}],55:[function(require,module,exports){
 /** @module stringProcessing/unifyWhitespace */
 
 /**
@@ -4877,7 +5073,7 @@ module.exports = function( text ) {
 };
 
 
-},{}],54:[function(require,module,exports){
+},{}],56:[function(require,module,exports){
 (function (global){
 ;(function() {
   var undefined;
@@ -5058,7 +5254,7 @@ module.exports = function( text ) {
 }.call(this));
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],55:[function(require,module,exports){
+},{}],57:[function(require,module,exports){
 var isUndefined = require( "lodash/lang/isUndefined" );
 
 /**
@@ -5106,7 +5302,7 @@ AssessmentResult.prototype.getText = function() {
 
 module.exports = AssessmentResult;
 
-},{"lodash/lang/isUndefined":146}],56:[function(require,module,exports){
+},{"lodash/lang/isUndefined":148}],58:[function(require,module,exports){
 var defaults = require( "lodash/object/defaults" );
 
 var defaultAttributes = {
@@ -5212,7 +5408,7 @@ Paper.prototype.getUrl = function() {
 
 module.exports = Paper;
 
-},{"lodash/object/defaults":150}],57:[function(require,module,exports){
+},{"lodash/object/defaults":152}],59:[function(require,module,exports){
 module.exports = function( value, description ) {
 	this.value = value;
 	this.description = description;
@@ -5223,7 +5419,7 @@ module.exports = function( value, description ) {
 
 };
 
-},{}],58:[function(require,module,exports){
+},{}],60:[function(require,module,exports){
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
   module.exports = function inherits(ctor, superCtor) {
@@ -5248,7 +5444,7 @@ if (typeof Object.create === 'function') {
   }
 }
 
-},{}],59:[function(require,module,exports){
+},{}],61:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -5341,14 +5537,14 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],60:[function(require,module,exports){
+},{}],62:[function(require,module,exports){
 module.exports = function isBuffer(arg) {
   return arg && typeof arg === 'object'
     && typeof arg.copy === 'function'
     && typeof arg.fill === 'function'
     && typeof arg.readUInt8 === 'function';
 }
-},{}],61:[function(require,module,exports){
+},{}],63:[function(require,module,exports){
 (function (process,global){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -5938,7 +6134,7 @@ function hasOwnProperty(obj, prop) {
 }
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./support/isBuffer":60,"_process":59,"inherits":58}],62:[function(require,module,exports){
+},{"./support/isBuffer":62,"_process":61,"inherits":60}],64:[function(require,module,exports){
 /**
  * @preserve jed.js https://github.com/SlexAxton/Jed
  */
@@ -6962,7 +7158,7 @@ return parser;
 
 })(this);
 
-},{}],63:[function(require,module,exports){
+},{}],65:[function(require,module,exports){
 var baseDifference = require('../internal/baseDifference'),
     baseFlatten = require('../internal/baseFlatten'),
     isArrayLike = require('../internal/isArrayLike'),
@@ -6993,7 +7189,7 @@ var difference = restParam(function(array, values) {
 
 module.exports = difference;
 
-},{"../function/restParam":69,"../internal/baseDifference":82,"../internal/baseFlatten":84,"../internal/isArrayLike":124,"../internal/isObjectLike":129}],64:[function(require,module,exports){
+},{"../function/restParam":71,"../internal/baseDifference":84,"../internal/baseFlatten":86,"../internal/isArrayLike":126,"../internal/isObjectLike":131}],66:[function(require,module,exports){
 /**
  * Gets the last element of `array`.
  *
@@ -7014,7 +7210,7 @@ function last(array) {
 
 module.exports = last;
 
-},{}],65:[function(require,module,exports){
+},{}],67:[function(require,module,exports){
 var arrayEach = require('../internal/arrayEach'),
     baseEach = require('../internal/baseEach'),
     createForEach = require('../internal/createForEach');
@@ -7053,7 +7249,7 @@ var forEach = createForEach(arrayEach, baseEach);
 
 module.exports = forEach;
 
-},{"../internal/arrayEach":72,"../internal/baseEach":83,"../internal/createForEach":111}],66:[function(require,module,exports){
+},{"../internal/arrayEach":74,"../internal/baseEach":85,"../internal/createForEach":113}],68:[function(require,module,exports){
 var arrayReduce = require('../internal/arrayReduce'),
     baseEach = require('../internal/baseEach'),
     createReduce = require('../internal/createReduce');
@@ -7099,7 +7295,7 @@ var reduce = createReduce(arrayReduce, baseEach);
 
 module.exports = reduce;
 
-},{"../internal/arrayReduce":74,"../internal/baseEach":83,"../internal/createReduce":112}],67:[function(require,module,exports){
+},{"../internal/arrayReduce":76,"../internal/baseEach":85,"../internal/createReduce":114}],69:[function(require,module,exports){
 var getNative = require('../internal/getNative');
 
 /* Native method references for those with the same name as other `lodash` methods. */
@@ -7125,7 +7321,7 @@ var now = nativeNow || function() {
 
 module.exports = now;
 
-},{"../internal/getNative":119}],68:[function(require,module,exports){
+},{"../internal/getNative":121}],70:[function(require,module,exports){
 var isObject = require('../lang/isObject'),
     now = require('../date/now');
 
@@ -7308,7 +7504,7 @@ function debounce(func, wait, options) {
 
 module.exports = debounce;
 
-},{"../date/now":67,"../lang/isObject":142}],69:[function(require,module,exports){
+},{"../date/now":69,"../lang/isObject":144}],71:[function(require,module,exports){
 /** Used as the `TypeError` message for "Functions" methods. */
 var FUNC_ERROR_TEXT = 'Expected a function';
 
@@ -7368,7 +7564,7 @@ function restParam(func, start) {
 
 module.exports = restParam;
 
-},{}],70:[function(require,module,exports){
+},{}],72:[function(require,module,exports){
 (function (global){
 var cachePush = require('./cachePush'),
     getNative = require('./getNative');
@@ -7401,7 +7597,7 @@ SetCache.prototype.push = cachePush;
 module.exports = SetCache;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./cachePush":105,"./getNative":119}],71:[function(require,module,exports){
+},{"./cachePush":107,"./getNative":121}],73:[function(require,module,exports){
 /**
  * Copies the values of `source` to `array`.
  *
@@ -7423,7 +7619,7 @@ function arrayCopy(source, array) {
 
 module.exports = arrayCopy;
 
-},{}],72:[function(require,module,exports){
+},{}],74:[function(require,module,exports){
 /**
  * A specialized version of `_.forEach` for arrays without support for callback
  * shorthands and `this` binding.
@@ -7447,7 +7643,7 @@ function arrayEach(array, iteratee) {
 
 module.exports = arrayEach;
 
-},{}],73:[function(require,module,exports){
+},{}],75:[function(require,module,exports){
 /**
  * Appends the elements of `values` to `array`.
  *
@@ -7469,7 +7665,7 @@ function arrayPush(array, values) {
 
 module.exports = arrayPush;
 
-},{}],74:[function(require,module,exports){
+},{}],76:[function(require,module,exports){
 /**
  * A specialized version of `_.reduce` for arrays without support for callback
  * shorthands and `this` binding.
@@ -7497,7 +7693,7 @@ function arrayReduce(array, iteratee, accumulator, initFromArray) {
 
 module.exports = arrayReduce;
 
-},{}],75:[function(require,module,exports){
+},{}],77:[function(require,module,exports){
 /**
  * A specialized version of `_.some` for arrays without support for callback
  * shorthands and `this` binding.
@@ -7522,7 +7718,7 @@ function arraySome(array, predicate) {
 
 module.exports = arraySome;
 
-},{}],76:[function(require,module,exports){
+},{}],78:[function(require,module,exports){
 /**
  * Used by `_.defaults` to customize its `_.assign` use.
  *
@@ -7537,7 +7733,7 @@ function assignDefaults(objectValue, sourceValue) {
 
 module.exports = assignDefaults;
 
-},{}],77:[function(require,module,exports){
+},{}],79:[function(require,module,exports){
 var keys = require('../object/keys');
 
 /**
@@ -7571,7 +7767,7 @@ function assignWith(object, source, customizer) {
 
 module.exports = assignWith;
 
-},{"../object/keys":152}],78:[function(require,module,exports){
+},{"../object/keys":154}],80:[function(require,module,exports){
 var baseCopy = require('./baseCopy'),
     keys = require('../object/keys');
 
@@ -7592,7 +7788,7 @@ function baseAssign(object, source) {
 
 module.exports = baseAssign;
 
-},{"../object/keys":152,"./baseCopy":81}],79:[function(require,module,exports){
+},{"../object/keys":154,"./baseCopy":83}],81:[function(require,module,exports){
 var baseMatches = require('./baseMatches'),
     baseMatchesProperty = require('./baseMatchesProperty'),
     bindCallback = require('./bindCallback'),
@@ -7629,7 +7825,7 @@ function baseCallback(func, thisArg, argCount) {
 
 module.exports = baseCallback;
 
-},{"../utility/identity":157,"../utility/property":158,"./baseMatches":93,"./baseMatchesProperty":94,"./bindCallback":102}],80:[function(require,module,exports){
+},{"../utility/identity":159,"../utility/property":160,"./baseMatches":95,"./baseMatchesProperty":96,"./bindCallback":104}],82:[function(require,module,exports){
 var arrayCopy = require('./arrayCopy'),
     arrayEach = require('./arrayEach'),
     baseAssign = require('./baseAssign'),
@@ -7759,7 +7955,7 @@ function baseClone(value, isDeep, customizer, key, object, stackA, stackB) {
 
 module.exports = baseClone;
 
-},{"../lang/isArray":137,"../lang/isObject":142,"./arrayCopy":71,"./arrayEach":72,"./baseAssign":78,"./baseForOwn":87,"./initCloneArray":121,"./initCloneByTag":122,"./initCloneObject":123}],81:[function(require,module,exports){
+},{"../lang/isArray":139,"../lang/isObject":144,"./arrayCopy":73,"./arrayEach":74,"./baseAssign":80,"./baseForOwn":89,"./initCloneArray":123,"./initCloneByTag":124,"./initCloneObject":125}],83:[function(require,module,exports){
 /**
  * Copies properties of `source` to `object`.
  *
@@ -7784,7 +7980,7 @@ function baseCopy(source, props, object) {
 
 module.exports = baseCopy;
 
-},{}],82:[function(require,module,exports){
+},{}],84:[function(require,module,exports){
 var baseIndexOf = require('./baseIndexOf'),
     cacheIndexOf = require('./cacheIndexOf'),
     createCache = require('./createCache');
@@ -7841,7 +8037,7 @@ function baseDifference(array, values) {
 
 module.exports = baseDifference;
 
-},{"./baseIndexOf":89,"./cacheIndexOf":104,"./createCache":109}],83:[function(require,module,exports){
+},{"./baseIndexOf":91,"./cacheIndexOf":106,"./createCache":111}],85:[function(require,module,exports){
 var baseForOwn = require('./baseForOwn'),
     createBaseEach = require('./createBaseEach');
 
@@ -7858,7 +8054,7 @@ var baseEach = createBaseEach(baseForOwn);
 
 module.exports = baseEach;
 
-},{"./baseForOwn":87,"./createBaseEach":107}],84:[function(require,module,exports){
+},{"./baseForOwn":89,"./createBaseEach":109}],86:[function(require,module,exports){
 var arrayPush = require('./arrayPush'),
     isArguments = require('../lang/isArguments'),
     isArray = require('../lang/isArray'),
@@ -7901,7 +8097,7 @@ function baseFlatten(array, isDeep, isStrict, result) {
 
 module.exports = baseFlatten;
 
-},{"../lang/isArguments":136,"../lang/isArray":137,"./arrayPush":73,"./isArrayLike":124,"./isObjectLike":129}],85:[function(require,module,exports){
+},{"../lang/isArguments":138,"../lang/isArray":139,"./arrayPush":75,"./isArrayLike":126,"./isObjectLike":131}],87:[function(require,module,exports){
 var createBaseFor = require('./createBaseFor');
 
 /**
@@ -7920,7 +8116,7 @@ var baseFor = createBaseFor();
 
 module.exports = baseFor;
 
-},{"./createBaseFor":108}],86:[function(require,module,exports){
+},{"./createBaseFor":110}],88:[function(require,module,exports){
 var baseFor = require('./baseFor'),
     keysIn = require('../object/keysIn');
 
@@ -7939,7 +8135,7 @@ function baseForIn(object, iteratee) {
 
 module.exports = baseForIn;
 
-},{"../object/keysIn":153,"./baseFor":85}],87:[function(require,module,exports){
+},{"../object/keysIn":155,"./baseFor":87}],89:[function(require,module,exports){
 var baseFor = require('./baseFor'),
     keys = require('../object/keys');
 
@@ -7958,7 +8154,7 @@ function baseForOwn(object, iteratee) {
 
 module.exports = baseForOwn;
 
-},{"../object/keys":152,"./baseFor":85}],88:[function(require,module,exports){
+},{"../object/keys":154,"./baseFor":87}],90:[function(require,module,exports){
 var toObject = require('./toObject');
 
 /**
@@ -7989,7 +8185,7 @@ function baseGet(object, path, pathKey) {
 
 module.exports = baseGet;
 
-},{"./toObject":133}],89:[function(require,module,exports){
+},{"./toObject":135}],91:[function(require,module,exports){
 var indexOfNaN = require('./indexOfNaN');
 
 /**
@@ -8018,7 +8214,7 @@ function baseIndexOf(array, value, fromIndex) {
 
 module.exports = baseIndexOf;
 
-},{"./indexOfNaN":120}],90:[function(require,module,exports){
+},{"./indexOfNaN":122}],92:[function(require,module,exports){
 var baseIsEqualDeep = require('./baseIsEqualDeep'),
     isObject = require('../lang/isObject'),
     isObjectLike = require('./isObjectLike');
@@ -8048,7 +8244,7 @@ function baseIsEqual(value, other, customizer, isLoose, stackA, stackB) {
 
 module.exports = baseIsEqual;
 
-},{"../lang/isObject":142,"./baseIsEqualDeep":91,"./isObjectLike":129}],91:[function(require,module,exports){
+},{"../lang/isObject":144,"./baseIsEqualDeep":93,"./isObjectLike":131}],93:[function(require,module,exports){
 var equalArrays = require('./equalArrays'),
     equalByTag = require('./equalByTag'),
     equalObjects = require('./equalObjects'),
@@ -8152,7 +8348,7 @@ function baseIsEqualDeep(object, other, equalFunc, customizer, isLoose, stackA, 
 
 module.exports = baseIsEqualDeep;
 
-},{"../lang/isArray":137,"../lang/isTypedArray":145,"./equalArrays":113,"./equalByTag":114,"./equalObjects":115}],92:[function(require,module,exports){
+},{"../lang/isArray":139,"../lang/isTypedArray":147,"./equalArrays":115,"./equalByTag":116,"./equalObjects":117}],94:[function(require,module,exports){
 var baseIsEqual = require('./baseIsEqual'),
     toObject = require('./toObject');
 
@@ -8206,7 +8402,7 @@ function baseIsMatch(object, matchData, customizer) {
 
 module.exports = baseIsMatch;
 
-},{"./baseIsEqual":90,"./toObject":133}],93:[function(require,module,exports){
+},{"./baseIsEqual":92,"./toObject":135}],95:[function(require,module,exports){
 var baseIsMatch = require('./baseIsMatch'),
     getMatchData = require('./getMatchData'),
     toObject = require('./toObject');
@@ -8238,7 +8434,7 @@ function baseMatches(source) {
 
 module.exports = baseMatches;
 
-},{"./baseIsMatch":92,"./getMatchData":118,"./toObject":133}],94:[function(require,module,exports){
+},{"./baseIsMatch":94,"./getMatchData":120,"./toObject":135}],96:[function(require,module,exports){
 var baseGet = require('./baseGet'),
     baseIsEqual = require('./baseIsEqual'),
     baseSlice = require('./baseSlice'),
@@ -8285,7 +8481,7 @@ function baseMatchesProperty(path, srcValue) {
 
 module.exports = baseMatchesProperty;
 
-},{"../array/last":64,"../lang/isArray":137,"./baseGet":88,"./baseIsEqual":90,"./baseSlice":100,"./isKey":127,"./isStrictComparable":130,"./toObject":133,"./toPath":134}],95:[function(require,module,exports){
+},{"../array/last":66,"../lang/isArray":139,"./baseGet":90,"./baseIsEqual":92,"./baseSlice":102,"./isKey":129,"./isStrictComparable":132,"./toObject":135,"./toPath":136}],97:[function(require,module,exports){
 var arrayEach = require('./arrayEach'),
     baseMergeDeep = require('./baseMergeDeep'),
     isArray = require('../lang/isArray'),
@@ -8343,7 +8539,7 @@ function baseMerge(object, source, customizer, stackA, stackB) {
 
 module.exports = baseMerge;
 
-},{"../lang/isArray":137,"../lang/isObject":142,"../lang/isTypedArray":145,"../object/keys":152,"./arrayEach":72,"./baseMergeDeep":96,"./isArrayLike":124,"./isObjectLike":129}],96:[function(require,module,exports){
+},{"../lang/isArray":139,"../lang/isObject":144,"../lang/isTypedArray":147,"../object/keys":154,"./arrayEach":74,"./baseMergeDeep":98,"./isArrayLike":126,"./isObjectLike":131}],98:[function(require,module,exports){
 var arrayCopy = require('./arrayCopy'),
     isArguments = require('../lang/isArguments'),
     isArray = require('../lang/isArray'),
@@ -8412,7 +8608,7 @@ function baseMergeDeep(object, source, key, mergeFunc, customizer, stackA, stack
 
 module.exports = baseMergeDeep;
 
-},{"../lang/isArguments":136,"../lang/isArray":137,"../lang/isPlainObject":143,"../lang/isTypedArray":145,"../lang/toPlainObject":147,"./arrayCopy":71,"./isArrayLike":124}],97:[function(require,module,exports){
+},{"../lang/isArguments":138,"../lang/isArray":139,"../lang/isPlainObject":145,"../lang/isTypedArray":147,"../lang/toPlainObject":149,"./arrayCopy":73,"./isArrayLike":126}],99:[function(require,module,exports){
 /**
  * The base implementation of `_.property` without support for deep paths.
  *
@@ -8428,7 +8624,7 @@ function baseProperty(key) {
 
 module.exports = baseProperty;
 
-},{}],98:[function(require,module,exports){
+},{}],100:[function(require,module,exports){
 var baseGet = require('./baseGet'),
     toPath = require('./toPath');
 
@@ -8449,7 +8645,7 @@ function basePropertyDeep(path) {
 
 module.exports = basePropertyDeep;
 
-},{"./baseGet":88,"./toPath":134}],99:[function(require,module,exports){
+},{"./baseGet":90,"./toPath":136}],101:[function(require,module,exports){
 /**
  * The base implementation of `_.reduce` and `_.reduceRight` without support
  * for callback shorthands and `this` binding, which iterates over `collection`
@@ -8475,7 +8671,7 @@ function baseReduce(collection, iteratee, accumulator, initFromCollection, eachF
 
 module.exports = baseReduce;
 
-},{}],100:[function(require,module,exports){
+},{}],102:[function(require,module,exports){
 /**
  * The base implementation of `_.slice` without an iteratee call guard.
  *
@@ -8509,7 +8705,7 @@ function baseSlice(array, start, end) {
 
 module.exports = baseSlice;
 
-},{}],101:[function(require,module,exports){
+},{}],103:[function(require,module,exports){
 /**
  * Converts `value` to a string if it's not one. An empty string is returned
  * for `null` or `undefined` values.
@@ -8524,7 +8720,7 @@ function baseToString(value) {
 
 module.exports = baseToString;
 
-},{}],102:[function(require,module,exports){
+},{}],104:[function(require,module,exports){
 var identity = require('../utility/identity');
 
 /**
@@ -8565,7 +8761,7 @@ function bindCallback(func, thisArg, argCount) {
 
 module.exports = bindCallback;
 
-},{"../utility/identity":157}],103:[function(require,module,exports){
+},{"../utility/identity":159}],105:[function(require,module,exports){
 (function (global){
 /** Native method references. */
 var ArrayBuffer = global.ArrayBuffer,
@@ -8589,7 +8785,7 @@ function bufferClone(buffer) {
 module.exports = bufferClone;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],104:[function(require,module,exports){
+},{}],106:[function(require,module,exports){
 var isObject = require('../lang/isObject');
 
 /**
@@ -8610,7 +8806,7 @@ function cacheIndexOf(cache, value) {
 
 module.exports = cacheIndexOf;
 
-},{"../lang/isObject":142}],105:[function(require,module,exports){
+},{"../lang/isObject":144}],107:[function(require,module,exports){
 var isObject = require('../lang/isObject');
 
 /**
@@ -8632,7 +8828,7 @@ function cachePush(value) {
 
 module.exports = cachePush;
 
-},{"../lang/isObject":142}],106:[function(require,module,exports){
+},{"../lang/isObject":144}],108:[function(require,module,exports){
 var bindCallback = require('./bindCallback'),
     isIterateeCall = require('./isIterateeCall'),
     restParam = require('../function/restParam');
@@ -8675,7 +8871,7 @@ function createAssigner(assigner) {
 
 module.exports = createAssigner;
 
-},{"../function/restParam":69,"./bindCallback":102,"./isIterateeCall":126}],107:[function(require,module,exports){
+},{"../function/restParam":71,"./bindCallback":104,"./isIterateeCall":128}],109:[function(require,module,exports){
 var getLength = require('./getLength'),
     isLength = require('./isLength'),
     toObject = require('./toObject');
@@ -8708,7 +8904,7 @@ function createBaseEach(eachFunc, fromRight) {
 
 module.exports = createBaseEach;
 
-},{"./getLength":117,"./isLength":128,"./toObject":133}],108:[function(require,module,exports){
+},{"./getLength":119,"./isLength":130,"./toObject":135}],110:[function(require,module,exports){
 var toObject = require('./toObject');
 
 /**
@@ -8737,7 +8933,7 @@ function createBaseFor(fromRight) {
 
 module.exports = createBaseFor;
 
-},{"./toObject":133}],109:[function(require,module,exports){
+},{"./toObject":135}],111:[function(require,module,exports){
 (function (global){
 var SetCache = require('./SetCache'),
     getNative = require('./getNative');
@@ -8762,7 +8958,7 @@ function createCache(values) {
 module.exports = createCache;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./SetCache":70,"./getNative":119}],110:[function(require,module,exports){
+},{"./SetCache":72,"./getNative":121}],112:[function(require,module,exports){
 var restParam = require('../function/restParam');
 
 /**
@@ -8786,7 +8982,7 @@ function createDefaults(assigner, customizer) {
 
 module.exports = createDefaults;
 
-},{"../function/restParam":69}],111:[function(require,module,exports){
+},{"../function/restParam":71}],113:[function(require,module,exports){
 var bindCallback = require('./bindCallback'),
     isArray = require('../lang/isArray');
 
@@ -8808,7 +9004,7 @@ function createForEach(arrayFunc, eachFunc) {
 
 module.exports = createForEach;
 
-},{"../lang/isArray":137,"./bindCallback":102}],112:[function(require,module,exports){
+},{"../lang/isArray":139,"./bindCallback":104}],114:[function(require,module,exports){
 var baseCallback = require('./baseCallback'),
     baseReduce = require('./baseReduce'),
     isArray = require('../lang/isArray');
@@ -8832,7 +9028,7 @@ function createReduce(arrayFunc, eachFunc) {
 
 module.exports = createReduce;
 
-},{"../lang/isArray":137,"./baseCallback":79,"./baseReduce":99}],113:[function(require,module,exports){
+},{"../lang/isArray":139,"./baseCallback":81,"./baseReduce":101}],115:[function(require,module,exports){
 var arraySome = require('./arraySome');
 
 /**
@@ -8885,7 +9081,7 @@ function equalArrays(array, other, equalFunc, customizer, isLoose, stackA, stack
 
 module.exports = equalArrays;
 
-},{"./arraySome":75}],114:[function(require,module,exports){
+},{"./arraySome":77}],116:[function(require,module,exports){
 /** `Object#toString` result references. */
 var boolTag = '[object Boolean]',
     dateTag = '[object Date]',
@@ -8935,7 +9131,7 @@ function equalByTag(object, other, tag) {
 
 module.exports = equalByTag;
 
-},{}],115:[function(require,module,exports){
+},{}],117:[function(require,module,exports){
 var keys = require('../object/keys');
 
 /** Used for native method references. */
@@ -9004,7 +9200,7 @@ function equalObjects(object, other, equalFunc, customizer, isLoose, stackA, sta
 
 module.exports = equalObjects;
 
-},{"../object/keys":152}],116:[function(require,module,exports){
+},{"../object/keys":154}],118:[function(require,module,exports){
 /** Used to map characters to HTML entities. */
 var htmlEscapes = {
   '&': '&amp;',
@@ -9028,7 +9224,7 @@ function escapeHtmlChar(chr) {
 
 module.exports = escapeHtmlChar;
 
-},{}],117:[function(require,module,exports){
+},{}],119:[function(require,module,exports){
 var baseProperty = require('./baseProperty');
 
 /**
@@ -9045,7 +9241,7 @@ var getLength = baseProperty('length');
 
 module.exports = getLength;
 
-},{"./baseProperty":97}],118:[function(require,module,exports){
+},{"./baseProperty":99}],120:[function(require,module,exports){
 var isStrictComparable = require('./isStrictComparable'),
     pairs = require('../object/pairs');
 
@@ -9068,7 +9264,7 @@ function getMatchData(object) {
 
 module.exports = getMatchData;
 
-},{"../object/pairs":155,"./isStrictComparable":130}],119:[function(require,module,exports){
+},{"../object/pairs":157,"./isStrictComparable":132}],121:[function(require,module,exports){
 var isNative = require('../lang/isNative');
 
 /**
@@ -9086,7 +9282,7 @@ function getNative(object, key) {
 
 module.exports = getNative;
 
-},{"../lang/isNative":141}],120:[function(require,module,exports){
+},{"../lang/isNative":143}],122:[function(require,module,exports){
 /**
  * Gets the index at which the first occurrence of `NaN` is found in `array`.
  *
@@ -9111,7 +9307,7 @@ function indexOfNaN(array, fromIndex, fromRight) {
 
 module.exports = indexOfNaN;
 
-},{}],121:[function(require,module,exports){
+},{}],123:[function(require,module,exports){
 /** Used for native method references. */
 var objectProto = Object.prototype;
 
@@ -9139,7 +9335,7 @@ function initCloneArray(array) {
 
 module.exports = initCloneArray;
 
-},{}],122:[function(require,module,exports){
+},{}],124:[function(require,module,exports){
 var bufferClone = require('./bufferClone');
 
 /** `Object#toString` result references. */
@@ -9204,7 +9400,7 @@ function initCloneByTag(object, tag, isDeep) {
 
 module.exports = initCloneByTag;
 
-},{"./bufferClone":103}],123:[function(require,module,exports){
+},{"./bufferClone":105}],125:[function(require,module,exports){
 /**
  * Initializes an object clone.
  *
@@ -9222,7 +9418,7 @@ function initCloneObject(object) {
 
 module.exports = initCloneObject;
 
-},{}],124:[function(require,module,exports){
+},{}],126:[function(require,module,exports){
 var getLength = require('./getLength'),
     isLength = require('./isLength');
 
@@ -9239,7 +9435,7 @@ function isArrayLike(value) {
 
 module.exports = isArrayLike;
 
-},{"./getLength":117,"./isLength":128}],125:[function(require,module,exports){
+},{"./getLength":119,"./isLength":130}],127:[function(require,module,exports){
 /** Used to detect unsigned integer values. */
 var reIsUint = /^\d+$/;
 
@@ -9265,7 +9461,7 @@ function isIndex(value, length) {
 
 module.exports = isIndex;
 
-},{}],126:[function(require,module,exports){
+},{}],128:[function(require,module,exports){
 var isArrayLike = require('./isArrayLike'),
     isIndex = require('./isIndex'),
     isObject = require('../lang/isObject');
@@ -9295,7 +9491,7 @@ function isIterateeCall(value, index, object) {
 
 module.exports = isIterateeCall;
 
-},{"../lang/isObject":142,"./isArrayLike":124,"./isIndex":125}],127:[function(require,module,exports){
+},{"../lang/isObject":144,"./isArrayLike":126,"./isIndex":127}],129:[function(require,module,exports){
 var isArray = require('../lang/isArray'),
     toObject = require('./toObject');
 
@@ -9325,7 +9521,7 @@ function isKey(value, object) {
 
 module.exports = isKey;
 
-},{"../lang/isArray":137,"./toObject":133}],128:[function(require,module,exports){
+},{"../lang/isArray":139,"./toObject":135}],130:[function(require,module,exports){
 /**
  * Used as the [maximum length](http://ecma-international.org/ecma-262/6.0/#sec-number.max_safe_integer)
  * of an array-like value.
@@ -9347,7 +9543,7 @@ function isLength(value) {
 
 module.exports = isLength;
 
-},{}],129:[function(require,module,exports){
+},{}],131:[function(require,module,exports){
 /**
  * Checks if `value` is object-like.
  *
@@ -9361,7 +9557,7 @@ function isObjectLike(value) {
 
 module.exports = isObjectLike;
 
-},{}],130:[function(require,module,exports){
+},{}],132:[function(require,module,exports){
 var isObject = require('../lang/isObject');
 
 /**
@@ -9378,7 +9574,7 @@ function isStrictComparable(value) {
 
 module.exports = isStrictComparable;
 
-},{"../lang/isObject":142}],131:[function(require,module,exports){
+},{"../lang/isObject":144}],133:[function(require,module,exports){
 var merge = require('../object/merge');
 
 /**
@@ -9395,7 +9591,7 @@ function mergeDefaults(objectValue, sourceValue) {
 
 module.exports = mergeDefaults;
 
-},{"../object/merge":154}],132:[function(require,module,exports){
+},{"../object/merge":156}],134:[function(require,module,exports){
 var isArguments = require('../lang/isArguments'),
     isArray = require('../lang/isArray'),
     isIndex = require('./isIndex'),
@@ -9438,7 +9634,7 @@ function shimKeys(object) {
 
 module.exports = shimKeys;
 
-},{"../lang/isArguments":136,"../lang/isArray":137,"../object/keysIn":153,"./isIndex":125,"./isLength":128}],133:[function(require,module,exports){
+},{"../lang/isArguments":138,"../lang/isArray":139,"../object/keysIn":155,"./isIndex":127,"./isLength":130}],135:[function(require,module,exports){
 var isObject = require('../lang/isObject');
 
 /**
@@ -9454,7 +9650,7 @@ function toObject(value) {
 
 module.exports = toObject;
 
-},{"../lang/isObject":142}],134:[function(require,module,exports){
+},{"../lang/isObject":144}],136:[function(require,module,exports){
 var baseToString = require('./baseToString'),
     isArray = require('../lang/isArray');
 
@@ -9484,7 +9680,7 @@ function toPath(value) {
 
 module.exports = toPath;
 
-},{"../lang/isArray":137,"./baseToString":101}],135:[function(require,module,exports){
+},{"../lang/isArray":139,"./baseToString":103}],137:[function(require,module,exports){
 var baseClone = require('../internal/baseClone'),
     bindCallback = require('../internal/bindCallback'),
     isIterateeCall = require('../internal/isIterateeCall');
@@ -9556,7 +9752,7 @@ function clone(value, isDeep, customizer, thisArg) {
 
 module.exports = clone;
 
-},{"../internal/baseClone":80,"../internal/bindCallback":102,"../internal/isIterateeCall":126}],136:[function(require,module,exports){
+},{"../internal/baseClone":82,"../internal/bindCallback":104,"../internal/isIterateeCall":128}],138:[function(require,module,exports){
 var isArrayLike = require('../internal/isArrayLike'),
     isObjectLike = require('../internal/isObjectLike');
 
@@ -9592,7 +9788,7 @@ function isArguments(value) {
 
 module.exports = isArguments;
 
-},{"../internal/isArrayLike":124,"../internal/isObjectLike":129}],137:[function(require,module,exports){
+},{"../internal/isArrayLike":126,"../internal/isObjectLike":131}],139:[function(require,module,exports){
 var getNative = require('../internal/getNative'),
     isLength = require('../internal/isLength'),
     isObjectLike = require('../internal/isObjectLike');
@@ -9634,7 +9830,7 @@ var isArray = nativeIsArray || function(value) {
 
 module.exports = isArray;
 
-},{"../internal/getNative":119,"../internal/isLength":128,"../internal/isObjectLike":129}],138:[function(require,module,exports){
+},{"../internal/getNative":121,"../internal/isLength":130,"../internal/isObjectLike":131}],140:[function(require,module,exports){
 var isObjectLike = require('../internal/isObjectLike'),
     isPlainObject = require('./isPlainObject');
 
@@ -9660,7 +9856,7 @@ function isElement(value) {
 
 module.exports = isElement;
 
-},{"../internal/isObjectLike":129,"./isPlainObject":143}],139:[function(require,module,exports){
+},{"../internal/isObjectLike":131,"./isPlainObject":145}],141:[function(require,module,exports){
 var isArguments = require('./isArguments'),
     isArray = require('./isArray'),
     isArrayLike = require('../internal/isArrayLike'),
@@ -9709,7 +9905,7 @@ function isEmpty(value) {
 
 module.exports = isEmpty;
 
-},{"../internal/isArrayLike":124,"../internal/isObjectLike":129,"../object/keys":152,"./isArguments":136,"./isArray":137,"./isFunction":140,"./isString":144}],140:[function(require,module,exports){
+},{"../internal/isArrayLike":126,"../internal/isObjectLike":131,"../object/keys":154,"./isArguments":138,"./isArray":139,"./isFunction":142,"./isString":146}],142:[function(require,module,exports){
 var isObject = require('./isObject');
 
 /** `Object#toString` result references. */
@@ -9749,7 +9945,7 @@ function isFunction(value) {
 
 module.exports = isFunction;
 
-},{"./isObject":142}],141:[function(require,module,exports){
+},{"./isObject":144}],143:[function(require,module,exports){
 var isFunction = require('./isFunction'),
     isObjectLike = require('../internal/isObjectLike');
 
@@ -9799,7 +9995,7 @@ function isNative(value) {
 
 module.exports = isNative;
 
-},{"../internal/isObjectLike":129,"./isFunction":140}],142:[function(require,module,exports){
+},{"../internal/isObjectLike":131,"./isFunction":142}],144:[function(require,module,exports){
 /**
  * Checks if `value` is the [language type](https://es5.github.io/#x8) of `Object`.
  * (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
@@ -9829,7 +10025,7 @@ function isObject(value) {
 
 module.exports = isObject;
 
-},{}],143:[function(require,module,exports){
+},{}],145:[function(require,module,exports){
 var baseForIn = require('../internal/baseForIn'),
     isArguments = require('./isArguments'),
     isObjectLike = require('../internal/isObjectLike');
@@ -9902,7 +10098,7 @@ function isPlainObject(value) {
 
 module.exports = isPlainObject;
 
-},{"../internal/baseForIn":86,"../internal/isObjectLike":129,"./isArguments":136}],144:[function(require,module,exports){
+},{"../internal/baseForIn":88,"../internal/isObjectLike":131,"./isArguments":138}],146:[function(require,module,exports){
 var isObjectLike = require('../internal/isObjectLike');
 
 /** `Object#toString` result references. */
@@ -9939,7 +10135,7 @@ function isString(value) {
 
 module.exports = isString;
 
-},{"../internal/isObjectLike":129}],145:[function(require,module,exports){
+},{"../internal/isObjectLike":131}],147:[function(require,module,exports){
 var isLength = require('../internal/isLength'),
     isObjectLike = require('../internal/isObjectLike');
 
@@ -10015,7 +10211,7 @@ function isTypedArray(value) {
 
 module.exports = isTypedArray;
 
-},{"../internal/isLength":128,"../internal/isObjectLike":129}],146:[function(require,module,exports){
+},{"../internal/isLength":130,"../internal/isObjectLike":131}],148:[function(require,module,exports){
 /**
  * Checks if `value` is `undefined`.
  *
@@ -10038,7 +10234,7 @@ function isUndefined(value) {
 
 module.exports = isUndefined;
 
-},{}],147:[function(require,module,exports){
+},{}],149:[function(require,module,exports){
 var baseCopy = require('../internal/baseCopy'),
     keysIn = require('../object/keysIn');
 
@@ -10071,7 +10267,7 @@ function toPlainObject(value) {
 
 module.exports = toPlainObject;
 
-},{"../internal/baseCopy":81,"../object/keysIn":153}],148:[function(require,module,exports){
+},{"../internal/baseCopy":83,"../object/keysIn":155}],150:[function(require,module,exports){
 /* Native method references for those with the same name as other `lodash` methods. */
 var nativeMax = Math.max,
     nativeMin = Math.min;
@@ -10120,7 +10316,7 @@ function inRange(value, start, end) {
 
 module.exports = inRange;
 
-},{}],149:[function(require,module,exports){
+},{}],151:[function(require,module,exports){
 var assignWith = require('../internal/assignWith'),
     baseAssign = require('../internal/baseAssign'),
     createAssigner = require('../internal/createAssigner');
@@ -10165,7 +10361,7 @@ var assign = createAssigner(function(object, source, customizer) {
 
 module.exports = assign;
 
-},{"../internal/assignWith":77,"../internal/baseAssign":78,"../internal/createAssigner":106}],150:[function(require,module,exports){
+},{"../internal/assignWith":79,"../internal/baseAssign":80,"../internal/createAssigner":108}],152:[function(require,module,exports){
 var assign = require('./assign'),
     assignDefaults = require('../internal/assignDefaults'),
     createDefaults = require('../internal/createDefaults');
@@ -10192,7 +10388,7 @@ var defaults = createDefaults(assign, assignDefaults);
 
 module.exports = defaults;
 
-},{"../internal/assignDefaults":76,"../internal/createDefaults":110,"./assign":149}],151:[function(require,module,exports){
+},{"../internal/assignDefaults":78,"../internal/createDefaults":112,"./assign":151}],153:[function(require,module,exports){
 var createDefaults = require('../internal/createDefaults'),
     merge = require('./merge'),
     mergeDefaults = require('../internal/mergeDefaults');
@@ -10219,7 +10415,7 @@ var defaultsDeep = createDefaults(merge, mergeDefaults);
 
 module.exports = defaultsDeep;
 
-},{"../internal/createDefaults":110,"../internal/mergeDefaults":131,"./merge":154}],152:[function(require,module,exports){
+},{"../internal/createDefaults":112,"../internal/mergeDefaults":133,"./merge":156}],154:[function(require,module,exports){
 var getNative = require('../internal/getNative'),
     isArrayLike = require('../internal/isArrayLike'),
     isObject = require('../lang/isObject'),
@@ -10266,7 +10462,7 @@ var keys = !nativeKeys ? shimKeys : function(object) {
 
 module.exports = keys;
 
-},{"../internal/getNative":119,"../internal/isArrayLike":124,"../internal/shimKeys":132,"../lang/isObject":142}],153:[function(require,module,exports){
+},{"../internal/getNative":121,"../internal/isArrayLike":126,"../internal/shimKeys":134,"../lang/isObject":144}],155:[function(require,module,exports){
 var isArguments = require('../lang/isArguments'),
     isArray = require('../lang/isArray'),
     isIndex = require('../internal/isIndex'),
@@ -10332,7 +10528,7 @@ function keysIn(object) {
 
 module.exports = keysIn;
 
-},{"../internal/isIndex":125,"../internal/isLength":128,"../lang/isArguments":136,"../lang/isArray":137,"../lang/isObject":142}],154:[function(require,module,exports){
+},{"../internal/isIndex":127,"../internal/isLength":130,"../lang/isArguments":138,"../lang/isArray":139,"../lang/isObject":144}],156:[function(require,module,exports){
 var baseMerge = require('../internal/baseMerge'),
     createAssigner = require('../internal/createAssigner');
 
@@ -10388,7 +10584,7 @@ var merge = createAssigner(baseMerge);
 
 module.exports = merge;
 
-},{"../internal/baseMerge":95,"../internal/createAssigner":106}],155:[function(require,module,exports){
+},{"../internal/baseMerge":97,"../internal/createAssigner":108}],157:[function(require,module,exports){
 var keys = require('./keys'),
     toObject = require('../internal/toObject');
 
@@ -10423,7 +10619,7 @@ function pairs(object) {
 
 module.exports = pairs;
 
-},{"../internal/toObject":133,"./keys":152}],156:[function(require,module,exports){
+},{"../internal/toObject":135,"./keys":154}],158:[function(require,module,exports){
 var baseToString = require('../internal/baseToString'),
     escapeHtmlChar = require('../internal/escapeHtmlChar');
 
@@ -10473,7 +10669,7 @@ function escape(string) {
 
 module.exports = escape;
 
-},{"../internal/baseToString":101,"../internal/escapeHtmlChar":116}],157:[function(require,module,exports){
+},{"../internal/baseToString":103,"../internal/escapeHtmlChar":118}],159:[function(require,module,exports){
 /**
  * This method returns the first argument provided to it.
  *
@@ -10495,7 +10691,7 @@ function identity(value) {
 
 module.exports = identity;
 
-},{}],158:[function(require,module,exports){
+},{}],160:[function(require,module,exports){
 var baseProperty = require('../internal/baseProperty'),
     basePropertyDeep = require('../internal/basePropertyDeep'),
     isKey = require('../internal/isKey');
@@ -10528,4 +10724,4 @@ function property(path) {
 
 module.exports = property;
 
-},{"../internal/baseProperty":97,"../internal/basePropertyDeep":98,"../internal/isKey":127}]},{},[19]);
+},{"../internal/baseProperty":99,"../internal/basePropertyDeep":100,"../internal/isKey":129}]},{},[19]);
