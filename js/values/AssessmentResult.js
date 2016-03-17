@@ -1,14 +1,13 @@
 var isUndefined = require( "lodash/lang/isUndefined" );
+var isNumber = require( "lodash/lang/isNumber" );
 
 /**
  * Construct the AssessmentResult value object.
- * @param {number} score The score that was found by assessment.
- * @param {string} text The user facing message regarding the score.
  * @constructor
  */
-var AssessmentResult = function( score, text ) {
-	this.score = score;
-	this.text = text || "";
+var AssessmentResult = function() {
+	this.score = 0;
+	this.text = "";
 };
 
 /**
@@ -28,6 +27,19 @@ AssessmentResult.prototype.getScore = function() {
 };
 
 /**
+ * Set the score for the assessment.
+ * @param {number} score The score to be used for the score property
+ * @returns {void}
+ */
+AssessmentResult.prototype.setScore = function( score ) {
+	if ( !isNumber( score ) ) {
+		score = 0;
+	}
+
+	this.score = score;
+};
+
+/**
  * Check if a text is available.
  * @returns {boolean} Whether or not a text is available.
  */
@@ -41,6 +53,19 @@ AssessmentResult.prototype.hasText = function() {
  */
 AssessmentResult.prototype.getText = function() {
 	return this.text;
+};
+
+/**
+ * Set the text for the assessment.
+ * @param {string} text The text to be used for the text property
+ * @returns {void}
+ */
+AssessmentResult.prototype.setText = function( text ) {
+	if ( isUndefined( text ) ) {
+		text = "";
+	}
+
+	this.text = text;
 };
 
 module.exports = AssessmentResult;
