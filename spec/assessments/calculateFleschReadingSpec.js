@@ -27,5 +27,18 @@ describe( "An assessment for the fleschReading", function(){
 
 		expect( result.score ).toBe( 5 );
 		expect( result.text ).toBe( "The copy scores 36.6 in the <a href='https://yoast.com/flesch-reading-ease-score/' target='new'>Flesch Reading Ease</a> test, which is considered difficult to read. Try to make shorter sentences, using less difficult words to improve readability." );
+
+		result = fleschReadingAssessment( paper, Factory.buildMockResearcher( 0 ), i18n );
+		expect( result.score ).toBe( 4 );
+		expect( result.text ).toBe( "The copy scores 0 in the <a href='https://yoast.com/flesch-reading-ease-score/' target='new'>Flesch Reading Ease</a> test, which is considered very difficult to read. Try to make shorter sentences, using less difficult words to improve readability." );
+
+		result = fleschReadingAssessment( paper, Factory.buildMockResearcher( 60.0 ), i18n );
+		expect( result.score ).toBe( 8 );
+		expect( result.text ).toBe( "The copy scores 60 in the <a href='https://yoast.com/flesch-reading-ease-score/' target='new'>Flesch Reading Ease</a> test, which is considered ok to read. " );
+
+		result = fleschReadingAssessment( paper, Factory.buildMockResearcher( 100.0 ), i18n );
+		expect( result.score ).toBe( 9 );
+		expect( result.text ).toBe( "The copy scores 100 in the <a href='https://yoast.com/flesch-reading-ease-score/' target='new'>Flesch Reading Ease</a> test, which is considered very easy to read. " );
+
 	} );
 } );
