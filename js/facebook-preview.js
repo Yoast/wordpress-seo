@@ -441,7 +441,7 @@ FacebookPreview.prototype.bindEvents = function() {
 		elems = [ "title", "description", "imageUrl" ];
 
 	forEach( elems, function( elem ) {
-		targetElement = document.getElementsByClassName( "js-snippet-editor-" + elem )[0];
+		targetElement = this.opts.targetElement.getElementsByClassName( "js-snippet-editor-" + elem )[0];
 
 		targetElement.addEventListener( "keydown", this.changedInput.bind( this ) );
 		targetElement.addEventListener( "keyup", this.changedInput.bind( this ) );
