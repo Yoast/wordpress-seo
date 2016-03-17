@@ -595,7 +595,7 @@ Analyzer.prototype.addAnalysis = function( analysis ) {
  * @returns {{test: string, result: Number)}}
  */
 Analyzer.prototype.wordCount = function() {
-	return [ { test: "wordCount", result: countWords( this.paper ) } ];
+	return [ { test: "wordCount", result: countWords( this.paper.getText() ) } ];
 };
 
 /**
@@ -611,7 +611,7 @@ Analyzer.prototype.keyphraseSizeCheck = function() {
  * @returns resultObject
  */
 Analyzer.prototype.keywordDensity = function() {
-	var keywordCount = countWords( this.paper );
+	var keywordCount = countWords( this.paper.getText() );
 
 	if ( keywordCount >= 100 ) {
 		var density = getKeywordDensity( this.paper.getText(), this.paper.getKeyword() );
