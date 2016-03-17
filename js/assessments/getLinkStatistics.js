@@ -65,15 +65,19 @@ var calculateLinkStatisticsResult = function( linkStatistics, i18n ) {
  * Runs the getLinkStatistics module, based on this returns an assessment result with score.
  *
  * @param {object} paper The paper to use for the assessment.
- * @param {olbject} researcher The researcher used for calling research.
+ * @param {object} researcher The researcher used for calling research.
  * @param {object} i18n The object used for translations
  * @returns {object} the Assessmentresult
  */
 var getLinkStatisticsAssessment = function( paper,  researcher, i18n ) {
 	var linkStatistics = researcher.getResearch( "getLinkStatistics" );
 	var linkStatisticsResult = calculateLinkStatisticsResult( linkStatistics, i18n );
+	var assessmentResult = new AssessmentResult();
 
-	return new AssessmentResult( linkStatisticsResult.score, linkStatisticsResult.text );
+	assessmentResult.setScore( linkStatisticsResult.score );
+	assessmentResult.setText( linkStatisticsResult.text );
+
+	return assessmentResult;
 
 };
 
