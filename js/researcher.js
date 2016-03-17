@@ -22,7 +22,7 @@ var Researcher = function( paper ) {
 
 	this.defaultResearches = {
 		"wordCount": wordCount,
-		"calculateFleschReading": calculateFleschReading
+		"calculateFleschReading": calculateFleschReading,
 		"getLinkStatistics": getLinkStatistics
 	};
 
