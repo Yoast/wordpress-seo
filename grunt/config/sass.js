@@ -1,5 +1,5 @@
 
-//https://github.com/sindresorhus/grunt-sass
+// https://github.com/sindresorhus/grunt-sass
 module.exports = {
 	options: {
 		outputStyle: "compressed"
