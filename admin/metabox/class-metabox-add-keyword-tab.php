@@ -24,7 +24,7 @@ class Metabox_Add_Keyword_Tab implements WPSEO_Metabox_Tab {
 			</li>
 
 			<?php if ( ! defined( 'WPSEO_PREMIUM_FILE' ) ) : ?>
-				<div id="wpseo-add-keyword-popup" style="display: none;" class="wp-clearfix">
+				<div id="wpseo-add-keyword-popup" style="display: none;">
 					<img class="alignright" style="margin: 10px;" src="<?php echo trailingslashit( plugin_dir_url( WPSEO_FILE ) ); ?>images/Yoast_SEO_Icon.svg" width="150" alt=""/>
 					<h1 id="wpseo-add-keyword-popup-title"><?php printf( __( 'Multiple focus keywords is a %s feature', 'wordpress-seo' ), 'Yoast SEO Premium' ); ?></h1>
 					<p>
