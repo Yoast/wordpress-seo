@@ -23,7 +23,7 @@ var defaults = {
 	placeholder: {
 		title:    "This is an example title - edit by clicking here",
 		description: "Modify your facebook description by editing it right here",
-		imageUrl : ""
+		imageUrl: ""
 	},
 	defaultValue: {
 		title: "",
@@ -56,6 +56,8 @@ var inputPreviewBindings = [
  *
  * @param {HTMLElement} element The element to add the class to.
  * @param {string} className The class to add.
+ *
+ * @return {void}
  */
 function addClass( element, className ) {
 	var classes = element.className.split( " " );
@@ -72,6 +74,8 @@ function addClass( element, className ) {
  *
  * @param {HTMLElement} element The element to remove the class from.
  * @param {string} className The class to remove.
+ *
+ * @return {void}
  */
 function removeClass( element, className ) {
 	var classes = element.className.split( " " );
@@ -89,20 +93,20 @@ function removeClass( element, className ) {
  */
 
 /**
- * defines the config and outputTarget for the SnippetPreview
+ * Defines the config and outputTarget for the SnippetPreview
  *
  * @param {Object}         opts                           - Snippet preview options.
  * @param {Object}         opts.placeholder               - The placeholder values for the fields, will be shown as
  * actual placeholders in the inputs and as a fallback for the preview.
- * @param {string}         opts.placeholder.title
- * @param {string}         opts.placeholder.description
- * @param {string}         opts.placeholder.imageUrl
+ * @param {string}         opts.placeholder.title         - Placeholder for the title field.
+ * @param {string}         opts.placeholder.description   - Placeholder for the description field.
+ * @param {string}         opts.placeholder.imageUrl      - Placeholder for the image url field.
  *
  * @param {Object}         opts.defaultValue              - The default value for the fields, if the user has not
  * changed a field, this value will be used for the analyzer, preview and the progress bars.
- * @param {string}         opts.defaultValue.title
- * @param {string}         opts.defaultValue.description
- * @param {string}         opts.defaultValue.imageUrl
+ * @param {string}         opts.defaultValue.title        - Default title.
+ * @param {string}         opts.defaultValue.description  - Default description.
+ * @param {string}         opts.defaultValue.imageUrl     - Default image url.
  * it.
  *
  * @param {string}         opts.baseURL                   - The basic URL as it will be displayed in facebook.
@@ -111,7 +115,9 @@ function removeClass( element, className ) {
  * @param {Object}         opts.callbacks                 - Functions that are called on specific instances.
  * @param {Function}       opts.callbacks.saveSnippetData - Function called when the snippet data is changed.
  *
- * @property {Jed}         i18n                           - The translation object.
+ * @param {Object}         i18n                           - The i18n object.
+ *
+ * @property {Object}      i18n                           - The translation object.
  *
  * @property {HTMLElement} targetElement                  - The target element that contains this snippet editor.
  *
@@ -133,14 +139,14 @@ function removeClass( element, className ) {
  *
  * @property {Object}      data                           - The data for this snippet editor.
  * @property {string}      data.title                     - The title.
- * @property {string}      data.imageUrl                   - The url path.
- * @property {string}      data.description                  - The meta description.
+ * @property {string}      data.imageUrl                  - The url path.
+ * @property {string}      data.description               - The meta description.
  *
  * @property {string}      baseURL                        - The basic URL as it will be displayed in google.
  *
  * @constructor
  */
-var FacebookPreview = function(opts, i18n ) {
+var FacebookPreview = function( opts, i18n ) {
 	defaultsDeep( opts, defaults );
 
 	if ( !isElement( opts.targetElement ) ) {
@@ -158,7 +164,9 @@ var FacebookPreview = function(opts, i18n ) {
 /**
  * Initializes i18n object based on passed configuration
  *
- * @param {Object} translations
+ * @param {Object} translations - The values to translate.
+ *
+ * @returns {Jed} - The Jed translation object.
  */
 FacebookPreview.prototype.constructI18n = function( translations ) {
 	var defaultTranslations = {
@@ -178,6 +186,8 @@ FacebookPreview.prototype.constructI18n = function( translations ) {
 
 /**
  * Renders the template and bind the events.
+ *
+ * @returns {void}
  */
 FacebookPreview.prototype.init = function() {
 	this.renderTemplate();
@@ -192,6 +202,8 @@ FacebookPreview.prototype.init = function() {
 
 /**
  * Renders snippet editor and adds it to the targetElement.
+ *
+ * @returns {void}
  */
 FacebookPreview.prototype.renderTemplate = function() {
 	var targetElement = this.opts.targetElement;
@@ -251,13 +263,13 @@ FacebookPreview.prototype.renderTemplate = function() {
 		imageUrl: this.element.rendered.imageUrl.parentNode,
 		description: this.element.rendered.description.parentNode
 	};
-};
 
+};
 
 /**
  * Creates html object to contain the strings for the Facebook preview
  *
- * @returns {Object}
+ * @returns {Object} The formatted output
  */
 FacebookPreview.prototype.htmlOutput = function() {
 	var html = {};
@@ -272,7 +284,7 @@ FacebookPreview.prototype.htmlOutput = function() {
 /**
  * Formats the title for the Facebook preview. If title is empty, sampletext is used
  *
- * @returns {string}
+ * @returns {string} The formatted title, without html tags.
  */
 FacebookPreview.prototype.formatTitle = function() {
 	var title = this.getTitle();
@@ -290,7 +302,7 @@ FacebookPreview.prototype.formatTitle = function() {
 /**
  * Gets the title for the preview.
  *
- * @returns {string}
+ * @returns {string} Returns the title, or a fallback title
  */
 FacebookPreview.prototype.getTitle = function() {
 	var title = this.data.title;
@@ -328,7 +340,7 @@ FacebookPreview.prototype.formatDescription = function() {
 /**
  * Returns the description.
  *
- * @returns {String}
+ * @returns {string} Returns description or a fallback description.
  */
 FacebookPreview.prototype.getDescription = function() {
 	var description = this.data.description;
@@ -356,7 +368,7 @@ FacebookPreview.prototype.formatImageUrl = function() {
 /**
  * Gets the imageUrl
  *
- * @returns {string}
+ * @returns {string} Returns the image URL
  */
 FacebookPreview.prototype.getImageUrl = function() {
 	var imageUrl = this.data.imageUrl;
@@ -372,44 +384,45 @@ FacebookPreview.prototype.getImageUrl = function() {
 /**
  * Updates the image object with the new URL.
  *
- * @param {Object} image
- * @param {String} imageURL
+ * @param {Object} image    Image element.
+ * @param {string} imageURL The image path.
+ *
+ * @returns {void}
  */
 FacebookPreview.prototype.setImageUrl = function( image, imageURL ) {
 	image.src = imageURL;
 
 	// Hide the image element, while resizing the image.
-	addClass( image, 'snippet-editor--hidden' );
+	addClass( image, "snippet-editor--hidden" );
 
 	this.setImageRatio( image );
 
 	// Show the image, because it's done.
-	removeClass( image, 'snippet-editor--hidden' );
+	removeClass( image, "snippet-editor--hidden" );
 };
 
 /**
  * Sets the image dimensions by ratio
  *
- * @param {Object} image
+ * @param {Object} image The image object to calculate the ratio for.
+ *
+ * @returns {void}
  */
 FacebookPreview.prototype.setImageRatio = function( image ) {
 	var maxWidth = 470;
 	var width    = image.width;
+	var height = image.height;
 
-	if(width > maxWidth) {
-		// The image width is bigger than the maxWidth, so set it with maxWidth.
+	if ( width > maxWidth ) {
 		image.width = maxWidth;
-
-		var height = image.height;
-
 		image.height = height * ( maxWidth / width );
 	}
 };
 
 /**
- * Formats the base url for the snippet preview. Removes the protocol name from the URL.
+ * Formats the base url for the facebook preview. Removes the protocol name from the URL.
  *
- * @returns {string} Formatted base url for the snippet preview.
+ * @returns {string} Formatted url for the facebook preview.
  */
 FacebookPreview.prototype.formatUrl = function() {
 	var url = this.opts.baseURL;
@@ -420,6 +433,8 @@ FacebookPreview.prototype.formatUrl = function() {
 
 /**
  * Binds the reloadSnippetText function to the blur of the snippet inputs.
+ *
+ * @returns {void}
  */
 FacebookPreview.prototype.bindEvents = function() {
 	var targetElement,
@@ -481,6 +496,8 @@ FacebookPreview.prototype.bindEvents = function() {
 
 /**
  * Updates snippet preview on changed input. It's debounced so that we can call this function as much as we want.
+ *
+ * @returns {void}
  */
 FacebookPreview.prototype.changedInput = debounce( function() {
 	this.updateDataFromDOM();
@@ -489,6 +506,8 @@ FacebookPreview.prototype.changedInput = debounce( function() {
 
 /**
  * Updates our data object from the DOM
+ *
+ * @returns {void}
  */
 FacebookPreview.prototype.updateDataFromDOM = function() {
 	this.data.title = this.element.input.title.value;
@@ -501,6 +520,8 @@ FacebookPreview.prototype.updateDataFromDOM = function() {
 
 /**
  * Refreshes the snippet editor rendered HTML
+ *
+ * @returns {void}
  */
 FacebookPreview.prototype.refresh = function() {
 	this.output = this.htmlOutput();
@@ -510,11 +531,13 @@ FacebookPreview.prototype.refresh = function() {
 
 /**
  * Renders the outputs to the elements on the page.
+ *
+ * @returns {void}
  */
 FacebookPreview.prototype.renderOutput = function() {
 	this.element.rendered.title.innerHTML = this.output.title;
 
-	if( typeof this.output.imageUrl !== "undefined" ) {
+	if ( typeof this.output.imageUrl !== "undefined" ) {
 		this.setImageUrl( this.element.rendered.imageUrl, this.output.imageUrl );
 	}
 	this.element.rendered.urlBase.innerHTML = this.output.url;
@@ -523,6 +546,8 @@ FacebookPreview.prototype.renderOutput = function() {
 
 /**
  * Makes the rendered description gray if no description has been set by the user.
+ *
+ * @returns {void}
  */
 FacebookPreview.prototype.renderSnippetStyle = function() {
 	var descriptionElement = this.element.rendered.description;
@@ -539,6 +564,8 @@ FacebookPreview.prototype.renderSnippetStyle = function() {
 
 /**
  * Opens the snippet editor.
+ *
+ * @returns {void}
  */
 FacebookPreview.prototype.openEditor = function() {
 
@@ -554,6 +581,8 @@ FacebookPreview.prototype.openEditor = function() {
 
 /**
  * Closes the snippet editor.
+ *
+ * @returns {void}
  */
 FacebookPreview.prototype.closeEditor = function() {
 
@@ -569,6 +598,8 @@ FacebookPreview.prototype.closeEditor = function() {
 
 /**
  * Toggles the snippet editor.
+ *
+ * @returns {void}
  */
 FacebookPreview.prototype.toggleEditor = function() {
 	if ( this.opened ) {
@@ -582,6 +613,8 @@ FacebookPreview.prototype.toggleEditor = function() {
  * Updates carets before the preview and input fields.
  *
  * @private
+ *
+ * @returns {void}
  */
 FacebookPreview.prototype._updateFocusCarets = function() {
 	var focusedLabel, focusedPreview;
@@ -609,6 +642,8 @@ FacebookPreview.prototype._updateFocusCarets = function() {
  * Updates hover carets before the input fields.
  *
  * @private
+ *
+ * @returns {void}
  */
 FacebookPreview.prototype._updateHoverCarets = function() {
 	var hoveredLabel;

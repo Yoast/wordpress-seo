@@ -6,7 +6,7 @@ module.exports = function( grunt ) {
 		makepot: {
 			potFile: "languages/yoast-seo.pot",
 			textdomain: "js-text-analysis",
-			command: function () {
+			command: function() {
 				var files;
 
 				files = [ "js/*.js", "js/config/*.js" ];
@@ -24,5 +24,3 @@ module.exports = function( grunt ) {
 		}
 	};
 };
-
-
