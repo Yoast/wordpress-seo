@@ -1,0 +1,63 @@
+
+.facebook-preview {
+	width: 470px;
+  box-shadow: 0 0 0 1.5px rgba(0, 0, 0, .1) inset, 0 1px 1px rgba(0, 0, 0, .05);
+	background-color: #FFF;
+	overflow:hidden;
+
+	font-family: helvetica, arial, sans-serif;
+	word-wrap: break-word;
+	font-size: 12px;
+	color: #141823;
+	line-height: 1.34;
+
+	&, &__text-keeper, &__title, &__description, &__website {
+		overflow: hidden;
+	}
+
+	&__image {
+		background: #F6C6CE;
+		width:470px;
+		height: 235px;
+	}
+
+	&__text-keeper {
+		margin: 10px 12px;
+		height: auto;
+		max-height: 470px;
+		font-size: 12px;
+	}
+
+	&__title {
+		font-family: Georgia, 'lucida grande',tahoma,verdana,arial,sans-serif;
+		font-size: 18px;
+		font-weight: 500;
+		line-height: 22px;
+		margin-bottom: 5px;
+		max-height: 110px;
+
+		a {
+			text-decoration: none;
+			color: #141823;
+			cursor: pointer;
+		}
+	}
+
+	&__description {
+		line-height: 16px;
+		max-height: 80px;
+		font-size: 12px;
+	}
+
+	&__website {
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		font-size: 11px;
+		line-height: 11px;
+		padding-top: 9px;
+		position: relative;
+		text-transform: uppercase;
+		color: #9197a3;
+	}
+
+}
