@@ -8,9 +8,7 @@ var checkNofollow = require( "../stringProcessing/checkNofollow.js" );
 /**
  * Checks a text for anchors and returns an object with all linktypes found.
  *
- * @param {string} text The text to check for anchors.
- * @param {string} keyword The keyword to use for matching in anchors.
- * @param {string} url The url of the page.
+ * @param {object} paper The paper object containing text, keyword and url.
  * @returns {object} The object containing all linktypes.
  * total: the total number of links found
  * totalNaKeyword: the total number of links if keyword is not available
@@ -25,7 +23,10 @@ var checkNofollow = require( "../stringProcessing/checkNofollow.js" );
  * otherDofollow: other links without a nofollow attribute
  * otherNofollow: other links with a nofollow attribute
  */
-module.exports = function( text, keyword, url ) {
+module.exports = function( paper ) {
+	var text = paper.getText();
+	var keyword = paper.getKeyword();
+	var url = paper.getUrl();
 	var anchors = getAnchors( text );
 
 	var linkCount = {
