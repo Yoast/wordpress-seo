@@ -78,7 +78,6 @@ var getLinkStatisticsAssessment = function( paper,  researcher, i18n ) {
 	assessmentResult.setText( linkStatisticsResult.text );
 
 	return assessmentResult;
-
 };
 
 module.exports = getLinkStatisticsAssessment;
