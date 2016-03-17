@@ -401,12 +401,7 @@ Analyzer.prototype.urlKeyword = function() {
  * @returns {{test: string, result: number}[]}
  */
 Analyzer.prototype.urlLength = function() {
-	var result = [ { test: "urlLength", result: { urlTooLong: isUrlTooLong(
-		this.paper.getUrl(),
-		this.paper.getKeyword(),
-		this.config.maxSlugLength,
-		this.config.maxUrlLength
-	) } } ];
+	var result = [ { test: "urlLength", result: { urlTooLong: isUrlTooLong( this.paper ) } } ];
 	return result;
 };
 

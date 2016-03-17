@@ -335,11 +335,6 @@ var AnalyzerScoring = function( i18n ) {
                 }
             ]
         }, {
-            scoreName: "urlLength",
-            scoreArray: [
-                {type: "urlTooLong", score: 5, text: i18n.dgettext( "js-text-analysis", "The slug for this page is a bit long, consider shortening it." ) }
-            ]
-        }, {
             scoreName: "urlStopwords",
             scoreArray: [
                 {

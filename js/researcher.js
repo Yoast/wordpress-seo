@@ -1,6 +1,7 @@
 var Paper = require( "./values/Paper.js" );
 var merge = require( "lodash/object/merge" );
 var wordCount = require( "./stringProcessing/countWords.js" );
+var urlLength = require( "./analyses/isUrlTooLong.js" );
 var InvalidTypeError = require( "./errors/invalidType" );
 var MissingArgument = require( "./errors/missingArgument" );
 var isUndefined = require( "lodash/lang/isUndefined" );
@@ -16,7 +17,8 @@ var Researcher = function( paper ) {
 	this.setPaper( paper );
 
 	this.defaultResearches = {
-		"wordCount": wordCount
+		"wordCount": wordCount,
+		"urlLength": urlLength
 	};
 
 	this.customResearches = {};

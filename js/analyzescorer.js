@@ -9,6 +9,7 @@ var isUndefined = require( "lodash/lang/isUndefined" );
 
 var assessments = {};
 assessments.wordCount = require( "./assessments/countWords.js" );
+assessments.urlLength = require( "./assessments/urlLength.js" );
 
 /**
  * inits the analyzerscorer used for scoring of the output from the textanalyzer
