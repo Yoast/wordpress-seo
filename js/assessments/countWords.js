@@ -4,7 +4,7 @@ var inRange = require( "lodash/number/inRange" );
 var countWordsAssessment = function( paper, researcher, i18n ) {
 	var score = 0;
 	var text = "";
-	var wordCount = researcher.getResearch( "wordCount" );
+	var wordCount = researcher.getResearch( "wordCountInText" );
 
 	if ( wordCount > 300 ) {
 		score = 9;

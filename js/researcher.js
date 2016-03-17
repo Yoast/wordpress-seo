@@ -1,10 +1,11 @@
 var Paper = require( "./values/Paper.js" );
 var merge = require( "lodash/object/merge" );
-var wordCount = require( "./stringProcessing/countWords.js" );
 var InvalidTypeError = require( "./errors/invalidType" );
 var MissingArgument = require( "./errors/missingArgument" );
 var isUndefined = require( "lodash/lang/isUndefined" );
 var isEmpty = require( "lodash/lang/isEmpty" );
+
+var wordCountInText = require( "./researches/wordCountInText.js" );
 
 /**
  * This contains all possible, default researches.
@@ -16,7 +17,7 @@ var Researcher = function( paper ) {
 	this.setPaper( paper );
 
 	this.defaultResearches = {
-		"wordCount": wordCount
+		"wordCountInText": wordCountInText
 	};
 
 	this.customResearches = {};
