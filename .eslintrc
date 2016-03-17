@@ -145,7 +145,7 @@ rules:
   linebreak-style: [2, unix]
   lines-around-comment: 0
   max-depth: 1
-  max-len: 0
+  max-len: [2, 150, 4]
   max-nested-callbacks: 2
   max-params: 0
   max-statements: [2, 30]
