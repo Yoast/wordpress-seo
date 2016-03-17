@@ -170,6 +170,12 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	 */
 	public function detect_post_delete( $post_id ) {
 
+		// We don't want to redirect menu items.
+		if ( is_nav_menu_item( $post_id ) ) {
+			return;
+		}
+
+
 		// When the post comes from the trash or if the post is a revision then skip further execution.
 		if ( get_post_status( $post_id ) === 'trash' || wp_is_post_revision( $post_id ) ) {
 			return;
@@ -287,7 +293,6 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 
 		// Detect a post delete.
 		add_action( 'before_delete_post', array( $this, 'detect_post_delete' ) );
-
 
 		new WPSEO_Post_Slug_Watcher();
 	}
