@@ -22,7 +22,7 @@ var Researcher = function( paper ) {
 
 	this.defaultResearches = {
 		"wordCount": wordCount,
-		"urlLength": urlLength
+		"urlLength": urlLength,
 		"getLinkStatistics": getLinkStatistics
 	};
 
