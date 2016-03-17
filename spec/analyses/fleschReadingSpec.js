@@ -1,11 +1,16 @@
 var fleschFunction = require( "../../js/analyses/calculateFleschReading.js" );
+var Paper = require( "../../js/values/Paper.js" );
 
 describe("a test to calculate the fleschReading score", function(){
 	it("returns a score", function(){
-		expect( fleschFunction( "A piece of text to calculate scores." ) ).toBe( "78.9" );
 
-		expect( fleschFunction( "One question we get quite often in our website reviews is whether we can help people recover from the drop they noticed in their rankings or traffic. A lot of the times, this is a legitimate drop and people were actually in a bit of trouble" )).toBe( "63.9" );
+		var mockPaper = new Paper( "A piece of text to calculate scores." );
+		expect( fleschFunction( mockPaper ) ).toBe( "78.9" );
 
-		expect( fleschFunction( "" ) ).toBe( 0 );
+		mockPaper = new Paper( "One question we get quite often in our website reviews is whether we can help people recover from the drop they noticed in their rankings or traffic. A lot of the times, this is a legitimate drop and people were actually in a bit of trouble" );
+		expect( fleschFunction( mockPaper )).toBe( "63.9" );
+
+		mockPaper = new Paper( "" );
+		expect( fleschFunction( mockPaper ) ).toBe( 0 );
 	});
 });

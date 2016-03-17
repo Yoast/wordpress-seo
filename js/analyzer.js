@@ -266,7 +266,7 @@ Analyzer.prototype.stopwords = function() {
  * @returns {result object}
  */
 Analyzer.prototype.fleschReading = function() {
-	var score = calculateFleschReading( this.paper.getText() );
+	var score = calculateFleschReading( this.paper );
 
 	if ( score < 0 ) {
 		score = 0;
