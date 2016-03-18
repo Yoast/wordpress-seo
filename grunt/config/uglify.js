@@ -10,7 +10,7 @@ module.exports = {
 				"dist/yoast-seo.js"
 			],
 			"example/example-scraper.min.js": [
-				"example/example-scraper.js"
+				"examples/examples-scraper.js"
 			]
 		}
 	}
