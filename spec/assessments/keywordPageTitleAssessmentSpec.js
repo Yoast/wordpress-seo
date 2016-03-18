@@ -19,7 +19,7 @@ describe( "an assessment to check if the keyword is in the pageTitle", function(
 		var paper = new Paper( "", {
 			keyword: "keyword"
 		} );
-		var assessment = pageTitleKeywordAssessment( paper, Factory.buildMockResearcher( {matches: 1, position: 1} ), i18n );
+		var assessment = pageTitleKeywordAssessment( paper, Factory.buildMockResearcher( {matches: 1, position: 0 } ), i18n );
 
 		expect( assessment.getScore() ).toBe(9);
 		expect( assessment.getText() ).toBe( "The page title contains the focus keyword, at the beginning which is considered to improve rankings." );
