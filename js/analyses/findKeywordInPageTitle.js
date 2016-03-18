@@ -7,7 +7,7 @@ var wordMatch = require( "../stringProcessing/matchTextWithWord.js" );
  * and the position of the keyword.
  *
  * @param {object} paper The paper containing title and keyword.
-  * @returns {object} result with the matches and position.
+ * @returns {object} result with the matches and position.
  */
 
 module.exports = function( paper ) {
