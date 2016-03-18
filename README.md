@@ -96,4 +96,4 @@ If you discover any security related issues, please email security@yoast.com ins
 
 ## License
 
-The MIT License (MIT). Please see License File for more information.
+We follow the GPL. Please see [License](LICENSE) file for more information.
