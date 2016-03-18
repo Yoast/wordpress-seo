@@ -61,59 +61,6 @@ var AnalyzerScoring = function( i18n ) {
             ]
         },
         {
-
-            scoreName: "linkCount",
-            scoreArray: [
-                {
-                    matcher: "total",
-                    min: 0,
-                    max: 0,
-                    score: 6,
-                    text: i18n.dgettext( "js-text-analysis", "No outbound links appear in this page, consider adding some as appropriate.")
-                },
-				{
-					type: "internalAllDofollow",
-					score: 6,
-					text: i18n.dgettext( "js-text-analysis", "No outbound links appear in this page, consider adding some as appropriate.")
-				},{
-					type: "noExternal",
-					score: 6,
-					text: i18n.dgettext( "js-text-analysis", "No outbound links appear in this page, consider adding some as appropriate.")
-				},
-				{
-					matcher: "totalNaKeyword",
-					min: 1,
-					score: 2,
-					text: i18n.dgettext( "js-text-analysis", "Outbound links appear in this page")
-				},
-                {
-                    matcher: "totalKeyword",
-                    min: 1,
-                    score: 2,
-                    text: i18n.dgettext( "js-text-analysis", "You\'re linking to another page with the focus keyword you want this page to rank for. Consider changing that if you truly want this page to rank.")
-                },
-
-                /* translators: %2$s expands the number of outbound links */
-                { type: "externalAllNofollow", score: 7, text: i18n.dgettext( "js-text-analysis", "This page has %2$s outbound link(s), all nofollowed." ) },
-                {
-                    type: "externalHasNofollow",
-                    score: 8,
-
-                    /* translators: %2$s expands to the number of nofollow links, %3$s to the number of outbound links */
-                    text: i18n.dgettext( "js-text-analysis", "This page has %2$s nofollowed link(s) and %3$s normal outbound link(s)." )
-                },
-
-                /* translators: %1$s expands to the number of outbound links */
-                { type: "externalAllDofollow", score: 9, text: i18n.dgettext( "js-text-analysis", "This page has %1$s outbound link(s)." ) }
-            ],
-            replaceArray: [
-                { name: "links", position: "%1$s", sourceObj: ".result.externalTotal" },
-                { name: "nofollow", position: "%2$s", sourceObj: ".result.externalNofollow" },
-                { name: "dofollow", position: "%3$s", sourceObj: ".result.externalDofollow" }
-            ]
-        },
-
-        {
             scoreName: "metaDescriptionLength",
             metaMinLength: 120,
             metaMaxLength: 157,
