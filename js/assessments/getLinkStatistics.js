@@ -56,7 +56,7 @@ var calculateLinkStatisticsResult = function( linkStatistics, i18n ) {
 		return {
 			score: 9,
 			/* translators: %1$s expands to the number of outbound links */
-			text: i18n.sprint( i18n.dgettext( "js-text-analysis", "This page has %1$s outbound link(s)." ), linkStatistics.externalTotal )
+			text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "This page has %1$s outbound link(s)." ), linkStatistics.externalTotal )
 		};
 	}
 };

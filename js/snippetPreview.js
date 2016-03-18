@@ -776,7 +776,7 @@ SnippetPreview.prototype.formatKeyword = function( textString ) {
 	var keyword = this.refObj.rawData.keyword.replace( /[\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, " " );
 
 	// Match keyword case-insensitively
-	var keywordRegex = stringToRegex( keyword, "", true );
+	var keywordRegex = stringToRegex( keyword, "", false );
 	return textString.replace( keywordRegex, function( str ) {
 		return "<strong>" + str + "</strong>";
 	} );
