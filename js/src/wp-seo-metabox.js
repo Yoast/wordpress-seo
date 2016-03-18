@@ -106,20 +106,20 @@
 	function addKeywordPopup() {
 		var $buyButton = $( '#wpseo-add-keyword-popup-button' ),
 			title = $buyButton.text(),
-			$tbWindow,
+			$popupWindow,
 			$closeButton;
 
 		tb_show( title, '#TB_inline?width=650&height=350&inlineId=wpseo-add-keyword-popup', 'group' );
 
 		// The thicbox popup UI is now available.
-		$tbWindow = $( '#TB_window' );
+		$popupWindow = $( '#TB_window' );
 		$closeButton = $( '#TB_closeWindowButton' );
 
 		// The container window isn't the correct size, rectify this and also the centering.
-		$tbWindow.css({ width: 680, height: 235, 'margin-left': -340 });
+		$popupWindow.css({ width: 680, height: 235, 'margin-left': -340 });
 
 		// Accessibility improvements.
-		$tbWindow
+		$popupWindow
 			.attr({
 				role: 'dialog',
 				'aria-labelledby': 'TB_ajaxWindowTitle',
