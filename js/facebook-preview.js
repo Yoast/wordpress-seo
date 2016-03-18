@@ -222,13 +222,13 @@ FacebookPreview.prototype.renderTemplate = function() {
 		},
 		placeholder: this.opts.placeholder,
 		i18n: {
-			edit: this.i18n.dgettext( "js-text-analysis", "Edit snippet" ),
+			edit: this.i18n.dgettext( "js-text-analysis", "Edit Facebook preview" ),
 			title: this.i18n.dgettext( "js-text-analysis", "Facebook title" ),
 			imageUrl:  this.i18n.dgettext( "js-text-analysis", "Facebook image URL" ),
 			description: this.i18n.dgettext( "js-text-analysis", "Facebook description" ),
-			save: this.i18n.dgettext( "js-text-analysis", "Close snippet editor" ),
-			snippetPreview: this.i18n.dgettext( "js-text-analysis", "Snippet preview" ),
-			snippetEditor: this.i18n.dgettext( "js-text-analysis", "Snippet editor" )
+			save: this.i18n.dgettext( "js-text-analysis", "Close facebook editor" ),
+			snippetPreview: this.i18n.dgettext( "js-text-analysis", "Facebook preview" ),
+			snippetEditor: this.i18n.dgettext( "js-text-analysis", "Facebook editor" )
 		}
 	} );
 
@@ -385,20 +385,27 @@ FacebookPreview.prototype.getImageUrl = function() {
  * Updates the image object with the new URL.
  *
  * @param {Object} image    Image element.
- * @param {string} imageURL The image path.
+ * @param {string} imageUrl The image path.
  *
  * @returns {void}
  */
-FacebookPreview.prototype.setImageUrl = function( image, imageURL ) {
-	image.src = imageURL;
+FacebookPreview.prototype.setImageUrl = function( image, imageUrl ) {
 
-	// Hide the image element, while resizing the image.
-	addClass( image, "snippet-editor--hidden" );
+	var img = new Image();
+	img.onload = function() {
+		image.src = imageUrl;
 
-	this.setImageRatio( image );
+		this.setImageRatio( image );
 
-	// Show the image, because it's done.
-	removeClass( image, "snippet-editor--hidden" );
+		// Show the image, because it's done.
+		removeClass( image, "snippet-editor--hidden" );
+	}.bind( this );
+
+	img.onerror = function() {
+		addClass( image, "snippet-editor--hidden" );
+	};
+
+	img.src = imageUrl;
 };
 
 /**
