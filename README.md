@@ -73,7 +73,7 @@ Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recen
 
 ## Documentation
 
-[Customization][docs/Customization.md]
+[Customization][./docs/Customization.md]
 
 ## Testing
 
