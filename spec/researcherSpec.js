@@ -33,8 +33,8 @@ describe( "Calling a Researcher", function() {
 		expect( researcher.getResearch( "foobar" ) ).toBeFalsy();
 	});
 
-	it( "returns a word count result when calling the wordCount researcher", function() {
-		expect( researcher.getResearch( "wordCount" ) ).toEqual( 4 );
+	it( "returns a word count result when calling the wordCountInText researcher", function() {
+		expect( researcher.getResearch( "wordCountInText" ) ).toEqual( 4 );
 	});
 } );
 
@@ -75,8 +75,8 @@ describe( "Adding to a Researcher", function() {
 		var totalLength = currentDefaultsLength + currentCustomLength;
 
 		expect( Object.keys( researcher.getAvailableResearches() ).length ).toEqual( totalLength );
-		researcher.addResearch("wordCount", function() { return 9000; });
+		researcher.addResearch("wordCountInText", function() { return 9000; });
 		expect( Object.keys( researcher.getAvailableResearches() ).length ).toEqual( totalLength );
-		expect( researcher.getResearch( "wordCount" ) ).toEqual( 9000 )
+		expect( researcher.getResearch( "wordCountInText" ) ).toEqual( 9000 )
 	});
 } );

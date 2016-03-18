@@ -6,7 +6,6 @@ var stripHTMLTags = require( "../stringProcessing/stripHTMLTags.js" );
 var countSentences = require( "../stringProcessing/countSentences.js" );
 var countWords = require( "../stringProcessing/countWords.js" );
 var countSyllables = require( "../stringProcessing/countSyllables.js" );
-var Paper = require( "../values/Paper.js" );
 
 /**
  * This calculates the fleschreadingscore for a given text

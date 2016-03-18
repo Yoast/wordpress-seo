@@ -77,7 +77,7 @@ var defaults = {
  * @private
  * @this App
  *
- * @returns {SnippetPreview}
+ * @returns {SnippetPreview} The SnippetPreview object.
  */
 function createDefaultSnippetPreview() {
 	var targetElement = document.getElementById( this.config.targets.snippet );
@@ -94,8 +94,8 @@ function createDefaultSnippetPreview() {
 /**
  * Returns whether or not the given argument is a valid SnippetPreview object.
  *
- * @param {*} snippetPreview
- * @returns {boolean}
+ * @param   {*}         snippetPreview  The 'object' to check against.
+ * @returns {boolean}                   Whether or not it's a valid SnippetPreview object.
  */
 function isValidSnippetPreview( snippetPreview ) {
 	return !isUndefined( snippetPreview ) && SnippetPreview.prototype.isPrototypeOf( snippetPreview );
@@ -105,7 +105,8 @@ function isValidSnippetPreview( snippetPreview ) {
  * Check arguments passed to the App to check if all necessary arguments are set.
  *
  * @private
- * @param {Object} args The arguments object passed to the App.
+ * @param {Object}      args            The arguments object passed to the App.
+ * @returns {void}
  */
 function verifyArguments( args ) {
 
@@ -169,31 +170,25 @@ function verifyArguments( args ) {
 /**
  * Loader for the analyzer, loads the eventbinder and the elementdefiner
  *
- * @param {Object} args
+ * @param {Object} args The arguments oassed to the loader.
  * @param {Object} args.translations Jed compatible translations.
  * @param {Object} args.targets Targets to retrieve or set on.
  * @param {String} args.targets.snippet ID for the snippet preview element.
  * @param {String} args.targets.output ID for the element to put the output of the analyzer in.
- * @param {int} args.typeDelay Number of milliseconds to wait between typing to refresh the
- *        analyzer output.
- * @param {boolean} args.dynamicDelay Whether to enable dynamic delay, will ignore type delay if the
- *        analyzer takes a long time. Applicable on slow devices.
+ * @param {int} args.typeDelay Number of milliseconds to wait between typing to refresh the analyzer output.
+ * @param {boolean} args.dynamicDelay   Whether to enable dynamic delay, will ignore type delay if the analyzer takes a long time.
+ *                                      Applicable on slow devices.
  * @param {int} args.maxTypeDelay The maximum amount of type delay even if dynamic delay is on.
- * @param {int} args.typeDelayStep The amount with which to increase the typeDelay on each step when
- *        dynamic delay is enabled.
+ * @param {int} args.typeDelayStep The amount with which to increase the typeDelay on each step when dynamic delay is enabled.
  * @param {Object} args.callbacks The callbacks that the app requires.
  * @param {YoastSEO.App~getData} args.callbacks.getData Called to retrieve input data
- * @param {YoastSEO.App~getAnalyzerInput} args.callbacks.getAnalyzerInput Called to retrieve input
- *        for the analyzer.
- * @param {YoastSEO.App~bindElementEvents} args.callbacks.bindElementEvents Called to bind events to
- *        the DOM elements.
- * @param {YoastSEO.App~updateSnippetValues} args.callbacks.updateSnippetValues Called when the
- *        snippet values need to be updated.
- * @param {YoastSEO.App~saveScores} args.callbacks.saveScores Called when the score has been
- *        determined by the analyzer.
+ * @param {YoastSEO.App~getAnalyzerInput} args.callbacks.getAnalyzerInput Called to retrieve input for the analyzer.
+ * @param {YoastSEO.App~bindElementEvents} args.callbacks.bindElementEvents Called to bind events to the DOM elements.
+ * @param {YoastSEO.App~updateSnippetValues} args.callbacks.updateSnippetValues Called when the snippet values need to be updated.
+ * @param {YoastSEO.App~saveScores} args.callbacks.saveScores Called when the score has been determined by the analyzer.
  * @param {Function} args.callbacks.saveSnippetData Function called when the snippet data is changed.
  *
- * @param {SnippetPreview} args.snippetPreview
+ * @param {SnippetPreview} args.snippetPreview The SnippetPreview object to be used.
  *
  * @constructor
  */
@@ -236,8 +231,8 @@ var App = function( args ) {
 /**
  * Extend the config with defaults.
  *
- * @param {Object} args
- * @returns {Object} args
+ * @param   {Object}    args    The arguments to be extended.
+ * @returns {Object}    args    The extended arguments.
  */
 App.prototype.extendConfig = function( args ) {
 	args.sampleText = this.extendSampleText( args.sampleText );
@@ -250,8 +245,8 @@ App.prototype.extendConfig = function( args ) {
 /**
  * Extend sample text config with defaults.
  *
- * @param {Object} sampleText
- * @returns {Object} sampleText
+ * @param   {Object}    sampleText  The sample text to be extended.
+ * @returns {Object}    sampleText  The extended sample text.
  */
 App.prototype.extendSampleText = function( sampleText ) {
 	var defaultSampleText = defaults.sampleText;
@@ -272,7 +267,8 @@ App.prototype.extendSampleText = function( sampleText ) {
 /**
  * Initializes i18n object based on passed configuration
  *
- * @param {Object} translations
+ * @param {Object}  translations    The translations to be used in the current instance.
+ * @returns {void}
  */
 App.prototype.constructI18n = function( translations ) {
 	var defaultTranslations = {
@@ -292,6 +288,7 @@ App.prototype.constructI18n = function( translations ) {
 
 /**
  * Retrieves data from the callbacks.getData and applies modification to store these in this.rawData.
+ * @returns {void}
  */
 App.prototype.getData = function() {
 	this.rawData = this.callbacks.getData();
@@ -315,6 +312,7 @@ App.prototype.getData = function() {
 
 /**
  * Refreshes the analyzer and output of the analyzer
+ * @returns {void}
  */
 App.prototype.refresh = function() {
 	this.getData();
@@ -322,10 +320,11 @@ App.prototype.refresh = function() {
 };
 
 /**
- * creates the elements for the snippetPreview
+ * Creates the elements for the snippetPreview
  *
  * @deprecated Don't create a snippet preview using this method, create it directly using the prototype and pass it as
  * an argument instead.
+ * @returns {void}
  */
 App.prototype.createSnippetPreview = function() {
 	this.snippetPreview = createDefaultSnippetPreview.call( this );
@@ -334,6 +333,7 @@ App.prototype.createSnippetPreview = function() {
 
 /**
  * Initializes the snippet preview for this App.
+ * @returns {void}
  */
 App.prototype.initSnippetPreview = function() {
 	this.snippetPreview.renderTemplate();
@@ -344,6 +344,7 @@ App.prototype.initSnippetPreview = function() {
 
 /**
  * binds the analyzeTimer function to the input of the targetElement on the page.
+ * @returns {void}
  */
 App.prototype.bindInputEvent = function() {
 	for ( var i = 0; i < this.config.elementTarget.length; i++ ) {
@@ -354,6 +355,7 @@ App.prototype.bindInputEvent = function() {
 
 /**
  * runs the rerender function of the snippetPreview if that object is defined.
+ * @returns {void}
  */
 App.prototype.reloadSnippetText = function() {
 	if ( isUndefined( this.snippetPreview ) ) {
@@ -365,6 +367,7 @@ App.prototype.reloadSnippetText = function() {
  * the analyzeTimer calls the checkInputs function with a delay, so the function won't be executed
  * at every keystroke checks the reference object, so this function can be called from anywhere,
  * without problems with different scopes.
+ * @returns {void}
  */
 App.prototype.analyzeTimer = function() {
 	clearTimeout( window.timer );
@@ -373,6 +376,7 @@ App.prototype.analyzeTimer = function() {
 
 /**
  * sets the startTime timestamp
+ * @returns {void}
  */
 App.prototype.startTime = function() {
 	this.startTimestamp = new Date().getTime();
@@ -380,6 +384,7 @@ App.prototype.startTime = function() {
 
 /**
  * sets the endTime timestamp and compares with startTime to determine typeDelayincrease.
+ * @returns {void}
  */
 App.prototype.endTime = function() {
 	this.endTimestamp = new Date().getTime();
@@ -393,6 +398,7 @@ App.prototype.endTime = function() {
 /**
  * inits a new pageAnalyzer with the inputs from the getInput function and calls the scoreFormatter
  * to format outputs.
+ * @returns {void}
  */
 App.prototype.runAnalyzer = function() {
 	if ( this.pluggable.loaded === false ) {
@@ -460,8 +466,8 @@ App.prototype.runAnalyzer = function() {
 
 /**
  * Modifies the data with plugins before it is sent to the analyzer.
- * @param data
- * @returns {*}
+ * @param   {Object}  data      The data to be modified.
+ * @returns {Object}            The data with the applied modifications.
  */
 App.prototype.modifyData = function( data ) {
 
@@ -476,6 +482,7 @@ App.prototype.modifyData = function( data ) {
 
 /**
  * Function to fire the analyzer when all plugins are loaded, removes the loading dialog.
+ * @returns {void}
  */
 App.prototype.pluginsLoaded = function() {
 	this.getData();
@@ -485,6 +492,7 @@ App.prototype.pluginsLoaded = function() {
 
 /**
  * Shows the loading dialog which shows the loading of the plugins.
+ * @returns {void}
  */
 App.prototype.showLoadingDialog = function() {
 	var dialogDiv = document.createElement( "div" );
@@ -495,7 +503,8 @@ App.prototype.showLoadingDialog = function() {
 
 /**
  * Updates the loading plugins. Uses the plugins as arguments to show which plugins are loading
- * @param plugins
+ * @param   {Object}  plugins   The plugins to be parsed into the dialog.
+ * @returns {void}
  */
 App.prototype.updateLoadingDialog = function( plugins ) {
 	var dialog = document.getElementById( "YoastSEO-plugin-loading" );
@@ -508,20 +517,22 @@ App.prototype.updateLoadingDialog = function( plugins ) {
 };
 
 /**
- * removes the pluging load dialog.
+ * Removes the pluging load dialog.
+ * @returns {void}
  */
 App.prototype.removeLoadingDialog = function() {
 	document.getElementById( this.config.targets.output ).removeChild( document.getElementById( "YoastSEO-plugin-loading" ) );
 };
 
-/**************** PLUGGABLE PUBLIC DSL ****************/
+// ***** PLUGGABLE PUBLIC DSL ***** //
 
 /**
  * Delegates to `YoastSEO.app.pluggable.registerPlugin`
  *
- * @param pluginName	{string}
- * @param options 		{{status: "ready"|"loading"}}
- * @returns 			{boolean}
+ * @param {string}  pluginName      The name of the plugin to be registered.
+ * @param {object}  options         The options object.
+ * @param {string}  options.status  The status of the plugin being registered. Can either be "loading" or "ready".
+ * @returns {boolean}               Whether or not it was successfully registered.
  */
 App.prototype.registerPlugin = function( pluginName, options ) {
 	return this.pluggable._registerPlugin( pluginName, options );
@@ -530,8 +541,8 @@ App.prototype.registerPlugin = function( pluginName, options ) {
 /**
  * Delegates to `YoastSEO.app.pluggable.ready`
  *
- * @param pluginName	{string}
- * @returns 			{boolean}
+ * @param {string}  pluginName  The name of the plugin to check.
+ * @returns {boolean}           Whether or not the plugin is ready.
  */
 App.prototype.pluginReady = function( pluginName ) {
 	return this.pluggable._ready( pluginName );
@@ -540,8 +551,8 @@ App.prototype.pluginReady = function( pluginName ) {
 /**
  * Delegates to `YoastSEO.app.pluggable.reloaded`
  *
- * @param pluginName	{string}
- * @returns 			{boolean}
+ * @param {string} pluginName   The name of the plugin to reload
+ * @returns {boolean}           Whether or not the plugin was reloaded.
  */
 App.prototype.pluginReloaded = function( pluginName ) {
 	return this.pluggable._reloaded( pluginName );
@@ -550,12 +561,13 @@ App.prototype.pluginReloaded = function( pluginName ) {
 /**
  * Delegates to `YoastSEO.app.pluggable.registerModification`
  *
- * @param modification 	{string} 	The name of the filter
- * @param callable 		{function} 	The callable
- * @param pluginName 	{string} 	The plugin that is registering the modification.
- * @param priority 		{number} 	(optional) Used to specify the order in which the callables associated with a particular filter are called.
- * 									Lower numbers correspond with earlier execution.
- * @returns 			{boolean}
+ * @param {string}      modification 		The name of the filter
+ * @param {function}    callable 		 	The callable function
+ * @param {string}      pluginName 		    The plugin that is registering the modification.
+ * @param {number}      priority 		 	(optional) Used to specify the order in which the callables associated with a particular filter are
+                                            called.
+ * 									        Lower numbers correspond with earlier execution.
+ * @returns 			{boolean}           Whether or not the modification was successfully registered.
  */
 App.prototype.registerModification = function( modification, callable, pluginName, priority ) {
 	return this.pluggable._registerModification( modification, callable, pluginName, priority );
@@ -579,7 +591,7 @@ App.prototype.registerModification = function( modification, callable, pluginNam
  * @param {string}   pluginName The plugin that is registering the test.
  * @param {number}   priority   (optional) Determines when this test is run in the analyzer queue. Is currently ignored,
  *                              tests are added to the end of the queue.
- * @returns {boolean}
+ * @returns {boolean}           Whether or not the test was successfully registered.
  */
 App.prototype.registerTest = function( name, analysis, scoring, pluginName, priority ) {
 	return this.pluggable._registerTest( name, analysis, scoring, pluginName, priority );

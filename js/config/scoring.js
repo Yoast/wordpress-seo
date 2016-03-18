@@ -61,6 +61,7 @@ var AnalyzerScoring = function( i18n ) {
             ]
         },
         {
+
             scoreName: "linkCount",
             scoreArray: [
                 {
