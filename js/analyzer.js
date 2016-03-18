@@ -1,7 +1,7 @@
 /* global YoastSEO: true */
 YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 
-var calculateFleschReading = require( "./analyses/calculateFleschReading.js" );
+var calculateFleschReading = require( "./researches/calculateFleschReading.js" );
 var checkStringForStopwords = require( "./analyses/checkStringForStopwords.js" );
 var checkUrlForStopwords = require( "./analyses/checkUrlForStopwords.js" );
 var checkForKeywordInUrl = require( "./analyses/countKeywordInUrl.js" );

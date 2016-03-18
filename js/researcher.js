@@ -8,7 +8,7 @@ var isEmpty = require( "lodash/lang/isEmpty" );
 // assessments
 var wordCountInText = require( "./researches/wordCountInText.js" );
 var getLinkStatistics = require( "./analyses/getLinkStatistics.js" );
-var calculateFleschReading = require( "./analyses/calculateFleschReading" );
+var calculateFleschReading = require( "./researches/calculateFleschReading" );
 
 /**
  * This contains all possible, default researches.
