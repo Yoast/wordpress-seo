@@ -94,7 +94,11 @@ var fleschReadingAssessment = function( paper, researcher, i18n ) {
 
 	text = i18n.sprintf( text, fleschReadingScore, url, fleschReadingResult.resultText, fleschReadingResult.note );
 
-	return new AssessmentResult( fleschReadingResult.score, text );
+	var assessmentResult =  new AssessmentResult();
+	assessmentResult.setScore( fleschReadingResult.score );
+	assessmentResult.setText( text );
+
+	return assessmentResult;
 };
 
 module.exports = fleschReadingAssessment;
