@@ -1,28 +1,49 @@
 var linkCount = require( "../../js/analyses/getLinkStatistics.js" );
+var Paper = require( "../../js/values/Paper.js" );
 var foundLinks;
 
 describe("Tests a string for anchors and analyzes these", function(){
 	it("returns an object with all linktypes found", function(){
-		foundLinks = linkCount( "string <a href='http://yoast.com'>link</a>", "test", "http://yoast.com");
+		var attributes = {
+			keyword: "test",
+			url: "http://yoast.com"
+		};
+		var mockPaper = new Paper("string <a href='http://yoast.com'>link</a>", attributes );
+
+		foundLinks = linkCount( mockPaper );
 		expect( foundLinks.total ).toBe( 1 );
 		expect( foundLinks.internalTotal ).toBe( 1 );
 		expect( foundLinks.externalTotal ).toBe( 0 );
 		expect( foundLinks.totalKeyword ).toBe( 0 );
 
-		foundLinks = linkCount( "string <a href='http://yoast.com'>link</a>, <a href='http://example.com'>link</a>", "link", "http://yoast.com");
+		attributes = {
+			keyword: "link",
+			url: "http://yoast.com"
+		};
+
+		mockPaper = new Paper("string <a href='http://yoast.com'>link</a>, <a href='http://example.com'>link</a>", attributes );
+		foundLinks = linkCount( mockPaper );
 		expect( foundLinks.total ).toBe( 2 );
 		expect( foundLinks.internalTotal ).toBe( 1 );
 		expect( foundLinks.externalTotal ).toBe( 1 );
 		expect( foundLinks.totalKeyword ).toBe( 2 );
 
-		foundLinks = linkCount( "string <a href='ftp://yoast.com'>link</a>, <a href='http://example.com' rel='nofollow'>link</a>", "link", "http://yoast.com");
+
+		mockPaper = new Paper( "string <a href='ftp://yoast.com'>link</a>, <a href='http://example.com' rel='nofollow'>link</a>", attributes );
+		foundLinks = linkCount( mockPaper );
 		expect( foundLinks.total ).toBe( 2 );
 		expect( foundLinks.otherTotal ).toBe( 1 );
 		expect( foundLinks.externalNofollow ).toBe( 1 );
 	});
 
 	it( "should return all special types", function() {
-		foundLinks = linkCount( "hello", "keyword", "http://example.org" );
+		var attributes = {
+			keyword: "keyword",
+			url: "http://example.org"
+		};
+		var mockPaper = new Paper( "hello", attributes );
+
+		foundLinks = linkCount( mockPaper );
 		expect( foundLinks ).toEqual({
 			total: 0,
 			totalNaKeyword: 0,
@@ -38,8 +59,7 @@ describe("Tests a string for anchors and analyzes these", function(){
 			otherNofollow: 0
 		});
 
-		foundLinks = linkCount(
-			"<a href='http://example.org/test123'>test123</a>" +
+		mockPaper = new Paper("<a href='http://example.org/test123'>test123</a>" +
 			"<a href='http://example.org/test123' rel='nofollow'>test123</a>" +
 			"<a href='http://example.org/test123'>keyword</a>" +
 			"<a href='http://yoast.com' rel='nofollow'>test123</a>" +
@@ -49,10 +69,8 @@ describe("Tests a string for anchors and analyzes these", function(){
 			"<a href='#bar' rel='nofollow'>bar</a>'" +
 			"" +
 			"" +
-			"",
-			"keyword",
-			"http://example.org"
-		);
+			"", attributes );
+		foundLinks = linkCount( mockPaper );
 		expect( foundLinks ).toEqual({
 			total: 8,
 			totalNaKeyword: 0,

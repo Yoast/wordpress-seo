@@ -5,8 +5,10 @@ var MissingArgument = require( "./errors/missingArgument" );
 var isUndefined = require( "lodash/lang/isUndefined" );
 var isEmpty = require( "lodash/lang/isEmpty" );
 
+// assessments
 var wordCountInText = require( "./researches/wordCountInText.js" );
 var findKeywordInPageTitle = require( "./analyses/findKeywordInPageTitle.js" );
+var getLinkStatistics = require( "./analyses/getLinkStatistics.js" );
 
 /**
  * This contains all possible, default researches.
@@ -19,7 +21,8 @@ var Researcher = function( paper ) {
 
 	this.defaultResearches = {
 		"wordCountInText": wordCountInText,
-		"findKeywordInPageTitle": findKeywordInPageTitle
+		"findKeywordInPageTitle": findKeywordInPageTitle,
+		"getLinkStatistics": getLinkStatistics
 	};
 
 	this.customResearches = {};
