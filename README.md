@@ -5,8 +5,6 @@
 
 # YoastSEO.js
 
-[Examples][/examples]
-
 Text analysis and assessment library in JavaScript. This library can generate interesting metrics about a text and assess these metrics to give you an assessment which can be used to improve the text.
 
 Also included is a preview of the Google search results which can be assessed using the library.
@@ -73,7 +71,7 @@ Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recen
 
 ## Documentation
 
-[Customization][./docs/Customization.md]
+[Customization](./docs/Customization.md)
 
 ## Testing
 
@@ -93,8 +91,8 @@ If you discover any security related issues, please email security@yoast.com ins
 
 ## Credits
 
-- [Team Yoast][https://github.com/orgs/Yoast/people]
-- [All Contributors][https://github.com/Yoast/YoastSEO.js/graphs/contributors]
+- [Team Yoast](https://github.com/orgs/Yoast/people)
+- [All Contributors](https://github.com/Yoast/YoastSEO.js/graphs/contributors)
 
 ## License
 
