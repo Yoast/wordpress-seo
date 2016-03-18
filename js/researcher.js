@@ -6,7 +6,6 @@ var isUndefined = require( "lodash/lang/isUndefined" );
 var isEmpty = require( "lodash/lang/isEmpty" );
 
 // assessments
-var calculateFleschReading = require( "./analyses/calculateFleschReading" );
 var wordCountInText = require( "./researches/wordCountInText.js" );
 var getLinkStatistics = require( "./analyses/getLinkStatistics.js" );
 var calculateFleschReading = require( "./analyses/calculateFleschReading" );
@@ -21,7 +20,6 @@ var Researcher = function( paper ) {
 	this.setPaper( paper );
 
 	this.defaultResearches = {
-		"calculateFleschReading": calculateFleschReading,
 		"wordCountInText": wordCountInText,
 		"calculateFleschReading": calculateFleschReading,
 		"getLinkStatistics": getLinkStatistics
