@@ -7,7 +7,7 @@ var checkUrlForStopwords = require( "./analyses/checkUrlForStopwords.js" );
 var checkForKeywordInUrl = require( "./analyses/countKeywordInUrl.js" );
 var checkForKeywordDoubles = require( "./analyses/checkForKeywordDoubles.js" );
 var findKeywordInFirstParagraph = require( "./analyses/findKeywordInFirstParagraph.js" );
-var findKeywordInPageTitle = require( "./analyses/findKeywordInPageTitle.js" );
+var findKeywordInPageTitle = require( "./researches/findKeywordInPageTitle.js" );
 var getKeywordDensity = require( "./analyses/getKeywordDensity.js" );
 var countImages = require( "./analyses/getImageStatistics.js" );
 var countLinks = require( "./researches/getLinkStatistics.js" );
@@ -344,7 +344,7 @@ Analyzer.prototype.pageTitleLength = function() {
 Analyzer.prototype.pageTitleKeyword = function() {
 	var result = [ { test: "pageTitleKeyword", result: { position: -1, matches: 0 } } ];
 	if ( typeof this.paper.hasTitle() && this.paper.hasKeyword() ) {
-		result[0].result = findKeywordInPageTitle( this.paper.getTitle(), this.paper.getKeyword() );
+		result[0].result = findKeywordInPageTitle( this.paper );
 	}
 	return result;
 };

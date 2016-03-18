@@ -1,4 +1,4 @@
-var pageTitleKeyword = require( "../../js/analyses/findKeywordInPageTitle.js" );
+var pageTitleKeyword = require( "../../js/researches/findKeywordInPageTitle.js" );
 var Paper = require( "../../js/values/Paper.js" );
 var result;
 
