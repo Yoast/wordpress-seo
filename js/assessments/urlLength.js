@@ -13,7 +13,10 @@ var urlLengthAssessment = function( paper, researcher, i18n ) {
 	if ( urlIsTooLong ) {
 		var score = 5;
 		var text = i18n.dgettext( "js-text-analysis", "The slug for this page is a bit long, consider shortening it." );
-		return new AssessmentResult( score, text );
+		var assessmentResult = new AssessmentResult();
+		assessmentResult.setScore( score );
+		assessmentResult.setText( text );
+		return assessmentResult;
 	}
 };
 

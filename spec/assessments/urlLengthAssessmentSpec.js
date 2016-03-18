@@ -5,7 +5,7 @@ var factory = require( "../helpers/factory.js" );
 var i18n = factory.buildJed();
 
 describe( "An assessment for the urlLengthAssessment", function(){
-    it( "runs the fleschReading on the paper", function(){
+    it( "runs the url length assessment on the paper", function(){
         var paper = new Paper();
         var result = urlLengthAssessment( paper, Factory.buildMockResearcher( true ), i18n );
 
