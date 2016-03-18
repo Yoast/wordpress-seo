@@ -6,6 +6,7 @@ var isUndefined = require( "lodash/lang/isUndefined" );
 var isEmpty = require( "lodash/lang/isEmpty" );
 
 var wordCountInText = require( "./researches/wordCountInText.js" );
+var findKeywordInPageTitle = require( "./analyses/findKeywordInPageTitle.js" );
 
 /**
  * This contains all possible, default researches.
@@ -17,7 +18,8 @@ var Researcher = function( paper ) {
 	this.setPaper( paper );
 
 	this.defaultResearches = {
-		"wordCountInText": wordCountInText
+		"wordCountInText": wordCountInText,
+		"findKeywordInPageTitle": findKeywordInPageTitle
 	};
 
 	this.customResearches = {};
