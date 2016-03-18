@@ -112,6 +112,7 @@ var AnalyzerScoring = function( i18n ) {
                 { name: "dofollow", position: "%3$s", sourceObj: ".result.externalDofollow" }
             ]
         },
+
         {
             scoreName: "metaDescriptionLength",
             metaMinLength: 120,
