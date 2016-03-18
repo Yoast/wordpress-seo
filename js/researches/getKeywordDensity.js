@@ -7,12 +7,13 @@ var Paper = require( "../values/Paper.js" );
 /**
  * Calculates the keyword density .
  *
- * @param {string} text The text to count the keywords in.
- * @param {string} keyword The keyword to match.
- * @returns {number} The keyword density.
+ * @param {object} paper The paper containing keyword and text.
+  * @returns {number} The keyword density.
  */
-module.exports = function( text, keyword ) {
-	var wordCount = countWords( new Paper( text ).getText() );
+module.exports = function( paper ) {
+	var keyword = paper.getKeyword();
+	var text = paper.getText();
+	var wordCount = countWords( text );
 	var keywordCount = matchWords ( text, keyword );
 	var keywordDensity = ( keywordCount / wordCount ) * 100;
 	return keywordDensity.toFixed( 1 );

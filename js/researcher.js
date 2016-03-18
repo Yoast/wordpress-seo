@@ -9,6 +9,7 @@ var isEmpty = require( "lodash/lang/isEmpty" );
 var wordCountInText = require( "./researches/wordCountInText.js" );
 var getLinkStatistics = require( "./analyses/getLinkStatistics.js" );
 var calculateFleschReading = require( "./researches/calculateFleschReading" );
+var getKeywordDensity = require( "./researches/getKeywordDensity.js" );
 
 /**
  * This contains all possible, default researches.
@@ -22,7 +23,8 @@ var Researcher = function( paper ) {
 	this.defaultResearches = {
 		"wordCountInText": wordCountInText,
 		"calculateFleschReading": calculateFleschReading,
-		"getLinkStatistics": getLinkStatistics
+		"getLinkStatistics": getLinkStatistics,
+		"getKeywordDensity": getKeywordDensity
 	};
 
 	this.customResearches = {};
