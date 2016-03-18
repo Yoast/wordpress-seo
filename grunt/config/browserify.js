@@ -6,7 +6,7 @@ module.exports = {
 	},
 	example: {
 		files: {
-			'examples/browserified/example-browserified.js': ['examples/browserified/example.js']
+			"examples/browserified/example-browserified.js": [ "examples/browserified/example.js" ]
 		}
 	}
 };
