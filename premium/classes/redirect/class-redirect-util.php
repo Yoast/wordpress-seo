@@ -10,7 +10,7 @@ class WPSEO_Redirect_Util {
 	/**
 	 * @var bool
 	 */
-	protected static $has_permalink_trailing_slash = null;
+	public static $has_permalink_trailing_slash = null;
 
 	/**
 	 * Returns whether or not a URL is a relative URL.
@@ -37,5 +37,30 @@ class WPSEO_Redirect_Util {
 		}
 
 		return self::$has_permalink_trailing_slash;
+	}
+
+	/**
+	 * Returns whether or not the url has query variables
+	 *
+	 * @param string $url The URL.
+	 * @return bool
+	 */
+	public static function has_query_parameters( $url ) {
+		return false !== strpos( $url, '?' );
+	}
+
+	/**
+	 * Returns whether or not a target url requires a trailing slash
+	 *
+	 * @param string $target_url The target URL to check.
+	 *
+	 * @return bool
+	 */
+	public static function requires_trailing_slash( $target_url ) {
+		return
+			'/' !== $target_url &&
+			self::has_permalink_trailing_slash() &&
+			WPSEO_Redirect_Util::is_relative_url( $target_url ) &&
+			! WPSEO_Redirect_Util::has_query_parameters( $target_url );
 	}
 }

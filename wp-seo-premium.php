@@ -41,6 +41,7 @@ $wpseo_premium_dir = plugin_dir_path( WPSEO_FILE ) . 'premium/';
 
 // Run the redirects when frontend is being opened.
 if ( ! is_admin() ) {
+	require_once( $wpseo_premium_dir . 'classes/redirect/class-redirect-util.php' );
 	require_once( $wpseo_premium_dir . 'classes/redirect/class-redirect-handler.php' );
 
 	new WPSEO_Redirect_Handler();
