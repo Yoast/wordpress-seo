@@ -118,29 +118,6 @@ var AnalyzerScoring = function( i18n ) {
                 { min: 1, score: 9, text: i18n.dgettext( "js-text-analysis", "The focus keyword appears in the first paragraph of the copy." ) }
             ]
         }, {
-            scoreName: "stopwordKeywordCount",
-            scoreArray: [
-                {
-                    matcher: "count",
-                    min: 1,
-                    /* translators: %1$s opens a link to a Yoast article about stop words, %2$s closes the link */
-                    text: i18n.dgettext( "js-text-analysis", "Your focus keyword contains one or more stop words. This may or may not be wise depending on the circumstances. Read %1$sthis article%2$s for more info." )
-                },
-                { matcher: "count", max: 0, score: 0, text: "" }
-            ],
-            replaceArray: [
-                {
-                    name: "urlOpen",
-                    position: "%1$s",
-                    value: "<a href='https://yoast.com/handling-stopwords/' target='new'>"
-                },
-                {
-                    name: "urlClose",
-                    position: "%2$s",
-                    value: "</a>"
-                }
-            ]
-        }, {
             scoreName: "subHeadings",
             scoreArray: [
                 { matcher: "count", max: 0, score: 7, text: i18n.dgettext( "js-text-analysis", "No subheading tags (like an H2) appear in the copy." ) },
@@ -238,30 +215,7 @@ var AnalyzerScoring = function( i18n ) {
             scoreArray: [
                 {type: "urlTooLong", score: 5, text: i18n.dgettext( "js-text-analysis", "The slug for this page is a bit long, consider shortening it." ) }
             ]
-        }, {
-            scoreName: "urlStopwords",
-            scoreArray: [
-                {
-                    min: 1,
-                    score: 5,
-					/* translators: %1$s opens a link to a wikipedia article about stop words, %2$s closes the link */
-                    text: i18n.dgettext( "js-text-analysis", "The slug for this page contains one or more %1$sstop words%2$s, consider removing them." )
-                }
-			],
-			replaceArray: [
-				{
-					name: "url",
-					position: "%1$s",
-					/* translators: this link is referred to in the content analysis when a slug contains one or more stop words */
-					value: "<a href='" + i18n.dgettext( "js-text-analysis", "http://en.wikipedia.org/wiki/Stop_words" ) + "' target='new'>"
-				},
-                {
-                    name: "urlClose",
-                    position: "%2$s",
-                    value: "</a>"
-                }
-			]
-        }, {
+        },  {
             scoreName: "imageCount",
             scoreArray: [
                 {

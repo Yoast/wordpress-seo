@@ -7,10 +7,13 @@ var analyzerScoreRating = require( "./config/scoring.js" ).analyzerScoreRating;
 
 var isUndefined = require( "lodash/lang/isUndefined" );
 
-var assessments = {};
-assessments.wordCount = require( "./assessments/countWords.js" );
-assessments.fleschReading = require( "./assessments/calculateFleschReading.js" );
-assessments.linkCount = require( "./assessments/getLinkStatistics.js" );
+var assessments = {
+	wordCount: require( "./assessments/countWords.js" ),
+	fleschReading: require( "./assessments/calculateFleschReading.js" ),
+	linkCount: require( "./assessments/getLinkStatistics.js" ),
+	stopwordKeywordCount: require( "./assessments/stopWordsInKeyword.js" ),
+	urlStopwords: require( "./assessments/stopWordsInUrl.js" )
+};
 
 /**
  * inits the analyzerscorer used for scoring of the output from the textanalyzer
