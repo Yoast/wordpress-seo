@@ -1,7 +1,7 @@
 /* global YoastSEO: true */
 YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 
-var calculateFleschReading = require( "./analyses/calculateFleschReading.js" );
+var calculateFleschReading = require( "./researches/calculateFleschReading.js" );
 var checkStringForStopwords = require( "./analyses/checkStringForStopwords.js" );
 var checkUrlForStopwords = require( "./analyses/checkUrlForStopwords.js" );
 var checkForKeywordInUrl = require( "./analyses/countKeywordInUrl.js" );
@@ -266,7 +266,7 @@ Analyzer.prototype.stopwords = function() {
  * @returns {result object}
  */
 Analyzer.prototype.fleschReading = function() {
-	var score = calculateFleschReading( this.paper.getText() );
+	var score = calculateFleschReading( this.paper );
 
 	if ( score < 0 ) {
 		score = 0;
