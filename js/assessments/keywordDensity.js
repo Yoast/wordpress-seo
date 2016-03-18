@@ -2,39 +2,38 @@ var AssessmentResult = require( "../values/AssessmentResult.js" );
 var matchWords = require( "../stringProcessing/matchTextWithWord.js" );
 var inRange = require( "lodash/number/inRange" );
 
-
 /**
  * Returns the scores and text for keyworddensity
  * @param {string} keywordDensity The keyworddensity
  * @param {object} i18n The i18n object used for translations
- * @param {int} keywordCount The number of occurrences of the keyword
- * @returns {{score: number, text: *}}
+ * @returns {{score: number, text: *}} the assessmentresult
  */
-var calculateKeywordDensityResult = function( keywordDensity, i18n, keywordCount ){
-	if( keywordDensity > 3.5 ){
-		return{
+var calculateKeywordDensityResult = function( keywordDensity, i18n ) {
+	if ( keywordDensity > 3.5 ) {
+		return {
 			score: -50,
-			text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "The keyword density is %1$f%, which is way over the advised 2.5% maximum; the focus keyword was found %2$d times." ),
-				keywordDensity, keywordCount )
-		}
+			text: i18n.dgettext( "js-text-analysis", "The keyword density is %1$f%%, which is way over the advised 2.5%% maximum;" +
+				" the focus keyword was found %2$d times." )
+		};
 	}
 	if ( inRange( keywordDensity, 2.5, 3.5 ) ) {
-		return{
+		return {
 			score: -10,
-			text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "The keyword density is %1$f%, which is over the advised 2.5% maximum; the focus keyword was found %2$d times." ), keywordDensity, keywordCount );
-		}
+			text: i18n.dgettext( "js-text-analysis", "The keyword density is %1$f%%, which is over the advised 2.5%% maximum;" +
+				" the focus keyword was found %2$d times." )
+		};
 	}
 	if ( inRange( keywordDensity, 0.5, 2.5 ) ) {
 		return {
 			score: 9,
-			text: i18n.sprintf(i18n.dgettext("js-text-analysis", "The keyword density is %1$f%, which is great; the focus keyword was found %2$d times." ), keywordDensity, keywordCount);
-		}
+			text: i18n.dgettext( "js-text-analysis", "The keyword density is %1$f%%, which is great; the focus keyword was found %2$d times." )
+		};
 	}
 	if ( inRange( keywordDensity, 0, 0.5 ) ) {
 		return {
 			score: 4,
-			text: i18n.sprintf(i18n.dgettext("js-text-analysis", "The keyword density is %1$f%, which is a bit low; the focus keyword was found %2$d times." ), keywordDensity, keywordCount);
-		}
+			text: i18n.dgettext( "js-text-analysis", "The keyword density is %1$f%%, which is a bit low; the focus keyword was found %2$d times." )
+		};
 	}
 };
 
@@ -54,10 +53,12 @@ var getKeyworDensityAssessment = function( paper,  researcher, i18n ) {
 
 	var assessmentResult = new AssessmentResult();
 
+	var text = i18n.sprintf( keywordDensityResult.text, keywordDensity, keywordCount );
+
 	assessmentResult.setScore( keywordDensityResult.score );
-	assessmentResult.setText( keywordDensityResult.text );
+	assessmentResult.setText( text );
 
 	return assessmentResult;
 };
 
-module.exports = getLinkStatisticsAssessment;
+module.exports = getKeyworDensityAssessment;

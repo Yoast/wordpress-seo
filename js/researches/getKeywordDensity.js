@@ -2,7 +2,6 @@
 
 var countWords = require( "../stringProcessing/countWords.js" );
 var matchWords = require( "../stringProcessing/matchTextWithWord.js" );
-var Paper = require( "../values/Paper.js" );
 
 /**
  * Calculates the keyword density .
