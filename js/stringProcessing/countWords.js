@@ -6,13 +6,11 @@ var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
 /**
  * Calculates the wordcount of a certain text.
  *
- * @param {Paper} paper The paper to use for the word count.
+ * @param {string} text The text to be counted.
  * @returns {int} The word count of the given text.
  */
-module.exports = function( paper ) {
-
-	var text = stripTags( paper.getText() );
-	text = stripSpaces( text );
+module.exports = function( text ) {
+	text = stripSpaces( stripTags( text ) );
 	if ( text === "" ) {
 		return 0;
 	}

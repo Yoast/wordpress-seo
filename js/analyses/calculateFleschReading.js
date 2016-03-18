@@ -23,7 +23,7 @@ module.exports = function( text ) {
 
 	text = cleanText ( text );
 	text = stripHTMLTags( text );
-	var wordCount = countWords( new Paper( text )  );
+	var wordCount = countWords( new Paper( text ).getText() );
 
 	text = stripNumbers ( text );
 	var sentenceCount = countSentences( text );

@@ -1,14 +1,14 @@
 var Paper = require( "./values/Paper.js" );
 var merge = require( "lodash/object/merge" );
-var urlLength = require( "./analyses/isUrlTooLong.js" );
 var InvalidTypeError = require( "./errors/invalidType" );
 var MissingArgument = require( "./errors/missingArgument" );
 var isUndefined = require( "lodash/lang/isUndefined" );
 var isEmpty = require( "lodash/lang/isEmpty" );
 
 // assessments
-var wordCount = require( "./stringProcessing/countWords.js" );
+var wordCountInText = require( "./researches/wordCountInText.js" );
 var getLinkStatistics = require( "./analyses/getLinkStatistics.js" );
+var urlLength = require( "./analyses/isUrlTooLong.js" );
 
 /**
  * This contains all possible, default researches.
@@ -20,8 +20,8 @@ var Researcher = function( paper ) {
 	this.setPaper( paper );
 
 	this.defaultResearches = {
-		"wordCount": wordCount,
 		"urlLength": urlLength,
+		"wordCountInText": wordCountInText,
 		"getLinkStatistics": getLinkStatistics
 	};
 
