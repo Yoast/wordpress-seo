@@ -3,10 +3,31 @@
 # Build everything
 build:
   - 'build:css'
+  - 'build:jst'
+  - 'build:js'
+#  - 'build:translations'
+# Precompile JavaScript templates
+'build:jst':
+  - 'lodash:templates'
+# Build JavaScript from assets to production
+'build:js':
+  - 'browserify'
+  - 'uglify'
 # Build CSS
 'build:css':
+  - 'copy'
   - 'sass:build'
   - 'postcss:build'
+'build:translations':
+  - 'shell:makepot'
+# Check health of the project
+check:
+  - 'eslint'
+  - 'jshint'
+  - 'jsonlint'
+  - 'jsvalidate'
+  - 'jscs'
 # Default task
 default:
+  - check
   - build
