@@ -18,7 +18,12 @@ var pageTitleKeywordAssessment = function( paper, researcher, i18n ) {
 		score = 6;
 		text = i18n.dgettext( "js-text-analysis", "The page title contains the focus keyword, but it does not appear at the beginning; try and move it to the beginning.");
 	}
-	return new AssessmentResult( score, text );
+	var assessmentResult = new AssessmentResult();
+
+	assessmentResult.setScore( score );
+	assessmentResult.setText( text );
+
+	return assessmentResult;
 };
 
 module.exports = pageTitleKeywordAssessment;

@@ -11,6 +11,32 @@ describe( "an assessment to check if the keyword is in the pageTitle", function(
 		} );
 		var assessment = pageTitleKeywordAssessment( paper, Factory.buildMockResearcher( {matches: 0} ), i18n );
 
-		expect( assessment.score).toBe(2);
-	} )
+		expect( assessment.getScore() ).toBe(2);
+		expect( assessment.getText() ).toBe( "The focus keyword 'keyword' does not appear in the page title.");
+
+	} );
+
+	it( "returns an assementresult with keyword found at start", function(){
+		var paper = new Paper( "", {
+			keyword: "keyword",
+			title: "keyword this is a title"
+		} );
+		var assessment = pageTitleKeywordAssessment( paper, Factory.buildMockResearcher( {matches: 1, position: 1} ), i18n );
+
+		expect( assessment.getScore() ).toBe(9);
+		expect( assessment.getText() ).toBe( "The page title contains the focus keyword, at the beginning which is considered to improve rankings." );
+
+	} );
+
+	it( "returns an assementresult with keyword found at start", function(){
+		var paper = new Paper( "", {
+			keyword: "keyword",
+			title: "keyword this is a title"
+		} );
+		var assessment = pageTitleKeywordAssessment( paper, Factory.buildMockResearcher( {matches: 1, position: 2} ), i18n );
+
+		expect( assessment.getScore() ).toBe(6);
+		expect( assessment.getText() ).toBe( "The page title contains the focus keyword, but it does not appear at the beginning; try and move it to the beginning." );
+
+	} );
 } );
