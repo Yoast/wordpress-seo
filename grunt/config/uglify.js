@@ -9,8 +9,8 @@ module.exports = {
 			"dist/yoast-seo.min.js": [
 				"dist/yoast-seo.js"
 			],
-			"example/example-scraper.min.js": [
-				"example/example-scraper.js"
+			"example/standalone/example-scraper.min.js": [
+				"examples/standalone/example-scraper.js"
 			]
 		}
 	}

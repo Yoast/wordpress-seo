@@ -21,42 +21,6 @@ var AnalyzerScoring = function( i18n ) {
 			]
 		},
         {
-            scoreName: "metaDescriptionLength",
-            metaMinLength: 120,
-            metaMaxLength: 157,
-            scoreArray: [
-                {
-                    max: 0,
-                    score: 1,
-                    text: i18n.dgettext( "js-text-analysis", "No meta description has been specified, search engines will display copy from the page instead.")
-                },
-                {
-                    max: 120,
-                    score: 6,
-
-                    /* translators: %1$d expands to the minimum length for the meta description, %2$d to the maximum length for the meta description */
-                    text: i18n.dgettext( "js-text-analysis", "The meta description is under %1$d characters, however up to %2$d characters are available.")
-                },
-                {
-                    min: 157,
-                    score: 6,
-
-                    /* translators: %2$d expands to the maximum length for the meta description */
-                    text: i18n.dgettext( "js-text-analysis", "The specified meta description is over %2$d characters. Reducing it will ensure the entire description is visible")
-                },
-                {
-                    min: 120,
-                    max: 157,
-                    score: 9,
-                    text: i18n.dgettext( "js-text-analysis", "In the specified meta description, consider: How does it compare to the competition? Could it be made more appealing?")
-                }
-            ],
-            replaceArray: [
-                { name: "minCharacters", position: "%1$d", value: 120 },
-                { name: "maxCharacters", position: "%2$d", value: 156 }
-            ]
-        },
-        {
             scoreName: "metaDescriptionKeyword",
             scoreArray: [
                 { min: 1, score: 9, text: i18n.dgettext( "js-text-analysis", "The meta description contains the focus keyword." ) },
