@@ -5,7 +5,7 @@
   "private": true,
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "istanbul test jasmine"
   },
   "repository": {
     "type": "git",
@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/Yoast/yoast-social-previews#readme",
   "dependencies": {
+    "jed": "^1.1.0",
+    "lodash": "^3.10.1",
     "yoastseo": "github:yoast/YoastSEO.js#develop"
   },
   "devDependencies": {
@@ -45,10 +47,5 @@
     "lodash-cli": "^3.10.1",
     "sassdash": "^0.8.1",
     "zombie": "^4.0.10"
-  },
-  "dependencies": {
-    "jed": "^1.1.0",
-    "lodash": "^3.10.1"
   }
-
 }

@@ -701,8 +701,6 @@ module.exports = FacebookPreview;
  *
  * @param {HTMLElement} element The element to add the class to.
  * @param {string} className The class to add.
- *
- * @return {void}
  */
 module.exports = function( element, className ) {
 	var classes = element.className.split( " " );
@@ -720,8 +718,6 @@ module.exports = function( element, className ) {
  *
  * @param {HTMLElement} element The element to remove the class from.
  * @param {string} className The class to remove.
- *
- * @return {void}
  */
 module.exports = function( element, className ) {
 	var classes = element.className.split( " " );
@@ -1384,7 +1380,7 @@ TwitterPreview.prototype.bindEvents = function() {
 	this.element.closeEditor.addEventListener( "click", this.closeEditor.bind( this ) );
 
 	// Loop through the bindings and bind a click handler to the click to focus the focus element.
-	forEach( inputTwitterPreviewBindings, function(binding ) {
+	forEach( inputTwitterPreviewBindings, function( binding ) {
 		var previewElement = document.getElementById( binding.preview );
 		var inputElement = this.element.input[ binding.inputField ];
 

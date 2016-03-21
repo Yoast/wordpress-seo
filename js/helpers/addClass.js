@@ -3,8 +3,6 @@
  *
  * @param {HTMLElement} element The element to add the class to.
  * @param {string} className The class to add.
- *
- * @return {void}
  */
 module.exports = function( element, className ) {
 	var classes = element.className.split( " " );
