@@ -11,7 +11,7 @@ var assessments = {};
 assessments.wordCount = require( "./assessments/countWords.js" );
 assessments.fleschReading = require( "./assessments/calculateFleschReading.js" );
 assessments.linkCount = require( "./assessments/getLinkStatistics.js" );
-assessments.getSubheadings = require( "./assessments/matchKeywordInSubheading.js" );
+assessments.subHeadings = require( "./assessments/matchKeywordInSubheading.js" );
 
 /**
  * inits the analyzerscorer used for scoring of the output from the textanalyzer

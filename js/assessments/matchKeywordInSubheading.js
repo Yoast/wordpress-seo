@@ -12,19 +12,20 @@ var calculateKeywordMatchesResult = function( subheadings, i18n ) {
 		return {
 			score: 7,
 			text: i18n.dgettext( "js-text-analysis", "No subheading tags (like an H2) appear in the copy." )
-		}
+		};
 	}
-	if( subheadings.matches === 0 ) {
+	if ( subheadings.matches === 0 ) {
 		return {
 			score: 3,
 			text: i18n.dgettext( "js-text-analysis", "You have not used your focus keyword in any subheading (such as an H2) in your copy." )
-		}
+		};
 	}
-	if( subheadings.matches >= 1) {
+	if ( subheadings.matches >= 1 ) {
 		return {
 			score: 9,
-			text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "The focus keyword appears in %2$d (out of %1$d) subheadings in the copy. While not a major ranking factor, this is beneficial."), subheadings.count, subheadings.matches )
-		}
+			text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "The focus keyword appears in %2$d (out of %1$d) subheadings in the copy. " +
+				"While not a major ranking factor, this is beneficial." ), subheadings.count, subheadings.matches )
+		};
 	}
 };
 

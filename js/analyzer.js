@@ -238,7 +238,7 @@ Analyzer.prototype.keywordCount = function() {
  * @returns resultObject
  */
 Analyzer.prototype.subHeadings = function() {
-	return [ { test: "subHeadings", result: getSubheadings( this.paper.getText(), this.paper.getKeyword() ) } ];
+	return [ { test: "subHeadings", result: getSubheadings( this.paper ) } ];
 };
 
 /**
