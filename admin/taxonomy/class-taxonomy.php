@@ -31,7 +31,7 @@ class WPSEO_Taxonomy {
 		add_filter( 'category_description', array( $this, 'custom_category_descriptions_add_shortcode_support' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
 
-		if ( $GLOBALS['pagenow'] === 'edit-tags.php' ) {
+		if ( self::is_term_overview( $GLOBALS['pagenow'] ) ) {
 			new WPSEO_Taxonomy_Columns();
 		}
 
@@ -66,7 +66,6 @@ class WPSEO_Taxonomy {
 		$this->sitemap_include_options['never']  = __( 'Never include', 'wordpress-seo' );
 	}
 
-
 	/**
 	 * Test whether we are on a public taxonomy - no metabox actions needed if we are not
 	 * Unfortunately we have to hook most everything in before the point where all taxonomies are registered and
@@ -75,14 +74,19 @@ class WPSEO_Taxonomy {
 	 * @since 1.5.0
 	 */
 	public function admin_enqueue_scripts() {
+		$pagenow = $GLOBALS['pagenow'];
 
-		if ( $GLOBALS['pagenow'] !== 'edit-tags.php' ) {
+		if ( ! ( self::is_term_edit( $pagenow ) || self::is_term_overview( $pagenow ) ) ) {
 			return;
 		}
 
 		wp_enqueue_style( 'seo_score', plugins_url( 'css/yst_seo_score-' . '310' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
 
-		if ( filter_input( INPUT_GET, 'action' ) === 'edit' ) {
+		$tag_id = filter_input( INPUT_GET, 'tag_ID' );
+		if (
+			self::is_term_edit( $pagenow ) &&
+			! empty( $tag_id )  // After we drop support for <4.5 this can be removed.
+		) {
 			wp_enqueue_media(); // Enqueue files needed for upload functionality.
 
 			wp_enqueue_style( 'yoast-seo', plugins_url( 'css/dist/yoast-seo/yoast-seo-' . '310' . '.min.css', WPSEO_FILE ), array(), WPSEO_VERSION );
@@ -217,7 +221,7 @@ class WPSEO_Taxonomy {
 			'keyword_usage'     => WPSEO_Taxonomy_Meta::get_keyword_usage( $focuskw, $term->term_id, $term->taxonomy ),
 			// Todo: a column needs to be added on the termpages to add a filter for the keyword, so this can be used in the focus kw doubles.
 			'search_url'        => admin_url( 'edit-tags.php?taxonomy=' . $term->taxonomy . '&seo_kw_filter={keyword}' ),
-			'post_edit_url'     => admin_url( 'edit-tags.php?action=edit&taxonomy=' . $term->taxonomy . '&tag_ID={id}' ),
+			'post_edit_url'     => admin_url( 'term.php?action=edit&taxonomy=' . $term->taxonomy . '&tag_ID={id}' ),
 			'title_template'    => WPSEO_Taxonomy::get_title_template( $term ),
 			'metadesc_template' => WPSEO_Taxonomy::get_metadesc_template( $term ),
 			'contentTab'        => __( 'Content:', 'wordpress-seo' ),
@@ -267,6 +271,25 @@ class WPSEO_Taxonomy {
 			'no_parent_text' => __( '(no parent)', 'wordpress-seo' ),
 			'replace_vars'   => $this->get_replace_vars(),
 		);
+	}
+
+	/**
+	 * @param string $page The string to check for the term overview page.
+	 *
+	 * @return bool
+	 */
+	public static function is_term_overview( $page ) {
+		return 'edit-tags.php' === $page;
+	}
+
+	/**
+	 * @param string $page The string to check for the term edit page.
+	 *
+	 * @return bool
+	 */
+	public static function is_term_edit( $page ) {
+		return 'term.php' === $page
+		       || 'edit-tags.php' === $page; // After we drop support for <4.5 this can be removed.
 	}
 
 	/**

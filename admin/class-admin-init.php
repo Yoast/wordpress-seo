@@ -269,7 +269,10 @@ class WPSEO_Admin_Init {
 	 * Determine if we should load our taxonomy edit class and if so, load it.
 	 */
 	private function load_taxonomy_class() {
-		if ( 'edit-tags.php' === $this->pagenow ) {
+		if (
+			WPSEO_Taxonomy::is_term_edit( $this->pagenow )
+			|| WPSEO_Taxonomy::is_term_overview( $this->pagenow )
+		) {
 			new WPSEO_Taxonomy;
 		}
 	}

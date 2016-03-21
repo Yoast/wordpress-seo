@@ -274,8 +274,7 @@ SVG;
 	 * Keyword tab for enabling analysis of multiple keywords.
 	 */
 	public function template_keyword_tab() {
-		// Only do this on the taxonomy pages.
-		if ( 'edit-tags' !== get_current_screen()->base ) {
+		if ( ! WPSEO_Taxonomy::is_term_edit( $GLOBALS['pagenow'] ) ) {
 			return;
 		}
 
