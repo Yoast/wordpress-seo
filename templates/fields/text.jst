@@ -1,4 +1,4 @@
-<label<% if (id) { %> for="<%- id %>"<% } %>>
+<label<% if (id) { %> for="<%- id %>"<% } %><% if (labelClassName) { %> class="<%- labelClassName %>"<% } %>>
 	<%- title %>
 	<input type="text"
 		<% if (value) { %>value="<%- value %>"<% } %>

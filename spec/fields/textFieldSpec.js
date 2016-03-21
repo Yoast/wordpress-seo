@@ -72,5 +72,13 @@ describe( 'a text field', function() {
 		});
 
 		expect( textField.render() ).toBe( '<label for="id">title<input type="text" value="value" id="id" /></label>' );
-	})
+	});
+
+	it( 'should accept a label class', function() {
+		var textField = new TextField({
+			labelClassName: "label-class"
+		});
+
+		expect( textField.render() ).toBe( '<label class="label-class"><input type="text" /></label>' );
+	});
 });

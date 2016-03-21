@@ -7,7 +7,8 @@ var defaultAttributes = {
 	id: "",
 	placeholder: "",
 	name: "",
-	title: ""
+	title: "",
+	labelClassName: ""
 };
 
 /**
@@ -48,9 +49,10 @@ TextField.prototype.render = function() {
 	var html = textFieldTemplate( this.getAttributes() );
 
 	html = html.replace( /(\s+)/g, " " );
-	html = html.replace( "> ", ">" );
-	html = html.replace( " <", "<" );
-	html = html.replace( "> <", "><" );
+	html = html.replace( /> </g, "><" );
+	html = html.replace( / >/g, ">" );
+	html = html.replace( /> /g, ">" );
+	html = html.replace( / </g, "<" );
 	html = html.replace( / $/, "" );
 
 	return html;
