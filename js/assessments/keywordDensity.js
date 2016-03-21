@@ -12,27 +12,27 @@ var calculateKeywordDensityResult = function( keywordDensity, i18n ) {
 	if ( keywordDensity > 3.5 ) {
 		return {
 			score: -50,
-			text: i18n.dgettext( "js-text-analysis", "The keyword density is %1$f%%, which is way over the advised 2.5%% maximum;" +
+			text: i18n.dgettext( "js-text-analysis", "The keyword density is %1$s%%, which is way over the advised 2.5%% maximum;" +
 				" the focus keyword was found %2$d times." )
 		};
 	}
 	if ( inRange( keywordDensity, 2.5, 3.5 ) ) {
 		return {
 			score: -10,
-			text: i18n.dgettext( "js-text-analysis", "The keyword density is %1$f%%, which is over the advised 2.5%% maximum;" +
+			text: i18n.dgettext( "js-text-analysis", "The keyword density is %1$s%%, which is over the advised 2.5%% maximum;" +
 				" the focus keyword was found %2$d times." )
 		};
 	}
 	if ( inRange( keywordDensity, 0.5, 2.5 ) ) {
 		return {
 			score: 9,
-			text: i18n.dgettext( "js-text-analysis", "The keyword density is %1$f%%, which is great; the focus keyword was found %2$d times." )
+			text: i18n.dgettext( "js-text-analysis", "The keyword density is %1$s%%, which is great; the focus keyword was found %2$d times." )
 		};
 	}
 	if ( inRange( keywordDensity, 0, 0.5 ) ) {
 		return {
 			score: 4,
-			text: i18n.dgettext( "js-text-analysis", "The keyword density is %1$f%%, which is a bit low; the focus keyword was found %2$d times." )
+			text: i18n.dgettext( "js-text-analysis", "The keyword density is %1$s%%, which is a bit low; the focus keyword was found %2$d times." )
 		};
 	}
 };
