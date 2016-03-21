@@ -12,6 +12,7 @@ var stopWordsInKeyword = require( "./researches/stopWordsInKeyword" );
 var stopWordsInUrl = require( "./researches/stopWordsInUrl" );
 var calculateFleschReading = require( "./researches/calculateFleschReading.js" );
 var metaDescriptionLength = require( "./researches/metaDescriptionLength.js" );
+var keyphraseLength = require( "./researches/keyphraseLength" );
 
 /**
  * This contains all possible, default researches.
@@ -28,7 +29,8 @@ var Researcher = function( paper ) {
 		"getLinkStatistics": getLinkStatistics,
 		"stopWordsInKeyword": stopWordsInKeyword,
 		"stopWordsInUrl": stopWordsInUrl,
-		"metaDescriptionLength": metaDescriptionLength
+		"metaDescriptionLength": metaDescriptionLength,
+		"keyphraseLength": keyphraseLength
 	};
 
 	this.customResearches = {};
