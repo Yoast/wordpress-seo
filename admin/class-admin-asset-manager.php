@@ -179,7 +179,7 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'post-scraper',
-				'src'  => 'wp-seo-post-scraper-310',
+				'src'  => 'wp-seo-post-scraper-311',
 				'deps' => array(
 					self::PREFIX . 'yoast-seo',
 					self::PREFIX . 'replacevar-plugin',
