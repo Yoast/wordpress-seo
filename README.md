@@ -87,7 +87,7 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
 ## Security
 
-If you discover any security related issues, please email security@yoast.com instead of using the issue tracker.
+If you discover any security related issues, please email security [at] yoast.com instead of using the issue tracker.
 
 ## Credits
 
