@@ -90,7 +90,7 @@ ScoreFormatter.prototype.sortScores = function() {
  */
 ScoreFormatter.prototype.getUndefinedScores = function( scorers ) {
 	var filtered = scorers.filter( function( scorer ) {
-		return isUndefined( scorer.score );
+		return isUndefined( scorer.score ) || scorer.score === "na";
 	} );
 
 	return filtered;
