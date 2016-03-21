@@ -75,7 +75,7 @@
 	color:            #292F33;
 	line-height:      1.3em;
 	border-radius: .42857em;
-	border: 1px solid #E1E8ED;
+	border:  1px solid #E1E8ED;
 	box-sizing: border-box;
 
 	&__image {
@@ -86,6 +86,11 @@
 			max-height: 506px;
 			max-width:  506px;
 		}
+	}
+
+	&__text-keeper {
+		margin:     10px 12px;
+		height:     auto;
 	}
 
 	&__title {
