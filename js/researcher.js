@@ -8,8 +8,12 @@ var isEmpty = require( "lodash/lang/isEmpty" );
 // assessments
 var wordCountInText = require( "./researches/wordCountInText.js" );
 var getLinkStatistics = require( "./analyses/getLinkStatistics.js" );
+<<<<<<< HEAD
 var calculateFleschReading = require( "./researches/calculateFleschReading" );
 var matchKeywordInSubheadings = require( "./researches/matchKeywordInSubheadings.js" );
+=======
+var calculateFleschReading = require( "./researches/calculateFleschReading.js" );
+var metaDescriptionLength = require( "./researches/metaDescriptionLength.js" );
 
 /**
  * This contains all possible, default researches.
@@ -24,7 +28,8 @@ var Researcher = function( paper ) {
 		"wordCountInText": wordCountInText,
 		"calculateFleschReading": calculateFleschReading,
 		"getLinkStatistics": getLinkStatistics,
-		"matchKeywordInSubheadings": matchKeywordInSubheadings
+		"matchKeywordInSubheadings": matchKeywordInSubheadings,
+		"metaDescriptionLength": metaDescriptionLength
 	};
 
 	this.customResearches = {};
