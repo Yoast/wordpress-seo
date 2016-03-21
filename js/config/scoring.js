@@ -141,29 +141,6 @@ var AnalyzerScoring = function( i18n ) {
                 }
             ]
         }, {
-            scoreName: "subHeadings",
-            scoreArray: [
-                { matcher: "count", max: 0, score: 7, text: i18n.dgettext( "js-text-analysis", "No subheading tags (like an H2) appear in the copy." ) },
-                {
-                    matcher: "matches",
-                    max: 0,
-                    score: 3,
-                    text: i18n.dgettext( "js-text-analysis", "You have not used your focus keyword in any subheading (such as an H2) in your copy." )
-                },
-                {
-                    matcher: "matches",
-                    min: 1,
-                    score: 9,
-
-                    /* translators: %1$d expands to the number of subheadings, %2$d to the number of subheadings containing the focus keyword */
-                    text: i18n.dgettext( "js-text-analysis", "The focus keyword appears in %2$d (out of %1$d) subheadings in the copy. While not a major ranking factor, this is beneficial.")
-                }
-            ],
-            replaceArray: [
-                { name: "count", position: "%1$d", sourceObj: ".result.count" },
-                { name: "matches", position: "%2$d", sourceObj: ".result.matches" }
-            ]
-        }, {
             scoreName: "pageTitleLength",
             scoreArray: [
                 {max: 0, score: 1, text: i18n.dgettext( "js-text-analysis", "Please create a page title.")},
