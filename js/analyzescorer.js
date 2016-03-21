@@ -13,6 +13,7 @@ assessments.fleschReading = require( "./assessments/calculateFleschReading.js" )
 assessments.linkCount = require( "./assessments/getLinkStatistics.js" );
 assessments.stopwordKeywordCount = require( "./assessments/stopWordsInKeyword.js" );
 assessments.urlStopwords = require( "./assessments/stopWordsInUrl.js" );
+assessments.metaDescriptionLength = require( "./assessments/metaDescriptionLength.js" );
 
 /**
  * inits the analyzerscorer used for scoring of the output from the textanalyzer
