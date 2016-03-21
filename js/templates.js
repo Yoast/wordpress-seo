@@ -110,7 +110,9 @@
   var templates = {
     'facebookPreview': {},
     'fields': {
-        'text': {}
+        'button': {},
+        'text': {},
+        'textarea': {}
     },
     'twitterPreview': {}
   };
@@ -133,21 +135,29 @@
     __e( i18n.edit ) +
     '\n	</button>\n\n	<h4 class="snippet-editor__heading snippet-editor__heading-editor snippet-editor__heading-icon-edit snippet-editor--hidden">' +
     __e( i18n.snippetEditor ) +
-    '</h4>\n\n	<div class="snippet-editor__form snippet-editor--hidden">\n		<label for="facebook-editor-description" class="snippet-editor__label">\n			' +
-    __e( i18n.description ) +
-    '\n			<textarea class="snippet-editor__input snippet-editor__description js-snippet-editor-description" id="facebook-editor-description" placeholder="' +
-    __e( placeholder.description ) +
-    '">' +
-    __e( raw.meta ) +
-    '</textarea>\n		</label>\n		<label for="facebook-editor-imageUrl" class="snippet-editor__label">\n			' +
-    __e( i18n.imageUrl ) +
-    '\n			<input type="text" class="snippet-editor__input snippet-editor__slug js-snippet-editor-imageUrl" id="facebook-editor-imageUrl" value="' +
-    __e( raw.imageUrl ) +
-    '" placeholder="' +
-    __e( placeholder.imageUrl ) +
-    '" />\n		</label>\n\n		<button class="snippet-editor__submit snippet-editor__button" type="button">' +
-    __e( i18n.save ) +
-    '</button>\n	</div>\n</div>\n';
+    '</h4>\n\n	<div class="snippet-editor__form snippet-editor--hidden">\n\n	</div>\n</div>\n';
+
+    }
+    return __p
+  };
+
+  templates['fields']['button'] =   function(obj) {
+    obj || (obj = {});
+    var __t, __p = '', __e = _.escape, __j = Array.prototype.join;
+    function print() { __p += __j.call(arguments, '') }
+    with (obj) {
+    __p += '<button\n	type="button"\n	';
+     if (className) {
+    __p += 'class="' +
+    __e( className ) +
+    '"';
+     }
+    __p += '\n>\n	';
+     if (value) {
+    __p +=
+    __e( value );
+     }
+    __p += '\n</button>';
 
     }
     return __p
@@ -162,6 +172,12 @@
      if (id) {
     __p += ' for="' +
     __e( id ) +
+    '"';
+     }
+
+     if (labelClassName) {
+    __p += ' class="' +
+    __e( labelClassName ) +
     '"';
      }
     __p += '>\n	' +
@@ -197,6 +213,60 @@
     '"';
      }
     __p += '\n	/>\n</label>\n';
+
+    }
+    return __p
+  };
+
+  templates['fields']['textarea'] =   function(obj) {
+    obj || (obj = {});
+    var __t, __p = '', __e = _.escape, __j = Array.prototype.join;
+    function print() { __p += __j.call(arguments, '') }
+    with (obj) {
+    __p += '<label';
+     if (id) {
+    __p += ' for="' +
+    __e( id ) +
+    '"';
+     }
+
+     if (labelClassName) {
+    __p += ' class="' +
+    __e( labelClassName ) +
+    '"';
+     }
+    __p += '>\n	' +
+    __e( title ) +
+    '\n	<textarea\n\n		   ';
+     if (placeholder) {
+    __p += 'placeholder="' +
+    __e( placeholder ) +
+    '"';
+     }
+    __p += '\n		   ';
+     if (className) {
+    __p += 'class="' +
+    __e( className ) +
+    '"';
+     }
+    __p += '\n		   ';
+     if (id) {
+    __p += 'id="' +
+    __e( id ) +
+    '"';
+     }
+    __p += '\n		   ';
+     if (name) {
+    __p += 'name="' +
+    __e( name ) +
+    '"';
+     }
+    __p += '\n	>\n		';
+     if (value) {
+    __p +=
+    __e( value );
+     }
+    __p += '\n	</textarea>\n</label>\n';
 
     }
     return __p
