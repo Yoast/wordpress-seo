@@ -3,8 +3,8 @@ var matchWords = require( "../stringProcessing/matchTextWithWord.js" );
 var inRange = require( "lodash/number/inRange" );
 
 /**
- * Returns the scores and text for keyworddensity
- * @param {string} keywordDensity The keyworddensity
+ * Returns the scores and text for keyword density
+ * @param {string} keywordDensity The keyword density
  * @param {object} i18n The i18n object used for translations
  * @returns {{score: number, text: *}} the assessmentresult
  */

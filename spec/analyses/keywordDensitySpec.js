@@ -1,8 +1,8 @@
 var keywordDensity = require("../../js/researches/getKeywordDensity.js");
 var Paper = require( "../../js/values/Paper.js" );
 
-describe("Test for counting the keywordDensity in a text", function(){
-	it("returns keywordDensity", function(){
+describe("Test for counting the keyword density in a text", function(){
+	it("returns keyword density", function(){
 		var mockPaper = new Paper( "a string of text with the keyword in it, density should be 7.7%", {keyword: "keyword"} );
 		expect( keywordDensity(mockPaper ) ).toBe( "7.7" );
 		mockPaper = new Paper( "a string of text without the keyword in it, density should be 0%", {keyword: "empty"} );
