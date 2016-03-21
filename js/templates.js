@@ -108,48 +108,93 @@
   /*----------------------------------------------------------------------------*/
 
   var templates = {
-    'snippetEditor': {}
+    'facebookPreview': {},
+    'twitterPreview': {}
   };
 
-  templates['snippetEditor'] =   function(obj) {
+  templates['facebookPreview'] =   function(obj) {
     obj || (obj = {});
     var __t, __p = '', __e = _.escape;
     with (obj) {
-    __p += '<div id="snippet-editor">\n    <h4 class="snippet-editor__heading snippet-editor__heading-icon-eye">' +
+    __p += '<div id="facebook_preview">\n	<h4 class="snippet-editor__heading snippet-editor__heading-icon-eye">' +
     __e( i18n.snippetPreview ) +
-    '</h4>\n\n    <section class="facebook-preview">\n    	<div class="snippet-editor__container facebook-preview__image snippet_container" id="image_container">\n    		<img class="image" id="snippet_image" src="' +
+    '</h4>\n\n	<section class="facebook-preview">\n		<div class="snippet-editor__container facebook-preview__image snippet_container" id="facebook_image_container">\n			<img class="image" id="facebook_image" src="' +
     __e( rendered.imageUrl ) +
-    '" />\n		</div>\n		<div class="facebook-preview__text-keeper">\n			<div class="snippet-editor__container facebook-preview__title snippet_container" id="title_container">\n				<span id="snippet_title">\n					' +
+    '" />\n		</div>\n		<div class="facebook-preview__text-keeper">\n			<div class="snippet-editor__container facebook-preview__title snippet_container" id="facebook_title_container">\n				<span id="facebook_title">\n					' +
     __e( rendered.title ) +
-    '\n				</span>\n			</div>\n			<div class="snippet-editor__container facebook-preview__description snippet_container" id="description_container">\n				<span id="snippet_description">\n					' +
+    '\n				</span>\n			</div>\n			<div class="snippet-editor__container facebook-preview__description snippet_container" id="facebook_description_container">\n				<span id="facebook_description">\n					' +
     __e( rendered.description ) +
-    '\n				</span>\n			</div>\n			<div class="snippet-editor__container facebook-preview__website snippet_container" id="base_url_container">\n				<span id="snippet_base_url">\n					' +
+    '\n				</span>\n			</div>\n			<div class="snippet-editor__container facebook-preview__website snippet_container" id="base_url_container">\n				<span id="facebook_base_url">\n					' +
     __e( rendered.baseUrl ) +
-    '\n				</span>\n			</div>\n        </div>\n    </section>\n\n	<button class="snippet-editor__button snippet-editor__edit-button" type="button">\n		' +
+    '\n				</span>\n			</div>\n		</div>\n	</section>\n\n	<button class="snippet-editor__button snippet-editor__edit-button" type="button">\n		' +
     __e( i18n.edit ) +
-    '\n	</button>\n\n    <h4 class="snippet-editor__heading snippet-editor__heading-editor snippet-editor__heading-icon-edit snippet-editor--hidden">' +
+    '\n	</button>\n\n	<h4 class="snippet-editor__heading snippet-editor__heading-editor snippet-editor__heading-icon-edit snippet-editor--hidden">' +
     __e( i18n.snippetEditor ) +
-    '</h4>\n\n    <div class="snippet-editor__form snippet-editor--hidden">\n        <label for="snippet-editor-title" class="snippet-editor__label">\n            ' +
+    '</h4>\n\n	<div class="snippet-editor__form snippet-editor--hidden">\n		<label for="facebook-editor-title" class="snippet-editor__label">\n			' +
     __e( i18n.title ) +
-    '\n            <input type="text" class="snippet-editor__input snippet-editor__title js-snippet-editor-title" id="snippet-editor-title" value="' +
+    '\n			<input type="text" class="snippet-editor__input snippet-editor__title js-snippet-editor-title" id="facebook-editor-title" value="' +
     __e( raw.title ) +
     '" placeholder="' +
     __e( placeholder.title ) +
-    '" />\n        </label>\n        <label for="snippet-editor-description" class="snippet-editor__label">\n            ' +
+    '" />\n		</label>\n		<label for="facebook-editor-description" class="snippet-editor__label">\n			' +
     __e( i18n.description ) +
-    '\n            <textarea class="snippet-editor__input snippet-editor__description js-snippet-editor-description" id="snippet-editor-description" placeholder="' +
+    '\n			<textarea class="snippet-editor__input snippet-editor__description js-snippet-editor-description" id="facebook-editor-description" placeholder="' +
     __e( placeholder.description ) +
     '">' +
     __e( raw.meta ) +
-    '</textarea>\n        </label>\n        <label for="snippet-editor-imageUrl" class="snippet-editor__label">\n            ' +
+    '</textarea>\n		</label>\n		<label for="facebook-editor-imageUrl" class="snippet-editor__label">\n			' +
     __e( i18n.imageUrl ) +
-    '\n            <input type="text" class="snippet-editor__input snippet-editor__slug js-snippet-editor-imageUrl" id="snippet-editor-imageUrl" value="' +
+    '\n			<input type="text" class="snippet-editor__input snippet-editor__slug js-snippet-editor-imageUrl" id="facebook-editor-imageUrl" value="' +
     __e( raw.imageUrl ) +
     '" placeholder="' +
     __e( placeholder.imageUrl ) +
-    '" />\n        </label>\n\n        <button class="snippet-editor__submit snippet-editor__button" type="button">' +
+    '" />\n		</label>\n\n		<button class="snippet-editor__submit snippet-editor__button" type="button">' +
     __e( i18n.save ) +
-    '</button>\n    </div>\n</div>\n';
+    '</button>\n	</div>\n</div>\n';
+
+    }
+    return __p
+  };
+
+  templates['twitterPreview'] =   function(obj) {
+    obj || (obj = {});
+    var __t, __p = '', __e = _.escape;
+    with (obj) {
+    __p += '<div id="twitter_preview">\n	<h4 class="snippet-editor__heading snippet-editor__heading-icon-eye">' +
+    __e( i18n.snippetPreview ) +
+    '</h4>\n\n	<section class="twitter-preview">\n		<div class="snippet-editor__container twitter-preview__image snippet_container" id="twitter_image_container">\n			<img class="image" id="twitter_image" src="' +
+    __e( rendered.imageUrl ) +
+    '" />\n		</div>\n		<div class="facebook-preview__text-keeper">\n			<div class="snippet-editor__container twitter-preview__title snippet_container" id="twitter_title_container">\n				<span id="twitter_title">\n					' +
+    __e( rendered.title ) +
+    '\n				</span>\n			</div>\n			<div class="snippet-editor__container twitter-preview__description snippet_container" id="twitter_description_container">\n				<span id="twitter_description">\n					' +
+    __e( rendered.description ) +
+    '\n				</span>\n			</div>\n			<div class="snippet-editor__container twitter-preview__website snippet_container" id="base_url_container">\n				<span id="twitter_base_url">\n					' +
+    __e( rendered.baseUrl ) +
+    '\n				</span>\n			</div>\n		</div>\n	</section>\n\n	<button class="snippet-editor__button snippet-editor__edit-button" type="button">\n		' +
+    __e( i18n.edit ) +
+    '\n	</button>\n\n	<h4 class="snippet-editor__heading snippet-editor__heading-editor snippet-editor__heading-icon-edit snippet-editor--hidden">' +
+    __e( i18n.snippetEditor ) +
+    '</h4>\n\n	<div class="snippet-editor__form snippet-editor--hidden">\n		<label for="twitter-editor-title" class="snippet-editor__label">\n			' +
+    __e( i18n.title ) +
+    '\n			<input type="text" class="snippet-editor__input snippet-editor__title js-snippet-editor-title" id="twitter-editor-title" value="' +
+    __e( raw.title ) +
+    '" placeholder="' +
+    __e( placeholder.title ) +
+    '" />\n		</label>\n		<label for="twitter-editor-description" class="snippet-editor__label">\n			' +
+    __e( i18n.description ) +
+    '\n			<textarea class="snippet-editor__input snippet-editor__description js-snippet-editor-description" id="twitter-editor-description" placeholder="' +
+    __e( placeholder.description ) +
+    '">' +
+    __e( raw.meta ) +
+    '</textarea>\n		</label>\n		<label for="twitter-editor-imageUrl" class="snippet-editor__label">\n			' +
+    __e( i18n.imageUrl ) +
+    '\n			<input type="text" class="snippet-editor__input snippet-editor__slug js-snippet-editor-imageUrl" id="twitter-editor-imageUrl" value="' +
+    __e( raw.imageUrl ) +
+    '" placeholder="' +
+    __e( placeholder.imageUrl ) +
+    '" />\n		</label>\n\n		<button class="snippet-editor__submit snippet-editor__button" type="button">' +
+    __e( i18n.save ) +
+    '</button>\n	</div>\n</div>\n';
 
     }
     return __p
