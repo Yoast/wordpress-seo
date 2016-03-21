@@ -26,7 +26,7 @@ var Researcher = function( paper ) {
 		"calculateFleschReading": calculateFleschReading,
 		"getLinkStatistics": getLinkStatistics,
 		"stopWordsInKeyword": stopWordsInKeyword,
-		"stopWordsInUrl": stopWordsInUrl,
+		"stopWordsInUrl": stopWordsInUrl
 	};
 
 	this.customResearches = {};
