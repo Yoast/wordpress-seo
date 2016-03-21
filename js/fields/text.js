@@ -1,4 +1,14 @@
-var map = require( "lodash/collection/map" );
+var defaults = require( "lodash/object/defaults" );
+var textFieldTemplate = require( "../../js/templates" ).fields.text;
+
+var defaultAttributes = {
+	value: "",
+	className: "",
+	id: "",
+	placeholder: "",
+	name: "",
+	title: ""
+};
 
 /**
  * Represents an HTML text field
@@ -8,15 +18,26 @@ var map = require( "lodash/collection/map" );
  * @param {string} attributes.placeholder The placeholder for this text field
  * @param {string} attributes.name The name for this text field
  * @param {string} attributes.id The id for this text field
- * @param {string} attributes.class The class for this text field
+ * @param {string} attributes.className The class for this text field
+ * @param {string} attributes.title The title that describes this text field
  *
  * @constructor
  */
 function TextField( attributes ) {
 	attributes = attributes || {};
+	attributes = defaults( attributes, defaultAttributes );
 
 	this._attributes = attributes;
 }
+
+/**
+ * Returns the HTML attributes set for this text field
+ *
+ * @returns {Object} The HTML attributes
+ */
+TextField.prototype.getAttributes = function() {
+	return this._attributes;
+};
 
 /**
  * Renders the text field to HTML
@@ -24,15 +45,15 @@ function TextField( attributes ) {
  * @returns {string} The rendered HTML
  */
 TextField.prototype.render = function() {
-	var attributes = map( this._attributes, function( value, name ) {
-		if ( "className" === name ) {
-			name = "class";
-		}
+	var html = textFieldTemplate( this.getAttributes() );
 
-		return name + '="' + value + '"';
-	} );
+	html = html.replace( /(\s+)/g, " " );
+	html = html.replace( "> ", ">" );
+	html = html.replace( " <", "<" );
+	html = html.replace( "> <", "><" );
+	html = html.replace( / $/, "" );
 
-	return '<input type="text" ' + attributes + " />";
+	return html;
 };
 
 /**
@@ -49,7 +70,7 @@ TextField.prototype.setValue = function( value ) {
  *
  * @param {string} className The class to set on this input field
  */
-TextField.prototype.setClass = function( className ) {
+TextField.prototype.setClassName = function( className ) {
 	this._attributes.className = className;
 };
 

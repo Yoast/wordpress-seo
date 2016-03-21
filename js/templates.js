@@ -109,6 +109,9 @@
 
   var templates = {
     'facebookPreview': {},
+    'fields': {
+        'text': {}
+    },
     'twitterPreview': {}
   };
 
@@ -130,13 +133,7 @@
     __e( i18n.edit ) +
     '\n	</button>\n\n	<h4 class="snippet-editor__heading snippet-editor__heading-editor snippet-editor__heading-icon-edit snippet-editor--hidden">' +
     __e( i18n.snippetEditor ) +
-    '</h4>\n\n	<div class="snippet-editor__form snippet-editor--hidden">\n		<label for="facebook-editor-title" class="snippet-editor__label">\n			' +
-    __e( i18n.title ) +
-    '\n			<input type="text" class="snippet-editor__input snippet-editor__title js-snippet-editor-title" id="facebook-editor-title" value="' +
-    __e( raw.title ) +
-    '" placeholder="' +
-    __e( placeholder.title ) +
-    '" />\n		</label>\n		<label for="facebook-editor-description" class="snippet-editor__label">\n			' +
+    '</h4>\n\n	<div class="snippet-editor__form snippet-editor--hidden">\n		<label for="facebook-editor-description" class="snippet-editor__label">\n			' +
     __e( i18n.description ) +
     '\n			<textarea class="snippet-editor__input snippet-editor__description js-snippet-editor-description" id="facebook-editor-description" placeholder="' +
     __e( placeholder.description ) +
@@ -151,6 +148,55 @@
     '" />\n		</label>\n\n		<button class="snippet-editor__submit snippet-editor__button" type="button">' +
     __e( i18n.save ) +
     '</button>\n	</div>\n</div>\n';
+
+    }
+    return __p
+  };
+
+  templates['fields']['text'] =   function(obj) {
+    obj || (obj = {});
+    var __t, __p = '', __e = _.escape, __j = Array.prototype.join;
+    function print() { __p += __j.call(arguments, '') }
+    with (obj) {
+    __p += '<label';
+     if (id) {
+    __p += ' for="' +
+    __e( id ) +
+    '"';
+     }
+    __p += '>\n	' +
+    __e( title ) +
+    '\n	<input type="text"\n		';
+     if (value) {
+    __p += 'value="' +
+    __e( value ) +
+    '"';
+     }
+    __p += '\n		';
+     if (placeholder) {
+    __p += 'placeholder="' +
+    __e( placeholder ) +
+    '"';
+     }
+    __p += '\n		';
+     if (className) {
+    __p += 'class="' +
+    __e( className ) +
+    '"';
+     }
+    __p += '\n		';
+     if (id) {
+    __p += 'id="' +
+    __e( id ) +
+    '"';
+     }
+    __p += '\n		';
+     if (name) {
+    __p += 'name="' +
+    __e( name ) +
+    '"';
+     }
+    __p += '\n	/>\n</label>\n';
 
     }
     return __p

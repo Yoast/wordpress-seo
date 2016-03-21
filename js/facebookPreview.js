@@ -15,6 +15,8 @@ var stripSpaces = require( "yoastseo/js/stringProcessing/stripSpaces.js" );
 var addClass = require( "./helpers/addClass.js" );
 var removeClass = require( "./helpers/removeClass.js" );
 
+var TextField = require( "./fields/text.js" );
+
 var facebookEditorTemplate = require( "./templates.js" ).facebookPreview;
 
 var facebookDefaults = {
@@ -205,10 +207,14 @@ FacebookPreview.prototype.renderTemplate = function() {
 			imageUrl: document.getElementById( "facebook_image" ),
 			description: document.getElementById( "facebook_description" )
 		},
-		input: {
-			title: targetElement.getElementsByClassName( "js-snippet-editor-title" )[0],
-			imageUrl: targetElement.getElementsByClassName( "js-snippet-editor-imageUrl" )[0],
-			description: targetElement.getElementsByClassName( "js-snippet-editor-description" )[0]
+		fields: {
+			title: new TextField({
+				className: "snippet-editor__input snippet-editor__title js-snippet-editor-title",
+				id: "facebook-editor-title",
+				value: this.data.title,
+				placeholder: this.opts.placeholder.title,
+				title: this.i18n.dgettext( "js-text-analysis", "Facebook title" )
+			})
 		},
 		container: document.getElementById( "twitter_preview" ),
 		formContainer: targetElement.getElementsByClassName( "snippet-editor__form" )[0],
@@ -216,6 +222,14 @@ FacebookPreview.prototype.renderTemplate = function() {
 		closeEditor: targetElement.getElementsByClassName( "snippet-editor__submit" )[0],
 		formFields: targetElement.getElementsByClassName( "snippet-editor__form-field" ),
 		headingEditor: targetElement.getElementsByClassName( "snippet-editor__heading-editor" )[0]
+	};
+
+	this.element.formContainer.innerHTML = this.element.fields.title.render() + this.element.formContainer.innerHTML;
+
+	this.element.input = {
+		title: targetElement.getElementsByClassName( "js-snippet-editor-title" )[0],
+		imageUrl: targetElement.getElementsByClassName( "js-snippet-editor-imageUrl" )[0],
+		description: targetElement.getElementsByClassName( "js-snippet-editor-description" )[0]
 	};
 
 	this.element.label = {
