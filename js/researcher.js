@@ -9,7 +9,7 @@ var isEmpty = require( "lodash/lang/isEmpty" );
 var wordCountInText = require( "./researches/wordCountInText.js" );
 var findKeywordInPageTitle = require( "./researches/findKeywordInPageTitle.js" );
 var calculateFleschReading = require( "./researches/calculateFleschReading.js" );
-var getLinkStatistics = require( "./analyses/getLinkStatistics.js" );
+var getLinkStatistics = require( "./researches/getLinkStatistics.js" );
 var metaDescriptionLength = require( "./researches/metaDescriptionLength.js" );
 
 /**

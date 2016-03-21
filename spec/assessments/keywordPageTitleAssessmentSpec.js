@@ -1,4 +1,4 @@
-var pageTitleKeywordAssessment = require( "../../js/assessments/pagetitleKeyword.js" );
+var pageTitleKeywordAssessment = require( "../../js/assessments/pageTitleKeyword.js" );
 var Paper = require( "../../js/values/Paper.js" );
 var Factory = require( "../helpers/factory.js" );
 var i18n = Factory.buildJed();
