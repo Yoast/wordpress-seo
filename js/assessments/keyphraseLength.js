@@ -1,19 +1,19 @@
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 
-/*
-* Assesses the keyword
-*
-* @param {Paper} paper The paper to use for the assessment.
-* @param {Researcher} researcher The researcher used for calling research.
-* @param {Jed} i18n The object used for translations
-* @returns {object} The result of this assessment
+/**
+ * Assesses the keyphrase presence and length
+ *
+ * @param {Paper} paper The paper to use for the assessment.
+ * @param {Researcher} researcher The researcher used for calling research.
+ * @param {Jed} i18n The object used for translations
+ * @returns {AssessmentResult} The result of this assessment
 */
 function keyphraseAssessment( paper, researcher, i18n ) {
     var keyphraseLength = researcher.getResearch( "keyphraseLength" );
 
     var assessmentResult = new AssessmentResult();
 
-    if ( ! paper.hasKeyword() ) {
+    if ( !paper.hasKeyword() ) {
         assessmentResult.setScore( -999 );
         assessmentResult.setText( i18n.dgettext( "js-text-analysis", "No focus keyword was set for this page. " +
             "If you do not set a focus keyword, no score can be calculated." ) );
