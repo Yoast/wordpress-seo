@@ -13,7 +13,7 @@ module.exports = {
 		tasks: [ "sass:build", "postcss:build" ]
 	},
 	"cssmin-example": {
-		files: [ "examples/style.css" ],
+		files: [ "examples/standalone/style.css" ],
 		tasks: [ "cssmin" ]
 	},
 	templates: {
