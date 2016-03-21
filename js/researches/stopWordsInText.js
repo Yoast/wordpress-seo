@@ -15,5 +15,6 @@ module.exports = function( text ) {
 			matches.push( stopwords[i] );
 		}
 	}
+
 	return matches;
 };
