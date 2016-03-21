@@ -1307,27 +1307,7 @@ module.exports = function( element, className ) {
     __e( i18n.edit ) +
     '\n	</button>\n\n	<h4 class="snippet-editor__heading snippet-editor__heading-editor snippet-editor__heading-icon-edit snippet-editor--hidden">' +
     __e( i18n.snippetEditor ) +
-    '</h4>\n\n	<div class="snippet-editor__form snippet-editor--hidden">\n		<label for="twitter-editor-title" class="snippet-editor__label">\n			' +
-    __e( i18n.title ) +
-    '\n			<input type="text" class="snippet-editor__input snippet-editor__title js-snippet-editor-title" id="twitter-editor-title" value="' +
-    __e( raw.title ) +
-    '" placeholder="' +
-    __e( placeholder.title ) +
-    '" />\n		</label>\n		<label for="twitter-editor-description" class="snippet-editor__label">\n			' +
-    __e( i18n.description ) +
-    '\n			<textarea class="snippet-editor__input snippet-editor__description js-snippet-editor-description" id="twitter-editor-description" placeholder="' +
-    __e( placeholder.description ) +
-    '">' +
-    __e( raw.meta ) +
-    '</textarea>\n		</label>\n		<label for="twitter-editor-imageUrl" class="snippet-editor__label">\n			' +
-    __e( i18n.imageUrl ) +
-    '\n			<input type="text" class="snippet-editor__input snippet-editor__slug js-snippet-editor-imageUrl" id="twitter-editor-imageUrl" value="' +
-    __e( raw.imageUrl ) +
-    '" placeholder="' +
-    __e( placeholder.imageUrl ) +
-    '" />\n		</label>\n\n		<button class="snippet-editor__submit snippet-editor__button" type="button">' +
-    __e( i18n.save ) +
-    '</button>\n	</div>\n</div>\n';
+    '</h4>\n\n	<div class="snippet-editor__form snippet-editor--hidden">\n\n	</div>\n</div>\n';
 
     }
     return __p
@@ -1365,6 +1345,10 @@ var stripSpaces = require( "yoastseo/js/stringProcessing/stripSpaces.js" );
 
 var addClass = require( "./helpers/addClass.js" );
 var removeClass = require( "./helpers/removeClass.js" );
+
+var TextField = require( "./fields/text.js" );
+var TextArea = require( "./fields/textarea.js" );
+var Button = require( "./fields/button.js" );
 
 var twitterEditorTemplate = require( "./templates.js" ).twitterPreview;
 
@@ -1556,6 +1540,38 @@ TwitterPreview.prototype.renderTemplate = function() {
 			imageUrl: document.getElementById( "twitter_image" ),
 			description: document.getElementById( "twitter_description" )
 		},
+		fields: {
+			title: new TextField( {
+				className: "snippet-editor__input snippet-editor__title js-snippet-editor-title",
+				id: "twitter-editor-title",
+				value: this.data.title,
+				placeholder: this.opts.placeholder.title,
+				title: this.i18n.dgettext( "js-text-analysis", "Twitter title" ),
+				labelClassName: "snippet-editor__label"
+			} ),
+			description: new TextArea( {
+				className: "snippet-editor__input snippet-editor__description js-snippet-editor-description",
+				id: "twitter-editor-description",
+				value: this.data.description,
+				placeholder: this.opts.placeholder.description,
+				title: this.i18n.dgettext( "js-text-analysis", "Twitter description" ),
+				labelClassName: "snippet-editor__label"
+			} ),
+			imageUrl: new TextField( {
+				className: "snippet-editor__input snippet-editor__imageUrl js-snippet-editor-imageUrl",
+				id: "twitter-editor-imageUrl",
+				value: this.data.imageUrl,
+				placeholder: this.opts.placeholder.imageUrl,
+				title: this.i18n.dgettext( "js-text-analysis", "Twitter image URL" ),
+				labelClassName: "snippet-editor__label"
+			} ),
+			button : new Button(
+				{
+					className : "snippet-editor__submit snippet-editor__button",
+					value: this.i18n.dgettext( "js-text-analysis", "Close Twitter editor" )
+				}
+			)
+		},
 		input: {
 			title: targetElement.getElementsByClassName( "js-snippet-editor-title" )[0],
 			imageUrl: targetElement.getElementsByClassName( "js-snippet-editor-imageUrl" )[0],
@@ -1568,6 +1584,20 @@ TwitterPreview.prototype.renderTemplate = function() {
 		formFields: targetElement.getElementsByClassName( "snippet-editor__form-field" ),
 		headingEditor: targetElement.getElementsByClassName( "snippet-editor__heading-editor" )[0]
 	};
+
+	this.element.formContainer.innerHTML = this.element.fields.title.render()
+		+ this.element.fields.description.render()
+		+ this.element.fields.imageUrl.render()
+		+ this.element.fields.button.render()
+		+ this.element.formContainer.innerHTML;
+
+	this.element.input = {
+		title: targetElement.getElementsByClassName( "js-snippet-editor-title" )[0],
+		imageUrl: targetElement.getElementsByClassName( "js-snippet-editor-imageUrl" )[0],
+		description: targetElement.getElementsByClassName( "js-snippet-editor-description" )[0]
+	};
+
+	this.element.closeEditor = targetElement.getElementsByClassName( "snippet-editor__submit" )[0];
 
 	this.element.label = {
 		title: this.element.input.title.parentNode,
@@ -1584,7 +1614,7 @@ TwitterPreview.prototype.renderTemplate = function() {
 };
 
 /**
- * Creates html object to contain the strings for the Facebook preview
+ * Creates html object to contain the strings for the Twitter preview
  *
  * @returns {Object} The formatted output
  */
@@ -1599,7 +1629,7 @@ TwitterPreview.prototype.htmlOutput = function() {
 };
 
 /**
- * Formats the title for the Facebook preview. If title is empty, sampletext is used
+ * Formats the title for the Twitter preview. If title is empty, sampletext is used
  *
  * @returns {string} The formatted title, without html tags.
  */
@@ -1610,7 +1640,7 @@ TwitterPreview.prototype.formatTitle = function() {
 
 	// As an ultimate fallback provide the user with a helpful message.
 	if ( isEmpty( title ) ) {
-		title = this.i18n.dgettext( "js-text-analysis", "Please provide a Facebook title by editing the snippet below." );
+		title = this.i18n.dgettext( "js-text-analysis", "Please provide a Twitter title by editing the snippet below." );
 	}
 
 	return title;
@@ -1985,7 +2015,7 @@ TwitterPreview.prototype._updateHoverCarets = function() {
 
 module.exports = TwitterPreview;
 
-},{"./helpers/addClass.js":8,"./helpers/removeClass.js":9,"./templates.js":10,"jed":12,"lodash/collection/forEach":13,"lodash/function/debounce":15,"lodash/lang/clone":51,"lodash/lang/isElement":54,"lodash/lang/isEmpty":55,"lodash/object/defaultsDeep":65,"yoastseo/js/stringProcessing/stripHTMLTags.js":1,"yoastseo/js/stringProcessing/stripSpaces.js":2}],12:[function(require,module,exports){
+},{"./fields/button.js":5,"./fields/text.js":6,"./fields/textarea.js":7,"./helpers/addClass.js":8,"./helpers/removeClass.js":9,"./templates.js":10,"jed":12,"lodash/collection/forEach":13,"lodash/function/debounce":15,"lodash/lang/clone":51,"lodash/lang/isElement":54,"lodash/lang/isEmpty":55,"lodash/object/defaultsDeep":65,"yoastseo/js/stringProcessing/stripHTMLTags.js":1,"yoastseo/js/stringProcessing/stripSpaces.js":2}],12:[function(require,module,exports){
 /**
  * @preserve jed.js https://github.com/SlexAxton/Jed
  */

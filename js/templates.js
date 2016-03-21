@@ -290,27 +290,7 @@
     __e( i18n.edit ) +
     '\n	</button>\n\n	<h4 class="snippet-editor__heading snippet-editor__heading-editor snippet-editor__heading-icon-edit snippet-editor--hidden">' +
     __e( i18n.snippetEditor ) +
-    '</h4>\n\n	<div class="snippet-editor__form snippet-editor--hidden">\n		<label for="twitter-editor-title" class="snippet-editor__label">\n			' +
-    __e( i18n.title ) +
-    '\n			<input type="text" class="snippet-editor__input snippet-editor__title js-snippet-editor-title" id="twitter-editor-title" value="' +
-    __e( raw.title ) +
-    '" placeholder="' +
-    __e( placeholder.title ) +
-    '" />\n		</label>\n		<label for="twitter-editor-description" class="snippet-editor__label">\n			' +
-    __e( i18n.description ) +
-    '\n			<textarea class="snippet-editor__input snippet-editor__description js-snippet-editor-description" id="twitter-editor-description" placeholder="' +
-    __e( placeholder.description ) +
-    '">' +
-    __e( raw.meta ) +
-    '</textarea>\n		</label>\n		<label for="twitter-editor-imageUrl" class="snippet-editor__label">\n			' +
-    __e( i18n.imageUrl ) +
-    '\n			<input type="text" class="snippet-editor__input snippet-editor__slug js-snippet-editor-imageUrl" id="twitter-editor-imageUrl" value="' +
-    __e( raw.imageUrl ) +
-    '" placeholder="' +
-    __e( placeholder.imageUrl ) +
-    '" />\n		</label>\n\n		<button class="snippet-editor__submit snippet-editor__button" type="button">' +
-    __e( i18n.save ) +
-    '</button>\n	</div>\n</div>\n';
+    '</h4>\n\n	<div class="snippet-editor__form snippet-editor--hidden">\n\n	</div>\n</div>\n';
 
     }
     return __p
