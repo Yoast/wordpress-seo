@@ -234,22 +234,59 @@ class WPSEO_Sitemaps_Cache {
 	}
 
 	/**
+	 * Get the sitemap that is cached
+	 *
+	 * @param string $type Sitemap type.
+	 * @param int    $page Page number to retrieve.
+	 *
+	 * @return null|WPSEO_Sitemap_Cache_Data Null on no cache found otherwise object containing sitemap and meta data.
+	 */
+	public function get_sitemap_data( $type, $page ) {
+
+		$sitemap = $this->get_sitemap( $type, $page );
+
+		if ( empty( $sitemap ) ) {
+			return null;
+		}
+
+		// Unserialize Cache Data object (is_serialized doesn't recognize classes).
+		if ( 0 === strpos( $sitemap, 'C:24:"WPSEO_Sitemap_Cache_Data"' ) ) {
+
+			$sitemap = unserialize( $sitemap );
+		}
+
+		// What we expect it to be if it is set.
+		if ( $sitemap instanceof WPSEO_Sitemap_Cache_Data_Interface ) {
+			return $sitemap;
+		}
+
+		return null;
+	}
+
+	/**
 	 * Store the sitemap page from cache.
 	 *
 	 * @param string $type    Sitemap type.
 	 * @param int    $page    Page number to store.
 	 * @param string $sitemap Sitemap body to store.
+	 * @param bool   $usable  Is this a valid sitemap or a cache of an invalid sitemap.
 	 *
 	 * @return bool
 	 */
-	public function store_sitemap( $type, $page, $sitemap ) {
+	public function store_sitemap( $type, $page, $sitemap, $usable = true ) {
 
 		$transient_key = self::get_storage_key( $type, $page );
 		if ( false === $transient_key ) {
 			return false;
 		}
 
-		return set_transient( $transient_key, $sitemap, DAY_IN_SECONDS );
+		$status = ( $usable ) ? WPSEO_Sitemap_Cache_Data::OK : WPSEO_Sitemap_Cache_Data::ERROR;
+
+		$sitemap_data = new WPSEO_Sitemap_Cache_Data();
+		$sitemap_data->set_sitemap( $sitemap );
+		$sitemap_data->set_status( $status );
+
+		return set_transient( $transient_key, $sitemap_data, DAY_IN_SECONDS );
 	}
 
 	/**
