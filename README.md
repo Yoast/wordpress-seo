@@ -71,7 +71,7 @@ Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recen
 
 ## Documentation
 
-[Customization](./docs/Customization.md)
+The data that will be analyzed by YoastSEO.js can be modified by plugins. Plugins can also add new research and assessments. To find out how to do this, checkout out the [customization documentation](./docs/Customization.md).
 
 ## Testing
 
