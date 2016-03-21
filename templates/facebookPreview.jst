@@ -1,0 +1,49 @@
+<div id="facebook_preview">
+	<h4 class="snippet-editor__heading snippet-editor__heading-icon-eye"><%- i18n.snippetPreview %></h4>
+
+	<section class="facebook-preview">
+		<div class="snippet-editor__container facebook-preview__image snippet_container" id="facebook_image_container">
+			<img class="image" id="facebook_image" src="<%- rendered.imageUrl %>" />
+		</div>
+		<div class="facebook-preview__text-keeper">
+			<div class="snippet-editor__container facebook-preview__title snippet_container" id="facebook_title_container">
+				<span id="facebook_title">
+					<%- rendered.title %>
+				</span>
+			</div>
+			<div class="snippet-editor__container facebook-preview__description snippet_container" id="facebook_description_container">
+				<span id="facebook_description">
+					<%- rendered.description %>
+				</span>
+			</div>
+			<div class="snippet-editor__container facebook-preview__website snippet_container" id="base_url_container">
+				<span id="facebook_base_url">
+					<%- rendered.baseUrl %>
+				</span>
+			</div>
+		</div>
+	</section>
+
+	<button class="snippet-editor__button snippet-editor__edit-button" type="button">
+		<%- i18n.edit %>
+	</button>
+
+	<h4 class="snippet-editor__heading snippet-editor__heading-editor snippet-editor__heading-icon-edit snippet-editor--hidden"><%- i18n.snippetEditor %></h4>
+
+	<div class="snippet-editor__form snippet-editor--hidden">
+		<label for="facebook-editor-title" class="snippet-editor__label">
+			<%- i18n.title %>
+			<input type="text" class="snippet-editor__input snippet-editor__title js-snippet-editor-title" id="facebook-editor-title" value="<%- raw.title %>" placeholder="<%- placeholder.title %>" />
+		</label>
+		<label for="facebook-editor-description" class="snippet-editor__label">
+			<%- i18n.description %>
+			<textarea class="snippet-editor__input snippet-editor__description js-snippet-editor-description" id="facebook-editor-description" placeholder="<%- placeholder.description %>"><%- raw.meta %></textarea>
+		</label>
+		<label for="facebook-editor-imageUrl" class="snippet-editor__label">
+			<%- i18n.imageUrl %>
+			<input type="text" class="snippet-editor__input snippet-editor__slug js-snippet-editor-imageUrl" id="facebook-editor-imageUrl" value="<%- raw.imageUrl %>" placeholder="<%- placeholder.imageUrl %>" />
+		</label>
+
+		<button class="snippet-editor__submit snippet-editor__button" type="button"><%- i18n.save %></button>
+	</div>
+</div>

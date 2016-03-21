@@ -12,9 +12,12 @@ var Jed = require( "jed" );
 var stripHTMLTags = require( "yoastseo/js/stringProcessing/stripHTMLTags.js" );
 var stripSpaces = require( "yoastseo/js/stringProcessing/stripSpaces.js" );
 
-var snippetEditorTemplate = require( "./templates.js" ).snippetEditor;
+var addClass = require( "./helpers/addClass.js" );
+var removeClass = require( "./helpers/removeClass.js" );
 
-var defaults = {
+var twitterEditorTemplate = require( "./templates.js" ).twitterPreview;
+
+var twitterDefaults = {
 	data: {
 		title: "",
 		description: "",
@@ -22,7 +25,7 @@ var defaults = {
 	},
 	placeholder: {
 		title:    "This is an example title - edit by clicking here",
-		description: "Modify your facebook description by editing it right here",
+		description: "Modify your twitter description by editing it right here",
 		imageUrl: ""
 	},
 	defaultValue: {
@@ -36,57 +39,20 @@ var defaults = {
 	}
 };
 
-var inputPreviewBindings = [
+var inputTwitterPreviewBindings = [
 	{
-		"preview": "title_container",
+		"preview": "twitter_title_container",
 		"inputField": "title"
 	},
 	{
-		"preview": "image_container",
+		"preview": "twitter_image_container",
 		"inputField": "imageUrl"
 	},
 	{
-		"preview": "description_container",
+		"preview": "twitter_description_container",
 		"inputField": "description"
 	}
 ];
-
-/**
- * Adds a class to an element
- *
- * @param {HTMLElement} element The element to add the class to.
- * @param {string} className The class to add.
- *
- * @return {void}
- */
-function addClass( element, className ) {
-	var classes = element.className.split( " " );
-
-	if ( -1 === classes.indexOf( className ) ) {
-		classes.push( className );
-	}
-
-	element.className = classes.join( " " );
-}
-
-/**
- * Removes a class from an element
- *
- * @param {HTMLElement} element The element to remove the class from.
- * @param {string} className The class to remove.
- *
- * @return {void}
- */
-function removeClass( element, className ) {
-	var classes = element.className.split( " " );
-	var foundClass = classes.indexOf( className );
-
-	if ( -1 !== foundClass ) {
-		classes.splice( foundClass, 1 );
-	}
-
-	element.className = classes.join( " " );
-}
 
 /**
  * @module snippetPreview
@@ -109,7 +75,7 @@ function removeClass( element, className ) {
  * @param {string}         opts.defaultValue.imageUrl     - Default image url.
  * it.
  *
- * @param {string}         opts.baseURL                   - The basic URL as it will be displayed in facebook.
+ * @param {string}         opts.baseURL                   - The basic URL as it will be displayed in twitter.
  * @param {HTMLElement}    opts.targetElement             - The target element that contains this snippet editor.
  *
  * @param {Object}         opts.callbacks                 - Functions that are called on specific instances.
@@ -126,7 +92,7 @@ function removeClass( element, className ) {
  * @property {HTMLElement} element.rendered.title         - The rendered title element.
  * @property {HTMLElement} element.rendered.imageUrl      - The rendered url path element.
  * @property {HTMLElement} element.rendered.urlBase       - The rendered url base element.
- * @property {HTMLElement} element.rendered.description   - The rendered facebook description element.
+ * @property {HTMLElement} element.rendered.description   - The rendered twitter description element.
  *
  * @property {Object}      element.input                  - The input elements.
  * @property {HTMLElement} element.input.title            - The title input element.
@@ -146,11 +112,11 @@ function removeClass( element, className ) {
  *
  * @constructor
  */
-var FacebookPreview = function( opts, i18n ) {
-	defaultsDeep( opts, defaults );
+var TwitterPreview = function( opts, i18n ) {
+	defaultsDeep( opts, twitterDefaults );
 
 	if ( !isElement( opts.targetElement ) ) {
-		throw new Error( "The facebook preview requires a valid target element" );
+		throw new Error( "The twitter preview requires a valid target element" );
 	}
 
 	this.data = opts.data;
@@ -168,7 +134,7 @@ var FacebookPreview = function( opts, i18n ) {
  *
  * @returns {Jed} - The Jed translation object.
  */
-FacebookPreview.prototype.constructI18n = function( translations ) {
+TwitterPreview.prototype.constructI18n = function( translations ) {
 	var defaultTranslations = {
 		"domain": "js-text-analysis",
 		"locale_data": {
@@ -189,7 +155,7 @@ FacebookPreview.prototype.constructI18n = function( translations ) {
  *
  * @returns {void}
  */
-FacebookPreview.prototype.init = function() {
+TwitterPreview.prototype.init = function() {
 	this.renderTemplate();
 	this.bindEvents();
 
@@ -205,10 +171,10 @@ FacebookPreview.prototype.init = function() {
  *
  * @returns {void}
  */
-FacebookPreview.prototype.renderTemplate = function() {
+TwitterPreview.prototype.renderTemplate = function() {
 	var targetElement = this.opts.targetElement;
 
-	targetElement.innerHTML = snippetEditorTemplate( {
+	targetElement.innerHTML = twitterEditorTemplate( {
 		raw: {
 			title: this.data.title,
 			imageUrl: this.data.imageUrl,
@@ -222,22 +188,22 @@ FacebookPreview.prototype.renderTemplate = function() {
 		},
 		placeholder: this.opts.placeholder,
 		i18n: {
-			edit: this.i18n.dgettext( "js-text-analysis", "Edit snippet" ),
-			title: this.i18n.dgettext( "js-text-analysis", "Facebook title" ),
-			imageUrl:  this.i18n.dgettext( "js-text-analysis", "Facebook image URL" ),
-			description: this.i18n.dgettext( "js-text-analysis", "Facebook description" ),
-			save: this.i18n.dgettext( "js-text-analysis", "Close snippet editor" ),
-			snippetPreview: this.i18n.dgettext( "js-text-analysis", "Snippet preview" ),
-			snippetEditor: this.i18n.dgettext( "js-text-analysis", "Snippet editor" )
+			edit: this.i18n.dgettext( "js-text-analysis", "Edit Twitter preview" ),
+			title: this.i18n.dgettext( "js-text-analysis", "Twitter title" ),
+			imageUrl:  this.i18n.dgettext( "js-text-analysis", "Twitter image URL" ),
+			description: this.i18n.dgettext( "js-text-analysis", "Twitter description" ),
+			save: this.i18n.dgettext( "js-text-analysis", "Close Twitter editor" ),
+			snippetPreview: this.i18n.dgettext( "js-text-analysis", "Twitter preview" ),
+			snippetEditor: this.i18n.dgettext( "js-text-analysis", "Twitter editor" )
 		}
 	} );
 
 	this.element = {
 		rendered: {
-			title: document.getElementById( "snippet_title" ),
-			urlBase: document.getElementById( "snippet_base_url" ),
-			imageUrl: document.getElementById( "snippet_image" ),
-			description: document.getElementById( "snippet_description" )
+			title: document.getElementById( "twitter_title" ),
+			urlBase: document.getElementById( "twitter_base_url" ),
+			imageUrl: document.getElementById( "twitter_image" ),
+			description: document.getElementById( "twitter_description" )
 		},
 		input: {
 			title: targetElement.getElementsByClassName( "js-snippet-editor-title" )[0],
@@ -271,7 +237,7 @@ FacebookPreview.prototype.renderTemplate = function() {
  *
  * @returns {Object} The formatted output
  */
-FacebookPreview.prototype.htmlOutput = function() {
+TwitterPreview.prototype.htmlOutput = function() {
 	var html = {};
 	html.title = this.formatTitle();
 	html.description = this.formatDescription();
@@ -286,7 +252,7 @@ FacebookPreview.prototype.htmlOutput = function() {
  *
  * @returns {string} The formatted title, without html tags.
  */
-FacebookPreview.prototype.formatTitle = function() {
+TwitterPreview.prototype.formatTitle = function() {
 	var title = this.getTitle();
 
 	title = stripHTMLTags( title );
@@ -304,7 +270,7 @@ FacebookPreview.prototype.formatTitle = function() {
  *
  * @returns {string} Returns the title, or a fallback title
  */
-FacebookPreview.prototype.getTitle = function() {
+TwitterPreview.prototype.getTitle = function() {
 	var title = this.data.title;
 
 	// Fallback to the default if the title is empty.
@@ -320,11 +286,11 @@ FacebookPreview.prototype.getTitle = function() {
 	return title;
 };
 /**
- * Formats the description for the facebook preview..
+ * Formats the description for the twitter preview..
  *
  * @returns {string} Formatted description.
  */
-FacebookPreview.prototype.formatDescription = function() {
+TwitterPreview.prototype.formatDescription = function() {
 	var description = this.getDescription();
 
 	description = stripHTMLTags( description );
@@ -342,7 +308,7 @@ FacebookPreview.prototype.formatDescription = function() {
  *
  * @returns {string} Returns description or a fallback description.
  */
-FacebookPreview.prototype.getDescription = function() {
+TwitterPreview.prototype.getDescription = function() {
 	var description = this.data.description;
 
 	if ( isEmpty( description ) ) {
@@ -353,11 +319,11 @@ FacebookPreview.prototype.getDescription = function() {
 };
 
 /**
- * Formats the imageUrl for the facebook preview
+ * Formats the imageUrl for the twitter preview
  *
- * @returns {string} Formatted URL for the facebook preview.
+ * @returns {string} Formatted URL for the twitter preview.
  */
-FacebookPreview.prototype.formatImageUrl = function() {
+TwitterPreview.prototype.formatImageUrl = function() {
 	var imageUrl = this.getImageUrl();
 
 	imageUrl = stripHTMLTags( imageUrl );
@@ -370,7 +336,7 @@ FacebookPreview.prototype.formatImageUrl = function() {
  *
  * @returns {string} Returns the image URL
  */
-FacebookPreview.prototype.getImageUrl = function() {
+TwitterPreview.prototype.getImageUrl = function() {
 	var imageUrl = this.data.imageUrl;
 
 	// Fallback to the default if the imageUrl is empty.
@@ -385,20 +351,27 @@ FacebookPreview.prototype.getImageUrl = function() {
  * Updates the image object with the new URL.
  *
  * @param {Object} image    Image element.
- * @param {string} imageURL The image path.
+ * @param {string} imageUrl The image path.
  *
  * @returns {void}
  */
-FacebookPreview.prototype.setImageUrl = function( image, imageURL ) {
-	image.src = imageURL;
+TwitterPreview.prototype.setImageUrl = function( image, imageUrl ) {
 
-	// Hide the image element, while resizing the image.
-	addClass( image, "snippet-editor--hidden" );
+	var img = new Image();
+	img.onload = function() {
+		image.src = imageUrl;
 
-	this.setImageRatio( image );
+		this.setImageRatio( image );
 
-	// Show the image, because it's done.
-	removeClass( image, "snippet-editor--hidden" );
+		// Show the image, because it's done.
+		removeClass( image, "snippet-editor--hidden" );
+	}.bind( this );
+
+	img.onerror = function() {
+		addClass( image, "snippet-editor--hidden" );
+	};
+
+	img.src = imageUrl;
 };
 
 /**
@@ -408,8 +381,8 @@ FacebookPreview.prototype.setImageUrl = function( image, imageURL ) {
  *
  * @returns {void}
  */
-FacebookPreview.prototype.setImageRatio = function( image ) {
-	var maxWidth = 470;
+TwitterPreview.prototype.setImageRatio = function( image ) {
+	var maxWidth = 506;
 	var width    = image.width;
 	var height = image.height;
 
@@ -420,11 +393,11 @@ FacebookPreview.prototype.setImageRatio = function( image ) {
 };
 
 /**
- * Formats the base url for the facebook preview. Removes the protocol name from the URL.
+ * Formats the base url for the twitter preview. Removes the protocol name from the URL.
  *
- * @returns {string} Formatted url for the facebook preview.
+ * @returns {string} Formatted url for the twitter preview.
  */
-FacebookPreview.prototype.formatUrl = function() {
+TwitterPreview.prototype.formatUrl = function() {
 	var url = this.opts.baseURL;
 
 	// Removes the http part of the url, google displays https:// if the website supports it.
@@ -436,7 +409,7 @@ FacebookPreview.prototype.formatUrl = function() {
  *
  * @returns {void}
  */
-FacebookPreview.prototype.bindEvents = function() {
+TwitterPreview.prototype.bindEvents = function() {
 	var targetElement,
 		elems = [ "title", "description", "imageUrl" ];
 
@@ -455,7 +428,7 @@ FacebookPreview.prototype.bindEvents = function() {
 	this.element.closeEditor.addEventListener( "click", this.closeEditor.bind( this ) );
 
 	// Loop through the bindings and bind a click handler to the click to focus the focus element.
-	forEach( inputPreviewBindings, function( binding ) {
+	forEach( inputTwitterPreviewBindings, function(binding ) {
 		var previewElement = document.getElementById( binding.preview );
 		var inputElement = this.element.input[ binding.inputField ];
 
@@ -499,7 +472,7 @@ FacebookPreview.prototype.bindEvents = function() {
  *
  * @returns {void}
  */
-FacebookPreview.prototype.changedInput = debounce( function() {
+TwitterPreview.prototype.changedInput = debounce( function() {
 	this.updateDataFromDOM();
 	this.refresh();
 }, 25 );
@@ -509,7 +482,7 @@ FacebookPreview.prototype.changedInput = debounce( function() {
  *
  * @returns {void}
  */
-FacebookPreview.prototype.updateDataFromDOM = function() {
+TwitterPreview.prototype.updateDataFromDOM = function() {
 	this.data.title = this.element.input.title.value;
 	this.data.imageUrl = this.element.input.imageUrl.value;
 	this.data.description = this.element.input.description.value;
@@ -523,7 +496,7 @@ FacebookPreview.prototype.updateDataFromDOM = function() {
  *
  * @returns {void}
  */
-FacebookPreview.prototype.refresh = function() {
+TwitterPreview.prototype.refresh = function() {
 	this.output = this.htmlOutput();
 	this.renderOutput();
 	this.renderSnippetStyle();
@@ -534,7 +507,7 @@ FacebookPreview.prototype.refresh = function() {
  *
  * @returns {void}
  */
-FacebookPreview.prototype.renderOutput = function() {
+TwitterPreview.prototype.renderOutput = function() {
 	this.element.rendered.title.innerHTML = this.output.title;
 
 	if ( typeof this.output.imageUrl !== "undefined" ) {
@@ -549,7 +522,7 @@ FacebookPreview.prototype.renderOutput = function() {
  *
  * @returns {void}
  */
-FacebookPreview.prototype.renderSnippetStyle = function() {
+TwitterPreview.prototype.renderSnippetStyle = function() {
 	var descriptionElement = this.element.rendered.description;
 	var description = this.getDescription();
 
@@ -567,7 +540,7 @@ FacebookPreview.prototype.renderSnippetStyle = function() {
  *
  * @returns {void}
  */
-FacebookPreview.prototype.openEditor = function() {
+TwitterPreview.prototype.openEditor = function() {
 
 	// Hide these elements.
 	addClass( this.element.editToggle,       "snippet-editor--hidden" );
@@ -584,7 +557,7 @@ FacebookPreview.prototype.openEditor = function() {
  *
  * @returns {void}
  */
-FacebookPreview.prototype.closeEditor = function() {
+TwitterPreview.prototype.closeEditor = function() {
 
 	// Hide these elements.
 	addClass( this.element.formContainer,     "snippet-editor--hidden" );
@@ -601,7 +574,7 @@ FacebookPreview.prototype.closeEditor = function() {
  *
  * @returns {void}
  */
-FacebookPreview.prototype.toggleEditor = function() {
+TwitterPreview.prototype.toggleEditor = function() {
 	if ( this.opened ) {
 		this.closeEditor();
 	} else {
@@ -616,7 +589,7 @@ FacebookPreview.prototype.toggleEditor = function() {
  *
  * @returns {void}
  */
-FacebookPreview.prototype._updateFocusCarets = function() {
+TwitterPreview.prototype._updateFocusCarets = function() {
 	var focusedLabel, focusedPreview;
 
 	// Disable all carets on the labels.
@@ -645,7 +618,7 @@ FacebookPreview.prototype._updateFocusCarets = function() {
  *
  * @returns {void}
  */
-FacebookPreview.prototype._updateHoverCarets = function() {
+TwitterPreview.prototype._updateHoverCarets = function() {
 	var hoveredLabel;
 
 	forEach( this.element.label, function( element ) {
@@ -659,4 +632,4 @@ FacebookPreview.prototype._updateHoverCarets = function() {
 	}
 };
 
-module.exports = FacebookPreview;
+module.exports = TwitterPreview;
