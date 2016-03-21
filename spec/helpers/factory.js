@@ -49,6 +49,8 @@ FactoryProto.prototype.buildMockElement = function() {
 
 /**
  * Returns a mock researcher
+ *
+ * @returns {Researcher}
  */
 FactoryProto.prototype.buildMockResearcher = function( expectedValue ) {
 	return {
