@@ -12,9 +12,12 @@ var Jed = require( "jed" );
 var stripHTMLTags = require( "yoastseo/js/stringProcessing/stripHTMLTags.js" );
 var stripSpaces = require( "yoastseo/js/stringProcessing/stripSpaces.js" );
 
-var snippetEditorTemplate = require( "./templates.js" ).snippetEditor;
+var addClass = require( "./helpers/addClass.js" );
+var removeClass = require( "./helpers/removeClass.js" );
 
-var defaults = {
+var facebookEditorTemplate = require( "./templates.js" ).facebookPreview;
+
+var facebookDefaults = {
 	data: {
 		title: "",
 		description: "",
@@ -36,57 +39,20 @@ var defaults = {
 	}
 };
 
-var inputPreviewBindings = [
+var inputFacebookPreviewBindings = [
 	{
-		"preview": "title_container",
+		"preview": "facebook_title_container",
 		"inputField": "title"
 	},
 	{
-		"preview": "image_container",
+		"preview": "facebook_image_container",
 		"inputField": "imageUrl"
 	},
 	{
-		"preview": "description_container",
+		"preview": "facebook_description_container",
 		"inputField": "description"
 	}
 ];
-
-/**
- * Adds a class to an element
- *
- * @param {HTMLElement} element The element to add the class to.
- * @param {string} className The class to add.
- *
- * @return {void}
- */
-function addClass( element, className ) {
-	var classes = element.className.split( " " );
-
-	if ( -1 === classes.indexOf( className ) ) {
-		classes.push( className );
-	}
-
-	element.className = classes.join( " " );
-}
-
-/**
- * Removes a class from an element
- *
- * @param {HTMLElement} element The element to remove the class from.
- * @param {string} className The class to remove.
- *
- * @return {void}
- */
-function removeClass( element, className ) {
-	var classes = element.className.split( " " );
-	var foundClass = classes.indexOf( className );
-
-	if ( -1 !== foundClass ) {
-		classes.splice( foundClass, 1 );
-	}
-
-	element.className = classes.join( " " );
-}
 
 /**
  * @module snippetPreview
@@ -147,7 +113,7 @@ function removeClass( element, className ) {
  * @constructor
  */
 var FacebookPreview = function( opts, i18n ) {
-	defaultsDeep( opts, defaults );
+	defaultsDeep( opts, facebookDefaults );
 
 	if ( !isElement( opts.targetElement ) ) {
 		throw new Error( "The facebook preview requires a valid target element" );
@@ -208,7 +174,7 @@ FacebookPreview.prototype.init = function() {
 FacebookPreview.prototype.renderTemplate = function() {
 	var targetElement = this.opts.targetElement;
 
-	targetElement.innerHTML = snippetEditorTemplate( {
+	targetElement.innerHTML = facebookEditorTemplate( {
 		raw: {
 			title: this.data.title,
 			imageUrl: this.data.imageUrl,
@@ -234,17 +200,17 @@ FacebookPreview.prototype.renderTemplate = function() {
 
 	this.element = {
 		rendered: {
-			title: document.getElementById( "snippet_title" ),
-			urlBase: document.getElementById( "snippet_base_url" ),
-			imageUrl: document.getElementById( "snippet_image" ),
-			description: document.getElementById( "snippet_description" )
+			title: document.getElementById( "facebook_title" ),
+			urlBase: document.getElementById( "facebook_base_url" ),
+			imageUrl: document.getElementById( "facebook_image" ),
+			description: document.getElementById( "facebook_description" )
 		},
 		input: {
 			title: targetElement.getElementsByClassName( "js-snippet-editor-title" )[0],
 			imageUrl: targetElement.getElementsByClassName( "js-snippet-editor-imageUrl" )[0],
 			description: targetElement.getElementsByClassName( "js-snippet-editor-description" )[0]
 		},
-		container: document.getElementById( "snippet_preview" ),
+		container: document.getElementById( "twitter_preview" ),
 		formContainer: targetElement.getElementsByClassName( "snippet-editor__form" )[0],
 		editToggle: targetElement.getElementsByClassName( "snippet-editor__edit-button" )[0],
 		closeEditor: targetElement.getElementsByClassName( "snippet-editor__submit" )[0],
@@ -462,7 +428,7 @@ FacebookPreview.prototype.bindEvents = function() {
 	this.element.closeEditor.addEventListener( "click", this.closeEditor.bind( this ) );
 
 	// Loop through the bindings and bind a click handler to the click to focus the focus element.
-	forEach( inputPreviewBindings, function( binding ) {
+	forEach( inputFacebookPreviewBindings, function( binding ) {
 		var previewElement = document.getElementById( binding.preview );
 		var inputElement = this.element.input[ binding.inputField ];
 
