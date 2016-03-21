@@ -1,5 +1,5 @@
 var keyphraseLengthAssessment = require( "../../js/assessments/keyphraseLength.js" );
-var Paper = require( "../../js/values/paper.js" );
+var Paper = require( "../../js/values/Paper.js" );
 
 var factory = require( "../helpers/factory.js" );
 var i18n = factory.buildJed();
