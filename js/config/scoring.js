@@ -227,40 +227,6 @@ var AnalyzerScoring = function( i18n ) {
                 }
 			]
         }, {
-            scoreName: "imageCount",
-            scoreArray: [
-                {
-                    matcher: "total",
-                    max: 0,
-                    score: 3,
-                    text: i18n.dgettext( "js-text-analysis", "No images appear in this page, consider adding some as appropriate." )
-                },
-                {
-					matcher: "noAlt",
-					min: 1,
-					score: 5,
-					text: i18n.dgettext( "js-text-analysis", "The images on this page are missing alt tags." )
-				},
-				{
-					matcher: "altNaKeyword",
-					min: 1,
-					score: 5,
-					text: i18n.dgettext( "js-text-analysis", "The images on this page contain alt tags" )
-				},
-                {
-                    matcher: "altKeyword",
-                    min: 1,
-                    score: 9,
-                    text: i18n.dgettext( "js-text-analysis", "The images on this page contain alt tags with the focus keyword." )
-                },
-                {
-                    matcher: "alt",
-                    min: 1,
-                    score: 5,
-                    text: i18n.dgettext( "js-text-analysis", "The images on this page do not have alt tags containing your focus keyword." )
-                }
-            ]
-        }, {
             scoreName: "keywordDoubles",
             scoreArray: [
                 {matcher: "count", max: 0, score: 9, text: i18n.dgettext( "js-text-analysis", "You've never used this focus keyword before, very good." ) },

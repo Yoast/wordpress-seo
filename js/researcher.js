@@ -10,6 +10,8 @@ var wordCountInText = require( "./researches/wordCountInText.js" );
 var getLinkStatistics = require( "./analyses/getLinkStatistics.js" );
 var calculateFleschReading = require( "./researches/calculateFleschReading.js" );
 var metaDescriptionLength = require( "./researches/metaDescriptionLength.js" );
+var imageCount = require( "./researches/imageCountInText.js" );
+var altTagCount = require( "./researches/imageAltTags.js" );
 
 /**
  * This contains all possible, default researches.
@@ -24,7 +26,9 @@ var Researcher = function( paper ) {
 		"wordCountInText": wordCountInText,
 		"calculateFleschReading": calculateFleschReading,
 		"getLinkStatistics": getLinkStatistics,
-		"metaDescriptionLength": metaDescriptionLength
+		"metaDescriptionLength": metaDescriptionLength,
+		"imageCount": imageCount,
+		"altTagCount": altTagCount
 	};
 
 	this.customResearches = {};
