@@ -1,15 +1,10 @@
 /* jshint browser: true */
 
-var isEmpty = require( "lodash/lang/isEmpty" );
 var isElement = require( "lodash/lang/isElement" );
 var clone = require( "lodash/lang/clone" );
 var defaultsDeep = require( "lodash/object/defaultsDeep" );
-var debounce = require( "lodash/function/debounce" );
 
 var Jed = require( "jed" );
-
-var stripHTMLTags = require( "yoastseo/js/stringProcessing/stripHTMLTags.js" );
-var stripSpaces = require( "yoastseo/js/stringProcessing/stripSpaces.js" );
 
 var addClass = require( "./helpers/addClass.js" );
 var removeClass = require( "./helpers/removeClass.js" );
@@ -20,6 +15,7 @@ var TextField = require( "./fields/textFieldFactory" );
 var TextArea = require( "./fields/textAreaFactory" );
 var Button = require( "./fields/button.js" );
 
+var FieldElement = require( "./element/field" );
 var PreviewEvents = require( "./preview/events" );
 
 var twitterEditorTemplate = require( "./templates.js" ).twitterPreview;
@@ -40,6 +36,7 @@ var twitterDefaults = {
 		description: "",
 		imageUrl: ""
 	},
+	baseURL: "example.com",
 	callbacks: {
 		saveSnippetData: function() {}
 	}
@@ -97,7 +94,6 @@ var inputTwitterPreviewBindings = [
  * @property {Object}      element.rendered               - The rendered elements.
  * @property {HTMLElement} element.rendered.title         - The rendered title element.
  * @property {HTMLElement} element.rendered.imageUrl      - The rendered url path element.
- * @property {HTMLElement} element.rendered.urlBase       - The rendered url base element.
  * @property {HTMLElement} element.rendered.description   - The rendered twitter description element.
  *
  * @property {Object}      element.input                  - The input elements.
@@ -164,12 +160,7 @@ TwitterPreview.prototype.constructI18n = function( translations ) {
 TwitterPreview.prototype.init = function() {
 	this.renderTemplate();
 	this.bindEvents();
-
-	// Sets the image ratio.
-	this.setImageRatio( this.element.rendered.imageUrl );
-
-	// Renders the snippet style.
-	renderDescription( this.element.rendered.description, this.getDescription() );
+	this.updatePreview();
 };
 
 /**
@@ -181,24 +172,15 @@ TwitterPreview.prototype.renderTemplate = function() {
 	var targetElement = this.opts.targetElement;
 
 	targetElement.innerHTML = twitterEditorTemplate( {
-		raw: {
-			title: this.data.title,
-			imageUrl: this.data.imageUrl,
-			description: this.data.description
-		},
 		rendered: {
-			title: this.formatTitle(),
-			description: this.formatDescription(),
-			imageUrl: this.formatImageUrl(),
+			title: "",
+			description: "",
+			imageUrl: "",
 			baseUrl: this.opts.baseURL
 		},
 		placeholder: this.opts.placeholder,
 		i18n: {
 			edit: this.i18n.dgettext( "js-text-analysis", "Edit Twitter preview" ),
-			title: this.i18n.dgettext( "js-text-analysis", "Twitter title" ),
-			imageUrl:  this.i18n.dgettext( "js-text-analysis", "Twitter image URL" ),
-			description: this.i18n.dgettext( "js-text-analysis", "Twitter description" ),
-			save: this.i18n.dgettext( "js-text-analysis", "Close Twitter editor" ),
 			snippetPreview: this.i18n.dgettext( "js-text-analysis", "Twitter preview" ),
 			snippetEditor: this.i18n.dgettext( "js-text-analysis", "Twitter editor" )
 		}
@@ -207,47 +189,10 @@ TwitterPreview.prototype.renderTemplate = function() {
 	this.element = {
 		rendered: {
 			title: document.getElementById( "twitter_title" ),
-			urlBase: document.getElementById( "twitter_base_url" ),
 			imageUrl: document.getElementById( "twitter_image" ),
 			description: document.getElementById( "twitter_description" )
 		},
-		fields: {
-			title: new TextField( {
-				className: "snippet-editor__input snippet-editor__title js-snippet-editor-title",
-				id: "twitter-editor-title",
-				value: this.data.title,
-				placeholder: this.opts.placeholder.title,
-				title: this.i18n.dgettext( "js-text-analysis", "Twitter title" ),
-				labelClassName: "snippet-editor__label"
-			} ),
-			description: new TextArea( {
-				className: "snippet-editor__input snippet-editor__description js-snippet-editor-description",
-				id: "twitter-editor-description",
-				value: this.data.description,
-				placeholder: this.opts.placeholder.description,
-				title: this.i18n.dgettext( "js-text-analysis", "Twitter description" ),
-				labelClassName: "snippet-editor__label"
-			} ),
-			imageUrl: new TextField( {
-				className: "snippet-editor__input snippet-editor__imageUrl js-snippet-editor-imageUrl",
-				id: "twitter-editor-imageUrl",
-				value: this.data.imageUrl,
-				placeholder: this.opts.placeholder.imageUrl,
-				title: this.i18n.dgettext( "js-text-analysis", "Twitter image URL" ),
-				labelClassName: "snippet-editor__label"
-			} ),
-			button : new Button(
-				{
-					className : "snippet-editor__submit snippet-editor__button",
-					value: this.i18n.dgettext( "js-text-analysis", "Close Twitter editor" )
-				}
-			)
-		},
-		input: {
-			title: targetElement.getElementsByClassName( "js-snippet-editor-title" )[0],
-			imageUrl: targetElement.getElementsByClassName( "js-snippet-editor-imageUrl" )[0],
-			description: targetElement.getElementsByClassName( "js-snippet-editor-description" )[0]
-		},
+		fields: this.getFields(),
 		container: document.getElementById( "snippet_preview" ),
 		formContainer: targetElement.getElementsByClassName( "snippet-editor__form" )[0],
 		editToggle: targetElement.getElementsByClassName( "snippet-editor__edit-button" )[0],
@@ -267,6 +212,7 @@ TwitterPreview.prototype.renderTemplate = function() {
 		description: targetElement.getElementsByClassName( "js-snippet-editor-description" )[0]
 	};
 
+	this.element.fieldElements = this.getFieldElements();
 	this.element.closeEditor = targetElement.getElementsByClassName( "snippet-editor__submit" )[0];
 
 	this.element.label = {
@@ -284,138 +230,144 @@ TwitterPreview.prototype.renderTemplate = function() {
 };
 
 /**
- * Creates html object to contain the strings for the Twitter preview
+ * Returns the form fields.
  *
- * @returns {Object} The formatted output
+ * @returns {{title: *, description: *, imageUrl: *, button: Button}} Object with the fields.
  */
-TwitterPreview.prototype.htmlOutput = function() {
-	var html = {};
-	html.title = this.formatTitle();
-	html.description = this.formatDescription();
-	html.imageUrl = this.formatImageUrl();
-
-	return html;
+TwitterPreview.prototype.getFields = function() {
+	return {
+		title: new TextField( {
+			className: "snippet-editor__input snippet-editor__title js-snippet-editor-title",
+			id: "twitter-editor-title",
+			value: this.data.title,
+			placeholder: this.opts.placeholder.title,
+			title: this.i18n.dgettext( "js-text-analysis", "Twitter title" ),
+			labelClassName: "snippet-editor__label"
+		} ),
+		description: new TextArea( {
+			className: "snippet-editor__input snippet-editor__description js-snippet-editor-description",
+			id: "twitter-editor-description",
+			value: this.data.description,
+			placeholder: this.opts.placeholder.description,
+			title: this.i18n.dgettext( "js-text-analysis", "Twitter description" ),
+			labelClassName: "snippet-editor__label"
+		} ),
+		imageUrl: new TextField( {
+			className: "snippet-editor__input snippet-editor__imageUrl js-snippet-editor-imageUrl",
+			id: "twitter-editor-imageUrl",
+			value: this.data.imageUrl,
+			placeholder: this.opts.placeholder.imageUrl,
+			title: this.i18n.dgettext( "js-text-analysis", "Twitter image URL" ),
+			labelClassName: "snippet-editor__label"
+		} ),
+		button : new Button(
+			{
+				className : "snippet-editor__submit snippet-editor__button",
+				value: this.i18n.dgettext( "js-text-analysis", "Close Twitter editor" )
+			}
+		)
+	};
 };
 
 /**
- * Formats the title for the Twitter preview. If title is empty, sampletext is used
+ * Returns all field elements.
  *
- * @returns {string} The formatted title, without html tags.
+ * @returns {{title: FieldElement, description: FieldElement, imageUrl: FieldElement}} The field element.
  */
-TwitterPreview.prototype.formatTitle = function() {
-	var title = this.getTitle();
+TwitterPreview.prototype.getFieldElements = function() {
+	var targetElement = this.opts.targetElement;
 
-	title = stripHTMLTags( title );
-
-	// As an ultimate fallback provide the user with a helpful message.
-	if ( isEmpty( title ) ) {
-		title = this.i18n.dgettext( "js-text-analysis", "Please provide a Twitter title by editing the snippet below." );
-	}
-
-	return title;
+	return {
+		title: new FieldElement(
+			targetElement.getElementsByClassName( "js-snippet-editor-title" )[0],
+			{
+				currentValue: this.data.title,
+				defaultValue: this.opts.defaultValue.title,
+				placeholder: this.opts.placeholder.title,
+				fallback: this.i18n.dgettext( "js-text-analysis", "Please provide a Twitter title by editing the snippet below." )
+			},
+			this.updatePreview.bind( this )
+		),
+		 description: new FieldElement(
+			 targetElement.getElementsByClassName( "js-snippet-editor-description" )[0],
+			 {
+				 currentValue: this.data.description,
+				 defaultValue: this.opts.defaultValue.description,
+				 placeholder: this.opts.placeholder.description,
+				 fallback: this.i18n.dgettext( "js-text-analysis", "Please provide a description by editing the snippet below." )
+			 },
+			 this.updatePreview.bind( this )
+		 ),
+		imageUrl: new FieldElement(
+			targetElement.getElementsByClassName( "js-snippet-editor-imageUrl" )[0],
+			{
+				currentValue: this.data.imageUrl,
+				defaultValue: this.opts.defaultValue.imageUrl,
+				placeholder: this.opts.placeholder.imageUrl,
+				fallback: ""
+			},
+			this.updatePreview.bind( this )
+		)
+	};
 };
 
 /**
- * Gets the title for the preview.
- *
- * @returns {string} Returns the title, or a fallback title
+ * Updates the twitter preview.
  */
-TwitterPreview.prototype.getTitle = function() {
-	var title = this.data.title;
+TwitterPreview.prototype.updatePreview = function() {
+	// Update the data.
+	this.data.title = this.element.fieldElements.title.getValue();
+	this.data.description = this.element.fieldElements.description.getValue();
+	this.data.imageUrl = this.element.fieldElements.imageUrl.getInputValue();
 
-	// Fallback to the default if the title is empty.
-	if ( isEmpty( title ) ) {
-		title = this.opts.defaultValue.title;
-	}
+	// Sets the title field
+	this.setTitle( this.data.title );
 
-	// For rendering we can fallback to the placeholder as well.
-	if ( isEmpty( title ) ) {
-		title = this.opts.placeholder.title;
-	}
+	// Set the description field and parse the styling of it.
+	this.setDescription( this.data.description );
 
-	return title;
-};
-/**
- * Formats the description for the twitter preview..
- *
- * @returns {string} Formatted description.
- */
-TwitterPreview.prototype.formatDescription = function() {
-	var description = this.getDescription();
+	// Sets the Image URL
+	this.setImageUrl( this.data.imageUrl );
 
-	description = stripHTMLTags( description );
-
-	// As an ultimate fallback provide the user with a helpful message.
-	if ( isEmpty( description ) ) {
-		description = this.i18n.dgettext( "js-text-analysis", "Please provide a description by editing the snippet below." );
-	}
-
-	return description;
+	// Clone so the data isn't changeable.
+	this.opts.callbacks.saveSnippetData( clone( this.data ) );
 };
 
 /**
- * Returns the description.
+ * Sets the preview title.
  *
- * @returns {string} Returns description or a fallback description.
+ * @param {string} title The new title.
  */
-TwitterPreview.prototype.getDescription = function() {
-	var description = this.data.description;
-
-	if ( isEmpty( description ) ) {
-		description = this.opts.defaultValue.description;
-	}
-
-	return stripSpaces( description );
+TwitterPreview.prototype.setTitle = function( title ) {
+	this.element.rendered.title.innerHTML = title;
 };
 
 /**
- * Formats the imageUrl for the twitter preview
+ * Set the preview description.
  *
- * @returns {string} Formatted URL for the twitter preview.
+ * @param {string} description The description to set.
  */
-TwitterPreview.prototype.formatImageUrl = function() {
-	var imageUrl = this.getImageUrl();
-
-	imageUrl = stripHTMLTags( imageUrl );
-
-	return imageUrl;
-};
-
-/**
- * Gets the imageUrl
- *
- * @returns {string} Returns the image URL
- */
-TwitterPreview.prototype.getImageUrl = function() {
-	var imageUrl = this.data.imageUrl;
-
-	// Fallback to the default if the imageUrl is empty.
-	if ( isEmpty( imageUrl ) ) {
-		imageUrl = this.opts.placeholder.imageUrl;
-	}
-
-	return imageUrl;
+TwitterPreview.prototype.setDescription = function( description ) {
+	this.element.rendered.description.innerHTML = description;
+	renderDescription( this.element.rendered.description, this.element.fieldElements.description.getInputValue() );
 };
 
 /**
  * Updates the image object with the new URL.
  *
- * @param {Object} image    Image element.
  * @param {string} imageUrl The image path.
- *
- * @returns {void}
  */
-TwitterPreview.prototype.setImageUrl = function( image, imageUrl ) {
-
-	var img = new Image();
+TwitterPreview.prototype.setImageUrl = function( imageUrl ) {
+	var image = this.element.rendered.imageUrl;
+	var img   = new Image();
 	img.onload = function() {
 		image.src = imageUrl;
 
-		this.setImageRatio( image );
+		imageRatio( image, 506 );
 
 		// Show the image, because it's done.
 		removeClass( image, "snippet-editor--hidden" );
-	}.bind( this );
+	};
 
 	img.onerror = function() {
 		addClass( image, "snippet-editor--hidden" );
@@ -425,78 +377,11 @@ TwitterPreview.prototype.setImageUrl = function( image, imageUrl ) {
 };
 
 /**
- * Sets the image dimensions by ratio
- *
- * @param {Object} image The image object to calculate the ratio for.
- *
- * @returns {void}
- */
-TwitterPreview.prototype.setImageRatio = function( image ) {
-	imageRatio( image, 506 );
-};
-
-/**
  * Binds the reloadSnippetText function to the blur of the snippet inputs.
- *
- * @returns {void}
  */
 TwitterPreview.prototype.bindEvents = function() {
 	var previewEvents = new PreviewEvents( inputTwitterPreviewBindings, this.element );
-	var elems = [ "title", "description", "imageUrl" ];
-
-	previewEvents.bindFormEvents( this.opts.targetElement, elems, this.changedInput.bind( this ) );
-	previewEvents.bindEvents();
-};
-
-/**
- * Updates snippet preview on changed input. It's debounced so that we can call this function as much as we want.
- *
- * @returns {void}
- */
-TwitterPreview.prototype.changedInput = debounce( function() {
-	this.updateDataFromDOM();
-	this.refresh();
-}, 25 );
-
-/**
- * Updates our data object from the DOM
- *
- * @returns {void}
- */
-TwitterPreview.prototype.updateDataFromDOM = function() {
-	this.data.title = this.element.input.title.value;
-	this.data.imageUrl = this.element.input.imageUrl.value;
-	this.data.description = this.element.input.description.value;
-
-	// Clone so the data isn't changeable.
-	this.opts.callbacks.saveSnippetData( clone( this.data ) );
-};
-
-/**
- * Refreshes the snippet editor rendered HTML
- *
- * @returns {void}
- */
-TwitterPreview.prototype.refresh = function() {
-	this.output = this.htmlOutput();
-	this.renderOutput();
-
-	renderDescription( this.element.rendered.description, this.getDescription() );
-};
-
-/**
- * Renders the outputs to the elements on the page.
- *
- * @returns {void}
- */
-TwitterPreview.prototype.renderOutput = function() {
-	this.element.rendered.title.innerHTML = this.output.title;
-
-	if ( typeof this.output.imageUrl !== "undefined" ) {
-		this.setImageUrl( this.element.rendered.imageUrl, this.output.imageUrl );
-	}
-
-	this.element.rendered.description.innerHTML = this.output.description;
+	previewEvents.bindEvents( this.element.editToggle, this.element.closeEditor );
 };
 
 module.exports = TwitterPreview;

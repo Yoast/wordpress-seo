@@ -15,33 +15,14 @@ function PreviewEvents( bindings, element ) {
 }
 
 /**
- * Bind events to the inputs to pick up changes.
- *
- * @param {Object} parentElement The element where the inputs can be found.
- * @param {Array} elems The elements to attach the event to.
- * @param {callback} callback The callback to run for the events.
- */
-PreviewEvents.prototype.bindFormEvents = function( parentElement, elems, callback ) {
-	var targetElement;
-
-	forEach( elems, function( elem ) {
-		targetElement = parentElement.getElementsByClassName( "js-snippet-editor-" + elem )[0];
-
-		targetElement.addEventListener( "keydown", callback );
-		targetElement.addEventListener( "keyup", callback );
-
-		targetElement.addEventListener( "input", callback );
-		targetElement.addEventListener( "focus", callback );
-		targetElement.addEventListener( "blur", callback );
-	} );
-};
-
-/**
  * Bind the events.
+ *
+ * @param {Object} editToggle - The edit toggle element
+ * @param {Object} closeEditor - The button to close the editor
  */
-PreviewEvents.prototype.bindEvents = function() {
-	this.element.editToggle.addEventListener( "click", this.toggleEditor.bind( this ) );
-	this.element.closeEditor.addEventListener( "click", this.closeEditor.bind( this ) );
+PreviewEvents.prototype.bindEvents = function( editToggle, closeEditor ) {
+	editToggle.addEventListener( "click", this.toggleEditor.bind( this ) );
+	closeEditor.addEventListener( "click", this.closeEditor.bind( this ) );
 
 	// Loop through the bindings and bind a click handler to the click to focus the focus element.
 	forEach( this._bindings, this.bindInputEvent.bind( this ) );
