@@ -9,7 +9,6 @@ var checkForKeywordDoubles = require( "./analyses/checkForKeywordDoubles.js" );
 var findKeywordInFirstParagraph = require( "./analyses/findKeywordInFirstParagraph.js" );
 var findKeywordInPageTitle = require( "./analyses/findKeywordInPageTitle.js" );
 var getKeywordDensity = require( "./analyses/getKeywordDensity.js" );
-var countImages = require( "./analyses/getImageStatistics.js" );
 var countLinks = require( "./analyses/getLinkStatistics.js" );
 var getKeyphraseLength = require( "./analyses/getWordCount.js" );
 var isUrlTooLong = require( "./analyses/isUrlTooLong.js" );
@@ -320,7 +319,7 @@ Analyzer.prototype.linkCount = function() {
  * @returns {{name: string, result: {total: number, alt: number, noAlt: number}}}
  */
 Analyzer.prototype.imageCount = function() {
-	return [ { test: "imageCount", result: countImages( this.paper.getText(), this.paper.getKeyword() ) } ];
+	return [ { test: "imageCount", result: 0 } ];
 };
 
 /**

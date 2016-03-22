@@ -1,5 +1,5 @@
 var AssessmentResult = require( "../values/AssessmentResult.js" );
-var inRange = require( "lodash/number/inRange" );
+var isEmpty = require( "lodash/lang/isEmpty" );
 
 /**
  * Calculate the score based on the current image count.
@@ -11,7 +11,7 @@ var calculateimageCountResult = function( imageCount, i18n ) {
 	if ( imageCount === 0 ) {
 		return {
 			score: 3,
-			text: i18n.dgettext("js-text-analysis", "No images appear in this page, consider adding some as appropriate.")
+			text: i18n.dgettext( "js-text-analysis", "No images appear in this page, consider adding some as appropriate." )
 		};
 	}
 
@@ -28,7 +28,7 @@ var calculateAltTagCountResult = function( altProperties, i18n ) {
 	if ( altProperties.noAlt > 0 ) {
 		return {
 			score: 5,
-			text: i18n.dgettext("js-text-analysis", "The images on this page are missing alt tags.")
+			text: i18n.dgettext( "js-text-analysis", "The images on this page are missing alt tags." )
 		};
 	}
 
@@ -36,7 +36,7 @@ var calculateAltTagCountResult = function( altProperties, i18n ) {
 	if ( altProperties.withAlt > 0 ) {
 		return {
 			score: 5,
-			text: i18n.dgettext("js-text-analysis", "The images on this page contain alt tags.")
+			text: i18n.dgettext( "js-text-analysis", "The images on this page contain alt tags." )
 		};
 	}
 
@@ -44,7 +44,7 @@ var calculateAltTagCountResult = function( altProperties, i18n ) {
 	if ( altProperties.withAltNonKeyword > 0 ) {
 		return {
 			score: 5,
-			text: i18n.dgettext("js-text-analysis", "The images on this page do not have alt tags containing your focus keyword.")
+			text: i18n.dgettext( "js-text-analysis", "The images on this page do not have alt tags containing your focus keyword." )
 		};
 	}
 
@@ -52,7 +52,7 @@ var calculateAltTagCountResult = function( altProperties, i18n ) {
 	if ( altProperties.withAltKeyword > 0 ) {
 		return {
 			score: 9,
-			text: i18n.dgettext("js-text-analysis", "The images on this page contain alt tags with the focus keyword.")
+			text: i18n.dgettext( "js-text-analysis", "The images on this page contain alt tags with the focus keyword." )
 		};
 	}
 
@@ -72,7 +72,7 @@ var imageCountAssessment = function( paper, researcher, i18n ) {
 	var imageCount = researcher.getResearch( "imageCount" );
 	var imageCountResult = calculateimageCountResult( imageCount, i18n );
 
-	if ( imageCountResult === {} ) {
+	if ( isEmpty( imageCountResult ) ) {
 		var altTagCount = researcher.getResearch( "altTagCount" );
 		var altTagCountResult = calculateAltTagCountResult( altTagCount, i18n );
 

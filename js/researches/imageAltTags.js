@@ -1,6 +1,6 @@
 /** @module researches/imageAltTags */
 
-var imageInText = require( "../researches/imageInText" );
+var imageInText = require( "../stringProcessing/imageInText" );
 var imageAlttag = require( "../stringProcessing/getAlttagContent" );
 var wordMatch = require( "../stringProcessing/matchTextWithWord" );
 
@@ -35,7 +35,7 @@ var matchAltProperties = function( imageMatches, keyword ) {
 			continue;
 		}
 
-		if ( wordMatch( alttag, keyword ) === 0 && alttag !== "") {
+		if ( wordMatch( alttag, keyword ) === 0 && alttag !== "" ) {
 			// Match for keywords?
 			altProperties.withAltNonKeyword++;
 			continue;
@@ -47,17 +47,15 @@ var matchAltProperties = function( imageMatches, keyword ) {
 		}
 	}
 
-
 	return altProperties;
 };
 
 /**
  * Checks the text for images, checks the type of each image and alttags for containing keywords
  *
- * @param {string} text The textstring to check for images
- * @param {string} keyword The keyword to check in alt-tags
+ * @param {Paper} paper The paper to check for images
  * @returns {object} Object containing all types of found images
  */
-module.exports = function( text, keyword ) {
-	return matchAltProperties( imageInText( text ), keyword );
+module.exports = function( paper ) {
+	return matchAltProperties( imageInText( paper.getText() ), paper.getKeyword() );
 };

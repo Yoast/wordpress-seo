@@ -1,6 +1,6 @@
-/** @module researches/imageInText */
+/** @module stringProcessing/imageInText */
 
-var matchStringWithRegex = require( "../stringProcessing/matchStringWithRegex" );
+var matchStringWithRegex = require( "./matchStringWithRegex.js" );
 
 /**
  * Checks the text for images.
