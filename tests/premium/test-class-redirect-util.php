@@ -65,6 +65,7 @@ class WPSEO_Redirect_Util_Test extends \PHPUnit_Framework_TestCase {
 		$this->assertFalse( WPSEO_Redirect_Util::has_fragment_identifier( '/relative' ) );
 		$this->assertTrue( WPSEO_Redirect_Util::has_fragment_identifier( '/relative/#hash' ) );
 		$this->assertTrue( WPSEO_Redirect_Util::has_fragment_identifier( '/relative#hash' ) );
+		$this->assertTrue( WPSEO_Redirect_Util::has_fragment_identifier( '/relative#' ) );
 	}
 
 	/**
@@ -91,6 +92,7 @@ class WPSEO_Redirect_Util_Test extends \PHPUnit_Framework_TestCase {
 		$this->assertFalse( WPSEO_Redirect_Util::requires_trailing_slash( '/' ) );
 		$this->assertFalse( WPSEO_Redirect_Util::requires_trailing_slash( '/relative/#hash' ) );
 		$this->assertFalse( WPSEO_Redirect_Util::requires_trailing_slash( '/relative#hash' ) );
+		$this->assertFalse( WPSEO_Redirect_Util::requires_trailing_slash( '/relative#' ) );
 		$this->assertTrue( WPSEO_Redirect_Util::requires_trailing_slash( '' ) );
 		$this->assertTrue( WPSEO_Redirect_Util::requires_trailing_slash( '/relative/' ) );
 		$this->assertTrue( WPSEO_Redirect_Util::requires_trailing_slash( '/relative' ) );

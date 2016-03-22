@@ -57,6 +57,11 @@ class WPSEO_Redirect_Util {
 	 * @return bool
 	 */
 	public static function has_fragment_identifier( $url ) {
+		// Deal with this case if the last character is a hash.
+		if ( '#' === substr( $url, -1 ) ) {
+			return true;
+		}
+
 		$fragment = parse_url( $url, PHP_URL_FRAGMENT );
 
 		return ! empty( $fragment );
