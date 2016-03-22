@@ -1,7 +1,7 @@
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 
 /**
- * Returns the score and text for the description keyword
+ * Returns the score and text for the description keyword match.
  * @param {number} keywordMatches The number of keyword matches in the description.
  * @param {object} i18n The i18n object used for translations.
  */
@@ -21,7 +21,7 @@ var calculateKeywordMatchesResult = function( keywordMatches, i18n ) {
 };
 
 /**
- * Runs the metaDescriptionLength module, based on this returns an assessment result with score.
+ * Runs the metaDescription keyword module, based on this returns an assessment result with score.
  *
  * @param {object} paper The paper to use for the assessment.
  * @param {object} researcher The researcher used for calling research.
