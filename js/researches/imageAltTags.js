@@ -36,6 +36,7 @@ var matchAltProperties = function( imageMatches, keyword ) {
 		}
 
 		if ( wordMatch( alttag, keyword ) === 0 && alttag !== "" ) {
+
 			// Match for keywords?
 			altProperties.withAltNonKeyword++;
 			continue;
