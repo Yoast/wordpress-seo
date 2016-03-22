@@ -8,10 +8,13 @@ var isEmpty = require( "lodash/lang/isEmpty" );
 // assessments
 var wordCountInText = require( "./researches/wordCountInText.js" );
 var getLinkStatistics = require( "./analyses/getLinkStatistics.js" );
+var stopWordsInKeyword = require( "./researches/stopWordsInKeyword" );
+var stopWordsInUrl = require( "./researches/stopWordsInUrl" );
 var calculateFleschReading = require( "./researches/calculateFleschReading.js" );
 var metaDescriptionLength = require( "./researches/metaDescriptionLength.js" );
 var imageCount = require( "./researches/imageCountInText.js" );
 var altTagCount = require( "./researches/imageAltTags.js" );
+var keyphraseLength = require( "./researches/keyphraseLength" );
 
 /**
  * This contains all possible, default researches.
@@ -26,9 +29,12 @@ var Researcher = function( paper ) {
 		"wordCountInText": wordCountInText,
 		"calculateFleschReading": calculateFleschReading,
 		"getLinkStatistics": getLinkStatistics,
-		"metaDescriptionLength": metaDescriptionLength,
 		"imageCount": imageCount,
-		"altTagCount": altTagCount
+		"altTagCount": altTagCount,
+		"stopWordsInKeyword": stopWordsInKeyword,
+		"stopWordsInUrl": stopWordsInUrl,
+		"metaDescriptionLength": metaDescriptionLength,
+		"keyphraseLength": keyphraseLength
 	};
 
 	this.customResearches = {};
