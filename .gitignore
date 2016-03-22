@@ -6,3 +6,5 @@ out/
 coverage/
 dist/yoast-seo*
 js/templates.js
+
+/examples/browserified/example-browserified.js
