@@ -15,6 +15,28 @@ function PreviewEvents( bindings, element ) {
 }
 
 /**
+ * Bind events to the inputs to pick up changes.
+ *
+ * @param {Object} parentElement
+ * @param {Array} elems
+ * @param {callback} callback
+ */
+PreviewEvents.prototype.bindFormEvents = function( parentElement, elems, callback ) {
+	var targetElement;
+
+	forEach( elems, function( elem ) {
+		targetElement = parentElement.getElementsByClassName( "js-snippet-editor-" + elem )[0];
+
+		targetElement.addEventListener( "keydown", callback );
+		targetElement.addEventListener( "keyup", callback );
+
+		targetElement.addEventListener( "input", callback );
+		targetElement.addEventListener( "focus", callback );
+		targetElement.addEventListener( "blur", callback );
+	}.bind( this ) );
+};
+
+/**
  * Bind the events.
  */
 PreviewEvents.prototype.bindEvents = function() {

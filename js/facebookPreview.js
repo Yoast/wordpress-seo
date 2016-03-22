@@ -4,7 +4,6 @@ var isEmpty = require( "lodash/lang/isEmpty" );
 var isElement = require( "lodash/lang/isElement" );
 var clone = require( "lodash/lang/clone" );
 var defaultsDeep = require( "lodash/object/defaultsDeep" );
-var forEach = require( "lodash/collection/forEach" );
 var debounce = require( "lodash/function/debounce" );
 
 var Jed = require( "jed" );
@@ -15,6 +14,7 @@ var stripSpaces = require( "yoastseo/js/stringProcessing/stripSpaces.js" );
 var addClass = require( "./helpers/addClass.js" );
 var removeClass = require( "./helpers/removeClass.js" );
 var imageRatio = require( "./helpers/imageRatio" );
+var renderDescription = require( "./helpers/renderDescription" );
 
 var TextField = require( "./fields/textFieldFactory" );
 var TextArea = require( "./fields/textAreaFactory" );
@@ -40,7 +40,7 @@ var facebookDefaults = {
 		description: "",
 		imageUrl: ""
 	},
-	baseURL: "http://example.com",
+	baseURL: "example.com",
 	callbacks: {
 		saveSnippetData: function() {}
 	}
@@ -170,7 +170,7 @@ FacebookPreview.prototype.init = function() {
 	this.setImageRatio( this.element.rendered.imageUrl );
 
 	// Renders the snippet style.
-	this.renderSnippetStyle();
+	renderDescription( this.element.rendered.description, this.getDescription() );
 };
 
 /**
@@ -191,7 +191,7 @@ FacebookPreview.prototype.renderTemplate = function() {
 			title: this.formatTitle(),
 			description: this.formatDescription(),
 			imageUrl: this.formatImageUrl(),
-			baseUrl: this.formatUrl()
+			baseUrl: this.opts.baseURL
 		},
 		placeholder: this.opts.placeholder,
 		i18n: {
@@ -288,7 +288,6 @@ FacebookPreview.prototype.htmlOutput = function() {
 	html.title = this.formatTitle();
 	html.description = this.formatDescription();
 	html.imageUrl = this.formatImageUrl();
-	html.url = this.formatUrl();
 
 	return html;
 };
@@ -420,6 +419,7 @@ FacebookPreview.prototype.setImageUrl = function( image, imageUrl ) {
 	img.src = imageUrl;
 };
 
+
 /**
  * Sets the image dimensions by ratio
  *
@@ -432,38 +432,15 @@ FacebookPreview.prototype.setImageRatio = function( image ) {
 };
 
 /**
- * Formats the base url for the facebook preview. Removes the protocol name from the URL.
- *
- * @returns {string} Formatted url for the facebook preview.
- */
-FacebookPreview.prototype.formatUrl = function() {
-	var url = this.opts.baseURL;
-
-	// Removes the http part of the url, google displays https:// if the website supports it.
-	return url.replace( /http:\/\//ig, "" );
-};
-
-/**
  * Binds the reloadSnippetText function to the blur of the snippet inputs.
  *
  * @returns {void}
  */
 FacebookPreview.prototype.bindEvents = function() {
-	var targetElement,
-		elems = [ "title", "description", "imageUrl" ];
-
-	forEach( elems, function( elem ) {
-		targetElement = this.opts.targetElement.getElementsByClassName( "js-snippet-editor-" + elem )[0];
-
-		targetElement.addEventListener( "keydown", this.changedInput.bind( this ) );
-		targetElement.addEventListener( "keyup", this.changedInput.bind( this ) );
-
-		targetElement.addEventListener( "input", this.changedInput.bind( this ) );
-		targetElement.addEventListener( "focus", this.changedInput.bind( this ) );
-		targetElement.addEventListener( "blur", this.changedInput.bind( this ) );
-	}.bind( this ) );
-
 	var previewEvents = new PreviewEvents( inputFacebookPreviewBindings, this.element );
+	var elems = [ "title", "description", "imageUrl" ];
+
+	previewEvents.bindFormEvents( this.opts.targetElement, elems, this.changedInput.bind( this ) );
 	previewEvents.bindEvents();
 };
 
@@ -499,7 +476,8 @@ FacebookPreview.prototype.updateDataFromDOM = function() {
 FacebookPreview.prototype.refresh = function() {
 	this.output = this.htmlOutput();
 	this.renderOutput();
-	this.renderSnippetStyle();
+
+	renderDescription( this.element.rendered.description, this.getDescription() );
 };
 
 /**
@@ -513,26 +491,8 @@ FacebookPreview.prototype.renderOutput = function() {
 	if ( typeof this.output.imageUrl !== "undefined" ) {
 		this.setImageUrl( this.element.rendered.imageUrl, this.output.imageUrl );
 	}
-	this.element.rendered.urlBase.innerHTML = this.output.url;
+
 	this.element.rendered.description.innerHTML = this.output.description;
-};
-
-/**
- * Makes the rendered description gray if no description has been set by the user.
- *
- * @returns {void}
- */
-FacebookPreview.prototype.renderSnippetStyle = function() {
-	var descriptionElement = this.element.rendered.description;
-	var description = this.getDescription();
-
-	if ( isEmpty( description ) ) {
-		addClass( descriptionElement, "desc-render" );
-		removeClass( descriptionElement, "desc-default" );
-	} else {
-		addClass( descriptionElement, "desc-default" );
-		removeClass( descriptionElement, "desc-render" );
-	}
 };
 
 module.exports = FacebookPreview;
