@@ -7,13 +7,14 @@ var subheadingMatch = require( "../stringProcessing/subheadingsMatch.js" );
  * Checks if there are any subheadings like h2 in the text
  * and if they have the keyword in them.
  *
- * @param {string} text The text to check for subheadings.
- * @param {string} keyword The keyword to match for.
+ * @param {object} paper The paper object containt the texta nd keyword
  * @returns {object} the result object.
  * count: the number of matches
  * matches:the number of ocurrences of the keyword for each match
  */
-module.exports = function( text, keyword ) {
+module.exports = function( paper ) {
+	var text = paper.getText();
+	var keyword = paper.getKeyword();
 	var matches;
 	var result = { count: 0 };
 	text = stripSomeTags( text );

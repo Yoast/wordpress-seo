@@ -13,7 +13,7 @@ var countImages = require( "./analyses/getImageStatistics.js" );
 var countLinks = require( "./analyses/getLinkStatistics.js" );
 var getKeyphraseLength = require( "./analyses/getWordCount.js" );
 var isUrlTooLong = require( "./analyses/isUrlTooLong.js" );
-var getSubheadings = require( "./analyses/matchKeywordInSubheadings.js" );
+var getSubheadings = require( "./researches/matchKeywordInSubheadings.js" );
 var countWords = require( "./stringProcessing/countWords.js" );
 var matchTextWithWord = require( "./stringProcessing/matchTextWithWord.js" );
 var sanitizeString = require( "../js/stringProcessing/sanitizeString.js" );
@@ -238,7 +238,7 @@ Analyzer.prototype.keywordCount = function() {
  * @returns resultObject
  */
 Analyzer.prototype.subHeadings = function() {
-	return [ { test: "subHeadings", result: getSubheadings( this.paper.getText(), this.paper.getKeyword() ) } ];
+	return [ { test: "subHeadings", result: getSubheadings( this.paper ) } ];
 };
 
 /**
