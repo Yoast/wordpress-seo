@@ -17,9 +17,9 @@ function PreviewEvents( bindings, element ) {
 /**
  * Bind events to the inputs to pick up changes.
  *
- * @param {Object} parentElement
- * @param {Array} elems
- * @param {callback} callback
+ * @param {Object} parentElement The element where the inputs can be found.
+ * @param {Array} elems The elements to attach the event to.
+ * @param {callback} callback The callback to run for the events.
  */
 PreviewEvents.prototype.bindFormEvents = function( parentElement, elems, callback ) {
 	var targetElement;
@@ -33,7 +33,7 @@ PreviewEvents.prototype.bindFormEvents = function( parentElement, elems, callbac
 		targetElement.addEventListener( "input", callback );
 		targetElement.addEventListener( "focus", callback );
 		targetElement.addEventListener( "blur", callback );
-	}.bind( this ) );
+	} );
 };
 
 /**
