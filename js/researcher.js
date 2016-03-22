@@ -9,8 +9,11 @@ var isEmpty = require( "lodash/lang/isEmpty" );
 var wordCountInText = require( "./researches/wordCountInText.js" );
 var getLinkStatistics = require( "./analyses/getLinkStatistics.js" );
 var getKeywordDensity = require( "./researches/getKeywordDensity.js" );
+var stopWordsInKeyword = require( "./researches/stopWordsInKeyword" );
+var stopWordsInUrl = require( "./researches/stopWordsInUrl" );
 var calculateFleschReading = require( "./researches/calculateFleschReading.js" );
 var metaDescriptionLength = require( "./researches/metaDescriptionLength.js" );
+var keyphraseLength = require( "./researches/keyphraseLength" );
 
 /**
  * This contains all possible, default researches.
@@ -26,7 +29,10 @@ var Researcher = function( paper ) {
 		"calculateFleschReading": calculateFleschReading,
 		"getLinkStatistics": getLinkStatistics,
 		"getKeywordDensity": getKeywordDensity,
-		"metaDescriptionLength": metaDescriptionLength
+		"stopWordsInKeyword": stopWordsInKeyword,
+		"stopWordsInUrl": stopWordsInUrl,
+		"metaDescriptionLength": metaDescriptionLength,
+		"keyphraseLength": keyphraseLength
 	};
 
 	this.customResearches = {};

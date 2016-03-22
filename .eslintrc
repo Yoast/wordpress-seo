@@ -38,7 +38,12 @@ rules:
   no-unexpected-multiline: 2
   no-unreachable: 2
   use-isnan: 2
-  valid-jsdoc: 1
+  valid-jsdoc: [ 1, {
+    "requireReturn": false,
+    "prefer": {
+      "return": "returns"
+    }
+  }]
   valid-typeof: 2
 
   # Best Practices
