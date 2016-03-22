@@ -5,7 +5,7 @@
 
 # YoastSEO.js
 
-![Screenshot of the assessment of the given text](/images/analysis.png?raw=true)
+![Screenshot of the assessment of the given text](/images/assessment.png?raw=true)
 
 Text analysis and assessment library in JavaScript. This library can generate interesting metrics about a text and assess these metrics to give you an assessment which can be used to improve the text.
 
