@@ -3,9 +3,9 @@
 [![Test Coverage](https://codeclimate.com/repos/5524f75d69568028f6000fda/badges/f503961401819f93c64c/coverage.svg)](https://codeclimate.com/repos/5524f75d69568028f6000fda/coverage)
 [![Inline docs](http://inch-ci.org/github/yoast/yoastseo.js.svg?branch=master)](http://inch-ci.org/github/yoast/yoastseo.js)
 
-![Screenshot of the assessment of the given text](/images/analysis.png?raw=true)
-
 # YoastSEO.js
+
+![Screenshot of the assessment of the given text](/images/analysis.png?raw=true)
 
 Text analysis and assessment library in JavaScript. This library can generate interesting metrics about a text and assess these metrics to give you an assessment which can be used to improve the text.
 
