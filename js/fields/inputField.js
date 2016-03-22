@@ -1,6 +1,12 @@
 var defaults = require( "lodash/object/defaults" );
 var minimizeHtml = require( "../helpers/minimizeHtml" );
 
+/**
+ * Factory for the inputfield.
+ *
+ * @param {Object} template Template object to use.
+ * @returns {TextField} The textfield object.
+ */
 function inputFieldFactory( template ) {
 
 	var defaultAttributes = {
@@ -23,16 +29,14 @@ function inputFieldFactory( template ) {
 	 * @param {string} attributes.id The id for this text field
 	 * @param {string} attributes.className The class for this text field
 	 * @param {string} attributes.title The title that describes this text field
-	 * @param {Object} template
 	 *
 	 * @constructor
 	 */
-	function TextField(attributes, template) {
+	function TextField( attributes ) {
 		attributes = attributes || {};
-		attributes = defaults(attributes, defaultAttributes);
+		attributes = defaults( attributes, defaultAttributes );
 
 		this._attributes = attributes;
-		this._template = template;
 	}
 
 	/**
@@ -40,7 +44,7 @@ function inputFieldFactory( template ) {
 	 *
 	 * @returns {Object} The HTML attributes
 	 */
-	TextField.prototype.getAttributes = function () {
+	TextField.prototype.getAttributes = function() {
 		return this._attributes;
 	};
 
@@ -49,10 +53,10 @@ function inputFieldFactory( template ) {
 	 *
 	 * @returns {string} The rendered HTML
 	 */
-	TextField.prototype.render = function () {
-		var html = template(this.getAttributes());
+	TextField.prototype.render = function() {
+		var html = template( this.getAttributes() );
 
-		html = minimizeHtml(html);
+		html = minimizeHtml( html );
 
 		return html;
 	};
@@ -62,7 +66,7 @@ function inputFieldFactory( template ) {
 	 *
 	 * @param {string} value The value to set on this input field
 	 */
-	TextField.prototype.setValue = function (value) {
+	TextField.prototype.setValue = function( value ) {
 		this._attributes.value = value;
 	};
 
@@ -71,11 +75,11 @@ function inputFieldFactory( template ) {
 	 *
 	 * @param {string} className The class to set on this input field
 	 */
-	TextField.prototype.setClassName = function (className) {
+	TextField.prototype.setClassName = function( className ) {
 		this._attributes.className = className;
 	};
-	
+
 	return TextField;
 }
-	
+
 module.exports = inputFieldFactory;

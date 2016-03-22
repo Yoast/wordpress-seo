@@ -19,6 +19,8 @@ var TextField = require( "./fields/textFieldFactory" );
 var TextArea = require( "./fields/textAreaFactory" );
 var Button = require( "./fields/button.js" );
 
+var PreviewEvents = require( "./preview/events" );
+
 var facebookEditorTemplate = require( "./templates.js" ).facebookPreview;
 
 var facebookDefaults = {
@@ -467,47 +469,8 @@ FacebookPreview.prototype.bindEvents = function() {
 		targetElement.addEventListener( "blur", this.changedInput.bind( this ) );
 	}.bind( this ) );
 
-	this.element.editToggle.addEventListener( "click", this.toggleEditor.bind( this ) );
-	this.element.closeEditor.addEventListener( "click", this.closeEditor.bind( this ) );
-
-	// Loop through the bindings and bind a click handler to the click to focus the focus element.
-	forEach( inputFacebookPreviewBindings, function( binding ) {
-		var previewElement = document.getElementById( binding.preview );
-		var inputElement = this.element.input[ binding.inputField ];
-
-		// Make the preview element click open the editor and focus the correct input.
-		previewElement.addEventListener( "click", function() {
-			this.openEditor();
-			inputElement.focus();
-		}.bind( this ) );
-
-		// Make focusing an input, update the carets.
-		inputElement.addEventListener( "focus", function() {
-			this._currentFocus = binding.inputField;
-
-			this._updateFocusCarets();
-		}.bind( this ) );
-
-		// Make removing focus from an element, update the carets.
-		inputElement.addEventListener( "blur", function() {
-			this._currentFocus = null;
-
-			this._updateFocusCarets();
-		}.bind( this ) );
-
-		previewElement.addEventListener( "mouseover", function() {
-			this._currentHover = binding.inputField;
-
-			this._updateHoverCarets();
-		}.bind( this ) );
-
-		previewElement.addEventListener( "mouseout", function() {
-			this._currentHover = null;
-
-			this._updateHoverCarets();
-		}.bind( this ) );
-
-	}.bind( this ) );
+	var previewEvents = new PreviewEvents( inputFacebookPreviewBindings, this.element );
+	previewEvents.bindEvents();
 };
 
 /**
@@ -575,103 +538,6 @@ FacebookPreview.prototype.renderSnippetStyle = function() {
 	} else {
 		addClass( descriptionElement, "desc-default" );
 		removeClass( descriptionElement, "desc-render" );
-	}
-};
-
-/**
- * Opens the snippet editor.
- *
- * @returns {void}
- */
-FacebookPreview.prototype.openEditor = function() {
-
-	// Hide these elements.
-	addClass( this.element.editToggle,       "snippet-editor--hidden" );
-
-	// Show these elements.
-	removeClass( this.element.formContainer, "snippet-editor--hidden" );
-	removeClass( this.element.headingEditor, "snippet-editor--hidden" );
-
-	this.opened = true;
-};
-
-/**
- * Closes the snippet editor.
- *
- * @returns {void}
- */
-FacebookPreview.prototype.closeEditor = function() {
-
-	// Hide these elements.
-	addClass( this.element.formContainer,     "snippet-editor--hidden" );
-	addClass( this.element.headingEditor,     "snippet-editor--hidden" );
-
-	// Show these elements.
-	removeClass( this.element.editToggle,     "snippet-editor--hidden" );
-
-	this.opened = false;
-};
-
-/**
- * Toggles the snippet editor.
- *
- * @returns {void}
- */
-FacebookPreview.prototype.toggleEditor = function() {
-	if ( this.opened ) {
-		this.closeEditor();
-	} else {
-		this.openEditor();
-	}
-};
-
-/**
- * Updates carets before the preview and input fields.
- *
- * @private
- *
- * @returns {void}
- */
-FacebookPreview.prototype._updateFocusCarets = function() {
-	var focusedLabel, focusedPreview;
-
-	// Disable all carets on the labels.
-	forEach( this.element.label, function( element ) {
-		removeClass( element, "snippet-editor__label--focus" );
-	} );
-
-	// Disable all carets on the previews.
-	forEach( this.element.preview, function( element ) {
-		removeClass( element, "snippet-editor__container--focus" );
-	} );
-
-	if ( null !== this._currentFocus ) {
-		focusedLabel = this.element.label[ this._currentFocus ];
-		focusedPreview = this.element.preview[ this._currentFocus ];
-
-		addClass( focusedLabel, "snippet-editor__label--focus" );
-		addClass( focusedPreview, "snippet-editor__container--focus" );
-	}
-};
-
-/**
- * Updates hover carets before the input fields.
- *
- * @private
- *
- * @returns {void}
- */
-FacebookPreview.prototype._updateHoverCarets = function() {
-	var hoveredLabel;
-
-	forEach( this.element.label, function( element ) {
-		removeClass( element, "snippet-editor__label--hover" );
-	} );
-
-	if ( null !== this._currentHover ) {
-		hoveredLabel = this.element.label[ this._currentHover ];
-
-		addClass( hoveredLabel, "snippet-editor__label--hover" );
 	}
 };
 
