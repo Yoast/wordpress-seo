@@ -58,7 +58,7 @@ var twitterPreview = new TwitterPreview(
 
 twitterPreview.init();
 
-},{"../js/facebookPreview.js":4,"../js/twitterPreview.js":8}],4:[function(require,module,exports){
+},{"../js/facebookPreview.js":4,"../js/twitterPreview.js":13}],4:[function(require,module,exports){
 /* jshint browser: true */
 
 var isEmpty = require( "lodash/lang/isEmpty" );
@@ -75,6 +75,10 @@ var stripSpaces = require( "yoastseo/js/stringProcessing/stripSpaces.js" );
 
 var addClass = require( "./helpers/addClass.js" );
 var removeClass = require( "./helpers/removeClass.js" );
+
+var TextField = require( "./fields/textFieldFactory" );
+var TextArea = require( "./fields/textAreaFactory" );
+var Button = require( "./fields/button.js" );
 
 var facebookEditorTemplate = require( "./templates.js" ).facebookPreview;
 
@@ -266,18 +270,57 @@ FacebookPreview.prototype.renderTemplate = function() {
 			imageUrl: document.getElementById( "facebook_image" ),
 			description: document.getElementById( "facebook_description" )
 		},
-		input: {
-			title: targetElement.getElementsByClassName( "js-snippet-editor-title" )[0],
-			imageUrl: targetElement.getElementsByClassName( "js-snippet-editor-imageUrl" )[0],
-			description: targetElement.getElementsByClassName( "js-snippet-editor-description" )[0]
+		fields: {
+			title: new TextField( {
+				className: "snippet-editor__input snippet-editor__title js-snippet-editor-title",
+				id: "facebook-editor-title",
+				value: this.data.title,
+				placeholder: this.opts.placeholder.title,
+				title: this.i18n.dgettext( "js-text-analysis", "Facebook title" ),
+				labelClassName: "snippet-editor__label"
+			} ),
+			description: new TextArea( {
+				className: "snippet-editor__input snippet-editor__description js-snippet-editor-description",
+				id: "facebook-editor-description",
+				value: this.data.description,
+				placeholder: this.opts.placeholder.description,
+				title: this.i18n.dgettext( "js-text-analysis", "Facebook description" ),
+				labelClassName: "snippet-editor__label"
+			} ),
+			imageUrl: new TextField( {
+				className: "snippet-editor__input snippet-editor__imageUrl js-snippet-editor-imageUrl",
+				id: "facebook-editor-imageUrl",
+				value: this.data.imageUrl,
+				placeholder: this.opts.placeholder.imageUrl,
+				title: this.i18n.dgettext( "js-text-analysis", "Facebook image URL" ),
+				labelClassName: "snippet-editor__label"
+			} ),
+			button : new Button(
+				{
+					className : "snippet-editor__submit snippet-editor__button",
+					value: this.i18n.dgettext( "js-text-analysis", "Close facebook editor" )
+				}
+			)
 		},
 		container: document.getElementById( "twitter_preview" ),
 		formContainer: targetElement.getElementsByClassName( "snippet-editor__form" )[0],
 		editToggle: targetElement.getElementsByClassName( "snippet-editor__edit-button" )[0],
-		closeEditor: targetElement.getElementsByClassName( "snippet-editor__submit" )[0],
 		formFields: targetElement.getElementsByClassName( "snippet-editor__form-field" ),
 		headingEditor: targetElement.getElementsByClassName( "snippet-editor__heading-editor" )[0]
 	};
+
+	this.element.formContainer.innerHTML = this.element.fields.title.render()
+		+ this.element.fields.description.render()
+		+ this.element.fields.imageUrl.render()
+		+ this.element.fields.button.render();
+
+	this.element.input = {
+		title: targetElement.getElementsByClassName( "js-snippet-editor-title" )[0],
+		imageUrl: targetElement.getElementsByClassName( "js-snippet-editor-imageUrl" )[0],
+		description: targetElement.getElementsByClassName( "js-snippet-editor-description" )[0]
+	};
+
+	this.element.closeEditor = targetElement.getElementsByClassName( "snippet-editor__submit" )[0];
 
 	this.element.label = {
 		title: this.element.input.title.parentNode,
@@ -695,14 +738,176 @@ FacebookPreview.prototype._updateHoverCarets = function() {
 
 module.exports = FacebookPreview;
 
-},{"./helpers/addClass.js":5,"./helpers/removeClass.js":6,"./templates.js":7,"jed":9,"lodash/collection/forEach":10,"lodash/function/debounce":12,"lodash/lang/clone":46,"lodash/lang/isElement":49,"lodash/lang/isEmpty":50,"lodash/object/defaultsDeep":58,"yoastseo/js/stringProcessing/stripHTMLTags.js":1,"yoastseo/js/stringProcessing/stripSpaces.js":2}],5:[function(require,module,exports){
+},{"./fields/button.js":5,"./fields/textAreaFactory":7,"./fields/textFieldFactory":8,"./helpers/addClass.js":9,"./helpers/removeClass.js":11,"./templates.js":12,"jed":14,"lodash/collection/forEach":15,"lodash/function/debounce":17,"lodash/lang/clone":53,"lodash/lang/isElement":56,"lodash/lang/isEmpty":57,"lodash/object/defaultsDeep":67,"yoastseo/js/stringProcessing/stripHTMLTags.js":1,"yoastseo/js/stringProcessing/stripSpaces.js":2}],5:[function(require,module,exports){
+var defaults = require( "lodash/object/defaults" );
+var buttonTemplate = require( "../../js/templates" ).fields.button;
+var minimizeHtml = require( "../helpers/minimizeHtml" );
+
+var defaultAttributes = {
+	value: "",
+	className: ""
+};
+
+/**
+ * Represents an HTML button
+ *
+ * @param {Object} attributes The attributes to set on the HTML element
+ * @param {string} attributes.value The value for this text field
+ * @param {string} attributes.placeholder The placeholder for this text field
+ * @param {string} attributes.name The name for this text field
+ * @param {string} attributes.id The id for this text field
+ * @param {string} attributes.className The class for this text field
+ * @param {string} attributes.title The title that describes this text field
+ *
+ * @constructor
+ */
+function Button( attributes ) {
+	attributes = attributes || {};
+	attributes = defaults( attributes, defaultAttributes );
+
+	this._attributes = attributes;
+}
+
+/**
+ * Returns the HTML attributes set for this text field
+ *
+ * @returns {Object} The HTML attributes
+ */
+Button.prototype.getAttributes = function() {
+	return this._attributes;
+};
+
+/**
+ * Renders the text field to HTML
+ *
+ * @returns {string} The rendered HTML
+ */
+Button.prototype.render = function() {
+	var html = buttonTemplate( this.getAttributes() );
+	
+	html = minimizeHtml( html );
+
+	return html;
+};
+
+/**
+ * Set the value of the input field
+ *
+ * @param {string} value The value to set on this input field
+ */
+Button.prototype.setValue = function( value ) {
+	this._attributes.value = value;
+};
+
+/**
+ * Set the value of the input field
+ *
+ * @param {string} className The class to set on this input field
+ */
+Button.prototype.setClassName = function( className ) {
+	this._attributes.className = className;
+};
+
+module.exports = Button;
+
+},{"../../js/templates":12,"../helpers/minimizeHtml":10,"lodash/object/defaults":66}],6:[function(require,module,exports){
+var defaults = require( "lodash/object/defaults" );
+var minimizeHtml = require( "../helpers/minimizeHtml" );
+
+function inputFieldFactory( template ) {
+
+	var defaultAttributes = {
+		value         : "",
+		className     : "",
+		id            : "",
+		placeholder   : "",
+		name          : "",
+		title         : "",
+		labelClassName: ""
+	};
+
+	/**
+	 * Represents an HTML text field
+	 *
+	 * @param {Object} attributes The attributes to set on the HTML element
+	 * @param {string} attributes.value The value for this text field
+	 * @param {string} attributes.placeholder The placeholder for this text field
+	 * @param {string} attributes.name The name for this text field
+	 * @param {string} attributes.id The id for this text field
+	 * @param {string} attributes.className The class for this text field
+	 * @param {string} attributes.title The title that describes this text field
+	 * @param {Object} template
+	 *
+	 * @constructor
+	 */
+	function TextField(attributes, template) {
+		attributes = attributes || {};
+		attributes = defaults(attributes, defaultAttributes);
+
+		this._attributes = attributes;
+		this._template = template;
+	}
+
+	/**
+	 * Returns the HTML attributes set for this text field
+	 *
+	 * @returns {Object} The HTML attributes
+	 */
+	TextField.prototype.getAttributes = function () {
+		return this._attributes;
+	};
+
+	/**
+	 * Renders the text field to HTML
+	 *
+	 * @returns {string} The rendered HTML
+	 */
+	TextField.prototype.render = function () {
+		var html = template(this.getAttributes());
+
+		html = minimizeHtml(html);
+
+		return html;
+	};
+
+	/**
+	 * Set the value of the input field
+	 *
+	 * @param {string} value The value to set on this input field
+	 */
+	TextField.prototype.setValue = function (value) {
+		this._attributes.value = value;
+	};
+
+	/**
+	 * Set the value of the input field
+	 *
+	 * @param {string} className The class to set on this input field
+	 */
+	TextField.prototype.setClassName = function (className) {
+		this._attributes.className = className;
+	};
+	
+	return TextField;
+}
+	
+module.exports = inputFieldFactory;
+
+},{"../helpers/minimizeHtml":10,"lodash/object/defaults":66}],7:[function(require,module,exports){
+var inputFieldFactory = require( "../../js/fields/inputField" );
+
+module.exports = inputFieldFactory( require( "../../js/templates" ).fields.textarea );
+},{"../../js/fields/inputField":6,"../../js/templates":12}],8:[function(require,module,exports){
+var inputFieldFactory = require( "../../js/fields/inputField" );
+
+module.exports = inputFieldFactory( require( "../../js/templates" ).fields.text );
+
+},{"../../js/fields/inputField":6,"../../js/templates":12}],9:[function(require,module,exports){
 /**
  * Adds a class to an element
  *
  * @param {HTMLElement} element The element to add the class to.
  * @param {string} className The class to add.
- *
- * @return {void}
  */
 module.exports = function( element, className ) {
 	var classes = element.className.split( " " );
@@ -714,14 +919,32 @@ module.exports = function( element, className ) {
 	element.className = classes.join( " " );
 };
 
-},{}],6:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
+/**
+ * Cleans spaces from the html.
+ *
+ * @param  {string} html
+ *
+ * @returns {string}
+ */
+function minimizeHtml( html ) {
+	html = html.replace( /(\s+)/g, " " );
+	html = html.replace( /> </g, "><" );
+	html = html.replace( / >/g, ">" );
+	html = html.replace( /> /g, ">" );
+	html = html.replace( / </g, "<" );
+	html = html.replace( / $/, "" );
+
+	return html;
+}
+
+module.exports = minimizeHtml;
+},{}],11:[function(require,module,exports){
 /**
  * Removes a class from an element
  *
  * @param {HTMLElement} element The element to remove the class from.
  * @param {string} className The class to remove.
- *
- * @return {void}
  */
 module.exports = function( element, className ) {
 	var classes = element.className.split( " " );
@@ -734,7 +957,7 @@ module.exports = function( element, className ) {
 	element.className = classes.join( " " );
 };
 
-},{}],7:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 (function (global){
 ;(function() {
   var undefined;
@@ -847,6 +1070,11 @@ module.exports = function( element, className ) {
 
   var templates = {
     'facebookPreview': {},
+    'fields': {
+        'button': {},
+        'text': {},
+        'textarea': {}
+    },
     'twitterPreview': {}
   };
 
@@ -868,27 +1096,135 @@ module.exports = function( element, className ) {
     __e( i18n.edit ) +
     '\n	</button>\n\n	<h4 class="snippet-editor__heading snippet-editor__heading-editor snippet-editor__heading-icon-edit snippet-editor--hidden">' +
     __e( i18n.snippetEditor ) +
-    '</h4>\n\n	<div class="snippet-editor__form snippet-editor--hidden">\n		<label for="facebook-editor-title" class="snippet-editor__label">\n			' +
-    __e( i18n.title ) +
-    '\n			<input type="text" class="snippet-editor__input snippet-editor__title js-snippet-editor-title" id="facebook-editor-title" value="' +
-    __e( raw.title ) +
-    '" placeholder="' +
-    __e( placeholder.title ) +
-    '" />\n		</label>\n		<label for="facebook-editor-description" class="snippet-editor__label">\n			' +
-    __e( i18n.description ) +
-    '\n			<textarea class="snippet-editor__input snippet-editor__description js-snippet-editor-description" id="facebook-editor-description" placeholder="' +
-    __e( placeholder.description ) +
-    '">' +
-    __e( raw.meta ) +
-    '</textarea>\n		</label>\n		<label for="facebook-editor-imageUrl" class="snippet-editor__label">\n			' +
-    __e( i18n.imageUrl ) +
-    '\n			<input type="text" class="snippet-editor__input snippet-editor__slug js-snippet-editor-imageUrl" id="facebook-editor-imageUrl" value="' +
-    __e( raw.imageUrl ) +
-    '" placeholder="' +
-    __e( placeholder.imageUrl ) +
-    '" />\n		</label>\n\n		<button class="snippet-editor__submit snippet-editor__button" type="button">' +
-    __e( i18n.save ) +
-    '</button>\n	</div>\n</div>\n';
+    '</h4>\n\n	<div class="snippet-editor__form snippet-editor--hidden">\n\n	</div>\n</div>\n';
+
+    }
+    return __p
+  };
+
+  templates['fields']['button'] =   function(obj) {
+    obj || (obj = {});
+    var __t, __p = '', __e = _.escape, __j = Array.prototype.join;
+    function print() { __p += __j.call(arguments, '') }
+    with (obj) {
+    __p += '<button\n	type="button"\n	';
+     if (className) {
+    __p += 'class="' +
+    __e( className ) +
+    '"';
+     }
+    __p += '\n>\n	' +
+    __e( value ) +
+    '\n</button>';
+
+    }
+    return __p
+  };
+
+  templates['fields']['text'] =   function(obj) {
+    obj || (obj = {});
+    var __t, __p = '', __e = _.escape, __j = Array.prototype.join;
+    function print() { __p += __j.call(arguments, '') }
+    with (obj) {
+    __p += '<label';
+     if (id) {
+    __p += ' for="' +
+    __e( id ) +
+    '"';
+     }
+
+     if (labelClassName) {
+    __p += ' class="' +
+    __e( labelClassName ) +
+    '"';
+     }
+    __p += '>\n	' +
+    __e( title ) +
+    '\n	<input type="text"\n		';
+     if (value) {
+    __p += 'value="' +
+    __e( value ) +
+    '"';
+     }
+    __p += '\n		';
+     if (placeholder) {
+    __p += 'placeholder="' +
+    __e( placeholder ) +
+    '"';
+     }
+    __p += '\n		';
+     if (className) {
+    __p += 'class="' +
+    __e( className ) +
+    '"';
+     }
+    __p += '\n		';
+     if (id) {
+    __p += 'id="' +
+    __e( id ) +
+    '"';
+     }
+    __p += '\n		';
+     if (name) {
+    __p += 'name="' +
+    __e( name ) +
+    '"';
+     }
+    __p += '\n	/>\n</label>\n';
+
+    }
+    return __p
+  };
+
+  templates['fields']['textarea'] =   function(obj) {
+    obj || (obj = {});
+    var __t, __p = '', __e = _.escape, __j = Array.prototype.join;
+    function print() { __p += __j.call(arguments, '') }
+    with (obj) {
+    __p += '<label';
+     if (id) {
+    __p += ' for="' +
+    __e( id ) +
+    '"';
+     }
+
+     if (labelClassName) {
+    __p += ' class="' +
+    __e( labelClassName ) +
+    '"';
+     }
+    __p += '>\n	' +
+    __e( title ) +
+    '\n	<textarea\n\n		   ';
+     if (placeholder) {
+    __p += 'placeholder="' +
+    __e( placeholder ) +
+    '"';
+     }
+    __p += '\n		   ';
+     if (className) {
+    __p += 'class="' +
+    __e( className ) +
+    '"';
+     }
+    __p += '\n		   ';
+     if (id) {
+    __p += 'id="' +
+    __e( id ) +
+    '"';
+     }
+    __p += '\n		   ';
+     if (name) {
+    __p += 'name="' +
+    __e( name ) +
+    '"';
+     }
+    __p += '\n	>\n		';
+     if (value) {
+    __p +=
+    __e( value );
+     }
+    __p += '\n	</textarea>\n</label>\n';
 
     }
     return __p
@@ -912,27 +1248,7 @@ module.exports = function( element, className ) {
     __e( i18n.edit ) +
     '\n	</button>\n\n	<h4 class="snippet-editor__heading snippet-editor__heading-editor snippet-editor__heading-icon-edit snippet-editor--hidden">' +
     __e( i18n.snippetEditor ) +
-    '</h4>\n\n	<div class="snippet-editor__form snippet-editor--hidden">\n		<label for="twitter-editor-title" class="snippet-editor__label">\n			' +
-    __e( i18n.title ) +
-    '\n			<input type="text" class="snippet-editor__input snippet-editor__title js-snippet-editor-title" id="twitter-editor-title" value="' +
-    __e( raw.title ) +
-    '" placeholder="' +
-    __e( placeholder.title ) +
-    '" />\n		</label>\n		<label for="twitter-editor-description" class="snippet-editor__label">\n			' +
-    __e( i18n.description ) +
-    '\n			<textarea class="snippet-editor__input snippet-editor__description js-snippet-editor-description" id="twitter-editor-description" placeholder="' +
-    __e( placeholder.description ) +
-    '">' +
-    __e( raw.meta ) +
-    '</textarea>\n		</label>\n		<label for="twitter-editor-imageUrl" class="snippet-editor__label">\n			' +
-    __e( i18n.imageUrl ) +
-    '\n			<input type="text" class="snippet-editor__input snippet-editor__slug js-snippet-editor-imageUrl" id="twitter-editor-imageUrl" value="' +
-    __e( raw.imageUrl ) +
-    '" placeholder="' +
-    __e( placeholder.imageUrl ) +
-    '" />\n		</label>\n\n		<button class="snippet-editor__submit snippet-editor__button" type="button">' +
-    __e( i18n.save ) +
-    '</button>\n	</div>\n</div>\n';
+    '</h4>\n\n	<div class="snippet-editor__form snippet-editor--hidden">\n\n	</div>\n</div>\n';
 
     }
     return __p
@@ -953,7 +1269,7 @@ module.exports = function( element, className ) {
 }.call(this));
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],8:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 /* jshint browser: true */
 
 var isEmpty = require( "lodash/lang/isEmpty" );
@@ -970,6 +1286,10 @@ var stripSpaces = require( "yoastseo/js/stringProcessing/stripSpaces.js" );
 
 var addClass = require( "./helpers/addClass.js" );
 var removeClass = require( "./helpers/removeClass.js" );
+
+var TextField = require( "./fields/textFieldFactory" );
+var TextArea = require( "./fields/textAreaFactory" );
+var Button = require( "./fields/button.js" );
 
 var twitterEditorTemplate = require( "./templates.js" ).twitterPreview;
 
@@ -1161,6 +1481,38 @@ TwitterPreview.prototype.renderTemplate = function() {
 			imageUrl: document.getElementById( "twitter_image" ),
 			description: document.getElementById( "twitter_description" )
 		},
+		fields: {
+			title: new TextField( {
+				className: "snippet-editor__input snippet-editor__title js-snippet-editor-title",
+				id: "twitter-editor-title",
+				value: this.data.title,
+				placeholder: this.opts.placeholder.title,
+				title: this.i18n.dgettext( "js-text-analysis", "Twitter title" ),
+				labelClassName: "snippet-editor__label"
+			} ),
+			description: new TextArea( {
+				className: "snippet-editor__input snippet-editor__description js-snippet-editor-description",
+				id: "twitter-editor-description",
+				value: this.data.description,
+				placeholder: this.opts.placeholder.description,
+				title: this.i18n.dgettext( "js-text-analysis", "Twitter description" ),
+				labelClassName: "snippet-editor__label"
+			} ),
+			imageUrl: new TextField( {
+				className: "snippet-editor__input snippet-editor__imageUrl js-snippet-editor-imageUrl",
+				id: "twitter-editor-imageUrl",
+				value: this.data.imageUrl,
+				placeholder: this.opts.placeholder.imageUrl,
+				title: this.i18n.dgettext( "js-text-analysis", "Twitter image URL" ),
+				labelClassName: "snippet-editor__label"
+			} ),
+			button : new Button(
+				{
+					className : "snippet-editor__submit snippet-editor__button",
+					value: this.i18n.dgettext( "js-text-analysis", "Close Twitter editor" )
+				}
+			)
+		},
 		input: {
 			title: targetElement.getElementsByClassName( "js-snippet-editor-title" )[0],
 			imageUrl: targetElement.getElementsByClassName( "js-snippet-editor-imageUrl" )[0],
@@ -1173,6 +1525,19 @@ TwitterPreview.prototype.renderTemplate = function() {
 		formFields: targetElement.getElementsByClassName( "snippet-editor__form-field" ),
 		headingEditor: targetElement.getElementsByClassName( "snippet-editor__heading-editor" )[0]
 	};
+
+	this.element.formContainer.innerHTML = this.element.fields.title.render()
+		+ this.element.fields.description.render()
+		+ this.element.fields.imageUrl.render()
+		+ this.element.fields.button.render();
+
+	this.element.input = {
+		title: targetElement.getElementsByClassName( "js-snippet-editor-title" )[0],
+		imageUrl: targetElement.getElementsByClassName( "js-snippet-editor-imageUrl" )[0],
+		description: targetElement.getElementsByClassName( "js-snippet-editor-description" )[0]
+	};
+
+	this.element.closeEditor = targetElement.getElementsByClassName( "snippet-editor__submit" )[0];
 
 	this.element.label = {
 		title: this.element.input.title.parentNode,
@@ -1189,7 +1554,7 @@ TwitterPreview.prototype.renderTemplate = function() {
 };
 
 /**
- * Creates html object to contain the strings for the Facebook preview
+ * Creates html object to contain the strings for the Twitter preview
  *
  * @returns {Object} The formatted output
  */
@@ -1204,7 +1569,7 @@ TwitterPreview.prototype.htmlOutput = function() {
 };
 
 /**
- * Formats the title for the Facebook preview. If title is empty, sampletext is used
+ * Formats the title for the Twitter preview. If title is empty, sampletext is used
  *
  * @returns {string} The formatted title, without html tags.
  */
@@ -1215,7 +1580,7 @@ TwitterPreview.prototype.formatTitle = function() {
 
 	// As an ultimate fallback provide the user with a helpful message.
 	if ( isEmpty( title ) ) {
-		title = this.i18n.dgettext( "js-text-analysis", "Please provide a Facebook title by editing the snippet below." );
+		title = this.i18n.dgettext( "js-text-analysis", "Please provide a Twitter title by editing the snippet below." );
 	}
 
 	return title;
@@ -1384,7 +1749,7 @@ TwitterPreview.prototype.bindEvents = function() {
 	this.element.closeEditor.addEventListener( "click", this.closeEditor.bind( this ) );
 
 	// Loop through the bindings and bind a click handler to the click to focus the focus element.
-	forEach( inputTwitterPreviewBindings, function(binding ) {
+	forEach( inputTwitterPreviewBindings, function( binding ) {
 		var previewElement = document.getElementById( binding.preview );
 		var inputElement = this.element.input[ binding.inputField ];
 
@@ -1590,7 +1955,7 @@ TwitterPreview.prototype._updateHoverCarets = function() {
 
 module.exports = TwitterPreview;
 
-},{"./helpers/addClass.js":5,"./helpers/removeClass.js":6,"./templates.js":7,"jed":9,"lodash/collection/forEach":10,"lodash/function/debounce":12,"lodash/lang/clone":46,"lodash/lang/isElement":49,"lodash/lang/isEmpty":50,"lodash/object/defaultsDeep":58,"yoastseo/js/stringProcessing/stripHTMLTags.js":1,"yoastseo/js/stringProcessing/stripSpaces.js":2}],9:[function(require,module,exports){
+},{"./fields/button.js":5,"./fields/textAreaFactory":7,"./fields/textFieldFactory":8,"./helpers/addClass.js":9,"./helpers/removeClass.js":11,"./templates.js":12,"jed":14,"lodash/collection/forEach":15,"lodash/function/debounce":17,"lodash/lang/clone":53,"lodash/lang/isElement":56,"lodash/lang/isEmpty":57,"lodash/object/defaultsDeep":67,"yoastseo/js/stringProcessing/stripHTMLTags.js":1,"yoastseo/js/stringProcessing/stripSpaces.js":2}],14:[function(require,module,exports){
 /**
  * @preserve jed.js https://github.com/SlexAxton/Jed
  */
@@ -2614,7 +2979,7 @@ return parser;
 
 })(this);
 
-},{}],10:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 var arrayEach = require('../internal/arrayEach'),
     baseEach = require('../internal/baseEach'),
     createForEach = require('../internal/createForEach');
@@ -2653,7 +3018,7 @@ var forEach = createForEach(arrayEach, baseEach);
 
 module.exports = forEach;
 
-},{"../internal/arrayEach":15,"../internal/baseEach":19,"../internal/createForEach":32}],11:[function(require,module,exports){
+},{"../internal/arrayEach":20,"../internal/baseEach":26,"../internal/createForEach":39}],16:[function(require,module,exports){
 var getNative = require('../internal/getNative');
 
 /* Native method references for those with the same name as other `lodash` methods. */
@@ -2679,7 +3044,7 @@ var now = nativeNow || function() {
 
 module.exports = now;
 
-},{"../internal/getNative":34}],12:[function(require,module,exports){
+},{"../internal/getNative":41}],17:[function(require,module,exports){
 var isObject = require('../lang/isObject'),
     now = require('../date/now');
 
@@ -2862,7 +3227,7 @@ function debounce(func, wait, options) {
 
 module.exports = debounce;
 
-},{"../date/now":11,"../lang/isObject":53}],13:[function(require,module,exports){
+},{"../date/now":16,"../lang/isObject":60}],18:[function(require,module,exports){
 /** Used as the `TypeError` message for "Functions" methods. */
 var FUNC_ERROR_TEXT = 'Expected a function';
 
@@ -2922,7 +3287,7 @@ function restParam(func, start) {
 
 module.exports = restParam;
 
-},{}],14:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 /**
  * Copies the values of `source` to `array`.
  *
@@ -2944,7 +3309,7 @@ function arrayCopy(source, array) {
 
 module.exports = arrayCopy;
 
-},{}],15:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 /**
  * A specialized version of `_.forEach` for arrays without support for callback
  * shorthands and `this` binding.
@@ -2968,7 +3333,56 @@ function arrayEach(array, iteratee) {
 
 module.exports = arrayEach;
 
-},{}],16:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
+/**
+ * Used by `_.defaults` to customize its `_.assign` use.
+ *
+ * @private
+ * @param {*} objectValue The destination object property value.
+ * @param {*} sourceValue The source object property value.
+ * @returns {*} Returns the value to assign to the destination object.
+ */
+function assignDefaults(objectValue, sourceValue) {
+  return objectValue === undefined ? sourceValue : objectValue;
+}
+
+module.exports = assignDefaults;
+
+},{}],22:[function(require,module,exports){
+var keys = require('../object/keys');
+
+/**
+ * A specialized version of `_.assign` for customizing assigned values without
+ * support for argument juggling, multiple sources, and `this` binding `customizer`
+ * functions.
+ *
+ * @private
+ * @param {Object} object The destination object.
+ * @param {Object} source The source object.
+ * @param {Function} customizer The function to customize assigned values.
+ * @returns {Object} Returns `object`.
+ */
+function assignWith(object, source, customizer) {
+  var index = -1,
+      props = keys(source),
+      length = props.length;
+
+  while (++index < length) {
+    var key = props[index],
+        value = object[key],
+        result = customizer(value, source[key], key, object, source);
+
+    if ((result === result ? (result !== value) : (value === value)) ||
+        (value === undefined && !(key in object))) {
+      object[key] = result;
+    }
+  }
+  return object;
+}
+
+module.exports = assignWith;
+
+},{"../object/keys":68}],23:[function(require,module,exports){
 var baseCopy = require('./baseCopy'),
     keys = require('../object/keys');
 
@@ -2989,7 +3403,7 @@ function baseAssign(object, source) {
 
 module.exports = baseAssign;
 
-},{"../object/keys":59,"./baseCopy":18}],17:[function(require,module,exports){
+},{"../object/keys":68,"./baseCopy":25}],24:[function(require,module,exports){
 var arrayCopy = require('./arrayCopy'),
     arrayEach = require('./arrayEach'),
     baseAssign = require('./baseAssign'),
@@ -3119,7 +3533,7 @@ function baseClone(value, isDeep, customizer, key, object, stackA, stackB) {
 
 module.exports = baseClone;
 
-},{"../lang/isArray":48,"../lang/isObject":53,"./arrayCopy":14,"./arrayEach":15,"./baseAssign":16,"./baseForOwn":22,"./initCloneArray":35,"./initCloneByTag":36,"./initCloneObject":37}],18:[function(require,module,exports){
+},{"../lang/isArray":55,"../lang/isObject":60,"./arrayCopy":19,"./arrayEach":20,"./baseAssign":23,"./baseForOwn":29,"./initCloneArray":42,"./initCloneByTag":43,"./initCloneObject":44}],25:[function(require,module,exports){
 /**
  * Copies properties of `source` to `object`.
  *
@@ -3144,7 +3558,7 @@ function baseCopy(source, props, object) {
 
 module.exports = baseCopy;
 
-},{}],19:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 var baseForOwn = require('./baseForOwn'),
     createBaseEach = require('./createBaseEach');
 
@@ -3161,7 +3575,7 @@ var baseEach = createBaseEach(baseForOwn);
 
 module.exports = baseEach;
 
-},{"./baseForOwn":22,"./createBaseEach":29}],20:[function(require,module,exports){
+},{"./baseForOwn":29,"./createBaseEach":36}],27:[function(require,module,exports){
 var createBaseFor = require('./createBaseFor');
 
 /**
@@ -3180,7 +3594,7 @@ var baseFor = createBaseFor();
 
 module.exports = baseFor;
 
-},{"./createBaseFor":30}],21:[function(require,module,exports){
+},{"./createBaseFor":37}],28:[function(require,module,exports){
 var baseFor = require('./baseFor'),
     keysIn = require('../object/keysIn');
 
@@ -3199,7 +3613,7 @@ function baseForIn(object, iteratee) {
 
 module.exports = baseForIn;
 
-},{"../object/keysIn":60,"./baseFor":20}],22:[function(require,module,exports){
+},{"../object/keysIn":69,"./baseFor":27}],29:[function(require,module,exports){
 var baseFor = require('./baseFor'),
     keys = require('../object/keys');
 
@@ -3218,7 +3632,7 @@ function baseForOwn(object, iteratee) {
 
 module.exports = baseForOwn;
 
-},{"../object/keys":59,"./baseFor":20}],23:[function(require,module,exports){
+},{"../object/keys":68,"./baseFor":27}],30:[function(require,module,exports){
 var arrayEach = require('./arrayEach'),
     baseMergeDeep = require('./baseMergeDeep'),
     isArray = require('../lang/isArray'),
@@ -3276,7 +3690,7 @@ function baseMerge(object, source, customizer, stackA, stackB) {
 
 module.exports = baseMerge;
 
-},{"../lang/isArray":48,"../lang/isObject":53,"../lang/isTypedArray":56,"../object/keys":59,"./arrayEach":15,"./baseMergeDeep":24,"./isArrayLike":38,"./isObjectLike":42}],24:[function(require,module,exports){
+},{"../lang/isArray":55,"../lang/isObject":60,"../lang/isTypedArray":63,"../object/keys":68,"./arrayEach":20,"./baseMergeDeep":31,"./isArrayLike":45,"./isObjectLike":49}],31:[function(require,module,exports){
 var arrayCopy = require('./arrayCopy'),
     isArguments = require('../lang/isArguments'),
     isArray = require('../lang/isArray'),
@@ -3345,7 +3759,7 @@ function baseMergeDeep(object, source, key, mergeFunc, customizer, stackA, stack
 
 module.exports = baseMergeDeep;
 
-},{"../lang/isArguments":47,"../lang/isArray":48,"../lang/isPlainObject":54,"../lang/isTypedArray":56,"../lang/toPlainObject":57,"./arrayCopy":14,"./isArrayLike":38}],25:[function(require,module,exports){
+},{"../lang/isArguments":54,"../lang/isArray":55,"../lang/isPlainObject":61,"../lang/isTypedArray":63,"../lang/toPlainObject":64,"./arrayCopy":19,"./isArrayLike":45}],32:[function(require,module,exports){
 /**
  * The base implementation of `_.property` without support for deep paths.
  *
@@ -3361,7 +3775,7 @@ function baseProperty(key) {
 
 module.exports = baseProperty;
 
-},{}],26:[function(require,module,exports){
+},{}],33:[function(require,module,exports){
 var identity = require('../utility/identity');
 
 /**
@@ -3402,7 +3816,7 @@ function bindCallback(func, thisArg, argCount) {
 
 module.exports = bindCallback;
 
-},{"../utility/identity":62}],27:[function(require,module,exports){
+},{"../utility/identity":71}],34:[function(require,module,exports){
 (function (global){
 /** Native method references. */
 var ArrayBuffer = global.ArrayBuffer,
@@ -3426,7 +3840,7 @@ function bufferClone(buffer) {
 module.exports = bufferClone;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],28:[function(require,module,exports){
+},{}],35:[function(require,module,exports){
 var bindCallback = require('./bindCallback'),
     isIterateeCall = require('./isIterateeCall'),
     restParam = require('../function/restParam');
@@ -3469,7 +3883,7 @@ function createAssigner(assigner) {
 
 module.exports = createAssigner;
 
-},{"../function/restParam":13,"./bindCallback":26,"./isIterateeCall":40}],29:[function(require,module,exports){
+},{"../function/restParam":18,"./bindCallback":33,"./isIterateeCall":47}],36:[function(require,module,exports){
 var getLength = require('./getLength'),
     isLength = require('./isLength'),
     toObject = require('./toObject');
@@ -3502,7 +3916,7 @@ function createBaseEach(eachFunc, fromRight) {
 
 module.exports = createBaseEach;
 
-},{"./getLength":33,"./isLength":41,"./toObject":45}],30:[function(require,module,exports){
+},{"./getLength":40,"./isLength":48,"./toObject":52}],37:[function(require,module,exports){
 var toObject = require('./toObject');
 
 /**
@@ -3531,7 +3945,7 @@ function createBaseFor(fromRight) {
 
 module.exports = createBaseFor;
 
-},{"./toObject":45}],31:[function(require,module,exports){
+},{"./toObject":52}],38:[function(require,module,exports){
 var restParam = require('../function/restParam');
 
 /**
@@ -3555,7 +3969,7 @@ function createDefaults(assigner, customizer) {
 
 module.exports = createDefaults;
 
-},{"../function/restParam":13}],32:[function(require,module,exports){
+},{"../function/restParam":18}],39:[function(require,module,exports){
 var bindCallback = require('./bindCallback'),
     isArray = require('../lang/isArray');
 
@@ -3577,7 +3991,7 @@ function createForEach(arrayFunc, eachFunc) {
 
 module.exports = createForEach;
 
-},{"../lang/isArray":48,"./bindCallback":26}],33:[function(require,module,exports){
+},{"../lang/isArray":55,"./bindCallback":33}],40:[function(require,module,exports){
 var baseProperty = require('./baseProperty');
 
 /**
@@ -3594,7 +4008,7 @@ var getLength = baseProperty('length');
 
 module.exports = getLength;
 
-},{"./baseProperty":25}],34:[function(require,module,exports){
+},{"./baseProperty":32}],41:[function(require,module,exports){
 var isNative = require('../lang/isNative');
 
 /**
@@ -3612,7 +4026,7 @@ function getNative(object, key) {
 
 module.exports = getNative;
 
-},{"../lang/isNative":52}],35:[function(require,module,exports){
+},{"../lang/isNative":59}],42:[function(require,module,exports){
 /** Used for native method references. */
 var objectProto = Object.prototype;
 
@@ -3640,7 +4054,7 @@ function initCloneArray(array) {
 
 module.exports = initCloneArray;
 
-},{}],36:[function(require,module,exports){
+},{}],43:[function(require,module,exports){
 var bufferClone = require('./bufferClone');
 
 /** `Object#toString` result references. */
@@ -3705,7 +4119,7 @@ function initCloneByTag(object, tag, isDeep) {
 
 module.exports = initCloneByTag;
 
-},{"./bufferClone":27}],37:[function(require,module,exports){
+},{"./bufferClone":34}],44:[function(require,module,exports){
 /**
  * Initializes an object clone.
  *
@@ -3723,7 +4137,7 @@ function initCloneObject(object) {
 
 module.exports = initCloneObject;
 
-},{}],38:[function(require,module,exports){
+},{}],45:[function(require,module,exports){
 var getLength = require('./getLength'),
     isLength = require('./isLength');
 
@@ -3740,7 +4154,7 @@ function isArrayLike(value) {
 
 module.exports = isArrayLike;
 
-},{"./getLength":33,"./isLength":41}],39:[function(require,module,exports){
+},{"./getLength":40,"./isLength":48}],46:[function(require,module,exports){
 /** Used to detect unsigned integer values. */
 var reIsUint = /^\d+$/;
 
@@ -3766,7 +4180,7 @@ function isIndex(value, length) {
 
 module.exports = isIndex;
 
-},{}],40:[function(require,module,exports){
+},{}],47:[function(require,module,exports){
 var isArrayLike = require('./isArrayLike'),
     isIndex = require('./isIndex'),
     isObject = require('../lang/isObject');
@@ -3796,7 +4210,7 @@ function isIterateeCall(value, index, object) {
 
 module.exports = isIterateeCall;
 
-},{"../lang/isObject":53,"./isArrayLike":38,"./isIndex":39}],41:[function(require,module,exports){
+},{"../lang/isObject":60,"./isArrayLike":45,"./isIndex":46}],48:[function(require,module,exports){
 /**
  * Used as the [maximum length](http://ecma-international.org/ecma-262/6.0/#sec-number.max_safe_integer)
  * of an array-like value.
@@ -3818,7 +4232,7 @@ function isLength(value) {
 
 module.exports = isLength;
 
-},{}],42:[function(require,module,exports){
+},{}],49:[function(require,module,exports){
 /**
  * Checks if `value` is object-like.
  *
@@ -3832,7 +4246,7 @@ function isObjectLike(value) {
 
 module.exports = isObjectLike;
 
-},{}],43:[function(require,module,exports){
+},{}],50:[function(require,module,exports){
 var merge = require('../object/merge');
 
 /**
@@ -3849,7 +4263,7 @@ function mergeDefaults(objectValue, sourceValue) {
 
 module.exports = mergeDefaults;
 
-},{"../object/merge":61}],44:[function(require,module,exports){
+},{"../object/merge":70}],51:[function(require,module,exports){
 var isArguments = require('../lang/isArguments'),
     isArray = require('../lang/isArray'),
     isIndex = require('./isIndex'),
@@ -3892,7 +4306,7 @@ function shimKeys(object) {
 
 module.exports = shimKeys;
 
-},{"../lang/isArguments":47,"../lang/isArray":48,"../object/keysIn":60,"./isIndex":39,"./isLength":41}],45:[function(require,module,exports){
+},{"../lang/isArguments":54,"../lang/isArray":55,"../object/keysIn":69,"./isIndex":46,"./isLength":48}],52:[function(require,module,exports){
 var isObject = require('../lang/isObject');
 
 /**
@@ -3908,7 +4322,7 @@ function toObject(value) {
 
 module.exports = toObject;
 
-},{"../lang/isObject":53}],46:[function(require,module,exports){
+},{"../lang/isObject":60}],53:[function(require,module,exports){
 var baseClone = require('../internal/baseClone'),
     bindCallback = require('../internal/bindCallback'),
     isIterateeCall = require('../internal/isIterateeCall');
@@ -3980,7 +4394,7 @@ function clone(value, isDeep, customizer, thisArg) {
 
 module.exports = clone;
 
-},{"../internal/baseClone":17,"../internal/bindCallback":26,"../internal/isIterateeCall":40}],47:[function(require,module,exports){
+},{"../internal/baseClone":24,"../internal/bindCallback":33,"../internal/isIterateeCall":47}],54:[function(require,module,exports){
 var isArrayLike = require('../internal/isArrayLike'),
     isObjectLike = require('../internal/isObjectLike');
 
@@ -4016,7 +4430,7 @@ function isArguments(value) {
 
 module.exports = isArguments;
 
-},{"../internal/isArrayLike":38,"../internal/isObjectLike":42}],48:[function(require,module,exports){
+},{"../internal/isArrayLike":45,"../internal/isObjectLike":49}],55:[function(require,module,exports){
 var getNative = require('../internal/getNative'),
     isLength = require('../internal/isLength'),
     isObjectLike = require('../internal/isObjectLike');
@@ -4058,7 +4472,7 @@ var isArray = nativeIsArray || function(value) {
 
 module.exports = isArray;
 
-},{"../internal/getNative":34,"../internal/isLength":41,"../internal/isObjectLike":42}],49:[function(require,module,exports){
+},{"../internal/getNative":41,"../internal/isLength":48,"../internal/isObjectLike":49}],56:[function(require,module,exports){
 var isObjectLike = require('../internal/isObjectLike'),
     isPlainObject = require('./isPlainObject');
 
@@ -4084,7 +4498,7 @@ function isElement(value) {
 
 module.exports = isElement;
 
-},{"../internal/isObjectLike":42,"./isPlainObject":54}],50:[function(require,module,exports){
+},{"../internal/isObjectLike":49,"./isPlainObject":61}],57:[function(require,module,exports){
 var isArguments = require('./isArguments'),
     isArray = require('./isArray'),
     isArrayLike = require('../internal/isArrayLike'),
@@ -4133,7 +4547,7 @@ function isEmpty(value) {
 
 module.exports = isEmpty;
 
-},{"../internal/isArrayLike":38,"../internal/isObjectLike":42,"../object/keys":59,"./isArguments":47,"./isArray":48,"./isFunction":51,"./isString":55}],51:[function(require,module,exports){
+},{"../internal/isArrayLike":45,"../internal/isObjectLike":49,"../object/keys":68,"./isArguments":54,"./isArray":55,"./isFunction":58,"./isString":62}],58:[function(require,module,exports){
 var isObject = require('./isObject');
 
 /** `Object#toString` result references. */
@@ -4173,7 +4587,7 @@ function isFunction(value) {
 
 module.exports = isFunction;
 
-},{"./isObject":53}],52:[function(require,module,exports){
+},{"./isObject":60}],59:[function(require,module,exports){
 var isFunction = require('./isFunction'),
     isObjectLike = require('../internal/isObjectLike');
 
@@ -4223,7 +4637,7 @@ function isNative(value) {
 
 module.exports = isNative;
 
-},{"../internal/isObjectLike":42,"./isFunction":51}],53:[function(require,module,exports){
+},{"../internal/isObjectLike":49,"./isFunction":58}],60:[function(require,module,exports){
 /**
  * Checks if `value` is the [language type](https://es5.github.io/#x8) of `Object`.
  * (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
@@ -4253,7 +4667,7 @@ function isObject(value) {
 
 module.exports = isObject;
 
-},{}],54:[function(require,module,exports){
+},{}],61:[function(require,module,exports){
 var baseForIn = require('../internal/baseForIn'),
     isArguments = require('./isArguments'),
     isObjectLike = require('../internal/isObjectLike');
@@ -4326,7 +4740,7 @@ function isPlainObject(value) {
 
 module.exports = isPlainObject;
 
-},{"../internal/baseForIn":21,"../internal/isObjectLike":42,"./isArguments":47}],55:[function(require,module,exports){
+},{"../internal/baseForIn":28,"../internal/isObjectLike":49,"./isArguments":54}],62:[function(require,module,exports){
 var isObjectLike = require('../internal/isObjectLike');
 
 /** `Object#toString` result references. */
@@ -4363,7 +4777,7 @@ function isString(value) {
 
 module.exports = isString;
 
-},{"../internal/isObjectLike":42}],56:[function(require,module,exports){
+},{"../internal/isObjectLike":49}],63:[function(require,module,exports){
 var isLength = require('../internal/isLength'),
     isObjectLike = require('../internal/isObjectLike');
 
@@ -4439,7 +4853,7 @@ function isTypedArray(value) {
 
 module.exports = isTypedArray;
 
-},{"../internal/isLength":41,"../internal/isObjectLike":42}],57:[function(require,module,exports){
+},{"../internal/isLength":48,"../internal/isObjectLike":49}],64:[function(require,module,exports){
 var baseCopy = require('../internal/baseCopy'),
     keysIn = require('../object/keysIn');
 
@@ -4472,7 +4886,79 @@ function toPlainObject(value) {
 
 module.exports = toPlainObject;
 
-},{"../internal/baseCopy":18,"../object/keysIn":60}],58:[function(require,module,exports){
+},{"../internal/baseCopy":25,"../object/keysIn":69}],65:[function(require,module,exports){
+var assignWith = require('../internal/assignWith'),
+    baseAssign = require('../internal/baseAssign'),
+    createAssigner = require('../internal/createAssigner');
+
+/**
+ * Assigns own enumerable properties of source object(s) to the destination
+ * object. Subsequent sources overwrite property assignments of previous sources.
+ * If `customizer` is provided it's invoked to produce the assigned values.
+ * The `customizer` is bound to `thisArg` and invoked with five arguments:
+ * (objectValue, sourceValue, key, object, source).
+ *
+ * **Note:** This method mutates `object` and is based on
+ * [`Object.assign`](http://ecma-international.org/ecma-262/6.0/#sec-object.assign).
+ *
+ * @static
+ * @memberOf _
+ * @alias extend
+ * @category Object
+ * @param {Object} object The destination object.
+ * @param {...Object} [sources] The source objects.
+ * @param {Function} [customizer] The function to customize assigned values.
+ * @param {*} [thisArg] The `this` binding of `customizer`.
+ * @returns {Object} Returns `object`.
+ * @example
+ *
+ * _.assign({ 'user': 'barney' }, { 'age': 40 }, { 'user': 'fred' });
+ * // => { 'user': 'fred', 'age': 40 }
+ *
+ * // using a customizer callback
+ * var defaults = _.partialRight(_.assign, function(value, other) {
+ *   return _.isUndefined(value) ? other : value;
+ * });
+ *
+ * defaults({ 'user': 'barney' }, { 'age': 36 }, { 'user': 'fred' });
+ * // => { 'user': 'barney', 'age': 36 }
+ */
+var assign = createAssigner(function(object, source, customizer) {
+  return customizer
+    ? assignWith(object, source, customizer)
+    : baseAssign(object, source);
+});
+
+module.exports = assign;
+
+},{"../internal/assignWith":22,"../internal/baseAssign":23,"../internal/createAssigner":35}],66:[function(require,module,exports){
+var assign = require('./assign'),
+    assignDefaults = require('../internal/assignDefaults'),
+    createDefaults = require('../internal/createDefaults');
+
+/**
+ * Assigns own enumerable properties of source object(s) to the destination
+ * object for all destination properties that resolve to `undefined`. Once a
+ * property is set, additional values of the same property are ignored.
+ *
+ * **Note:** This method mutates `object`.
+ *
+ * @static
+ * @memberOf _
+ * @category Object
+ * @param {Object} object The destination object.
+ * @param {...Object} [sources] The source objects.
+ * @returns {Object} Returns `object`.
+ * @example
+ *
+ * _.defaults({ 'user': 'barney' }, { 'age': 36 }, { 'user': 'fred' });
+ * // => { 'user': 'barney', 'age': 36 }
+ */
+var defaults = createDefaults(assign, assignDefaults);
+
+module.exports = defaults;
+
+},{"../internal/assignDefaults":21,"../internal/createDefaults":38,"./assign":65}],67:[function(require,module,exports){
 var createDefaults = require('../internal/createDefaults'),
     merge = require('./merge'),
     mergeDefaults = require('../internal/mergeDefaults');
@@ -4499,7 +4985,7 @@ var defaultsDeep = createDefaults(merge, mergeDefaults);
 
 module.exports = defaultsDeep;
 
-},{"../internal/createDefaults":31,"../internal/mergeDefaults":43,"./merge":61}],59:[function(require,module,exports){
+},{"../internal/createDefaults":38,"../internal/mergeDefaults":50,"./merge":70}],68:[function(require,module,exports){
 var getNative = require('../internal/getNative'),
     isArrayLike = require('../internal/isArrayLike'),
     isObject = require('../lang/isObject'),
@@ -4546,7 +5032,7 @@ var keys = !nativeKeys ? shimKeys : function(object) {
 
 module.exports = keys;
 
-},{"../internal/getNative":34,"../internal/isArrayLike":38,"../internal/shimKeys":44,"../lang/isObject":53}],60:[function(require,module,exports){
+},{"../internal/getNative":41,"../internal/isArrayLike":45,"../internal/shimKeys":51,"../lang/isObject":60}],69:[function(require,module,exports){
 var isArguments = require('../lang/isArguments'),
     isArray = require('../lang/isArray'),
     isIndex = require('../internal/isIndex'),
@@ -4612,7 +5098,7 @@ function keysIn(object) {
 
 module.exports = keysIn;
 
-},{"../internal/isIndex":39,"../internal/isLength":41,"../lang/isArguments":47,"../lang/isArray":48,"../lang/isObject":53}],61:[function(require,module,exports){
+},{"../internal/isIndex":46,"../internal/isLength":48,"../lang/isArguments":54,"../lang/isArray":55,"../lang/isObject":60}],70:[function(require,module,exports){
 var baseMerge = require('../internal/baseMerge'),
     createAssigner = require('../internal/createAssigner');
 
@@ -4668,7 +5154,7 @@ var merge = createAssigner(baseMerge);
 
 module.exports = merge;
 
-},{"../internal/baseMerge":23,"../internal/createAssigner":28}],62:[function(require,module,exports){
+},{"../internal/baseMerge":30,"../internal/createAssigner":35}],71:[function(require,module,exports){
 /**
  * This method returns the first argument provided to it.
  *

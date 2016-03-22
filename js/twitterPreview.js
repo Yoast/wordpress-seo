@@ -15,6 +15,10 @@ var stripSpaces = require( "yoastseo/js/stringProcessing/stripSpaces.js" );
 var addClass = require( "./helpers/addClass.js" );
 var removeClass = require( "./helpers/removeClass.js" );
 
+var TextField = require( "./fields/textFieldFactory" );
+var TextArea = require( "./fields/textAreaFactory" );
+var Button = require( "./fields/button.js" );
+
 var twitterEditorTemplate = require( "./templates.js" ).twitterPreview;
 
 var twitterDefaults = {
@@ -205,6 +209,38 @@ TwitterPreview.prototype.renderTemplate = function() {
 			imageUrl: document.getElementById( "twitter_image" ),
 			description: document.getElementById( "twitter_description" )
 		},
+		fields: {
+			title: new TextField( {
+				className: "snippet-editor__input snippet-editor__title js-snippet-editor-title",
+				id: "twitter-editor-title",
+				value: this.data.title,
+				placeholder: this.opts.placeholder.title,
+				title: this.i18n.dgettext( "js-text-analysis", "Twitter title" ),
+				labelClassName: "snippet-editor__label"
+			} ),
+			description: new TextArea( {
+				className: "snippet-editor__input snippet-editor__description js-snippet-editor-description",
+				id: "twitter-editor-description",
+				value: this.data.description,
+				placeholder: this.opts.placeholder.description,
+				title: this.i18n.dgettext( "js-text-analysis", "Twitter description" ),
+				labelClassName: "snippet-editor__label"
+			} ),
+			imageUrl: new TextField( {
+				className: "snippet-editor__input snippet-editor__imageUrl js-snippet-editor-imageUrl",
+				id: "twitter-editor-imageUrl",
+				value: this.data.imageUrl,
+				placeholder: this.opts.placeholder.imageUrl,
+				title: this.i18n.dgettext( "js-text-analysis", "Twitter image URL" ),
+				labelClassName: "snippet-editor__label"
+			} ),
+			button : new Button(
+				{
+					className : "snippet-editor__submit snippet-editor__button",
+					value: this.i18n.dgettext( "js-text-analysis", "Close Twitter editor" )
+				}
+			)
+		},
 		input: {
 			title: targetElement.getElementsByClassName( "js-snippet-editor-title" )[0],
 			imageUrl: targetElement.getElementsByClassName( "js-snippet-editor-imageUrl" )[0],
@@ -217,6 +253,19 @@ TwitterPreview.prototype.renderTemplate = function() {
 		formFields: targetElement.getElementsByClassName( "snippet-editor__form-field" ),
 		headingEditor: targetElement.getElementsByClassName( "snippet-editor__heading-editor" )[0]
 	};
+
+	this.element.formContainer.innerHTML = this.element.fields.title.render()
+		+ this.element.fields.description.render()
+		+ this.element.fields.imageUrl.render()
+		+ this.element.fields.button.render();
+
+	this.element.input = {
+		title: targetElement.getElementsByClassName( "js-snippet-editor-title" )[0],
+		imageUrl: targetElement.getElementsByClassName( "js-snippet-editor-imageUrl" )[0],
+		description: targetElement.getElementsByClassName( "js-snippet-editor-description" )[0]
+	};
+
+	this.element.closeEditor = targetElement.getElementsByClassName( "snippet-editor__submit" )[0];
 
 	this.element.label = {
 		title: this.element.input.title.parentNode,
@@ -233,7 +282,7 @@ TwitterPreview.prototype.renderTemplate = function() {
 };
 
 /**
- * Creates html object to contain the strings for the Facebook preview
+ * Creates html object to contain the strings for the Twitter preview
  *
  * @returns {Object} The formatted output
  */
@@ -248,7 +297,7 @@ TwitterPreview.prototype.htmlOutput = function() {
 };
 
 /**
- * Formats the title for the Facebook preview. If title is empty, sampletext is used
+ * Formats the title for the Twitter preview. If title is empty, sampletext is used
  *
  * @returns {string} The formatted title, without html tags.
  */
@@ -259,7 +308,7 @@ TwitterPreview.prototype.formatTitle = function() {
 
 	// As an ultimate fallback provide the user with a helpful message.
 	if ( isEmpty( title ) ) {
-		title = this.i18n.dgettext( "js-text-analysis", "Please provide a Facebook title by editing the snippet below." );
+		title = this.i18n.dgettext( "js-text-analysis", "Please provide a Twitter title by editing the snippet below." );
 	}
 
 	return title;
@@ -428,7 +477,7 @@ TwitterPreview.prototype.bindEvents = function() {
 	this.element.closeEditor.addEventListener( "click", this.closeEditor.bind( this ) );
 
 	// Loop through the bindings and bind a click handler to the click to focus the focus element.
-	forEach( inputTwitterPreviewBindings, function(binding ) {
+	forEach( inputTwitterPreviewBindings, function( binding ) {
 		var previewElement = document.getElementById( binding.preview );
 		var inputElement = this.element.input[ binding.inputField ];
 

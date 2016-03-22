@@ -15,6 +15,10 @@ var stripSpaces = require( "yoastseo/js/stringProcessing/stripSpaces.js" );
 var addClass = require( "./helpers/addClass.js" );
 var removeClass = require( "./helpers/removeClass.js" );
 
+var TextField = require( "./fields/textFieldFactory" );
+var TextArea = require( "./fields/textAreaFactory" );
+var Button = require( "./fields/button.js" );
+
 var facebookEditorTemplate = require( "./templates.js" ).facebookPreview;
 
 var facebookDefaults = {
@@ -205,18 +209,57 @@ FacebookPreview.prototype.renderTemplate = function() {
 			imageUrl: document.getElementById( "facebook_image" ),
 			description: document.getElementById( "facebook_description" )
 		},
-		input: {
-			title: targetElement.getElementsByClassName( "js-snippet-editor-title" )[0],
-			imageUrl: targetElement.getElementsByClassName( "js-snippet-editor-imageUrl" )[0],
-			description: targetElement.getElementsByClassName( "js-snippet-editor-description" )[0]
+		fields: {
+			title: new TextField( {
+				className: "snippet-editor__input snippet-editor__title js-snippet-editor-title",
+				id: "facebook-editor-title",
+				value: this.data.title,
+				placeholder: this.opts.placeholder.title,
+				title: this.i18n.dgettext( "js-text-analysis", "Facebook title" ),
+				labelClassName: "snippet-editor__label"
+			} ),
+			description: new TextArea( {
+				className: "snippet-editor__input snippet-editor__description js-snippet-editor-description",
+				id: "facebook-editor-description",
+				value: this.data.description,
+				placeholder: this.opts.placeholder.description,
+				title: this.i18n.dgettext( "js-text-analysis", "Facebook description" ),
+				labelClassName: "snippet-editor__label"
+			} ),
+			imageUrl: new TextField( {
+				className: "snippet-editor__input snippet-editor__imageUrl js-snippet-editor-imageUrl",
+				id: "facebook-editor-imageUrl",
+				value: this.data.imageUrl,
+				placeholder: this.opts.placeholder.imageUrl,
+				title: this.i18n.dgettext( "js-text-analysis", "Facebook image URL" ),
+				labelClassName: "snippet-editor__label"
+			} ),
+			button : new Button(
+				{
+					className : "snippet-editor__submit snippet-editor__button",
+					value: this.i18n.dgettext( "js-text-analysis", "Close facebook editor" )
+				}
+			)
 		},
 		container: document.getElementById( "twitter_preview" ),
 		formContainer: targetElement.getElementsByClassName( "snippet-editor__form" )[0],
 		editToggle: targetElement.getElementsByClassName( "snippet-editor__edit-button" )[0],
-		closeEditor: targetElement.getElementsByClassName( "snippet-editor__submit" )[0],
 		formFields: targetElement.getElementsByClassName( "snippet-editor__form-field" ),
 		headingEditor: targetElement.getElementsByClassName( "snippet-editor__heading-editor" )[0]
 	};
+
+	this.element.formContainer.innerHTML = this.element.fields.title.render()
+		+ this.element.fields.description.render()
+		+ this.element.fields.imageUrl.render()
+		+ this.element.fields.button.render();
+
+	this.element.input = {
+		title: targetElement.getElementsByClassName( "js-snippet-editor-title" )[0],
+		imageUrl: targetElement.getElementsByClassName( "js-snippet-editor-imageUrl" )[0],
+		description: targetElement.getElementsByClassName( "js-snippet-editor-description" )[0]
+	};
+
+	this.element.closeEditor = targetElement.getElementsByClassName( "snippet-editor__submit" )[0];
 
 	this.element.label = {
 		title: this.element.input.title.parentNode,

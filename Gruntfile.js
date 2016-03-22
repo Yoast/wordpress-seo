@@ -27,7 +27,7 @@ module.exports = function( grunt ) {
 				"!js/templates.js"
 			],
 			scss: "css/*.scss",
-			templates: "templates/*.jst",
+			templates: "templates/**/*.jst",
 			jed: "node_modules/jed/jed.js",
 			get config() {
 				return project.paths.config + "*.js";

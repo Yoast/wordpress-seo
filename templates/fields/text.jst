@@ -1,0 +1,10 @@
+<label<% if (id) { %> for="<%- id %>"<% } %><% if (labelClassName) { %> class="<%- labelClassName %>"<% } %>>
+	<%- title %>
+	<input type="text"
+		<% if (value) { %>value="<%- value %>"<% } %>
+		<% if (placeholder) { %>placeholder="<%- placeholder %>"<% } %>
+		<% if (className) { %>class="<%- className %>"<% } %>
+		<% if (id) { %>id="<%- id %>"<% } %>
+		<% if (name) { %>name="<%- name %>"<% } %>
+	/>
+</label>
