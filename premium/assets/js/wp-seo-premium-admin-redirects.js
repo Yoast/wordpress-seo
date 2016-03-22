@@ -462,7 +462,7 @@
 				targetClasses.push( 'remove-slashes' );
 			}
 
-			if ( redirectInfo.hasPermalinkTrailingSlash ) {
+			if ( redirectInfo.hasTrailingSlash ) {
 				targetClasses.push( 'has-trailing-slash' );
 			}
 
