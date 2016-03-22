@@ -1,5 +1,4 @@
 var defaults = require( "lodash/object/defaults" );
-var textFieldTemplate = require( "../../js/templates" ).fields.text;
 var minimizeHtml = require( "../helpers/minimizeHtml" );
 
 var defaultAttributes = {
@@ -22,14 +21,16 @@ var defaultAttributes = {
  * @param {string} attributes.id The id for this text field
  * @param {string} attributes.className The class for this text field
  * @param {string} attributes.title The title that describes this text field
+ * @param {Object} template
  *
  * @constructor
  */
-function TextField( attributes ) {
+function TextField( attributes, template ) {
 	attributes = attributes || {};
 	attributes = defaults( attributes, defaultAttributes );
 
 	this._attributes = attributes;
+	this._template = template;
 }
 
 /**
@@ -47,8 +48,8 @@ TextField.prototype.getAttributes = function() {
  * @returns {string} The rendered HTML
  */
 TextField.prototype.render = function() {
-	var html = textFieldTemplate( this.getAttributes() );
-	
+	var html = this._template( this.getAttributes() );
+
 	html = minimizeHtml( html );
 
 	return html;

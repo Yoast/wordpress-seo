@@ -15,8 +15,8 @@ var stripSpaces = require( "yoastseo/js/stringProcessing/stripSpaces.js" );
 var addClass = require( "./helpers/addClass.js" );
 var removeClass = require( "./helpers/removeClass.js" );
 
-var TextField = require( "./fields/text.js" );
-var TextArea = require( "./fields/textarea.js" );
+var TextField = require( "./fields/textFieldFactory" );
+var TextArea = require( "./fields/textAreaFactory" );
 var Button = require( "./fields/button.js" );
 
 var twitterEditorTemplate = require( "./templates.js" ).twitterPreview;

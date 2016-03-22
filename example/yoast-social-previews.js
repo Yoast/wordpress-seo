@@ -58,7 +58,7 @@ var twitterPreview = new TwitterPreview(
 
 twitterPreview.init();
 
-},{"../js/facebookPreview.js":4,"../js/twitterPreview.js":12}],4:[function(require,module,exports){
+},{"../js/facebookPreview.js":4,"../js/twitterPreview.js":13}],4:[function(require,module,exports){
 /* jshint browser: true */
 
 var isEmpty = require( "lodash/lang/isEmpty" );
@@ -76,8 +76,8 @@ var stripSpaces = require( "yoastseo/js/stringProcessing/stripSpaces.js" );
 var addClass = require( "./helpers/addClass.js" );
 var removeClass = require( "./helpers/removeClass.js" );
 
-var TextField = require( "./fields/text.js" );
-var TextArea = require( "./fields/textarea.js" );
+var TextField = require( "./fields/textFieldFactory" );
+var TextArea = require( "./fields/textAreaFactory" );
 var Button = require( "./fields/button.js" );
 
 var facebookEditorTemplate = require( "./templates.js" ).facebookPreview;
@@ -738,7 +738,7 @@ FacebookPreview.prototype._updateHoverCarets = function() {
 
 module.exports = FacebookPreview;
 
-},{"./fields/button.js":5,"./fields/text.js":6,"./fields/textarea.js":7,"./helpers/addClass.js":8,"./helpers/removeClass.js":10,"./templates.js":11,"jed":13,"lodash/collection/forEach":14,"lodash/function/debounce":16,"lodash/lang/clone":52,"lodash/lang/isElement":55,"lodash/lang/isEmpty":56,"lodash/object/defaultsDeep":66,"yoastseo/js/stringProcessing/stripHTMLTags.js":1,"yoastseo/js/stringProcessing/stripSpaces.js":2}],5:[function(require,module,exports){
+},{"./fields/button.js":5,"./fields/textAreaFactory":7,"./fields/textFieldFactory":8,"./helpers/addClass.js":9,"./helpers/removeClass.js":11,"./templates.js":12,"jed":14,"lodash/collection/forEach":15,"lodash/function/debounce":17,"lodash/lang/clone":53,"lodash/lang/isElement":56,"lodash/lang/isEmpty":57,"lodash/object/defaultsDeep":67,"yoastseo/js/stringProcessing/stripHTMLTags.js":1,"yoastseo/js/stringProcessing/stripSpaces.js":2}],5:[function(require,module,exports){
 var defaults = require( "lodash/object/defaults" );
 var buttonTemplate = require( "../../js/templates" ).fields.button;
 var minimizeHtml = require( "../helpers/minimizeHtml" );
@@ -810,9 +810,8 @@ Button.prototype.setClassName = function( className ) {
 
 module.exports = Button;
 
-},{"../../js/templates":11,"../helpers/minimizeHtml":9,"lodash/object/defaults":65}],6:[function(require,module,exports){
+},{"../../js/templates":12,"../helpers/minimizeHtml":10,"lodash/object/defaults":66}],6:[function(require,module,exports){
 var defaults = require( "lodash/object/defaults" );
-var textFieldTemplate = require( "../../js/templates" ).fields.text;
 var minimizeHtml = require( "../helpers/minimizeHtml" );
 
 var defaultAttributes = {
@@ -835,14 +834,16 @@ var defaultAttributes = {
  * @param {string} attributes.id The id for this text field
  * @param {string} attributes.className The class for this text field
  * @param {string} attributes.title The title that describes this text field
+ * @param {Object} template
  *
  * @constructor
  */
-function TextField( attributes ) {
+function TextField( attributes, template ) {
 	attributes = attributes || {};
 	attributes = defaults( attributes, defaultAttributes );
 
 	this._attributes = attributes;
+	this._template = template;
 }
 
 /**
@@ -860,8 +861,8 @@ TextField.prototype.getAttributes = function() {
  * @returns {string} The rendered HTML
  */
 TextField.prototype.render = function() {
-	var html = textFieldTemplate( this.getAttributes() );
-	
+	var html = this._template( this.getAttributes() );
+
 	html = minimizeHtml( html );
 
 	return html;
@@ -887,84 +888,39 @@ TextField.prototype.setClassName = function( className ) {
 
 module.exports = TextField;
 
-},{"../../js/templates":11,"../helpers/minimizeHtml":9,"lodash/object/defaults":65}],7:[function(require,module,exports){
-var defaults = require( "lodash/object/defaults" );
-var textAreaTemplate = require( "../../js/templates" ).fields.textarea;
-var minimizeHtml = require( "../helpers/minimizeHtml" );
-
-var defaultAttributes = {
-	value: "",
-	className: "",
-	id: "",
-	placeholder: "",
-	name: "",
-	title: "",
-	labelClassName: ""
-};
+},{"../helpers/minimizeHtml":10,"lodash/object/defaults":66}],7:[function(require,module,exports){
 
 /**
- * Represents an HTML text area
+ * Returns an instance of the textfield object to represent a textarea.
  *
- * @param {Object} attributes The attributes to set on the HTML element
- * @param {string} attributes.value The value for this text field
- * @param {string} attributes.placeholder The placeholder for this text field
- * @param {string} attributes.name The name for this text field
- * @param {string} attributes.id The id for this text field
- * @param {string} attributes.className The class for this text field
- * @param {string} attributes.title The title that describes this text field
- *
- * @constructor
+ * @param {object} attributes
+ * @returns {TextField}
  */
-function TextArea( attributes ) {
-	attributes = attributes || {};
-	attributes = defaults( attributes, defaultAttributes );
+function textAreaFactory( attributes ) {
+	var textAreaTemplate = require( "../../js/templates" ).fields.textarea;
+	var TextField = require( "./text" );
 
-	this._attributes = attributes;
+	return new TextField( attributes, textAreaTemplate );
 }
 
+module.exports = textAreaFactory;
+},{"../../js/templates":12,"./text":6}],8:[function(require,module,exports){
 /**
- * Returns the HTML attributes set for this text field
+ * Returns an instance of the textfield object representing a text field.
  *
- * @returns {Object} The HTML attributes
+ * @param {object} attributes
+ * @returns {TextField}
  */
-TextArea.prototype.getAttributes = function() {
-	return this._attributes;
-};
+function textFieldFactory( attributes ) {
+	var textFieldTemplate = require( "../../js/templates" ).fields.text;
+	var TextField = require( "./text" );
 
-/**
- * Renders the text field to HTML
- *
- * @returns {string} The rendered HTML
- */
-TextArea.prototype.render = function() {
-	var html = textAreaTemplate( this.getAttributes() );
+	return new TextField( attributes, textFieldTemplate );
+}
 
-	html = minimizeHtml( html );
+module.exports = textFieldFactory;
 
-	return html;
-};
-
-/**
- * Set the value of the input field
- *
- * @param {string} value The value to set on this input field
- */
-TextArea.prototype.setValue = function( value ) {
-	this._attributes.value = value;
-};
-
-/**
- * Set the value of the input field
- *
- * @param {string} className The class to set on this input field
- */
-TextArea.prototype.setClassName = function( className ) {
-	this._attributes.className = className;
-};
-
-module.exports = TextArea;
-
-},{"../../js/templates":11,"../helpers/minimizeHtml":9,"lodash/object/defaults":65}],8:[function(require,module,exports){
+},{"../../js/templates":12,"./text":6}],9:[function(require,module,exports){
 /**
  * Adds a class to an element
  *
@@ -981,7 +937,7 @@ module.exports = function( element, className ) {
 	element.className = classes.join( " " );
 };
 
-},{}],9:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 /**
  * Cleans spaces from the html.
  *
@@ -1001,7 +957,7 @@ function minimizeHtml( html ) {
 }
 
 module.exports = minimizeHtml;
-},{}],10:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 /**
  * Removes a class from an element
  *
@@ -1019,7 +975,7 @@ module.exports = function( element, className ) {
 	element.className = classes.join( " " );
 };
 
-},{}],11:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 (function (global){
 ;(function() {
   var undefined;
@@ -1331,7 +1287,7 @@ module.exports = function( element, className ) {
 }.call(this));
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],12:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 /* jshint browser: true */
 
 var isEmpty = require( "lodash/lang/isEmpty" );
@@ -1349,8 +1305,8 @@ var stripSpaces = require( "yoastseo/js/stringProcessing/stripSpaces.js" );
 var addClass = require( "./helpers/addClass.js" );
 var removeClass = require( "./helpers/removeClass.js" );
 
-var TextField = require( "./fields/text.js" );
-var TextArea = require( "./fields/textarea.js" );
+var TextField = require( "./fields/textFieldFactory" );
+var TextArea = require( "./fields/textAreaFactory" );
 var Button = require( "./fields/button.js" );
 
 var twitterEditorTemplate = require( "./templates.js" ).twitterPreview;
@@ -2017,7 +1973,7 @@ TwitterPreview.prototype._updateHoverCarets = function() {
 
 module.exports = TwitterPreview;
 
-},{"./fields/button.js":5,"./fields/text.js":6,"./fields/textarea.js":7,"./helpers/addClass.js":8,"./helpers/removeClass.js":10,"./templates.js":11,"jed":13,"lodash/collection/forEach":14,"lodash/function/debounce":16,"lodash/lang/clone":52,"lodash/lang/isElement":55,"lodash/lang/isEmpty":56,"lodash/object/defaultsDeep":66,"yoastseo/js/stringProcessing/stripHTMLTags.js":1,"yoastseo/js/stringProcessing/stripSpaces.js":2}],13:[function(require,module,exports){
+},{"./fields/button.js":5,"./fields/textAreaFactory":7,"./fields/textFieldFactory":8,"./helpers/addClass.js":9,"./helpers/removeClass.js":11,"./templates.js":12,"jed":14,"lodash/collection/forEach":15,"lodash/function/debounce":17,"lodash/lang/clone":53,"lodash/lang/isElement":56,"lodash/lang/isEmpty":57,"lodash/object/defaultsDeep":67,"yoastseo/js/stringProcessing/stripHTMLTags.js":1,"yoastseo/js/stringProcessing/stripSpaces.js":2}],14:[function(require,module,exports){
 /**
  * @preserve jed.js https://github.com/SlexAxton/Jed
  */
@@ -3041,7 +2997,7 @@ return parser;
 
 })(this);
 
-},{}],14:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 var arrayEach = require('../internal/arrayEach'),
     baseEach = require('../internal/baseEach'),
     createForEach = require('../internal/createForEach');
@@ -3080,7 +3036,7 @@ var forEach = createForEach(arrayEach, baseEach);
 
 module.exports = forEach;
 
-},{"../internal/arrayEach":19,"../internal/baseEach":25,"../internal/createForEach":38}],15:[function(require,module,exports){
+},{"../internal/arrayEach":20,"../internal/baseEach":26,"../internal/createForEach":39}],16:[function(require,module,exports){
 var getNative = require('../internal/getNative');
 
 /* Native method references for those with the same name as other `lodash` methods. */
@@ -3106,7 +3062,7 @@ var now = nativeNow || function() {
 
 module.exports = now;
 
-},{"../internal/getNative":40}],16:[function(require,module,exports){
+},{"../internal/getNative":41}],17:[function(require,module,exports){
 var isObject = require('../lang/isObject'),
     now = require('../date/now');
 
@@ -3289,7 +3245,7 @@ function debounce(func, wait, options) {
 
 module.exports = debounce;
 
-},{"../date/now":15,"../lang/isObject":59}],17:[function(require,module,exports){
+},{"../date/now":16,"../lang/isObject":60}],18:[function(require,module,exports){
 /** Used as the `TypeError` message for "Functions" methods. */
 var FUNC_ERROR_TEXT = 'Expected a function';
 
@@ -3349,7 +3305,7 @@ function restParam(func, start) {
 
 module.exports = restParam;
 
-},{}],18:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 /**
  * Copies the values of `source` to `array`.
  *
@@ -3371,7 +3327,7 @@ function arrayCopy(source, array) {
 
 module.exports = arrayCopy;
 
-},{}],19:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 /**
  * A specialized version of `_.forEach` for arrays without support for callback
  * shorthands and `this` binding.
@@ -3395,7 +3351,7 @@ function arrayEach(array, iteratee) {
 
 module.exports = arrayEach;
 
-},{}],20:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 /**
  * Used by `_.defaults` to customize its `_.assign` use.
  *
@@ -3410,7 +3366,7 @@ function assignDefaults(objectValue, sourceValue) {
 
 module.exports = assignDefaults;
 
-},{}],21:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 var keys = require('../object/keys');
 
 /**
@@ -3444,7 +3400,7 @@ function assignWith(object, source, customizer) {
 
 module.exports = assignWith;
 
-},{"../object/keys":67}],22:[function(require,module,exports){
+},{"../object/keys":68}],23:[function(require,module,exports){
 var baseCopy = require('./baseCopy'),
     keys = require('../object/keys');
 
@@ -3465,7 +3421,7 @@ function baseAssign(object, source) {
 
 module.exports = baseAssign;
 
-},{"../object/keys":67,"./baseCopy":24}],23:[function(require,module,exports){
+},{"../object/keys":68,"./baseCopy":25}],24:[function(require,module,exports){
 var arrayCopy = require('./arrayCopy'),
     arrayEach = require('./arrayEach'),
     baseAssign = require('./baseAssign'),
@@ -3595,7 +3551,7 @@ function baseClone(value, isDeep, customizer, key, object, stackA, stackB) {
 
 module.exports = baseClone;
 
-},{"../lang/isArray":54,"../lang/isObject":59,"./arrayCopy":18,"./arrayEach":19,"./baseAssign":22,"./baseForOwn":28,"./initCloneArray":41,"./initCloneByTag":42,"./initCloneObject":43}],24:[function(require,module,exports){
+},{"../lang/isArray":55,"../lang/isObject":60,"./arrayCopy":19,"./arrayEach":20,"./baseAssign":23,"./baseForOwn":29,"./initCloneArray":42,"./initCloneByTag":43,"./initCloneObject":44}],25:[function(require,module,exports){
 /**
  * Copies properties of `source` to `object`.
  *
@@ -3620,7 +3576,7 @@ function baseCopy(source, props, object) {
 
 module.exports = baseCopy;
 
-},{}],25:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 var baseForOwn = require('./baseForOwn'),
     createBaseEach = require('./createBaseEach');
 
@@ -3637,7 +3593,7 @@ var baseEach = createBaseEach(baseForOwn);
 
 module.exports = baseEach;
 
-},{"./baseForOwn":28,"./createBaseEach":35}],26:[function(require,module,exports){
+},{"./baseForOwn":29,"./createBaseEach":36}],27:[function(require,module,exports){
 var createBaseFor = require('./createBaseFor');
 
 /**
@@ -3656,7 +3612,7 @@ var baseFor = createBaseFor();
 
 module.exports = baseFor;
 
-},{"./createBaseFor":36}],27:[function(require,module,exports){
+},{"./createBaseFor":37}],28:[function(require,module,exports){
 var baseFor = require('./baseFor'),
     keysIn = require('../object/keysIn');
 
@@ -3675,7 +3631,7 @@ function baseForIn(object, iteratee) {
 
 module.exports = baseForIn;
 
-},{"../object/keysIn":68,"./baseFor":26}],28:[function(require,module,exports){
+},{"../object/keysIn":69,"./baseFor":27}],29:[function(require,module,exports){
 var baseFor = require('./baseFor'),
     keys = require('../object/keys');
 
@@ -3694,7 +3650,7 @@ function baseForOwn(object, iteratee) {
 
 module.exports = baseForOwn;
 
-},{"../object/keys":67,"./baseFor":26}],29:[function(require,module,exports){
+},{"../object/keys":68,"./baseFor":27}],30:[function(require,module,exports){
 var arrayEach = require('./arrayEach'),
     baseMergeDeep = require('./baseMergeDeep'),
     isArray = require('../lang/isArray'),
@@ -3752,7 +3708,7 @@ function baseMerge(object, source, customizer, stackA, stackB) {
 
 module.exports = baseMerge;
 
-},{"../lang/isArray":54,"../lang/isObject":59,"../lang/isTypedArray":62,"../object/keys":67,"./arrayEach":19,"./baseMergeDeep":30,"./isArrayLike":44,"./isObjectLike":48}],30:[function(require,module,exports){
+},{"../lang/isArray":55,"../lang/isObject":60,"../lang/isTypedArray":63,"../object/keys":68,"./arrayEach":20,"./baseMergeDeep":31,"./isArrayLike":45,"./isObjectLike":49}],31:[function(require,module,exports){
 var arrayCopy = require('./arrayCopy'),
     isArguments = require('../lang/isArguments'),
     isArray = require('../lang/isArray'),
@@ -3821,7 +3777,7 @@ function baseMergeDeep(object, source, key, mergeFunc, customizer, stackA, stack
 
 module.exports = baseMergeDeep;
 
-},{"../lang/isArguments":53,"../lang/isArray":54,"../lang/isPlainObject":60,"../lang/isTypedArray":62,"../lang/toPlainObject":63,"./arrayCopy":18,"./isArrayLike":44}],31:[function(require,module,exports){
+},{"../lang/isArguments":54,"../lang/isArray":55,"../lang/isPlainObject":61,"../lang/isTypedArray":63,"../lang/toPlainObject":64,"./arrayCopy":19,"./isArrayLike":45}],32:[function(require,module,exports){
 /**
  * The base implementation of `_.property` without support for deep paths.
  *
@@ -3837,7 +3793,7 @@ function baseProperty(key) {
 
 module.exports = baseProperty;
 
-},{}],32:[function(require,module,exports){
+},{}],33:[function(require,module,exports){
 var identity = require('../utility/identity');
 
 /**
@@ -3878,7 +3834,7 @@ function bindCallback(func, thisArg, argCount) {
 
 module.exports = bindCallback;
 
-},{"../utility/identity":70}],33:[function(require,module,exports){
+},{"../utility/identity":71}],34:[function(require,module,exports){
 (function (global){
 /** Native method references. */
 var ArrayBuffer = global.ArrayBuffer,
@@ -3902,7 +3858,7 @@ function bufferClone(buffer) {
 module.exports = bufferClone;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],34:[function(require,module,exports){
+},{}],35:[function(require,module,exports){
 var bindCallback = require('./bindCallback'),
     isIterateeCall = require('./isIterateeCall'),
     restParam = require('../function/restParam');
@@ -3945,7 +3901,7 @@ function createAssigner(assigner) {
 
 module.exports = createAssigner;
 
-},{"../function/restParam":17,"./bindCallback":32,"./isIterateeCall":46}],35:[function(require,module,exports){
+},{"../function/restParam":18,"./bindCallback":33,"./isIterateeCall":47}],36:[function(require,module,exports){
 var getLength = require('./getLength'),
     isLength = require('./isLength'),
     toObject = require('./toObject');
@@ -3978,7 +3934,7 @@ function createBaseEach(eachFunc, fromRight) {
 
 module.exports = createBaseEach;
 
-},{"./getLength":39,"./isLength":47,"./toObject":51}],36:[function(require,module,exports){
+},{"./getLength":40,"./isLength":48,"./toObject":52}],37:[function(require,module,exports){
 var toObject = require('./toObject');
 
 /**
@@ -4007,7 +3963,7 @@ function createBaseFor(fromRight) {
 
 module.exports = createBaseFor;
 
-},{"./toObject":51}],37:[function(require,module,exports){
+},{"./toObject":52}],38:[function(require,module,exports){
 var restParam = require('../function/restParam');
 
 /**
@@ -4031,7 +3987,7 @@ function createDefaults(assigner, customizer) {
 
 module.exports = createDefaults;
 
-},{"../function/restParam":17}],38:[function(require,module,exports){
+},{"../function/restParam":18}],39:[function(require,module,exports){
 var bindCallback = require('./bindCallback'),
     isArray = require('../lang/isArray');
 
@@ -4053,7 +4009,7 @@ function createForEach(arrayFunc, eachFunc) {
 
 module.exports = createForEach;
 
-},{"../lang/isArray":54,"./bindCallback":32}],39:[function(require,module,exports){
+},{"../lang/isArray":55,"./bindCallback":33}],40:[function(require,module,exports){
 var baseProperty = require('./baseProperty');
 
 /**
@@ -4070,7 +4026,7 @@ var getLength = baseProperty('length');
 
 module.exports = getLength;
 
-},{"./baseProperty":31}],40:[function(require,module,exports){
+},{"./baseProperty":32}],41:[function(require,module,exports){
 var isNative = require('../lang/isNative');
 
 /**
@@ -4088,7 +4044,7 @@ function getNative(object, key) {
 
 module.exports = getNative;
 
-},{"../lang/isNative":58}],41:[function(require,module,exports){
+},{"../lang/isNative":59}],42:[function(require,module,exports){
 /** Used for native method references. */
 var objectProto = Object.prototype;
 
@@ -4116,7 +4072,7 @@ function initCloneArray(array) {
 
 module.exports = initCloneArray;
 
-},{}],42:[function(require,module,exports){
+},{}],43:[function(require,module,exports){
 var bufferClone = require('./bufferClone');
 
 /** `Object#toString` result references. */
@@ -4181,7 +4137,7 @@ function initCloneByTag(object, tag, isDeep) {
 
 module.exports = initCloneByTag;
 
-},{"./bufferClone":33}],43:[function(require,module,exports){
+},{"./bufferClone":34}],44:[function(require,module,exports){
 /**
  * Initializes an object clone.
  *
@@ -4199,7 +4155,7 @@ function initCloneObject(object) {
 
 module.exports = initCloneObject;
 
-},{}],44:[function(require,module,exports){
+},{}],45:[function(require,module,exports){
 var getLength = require('./getLength'),
     isLength = require('./isLength');
 
@@ -4216,7 +4172,7 @@ function isArrayLike(value) {
 
 module.exports = isArrayLike;
 
-},{"./getLength":39,"./isLength":47}],45:[function(require,module,exports){
+},{"./getLength":40,"./isLength":48}],46:[function(require,module,exports){
 /** Used to detect unsigned integer values. */
 var reIsUint = /^\d+$/;
 
@@ -4242,7 +4198,7 @@ function isIndex(value, length) {
 
 module.exports = isIndex;
 
-},{}],46:[function(require,module,exports){
+},{}],47:[function(require,module,exports){
 var isArrayLike = require('./isArrayLike'),
     isIndex = require('./isIndex'),
     isObject = require('../lang/isObject');
@@ -4272,7 +4228,7 @@ function isIterateeCall(value, index, object) {
 
 module.exports = isIterateeCall;
 
-},{"../lang/isObject":59,"./isArrayLike":44,"./isIndex":45}],47:[function(require,module,exports){
+},{"../lang/isObject":60,"./isArrayLike":45,"./isIndex":46}],48:[function(require,module,exports){
 /**
  * Used as the [maximum length](http://ecma-international.org/ecma-262/6.0/#sec-number.max_safe_integer)
  * of an array-like value.
@@ -4294,7 +4250,7 @@ function isLength(value) {
 
 module.exports = isLength;
 
-},{}],48:[function(require,module,exports){
+},{}],49:[function(require,module,exports){
 /**
  * Checks if `value` is object-like.
  *
@@ -4308,7 +4264,7 @@ function isObjectLike(value) {
 
 module.exports = isObjectLike;
 
-},{}],49:[function(require,module,exports){
+},{}],50:[function(require,module,exports){
 var merge = require('../object/merge');
 
 /**
@@ -4325,7 +4281,7 @@ function mergeDefaults(objectValue, sourceValue) {
 
 module.exports = mergeDefaults;
 
-},{"../object/merge":69}],50:[function(require,module,exports){
+},{"../object/merge":70}],51:[function(require,module,exports){
 var isArguments = require('../lang/isArguments'),
     isArray = require('../lang/isArray'),
     isIndex = require('./isIndex'),
@@ -4368,7 +4324,7 @@ function shimKeys(object) {
 
 module.exports = shimKeys;
 
-},{"../lang/isArguments":53,"../lang/isArray":54,"../object/keysIn":68,"./isIndex":45,"./isLength":47}],51:[function(require,module,exports){
+},{"../lang/isArguments":54,"../lang/isArray":55,"../object/keysIn":69,"./isIndex":46,"./isLength":48}],52:[function(require,module,exports){
 var isObject = require('../lang/isObject');
 
 /**
@@ -4384,7 +4340,7 @@ function toObject(value) {
 
 module.exports = toObject;
 
-},{"../lang/isObject":59}],52:[function(require,module,exports){
+},{"../lang/isObject":60}],53:[function(require,module,exports){
 var baseClone = require('../internal/baseClone'),
     bindCallback = require('../internal/bindCallback'),
     isIterateeCall = require('../internal/isIterateeCall');
@@ -4456,7 +4412,7 @@ function clone(value, isDeep, customizer, thisArg) {
 
 module.exports = clone;
 
-},{"../internal/baseClone":23,"../internal/bindCallback":32,"../internal/isIterateeCall":46}],53:[function(require,module,exports){
+},{"../internal/baseClone":24,"../internal/bindCallback":33,"../internal/isIterateeCall":47}],54:[function(require,module,exports){
 var isArrayLike = require('../internal/isArrayLike'),
     isObjectLike = require('../internal/isObjectLike');
 
@@ -4492,7 +4448,7 @@ function isArguments(value) {
 
 module.exports = isArguments;
 
-},{"../internal/isArrayLike":44,"../internal/isObjectLike":48}],54:[function(require,module,exports){
+},{"../internal/isArrayLike":45,"../internal/isObjectLike":49}],55:[function(require,module,exports){
 var getNative = require('../internal/getNative'),
     isLength = require('../internal/isLength'),
     isObjectLike = require('../internal/isObjectLike');
@@ -4534,7 +4490,7 @@ var isArray = nativeIsArray || function(value) {
 
 module.exports = isArray;
 
-},{"../internal/getNative":40,"../internal/isLength":47,"../internal/isObjectLike":48}],55:[function(require,module,exports){
+},{"../internal/getNative":41,"../internal/isLength":48,"../internal/isObjectLike":49}],56:[function(require,module,exports){
 var isObjectLike = require('../internal/isObjectLike'),
     isPlainObject = require('./isPlainObject');
 
@@ -4560,7 +4516,7 @@ function isElement(value) {
 
 module.exports = isElement;
 
-},{"../internal/isObjectLike":48,"./isPlainObject":60}],56:[function(require,module,exports){
+},{"../internal/isObjectLike":49,"./isPlainObject":61}],57:[function(require,module,exports){
 var isArguments = require('./isArguments'),
     isArray = require('./isArray'),
     isArrayLike = require('../internal/isArrayLike'),
@@ -4609,7 +4565,7 @@ function isEmpty(value) {
 
 module.exports = isEmpty;
 
-},{"../internal/isArrayLike":44,"../internal/isObjectLike":48,"../object/keys":67,"./isArguments":53,"./isArray":54,"./isFunction":57,"./isString":61}],57:[function(require,module,exports){
+},{"../internal/isArrayLike":45,"../internal/isObjectLike":49,"../object/keys":68,"./isArguments":54,"./isArray":55,"./isFunction":58,"./isString":62}],58:[function(require,module,exports){
 var isObject = require('./isObject');
 
 /** `Object#toString` result references. */
@@ -4649,7 +4605,7 @@ function isFunction(value) {
 
 module.exports = isFunction;
 
-},{"./isObject":59}],58:[function(require,module,exports){
+},{"./isObject":60}],59:[function(require,module,exports){
 var isFunction = require('./isFunction'),
     isObjectLike = require('../internal/isObjectLike');
 
@@ -4699,7 +4655,7 @@ function isNative(value) {
 
 module.exports = isNative;
 
-},{"../internal/isObjectLike":48,"./isFunction":57}],59:[function(require,module,exports){
+},{"../internal/isObjectLike":49,"./isFunction":58}],60:[function(require,module,exports){
 /**
  * Checks if `value` is the [language type](https://es5.github.io/#x8) of `Object`.
  * (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
@@ -4729,7 +4685,7 @@ function isObject(value) {
 
 module.exports = isObject;
 
-},{}],60:[function(require,module,exports){
+},{}],61:[function(require,module,exports){
 var baseForIn = require('../internal/baseForIn'),
     isArguments = require('./isArguments'),
     isObjectLike = require('../internal/isObjectLike');
@@ -4802,7 +4758,7 @@ function isPlainObject(value) {
 
 module.exports = isPlainObject;
 
-},{"../internal/baseForIn":27,"../internal/isObjectLike":48,"./isArguments":53}],61:[function(require,module,exports){
+},{"../internal/baseForIn":28,"../internal/isObjectLike":49,"./isArguments":54}],62:[function(require,module,exports){
 var isObjectLike = require('../internal/isObjectLike');
 
 /** `Object#toString` result references. */
@@ -4839,7 +4795,7 @@ function isString(value) {
 
 module.exports = isString;
 
-},{"../internal/isObjectLike":48}],62:[function(require,module,exports){
+},{"../internal/isObjectLike":49}],63:[function(require,module,exports){
 var isLength = require('../internal/isLength'),
     isObjectLike = require('../internal/isObjectLike');
 
@@ -4915,7 +4871,7 @@ function isTypedArray(value) {
 
 module.exports = isTypedArray;
 
-},{"../internal/isLength":47,"../internal/isObjectLike":48}],63:[function(require,module,exports){
+},{"../internal/isLength":48,"../internal/isObjectLike":49}],64:[function(require,module,exports){
 var baseCopy = require('../internal/baseCopy'),
     keysIn = require('../object/keysIn');
 
@@ -4948,7 +4904,7 @@ function toPlainObject(value) {
 
 module.exports = toPlainObject;
 
-},{"../internal/baseCopy":24,"../object/keysIn":68}],64:[function(require,module,exports){
+},{"../internal/baseCopy":25,"../object/keysIn":69}],65:[function(require,module,exports){
 var assignWith = require('../internal/assignWith'),
     baseAssign = require('../internal/baseAssign'),
     createAssigner = require('../internal/createAssigner');
@@ -4993,7 +4949,7 @@ var assign = createAssigner(function(object, source, customizer) {
 
 module.exports = assign;
 
-},{"../internal/assignWith":21,"../internal/baseAssign":22,"../internal/createAssigner":34}],65:[function(require,module,exports){
+},{"../internal/assignWith":22,"../internal/baseAssign":23,"../internal/createAssigner":35}],66:[function(require,module,exports){
 var assign = require('./assign'),
     assignDefaults = require('../internal/assignDefaults'),
     createDefaults = require('../internal/createDefaults');
@@ -5020,7 +4976,7 @@ var defaults = createDefaults(assign, assignDefaults);
 
 module.exports = defaults;
 
-},{"../internal/assignDefaults":20,"../internal/createDefaults":37,"./assign":64}],66:[function(require,module,exports){
+},{"../internal/assignDefaults":21,"../internal/createDefaults":38,"./assign":65}],67:[function(require,module,exports){
 var createDefaults = require('../internal/createDefaults'),
     merge = require('./merge'),
     mergeDefaults = require('../internal/mergeDefaults');
@@ -5047,7 +5003,7 @@ var defaultsDeep = createDefaults(merge, mergeDefaults);
 
 module.exports = defaultsDeep;
 
-},{"../internal/createDefaults":37,"../internal/mergeDefaults":49,"./merge":69}],67:[function(require,module,exports){
+},{"../internal/createDefaults":38,"../internal/mergeDefaults":50,"./merge":70}],68:[function(require,module,exports){
 var getNative = require('../internal/getNative'),
     isArrayLike = require('../internal/isArrayLike'),
     isObject = require('../lang/isObject'),
@@ -5094,7 +5050,7 @@ var keys = !nativeKeys ? shimKeys : function(object) {
 
 module.exports = keys;
 
-},{"../internal/getNative":40,"../internal/isArrayLike":44,"../internal/shimKeys":50,"../lang/isObject":59}],68:[function(require,module,exports){
+},{"../internal/getNative":41,"../internal/isArrayLike":45,"../internal/shimKeys":51,"../lang/isObject":60}],69:[function(require,module,exports){
 var isArguments = require('../lang/isArguments'),
     isArray = require('../lang/isArray'),
     isIndex = require('../internal/isIndex'),
@@ -5160,7 +5116,7 @@ function keysIn(object) {
 
 module.exports = keysIn;
 
-},{"../internal/isIndex":45,"../internal/isLength":47,"../lang/isArguments":53,"../lang/isArray":54,"../lang/isObject":59}],69:[function(require,module,exports){
+},{"../internal/isIndex":46,"../internal/isLength":48,"../lang/isArguments":54,"../lang/isArray":55,"../lang/isObject":60}],70:[function(require,module,exports){
 var baseMerge = require('../internal/baseMerge'),
     createAssigner = require('../internal/createAssigner');
 
@@ -5216,7 +5172,7 @@ var merge = createAssigner(baseMerge);
 
 module.exports = merge;
 
-},{"../internal/baseMerge":29,"../internal/createAssigner":34}],70:[function(require,module,exports){
+},{"../internal/baseMerge":30,"../internal/createAssigner":35}],71:[function(require,module,exports){
 /**
  * This method returns the first argument provided to it.
  *

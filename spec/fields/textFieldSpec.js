@@ -1,4 +1,4 @@
-var TextField = require( "../../js/fields/text" );
+var TextField = require( "../../js/fields/textFieldFactory" );
 
 describe( 'a text field', function() {
 
