@@ -6,62 +6,6 @@
 var AnalyzerScoring = function( i18n ) {
     this.analyzerScoring = [
         {
-			scoreName: "keyphraseSizeCheck",
-			scoreArray: [
-				{
-					max: 0,
-					score: -999,
-					text: i18n.dgettext( "js-text-analysis", "No focus keyword was set for this page. If you do not set a focus keyword, no score can be calculated.")
-				},
-				{
-					min: 11,
-					score: 0,
-					text: i18n.dgettext( "js-text-analysis", "Your keyphrase is over 10 words, a keyphrase should be shorter.")
-				}
-			]
-		},
-        {
-            scoreName: "keywordDensity",
-            scoreArray: [
-                {
-                    min: 3.5,
-                    score: -50,
-
-                    /* translators: %1$f expands to the keyword density percentage, %2$d expands to the number of times the keyword is found */
-                    text: i18n.dgettext( "js-text-analysis", "The keyword density is %1$f%, which is way over the advised 2.5% maximum; the focus keyword was found %2$d times.")
-                },
-                {
-                    min: 2.51,
-                    max: 3.49,
-                    score: -10,
-
-                    /* translators: %1$f expands to the keyword density percentage, %2$d expands to the number of times the keyword is found */
-                    text: i18n.dgettext( "js-text-analysis", "The keyword density is %1$f%, which is over the advised 2.5% maximum; the focus keyword was found %2$d times.")
-                },
-                {
-                    min: 0.5,
-                    max: 2.50,
-                    score: 9,
-
-                    /* translators: %1$f expands to the keyword density percentage, %2$d expands to the number of times the keyword is found */
-                    text: i18n.dgettext( "js-text-analysis", "The keyword density is %1$f%, which is great; the focus keyword was found %2$d times.")
-                },
-                {
-                    min: 0,
-                    max: 0.49,
-                    score: 4,
-
-                    /* translators: %1$f expands to the keyword density percentage, %2$d expands to the number of times the keyword is found */
-                    text: i18n.dgettext( "js-text-analysis", "The keyword density is %1$f%, which is a bit low; the focus keyword was found %2$d times.")
-                }
-            ],
-            replaceArray: [
-                { name: "keywordDensity", position: "%1$f", source: "matcher" },
-                { name: "keywordCount", position: "%2$d", sourceObj: ".refObj.__store.keywordCount" }
-            ]
-        },
-
-        {
             scoreName: "metaDescriptionKeyword",
             scoreArray: [
                 { min: 1, score: 9, text: i18n.dgettext( "js-text-analysis", "The meta description contains the focus keyword." ) },

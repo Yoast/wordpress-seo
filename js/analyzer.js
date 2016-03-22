@@ -8,7 +8,7 @@ var checkForKeywordInUrl = require( "./analyses/countKeywordInUrl.js" );
 var checkForKeywordDoubles = require( "./analyses/checkForKeywordDoubles.js" );
 var findKeywordInFirstParagraph = require( "./analyses/findKeywordInFirstParagraph.js" );
 var findKeywordInPageTitle = require( "./analyses/findKeywordInPageTitle.js" );
-var getKeywordDensity = require( "./analyses/getKeywordDensity.js" );
+var getKeywordDensity = require( "./researches/getKeywordDensity.js" );
 var countImages = require( "./analyses/getImageStatistics.js" );
 var countLinks = require( "./analyses/getLinkStatistics.js" );
 var getKeyphraseLength = require( "./analyses/getWordCount.js" );
@@ -213,7 +213,7 @@ Analyzer.prototype.keywordDensity = function() {
 	var keywordCount = countWords( this.paper.getText() );
 
 	if ( keywordCount >= 100 ) {
-		var density = getKeywordDensity( this.paper.getText(), this.paper.getKeyword() );
+		var density = getKeywordDensity( this.paper );
 
 		// Present for backwards compatibility with the .refObj.__store.keywordCount option in scoring.js
 		this.__store.keywordCount = matchTextWithWord( this.paper.getText(), this.paper.getKeyword() );
