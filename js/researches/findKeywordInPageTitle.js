@@ -6,15 +6,16 @@ var wordMatch = require( "../stringProcessing/matchTextWithWord.js" );
  * Counts the occurrences of the keyword in the pagetitle. Returns the number of matches
  * and the position of the keyword.
  *
- * @param {string} text The text to match the keyword in.
- * @param {string} keyword The keyword to match for.
+ * @param {object} paper The paper containing title and keyword.
  * @returns {object} result with the matches and position.
  */
 
-module.exports = function( text, keyword ) {
+module.exports = function( paper ) {
+	var title = paper.getTitle();
+	var keyword = paper.getKeyword();
 	var result = { matches: 0, position: -1 };
-	result.matches = wordMatch( text, keyword );
-	result.position = text.toLocaleLowerCase().indexOf( keyword );
+	result.matches = wordMatch( title, keyword );
+	result.position = title.toLocaleLowerCase().indexOf( keyword );
 
 	return result;
 };
