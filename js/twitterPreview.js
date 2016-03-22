@@ -14,6 +14,7 @@ var stripSpaces = require( "yoastseo/js/stringProcessing/stripSpaces.js" );
 
 var addClass = require( "./helpers/addClass.js" );
 var removeClass = require( "./helpers/removeClass.js" );
+var imageRatio = require( "./helpers/imageRatio" );
 
 var TextField = require( "./fields/textFieldFactory" );
 var TextArea = require( "./fields/textAreaFactory" );
@@ -433,14 +434,7 @@ TwitterPreview.prototype.setImageUrl = function( image, imageUrl ) {
  * @returns {void}
  */
 TwitterPreview.prototype.setImageRatio = function( image ) {
-	var maxWidth = 506;
-	var width    = image.width;
-	var height = image.height;
-
-	if ( width > maxWidth ) {
-		image.width = maxWidth;
-		image.height = height * ( maxWidth / width );
-	}
+	imageRatio( image, 506 );
 };
 
 /**
