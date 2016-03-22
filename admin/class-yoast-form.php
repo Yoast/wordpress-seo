@@ -162,14 +162,19 @@ class Yoast_Form {
 				'img' => 'banner-website-review.png',
 				'alt' => 'Website Review banner',
 			),
+			array(
+				'url' => 'https://yoast.com/academy/course/basic-seo-training/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=basic-seo-training-banner',
+				'img' => 'banner-basic-seo-training.png',
+				'alt' => 'Basic SEO Training banner',
+			),
+			array(
+				'url' => 'https://yoast.com/academy/course/yoast-seo-wordpress-training/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=yoast-seo-plugin-training-banner',
+				'img' => 'banner-yoast-seo-for-wordpress-training.png',
+				'alt' => 'Yoast SEO for WordPress Training banner',
+			),
 		);
 
 		$plugin_banners = array(
-			array(
-				'url' => 'https://yoast.com/academy/course/basic-seo-training/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=basic-seo-training-banner',
-				'img' => 'banner-seo-training.png',
-				'alt' => 'Basic SEO Training banner',
-			),
 			array(
 				'url' => 'https://yoast.com/wordpress/plugins/seo-premium/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=premium-seo-banner',
 				'img' => 'banner-premium-seo.png',
