@@ -26,6 +26,8 @@ class WPSEO_Redirect_Util_Test extends \PHPUnit_Framework_TestCase {
 		$this->assertTrue( WPSEO_Redirect_Util::is_relative_url( '/' ) );
 		$this->assertTrue( WPSEO_Redirect_Util::is_relative_url( '/relative/' ) );
 		$this->assertTrue( WPSEO_Redirect_Util::is_relative_url( '/relative' ) );
+		$this->assertTrue( WPSEO_Redirect_Util::is_relative_url( '/relative#hash' ) );
+		$this->assertTrue( WPSEO_Redirect_Util::is_relative_url( '/relative/#hash' ) );
 	}
 
 	public function test_has_no_query_parameters() {
@@ -53,6 +55,22 @@ class WPSEO_Redirect_Util_Test extends \PHPUnit_Framework_TestCase {
 		$this->assertFalse( WPSEO_Redirect_Util::has_permalink_trailing_slash() );
 	}
 
+	public function test_url_has_fragment_identifier() {
+		$this->assertFalse( WPSEO_Redirect_Util::has_fragment_identifier( 'http://yoast.com' ) );
+		$this->assertFalse( WPSEO_Redirect_Util::has_fragment_identifier( 'http://yoast.com/?param=val' ) );
+		$this->assertFalse( WPSEO_Redirect_Util::has_fragment_identifier( '/relative/?param=val' ) );
+		$this->assertFalse( WPSEO_Redirect_Util::has_fragment_identifier( '/relative?param=val' ) );
+		$this->assertFalse( WPSEO_Redirect_Util::has_fragment_identifier( '/' ) );
+		$this->assertFalse( WPSEO_Redirect_Util::has_fragment_identifier( '/relative/' ) );
+		$this->assertFalse( WPSEO_Redirect_Util::has_fragment_identifier( '/relative' ) );
+		$this->assertTrue( WPSEO_Redirect_Util::has_fragment_identifier( '/relative/#hash' ) );
+		$this->assertTrue( WPSEO_Redirect_Util::has_fragment_identifier( '/relative#hash' ) );
+		$this->assertTrue( WPSEO_Redirect_Util::has_fragment_identifier( '/relative#' ) );
+	}
+
+	/**
+	 * @covers WPSEO_Redirect_Util::requires_trailing_slash
+	 */
 	public function test_requires_trailing_slash() {
 		update_option( 'permalink_structure', '/%postname%' );
 
@@ -72,6 +90,9 @@ class WPSEO_Redirect_Util_Test extends \PHPUnit_Framework_TestCase {
 		$this->assertFalse( WPSEO_Redirect_Util::requires_trailing_slash( '/relative/?param=val' ) );
 		$this->assertFalse( WPSEO_Redirect_Util::requires_trailing_slash( '/relative?param=val' ) );
 		$this->assertFalse( WPSEO_Redirect_Util::requires_trailing_slash( '/' ) );
+		$this->assertFalse( WPSEO_Redirect_Util::requires_trailing_slash( '/relative/#hash' ) );
+		$this->assertFalse( WPSEO_Redirect_Util::requires_trailing_slash( '/relative#hash' ) );
+		$this->assertFalse( WPSEO_Redirect_Util::requires_trailing_slash( '/relative#' ) );
 		$this->assertTrue( WPSEO_Redirect_Util::requires_trailing_slash( '' ) );
 		$this->assertTrue( WPSEO_Redirect_Util::requires_trailing_slash( '/relative/' ) );
 		$this->assertTrue( WPSEO_Redirect_Util::requires_trailing_slash( '/relative' ) );
