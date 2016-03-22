@@ -43,16 +43,6 @@ class WPSEO_Primary_Term {
 			$primary_term = false;
 		}
 
-		// By default the first term (sorted by ID) is the primary term.
-		if ( ! $primary_term ) {
-
-			if ( ! empty( $terms ) ) {
-				usort( $terms, '_usort_terms_by_ID' );
-				$primary_term = array_shift( $terms );
-				$primary_term = $primary_term->term_id;
-			}
-		}
-
 		$primary_term = (int) $primary_term;
 		return ( $primary_term ) ? ( $primary_term ) : false;
 	}
