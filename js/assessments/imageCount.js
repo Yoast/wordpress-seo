@@ -7,7 +7,7 @@ var isEmpty = require( "lodash/lang/isEmpty" );
  * @param {object} i18n The locale object.
  * @returns {object} The resulting score object.
  */
-var calculateimageCountResult = function( imageCount, i18n ) {
+var calculateImageCountResult = function( imageCount, i18n ) {
 	if ( imageCount === 0 ) {
 		return {
 			score: 3,
@@ -24,7 +24,7 @@ var calculateimageCountResult = function( imageCount, i18n ) {
  * @param {object} i18n The locale object.
  * @returns {object} The resulting score object.
  */
-var calculateAltTagCountResult = function( altProperties, i18n ) {
+var assessImages = function( altProperties, i18n ) {
 	if ( altProperties.noAlt > 0 ) {
 		return {
 			score: 5,
@@ -66,15 +66,15 @@ var calculateAltTagCountResult = function( altProperties, i18n ) {
  * @param {object} i18n The locale object.
  * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
  */
-var imageCountAssessment = function( paper, researcher, i18n ) {
+var imageAssessment = function( paper, researcher, i18n ) {
 	var assessmentResult = new AssessmentResult();
 
 	var imageCount = researcher.getResearch( "imageCount" );
-	var imageCountResult = calculateimageCountResult( imageCount, i18n );
+	var imageCountResult = calculateImageCountResult( imageCount, i18n );
 
 	if ( isEmpty( imageCountResult ) ) {
 		var altTagCount = researcher.getResearch( "altTagCount" );
-		var altTagCountResult = calculateAltTagCountResult( altTagCount, i18n );
+		var altTagCountResult = assessImages( altTagCount, i18n );
 
 		assessmentResult.setScore( altTagCountResult.score );
 		assessmentResult.setText( altTagCountResult.text );
@@ -88,4 +88,4 @@ var imageCountAssessment = function( paper, researcher, i18n ) {
 	return assessmentResult;
 };
 
-module.exports = imageCountAssessment;
+module.exports = imageAssessment;

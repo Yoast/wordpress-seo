@@ -8,6 +8,8 @@ var isEmpty = require( "lodash/lang/isEmpty" );
 // assessments
 var wordCountInText = require( "./researches/wordCountInText.js" );
 var getLinkStatistics = require( "./analyses/getLinkStatistics.js" );
+var matchKeywordInSubheadings = require( "./researches/matchKeywordInSubheadings.js" );
+var getKeywordDensity = require( "./researches/getKeywordDensity.js" );
 var stopWordsInKeyword = require( "./researches/stopWordsInKeyword" );
 var stopWordsInUrl = require( "./researches/stopWordsInUrl" );
 var calculateFleschReading = require( "./researches/calculateFleschReading.js" );
@@ -31,6 +33,8 @@ var Researcher = function( paper ) {
 		"getLinkStatistics": getLinkStatistics,
 		"imageCount": imageCount,
 		"altTagCount": altTagCount,
+		"matchKeywordInSubheadings": matchKeywordInSubheadings,
+		"getKeywordDensity": getKeywordDensity,
 		"stopWordsInKeyword": stopWordsInKeyword,
 		"stopWordsInUrl": stopWordsInUrl,
 		"metaDescriptionLength": metaDescriptionLength,
