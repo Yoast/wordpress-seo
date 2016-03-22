@@ -50,6 +50,19 @@ class WPSEO_Redirect_Util {
 	}
 
 	/**
+	 * Returns whether or not the given URL has a fragment identifier
+	 *
+	 * @param string $url The URL to parse.
+	 *
+	 * @return bool
+	 */
+	public static function has_fragment_identifier( $url ) {
+		$fragment = parse_url( $url, PHP_URL_FRAGMENT );
+
+		return ! empty( $fragment );
+	}
+
+	/**
 	 * Returns whether or not a target url requires a trailing slash
 	 *
 	 * @param string $target_url The target URL to check.
@@ -60,7 +73,8 @@ class WPSEO_Redirect_Util {
 		return
 			'/' !== $target_url &&
 			self::has_permalink_trailing_slash() &&
-			WPSEO_Redirect_Util::is_relative_url( $target_url ) &&
-			! WPSEO_Redirect_Util::has_query_parameters( $target_url );
+			self::is_relative_url( $target_url ) &&
+			! self::has_query_parameters( $target_url ) &&
+			! self::has_fragment_identifier( $target_url );
 	}
 }
