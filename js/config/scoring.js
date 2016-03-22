@@ -6,21 +6,6 @@
 var AnalyzerScoring = function( i18n ) {
     this.analyzerScoring = [
         {
-			scoreName: "keyphraseSizeCheck",
-			scoreArray: [
-				{
-					max: 0,
-					score: -999,
-					text: i18n.dgettext( "js-text-analysis", "No focus keyword was set for this page. If you do not set a focus keyword, no score can be calculated.")
-				},
-				{
-					min: 11,
-					score: 0,
-					text: i18n.dgettext( "js-text-analysis", "Your keyphrase is over 10 words, a keyphrase should be shorter.")
-				}
-			]
-		},
-        {
             scoreName: "keywordDensity",
             scoreArray: [
                 {
