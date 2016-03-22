@@ -73,7 +73,7 @@ var stripSpaces = require( "yoastseo/js/stringProcessing/stripSpaces.js" );
  * @param {Object|undefined} callback The callback to executed after field change.
  * @constructor
  */
-function FieldElement( inputField, values, callback ) {
+function InputElement( inputField, values, callback ) {
 	this.inputField = inputField;
 	this.values = values;
 	this._callback = callback;
@@ -86,7 +86,7 @@ function FieldElement( inputField, values, callback ) {
 /**
  * Binds the events
  */
-FieldElement.prototype.bindEvents = function() {
+InputElement.prototype.bindEvents = function() {
 	// Set the events.
 	this.inputField.addEventListener( "keydown", this.changeEvent.bind( this ) );
 	this.inputField.addEventListener( "keyup", this.changeEvent.bind( this ) );
@@ -101,7 +101,7 @@ FieldElement.prototype.bindEvents = function() {
  *
  * @type {Function}
  */
-FieldElement.prototype.changeEvent = debounce( function() {
+InputElement.prototype.changeEvent = debounce( function() {
 	// When there is a callback run it.
 	if ( typeof this._callback !== "undefined" ) {
 		this._callback();
@@ -114,7 +114,7 @@ FieldElement.prototype.changeEvent = debounce( function() {
  *
  * @returns {string} The current field value
  */
-FieldElement.prototype.getInputValue = function() {
+InputElement.prototype.getInputValue = function() {
 	return this.inputField.value;
 };
 
@@ -123,7 +123,7 @@ FieldElement.prototype.getInputValue = function() {
  *
  * @returns {string} The formatted title, without html tags.
  */
-FieldElement.prototype.formatValue = function() {
+InputElement.prototype.formatValue = function() {
 	var value = this.getValue();
 
 	value = stripHTMLTags( value );
@@ -141,7 +141,7 @@ FieldElement.prototype.formatValue = function() {
  *
  * @returns {string} Return the value or get a fallback one.
  */
-FieldElement.prototype.getValue = function() {
+InputElement.prototype.getValue = function() {
 	var value = this.values.currentValue;
 
 	// Fallback to the default if value is empty.
@@ -162,11 +162,11 @@ FieldElement.prototype.getValue = function() {
  *
  * @param {string} value The value to set
  */
-FieldElement.prototype.setValue = function( value ) {
+InputElement.prototype.setValue = function( value ) {
 	this.values.currentValue = value;
 };
 
-module.exports = FieldElement;
+module.exports = InputElement;
 
 
 },{"lodash/function/debounce":21,"lodash/lang/isEmpty":61,"yoastseo/js/stringProcessing/stripHTMLTags.js":1,"yoastseo/js/stringProcessing/stripSpaces.js":2}],5:[function(require,module,exports){
@@ -183,11 +183,11 @@ var removeClass = require( "./helpers/removeClass.js" );
 var imageRatio = require( "./helpers/imageRatio" );
 var renderDescription = require( "./helpers/renderDescription" );
 
-var TextField = require( "./fields/textFieldFactory" );
-var TextArea = require( "./fields/textAreaFactory" );
-var Button = require( "./fields/button.js" );
+var TextField = require( "./inputs/textInput" );
+var TextArea = require( "./inputs/textarea" );
+var Button = require( "./inputs/button.js" );
 
-var FieldElement = require( "./element/field" );
+var FieldElement = require( "./element/input" );
 var PreviewEvents = require( "./preview/events" );
 
 var facebookEditorTemplate = require( "./templates.js" ).facebookPreview;
@@ -281,6 +281,8 @@ var inputFacebookPreviewBindings = [
  * @property {string}      data.title                     - The title.
  * @property {string}      data.imageUrl                  - The url path.
  * @property {string}      data.description               - The meta description.
+ *
+ * @property {string}      baseURL                        - The basic URL as it will be displayed in google.
  *
  * @constructor
  */
@@ -441,7 +443,7 @@ FacebookPreview.prototype.getFields = function() {
 /**
  * Returns all field elements.
  *
- * @returns {{title: FieldElement, description: FieldElement, imageUrl: FieldElement}} The field elements.
+ * @returns {{title: InputElement, description: InputElement, imageUrl: InputElement}} The field elements.
  */
 FacebookPreview.prototype.getFieldElements = function() {
 	var targetElement = this.opts.targetElement;
@@ -558,7 +560,112 @@ FacebookPreview.prototype.bindEvents = function() {
 
 module.exports = FacebookPreview;
 
-},{"./element/field":4,"./fields/button.js":6,"./fields/textAreaFactory":8,"./fields/textFieldFactory":9,"./helpers/addClass.js":10,"./helpers/imageRatio":11,"./helpers/removeClass.js":13,"./helpers/renderDescription":14,"./preview/events":15,"./templates.js":16,"jed":18,"lodash/lang/clone":57,"lodash/lang/isElement":60,"lodash/object/defaultsDeep":71}],6:[function(require,module,exports){
+},{"./element/input":4,"./helpers/addClass.js":6,"./helpers/imageRatio":7,"./helpers/removeClass.js":9,"./helpers/renderDescription":10,"./inputs/button.js":11,"./inputs/textInput":13,"./inputs/textarea":14,"./preview/events":15,"./templates.js":16,"jed":18,"lodash/lang/clone":57,"lodash/lang/isElement":60,"lodash/object/defaultsDeep":71}],6:[function(require,module,exports){
+/**
+ * Adds a class to an element
+ *
+ * @param {HTMLElement} element The element to add the class to.
+ * @param {string} className The class to add.
+ */
+module.exports = function( element, className ) {
+	var classes = element.className.split( " " );
+
+	if ( -1 === classes.indexOf( className ) ) {
+		classes.push( className );
+	}
+
+	element.className = classes.join( " " );
+};
+
+},{}],7:[function(require,module,exports){
+/**
+ * Sets the images ratio.
+ *
+ * @param {Object} image The image object.
+ * @param {int|undefined} maxWidth The max width in pixels.
+ * @param {int|undefined} maxHeight The max height in pixels.
+ */
+function imageRatio( image, maxWidth, maxHeight ) {
+	var width = image.width;
+	var height = image.height;
+
+	if ( typeof maxWidth !== "undefined" && width > maxWidth ) {
+		image.width = maxWidth;
+		image.height = height * ( maxWidth / width );
+	}
+
+	if ( typeof maxHeight !== "undefined" && height > maxHeight ) {
+		image.height = maxHeight;
+		image.width = width * ( maxHeight / height );
+	}
+}
+
+module.exports = imageRatio;
+
+},{}],8:[function(require,module,exports){
+/**
+ * Cleans spaces from the html.
+ *
+ * @param  {string} html The html to minimize.
+ *
+ * @returns {string} The minimized html string.
+ */
+function minimizeHtml( html ) {
+	html = html.replace( /(\s+)/g, " " );
+	html = html.replace( /> </g, "><" );
+	html = html.replace( / >/g, ">" );
+	html = html.replace( /> /g, ">" );
+	html = html.replace( / </g, "<" );
+	html = html.replace( / $/, "" );
+
+	return html;
+}
+
+module.exports = minimizeHtml;
+
+},{}],9:[function(require,module,exports){
+/**
+ * Removes a class from an element
+ *
+ * @param {HTMLElement} element The element to remove the class from.
+ * @param {string} className The class to remove.
+ */
+module.exports = function( element, className ) {
+	var classes = element.className.split( " " );
+	var foundClass = classes.indexOf( className );
+
+	if ( -1 !== foundClass ) {
+		classes.splice( foundClass, 1 );
+	}
+
+	element.className = classes.join( " " );
+};
+
+},{}],10:[function(require,module,exports){
+var isEmpty = require( "lodash/lang/isEmpty" );
+
+var addClass = require( "./addClass" );
+var removeClass = require( "./removeClass" );
+
+/**
+ * Makes the rendered description gray if no description has been set by the user.
+ *
+ * @param {string} descriptionElement Target description element
+ * @param {string} description Current description
+ */
+function renderDescription( descriptionElement, description ) {
+	if ( isEmpty( description ) ) {
+		addClass( descriptionElement, "desc-render" );
+		removeClass( descriptionElement, "desc-default" );
+	} else {
+		addClass( descriptionElement, "desc-default" );
+		removeClass( descriptionElement, "desc-render" );
+	}
+}
+
+module.exports = renderDescription;
+
+},{"./addClass":6,"./removeClass":9,"lodash/lang/isEmpty":61}],11:[function(require,module,exports){
 var defaults = require( "lodash/object/defaults" );
 var buttonTemplate = require( "../../js/templates" ).fields.button;
 var minimizeHtml = require( "../helpers/minimizeHtml" );
@@ -629,7 +736,7 @@ Button.prototype.setClassName = function( className ) {
 
 module.exports = Button;
 
-},{"../../js/templates":16,"../helpers/minimizeHtml":12,"lodash/object/defaults":70}],7:[function(require,module,exports){
+},{"../../js/templates":16,"../helpers/minimizeHtml":8,"lodash/object/defaults":70}],12:[function(require,module,exports){
 var defaults = require( "lodash/object/defaults" );
 var minimizeHtml = require( "../helpers/minimizeHtml" );
 
@@ -716,122 +823,17 @@ function inputFieldFactory( template ) {
 
 module.exports = inputFieldFactory;
 
-},{"../helpers/minimizeHtml":12,"lodash/object/defaults":70}],8:[function(require,module,exports){
-var inputFieldFactory = require( "../../js/fields/inputField" );
+},{"../helpers/minimizeHtml":8,"lodash/object/defaults":70}],13:[function(require,module,exports){
+var inputFieldFactory = require( "./inputField" );
 
-module.exports = inputFieldFactory( require( "../../js/templates" ).fields.textarea );
+module.exports = inputFieldFactory( require( "../templates" ).fields.text );
 
-},{"../../js/fields/inputField":7,"../../js/templates":16}],9:[function(require,module,exports){
-var inputFieldFactory = require( "../../js/fields/inputField" );
+},{"../templates":16,"./inputField":12}],14:[function(require,module,exports){
+var inputFieldFactory = require( "./inputField" );
 
-module.exports = inputFieldFactory( require( "../../js/templates" ).fields.text );
+module.exports = inputFieldFactory( require( "../templates" ).fields.textarea );
 
-},{"../../js/fields/inputField":7,"../../js/templates":16}],10:[function(require,module,exports){
-/**
- * Adds a class to an element
- *
- * @param {HTMLElement} element The element to add the class to.
- * @param {string} className The class to add.
- */
-module.exports = function( element, className ) {
-	var classes = element.className.split( " " );
-
-	if ( -1 === classes.indexOf( className ) ) {
-		classes.push( className );
-	}
-
-	element.className = classes.join( " " );
-};
-
-},{}],11:[function(require,module,exports){
-/**
- * Sets the images ratio.
- *
- * @param {Object} image The image object.
- * @param {int|undefined} maxWidth The max width in pixels.
- * @param {int|undefined} maxHeight The max height in pixels.
- */
-function imageRatio( image, maxWidth, maxHeight ) {
-	var width = image.width;
-	var height = image.height;
-
-	if ( typeof maxWidth !== "undefined" && width > maxWidth ) {
-		image.width = maxWidth;
-		image.height = height * ( maxWidth / width );
-	}
-
-	if ( typeof maxHeight !== "undefined" && height > maxHeight ) {
-		image.height = maxHeight;
-		image.width = width * ( maxHeight / height );
-	}
-}
-
-module.exports = imageRatio;
-
-},{}],12:[function(require,module,exports){
-/**
- * Cleans spaces from the html.
- *
- * @param  {string} html The html to minimize.
- *
- * @returns {string} The minimized html string.
- */
-function minimizeHtml( html ) {
-	html = html.replace( /(\s+)/g, " " );
-	html = html.replace( /> </g, "><" );
-	html = html.replace( / >/g, ">" );
-	html = html.replace( /> /g, ">" );
-	html = html.replace( / </g, "<" );
-	html = html.replace( / $/, "" );
-
-	return html;
-}
-
-module.exports = minimizeHtml;
-
-},{}],13:[function(require,module,exports){
-/**
- * Removes a class from an element
- *
- * @param {HTMLElement} element The element to remove the class from.
- * @param {string} className The class to remove.
- */
-module.exports = function( element, className ) {
-	var classes = element.className.split( " " );
-	var foundClass = classes.indexOf( className );
-
-	if ( -1 !== foundClass ) {
-		classes.splice( foundClass, 1 );
-	}
-
-	element.className = classes.join( " " );
-};
-
-},{}],14:[function(require,module,exports){
-var isEmpty = require( "lodash/lang/isEmpty" );
-
-var addClass = require( "./addClass" );
-var removeClass = require( "./removeClass" );
-
-/**
- * Makes the rendered description gray if no description has been set by the user.
- *
- * @param {string} descriptionElement Target description element
- * @param {string} description Current description
- */
-function renderDescription( descriptionElement, description ) {
-	if ( isEmpty( description ) ) {
-		addClass( descriptionElement, "desc-render" );
-		removeClass( descriptionElement, "desc-default" );
-	} else {
-		addClass( descriptionElement, "desc-default" );
-		removeClass( descriptionElement, "desc-render" );
-	}
-}
-
-module.exports = renderDescription;
-
-},{"./addClass":10,"./removeClass":13,"lodash/lang/isEmpty":61}],15:[function(require,module,exports){
+},{"../templates":16,"./inputField":12}],15:[function(require,module,exports){
 var forEach = require( "lodash/collection/forEach" );
 
 var addClass = require( "../helpers/addClass.js" );
@@ -1003,7 +1005,7 @@ PreviewEvents.prototype._updateHoverCarets = function() {
 
 module.exports = PreviewEvents;
 
-},{"../helpers/addClass.js":10,"../helpers/removeClass.js":13,"lodash/collection/forEach":19}],16:[function(require,module,exports){
+},{"../helpers/addClass.js":6,"../helpers/removeClass.js":9,"lodash/collection/forEach":19}],16:[function(require,module,exports){
 (function (global){
 ;(function() {
   var undefined;
@@ -1329,11 +1331,11 @@ var removeClass = require( "./helpers/removeClass.js" );
 var imageRatio = require( "./helpers/imageRatio" );
 var renderDescription = require( "./helpers/renderDescription" );
 
-var TextField = require( "./fields/textFieldFactory" );
-var TextArea = require( "./fields/textAreaFactory" );
-var Button = require( "./fields/button.js" );
+var TextField = require( "./inputs/textInput" );
+var TextArea = require( "./inputs/textarea" );
+var Button = require( "./inputs/button.js" );
 
-var FieldElement = require( "./element/field" );
+var InputElement = require( "./element/input" );
 var PreviewEvents = require( "./preview/events" );
 
 var twitterEditorTemplate = require( "./templates.js" ).twitterPreview;
@@ -1590,13 +1592,13 @@ TwitterPreview.prototype.getFields = function() {
 /**
  * Returns all field elements.
  *
- * @returns {{title: FieldElement, description: FieldElement, imageUrl: FieldElement}} The field element.
+ * @returns {{title: InputElement, description: InputElement, imageUrl: InputElement}} The field element.
  */
 TwitterPreview.prototype.getFieldElements = function() {
 	var targetElement = this.opts.targetElement;
 
 	return {
-		title: new FieldElement(
+		title: new InputElement(
 			targetElement.getElementsByClassName( "js-snippet-editor-title" )[0],
 			{
 				currentValue: this.data.title,
@@ -1606,7 +1608,7 @@ TwitterPreview.prototype.getFieldElements = function() {
 			},
 			this.updatePreview.bind( this )
 		),
-		 description: new FieldElement(
+		 description: new InputElement(
 			 targetElement.getElementsByClassName( "js-snippet-editor-description" )[0],
 			 {
 				 currentValue: this.data.description,
@@ -1616,7 +1618,7 @@ TwitterPreview.prototype.getFieldElements = function() {
 			 },
 			 this.updatePreview.bind( this )
 		 ),
-		imageUrl: new FieldElement(
+		imageUrl: new InputElement(
 			targetElement.getElementsByClassName( "js-snippet-editor-imageUrl" )[0],
 			{
 				currentValue: this.data.imageUrl,
@@ -1704,7 +1706,7 @@ TwitterPreview.prototype.bindEvents = function() {
 
 module.exports = TwitterPreview;
 
-},{"./element/field":4,"./fields/button.js":6,"./fields/textAreaFactory":8,"./fields/textFieldFactory":9,"./helpers/addClass.js":10,"./helpers/imageRatio":11,"./helpers/removeClass.js":13,"./helpers/renderDescription":14,"./preview/events":15,"./templates.js":16,"jed":18,"lodash/lang/clone":57,"lodash/lang/isElement":60,"lodash/object/defaultsDeep":71}],18:[function(require,module,exports){
+},{"./element/input":4,"./helpers/addClass.js":6,"./helpers/imageRatio":7,"./helpers/removeClass.js":9,"./helpers/renderDescription":10,"./inputs/button.js":11,"./inputs/textInput":13,"./inputs/textarea":14,"./preview/events":15,"./templates.js":16,"jed":18,"lodash/lang/clone":57,"lodash/lang/isElement":60,"lodash/object/defaultsDeep":71}],18:[function(require,module,exports){
 /**
  * @preserve jed.js https://github.com/SlexAxton/Jed
  */

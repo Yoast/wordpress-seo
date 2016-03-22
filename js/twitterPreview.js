@@ -11,11 +11,11 @@ var removeClass = require( "./helpers/removeClass.js" );
 var imageRatio = require( "./helpers/imageRatio" );
 var renderDescription = require( "./helpers/renderDescription" );
 
-var TextField = require( "./fields/textFieldFactory" );
-var TextArea = require( "./fields/textAreaFactory" );
-var Button = require( "./fields/button.js" );
+var TextField = require( "./inputs/textInput" );
+var TextArea = require( "./inputs/textarea" );
+var Button = require( "./inputs/button.js" );
 
-var FieldElement = require( "./element/field" );
+var InputElement = require( "./element/input" );
 var PreviewEvents = require( "./preview/events" );
 
 var twitterEditorTemplate = require( "./templates.js" ).twitterPreview;
@@ -272,13 +272,13 @@ TwitterPreview.prototype.getFields = function() {
 /**
  * Returns all field elements.
  *
- * @returns {{title: FieldElement, description: FieldElement, imageUrl: FieldElement}} The field element.
+ * @returns {{title: InputElement, description: InputElement, imageUrl: InputElement}} The field element.
  */
 TwitterPreview.prototype.getFieldElements = function() {
 	var targetElement = this.opts.targetElement;
 
 	return {
-		title: new FieldElement(
+		title: new InputElement(
 			targetElement.getElementsByClassName( "js-snippet-editor-title" )[0],
 			{
 				currentValue: this.data.title,
@@ -288,7 +288,7 @@ TwitterPreview.prototype.getFieldElements = function() {
 			},
 			this.updatePreview.bind( this )
 		),
-		 description: new FieldElement(
+		 description: new InputElement(
 			 targetElement.getElementsByClassName( "js-snippet-editor-description" )[0],
 			 {
 				 currentValue: this.data.description,
@@ -298,7 +298,7 @@ TwitterPreview.prototype.getFieldElements = function() {
 			 },
 			 this.updatePreview.bind( this )
 		 ),
-		imageUrl: new FieldElement(
+		imageUrl: new InputElement(
 			targetElement.getElementsByClassName( "js-snippet-editor-imageUrl" )[0],
 			{
 				currentValue: this.data.imageUrl,

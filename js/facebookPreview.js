@@ -11,11 +11,11 @@ var removeClass = require( "./helpers/removeClass.js" );
 var imageRatio = require( "./helpers/imageRatio" );
 var renderDescription = require( "./helpers/renderDescription" );
 
-var TextField = require( "./fields/textFieldFactory" );
-var TextArea = require( "./fields/textAreaFactory" );
-var Button = require( "./fields/button.js" );
+var TextField = require( "./inputs/textInput" );
+var TextArea = require( "./inputs/textarea" );
+var Button = require( "./inputs/button.js" );
 
-var FieldElement = require( "./element/field" );
+var FieldElement = require( "./element/input" );
 var PreviewEvents = require( "./preview/events" );
 
 var facebookEditorTemplate = require( "./templates.js" ).facebookPreview;
@@ -271,7 +271,7 @@ FacebookPreview.prototype.getFields = function() {
 /**
  * Returns all field elements.
  *
- * @returns {{title: FieldElement, description: FieldElement, imageUrl: FieldElement}} The field elements.
+ * @returns {{title: InputElement, description: InputElement, imageUrl: InputElement}} The field elements.
  */
 FacebookPreview.prototype.getFieldElements = function() {
 	var targetElement = this.opts.targetElement;

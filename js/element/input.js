@@ -12,7 +12,7 @@ var stripSpaces = require( "yoastseo/js/stringProcessing/stripSpaces.js" );
  * @param {Object|undefined} callback The callback to executed after field change.
  * @constructor
  */
-function FieldElement( inputField, values, callback ) {
+function InputElement( inputField, values, callback ) {
 	this.inputField = inputField;
 	this.values = values;
 	this._callback = callback;
@@ -25,7 +25,7 @@ function FieldElement( inputField, values, callback ) {
 /**
  * Binds the events
  */
-FieldElement.prototype.bindEvents = function() {
+InputElement.prototype.bindEvents = function() {
 	// Set the events.
 	this.inputField.addEventListener( "keydown", this.changeEvent.bind( this ) );
 	this.inputField.addEventListener( "keyup", this.changeEvent.bind( this ) );
@@ -40,7 +40,7 @@ FieldElement.prototype.bindEvents = function() {
  *
  * @type {Function}
  */
-FieldElement.prototype.changeEvent = debounce( function() {
+InputElement.prototype.changeEvent = debounce( function() {
 	// When there is a callback run it.
 	if ( typeof this._callback !== "undefined" ) {
 		this._callback();
@@ -53,7 +53,7 @@ FieldElement.prototype.changeEvent = debounce( function() {
  *
  * @returns {string} The current field value
  */
-FieldElement.prototype.getInputValue = function() {
+InputElement.prototype.getInputValue = function() {
 	return this.inputField.value;
 };
 
@@ -62,7 +62,7 @@ FieldElement.prototype.getInputValue = function() {
  *
  * @returns {string} The formatted title, without html tags.
  */
-FieldElement.prototype.formatValue = function() {
+InputElement.prototype.formatValue = function() {
 	var value = this.getValue();
 
 	value = stripHTMLTags( value );
@@ -80,7 +80,7 @@ FieldElement.prototype.formatValue = function() {
  *
  * @returns {string} Return the value or get a fallback one.
  */
-FieldElement.prototype.getValue = function() {
+InputElement.prototype.getValue = function() {
 	var value = this.values.currentValue;
 
 	// Fallback to the default if value is empty.
@@ -101,9 +101,9 @@ FieldElement.prototype.getValue = function() {
  *
  * @param {string} value The value to set
  */
-FieldElement.prototype.setValue = function( value ) {
+InputElement.prototype.setValue = function( value ) {
 	this.values.currentValue = value;
 };
 
-module.exports = FieldElement;
+module.exports = InputElement;
 
