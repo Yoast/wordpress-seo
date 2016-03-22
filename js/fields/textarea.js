@@ -1,5 +1,6 @@
 var defaults = require( "lodash/object/defaults" );
 var textAreaTemplate = require( "../../js/templates" ).fields.textarea;
+var minimizeHtml = require( "../helpers/minimizeHtml" );
 
 var defaultAttributes = {
 	value: "",
@@ -48,12 +49,7 @@ TextArea.prototype.getAttributes = function() {
 TextArea.prototype.render = function() {
 	var html = textAreaTemplate( this.getAttributes() );
 
-	html = html.replace( /(\s+)/g, " " );
-	html = html.replace( /> </g, "><" );
-	html = html.replace( / >/g, ">" );
-	html = html.replace( /> /g, ">" );
-	html = html.replace( / </g, "<" );
-	html = html.replace( / $/, "" );
+	html = minimizeHtml( html );
 
 	return html;
 };

@@ -257,8 +257,7 @@ TwitterPreview.prototype.renderTemplate = function() {
 	this.element.formContainer.innerHTML = this.element.fields.title.render()
 		+ this.element.fields.description.render()
 		+ this.element.fields.imageUrl.render()
-		+ this.element.fields.button.render()
-		+ this.element.formContainer.innerHTML;
+		+ this.element.fields.button.render();
 
 	this.element.input = {
 		title: targetElement.getElementsByClassName( "js-snippet-editor-title" )[0],

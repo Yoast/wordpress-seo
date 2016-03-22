@@ -1,5 +1,6 @@
 var defaults = require( "lodash/object/defaults" );
 var textFieldTemplate = require( "../../js/templates" ).fields.text;
+var minimizeHtml = require( "../helpers/minimizeHtml" );
 
 var defaultAttributes = {
 	value: "",
@@ -47,13 +48,8 @@ TextField.prototype.getAttributes = function() {
  */
 TextField.prototype.render = function() {
 	var html = textFieldTemplate( this.getAttributes() );
-
-	html = html.replace( /(\s+)/g, " " );
-	html = html.replace( /> </g, "><" );
-	html = html.replace( / >/g, ">" );
-	html = html.replace( /> /g, ">" );
-	html = html.replace( / </g, "<" );
-	html = html.replace( / $/, "" );
+	
+	html = minimizeHtml( html );
 
 	return html;
 };

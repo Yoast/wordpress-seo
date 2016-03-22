@@ -1,5 +1,6 @@
 var defaults = require( "lodash/object/defaults" );
 var buttonTemplate = require( "../../js/templates" ).fields.button;
+var minimizeHtml = require( "../helpers/minimizeHtml" );
 
 var defaultAttributes = {
 	value: "",
@@ -42,13 +43,8 @@ Button.prototype.getAttributes = function() {
  */
 Button.prototype.render = function() {
 	var html = buttonTemplate( this.getAttributes() );
-
-	html = html.replace( /(\s+)/g, " " );
-	html = html.replace( /> </g, "><" );
-	html = html.replace( / >/g, ">" );
-	html = html.replace( /> /g, ">" );
-	html = html.replace( / </g, "<" );
-	html = html.replace( / $/, "" );
+	
+	html = minimizeHtml( html );
 
 	return html;
 };

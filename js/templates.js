@@ -152,12 +152,9 @@
     __e( className ) +
     '"';
      }
-    __p += '\n>\n	';
-     if (value) {
-    __p +=
-    __e( value );
-     }
-    __p += '\n</button>';
+    __p += '\n>\n	' +
+    __e( value ) +
+    '\n</button>';
 
     }
     return __p
