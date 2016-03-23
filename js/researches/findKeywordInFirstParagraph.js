@@ -8,11 +8,12 @@ var wordMatch = require( "../stringProcessing/matchTextWithWord.js" );
  * if there is no paragraph tag or 0 hits, it checks for 2 newlines, otherwise returns the keyword
  * count of the complete text.
  *
- * @param {string} text The text to check for paragraphs.
- * @param {string} keyword The keyword to match in paragraphs.
+ * @param {Paper} paper The text to check for paragraphs.
  * @returns {number} The number of occurences of the keyword in the first paragraph.
  */
-module.exports = function( text, keyword ) {
+module.exports = function( paper ) {
+	var text = paper.getText();
+	var keyword = paper.getKeyword();
 	var paragraph;
 
 	// matches everything between the <p> and </p> tags.

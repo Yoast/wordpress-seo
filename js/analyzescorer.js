@@ -21,6 +21,7 @@ assessments.keyphraseSizeCheck = require( "./assessments/keyphraseLength.js" );
 assessments.metaDescriptionKeyword = require ( "./assessments/metaDescriptionKeyword.js" );
 assessments.imageCount = require( "./assessments/imageCount.js" );
 assessments.urlKeyword = require( "./assessments/keywordInUrl.js" );
+assessments.firstParagraph = require( "./assessments/firstParagraph.js" );
 
 /**
  * inits the analyzerscorer used for scoring of the output from the textanalyzer
