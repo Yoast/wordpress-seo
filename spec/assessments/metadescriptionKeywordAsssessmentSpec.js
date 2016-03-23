@@ -6,7 +6,7 @@ var i18n = factory.buildJed();
 
 describe( "the metadescription keyword assessment", function() {
 	it( "should score a meta with no matching keyword as bad", function() {
-		var paper = new Paper();
+		var paper = new Paper( "text", { keyword: "keyword", description: "description" } );
 		var researcher = factory.buildMockResearcher( 0 );
 
 		var result = metaDescriptionKeyword( paper, researcher, i18n );
@@ -16,7 +16,7 @@ describe( "the metadescription keyword assessment", function() {
 	} );
 
 	it( "should score a meta with no matching keyword as bad", function() {
-		var paper = new Paper();
+		var paper = new Paper( "text", { keyword: "keyword", description: "description" } );
 		var researcher = factory.buildMockResearcher( 1 );
 
 		var result = metaDescriptionKeyword( paper, researcher, i18n );
