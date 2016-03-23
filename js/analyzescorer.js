@@ -11,6 +11,7 @@ var assessments = {};
 assessments.wordCount = require( "./assessments/countWords.js" );
 assessments.fleschReading = require( "./assessments/calculateFleschReading.js" );
 assessments.linkCount = require( "./assessments/getLinkStatistics.js" );
+assessments.pageTitleKeyword = require( "./assessments/pageTitleKeyword.js" );
 assessments.subHeadings = require( "./assessments/matchKeywordInSubheading.js" );
 assessments.keywordDensity = require( "./assessments/keywordDensity.js" );
 assessments.stopwordKeywordCount = require( "./assessments/stopWordsInKeyword.js" );

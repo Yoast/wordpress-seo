@@ -59,34 +59,6 @@ var AnalyzerScoring = function( i18n ) {
                 { name: "length", position: "%3$d", source: "matcher" }
             ]
         }, {
-            scoreName: "pageTitleKeyword",
-            scoreTitleKeywordLimit: 0,
-            scoreArray: [
-                {
-                    matcher: "matches",
-                    max: 0,
-                    score: 2,
-
-                    /* translators: %1$s expands to the focus keyword */
-                    text: i18n.dgettext( "js-text-analysis", "The focus keyword '%1$s' does not appear in the page title.")
-                },
-                {
-                    matcher: "position",
-                    max: 1,
-                    score: 9,
-                    text: i18n.dgettext( "js-text-analysis", "The page title contains the focus keyword, at the beginning which is considered to improve rankings.")
-                },
-                {
-                    matcher: "position",
-                    min: 1,
-                    score: 6,
-                    text: i18n.dgettext( "js-text-analysis", "The page title contains the focus keyword, but it does not appear at the beginning; try and move it to the beginning.")
-                }
-            ],
-            replaceArray: [
-                {name: "keyword", position: "%1$s", sourceObj: ".refObj.config.keyword"}
-            ]
-        }, {
             scoreName: "urlLength",
             scoreArray: [
                 {type: "urlTooLong", score: 5, text: i18n.dgettext( "js-text-analysis", "The slug for this page is a bit long, consider shortening it." ) }
