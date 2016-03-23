@@ -19,6 +19,7 @@ var imageCount = require( "./researches/imageCountInText.js" );
 var altTagCount = require( "./researches/imageAltTags.js" );
 var keyphraseLength = require( "./researches/keyphraseLength" );
 var keywordCountInUrl = require( "./researches/keywordCountInUrl" );
+var findKeywordInFirstParagraph = require( "./researches/findKeywordInFirstParagraph.js" );
 
 /**
  * This contains all possible, default researches.

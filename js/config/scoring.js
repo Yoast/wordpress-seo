@@ -17,16 +17,7 @@ var AnalyzerScoring = function( i18n ) {
                 }
             ]
         }, {
-            scoreName: "firstParagraph",
-            scoreArray: [
-                {
-                    max: 0,
-                    score: 3,
-                    text: i18n.dgettext( "js-text-analysis", "The focus keyword doesn\'t appear in the first paragraph of the copy. Make sure the topic is clear immediately." )
-                },
-                { min: 1, score: 9, text: i18n.dgettext( "js-text-analysis", "The focus keyword appears in the first paragraph of the copy." ) }
-            ]
-        }, {
+
             scoreName: "pageTitleLength",
             scoreArray: [
                 {max: 0, score: 1, text: i18n.dgettext( "js-text-analysis", "Please create a page title.")},
