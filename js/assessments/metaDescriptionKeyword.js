@@ -18,6 +18,7 @@ var calculateKeywordMatchesResult = function( keywordMatches, i18n ) {
 			text: i18n.dgettext( "js-text-analysis", "A meta description has been specified, but it does not contain the focus keyword." )
 		};
 	}
+	return {};
 };
 
 /**
