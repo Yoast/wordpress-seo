@@ -7,8 +7,20 @@ var isEmpty = require( "lodash/lang/isEmpty" );
 
 // assessments
 var wordCountInText = require( "./researches/wordCountInText.js" );
-var getLinkStatistics = require( "./analyses/getLinkStatistics.js" );
+var getLinkStatistics = require( "./researches/getLinkStatistics.js" );
 var urlLength = require( "./analyses/isUrlTooLong.js" );
+var findKeywordInPageTitle = require( "./researches/findKeywordInPageTitle.js" );
+var matchKeywordInSubheadings = require( "./researches/matchKeywordInSubheadings.js" );
+var getKeywordDensity = require( "./researches/getKeywordDensity.js" );
+var stopWordsInKeyword = require( "./researches/stopWordsInKeyword" );
+var stopWordsInUrl = require( "./researches/stopWordsInUrl" );
+var calculateFleschReading = require( "./researches/calculateFleschReading.js" );
+var metaDescriptionLength = require( "./researches/metaDescriptionLength.js" );
+var imageCount = require( "./researches/imageCountInText.js" );
+var altTagCount = require( "./researches/imageAltTags.js" );
+var keyphraseLength = require( "./researches/keyphraseLength" );
+var metaDescriptionKeyword = require( "./researches/metaDescriptionKeyword.js" );
+var keywordCountInUrl = require( "./researches/keywordCountInUrl" );
 
 /**
  * This contains all possible, default researches.
@@ -22,7 +34,19 @@ var Researcher = function( paper ) {
 	this.defaultResearches = {
 		"urlLength": urlLength,
 		"wordCountInText": wordCountInText,
-		"getLinkStatistics": getLinkStatistics
+		"findKeywordInPageTitle": findKeywordInPageTitle,
+		"calculateFleschReading": calculateFleschReading,
+		"getLinkStatistics": getLinkStatistics,
+		"imageCount": imageCount,
+		"altTagCount": altTagCount,
+		"matchKeywordInSubheadings": matchKeywordInSubheadings,
+		"getKeywordDensity": getKeywordDensity,
+		"stopWordsInKeyword": stopWordsInKeyword,
+		"stopWordsInUrl": stopWordsInUrl,
+		"metaDescriptionLength": metaDescriptionLength,
+		"keyphraseLength": keyphraseLength,
+		"metaDescriptionKeyword": metaDescriptionKeyword,
+		"keywordCountInUrl": keywordCountInUrl
 	};
 
 	this.customResearches = {};

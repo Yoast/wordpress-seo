@@ -694,29 +694,6 @@ SnippetPreview.prototype.getMetaText = function() {
 
 	metaText = stripHTMLTags( metaText );
 
-	// Generate a meta description based on where in the text the keyword is found first
-	if ( this.refObj.rawData.keyword !== "" && this.refObj.rawData.text !== "" ) {
-		var curStart = 0;
-		var indexMatches = this.getIndexMatches();
-		var periodMatches = this.getPeriodMatches();
-
-		metaText = metaText.substring( 0, analyzerConfig.maxMeta );
-
-		if ( indexMatches.length > 0 ) {
-			var j = 0;
-
-			while ( j < periodMatches.length ) {
-				if ( periodMatches[ 0 ] < indexMatches[ 0 ] ) {
-					curStart = periodMatches.shift();
-				} else if ( curStart > 0 ) {
-					curStart += 2;
-				} else {
-					break;
-				}
-			}
-		}
-	}
-
 	return metaText.substring( 0, analyzerConfig.maxMeta );
 };
 
@@ -776,7 +753,7 @@ SnippetPreview.prototype.formatKeyword = function( textString ) {
 	var keyword = this.refObj.rawData.keyword.replace( /[\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, " " );
 
 	// Match keyword case-insensitively
-	var keywordRegex = stringToRegex( keyword, "", true );
+	var keywordRegex = stringToRegex( keyword, "", false );
 	return textString.replace( keywordRegex, function( str ) {
 		return "<strong>" + str + "</strong>";
 	} );

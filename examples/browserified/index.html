@@ -5,39 +5,10 @@
     <title>Yoast SEO Content Analysis</title>
     <link rel='stylesheet' id='source-sans-pro-css'
           href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600&amp;subset=latin'/>
-    <link rel="stylesheet" href="style.min.css">
-    <link rel="stylesheet" href="../dist/yoast-seo.min.css">
+    <link rel="stylesheet" href="../standalone/style.min.css">
+    <link rel="stylesheet" href="../../dist/yoast-seo.min.css">
 
-    <script type="text/javascript" src="example-scraper.min.js"></script>
-    <script type="text/javascript" src="../dist/yoast-seo.js"></script>
-    <script type="text/javascript" src="example-plugin-test.js"></script>
-
-    <script>
-        YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
-
-        var exampleScraper = new YoastSEO.ExampleScraper();
-
-        var args = {
-            targets: {
-                output: "output"
-            },
-            callbacks: {
-                getData: exampleScraper.getData.bind( exampleScraper ),
-                bindElementEvents: exampleScraper.bindElementEvents.bind( exampleScraper ),
-                saveScores: exampleScraper.saveScores.bind( exampleScraper )
-            }
-        };
-
-        window.onload = function() {
-            args.snippetPreview = new YoastSEO.SnippetPreview({
-                targetElement: document.getElementById( "snippet" )
-            });
-
-            window.YoastSEO.app = new YoastSEO.App( args );
-
-            YoastSEO.app.refresh();
-        };
-    </script>
+    <script type="text/javascript" src="example-browserified.js"></script>
 </head>
 <body class="purple seo">
 

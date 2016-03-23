@@ -19,7 +19,7 @@ exclude_paths:
 - js/config/*
 - spec/**/*
 - dist/*
-- example/*
+- examples/*
 - grunt/**/*
 - templates/*
 - languages/*

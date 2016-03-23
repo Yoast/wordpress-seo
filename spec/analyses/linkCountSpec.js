@@ -1,4 +1,4 @@
-var linkCount = require( "../../js/analyses/getLinkStatistics.js" );
+var linkCount = require( "../../js/researches/getLinkStatistics.js" );
 var Paper = require( "../../js/values/Paper.js" );
 var foundLinks;
 

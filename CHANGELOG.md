@@ -1,6 +1,17 @@
-### 1.1: March 1st, 2016
+# Change Log
 
-#### Backwards incompatible changes
+All notable changes to this project will be documented in this file.
+We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
+
+## Unreleased
+
+### Backwards incompatible changes
+
+
+
+## 1.1: March 1st, 2016
+
+### Backwards incompatible changes
 
 * Passing the title, url and meta description meant for the snippet editor is no longer taken into account. The snippet
 editor keeps track of these values itself.
@@ -26,7 +37,7 @@ passed to `updateSnippetValues`. This is undesirable because it couples the call
 * Removed `StringHelper` prototype.
 * Removed `PreProcessor` prototype.
 
-#### Features
+### Features
 
 * Completely redesign the snippet editor editing experience:
 	* Remove the contenteditable fields
@@ -53,7 +64,7 @@ passed to `updateSnippetValues`. This is undesirable because it couples the call
 * Introduce `missingArgument` error that is thrown when an argument is missing in the `App`.
 * Massively reduce the required config of the `App`.
 
-#### Enhancements
+### Enhancements
 
 * Start to decouple the SnippetPreview from the scrapers and the analyzer.
 * Depend on lodash to improve the readability of our codebase and to standardize certain actions.
@@ -61,15 +72,15 @@ passed to `updateSnippetValues`. This is undesirable because it couples the call
 * Add a `baseURL` option to the `SnippetPreview` to change the base URL.
 * Change the stopwords check to a grey bullet that doesn't count towards the total score.
 
-#### Bugfixes
+### Bugfixes
 
 * By default add a trailing slash to the rendered URL, add an option to the `SnippetPreview` to disable this behaviour.
 * Show the protocol in the snippet preview if it is HTTPS. Google has this behaviour as well.
 * Color the meta description preview gray if the user hasn't set it explicitly.
 
-### 1.0: November 18th, 2015
+## 1.0: November 18th, 2015
 
-#### Backwards incompatible changes
+### Backwards incompatible changes
 
 * Removed `YoastSEO.app.addToQueue` method.
 * Removed `YoastSEO.app.removeFromQueue` method.
@@ -96,7 +107,7 @@ passed to `updateSnippetValues`. This is undesirable because it couples the call
 	* Introduced `args.keyword`.
 	* Introduced `args.saveScores`.
 
-#### Features
+### Features
 
 * Added `YoastSEO.SnippetPreview.getUnformattedText` and `YoastSEO.SnippetPreview.setUnformattedText, getter and setter for the unformatted text property. [682ec6d](https://github.com/yoast/yoastseo.js/commit/682ec6d)
 * Added fallback for meta description to the text that is analyzed. This is prioritized after the excerpt but before the sample text.
@@ -106,7 +117,7 @@ passed to `updateSnippetValues`. This is undesirable because it couples the call
 * Added `YoastSEO.App.registerTest` to add a new test to the analyzer. [ddec6b7](https://github.com/yoast/yoastseo.js/commit/ddec6b7)
 * Added `YoastSEO.AnalyzerScoring.getTotalScore` to retrieve the total score. [72f368a](https://github.com/yoast/yoastseo.js/commit/72f368a)
 
-#### Enhancements
+### Enhancements
 
 * Improved default value of the base url in the snippet preview. [a1d805a](https://github.com/yoast/yoastseo.js/commit/a1d805a)
 * Improved handling of the raw snippet preview content so we the user can edit the raw string when clicking on an item in the snippet preview.
@@ -119,7 +130,7 @@ passed to `updateSnippetValues`. This is undesirable because it couples the call
 * Use `input` event to bind to snippet preview change instead of `change`. [4675a9f](https://github.com/yoast/yoastseo.js/commit/4675a9f)
 * Don't use `args.overallTarget` if it isn't set. [7ce7ea4](https://github.com/yoast/yoastseo.js/commit/7ce7ea4)
 
-#### Bugfixes
+### Bugfixes
 
 * Fixed snippet preview so only the full focus keyword is highlighted and not words that contain the focus keyword. [3655d13](https://github.com/yoast/yoastseo.js/commit/3655d13)
 * Fixed scoring so 0-3 now mean a bad score and no-keyword is a special score. [ad8a085](https://github.com/yoast/yoastseo.js/commit/ad8a085)
@@ -128,8 +139,8 @@ passed to `updateSnippetValues`. This is undesirable because it couples the call
 * Style the snippet title `inline-block` to make the overflow hidden.
 * Style the snippet site url `inline` to make the overflow hidden.
 
-### 1.0-beta2: September 23st, 2015
+## 1.0-beta2: September 23st, 2015
 * Fixes a bug where the slug wasn't taken into account when checking if the url contains the focus keyword.
 
-### 1.0-beta: September 21st, 2015
+## 1.0-beta: September 21st, 2015
 * Initial beta release
