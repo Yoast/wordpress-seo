@@ -43,7 +43,8 @@ var Researcher = function( paper ) {
 		"stopWordsInUrl": stopWordsInUrl,
 		"metaDescriptionLength": metaDescriptionLength,
 		"keyphraseLength": keyphraseLength,
-		"keywordCountInUrl": keywordCountInUrl
+		"keywordCountInUrl": keywordCountInUrl,
+		"firstParagraph": findKeywordInFirstParagraph
 	};
 
 	this.customResearches = {};
