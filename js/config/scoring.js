@@ -38,11 +38,6 @@ var AnalyzerScoring = function( i18n ) {
                 { name: "length", position: "%3$d", source: "matcher" }
             ]
         }, {
-            scoreName: "urlLength",
-            scoreArray: [
-                {type: "urlTooLong", score: 5, text: i18n.dgettext( "js-text-analysis", "The slug for this page is a bit long, consider shortening it." ) }
-            ]
-        }, {
             scoreName: "keywordDoubles",
             scoreArray: [
                 {matcher: "count", max: 0, score: 9, text: i18n.dgettext( "js-text-analysis", "You've never used this focus keyword before, very good." ) },
