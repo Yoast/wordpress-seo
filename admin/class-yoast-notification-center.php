@@ -115,7 +115,18 @@ class Yoast_Notification_Center {
 
 		$notification = $notification_center->get_notification_by_id( $notification_id );
 		if ( false === ( $notification instanceof Yoast_Notification ) ) {
-			die( '-1' );
+
+			// Permit legacy.
+			$notification = new Yoast_Notification( '', array(
+				'id'            => $notification_id,
+				'dismissal_key' => $notification_id,
+			) );
+
+			/*
+			 * Activate when all legacy notifications have been replaced.
+			 *
+			 * die();
+			 */
 		}
 
 		if ( $notification_center->maybe_dismiss_notification( $notification ) ) {
