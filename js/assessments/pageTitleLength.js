@@ -23,7 +23,7 @@ var calculatePageTitleLengthResult = function( pageTitleLength, i18n ) {
 					"Use the space to add keyword variations or create compelling call-to-action copy.",
 					"The page title contains %1$d characters, which is less than the recommended minimum of %2$d characters. " +
 					"Use the space to add keyword variations or create compelling call-to-action copy.",
-				pageTitleLength),
+				pageTitleLength ),
 				pageTitleLength, minLength )
 		};
 	}
@@ -52,8 +52,8 @@ var calculatePageTitleLengthResult = function( pageTitleLength, i18n ) {
 					"some words will not be visible to users in your listing.",
 					"The page title contains %1$d characters, which is more than the viewable limit of %2$d characters; " +
 					"some words will not be visible to users in your listing.",
-					pageTitleLength
-				), pageTitleLength, maxLength )
+					pageTitleLength ),
+				pageTitleLength, maxLength )
 		};
 	}
 
