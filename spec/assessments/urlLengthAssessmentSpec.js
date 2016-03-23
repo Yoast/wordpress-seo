@@ -15,6 +15,6 @@ describe( "An assessment for the urlLengthAssessment", function(){
         var paper = new Paper();
         var result = urlLengthAssessment( paper, Factory.buildMockResearcher( false ), i18n );
 
-        expect( result ).toBeUndefined() ;
+        expect( result.score ).toBe( 0 );
     } );
 } );

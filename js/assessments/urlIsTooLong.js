@@ -10,14 +10,14 @@ var AssessmentResult = require( "../values/AssessmentResult.js" );
  */
 var urlLengthAssessment = function( paper, researcher, i18n ) {
 	var urlIsTooLong = researcher.getResearch( "urlLength" );
+	var assessmentResult = new AssessmentResult();
 	if ( urlIsTooLong ) {
 		var score = 5;
 		var text = i18n.dgettext( "js-text-analysis", "The slug for this page is a bit long, consider shortening it." );
-		var assessmentResult = new AssessmentResult();
 		assessmentResult.setScore( score );
 		assessmentResult.setText( text );
-		return assessmentResult;
 	}
+	return assessmentResult;
 };
 
 module.exports = urlLengthAssessment;
