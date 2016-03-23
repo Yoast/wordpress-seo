@@ -11,7 +11,7 @@ var findKeywordInPageTitle = require( "./researches/findKeywordInPageTitle.js" )
 var getKeywordDensity = require( "./researches/getKeywordDensity.js" );
 var countLinks = require( "./researches/getLinkStatistics.js" );
 var getKeyphraseLength = require( "./analyses/getWordCount.js" );
-var isUrlTooLong = require( "./analyses/isUrlTooLong.js" );
+var isUrlTooLong = require( "./researches/urlIsTooLong.js" );
 var getSubheadings = require( "./researches/matchKeywordInSubheadings.js" );
 var countWords = require( "./stringProcessing/countWords.js" );
 var matchTextWithWord = require( "./stringProcessing/matchTextWithWord.js" );
@@ -400,12 +400,7 @@ Analyzer.prototype.urlKeyword = function() {
  * @returns {{test: string, result: number}[]}
  */
 Analyzer.prototype.urlLength = function() {
-	var result = [ { test: "urlLength", result: { urlTooLong: isUrlTooLong(
-		this.paper.getUrl(),
-		this.paper.getKeyword(),
-		this.config.maxSlugLength,
-		this.config.maxUrlLength
-	) } } ];
+	var result = [ { test: "urlLength", result: { urlTooLong: isUrlTooLong( this.paper ) } } ];
 	return result;
 };
 
