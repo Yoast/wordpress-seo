@@ -2,9 +2,9 @@
 # This file is distributed under the GPL v3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Yoast SEO 3.1.1\n"
+"Project-Id-Version: Yoast SEO 3.1.2\n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo/issues\n"
-"POT-Creation-Date: 2016-03-08 13:52:11+00:00\n"
+"POT-Creation-Date: 2016-03-23 10:40:34+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -82,7 +82,7 @@ msgid ""
 "scores%2$s for all posts and pages."
 msgstr ""
 
-#: admin/class-admin-init.php:393
+#: admin/class-admin-init.php:396
 msgid "%s filter/action"
 msgstr ""
 
@@ -318,7 +318,7 @@ msgid "New Yoast SEO Title"
 msgstr ""
 
 #: admin/class-config.php:105 admin/metabox/class-metabox.php:773
-#: admin/taxonomy/class-taxonomy.php:114
+#: admin/taxonomy/class-taxonomy.php:118
 msgid "Use Image"
 msgstr ""
 
@@ -638,7 +638,7 @@ msgid ""
 msgstr ""
 
 #: admin/class-pointers.php:268 admin/pages/metas.php:24
-#: frontend/class-frontend.php:540 frontend/class-frontend.php:561
+#: frontend/class-frontend.php:549 frontend/class-frontend.php:570
 msgid "Archives"
 msgstr ""
 
@@ -1010,28 +1010,28 @@ msgstr ""
 msgid "Current option:"
 msgstr ""
 
-#: admin/class-yoast-form.php:232
+#: admin/class-yoast-form.php:237
 msgid "Remove these ads?"
 msgstr ""
 
 #. translators: %1$s expands to Yoast SEO Premium
-#: admin/class-yoast-form.php:235
+#: admin/class-yoast-form.php:240
 msgid "Upgrade to %1$s &raquo;"
 msgstr ""
 
-#: admin/class-yoast-form.php:321 admin/pages/dashboard.php:245
+#: admin/class-yoast-form.php:326 admin/pages/dashboard.php:245
 #: admin/pages/metas.php:200 admin/pages/metas.php:213
 #: admin/pages/xml-sitemaps.php:74
 msgid "Disabled"
 msgstr ""
 
-#: admin/class-yoast-form.php:321 admin/pages/dashboard.php:245
+#: admin/class-yoast-form.php:326 admin/pages/dashboard.php:245
 #: admin/pages/metas.php:199 admin/pages/metas.php:212
 #: admin/pages/xml-sitemaps.php:74
 msgid "Enabled"
 msgstr ""
 
-#: admin/class-yoast-form.php:471
+#: admin/class-yoast-form.php:476
 #: admin/taxonomy/class-taxonomy-fields-presenter.php:88
 msgid "Upload Image"
 msgstr ""
@@ -1536,11 +1536,11 @@ msgstr ""
 msgid "Check"
 msgstr ""
 
-#: admin/metabox/class-metabox.php:217 admin/taxonomy/class-taxonomy.php:223
+#: admin/metabox/class-metabox.php:217 admin/taxonomy/class-taxonomy.php:227
 msgid "Content:"
 msgstr ""
 
-#: admin/metabox/class-metabox.php:311 admin/taxonomy/class-taxonomy.php:267
+#: admin/metabox/class-metabox.php:311 admin/taxonomy/class-taxonomy.php:271
 msgid "(no parent)"
 msgstr ""
 
@@ -3081,23 +3081,23 @@ msgstr ""
 msgid "Exclude user from Author-sitemap"
 msgstr ""
 
-#: frontend/class-frontend.php:472
+#: frontend/class-frontend.php:481
 msgid "Search for \"%s\""
 msgstr ""
 
-#: frontend/class-frontend.php:531 frontend/class-frontend.php:534
-#: frontend/class-frontend.php:537 frontend/class-frontend.php:552
-#: frontend/class-frontend.php:555 frontend/class-frontend.php:558
+#: frontend/class-frontend.php:540 frontend/class-frontend.php:543
+#: frontend/class-frontend.php:546 frontend/class-frontend.php:561
+#: frontend/class-frontend.php:564 frontend/class-frontend.php:567
 #: inc/options/class-wpseo-option-titles.php:226
 msgid "%s Archives"
 msgstr ""
 
-#: frontend/class-frontend.php:571
+#: frontend/class-frontend.php:580
 #: inc/options/class-wpseo-option-titles.php:178
 msgid "Page not found"
 msgstr ""
 
-#: frontend/class-frontend.php:1257
+#: frontend/class-frontend.php:1266
 msgid ""
 "Admin only notice: this page doesn't show a meta description because it "
 "doesn't have one, either write it for this page specifically or go into the "
