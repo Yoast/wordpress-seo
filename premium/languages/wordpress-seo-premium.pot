@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo-premium/issues\n"
-"POT-Creation-Date: 2016-03-08 14:34:12+00:00\n"
+"POT-Creation-Date: 2016-03-23 12:37:27+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -52,13 +52,13 @@ msgid ""
 "remove the redirect%3$s."
 msgstr ""
 
-#: classes/class-post-watcher.php:302
+#: classes/class-post-watcher.php:307
 msgid ""
 "%1$s created a %2$sredirect%4$s from the old post URL to the new post URL. "
 "%3$sClick here to undo this%4$s."
 msgstr ""
 
-#: classes/class-post-watcher.php:315
+#: classes/class-post-watcher.php:320
 msgid ""
 "%1$s detected that you deleted a post. You can either: %2$s Don't know what "
 "to do? %3$sRead this post %4$s."
@@ -200,13 +200,13 @@ msgstr ""
 msgid "You are already editing a redirect, please finish this one first"
 msgstr ""
 
-#: classes/class-term-watcher.php:185
+#: classes/class-term-watcher.php:187
 msgid ""
 "%1$s created a %2$sredirect%4$s from the old term URL to the new term URL. "
 "%3$sClick here to undo this%4$s."
 msgstr ""
 
-#: classes/class-term-watcher.php:200
+#: classes/class-term-watcher.php:202
 msgid ""
 "%1$s detected that you deleted a term. You can either: %2$s Don't know what "
 "to do? %3$sRead this post %4$s."
