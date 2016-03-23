@@ -23,6 +23,7 @@ assessments.metaDescriptionKeyword = require ( "./assessments/metaDescriptionKey
 assessments.imageCount = require( "./assessments/imageCount.js" );
 assessments.urlKeyword = require( "./assessments/keywordInUrl.js" );
 assessments.firstParagraph = require( "./assessments/firstParagraph.js" );
+assessments.pageTitleLength = require( "./assessments/pageTitleLength.js" );
 
 /**
  * inits the analyzerscorer used for scoring of the output from the textanalyzer
