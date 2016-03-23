@@ -25,7 +25,7 @@ var calculateFirstParagraphResult = function( firstParagraphMatches, i18n ) {
 /**
  * Runs the findKeywordInFirstParagraph module, based on this returns an assessment result with score.
  *
- * @param {object} paper The paper to use for the assessment.
+ * @param {Paper} paper The paper to use for the assessment.
  * @param {object} researcher The researcher used for calling research.
  * @param {object} i18n The object used for translations
  * @returns {object} the Assessmentresult
