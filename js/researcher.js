@@ -18,6 +18,7 @@ var metaDescriptionLength = require( "./researches/metaDescriptionLength.js" );
 var imageCount = require( "./researches/imageCountInText.js" );
 var altTagCount = require( "./researches/imageAltTags.js" );
 var keyphraseLength = require( "./researches/keyphraseLength" );
+var metaDescriptionKeyword = require( "./researches/metaDescriptionKeyword.js" );
 var keywordCountInUrl = require( "./researches/keywordCountInUrl" );
 
 /**
@@ -42,6 +43,7 @@ var Researcher = function( paper ) {
 		"stopWordsInUrl": stopWordsInUrl,
 		"metaDescriptionLength": metaDescriptionLength,
 		"keyphraseLength": keyphraseLength,
+		"metaDescriptionKeyword": metaDescriptionKeyword,
 		"keywordCountInUrl": keywordCountInUrl
 	};
 
