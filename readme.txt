@@ -121,7 +121,7 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 Release Date: March 23rd, 2016
 
 * Enhancements:
-	* Makes sure the permalink on the frontend als makes use of the primary category if one has been selected.
+	* Makes sure the permalink on the frontend also makes use of the primary category if one has been selected.
 
 * Bugfixes:
 	* Fixes a compatibility issue with the upcoming WordPress 4.5, where the Yoast SEO metabox and columns were no longer shown on taxonomy and term edit pages.
