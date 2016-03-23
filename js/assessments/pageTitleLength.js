@@ -15,12 +15,15 @@ var calculatePageTitleLengthResult = function( pageTitleLength, i18n ) {
 		return {
 			score: 6,
 			text: i18n.sprintf(
-				i18n.dgettext(
+				i18n.dngettext(
 					"js-text-analysis",
 					/* translators: %1$d expands to the number of characters in the page title,
 					%2$d to the minimum number of characters for the title */
+					"The page title contains %1$d character, which is less than the recommended minimum of %2$d characters. " +
+					"Use the space to add keyword variations or create compelling call-to-action copy.",
 					"The page title contains %1$d characters, which is less than the recommended minimum of %2$d characters. " +
-					"Use the space to add keyword variations or create compelling call-to-action copy." ),
+					"Use the space to add keyword variations or create compelling call-to-action copy.",
+				pageTitleLength),
 				pageTitleLength, minLength )
 		};
 	}
@@ -41,12 +44,16 @@ var calculatePageTitleLengthResult = function( pageTitleLength, i18n ) {
 		return {
 			score: 6,
 			text: i18n.sprintf(
-				i18n.dgettext(
+				i18n.dngettext(
 					"js-text-analysis",
 					/* translators: %1$d expands to the number of characters in the page title, %2$d to the maximum number
 					of characters for the title */
+					"The page title contains %1$d character, which is more than the viewable limit of %2$d characters; " +
+					"some words will not be visible to users in your listing.",
 					"The page title contains %1$d characters, which is more than the viewable limit of %2$d characters; " +
-					"some words will not be visible to users in your listing." ), pageTitleLength, maxLength )
+					"some words will not be visible to users in your listing.",
+					pageTitleLength
+				), pageTitleLength, maxLength )
 		};
 	}
 
