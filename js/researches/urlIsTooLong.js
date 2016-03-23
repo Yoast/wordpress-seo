@@ -1,7 +1,5 @@
 /** @module analyses/isUrlTooLong */
 
-var analyzerConfig = require( "../config/analyzerConfig" )();
-
 /**
  * Checks if an URL is too long, based on slug and relative to keyword length.
  *
@@ -11,8 +9,10 @@ var analyzerConfig = require( "../config/analyzerConfig" )();
 module.exports = function( paper ) {
 	var urlLength = paper.getUrl().length;
 	var keywordLength = paper.getKeyword().length;
+	var maxUrlLength = 40;
+	var maxSlugLength = 20;
 
-	if ( urlLength > analyzerConfig.maxUrlLength  && urlLength > keywordLength + analyzerConfig.maxSlugLength ) {
+	if ( urlLength > maxUrlLength	&& urlLength > keywordLength + maxSlugLength ) {
 		return true;
 	}
 	return false;
