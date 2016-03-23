@@ -87,16 +87,6 @@ var AnalyzerScoring = function( i18n ) {
                 {name: "keyword", position: "%1$s", sourceObj: ".refObj.config.keyword"}
             ]
         }, {
-            scoreName: "urlKeyword",
-            scoreArray: [
-                { min: 1, score: 9, text: i18n.dgettext( "js-text-analysis", "The focus keyword appears in the URL for this page.")},
-                {
-                    max: 0,
-                    score: 6,
-                    text: i18n.dgettext( "js-text-analysis", "The focus keyword does not appear in the URL for this page. If you decide to rename the URL be sure to check the old URL 301 redirects to the new one!" )
-                }
-            ]
-        }, {
             scoreName: "urlLength",
             scoreArray: [
                 {type: "urlTooLong", score: 5, text: i18n.dgettext( "js-text-analysis", "The slug for this page is a bit long, consider shortening it." ) }

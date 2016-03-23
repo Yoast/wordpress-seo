@@ -18,6 +18,7 @@ assessments.urlStopwords = require( "./assessments/stopWordsInUrl.js" );
 assessments.metaDescriptionLength = require( "./assessments/metaDescriptionLength.js" );
 assessments.keyphraseSizeCheck = require( "./assessments/keyphraseLength.js" );
 assessments.imageCount = require( "./assessments/imageCount.js" );
+assessments.urlKeyword = require( "./assessments/keywordInUrl.js" );
 
 /**
  * inits the analyzerscorer used for scoring of the output from the textanalyzer
