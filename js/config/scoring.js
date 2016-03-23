@@ -47,16 +47,6 @@ var AnalyzerScoring = function( i18n ) {
                 { name: "maxLength", position: "%2$d", value: 65 },
                 { name: "length", position: "%3$d", source: "matcher" }
             ]
-        },{
-            scoreName: "urlKeyword",
-            scoreArray: [
-                { min: 1, score: 9, text: i18n.dgettext( "js-text-analysis", "The focus keyword appears in the URL for this page.")},
-                {
-                    max: 0,
-                    score: 6,
-                    text: i18n.dgettext( "js-text-analysis", "The focus keyword does not appear in the URL for this page. If you decide to rename the URL be sure to check the old URL 301 redirects to the new one!" )
-                }
-            ]
         }, {
             scoreName: "urlLength",
             scoreArray: [

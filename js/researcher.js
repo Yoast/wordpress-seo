@@ -19,6 +19,7 @@ var imageCount = require( "./researches/imageCountInText.js" );
 var altTagCount = require( "./researches/imageAltTags.js" );
 var keyphraseLength = require( "./researches/keyphraseLength" );
 var metaDescriptionKeyword = require( "./researches/metaDescriptionKeyword.js" );
+var keywordCountInUrl = require( "./researches/keywordCountInUrl" );
 
 /**
  * This contains all possible, default researches.
@@ -42,7 +43,8 @@ var Researcher = function( paper ) {
 		"stopWordsInUrl": stopWordsInUrl,
 		"metaDescriptionLength": metaDescriptionLength,
 		"keyphraseLength": keyphraseLength,
-		"metaDescriptionKeyword": metaDescriptionKeyword
+		"metaDescriptionKeyword": metaDescriptionKeyword,
+		"keywordCountInUrl": keywordCountInUrl
 	};
 
 	this.customResearches = {};
