@@ -16,9 +16,7 @@ module.exports = function( text ) {
 	var matches = text.match( regexAltTag );
 
 	if ( matches !== null ) {
-		alt = matches[ 2 ];
-
-		alt = stripSpaces( alt );
+		alt = stripSpaces( matches[ 2 ] );
 
 		alt = alt.replace( /&quot;/g, "\"" );
 		alt = alt.replace( /&#039;/g, "'" );

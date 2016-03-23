@@ -6,47 +6,6 @@
 var AnalyzerScoring = function( i18n ) {
     this.analyzerScoring = [
         {
-            scoreName: "keywordDensity",
-            scoreArray: [
-                {
-                    min: 3.5,
-                    score: -50,
-
-                    /* translators: %1$f expands to the keyword density percentage, %2$d expands to the number of times the keyword is found */
-                    text: i18n.dgettext( "js-text-analysis", "The keyword density is %1$f%, which is way over the advised 2.5% maximum; the focus keyword was found %2$d times.")
-                },
-                {
-                    min: 2.51,
-                    max: 3.49,
-                    score: -10,
-
-                    /* translators: %1$f expands to the keyword density percentage, %2$d expands to the number of times the keyword is found */
-                    text: i18n.dgettext( "js-text-analysis", "The keyword density is %1$f%, which is over the advised 2.5% maximum; the focus keyword was found %2$d times.")
-                },
-                {
-                    min: 0.5,
-                    max: 2.50,
-                    score: 9,
-
-                    /* translators: %1$f expands to the keyword density percentage, %2$d expands to the number of times the keyword is found */
-                    text: i18n.dgettext( "js-text-analysis", "The keyword density is %1$f%, which is great; the focus keyword was found %2$d times.")
-                },
-                {
-                    min: 0,
-                    max: 0.49,
-                    score: 4,
-
-                    /* translators: %1$f expands to the keyword density percentage, %2$d expands to the number of times the keyword is found */
-                    text: i18n.dgettext( "js-text-analysis", "The keyword density is %1$f%, which is a bit low; the focus keyword was found %2$d times.")
-                }
-            ],
-            replaceArray: [
-                { name: "keywordDensity", position: "%1$f", source: "matcher" },
-                { name: "keywordCount", position: "%2$d", sourceObj: ".refObj.__store.keywordCount" }
-            ]
-        },
-
-       {
             scoreName: "firstParagraph",
             scoreArray: [
                 {
@@ -55,29 +14,6 @@ var AnalyzerScoring = function( i18n ) {
                     text: i18n.dgettext( "js-text-analysis", "The focus keyword doesn\'t appear in the first paragraph of the copy. Make sure the topic is clear immediately." )
                 },
                 { min: 1, score: 9, text: i18n.dgettext( "js-text-analysis", "The focus keyword appears in the first paragraph of the copy." ) }
-            ]
-        }, {
-            scoreName: "subHeadings",
-            scoreArray: [
-                { matcher: "count", max: 0, score: 7, text: i18n.dgettext( "js-text-analysis", "No subheading tags (like an H2) appear in the copy." ) },
-                {
-                    matcher: "matches",
-                    max: 0,
-                    score: 3,
-                    text: i18n.dgettext( "js-text-analysis", "You have not used your focus keyword in any subheading (such as an H2) in your copy." )
-                },
-                {
-                    matcher: "matches",
-                    min: 1,
-                    score: 9,
-
-                    /* translators: %1$d expands to the number of subheadings, %2$d to the number of subheadings containing the focus keyword */
-                    text: i18n.dgettext( "js-text-analysis", "The focus keyword appears in %2$d (out of %1$d) subheadings in the copy. While not a major ranking factor, this is beneficial.")
-                }
-            ],
-            replaceArray: [
-                { name: "count", position: "%1$d", sourceObj: ".result.count" },
-                { name: "matches", position: "%2$d", sourceObj: ".result.matches" }
             ]
         }, {
             scoreName: "pageTitleLength",
@@ -111,35 +47,7 @@ var AnalyzerScoring = function( i18n ) {
                 { name: "maxLength", position: "%2$d", value: 65 },
                 { name: "length", position: "%3$d", source: "matcher" }
             ]
-        }, {
-            scoreName: "pageTitleKeyword",
-            scoreTitleKeywordLimit: 0,
-            scoreArray: [
-                {
-                    matcher: "matches",
-                    max: 0,
-                    score: 2,
-
-                    /* translators: %1$s expands to the focus keyword */
-                    text: i18n.dgettext( "js-text-analysis", "The focus keyword '%1$s' does not appear in the page title.")
-                },
-                {
-                    matcher: "position",
-                    max: 1,
-                    score: 9,
-                    text: i18n.dgettext( "js-text-analysis", "The page title contains the focus keyword, at the beginning which is considered to improve rankings.")
-                },
-                {
-                    matcher: "position",
-                    min: 1,
-                    score: 6,
-                    text: i18n.dgettext( "js-text-analysis", "The page title contains the focus keyword, but it does not appear at the beginning; try and move it to the beginning.")
-                }
-            ],
-            replaceArray: [
-                {name: "keyword", position: "%1$s", sourceObj: ".refObj.config.keyword"}
-            ]
-        }, {
+        },{
             scoreName: "urlKeyword",
             scoreArray: [
                 { min: 1, score: 9, text: i18n.dgettext( "js-text-analysis", "The focus keyword appears in the URL for this page.")},
@@ -153,40 +61,6 @@ var AnalyzerScoring = function( i18n ) {
             scoreName: "urlLength",
             scoreArray: [
                 {type: "urlTooLong", score: 5, text: i18n.dgettext( "js-text-analysis", "The slug for this page is a bit long, consider shortening it." ) }
-            ]
-        },  {
-            scoreName: "imageCount",
-            scoreArray: [
-                {
-                    matcher: "total",
-                    max: 0,
-                    score: 3,
-                    text: i18n.dgettext( "js-text-analysis", "No images appear in this page, consider adding some as appropriate." )
-                },
-                {
-					matcher: "noAlt",
-					min: 1,
-					score: 5,
-					text: i18n.dgettext( "js-text-analysis", "The images on this page are missing alt tags." )
-				},
-				{
-					matcher: "altNaKeyword",
-					min: 1,
-					score: 5,
-					text: i18n.dgettext( "js-text-analysis", "The images on this page contain alt tags" )
-				},
-                {
-                    matcher: "altKeyword",
-                    min: 1,
-                    score: 9,
-                    text: i18n.dgettext( "js-text-analysis", "The images on this page contain alt tags with the focus keyword." )
-                },
-                {
-                    matcher: "alt",
-                    min: 1,
-                    score: 5,
-                    text: i18n.dgettext( "js-text-analysis", "The images on this page do not have alt tags containing your focus keyword." )
-                }
             ]
         }, {
             scoreName: "keywordDoubles",
