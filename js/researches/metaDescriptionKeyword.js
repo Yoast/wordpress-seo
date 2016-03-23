@@ -8,6 +8,9 @@ var matchTextWithWord = require( "../stringProcessing/matchTextWithWord.js" );
  * @returns {number} The number of matches with the keyword
  */
 module.exports = function( paper ) {
+	if ( paper.getDescription() === "" ) {
+		return -1;
+	}
 	return matchTextWithWord( paper.getDescription(), paper.getKeyword() );
 };
 
