@@ -12,4 +12,15 @@
 	&__inner {
 		padding: 20px;
 	}
+
+	&__container {
+		&--no-caret {
+			&,
+			&:hover {
+				&:before {
+					content: none;
+				}
+			}
+		}
+	}
 }

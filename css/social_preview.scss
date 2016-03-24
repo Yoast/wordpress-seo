@@ -110,7 +110,6 @@ $border_radius_twitter: .42857em;
 	&__title {
 		max-height: 1.3em;
 		white-space: nowrap;
-		overflow: hidden;
 		text-overflow: ellipsis;
 		font-size: 1.0em;
 		margin: 0 0 .15em;
@@ -135,12 +134,26 @@ $border_radius_twitter: .42857em;
 
 }
 
-.editable-preview--facebook {
-	width: $width_facebook + 2 * $padding_preview;
-}
+.editable-preview {
+	&--facebook {
+		width: $width_facebook + 2 * $padding_preview;
+	}
 
-.editable-preview--twitter {
-	width: $width_twitter + 2 * $padding_preview;
+	&--twitter {
+		width: $width_twitter + 2 * $padding_preview;
+	}
+
+	&__container {
+		&--facebook,
+		&--twitter {
+			&:hover,
+			& {
+				&:before {
+					left: -34px
+				}
+			}
+		}
+	}
 }
 
 .social-image-placeholder {
