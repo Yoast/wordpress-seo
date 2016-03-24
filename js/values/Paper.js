@@ -1,4 +1,4 @@
-var defaults = require( "lodash/object/defaults" );
+var defaults = require( "lodash/defaults" );
 
 var defaultAttributes = {
 	keyword: "",

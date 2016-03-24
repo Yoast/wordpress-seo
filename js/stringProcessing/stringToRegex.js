@@ -1,5 +1,5 @@
 /** @module stringProcessing/stringToRegex */
-var isUndefined = require( "lodash/lang/isUndefined" );
+var isUndefined = require( "lodash/isUndefined" );
 var replaceDiacritics = require( "../stringProcessing/replaceDiacritics.js" );
 var sanitizeString = require( "../stringProcessing/sanitizeString.js" );
 var addWordBoundary = require( "../stringProcessing/addWordboundary.js" );

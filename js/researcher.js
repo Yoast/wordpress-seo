@@ -1,9 +1,9 @@
 var Paper = require( "./values/Paper.js" );
-var merge = require( "lodash/object/merge" );
+var merge = require( "lodash/merge" );
 var InvalidTypeError = require( "./errors/invalidType" );
 var MissingArgument = require( "./errors/missingArgument" );
-var isUndefined = require( "lodash/lang/isUndefined" );
-var isEmpty = require( "lodash/lang/isEmpty" );
+var isUndefined = require( "lodash/isUndefined" );
+var isEmpty = require( "lodash/isEmpty" );
 
 // assessments
 var wordCountInText = require( "./researches/wordCountInText.js" );
