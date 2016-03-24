@@ -10,13 +10,13 @@ var addClass = require( "./helpers/addClass.js" );
 var removeClass = require( "./helpers/removeClass.js" );
 var imageRatio = require( "./helpers/imageRatio" );
 var renderDescription = require( "./helpers/renderDescription" );
+var imagePlaceholder  = require( "./element/imagePlaceholder" );
 
 var TextField = require( "./inputs/textInput" );
 var TextArea = require( "./inputs/textarea" );
 var Button = require( "./inputs/button.js" );
 
 var InputElement = require( "./element/input" );
-var imagePlaceholder  = require( "./element/imagePlaceholder" );
 var PreviewEvents = require( "./preview/events" );
 
 var templates = require( "./templates" );
@@ -365,7 +365,7 @@ TwitterPreview.prototype.setDescription = function( description ) {
  * @param {string} imageUrl The image path.
  */
 TwitterPreview.prototype.setImageUrl = function( imageUrl ) {
-	var imageContainer = this.element.rendered.container.imageUrl;
+	var imageContainer = this.element.preview.imageUrl;
 	if (this.data.imageUrl === '') {
 		imagePlaceholder( imageContainer, this.i18n.dgettext( "js-text-analysis", "Please enter an image url by clicking here" ) );
 
@@ -388,6 +388,7 @@ TwitterPreview.prototype.setImageUrl = function( imageUrl ) {
 		true
 	);
 
+	// Load image to trigger load or error event.
 	img.src = imageUrl;
 };
 

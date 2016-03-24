@@ -10,6 +10,7 @@ var addClass = require( "./helpers/addClass.js" );
 var removeClass = require( "./helpers/removeClass.js" );
 var imageRatio = require( "./helpers/imageRatio" );
 var renderDescription = require( "./helpers/renderDescription" );
+var imagePlaceholder  = require( "./element/imagePlaceholder" );
 
 var TextField = require( "./inputs/textInput" );
 var TextArea = require( "./inputs/textarea" );
@@ -358,21 +359,29 @@ FacebookPreview.prototype.setDescription = function( description ) {
  * @param {string} imageUrl The image path.
  */
 FacebookPreview.prototype.setImageUrl = function( imageUrl ) {
+	var imageContainer = this.element.preview.imageUrl;
+	if (this.data.imageUrl === '') {
+		imagePlaceholder( imageContainer, this.i18n.dgettext( "js-text-analysis", "Please enter an image url by clicking here" ) );
+
+		return;
+	}
+
 	var image = this.element.rendered.imageUrl;
 	var img   = new Image();
 	img.onload = function() {
-		image.src = imageUrl;
+		imageContainer.innerHTML = "<img src='" + imageUrl + "' class='image' id='facebook_image' />";;
 
-		imageRatio( image, 470 );
-
-		// Show the image, because it's done.
-		removeClass( image, "snippet-editor--hidden" );
+		imageRatio( imageContainer.childNodes[0], 470 );
 	};
 
-	img.onerror = function() {
-		addClass( image, "snippet-editor--hidden" );
-	};
+	img.onerror = imagePlaceholder.bind(
+		null,
+		imageContainer,
+		this.i18n.dgettext( "js-text-analysis", "The given image url cannot be loaded" ),
+		true
+	);
 
+	// Load image to trigger load or error event.
 	img.src = imageUrl;
 };
 
