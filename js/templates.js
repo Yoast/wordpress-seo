@@ -114,6 +114,7 @@
         'text': {},
         'textarea': {}
     },
+    'imagePlaceholder': {},
     'twitterPreview': {}
   };
 
@@ -264,6 +265,20 @@
     __e( value );
      }
     __p += '\n	</textarea>\n</label>\n';
+
+    }
+    return __p
+  };
+
+  templates['imagePlaceholder'] =   function(obj) {
+    obj || (obj = {});
+    var __t, __p = '', __e = _.escape;
+    with (obj) {
+    __p += '<div class=\'' +
+    __e( className ) +
+    '\'>' +
+    __e( placeholder ) +
+    '</div>';
 
     }
     return __p

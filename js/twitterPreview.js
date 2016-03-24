@@ -16,9 +16,12 @@ var TextArea = require( "./inputs/textarea" );
 var Button = require( "./inputs/button.js" );
 
 var InputElement = require( "./element/input" );
+var imagePlaceholder  = require( "./element/imagePlaceholder" );
 var PreviewEvents = require( "./preview/events" );
 
-var twitterEditorTemplate = require( "./templates.js" ).twitterPreview;
+var templates = require( "./templates" );
+
+var twitterEditorTemplate = templates.twitterPreview;
 
 var twitterDefaults = {
 	data: {
@@ -29,7 +32,7 @@ var twitterDefaults = {
 	placeholder: {
 		title:    "This is an example title - edit by clicking here",
 		description: "Modify your twitter description by editing it right here",
-		imageUrl: ""
+		imageUrl: "Edit the image by clicking here"
 	},
 	defaultValue: {
 		title: "",
@@ -201,6 +204,10 @@ TwitterPreview.prototype.renderTemplate = function() {
 		headingEditor: targetElement.getElementsByClassName( "snippet-editor__heading-editor" )[0]
 	};
 
+	this.element.rendered.container = {
+		imageUrl: this.element.rendered.imageUrl.parentNode
+	};
+
 	this.element.formContainer.innerHTML = this.element.fields.title.render()
 		+ this.element.fields.description.render()
 		+ this.element.fields.imageUrl.render()
@@ -358,23 +365,32 @@ TwitterPreview.prototype.setDescription = function( description ) {
  * @param {string} imageUrl The image path.
  */
 TwitterPreview.prototype.setImageUrl = function( imageUrl ) {
+	var imageContainer = this.element.rendered.container.imageUrl;
+	if (this.data.imageUrl === '') {
+		imagePlaceholder( imageContainer, this.i18n.dgettext( "js-text-analysis", "Please enter an image url by clicking here" ) );
+
+		return;
+	}
+
 	var image = this.element.rendered.imageUrl;
-	var img   = new Image();
+	var img = new Image();
 	img.onload = function() {
-		image.src = imageUrl;
 
-		imageRatio( image, 506 );
+		imageContainer.innerHTML = "<img src='" + imageUrl + "' class='image' id='twitter_image' />";
 
-		// Show the image, because it's done.
-		removeClass( image, "snippet-editor--hidden" );
+		imageRatio( imageContainer.childNodes[0], 506 );
 	};
 
-	img.onerror = function() {
-		addClass( image, "snippet-editor--hidden" );
-	};
+	img.onerror = imagePlaceholder.bind(
+		null,
+		imageContainer,
+		this.i18n.dgettext( "js-text-analysis", "The given image url cannot be loaded" ),
+		true
+	);
 
 	img.src = imageUrl;
 };
+
 
 /**
  * Binds the reloadSnippetText function to the blur of the snippet inputs.

@@ -1,0 +1,14 @@
+$color_placeholder: #F6C6CE;
+$color_placeholder_error: #ff4e47;
+
+.social-image-placeholder {
+	width: 506px;
+	height: 100%;
+	padding: 2.5em 0;
+	text-align: center;
+	background: $color_placeholder;
+
+	&--error {
+		background: $color_placeholder_error;
+	}
+}
