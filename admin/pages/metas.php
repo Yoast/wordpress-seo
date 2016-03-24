@@ -256,7 +256,7 @@ $yform->admin_header( true, 'wpseo_titles' );
 
 			/* translators: %s expands to <code>noodp</code> */
 			$yform->light_switch( 'noodp', sprintf( __( 'Force %s meta robots tag sitewide', 'wordpress-seo' ), '<code>noodp</code>' ) );
-			echo '<p>', __( 'Prevents search engines from using the DMOZ description for all pages from this site in the search results. Pages with descriptions provided will have the tag regardless of this setting.', 'wordpress-seo' ), '</p>';
+			echo '<p>', __( 'Prevents search engines from using the DMOZ description for all pages from this site in the search results. Pages with descriptions will have the tag regardless of this setting.', 'wordpress-seo' ), '</p>';
 			?>
 		</div>
 
