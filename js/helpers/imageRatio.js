@@ -9,12 +9,12 @@ function imageRatio( image, maxWidth, maxHeight ) {
 	var width = image.width;
 	var height = image.height;
 
-	if ( typeof maxWidth !== "undefined" && width > maxWidth ) {
+	if ( typeof maxWidth !== "undefined" && width >= maxWidth ) {
 		image.width = maxWidth;
 		image.height = height * ( maxWidth / width );
 	}
 
-	if ( typeof maxHeight !== "undefined" && height > maxHeight ) {
+	if ( typeof maxHeight !== "undefined" && height >= maxHeight ) {
 		image.height = maxHeight;
 		image.width = width * ( maxHeight / height );
 	}

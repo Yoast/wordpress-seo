@@ -59,7 +59,6 @@ var twitterPreview = new TwitterPreview(
 twitterPreview.init();
 
 },{"../js/facebookPreview.js":6,"../js/twitterPreview.js":18}],4:[function(require,module,exports){
-
 var placeholderTemplate = require( "../templates" ).imagePlaceholder;
 
 /**
@@ -68,6 +67,7 @@ var placeholderTemplate = require( "../templates" ).imagePlaceholder;
  * @param {Object} imageContainer The location to put the placeholder in.
  * @param {string} placeholder The value for the placeholder.
  * @param {bool} isError When the placeholder should an error.
+ * @param {string} modifier A css class modifier to change the styling.
  */
 function setImagePlaceholder( imageContainer, placeholder, isError, modifier ) {
 	var classNames = [ "social-image-placeholder" ];
@@ -78,7 +78,7 @@ function setImagePlaceholder( imageContainer, placeholder, isError, modifier ) {
 		classNames.push( "social-image-placeholder--error" );
 	}
 
-	if ( '' !== modifier ) {
+	if ( "" !== modifier ) {
 		classNames.push( "social-image-placeholder--" + modifier );
 	}
 
@@ -89,6 +89,7 @@ function setImagePlaceholder( imageContainer, placeholder, isError, modifier ) {
 }
 
 module.exports= setImagePlaceholder;
+
 },{"../templates":17}],5:[function(require,module,exports){
 var isEmpty = require( "lodash/lang/isEmpty" );
 var debounce = require( "lodash/function/debounce" );
@@ -209,8 +210,6 @@ var defaultsDeep = require( "lodash/object/defaultsDeep" );
 
 var Jed = require( "jed" );
 
-var addClass = require( "./helpers/addClass.js" );
-var removeClass = require( "./helpers/removeClass.js" );
 var imageRatio = require( "./helpers/imageRatio" );
 var renderDescription = require( "./helpers/renderDescription" );
 var imagePlaceholder  = require( "./element/imagePlaceholder" );
@@ -248,15 +247,15 @@ var facebookDefaults = {
 
 var inputFacebookPreviewBindings = [
 	{
-		"preview": "facebook_title_container",
+		"preview": "editable-preview__title--facebook",
 		"inputField": "title"
 	},
 	{
-		"preview": "facebook_image_container",
+		"preview": "editable-preview__image--facebook",
 		"inputField": "imageUrl"
 	},
 	{
-		"preview": "facebook_description_container",
+		"preview": "editable-preview__description--facebook",
 		"inputField": "description"
 	}
 ];
@@ -392,12 +391,11 @@ FacebookPreview.prototype.renderTemplate = function() {
 
 	this.element = {
 		rendered: {
-			title: document.getElementById( "facebook_title" ),
-			imageUrl: document.getElementById( "facebook_image" ),
-			description: document.getElementById( "facebook_description" )
+			title: targetElement.getElementsByClassName( "editable-preview__value--facebook-title" )[0],
+			description: targetElement.getElementsByClassName( "editable-preview__value--facebook-description" )[0]
 		},
 		fields: this.getFields(),
-		container: document.getElementById( "twitter_preview" ),
+		container: targetElement.getElementsByClassName( "editable-preview--facebook" )[0],
 		formContainer: targetElement.getElementsByClassName( "snippet-editor__form" )[0],
 		editToggle: targetElement.getElementsByClassName( "snippet-editor__edit-button" )[0],
 		formFields: targetElement.getElementsByClassName( "snippet-editor__form-field" ),
@@ -426,7 +424,7 @@ FacebookPreview.prototype.renderTemplate = function() {
 
 	this.element.preview = {
 		title: this.element.rendered.title.parentNode,
-		imageUrl: this.element.rendered.imageUrl.parentNode,
+		imageUrl: targetElement.getElementsByClassName( "editable-preview__image--facebook" )[0],
 		description: this.element.rendered.description.parentNode
 	};
 
@@ -563,20 +561,19 @@ FacebookPreview.prototype.setDescription = function( description ) {
  */
 FacebookPreview.prototype.setImageUrl = function( imageUrl ) {
 	var imageContainer = this.element.preview.imageUrl;
-	if (this.data.imageUrl === '') {
+	if ( this.data.imageUrl === "" ) {
 		imagePlaceholder( imageContainer,
 			this.i18n.dgettext( "js-text-analysis", "Please enter an image url by clicking here" ),
 			false,
-			'facebook'
+			"facebook"
 		);
 
 		return;
 	}
 
-	var image = this.element.rendered.imageUrl;
 	var img   = new Image();
 	img.onload = function() {
-		imageContainer.innerHTML = "<img src='" + imageUrl + "' class='image' id='facebook_image' />";;
+		imageContainer.innerHTML = "<img src='" + imageUrl + "' />";
 
 		imageRatio( imageContainer.childNodes[0], 470 );
 	};
@@ -586,7 +583,7 @@ FacebookPreview.prototype.setImageUrl = function( imageUrl ) {
 		imageContainer,
 		this.i18n.dgettext( "js-text-analysis", "The given image url cannot be loaded" ),
 		true,
-		'facebook'
+		"facebook"
 	);
 
 	// Load image to trigger load or error event.
@@ -605,7 +602,7 @@ FacebookPreview.prototype.bindEvents = function() {
 
 module.exports = FacebookPreview;
 
-},{"./element/imagePlaceholder":4,"./element/input":5,"./helpers/addClass.js":7,"./helpers/imageRatio":8,"./helpers/removeClass.js":10,"./helpers/renderDescription":11,"./inputs/button.js":12,"./inputs/textInput":14,"./inputs/textarea":15,"./preview/events":16,"./templates.js":17,"jed":19,"lodash/lang/clone":58,"lodash/lang/isElement":61,"lodash/object/defaultsDeep":72}],7:[function(require,module,exports){
+},{"./element/imagePlaceholder":4,"./element/input":5,"./helpers/imageRatio":8,"./helpers/renderDescription":11,"./inputs/button.js":12,"./inputs/textInput":14,"./inputs/textarea":15,"./preview/events":16,"./templates.js":17,"jed":19,"lodash/lang/clone":58,"lodash/lang/isElement":61,"lodash/object/defaultsDeep":72}],7:[function(require,module,exports){
 /**
  * Adds a class to an element
  *
@@ -634,12 +631,12 @@ function imageRatio( image, maxWidth, maxHeight ) {
 	var width = image.width;
 	var height = image.height;
 
-	if ( typeof maxWidth !== "undefined" && width > maxWidth ) {
+	if ( typeof maxWidth !== "undefined" && width >= maxWidth ) {
 		image.width = maxWidth;
 		image.height = height * ( maxWidth / width );
 	}
 
-	if ( typeof maxHeight !== "undefined" && height > maxHeight ) {
+	if ( typeof maxHeight !== "undefined" && height >= maxHeight ) {
 		image.height = maxHeight;
 		image.width = width * ( maxHeight / height );
 	}
@@ -915,7 +912,7 @@ PreviewEvents.prototype.bindEvents = function( editToggle, closeEditor ) {
  * @param {Object} binding The field to bind.
  */
 PreviewEvents.prototype.bindInputEvent = function( binding ) {
-	var previewElement = document.getElementById( binding.preview );
+	var previewElement = document.getElementsByClassName( binding.preview )[0];
 	var inputElement = this.element.input[ binding.inputField ];
 
 	// Make the preview element click open the editor and focus the correct input.
@@ -1176,15 +1173,13 @@ module.exports = PreviewEvents;
     obj || (obj = {});
     var __t, __p = '', __e = _.escape;
     with (obj) {
-    __p += '<div class="editable-preview editable-preview--facebook" id="facebook_preview">\n	<h4 class="snippet-editor__heading snippet-editor__heading-icon-eye">' +
+    __p += '<div class="editable-preview editable-preview--facebook">\n	<h4 class="snippet-editor__heading snippet-editor__heading-icon-eye">' +
     __e( i18n.snippetPreview ) +
-    '</h4>\n\n	<section class="editable-preview__inner facebook-preview">\n		<div class="social-preview__inner social-preview__inner--facebook">\n			<div class="snippet-editor__container facebook-preview__image snippet_container" id="facebook_image_container">\n				<img class="image" id="facebook_image" src="' +
-    __e( rendered.imageUrl ) +
-    '" />\n			</div>\n			<div class="facebook-preview__text-keeper">\n				<div class="snippet-editor__container editable-preview__container--facebook facebook-preview__title snippet_container" id="facebook_title_container">\n					<div class="editable-preview__value editable-preview__value--facebook-title" id="facebook_title">\n						' +
+    '</h4>\n\n	<section class="editable-preview__inner editable-preview__inner--facebook">\n		<div class="social-preview__inner social-preview__inner--facebook">\n			<div class="snippet-editor__container editable-preview__image--facebook snippet_container">\n\n			</div>\n			<div class="editable-preview__text-keeper editable-preview__text-keeper--facebook">\n				<div class="snippet-editor__container editable-preview__container--facebook editable-preview__title--facebook snippet_container">\n					<div class="editable-preview__value editable-preview__value--facebook-title">\n						' +
     __e( rendered.title ) +
-    '\n					</div>\n				</div>\n				<div class="snippet-editor__container editable-preview__container--facebook facebook-preview__description snippet_container" id="facebook_description_container">\n					<div class="editable-preview__value editable-preview__value--facebook-description" id="facebook_description">\n						' +
+    '\n					</div>\n				</div>\n				<div class="snippet-editor__container editable-preview__container--facebook editable-preview__description--facebook snippet_container">\n					<div class="editable-preview__value editable-preview__value--facebook-description">\n						' +
     __e( rendered.description ) +
-    '\n					</div>\n				</div>\n				<div class="snippet-editor__container editable-preview__container--no-caret facebook-preview__website snippet_container" id="base_url_container">\n					<div class="editable-preview__value editable-preview__value--facebook-url" id="facebook_base_url">\n						' +
+    '\n					</div>\n				</div>\n				<div class="snippet-editor__container editable-preview__container--no-caret facebook-preview__website snippet_container">\n					<div class="editable-preview__value editable-preview__value--facebook-url">\n						' +
     __e( rendered.baseUrl ) +
     '\n					</div>\n				</div>\n			</div>\n		</div>\n\n		<button class="snippet-editor__button snippet-editor__edit-button" type="button">\n			' +
     __e( i18n.edit ) +
@@ -1342,15 +1337,13 @@ module.exports = PreviewEvents;
     obj || (obj = {});
     var __t, __p = '', __e = _.escape;
     with (obj) {
-    __p += '<div class="editable-preview editable-preview--twitter" id="twitter_preview">\n	<h4 class="snippet-editor__heading snippet-editor__heading-icon-eye">' +
+    __p += '<div class="editable-preview editable-preview--twitter">\n	<h4 class="snippet-editor__heading snippet-editor__heading-icon-eye">' +
     __e( i18n.snippetPreview ) +
-    '</h4>\n\n	<section class="editable-preview__inner social-preview twitter-preview">\n		<div class="social-preview__inner social-preview__inner--twitter">\n			<div class="snippet-editor__container twitter-preview__image snippet_container" id="twitter_image_container">\n				<img class="image" id="twitter_image" src="' +
-    __e( rendered.imageUrl ) +
-    '" />\n			</div>\n			<div class="twitter-preview__text-keeper">\n				<div class="snippet-editor__container editable-preview__container--twitter twitter-preview__title snippet_container" id="twitter_title_container">\n					<div class="editable-preview__value editable-preview__value--twitter-title " id="twitter_title">\n						' +
+    '</h4>\n\n	<section class="editable-preview__inner editable-preview__inner--twitter">\n		<div class="social-preview__inner social-preview__inner--twitter">\n			<div class="snippet-editor__container editable-preview__image--twitter snippet_container">\n\n			</div>\n			<div class="editable-preview__text-keeper editable-preview__text-keeper--twitter">\n				<div class="snippet-editor__container editable-preview__container--twitter editable-preview__title--twitter snippet_container" >\n					<div class="editable-preview__value editable-preview__value--twitter-title ">\n						' +
     __e( rendered.title ) +
-    '\n					</div>\n				</div>\n				<div class="snippet-editor__container editable-preview__container--twitter twitter-preview__description snippet_container" id="twitter_description_container">\n					<div class="editable-preview__value editable-preview__value--twitter-description" id="twitter_description">\n						' +
+    '\n					</div>\n				</div>\n				<div class="snippet-editor__container editable-preview__container--twitter editable-preview__description--twitter twitter-preview__description snippet_container">\n					<div class="editable-preview__value editable-preview__value--twitter-description">\n						' +
     __e( rendered.description ) +
-    '\n					</div>\n				</div>\n				<div class="snippet-editor__container editable-preview__container--no-caret twitter-preview__website snippet_container" id="base_url_container">\n					<div class="editable-preview__value " id="twitter_base_url">\n						' +
+    '\n					</div>\n				</div>\n				<div class="snippet-editor__container editable-preview__container--no-caret twitter-preview__website snippet_container">\n					<div class="editable-preview__value ">\n						' +
     __e( rendered.baseUrl ) +
     '\n					</div>\n				</div>\n			</div>\n		</div>\n\n		<button class="snippet-editor__button snippet-editor__edit-button" type="button">\n			' +
     __e( i18n.edit ) +
@@ -1386,8 +1379,6 @@ var defaultsDeep = require( "lodash/object/defaultsDeep" );
 
 var Jed = require( "jed" );
 
-var addClass = require( "./helpers/addClass.js" );
-var removeClass = require( "./helpers/removeClass.js" );
 var imageRatio = require( "./helpers/imageRatio" );
 var renderDescription = require( "./helpers/renderDescription" );
 var imagePlaceholder  = require( "./element/imagePlaceholder" );
@@ -1427,15 +1418,15 @@ var twitterDefaults = {
 
 var inputTwitterPreviewBindings = [
 	{
-		"preview": "twitter_title_container",
+		"preview": "editable-preview__title--twitter",
 		"inputField": "title"
 	},
 	{
-		"preview": "twitter_image_container",
+		"preview": "editable-preview__image--twitter",
 		"inputField": "imageUrl"
 	},
 	{
-		"preview": "twitter_description_container",
+		"preview": "editable-preview__description--twitter",
 		"inputField": "description"
 	}
 ];
@@ -1571,23 +1562,18 @@ TwitterPreview.prototype.renderTemplate = function() {
 
 	this.element = {
 		rendered: {
-			title: document.getElementById( "twitter_title" ),
-			imageUrl: document.getElementById( "twitter_image" ),
-			description: document.getElementById( "twitter_description" )
+			title: targetElement.getElementsByClassName( "editable-preview__value--twitter-title" )[0],
+			description: targetElement.getElementsByClassName( "editable-preview__value--twitter-description" )[0]
 		},
 		fields: this.getFields(),
-		container: document.getElementById( "snippet_preview" ),
+		container: targetElement.getElementsByClassName( "editable-preview--twitter" )[0],
 		formContainer: targetElement.getElementsByClassName( "snippet-editor__form" )[0],
 		editToggle: targetElement.getElementsByClassName( "snippet-editor__edit-button" )[0],
 		closeEditor: targetElement.getElementsByClassName( "snippet-editor__submit" )[0],
 		formFields: targetElement.getElementsByClassName( "snippet-editor__form-field" ),
 		headingEditor: targetElement.getElementsByClassName( "snippet-editor__heading-editor" )[0]
 	};
-
-	this.element.rendered.container = {
-		imageUrl: this.element.rendered.imageUrl.parentNode
-	};
-
+	
 	this.element.formContainer.innerHTML = this.element.fields.title.render()
 		+ this.element.fields.description.render()
 		+ this.element.fields.imageUrl.render()
@@ -1610,7 +1596,7 @@ TwitterPreview.prototype.renderTemplate = function() {
 
 	this.element.preview = {
 		title: this.element.rendered.title.parentNode,
-		imageUrl: this.element.rendered.imageUrl.parentNode,
+		imageUrl: targetElement.getElementsByClassName( "editable-preview__image--twitter" )[0],
 		description: this.element.rendered.description.parentNode
 	};
 
@@ -1746,18 +1732,17 @@ TwitterPreview.prototype.setDescription = function( description ) {
  */
 TwitterPreview.prototype.setImageUrl = function( imageUrl ) {
 	var imageContainer = this.element.preview.imageUrl;
-	if (this.data.imageUrl === '') {
+	if ( this.data.imageUrl === "" ) {
 		imagePlaceholder(
 			imageContainer,
 			this.i18n.dgettext( "js-text-analysis", "Please enter an image url by clicking here" ),
 			false,
-			'twitter'
+			"twitter"
 		);
 
 		return;
 	}
 
-	var image = this.element.rendered.imageUrl;
 	var img = new Image();
 	img.onload = function() {
 
@@ -1771,7 +1756,7 @@ TwitterPreview.prototype.setImageUrl = function( imageUrl ) {
 		imageContainer,
 		this.i18n.dgettext( "js-text-analysis", "The given image url cannot be loaded" ),
 		true,
-		'twitter'
+		"twitter"
 	);
 
 	// Load image to trigger load or error event.
@@ -1789,7 +1774,7 @@ TwitterPreview.prototype.bindEvents = function() {
 
 module.exports = TwitterPreview;
 
-},{"./element/imagePlaceholder":4,"./element/input":5,"./helpers/addClass.js":7,"./helpers/imageRatio":8,"./helpers/removeClass.js":10,"./helpers/renderDescription":11,"./inputs/button.js":12,"./inputs/textInput":14,"./inputs/textarea":15,"./preview/events":16,"./templates":17,"jed":19,"lodash/lang/clone":58,"lodash/lang/isElement":61,"lodash/object/defaultsDeep":72}],19:[function(require,module,exports){
+},{"./element/imagePlaceholder":4,"./element/input":5,"./helpers/imageRatio":8,"./helpers/renderDescription":11,"./inputs/button.js":12,"./inputs/textInput":14,"./inputs/textarea":15,"./preview/events":16,"./templates":17,"jed":19,"lodash/lang/clone":58,"lodash/lang/isElement":61,"lodash/object/defaultsDeep":72}],19:[function(require,module,exports){
 /**
  * @preserve jed.js https://github.com/SlexAxton/Jed
  */

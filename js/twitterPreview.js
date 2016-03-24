@@ -6,8 +6,6 @@ var defaultsDeep = require( "lodash/object/defaultsDeep" );
 
 var Jed = require( "jed" );
 
-var addClass = require( "./helpers/addClass.js" );
-var removeClass = require( "./helpers/removeClass.js" );
 var imageRatio = require( "./helpers/imageRatio" );
 var renderDescription = require( "./helpers/renderDescription" );
 var imagePlaceholder  = require( "./element/imagePlaceholder" );
@@ -47,15 +45,15 @@ var twitterDefaults = {
 
 var inputTwitterPreviewBindings = [
 	{
-		"preview": "twitter_title_container",
+		"preview": "editable-preview__title--twitter",
 		"inputField": "title"
 	},
 	{
-		"preview": "twitter_image_container",
+		"preview": "editable-preview__image--twitter",
 		"inputField": "imageUrl"
 	},
 	{
-		"preview": "twitter_description_container",
+		"preview": "editable-preview__description--twitter",
 		"inputField": "description"
 	}
 ];
@@ -191,23 +189,18 @@ TwitterPreview.prototype.renderTemplate = function() {
 
 	this.element = {
 		rendered: {
-			title: document.getElementById( "twitter_title" ),
-			imageUrl: document.getElementById( "twitter_image" ),
-			description: document.getElementById( "twitter_description" )
+			title: targetElement.getElementsByClassName( "editable-preview__value--twitter-title" )[0],
+			description: targetElement.getElementsByClassName( "editable-preview__value--twitter-description" )[0]
 		},
 		fields: this.getFields(),
-		container: document.getElementById( "snippet_preview" ),
+		container: targetElement.getElementsByClassName( "editable-preview--twitter" )[0],
 		formContainer: targetElement.getElementsByClassName( "snippet-editor__form" )[0],
 		editToggle: targetElement.getElementsByClassName( "snippet-editor__edit-button" )[0],
 		closeEditor: targetElement.getElementsByClassName( "snippet-editor__submit" )[0],
 		formFields: targetElement.getElementsByClassName( "snippet-editor__form-field" ),
 		headingEditor: targetElement.getElementsByClassName( "snippet-editor__heading-editor" )[0]
 	};
-
-	this.element.rendered.container = {
-		imageUrl: this.element.rendered.imageUrl.parentNode
-	};
-
+	
 	this.element.formContainer.innerHTML = this.element.fields.title.render()
 		+ this.element.fields.description.render()
 		+ this.element.fields.imageUrl.render()
@@ -230,7 +223,7 @@ TwitterPreview.prototype.renderTemplate = function() {
 
 	this.element.preview = {
 		title: this.element.rendered.title.parentNode,
-		imageUrl: this.element.rendered.imageUrl.parentNode,
+		imageUrl: targetElement.getElementsByClassName( "editable-preview__image--twitter" )[0],
 		description: this.element.rendered.description.parentNode
 	};
 
@@ -366,18 +359,17 @@ TwitterPreview.prototype.setDescription = function( description ) {
  */
 TwitterPreview.prototype.setImageUrl = function( imageUrl ) {
 	var imageContainer = this.element.preview.imageUrl;
-	if (this.data.imageUrl === '') {
+	if ( this.data.imageUrl === "" ) {
 		imagePlaceholder(
 			imageContainer,
 			this.i18n.dgettext( "js-text-analysis", "Please enter an image url by clicking here" ),
 			false,
-			'twitter'
+			"twitter"
 		);
 
 		return;
 	}
 
-	var image = this.element.rendered.imageUrl;
 	var img = new Image();
 	img.onload = function() {
 
@@ -391,7 +383,7 @@ TwitterPreview.prototype.setImageUrl = function( imageUrl ) {
 		imageContainer,
 		this.i18n.dgettext( "js-text-analysis", "The given image url cannot be loaded" ),
 		true,
-		'twitter'
+		"twitter"
 	);
 
 	// Load image to trigger load or error event.
