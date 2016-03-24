@@ -24,5 +24,14 @@ describe( "the metadescription keyword assessment", function() {
 		expect( result.getScore() ).toBe( 9 );
 		expect( result.getText() ).toBe( "The meta description contains the focus keyword." );
 	} );
+
+	it( "should not score since there is no meta", function() {
+		var paper = new Paper( "text", { keyword: "keyword", description: "" } );
+		var researcher = factory.buildMockResearcher( -1 );
+
+		var result = metaDescriptionKeyword( paper, researcher, i18n );
+
+		expect( result.getText() ).toBe( "" );
+	} );
 } );
 

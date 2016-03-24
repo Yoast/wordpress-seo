@@ -9,6 +9,7 @@ var isUndefined = require( "lodash/lang/isUndefined" );
 
 var assessments = {};
 assessments.wordCount = require( "./assessments/countWords.js" );
+assessments.urlLength = require( "./assessments/urlIsTooLong.js" );
 assessments.fleschReading = require( "./assessments/calculateFleschReading.js" );
 assessments.linkCount = require( "./assessments/getLinkStatistics.js" );
 assessments.pageTitleKeyword = require( "./assessments/pageTitleKeyword.js" );
@@ -22,6 +23,7 @@ assessments.metaDescriptionKeyword = require ( "./assessments/metaDescriptionKey
 assessments.imageCount = require( "./assessments/imageCount.js" );
 assessments.urlKeyword = require( "./assessments/keywordInUrl.js" );
 assessments.firstParagraph = require( "./assessments/firstParagraph.js" );
+assessments.pageTitleLength = require( "./assessments/pageTitleLength.js" );
 
 /**
  * inits the analyzerscorer used for scoring of the output from the textanalyzer
