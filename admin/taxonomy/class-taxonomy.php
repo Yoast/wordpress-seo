@@ -21,20 +21,29 @@ class WPSEO_Taxonomy {
 	public function __construct() {
 		$this->taxonomy = $this->get_taxonomy();
 
-		if ( is_admin() && $this->taxonomy !== '' && $this->show_metabox() ) {
-			add_action( sanitize_text_field( $this->taxonomy ) . '_edit_form', array( $this, 'term_metabox' ), 90, 1 );
-		}
-
 		add_action( 'edit_term', array( $this, 'update_term' ), 99, 3 );
-
 		add_action( 'init', array( $this, 'custom_category_descriptions_allow_html' ) );
+		add_action( 'admin_init', array( $this, 'admin_init' ) );
 		add_filter( 'category_description', array( $this, 'custom_category_descriptions_add_shortcode_support' ) );
-		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
 
 		if ( $GLOBALS['pagenow'] === 'edit-tags.php' ) {
 			new WPSEO_Taxonomy_Columns();
 		}
+	}
 
+	/**
+	 * Add hooks late enough for taxonomy object to be available for checks.
+	 */
+	public function admin_init() {
+
+		$taxonomy = get_taxonomy( $this->taxonomy );
+
+		if ( empty( $taxonomy ) || empty( $taxonomy->public ) || ! $this->show_metabox() ) {
+			return;
+		}
+
+		add_action( sanitize_text_field( $this->taxonomy ) . '_edit_form', array( $this, 'term_metabox' ), 90, 1 );
+		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
 	}
 
 	/**
@@ -48,9 +57,7 @@ class WPSEO_Taxonomy {
 	}
 
 	/**
-	 * Test whether we are on a public taxonomy - no metabox actions needed if we are not
-	 * Unfortunately we have to hook most everything in before the point where all taxonomies are registered and
-	 * we know which taxonomy is being requested, so we need to use this check in nearly every hooked in function.
+	 * Queue assets for taxonomy screens.
 	 *
 	 * @since 1.5.0
 	 */
