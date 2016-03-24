@@ -126,13 +126,13 @@
     __e( i18n.snippetPreview ) +
     '</h4>\n\n	<section class="editable-preview__inner facebook-preview">\n		<div class="social-preview__inner social-preview__inner--facebook">\n			<div class="snippet-editor__container facebook-preview__image snippet_container" id="facebook_image_container">\n				<img class="image" id="facebook_image" src="' +
     __e( rendered.imageUrl ) +
-    '" />\n			</div>\n			<div class="facebook-preview__text-keeper">\n				<div class="snippet-editor__container editable-preview__container--facebook facebook-preview__title snippet_container" id="facebook_title_container">\n					<span id="facebook_title">\n						' +
+    '" />\n			</div>\n			<div class="facebook-preview__text-keeper">\n				<div class="snippet-editor__container editable-preview__container--facebook facebook-preview__title snippet_container" id="facebook_title_container">\n					<div class="editable-preview__value editable-preview__value--facebook-title" id="facebook_title">\n						' +
     __e( rendered.title ) +
-    '\n					</span>\n				</div>\n				<div class="snippet-editor__container editable-preview__container--facebook facebook-preview__description snippet_container" id="facebook_description_container">\n					<span id="facebook_description">\n						' +
+    '\n					</div>\n				</div>\n				<div class="snippet-editor__container editable-preview__container--facebook facebook-preview__description snippet_container" id="facebook_description_container">\n					<div class="editable-preview__value editable-preview__value--facebook-description" id="facebook_description">\n						' +
     __e( rendered.description ) +
-    '\n					</span>\n				</div>\n				<div class="snippet-editor__container editable-preview__container--no-caret facebook-preview__website snippet_container" id="base_url_container">\n					<span id="facebook_base_url">\n						' +
+    '\n					</div>\n				</div>\n				<div class="snippet-editor__container editable-preview__container--no-caret facebook-preview__website snippet_container" id="base_url_container">\n					<div class="editable-preview__value editable-preview__value--facebook-url" id="facebook_base_url">\n						' +
     __e( rendered.baseUrl ) +
-    '\n					</span>\n				</div>\n			</div>\n		</div>\n\n		<button class="snippet-editor__button snippet-editor__edit-button" type="button">\n			' +
+    '\n					</div>\n				</div>\n			</div>\n		</div>\n\n		<button class="snippet-editor__button snippet-editor__edit-button" type="button">\n			' +
     __e( i18n.edit ) +
     '\n		</button>\n	</section>\n\n	<h4 class="snippet-editor__heading snippet-editor__heading-editor snippet-editor__heading-icon-edit snippet-editor--hidden">' +
     __e( i18n.snippetEditor ) +
@@ -292,13 +292,13 @@
     __e( i18n.snippetPreview ) +
     '</h4>\n\n	<section class="editable-preview__inner social-preview twitter-preview">\n		<div class="social-preview__inner social-preview__inner--twitter">\n			<div class="snippet-editor__container twitter-preview__image snippet_container" id="twitter_image_container">\n				<img class="image" id="twitter_image" src="' +
     __e( rendered.imageUrl ) +
-    '" />\n			</div>\n			<div class="twitter-preview__text-keeper">\n				<div class="snippet-editor__container editable-preview__container--twitter twitter-preview__title snippet_container" id="twitter_title_container">\n					<span id="twitter_title">\n						' +
+    '" />\n			</div>\n			<div class="twitter-preview__text-keeper">\n				<div class="snippet-editor__container editable-preview__container--twitter twitter-preview__title snippet_container" id="twitter_title_container">\n					<div class="editable-preview__value editable-preview__value--twitter-title " id="twitter_title">\n						' +
     __e( rendered.title ) +
-    '\n					</span>\n				</div>\n				<div class="snippet-editor__container editable-preview__container--twitter twitter-preview__description snippet_container" id="twitter_description_container">\n					<span id="twitter_description">\n						' +
+    '\n					</div>\n				</div>\n				<div class="snippet-editor__container editable-preview__container--twitter twitter-preview__description snippet_container" id="twitter_description_container">\n					<div class="editable-preview__value editable-preview__value--twitter-description" id="twitter_description">\n						' +
     __e( rendered.description ) +
-    '\n					</span>\n				</div>\n				<div class="snippet-editor__container editable-preview__container--no-caret twitter-preview__website snippet_container" id="base_url_container">\n					<span id="twitter_base_url">\n						' +
+    '\n					</div>\n				</div>\n				<div class="snippet-editor__container editable-preview__container--no-caret twitter-preview__website snippet_container" id="base_url_container">\n					<div class="editable-preview__value " id="twitter_base_url">\n						' +
     __e( rendered.baseUrl ) +
-    '\n					</span>\n				</div>\n			</div>\n		</div>\n\n		<button class="snippet-editor__button snippet-editor__edit-button" type="button">\n			' +
+    '\n					</div>\n				</div>\n			</div>\n		</div>\n\n		<button class="snippet-editor__button snippet-editor__edit-button" type="button">\n			' +
     __e( i18n.edit ) +
     '\n		</button>\n	</section>\n\n	<h4 class="snippet-editor__heading snippet-editor__heading-editor snippet-editor__heading-icon-edit snippet-editor--hidden">' +
     __e( i18n.snippetEditor ) +

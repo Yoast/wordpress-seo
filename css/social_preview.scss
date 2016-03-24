@@ -78,7 +78,6 @@ $border_radius_twitter: .42857em;
 		text-transform: uppercase;
 		color:          #9197a3;
 	}
-
 }
 
 .twitter-preview {
@@ -152,6 +151,20 @@ $border_radius_twitter: .42857em;
 					left: -34px
 				}
 			}
+		}
+	}
+
+	&__value {
+		&--facebook-title {
+			max-height: 110px;
+		}
+
+		&--facebook-description {
+			max-height: 80px;
+		}
+
+		&--twitter-description {
+			max-height: 2.6em;
 		}
 	}
 }
