@@ -527,33 +527,13 @@ class WPSEO_Frontend {
 		}
 		elseif ( is_404() ) {
 
-			if ( 0 !== get_query_var( 'year' ) || ( 0 !== get_query_var( 'monthnum' ) || 0 !== get_query_var( 'day' ) ) ) {
-				// @todo [JRF => Yoast] Should these not use the archive default if no title found ?
-				if ( 0 !== get_query_var( 'day' ) ) {
-					$date       = sprintf( '%04d-%02d-%02d 00:00:00', get_query_var( 'year' ), get_query_var( 'monthnum' ), get_query_var( 'day' ) );
-					$date       = mysql2date( get_option( 'date_format' ), $date, true );
-					$date       = apply_filters( 'get_the_date', $date, '' );
-					$title_part = sprintf( __( '%s Archives', 'wordpress-seo' ), $date );
-				}
-				elseif ( 0 !== get_query_var( 'monthnum' ) ) {
-					$title_part = sprintf( __( '%s Archives', 'wordpress-seo' ), single_month_title( ' ', false ) );
-				}
-				elseif ( 0 !== get_query_var( 'year' ) ) {
-					$title_part = sprintf( __( '%s Archives', 'wordpress-seo' ), get_query_var( 'year' ) );
-				}
-				else {
-					$title_part = __( 'Archives', 'wordpress-seo' );
-				}
-			}
-			else {
-				$title = $this->get_title_from_options( 'title-404-wpseo' );
+			$title = $this->get_title_from_options( 'title-404-wpseo' );
 
-				// @todo [JRF => Yoast] Should these not use the 404 default if no title found ?
-				// WPSEO_Options::get_default( 'wpseo_titles', 'title-404-wpseo' )
-				// Replacement would be needed!
-				if ( empty( $title ) ) {
-					$title_part = __( 'Page not found', 'wordpress-seo' );
-				}
+			// @todo [JRF => Yoast] Should these not use the 404 default if no title found ?
+			// WPSEO_Options::get_default( 'wpseo_titles', 'title-404-wpseo' )
+			// Replacement would be needed!
+			if ( empty( $title ) ) {
+				$title_part = __( 'Page not found', 'wordpress-seo' );
 			}
 		}
 		else {
