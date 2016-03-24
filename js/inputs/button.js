@@ -43,7 +43,6 @@ Button.prototype.getAttributes = function() {
  */
 Button.prototype.render = function() {
 	var html = buttonTemplate( this.getAttributes() );
-	
 	html = minimizeHtml( html );
 
 	return html;

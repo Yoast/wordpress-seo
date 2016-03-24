@@ -58,27 +58,137 @@ var twitterPreview = new TwitterPreview(
 
 twitterPreview.init();
 
-},{"../js/facebookPreview.js":4,"../js/twitterPreview.js":13}],4:[function(require,module,exports){
-/* jshint browser: true */
-
+},{"../js/facebookPreview.js":5,"../js/twitterPreview.js":17}],4:[function(require,module,exports){
 var isEmpty = require( "lodash/lang/isEmpty" );
-var isElement = require( "lodash/lang/isElement" );
-var clone = require( "lodash/lang/clone" );
-var defaultsDeep = require( "lodash/object/defaultsDeep" );
-var forEach = require( "lodash/collection/forEach" );
 var debounce = require( "lodash/function/debounce" );
-
-var Jed = require( "jed" );
 
 var stripHTMLTags = require( "yoastseo/js/stringProcessing/stripHTMLTags.js" );
 var stripSpaces = require( "yoastseo/js/stringProcessing/stripSpaces.js" );
 
+/**
+ * Represents a field and sets the events for that field.
+ *
+ * @param {Object} inputField The field to represent.
+ * @param {Object} values The values to use.
+ * @param {Object|undefined} callback The callback to executed after field change.
+ * @constructor
+ */
+function InputElement( inputField, values, callback ) {
+	this.inputField = inputField;
+	this.values = values;
+	this._callback = callback;
+
+	this.setValue( this.getInputValue() );
+
+	this.bindEvents();
+}
+
+/**
+ * Binds the events
+ */
+InputElement.prototype.bindEvents = function() {
+	// Set the events.
+	this.inputField.addEventListener( "keydown", this.changeEvent.bind( this ) );
+	this.inputField.addEventListener( "keyup", this.changeEvent.bind( this ) );
+
+	this.inputField.addEventListener( "input", this.changeEvent.bind( this ) );
+	this.inputField.addEventListener( "focus", this.changeEvent.bind( this ) );
+	this.inputField.addEventListener( "blur", this.changeEvent.bind( this ) );
+};
+
+/**
+ * Do the change event
+ *
+ * @type {Function}
+ */
+InputElement.prototype.changeEvent = debounce( function() {
+	// When there is a callback run it.
+	if ( typeof this._callback !== "undefined" ) {
+		this._callback();
+	}
+
+	this.setValue( this.getInputValue() );
+}, 25 );
+
+/**
+ *
+ * @returns {string} The current field value
+ */
+InputElement.prototype.getInputValue = function() {
+	return this.inputField.value;
+};
+
+/**
+ * Formats the a value for the preview. If value is empty a sample value is used
+ *
+ * @returns {string} The formatted title, without html tags.
+ */
+InputElement.prototype.formatValue = function() {
+	var value = this.getValue();
+
+	value = stripHTMLTags( value );
+
+	// As an ultimate fallback provide the user with a helpful message.
+	if ( isEmpty( value ) ) {
+		value = this.values.fallback;
+	}
+
+	return stripSpaces( value );
+};
+
+/**
+ * Get the value
+ *
+ * @returns {string} Return the value or get a fallback one.
+ */
+InputElement.prototype.getValue = function() {
+	var value = this.values.currentValue;
+
+	// Fallback to the default if value is empty.
+	if ( isEmpty( value ) ) {
+		value = this.values.defaultValue;
+	}
+
+	// For rendering we can fallback to the placeholder as well.
+	if ( isEmpty( value ) ) {
+		value = this.values.placeholder;
+	}
+
+	return value;
+};
+
+/**
+ * Set the current value
+ *
+ * @param {string} value The value to set
+ */
+InputElement.prototype.setValue = function( value ) {
+	this.values.currentValue = value;
+};
+
+module.exports = InputElement;
+
+
+},{"lodash/function/debounce":21,"lodash/lang/isEmpty":61,"yoastseo/js/stringProcessing/stripHTMLTags.js":1,"yoastseo/js/stringProcessing/stripSpaces.js":2}],5:[function(require,module,exports){
+/* jshint browser: true */
+
+var isElement = require( "lodash/lang/isElement" );
+var clone = require( "lodash/lang/clone" );
+var defaultsDeep = require( "lodash/object/defaultsDeep" );
+
+var Jed = require( "jed" );
+
 var addClass = require( "./helpers/addClass.js" );
 var removeClass = require( "./helpers/removeClass.js" );
+var imageRatio = require( "./helpers/imageRatio" );
+var renderDescription = require( "./helpers/renderDescription" );
 
-var TextField = require( "./fields/textFieldFactory" );
-var TextArea = require( "./fields/textAreaFactory" );
-var Button = require( "./fields/button.js" );
+var TextField = require( "./inputs/textInput" );
+var TextArea = require( "./inputs/textarea" );
+var Button = require( "./inputs/button.js" );
+
+var FieldElement = require( "./element/input" );
+var PreviewEvents = require( "./preview/events" );
 
 var facebookEditorTemplate = require( "./templates.js" ).facebookPreview;
 
@@ -98,7 +208,7 @@ var facebookDefaults = {
 		description: "",
 		imageUrl: ""
 	},
-	baseURL: "http://example.com",
+	baseURL: "example.com",
 	callbacks: {
 		saveSnippetData: function() {}
 	}
@@ -156,7 +266,6 @@ var inputFacebookPreviewBindings = [
  * @property {Object}      element.rendered               - The rendered elements.
  * @property {HTMLElement} element.rendered.title         - The rendered title element.
  * @property {HTMLElement} element.rendered.imageUrl      - The rendered url path element.
- * @property {HTMLElement} element.rendered.urlBase       - The rendered url base element.
  * @property {HTMLElement} element.rendered.description   - The rendered facebook description element.
  *
  * @property {Object}      element.input                  - The input elements.
@@ -223,12 +332,7 @@ FacebookPreview.prototype.constructI18n = function( translations ) {
 FacebookPreview.prototype.init = function() {
 	this.renderTemplate();
 	this.bindEvents();
-
-	// Sets the image ratio.
-	this.setImageRatio( this.element.rendered.imageUrl );
-
-	// Renders the snippet style.
-	this.renderSnippetStyle();
+	this.updatePreview();
 };
 
 /**
@@ -240,24 +344,15 @@ FacebookPreview.prototype.renderTemplate = function() {
 	var targetElement = this.opts.targetElement;
 
 	targetElement.innerHTML = facebookEditorTemplate( {
-		raw: {
-			title: this.data.title,
-			imageUrl: this.data.imageUrl,
-			description: this.data.description
-		},
 		rendered: {
-			title: this.formatTitle(),
-			description: this.formatDescription(),
-			imageUrl: this.formatImageUrl(),
-			baseUrl: this.formatUrl()
+			title: "",
+			description: "",
+			imageUrl: "",
+			baseUrl: this.opts.baseURL
 		},
 		placeholder: this.opts.placeholder,
 		i18n: {
 			edit: this.i18n.dgettext( "js-text-analysis", "Edit Facebook preview" ),
-			title: this.i18n.dgettext( "js-text-analysis", "Facebook title" ),
-			imageUrl:  this.i18n.dgettext( "js-text-analysis", "Facebook image URL" ),
-			description: this.i18n.dgettext( "js-text-analysis", "Facebook description" ),
-			save: this.i18n.dgettext( "js-text-analysis", "Close facebook editor" ),
 			snippetPreview: this.i18n.dgettext( "js-text-analysis", "Facebook preview" ),
 			snippetEditor: this.i18n.dgettext( "js-text-analysis", "Facebook editor" )
 		}
@@ -266,42 +361,10 @@ FacebookPreview.prototype.renderTemplate = function() {
 	this.element = {
 		rendered: {
 			title: document.getElementById( "facebook_title" ),
-			urlBase: document.getElementById( "facebook_base_url" ),
 			imageUrl: document.getElementById( "facebook_image" ),
 			description: document.getElementById( "facebook_description" )
 		},
-		fields: {
-			title: new TextField( {
-				className: "snippet-editor__input snippet-editor__title js-snippet-editor-title",
-				id: "facebook-editor-title",
-				value: this.data.title,
-				placeholder: this.opts.placeholder.title,
-				title: this.i18n.dgettext( "js-text-analysis", "Facebook title" ),
-				labelClassName: "snippet-editor__label"
-			} ),
-			description: new TextArea( {
-				className: "snippet-editor__input snippet-editor__description js-snippet-editor-description",
-				id: "facebook-editor-description",
-				value: this.data.description,
-				placeholder: this.opts.placeholder.description,
-				title: this.i18n.dgettext( "js-text-analysis", "Facebook description" ),
-				labelClassName: "snippet-editor__label"
-			} ),
-			imageUrl: new TextField( {
-				className: "snippet-editor__input snippet-editor__imageUrl js-snippet-editor-imageUrl",
-				id: "facebook-editor-imageUrl",
-				value: this.data.imageUrl,
-				placeholder: this.opts.placeholder.imageUrl,
-				title: this.i18n.dgettext( "js-text-analysis", "Facebook image URL" ),
-				labelClassName: "snippet-editor__label"
-			} ),
-			button : new Button(
-				{
-					className : "snippet-editor__submit snippet-editor__button",
-					value: this.i18n.dgettext( "js-text-analysis", "Close facebook editor" )
-				}
-			)
-		},
+		fields: this.getFields(),
 		container: document.getElementById( "twitter_preview" ),
 		formContainer: targetElement.getElementsByClassName( "snippet-editor__form" )[0],
 		editToggle: targetElement.getElementsByClassName( "snippet-editor__edit-button" )[0],
@@ -320,6 +383,7 @@ FacebookPreview.prototype.renderTemplate = function() {
 		description: targetElement.getElementsByClassName( "js-snippet-editor-description" )[0]
 	};
 
+	this.element.fieldElements = this.getFieldElements();
 	this.element.closeEditor = targetElement.getElementsByClassName( "snippet-editor__submit" )[0];
 
 	this.element.label = {
@@ -337,139 +401,145 @@ FacebookPreview.prototype.renderTemplate = function() {
 };
 
 /**
- * Creates html object to contain the strings for the Facebook preview
+ * Returns the form fields.
  *
- * @returns {Object} The formatted output
+ * @returns {{title: *, description: *, imageUrl: *, button: Button}} Object with the fields.
  */
-FacebookPreview.prototype.htmlOutput = function() {
-	var html = {};
-	html.title = this.formatTitle();
-	html.description = this.formatDescription();
-	html.imageUrl = this.formatImageUrl();
-	html.url = this.formatUrl();
-
-	return html;
+FacebookPreview.prototype.getFields = function() {
+	return {
+		title: new TextField( {
+			className: "snippet-editor__input snippet-editor__title js-snippet-editor-title",
+			id: "facebook-editor-title",
+			value: this.data.title,
+			placeholder: this.opts.placeholder.title,
+			title: this.i18n.dgettext( "js-text-analysis", "Facebook title" ),
+			labelClassName: "snippet-editor__label"
+		} ),
+		description: new TextArea( {
+			className: "snippet-editor__input snippet-editor__description js-snippet-editor-description",
+			id: "facebook-editor-description",
+			value: this.data.description,
+			placeholder: this.opts.placeholder.description,
+			title: this.i18n.dgettext( "js-text-analysis", "Facebook description" ),
+			labelClassName: "snippet-editor__label"
+		} ),
+		imageUrl: new TextField( {
+			className: "snippet-editor__input snippet-editor__imageUrl js-snippet-editor-imageUrl",
+			id: "facebook-editor-imageUrl",
+			value: this.data.imageUrl,
+			placeholder: this.opts.placeholder.imageUrl,
+			title: this.i18n.dgettext( "js-text-analysis", "Facebook image URL" ),
+			labelClassName: "snippet-editor__label"
+		} ),
+		button : new Button(
+			{
+				className : "snippet-editor__submit snippet-editor__button",
+				value: this.i18n.dgettext( "js-text-analysis", "Close facebook editor" )
+			}
+		)
+	};
 };
 
 /**
- * Formats the title for the Facebook preview. If title is empty, sampletext is used
+ * Returns all field elements.
  *
- * @returns {string} The formatted title, without html tags.
+ * @returns {{title: InputElement, description: InputElement, imageUrl: InputElement}} The field elements.
  */
-FacebookPreview.prototype.formatTitle = function() {
-	var title = this.getTitle();
+FacebookPreview.prototype.getFieldElements = function() {
+	var targetElement = this.opts.targetElement;
 
-	title = stripHTMLTags( title );
+	return {
+		title: new FieldElement(
+			targetElement.getElementsByClassName( "js-snippet-editor-title" )[0],
+			{
+				currentValue: this.data.title,
+				defaultValue: this.opts.defaultValue.title,
+				placeholder: this.opts.placeholder.title,
+				fallback: this.i18n.dgettext( "js-text-analysis", "Please provide a Facebook title by editing the snippet below." )
+			},
+			this.updatePreview.bind( this )
+		),
+		description: new FieldElement(
+			targetElement.getElementsByClassName( "js-snippet-editor-description" )[0],
+			{
+				currentValue: this.data.description,
+				defaultValue: this.opts.defaultValue.description,
+				placeholder: this.opts.placeholder.description,
+				fallback: this.i18n.dgettext( "js-text-analysis", "Please provide a Facebook by editing the snippet below." )
+			},
+			this.updatePreview.bind( this )
+		),
+		imageUrl: new FieldElement(
+			targetElement.getElementsByClassName( "js-snippet-editor-imageUrl" )[0],
+			{
+				currentValue: this.data.imageUrl,
+				defaultValue: this.opts.defaultValue.imageUrl,
+				placeholder: this.opts.placeholder.imageUrl,
+				fallback: ""
+			},
+			this.updatePreview.bind( this )
+		)
+	};
+};
 
-	// As an ultimate fallback provide the user with a helpful message.
-	if ( isEmpty( title ) ) {
-		title = this.i18n.dgettext( "js-text-analysis", "Please provide a Facebook title by editing the snippet below." );
-	}
 
-	return title;
+/**
+ * Updates the twitter preview.
+ */
+FacebookPreview.prototype.updatePreview = function() {
+	// Update the data.
+	this.data.title = this.element.fieldElements.title.getValue();
+	this.data.description = this.element.fieldElements.description.getValue();
+	this.data.imageUrl = this.element.fieldElements.imageUrl.getInputValue();
+
+	// Sets the title field
+	this.setTitle( this.data.title );
+
+	// Set the description field and parse the styling of it.
+	this.setDescription( this.data.description );
+
+	// Sets the Image URL
+	this.setImageUrl( this.data.imageUrl );
+
+	// Clone so the data isn't changeable.
+	this.opts.callbacks.saveSnippetData( clone( this.data ) );
 };
 
 /**
- * Gets the title for the preview.
+ * Sets the preview title.
  *
- * @returns {string} Returns the title, or a fallback title
+ * @param {string} title The title to set
  */
-FacebookPreview.prototype.getTitle = function() {
-	var title = this.data.title;
-
-	// Fallback to the default if the title is empty.
-	if ( isEmpty( title ) ) {
-		title = this.opts.defaultValue.title;
-	}
-
-	// For rendering we can fallback to the placeholder as well.
-	if ( isEmpty( title ) ) {
-		title = this.opts.placeholder.title;
-	}
-
-	return title;
-};
-/**
- * Formats the description for the facebook preview..
- *
- * @returns {string} Formatted description.
- */
-FacebookPreview.prototype.formatDescription = function() {
-	var description = this.getDescription();
-
-	description = stripHTMLTags( description );
-
-	// As an ultimate fallback provide the user with a helpful message.
-	if ( isEmpty( description ) ) {
-		description = this.i18n.dgettext( "js-text-analysis", "Please provide a description by editing the snippet below." );
-	}
-
-	return description;
+FacebookPreview.prototype.setTitle = function( title ) {
+	this.element.rendered.title.innerHTML = title;
 };
 
 /**
- * Returns the description.
+ * Set the preview description.
  *
- * @returns {string} Returns description or a fallback description.
+ * @param {string} description The description to set
  */
-FacebookPreview.prototype.getDescription = function() {
-	var description = this.data.description;
-
-	if ( isEmpty( description ) ) {
-		description = this.opts.defaultValue.description;
-	}
-
-	return stripSpaces( description );
-};
-
-/**
- * Formats the imageUrl for the facebook preview
- *
- * @returns {string} Formatted URL for the facebook preview.
- */
-FacebookPreview.prototype.formatImageUrl = function() {
-	var imageUrl = this.getImageUrl();
-
-	imageUrl = stripHTMLTags( imageUrl );
-
-	return imageUrl;
-};
-
-/**
- * Gets the imageUrl
- *
- * @returns {string} Returns the image URL
- */
-FacebookPreview.prototype.getImageUrl = function() {
-	var imageUrl = this.data.imageUrl;
-
-	// Fallback to the default if the imageUrl is empty.
-	if ( isEmpty( imageUrl ) ) {
-		imageUrl = this.opts.placeholder.imageUrl;
-	}
-
-	return imageUrl;
+FacebookPreview.prototype.setDescription = function( description ) {
+	this.element.rendered.description.innerHTML = description;
+	renderDescription( this.element.rendered.description, this.element.fieldElements.description.getInputValue() );
 };
 
 /**
  * Updates the image object with the new URL.
  *
- * @param {Object} image    Image element.
  * @param {string} imageUrl The image path.
- *
- * @returns {void}
  */
-FacebookPreview.prototype.setImageUrl = function( image, imageUrl ) {
-
-	var img = new Image();
+FacebookPreview.prototype.setImageUrl = function( imageUrl ) {
+	var image = this.element.rendered.imageUrl;
+	var img   = new Image();
 	img.onload = function() {
 		image.src = imageUrl;
 
-		this.setImageRatio( image );
+		imageRatio( image, 470 );
 
 		// Show the image, because it's done.
 		removeClass( image, "snippet-editor--hidden" );
-	}.bind( this );
+	};
 
 	img.onerror = function() {
 		addClass( image, "snippet-editor--hidden" );
@@ -479,157 +549,111 @@ FacebookPreview.prototype.setImageUrl = function( image, imageUrl ) {
 };
 
 /**
- * Sets the image dimensions by ratio
- *
- * @param {Object} image The image object to calculate the ratio for.
- *
- * @returns {void}
- */
-FacebookPreview.prototype.setImageRatio = function( image ) {
-	var maxWidth = 470;
-	var width    = image.width;
-	var height = image.height;
-
-	if ( width > maxWidth ) {
-		image.width = maxWidth;
-		image.height = height * ( maxWidth / width );
-	}
-};
-
-/**
- * Formats the base url for the facebook preview. Removes the protocol name from the URL.
- *
- * @returns {string} Formatted url for the facebook preview.
- */
-FacebookPreview.prototype.formatUrl = function() {
-	var url = this.opts.baseURL;
-
-	// Removes the http part of the url, google displays https:// if the website supports it.
-	return url.replace( /http:\/\//ig, "" );
-};
-
-/**
  * Binds the reloadSnippetText function to the blur of the snippet inputs.
  *
  * @returns {void}
  */
 FacebookPreview.prototype.bindEvents = function() {
-	var targetElement,
-		elems = [ "title", "description", "imageUrl" ];
-
-	forEach( elems, function( elem ) {
-		targetElement = this.opts.targetElement.getElementsByClassName( "js-snippet-editor-" + elem )[0];
-
-		targetElement.addEventListener( "keydown", this.changedInput.bind( this ) );
-		targetElement.addEventListener( "keyup", this.changedInput.bind( this ) );
-
-		targetElement.addEventListener( "input", this.changedInput.bind( this ) );
-		targetElement.addEventListener( "focus", this.changedInput.bind( this ) );
-		targetElement.addEventListener( "blur", this.changedInput.bind( this ) );
-	}.bind( this ) );
-
-	this.element.editToggle.addEventListener( "click", this.toggleEditor.bind( this ) );
-	this.element.closeEditor.addEventListener( "click", this.closeEditor.bind( this ) );
-
-	// Loop through the bindings and bind a click handler to the click to focus the focus element.
-	forEach( inputFacebookPreviewBindings, function( binding ) {
-		var previewElement = document.getElementById( binding.preview );
-		var inputElement = this.element.input[ binding.inputField ];
-
-		// Make the preview element click open the editor and focus the correct input.
-		previewElement.addEventListener( "click", function() {
-			this.openEditor();
-			inputElement.focus();
-		}.bind( this ) );
-
-		// Make focusing an input, update the carets.
-		inputElement.addEventListener( "focus", function() {
-			this._currentFocus = binding.inputField;
-
-			this._updateFocusCarets();
-		}.bind( this ) );
-
-		// Make removing focus from an element, update the carets.
-		inputElement.addEventListener( "blur", function() {
-			this._currentFocus = null;
-
-			this._updateFocusCarets();
-		}.bind( this ) );
-
-		previewElement.addEventListener( "mouseover", function() {
-			this._currentHover = binding.inputField;
-
-			this._updateHoverCarets();
-		}.bind( this ) );
-
-		previewElement.addEventListener( "mouseout", function() {
-			this._currentHover = null;
-
-			this._updateHoverCarets();
-		}.bind( this ) );
-
-	}.bind( this ) );
+	var previewEvents = new PreviewEvents( inputFacebookPreviewBindings, this.element );
+	previewEvents.bindEvents( this.element.editToggle, this.element.closeEditor );
 };
 
+module.exports = FacebookPreview;
+
+},{"./element/input":4,"./helpers/addClass.js":6,"./helpers/imageRatio":7,"./helpers/removeClass.js":9,"./helpers/renderDescription":10,"./inputs/button.js":11,"./inputs/textInput":13,"./inputs/textarea":14,"./preview/events":15,"./templates.js":16,"jed":18,"lodash/lang/clone":57,"lodash/lang/isElement":60,"lodash/object/defaultsDeep":71}],6:[function(require,module,exports){
 /**
- * Updates snippet preview on changed input. It's debounced so that we can call this function as much as we want.
+ * Adds a class to an element
  *
- * @returns {void}
+ * @param {HTMLElement} element The element to add the class to.
+ * @param {string} className The class to add.
  */
-FacebookPreview.prototype.changedInput = debounce( function() {
-	this.updateDataFromDOM();
-	this.refresh();
-}, 25 );
+module.exports = function( element, className ) {
+	var classes = element.className.split( " " );
 
-/**
- * Updates our data object from the DOM
- *
- * @returns {void}
- */
-FacebookPreview.prototype.updateDataFromDOM = function() {
-	this.data.title = this.element.input.title.value;
-	this.data.imageUrl = this.element.input.imageUrl.value;
-	this.data.description = this.element.input.description.value;
-
-	// Clone so the data isn't changeable.
-	this.opts.callbacks.saveSnippetData( clone( this.data ) );
-};
-
-/**
- * Refreshes the snippet editor rendered HTML
- *
- * @returns {void}
- */
-FacebookPreview.prototype.refresh = function() {
-	this.output = this.htmlOutput();
-	this.renderOutput();
-	this.renderSnippetStyle();
-};
-
-/**
- * Renders the outputs to the elements on the page.
- *
- * @returns {void}
- */
-FacebookPreview.prototype.renderOutput = function() {
-	this.element.rendered.title.innerHTML = this.output.title;
-
-	if ( typeof this.output.imageUrl !== "undefined" ) {
-		this.setImageUrl( this.element.rendered.imageUrl, this.output.imageUrl );
+	if ( -1 === classes.indexOf( className ) ) {
+		classes.push( className );
 	}
-	this.element.rendered.urlBase.innerHTML = this.output.url;
-	this.element.rendered.description.innerHTML = this.output.description;
+
+	element.className = classes.join( " " );
 };
+
+},{}],7:[function(require,module,exports){
+/**
+ * Sets the images ratio.
+ *
+ * @param {Object} image The image object.
+ * @param {int|undefined} maxWidth The max width in pixels.
+ * @param {int|undefined} maxHeight The max height in pixels.
+ */
+function imageRatio( image, maxWidth, maxHeight ) {
+	var width = image.width;
+	var height = image.height;
+
+	if ( typeof maxWidth !== "undefined" && width > maxWidth ) {
+		image.width = maxWidth;
+		image.height = height * ( maxWidth / width );
+	}
+
+	if ( typeof maxHeight !== "undefined" && height > maxHeight ) {
+		image.height = maxHeight;
+		image.width = width * ( maxHeight / height );
+	}
+}
+
+module.exports = imageRatio;
+
+},{}],8:[function(require,module,exports){
+/**
+ * Cleans spaces from the html.
+ *
+ * @param  {string} html The html to minimize.
+ *
+ * @returns {string} The minimized html string.
+ */
+function minimizeHtml( html ) {
+	html = html.replace( /(\s+)/g, " " );
+	html = html.replace( /> </g, "><" );
+	html = html.replace( / >/g, ">" );
+	html = html.replace( /> /g, ">" );
+	html = html.replace( / </g, "<" );
+	html = html.replace( / $/, "" );
+
+	return html;
+}
+
+module.exports = minimizeHtml;
+
+},{}],9:[function(require,module,exports){
+/**
+ * Removes a class from an element
+ *
+ * @param {HTMLElement} element The element to remove the class from.
+ * @param {string} className The class to remove.
+ */
+module.exports = function( element, className ) {
+	var classes = element.className.split( " " );
+	var foundClass = classes.indexOf( className );
+
+	if ( -1 !== foundClass ) {
+		classes.splice( foundClass, 1 );
+	}
+
+	element.className = classes.join( " " );
+};
+
+},{}],10:[function(require,module,exports){
+var isEmpty = require( "lodash/lang/isEmpty" );
+
+var addClass = require( "./addClass" );
+var removeClass = require( "./removeClass" );
 
 /**
  * Makes the rendered description gray if no description has been set by the user.
  *
- * @returns {void}
+ * @param {string} descriptionElement Target description element
+ * @param {string} description Current description
  */
-FacebookPreview.prototype.renderSnippetStyle = function() {
-	var descriptionElement = this.element.rendered.description;
-	var description = this.getDescription();
-
+function renderDescription( descriptionElement, description ) {
 	if ( isEmpty( description ) ) {
 		addClass( descriptionElement, "desc-render" );
 		removeClass( descriptionElement, "desc-default" );
@@ -637,108 +661,11 @@ FacebookPreview.prototype.renderSnippetStyle = function() {
 		addClass( descriptionElement, "desc-default" );
 		removeClass( descriptionElement, "desc-render" );
 	}
-};
+}
 
-/**
- * Opens the snippet editor.
- *
- * @returns {void}
- */
-FacebookPreview.prototype.openEditor = function() {
+module.exports = renderDescription;
 
-	// Hide these elements.
-	addClass( this.element.editToggle,       "snippet-editor--hidden" );
-
-	// Show these elements.
-	removeClass( this.element.formContainer, "snippet-editor--hidden" );
-	removeClass( this.element.headingEditor, "snippet-editor--hidden" );
-
-	this.opened = true;
-};
-
-/**
- * Closes the snippet editor.
- *
- * @returns {void}
- */
-FacebookPreview.prototype.closeEditor = function() {
-
-	// Hide these elements.
-	addClass( this.element.formContainer,     "snippet-editor--hidden" );
-	addClass( this.element.headingEditor,     "snippet-editor--hidden" );
-
-	// Show these elements.
-	removeClass( this.element.editToggle,     "snippet-editor--hidden" );
-
-	this.opened = false;
-};
-
-/**
- * Toggles the snippet editor.
- *
- * @returns {void}
- */
-FacebookPreview.prototype.toggleEditor = function() {
-	if ( this.opened ) {
-		this.closeEditor();
-	} else {
-		this.openEditor();
-	}
-};
-
-/**
- * Updates carets before the preview and input fields.
- *
- * @private
- *
- * @returns {void}
- */
-FacebookPreview.prototype._updateFocusCarets = function() {
-	var focusedLabel, focusedPreview;
-
-	// Disable all carets on the labels.
-	forEach( this.element.label, function( element ) {
-		removeClass( element, "snippet-editor__label--focus" );
-	} );
-
-	// Disable all carets on the previews.
-	forEach( this.element.preview, function( element ) {
-		removeClass( element, "snippet-editor__container--focus" );
-	} );
-
-	if ( null !== this._currentFocus ) {
-		focusedLabel = this.element.label[ this._currentFocus ];
-		focusedPreview = this.element.preview[ this._currentFocus ];
-
-		addClass( focusedLabel, "snippet-editor__label--focus" );
-		addClass( focusedPreview, "snippet-editor__container--focus" );
-	}
-};
-
-/**
- * Updates hover carets before the input fields.
- *
- * @private
- *
- * @returns {void}
- */
-FacebookPreview.prototype._updateHoverCarets = function() {
-	var hoveredLabel;
-
-	forEach( this.element.label, function( element ) {
-		removeClass( element, "snippet-editor__label--hover" );
-	} );
-
-	if ( null !== this._currentHover ) {
-		hoveredLabel = this.element.label[ this._currentHover ];
-
-		addClass( hoveredLabel, "snippet-editor__label--hover" );
-	}
-};
-
-module.exports = FacebookPreview;
-
-},{"./fields/button.js":5,"./fields/textAreaFactory":7,"./fields/textFieldFactory":8,"./helpers/addClass.js":9,"./helpers/removeClass.js":11,"./templates.js":12,"jed":14,"lodash/collection/forEach":15,"lodash/function/debounce":17,"lodash/lang/clone":53,"lodash/lang/isElement":56,"lodash/lang/isEmpty":57,"lodash/object/defaultsDeep":67,"yoastseo/js/stringProcessing/stripHTMLTags.js":1,"yoastseo/js/stringProcessing/stripSpaces.js":2}],5:[function(require,module,exports){
+},{"./addClass":6,"./removeClass":9,"lodash/lang/isEmpty":61}],11:[function(require,module,exports){
 var defaults = require( "lodash/object/defaults" );
 var buttonTemplate = require( "../../js/templates" ).fields.button;
 var minimizeHtml = require( "../helpers/minimizeHtml" );
@@ -784,7 +711,6 @@ Button.prototype.getAttributes = function() {
  */
 Button.prototype.render = function() {
 	var html = buttonTemplate( this.getAttributes() );
-	
 	html = minimizeHtml( html );
 
 	return html;
@@ -810,10 +736,16 @@ Button.prototype.setClassName = function( className ) {
 
 module.exports = Button;
 
-},{"../../js/templates":12,"../helpers/minimizeHtml":10,"lodash/object/defaults":66}],6:[function(require,module,exports){
+},{"../../js/templates":16,"../helpers/minimizeHtml":8,"lodash/object/defaults":70}],12:[function(require,module,exports){
 var defaults = require( "lodash/object/defaults" );
 var minimizeHtml = require( "../helpers/minimizeHtml" );
 
+/**
+ * Factory for the inputfield.
+ *
+ * @param {Object} template Template object to use.
+ * @returns {TextField} The textfield object.
+ */
 function inputFieldFactory( template ) {
 
 	var defaultAttributes = {
@@ -836,16 +768,14 @@ function inputFieldFactory( template ) {
 	 * @param {string} attributes.id The id for this text field
 	 * @param {string} attributes.className The class for this text field
 	 * @param {string} attributes.title The title that describes this text field
-	 * @param {Object} template
 	 *
 	 * @constructor
 	 */
-	function TextField(attributes, template) {
+	function TextField( attributes ) {
 		attributes = attributes || {};
-		attributes = defaults(attributes, defaultAttributes);
+		attributes = defaults( attributes, defaultAttributes );
 
 		this._attributes = attributes;
-		this._template = template;
 	}
 
 	/**
@@ -853,7 +783,7 @@ function inputFieldFactory( template ) {
 	 *
 	 * @returns {Object} The HTML attributes
 	 */
-	TextField.prototype.getAttributes = function () {
+	TextField.prototype.getAttributes = function() {
 		return this._attributes;
 	};
 
@@ -862,10 +792,10 @@ function inputFieldFactory( template ) {
 	 *
 	 * @returns {string} The rendered HTML
 	 */
-	TextField.prototype.render = function () {
-		var html = template(this.getAttributes());
+	TextField.prototype.render = function() {
+		var html = template( this.getAttributes() );
 
-		html = minimizeHtml(html);
+		html = minimizeHtml( html );
 
 		return html;
 	};
@@ -875,7 +805,7 @@ function inputFieldFactory( template ) {
 	 *
 	 * @param {string} value The value to set on this input field
 	 */
-	TextField.prototype.setValue = function (value) {
+	TextField.prototype.setValue = function( value ) {
 		this._attributes.value = value;
 	};
 
@@ -884,80 +814,198 @@ function inputFieldFactory( template ) {
 	 *
 	 * @param {string} className The class to set on this input field
 	 */
-	TextField.prototype.setClassName = function (className) {
+	TextField.prototype.setClassName = function( className ) {
 		this._attributes.className = className;
 	};
-	
+
 	return TextField;
 }
-	
+
 module.exports = inputFieldFactory;
 
-},{"../helpers/minimizeHtml":10,"lodash/object/defaults":66}],7:[function(require,module,exports){
-var inputFieldFactory = require( "../../js/fields/inputField" );
+},{"../helpers/minimizeHtml":8,"lodash/object/defaults":70}],13:[function(require,module,exports){
+var inputFieldFactory = require( "./inputField" );
 
-module.exports = inputFieldFactory( require( "../../js/templates" ).fields.textarea );
-},{"../../js/fields/inputField":6,"../../js/templates":12}],8:[function(require,module,exports){
-var inputFieldFactory = require( "../../js/fields/inputField" );
+module.exports = inputFieldFactory( require( "../templates" ).fields.text );
 
-module.exports = inputFieldFactory( require( "../../js/templates" ).fields.text );
+},{"../templates":16,"./inputField":12}],14:[function(require,module,exports){
+var inputFieldFactory = require( "./inputField" );
 
-},{"../../js/fields/inputField":6,"../../js/templates":12}],9:[function(require,module,exports){
+module.exports = inputFieldFactory( require( "../templates" ).fields.textarea );
+
+},{"../templates":16,"./inputField":12}],15:[function(require,module,exports){
+var forEach = require( "lodash/collection/forEach" );
+
+var addClass = require( "../helpers/addClass.js" );
+var removeClass = require( "../helpers/removeClass.js" );
+
 /**
- * Adds a class to an element
  *
- * @param {HTMLElement} element The element to add the class to.
- * @param {string} className The class to add.
+ * @param {Object} bindings The fields to bind.
+ * @param {Object} element The element to bind the events to.
+ * @constructor
  */
-module.exports = function( element, className ) {
-	var classes = element.className.split( " " );
-
-	if ( -1 === classes.indexOf( className ) ) {
-		classes.push( className );
-	}
-
-	element.className = classes.join( " " );
-};
-
-},{}],10:[function(require,module,exports){
-/**
- * Cleans spaces from the html.
- *
- * @param  {string} html
- *
- * @returns {string}
- */
-function minimizeHtml( html ) {
-	html = html.replace( /(\s+)/g, " " );
-	html = html.replace( /> </g, "><" );
-	html = html.replace( / >/g, ">" );
-	html = html.replace( /> /g, ">" );
-	html = html.replace( / </g, "<" );
-	html = html.replace( / $/, "" );
-
-	return html;
+function PreviewEvents( bindings, element ) {
+	this._bindings = bindings;
+	this.element = element;
 }
 
-module.exports = minimizeHtml;
-},{}],11:[function(require,module,exports){
 /**
- * Removes a class from an element
+ * Bind the events.
  *
- * @param {HTMLElement} element The element to remove the class from.
- * @param {string} className The class to remove.
+ * @param {Object} editToggle - The edit toggle element
+ * @param {Object} closeEditor - The button to close the editor
  */
-module.exports = function( element, className ) {
-	var classes = element.className.split( " " );
-	var foundClass = classes.indexOf( className );
+PreviewEvents.prototype.bindEvents = function( editToggle, closeEditor ) {
+	editToggle.addEventListener( "click", this.toggleEditor.bind( this ) );
+	closeEditor.addEventListener( "click", this.closeEditor.bind( this ) );
 
-	if ( -1 !== foundClass ) {
-		classes.splice( foundClass, 1 );
-	}
-
-	element.className = classes.join( " " );
+	// Loop through the bindings and bind a click handler to the click to focus the focus element.
+	forEach( this._bindings, this.bindInputEvent.bind( this ) );
 };
 
-},{}],12:[function(require,module,exports){
+/**
+ * Binds the event for the input
+ *
+ * @param {Object} binding The field to bind.
+ */
+PreviewEvents.prototype.bindInputEvent = function( binding ) {
+	var previewElement = document.getElementById( binding.preview );
+	var inputElement = this.element.input[ binding.inputField ];
+
+	// Make the preview element click open the editor and focus the correct input.
+	previewElement.addEventListener( "click", function() {
+		this.openEditor();
+		inputElement.focus();
+	}.bind( this ) );
+
+	// Make focusing an input, update the carets.
+	inputElement.addEventListener( "focus", function() {
+		this._currentFocus = binding.inputField;
+
+		this._updateFocusCarets();
+	}.bind( this ) );
+
+	// Make removing focus from an element, update the carets.
+	inputElement.addEventListener( "blur", function() {
+		this._currentFocus = null;
+
+		this._updateFocusCarets();
+	}.bind( this ) );
+
+	previewElement.addEventListener( "mouseover", function() {
+		this._currentHover = binding.inputField;
+
+		this._updateHoverCarets();
+	}.bind( this ) );
+
+	previewElement.addEventListener( "mouseout", function() {
+		this._currentHover = null;
+
+		this._updateHoverCarets();
+	}.bind( this ) );
+};
+
+/**
+ * Opens the snippet editor.
+ *
+ * @returns {void}
+ */
+PreviewEvents.prototype.openEditor = function() {
+
+	// Hide these elements.
+	addClass( this.element.editToggle,       "snippet-editor--hidden" );
+
+	// Show these elements.
+	removeClass( this.element.formContainer, "snippet-editor--hidden" );
+	removeClass( this.element.headingEditor, "snippet-editor--hidden" );
+
+	this.opened = true;
+};
+
+/**
+ * Closes the snippet editor.
+ *
+ * @returns {void}
+ */
+PreviewEvents.prototype.closeEditor = function() {
+
+	// Hide these elements.
+	addClass( this.element.formContainer,     "snippet-editor--hidden" );
+	addClass( this.element.headingEditor,     "snippet-editor--hidden" );
+
+	// Show these elements.
+	removeClass( this.element.editToggle,     "snippet-editor--hidden" );
+
+	this.opened = false;
+};
+
+/**
+ * Toggles the snippet editor.
+ *
+ * @returns {void}
+ */
+PreviewEvents.prototype.toggleEditor = function() {
+	if ( this.opened ) {
+		this.closeEditor();
+	} else {
+		this.openEditor();
+	}
+};
+
+/**
+ * Updates carets before the preview and input fields.
+ *
+ * @private
+ *
+ * @returns {void}
+ */
+PreviewEvents.prototype._updateFocusCarets = function() {
+	var focusedLabel, focusedPreview;
+
+	// Disable all carets on the labels.
+	forEach( this.element.label, function( element ) {
+		removeClass( element, "snippet-editor__label--focus" );
+	} );
+
+	// Disable all carets on the previews.
+	forEach( this.element.preview, function( element ) {
+		removeClass( element, "snippet-editor__container--focus" );
+	} );
+
+	if ( null !== this._currentFocus ) {
+		focusedLabel = this.element.label[ this._currentFocus ];
+		focusedPreview = this.element.preview[ this._currentFocus ];
+
+		addClass( focusedLabel, "snippet-editor__label--focus" );
+		addClass( focusedPreview, "snippet-editor__container--focus" );
+	}
+};
+
+/**
+ * Updates hover carets before the input fields.
+ *
+ * @private
+ *
+ * @returns {void}
+ */
+PreviewEvents.prototype._updateHoverCarets = function() {
+	var hoveredLabel;
+
+	forEach( this.element.label, function( element ) {
+		removeClass( element, "snippet-editor__label--hover" );
+	} );
+
+	if ( null !== this._currentHover ) {
+		hoveredLabel = this.element.label[ this._currentHover ];
+
+		addClass( hoveredLabel, "snippet-editor__label--hover" );
+	}
+};
+
+module.exports = PreviewEvents;
+
+},{"../helpers/addClass.js":6,"../helpers/removeClass.js":9,"lodash/collection/forEach":19}],16:[function(require,module,exports){
 (function (global){
 ;(function() {
   var undefined;
@@ -1269,27 +1317,26 @@ module.exports = function( element, className ) {
 }.call(this));
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],13:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 /* jshint browser: true */
 
-var isEmpty = require( "lodash/lang/isEmpty" );
 var isElement = require( "lodash/lang/isElement" );
 var clone = require( "lodash/lang/clone" );
 var defaultsDeep = require( "lodash/object/defaultsDeep" );
-var forEach = require( "lodash/collection/forEach" );
-var debounce = require( "lodash/function/debounce" );
 
 var Jed = require( "jed" );
 
-var stripHTMLTags = require( "yoastseo/js/stringProcessing/stripHTMLTags.js" );
-var stripSpaces = require( "yoastseo/js/stringProcessing/stripSpaces.js" );
-
 var addClass = require( "./helpers/addClass.js" );
 var removeClass = require( "./helpers/removeClass.js" );
+var imageRatio = require( "./helpers/imageRatio" );
+var renderDescription = require( "./helpers/renderDescription" );
 
-var TextField = require( "./fields/textFieldFactory" );
-var TextArea = require( "./fields/textAreaFactory" );
-var Button = require( "./fields/button.js" );
+var TextField = require( "./inputs/textInput" );
+var TextArea = require( "./inputs/textarea" );
+var Button = require( "./inputs/button.js" );
+
+var InputElement = require( "./element/input" );
+var PreviewEvents = require( "./preview/events" );
 
 var twitterEditorTemplate = require( "./templates.js" ).twitterPreview;
 
@@ -1309,7 +1356,7 @@ var twitterDefaults = {
 		description: "",
 		imageUrl: ""
 	},
-	baseURL: "http://example.com",
+	baseURL: "example.com",
 	callbacks: {
 		saveSnippetData: function() {}
 	}
@@ -1367,7 +1414,6 @@ var inputTwitterPreviewBindings = [
  * @property {Object}      element.rendered               - The rendered elements.
  * @property {HTMLElement} element.rendered.title         - The rendered title element.
  * @property {HTMLElement} element.rendered.imageUrl      - The rendered url path element.
- * @property {HTMLElement} element.rendered.urlBase       - The rendered url base element.
  * @property {HTMLElement} element.rendered.description   - The rendered twitter description element.
  *
  * @property {Object}      element.input                  - The input elements.
@@ -1434,12 +1480,7 @@ TwitterPreview.prototype.constructI18n = function( translations ) {
 TwitterPreview.prototype.init = function() {
 	this.renderTemplate();
 	this.bindEvents();
-
-	// Sets the image ratio.
-	this.setImageRatio( this.element.rendered.imageUrl );
-
-	// Renders the snippet style.
-	this.renderSnippetStyle();
+	this.updatePreview();
 };
 
 /**
@@ -1451,24 +1492,15 @@ TwitterPreview.prototype.renderTemplate = function() {
 	var targetElement = this.opts.targetElement;
 
 	targetElement.innerHTML = twitterEditorTemplate( {
-		raw: {
-			title: this.data.title,
-			imageUrl: this.data.imageUrl,
-			description: this.data.description
-		},
 		rendered: {
-			title: this.formatTitle(),
-			description: this.formatDescription(),
-			imageUrl: this.formatImageUrl(),
-			baseUrl: this.formatUrl()
+			title: "",
+			description: "",
+			imageUrl: "",
+			baseUrl: this.opts.baseURL
 		},
 		placeholder: this.opts.placeholder,
 		i18n: {
 			edit: this.i18n.dgettext( "js-text-analysis", "Edit Twitter preview" ),
-			title: this.i18n.dgettext( "js-text-analysis", "Twitter title" ),
-			imageUrl:  this.i18n.dgettext( "js-text-analysis", "Twitter image URL" ),
-			description: this.i18n.dgettext( "js-text-analysis", "Twitter description" ),
-			save: this.i18n.dgettext( "js-text-analysis", "Close Twitter editor" ),
 			snippetPreview: this.i18n.dgettext( "js-text-analysis", "Twitter preview" ),
 			snippetEditor: this.i18n.dgettext( "js-text-analysis", "Twitter editor" )
 		}
@@ -1477,47 +1509,10 @@ TwitterPreview.prototype.renderTemplate = function() {
 	this.element = {
 		rendered: {
 			title: document.getElementById( "twitter_title" ),
-			urlBase: document.getElementById( "twitter_base_url" ),
 			imageUrl: document.getElementById( "twitter_image" ),
 			description: document.getElementById( "twitter_description" )
 		},
-		fields: {
-			title: new TextField( {
-				className: "snippet-editor__input snippet-editor__title js-snippet-editor-title",
-				id: "twitter-editor-title",
-				value: this.data.title,
-				placeholder: this.opts.placeholder.title,
-				title: this.i18n.dgettext( "js-text-analysis", "Twitter title" ),
-				labelClassName: "snippet-editor__label"
-			} ),
-			description: new TextArea( {
-				className: "snippet-editor__input snippet-editor__description js-snippet-editor-description",
-				id: "twitter-editor-description",
-				value: this.data.description,
-				placeholder: this.opts.placeholder.description,
-				title: this.i18n.dgettext( "js-text-analysis", "Twitter description" ),
-				labelClassName: "snippet-editor__label"
-			} ),
-			imageUrl: new TextField( {
-				className: "snippet-editor__input snippet-editor__imageUrl js-snippet-editor-imageUrl",
-				id: "twitter-editor-imageUrl",
-				value: this.data.imageUrl,
-				placeholder: this.opts.placeholder.imageUrl,
-				title: this.i18n.dgettext( "js-text-analysis", "Twitter image URL" ),
-				labelClassName: "snippet-editor__label"
-			} ),
-			button : new Button(
-				{
-					className : "snippet-editor__submit snippet-editor__button",
-					value: this.i18n.dgettext( "js-text-analysis", "Close Twitter editor" )
-				}
-			)
-		},
-		input: {
-			title: targetElement.getElementsByClassName( "js-snippet-editor-title" )[0],
-			imageUrl: targetElement.getElementsByClassName( "js-snippet-editor-imageUrl" )[0],
-			description: targetElement.getElementsByClassName( "js-snippet-editor-description" )[0]
-		},
+		fields: this.getFields(),
 		container: document.getElementById( "snippet_preview" ),
 		formContainer: targetElement.getElementsByClassName( "snippet-editor__form" )[0],
 		editToggle: targetElement.getElementsByClassName( "snippet-editor__edit-button" )[0],
@@ -1537,6 +1532,7 @@ TwitterPreview.prototype.renderTemplate = function() {
 		description: targetElement.getElementsByClassName( "js-snippet-editor-description" )[0]
 	};
 
+	this.element.fieldElements = this.getFieldElements();
 	this.element.closeEditor = targetElement.getElementsByClassName( "snippet-editor__submit" )[0];
 
 	this.element.label = {
@@ -1554,139 +1550,144 @@ TwitterPreview.prototype.renderTemplate = function() {
 };
 
 /**
- * Creates html object to contain the strings for the Twitter preview
+ * Returns the form fields.
  *
- * @returns {Object} The formatted output
+ * @returns {{title: *, description: *, imageUrl: *, button: Button}} Object with the fields.
  */
-TwitterPreview.prototype.htmlOutput = function() {
-	var html = {};
-	html.title = this.formatTitle();
-	html.description = this.formatDescription();
-	html.imageUrl = this.formatImageUrl();
-	html.url = this.formatUrl();
-
-	return html;
+TwitterPreview.prototype.getFields = function() {
+	return {
+		title: new TextField( {
+			className: "snippet-editor__input snippet-editor__title js-snippet-editor-title",
+			id: "twitter-editor-title",
+			value: this.data.title,
+			placeholder: this.opts.placeholder.title,
+			title: this.i18n.dgettext( "js-text-analysis", "Twitter title" ),
+			labelClassName: "snippet-editor__label"
+		} ),
+		description: new TextArea( {
+			className: "snippet-editor__input snippet-editor__description js-snippet-editor-description",
+			id: "twitter-editor-description",
+			value: this.data.description,
+			placeholder: this.opts.placeholder.description,
+			title: this.i18n.dgettext( "js-text-analysis", "Twitter description" ),
+			labelClassName: "snippet-editor__label"
+		} ),
+		imageUrl: new TextField( {
+			className: "snippet-editor__input snippet-editor__imageUrl js-snippet-editor-imageUrl",
+			id: "twitter-editor-imageUrl",
+			value: this.data.imageUrl,
+			placeholder: this.opts.placeholder.imageUrl,
+			title: this.i18n.dgettext( "js-text-analysis", "Twitter image URL" ),
+			labelClassName: "snippet-editor__label"
+		} ),
+		button : new Button(
+			{
+				className : "snippet-editor__submit snippet-editor__button",
+				value: this.i18n.dgettext( "js-text-analysis", "Close Twitter editor" )
+			}
+		)
+	};
 };
 
 /**
- * Formats the title for the Twitter preview. If title is empty, sampletext is used
+ * Returns all field elements.
  *
- * @returns {string} The formatted title, without html tags.
+ * @returns {{title: InputElement, description: InputElement, imageUrl: InputElement}} The field element.
  */
-TwitterPreview.prototype.formatTitle = function() {
-	var title = this.getTitle();
+TwitterPreview.prototype.getFieldElements = function() {
+	var targetElement = this.opts.targetElement;
 
-	title = stripHTMLTags( title );
-
-	// As an ultimate fallback provide the user with a helpful message.
-	if ( isEmpty( title ) ) {
-		title = this.i18n.dgettext( "js-text-analysis", "Please provide a Twitter title by editing the snippet below." );
-	}
-
-	return title;
+	return {
+		title: new InputElement(
+			targetElement.getElementsByClassName( "js-snippet-editor-title" )[0],
+			{
+				currentValue: this.data.title,
+				defaultValue: this.opts.defaultValue.title,
+				placeholder: this.opts.placeholder.title,
+				fallback: this.i18n.dgettext( "js-text-analysis", "Please provide a Twitter title by editing the snippet below." )
+			},
+			this.updatePreview.bind( this )
+		),
+		 description: new InputElement(
+			 targetElement.getElementsByClassName( "js-snippet-editor-description" )[0],
+			 {
+				 currentValue: this.data.description,
+				 defaultValue: this.opts.defaultValue.description,
+				 placeholder: this.opts.placeholder.description,
+				 fallback: this.i18n.dgettext( "js-text-analysis", "Please provide a description by editing the snippet below." )
+			 },
+			 this.updatePreview.bind( this )
+		 ),
+		imageUrl: new InputElement(
+			targetElement.getElementsByClassName( "js-snippet-editor-imageUrl" )[0],
+			{
+				currentValue: this.data.imageUrl,
+				defaultValue: this.opts.defaultValue.imageUrl,
+				placeholder: this.opts.placeholder.imageUrl,
+				fallback: ""
+			},
+			this.updatePreview.bind( this )
+		)
+	};
 };
 
 /**
- * Gets the title for the preview.
- *
- * @returns {string} Returns the title, or a fallback title
+ * Updates the twitter preview.
  */
-TwitterPreview.prototype.getTitle = function() {
-	var title = this.data.title;
+TwitterPreview.prototype.updatePreview = function() {
+	// Update the data.
+	this.data.title = this.element.fieldElements.title.getValue();
+	this.data.description = this.element.fieldElements.description.getValue();
+	this.data.imageUrl = this.element.fieldElements.imageUrl.getInputValue();
 
-	// Fallback to the default if the title is empty.
-	if ( isEmpty( title ) ) {
-		title = this.opts.defaultValue.title;
-	}
+	// Sets the title field
+	this.setTitle( this.data.title );
 
-	// For rendering we can fallback to the placeholder as well.
-	if ( isEmpty( title ) ) {
-		title = this.opts.placeholder.title;
-	}
+	// Set the description field and parse the styling of it.
+	this.setDescription( this.data.description );
 
-	return title;
-};
-/**
- * Formats the description for the twitter preview..
- *
- * @returns {string} Formatted description.
- */
-TwitterPreview.prototype.formatDescription = function() {
-	var description = this.getDescription();
+	// Sets the Image URL
+	this.setImageUrl( this.data.imageUrl );
 
-	description = stripHTMLTags( description );
-
-	// As an ultimate fallback provide the user with a helpful message.
-	if ( isEmpty( description ) ) {
-		description = this.i18n.dgettext( "js-text-analysis", "Please provide a description by editing the snippet below." );
-	}
-
-	return description;
+	// Clone so the data isn't changeable.
+	this.opts.callbacks.saveSnippetData( clone( this.data ) );
 };
 
 /**
- * Returns the description.
+ * Sets the preview title.
  *
- * @returns {string} Returns description or a fallback description.
+ * @param {string} title The new title.
  */
-TwitterPreview.prototype.getDescription = function() {
-	var description = this.data.description;
-
-	if ( isEmpty( description ) ) {
-		description = this.opts.defaultValue.description;
-	}
-
-	return stripSpaces( description );
+TwitterPreview.prototype.setTitle = function( title ) {
+	this.element.rendered.title.innerHTML = title;
 };
 
 /**
- * Formats the imageUrl for the twitter preview
+ * Set the preview description.
  *
- * @returns {string} Formatted URL for the twitter preview.
+ * @param {string} description The description to set.
  */
-TwitterPreview.prototype.formatImageUrl = function() {
-	var imageUrl = this.getImageUrl();
-
-	imageUrl = stripHTMLTags( imageUrl );
-
-	return imageUrl;
-};
-
-/**
- * Gets the imageUrl
- *
- * @returns {string} Returns the image URL
- */
-TwitterPreview.prototype.getImageUrl = function() {
-	var imageUrl = this.data.imageUrl;
-
-	// Fallback to the default if the imageUrl is empty.
-	if ( isEmpty( imageUrl ) ) {
-		imageUrl = this.opts.placeholder.imageUrl;
-	}
-
-	return imageUrl;
+TwitterPreview.prototype.setDescription = function( description ) {
+	this.element.rendered.description.innerHTML = description;
+	renderDescription( this.element.rendered.description, this.element.fieldElements.description.getInputValue() );
 };
 
 /**
  * Updates the image object with the new URL.
  *
- * @param {Object} image    Image element.
  * @param {string} imageUrl The image path.
- *
- * @returns {void}
  */
-TwitterPreview.prototype.setImageUrl = function( image, imageUrl ) {
-
-	var img = new Image();
+TwitterPreview.prototype.setImageUrl = function( imageUrl ) {
+	var image = this.element.rendered.imageUrl;
+	var img   = new Image();
 	img.onload = function() {
 		image.src = imageUrl;
 
-		this.setImageRatio( image );
+		imageRatio( image, 506 );
 
 		// Show the image, because it's done.
 		removeClass( image, "snippet-editor--hidden" );
-	}.bind( this );
+	};
 
 	img.onerror = function() {
 		addClass( image, "snippet-editor--hidden" );
@@ -1696,266 +1697,16 @@ TwitterPreview.prototype.setImageUrl = function( image, imageUrl ) {
 };
 
 /**
- * Sets the image dimensions by ratio
- *
- * @param {Object} image The image object to calculate the ratio for.
- *
- * @returns {void}
- */
-TwitterPreview.prototype.setImageRatio = function( image ) {
-	var maxWidth = 506;
-	var width    = image.width;
-	var height = image.height;
-
-	if ( width > maxWidth ) {
-		image.width = maxWidth;
-		image.height = height * ( maxWidth / width );
-	}
-};
-
-/**
- * Formats the base url for the twitter preview. Removes the protocol name from the URL.
- *
- * @returns {string} Formatted url for the twitter preview.
- */
-TwitterPreview.prototype.formatUrl = function() {
-	var url = this.opts.baseURL;
-
-	// Removes the http part of the url, google displays https:// if the website supports it.
-	return url.replace( /http:\/\//ig, "" );
-};
-
-/**
  * Binds the reloadSnippetText function to the blur of the snippet inputs.
- *
- * @returns {void}
  */
 TwitterPreview.prototype.bindEvents = function() {
-	var targetElement,
-		elems = [ "title", "description", "imageUrl" ];
-
-	forEach( elems, function( elem ) {
-		targetElement = this.opts.targetElement.getElementsByClassName( "js-snippet-editor-" + elem )[0];
-
-		targetElement.addEventListener( "keydown", this.changedInput.bind( this ) );
-		targetElement.addEventListener( "keyup", this.changedInput.bind( this ) );
-
-		targetElement.addEventListener( "input", this.changedInput.bind( this ) );
-		targetElement.addEventListener( "focus", this.changedInput.bind( this ) );
-		targetElement.addEventListener( "blur", this.changedInput.bind( this ) );
-	}.bind( this ) );
-
-	this.element.editToggle.addEventListener( "click", this.toggleEditor.bind( this ) );
-	this.element.closeEditor.addEventListener( "click", this.closeEditor.bind( this ) );
-
-	// Loop through the bindings and bind a click handler to the click to focus the focus element.
-	forEach( inputTwitterPreviewBindings, function( binding ) {
-		var previewElement = document.getElementById( binding.preview );
-		var inputElement = this.element.input[ binding.inputField ];
-
-		// Make the preview element click open the editor and focus the correct input.
-		previewElement.addEventListener( "click", function() {
-			this.openEditor();
-			inputElement.focus();
-		}.bind( this ) );
-
-		// Make focusing an input, update the carets.
-		inputElement.addEventListener( "focus", function() {
-			this._currentFocus = binding.inputField;
-
-			this._updateFocusCarets();
-		}.bind( this ) );
-
-		// Make removing focus from an element, update the carets.
-		inputElement.addEventListener( "blur", function() {
-			this._currentFocus = null;
-
-			this._updateFocusCarets();
-		}.bind( this ) );
-
-		previewElement.addEventListener( "mouseover", function() {
-			this._currentHover = binding.inputField;
-
-			this._updateHoverCarets();
-		}.bind( this ) );
-
-		previewElement.addEventListener( "mouseout", function() {
-			this._currentHover = null;
-
-			this._updateHoverCarets();
-		}.bind( this ) );
-
-	}.bind( this ) );
-};
-
-/**
- * Updates snippet preview on changed input. It's debounced so that we can call this function as much as we want.
- *
- * @returns {void}
- */
-TwitterPreview.prototype.changedInput = debounce( function() {
-	this.updateDataFromDOM();
-	this.refresh();
-}, 25 );
-
-/**
- * Updates our data object from the DOM
- *
- * @returns {void}
- */
-TwitterPreview.prototype.updateDataFromDOM = function() {
-	this.data.title = this.element.input.title.value;
-	this.data.imageUrl = this.element.input.imageUrl.value;
-	this.data.description = this.element.input.description.value;
-
-	// Clone so the data isn't changeable.
-	this.opts.callbacks.saveSnippetData( clone( this.data ) );
-};
-
-/**
- * Refreshes the snippet editor rendered HTML
- *
- * @returns {void}
- */
-TwitterPreview.prototype.refresh = function() {
-	this.output = this.htmlOutput();
-	this.renderOutput();
-	this.renderSnippetStyle();
-};
-
-/**
- * Renders the outputs to the elements on the page.
- *
- * @returns {void}
- */
-TwitterPreview.prototype.renderOutput = function() {
-	this.element.rendered.title.innerHTML = this.output.title;
-
-	if ( typeof this.output.imageUrl !== "undefined" ) {
-		this.setImageUrl( this.element.rendered.imageUrl, this.output.imageUrl );
-	}
-	this.element.rendered.urlBase.innerHTML = this.output.url;
-	this.element.rendered.description.innerHTML = this.output.description;
-};
-
-/**
- * Makes the rendered description gray if no description has been set by the user.
- *
- * @returns {void}
- */
-TwitterPreview.prototype.renderSnippetStyle = function() {
-	var descriptionElement = this.element.rendered.description;
-	var description = this.getDescription();
-
-	if ( isEmpty( description ) ) {
-		addClass( descriptionElement, "desc-render" );
-		removeClass( descriptionElement, "desc-default" );
-	} else {
-		addClass( descriptionElement, "desc-default" );
-		removeClass( descriptionElement, "desc-render" );
-	}
-};
-
-/**
- * Opens the snippet editor.
- *
- * @returns {void}
- */
-TwitterPreview.prototype.openEditor = function() {
-
-	// Hide these elements.
-	addClass( this.element.editToggle,       "snippet-editor--hidden" );
-
-	// Show these elements.
-	removeClass( this.element.formContainer, "snippet-editor--hidden" );
-	removeClass( this.element.headingEditor, "snippet-editor--hidden" );
-
-	this.opened = true;
-};
-
-/**
- * Closes the snippet editor.
- *
- * @returns {void}
- */
-TwitterPreview.prototype.closeEditor = function() {
-
-	// Hide these elements.
-	addClass( this.element.formContainer,     "snippet-editor--hidden" );
-	addClass( this.element.headingEditor,     "snippet-editor--hidden" );
-
-	// Show these elements.
-	removeClass( this.element.editToggle,     "snippet-editor--hidden" );
-
-	this.opened = false;
-};
-
-/**
- * Toggles the snippet editor.
- *
- * @returns {void}
- */
-TwitterPreview.prototype.toggleEditor = function() {
-	if ( this.opened ) {
-		this.closeEditor();
-	} else {
-		this.openEditor();
-	}
-};
-
-/**
- * Updates carets before the preview and input fields.
- *
- * @private
- *
- * @returns {void}
- */
-TwitterPreview.prototype._updateFocusCarets = function() {
-	var focusedLabel, focusedPreview;
-
-	// Disable all carets on the labels.
-	forEach( this.element.label, function( element ) {
-		removeClass( element, "snippet-editor__label--focus" );
-	} );
-
-	// Disable all carets on the previews.
-	forEach( this.element.preview, function( element ) {
-		removeClass( element, "snippet-editor__container--focus" );
-	} );
-
-	if ( null !== this._currentFocus ) {
-		focusedLabel = this.element.label[ this._currentFocus ];
-		focusedPreview = this.element.preview[ this._currentFocus ];
-
-		addClass( focusedLabel, "snippet-editor__label--focus" );
-		addClass( focusedPreview, "snippet-editor__container--focus" );
-	}
-};
-
-/**
- * Updates hover carets before the input fields.
- *
- * @private
- *
- * @returns {void}
- */
-TwitterPreview.prototype._updateHoverCarets = function() {
-	var hoveredLabel;
-
-	forEach( this.element.label, function( element ) {
-		removeClass( element, "snippet-editor__label--hover" );
-	} );
-
-	if ( null !== this._currentHover ) {
-		hoveredLabel = this.element.label[ this._currentHover ];
-
-		addClass( hoveredLabel, "snippet-editor__label--hover" );
-	}
+	var previewEvents = new PreviewEvents( inputTwitterPreviewBindings, this.element );
+	previewEvents.bindEvents( this.element.editToggle, this.element.closeEditor );
 };
 
 module.exports = TwitterPreview;
 
-},{"./fields/button.js":5,"./fields/textAreaFactory":7,"./fields/textFieldFactory":8,"./helpers/addClass.js":9,"./helpers/removeClass.js":11,"./templates.js":12,"jed":14,"lodash/collection/forEach":15,"lodash/function/debounce":17,"lodash/lang/clone":53,"lodash/lang/isElement":56,"lodash/lang/isEmpty":57,"lodash/object/defaultsDeep":67,"yoastseo/js/stringProcessing/stripHTMLTags.js":1,"yoastseo/js/stringProcessing/stripSpaces.js":2}],14:[function(require,module,exports){
+},{"./element/input":4,"./helpers/addClass.js":6,"./helpers/imageRatio":7,"./helpers/removeClass.js":9,"./helpers/renderDescription":10,"./inputs/button.js":11,"./inputs/textInput":13,"./inputs/textarea":14,"./preview/events":15,"./templates.js":16,"jed":18,"lodash/lang/clone":57,"lodash/lang/isElement":60,"lodash/object/defaultsDeep":71}],18:[function(require,module,exports){
 /**
  * @preserve jed.js https://github.com/SlexAxton/Jed
  */
@@ -2979,7 +2730,7 @@ return parser;
 
 })(this);
 
-},{}],15:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 var arrayEach = require('../internal/arrayEach'),
     baseEach = require('../internal/baseEach'),
     createForEach = require('../internal/createForEach');
@@ -3018,7 +2769,7 @@ var forEach = createForEach(arrayEach, baseEach);
 
 module.exports = forEach;
 
-},{"../internal/arrayEach":20,"../internal/baseEach":26,"../internal/createForEach":39}],16:[function(require,module,exports){
+},{"../internal/arrayEach":24,"../internal/baseEach":30,"../internal/createForEach":43}],20:[function(require,module,exports){
 var getNative = require('../internal/getNative');
 
 /* Native method references for those with the same name as other `lodash` methods. */
@@ -3044,7 +2795,7 @@ var now = nativeNow || function() {
 
 module.exports = now;
 
-},{"../internal/getNative":41}],17:[function(require,module,exports){
+},{"../internal/getNative":45}],21:[function(require,module,exports){
 var isObject = require('../lang/isObject'),
     now = require('../date/now');
 
@@ -3227,7 +2978,7 @@ function debounce(func, wait, options) {
 
 module.exports = debounce;
 
-},{"../date/now":16,"../lang/isObject":60}],18:[function(require,module,exports){
+},{"../date/now":20,"../lang/isObject":64}],22:[function(require,module,exports){
 /** Used as the `TypeError` message for "Functions" methods. */
 var FUNC_ERROR_TEXT = 'Expected a function';
 
@@ -3287,7 +3038,7 @@ function restParam(func, start) {
 
 module.exports = restParam;
 
-},{}],19:[function(require,module,exports){
+},{}],23:[function(require,module,exports){
 /**
  * Copies the values of `source` to `array`.
  *
@@ -3309,7 +3060,7 @@ function arrayCopy(source, array) {
 
 module.exports = arrayCopy;
 
-},{}],20:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 /**
  * A specialized version of `_.forEach` for arrays without support for callback
  * shorthands and `this` binding.
@@ -3333,7 +3084,7 @@ function arrayEach(array, iteratee) {
 
 module.exports = arrayEach;
 
-},{}],21:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 /**
  * Used by `_.defaults` to customize its `_.assign` use.
  *
@@ -3348,7 +3099,7 @@ function assignDefaults(objectValue, sourceValue) {
 
 module.exports = assignDefaults;
 
-},{}],22:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 var keys = require('../object/keys');
 
 /**
@@ -3382,7 +3133,7 @@ function assignWith(object, source, customizer) {
 
 module.exports = assignWith;
 
-},{"../object/keys":68}],23:[function(require,module,exports){
+},{"../object/keys":72}],27:[function(require,module,exports){
 var baseCopy = require('./baseCopy'),
     keys = require('../object/keys');
 
@@ -3403,7 +3154,7 @@ function baseAssign(object, source) {
 
 module.exports = baseAssign;
 
-},{"../object/keys":68,"./baseCopy":25}],24:[function(require,module,exports){
+},{"../object/keys":72,"./baseCopy":29}],28:[function(require,module,exports){
 var arrayCopy = require('./arrayCopy'),
     arrayEach = require('./arrayEach'),
     baseAssign = require('./baseAssign'),
@@ -3533,7 +3284,7 @@ function baseClone(value, isDeep, customizer, key, object, stackA, stackB) {
 
 module.exports = baseClone;
 
-},{"../lang/isArray":55,"../lang/isObject":60,"./arrayCopy":19,"./arrayEach":20,"./baseAssign":23,"./baseForOwn":29,"./initCloneArray":42,"./initCloneByTag":43,"./initCloneObject":44}],25:[function(require,module,exports){
+},{"../lang/isArray":59,"../lang/isObject":64,"./arrayCopy":23,"./arrayEach":24,"./baseAssign":27,"./baseForOwn":33,"./initCloneArray":46,"./initCloneByTag":47,"./initCloneObject":48}],29:[function(require,module,exports){
 /**
  * Copies properties of `source` to `object`.
  *
@@ -3558,7 +3309,7 @@ function baseCopy(source, props, object) {
 
 module.exports = baseCopy;
 
-},{}],26:[function(require,module,exports){
+},{}],30:[function(require,module,exports){
 var baseForOwn = require('./baseForOwn'),
     createBaseEach = require('./createBaseEach');
 
@@ -3575,7 +3326,7 @@ var baseEach = createBaseEach(baseForOwn);
 
 module.exports = baseEach;
 
-},{"./baseForOwn":29,"./createBaseEach":36}],27:[function(require,module,exports){
+},{"./baseForOwn":33,"./createBaseEach":40}],31:[function(require,module,exports){
 var createBaseFor = require('./createBaseFor');
 
 /**
@@ -3594,7 +3345,7 @@ var baseFor = createBaseFor();
 
 module.exports = baseFor;
 
-},{"./createBaseFor":37}],28:[function(require,module,exports){
+},{"./createBaseFor":41}],32:[function(require,module,exports){
 var baseFor = require('./baseFor'),
     keysIn = require('../object/keysIn');
 
@@ -3613,7 +3364,7 @@ function baseForIn(object, iteratee) {
 
 module.exports = baseForIn;
 
-},{"../object/keysIn":69,"./baseFor":27}],29:[function(require,module,exports){
+},{"../object/keysIn":73,"./baseFor":31}],33:[function(require,module,exports){
 var baseFor = require('./baseFor'),
     keys = require('../object/keys');
 
@@ -3632,7 +3383,7 @@ function baseForOwn(object, iteratee) {
 
 module.exports = baseForOwn;
 
-},{"../object/keys":68,"./baseFor":27}],30:[function(require,module,exports){
+},{"../object/keys":72,"./baseFor":31}],34:[function(require,module,exports){
 var arrayEach = require('./arrayEach'),
     baseMergeDeep = require('./baseMergeDeep'),
     isArray = require('../lang/isArray'),
@@ -3690,7 +3441,7 @@ function baseMerge(object, source, customizer, stackA, stackB) {
 
 module.exports = baseMerge;
 
-},{"../lang/isArray":55,"../lang/isObject":60,"../lang/isTypedArray":63,"../object/keys":68,"./arrayEach":20,"./baseMergeDeep":31,"./isArrayLike":45,"./isObjectLike":49}],31:[function(require,module,exports){
+},{"../lang/isArray":59,"../lang/isObject":64,"../lang/isTypedArray":67,"../object/keys":72,"./arrayEach":24,"./baseMergeDeep":35,"./isArrayLike":49,"./isObjectLike":53}],35:[function(require,module,exports){
 var arrayCopy = require('./arrayCopy'),
     isArguments = require('../lang/isArguments'),
     isArray = require('../lang/isArray'),
@@ -3759,7 +3510,7 @@ function baseMergeDeep(object, source, key, mergeFunc, customizer, stackA, stack
 
 module.exports = baseMergeDeep;
 
-},{"../lang/isArguments":54,"../lang/isArray":55,"../lang/isPlainObject":61,"../lang/isTypedArray":63,"../lang/toPlainObject":64,"./arrayCopy":19,"./isArrayLike":45}],32:[function(require,module,exports){
+},{"../lang/isArguments":58,"../lang/isArray":59,"../lang/isPlainObject":65,"../lang/isTypedArray":67,"../lang/toPlainObject":68,"./arrayCopy":23,"./isArrayLike":49}],36:[function(require,module,exports){
 /**
  * The base implementation of `_.property` without support for deep paths.
  *
@@ -3775,7 +3526,7 @@ function baseProperty(key) {
 
 module.exports = baseProperty;
 
-},{}],33:[function(require,module,exports){
+},{}],37:[function(require,module,exports){
 var identity = require('../utility/identity');
 
 /**
@@ -3816,7 +3567,7 @@ function bindCallback(func, thisArg, argCount) {
 
 module.exports = bindCallback;
 
-},{"../utility/identity":71}],34:[function(require,module,exports){
+},{"../utility/identity":75}],38:[function(require,module,exports){
 (function (global){
 /** Native method references. */
 var ArrayBuffer = global.ArrayBuffer,
@@ -3840,7 +3591,7 @@ function bufferClone(buffer) {
 module.exports = bufferClone;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],35:[function(require,module,exports){
+},{}],39:[function(require,module,exports){
 var bindCallback = require('./bindCallback'),
     isIterateeCall = require('./isIterateeCall'),
     restParam = require('../function/restParam');
@@ -3883,7 +3634,7 @@ function createAssigner(assigner) {
 
 module.exports = createAssigner;
 
-},{"../function/restParam":18,"./bindCallback":33,"./isIterateeCall":47}],36:[function(require,module,exports){
+},{"../function/restParam":22,"./bindCallback":37,"./isIterateeCall":51}],40:[function(require,module,exports){
 var getLength = require('./getLength'),
     isLength = require('./isLength'),
     toObject = require('./toObject');
@@ -3916,7 +3667,7 @@ function createBaseEach(eachFunc, fromRight) {
 
 module.exports = createBaseEach;
 
-},{"./getLength":40,"./isLength":48,"./toObject":52}],37:[function(require,module,exports){
+},{"./getLength":44,"./isLength":52,"./toObject":56}],41:[function(require,module,exports){
 var toObject = require('./toObject');
 
 /**
@@ -3945,7 +3696,7 @@ function createBaseFor(fromRight) {
 
 module.exports = createBaseFor;
 
-},{"./toObject":52}],38:[function(require,module,exports){
+},{"./toObject":56}],42:[function(require,module,exports){
 var restParam = require('../function/restParam');
 
 /**
@@ -3969,7 +3720,7 @@ function createDefaults(assigner, customizer) {
 
 module.exports = createDefaults;
 
-},{"../function/restParam":18}],39:[function(require,module,exports){
+},{"../function/restParam":22}],43:[function(require,module,exports){
 var bindCallback = require('./bindCallback'),
     isArray = require('../lang/isArray');
 
@@ -3991,7 +3742,7 @@ function createForEach(arrayFunc, eachFunc) {
 
 module.exports = createForEach;
 
-},{"../lang/isArray":55,"./bindCallback":33}],40:[function(require,module,exports){
+},{"../lang/isArray":59,"./bindCallback":37}],44:[function(require,module,exports){
 var baseProperty = require('./baseProperty');
 
 /**
@@ -4008,7 +3759,7 @@ var getLength = baseProperty('length');
 
 module.exports = getLength;
 
-},{"./baseProperty":32}],41:[function(require,module,exports){
+},{"./baseProperty":36}],45:[function(require,module,exports){
 var isNative = require('../lang/isNative');
 
 /**
@@ -4026,7 +3777,7 @@ function getNative(object, key) {
 
 module.exports = getNative;
 
-},{"../lang/isNative":59}],42:[function(require,module,exports){
+},{"../lang/isNative":63}],46:[function(require,module,exports){
 /** Used for native method references. */
 var objectProto = Object.prototype;
 
@@ -4054,7 +3805,7 @@ function initCloneArray(array) {
 
 module.exports = initCloneArray;
 
-},{}],43:[function(require,module,exports){
+},{}],47:[function(require,module,exports){
 var bufferClone = require('./bufferClone');
 
 /** `Object#toString` result references. */
@@ -4119,7 +3870,7 @@ function initCloneByTag(object, tag, isDeep) {
 
 module.exports = initCloneByTag;
 
-},{"./bufferClone":34}],44:[function(require,module,exports){
+},{"./bufferClone":38}],48:[function(require,module,exports){
 /**
  * Initializes an object clone.
  *
@@ -4137,7 +3888,7 @@ function initCloneObject(object) {
 
 module.exports = initCloneObject;
 
-},{}],45:[function(require,module,exports){
+},{}],49:[function(require,module,exports){
 var getLength = require('./getLength'),
     isLength = require('./isLength');
 
@@ -4154,7 +3905,7 @@ function isArrayLike(value) {
 
 module.exports = isArrayLike;
 
-},{"./getLength":40,"./isLength":48}],46:[function(require,module,exports){
+},{"./getLength":44,"./isLength":52}],50:[function(require,module,exports){
 /** Used to detect unsigned integer values. */
 var reIsUint = /^\d+$/;
 
@@ -4180,7 +3931,7 @@ function isIndex(value, length) {
 
 module.exports = isIndex;
 
-},{}],47:[function(require,module,exports){
+},{}],51:[function(require,module,exports){
 var isArrayLike = require('./isArrayLike'),
     isIndex = require('./isIndex'),
     isObject = require('../lang/isObject');
@@ -4210,7 +3961,7 @@ function isIterateeCall(value, index, object) {
 
 module.exports = isIterateeCall;
 
-},{"../lang/isObject":60,"./isArrayLike":45,"./isIndex":46}],48:[function(require,module,exports){
+},{"../lang/isObject":64,"./isArrayLike":49,"./isIndex":50}],52:[function(require,module,exports){
 /**
  * Used as the [maximum length](http://ecma-international.org/ecma-262/6.0/#sec-number.max_safe_integer)
  * of an array-like value.
@@ -4232,7 +3983,7 @@ function isLength(value) {
 
 module.exports = isLength;
 
-},{}],49:[function(require,module,exports){
+},{}],53:[function(require,module,exports){
 /**
  * Checks if `value` is object-like.
  *
@@ -4246,7 +3997,7 @@ function isObjectLike(value) {
 
 module.exports = isObjectLike;
 
-},{}],50:[function(require,module,exports){
+},{}],54:[function(require,module,exports){
 var merge = require('../object/merge');
 
 /**
@@ -4263,7 +4014,7 @@ function mergeDefaults(objectValue, sourceValue) {
 
 module.exports = mergeDefaults;
 
-},{"../object/merge":70}],51:[function(require,module,exports){
+},{"../object/merge":74}],55:[function(require,module,exports){
 var isArguments = require('../lang/isArguments'),
     isArray = require('../lang/isArray'),
     isIndex = require('./isIndex'),
@@ -4306,7 +4057,7 @@ function shimKeys(object) {
 
 module.exports = shimKeys;
 
-},{"../lang/isArguments":54,"../lang/isArray":55,"../object/keysIn":69,"./isIndex":46,"./isLength":48}],52:[function(require,module,exports){
+},{"../lang/isArguments":58,"../lang/isArray":59,"../object/keysIn":73,"./isIndex":50,"./isLength":52}],56:[function(require,module,exports){
 var isObject = require('../lang/isObject');
 
 /**
@@ -4322,7 +4073,7 @@ function toObject(value) {
 
 module.exports = toObject;
 
-},{"../lang/isObject":60}],53:[function(require,module,exports){
+},{"../lang/isObject":64}],57:[function(require,module,exports){
 var baseClone = require('../internal/baseClone'),
     bindCallback = require('../internal/bindCallback'),
     isIterateeCall = require('../internal/isIterateeCall');
@@ -4394,7 +4145,7 @@ function clone(value, isDeep, customizer, thisArg) {
 
 module.exports = clone;
 
-},{"../internal/baseClone":24,"../internal/bindCallback":33,"../internal/isIterateeCall":47}],54:[function(require,module,exports){
+},{"../internal/baseClone":28,"../internal/bindCallback":37,"../internal/isIterateeCall":51}],58:[function(require,module,exports){
 var isArrayLike = require('../internal/isArrayLike'),
     isObjectLike = require('../internal/isObjectLike');
 
@@ -4430,7 +4181,7 @@ function isArguments(value) {
 
 module.exports = isArguments;
 
-},{"../internal/isArrayLike":45,"../internal/isObjectLike":49}],55:[function(require,module,exports){
+},{"../internal/isArrayLike":49,"../internal/isObjectLike":53}],59:[function(require,module,exports){
 var getNative = require('../internal/getNative'),
     isLength = require('../internal/isLength'),
     isObjectLike = require('../internal/isObjectLike');
@@ -4472,7 +4223,7 @@ var isArray = nativeIsArray || function(value) {
 
 module.exports = isArray;
 
-},{"../internal/getNative":41,"../internal/isLength":48,"../internal/isObjectLike":49}],56:[function(require,module,exports){
+},{"../internal/getNative":45,"../internal/isLength":52,"../internal/isObjectLike":53}],60:[function(require,module,exports){
 var isObjectLike = require('../internal/isObjectLike'),
     isPlainObject = require('./isPlainObject');
 
@@ -4498,7 +4249,7 @@ function isElement(value) {
 
 module.exports = isElement;
 
-},{"../internal/isObjectLike":49,"./isPlainObject":61}],57:[function(require,module,exports){
+},{"../internal/isObjectLike":53,"./isPlainObject":65}],61:[function(require,module,exports){
 var isArguments = require('./isArguments'),
     isArray = require('./isArray'),
     isArrayLike = require('../internal/isArrayLike'),
@@ -4547,7 +4298,7 @@ function isEmpty(value) {
 
 module.exports = isEmpty;
 
-},{"../internal/isArrayLike":45,"../internal/isObjectLike":49,"../object/keys":68,"./isArguments":54,"./isArray":55,"./isFunction":58,"./isString":62}],58:[function(require,module,exports){
+},{"../internal/isArrayLike":49,"../internal/isObjectLike":53,"../object/keys":72,"./isArguments":58,"./isArray":59,"./isFunction":62,"./isString":66}],62:[function(require,module,exports){
 var isObject = require('./isObject');
 
 /** `Object#toString` result references. */
@@ -4587,7 +4338,7 @@ function isFunction(value) {
 
 module.exports = isFunction;
 
-},{"./isObject":60}],59:[function(require,module,exports){
+},{"./isObject":64}],63:[function(require,module,exports){
 var isFunction = require('./isFunction'),
     isObjectLike = require('../internal/isObjectLike');
 
@@ -4637,7 +4388,7 @@ function isNative(value) {
 
 module.exports = isNative;
 
-},{"../internal/isObjectLike":49,"./isFunction":58}],60:[function(require,module,exports){
+},{"../internal/isObjectLike":53,"./isFunction":62}],64:[function(require,module,exports){
 /**
  * Checks if `value` is the [language type](https://es5.github.io/#x8) of `Object`.
  * (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
@@ -4667,7 +4418,7 @@ function isObject(value) {
 
 module.exports = isObject;
 
-},{}],61:[function(require,module,exports){
+},{}],65:[function(require,module,exports){
 var baseForIn = require('../internal/baseForIn'),
     isArguments = require('./isArguments'),
     isObjectLike = require('../internal/isObjectLike');
@@ -4740,7 +4491,7 @@ function isPlainObject(value) {
 
 module.exports = isPlainObject;
 
-},{"../internal/baseForIn":28,"../internal/isObjectLike":49,"./isArguments":54}],62:[function(require,module,exports){
+},{"../internal/baseForIn":32,"../internal/isObjectLike":53,"./isArguments":58}],66:[function(require,module,exports){
 var isObjectLike = require('../internal/isObjectLike');
 
 /** `Object#toString` result references. */
@@ -4777,7 +4528,7 @@ function isString(value) {
 
 module.exports = isString;
 
-},{"../internal/isObjectLike":49}],63:[function(require,module,exports){
+},{"../internal/isObjectLike":53}],67:[function(require,module,exports){
 var isLength = require('../internal/isLength'),
     isObjectLike = require('../internal/isObjectLike');
 
@@ -4853,7 +4604,7 @@ function isTypedArray(value) {
 
 module.exports = isTypedArray;
 
-},{"../internal/isLength":48,"../internal/isObjectLike":49}],64:[function(require,module,exports){
+},{"../internal/isLength":52,"../internal/isObjectLike":53}],68:[function(require,module,exports){
 var baseCopy = require('../internal/baseCopy'),
     keysIn = require('../object/keysIn');
 
@@ -4886,7 +4637,7 @@ function toPlainObject(value) {
 
 module.exports = toPlainObject;
 
-},{"../internal/baseCopy":25,"../object/keysIn":69}],65:[function(require,module,exports){
+},{"../internal/baseCopy":29,"../object/keysIn":73}],69:[function(require,module,exports){
 var assignWith = require('../internal/assignWith'),
     baseAssign = require('../internal/baseAssign'),
     createAssigner = require('../internal/createAssigner');
@@ -4931,7 +4682,7 @@ var assign = createAssigner(function(object, source, customizer) {
 
 module.exports = assign;
 
-},{"../internal/assignWith":22,"../internal/baseAssign":23,"../internal/createAssigner":35}],66:[function(require,module,exports){
+},{"../internal/assignWith":26,"../internal/baseAssign":27,"../internal/createAssigner":39}],70:[function(require,module,exports){
 var assign = require('./assign'),
     assignDefaults = require('../internal/assignDefaults'),
     createDefaults = require('../internal/createDefaults');
@@ -4958,7 +4709,7 @@ var defaults = createDefaults(assign, assignDefaults);
 
 module.exports = defaults;
 
-},{"../internal/assignDefaults":21,"../internal/createDefaults":38,"./assign":65}],67:[function(require,module,exports){
+},{"../internal/assignDefaults":25,"../internal/createDefaults":42,"./assign":69}],71:[function(require,module,exports){
 var createDefaults = require('../internal/createDefaults'),
     merge = require('./merge'),
     mergeDefaults = require('../internal/mergeDefaults');
@@ -4985,7 +4736,7 @@ var defaultsDeep = createDefaults(merge, mergeDefaults);
 
 module.exports = defaultsDeep;
 
-},{"../internal/createDefaults":38,"../internal/mergeDefaults":50,"./merge":70}],68:[function(require,module,exports){
+},{"../internal/createDefaults":42,"../internal/mergeDefaults":54,"./merge":74}],72:[function(require,module,exports){
 var getNative = require('../internal/getNative'),
     isArrayLike = require('../internal/isArrayLike'),
     isObject = require('../lang/isObject'),
@@ -5032,7 +4783,7 @@ var keys = !nativeKeys ? shimKeys : function(object) {
 
 module.exports = keys;
 
-},{"../internal/getNative":41,"../internal/isArrayLike":45,"../internal/shimKeys":51,"../lang/isObject":60}],69:[function(require,module,exports){
+},{"../internal/getNative":45,"../internal/isArrayLike":49,"../internal/shimKeys":55,"../lang/isObject":64}],73:[function(require,module,exports){
 var isArguments = require('../lang/isArguments'),
     isArray = require('../lang/isArray'),
     isIndex = require('../internal/isIndex'),
@@ -5098,7 +4849,7 @@ function keysIn(object) {
 
 module.exports = keysIn;
 
-},{"../internal/isIndex":46,"../internal/isLength":48,"../lang/isArguments":54,"../lang/isArray":55,"../lang/isObject":60}],70:[function(require,module,exports){
+},{"../internal/isIndex":50,"../internal/isLength":52,"../lang/isArguments":58,"../lang/isArray":59,"../lang/isObject":64}],74:[function(require,module,exports){
 var baseMerge = require('../internal/baseMerge'),
     createAssigner = require('../internal/createAssigner');
 
@@ -5154,7 +4905,7 @@ var merge = createAssigner(baseMerge);
 
 module.exports = merge;
 
-},{"../internal/baseMerge":30,"../internal/createAssigner":35}],71:[function(require,module,exports){
+},{"../internal/baseMerge":34,"../internal/createAssigner":39}],75:[function(require,module,exports){
 /**
  * This method returns the first argument provided to it.
  *

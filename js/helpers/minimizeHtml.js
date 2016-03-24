@@ -1,9 +1,9 @@
 /**
  * Cleans spaces from the html.
  *
- * @param  {string} html
+ * @param  {string} html The html to minimize.
  *
- * @returns {string}
+ * @returns {string} The minimized html string.
  */
 function minimizeHtml( html ) {
 	html = html.replace( /(\s+)/g, " " );
