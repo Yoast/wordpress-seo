@@ -367,7 +367,12 @@ TwitterPreview.prototype.setDescription = function( description ) {
 TwitterPreview.prototype.setImageUrl = function( imageUrl ) {
 	var imageContainer = this.element.preview.imageUrl;
 	if (this.data.imageUrl === '') {
-		imagePlaceholder( imageContainer, this.i18n.dgettext( "js-text-analysis", "Please enter an image url by clicking here" ) );
+		imagePlaceholder(
+			imageContainer,
+			this.i18n.dgettext( "js-text-analysis", "Please enter an image url by clicking here" ),
+			false,
+			'twitter'
+		);
 
 		return;
 	}
@@ -385,7 +390,8 @@ TwitterPreview.prototype.setImageUrl = function( imageUrl ) {
 		null,
 		imageContainer,
 		this.i18n.dgettext( "js-text-analysis", "The given image url cannot be loaded" ),
-		true
+		true,
+		'twitter'
 	);
 
 	// Load image to trigger load or error event.

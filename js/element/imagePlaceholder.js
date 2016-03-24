@@ -8,12 +8,17 @@ var placeholderTemplate = require( "../templates" ).imagePlaceholder;
  * @param {string} placeholder The value for the placeholder.
  * @param {bool} isError When the placeholder should an error.
  */
-function setImagePlaceholder( imageContainer, placeholder, isError ) {
+function setImagePlaceholder( imageContainer, placeholder, isError, modifier ) {
 	var classNames = [ "social-image-placeholder" ];
 	isError = isError || false;
+	modifier = modifier || "";
 
 	if ( isError ) {
 		classNames.push( "social-image-placeholder--error" );
+	}
+
+	if ( '' !== modifier ) {
+		classNames.push( "social-image-placeholder--" + modifier );
 	}
 
 	imageContainer.innerHTML = placeholderTemplate( {

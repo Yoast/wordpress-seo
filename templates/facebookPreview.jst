@@ -1,32 +1,34 @@
-<div id="facebook_preview">
+<div class="editable-preview editable-preview--facebook" id="facebook_preview">
 	<h4 class="snippet-editor__heading snippet-editor__heading-icon-eye"><%- i18n.snippetPreview %></h4>
 
-	<section class="facebook-preview">
-		<div class="snippet-editor__container facebook-preview__image snippet_container" id="facebook_image_container">
-			<img class="image" id="facebook_image" src="<%- rendered.imageUrl %>" />
+	<section class="editable-preview__inner facebook-preview">
+		<div class="social-preview__inner social-preview__inner--facebook">
+			<div class="snippet-editor__container facebook-preview__image snippet_container" id="facebook_image_container">
+				<img class="image" id="facebook_image" src="<%- rendered.imageUrl %>" />
+			</div>
+			<div class="facebook-preview__text-keeper">
+				<div class="snippet-editor__container facebook-preview__title snippet_container" id="facebook_title_container">
+					<span id="facebook_title">
+						<%- rendered.title %>
+					</span>
+				</div>
+				<div class="snippet-editor__container facebook-preview__description snippet_container" id="facebook_description_container">
+					<span id="facebook_description">
+						<%- rendered.description %>
+					</span>
+				</div>
+				<div class="snippet-editor__container facebook-preview__website snippet_container" id="base_url_container">
+					<span id="facebook_base_url">
+						<%- rendered.baseUrl %>
+					</span>
+				</div>
+			</div>
 		</div>
-		<div class="facebook-preview__text-keeper">
-			<div class="snippet-editor__container facebook-preview__title snippet_container" id="facebook_title_container">
-				<span id="facebook_title">
-					<%- rendered.title %>
-				</span>
-			</div>
-			<div class="snippet-editor__container facebook-preview__description snippet_container" id="facebook_description_container">
-				<span id="facebook_description">
-					<%- rendered.description %>
-				</span>
-			</div>
-			<div class="snippet-editor__container facebook-preview__website snippet_container" id="base_url_container">
-				<span id="facebook_base_url">
-					<%- rendered.baseUrl %>
-				</span>
-			</div>
-		</div>
-	</section>
 
-	<button class="snippet-editor__button snippet-editor__edit-button" type="button">
-		<%- i18n.edit %>
-	</button>
+		<button class="snippet-editor__button snippet-editor__edit-button" type="button">
+			<%- i18n.edit %>
+		</button>
+	</section>
 
 	<h4 class="snippet-editor__heading snippet-editor__heading-editor snippet-editor__heading-icon-edit snippet-editor--hidden"><%- i18n.snippetEditor %></h4>
 

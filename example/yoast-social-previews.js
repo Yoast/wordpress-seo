@@ -69,12 +69,17 @@ var placeholderTemplate = require( "../templates" ).imagePlaceholder;
  * @param {string} placeholder The value for the placeholder.
  * @param {bool} isError When the placeholder should an error.
  */
-function setImagePlaceholder( imageContainer, placeholder, isError ) {
+function setImagePlaceholder( imageContainer, placeholder, isError, modifier ) {
 	var classNames = [ "social-image-placeholder" ];
 	isError = isError || false;
+	modifier = modifier || "";
 
 	if ( isError ) {
 		classNames.push( "social-image-placeholder--error" );
+	}
+
+	if ( '' !== modifier ) {
+		classNames.push( "social-image-placeholder--" + modifier );
 	}
 
 	imageContainer.innerHTML = placeholderTemplate( {
@@ -559,7 +564,11 @@ FacebookPreview.prototype.setDescription = function( description ) {
 FacebookPreview.prototype.setImageUrl = function( imageUrl ) {
 	var imageContainer = this.element.preview.imageUrl;
 	if (this.data.imageUrl === '') {
-		imagePlaceholder( imageContainer, this.i18n.dgettext( "js-text-analysis", "Please enter an image url by clicking here" ) );
+		imagePlaceholder( imageContainer,
+			this.i18n.dgettext( "js-text-analysis", "Please enter an image url by clicking here" ),
+			false,
+			'facebook'
+		);
 
 		return;
 	}
@@ -576,7 +585,8 @@ FacebookPreview.prototype.setImageUrl = function( imageUrl ) {
 		null,
 		imageContainer,
 		this.i18n.dgettext( "js-text-analysis", "The given image url cannot be loaded" ),
-		true
+		true,
+		'facebook'
 	);
 
 	// Load image to trigger load or error event.
@@ -1166,19 +1176,19 @@ module.exports = PreviewEvents;
     obj || (obj = {});
     var __t, __p = '', __e = _.escape;
     with (obj) {
-    __p += '<div id="facebook_preview">\n	<h4 class="snippet-editor__heading snippet-editor__heading-icon-eye">' +
+    __p += '<div class="editable-preview editable-preview--facebook" id="facebook_preview">\n	<h4 class="snippet-editor__heading snippet-editor__heading-icon-eye">' +
     __e( i18n.snippetPreview ) +
-    '</h4>\n\n	<section class="facebook-preview">\n		<div class="snippet-editor__container facebook-preview__image snippet_container" id="facebook_image_container">\n			<img class="image" id="facebook_image" src="' +
+    '</h4>\n\n	<section class="editable-preview__inner facebook-preview">\n		<div class="social-preview__inner social-preview__inner--facebook">\n			<div class="snippet-editor__container facebook-preview__image snippet_container" id="facebook_image_container">\n				<img class="image" id="facebook_image" src="' +
     __e( rendered.imageUrl ) +
-    '" />\n		</div>\n		<div class="facebook-preview__text-keeper">\n			<div class="snippet-editor__container facebook-preview__title snippet_container" id="facebook_title_container">\n				<span id="facebook_title">\n					' +
+    '" />\n			</div>\n			<div class="facebook-preview__text-keeper">\n				<div class="snippet-editor__container facebook-preview__title snippet_container" id="facebook_title_container">\n					<span id="facebook_title">\n						' +
     __e( rendered.title ) +
-    '\n				</span>\n			</div>\n			<div class="snippet-editor__container facebook-preview__description snippet_container" id="facebook_description_container">\n				<span id="facebook_description">\n					' +
+    '\n					</span>\n				</div>\n				<div class="snippet-editor__container facebook-preview__description snippet_container" id="facebook_description_container">\n					<span id="facebook_description">\n						' +
     __e( rendered.description ) +
-    '\n				</span>\n			</div>\n			<div class="snippet-editor__container facebook-preview__website snippet_container" id="base_url_container">\n				<span id="facebook_base_url">\n					' +
+    '\n					</span>\n				</div>\n				<div class="snippet-editor__container facebook-preview__website snippet_container" id="base_url_container">\n					<span id="facebook_base_url">\n						' +
     __e( rendered.baseUrl ) +
-    '\n				</span>\n			</div>\n		</div>\n	</section>\n\n	<button class="snippet-editor__button snippet-editor__edit-button" type="button">\n		' +
+    '\n					</span>\n				</div>\n			</div>\n		</div>\n\n		<button class="snippet-editor__button snippet-editor__edit-button" type="button">\n			' +
     __e( i18n.edit ) +
-    '\n	</button>\n\n	<h4 class="snippet-editor__heading snippet-editor__heading-editor snippet-editor__heading-icon-edit snippet-editor--hidden">' +
+    '\n		</button>\n	</section>\n\n	<h4 class="snippet-editor__heading snippet-editor__heading-editor snippet-editor__heading-icon-edit snippet-editor--hidden">' +
     __e( i18n.snippetEditor ) +
     '</h4>\n\n	<div class="snippet-editor__form snippet-editor--hidden">\n\n	</div>\n</div>\n';
 
@@ -1332,19 +1342,19 @@ module.exports = PreviewEvents;
     obj || (obj = {});
     var __t, __p = '', __e = _.escape;
     with (obj) {
-    __p += '<div id="twitter_preview">\n	<h4 class="snippet-editor__heading snippet-editor__heading-icon-eye">' +
+    __p += '<div class="editable-preview editable-preview--twitter" id="twitter_preview">\n	<h4 class="snippet-editor__heading snippet-editor__heading-icon-eye">' +
     __e( i18n.snippetPreview ) +
-    '</h4>\n\n	<section class="twitter-preview">\n		<div class="snippet-editor__container twitter-preview__image snippet_container" id="twitter_image_container">\n			<img class="image" id="twitter_image" src="' +
+    '</h4>\n\n	<section class="editable-preview__inner social-preview twitter-preview">\n		<div class="social-preview__inner social-preview__inner--twitter">\n			<div class="snippet-editor__container twitter-preview__image snippet_container" id="twitter_image_container">\n				<img class="image" id="twitter_image" src="' +
     __e( rendered.imageUrl ) +
-    '" />\n		</div>\n		<div class="twitter-preview__text-keeper">\n			<div class="snippet-editor__container twitter-preview__title snippet_container" id="twitter_title_container">\n				<span id="twitter_title">\n					' +
+    '" />\n			</div>\n			<div class="twitter-preview__text-keeper">\n				<div class="snippet-editor__container twitter-preview__title snippet_container" id="twitter_title_container">\n					<span id="twitter_title">\n						' +
     __e( rendered.title ) +
-    '\n				</span>\n			</div>\n			<div class="snippet-editor__container twitter-preview__description snippet_container" id="twitter_description_container">\n				<span id="twitter_description">\n					' +
+    '\n					</span>\n				</div>\n				<div class="snippet-editor__container twitter-preview__description snippet_container" id="twitter_description_container">\n					<span id="twitter_description">\n						' +
     __e( rendered.description ) +
-    '\n				</span>\n			</div>\n			<div class="snippet-editor__container twitter-preview__website snippet_container" id="base_url_container">\n				<span id="twitter_base_url">\n					' +
+    '\n					</span>\n				</div>\n				<div class="snippet-editor__container twitter-preview__website snippet_container" id="base_url_container">\n					<span id="twitter_base_url">\n						' +
     __e( rendered.baseUrl ) +
-    '\n				</span>\n			</div>\n		</div>\n	</section>\n\n	<button class="snippet-editor__button snippet-editor__edit-button" type="button">\n		' +
+    '\n					</span>\n				</div>\n			</div>\n		</div>\n\n		<button class="snippet-editor__button snippet-editor__edit-button" type="button">\n			' +
     __e( i18n.edit ) +
-    '\n	</button>\n\n	<h4 class="snippet-editor__heading snippet-editor__heading-editor snippet-editor__heading-icon-edit snippet-editor--hidden">' +
+    '\n		</button>\n	</section>\n\n	<h4 class="snippet-editor__heading snippet-editor__heading-editor snippet-editor__heading-icon-edit snippet-editor--hidden">' +
     __e( i18n.snippetEditor ) +
     '</h4>\n\n	<div class="snippet-editor__form snippet-editor--hidden">\n\n	</div>\n</div>\n';
 
@@ -1737,7 +1747,12 @@ TwitterPreview.prototype.setDescription = function( description ) {
 TwitterPreview.prototype.setImageUrl = function( imageUrl ) {
 	var imageContainer = this.element.preview.imageUrl;
 	if (this.data.imageUrl === '') {
-		imagePlaceholder( imageContainer, this.i18n.dgettext( "js-text-analysis", "Please enter an image url by clicking here" ) );
+		imagePlaceholder(
+			imageContainer,
+			this.i18n.dgettext( "js-text-analysis", "Please enter an image url by clicking here" ),
+			false,
+			'twitter'
+		);
 
 		return;
 	}
@@ -1755,7 +1770,8 @@ TwitterPreview.prototype.setImageUrl = function( imageUrl ) {
 		null,
 		imageContainer,
 		this.i18n.dgettext( "js-text-analysis", "The given image url cannot be loaded" ),
-		true
+		true,
+		'twitter'
 	);
 
 	// Load image to trigger load or error event.
