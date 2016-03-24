@@ -30,7 +30,6 @@
     "grunt-jscs": "^1.6.0",
     "grunt-jsonlint": "^1.0.4",
     "grunt-jsvalidate": "^0.2.2",
-    "grunt-lodash": "^0.5.0",
     "grunt-po2json": "^0.3.0",
     "grunt-postcss": "^0.7.1",
     "grunt-sass": "^1.1.0",
