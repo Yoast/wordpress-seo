@@ -76,7 +76,7 @@ var TwitterPreview = socialPreviews.TwitterPreview;
 							description : jQuery( '#' + fieldPrefix + '_twitter-description' ).val(),
 							imageUrl : jQuery( '#' + fieldPrefix + '_twitter-image' ).val()
 						},
-						baseURL : yoast_social_preview,
+						baseURL : yoast_social_preview.website,
 						callbacks : {
 							updateSocialPreview : function( data ) {
 								jQuery( '#' + fieldPrefix + '_twitter-title' ).val( data.title );
