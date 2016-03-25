@@ -129,7 +129,8 @@ $border_radius_twitter: .42857em;
 
 			img {
 				max-height: 506px;
-				max-width:  $width_twitter - 1;
+				// Reduce max-width with 2 pixels because the image will overlap the bordered container.
+				max-width:  $width_twitter - 2;
 				border-radius: $border_radius_twitter $border_radius_twitter 0 0;
 			}
 		}
@@ -178,7 +179,8 @@ $border_radius_twitter: .42857em;
 	}
 
 	&--twitter {
-		width: $width_twitter;
+		// Reduce width with 2 pixels because element overlaps the bordered container.
+		width: $width_twitter - 2;
 		border-radius: $border_radius_twitter $border_radius_twitter 0 0;
 	}
 }
