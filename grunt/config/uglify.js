@@ -2,7 +2,7 @@
 module.exports = {
 	"js-text-analysis": {
 		options: {
-			preserveComments: "some",
+			comments: "some",
 			report: "gzip"
 		},
 		files: {

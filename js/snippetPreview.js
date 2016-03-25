@@ -1,12 +1,12 @@
 /* jshint browser: true */
 
-var isEmpty = require( "lodash/lang/isEmpty" );
-var isElement = require( "lodash/lang/isElement" );
-var isUndefined = require( "lodash/lang/isUndefined" );
-var clone = require( "lodash/lang/clone" );
-var defaultsDeep = require( "lodash/object/defaultsDeep" );
-var forEach = require( "lodash/collection/forEach" );
-var debounce = require( "lodash/function/debounce" );
+var isEmpty = require( "lodash/isEmpty" );
+var isElement = require( "lodash/isElement" );
+var isUndefined = require( "lodash/isUndefined" );
+var clone = require( "lodash/clone" );
+var defaultsDeep = require( "lodash/defaultsDeep" );
+var forEach = require( "lodash/forEach" );
+var debounce = require( "lodash/debounce" );
 
 var stringToRegex = require( "../js/stringProcessing/stringToRegex.js" );
 var stripHTMLTags = require( "../js/stringProcessing/stripHTMLTags.js" );

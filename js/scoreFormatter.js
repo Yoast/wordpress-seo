@@ -1,7 +1,7 @@
 /* jshint browser: true */
 
-var isUndefined = require( "lodash/lang/isUndefined" );
-var difference = require( "lodash/array/difference" );
+var isUndefined = require( "lodash/isUndefined" );
+var difference = require( "lodash/difference" );
 
 /**
  * defines the variables used for the scoreformatter, runs the outputScore en overallScore

@@ -1,5 +1,5 @@
 var AssessmentResult = require( "../values/AssessmentResult.js" );
-var isEmpty = require( "lodash/lang/isEmpty" );
+var isEmpty = require( "lodash/isEmpty" );
 
 /**
  * Calculate the score based on the current image count.

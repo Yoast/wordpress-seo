@@ -40,6 +40,9 @@ module.exports = function( grunt ) {
 	// Load Grunt configurations and tasks
 	loadGruntConfig( grunt, {
 		configPath: path.join( process.cwd(), project.paths.config ),
-		data: project
+		data: project,
+		jitGrunt: {
+			customTasksDir: "grunt/custom"
+		}
 	} );
 };
