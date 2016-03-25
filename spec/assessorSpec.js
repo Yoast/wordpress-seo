@@ -6,7 +6,6 @@ var MissingArgument = require( "../js/errors/missingArgument" );
 var factory = require( "./helpers/factory.js" );
 var i18n = factory.buildJed();
 
-
 describe( "create an assessor", function(){
 	it( "throws an error when no args are given", function(){
 		expect( function() { new Assessor } ).toThrowError( MissingArgument );
@@ -23,9 +22,9 @@ describe( "create an assessor", function(){
 var mockPaper = new Paper( "text" );
 var assessor = new Assessor( i18n );
 
-
 describe ( "running assessments in the assessor", function(){
 	it( "runs assessments", function(){
-		expect( assessor.assess( mockPaper ).length ).toBe( 16 );
+		assessor.assess( mockPaper );
+		expect( assessor.getValidResults().length ).toBe( 12 );
 	})
 });

@@ -5,6 +5,7 @@ var InvalidTypeError = require( "./errors/invalidType" );
 
 var MissingArgument = require( "./errors/missingArgument" );
 var isUndefined = require( "lodash/lang/isUndefined" );
+var forEach = require( "lodash/collection/forEach");
 
 //assessments
 var assessments = {};
@@ -70,7 +71,7 @@ Assessor.prototype.getAvailableAssessments = function() {
 
 /**
  * Runs the researches defined in the tasklist or the default researches.
- * @returns result
+ * @param {Paper} paper The paper to run assessments on.
  */
 Assessor.prototype.assess = function( paper ) {
 	this.verifyPaper( paper );
@@ -81,11 +82,28 @@ Assessor.prototype.assess = function( paper ) {
 	for ( var assessment in assessments ) {
 		if ( assessments.hasOwnProperty( assessment ) ) {
 			results.push(
-				assessments[ assessment ]( paper, researcher, this.i18n )
+				{
+					name: assessment,
+					result: assessments[ assessment ]( paper, researcher, this.i18n )
+				}
 			 );
 		}
 	}
-	return results;
+	this.results = results;
+};
+
+/**
+ * Filters out all assessmentresults that have no score and no text.
+ * @returns {Array}
+ */
+Assessor.prototype.getValidResults = function() {
+	var validResults = [];
+	this.results.forEach( function( assessmentResult ) {
+		if (assessmentResult.result.hasScore() && assessmentResult.result.hasText() ) {
+			validResults.push( assessmentResult );
+		}
+	} );
+	return validResults;
 };
 
 module.exports = Assessor;
