@@ -51,7 +51,7 @@ Assessor.prototype.verifyPaper = function( paper ) {
 
 /**
  * Checks if the i18n object is defined and sets it.
- * @param {object} i18n
+ * @param {object} i18n The i18n object used for translations.
  * @throws {MissingArgument} Parameter needs to be a valid i18n object.
  */
 Assessor.prototype.setI18n = function( i18n ) {
@@ -112,7 +112,7 @@ Assessor.prototype.getValidResults = function() {
  *
  * @returns {number} The overallscore
  */
-Assessor.prototype.calculateOverallScore  = function () {
+Assessor.prototype.calculateOverallScore  = function() {
 	var results = this.getValidResults();
 	var totalScore = 0;
 	results.forEach( function( assessmentResult ) {
