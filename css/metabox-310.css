@@ -338,10 +338,6 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 }
 
 .yoast_help.yoast-help-button {
-	cursor: pointer;
-}
-
-.yoast_help.yoast-help-button {
 	position: relative;
 	width: 28px;
 	height: 28px;
@@ -378,8 +374,14 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 .yoast-help-panel {
 	display: none;
 	max-width: 30em;
-	margin: 0 0 1em !important;
+	margin: 0 0 2em !important;
+	padding: 0;
 	font-weight: normal;
+	/* WordPress help tabs styling */
+	/*
+	border: 1px solid #e1e1e1;
+	background: #f6fbfd;
+	*/
 }
 
 .yoast-qtip {
