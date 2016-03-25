@@ -4,7 +4,7 @@
 
 ### How can we reproduce this behavior?
 
-Do you have an example URL? Put it here:
+Can you provide a link to a page which shows this issue?
 
 ### Technical info
 * WordPress version:
