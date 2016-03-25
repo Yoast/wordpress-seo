@@ -1,6 +1,6 @@
 var Assessor = require( "../js/assessor.js" );
 var Paper = require("../js/values/Paper.js");
-var InvalidTypeError = require( "../js/errors/invalidType.js" );
+var AssessmentResult = require( "../js/values/AssessmentResult.js" );
 var MissingArgument = require( "../js/errors/missingArgument" );
 
 var factory = require( "./helpers/factory.js" );
@@ -28,3 +28,23 @@ describe ( "running assessments in the assessor", function(){
 		expect( assessor.getValidResults().length ).toBe( 12 );
 	})
 });
+
+var result5 = new AssessmentResult();
+result5.setScore( 5 );
+var result4 = new AssessmentResult();
+result4.setScore( 4 );
+var result8 = new AssessmentResult()
+result8.setScore( 8 );
+
+describe ( "returning the overallscore", function(){
+	it ("returns the overallscore", function(){
+		assessor.getValidResults = function(){
+			return [
+				{result: result5},
+				{result: result4},
+				{result: result8}
+			]
+		};
+		expect( assessor.calculateOverallScore() ).toBe( 63 );
+	})
+} );

@@ -6,6 +6,8 @@ var InvalidTypeError = require( "./errors/invalidType" );
 var MissingArgument = require( "./errors/missingArgument" );
 var isUndefined = require( "lodash/lang/isUndefined" );
 
+var ScoreRating = 9;
+
 //assessments
 var assessments = {};
 assessments.wordCount = require( "./assessments/countWords.js" );
@@ -28,7 +30,6 @@ assessments.pageTitleLength = require( "./assessments/pageTitleLength.js" );
 /**
  * Creates the Assessor
  *
- * @param {Paper} paper The paper to be used for running assessments.
  * @param {object} i18n The i18n object used for translations.
  * @constructor
  */
@@ -97,12 +98,27 @@ Assessor.prototype.assess = function( paper ) {
  */
 Assessor.prototype.getValidResults = function() {
 	var validResults = [];
-	this.results.forEach( function( assessmentResult ) {
-		if ( assessmentResult.result.hasScore() && assessmentResult.result.hasText() ) {
-			validResults.push( assessmentResult );
+	this.results.forEach( function( assessmentResults ) {
+		if ( assessmentResults.result.hasScore() && assessmentResults.result.hasText() ) {
+			validResults.push( assessmentResults );
 		}
 	} );
 	return validResults;
+};
+
+/**
+ * Returns the overallscore. Calculates the totalscore by adding all scores and dividing these
+ * by the number of results times the ScoreRating.
+ *
+ * @returns {number} The overallscore
+ */
+Assessor.prototype.calculateOverallScore  = function () {
+	var results = this.getValidResults();
+	var totalScore = 0;
+	results.forEach( function( assessmentResult ) {
+		totalScore += assessmentResult.result.getScore();
+	} );
+	return Math.round( totalScore / ( results.length * ScoreRating ) * 100 );
 };
 
 module.exports = Assessor;
