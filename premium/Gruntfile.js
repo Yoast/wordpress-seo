@@ -20,7 +20,8 @@ module.exports = function(grunt) {
 			main: '../wp-seo-premium.php',
 			js: [
 				'assets/js/**/*.js',
-				'!assets/js/**/*.min.js'
+				'!assets/js/**/*.min.js',
+				'!assets/js/src/**/*.js'
 			],
 			css: [
 				'assets/css/*.css',
