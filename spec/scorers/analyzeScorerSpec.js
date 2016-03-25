@@ -1,4 +1,4 @@
-var escapeHTML = require( "lodash/string/escape" );
+var escapeHTML = require( "lodash/escape" );
 var Score = require( "../../js/values/Score.js" );
 var AnalyzeScorer = require("../../js/analyzescorer.js");
 

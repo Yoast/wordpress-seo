@@ -1,12 +1,12 @@
 /* jshint browser: true */
 
-var isEmpty = require( "lodash/lang/isEmpty" );
-var isElement = require( "lodash/lang/isElement" );
-var isUndefined = require( "lodash/lang/isUndefined" );
-var clone = require( "lodash/lang/clone" );
-var defaultsDeep = require( "lodash/object/defaultsDeep" );
-var forEach = require( "lodash/collection/forEach" );
-var debounce = require( "lodash/function/debounce" );
+var isEmpty = require( "lodash/isEmpty" );
+var isElement = require( "lodash/isElement" );
+var isUndefined = require( "lodash/isUndefined" );
+var clone = require( "lodash/clone" );
+var defaultsDeep = require( "lodash/defaultsDeep" );
+var forEach = require( "lodash/forEach" );
+var debounce = require( "lodash/debounce" );
 
 var stringToRegex = require( "../js/stringProcessing/stringToRegex.js" );
 var stripHTMLTags = require( "../js/stringProcessing/stripHTMLTags.js" );
@@ -693,29 +693,6 @@ SnippetPreview.prototype.getMetaText = function() {
 	}
 
 	metaText = stripHTMLTags( metaText );
-
-	// Generate a meta description based on where in the text the keyword is found first
-	if ( this.refObj.rawData.keyword !== "" && this.refObj.rawData.text !== "" ) {
-		var curStart = 0;
-		var indexMatches = this.getIndexMatches();
-		var periodMatches = this.getPeriodMatches();
-
-		metaText = metaText.substring( 0, analyzerConfig.maxMeta );
-
-		if ( indexMatches.length > 0 ) {
-			var j = 0;
-
-			while ( j < periodMatches.length ) {
-				if ( periodMatches[ 0 ] < indexMatches[ 0 ] ) {
-					curStart = periodMatches.shift();
-				} else if ( curStart > 0 ) {
-					curStart += 2;
-				} else {
-					break;
-				}
-			}
-		}
-	}
 
 	return metaText.substring( 0, analyzerConfig.maxMeta );
 };

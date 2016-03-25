@@ -2,15 +2,15 @@
 module.exports = {
 	"js-text-analysis": {
 		options: {
-			preserveComments: "some",
+			comments: "some",
 			report: "gzip"
 		},
 		files: {
 			"dist/yoast-seo.min.js": [
 				"dist/yoast-seo.js"
 			],
-			"example/example-scraper.min.js": [
-				"examples/examples-scraper.js"
+			"examples/standalone/example-scraper.min.js": [
+				"examples/standalone/example-scraper.js"
 			]
 		}
 	}

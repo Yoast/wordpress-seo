@@ -4,12 +4,12 @@ require( "./config/config.js" );
 var sanitizeString = require( "../js/stringProcessing/sanitizeString.js" );
 var SnippetPreview = require( "./snippetPreview.js" );
 
-var defaultsDeep = require( "lodash/object/defaultsDeep" );
-var isObject = require( "lodash/lang/isObject" );
-var isString = require( "lodash/lang/isString" );
+var defaultsDeep = require( "lodash/defaultsDeep" );
+var isObject = require( "lodash/isObject" );
+var isString = require( "lodash/isString" );
 var MissingArgument = require( "./errors/missingArgument" );
-var isUndefined = require( "lodash/lang/isUndefined" );
-var forEach = require( "lodash/collection/forEach" );
+var isUndefined = require( "lodash/isUndefined" );
+var forEach = require( "lodash/forEach" );
 
 var Jed = require( "jed" );
 

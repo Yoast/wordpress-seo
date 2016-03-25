@@ -30,7 +30,6 @@
     "grunt-jscs": "^2.8.0",
     "grunt-jsonlint": "^1.0.4",
     "grunt-jsvalidate": "^0.2.2",
-    "grunt-lodash": "^0.5.0",
     "grunt-po2json": "^0.3.0",
     "grunt-postcss": "^0.8.0",
     "grunt-sass": "^1.1.0",
@@ -38,11 +37,9 @@
     "io.js": "0.0.0",
     "istanbul": "^0.4.0",
     "jasmine": "~2.4.1",
-    "jsdom": "^8.1.0",
     "load-grunt-config": "^0.19.1",
     "lodash-cli": "^4.6.1",
-    "sassdash": "^0.8.1",
-    "zombie": "^4.0.10"
+    "sassdash": "^0.8.1"
   },
   "bugs": {
     "url": "https://github.com/Yoast/js-text-analysis/issues"
