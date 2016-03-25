@@ -1573,7 +1573,7 @@ TwitterPreview.prototype.renderTemplate = function() {
 		formFields: targetElement.getElementsByClassName( "snippet-editor__form-field" ),
 		headingEditor: targetElement.getElementsByClassName( "snippet-editor__heading-editor" )[0]
 	};
-	
+
 	this.element.formContainer.innerHTML = this.element.fields.title.render()
 		+ this.element.fields.description.render()
 		+ this.element.fields.imageUrl.render()
@@ -1746,7 +1746,7 @@ TwitterPreview.prototype.setImageUrl = function( imageUrl ) {
 	var img = new Image();
 	img.onload = function() {
 
-		imageContainer.innerHTML = "<img src='" + imageUrl + "' class='image' id='twitter_image' />";
+		imageContainer.innerHTML = "<img src='" + imageUrl + "' />";
 
 		imageRatio( imageContainer.childNodes[0], 506 );
 	};
