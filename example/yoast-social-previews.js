@@ -341,9 +341,9 @@ var FacebookPreview = function( opts, i18n ) {
  */
 FacebookPreview.prototype.constructI18n = function( translations ) {
 	var defaultTranslations = {
-		"domain": "js-text-analysis",
+		"domain": "yoast-social-previews",
 		"locale_data": {
-			"js-text-analysis": {
+			"yoast-social-previews": {
 				"": {}
 			}
 		}
@@ -383,9 +383,9 @@ FacebookPreview.prototype.renderTemplate = function() {
 		},
 		placeholder: this.opts.placeholder,
 		i18n: {
-			edit: this.i18n.dgettext( "js-text-analysis", "Edit Facebook preview" ),
-			snippetPreview: this.i18n.dgettext( "js-text-analysis", "Facebook preview" ),
-			snippetEditor: this.i18n.dgettext( "js-text-analysis", "Facebook editor" )
+			edit: this.i18n.dgettext( "yoast-social-previews", "Edit Facebook preview" ),
+			snippetPreview: this.i18n.dgettext( "yoast-social-previews", "Facebook preview" ),
+			snippetEditor: this.i18n.dgettext( "yoast-social-previews", "Facebook editor" )
 		}
 	} );
 
@@ -442,7 +442,7 @@ FacebookPreview.prototype.getFields = function() {
 			id: "facebook-editor-title",
 			value: this.data.title,
 			placeholder: this.opts.placeholder.title,
-			title: this.i18n.dgettext( "js-text-analysis", "Facebook title" ),
+			title: this.i18n.dgettext( "yoast-social-previews", "Facebook title" ),
 			labelClassName: "snippet-editor__label"
 		} ),
 		description: new TextArea( {
@@ -450,7 +450,7 @@ FacebookPreview.prototype.getFields = function() {
 			id: "facebook-editor-description",
 			value: this.data.description,
 			placeholder: this.opts.placeholder.description,
-			title: this.i18n.dgettext( "js-text-analysis", "Facebook description" ),
+			title: this.i18n.dgettext( "yoast-social-previews", "Facebook description" ),
 			labelClassName: "snippet-editor__label"
 		} ),
 		imageUrl: new TextField( {
@@ -458,13 +458,13 @@ FacebookPreview.prototype.getFields = function() {
 			id: "facebook-editor-imageUrl",
 			value: this.data.imageUrl,
 			placeholder: this.opts.placeholder.imageUrl,
-			title: this.i18n.dgettext( "js-text-analysis", "Facebook image URL" ),
+			title: this.i18n.dgettext( "yoast-social-previews", "Facebook image URL" ),
 			labelClassName: "snippet-editor__label"
 		} ),
 		button : new Button(
 			{
 				className : "snippet-editor__submit snippet-editor__button",
-				value: this.i18n.dgettext( "js-text-analysis", "Close facebook editor" )
+				value: this.i18n.dgettext( "yoast-social-previews", "Close facebook editor" )
 			}
 		)
 	};
@@ -485,7 +485,7 @@ FacebookPreview.prototype.getFieldElements = function() {
 				currentValue: this.data.title,
 				defaultValue: this.opts.defaultValue.title,
 				placeholder: this.opts.placeholder.title,
-				fallback: this.i18n.dgettext( "js-text-analysis", "Please provide a Facebook title by editing the snippet below." )
+				fallback: this.i18n.dgettext( "yoast-social-previews", "Please provide a Facebook title by editing the snippet below." )
 			},
 			this.updatePreview.bind( this )
 		),
@@ -495,7 +495,7 @@ FacebookPreview.prototype.getFieldElements = function() {
 				currentValue: this.data.description,
 				defaultValue: this.opts.defaultValue.description,
 				placeholder: this.opts.placeholder.description,
-				fallback: this.i18n.dgettext( "js-text-analysis", "Please provide a Facebook by editing the snippet below." )
+				fallback: this.i18n.dgettext( "yoast-social-previews", "Please provide a Facebook by editing the snippet below." )
 			},
 			this.updatePreview.bind( this )
 		),
@@ -563,7 +563,7 @@ FacebookPreview.prototype.setImageUrl = function( imageUrl ) {
 	var imageContainer = this.element.preview.imageUrl;
 	if ( this.data.imageUrl === "" ) {
 		imagePlaceholder( imageContainer,
-			this.i18n.dgettext( "js-text-analysis", "Please enter an image url by clicking here" ),
+			this.i18n.dgettext( "yoast-social-previews", "Please enter an image url by clicking here" ),
 			false,
 			"facebook"
 		);
@@ -581,7 +581,7 @@ FacebookPreview.prototype.setImageUrl = function( imageUrl ) {
 	img.onerror = imagePlaceholder.bind(
 		null,
 		imageContainer,
-		this.i18n.dgettext( "js-text-analysis", "The given image url cannot be loaded" ),
+		this.i18n.dgettext( "yoast-social-previews", "The given image url cannot be loaded" ),
 		true,
 		"facebook"
 	);
@@ -1512,9 +1512,9 @@ var TwitterPreview = function( opts, i18n ) {
  */
 TwitterPreview.prototype.constructI18n = function( translations ) {
 	var defaultTranslations = {
-		"domain": "js-text-analysis",
+		"domain": "yoast-social-previews",
 		"locale_data": {
-			"js-text-analysis": {
+			"yoast-social-previews": {
 				"": {}
 			}
 		}
@@ -1554,9 +1554,9 @@ TwitterPreview.prototype.renderTemplate = function() {
 		},
 		placeholder: this.opts.placeholder,
 		i18n: {
-			edit: this.i18n.dgettext( "js-text-analysis", "Edit Twitter preview" ),
-			snippetPreview: this.i18n.dgettext( "js-text-analysis", "Twitter preview" ),
-			snippetEditor: this.i18n.dgettext( "js-text-analysis", "Twitter editor" )
+			edit: this.i18n.dgettext( "yoast-social-previews", "Edit Twitter preview" ),
+			snippetPreview: this.i18n.dgettext( "yoast-social-previews", "Twitter preview" ),
+			snippetEditor: this.i18n.dgettext( "yoast-social-previews", "Twitter editor" )
 		}
 	} );
 
@@ -1614,7 +1614,7 @@ TwitterPreview.prototype.getFields = function() {
 			id: "twitter-editor-title",
 			value: this.data.title,
 			placeholder: this.opts.placeholder.title,
-			title: this.i18n.dgettext( "js-text-analysis", "Twitter title" ),
+			title: this.i18n.dgettext( "yoast-social-previews", "Twitter title" ),
 			labelClassName: "snippet-editor__label"
 		} ),
 		description: new TextArea( {
@@ -1622,7 +1622,7 @@ TwitterPreview.prototype.getFields = function() {
 			id: "twitter-editor-description",
 			value: this.data.description,
 			placeholder: this.opts.placeholder.description,
-			title: this.i18n.dgettext( "js-text-analysis", "Twitter description" ),
+			title: this.i18n.dgettext( "yoast-social-previews", "Twitter description" ),
 			labelClassName: "snippet-editor__label"
 		} ),
 		imageUrl: new TextField( {
@@ -1630,13 +1630,13 @@ TwitterPreview.prototype.getFields = function() {
 			id: "twitter-editor-imageUrl",
 			value: this.data.imageUrl,
 			placeholder: this.opts.placeholder.imageUrl,
-			title: this.i18n.dgettext( "js-text-analysis", "Twitter image URL" ),
+			title: this.i18n.dgettext( "yoast-social-previews", "Twitter image URL" ),
 			labelClassName: "snippet-editor__label"
 		} ),
 		button : new Button(
 			{
 				className : "snippet-editor__submit snippet-editor__button",
-				value: this.i18n.dgettext( "js-text-analysis", "Close Twitter editor" )
+				value: this.i18n.dgettext( "yoast-social-previews", "Close Twitter editor" )
 			}
 		)
 	};
@@ -1657,7 +1657,7 @@ TwitterPreview.prototype.getFieldElements = function() {
 				currentValue: this.data.title,
 				defaultValue: this.opts.defaultValue.title,
 				placeholder: this.opts.placeholder.title,
-				fallback: this.i18n.dgettext( "js-text-analysis", "Please provide a Twitter title by editing the snippet below." )
+				fallback: this.i18n.dgettext( "yoast-social-previews", "Please provide a Twitter title by editing the snippet below." )
 			},
 			this.updatePreview.bind( this )
 		),
@@ -1667,7 +1667,7 @@ TwitterPreview.prototype.getFieldElements = function() {
 				 currentValue: this.data.description,
 				 defaultValue: this.opts.defaultValue.description,
 				 placeholder: this.opts.placeholder.description,
-				 fallback: this.i18n.dgettext( "js-text-analysis", "Please provide a description by editing the snippet below." )
+				 fallback: this.i18n.dgettext( "yoast-social-previews", "Please provide a description by editing the snippet below." )
 			 },
 			 this.updatePreview.bind( this )
 		 ),
@@ -1735,7 +1735,7 @@ TwitterPreview.prototype.setImageUrl = function( imageUrl ) {
 	if ( this.data.imageUrl === "" ) {
 		imagePlaceholder(
 			imageContainer,
-			this.i18n.dgettext( "js-text-analysis", "Please enter an image url by clicking here" ),
+			this.i18n.dgettext( "yoast-social-previews", "Please enter an image url by clicking here" ),
 			false,
 			"twitter"
 		);
@@ -1754,7 +1754,7 @@ TwitterPreview.prototype.setImageUrl = function( imageUrl ) {
 	img.onerror = imagePlaceholder.bind(
 		null,
 		imageContainer,
-		this.i18n.dgettext( "js-text-analysis", "The given image url cannot be loaded" ),
+		this.i18n.dgettext( "yoast-social-previews", "The given image url cannot be loaded" ),
 		true,
 		"twitter"
 	);
