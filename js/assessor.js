@@ -5,6 +5,7 @@ var InvalidTypeError = require( "./errors/invalidType" );
 
 var MissingArgument = require( "./errors/missingArgument" );
 var isUndefined = require( "lodash/isUndefined" );
+var forEach = require( "lodash/forEach" );
 
 var ScoreRating = 9;
 
@@ -78,18 +79,15 @@ Assessor.prototype.assess = function( paper ) {
 	var researcher = new Researcher( paper );
 
 	var assessments = this.getAvailableAssessments();
-	var results = [];
-	for ( var assessment in assessments ) {
-		if ( assessments.hasOwnProperty( assessment ) ) {
-			results.push(
-				{
-					name: assessment,
-					result: assessments[ assessment ]( paper, researcher, this.i18n )
-				}
-			 );
-		}
-	}
-	this.results = results;
+	this.results = [];
+	forEach( assessments, function( assessment, assessmentName ) {
+		this.results.push(
+			{
+				name: assessmentName,
+				result: assessment( paper, researcher, this.i18n )
+			}
+		);
+	}.bind( this ) );
 };
 
 /**
@@ -98,12 +96,22 @@ Assessor.prototype.assess = function( paper ) {
  */
 Assessor.prototype.getValidResults = function() {
 	var validResults = [];
-	this.results.forEach( function( assessmentResults ) {
-		if ( assessmentResults.result.hasScore() && assessmentResults.result.hasText() ) {
-			validResults.push( assessmentResults );
+	forEach( this.results, function( assessmentResults ) {
+		if ( !this.isValidResult( assessmentResults.result ) ) {
+			return;
 		}
-	} );
+		validResults.push( assessmentResults );
+	}.bind( this ) );
 	return validResults;
+};
+
+/**
+ * Returns if an assessmentResult is valid.
+ * @param {object} assessmentResult The assessmentResult to validate.
+ * @returns {boolean} whether or not the result is valid.
+ */
+Assessor.prototype.isValidResult = function( assessmentResult ) {
+	return assessmentResult.hasScore() && assessmentResult.hasText();
 };
 
 /**
@@ -115,7 +123,7 @@ Assessor.prototype.getValidResults = function() {
 Assessor.prototype.calculateOverallScore  = function() {
 	var results = this.getValidResults();
 	var totalScore = 0;
-	results.forEach( function( assessmentResult ) {
+	forEach( results, function( assessmentResult ) {
 		totalScore += assessmentResult.result.getScore();
 	} );
 	return Math.round( totalScore / ( results.length * ScoreRating ) * 100 );
