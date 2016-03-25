@@ -33,7 +33,7 @@ class WPSEO_Social_Previews {
 
 	/**
 	 * Returns the translations.
-	 * 
+	 *
 	 * @return array
 	 */
 	private function localize() {
