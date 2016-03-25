@@ -1,6 +1,5 @@
 var isUndefined = require( "lodash/isUndefined" );
 var isNumber = require( "lodash/isNumber" );
-var isString = require( "lodash/isString" );
 
 /**
  * Construct the AssessmentResult value object.
