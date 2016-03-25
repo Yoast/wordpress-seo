@@ -1,6 +1,6 @@
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 var matchWords = require( "../stringProcessing/matchTextWithWord.js" );
-var inRange = require( "lodash/number/inRange" );
+var inRange = require( "lodash/inRange" );
 
 /**
  * Returns the scores and text for keyword density

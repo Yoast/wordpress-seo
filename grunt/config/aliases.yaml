@@ -8,7 +8,7 @@ build:
   - 'build:translations'
 # Precompile JavaScript templates
 'build:jst':
-  - 'lodash:templates'
+  - 'build-templates'
 # Build JavaScript from assets to production
 'build:js':
   - 'browserify'

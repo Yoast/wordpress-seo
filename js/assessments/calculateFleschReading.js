@@ -1,5 +1,5 @@
 var AssessmentResult = require( "../values/AssessmentResult.js" );
-var inRange = require( "lodash/number/inRange" );
+var inRange = require( "lodash/inRange" );
 
 /**
  * Calculates the assessment result based on the fleschReadingScore
