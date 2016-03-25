@@ -5,7 +5,6 @@ var InvalidTypeError = require( "./errors/invalidType" );
 
 var MissingArgument = require( "./errors/missingArgument" );
 var isUndefined = require( "lodash/lang/isUndefined" );
-var forEach = require( "lodash/collection/forEach");
 
 //assessments
 var assessments = {};
@@ -99,7 +98,7 @@ Assessor.prototype.assess = function( paper ) {
 Assessor.prototype.getValidResults = function() {
 	var validResults = [];
 	this.results.forEach( function( assessmentResult ) {
-		if (assessmentResult.result.hasScore() && assessmentResult.result.hasText() ) {
+		if ( assessmentResult.result.hasScore() && assessmentResult.result.hasText() ) {
 			validResults.push( assessmentResult );
 		}
 	} );
