@@ -81,7 +81,7 @@ var inputFacebookPreviewBindings = [
  * @param {HTMLElement}    opts.targetElement             - The target element that contains this snippet editor.
  *
  * @param {Object}         opts.callbacks                 - Functions that are called on specific instances.
- * @param {Function}       opts.callbacks.updateSocialPreview - Function called when the snippet data is changed.
+ * @param {Function}       opts.callbacks.updateSocialPreview - Function called when the social preview is updated.
  *
  * @param {Object}         i18n                           - The i18n object.
  *
