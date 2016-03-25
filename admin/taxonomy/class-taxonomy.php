@@ -26,7 +26,7 @@ class WPSEO_Taxonomy {
 		add_action( 'admin_init', array( $this, 'admin_init' ) );
 		add_filter( 'category_description', array( $this, 'custom_category_descriptions_add_shortcode_support' ) );
 
-		if ( $GLOBALS['pagenow'] === 'edit-tags.php' ) {
+		if ( self::is_term_overview( $GLOBALS['pagenow'] ) ) {
 			new WPSEO_Taxonomy_Columns();
 		}
 	}
@@ -62,14 +62,20 @@ class WPSEO_Taxonomy {
 	 * @since 1.5.0
 	 */
 	public function admin_enqueue_scripts() {
-		if ( $GLOBALS['pagenow'] !== 'edit-tags.php' ) {
+		$pagenow = $GLOBALS['pagenow'];
+
+		if ( ! ( self::is_term_edit( $pagenow ) || self::is_term_overview( $pagenow ) ) ) {
 			return;
 		}
 
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
 		$asset_manager->enqueue_style( 'scoring' );
 
-		if ( filter_input( INPUT_GET, 'action' ) === 'edit' ) {
+		$tag_id = filter_input( INPUT_GET, 'tag_ID' );
+		if (
+			self::is_term_edit( $pagenow ) &&
+			! empty( $tag_id )  // After we drop support for <4.5 this can be removed.
+		) {
 			wp_enqueue_media(); // Enqueue files needed for upload functionality.
 
 			$asset_manager->enqueue_style( 'yoast-seo' );
@@ -176,6 +182,26 @@ class WPSEO_Taxonomy {
 	}
 
 	/**
+	 * @param string $page The string to check for the term overview page.
+	 *
+	 * @return bool
+	 */
+	public static function is_term_overview( $page ) {
+		return 'edit-tags.php' === $page;
+	}
+
+	/**
+	 * @param string $page The string to check for the term edit page.
+	 *
+	 * @return bool
+	 */
+	public static function is_term_edit( $page ) {
+		return 'term.php' === $page
+		       || 'edit-tags.php' === $page; // After we drop support for <4.5 this can be removed.
+	}
+
+	/**
+	 * Retrieves a template.
 	 * Check if metabox for current taxonomy should be displayed.
 	 *
 	 * @return bool
