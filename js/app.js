@@ -1,7 +1,6 @@
 /* jshint browser: true */
 
 require( "./config/config.js" );
-var sanitizeString = require( "../js/stringProcessing/sanitizeString.js" );
 var SnippetPreview = require( "./snippetPreview.js" );
 
 var defaultsDeep = require( "lodash/object/defaultsDeep" );
@@ -420,13 +419,9 @@ App.prototype.runAnalyzer = function() {
 		title: this.analyzerData.pageTitle
 	} );
 
-	var keyword = sanitizeString( this.rawData.keyword );
-
-	if ( keyword === "" ) {
+	if ( this.paper.getKeyword() === "" ) {
 		this.analyzerData.queue = [ "keyphraseSizeCheck", "wordCount", "fleschReading", "pageTitleLength", "urlStopwords", "metaDescriptionLength" ];
 	}
-
-	this.analyzerData.keyword = keyword;
 
 	// The new researcher
 	if ( isUndefined( this.researcher ) ) {
@@ -446,16 +441,16 @@ App.prototype.runAnalyzer = function() {
 	}
 
 	this.pageAnalyzer.runQueue();
+
 	this.scoreFormatter = new ScoreFormatter( {
-		scores: this.pageAnalyzer.analyzeScorer.__score,
-		overallScore: this.pageAnalyzer.analyzeScorer.__totalScore,
-		outputTarget: this.config.targets.output,
-		overallTarget: this.config.targets.overall,
-		keyword: this.rawData.keyword,
-		saveScores: this.callbacks.saveScores,
-		i18n: this.i18n
+		i18n: this.i18n,
+		targets: this.config.targets,
+		keyword: this.paper.getKeyword(),
+		scorer: this.pageAnalyzer.analyzeScorer
 	} );
+
 	this.scoreFormatter.renderScore();
+	this.callbacks.saveScores( this.pageAnalyzer.analyzeScorer.__totalScore );
 
 	if ( this.config.dynamicDelay ) {
 		this.endTime();
