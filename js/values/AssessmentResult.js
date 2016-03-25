@@ -7,6 +7,7 @@ var isString = require( "lodash/isString" );
  * @constructor
  */
 var AssessmentResult = function() {
+	this.isScoreSet = false;
 	this.score = 0;
 	this.text = "";
 };
@@ -16,7 +17,7 @@ var AssessmentResult = function() {
  * @returns {boolean} Whether or not a score is available.
  */
 AssessmentResult.prototype.hasScore = function() {
-	return !isUndefined( this.score );
+	return this.isScoreSet;
 };
 
 /**
@@ -33,10 +34,11 @@ AssessmentResult.prototype.getScore = function() {
  * @returns {void}
  */
 AssessmentResult.prototype.setScore = function( score ) {
-	if ( !isNumber( score ) && !isString( score ) ) {
+	this.isScoreSet = true;
+	if ( !isNumber( score ) ) {
 		score = 0;
+		this.isScoreSet = false;
 	}
-
 	this.score = score;
 };
 
