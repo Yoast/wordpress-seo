@@ -23,10 +23,6 @@ build:
 # Check health of the project
 check:
   - 'eslint'
-  - 'jshint'
-  - 'jsonlint'
-  - 'jsvalidate'
-  - 'jscs'
 # Default task
 default:
   - check
