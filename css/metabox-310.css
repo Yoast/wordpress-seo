@@ -337,8 +337,49 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 	color: #000;
 }
 
-img.yoast_help {
+.yoast_help.yoast-help-button {
 	cursor: pointer;
+}
+
+.yoast_help.yoast-help-button {
+	position: relative;
+	width: 28px;
+	height: 28px;
+	margin: -2px 0 0 0.2em;
+	padding: 0;
+	border: 0;
+	outline: none;
+	color: #72777c;
+	background: transparent;
+	box-shadow: none;
+	vertical-align: middle;
+	cursor: pointer;
+}
+
+.yoast_help.yoast-help-button:before {
+	position: absolute;
+	top: 0;
+	left: 0;
+	padding: 4px;
+	content: "\f223";
+}
+
+.yoast_help.yoast-help-button:hover,
+.yoast_help.yoast-help-button:focus {
+	color: #0073aa;
+}
+
+.yoast_help.yoast-help-button:focus:before {
+	border-radius: 100%;
+	box-shadow: 0 0 0 1px #5b9dd9,
+	0 0 2px 1px rgba(30, 140, 190, 0.8);
+}
+
+.yoast-help-panel {
+	display: none;
+	max-width: 30em;
+	margin: 0 0 1em !important;
+	font-weight: normal;
 }
 
 .yoast-qtip {
