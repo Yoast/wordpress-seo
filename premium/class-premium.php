@@ -157,6 +157,7 @@ class WPSEO_Premium {
 		}
 
 		add_action( 'admin_init', array( $this, 'enqueue_multi_keyword' ) );
+		add_action( 'admin_init', array( $this, 'enqueue_social_previews' ) );
 	}
 
 	/**
@@ -199,6 +200,27 @@ class WPSEO_Premium {
 			'edit.php',
 			), true ) ) {
 			new WPSEO_Multi_Keyword();
+
+		}
+	}
+
+	/**
+	 * Adds multi keyword functionality if we are on the correct pages
+	 */
+	public function enqueue_social_previews() {
+		global $pagenow;
+
+		$metabox_pages = array(
+			'post-new.php',
+			'post.php',
+			'edit.php',
+			'term.php',
+			'edit-tags.php', // We should support this till WordPress drops support.
+		);
+
+		if ( in_array( $pagenow, $metabox_pages, true ) ) {
+			$social_previews = new WPSEO_Social_Previews();
+			$social_previews->set_hooks();
 		}
 	}
 
