@@ -4,7 +4,7 @@ var Paper = require( "./values/Paper.js" );
 var InvalidTypeError = require( "./errors/invalidType" );
 
 var MissingArgument = require( "./errors/missingArgument" );
-var isUndefined = require( "lodash/lang/isUndefined" );
+var isUndefined = require( "lodash/isUndefined" );
 
 var ScoreRating = 9;
 
