@@ -6,10 +6,9 @@ var defaultsDeep = require( "lodash/object/defaultsDeep" );
 
 var Jed = require( "jed" );
 
-var addClass = require( "./helpers/addClass.js" );
-var removeClass = require( "./helpers/removeClass.js" );
 var imageRatio = require( "./helpers/imageRatio" );
 var renderDescription = require( "./helpers/renderDescription" );
+var imagePlaceholder  = require( "./element/imagePlaceholder" );
 
 var TextField = require( "./inputs/textInput" );
 var TextArea = require( "./inputs/textarea" );
@@ -44,15 +43,15 @@ var facebookDefaults = {
 
 var inputFacebookPreviewBindings = [
 	{
-		"preview": "facebook_title_container",
+		"preview": "editable-preview__title--facebook",
 		"inputField": "title"
 	},
 	{
-		"preview": "facebook_image_container",
+		"preview": "editable-preview__image--facebook",
 		"inputField": "imageUrl"
 	},
 	{
-		"preview": "facebook_description_container",
+		"preview": "editable-preview__description--facebook",
 		"inputField": "description"
 	}
 ];
@@ -188,12 +187,11 @@ FacebookPreview.prototype.renderTemplate = function() {
 
 	this.element = {
 		rendered: {
-			title: document.getElementById( "facebook_title" ),
-			imageUrl: document.getElementById( "facebook_image" ),
-			description: document.getElementById( "facebook_description" )
+			title: targetElement.getElementsByClassName( "editable-preview__value--facebook-title" )[0],
+			description: targetElement.getElementsByClassName( "editable-preview__value--facebook-description" )[0]
 		},
 		fields: this.getFields(),
-		container: document.getElementById( "twitter_preview" ),
+		container: targetElement.getElementsByClassName( "editable-preview--facebook" )[0],
 		formContainer: targetElement.getElementsByClassName( "snippet-editor__form" )[0],
 		editToggle: targetElement.getElementsByClassName( "snippet-editor__edit-button" )[0],
 		formFields: targetElement.getElementsByClassName( "snippet-editor__form-field" ),
@@ -222,7 +220,7 @@ FacebookPreview.prototype.renderTemplate = function() {
 
 	this.element.preview = {
 		title: this.element.rendered.title.parentNode,
-		imageUrl: this.element.rendered.imageUrl.parentNode,
+		imageUrl: targetElement.getElementsByClassName( "editable-preview__image--facebook" )[0],
 		description: this.element.rendered.description.parentNode
 	};
 
@@ -358,21 +356,33 @@ FacebookPreview.prototype.setDescription = function( description ) {
  * @param {string} imageUrl The image path.
  */
 FacebookPreview.prototype.setImageUrl = function( imageUrl ) {
-	var image = this.element.rendered.imageUrl;
+	var imageContainer = this.element.preview.imageUrl;
+	if ( this.data.imageUrl === "" ) {
+		imagePlaceholder( imageContainer,
+			this.i18n.dgettext( "js-text-analysis", "Please enter an image url by clicking here" ),
+			false,
+			"facebook"
+		);
+
+		return;
+	}
+
 	var img   = new Image();
 	img.onload = function() {
-		image.src = imageUrl;
+		imageContainer.innerHTML = "<img src='" + imageUrl + "' />";
 
-		imageRatio( image, 470 );
-
-		// Show the image, because it's done.
-		removeClass( image, "snippet-editor--hidden" );
+		imageRatio( imageContainer.childNodes[0], 470 );
 	};
 
-	img.onerror = function() {
-		addClass( image, "snippet-editor--hidden" );
-	};
+	img.onerror = imagePlaceholder.bind(
+		null,
+		imageContainer,
+		this.i18n.dgettext( "js-text-analysis", "The given image url cannot be loaded" ),
+		true,
+		"facebook"
+	);
 
+	// Load image to trigger load or error event.
 	img.src = imageUrl;
 };
 

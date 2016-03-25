@@ -34,7 +34,7 @@ PreviewEvents.prototype.bindEvents = function( editToggle, closeEditor ) {
  * @param {Object} binding The field to bind.
  */
 PreviewEvents.prototype.bindInputEvent = function( binding ) {
-	var previewElement = document.getElementById( binding.preview );
+	var previewElement = document.getElementsByClassName( binding.preview )[0];
 	var inputElement = this.element.input[ binding.inputField ];
 
 	// Make the preview element click open the editor and focus the correct input.

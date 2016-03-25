@@ -1,0 +1,30 @@
+.editable-preview {
+	border-radius: 20px;
+	border: 1px solid $color_border;
+	background: white;
+
+	*,
+	*:before,
+	*:after {
+		box-sizing:         border-box;
+	}
+
+	&__inner {
+		padding: 20px;
+	}
+
+	&__container {
+		&--no-caret {
+			&,
+			&:hover {
+				&:before {
+					content: none;
+				}
+			}
+		}
+	}
+
+	&__value {
+		overflow: hidden;
+	}
+}

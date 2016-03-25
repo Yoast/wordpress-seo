@@ -1,32 +1,34 @@
-<div id="twitter_preview">
+<div class="editable-preview editable-preview--twitter">
 	<h4 class="snippet-editor__heading snippet-editor__heading-icon-eye"><%- i18n.snippetPreview %></h4>
 
-	<section class="twitter-preview">
-		<div class="snippet-editor__container twitter-preview__image snippet_container" id="twitter_image_container">
-			<img class="image" id="twitter_image" src="<%- rendered.imageUrl %>" />
-		</div>
-		<div class="twitter-preview__text-keeper">
-			<div class="snippet-editor__container twitter-preview__title snippet_container" id="twitter_title_container">
-				<span id="twitter_title">
-					<%- rendered.title %>
-				</span>
-			</div>
-			<div class="snippet-editor__container twitter-preview__description snippet_container" id="twitter_description_container">
-				<span id="twitter_description">
-					<%- rendered.description %>
-				</span>
-			</div>
-			<div class="snippet-editor__container twitter-preview__website snippet_container" id="base_url_container">
-				<span id="twitter_base_url">
-					<%- rendered.baseUrl %>
-				</span>
-			</div>
-		</div>
-	</section>
+	<section class="editable-preview__inner editable-preview__inner--twitter">
+		<div class="social-preview__inner social-preview__inner--twitter">
+			<div class="snippet-editor__container editable-preview__image--twitter snippet_container">
 
-	<button class="snippet-editor__button snippet-editor__edit-button" type="button">
-		<%- i18n.edit %>
-	</button>
+			</div>
+			<div class="editable-preview__text-keeper editable-preview__text-keeper--twitter">
+				<div class="snippet-editor__container editable-preview__container--twitter editable-preview__title--twitter snippet_container" >
+					<div class="editable-preview__value editable-preview__value--twitter-title ">
+						<%- rendered.title %>
+					</div>
+				</div>
+				<div class="snippet-editor__container editable-preview__container--twitter editable-preview__description--twitter twitter-preview__description snippet_container">
+					<div class="editable-preview__value editable-preview__value--twitter-description">
+						<%- rendered.description %>
+					</div>
+				</div>
+				<div class="snippet-editor__container editable-preview__container--no-caret twitter-preview__website snippet_container">
+					<div class="editable-preview__value ">
+						<%- rendered.baseUrl %>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<button class="snippet-editor__button snippet-editor__edit-button" type="button">
+			<%- i18n.edit %>
+		</button>
+	</section>
 
 	<h4 class="snippet-editor__heading snippet-editor__heading-editor snippet-editor__heading-icon-edit snippet-editor--hidden"><%- i18n.snippetEditor %></h4>
 

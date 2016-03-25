@@ -58,7 +58,39 @@ var twitterPreview = new TwitterPreview(
 
 twitterPreview.init();
 
-},{"../js/facebookPreview.js":5,"../js/twitterPreview.js":17}],4:[function(require,module,exports){
+},{"../js/facebookPreview.js":6,"../js/twitterPreview.js":18}],4:[function(require,module,exports){
+var placeholderTemplate = require( "../templates" ).imagePlaceholder;
+
+/**
+ * Sets the placeholder with a given value.
+ *
+ * @param {Object} imageContainer The location to put the placeholder in.
+ * @param {string} placeholder The value for the placeholder.
+ * @param {bool} isError When the placeholder should an error.
+ * @param {string} modifier A css class modifier to change the styling.
+ */
+function setImagePlaceholder( imageContainer, placeholder, isError, modifier ) {
+	var classNames = [ "social-image-placeholder" ];
+	isError = isError || false;
+	modifier = modifier || "";
+
+	if ( isError ) {
+		classNames.push( "social-image-placeholder--error" );
+	}
+
+	if ( "" !== modifier ) {
+		classNames.push( "social-image-placeholder--" + modifier );
+	}
+
+	imageContainer.innerHTML = placeholderTemplate( {
+		className : classNames.join( " " ),
+		placeholder : placeholder
+	} );
+}
+
+module.exports= setImagePlaceholder;
+
+},{"../templates":17}],5:[function(require,module,exports){
 var isEmpty = require( "lodash/lang/isEmpty" );
 var debounce = require( "lodash/function/debounce" );
 
@@ -169,7 +201,7 @@ InputElement.prototype.setValue = function( value ) {
 module.exports = InputElement;
 
 
-},{"lodash/function/debounce":21,"lodash/lang/isEmpty":61,"yoastseo/js/stringProcessing/stripHTMLTags.js":1,"yoastseo/js/stringProcessing/stripSpaces.js":2}],5:[function(require,module,exports){
+},{"lodash/function/debounce":22,"lodash/lang/isEmpty":62,"yoastseo/js/stringProcessing/stripHTMLTags.js":1,"yoastseo/js/stringProcessing/stripSpaces.js":2}],6:[function(require,module,exports){
 /* jshint browser: true */
 
 var isElement = require( "lodash/lang/isElement" );
@@ -178,10 +210,9 @@ var defaultsDeep = require( "lodash/object/defaultsDeep" );
 
 var Jed = require( "jed" );
 
-var addClass = require( "./helpers/addClass.js" );
-var removeClass = require( "./helpers/removeClass.js" );
 var imageRatio = require( "./helpers/imageRatio" );
 var renderDescription = require( "./helpers/renderDescription" );
+var imagePlaceholder  = require( "./element/imagePlaceholder" );
 
 var TextField = require( "./inputs/textInput" );
 var TextArea = require( "./inputs/textarea" );
@@ -216,15 +247,15 @@ var facebookDefaults = {
 
 var inputFacebookPreviewBindings = [
 	{
-		"preview": "facebook_title_container",
+		"preview": "editable-preview__title--facebook",
 		"inputField": "title"
 	},
 	{
-		"preview": "facebook_image_container",
+		"preview": "editable-preview__image--facebook",
 		"inputField": "imageUrl"
 	},
 	{
-		"preview": "facebook_description_container",
+		"preview": "editable-preview__description--facebook",
 		"inputField": "description"
 	}
 ];
@@ -360,12 +391,11 @@ FacebookPreview.prototype.renderTemplate = function() {
 
 	this.element = {
 		rendered: {
-			title: document.getElementById( "facebook_title" ),
-			imageUrl: document.getElementById( "facebook_image" ),
-			description: document.getElementById( "facebook_description" )
+			title: targetElement.getElementsByClassName( "editable-preview__value--facebook-title" )[0],
+			description: targetElement.getElementsByClassName( "editable-preview__value--facebook-description" )[0]
 		},
 		fields: this.getFields(),
-		container: document.getElementById( "twitter_preview" ),
+		container: targetElement.getElementsByClassName( "editable-preview--facebook" )[0],
 		formContainer: targetElement.getElementsByClassName( "snippet-editor__form" )[0],
 		editToggle: targetElement.getElementsByClassName( "snippet-editor__edit-button" )[0],
 		formFields: targetElement.getElementsByClassName( "snippet-editor__form-field" ),
@@ -394,7 +424,7 @@ FacebookPreview.prototype.renderTemplate = function() {
 
 	this.element.preview = {
 		title: this.element.rendered.title.parentNode,
-		imageUrl: this.element.rendered.imageUrl.parentNode,
+		imageUrl: targetElement.getElementsByClassName( "editable-preview__image--facebook" )[0],
 		description: this.element.rendered.description.parentNode
 	};
 
@@ -530,21 +560,33 @@ FacebookPreview.prototype.setDescription = function( description ) {
  * @param {string} imageUrl The image path.
  */
 FacebookPreview.prototype.setImageUrl = function( imageUrl ) {
-	var image = this.element.rendered.imageUrl;
+	var imageContainer = this.element.preview.imageUrl;
+	if ( this.data.imageUrl === "" ) {
+		imagePlaceholder( imageContainer,
+			this.i18n.dgettext( "js-text-analysis", "Please enter an image url by clicking here" ),
+			false,
+			"facebook"
+		);
+
+		return;
+	}
+
 	var img   = new Image();
 	img.onload = function() {
-		image.src = imageUrl;
+		imageContainer.innerHTML = "<img src='" + imageUrl + "' />";
 
-		imageRatio( image, 470 );
-
-		// Show the image, because it's done.
-		removeClass( image, "snippet-editor--hidden" );
+		imageRatio( imageContainer.childNodes[0], 470 );
 	};
 
-	img.onerror = function() {
-		addClass( image, "snippet-editor--hidden" );
-	};
+	img.onerror = imagePlaceholder.bind(
+		null,
+		imageContainer,
+		this.i18n.dgettext( "js-text-analysis", "The given image url cannot be loaded" ),
+		true,
+		"facebook"
+	);
 
+	// Load image to trigger load or error event.
 	img.src = imageUrl;
 };
 
@@ -560,7 +602,7 @@ FacebookPreview.prototype.bindEvents = function() {
 
 module.exports = FacebookPreview;
 
-},{"./element/input":4,"./helpers/addClass.js":6,"./helpers/imageRatio":7,"./helpers/removeClass.js":9,"./helpers/renderDescription":10,"./inputs/button.js":11,"./inputs/textInput":13,"./inputs/textarea":14,"./preview/events":15,"./templates.js":16,"jed":18,"lodash/lang/clone":57,"lodash/lang/isElement":60,"lodash/object/defaultsDeep":71}],6:[function(require,module,exports){
+},{"./element/imagePlaceholder":4,"./element/input":5,"./helpers/imageRatio":8,"./helpers/renderDescription":11,"./inputs/button.js":12,"./inputs/textInput":14,"./inputs/textarea":15,"./preview/events":16,"./templates.js":17,"jed":19,"lodash/lang/clone":58,"lodash/lang/isElement":61,"lodash/object/defaultsDeep":72}],7:[function(require,module,exports){
 /**
  * Adds a class to an element
  *
@@ -577,7 +619,7 @@ module.exports = function( element, className ) {
 	element.className = classes.join( " " );
 };
 
-},{}],7:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 /**
  * Sets the images ratio.
  *
@@ -589,12 +631,12 @@ function imageRatio( image, maxWidth, maxHeight ) {
 	var width = image.width;
 	var height = image.height;
 
-	if ( typeof maxWidth !== "undefined" && width > maxWidth ) {
+	if ( typeof maxWidth !== "undefined" && width >= maxWidth ) {
 		image.width = maxWidth;
 		image.height = height * ( maxWidth / width );
 	}
 
-	if ( typeof maxHeight !== "undefined" && height > maxHeight ) {
+	if ( typeof maxHeight !== "undefined" && height >= maxHeight ) {
 		image.height = maxHeight;
 		image.width = width * ( maxHeight / height );
 	}
@@ -602,7 +644,7 @@ function imageRatio( image, maxWidth, maxHeight ) {
 
 module.exports = imageRatio;
 
-},{}],8:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 /**
  * Cleans spaces from the html.
  *
@@ -623,7 +665,7 @@ function minimizeHtml( html ) {
 
 module.exports = minimizeHtml;
 
-},{}],9:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 /**
  * Removes a class from an element
  *
@@ -641,7 +683,7 @@ module.exports = function( element, className ) {
 	element.className = classes.join( " " );
 };
 
-},{}],10:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 var isEmpty = require( "lodash/lang/isEmpty" );
 
 var addClass = require( "./addClass" );
@@ -665,7 +707,7 @@ function renderDescription( descriptionElement, description ) {
 
 module.exports = renderDescription;
 
-},{"./addClass":6,"./removeClass":9,"lodash/lang/isEmpty":61}],11:[function(require,module,exports){
+},{"./addClass":7,"./removeClass":10,"lodash/lang/isEmpty":62}],12:[function(require,module,exports){
 var defaults = require( "lodash/object/defaults" );
 var buttonTemplate = require( "../../js/templates" ).fields.button;
 var minimizeHtml = require( "../helpers/minimizeHtml" );
@@ -736,7 +778,7 @@ Button.prototype.setClassName = function( className ) {
 
 module.exports = Button;
 
-},{"../../js/templates":16,"../helpers/minimizeHtml":8,"lodash/object/defaults":70}],12:[function(require,module,exports){
+},{"../../js/templates":17,"../helpers/minimizeHtml":9,"lodash/object/defaults":71}],13:[function(require,module,exports){
 var defaults = require( "lodash/object/defaults" );
 var minimizeHtml = require( "../helpers/minimizeHtml" );
 
@@ -823,17 +865,17 @@ function inputFieldFactory( template ) {
 
 module.exports = inputFieldFactory;
 
-},{"../helpers/minimizeHtml":8,"lodash/object/defaults":70}],13:[function(require,module,exports){
+},{"../helpers/minimizeHtml":9,"lodash/object/defaults":71}],14:[function(require,module,exports){
 var inputFieldFactory = require( "./inputField" );
 
 module.exports = inputFieldFactory( require( "../templates" ).fields.text );
 
-},{"../templates":16,"./inputField":12}],14:[function(require,module,exports){
+},{"../templates":17,"./inputField":13}],15:[function(require,module,exports){
 var inputFieldFactory = require( "./inputField" );
 
 module.exports = inputFieldFactory( require( "../templates" ).fields.textarea );
 
-},{"../templates":16,"./inputField":12}],15:[function(require,module,exports){
+},{"../templates":17,"./inputField":13}],16:[function(require,module,exports){
 var forEach = require( "lodash/collection/forEach" );
 
 var addClass = require( "../helpers/addClass.js" );
@@ -870,7 +912,7 @@ PreviewEvents.prototype.bindEvents = function( editToggle, closeEditor ) {
  * @param {Object} binding The field to bind.
  */
 PreviewEvents.prototype.bindInputEvent = function( binding ) {
-	var previewElement = document.getElementById( binding.preview );
+	var previewElement = document.getElementsByClassName( binding.preview )[0];
 	var inputElement = this.element.input[ binding.inputField ];
 
 	// Make the preview element click open the editor and focus the correct input.
@@ -1005,7 +1047,7 @@ PreviewEvents.prototype._updateHoverCarets = function() {
 
 module.exports = PreviewEvents;
 
-},{"../helpers/addClass.js":6,"../helpers/removeClass.js":9,"lodash/collection/forEach":19}],16:[function(require,module,exports){
+},{"../helpers/addClass.js":7,"../helpers/removeClass.js":10,"lodash/collection/forEach":20}],17:[function(require,module,exports){
 (function (global){
 ;(function() {
   var undefined;
@@ -1123,6 +1165,7 @@ module.exports = PreviewEvents;
         'text': {},
         'textarea': {}
     },
+    'imagePlaceholder': {},
     'twitterPreview': {}
   };
 
@@ -1130,19 +1173,17 @@ module.exports = PreviewEvents;
     obj || (obj = {});
     var __t, __p = '', __e = _.escape;
     with (obj) {
-    __p += '<div id="facebook_preview">\n	<h4 class="snippet-editor__heading snippet-editor__heading-icon-eye">' +
+    __p += '<div class="editable-preview editable-preview--facebook">\n	<h4 class="snippet-editor__heading snippet-editor__heading-icon-eye">' +
     __e( i18n.snippetPreview ) +
-    '</h4>\n\n	<section class="facebook-preview">\n		<div class="snippet-editor__container facebook-preview__image snippet_container" id="facebook_image_container">\n			<img class="image" id="facebook_image" src="' +
-    __e( rendered.imageUrl ) +
-    '" />\n		</div>\n		<div class="facebook-preview__text-keeper">\n			<div class="snippet-editor__container facebook-preview__title snippet_container" id="facebook_title_container">\n				<span id="facebook_title">\n					' +
+    '</h4>\n\n	<section class="editable-preview__inner editable-preview__inner--facebook">\n		<div class="social-preview__inner social-preview__inner--facebook">\n			<div class="snippet-editor__container editable-preview__image--facebook snippet_container">\n\n			</div>\n			<div class="editable-preview__text-keeper editable-preview__text-keeper--facebook">\n				<div class="snippet-editor__container editable-preview__container--facebook editable-preview__title--facebook snippet_container">\n					<div class="editable-preview__value editable-preview__value--facebook-title">\n						' +
     __e( rendered.title ) +
-    '\n				</span>\n			</div>\n			<div class="snippet-editor__container facebook-preview__description snippet_container" id="facebook_description_container">\n				<span id="facebook_description">\n					' +
+    '\n					</div>\n				</div>\n				<div class="snippet-editor__container editable-preview__container--facebook editable-preview__description--facebook snippet_container">\n					<div class="editable-preview__value editable-preview__value--facebook-description">\n						' +
     __e( rendered.description ) +
-    '\n				</span>\n			</div>\n			<div class="snippet-editor__container facebook-preview__website snippet_container" id="base_url_container">\n				<span id="facebook_base_url">\n					' +
+    '\n					</div>\n				</div>\n				<div class="snippet-editor__container editable-preview__container--no-caret facebook-preview__website snippet_container">\n					<div class="editable-preview__value editable-preview__value--facebook-url">\n						' +
     __e( rendered.baseUrl ) +
-    '\n				</span>\n			</div>\n		</div>\n	</section>\n\n	<button class="snippet-editor__button snippet-editor__edit-button" type="button">\n		' +
+    '\n					</div>\n				</div>\n			</div>\n		</div>\n\n		<button class="snippet-editor__button snippet-editor__edit-button" type="button">\n			' +
     __e( i18n.edit ) +
-    '\n	</button>\n\n	<h4 class="snippet-editor__heading snippet-editor__heading-editor snippet-editor__heading-icon-edit snippet-editor--hidden">' +
+    '\n		</button>\n	</section>\n\n	<h4 class="snippet-editor__heading snippet-editor__heading-editor snippet-editor__heading-icon-edit snippet-editor--hidden">' +
     __e( i18n.snippetEditor ) +
     '</h4>\n\n	<div class="snippet-editor__form snippet-editor--hidden">\n\n	</div>\n</div>\n';
 
@@ -1278,23 +1319,35 @@ module.exports = PreviewEvents;
     return __p
   };
 
+  templates['imagePlaceholder'] =   function(obj) {
+    obj || (obj = {});
+    var __t, __p = '', __e = _.escape;
+    with (obj) {
+    __p += '<div class=\'' +
+    __e( className ) +
+    '\'>' +
+    __e( placeholder ) +
+    '</div>';
+
+    }
+    return __p
+  };
+
   templates['twitterPreview'] =   function(obj) {
     obj || (obj = {});
     var __t, __p = '', __e = _.escape;
     with (obj) {
-    __p += '<div id="twitter_preview">\n	<h4 class="snippet-editor__heading snippet-editor__heading-icon-eye">' +
+    __p += '<div class="editable-preview editable-preview--twitter">\n	<h4 class="snippet-editor__heading snippet-editor__heading-icon-eye">' +
     __e( i18n.snippetPreview ) +
-    '</h4>\n\n	<section class="twitter-preview">\n		<div class="snippet-editor__container twitter-preview__image snippet_container" id="twitter_image_container">\n			<img class="image" id="twitter_image" src="' +
-    __e( rendered.imageUrl ) +
-    '" />\n		</div>\n		<div class="twitter-preview__text-keeper">\n			<div class="snippet-editor__container twitter-preview__title snippet_container" id="twitter_title_container">\n				<span id="twitter_title">\n					' +
+    '</h4>\n\n	<section class="editable-preview__inner editable-preview__inner--twitter">\n		<div class="social-preview__inner social-preview__inner--twitter">\n			<div class="snippet-editor__container editable-preview__image--twitter snippet_container">\n\n			</div>\n			<div class="editable-preview__text-keeper editable-preview__text-keeper--twitter">\n				<div class="snippet-editor__container editable-preview__container--twitter editable-preview__title--twitter snippet_container" >\n					<div class="editable-preview__value editable-preview__value--twitter-title ">\n						' +
     __e( rendered.title ) +
-    '\n				</span>\n			</div>\n			<div class="snippet-editor__container twitter-preview__description snippet_container" id="twitter_description_container">\n				<span id="twitter_description">\n					' +
+    '\n					</div>\n				</div>\n				<div class="snippet-editor__container editable-preview__container--twitter editable-preview__description--twitter twitter-preview__description snippet_container">\n					<div class="editable-preview__value editable-preview__value--twitter-description">\n						' +
     __e( rendered.description ) +
-    '\n				</span>\n			</div>\n			<div class="snippet-editor__container twitter-preview__website snippet_container" id="base_url_container">\n				<span id="twitter_base_url">\n					' +
+    '\n					</div>\n				</div>\n				<div class="snippet-editor__container editable-preview__container--no-caret twitter-preview__website snippet_container">\n					<div class="editable-preview__value ">\n						' +
     __e( rendered.baseUrl ) +
-    '\n				</span>\n			</div>\n		</div>\n	</section>\n\n	<button class="snippet-editor__button snippet-editor__edit-button" type="button">\n		' +
+    '\n					</div>\n				</div>\n			</div>\n		</div>\n\n		<button class="snippet-editor__button snippet-editor__edit-button" type="button">\n			' +
     __e( i18n.edit ) +
-    '\n	</button>\n\n	<h4 class="snippet-editor__heading snippet-editor__heading-editor snippet-editor__heading-icon-edit snippet-editor--hidden">' +
+    '\n		</button>\n	</section>\n\n	<h4 class="snippet-editor__heading snippet-editor__heading-editor snippet-editor__heading-icon-edit snippet-editor--hidden">' +
     __e( i18n.snippetEditor ) +
     '</h4>\n\n	<div class="snippet-editor__form snippet-editor--hidden">\n\n	</div>\n</div>\n';
 
@@ -1317,7 +1370,7 @@ module.exports = PreviewEvents;
 }.call(this));
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],17:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 /* jshint browser: true */
 
 var isElement = require( "lodash/lang/isElement" );
@@ -1326,10 +1379,9 @@ var defaultsDeep = require( "lodash/object/defaultsDeep" );
 
 var Jed = require( "jed" );
 
-var addClass = require( "./helpers/addClass.js" );
-var removeClass = require( "./helpers/removeClass.js" );
 var imageRatio = require( "./helpers/imageRatio" );
 var renderDescription = require( "./helpers/renderDescription" );
+var imagePlaceholder  = require( "./element/imagePlaceholder" );
 
 var TextField = require( "./inputs/textInput" );
 var TextArea = require( "./inputs/textarea" );
@@ -1338,7 +1390,9 @@ var Button = require( "./inputs/button.js" );
 var InputElement = require( "./element/input" );
 var PreviewEvents = require( "./preview/events" );
 
-var twitterEditorTemplate = require( "./templates.js" ).twitterPreview;
+var templates = require( "./templates" );
+
+var twitterEditorTemplate = templates.twitterPreview;
 
 var twitterDefaults = {
 	data: {
@@ -1349,7 +1403,7 @@ var twitterDefaults = {
 	placeholder: {
 		title:    "This is an example title - edit by clicking here",
 		description: "Modify your twitter description by editing it right here",
-		imageUrl: ""
+		imageUrl: "Edit the image by clicking here"
 	},
 	defaultValue: {
 		title: "",
@@ -1364,15 +1418,15 @@ var twitterDefaults = {
 
 var inputTwitterPreviewBindings = [
 	{
-		"preview": "twitter_title_container",
+		"preview": "editable-preview__title--twitter",
 		"inputField": "title"
 	},
 	{
-		"preview": "twitter_image_container",
+		"preview": "editable-preview__image--twitter",
 		"inputField": "imageUrl"
 	},
 	{
-		"preview": "twitter_description_container",
+		"preview": "editable-preview__description--twitter",
 		"inputField": "description"
 	}
 ];
@@ -1508,12 +1562,11 @@ TwitterPreview.prototype.renderTemplate = function() {
 
 	this.element = {
 		rendered: {
-			title: document.getElementById( "twitter_title" ),
-			imageUrl: document.getElementById( "twitter_image" ),
-			description: document.getElementById( "twitter_description" )
+			title: targetElement.getElementsByClassName( "editable-preview__value--twitter-title" )[0],
+			description: targetElement.getElementsByClassName( "editable-preview__value--twitter-description" )[0]
 		},
 		fields: this.getFields(),
-		container: document.getElementById( "snippet_preview" ),
+		container: targetElement.getElementsByClassName( "editable-preview--twitter" )[0],
 		formContainer: targetElement.getElementsByClassName( "snippet-editor__form" )[0],
 		editToggle: targetElement.getElementsByClassName( "snippet-editor__edit-button" )[0],
 		closeEditor: targetElement.getElementsByClassName( "snippet-editor__submit" )[0],
@@ -1543,7 +1596,7 @@ TwitterPreview.prototype.renderTemplate = function() {
 
 	this.element.preview = {
 		title: this.element.rendered.title.parentNode,
-		imageUrl: this.element.rendered.imageUrl.parentNode,
+		imageUrl: targetElement.getElementsByClassName( "editable-preview__image--twitter" )[0],
 		description: this.element.rendered.description.parentNode
 	};
 
@@ -1678,23 +1731,38 @@ TwitterPreview.prototype.setDescription = function( description ) {
  * @param {string} imageUrl The image path.
  */
 TwitterPreview.prototype.setImageUrl = function( imageUrl ) {
-	var image = this.element.rendered.imageUrl;
-	var img   = new Image();
+	var imageContainer = this.element.preview.imageUrl;
+	if ( this.data.imageUrl === "" ) {
+		imagePlaceholder(
+			imageContainer,
+			this.i18n.dgettext( "js-text-analysis", "Please enter an image url by clicking here" ),
+			false,
+			"twitter"
+		);
+
+		return;
+	}
+
+	var img = new Image();
 	img.onload = function() {
-		image.src = imageUrl;
 
-		imageRatio( image, 506 );
+		imageContainer.innerHTML = "<img src='" + imageUrl + "' />";
 
-		// Show the image, because it's done.
-		removeClass( image, "snippet-editor--hidden" );
+		imageRatio( imageContainer.childNodes[0], 506 );
 	};
 
-	img.onerror = function() {
-		addClass( image, "snippet-editor--hidden" );
-	};
+	img.onerror = imagePlaceholder.bind(
+		null,
+		imageContainer,
+		this.i18n.dgettext( "js-text-analysis", "The given image url cannot be loaded" ),
+		true,
+		"twitter"
+	);
 
+	// Load image to trigger load or error event.
 	img.src = imageUrl;
 };
+
 
 /**
  * Binds the reloadSnippetText function to the blur of the snippet inputs.
@@ -1706,7 +1774,7 @@ TwitterPreview.prototype.bindEvents = function() {
 
 module.exports = TwitterPreview;
 
-},{"./element/input":4,"./helpers/addClass.js":6,"./helpers/imageRatio":7,"./helpers/removeClass.js":9,"./helpers/renderDescription":10,"./inputs/button.js":11,"./inputs/textInput":13,"./inputs/textarea":14,"./preview/events":15,"./templates.js":16,"jed":18,"lodash/lang/clone":57,"lodash/lang/isElement":60,"lodash/object/defaultsDeep":71}],18:[function(require,module,exports){
+},{"./element/imagePlaceholder":4,"./element/input":5,"./helpers/imageRatio":8,"./helpers/renderDescription":11,"./inputs/button.js":12,"./inputs/textInput":14,"./inputs/textarea":15,"./preview/events":16,"./templates":17,"jed":19,"lodash/lang/clone":58,"lodash/lang/isElement":61,"lodash/object/defaultsDeep":72}],19:[function(require,module,exports){
 /**
  * @preserve jed.js https://github.com/SlexAxton/Jed
  */
@@ -2730,7 +2798,7 @@ return parser;
 
 })(this);
 
-},{}],19:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 var arrayEach = require('../internal/arrayEach'),
     baseEach = require('../internal/baseEach'),
     createForEach = require('../internal/createForEach');
@@ -2769,7 +2837,7 @@ var forEach = createForEach(arrayEach, baseEach);
 
 module.exports = forEach;
 
-},{"../internal/arrayEach":24,"../internal/baseEach":30,"../internal/createForEach":43}],20:[function(require,module,exports){
+},{"../internal/arrayEach":25,"../internal/baseEach":31,"../internal/createForEach":44}],21:[function(require,module,exports){
 var getNative = require('../internal/getNative');
 
 /* Native method references for those with the same name as other `lodash` methods. */
@@ -2795,7 +2863,7 @@ var now = nativeNow || function() {
 
 module.exports = now;
 
-},{"../internal/getNative":45}],21:[function(require,module,exports){
+},{"../internal/getNative":46}],22:[function(require,module,exports){
 var isObject = require('../lang/isObject'),
     now = require('../date/now');
 
@@ -2978,7 +3046,7 @@ function debounce(func, wait, options) {
 
 module.exports = debounce;
 
-},{"../date/now":20,"../lang/isObject":64}],22:[function(require,module,exports){
+},{"../date/now":21,"../lang/isObject":65}],23:[function(require,module,exports){
 /** Used as the `TypeError` message for "Functions" methods. */
 var FUNC_ERROR_TEXT = 'Expected a function';
 
@@ -3038,7 +3106,7 @@ function restParam(func, start) {
 
 module.exports = restParam;
 
-},{}],23:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 /**
  * Copies the values of `source` to `array`.
  *
@@ -3060,7 +3128,7 @@ function arrayCopy(source, array) {
 
 module.exports = arrayCopy;
 
-},{}],24:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 /**
  * A specialized version of `_.forEach` for arrays without support for callback
  * shorthands and `this` binding.
@@ -3084,7 +3152,7 @@ function arrayEach(array, iteratee) {
 
 module.exports = arrayEach;
 
-},{}],25:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 /**
  * Used by `_.defaults` to customize its `_.assign` use.
  *
@@ -3099,7 +3167,7 @@ function assignDefaults(objectValue, sourceValue) {
 
 module.exports = assignDefaults;
 
-},{}],26:[function(require,module,exports){
+},{}],27:[function(require,module,exports){
 var keys = require('../object/keys');
 
 /**
@@ -3133,7 +3201,7 @@ function assignWith(object, source, customizer) {
 
 module.exports = assignWith;
 
-},{"../object/keys":72}],27:[function(require,module,exports){
+},{"../object/keys":73}],28:[function(require,module,exports){
 var baseCopy = require('./baseCopy'),
     keys = require('../object/keys');
 
@@ -3154,7 +3222,7 @@ function baseAssign(object, source) {
 
 module.exports = baseAssign;
 
-},{"../object/keys":72,"./baseCopy":29}],28:[function(require,module,exports){
+},{"../object/keys":73,"./baseCopy":30}],29:[function(require,module,exports){
 var arrayCopy = require('./arrayCopy'),
     arrayEach = require('./arrayEach'),
     baseAssign = require('./baseAssign'),
@@ -3284,7 +3352,7 @@ function baseClone(value, isDeep, customizer, key, object, stackA, stackB) {
 
 module.exports = baseClone;
 
-},{"../lang/isArray":59,"../lang/isObject":64,"./arrayCopy":23,"./arrayEach":24,"./baseAssign":27,"./baseForOwn":33,"./initCloneArray":46,"./initCloneByTag":47,"./initCloneObject":48}],29:[function(require,module,exports){
+},{"../lang/isArray":60,"../lang/isObject":65,"./arrayCopy":24,"./arrayEach":25,"./baseAssign":28,"./baseForOwn":34,"./initCloneArray":47,"./initCloneByTag":48,"./initCloneObject":49}],30:[function(require,module,exports){
 /**
  * Copies properties of `source` to `object`.
  *
@@ -3309,7 +3377,7 @@ function baseCopy(source, props, object) {
 
 module.exports = baseCopy;
 
-},{}],30:[function(require,module,exports){
+},{}],31:[function(require,module,exports){
 var baseForOwn = require('./baseForOwn'),
     createBaseEach = require('./createBaseEach');
 
@@ -3326,7 +3394,7 @@ var baseEach = createBaseEach(baseForOwn);
 
 module.exports = baseEach;
 
-},{"./baseForOwn":33,"./createBaseEach":40}],31:[function(require,module,exports){
+},{"./baseForOwn":34,"./createBaseEach":41}],32:[function(require,module,exports){
 var createBaseFor = require('./createBaseFor');
 
 /**
@@ -3345,7 +3413,7 @@ var baseFor = createBaseFor();
 
 module.exports = baseFor;
 
-},{"./createBaseFor":41}],32:[function(require,module,exports){
+},{"./createBaseFor":42}],33:[function(require,module,exports){
 var baseFor = require('./baseFor'),
     keysIn = require('../object/keysIn');
 
@@ -3364,7 +3432,7 @@ function baseForIn(object, iteratee) {
 
 module.exports = baseForIn;
 
-},{"../object/keysIn":73,"./baseFor":31}],33:[function(require,module,exports){
+},{"../object/keysIn":74,"./baseFor":32}],34:[function(require,module,exports){
 var baseFor = require('./baseFor'),
     keys = require('../object/keys');
 
@@ -3383,7 +3451,7 @@ function baseForOwn(object, iteratee) {
 
 module.exports = baseForOwn;
 
-},{"../object/keys":72,"./baseFor":31}],34:[function(require,module,exports){
+},{"../object/keys":73,"./baseFor":32}],35:[function(require,module,exports){
 var arrayEach = require('./arrayEach'),
     baseMergeDeep = require('./baseMergeDeep'),
     isArray = require('../lang/isArray'),
@@ -3441,7 +3509,7 @@ function baseMerge(object, source, customizer, stackA, stackB) {
 
 module.exports = baseMerge;
 
-},{"../lang/isArray":59,"../lang/isObject":64,"../lang/isTypedArray":67,"../object/keys":72,"./arrayEach":24,"./baseMergeDeep":35,"./isArrayLike":49,"./isObjectLike":53}],35:[function(require,module,exports){
+},{"../lang/isArray":60,"../lang/isObject":65,"../lang/isTypedArray":68,"../object/keys":73,"./arrayEach":25,"./baseMergeDeep":36,"./isArrayLike":50,"./isObjectLike":54}],36:[function(require,module,exports){
 var arrayCopy = require('./arrayCopy'),
     isArguments = require('../lang/isArguments'),
     isArray = require('../lang/isArray'),
@@ -3510,7 +3578,7 @@ function baseMergeDeep(object, source, key, mergeFunc, customizer, stackA, stack
 
 module.exports = baseMergeDeep;
 
-},{"../lang/isArguments":58,"../lang/isArray":59,"../lang/isPlainObject":65,"../lang/isTypedArray":67,"../lang/toPlainObject":68,"./arrayCopy":23,"./isArrayLike":49}],36:[function(require,module,exports){
+},{"../lang/isArguments":59,"../lang/isArray":60,"../lang/isPlainObject":66,"../lang/isTypedArray":68,"../lang/toPlainObject":69,"./arrayCopy":24,"./isArrayLike":50}],37:[function(require,module,exports){
 /**
  * The base implementation of `_.property` without support for deep paths.
  *
@@ -3526,7 +3594,7 @@ function baseProperty(key) {
 
 module.exports = baseProperty;
 
-},{}],37:[function(require,module,exports){
+},{}],38:[function(require,module,exports){
 var identity = require('../utility/identity');
 
 /**
@@ -3567,7 +3635,7 @@ function bindCallback(func, thisArg, argCount) {
 
 module.exports = bindCallback;
 
-},{"../utility/identity":75}],38:[function(require,module,exports){
+},{"../utility/identity":76}],39:[function(require,module,exports){
 (function (global){
 /** Native method references. */
 var ArrayBuffer = global.ArrayBuffer,
@@ -3591,7 +3659,7 @@ function bufferClone(buffer) {
 module.exports = bufferClone;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],39:[function(require,module,exports){
+},{}],40:[function(require,module,exports){
 var bindCallback = require('./bindCallback'),
     isIterateeCall = require('./isIterateeCall'),
     restParam = require('../function/restParam');
@@ -3634,7 +3702,7 @@ function createAssigner(assigner) {
 
 module.exports = createAssigner;
 
-},{"../function/restParam":22,"./bindCallback":37,"./isIterateeCall":51}],40:[function(require,module,exports){
+},{"../function/restParam":23,"./bindCallback":38,"./isIterateeCall":52}],41:[function(require,module,exports){
 var getLength = require('./getLength'),
     isLength = require('./isLength'),
     toObject = require('./toObject');
@@ -3667,7 +3735,7 @@ function createBaseEach(eachFunc, fromRight) {
 
 module.exports = createBaseEach;
 
-},{"./getLength":44,"./isLength":52,"./toObject":56}],41:[function(require,module,exports){
+},{"./getLength":45,"./isLength":53,"./toObject":57}],42:[function(require,module,exports){
 var toObject = require('./toObject');
 
 /**
@@ -3696,7 +3764,7 @@ function createBaseFor(fromRight) {
 
 module.exports = createBaseFor;
 
-},{"./toObject":56}],42:[function(require,module,exports){
+},{"./toObject":57}],43:[function(require,module,exports){
 var restParam = require('../function/restParam');
 
 /**
@@ -3720,7 +3788,7 @@ function createDefaults(assigner, customizer) {
 
 module.exports = createDefaults;
 
-},{"../function/restParam":22}],43:[function(require,module,exports){
+},{"../function/restParam":23}],44:[function(require,module,exports){
 var bindCallback = require('./bindCallback'),
     isArray = require('../lang/isArray');
 
@@ -3742,7 +3810,7 @@ function createForEach(arrayFunc, eachFunc) {
 
 module.exports = createForEach;
 
-},{"../lang/isArray":59,"./bindCallback":37}],44:[function(require,module,exports){
+},{"../lang/isArray":60,"./bindCallback":38}],45:[function(require,module,exports){
 var baseProperty = require('./baseProperty');
 
 /**
@@ -3759,7 +3827,7 @@ var getLength = baseProperty('length');
 
 module.exports = getLength;
 
-},{"./baseProperty":36}],45:[function(require,module,exports){
+},{"./baseProperty":37}],46:[function(require,module,exports){
 var isNative = require('../lang/isNative');
 
 /**
@@ -3777,7 +3845,7 @@ function getNative(object, key) {
 
 module.exports = getNative;
 
-},{"../lang/isNative":63}],46:[function(require,module,exports){
+},{"../lang/isNative":64}],47:[function(require,module,exports){
 /** Used for native method references. */
 var objectProto = Object.prototype;
 
@@ -3805,7 +3873,7 @@ function initCloneArray(array) {
 
 module.exports = initCloneArray;
 
-},{}],47:[function(require,module,exports){
+},{}],48:[function(require,module,exports){
 var bufferClone = require('./bufferClone');
 
 /** `Object#toString` result references. */
@@ -3870,7 +3938,7 @@ function initCloneByTag(object, tag, isDeep) {
 
 module.exports = initCloneByTag;
 
-},{"./bufferClone":38}],48:[function(require,module,exports){
+},{"./bufferClone":39}],49:[function(require,module,exports){
 /**
  * Initializes an object clone.
  *
@@ -3888,7 +3956,7 @@ function initCloneObject(object) {
 
 module.exports = initCloneObject;
 
-},{}],49:[function(require,module,exports){
+},{}],50:[function(require,module,exports){
 var getLength = require('./getLength'),
     isLength = require('./isLength');
 
@@ -3905,7 +3973,7 @@ function isArrayLike(value) {
 
 module.exports = isArrayLike;
 
-},{"./getLength":44,"./isLength":52}],50:[function(require,module,exports){
+},{"./getLength":45,"./isLength":53}],51:[function(require,module,exports){
 /** Used to detect unsigned integer values. */
 var reIsUint = /^\d+$/;
 
@@ -3931,7 +3999,7 @@ function isIndex(value, length) {
 
 module.exports = isIndex;
 
-},{}],51:[function(require,module,exports){
+},{}],52:[function(require,module,exports){
 var isArrayLike = require('./isArrayLike'),
     isIndex = require('./isIndex'),
     isObject = require('../lang/isObject');
@@ -3961,7 +4029,7 @@ function isIterateeCall(value, index, object) {
 
 module.exports = isIterateeCall;
 
-},{"../lang/isObject":64,"./isArrayLike":49,"./isIndex":50}],52:[function(require,module,exports){
+},{"../lang/isObject":65,"./isArrayLike":50,"./isIndex":51}],53:[function(require,module,exports){
 /**
  * Used as the [maximum length](http://ecma-international.org/ecma-262/6.0/#sec-number.max_safe_integer)
  * of an array-like value.
@@ -3983,7 +4051,7 @@ function isLength(value) {
 
 module.exports = isLength;
 
-},{}],53:[function(require,module,exports){
+},{}],54:[function(require,module,exports){
 /**
  * Checks if `value` is object-like.
  *
@@ -3997,7 +4065,7 @@ function isObjectLike(value) {
 
 module.exports = isObjectLike;
 
-},{}],54:[function(require,module,exports){
+},{}],55:[function(require,module,exports){
 var merge = require('../object/merge');
 
 /**
@@ -4014,7 +4082,7 @@ function mergeDefaults(objectValue, sourceValue) {
 
 module.exports = mergeDefaults;
 
-},{"../object/merge":74}],55:[function(require,module,exports){
+},{"../object/merge":75}],56:[function(require,module,exports){
 var isArguments = require('../lang/isArguments'),
     isArray = require('../lang/isArray'),
     isIndex = require('./isIndex'),
@@ -4057,7 +4125,7 @@ function shimKeys(object) {
 
 module.exports = shimKeys;
 
-},{"../lang/isArguments":58,"../lang/isArray":59,"../object/keysIn":73,"./isIndex":50,"./isLength":52}],56:[function(require,module,exports){
+},{"../lang/isArguments":59,"../lang/isArray":60,"../object/keysIn":74,"./isIndex":51,"./isLength":53}],57:[function(require,module,exports){
 var isObject = require('../lang/isObject');
 
 /**
@@ -4073,7 +4141,7 @@ function toObject(value) {
 
 module.exports = toObject;
 
-},{"../lang/isObject":64}],57:[function(require,module,exports){
+},{"../lang/isObject":65}],58:[function(require,module,exports){
 var baseClone = require('../internal/baseClone'),
     bindCallback = require('../internal/bindCallback'),
     isIterateeCall = require('../internal/isIterateeCall');
@@ -4145,7 +4213,7 @@ function clone(value, isDeep, customizer, thisArg) {
 
 module.exports = clone;
 
-},{"../internal/baseClone":28,"../internal/bindCallback":37,"../internal/isIterateeCall":51}],58:[function(require,module,exports){
+},{"../internal/baseClone":29,"../internal/bindCallback":38,"../internal/isIterateeCall":52}],59:[function(require,module,exports){
 var isArrayLike = require('../internal/isArrayLike'),
     isObjectLike = require('../internal/isObjectLike');
 
@@ -4181,7 +4249,7 @@ function isArguments(value) {
 
 module.exports = isArguments;
 
-},{"../internal/isArrayLike":49,"../internal/isObjectLike":53}],59:[function(require,module,exports){
+},{"../internal/isArrayLike":50,"../internal/isObjectLike":54}],60:[function(require,module,exports){
 var getNative = require('../internal/getNative'),
     isLength = require('../internal/isLength'),
     isObjectLike = require('../internal/isObjectLike');
@@ -4223,7 +4291,7 @@ var isArray = nativeIsArray || function(value) {
 
 module.exports = isArray;
 
-},{"../internal/getNative":45,"../internal/isLength":52,"../internal/isObjectLike":53}],60:[function(require,module,exports){
+},{"../internal/getNative":46,"../internal/isLength":53,"../internal/isObjectLike":54}],61:[function(require,module,exports){
 var isObjectLike = require('../internal/isObjectLike'),
     isPlainObject = require('./isPlainObject');
 
@@ -4249,7 +4317,7 @@ function isElement(value) {
 
 module.exports = isElement;
 
-},{"../internal/isObjectLike":53,"./isPlainObject":65}],61:[function(require,module,exports){
+},{"../internal/isObjectLike":54,"./isPlainObject":66}],62:[function(require,module,exports){
 var isArguments = require('./isArguments'),
     isArray = require('./isArray'),
     isArrayLike = require('../internal/isArrayLike'),
@@ -4298,7 +4366,7 @@ function isEmpty(value) {
 
 module.exports = isEmpty;
 
-},{"../internal/isArrayLike":49,"../internal/isObjectLike":53,"../object/keys":72,"./isArguments":58,"./isArray":59,"./isFunction":62,"./isString":66}],62:[function(require,module,exports){
+},{"../internal/isArrayLike":50,"../internal/isObjectLike":54,"../object/keys":73,"./isArguments":59,"./isArray":60,"./isFunction":63,"./isString":67}],63:[function(require,module,exports){
 var isObject = require('./isObject');
 
 /** `Object#toString` result references. */
@@ -4338,7 +4406,7 @@ function isFunction(value) {
 
 module.exports = isFunction;
 
-},{"./isObject":64}],63:[function(require,module,exports){
+},{"./isObject":65}],64:[function(require,module,exports){
 var isFunction = require('./isFunction'),
     isObjectLike = require('../internal/isObjectLike');
 
@@ -4388,7 +4456,7 @@ function isNative(value) {
 
 module.exports = isNative;
 
-},{"../internal/isObjectLike":53,"./isFunction":62}],64:[function(require,module,exports){
+},{"../internal/isObjectLike":54,"./isFunction":63}],65:[function(require,module,exports){
 /**
  * Checks if `value` is the [language type](https://es5.github.io/#x8) of `Object`.
  * (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
@@ -4418,7 +4486,7 @@ function isObject(value) {
 
 module.exports = isObject;
 
-},{}],65:[function(require,module,exports){
+},{}],66:[function(require,module,exports){
 var baseForIn = require('../internal/baseForIn'),
     isArguments = require('./isArguments'),
     isObjectLike = require('../internal/isObjectLike');
@@ -4491,7 +4559,7 @@ function isPlainObject(value) {
 
 module.exports = isPlainObject;
 
-},{"../internal/baseForIn":32,"../internal/isObjectLike":53,"./isArguments":58}],66:[function(require,module,exports){
+},{"../internal/baseForIn":33,"../internal/isObjectLike":54,"./isArguments":59}],67:[function(require,module,exports){
 var isObjectLike = require('../internal/isObjectLike');
 
 /** `Object#toString` result references. */
@@ -4528,7 +4596,7 @@ function isString(value) {
 
 module.exports = isString;
 
-},{"../internal/isObjectLike":53}],67:[function(require,module,exports){
+},{"../internal/isObjectLike":54}],68:[function(require,module,exports){
 var isLength = require('../internal/isLength'),
     isObjectLike = require('../internal/isObjectLike');
 
@@ -4604,7 +4672,7 @@ function isTypedArray(value) {
 
 module.exports = isTypedArray;
 
-},{"../internal/isLength":52,"../internal/isObjectLike":53}],68:[function(require,module,exports){
+},{"../internal/isLength":53,"../internal/isObjectLike":54}],69:[function(require,module,exports){
 var baseCopy = require('../internal/baseCopy'),
     keysIn = require('../object/keysIn');
 
@@ -4637,7 +4705,7 @@ function toPlainObject(value) {
 
 module.exports = toPlainObject;
 
-},{"../internal/baseCopy":29,"../object/keysIn":73}],69:[function(require,module,exports){
+},{"../internal/baseCopy":30,"../object/keysIn":74}],70:[function(require,module,exports){
 var assignWith = require('../internal/assignWith'),
     baseAssign = require('../internal/baseAssign'),
     createAssigner = require('../internal/createAssigner');
@@ -4682,7 +4750,7 @@ var assign = createAssigner(function(object, source, customizer) {
 
 module.exports = assign;
 
-},{"../internal/assignWith":26,"../internal/baseAssign":27,"../internal/createAssigner":39}],70:[function(require,module,exports){
+},{"../internal/assignWith":27,"../internal/baseAssign":28,"../internal/createAssigner":40}],71:[function(require,module,exports){
 var assign = require('./assign'),
     assignDefaults = require('../internal/assignDefaults'),
     createDefaults = require('../internal/createDefaults');
@@ -4709,7 +4777,7 @@ var defaults = createDefaults(assign, assignDefaults);
 
 module.exports = defaults;
 
-},{"../internal/assignDefaults":25,"../internal/createDefaults":42,"./assign":69}],71:[function(require,module,exports){
+},{"../internal/assignDefaults":26,"../internal/createDefaults":43,"./assign":70}],72:[function(require,module,exports){
 var createDefaults = require('../internal/createDefaults'),
     merge = require('./merge'),
     mergeDefaults = require('../internal/mergeDefaults');
@@ -4736,7 +4804,7 @@ var defaultsDeep = createDefaults(merge, mergeDefaults);
 
 module.exports = defaultsDeep;
 
-},{"../internal/createDefaults":42,"../internal/mergeDefaults":54,"./merge":74}],72:[function(require,module,exports){
+},{"../internal/createDefaults":43,"../internal/mergeDefaults":55,"./merge":75}],73:[function(require,module,exports){
 var getNative = require('../internal/getNative'),
     isArrayLike = require('../internal/isArrayLike'),
     isObject = require('../lang/isObject'),
@@ -4783,7 +4851,7 @@ var keys = !nativeKeys ? shimKeys : function(object) {
 
 module.exports = keys;
 
-},{"../internal/getNative":45,"../internal/isArrayLike":49,"../internal/shimKeys":55,"../lang/isObject":64}],73:[function(require,module,exports){
+},{"../internal/getNative":46,"../internal/isArrayLike":50,"../internal/shimKeys":56,"../lang/isObject":65}],74:[function(require,module,exports){
 var isArguments = require('../lang/isArguments'),
     isArray = require('../lang/isArray'),
     isIndex = require('../internal/isIndex'),
@@ -4849,7 +4917,7 @@ function keysIn(object) {
 
 module.exports = keysIn;
 
-},{"../internal/isIndex":50,"../internal/isLength":52,"../lang/isArguments":58,"../lang/isArray":59,"../lang/isObject":64}],74:[function(require,module,exports){
+},{"../internal/isIndex":51,"../internal/isLength":53,"../lang/isArguments":59,"../lang/isArray":60,"../lang/isObject":65}],75:[function(require,module,exports){
 var baseMerge = require('../internal/baseMerge'),
     createAssigner = require('../internal/createAssigner');
 
@@ -4905,7 +4973,7 @@ var merge = createAssigner(baseMerge);
 
 module.exports = merge;
 
-},{"../internal/baseMerge":34,"../internal/createAssigner":39}],75:[function(require,module,exports){
+},{"../internal/baseMerge":35,"../internal/createAssigner":40}],76:[function(require,module,exports){
 /**
  * This method returns the first argument provided to it.
  *

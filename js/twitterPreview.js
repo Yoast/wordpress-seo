@@ -6,10 +6,9 @@ var defaultsDeep = require( "lodash/object/defaultsDeep" );
 
 var Jed = require( "jed" );
 
-var addClass = require( "./helpers/addClass.js" );
-var removeClass = require( "./helpers/removeClass.js" );
 var imageRatio = require( "./helpers/imageRatio" );
 var renderDescription = require( "./helpers/renderDescription" );
+var imagePlaceholder  = require( "./element/imagePlaceholder" );
 
 var TextField = require( "./inputs/textInput" );
 var TextArea = require( "./inputs/textarea" );
@@ -18,7 +17,9 @@ var Button = require( "./inputs/button.js" );
 var InputElement = require( "./element/input" );
 var PreviewEvents = require( "./preview/events" );
 
-var twitterEditorTemplate = require( "./templates.js" ).twitterPreview;
+var templates = require( "./templates" );
+
+var twitterEditorTemplate = templates.twitterPreview;
 
 var twitterDefaults = {
 	data: {
@@ -29,7 +30,7 @@ var twitterDefaults = {
 	placeholder: {
 		title:    "This is an example title - edit by clicking here",
 		description: "Modify your twitter description by editing it right here",
-		imageUrl: ""
+		imageUrl: "Edit the image by clicking here"
 	},
 	defaultValue: {
 		title: "",
@@ -44,15 +45,15 @@ var twitterDefaults = {
 
 var inputTwitterPreviewBindings = [
 	{
-		"preview": "twitter_title_container",
+		"preview": "editable-preview__title--twitter",
 		"inputField": "title"
 	},
 	{
-		"preview": "twitter_image_container",
+		"preview": "editable-preview__image--twitter",
 		"inputField": "imageUrl"
 	},
 	{
-		"preview": "twitter_description_container",
+		"preview": "editable-preview__description--twitter",
 		"inputField": "description"
 	}
 ];
@@ -188,12 +189,11 @@ TwitterPreview.prototype.renderTemplate = function() {
 
 	this.element = {
 		rendered: {
-			title: document.getElementById( "twitter_title" ),
-			imageUrl: document.getElementById( "twitter_image" ),
-			description: document.getElementById( "twitter_description" )
+			title: targetElement.getElementsByClassName( "editable-preview__value--twitter-title" )[0],
+			description: targetElement.getElementsByClassName( "editable-preview__value--twitter-description" )[0]
 		},
 		fields: this.getFields(),
-		container: document.getElementById( "snippet_preview" ),
+		container: targetElement.getElementsByClassName( "editable-preview--twitter" )[0],
 		formContainer: targetElement.getElementsByClassName( "snippet-editor__form" )[0],
 		editToggle: targetElement.getElementsByClassName( "snippet-editor__edit-button" )[0],
 		closeEditor: targetElement.getElementsByClassName( "snippet-editor__submit" )[0],
@@ -223,7 +223,7 @@ TwitterPreview.prototype.renderTemplate = function() {
 
 	this.element.preview = {
 		title: this.element.rendered.title.parentNode,
-		imageUrl: this.element.rendered.imageUrl.parentNode,
+		imageUrl: targetElement.getElementsByClassName( "editable-preview__image--twitter" )[0],
 		description: this.element.rendered.description.parentNode
 	};
 
@@ -358,23 +358,38 @@ TwitterPreview.prototype.setDescription = function( description ) {
  * @param {string} imageUrl The image path.
  */
 TwitterPreview.prototype.setImageUrl = function( imageUrl ) {
-	var image = this.element.rendered.imageUrl;
-	var img   = new Image();
+	var imageContainer = this.element.preview.imageUrl;
+	if ( this.data.imageUrl === "" ) {
+		imagePlaceholder(
+			imageContainer,
+			this.i18n.dgettext( "js-text-analysis", "Please enter an image url by clicking here" ),
+			false,
+			"twitter"
+		);
+
+		return;
+	}
+
+	var img = new Image();
 	img.onload = function() {
-		image.src = imageUrl;
 
-		imageRatio( image, 506 );
+		imageContainer.innerHTML = "<img src='" + imageUrl + "' />";
 
-		// Show the image, because it's done.
-		removeClass( image, "snippet-editor--hidden" );
+		imageRatio( imageContainer.childNodes[0], 506 );
 	};
 
-	img.onerror = function() {
-		addClass( image, "snippet-editor--hidden" );
-	};
+	img.onerror = imagePlaceholder.bind(
+		null,
+		imageContainer,
+		this.i18n.dgettext( "js-text-analysis", "The given image url cannot be loaded" ),
+		true,
+		"twitter"
+	);
 
+	// Load image to trigger load or error event.
 	img.src = imageUrl;
 };
+
 
 /**
  * Binds the reloadSnippetText function to the blur of the snippet inputs.
