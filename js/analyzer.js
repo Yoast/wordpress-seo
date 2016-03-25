@@ -19,7 +19,7 @@ var sanitizeString = require( "../js/stringProcessing/sanitizeString.js" );
 var stringToRegex = require( "../js/stringProcessing/stringToRegex.js" );
 var replaceDiacritics = require( "../js/stringProcessing/replaceDiacritics.js" );
 
-var isUndefined = require( "lodash/lang/isUndefined" );
+var isUndefined = require( "lodash/isUndefined" );
 
 var AnalyzeScorer = require( "./analyzescorer.js" );
 var analyzerConfig = require( "./config/config.js" );

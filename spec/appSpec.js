@@ -7,7 +7,7 @@ require("../js/scoreFormatter.js");
 var MissingArgument = require( "../js/errors/missingArgument.js" );
 var SnippetPreview = require( "../js/snippetPreview.js" );
 
-var clone = require( "lodash/lang/clone" );
+var clone = require( "lodash/clone" );
 var App = require( "../js/app.js" );
 
 // Mock these function to prevent us from needing an actual DOM in the tests.

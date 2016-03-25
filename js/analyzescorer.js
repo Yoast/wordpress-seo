@@ -1,11 +1,11 @@
 /* global YoastSEO: true */
 
-var escapeHTML = require( "lodash/string/escape" );
+var escapeHTML = require( "lodash/escape" );
 var Score = require( "./values/Score.js" );
 var AnalyzerScoring = require( "./config/scoring.js" ).AnalyzerScoring;
 var analyzerScoreRating = require( "./config/scoring.js" ).analyzerScoreRating;
 
-var isUndefined = require( "lodash/lang/isUndefined" );
+var isUndefined = require( "lodash/isUndefined" );
 
 var assessments = {};
 assessments.wordCount = require( "./assessments/countWords.js" );

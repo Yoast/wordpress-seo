@@ -1,8 +1,8 @@
 /* jshint browser: true */
 
-var isUndefined = require( "lodash/lang/isUndefined" );
-var isNumber = require( "lodash/lang/isNumber" );
-var difference = require( "lodash/array/difference" );
+var isUndefined = require( "lodash/isUndefined" );
+var isNumber = require( "lodash/isNumber" );
+var difference = require( "lodash/difference" );
 var template = require( "./templates.js" ).scoreResult;
 
 /**

@@ -1,5 +1,5 @@
 var AssessmentResult = require( "../values/AssessmentResult.js" );
-var inRange = require( "lodash/number/inRange" );
+var inRange = require( "lodash/inRange" );
 
 /**
  * Calculate the score based on the current word count.

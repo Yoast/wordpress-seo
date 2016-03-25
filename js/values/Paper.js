@@ -1,5 +1,5 @@
-var defaults = require( "lodash/object/defaults" );
-var isUndefined = require( "lodash/lang/isUndefined" );
+var defaults = require( "lodash/defaults" );
+var isUndefined = require( "lodash/isUndefined" );
 var sanitizeString = require( "../stringProcessing/sanitizeString.js" );
 
 /**
