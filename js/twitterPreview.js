@@ -39,7 +39,7 @@ var twitterDefaults = {
 	},
 	baseURL: "example.com",
 	callbacks: {
-		saveSnippetData: function() {}
+		updateSocialPreview: function() {}
 	}
 };
 
@@ -83,7 +83,7 @@ var inputTwitterPreviewBindings = [
  * @param {HTMLElement}    opts.targetElement             - The target element that contains this snippet editor.
  *
  * @param {Object}         opts.callbacks                 - Functions that are called on specific instances.
- * @param {Function}       opts.callbacks.saveSnippetData - Function called when the snippet data is changed.
+ * @param {Function}       opts.callbacks.updateSocialPreview - Function called when the snippet data is changed.
  *
  * @param {Object}         i18n                           - The i18n object.
  *
@@ -315,22 +315,22 @@ TwitterPreview.prototype.getFieldElements = function() {
  * Updates the twitter preview.
  */
 TwitterPreview.prototype.updatePreview = function() {
-	// Update the data.
-	this.data.title = this.element.fieldElements.title.getValue();
-	this.data.description = this.element.fieldElements.description.getValue();
+// Update the data.
+	this.data.title = this.element.fieldElements.title.getInputValue();
+	this.data.description = this.element.fieldElements.description.getInputValue();
 	this.data.imageUrl = this.element.fieldElements.imageUrl.getInputValue();
 
 	// Sets the title field
-	this.setTitle( this.data.title );
+	this.setTitle( this.element.fieldElements.title.getValue() );
 
 	// Set the description field and parse the styling of it.
-	this.setDescription( this.data.description );
+	this.setDescription( this.element.fieldElements.description.getValue() );
 
 	// Sets the Image URL
 	this.setImageUrl( this.data.imageUrl );
 
 	// Clone so the data isn't changeable.
-	this.opts.callbacks.saveSnippetData( clone( this.data ) );
+	this.opts.callbacks.updateSocialPreview( clone( this.data ) );
 };
 
 /**
