@@ -63,6 +63,16 @@ var TwitterPreview = socialPreviews.TwitterPreview;
 			}
 
 			/**
+			 * Adds an image url.
+			 * @param {Object} imageUrl
+			 */
+			function addUploadImage( imageUrl ) {
+				jQuery( imageUrl ).parent().append(
+					'<input id="' + jQuery( imageUrl ).attr( "id" ) + '_button" class="wpseo_image_upload_button button" type="button" value="' + yoast_social_preview.upload_image + '" />'
+				);
+			}
+
+			/**
 			 * Initialize the facebook preview.
 			 *
 			 * @param {Object} facebookHolder Target element for adding the facebook preview.
@@ -74,6 +84,7 @@ var TwitterPreview = socialPreviews.TwitterPreview;
 
 				facebookHolder.append( "<div id='facebookPreview'></div>" );
 				facebookHolder.find( '.form-table' ).hide();
+
 
 				var facebookPreview = new FacebookPreview(
 					{
@@ -93,7 +104,10 @@ var TwitterPreview = socialPreviews.TwitterPreview;
 						}
 					}
 				);
+
 				facebookPreview.init();
+
+				addUploadImage( jQuery( '#facebook-editor-imageUrl' ) );
 			}
 
 			/**
@@ -129,6 +143,9 @@ var TwitterPreview = socialPreviews.TwitterPreview;
 				);
 
 				twitterPreview.init();
+
+				addUploadImage( jQuery( '#twitter-editor-imageUrl' ) );
+
 			}
 
 			initFacebook( jQuery( '#wpseo_facebook' ) );
@@ -370,7 +387,7 @@ var inputFacebookPreviewBindings = [
  * @param {HTMLElement}    opts.targetElement             - The target element that contains this snippet editor.
  *
  * @param {Object}         opts.callbacks                 - Functions that are called on specific instances.
- * @param {Function}       opts.callbacks.updateSocialPreview - Function called when the snippet data is changed.
+ * @param {Function}       opts.callbacks.updateSocialPreview - Function called when the social preview is updated.
  *
  * @param {Object}         i18n                           - The i18n object.
  *
@@ -1541,7 +1558,7 @@ var inputTwitterPreviewBindings = [
  * @param {HTMLElement}    opts.targetElement             - The target element that contains this snippet editor.
  *
  * @param {Object}         opts.callbacks                 - Functions that are called on specific instances.
- * @param {Function}       opts.callbacks.updateSocialPreview - Function called when the snippet data is changed.
+ * @param {Function}       opts.callbacks.updateSocialPreview - Function called when the social preview is updated.
  *
  * @param {Object}         i18n                           - The i18n object.
  *

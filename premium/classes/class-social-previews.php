@@ -38,7 +38,8 @@ class WPSEO_Social_Previews {
 	 */
 	private function localize() {
 		return array(
-			'website' => $this->get_website(),
+			'website'      => $this->get_website(),
+			'upload_image' => __( 'Upload Image', 'wordpress-seo' ),
 		);
 	}
 
