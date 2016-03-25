@@ -1,16 +1,13 @@
-// var researcher = require( "./researcher.js" );
+var Researcher = require( "./researcher.js" );
 var Paper = require( "./values/Paper.js" );
-
-// var merge = require( "lodash/object/merge" );
 
 var InvalidTypeError = require( "./errors/invalidType" );
 
-// var MissingArgument = require( "./errors/missingArgument" );
-// var isUndefined = require( "lodash/lang/isUndefined" );
-// var isEmpty = require( "lodash/lang/isEmpty" );
+var MissingArgument = require( "./errors/missingArgument" );
+var isUndefined = require( "lodash/lang/isUndefined" );
+var isEmpty = require( "lodash/lang/isEmpty" );
 
 //assessments
-
 var assessments = {};
 assessments.wordCount = require( "./assessments/countWords.js" );
 assessments.urlLength = require( "./assessments/urlIsTooLong.js" );
@@ -32,20 +29,23 @@ assessments.pageTitleLength = require( "./assessments/pageTitleLength.js" );
 /**
  * Creates the Assessor
  *
- * @param {Paper} paper the paper to be used for running assessments.
+ * @param {Paper} paper The paper to be used for running assessments.
+ * @param {object} i18n The i18n object used for translations.
  * @constructor
  */
-var Assessor = function( paper ) {
+var Assessor = function( paper, i18n ) {
 	this.setPaper( paper );
+	this.setI18n( i18n );
 
-	// this.researcher = new researcher( paper );
+	this.researcher = new Researcher( paper );
 
-	// this.taskList = [];
+	this.taskList = [];
 };
 
 /**
+ * Checks if the argument is a valid paper and sets it.
+ * @param paper The paper to be used for the assessments
  * @throws {InvalidTypeError} Parameter needs to be an instance of the Paper object.
- * @param paper
  */
 Assessor.prototype.setPaper = function( paper ) {
 	if ( !( paper instanceof Paper ) ) {
@@ -55,12 +55,45 @@ Assessor.prototype.setPaper = function( paper ) {
 };
 
 /**
+ * Checks if the i18n object is defined and sets it.
+ * @param {object} i18n
+ * @throws {MissingArgument} Parameter needs to be a valid i18n object.
+ */
+Assessor.prototype.setI18n = function( i18n ) {
+	if ( isUndefined( i18n ) ) {
+		throw new MissingArgument( "The assessor requires an i18n object." );
+	}
+	this.i18n = i18n;
+};
+
+/**
  * Gets all available assessments.
- * @returns {{}}
+ * @returns {object} assessment
  */
 Assessor.prototype.getAvailableAssessments = function() {
 	return assessments;
 };
+
+/**
+ * Runs the researches defined in the tasklist or the default researches.
+ * @returns result
+ */
+Assessor.prototype.executeAssessments = function() {
+	if ( isEmpty( this.taskList ) )  {
+		var assessments = this.getAvailableAssessments();
+		var results = [];
+		for ( var assessment in assessments ) {
+			if ( assessments.hasOwnProperty( assessment ) ) {
+				results.push( {
+					result: assessments[ assessment ]( this.paper, this.researcher, this.i18n ),
+					name: assessment
+				} );
+			}
+		}
+		return results;
+	}
+};
+
 
 Assessor.prototype.outputScore = function() {
 
