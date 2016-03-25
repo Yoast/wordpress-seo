@@ -5,7 +5,6 @@ var InvalidTypeError = require( "./errors/invalidType" );
 
 var MissingArgument = require( "./errors/missingArgument" );
 var isUndefined = require( "lodash/lang/isUndefined" );
-var isEmpty = require( "lodash/lang/isEmpty" );
 
 //assessments
 var assessments = {};
@@ -33,25 +32,20 @@ assessments.pageTitleLength = require( "./assessments/pageTitleLength.js" );
  * @param {object} i18n The i18n object used for translations.
  * @constructor
  */
-var Assessor = function( paper, i18n ) {
-	this.setPaper( paper );
+var Assessor = function( i18n ) {
 	this.setI18n( i18n );
-
-	this.researcher = new Researcher( paper );
-
 	this.taskList = [];
 };
 
 /**
- * Checks if the argument is a valid paper and sets it.
+ * Checks if the argument is a valid paper.
  * @param paper The paper to be used for the assessments
  * @throws {InvalidTypeError} Parameter needs to be an instance of the Paper object.
  */
-Assessor.prototype.setPaper = function( paper ) {
+Assessor.prototype.verifyPaper = function( paper ) {
 	if ( !( paper instanceof Paper ) ) {
 		throw new InvalidTypeError( "The assessor requires an Paper object." );
 	}
-	this.paper = paper;
 };
 
 /**
@@ -78,25 +72,20 @@ Assessor.prototype.getAvailableAssessments = function() {
  * Runs the researches defined in the tasklist or the default researches.
  * @returns result
  */
-Assessor.prototype.executeAssessments = function() {
-	if ( isEmpty( this.taskList ) )  {
-		var assessments = this.getAvailableAssessments();
-		var results = [];
-		for ( var assessment in assessments ) {
-			if ( assessments.hasOwnProperty( assessment ) ) {
-				results.push( {
-					result: assessments[ assessment ]( this.paper, this.researcher, this.i18n ),
-					name: assessment
-				} );
-			}
+Assessor.prototype.assess = function( paper ) {
+	this.verifyPaper( paper );
+	var researcher = new Researcher( paper );
+
+	var assessments = this.getAvailableAssessments();
+	var results = [];
+	for ( var assessment in assessments ) {
+		if ( assessments.hasOwnProperty( assessment ) ) {
+			results.push(
+				assessments[ assessment ]( paper, researcher, this.i18n )
+			 );
 		}
-		return results;
 	}
-};
-
-
-Assessor.prototype.outputScore = function() {
-
+	return results;
 };
 
 module.exports = Assessor;
