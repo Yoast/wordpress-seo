@@ -538,13 +538,13 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				$label = '<label for="' . $esc_form_key . '">' . $label . '</label>';
 			}
 
-			$helpButton = $helpPanel = '';
+			$help_button = $help_panel = '';
 			if ( isset( $meta_field_def['help'] ) && $meta_field_def['help'] !== '' ) {
-				$helpButton = ' <button type="button" class="yoast_help yoast-help-button dashicons" id="' . esc_attr( $key . '-help-toggle' ) .
+				$help_button = ' <button type="button" class="yoast_help yoast-help-button dashicons" id="' . esc_attr( $key . '-help-toggle' ) .
 					'" aria-expanded="false" aria-controls="' . esc_attr( $key . '-help' ) . '"><span class="screen-reader-text">' .
 					$meta_field_def['help-button'] . '</span></button>';
 
-				$helpPanel = '<p id="' . esc_attr( $key . '-help' ) . '" class="yoast-help-panel">' . $meta_field_def['help'] . '</p>';
+				$help_panel = '<p id="' . esc_attr( $key . '-help' ) . '" class="yoast-help-panel">' . $meta_field_def['help'] . '</p>';
 			}
 
 			if ( $meta_field_def['type'] === 'hidden' ) {
@@ -553,8 +553,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			else {
 				$html = '
 					<tr>
-						<th scope="row">' . $label . $helpButton . '</th>
-						<td>' . $helpPanel;
+						<th scope="row">' . $label . $help_button . '</th>
+						<td>' . $help_panel;
 
 				$html .= $content;
 

@@ -44,11 +44,12 @@ class WPSEO_Taxonomy_Fields_Presenter {
 	private function form_row( $field_name, array $field_options ) {
 		$esc_field_name = esc_attr( $field_name );
 
-		$label = $this->get_label( $field_options['label'], $esc_field_name );
-		$field = $this->get_field( $field_options['type'], $esc_field_name, $this->get_field_value( $field_name ) , (array) $field_options['options'] );
-		$help  = $this->get_help( $field, $field_options['description'], $esc_field_name );
+		$label       = $this->get_label( $field_options['label'], $esc_field_name );
+		$field       = $this->get_field( $field_options['type'], $esc_field_name, $this->get_field_value( $field_name ) , (array) $field_options['options'] );
+		$help        = $this->get_help( $field, $field_options['description'], $esc_field_name );
+		$help_button = isset( $field_options['options']['help-button'] ) ? $this->get_help_button( $field_options['options']['help-button'], $esc_field_name ) : '';
 
-		return $this->parse_row( $label, $help, $field );
+		return $this->parse_row( $label, $help_button, $help, $field );
 	}
 
 	/**
@@ -178,7 +179,7 @@ class WPSEO_Taxonomy_Fields_Presenter {
 	}
 
 	/**
-	 * Parsing question mark with the help-text
+	 * Parsing the help-text
 	 *
 	 * @param string $field_name The name of the field where the helptext is generated for.
 	 * @param string $help_text  The help text itself.
@@ -186,32 +187,44 @@ class WPSEO_Taxonomy_Fields_Presenter {
 	 * @return string
 	 */
 	private function parse_help( $field_name, $help_text ) {
-		static $image_src;
+		return sprintf(
+			'<p id="%1$s" class="yoast-help-panel">%2$s</p>',
+			esc_attr( $field_name . '-help' ),
+			$help_text
+		);
+	}
 
-		if ( $image_src === null ) {
-			$image_src = plugins_url( 'images/question-mark.png', WPSEO_FILE );
+	/**
+	 * Returna the help toggle button
+	 *
+	 * @param string $button_text The help button text.
+	 * @param string $field_name  The target field.
+	 *
+	 * @return string
+	 */
+	private function get_help_button( $button_text, $field_name ) {
+		if ( $button_text !== '' ) {
+			return ' <button type="button" class="yoast_help yoast-help-button dashicons" id="' . esc_attr( $field_name . '-help-toggle' ) .
+				'" aria-expanded="false" aria-controls="' . esc_attr( $field_name . '-help' ) . '"><span class="screen-reader-text">' .
+				$button_text . '</span></button>';
 		}
 
-		return sprintf(
-			'<img src="%1$s" class="alignright yoast_help" id="%2$s" alt="%3$s" />',
-			$image_src,
-			esc_attr( $field_name . 'help' ),
-			esc_attr( $help_text )
-		);
+		return '';
 	}
 
 	/**
 	 * Returns the HTML for the row which contains label, help and the field.
 	 *
-	 * @param string $label The html for the label if there was a label set.
-	 * @param string $help  The html for the help, when it's there.
-	 * @param string $field The html for the field.
+	 * @param string $label       The html for the label if there was a label set.
+	 * @param string $help_button The text for the help button.
+	 * @param string $help        The html for the help, when it's there.
+	 * @param string $field       The html for the field.
 	 *
 	 * @return string
 	 */
-	private function parse_row( $label, $help, $field ) {
+	private function parse_row( $label, $help_button, $help, $field ) {
 		if ( $label !== '' || $help !== '' ) {
-			return '<tr><th scope="row">' . $label . $help . '</th><td>' . $field . '</td></tr>';
+			return '<tr><th scope="row">' . $label . $help_button . '</th><td>' . $help . $field . '</td></tr>';
 		}
 
 		return $field;
