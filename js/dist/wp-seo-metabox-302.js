@@ -65,16 +65,6 @@
 		jQuery( '.wpseo-heading' ).hide();
 		jQuery( '.wpseo-metabox-tabs' ).show();
 		// End Tabs code
-
-		jQuery( '.yoast_help.yoast-help-button' ).on( 'click', function() {
-			var $button = $( this ),
-				helpPanel = $( '#' + $button.attr( 'aria-controls' ) ),
-				isPanelVisible = helpPanel.is( ':visible' );
-
-			$( helpPanel ).slideToggle( 200, function() {
-				$button.attr( 'aria-expanded', ! isPanelVisible );
-			});
-		});
 	};
 
 	/**

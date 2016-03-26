@@ -152,19 +152,23 @@ class WPSEO_GSC_Category_Filters {
 			$class .= ' current';
 		}
 
-		$title = '';
+		$helpButton = $helpPanel = '';
 		if ( $this->filter_values[ $category ]['description'] !== '' ) {
-			$title = " title='" . esc_attr( $this->filter_values[ $category ]['description'] ) . "'";
+			$helpButton = '<button type="button" class="yoast_help yoast-help-button dashicons" id="' . esc_attr( $category . '-help-toggle' ) .
+				'" aria-expanded="false" aria-controls="' . esc_attr( $category . '-help' ) . '"><span class="screen-reader-text">' .
+				__( 'Help', 'wordpress-seo' ) . '</span></button>';
+			$helpPanel = '<div class="yoast-seo-container"><p id="' . esc_attr( $category . '-help' ) . '" class="yoast-help-panel">' . $this->filter_values[ $category ]['description'] . '</p></div>';
 		}
 
 		return sprintf(
-			'<a href="%1$s" class="%2$s" %3$s>%4$s</a> (<span id="gsc_count_%5$s">%6$s</span>)',
+			'<a href="%1$s" class="%2$s">%3$s</a> (<span id="gsc_count_%4$s">%5$s</span>) %6$s %7$s',
 			esc_attr( $href ),
 			$class,
-			$title,
 			$this->filter_values[ $category ]['value'],
 			$category,
-			$count
+			$count,
+			$helpButton,
+			$helpPanel
 		);
 	}
 

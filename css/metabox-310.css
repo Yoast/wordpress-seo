@@ -341,7 +341,7 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 	position: relative;
 	width: 28px;
 	height: 28px;
-	margin: -2px 0 0 0.2em;
+	margin: -2px 0 0 0;
 	padding: 0;
 	border: 0;
 	outline: none;
@@ -373,15 +373,27 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 
 .yoast-help-panel {
 	display: none;
-	max-width: 30em;
+	max-width: 30em !important;
 	margin: 0 0 2em !important;
 	padding: 0;
 	font-weight: normal;
+	white-space: normal;
 	/* WordPress help tabs styling */
 	/*
 	border: 1px solid #e1e1e1;
 	background: #f6fbfd;
 	*/
+}
+
+.wpseo-admin-page .subsubsub li {
+	display: inline;
+	max-width: none;
+}
+
+.yoast-seo-container {
+	float: left;
+	width: 100%;
+	max-width: none;
 }
 
 .yoast-qtip {
