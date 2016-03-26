@@ -66,6 +66,10 @@ class WPSEO_Frontend {
 	 */
 	private $required_options = array( 'wpseo', 'wpseo_rss', 'wpseo_social', 'wpseo_permalinks', 'wpseo_titles' );
 
+	/**
+	 * @var array
+	 */
+	private $hooks;
 
 	/**
 	 * Class constructor
@@ -147,6 +151,11 @@ class WPSEO_Frontend {
 		if ( $this->options['title_test'] > 0 ) {
 			add_filter( 'wpseo_title', array( $this, 'title_test_helper' ) );
 		}
+
+		$primary_category = new WPSEO_Frontend_Primary_Category();
+		$primary_category->register_hooks();
+
+		$this->hooks = array( $primary_category );
 	}
 
 	/**
