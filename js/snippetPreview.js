@@ -397,8 +397,7 @@ SnippetPreview.prototype.renderTemplate = function() {
 			slug:  this.i18n.dgettext( "js-text-analysis", "Slug" ),
 			metaDescription: this.i18n.dgettext( "js-text-analysis", "Meta description" ),
 			save: this.i18n.dgettext( "js-text-analysis", "Close snippet editor" ),
-			snippetPreview: this.i18n.dgettext( "js-text-analysis", "Snippet preview" ),
-			snippetEditor: this.i18n.dgettext( "js-text-analysis", "Snippet editor" )
+			snippetPreview: this.i18n.dgettext( "js-text-analysis", "Snippet preview" )
 		}
 	} );
 
@@ -422,8 +421,7 @@ SnippetPreview.prototype.renderTemplate = function() {
 		formContainer: targetElement.getElementsByClassName( "snippet-editor__form" )[0],
 		editToggle: targetElement.getElementsByClassName( "snippet-editor__edit-button" )[0],
 		closeEditor: targetElement.getElementsByClassName( "snippet-editor__submit" )[0],
-		formFields: targetElement.getElementsByClassName( "snippet-editor__form-field" ),
-		headingEditor: targetElement.getElementsByClassName( "snippet-editor__heading-editor" )[0]
+		formFields: targetElement.getElementsByClassName( "snippet-editor__form-field" )
 	};
 
 	this.element.label = {
@@ -1021,12 +1019,10 @@ SnippetPreview.prototype.updateDataFromDOM = function() {
  */
 SnippetPreview.prototype.openEditor = function() {
 
-	// Hide these elements.
-	addClass( this.element.editToggle,       "snippet-editor--hidden" );
+	this.element.editToggle.setAttribute( 'aria-expanded', 'true' );
 
 	// Show these elements.
 	removeClass( this.element.formContainer, "snippet-editor--hidden" );
-	removeClass( this.element.headingEditor, "snippet-editor--hidden" );
 
 	this.opened = true;
 };
@@ -1039,10 +1035,9 @@ SnippetPreview.prototype.closeEditor = function() {
 
 	// Hide these elements.
 	addClass( this.element.formContainer,     "snippet-editor--hidden" );
-	addClass( this.element.headingEditor,     "snippet-editor--hidden" );
 
-	// Show these elements.
-	removeClass( this.element.editToggle,     "snippet-editor--hidden" );
+	this.element.editToggle.setAttribute( 'aria-expanded', 'false' );
+	this.element.editToggle.focus();
 
 	this.opened = false;
 };
