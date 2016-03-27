@@ -349,6 +349,7 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 	background: transparent;
 	box-shadow: none;
 	vertical-align: top;
+	overflow: visible; /* IE 11 */
 	cursor: pointer;
 }
 
