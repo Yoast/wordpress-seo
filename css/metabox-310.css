@@ -358,6 +358,10 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 	margin-top: -6px;
 }
 
+.wpseo-admin-page .yoast_help.yoast-help-button {
+	margin-right: 6px;
+}
+
 .yoast_help.yoast-help-button:before {
 	position: absolute;
 	top: 0;
@@ -394,12 +398,11 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 .yoast-seo-help-container {
 	float: left;
 	width: 100%;
-	margin: 0.5em 0;
 	max-width: none;
 }
 
 .yoast-seo-help-container .yoast-help-panel {
-	margin: 0 !important;
+	margin: 0.5em 0 !important;
 }
 
 .wpseo_content_wrapper p.search-box {
