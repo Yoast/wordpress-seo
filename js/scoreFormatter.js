@@ -10,26 +10,21 @@ var template = require( "./templates.js" ).scoreResult;
  * functions.
  *
  * @param {App} args
- * @param {object} args.scorer
- * @param {number} args.scorer.__score
- * @param {number} args.scorer.__totalscore
  * @param {object} args.targets
  * @param {string} args.targets.output
  * @param {string} args.targets.overall
  * @param {string} args.keyword
- * @param {string} args.keyword
- * @param {Jed} args.i18n
+ * @param {Assessor} args.assesor
+ * @param {Jed} args.assessor.i18n
  * @constructor
  */
 var ScoreFormatter = function( args ) {
-	this.scores = args.scorer.__score;
-	this.overallScore = args.scorer.__totalScore;
+	this.totalScore = 0;
+	this.keyword = args.keyword;
+	this.assessor = args.assessor;
+	this.i18n = args.assessor.i18n;
 	this.output = args.targets.output;
 	this.overall = args.targets.overall;
-	this.i18n = args.i18n;
-	this.keyword = args.keyword;
-
-	this.totalScore = 0;
 };
 
 /**
@@ -49,16 +44,16 @@ ScoreFormatter.prototype.outputScore = function() {
 
 	outputTarget.innerHTML = "";
 
-	this.scores = this.sortScores( this.scores );
+	this.scores = this.sortScores( this.assessor.getValidResults() );
 
 	for ( var i = 0; i < this.scores.length; i++ ) {
 		if ( this.scores[ i ].text !== "" ) {
-			var scoreRating = this.scoreRating( this.scores[ i ].score );
+			var scoreRating = this.scoreRating( this.scores[i].result.score );
 
 			scores[i] = {};
 			scores[i].rating = scoreRating.text;
 			scores[i].seoText = scoreRating.seoText;
-			scores[i].text = this.scores[ i ].text;
+			scores[i].text = this.scores[ i ].result.text;
 		}
 	}
 
@@ -103,7 +98,7 @@ ScoreFormatter.prototype.outputOverallScore = function() {
 	var overallTarget = document.getElementById( this.overall );
 
 	if ( overallTarget ) {
-		overallTarget.className = "overallScore " + this.overallScoreRating( Math.round( this.overallScore ) ).text;
+		overallTarget.className = "overallScore " + this.overallScoreRating( Math.round( this.assessor.calculateOverallScore() ) ).text;
 	}
 
 	if ( overallTarget && this.keyword === "" ) {

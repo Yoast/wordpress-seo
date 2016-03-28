@@ -435,26 +435,17 @@ App.prototype.runAnalyzer = function() {
 		this.assessor = new Assessor( this.i18n );
 	}
 
-	if ( isUndefined( this.pageAnalyzer ) ) {
-		this.pageAnalyzer = new Analyzer( this.analyzerData );
-		this.pluggable._addPluginTests( this.pageAnalyzer );
-	} else {
-		this.pageAnalyzer.init( this.analyzerData );
-		this.pluggable._addPluginTests( this.pageAnalyzer );
-	}
+	this.assessor.assess( this.paper );
 
-	this.pageAnalyzer.runQueue();
-
-
+	// Pass the assessor result through to the formatter
 	this.scoreFormatter = new ScoreFormatter( {
-		i18n: this.i18n,
 		targets: this.config.targets,
 		keyword: this.paper.getKeyword(),
-		scorer: this.pageAnalyzer.analyzeScorer
+		assessor: this.assessor
 	} );
 
 	this.scoreFormatter.renderScore();
-	this.callbacks.saveScores( this.pageAnalyzer.analyzeScorer.__totalScore );
+	this.callbacks.saveScores( this.assessor.calculateOverallScore() );
 
 	if ( this.config.dynamicDelay ) {
 		this.endTime();

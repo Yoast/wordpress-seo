@@ -36,7 +36,6 @@ assessments.pageTitleLength = require( "./assessments/pageTitleLength.js" );
  */
 var Assessor = function( i18n ) {
 	this.setI18n( i18n );
-	this.taskList = [];
 };
 
 /**
@@ -96,12 +95,14 @@ Assessor.prototype.assess = function( paper ) {
  */
 Assessor.prototype.getValidResults = function() {
 	var validResults = [];
+
 	forEach( this.results, function( assessmentResults ) {
 		if ( !this.isValidResult( assessmentResults.result ) ) {
 			return;
 		}
 		validResults.push( assessmentResults );
 	}.bind( this ) );
+
 	return validResults;
 };
 
@@ -123,9 +124,11 @@ Assessor.prototype.isValidResult = function( assessmentResult ) {
 Assessor.prototype.calculateOverallScore  = function() {
 	var results = this.getValidResults();
 	var totalScore = 0;
+
 	forEach( results, function( assessmentResult ) {
 		totalScore += assessmentResult.result.getScore();
 	} );
+
 	return Math.round( totalScore / ( results.length * ScoreRating ) * 100 );
 };
 
