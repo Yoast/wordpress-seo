@@ -13,6 +13,7 @@ var forEach = require( "lodash/forEach" );
 var Jed = require( "jed" );
 
 var Analyzer = require( "./analyzer.js" );
+var Assessor = require( "./assessor.js" );
 var Researcher = require( "./researcher.js" );
 var ScoreFormatter = require( "./scoreFormatter.js" );
 var Pluggable = require( "./pluggable.js" );
@@ -195,16 +196,15 @@ var App = function( args ) {
 	if ( !isObject( args ) ) {
 		args = {};
 	}
+
 	defaultsDeep( args, defaults );
 
 	verifyArguments( args );
 
 	this.config = args;
-
-	this.callbacks = this.config.callbacks;
-
-	this.i18n = this.constructI18n( this.config.translations );
 	this.pluggable = new Pluggable( this );
+	this.callbacks = this.config.callbacks;
+	this.i18n = this.constructI18n( this.config.translations );
 
 	this.getData();
 	this.showLoadingDialog();
@@ -430,17 +430,21 @@ App.prototype.runAnalyzer = function() {
 		this.researcher.setPaper( this.paper );
 	}
 
+	// Set the assessor
+	if ( isUndefined( this.assessor ) ) {
+		this.assessor = new Assessor( this.i18n );
+	}
+
 	if ( isUndefined( this.pageAnalyzer ) ) {
 		this.pageAnalyzer = new Analyzer( this.analyzerData );
-
 		this.pluggable._addPluginTests( this.pageAnalyzer );
 	} else {
 		this.pageAnalyzer.init( this.analyzerData );
-
 		this.pluggable._addPluginTests( this.pageAnalyzer );
 	}
 
 	this.pageAnalyzer.runQueue();
+
 
 	this.scoreFormatter = new ScoreFormatter( {
 		i18n: this.i18n,
