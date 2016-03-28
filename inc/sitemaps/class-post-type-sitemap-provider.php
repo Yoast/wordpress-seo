@@ -365,8 +365,10 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 				SELECT ID
 				FROM {$wpdb->posts}
 				{$join_filter}
+				t
 				WHERE post_status = '%s'
 					AND post_password = ''
+					AND 'publish' = ALL(SELECT post_status FROM $wpdb->posts m WHERE m.ID = t.post_parent)
 					AND post_type = '%s'
 					AND post_date != '0000-00-00 00:00:00'
 					{$where_filter}
