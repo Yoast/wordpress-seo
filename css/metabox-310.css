@@ -341,7 +341,7 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 	position: relative;
 	width: 20px;
 	height: 20px;
-	margin: -6px 0 0 0;
+	margin: 0;
 	padding: 0;
 	border: 0;
 	outline: none;
@@ -355,6 +355,7 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 
 .wpseotab .yoast_help.yoast-help-button {
 	float: right;
+	margin-top: -6px;
 }
 
 .yoast_help.yoast-help-button:before {
@@ -383,11 +384,6 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 	padding: 0;
 	font-weight: normal;
 	white-space: normal;
-	/* WordPress help tabs styling */
-	/*
-	border: 1px solid #e1e1e1;
-	background: #f6fbfd;
-	*/
 }
 
 .wpseo-admin-page .subsubsub li {
@@ -395,10 +391,15 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 	max-width: none;
 }
 
-.yoast-seo-container {
+.yoast-seo-help-container {
 	float: left;
 	width: 100%;
+	margin: 0.5em 0;
 	max-width: none;
+}
+
+.yoast-seo-help-container .yoast-help-panel {
+	margin: 0 !important;
 }
 
 .wpseo_content_wrapper p.search-box {

@@ -110,15 +110,15 @@ class WPSEO_GSC_Category_Filters {
 	 * Setting the values for the filter
 	 */
 	private function set_filter_values() {
-		$this->set_filter_value( 'access_denied', __( 'Access denied', 'wordpress-seo' ), __( 'Server requires authentication or is blocking Googlebot from accessing the site.', 'wordpress-seo' ) );
+		$this->set_filter_value( 'access_denied', __( 'Access denied', 'wordpress-seo' ), __( 'Server requires authentication or is blocking Googlebot from accessing the site.', 'wordpress-seo' ), __( 'Access denied Error Help', 'wordpress-seo' ) );
 		$this->set_filter_value( 'faulty_redirects', __( 'Faulty redirects', 'wordpress-seo' ) );
 		$this->set_filter_value( 'not_followed',__( 'Not followed', 'wordpress-seo' ) );
-		$this->set_filter_value( 'not_found', __( 'Not found', 'wordpress-seo' ), __( 'URL points to a non-existent page.', 'wordpress-seo' ) );
-		$this->set_filter_value( 'other', __( 'Other', 'wordpress-seo' ), __( 'Google was unable to crawl this URL due to an undetermined issue.', 'wordpress-seo' ) );
+		$this->set_filter_value( 'not_found', __( 'Not found', 'wordpress-seo' ), __( 'URL points to a non-existent page.', 'wordpress-seo' ), __( 'Not found Error Help', 'wordpress-seo' ) );
+		$this->set_filter_value( 'other', __( 'Other', 'wordpress-seo' ), __( 'Google was unable to crawl this URL due to an undetermined issue.', 'wordpress-seo' ), __( 'Other Error Help', 'wordpress-seo' ) );
 		/* Translators: %1$s: expands to '<code>robots.txt</code>'. */
-		$this->set_filter_value( 'roboted', __( 'Blocked', 'wordpress-seo' ), sprintf( __( 'Googlebot could access your site, but certain URLs are blocked for Googlebot in your %1$s file. This block could either be for all Googlebots or even specifically for Googlebot-mobile.', 'wordpress-seo' ), '<code>robots.txt</code>' ) );
-		$this->set_filter_value( 'server_error', __( 'Server Error', 'wordpress-seo' ), __( 'Request timed out or site is blocking Google.', 'wordpress-seo' ) );
-		$this->set_filter_value( 'soft_404', __( 'Soft 404', 'wordpress-seo' ), __( "The target URL doesn't exist, but your server is not returning a 404 (file not found) error.", 'wordpress-seo' ) );
+		$this->set_filter_value( 'roboted', __( 'Blocked', 'wordpress-seo' ), sprintf( __( 'Googlebot could access your site, but certain URLs are blocked for Googlebot in your %1$s file. This block could either be for all Googlebots or even specifically for Googlebot-mobile.', 'wordpress-seo' ), '<code>robots.txt</code>' ), __( 'Blocked Error Help' ) );
+		$this->set_filter_value( 'server_error', __( 'Server Error', 'wordpress-seo' ), __( 'Request timed out or site is blocking Google.', 'wordpress-seo' ), __( 'Server Error Help', 'wordpress-seo' ) );
+		$this->set_filter_value( 'soft_404', __( 'Soft 404', 'wordpress-seo' ), __( "The target URL doesn't exist, but your server is not returning a 404 (file not found) error.", 'wordpress-seo' ), __( 'Soft 404 Error Help', 'wordpress-seo' ) );
 	}
 
 	/**
@@ -127,11 +127,13 @@ class WPSEO_GSC_Category_Filters {
 	 * @param string $key         Filter key.
 	 * @param string $value       Filter value.
 	 * @param string $description Optional description string.
+	 * @param string $help_button Optional help button text.
 	 */
-	private function set_filter_value( $key, $value, $description = '' ) {
+	private function set_filter_value( $key, $value, $description = '', $help_button_text = '' ) {
 		$this->filter_values[ $key ] = array(
 			'value'       => $value,
 			'description' => $description,
+			'help-button' => $help_button_text,
 		);
 	}
 
@@ -152,12 +154,13 @@ class WPSEO_GSC_Category_Filters {
 			$class .= ' current';
 		}
 
-		$helpButton = $helpPanel = '';
+		$help_button = $help_panel = '';
+		$help_button_text = $this->filter_values[ $category ]['help-button'] !== '' ? $this->filter_values[ $category ]['help-button'] : __( 'Help', 'wordpress-seo' );
 		if ( $this->filter_values[ $category ]['description'] !== '' ) {
-			$helpButton = '<button type="button" class="yoast_help yoast-help-button dashicons" id="' . esc_attr( $category . '-help-toggle' ) .
+			$help_button = '<button type="button" class="yoast_help yoast-help-button dashicons" id="' . esc_attr( $category . '-help-toggle' ) .
 				'" aria-expanded="false" aria-controls="' . esc_attr( $category . '-help' ) . '"><span class="screen-reader-text">' .
-				__( 'Help', 'wordpress-seo' ) . '</span></button>';
-			$helpPanel = '<div class="yoast-seo-container"><p id="' . esc_attr( $category . '-help' ) . '" class="yoast-help-panel">' . $this->filter_values[ $category ]['description'] . '</p></div>';
+				$help_button_text . '</span></button>';
+			$help_panel = '<div class="yoast-seo-help-container"><p id="' . esc_attr( $category . '-help' ) . '" class="yoast-help-panel">' . $this->filter_values[ $category ]['description'] . '</p></div>';
 		}
 
 		return sprintf(
@@ -167,8 +170,8 @@ class WPSEO_GSC_Category_Filters {
 			$this->filter_values[ $category ]['value'],
 			$category,
 			$count,
-			$helpButton,
-			$helpPanel
+			$help_button,
+			$help_panel
 		);
 	}
 
