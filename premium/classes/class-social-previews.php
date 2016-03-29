@@ -51,9 +51,12 @@ class WPSEO_Social_Previews {
 	 * @return array
 	 */
 	private function localize() {
+		$options = WPSEO_Options::get_option( 'wpseo_social' );
+
 		return array(
-			'website'      => $this->get_website(),
-			'upload_image' => __( 'Upload Image', 'wordpress-seo' ),
+			'website'              => $this->get_website(),
+			'upload_image'         => __( 'Upload Image', 'wordpress-seo' ),
+			'facebookDefaultImage' => $options['og_default_image'],
 		);
 	}
 
