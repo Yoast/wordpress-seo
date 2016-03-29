@@ -35,4 +35,9 @@ var pageTitleKeywordAssessment = function( paper, researcher, i18n ) {
 	return assessmentResult;
 };
 
-module.exports = pageTitleKeywordAssessment;
+module.exports = {
+	getResult: pageTitleKeywordAssessment,
+	isApplicable: function ( paper ) {
+		return paper.hasKeyword();
+	}
+};

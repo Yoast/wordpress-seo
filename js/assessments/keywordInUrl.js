@@ -40,4 +40,9 @@ var keywordInUrlAssessment = function( paper, researcher, i18n ) {
 	return assessmentResult;
 };
 
-module.exports = keywordInUrlAssessment;
+module.exports = {
+	getResult: keywordInUrlAssessment,
+	isApplicable: function( paper ) {
+		return paper.hasKeyword() && paper.hasUrl();
+	}
+};

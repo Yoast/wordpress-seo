@@ -48,4 +48,9 @@ var matchKeywordinSubHeadingAssessment = function( paper, researcher, i18n ) {
 	return assessmentResult;
 };
 
-module.exports = matchKeywordinSubHeadingAssessment;
+module.exports = {
+	getResult: matchKeywordinSubHeadingAssessment,
+	isApplicable: function( paper ) {
+		return paper.hasText() && paper.hasKeyword();
+	}
+};

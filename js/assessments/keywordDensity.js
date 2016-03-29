@@ -61,4 +61,9 @@ var getKeyworDensityAssessment = function( paper,  researcher, i18n ) {
 	return assessmentResult;
 };
 
-module.exports = getKeyworDensityAssessment;
+module.exports = {
+	getResult: getKeyworDensityAssessment,
+	isApplicable: function( paper ) {
+		return paper.hasText() && paper.hasKeyword();
+	}
+};

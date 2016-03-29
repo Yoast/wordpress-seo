@@ -20,4 +20,9 @@ var urlLengthAssessment = function( paper, researcher, i18n ) {
 	return assessmentResult;
 };
 
-module.exports = urlLengthAssessment;
+module.exports = {
+	getResult: urlLengthAssessment,
+	isApplicable: function ( paper ) {
+		return paper.hasUrl();
+	}
+};
