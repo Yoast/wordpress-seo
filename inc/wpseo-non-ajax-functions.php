@@ -239,9 +239,9 @@ function wpseo_admin_bar_menu() {
 	$seo_url = get_admin_url( null, 'admin.php?page=wpseo_dashboard' );
 
 	if ( ( is_singular() || ( is_admin() && in_array( $GLOBALS['pagenow'], array(
-					'post.php',
-					'post-new.php',
-				), true ) ) ) && isset( $post ) && is_object( $post ) && apply_filters( 'wpseo_use_page_analysis', true ) === true
+		'post.php',
+		'post-new.php',
+	), true ) ) ) && isset( $post ) && is_object( $post ) && apply_filters( 'wpseo_use_page_analysis', true ) === true
 	) {
 		$focuskw    = WPSEO_Meta::get_value( 'focuskw', $post->ID );
 		$perc_score = WPSEO_Meta::get_value( 'linkdex', $post->ID );
@@ -427,16 +427,16 @@ function wpseo_admin_bar_menu() {
 			'href'   => admin_url( 'admin.php?page=wpseo_advanced' ),
 		) );
 		$wp_admin_bar->add_menu( array(
-				'parent' => 'wpseo-settings',
-				'id'     => 'wpseo-tools',
-				'title'  => __( 'Tools', 'wordpress-seo' ),
-				'href'   => admin_url( 'admin.php?page=wpseo_tools' ),
+			'parent' => 'wpseo-settings',
+			'id'     => 'wpseo-tools',
+			'title'  => __( 'Tools', 'wordpress-seo' ),
+			'href'   => admin_url( 'admin.php?page=wpseo_tools' ),
 		) );
 		$wp_admin_bar->add_menu( array(
-				'parent' => 'wpseo-settings',
-				'id'     => 'wpseo-search-console',
-				'title'  => __( 'Search Console', 'wordpress-seo' ),
-				'href'   => admin_url( 'admin.php?page=wpseo_search_console' ),
+			'parent' => 'wpseo-settings',
+			'id'     => 'wpseo-search-console',
+			'title'  => __( 'Search Console', 'wordpress-seo' ),
+			'href'   => admin_url( 'admin.php?page=wpseo_search_console' ),
 		) );
 		$wp_admin_bar->add_menu( array(
 			'parent' => 'wpseo-settings',
