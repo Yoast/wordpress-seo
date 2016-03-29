@@ -50,7 +50,6 @@ var getKeyworDensityAssessment = function( paper,  researcher, i18n ) {
 	var keywordDensity = researcher.getResearch( "getKeywordDensity" );
 	var keywordCount = matchWords( paper.getText(), paper.getKeyword() );
 	var keywordDensityResult = calculateKeywordDensityResult( keywordDensity, i18n );
-
 	var assessmentResult = new AssessmentResult();
 
 	var text = i18n.sprintf( keywordDensityResult.text, keywordDensity, keywordCount );

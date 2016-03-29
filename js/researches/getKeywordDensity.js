@@ -13,6 +13,9 @@ module.exports = function( paper ) {
 	var keyword = paper.getKeyword();
 	var text = paper.getText();
 	var wordCount = countWords( text );
+	if ( wordCount === 0 ) {
+		return "0.0";
+	}
 	var keywordCount = matchWords ( text, keyword );
 	var keywordDensity = ( keywordCount / wordCount ) * 100;
 	return keywordDensity.toFixed( 1 );
