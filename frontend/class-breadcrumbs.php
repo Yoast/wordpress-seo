@@ -639,6 +639,15 @@ class WPSEO_Breadcrumbs {
 				$link_info = $this->get_link_info_for_ptarchive( $crumb['ptarchive'] );
 			}
 
+			/**
+			 * Filter: 'wpseo_breadcrumb_single_link_info' - Allow developer to filter the Yoast SEO Breadcrumb link information.
+			 *
+			 * @api array $link_info The Breadcrumb link information
+			 *
+			 * @param array $crumb The crumb
+			 */
+			$link_info = apply_filters( 'wpseo_breadcrumb_single_link_info', $link_info, $crumb );
+
 			$this->links[] = $this->crumb_to_link( $link_info, $i );
 		}
 	}
