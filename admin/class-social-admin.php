@@ -49,9 +49,9 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 
 		// Source: https://blog.bufferapp.com/ideal-image-sizes-social-media-posts.
 		$recommended_image_sizes = array(
-			'opengraph'   => '1200 x 628',
-			'twitter'     => '1024 x 512',
-			'google-plus' => '800 x 1200',
+			'opengraph'   => '1200 × 630', // Source: https://developers.facebook.com/docs/sharing/best-practices#images.
+			'twitter'     => '1024 × 512',
+			'google-plus' => '800 × 1200',
 		);
 
 		foreach ( $social_networks as $network => $label ) {
