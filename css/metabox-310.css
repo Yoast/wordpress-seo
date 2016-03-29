@@ -134,6 +134,10 @@ ul.wpseo-metabox-tabs li {
 	padding-top: 20px;
 }
 
+.inside .wpseotab .form-table label {
+	vertical-align: top;
+}
+
 .inside .wpseotab .form-table td input,
 .inside .wpseotab .form-table td select {
 	margin-top: -5px;
