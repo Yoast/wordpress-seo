@@ -678,6 +678,8 @@ class WPSEO_Breadcrumbs {
 		 * @param int $link_id The post ID
 		 */
 		$link['text'] = apply_filters( 'wp_seo_get_bc_title', $link['text'], $id );
+
+		return $link;
 	}
 
 	/**
