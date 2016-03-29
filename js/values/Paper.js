@@ -1,5 +1,4 @@
 var defaults = require( "lodash/defaults" );
-var isUndefined = require( "lodash/isUndefined" );
 var sanitizeString = require( "../stringProcessing/sanitizeString.js" );
 
 /**
@@ -20,9 +19,7 @@ var defaultAttributes = {
  * @returns {object} The attributes passed to the Paper.
  */
 var sanitizeAttributes = function( attributes ) {
-	if ( !isUndefined( attributes ) && !isUndefined( attributes.keyword ) ) {
-		attributes.keyword = sanitizeString( attributes.keyword );
-	}
+	attributes.keyword = sanitizeString( attributes.keyword );
 
 	return attributes;
 };
@@ -35,9 +32,10 @@ var sanitizeAttributes = function( attributes ) {
  */
 var Paper = function( text, attributes ) {
 	this._text = text || "";
-	this._attributes = sanitizeAttributes( attributes ) || {};
 
-	defaults( this._attributes, defaultAttributes );
+	attributes = attributes || {};
+	defaults( attributes, defaultAttributes );
+	this._attributes = sanitizeAttributes( attributes );
 };
 
 /**
