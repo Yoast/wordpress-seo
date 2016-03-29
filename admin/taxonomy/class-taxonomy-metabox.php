@@ -94,7 +94,6 @@ class WPSEO_Taxonomy_Metabox {
 			__( 'Content', 'wordpress-seo' ),
 			array(
 				'link_class' => 'wpseo_keyword_tab',
-				'link_title' => __( 'Content', 'wordpress-seo' ),
 			)
 		);
 
@@ -103,7 +102,6 @@ class WPSEO_Taxonomy_Metabox {
 			'<span class="yst-traffic-light-container">' . $this->traffic_light_svg() . '</span>',
 			array( $tab ),
 			array(
-				'link_alt'   => __( 'Content', 'wordpress-seo' ),
 				'link_title' => __( 'Content', 'wordpress-seo' ),
 			)
 		);
@@ -121,10 +119,7 @@ class WPSEO_Taxonomy_Metabox {
 		$tab = new WPSEO_Metabox_Form_Tab(
 			'settings',
 			$content,
-			__( 'Settings', 'wordpress-seo' ),
-			array(
-				'link_title' => __( 'Settings', 'wordpress-seo' ),
-			)
+			__( 'Settings', 'wordpress-seo' )
 		);
 
 		return new WPSEO_Metabox_Tab_Section(
@@ -132,7 +127,6 @@ class WPSEO_Taxonomy_Metabox {
 			'<span class="dashicons dashicons-admin-generic"></span>',
 			array( $tab ),
 			array(
-				'link_alt'   => __( 'Settings', 'wordpress-seo' ),
 				'link_title' => __( 'Settings', 'wordpress-seo' ),
 			)
 		);
@@ -156,7 +150,6 @@ class WPSEO_Taxonomy_Metabox {
 				$this->taxonomy_tab_content->html( $facebook_meta_fields ),
 				'<span class="dashicons dashicons-facebook-alt"></span>',
 				array(
-					'link_alt'   => __( 'Facebook / Opengraph metadata', 'wordpress-seo' ),
 					'link_title' => __( 'Facebook / Opengraph metadata', 'wordpress-seo' ),
 				)
 			);
@@ -170,7 +163,6 @@ class WPSEO_Taxonomy_Metabox {
 				$this->taxonomy_tab_content->html( $twitter_meta_fields ),
 				'<span class="dashicons dashicons-twitter"></span>',
 				array(
-					'link_alt'   => __( 'Twitter metadata', 'wordpress-seo' ),
 					'link_title' => __( 'Twitter metadata', 'wordpress-seo' ),
 				)
 			);
@@ -184,7 +176,6 @@ class WPSEO_Taxonomy_Metabox {
 				$this->taxonomy_tab_content->html( $googleplus_meta_fields ),
 				'<span class="dashicons dashicons-googleplus"></span>',
 				array(
-					'link_alt'   => __( 'Google+ metadata', 'wordpress-seo' ),
 					'link_title' => __( 'Google+ metadata', 'wordpress-seo' ),
 				)
 			);
@@ -195,7 +186,6 @@ class WPSEO_Taxonomy_Metabox {
 			'<span class="dashicons dashicons-share"></span>',
 			$tabs,
 			array(
-				'link_alt'   => __( 'Social', 'wordpress-seo' ),
 				'link_title' => __( 'Social', 'wordpress-seo' ),
 			)
 		);
