@@ -23,8 +23,13 @@ jQuery(document).ready(
 			});
 
 			wpseo_custom_uploader.on( 'select', function() {
-					var attachment = wpseo_custom_uploader.state().get( 'selection' ).first().toJSON();
-					$( '#' + wpseo_target_id ).val( attachment.url );
+				var attachment   = wpseo_custom_uploader.state().get( 'selection' ).first().toJSON();
+				var inputElement = $( '#' + wpseo_target_id );
+
+				inputElement.val( attachment.url );
+
+				// Blur the input element, because we want to trigger possibly set events.
+				inputElement.blur();
 				}
 			);
 
