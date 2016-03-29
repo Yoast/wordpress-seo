@@ -4,6 +4,6 @@ temp-spec/
 node_modules/
 out/
 coverage/
+dist/yoast-seo*
 
-js/templates.js
-dist/yoast-seo-pre-browserify.js
+/examples/browserified/example-browserified.js

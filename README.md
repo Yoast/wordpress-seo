@@ -1,87 +1,101 @@
-# YoastSEO.js
-
 [![Build Status](https://travis-ci.org/Yoast/YoastSEO.js.svg?branch=master)](https://travis-ci.org/Yoast/js-text-analysis)
 [![Code Climate](https://codeclimate.com/repos/5524f75d69568028f6000fda/badges/f503961401819f93c64c/gpa.svg)](https://codeclimate.com/repos/5524f75d69568028f6000fda/feed)
+[![Test Coverage](https://codeclimate.com/repos/5524f75d69568028f6000fda/badges/f503961401819f93c64c/coverage.svg)](https://codeclimate.com/repos/5524f75d69568028f6000fda/coverage)
 [![Inline docs](http://inch-ci.org/github/yoast/yoastseo.js.svg?branch=master)](http://inch-ci.org/github/yoast/yoastseo.js)
 
-Project bringing the Yoast text analysis functionality to the client side
+# YoastSEO.js
 
-## Plugins and modifications
+Text analysis and assessment library in JavaScript. This library can generate interesting metrics about a text and assess these metrics to give you an assessment which can be used to improve the text.
 
-A plugin for YoastSEO.js is basically a piece of JavaScript that hooks into YoastSEO.js by registering modifications. In order to do so, it must first register itself as a plugin with YoastSEO.js.
+![Screenshot of the assessment of the given text](/images/assessment.png?raw=true)
 
-### Registering a plugin
+Also included is a preview of the Google search results which can be assessed using the library.
 
-If plugins don't need to preload data, they can declare `ready` straight on registration of the plugin:
+## Installation
 
-```JS
-YoastSEO.app.registerPlugin( 'examplePlugin', {status: 'ready'} );
+You can install YoastSEO.js using npm:
+
+```bash
+npm install https://github.com/Yoast/YoastSEO.js#develop
 ```
 
-### Preloading data
+## Usage
 
-To keep our content analysis fast, we don't allow asynchronous modifications. That's why we require plugins to preload all data they need in order to modify the content.
+If you want the complete experience with UI and everything you can use the `App`. You need to have a few HTML elements to make this work: A snippet preview container, a focusKeyword input element and a content input field.
 
-If plugins need to preload data, they can first register, then preload using AJAX and call `pluginReady` once preloaded.
+```js
+var SnippetPreview = require( "yoastseo" ).SnippetPreview;
+var App = require( "yoastseo" ).App;
 
-```JS
-YoastSEO.app.registerPlugin( 'examplePlugin', {status: 'loading'} );
-// Load whatever data you need through AJAX.
-YoastSEO.app.pluginReady( 'examplePlugin' );
-```
+window.onload = function() {
+	var focusKeywordField = document.getElementById( "focusKeyword" );
+	var contentField = document.getElementById( "content" );
 
-### Loading more data
+	var snippetPreview = new SnippetPreview({
+		targetElement: document.getElementById( "snippet" )
+	});
 
-To minimize client side memory usage, we request plugins to preload as little data as possible. If you need to dynamically fetch more data in the process of content creation, you can reload your data set and let YoastSEO.js know you've reloaded by calling `pluginReloaded`. This will trigger a new analysis to be run. If an analysis is currently running. We will reset it to ensure the latest modifications are applied.
+	var app = new App({
+		snippetPreview: snippetPreview,
+		targets: {
+			output: "output"
+		},
+		callbacks: {
+			getData: function() {
+				return {
+					keyword: focusKeywordField.value,
+					text: contentField.value
+				};
+			}
+		}
+	});
 
-```JS
-// Fetch more data in the background and then declare yourself reloaded:
-YoastSEO.app.pluginReloaded( 'examplePlugin' );
-```
-
-### Modifications
-
-#### Supported modifications
-
-YoastSEO.js has a synchronous modification mechanism that operates much like the filtering mechanism in WordPress (`add_filter|apply_filters`). We currently have support for the following modifications (more might follow):
-* `content`
-* `title`
-
-The modifications that are supported by us are applyed in the following way:
-
-```JS
-var modifiedData = YoastSEO.app.pluggable._applyModifications( 'content', 'The content to modify' );
-```
-
-Modifications can be added by using `YoastSEO.app.registerModification`. Please see the example implementation below:
-
-#### Example implementation
-
-A modification is basically a callback function which is registered with YoastSEO.js The callback function should accept a `data` parameter and optionally also a `context` parameter. Only the `data` can be modified and is expected to be returned by the callback function. A complete plugin looks like this:
-
-```JS
-ExamplePlugin = function() {
-  YoastSEO.app.registerPlugin( 'examplePlugin', {status: 'ready'} );
-
-  /**
-   * @param modification 	{string} 	The name of the filter
-   * @param callable 		{function} 	The callable
-   * @param pluginName 	    {string} 	The plugin that is registering the modification.
-   * @param priority 		{number} 	(optional) Used to specify the order in which the callables
-   * 									associated with a particular filter are called. Lower numbers
-   * 									correspond with earlier execution.
-   */
-  YoastSEO.app.registerModification( 'content', this.myContentModification, 'examplePlugin', 5 );
-}
-
-/**
- * Adds some text to the data...
- *
- * @param data The data to modify
- */
-ExamplePlugin.prototype.myContentModification = function(data) {
-  return data + ' some text to add';
+	app.refresh();
+	
+	focusKeywordField.on( 'change', app.refresh.bind( app ) );
+	contentField.on( 'change', app.refresh.bind( app ) );
 };
-
-new ExamplePlugin();
 ```
+
+You can also invoke internal components directly to be able to work with the raw data. To get metrics about the text you can use the `Researcher`:
+
+```js
+var Researcher = require( "yoastseo" ).Researcher;
+
+var researcher = new Researcher( new Paper( "Text that has been written" ) );
+
+console.log( researcher.getResearch( "wordCountInText" ) );
+```
+
+## Change log
+
+Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recently.
+
+## Documentation
+
+The data that will be analyzed by YoastSEO.js can be modified by plugins. Plugins can also add new research and assessments. To find out how to do this, checkout out the [customization documentation](./docs/Customization.md).
+
+## Testing
+
+```bash
+npm test
+```
+
+Generate coverage using the `--coverage` flag.
+
+## Contributing
+
+Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
+
+## Security
+
+If you discover any security related issues, please email security [at] yoast.com instead of using the issue tracker.
+
+## Credits
+
+- [Team Yoast](https://github.com/orgs/Yoast/people)
+- [All Contributors](https://github.com/Yoast/YoastSEO.js/graphs/contributors)
+
+## License
+
+We follow the GPL. Please see [License](LICENSE) file for more information.

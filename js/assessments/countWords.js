@@ -1,66 +1,95 @@
-var countWords = require( "../stringProcessing/countWords.js" );
-var AssessmentResultCalculator = require( "../calculators/assessmentResultCalculator.js" );
 var AssessmentResult = require( "../values/AssessmentResult.js" );
+var inRange = require( "lodash/inRange" );
 
-var getScoringConfiguration = function( i18n ) {
-	return {
-		scoreArray: [
-			{
-				min: 300,
-				score: 9,
-
-				/* translators: %1$d expands to the number of words in the text, %2$s to the recommended minimum of words */
-				text: i18n.dgettext( "js-text-analysis", "The text contains %1$d words, this is more than the %2$d word recommended minimum." )
-			},
-			{
-				range: [ 250, 300 ],
-				score: 7,
-
-				/* translators: %1$d expands to the number of words in the text, %2$s to the recommended minimum of words */
-				text: i18n.dgettext( "js-text-analysis", "The text contains %1$d words, this is slightly below the %2$d word recommended minimum. " +
-					"Add a bit more copy." )
-			},
-			{
-				range: [ 200, 250 ],
-				score: 5,
-
-				/* translators: %1$d expands to the number of words in the text, %2$d to the recommended minimum of words */
-				text: i18n.dgettext( "js-text-analysis", "The text contains %1$d words, this is below the %2$d word recommended minimum. Add more useful " +
-					"content on this topic for readers." )
-			},
-			{
-				range: [ 100, 200 ],
-				score: -10,
-
-				//* translators: %1$d expands to the number of words in the text, %2$d to the recommended minimum of words */
-				text: i18n.dgettext( "js-text-analysis", "The text contains %1$d words, this is below the %2$d word recommended minimum. Add more useful " +
-					"content on this topic for readers." )
-			},
-			{
-				range: [ 0, 100 ],
-				score: -20,
-
-				/* translators: %1$d expands to the number of words in the text */
-				text: i18n.dgettext( "js-text-analysis", "The text contains %1$d words. This is far too low and should be increased." )
-			}
-		],
-		replacements: {
-			"%1$d": "%%result%%",
-			"%2$d": 300
-		}
-	};
-};
-
-var countWordsAssessment = function( paper, i18n ) {
-	var result = 0;
-
-	if ( paper.hasText() ) {
-		result = countWords( paper.getText() );
+/**
+ * Calculate the score based on the current word count.
+ * @param {number} wordCount The amount of words to be checked against.
+ * @param {object} i18n The locale object.
+ * @returns {object} The resulting score object.
+ */
+var calculateWordCountResult = function( wordCount, i18n ) {
+	if ( wordCount > 300 ) {
+		return {
+			score: 9,
+			/* translators: %1$d expands to the number of words in the text, %2$s to the recommended minimum of words */
+			text: i18n.dngettext(
+				"js-text-analysis",
+				"The text contains %1$d word, this is more than the %2$d word recommended minimum.",
+				"The text contains %1$d words, this is more than the %2$d word recommended minimum.",
+				wordCount
+			)
+		};
 	}
 
-	var calculatedResult = new AssessmentResultCalculator( result, getScoringConfiguration( i18n ) );
+	if ( inRange( wordCount, 250, 300 ) ) {
+		return {
+			score: 7,
+			/* translators: %1$d expands to the number of words in the text, %2$s to the recommended minimum of words */
+			text: i18n.dngettext(
+				"js-text-analysis",
+				"The text contains %1$d word, this is slightly below the %2$d word recommended minimum. Add a bit more copy.",
+				"The text contains %1$d words, this is slightly below the %2$d word recommended minimum. Add a bit more copy.",
+				wordCount
+			)
+		};
+	}
 
-	return new AssessmentResult( calculatedResult.score, calculatedResult.text );
+	if ( inRange( wordCount, 200, 250 ) ) {
+		return {
+			score: 5,
+			/* translators: %1$d expands to the number of words in the text, %2$d to the recommended minimum of words */
+			text: i18n.dngettext(
+				"js-text-analysis",
+				"The text contains %1$d word, this is below the %2$d word recommended minimum. Add more useful content on this topic for readers.",
+				"The text contains %1$d words, this is below the %2$d word recommended minimum. Add more useful content on this topic for readers.",
+				wordCount
+			)
+		};
+	}
+
+	if ( inRange( wordCount, 100, 200 ) ) {
+		return {
+			score: -10,
+			/* translators: %1$d expands to the number of words in the text, %2$d to the recommended minimum of words */
+			text: i18n.dngettext(
+				"js-text-analysis",
+				"The text contains %1$d word, this is below the %2$d word recommended minimum. Add more useful content on this topic for readers.",
+				"The text contains %1$d words, this is below the %2$d word recommended minimum. Add more useful content on this topic for readers.",
+				wordCount
+			)
+		};
+	}
+
+	if ( inRange( wordCount, 0, 100 ) ) {
+		return {
+			score: -20,
+			/* translators: %1$d expands to the number of words in the text */
+			text: i18n.dngettext(
+				"js-text-analysis",
+				"The text contains %1$d word, this is far too low and should be increased.",
+				"The text contains %1$d words, this is far too low and should be increased.",
+				wordCount
+			)
+		};
+	}
 };
 
-module.exports =  countWordsAssessment;
+/**
+ * Execute the Assessment and return a result.
+ * @param {Paper} paper The Paper object to assess.
+ * @param {Researcher} researcher The Researcher object containing all available researches.
+ * @param {object} i18n The locale object.
+ * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
+ */
+var countWordsAssessment = function( paper, researcher, i18n ) {
+	var wordCount = researcher.getResearch( "wordCountInText" );
+	var wordCountResult = calculateWordCountResult( wordCount, i18n );
+	var assessmentResult = new AssessmentResult();
+
+	assessmentResult.setScore( wordCountResult.score );
+	assessmentResult.setText( i18n.sprintf( wordCountResult.text, wordCount, 300 ) );
+
+	return assessmentResult;
+};
+
+module.exports = { getResult: countWordsAssessment };

@@ -8,7 +8,7 @@ build:
   - 'build:translations'
 # Precompile JavaScript templates
 'build:jst':
-  - 'lodash:templates'
+  - 'build-templates'
 # Build JavaScript from assets to production
 'build:js':
   - 'browserify'
@@ -23,10 +23,6 @@ build:
 # Check health of the project
 check:
   - 'eslint'
-  - 'jshint'
-  - 'jsonlint'
-  - 'jsvalidate'
-  - 'jscs'
 # Default task
 default:
   - check

@@ -1,7 +1,7 @@
 /* jshint browser: true */
 
-var isUndefined = require( "lodash/lang/isUndefined" );
-var difference = require( "lodash/array/difference" );
+var isUndefined = require( "lodash/isUndefined" );
+var difference = require( "lodash/difference" );
 
 /**
  * defines the variables used for the scoreformatter, runs the outputScore en overallScore
@@ -90,7 +90,7 @@ ScoreFormatter.prototype.sortScores = function() {
  */
 ScoreFormatter.prototype.getUndefinedScores = function( scorers ) {
 	var filtered = scorers.filter( function( scorer ) {
-		return isUndefined( scorer.score );
+		return isUndefined( scorer.score ) || scorer.score === "na";
 	} );
 
 	return filtered;

@@ -7,7 +7,7 @@ var keywordRegex = require( "../stringProcessing/stringToRegex.js" );
  * Checks a textstring to see if there are any stopwords, that are defined in the stopwords config.
  *
  * @param {string} text The input text to match stopwords.
- * @returns {array} An array with all stopwords found in the text.
+ * @returns {Array} An array with all stopwords found in the text.
  */
 module.exports = function( text ) {
 	var i, matches = [];
@@ -17,6 +17,7 @@ module.exports = function( text ) {
 			matches.push( stopwords[i] );
 		}
 	}
+
 	return matches;
 };
 
