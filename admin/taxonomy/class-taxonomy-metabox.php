@@ -41,9 +41,6 @@ class WPSEO_Taxonomy_Metabox {
 	 * Shows the Yoast SEO metabox for the term.
 	 */
 	public function display() {
-		if ( $this->tax_is_public() === false ) {
-			return;
-		}
 
 		$content_sections = $this->get_content_sections();
 
@@ -51,10 +48,8 @@ class WPSEO_Taxonomy_Metabox {
 		if ( file_exists( WPSEO_PATH . 'premium/' ) ) {
 			$product_title .= ' Premium';
 		}
-		/* translators: %1$s expands to Yoast SEO */
-		$metabox_heading = sprintf( __( '%1$s Settings', 'wordpress-seo' ), $product_title );
 
-		printf( '<div id="poststuff" class="postbox"><h3><span>%1$s</span></h3><div id="taxonomy_overall"></div><div class="inside">' , $metabox_heading );
+		printf( '<div id="poststuff" class="postbox"><h3><span>%1$s</span></h3><div id="taxonomy_overall"></div><div class="inside">' , $product_title );
 		echo '<div class="wpseo-metabox-sidebar"><ul>';
 
 		foreach ( $content_sections as $content_section ) {
@@ -274,8 +269,7 @@ SVG;
 	 * Keyword tab for enabling analysis of multiple keywords.
 	 */
 	public function template_keyword_tab() {
-		// Only do this on the taxonomy pages.
-		if ( 'edit-tags' !== get_current_screen()->base ) {
+		if ( ! WPSEO_Taxonomy::is_term_edit( $GLOBALS['pagenow'] ) ) {
 			return;
 		}
 

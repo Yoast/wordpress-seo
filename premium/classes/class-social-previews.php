@@ -12,8 +12,7 @@ class WPSEO_Social_Previews {
 	 * Register the script and localize it.
 	 */
 	public function __construct() {
-		wp_register_script( 'yoast-social-preview-js', plugin_dir_url( WPSEO_PREMIUM_FILE ) . '/assets/js/yoast-premium-social-preview' . WPSEO_CSSJS_SUFFIX . '.js', array( 'underscore' ), WPSEO_VERSION );
-		wp_localize_script( 'yoast-social-preview-js', 'yoast_social_preview', $this->localize() );
+		$this->register_assets();
 	}
 
 	/**
@@ -27,8 +26,18 @@ class WPSEO_Social_Previews {
 	 * Enqueues the javascript and css files needed for the social previews.
 	 */
 	public function enqueue_assets() {
-		wp_enqueue_style( 'yoast-social-preview-css', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/dist/social_preview/yoast-social-preview.min.css', array(), WPSEO_VERSION );
-		wp_enqueue_script( 'yoast-social-preview-js' );
+		wp_enqueue_style( 'yoast-social-preview-css' );
+		wp_enqueue_script( 'yoast-social-preview' );
+	}
+
+	/**
+	 * Register the required assets.
+	 */
+	private function register_assets() {
+		wp_register_script( 'yoast-social-preview', plugin_dir_url( WPSEO_PREMIUM_FILE ) . '/assets/js/yoast-premium-social-preview' . WPSEO_CSSJS_SUFFIX . '.js', array(), WPSEO_VERSION );
+		wp_localize_script( 'yoast-social-preview', 'yoastSocialPreview', $this->localize() );
+
+		wp_register_style( 'yoast-social-preview-css', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/dist/social_preview/yoast-social-preview.min.css', array(), WPSEO_VERSION );
 	}
 
 	/**

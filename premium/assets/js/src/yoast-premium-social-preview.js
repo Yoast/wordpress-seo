@@ -1,114 +1,126 @@
 /* jshint -W097 */
-/* global yoast_social_preview  */
+/* global yoastSocialPreview  */
 'use strict';
 
-var socialPreviews = require( 'yoast-social-previews' );
-var FacebookPreview = socialPreviews.FacebookPreview;
-var TwitterPreview = socialPreviews.TwitterPreview;
+(function($) {
+	var socialPreviews = require( 'yoast-social-previews' );
+	var FacebookPreview = socialPreviews.FacebookPreview;
+	var TwitterPreview = socialPreviews.TwitterPreview;
 
-(
-	jQuery(
-		function() {
-			var fieldPrefix = '';
-
-			// We've prefixed the
-			if ( jQuery( '#post_ID').length > 0 ) {
-				fieldPrefix = 'yoast_wpseo';
-			}
-
-			// We've prefixed the fields for taxonomies different.
-			if ( jQuery( 'input[name=tag_ID]').length > 0 ) {
-				fieldPrefix = 'wpseo';
-			}
-
-			/**
-			 * Adds an image url.
-			 * @param {Object} imageUrl
-			 */
-			function addUploadImage( imageUrl ) {
-				jQuery( imageUrl ).parent().append(
-					'<input id="' + jQuery( imageUrl ).attr( "id" ) + '_button" class="wpseo_image_upload_button button" type="button" value="' + yoast_social_preview.upload_image + '" />'
-				);
-			}
-
-			/**
-			 * Initialize the facebook preview.
-			 *
-			 * @param {Object} facebookHolder Target element for adding the facebook preview.
-			 */
-			function initFacebook( facebookHolder ) {
-				if ( facebookHolder.length === 0 ) {
-					return;
-				}
-
-				facebookHolder.append( "<div id='facebookPreview'></div>" );
-				facebookHolder.find( '.form-table' ).hide();
-
-
-				var facebookPreview = new FacebookPreview(
-					{
-						targetElement: document.getElementById(  'facebookPreview' ),
-						data : {
-							title : jQuery( '#' + fieldPrefix + '_opengraph-title' ).val(),
-							description : jQuery( '#' + fieldPrefix + '_opengraph-description' ).val(),
-							imageUrl : jQuery( '#' + fieldPrefix + '_opengraph-image' ).val()
-						},
-						baseURL : yoast_social_preview.website,
-						callbacks : {
-							updateSocialPreview : function( data ) {
-								jQuery( '#' + fieldPrefix + '_opengraph-title' ).val( data.title );
-								jQuery( '#' + fieldPrefix + '_opengraph-description' ).val( data.description );
-								jQuery( '#' + fieldPrefix + '_opengraph-image' ).val( data.imageUrl );
-							}
-						}
-					}
-				);
-
-				facebookPreview.init();
-
-				addUploadImage( jQuery( '#facebook-editor-imageUrl' ) );
-			}
-
-			/**
-			 * Initialize the twitter preview.
-			 *
-			 * @param {Object} twitterHolder Target element for adding the twitter preview.
-			 */
-			function initTwitter( twitterHolder ) {
-				if ( twitterHolder.length === 0 ) {
-					return;
-				}
-
-				twitterHolder.append( "<div id='twitterPreview'></div>" );
-				twitterHolder.find( '.form-table' ).hide();
-
-				var twitterPreview = new TwitterPreview(
-					{
-						targetElement: document.getElementById(  'twitterPreview' ),
-						data : {
-							title : jQuery( '#' + fieldPrefix + '_twitter-title' ).val(),
-							description : jQuery( '#' + fieldPrefix + '_twitter-description' ).val(),
-							imageUrl : jQuery( '#' + fieldPrefix + '_twitter-image' ).val()
-						},
-						baseURL : yoast_social_preview.website,
-						callbacks : {
-							updateSocialPreview : function( data ) {
-								jQuery( '#' + fieldPrefix + '_twitter-title' ).val( data.title );
-								jQuery( '#' + fieldPrefix + '_twitter-description' ).val( data.description );
-								jQuery( '#' + fieldPrefix + '_twitter-image' ).val( data.imageUrl );
-							}
-						}
-					}
-				);
-
-				twitterPreview.init();
-
-				addUploadImage( jQuery( '#twitter-editor-imageUrl' ) );
-
-			}
-
-			initFacebook( jQuery( '#wpseo_facebook' ) );
-			initTwitter( jQuery( '#wpseo_twitter' ) );
+	/**
+	 * Returns the prefix for the fields, because of the fields for the post do have an othere prefix than the ones for
+	 * a taxonomy.
+	 *
+	 * @returns {*}
+	 */
+	function fieldPrefix() {
+		// We've prefixed the
+		if ( $( '#post_ID').length > 0 ) {
+			return 'yoast_wpseo';
 		}
-	)
-);
+
+		// We've prefixed the fields for taxonomies different.
+		if ( $( 'input[name=tag_ID]').length > 0 ) {
+			return 'wpseo';
+		}
+
+		return '';
+	}
+
+	/**
+	 * Adds an image url.
+	 * @param {Object} imageUrl
+	 */
+	function addUploadImage( imageUrl ) {
+		jQuery( imageUrl ).parent().append(
+			'<input id="' + jQuery( imageUrl ).attr( "id" ) + '_button" class="wpseo_image_upload_button button" type="button" value="' + yoast_social_preview.upload_image + '" />'
+		);
+	}
+
+	/**
+	 * Creates the social preview container and hides the old form table, to replace it.
+	 *
+	 * @param {Object} socialPreviewholder The holder element where the container will be append to.
+	 * @param {string} containerId The id the container will get
+	 */
+	function createSocialPreviewContainer( socialPreviewholder, containerId ) {
+		socialPreviewholder.append( "<div id='" + containerId + "'></div>" );
+		socialPreviewholder.find( '.form-table' ).hide();
+	}
+
+	/**
+	 * Returns the arguments for the social preview prototypes.
+	 *
+	 * @param {string} targetElement The element where the preview is loaded.
+	 * @param {string} fieldPrefix The prefix each form element has.
+	 * @returns {{targetElement: Element, data: {title: *, description: *, imageUrl: *}, baseURL: *, callbacks: {updateSocialPreview: callbacks.updateSocialPreview}}}
+	 */
+	function getSocialPreviewArgs( targetElement, fieldPrefix ) {
+		return {
+			targetElement: $( targetElement ).get(0),
+			data : {
+				title : $( '#' + fieldPrefix + '-title' ).val(),
+				description : $( '#' + fieldPrefix + '-description' ).val(),
+				imageUrl : $( '#' + fieldPrefix + '-image' ).val()
+			},
+			baseURL : yoastSocialPreview.website,
+			callbacks : {
+				updateSocialPreview : function( data ) {
+					$( '#' + fieldPrefix + '-title' ).val( data.title );
+					$( '#' + fieldPrefix + '-description' ).val( data.description );
+					$( '#' + fieldPrefix + '-image' ).val( data.imageUrl );
+				}
+			}
+		}
+	}
+
+	/**
+	 * Initialize the facebook preview.
+	 *
+	 * @param {Object} facebookHolder Target element for adding the facebook preview.
+	 */
+	function initFacebook( facebookHolder ) {
+		createSocialPreviewContainer( facebookHolder, 'facebookPreview' );
+
+		var facebookPreview = new FacebookPreview(
+			getSocialPreviewArgs( $( '#facebookPreview' ), fieldPrefix() + '_opengraph' )
+		);
+		facebookPreview.init();
+
+		addUploadImage( jQuery( '#twitter-editor-imageUrl' ) );
+	}
+
+	/**
+	 * Initialize the twitter preview.
+	 *
+	 * @param {Object} twitterHolder Target element for adding the twitter preview.
+	 */
+	function initTwitter( twitterHolder ) {
+		createSocialPreviewContainer( twitterHolder, 'twitterPreview' );
+
+		var twitterPreview = new TwitterPreview(
+			getSocialPreviewArgs( $( '#twitterPreview' ), fieldPrefix() + '_twitter' )
+		);
+
+		twitterPreview.init();
+	}
+
+	/**
+	 * Initialize the social previews.
+	 */
+	function initYoastSocialPreviews() {
+		var facebookHolder = $( '#wpseo_facebook' );
+		if ( facebookHolder.length > 0 ) {
+			initFacebook( facebookHolder );
+		}
+
+		var twitterHolder = $( '#wpseo_twitter' );
+		if ( twitterHolder.length > 0 ) {
+			initTwitter( twitterHolder );
+		}
+
+	}
+
+	$( initYoastSocialPreviews );
+
+}(jQuery));

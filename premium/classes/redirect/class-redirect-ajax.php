@@ -47,8 +47,8 @@ class WPSEO_Redirect_Ajax {
 				'target' => $redirect->get_target(),
 				'type'   => $redirect->get_type(),
 				'info'   => array(
+					'hasTrailingSlash' => WPSEO_Redirect_Util::requires_trailing_slash( $redirect->get_target() ),
 					'isTargetRelative' => WPSEO_Redirect_Util::is_relative_url( $redirect->get_target() ),
-					'hasPermalinkTrailingSlash' => WPSEO_Redirect_Util::has_permalink_trailing_slash(),
 				),
 			);
 		}
