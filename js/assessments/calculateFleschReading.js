@@ -101,4 +101,4 @@ var fleschReadingAssessment = function( paper, researcher, i18n ) {
 	return assessmentResult;
 };
 
-module.exports = { callback: fleschReadingAssessment };
+module.exports = { getResult: fleschReadingAssessment };

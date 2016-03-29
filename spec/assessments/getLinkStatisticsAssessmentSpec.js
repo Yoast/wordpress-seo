@@ -25,7 +25,7 @@ describe( "An assessor running the linkStatistics", function(){
 			totalKeyword: 0,
 			totalNaKeyword: 1};
 
-		var assessment = linkStatisticAssessment.callback( mockPaper, Factory.buildMockResearcher( mockResult ), i18n );
+		var assessment = linkStatisticAssessment.getResult( mockPaper, Factory.buildMockResearcher( mockResult ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 2 );
 		expect( assessment.getText() ).toEqual ( 'Outbound links appear in this page' );
@@ -45,7 +45,7 @@ describe( "An assessor running the linkStatistics", function(){
 			totalKeyword: 0,
 			totalNaKeyword: 0};
 
-		assessment = linkStatisticAssessment.callback( mockPaper, Factory.buildMockResearcher( mockResult ), i18n );
+		assessment = linkStatisticAssessment.getResult( mockPaper, Factory.buildMockResearcher( mockResult ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 7 );
 		expect( assessment.getText() ).toEqual ( 'This page has 1 outbound link(s), all nofollowed.' );

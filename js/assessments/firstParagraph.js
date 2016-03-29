@@ -42,8 +42,8 @@ var getFirstParagraphAssessment = function( paper,  researcher, i18n ) {
 };
 
 module.exports = {
-	callback: getFirstParagraphAssessment,
-	requirements: function( paper ) {
+	getResult: getFirstParagraphAssessment,
+	isApplicable: function( paper ) {
 		return paper.hasKeyword();
 	}
 };

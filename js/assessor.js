@@ -71,24 +71,15 @@ Assessor.prototype.getAvailableAssessments = function() {
 };
 
 /**
- * Checks whether or not an Assessment has requirements set.
- * @param {Assessment} assessment The Assessment object to check for requirements.
- * @returns {boolean} Whether or not requirements are present.
- */
-Assessor.prototype.hasRequirements = function( assessment ) {
-	return assessment.hasOwnProperty( "requirements" );
-};
-
-/**
- * Checks whether or not the requirements are satisfied within the Assessment.
+ * Checks whether or not the Assessment is applicable.
  * @param {Object} assessment The Assessment object that needs to be checked.
  * @param {Paper} paper The Paper object to check against.
  * @param {Researcher} [researcher] The Researcher object containing additional information.
- * @returns {boolean} Whether or not the requirements are satisfied.
+ * @returns {boolean} Whether or not the Assessment is applicable.
  */
-Assessor.prototype.requirementsAreSatisfied = function( assessment, paper, researcher ) {
-	if ( this.hasRequirements( assessment ) ) {
-		return assessment.requirements( paper, researcher ) === true;
+Assessor.prototype.isApplicable = function( assessment, paper, researcher ) {
+	if ( assessment.hasOwnProperty( "isApplicable" ) ) {
+		return assessment.isApplicable( paper, researcher ) === true;
 	}
 
 	return true;
@@ -106,14 +97,13 @@ Assessor.prototype.assess = function( paper ) {
 	this.results = [];
 
 	forEach( assessments, function( assessment, name ) {
-
-		if ( !this.requirementsAreSatisfied( assessment, paper, researcher ) ) {
+		if ( !this.isApplicable( assessment, paper, researcher ) ) {
 			return;
 		}
 
 		this.results.push( {
 			name: name,
-			result: assessment.callback( paper, researcher, this.i18n )
+			result: assessment.getResult( paper, researcher, this.i18n )
 		} );
 
 	}.bind( this ) );

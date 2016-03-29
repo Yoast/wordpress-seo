@@ -21,8 +21,8 @@ var urlLengthAssessment = function( paper, researcher, i18n ) {
 };
 
 module.exports = {
-	callback: urlLengthAssessment,
-	requirements: function ( paper ) {
+	getResult: urlLengthAssessment,
+	isApplicable: function ( paper ) {
 		return paper.hasUrl();
 	}
 };

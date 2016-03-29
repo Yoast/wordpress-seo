@@ -89,8 +89,8 @@ var imageAssessment = function( paper, researcher, i18n ) {
 };
 
 module.exports = {
-	callback: imageAssessment,
-	requirements: function ( paper ) {
+	getResult: imageAssessment,
+	isApplicable: function ( paper ) {
 		return paper.hasText();
 	}
 };

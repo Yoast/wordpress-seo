@@ -41,8 +41,8 @@ var keywordInUrlAssessment = function( paper, researcher, i18n ) {
 };
 
 module.exports = {
-	callback: keywordInUrlAssessment,
-	requirements: function( paper ) {
+	getResult: keywordInUrlAssessment,
+	isApplicable: function( paper ) {
 		return paper.hasKeyword() && paper.hasUrl();
 	}
 };

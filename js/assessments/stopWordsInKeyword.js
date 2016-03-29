@@ -50,8 +50,8 @@ var stopWordsInKeywordAssessment = function( paper, researcher, i18n ) {
 };
 
 module.exports = {
-	callback: stopWordsInKeywordAssessment,
-	requirements: function ( paper ) {
+	getResult: stopWordsInKeywordAssessment,
+	isApplicable: function ( paper ) {
 		return paper.hasKeyword();
 	}
 };
