@@ -48,12 +48,12 @@ ScoreFormatter.prototype.outputScore = function() {
 
 	for ( var i = 0; i < this.scores.length; i++ ) {
 		if ( this.scores[ i ].text !== "" ) {
-			var scoreRating = this.scoreRating( this.scores[i].result.score );
+			var scoreRating = this.scoreRating( this.scores[i].score );
 
 			scores[i] = {};
 			scores[i].rating = scoreRating.text;
 			scores[i].screenreaderText = scoreRating.screenreaderText;
-			scores[i].text = this.scores[ i ].result.text;
+			scores[i].text = this.scores[ i ].text;
 		}
 	}
 
@@ -71,7 +71,7 @@ ScoreFormatter.prototype.sortScores = function( scores ) {
 	var sortables = difference( scores, unsortables );
 
 	sortables.sort( function( a, b ) {
-		return a.result.score - b.result.score;
+		return a.score - b.score;
 	} );
 
 	return unsortables.concat( sortables );
@@ -85,7 +85,7 @@ ScoreFormatter.prototype.sortScores = function( scores ) {
  */
 ScoreFormatter.prototype.getUndefinedScores = function( scorers ) {
 	var filtered = scorers.filter( function( scorer ) {
-		return isUndefined( scorer.result.score ) || scorer.result.score === 0;
+		return isUndefined( scorer.score ) || scorer.score === 0;
 	} );
 
 	return filtered;
