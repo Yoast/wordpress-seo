@@ -119,4 +119,20 @@ Paper.prototype.getUrl = function() {
 	return this._attributes.url;
 };
 
+/**
+ * Check whether a locale is available
+ * @returns {boolean} Returns true if the paper has a locale
+ */
+Paper.prototype.hasLocale = function() {
+	return this._attributes.locale !== "";
+};
+
+/**
+ * Return the locale or an empty string if no locale is available
+ * @returns {string} Returns the locale
+ */
+Paper.prototype.getLocale = function() {
+	return this._attributes.locale;
+};
+
 module.exports = Paper;

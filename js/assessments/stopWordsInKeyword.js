@@ -49,4 +49,9 @@ var stopWordsInKeywordAssessment = function( paper, researcher, i18n ) {
 	return assessmentResult;
 };
 
-module.exports = stopWordsInKeywordAssessment;
+module.exports = {
+	getResult: stopWordsInKeywordAssessment,
+	isApplicable: function ( paper ) {
+		return paper.hasKeyword();
+	}
+};

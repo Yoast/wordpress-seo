@@ -83,7 +83,7 @@ AnalyzeScorer.prototype.genericScore = function( obj ) {
 	var scoreObj = this.scoreLookup( obj.test );
 
 	if ( isUndefined( scoreObj ) ) {
-		return assessments[ obj.test ]( this.paper, YoastSEO.app.researcher,  this.i18n );
+		return assessments[ obj.test ].getResult( this.paper, YoastSEO.app.researcher,  this.i18n );
 	}
 
 	return this.calculateScore( obj, scoreObj, scoreObj.scoreName );

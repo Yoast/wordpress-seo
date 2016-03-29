@@ -9,7 +9,7 @@ var forEach = require( "lodash/forEach" );
 
 var ScoreRating = 9;
 
-//assessments
+// Assessments
 var assessments = {};
 assessments.wordCount = require( "./assessments/countWords.js" );
 assessments.urlLength = require( "./assessments/urlIsTooLong.js" );
@@ -40,7 +40,7 @@ var Assessor = function( i18n ) {
 
 /**
  * Checks if the argument is a valid paper.
- * @param paper The paper to be used for the assessments
+ * @param {Paper} paper The paper to be used for the assessments
  * @throws {InvalidTypeError} Parameter needs to be an instance of the Paper object.
  */
 Assessor.prototype.verifyPaper = function( paper ) {
@@ -51,7 +51,7 @@ Assessor.prototype.verifyPaper = function( paper ) {
 
 /**
  * Checks if the i18n object is defined and sets it.
- * @param {object} i18n The i18n object used for translations.
+ * @param {Object} i18n The i18n object used for translations.
  * @throws {MissingArgument} Parameter needs to be a valid i18n object.
  */
 Assessor.prototype.setI18n = function( i18n ) {
@@ -70,28 +70,47 @@ Assessor.prototype.getAvailableAssessments = function() {
 };
 
 /**
+ * Checks whether or not the Assessment is applicable.
+ * @param {Object} assessment The Assessment object that needs to be checked.
+ * @param {Paper} paper The Paper object to check against.
+ * @param {Researcher} [researcher] The Researcher object containing additional information.
+ * @returns {boolean} Whether or not the Assessment is applicable.
+ */
+Assessor.prototype.isApplicable = function( assessment, paper, researcher ) {
+	if ( assessment.hasOwnProperty( "isApplicable" ) ) {
+		return assessment.isApplicable( paper, researcher );
+	}
+
+	return true;
+};
+
+/**
  * Runs the researches defined in the tasklist or the default researches.
  * @param {Paper} paper The paper to run assessments on.
  */
 Assessor.prototype.assess = function( paper ) {
 	this.verifyPaper( paper );
-	var researcher = new Researcher( paper );
 
+	var researcher = new Researcher( paper );
 	var assessments = this.getAvailableAssessments();
 	this.results = [];
-	forEach( assessments, function( assessment, assessmentName ) {
-		this.results.push(
-			{
-				name: assessmentName,
-				result: assessment( paper, researcher, this.i18n )
-			}
-		);
+
+	forEach( assessments, function( assessment, name ) {
+		if ( !this.isApplicable( assessment, paper, researcher ) ) {
+			return;
+		}
+
+		this.results.push( {
+			name: name,
+			result: assessment.getResult( paper, researcher, this.i18n )
+		} );
+
 	}.bind( this ) );
 };
 
 /**
  * Filters out all assessmentresults that have no score and no text.
- * @returns {Array}
+ * @returns {Array} The array with all the valid assessments.
  */
 Assessor.prototype.getValidResults = function() {
 	var validResults = [];
@@ -100,6 +119,7 @@ Assessor.prototype.getValidResults = function() {
 		if ( !this.isValidResult( assessmentResults.result ) ) {
 			return;
 		}
+
 		validResults.push( assessmentResults );
 	}.bind( this ) );
 
