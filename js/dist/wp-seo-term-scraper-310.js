@@ -8567,7 +8567,8 @@ var defaultAttributes = {
 	keyword: "",
 	description: "",
 	title: "",
-	url: ""
+	url: "",
+	locale: "en"
 };
 
 /**
