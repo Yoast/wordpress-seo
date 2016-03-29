@@ -533,11 +533,9 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 			$help_button = $help_panel = '';
 			if ( isset( $meta_field_def['help'] ) && $meta_field_def['help'] !== '' ) {
-				$help_button = ' <button type="button" class="yoast_help yoast-help-button dashicons" id="' . esc_attr( $key . '-help-toggle' ) .
-					'" aria-expanded="false" aria-controls="' . esc_attr( $key . '-help' ) . '"><span class="screen-reader-text">' .
-					$meta_field_def['help-button'] . '</span></button>';
-
-				$help_panel = '<p id="' . esc_attr( $key . '-help' ) . '" class="yoast-help-panel">' . $meta_field_def['help'] . '</p>';
+				$help = new WPSEO_Admin_Help_Panel( $key, $meta_field_def['help-button'], $meta_field_def['help'] );
+				$help_button = $help->get_button_html();
+				$help_panel  = $help->get_panel_html();
 			}
 
 			if ( $meta_field_def['type'] === 'hidden' ) {

@@ -94,7 +94,7 @@
 			);
 		} );
 
-		jQuery( '.yoast_help.yoast-help-button' ).on( 'click', function() {
+		jQuery( '.yoast-help-button' ).on( 'click', function() {
 			var $button = jQuery( this ),
 				helpPanel = jQuery( '#' + $button.attr( 'aria-controls' ) ),
 				isPanelVisible = helpPanel.is( ':visible' );

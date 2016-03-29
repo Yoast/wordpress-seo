@@ -124,10 +124,10 @@ class WPSEO_GSC_Category_Filters {
 	/**
 	 * Add new filter value to the filter_values
 	 *
-	 * @param string $key         Filter key.
-	 * @param string $value       Filter value.
-	 * @param string $description Optional description string.
-	 * @param string $help_button Optional help button text.
+	 * @param string $key              Filter key.
+	 * @param string $value            Filter value.
+	 * @param string $description      Optional description string.
+	 * @param string $help_button_text Optional help button text.
 	 */
 	private function set_filter_value( $key, $value, $description = '', $help_button_text = '' ) {
 		$this->filter_values[ $key ] = array(
@@ -155,12 +155,10 @@ class WPSEO_GSC_Category_Filters {
 		}
 
 		$help_button = $help_panel = '';
-		$help_button_text = $this->filter_values[ $category ]['help-button'] !== '' ? $this->filter_values[ $category ]['help-button'] : __( 'Help', 'wordpress-seo' );
 		if ( $this->filter_values[ $category ]['description'] !== '' ) {
-			$help_button = '<button type="button" class="yoast_help yoast-help-button dashicons" id="' . esc_attr( $category . '-help-toggle' ) .
-				'" aria-expanded="false" aria-controls="' . esc_attr( $category . '-help' ) . '"><span class="screen-reader-text">' .
-				$help_button_text . '</span></button>';
-			$help_panel = '<div class="yoast-seo-help-container"><p id="' . esc_attr( $category . '-help' ) . '" class="yoast-help-panel">' . $this->filter_values[ $category ]['description'] . '</p></div>';
+			$help        = new WPSEO_Admin_Help_Panel( $category, $this->filter_values[ $category ]['help-button'], $this->filter_values[ $category ]['description'], 'has-wrapper' );
+			$help_button = $help->get_button_html();
+			$help_panel  = $help->get_panel_html();
 		}
 
 		return sprintf(

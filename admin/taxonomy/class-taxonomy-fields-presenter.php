@@ -44,12 +44,14 @@ class WPSEO_Taxonomy_Fields_Presenter {
 	private function form_row( $field_name, array $field_options ) {
 		$esc_field_name = esc_attr( $field_name );
 
-		$label       = $this->get_label( $field_options['label'], $esc_field_name );
-		$field       = $this->get_field( $field_options['type'], $esc_field_name, $this->get_field_value( $field_name ) , (array) $field_options['options'] );
-		$help        = $this->get_help( $field, $field_options['description'], $esc_field_name );
-		$help_button = isset( $field_options['options']['help-button'] ) ? $this->get_help_button( $field_options['options']['help-button'], $esc_field_name ) : '';
+		$label            = $this->get_label( $field_options['label'], $esc_field_name );
+		$field            = $this->get_field( $field_options['type'], $esc_field_name, $this->get_field_value( $field_name ) , (array) $field_options['options'] );
+		$help_button_text = isset( $field_options['options']['help-button'] ) ? $field_options['options']['help-button'] : '';
+		$help             = new WPSEO_Admin_Help_Panel( $field_name, $help_button_text, $field_options['description'] );
+		$help_button      = $help->get_button_html();
+		$help_panel       = $help->get_panel_html();
 
-		return $this->parse_row( $label, $help_button, $help, $field );
+		return $this->parse_row( $label, $help_button, $help_panel, $field );
 	}
 
 	/**
@@ -162,61 +164,10 @@ class WPSEO_Taxonomy_Fields_Presenter {
 	}
 
 	/**
-	 * Returns the help text
-	 *
-	 * @param string $field_html The generated HTML for the field.
-	 * @param string $help_text  The help text that will be displayed.
-	 * @param string $field_name The field name.
-	 *
-	 * @return string
-	 */
-	private function get_help( $field_html, $help_text, $field_name ) {
-		if ( $field_html !== '' && ( is_string( $help_text ) && $help_text !== '' ) ) {
-			return $this->parse_help( $field_name, $help_text );
-		}
-
-		return '';
-	}
-
-	/**
-	 * Parsing the help-text
-	 *
-	 * @param string $field_name The name of the field where the helptext is generated for.
-	 * @param string $help_text  The help text itself.
-	 *
-	 * @return string
-	 */
-	private function parse_help( $field_name, $help_text ) {
-		return sprintf(
-			'<p id="%1$s" class="yoast-help-panel">%2$s</p>',
-			esc_attr( $field_name . '-help' ),
-			$help_text
-		);
-	}
-
-	/**
-	 * Returna the help toggle button
-	 *
-	 * @param string $button_text The help button text.
-	 * @param string $field_name  The target field.
-	 *
-	 * @return string
-	 */
-	private function get_help_button( $button_text, $field_name ) {
-		if ( $button_text !== '' ) {
-			return ' <button type="button" class="yoast_help yoast-help-button dashicons" id="' . esc_attr( $field_name . '-help-toggle' ) .
-				'" aria-expanded="false" aria-controls="' . esc_attr( $field_name . '-help' ) . '"><span class="screen-reader-text">' .
-				$button_text . '</span></button>';
-		}
-
-		return '';
-	}
-
-	/**
 	 * Returns the HTML for the row which contains label, help and the field.
 	 *
 	 * @param string $label       The html for the label if there was a label set.
-	 * @param string $help_button The text for the help button.
+	 * @param string $help_button The html for the help button.
 	 * @param string $help        The html for the help, when it's there.
 	 * @param string $field       The html for the field.
 	 *
