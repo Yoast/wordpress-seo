@@ -402,9 +402,9 @@ FacebookPreview.prototype.renderTemplate = function() {
 		headingEditor: targetElement.getElementsByClassName( "snippet-editor__heading-editor" )[0]
 	};
 
-	this.element.formContainer.innerHTML = this.element.fields.title.render()
+	this.element.formContainer.innerHTML = this.element.fields.imageUrl.render()
+	    + this.element.fields.title.render()
 		+ this.element.fields.description.render()
-		+ this.element.fields.imageUrl.render()
 		+ this.element.fields.button.render();
 
 	this.element.input = {
@@ -458,7 +458,7 @@ FacebookPreview.prototype.getFields = function() {
 			id: "facebook-editor-imageUrl",
 			value: this.data.imageUrl,
 			placeholder: this.opts.placeholder.imageUrl,
-			title: this.i18n.dgettext( "yoast-social-previews", "Facebook image URL" ),
+			title: this.i18n.dgettext( "yoast-social-previews", "Facebook image" ),
 			labelClassName: "snippet-editor__label"
 		} ),
 		button : new Button(
@@ -1574,9 +1574,9 @@ TwitterPreview.prototype.renderTemplate = function() {
 		headingEditor: targetElement.getElementsByClassName( "snippet-editor__heading-editor" )[0]
 	};
 
-	this.element.formContainer.innerHTML = this.element.fields.title.render()
+	this.element.formContainer.innerHTML = this.element.fields.imageUrl.render()
+		+ this.element.fields.title.render()
 		+ this.element.fields.description.render()
-		+ this.element.fields.imageUrl.render()
 		+ this.element.fields.button.render();
 
 	this.element.input = {
@@ -1630,7 +1630,7 @@ TwitterPreview.prototype.getFields = function() {
 			id: "twitter-editor-imageUrl",
 			value: this.data.imageUrl,
 			placeholder: this.opts.placeholder.imageUrl,
-			title: this.i18n.dgettext( "yoast-social-previews", "Twitter image URL" ),
+			title: this.i18n.dgettext( "yoast-social-previews", "Twitter image" ),
 			labelClassName: "snippet-editor__label"
 		} ),
 		button : new Button(
