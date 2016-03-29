@@ -1,4 +1,4 @@
-/* global wp, jQuery, YoastSEO */
+/* global wp, jQuery */
 module.exports = (function() {
 	'use strict';
 
