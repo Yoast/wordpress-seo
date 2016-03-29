@@ -393,7 +393,7 @@ class WPSEO_Admin_Init {
 			'wpseo_body_length_score' => array( 'version' => '3.0', 'alternative' => 'javascript' ),
 			'wpseo_linkdex_results' => array( 'version' => '3.0', 'alternative' => 'javascript' ),
 			'wpseo_snippet' => array( 'version' => '3.0', 'alternative' => 'javascript' ),
-			'wp_seo_get_bc_title' => array( 'version' => '3.2', 'alternative' => 'wp_seo_get_bc_link_info' ),
+			'wp_seo_get_bc_title' => array( 'version' => '3.2', 'alternative' => 'wpseo_breadcrumb_single_link_info' ),
 		);
 
 		foreach ( $deprecated_filters as $deprecated_filter => $deprecation_info ) {

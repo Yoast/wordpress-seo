@@ -678,15 +678,6 @@ class WPSEO_Breadcrumbs {
 		 * @param int $link_id The post ID
 		 */
 		$link['text'] = apply_filters( 'wp_seo_get_bc_title', $link['text'], $id );
-
-		/**
-		 * Filter: 'wp_seo_get_bc_link_info' - Allow developer to filter the Yoast SEO Breadcrumb title.
-		 *
-		 * @api array $link The Breadcrumb link info array
-		 *
-		 * @param int $id The post ID
-		 */
-		return apply_filters( 'wp_seo_get_bc_link_info', $link, $id );
 	}
 
 	/**
