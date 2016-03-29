@@ -10,7 +10,7 @@ describe( "A keyword in url count assessment", function(){
 			keyword: "kéyword"
 		} );
 
-		var assessment = keywordInUrl( mockPaper, Factory.buildMockResearcher( 0 ), i18n );
+		var assessment = keywordInUrl.getResult( mockPaper, Factory.buildMockResearcher( 0 ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 6 );
 		expect( assessment.getText() ).toEqual ( "The focus keyword does not appear in the URL for this page. If you decide to rename the URL be sure to check the old URL 301 redirects to the new one!" );
@@ -21,7 +21,7 @@ describe( "A keyword in url count assessment", function(){
 			url: "sample-with-keyword",
 			keyword: "keyword"
 		} );
-		var assessment = keywordInUrl( mockPaper, Factory.buildMockResearcher( 1 ), i18n );
+		var assessment = keywordInUrl.getResult( mockPaper, Factory.buildMockResearcher( 1 ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 9 );
 		expect( assessment.getText() ).toEqual ( "The focus keyword appears in the URL for this page." );

@@ -6,12 +6,12 @@ var checkStringForStopwords = require( "./analyses/checkStringForStopwords.js" )
 var checkUrlForStopwords = require( "./analyses/checkUrlForStopwords.js" );
 var checkForKeywordInUrl = require( "./analyses/countKeywordInUrl.js" );
 var checkForKeywordDoubles = require( "./analyses/checkForKeywordDoubles.js" );
-var findKeywordInFirstParagraph = require( "./analyses/findKeywordInFirstParagraph.js" );
+var findKeywordInFirstParagraph = require( "./researches/findKeywordInFirstParagraph.js" );
 var findKeywordInPageTitle = require( "./researches/findKeywordInPageTitle.js" );
 var getKeywordDensity = require( "./researches/getKeywordDensity.js" );
 var countLinks = require( "./researches/getLinkStatistics.js" );
 var getKeyphraseLength = require( "./analyses/getWordCount.js" );
-var isUrlTooLong = require( "./analyses/isUrlTooLong.js" );
+var isUrlTooLong = require( "./researches/urlIsTooLong.js" );
 var getSubheadings = require( "./researches/matchKeywordInSubheadings.js" );
 var countWords = require( "./stringProcessing/countWords.js" );
 var matchTextWithWord = require( "./stringProcessing/matchTextWithWord.js" );
@@ -19,7 +19,7 @@ var sanitizeString = require( "../js/stringProcessing/sanitizeString.js" );
 var stringToRegex = require( "../js/stringProcessing/stringToRegex.js" );
 var replaceDiacritics = require( "../js/stringProcessing/replaceDiacritics.js" );
 
-var isUndefined = require( "lodash/lang/isUndefined" );
+var isUndefined = require( "lodash/isUndefined" );
 
 var AnalyzeScorer = require( "./analyzescorer.js" );
 var analyzerConfig = require( "./config/config.js" );
@@ -354,7 +354,7 @@ Analyzer.prototype.pageTitleKeyword = function() {
  * @returns {{name: string, count: number}}
  */
 Analyzer.prototype.firstParagraph = function() {
-	return [ { test: "firstParagraph", result: findKeywordInFirstParagraph( this.paper.getText(), this.paper.getKeyword() ) } ];
+	return [ { test: "firstParagraph", result: findKeywordInFirstParagraph( this.paper ) } ];
 };
 
 /**
@@ -400,12 +400,7 @@ Analyzer.prototype.urlKeyword = function() {
  * @returns {{test: string, result: number}[]}
  */
 Analyzer.prototype.urlLength = function() {
-	var result = [ { test: "urlLength", result: { urlTooLong: isUrlTooLong(
-		this.paper.getUrl(),
-		this.paper.getKeyword(),
-		this.config.maxSlugLength,
-		this.config.maxUrlLength
-	) } } ];
+	var result = [ { test: "urlLength", result: { urlTooLong: isUrlTooLong( this.paper ) } } ];
 	return result;
 };
 

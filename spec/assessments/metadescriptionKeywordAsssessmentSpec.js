@@ -9,7 +9,7 @@ describe( "the metadescription keyword assessment", function() {
 		var paper = new Paper( "text", { keyword: "keyword", description: "description" } );
 		var researcher = factory.buildMockResearcher( 0 );
 
-		var result = metaDescriptionKeyword( paper, researcher, i18n );
+		var result = metaDescriptionKeyword.getResult( paper, researcher, i18n );
 
 		expect( result.getScore() ).toBe( 3 );
 		expect( result.getText() ).toBe( "A meta description has been specified, but it does not contain the focus keyword." );
@@ -19,10 +19,19 @@ describe( "the metadescription keyword assessment", function() {
 		var paper = new Paper( "text", { keyword: "keyword", description: "description" } );
 		var researcher = factory.buildMockResearcher( 1 );
 
-		var result = metaDescriptionKeyword( paper, researcher, i18n );
+		var result = metaDescriptionKeyword.getResult( paper, researcher, i18n );
 
 		expect( result.getScore() ).toBe( 9 );
 		expect( result.getText() ).toBe( "The meta description contains the focus keyword." );
+	} );
+
+	it( "should not score since there is no meta", function() {
+		var paper = new Paper( "text", { keyword: "keyword", description: "" } );
+		var researcher = factory.buildMockResearcher( -1 );
+
+		var result = metaDescriptionKeyword.getResult( paper, researcher, i18n );
+
+		expect( result.getText() ).toBe( "" );
 	} );
 } );
 

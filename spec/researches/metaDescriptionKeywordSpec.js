@@ -19,4 +19,11 @@ describe( "the metadescription keyword match research", function() {
 		var result = metaDescriptionKeyword( paper );
 		expect( result ).toBe( 0 );
 	});
+
+	it( "returns -1 because there is no meta", function() {
+		var paper = new Paper( "", { keyword: "word", description: "" } );
+		var result = metaDescriptionKeyword( paper );
+		expect( result ).toBe( -1 );
+	});
+
 });

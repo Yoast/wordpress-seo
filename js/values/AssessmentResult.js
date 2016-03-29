@@ -1,12 +1,12 @@
-var isUndefined = require( "lodash/lang/isUndefined" );
-var isNumber = require( "lodash/lang/isNumber" );
-var isString = require( "lodash/lang/isString" );
+var isUndefined = require( "lodash/isUndefined" );
+var isNumber = require( "lodash/isNumber" );
 
 /**
  * Construct the AssessmentResult value object.
  * @constructor
  */
 var AssessmentResult = function() {
+	this._hasScore = false;
 	this.score = 0;
 	this.text = "";
 };
@@ -16,7 +16,7 @@ var AssessmentResult = function() {
  * @returns {boolean} Whether or not a score is available.
  */
 AssessmentResult.prototype.hasScore = function() {
-	return !isUndefined( this.score );
+	return this._hasScore;
 };
 
 /**
@@ -29,15 +29,14 @@ AssessmentResult.prototype.getScore = function() {
 
 /**
  * Set the score for the assessment.
- * @param {number|string} score The score to be used for the score property
+ * @param {number} score The score to be used for the score property
  * @returns {void}
  */
 AssessmentResult.prototype.setScore = function( score ) {
-	if ( !isNumber( score ) && !isString( score ) ) {
-		score = 0;
+	if ( isNumber( score ) ) {
+		this.score = score;
+		this._hasScore = true;
 	}
-
-	this.score = score;
 };
 
 /**

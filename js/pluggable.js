@@ -1,8 +1,8 @@
 /* global console: true */
 /* global setTimeout: true */
-var isUndefined = require( "lodash/lang/isUndefined" );
-var forEach = require( "lodash/collection/forEach" );
-var reduce = require( "lodash/collection/reduce" );
+var isUndefined = require( "lodash/isUndefined" );
+var forEach = require( "lodash/forEach" );
+var reduce = require( "lodash/reduce" );
 
 /**
  * The plugins object takes care of plugin registrations, preloading and managing data modifications.

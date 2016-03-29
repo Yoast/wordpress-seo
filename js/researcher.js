@@ -1,25 +1,28 @@
 var Paper = require( "./values/Paper.js" );
-var merge = require( "lodash/object/merge" );
+var merge = require( "lodash/merge" );
 var InvalidTypeError = require( "./errors/invalidType" );
 var MissingArgument = require( "./errors/missingArgument" );
-var isUndefined = require( "lodash/lang/isUndefined" );
-var isEmpty = require( "lodash/lang/isEmpty" );
+var isUndefined = require( "lodash/isUndefined" );
+var isEmpty = require( "lodash/isEmpty" );
 
 // assessments
 var wordCountInText = require( "./researches/wordCountInText.js" );
+var getLinkStatistics = require( "./researches/getLinkStatistics.js" );
+var urlLength = require( "./researches/urlIsTooLong.js" );
 var findKeywordInPageTitle = require( "./researches/findKeywordInPageTitle.js" );
 var matchKeywordInSubheadings = require( "./researches/matchKeywordInSubheadings.js" );
 var getKeywordDensity = require( "./researches/getKeywordDensity.js" );
 var stopWordsInKeyword = require( "./researches/stopWordsInKeyword" );
 var stopWordsInUrl = require( "./researches/stopWordsInUrl" );
 var calculateFleschReading = require( "./researches/calculateFleschReading.js" );
-var getLinkStatistics = require( "./researches/getLinkStatistics.js" );
 var metaDescriptionLength = require( "./researches/metaDescriptionLength.js" );
 var imageCount = require( "./researches/imageCountInText.js" );
 var altTagCount = require( "./researches/imageAltTags.js" );
 var keyphraseLength = require( "./researches/keyphraseLength" );
 var metaDescriptionKeyword = require( "./researches/metaDescriptionKeyword.js" );
 var keywordCountInUrl = require( "./researches/keywordCountInUrl" );
+var findKeywordInFirstParagraph = require( "./researches/findKeywordInFirstParagraph.js" );
+var pageTitleLength = require( "./researches/pageTitleLength.js" );
 
 /**
  * This contains all possible, default researches.
@@ -31,6 +34,7 @@ var Researcher = function( paper ) {
 	this.setPaper( paper );
 
 	this.defaultResearches = {
+		"urlLength": urlLength,
 		"wordCountInText": wordCountInText,
 		"findKeywordInPageTitle": findKeywordInPageTitle,
 		"calculateFleschReading": calculateFleschReading,
@@ -43,8 +47,10 @@ var Researcher = function( paper ) {
 		"stopWordsInUrl": stopWordsInUrl,
 		"metaDescriptionLength": metaDescriptionLength,
 		"keyphraseLength": keyphraseLength,
+		"keywordCountInUrl": keywordCountInUrl,
+		"firstParagraph": findKeywordInFirstParagraph,
 		"metaDescriptionKeyword": metaDescriptionKeyword,
-		"keywordCountInUrl": keywordCountInUrl
+		"pageTitleLength": pageTitleLength
 	};
 
 	this.customResearches = {};

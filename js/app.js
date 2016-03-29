@@ -4,15 +4,16 @@ require( "./config/config.js" );
 var sanitizeString = require( "../js/stringProcessing/sanitizeString.js" );
 var SnippetPreview = require( "./snippetPreview.js" );
 
-var defaultsDeep = require( "lodash/object/defaultsDeep" );
-var isObject = require( "lodash/lang/isObject" );
-var isString = require( "lodash/lang/isString" );
+var defaultsDeep = require( "lodash/defaultsDeep" );
+var isObject = require( "lodash/isObject" );
+var isString = require( "lodash/isString" );
 var MissingArgument = require( "./errors/missingArgument" );
-var isUndefined = require( "lodash/lang/isUndefined" );
-var forEach = require( "lodash/collection/forEach" );
+var isUndefined = require( "lodash/isUndefined" );
+var forEach = require( "lodash/forEach" );
 
 var Jed = require( "jed" );
 
+var Assessor = require( "./assessor.js" );
 var Analyzer = require( "./analyzer.js" );
 var Researcher = require( "./researcher.js" );
 var ScoreFormatter = require( "./scoreFormatter.js" );
@@ -446,6 +447,14 @@ App.prototype.runAnalyzer = function() {
 	}
 
 	this.pageAnalyzer.runQueue();
+
+	// Set the assessor
+	if ( isUndefined( this.assessor ) ) {
+		this.assessor = new Assessor( this.i18n );
+	}
+
+	this.assessor.assess( this.paper );
+
 	this.scoreFormatter = new ScoreFormatter( {
 		scores: this.pageAnalyzer.analyzeScorer.__score,
 		overallScore: this.pageAnalyzer.analyzeScorer.__totalScore,

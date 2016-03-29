@@ -1,14 +1,15 @@
 /* global YoastSEO: true */
 
-var escapeHTML = require( "lodash/string/escape" );
+var escapeHTML = require( "lodash/escape" );
 var Score = require( "./values/Score.js" );
 var AnalyzerScoring = require( "./config/scoring.js" ).AnalyzerScoring;
 var analyzerScoreRating = require( "./config/scoring.js" ).analyzerScoreRating;
 
-var isUndefined = require( "lodash/lang/isUndefined" );
+var isUndefined = require( "lodash/isUndefined" );
 
 var assessments = {};
 assessments.wordCount = require( "./assessments/countWords.js" );
+assessments.urlLength = require( "./assessments/urlIsTooLong.js" );
 assessments.fleschReading = require( "./assessments/calculateFleschReading.js" );
 assessments.linkCount = require( "./assessments/getLinkStatistics.js" );
 assessments.pageTitleKeyword = require( "./assessments/pageTitleKeyword.js" );
@@ -21,6 +22,8 @@ assessments.keyphraseSizeCheck = require( "./assessments/keyphraseLength.js" );
 assessments.metaDescriptionKeyword = require ( "./assessments/metaDescriptionKeyword.js" );
 assessments.imageCount = require( "./assessments/imageCount.js" );
 assessments.urlKeyword = require( "./assessments/keywordInUrl.js" );
+assessments.firstParagraph = require( "./assessments/firstParagraph.js" );
+assessments.pageTitleLength = require( "./assessments/pageTitleLength.js" );
 
 /**
  * inits the analyzerscorer used for scoring of the output from the textanalyzer
@@ -80,7 +83,7 @@ AnalyzeScorer.prototype.genericScore = function( obj ) {
 	var scoreObj = this.scoreLookup( obj.test );
 
 	if ( isUndefined( scoreObj ) ) {
-		return assessments[ obj.test ]( this.paper, YoastSEO.app.researcher,  this.i18n );
+		return assessments[ obj.test ].getResult( this.paper, YoastSEO.app.researcher,  this.i18n );
 	}
 
 	return this.calculateScore( obj, scoreObj, scoreObj.scoreName );

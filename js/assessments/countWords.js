@@ -1,5 +1,5 @@
 var AssessmentResult = require( "../values/AssessmentResult.js" );
-var inRange = require( "lodash/number/inRange" );
+var inRange = require( "lodash/inRange" );
 
 /**
  * Calculate the score based on the current word count.
@@ -92,4 +92,4 @@ var countWordsAssessment = function( paper, researcher, i18n ) {
 	return assessmentResult;
 };
 
-module.exports = countWordsAssessment;
+module.exports = { getResult: countWordsAssessment };

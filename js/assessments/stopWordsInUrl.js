@@ -47,4 +47,4 @@ var stopWordsInUrlAssessment = function( paper, researcher, i18n ) {
 	return assessmentResult;
 };
 
-module.exports = stopWordsInUrlAssessment;
+module.exports = { getResult: stopWordsInUrlAssessment };

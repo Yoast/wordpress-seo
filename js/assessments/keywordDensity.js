@@ -1,6 +1,6 @@
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 var matchWords = require( "../stringProcessing/matchTextWithWord.js" );
-var inRange = require( "lodash/number/inRange" );
+var inRange = require( "lodash/inRange" );
 
 /**
  * Returns the scores and text for keyword density
@@ -61,4 +61,9 @@ var getKeyworDensityAssessment = function( paper,  researcher, i18n ) {
 	return assessmentResult;
 };
 
-module.exports = getKeyworDensityAssessment;
+module.exports = {
+	getResult: getKeyworDensityAssessment,
+	isApplicable: function( paper ) {
+		return paper.hasText() && paper.hasKeyword();
+	}
+};
