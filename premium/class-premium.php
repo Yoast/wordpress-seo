@@ -214,11 +214,9 @@ class WPSEO_Premium {
 			'post-new.php',
 			'post.php',
 			'edit.php',
-			'term.php',
-			'edit-tags.php', // We should support this till WordPress drops support.
 		);
 
-		if ( in_array( $pagenow, $metabox_pages, true ) ) {
+		if ( in_array( $pagenow , $metabox_pages, true ) || WPSEO_Taxonomy::is_term_edit( $pagenow ) ) {
 			$social_previews = new WPSEO_Social_Previews();
 			$social_previews->set_hooks();
 		}
