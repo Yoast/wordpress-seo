@@ -1,8 +1,12 @@
-/* global YoastSEO, wpseoTermScraperL10n, ajaxurl, tinyMCE, YoastReplaceVarPlugin, console, require */
+/* global YoastSEO: true, wpseoTermScraperL10n, ajaxurl, tinyMCE, YoastReplaceVarPlugin, console, require */
 (function( $ ) {
 	'use strict';
 
-	var snippetPreview;
+	var App = require( 'yoastseo' ).App;
+	var SnippetPreview = require( 'yoastseo' ).SnippetPreview;
+
+	var app, snippetPreview;
+
 	var termSlugInput;
 
 	var mainKeywordTab;
@@ -175,8 +179,8 @@
 
 		mainKeywordTab.update( score, this.getDataFromInput( 'keyword' ) );
 
-		cssClass = YoastSEO.app.scoreFormatter.overallScoreRating( parseInt( score, 10 ) );
-		alt = YoastSEO.app.scoreFormatter.getSEOScoreText( cssClass );
+		cssClass = app.scoreFormatter.overallScoreRating( parseInt( score, 10 ) );
+		alt = app.scoreFormatter.getSEOScoreText( cssClass );
 
 		$( '.yst-traffic-light' )
 			.attr( 'class', 'yst-traffic-light ' + cssClass )
@@ -214,7 +218,7 @@
 				}, function( data ) {
 					if ( data ) {
 						wpseoTermScraperL10n.keyword_usage[ keyword ] = data;
-						YoastSEO.app.analyzeTimer();
+						app.analyzeTimer();
 					}
 				}, 'json'
 			);
@@ -280,7 +284,7 @@
 			snippetPreviewArgs.defaultValue.metaDesc = metaPlaceholder;
 		}
 
-		return new YoastSEO.SnippetPreview( snippetPreviewArgs );
+		return new SnippetPreview( snippetPreviewArgs );
 	}
 
 	/**
@@ -347,13 +351,14 @@
 		snippetPreview = initSnippetPreview( termScraper );
 		args.snippetPreview = snippetPreview;
 
-		window.YoastSEO.app = new YoastSEO.App( args );
+		app = new App( args );
+		window.YoastSEO.app = app;
 		jQuery( window ).trigger( 'YoastSEO:ready' );
 
 		termScraper.initKeywordTabTemplate();
 
 		// Init Plugins.
-		new YoastReplaceVarPlugin();
+		new YoastReplaceVarPlugin( app );
 
 		// For backwards compatibility.
 		YoastSEO.analyzerArgs = args;

@@ -91,7 +91,7 @@ module.exports = (function() {
 			score = 'na';
 		}
 
-		score = YoastSEO.ScoreFormatter.prototype.overallScoreRating( score );
+		//score = YoastSEO.ScoreFormatter.prototype.overallScoreRating( score );
 
 		this.score = score;
 	};

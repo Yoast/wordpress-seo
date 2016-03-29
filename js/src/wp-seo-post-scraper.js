@@ -1,8 +1,12 @@
-/* global YoastSEO, tinyMCE, ajaxurl, wpseoPostScraperL10n, YoastShortcodePlugin, YoastReplaceVarPlugin, console, require */
+/* global YoastSEO: true, tinyMCE, ajaxurl, wpseoPostScraperL10n, YoastShortcodePlugin, YoastReplaceVarPlugin, console, require */
 (function( $ ) {
 	'use strict';
 
+	var SnippetPreview = require( 'yoastseo' ).SnippetPreview;
+	var App = require( 'yoastseo' ).App;
+
 	var currentKeyword = '';
+	var app, snippetPreview;
 
 	var mainKeywordTab;
 	var KeywordTab = require( './analysis/keywordTab' );
@@ -56,8 +60,8 @@
 			// Always set the post name element.
 			postNameElem.value = document.getElementById('editable-post-name-full').textContent;
 
-			YoastSEO.app.snippetPreview.unformattedText.snippet_cite = document.getElementById('editable-post-name-full').textContent;
-			YoastSEO.app.analyzeTimer();
+			snippetPreview.unformattedText.snippet_cite = document.getElementById('editable-post-name-full').textContent;
+			app.analyzeTimer();
 		} else if ( time < 5000 ) {
 			time += 200;
 			setTimeout( this.bindSnippetCiteEvents.bind( this, time ), 200 );
@@ -70,8 +74,8 @@
 	 */
 	PostScraper.prototype.bindSlugEditor = function() {
 		$( '#titlediv' ).on( 'change', '#new-post-slug', function() {
-			YoastSEO.app.snippetPreview.unformattedText.snippet_cite = $( '#new-post-slug' ).val();
-			YoastSEO.app.refresh();
+			snippetPreview.unformattedText.snippet_cite = $( '#new-post-slug' ).val();
+			app.refresh();
 		});
 	};
 
@@ -261,8 +265,8 @@
 	 * Resets the current queue if focus keyword is changed and not empty.
 	 */
 	PostScraper.prototype.resetQueue = function() {
-		if ( YoastSEO.app.rawData.keyword !== '' ) {
-			YoastSEO.app.runAnalyzer( this.rawData );
+		if ( app.rawData.keyword !== '' ) {
+			app.runAnalyzer( this.rawData );
 		}
 	};
 
@@ -282,9 +286,9 @@
 			if ( '' === currentKeyword ) {
 				cssClass = 'na';
 			} else {
-				cssClass = YoastSEO.app.scoreFormatter.overallScoreRating( parseInt( score, 10 ) );
+				cssClass = app.scoreFormatter.overallScoreRating( parseInt( score, 10 ) );
 			}
-			alt = YoastSEO.app.scoreFormatter.getSEOScoreText( cssClass );
+			alt = app.scoreFormatter.getSEOScoreText( cssClass );
 
 			$( '.yst-traffic-light' )
 				.attr( 'class', 'yst-traffic-light ' + cssClass )
@@ -359,7 +363,7 @@
 				}, function( data ) {
 					if ( data ) {
 						wpseoPostScraperL10n.keyword_usage[ keyword ] = data;
-						YoastSEO.app.analyzeTimer();
+						app.analyzeTimer();
 					}
 				}, 'json'
 			);
@@ -392,7 +396,7 @@
 		}
 
 		if ( 'string' === typeof ajaxOptions.data && -1 !== ajaxOptions.data.indexOf( 'action=sample-permalink' ) ) {
-			YoastSEO.app.snippetPreview.setUrlPath( getUrlPath( response ) );
+			app.snippetPreview.setUrlPath( getUrlPath( response ) );
 		}
 	} );
 
@@ -436,7 +440,7 @@
 			snippetPreviewArgs.defaultValue.metaDesc = metaPlaceholder;
 		}
 
-		return new YoastSEO.SnippetPreview( snippetPreviewArgs );
+		return new SnippetPreview( snippetPreviewArgs );
 	}
 
 	jQuery( document ).ready(function() {
@@ -482,14 +486,16 @@
 			args.translations = translations;
 		}
 
-		args.snippetPreview = initSnippetPreview( postScraper );
+		snippetPreview = initSnippetPreview( postScraper );
+		args.snippetPreview = snippetPreview;
 
-		window.YoastSEO.app = new YoastSEO.App( args );
-		jQuery( window).trigger( 'YoastSEO:ready' );
+		app = new App( args );
+		window.YoastSEO.app = app;
+		jQuery( window ).trigger( 'YoastSEO:ready' );
 
 		// Init Plugins
-		new YoastReplaceVarPlugin();
-		new YoastShortcodePlugin();
+		new YoastReplaceVarPlugin( app );
+		new YoastShortcodePlugin( app );
 
 		postScraper.initKeywordTabTemplate();
 
