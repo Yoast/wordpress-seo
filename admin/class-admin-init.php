@@ -386,27 +386,25 @@ class WPSEO_Admin_Init {
 		}
 
 		// WordPress hooks that have been deprecated in Yoast SEO 3.0.
-		$deprecated_30 = array(
-			'wpseo_pre_analysis_post_content',
-			'wpseo_metadesc_length',
-			'wpseo_metadesc_length_reason',
-			'wpseo_body_length_score',
-			'wpseo_linkdex_results',
-			'wpseo_snippet',
+		$deprecated_filters = array(
+			'wpseo_pre_analysis_post_content' => array( 'version' => '3.0', 'alternative' => 'javascript' ),
+			'wpseo_metadesc_length' => array( 'version' => '3.0', 'alternative' => 'javascript' ),
+			'wpseo_metadesc_length_reason' => array( 'version' => '3.0', 'alternative' => 'javascript' ),
+			'wpseo_body_length_score' => array( 'version' => '3.0', 'alternative' => 'javascript' ),
+			'wpseo_linkdex_results' => array( 'version' => '3.0', 'alternative' => 'javascript' ),
+			'wpseo_snippet' => array( 'version' => '3.0', 'alternative' => 'javascript' ),
+			'wp_seo_get_bc_title' => array( 'version' => '3.2', 'alternative' => 'wp_seo_get_bc_link_info' ),
 		);
 
-		$deprecated_notices = array_intersect(
-			$deprecated_30,
-			array_keys( $wp_filter )
-		);
-
-		foreach ( $deprecated_notices as $deprecated_filter ) {
-			_deprecated_function(
-				/* %s expands to the actual filter/action that has been used. */
-				sprintf( __( '%s filter/action', 'wordpress-seo' ), $deprecated_filter ),
-				'WPSEO 3.0',
-				'javascript'
-			);
+		foreach ( $deprecated_filters as $deprecated_filter => $deprecation_info ) {
+			if ( array_key_exists( $deprecated_filter, $wp_filter ) ) {
+				/* translators: %s expands to the actual filter/action that has been used. */
+				_deprecated_function(
+					sprintf( __( '%s filter/action', 'wordpress-seo' ), $deprecated_filter ),
+					'WPSEO ' . $deprecation_info['version'],
+					$deprecation_info['alternative']
+				);
+			}
 		}
 	}
 

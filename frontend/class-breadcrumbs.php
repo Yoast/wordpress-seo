@@ -653,20 +653,7 @@ class WPSEO_Breadcrumbs {
 	private function get_link_info_for_id( $id ) {
 
 		$link 	= array();
-		$status = get_post_status( $id );
-		$cpt 	= get_post_type( $id );
-
-		// Don't link if item is private and user does't have capability to read it.
-		if ( 'private' === $status && ! current_user_can( 'read_private_' . $cpt ) ) {
-
-			$link['url'] = '';
-
-		} else {
-
-			$link['url']  = get_permalink( $id );
-
-		}
-
+		$link['url']  = get_permalink( $id );
 		$link['text'] = WPSEO_Meta::get_value( 'bctitle', $id );
 
 		if ( $link['text'] === '' ) {
@@ -676,13 +663,21 @@ class WPSEO_Breadcrumbs {
 		/**
 		 * Filter: 'wp_seo_get_bc_title' - Allow developer to filter the Yoast SEO Breadcrumb title.
 		 *
+		 * @deprecated 3.2
 		 * @api string $link_text The Breadcrumb title text
 		 *
 		 * @param int $link_id The post ID
 		 */
 		$link['text'] = apply_filters( 'wp_seo_get_bc_title', $link['text'], $id );
 
-		return $link;
+		/**
+		 * Filter: 'wp_seo_get_bc_link_info' - Allow developer to filter the Yoast SEO Breadcrumb title.
+		 *
+		 * @api array $link The Breadcrumb link info array
+		 *
+		 * @param int $id The post ID
+		 */
+		return apply_filters( 'wp_seo_get_bc_link_info', $link, $id );
 	}
 
 	/**
