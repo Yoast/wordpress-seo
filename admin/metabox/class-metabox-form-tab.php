@@ -59,7 +59,7 @@ class WPSEO_Metabox_Form_Tab implements WPSEO_Metabox_Tab {
 			'<li class="%1$s %2$s"><a class="wpseo_tablink" href="#wpseo_%1$s"%3$s>%4$s</a></li>',
 			esc_attr( $this->name ),
 			esc_attr( $this->link_class ),
-			'' !== $this->link_title ? ' title="' . esc_attr( $this->link_title ) . '"' : '',
+			( '' !== $this->link_title ) ? ' title="' . esc_attr( $this->link_title ) . '"' : '',
 			$this->link_content
 		);
 	}
