@@ -109,10 +109,10 @@ function wpseo_deactivate( $networkwide = false ) {
 function wpseo_network_activate_deactivate( $activate = true ) {
 	global $wpdb;
 
-	$all_blogs = $wpdb->get_col( "SELECT blog_id FROM $wpdb->blogs" );
+	$network_blogs = $wpdb->get_col( $wpdb->prepare( "SELECT blog_id FROM $wpdb->blogs WHERE site_id = %d", $wpdb->siteid ) );
 
-	if ( is_array( $all_blogs ) && $all_blogs !== array() ) {
-		foreach ( $all_blogs as $blog_id ) {
+	if ( is_array( $network_blogs ) && $network_blogs !== array() ) {
+		foreach ( $network_blogs as $blog_id ) {
 			switch_to_blog( $blog_id );
 
 			if ( $activate === true ) {
