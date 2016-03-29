@@ -80,4 +80,9 @@ var getLinkStatisticsAssessment = function( paper,  researcher, i18n ) {
 	return assessmentResult;
 };
 
-module.exports = { getResult: getLinkStatisticsAssessment };
+module.exports = {
+	getResult: getLinkStatisticsAssessment,
+	isApplicable: function ( paper ) {
+		return paper.hasText();
+	}
+};

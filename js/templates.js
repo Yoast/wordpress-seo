@@ -290,7 +290,7 @@
     __p += '\n        <li class="score">\n            <span class="wpseo-score-icon ' +
     __e( scores[ i ].rating ) +
     '"></span>\n            <span class="screen-reader-text">' +
-    ((__t = ( scores[ i ].seoText )) == null ? '' : __t) +
+    ((__t = ( scores[ i ].screenreaderText )) == null ? '' : __t) +
     '</span>\n            <span class="wpseo-score-text">' +
     ((__t = ( scores[ i ].text )) == null ? '' : __t) +
     '</span>\n        </li>\n    ';

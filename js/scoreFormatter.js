@@ -52,7 +52,7 @@ ScoreFormatter.prototype.outputScore = function() {
 
 			scores[i] = {};
 			scores[i].rating = scoreRating.text;
-			scores[i].seoText = scoreRating.seoText;
+			scores[i].screenreaderText = scoreRating.screenreaderText;
 			scores[i].text = this.scores[ i ].result.text;
 		}
 	}
@@ -85,58 +85,70 @@ ScoreFormatter.prototype.sortScores = function( scores ) {
  */
 ScoreFormatter.prototype.getUndefinedScores = function( scorers ) {
 	var filtered = scorers.filter( function( scorer ) {
-		return isUndefined( scorer.score ) || scorer.score === "na";
+		return isUndefined( scorer.score ) || scorer.score === 0;
 	} );
 
 	return filtered;
 };
 
 /**
- * outputs the overallScore in the overallTarget element.
+ * Outputs the overallScore in the overallTarget element.
  */
 ScoreFormatter.prototype.outputOverallScore = function() {
 	var overallTarget = document.getElementById( this.overall );
+	var baseClassName = "overallScore ";
 
-	if ( overallTarget ) {
-		overallTarget.className = "overallScore " + this.overallScoreRating( this.assessor.calculateOverallScore() ).text;
+	if ( !overallTarget ) {
+		return;
 	}
 
-	if ( overallTarget && this.keyword === "" ) {
-		overallTarget.className = "overallScore " + this.overallScoreRating( "na" ).text;
+	if ( this.keyword === "" ) {
+		overallTarget.className = baseClassName + this.overallScoreRating( 0 ).text;
+		return;
 	}
+
+	overallTarget.className = baseClassName + this.overallScoreRating( this.assessor.calculateOverallScore() ).text;
 };
 
 /**
- * Retuns a string that is used as a CSSclass, based on the numeric score or the NA string.
+ * Retuns a string that is used as a CSS class, based on the numeric score.
  *
- * @param {number|string} score
+ * @param {number} score
  * @returns {object} rating
  */
 ScoreFormatter.prototype.scoreRating = function( score ) {
 	var rating = {};
 
-	if ( !isNumber( score ) && score !== "na" ) {
+	if ( !isNumber( score ) ) {
 		return rating;
 	}
 
-	switch ( true ) {
-		case score <= 4:
-			rating.text = "bad";
-			rating.seoText = this.i18n.dgettext( "js-text-analysis", "Bad SEO score" );
-			break;
-		case score > 4 && score <= 7:
-			rating.text = "ok";
-			rating.seoText = this.i18n.dgettext( "js-text-analysis", "Ok SEO score" );
-			break;
-		case score > 7:
-			rating.text = "good";
-			rating.seoText = this.i18n.dgettext( "js-text-analysis", "Good SEO score" );
-			break;
-		default:
-		case score === "na":
-			rating.text = "na";
-			rating.seoText = this.i18n.dgettext( "js-text-analysis", "No keyword" );
-			break;
+	if ( score === 0 ) {
+		return {
+			text: "na",
+			screenreaderText: this.i18n.dgettext( "js-text-analysis", "Feedback" )
+		};
+	}
+
+	if ( score <= 4 ) {
+		return {
+			text: "bad",
+			screenreaderText: this.i18n.dgettext( "js-text-analysis", "Bad SEO score" )
+		};
+	}
+
+	if ( score > 4 && score <= 7 ) {
+		return {
+			text: "ok",
+			screenreaderText: this.i18n.dgettext( "js-text-analysis", "Ok SEO score" )
+		};
+	}
+
+	if ( score > 7 ) {
+		return {
+			text: "good",
+			screenreaderText: this.i18n.dgettext( "js-text-analysis", "Good SEO score" )
+		};
 	}
 
 	return rating;
@@ -145,15 +157,15 @@ ScoreFormatter.prototype.scoreRating = function( score ) {
 /**
  * Divides the total score by ten and calls the scoreRating function.
  *
- * @param {number|string} score
- * @returns {string} scoreRate
+ * @param {number} overallScore
+ * @returns {Object} scoreRating
  */
-ScoreFormatter.prototype.overallScoreRating = function( score ) {
-	if ( isNumber( score ) ) {
-		score = ( score / 10 );
+ScoreFormatter.prototype.overallScoreRating = function( overallScore ) {
+	if ( isNumber( overallScore ) ) {
+		overallScore = ( overallScore / 10 );
 	}
 
-	return this.scoreRating( score ).text;
+	return this.scoreRating( overallScore );
 };
 
 module.exports = ScoreFormatter;
