@@ -42,7 +42,7 @@ var TwitterPreview = socialPreviews.TwitterPreview;
 							description : jQuery( '#' + fieldPrefix + '_opengraph-description' ).val(),
 							imageUrl : jQuery( '#' + fieldPrefix + '_opengraph-image' ).val()
 						},
-						baseURL : yoast_social_preview.website,
+						baseURL : yoastSocialPreview.website,
 						callbacks : {
 							updateSocialPreview : function( data ) {
 								jQuery( '#' + fieldPrefix + '_opengraph-title' ).val( data.title );
@@ -76,7 +76,7 @@ var TwitterPreview = socialPreviews.TwitterPreview;
 							description : jQuery( '#' + fieldPrefix + '_twitter-description' ).val(),
 							imageUrl : jQuery( '#' + fieldPrefix + '_twitter-image' ).val()
 						},
-						baseURL : yoast_social_preview.website,
+						baseURL : yoastSocialPreview.website,
 						callbacks : {
 							updateSocialPreview : function( data ) {
 								jQuery( '#' + fieldPrefix + '_twitter-title' ).val( data.title );

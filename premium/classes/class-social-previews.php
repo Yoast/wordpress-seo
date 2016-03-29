@@ -13,7 +13,7 @@ class WPSEO_Social_Previews {
 	 */
 	public function __construct() {
 		wp_register_script( 'yoast-social-preview-js', plugin_dir_url( WPSEO_PREMIUM_FILE ) . '/assets/js/yoast-premium-social-preview' . WPSEO_CSSJS_SUFFIX . '.js', array( 'underscore' ), WPSEO_VERSION );
-		wp_localize_script( 'yoast-social-preview-js', 'yoast_social_preview', $this->localize() );
+		wp_localize_script( 'yoast-social-preview-js', 'yoastSocialPreview', $this->localize() );
 	}
 
 	/**
