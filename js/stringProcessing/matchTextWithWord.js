@@ -18,10 +18,7 @@ module.exports = function( text, wordToMatch, extraBoundary ) {
 	text = unifyWhitespace( text );
 	text = replaceDiacritics( text );
 
-	var matches = null;
-	if ( text !== "" ) {
-		matches = text.match( stringToRegex( wordToMatch, extraBoundary ) );
-	}
+	var matches = text.match( stringToRegex( wordToMatch, extraBoundary ) );
 
 	if ( matches === null ) {
 		return 0;
