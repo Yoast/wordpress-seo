@@ -57,7 +57,7 @@ class WPSEO_Term_Metabox_Formatter_Test extends WPSEO_UnitTestCase {
 		$result   = $instance->get_values();
 
 		$this->assertEquals( $result['search_url'],    admin_url( 'edit-tags.php?taxonomy=' . $this->term->taxonomy . '&seo_kw_filter={keyword}' ) );
-		$this->assertEquals( $result['post_edit_url'], admin_url( 'edit-tags.php?action=edit&taxonomy=' . $this->term->taxonomy . '&tag_ID={id}' ) );
+		$this->assertEquals( $result['post_edit_url'], admin_url( 'term.php?action=edit&taxonomy=' . $this->term->taxonomy . '&tag_ID={id}' ) );
 		$this->assertEquals( $result['base_url'], trailingslashit( home_url( 'tag' ) ) );
 		$this->assertEquals( $result['keyword_usage'], array( '' => array() ) );
 		$this->assertEquals( $result['title_template'], '' );
