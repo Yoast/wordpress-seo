@@ -13,6 +13,7 @@ var forEach = require( "lodash/forEach" );
 
 var Jed = require( "jed" );
 
+var Assessor = require( "./assessor.js" );
 var Analyzer = require( "./analyzer.js" );
 var Researcher = require( "./researcher.js" );
 var ScoreFormatter = require( "./scoreFormatter.js" );
@@ -446,6 +447,14 @@ App.prototype.runAnalyzer = function() {
 	}
 
 	this.pageAnalyzer.runQueue();
+
+	// Set the assessor
+	if ( isUndefined( this.assessor ) ) {
+		this.assessor = new Assessor( this.i18n );
+	}
+
+	this.assessor.assess( this.paper );
+
 	this.scoreFormatter = new ScoreFormatter( {
 		scores: this.pageAnalyzer.analyzeScorer.__score,
 		overallScore: this.pageAnalyzer.analyzeScorer.__totalScore,
