@@ -1,7 +1,6 @@
 /* jshint browser: true */
 
 require( "./config/config.js" );
-var sanitizeString = require( "../js/stringProcessing/sanitizeString.js" );
 var SnippetPreview = require( "./snippetPreview.js" );
 
 var defaultsDeep = require( "lodash/defaultsDeep" );
@@ -14,11 +13,9 @@ var forEach = require( "lodash/forEach" );
 var Jed = require( "jed" );
 
 var Assessor = require( "./assessor.js" );
-var Analyzer = require( "./analyzer.js" );
 var Researcher = require( "./researcher.js" );
 var ScoreFormatter = require( "./scoreFormatter.js" );
 var Pluggable = require( "./pluggable.js" );
-var analyzerConfig = require( "./config/config.js" );
 var Paper = require( "./values/Paper.js" );
 
 /**
@@ -197,16 +194,15 @@ var App = function( args ) {
 	if ( !isObject( args ) ) {
 		args = {};
 	}
+
 	defaultsDeep( args, defaults );
 
 	verifyArguments( args );
 
 	this.config = args;
-
-	this.callbacks = this.config.callbacks;
-
-	this.i18n = this.constructI18n( this.config.translations );
 	this.pluggable = new Pluggable( this );
+	this.callbacks = this.config.callbacks;
+	this.i18n = this.constructI18n( this.config.translations );
 
 	this.getData();
 	this.showLoadingDialog();
@@ -237,7 +233,6 @@ var App = function( args ) {
  */
 App.prototype.extendConfig = function( args ) {
 	args.sampleText = this.extendSampleText( args.sampleText );
-	args.queue = args.queue || analyzerConfig.queue;
 	args.locale = args.locale || "en_US";
 
 	return args;
@@ -411,7 +406,6 @@ App.prototype.runAnalyzer = function() {
 	}
 
 	this.analyzerData = this.modifyData( this.rawData );
-	this.analyzerData.i18n = this.i18n;
 
 	// Create a paper object for the Researcher
 	this.paper = new Paper( this.analyzerData.text, {
@@ -421,32 +415,12 @@ App.prototype.runAnalyzer = function() {
 		title: this.analyzerData.pageTitle
 	} );
 
-	var keyword = sanitizeString( this.rawData.keyword );
-
-	if ( keyword === "" ) {
-		this.analyzerData.queue = [ "keyphraseSizeCheck", "wordCount", "fleschReading", "pageTitleLength", "urlStopwords", "metaDescriptionLength" ];
-	}
-
-	this.analyzerData.keyword = keyword;
-
 	// The new researcher
 	if ( isUndefined( this.researcher ) ) {
 		this.researcher = new Researcher( this.paper );
 	} else {
 		this.researcher.setPaper( this.paper );
 	}
-
-	if ( isUndefined( this.pageAnalyzer ) ) {
-		this.pageAnalyzer = new Analyzer( this.analyzerData );
-
-		this.pluggable._addPluginTests( this.pageAnalyzer );
-	} else {
-		this.pageAnalyzer.init( this.analyzerData );
-
-		this.pluggable._addPluginTests( this.pageAnalyzer );
-	}
-
-	this.pageAnalyzer.runQueue();
 
 	// Set the assessor
 	if ( isUndefined( this.assessor ) ) {
@@ -455,16 +429,16 @@ App.prototype.runAnalyzer = function() {
 
 	this.assessor.assess( this.paper );
 
+	// Pass the assessor result through to the formatter
 	this.scoreFormatter = new ScoreFormatter( {
-		scores: this.pageAnalyzer.analyzeScorer.__score,
-		overallScore: this.pageAnalyzer.analyzeScorer.__totalScore,
-		outputTarget: this.config.targets.output,
-		overallTarget: this.config.targets.overall,
-		keyword: this.rawData.keyword,
-		saveScores: this.callbacks.saveScores,
+		targets: this.config.targets,
+		keyword: this.paper.getKeyword(),
+		assessor: this.assessor,
 		i18n: this.i18n
 	} );
+
 	this.scoreFormatter.renderScore();
+	this.callbacks.saveScores( this.assessor.calculateOverallScore() );
 
 	if ( this.config.dynamicDelay ) {
 		this.endTime();

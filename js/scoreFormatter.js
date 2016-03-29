@@ -1,24 +1,30 @@
 /* jshint browser: true */
 
 var isUndefined = require( "lodash/isUndefined" );
+var isNumber = require( "lodash/isNumber" );
 var difference = require( "lodash/difference" );
+var template = require( "./templates.js" ).scoreResult;
 
 /**
  * defines the variables used for the scoreformatter, runs the outputScore en overallScore
  * functions.
  *
  * @param {App} args
+ * @param {object} args.targets
+ * @param {string} args.targets.output
+ * @param {string} args.targets.overall
+ * @param {string} args.keyword
+ * @param {Assessor} args.assessor
+ * @param {Jed} args.i18n
  * @constructor
  */
 var ScoreFormatter = function( args ) {
-	this.scores = args.scores;
-	this.overallScore = args.overallScore;
-	this.outputTarget = args.outputTarget;
-	this.overallTarget = args.overallTarget;
 	this.totalScore = 0;
 	this.keyword = args.keyword;
+	this.assessor = args.assessor;
 	this.i18n = args.i18n;
-	this.saveScores = args.saveScores;
+	this.output = args.targets.output;
+	this.overall = args.targets.overall;
 };
 
 /**
@@ -33,53 +39,42 @@ ScoreFormatter.prototype.renderScore = function() {
  * creates the list for showing the results from the analyzerscorer
  */
 ScoreFormatter.prototype.outputScore = function() {
-	var seoScoreText, scoreRating;
+	var scores = {};
+	var outputTarget = document.getElementById( this.output );
 
-	this.sortScores();
-
-	var outputTarget = document.getElementById( this.outputTarget );
 	outputTarget.innerHTML = "";
-	var newList = document.createElement( "ul" );
-	newList.className = "wpseoanalysis";
+
+	this.scores = this.sortScores( this.assessor.getValidResults() );
+
 	for ( var i = 0; i < this.scores.length; i++ ) {
 		if ( this.scores[ i ].text !== "" ) {
-			scoreRating = this.scoreRating( this.scores[ i ].score );
+			var scoreRating = this.scoreRating( this.scores[i].score );
 
-			var newLI = document.createElement( "li" );
-			newLI.className = "score";
-			var scoreSpan = document.createElement( "span" );
-			scoreSpan.className = "wpseo-score-icon " + scoreRating;
-			newLI.appendChild( scoreSpan );
-
-			seoScoreText = this.getSEOScoreText( scoreRating );
-
-			var screenReaderDiv = document.createElement( "span" );
-			screenReaderDiv.className = "screen-reader-text";
-			screenReaderDiv.textContent = seoScoreText;
-
-			newLI.appendChild( screenReaderDiv );
-			var textSpan = document.createElement( "span" );
-			textSpan.className = "wpseo-score-text";
-			textSpan.innerHTML = this.scores[ i ].text;
-			newLI.appendChild( textSpan );
-			newList.appendChild( newLI );
+			scores[i] = {};
+			scores[i].rating = scoreRating.text;
+			scores[i].screenreaderText = scoreRating.screenreaderText;
+			scores[i].text = this.scores[ i ].text;
 		}
 	}
-	outputTarget.appendChild( newList );
+
+	outputTarget.innerHTML = template( {
+		scores: scores
+	} );
 };
 
 /**
- * sorts the scores array on ascending scores
+ * Sorts the scores array on ascending scores
+ * @param {Array} scores The scores array that needs to be sorted.
  */
-ScoreFormatter.prototype.sortScores = function() {
-	var unsortables = this.getUndefinedScores( this.scores );
-	var sortables = difference( this.scores, unsortables );
+ScoreFormatter.prototype.sortScores = function( scores ) {
+	var unsortables = this.getUndefinedScores( scores );
+	var sortables = difference( scores, unsortables );
 
 	sortables.sort( function( a, b ) {
 		return a.score - b.score;
 	} );
 
-	this.scores = unsortables.concat( sortables );
+	return unsortables.concat( sortables );
 };
 
 /**
@@ -90,96 +85,87 @@ ScoreFormatter.prototype.sortScores = function() {
  */
 ScoreFormatter.prototype.getUndefinedScores = function( scorers ) {
 	var filtered = scorers.filter( function( scorer ) {
-		return isUndefined( scorer.score ) || scorer.score === "na";
+		return isUndefined( scorer.score ) || scorer.score === 0;
 	} );
 
 	return filtered;
 };
 
 /**
- * outputs the overallScore in the overallTarget element.
+ * Outputs the overallScore in the overallTarget element.
  */
 ScoreFormatter.prototype.outputOverallScore = function() {
-	var overallTarget = document.getElementById( this.overallTarget );
+	var overallTarget = document.getElementById( this.overall );
+	var baseClassName = "overallScore ";
 
-	if ( overallTarget ) {
-		overallTarget.className = "overallScore " + this.overallScoreRating( Math.round( this.overallScore ) );
-		if ( this.keyword === "" ) {
-			overallTarget.className = "overallScore " + this.overallScoreRating( "na" );
-		}
+	if ( !overallTarget ) {
+		return;
 	}
 
-	this.saveScores( this.overallScore );
+	if ( this.keyword === "" ) {
+		overallTarget.className = baseClassName + this.overallScoreRating( 0 ).text;
+		return;
+	}
+
+	overallTarget.className = baseClassName + this.overallScoreRating( this.assessor.calculateOverallScore() ).text;
 };
 
 /**
- * Retuns a string that is used as a CSSclass, based on the numeric score or the NA string.
+ * Retuns a string that is used as a CSS class, based on the numeric score.
  *
- * @param {number|string} score
- * @returns {string} scoreRate
+ * @param {number} score
+ * @returns {object} rating
  */
 ScoreFormatter.prototype.scoreRating = function( score ) {
-	var scoreRate;
-	switch ( true ) {
-		case score <= 4:
-			scoreRate = "bad";
-			break;
-		case score > 4 && score <= 7:
-			scoreRate = "ok";
-			break;
-		case score > 7:
-			scoreRate = "good";
-			break;
-		default:
-		case score === "na":
-			scoreRate = "na";
-			break;
+	var rating = {};
+
+	if ( !isNumber( score ) ) {
+		return rating;
 	}
-	return scoreRate;
+
+	if ( score === 0 ) {
+		return {
+			text: "na",
+			screenreaderText: this.i18n.dgettext( "js-text-analysis", "Feedback" )
+		};
+	}
+
+	if ( score <= 4 ) {
+		return {
+			text: "bad",
+			screenreaderText: this.i18n.dgettext( "js-text-analysis", "Bad SEO score" )
+		};
+	}
+
+	if ( score > 4 && score <= 7 ) {
+		return {
+			text: "ok",
+			screenreaderText: this.i18n.dgettext( "js-text-analysis", "Ok SEO score" )
+		};
+	}
+
+	if ( score > 7 ) {
+		return {
+			text: "good",
+			screenreaderText: this.i18n.dgettext( "js-text-analysis", "Good SEO score" )
+		};
+	}
+
+	return rating;
 };
 
 /**
  * Divides the total score by ten and calls the scoreRating function.
  *
- * @param {number|string} score
- * @returns {string} scoreRate
+ * @param {number} overallScore
+ * @returns {Object} scoreRating
  */
-ScoreFormatter.prototype.overallScoreRating = function( score ) {
-	if ( typeof score === "number" ) {
-		score = ( score / 10 );
-	}
-	return this.scoreRating( score );
-};
-
-/**
- * Returns a translated score description based on the textual score rating
- *
- * @param {string} scoreRating Textual score rating, can be retrieved with scoreRating from the actual score.
- *
- * @return {string}
- */
-ScoreFormatter.prototype.getSEOScoreText = function( scoreRating ) {
-	var scoreText = "";
-
-	switch ( scoreRating ) {
-		case "na":
-			scoreText = this.i18n.dgettext( "js-text-analysis", "No keyword" );
-			break;
-
-		case "bad":
-			scoreText = this.i18n.dgettext( "js-text-analysis", "Bad SEO score" );
-			break;
-
-		case "ok":
-			scoreText = this.i18n.dgettext( "js-text-analysis", "Ok SEO score" );
-			break;
-
-		case "good":
-			scoreText = this.i18n.dgettext( "js-text-analysis", "Good SEO score" );
-			break;
+ScoreFormatter.prototype.overallScoreRating = function( overallScore ) {
+	if ( isNumber( overallScore ) ) {
+		overallScore = ( overallScore / 10 );
 	}
 
-	return scoreText;
+	return this.scoreRating( overallScore );
 };
 
 module.exports = ScoreFormatter;

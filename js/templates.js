@@ -276,7 +276,29 @@
   /*----------------------------------------------------------------------------*/
 
   var templates = {
+    'scoreResult': {},
     'snippetEditor': {}
+  };
+
+  templates['scoreResult'] =   function(obj) {
+    obj || (obj = {});
+    var __t, __p = '', __e = _.escape, __j = Array.prototype.join;
+    function print() { __p += __j.call(arguments, '') }
+    with (obj) {
+    __p += '<ul class="wpseoanalysis">\n    ';
+     for (var i in scores) {
+    __p += '\n        <li class="score">\n            <span class="wpseo-score-icon ' +
+    __e( scores[ i ].rating ) +
+    '"></span>\n            <span class="screen-reader-text">' +
+    ((__t = ( scores[ i ].screenreaderText )) == null ? '' : __t) +
+    '</span>\n            <span class="wpseo-score-text">' +
+    ((__t = ( scores[ i ].text )) == null ? '' : __t) +
+    '</span>\n        </li>\n    ';
+     }
+    __p += '\n</ul>\n';
+
+    }
+    return __p
   };
 
   templates['snippetEditor'] =   function(obj) {

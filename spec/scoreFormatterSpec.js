@@ -9,25 +9,23 @@ describe("A function to transform a textual score into a description", function(
 	var i18n = Factory.buildJed();
 
 	scoreFormatter = new ScoreFormatter({
-		scores: [],
-		overallScore: 0,
-		outputTarget: '',
-		overallTarget: '',
-		keyword: '',
-		saveScores: function() {},
+		scorer: { __score: [], __totalScore: 0 },
+		targets: { output: "", overall: "" },
+		keyword: "",
+		assessor: {},
 		i18n: i18n
 	});
 
 	it("should know how to transform the score", function() {
-		expect(scoreFormatter.getSEOScoreText('na')).toBe("No keyword");
-		expect(scoreFormatter.getSEOScoreText('bad')).toBe("Bad SEO score");
-		expect(scoreFormatter.getSEOScoreText('ok')).toBe("Ok SEO score");
-		expect(scoreFormatter.getSEOScoreText('good')).toBe("Good SEO score");
+		expect( scoreFormatter.scoreRating( 0 ).screenreaderText ).toBe( "Feedback" );
+		expect( scoreFormatter.scoreRating( 1 ).screenreaderText ).toBe( "Bad SEO score" );
+		expect( scoreFormatter.scoreRating( 5 ).screenreaderText ).toBe( "Ok SEO score" );
+		expect( scoreFormatter.scoreRating( 8 ).screenreaderText ).toBe( "Good SEO score" );
 	});
 
 	it("should return an empty string with invalid scores", function() {
-		expect(scoreFormatter.getSEOScoreText('')).toBe("");
-		expect(scoreFormatter.getSEOScoreText('some invalid string')).toBe("");
+		expect( scoreFormatter.scoreRating( '' ) ).toEqual( {} );
+		expect( scoreFormatter.scoreRating( 'some invalid string' ) ).toEqual( {} );
 	})
 });
 
@@ -35,13 +33,11 @@ describe("A function to transform a numeric overall score into a textual score",
 	var i18n = Factory.buildJed();
 
 	scoreFormatter = new ScoreFormatter({
-		scores: [],
-		overallScore: 0,
-		outputTarget: '',
-		overallTarget: '',
-		keyword: '',
-		saveScores: function() {},
-		i18n: i18n
+		scorer: { __score: [], __totalScore: 0 },
+		targets: { output: "", overall: "" },
+		keyword: "",
+		i18n: i18n,
+		assessor: {}
 	});
 
 	it("should know how to transform the score", function() {
@@ -58,7 +54,7 @@ describe("A function to transform a numeric overall score into a textual score",
 		];
 
 		expectations.forEach( function( item ) {
-			expect( scoreFormatter.overallScoreRating(item[0]) ).toBe(item[1]);
+			expect( scoreFormatter.overallScoreRating(item[0] ).text ).toBe(item[1]);
 		});
 	})
 });

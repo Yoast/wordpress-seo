@@ -10,7 +10,7 @@ var calculateStopWordsCountResult = function( stopWordCount, i18n ) {
 
 	if ( stopWordCount > 0 ) {
 		return {
-			score: "na",
+			score: 0,
 			/* translators: %1$s opens a link to a Yoast article about stop words, %2$s closes the link */
 			text: i18n.dngettext(
 				"js-text-analysis",

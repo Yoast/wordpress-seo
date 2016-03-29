@@ -36,7 +36,6 @@ assessments.pageTitleLength = require( "./assessments/pageTitleLength.js" );
  */
 var Assessor = function( i18n ) {
 	this.setI18n( i18n );
-	this.taskList = [];
 };
 
 /**
@@ -111,7 +110,7 @@ Assessor.prototype.assess = function( paper ) {
 
 /**
  * Filters out all assessmentresults that have no score and no text.
- * @returns {Array} The array with all the valid assessments.
+ * @returns {Array<AssessmentResult>} The array with all the valid assessments.
  */
 Assessor.prototype.getValidResults = function() {
 	var validResults = [];
@@ -121,8 +120,9 @@ Assessor.prototype.getValidResults = function() {
 			return;
 		}
 
-		validResults.push( assessmentResults );
+		validResults.push( assessmentResults.result );
 	}.bind( this ) );
+
 	return validResults;
 };
 

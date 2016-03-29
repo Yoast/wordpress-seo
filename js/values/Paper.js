@@ -1,11 +1,27 @@
 var defaults = require( "lodash/defaults" );
+var sanitizeString = require( "../stringProcessing/sanitizeString.js" );
 
+/**
+ * Default attributes to be used by the Paper if they are left undefined.
+ * @type {{keyword: string, description: string, title: string, url: string}}
+ */
 var defaultAttributes = {
 	keyword: "",
 	description: "",
 	title: "",
 	url: "",
 	locale: "en"
+};
+
+/**
+ * Sanitize attributes before they are assigned to the Paper.
+ * @param {object} attributes The attributes that need sanitizing.
+ * @returns {object} The attributes passed to the Paper.
+ */
+var sanitizeAttributes = function( attributes ) {
+	attributes.keyword = sanitizeString( attributes.keyword );
+
+	return attributes;
 };
 
 /**
@@ -17,9 +33,9 @@ var defaultAttributes = {
 var Paper = function( text, attributes ) {
 	this._text = text || "";
 
-	this._attributes = attributes || {};
-
-	defaults( this._attributes, defaultAttributes );
+	attributes = attributes || {};
+	defaults( attributes, defaultAttributes );
+	this._attributes = sanitizeAttributes( attributes );
 };
 
 /**

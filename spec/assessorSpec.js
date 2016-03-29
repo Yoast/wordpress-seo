@@ -24,7 +24,7 @@ var assessor = new Assessor( i18n );
 describe ( "running assessments in the assessor", function() {
 	it( "runs assessments without any specific requirements", function() {
 		assessor.assess( new Paper( "" ) );
-		expect( assessor.getValidResults().length ).toBe( 6 );
+		expect( assessor.getValidResults().length ).toBe( 5 );
 	})
 
 	it( "additionally runs assessments that only require a text", function() {
