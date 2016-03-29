@@ -92,6 +92,10 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 	 * @param integer $term_id The term id that will be deleted.
 	 */
 	public function detect_term_delete( $term_id ) {
+		// When term is a menu don't show the redirect creation notice.
+		if ( is_nav_menu( $term_id ) ) {
+			return;
+		}
 
 		global $wpdb;
 
@@ -171,8 +175,6 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 
 		// Detect a term delete.
 		add_action( 'delete_term_taxonomy', array( $this, 'detect_term_delete' ) );
-
-		new WPSEO_Term_Slug_Watcher();
 	}
 
 	/**

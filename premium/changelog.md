@@ -1,10 +1,22 @@
-### 3.1.1: March 2nd, 2015
+### 3.1.3: March 23rd, 2016
+* Fixes a few bugs related to term slugs that were altered by our plugin after they were saved. This especially caused issues for terms with parents. We will simply not touch term slugs anymore until the way terms are saved is fixed in WordPress, see also https://core.trac.wordpress.org/ticket/22293.
+* Fixes a bug where we would create redirects if nav menu items were edited.
+* Fixes a bug where redirects to urls with url parameters got appended with a slash.
+* Fixes a bug where adding a parent to a page would cause the slug of that page to detected by us as non-unique and incremented with a number.
+* Fixes a bug where the AJAX request for creating redirects in the search console integration was broken for search console issues for which a 4xx redirect already exists.
+* Merge with Yoast SEO core 3.1.2, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
+
+### 3.1.2: March 8th, 2016
+* Fixes a bug where PHP redirects were still broken on servers that disable accessing the server input by making use of the filter extension.
+* Merge with Yoast SEO core 3.1.1, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
+
+### 3.1.1: March 2nd, 2016
 * Fixes a bug where PHP redirects were broken.
 * Fixes a bug where users could (temporarily) lose their redirects if our upgrade routine would for some reason not be triggered while updating to versions greater than 3.0.7
 * Fixes a bug where slashes were shown in the redirect manager for a redirect without a target url (ie. 410)
 * Fixes a Fatal error that occured when switching from Free to Premium.
 
-### 3.1: March 1st, 2015
+### 3.1: March 1st, 2016
 * Made PHP redirects faster and more efficient.
 * Added an interface to easily serve 410 (content deleted) headers for posts you have just deleted.
 * Added support for creating 451 (legal takedown) headers in the redirect manager.

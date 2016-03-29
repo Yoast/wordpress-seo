@@ -28,8 +28,20 @@ class WPSEO_Post_Slug_Watcher {
 	 * @return string Unique slug for the post, based on $post_name (with a -1, -2, etc. suffix)
 	 */
 	public function hook_unique_post_slug( $slug, $post_ID, $post_status, $post_type, $post_parent, $original_slug ) {
-		if ( $this->check_for_redirect( $slug ) ) {
-			$suffix = $this->get_suffix( $slug, $original_slug );
+
+		$parent_slug    = '';
+		$slug_to_verify = $slug;
+
+		// When there is a post_parent, get the slug from that one.
+		if ( $post_parent > 0 ) {
+			$parent_slug = $this->get_parent_slug( $post_parent );
+
+			// Prepend the parent slug to the slug.
+			$slug_to_verify = $parent_slug . $slug_to_verify;
+		}
+
+		if ( $this->check_for_redirect( $slug_to_verify ) ) {
+			$suffix = $this->get_suffix( $slug_to_verify, $parent_slug . $original_slug );
 			$slug   = $original_slug . '-' . $suffix;
 			$slug   = wp_unique_post_slug( $slug, $post_ID, $post_status, $post_type, $post_parent );
 		}
@@ -65,6 +77,19 @@ class WPSEO_Post_Slug_Watcher {
 		}
 
 		return ( str_replace( $original_slug . '-', '', $slug ) + 1 );
+	}
+
+	/**
+	 * Strips the parent out of the slug.
+	 *
+	 * @param integer $post_parent The slug that has to be unique.
+	 *
+	 * @return string
+	 */
+	protected function get_parent_slug( $post_parent ) {
+		$post = get_post( $post_parent );
+
+		return $post->post_name . '/';
 	}
 
 }

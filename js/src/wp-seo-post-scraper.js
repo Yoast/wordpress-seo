@@ -1,8 +1,11 @@
-/* global YoastSEO, tinyMCE, wp, ajaxurl, wpseoPostScraperL10n, YoastShortcodePlugin, YoastReplaceVarPlugin, console */
+/* global YoastSEO, tinyMCE, ajaxurl, wpseoPostScraperL10n, YoastShortcodePlugin, YoastReplaceVarPlugin, console, require */
 (function( $ ) {
 	'use strict';
 
 	var currentKeyword = '';
+
+	var mainKeywordTab;
+	var KeywordTab = require( './analysis/keywordTab' );
 
 	/**
 	 * wordpress scraper to gather inputfields.
@@ -154,7 +157,9 @@
 				break;
 			case 'snippet_cite':
 				document.getElementById( 'post_name' ).value = value;
-				if ( document.getElementById( 'editable-post-name' ) !== null ) {
+				if (
+					document.getElementById( 'editable-post-name' ) !== null &&
+					document.getElementById( 'editable-post-name-full' ) !== null ) {
 					document.getElementById( 'editable-post-name' ).textContent = value;
 					document.getElementById( 'editable-post-name-full' ).textContent = value;
 				}
@@ -288,7 +293,10 @@
 
 		// If multi keyword isn't available we need to update the first tab (content)
 		if ( ! YoastSEO.multiKeyword ) {
-			this.updateKeywordTabContent( currentKeyword, score );
+			mainKeywordTab.update( score, currentKeyword );
+
+			// Updates the input with the currentKeyword value
+			$( '#yoast_wpseo_focuskw' ).val( currentKeyword );
 		}
 
 		jQuery( window ).trigger( 'YoastSEO:numericScore', score );
@@ -334,36 +342,8 @@
 
 		$( '#yoast_wpseo_focuskw_text_input' ).val( keyword );
 
-		this.updateKeywordTabContent( keyword, score );
-	};
-
-	/**
-	 * Updates keyword tab with new content
-	 */
-	PostScraper.prototype.updateKeywordTabContent = function( keyword, score ) {
-		var placeholder, keyword_tab;
-
-		score = parseInt( score, 10 );
-
-		if ( typeof keyword === 'undefined' || keyword === '' ) {
-			score = 'na';
-		}
-		placeholder = keyword && keyword.length > 0 ? keyword : '...';
-
-		score = YoastSEO.ScoreFormatter.prototype.overallScoreRating( score );
-
-		keyword_tab = wp.template( 'keyword_tab' )({
-			keyword: keyword,
-			placeholder: placeholder,
-			score: score,
-			hideRemove: true,
-			prefix: wpseoPostScraperL10n.contentTab + ' ',
-			active: true
-		});
-
-		$( '#yoast_wpseo_focuskw' ).val( keyword );
-
-		$( '.wpseo_keyword_tab' ).replaceWith( keyword_tab );
+		// Updates
+		mainKeywordTab.update( score, keyword );
 	};
 
 	/**
@@ -461,6 +441,15 @@
 
 	jQuery( document ).ready(function() {
 		var translations;
+
+		// Initialize an instance of the keywordword tab.
+		mainKeywordTab = new KeywordTab(
+			{
+				prefix: wpseoPostScraperL10n.contentTab
+			}
+		);
+		mainKeywordTab.setElement( $('.wpseo_keyword_tab') );
+
 		var postScraper = new PostScraper();
 
 		var args = {
