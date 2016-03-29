@@ -79,7 +79,7 @@ Assessor.prototype.getAvailableAssessments = function() {
  */
 Assessor.prototype.isApplicable = function( assessment, paper, researcher ) {
 	if ( assessment.hasOwnProperty( "isApplicable" ) ) {
-		return assessment.isApplicable( paper, researcher ) === true;
+		return assessment.isApplicable( paper, researcher );
 	}
 
 	return true;
