@@ -71,7 +71,7 @@ ScoreFormatter.prototype.sortScores = function( scores ) {
 	var sortables = difference( scores, unsortables );
 
 	sortables.sort( function( a, b ) {
-		return a.score - b.score;
+		return a.result.score - b.result.score;
 	} );
 
 	return unsortables.concat( sortables );
@@ -85,7 +85,7 @@ ScoreFormatter.prototype.sortScores = function( scores ) {
  */
 ScoreFormatter.prototype.getUndefinedScores = function( scorers ) {
 	var filtered = scorers.filter( function( scorer ) {
-		return isUndefined( scorer.score ) || scorer.score === 0;
+		return isUndefined( scorer.result.score ) || scorer.result.score === 0;
 	} );
 
 	return filtered;
