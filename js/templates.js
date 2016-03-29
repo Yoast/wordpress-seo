@@ -128,7 +128,7 @@
     __e( rendered.title ) +
     '\n					</div>\n				</div>\n				<div class="snippet-editor__container editable-preview__container--facebook editable-preview__description--facebook snippet_container">\n					<div class="editable-preview__value editable-preview__value--facebook-description">\n						' +
     __e( rendered.description ) +
-    '\n					</div>\n				</div>\n				<div class="snippet-editor__container editable-preview__container--no-caret facebook-preview__website snippet_container">\n					<div class="editable-preview__value editable-preview__value--facebook-url">\n						' +
+    '\n					</div>\n				</div>\n				<div class="snippet-editor__container editable-preview__container--no-caret editable-preview__website--facebook snippet_container">\n					<div class="editable-preview__value editable-preview__value--facebook-url">\n						' +
     __e( rendered.baseUrl ) +
     '\n					</div>\n				</div>\n			</div>\n		</div>\n\n		<button class="snippet-editor__button snippet-editor__edit-button" type="button">\n			' +
     __e( i18n.edit ) +
@@ -292,7 +292,7 @@
     __e( rendered.title ) +
     '\n					</div>\n				</div>\n				<div class="snippet-editor__container editable-preview__container--twitter editable-preview__description--twitter twitter-preview__description snippet_container">\n					<div class="editable-preview__value editable-preview__value--twitter-description">\n						' +
     __e( rendered.description ) +
-    '\n					</div>\n				</div>\n				<div class="snippet-editor__container editable-preview__container--no-caret twitter-preview__website snippet_container">\n					<div class="editable-preview__value ">\n						' +
+    '\n					</div>\n				</div>\n				<div class="snippet-editor__container editable-preview__container--no-caret editable-preview__website--twitter snippet_container">\n					<div class="editable-preview__value ">\n						' +
     __e( rendered.baseUrl ) +
     '\n					</div>\n				</div>\n			</div>\n		</div>\n\n		<button class="snippet-editor__button snippet-editor__edit-button" type="button">\n			' +
     __e( i18n.edit ) +

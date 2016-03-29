@@ -37,7 +37,7 @@ var facebookDefaults = {
 	},
 	baseURL: "example.com",
 	callbacks: {
-		saveSnippetData: function() {}
+		updateSocialPreview: function() {}
 	}
 };
 
@@ -81,7 +81,7 @@ var inputFacebookPreviewBindings = [
  * @param {HTMLElement}    opts.targetElement             - The target element that contains this snippet editor.
  *
  * @param {Object}         opts.callbacks                 - Functions that are called on specific instances.
- * @param {Function}       opts.callbacks.saveSnippetData - Function called when the snippet data is changed.
+ * @param {Function}       opts.callbacks.updateSocialPreview - Function called when the social preview is updated.
  *
  * @param {Object}         i18n                           - The i18n object.
  *
@@ -137,9 +137,9 @@ var FacebookPreview = function( opts, i18n ) {
  */
 FacebookPreview.prototype.constructI18n = function( translations ) {
 	var defaultTranslations = {
-		"domain": "js-text-analysis",
+		"domain": "yoast-social-previews",
 		"locale_data": {
-			"js-text-analysis": {
+			"yoast-social-previews": {
 				"": {}
 			}
 		}
@@ -179,9 +179,9 @@ FacebookPreview.prototype.renderTemplate = function() {
 		},
 		placeholder: this.opts.placeholder,
 		i18n: {
-			edit: this.i18n.dgettext( "js-text-analysis", "Edit Facebook preview" ),
-			snippetPreview: this.i18n.dgettext( "js-text-analysis", "Facebook preview" ),
-			snippetEditor: this.i18n.dgettext( "js-text-analysis", "Facebook editor" )
+			edit: this.i18n.dgettext( "yoast-social-previews", "Edit Facebook preview" ),
+			snippetPreview: this.i18n.dgettext( "yoast-social-previews", "Facebook preview" ),
+			snippetEditor: this.i18n.dgettext( "yoast-social-previews", "Facebook editor" )
 		}
 	} );
 
@@ -238,7 +238,7 @@ FacebookPreview.prototype.getFields = function() {
 			id: "facebook-editor-title",
 			value: this.data.title,
 			placeholder: this.opts.placeholder.title,
-			title: this.i18n.dgettext( "js-text-analysis", "Facebook title" ),
+			title: this.i18n.dgettext( "yoast-social-previews", "Facebook title" ),
 			labelClassName: "snippet-editor__label"
 		} ),
 		description: new TextArea( {
@@ -246,7 +246,7 @@ FacebookPreview.prototype.getFields = function() {
 			id: "facebook-editor-description",
 			value: this.data.description,
 			placeholder: this.opts.placeholder.description,
-			title: this.i18n.dgettext( "js-text-analysis", "Facebook description" ),
+			title: this.i18n.dgettext( "yoast-social-previews", "Facebook description" ),
 			labelClassName: "snippet-editor__label"
 		} ),
 		imageUrl: new TextField( {
@@ -254,13 +254,13 @@ FacebookPreview.prototype.getFields = function() {
 			id: "facebook-editor-imageUrl",
 			value: this.data.imageUrl,
 			placeholder: this.opts.placeholder.imageUrl,
-			title: this.i18n.dgettext( "js-text-analysis", "Facebook image URL" ),
+			title: this.i18n.dgettext( "yoast-social-previews", "Facebook image URL" ),
 			labelClassName: "snippet-editor__label"
 		} ),
 		button : new Button(
 			{
 				className : "snippet-editor__submit snippet-editor__button",
-				value: this.i18n.dgettext( "js-text-analysis", "Close facebook editor" )
+				value: this.i18n.dgettext( "yoast-social-previews", "Close facebook editor" )
 			}
 		)
 	};
@@ -281,7 +281,7 @@ FacebookPreview.prototype.getFieldElements = function() {
 				currentValue: this.data.title,
 				defaultValue: this.opts.defaultValue.title,
 				placeholder: this.opts.placeholder.title,
-				fallback: this.i18n.dgettext( "js-text-analysis", "Please provide a Facebook title by editing the snippet below." )
+				fallback: this.i18n.dgettext( "yoast-social-previews", "Please provide a Facebook title by editing the snippet below." )
 			},
 			this.updatePreview.bind( this )
 		),
@@ -291,7 +291,7 @@ FacebookPreview.prototype.getFieldElements = function() {
 				currentValue: this.data.description,
 				defaultValue: this.opts.defaultValue.description,
 				placeholder: this.opts.placeholder.description,
-				fallback: this.i18n.dgettext( "js-text-analysis", "Please provide a Facebook by editing the snippet below." )
+				fallback: this.i18n.dgettext( "yoast-social-previews", "Please provide a Facebook by editing the snippet below." )
 			},
 			this.updatePreview.bind( this )
 		),
@@ -314,21 +314,21 @@ FacebookPreview.prototype.getFieldElements = function() {
  */
 FacebookPreview.prototype.updatePreview = function() {
 	// Update the data.
-	this.data.title = this.element.fieldElements.title.getValue();
-	this.data.description = this.element.fieldElements.description.getValue();
+	this.data.title = this.element.fieldElements.title.getInputValue();
+	this.data.description = this.element.fieldElements.description.getInputValue();
 	this.data.imageUrl = this.element.fieldElements.imageUrl.getInputValue();
 
 	// Sets the title field
-	this.setTitle( this.data.title );
+	this.setTitle( this.element.fieldElements.title.getValue() );
 
 	// Set the description field and parse the styling of it.
-	this.setDescription( this.data.description );
+	this.setDescription( this.element.fieldElements.description.getValue() );
 
 	// Sets the Image URL
 	this.setImageUrl( this.data.imageUrl );
 
 	// Clone so the data isn't changeable.
-	this.opts.callbacks.saveSnippetData( clone( this.data ) );
+	this.opts.callbacks.updateSocialPreview( clone( this.data ) );
 };
 
 /**
@@ -359,7 +359,7 @@ FacebookPreview.prototype.setImageUrl = function( imageUrl ) {
 	var imageContainer = this.element.preview.imageUrl;
 	if ( this.data.imageUrl === "" ) {
 		imagePlaceholder( imageContainer,
-			this.i18n.dgettext( "js-text-analysis", "Please enter an image url by clicking here" ),
+			this.i18n.dgettext( "yoast-social-previews", "Please enter an image url by clicking here" ),
 			false,
 			"facebook"
 		);
@@ -377,7 +377,7 @@ FacebookPreview.prototype.setImageUrl = function( imageUrl ) {
 	img.onerror = imagePlaceholder.bind(
 		null,
 		imageContainer,
-		this.i18n.dgettext( "js-text-analysis", "The given image url cannot be loaded" ),
+		this.i18n.dgettext( "yoast-social-previews", "The given image url cannot be loaded" ),
 		true,
 		"facebook"
 	);
