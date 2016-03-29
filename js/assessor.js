@@ -9,7 +9,7 @@ var forEach = require( "lodash/forEach" );
 
 var ScoreRating = 9;
 
-//assessments
+// Assessments
 var assessments = {};
 assessments.wordCount = require( "./assessments/countWords.js" );
 assessments.urlLength = require( "./assessments/urlIsTooLong.js" );
@@ -41,7 +41,7 @@ var Assessor = function( i18n ) {
 
 /**
  * Checks if the argument is a valid paper.
- * @param paper The paper to be used for the assessments
+ * @param {Paper} paper The paper to be used for the assessments
  * @throws {InvalidTypeError} Parameter needs to be an instance of the Paper object.
  */
 Assessor.prototype.verifyPaper = function( paper ) {
@@ -52,7 +52,7 @@ Assessor.prototype.verifyPaper = function( paper ) {
 
 /**
  * Checks if the i18n object is defined and sets it.
- * @param {object} i18n The i18n object used for translations.
+ * @param {Object} i18n The i18n object used for translations.
  * @throws {MissingArgument} Parameter needs to be a valid i18n object.
  */
 Assessor.prototype.setI18n = function( i18n ) {
@@ -112,16 +112,16 @@ Assessor.prototype.assess = function( paper ) {
 		}
 
 		this.results.push( {
-				name: name,
-				result: assessment.callback( paper, researcher, this.i18n )
-			} );
+			name: name,
+			result: assessment.callback( paper, researcher, this.i18n )
+		} );
 
 	}.bind( this ) );
 };
 
 /**
  * Filters out all assessmentresults that have no score and no text.
- * @returns {Array}
+ * @returns {Array} The array with all the valid assessments.
  */
 Assessor.prototype.getValidResults = function() {
 	var validResults = [];
