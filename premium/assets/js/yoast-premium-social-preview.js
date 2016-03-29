@@ -39,7 +39,6 @@ module.exports = function( text ) {
 };
 
 },{}],3:[function(require,module,exports){
-/* jshint -W097 */
 /* global yoastSocialPreview  */
 'use strict';
 
@@ -47,6 +46,54 @@ module.exports = function( text ) {
 	var socialPreviews = require( 'yoast-social-previews' );
 	var FacebookPreview = socialPreviews.FacebookPreview;
 	var TwitterPreview = socialPreviews.TwitterPreview;
+
+	/**
+	 * Sets the events for opening the WP media library when pressing the button.
+	 *
+	 * @param {Object} imageUrl The image url object.
+	 * @param {string} imageButton ID name for the image button.
+	 * @param {function} onMediaSelect The event that will be ran when image is chosen.
+	 */
+	function bindUploadButtonEvents( imageUrl, imageButton, onMediaSelect ) {
+		var social_preview_uploader = wp.media.frames.file_frame = wp.media({
+			title: yoastSocialPreview.choose_image,
+			button: { text: yoastSocialPreview.choose_image },
+			multiple: false
+		});
+
+		social_preview_uploader.on( 'select', function() {
+			var attachment = social_preview_uploader.state().get( 'selection' ).first().toJSON();
+
+			// Set the image url.
+			imageUrl.val( attachment.url );
+
+			onMediaSelect();
+		});
+
+		$( "#" + imageButton ).click( function( e ) {
+			e.preventDefault();
+			social_preview_uploader.open();
+		} );
+	}
+
+	/**
+	 * Adds the choose image button and hides the input field.
+	 *
+	 * @param {Object}  imageUrl The image url object.
+	 * @param {function} onMediaSelect Event to be ran when image is chosen.
+	 */
+	function addUploadButton( imageUrl, onMediaSelect ) {
+		if( typeof wp.media === 'undefined' ) {
+			return;
+		}
+
+		var imageButtonId = jQuery( imageUrl ).attr( "id" ) + "_button";
+		var imageButton   = $( '<input id="' + imageButtonId + '" class="button wpseo_preview_image_upload_button" type="button" value="' + yoastSocialPreview.upload_image + '" />' );
+		$( imageButton ).insertAfter( imageUrl );
+		imageUrl.hide();
+
+		bindUploadButtonEvents( imageUrl, imageButtonId, onMediaSelect );
+	}
 
 	/**
 	 * Returns the prefix for the fields, because of the fields for the post do have an othere prefix than the ones for
@@ -67,6 +114,7 @@ module.exports = function( text ) {
 
 		return '';
 	}
+
 
 	/**
 	 * Creates the social preview container and hides the old form table, to replace it.
@@ -117,6 +165,8 @@ module.exports = function( text ) {
 			getSocialPreviewArgs( $( '#facebookPreview' ), fieldPrefix() + '_opengraph' )
 		);
 		facebookPreview.init();
+
+		addUploadButton( jQuery( '#facebook-editor-imageUrl' ), facebookPreview.updatePreview.bind( facebookPreview ) );
 	}
 
 	/**
@@ -132,6 +182,8 @@ module.exports = function( text ) {
 		);
 
 		twitterPreview.init();
+
+		addUploadButton( jQuery( '#twitter-editor-imageUrl' ), twitterPreview.updatePreview.bind( twitterPreview ) );
 	}
 
 	/**
@@ -151,7 +203,6 @@ module.exports = function( text ) {
 	}
 
 	$( initYoastSocialPreviews );
-
 
 }(jQuery));
 
@@ -505,9 +556,9 @@ FacebookPreview.prototype.renderTemplate = function() {
 		headingEditor: targetElement.getElementsByClassName( "snippet-editor__heading-editor" )[0]
 	};
 
-	this.element.formContainer.innerHTML = this.element.fields.title.render()
+	this.element.formContainer.innerHTML = this.element.fields.imageUrl.render()
+	    + this.element.fields.title.render()
 		+ this.element.fields.description.render()
-		+ this.element.fields.imageUrl.render()
 		+ this.element.fields.button.render();
 
 	this.element.input = {
@@ -561,7 +612,7 @@ FacebookPreview.prototype.getFields = function() {
 			id: "facebook-editor-imageUrl",
 			value: this.data.imageUrl,
 			placeholder: this.opts.placeholder.imageUrl,
-			title: this.i18n.dgettext( "yoast-social-previews", "Facebook image URL" ),
+			title: this.i18n.dgettext( "yoast-social-previews", "Facebook image" ),
 			labelClassName: "snippet-editor__label"
 		} ),
 		button : new Button(
@@ -1677,9 +1728,9 @@ TwitterPreview.prototype.renderTemplate = function() {
 		headingEditor: targetElement.getElementsByClassName( "snippet-editor__heading-editor" )[0]
 	};
 
-	this.element.formContainer.innerHTML = this.element.fields.title.render()
+	this.element.formContainer.innerHTML = this.element.fields.imageUrl.render()
+		+ this.element.fields.title.render()
 		+ this.element.fields.description.render()
-		+ this.element.fields.imageUrl.render()
 		+ this.element.fields.button.render();
 
 	this.element.input = {
@@ -1733,7 +1784,7 @@ TwitterPreview.prototype.getFields = function() {
 			id: "twitter-editor-imageUrl",
 			value: this.data.imageUrl,
 			placeholder: this.opts.placeholder.imageUrl,
-			title: this.i18n.dgettext( "yoast-social-previews", "Twitter image URL" ),
+			title: this.i18n.dgettext( "yoast-social-previews", "Twitter image" ),
 			labelClassName: "snippet-editor__label"
 		} ),
 		button : new Button(

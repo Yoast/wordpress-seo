@@ -1,4 +1,3 @@
-/* jshint -W097 */
 /* global yoastSocialPreview  */
 'use strict';
 
@@ -6,6 +5,54 @@
 	var socialPreviews = require( 'yoast-social-previews' );
 	var FacebookPreview = socialPreviews.FacebookPreview;
 	var TwitterPreview = socialPreviews.TwitterPreview;
+
+	/**
+	 * Sets the events for opening the WP media library when pressing the button.
+	 *
+	 * @param {Object} imageUrl The image url object.
+	 * @param {string} imageButton ID name for the image button.
+	 * @param {function} onMediaSelect The event that will be ran when image is chosen.
+	 */
+	function bindUploadButtonEvents( imageUrl, imageButton, onMediaSelect ) {
+		var social_preview_uploader = wp.media.frames.file_frame = wp.media({
+			title: yoastSocialPreview.choose_image,
+			button: { text: yoastSocialPreview.choose_image },
+			multiple: false
+		});
+
+		social_preview_uploader.on( 'select', function() {
+			var attachment = social_preview_uploader.state().get( 'selection' ).first().toJSON();
+
+			// Set the image url.
+			imageUrl.val( attachment.url );
+
+			onMediaSelect();
+		});
+
+		$( "#" + imageButton ).click( function( e ) {
+			e.preventDefault();
+			social_preview_uploader.open();
+		} );
+	}
+
+	/**
+	 * Adds the choose image button and hides the input field.
+	 *
+	 * @param {Object}  imageUrl The image url object.
+	 * @param {function} onMediaSelect Event to be ran when image is chosen.
+	 */
+	function addUploadButton( imageUrl, onMediaSelect ) {
+		if( typeof wp.media === 'undefined' ) {
+			return;
+		}
+
+		var imageButtonId = jQuery( imageUrl ).attr( "id" ) + "_button";
+		var imageButton   = $( '<input id="' + imageButtonId + '" class="button wpseo_preview_image_upload_button" type="button" value="' + yoastSocialPreview.upload_image + '" />' );
+		$( imageButton ).insertAfter( imageUrl );
+		imageUrl.hide();
+
+		bindUploadButtonEvents( imageUrl, imageButtonId, onMediaSelect );
+	}
 
 	/**
 	 * Returns the prefix for the fields, because of the fields for the post do have an othere prefix than the ones for
@@ -26,6 +73,7 @@
 
 		return '';
 	}
+
 
 	/**
 	 * Creates the social preview container and hides the old form table, to replace it.
@@ -76,6 +124,8 @@
 			getSocialPreviewArgs( $( '#facebookPreview' ), fieldPrefix() + '_opengraph' )
 		);
 		facebookPreview.init();
+
+		addUploadButton( jQuery( '#facebook-editor-imageUrl' ), facebookPreview.updatePreview.bind( facebookPreview ) );
 	}
 
 	/**
@@ -91,6 +141,8 @@
 		);
 
 		twitterPreview.init();
+
+		addUploadButton( jQuery( '#twitter-editor-imageUrl' ), twitterPreview.updatePreview.bind( twitterPreview ) );
 	}
 
 	/**
