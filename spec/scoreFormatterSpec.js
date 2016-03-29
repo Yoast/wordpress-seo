@@ -12,9 +12,8 @@ describe("A function to transform a textual score into a description", function(
 		scorer: { __score: [], __totalScore: 0 },
 		targets: { output: "", overall: "" },
 		keyword: "",
-		assessor: {
-			i18n: i18n
-		}
+		assessor: {},
+		i18n: i18n
 	});
 
 	it("should know how to transform the score", function() {
@@ -37,9 +36,8 @@ describe("A function to transform a numeric overall score into a textual score",
 		scorer: { __score: [], __totalScore: 0 },
 		targets: { output: "", overall: "" },
 		keyword: "",
-		assessor: {
-			i18n: i18n
-		}
+		i18n: i18n,
+		assessor: {}
 	});
 
 	it("should know how to transform the score", function() {

@@ -14,15 +14,15 @@ var template = require( "./templates.js" ).scoreResult;
  * @param {string} args.targets.output
  * @param {string} args.targets.overall
  * @param {string} args.keyword
- * @param {Assessor} args.assesor
- * @param {Jed} args.assessor.i18n
+ * @param {Assessor} args.assessor
+ * @param {Jed} args.i18n
  * @constructor
  */
 var ScoreFormatter = function( args ) {
 	this.totalScore = 0;
 	this.keyword = args.keyword;
 	this.assessor = args.assessor;
-	this.i18n = args.assessor.i18n;
+	this.i18n = args.i18n;
 	this.output = args.targets.output;
 	this.overall = args.targets.overall;
 };

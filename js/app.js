@@ -433,7 +433,8 @@ App.prototype.runAnalyzer = function() {
 	this.scoreFormatter = new ScoreFormatter( {
 		targets: this.config.targets,
 		keyword: this.paper.getKeyword(),
-		assessor: this.assessor
+		assessor: this.assessor,
+		i18n: this.i18n
 	} );
 
 	this.scoreFormatter.renderScore();
