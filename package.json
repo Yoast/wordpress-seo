@@ -44,6 +44,6 @@
     "grunt-contrib-imagemin": "^1.0.0"
   },
   "dependencies": {
-    "yoastseo": "github:yoast/yoastseo.js#develop"
+    "yoastseo": "git+https://github.com/Yoast/YoastSEO.js.git#develop"
   }
 }
