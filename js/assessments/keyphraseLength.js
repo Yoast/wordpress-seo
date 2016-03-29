@@ -25,4 +25,4 @@ function keyphraseAssessment( paper, researcher, i18n ) {
 	return assessmentResult;
 }
 
-module.exports = keyphraseAssessment;
+module.exports = { callback: keyphraseAssessment };

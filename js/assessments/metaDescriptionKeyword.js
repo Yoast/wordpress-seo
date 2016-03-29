@@ -40,4 +40,9 @@ var getMetadescriptionKeywordAssessment = function( paper,  researcher, i18n ) {
 	return assessmentResult;
 };
 
-module.exports = getMetadescriptionKeywordAssessment;
+module.exports = {
+	callback: getMetadescriptionKeywordAssessment,
+	requirements: function ( paper ) {
+		return paper.hasKeyword();
+	}
+};

@@ -82,4 +82,4 @@ var pageTitleLengthAssessment = function( paper,  researcher, i18n ) {
 	return assessmentResult;
 };
 
-module.exports = pageTitleLengthAssessment;
+module.exports = { callback: pageTitleLengthAssessment };

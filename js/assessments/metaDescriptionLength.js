@@ -57,4 +57,4 @@ var getMetadescriptionLengthAssessment = function( paper,  researcher, i18n ) {
 	return assessmentResult;
 };
 
-module.exports = getMetadescriptionLengthAssessment;
+module.exports = { callback: getMetadescriptionLengthAssessment };

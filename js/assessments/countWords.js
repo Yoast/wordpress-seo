@@ -92,4 +92,4 @@ var countWordsAssessment = function( paper, researcher, i18n ) {
 	return assessmentResult;
 };
 
-module.exports = countWordsAssessment;
+module.exports = { callback: countWordsAssessment };

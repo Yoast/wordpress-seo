@@ -71,22 +71,51 @@ Assessor.prototype.getAvailableAssessments = function() {
 };
 
 /**
+ * Checks whether or not an Assessment has requirements set.
+ * @param {Assessment} assessment The Assessment object to check for requirements.
+ * @returns {boolean} Whether or not requirements are present.
+ */
+Assessor.prototype.hasRequirements = function( assessment ) {
+	return assessment.hasOwnProperty( "requirements" );
+};
+
+/**
+ * Checks whether or not the requirements are satisfied within the Assessment.
+ * @param {Object} assessment The Assessment object that needs to be checked.
+ * @param {Paper} paper The Paper object to check against.
+ * @param {Researcher} [researcher] The Researcher object containing additional information.
+ * @returns {boolean} Whether or not the requirements are satisfied.
+ */
+Assessor.prototype.requirementsAreSatisfied = function( assessment, paper, researcher ) {
+	if ( this.hasRequirements( assessment ) ) {
+		return assessment.requirements( paper, researcher ) === true;
+	}
+
+	return true;
+};
+
+/**
  * Runs the researches defined in the tasklist or the default researches.
  * @param {Paper} paper The paper to run assessments on.
  */
 Assessor.prototype.assess = function( paper ) {
 	this.verifyPaper( paper );
-	var researcher = new Researcher( paper );
 
+	var researcher = new Researcher( paper );
 	var assessments = this.getAvailableAssessments();
 	this.results = [];
-	forEach( assessments, function( assessment, assessmentName ) {
-		this.results.push(
-			{
-				name: assessmentName,
-				result: assessment( paper, researcher, this.i18n )
-			}
-		);
+
+	forEach( assessments, function( assessment, name ) {
+
+		if ( !this.requirementsAreSatisfied( assessment, paper, researcher ) ) {
+			return;
+		}
+
+		this.results.push( {
+				name: name,
+				result: assessment.callback( paper, researcher, this.i18n )
+			} );
+
 	}.bind( this ) );
 };
 
@@ -96,10 +125,12 @@ Assessor.prototype.assess = function( paper ) {
  */
 Assessor.prototype.getValidResults = function() {
 	var validResults = [];
+
 	forEach( this.results, function( assessmentResults ) {
 		if ( !this.isValidResult( assessmentResults.result ) ) {
 			return;
 		}
+
 		validResults.push( assessmentResults );
 	}.bind( this ) );
 	return validResults;
@@ -123,9 +154,11 @@ Assessor.prototype.isValidResult = function( assessmentResult ) {
 Assessor.prototype.calculateOverallScore  = function() {
 	var results = this.getValidResults();
 	var totalScore = 0;
+
 	forEach( results, function( assessmentResult ) {
 		totalScore += assessmentResult.result.getScore();
 	} );
+
 	return Math.round( totalScore / ( results.length * ScoreRating ) * 100 );
 };
 

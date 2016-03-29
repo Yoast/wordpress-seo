@@ -9,7 +9,7 @@ describe( "the keyphrase length assessment", function() {
 		var paper = new Paper();
 		var researcher = factory.buildMockResearcher( 0 );
 		
-		var result = keyphraseLengthAssessment( paper, researcher, i18n );
+		var result = keyphraseLengthAssessment.callback( paper, researcher, i18n );
 
 		expect( result.getScore() ).toEqual( -999 );
 		expect( result.getText() ).toEqual( "No focus keyword was set for this page. " +
@@ -20,7 +20,7 @@ describe( "the keyphrase length assessment", function() {
 		var paper = new Paper( "", { keyword: "keyword" } );
 		var researcher = factory.buildMockResearcher( 11 );
 
-		var result = keyphraseLengthAssessment( paper, researcher, i18n );
+		var result = keyphraseLengthAssessment.callback( paper, researcher, i18n );
 
 		expect( result.getScore() ).toEqual( 0 );
 		expect( result.getText() ).toEqual( "Your keyphrase is over 10 words, a keyphrase should be shorter." );
@@ -30,13 +30,13 @@ describe( "the keyphrase length assessment", function() {
 		var paper = new Paper( "", { keyword: "keyword" } );
 		var researcher = factory.buildMockResearcher( 10 );
 
-		var result = keyphraseLengthAssessment( paper, researcher, i18n );
+		var result = keyphraseLengthAssessment.callback( paper, researcher, i18n );
 
 		expect( result.getScore() ).toEqual( 0 );
 		expect( result.getText() ).toEqual( "" );
 
 		researcher = factory.buildMockResearcher( 1 );
-		result = keyphraseLengthAssessment( paper, researcher, i18n );
+		result = keyphraseLengthAssessment.callback( paper, researcher, i18n );
 
 		expect( result.getScore() ).toEqual( 0 );
 		expect( result.getText() ).toEqual( "" );

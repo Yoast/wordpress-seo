@@ -88,4 +88,9 @@ var imageAssessment = function( paper, researcher, i18n ) {
 	return assessmentResult;
 };
 
-module.exports = imageAssessment;
+module.exports = {
+	callback: imageAssessment,
+	requirements: function ( paper ) {
+		return paper.hasText();
+	}
+};
