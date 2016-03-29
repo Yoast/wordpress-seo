@@ -1,0 +1,84 @@
+/* css for analyzer */
+
+.wpseoanalysis {
+	padding-right: 0px;
+}
+.wpseo-score-text {
+	display: inline-block;
+	width: 90%;
+}
+.wpseo-score-icon {
+	display: inline-block;
+	width: 12px;
+	height: 12px;
+	margin: 3px 10px 0 3px;
+	border-radius: 50%;
+	background: #888;
+	vertical-align: top;
+}
+
+.wpseo-score-icon.good {
+	background-color: $color_good;
+}
+
+.wpseo-score-icon.ok {
+	background-color: $color_ok;
+}
+
+.wpseo-score-icon.bad {
+	background-color: $color_bad;
+}
+
+.wpseo-score-icon.na {
+	background-color: #999;
+}
+
+.wpseo-score-icon.noindex {
+	background-color: #1e8cbe;
+}
+
+li.score {
+	list-style-type: none !important;
+}
+
+.screen-reader-text {
+	clip: rect(1px, 1px, 1px, 1px);
+	position: absolute !important;
+	height: 1px;
+	width: 1px;
+	overflow: hidden;
+}
+
+/* overall score */
+
+#overallScore #score_circle {
+	fill: #999;
+}
+
+#overallScore #score_circle_shadow {
+	fill: #777;
+}
+
+#overallScore.good #score_circle {
+	fill: #9fda4f;
+}
+
+#overallScore.good #score_circle_shadow {
+	fill: #77b227;
+}
+
+#overallScore.ok #score_circle {
+	fill: #ffb81e;
+}
+
+#overallScore.ok #score_circle_shadow {
+	fill: #f49a00;
+}
+
+#overallScore.bad #score_circle {
+	fill: #ff4e47;
+}
+
+#overallScore.bad #score_circle_shadow {
+	fill: #ed261f;
+}
