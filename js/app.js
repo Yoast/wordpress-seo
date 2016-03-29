@@ -16,7 +16,6 @@ var Assessor = require( "./assessor.js" );
 var Researcher = require( "./researcher.js" );
 var ScoreFormatter = require( "./scoreFormatter.js" );
 var Pluggable = require( "./pluggable.js" );
-var analyzerConfig = require( "./config/config.js" );
 var Paper = require( "./values/Paper.js" );
 
 /**
@@ -234,7 +233,6 @@ var App = function( args ) {
  */
 App.prototype.extendConfig = function( args ) {
 	args.sampleText = this.extendSampleText( args.sampleText );
-	args.queue = args.queue || analyzerConfig.queue;
 	args.locale = args.locale || "en_US";
 
 	return args;
@@ -408,7 +406,6 @@ App.prototype.runAnalyzer = function() {
 	}
 
 	this.analyzerData = this.modifyData( this.rawData );
-	this.analyzerData.i18n = this.i18n;
 
 	// Create a paper object for the Researcher
 	this.paper = new Paper( this.analyzerData.text, {
@@ -417,10 +414,6 @@ App.prototype.runAnalyzer = function() {
 		url: this.analyzerData.url,
 		title: this.analyzerData.pageTitle
 	} );
-
-	if ( this.paper.getKeyword() === "" ) {
-		this.analyzerData.queue = [ "keyphraseSizeCheck", "wordCount", "fleschReading", "pageTitleLength", "urlStopwords", "metaDescriptionLength" ];
-	}
 
 	// The new researcher
 	if ( isUndefined( this.researcher ) ) {
