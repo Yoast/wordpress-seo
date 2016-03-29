@@ -98,7 +98,7 @@ ScoreFormatter.prototype.outputOverallScore = function() {
 	var overallTarget = document.getElementById( this.overall );
 
 	if ( overallTarget ) {
-		overallTarget.className = "overallScore " + this.overallScoreRating( Math.round( this.assessor.calculateOverallScore() ) ).text;
+		overallTarget.className = "overallScore " + this.overallScoreRating( this.assessor.calculateOverallScore() ).text;
 	}
 
 	if ( overallTarget && this.keyword === "" ) {
