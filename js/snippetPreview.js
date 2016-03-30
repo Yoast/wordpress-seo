@@ -1019,7 +1019,7 @@ SnippetPreview.prototype.updateDataFromDOM = function() {
  */
 SnippetPreview.prototype.openEditor = function() {
 
-	this.element.editToggle.setAttribute( 'aria-expanded', 'true' );
+	this.element.editToggle.setAttribute( "aria-expanded", "true" );
 
 	// Show these elements.
 	removeClass( this.element.formContainer, "snippet-editor--hidden" );
@@ -1036,7 +1036,7 @@ SnippetPreview.prototype.closeEditor = function() {
 	// Hide these elements.
 	addClass( this.element.formContainer,     "snippet-editor--hidden" );
 
-	this.element.editToggle.setAttribute( 'aria-expanded', 'false' );
+	this.element.editToggle.setAttribute( "aria-expanded", "false" );
 	this.element.editToggle.focus();
 
 	this.opened = false;
