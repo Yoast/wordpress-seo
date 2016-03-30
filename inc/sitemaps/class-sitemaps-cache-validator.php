@@ -38,7 +38,7 @@ class WPSEO_Sitemaps_Cache_Validator {
 		$postfix = sprintf( '_%d:%s_%s', $page, $global_cache_validator, $type_cache_validator );
 
 		try {
-			$type = WPSEO_Sitemaps_Cache::truncate_type( $type, $prefix, $postfix );
+			$type = self::truncate_type( $type, $prefix, $postfix );
 		}
 		catch ( OutOfBoundsException $exception ) {
 			// Maybe do something with the exception, for now just mark as invalid.
@@ -49,6 +49,59 @@ class WPSEO_Sitemaps_Cache_Validator {
 		$full_key = $prefix . $type . $postfix;
 
 		return $full_key;
+	}
+
+	/**
+	 * If the type is over length make sure we compact it so we don't have any database problems
+	 *
+	 * When there are more 'extremely long' post types, changes are they have variations in either the start or ending.
+	 * Because of this, we cut out the excess in the middle which should result in less chance of collision.
+	 *
+	 * @param string $type    The type of sitemap to be used.
+	 * @param string $prefix  The part before the type in the cache key. Only the length is used.
+	 * @param string $postfix The part after the type in the cache key. Only the length is used.
+	 *
+	 * @return string The type with a safe length to use
+	 *
+	 * @throws OutOfRangeException When there is less than 15 characters of space for a key that is originally longer.
+	 */
+	public static function truncate_type( $type, $prefix = '', $postfix = '' ) {
+		/**
+		 * This length has been restricted by the database column length of 64 in the past.
+		 * The prefix added by WordPress is '_transient_' because we are saving to a transient.
+		 * We need to use a timeout on the transient, otherwise the values get autoloaded, this adds
+		 * another restriction to the length.
+		 */
+		$max_length = 45; // 64 - 19 ('_transient_timeout_')
+		$max_length -= strlen( $prefix );
+		$max_length -= strlen( $postfix );
+
+		if ( strlen( $type ) > $max_length ) {
+
+			if ( $max_length < 15 ) {
+				/**
+				 * If this happens the most likely cause is a page number that is too high.
+				 *
+				 * So this would not happen unintentionally..
+				 * Either by trying to cause a high server load, finding backdoors or misconfiguration.
+				 */
+				throw new OutOfRangeException(
+					__(
+						'Trying to build truncate the sitemap cache key, but the postfix and prefix combination leaves too little room to do this. You are probably requesting a page that is way out of the expected range.',
+						'wordpress-seo'
+					)
+				);
+			}
+
+			$half = ( $max_length / 2 );
+
+			$first_part = substr( $type, 0, ( ceil( $half ) - 1 ) );
+			$last_part  = substr( $type, ( 1 - floor( $half ) ) );
+
+			$type = $first_part . '..' . $last_part;
+		}
+
+		return $type;
 	}
 
 	/**
