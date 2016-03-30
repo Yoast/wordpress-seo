@@ -65,7 +65,8 @@ class WPSEO_Sitemaps_Cache_Validator_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( '22', WPSEO_Sitemaps_Cache_Validator::convert_base10_to_base61( 62 ) );
 		$this->assertEquals( '32', WPSEO_Sitemaps_Cache_Validator::convert_base10_to_base61( 123 ) );
 
-		$this->assertEquals( 'iINbb6W', WPSEO_Sitemaps_Cache_Validator::convert_base10_to_base61( 912830912830 ) );
+		// Check against PHP_INT_MAX on 32-bit systems.
+		$this->assertEquals( '3y75pX', WPSEO_Sitemaps_Cache_Validator::convert_base10_to_base61( 2147483647 ) );
 	}
 
 	/**
