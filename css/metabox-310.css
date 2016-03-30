@@ -243,6 +243,11 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 	cursor: pointer;
 }
 
+#wpseo-add-keyword-popup-title {
+	margin: 1em 0;
+	font-size: 1.3em;
+}
+
 /**
  * Edit Snippet Button focus style.
  *
