@@ -6,8 +6,8 @@
 
 ul.wpseo-metabox-tabs {
 	display: none;
-	margin-top: 12px;
-	margin-bottom: 3px;
+	margin-top: 6px;
+	margin-bottom: 0;
 }
 
 .wpseo-metabox-tabs-div ul {
@@ -30,14 +30,14 @@ ul.wpseo-metabox-tabs li.active {
 .wpseo-metabox-sidebar {
 	display: inline-block;
 	width: 40px;
-	padding: 5px;
+	padding: 0 5px 5px;
 	background-color: #fff;
 	vertical-align: top;
 }
 
 .wpseo-metabox-sidebar li span {
-	margin-left: -5px;
-	padding-left: 5px;
+	margin: 3px 0 0 -5px;
+	padding: 0 2px 0 5px;
 	border-width: 0 0 0 3px;
 	border-style: solid;
 	border-color: transparent;
@@ -50,9 +50,10 @@ ul.wpseo-metabox-tabs li.active {
 }
 
 ul.wpseo-metabox-tabs li {
-	display: inline;
+	display: inline-block;
 	margin-right: 5px;
-	padding: 5px;
+	margin-bottom: -1px;
+	padding: 0;
 	border-width: 1px 1px 0;
 	border-style: solid solid none;
 	border-color: #dfdfdf;
@@ -67,7 +68,13 @@ ul.wpseo-metabox-tabs li {
 }
 
 .wpseo-metabox-tabs a {
+	display: block;
+	padding: 5px 12px;
 	text-decoration: none;
+}
+
+#wpseo-meta-section-social .wpseo-metabox-tabs a {
+	padding: 5px 7px;
 }
 
 .wpseo-metabox-tabs a .dashicons {
@@ -83,12 +90,20 @@ ul.wpseo-metabox-tabs li {
 }
 
 .wpseo-metabox-sidebar a {
+	display: inline-block;
+	width: 35px;
+	height: 35px;
 	font-size: 20px;
 	line-height: 30px;
 	text-decoration: none;
 }
 
+.wpseo-metabox-sidebar ul {
+	margin: 0;
+}
+
 .wpseo-metabox-sidebar li {
+	margin-bottom: 0;
 	padding: 5px;
 }
 
@@ -126,6 +141,10 @@ ul.wpseo-metabox-tabs li {
 
 .inside .wpseotab .form-table td select[multiple] {
 	margin-top: 0;
+}
+
+.wpseotab .wpseo_image_upload_button {
+	margin-left: 3px;
 }
 
 .wpseotab .wpseoanalysis {
@@ -205,15 +224,21 @@ table.wpseoanalysis td.score {
 }
 
 ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
+	margin-left: -3px;
+	padding: 0;
 	border: none;
+	vertical-align: top;
 }
 
-.wpseo-add-keyword {
-	padding: 0 3px;
-	border: 1px solid #ccc;
+.wpseo-tab-add-keyword .wpseo-add-keyword.button {
+	height: auto;
+	margin-top: 1px;
+	padding: 3px 6px;
 	color: #000;
 	background: transparent;
-	font-size: 10px;
+	font-size: 14px;
+	line-height: 1;
+	vertical-align: top;
 	text-decoration: none;
 	cursor: pointer;
 }
@@ -221,6 +246,20 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 #wpseo-add-keyword-popup-title {
 	margin: 1em 0;
 	font-size: 1.3em;
+}
+
+/**
+ * Edit Snippet Button focus style.
+ *
+ * This should be abstracted and applied to all buttons.
+ * Or, maybe, take advantage of the `.button` CSS class in WordPress.
+ */
+.snippet-editor__button.snippet-editor__edit-button:focus {
+	border-color: #5b9dd9;
+	outline: none;
+	color: #23282d;
+	background-color: #fafafa;
+	box-shadow: 0 0 3px rgba( 0, 115, 170, 0.8 );
 }
 
 /*
@@ -345,6 +384,7 @@ img.yoast_help {
 }
 
 .yst-traffic-light {
+	width: 19px;
 	height: 30px;
 	margin: 0 0 0 5px;
 }

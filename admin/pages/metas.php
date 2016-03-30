@@ -255,8 +255,8 @@ $yform->admin_header( true, 'wpseo_titles' );
 			echo '<p>', __( 'I don\'t know why you\'d want to use meta keywords, but if you want to, enable this.', 'wordpress-seo' ), '</p>';
 
 			/* translators: %s expands to <code>noodp</code> */
-			$yform->light_switch( 'noodp', sprintf( __( 'Add %s meta robots tag sitewide', 'wordpress-seo' ), '<code>noodp</code>' ) );
-			echo '<p>', __( 'Prevents search engines from using the DMOZ description for pages from this site in the search results.', 'wordpress-seo' ), '</p>';
+			$yform->light_switch( 'noodp', sprintf( __( 'Force %s meta robots tag sitewide', 'wordpress-seo' ), '<code>noodp</code>' ) );
+			echo '<p>', __( 'Prevents search engines from using the DMOZ description for all pages from this site in the search results. Pages with descriptions will have the tag regardless of this setting.', 'wordpress-seo' ), '</p>';
 			?>
 		</div>
 

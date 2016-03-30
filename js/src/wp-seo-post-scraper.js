@@ -157,7 +157,9 @@
 				break;
 			case 'snippet_cite':
 				document.getElementById( 'post_name' ).value = value;
-				if ( document.getElementById( 'editable-post-name' ) !== null ) {
+				if (
+					document.getElementById( 'editable-post-name' ) !== null &&
+					document.getElementById( 'editable-post-name-full' ) !== null ) {
 					document.getElementById( 'editable-post-name' ).textContent = value;
 					document.getElementById( 'editable-post-name-full' ).textContent = value;
 				}

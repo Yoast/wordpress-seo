@@ -388,6 +388,12 @@ class WPSEO_Twitter {
 			if ( $this->image_from_meta_values_output() ) {
 				return;
 			}
+
+			$post_id = get_the_ID();
+
+			if ( $this->image_of_attachment_page_output( $post_id ) ) {
+				return;
+			}
 			if ( $this->image_thumbnail_output() ) {
 				return;
 			}
@@ -467,6 +473,26 @@ class WPSEO_Twitter {
 				$this->image_output( $img );
 
 				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Retrieve an attachment page's attachment
+	 *
+	 * @return bool
+	 */
+	private function image_of_attachment_page_output( $attachment_id ) {
+		if ( get_post_type( $attachment_id ) === 'attachment' ) {
+			$mime_type = get_post_mime_type( $attachment_id );
+			switch ( $mime_type ) {
+				case 'image/jpeg':
+				case 'image/png':
+				case 'image/gif':
+					$this->image_output( wp_get_attachment_url( $attachment_id ) );
+					return true;
 			}
 		}
 
