@@ -482,6 +482,8 @@ class WPSEO_Twitter {
 	/**
 	 * Retrieve an attachment page's attachment
 	 *
+	 * @param string $attachment_id The ID of the attachment for which to retrieve the image.
+	 *
 	 * @return bool
 	 */
 	private function image_of_attachment_page_output( $attachment_id ) {
