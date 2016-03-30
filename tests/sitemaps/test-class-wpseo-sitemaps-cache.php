@@ -19,34 +19,6 @@ class WPSEO_Sitemaps_Cache_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Normal cache key retrieval
-	 */
-	public function test_get_storage_key() {
-
-		$page             = 1;
-		$type             = 'page';
-		$global_validator = 'global';
-		$type_validator   = 'type';
-
-		$global_validator_key = WPSEO_Sitemaps_Cache_Validator::get_validator_key();
-		update_option( $global_validator_key, $global_validator );
-
-		$type_validator_key = WPSEO_Sitemaps_Cache_Validator::get_validator_key( $type );
-		update_option( $type_validator_key, $type_validator );
-
-		$prefix  = WPSEO_Sitemaps_Cache::STORAGE_KEY_PREFIX;
-		$postfix = '_1:global_type';
-
-		$expected = $prefix . $type . $postfix;
-
-		// Act.
-		$result = WPSEO_Sitemaps_Cache_Validator::get_storage_key( $type, $page );
-
-		// Assert.
-		$this->assertEquals( $expected, $result );
-	}
-
-	/**
 	 * Test sitemap cache not set
 	 *
 	 * @covers WPSEO_Sitemaps_Cache::get_sitemap_data()

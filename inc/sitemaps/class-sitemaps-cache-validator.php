@@ -8,6 +8,9 @@
  */
 class WPSEO_Sitemaps_Cache_Validator {
 
+	/** @var string Prefix of the transient key for sitemap caches */
+	const STORAGE_KEY_PREFIX = 'yst_sm_';
+
 	/** Name of the option that holds the global validation value */
 	const VALIDATION_GLOBAL_KEY = 'wpseo_sitemap_cache_validator_global';
 
@@ -34,7 +37,7 @@ class WPSEO_Sitemaps_Cache_Validator {
 		$global_cache_validator = self::get_validator();
 		$type_cache_validator   = self::get_validator( $type );
 
-		$prefix  = WPSEO_Sitemaps_Cache::STORAGE_KEY_PREFIX;
+		$prefix  = self::STORAGE_KEY_PREFIX;
 		$postfix = sprintf( '_%d:%s_%s', $page, $global_cache_validator, $type_cache_validator );
 
 		try {
@@ -126,10 +129,51 @@ class WPSEO_Sitemaps_Cache_Validator {
 
 		if ( ! wp_using_ext_object_cache() ) {
 			// Clean up current cache from the database.
-			WPSEO_Sitemaps_Cache::cleanup_database( $type, $old_validator );
+			self::cleanup_database( $type, $old_validator );
 		}
 
 		// External object cache pushes old and unretrieved items out by itself so we don't have to do anything for that.
+	}
+
+	/**
+	 * Cleanup invalidated database cache
+	 *
+	 * @param null|string $type      The type of sitemap to clear cache for.
+	 * @param null|string $validator The validator to clear cache of.
+	 *
+	 * @return void
+	 */
+	public static function cleanup_database( $type = null, $validator = null ) {
+
+		global $wpdb;
+
+		if ( is_null( $type ) ) {
+			// Clear all cache if no type is provided.
+			$like = sprintf( '%s%%', self::STORAGE_KEY_PREFIX );
+		}
+		else {
+			if ( ! is_null( $validator ) ) {
+				// Clear all cache for provided type-validator.
+				$like = sprintf( '%%_%s', $validator );
+			}
+			else {
+				// Clear type cache for all type keys.
+				$like = sprintf( '%1$s%2$s_%%', self::STORAGE_KEY_PREFIX, $type );
+			}
+		}
+
+		/**
+		 * Add slashes to the LIKE "_" single character wildcard.
+		 *
+		 * We can't use `esc_like` here because we need the % in the query.
+		 */
+		$where   = array();
+		$where[] = sprintf( "option_name LIKE '%s'", addcslashes( '_transient_' . $like, '_' ) );
+		$where[] = sprintf( "option_name LIKE '%s'", addcslashes( '_transient_timeout_' . $like, '_' ) );
+
+		// Delete transients.
+		$query = sprintf( 'DELETE FROM %1$s WHERE %2$s', $wpdb->options, implode( ' OR ', $where ) );
+		$wpdb->query( $query );
 	}
 
 	/**

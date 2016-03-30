@@ -8,9 +8,6 @@
  */
 class WPSEO_Sitemaps_Cache {
 
-	/** @var string Prefix of the transient key for sitemap caches */
-	const STORAGE_KEY_PREFIX = 'yst_sm_';
-
 	/** @var array $cache_clear Holds the options that, when updated, should cause the cache to clear. */
 	protected static $cache_clear = array();
 
@@ -190,47 +187,6 @@ class WPSEO_Sitemaps_Cache {
 		foreach ( $types as $type ) {
 			WPSEO_Sitemaps_Cache_Validator::invalidate_storage( $type );
 		}
-	}
-
-	/**
-	 * Cleanup invalidated database cache
-	 *
-	 * @param null|string $type      The type of sitemap to clear cache for.
-	 * @param null|string $validator The validator to clear cache of.
-	 *
-	 * @return void
-	 */
-	public static function cleanup_database( $type = null, $validator = null ) {
-
-		global $wpdb;
-
-		if ( is_null( $type ) ) {
-			// Clear all cache if no type is provided.
-			$like = sprintf( '%s%%', self::STORAGE_KEY_PREFIX );
-		}
-		else {
-			if ( ! is_null( $validator ) ) {
-				// Clear all cache for provided type-validator.
-				$like = sprintf( '%%_%s', $validator );
-			}
-			else {
-				// Clear type cache for all type keys.
-				$like = sprintf( '%1$s%2$s_%%', self::STORAGE_KEY_PREFIX, $type );
-			}
-		}
-
-		/**
-		 * Add slashes to the LIKE "_" single character wildcard.
-		 *
-		 * We can't use `esc_like` here because we need the % in the query.
-		 */
-		$where   = array();
-		$where[] = sprintf( "option_name LIKE '%s'", addcslashes( '_transient_' . $like, '_' ) );
-		$where[] = sprintf( "option_name LIKE '%s'", addcslashes( '_transient_timeout_' . $like, '_' ) );
-
-		// Delete transients.
-		$query = sprintf( 'DELETE FROM %1$s WHERE %2$s', $wpdb->options, implode( ' OR ', $where ) );
-		$wpdb->query( $query );
 	}
 
 	/**
