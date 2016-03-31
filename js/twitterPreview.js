@@ -358,8 +358,11 @@ TwitterPreview.prototype.setDescription = function( description ) {
  * @param {string} imageUrl The image path.
  */
 TwitterPreview.prototype.setImageUrl = function( imageUrl ) {
+
+	console.log( imageUrl );
+
 	var imageContainer = this.element.preview.imageUrl;
-	if ( this.data.imageUrl === "" ) {
+	if ( imageUrl === '' && this.data.imageUrl === "" ) {
 		imagePlaceholder(
 			imageContainer,
 			this.i18n.dgettext( "yoast-social-previews", "Please enter an image url by clicking here" ),
