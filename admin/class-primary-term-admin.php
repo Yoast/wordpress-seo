@@ -70,6 +70,11 @@ class WPSEO_Primary_Term_Admin {
 	 * @param int $post_ID Post ID to save primary terms for.
 	 */
 	public function save_primary_terms( $post_ID ) {
+		// Bail if this is a multisite installation and the site has been switched.
+		if ( is_multisite() && ms_is_switched() ) {
+			return;
+		}
+
 		$taxonomies = $this->get_primary_term_taxonomies( $post_ID );
 
 		foreach ( $taxonomies as $taxonomy ) {

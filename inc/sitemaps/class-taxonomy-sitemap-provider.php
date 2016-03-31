@@ -150,7 +150,7 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		$links    = array();
 		$taxonomy = get_taxonomy( $type );
 
-		if ( $taxonomy === false || ! $this->is_valid_taxonomy( $taxonomy->name ) ) {
+		if ( $taxonomy === false || ! $this->is_valid_taxonomy( $taxonomy->name ) || ! $taxonomy->public ) {
 			return $links;
 		}
 

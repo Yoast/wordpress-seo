@@ -31,11 +31,6 @@ class WPSEO_Metabox_Form_Tab implements WPSEO_Metabox_Tab {
 	/**
 	 * @var string
 	 */
-	private $link_alt;
-
-	/**
-	 * @var string
-	 */
 	private $link_title;
 
 	/**
@@ -51,7 +46,6 @@ class WPSEO_Metabox_Form_Tab implements WPSEO_Metabox_Tab {
 		$this->content      = $content;
 		$this->link_content = $link_content;
 		$this->link_class	= isset( $options['link_class'] ) ? $options['link_class'] : '';
-		$this->link_alt     = isset( $options['link_alt'] ) ? $options['link_alt'] : '';
 		$this->link_title   = isset( $options['link_title'] ) ? $options['link_title'] : '';
 	}
 
@@ -62,11 +56,10 @@ class WPSEO_Metabox_Form_Tab implements WPSEO_Metabox_Tab {
 	 */
 	public function link() {
 		return sprintf(
-			'<li class="%1$s %2$s"><a class="wpseo_tablink" href="#wpseo_%1$s" alt="%3$s" title="%4$s">%5$s</a></li>',
+			'<li class="%1$s %2$s"><a class="wpseo_tablink" href="#wpseo_%1$s"%3$s>%4$s</a></li>',
 			esc_attr( $this->name ),
 			esc_attr( $this->link_class ),
-			esc_attr( $this->link_alt ),
-			esc_attr( $this->link_title ),
+			( '' !== $this->link_title ) ? ' title="' . esc_attr( $this->link_title ) . '"' : '',
 			$this->link_content
 		);
 	}
