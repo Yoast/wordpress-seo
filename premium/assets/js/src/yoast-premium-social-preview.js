@@ -55,25 +55,41 @@
 	}
 
 	/**
+	 * Returns the type of the current page: post or term.
+	 *
+	 * @returns {string}
+	 */
+	function getCurrentType() {
+		// When this field exists, it is a post.
+		if ( $( '#post_ID').length > 0 ) {
+			return 'post';
+		}
+
+		// When this field is found, it is a term.
+		if ( $( 'input[name=tag_ID]').length > 0 ) {
+			return 'term';
+		}
+
+		return '';
+	}
+
+	/**
 	 * Returns the prefix for the fields, because of the fields for the post do have an othere prefix than the ones for
 	 * a taxonomy.
 	 *
 	 * @returns {*}
 	 */
 	function fieldPrefix() {
-		// We've prefixed the
-		if ( $( '#post_ID').length > 0 ) {
-			return 'yoast_wpseo';
-		}
 
-		// We've prefixed the fields for taxonomies different.
-		if ( $( 'input[name=tag_ID]').length > 0 ) {
-			return 'wpseo';
+		switch( getCurrentType() ) {
+			case 'post' :
+				return 'yoast_wpseo';
+			case 'term' :
+				return 'wpseo';
 		}
 
 		return '';
 	}
-
 
 	/**
 	 * Creates the social preview container and hides the old form table, to replace it.
@@ -86,11 +102,60 @@
 		socialPreviewholder.find( '.form-table' ).hide();
 	}
 
+	function getContentImage() {
+		var content = $( '#content' ) && $( '#content' ).val() || '';
+		if ( _isTinyMCEAvailable() ) {
+			content = tinyMCE.get( 'content' ).getContent();
+		}
+
+		var images = $( content ).find( 'img' );
+		if( images.length > 0 && images[0].src !== '' ) {
+			return $( images[0] ).attr( 'src' );
+		}
+
+		return '';
+
+	}
+
+	function _isTinyMCEAvailable() {
+		if ( typeof tinyMCE === 'undefined' ||
+			typeof tinyMCE.editors === 'undefined' ||
+			tinyMCE.editors.length === 0 ||
+			tinyMCE.get( 'content' ) === null ||
+			tinyMCE.get( 'content' ).isHidden() ) {
+			return false;
+		}
+
+		return true;
+	}
+
+
+	function getFallbackImage( defaultImage ) {
+		// In case of an post: we want to have the featured image.
+		if( getCurrentType() === 'post' ) {
+			var postThumbnail = $( '.attachment-post-thumbnail' );
+			if( postThumbnail.length > 0 ) {
+				return $( postThumbnail.get(0) ).attr( 'src' );
+			}
+		}
+
+		// When the featured image is empty, try an image in the content
+		var contentImage = getContentImage();
+		if( contentImage !== '') {
+			return contentImage;
+		}
+
+		return defaultImage;
+	}
+
+	window.getFallbackImage = getFallbackImage;
+
 	/**
 	 * Returns the arguments for the social preview prototypes.
 	 *
 	 * @param {string} targetElement The element where the preview is loaded.
 	 * @param {string} fieldPrefix The prefix each form element has.
+	 *
 	 * @returns {{targetElement: Element, data: {title: *, description: *, imageUrl: *}, baseURL: *, callbacks: {updateSocialPreview: callbacks.updateSocialPreview}}}
 	 */
 	function getSocialPreviewArgs( targetElement, fieldPrefix ) {
@@ -99,7 +164,7 @@
 			data : {
 				title : $( '#' + fieldPrefix + '-title' ).val(),
 				description : $( '#' + fieldPrefix + '-description' ).val(),
-				imageUrl : $( '#' + fieldPrefix + '-image' ).val()
+				imageUrl : $( '#' + fieldPrefix + '-imageUrl' ).val()
 			},
 			baseURL : yoastSocialPreview.website,
 			callbacks : {
@@ -107,6 +172,11 @@
 					$( '#' + fieldPrefix + '-title' ).val( data.title );
 					$( '#' + fieldPrefix + '-description' ).val( data.description );
 					$( '#' + fieldPrefix + '-image' ).val( data.imageUrl );
+
+					if (data.imageUrl === '') {
+						jQuery( targetElement ).trigger( "setFallbackImage" );
+					}
+
 				}
 			}
 		}
@@ -116,13 +186,21 @@
 	 * Initialize the facebook preview.
 	 *
 	 * @param {Object} facebookHolder Target element for adding the facebook preview.
+	 * @param {Object} facebookDefaults The defaults for the facebook preview prototype.
 	 */
 	function initFacebook( facebookHolder ) {
 		createSocialPreviewContainer( facebookHolder, 'facebookPreview' );
 
+		var facebookPreviewContainer = $( '#facebookPreview' );
 		var facebookPreview = new FacebookPreview(
-			getSocialPreviewArgs( $( '#facebookPreview' ), fieldPrefix() + '_opengraph' )
+			getSocialPreviewArgs( facebookPreviewContainer, fieldPrefix() + '_opengraph' )
 		);
+
+		facebookPreviewContainer.on(
+			'setFallbackImage',
+			facebookPreview.setImageUrl.bind( facebookPreview, getFallbackImage.call( this, yoastSocialPreview.facebookDefaultImage ) )
+		);
+
 		facebookPreview.init();
 
 		addUploadButton( jQuery( '#facebook-editor-imageUrl' ), facebookPreview.updatePreview.bind( facebookPreview ) );
@@ -132,12 +210,19 @@
 	 * Initialize the twitter preview.
 	 *
 	 * @param {Object} twitterHolder Target element for adding the twitter preview.
+	 * @param {Object} twitterDefaults The defaults for the twitter preview prototype.
 	 */
 	function initTwitter( twitterHolder ) {
 		createSocialPreviewContainer( twitterHolder, 'twitterPreview' );
 
+		var twitterPreviewContainer = $( '#twitterPreview' );
 		var twitterPreview = new TwitterPreview(
-			getSocialPreviewArgs( $( '#twitterPreview' ), fieldPrefix() + '_twitter' )
+			getSocialPreviewArgs( twitterPreviewContainer, fieldPrefix() + '_twitter' )
+		);
+
+		twitterPreviewContainer.on(
+			'setFallbackImage',
+			twitterPreview.setImageUrl.bind( twitterPreview, getFallbackImage.call( '' ) )
 		);
 
 		twitterPreview.init();
