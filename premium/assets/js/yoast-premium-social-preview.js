@@ -296,10 +296,7 @@ module.exports = function( text ) {
 		// Bind the event when something changed in the text editor.
 		var contentElement = $( '#' + contentTextName() );
 		if( typeof contentElement !== 'undefined' ) {
-			contentElement.on( 'input', function() {
-				setContentImage( getContentImage() );
-				refreshImageUrl();
-			} );
+			contentElement.on( 'input', refreshContentImage );
 		}
 
 		//Bind the events when something changed in the tinyMCE editor.
@@ -307,10 +304,7 @@ module.exports = function( text ) {
 			var events = [ 'input', 'change', 'cut', 'paste' ];
 			tinyMCE.on( 'addEditor', function( e ) {
 				for ( var i = 0; i < events.length; i++ ) {
-					e.editor.on( events[i], function() {
-						setContentImage( getContentImage() );
-						refreshImageUrl();
-					} );
+					e.editor.on( events[i], refreshContentImage );
 				}
 			});
 		}
@@ -414,6 +408,14 @@ module.exports = function( text ) {
 	}
 
 	/**
+	 * Sets the content image value and refreshes the image urls for the previews.
+	 */
+	function refreshContentImage() {
+		setContentImage( getContentImage() );
+		refreshImageUrl();
+	}
+
+	/**
 	 * Check if there is a fallback image like the featured image or the first image in the content.
 	 *
 	 * @param {string} defaultImage The default image when nothing has been found.
@@ -445,7 +447,7 @@ module.exports = function( text ) {
 		if ( facebookHolder.length > 0 || twitterHolder.length > 0 ) {
 			jQuery( window ).on( 'YoastSEO:ready', function() {
 				setImageFallback();
-				
+
 				if (facebookHolder.length > 0) {
 					initFacebook( facebookHolder );
 				}
@@ -454,11 +456,8 @@ module.exports = function( text ) {
 					initTwitter( twitterHolder );
 				}
 
-
 				bindImageEvents();
 			} );
-
-
 		}
 	}
 
@@ -2145,9 +2144,6 @@ TwitterPreview.prototype.setDescription = function( description ) {
  * @param {string} imageUrl The image path.
  */
 TwitterPreview.prototype.setImageUrl = function( imageUrl ) {
-
-	console.log( imageUrl );
-
 	var imageContainer = this.element.preview.imageUrl;
 	if ( imageUrl === '' && this.data.imageUrl === "" ) {
 		imagePlaceholder(
