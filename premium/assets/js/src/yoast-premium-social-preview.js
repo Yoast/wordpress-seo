@@ -255,10 +255,7 @@
 		// Bind the event when something changed in the text editor.
 		var contentElement = $( '#' + contentTextName() );
 		if( typeof contentElement !== 'undefined' ) {
-			contentElement.on( 'input', function() {
-				setContentImage( getContentImage() );
-				refreshImageUrl();
-			} );
+			contentElement.on( 'input', refreshContentImage );
 		}
 
 		//Bind the events when something changed in the tinyMCE editor.
@@ -266,10 +263,7 @@
 			var events = [ 'input', 'change', 'cut', 'paste' ];
 			tinyMCE.on( 'addEditor', function( e ) {
 				for ( var i = 0; i < events.length; i++ ) {
-					e.editor.on( events[i], function() {
-						setContentImage( getContentImage() );
-						refreshImageUrl();
-					} );
+					e.editor.on( events[i], refreshContentImage );
 				}
 			});
 		}
@@ -370,6 +364,14 @@
 		}
 
 		return true;
+	}
+
+	/**
+	 * Sets the content image value and refreshes the image urls for the previews.
+	 */
+	function refreshContentImage() {
+		setContentImage( getContentImage() );
+		refreshImageUrl();
 	}
 
 	/**
