@@ -1,5 +1,6 @@
 @import "functions";
 @import "colors";
+@import "mixins";
 
 $color_caret: #555555;
 $color_caret_hover: #bfbfbf;
@@ -54,9 +55,7 @@ $color_buttons: #555555;
 }
 
 .snippet_container:after {
-	content: ' ';
-	display: table;
-	clear: both;
+	@include clearfix;
 }
 
 .snippet-editor {
