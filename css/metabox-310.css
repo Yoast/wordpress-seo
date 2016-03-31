@@ -134,6 +134,10 @@ ul.wpseo-metabox-tabs li {
 	padding-top: 20px;
 }
 
+.inside .wpseotab .form-table label {
+	vertical-align: top;
+}
+
 .inside .wpseotab .form-table td input,
 .inside .wpseotab .form-table td select {
 	margin-top: -5px;
@@ -342,13 +346,73 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 	color: #000;
 }
 
-img.yoast_help {
+.yoast_help.yoast-help-button {
+	overflow: visible;
+	position: relative;
+	width: 20px;
+	height: 20px;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: none;
+	color: #72777c;
+	background: transparent;
+	box-shadow: none;
+	vertical-align: top;
+	/* IE 11 */
 	cursor: pointer;
 }
 
-.yoast-qtip {
-	font-size: 14px !important;
-	line-height: 18px !important;
+.wpseotab .yoast_help.yoast-help-button {
+	float: right;
+	margin-top: -6px;
+}
+
+.wpseo-admin-page .yoast_help.yoast-help-button {
+	margin-right: 6px;
+}
+
+.yoast_help.yoast-help-button:before {
+	position: absolute;
+	top: 0;
+	left: 0;
+	padding: 4px;
+	content: "\f223";
+}
+
+.yoast_help.yoast-help-button:hover,
+.yoast_help.yoast-help-button:focus {
+	color: #0073aa;
+}
+
+.yoast_help.yoast-help-button:focus:before {
+	border-radius: 100%;
+	box-shadow: 0 0 0 1px #5b9dd9,
+	0 0 2px 1px rgba(30, 140, 190, 0.8);
+}
+
+.yoast-help-panel {
+	display: none;
+	max-width: 30em !important;
+	margin: -2px 0 2em !important;
+	padding: 0;
+	font-weight: normal;
+	white-space: normal;
+}
+
+.wpseo-admin-page .subsubsub li {
+	display: inline;
+	max-width: none;
+}
+
+.yoast-seo-help-container {
+	float: left;
+	width: 100%;
+	max-width: none;
+}
+
+.yoast-seo-help-container .yoast-help-panel {
+	margin: 0.5em 0 !important;
 }
 
 .wpseo_content_wrapper p.search-box {
