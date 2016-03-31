@@ -74,7 +74,6 @@ var calculateFleschReadingResult = function( fleschReadingScore, i18n ) {
  * @returns {object} an assessmentresult with the score and formatted text.
  */
 var fleschReadingAssessment = function( paper, researcher, i18n ) {
-
 	var fleschReadingScore = researcher.getResearch( "calculateFleschReading" );
 
 	/* translators: %1$s expands to the numeric flesch reading ease score, %2$s to a link to a Yoast.com article about Flesch ease reading score,
@@ -101,4 +100,9 @@ var fleschReadingAssessment = function( paper, researcher, i18n ) {
 	return assessmentResult;
 };
 
-module.exports = { getResult: fleschReadingAssessment };
+module.exports = {
+	getResult: fleschReadingAssessment,
+	isApplicable: function( paper ) {
+		return ( paper.getLocale().indexOf( "en_" ) > -1 );
+	}
+};

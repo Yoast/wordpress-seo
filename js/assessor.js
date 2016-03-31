@@ -146,7 +146,7 @@ Assessor.prototype.calculateOverallScore  = function() {
 	var totalScore = 0;
 
 	forEach( results, function( assessmentResult ) {
-		totalScore += assessmentResult.result.getScore();
+		totalScore += assessmentResult.getScore();
 	} );
 
 	return Math.round( totalScore / ( results.length * ScoreRating ) * 100 );

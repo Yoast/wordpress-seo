@@ -10,7 +10,7 @@ var defaultAttributes = {
 	description: "",
 	title: "",
 	url: "",
-	locale: "en"
+	locale: "en_US"
 };
 
 /**
