@@ -83,16 +83,35 @@
 		jQuery( '#wpseo-dismiss-tagline-notice > .notice-dismiss' ).replaceWith( wpseoDismissLink( wpseoAdminGlobalL10n.dismiss_tagline_url ) );
 
 		jQuery( '.yoast-dismissible > .notice-dismiss' ).click( function() {
-			var parent_div = jQuery( this ).parent( '.yoast-dismissible' );
+			var $parentDiv = jQuery( this ).parent( '.yoast-dismissible' );
+
+			// Deprecated, todo: remove when all notifiers have been implemented.
+			jQuery.post(
+				ajaxurl,
+				{
+					action: $parentDiv.attr( 'id' ).replace( /-/g, '_' ),
+					_wpnonce: $parentDiv.data( 'nonce' ),
+					data: $parentDiv.data( 'json' )
+				}
+			);
 
 			jQuery.post(
 				ajaxurl,
 				{
-					action: parent_div.attr( 'id' ).replace( /-/g, '_' ),
-					_wpnonce: parent_div.data( 'nonce' ),
-					data: parent_div.data( 'json' )
+					action: 'yoast_dismiss_notification',
+					notification: $parentDiv.attr( 'id' ),
+					nonce: $parentDiv.data( 'nonce' ),
+					data: $parentDiv.data( 'json' )
 				}
 			);
+
+			$parentDiv.fadeTo( 100 , 0, function() {
+				jQuery(this).slideUp( 100, function() {
+					jQuery(this).remove();
+				});
+			});
+
+			return false;
 		} );
 	});
 	window.wpseoDismissTaglineNotice = wpseoDismissTaglineNotice;

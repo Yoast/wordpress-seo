@@ -48,13 +48,13 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 */
 	public static function translate_meta_boxes() {
 		self::$meta_fields['general']['snippetpreview']['title'] = __( 'Snippet Editor', 'wordpress-seo' );
-		self::$meta_fields['general']['snippetpreview']['help']  = sprintf( __( 'This is a rendering of what this post might look like in Google\'s search results.<br/><br/>Read %sthis post%s for more info.', 'wordpress-seo' ), '<a href="https://yoast.com/snippet-preview/#utm_source=wordpress-seo-metabox&amp;utm_medium=inline-help&amp;utm_campaign=snippet-preview">', '</a>' );
+		self::$meta_fields['general']['snippetpreview']['help']  = sprintf( __( 'This is a rendering of what this post might look like in Google\'s search results.<br/><br/>Read %sthis post%s for more info.', 'wordpress-seo' ), '<a target="_blank" href="https://yoast.com/snippet-preview/#utm_source=wordpress-seo-metabox&amp;utm_medium=inline-help&amp;utm_campaign=snippet-preview">', '</a>' );
 
 		self::$meta_fields['general']['pageanalysis']['title'] = __( 'Content Analysis', 'wordpress-seo' );
-		self::$meta_fields['general']['pageanalysis']['help']  = sprintf( __( 'This is the content analysis, a collection of content checks that analyze the content of your page. Read %sthis post%s for more info.', 'wordpress-seo' ), '<a href="https://yoast.com/real-time-content-analysis/#utm_source=wordpress-seo-metabox&amp;utm_medium=inline-help&amp;utm_campaign=snippet-preview">', '</a>' );
+		self::$meta_fields['general']['pageanalysis']['help']  = sprintf( __( 'This is the content analysis, a collection of content checks that analyze the content of your page. Read %sthis post%s for more info.', 'wordpress-seo' ), '<a target="_blank" href="https://yoast.com/real-time-content-analysis/#utm_source=wordpress-seo-metabox&amp;utm_medium=inline-help&amp;utm_campaign=snippet-preview">', '</a>' );
 
 		self::$meta_fields['general']['focuskw_text_input']['title'] = __( 'Focus Keyword', 'wordpress-seo' );
-		self::$meta_fields['general']['focuskw_text_input']['help']  = sprintf( __( 'Pick the main keyword or keyphrase that this post/page is about.<br/><br/>Read %sthis post%s for more info.', 'wordpress-seo' ), '<a href="https://yoast.com/focus-keyword/#utm_source=wordpress-seo-metabox&amp;utm_medium=inline-help&amp;utm_campaign=focus-keyword">', '</a>' );
+		self::$meta_fields['general']['focuskw_text_input']['help']  = sprintf( __( 'Pick the main keyword or keyphrase that this post/page is about.<br/><br/>Read %sthis post%s for more info.', 'wordpress-seo' ), '<a target="_blank" href="https://yoast.com/focus-keyword/#utm_source=wordpress-seo-metabox&amp;utm_medium=inline-help&amp;utm_campaign=focus-keyword">', '</a>' );
 
 		self::$meta_fields['general']['title']['title']       = __( 'SEO Title', 'wordpress-seo' );
 
@@ -315,7 +315,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			__( 'Content', 'wordpress-seo' ),
 			array(
 				'link_class' => 'wpseo_keyword_tab',
-				'link_title' => __( 'Content', 'wordpress-seo' ),
 			)
 		);
 
@@ -326,7 +325,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'<span class="yst-traffic-light-container">' . $this->traffic_light_svg() . '</span>',
 			$tabs,
 			array(
-				'link_alt' => __( 'Content', 'wordpress-seo' ),
 				'link_title' => __( 'Content', 'wordpress-seo' ),
 			)
 		);
@@ -343,10 +341,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$tab = new WPSEO_Metabox_Form_Tab(
 			'advanced',
 			$content,
-			__( 'Advanced', 'wordpress-seo' ),
-			array(
-				'link_title' => __( 'Advanced', 'wordpress-seo' ),
-			)
+			__( 'Advanced', 'wordpress-seo' )
 		);
 
 		return new WPSEO_Metabox_Tab_Section(
@@ -354,7 +349,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'<span class="dashicons dashicons-admin-generic"></span>',
 			array( $tab ),
 			array(
-				'link_alt' => __( 'Advanced', 'wordpress-seo' ),
 				'link_title' => __( 'Advanced', 'wordpress-seo' ),
 			)
 		);
@@ -372,7 +366,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'<span class="dashicons dashicons-admin-plugins"></span>',
 			array(),
 			array(
-				'link_alt' => __( 'Add-ons', 'wordpress-seo' ),
 				'link_title' => __( 'Add-ons', 'wordpress-seo' ),
 			)
 		);
@@ -646,6 +639,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$asset_manager->enqueue_style( 'snippet' );
 			$asset_manager->enqueue_style( 'yoast-seo' );
 			$asset_manager->enqueue_style( 'jquery-qtip.js' );
+			$asset_manager->enqueue_style( 'select2' );
 
 			$asset_manager->enqueue_script( 'metabox' );
 			$asset_manager->enqueue_script( 'admin-media' );
@@ -661,6 +655,9 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'post-scraper', 'wpseoPostScraperL10n', $this->localize_post_scraper_script() );
 			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'replacevar-plugin', 'wpseoReplaceVarsL10n', $this->localize_replace_vars_script() );
 			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'shortcode-plugin', 'wpseoShortcodePluginL10n', $this->localize_shortcode_plugin_script() );
+
+			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'metabox', 'wpseoSelect2Locale', substr( get_locale(), 0, 2 ) );
+
 
 			if ( post_type_supports( get_post_type(), 'thumbnail' ) ) {
 				$asset_manager->enqueue_style( 'featured-image' );
@@ -807,8 +804,8 @@ SVG;
 	 * Keyword tab for enabling analysis of multiple keywords.
 	 */
 	public function template_keyword_tab() {
-		// Only do this on the edit post pages.
-		if ( 'post' !== get_current_screen()->base && 'post-new' !== get_current_screen()->base ) {
+		// This template belongs to the post scraper so don't echo it if it isn't enqueued.
+		if ( ! wp_script_is( WPSEO_Admin_Asset_Manager::PREFIX . 'post-scraper' ) ) {
 			return;
 		}
 
