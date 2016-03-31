@@ -247,6 +247,11 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 	cursor: pointer;
 }
 
+#wpseo-add-keyword-popup-title {
+	margin: 1em 0;
+	font-size: 1.3em;
+}
+
 /**
  * Edit Snippet Button focus style.
  *
@@ -342,6 +347,7 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 }
 
 .yoast_help.yoast-help-button {
+	overflow: visible;
 	position: relative;
 	width: 20px;
 	height: 20px;
@@ -353,7 +359,7 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 	background: transparent;
 	box-shadow: none;
 	vertical-align: top;
-	overflow: visible; /* IE 11 */
+	/* IE 11 */
 	cursor: pointer;
 }
 

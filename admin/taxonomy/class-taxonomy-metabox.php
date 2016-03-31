@@ -259,7 +259,8 @@ SVG;
 	 * Keyword tab for enabling analysis of multiple keywords.
 	 */
 	public function template_keyword_tab() {
-		if ( ! WPSEO_Taxonomy::is_term_edit( $GLOBALS['pagenow'] ) ) {
+		// This template belongs to the term scraper so don't echo it if it isn't enqueued.
+		if ( ! wp_script_is( WPSEO_Admin_Asset_Manager::PREFIX . 'term-scraper' ) ) {
 			return;
 		}
 

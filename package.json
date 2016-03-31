@@ -20,6 +20,7 @@
     "grunt-browserify": "^4.0.1",
     "grunt-checktextdomain": "^1.0.0",
     "grunt-contrib-clean": "~0.6.0",
+    "grunt-contrib-copy": "^0.8.2",
     "grunt-contrib-cssmin": "^0.10.0",
     "grunt-contrib-jshint": "^0.10.0",
     "grunt-contrib-uglify": "^0.6.0",
@@ -40,5 +41,8 @@
   },
   "optionalDependencies": {
     "grunt-contrib-imagemin": "^1.0.0"
+  },
+  "dependencies": {
+    "select2": "^4.0.1"
   }
 }

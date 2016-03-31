@@ -109,6 +109,8 @@ class WPSEO_Admin_Asset_Manager {
 					'jquery',
 					'jquery-ui-core',
 					'jquery-ui-progressbar',
+					self::PREFIX . 'select2',
+					self::PREFIX . 'select2-translations',
 				),
 			),
 			array(
@@ -146,6 +148,8 @@ class WPSEO_Admin_Asset_Manager {
 					'jquery',
 					'jquery-ui-core',
 					'jquery-ui-autocomplete',
+					self::PREFIX . 'select2',
+					self::PREFIX . 'select2-translations',
 				),
 				'in_footer' => false,
 			),
@@ -218,6 +222,25 @@ class WPSEO_Admin_Asset_Manager {
 					'wp-util',
 				),
 			),
+			array(
+				'name'   => 'select2',
+				'src'    => 'select2/select2',
+				'suffix' => '.min',
+				'deps'   => array(
+					'jquery',
+				),
+				'version' => '4.0.1',
+			),
+			array(
+				'name' => 'select2-translations',
+				'src'  => 'select2/i18n/' . substr( get_locale(), 0, 2 ),
+				'deps' => array(
+					'jquery',
+					self::PREFIX . 'select2',
+				),
+				'version' => '4.0.1',
+				'suffix' => '',
+			),
 		);
 	}
 
@@ -266,6 +289,9 @@ class WPSEO_Admin_Asset_Manager {
 			array(
 				'name' => 'metabox-css',
 				'src'  => 'metabox-310',
+				'deps' => array(
+					self::PREFIX . 'select2',
+				),
 			),
 			array(
 				'name' => 'wp-dashboard',
@@ -291,6 +317,12 @@ class WPSEO_Admin_Asset_Manager {
 			array(
 				'name' => 'primary-category',
 				'src'  => 'metabox-primary-category',
+			),
+			array(
+				'name' => 'select2',
+				'src'  => 'dist/select2/select2',
+				'suffix' => '.min',
+				'version' => '4.0.1',
 			),
 		);
 	}
