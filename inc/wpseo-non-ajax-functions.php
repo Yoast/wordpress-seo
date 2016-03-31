@@ -453,7 +453,7 @@ add_action( 'admin_bar_menu', 'wpseo_admin_bar_menu', 95 );
 /**
  * Enqueue a tiny bit of CSS to show so the adminbar shows right.
  */
-function wpseo_admin_bar_css() {
+function wpseo_admin_bar_style() {
 
 	$enqueue_adminbarcss = false;
 
@@ -479,8 +479,8 @@ function wpseo_admin_bar_css() {
 	}
 }
 
-add_action( 'wp_enqueue_scripts', 'wpseo_admin_bar_css' );
-add_action( 'admin_enqueue_scripts', 'wpseo_admin_bar_css' );
+add_action( 'wp_enqueue_scripts', 'wpseo_admin_bar_style' );
+add_action( 'admin_enqueue_scripts', 'wpseo_admin_bar_style' );
 
 /**
  * Allows editing of the meta fields through weblog editors like Marsedit.
