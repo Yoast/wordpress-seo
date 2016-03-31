@@ -172,7 +172,7 @@ class WPSEO_Taxonomy_Fields_Presenter {
 	 */
 	private function parse_row( $label, WPSEO_Admin_Help_Panel $help, $field ) {
 		if ( $label !== '' || $help !== '' ) {
-			return '<tr><th scope="row">' . $label . $help->get_button_html() . '</th><td>' . $help->get_button_html() . $field . '</td></tr>';
+			return '<tr><th scope="row">' . $label . $help->get_button_html() . '</th><td>' . $help->get_panel_html() . $field . '</td></tr>';
 		}
 
 		return $field;
