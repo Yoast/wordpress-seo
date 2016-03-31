@@ -48,10 +48,8 @@ class WPSEO_Taxonomy_Fields_Presenter {
 		$field            = $this->get_field( $field_options['type'], $esc_field_name, $this->get_field_value( $field_name ) , (array) $field_options['options'] );
 		$help_button_text = isset( $field_options['options']['help-button'] ) ? $field_options['options']['help-button'] : '';
 		$help             = new WPSEO_Admin_Help_Panel( $field_name, $help_button_text, $field_options['description'] );
-		$help_button      = $help->get_button_html();
-		$help_panel       = $help->get_panel_html();
 
-		return $this->parse_row( $label, $help_button, $help_panel, $field );
+		return $this->parse_row( $label, $help, $field );
 	}
 
 	/**
@@ -166,16 +164,15 @@ class WPSEO_Taxonomy_Fields_Presenter {
 	/**
 	 * Returns the HTML for the row which contains label, help and the field.
 	 *
-	 * @param string $label       The html for the label if there was a label set.
-	 * @param string $help_button The html for the help button.
-	 * @param string $help        The html for the help, when it's there.
-	 * @param string $field       The html for the field.
+	 * @param string                 $label       The html for the label if there was a label set.
+	 * @param WPSEO_Admin_Help_Panel $help        The help panel to render in this row.
+	 * @param string                 $field       The html for the field.
 	 *
 	 * @return string
 	 */
-	private function parse_row( $label, $help_button, $help, $field ) {
+	private function parse_row( $label, WPSEO_Admin_Help_Panel $help, $field ) {
 		if ( $label !== '' || $help !== '' ) {
-			return '<tr><th scope="row">' . $label . $help_button . '</th><td>' . $help . $field . '</td></tr>';
+			return '<tr><th scope="row">' . $label . $help->get_button_html() . '</th><td>' . $help->get_button_html() . $field . '</td></tr>';
 		}
 
 		return $field;
