@@ -358,9 +358,6 @@ TwitterPreview.prototype.setDescription = function( description ) {
  * @param {string} imageUrl The image path.
  */
 TwitterPreview.prototype.setImageUrl = function( imageUrl ) {
-
-	console.log( imageUrl );
-
 	var imageContainer = this.element.preview.imageUrl;
 	if ( imageUrl === '' && this.data.imageUrl === "" ) {
 		imagePlaceholder(
