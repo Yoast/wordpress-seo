@@ -279,7 +279,10 @@ class WPSEO_Admin_Init {
 	 * Determine if we should load our taxonomy edit class and if so, load it.
 	 */
 	private function load_taxonomy_class() {
-		if ( 'edit-tags.php' === $this->pagenow ) {
+		if (
+			WPSEO_Taxonomy::is_term_edit( $this->pagenow )
+			|| WPSEO_Taxonomy::is_term_overview( $this->pagenow )
+		) {
 			new WPSEO_Taxonomy;
 		}
 	}
@@ -417,6 +420,4 @@ class WPSEO_Admin_Init {
 	private function dismiss_notice( $notice_name ) {
 		return filter_input( INPUT_GET, $notice_name ) === '1' && wp_verify_nonce( filter_input( INPUT_GET, 'nonce' ), $notice_name );
 	}
-
-
 }

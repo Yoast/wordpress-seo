@@ -1,6 +1,6 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 /* browser:true */
-/* global tb_show */
+/* global tb_show, wpseoSelect2Locale */
 (function( $ ) {
 	'use strict';
 
@@ -102,16 +102,60 @@
 	}
 
 	/**
+	 * Adds select2 for selected fields.
+	 */
+	function initSelect2() {
+		// Select2 for Yoast SEO Metabox Advanced tab
+		$( '#yoast_wpseo_meta-robots-noindex' ).select2( { width: '100%', language: wpseoSelect2Locale } );
+		$( '#yoast_wpseo_meta-robots-adv' ).select2( { width: '100%', language: wpseoSelect2Locale } );
+	}
+
+	/**
 	 * Shows a informational popup if someone click the add keyword button
 	 */
 	function addKeywordPopup() {
-		var title = $( '#wpseo-add-keyword-popup' ).find( 'h3' ).html();
+		var $buyButton = $( '#wpseo-add-keyword-popup-button' ),
+			title = $buyButton.text(),
+			$popupWindow,
+			$closeButton;
 
 		tb_show( title, '#TB_inline?width=650&height=350&inlineId=wpseo-add-keyword-popup', 'group' );
 
-		// The container window isn't the correct size, rectify this.
-		jQuery( '#TB_window' ).css( 'height', 235 );
-		jQuery( '#TB_window' ).css( 'width', 680 );
+		// The thicbox popup UI is now available.
+		$popupWindow = $( '#TB_window' );
+		$closeButton = $( '#TB_closeWindowButton' );
+
+		// The container window isn't the correct size, rectify this and also the centering.
+		$popupWindow.css({ width: 680, height: 235, 'margin-left': -340 });
+
+		// Accessibility improvements.
+		$popupWindow
+			.attr({
+				role: 'dialog',
+				'aria-labelledby': 'TB_ajaxWindowTitle',
+				'aria-describedby': 'TB_ajaxContent'
+			})
+			.on( 'keydown', function( event ) {
+				var id;
+
+				// Constrain tabbing within the modal.
+				if ( 9 === event.which ) {
+					id = event.target.id;
+
+					if ( id === 'wpseo-add-keyword-popup-button' && ! event.shiftKey ) {
+						$closeButton.focus();
+						event.preventDefault();
+					} else if ( id === 'TB_closeWindowButton' && event.shiftKey ) {
+						$buyButton.focus();
+						event.preventDefault();
+					}
+				}
+			});
+
+		// Move focus back to the element that opened the modal.
+		$( 'body' ).on( 'thickbox:removed', function() {
+			$( '.wpseo-add-keyword' ).focus();
+		});
 	}
 
 	jQuery( document ).ready( function() {
@@ -122,6 +166,7 @@
 		window.wpseo_init_tabs();
 
 		initAddKeywordPopup();
+		initSelect2();
 	});
 }( jQuery ));
 
