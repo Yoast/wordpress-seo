@@ -113,6 +113,16 @@
 
 			return false;
 		} );
+
+		jQuery( '.yoast-help-button' ).on( 'click', function() {
+			var $button = jQuery( this ),
+				helpPanel = jQuery( '#' + $button.attr( 'aria-controls' ) ),
+				isPanelVisible = helpPanel.is( ':visible' );
+
+			jQuery( helpPanel ).slideToggle( 200, function() {
+				$button.attr( 'aria-expanded', ! isPanelVisible );
+			});
+		});
 	});
 	window.wpseoDismissTaglineNotice = wpseoDismissTaglineNotice;
 	window.wpseoSetIgnore = wpseoSetIgnore;

@@ -37,10 +37,6 @@ class Yoast_Notification_Center {
 
 		add_action( 'wp_ajax_yoast_get_notifications', array( $this, 'ajax_get_notifications' ) );
 
-		add_action( 'admin_head', array( $this, 'enqueue' ) );
-
-
-
 		add_action( 'wpseo_deactivate', array( $this, 'deactivate_hook' ) );
 		add_action( 'shutdown', array( $this, 'update_storage' ) );
 	}
@@ -60,16 +56,6 @@ class Yoast_Notification_Center {
 	}
 
 	/**
-	 * If we have notifications, make sure we can deal with them too, for which we need the scripts.
-	 */
-	public function enqueue() {
-		if ( count( $this->notifications ) > 0 ) {
-			WPSEO_Premium::enqueue();
-		}
-	}
-
-	/**
-	 * Get the notifications from cookie
 	 * Initialise global notification conditions
 	 *
 	 * Conditions that don't have dependencies should be registered here.
