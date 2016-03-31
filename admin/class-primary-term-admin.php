@@ -17,7 +17,9 @@ class WPSEO_Primary_Term_Admin {
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets' ) );
 
 		add_action( 'save_post', array( $this, 'save_primary_terms' ) );
-		add_filter( 'post_link_category', array( $this, 'post_link_category' ) );
+
+		$primary_term = new WPSEO_Frontend_Primary_Category();
+		$primary_term->register_hooks();
 	}
 
 	/**
@@ -73,23 +75,6 @@ class WPSEO_Primary_Term_Admin {
 		foreach ( $taxonomies as $taxonomy ) {
 			$this->save_primary_term( $post_ID, $taxonomy );
 		}
-	}
-
-	/**
-	 * Filters post_link_category to change the category to the chosen category by the user
-	 *
-	 * @param stdClass $category The category that is now used for the post link.
-	 *
-	 * @return array|null|object|WP_Error The category we want to use for the post link.
-	 */
-	public function post_link_category( $category ) {
-		$primary_category = $this->get_primary_term( 'category' );
-
-		if ( false !== $primary_category && $primary_category !== $category->cat_ID ) {
-			$category = $this->get_category( $primary_category );
-		}
-
-		return $category;
 	}
 
 	/**
@@ -150,19 +135,6 @@ class WPSEO_Primary_Term_Admin {
 			$primary_term_object = new WPSEO_Primary_Term( $taxonomy->name, $post_ID );
 			$primary_term_object->set_primary_term( $primary_term );
 		}
-	}
-
-	/**
-	 * Wrapper for get category to make mocking easier
-	 *
-	 * @param int $primary_category id of primary category.
-	 *
-	 * @return array|null|object|WP_Error
-	 */
-	protected function get_category( $primary_category ) {
-		$category = get_category( $primary_category );
-
-		return $category;
 	}
 
 	/**

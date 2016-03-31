@@ -34,7 +34,7 @@ class WPSEO_Sitemaps {
 	/** @var WPSEO_Sitemaps_Router $router */
 	public $router;
 
-	/** @var WPSEO_Sitemaps_Renderer $renderer  */
+	/** @var WPSEO_Sitemaps_Renderer $renderer */
 	public $renderer;
 
 	/** @var WPSEO_Sitemaps_Cache $cache */
@@ -183,20 +183,7 @@ class WPSEO_Sitemaps {
 
 		$this->set_n( get_query_var( 'sitemap_n' ) );
 
-		$caching = $this->cache->is_enabled();
-
-		if ( $caching ) {
-			/**
-			 * Fires before the attempt to retrieve XML sitemap from the transient cache.
-			 *
-			 * @param WPSEO_Sitemaps $sitemaps Sitemaps object.
-			 */
-			do_action( 'wpseo_sitemap_stylesheet_cache_' . $type, $this );
-			$this->sitemap   = $this->cache->get_sitemap( $type, $this->current_page );
-			$this->transient = ! empty( $this->sitemap );
-		}
-
-		if ( empty( $this->sitemap ) ) {
+		if ( ! $this->get_sitemap_from_cache( $type, $this->current_page ) ) {
 			$this->build_sitemap( $type );
 		}
 
@@ -207,12 +194,62 @@ class WPSEO_Sitemaps {
 			return;
 		}
 
-		if ( $caching && ! $this->transient ) {
-			$this->cache->store_sitemap( $type, $this->current_page, $this->sitemap );
-		}
-
 		$this->output();
 		$this->sitemap_close();
+	}
+
+	/**
+	 * Try to get the sitemap from cache
+	 *
+	 * @param string $type        Sitemap type.
+	 * @param int    $page_number The page number to retrieve.
+	 *
+	 * @return bool If the sitemap has been retrieved from cache.
+	 */
+	private function get_sitemap_from_cache( $type, $page_number ) {
+
+		$this->transient = false;
+
+		if ( true !== $this->cache->is_enabled() ) {
+			return false;
+		}
+
+		/**
+		 * Fires before the attempt to retrieve XML sitemap from the transient cache.
+		 *
+		 * @param WPSEO_Sitemaps $sitemaps Sitemaps object.
+		 */
+		do_action( 'wpseo_sitemap_stylesheet_cache_' . $type, $this );
+
+		$sitemap_cache_data = $this->cache->get_sitemap_data( $type, $page_number );
+
+		// No cache was found, refresh it because cache is enabled.
+		if ( empty( $sitemap_cache_data ) ) {
+			return $this->refresh_sitemap_cache( $type, $page_number );
+		}
+
+		// Cache object was found, parse information.
+		$this->transient = true;
+
+		$this->sitemap     = $sitemap_cache_data->get_sitemap();
+		$this->bad_sitemap = ! $sitemap_cache_data->is_usable();
+
+		return true;
+	}
+
+	/**
+	 * Build and save sitemap to cache.
+	 *
+	 * @param string $type        Sitemap type.
+	 * @param int    $page_number The page number to save to.
+	 *
+	 * @return bool
+	 */
+	private function refresh_sitemap_cache( $type, $page_number ) {
+		$this->set_n( $page_number );
+		$this->build_sitemap( $type );
+
+		return $this->cache->store_sitemap( $type, $page_number, $this->sitemap, ! $this->bad_sitemap );
 	}
 
 	/**
@@ -233,6 +270,7 @@ class WPSEO_Sitemaps {
 
 		if ( $type === '1' ) {
 			$this->build_root_map();
+
 			return;
 		}
 
@@ -259,6 +297,7 @@ class WPSEO_Sitemaps {
 			 * Fires custom handler, if hooked to generate sitemap for the type.
 			 */
 			do_action( 'wpseo_do_sitemap_' . $type );
+
 			return;
 		}
 
@@ -276,13 +315,21 @@ class WPSEO_Sitemaps {
 			$links = array_merge( $links, $provider->get_index_links( $this->max_entries ) );
 		}
 
+		if ( empty( $links ) ) {
+			$this->bad_sitemap = true;
+			$this->sitemap     = '';
+
+			return;
+		}
+
 		$this->sitemap = $this->renderer->get_index( $links );
 	}
 
 	/**
 	 * Function to dynamically filter the change frequency.
 	 *
-	 * @param string $filter  Expands to wpseo_sitemap_$filter_change_freq, allowing for a change of the frequency for numerous specific URLs.
+	 * @param string $filter  Expands to wpseo_sitemap_$filter_change_freq, allowing for a change of the frequency for
+	 *                        numerous specific URLs.
 	 * @param string $default The default value for the frequency.
 	 * @param string $url     The URL of the current entry.
 	 *
@@ -379,29 +426,27 @@ class WPSEO_Sitemaps {
 
 		global $wpdb;
 
-		static $post_type_dates = array();
+		$post_type_dates = array();
 
 		if ( ! is_array( $post_types ) ) {
 			$post_types = array( $post_types );
 		}
 
-		if ( empty( $post_type_dates ) ) {
 
-			$sql             = "
-				SELECT post_type, MAX(post_modified_gmt) AS date
-				FROM $wpdb->posts
-				WHERE post_status IN ('publish','inherit')
-					AND post_type IN ('" . implode( "','", get_post_types( array( 'public' => true ) ) ) . "')
-				GROUP BY post_type
-				ORDER BY post_modified_gmt DESC
-			";
-			$results         = $wpdb->get_results( $sql );
+		$sql = "
+			SELECT post_type, MAX(post_modified_gmt) AS date
+			FROM $wpdb->posts
+			WHERE post_status IN ('publish','inherit')
+				AND post_type IN ('" . implode( "','", get_post_types( array( 'public' => true ) ) ) . "')
+			GROUP BY post_type
+			ORDER BY post_modified_gmt DESC
+		";
 
-			foreach ( $results as $obj ) {
-				$post_type_dates[ $obj->post_type ] = $obj->date;
-			}
-			unset( $sql, $results, $obj );
+		$results = $wpdb->get_results( $sql );
+		foreach ( $results as $obj ) {
+			$post_type_dates[ $obj->post_type ] = $obj->date;
 		}
+		unset( $sql, $results, $obj );
 
 		$dates = array_intersect_key( $post_type_dates, array_flip( $post_types ) );
 
@@ -436,7 +481,7 @@ class WPSEO_Sitemaps {
 			return;
 		}
 
-		if ( '0' == get_option( 'blog_public' ) ) { // Don't ping if blog is not public.
+		if ( '0' === get_option( 'blog_public' ) ) { // Don't ping if blog is not public.
 			return;
 		}
 

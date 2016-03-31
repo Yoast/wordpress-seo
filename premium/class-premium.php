@@ -23,7 +23,7 @@ class WPSEO_Premium {
 
 	const OPTION_CURRENT_VERSION = 'wpseo_current_version';
 
-	const PLUGIN_VERSION_NAME = '3.0.7';
+	const PLUGIN_VERSION_NAME = '3.1.3';
 	const PLUGIN_VERSION_CODE = '16';
 	const PLUGIN_AUTHOR = 'Yoast';
 	const EDD_STORE_URL = 'http://yoast.com';
@@ -45,8 +45,6 @@ class WPSEO_Premium {
 		// Create the upload directory.
 		WPSEO_Redirect_File_Util::create_upload_dir();
 
-		WPSEO_Premium::import_redirects_from_free();
-
 		WPSEO_Premium::activate_license();
 	}
 
@@ -63,30 +61,6 @@ class WPSEO_Premium {
 		}
 
 		return $license_manager;
-	}
-
-	/**
-	 * Check if redirects should be imported from the free version
-	 */
-	public static function import_redirects_from_free() {
-		$query_redirects = new WP_Query( 'post_type=any&meta_key=_yoast_wpseo_redirect&order=ASC' );
-
-		if ( ! empty( $query_redirects->posts ) ) {
-			WPSEO_Premium::autoloader();
-
-			$redirect_manager = new WPSEO_URL_Redirect_Manager();
-
-			foreach ( $query_redirects->posts as $post ) {
-				$old_url = '/' . $post->post_name . '/';
-				$new_url = get_post_meta( $post->ID, '_yoast_wpseo_redirect', true );
-
-				// Create redirect.
-				$redirect_manager->create_redirect( $old_url, $new_url, 301 );
-
-				// Remove post meta value.
-				delete_post_meta( $post->ID, '_yoast_wpseo_redirect' );
-			}
-		}
 	}
 
 	/**
@@ -108,12 +82,7 @@ class WPSEO_Premium {
 		$this->redirect_setup();
 
 		if ( is_admin() ) {
-			$query_var = ( $page = filter_input( INPUT_GET, 'page' ) ) ? $page : '';
-
-			// Only add the helpscout beacon on Yoast SEO pages.
-			if ( substr( $query_var, 0, 5 ) === 'wpseo' ) {
-				new WPSEO_HelpScout_Beacon( $query_var );
-			}
+			add_action( 'admin_init', array( $this, 'init_beacon' ) );
 
 			// Add custom fields plugin to post and page edit pages.
 			global $pagenow;
@@ -419,6 +388,20 @@ class WPSEO_Premium {
 			// Setup autoloader.
 			require_once( dirname( __FILE__ ) . '/classes/class-premium-autoloader.php' );
 			$autoloader = new WPSEO_Premium_Autoloader( 'WPSEO_', '' );
+		}
+	}
+
+	/**
+	 * Initializes beacon
+	 */
+	public function init_beacon() {
+		$query_var = ( $page = filter_input( INPUT_GET, 'page' ) ) ? $page : '';
+
+		// Only add the helpscout beacon on Yoast SEO pages.
+		if ( substr( $query_var, 0, 5 ) === 'wpseo' ) {
+			$beacon = yoast_get_helpscout_beacon( $query_var );
+			$beacon->add_setting( new WPSEO_Premium_Beacon_Setting() );
+			$beacon->register_hooks();
 		}
 	}
 }

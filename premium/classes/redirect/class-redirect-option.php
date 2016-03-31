@@ -8,13 +8,30 @@
  */
 class WPSEO_Redirect_Option {
 
+	/**
+	 * The plain redirect option before 3.1
+	 */
 	const OLD_OPTION_PLAIN = 'wpseo-premium-redirects';
+
+	/**
+	 * The regex redirect option before 3.1
+	 */
 	const OLD_OPTION_REGEX = 'wpseo-premium-redirects-regex';
 
-	const OPTION = 'wpseo-premium-redirects';
+	/**
+	 * @since 3.1
+	 */
+	const OPTION = 'wpseo-premium-redirects-base';
 
-	const OPTION_PLAIN = 'wpseo-premium-redirects-plain';
-	const OPTION_REGEX = 'wpseo-premium-redirects-regex';
+	/**
+	 * @since 3.1
+	 */
+	const OPTION_PLAIN = 'wpseo-premium-redirects-export-plain';
+
+	/**
+	 * @since 3.1
+	 */
+	const OPTION_REGEX = 'wpseo-premium-redirects-export-regex';
 
 	/**
 	 * @var WPSEO_Redirect[]
@@ -23,9 +40,13 @@ class WPSEO_Redirect_Option {
 
 	/**
 	 * Constructor.
+	 *
+	 * @param boolean $retrieve_redirects Whether to retrieve the redirects on construction.
 	 */
-	public function __construct() {
-		$this->redirects = $this->get_all();
+	public function __construct( $retrieve_redirects = true ) {
+		if ( $retrieve_redirects ) {
+			$this->redirects = $this->get_all();
+		}
 	}
 
 	/**
@@ -128,9 +149,18 @@ class WPSEO_Redirect_Option {
 
 	/**
 	 * Saving the redirects
+	 *
+	 * @param bool $retry_upgrade Whether or not to retry the 3.1 upgrade. Used to prevent infinite recursion.
 	 */
-	public function save() {
+	public function save( $retry_upgrade = true ) {
 		$redirects = $this->redirects;
+
+		// Retry the 3.1 upgrade routine to make sure we're always dealing with valid redirects.
+		$upgrade_manager = new WPSEO_Upgrade_Manager();
+		if ( $retry_upgrade && $upgrade_manager->should_retry_upgrade_31() ) {
+			$upgrade_manager->retry_upgrade_31( true );
+			$redirects = array_merge( $redirects, $this->get_all() );
+		}
 
 		array_walk( $redirects, array( $this, 'map_object_to_option' ) );
 

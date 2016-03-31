@@ -53,13 +53,13 @@ class WPSEO_Redirect_Page {
 			'wp-seo-premium-admin-redirects',
 			plugin_dir_url( WPSEO_PREMIUM_FILE ) .
 			'assets/js/wp-seo-premium-admin-redirects' . WPSEO_CSSJS_SUFFIX . '.js',
-			array( 'jquery', 'jquery-ui-dialog', 'wp-util' ),
+			array( 'jquery', 'jquery-ui-dialog', 'wp-util', 'underscore' ),
 			WPSEO_VERSION
 		);
 		wp_localize_script( 'wp-seo-premium-admin-redirects', 'wpseo_premium_strings', WPSEO_Premium_Javascript_Strings::strings() );
 		wp_localize_script( 'wp-seo-premium-admin-redirects', 'wpseoSelect2Locale', substr( get_locale(), 0, 2 ) );
 
-		wp_enqueue_style( 'wpseo-premium-redirects', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/css/premium-redirects' . WPSEO_CSSJS_SUFFIX . '.css', array( 'underscore' ), WPSEO_VERSION );
+		wp_enqueue_style( 'wpseo-premium-redirects', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/css/premium-redirects' . WPSEO_CSSJS_SUFFIX . '.css', array(), WPSEO_VERSION );
 
 		wp_enqueue_style( 'wp-jquery-ui-dialog' );
 
@@ -174,6 +174,9 @@ class WPSEO_Redirect_Page {
 
 		// Convert post into get on search and loading the page scripts.
 		if ( filter_input( INPUT_GET, 'page' ) === 'wpseo_redirects' ) {
+			$upgrade_manager = new WPSEO_Upgrade_Manager();
+			$upgrade_manager->retry_upgrade_31();
+
 			add_action( 'admin_init', array( $this, 'list_table_search' ) );
 
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets' ) );

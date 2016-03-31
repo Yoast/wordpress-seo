@@ -1,9 +1,12 @@
-/* global YoastSEO, wp, wpseoTermScraperL10n, ajaxurl, tinyMCE, YoastReplaceVarPlugin, console */
+/* global YoastSEO, wpseoTermScraperL10n, ajaxurl, tinyMCE, YoastReplaceVarPlugin, console, require */
 (function( $ ) {
 	'use strict';
 
 	var snippetPreview;
 	var termSlugInput;
+
+	var mainKeywordTab;
+	var KeywordTab = require( './analysis/keywordTab' );
 
 	var TermScraper = function() {
 		if ( typeof CKEDITOR === 'object' ) {
@@ -170,7 +173,7 @@
 		document.getElementById( 'hidden_wpseo_linkdex' ).value = score;
 		jQuery( window ).trigger( 'YoastSEO:numericScore', score );
 
-		this.updateKeywordTabContent( $( '#wpseo_focuskw' ).val(), score );
+		mainKeywordTab.update( score, this.getDataFromInput( 'keyword' ) );
 
 		cssClass = YoastSEO.app.scoreFormatter.overallScoreRating( parseInt( score, 10 ) );
 		alt = YoastSEO.app.scoreFormatter.getSEOScoreText( cssClass );
@@ -194,30 +197,7 @@
 		keyword = $( '#wpseo_focuskw' ).val();
 		score   = $( '#hidden_wpseo_linkdex' ).val();
 
-		this.updateKeywordTabContent( keyword, score );
-	};
-
-	/**
-	 * Updates keyword tab with new content
-	 */
-	TermScraper.prototype.updateKeywordTabContent = function( keyword, score ) {
-		var placeholder, keyword_tab;
-
-		placeholder = keyword.length > 0 ? keyword : '...';
-
-		score = parseInt( score, 10 );
-		score = YoastSEO.ScoreFormatter.prototype.overallScoreRating( score );
-
-		keyword_tab = wp.template( 'keyword_tab' )({
-			keyword: keyword,
-			placeholder: placeholder,
-			score: score,
-			hideRemove: true,
-			prefix: wpseoTermScraperL10n.contentTab + ' ',
-			active: true
-		});
-
-		$( '.wpseo_keyword_tab' ).replaceWith( keyword_tab );
+		mainKeywordTab.update( score, keyword );
 	};
 
 	/**
@@ -322,6 +302,14 @@
 		var args, termScraper, translations;
 
 		insertTinyMCE();
+
+		// Initialize an instance of the keywordword tab.
+		mainKeywordTab = new KeywordTab(
+			{
+				prefix: wpseoTermScraperL10n.contentTab
+			}
+		);
+		mainKeywordTab.setElement( $('.wpseo_keyword_tab') );
 
 		termScraper = new TermScraper();
 

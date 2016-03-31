@@ -1664,7 +1664,7 @@ This release contains tons and tons of bugfixes, thanks in *large* part to [Jrf]
 	* Further improved error handling when *uploads/wpseo* dir creation fails.
 
 * New features:
-	* Remove category base, removes `/category/` from category URL's. Find it under Permalinks. Props to [WP No Category Base](http://wordpresssupplies.com/wordpress-plugins/no-category-base/) for having the cleanest code I could find in this area, which I reused and modified.
+	* Remove category base, removes `/category/` from category URL's. Find it under Permalinks. 
 	* Admin bar goodness: an SEO menu! Try it if you're on 3.1 already, it allows you to perform several SEO actions!
 
 = 0.2 =

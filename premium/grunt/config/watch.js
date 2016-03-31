@@ -1,7 +1,7 @@
 // https://github.com/gruntjs/grunt-contrib-watch
 module.exports = {
 	options: {
-		livereload: true
+//		livereload: true
 	},
 	grunt: {
 		options: {

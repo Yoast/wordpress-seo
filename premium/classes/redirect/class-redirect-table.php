@@ -28,6 +28,11 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 	private $primary_column = 'type';
 
 	/**
+	 * @var boolean Whether or not the target column has a trailing slash
+	 */
+	private $target_has_trailing_slash = null;
+
+	/**
 	 * WPSEO_Redirect_Table constructor
 	 *
 	 * @param array|string     $type           Type of the redirects that is opened.
@@ -183,7 +188,22 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 
 		switch ( $column_name ) {
 			case 'new':
-				return "<div class='val'>" . esc_html( $item['new'] ) . '</div>' . $row_actions;
+				$classes = array( 'val' );
+				$new_url = $item['new'];
+
+				if ( WPSEO_Redirect_Util::requires_trailing_slash( $new_url ) ) {
+					$classes[] = 'has-trailing-slash';
+				}
+
+				if (
+					'' === $new_url ||
+					'/' === $new_url ||
+					! WPSEO_Redirect_Util::is_relative_url( $new_url )
+				) {
+					$classes[] = 'remove-slashes';
+				}
+
+				return "<div class='" . esc_attr( implode( ' ', $classes ) ) . "'>" . esc_html( $new_url ) . '</div>' . $row_actions;
 				break;
 			case 'old':
 				return "<div class='val'>" . esc_html( $item['old'] ). '</div>' . $row_actions;
@@ -206,6 +226,19 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 		);
 
 		return $actions;
+	}
+
+	/**
+	 * Returns whether or not the target should have a trailing slash
+	 */
+	private function has_target_trailing_slash() {
+		if ( null === $this->target_has_trailing_slash ) {
+			$permalink_structure = get_option( 'permalink_structure' );
+
+			$this->target_has_trailing_slash = substr( $permalink_structure, -1 ) === '/';
+		}
+
+		return $this->target_has_trailing_slash;
 	}
 
 	/**
