@@ -247,7 +247,8 @@ function wpseo_admin_bar_menu() {
 		$perc_score = WPSEO_Meta::get_value( 'linkdex', $post->ID );
 		$txtscore   = WPSEO_Utils::translate_score( $perc_score );
 		$title      = WPSEO_Utils::translate_score( $perc_score, false );
-		$score      = '<div title="' . esc_attr( $title ) . '" class="' . esc_attr( 'wpseo-score-icon ' . $txtscore . ' ' . $perc_score ) . '"></div>';
+		$score      = '<div title="' . esc_attr( $title ) . '" class="' . esc_attr( 'wpseo-score-icon ' . $txtscore . ' ' . $perc_score ) .
+		              ' adminbar-seo-score' . '"></div>';
 
 		$seo_url = get_edit_post_link( $post->ID );
 	}
@@ -453,13 +454,31 @@ add_action( 'admin_bar_menu', 'wpseo_admin_bar_menu', 95 );
  * Enqueue a tiny bit of CSS to show so the adminbar shows right.
  */
 function wpseo_admin_bar_css() {
-	if ( is_admin_bar_showing() && is_singular() ) {
+
+	$enqueue_adminbarcss = false;
+
+	// Single post in the frontend.
+	if ( is_admin_bar_showing( ) && is_singular( ) ) {
+		$enqueue_adminbarcss = true;
+	}
+
+	// Single post in the backend.
+	else if ( is_admin() && in_array( $GLOBALS['pagenow'], array(
+			'post.php',
+			'post-new.php',
+		), true ) ) {
+		$enqueue_adminbarcss = true;
+	}
+
+	if ( $enqueue_adminbarcss ) {
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
+		$asset_manager->register_assets();
 		$asset_manager->enqueue_style( 'adminbar' );
 	}
 }
 
 add_action( 'wp_enqueue_scripts', 'wpseo_admin_bar_css' );
+add_action( 'admin_enqueue_scripts', 'wpseo_admin_bar_css' );
 
 /**
  * Allows editing of the meta fields through weblog editors like Marsedit.
