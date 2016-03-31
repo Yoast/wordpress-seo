@@ -1,5 +1,6 @@
 @import "../node_modules/sassdash/index";
 @import "../node_modules/yoastseo/css/snippet-editor";
+@import "../node_modules/yoastseo/css/mixins";
 @import "image_placeholder";
 @import "editable-preview";
 
@@ -7,11 +8,22 @@ $width_facebook: 470px;
 $width_twitter: 506px;
 $padding_preview: 20px;
 
+$width_facebook_image_small: 158px;
+$height_facebook_image_small: 158px;
+
 $border_radius_twitter: .42857em;
 
 .social-preview__inner {
 	&--facebook {
 		box-shadow:       0 0 0 1.5px rgba(0, 0, 0, .1) inset, 0 1px 1px rgba(0, 0, 0, .05);
+
+		&:hover {
+			box-shadow: 0 0 0 1.5px rgba(0, 0, 0, .15) inset, 0 1px 1px rgba(0, 0, 0, .05);
+		}
+
+		&-small {
+			@include clearfix;
+		}
 	}
 
 	&--twitter {
@@ -70,6 +82,11 @@ $border_radius_twitter: .42857em;
 		&--facebook {
 			max-height: 470px;
 			font-size:  12px;
+
+			&-small {
+				float: left;
+				width: calc( 100% - #{$width_facebook_image_small} );
+			}
 		}
 	}
 
@@ -119,8 +136,14 @@ $border_radius_twitter: .42857em;
 			max-height: 470px;
 
 			img {
-				max-height: 470px;
-				max-width:  $width_facebook;
+				max-height: 100%;
+				max-width: 100%;
+			}
+
+			&-small {
+				width: $width_facebook_image_small;
+				height: $height_facebook_image_small;
+				float: left;
 			}
 		}
 		&--twitter {

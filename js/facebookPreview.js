@@ -9,6 +9,8 @@ var Jed = require( "jed" );
 var imageRatio = require( "./helpers/imageRatio" );
 var renderDescription = require( "./helpers/renderDescription" );
 var imagePlaceholder  = require( "./element/imagePlaceholder" );
+var BEMaddModifier = require( "./helpers/bem/addModifier" );
+var BEMremoveModifier = require( "./helpers/bem/removeModifier" );
 
 var TextField = require( "./inputs/textInput" );
 var TextArea = require( "./inputs/textarea" );
@@ -55,6 +57,11 @@ var inputFacebookPreviewBindings = [
 		"inputField": "description"
 	}
 ];
+
+var WIDTH_FACEBOOK_IMAGE_SMALL = 158;
+var WIDTH_FACEBOOK_IMAGE_LARGE = 470;
+var FACEBOOK_IMAGE_THRESHOLD_WIDTH = 600;
+var FACEBOOK_IMAGE_THRESHOLD_HEIGHT = 315;
 
 /**
  * @module snippetPreview
@@ -356,8 +363,12 @@ FacebookPreview.prototype.setDescription = function( description ) {
  * @param {string} imageUrl The image path.
  */
 FacebookPreview.prototype.setImageUrl = function( imageUrl ) {
+	var maxWidth;
+
 	var imageContainer = this.element.preview.imageUrl;
 	if ( this.data.imageUrl === "" ) {
+		this.removeSmallImageClasses();
+
 		imagePlaceholder( imageContainer,
 			this.i18n.dgettext( "yoast-social-previews", "Please enter an image url by clicking here" ),
 			false,
@@ -371,19 +382,62 @@ FacebookPreview.prototype.setImageUrl = function( imageUrl ) {
 	img.onload = function() {
 		imageContainer.innerHTML = "<img src='" + imageUrl + "' />";
 
-		imageRatio( imageContainer.childNodes[0], 470 );
-	};
+		if ( this.isSmallImage( img ) ) {
+			maxWidth = WIDTH_FACEBOOK_IMAGE_SMALL;
+			this.setSmallImageClasses();
+		} else {
+			maxWidth = WIDTH_FACEBOOK_IMAGE_LARGE;
 
-	img.onerror = imagePlaceholder.bind(
-		null,
-		imageContainer,
-		this.i18n.dgettext( "yoast-social-previews", "The given image url cannot be loaded" ),
-		true,
-		"facebook"
-	);
+			this.removeSmallImageClasses();
+		}
+
+		imageRatio( imageContainer.childNodes[0], maxWidth );
+	}.bind( this );
+
+	img.onerror = function() {
+		this.removeSmallImageClasses();
+
+		imagePlaceholder(
+			imageContainer,
+			this.i18n.dgettext( "yoast-social-previews", "The given image url cannot be loaded" ),
+			true,
+			"facebook"
+		);
+	}.bind( this );
 
 	// Load image to trigger load or error event.
 	img.src = imageUrl;
+};
+
+/**
+ * Detects if the facebook preview should switch to small image mode
+ *
+ * @param {HTMLImageElement} image
+ */
+FacebookPreview.prototype.isSmallImage = function( image ) {
+	return (
+		image.width < FACEBOOK_IMAGE_THRESHOLD_WIDTH ||
+		image.height < FACEBOOK_IMAGE_THRESHOLD_HEIGHT
+	);
+};
+
+/**
+ * Sets the classes on the facebook preview so that it will display a small facebook image preview
+ */
+FacebookPreview.prototype.setSmallImageClasses = function() {
+	var targetElement = this.opts.targetElement;
+
+	BEMaddModifier( "facebook-small", "social-preview__inner", targetElement );
+	BEMaddModifier( "facebook-small", "editable-preview__image--facebook", targetElement );
+	BEMaddModifier( "facebook-small", "editable-preview__text-keeper--facebook", targetElement );
+};
+
+FacebookPreview.prototype.removeSmallImageClasses = function() {
+	var targetElement = this.opts.targetElement;
+
+	BEMremoveModifier( "facebook-small", "social-preview__inner", targetElement );
+	BEMremoveModifier( "facebook-small", "editable-preview__image--facebook", targetElement );
+	BEMremoveModifier( "facebook-small", "editable-preview__text-keeper--facebook", targetElement );
 };
 
 /**

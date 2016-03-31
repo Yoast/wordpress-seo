@@ -1,4 +1,4 @@
-var TextArea = require( "../../js/fields/textAreaFactory" );
+var TextArea = require( "../../js/inputs/textarea" );
 
 describe( 'a text area', function() {
 
