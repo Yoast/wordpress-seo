@@ -1,6 +1,8 @@
 /* global yoastSocialPreview  */
 'use strict';
 
+var getImages = require( "yoastseo/js/stringProcessing/imageInText" );
+
 (function($) {
 	/**
 	 * We want to store the fallbacks in an object, to have directly access to them.
@@ -322,12 +324,20 @@
 	 */
 	function getContentImage() {
 		var content = getContent();
-		var images = $( content ).find( 'img' );
-		if( images.length > 0 && images[0].src !== '' ) {
-			return $( images[0] ).attr( 'src' );
-		}
 
-		return '';
+		var images = getImages( content );
+		images.unshift( '<img alt="hoi" />' );
+
+		var image = '';
+
+		do {
+			image = images.shift();
+			image = $( image );
+
+			image = image.prop( 'src' );
+		} while ( '' === image && images.length > 0 );
+
+		return image;
 	}
 
 	/**
