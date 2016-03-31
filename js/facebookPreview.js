@@ -366,7 +366,7 @@ FacebookPreview.prototype.setImageUrl = function( imageUrl ) {
 	var maxWidth;
 
 	var imageContainer = this.element.preview.imageUrl;
-	if ( this.data.imageUrl === "" ) {
+	if ( imageUrl === '' && this.data.imageUrl === "" ) {
 		this.removeSmallImageClasses();
 
 		imagePlaceholder( imageContainer,
