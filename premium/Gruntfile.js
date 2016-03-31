@@ -21,7 +21,7 @@ module.exports = function(grunt) {
 			js: [
 				'assets/js/**/*.js',
 				'!assets/js/**/*.min.js',
-				'!assets/js/src/**/*.js'
+				'!assets/js/yoast-premium-social-preview.js'
 			],
 			css: [
 				'assets/css/*.css',

@@ -1,7 +1,10 @@
-/* global yoastSocialPreview  */
+/* global yoastSocialPreview, tinyMCE, require, wp  */
+/* jshint -W097 */
 'use strict';
 
-var getImages = require( "yoastseo/js/stringProcessing/imageInText" );
+var getImages = require( 'yoastseo/js/stringProcessing/imageInText' );
+var helpPanel = require( './helpPanel' );
+var forEach = require( 'lodash/forEach' );
 
 (function($) {
 	/**
@@ -9,13 +12,15 @@ var getImages = require( "yoastseo/js/stringProcessing/imageInText" );
 	 * @type {{content: string, featured: string}}
 	 */
 	var imageFallBack = {
-		'content' : '',
-		'featured' : ''
+		content: '',
+		featured: ''
 	};
 
 	var socialPreviews = require( 'yoast-social-previews' );
 	var FacebookPreview = socialPreviews.FacebookPreview;
 	var TwitterPreview = socialPreviews.TwitterPreview;
+
+	var translations = yoastSocialPreview.i18n;
 
 	/**
 	 * Sets the events for opening the WP media library when pressing the button.
@@ -40,7 +45,7 @@ var getImages = require( "yoastseo/js/stringProcessing/imageInText" );
 			onMediaSelect();
 		});
 
-		$( "#" + imageButton ).click( function( e ) {
+		$( '#' + imageButton ).click( function( e ) {
 			e.preventDefault();
 			social_preview_uploader.open();
 		} );
@@ -57,7 +62,7 @@ var getImages = require( "yoastseo/js/stringProcessing/imageInText" );
 			return;
 		}
 
-		var imageButtonId = jQuery( imageUrl ).attr( "id" ) + "_button";
+		var imageButtonId = jQuery( imageUrl ).attr( 'id' ) + '_button';
 		var imageButton   = $( '<input id="' + imageButtonId + '" class="button wpseo_preview_image_upload_button" type="button" value="' + yoastSocialPreview.upload_image + '" />' );
 		$( imageButton ).insertAfter( imageUrl );
 		imageUrl.hide();
@@ -124,7 +129,7 @@ var getImages = require( "yoastseo/js/stringProcessing/imageInText" );
 	 * @param {string} containerId The id the container will get
 	 */
 	function createSocialPreviewContainer( socialPreviewholder, containerId ) {
-		socialPreviewholder.append( "<div id='" + containerId + "'></div>" );
+		socialPreviewholder.append( '<div id="' + containerId + '"></div>' );
 		socialPreviewholder.find( '.form-table' ).hide();
 	}
 
@@ -139,25 +144,24 @@ var getImages = require( "yoastseo/js/stringProcessing/imageInText" );
 	function getSocialPreviewArgs( targetElement, fieldPrefix ) {
 		return {
 			targetElement: $( targetElement ).get(0),
-			data : {
-				title : $( '#' + fieldPrefix + '-title' ).val(),
-				description : $( '#' + fieldPrefix + '-description' ).val(),
-				imageUrl : $( '#' + fieldPrefix + '-imageUrl' ).val()
+			data: {
+				title: $( '#' + fieldPrefix + '-title' ).val(),
+				description: $( '#' + fieldPrefix + '-description' ).val(),
+				imageUrl: $( '#' + fieldPrefix + '-imageUrl' ).val()
 			},
-			baseURL : yoastSocialPreview.website,
-			callbacks : {
-				updateSocialPreview : function( data ) {
+			baseURL: yoastSocialPreview.website,
+			callbacks: {
+				updateSocialPreview: function( data ) {
 					$( '#' + fieldPrefix + '-title' ).val( data.title );
 					$( '#' + fieldPrefix + '-description' ).val( data.description );
 					$( '#' + fieldPrefix + '-image' ).val( data.imageUrl );
 
 					if (data.imageUrl === '') {
-						jQuery( targetElement ).trigger( "setFallbackImage" );
+						jQuery( targetElement ).trigger( 'setFallbackImage' );
 					}
-
 				}
 			}
-		}
+		};
 	}
 
 	/**
@@ -212,7 +216,6 @@ var getImages = require( "yoastseo/js/stringProcessing/imageInText" );
 
 	/**
 	 * Refresh the image url by triggering the setFallBackImage event
-	 * @param {FacebookPreview|TwitterPreview} preview
 	 */
 	function refreshImageUrl( ) {
 		$( '#facebookPreview' ).trigger( 'setFallbackImage' );
@@ -346,7 +349,7 @@ var getImages = require( "yoastseo/js/stringProcessing/imageInText" );
 	 * @returns {string}
 	 */
 	function getContent() {
-		if ( _isTinyMCEAvailable() ) {
+		if ( isTinyMCEAvailable() ) {
 			return tinyMCE.get( contentTextName() ).getContent();
 		}
 
@@ -364,7 +367,7 @@ var getImages = require( "yoastseo/js/stringProcessing/imageInText" );
 	 * @returns {boolean}
 	 * @private
 	 */
-	function _isTinyMCEAvailable() {
+	function isTinyMCEAvailable() {
 		if ( typeof tinyMCE === 'undefined' ||
 			typeof tinyMCE.editors === 'undefined' ||
 			tinyMCE.editors.length === 0 ||
@@ -407,6 +410,57 @@ var getImages = require( "yoastseo/js/stringProcessing/imageInText" );
 	}
 
 	/**
+	 * Adds the help panels to the social previews
+	 */
+	function addHelpPanels() {
+		var panels = [
+			{
+				beforeElement: '#facebook-editor-imageUrl',
+				buttonText: translations.helpButton.facebookImage,
+				descriptionText: translations.help.facebookImage,
+				id: 'facebook-editor-image-help'
+			},
+			{
+				beforeElement: '#facebook-editor-title',
+				buttonText: translations.helpButton.facebookTitle,
+				descriptionText: translations.help.facebookTitle,
+				id: 'facebook-editor-title-help'
+			},
+			{
+				beforeElement: '#facebook-editor-description',
+				buttonText: translations.helpButton.facebookDescription,
+				descriptionText: translations.help.facebookDescription,
+				id: 'facebook-editor-description-help'
+			},
+			{
+				beforeElement: '#twitter-editor-imageUrl',
+				buttonText: translations.helpButton.twitterImage,
+				descriptionText: translations.help.twitterImage,
+				id: 'twitter-editor-image-help'
+			},
+			{
+				beforeElement: '#twitter-editor-title',
+				buttonText: translations.helpButton.twitterTitle,
+				descriptionText: translations.help.twitterTitle,
+				id: 'twitter-editor-title-help'
+			},
+			{
+				beforeElement: '#twitter-editor-description',
+				buttonText: translations.helpButton.twitterDescription,
+				descriptionText: translations.help.twitterDescription,
+				id: 'twitter-editor-description-help'
+			}
+		];
+
+		forEach( panels, function( panel ) {
+			$( panel.beforeElement ).before(
+				helpPanel.helpButton( panel.buttonText, panel.id ) +
+				helpPanel.helpText( panel.descriptionText, panel.id )
+			);
+		});
+	}
+
+	/**
 	 * Initialize the social previews.
 	 */
 	function initYoastSocialPreviews() {
@@ -424,6 +478,7 @@ var getImages = require( "yoastseo/js/stringProcessing/imageInText" );
 				if (twitterHolder.length > 0) {
 					initTwitter( twitterHolder );
 				}
+				addHelpPanels();
 
 				bindImageEvents();
 			} );
@@ -431,5 +486,4 @@ var getImages = require( "yoastseo/js/stringProcessing/imageInText" );
 	}
 
 	$( initYoastSocialPreviews );
-
-}(jQuery));
+}( jQuery ) );

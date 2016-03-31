@@ -53,10 +53,33 @@ class WPSEO_Social_Previews {
 	private function localize() {
 		$options = WPSEO_Options::get_option( 'wpseo_social' );
 
+		if ( empty( WPSEO_Social_Admin::$meta_fields['social']['opengraph-title']['description'] ) ) {
+			WPSEO_Social_Admin::translate_meta_boxes();
+		}
+		$social = WPSEO_Social_Admin::$meta_fields['social'];
+
 		return array(
 			'website'              => $this->get_website(),
 			'upload_image'         => __( 'Upload Image', 'wordpress-seo' ),
 			'facebookDefaultImage' => $options['og_default_image'],
+			'i18n'                 => array(
+				'help' => array(
+					'facebookTitle' => $social['opengraph-title']['description'],
+					'facebookDescription' => $social['opengraph-description']['description'],
+					'facebookImage' => $social['opengraph-image']['description'],
+					'twitterTitle' => $social['twitter-title']['description'],
+					'twitterDescription' => $social['twitter-description']['description'],
+					'twitterImage' => $social['twitter-image']['description'],
+				),
+				'helpButton' => array(
+					'facebookTitle' => __( 'Facebook title help', 'wordpress-seo-premium' ),
+					'facebookDescription' => __( 'Facebook description help', 'wordpress-seo-premium' ),
+					'facebookImage' => __( 'Facebook image help', 'wordpress-seo-premium' ),
+					'twitterTitle' => __( 'Twitter title help', 'wordpress-seo-premium' ),
+					'twitterDescription' => __( 'Twitter description help', 'wordpress-seo-premium' ),
+					'twitterImage' => __( 'Twitter image help', 'wordpress-seo-premium' ),
+				),
+			),
 		);
 	}
 
