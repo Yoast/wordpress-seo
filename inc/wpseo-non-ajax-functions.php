@@ -472,7 +472,9 @@ function wpseo_admin_bar_css() {
 
 	if ( $enqueue_adminbarcss ) {
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
-		$asset_manager->register_assets();
+		if ( ! is_admin( ) ) {
+			$asset_manager->register_assets();
+		}
 		$asset_manager->enqueue_style( 'adminbar' );
 	}
 }
