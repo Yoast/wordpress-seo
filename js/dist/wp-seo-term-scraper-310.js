@@ -1,10 +1,115 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-/* global YoastSEO, wp, wpseoTermScraperL10n, ajaxurl, tinyMCE, YoastReplaceVarPlugin, console */
+/* global wp, jQuery, YoastSEO */
+module.exports = (function() {
+	'use strict';
+
+	/**
+	 * Renders a keyword tab as a jQuery HTML object.
+	 *
+	 * @param {int}    score
+	 * @param {string} keyword
+	 * @param {string} prefix
+	 *
+	 * @returns {HTMLElement}
+	 */
+	function renderKeywordTab( score, keyword, prefix ) {
+		var placeholder = keyword.length > 0 ? keyword : '...';
+		var html = wp.template( 'keyword_tab' )({
+			keyword: keyword,
+			placeholder: placeholder,
+			score: score,
+			hideRemove: true,
+			prefix: prefix + ' ',
+			active: true
+		});
+
+		return jQuery( html );
+	}
+
+	/**
+	 * Constructor for a keyword tab object
+	 * @param {Object} args
+	 * @constructor
+	 */
+	function KeywordTab( args ) {
+		this.keyword = '';
+		this.prefix  = args.prefix || '';
+
+		this.setScore( 0 );
+	}
+
+	/**
+	 * Initialize a keyword tab.
+	 *
+	 * @param {HTMLElement} parent
+	 */
+	KeywordTab.prototype.init = function( parent ) {
+		this.setElement( renderKeywordTab( this.score, this.keyword, this.prefix ) );
+
+		jQuery( parent ).append( this.element );
+	};
+
+	/**
+	 * Updates the keyword tabs with new values.
+	 *
+	 * @param {integer} score
+	 * @param {string}  keyword
+	 */
+	KeywordTab.prototype.update = function( score, keyword ) {
+		this.keyword = keyword;
+		this.setScore( score );
+		this.refresh();
+	};
+
+	/**
+	 * Renders a new keyword tab with the current values and replaces the old tab with this one.
+	 */
+	KeywordTab.prototype.refresh = function() {
+		var newElem = renderKeywordTab( this.score, this.keyword, this.prefix );
+
+		this.element.replaceWith( newElem );
+		this.setElement( newElem );
+	};
+
+	/**
+	 * Sets the current element
+	 *
+	 * @param {HTMLElement} element
+	 */
+	KeywordTab.prototype.setElement = function( element ) {
+		this.element = jQuery( element );
+	};
+
+	/**
+	 * Formats the given score and store it in the attribute.
+	 *
+	 * @param {number} score
+	 */
+	KeywordTab.prototype.setScore = function( score ) {
+		score = parseInt( score, 10 );
+
+		if ( this.keyword === '' ) {
+			score = 'na';
+		}
+
+		score = YoastSEO.ScoreFormatter.prototype.overallScoreRating( score );
+
+		this.score = score;
+	};
+
+	return KeywordTab;
+})();
+
+},{}],2:[function(require,module,exports){
+/* global YoastSEO, wpseoTermScraperL10n, ajaxurl, tinyMCE, YoastReplaceVarPlugin, console, require */
 (function( $ ) {
 	'use strict';
 
 	var snippetPreview;
 	var termSlugInput;
+
+	var mainKeywordTab;
+	var KeywordTab = require( './analysis/keywordTab' );
 
 	var TermScraper = function() {
 		if ( typeof CKEDITOR === 'object' ) {
@@ -171,7 +276,7 @@
 		document.getElementById( 'hidden_wpseo_linkdex' ).value = score;
 		jQuery( window ).trigger( 'YoastSEO:numericScore', score );
 
-		this.updateKeywordTabContent( $( '#wpseo_focuskw' ).val(), score );
+		mainKeywordTab.update( score, this.getDataFromInput( 'keyword' ) );
 
 		cssClass = YoastSEO.app.scoreFormatter.overallScoreRating( parseInt( score, 10 ) );
 		alt = YoastSEO.app.scoreFormatter.getSEOScoreText( cssClass );
@@ -195,30 +300,7 @@
 		keyword = $( '#wpseo_focuskw' ).val();
 		score   = $( '#hidden_wpseo_linkdex' ).val();
 
-		this.updateKeywordTabContent( keyword, score );
-	};
-
-	/**
-	 * Updates keyword tab with new content
-	 */
-	TermScraper.prototype.updateKeywordTabContent = function( keyword, score ) {
-		var placeholder, keyword_tab;
-
-		placeholder = keyword.length > 0 ? keyword : '...';
-
-		score = parseInt( score, 10 );
-		score = YoastSEO.ScoreFormatter.prototype.overallScoreRating( score );
-
-		keyword_tab = wp.template( 'keyword_tab' )({
-			keyword: keyword,
-			placeholder: placeholder,
-			score: score,
-			hideRemove: true,
-			prefix: wpseoTermScraperL10n.contentTab + ' ',
-			active: true
-		});
-
-		$( '.wpseo_keyword_tab' ).replaceWith( keyword_tab );
+		mainKeywordTab.update( score, keyword );
 	};
 
 	/**
@@ -324,6 +406,14 @@
 
 		insertTinyMCE();
 
+		// Initialize an instance of the keywordword tab.
+		mainKeywordTab = new KeywordTab(
+			{
+				prefix: wpseoTermScraperL10n.contentTab
+			}
+		);
+		mainKeywordTab.setElement( $('.wpseo_keyword_tab') );
+
 		termScraper = new TermScraper();
 
 		args = {
@@ -375,4 +465,4 @@
 	} );
 }( jQuery ));
 
-},{}]},{},[1]);
+},{"./analysis/keywordTab":1}]},{},[2]);

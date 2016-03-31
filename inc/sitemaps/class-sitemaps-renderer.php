@@ -61,10 +61,17 @@ class WPSEO_Sitemaps_Renderer {
 	 */
 	public function get_sitemap( $links, $type, $current_page ) {
 
-		$xml =
+		$urlset =
 			'<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" '
 			. 'xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" '
 			. 'xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\n";
+
+		/**
+		 * Filters the `urlset` for a sitemap by type.
+		 *
+		 * @api string $urlset The output for the sitemap's `urlset`.
+		 */
+		$xml = apply_filters( "wpseo_sitemap_{$type}_urlset", $urlset );
 
 		foreach ( $links as $url ) {
 			$xml .= $this->sitemap_url( $url );
@@ -75,7 +82,7 @@ class WPSEO_Sitemaps_Renderer {
 		 *
 		 * Only runs for the first page, not on all.
 		 *
-		 * @parm string $content String content to add, defaults to empty.
+		 * @param string $content String content to add, defaults to empty.
 		 */
 		if ( $current_page === 1 ) {
 			$xml .= apply_filters( "wpseo_sitemap_{$type}_content", '' );
@@ -116,8 +123,8 @@ class WPSEO_Sitemaps_Renderer {
 			return $output;
 		}
 
-		$memory_used = number_format( ( memory_get_peak_usage() / 1024 / 1024 ), 2 );
-		$queries_run = ( $transient ) ? 'Served from transient cache' : absint( $GLOBALS['wpdb']->num_queries );
+		$memory_used = number_format( ( memory_get_peak_usage() / 1048576 ), 2 );
+		$queries_run = ( $transient ) ? 'Served from transient cache' : 'Queries executed ' . absint( $GLOBALS['wpdb']->num_queries );
 
 		$output .= "\n<!-- {$memory_used}MB | {$queries_run} -->";
 
@@ -220,6 +227,13 @@ class WPSEO_Sitemaps_Renderer {
 
 		$output .= "\t</url>\n";
 
-		return $output;
+		/**
+		 * Filters the output for the sitemap url tag.
+		 *
+		 * @api   string $output The output for the sitemap url tag.
+		 *
+		 * @param array  $url The sitemap url array on which the output is based.
+		 */
+		return apply_filters( 'wpseo_sitemap_url', $output, $url );
 	}
 }

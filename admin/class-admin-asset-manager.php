@@ -96,6 +96,8 @@ class WPSEO_Admin_Asset_Manager {
 	/**
 	 * Returns the scripts that need to be registered.
 	 *
+	 * @TODO data format is not self-documenting. Needs explanation inline. R.
+	 *
 	 * @return array scripts that need to be registered.
 	 */
 	private function scripts_to_be_registered() {
@@ -140,11 +142,12 @@ class WPSEO_Admin_Asset_Manager {
 				'deps' => array( 'jquery' ),
 			),
 			array(
-				'name'    => 'jquery-qtip',
-				'src'     => 'jquery.qtip',
-				'deps'    => array( 'jquery' ),
-				'version' => '2.2.1',
-				'suffix'  => '.min',
+				'name'      => 'jquery-qtip',
+				'src'       => 'jquery.qtip',
+				'deps'      => array( 'jquery' ),
+				'version'   => '2.2.1',
+				'suffix'    => '.min',
+				'in_footer' => true,
 			),
 			array(
 				'name' => 'metabox',
@@ -168,19 +171,9 @@ class WPSEO_Admin_Asset_Manager {
 				),
 			),
 			array(
-				'name' => 'metabox-taxonomypage',
-				'src'  => 'wp-seo-metabox-302',
-				'deps' => array(
-					'jquery',
-					'jquery-ui-core',
-					'jquery-ui-autocomplete',
-					self::PREFIX . 'jquery-qtip',
-				),
-			),
-			array(
 				'name'      => 'admin-gsc',
 				'src'       => 'wp-seo-admin-gsc-302',
-				'deps'      => array( 'jquery' ),
+				'deps'      => array( self::PREFIX . 'jquery-qtip' ),
 				'in_footer' => false,
 			),
 			array(
@@ -190,7 +183,7 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'post-scraper',
-				'src'  => 'wp-seo-post-scraper-310',
+				'src'  => 'wp-seo-post-scraper-311',
 				'deps' => array(
 					self::PREFIX . 'yoast-seo',
 					self::PREFIX . 'replacevar-plugin',
@@ -262,6 +255,8 @@ class WPSEO_Admin_Asset_Manager {
 
 	/**
 	 * Returns the styles that need to be registered.
+	 *
+	 * @TODO data format is not self-documenting. Needs explanation inline. R.
 	 *
 	 * @return array styles that need to be registered.
 	 */

@@ -22,7 +22,12 @@ class WPSEO_Sitemaps_Router_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Sitemaps_Router::redirect_canonical
 	 */
 	public function test_redirect_canonical() {
+		global $wp_query;
+		unset( $wp_query->query_vars['sitemap'] );
+		unset( $wp_query->query_vars['xls'] );
+
 		$url = site_url();
+
 		$this->assertNotEmpty( self::$class_instance->redirect_canonical( $url ) );
 
 		set_query_var( 'sitemap', 'sitemap_value' );

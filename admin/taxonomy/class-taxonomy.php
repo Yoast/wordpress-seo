@@ -21,20 +21,29 @@ class WPSEO_Taxonomy {
 	public function __construct() {
 		$this->taxonomy = $this->get_taxonomy();
 
-		if ( is_admin() && $this->taxonomy !== '' && $this->show_metabox() ) {
-			add_action( sanitize_text_field( $this->taxonomy ) . '_edit_form', array( $this, 'term_metabox' ), 90, 1 );
-		}
-
 		add_action( 'edit_term', array( $this, 'update_term' ), 99, 3 );
-
 		add_action( 'init', array( $this, 'custom_category_descriptions_allow_html' ) );
+		add_action( 'admin_init', array( $this, 'admin_init' ) );
 		add_filter( 'category_description', array( $this, 'custom_category_descriptions_add_shortcode_support' ) );
-		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
 
-		if ( $GLOBALS['pagenow'] === 'edit-tags.php' ) {
+		if ( self::is_term_overview( $GLOBALS['pagenow'] ) ) {
 			new WPSEO_Taxonomy_Columns();
 		}
+	}
 
+	/**
+	 * Add hooks late enough for taxonomy object to be available for checks.
+	 */
+	public function admin_init() {
+
+		$taxonomy = get_taxonomy( $this->taxonomy );
+
+		if ( empty( $taxonomy ) || empty( $taxonomy->public ) || ! $this->show_metabox() ) {
+			return;
+		}
+
+		add_action( sanitize_text_field( $this->taxonomy ) . '_edit_form', array( $this, 'term_metabox' ), 90, 1 );
+		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
 	}
 
 	/**
@@ -48,21 +57,25 @@ class WPSEO_Taxonomy {
 	}
 
 	/**
-	 * Test whether we are on a public taxonomy - no metabox actions needed if we are not
-	 * Unfortunately we have to hook most everything in before the point where all taxonomies are registered and
-	 * we know which taxonomy is being requested, so we need to use this check in nearly every hooked in function.
+	 * Queue assets for taxonomy screens.
 	 *
 	 * @since 1.5.0
 	 */
 	public function admin_enqueue_scripts() {
-		if ( $GLOBALS['pagenow'] !== 'edit-tags.php' ) {
+		$pagenow = $GLOBALS['pagenow'];
+
+		if ( ! ( self::is_term_edit( $pagenow ) || self::is_term_overview( $pagenow ) ) ) {
 			return;
 		}
 
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
 		$asset_manager->enqueue_style( 'scoring' );
 
-		if ( filter_input( INPUT_GET, 'action' ) === 'edit' ) {
+		$tag_id = filter_input( INPUT_GET, 'tag_ID' );
+		if (
+			self::is_term_edit( $pagenow ) &&
+			! empty( $tag_id )  // After we drop support for <4.5 this can be removed.
+		) {
 			wp_enqueue_media(); // Enqueue files needed for upload functionality.
 
 			$asset_manager->enqueue_style( 'yoast-seo' );
@@ -72,7 +85,7 @@ class WPSEO_Taxonomy {
 
 			wp_editor( '', 'description' );
 
-			$asset_manager->enqueue_script( 'metabox-taxonomypage' );
+			$asset_manager->enqueue_script( 'metabox' );
 			$asset_manager->enqueue_script( 'yoast-seo' );
 			$asset_manager->enqueue_script( 'term-scraper' );
 
@@ -169,6 +182,26 @@ class WPSEO_Taxonomy {
 	}
 
 	/**
+	 * @param string $page The string to check for the term overview page.
+	 *
+	 * @return bool
+	 */
+	public static function is_term_overview( $page ) {
+		return 'edit-tags.php' === $page;
+	}
+
+	/**
+	 * @param string $page The string to check for the term edit page.
+	 *
+	 * @return bool
+	 */
+	public static function is_term_edit( $page ) {
+		return 'term.php' === $page
+		       || 'edit-tags.php' === $page; // After we drop support for <4.5 this can be removed.
+	}
+
+	/**
+	 * Retrieves a template.
 	 * Check if metabox for current taxonomy should be displayed.
 	 *
 	 * @return bool
