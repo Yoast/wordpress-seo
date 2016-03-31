@@ -9,8 +9,8 @@ var Jed = require( "jed" );
 var imageRatio = require( "./helpers/imageRatio" );
 var renderDescription = require( "./helpers/renderDescription" );
 var imagePlaceholder  = require( "./element/imagePlaceholder" );
-var BEMaddModifier = require( "./helpers/bem/addModifier" );
-var BEMremoveModifier = require( "./helpers/bem/removeModifier" );
+var bemAddModifier = require( "./helpers/bem/addModifier" );
+var bemRemoveModifier = require( "./helpers/bem/removeModifier" );
 
 var TextField = require( "./inputs/textInput" );
 var TextArea = require( "./inputs/textarea" );
@@ -412,7 +412,9 @@ FacebookPreview.prototype.setImageUrl = function( imageUrl ) {
 /**
  * Detects if the facebook preview should switch to small image mode
  *
- * @param {HTMLImageElement} image
+ * @param {HTMLImageElement} image The image in question.
+ *
+ * @returns {boolean} Whether the image is small.
  */
 FacebookPreview.prototype.isSmallImage = function( image ) {
 	return (
@@ -427,17 +429,17 @@ FacebookPreview.prototype.isSmallImage = function( image ) {
 FacebookPreview.prototype.setSmallImageClasses = function() {
 	var targetElement = this.opts.targetElement;
 
-	BEMaddModifier( "facebook-small", "social-preview__inner", targetElement );
-	BEMaddModifier( "facebook-small", "editable-preview__image--facebook", targetElement );
-	BEMaddModifier( "facebook-small", "editable-preview__text-keeper--facebook", targetElement );
+	bemAddModifier( "facebook-small", "social-preview__inner", targetElement );
+	bemAddModifier( "facebook-small", "editable-preview__image--facebook", targetElement );
+	bemAddModifier( "facebook-small", "editable-preview__text-keeper--facebook", targetElement );
 };
 
 FacebookPreview.prototype.removeSmallImageClasses = function() {
 	var targetElement = this.opts.targetElement;
 
-	BEMremoveModifier( "facebook-small", "social-preview__inner", targetElement );
-	BEMremoveModifier( "facebook-small", "editable-preview__image--facebook", targetElement );
-	BEMremoveModifier( "facebook-small", "editable-preview__text-keeper--facebook", targetElement );
+	bemRemoveModifier( "facebook-small", "social-preview__inner", targetElement );
+	bemRemoveModifier( "facebook-small", "editable-preview__image--facebook", targetElement );
+	bemRemoveModifier( "facebook-small", "editable-preview__text-keeper--facebook", targetElement );
 };
 
 /**

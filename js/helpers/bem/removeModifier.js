@@ -12,8 +12,6 @@ function removeModifier( modifier, targetClass, targetParent ) {
 	var element = targetParent.getElementsByClassName( targetClass )[0];
 	var newClass = addModifierToClass( modifier, targetClass );
 
-	console.log( element, newClass );
-
 	removeClass( element, newClass );
 }
 
