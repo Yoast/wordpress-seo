@@ -1,5 +1,5 @@
 /* browser:true */
-/* global tb_show */
+/* global tb_show, wpseoSelect2Locale */
 (function( $ ) {
 	'use strict';
 
@@ -101,6 +101,15 @@
 	}
 
 	/**
+	 * Adds select2 for selected fields.
+	 */
+	function initSelect2() {
+		// Select2 for Yoast SEO Metabox Advanced tab
+		$( '#yoast_wpseo_meta-robots-noindex' ).select2( { width: '100%', language: wpseoSelect2Locale } );
+		$( '#yoast_wpseo_meta-robots-adv' ).select2( { width: '100%', language: wpseoSelect2Locale } );
+	}
+
+	/**
 	 * Shows a informational popup if someone click the add keyword button
 	 */
 	function addKeywordPopup() {
@@ -156,6 +165,7 @@
 		window.wpseo_init_tabs();
 
 		initAddKeywordPopup();
+		initSelect2();
 	});
 }( jQuery ));
 
