@@ -43,6 +43,15 @@ module.exports = function( text ) {
 'use strict';
 
 (function($) {
+	/**
+	 * We want to store the fallbacks in an object, to have directly access to them.
+	 * @type {{content: string, featured: string}}
+	 */
+	var imageFallBack = {
+		'content' : '',
+		'featured' : ''
+	};
+
 	var socialPreviews = require( 'yoast-social-previews' );
 	var FacebookPreview = socialPreviews.FacebookPreview;
 	var TwitterPreview = socialPreviews.TwitterPreview;
@@ -121,12 +130,27 @@ module.exports = function( text ) {
 	 * @returns {*}
 	 */
 	function fieldPrefix() {
-
 		switch( getCurrentType() ) {
 			case 'post' :
 				return 'yoast_wpseo';
 			case 'term' :
 				return 'wpseo';
+		}
+
+		return '';
+	}
+
+	/**
+	 * Returns the name of the tinymce and textarea fields.
+	 *
+	 * @returns {string}
+	 */
+	function contentTextName() {
+		switch ( getCurrentType() ) {
+			case 'post' :
+				return 'content';
+			case 'term' :
+				return 'description';
 		}
 
 		return '';
@@ -142,54 +166,6 @@ module.exports = function( text ) {
 		socialPreviewholder.append( "<div id='" + containerId + "'></div>" );
 		socialPreviewholder.find( '.form-table' ).hide();
 	}
-
-	function getContentImage() {
-		var content = $( '#content' ) && $( '#content' ).val() || '';
-		if ( _isTinyMCEAvailable() ) {
-			content = tinyMCE.get( 'content' ).getContent();
-		}
-
-		var images = $( content ).find( 'img' );
-		if( images.length > 0 && images[0].src !== '' ) {
-			return $( images[0] ).attr( 'src' );
-		}
-
-		return '';
-
-	}
-
-	function _isTinyMCEAvailable() {
-		if ( typeof tinyMCE === 'undefined' ||
-			typeof tinyMCE.editors === 'undefined' ||
-			tinyMCE.editors.length === 0 ||
-			tinyMCE.get( 'content' ) === null ||
-			tinyMCE.get( 'content' ).isHidden() ) {
-			return false;
-		}
-
-		return true;
-	}
-
-
-	function getFallbackImage( defaultImage ) {
-		// In case of an post: we want to have the featured image.
-		if( getCurrentType() === 'post' ) {
-			var postThumbnail = $( '.attachment-post-thumbnail' );
-			if( postThumbnail.length > 0 ) {
-				return $( postThumbnail.get(0) ).attr( 'src' );
-			}
-		}
-
-		// When the featured image is empty, try an image in the content
-		var contentImage = getContentImage();
-		if( contentImage !== '') {
-			return contentImage;
-		}
-
-		return defaultImage;
-	}
-
-	window.getFallbackImage = getFallbackImage;
 
 	/**
 	 * Returns the arguments for the social preview prototypes.
@@ -227,7 +203,6 @@ module.exports = function( text ) {
 	 * Initialize the facebook preview.
 	 *
 	 * @param {Object} facebookHolder Target element for adding the facebook preview.
-	 * @param {Object} facebookDefaults The defaults for the facebook preview prototype.
 	 */
 	function initFacebook( facebookHolder ) {
 		createSocialPreviewContainer( facebookHolder, 'facebookPreview' );
@@ -239,7 +214,9 @@ module.exports = function( text ) {
 
 		facebookPreviewContainer.on(
 			'setFallbackImage',
-			facebookPreview.setImageUrl.bind( facebookPreview, getFallbackImage.call( this, yoastSocialPreview.facebookDefaultImage ) )
+			function() {
+				facebookPreview.setImageUrl( getFallbackImage( yoastSocialPreview.facebookDefaultImage ) );
+			}
 		);
 
 		facebookPreview.init();
@@ -251,7 +228,6 @@ module.exports = function( text ) {
 	 * Initialize the twitter preview.
 	 *
 	 * @param {Object} twitterHolder Target element for adding the twitter preview.
-	 * @param {Object} twitterDefaults The defaults for the twitter preview prototype.
 	 */
 	function initTwitter( twitterHolder ) {
 		createSocialPreviewContainer( twitterHolder, 'twitterPreview' );
@@ -263,7 +239,9 @@ module.exports = function( text ) {
 
 		twitterPreviewContainer.on(
 			'setFallbackImage',
-			twitterPreview.setImageUrl.bind( twitterPreview, getFallbackImage.call( '' ) )
+			function() {
+				twitterPreview.setImageUrl( getFallbackImage( '' ) );
+			}
 		);
 
 		twitterPreview.init();
@@ -272,19 +250,216 @@ module.exports = function( text ) {
 	}
 
 	/**
+	 * Refresh the image url by triggering the setFallBackImage event
+	 * @param {FacebookPreview|TwitterPreview} preview
+	 */
+	function refreshImageUrl( ) {
+		$( '#facebookPreview' ).trigger( 'setFallbackImage' );
+		$( '#twitterPreview' ).trigger( 'setFallbackImage' );
+	}
+
+	/**
+	 * Bind the image events to set the fallback and rendering the preview.
+	 */
+	function bindImageEvents() {
+		if ( getCurrentType() === 'post' ) {
+			bindFeaturedImageEvents();
+		}
+
+		bindContentEvents();
+	}
+
+	/**
+	 * Binds the events for the featured image.
+	 */
+	function bindFeaturedImageEvents() {
+		// When the featured image is being changed
+		var featuredImage = wp.media.featuredImage.frame();
+
+		featuredImage.on( 'select', function() {
+			var imageDetails = featuredImage.state().get( 'selection' ).first().attributes;
+
+			setFeaturedImage( imageDetails.url );
+			refreshImageUrl();
+		} );
+
+		$( '#postimagediv' ).on( 'click', '#remove-post-thumbnail', function() {
+			setFeaturedImage( '' );
+			refreshImageUrl();
+		} );
+	}
+
+	/**
+	 * Bind the events for the content.
+	 */
+	function bindContentEvents() {
+		// Bind the event when something changed in the text editor.
+		var contentElement = $( '#' + contentTextName() );
+		if( typeof contentElement !== 'undefined' ) {
+			contentElement.on( 'input', function() {
+				setContentImage( getContentImage() );
+				refreshImageUrl();
+			} );
+		}
+
+		//Bind the events when something changed in the tinyMCE editor.
+		if( typeof tinyMCE !== 'undefined' && typeof tinyMCE.on === 'function' ) {
+			var events = [ 'input', 'change', 'cut', 'paste' ];
+			tinyMCE.on( 'addEditor', function( e ) {
+				for ( var i = 0; i < events.length; i++ ) {
+					e.editor.on( events[i], function() {
+						setContentImage( getContentImage() );
+						refreshImageUrl();
+					} );
+				}
+			});
+		}
+	}
+
+	/**
+	 * Sets the image fallbacks like the featured image (in case of a post) and the content image.
+	 */
+	function setImageFallback() {
+		// In case of a post: we want to have the featured image.
+		if( getCurrentType() === 'post' ) {
+			var featuredImage = getFeaturedImage();
+			setFeaturedImage( featuredImage );
+		}
+
+		var contentImage = getContentImage();
+		setContentImage( contentImage );
+	}
+
+	/**
+	 * Sets the featured image based on the given image url.
+	 *
+	 * @param {string} featuredImage The image we want to set.
+	 */
+	function setFeaturedImage( featuredImage ) {
+		imageFallBack.featured = featuredImage;
+	}
+
+	/**
+	 * Sets the content image base on the given image url
+	 *
+	 * @param {string} contentImage The image we want to set.
+	 */
+	function setContentImage( contentImage ) {
+		imageFallBack.content = contentImage;
+	}
+
+	/**
+	 * Gets the featured image source from the DOM.
+	 *
+	 * @returns {string}
+	 */
+	function getFeaturedImage() {
+		var postThumbnail = $( '.attachment-post-thumbnail' );
+		if( postThumbnail.length > 0 ) {
+			return $( postThumbnail.get(0) ).attr( 'src' );
+		}
+
+		return '';
+	}
+
+	/**
+	 * Returns the image from the content.
+	 *
+	 * @returns {string}
+	 */
+	function getContentImage() {
+		var content = getContent();
+		var images = $( content ).find( 'img' );
+		if( images.length > 0 && images[0].src !== '' ) {
+			return $( images[0] ).attr( 'src' );
+		}
+
+		return '';
+	}
+
+	/**
+	 * Returns the content from current visible content editor
+	 *
+	 * @returns {string}
+	 */
+	function getContent() {
+		if ( _isTinyMCEAvailable() ) {
+			return tinyMCE.get( contentTextName() ).getContent();
+		}
+
+		var contentElement = $( '#' + contentTextName() );
+		if( contentElement.length > 0 ) {
+			return contentElement.val();
+		}
+
+		return '';
+	}
+
+	/**
+	 * Check if tinymce is active on the current page.
+	 *
+	 * @returns {boolean}
+	 * @private
+	 */
+	function _isTinyMCEAvailable() {
+		if ( typeof tinyMCE === 'undefined' ||
+			typeof tinyMCE.editors === 'undefined' ||
+			tinyMCE.editors.length === 0 ||
+			tinyMCE.get( contentTextName() ) === null ||
+			tinyMCE.get( contentTextName()  ).isHidden() ) {
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Check if there is a fallback image like the featured image or the first image in the content.
+	 *
+	 * @param {string} defaultImage The default image when nothing has been found.
+	 * @returns {string}
+	 */
+	function getFallbackImage( defaultImage ) {
+		// In case of an post: we want to have the featured image.
+		if( getCurrentType() === 'post' ) {
+			if( imageFallBack.featured !== '' ) {
+				return imageFallBack.featured;
+			}
+		}
+
+		// When the featured image is empty, try an image in the content
+		if( imageFallBack.content !== '') {
+			return imageFallBack.content;
+		}
+
+		return defaultImage;
+	}
+
+	/**
 	 * Initialize the social previews.
 	 */
 	function initYoastSocialPreviews() {
 		var facebookHolder = $( '#wpseo_facebook' );
-		if ( facebookHolder.length > 0 ) {
-			initFacebook( facebookHolder );
-		}
-
 		var twitterHolder = $( '#wpseo_twitter' );
-		if ( twitterHolder.length > 0 ) {
-			initTwitter( twitterHolder );
-		}
 
+		if ( facebookHolder.length > 0 || twitterHolder.length > 0 ) {
+			jQuery( window ).on( 'YoastSEO:ready', function() {
+				setImageFallback();
+				
+				if (facebookHolder.length > 0) {
+					initFacebook( facebookHolder );
+				}
+
+				if (twitterHolder.length > 0) {
+					initTwitter( twitterHolder );
+				}
+
+
+				bindImageEvents();
+			} );
+
+
+		}
 	}
 
 	$( initYoastSocialPreviews );
@@ -1970,8 +2145,11 @@ TwitterPreview.prototype.setDescription = function( description ) {
  * @param {string} imageUrl The image path.
  */
 TwitterPreview.prototype.setImageUrl = function( imageUrl ) {
+
+	console.log( imageUrl );
+
 	var imageContainer = this.element.preview.imageUrl;
-	if ( this.data.imageUrl === "" ) {
+	if ( imageUrl === '' && this.data.imageUrl === "" ) {
 		imagePlaceholder(
 			imageContainer,
 			this.i18n.dgettext( "yoast-social-previews", "Please enter an image url by clicking here" ),
