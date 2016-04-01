@@ -14,7 +14,7 @@ var Jed = require( "jed" );
 
 var Assessor = require( "./assessor.js" );
 var Researcher = require( "./researcher.js" );
-var ScoreFormatter = require( "./scoreFormatter.js" );
+var AssessorPresenter = require( "./renderers/AssessorPresenter.js" );
 var Pluggable = require( "./pluggable.js" );
 var Paper = require( "./values/Paper.js" );
 
@@ -430,14 +430,14 @@ App.prototype.runAnalyzer = function() {
 	this.assessor.assess( this.paper );
 
 	// Pass the assessor result through to the formatter
-	this.scoreFormatter = new ScoreFormatter( {
+	this.assessorPresenter = new AssessorPresenter( {
 		targets: this.config.targets,
 		keyword: this.paper.getKeyword(),
 		assessor: this.assessor,
 		i18n: this.i18n
 	} );
 
-	this.scoreFormatter.renderScore();
+	this.assessorPresenter.render();
 	this.callbacks.saveScores( this.assessor.calculateOverallScore() );
 
 	if ( this.config.dynamicDelay ) {
