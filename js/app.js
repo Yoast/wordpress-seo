@@ -200,9 +200,14 @@ var App = function( args ) {
 	verifyArguments( args );
 
 	this.config = args;
-	this.pluggable = new Pluggable( this );
+
 	this.callbacks = this.config.callbacks;
 	this.i18n = this.constructI18n( this.config.translations );
+
+	// Set the assessor
+	this.assessor = new Assessor( this.i18n );
+
+	this.pluggable = new Pluggable( this );
 
 	this.getData();
 	this.showLoadingDialog();
@@ -422,11 +427,6 @@ App.prototype.runAnalyzer = function() {
 		this.researcher.setPaper( this.paper );
 	}
 
-	// Set the assessor
-	if ( isUndefined( this.assessor ) ) {
-		this.assessor = new Assessor( this.i18n );
-	}
-
 	this.assessor.assess( this.paper );
 
 	// Pass the assessor result through to the formatter
@@ -568,16 +568,28 @@ App.prototype.registerModification = function( modification, callable, pluginNam
  * Scores 6 and 7 result in a yellow circle
  * Scores 8, 9 and 10 result in a red circle
  *
- * @param {string}   name       Name of the test.
- * @param {function} analysis   A function that analyzes the content and determines a score for a certain trait.
- * @param {Object}   scoring    A scoring object that defines how the analysis translates to a certain SEO score.
- * @param {string}   pluginName The plugin that is registering the test.
- * @param {number}   priority   (optional) Determines when this test is run in the analyzer queue. Is currently ignored,
- *                              tests are added to the end of the queue.
- * @returns {boolean}           Whether or not the test was successfully registered.
+ * @deprecated since version 1.2
  */
-App.prototype.registerTest = function( name, analysis, scoring, pluginName, priority ) {
-	return this.pluggable._registerTest( name, analysis, scoring, pluginName, priority );
+App.prototype.registerTest = function() {
+	console.error( "This function is deprecated, please use registerAssessment" );
+};
+
+/**
+ * Registers a custom assessment for use in the analyzer, this will result in a new line in the analyzer results.
+ * The function needs to use the assessmentresult to return an result  based on the contents of the page/posts.
+ *
+ * Score 0 results in a grey circle if it is not explicitly set by using setscore
+ * Scores 0, 1, 2, 3 and 4 result in a red circle
+ * Scores 6 and 7 result in a yellow circle
+ * Scores 8, 9 and 10 result in a green circle
+ *
+ * @param {string} name Name of the test.
+ * @param {function} assessment The assessment to run
+ * @param {string}   pluginName The plugin that is registering the test.
+ * @returns {boolean} Whether or not the test was successfully registered.
+ */
+App.prototype.registerAssessment = function( name, assessment, pluginName ) {
+	return this.pluggable._registerAssessment( this.assessor, name, assessment, pluginName );
 };
 
 module.exports = App;

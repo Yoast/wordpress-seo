@@ -1,5 +1,16 @@
 var SnippetPreview = require( "../../js/snippetPreview" );
 var App = require( "../../js/app" );
+var PreviouslyUsedKeywords = require( "../../js/bundledPlugins/previouslyUsedKeywords.js" );
+
+/**
+ * binds the renewData function on the change of inputelements.
+ */
+var bindEvents = function( app ) {
+	var elems = [ "content", "focusKeyword" ];
+	for ( var i = 0; i < elems.length; i++ ) {
+		document.getElementById( elems[ i ] ).addEventListener( "input", app.analyzeTimer.bind( app ) );
+	}
+};
 
 window.onload = function() {
 	var snippetPreview = new SnippetPreview({
@@ -21,5 +32,18 @@ window.onload = function() {
 		}
 	});
 
+	bindEvents( app );
+
 	app.refresh();
+
+	var args = {
+		usedKeywords: {"keyword": [1], "test": [2, 3, 4]},
+		searchUrl: "http://example.com/post?id={id}",
+		postUrl: "http://example.com/search?kw={keyword}"
+	};
+	var previouslyUsedKeywordsPlugin = new PreviouslyUsedKeywords(
+		app, args, app.i18n
+	);
+
+	previouslyUsedKeywordsPlugin.registerPlugin();
 };

@@ -153,4 +153,17 @@ Assessor.prototype.calculateOverallScore  = function() {
 	return Math.round( totalScore / ( results.length * ScoreRating ) * 100 );
 };
 
+/**
+ * Register an assessment to add it to the internal assessments object.
+ *
+ * @param {string} name The name of the assessment.
+ * @param {object} assessment The object containing function to run as an assessment and it's requirements.
+ * @return {boolean} Whether registering the assessment was successful.
+ * @private
+ */
+Assessor.prototype.addAssessment = function( name, assessment ) {
+	assessments[ name ] = assessment;
+	return true;
+};
+
 module.exports = Assessor;

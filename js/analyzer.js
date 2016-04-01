@@ -84,7 +84,6 @@ Analyzer.prototype.init = function( args ) {
 */
 Analyzer.prototype.formatKeyword = function() {
 	if ( this.paper.hasKeyword() ) {
-
 		// removes characters from the keyword that could break the regex, or give unwanted results.
 		// leaves the - since this is replaced later on in the function
 		var keyword = sanitizeString( this.paper.getKeyword() );

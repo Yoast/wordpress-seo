@@ -3,6 +3,9 @@
 var isUndefined = require( "lodash/isUndefined" );
 var forEach = require( "lodash/forEach" );
 var reduce = require( "lodash/reduce" );
+var isString = require( "lodash/isString" );
+var isObject = require( "lodash/isObject" );
+var InvalidTypeError = require( "./errors/invalidType" );
 
 /**
  * The plugins object takes care of plugin registrations, preloading and managing data modifications.
@@ -170,48 +173,41 @@ Pluggable.prototype._registerModification = function( modification, callable, pl
 /**
  * Register test for a specific plugin
  *
- * @param   {string}      name          The name of the test.
- * @param   {function}    analysis      The function to be run within the test.
- * @param   {object}      scoring       The scoring associated with the test.
- * @param   {string}      pluginName    The name of the plugin associated with the test.
- * @param   {number}      priority      The priority that this test has.
- * @returns {boolean}                   Whether or not the test was successfully registered.
+ * @deprecated
+ */
+Pluggable.prototype._registerTest = function() {
+	console.error ( "This function is deprecated, please use _registerAssessment" );
+};
+
+/**
+ * Register an assessment for a specific plugin
+ *
+ * @param {object} assessor The assessor object where the assessments needs to be added.
+ * @param {string} name The name of the assessment.
+ * @param {function} assessment The function to run as an assessment.
+ * @param {string} pluginName The name of the plugin associated with the assessment.
+ * @return {boolean} Whether registering the assessment was successful.
  * @private
  */
-Pluggable.prototype._registerTest = function( name, analysis, scoring, pluginName, priority ) {
-	if ( typeof name !== "string" ) {
-		console.error( "Failed to register test for plugin " + pluginName + ". Expected parameter `name` to be a string." );
-		return false;
+Pluggable.prototype._registerAssessment = function( assessor, name, assessment, pluginName ) {
+	if ( !isString( name ) ) {
+		throw new InvalidTypeError( "Failed to register test for plugin " + pluginName + ". Expected parameter `name` to be a string." );
 	}
 
-	if ( typeof analysis !== "function" ) {
-		console.error( "Failed to register test for plugin " + pluginName + ". Expected parameter `analyzer` to be a function." );
-		return false;
+	if ( !isObject( assessment ) ) {
+		throw new InvalidTypeError( "Failed to register assessment for plugin " + pluginName +
+			". Expected parameter `assessment` to be a function." );
 	}
 
-	if ( typeof pluginName !== "string" ) {
-		console.error( "Failed to register test for plugin " + pluginName + ". Expected parameter `pluginName` to be a string." );
-		return false;
+	if ( !isString( pluginName ) ) {
+		throw new InvalidTypeError( "Failed to register assessment for plugin " + pluginName +
+			". Expected parameter `pluginName` to be a strign." );
 	}
-
-	// Validate origin
-	if ( this._validateOrigin( pluginName ) === false ) {
-		console.error( "Failed to register test for plugin " + pluginName + ". The integration has not finished loading yet." );
-		return false;
-	}
-
-	// Default priority to 10
-	var prio = typeof priority === "number" ? priority : 10;
 
 	// Prefix the name with the pluginName so the test name is always unique.
 	name = pluginName + "-" + name;
 
-	this.customTests.push( {
-		"name": name,
-		"analysis": analysis,
-		"scoring": scoring,
-		"prio": prio
-	} );
+	assessor.addAssessment( name, assessment );
 
 	return true;
 };

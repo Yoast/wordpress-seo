@@ -32,7 +32,7 @@ YoastSEO.ExampleScraper.prototype.bindElementEvents = function( app ) {
 };
 
 /**
- * bins the renewData function on the change of inputelements.
+ * binds the renewData function on the change of inputelements.
  */
 YoastSEO.ExampleScraper.prototype.inputElementEventBinder = function( app ) {
 	var elems = [ "content", "focusKeyword" ];

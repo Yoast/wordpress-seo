@@ -63,3 +63,14 @@ describe ( "returning the overallscore", function() {
 		expect( assessor.calculateOverallScore() ).toBe( 63 );
 	})
 } );
+
+var mockAssessment = {
+	callback: function(){return true}
+};
+
+describe ( "adding an assessment", function() {
+	it( "adds an assessment", function(){
+		assessor.addAssessment( "testname", mockAssessment );
+		expect( assessor.getAvailableAssessments()[ "testname" ] ).toEqual(jasmine.objectContaining( mockAssessment ) );
+	});
+} );
