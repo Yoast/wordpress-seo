@@ -217,6 +217,7 @@ class WPSEO_Option_Social extends WPSEO_Option {
 						 * may exist with longer names.
 						 * A username can only contain alphanumeric characters (letters A-Z, numbers 0-9)
 						 * with the exception of underscores
+						 *
 						 * @link https://support.twitter.com/articles/101299-why-can-t-i-register-certain-usernames
 						 * @link https://dev.twitter.com/docs/platform-objects/users
 						 */

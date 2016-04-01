@@ -173,7 +173,7 @@ class WPSEO_Pointers {
 		$selector = 'li.toplevel_page_wpseo_dashboard';
 		$content  = '<h3>' . __( 'Congratulations!', 'wordpress-seo' ) . '</h3>'
 					/* translators: %1$s expands to Yoast SEO */
-		            .'<p>' . sprintf( __( 'You&#8217;ve just installed %1$s! Click &#8220;Start Tour&#8221; to view a quick introduction of this plugin&#8217;s core functionality.', 'wordpress-seo' ), 'Yoast SEO' ) . '</p>';
+		            . '<p>' . sprintf( __( 'You&#8217;ve just installed %1$s! Click &#8220;Start Tour&#8221; to view a quick introduction of this plugin&#8217;s core functionality.', 'wordpress-seo' ), 'Yoast SEO' ) . '</p>';
 		$opt_arr  = array(
 			'content'  => $content,
 			'position' => array( 'edge' => 'bottom', 'align' => 'center' ),

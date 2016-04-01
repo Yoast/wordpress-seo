@@ -110,6 +110,7 @@ $yform->admin_header( true, 'wpseo_titles' );
 					echo '</div>';
 					/**
 					 * Allow adding a custom checkboxes to the admin meta page - Post Types tab
+					 *
 					 * @api  WPSEO_Admin_Pages  $yform  The WPSEO_Admin_Pages object
 					 * @api  String  $name  The post type name
 					 */

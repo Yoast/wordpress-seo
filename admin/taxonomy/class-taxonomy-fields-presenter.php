@@ -62,7 +62,7 @@ class WPSEO_Taxonomy_Fields_Presenter {
 	 *
 	 * @return string
 	 */
-	private function get_field($field_type, $field_name, $field_value, array $options) {
+	private function get_field( $field_type, $field_name, $field_value, array $options ) {
 
 		$class = $this->get_class( $options );
 		$field = '';

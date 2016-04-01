@@ -88,5 +88,4 @@ abstract class WPSEO_Taxonomy_Fields {
 
 		return $fields;
 	}
-
 }

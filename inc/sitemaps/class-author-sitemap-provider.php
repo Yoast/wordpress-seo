@@ -33,7 +33,7 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 *
 	 * @return array
 	 */
-	public function get_index_links( $max_entries) {
+	public function get_index_links( $max_entries ) {
 
 		global $wpdb;
 

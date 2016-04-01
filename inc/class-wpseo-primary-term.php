@@ -22,11 +22,11 @@ class WPSEO_Primary_Term {
 	 * The taxonomy this term is part of
 	 *
 	 * @param string $taxonomy_name Taxonomy name for the term.
-	 * @param int    $post_ID       Post ID for the term.
+	 * @param int    $post_id       Post ID for the term.
 	 */
-	public function __construct( $taxonomy_name, $post_ID ) {
+	public function __construct( $taxonomy_name, $post_id ) {
 		$this->taxonomy_name = $taxonomy_name;
-		$this->post_ID = $post_ID;
+		$this->post_ID = $post_id;
 	}
 
 	/**

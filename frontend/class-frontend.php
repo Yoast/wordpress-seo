@@ -1406,6 +1406,7 @@ class WPSEO_Frontend {
 
 	/**
 	 * When certain archives are disabled, this redirects those to the homepage.
+	 *
 	 * @return boolean False when no redirect was triggered
 	 */
 	function archive_redirect() {
@@ -1497,6 +1498,7 @@ class WPSEO_Frontend {
 
 	/**
 	 * Removes unneeded query variables from the URL.
+	 *
 	 * @return boolean
 	 */
 	public function clean_permalink() {

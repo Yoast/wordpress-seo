@@ -303,5 +303,4 @@ class WPSEO_Taxonomy {
 	public function translate_meta_options() {
 		_deprecated_function( 'WPSEO_Taxonomy::translate_meta_options', 'WPSEO 3.2', 'WPSEO_Taxonomy_Settings_Fields::translate_meta_options' );
 	}
-
-} /* End of class */
+}
