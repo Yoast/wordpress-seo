@@ -8,8 +8,9 @@ describe( "An assessment for matching keywords in subheadings", function(){
 		var mockPaper = new Paper();
 		var assessment = matchKeywordAssessment.getResult( mockPaper, Factory.buildMockResearcher( { count: 0 } ), i18n );
 
-		expect( assessment.getScore() ).toEqual( 7 );
-		expect( assessment.getText() ).toEqual ( "No subheading tags (like an H2) appear in the copy." );
+		expect( assessment.hasScore()).toBe( false );
+		expect( assessment.getScore() ).toEqual( 0 );
+		expect( assessment.getText() ).toEqual ( "" );
 	} );
 	it( "assesses a string with subheadings without keywords", function(){
 		var mockPaper = new Paper();

@@ -29,7 +29,7 @@ describe ( "running assessments in the assessor", function() {
 
 	it( "additionally runs assessments that only require a text", function() {
 		assessor.assess( new Paper( "text" ) );
-		expect( assessor.getValidResults().length ).toBe( 7 );
+		expect( assessor.getValidResults().length ).toBe( 8 );
 	})
 
 	it( "additionally runs assessments that only require a keyword", function() {
@@ -44,7 +44,7 @@ describe ( "running assessments in the assessor", function() {
 
 	it( "additionally runs assessments that require an url", function() {
 		assessor.assess( new Paper( "text", { url: "sample url" } ) );
-		expect( assessor.getValidResults().length ).toBe( 7 );
+		expect( assessor.getValidResults().length ).toBe( 8 );
 	})
 });
 
