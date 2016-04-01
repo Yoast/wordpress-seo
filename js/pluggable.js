@@ -201,7 +201,7 @@ Pluggable.prototype._registerAssessment = function( assessor, name, assessment, 
 
 	if ( !isString( pluginName ) ) {
 		throw new InvalidTypeError( "Failed to register assessment for plugin " + pluginName +
-			". Expected parameter `pluginName` to be a strign." );
+			". Expected parameter `pluginName` to be a string." );
 	}
 
 	// Prefix the name with the pluginName so the test name is always unique.
