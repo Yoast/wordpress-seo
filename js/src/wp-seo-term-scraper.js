@@ -5,6 +5,8 @@
 	var App = require( 'yoastseo' ).App;
 	var SnippetPreview = require( 'yoastseo' ).SnippetPreview;
 
+	var UsedKeywords = require( './analysis/usedKeywords' );
+
 	var app, snippetPreview;
 
 	var termSlugInput;
@@ -179,8 +181,8 @@
 
 		mainKeywordTab.update( score, this.getDataFromInput( 'keyword' ) );
 
-		cssClass = app.scoreFormatter.overallScoreRating( parseInt( score, 10 ) );
-		alt = app.scoreFormatter.getSEOScoreText( cssClass );
+		// cssClass = app.scoreFormatter.overallScoreRating( parseInt( score, 10 ) );
+		// alt = app.scoreFormatter.getSEOScoreText( cssClass );
 
 		$( '.yst-traffic-light' )
 			.attr( 'class', 'yst-traffic-light ' + cssClass )
@@ -202,27 +204,6 @@
 		score   = $( '#hidden_wpseo_linkdex' ).val();
 
 		mainKeywordTab.update( score, keyword );
-	};
-
-	/**
-	 * updates the focus keyword usage if it is not in the array yet.
-	 */
-	TermScraper.prototype.updateKeywordUsage = function() {
-		var keyword = this.value;
-		if ( typeof( wpseoTermScraperL10n.keyword_usage[ keyword ] === null ) ) {
-			jQuery.post(ajaxurl, {
-					action: 'get_term_keyword_usage',
-					post_id: jQuery('#post_ID').val(),
-					keyword: keyword,
-					taxonomy: wpseoTermScraperL10n.taxonomy
-				}, function( data ) {
-					if ( data ) {
-						wpseoTermScraperL10n.keyword_usage[ keyword ] = data;
-						app.analyzeTimer();
-					}
-				}, 'json'
-			);
-		}
 	};
 
 	/**
@@ -318,18 +299,12 @@
 		termScraper = new TermScraper();
 
 		args = {
-
 			// ID's of elements that need to trigger updating the analyzer.
 			elementTarget: [ 'content', 'yoast_wpseo_focuskw', 'yoast_wpseo_metadesc', 'excerpt', 'editable-post-name', 'editable-post-name-full' ],
-
 			targets: {
 				output: 'wpseo_analysis',
 				snippet: 'wpseo_snippet'
 			},
-
-			usedKeywords: wpseoTermScraperL10n.keyword_usage,
-			searchUrl: '<a target="new" href=' + wpseoTermScraperL10n.search_url + '>',
-			postUrl: '<a target="new" href=' + wpseoTermScraperL10n.post_edit_url + '>',
 			callbacks: {
 				getData: termScraper.getData.bind( termScraper ),
 				bindElementEvents: termScraper.bindElementEvents.bind( termScraper ),
@@ -352,6 +327,7 @@
 		args.snippetPreview = snippetPreview;
 
 		app = new App( args );
+		window.YoastSEO = {};
 		window.YoastSEO.app = app;
 		jQuery( window ).trigger( 'YoastSEO:ready' );
 
@@ -359,6 +335,9 @@
 
 		// Init Plugins.
 		new YoastReplaceVarPlugin( app );
+
+		var usedKeywords = new UsedKeywords( '#wpseo_focuskw', 'get_term_keyword_usage', wpseoTermScraperL10n, app );
+		usedKeywords.init();
 
 		// For backwards compatibility.
 		YoastSEO.analyzerArgs = args;

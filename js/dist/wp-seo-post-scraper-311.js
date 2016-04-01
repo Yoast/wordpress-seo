@@ -1,638 +1,5881 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-/* global wp, jQuery, YoastSEO */
-module.exports = (function() {
-	'use strict';
+var plugins = {
+	usedKeywords: require( "./js/bundledPlugins/previouslyUsedKeywords" )
+};
 
-	/**
-	 * Renders a keyword tab as a jQuery HTML object.
-	 *
-	 * @param {int}    score
-	 * @param {string} keyword
-	 * @param {string} prefix
-	 *
-	 * @returns {HTMLElement}
-	 */
-	function renderKeywordTab( score, keyword, prefix ) {
-		var placeholder = keyword.length > 0 ? keyword : '...';
-		var html = wp.template( 'keyword_tab' )({
-			keyword: keyword,
-			placeholder: placeholder,
-			score: score,
-			hideRemove: true,
-			prefix: prefix + ' ',
-			active: true
-		});
+module.exports = {
+	Assessor: require( "./js/assessor" ),
+	App: require( "./js/app.js" ),
+	Pluggable: require( "./js/app" ),
+	Researcher: require( "./js/researcher" ),
+	SnippetPreview: require( "./js/snippetPreview.js" ),
+	bundledPlugins: plugins
+};
 
-		return jQuery( html );
-	}
+},{"./js/app":2,"./js/app.js":2,"./js/assessor":20,"./js/bundledPlugins/previouslyUsedKeywords":21,"./js/researcher":33,"./js/snippetPreview.js":52}],2:[function(require,module,exports){
+/* jshint browser: true */
 
-	/**
-	 * Constructor for a keyword tab object
-	 * @param {Object} args
-	 * @constructor
-	 */
-	function KeywordTab( args ) {
-		this.keyword = '';
-		this.prefix  = args.prefix || '';
+require( "./config/config.js" );
+var SnippetPreview = require( "./snippetPreview.js" );
 
-		this.setScore( 0 );
-	}
+var defaultsDeep = require( "lodash/defaultsDeep" );
+var isObject = require( "lodash/isObject" );
+var isString = require( "lodash/isString" );
+var MissingArgument = require( "./errors/missingArgument" );
+var isUndefined = require( "lodash/isUndefined" );
+var forEach = require( "lodash/forEach" );
 
-	/**
-	 * Initialize a keyword tab.
-	 *
-	 * @param {HTMLElement} parent
-	 */
-	KeywordTab.prototype.init = function( parent ) {
-		this.setElement( renderKeywordTab( this.score, this.keyword, this.prefix ) );
+var Jed = require( "jed" );
 
-		jQuery( parent ).append( this.element );
-	};
+var Assessor = require( "./assessor.js" );
+var Researcher = require( "./researcher.js" );
+var AssessorPresenter = require( "./renderers/AssessorPresenter.js" );
+var Pluggable = require( "./pluggable.js" );
+var Paper = require( "./values/Paper.js" );
 
-	/**
-	 * Updates the keyword tabs with new values.
-	 *
-	 * @param {integer} score
-	 * @param {string}  keyword
-	 */
-	KeywordTab.prototype.update = function( score, keyword ) {
-		this.keyword = keyword;
-		this.setScore( score );
-		this.refresh();
-	};
-
-	/**
-	 * Renders a new keyword tab with the current values and replaces the old tab with this one.
-	 */
-	KeywordTab.prototype.refresh = function() {
-		var newElem = renderKeywordTab( this.score, this.keyword, this.prefix );
-
-		this.element.replaceWith( newElem );
-		this.setElement( newElem );
-	};
-
-	/**
-	 * Sets the current element
-	 *
-	 * @param {HTMLElement} element
-	 */
-	KeywordTab.prototype.setElement = function( element ) {
-		this.element = jQuery( element );
-	};
-
-	/**
-	 * Formats the given score and store it in the attribute.
-	 *
-	 * @param {number} score
-	 */
-	KeywordTab.prototype.setScore = function( score ) {
-		score = parseInt( score, 10 );
-
-		if ( this.keyword === '' ) {
-			score = 'na';
-		}
-
-		//score = YoastSEO.ScoreFormatter.prototype.overallScoreRating( score );
-
-		this.score = score;
-	};
-
-	return KeywordTab;
-})();
-
-},{}],2:[function(require,module,exports){
-/* global YoastSEO: true, tinyMCE, ajaxurl, wpseoPostScraperL10n, YoastShortcodePlugin, YoastReplaceVarPlugin, console, require */
-(function( $ ) {
-	'use strict';
-
-	var SnippetPreview = require( 'yoastseo' ).SnippetPreview;
-	var App = require( 'yoastseo' ).App;
-
-	var currentKeyword = '';
-	var app, snippetPreview;
-
-	var mainKeywordTab;
-	var KeywordTab = require( './analysis/keywordTab' );
-
-	/**
-	 * wordpress scraper to gather inputfields.
-	 * @constructor
-	 */
-	var PostScraper = function() {
-		if ( typeof CKEDITOR === 'object' ) {
-			console.warn( 'YoastSEO currently doesn\'t support ckEditor. The content analysis currently only works with the HTML editor or TinyMCE.' );
-		}
-
-		this.prepareSlugBinding();
-	};
-
-	/**
-	 * On a new post, WordPress doesn't include the slug editor, since a post has not been given a slug yet.
-	 * As soon as a title is chosen, an `after-autosave.update-post-slug` event fires that triggers an AJAX request
-	 * to the server to generate a slug. On the response callback a slug editor is inserted into the page on which
-	 * we can bind our Snippet Preview.
-	 *
-	 * On existing posts, the slug editor is already there and we can bind immediately.
-	 */
-	PostScraper.prototype.prepareSlugBinding = function() {
-		if ( document.getElementById( 'editable-post-name' ) === null ) {
-			var that = this;
-			jQuery( document ).on( 'after-autosave.update-post-slug', function() {
-				that.bindSnippetCiteEvents( 0 );
-			});
-		} else {
-			this.bindSlugEditor();
-		}
-	};
-
-	/**
-	 * When the `after-autosave.update-post-slug` event is triggered, this function checks to see if the slug editor has
-	 * been inserted yet. If so, it does all of the necessary event binding. If not, it retries for a maximum of 5 seconds.
-	 *
-	 * @param {int} time
-	 */
-	PostScraper.prototype.bindSnippetCiteEvents = function( time ) {
-		time = time || 0;
-		var slugElem = document.getElementById( 'editable-post-name' );
-		var titleElem = document.getElementById( 'title' );
-		var postNameElem = document.getElementById('post_name');
-
-		if ( slugElem !== null && titleElem.value !== '' ) {
-			this.bindSlugEditor();
-
-			// Always set the post name element.
-			postNameElem.value = document.getElementById('editable-post-name-full').textContent;
-
-			snippetPreview.unformattedText.snippet_cite = document.getElementById('editable-post-name-full').textContent;
-			app.analyzeTimer();
-		} else if ( time < 5000 ) {
-			time += 200;
-			setTimeout( this.bindSnippetCiteEvents.bind( this, time ), 200 );
-		}
-	};
-
-	/**
-	 * We want to trigger an update of the snippetPreview on a slug update. Because the save button is not available yet, we need to
-	 * bind an event within the scope of a clickevent of the edit button.
-	 */
-	PostScraper.prototype.bindSlugEditor = function() {
-		$( '#titlediv' ).on( 'change', '#new-post-slug', function() {
-			snippetPreview.unformattedText.snippet_cite = $( '#new-post-slug' ).val();
-			app.refresh();
-		});
-	};
-
-	/**
-	 * Get data from inputfields and store them in an analyzerData object. This object will be used to fill
-	 * the analyzer and the snippetpreview
-	 */
-	PostScraper.prototype.getData = function() {
-		return {
-			keyword: this.getDataFromInput( 'keyword' ),
-			meta: this.getDataFromInput( 'meta' ),
-			text: this.getDataFromInput( 'text' ),
-			title: this.getDataFromInput( 'title' ),
-			url: this.getDataFromInput( 'url' ),
-			excerpt: this.getDataFromInput( 'excerpt' ),
-			snippetTitle: this.getDataFromInput( 'snippetTitle' ),
-			snippetMeta: this.getDataFromInput( 'snippetMeta' ),
-			snippetCite: this.getDataFromInput( 'cite' ),
-			usedKeywords: wpseoPostScraperL10n.keyword_usage,
-			searchUrl: '<a target="_blank" href=' + wpseoPostScraperL10n.search_url + '>',
-			postUrl: '<a target="_blank" href=' + wpseoPostScraperL10n.post_edit_url + '>'
-		};
-	};
-
-	/**
-	 * gets the values from the given input. Returns this value
-	 * @param {String} inputType
-	 * @returns {String}
-	 */
-	PostScraper.prototype.getDataFromInput = function( inputType ) {
-		var newPostSlug, val = '';
-		switch ( inputType ) {
-			case 'text':
-			case 'content':
-				val = this.getContentTinyMCE();
-				break;
-			case 'cite':
-			case 'url':
-				newPostSlug = $( '#new-post-slug' );
-				if ( 0 < newPostSlug.length ) {
-					val = newPostSlug.val();
-				}
-				else if ( document.getElementById( 'editable-post-name-full' ) !== null ) {
-					val = document.getElementById( 'editable-post-name-full' ).textContent;
-				}
-				break;
-			case 'meta':
-				val = document.getElementById( 'yoast_wpseo_metadesc' ) && document.getElementById( 'yoast_wpseo_metadesc' ).value || '';
-				break;
-			case 'snippetMeta':
-				val = document.getElementById( 'yoast_wpseo_metadesc' ) && document.getElementById( 'yoast_wpseo_metadesc' ).value || '';
-				break;
-			case 'keyword':
-				val = document.getElementById( 'yoast_wpseo_focuskw_text_input' ) && document.getElementById( 'yoast_wpseo_focuskw_text_input' ).value || '';
-				currentKeyword = val;
-				break;
-			case 'title':
-				val = document.getElementById( 'title' ) && document.getElementById( 'title' ).value || '';
-				break;
-			case 'snippetTitle':
-				val = document.getElementById( 'yoast_wpseo_title' ) && document.getElementById( 'yoast_wpseo_title' ).value || '';
-				break;
-			case 'excerpt':
-				if ( document.getElementById( 'excerpt' ) !== null ) {
-					val = document.getElementById('excerpt') && document.getElementById('excerpt').value || '';
-				}
-				break;
-			default:
-				break;
-		}
-		return val;
-	};
-
-	/**
-	 * When the snippet is updated, update the (hidden) fields on the page
-	 * @param {Object} value
-	 * @param {String} type
-	 */
-	PostScraper.prototype.setDataFromSnippet = function( value, type ) {
-		switch ( type ) {
-			case 'snippet_meta':
-				document.getElementById( 'yoast_wpseo_metadesc' ).value = value;
-				break;
-			case 'snippet_cite':
-				document.getElementById( 'post_name' ).value = value;
-				if (
-					document.getElementById( 'editable-post-name' ) !== null &&
-					document.getElementById( 'editable-post-name-full' ) !== null ) {
-					document.getElementById( 'editable-post-name' ).textContent = value;
-					document.getElementById( 'editable-post-name-full' ).textContent = value;
-				}
-				break;
-			case 'snippet_title':
-				document.getElementById( 'yoast_wpseo_title' ).value = value;
-				break;
-			default:
-				break;
-		}
-	};
-
-	/**
-	 * The data passed from the snippet editor.
-	 *
-	 * @param {Object} data
-	 * @param {string} data.title
-	 * @param {string} data.urlPath
-	 * @param {string} data.metaDesc
-	 */
-	PostScraper.prototype.saveSnippetData = function( data ) {
-		this.setDataFromSnippet( data.title, 'snippet_title' );
-		this.setDataFromSnippet( data.urlPath, 'snippet_cite' );
-		this.setDataFromSnippet( data.metaDesc, 'snippet_meta' );
-	};
-
-	/**
-	 * Returns the value of the contentfield. If tinyMCE isn't initialized, or has no editors
-	 * or is hidden it gets it's contents from getTinyMCEElementContent.
-	 * @returns {String}
-	 */
-	PostScraper.prototype.getContentTinyMCE = function() {
-		if ( this.isTinyMCEAvailable() === false ) {
-			return this.getTinyMCEElementContent();
-		}
-		return tinyMCE.get( 'content' ).getContent();
-	};
-
-	/**
-	 * Returns whether or not TinyMCE is available.
-	 * @returns {boolean}
-	 */
-	PostScraper.prototype.isTinyMCEAvailable = function() {
-		if ( typeof tinyMCE === 'undefined' ||
-			typeof tinyMCE.editors === 'undefined' ||
-			tinyMCE.editors.length === 0 ||
-			tinyMCE.get( 'content' ) === null ||
-			tinyMCE.get( 'content' ).isHidden() ) {
-			return false;
-		}
-
-		return true;
-	};
-
-	/**
-	 * Gets content from the contentfield.
-	 *
-	 * @returns {String}
-	 */
-	PostScraper.prototype.getTinyMCEElementContent = function() {
-		return document.getElementById( 'content' ) && document.getElementById( 'content' ).value || '';
-	};
-
-	/**
-	 * Calls the eventbinders.
-	 */
-	PostScraper.prototype.bindElementEvents = function( app ) {
-		this.inputElementEventBinder( app );
-		document.getElementById( 'yoast_wpseo_focuskw_text_input' ).addEventListener( 'keydown', app.snippetPreview.disableEnter );
-		document.getElementById( 'yoast_wpseo_focuskw_text_input' ).addEventListener( 'keyup', this.updateKeywordUsage );
-	};
-
-	/**
-	 * binds the renewData function on the change of inputelements.
-	 */
-	PostScraper.prototype.inputElementEventBinder = function( app ) {
-		var elems = [ 'excerpt', 'content', 'yoast_wpseo_focuskw_text_input', 'title' ];
-		for ( var i = 0; i < elems.length; i++ ) {
-			var elem = document.getElementById( elems[ i ] );
-			if ( elem !== null ) {
-				document.getElementById( elems[ i ] ).addEventListener( 'input', app.analyzeTimer.bind( app ) );
+/**
+ * Default config for YoastSEO.js
+ *
+ * @type {Object}
+ */
+var defaults = {
+	callbacks: {
+		bindElementEvents: function( ) { },
+		updateSnippetValues: function( ) { },
+		saveScores: function( ) { }
+	},
+	sampleText: {
+		baseUrl: "example.org/",
+		snippetCite: "example-post/",
+		title: "This is an example title - edit by clicking here",
+		keyword: "Choose a focus keyword",
+		meta: "Modify your meta description by editing it right here",
+		text: "Start writing your text!"
+	},
+	queue: [ "wordCount",
+		"keywordDensity",
+		"subHeadings",
+		"stopwords",
+		"fleschReading",
+		"linkCount",
+		"imageCount",
+		"urlKeyword",
+		"urlLength",
+		"metaDescription",
+		"pageTitleKeyword",
+		"pageTitleLength",
+		"firstParagraph",
+		"'keywordDoubles" ],
+	typeDelay: 300,
+	typeDelayStep: 100,
+	maxTypeDelay: 1500,
+	dynamicDelay: true,
+	locale: "en_US",
+	translations: {
+		"domain": "js-text-analysis",
+		"locale_data": {
+			"js-text-analysis": {
+				"": {}
 			}
 		}
+	},
+	replaceTarget: [],
+	resetTarget: [],
+	elementTarget: []
+};
 
-		if( typeof tinyMCE !== 'undefined' && typeof tinyMCE.on === 'function' ) {
-			//binds the input, change, cut and paste event to tinyMCE. All events are needed, because sometimes tinyMCE doesn'
-			//trigger them, or takes up to ten seconds to fire an event.
-			var events = [ 'input', 'change', 'cut', 'paste' ];
-			tinyMCE.on( 'addEditor', function( e ) {
-				for ( var i = 0; i < events.length; i++ ) {
-					e.editor.on( events[i], app.analyzeTimer.bind( app ) );
-				}
-			});
-		}
-		document.getElementById( 'yoast_wpseo_focuskw_text_input' ).addEventListener( 'blur', this.resetQueue );
-	};
+/**
+ * Creates a default snippet preview, this can be used if no snippet preview has been passed.
+ *
+ * @private
+ * @this App
+ *
+ * @returns {SnippetPreview} The SnippetPreview object.
+ */
+function createDefaultSnippetPreview() {
+	var targetElement = document.getElementById( this.config.targets.snippet );
 
-	/**
-	 * Resets the current queue if focus keyword is changed and not empty.
-	 */
-	PostScraper.prototype.resetQueue = function() {
-		if ( app.rawData.keyword !== '' ) {
-			app.runAnalyzer( this.rawData );
-		}
-	};
-
-	/**
-	 * Saves the score to the linkdex.
-	 * Outputs the score in the overall target.
-	 *
-	 * @param {string} score
-	 */
-	PostScraper.prototype.saveScores = function( score ) {
-		var alt;
-		var cssClass;
-
-		if ( this.isMainKeyword( currentKeyword ) ) {
-			document.getElementById( 'yoast_wpseo_linkdex' ).value = score;
-
-			if ( '' === currentKeyword ) {
-				cssClass = 'na';
-			} else {
-				cssClass = app.scoreFormatter.overallScoreRating( parseInt( score, 10 ) );
-			}
-			alt = app.scoreFormatter.getSEOScoreText( cssClass );
-
-			$( '.yst-traffic-light' )
-				.attr( 'class', 'yst-traffic-light ' + cssClass )
-				.attr( 'alt', alt );
-		}
-
-		// If multi keyword isn't available we need to update the first tab (content)
-		if ( ! YoastSEO.multiKeyword ) {
-			mainKeywordTab.update( score, currentKeyword );
-
-			// Updates the input with the currentKeyword value
-			$( '#yoast_wpseo_focuskw' ).val( currentKeyword );
-		}
-
-		jQuery( window ).trigger( 'YoastSEO:numericScore', score );
-	};
-
-	/**
-	 * Returns whether or not the keyword is the main keyword
-	 *
-	 * @param {string} keyword The keyword to check
-	 *
-	 * @returns {boolean}
-	 */
-	PostScraper.prototype.isMainKeyword = function( keyword ) {
-		var firstTab, mainKeyword;
-
-		firstTab = $( '.wpseo_keyword_tab' )
-			.first()
-			.find( '.wpseo_tablink' );
-
-		mainKeyword = firstTab.data( 'keyword' );
-
-		return keyword === mainKeyword;
-	};
-
-	/**
-	 * Initializes keyword tab with the correct template if multi keyword isn't available
-	 */
-	PostScraper.prototype.initKeywordTabTemplate = function() {
-		var keyword, score;
-
-		// If multi keyword is available we don't have to initialize this as multi keyword does this for us.
-		if ( YoastSEO.multiKeyword ) {
-			return;
-		}
-
-		// Remove default functionality to prevent scrolling to top.
-		$( '.wpseo-metabox-tabs' ).on( 'click', '.wpseo_tablink', function( ev ) {
-			ev.preventDefault();
-		});
-
-		keyword = $( '#yoast_wpseo_focuskw' ).val();
-		score   = $( '#yoast_wpseo_linkdex' ).val();
-
-		$( '#yoast_wpseo_focuskw_text_input' ).val( keyword );
-
-		// Updates
-		mainKeywordTab.update( score, keyword );
-	};
-
-	/**
-	 * updates the focus keyword usage if it is not in the array yet.
-	 */
-	PostScraper.prototype.updateKeywordUsage = function() {
-		var keyword = this.value;
-		if ( typeof( wpseoPostScraperL10n.keyword_usage[ keyword ] === null ) ) {
-			jQuery.post(ajaxurl, {
-					action: 'get_focus_keyword_usage',
-					post_id: jQuery('#post_ID').val(),
-					keyword: keyword
-				}, function( data ) {
-					if ( data ) {
-						wpseoPostScraperL10n.keyword_usage[ keyword ] = data;
-						app.analyzeTimer();
-					}
-				}, 'json'
-			);
-		}
-	};
-
-	/**
-	 * Retrieves either a generated slug or the page title as slug for the preview
-	 * @param {Object} response The AJAX response object
-	 * @returns {string}
-	 */
-	function getUrlPath( response ) {
-		if ( response.responseText === '' ) {
-			return jQuery( '#title' ).val();
-		}
-		// Added divs to the response text, otherwise jQuery won't parse to HTML, but an array.
-		return jQuery( '<div>' + response.responseText + '</div>' )
-			.find( '#editable-post-name-full' )
-			.text();
-	}
-
-	/**
-	 * binds to the WordPress jQuery function to put the permalink on the page.
-	 * If the response matches with permalinkstring, the snippet can be rerendered.
-	 */
-	jQuery( document ).on( 'ajaxComplete', function( ev, response, ajaxOptions ) {
-		var ajax_end_point = '/admin-ajax.php';
-		if ( ajax_end_point !== ajaxOptions.url.substr( 0 - ajax_end_point.length ) ) {
-			return;
-		}
-
-		if ( 'string' === typeof ajaxOptions.data && -1 !== ajaxOptions.data.indexOf( 'action=sample-permalink' ) ) {
-			app.snippetPreview.setUrlPath( getUrlPath( response ) );
+	return new SnippetPreview( {
+		analyzerApp: this,
+		targetElement: targetElement,
+		callbacks: {
+			saveSnippetData: this.config.callbacks.saveSnippetData
 		}
 	} );
-
-	/**
-	 * Initializes the snippet preview
-	 *
-	 * @param {PostScraper} postScraper
-	 * @returns {YoastSEO.SnippetPreview}
-	 */
-	function initSnippetPreview( postScraper ) {
-		var data = postScraper.getData();
-
-		var snippetPreviewArgs = {
-			targetElement: document.getElementById( 'wpseosnippet' ),
-			placeholder: {
-				urlPath: ''
-			},
-			defaultValue: {},
-			baseURL: wpseoPostScraperL10n.base_url,
-			callbacks: {
-				saveSnippetData: postScraper.saveSnippetData.bind( postScraper )
-			},
-			metaDescriptionDate: wpseoPostScraperL10n.metaDescriptionDate,
-			data: {
-				title: data.snippetTitle,
-				urlPath: data.snippetCite,
-				metaDesc: data.snippetMeta
-			}
-		};
-
-		var titlePlaceholder = wpseoPostScraperL10n.title_template;
-		if ( titlePlaceholder === '' ) {
-			titlePlaceholder = '%%title%% - %%sitename%%';
-		}
-		snippetPreviewArgs.placeholder.title = titlePlaceholder;
-		snippetPreviewArgs.defaultValue.title = titlePlaceholder;
-
-		var metaPlaceholder = wpseoPostScraperL10n.metadesc_template;
-		if ( metaPlaceholder !== '' ) {
-			snippetPreviewArgs.placeholder.metaDesc = metaPlaceholder;
-			snippetPreviewArgs.defaultValue.metaDesc = metaPlaceholder;
-		}
-
-		return new SnippetPreview( snippetPreviewArgs );
-	}
-
-	jQuery( document ).ready(function() {
-		var translations;
-
-		// Initialize an instance of the keywordword tab.
-		mainKeywordTab = new KeywordTab(
-			{
-				prefix: wpseoPostScraperL10n.contentTab
-			}
-		);
-		mainKeywordTab.setElement( $('.wpseo_keyword_tab') );
-
-		var postScraper = new PostScraper();
-
-		var args = {
-
-			// ID's of elements that need to trigger updating the analyzer.
-			elementTarget: ['content', 'yoast_wpseo_focuskw_text_input', 'yoast_wpseo_metadesc', 'excerpt', 'editable-post-name', 'editable-post-name-full'],
-			targets: {
-				output: 'wpseo-pageanalysis'
-			},
-			usedKeywords: wpseoPostScraperL10n.keyword_usage,
-			searchUrl: '<a target="_blank" href=' + wpseoPostScraperL10n.search_url + '>',
-			postUrl: '<a target="_blank" href=' + wpseoPostScraperL10n.post_edit_url + '>',
-			callbacks: {
-				getData: postScraper.getData.bind( postScraper ),
-				bindElementEvents: postScraper.bindElementEvents.bind( postScraper ),
-				saveScores: postScraper.saveScores.bind( postScraper ),
-				saveSnippetData: postScraper.saveSnippetData.bind( postScraper )
-			},
-			locale: wpseoPostScraperL10n.locale
-		};
-
-		translations = wpseoPostScraperL10n.translations;
-
-		if ( typeof translations !== 'undefined' && typeof translations.domain !== 'undefined' ) {
-			translations.domain = 'js-text-analysis';
-			translations.locale_data['js-text-analysis'] = translations.locale_data['wordpress-seo'];
-
-			delete( translations.locale_data['wordpress-seo'] );
-
-			args.translations = translations;
-		}
-
-		snippetPreview = initSnippetPreview( postScraper );
-		args.snippetPreview = snippetPreview;
-
-		app = new App( args );
-		window.YoastSEO.app = app;
-		jQuery( window ).trigger( 'YoastSEO:ready' );
-
-		// Init Plugins
-		new YoastReplaceVarPlugin( app );
-		new YoastShortcodePlugin( app );
-
-		postScraper.initKeywordTabTemplate();
-
-		// Backwards compatibility.
-		YoastSEO.analyzerArgs = args;
-	} );
-}( jQuery ));
-
-},{"./analysis/keywordTab":1,"yoastseo":8}],3:[function(require,module,exports){
-if (typeof Object.create === 'function') {
-  // implementation from standard node.js 'util' module
-  module.exports = function inherits(ctor, superCtor) {
-    ctor.super_ = superCtor
-    ctor.prototype = Object.create(superCtor.prototype, {
-      constructor: {
-        value: ctor,
-        enumerable: false,
-        writable: true,
-        configurable: true
-      }
-    });
-  };
-} else {
-  // old school shim for old browsers
-  module.exports = function inherits(ctor, superCtor) {
-    ctor.super_ = superCtor
-    var TempCtor = function () {}
-    TempCtor.prototype = superCtor.prototype
-    ctor.prototype = new TempCtor()
-    ctor.prototype.constructor = ctor
-  }
 }
 
-},{}],4:[function(require,module,exports){
+/**
+ * Returns whether or not the given argument is a valid SnippetPreview object.
+ *
+ * @param   {*}         snippetPreview  The 'object' to check against.
+ * @returns {boolean}                   Whether or not it's a valid SnippetPreview object.
+ */
+function isValidSnippetPreview( snippetPreview ) {
+	return !isUndefined( snippetPreview ) && SnippetPreview.prototype.isPrototypeOf( snippetPreview );
+}
+
+/**
+ * Check arguments passed to the App to check if all necessary arguments are set.
+ *
+ * @private
+ * @param {Object}      args            The arguments object passed to the App.
+ * @returns {void}
+ */
+function verifyArguments( args ) {
+
+	if ( !isObject( args.callbacks.getData ) ) {
+		throw new MissingArgument( "The app requires an object with a getdata callback." );
+	}
+
+	if ( !isObject( args.targets ) ) {
+		throw new MissingArgument( "`targets` is a required App argument, `targets` is not an object." );
+	}
+
+	if ( !isString( args.targets.output ) ) {
+		throw new MissingArgument( "`targets.output` is a required App argument, `targets.output` is not a string." );
+	}
+
+	// The args.targets.snippet argument is only required if not SnippetPreview object has been passed.
+	if ( !isValidSnippetPreview( args.snippetPreview ) && !isString( args.targets.snippet ) ) {
+		throw new MissingArgument( "A snippet preview is required. When no SnippetPreview object isn't passed to " +
+			"the App, the `targets.snippet` is a required App argument. `targets.snippet` is not a string." );
+	}
+}
+
+/**
+ * This should return an object with the given properties
+ *
+ * @callback YoastSEO.App~getData
+ * @returns {Object} data
+ * @returns {String} data.keyword The keyword that should be used
+ * @returns {String} data.meta
+ * @returns {String} data.text The text to analyze
+ * @returns {String} data.pageTitle The text in the HTML title tag
+ * @returns {String} data.title The title to analyze
+ * @returns {String} data.url The URL for the given page
+ * @returns {String} data.excerpt Excerpt for the pages
+ */
+
+/**
+ * @callback YoastSEO.App~getAnalyzerInput
+ *
+ * @returns {Array} An array containing the analyzer queue
+ */
+
+/**
+ * @callback YoastSEO.App~bindElementEvents
+ *
+ * @param {YoastSEO.App} app A reference to the YoastSEO.App from where this is called.
+ */
+
+/**
+ * @callback YoastSEO.App~updateSnippetValues
+ *
+ * @param {Object} ev The event emitted from the DOM
+ */
+
+/**
+ * @callback YoastSEO.App~saveScores
+ *
+ * @param {int} overalScore The overal score as determined by the analyzer.
+ */
+
+/**
+ * Loader for the analyzer, loads the eventbinder and the elementdefiner
+ *
+ * @param {Object} args The arguments oassed to the loader.
+ * @param {Object} args.translations Jed compatible translations.
+ * @param {Object} args.targets Targets to retrieve or set on.
+ * @param {String} args.targets.snippet ID for the snippet preview element.
+ * @param {String} args.targets.output ID for the element to put the output of the analyzer in.
+ * @param {int} args.typeDelay Number of milliseconds to wait between typing to refresh the analyzer output.
+ * @param {boolean} args.dynamicDelay   Whether to enable dynamic delay, will ignore type delay if the analyzer takes a long time.
+ *                                      Applicable on slow devices.
+ * @param {int} args.maxTypeDelay The maximum amount of type delay even if dynamic delay is on.
+ * @param {int} args.typeDelayStep The amount with which to increase the typeDelay on each step when dynamic delay is enabled.
+ * @param {Object} args.callbacks The callbacks that the app requires.
+ * @param {YoastSEO.App~getData} args.callbacks.getData Called to retrieve input data
+ * @param {YoastSEO.App~getAnalyzerInput} args.callbacks.getAnalyzerInput Called to retrieve input for the analyzer.
+ * @param {YoastSEO.App~bindElementEvents} args.callbacks.bindElementEvents Called to bind events to the DOM elements.
+ * @param {YoastSEO.App~updateSnippetValues} args.callbacks.updateSnippetValues Called when the snippet values need to be updated.
+ * @param {YoastSEO.App~saveScores} args.callbacks.saveScores Called when the score has been determined by the analyzer.
+ * @param {Function} args.callbacks.saveSnippetData Function called when the snippet data is changed.
+ *
+ * @param {SnippetPreview} args.snippetPreview The SnippetPreview object to be used.
+ *
+ * @constructor
+ */
+var App = function( args ) {
+	if ( !isObject( args ) ) {
+		args = {};
+	}
+
+	defaultsDeep( args, defaults );
+
+	verifyArguments( args );
+
+	this.config = args;
+
+	this.callbacks = this.config.callbacks;
+	this.i18n = this.constructI18n( this.config.translations );
+
+	// Set the assessor
+	this.assessor = new Assessor( this.i18n );
+
+	this.pluggable = new Pluggable( this );
+
+	this.getData();
+	this.showLoadingDialog();
+
+	if ( isValidSnippetPreview( args.snippetPreview ) ) {
+		this.snippetPreview = args.snippetPreview;
+
+		// Hack to make sure the snippet preview always has a reference to this App. This way we solve the circular
+		// dependency issue. In the future this should be solved by the snippet preview not having a reference to the
+		// app.
+		if ( this.snippetPreview.refObj !== this ) {
+			this.snippetPreview.refObj = this;
+			this.snippetPreview.i18n = this.i18n;
+		}
+	} else {
+		this.snippetPreview = createDefaultSnippetPreview.call( this );
+	}
+	this.initSnippetPreview();
+
+	this.runAnalyzer();
+};
+
+/**
+ * Extend the config with defaults.
+ *
+ * @param   {Object}    args    The arguments to be extended.
+ * @returns {Object}    args    The extended arguments.
+ */
+App.prototype.extendConfig = function( args ) {
+	args.sampleText = this.extendSampleText( args.sampleText );
+	args.locale = args.locale || "en_US";
+
+	return args;
+};
+
+/**
+ * Extend sample text config with defaults.
+ *
+ * @param   {Object}    sampleText  The sample text to be extended.
+ * @returns {Object}    sampleText  The extended sample text.
+ */
+App.prototype.extendSampleText = function( sampleText ) {
+	var defaultSampleText = defaults.sampleText;
+
+	if ( isUndefined( sampleText ) ) {
+		sampleText = defaultSampleText;
+	} else {
+		for ( var key in sampleText ) {
+			if ( isUndefined( sampleText[ key ] ) ) {
+				sampleText[ key ] = defaultSampleText[ key ];
+			}
+		}
+	}
+
+	return sampleText;
+};
+
+/**
+ * Initializes i18n object based on passed configuration
+ *
+ * @param {Object}  translations    The translations to be used in the current instance.
+ * @returns {void}
+ */
+App.prototype.constructI18n = function( translations ) {
+	var defaultTranslations = {
+		"domain": "js-text-analysis",
+		"locale_data": {
+			"js-text-analysis": {
+				"": {}
+			}
+		}
+	};
+
+	// Use default object to prevent Jed from erroring out.
+	translations = translations || defaultTranslations;
+
+	return new Jed( translations );
+};
+
+/**
+ * Retrieves data from the callbacks.getData and applies modification to store these in this.rawData.
+ * @returns {void}
+ */
+App.prototype.getData = function() {
+	this.rawData = this.callbacks.getData();
+
+	if ( !isUndefined( this.snippetPreview ) ) {
+
+		// Gets the data FOR the analyzer
+		var data = this.snippetPreview.getAnalyzerData();
+
+		this.rawData.pageTitle = data.title;
+		this.rawData.url = data.url;
+		this.rawData.meta = data.metaDesc;
+	}
+
+	if ( this.pluggable.loaded ) {
+		this.rawData.pageTitle = this.pluggable._applyModifications( "data_page_title", this.rawData.pageTitle );
+		this.rawData.meta = this.pluggable._applyModifications( "data_meta_desc", this.rawData.meta );
+	}
+	this.rawData.locale = this.config.locale;
+};
+
+/**
+ * Refreshes the analyzer and output of the analyzer
+ * @returns {void}
+ */
+App.prototype.refresh = function() {
+	this.getData();
+	this.runAnalyzer();
+};
+
+/**
+ * Creates the elements for the snippetPreview
+ *
+ * @deprecated Don't create a snippet preview using this method, create it directly using the prototype and pass it as
+ * an argument instead.
+ * @returns {void}
+ */
+App.prototype.createSnippetPreview = function() {
+	this.snippetPreview = createDefaultSnippetPreview.call( this );
+	this.initSnippetPreview();
+};
+
+/**
+ * Initializes the snippet preview for this App.
+ * @returns {void}
+ */
+App.prototype.initSnippetPreview = function() {
+	this.snippetPreview.renderTemplate();
+	this.snippetPreview.callRegisteredEventBinder();
+	this.snippetPreview.bindEvents();
+	this.snippetPreview.init();
+};
+
+/**
+ * binds the analyzeTimer function to the input of the targetElement on the page.
+ * @returns {void}
+ */
+App.prototype.bindInputEvent = function() {
+	for ( var i = 0; i < this.config.elementTarget.length; i++ ) {
+		var elem = document.getElementById( this.config.elementTarget[ i ] );
+		elem.addEventListener( "input", this.analyzeTimer.bind( this ) );
+	}
+};
+
+/**
+ * runs the rerender function of the snippetPreview if that object is defined.
+ * @returns {void}
+ */
+App.prototype.reloadSnippetText = function() {
+	if ( isUndefined( this.snippetPreview ) ) {
+		this.snippetPreview.reRender();
+	}
+};
+
+/**
+ * the analyzeTimer calls the checkInputs function with a delay, so the function won't be executed
+ * at every keystroke checks the reference object, so this function can be called from anywhere,
+ * without problems with different scopes.
+ * @returns {void}
+ */
+App.prototype.analyzeTimer = function() {
+	clearTimeout( window.timer );
+	window.timer = setTimeout( this.refresh.bind( this ), this.config.typeDelay );
+};
+
+/**
+ * sets the startTime timestamp
+ * @returns {void}
+ */
+App.prototype.startTime = function() {
+	this.startTimestamp = new Date().getTime();
+};
+
+/**
+ * sets the endTime timestamp and compares with startTime to determine typeDelayincrease.
+ * @returns {void}
+ */
+App.prototype.endTime = function() {
+	this.endTimestamp = new Date().getTime();
+	if ( this.endTimestamp - this.startTimestamp > this.config.typeDelay ) {
+		if ( this.config.typeDelay < ( this.config.maxTypeDelay - this.config.typeDelayStep ) ) {
+			this.config.typeDelay += this.config.typeDelayStep;
+		}
+	}
+};
+
+/**
+ * inits a new pageAnalyzer with the inputs from the getInput function and calls the scoreFormatter
+ * to format outputs.
+ * @returns {void}
+ */
+App.prototype.runAnalyzer = function() {
+	if ( this.pluggable.loaded === false ) {
+		return;
+	}
+
+	if ( this.config.dynamicDelay ) {
+		this.startTime();
+	}
+
+	this.analyzerData = this.modifyData( this.rawData );
+
+	// Create a paper object for the Researcher
+	this.paper = new Paper( this.analyzerData.text, {
+		keyword:  this.analyzerData.keyword,
+		description: this.analyzerData.meta,
+		url: this.analyzerData.url,
+		title: this.analyzerData.pageTitle
+	} );
+
+	// The new researcher
+	if ( isUndefined( this.researcher ) ) {
+		this.researcher = new Researcher( this.paper );
+	} else {
+		this.researcher.setPaper( this.paper );
+	}
+
+	this.assessor.assess( this.paper );
+
+	// Pass the assessor result through to the formatter
+	this.assessorPresenter = new AssessorPresenter( {
+		targets: this.config.targets,
+		keyword: this.paper.getKeyword(),
+		assessor: this.assessor,
+		i18n: this.i18n
+	} );
+
+	this.assessorPresenter.render();
+	this.callbacks.saveScores( this.assessor.calculateOverallScore() );
+
+	if ( this.config.dynamicDelay ) {
+		this.endTime();
+	}
+
+	this.snippetPreview.reRender();
+};
+
+/**
+ * Modifies the data with plugins before it is sent to the analyzer.
+ * @param   {Object}  data      The data to be modified.
+ * @returns {Object}            The data with the applied modifications.
+ */
+App.prototype.modifyData = function( data ) {
+
+	// Copy rawdata to lose object reference.
+	data = JSON.parse( JSON.stringify( data ) );
+
+	data.text = this.pluggable._applyModifications( "content", data.text );
+	data.title = this.pluggable._applyModifications( "title", data.title );
+
+	return data;
+};
+
+/**
+ * Function to fire the analyzer when all plugins are loaded, removes the loading dialog.
+ * @returns {void}
+ */
+App.prototype.pluginsLoaded = function() {
+	this.getData();
+	this.removeLoadingDialog();
+	this.runAnalyzer();
+};
+
+/**
+ * Shows the loading dialog which shows the loading of the plugins.
+ * @returns {void}
+ */
+App.prototype.showLoadingDialog = function() {
+	var dialogDiv = document.createElement( "div" );
+	dialogDiv.className = "YoastSEO_msg";
+	dialogDiv.id = "YoastSEO-plugin-loading";
+	document.getElementById( this.config.targets.output ).appendChild( dialogDiv );
+};
+
+/**
+ * Updates the loading plugins. Uses the plugins as arguments to show which plugins are loading
+ * @param   {Object}  plugins   The plugins to be parsed into the dialog.
+ * @returns {void}
+ */
+App.prototype.updateLoadingDialog = function( plugins ) {
+	var dialog = document.getElementById( "YoastSEO-plugin-loading" );
+	dialog.textContent = "";
+	forEach ( plugins, function( plugin, pluginName ) {
+		dialog.innerHTML += "<span class=left>" + pluginName + "</span><span class=right " +
+							plugin.status + ">" + plugin.status + "</span><br />";
+	} );
+	dialog.innerHTML += "<span class=bufferbar></span>";
+};
+
+/**
+ * Removes the pluging load dialog.
+ * @returns {void}
+ */
+App.prototype.removeLoadingDialog = function() {
+	document.getElementById( this.config.targets.output ).removeChild( document.getElementById( "YoastSEO-plugin-loading" ) );
+};
+
+// ***** PLUGGABLE PUBLIC DSL ***** //
+
+/**
+ * Delegates to `YoastSEO.app.pluggable.registerPlugin`
+ *
+ * @param {string}  pluginName      The name of the plugin to be registered.
+ * @param {object}  options         The options object.
+ * @param {string}  options.status  The status of the plugin being registered. Can either be "loading" or "ready".
+ * @returns {boolean}               Whether or not it was successfully registered.
+ */
+App.prototype.registerPlugin = function( pluginName, options ) {
+	return this.pluggable._registerPlugin( pluginName, options );
+};
+
+/**
+ * Delegates to `YoastSEO.app.pluggable.ready`
+ *
+ * @param {string}  pluginName  The name of the plugin to check.
+ * @returns {boolean}           Whether or not the plugin is ready.
+ */
+App.prototype.pluginReady = function( pluginName ) {
+	return this.pluggable._ready( pluginName );
+};
+
+/**
+ * Delegates to `YoastSEO.app.pluggable.reloaded`
+ *
+ * @param {string} pluginName   The name of the plugin to reload
+ * @returns {boolean}           Whether or not the plugin was reloaded.
+ */
+App.prototype.pluginReloaded = function( pluginName ) {
+	return this.pluggable._reloaded( pluginName );
+};
+
+/**
+ * Delegates to `YoastSEO.app.pluggable.registerModification`
+ *
+ * @param {string}      modification 		The name of the filter
+ * @param {function}    callable 		 	The callable function
+ * @param {string}      pluginName 		    The plugin that is registering the modification.
+ * @param {number}      priority 		 	(optional) Used to specify the order in which the callables associated with a particular filter are
+                                            called.
+ * 									        Lower numbers correspond with earlier execution.
+ * @returns 			{boolean}           Whether or not the modification was successfully registered.
+ */
+App.prototype.registerModification = function( modification, callable, pluginName, priority ) {
+	return this.pluggable._registerModification( modification, callable, pluginName, priority );
+};
+
+/**
+ * Registers a custom test for use in the analyzer, this will result in a new line in the analyzer results. The function
+ * has to return a result based on the contents of the page/posts.
+ *
+ * The scoring object is a special object with definitions about how to translate a result from your analysis function
+ * to a SEO score.
+ *
+ * Negative scores result in a red circle
+ * Scores 1, 2, 3, 4 and 5 result in a orange circle
+ * Scores 6 and 7 result in a yellow circle
+ * Scores 8, 9 and 10 result in a red circle
+ *
+ * @deprecated since version 1.2
+ */
+App.prototype.registerTest = function() {
+	console.error( "This function is deprecated, please use registerAssessment" );
+};
+
+/**
+ * Registers a custom assessment for use in the analyzer, this will result in a new line in the analyzer results.
+ * The function needs to use the assessmentresult to return an result  based on the contents of the page/posts.
+ *
+ * Score 0 results in a grey circle if it is not explicitly set by using setscore
+ * Scores 0, 1, 2, 3 and 4 result in a red circle
+ * Scores 6 and 7 result in a yellow circle
+ * Scores 8, 9 and 10 result in a green circle
+ *
+ * @param {string} name Name of the test.
+ * @param {function} assessment The assessment to run
+ * @param {string}   pluginName The plugin that is registering the test.
+ * @returns {boolean} Whether or not the test was successfully registered.
+ */
+App.prototype.registerAssessment = function( name, assessment, pluginName ) {
+	return this.pluggable._registerAssessment( this.assessor, name, assessment, pluginName );
+};
+
+module.exports = App;
+
+},{"./assessor.js":20,"./config/config.js":22,"./errors/missingArgument":29,"./pluggable.js":31,"./renderers/AssessorPresenter.js":32,"./researcher.js":33,"./snippetPreview.js":52,"./values/Paper.js":79,"jed":80,"lodash/defaultsDeep":206,"lodash/forEach":209,"lodash/isObject":225,"lodash/isString":228,"lodash/isUndefined":231}],3:[function(require,module,exports){
+var AssessmentResult = require( "../values/AssessmentResult.js" );
+var inRange = require( "lodash/inRange" );
+
+/**
+ * Calculates the assessment result based on the fleschReadingScore
+ * @param {int} fleschReadingScore The score from the fleschReadingtest
+ * @param {object} i18n The i18n-object used for parsing translations
+ * @returns {object} object with score, resultText and note
+ */
+var calculateFleschReadingResult = function( fleschReadingScore, i18n ) {
+	if ( fleschReadingScore > 90 ) {
+		return {
+			score: 9,
+			resultText: i18n.dgettext( "js-text-analysis", "very easy" ),
+			note: ""
+		};
+	}
+
+	if ( inRange( fleschReadingScore, 80, 90 ) ) {
+		return {
+			score: 9,
+			resultText:  i18n.dgettext( "js-text-analysis", "easy" ),
+			note: ""
+		};
+	}
+
+	if ( inRange( fleschReadingScore, 70, 80 ) ) {
+		return {
+			score: 8,
+			resultText: i18n.dgettext( "js-text-analysis", "fairly easy" ),
+			note: ""
+		};
+	}
+
+	if ( inRange( fleschReadingScore, 60, 70 ) ) {
+		return {
+			score: 8,
+			resultText: i18n.dgettext( "js-text-analysis", "ok" ),
+			note: ""
+		};
+	}
+
+	if ( inRange( fleschReadingScore, 50, 60 ) ) {
+		return {
+			score: 6,
+			resultText: i18n.dgettext( "js-text-analysis", "fairly difficult" ),
+			note: i18n.dgettext( "js-text-analysis", "Try to make shorter sentences to improve readability." )
+		};
+	}
+
+	if ( inRange( fleschReadingScore, 30, 50 ) ) {
+		return {
+			score: 5,
+			resultText: i18n.dgettext( "js-text-analysis", "difficult" ),
+			note: i18n.dgettext( "js-text-analysis", "Try to make shorter sentences, using less difficult words to improve readability." )
+		};
+	}
+
+	if ( fleschReadingScore < 30 ) {
+		return {
+			score: 4,
+			resultText: i18n.dgettext( "js-text-analysis", "very difficult" ),
+			note: i18n.dgettext( "js-text-analysis", "Try to make shorter sentences, using less difficult words to improve readability." )
+		};
+	}
+};
+
+/**
+ * The assessment that runs the FleschReading on the paper.
+ *
+ * @param {object} paper The paper to run this assessment on
+ * @param {object} researcher The researcher used for the assessment
+ * @param {object} i18n The i18n-object used for parsing translations
+ * @returns {object} an assessmentresult with the score and formatted text.
+ */
+var fleschReadingAssessment = function( paper, researcher, i18n ) {
+	var fleschReadingScore = researcher.getResearch( "calculateFleschReading" );
+
+	/* translators: %1$s expands to the numeric flesch reading ease score, %2$s to a link to a Yoast.com article about Flesch ease reading score,
+	 %3$s to the easyness of reading, %4$s expands to a note about the flesch reading score. */
+	var text = i18n.dgettext( "js-text-analysis", "The copy scores %1$s in the %2$s test, which is considered %3$s to read. %4$s" );
+	var url = "<a href='https://yoast.com/flesch-reading-ease-score/' target='new'>Flesch Reading Ease</a>";
+
+	// scores must be between 0 and 100;
+	if ( fleschReadingScore < 0 ) {
+		fleschReadingScore = 0;
+	}
+	if ( fleschReadingScore > 100 ) {
+		fleschReadingScore = 100;
+	}
+
+	var fleschReadingResult = calculateFleschReadingResult( fleschReadingScore, i18n );
+
+	text = i18n.sprintf( text, fleschReadingScore, url, fleschReadingResult.resultText, fleschReadingResult.note );
+
+	var assessmentResult =  new AssessmentResult();
+	assessmentResult.setScore( fleschReadingResult.score );
+	assessmentResult.setText( text );
+
+	return assessmentResult;
+};
+
+module.exports = {
+	getResult: fleschReadingAssessment,
+	isApplicable: function( paper ) {
+		return ( paper.getLocale().indexOf( "en_" ) > -1 );
+	}
+};
+
+},{"../values/AssessmentResult.js":78,"lodash/inRange":213}],4:[function(require,module,exports){
+var AssessmentResult = require( "../values/AssessmentResult.js" );
+var inRange = require( "lodash/inRange" );
+
+/**
+ * Calculate the score based on the current word count.
+ * @param {number} wordCount The amount of words to be checked against.
+ * @param {object} i18n The locale object.
+ * @returns {object} The resulting score object.
+ */
+var calculateWordCountResult = function( wordCount, i18n ) {
+	if ( wordCount > 300 ) {
+		return {
+			score: 9,
+			/* translators: %1$d expands to the number of words in the text, %2$s to the recommended minimum of words */
+			text: i18n.dngettext(
+				"js-text-analysis",
+				"The text contains %1$d word, this is more than the %2$d word recommended minimum.",
+				"The text contains %1$d words, this is more than the %2$d word recommended minimum.",
+				wordCount
+			)
+		};
+	}
+
+	if ( inRange( wordCount, 250, 300 ) ) {
+		return {
+			score: 7,
+			/* translators: %1$d expands to the number of words in the text, %2$s to the recommended minimum of words */
+			text: i18n.dngettext(
+				"js-text-analysis",
+				"The text contains %1$d word, this is slightly below the %2$d word recommended minimum. Add a bit more copy.",
+				"The text contains %1$d words, this is slightly below the %2$d word recommended minimum. Add a bit more copy.",
+				wordCount
+			)
+		};
+	}
+
+	if ( inRange( wordCount, 200, 250 ) ) {
+		return {
+			score: 5,
+			/* translators: %1$d expands to the number of words in the text, %2$d to the recommended minimum of words */
+			text: i18n.dngettext(
+				"js-text-analysis",
+				"The text contains %1$d word, this is below the %2$d word recommended minimum. Add more useful content on this topic for readers.",
+				"The text contains %1$d words, this is below the %2$d word recommended minimum. Add more useful content on this topic for readers.",
+				wordCount
+			)
+		};
+	}
+
+	if ( inRange( wordCount, 100, 200 ) ) {
+		return {
+			score: -10,
+			/* translators: %1$d expands to the number of words in the text, %2$d to the recommended minimum of words */
+			text: i18n.dngettext(
+				"js-text-analysis",
+				"The text contains %1$d word, this is below the %2$d word recommended minimum. Add more useful content on this topic for readers.",
+				"The text contains %1$d words, this is below the %2$d word recommended minimum. Add more useful content on this topic for readers.",
+				wordCount
+			)
+		};
+	}
+
+	if ( inRange( wordCount, 0, 100 ) ) {
+		return {
+			score: -20,
+			/* translators: %1$d expands to the number of words in the text */
+			text: i18n.dngettext(
+				"js-text-analysis",
+				"The text contains %1$d word, this is far too low and should be increased.",
+				"The text contains %1$d words, this is far too low and should be increased.",
+				wordCount
+			)
+		};
+	}
+};
+
+/**
+ * Execute the Assessment and return a result.
+ * @param {Paper} paper The Paper object to assess.
+ * @param {Researcher} researcher The Researcher object containing all available researches.
+ * @param {object} i18n The locale object.
+ * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
+ */
+var countWordsAssessment = function( paper, researcher, i18n ) {
+	var wordCount = researcher.getResearch( "wordCountInText" );
+	var wordCountResult = calculateWordCountResult( wordCount, i18n );
+	var assessmentResult = new AssessmentResult();
+
+	assessmentResult.setScore( wordCountResult.score );
+	assessmentResult.setText( i18n.sprintf( wordCountResult.text, wordCount, 300 ) );
+
+	return assessmentResult;
+};
+
+module.exports = { getResult: countWordsAssessment };
+
+},{"../values/AssessmentResult.js":78,"lodash/inRange":213}],5:[function(require,module,exports){
+var AssessmentResult = require( "../values/AssessmentResult.js" );
+
+/**
+ * Returns a score and text based on the firstParagraph object.
+ *
+ * @param {object} firstParagraphMatches The object with all firstParagraphMatches.
+ * @param {object} i18n The object used for translations
+ * @returns {object} resultObject with score and text
+ */
+var calculateFirstParagraphResult = function( firstParagraphMatches, i18n ) {
+	if ( firstParagraphMatches > 0 ) {
+		return {
+			score: 9,
+			text: i18n.dgettext( "js-text-analysis", "The focus keyword appears in the first paragraph of the copy." )
+		};
+	}
+
+	return {
+		score: 3,
+		text: i18n.dgettext( "js-text-analysis", "The focus keyword doesn\'t appear in the first paragraph of the copy. " +
+			"Make sure the topic is clear immediately." )
+	};
+};
+
+/**
+ * Runs the findKeywordInFirstParagraph module, based on this returns an assessment result with score.
+ *
+ * @param {Paper} paper The paper to use for the assessment.
+ * @param {object} researcher The researcher used for calling research.
+ * @param {object} i18n The object used for translations
+ * @returns {object} the Assessmentresult
+ */
+var getFirstParagraphAssessment = function( paper,  researcher, i18n ) {
+	var firstParagraphMatches = researcher.getResearch( "firstParagraph" );
+	var firstParagraphResult = calculateFirstParagraphResult( firstParagraphMatches, i18n );
+	var assessmentResult = new AssessmentResult();
+
+	assessmentResult.setScore( firstParagraphResult.score );
+	assessmentResult.setText( firstParagraphResult.text );
+
+	return assessmentResult;
+};
+
+module.exports = {
+	getResult: getFirstParagraphAssessment,
+	isApplicable: function( paper ) {
+		return paper.hasKeyword();
+	}
+};
+
+},{"../values/AssessmentResult.js":78}],6:[function(require,module,exports){
+var AssessmentResult = require( "../values/AssessmentResult.js" );
+
+/**
+ * Returns a score and text based on the linkStatistics object.
+ *
+ * @param {object} linkStatistics The object with all linkstatistics.
+ * @param {object} i18n The object used for translations
+ * @returns {object} resultObject with score and text
+ */
+var calculateLinkStatisticsResult = function( linkStatistics, i18n ) {
+	if ( linkStatistics.total === 0 ) {
+		return {
+			score: 6,
+			text: i18n.dgettext( "js-text-analysis", "No outbound links appear in this page, consider adding some as appropriate." )
+
+		};
+	}
+	if ( linkStatistics.externalTotal === 0 ) {
+		return {
+			score: 6,
+			text: i18n.dgettext( "js-text-analysis", "No outbound links appear in this page, consider adding some as appropriate." )
+		};
+	}
+	if ( linkStatistics.totalNaKeyword > 0 ) {
+		return {
+			score: 2,
+			text: i18n.dgettext( "js-text-analysis", "Outbound links appear in this page" )
+		};
+	}
+	if ( linkStatistics.totalKeyword > 0 ) {
+		return {
+			score: 2,
+			text: i18n.dgettext( "js-text-analysis", "You\'re linking to another page with the focus keyword you want this page to rank for. " +
+				"Consider changing that if you truly want this page to rank." )
+		};
+	}
+	if ( linkStatistics.externalNofollow === linkStatistics.total ) {
+		return {
+			score: 7,
+			/* translators: %1$s expands the number of outbound links */
+			text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "This page has %1$s outbound link(s), all nofollowed." ),
+				linkStatistics.externalNofollow )
+		};
+	}
+
+	if ( linkStatistics.externalNofollow < linkStatistics.total ) {
+		return {
+			score: 8,
+			/* translators: %1$s expands to the number of nofollow links, %2$s to the number of outbound links */
+			text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "This page has %1$s nofollowed link(s) and %2$s normal outbound link(s)." ),
+				linkStatistics.externalNofollow, linkStatistics.externalDofollow )
+		};
+	}
+
+	if ( linkStatistics.externalDofollow === linkStatistics.total ) {
+		return {
+			score: 9,
+			/* translators: %1$s expands to the number of outbound links */
+			text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "This page has %1$s outbound link(s)." ), linkStatistics.externalTotal )
+		};
+	}
+};
+
+/**
+ * Runs the getLinkStatistics module, based on this returns an assessment result with score.
+ *
+ * @param {object} paper The paper to use for the assessment.
+ * @param {object} researcher The researcher used for calling research.
+ * @param {object} i18n The object used for translations
+ * @returns {object} the Assessmentresult
+ */
+var getLinkStatisticsAssessment = function( paper,  researcher, i18n ) {
+	var linkStatistics = researcher.getResearch( "getLinkStatistics" );
+	var linkStatisticsResult = calculateLinkStatisticsResult( linkStatistics, i18n );
+	var assessmentResult = new AssessmentResult();
+
+	assessmentResult.setScore( linkStatisticsResult.score );
+	assessmentResult.setText( linkStatisticsResult.text );
+
+	return assessmentResult;
+};
+
+module.exports = {
+	getResult: getLinkStatisticsAssessment,
+	isApplicable: function ( paper ) {
+		return paper.hasText();
+	}
+};
+
+},{"../values/AssessmentResult.js":78}],7:[function(require,module,exports){
+var AssessmentResult = require( "../values/AssessmentResult.js" );
+var isEmpty = require( "lodash/isEmpty" );
+
+/**
+ * Calculate the score based on the current image count.
+ * @param {number} imageCount The amount of images to be checked against.
+ * @param {object} i18n The locale object.
+ * @returns {object} The resulting score object.
+ */
+var calculateImageCountResult = function( imageCount, i18n ) {
+	if ( imageCount === 0 ) {
+		return {
+			score: 3,
+			text: i18n.dgettext( "js-text-analysis", "No images appear in this page, consider adding some as appropriate." )
+		};
+	}
+
+	return {};
+};
+
+/**
+ * Calculate the score based on the current image alt-tag count.
+ * @param {object} altProperties An object containing the various alt-tags.
+ * @param {object} i18n The locale object.
+ * @returns {object} The resulting score object.
+ */
+var assessImages = function( altProperties, i18n ) {
+	if ( altProperties.noAlt > 0 ) {
+		return {
+			score: 5,
+			text: i18n.dgettext( "js-text-analysis", "The images on this page are missing alt tags." )
+		};
+	}
+
+	// Has alt-tag, but no keyword is set
+	if ( altProperties.withAlt > 0 ) {
+		return {
+			score: 5,
+			text: i18n.dgettext( "js-text-analysis", "The images on this page contain alt tags." )
+		};
+	}
+
+	// Has alt-tag, but no keywords and it's not okay
+	if ( altProperties.withAltNonKeyword > 0 ) {
+		return {
+			score: 5,
+			text: i18n.dgettext( "js-text-analysis", "The images on this page do not have alt tags containing your focus keyword." )
+		};
+	}
+
+	// Has alt-tag and keywords
+	if ( altProperties.withAltKeyword > 0 ) {
+		return {
+			score: 9,
+			text: i18n.dgettext( "js-text-analysis", "The images on this page contain alt tags with the focus keyword." )
+		};
+	}
+
+	return {};
+};
+
+/**
+ * Execute the Assessment and return a result.
+ * @param {Paper} paper The Paper object to assess.
+ * @param {Researcher} researcher The Researcher object containing all available researches.
+ * @param {object} i18n The locale object.
+ * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
+ */
+var imageAssessment = function( paper, researcher, i18n ) {
+	var assessmentResult = new AssessmentResult();
+
+	var imageCount = researcher.getResearch( "imageCount" );
+	var imageCountResult = calculateImageCountResult( imageCount, i18n );
+
+	if ( isEmpty( imageCountResult ) ) {
+		var altTagCount = researcher.getResearch( "altTagCount" );
+		var altTagCountResult = assessImages( altTagCount, i18n );
+
+		assessmentResult.setScore( altTagCountResult.score );
+		assessmentResult.setText( altTagCountResult.text );
+
+		return assessmentResult;
+	}
+
+	assessmentResult.setScore( imageCountResult.score );
+	assessmentResult.setText( imageCountResult.text );
+
+	return assessmentResult;
+};
+
+module.exports = {
+	getResult: imageAssessment,
+	isApplicable: function ( paper ) {
+		return paper.hasText();
+	}
+};
+
+},{"../values/AssessmentResult.js":78,"lodash/isEmpty":220}],8:[function(require,module,exports){
+var AssessmentResult = require( "../values/AssessmentResult.js" );
+
+/**
+ * Assesses the keyphrase presence and length
+ *
+ * @param {Paper} paper The paper to use for the assessment.
+ * @param {Researcher} researcher The researcher used for calling research.
+ * @param {Jed} i18n The object used for translations
+ * @returns {AssessmentResult} The result of this assessment
+*/
+function keyphraseAssessment( paper, researcher, i18n ) {
+	var keyphraseLength = researcher.getResearch( "keyphraseLength" );
+
+	var assessmentResult = new AssessmentResult();
+
+	if ( !paper.hasKeyword() ) {
+		assessmentResult.setScore( -999 );
+		assessmentResult.setText( i18n.dgettext( "js-text-analysis", "No focus keyword was set for this page. " +
+			"If you do not set a focus keyword, no score can be calculated." ) );
+	} else if ( keyphraseLength > 10 ) {
+		assessmentResult.setScore( 0 );
+		assessmentResult.setText( i18n.dgettext( "js-text-analysis", "Your keyphrase is over 10 words, a keyphrase should be shorter." ) );
+	}
+
+	return assessmentResult;
+}
+
+module.exports = { getResult: keyphraseAssessment };
+
+},{"../values/AssessmentResult.js":78}],9:[function(require,module,exports){
+var AssessmentResult = require( "../values/AssessmentResult.js" );
+var matchWords = require( "../stringProcessing/matchTextWithWord.js" );
+var inRange = require( "lodash/inRange" );
+
+/**
+ * Returns the scores and text for keyword density
+ * @param {string} keywordDensity The keyword density
+ * @param {object} i18n The i18n object used for translations
+ * @returns {{score: number, text: *}} the assessmentresult
+ */
+var calculateKeywordDensityResult = function( keywordDensity, i18n ) {
+	if ( keywordDensity > 3.5 ) {
+		return {
+			score: -50,
+			text: i18n.dgettext( "js-text-analysis", "The keyword density is %1$s%%, which is way over the advised 2.5%% maximum;" +
+				" the focus keyword was found %2$d times." )
+		};
+	}
+	if ( inRange( keywordDensity, 2.5, 3.5 ) ) {
+		return {
+			score: -10,
+			text: i18n.dgettext( "js-text-analysis", "The keyword density is %1$s%%, which is over the advised 2.5%% maximum;" +
+				" the focus keyword was found %2$d times." )
+		};
+	}
+	if ( inRange( keywordDensity, 0.5, 2.5 ) ) {
+		return {
+			score: 9,
+			text: i18n.dgettext( "js-text-analysis", "The keyword density is %1$s%%, which is great; the focus keyword was found %2$d times." )
+		};
+	}
+	if ( inRange( keywordDensity, 0, 0.5 ) ) {
+		return {
+			score: 4,
+			text: i18n.dgettext( "js-text-analysis", "The keyword density is %1$s%%, which is a bit low; the focus keyword was found %2$d times." )
+		};
+	}
+};
+
+/**
+ * Runs the getkeywordDensity module, based on this returns an assessment result with score.
+ *
+ * @param {object} paper The paper to use for the assessment.
+ * @param {object} researcher The researcher used for calling research.
+ * @param {object} i18n The object used for translations
+ * @returns {object} the Assessmentresult
+ */
+var getKeyworDensityAssessment = function( paper,  researcher, i18n ) {
+
+	var keywordDensity = researcher.getResearch( "getKeywordDensity" );
+	var keywordCount = matchWords( paper.getText(), paper.getKeyword() );
+	var keywordDensityResult = calculateKeywordDensityResult( keywordDensity, i18n );
+	var assessmentResult = new AssessmentResult();
+
+	var text = i18n.sprintf( keywordDensityResult.text, keywordDensity.toFixed( 1 ), keywordCount );
+
+	assessmentResult.setScore( keywordDensityResult.score );
+	assessmentResult.setText( text );
+
+	return assessmentResult;
+};
+
+module.exports = {
+	getResult: getKeyworDensityAssessment,
+	isApplicable: function( paper ) {
+		return paper.hasText() && paper.hasKeyword();
+	}
+};
+
+},{"../stringProcessing/matchTextWithWord.js":66,"../values/AssessmentResult.js":78,"lodash/inRange":213}],10:[function(require,module,exports){
+var AssessmentResult = require( "../values/AssessmentResult.js" );
+
+/**
+ * Calculate the score based on whether or not there's a keyword in the url.
+ * @param {number} keywordsResult The amount of keywords to be checked against.
+ * @param {object} i18n The locale object.
+ * @returns {object} The resulting score object.
+ */
+var calculateUrlKeywordCountResult = function( keywordsResult, i18n ) {
+
+	if ( keywordsResult > 0 ) {
+		return {
+			score: 9,
+			text: i18n.dgettext( "js-text-analysis", "The focus keyword appears in the URL for this page." )
+		};
+	}
+
+	return {
+		score: 6,
+		text: i18n.dgettext( "js-text-analysis", "The focus keyword does not appear in the URL for this page. " +
+		                                         "If you decide to rename the URL be sure to check the old URL 301 redirects to the new one!" )
+	};
+};
+
+/**
+ * Execute the Assessment and return a result.
+ * @param {Paper} paper The Paper object to assess.
+ * @param {Researcher} researcher The Researcher object containing all available researches.
+ * @param {object} i18n The locale object.
+ * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
+ */
+var keywordInUrlAssessment = function( paper, researcher, i18n ) {
+	var keywords = researcher.getResearch( "keywordCountInUrl" );
+	var keywordsResult = calculateUrlKeywordCountResult( keywords, i18n );
+
+	var assessmentResult = new AssessmentResult();
+	assessmentResult.setScore( keywordsResult.score );
+	assessmentResult.setText( keywordsResult.text );
+
+	return assessmentResult;
+};
+
+module.exports = {
+	getResult: keywordInUrlAssessment,
+	isApplicable: function( paper ) {
+		return paper.hasKeyword() && paper.hasUrl();
+	}
+};
+
+},{"../values/AssessmentResult.js":78}],11:[function(require,module,exports){
+var AssessmentResult = require( "../values/AssessmentResult.js" );
+
+/**
+ * Returns a score and text based on the keyword matches object.
+ *
+ * @param {object} subHeadings The object with all subHeadings matches.
+ * @param {object} i18n The object used for translations.
+ * @returns {object} resultObject with score and text.
+ */
+var calculateKeywordMatchesResult = function( subHeadings, i18n ) {
+	if ( subHeadings.matches === 0 ) {
+		return {
+			score: 3,
+			text: i18n.dgettext( "js-text-analysis", "You have not used your focus keyword in any subheading (such as an H2) in your copy." )
+		};
+	}
+	if ( subHeadings.matches >= 1 ) {
+		return {
+			score: 9,
+			text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "The focus keyword appears in %2$d (out of %1$d) subheadings in the copy. " +
+				"While not a major ranking factor, this is beneficial." ), subHeadings.count, subHeadings.matches )
+		};
+	}
+	return {};
+};
+
+/**
+ * Runs the match keyword in subheadings module, based on this returns an assessment result with score.
+ *
+ * @param {object} paper The paper to use for the assessment.
+ * @param {object} researcher The researcher used for calling research.
+ * @param {object} i18n The object used for translations.
+ * @returns {object} the Assessmentresult
+ */
+var matchKeywordinSubHeadingAssessment = function( paper, researcher, i18n ) {
+	var subHeadings = researcher.getResearch( "matchKeywordInSubheadings" );
+	var subHeadingsResult = calculateKeywordMatchesResult( subHeadings, i18n );
+	var assessmentResult = new AssessmentResult();
+
+	assessmentResult.setScore( subHeadingsResult.score );
+	assessmentResult.setText( subHeadingsResult.text );
+
+	return assessmentResult;
+};
+
+module.exports = {
+	getResult: matchKeywordinSubHeadingAssessment,
+	isApplicable: function( paper ) {
+		return paper.hasText() && paper.hasKeyword();
+	}
+};
+
+},{"../values/AssessmentResult.js":78}],12:[function(require,module,exports){
+var AssessmentResult = require( "../values/AssessmentResult.js" );
+
+/**
+ * Returns a score and text based on the subheading matches object.
+ *
+ * @param {object} subHeadings The object with all subHeadings matches.
+ * @param {object} i18n The object used for translations.
+ * @returns {object} resultObject with score and text.
+ */
+var calculateSubheadingMatchesResult = function( subHeadings, i18n ) {
+	if ( subHeadings.count === 0 ) {
+		return {
+			score: 7,
+			text: i18n.dgettext( "js-text-analysis", "No subheading tags (like an H2) appear in the copy." )
+		};
+	}
+	return {};
+};
+
+/**
+ * Runs the match subheadings module, based on this returns an assessment result with score.
+ *
+ * @param {object} paper The paper to use for the assessment.
+ * @param {object} researcher The researcher used for calling research.
+ * @param {object} i18n The object used for translations.
+ * @returns {object} the Assessmentresult
+ */
+var matchKeywordinSubHeadingAssessment = function( paper, researcher, i18n ) {
+	var subHeadings = researcher.getResearch( "matchKeywordInSubheadings" );
+	var subHeadingsResult = calculateSubheadingMatchesResult( subHeadings, i18n );
+	var assessmentResult = new AssessmentResult();
+
+	assessmentResult.setScore( subHeadingsResult.score );
+	assessmentResult.setText( subHeadingsResult.text );
+
+	return assessmentResult;
+};
+
+module.exports = {
+	getResult: matchKeywordinSubHeadingAssessment,
+	isApplicable: function( paper ) {
+		return paper.hasText();
+	}
+};
+
+
+},{"../values/AssessmentResult.js":78}],13:[function(require,module,exports){
+var AssessmentResult = require( "../values/AssessmentResult.js" );
+
+/**
+ * Returns the score and text for the description keyword match.
+ * @param {number} keywordMatches The number of keyword matches in the description.
+ * @param {object} i18n The i18n object used for translations.
+ * @returns {Object} An object with values for the assessment result.
+ */
+var calculateKeywordMatchesResult = function( keywordMatches, i18n ) {
+	if ( keywordMatches > 0 ) {
+		return {
+			score: 9,
+			text: i18n.dgettext( "js-text-analysis", "The meta description contains the focus keyword." )
+		};
+	}
+	if ( keywordMatches === 0 ) {
+		return {
+			score: 3,
+			text: i18n.dgettext( "js-text-analysis", "A meta description has been specified, but it does not contain the focus keyword." )
+		};
+	}
+	return {};
+};
+
+/**
+ * Runs the metaDescription keyword module, based on this returns an assessment result with score.
+ *
+ * @param {object} paper The paper to use for the assessment.
+ * @param {object} researcher The researcher used for calling research.
+ * @param {object} i18n The object used for translations
+ * @returns {object} the Assessmentresult
+ */
+var getMetadescriptionKeywordAssessment = function( paper,  researcher, i18n ) {
+	var keywordMatches = researcher.getResearch( "metaDescriptionKeyword" );
+	var descriptionLengthResult = calculateKeywordMatchesResult( keywordMatches, i18n );
+	var assessmentResult = new AssessmentResult();
+
+	assessmentResult.setScore( descriptionLengthResult.score );
+	assessmentResult.setText( descriptionLengthResult.text );
+
+	return assessmentResult;
+};
+
+module.exports = {
+	getResult: getMetadescriptionKeywordAssessment,
+	isApplicable: function ( paper ) {
+		return paper.hasKeyword();
+	}
+};
+
+},{"../values/AssessmentResult.js":78}],14:[function(require,module,exports){
+var AssessmentResult = require( "../values/AssessmentResult.js" );
+
+/**
+ * Returns the score and text for the descriptionLength
+ * @param {number} descriptionLength The length of the metadescription.
+ * @param {object} i18n The i18n object used for translations.
+ * @returns {Object} An object with values for the assessment result.
+ */
+var calculateDescriptionLengthResult = function( descriptionLength, i18n ) {
+	var recommendedValue = 120;
+	var maximumValue = 156;
+	if ( descriptionLength === 0 ) {
+		return {
+			score: 1,
+			text: i18n.dgettext( "js-text-analysis", "No meta description has been specified, " +
+				"search engines will display copy from the page instead." )
+		};
+	}
+	if ( descriptionLength <= recommendedValue ) {
+		return {
+			score: 6,
+			text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "The meta description is under %1$d characters, " +
+				"however up to %2$d characters are available." ), recommendedValue, maximumValue )
+		};
+	}
+	if ( descriptionLength > maximumValue ) {
+		return {
+			score: 6,
+			text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "The specified meta description is over %1$d characters. " +
+				"Reducing it will ensure the entire description is visible." ), maximumValue )
+		};
+	}
+	if ( descriptionLength >= recommendedValue && descriptionLength <= maximumValue ) {
+		return {
+			score: 9,
+			text: i18n.dgettext( "js-text-analysis", "In the specified meta description, consider: " +
+				"How does it compare to the competition? Could it be made more appealing?" )
+		};
+	}
+};
+
+/**
+ * Runs the metaDescriptionLength module, based on this returns an assessment result with score.
+ *
+ * @param {object} paper The paper to use for the assessment.
+ * @param {object} researcher The researcher used for calling research.
+ * @param {object} i18n The object used for translations
+ * @returns {object} the Assessmentresult
+ */
+var getMetadescriptionLengthAssessment = function( paper,  researcher, i18n ) {
+	var descriptionLength = researcher.getResearch( "metaDescriptionLength" );
+	var descriptionLengthResult = calculateDescriptionLengthResult( descriptionLength, i18n );
+	var assessmentResult = new AssessmentResult();
+
+	assessmentResult.setScore( descriptionLengthResult.score );
+	assessmentResult.setText( descriptionLengthResult.text );
+
+	return assessmentResult;
+};
+
+module.exports = { getResult: getMetadescriptionLengthAssessment };
+
+},{"../values/AssessmentResult.js":78}],15:[function(require,module,exports){
+var AssessmentResult = require( "../values/AssessmentResult.js" );
+
+/**
+ * Executes the pagetitle keyword assessment and returns an assessment result.
+ * @param {Paper} paper The Paper object to assess.
+ * @param {Researcher} researcher The Researcher object containing all available researches.
+ * @param {object} i18n The locale object.
+ * @returns {AssessmentResult} The result of the assessment with text and score
+ */
+var pageTitleKeywordAssessment = function( paper, researcher, i18n ) {
+	var keywordMatches = researcher.getResearch( "findKeywordInPageTitle" );
+	var score, text;
+
+	if ( keywordMatches.matches === 0 ) {
+		score = 2;
+		text = i18n.sprintf( i18n.dgettext( "js-text-analysis", "The focus keyword '%1$s' does not appear in the page title." ), paper.getKeyword() );
+	}
+
+	if ( keywordMatches.matches > 0 && keywordMatches.position === 0 ) {
+		score = 9;
+		text = i18n.dgettext( "js-text-analysis", "The page title contains the focus keyword, at the beginning which is considered " +
+			"to improve rankings." );
+	}
+
+	if ( keywordMatches.matches > 0 && keywordMatches.position > 0 ) {
+		score = 6;
+		text = i18n.dgettext( "js-text-analysis", "The page title contains the focus keyword, but it does not appear at the beginning;" +
+			" try and move it to the beginning." );
+	}
+	var assessmentResult = new AssessmentResult();
+
+	assessmentResult.setScore( score );
+	assessmentResult.setText( text );
+
+	return assessmentResult;
+};
+
+module.exports = {
+	getResult: pageTitleKeywordAssessment,
+	isApplicable: function ( paper ) {
+		return paper.hasKeyword();
+	}
+};
+
+},{"../values/AssessmentResult.js":78}],16:[function(require,module,exports){
+var AssessmentResult = require( "../values/AssessmentResult.js" );
+var inRange = require( "lodash/inRange" );
+
+/**
+ * Returns the score and text for the pageTitleLength
+ * @param {number} pageTitleLength The length of the pageTitle.
+ * @param {object} i18n The i18n object used for translations.
+ * @returns {object} The result object.
+ */
+var calculatePageTitleLengthResult = function( pageTitleLength, i18n ) {
+	var minLength = 35;
+	var maxLength = 65;
+
+	if ( inRange( pageTitleLength, 1, 35 ) ) {
+		return {
+			score: 6,
+			text: i18n.sprintf(
+				i18n.dngettext(
+					"js-text-analysis",
+					/* translators: %1$d expands to the number of characters in the page title,
+					%2$d to the minimum number of characters for the title */
+					"The page title contains %1$d character, which is less than the recommended minimum of %2$d characters. " +
+					"Use the space to add keyword variations or create compelling call-to-action copy.",
+					"The page title contains %1$d characters, which is less than the recommended minimum of %2$d characters. " +
+					"Use the space to add keyword variations or create compelling call-to-action copy.",
+				pageTitleLength ),
+				pageTitleLength, minLength )
+		};
+	}
+
+	if ( inRange( pageTitleLength, 35, 66 ) ) {
+		return {
+			score: 9,
+			text: i18n.sprintf(
+				i18n.dgettext(
+					"js-text-analysis",
+					/* translators: %1$d expands to the minimum number of characters in the page title, %2$d to the maximum number of characters */
+					"The page title is between the %1$d character minimum and the recommended %2$d character maximum." ),
+				minLength, maxLength )
+		};
+	}
+
+	if ( pageTitleLength > maxLength ) {
+		return {
+			score: 6,
+			text: i18n.sprintf(
+				i18n.dngettext(
+					"js-text-analysis",
+					/* translators: %1$d expands to the number of characters in the page title, %2$d to the maximum number
+					of characters for the title */
+					"The page title contains %1$d character, which is more than the viewable limit of %2$d characters; " +
+					"some words will not be visible to users in your listing.",
+					"The page title contains %1$d characters, which is more than the viewable limit of %2$d characters; " +
+					"some words will not be visible to users in your listing.",
+					pageTitleLength ),
+				pageTitleLength, maxLength )
+		};
+	}
+
+	return {
+		score: 1,
+		text: i18n.dgettext( "js-text-analysis", "Please create a page title." )
+	};
+};
+
+/**
+ * Runs the pageTitleLength module, based on this returns an assessment result with score.
+ *
+ * @param {object} paper The paper to use for the assessment.
+ * @param {object} researcher The researcher used for calling research.
+ * @param {object} i18n The object used for translations
+ * @returns {object} the Assessmentresult
+ */
+var pageTitleLengthAssessment = function( paper,  researcher, i18n ) {
+	var pageTitleLength = researcher.getResearch( "pageTitleLength" );
+	var pageTitleLengthResult = calculatePageTitleLengthResult( pageTitleLength, i18n );
+	var assessmentResult = new AssessmentResult();
+
+	assessmentResult.setScore( pageTitleLengthResult.score );
+	assessmentResult.setText( pageTitleLengthResult.text );
+
+	return assessmentResult;
+};
+
+module.exports = { getResult: pageTitleLengthAssessment };
+
+},{"../values/AssessmentResult.js":78,"lodash/inRange":213}],17:[function(require,module,exports){
+var AssessmentResult = require( "../values/AssessmentResult.js" );
+
+/**
+ * Calculate the score based on the amount of stop words in the keyword.
+ * @param {number} stopWordCount The amount of stop words to be checked against.
+ * @param {object} i18n The locale object.
+ * @returns {object} The resulting score object.
+ */
+var calculateStopWordsCountResult = function( stopWordCount, i18n ) {
+
+	if ( stopWordCount > 0 ) {
+		return {
+			score: 0,
+			/* translators: %1$s opens a link to a Yoast article about stop words, %2$s closes the link */
+			text: i18n.dngettext(
+				"js-text-analysis",
+				"Your focus keyword contains a stop word. This may or may not be wise depending on the circumstances. " +
+				"Read %1$sthis article%2$s for more info.",
+				"Your focus keyword contains %3$d stop words. This may or may not be wise depending on the circumstances. " +
+				"Read %1$sthis article%2$s for more info.",
+				stopWordCount
+			)
+		};
+	}
+
+	return {};
+};
+
+/**
+ * Execute the Assessment and return a result.
+ * @param {Paper} paper The Paper object to assess.
+ * @param {Researcher} researcher The Researcher object containing all available researches.
+ * @param {object} i18n The locale object.
+ * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
+ */
+var stopWordsInKeywordAssessment = function( paper, researcher, i18n ) {
+	var stopWords = researcher.getResearch( "stopWordsInKeyword" );
+	var stopWordsResult = calculateStopWordsCountResult( stopWords.length, i18n );
+
+	var assessmentResult = new AssessmentResult();
+	assessmentResult.setScore( stopWordsResult.score );
+	assessmentResult.setText( i18n.sprintf(
+		stopWordsResult.text,
+		"<a href='https://yoast.com/handling-stopwords/' target='new'>",
+		"</a>",
+		stopWords.length
+	) );
+
+	return assessmentResult;
+};
+
+module.exports = {
+	getResult: stopWordsInKeywordAssessment,
+	isApplicable: function ( paper ) {
+		return paper.hasKeyword();
+	}
+};
+
+},{"../values/AssessmentResult.js":78}],18:[function(require,module,exports){
+var AssessmentResult = require( "../values/AssessmentResult.js" );
+
+/**
+ * Calculate the score based on the amount of stop words in the url.
+ * @param {number} stopWordCount The amount of stop words to be checked against.
+ * @param {object} i18n The locale object.
+ * @returns {object} The resulting score object.
+ */
+var calculateUrlStopWordsCountResult = function( stopWordCount, i18n ) {
+
+	if ( stopWordCount > 0 ) {
+		return {
+			score: 5,
+			/* translators: %1$s opens a link to a wikipedia article about stop words, %2$s closes the link */
+			text: i18n.dngettext(
+				"js-text-analysis",
+				"The slug for this page contains a %1$sstop word%2$s, consider removing it.",
+				"The slug for this page contains %1$sstop words%2$s, consider removing them.",
+				stopWordCount
+			)
+		};
+	}
+
+	return {};
+};
+
+/**
+ * Execute the Assessment and return a result.
+ * @param {Paper} paper The Paper object to assess.
+ * @param {Researcher} researcher The Researcher object containing all available researches.
+ * @param {object} i18n The locale object.
+ * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
+ */
+var stopWordsInUrlAssessment = function( paper, researcher, i18n ) {
+	var stopWords = researcher.getResearch( "stopWordsInUrl" );
+	var stopWordsResult = calculateUrlStopWordsCountResult( stopWords.length, i18n );
+
+	var assessmentResult = new AssessmentResult();
+	assessmentResult.setScore( stopWordsResult.score );
+	assessmentResult.setText( i18n.sprintf(
+		stopWordsResult.text,
+		/* translators: this link is referred to in the content analysis when a slug contains one or more stop words */
+		"<a href='" + i18n.dgettext( "js-text-analysis", "http://en.wikipedia.org/wiki/Stop_words" ) + "' target='new'>",
+		"</a>"
+	) );
+
+	return assessmentResult;
+};
+
+module.exports = { getResult: stopWordsInUrlAssessment };
+
+},{"../values/AssessmentResult.js":78}],19:[function(require,module,exports){
+var AssessmentResult = require( "../values/AssessmentResult.js" );
+
+/**
+ * The assessment that checks the url length
+ *
+ * @param {Paper} paper The paper to run this assessment on.
+ * @param {object} researcher The researcher used for the assessment.
+ * @param {object} i18n The i18n-object used for parsing translations.
+ * @returns {object} an AssessmentResult with the score and the formatted text.
+ */
+var urlLengthAssessment = function( paper, researcher, i18n ) {
+	var urlIsTooLong = researcher.getResearch( "urlLength" );
+	var assessmentResult = new AssessmentResult();
+	if ( urlIsTooLong ) {
+		var score = 5;
+		var text = i18n.dgettext( "js-text-analysis", "The slug for this page is a bit long, consider shortening it." );
+		assessmentResult.setScore( score );
+		assessmentResult.setText( text );
+	}
+	return assessmentResult;
+};
+
+module.exports = {
+	getResult: urlLengthAssessment,
+	isApplicable: function ( paper ) {
+		return paper.hasUrl();
+	}
+};
+
+},{"../values/AssessmentResult.js":78}],20:[function(require,module,exports){
+var Researcher = require( "./researcher.js" );
+var Paper = require( "./values/Paper.js" );
+
+var InvalidTypeError = require( "./errors/invalidType" );
+
+var MissingArgument = require( "./errors/missingArgument" );
+var isUndefined = require( "lodash/isUndefined" );
+var forEach = require( "lodash/forEach" );
+
+var ScoreRating = 9;
+
+// Assessments
+var assessments = {};
+assessments.wordCount = require( "./assessments/countWords.js" );
+assessments.urlLength = require( "./assessments/urlIsTooLong.js" );
+assessments.fleschReading = require( "./assessments/calculateFleschReading.js" );
+assessments.linkCount = require( "./assessments/getLinkStatistics.js" );
+assessments.pageTitleKeyword = require( "./assessments/pageTitleKeyword.js" );
+assessments.subHeadings = require( "./assessments/matchKeywordInSubheading.js" );
+assessments.matchSubheadings = require( "./assessments/matchSubheadings.js" );
+assessments.keywordDensity = require( "./assessments/keywordDensity.js" );
+assessments.stopwordKeywordCount = require( "./assessments/stopWordsInKeyword.js" );
+assessments.urlStopwords = require( "./assessments/stopWordsInUrl.js" );
+assessments.metaDescriptionLength = require( "./assessments/metaDescriptionLength.js" );
+assessments.keyphraseSizeCheck = require( "./assessments/keyphraseLength.js" );
+assessments.metaDescriptionKeyword = require ( "./assessments/metaDescriptionKeyword.js" );
+assessments.imageCount = require( "./assessments/imageCount.js" );
+assessments.urlKeyword = require( "./assessments/keywordInUrl.js" );
+assessments.firstParagraph = require( "./assessments/firstParagraph.js" );
+assessments.pageTitleLength = require( "./assessments/pageTitleLength.js" );
+
+/**
+ * Creates the Assessor
+ *
+ * @param {object} i18n The i18n object used for translations.
+ * @constructor
+ */
+var Assessor = function( i18n ) {
+	this.setI18n( i18n );
+};
+
+/**
+ * Checks if the argument is a valid paper.
+ * @param {Paper} paper The paper to be used for the assessments
+ * @throws {InvalidTypeError} Parameter needs to be an instance of the Paper object.
+ */
+Assessor.prototype.verifyPaper = function( paper ) {
+	if ( !( paper instanceof Paper ) ) {
+		throw new InvalidTypeError( "The assessor requires an Paper object." );
+	}
+};
+
+/**
+ * Checks if the i18n object is defined and sets it.
+ * @param {Object} i18n The i18n object used for translations.
+ * @throws {MissingArgument} Parameter needs to be a valid i18n object.
+ */
+Assessor.prototype.setI18n = function( i18n ) {
+	if ( isUndefined( i18n ) ) {
+		throw new MissingArgument( "The assessor requires an i18n object." );
+	}
+	this.i18n = i18n;
+};
+
+/**
+ * Gets all available assessments.
+ * @returns {object} assessment
+ */
+Assessor.prototype.getAvailableAssessments = function() {
+	return assessments;
+};
+
+/**
+ * Checks whether or not the Assessment is applicable.
+ * @param {Object} assessment The Assessment object that needs to be checked.
+ * @param {Paper} paper The Paper object to check against.
+ * @param {Researcher} [researcher] The Researcher object containing additional information.
+ * @returns {boolean} Whether or not the Assessment is applicable.
+ */
+Assessor.prototype.isApplicable = function( assessment, paper, researcher ) {
+	if ( assessment.hasOwnProperty( "isApplicable" ) ) {
+		return assessment.isApplicable( paper, researcher );
+	}
+
+	return true;
+};
+
+/**
+ * Runs the researches defined in the tasklist or the default researches.
+ * @param {Paper} paper The paper to run assessments on.
+ */
+Assessor.prototype.assess = function( paper ) {
+	this.verifyPaper( paper );
+
+	var researcher = new Researcher( paper );
+	var assessments = this.getAvailableAssessments();
+	this.results = [];
+
+	forEach( assessments, function( assessment, name ) {
+		if ( !this.isApplicable( assessment, paper, researcher ) ) {
+			return;
+		}
+
+		this.results.push( {
+			name: name,
+			result: assessment.getResult( paper, researcher, this.i18n )
+		} );
+
+	}.bind( this ) );
+};
+
+/**
+ * Filters out all assessmentresults that have no score and no text.
+ * @returns {Array<AssessmentResult>} The array with all the valid assessments.
+ */
+Assessor.prototype.getValidResults = function() {
+	var validResults = [];
+
+	forEach( this.results, function( assessmentResults ) {
+		if ( !this.isValidResult( assessmentResults.result ) ) {
+			return;
+		}
+
+		validResults.push( assessmentResults.result );
+	}.bind( this ) );
+
+	return validResults;
+};
+
+/**
+ * Returns if an assessmentResult is valid.
+ * @param {object} assessmentResult The assessmentResult to validate.
+ * @returns {boolean} whether or not the result is valid.
+ */
+Assessor.prototype.isValidResult = function( assessmentResult ) {
+	return assessmentResult.hasScore() && assessmentResult.hasText();
+};
+
+/**
+ * Returns the overallscore. Calculates the totalscore by adding all scores and dividing these
+ * by the number of results times the ScoreRating.
+ *
+ * @returns {number} The overallscore
+ */
+Assessor.prototype.calculateOverallScore  = function() {
+	var results = this.getValidResults();
+	var totalScore = 0;
+
+	forEach( results, function( assessmentResult ) {
+		totalScore += assessmentResult.getScore();
+	} );
+
+	return Math.round( totalScore / ( results.length * ScoreRating ) * 100 );
+};
+
+/**
+ * Register an assessment to add it to the internal assessments object.
+ *
+ * @param {string} name The name of the assessment.
+ * @param {object} assessment The object containing function to run as an assessment and it's requirements.
+ * @return {boolean} Whether registering the assessment was successful.
+ * @private
+ */
+Assessor.prototype.addAssessment = function( name, assessment ) {
+	assessments[ name ] = assessment;
+	return true;
+};
+
+module.exports = Assessor;
+
+},{"./assessments/calculateFleschReading.js":3,"./assessments/countWords.js":4,"./assessments/firstParagraph.js":5,"./assessments/getLinkStatistics.js":6,"./assessments/imageCount.js":7,"./assessments/keyphraseLength.js":8,"./assessments/keywordDensity.js":9,"./assessments/keywordInUrl.js":10,"./assessments/matchKeywordInSubheading.js":11,"./assessments/matchSubheadings.js":12,"./assessments/metaDescriptionKeyword.js":13,"./assessments/metaDescriptionLength.js":14,"./assessments/pageTitleKeyword.js":15,"./assessments/pageTitleLength.js":16,"./assessments/stopWordsInKeyword.js":17,"./assessments/stopWordsInUrl.js":18,"./assessments/urlIsTooLong.js":19,"./errors/invalidType":28,"./errors/missingArgument":29,"./researcher.js":33,"./values/Paper.js":79,"lodash/forEach":209,"lodash/isUndefined":231}],21:[function(require,module,exports){
+var AssessmentResult = require( "../values/AssessmentResult.js" );
+var isUndefined = require( "lodash/isUndefined" );
+
+var MissingArgument = require( "../../js/errors/missingArgument" );
+/**
+ * @param {object} app The app
+ * @param {object} args An arguments object with usedKeywords, searchUrl, postUrl,
+ * @param {object} args.usedKeywords An object with keywords and ids where they are used.
+ * @param {string} args.searchUrl The url used to link to a search page when multiple usages of the keyword are found.
+ * @param {string} args.postUrl The url used to link to a post when 1 usage of the keyword is found.
+ * @param {object} i18n The i18n object used for translations
+ * @constructor
+ */
+var PreviouslyUsedKeyword = function( app, args, i18n ) {
+	if ( isUndefined( app ) ) {
+		throw new MissingArgument( "The previously keyword plugin requires the YoastSEO app" );
+	}
+
+	if ( isUndefined( i18n ) ) {
+		throw new MissingArgument( "The previously keyword plugin requires an i18n object." );
+	}
+
+	if ( isUndefined( args ) ) {
+		args = {
+			usedKeywords: {},
+			searchUrl: "",
+			postUrl: ""
+		};
+	}
+
+	this.app = app;
+	this.usedKeywords = args.usedKeywords;
+	this.searchUrl = args.searchUrl;
+	this.postUrl = args.postUrl;
+	this.i18n = i18n;
+};
+
+/**
+ * Registers the assessment with the assessor.
+ */
+PreviouslyUsedKeyword.prototype.registerPlugin = function() {
+	this.app.registerAssessment( "usedKeywords", { getResult: this.assess.bind( this ) }, "previouslyUsedKeywords" );
+};
+
+/**
+ * Updates the usedKeywords
+ * @param {object} usedKeywords An object with keywords and ids where they are used.
+ */
+PreviouslyUsedKeyword.prototype.updateKeywordUsage = function( usedKeywords ) {
+	this.usedKeywords = usedKeywords;
+};
+
+/**
+ * Scores the previously used keyword assessment based on the count.
+ * @param {object} previouslyUsedKeywords The result of the previously used keywords research
+ * @returns {object} the scoreobject with text and score.
+ */
+PreviouslyUsedKeyword.prototype.scoreAssessment = function( previouslyUsedKeywords ) {
+	var count = previouslyUsedKeywords.count;
+	var id = previouslyUsedKeywords.id;
+	if( count === 0 ) {
+		return {
+			text: this.i18n.dgettext( "js-text-analysis", "You've never used this focus keyword before, very good." ),
+			score: 9
+		};
+	}
+	if( count === 1 ) {
+		var url = "<a href='" + this.postUrl.replace( "{id}", id ) + "'>";
+		return {
+			/* translators: %1$s and %2$s expand to an admin link where the focus keyword is already used */
+			text:  this.i18n.sprintf( this.i18n.dgettext( "js-text-analysis", "You've used this focus keyword %1$sonce before%2$s, " +
+				"be sure to make very clear which URL on your site is the most important for this keyword." ), url, "</a>" ),
+			score: 6
+		};
+	}
+	if ( count > 1 ) {
+		url = "<a href='" + this.searchUrl.replace( "{keyword}", this.app.paper.getKeyword() )+ "'>";
+		return {
+			/* translators: %1$s and $3$s expand to the admin search page for the focus keyword, %2$d expands to the number of times this focus
+			 keyword has been used before, %4$s and %5$s expand to a link to an article on yoast.com about cornerstone content */
+			text:  this.i18n.sprintf( this.i18n.dgettext( "js-text-analysis", "You've used this focus keyword %1$s%2$d times before%3$s, " +
+				"it's probably a good idea to read %4$sthis post on cornerstone content%5$s and improve your keyword strategy." ),
+				url, count, "</a>", "<a href='https://yoast.com/cornerstone-content-rank/' target='new'>", "</a>" ),
+			score: 1
+		};
+	}
+};
+
+/**
+ * Researches the previously used keywords, based on the used keywords and the keyword in the paper.
+ * @returns {{id: number, count: number}} The object with the count and the id of the previously used keyword
+ */
+PreviouslyUsedKeyword.prototype.researchPreviouslyUsedKeywords = function() {
+	var keyword = this.app.paper.getKeyword();
+	var count = 0;
+	var id = 0;
+
+	if ( !isUndefined( this.usedKeywords[ keyword ] ) ) {
+		count = this.usedKeywords[ keyword ].length;
+		id = this.usedKeywords[ keyword ][ 0 ];
+	}
+
+	return {
+		id: id,
+		count: count
+	};
+};
+
+/**
+ * The assessment for the previously used keywords.
+ * @returns {AssessmentResult} The assessment result of the assessment
+ */
+PreviouslyUsedKeyword.prototype.assess = function() {
+	var previouslyUsedKeywords = this.researchPreviouslyUsedKeywords();
+	var previouslyUsedKeywordsResult = this.scoreAssessment( previouslyUsedKeywords );
+
+	var assessmentResult =  new AssessmentResult();
+	assessmentResult.setScore( previouslyUsedKeywordsResult.score );
+	assessmentResult.setText( previouslyUsedKeywordsResult.text );
+
+	return assessmentResult;
+};
+
+module.exports = PreviouslyUsedKeyword;
+
+},{"../../js/errors/missingArgument":29,"../values/AssessmentResult.js":78,"lodash/isUndefined":231}],22:[function(require,module,exports){
+var analyzerConfig = {
+	queue: [ "wordCount", "keywordDensity", "subHeadings", "stopwords", "fleschReading", "linkCount", "imageCount", "urlKeyword", "urlLength", "metaDescriptionLength", "metaDescriptionKeyword", "pageTitleKeyword", "pageTitleLength", "firstParagraph", "urlStopwords", "keywordDoubles", "keyphraseSizeCheck" ],
+	stopWords: [ "a", "about", "above", "after", "again", "against", "all", "am", "an", "and", "any", "are", "as", "at", "be", "because", "been", "before", "being", "below", "between", "both", "but", "by", "could", "did", "do", "does", "doing", "down", "during", "each", "few", "for", "from", "further", "had", "has", "have", "having", "he", "he'd", "he'll", "he's", "her", "here", "here's", "hers", "herself", "him", "himself", "his", "how", "how's", "i", "i'd", "i'll", "i'm", "i've", "if", "in", "into", "is", "it", "it's", "its", "itself", "let's", "me", "more", "most", "my", "myself", "nor", "of", "on", "once", "only", "or", "other", "ought", "our", "ours", "ourselves", "out", "over", "own", "same", "she", "she'd", "she'll", "she's", "should", "so", "some", "such", "than", "that", "that's", "the", "their", "theirs", "them", "themselves", "then", "there", "there's", "these", "they", "they'd", "they'll", "they're", "they've", "this", "those", "through", "to", "too", "under", "until", "up", "very", "was", "we", "we'd", "we'll", "we're", "we've", "were", "what", "what's", "when", "when's", "where", "where's", "which", "while", "who", "who's", "whom", "why", "why's", "with", "would", "you", "you'd", "you'll", "you're", "you've", "your", "yours", "yourself", "yourselves" ],
+	wordsToRemove: [ " a", " in", " an", " on", " for", " the", " and" ],
+	maxSlugLength: 20,
+	maxUrlLength: 40,
+	maxMeta: 156
+};
+
+module.exports = analyzerConfig;
+
+},{}],23:[function(require,module,exports){
+/** @module config/diacritics */
+
+/**
+ * Returns the diacritics map
+ *
+ * @returns {array} diacritics map
+ */
+module.exports = function(){
+	return [
+		{
+			base: "a",
+			letters: /[\u0061\u24D0\uFF41\u1E9A\u00E0\u00E1\u00E2\u1EA7\u1EA5\u1EAB\u1EA9\u00E3\u0101\u0103\u1EB1\u1EAF\u1EB5\u1EB3\u0227\u01E1\u00E4\u01DF\u1EA3\u00E5\u01FB\u01CE\u0201\u0203\u1EA1\u1EAD\u1EB7\u1E01\u0105\u2C65\u0250]/g
+		},
+		{ base: "aa", letters: /[\uA733]/g },
+		{ base: "ae", letters: /[\u00E6\u01FD\u01E3]/g },
+		{ base: "ao", letters: /[\uA735]/g },
+		{ base: "au", letters: /[\uA737]/g },
+		{ base: "av", letters: /[\uA739\uA73B]/g },
+		{ base: "ay", letters: /[\uA73D]/g },
+		{ base: "b", letters: /[\u0062\u24D1\uFF42\u1E03\u1E05\u1E07\u0180\u0183\u0253]/g },
+		{
+			base: "c",
+			letters: /[\u0063\u24D2\uFF43\u0107\u0109\u010B\u010D\u00E7\u1E09\u0188\u023C\uA73F\u2184]/g
+		},
+		{
+			base: "d",
+			letters: /[\u0064\u24D3\uFF44\u1E0B\u010F\u1E0D\u1E11\u1E13\u1E0F\u0111\u018C\u0256\u0257\uA77A]/g
+		},
+		{ base: "dz", letters: /[\u01F3\u01C6]/g },
+		{
+			base: "e",
+			letters: /[\u0065\u24D4\uFF45\u00E8\u00E9\u00EA\u1EC1\u1EBF\u1EC5\u1EC3\u1EBD\u0113\u1E15\u1E17\u0115\u0117\u00EB\u1EBB\u011B\u0205\u0207\u1EB9\u1EC7\u0229\u1E1D\u0119\u1E19\u1E1B\u0247\u025B\u01DD]/g
+		},
+		{ base: "f", letters: /[\u0066\u24D5\uFF46\u1E1F\u0192\uA77C]/g },
+		{
+			base: "g",
+			letters: /[\u0067\u24D6\uFF47\u01F5\u011D\u1E21\u011F\u0121\u01E7\u0123\u01E5\u0260\uA7A1\u1D79\uA77F]/g
+		},
+		{
+			base: "h",
+			letters: /[\u0068\u24D7\uFF48\u0125\u1E23\u1E27\u021F\u1E25\u1E29\u1E2B\u1E96\u0127\u2C68\u2C76\u0265]/g
+		},
+		{ base: "hv", letters: /[\u0195]/g },
+		{
+			base: "i",
+			letters: /[\u0069\u24D8\uFF49\u00EC\u00ED\u00EE\u0129\u012B\u012D\u00EF\u1E2F\u1EC9\u01D0\u0209\u020B\u1ECB\u012F\u1E2D\u0268\u0131]/g
+		},
+		{ base: "j", letters: /[\u006A\u24D9\uFF4A\u0135\u01F0\u0249]/g },
+		{
+			base: "k",
+			letters: /[\u006B\u24DA\uFF4B\u1E31\u01E9\u1E33\u0137\u1E35\u0199\u2C6A\uA741\uA743\uA745\uA7A3]/g
+		},
+		{
+			base: "l",
+			letters: /[\u006C\u24DB\uFF4C\u0140\u013A\u013E\u1E37\u1E39\u013C\u1E3D\u1E3B\u017F\u0142\u019A\u026B\u2C61\uA749\uA781\uA747]/g
+		},
+		{ base: "lj", letters: /[\u01C9]/g },
+		{ base: "m", letters: /[\u006D\u24DC\uFF4D\u1E3F\u1E41\u1E43\u0271\u026F]/g },
+		{
+			base: "n",
+			letters: /[\u006E\u24DD\uFF4E\u01F9\u0144\u00F1\u1E45\u0148\u1E47\u0146\u1E4B\u1E49\u019E\u0272\u0149\uA791\uA7A5]/g
+		},
+		{ base: "nj", letters: /[\u01CC]/g },
+		{
+			base: "o",
+			letters: /[\u006F\u24DE\uFF4F\u00F2\u00F3\u00F4\u1ED3\u1ED1\u1ED7\u1ED5\u00F5\u1E4D\u022D\u1E4F\u014D\u1E51\u1E53\u014F\u022F\u0231\u00F6\u022B\u1ECF\u0151\u01D2\u020D\u020F\u01A1\u1EDD\u1EDB\u1EE1\u1EDF\u1EE3\u1ECD\u1ED9\u01EB\u01ED\u00F8\u01FF\u0254\uA74B\uA74D\u0275]/g
+		},
+		{ base: "oi", letters: /[\u01A3]/g },
+		{ base: "ou", letters: /[\u0223]/g },
+		{ base: "oo", letters: /[\uA74F]/g },
+		{ base: "p", letters: /[\u0070\u24DF\uFF50\u1E55\u1E57\u01A5\u1D7D\uA751\uA753\uA755]/g },
+		{ base: "q", letters: /[\u0071\u24E0\uFF51\u024B\uA757\uA759]/g },
+		{
+			base: "r",
+			letters: /[\u0072\u24E1\uFF52\u0155\u1E59\u0159\u0211\u0213\u1E5B\u1E5D\u0157\u1E5F\u024D\u027D\uA75B\uA7A7\uA783]/g
+		},
+		{
+			base: "s",
+			letters: /[\u0073\u24E2\uFF53\u00DF\u015B\u1E65\u015D\u1E61\u0161\u1E67\u1E63\u1E69\u0219\u015F\u023F\uA7A9\uA785\u1E9B]/g
+		},
+		{
+			base: "t",
+			letters: /[\u0074\u24E3\uFF54\u1E6B\u1E97\u0165\u1E6D\u021B\u0163\u1E71\u1E6F\u0167\u01AD\u0288\u2C66\uA787]/g
+		},
+		{ base: "tz", letters: /[\uA729]/g },
+		{
+			base: "u",
+			letters: /[\u0075\u24E4\uFF55\u00F9\u00FA\u00FB\u0169\u1E79\u016B\u1E7B\u016D\u00FC\u01DC\u01D8\u01D6\u01DA\u1EE7\u016F\u0171\u01D4\u0215\u0217\u01B0\u1EEB\u1EE9\u1EEF\u1EED\u1EF1\u1EE5\u1E73\u0173\u1E77\u1E75\u0289]/g
+		},
+		{ base: "v", letters: /[\u0076\u24E5\uFF56\u1E7D\u1E7F\u028B\uA75F\u028C]/g },
+		{ base: "vy", letters: /[\uA761]/g },
+		{
+			base: "w",
+			letters: /[\u0077\u24E6\uFF57\u1E81\u1E83\u0175\u1E87\u1E85\u1E98\u1E89\u2C73]/g
+		},
+		{ base: "x", letters: /[\u0078\u24E7\uFF58\u1E8B\u1E8D]/g },
+		{
+			base: "y",
+			letters: /[\u0079\u24E8\uFF59\u1EF3\u00FD\u0177\u1EF9\u0233\u1E8F\u00FF\u1EF7\u1E99\u1EF5\u01B4\u024F\u1EFF]/g
+		},
+		{
+			base: "z",
+			letters: /[\u007A\u24E9\uFF5A\u017A\u1E91\u017C\u017E\u1E93\u1E95\u01B6\u0225\u0240\u2C6C\uA763]/g
+		}
+	];
+};
+
+},{}],24:[function(require,module,exports){
+/**
+ * Returns the configuration used for score ratings and the AssessorPresenter.
+ * @param {Jed} i18n The translator object.
+ * @returns {Object} The config object.
+ */
+module.exports = function ( i18n ) {
+	return {
+		feedback: {
+			class: "na",
+			screenReaderText: i18n.dgettext( "js-text-analysis", "Feedback")
+		},
+		bad: {
+			class: "bad",
+			screenReaderText: i18n.dgettext( "js-text-analysis", "Bad SEO score")
+		},
+		ok: {
+			class: "ok",
+			screenReaderText: i18n.dgettext( "js-text-analysis", "Ok SEO score")
+		},
+		good: {
+			class: "good",
+			screenReaderText: i18n.dgettext( "js-text-analysis", "Good SEO score")
+		}
+	};
+};
+
+},{}],25:[function(require,module,exports){
+/** @module config/removalWords */
+
+/**
+ * Returns an array with words that need to be removed
+ *
+ * @returns {array} removalWords Returns an array with words.
+ */
+module.exports = function(){
+	return [ " a", " in", " an", " on", " for", " the", " and" ];
+};
+
+},{}],26:[function(require,module,exports){
+/** @module config/stopwords */
+
+/**
+ * Returns an array with stopwords to be used by the analyzer.
+ *
+ * @returns {Array} stopwords The array filled with stopwords.
+ */
+module.exports = function(){
+	return [ "a", "about", "above", "after", "again", "against", "all", "am", "an", "and", "any", "are", "as", "at", "be", "because", "been", "before", "being", "below", "between", "both", "but", "by", "could", "did", "do", "does", "doing", "down", "during", "each", "few", "for", "from", "further", "had", "has", "have", "having", "he", "he'd", "he'll", "he's", "her", "here", "here's", "hers", "herself", "him", "himself", "his", "how", "how's", "i", "i'd", "i'll", "i'm", "i've", "if", "in", "into", "is", "it", "it's", "its", "itself", "let's", "me", "more", "most", "my", "myself", "nor", "of", "on", "once", "only", "or", "other", "ought", "our", "ours", "ourselves", "out", "over", "own", "same", "she", "she'd", "she'll", "she's", "should", "so", "some", "such", "than", "that", "that's", "the", "their", "theirs", "them", "themselves", "then", "there", "there's", "these", "they", "they'd", "they'll", "they're", "they've", "this", "those", "through", "to", "too", "under", "until", "up", "very", "was", "we", "we'd", "we'll", "we're", "we've", "were", "what", "what's", "when", "when's", "where", "where's", "which", "while", "who", "who's", "whom", "why", "why's", "with", "would", "you", "you'd", "you'll", "you're", "you've", "your", "yours", "yourself", "yourselves" ];
+};
+
+},{}],27:[function(require,module,exports){
+/** @module config/syllables */
+
+/**
+ * Returns an array with syllables.
+ * Subtractsyllables are counted as two and need to be counted as one.
+ * Addsyllables are counted as one but need to be counted as two.
+ * Exclusionwords are removed from the text to be counted seperatly.
+ *
+ * @returns {object}
+ */
+module.exports = function(){
+	return {
+		subtractSyllables: [ "cial", "tia", "cius", "cious", "giu", "ion", "iou", "sia$", "[^aeiuoyt]{2,}ed$", "[aeiouy][^aeiuoyts]{1,}e\\b", ".ely$", "[cg]h?e[sd]", "rved$", "rved", "[aeiouy][dt]es?$", "[aeiouy][^aeiouydt]e[sd]?$", "^[dr]e[aeiou][^aeiou]+$", "[aeiouy]rse$" ],
+		addSyllables: [ "ia", "riet", "dien", "iu", "io", "ii", "[aeiouym][bdp]l", "[aeiou]{3}", "^mc", "ism$", "([^aeiouy])\1l$", "[^l]lien", "^coa[dglx].", "[^gq]ua[^auieo]", "dnt$", "uity$", "ie(r|st)", "[aeiouy]ing", "[aeiouw]y[aeiou]" ],
+		exclusionWords: [
+			{ word: "shoreline", syllables: 2 },
+			{ word: "simile", syllables: 3 }
+		]
+	};
+};
+
+},{}],28:[function(require,module,exports){
+/**
+ * Throws an invalid type error
+ * @param {string} message The message to show when the error is thrown
+ * @returns {void}
+ */
+module.exports = function InvalidTypeError( message ) {
+	Error.captureStackTrace( this, this.constructor );
+	this.name = this.constructor.name;
+	this.message = message;
+};
+
+require( "util" ).inherits( module.exports, Error );
+
+},{"util":303}],29:[function(require,module,exports){
+module.exports = function MissingArgumentError( message ) {
+	Error.captureStackTrace( this, this.constructor );
+	this.name = this.constructor.name;
+	this.message = message;
+};
+
+require( "util" ).inherits( module.exports, Error );
+
+},{"util":303}],30:[function(require,module,exports){
+/**
+ * Interpreters a score and gives it a particular rating.
+ *
+ * @param {Number} score The score to interpreter.
+ * @returns {string} The rating, given based on the score.
+ */
+var ScoreToRating = function( score ) {
+
+	if ( score === 0 ) {
+		return "feedback";
+	}
+
+	if ( score <= 4 ) {
+		return "bad";
+	}
+
+	if ( score > 4 && score <= 7 ) {
+		return "ok";
+	}
+
+	if ( score > 7 ) {
+		return "good";
+	}
+
+	return "";
+};
+
+module.exports = ScoreToRating;
+
+},{}],31:[function(require,module,exports){
+/* global console: true */
+/* global setTimeout: true */
+var isUndefined = require( "lodash/isUndefined" );
+var forEach = require( "lodash/forEach" );
+var reduce = require( "lodash/reduce" );
+var isString = require( "lodash/isString" );
+var isObject = require( "lodash/isObject" );
+var InvalidTypeError = require( "./errors/invalidType" );
+
+/**
+ * The plugins object takes care of plugin registrations, preloading and managing data modifications.
+ *
+ * A plugin for YoastSEO.js is basically a piece of JavaScript that hooks into YoastSEO.js by registering modifications.
+ * In order to do so, it must first register itself as a plugin with YoastSEO.js. To keep our content analysis fast, we
+ * don't allow asynchronous modifications. That's why we require plugins to preload all data they need in order to modify
+ * the content. If plugins need to preload data, they can first register, then preload using AJAX and call `ready` once
+ * preloaded.
+ *
+ * To minimize client side memory usage, we request plugins to preload as little data as possible. If you need to dynamically
+ * fetch more data in the process of content creation, you can reload your data set and let YoastSEO.js know you've reloaded
+ * by calling `reloaded`.
+ *
+ * @todo: add list of supported modifications and compare on registration of modification
+ */
+
+/**
+ * Setup Pluggable and set its default values.
+ *
+ * @constructor
+ * @param       {App}       app                 The App object to attach to.
+ * @property    {number}    preloadThreshold	The maximum time plugins are allowed to preload before we load our content analysis.
+ * @property    {object}    plugins             The plugins that have been registered.
+ * @property    {object}    modifications 	    The modifications that have been registered. Every modification contains an array with callables.
+ * @property    {Array}     customTests         All tests added by plugins.
+ */
+var Pluggable = function( app ) {
+	this.app = app;
+	this.loaded = false;
+	this.preloadThreshold = 3000;
+	this.plugins = {};
+	this.modifications = {};
+	this.customTests = [];
+
+	// Allow plugins 1500 ms to register before we start polling their
+	setTimeout( this._pollLoadingPlugins.bind( this ), 1500 );
+};
+
+//  ***** DSL IMPLEMENTATION ***** //
+
+/**
+ * Register a plugin with YoastSEO. A plugin can be declared "ready" right at registration or later using `this.ready`.
+ *
+ * @param {string}  pluginName      The name of the plugin to be registered.
+ * @param {object}  options         The options passed by the plugin.
+ * @param {string}  options.status  The status of the plugin being registered. Can either be "loading" or "ready".
+ * @returns {boolean}               Whether or not the plugin was successfully registered.
+ */
+Pluggable.prototype._registerPlugin = function( pluginName, options ) {
+	if ( typeof pluginName !== "string" ) {
+		console.error( "Failed to register plugin. Expected parameter `pluginName` to be a string." );
+		return false;
+	}
+
+	if ( !isUndefined( options ) && typeof options !== "object" ) {
+		console.error( "Failed to register plugin " + pluginName + ". Expected parameters `options` to be a object." );
+		return false;
+	}
+
+	if ( this._validateUniqueness( pluginName ) === false ) {
+		console.error( "Failed to register plugin. Plugin with name " + pluginName + " already exists" );
+		return false;
+	}
+
+	this.plugins[pluginName] = options;
+	this.app.updateLoadingDialog( this.plugins );
+	return true;
+};
+
+/**
+ * Declare a plugin "ready". Use this if you need to preload data with AJAX.
+ *
+ * @param {string} pluginName	The name of the plugin to be declared as ready.
+ * @returns {boolean}           Whether or not the plugin was successfully declared ready.
+ */
+Pluggable.prototype._ready = function( pluginName ) {
+	if ( typeof pluginName !== "string" ) {
+		console.error( "Failed to modify status for plugin " + pluginName + ". Expected parameter `pluginName` to be a string." );
+		return false;
+	}
+
+	if ( isUndefined( this.plugins[pluginName] ) ) {
+		console.error( "Failed to modify status for plugin " + pluginName + ". The plugin was not properly registered." );
+		return false;
+	}
+
+	this.plugins[pluginName].status = "ready";
+	this.app.updateLoadingDialog( this.plugins );
+	return true;
+};
+
+/**
+ * Used to declare a plugin has been reloaded. If an analysis is currently running. We will reset it to ensure running the latest modifications.
+ *
+ * @param {string} pluginName   The name of the plugin to be declared as reloaded.
+ * @returns {boolean}           Whether or not the plugin was successfully declared as reloaded.
+ */
+Pluggable.prototype._reloaded = function( pluginName ) {
+	if ( typeof pluginName !== "string" ) {
+		console.error( "Failed to reload Content Analysis for " + pluginName + ". Expected parameter `pluginName` to be a string." );
+		return false;
+	}
+
+	if ( isUndefined( this.plugins[pluginName] ) ) {
+		console.error( "Failed to reload Content Analysis for plugin " + pluginName + ". The plugin was not properly registered." );
+		return false;
+	}
+
+	this.app.analyzeTimer();
+	return true;
+};
+
+/**
+ * Enables hooking a callable to a specific data filter supported by YoastSEO. Can only be performed for plugins that have finished loading.
+ *
+ * @param {string}      modification	The name of the filter
+ * @param {function}    callable 	    The callable
+ * @param {string}      pluginName 	    The plugin that is registering the modification.
+ * @param {number}      priority	    (optional) Used to specify the order in which the callables associated with a particular filter are called.
+ * 									    Lower numbers correspond with earlier execution.
+ * @returns {boolean}                   Whether or not applying the hook was successfull.
+ */
+Pluggable.prototype._registerModification = function( modification, callable, pluginName, priority ) {
+	if ( typeof modification !== "string" ) {
+		console.error( "Failed to register modification for plugin " + pluginName + ". Expected parameter `modification` to be a string." );
+		return false;
+	}
+
+	if ( typeof callable !== "function" ) {
+		console.error( "Failed to register modification for plugin " + pluginName + ". Expected parameter `callable` to be a function." );
+		return false;
+	}
+
+	if ( typeof pluginName !== "string" ) {
+		console.error( "Failed to register modification for plugin " + pluginName + ". Expected parameter `pluginName` to be a string." );
+		return false;
+	}
+
+	// Validate origin
+	if ( this._validateOrigin( pluginName ) === false ) {
+		console.error( "Failed to register modification for plugin " + pluginName + ". The integration has not finished loading yet." );
+		return false;
+	}
+
+	// Default priority to 10
+	var prio = typeof priority === "number" ?  priority : 10;
+
+	var callableObject = {
+		callable: callable,
+		origin: pluginName,
+		priority: prio
+	};
+
+	// Make sure modification is defined on modifications object
+	if ( isUndefined( this.modifications[modification] ) ) {
+		this.modifications[modification] = [];
+	}
+
+	this.modifications[modification].push( callableObject );
+
+	return true;
+};
+
+/**
+ * Register test for a specific plugin
+ *
+ * @deprecated
+ */
+Pluggable.prototype._registerTest = function() {
+	console.error ( "This function is deprecated, please use _registerAssessment" );
+};
+
+/**
+ * Register an assessment for a specific plugin
+ *
+ * @param {object} assessor The assessor object where the assessments needs to be added.
+ * @param {string} name The name of the assessment.
+ * @param {function} assessment The function to run as an assessment.
+ * @param {string} pluginName The name of the plugin associated with the assessment.
+ * @return {boolean} Whether registering the assessment was successful.
+ * @private
+ */
+Pluggable.prototype._registerAssessment = function( assessor, name, assessment, pluginName ) {
+	if ( !isString( name ) ) {
+		throw new InvalidTypeError( "Failed to register test for plugin " + pluginName + ". Expected parameter `name` to be a string." );
+	}
+
+	if ( !isObject( assessment ) ) {
+		throw new InvalidTypeError( "Failed to register assessment for plugin " + pluginName +
+			". Expected parameter `assessment` to be a function." );
+	}
+
+	if ( !isString( pluginName ) ) {
+		throw new InvalidTypeError( "Failed to register assessment for plugin " + pluginName +
+			". Expected parameter `pluginName` to be a string." );
+	}
+
+	// Prefix the name with the pluginName so the test name is always unique.
+	name = pluginName + "-" + name;
+
+	assessor.addAssessment( name, assessment );
+
+	return true;
+};
+
+// ***** PRIVATE HANDLERS *****//
+
+/**
+ * Poller to handle loading of plugins. Plugins can register with our app to let us know they are going to hook into our Javascript. They are allowed
+ * 5 seconds of pre-loading time to fetch all the data they need to be able to perform their data modifications. We will only apply data modifications
+ * from plugins that have declared ready within the pre-loading time in order to safeguard UX and data integrity.
+ *
+ * @param   {number} pollTime (optional) The accumulated time to compare with the pre-load threshold.
+ * @returns {void}
+ * @private
+ */
+Pluggable.prototype._pollLoadingPlugins = function( pollTime ) {
+	pollTime = isUndefined( pollTime ) ? 0 : pollTime;
+	if ( this._allReady() === true ) {
+		this.loaded = true;
+		this.app.pluginsLoaded();
+	} else if ( pollTime >= this.preloadThreshold ) {
+		this._pollTimeExceeded();
+	} else {
+		pollTime += 50;
+		setTimeout( this._pollLoadingPlugins.bind( this, pollTime ), 50 );
+	}
+};
+
+/**
+ * Checks if all registered plugins have finished loading
+ *
+ * @returns {boolean} Whether or not all registered plugins are loaded.
+ * @private
+ */
+Pluggable.prototype._allReady = function() {
+	return reduce( this.plugins, function( allReady, plugin ) {
+		return allReady && plugin.status === "ready";
+	}, true );
+};
+
+/**
+ * Removes the plugins that were not loaded within time and calls `pluginsLoaded` on the app.
+ *
+ * @returns {void}
+ * @private
+ */
+Pluggable.prototype._pollTimeExceeded = function() {
+	forEach ( this.plugins, function( plugin, pluginName ) {
+		if ( !isUndefined( plugin.options ) && plugin.options.status !== "ready" ) {
+			console.error( "Error: Plugin " + pluginName + ". did not finish loading in time." );
+			delete this.plugins[pluginName];
+		}
+	} );
+	this.loaded = true;
+	this.app.pluginsLoaded();
+};
+
+/**
+ * Calls the callables added to a modification hook. See the YoastSEO.js Readme for a list of supported modification hooks.
+ *
+ * @param	{string}    modification	The name of the filter
+ * @param   {*}         data 		    The data to filter
+ * @param   {*}         context		    (optional) Object for passing context parameters to the callable.
+ * @returns {*} 		                The filtered data
+ * @private
+ */
+Pluggable.prototype._applyModifications = function( modification, data, context ) {
+	var callChain = this.modifications[modification];
+
+	if ( callChain instanceof Array && callChain.length > 0 ) {
+		callChain = this._stripIllegalModifications( callChain );
+
+		callChain.sort( function( a, b ) {
+			return a.priority - b.priority;
+		} );
+		forEach( callChain, function( callableObject ) {
+			var callable = callableObject.callable;
+			var newData = callable( data, context );
+			if ( typeof newData === typeof data ) {
+				data = newData;
+			} else {
+				console.error( "Modification with name " + modification + " performed by plugin with name " +
+				callableObject.origin +
+				" was ignored because the data that was returned by it was of a different type than the data we had passed it." );
+			}
+		} );
+	}
+	return data;
+
+};
+
+/**
+ * Adds new tests to the analyzer and it's scoring object.
+ *
+ * @param {YoastSEO.Analyzer} analyzer The analyzer object to add the tests to
+ * @returns {void}
+ * @private
+ */
+Pluggable.prototype._addPluginTests = function( analyzer ) {
+	this.customTests.map( function( customTest ) {
+		this._addPluginTest( analyzer, customTest );
+	}, this );
+};
+
+/**
+ * Adds one new test to the analyzer and it's scoring object.
+ *
+ * @param {YoastSEO.Analyzer} analyzer              The analyzer that the test will be added to.
+ * @param {Object}            pluginTest            The test to be added.
+ * @param {string}            pluginTest.name       The name of the test.
+ * @param {function}          pluginTest.callable   The function associated with the test.
+ * @param {function}          pluginTest.analysis   The function associated with the analyzer.
+ * @param {Object}            pluginTest.scoring    The scoring object to be used.
+ * @returns {void}
+ * @private
+ */
+Pluggable.prototype._addPluginTest = function( analyzer, pluginTest ) {
+	analyzer.addAnalysis( {
+		"name": pluginTest.name,
+		"callable": pluginTest.analysis
+	} );
+
+	analyzer.analyzeScorer.addScoring( {
+		"name": pluginTest.name,
+		"scoring": pluginTest.scoring
+	} );
+};
+
+/**
+ * Strips modifications from a callChain if they were not added with a valid origin.
+ *
+ * @param   {Array} callChain	 The callChain that contains items with possible invalid origins.
+ * @returns {Array} callChain 	 The stripped version of the callChain.
+ * @private
+ */
+Pluggable.prototype._stripIllegalModifications = function( callChain ) {
+	forEach ( callChain, function( callableObject, index ) {
+		if ( this._validateOrigin( callableObject.origin ) === false ) {
+			delete callChain[index];
+		}
+	}.bind( this ) );
+
+	return callChain;
+};
+
+/**
+ * Validates if origin of a modification has been registered and finished preloading.
+ *
+ * @param 	{string}    pluginName      The name of the plugin that needs to be validated.
+ * @returns {boolean}                   Whether or not the origin is valid.
+ * @private
+ */
+Pluggable.prototype._validateOrigin = function( pluginName ) {
+	if ( this.plugins[pluginName].status !== "ready" ) {
+		return false;
+	}
+	return true;
+};
+
+/**
+ * Validates if registered plugin has a unique name.
+ *
+ * @param 	{string}    pluginName      The name of the plugin that needs to be validated for uniqueness.
+ * @returns {boolean}                   Whether or not the plugin has a unique name.
+ * @private
+ */
+Pluggable.prototype._validateUniqueness = function( pluginName ) {
+	if ( !isUndefined( this.plugins[pluginName] ) ) {
+		return false;
+	}
+	return true;
+};
+
+module.exports = Pluggable;
+
+},{"./errors/invalidType":28,"lodash/forEach":209,"lodash/isObject":225,"lodash/isString":228,"lodash/isUndefined":231,"lodash/reduce":239}],32:[function(require,module,exports){
+/* jshint browser: true */
+
+var forEach = require( "lodash/forEach" );
+var isNumber = require( "lodash/isNumber" );
+var isObject = require( "lodash/isObject" );
+var isUndefined = require( "lodash/isUndefined" );
+var difference = require( "lodash/difference" );
+var template = require( "../templates.js" ).assessmentPresenterResult;
+var scoreToRating = require( "../interpreters/scoreToRating.js" );
+var createConfig = require( "../config/presenter.js" );
+
+/**
+ * Constructs the AssessorPresenter.
+ *
+ * @param {Object} args A list of arguments to use in the presenter.
+ * @param {object} args.targets The HTML elements to render the output to.
+ * @param {string} args.targets.output The HTML element to render the individual ratings out to.
+ * @param {string} args.targets.overall The HTML element to render the overall rating out to.
+ * @param {string} args.keyword The keyword to use for checking, when calculating the overall rating.
+ * @param {Assessor} args.assessor The Assessor object to retrieve assessment results from.
+ * @param {Jed} args.i18n The translation object.
+ * @constructor
+ */
+var AssessorPresenter = function( args ) {
+	this.keyword = args.keyword;
+	this.assessor = args.assessor;
+	this.i18n = args.i18n;
+	this.output = args.targets.output;
+	this.overall = args.targets.overall || "overallScore";
+	this.presenterConfig = createConfig( args.i18n );
+};
+
+/**
+ * Checks whether or not a specific property exists in the presenter configuration.
+ * @param {string} property The property name to search for.
+ * @returns {boolean} Whether or not the property exists.
+ */
+AssessorPresenter.prototype.configHasProperty = function( property ) {
+	return this.presenterConfig.hasOwnProperty( property );
+};
+
+/**
+ * Gets a fully formatted indicator object that can be used.
+ * @param {string} rating The rating to use.
+ * @returns {Object} An object containing the class and screen reader text.
+ */
+AssessorPresenter.prototype.getIndicator = function( rating ) {
+	return {
+		class: this.getIndicatorColorClass( rating ),
+		screenReaderText: this.getIndicatorScreenReaderText( rating )
+	};
+};
+
+/**
+ * Gets the indicator color class from the presenter configuration, if it exists.
+ * @param {string} rating The rating to check against the config.
+ * @returns {string} String containing the CSS class to be used.
+ */
+AssessorPresenter.prototype.getIndicatorColorClass = function( rating ) {
+	if ( !this.configHasProperty( rating ) ) {
+		return "";
+	}
+
+	return this.presenterConfig[ rating ].class;
+};
+
+/**
+ * Get the indicator screen reader text from the presenter configuration, if it exists.
+ * @param {string} rating The rating to check against the config.
+ * @returns {string} Translated string containing the screen reader text to be used.
+ */
+AssessorPresenter.prototype.getIndicatorScreenReaderText = function( rating ) {
+	if ( !this.configHasProperty( rating ) ) {
+		return "";
+	}
+
+	return this.presenterConfig[ rating ].screenReaderText;
+};
+
+/**
+ * Adds a rating based on the numeric score.
+ * @param {Object} result Object based on the Assessment result. Requires a score property to work.
+ * @returns {Object} The Assessment result object with the rating added.
+ */
+AssessorPresenter.prototype.resultToRating = function( result ) {
+	if ( !isObject( result ) ) {
+		return "";
+	}
+
+	result.rating = scoreToRating( result.score );
+
+	return result;
+};
+
+/**
+ * Takes the individual assessment results, sorts and rates them.
+ * @returns {Object} Object containing all the individual ratings.
+ */
+AssessorPresenter.prototype.getIndividualRatings = function() {
+	var ratings = {};
+	var validResults = this.sort( this.assessor.getValidResults() );
+	var mappedResults = validResults.map( this.resultToRating );
+
+	forEach( mappedResults, function( item, key ) {
+		ratings[ key ] = this.addRating( item );
+	}.bind( this ) );
+
+	return ratings;
+};
+
+/**
+ * Excludes items from the results that are present in the exclude array.
+ * @param {Array} results Array containing the items to filter through.
+ * @param {Array} exclude Array of results to exclude.
+ * @returns {Array} Array containing items that remain after exclusion.
+ */
+AssessorPresenter.prototype.excludeFromResults = function( results, exclude ) {
+	return difference( results, exclude );
+};
+
+/**
+ * Sorts results based on their score property and always places items considered to be unsortable, at the top.
+ * @param {Array} results Array containing the results that need to be sorted.
+ * @returns {Array} Array containing the sorted results.
+ */
+AssessorPresenter.prototype.sort = function ( results ) {
+	var unsortables = this.getUndefinedScores( results );
+	var sortables = this.excludeFromResults( results, unsortables );
+
+	sortables.sort( function( a, b ) {
+		return a.score - b.score;
+	} );
+
+	return unsortables.concat( sortables );
+};
+
+/**
+ * Returns a subset of results that have an undefined score or a score set to zero.
+ * @param {Array} results The results to filter through.
+ * @returns {Array} A subset of results containing items with an undefined score or where the score is zero.
+ */
+AssessorPresenter.prototype.getUndefinedScores = function ( results ) {
+	return results.filter( function( result ) {
+		return isUndefined( result.score ) || result.score === 0;
+	} );
+};
+
+/**
+ * Creates a rating object based on the item that is being passed.
+ * @param {Object} item The item to check and create a rating object from.
+ * @returns {Object} Object containing a parsed item, including a colored indicator.
+ */
+AssessorPresenter.prototype.addRating = function( item ) {
+	var indicator = this.getIndicator( item.rating );
+	indicator.text = item.text;
+
+	return indicator;
+};
+
+/**
+ * Calculates the overall rating score based on the overall score.
+ * @param {Number} overallScore The overall score to use in the calculation.
+ * @returns {Object} The rating based on the score.
+ */
+AssessorPresenter.prototype.getOverallRating = function( overallScore ) {
+	var rating = 0;
+
+	if ( this.keyword === "" ) {
+		return this.resultToRating( { score: rating } );
+	}
+
+	if ( isNumber( overallScore ) ) {
+		rating = ( overallScore / 10 );
+	}
+
+	return this.resultToRating( { score: rating } );
+};
+
+/**
+ * Renders out both the individual and the overall ratings.
+ */
+AssessorPresenter.prototype.render = function() {
+	this.renderIndividualRatings();
+	this.renderOverallRating();
+};
+
+/**
+ * Renders out the individual ratings.
+ */
+AssessorPresenter.prototype.renderIndividualRatings = function() {
+	var outputTarget = document.getElementById( this.output );
+
+	outputTarget.innerHTML = template( {
+		scores: this.getIndividualRatings()
+	} );
+};
+
+/**
+ * Renders out the overall rating.
+ */
+AssessorPresenter.prototype.renderOverallRating = function() {
+	var overallRating = this.getOverallRating( this.assessor.calculateOverallScore() );
+	var overallRatingElement = document.getElementById( this.overall );
+
+	if ( !overallRatingElement ) {
+		return;
+	}
+
+	overallRatingElement.className = "overallScore " + this.getIndicatorColorClass( overallRating.rating );
+};
+
+module.exports = AssessorPresenter;
+
+},{"../config/presenter.js":24,"../interpreters/scoreToRating.js":30,"../templates.js":77,"lodash/difference":207,"lodash/forEach":209,"lodash/isNumber":224,"lodash/isObject":225,"lodash/isUndefined":231}],33:[function(require,module,exports){
+var Paper = require( "./values/Paper.js" );
+var merge = require( "lodash/merge" );
+var InvalidTypeError = require( "./errors/invalidType" );
+var MissingArgument = require( "./errors/missingArgument" );
+var isUndefined = require( "lodash/isUndefined" );
+var isEmpty = require( "lodash/isEmpty" );
+
+// assessments
+var wordCountInText = require( "./researches/wordCountInText.js" );
+var getLinkStatistics = require( "./researches/getLinkStatistics.js" );
+var urlLength = require( "./researches/urlIsTooLong.js" );
+var findKeywordInPageTitle = require( "./researches/findKeywordInPageTitle.js" );
+var matchKeywordInSubheadings = require( "./researches/matchKeywordInSubheadings.js" );
+var getKeywordDensity = require( "./researches/getKeywordDensity.js" );
+var stopWordsInKeyword = require( "./researches/stopWordsInKeyword" );
+var stopWordsInUrl = require( "./researches/stopWordsInUrl" );
+var calculateFleschReading = require( "./researches/calculateFleschReading.js" );
+var metaDescriptionLength = require( "./researches/metaDescriptionLength.js" );
+var imageCount = require( "./researches/imageCountInText.js" );
+var altTagCount = require( "./researches/imageAltTags.js" );
+var keyphraseLength = require( "./researches/keyphraseLength" );
+var metaDescriptionKeyword = require( "./researches/metaDescriptionKeyword.js" );
+var keywordCountInUrl = require( "./researches/keywordCountInUrl" );
+var findKeywordInFirstParagraph = require( "./researches/findKeywordInFirstParagraph.js" );
+var pageTitleLength = require( "./researches/pageTitleLength.js" );
+
+/**
+ * This contains all possible, default researches.
+ * @param {Paper} paper The Paper object that is needed within the researches.
+ * @constructor
+ * @throws {InvalidTypeError} Parameter needs to be an instance of the Paper object.
+ */
+var Researcher = function( paper ) {
+	this.setPaper( paper );
+
+	this.defaultResearches = {
+		"urlLength": urlLength,
+		"wordCountInText": wordCountInText,
+		"findKeywordInPageTitle": findKeywordInPageTitle,
+		"calculateFleschReading": calculateFleschReading,
+		"getLinkStatistics": getLinkStatistics,
+		"imageCount": imageCount,
+		"altTagCount": altTagCount,
+		"matchKeywordInSubheadings": matchKeywordInSubheadings,
+		"getKeywordDensity": getKeywordDensity,
+		"stopWordsInKeyword": stopWordsInKeyword,
+		"stopWordsInUrl": stopWordsInUrl,
+		"metaDescriptionLength": metaDescriptionLength,
+		"keyphraseLength": keyphraseLength,
+		"keywordCountInUrl": keywordCountInUrl,
+		"firstParagraph": findKeywordInFirstParagraph,
+		"metaDescriptionKeyword": metaDescriptionKeyword,
+		"pageTitleLength": pageTitleLength
+	};
+
+	this.customResearches = {};
+};
+
+/**
+ * Set the Paper associated with the Researcher.
+ * @param {Paper} paper The Paper to use within the Researcher
+ * @throws {InvalidTypeError} Parameter needs to be an instance of the Paper object.
+ * @returns {void}
+ */
+Researcher.prototype.setPaper = function( paper ) {
+	if ( !( paper instanceof Paper ) ) {
+		throw new InvalidTypeError( "The researcher requires an Paper object." );
+	}
+
+	this.paper = paper;
+};
+
+/**
+ * Add a custom research that will be available within the Researcher.
+ * @param {string} name A name to reference the research by.
+ * @param {function} research The function to be added to the Researcher.
+ * @throws {MissingArgument} Research name cannot be empty.
+ * @throws {InvalidTypeError} The research requires a valid Function callback.
+ * @returns {void}
+ */
+Researcher.prototype.addResearch = function( name, research ) {
+	if ( isUndefined( name ) || isEmpty( name ) ) {
+		throw new MissingArgument( "Research name cannot be empty" );
+	}
+
+	if ( !( research instanceof Function ) ) {
+		throw new InvalidTypeError( "The research requires a Function callback." );
+	}
+
+	this.customResearches[name] = research;
+};
+
+/**
+ * Check wheter or not the research is known by the Researcher.
+ * @param {string} name The name to reference the research by.
+ * @returns {boolean} Whether or not the research is known by the Researcher
+ */
+Researcher.prototype.hasResearch = function( name ) {
+	return Object.keys( this.getAvailableResearches() ).filter(
+	function( research ) {
+		return research === name;
+	} ).length > 0;
+};
+
+/**
+ * Return all available researches.
+ * @returns {Object} An object containing all available researches.
+ */
+Researcher.prototype.getAvailableResearches = function() {
+	return merge( this.defaultResearches, this.customResearches );
+};
+
+/**
+ * Return the Research by name.
+ * @param {string} name The name to reference the research by.
+ * @returns {*} Returns the result of the research or false if research does not exist.
+ * @throws {MissingArgument} Research name cannot be empty.
+ */
+Researcher.prototype.getResearch = function( name ) {
+	if ( isUndefined( name ) || isEmpty( name ) ) {
+		throw new MissingArgument( "Research name cannot be empty" );
+	}
+
+	if ( !this.hasResearch( name ) ) {
+		return false;
+	}
+
+	return this.getAvailableResearches()[ name ]( this.paper );
+};
+
+module.exports = Researcher;
+
+},{"./errors/invalidType":28,"./errors/missingArgument":29,"./researches/calculateFleschReading.js":34,"./researches/findKeywordInFirstParagraph.js":35,"./researches/findKeywordInPageTitle.js":36,"./researches/getKeywordDensity.js":37,"./researches/getLinkStatistics.js":38,"./researches/imageAltTags.js":39,"./researches/imageCountInText.js":40,"./researches/keyphraseLength":41,"./researches/keywordCountInUrl":42,"./researches/matchKeywordInSubheadings.js":43,"./researches/metaDescriptionKeyword.js":44,"./researches/metaDescriptionLength.js":45,"./researches/pageTitleLength.js":46,"./researches/stopWordsInKeyword":47,"./researches/stopWordsInUrl":49,"./researches/urlIsTooLong.js":50,"./researches/wordCountInText.js":51,"./values/Paper.js":79,"lodash/isEmpty":220,"lodash/isUndefined":231,"lodash/merge":235}],34:[function(require,module,exports){
+/** @module analyses/calculateFleschReading */
+
+var cleanText = require( "../stringProcessing/cleanText.js" );
+var stripNumbers = require( "../stringProcessing/stripNumbers.js" );
+var stripHTMLTags = require( "../stringProcessing/stripHTMLTags.js" );
+var countSentences = require( "../stringProcessing/countSentences.js" );
+var countWords = require( "../stringProcessing/countWords.js" );
+var countSyllables = require( "../stringProcessing/countSyllables.js" );
+
+/**
+ * This calculates the fleschreadingscore for a given text
+ * The formula used:
+ * 206.835 - 1.015 (total words / total sentences) - 84.6 ( total syllables / total words);
+ *
+ * @param {object} paper The paper containing the text
+ * @returns {number} the score of the fleschreading test
+ */
+module.exports = function( paper ) {
+	var text = paper.getText();
+	if ( text === "" ) {
+		return 0;
+	}
+
+	text = cleanText ( text );
+	text = stripHTMLTags( text );
+	var wordCount = countWords( text );
+
+	text = stripNumbers ( text );
+	var sentenceCount = countSentences( text );
+	var syllableCount = countSyllables( text );
+	var score = 206.835 - ( 1.015 * ( wordCount / sentenceCount ) ) - ( 84.6 * ( syllableCount / wordCount ) );
+
+	return score.toFixed( 1 );
+};
+
+},{"../stringProcessing/cleanText.js":55,"../stringProcessing/countSentences.js":56,"../stringProcessing/countSyllables.js":57,"../stringProcessing/countWords.js":58,"../stringProcessing/stripHTMLTags.js":71,"../stringProcessing/stripNumbers.js":73}],35:[function(require,module,exports){
+/** @module analyses/findKeywordInFirstParagraph */
+
+var regexMatch = require( "../stringProcessing/matchStringWithRegex.js" );
+var wordMatch = require( "../stringProcessing/matchTextWithWord.js" );
+
+/**
+ * Counts the occurrences of the keyword in the first paragraph, returns 0 if it is not found,
+ * if there is no paragraph tag or 0 hits, it checks for 2 newlines, otherwise returns the keyword
+ * count of the complete text.
+ *
+ * @param {Paper} paper The text to check for paragraphs.
+ * @returns {number} The number of occurences of the keyword in the first paragraph.
+ */
+module.exports = function( paper ) {
+	var text = paper.getText();
+	var keyword = paper.getKeyword();
+	var paragraph;
+
+	// matches everything between the <p> and </p> tags.
+	paragraph = regexMatch( text, "<p(?:[^>]+)?>(.*?)<\/p>" );
+	if ( paragraph.length > 0 ) {
+		return wordMatch( paragraph[0], keyword );
+	}
+
+	/* if no <p> tags found, use a regex that matches [^], not nothing, so any character,
+	including linebreaks untill it finds double linebreaks.
+	*/
+	paragraph = regexMatch( text, "[^]*?\n\n" );
+	if ( paragraph.length > 0 ) {
+		return wordMatch( paragraph[0], keyword );
+	}
+
+	// if no double linebreaks found, return the keyword count of the entire text
+	return wordMatch( text, keyword );
+};
+
+},{"../stringProcessing/matchStringWithRegex.js":65,"../stringProcessing/matchTextWithWord.js":66}],36:[function(require,module,exports){
+/** @module analyses/findKeywordInPageTitle */
+
+var wordMatch = require( "../stringProcessing/matchTextWithWord.js" );
+
+/**
+ * Counts the occurrences of the keyword in the pagetitle. Returns the number of matches
+ * and the position of the keyword.
+ *
+ * @param {object} paper The paper containing title and keyword.
+ * @returns {object} result with the matches and position.
+ */
+
+module.exports = function( paper ) {
+	var title = paper.getTitle();
+	var keyword = paper.getKeyword();
+	var result = { matches: 0, position: -1 };
+	result.matches = wordMatch( title, keyword );
+	result.position = title.toLocaleLowerCase().indexOf( keyword );
+
+	return result;
+};
+
+},{"../stringProcessing/matchTextWithWord.js":66}],37:[function(require,module,exports){
+/** @module analyses/getKeywordDensity */
+
+var countWords = require( "../stringProcessing/countWords.js" );
+var matchWords = require( "../stringProcessing/matchTextWithWord.js" );
+
+/**
+ * Calculates the keyword density .
+ *
+ * @param {object} paper The paper containing keyword and text.
+  * @returns {number} The keyword density.
+ */
+module.exports = function( paper ) {
+	var keyword = paper.getKeyword();
+	var text = paper.getText();
+	var wordCount = countWords( text );
+	if ( wordCount === 0 ) {
+		return 0;
+	}
+	var keywordCount = matchWords ( text, keyword );
+	return ( keywordCount / wordCount ) * 100;
+};
+
+},{"../stringProcessing/countWords.js":58,"../stringProcessing/matchTextWithWord.js":66}],38:[function(require,module,exports){
+/** @module analyses/getLinkStatistics */
+
+var getAnchors = require( "../stringProcessing/getAnchorsFromText.js" );
+var findKeywordInUrl = require( "../stringProcessing/findKeywordInUrl.js" );
+var getLinkType = require( "../stringProcessing/getLinkType.js" );
+var checkNofollow = require( "../stringProcessing/checkNofollow.js" );
+
+/**
+ * Checks a text for anchors and returns an object with all linktypes found.
+ *
+ * @param {object} paper The paper object containing text, keyword and url.
+ * @returns {object} The object containing all linktypes.
+ * total: the total number of links found
+ * totalNaKeyword: the total number of links if keyword is not available
+ * totalKeyword: the total number of links with the keyword
+ * internalTotal: the total number of links that are internal
+ * internalDofollow: the internal links without a nofollow attribute
+ * internalNofollow: the internal links with a nofollow attribute
+ * externalTotal: the total number of links that are external
+ * externalDofollow: the external links without a nofollow attribute
+ * externalNofollow: the internal links with a dofollow attribute
+ * otherTotal: all links that are not HTTP or HTTPS
+ * otherDofollow: other links without a nofollow attribute
+ * otherNofollow: other links with a nofollow attribute
+ */
+module.exports = function( paper ) {
+	var text = paper.getText();
+	var keyword = paper.getKeyword();
+	var url = paper.getUrl();
+	var anchors = getAnchors( text );
+
+	var linkCount = {
+		total: anchors.length,
+		totalNaKeyword: 0,
+		totalKeyword: 0,
+		internalTotal: 0,
+		internalDofollow: 0,
+		internalNofollow: 0,
+		externalTotal: 0,
+		externalDofollow: 0,
+		externalNofollow: 0,
+		otherTotal: 0,
+		otherDofollow: 0,
+		otherNofollow: 0
+	};
+	var linkKeyword;
+	for ( var i = 0; i < anchors.length; i++ ) {
+		linkKeyword = findKeywordInUrl( anchors[i], keyword );
+
+		if ( linkKeyword ) {
+			if ( keyword === "" ) {
+				linkCount.totalNaKeyword++;
+			} else {
+				linkCount.totalKeyword++;
+			}
+		}
+
+		var linkType = getLinkType( anchors[i], url );
+		linkCount[linkType + "Total"]++;
+
+		var linkFollow = checkNofollow( anchors[i] );
+		linkCount[linkType + linkFollow]++;
+	}
+	return linkCount;
+};
+
+},{"../stringProcessing/checkNofollow.js":54,"../stringProcessing/findKeywordInUrl.js":60,"../stringProcessing/getAnchorsFromText.js":62,"../stringProcessing/getLinkType.js":63}],39:[function(require,module,exports){
+/** @module researches/imageAltTags */
+
+var imageInText = require( "../stringProcessing/imageInText" );
+var imageAlttag = require( "../stringProcessing/getAlttagContent" );
+var wordMatch = require( "../stringProcessing/matchTextWithWord" );
+
+/**
+ * Matches the alt-tags in the images found in the text.
+ * Returns an object with the totals and different alt-tags.
+ *
+ * @param {Array} imageMatches Array with all the matched images in the text
+ * @param {string} keyword the keyword to check for.
+ * @returns {object} altProperties Object with all alt-tags that were found.
+ */
+var matchAltProperties = function( imageMatches, keyword ) {
+	var altProperties = {
+		noAlt: 0,
+		withAlt: 0,
+		withAltKeyword: 0,
+		withAltNonKeyword: 0
+	};
+
+	for ( var i = 0; i < imageMatches.length; i++ ) {
+		var alttag = imageAlttag( imageMatches[i] );
+
+		// If no alt-tag is set
+		if ( alttag === "" ) {
+			altProperties.noAlt++;
+			continue;
+		}
+
+		// If no keyword is set, but the alt-tag is
+		if ( keyword === "" && alttag !== "" ) {
+			altProperties.withAlt++;
+			continue;
+		}
+
+		if ( wordMatch( alttag, keyword ) === 0 && alttag !== "" ) {
+
+			// Match for keywords?
+			altProperties.withAltNonKeyword++;
+			continue;
+		}
+
+		if ( wordMatch( alttag, keyword ) > 0 ) {
+			altProperties.withAltKeyword++;
+			continue;
+		}
+	}
+
+	return altProperties;
+};
+
+/**
+ * Checks the text for images, checks the type of each image and alttags for containing keywords
+ *
+ * @param {Paper} paper The paper to check for images
+ * @returns {object} Object containing all types of found images
+ */
+module.exports = function( paper ) {
+	return matchAltProperties( imageInText( paper.getText() ), paper.getKeyword() );
+};
+
+},{"../stringProcessing/getAlttagContent":61,"../stringProcessing/imageInText":64,"../stringProcessing/matchTextWithWord":66}],40:[function(require,module,exports){
+/** @module researches/imageInText */
+
+var imageInText = require( "./../stringProcessing/imageInText" );
+
+/**
+ * Checks the amount of images in the text.
+ *
+ * @param {Paper} paper The paper to check for images
+ * @returns {number} The amount of found images
+ */
+module.exports = function( paper ) {
+	return imageInText( paper.getText() ).length;
+};
+
+},{"./../stringProcessing/imageInText":64}],41:[function(require,module,exports){
+var countWords = require( "../stringProcessing/countWords" );
+var sanitizeString = require( "../stringProcessing/sanitizeString" );
+
+/**
+ * Determines the length in words of a the keyphrase, the keyword is a keyphrase if it is more than one word.
+ *
+ * @param {Paper} paper The paper to research
+ * @returns {number} The length of the keyphrase
+ */
+function keyphraseLengthResearch( paper ) {
+	var keyphrase = sanitizeString( paper.getKeyword() );
+
+	return countWords( keyphrase );
+}
+
+module.exports = keyphraseLengthResearch;
+
+},{"../stringProcessing/countWords":58,"../stringProcessing/sanitizeString":69}],42:[function(require,module,exports){
+/** @module researches/countKeywordInUrl */
+
+var wordMatch = require( "../stringProcessing/matchTextWithWord.js" );
+/**
+ * Matches the keyword in the URL. Replaces whitespaces with dashes and uses dash as wordboundary.
+ *
+ * @param {Paper} paper the Paper object to use in this count.
+ * @returns {int} Number of times the keyword is found.
+ */
+module.exports = function( paper ) {
+	var keyword = paper.getKeyword().replace( "'", "" ).replace( /\s/ig, "-" );
+
+	return wordMatch( paper.getUrl(), keyword );
+};
+
+},{"../stringProcessing/matchTextWithWord.js":66}],43:[function(require,module,exports){
+/* @module analyses/matchKeywordInSubheadings */
+
+var stripSomeTags = require( "../stringProcessing/stripNonTextTags.js" );
+var subheadingMatch = require( "../stringProcessing/subheadingsMatch.js" );
+
+/**
+ * Checks if there are any subheadings like h2 in the text
+ * and if they have the keyword in them.
+ *
+ * @param {object} paper The paper object containt the texta nd keyword
+ * @returns {object} the result object.
+ * count: the number of matches
+ * matches:the number of ocurrences of the keyword for each match
+ */
+module.exports = function( paper ) {
+	var text = paper.getText();
+	var keyword = paper.getKeyword();
+	var matches;
+	var result = { count: 0 };
+	text = stripSomeTags( text );
+	matches = text.match( /<h([1-6])(?:[^>]+)?>(.*?)<\/h\1>/ig );
+
+	if ( matches !== null ) {
+		result.count = matches.length;
+		result.matches = subheadingMatch( matches, keyword );
+	}
+	return result;
+};
+
+
+},{"../stringProcessing/stripNonTextTags.js":72,"../stringProcessing/subheadingsMatch.js":75}],44:[function(require,module,exports){
+var matchTextWithWord = require( "../stringProcessing/matchTextWithWord.js" );
+
+/**
+ * Matches the keyword in the description if a description and keyword are available.
+ * default is -1 if no description and/or keyword is specified
+ *
+ * @param {Paper} paper The paper object containing the description.
+ * @returns {number} The number of matches with the keyword
+ */
+module.exports = function( paper ) {
+	if ( paper.getDescription() === "" ) {
+		return -1;
+	}
+	return matchTextWithWord( paper.getDescription(), paper.getKeyword() );
+};
+
+
+},{"../stringProcessing/matchTextWithWord.js":66}],45:[function(require,module,exports){
+/**
+ * Check the length of the description.
+ * @param {Paper} paper The paper object containing the description.
+ * @returns {number} The length of the description.
+ */
+module.exports = function( paper ) {
+	return paper.getDescription().length;
+};
+
+},{}],46:[function(require,module,exports){
+/**
+ * Check the length of the title.
+ * @param {Paper} paper The paper object containing the title.
+ * @returns {number} The length of the title.
+ */
+module.exports = function( paper ) {
+	return paper.getTitle().length;
+};
+
+},{}],47:[function(require,module,exports){
+/** @module researches/stopWordsInKeyword */
+
+var stopWordsInText = require( "./stopWordsInText.js" );
+
+/**
+ * Checks for the amount of stop words in the keyword.
+ * @param {Paper} paper The Paper object to be checked against.
+ * @returns {Array} All the stopwords that were found in the keyword.
+ */
+module.exports = function( paper ) {
+	return stopWordsInText( paper.getKeyword() );
+};
+
+},{"./stopWordsInText.js":48}],48:[function(require,module,exports){
+var stopwords = require( "../config/stopwords.js" )();
+var toRegex = require( "../stringProcessing/stringToRegex.js" );
+
+/**
+ * Checks a text to see if there are any stopwords, that are defined in the stopwords config.
+ *
+ * @param {string} text The input text to match stopwords.
+ * @returns {Array} An array with all stopwords found in the text.
+ */
+module.exports = function( text ) {
+	var i, matches = [];
+
+	for ( i = 0; i < stopwords.length; i++ ) {
+		if ( text.match( toRegex( stopwords[i] ) ) !== null ) {
+			matches.push( stopwords[i] );
+		}
+	}
+
+	return matches;
+};
+
+},{"../config/stopwords.js":26,"../stringProcessing/stringToRegex.js":70}],49:[function(require,module,exports){
+/** @module researches/stopWordsInUrl */
+
+var stopWordsInText = require( "./stopWordsInText.js" );
+
+/**
+ * Matches stopwords in the URL. Replaces - and _ with whitespace.
+ * @param {Paper} paper The Paper object to get the url from.
+ * @returns {Array} stopwords found in URL
+ */
+module.exports = function( paper ) {
+	return stopWordsInText( paper.getUrl().replace( /[-_]/g, " " ) );
+};
+
+},{"./stopWordsInText.js":48}],50:[function(require,module,exports){
+/** @module analyses/isUrlTooLong */
+
+/**
+ * Checks if an URL is too long, based on slug and relative to keyword length.
+ *
+ * @param {object} paper the paper to run this assessment on
+ * @returns {boolean} true if the URL is too long, false if it isn't
+ */
+module.exports = function( paper ) {
+	var urlLength = paper.getUrl().length;
+	var keywordLength = paper.getKeyword().length;
+	var maxUrlLength = 40;
+	var maxSlugLength = 20;
+
+	if ( urlLength > maxUrlLength	&& urlLength > keywordLength + maxSlugLength ) {
+		return true;
+	}
+	return false;
+};
+
+},{}],51:[function(require,module,exports){
+var wordCount = require( "../stringProcessing/countWords.js" );
+
+/**
+ * Count the words in the text
+ * @param {Paper} paper The Paper object who's
+ * @returns {number} The amount of words found in the text.
+ */
+module.exports = function( paper ) {
+	return wordCount( paper.getText() );
+};
+
+},{"../stringProcessing/countWords.js":58}],52:[function(require,module,exports){
+/* jshint browser: true */
+
+var isEmpty = require( "lodash/isEmpty" );
+var isElement = require( "lodash/isElement" );
+var isUndefined = require( "lodash/isUndefined" );
+var clone = require( "lodash/clone" );
+var defaultsDeep = require( "lodash/defaultsDeep" );
+var forEach = require( "lodash/forEach" );
+var debounce = require( "lodash/debounce" );
+
+var stringToRegex = require( "../js/stringProcessing/stringToRegex.js" );
+var stripHTMLTags = require( "../js/stringProcessing/stripHTMLTags.js" );
+var sanitizeString = require( "../js/stringProcessing/sanitizeString.js" );
+var stripSpaces = require( "../js/stringProcessing/stripSpaces.js" );
+var analyzerConfig = require( "./config/config.js" );
+
+var snippetEditorTemplate = require( "./templates.js" ).snippetEditor;
+
+var defaults = {
+	data: {
+		title: "",
+		metaDesc: "",
+		urlPath: ""
+	},
+	placeholder: {
+		title:    "This is an example title - edit by clicking here",
+		metaDesc: "Modify your meta description by editing it right here",
+		urlPath:  "example-post/"
+	},
+	defaultValue: {
+		title: "",
+		metaDesc: ""
+	},
+	baseURL: "http://example.com/",
+	callbacks: {
+		saveSnippetData: function() {}
+	},
+	addTrailingSlash: true,
+	metaDescriptionDate: ""
+};
+
+var titleMaxLength = 65;
+
+var inputPreviewBindings = [
+	{
+		"preview": "title_container",
+		"inputField": "title"
+	},
+	{
+		"preview": "url_container",
+		"inputField": "urlPath"
+	},
+	{
+		"preview": "meta_container",
+		"inputField": "metaDesc"
+	}
+];
+
+/**
+ * Get's the base URL for this instance of the snippet preview.
+ *
+ * @private
+ * @this SnippetPreview
+ *
+ * @returns {string} The base URL.
+ */
+var getBaseURL = function() {
+	var baseURL = this.opts.baseURL;
+
+	/*
+	 * For backwards compatibility, if no URL was passed to the snippet editor we try to retrieve the base URL from the
+	 * rawData in the App. This is because the scrapers used to be responsible for retrieving the baseURL, but the base
+	 * URL is static so we can just pass it to the snippet editor.
+	 */
+	if ( !isEmpty( this.refObj.rawData.baseUrl ) && this.opts.baseURL === defaults.baseURL ) {
+		baseURL = this.refObj.rawData.baseUrl;
+	}
+
+	return baseURL;
+};
+
+/**
+ * Retrieves unformatted text from the data object
+ *
+ * @private
+ * @this SnippetPreview
+ *
+ * @param {string} key The key to retrieve.
+ * @returns {string} The unformatted text.
+ */
+function retrieveUnformattedText( key ) {
+	return this.data[ key ];
+}
+
+/**
+ * Update data and DOM objects when the unformatted text is updated, here for backwards compatibility
+ *
+ * @private
+ * @this SnippetPreview
+ *
+ * @param {string} key The data key to update.
+ * @param {string} value The value to update.
+ * @returns {void}
+ */
+function updateUnformattedText( key, value ) {
+	this.element.input[ key ].value = value;
+
+	this.data[ key ] = value;
+}
+
+/**
+ * Adds a class to an element
+ *
+ * @param {HTMLElement} element The element to add the class to.
+ * @param {string} className The class to add.
+ * @returns {void}
+ */
+function addClass( element, className ) {
+	var classes = element.className.split( " " );
+
+	if ( -1 === classes.indexOf( className ) ) {
+		classes.push( className );
+	}
+
+	element.className = classes.join( " " );
+}
+
+/**
+ * Removes a class from an element
+ *
+ * @param {HTMLElement} element The element to remove the class from.
+ * @param {string} className The class to remove.
+ * @returns {void}
+ */
+function removeClass( element, className ) {
+	var classes = element.className.split( " " );
+	var foundClass = classes.indexOf( className );
+
+	if ( -1 !== foundClass ) {
+		classes.splice( foundClass, 1 );
+	}
+
+	element.className = classes.join( " " );
+}
+
+/**
+ * Removes multiple classes from an element
+ *
+ * @param {HTMLElement} element The element to remove the classes from.
+ * @param {Array} classes A list of classes to remove
+ * @returns {void}
+ */
+function removeClasses( element, classes ) {
+	forEach( classes, removeClass.bind( null, element ) );
+}
+
+/**
+ * Returns if a url has a trailing slash or not.
+ *
+ * @param {string} url The url to check for a trailing slash.
+ * @returns {boolean} Whether or not the url contains a trailing slash.
+ */
+function hasTrailingSlash( url ) {
+	return url.indexOf( "/" ) === ( url.length - 1 );
+}
+
+/**
+ * Detects if this browser has <progress> support. Also serves as a poor man's HTML5shiv.
+ *
+ * @private
+ *
+ * @returns {boolean} Whether or not the browser supports a <progress> element
+ */
+function hasProgressSupport() {
+	var progressElement = document.createElement( "progress" );
+
+	return !isUndefined( progressElement.max );
+}
+
+/**
+ * Returns a rating based on the length of the title
+ *
+ * @param {number} titleLength the length of the title.
+ * @returns {string} The rating given based on the title length.
+ */
+function rateTitleLength( titleLength ) {
+	var rating;
+
+	switch ( true ) {
+		case titleLength > 0 && titleLength <= 34:
+		case titleLength >= 66:
+			rating = "ok";
+			break;
+
+		case titleLength >= 35 && titleLength <= 65:
+			rating = "good";
+			break;
+
+		default:
+			rating = "bad";
+			break;
+	}
+
+	return rating;
+}
+
+/**
+ * Returns a rating based on the length of the meta description
+ *
+ * @param {number} metaDescLength the length of the meta description.
+ * @returns {string} The rating given based on the description length.
+ */
+function rateMetaDescLength( metaDescLength ) {
+	var rating;
+
+	switch ( true ) {
+		case metaDescLength > 0 && metaDescLength <= 120:
+		case metaDescLength >= 157:
+			rating = "ok";
+			break;
+
+		case metaDescLength >= 120 && metaDescLength <= 157:
+			rating = "good";
+			break;
+
+		default:
+			rating = "bad";
+			break;
+	}
+
+	return rating;
+}
+
+/**
+ * Updates a progress bar
+ *
+ * @private
+ * @this SnippetPreview
+ *
+ * @param {HTMLElement} element The progress element that's rendered.
+ * @param {number} value The current value.
+ * @param {number} maximum The maximum allowed value.
+ * @param {string} rating The SEO score rating for this value.
+ * @returns {void}
+ */
+function updateProgressBar( element, value, maximum, rating ) {
+	var barElement, progress,
+		allClasses = [
+			"snippet-editor__progress--bad",
+			"snippet-editor__progress--ok",
+			"snippet-editor__progress--good"
+		];
+
+	element.value = value;
+	removeClasses( element, allClasses );
+	addClass( element, "snippet-editor__progress--" + rating );
+
+	if ( !this.hasProgressSupport ) {
+		barElement = element.getElementsByClassName( "snippet-editor__progress-bar" )[ 0 ];
+		progress = ( value / maximum ) * 100;
+
+		barElement.style.width = progress + "%";
+	}
+}
+
+/**
+ * @module snippetPreview
+ */
+
+/**
+ * defines the config and outputTarget for the SnippetPreview
+ *
+ * @param {Object}         opts                           - Snippet preview options.
+ * @param {App}            opts.analyzerApp               - The app object the snippet preview is part of.
+ * @param {Object}         opts.placeholder               - The placeholder values for the fields, will be shown as
+ * actual placeholders in the inputs and as a fallback for the preview.
+ * @param {string}         opts.placeholder.title         - The placeholder title.
+ * @param {string}         opts.placeholder.metaDesc      - The placeholder meta description.
+ * @param {string}         opts.placeholder.urlPath       - The placeholder url.
+ *
+ * @param {Object}         opts.defaultValue              - The default value for the fields, if the user has not
+ * changed a field, this value will be used for the analyzer, preview and the progress bars.
+ * @param {string}         opts.defaultValue.title        - The default title.
+ * @param {string}         opts.defaultValue.metaDesc     - The default meta description.
+ * it.
+ *
+ * @param {string}         opts.baseURL                   - The basic URL as it will be displayed in google.
+ * @param {HTMLElement}    opts.targetElement             - The target element that contains this snippet editor.
+ *
+ * @param {Object}         opts.callbacks                 - Functions that are called on specific instances.
+ * @param {Function}       opts.callbacks.saveSnippetData - Function called when the snippet data is changed.
+ *
+ * @param {boolean}        opts.addTrailingSlash          - Whether or not to add a trailing slash to the URL.
+ * @param {string}         opts.metaDescriptionDate       - The date to display before the meta description.
+ *
+ * @property {App}         refObj                         - The connected app object.
+ * @property {Jed}         i18n                           - The translation object.
+ *
+ * @property {HTMLElement} targetElement                  - The target element that contains this snippet editor.
+ *
+ * @property {Object}      element                        - The elements for this snippet editor.
+ * @property {Object}      element.rendered               - The rendered elements.
+ * @property {HTMLElement} element.rendered.title         - The rendered title element.
+ * @property {HTMLElement} element.rendered.urlPath       - The rendered url path element.
+ * @property {HTMLElement} element.rendered.urlBase       - The rendered url base element.
+ * @property {HTMLElement} element.rendered.metaDesc      - The rendered meta description element.
+ *
+ * @property {Object}      element.input                  - The input elements.
+ * @property {HTMLElement} element.input.title            - The title input element.
+ * @property {HTMLElement} element.input.urlPath          - The url path input element.
+ * @property {HTMLElement} element.input.metaDesc         - The meta description input element.
+ *
+ * @property {HTMLElement} element.container              - The main container element.
+ * @property {HTMLElement} element.formContainer          - The form container element.
+ * @property {HTMLElement} element.editToggle             - The button that toggles the editor form.
+ *
+ * @property {Object}      data                           - The data for this snippet editor.
+ * @property {string}      data.title                     - The title.
+ * @property {string}      data.urlPath                   - The url path.
+ * @property {string}      data.metaDesc                  - The meta description.
+ *
+ * @property {string}      baseURL                        - The basic URL as it will be displayed in google.
+ *
+ * @property {boolean}     hasProgressSupport             - Whether this browser supports the <progress> element.
+ *
+ * @constructor
+ */
+var SnippetPreview = function( opts ) {
+	defaultsDeep( opts, defaults );
+
+	this.data = opts.data;
+
+	if ( !isUndefined( opts.analyzerApp ) ) {
+		this.refObj = opts.analyzerApp;
+		this.i18n = this.refObj.i18n;
+
+		this.data = {
+			title: this.refObj.rawData.snippetTitle || "",
+			urlPath: this.refObj.rawData.snippetCite || "",
+			metaDesc: this.refObj.rawData.snippetMeta || ""
+		};
+
+		// For backwards compatibility set the pageTitle as placeholder.
+		if ( !isEmpty( this.refObj.rawData.pageTitle ) ) {
+			opts.placeholder.title = this.refObj.rawData.pageTitle;
+		}
+	}
+
+	if ( !isElement( opts.targetElement ) ) {
+		throw new Error( "The snippet preview requires a valid target element" );
+	}
+
+	this.opts = opts;
+	this._currentFocus = null;
+	this._currentHover = null;
+
+	// For backwards compatibility monitor the unformatted text for changes and reflect them in the preview
+	this.unformattedText = {};
+	Object.defineProperty( this.unformattedText, "snippet_cite", {
+		get: retrieveUnformattedText.bind( this, "urlPath" ),
+		set: updateUnformattedText.bind( this, "urlPath" )
+	} );
+	Object.defineProperty( this.unformattedText, "snippet_meta", {
+		get: retrieveUnformattedText.bind( this, "metaDesc" ),
+		set: updateUnformattedText.bind( this, "metaDesc" )
+	} );
+	Object.defineProperty( this.unformattedText, "snippet_title", {
+		get: retrieveUnformattedText.bind( this, "title" ),
+		set: updateUnformattedText.bind( this, "title" )
+	} );
+};
+
+/**
+ * Renders snippet editor and adds it to the targetElement
+ * @returns {void}
+ */
+SnippetPreview.prototype.renderTemplate = function() {
+	var targetElement = this.opts.targetElement;
+
+	targetElement.innerHTML = snippetEditorTemplate( {
+		raw: {
+			title: this.data.title,
+			snippetCite: this.data.urlPath,
+			meta: this.data.metaDesc
+		},
+		rendered: {
+			title: this.formatTitle(),
+			baseUrl: this.formatUrl(),
+			snippetCite: this.formatCite(),
+			meta: this.formatMeta()
+		},
+		metaDescriptionDate: this.opts.metaDescriptionDate,
+		placeholder: this.opts.placeholder,
+		i18n: {
+			edit: this.i18n.dgettext( "js-text-analysis", "Edit snippet" ),
+			title: this.i18n.dgettext( "js-text-analysis", "SEO title" ),
+			slug:  this.i18n.dgettext( "js-text-analysis", "Slug" ),
+			metaDescription: this.i18n.dgettext( "js-text-analysis", "Meta description" ),
+			save: this.i18n.dgettext( "js-text-analysis", "Close snippet editor" ),
+			snippetPreview: this.i18n.dgettext( "js-text-analysis", "Snippet preview" )
+		}
+	} );
+
+	this.element = {
+		rendered: {
+			title: document.getElementById( "snippet_title" ),
+			urlBase: document.getElementById( "snippet_citeBase" ),
+			urlPath: document.getElementById( "snippet_cite" ),
+			metaDesc: document.getElementById( "snippet_meta" )
+		},
+		input: {
+			title: targetElement.getElementsByClassName( "js-snippet-editor-title" )[0],
+			urlPath: targetElement.getElementsByClassName( "js-snippet-editor-slug" )[0],
+			metaDesc: targetElement.getElementsByClassName( "js-snippet-editor-meta-description" )[0]
+		},
+		progress: {
+			title: targetElement.getElementsByClassName( "snippet-editor__progress-title" )[0],
+			metaDesc: targetElement.getElementsByClassName( "snippet-editor__progress-meta-description" )[0]
+		},
+		container: document.getElementById( "snippet_preview" ),
+		formContainer: targetElement.getElementsByClassName( "snippet-editor__form" )[0],
+		editToggle: targetElement.getElementsByClassName( "snippet-editor__edit-button" )[0],
+		closeEditor: targetElement.getElementsByClassName( "snippet-editor__submit" )[0],
+		formFields: targetElement.getElementsByClassName( "snippet-editor__form-field" )
+	};
+
+	this.element.label = {
+		title: this.element.input.title.parentNode,
+		urlPath: this.element.input.urlPath.parentNode,
+		metaDesc: this.element.input.metaDesc.parentNode
+	};
+
+	this.element.preview = {
+		title: this.element.rendered.title.parentNode,
+		urlPath: this.element.rendered.urlPath.parentNode,
+		metaDesc: this.element.rendered.metaDesc.parentNode
+	};
+
+	this.hasProgressSupport = hasProgressSupport();
+
+	if ( this.hasProgressSupport ) {
+		this.element.progress.title.max = titleMaxLength;
+		this.element.progress.metaDesc.max = analyzerConfig.maxMeta;
+	} else {
+		forEach( this.element.progress, function( progressElement ) {
+			addClass( progressElement, "snippet-editor__progress--fallback" );
+		} );
+	}
+
+	this.opened = false;
+	this.updateProgressBars();
+};
+
+/**
+ * Refreshes the snippet editor rendered HTML
+ * @returns {void}
+ */
+SnippetPreview.prototype.refresh = function() {
+	this.output = this.htmlOutput();
+	this.renderOutput();
+	this.renderSnippetStyle();
+	this.updateProgressBars();
+};
+
+/**
+ * Returns the title as meant for the analyzer
+ *
+ * @private
+ * @this SnippetPreview
+ *
+ * @returns {string} The title that is meant for the analyzer.
+ */
+function getAnalyzerTitle() {
+	var title = this.data.title;
+
+	if ( isEmpty( title ) ) {
+		title = this.opts.defaultValue.title;
+	}
+
+	title = this.refObj.pluggable._applyModifications( "data_page_title", title );
+
+	return stripSpaces( title );
+}
+
+/**
+ * Returns the metaDescription, includes the date if it is set.
+ *
+ * @private
+ * @this SnippetPreview
+ *
+ * @returns {string} The meta data for the analyzer.
+ */
+var getAnalyzerMetaDesc = function() {
+	var metaDesc = this.data.metaDesc;
+
+	if ( isEmpty( metaDesc ) ) {
+		metaDesc = this.opts.defaultValue.metaDesc;
+	}
+
+	metaDesc = this.refObj.pluggable._applyModifications( "data_meta_desc", metaDesc );
+
+	if ( !isEmpty( this.opts.metaDescriptionDate ) && !isEmpty( metaDesc ) ) {
+		metaDesc = this.opts.metaDescriptionDate + " - " + this.data.metaDesc;
+	}
+
+	return stripSpaces( metaDesc );
+};
+
+/**
+ * Returns the data from the snippet preview.
+ *
+ * @returns {Object} The collected data for the analyzer.
+ */
+SnippetPreview.prototype.getAnalyzerData = function() {
+	return {
+		title:    getAnalyzerTitle.call( this ),
+		url:      this.data.urlPath,
+		metaDesc: getAnalyzerMetaDesc.call( this )
+	};
+};
+
+/**
+ * Calls the event binder that has been registered using the callbacks option in the arguments of the App.
+ * @returns {void}
+ */
+SnippetPreview.prototype.callRegisteredEventBinder = function() {
+	this.refObj.callbacks.bindElementEvents( this.refObj );
+};
+
+/**
+ *  checks if title and url are set so they can be rendered in the snippetPreview
+ *  @returns {void}
+ */
+SnippetPreview.prototype.init = function() {
+	if (
+		this.refObj.rawData.pageTitle !== null &&
+		this.refObj.rawData.cite !== null
+	) {
+		this.refresh();
+	}
+};
+
+/**
+ * creates html object to contain the strings for the snippetpreview
+ *
+ * @returns {Object} The HTML output of the collected data.
+ */
+SnippetPreview.prototype.htmlOutput = function() {
+	var html = {};
+	html.title = this.formatTitle();
+	html.cite = this.formatCite();
+	html.meta = this.formatMeta();
+	html.url = this.formatUrl();
+	return html;
+};
+
+/**
+ * Formats the title for the snippet preview. If title and pageTitle are empty, sampletext is used
+ *
+ * @returns {string} The correctly formatted title.
+ */
+SnippetPreview.prototype.formatTitle = function() {
+	var title = this.data.title;
+
+	// Fallback to the default if the title is empty.
+	if ( isEmpty( title ) ) {
+		title = this.opts.defaultValue.title;
+	}
+
+	// For rendering we can fallback to the placeholder as well.
+	if ( isEmpty( title ) ) {
+		title = this.opts.placeholder.title;
+	}
+
+	// Apply modification to the title before showing it.
+	if ( this.refObj.pluggable.loaded ) {
+		title = this.refObj.pluggable._applyModifications( "data_page_title", title );
+	}
+
+	title = stripHTMLTags( title );
+
+	// If a keyword is set we want to highlight it in the title.
+	if ( !isEmpty( this.refObj.rawData.keyword ) ) {
+		title = this.formatKeyword( title );
+	}
+
+	// As an ultimate fallback provide the user with a helpful message.
+	if ( isEmpty( title ) ) {
+		title = this.i18n.dgettext( "js-text-analysis", "Please provide an SEO title by editing the snippet below." );
+	}
+
+	return title;
+};
+
+/**
+ * Formats the base url for the snippet preview. Removes the protocol name from the URL.
+ *
+ * @returns {string} Formatted base url for the snippet preview.
+ */
+SnippetPreview.prototype.formatUrl = function() {
+	var url = getBaseURL.call( this );
+
+	// Removes the http part of the url, google displays https:// if the website supports it.
+	return url.replace( /http:\/\//ig, "" );
+};
+
+/**
+ * Formats the url for the snippet preview
+ *
+ * @returns {string} Formatted URL for the snippet preview.
+ */
+SnippetPreview.prototype.formatCite = function() {
+	var cite = this.data.urlPath;
+
+	cite = stripHTMLTags( cite );
+
+	// Fallback to the default if the cite is empty.
+	if ( isEmpty( cite ) ) {
+		cite = this.opts.placeholder.urlPath;
+	}
+
+	if ( !isEmpty( this.refObj.rawData.keyword ) ) {
+		cite = this.formatKeywordUrl( cite );
+	}
+
+	if ( this.opts.addTrailingSlash && !hasTrailingSlash( cite ) ) {
+		cite = cite + "/";
+	}
+
+	// URL's cannot contain whitespace so replace it by dashes.
+	cite = cite.replace( /\s/g, "-" );
+
+	return cite;
+};
+
+/**
+ * Formats the meta description for the snippet preview, if it's empty retrieves it using getMetaText.
+ *
+ * @returns {string} Formatted meta description.
+ */
+SnippetPreview.prototype.formatMeta = function() {
+	var meta = this.data.metaDesc;
+
+	// If no meta has been set, generate one.
+	if ( isEmpty( meta ) ) {
+		meta = this.getMetaText();
+	}
+
+	// Apply modification to the desc before showing it.
+	if ( this.refObj.pluggable.loaded ) {
+		meta = this.refObj.pluggable._applyModifications( "data_meta_desc", meta );
+	}
+
+	meta = stripHTMLTags( meta );
+
+	// Cut-off the meta description according to the maximum length
+	meta = meta.substring( 0, analyzerConfig.maxMeta );
+
+	if ( !isEmpty( this.refObj.rawData.keyword ) ) {
+		meta = this.formatKeyword( meta );
+	}
+
+	// As an ultimate fallback provide the user with a helpful message.
+	if ( isEmpty( meta ) ) {
+		meta = this.i18n.dgettext( "js-text-analysis", "Please provide a meta description by editing the snippet below." );
+	}
+
+	return meta;
+};
+
+/**
+ * Generates a meta description with an educated guess based on the passed text and excerpt. It uses the keyword to
+ * select an appropriate part of the text. If the keyword isn't present it takes the first 156 characters of the text.
+ * If both the keyword, text and excerpt are empty this function returns the sample text.
+ *
+ * @returns {string} A generated meta description.
+ */
+SnippetPreview.prototype.getMetaText = function() {
+	var metaText = this.opts.defaultValue.metaDesc;
+
+	if ( !isUndefined( this.refObj.rawData.excerpt ) && isEmpty( metaText ) ) {
+		metaText = this.refObj.rawData.excerpt;
+	}
+
+	if ( !isUndefined( this.refObj.rawData.text ) && isEmpty( metaText ) ) {
+		metaText = this.refObj.rawData.text;
+
+		if ( this.refObj.pluggable.loaded ) {
+			metaText = this.refObj.pluggable._applyModifications( "content", metaText );
+		}
+	}
+
+	metaText = stripHTMLTags( metaText );
+
+	return metaText.substring( 0, analyzerConfig.maxMeta );
+};
+
+/**
+ * Builds an array with all indexes of the keyword
+ * @returns {Array} Array with matches
+ */
+SnippetPreview.prototype.getIndexMatches = function() {
+	var indexMatches = [];
+	var i = 0;
+
+	// Starts at 0, locates first match of the keyword.
+	var match = this.refObj.rawData.text.indexOf(
+		this.refObj.rawData.keyword,
+		i
+	);
+
+	// Runs the loop untill no more indexes are found, and match returns -1.
+	while ( match > -1 ) {
+		indexMatches.push( match );
+
+		// Pushes location to indexMatches and increase i with the length of keyword.
+		i = match + this.refObj.rawData.keyword.length;
+		match = this.refObj.rawData.text.indexOf(
+			this.refObj.rawData.keyword,
+			i
+		);
+	}
+	return indexMatches;
+};
+
+/**
+ * Builds an array with indexes of all sentence ends (select on .)
+ * @returns {Array} Array with sentences.
+ */
+SnippetPreview.prototype.getPeriodMatches = function() {
+	var periodMatches = [ 0 ];
+	var match;
+	var i = 0;
+	while ( ( match = this.refObj.rawData.text.indexOf( ".", i ) ) > -1 ) {
+		periodMatches.push( match );
+		i = match + 1;
+	}
+	return periodMatches;
+};
+
+/**
+ * Formats the keyword for use in the snippetPreview by adding <strong>-tags
+ * strips unwanted characters that could break the regex or give unwanted results.
+ *
+ * @param {string} textString The keyword string that needs to be formatted.
+ * @returns {string} The formatted keyword.
+ */
+SnippetPreview.prototype.formatKeyword = function( textString ) {
+
+	// removes characters from the keyword that could break the regex, or give unwanted results
+	var keyword = this.refObj.rawData.keyword.replace( /[\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, " " );
+
+	// Match keyword case-insensitively
+	var keywordRegex = stringToRegex( keyword, "", false );
+	return textString.replace( keywordRegex, function( str ) {
+		return "<strong>" + str + "</strong>";
+	} );
+};
+
+/**
+ * formats the keyword for use in the URL by accepting - and _ in stead of space and by adding
+ * <strong>-tags
+ * strips unwanted characters that could break the regex or give unwanted results
+ *
+ * @param {string} textString The keyword string that needs to be formatted.
+ * @returns {XML|string|void} The formatted keyword string to be used in the URL.
+ */
+SnippetPreview.prototype.formatKeywordUrl = function( textString ) {
+	var keyword = sanitizeString( this.refObj.rawData.keyword );
+	keyword = keyword.replace( /'/, "" );
+
+	var dashedKeyword = keyword.replace( /\s/g, "-" );
+
+	// Match keyword case-insensitively.
+	var keywordRegex = stringToRegex( dashedKeyword, "\\-" );
+
+	// Make the keyword bold in the textString.
+	return textString.replace( keywordRegex, function( str ) {
+		return "<strong>" + str + "</strong>";
+	} );
+};
+
+/**
+ * Renders the outputs to the elements on the page.
+ * @returns {void}
+ */
+SnippetPreview.prototype.renderOutput = function() {
+	this.element.rendered.title.innerHTML = this.output.title;
+	this.element.rendered.urlPath.innerHTML = this.output.cite;
+	this.element.rendered.urlBase.innerHTML = this.output.url;
+	this.element.rendered.metaDesc.innerHTML = this.output.meta;
+};
+
+/**
+ * Makes the rendered meta description gray if no meta description has been set by the user.
+ * @returns {void}
+ */
+SnippetPreview.prototype.renderSnippetStyle = function() {
+	var metaDescElement = this.element.rendered.metaDesc;
+	var metaDesc = getAnalyzerMetaDesc.call( this );
+
+	if ( isEmpty( metaDesc ) ) {
+		addClass( metaDescElement, "desc-render" );
+		removeClass( metaDescElement, "desc-default" );
+	} else {
+		addClass( metaDescElement, "desc-default" );
+		removeClass( metaDescElement, "desc-render" );
+	}
+};
+
+/**
+ * Function to call init, to rerender the snippetpreview
+ * @returns {void}
+ */
+SnippetPreview.prototype.reRender = function() {
+	this.init();
+};
+
+/**
+ * Checks text length of the snippetmeta and snippet title, shortens it if it is too long.
+ * @param {Object} event The event to check the text length from.
+ * @returns {void}
+ */
+SnippetPreview.prototype.checkTextLength = function( event ) {
+	var text = event.currentTarget.textContent;
+	switch ( event.currentTarget.id ) {
+		case "snippet_meta":
+			event.currentTarget.className = "desc";
+			if ( text.length > analyzerConfig.maxMeta ) {
+				/* eslint-disable */
+				YoastSEO.app.snippetPreview.unformattedText.snippet_meta = event.currentTarget.textContent;
+				/* eslint-enable */
+				event.currentTarget.textContent = text.substring(
+					0,
+					analyzerConfig.maxMeta
+				);
+
+			}
+			break;
+		case "snippet_title":
+			event.currentTarget.className = "title";
+			if ( text.length > titleMaxLength ) {
+				/* eslint-disable */
+				YoastSEO.app.snippetPreview.unformattedText.snippet_title = event.currentTarget.textContent;
+				/* eslint-enable */
+				event.currentTarget.textContent = text.substring( 0, titleMaxLength );
+			}
+			break;
+		default:
+			break;
+	}
+};
+
+/**
+ * When clicked on an element in the snippet, checks fills the textContent with the data from the unformatted text.
+ * This removes the keyword highlighting and modified data so the original content can be editted.
+ * @param {Object} event The event to get the unformatted text from.
+ * @returns {void}
+ */
+SnippetPreview.prototype.getUnformattedText = function( event ) {
+	var currentElement = event.currentTarget.id;
+	if ( typeof this.unformattedText[ currentElement ] !== "undefined" ) {
+		event.currentTarget.textContent = this.unformattedText[currentElement];
+	}
+};
+
+/**
+ * When text is entered into the snippetPreview elements, the text is set in the unformattedText object.
+ * This allows the visible data to be editted in the snippetPreview.
+ * @param {Object} event The event to set the unformatted text from.
+ * @returns {void}
+ */
+SnippetPreview.prototype.setUnformattedText = function( event ) {
+	var elem =  event.currentTarget.id;
+	this.unformattedText[ elem ] = document.getElementById( elem ).textContent;
+};
+
+/**
+ * Validates all fields and highlights errors.
+ * @returns {void}
+ */
+SnippetPreview.prototype.validateFields = function() {
+	var metaDescription = getAnalyzerMetaDesc.call( this );
+	var title = getAnalyzerTitle.call( this );
+
+	if ( metaDescription.length > analyzerConfig.maxMeta ) {
+		addClass( this.element.input.metaDesc, "snippet-editor__field--invalid" );
+	} else {
+		removeClass( this.element.input.metaDesc, "snippet-editor__field--invalid" );
+	}
+
+	if ( title.length > titleMaxLength ) {
+		addClass( this.element.input.title, "snippet-editor__field--invalid" );
+	} else {
+		removeClass( this.element.input.title, "snippet-editor__field--invalid" );
+	}
+};
+
+/**
+ * Updates progress bars based on the data
+ * @returns {void}
+ */
+SnippetPreview.prototype.updateProgressBars = function() {
+	var metaDescriptionRating, titleRating, metaDescription, title;
+
+	metaDescription = getAnalyzerMetaDesc.call( this );
+	title = getAnalyzerTitle.call( this );
+
+	titleRating = rateTitleLength( title.length );
+	metaDescriptionRating = rateMetaDescLength( metaDescription.length );
+
+	updateProgressBar(
+		this.element.progress.title,
+		title.length,
+		titleMaxLength,
+		titleRating
+	);
+
+	updateProgressBar(
+		this.element.progress.metaDesc,
+		metaDescription.length,
+		analyzerConfig.maxMeta,
+		metaDescriptionRating
+	);
+};
+
+/**
+ * Binds the reloadSnippetText function to the blur of the snippet inputs.
+ * @returns {void}
+ */
+SnippetPreview.prototype.bindEvents = function() {
+	var targetElement,
+		elems = [ "title", "slug", "meta-description" ];
+
+	forEach( elems, function( elem ) {
+		targetElement = document.getElementsByClassName( "js-snippet-editor-" + elem )[0];
+
+		targetElement.addEventListener( "keydown", this.changedInput.bind( this ) );
+		targetElement.addEventListener( "keyup", this.changedInput.bind( this ) );
+
+		targetElement.addEventListener( "input", this.changedInput.bind( this ) );
+		targetElement.addEventListener( "focus", this.changedInput.bind( this ) );
+		targetElement.addEventListener( "blur", this.changedInput.bind( this ) );
+	}.bind( this ) );
+
+	this.element.editToggle.addEventListener( "click", this.toggleEditor.bind( this ) );
+	this.element.closeEditor.addEventListener( "click", this.closeEditor.bind( this ) );
+
+	// Loop through the bindings and bind a click handler to the click to focus the focus element.
+	forEach( inputPreviewBindings, function( binding ) {
+		var previewElement = document.getElementById( binding.preview );
+		var inputElement = this.element.input[ binding.inputField ];
+
+		// Make the preview element click open the editor and focus the correct input.
+		previewElement.addEventListener( "click", function() {
+			this.openEditor();
+			inputElement.focus();
+		}.bind( this ) );
+
+		// Make focusing an input, update the carets.
+		inputElement.addEventListener( "focus", function() {
+			this._currentFocus = binding.inputField;
+
+			this._updateFocusCarets();
+		}.bind( this ) );
+
+		// Make removing focus from an element, update the carets.
+		inputElement.addEventListener( "blur", function() {
+			this._currentFocus = null;
+
+			this._updateFocusCarets();
+		}.bind( this ) );
+
+		previewElement.addEventListener( "mouseover", function() {
+			this._currentHover = binding.inputField;
+
+			this._updateHoverCarets();
+		}.bind( this ) );
+
+		previewElement.addEventListener( "mouseout", function() {
+			this._currentHover = null;
+
+			this._updateHoverCarets();
+		}.bind( this ) );
+
+	}.bind( this ) );
+};
+
+/**
+ * Updates snippet preview on changed input. It's debounced so that we can call this function as much as we want.
+ * @returns {void}
+ */
+SnippetPreview.prototype.changedInput = debounce( function() {
+	this.updateDataFromDOM();
+	this.validateFields();
+	this.updateProgressBars();
+
+	this.refresh();
+
+	this.refObj.refresh();
+}, 25 );
+
+/**
+ * Updates our data object from the DOM
+ * @returns {void}
+ */
+SnippetPreview.prototype.updateDataFromDOM = function() {
+	this.data.title = this.element.input.title.value;
+	this.data.urlPath = this.element.input.urlPath.value;
+	this.data.metaDesc = this.element.input.metaDesc.value;
+
+	// Clone so the data isn't changeable.
+	this.opts.callbacks.saveSnippetData( clone( this.data ) );
+};
+
+/**
+ * Opens the snippet editor.
+ * @returns {void}
+ */
+SnippetPreview.prototype.openEditor = function() {
+
+	this.element.editToggle.setAttribute( "aria-expanded", "true" );
+
+	// Show these elements.
+	removeClass( this.element.formContainer, "snippet-editor--hidden" );
+
+	this.opened = true;
+};
+
+/**
+ * Closes the snippet editor.
+ * @returns {void}
+ */
+SnippetPreview.prototype.closeEditor = function() {
+
+	// Hide these elements.
+	addClass( this.element.formContainer,     "snippet-editor--hidden" );
+
+	this.element.editToggle.setAttribute( "aria-expanded", "false" );
+	this.element.editToggle.focus();
+
+	this.opened = false;
+};
+
+/**
+ * Toggles the snippet editor.
+ * @returns {void}
+ */
+SnippetPreview.prototype.toggleEditor = function() {
+	if ( this.opened ) {
+		this.closeEditor();
+	} else {
+		this.openEditor();
+	}
+};
+
+/**
+ * Updates carets before the preview and input fields.
+ *
+ * @private
+ * @returns {void}
+ */
+SnippetPreview.prototype._updateFocusCarets = function() {
+	var focusedLabel, focusedPreview;
+
+	// Disable all carets on the labels.
+	forEach( this.element.label, function( element ) {
+		removeClass( element, "snippet-editor__label--focus" );
+	} );
+
+	// Disable all carets on the previews.
+	forEach( this.element.preview, function( element ) {
+		removeClass( element, "snippet-editor__container--focus" );
+	} );
+
+	if ( null !== this._currentFocus ) {
+		focusedLabel = this.element.label[ this._currentFocus ];
+		focusedPreview = this.element.preview[ this._currentFocus ];
+
+		addClass( focusedLabel, "snippet-editor__label--focus" );
+		addClass( focusedPreview, "snippet-editor__container--focus" );
+	}
+};
+
+/**
+ * Updates hover carets before the input fields.
+ *
+ * @private
+ * @returns {void}
+ */
+SnippetPreview.prototype._updateHoverCarets = function() {
+	var hoveredLabel;
+
+	forEach( this.element.label, function( element ) {
+		removeClass( element, "snippet-editor__label--hover" );
+	} );
+
+	if ( null !== this._currentHover ) {
+		hoveredLabel = this.element.label[ this._currentHover ];
+
+		addClass( hoveredLabel, "snippet-editor__label--hover" );
+	}
+};
+
+/**
+ * Updates the title data and the the title input field. This also means the snippet editor view is updated.
+ *
+ * @param {string} title The title to use in the input field.
+ * @returns {void}
+ */
+SnippetPreview.prototype.setTitle = function( title ) {
+	this.element.input.title.value = title;
+
+	this.changedInput();
+};
+
+/**
+ * Updates the url path data and the the url path input field. This also means the snippet editor view is updated.
+ *
+ * @param {string} urlPath the URL path to use in the input field.
+ * @returns {void}
+ */
+SnippetPreview.prototype.setUrlPath = function( urlPath ) {
+	this.element.input.urlPath.value = urlPath;
+
+	this.changedInput();
+};
+
+/**
+ * Updates the meta description data and the the meta description input field. This also means the snippet editor view is updated.
+ *
+ * @param {string} metaDesc the meta description to use in the input field.
+ * @returns {void}
+ */
+SnippetPreview.prototype.setTitle = function( metaDesc ) {
+	this.element.input.metaDesc.value = metaDesc;
+
+	this.changedInput();
+};
+
+/* jshint ignore:start */
+/* eslint-disable */
+
+/**
+ * Used to disable enter as input. Returns false to prevent enter, and preventDefault and
+ * cancelBubble to prevent
+ * other elements from capturing this event.
+ *
+ * @deprecated
+ * @param {KeyboardEvent} ev
+ */
+SnippetPreview.prototype.disableEnter = function( ev ) {};
+
+/**
+ * Adds and remove the tooLong class when a text is too long.
+ *
+ * @deprecated
+ * @param ev
+ */
+SnippetPreview.prototype.textFeedback = function( ev ) {};
+
+/**
+ * shows the edit icon corresponding to the hovered element
+ *
+ * @deprecated
+ *
+ * @param ev
+ */
+SnippetPreview.prototype.showEditIcon = function( ev ) {
+
+};
+
+/**
+ * removes all editIcon-classes, sets to snippet_container
+ *
+ * @deprecated
+ */
+SnippetPreview.prototype.hideEditIcon = function() {};
+
+/**
+ * sets focus on child element of the snippet_container that is clicked. Hides the editicon.
+ *
+ * @deprecated
+ * @param ev
+ */
+SnippetPreview.prototype.setFocus = function( ev ) {};
+/* jshint ignore:end */
+/* eslint-disable */
+module.exports = SnippetPreview;
+
+},{"../js/stringProcessing/sanitizeString.js":69,"../js/stringProcessing/stringToRegex.js":70,"../js/stringProcessing/stripHTMLTags.js":71,"../js/stringProcessing/stripSpaces.js":74,"./config/config.js":22,"./templates.js":77,"lodash/clone":202,"lodash/debounce":204,"lodash/defaultsDeep":206,"lodash/forEach":209,"lodash/isElement":219,"lodash/isEmpty":220,"lodash/isUndefined":231}],53:[function(require,module,exports){
+/** @module stringProcessing/addWordboundary */
+
+/**
+ * Returns a string that can be used in a regex to match a matchString with word boundaries.
+ *
+ * @param {string} matchString The string to generate a regex string for.
+ * @param {string} extraWordBoundary Extra characters to match a word boundary on.
+ * @returns {string} A regex string that matches the matchString with word boundaries
+ */
+module.exports = function( matchString, extraWordBoundary ) {
+	var wordBoundary, wordBoundaryStart, wordBoundaryEnd;
+
+	if ( typeof extraWordBoundary === "undefined" ) {
+		extraWordBoundary = "";
+	}
+
+	wordBoundary = "[ \n\r\t\.,'\(\)\"\+\-;!?:\/»«‹›" + extraWordBoundary + "<>]";
+	wordBoundaryStart = "(^|" + wordBoundary + ")";
+	wordBoundaryEnd = "($|" + wordBoundary + ")";
+
+	return wordBoundaryStart + matchString + wordBoundaryEnd;
+};
+
+},{}],54:[function(require,module,exports){
+/** @module stringProcessing/checkNofollow */
+
+/**
+ * Checks if a links has a nofollow attribute. If it has, returns Nofollow, otherwise Dofollow.
+ *
+ * @param {string} text The text to check against.
+ * @returns {string} Returns Dofollow or Nofollow.
+ */
+module.exports = function( text ) {
+	var linkFollow = "Dofollow";
+
+	// Matches all nofollow links, case insensitive and global
+	if ( text.match( /rel=([\'\"])nofollow\1/ig ) !== null ) {
+		linkFollow = "Nofollow";
+	}
+	return linkFollow;
+};
+
+},{}],55:[function(require,module,exports){
+/** @module stringProcessing/cleanText */
+
+var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
+var replaceDiacritics = require( "../stringProcessing/replaceDiacritics.js" );
+var unifyWhitespace = require( "../stringProcessing/unifyWhitespace.js" );
+
+/**
+ * Removes words, duplicate spaces and sentence terminators, and words consisting of only digits
+ * from the text. This is used for the flesh reading ease test.
+ *
+ * @param {String} text The cleaned text
+ * @returns {String} The text
+ */
+module.exports = function( text ) {
+	if ( text === "" ) {
+		return text;
+	}
+
+	text = replaceDiacritics( text );
+	text = text.toLocaleLowerCase();
+
+	text = unifyWhitespace( text );
+
+	// replace comma', hyphens etc with spaces
+	text = text.replace( /[\-\;\:\,\(\)\"\'\|\“\”]/g, " " );
+
+	// remove apostrophe
+	text = text.replace( /[\’]/g, "" );
+
+	// unify all terminators
+	text = text.replace( /[.?!]/g, "." );
+
+	// Remove double spaces
+	text = stripSpaces( text );
+
+	// add period in case it is missing
+	text += ".";
+
+	// replace newlines with spaces
+	text = text.replace( /[ ]*(\n|\r\n|\r)[ ]*/g, " " );
+
+	// remove duplicate terminators
+	text = text.replace( /([\.])[\. ]+/g, "$1" );
+
+	// pad sentence terminators
+	text = text.replace( /[ ]*([\.])+/g, "$1 " );
+
+	// Remove double spaces
+	text = stripSpaces( text );
+
+	if ( text === "." ) {
+		return "";
+	}
+
+	return text;
+};
+
+},{"../stringProcessing/replaceDiacritics.js":67,"../stringProcessing/stripSpaces.js":74,"../stringProcessing/unifyWhitespace.js":76}],56:[function(require,module,exports){
+/** @module stringProcessing/countSentences */
+
+var cleanText = require( "../stringProcessing/cleanText.js" );
+
+/**
+ * Counts the number of sentences in a given string.
+ *
+ * @param {string} text The text used to count sentences.
+ * @returns {number} The number of sentences in the text.
+ */
+module.exports = function( text ) {
+	var sentences = cleanText( text ).split( "." );
+	var sentenceCount = 0;
+	for ( var i = 0; i < sentences.length; i++ ) {
+		if ( sentences[ i ] !== "" && sentences[ i ] !== " " ) {
+			sentenceCount++;
+		}
+	}
+	return sentenceCount;
+};
+
+},{"../stringProcessing/cleanText.js":55}],57:[function(require,module,exports){
+/** @module stringProcessing/countSyllables */
+
+var cleanText = require( "../stringProcessing/cleanText.js" );
+var syllableArray = require( "../config/syllables.js" );
+var arrayToRegex = require( "../stringProcessing/createRegexFromArray.js" );
+
+/**
+ * Checks the textstring for exclusion words. If they are found, returns the number of syllables these have, since
+ * they are incorrectly detected with the syllablecounters based on regexes.
+ *
+ * @param {string} text The text to look for exclusionwords
+ * @returns {number} The number of syllables found in the exclusionwords
+ */
+var countExclusionSyllables = function( text ) {
+	var count = 0, wordArray, regex, matches;
+	wordArray = syllableArray().exclusionWords;
+	for ( var i = 0; i < wordArray.length; i++ ) {
+		regex = new RegExp ( wordArray[i].word, "ig" );
+		matches = text.match ( regex );
+		if ( matches !== null ) {
+			count += ( matches.length * wordArray[i].syllables );
+		}
+	}
+	return count;
+};
+
+/**
+ * Removes words from the text that are in the exclusion array. These words are counted
+ * incorrectly in the syllable counters, so they are removed and checked sperately.
+ *
+ * @param {string} text The text to remove words from
+ * @returns {string} The text with the exclusionwords removed
+ */
+var removeExclusionWords = function( text ) {
+	var exclusionWords = syllableArray().exclusionWords;
+	var wordArray = [];
+	for ( var i = 0; i < exclusionWords.length; i++ ) {
+		wordArray.push( exclusionWords[i].word );
+	}
+	return text.replace( arrayToRegex( wordArray ), "" );
+};
+
+/**
+ * Counts the syllables by splitting on consonants.
+ *
+ * @param {string} text A text with words to count syllables.
+ * @returns {number} the syllable count
+ */
+var countBasicSyllables = function( text ) {
+	var array = text.split( " " );
+	var i, j, splitWord, count = 0;
+
+	// split textstring to individual words
+	for ( i = 0; i < array.length; i++ ) {
+
+		// split on consonants
+		splitWord = array[ i ].split( /[^aeiouy]/g );
+
+		// if the string isn't empty, a consonant was found, up the counter
+		for ( j = 0; j < splitWord.length; j++ ) {
+			if ( splitWord[ j ] !== "" ) {
+				count++;
+			}
+		}
+	}
+
+	return count;
+};
+
+/**
+ * Advanced syllable counter to match texstring with regexes.
+ *
+ * @param {String} text The text to count the syllables.
+ * @param {String} operator The operator to determine which regex to use.
+ * @returns {number} the amount of syllables found in string.
+ */
+var countAdvancedSyllables = function( text, operator ) {
+	var matches, count = 0, words = text.split( " " );
+	var regex = "";
+	switch ( operator ) {
+		case "add":
+			regex = arrayToRegex( syllableArray().addSyllables, true );
+			break;
+		case "subtract":
+			regex = arrayToRegex( syllableArray().subtractSyllables, true );
+			break;
+		default:
+			break;
+	}
+	for ( var i = 0; i < words.length; i++ ) {
+		matches = words[i].match ( regex );
+		if ( matches !== null ) {
+			count += matches.length;
+		}
+	}
+	return count;
+};
+
+/**
+ * Counts the number of syllables in a textstring, calls exclusionwordsfunction, basic syllable
+ * counter and advanced syllable counter.
+ *
+ * @param {String} text The text to count the syllables from.
+ * @returns {int} syllable count
+ */
+module.exports = function( text ) {
+	var count = 0;
+	count += countExclusionSyllables( text );
+
+	text = removeExclusionWords( text );
+	text = cleanText( text );
+	text.replace( /[.]/g, " " );
+
+	count += countBasicSyllables( text );
+	count += countAdvancedSyllables( text, "add" );
+	count -= countAdvancedSyllables( text, "subtract" );
+
+	return count;
+};
+
+
+},{"../config/syllables.js":27,"../stringProcessing/cleanText.js":55,"../stringProcessing/createRegexFromArray.js":59}],58:[function(require,module,exports){
+/** @module stringProcessing/countWords */
+
+var stripTags = require( "../stringProcessing/stripHTMLTags.js" );
+var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
+
+/**
+ * Calculates the wordcount of a certain text.
+ *
+ * @param {string} text The text to be counted.
+ * @returns {int} The word count of the given text.
+ */
+module.exports = function( text ) {
+	text = stripSpaces( stripTags( text ) );
+	if ( text === "" ) {
+		return 0;
+	}
+
+	return text.split( /\s/g ).length;
+};
+
+},{"../stringProcessing/stripHTMLTags.js":71,"../stringProcessing/stripSpaces.js":74}],59:[function(require,module,exports){
+/** @module stringProcessing/createRegexFromArray */
+
+var addWordBoundary = require( "../stringProcessing/addWordboundary.js" );
+
+/**
+ * Creates a regex of combined strings from the input array.
+ *
+ * @param {array} array The array with strings
+ * @param {boolean} disableWordBoundary Boolean indicating whether or not to disable word boundaries
+ * @returns {RegExp} regex The regex created from the array.
+ */
+module.exports = function( array, disableWordBoundary ) {
+	var regexString;
+
+	array = array.map( function( string ) {
+		if ( disableWordBoundary ) {
+			return string;
+		}
+		return addWordBoundary( string );
+	} );
+
+	regexString = "(" + array.join( ")|(" ) + ")";
+
+	return new RegExp( regexString, "ig" );
+};
+
+},{"../stringProcessing/addWordboundary.js":53}],60:[function(require,module,exports){
+/** @module stringProcessing/findKeywordInUrl */
+
+var keywordRegex = require( "../stringProcessing/stringToRegex.js" );
+/**
+ *
+ * @param {string} url The url to check for keyword
+ * @param {string} keyword The keyword to check if it is in the URL
+ * @returns {boolean} If a keyword is found, returns true
+ */
+module.exports = function( url, keyword ) {
+	var keywordFound = false;
+	var formatUrl = url.match( />(.*)/ig );
+
+	if ( formatUrl !== null ) {
+		formatUrl = formatUrl[0].replace( /<.*?>\s?/ig, "" );
+		if ( formatUrl.match( keywordRegex( keyword ) ) !== null ) {
+			keywordFound = true;
+		}
+	}
+
+	return keywordFound;
+};
+
+},{"../stringProcessing/stringToRegex.js":70}],61:[function(require,module,exports){
+/** @module stringProcessing/getAlttagContent */
+
+var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
+
+var regexAltTag = /alt=(['"])(.*?)\1/i;
+
+/**
+ * Checks for an alttag in the image and returns its content
+ *
+ * @param {String} text Textstring to match alt
+ * @returns {String} the contents of the alttag, empty if none is set.
+ */
+module.exports = function( text ) {
+	var alt = "";
+
+	var matches = text.match( regexAltTag );
+
+	if ( matches !== null ) {
+		alt = stripSpaces( matches[ 2 ] );
+
+		alt = alt.replace( /&quot;/g, "\"" );
+		alt = alt.replace( /&#039;/g, "'" );
+	}
+	return alt;
+};
+
+},{"../stringProcessing/stripSpaces.js":74}],62:[function(require,module,exports){
+/** @module stringProcessing/getAnchorsFromText */
+
+/**
+ * Check for anchors in the textstring and returns them in an array.
+ *
+ * @param {String} text The text to check for matches.
+ * @returns {Array} The matched links in text.
+ */
+module.exports = function( text ) {
+	var matches;
+
+	// regex matches everything between <a> and </a>
+	matches = text.match( /<a(?:[^>]+)?>(.*?)<\/a>/ig );
+	if ( matches === null ) {
+		matches = [];
+	}
+
+	return matches;
+};
+
+},{}],63:[function(require,module,exports){
+/** @module stringProcess/getLinkType */
+
+/**
+ * Determines the type of link.
+ *
+ * @param {string} text String with anchor tag.
+ * @param {string} url Url to match against.
+ * @returns {string} The link type (other, external or internal).
+ */
+
+module.exports = function( text, url ) {
+	var linkType = "other";
+
+	// Matches all links that start with http:// and https://, case insensitive and global
+	if ( text.match( /https?:\/\//ig ) !== null ) {
+		linkType = "external";
+		var urlMatch = text.match( url );
+		if ( urlMatch !== null && urlMatch[ 0 ].length !== 0 ) {
+			linkType = "internal";
+		}
+	}
+	return linkType;
+};
+
+},{}],64:[function(require,module,exports){
+/** @module stringProcessing/imageInText */
+
+var matchStringWithRegex = require( "./matchStringWithRegex.js" );
+
+/**
+ * Checks the text for images.
+ *
+ * @param {string} text The textstring to check for images
+ * @returns {Array} Array containing all types of found images
+ */
+module.exports = function( text ) {
+	return matchStringWithRegex( text, "<img(?:[^>]+)?>" );
+};
+
+},{"./matchStringWithRegex.js":65}],65:[function(require,module,exports){
+/** @module stringProcessing/matchStringWithRegex */
+
+/**
+ * Checks a string with a regex, return all matches found with that regex.
+ *
+ * @param {String} text The text to match the
+ * @param {String} regexString A string to use as regex.
+ * @returns {Array} Array with matches, empty array if no matches found.
+ */
+module.exports = function( text, regexString ) {
+	var regex = new RegExp( regexString, "ig" );
+	var matches = text.match( regex );
+
+	if ( matches === null ) {
+		matches = [];
+	}
+
+	return matches;
+};
+
+},{}],66:[function(require,module,exports){
+/** @module stringProcessing/matchTextWithWord */
+
+var stringToRegex = require( "../stringProcessing/stringToRegex.js" );
+var stripSomeTags = require( "../stringProcessing/stripNonTextTags.js" );
+var unifyWhitespace = require( "../stringProcessing/unifyWhitespace.js" );
+var replaceDiacritics = require( "../stringProcessing/replaceDiacritics.js" );
+
+/**
+ * Returns the number of matches in a given string
+ *
+ * @param {string} text The text to use for matching the wordToMatch.
+ * @param {string} wordToMatch The word to match in the text
+ * @param {string} [extraBoundary] An extra string that can be added to the wordboundary regex
+ * @returns {number} The amount of matches found.
+ */
+module.exports = function( text, wordToMatch, extraBoundary ) {
+	text = stripSomeTags ( text );
+	text = unifyWhitespace( text );
+	text = replaceDiacritics( text );
+
+	var matches = text.match( stringToRegex( wordToMatch, extraBoundary ) );
+
+	if ( matches === null ) {
+		return 0;
+	}
+
+	return matches.length;
+};
+
+},{"../stringProcessing/replaceDiacritics.js":67,"../stringProcessing/stringToRegex.js":70,"../stringProcessing/stripNonTextTags.js":72,"../stringProcessing/unifyWhitespace.js":76}],67:[function(require,module,exports){
+/** @module stringProcessing/replaceDiacritics */
+
+var diacritisRemovalMap = require( "../config/diacritics.js" );
+
+/**
+ * Replaces all diacritics from the text based on the diacritics removal map.
+ *
+ * @param {string} text The text to remove diacritics from.
+ * @returns {string} The text with all diacritics replaced.
+ */
+module.exports = function( text ) {
+	var map = diacritisRemovalMap();
+
+	for ( var i = 0; i < map.length; i++ ) {
+		text = text.replace(
+			map[ i ].letters,
+			map[ i ].base
+		);
+	}
+	return text;
+};
+
+},{"../config/diacritics.js":23}],68:[function(require,module,exports){
+/** @module stringProcessing/replaceString */
+
+/**
+ * Replaces string with a replacement in text
+ *
+ * @param {string} text The textstring to remove
+ * @param {string} stringToReplace The string to replace
+ * @param {string} replacement The replacement of the string
+ * @returns {string} The text with the string replaced
+ */
+module.exports = function( text, stringToReplace, replacement ) {
+	text = text.replace( stringToReplace, replacement );
+
+	return text;
+};
+
+},{}],69:[function(require,module,exports){
+/** @module stringProcessing/sanitizeString */
+
+var stripTags = require( "../stringProcessing/stripHTMLTags.js" );
+var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
+
+/**
+ * Strip HTMLtags characters from string that break regex
+ *
+ * @param {String} text The text to strip the characters from.
+ * @returns {String} The text without characters.
+ */
+module.exports = function( text ) {
+	text = text.replace( /[\[\]\/\{\}\(\)\*\+\?\\\^\$\|]/g, "" );
+	text = stripTags( text );
+	text = stripSpaces( text );
+
+	return text;
+};
+
+},{"../stringProcessing/stripHTMLTags.js":71,"../stringProcessing/stripSpaces.js":74}],70:[function(require,module,exports){
+/** @module stringProcessing/stringToRegex */
+var isUndefined = require( "lodash/isUndefined" );
+var replaceDiacritics = require( "../stringProcessing/replaceDiacritics.js" );
+var sanitizeString = require( "../stringProcessing/sanitizeString.js" );
+var addWordBoundary = require( "../stringProcessing/addWordboundary.js" );
+
+/**
+ * Creates a regex from a string so it can be matched everywhere in the same way.
+ *
+ * @param {string} string The string to make a regex from.
+ * @param {string} [extraBoundary=""] A string that is used as extra boundary for the regex.
+ * @param {boolean} [doReplaceDiacritics=true] If set to false, it doesn't replace diacritics. Defaults to true.
+ * @returns {RegExp} regex The regex made from the keyword
+ */
+module.exports = function( string, extraBoundary, doReplaceDiacritics ) {
+	if ( isUndefined( extraBoundary ) ) {
+		extraBoundary = "";
+	}
+
+	if ( isUndefined( doReplaceDiacritics ) || doReplaceDiacritics === true ) {
+		string = replaceDiacritics( string );
+	}
+
+	string = sanitizeString( string );
+	string = addWordBoundary( string, extraBoundary );
+	return new RegExp ( string, "ig" );
+};
+
+},{"../stringProcessing/addWordboundary.js":53,"../stringProcessing/replaceDiacritics.js":67,"../stringProcessing/sanitizeString.js":69,"lodash/isUndefined":231}],71:[function(require,module,exports){
+/** @module stringProcessing/stripHTMLTags */
+
+var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
+
+/**
+ * Strip HTML-tags from text
+ *
+ * @param {String} text The text to strip the HTML-tags from.
+ * @returns {String} The text without HTML-tags.
+ */
+module.exports = function( text ) {
+	text = text.replace( /(<([^>]+)>)/ig, " " );
+	text = stripSpaces( text );
+	return text;
+};
+
+},{"../stringProcessing/stripSpaces.js":74}],72:[function(require,module,exports){
+/** @module stringProcessing/stripNonTextTags */
+
+var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
+
+/**
+ * Strips all tags from the text, except li, p, dd and h1-h6 tags from the text that contain content to check.
+ *
+ * @param {string} text The text to strip tags from
+ * @returns {string} The text stripped of tags, except for li, p, dd and h1-h6 tags.
+ */
+module.exports = function( text ) {
+	text = text.replace( /<(?!li|\/li|p|\/p|h1|\/h1|h2|\/h2|h3|\/h3|h4|\/h4|h5|\/h5|h6|\/h6|dd).*?\>/g, "" );
+	text = stripSpaces( text );
+	return text;
+};
+
+},{"../stringProcessing/stripSpaces.js":74}],73:[function(require,module,exports){
+/** @module stringProcessing/stripNumbers */
+
+var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
+
+/**
+ * Removes all words comprised only of numbers.
+ *
+ * @param {string} text to remove words
+ * @returns {string} The text with numberonly words removed.
+ */
+
+module.exports = function( text ) {
+
+	// Remove "words" comprised only of numbers
+	text = text.replace( /\b[0-9]+\b/g, "" );
+
+	text = stripSpaces( text );
+
+	if ( text === "." ) {
+		text = "";
+	}
+	return text;
+};
+
+},{"../stringProcessing/stripSpaces.js":74}],74:[function(require,module,exports){
+/** @module stringProcessing/stripSpaces */
+
+/**
+ * Strip double spaces from text
+ *
+ * @param {String} text The text to strip spaces from.
+ * @returns {String} The text without double spaces
+ */
+module.exports = function( text ) {
+
+	// Replace multiple spaces with single space
+	text = text.replace( /\s{2,}/g, " " );
+
+	// Replace spaces followed by periods with only the period.
+	text = text.replace( /\s\./g, "." );
+
+	// Remove first/last character if space
+	text = text.replace( /^\s+|\s+$/g, "" );
+
+	return text;
+};
+
+},{}],75:[function(require,module,exports){
+var stringToRegex = require( "../stringProcessing/stringToRegex.js" );
+var replaceString = require( "../stringProcessing/replaceString.js" );
+var removalWords = require( "../config/removalWords.js" );
+var replaceDiacritics = require( "../stringProcessing/replaceDiacritics.js" );
+
+/**
+ * Matches the keyword in an array of strings
+ *
+ * @param {Array} matches The array with the matched headings.
+ * @param {String} keyword The keyword to match
+ * @returns {number} The number of occurrences of the keyword in the headings.
+ */
+module.exports = function( matches, keyword ) {
+	var foundInHeader;
+	if ( matches === null ) {
+		foundInHeader = -1;
+	} else {
+		foundInHeader = 0;
+		for ( var i = 0; i < matches.length; i++ ) {
+
+			// TODO: This replaceString call seemingly doesn't work, as no replacement value is being sent to the .replace method in replaceString
+			var formattedHeaders = replaceString(
+				matches[ i ], removalWords
+			);
+			if (
+				replaceDiacritics( formattedHeaders ).match( stringToRegex( keyword ) ) ||
+				replaceDiacritics( matches[ i ] ).match( stringToRegex( keyword ) )
+			) {
+				foundInHeader++;
+			}
+		}
+	}
+	return foundInHeader;
+};
+
+},{"../config/removalWords.js":25,"../stringProcessing/replaceDiacritics.js":67,"../stringProcessing/replaceString.js":68,"../stringProcessing/stringToRegex.js":70}],76:[function(require,module,exports){
+/** @module stringProcessing/unifyWhitespace */
+
+/**
+ * Converts all whitespace to spaces.
+ *
+ * @param {string} text The text to replace spaces.
+ * @returns {string} The text with unified spaces.
+ */
+
+module.exports = function( text ) {
+
+	// Replace &nbsp with space
+	text = text.replace( "&nbsp;", " " );
+
+	// Replace whitespaces with space
+	text = text.replace( /\s/g, " " );
+
+	return text;
+};
+
+
+},{}],77:[function(require,module,exports){
+(function (global){
+;(function() {
+  var undefined;
+
+  var objectTypes = {
+    'function': true,
+    'object': true
+  };
+
+  var freeExports = (objectTypes[typeof exports] && exports && !exports.nodeType)
+    ? exports
+    : undefined;
+
+  var freeModule = (objectTypes[typeof module] && module && !module.nodeType)
+    ? module
+    : undefined;
+
+  var moduleExports = (freeModule && freeModule.exports === freeExports)
+    ? freeExports
+    : undefined;
+
+  var freeGlobal = checkGlobal(freeExports && freeModule && typeof global == 'object' && global);
+
+  var freeSelf = checkGlobal(objectTypes[typeof self] && self);
+
+  var freeWindow = checkGlobal(objectTypes[typeof window] && window);
+
+  var thisGlobal = checkGlobal(objectTypes[typeof this] && this);
+
+  var root = freeGlobal ||
+    ((freeWindow !== (thisGlobal && thisGlobal.window)) && freeWindow) ||
+      freeSelf || thisGlobal || Function('return this')();
+
+  function checkGlobal(value) {
+    return (value && value.Object === Object) ? value : null;
+  }
+
+  /** Used as a safe reference for `undefined` in pre-ES5 environments. */
+  var undefined;
+
+  /** Used as the semantic version number. */
+  var VERSION = '4.6.1';
+
+  /** Used as references for various `Number` constants. */
+  var INFINITY = 1 / 0;
+
+  /** `Object#toString` result references. */
+  var symbolTag = '[object Symbol]';
+
+  /** Used to match HTML entities and HTML characters. */
+  var reUnescapedHtml = /[&<>"'`]/g,
+      reHasUnescapedHtml = RegExp(reUnescapedHtml.source);
+
+  /** Used to map characters to HTML entities. */
+  var htmlEscapes = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;',
+    '`': '&#96;'
+  };
+
+  /** Used to determine if values are of the language type `Object`. */
+  var objectTypes = {
+    'function': true,
+    'object': true
+  };
+
+  /** Detect free variable `exports`. */
+  var freeExports = (objectTypes[typeof exports] && exports && !exports.nodeType)
+    ? exports
+    : undefined;
+
+  /** Detect free variable `module`. */
+  var freeModule = (objectTypes[typeof module] && module && !module.nodeType)
+    ? module
+    : undefined;
+
+  /** Detect free variable `global` from Node.js. */
+  var freeGlobal = checkGlobal(freeExports && freeModule && typeof global == 'object' && global);
+
+  /** Detect free variable `self`. */
+  var freeSelf = checkGlobal(objectTypes[typeof self] && self);
+
+  /** Detect free variable `window`. */
+  var freeWindow = checkGlobal(objectTypes[typeof window] && window);
+
+  /** Detect `this` as the global object. */
+  var thisGlobal = checkGlobal(objectTypes[typeof this] && this);
+
+  /**
+   * Used as a reference to the global object.
+   *
+   * The `this` value is used if it's the global object to avoid Greasemonkey's
+   * restricted `window` object, otherwise the `window` object is used.
+   */
+  var root = freeGlobal ||
+    ((freeWindow !== (thisGlobal && thisGlobal.window)) && freeWindow) ||
+      freeSelf || thisGlobal || Function('return this')();
+
+  /*--------------------------------------------------------------------------*/
+
+  /**
+   * Checks if `value` is a global object.
+   *
+   * @private
+   * @param {*} value The value to check.
+   * @returns {null|Object} Returns `value` if it's a global object, else `null`.
+   */
+  function checkGlobal(value) {
+    return (value && value.Object === Object) ? value : null;
+  }
+
+  /**
+   * Used by `_.escape` to convert characters to HTML entities.
+   *
+   * @private
+   * @param {string} chr The matched character to escape.
+   * @returns {string} Returns the escaped character.
+   */
+  function escapeHtmlChar(chr) {
+    return htmlEscapes[chr];
+  }
+
+  /*--------------------------------------------------------------------------*/
+
+  /** Used for built-in method references. */
+  var objectProto = Object.prototype;
+
+  /**
+   * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
+   * of values.
+   */
+  var objectToString = objectProto.toString;
+
+  /** Built-in value references. */
+  var Symbol = root.Symbol;
+
+  /** Used to lookup unminified function names. */
+  var realNames = {};
+
+  /** Used to convert symbols to primitives and strings. */
+  var symbolProto = Symbol ? Symbol.prototype : undefined,
+      symbolToString = symbolProto ? symbolProto.toString : undefined;
+
+  /*------------------------------------------------------------------------*/
+
+  /**
+   * Checks if `value` is object-like. A value is object-like if it's not `null`
+   * and has a `typeof` result of "object".
+   *
+   * @static
+   * @memberOf _
+   * @category Lang
+   * @param {*} value The value to check.
+   * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+   * @example
+   *
+   * _.isObjectLike({});
+   * // => true
+   *
+   * _.isObjectLike([1, 2, 3]);
+   * // => true
+   *
+   * _.isObjectLike(_.noop);
+   * // => false
+   *
+   * _.isObjectLike(null);
+   * // => false
+   */
+  function isObjectLike(value) {
+    return !!value && typeof value == 'object';
+  }
+
+  /**
+   * Checks if `value` is classified as a `Symbol` primitive or object.
+   *
+   * @static
+   * @memberOf _
+   * @category Lang
+   * @param {*} value The value to check.
+   * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
+   * @example
+   *
+   * _.isSymbol(Symbol.iterator);
+   * // => true
+   *
+   * _.isSymbol('abc');
+   * // => false
+   */
+  function isSymbol(value) {
+    return typeof value == 'symbol' ||
+      (isObjectLike(value) && objectToString.call(value) == symbolTag);
+  }
+
+  /**
+   * Converts `value` to a string if it's not one. An empty string is returned
+   * for `null` and `undefined` values. The sign of `-0` is preserved.
+   *
+   * @static
+   * @memberOf _
+   * @category Lang
+   * @param {*} value The value to process.
+   * @returns {string} Returns the string.
+   * @example
+   *
+   * _.toString(null);
+   * // => ''
+   *
+   * _.toString(-0);
+   * // => '-0'
+   *
+   * _.toString([1, 2, 3]);
+   * // => '1,2,3'
+   */
+  function toString(value) {
+    // Exit early for strings to avoid a performance hit in some environments.
+    if (typeof value == 'string') {
+      return value;
+    }
+    if (value == null) {
+      return '';
+    }
+    if (isSymbol(value)) {
+      return symbolToString ? symbolToString.call(value) : '';
+    }
+    var result = (value + '');
+    return (result == '0' && (1 / value) == -INFINITY) ? '-0' : result;
+  }
+
+  /*------------------------------------------------------------------------*/
+
+  /**
+   * Converts the characters "&", "<", ">", '"', "'", and "\`" in `string` to
+   * their corresponding HTML entities.
+   *
+   * **Note:** No other characters are escaped. To escape additional
+   * characters use a third-party library like [_he_](https://mths.be/he).
+   *
+   * Though the ">" character is escaped for symmetry, characters like
+   * ">" and "/" don't need escaping in HTML and have no special meaning
+   * unless they're part of a tag or unquoted attribute value.
+   * See [Mathias Bynens's article](https://mathiasbynens.be/notes/ambiguous-ampersands)
+   * (under "semi-related fun fact") for more details.
+   *
+   * Backticks are escaped because in IE < 9, they can break out of
+   * attribute values or HTML comments. See [#59](https://html5sec.org/#59),
+   * [#102](https://html5sec.org/#102), [#108](https://html5sec.org/#108), and
+   * [#133](https://html5sec.org/#133) of the [HTML5 Security Cheatsheet](https://html5sec.org/)
+   * for more details.
+   *
+   * When working with HTML you should always [quote attribute values](http://wonko.com/post/html-escaping)
+   * to reduce XSS vectors.
+   *
+   * @static
+   * @memberOf _
+   * @category String
+   * @param {string} [string=''] The string to escape.
+   * @returns {string} Returns the escaped string.
+   * @example
+   *
+   * _.escape('fred, barney, & pebbles');
+   * // => 'fred, barney, &amp; pebbles'
+   */
+  function escape(string) {
+    string = toString(string);
+    return (string && reHasUnescapedHtml.test(string))
+      ? string.replace(reUnescapedHtml, escapeHtmlChar)
+      : string;
+  }
+
+  /*--------------------------------------------------------------------------*/
+
+  var _ = { 'escape': escape };
+
+  /*----------------------------------------------------------------------------*/
+
+  var templates = {
+    'assessmentPresenterResult': {},
+    'snippetEditor': {}
+  };
+
+  templates['assessmentPresenterResult'] =   function(obj) {
+    obj || (obj = {});
+    var __t, __p = '', __e = _.escape, __j = Array.prototype.join;
+    function print() { __p += __j.call(arguments, '') }
+    with (obj) {
+    __p += '<ul class="wpseoanalysis">\n    ';
+     for (var i in scores) {
+    __p += '\n        <li class="score">\n            <span class="wpseo-score-icon ' +
+    __e( scores[ i ].class ) +
+    '"></span>\n            <span class="screen-reader-text">' +
+    ((__t = ( scores[ i ].screenReaderText )) == null ? '' : __t) +
+    '</span>\n            <span class="wpseo-score-text">' +
+    ((__t = ( scores[ i ].text )) == null ? '' : __t) +
+    '</span>\n        </li>\n    ';
+     }
+    __p += '\n</ul>\n';
+
+    }
+    return __p
+  };
+
+  templates['snippetEditor'] =   function(obj) {
+    obj || (obj = {});
+    var __t, __p = '', __e = _.escape, __j = Array.prototype.join;
+    function print() { __p += __j.call(arguments, '') }
+    with (obj) {
+    __p += '<div id="snippet_preview">\n    <h3 class="snippet-editor__heading snippet-editor__heading-icon-eye">' +
+    __e( i18n.snippetPreview ) +
+    '</h3>\n\n    <section class="snippet-editor__preview">\n        <div class="snippet_container snippet-editor__container" id="title_container">\n            <span class="title" id="snippet_title">\n                ' +
+    __e( rendered.title ) +
+    '\n            </span>\n            <span class="title" id="snippet_sitename"></span>\n        </div>\n        <div class="snippet_container snippet-editor__container" id="url_container">\n            <cite class="url urlBase" id="snippet_citeBase">\n                ' +
+    __e( rendered.baseUrl ) +
+    '\n            </cite>\n            <cite class="url" id="snippet_cite">\n                ' +
+    __e( rendered.snippetCite ) +
+    '\n            </cite>\n        </div>\n        <div class="snippet_container snippet-editor__container" id="meta_container">\n            ';
+     if ( "" !== metaDescriptionDate ) {
+    __p += '\n                <span class="snippet-editor__date">\n                    ' +
+    __e( metaDescriptionDate ) +
+    ' -\n                </span>\n            ';
+     }
+    __p += '\n            <span class="desc" id="snippet_meta">\n                ' +
+    __e( rendered.meta ) +
+    '\n            </span>\n        </div>\n\n        <button class="snippet-editor__button snippet-editor__edit-button" type="button" aria-expanded="false">\n            ' +
+    __e( i18n.edit ) +
+    '\n        </button>\n    </section>\n\n    <div class="snippet-editor__form snippet-editor--hidden">\n        <label for="snippet-editor-title" class="snippet-editor__label">\n            ' +
+    __e( i18n.title ) +
+    '\n            <input type="text" class="snippet-editor__input snippet-editor__title js-snippet-editor-title" id="snippet-editor-title" value="' +
+    __e( raw.title ) +
+    '" placeholder="' +
+    __e( placeholder.title ) +
+    '" />\n            <progress value="0.0" class="snippet-editor__progress snippet-editor__progress-title">\n                <div class="snippet-editor__progress-bar"></div>\n            </progress>\n        </label>\n        <label for="snippet-editor-slug" class="snippet-editor__label">\n            ' +
+    __e( i18n.slug ) +
+    '\n            <input type="text" class="snippet-editor__input snippet-editor__slug js-snippet-editor-slug" id="snippet-editor-slug" value="' +
+    __e( raw.snippetCite ) +
+    '" placeholder="' +
+    __e( placeholder.urlPath ) +
+    '" />\n        </label>\n        <label for="snippet-editor-meta-description" class="snippet-editor__label">\n            ' +
+    __e( i18n.metaDescription ) +
+    '\n            <textarea class="snippet-editor__input snippet-editor__meta-description js-snippet-editor-meta-description" id="snippet-editor-meta-description" placeholder="' +
+    __e( placeholder.metaDesc ) +
+    '">' +
+    __e( raw.meta ) +
+    '</textarea>\n            <progress value="0.0" class="snippet-editor__progress snippet-editor__progress-meta-description">\n                <div class="snippet-editor__progress-bar"></div>\n            </progress>\n        </label>\n\n        <button class="snippet-editor__submit snippet-editor__button" type="button">' +
+    __e( i18n.save ) +
+    '</button>\n    </div>\n</div>\n';
+
+    }
+    return __p
+  };
+
+  /*----------------------------------------------------------------------------*/
+
+  if (freeExports && freeModule) {
+    if (moduleExports) {
+      (freeModule.exports = templates).templates = templates;
+    }
+    freeExports.templates = templates;
+  }
+  else {
+    root.templates = templates;
+  }
+}.call(this));
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{}],78:[function(require,module,exports){
+var isUndefined = require( "lodash/isUndefined" );
+var isNumber = require( "lodash/isNumber" );
+
+/**
+ * Construct the AssessmentResult value object.
+ * @constructor
+ */
+var AssessmentResult = function() {
+	this._hasScore = false;
+	this.score = 0;
+	this.text = "";
+};
+
+/**
+ * Check if a score is available.
+ * @returns {boolean} Whether or not a score is available.
+ */
+AssessmentResult.prototype.hasScore = function() {
+	return this._hasScore;
+};
+
+/**
+ * Get the available score
+ * @returns {number} The score associated with the AssessmentResult.
+ */
+AssessmentResult.prototype.getScore = function() {
+	return this.score;
+};
+
+/**
+ * Set the score for the assessment.
+ * @param {number} score The score to be used for the score property
+ * @returns {void}
+ */
+AssessmentResult.prototype.setScore = function( score ) {
+	if ( isNumber( score ) ) {
+		this.score = score;
+		this._hasScore = true;
+	}
+};
+
+/**
+ * Check if a text is available.
+ * @returns {boolean} Whether or not a text is available.
+ */
+AssessmentResult.prototype.hasText = function() {
+	return this.text !== "";
+};
+
+/**
+ * Get the available text
+ * @returns {string} The text associated with the AssessmentResult.
+ */
+AssessmentResult.prototype.getText = function() {
+	return this.text;
+};
+
+/**
+ * Set the text for the assessment.
+ * @param {string} text The text to be used for the text property
+ * @returns {void}
+ */
+AssessmentResult.prototype.setText = function( text ) {
+	if ( isUndefined( text ) ) {
+		text = "";
+	}
+
+	this.text = text;
+};
+
+module.exports = AssessmentResult;
+
+},{"lodash/isNumber":224,"lodash/isUndefined":231}],79:[function(require,module,exports){
+var defaults = require( "lodash/defaults" );
+var sanitizeString = require( "../stringProcessing/sanitizeString.js" );
+
+/**
+ * Default attributes to be used by the Paper if they are left undefined.
+ * @type {{keyword: string, description: string, title: string, url: string}}
+ */
+var defaultAttributes = {
+	keyword: "",
+	description: "",
+	title: "",
+	url: "",
+	locale: "en_US"
+};
+
+/**
+ * Sanitize attributes before they are assigned to the Paper.
+ * @param {object} attributes The attributes that need sanitizing.
+ * @returns {object} The attributes passed to the Paper.
+ */
+var sanitizeAttributes = function( attributes ) {
+	attributes.keyword = sanitizeString( attributes.keyword );
+
+	return attributes;
+};
+
+/**
+ * Construct the Paper object and set the keyword property.
+ * @param {string} text The text to use in the analysis.
+ * @param {object} attributes The object containing all attributes.
+ * @constructor
+ */
+var Paper = function( text, attributes ) {
+	this._text = text || "";
+
+	attributes = attributes || {};
+	defaults( attributes, defaultAttributes );
+	this._attributes = sanitizeAttributes( attributes );
+};
+
+/**
+ * Check whether a keyword is available.
+ * @returns {boolean} Returns true if the Paper has a keyword.
+ */
+Paper.prototype.hasKeyword = function() {
+	return this._attributes.keyword !== "";
+};
+
+/**
+ * Return the associated keyword or an empty string if no keyword is available.
+ * @returns {string} Returns Keyword
+ */
+Paper.prototype.getKeyword = function() {
+	return this._attributes.keyword;
+};
+
+/**
+ * Check whether the text is available.
+ * @returns {boolean} Returns true if the paper has a text.
+ */
+Paper.prototype.hasText = function() {
+	return this._text !== "";
+};
+
+/**
+ * Return the associated text or am empty string if no text is available.
+ * @returns {string} Returns text
+ */
+Paper.prototype.getText = function() {
+	return this._text;
+};
+
+/**
+ * Check whether a description is available.
+ * @returns {boolean} Returns true if the paper has a description.
+ */
+Paper.prototype.hasDescription = function() {
+	return this._attributes.description !== "";
+};
+
+/**
+ * Return the description or an empty string if no description is available.
+ * @returns {string} Returns the description.
+ */
+Paper.prototype.getDescription = function() {
+	return this._attributes.description;
+};
+
+/**
+ * Check whether an title is available
+ * @returns {boolean} Returns true if the Paper has a title.
+ */
+Paper.prototype.hasTitle = function() {
+	return this._attributes.title !== "";
+};
+
+/**
+ * Return the title, or an empty string of no title is available.
+ * @returns {string} Returns the title
+ */
+Paper.prototype.getTitle = function() {
+	return this._attributes.title;
+};
+
+/**
+ * Check whether an url is available
+ * @returns {boolean} Returns true if the Paper has an Url.
+ */
+Paper.prototype.hasUrl = function() {
+	return this._attributes.url !== "";
+};
+
+/**
+ * Return the url, or an empty string of no url is available.
+ * @returns {string} Returns the url
+ */
+Paper.prototype.getUrl = function() {
+	return this._attributes.url;
+};
+
+/**
+ * Check whether a locale is available
+ * @returns {boolean} Returns true if the paper has a locale
+ */
+Paper.prototype.hasLocale = function() {
+	return this._attributes.locale !== "";
+};
+
+/**
+ * Return the locale or an empty string if no locale is available
+ * @returns {string} Returns the locale
+ */
+Paper.prototype.getLocale = function() {
+	return this._attributes.locale;
+};
+
+module.exports = Paper;
+
+},{"../stringProcessing/sanitizeString.js":69,"lodash/defaults":205}],80:[function(require,module,exports){
 /**
  * @preserve jed.js https://github.com/SlexAxton/Jed
  */
@@ -1656,7 +6899,7241 @@ return parser;
 
 })(this);
 
-},{}],5:[function(require,module,exports){
+},{}],81:[function(require,module,exports){
+var nativeCreate = require('./_nativeCreate');
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/**
+ * Creates an hash object.
+ *
+ * @private
+ * @constructor
+ * @returns {Object} Returns the new hash object.
+ */
+function Hash() {}
+
+// Avoid inheriting from `Object.prototype` when possible.
+Hash.prototype = nativeCreate ? nativeCreate(null) : objectProto;
+
+module.exports = Hash;
+
+},{"./_nativeCreate":191}],82:[function(require,module,exports){
+var getNative = require('./_getNative'),
+    root = require('./_root');
+
+/* Built-in method references that are verified to be native. */
+var Map = getNative(root, 'Map');
+
+module.exports = Map;
+
+},{"./_getNative":163,"./_root":193}],83:[function(require,module,exports){
+var mapClear = require('./_mapClear'),
+    mapDelete = require('./_mapDelete'),
+    mapGet = require('./_mapGet'),
+    mapHas = require('./_mapHas'),
+    mapSet = require('./_mapSet');
+
+/**
+ * Creates a map cache object to store key-value pairs.
+ *
+ * @private
+ * @constructor
+ * @param {Array} [values] The values to cache.
+ */
+function MapCache(values) {
+  var index = -1,
+      length = values ? values.length : 0;
+
+  this.clear();
+  while (++index < length) {
+    var entry = values[index];
+    this.set(entry[0], entry[1]);
+  }
+}
+
+// Add functions to the `MapCache`.
+MapCache.prototype.clear = mapClear;
+MapCache.prototype['delete'] = mapDelete;
+MapCache.prototype.get = mapGet;
+MapCache.prototype.has = mapHas;
+MapCache.prototype.set = mapSet;
+
+module.exports = MapCache;
+
+},{"./_mapClear":184,"./_mapDelete":185,"./_mapGet":186,"./_mapHas":187,"./_mapSet":188}],84:[function(require,module,exports){
+var root = require('./_root');
+
+/** Built-in value references. */
+var Reflect = root.Reflect;
+
+module.exports = Reflect;
+
+},{"./_root":193}],85:[function(require,module,exports){
+var getNative = require('./_getNative'),
+    root = require('./_root');
+
+/* Built-in method references that are verified to be native. */
+var Set = getNative(root, 'Set');
+
+module.exports = Set;
+
+},{"./_getNative":163,"./_root":193}],86:[function(require,module,exports){
+var MapCache = require('./_MapCache'),
+    cachePush = require('./_cachePush');
+
+/**
+ *
+ * Creates a set cache object to store unique values.
+ *
+ * @private
+ * @constructor
+ * @param {Array} [values] The values to cache.
+ */
+function SetCache(values) {
+  var index = -1,
+      length = values ? values.length : 0;
+
+  this.__data__ = new MapCache;
+  while (++index < length) {
+    this.push(values[index]);
+  }
+}
+
+// Add functions to the `SetCache`.
+SetCache.prototype.push = cachePush;
+
+module.exports = SetCache;
+
+},{"./_MapCache":83,"./_cachePush":142}],87:[function(require,module,exports){
+var stackClear = require('./_stackClear'),
+    stackDelete = require('./_stackDelete'),
+    stackGet = require('./_stackGet'),
+    stackHas = require('./_stackHas'),
+    stackSet = require('./_stackSet');
+
+/**
+ * Creates a stack cache object to store key-value pairs.
+ *
+ * @private
+ * @constructor
+ * @param {Array} [values] The values to cache.
+ */
+function Stack(values) {
+  var index = -1,
+      length = values ? values.length : 0;
+
+  this.clear();
+  while (++index < length) {
+    var entry = values[index];
+    this.set(entry[0], entry[1]);
+  }
+}
+
+// Add functions to the `Stack` cache.
+Stack.prototype.clear = stackClear;
+Stack.prototype['delete'] = stackDelete;
+Stack.prototype.get = stackGet;
+Stack.prototype.has = stackHas;
+Stack.prototype.set = stackSet;
+
+module.exports = Stack;
+
+},{"./_stackClear":195,"./_stackDelete":196,"./_stackGet":197,"./_stackHas":198,"./_stackSet":199}],88:[function(require,module,exports){
+var root = require('./_root');
+
+/** Built-in value references. */
+var Symbol = root.Symbol;
+
+module.exports = Symbol;
+
+},{"./_root":193}],89:[function(require,module,exports){
+var root = require('./_root');
+
+/** Built-in value references. */
+var Uint8Array = root.Uint8Array;
+
+module.exports = Uint8Array;
+
+},{"./_root":193}],90:[function(require,module,exports){
+var getNative = require('./_getNative'),
+    root = require('./_root');
+
+/* Built-in method references that are verified to be native. */
+var WeakMap = getNative(root, 'WeakMap');
+
+module.exports = WeakMap;
+
+},{"./_getNative":163,"./_root":193}],91:[function(require,module,exports){
+/**
+ * Adds the key-value `pair` to `map`.
+ *
+ * @private
+ * @param {Object} map The map to modify.
+ * @param {Array} pair The key-value pair to add.
+ * @returns {Object} Returns `map`.
+ */
+function addMapEntry(map, pair) {
+  // Don't return `Map#set` because it doesn't return the map instance in IE 11.
+  map.set(pair[0], pair[1]);
+  return map;
+}
+
+module.exports = addMapEntry;
+
+},{}],92:[function(require,module,exports){
+/**
+ * Adds `value` to `set`.
+ *
+ * @private
+ * @param {Object} set The set to modify.
+ * @param {*} value The value to add.
+ * @returns {Object} Returns `set`.
+ */
+function addSetEntry(set, value) {
+  set.add(value);
+  return set;
+}
+
+module.exports = addSetEntry;
+
+},{}],93:[function(require,module,exports){
+/**
+ * A faster alternative to `Function#apply`, this function invokes `func`
+ * with the `this` binding of `thisArg` and the arguments of `args`.
+ *
+ * @private
+ * @param {Function} func The function to invoke.
+ * @param {*} thisArg The `this` binding of `func`.
+ * @param {...*} args The arguments to invoke `func` with.
+ * @returns {*} Returns the result of `func`.
+ */
+function apply(func, thisArg, args) {
+  var length = args.length;
+  switch (length) {
+    case 0: return func.call(thisArg);
+    case 1: return func.call(thisArg, args[0]);
+    case 2: return func.call(thisArg, args[0], args[1]);
+    case 3: return func.call(thisArg, args[0], args[1], args[2]);
+  }
+  return func.apply(thisArg, args);
+}
+
+module.exports = apply;
+
+},{}],94:[function(require,module,exports){
+/**
+ * A specialized version of `_.forEach` for arrays without support for
+ * iteratee shorthands.
+ *
+ * @private
+ * @param {Array} array The array to iterate over.
+ * @param {Function} iteratee The function invoked per iteration.
+ * @returns {Array} Returns `array`.
+ */
+function arrayEach(array, iteratee) {
+  var index = -1,
+      length = array.length;
+
+  while (++index < length) {
+    if (iteratee(array[index], index, array) === false) {
+      break;
+    }
+  }
+  return array;
+}
+
+module.exports = arrayEach;
+
+},{}],95:[function(require,module,exports){
+var baseIndexOf = require('./_baseIndexOf');
+
+/**
+ * A specialized version of `_.includes` for arrays without support for
+ * specifying an index to search from.
+ *
+ * @private
+ * @param {Array} array The array to search.
+ * @param {*} target The value to search for.
+ * @returns {boolean} Returns `true` if `target` is found, else `false`.
+ */
+function arrayIncludes(array, value) {
+  return !!array.length && baseIndexOf(array, value, 0) > -1;
+}
+
+module.exports = arrayIncludes;
+
+},{"./_baseIndexOf":123}],96:[function(require,module,exports){
+/**
+ * This function is like `arrayIncludes` except that it accepts a comparator.
+ *
+ * @private
+ * @param {Array} array The array to search.
+ * @param {*} target The value to search for.
+ * @param {Function} comparator The comparator invoked per element.
+ * @returns {boolean} Returns `true` if `target` is found, else `false`.
+ */
+function arrayIncludesWith(array, value, comparator) {
+  var index = -1,
+      length = array.length;
+
+  while (++index < length) {
+    if (comparator(value, array[index])) {
+      return true;
+    }
+  }
+  return false;
+}
+
+module.exports = arrayIncludesWith;
+
+},{}],97:[function(require,module,exports){
+/**
+ * A specialized version of `_.map` for arrays without support for iteratee
+ * shorthands.
+ *
+ * @private
+ * @param {Array} array The array to iterate over.
+ * @param {Function} iteratee The function invoked per iteration.
+ * @returns {Array} Returns the new mapped array.
+ */
+function arrayMap(array, iteratee) {
+  var index = -1,
+      length = array.length,
+      result = Array(length);
+
+  while (++index < length) {
+    result[index] = iteratee(array[index], index, array);
+  }
+  return result;
+}
+
+module.exports = arrayMap;
+
+},{}],98:[function(require,module,exports){
+/**
+ * Appends the elements of `values` to `array`.
+ *
+ * @private
+ * @param {Array} array The array to modify.
+ * @param {Array} values The values to append.
+ * @returns {Array} Returns `array`.
+ */
+function arrayPush(array, values) {
+  var index = -1,
+      length = values.length,
+      offset = array.length;
+
+  while (++index < length) {
+    array[offset + index] = values[index];
+  }
+  return array;
+}
+
+module.exports = arrayPush;
+
+},{}],99:[function(require,module,exports){
+/**
+ * A specialized version of `_.reduce` for arrays without support for
+ * iteratee shorthands.
+ *
+ * @private
+ * @param {Array} array The array to iterate over.
+ * @param {Function} iteratee The function invoked per iteration.
+ * @param {*} [accumulator] The initial value.
+ * @param {boolean} [initAccum] Specify using the first element of `array` as the initial value.
+ * @returns {*} Returns the accumulated value.
+ */
+function arrayReduce(array, iteratee, accumulator, initAccum) {
+  var index = -1,
+      length = array.length;
+
+  if (initAccum && length) {
+    accumulator = array[++index];
+  }
+  while (++index < length) {
+    accumulator = iteratee(accumulator, array[index], index, array);
+  }
+  return accumulator;
+}
+
+module.exports = arrayReduce;
+
+},{}],100:[function(require,module,exports){
+/**
+ * A specialized version of `_.some` for arrays without support for iteratee
+ * shorthands.
+ *
+ * @private
+ * @param {Array} array The array to iterate over.
+ * @param {Function} predicate The function invoked per iteration.
+ * @returns {boolean} Returns `true` if any element passes the predicate check, else `false`.
+ */
+function arraySome(array, predicate) {
+  var index = -1,
+      length = array.length;
+
+  while (++index < length) {
+    if (predicate(array[index], index, array)) {
+      return true;
+    }
+  }
+  return false;
+}
+
+module.exports = arraySome;
+
+},{}],101:[function(require,module,exports){
+var eq = require('./eq');
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+/**
+ * Used by `_.defaults` to customize its `_.assignIn` use.
+ *
+ * @private
+ * @param {*} objValue The destination value.
+ * @param {*} srcValue The source value.
+ * @param {string} key The key of the property to assign.
+ * @param {Object} object The parent object of `objValue`.
+ * @returns {*} Returns the value to assign.
+ */
+function assignInDefaults(objValue, srcValue, key, object) {
+  if (objValue === undefined ||
+      (eq(objValue, objectProto[key]) && !hasOwnProperty.call(object, key))) {
+    return srcValue;
+  }
+  return objValue;
+}
+
+module.exports = assignInDefaults;
+
+},{"./eq":208}],102:[function(require,module,exports){
+var eq = require('./eq');
+
+/**
+ * This function is like `assignValue` except that it doesn't assign
+ * `undefined` values.
+ *
+ * @private
+ * @param {Object} object The object to modify.
+ * @param {string} key The key of the property to assign.
+ * @param {*} value The value to assign.
+ */
+function assignMergeValue(object, key, value) {
+  if ((value !== undefined && !eq(object[key], value)) ||
+      (typeof key == 'number' && value === undefined && !(key in object))) {
+    object[key] = value;
+  }
+}
+
+module.exports = assignMergeValue;
+
+},{"./eq":208}],103:[function(require,module,exports){
+var eq = require('./eq');
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+/**
+ * Assigns `value` to `key` of `object` if the existing value is not equivalent
+ * using [`SameValueZero`](http://ecma-international.org/ecma-262/6.0/#sec-samevaluezero)
+ * for equality comparisons.
+ *
+ * @private
+ * @param {Object} object The object to modify.
+ * @param {string} key The key of the property to assign.
+ * @param {*} value The value to assign.
+ */
+function assignValue(object, key, value) {
+  var objValue = object[key];
+  if (!(hasOwnProperty.call(object, key) && eq(objValue, value)) ||
+      (value === undefined && !(key in object))) {
+    object[key] = value;
+  }
+}
+
+module.exports = assignValue;
+
+},{"./eq":208}],104:[function(require,module,exports){
+var assocIndexOf = require('./_assocIndexOf');
+
+/** Used for built-in method references. */
+var arrayProto = Array.prototype;
+
+/** Built-in value references. */
+var splice = arrayProto.splice;
+
+/**
+ * Removes `key` and its value from the associative array.
+ *
+ * @private
+ * @param {Array} array The array to query.
+ * @param {string} key The key of the value to remove.
+ * @returns {boolean} Returns `true` if the entry was removed, else `false`.
+ */
+function assocDelete(array, key) {
+  var index = assocIndexOf(array, key);
+  if (index < 0) {
+    return false;
+  }
+  var lastIndex = array.length - 1;
+  if (index == lastIndex) {
+    array.pop();
+  } else {
+    splice.call(array, index, 1);
+  }
+  return true;
+}
+
+module.exports = assocDelete;
+
+},{"./_assocIndexOf":107}],105:[function(require,module,exports){
+var assocIndexOf = require('./_assocIndexOf');
+
+/**
+ * Gets the associative array value for `key`.
+ *
+ * @private
+ * @param {Array} array The array to query.
+ * @param {string} key The key of the value to get.
+ * @returns {*} Returns the entry value.
+ */
+function assocGet(array, key) {
+  var index = assocIndexOf(array, key);
+  return index < 0 ? undefined : array[index][1];
+}
+
+module.exports = assocGet;
+
+},{"./_assocIndexOf":107}],106:[function(require,module,exports){
+var assocIndexOf = require('./_assocIndexOf');
+
+/**
+ * Checks if an associative array value for `key` exists.
+ *
+ * @private
+ * @param {Array} array The array to query.
+ * @param {string} key The key of the entry to check.
+ * @returns {boolean} Returns `true` if an entry for `key` exists, else `false`.
+ */
+function assocHas(array, key) {
+  return assocIndexOf(array, key) > -1;
+}
+
+module.exports = assocHas;
+
+},{"./_assocIndexOf":107}],107:[function(require,module,exports){
+var eq = require('./eq');
+
+/**
+ * Gets the index at which the first occurrence of `key` is found in `array`
+ * of key-value pairs.
+ *
+ * @private
+ * @param {Array} array The array to search.
+ * @param {*} key The key to search for.
+ * @returns {number} Returns the index of the matched value, else `-1`.
+ */
+function assocIndexOf(array, key) {
+  var length = array.length;
+  while (length--) {
+    if (eq(array[length][0], key)) {
+      return length;
+    }
+  }
+  return -1;
+}
+
+module.exports = assocIndexOf;
+
+},{"./eq":208}],108:[function(require,module,exports){
+var assocIndexOf = require('./_assocIndexOf');
+
+/**
+ * Sets the associative array `key` to `value`.
+ *
+ * @private
+ * @param {Array} array The array to modify.
+ * @param {string} key The key of the value to set.
+ * @param {*} value The value to set.
+ */
+function assocSet(array, key, value) {
+  var index = assocIndexOf(array, key);
+  if (index < 0) {
+    array.push([key, value]);
+  } else {
+    array[index][1] = value;
+  }
+}
+
+module.exports = assocSet;
+
+},{"./_assocIndexOf":107}],109:[function(require,module,exports){
+var copyObject = require('./_copyObject'),
+    keys = require('./keys');
+
+/**
+ * The base implementation of `_.assign` without support for multiple sources
+ * or `customizer` functions.
+ *
+ * @private
+ * @param {Object} object The destination object.
+ * @param {Object} source The source object.
+ * @returns {Object} Returns `object`.
+ */
+function baseAssign(object, source) {
+  return object && copyObject(source, keys(source), object);
+}
+
+module.exports = baseAssign;
+
+},{"./_copyObject":152,"./keys":232}],110:[function(require,module,exports){
+var identity = require('./identity');
+
+/**
+ * Casts `value` to `identity` if it's not a function.
+ *
+ * @private
+ * @param {*} value The value to inspect.
+ * @returns {Array} Returns the array-like object.
+ */
+function baseCastFunction(value) {
+  return typeof value == 'function' ? value : identity;
+}
+
+module.exports = baseCastFunction;
+
+},{"./identity":212}],111:[function(require,module,exports){
+var isArray = require('./isArray'),
+    stringToPath = require('./_stringToPath');
+
+/**
+ * Casts `value` to a path array if it's not one.
+ *
+ * @private
+ * @param {*} value The value to inspect.
+ * @returns {Array} Returns the cast property path array.
+ */
+function baseCastPath(value) {
+  return isArray(value) ? value : stringToPath(value);
+}
+
+module.exports = baseCastPath;
+
+},{"./_stringToPath":200,"./isArray":215}],112:[function(require,module,exports){
+var Stack = require('./_Stack'),
+    arrayEach = require('./_arrayEach'),
+    assignValue = require('./_assignValue'),
+    baseAssign = require('./_baseAssign'),
+    baseForOwn = require('./_baseForOwn'),
+    cloneBuffer = require('./_cloneBuffer'),
+    copyArray = require('./_copyArray'),
+    copySymbols = require('./_copySymbols'),
+    getTag = require('./_getTag'),
+    initCloneArray = require('./_initCloneArray'),
+    initCloneByTag = require('./_initCloneByTag'),
+    initCloneObject = require('./_initCloneObject'),
+    isArray = require('./isArray'),
+    isBuffer = require('./isBuffer'),
+    isHostObject = require('./_isHostObject'),
+    isObject = require('./isObject');
+
+/** `Object#toString` result references. */
+var argsTag = '[object Arguments]',
+    arrayTag = '[object Array]',
+    boolTag = '[object Boolean]',
+    dateTag = '[object Date]',
+    errorTag = '[object Error]',
+    funcTag = '[object Function]',
+    genTag = '[object GeneratorFunction]',
+    mapTag = '[object Map]',
+    numberTag = '[object Number]',
+    objectTag = '[object Object]',
+    regexpTag = '[object RegExp]',
+    setTag = '[object Set]',
+    stringTag = '[object String]',
+    symbolTag = '[object Symbol]',
+    weakMapTag = '[object WeakMap]';
+
+var arrayBufferTag = '[object ArrayBuffer]',
+    float32Tag = '[object Float32Array]',
+    float64Tag = '[object Float64Array]',
+    int8Tag = '[object Int8Array]',
+    int16Tag = '[object Int16Array]',
+    int32Tag = '[object Int32Array]',
+    uint8Tag = '[object Uint8Array]',
+    uint8ClampedTag = '[object Uint8ClampedArray]',
+    uint16Tag = '[object Uint16Array]',
+    uint32Tag = '[object Uint32Array]';
+
+/** Used to identify `toStringTag` values supported by `_.clone`. */
+var cloneableTags = {};
+cloneableTags[argsTag] = cloneableTags[arrayTag] =
+cloneableTags[arrayBufferTag] = cloneableTags[boolTag] =
+cloneableTags[dateTag] = cloneableTags[float32Tag] =
+cloneableTags[float64Tag] = cloneableTags[int8Tag] =
+cloneableTags[int16Tag] = cloneableTags[int32Tag] =
+cloneableTags[mapTag] = cloneableTags[numberTag] =
+cloneableTags[objectTag] = cloneableTags[regexpTag] =
+cloneableTags[setTag] = cloneableTags[stringTag] =
+cloneableTags[symbolTag] = cloneableTags[uint8Tag] =
+cloneableTags[uint8ClampedTag] = cloneableTags[uint16Tag] =
+cloneableTags[uint32Tag] = true;
+cloneableTags[errorTag] = cloneableTags[funcTag] =
+cloneableTags[weakMapTag] = false;
+
+/**
+ * The base implementation of `_.clone` and `_.cloneDeep` which tracks
+ * traversed objects.
+ *
+ * @private
+ * @param {*} value The value to clone.
+ * @param {boolean} [isDeep] Specify a deep clone.
+ * @param {boolean} [isFull] Specify a clone including symbols.
+ * @param {Function} [customizer] The function to customize cloning.
+ * @param {string} [key] The key of `value`.
+ * @param {Object} [object] The parent object of `value`.
+ * @param {Object} [stack] Tracks traversed objects and their clone counterparts.
+ * @returns {*} Returns the cloned value.
+ */
+function baseClone(value, isDeep, isFull, customizer, key, object, stack) {
+  var result;
+  if (customizer) {
+    result = object ? customizer(value, key, object, stack) : customizer(value);
+  }
+  if (result !== undefined) {
+    return result;
+  }
+  if (!isObject(value)) {
+    return value;
+  }
+  var isArr = isArray(value);
+  if (isArr) {
+    result = initCloneArray(value);
+    if (!isDeep) {
+      return copyArray(value, result);
+    }
+  } else {
+    var tag = getTag(value),
+        isFunc = tag == funcTag || tag == genTag;
+
+    if (isBuffer(value)) {
+      return cloneBuffer(value, isDeep);
+    }
+    if (tag == objectTag || tag == argsTag || (isFunc && !object)) {
+      if (isHostObject(value)) {
+        return object ? value : {};
+      }
+      result = initCloneObject(isFunc ? {} : value);
+      if (!isDeep) {
+        result = baseAssign(result, value);
+        return isFull ? copySymbols(value, result) : result;
+      }
+    } else {
+      if (!cloneableTags[tag]) {
+        return object ? value : {};
+      }
+      result = initCloneByTag(value, tag, isDeep);
+    }
+  }
+  // Check for circular references and return its corresponding clone.
+  stack || (stack = new Stack);
+  var stacked = stack.get(value);
+  if (stacked) {
+    return stacked;
+  }
+  stack.set(value, result);
+
+  // Recursively populate clone (susceptible to call stack limits).
+  (isArr ? arrayEach : baseForOwn)(value, function(subValue, key) {
+    assignValue(result, key, baseClone(subValue, isDeep, isFull, customizer, key, value, stack));
+  });
+  return (isFull && !isArr) ? copySymbols(value, result) : result;
+}
+
+module.exports = baseClone;
+
+},{"./_Stack":87,"./_arrayEach":94,"./_assignValue":103,"./_baseAssign":109,"./_baseForOwn":118,"./_cloneBuffer":145,"./_copyArray":151,"./_copySymbols":154,"./_getTag":165,"./_initCloneArray":173,"./_initCloneByTag":174,"./_initCloneObject":175,"./_isHostObject":176,"./isArray":215,"./isBuffer":218,"./isObject":225}],113:[function(require,module,exports){
+var isObject = require('./isObject');
+
+/** Built-in value references. */
+var objectCreate = Object.create;
+
+/**
+ * The base implementation of `_.create` without support for assigning
+ * properties to the created object.
+ *
+ * @private
+ * @param {Object} prototype The object to inherit from.
+ * @returns {Object} Returns the new object.
+ */
+function baseCreate(proto) {
+  return isObject(proto) ? objectCreate(proto) : {};
+}
+
+module.exports = baseCreate;
+
+},{"./isObject":225}],114:[function(require,module,exports){
+var SetCache = require('./_SetCache'),
+    arrayIncludes = require('./_arrayIncludes'),
+    arrayIncludesWith = require('./_arrayIncludesWith'),
+    arrayMap = require('./_arrayMap'),
+    baseUnary = require('./_baseUnary'),
+    cacheHas = require('./_cacheHas');
+
+/** Used as the size to enable large array optimizations. */
+var LARGE_ARRAY_SIZE = 200;
+
+/**
+ * The base implementation of methods like `_.difference` without support for
+ * excluding multiple arrays or iteratee shorthands.
+ *
+ * @private
+ * @param {Array} array The array to inspect.
+ * @param {Array} values The values to exclude.
+ * @param {Function} [iteratee] The iteratee invoked per element.
+ * @param {Function} [comparator] The comparator invoked per element.
+ * @returns {Array} Returns the new array of filtered values.
+ */
+function baseDifference(array, values, iteratee, comparator) {
+  var index = -1,
+      includes = arrayIncludes,
+      isCommon = true,
+      length = array.length,
+      result = [],
+      valuesLength = values.length;
+
+  if (!length) {
+    return result;
+  }
+  if (iteratee) {
+    values = arrayMap(values, baseUnary(iteratee));
+  }
+  if (comparator) {
+    includes = arrayIncludesWith;
+    isCommon = false;
+  }
+  else if (values.length >= LARGE_ARRAY_SIZE) {
+    includes = cacheHas;
+    isCommon = false;
+    values = new SetCache(values);
+  }
+  outer:
+  while (++index < length) {
+    var value = array[index],
+        computed = iteratee ? iteratee(value) : value;
+
+    if (isCommon && computed === computed) {
+      var valuesIndex = valuesLength;
+      while (valuesIndex--) {
+        if (values[valuesIndex] === computed) {
+          continue outer;
+        }
+      }
+      result.push(value);
+    }
+    else if (!includes(values, computed, comparator)) {
+      result.push(value);
+    }
+  }
+  return result;
+}
+
+module.exports = baseDifference;
+
+},{"./_SetCache":86,"./_arrayIncludes":95,"./_arrayIncludesWith":96,"./_arrayMap":97,"./_baseUnary":140,"./_cacheHas":141}],115:[function(require,module,exports){
+var baseForOwn = require('./_baseForOwn'),
+    createBaseEach = require('./_createBaseEach');
+
+/**
+ * The base implementation of `_.forEach` without support for iteratee shorthands.
+ *
+ * @private
+ * @param {Array|Object} collection The collection to iterate over.
+ * @param {Function} iteratee The function invoked per iteration.
+ * @returns {Array|Object} Returns `collection`.
+ */
+var baseEach = createBaseEach(baseForOwn);
+
+module.exports = baseEach;
+
+},{"./_baseForOwn":118,"./_createBaseEach":156}],116:[function(require,module,exports){
+var arrayPush = require('./_arrayPush'),
+    isArguments = require('./isArguments'),
+    isArray = require('./isArray'),
+    isArrayLikeObject = require('./isArrayLikeObject');
+
+/**
+ * The base implementation of `_.flatten` with support for restricting flattening.
+ *
+ * @private
+ * @param {Array} array The array to flatten.
+ * @param {number} depth The maximum recursion depth.
+ * @param {boolean} [isStrict] Restrict flattening to arrays-like objects.
+ * @param {Array} [result=[]] The initial result value.
+ * @returns {Array} Returns the new flattened array.
+ */
+function baseFlatten(array, depth, isStrict, result) {
+  result || (result = []);
+
+  var index = -1,
+      length = array.length;
+
+  while (++index < length) {
+    var value = array[index];
+    if (depth > 0 && isArrayLikeObject(value) &&
+        (isStrict || isArray(value) || isArguments(value))) {
+      if (depth > 1) {
+        // Recursively flatten arrays (susceptible to call stack limits).
+        baseFlatten(value, depth - 1, isStrict, result);
+      } else {
+        arrayPush(result, value);
+      }
+    } else if (!isStrict) {
+      result[result.length] = value;
+    }
+  }
+  return result;
+}
+
+module.exports = baseFlatten;
+
+},{"./_arrayPush":98,"./isArguments":214,"./isArray":215,"./isArrayLikeObject":217}],117:[function(require,module,exports){
+var createBaseFor = require('./_createBaseFor');
+
+/**
+ * The base implementation of `baseForIn` and `baseForOwn` which iterates
+ * over `object` properties returned by `keysFunc` invoking `iteratee` for
+ * each property. Iteratee functions may exit iteration early by explicitly
+ * returning `false`.
+ *
+ * @private
+ * @param {Object} object The object to iterate over.
+ * @param {Function} iteratee The function invoked per iteration.
+ * @param {Function} keysFunc The function to get the keys of `object`.
+ * @returns {Object} Returns `object`.
+ */
+var baseFor = createBaseFor();
+
+module.exports = baseFor;
+
+},{"./_createBaseFor":157}],118:[function(require,module,exports){
+var baseFor = require('./_baseFor'),
+    keys = require('./keys');
+
+/**
+ * The base implementation of `_.forOwn` without support for iteratee shorthands.
+ *
+ * @private
+ * @param {Object} object The object to iterate over.
+ * @param {Function} iteratee The function invoked per iteration.
+ * @returns {Object} Returns `object`.
+ */
+function baseForOwn(object, iteratee) {
+  return object && baseFor(object, iteratee, keys);
+}
+
+module.exports = baseForOwn;
+
+},{"./_baseFor":117,"./keys":232}],119:[function(require,module,exports){
+var baseCastPath = require('./_baseCastPath'),
+    isKey = require('./_isKey');
+
+/**
+ * The base implementation of `_.get` without support for default values.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @param {Array|string} path The path of the property to get.
+ * @returns {*} Returns the resolved value.
+ */
+function baseGet(object, path) {
+  path = isKey(path, object) ? [path + ''] : baseCastPath(path);
+
+  var index = 0,
+      length = path.length;
+
+  while (object != null && index < length) {
+    object = object[path[index++]];
+  }
+  return (index && index == length) ? object : undefined;
+}
+
+module.exports = baseGet;
+
+},{"./_baseCastPath":111,"./_isKey":179}],120:[function(require,module,exports){
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+/** Built-in value references. */
+var getPrototypeOf = Object.getPrototypeOf;
+
+/**
+ * The base implementation of `_.has` without support for deep paths.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @param {Array|string} key The key to check.
+ * @returns {boolean} Returns `true` if `key` exists, else `false`.
+ */
+function baseHas(object, key) {
+  // Avoid a bug in IE 10-11 where objects with a [[Prototype]] of `null`,
+  // that are composed entirely of index properties, return `false` for
+  // `hasOwnProperty` checks of them.
+  return hasOwnProperty.call(object, key) ||
+    (typeof object == 'object' && key in object && getPrototypeOf(object) === null);
+}
+
+module.exports = baseHas;
+
+},{}],121:[function(require,module,exports){
+/**
+ * The base implementation of `_.hasIn` without support for deep paths.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @param {Array|string} key The key to check.
+ * @returns {boolean} Returns `true` if `key` exists, else `false`.
+ */
+function baseHasIn(object, key) {
+  return key in Object(object);
+}
+
+module.exports = baseHasIn;
+
+},{}],122:[function(require,module,exports){
+/* Built-in method references for those with the same name as other `lodash` methods. */
+var nativeMax = Math.max,
+    nativeMin = Math.min;
+
+/**
+ * The base implementation of `_.inRange` which doesn't coerce arguments to numbers.
+ *
+ * @private
+ * @param {number} number The number to check.
+ * @param {number} start The start of the range.
+ * @param {number} end The end of the range.
+ * @returns {boolean} Returns `true` if `number` is in the range, else `false`.
+ */
+function baseInRange(number, start, end) {
+  return number >= nativeMin(start, end) && number < nativeMax(start, end);
+}
+
+module.exports = baseInRange;
+
+},{}],123:[function(require,module,exports){
+var indexOfNaN = require('./_indexOfNaN');
+
+/**
+ * The base implementation of `_.indexOf` without `fromIndex` bounds checks.
+ *
+ * @private
+ * @param {Array} array The array to search.
+ * @param {*} value The value to search for.
+ * @param {number} fromIndex The index to search from.
+ * @returns {number} Returns the index of the matched value, else `-1`.
+ */
+function baseIndexOf(array, value, fromIndex) {
+  if (value !== value) {
+    return indexOfNaN(array, fromIndex);
+  }
+  var index = fromIndex - 1,
+      length = array.length;
+
+  while (++index < length) {
+    if (array[index] === value) {
+      return index;
+    }
+  }
+  return -1;
+}
+
+module.exports = baseIndexOf;
+
+},{"./_indexOfNaN":172}],124:[function(require,module,exports){
+var baseIsEqualDeep = require('./_baseIsEqualDeep'),
+    isObject = require('./isObject'),
+    isObjectLike = require('./isObjectLike');
+
+/**
+ * The base implementation of `_.isEqual` which supports partial comparisons
+ * and tracks traversed objects.
+ *
+ * @private
+ * @param {*} value The value to compare.
+ * @param {*} other The other value to compare.
+ * @param {Function} [customizer] The function to customize comparisons.
+ * @param {boolean} [bitmask] The bitmask of comparison flags.
+ *  The bitmask may be composed of the following flags:
+ *     1 - Unordered comparison
+ *     2 - Partial comparison
+ * @param {Object} [stack] Tracks traversed `value` and `other` objects.
+ * @returns {boolean} Returns `true` if the values are equivalent, else `false`.
+ */
+function baseIsEqual(value, other, customizer, bitmask, stack) {
+  if (value === other) {
+    return true;
+  }
+  if (value == null || other == null || (!isObject(value) && !isObjectLike(other))) {
+    return value !== value && other !== other;
+  }
+  return baseIsEqualDeep(value, other, baseIsEqual, customizer, bitmask, stack);
+}
+
+module.exports = baseIsEqual;
+
+},{"./_baseIsEqualDeep":125,"./isObject":225,"./isObjectLike":226}],125:[function(require,module,exports){
+var Stack = require('./_Stack'),
+    equalArrays = require('./_equalArrays'),
+    equalByTag = require('./_equalByTag'),
+    equalObjects = require('./_equalObjects'),
+    getTag = require('./_getTag'),
+    isArray = require('./isArray'),
+    isHostObject = require('./_isHostObject'),
+    isTypedArray = require('./isTypedArray');
+
+/** Used to compose bitmasks for comparison styles. */
+var PARTIAL_COMPARE_FLAG = 2;
+
+/** `Object#toString` result references. */
+var argsTag = '[object Arguments]',
+    arrayTag = '[object Array]',
+    objectTag = '[object Object]';
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+/**
+ * A specialized version of `baseIsEqual` for arrays and objects which performs
+ * deep comparisons and tracks traversed objects enabling objects with circular
+ * references to be compared.
+ *
+ * @private
+ * @param {Object} object The object to compare.
+ * @param {Object} other The other object to compare.
+ * @param {Function} equalFunc The function to determine equivalents of values.
+ * @param {Function} [customizer] The function to customize comparisons.
+ * @param {number} [bitmask] The bitmask of comparison flags. See `baseIsEqual` for more details.
+ * @param {Object} [stack] Tracks traversed `object` and `other` objects.
+ * @returns {boolean} Returns `true` if the objects are equivalent, else `false`.
+ */
+function baseIsEqualDeep(object, other, equalFunc, customizer, bitmask, stack) {
+  var objIsArr = isArray(object),
+      othIsArr = isArray(other),
+      objTag = arrayTag,
+      othTag = arrayTag;
+
+  if (!objIsArr) {
+    objTag = getTag(object);
+    objTag = objTag == argsTag ? objectTag : objTag;
+  }
+  if (!othIsArr) {
+    othTag = getTag(other);
+    othTag = othTag == argsTag ? objectTag : othTag;
+  }
+  var objIsObj = objTag == objectTag && !isHostObject(object),
+      othIsObj = othTag == objectTag && !isHostObject(other),
+      isSameTag = objTag == othTag;
+
+  if (isSameTag && !objIsObj) {
+    stack || (stack = new Stack);
+    return (objIsArr || isTypedArray(object))
+      ? equalArrays(object, other, equalFunc, customizer, bitmask, stack)
+      : equalByTag(object, other, objTag, equalFunc, customizer, bitmask, stack);
+  }
+  if (!(bitmask & PARTIAL_COMPARE_FLAG)) {
+    var objIsWrapped = objIsObj && hasOwnProperty.call(object, '__wrapped__'),
+        othIsWrapped = othIsObj && hasOwnProperty.call(other, '__wrapped__');
+
+    if (objIsWrapped || othIsWrapped) {
+      stack || (stack = new Stack);
+      return equalFunc(objIsWrapped ? object.value() : object, othIsWrapped ? other.value() : other, customizer, bitmask, stack);
+    }
+  }
+  if (!isSameTag) {
+    return false;
+  }
+  stack || (stack = new Stack);
+  return equalObjects(object, other, equalFunc, customizer, bitmask, stack);
+}
+
+module.exports = baseIsEqualDeep;
+
+},{"./_Stack":87,"./_equalArrays":158,"./_equalByTag":159,"./_equalObjects":160,"./_getTag":165,"./_isHostObject":176,"./isArray":215,"./isTypedArray":230}],126:[function(require,module,exports){
+var Stack = require('./_Stack'),
+    baseIsEqual = require('./_baseIsEqual');
+
+/** Used to compose bitmasks for comparison styles. */
+var UNORDERED_COMPARE_FLAG = 1,
+    PARTIAL_COMPARE_FLAG = 2;
+
+/**
+ * The base implementation of `_.isMatch` without support for iteratee shorthands.
+ *
+ * @private
+ * @param {Object} object The object to inspect.
+ * @param {Object} source The object of property values to match.
+ * @param {Array} matchData The property names, values, and compare flags to match.
+ * @param {Function} [customizer] The function to customize comparisons.
+ * @returns {boolean} Returns `true` if `object` is a match, else `false`.
+ */
+function baseIsMatch(object, source, matchData, customizer) {
+  var index = matchData.length,
+      length = index,
+      noCustomizer = !customizer;
+
+  if (object == null) {
+    return !length;
+  }
+  object = Object(object);
+  while (index--) {
+    var data = matchData[index];
+    if ((noCustomizer && data[2])
+          ? data[1] !== object[data[0]]
+          : !(data[0] in object)
+        ) {
+      return false;
+    }
+  }
+  while (++index < length) {
+    data = matchData[index];
+    var key = data[0],
+        objValue = object[key],
+        srcValue = data[1];
+
+    if (noCustomizer && data[2]) {
+      if (objValue === undefined && !(key in object)) {
+        return false;
+      }
+    } else {
+      var stack = new Stack,
+          result = customizer ? customizer(objValue, srcValue, key, object, source, stack) : undefined;
+
+      if (!(result === undefined
+            ? baseIsEqual(srcValue, objValue, customizer, UNORDERED_COMPARE_FLAG | PARTIAL_COMPARE_FLAG, stack)
+            : result
+          )) {
+        return false;
+      }
+    }
+  }
+  return true;
+}
+
+module.exports = baseIsMatch;
+
+},{"./_Stack":87,"./_baseIsEqual":124}],127:[function(require,module,exports){
+var baseMatches = require('./_baseMatches'),
+    baseMatchesProperty = require('./_baseMatchesProperty'),
+    identity = require('./identity'),
+    isArray = require('./isArray'),
+    property = require('./property');
+
+/**
+ * The base implementation of `_.iteratee`.
+ *
+ * @private
+ * @param {*} [value=_.identity] The value to convert to an iteratee.
+ * @returns {Function} Returns the iteratee.
+ */
+function baseIteratee(value) {
+  var type = typeof value;
+  if (type == 'function') {
+    return value;
+  }
+  if (value == null) {
+    return identity;
+  }
+  if (type == 'object') {
+    return isArray(value)
+      ? baseMatchesProperty(value[0], value[1])
+      : baseMatches(value);
+  }
+  return property(value);
+}
+
+module.exports = baseIteratee;
+
+},{"./_baseMatches":130,"./_baseMatchesProperty":131,"./identity":212,"./isArray":215,"./property":238}],128:[function(require,module,exports){
+/* Built-in method references for those with the same name as other `lodash` methods. */
+var nativeKeys = Object.keys;
+
+/**
+ * The base implementation of `_.keys` which doesn't skip the constructor
+ * property of prototypes or treat sparse arrays as dense.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @returns {Array} Returns the array of property names.
+ */
+function baseKeys(object) {
+  return nativeKeys(Object(object));
+}
+
+module.exports = baseKeys;
+
+},{}],129:[function(require,module,exports){
+var Reflect = require('./_Reflect'),
+    iteratorToArray = require('./_iteratorToArray');
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/** Built-in value references. */
+var enumerate = Reflect ? Reflect.enumerate : undefined,
+    propertyIsEnumerable = objectProto.propertyIsEnumerable;
+
+/**
+ * The base implementation of `_.keysIn` which doesn't skip the constructor
+ * property of prototypes or treat sparse arrays as dense.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @returns {Array} Returns the array of property names.
+ */
+function baseKeysIn(object) {
+  object = object == null ? object : Object(object);
+
+  var result = [];
+  for (var key in object) {
+    result.push(key);
+  }
+  return result;
+}
+
+// Fallback for IE < 9 with es6-shim.
+if (enumerate && !propertyIsEnumerable.call({ 'valueOf': 1 }, 'valueOf')) {
+  baseKeysIn = function(object) {
+    return iteratorToArray(enumerate(object));
+  };
+}
+
+module.exports = baseKeysIn;
+
+},{"./_Reflect":84,"./_iteratorToArray":183}],130:[function(require,module,exports){
+var baseIsMatch = require('./_baseIsMatch'),
+    getMatchData = require('./_getMatchData');
+
+/**
+ * The base implementation of `_.matches` which doesn't clone `source`.
+ *
+ * @private
+ * @param {Object} source The object of property values to match.
+ * @returns {Function} Returns the new function.
+ */
+function baseMatches(source) {
+  var matchData = getMatchData(source);
+  if (matchData.length == 1 && matchData[0][2]) {
+    var key = matchData[0][0],
+        value = matchData[0][1];
+
+    return function(object) {
+      if (object == null) {
+        return false;
+      }
+      return object[key] === value &&
+        (value !== undefined || (key in Object(object)));
+    };
+  }
+  return function(object) {
+    return object === source || baseIsMatch(object, source, matchData);
+  };
+}
+
+module.exports = baseMatches;
+
+},{"./_baseIsMatch":126,"./_getMatchData":162}],131:[function(require,module,exports){
+var baseIsEqual = require('./_baseIsEqual'),
+    get = require('./get'),
+    hasIn = require('./hasIn');
+
+/** Used to compose bitmasks for comparison styles. */
+var UNORDERED_COMPARE_FLAG = 1,
+    PARTIAL_COMPARE_FLAG = 2;
+
+/**
+ * The base implementation of `_.matchesProperty` which doesn't clone `srcValue`.
+ *
+ * @private
+ * @param {string} path The path of the property to get.
+ * @param {*} srcValue The value to match.
+ * @returns {Function} Returns the new function.
+ */
+function baseMatchesProperty(path, srcValue) {
+  return function(object) {
+    var objValue = get(object, path);
+    return (objValue === undefined && objValue === srcValue)
+      ? hasIn(object, path)
+      : baseIsEqual(srcValue, objValue, undefined, UNORDERED_COMPARE_FLAG | PARTIAL_COMPARE_FLAG);
+  };
+}
+
+module.exports = baseMatchesProperty;
+
+},{"./_baseIsEqual":124,"./get":210,"./hasIn":211}],132:[function(require,module,exports){
+var Stack = require('./_Stack'),
+    arrayEach = require('./_arrayEach'),
+    assignMergeValue = require('./_assignMergeValue'),
+    baseMergeDeep = require('./_baseMergeDeep'),
+    isArray = require('./isArray'),
+    isObject = require('./isObject'),
+    isTypedArray = require('./isTypedArray'),
+    keysIn = require('./keysIn');
+
+/**
+ * The base implementation of `_.merge` without support for multiple sources.
+ *
+ * @private
+ * @param {Object} object The destination object.
+ * @param {Object} source The source object.
+ * @param {number} srcIndex The index of `source`.
+ * @param {Function} [customizer] The function to customize merged values.
+ * @param {Object} [stack] Tracks traversed source values and their merged counterparts.
+ */
+function baseMerge(object, source, srcIndex, customizer, stack) {
+  if (object === source) {
+    return;
+  }
+  var props = (isArray(source) || isTypedArray(source))
+    ? undefined
+    : keysIn(source);
+
+  arrayEach(props || source, function(srcValue, key) {
+    if (props) {
+      key = srcValue;
+      srcValue = source[key];
+    }
+    if (isObject(srcValue)) {
+      stack || (stack = new Stack);
+      baseMergeDeep(object, source, key, srcIndex, baseMerge, customizer, stack);
+    }
+    else {
+      var newValue = customizer
+        ? customizer(object[key], srcValue, (key + ''), object, source, stack)
+        : undefined;
+
+      if (newValue === undefined) {
+        newValue = srcValue;
+      }
+      assignMergeValue(object, key, newValue);
+    }
+  });
+}
+
+module.exports = baseMerge;
+
+},{"./_Stack":87,"./_arrayEach":94,"./_assignMergeValue":102,"./_baseMergeDeep":133,"./isArray":215,"./isObject":225,"./isTypedArray":230,"./keysIn":233}],133:[function(require,module,exports){
+var assignMergeValue = require('./_assignMergeValue'),
+    baseClone = require('./_baseClone'),
+    copyArray = require('./_copyArray'),
+    isArguments = require('./isArguments'),
+    isArray = require('./isArray'),
+    isArrayLikeObject = require('./isArrayLikeObject'),
+    isFunction = require('./isFunction'),
+    isObject = require('./isObject'),
+    isPlainObject = require('./isPlainObject'),
+    isTypedArray = require('./isTypedArray'),
+    toPlainObject = require('./toPlainObject');
+
+/**
+ * A specialized version of `baseMerge` for arrays and objects which performs
+ * deep merges and tracks traversed objects enabling objects with circular
+ * references to be merged.
+ *
+ * @private
+ * @param {Object} object The destination object.
+ * @param {Object} source The source object.
+ * @param {string} key The key of the value to merge.
+ * @param {number} srcIndex The index of `source`.
+ * @param {Function} mergeFunc The function to merge values.
+ * @param {Function} [customizer] The function to customize assigned values.
+ * @param {Object} [stack] Tracks traversed source values and their merged counterparts.
+ */
+function baseMergeDeep(object, source, key, srcIndex, mergeFunc, customizer, stack) {
+  var objValue = object[key],
+      srcValue = source[key],
+      stacked = stack.get(srcValue);
+
+  if (stacked) {
+    assignMergeValue(object, key, stacked);
+    return;
+  }
+  var newValue = customizer
+    ? customizer(objValue, srcValue, (key + ''), object, source, stack)
+    : undefined;
+
+  var isCommon = newValue === undefined;
+
+  if (isCommon) {
+    newValue = srcValue;
+    if (isArray(srcValue) || isTypedArray(srcValue)) {
+      if (isArray(objValue)) {
+        newValue = objValue;
+      }
+      else if (isArrayLikeObject(objValue)) {
+        newValue = copyArray(objValue);
+      }
+      else {
+        isCommon = false;
+        newValue = baseClone(srcValue, !customizer);
+      }
+    }
+    else if (isPlainObject(srcValue) || isArguments(srcValue)) {
+      if (isArguments(objValue)) {
+        newValue = toPlainObject(objValue);
+      }
+      else if (!isObject(objValue) || (srcIndex && isFunction(objValue))) {
+        isCommon = false;
+        newValue = baseClone(srcValue, !customizer);
+      }
+      else {
+        newValue = objValue;
+      }
+    }
+    else {
+      isCommon = false;
+    }
+  }
+  stack.set(srcValue, newValue);
+
+  if (isCommon) {
+    // Recursively merge objects and arrays (susceptible to call stack limits).
+    mergeFunc(newValue, srcValue, srcIndex, customizer, stack);
+  }
+  stack['delete'](srcValue);
+  assignMergeValue(object, key, newValue);
+}
+
+module.exports = baseMergeDeep;
+
+},{"./_assignMergeValue":102,"./_baseClone":112,"./_copyArray":151,"./isArguments":214,"./isArray":215,"./isArrayLikeObject":217,"./isFunction":221,"./isObject":225,"./isPlainObject":227,"./isTypedArray":230,"./toPlainObject":244}],134:[function(require,module,exports){
+/**
+ * The base implementation of `_.property` without support for deep paths.
+ *
+ * @private
+ * @param {string} key The key of the property to get.
+ * @returns {Function} Returns the new function.
+ */
+function baseProperty(key) {
+  return function(object) {
+    return object == null ? undefined : object[key];
+  };
+}
+
+module.exports = baseProperty;
+
+},{}],135:[function(require,module,exports){
+var baseGet = require('./_baseGet');
+
+/**
+ * A specialized version of `baseProperty` which supports deep paths.
+ *
+ * @private
+ * @param {Array|string} path The path of the property to get.
+ * @returns {Function} Returns the new function.
+ */
+function basePropertyDeep(path) {
+  return function(object) {
+    return baseGet(object, path);
+  };
+}
+
+module.exports = basePropertyDeep;
+
+},{"./_baseGet":119}],136:[function(require,module,exports){
+/**
+ * The base implementation of `_.reduce` and `_.reduceRight`, without support
+ * for iteratee shorthands, which iterates over `collection` using `eachFunc`.
+ *
+ * @private
+ * @param {Array|Object} collection The collection to iterate over.
+ * @param {Function} iteratee The function invoked per iteration.
+ * @param {*} accumulator The initial value.
+ * @param {boolean} initAccum Specify using the first or last element of `collection` as the initial value.
+ * @param {Function} eachFunc The function to iterate over `collection`.
+ * @returns {*} Returns the accumulated value.
+ */
+function baseReduce(collection, iteratee, accumulator, initAccum, eachFunc) {
+  eachFunc(collection, function(value, index, collection) {
+    accumulator = initAccum
+      ? (initAccum = false, value)
+      : iteratee(accumulator, value, index, collection);
+  });
+  return accumulator;
+}
+
+module.exports = baseReduce;
+
+},{}],137:[function(require,module,exports){
+/**
+ * The base implementation of `_.slice` without an iteratee call guard.
+ *
+ * @private
+ * @param {Array} array The array to slice.
+ * @param {number} [start=0] The start position.
+ * @param {number} [end=array.length] The end position.
+ * @returns {Array} Returns the slice of `array`.
+ */
+function baseSlice(array, start, end) {
+  var index = -1,
+      length = array.length;
+
+  if (start < 0) {
+    start = -start > length ? 0 : (length + start);
+  }
+  end = end > length ? length : end;
+  if (end < 0) {
+    end += length;
+  }
+  length = start > end ? 0 : ((end - start) >>> 0);
+  start >>>= 0;
+
+  var result = Array(length);
+  while (++index < length) {
+    result[index] = array[index + start];
+  }
+  return result;
+}
+
+module.exports = baseSlice;
+
+},{}],138:[function(require,module,exports){
+/**
+ * The base implementation of `_.times` without support for iteratee shorthands
+ * or max array length checks.
+ *
+ * @private
+ * @param {number} n The number of times to invoke `iteratee`.
+ * @param {Function} iteratee The function invoked per iteration.
+ * @returns {Array} Returns the array of results.
+ */
+function baseTimes(n, iteratee) {
+  var index = -1,
+      result = Array(n);
+
+  while (++index < n) {
+    result[index] = iteratee(index);
+  }
+  return result;
+}
+
+module.exports = baseTimes;
+
+},{}],139:[function(require,module,exports){
+var arrayMap = require('./_arrayMap');
+
+/**
+ * The base implementation of `_.toPairs` and `_.toPairsIn` which creates an array
+ * of key-value pairs for `object` corresponding to the property names of `props`.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @param {Array} props The property names to get values for.
+ * @returns {Object} Returns the new array of key-value pairs.
+ */
+function baseToPairs(object, props) {
+  return arrayMap(props, function(key) {
+    return [key, object[key]];
+  });
+}
+
+module.exports = baseToPairs;
+
+},{"./_arrayMap":97}],140:[function(require,module,exports){
+/**
+ * The base implementation of `_.unary` without support for storing wrapper metadata.
+ *
+ * @private
+ * @param {Function} func The function to cap arguments for.
+ * @returns {Function} Returns the new function.
+ */
+function baseUnary(func) {
+  return function(value) {
+    return func(value);
+  };
+}
+
+module.exports = baseUnary;
+
+},{}],141:[function(require,module,exports){
+var isKeyable = require('./_isKeyable');
+
+/** Used to stand-in for `undefined` hash values. */
+var HASH_UNDEFINED = '__lodash_hash_undefined__';
+
+/**
+ * Checks if `value` is in `cache`.
+ *
+ * @private
+ * @param {Object} cache The set cache to search.
+ * @param {*} value The value to search for.
+ * @returns {number} Returns `true` if `value` is found, else `false`.
+ */
+function cacheHas(cache, value) {
+  var map = cache.__data__;
+  if (isKeyable(value)) {
+    var data = map.__data__,
+        hash = typeof value == 'string' ? data.string : data.hash;
+
+    return hash[value] === HASH_UNDEFINED;
+  }
+  return map.has(value);
+}
+
+module.exports = cacheHas;
+
+},{"./_isKeyable":180}],142:[function(require,module,exports){
+var isKeyable = require('./_isKeyable');
+
+/** Used to stand-in for `undefined` hash values. */
+var HASH_UNDEFINED = '__lodash_hash_undefined__';
+
+/**
+ * Adds `value` to the set cache.
+ *
+ * @private
+ * @name push
+ * @memberOf SetCache
+ * @param {*} value The value to cache.
+ */
+function cachePush(value) {
+  var map = this.__data__;
+  if (isKeyable(value)) {
+    var data = map.__data__,
+        hash = typeof value == 'string' ? data.string : data.hash;
+
+    hash[value] = HASH_UNDEFINED;
+  }
+  else {
+    map.set(value, HASH_UNDEFINED);
+  }
+}
+
+module.exports = cachePush;
+
+},{"./_isKeyable":180}],143:[function(require,module,exports){
+/**
+ * Checks if `value` is a global object.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {null|Object} Returns `value` if it's a global object, else `null`.
+ */
+function checkGlobal(value) {
+  return (value && value.Object === Object) ? value : null;
+}
+
+module.exports = checkGlobal;
+
+},{}],144:[function(require,module,exports){
+var Uint8Array = require('./_Uint8Array');
+
+/**
+ * Creates a clone of `arrayBuffer`.
+ *
+ * @private
+ * @param {ArrayBuffer} arrayBuffer The array buffer to clone.
+ * @returns {ArrayBuffer} Returns the cloned array buffer.
+ */
+function cloneArrayBuffer(arrayBuffer) {
+  var result = new arrayBuffer.constructor(arrayBuffer.byteLength);
+  new Uint8Array(result).set(new Uint8Array(arrayBuffer));
+  return result;
+}
+
+module.exports = cloneArrayBuffer;
+
+},{"./_Uint8Array":89}],145:[function(require,module,exports){
+/**
+ * Creates a clone of  `buffer`.
+ *
+ * @private
+ * @param {Buffer} buffer The buffer to clone.
+ * @param {boolean} [isDeep] Specify a deep clone.
+ * @returns {Buffer} Returns the cloned buffer.
+ */
+function cloneBuffer(buffer, isDeep) {
+  if (isDeep) {
+    return buffer.slice();
+  }
+  var result = new buffer.constructor(buffer.length);
+  buffer.copy(result);
+  return result;
+}
+
+module.exports = cloneBuffer;
+
+},{}],146:[function(require,module,exports){
+var addMapEntry = require('./_addMapEntry'),
+    arrayReduce = require('./_arrayReduce'),
+    mapToArray = require('./_mapToArray');
+
+/**
+ * Creates a clone of `map`.
+ *
+ * @private
+ * @param {Object} map The map to clone.
+ * @returns {Object} Returns the cloned map.
+ */
+function cloneMap(map) {
+  return arrayReduce(mapToArray(map), addMapEntry, new map.constructor);
+}
+
+module.exports = cloneMap;
+
+},{"./_addMapEntry":91,"./_arrayReduce":99,"./_mapToArray":189}],147:[function(require,module,exports){
+/** Used to match `RegExp` flags from their coerced string values. */
+var reFlags = /\w*$/;
+
+/**
+ * Creates a clone of `regexp`.
+ *
+ * @private
+ * @param {Object} regexp The regexp to clone.
+ * @returns {Object} Returns the cloned regexp.
+ */
+function cloneRegExp(regexp) {
+  var result = new regexp.constructor(regexp.source, reFlags.exec(regexp));
+  result.lastIndex = regexp.lastIndex;
+  return result;
+}
+
+module.exports = cloneRegExp;
+
+},{}],148:[function(require,module,exports){
+var addSetEntry = require('./_addSetEntry'),
+    arrayReduce = require('./_arrayReduce'),
+    setToArray = require('./_setToArray');
+
+/**
+ * Creates a clone of `set`.
+ *
+ * @private
+ * @param {Object} set The set to clone.
+ * @returns {Object} Returns the cloned set.
+ */
+function cloneSet(set) {
+  return arrayReduce(setToArray(set), addSetEntry, new set.constructor);
+}
+
+module.exports = cloneSet;
+
+},{"./_addSetEntry":92,"./_arrayReduce":99,"./_setToArray":194}],149:[function(require,module,exports){
+var Symbol = require('./_Symbol');
+
+/** Used to convert symbols to primitives and strings. */
+var symbolProto = Symbol ? Symbol.prototype : undefined,
+    symbolValueOf = symbolProto ? symbolProto.valueOf : undefined;
+
+/**
+ * Creates a clone of the `symbol` object.
+ *
+ * @private
+ * @param {Object} symbol The symbol object to clone.
+ * @returns {Object} Returns the cloned symbol object.
+ */
+function cloneSymbol(symbol) {
+  return symbolValueOf ? Object(symbolValueOf.call(symbol)) : {};
+}
+
+module.exports = cloneSymbol;
+
+},{"./_Symbol":88}],150:[function(require,module,exports){
+var cloneArrayBuffer = require('./_cloneArrayBuffer');
+
+/**
+ * Creates a clone of `typedArray`.
+ *
+ * @private
+ * @param {Object} typedArray The typed array to clone.
+ * @param {boolean} [isDeep] Specify a deep clone.
+ * @returns {Object} Returns the cloned typed array.
+ */
+function cloneTypedArray(typedArray, isDeep) {
+  var buffer = isDeep ? cloneArrayBuffer(typedArray.buffer) : typedArray.buffer;
+  return new typedArray.constructor(buffer, typedArray.byteOffset, typedArray.length);
+}
+
+module.exports = cloneTypedArray;
+
+},{"./_cloneArrayBuffer":144}],151:[function(require,module,exports){
+/**
+ * Copies the values of `source` to `array`.
+ *
+ * @private
+ * @param {Array} source The array to copy values from.
+ * @param {Array} [array=[]] The array to copy values to.
+ * @returns {Array} Returns `array`.
+ */
+function copyArray(source, array) {
+  var index = -1,
+      length = source.length;
+
+  array || (array = Array(length));
+  while (++index < length) {
+    array[index] = source[index];
+  }
+  return array;
+}
+
+module.exports = copyArray;
+
+},{}],152:[function(require,module,exports){
+var copyObjectWith = require('./_copyObjectWith');
+
+/**
+ * Copies properties of `source` to `object`.
+ *
+ * @private
+ * @param {Object} source The object to copy properties from.
+ * @param {Array} props The property names to copy.
+ * @param {Object} [object={}] The object to copy properties to.
+ * @returns {Object} Returns `object`.
+ */
+function copyObject(source, props, object) {
+  return copyObjectWith(source, props, object);
+}
+
+module.exports = copyObject;
+
+},{"./_copyObjectWith":153}],153:[function(require,module,exports){
+var assignValue = require('./_assignValue');
+
+/**
+ * This function is like `copyObject` except that it accepts a function to
+ * customize copied values.
+ *
+ * @private
+ * @param {Object} source The object to copy properties from.
+ * @param {Array} props The property names to copy.
+ * @param {Object} [object={}] The object to copy properties to.
+ * @param {Function} [customizer] The function to customize copied values.
+ * @returns {Object} Returns `object`.
+ */
+function copyObjectWith(source, props, object, customizer) {
+  object || (object = {});
+
+  var index = -1,
+      length = props.length;
+
+  while (++index < length) {
+    var key = props[index];
+
+    var newValue = customizer
+      ? customizer(object[key], source[key], key, object, source)
+      : source[key];
+
+    assignValue(object, key, newValue);
+  }
+  return object;
+}
+
+module.exports = copyObjectWith;
+
+},{"./_assignValue":103}],154:[function(require,module,exports){
+var copyObject = require('./_copyObject'),
+    getSymbols = require('./_getSymbols');
+
+/**
+ * Copies own symbol properties of `source` to `object`.
+ *
+ * @private
+ * @param {Object} source The object to copy symbols from.
+ * @param {Object} [object={}] The object to copy symbols to.
+ * @returns {Object} Returns `object`.
+ */
+function copySymbols(source, object) {
+  return copyObject(source, getSymbols(source), object);
+}
+
+module.exports = copySymbols;
+
+},{"./_copyObject":152,"./_getSymbols":164}],155:[function(require,module,exports){
+var isIterateeCall = require('./_isIterateeCall'),
+    rest = require('./rest');
+
+/**
+ * Creates a function like `_.assign`.
+ *
+ * @private
+ * @param {Function} assigner The function to assign values.
+ * @returns {Function} Returns the new assigner function.
+ */
+function createAssigner(assigner) {
+  return rest(function(object, sources) {
+    var index = -1,
+        length = sources.length,
+        customizer = length > 1 ? sources[length - 1] : undefined,
+        guard = length > 2 ? sources[2] : undefined;
+
+    customizer = typeof customizer == 'function'
+      ? (length--, customizer)
+      : undefined;
+
+    if (guard && isIterateeCall(sources[0], sources[1], guard)) {
+      customizer = length < 3 ? undefined : customizer;
+      length = 1;
+    }
+    object = Object(object);
+    while (++index < length) {
+      var source = sources[index];
+      if (source) {
+        assigner(object, source, index, customizer);
+      }
+    }
+    return object;
+  });
+}
+
+module.exports = createAssigner;
+
+},{"./_isIterateeCall":178,"./rest":240}],156:[function(require,module,exports){
+var isArrayLike = require('./isArrayLike');
+
+/**
+ * Creates a `baseEach` or `baseEachRight` function.
+ *
+ * @private
+ * @param {Function} eachFunc The function to iterate over a collection.
+ * @param {boolean} [fromRight] Specify iterating from right to left.
+ * @returns {Function} Returns the new base function.
+ */
+function createBaseEach(eachFunc, fromRight) {
+  return function(collection, iteratee) {
+    if (collection == null) {
+      return collection;
+    }
+    if (!isArrayLike(collection)) {
+      return eachFunc(collection, iteratee);
+    }
+    var length = collection.length,
+        index = fromRight ? length : -1,
+        iterable = Object(collection);
+
+    while ((fromRight ? index-- : ++index < length)) {
+      if (iteratee(iterable[index], index, iterable) === false) {
+        break;
+      }
+    }
+    return collection;
+  };
+}
+
+module.exports = createBaseEach;
+
+},{"./isArrayLike":216}],157:[function(require,module,exports){
+/**
+ * Creates a base function for methods like `_.forIn`.
+ *
+ * @private
+ * @param {boolean} [fromRight] Specify iterating from right to left.
+ * @returns {Function} Returns the new base function.
+ */
+function createBaseFor(fromRight) {
+  return function(object, iteratee, keysFunc) {
+    var index = -1,
+        iterable = Object(object),
+        props = keysFunc(object),
+        length = props.length;
+
+    while (length--) {
+      var key = props[fromRight ? length : ++index];
+      if (iteratee(iterable[key], key, iterable) === false) {
+        break;
+      }
+    }
+    return object;
+  };
+}
+
+module.exports = createBaseFor;
+
+},{}],158:[function(require,module,exports){
+var arraySome = require('./_arraySome');
+
+/** Used to compose bitmasks for comparison styles. */
+var UNORDERED_COMPARE_FLAG = 1,
+    PARTIAL_COMPARE_FLAG = 2;
+
+/**
+ * A specialized version of `baseIsEqualDeep` for arrays with support for
+ * partial deep comparisons.
+ *
+ * @private
+ * @param {Array} array The array to compare.
+ * @param {Array} other The other array to compare.
+ * @param {Function} equalFunc The function to determine equivalents of values.
+ * @param {Function} customizer The function to customize comparisons.
+ * @param {number} bitmask The bitmask of comparison flags. See `baseIsEqual` for more details.
+ * @param {Object} stack Tracks traversed `array` and `other` objects.
+ * @returns {boolean} Returns `true` if the arrays are equivalent, else `false`.
+ */
+function equalArrays(array, other, equalFunc, customizer, bitmask, stack) {
+  var index = -1,
+      isPartial = bitmask & PARTIAL_COMPARE_FLAG,
+      isUnordered = bitmask & UNORDERED_COMPARE_FLAG,
+      arrLength = array.length,
+      othLength = other.length;
+
+  if (arrLength != othLength && !(isPartial && othLength > arrLength)) {
+    return false;
+  }
+  // Assume cyclic values are equal.
+  var stacked = stack.get(array);
+  if (stacked) {
+    return stacked == other;
+  }
+  var result = true;
+  stack.set(array, other);
+
+  // Ignore non-index properties.
+  while (++index < arrLength) {
+    var arrValue = array[index],
+        othValue = other[index];
+
+    if (customizer) {
+      var compared = isPartial
+        ? customizer(othValue, arrValue, index, other, array, stack)
+        : customizer(arrValue, othValue, index, array, other, stack);
+    }
+    if (compared !== undefined) {
+      if (compared) {
+        continue;
+      }
+      result = false;
+      break;
+    }
+    // Recursively compare arrays (susceptible to call stack limits).
+    if (isUnordered) {
+      if (!arraySome(other, function(othValue) {
+            return arrValue === othValue || equalFunc(arrValue, othValue, customizer, bitmask, stack);
+          })) {
+        result = false;
+        break;
+      }
+    } else if (!(arrValue === othValue || equalFunc(arrValue, othValue, customizer, bitmask, stack))) {
+      result = false;
+      break;
+    }
+  }
+  stack['delete'](array);
+  return result;
+}
+
+module.exports = equalArrays;
+
+},{"./_arraySome":100}],159:[function(require,module,exports){
+var Symbol = require('./_Symbol'),
+    Uint8Array = require('./_Uint8Array'),
+    equalArrays = require('./_equalArrays'),
+    mapToArray = require('./_mapToArray'),
+    setToArray = require('./_setToArray');
+
+/** Used to compose bitmasks for comparison styles. */
+var UNORDERED_COMPARE_FLAG = 1,
+    PARTIAL_COMPARE_FLAG = 2;
+
+/** `Object#toString` result references. */
+var boolTag = '[object Boolean]',
+    dateTag = '[object Date]',
+    errorTag = '[object Error]',
+    mapTag = '[object Map]',
+    numberTag = '[object Number]',
+    regexpTag = '[object RegExp]',
+    setTag = '[object Set]',
+    stringTag = '[object String]',
+    symbolTag = '[object Symbol]';
+
+var arrayBufferTag = '[object ArrayBuffer]';
+
+/** Used to convert symbols to primitives and strings. */
+var symbolProto = Symbol ? Symbol.prototype : undefined,
+    symbolValueOf = symbolProto ? symbolProto.valueOf : undefined;
+
+/**
+ * A specialized version of `baseIsEqualDeep` for comparing objects of
+ * the same `toStringTag`.
+ *
+ * **Note:** This function only supports comparing values with tags of
+ * `Boolean`, `Date`, `Error`, `Number`, `RegExp`, or `String`.
+ *
+ * @private
+ * @param {Object} object The object to compare.
+ * @param {Object} other The other object to compare.
+ * @param {string} tag The `toStringTag` of the objects to compare.
+ * @param {Function} equalFunc The function to determine equivalents of values.
+ * @param {Function} customizer The function to customize comparisons.
+ * @param {number} bitmask The bitmask of comparison flags. See `baseIsEqual` for more details.
+ * @param {Object} stack Tracks traversed `object` and `other` objects.
+ * @returns {boolean} Returns `true` if the objects are equivalent, else `false`.
+ */
+function equalByTag(object, other, tag, equalFunc, customizer, bitmask, stack) {
+  switch (tag) {
+    case arrayBufferTag:
+      if ((object.byteLength != other.byteLength) ||
+          !equalFunc(new Uint8Array(object), new Uint8Array(other))) {
+        return false;
+      }
+      return true;
+
+    case boolTag:
+    case dateTag:
+      // Coerce dates and booleans to numbers, dates to milliseconds and booleans
+      // to `1` or `0` treating invalid dates coerced to `NaN` as not equal.
+      return +object == +other;
+
+    case errorTag:
+      return object.name == other.name && object.message == other.message;
+
+    case numberTag:
+      // Treat `NaN` vs. `NaN` as equal.
+      return (object != +object) ? other != +other : object == +other;
+
+    case regexpTag:
+    case stringTag:
+      // Coerce regexes to strings and treat strings primitives and string
+      // objects as equal. See https://es5.github.io/#x15.10.6.4 for more details.
+      return object == (other + '');
+
+    case mapTag:
+      var convert = mapToArray;
+
+    case setTag:
+      var isPartial = bitmask & PARTIAL_COMPARE_FLAG;
+      convert || (convert = setToArray);
+
+      if (object.size != other.size && !isPartial) {
+        return false;
+      }
+      // Assume cyclic values are equal.
+      var stacked = stack.get(object);
+      if (stacked) {
+        return stacked == other;
+      }
+      // Recursively compare objects (susceptible to call stack limits).
+      return equalArrays(convert(object), convert(other), equalFunc, customizer, bitmask | UNORDERED_COMPARE_FLAG, stack.set(object, other));
+
+    case symbolTag:
+      if (symbolValueOf) {
+        return symbolValueOf.call(object) == symbolValueOf.call(other);
+      }
+  }
+  return false;
+}
+
+module.exports = equalByTag;
+
+},{"./_Symbol":88,"./_Uint8Array":89,"./_equalArrays":158,"./_mapToArray":189,"./_setToArray":194}],160:[function(require,module,exports){
+var baseHas = require('./_baseHas'),
+    keys = require('./keys');
+
+/** Used to compose bitmasks for comparison styles. */
+var PARTIAL_COMPARE_FLAG = 2;
+
+/**
+ * A specialized version of `baseIsEqualDeep` for objects with support for
+ * partial deep comparisons.
+ *
+ * @private
+ * @param {Object} object The object to compare.
+ * @param {Object} other The other object to compare.
+ * @param {Function} equalFunc The function to determine equivalents of values.
+ * @param {Function} customizer The function to customize comparisons.
+ * @param {number} bitmask The bitmask of comparison flags. See `baseIsEqual` for more details.
+ * @param {Object} stack Tracks traversed `object` and `other` objects.
+ * @returns {boolean} Returns `true` if the objects are equivalent, else `false`.
+ */
+function equalObjects(object, other, equalFunc, customizer, bitmask, stack) {
+  var isPartial = bitmask & PARTIAL_COMPARE_FLAG,
+      objProps = keys(object),
+      objLength = objProps.length,
+      othProps = keys(other),
+      othLength = othProps.length;
+
+  if (objLength != othLength && !isPartial) {
+    return false;
+  }
+  var index = objLength;
+  while (index--) {
+    var key = objProps[index];
+    if (!(isPartial ? key in other : baseHas(other, key))) {
+      return false;
+    }
+  }
+  // Assume cyclic values are equal.
+  var stacked = stack.get(object);
+  if (stacked) {
+    return stacked == other;
+  }
+  var result = true;
+  stack.set(object, other);
+
+  var skipCtor = isPartial;
+  while (++index < objLength) {
+    key = objProps[index];
+    var objValue = object[key],
+        othValue = other[key];
+
+    if (customizer) {
+      var compared = isPartial
+        ? customizer(othValue, objValue, key, other, object, stack)
+        : customizer(objValue, othValue, key, object, other, stack);
+    }
+    // Recursively compare objects (susceptible to call stack limits).
+    if (!(compared === undefined
+          ? (objValue === othValue || equalFunc(objValue, othValue, customizer, bitmask, stack))
+          : compared
+        )) {
+      result = false;
+      break;
+    }
+    skipCtor || (skipCtor = key == 'constructor');
+  }
+  if (result && !skipCtor) {
+    var objCtor = object.constructor,
+        othCtor = other.constructor;
+
+    // Non `Object` object instances with different constructors are not equal.
+    if (objCtor != othCtor &&
+        ('constructor' in object && 'constructor' in other) &&
+        !(typeof objCtor == 'function' && objCtor instanceof objCtor &&
+          typeof othCtor == 'function' && othCtor instanceof othCtor)) {
+      result = false;
+    }
+  }
+  stack['delete'](object);
+  return result;
+}
+
+module.exports = equalObjects;
+
+},{"./_baseHas":120,"./keys":232}],161:[function(require,module,exports){
+var baseProperty = require('./_baseProperty');
+
+/**
+ * Gets the "length" property value of `object`.
+ *
+ * **Note:** This function is used to avoid a [JIT bug](https://bugs.webkit.org/show_bug.cgi?id=142792)
+ * that affects Safari on at least iOS 8.1-8.3 ARM64.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @returns {*} Returns the "length" value.
+ */
+var getLength = baseProperty('length');
+
+module.exports = getLength;
+
+},{"./_baseProperty":134}],162:[function(require,module,exports){
+var isStrictComparable = require('./_isStrictComparable'),
+    toPairs = require('./toPairs');
+
+/**
+ * Gets the property names, values, and compare flags of `object`.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @returns {Array} Returns the match data of `object`.
+ */
+function getMatchData(object) {
+  var result = toPairs(object),
+      length = result.length;
+
+  while (length--) {
+    result[length][2] = isStrictComparable(result[length][1]);
+  }
+  return result;
+}
+
+module.exports = getMatchData;
+
+},{"./_isStrictComparable":182,"./toPairs":243}],163:[function(require,module,exports){
+var isNative = require('./isNative');
+
+/**
+ * Gets the native function at `key` of `object`.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @param {string} key The key of the method to get.
+ * @returns {*} Returns the function if it's native, else `undefined`.
+ */
+function getNative(object, key) {
+  var value = object[key];
+  return isNative(value) ? value : undefined;
+}
+
+module.exports = getNative;
+
+},{"./isNative":223}],164:[function(require,module,exports){
+/** Built-in value references. */
+var getOwnPropertySymbols = Object.getOwnPropertySymbols;
+
+/**
+ * Creates an array of the own symbol properties of `object`.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @returns {Array} Returns the array of symbols.
+ */
+var getSymbols = getOwnPropertySymbols || function() {
+  return [];
+};
+
+module.exports = getSymbols;
+
+},{}],165:[function(require,module,exports){
+var Map = require('./_Map'),
+    Set = require('./_Set'),
+    WeakMap = require('./_WeakMap');
+
+/** `Object#toString` result references. */
+var mapTag = '[object Map]',
+    objectTag = '[object Object]',
+    setTag = '[object Set]',
+    weakMapTag = '[object WeakMap]';
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/** Used to resolve the decompiled source of functions. */
+var funcToString = Function.prototype.toString;
+
+/**
+ * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
+ * of values.
+ */
+var objectToString = objectProto.toString;
+
+/** Used to detect maps, sets, and weakmaps. */
+var mapCtorString = Map ? funcToString.call(Map) : '',
+    setCtorString = Set ? funcToString.call(Set) : '',
+    weakMapCtorString = WeakMap ? funcToString.call(WeakMap) : '';
+
+/**
+ * Gets the `toStringTag` of `value`.
+ *
+ * @private
+ * @param {*} value The value to query.
+ * @returns {string} Returns the `toStringTag`.
+ */
+function getTag(value) {
+  return objectToString.call(value);
+}
+
+// Fallback for IE 11 providing `toStringTag` values for maps, sets, and weakmaps.
+if ((Map && getTag(new Map) != mapTag) ||
+    (Set && getTag(new Set) != setTag) ||
+    (WeakMap && getTag(new WeakMap) != weakMapTag)) {
+  getTag = function(value) {
+    var result = objectToString.call(value),
+        Ctor = result == objectTag ? value.constructor : null,
+        ctorString = typeof Ctor == 'function' ? funcToString.call(Ctor) : '';
+
+    if (ctorString) {
+      switch (ctorString) {
+        case mapCtorString: return mapTag;
+        case setCtorString: return setTag;
+        case weakMapCtorString: return weakMapTag;
+      }
+    }
+    return result;
+  };
+}
+
+module.exports = getTag;
+
+},{"./_Map":82,"./_Set":85,"./_WeakMap":90}],166:[function(require,module,exports){
+var baseCastPath = require('./_baseCastPath'),
+    isArguments = require('./isArguments'),
+    isArray = require('./isArray'),
+    isIndex = require('./_isIndex'),
+    isKey = require('./_isKey'),
+    isLength = require('./isLength'),
+    isString = require('./isString'),
+    last = require('./last'),
+    parent = require('./_parent');
+
+/**
+ * Checks if `path` exists on `object`.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @param {Array|string} path The path to check.
+ * @param {Function} hasFunc The function to check properties.
+ * @returns {boolean} Returns `true` if `path` exists, else `false`.
+ */
+function hasPath(object, path, hasFunc) {
+  if (object == null) {
+    return false;
+  }
+  var result = hasFunc(object, path);
+  if (!result && !isKey(path)) {
+    path = baseCastPath(path);
+    object = parent(object, path);
+    if (object != null) {
+      path = last(path);
+      result = hasFunc(object, path);
+    }
+  }
+  var length = object ? object.length : undefined;
+  return result || (
+    !!length && isLength(length) && isIndex(path, length) &&
+    (isArray(object) || isString(object) || isArguments(object))
+  );
+}
+
+module.exports = hasPath;
+
+},{"./_baseCastPath":111,"./_isIndex":177,"./_isKey":179,"./_parent":192,"./isArguments":214,"./isArray":215,"./isLength":222,"./isString":228,"./last":234}],167:[function(require,module,exports){
+var hashHas = require('./_hashHas');
+
+/**
+ * Removes `key` and its value from the hash.
+ *
+ * @private
+ * @param {Object} hash The hash to modify.
+ * @param {string} key The key of the value to remove.
+ * @returns {boolean} Returns `true` if the entry was removed, else `false`.
+ */
+function hashDelete(hash, key) {
+  return hashHas(hash, key) && delete hash[key];
+}
+
+module.exports = hashDelete;
+
+},{"./_hashHas":169}],168:[function(require,module,exports){
+var nativeCreate = require('./_nativeCreate');
+
+/** Used to stand-in for `undefined` hash values. */
+var HASH_UNDEFINED = '__lodash_hash_undefined__';
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+/**
+ * Gets the hash value for `key`.
+ *
+ * @private
+ * @param {Object} hash The hash to query.
+ * @param {string} key The key of the value to get.
+ * @returns {*} Returns the entry value.
+ */
+function hashGet(hash, key) {
+  if (nativeCreate) {
+    var result = hash[key];
+    return result === HASH_UNDEFINED ? undefined : result;
+  }
+  return hasOwnProperty.call(hash, key) ? hash[key] : undefined;
+}
+
+module.exports = hashGet;
+
+},{"./_nativeCreate":191}],169:[function(require,module,exports){
+var nativeCreate = require('./_nativeCreate');
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+/**
+ * Checks if a hash value for `key` exists.
+ *
+ * @private
+ * @param {Object} hash The hash to query.
+ * @param {string} key The key of the entry to check.
+ * @returns {boolean} Returns `true` if an entry for `key` exists, else `false`.
+ */
+function hashHas(hash, key) {
+  return nativeCreate ? hash[key] !== undefined : hasOwnProperty.call(hash, key);
+}
+
+module.exports = hashHas;
+
+},{"./_nativeCreate":191}],170:[function(require,module,exports){
+var nativeCreate = require('./_nativeCreate');
+
+/** Used to stand-in for `undefined` hash values. */
+var HASH_UNDEFINED = '__lodash_hash_undefined__';
+
+/**
+ * Sets the hash `key` to `value`.
+ *
+ * @private
+ * @param {Object} hash The hash to modify.
+ * @param {string} key The key of the value to set.
+ * @param {*} value The value to set.
+ */
+function hashSet(hash, key, value) {
+  hash[key] = (nativeCreate && value === undefined) ? HASH_UNDEFINED : value;
+}
+
+module.exports = hashSet;
+
+},{"./_nativeCreate":191}],171:[function(require,module,exports){
+var baseTimes = require('./_baseTimes'),
+    isArguments = require('./isArguments'),
+    isArray = require('./isArray'),
+    isLength = require('./isLength'),
+    isString = require('./isString');
+
+/**
+ * Creates an array of index keys for `object` values of arrays,
+ * `arguments` objects, and strings, otherwise `null` is returned.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @returns {Array|null} Returns index keys, else `null`.
+ */
+function indexKeys(object) {
+  var length = object ? object.length : undefined;
+  if (isLength(length) &&
+      (isArray(object) || isString(object) || isArguments(object))) {
+    return baseTimes(length, String);
+  }
+  return null;
+}
+
+module.exports = indexKeys;
+
+},{"./_baseTimes":138,"./isArguments":214,"./isArray":215,"./isLength":222,"./isString":228}],172:[function(require,module,exports){
+/**
+ * Gets the index at which the first occurrence of `NaN` is found in `array`.
+ *
+ * @private
+ * @param {Array} array The array to search.
+ * @param {number} fromIndex The index to search from.
+ * @param {boolean} [fromRight] Specify iterating from right to left.
+ * @returns {number} Returns the index of the matched `NaN`, else `-1`.
+ */
+function indexOfNaN(array, fromIndex, fromRight) {
+  var length = array.length,
+      index = fromIndex + (fromRight ? 0 : -1);
+
+  while ((fromRight ? index-- : ++index < length)) {
+    var other = array[index];
+    if (other !== other) {
+      return index;
+    }
+  }
+  return -1;
+}
+
+module.exports = indexOfNaN;
+
+},{}],173:[function(require,module,exports){
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+/**
+ * Initializes an array clone.
+ *
+ * @private
+ * @param {Array} array The array to clone.
+ * @returns {Array} Returns the initialized clone.
+ */
+function initCloneArray(array) {
+  var length = array.length,
+      result = array.constructor(length);
+
+  // Add properties assigned by `RegExp#exec`.
+  if (length && typeof array[0] == 'string' && hasOwnProperty.call(array, 'index')) {
+    result.index = array.index;
+    result.input = array.input;
+  }
+  return result;
+}
+
+module.exports = initCloneArray;
+
+},{}],174:[function(require,module,exports){
+var cloneArrayBuffer = require('./_cloneArrayBuffer'),
+    cloneMap = require('./_cloneMap'),
+    cloneRegExp = require('./_cloneRegExp'),
+    cloneSet = require('./_cloneSet'),
+    cloneSymbol = require('./_cloneSymbol'),
+    cloneTypedArray = require('./_cloneTypedArray');
+
+/** `Object#toString` result references. */
+var boolTag = '[object Boolean]',
+    dateTag = '[object Date]',
+    mapTag = '[object Map]',
+    numberTag = '[object Number]',
+    regexpTag = '[object RegExp]',
+    setTag = '[object Set]',
+    stringTag = '[object String]',
+    symbolTag = '[object Symbol]';
+
+var arrayBufferTag = '[object ArrayBuffer]',
+    float32Tag = '[object Float32Array]',
+    float64Tag = '[object Float64Array]',
+    int8Tag = '[object Int8Array]',
+    int16Tag = '[object Int16Array]',
+    int32Tag = '[object Int32Array]',
+    uint8Tag = '[object Uint8Array]',
+    uint8ClampedTag = '[object Uint8ClampedArray]',
+    uint16Tag = '[object Uint16Array]',
+    uint32Tag = '[object Uint32Array]';
+
+/**
+ * Initializes an object clone based on its `toStringTag`.
+ *
+ * **Note:** This function only supports cloning values with tags of
+ * `Boolean`, `Date`, `Error`, `Number`, `RegExp`, or `String`.
+ *
+ * @private
+ * @param {Object} object The object to clone.
+ * @param {string} tag The `toStringTag` of the object to clone.
+ * @param {boolean} [isDeep] Specify a deep clone.
+ * @returns {Object} Returns the initialized clone.
+ */
+function initCloneByTag(object, tag, isDeep) {
+  var Ctor = object.constructor;
+  switch (tag) {
+    case arrayBufferTag:
+      return cloneArrayBuffer(object);
+
+    case boolTag:
+    case dateTag:
+      return new Ctor(+object);
+
+    case float32Tag: case float64Tag:
+    case int8Tag: case int16Tag: case int32Tag:
+    case uint8Tag: case uint8ClampedTag: case uint16Tag: case uint32Tag:
+      return cloneTypedArray(object, isDeep);
+
+    case mapTag:
+      return cloneMap(object);
+
+    case numberTag:
+    case stringTag:
+      return new Ctor(object);
+
+    case regexpTag:
+      return cloneRegExp(object);
+
+    case setTag:
+      return cloneSet(object);
+
+    case symbolTag:
+      return cloneSymbol(object);
+  }
+}
+
+module.exports = initCloneByTag;
+
+},{"./_cloneArrayBuffer":144,"./_cloneMap":146,"./_cloneRegExp":147,"./_cloneSet":148,"./_cloneSymbol":149,"./_cloneTypedArray":150}],175:[function(require,module,exports){
+var baseCreate = require('./_baseCreate'),
+    isPrototype = require('./_isPrototype');
+
+/** Built-in value references. */
+var getPrototypeOf = Object.getPrototypeOf;
+
+/**
+ * Initializes an object clone.
+ *
+ * @private
+ * @param {Object} object The object to clone.
+ * @returns {Object} Returns the initialized clone.
+ */
+function initCloneObject(object) {
+  return (typeof object.constructor == 'function' && !isPrototype(object))
+    ? baseCreate(getPrototypeOf(object))
+    : {};
+}
+
+module.exports = initCloneObject;
+
+},{"./_baseCreate":113,"./_isPrototype":181}],176:[function(require,module,exports){
+/**
+ * Checks if `value` is a host object in IE < 9.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a host object, else `false`.
+ */
+function isHostObject(value) {
+  // Many host objects are `Object` objects that can coerce to strings
+  // despite having improperly defined `toString` methods.
+  var result = false;
+  if (value != null && typeof value.toString != 'function') {
+    try {
+      result = !!(value + '');
+    } catch (e) {}
+  }
+  return result;
+}
+
+module.exports = isHostObject;
+
+},{}],177:[function(require,module,exports){
+/** Used as references for various `Number` constants. */
+var MAX_SAFE_INTEGER = 9007199254740991;
+
+/** Used to detect unsigned integer values. */
+var reIsUint = /^(?:0|[1-9]\d*)$/;
+
+/**
+ * Checks if `value` is a valid array-like index.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @param {number} [length=MAX_SAFE_INTEGER] The upper bounds of a valid index.
+ * @returns {boolean} Returns `true` if `value` is a valid index, else `false`.
+ */
+function isIndex(value, length) {
+  value = (typeof value == 'number' || reIsUint.test(value)) ? +value : -1;
+  length = length == null ? MAX_SAFE_INTEGER : length;
+  return value > -1 && value % 1 == 0 && value < length;
+}
+
+module.exports = isIndex;
+
+},{}],178:[function(require,module,exports){
+var eq = require('./eq'),
+    isArrayLike = require('./isArrayLike'),
+    isIndex = require('./_isIndex'),
+    isObject = require('./isObject');
+
+/**
+ * Checks if the given arguments are from an iteratee call.
+ *
+ * @private
+ * @param {*} value The potential iteratee value argument.
+ * @param {*} index The potential iteratee index or key argument.
+ * @param {*} object The potential iteratee object argument.
+ * @returns {boolean} Returns `true` if the arguments are from an iteratee call, else `false`.
+ */
+function isIterateeCall(value, index, object) {
+  if (!isObject(object)) {
+    return false;
+  }
+  var type = typeof index;
+  if (type == 'number'
+      ? (isArrayLike(object) && isIndex(index, object.length))
+      : (type == 'string' && index in object)) {
+    return eq(object[index], value);
+  }
+  return false;
+}
+
+module.exports = isIterateeCall;
+
+},{"./_isIndex":177,"./eq":208,"./isArrayLike":216,"./isObject":225}],179:[function(require,module,exports){
+var isArray = require('./isArray');
+
+/** Used to match property names within property paths. */
+var reIsDeepProp = /\.|\[(?:[^[\]]*|(["'])(?:(?!\1)[^\\]|\\.)*?\1)\]/,
+    reIsPlainProp = /^\w*$/;
+
+/**
+ * Checks if `value` is a property name and not a property path.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @param {Object} [object] The object to query keys on.
+ * @returns {boolean} Returns `true` if `value` is a property name, else `false`.
+ */
+function isKey(value, object) {
+  if (typeof value == 'number') {
+    return true;
+  }
+  return !isArray(value) &&
+    (reIsPlainProp.test(value) || !reIsDeepProp.test(value) ||
+      (object != null && value in Object(object)));
+}
+
+module.exports = isKey;
+
+},{"./isArray":215}],180:[function(require,module,exports){
+/**
+ * Checks if `value` is suitable for use as unique object key.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is suitable, else `false`.
+ */
+function isKeyable(value) {
+  var type = typeof value;
+  return type == 'number' || type == 'boolean' ||
+    (type == 'string' && value != '__proto__') || value == null;
+}
+
+module.exports = isKeyable;
+
+},{}],181:[function(require,module,exports){
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/**
+ * Checks if `value` is likely a prototype object.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a prototype, else `false`.
+ */
+function isPrototype(value) {
+  var Ctor = value && value.constructor,
+      proto = (typeof Ctor == 'function' && Ctor.prototype) || objectProto;
+
+  return value === proto;
+}
+
+module.exports = isPrototype;
+
+},{}],182:[function(require,module,exports){
+var isObject = require('./isObject');
+
+/**
+ * Checks if `value` is suitable for strict equality comparisons, i.e. `===`.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` if suitable for strict
+ *  equality comparisons, else `false`.
+ */
+function isStrictComparable(value) {
+  return value === value && !isObject(value);
+}
+
+module.exports = isStrictComparable;
+
+},{"./isObject":225}],183:[function(require,module,exports){
+/**
+ * Converts `iterator` to an array.
+ *
+ * @private
+ * @param {Object} iterator The iterator to convert.
+ * @returns {Array} Returns the converted array.
+ */
+function iteratorToArray(iterator) {
+  var data,
+      result = [];
+
+  while (!(data = iterator.next()).done) {
+    result.push(data.value);
+  }
+  return result;
+}
+
+module.exports = iteratorToArray;
+
+},{}],184:[function(require,module,exports){
+var Hash = require('./_Hash'),
+    Map = require('./_Map');
+
+/**
+ * Removes all key-value entries from the map.
+ *
+ * @private
+ * @name clear
+ * @memberOf MapCache
+ */
+function mapClear() {
+  this.__data__ = {
+    'hash': new Hash,
+    'map': Map ? new Map : [],
+    'string': new Hash
+  };
+}
+
+module.exports = mapClear;
+
+},{"./_Hash":81,"./_Map":82}],185:[function(require,module,exports){
+var Map = require('./_Map'),
+    assocDelete = require('./_assocDelete'),
+    hashDelete = require('./_hashDelete'),
+    isKeyable = require('./_isKeyable');
+
+/**
+ * Removes `key` and its value from the map.
+ *
+ * @private
+ * @name delete
+ * @memberOf MapCache
+ * @param {string} key The key of the value to remove.
+ * @returns {boolean} Returns `true` if the entry was removed, else `false`.
+ */
+function mapDelete(key) {
+  var data = this.__data__;
+  if (isKeyable(key)) {
+    return hashDelete(typeof key == 'string' ? data.string : data.hash, key);
+  }
+  return Map ? data.map['delete'](key) : assocDelete(data.map, key);
+}
+
+module.exports = mapDelete;
+
+},{"./_Map":82,"./_assocDelete":104,"./_hashDelete":167,"./_isKeyable":180}],186:[function(require,module,exports){
+var Map = require('./_Map'),
+    assocGet = require('./_assocGet'),
+    hashGet = require('./_hashGet'),
+    isKeyable = require('./_isKeyable');
+
+/**
+ * Gets the map value for `key`.
+ *
+ * @private
+ * @name get
+ * @memberOf MapCache
+ * @param {string} key The key of the value to get.
+ * @returns {*} Returns the entry value.
+ */
+function mapGet(key) {
+  var data = this.__data__;
+  if (isKeyable(key)) {
+    return hashGet(typeof key == 'string' ? data.string : data.hash, key);
+  }
+  return Map ? data.map.get(key) : assocGet(data.map, key);
+}
+
+module.exports = mapGet;
+
+},{"./_Map":82,"./_assocGet":105,"./_hashGet":168,"./_isKeyable":180}],187:[function(require,module,exports){
+var Map = require('./_Map'),
+    assocHas = require('./_assocHas'),
+    hashHas = require('./_hashHas'),
+    isKeyable = require('./_isKeyable');
+
+/**
+ * Checks if a map value for `key` exists.
+ *
+ * @private
+ * @name has
+ * @memberOf MapCache
+ * @param {string} key The key of the entry to check.
+ * @returns {boolean} Returns `true` if an entry for `key` exists, else `false`.
+ */
+function mapHas(key) {
+  var data = this.__data__;
+  if (isKeyable(key)) {
+    return hashHas(typeof key == 'string' ? data.string : data.hash, key);
+  }
+  return Map ? data.map.has(key) : assocHas(data.map, key);
+}
+
+module.exports = mapHas;
+
+},{"./_Map":82,"./_assocHas":106,"./_hashHas":169,"./_isKeyable":180}],188:[function(require,module,exports){
+var Map = require('./_Map'),
+    assocSet = require('./_assocSet'),
+    hashSet = require('./_hashSet'),
+    isKeyable = require('./_isKeyable');
+
+/**
+ * Sets the map `key` to `value`.
+ *
+ * @private
+ * @name set
+ * @memberOf MapCache
+ * @param {string} key The key of the value to set.
+ * @param {*} value The value to set.
+ * @returns {Object} Returns the map cache object.
+ */
+function mapSet(key, value) {
+  var data = this.__data__;
+  if (isKeyable(key)) {
+    hashSet(typeof key == 'string' ? data.string : data.hash, key, value);
+  } else if (Map) {
+    data.map.set(key, value);
+  } else {
+    assocSet(data.map, key, value);
+  }
+  return this;
+}
+
+module.exports = mapSet;
+
+},{"./_Map":82,"./_assocSet":108,"./_hashSet":170,"./_isKeyable":180}],189:[function(require,module,exports){
+/**
+ * Converts `map` to an array.
+ *
+ * @private
+ * @param {Object} map The map to convert.
+ * @returns {Array} Returns the converted array.
+ */
+function mapToArray(map) {
+  var index = -1,
+      result = Array(map.size);
+
+  map.forEach(function(value, key) {
+    result[++index] = [key, value];
+  });
+  return result;
+}
+
+module.exports = mapToArray;
+
+},{}],190:[function(require,module,exports){
+var baseMerge = require('./_baseMerge'),
+    isObject = require('./isObject');
+
+/**
+ * Used by `_.defaultsDeep` to customize its `_.merge` use.
+ *
+ * @private
+ * @param {*} objValue The destination value.
+ * @param {*} srcValue The source value.
+ * @param {string} key The key of the property to merge.
+ * @param {Object} object The parent object of `objValue`.
+ * @param {Object} source The parent object of `srcValue`.
+ * @param {Object} [stack] Tracks traversed source values and their merged counterparts.
+ * @returns {*} Returns the value to assign.
+ */
+function mergeDefaults(objValue, srcValue, key, object, source, stack) {
+  if (isObject(objValue) && isObject(srcValue)) {
+    baseMerge(objValue, srcValue, undefined, mergeDefaults, stack.set(srcValue, objValue));
+  }
+  return objValue;
+}
+
+module.exports = mergeDefaults;
+
+},{"./_baseMerge":132,"./isObject":225}],191:[function(require,module,exports){
+var getNative = require('./_getNative');
+
+/* Built-in method references that are verified to be native. */
+var nativeCreate = getNative(Object, 'create');
+
+module.exports = nativeCreate;
+
+},{"./_getNative":163}],192:[function(require,module,exports){
+var baseSlice = require('./_baseSlice'),
+    get = require('./get');
+
+/**
+ * Gets the parent value at `path` of `object`.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @param {Array} path The path to get the parent value of.
+ * @returns {*} Returns the parent value.
+ */
+function parent(object, path) {
+  return path.length == 1 ? object : get(object, baseSlice(path, 0, -1));
+}
+
+module.exports = parent;
+
+},{"./_baseSlice":137,"./get":210}],193:[function(require,module,exports){
+(function (global){
+var checkGlobal = require('./_checkGlobal');
+
+/** Used to determine if values are of the language type `Object`. */
+var objectTypes = {
+  'function': true,
+  'object': true
+};
+
+/** Detect free variable `exports`. */
+var freeExports = (objectTypes[typeof exports] && exports && !exports.nodeType)
+  ? exports
+  : undefined;
+
+/** Detect free variable `module`. */
+var freeModule = (objectTypes[typeof module] && module && !module.nodeType)
+  ? module
+  : undefined;
+
+/** Detect free variable `global` from Node.js. */
+var freeGlobal = checkGlobal(freeExports && freeModule && typeof global == 'object' && global);
+
+/** Detect free variable `self`. */
+var freeSelf = checkGlobal(objectTypes[typeof self] && self);
+
+/** Detect free variable `window`. */
+var freeWindow = checkGlobal(objectTypes[typeof window] && window);
+
+/** Detect `this` as the global object. */
+var thisGlobal = checkGlobal(objectTypes[typeof this] && this);
+
+/**
+ * Used as a reference to the global object.
+ *
+ * The `this` value is used if it's the global object to avoid Greasemonkey's
+ * restricted `window` object, otherwise the `window` object is used.
+ */
+var root = freeGlobal ||
+  ((freeWindow !== (thisGlobal && thisGlobal.window)) && freeWindow) ||
+    freeSelf || thisGlobal || Function('return this')();
+
+module.exports = root;
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"./_checkGlobal":143}],194:[function(require,module,exports){
+/**
+ * Converts `set` to an array.
+ *
+ * @private
+ * @param {Object} set The set to convert.
+ * @returns {Array} Returns the converted array.
+ */
+function setToArray(set) {
+  var index = -1,
+      result = Array(set.size);
+
+  set.forEach(function(value) {
+    result[++index] = value;
+  });
+  return result;
+}
+
+module.exports = setToArray;
+
+},{}],195:[function(require,module,exports){
+/**
+ * Removes all key-value entries from the stack.
+ *
+ * @private
+ * @name clear
+ * @memberOf Stack
+ */
+function stackClear() {
+  this.__data__ = { 'array': [], 'map': null };
+}
+
+module.exports = stackClear;
+
+},{}],196:[function(require,module,exports){
+var assocDelete = require('./_assocDelete');
+
+/**
+ * Removes `key` and its value from the stack.
+ *
+ * @private
+ * @name delete
+ * @memberOf Stack
+ * @param {string} key The key of the value to remove.
+ * @returns {boolean} Returns `true` if the entry was removed, else `false`.
+ */
+function stackDelete(key) {
+  var data = this.__data__,
+      array = data.array;
+
+  return array ? assocDelete(array, key) : data.map['delete'](key);
+}
+
+module.exports = stackDelete;
+
+},{"./_assocDelete":104}],197:[function(require,module,exports){
+var assocGet = require('./_assocGet');
+
+/**
+ * Gets the stack value for `key`.
+ *
+ * @private
+ * @name get
+ * @memberOf Stack
+ * @param {string} key The key of the value to get.
+ * @returns {*} Returns the entry value.
+ */
+function stackGet(key) {
+  var data = this.__data__,
+      array = data.array;
+
+  return array ? assocGet(array, key) : data.map.get(key);
+}
+
+module.exports = stackGet;
+
+},{"./_assocGet":105}],198:[function(require,module,exports){
+var assocHas = require('./_assocHas');
+
+/**
+ * Checks if a stack value for `key` exists.
+ *
+ * @private
+ * @name has
+ * @memberOf Stack
+ * @param {string} key The key of the entry to check.
+ * @returns {boolean} Returns `true` if an entry for `key` exists, else `false`.
+ */
+function stackHas(key) {
+  var data = this.__data__,
+      array = data.array;
+
+  return array ? assocHas(array, key) : data.map.has(key);
+}
+
+module.exports = stackHas;
+
+},{"./_assocHas":106}],199:[function(require,module,exports){
+var MapCache = require('./_MapCache'),
+    assocSet = require('./_assocSet');
+
+/** Used as the size to enable large array optimizations. */
+var LARGE_ARRAY_SIZE = 200;
+
+/**
+ * Sets the stack `key` to `value`.
+ *
+ * @private
+ * @name set
+ * @memberOf Stack
+ * @param {string} key The key of the value to set.
+ * @param {*} value The value to set.
+ * @returns {Object} Returns the stack cache object.
+ */
+function stackSet(key, value) {
+  var data = this.__data__,
+      array = data.array;
+
+  if (array) {
+    if (array.length < (LARGE_ARRAY_SIZE - 1)) {
+      assocSet(array, key, value);
+    } else {
+      data.array = null;
+      data.map = new MapCache(array);
+    }
+  }
+  var map = data.map;
+  if (map) {
+    map.set(key, value);
+  }
+  return this;
+}
+
+module.exports = stackSet;
+
+},{"./_MapCache":83,"./_assocSet":108}],200:[function(require,module,exports){
+var toString = require('./toString');
+
+/** Used to match property names within property paths. */
+var rePropName = /[^.[\]]+|\[(?:(-?\d+(?:\.\d+)?)|(["'])((?:(?!\2)[^\\]|\\.)*?)\2)\]/g;
+
+/** Used to match backslashes in property paths. */
+var reEscapeChar = /\\(\\)?/g;
+
+/**
+ * Converts `string` to a property path array.
+ *
+ * @private
+ * @param {string} string The string to convert.
+ * @returns {Array} Returns the property path array.
+ */
+function stringToPath(string) {
+  var result = [];
+  toString(string).replace(rePropName, function(match, number, quote, string) {
+    result.push(quote ? string.replace(reEscapeChar, '$1') : (number || match));
+  });
+  return result;
+}
+
+module.exports = stringToPath;
+
+},{"./toString":245}],201:[function(require,module,exports){
+var copyObjectWith = require('./_copyObjectWith'),
+    createAssigner = require('./_createAssigner'),
+    keysIn = require('./keysIn');
+
+/**
+ * This method is like `_.assignIn` except that it accepts `customizer` which
+ * is invoked to produce the assigned values. If `customizer` returns `undefined`
+ * assignment is handled by the method instead. The `customizer` is invoked
+ * with five arguments: (objValue, srcValue, key, object, source).
+ *
+ * **Note:** This method mutates `object`.
+ *
+ * @static
+ * @memberOf _
+ * @alias extendWith
+ * @category Object
+ * @param {Object} object The destination object.
+ * @param {...Object} sources The source objects.
+ * @param {Function} [customizer] The function to customize assigned values.
+ * @returns {Object} Returns `object`.
+ * @example
+ *
+ * function customizer(objValue, srcValue) {
+ *   return _.isUndefined(objValue) ? srcValue : objValue;
+ * }
+ *
+ * var defaults = _.partialRight(_.assignInWith, customizer);
+ *
+ * defaults({ 'a': 1 }, { 'b': 2 }, { 'a': 3 });
+ * // => { 'a': 1, 'b': 2 }
+ */
+var assignInWith = createAssigner(function(object, source, srcIndex, customizer) {
+  copyObjectWith(source, keysIn(source), object, customizer);
+});
+
+module.exports = assignInWith;
+
+},{"./_copyObjectWith":153,"./_createAssigner":155,"./keysIn":233}],202:[function(require,module,exports){
+var baseClone = require('./_baseClone');
+
+/**
+ * Creates a shallow clone of `value`.
+ *
+ * **Note:** This method is loosely based on the
+ * [structured clone algorithm](https://mdn.io/Structured_clone_algorithm)
+ * and supports cloning arrays, array buffers, booleans, date objects, maps,
+ * numbers, `Object` objects, regexes, sets, strings, symbols, and typed
+ * arrays. The own enumerable properties of `arguments` objects are cloned
+ * as plain objects. An empty object is returned for uncloneable values such
+ * as error objects, functions, DOM nodes, and WeakMaps.
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to clone.
+ * @returns {*} Returns the cloned value.
+ * @example
+ *
+ * var objects = [{ 'a': 1 }, { 'b': 2 }];
+ *
+ * var shallow = _.clone(objects);
+ * console.log(shallow[0] === objects[0]);
+ * // => true
+ */
+function clone(value) {
+  return baseClone(value, false, true);
+}
+
+module.exports = clone;
+
+},{"./_baseClone":112}],203:[function(require,module,exports){
+/**
+ * Creates a function that returns `value`.
+ *
+ * @static
+ * @memberOf _
+ * @category Util
+ * @param {*} value The value to return from the new function.
+ * @returns {Function} Returns the new function.
+ * @example
+ *
+ * var object = { 'user': 'fred' };
+ * var getter = _.constant(object);
+ *
+ * getter() === object;
+ * // => true
+ */
+function constant(value) {
+  return function() {
+    return value;
+  };
+}
+
+module.exports = constant;
+
+},{}],204:[function(require,module,exports){
+var isObject = require('./isObject'),
+    now = require('./now'),
+    toNumber = require('./toNumber');
+
+/** Used as the `TypeError` message for "Functions" methods. */
+var FUNC_ERROR_TEXT = 'Expected a function';
+
+/* Built-in method references for those with the same name as other `lodash` methods. */
+var nativeMax = Math.max;
+
+/**
+ * Creates a debounced function that delays invoking `func` until after `wait`
+ * milliseconds have elapsed since the last time the debounced function was
+ * invoked. The debounced function comes with a `cancel` method to cancel
+ * delayed `func` invocations and a `flush` method to immediately invoke them.
+ * Provide an options object to indicate whether `func` should be invoked on
+ * the leading and/or trailing edge of the `wait` timeout. The `func` is invoked
+ * with the last arguments provided to the debounced function. Subsequent calls
+ * to the debounced function return the result of the last `func` invocation.
+ *
+ * **Note:** If `leading` and `trailing` options are `true`, `func` is invoked
+ * on the trailing edge of the timeout only if the debounced function is
+ * invoked more than once during the `wait` timeout.
+ *
+ * See [David Corbacho's article](http://drupalmotion.com/article/debounce-and-throttle-visual-explanation)
+ * for details over the differences between `_.debounce` and `_.throttle`.
+ *
+ * @static
+ * @memberOf _
+ * @category Function
+ * @param {Function} func The function to debounce.
+ * @param {number} [wait=0] The number of milliseconds to delay.
+ * @param {Object} [options] The options object.
+ * @param {boolean} [options.leading=false] Specify invoking on the leading
+ *  edge of the timeout.
+ * @param {number} [options.maxWait] The maximum time `func` is allowed to be
+ *  delayed before it's invoked.
+ * @param {boolean} [options.trailing=true] Specify invoking on the trailing
+ *  edge of the timeout.
+ * @returns {Function} Returns the new debounced function.
+ * @example
+ *
+ * // Avoid costly calculations while the window size is in flux.
+ * jQuery(window).on('resize', _.debounce(calculateLayout, 150));
+ *
+ * // Invoke `sendMail` when clicked, debouncing subsequent calls.
+ * jQuery(element).on('click', _.debounce(sendMail, 300, {
+ *   'leading': true,
+ *   'trailing': false
+ * }));
+ *
+ * // Ensure `batchLog` is invoked once after 1 second of debounced calls.
+ * var debounced = _.debounce(batchLog, 250, { 'maxWait': 1000 });
+ * var source = new EventSource('/stream');
+ * jQuery(source).on('message', debounced);
+ *
+ * // Cancel the trailing debounced invocation.
+ * jQuery(window).on('popstate', debounced.cancel);
+ */
+function debounce(func, wait, options) {
+  var args,
+      maxTimeoutId,
+      result,
+      stamp,
+      thisArg,
+      timeoutId,
+      trailingCall,
+      lastCalled = 0,
+      leading = false,
+      maxWait = false,
+      trailing = true;
+
+  if (typeof func != 'function') {
+    throw new TypeError(FUNC_ERROR_TEXT);
+  }
+  wait = toNumber(wait) || 0;
+  if (isObject(options)) {
+    leading = !!options.leading;
+    maxWait = 'maxWait' in options && nativeMax(toNumber(options.maxWait) || 0, wait);
+    trailing = 'trailing' in options ? !!options.trailing : trailing;
+  }
+
+  function cancel() {
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+    }
+    if (maxTimeoutId) {
+      clearTimeout(maxTimeoutId);
+    }
+    lastCalled = 0;
+    args = maxTimeoutId = thisArg = timeoutId = trailingCall = undefined;
+  }
+
+  function complete(isCalled, id) {
+    if (id) {
+      clearTimeout(id);
+    }
+    maxTimeoutId = timeoutId = trailingCall = undefined;
+    if (isCalled) {
+      lastCalled = now();
+      result = func.apply(thisArg, args);
+      if (!timeoutId && !maxTimeoutId) {
+        args = thisArg = undefined;
+      }
+    }
+  }
+
+  function delayed() {
+    var remaining = wait - (now() - stamp);
+    if (remaining <= 0 || remaining > wait) {
+      complete(trailingCall, maxTimeoutId);
+    } else {
+      timeoutId = setTimeout(delayed, remaining);
+    }
+  }
+
+  function flush() {
+    if ((timeoutId && trailingCall) || (maxTimeoutId && trailing)) {
+      result = func.apply(thisArg, args);
+    }
+    cancel();
+    return result;
+  }
+
+  function maxDelayed() {
+    complete(trailing, timeoutId);
+  }
+
+  function debounced() {
+    args = arguments;
+    stamp = now();
+    thisArg = this;
+    trailingCall = trailing && (timeoutId || !leading);
+
+    if (maxWait === false) {
+      var leadingCall = leading && !timeoutId;
+    } else {
+      if (!lastCalled && !maxTimeoutId && !leading) {
+        lastCalled = stamp;
+      }
+      var remaining = maxWait - (stamp - lastCalled);
+
+      var isCalled = (remaining <= 0 || remaining > maxWait) &&
+        (leading || maxTimeoutId);
+
+      if (isCalled) {
+        if (maxTimeoutId) {
+          maxTimeoutId = clearTimeout(maxTimeoutId);
+        }
+        lastCalled = stamp;
+        result = func.apply(thisArg, args);
+      }
+      else if (!maxTimeoutId) {
+        maxTimeoutId = setTimeout(maxDelayed, remaining);
+      }
+    }
+    if (isCalled && timeoutId) {
+      timeoutId = clearTimeout(timeoutId);
+    }
+    else if (!timeoutId && wait !== maxWait) {
+      timeoutId = setTimeout(delayed, wait);
+    }
+    if (leadingCall) {
+      isCalled = true;
+      result = func.apply(thisArg, args);
+    }
+    if (isCalled && !timeoutId && !maxTimeoutId) {
+      args = thisArg = undefined;
+    }
+    return result;
+  }
+  debounced.cancel = cancel;
+  debounced.flush = flush;
+  return debounced;
+}
+
+module.exports = debounce;
+
+},{"./isObject":225,"./now":237,"./toNumber":242}],205:[function(require,module,exports){
+var apply = require('./_apply'),
+    assignInDefaults = require('./_assignInDefaults'),
+    assignInWith = require('./assignInWith'),
+    rest = require('./rest');
+
+/**
+ * Assigns own and inherited enumerable properties of source objects to the
+ * destination object for all destination properties that resolve to `undefined`.
+ * Source objects are applied from left to right. Once a property is set,
+ * additional values of the same property are ignored.
+ *
+ * **Note:** This method mutates `object`.
+ *
+ * @static
+ * @memberOf _
+ * @category Object
+ * @param {Object} object The destination object.
+ * @param {...Object} [sources] The source objects.
+ * @returns {Object} Returns `object`.
+ * @example
+ *
+ * _.defaults({ 'user': 'barney' }, { 'age': 36 }, { 'user': 'fred' });
+ * // => { 'user': 'barney', 'age': 36 }
+ */
+var defaults = rest(function(args) {
+  args.push(undefined, assignInDefaults);
+  return apply(assignInWith, undefined, args);
+});
+
+module.exports = defaults;
+
+},{"./_apply":93,"./_assignInDefaults":101,"./assignInWith":201,"./rest":240}],206:[function(require,module,exports){
+var apply = require('./_apply'),
+    mergeDefaults = require('./_mergeDefaults'),
+    mergeWith = require('./mergeWith'),
+    rest = require('./rest');
+
+/**
+ * This method is like `_.defaults` except that it recursively assigns
+ * default properties.
+ *
+ * **Note:** This method mutates `object`.
+ *
+ * @static
+ * @memberOf _
+ * @category Object
+ * @param {Object} object The destination object.
+ * @param {...Object} [sources] The source objects.
+ * @returns {Object} Returns `object`.
+ * @example
+ *
+ * _.defaultsDeep({ 'user': { 'name': 'barney' } }, { 'user': { 'name': 'fred', 'age': 36 } });
+ * // => { 'user': { 'name': 'barney', 'age': 36 } }
+ *
+ */
+var defaultsDeep = rest(function(args) {
+  args.push(undefined, mergeDefaults);
+  return apply(mergeWith, undefined, args);
+});
+
+module.exports = defaultsDeep;
+
+},{"./_apply":93,"./_mergeDefaults":190,"./mergeWith":236,"./rest":240}],207:[function(require,module,exports){
+var baseDifference = require('./_baseDifference'),
+    baseFlatten = require('./_baseFlatten'),
+    isArrayLikeObject = require('./isArrayLikeObject'),
+    rest = require('./rest');
+
+/**
+ * Creates an array of unique `array` values not included in the other
+ * given arrays using [`SameValueZero`](http://ecma-international.org/ecma-262/6.0/#sec-samevaluezero)
+ * for equality comparisons. The order of result values is determined by the
+ * order they occur in the first array.
+ *
+ * @static
+ * @memberOf _
+ * @category Array
+ * @param {Array} array The array to inspect.
+ * @param {...Array} [values] The values to exclude.
+ * @returns {Array} Returns the new array of filtered values.
+ * @example
+ *
+ * _.difference([3, 2, 1], [4, 2]);
+ * // => [3, 1]
+ */
+var difference = rest(function(array, values) {
+  return isArrayLikeObject(array)
+    ? baseDifference(array, baseFlatten(values, 1, true))
+    : [];
+});
+
+module.exports = difference;
+
+},{"./_baseDifference":114,"./_baseFlatten":116,"./isArrayLikeObject":217,"./rest":240}],208:[function(require,module,exports){
+/**
+ * Performs a [`SameValueZero`](http://ecma-international.org/ecma-262/6.0/#sec-samevaluezero)
+ * comparison between two values to determine if they are equivalent.
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to compare.
+ * @param {*} other The other value to compare.
+ * @returns {boolean} Returns `true` if the values are equivalent, else `false`.
+ * @example
+ *
+ * var object = { 'user': 'fred' };
+ * var other = { 'user': 'fred' };
+ *
+ * _.eq(object, object);
+ * // => true
+ *
+ * _.eq(object, other);
+ * // => false
+ *
+ * _.eq('a', 'a');
+ * // => true
+ *
+ * _.eq('a', Object('a'));
+ * // => false
+ *
+ * _.eq(NaN, NaN);
+ * // => true
+ */
+function eq(value, other) {
+  return value === other || (value !== value && other !== other);
+}
+
+module.exports = eq;
+
+},{}],209:[function(require,module,exports){
+var arrayEach = require('./_arrayEach'),
+    baseCastFunction = require('./_baseCastFunction'),
+    baseEach = require('./_baseEach'),
+    isArray = require('./isArray');
+
+/**
+ * Iterates over elements of `collection` invoking `iteratee` for each element.
+ * The iteratee is invoked with three arguments: (value, index|key, collection).
+ * Iteratee functions may exit iteration early by explicitly returning `false`.
+ *
+ * **Note:** As with other "Collections" methods, objects with a "length" property
+ * are iterated like arrays. To avoid this behavior use `_.forIn` or `_.forOwn`
+ * for object iteration.
+ *
+ * @static
+ * @memberOf _
+ * @alias each
+ * @category Collection
+ * @param {Array|Object} collection The collection to iterate over.
+ * @param {Function} [iteratee=_.identity] The function invoked per iteration.
+ * @returns {Array|Object} Returns `collection`.
+ * @example
+ *
+ * _([1, 2]).forEach(function(value) {
+ *   console.log(value);
+ * });
+ * // => logs `1` then `2`
+ *
+ * _.forEach({ 'a': 1, 'b': 2 }, function(value, key) {
+ *   console.log(key);
+ * });
+ * // => logs 'a' then 'b' (iteration order is not guaranteed)
+ */
+function forEach(collection, iteratee) {
+  return (typeof iteratee == 'function' && isArray(collection))
+    ? arrayEach(collection, iteratee)
+    : baseEach(collection, baseCastFunction(iteratee));
+}
+
+module.exports = forEach;
+
+},{"./_arrayEach":94,"./_baseCastFunction":110,"./_baseEach":115,"./isArray":215}],210:[function(require,module,exports){
+var baseGet = require('./_baseGet');
+
+/**
+ * Gets the value at `path` of `object`. If the resolved value is
+ * `undefined` the `defaultValue` is used in its place.
+ *
+ * @static
+ * @memberOf _
+ * @category Object
+ * @param {Object} object The object to query.
+ * @param {Array|string} path The path of the property to get.
+ * @param {*} [defaultValue] The value returned if the resolved value is `undefined`.
+ * @returns {*} Returns the resolved value.
+ * @example
+ *
+ * var object = { 'a': [{ 'b': { 'c': 3 } }] };
+ *
+ * _.get(object, 'a[0].b.c');
+ * // => 3
+ *
+ * _.get(object, ['a', '0', 'b', 'c']);
+ * // => 3
+ *
+ * _.get(object, 'a.b.c', 'default');
+ * // => 'default'
+ */
+function get(object, path, defaultValue) {
+  var result = object == null ? undefined : baseGet(object, path);
+  return result === undefined ? defaultValue : result;
+}
+
+module.exports = get;
+
+},{"./_baseGet":119}],211:[function(require,module,exports){
+var baseHasIn = require('./_baseHasIn'),
+    hasPath = require('./_hasPath');
+
+/**
+ * Checks if `path` is a direct or inherited property of `object`.
+ *
+ * @static
+ * @memberOf _
+ * @category Object
+ * @param {Object} object The object to query.
+ * @param {Array|string} path The path to check.
+ * @returns {boolean} Returns `true` if `path` exists, else `false`.
+ * @example
+ *
+ * var object = _.create({ 'a': _.create({ 'b': _.create({ 'c': 3 }) }) });
+ *
+ * _.hasIn(object, 'a');
+ * // => true
+ *
+ * _.hasIn(object, 'a.b.c');
+ * // => true
+ *
+ * _.hasIn(object, ['a', 'b', 'c']);
+ * // => true
+ *
+ * _.hasIn(object, 'b');
+ * // => false
+ */
+function hasIn(object, path) {
+  return hasPath(object, path, baseHasIn);
+}
+
+module.exports = hasIn;
+
+},{"./_baseHasIn":121,"./_hasPath":166}],212:[function(require,module,exports){
+/**
+ * This method returns the first argument given to it.
+ *
+ * @static
+ * @memberOf _
+ * @category Util
+ * @param {*} value Any value.
+ * @returns {*} Returns `value`.
+ * @example
+ *
+ * var object = { 'user': 'fred' };
+ *
+ * _.identity(object) === object;
+ * // => true
+ */
+function identity(value) {
+  return value;
+}
+
+module.exports = identity;
+
+},{}],213:[function(require,module,exports){
+var baseInRange = require('./_baseInRange'),
+    toNumber = require('./toNumber');
+
+/**
+ * Checks if `n` is between `start` and up to but not including, `end`. If
+ * `end` is not specified it's set to `start` with `start` then set to `0`.
+ * If `start` is greater than `end` the params are swapped to support
+ * negative ranges.
+ *
+ * @static
+ * @memberOf _
+ * @category Number
+ * @param {number} number The number to check.
+ * @param {number} [start=0] The start of the range.
+ * @param {number} end The end of the range.
+ * @returns {boolean} Returns `true` if `number` is in the range, else `false`.
+ * @example
+ *
+ * _.inRange(3, 2, 4);
+ * // => true
+ *
+ * _.inRange(4, 8);
+ * // => true
+ *
+ * _.inRange(4, 2);
+ * // => false
+ *
+ * _.inRange(2, 2);
+ * // => false
+ *
+ * _.inRange(1.2, 2);
+ * // => true
+ *
+ * _.inRange(5.2, 4);
+ * // => false
+ *
+ * _.inRange(-3, -2, -6);
+ * // => true
+ */
+function inRange(number, start, end) {
+  start = toNumber(start) || 0;
+  if (end === undefined) {
+    end = start;
+    start = 0;
+  } else {
+    end = toNumber(end) || 0;
+  }
+  number = toNumber(number);
+  return baseInRange(number, start, end);
+}
+
+module.exports = inRange;
+
+},{"./_baseInRange":122,"./toNumber":242}],214:[function(require,module,exports){
+var isArrayLikeObject = require('./isArrayLikeObject');
+
+/** `Object#toString` result references. */
+var argsTag = '[object Arguments]';
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+/**
+ * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
+ * of values.
+ */
+var objectToString = objectProto.toString;
+
+/** Built-in value references. */
+var propertyIsEnumerable = objectProto.propertyIsEnumerable;
+
+/**
+ * Checks if `value` is likely an `arguments` object.
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
+ * @example
+ *
+ * _.isArguments(function() { return arguments; }());
+ * // => true
+ *
+ * _.isArguments([1, 2, 3]);
+ * // => false
+ */
+function isArguments(value) {
+  // Safari 8.1 incorrectly makes `arguments.callee` enumerable in strict mode.
+  return isArrayLikeObject(value) && hasOwnProperty.call(value, 'callee') &&
+    (!propertyIsEnumerable.call(value, 'callee') || objectToString.call(value) == argsTag);
+}
+
+module.exports = isArguments;
+
+},{"./isArrayLikeObject":217}],215:[function(require,module,exports){
+/**
+ * Checks if `value` is classified as an `Array` object.
+ *
+ * @static
+ * @memberOf _
+ * @type {Function}
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
+ * @example
+ *
+ * _.isArray([1, 2, 3]);
+ * // => true
+ *
+ * _.isArray(document.body.children);
+ * // => false
+ *
+ * _.isArray('abc');
+ * // => false
+ *
+ * _.isArray(_.noop);
+ * // => false
+ */
+var isArray = Array.isArray;
+
+module.exports = isArray;
+
+},{}],216:[function(require,module,exports){
+var getLength = require('./_getLength'),
+    isFunction = require('./isFunction'),
+    isLength = require('./isLength');
+
+/**
+ * Checks if `value` is array-like. A value is considered array-like if it's
+ * not a function and has a `value.length` that's an integer greater than or
+ * equal to `0` and less than or equal to `Number.MAX_SAFE_INTEGER`.
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is array-like, else `false`.
+ * @example
+ *
+ * _.isArrayLike([1, 2, 3]);
+ * // => true
+ *
+ * _.isArrayLike(document.body.children);
+ * // => true
+ *
+ * _.isArrayLike('abc');
+ * // => true
+ *
+ * _.isArrayLike(_.noop);
+ * // => false
+ */
+function isArrayLike(value) {
+  return value != null && isLength(getLength(value)) && !isFunction(value);
+}
+
+module.exports = isArrayLike;
+
+},{"./_getLength":161,"./isFunction":221,"./isLength":222}],217:[function(require,module,exports){
+var isArrayLike = require('./isArrayLike'),
+    isObjectLike = require('./isObjectLike');
+
+/**
+ * This method is like `_.isArrayLike` except that it also checks if `value`
+ * is an object.
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an array-like object, else `false`.
+ * @example
+ *
+ * _.isArrayLikeObject([1, 2, 3]);
+ * // => true
+ *
+ * _.isArrayLikeObject(document.body.children);
+ * // => true
+ *
+ * _.isArrayLikeObject('abc');
+ * // => false
+ *
+ * _.isArrayLikeObject(_.noop);
+ * // => false
+ */
+function isArrayLikeObject(value) {
+  return isObjectLike(value) && isArrayLike(value);
+}
+
+module.exports = isArrayLikeObject;
+
+},{"./isArrayLike":216,"./isObjectLike":226}],218:[function(require,module,exports){
+var constant = require('./constant'),
+    root = require('./_root');
+
+/** Used to determine if values are of the language type `Object`. */
+var objectTypes = {
+  'function': true,
+  'object': true
+};
+
+/** Detect free variable `exports`. */
+var freeExports = (objectTypes[typeof exports] && exports && !exports.nodeType)
+  ? exports
+  : undefined;
+
+/** Detect free variable `module`. */
+var freeModule = (objectTypes[typeof module] && module && !module.nodeType)
+  ? module
+  : undefined;
+
+/** Detect the popular CommonJS extension `module.exports`. */
+var moduleExports = (freeModule && freeModule.exports === freeExports)
+  ? freeExports
+  : undefined;
+
+/** Built-in value references. */
+var Buffer = moduleExports ? root.Buffer : undefined;
+
+/**
+ * Checks if `value` is a buffer.
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a buffer, else `false`.
+ * @example
+ *
+ * _.isBuffer(new Buffer(2));
+ * // => true
+ *
+ * _.isBuffer(new Uint8Array(2));
+ * // => false
+ */
+var isBuffer = !Buffer ? constant(false) : function(value) {
+  return value instanceof Buffer;
+};
+
+module.exports = isBuffer;
+
+},{"./_root":193,"./constant":203}],219:[function(require,module,exports){
+var isObjectLike = require('./isObjectLike'),
+    isPlainObject = require('./isPlainObject');
+
+/**
+ * Checks if `value` is likely a DOM element.
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a DOM element, else `false`.
+ * @example
+ *
+ * _.isElement(document.body);
+ * // => true
+ *
+ * _.isElement('<body>');
+ * // => false
+ */
+function isElement(value) {
+  return !!value && value.nodeType === 1 && isObjectLike(value) && !isPlainObject(value);
+}
+
+module.exports = isElement;
+
+},{"./isObjectLike":226,"./isPlainObject":227}],220:[function(require,module,exports){
+var isArguments = require('./isArguments'),
+    isArray = require('./isArray'),
+    isArrayLike = require('./isArrayLike'),
+    isFunction = require('./isFunction'),
+    isString = require('./isString');
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+/**
+ * Checks if `value` is an empty collection or object. A value is considered
+ * empty if it's an `arguments` object, array, string, or jQuery-like collection
+ * with a length of `0` or has no own enumerable properties.
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is empty, else `false`.
+ * @example
+ *
+ * _.isEmpty(null);
+ * // => true
+ *
+ * _.isEmpty(true);
+ * // => true
+ *
+ * _.isEmpty(1);
+ * // => true
+ *
+ * _.isEmpty([1, 2, 3]);
+ * // => false
+ *
+ * _.isEmpty({ 'a': 1 });
+ * // => false
+ */
+function isEmpty(value) {
+  if (isArrayLike(value) &&
+      (isArray(value) || isString(value) ||
+        isFunction(value.splice) || isArguments(value))) {
+    return !value.length;
+  }
+  for (var key in value) {
+    if (hasOwnProperty.call(value, key)) {
+      return false;
+    }
+  }
+  return true;
+}
+
+module.exports = isEmpty;
+
+},{"./isArguments":214,"./isArray":215,"./isArrayLike":216,"./isFunction":221,"./isString":228}],221:[function(require,module,exports){
+var isObject = require('./isObject');
+
+/** `Object#toString` result references. */
+var funcTag = '[object Function]',
+    genTag = '[object GeneratorFunction]';
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/**
+ * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
+ * of values.
+ */
+var objectToString = objectProto.toString;
+
+/**
+ * Checks if `value` is classified as a `Function` object.
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
+ * @example
+ *
+ * _.isFunction(_);
+ * // => true
+ *
+ * _.isFunction(/abc/);
+ * // => false
+ */
+function isFunction(value) {
+  // The use of `Object#toString` avoids issues with the `typeof` operator
+  // in Safari 8 which returns 'object' for typed array and weak map constructors,
+  // and PhantomJS 1.9 which returns 'function' for `NodeList` instances.
+  var tag = isObject(value) ? objectToString.call(value) : '';
+  return tag == funcTag || tag == genTag;
+}
+
+module.exports = isFunction;
+
+},{"./isObject":225}],222:[function(require,module,exports){
+/** Used as references for various `Number` constants. */
+var MAX_SAFE_INTEGER = 9007199254740991;
+
+/**
+ * Checks if `value` is a valid array-like length.
+ *
+ * **Note:** This function is loosely based on [`ToLength`](http://ecma-international.org/ecma-262/6.0/#sec-tolength).
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a valid length, else `false`.
+ * @example
+ *
+ * _.isLength(3);
+ * // => true
+ *
+ * _.isLength(Number.MIN_VALUE);
+ * // => false
+ *
+ * _.isLength(Infinity);
+ * // => false
+ *
+ * _.isLength('3');
+ * // => false
+ */
+function isLength(value) {
+  return typeof value == 'number' &&
+    value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
+}
+
+module.exports = isLength;
+
+},{}],223:[function(require,module,exports){
+var isFunction = require('./isFunction'),
+    isHostObject = require('./_isHostObject'),
+    isObjectLike = require('./isObjectLike');
+
+/** Used to match `RegExp` [syntax characters](http://ecma-international.org/ecma-262/6.0/#sec-patterns). */
+var reRegExpChar = /[\\^$.*+?()[\]{}|]/g;
+
+/** Used to detect host constructors (Safari > 5). */
+var reIsHostCtor = /^\[object .+?Constructor\]$/;
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/** Used to resolve the decompiled source of functions. */
+var funcToString = Function.prototype.toString;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+/** Used to detect if a method is native. */
+var reIsNative = RegExp('^' +
+  funcToString.call(hasOwnProperty).replace(reRegExpChar, '\\$&')
+  .replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, '$1.*?') + '$'
+);
+
+/**
+ * Checks if `value` is a native function.
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a native function, else `false`.
+ * @example
+ *
+ * _.isNative(Array.prototype.push);
+ * // => true
+ *
+ * _.isNative(_);
+ * // => false
+ */
+function isNative(value) {
+  if (value == null) {
+    return false;
+  }
+  if (isFunction(value)) {
+    return reIsNative.test(funcToString.call(value));
+  }
+  return isObjectLike(value) &&
+    (isHostObject(value) ? reIsNative : reIsHostCtor).test(value);
+}
+
+module.exports = isNative;
+
+},{"./_isHostObject":176,"./isFunction":221,"./isObjectLike":226}],224:[function(require,module,exports){
+var isObjectLike = require('./isObjectLike');
+
+/** `Object#toString` result references. */
+var numberTag = '[object Number]';
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/**
+ * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
+ * of values.
+ */
+var objectToString = objectProto.toString;
+
+/**
+ * Checks if `value` is classified as a `Number` primitive or object.
+ *
+ * **Note:** To exclude `Infinity`, `-Infinity`, and `NaN`, which are classified
+ * as numbers, use the `_.isFinite` method.
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
+ * @example
+ *
+ * _.isNumber(3);
+ * // => true
+ *
+ * _.isNumber(Number.MIN_VALUE);
+ * // => true
+ *
+ * _.isNumber(Infinity);
+ * // => true
+ *
+ * _.isNumber('3');
+ * // => false
+ */
+function isNumber(value) {
+  return typeof value == 'number' ||
+    (isObjectLike(value) && objectToString.call(value) == numberTag);
+}
+
+module.exports = isNumber;
+
+},{"./isObjectLike":226}],225:[function(require,module,exports){
+/**
+ * Checks if `value` is the [language type](https://es5.github.io/#x8) of `Object`.
+ * (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an object, else `false`.
+ * @example
+ *
+ * _.isObject({});
+ * // => true
+ *
+ * _.isObject([1, 2, 3]);
+ * // => true
+ *
+ * _.isObject(_.noop);
+ * // => true
+ *
+ * _.isObject(null);
+ * // => false
+ */
+function isObject(value) {
+  var type = typeof value;
+  return !!value && (type == 'object' || type == 'function');
+}
+
+module.exports = isObject;
+
+},{}],226:[function(require,module,exports){
+/**
+ * Checks if `value` is object-like. A value is object-like if it's not `null`
+ * and has a `typeof` result of "object".
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+ * @example
+ *
+ * _.isObjectLike({});
+ * // => true
+ *
+ * _.isObjectLike([1, 2, 3]);
+ * // => true
+ *
+ * _.isObjectLike(_.noop);
+ * // => false
+ *
+ * _.isObjectLike(null);
+ * // => false
+ */
+function isObjectLike(value) {
+  return !!value && typeof value == 'object';
+}
+
+module.exports = isObjectLike;
+
+},{}],227:[function(require,module,exports){
+var isHostObject = require('./_isHostObject'),
+    isObjectLike = require('./isObjectLike');
+
+/** `Object#toString` result references. */
+var objectTag = '[object Object]';
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/** Used to resolve the decompiled source of functions. */
+var funcToString = Function.prototype.toString;
+
+/** Used to infer the `Object` constructor. */
+var objectCtorString = funcToString.call(Object);
+
+/**
+ * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
+ * of values.
+ */
+var objectToString = objectProto.toString;
+
+/** Built-in value references. */
+var getPrototypeOf = Object.getPrototypeOf;
+
+/**
+ * Checks if `value` is a plain object, that is, an object created by the
+ * `Object` constructor or one with a `[[Prototype]]` of `null`.
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a plain object, else `false`.
+ * @example
+ *
+ * function Foo() {
+ *   this.a = 1;
+ * }
+ *
+ * _.isPlainObject(new Foo);
+ * // => false
+ *
+ * _.isPlainObject([1, 2, 3]);
+ * // => false
+ *
+ * _.isPlainObject({ 'x': 0, 'y': 0 });
+ * // => true
+ *
+ * _.isPlainObject(Object.create(null));
+ * // => true
+ */
+function isPlainObject(value) {
+  if (!isObjectLike(value) ||
+      objectToString.call(value) != objectTag || isHostObject(value)) {
+    return false;
+  }
+  var proto = getPrototypeOf(value);
+  if (proto === null) {
+    return true;
+  }
+  var Ctor = proto.constructor;
+  return (typeof Ctor == 'function' &&
+    Ctor instanceof Ctor && funcToString.call(Ctor) == objectCtorString);
+}
+
+module.exports = isPlainObject;
+
+},{"./_isHostObject":176,"./isObjectLike":226}],228:[function(require,module,exports){
+var isArray = require('./isArray'),
+    isObjectLike = require('./isObjectLike');
+
+/** `Object#toString` result references. */
+var stringTag = '[object String]';
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/**
+ * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
+ * of values.
+ */
+var objectToString = objectProto.toString;
+
+/**
+ * Checks if `value` is classified as a `String` primitive or object.
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
+ * @example
+ *
+ * _.isString('abc');
+ * // => true
+ *
+ * _.isString(1);
+ * // => false
+ */
+function isString(value) {
+  return typeof value == 'string' ||
+    (!isArray(value) && isObjectLike(value) && objectToString.call(value) == stringTag);
+}
+
+module.exports = isString;
+
+},{"./isArray":215,"./isObjectLike":226}],229:[function(require,module,exports){
+var isObjectLike = require('./isObjectLike');
+
+/** `Object#toString` result references. */
+var symbolTag = '[object Symbol]';
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/**
+ * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
+ * of values.
+ */
+var objectToString = objectProto.toString;
+
+/**
+ * Checks if `value` is classified as a `Symbol` primitive or object.
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
+ * @example
+ *
+ * _.isSymbol(Symbol.iterator);
+ * // => true
+ *
+ * _.isSymbol('abc');
+ * // => false
+ */
+function isSymbol(value) {
+  return typeof value == 'symbol' ||
+    (isObjectLike(value) && objectToString.call(value) == symbolTag);
+}
+
+module.exports = isSymbol;
+
+},{"./isObjectLike":226}],230:[function(require,module,exports){
+var isLength = require('./isLength'),
+    isObjectLike = require('./isObjectLike');
+
+/** `Object#toString` result references. */
+var argsTag = '[object Arguments]',
+    arrayTag = '[object Array]',
+    boolTag = '[object Boolean]',
+    dateTag = '[object Date]',
+    errorTag = '[object Error]',
+    funcTag = '[object Function]',
+    mapTag = '[object Map]',
+    numberTag = '[object Number]',
+    objectTag = '[object Object]',
+    regexpTag = '[object RegExp]',
+    setTag = '[object Set]',
+    stringTag = '[object String]',
+    weakMapTag = '[object WeakMap]';
+
+var arrayBufferTag = '[object ArrayBuffer]',
+    float32Tag = '[object Float32Array]',
+    float64Tag = '[object Float64Array]',
+    int8Tag = '[object Int8Array]',
+    int16Tag = '[object Int16Array]',
+    int32Tag = '[object Int32Array]',
+    uint8Tag = '[object Uint8Array]',
+    uint8ClampedTag = '[object Uint8ClampedArray]',
+    uint16Tag = '[object Uint16Array]',
+    uint32Tag = '[object Uint32Array]';
+
+/** Used to identify `toStringTag` values of typed arrays. */
+var typedArrayTags = {};
+typedArrayTags[float32Tag] = typedArrayTags[float64Tag] =
+typedArrayTags[int8Tag] = typedArrayTags[int16Tag] =
+typedArrayTags[int32Tag] = typedArrayTags[uint8Tag] =
+typedArrayTags[uint8ClampedTag] = typedArrayTags[uint16Tag] =
+typedArrayTags[uint32Tag] = true;
+typedArrayTags[argsTag] = typedArrayTags[arrayTag] =
+typedArrayTags[arrayBufferTag] = typedArrayTags[boolTag] =
+typedArrayTags[dateTag] = typedArrayTags[errorTag] =
+typedArrayTags[funcTag] = typedArrayTags[mapTag] =
+typedArrayTags[numberTag] = typedArrayTags[objectTag] =
+typedArrayTags[regexpTag] = typedArrayTags[setTag] =
+typedArrayTags[stringTag] = typedArrayTags[weakMapTag] = false;
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/**
+ * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
+ * of values.
+ */
+var objectToString = objectProto.toString;
+
+/**
+ * Checks if `value` is classified as a typed array.
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
+ * @example
+ *
+ * _.isTypedArray(new Uint8Array);
+ * // => true
+ *
+ * _.isTypedArray([]);
+ * // => false
+ */
+function isTypedArray(value) {
+  return isObjectLike(value) &&
+    isLength(value.length) && !!typedArrayTags[objectToString.call(value)];
+}
+
+module.exports = isTypedArray;
+
+},{"./isLength":222,"./isObjectLike":226}],231:[function(require,module,exports){
+/**
+ * Checks if `value` is `undefined`.
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is `undefined`, else `false`.
+ * @example
+ *
+ * _.isUndefined(void 0);
+ * // => true
+ *
+ * _.isUndefined(null);
+ * // => false
+ */
+function isUndefined(value) {
+  return value === undefined;
+}
+
+module.exports = isUndefined;
+
+},{}],232:[function(require,module,exports){
+var baseHas = require('./_baseHas'),
+    baseKeys = require('./_baseKeys'),
+    indexKeys = require('./_indexKeys'),
+    isArrayLike = require('./isArrayLike'),
+    isIndex = require('./_isIndex'),
+    isPrototype = require('./_isPrototype');
+
+/**
+ * Creates an array of the own enumerable property names of `object`.
+ *
+ * **Note:** Non-object values are coerced to objects. See the
+ * [ES spec](http://ecma-international.org/ecma-262/6.0/#sec-object.keys)
+ * for more details.
+ *
+ * @static
+ * @memberOf _
+ * @category Object
+ * @param {Object} object The object to query.
+ * @returns {Array} Returns the array of property names.
+ * @example
+ *
+ * function Foo() {
+ *   this.a = 1;
+ *   this.b = 2;
+ * }
+ *
+ * Foo.prototype.c = 3;
+ *
+ * _.keys(new Foo);
+ * // => ['a', 'b'] (iteration order is not guaranteed)
+ *
+ * _.keys('hi');
+ * // => ['0', '1']
+ */
+function keys(object) {
+  var isProto = isPrototype(object);
+  if (!(isProto || isArrayLike(object))) {
+    return baseKeys(object);
+  }
+  var indexes = indexKeys(object),
+      skipIndexes = !!indexes,
+      result = indexes || [],
+      length = result.length;
+
+  for (var key in object) {
+    if (baseHas(object, key) &&
+        !(skipIndexes && (key == 'length' || isIndex(key, length))) &&
+        !(isProto && key == 'constructor')) {
+      result.push(key);
+    }
+  }
+  return result;
+}
+
+module.exports = keys;
+
+},{"./_baseHas":120,"./_baseKeys":128,"./_indexKeys":171,"./_isIndex":177,"./_isPrototype":181,"./isArrayLike":216}],233:[function(require,module,exports){
+var baseKeysIn = require('./_baseKeysIn'),
+    indexKeys = require('./_indexKeys'),
+    isIndex = require('./_isIndex'),
+    isPrototype = require('./_isPrototype');
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+/**
+ * Creates an array of the own and inherited enumerable property names of `object`.
+ *
+ * **Note:** Non-object values are coerced to objects.
+ *
+ * @static
+ * @memberOf _
+ * @category Object
+ * @param {Object} object The object to query.
+ * @returns {Array} Returns the array of property names.
+ * @example
+ *
+ * function Foo() {
+ *   this.a = 1;
+ *   this.b = 2;
+ * }
+ *
+ * Foo.prototype.c = 3;
+ *
+ * _.keysIn(new Foo);
+ * // => ['a', 'b', 'c'] (iteration order is not guaranteed)
+ */
+function keysIn(object) {
+  var index = -1,
+      isProto = isPrototype(object),
+      props = baseKeysIn(object),
+      propsLength = props.length,
+      indexes = indexKeys(object),
+      skipIndexes = !!indexes,
+      result = indexes || [],
+      length = result.length;
+
+  while (++index < propsLength) {
+    var key = props[index];
+    if (!(skipIndexes && (key == 'length' || isIndex(key, length))) &&
+        !(key == 'constructor' && (isProto || !hasOwnProperty.call(object, key)))) {
+      result.push(key);
+    }
+  }
+  return result;
+}
+
+module.exports = keysIn;
+
+},{"./_baseKeysIn":129,"./_indexKeys":171,"./_isIndex":177,"./_isPrototype":181}],234:[function(require,module,exports){
+/**
+ * Gets the last element of `array`.
+ *
+ * @static
+ * @memberOf _
+ * @category Array
+ * @param {Array} array The array to query.
+ * @returns {*} Returns the last element of `array`.
+ * @example
+ *
+ * _.last([1, 2, 3]);
+ * // => 3
+ */
+function last(array) {
+  var length = array ? array.length : 0;
+  return length ? array[length - 1] : undefined;
+}
+
+module.exports = last;
+
+},{}],235:[function(require,module,exports){
+var baseMerge = require('./_baseMerge'),
+    createAssigner = require('./_createAssigner');
+
+/**
+ * This method is like `_.assign` except that it recursively merges own and
+ * inherited enumerable properties of source objects into the destination
+ * object. Source properties that resolve to `undefined` are skipped if a
+ * destination value exists. Array and plain object properties are merged
+ * recursively.Other objects and value types are overridden by assignment.
+ * Source objects are applied from left to right. Subsequent sources
+ * overwrite property assignments of previous sources.
+ *
+ * **Note:** This method mutates `object`.
+ *
+ * @static
+ * @memberOf _
+ * @category Object
+ * @param {Object} object The destination object.
+ * @param {...Object} [sources] The source objects.
+ * @returns {Object} Returns `object`.
+ * @example
+ *
+ * var users = {
+ *   'data': [{ 'user': 'barney' }, { 'user': 'fred' }]
+ * };
+ *
+ * var ages = {
+ *   'data': [{ 'age': 36 }, { 'age': 40 }]
+ * };
+ *
+ * _.merge(users, ages);
+ * // => { 'data': [{ 'user': 'barney', 'age': 36 }, { 'user': 'fred', 'age': 40 }] }
+ */
+var merge = createAssigner(function(object, source, srcIndex) {
+  baseMerge(object, source, srcIndex);
+});
+
+module.exports = merge;
+
+},{"./_baseMerge":132,"./_createAssigner":155}],236:[function(require,module,exports){
+var baseMerge = require('./_baseMerge'),
+    createAssigner = require('./_createAssigner');
+
+/**
+ * This method is like `_.merge` except that it accepts `customizer` which
+ * is invoked to produce the merged values of the destination and source
+ * properties. If `customizer` returns `undefined` merging is handled by the
+ * method instead. The `customizer` is invoked with seven arguments:
+ * (objValue, srcValue, key, object, source, stack).
+ *
+ * **Note:** This method mutates `object`.
+ *
+ * @static
+ * @memberOf _
+ * @category Object
+ * @param {Object} object The destination object.
+ * @param {...Object} sources The source objects.
+ * @param {Function} customizer The function to customize assigned values.
+ * @returns {Object} Returns `object`.
+ * @example
+ *
+ * function customizer(objValue, srcValue) {
+ *   if (_.isArray(objValue)) {
+ *     return objValue.concat(srcValue);
+ *   }
+ * }
+ *
+ * var object = {
+ *   'fruits': ['apple'],
+ *   'vegetables': ['beet']
+ * };
+ *
+ * var other = {
+ *   'fruits': ['banana'],
+ *   'vegetables': ['carrot']
+ * };
+ *
+ * _.mergeWith(object, other, customizer);
+ * // => { 'fruits': ['apple', 'banana'], 'vegetables': ['beet', 'carrot'] }
+ */
+var mergeWith = createAssigner(function(object, source, srcIndex, customizer) {
+  baseMerge(object, source, srcIndex, customizer);
+});
+
+module.exports = mergeWith;
+
+},{"./_baseMerge":132,"./_createAssigner":155}],237:[function(require,module,exports){
+/**
+ * Gets the timestamp of the number of milliseconds that have elapsed since
+ * the Unix epoch (1 January 1970 00:00:00 UTC).
+ *
+ * @static
+ * @memberOf _
+ * @type {Function}
+ * @category Date
+ * @returns {number} Returns the timestamp.
+ * @example
+ *
+ * _.defer(function(stamp) {
+ *   console.log(_.now() - stamp);
+ * }, _.now());
+ * // => logs the number of milliseconds it took for the deferred function to be invoked
+ */
+var now = Date.now;
+
+module.exports = now;
+
+},{}],238:[function(require,module,exports){
+var baseProperty = require('./_baseProperty'),
+    basePropertyDeep = require('./_basePropertyDeep'),
+    isKey = require('./_isKey');
+
+/**
+ * Creates a function that returns the value at `path` of a given object.
+ *
+ * @static
+ * @memberOf _
+ * @category Util
+ * @param {Array|string} path The path of the property to get.
+ * @returns {Function} Returns the new function.
+ * @example
+ *
+ * var objects = [
+ *   { 'a': { 'b': { 'c': 2 } } },
+ *   { 'a': { 'b': { 'c': 1 } } }
+ * ];
+ *
+ * _.map(objects, _.property('a.b.c'));
+ * // => [2, 1]
+ *
+ * _.map(_.sortBy(objects, _.property(['a', 'b', 'c'])), 'a.b.c');
+ * // => [1, 2]
+ */
+function property(path) {
+  return isKey(path) ? baseProperty(path) : basePropertyDeep(path);
+}
+
+module.exports = property;
+
+},{"./_baseProperty":134,"./_basePropertyDeep":135,"./_isKey":179}],239:[function(require,module,exports){
+var arrayReduce = require('./_arrayReduce'),
+    baseEach = require('./_baseEach'),
+    baseIteratee = require('./_baseIteratee'),
+    baseReduce = require('./_baseReduce'),
+    isArray = require('./isArray');
+
+/**
+ * Reduces `collection` to a value which is the accumulated result of running
+ * each element in `collection` through `iteratee`, where each successive
+ * invocation is supplied the return value of the previous. If `accumulator`
+ * is not given the first element of `collection` is used as the initial
+ * value. The iteratee is invoked with four arguments:
+ * (accumulator, value, index|key, collection).
+ *
+ * Many lodash methods are guarded to work as iteratees for methods like
+ * `_.reduce`, `_.reduceRight`, and `_.transform`.
+ *
+ * The guarded methods are:
+ * `assign`, `defaults`, `defaultsDeep`, `includes`, `merge`, `orderBy`,
+ * and `sortBy`
+ *
+ * @static
+ * @memberOf _
+ * @category Collection
+ * @param {Array|Object} collection The collection to iterate over.
+ * @param {Function} [iteratee=_.identity] The function invoked per iteration.
+ * @param {*} [accumulator] The initial value.
+ * @returns {*} Returns the accumulated value.
+ * @example
+ *
+ * _.reduce([1, 2], function(sum, n) {
+ *   return sum + n;
+ * }, 0);
+ * // => 3
+ *
+ * _.reduce({ 'a': 1, 'b': 2, 'c': 1 }, function(result, value, key) {
+ *   (result[value] || (result[value] = [])).push(key);
+ *   return result;
+ * }, {});
+ * // => { '1': ['a', 'c'], '2': ['b'] } (iteration order is not guaranteed)
+ */
+function reduce(collection, iteratee, accumulator) {
+  var func = isArray(collection) ? arrayReduce : baseReduce,
+      initAccum = arguments.length < 3;
+
+  return func(collection, baseIteratee(iteratee, 4), accumulator, initAccum, baseEach);
+}
+
+module.exports = reduce;
+
+},{"./_arrayReduce":99,"./_baseEach":115,"./_baseIteratee":127,"./_baseReduce":136,"./isArray":215}],240:[function(require,module,exports){
+var apply = require('./_apply'),
+    toInteger = require('./toInteger');
+
+/** Used as the `TypeError` message for "Functions" methods. */
+var FUNC_ERROR_TEXT = 'Expected a function';
+
+/* Built-in method references for those with the same name as other `lodash` methods. */
+var nativeMax = Math.max;
+
+/**
+ * Creates a function that invokes `func` with the `this` binding of the
+ * created function and arguments from `start` and beyond provided as an array.
+ *
+ * **Note:** This method is based on the [rest parameter](https://mdn.io/rest_parameters).
+ *
+ * @static
+ * @memberOf _
+ * @category Function
+ * @param {Function} func The function to apply a rest parameter to.
+ * @param {number} [start=func.length-1] The start position of the rest parameter.
+ * @returns {Function} Returns the new function.
+ * @example
+ *
+ * var say = _.rest(function(what, names) {
+ *   return what + ' ' + _.initial(names).join(', ') +
+ *     (_.size(names) > 1 ? ', & ' : '') + _.last(names);
+ * });
+ *
+ * say('hello', 'fred', 'barney', 'pebbles');
+ * // => 'hello fred, barney, & pebbles'
+ */
+function rest(func, start) {
+  if (typeof func != 'function') {
+    throw new TypeError(FUNC_ERROR_TEXT);
+  }
+  start = nativeMax(start === undefined ? (func.length - 1) : toInteger(start), 0);
+  return function() {
+    var args = arguments,
+        index = -1,
+        length = nativeMax(args.length - start, 0),
+        array = Array(length);
+
+    while (++index < length) {
+      array[index] = args[start + index];
+    }
+    switch (start) {
+      case 0: return func.call(this, array);
+      case 1: return func.call(this, args[0], array);
+      case 2: return func.call(this, args[0], args[1], array);
+    }
+    var otherArgs = Array(start + 1);
+    index = -1;
+    while (++index < start) {
+      otherArgs[index] = args[index];
+    }
+    otherArgs[start] = array;
+    return apply(func, this, otherArgs);
+  };
+}
+
+module.exports = rest;
+
+},{"./_apply":93,"./toInteger":241}],241:[function(require,module,exports){
+var toNumber = require('./toNumber');
+
+/** Used as references for various `Number` constants. */
+var INFINITY = 1 / 0,
+    MAX_INTEGER = 1.7976931348623157e+308;
+
+/**
+ * Converts `value` to an integer.
+ *
+ * **Note:** This function is loosely based on [`ToInteger`](http://www.ecma-international.org/ecma-262/6.0/#sec-tointeger).
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to convert.
+ * @returns {number} Returns the converted integer.
+ * @example
+ *
+ * _.toInteger(3);
+ * // => 3
+ *
+ * _.toInteger(Number.MIN_VALUE);
+ * // => 0
+ *
+ * _.toInteger(Infinity);
+ * // => 1.7976931348623157e+308
+ *
+ * _.toInteger('3');
+ * // => 3
+ */
+function toInteger(value) {
+  if (!value) {
+    return value === 0 ? value : 0;
+  }
+  value = toNumber(value);
+  if (value === INFINITY || value === -INFINITY) {
+    var sign = (value < 0 ? -1 : 1);
+    return sign * MAX_INTEGER;
+  }
+  var remainder = value % 1;
+  return value === value ? (remainder ? value - remainder : value) : 0;
+}
+
+module.exports = toInteger;
+
+},{"./toNumber":242}],242:[function(require,module,exports){
+var isFunction = require('./isFunction'),
+    isObject = require('./isObject');
+
+/** Used as references for various `Number` constants. */
+var NAN = 0 / 0;
+
+/** Used to match leading and trailing whitespace. */
+var reTrim = /^\s+|\s+$/g;
+
+/** Used to detect bad signed hexadecimal string values. */
+var reIsBadHex = /^[-+]0x[0-9a-f]+$/i;
+
+/** Used to detect binary string values. */
+var reIsBinary = /^0b[01]+$/i;
+
+/** Used to detect octal string values. */
+var reIsOctal = /^0o[0-7]+$/i;
+
+/** Built-in method references without a dependency on `root`. */
+var freeParseInt = parseInt;
+
+/**
+ * Converts `value` to a number.
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to process.
+ * @returns {number} Returns the number.
+ * @example
+ *
+ * _.toNumber(3);
+ * // => 3
+ *
+ * _.toNumber(Number.MIN_VALUE);
+ * // => 5e-324
+ *
+ * _.toNumber(Infinity);
+ * // => Infinity
+ *
+ * _.toNumber('3');
+ * // => 3
+ */
+function toNumber(value) {
+  if (isObject(value)) {
+    var other = isFunction(value.valueOf) ? value.valueOf() : value;
+    value = isObject(other) ? (other + '') : other;
+  }
+  if (typeof value != 'string') {
+    return value === 0 ? value : +value;
+  }
+  value = value.replace(reTrim, '');
+  var isBinary = reIsBinary.test(value);
+  return (isBinary || reIsOctal.test(value))
+    ? freeParseInt(value.slice(2), isBinary ? 2 : 8)
+    : (reIsBadHex.test(value) ? NAN : +value);
+}
+
+module.exports = toNumber;
+
+},{"./isFunction":221,"./isObject":225}],243:[function(require,module,exports){
+var baseToPairs = require('./_baseToPairs'),
+    keys = require('./keys');
+
+/**
+ * Creates an array of own enumerable key-value pairs for `object` which
+ * can be consumed by `_.fromPairs`.
+ *
+ * @static
+ * @memberOf _
+ * @category Object
+ * @param {Object} object The object to query.
+ * @returns {Array} Returns the new array of key-value pairs.
+ * @example
+ *
+ * function Foo() {
+ *   this.a = 1;
+ *   this.b = 2;
+ * }
+ *
+ * Foo.prototype.c = 3;
+ *
+ * _.toPairs(new Foo);
+ * // => [['a', 1], ['b', 2]] (iteration order is not guaranteed)
+ */
+function toPairs(object) {
+  return baseToPairs(object, keys(object));
+}
+
+module.exports = toPairs;
+
+},{"./_baseToPairs":139,"./keys":232}],244:[function(require,module,exports){
+var copyObject = require('./_copyObject'),
+    keysIn = require('./keysIn');
+
+/**
+ * Converts `value` to a plain object flattening inherited enumerable
+ * properties of `value` to own properties of the plain object.
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to convert.
+ * @returns {Object} Returns the converted plain object.
+ * @example
+ *
+ * function Foo() {
+ *   this.b = 2;
+ * }
+ *
+ * Foo.prototype.c = 3;
+ *
+ * _.assign({ 'a': 1 }, new Foo);
+ * // => { 'a': 1, 'b': 2 }
+ *
+ * _.assign({ 'a': 1 }, _.toPlainObject(new Foo));
+ * // => { 'a': 1, 'b': 2, 'c': 3 }
+ */
+function toPlainObject(value) {
+  return copyObject(value, keysIn(value));
+}
+
+module.exports = toPlainObject;
+
+},{"./_copyObject":152,"./keysIn":233}],245:[function(require,module,exports){
+var Symbol = require('./_Symbol'),
+    isSymbol = require('./isSymbol');
+
+/** Used as references for various `Number` constants. */
+var INFINITY = 1 / 0;
+
+/** Used to convert symbols to primitives and strings. */
+var symbolProto = Symbol ? Symbol.prototype : undefined,
+    symbolToString = symbolProto ? symbolProto.toString : undefined;
+
+/**
+ * Converts `value` to a string if it's not one. An empty string is returned
+ * for `null` and `undefined` values. The sign of `-0` is preserved.
+ *
+ * @static
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to process.
+ * @returns {string} Returns the string.
+ * @example
+ *
+ * _.toString(null);
+ * // => ''
+ *
+ * _.toString(-0);
+ * // => '-0'
+ *
+ * _.toString([1, 2, 3]);
+ * // => '1,2,3'
+ */
+function toString(value) {
+  // Exit early for strings to avoid a performance hit in some environments.
+  if (typeof value == 'string') {
+    return value;
+  }
+  if (value == null) {
+    return '';
+  }
+  if (isSymbol(value)) {
+    return symbolToString ? symbolToString.call(value) : '';
+  }
+  var result = (value + '');
+  return (result == '0' && (1 / value) == -INFINITY) ? '-0' : result;
+}
+
+module.exports = toString;
+
+},{"./_Symbol":88,"./isSymbol":229}],246:[function(require,module,exports){
+/* global wp, jQuery */
+module.exports = (function() {
+	'use strict';
+
+	/**
+	 * Renders a keyword tab as a jQuery HTML object.
+	 *
+	 * @param {int}    score
+	 * @param {string} keyword
+	 * @param {string} prefix
+	 *
+	 * @returns {HTMLElement}
+	 */
+	function renderKeywordTab( score, keyword, prefix ) {
+		var placeholder = keyword.length > 0 ? keyword : '...';
+		var html = wp.template( 'keyword_tab' )({
+			keyword: keyword,
+			placeholder: placeholder,
+			score: score,
+			hideRemove: true,
+			prefix: prefix + ' ',
+			active: true
+		});
+
+		return jQuery( html );
+	}
+
+	/**
+	 * Constructor for a keyword tab object
+	 * @param {Object} args
+	 * @constructor
+	 */
+	function KeywordTab( args ) {
+		this.keyword = '';
+		this.prefix  = args.prefix || '';
+
+		this.setScore( 0 );
+	}
+
+	/**
+	 * Initialize a keyword tab.
+	 *
+	 * @param {HTMLElement} parent
+	 */
+	KeywordTab.prototype.init = function( parent ) {
+		this.setElement( renderKeywordTab( this.score, this.keyword, this.prefix ) );
+
+		jQuery( parent ).append( this.element );
+	};
+
+	/**
+	 * Updates the keyword tabs with new values.
+	 *
+	 * @param {integer} score
+	 * @param {string}  keyword
+	 */
+	KeywordTab.prototype.update = function( score, keyword ) {
+		this.keyword = keyword;
+		this.setScore( score );
+		this.refresh();
+	};
+
+	/**
+	 * Renders a new keyword tab with the current values and replaces the old tab with this one.
+	 */
+	KeywordTab.prototype.refresh = function() {
+		var newElem = renderKeywordTab( this.score, this.keyword, this.prefix );
+
+		this.element.replaceWith( newElem );
+		this.setElement( newElem );
+	};
+
+	/**
+	 * Sets the current element
+	 *
+	 * @param {HTMLElement} element
+	 */
+	KeywordTab.prototype.setElement = function( element ) {
+		this.element = jQuery( element );
+	};
+
+	/**
+	 * Formats the given score and store it in the attribute.
+	 *
+	 * @param {number} score
+	 */
+	KeywordTab.prototype.setScore = function( score ) {
+		score = parseInt( score, 10 );
+
+		if ( this.keyword === '' ) {
+			score = 'na';
+		}
+
+		//score = YoastSEO.ScoreFormatter.prototype.overallScoreRating( score );
+
+		this.score = score;
+	};
+
+	return KeywordTab;
+})();
+
+},{}],247:[function(require,module,exports){
+/* global jQuery, ajaxurl */
+
+var UsedKeywordsPlugin = require( 'yoastseo' ).bundledPlugins.usedKeywords;
+var _has = require( 'lodash/has' );
+var _debounce = require( 'lodash/debounce' );
+var $ = jQuery;
+
+/**
+ * Object that handles keeping track if the current keyword has been used before and retrieves this usage from the
+ * server.
+ *
+ * @param {string} focusKeywordElement A jQuery selector for the focus keyword input element.
+ * @param {string} ajaxAction The ajax action to use when retrieving the used keywords data.
+ * @param {Object} options The options for the used keywords assessment plugin.
+ * @param {Object} options.keyword_usage An object that contains the keyword usage when instantiating.
+ * @param {Object} options.search_url The URL to link the user to if the keyword has been used multiple times.
+ * @param {Object} options.post_edit_url The URL to link the user to if the keyword has been used a single time.
+ * @param {App} app The app for which to keep track of the used keywords.
+ */
+function UsedKeywords( focusKeywordElement, ajaxAction, options, app ) {
+	this._keywordUsage = options.keyword_usage;
+	this._focusKeywordElement = $( focusKeywordElement );
+
+	console.log( options.keyword_usage );
+
+	this._plugin = new UsedKeywordsPlugin( app, {
+		usedKeywords: options.keyword_usage,
+		searchUrl: '<a target="_blank" href=' + options.search_url + '>',
+		postUrl: '<a target="_blank" href=' + options.post_edit_url + '>'
+	}, app.i18n );
+
+	this._postID = $( '#post_ID' ).val();
+	this._ajaxAction = ajaxAction;
+	this._app = app;
+}
+
+UsedKeywords.prototype.init = function( app ) {
+	var eventHandler = _debounce( this.keywordChangeHandler.bind( this ), 500 );
+
+	this._plugin.registerPlugin();
+	this._focusKeywordElement.on( 'keyup', eventHandler );
+};
+
+/**
+ * Handles an event of the keyword input field
+ */
+UsedKeywords.prototype.keywordChangeHandler = function() {
+	var keyword = this._focusKeywordElement.val();
+
+	console.log( keyword );
+
+	if ( ! _has( this._keywordUsage, keyword ) ) {
+		this.requestKeywordUsage( keyword );
+	}
+};
+
+UsedKeywords.prototype.requestKeywordUsage = function( keyword ) {
+	$.post( ajaxurl, {
+		action: this._ajaxAction,
+		post_id: this._postID,
+		keyword: keyword
+	}, this.updateKeywordUsage.bind( this, keyword ), 'json' );
+};
+
+/**
+ * Updates the keyword usage based on the response of the ajax request
+ *
+ * @param {string} keyword The keyword for which the usage was requested.
+ * @param {*} response The response retrieved from the server.
+ */
+UsedKeywords.prototype.updateKeywordUsage = function( keyword, response ) {
+	if ( response ) {
+		console.log( keyword, response );
+
+		this._keywordUsage[ keyword ] = response;
+
+		this._plugin.updateKeywordUsage( this._keywordUsage );
+		this._app.analyzeTimer();
+	}
+};
+
+module.exports = UsedKeywords;
+
+},{"lodash/debounce":283,"lodash/has":285,"yoastseo":1}],248:[function(require,module,exports){
+/* global YoastSEO: true, tinyMCE, wpseoPostScraperL10n, YoastShortcodePlugin, YoastReplaceVarPlugin, console, require */
+(function( $ ) {
+	'use strict';
+
+	var SnippetPreview = require( 'yoastseo' ).SnippetPreview;
+	var App = require( 'yoastseo' ).App;
+
+	var UsedKeywords = require( './analysis/usedKeywords' );
+
+	var currentKeyword = '';
+	var app, snippetPreview;
+
+	var mainKeywordTab;
+	var KeywordTab = require( './analysis/keywordTab' );
+
+	/**
+	 * wordpress scraper to gather inputfields.
+	 * @constructor
+	 */
+	var PostScraper = function() {
+		if ( typeof CKEDITOR === 'object' ) {
+			console.warn( 'YoastSEO currently doesn\'t support ckEditor. The content analysis currently only works with the HTML editor or TinyMCE.' );
+		}
+
+		this.prepareSlugBinding();
+	};
+
+	/**
+	 * On a new post, WordPress doesn't include the slug editor, since a post has not been given a slug yet.
+	 * As soon as a title is chosen, an `after-autosave.update-post-slug` event fires that triggers an AJAX request
+	 * to the server to generate a slug. On the response callback a slug editor is inserted into the page on which
+	 * we can bind our Snippet Preview.
+	 *
+	 * On existing posts, the slug editor is already there and we can bind immediately.
+	 */
+	PostScraper.prototype.prepareSlugBinding = function() {
+		if ( document.getElementById( 'editable-post-name' ) === null ) {
+			var that = this;
+			jQuery( document ).on( 'after-autosave.update-post-slug', function() {
+				that.bindSnippetCiteEvents( 0 );
+			});
+		} else {
+			this.bindSlugEditor();
+		}
+	};
+
+	/**
+	 * When the `after-autosave.update-post-slug` event is triggered, this function checks to see if the slug editor has
+	 * been inserted yet. If so, it does all of the necessary event binding. If not, it retries for a maximum of 5 seconds.
+	 *
+	 * @param {int} time
+	 */
+	PostScraper.prototype.bindSnippetCiteEvents = function( time ) {
+		time = time || 0;
+		var slugElem = document.getElementById( 'editable-post-name' );
+		var titleElem = document.getElementById( 'title' );
+		var postNameElem = document.getElementById('post_name');
+
+		if ( slugElem !== null && titleElem.value !== '' ) {
+			this.bindSlugEditor();
+
+			// Always set the post name element.
+			postNameElem.value = document.getElementById('editable-post-name-full').textContent;
+
+			snippetPreview.unformattedText.snippet_cite = document.getElementById('editable-post-name-full').textContent;
+			app.analyzeTimer();
+		} else if ( time < 5000 ) {
+			time += 200;
+			setTimeout( this.bindSnippetCiteEvents.bind( this, time ), 200 );
+		}
+	};
+
+	/**
+	 * We want to trigger an update of the snippetPreview on a slug update. Because the save button is not available yet, we need to
+	 * bind an event within the scope of a clickevent of the edit button.
+	 */
+	PostScraper.prototype.bindSlugEditor = function() {
+		$( '#titlediv' ).on( 'change', '#new-post-slug', function() {
+			snippetPreview.unformattedText.snippet_cite = $( '#new-post-slug' ).val();
+			app.refresh();
+		});
+	};
+
+	/**
+	 * Get data from inputfields and store them in an analyzerData object. This object will be used to fill
+	 * the analyzer and the snippetpreview
+	 */
+	PostScraper.prototype.getData = function() {
+		return {
+			keyword: this.getDataFromInput( 'keyword' ),
+			meta: this.getDataFromInput( 'meta' ),
+			text: this.getDataFromInput( 'text' ),
+			title: this.getDataFromInput( 'title' ),
+			url: this.getDataFromInput( 'url' ),
+			excerpt: this.getDataFromInput( 'excerpt' ),
+			snippetTitle: this.getDataFromInput( 'snippetTitle' ),
+			snippetMeta: this.getDataFromInput( 'snippetMeta' ),
+			snippetCite: this.getDataFromInput( 'cite' ),
+			searchUrl: '<a target="_blank" href=' + wpseoPostScraperL10n.search_url + '>',
+			postUrl: '<a target="_blank" href=' + wpseoPostScraperL10n.post_edit_url + '>'
+		};
+	};
+
+	/**
+	 * gets the values from the given input. Returns this value
+	 * @param {String} inputType
+	 * @returns {String}
+	 */
+	PostScraper.prototype.getDataFromInput = function( inputType ) {
+		var newPostSlug, val = '';
+		switch ( inputType ) {
+			case 'text':
+			case 'content':
+				val = this.getContentTinyMCE();
+				break;
+			case 'cite':
+			case 'url':
+				newPostSlug = $( '#new-post-slug' );
+				if ( 0 < newPostSlug.length ) {
+					val = newPostSlug.val();
+				}
+				else if ( document.getElementById( 'editable-post-name-full' ) !== null ) {
+					val = document.getElementById( 'editable-post-name-full' ).textContent;
+				}
+				break;
+			case 'meta':
+				val = document.getElementById( 'yoast_wpseo_metadesc' ) && document.getElementById( 'yoast_wpseo_metadesc' ).value || '';
+				break;
+			case 'snippetMeta':
+				val = document.getElementById( 'yoast_wpseo_metadesc' ) && document.getElementById( 'yoast_wpseo_metadesc' ).value || '';
+				break;
+			case 'keyword':
+				val = document.getElementById( 'yoast_wpseo_focuskw_text_input' ) && document.getElementById( 'yoast_wpseo_focuskw_text_input' ).value || '';
+				currentKeyword = val;
+				break;
+			case 'title':
+				val = document.getElementById( 'title' ) && document.getElementById( 'title' ).value || '';
+				break;
+			case 'snippetTitle':
+				val = document.getElementById( 'yoast_wpseo_title' ) && document.getElementById( 'yoast_wpseo_title' ).value || '';
+				break;
+			case 'excerpt':
+				if ( document.getElementById( 'excerpt' ) !== null ) {
+					val = document.getElementById('excerpt') && document.getElementById('excerpt').value || '';
+				}
+				break;
+			default:
+				break;
+		}
+		return val;
+	};
+
+	/**
+	 * When the snippet is updated, update the (hidden) fields on the page
+	 * @param {Object} value
+	 * @param {String} type
+	 */
+	PostScraper.prototype.setDataFromSnippet = function( value, type ) {
+		switch ( type ) {
+			case 'snippet_meta':
+				document.getElementById( 'yoast_wpseo_metadesc' ).value = value;
+				break;
+			case 'snippet_cite':
+				document.getElementById( 'post_name' ).value = value;
+				if (
+					document.getElementById( 'editable-post-name' ) !== null &&
+					document.getElementById( 'editable-post-name-full' ) !== null ) {
+					document.getElementById( 'editable-post-name' ).textContent = value;
+					document.getElementById( 'editable-post-name-full' ).textContent = value;
+				}
+				break;
+			case 'snippet_title':
+				document.getElementById( 'yoast_wpseo_title' ).value = value;
+				break;
+			default:
+				break;
+		}
+	};
+
+	/**
+	 * The data passed from the snippet editor.
+	 *
+	 * @param {Object} data
+	 * @param {string} data.title
+	 * @param {string} data.urlPath
+	 * @param {string} data.metaDesc
+	 */
+	PostScraper.prototype.saveSnippetData = function( data ) {
+		this.setDataFromSnippet( data.title, 'snippet_title' );
+		this.setDataFromSnippet( data.urlPath, 'snippet_cite' );
+		this.setDataFromSnippet( data.metaDesc, 'snippet_meta' );
+	};
+
+	/**
+	 * Returns the value of the contentfield. If tinyMCE isn't initialized, or has no editors
+	 * or is hidden it gets it's contents from getTinyMCEElementContent.
+	 * @returns {String}
+	 */
+	PostScraper.prototype.getContentTinyMCE = function() {
+		if ( this.isTinyMCEAvailable() === false ) {
+			return this.getTinyMCEElementContent();
+		}
+		return tinyMCE.get( 'content' ).getContent();
+	};
+
+	/**
+	 * Returns whether or not TinyMCE is available.
+	 * @returns {boolean}
+	 */
+	PostScraper.prototype.isTinyMCEAvailable = function() {
+		if ( typeof tinyMCE === 'undefined' ||
+			typeof tinyMCE.editors === 'undefined' ||
+			tinyMCE.editors.length === 0 ||
+			tinyMCE.get( 'content' ) === null ||
+			tinyMCE.get( 'content' ).isHidden() ) {
+			return false;
+		}
+
+		return true;
+	};
+
+	/**
+	 * Gets content from the contentfield.
+	 *
+	 * @returns {String}
+	 */
+	PostScraper.prototype.getTinyMCEElementContent = function() {
+		return document.getElementById( 'content' ) && document.getElementById( 'content' ).value || '';
+	};
+
+	/**
+	 * Calls the eventbinders.
+	 */
+	PostScraper.prototype.bindElementEvents = function( app ) {
+		this.inputElementEventBinder( app );
+		document.getElementById( 'yoast_wpseo_focuskw_text_input' ).addEventListener( 'keydown', app.snippetPreview.disableEnter );
+	};
+
+	/**
+	 * binds the renewData function on the change of inputelements.
+	 */
+	PostScraper.prototype.inputElementEventBinder = function( app ) {
+		var elems = [ 'excerpt', 'content', 'yoast_wpseo_focuskw_text_input', 'title' ];
+		for ( var i = 0; i < elems.length; i++ ) {
+			var elem = document.getElementById( elems[ i ] );
+			if ( elem !== null ) {
+				document.getElementById( elems[ i ] ).addEventListener( 'input', app.analyzeTimer.bind( app ) );
+			}
+		}
+
+		if( typeof tinyMCE !== 'undefined' && typeof tinyMCE.on === 'function' ) {
+			//binds the input, change, cut and paste event to tinyMCE. All events are needed, because sometimes tinyMCE doesn'
+			//trigger them, or takes up to ten seconds to fire an event.
+			var events = [ 'input', 'change', 'cut', 'paste' ];
+			tinyMCE.on( 'addEditor', function( e ) {
+				for ( var i = 0; i < events.length; i++ ) {
+					e.editor.on( events[i], app.analyzeTimer.bind( app ) );
+				}
+			});
+		}
+		document.getElementById( 'yoast_wpseo_focuskw_text_input' ).addEventListener( 'blur', this.resetQueue );
+	};
+
+	/**
+	 * Resets the current queue if focus keyword is changed and not empty.
+	 */
+	PostScraper.prototype.resetQueue = function() {
+		if ( app.rawData.keyword !== '' ) {
+			app.runAnalyzer( this.rawData );
+		}
+	};
+
+	/**
+	 * Saves the score to the linkdex.
+	 * Outputs the score in the overall target.
+	 *
+	 * @param {string} score
+	 */
+	PostScraper.prototype.saveScores = function( score ) {
+		var alt;
+		var cssClass;
+
+		if ( this.isMainKeyword( currentKeyword ) ) {
+			document.getElementById( 'yoast_wpseo_linkdex' ).value = score;
+
+			if ( '' === currentKeyword ) {
+				cssClass = 'na';
+			} else {
+				// cssClass = app.scoreFormatter.overallScoreRating( parseInt( score, 10 ) );
+			}
+			// alt = app.scoreFormatter.getSEOScoreText( cssClass );
+
+			$( '.yst-traffic-light' )
+				.attr( 'class', 'yst-traffic-light ' + cssClass )
+				.attr( 'alt', alt );
+		}
+
+		// If multi keyword isn't available we need to update the first tab (content)
+		if ( ! YoastSEO.multiKeyword ) {
+			mainKeywordTab.update( score, currentKeyword );
+
+			// Updates the input with the currentKeyword value
+			$( '#yoast_wpseo_focuskw' ).val( currentKeyword );
+		}
+
+		jQuery( window ).trigger( 'YoastSEO:numericScore', score );
+	};
+
+	/**
+	 * Returns whether or not the keyword is the main keyword
+	 *
+	 * @param {string} keyword The keyword to check
+	 *
+	 * @returns {boolean}
+	 */
+	PostScraper.prototype.isMainKeyword = function( keyword ) {
+		var firstTab, mainKeyword;
+
+		firstTab = $( '.wpseo_keyword_tab' )
+			.first()
+			.find( '.wpseo_tablink' );
+
+		mainKeyword = firstTab.data( 'keyword' );
+
+		return keyword === mainKeyword;
+	};
+
+	/**
+	 * Initializes keyword tab with the correct template if multi keyword isn't available
+	 */
+	PostScraper.prototype.initKeywordTabTemplate = function() {
+		var keyword, score;
+
+		// If multi keyword is available we don't have to initialize this as multi keyword does this for us.
+		if ( YoastSEO.multiKeyword ) {
+			return;
+		}
+
+		// Remove default functionality to prevent scrolling to top.
+		$( '.wpseo-metabox-tabs' ).on( 'click', '.wpseo_tablink', function( ev ) {
+			ev.preventDefault();
+		});
+
+		keyword = $( '#yoast_wpseo_focuskw' ).val();
+		score   = $( '#yoast_wpseo_linkdex' ).val();
+
+		$( '#yoast_wpseo_focuskw_text_input' ).val( keyword );
+
+		// Updates
+		mainKeywordTab.update( score, keyword );
+	};
+
+	/**
+	 * Retrieves either a generated slug or the page title as slug for the preview
+	 * @param {Object} response The AJAX response object
+	 * @returns {string}
+	 */
+	function getUrlPath( response ) {
+		if ( response.responseText === '' ) {
+			return jQuery( '#title' ).val();
+		}
+		// Added divs to the response text, otherwise jQuery won't parse to HTML, but an array.
+		return jQuery( '<div>' + response.responseText + '</div>' )
+			.find( '#editable-post-name-full' )
+			.text();
+	}
+
+	/**
+	 * binds to the WordPress jQuery function to put the permalink on the page.
+	 * If the response matches with permalinkstring, the snippet can be rerendered.
+	 */
+	jQuery( document ).on( 'ajaxComplete', function( ev, response, ajaxOptions ) {
+		var ajax_end_point = '/admin-ajax.php';
+		if ( ajax_end_point !== ajaxOptions.url.substr( 0 - ajax_end_point.length ) ) {
+			return;
+		}
+
+		if ( 'string' === typeof ajaxOptions.data && -1 !== ajaxOptions.data.indexOf( 'action=sample-permalink' ) ) {
+			app.snippetPreview.setUrlPath( getUrlPath( response ) );
+		}
+	} );
+
+	/**
+	 * Initializes the snippet preview
+	 *
+	 * @param {PostScraper} postScraper
+	 * @returns {YoastSEO.SnippetPreview}
+	 */
+	function initSnippetPreview( postScraper ) {
+		var data = postScraper.getData();
+
+		var snippetPreviewArgs = {
+			targetElement: document.getElementById( 'wpseosnippet' ),
+			placeholder: {
+				urlPath: ''
+			},
+			defaultValue: {},
+			baseURL: wpseoPostScraperL10n.base_url,
+			callbacks: {
+				saveSnippetData: postScraper.saveSnippetData.bind( postScraper )
+			},
+			metaDescriptionDate: wpseoPostScraperL10n.metaDescriptionDate,
+			data: {
+				title: data.snippetTitle,
+				urlPath: data.snippetCite,
+				metaDesc: data.snippetMeta
+			}
+		};
+
+		var titlePlaceholder = wpseoPostScraperL10n.title_template;
+		if ( titlePlaceholder === '' ) {
+			titlePlaceholder = '%%title%% - %%sitename%%';
+		}
+		snippetPreviewArgs.placeholder.title = titlePlaceholder;
+		snippetPreviewArgs.defaultValue.title = titlePlaceholder;
+
+		var metaPlaceholder = wpseoPostScraperL10n.metadesc_template;
+		if ( metaPlaceholder !== '' ) {
+			snippetPreviewArgs.placeholder.metaDesc = metaPlaceholder;
+			snippetPreviewArgs.defaultValue.metaDesc = metaPlaceholder;
+		}
+
+		return new SnippetPreview( snippetPreviewArgs );
+	}
+
+	jQuery( document ).ready(function() {
+		var translations;
+
+		// Initialize an instance of the keywordword tab.
+		mainKeywordTab = new KeywordTab(
+			{
+				prefix: wpseoPostScraperL10n.contentTab
+			}
+		);
+		mainKeywordTab.setElement( $('.wpseo_keyword_tab') );
+
+		var postScraper = new PostScraper();
+
+		var args = {
+
+			// ID's of elements that need to trigger updating the analyzer.
+			elementTarget: ['content', 'yoast_wpseo_focuskw_text_input', 'yoast_wpseo_metadesc', 'excerpt', 'editable-post-name', 'editable-post-name-full'],
+			targets: {
+				output: 'wpseo-pageanalysis'
+			},
+			callbacks: {
+				getData: postScraper.getData.bind( postScraper ),
+				bindElementEvents: postScraper.bindElementEvents.bind( postScraper ),
+				saveScores: postScraper.saveScores.bind( postScraper ),
+				saveSnippetData: postScraper.saveSnippetData.bind( postScraper )
+			},
+			locale: wpseoPostScraperL10n.locale
+		};
+
+		translations = wpseoPostScraperL10n.translations;
+
+		if ( typeof translations !== 'undefined' && typeof translations.domain !== 'undefined' ) {
+			translations.domain = 'js-text-analysis';
+			translations.locale_data['js-text-analysis'] = translations.locale_data['wordpress-seo'];
+
+			delete( translations.locale_data['wordpress-seo'] );
+
+			args.translations = translations;
+		}
+
+		snippetPreview = initSnippetPreview( postScraper );
+		args.snippetPreview = snippetPreview;
+
+		app = new App( args );
+		window.YoastSEO = {};
+		window.YoastSEO.app = app;
+		jQuery( window ).trigger( 'YoastSEO:ready' );
+
+		// Init Plugins
+		new YoastReplaceVarPlugin( app );
+		new YoastShortcodePlugin( app );
+
+		var usedKeywords = new UsedKeywords( '#yoast_wpseo_focuskw_text_input', 'get_focus_keyword_usage', wpseoPostScraperL10n, app );
+		usedKeywords.init();
+
+		postScraper.initKeywordTabTemplate();
+
+		// Backwards compatibility.
+		YoastSEO.analyzerArgs = args;
+	} );
+}( jQuery ));
+
+},{"./analysis/keywordTab":246,"./analysis/usedKeywords":247,"yoastseo":1}],249:[function(require,module,exports){
+if (typeof Object.create === 'function') {
+  // implementation from standard node.js 'util' module
+  module.exports = function inherits(ctor, superCtor) {
+    ctor.super_ = superCtor
+    ctor.prototype = Object.create(superCtor.prototype, {
+      constructor: {
+        value: ctor,
+        enumerable: false,
+        writable: true,
+        configurable: true
+      }
+    });
+  };
+} else {
+  // old school shim for old browsers
+  module.exports = function inherits(ctor, superCtor) {
+    ctor.super_ = superCtor
+    var TempCtor = function () {}
+    TempCtor.prototype = superCtor.prototype
+    ctor.prototype = new TempCtor()
+    ctor.prototype.constructor = ctor
+  }
+}
+
+},{}],250:[function(require,module,exports){
+arguments[4][81][0].apply(exports,arguments)
+},{"./_nativeCreate":280,"dup":81}],251:[function(require,module,exports){
+arguments[4][82][0].apply(exports,arguments)
+},{"./_getNative":264,"./_root":281,"dup":82}],252:[function(require,module,exports){
+var mapClear = require('./_mapClear'),
+    mapDelete = require('./_mapDelete'),
+    mapGet = require('./_mapGet'),
+    mapHas = require('./_mapHas'),
+    mapSet = require('./_mapSet');
+
+/**
+ * Creates a map cache object to store key-value pairs.
+ *
+ * @private
+ * @constructor
+ * @param {Array} [values] The values to cache.
+ */
+function MapCache(values) {
+  var index = -1,
+      length = values ? values.length : 0;
+
+  this.clear();
+  while (++index < length) {
+    var entry = values[index];
+    this.set(entry[0], entry[1]);
+  }
+}
+
+// Add methods to `MapCache`.
+MapCache.prototype.clear = mapClear;
+MapCache.prototype['delete'] = mapDelete;
+MapCache.prototype.get = mapGet;
+MapCache.prototype.has = mapHas;
+MapCache.prototype.set = mapSet;
+
+module.exports = MapCache;
+
+},{"./_mapClear":275,"./_mapDelete":276,"./_mapGet":277,"./_mapHas":278,"./_mapSet":279}],253:[function(require,module,exports){
+arguments[4][88][0].apply(exports,arguments)
+},{"./_root":281,"dup":88}],254:[function(require,module,exports){
+var assocIndexOf = require('./_assocIndexOf');
+
+/** Used for built-in method references. */
+var arrayProto = Array.prototype;
+
+/** Built-in value references. */
+var splice = arrayProto.splice;
+
+/**
+ * Removes `key` and its value from the associative array.
+ *
+ * @private
+ * @param {Array} array The array to modify.
+ * @param {string} key The key of the value to remove.
+ * @returns {boolean} Returns `true` if the entry was removed, else `false`.
+ */
+function assocDelete(array, key) {
+  var index = assocIndexOf(array, key);
+  if (index < 0) {
+    return false;
+  }
+  var lastIndex = array.length - 1;
+  if (index == lastIndex) {
+    array.pop();
+  } else {
+    splice.call(array, index, 1);
+  }
+  return true;
+}
+
+module.exports = assocDelete;
+
+},{"./_assocIndexOf":257}],255:[function(require,module,exports){
+arguments[4][105][0].apply(exports,arguments)
+},{"./_assocIndexOf":257,"dup":105}],256:[function(require,module,exports){
+arguments[4][106][0].apply(exports,arguments)
+},{"./_assocIndexOf":257,"dup":106}],257:[function(require,module,exports){
+var eq = require('./eq');
+
+/**
+ * Gets the index at which the `key` is found in `array` of key-value pairs.
+ *
+ * @private
+ * @param {Array} array The array to search.
+ * @param {*} key The key to search for.
+ * @returns {number} Returns the index of the matched value, else `-1`.
+ */
+function assocIndexOf(array, key) {
+  var length = array.length;
+  while (length--) {
+    if (eq(array[length][0], key)) {
+      return length;
+    }
+  }
+  return -1;
+}
+
+module.exports = assocIndexOf;
+
+},{"./eq":284}],258:[function(require,module,exports){
+arguments[4][108][0].apply(exports,arguments)
+},{"./_assocIndexOf":257,"dup":108}],259:[function(require,module,exports){
+arguments[4][111][0].apply(exports,arguments)
+},{"./_stringToPath":282,"./isArray":287,"dup":111}],260:[function(require,module,exports){
+var getPrototype = require('./_getPrototype');
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+/**
+ * The base implementation of `_.has` without support for deep paths.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @param {Array|string} key The key to check.
+ * @returns {boolean} Returns `true` if `key` exists, else `false`.
+ */
+function baseHas(object, key) {
+  // Avoid a bug in IE 10-11 where objects with a [[Prototype]] of `null`,
+  // that are composed entirely of index properties, return `false` for
+  // `hasOwnProperty` checks of them.
+  return hasOwnProperty.call(object, key) ||
+    (typeof object == 'object' && key in object && getPrototype(object) === null);
+}
+
+module.exports = baseHas;
+
+},{"./_getPrototype":265}],261:[function(require,module,exports){
+arguments[4][134][0].apply(exports,arguments)
+},{"dup":134}],262:[function(require,module,exports){
+arguments[4][143][0].apply(exports,arguments)
+},{"dup":143}],263:[function(require,module,exports){
+var baseProperty = require('./_baseProperty');
+
+/**
+ * Gets the "length" property value of `object`.
+ *
+ * **Note:** This function is used to avoid a
+ * [JIT bug](https://bugs.webkit.org/show_bug.cgi?id=142792) that affects
+ * Safari on at least iOS 8.1-8.3 ARM64.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @returns {*} Returns the "length" value.
+ */
+var getLength = baseProperty('length');
+
+module.exports = getLength;
+
+},{"./_baseProperty":261}],264:[function(require,module,exports){
+arguments[4][163][0].apply(exports,arguments)
+},{"./isNative":292,"dup":163}],265:[function(require,module,exports){
+/* Built-in method references for those with the same name as other `lodash` methods. */
+var nativeGetPrototype = Object.getPrototypeOf;
+
+/**
+ * Gets the `[[Prototype]]` of `value`.
+ *
+ * @private
+ * @param {*} value The value to query.
+ * @returns {null|Object} Returns the `[[Prototype]]`.
+ */
+function getPrototype(value) {
+  return nativeGetPrototype(Object(value));
+}
+
+module.exports = getPrototype;
+
+},{}],266:[function(require,module,exports){
+var baseCastPath = require('./_baseCastPath'),
+    isArguments = require('./isArguments'),
+    isArray = require('./isArray'),
+    isIndex = require('./_isIndex'),
+    isKey = require('./_isKey'),
+    isLength = require('./isLength'),
+    isString = require('./isString');
+
+/**
+ * Checks if `path` exists on `object`.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @param {Array|string} path The path to check.
+ * @param {Function} hasFunc The function to check properties.
+ * @returns {boolean} Returns `true` if `path` exists, else `false`.
+ */
+function hasPath(object, path, hasFunc) {
+  if (object == null) {
+    return false;
+  }
+  var result = hasFunc(object, path);
+  if (!result && !isKey(path)) {
+    path = baseCastPath(path);
+
+    var index = -1,
+        length = path.length;
+
+    while (object != null && ++index < length) {
+      var key = path[index];
+      if (!(result = hasFunc(object, key))) {
+        break;
+      }
+      object = object[key];
+    }
+  }
+  var length = object ? object.length : undefined;
+  return result || (
+    !!length && isLength(length) && isIndex(path, length) &&
+    (isArray(object) || isString(object) || isArguments(object))
+  );
+}
+
+module.exports = hasPath;
+
+},{"./_baseCastPath":259,"./_isIndex":272,"./_isKey":273,"./isArguments":286,"./isArray":287,"./isLength":291,"./isString":295}],267:[function(require,module,exports){
+arguments[4][167][0].apply(exports,arguments)
+},{"./_hashHas":269,"dup":167}],268:[function(require,module,exports){
+arguments[4][168][0].apply(exports,arguments)
+},{"./_nativeCreate":280,"dup":168}],269:[function(require,module,exports){
+arguments[4][169][0].apply(exports,arguments)
+},{"./_nativeCreate":280,"dup":169}],270:[function(require,module,exports){
+arguments[4][170][0].apply(exports,arguments)
+},{"./_nativeCreate":280,"dup":170}],271:[function(require,module,exports){
+arguments[4][176][0].apply(exports,arguments)
+},{"dup":176}],272:[function(require,module,exports){
+arguments[4][177][0].apply(exports,arguments)
+},{"dup":177}],273:[function(require,module,exports){
+var isArray = require('./isArray'),
+    isSymbol = require('./isSymbol');
+
+/** Used to match property names within property paths. */
+var reIsDeepProp = /\.|\[(?:[^[\]]*|(["'])(?:(?!\1)[^\\]|\\.)*?\1)\]/,
+    reIsPlainProp = /^\w*$/;
+
+/**
+ * Checks if `value` is a property name and not a property path.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @param {Object} [object] The object to query keys on.
+ * @returns {boolean} Returns `true` if `value` is a property name, else `false`.
+ */
+function isKey(value, object) {
+  var type = typeof value;
+  if (type == 'number' || type == 'symbol') {
+    return true;
+  }
+  return !isArray(value) &&
+    (isSymbol(value) || reIsPlainProp.test(value) || !reIsDeepProp.test(value) ||
+      (object != null && value in Object(object)));
+}
+
+module.exports = isKey;
+
+},{"./isArray":287,"./isSymbol":296}],274:[function(require,module,exports){
+arguments[4][180][0].apply(exports,arguments)
+},{"dup":180}],275:[function(require,module,exports){
+arguments[4][184][0].apply(exports,arguments)
+},{"./_Hash":250,"./_Map":251,"dup":184}],276:[function(require,module,exports){
+arguments[4][185][0].apply(exports,arguments)
+},{"./_Map":251,"./_assocDelete":254,"./_hashDelete":267,"./_isKeyable":274,"dup":185}],277:[function(require,module,exports){
+arguments[4][186][0].apply(exports,arguments)
+},{"./_Map":251,"./_assocGet":255,"./_hashGet":268,"./_isKeyable":274,"dup":186}],278:[function(require,module,exports){
+arguments[4][187][0].apply(exports,arguments)
+},{"./_Map":251,"./_assocHas":256,"./_hashHas":269,"./_isKeyable":274,"dup":187}],279:[function(require,module,exports){
+var Map = require('./_Map'),
+    assocSet = require('./_assocSet'),
+    hashSet = require('./_hashSet'),
+    isKeyable = require('./_isKeyable');
+
+/**
+ * Sets the map `key` to `value`.
+ *
+ * @private
+ * @name set
+ * @memberOf MapCache
+ * @param {string} key The key of the value to set.
+ * @param {*} value The value to set.
+ * @returns {Object} Returns the map cache instance.
+ */
+function mapSet(key, value) {
+  var data = this.__data__;
+  if (isKeyable(key)) {
+    hashSet(typeof key == 'string' ? data.string : data.hash, key, value);
+  } else if (Map) {
+    data.map.set(key, value);
+  } else {
+    assocSet(data.map, key, value);
+  }
+  return this;
+}
+
+module.exports = mapSet;
+
+},{"./_Map":251,"./_assocSet":258,"./_hashSet":270,"./_isKeyable":274}],280:[function(require,module,exports){
+arguments[4][191][0].apply(exports,arguments)
+},{"./_getNative":264,"dup":191}],281:[function(require,module,exports){
+arguments[4][193][0].apply(exports,arguments)
+},{"./_checkGlobal":262,"dup":193}],282:[function(require,module,exports){
+var memoize = require('./memoize'),
+    toString = require('./toString');
+
+/** Used to match property names within property paths. */
+var rePropName = /[^.[\]]+|\[(?:(-?\d+(?:\.\d+)?)|(["'])((?:(?!\2)[^\\]|\\.)*?)\2)\]/g;
+
+/** Used to match backslashes in property paths. */
+var reEscapeChar = /\\(\\)?/g;
+
+/**
+ * Converts `string` to a property path array.
+ *
+ * @private
+ * @param {string} string The string to convert.
+ * @returns {Array} Returns the property path array.
+ */
+var stringToPath = memoize(function(string) {
+  var result = [];
+  toString(string).replace(rePropName, function(match, number, quote, string) {
+    result.push(quote ? string.replace(reEscapeChar, '$1') : (number || match));
+  });
+  return result;
+});
+
+module.exports = stringToPath;
+
+},{"./memoize":297,"./toString":300}],283:[function(require,module,exports){
+var isObject = require('./isObject'),
+    now = require('./now'),
+    toNumber = require('./toNumber');
+
+/** Used as the `TypeError` message for "Functions" methods. */
+var FUNC_ERROR_TEXT = 'Expected a function';
+
+/* Built-in method references for those with the same name as other `lodash` methods. */
+var nativeMax = Math.max,
+    nativeMin = Math.min;
+
+/**
+ * Creates a debounced function that delays invoking `func` until after `wait`
+ * milliseconds have elapsed since the last time the debounced function was
+ * invoked. The debounced function comes with a `cancel` method to cancel
+ * delayed `func` invocations and a `flush` method to immediately invoke them.
+ * Provide an options object to indicate whether `func` should be invoked on
+ * the leading and/or trailing edge of the `wait` timeout. The `func` is invoked
+ * with the last arguments provided to the debounced function. Subsequent calls
+ * to the debounced function return the result of the last `func` invocation.
+ *
+ * **Note:** If `leading` and `trailing` options are `true`, `func` is invoked
+ * on the trailing edge of the timeout only if the debounced function is
+ * invoked more than once during the `wait` timeout.
+ *
+ * See [David Corbacho's article](http://drupalmotion.com/article/debounce-and-throttle-visual-explanation)
+ * for details over the differences between `_.debounce` and `_.throttle`.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Function
+ * @param {Function} func The function to debounce.
+ * @param {number} [wait=0] The number of milliseconds to delay.
+ * @param {Object} [options={}] The options object.
+ * @param {boolean} [options.leading=false]
+ *  Specify invoking on the leading edge of the timeout.
+ * @param {number} [options.maxWait]
+ *  The maximum time `func` is allowed to be delayed before it's invoked.
+ * @param {boolean} [options.trailing=true]
+ *  Specify invoking on the trailing edge of the timeout.
+ * @returns {Function} Returns the new debounced function.
+ * @example
+ *
+ * // Avoid costly calculations while the window size is in flux.
+ * jQuery(window).on('resize', _.debounce(calculateLayout, 150));
+ *
+ * // Invoke `sendMail` when clicked, debouncing subsequent calls.
+ * jQuery(element).on('click', _.debounce(sendMail, 300, {
+ *   'leading': true,
+ *   'trailing': false
+ * }));
+ *
+ * // Ensure `batchLog` is invoked once after 1 second of debounced calls.
+ * var debounced = _.debounce(batchLog, 250, { 'maxWait': 1000 });
+ * var source = new EventSource('/stream');
+ * jQuery(source).on('message', debounced);
+ *
+ * // Cancel the trailing debounced invocation.
+ * jQuery(window).on('popstate', debounced.cancel);
+ */
+function debounce(func, wait, options) {
+  var lastArgs,
+      lastThis,
+      result,
+      timerId,
+      lastCallTime = 0,
+      lastInvokeTime = 0,
+      leading = false,
+      maxWait = false,
+      trailing = true;
+
+  if (typeof func != 'function') {
+    throw new TypeError(FUNC_ERROR_TEXT);
+  }
+  wait = toNumber(wait) || 0;
+  if (isObject(options)) {
+    leading = !!options.leading;
+    maxWait = 'maxWait' in options && nativeMax(toNumber(options.maxWait) || 0, wait);
+    trailing = 'trailing' in options ? !!options.trailing : trailing;
+  }
+
+  function invokeFunc(time) {
+    var args = lastArgs,
+        thisArg = lastThis;
+
+    lastArgs = lastThis = undefined;
+    lastInvokeTime = time;
+    result = func.apply(thisArg, args);
+    return result;
+  }
+
+  function leadingEdge(time) {
+    // Reset any `maxWait` timer.
+    lastInvokeTime = time;
+    // Start the timer for the trailing edge.
+    timerId = setTimeout(timerExpired, wait);
+    // Invoke the leading edge.
+    return leading ? invokeFunc(time) : result;
+  }
+
+  function remainingWait(time) {
+    var timeSinceLastCall = time - lastCallTime,
+        timeSinceLastInvoke = time - lastInvokeTime,
+        result = wait - timeSinceLastCall;
+
+    return maxWait === false ? result : nativeMin(result, maxWait - timeSinceLastInvoke);
+  }
+
+  function shouldInvoke(time) {
+    var timeSinceLastCall = time - lastCallTime,
+        timeSinceLastInvoke = time - lastInvokeTime;
+
+    // Either this is the first call, activity has stopped and we're at the
+    // trailing edge, the system time has gone backwards and we're treating
+    // it as the trailing edge, or we've hit the `maxWait` limit.
+    return (!lastCallTime || (timeSinceLastCall >= wait) ||
+      (timeSinceLastCall < 0) || (maxWait !== false && timeSinceLastInvoke >= maxWait));
+  }
+
+  function timerExpired() {
+    var time = now();
+    if (shouldInvoke(time)) {
+      return trailingEdge(time);
+    }
+    // Restart the timer.
+    timerId = setTimeout(timerExpired, remainingWait(time));
+  }
+
+  function trailingEdge(time) {
+    clearTimeout(timerId);
+    timerId = undefined;
+
+    // Only invoke if we have `lastArgs` which means `func` has been
+    // debounced at least once.
+    if (trailing && lastArgs) {
+      return invokeFunc(time);
+    }
+    lastArgs = lastThis = undefined;
+    return result;
+  }
+
+  function cancel() {
+    if (timerId !== undefined) {
+      clearTimeout(timerId);
+    }
+    lastCallTime = lastInvokeTime = 0;
+    lastArgs = lastThis = timerId = undefined;
+  }
+
+  function flush() {
+    return timerId === undefined ? result : trailingEdge(now());
+  }
+
+  function debounced() {
+    var time = now(),
+        isInvoking = shouldInvoke(time);
+
+    lastArgs = arguments;
+    lastThis = this;
+    lastCallTime = time;
+
+    if (isInvoking) {
+      if (timerId === undefined) {
+        return leadingEdge(lastCallTime);
+      }
+      // Handle invocations in a tight loop.
+      clearTimeout(timerId);
+      timerId = setTimeout(timerExpired, wait);
+      return invokeFunc(lastCallTime);
+    }
+    return result;
+  }
+  debounced.cancel = cancel;
+  debounced.flush = flush;
+  return debounced;
+}
+
+module.exports = debounce;
+
+},{"./isObject":293,"./now":298,"./toNumber":299}],284:[function(require,module,exports){
+/**
+ * Performs a
+ * [`SameValueZero`](http://ecma-international.org/ecma-262/6.0/#sec-samevaluezero)
+ * comparison between two values to determine if they are equivalent.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to compare.
+ * @param {*} other The other value to compare.
+ * @returns {boolean} Returns `true` if the values are equivalent, else `false`.
+ * @example
+ *
+ * var object = { 'user': 'fred' };
+ * var other = { 'user': 'fred' };
+ *
+ * _.eq(object, object);
+ * // => true
+ *
+ * _.eq(object, other);
+ * // => false
+ *
+ * _.eq('a', 'a');
+ * // => true
+ *
+ * _.eq('a', Object('a'));
+ * // => false
+ *
+ * _.eq(NaN, NaN);
+ * // => true
+ */
+function eq(value, other) {
+  return value === other || (value !== value && other !== other);
+}
+
+module.exports = eq;
+
+},{}],285:[function(require,module,exports){
+var baseHas = require('./_baseHas'),
+    hasPath = require('./_hasPath');
+
+/**
+ * Checks if `path` is a direct property of `object`.
+ *
+ * @static
+ * @since 0.1.0
+ * @memberOf _
+ * @category Object
+ * @param {Object} object The object to query.
+ * @param {Array|string} path The path to check.
+ * @returns {boolean} Returns `true` if `path` exists, else `false`.
+ * @example
+ *
+ * var object = { 'a': { 'b': { 'c': 3 } } };
+ * var other = _.create({ 'a': _.create({ 'b': _.create({ 'c': 3 }) }) });
+ *
+ * _.has(object, 'a');
+ * // => true
+ *
+ * _.has(object, 'a.b.c');
+ * // => true
+ *
+ * _.has(object, ['a', 'b', 'c']);
+ * // => true
+ *
+ * _.has(other, 'a');
+ * // => false
+ */
+function has(object, path) {
+  return hasPath(object, path, baseHas);
+}
+
+module.exports = has;
+
+},{"./_baseHas":260,"./_hasPath":266}],286:[function(require,module,exports){
+var isArrayLikeObject = require('./isArrayLikeObject');
+
+/** `Object#toString` result references. */
+var argsTag = '[object Arguments]';
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+/**
+ * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
+ * of values.
+ */
+var objectToString = objectProto.toString;
+
+/** Built-in value references. */
+var propertyIsEnumerable = objectProto.propertyIsEnumerable;
+
+/**
+ * Checks if `value` is likely an `arguments` object.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is correctly classified,
+ *  else `false`.
+ * @example
+ *
+ * _.isArguments(function() { return arguments; }());
+ * // => true
+ *
+ * _.isArguments([1, 2, 3]);
+ * // => false
+ */
+function isArguments(value) {
+  // Safari 8.1 incorrectly makes `arguments.callee` enumerable in strict mode.
+  return isArrayLikeObject(value) && hasOwnProperty.call(value, 'callee') &&
+    (!propertyIsEnumerable.call(value, 'callee') || objectToString.call(value) == argsTag);
+}
+
+module.exports = isArguments;
+
+},{"./isArrayLikeObject":289}],287:[function(require,module,exports){
+/**
+ * Checks if `value` is classified as an `Array` object.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @type {Function}
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is correctly classified,
+ *  else `false`.
+ * @example
+ *
+ * _.isArray([1, 2, 3]);
+ * // => true
+ *
+ * _.isArray(document.body.children);
+ * // => false
+ *
+ * _.isArray('abc');
+ * // => false
+ *
+ * _.isArray(_.noop);
+ * // => false
+ */
+var isArray = Array.isArray;
+
+module.exports = isArray;
+
+},{}],288:[function(require,module,exports){
+var getLength = require('./_getLength'),
+    isFunction = require('./isFunction'),
+    isLength = require('./isLength');
+
+/**
+ * Checks if `value` is array-like. A value is considered array-like if it's
+ * not a function and has a `value.length` that's an integer greater than or
+ * equal to `0` and less than or equal to `Number.MAX_SAFE_INTEGER`.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is array-like, else `false`.
+ * @example
+ *
+ * _.isArrayLike([1, 2, 3]);
+ * // => true
+ *
+ * _.isArrayLike(document.body.children);
+ * // => true
+ *
+ * _.isArrayLike('abc');
+ * // => true
+ *
+ * _.isArrayLike(_.noop);
+ * // => false
+ */
+function isArrayLike(value) {
+  return value != null && isLength(getLength(value)) && !isFunction(value);
+}
+
+module.exports = isArrayLike;
+
+},{"./_getLength":263,"./isFunction":290,"./isLength":291}],289:[function(require,module,exports){
+var isArrayLike = require('./isArrayLike'),
+    isObjectLike = require('./isObjectLike');
+
+/**
+ * This method is like `_.isArrayLike` except that it also checks if `value`
+ * is an object.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an array-like object,
+ *  else `false`.
+ * @example
+ *
+ * _.isArrayLikeObject([1, 2, 3]);
+ * // => true
+ *
+ * _.isArrayLikeObject(document.body.children);
+ * // => true
+ *
+ * _.isArrayLikeObject('abc');
+ * // => false
+ *
+ * _.isArrayLikeObject(_.noop);
+ * // => false
+ */
+function isArrayLikeObject(value) {
+  return isObjectLike(value) && isArrayLike(value);
+}
+
+module.exports = isArrayLikeObject;
+
+},{"./isArrayLike":288,"./isObjectLike":294}],290:[function(require,module,exports){
+var isObject = require('./isObject');
+
+/** `Object#toString` result references. */
+var funcTag = '[object Function]',
+    genTag = '[object GeneratorFunction]';
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/**
+ * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
+ * of values.
+ */
+var objectToString = objectProto.toString;
+
+/**
+ * Checks if `value` is classified as a `Function` object.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is correctly classified,
+ *  else `false`.
+ * @example
+ *
+ * _.isFunction(_);
+ * // => true
+ *
+ * _.isFunction(/abc/);
+ * // => false
+ */
+function isFunction(value) {
+  // The use of `Object#toString` avoids issues with the `typeof` operator
+  // in Safari 8 which returns 'object' for typed array and weak map constructors,
+  // and PhantomJS 1.9 which returns 'function' for `NodeList` instances.
+  var tag = isObject(value) ? objectToString.call(value) : '';
+  return tag == funcTag || tag == genTag;
+}
+
+module.exports = isFunction;
+
+},{"./isObject":293}],291:[function(require,module,exports){
+/** Used as references for various `Number` constants. */
+var MAX_SAFE_INTEGER = 9007199254740991;
+
+/**
+ * Checks if `value` is a valid array-like length.
+ *
+ * **Note:** This function is loosely based on
+ * [`ToLength`](http://ecma-international.org/ecma-262/6.0/#sec-tolength).
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a valid length,
+ *  else `false`.
+ * @example
+ *
+ * _.isLength(3);
+ * // => true
+ *
+ * _.isLength(Number.MIN_VALUE);
+ * // => false
+ *
+ * _.isLength(Infinity);
+ * // => false
+ *
+ * _.isLength('3');
+ * // => false
+ */
+function isLength(value) {
+  return typeof value == 'number' &&
+    value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
+}
+
+module.exports = isLength;
+
+},{}],292:[function(require,module,exports){
+var isFunction = require('./isFunction'),
+    isHostObject = require('./_isHostObject'),
+    isObjectLike = require('./isObjectLike');
+
+/** Used to match `RegExp` [syntax characters](http://ecma-international.org/ecma-262/6.0/#sec-patterns). */
+var reRegExpChar = /[\\^$.*+?()[\]{}|]/g;
+
+/** Used to detect host constructors (Safari). */
+var reIsHostCtor = /^\[object .+?Constructor\]$/;
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/** Used to resolve the decompiled source of functions. */
+var funcToString = Function.prototype.toString;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+/** Used to detect if a method is native. */
+var reIsNative = RegExp('^' +
+  funcToString.call(hasOwnProperty).replace(reRegExpChar, '\\$&')
+  .replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, '$1.*?') + '$'
+);
+
+/**
+ * Checks if `value` is a native function.
+ *
+ * @static
+ * @memberOf _
+ * @since 3.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a native function,
+ *  else `false`.
+ * @example
+ *
+ * _.isNative(Array.prototype.push);
+ * // => true
+ *
+ * _.isNative(_);
+ * // => false
+ */
+function isNative(value) {
+  if (value == null) {
+    return false;
+  }
+  if (isFunction(value)) {
+    return reIsNative.test(funcToString.call(value));
+  }
+  return isObjectLike(value) &&
+    (isHostObject(value) ? reIsNative : reIsHostCtor).test(value);
+}
+
+module.exports = isNative;
+
+},{"./_isHostObject":271,"./isFunction":290,"./isObjectLike":294}],293:[function(require,module,exports){
+/**
+ * Checks if `value` is the [language type](https://es5.github.io/#x8) of `Object`.
+ * (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an object, else `false`.
+ * @example
+ *
+ * _.isObject({});
+ * // => true
+ *
+ * _.isObject([1, 2, 3]);
+ * // => true
+ *
+ * _.isObject(_.noop);
+ * // => true
+ *
+ * _.isObject(null);
+ * // => false
+ */
+function isObject(value) {
+  var type = typeof value;
+  return !!value && (type == 'object' || type == 'function');
+}
+
+module.exports = isObject;
+
+},{}],294:[function(require,module,exports){
+/**
+ * Checks if `value` is object-like. A value is object-like if it's not `null`
+ * and has a `typeof` result of "object".
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+ * @example
+ *
+ * _.isObjectLike({});
+ * // => true
+ *
+ * _.isObjectLike([1, 2, 3]);
+ * // => true
+ *
+ * _.isObjectLike(_.noop);
+ * // => false
+ *
+ * _.isObjectLike(null);
+ * // => false
+ */
+function isObjectLike(value) {
+  return !!value && typeof value == 'object';
+}
+
+module.exports = isObjectLike;
+
+},{}],295:[function(require,module,exports){
+var isArray = require('./isArray'),
+    isObjectLike = require('./isObjectLike');
+
+/** `Object#toString` result references. */
+var stringTag = '[object String]';
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/**
+ * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
+ * of values.
+ */
+var objectToString = objectProto.toString;
+
+/**
+ * Checks if `value` is classified as a `String` primitive or object.
+ *
+ * @static
+ * @since 0.1.0
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is correctly classified,
+ *  else `false`.
+ * @example
+ *
+ * _.isString('abc');
+ * // => true
+ *
+ * _.isString(1);
+ * // => false
+ */
+function isString(value) {
+  return typeof value == 'string' ||
+    (!isArray(value) && isObjectLike(value) && objectToString.call(value) == stringTag);
+}
+
+module.exports = isString;
+
+},{"./isArray":287,"./isObjectLike":294}],296:[function(require,module,exports){
+var isObjectLike = require('./isObjectLike');
+
+/** `Object#toString` result references. */
+var symbolTag = '[object Symbol]';
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/**
+ * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
+ * of values.
+ */
+var objectToString = objectProto.toString;
+
+/**
+ * Checks if `value` is classified as a `Symbol` primitive or object.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is correctly classified,
+ *  else `false`.
+ * @example
+ *
+ * _.isSymbol(Symbol.iterator);
+ * // => true
+ *
+ * _.isSymbol('abc');
+ * // => false
+ */
+function isSymbol(value) {
+  return typeof value == 'symbol' ||
+    (isObjectLike(value) && objectToString.call(value) == symbolTag);
+}
+
+module.exports = isSymbol;
+
+},{"./isObjectLike":294}],297:[function(require,module,exports){
+var MapCache = require('./_MapCache');
+
+/** Used as the `TypeError` message for "Functions" methods. */
+var FUNC_ERROR_TEXT = 'Expected a function';
+
+/**
+ * Creates a function that memoizes the result of `func`. If `resolver` is
+ * provided it determines the cache key for storing the result based on the
+ * arguments provided to the memoized function. By default, the first argument
+ * provided to the memoized function is used as the map cache key. The `func`
+ * is invoked with the `this` binding of the memoized function.
+ *
+ * **Note:** The cache is exposed as the `cache` property on the memoized
+ * function. Its creation may be customized by replacing the `_.memoize.Cache`
+ * constructor with one whose instances implement the
+ * [`Map`](http://ecma-international.org/ecma-262/6.0/#sec-properties-of-the-map-prototype-object)
+ * method interface of `delete`, `get`, `has`, and `set`.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Function
+ * @param {Function} func The function to have its output memoized.
+ * @param {Function} [resolver] The function to resolve the cache key.
+ * @returns {Function} Returns the new memoizing function.
+ * @example
+ *
+ * var object = { 'a': 1, 'b': 2 };
+ * var other = { 'c': 3, 'd': 4 };
+ *
+ * var values = _.memoize(_.values);
+ * values(object);
+ * // => [1, 2]
+ *
+ * values(other);
+ * // => [3, 4]
+ *
+ * object.a = 2;
+ * values(object);
+ * // => [1, 2]
+ *
+ * // Modify the result cache.
+ * values.cache.set(object, ['a', 'b']);
+ * values(object);
+ * // => ['a', 'b']
+ *
+ * // Replace `_.memoize.Cache`.
+ * _.memoize.Cache = WeakMap;
+ */
+function memoize(func, resolver) {
+  if (typeof func != 'function' || (resolver && typeof resolver != 'function')) {
+    throw new TypeError(FUNC_ERROR_TEXT);
+  }
+  var memoized = function() {
+    var args = arguments,
+        key = resolver ? resolver.apply(this, args) : args[0],
+        cache = memoized.cache;
+
+    if (cache.has(key)) {
+      return cache.get(key);
+    }
+    var result = func.apply(this, args);
+    memoized.cache = cache.set(key, result);
+    return result;
+  };
+  memoized.cache = new (memoize.Cache || MapCache);
+  return memoized;
+}
+
+// Assign cache to `_.memoize`.
+memoize.Cache = MapCache;
+
+module.exports = memoize;
+
+},{"./_MapCache":252}],298:[function(require,module,exports){
+/**
+ * Gets the timestamp of the number of milliseconds that have elapsed since
+ * the Unix epoch (1 January 1970 00:00:00 UTC).
+ *
+ * @static
+ * @memberOf _
+ * @since 2.4.0
+ * @type {Function}
+ * @category Date
+ * @returns {number} Returns the timestamp.
+ * @example
+ *
+ * _.defer(function(stamp) {
+ *   console.log(_.now() - stamp);
+ * }, _.now());
+ * // => Logs the number of milliseconds it took for the deferred function to be invoked.
+ */
+var now = Date.now;
+
+module.exports = now;
+
+},{}],299:[function(require,module,exports){
+var isFunction = require('./isFunction'),
+    isObject = require('./isObject'),
+    isSymbol = require('./isSymbol');
+
+/** Used as references for various `Number` constants. */
+var NAN = 0 / 0;
+
+/** Used to match leading and trailing whitespace. */
+var reTrim = /^\s+|\s+$/g;
+
+/** Used to detect bad signed hexadecimal string values. */
+var reIsBadHex = /^[-+]0x[0-9a-f]+$/i;
+
+/** Used to detect binary string values. */
+var reIsBinary = /^0b[01]+$/i;
+
+/** Used to detect octal string values. */
+var reIsOctal = /^0o[0-7]+$/i;
+
+/** Built-in method references without a dependency on `root`. */
+var freeParseInt = parseInt;
+
+/**
+ * Converts `value` to a number.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to process.
+ * @returns {number} Returns the number.
+ * @example
+ *
+ * _.toNumber(3);
+ * // => 3
+ *
+ * _.toNumber(Number.MIN_VALUE);
+ * // => 5e-324
+ *
+ * _.toNumber(Infinity);
+ * // => Infinity
+ *
+ * _.toNumber('3');
+ * // => 3
+ */
+function toNumber(value) {
+  if (typeof value == 'number') {
+    return value;
+  }
+  if (isSymbol(value)) {
+    return NAN;
+  }
+  if (isObject(value)) {
+    var other = isFunction(value.valueOf) ? value.valueOf() : value;
+    value = isObject(other) ? (other + '') : other;
+  }
+  if (typeof value != 'string') {
+    return value === 0 ?  value : +value;
+  }
+  value = value.replace(reTrim, '');
+  var isBinary = reIsBinary.test(value);
+  return (isBinary || reIsOctal.test(value))
+    ? freeParseInt(value.slice(2), isBinary ? 2 : 8)
+    : (reIsBadHex.test(value) ? NAN : +value);
+}
+
+module.exports = toNumber;
+
+},{"./isFunction":290,"./isObject":293,"./isSymbol":296}],300:[function(require,module,exports){
+var Symbol = require('./_Symbol'),
+    isSymbol = require('./isSymbol');
+
+/** Used as references for various `Number` constants. */
+var INFINITY = 1 / 0;
+
+/** Used to convert symbols to primitives and strings. */
+var symbolProto = Symbol ? Symbol.prototype : undefined,
+    symbolToString = symbolProto ? symbolProto.toString : undefined;
+
+/**
+ * Converts `value` to a string if it's not one. An empty string is returned
+ * for `null` and `undefined` values. The sign of `-0` is preserved.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to process.
+ * @returns {string} Returns the string.
+ * @example
+ *
+ * _.toString(null);
+ * // => ''
+ *
+ * _.toString(-0);
+ * // => '-0'
+ *
+ * _.toString([1, 2, 3]);
+ * // => '1,2,3'
+ */
+function toString(value) {
+  // Exit early for strings to avoid a performance hit in some environments.
+  if (typeof value == 'string') {
+    return value;
+  }
+  if (value == null) {
+    return '';
+  }
+  if (isSymbol(value)) {
+    return symbolToString ? symbolToString.call(value) : '';
+  }
+  var result = (value + '');
+  return (result == '0' && (1 / value) == -INFINITY) ? '-0' : result;
+}
+
+module.exports = toString;
+
+},{"./_Symbol":253,"./isSymbol":296}],301:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -1749,14 +14226,14 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],6:[function(require,module,exports){
+},{}],302:[function(require,module,exports){
 module.exports = function isBuffer(arg) {
   return arg && typeof arg === 'object'
     && typeof arg.copy === 'function'
     && typeof arg.fill === 'function'
     && typeof arg.readUInt8 === 'function';
 }
-},{}],7:[function(require,module,exports){
+},{}],303:[function(require,module,exports){
 (function (process,global){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -2346,11865 +14823,4 @@ function hasOwnProperty(obj, prop) {
 }
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./support/isBuffer":6,"_process":5,"inherits":3}],8:[function(require,module,exports){
-module.exports = {
-	Assessor: require( "./js/assessor" ),
-	App: require( "./js/app.js" ),
-	Pluggable: require( "./js/app" ),
-	Researcher: require( "./js/researcher" ),
-	SnippetPreview: require( "./js/snippetPreview.js" )
-};
-
-},{"./js/app":16,"./js/app.js":16,"./js/assessor":33,"./js/researcher":43,"./js/snippetPreview.js":63}],9:[function(require,module,exports){
-/** @module analyses/checkForKeywordDoubles */
-
-/**
- * Checks the keyword in an array of used keywords. If the keyword is in this array, it will return the
- * number of times the keyword is found, and an ID if it was used once before.
- *
- * @param {string} keyword The keyword to check in the array.
- * @param {array} usedKeywords The array with used keywords and IDs.
- * @returns {object} The id of the keyword and the number of times the keyword is found
- */
-module.exports = function( keyword, usedKeywords ) {
-	var result = { count: 0, id: 0 };
-	if ( typeof usedKeywords[ keyword ] !== "undefined" ) {
-		result.count = usedKeywords[ keyword ].length;
-	}
-	if ( result.count === 1 ) {
-		result.id = usedKeywords[ keyword ][ 0 ];
-	}
-	return result;
-};
-
-},{}],10:[function(require,module,exports){
-/** @module analyses/checkStringForStopwords */
-
-var stopwords = require( "../config/stopwords.js" )();
-var keywordRegex = require( "../stringProcessing/stringToRegex.js" );
-
-/**
- * Checks a textstring to see if there are any stopwords, that are defined in the stopwords config.
- *
- * @param {string} text The input text to match stopwords.
- * @returns {Array} An array with all stopwords found in the text.
- */
-module.exports = function( text ) {
-	var i, matches = [];
-
-	for ( i = 0; i < stopwords.length; i++ ) {
-		if ( text.match( keywordRegex( stopwords[i] ) ) !== null  ) {
-			matches.push( stopwords[i] );
-		}
-	}
-
-	return matches;
-};
-
-
-},{"../config/stopwords.js":38,"../stringProcessing/stringToRegex.js":81}],11:[function(require,module,exports){
-/** @module analyses/checkUrlForStopwords */
-
-var stopwords = require( "../analyses/checkStringForStopwords.js" );
-
-/**
- * Matches stopwords in the URL. Replaces - and _ with whitespace.
- *
- * @param {string} url The URL to check for stopwords.
- * @returns {array} stopwords found in URL
- */
-
-module.exports = function( url ) {
-	url = url.replace( /[-_]/g, " " );
-	return stopwords( url );
-};
-
-},{"../analyses/checkStringForStopwords.js":10}],12:[function(require,module,exports){
-/** @module analyses/countKeywordInUrl */
-
-var wordMatch = require( "../stringProcessing/matchTextWithWord.js" );
-/**
- * Matches the keyword in the URL. Replaces whitespaces with dashes and uses dash as wordboundary.
- *
- * @param {url} url The URL to check for keyword
- * @param {string} keyword The keyword to match
- * @returns {int} Number of times the keyword is found.
- */
-module.exports = function( url, keyword ) {
-	keyword = keyword.replace( "'", "" );
-	keyword = keyword.replace( /\s/ig, "-" );
-
-	return wordMatch( url, keyword );
-};
-
-},{"../stringProcessing/matchTextWithWord.js":77}],13:[function(require,module,exports){
-/** @module analyses/getWordCount */
-
-var sanitizeString = require( "../stringProcessing/sanitizeString.js" );
-
-/**
- * Checks the number of words in a string
- *
- * @param {string} text The keyphrase to count words in.
- * @returns {number} The wordcount of the given string.
- */
-module.exports = function( text ) {
-	text = sanitizeString( text );
-
-	if ( text === "" ) {
-		return 0;
-	}
-
-	return text.split( /\s/g ).length;
-};
-
-},{"../stringProcessing/sanitizeString.js":80}],14:[function(require,module,exports){
-/* global YoastSEO: true */
-YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
-
-var calculateFleschReading = require( "./researches/calculateFleschReading.js" );
-var checkStringForStopwords = require( "./analyses/checkStringForStopwords.js" );
-var checkUrlForStopwords = require( "./analyses/checkUrlForStopwords.js" );
-var checkForKeywordInUrl = require( "./analyses/countKeywordInUrl.js" );
-var checkForKeywordDoubles = require( "./analyses/checkForKeywordDoubles.js" );
-var findKeywordInFirstParagraph = require( "./researches/findKeywordInFirstParagraph.js" );
-var findKeywordInPageTitle = require( "./researches/findKeywordInPageTitle.js" );
-var getKeywordDensity = require( "./researches/getKeywordDensity.js" );
-var countLinks = require( "./researches/getLinkStatistics.js" );
-var getKeyphraseLength = require( "./analyses/getWordCount.js" );
-var isUrlTooLong = require( "./researches/urlIsTooLong.js" );
-var getSubheadings = require( "./researches/matchKeywordInSubheadings.js" );
-var countWords = require( "./stringProcessing/countWords.js" );
-var matchTextWithWord = require( "./stringProcessing/matchTextWithWord.js" );
-var sanitizeString = require( "../js/stringProcessing/sanitizeString.js" );
-var stringToRegex = require( "../js/stringProcessing/stringToRegex.js" );
-var replaceDiacritics = require( "../js/stringProcessing/replaceDiacritics.js" );
-
-var isUndefined = require( "lodash/isUndefined" );
-
-var AnalyzeScorer = require( "./analyzescorer.js" );
-var analyzerConfig = require( "./config/config.js" );
-var Paper = require( "./values/Paper.js" );
-
-/**
- * Text Analyzer, accepts args for config and calls init for initialization
- *
- * @param {Object} args The analyzer arguments.
- * @param {String} args.keyword The keyword to analyze the text with.
- * @param {String} args.meta The meta description of the page.
- * @param {String} args.text The text of the page.
- * @param {String} args.pageTitle The title of the page as displayed in google.
- * @param {String} args.title The actual title of the page.
- * @param {String} args.url The full URL that the page will be displayed on.
- * @param {String} args.excerpt The page excerpt.
- * @param {String} args.snippetTitle The title as displayed in the snippet preview.
- * @param {String} args.snippetMeta The meta description as displayed in the snippet preview.
- * @param {String} args.snippetCite  The URL as displayed in the snippet preview.
- * @param {Paper} args.paper The content to be researched.
- *
- * @property {Object} analyses Object that contains all analyses.
- *
- * @constructor
- */
-var Analyzer = function( args ) {
-	this.config = args;
-	this.init( args );
-
-	this.analyses = {};
-};
-
-/**
- * YoastSEO.Analyzer initialization. Loads defaults and overloads custom settings.
- */
-Analyzer.prototype.init = function( args ) {
-	if ( isUndefined( args.paper ) ) {
-		args.paper = new Paper( args.text,
-			{
-				keyword:  args.keyword,
-				description: args.meta,
-				url: args.url,
-				title: args.pageTitle
-			}
-		);
-	}
-
-	this.paper = args.paper;
-
-	this.config = args;
-	this.initDependencies();
-	this.formatKeyword();
-	this.initQueue();
-	this.loadWordlists();
-	this.__output = [];
-	this.__store = {};
-};
-
-/**
- * creates a regex from the keyword including /ig switch so it is case insensitive and global.
- * replaces a number of characters that can break the regex.
-*/
-Analyzer.prototype.formatKeyword = function() {
-	if ( this.paper.hasKeyword() ) {
-
-		// removes characters from the keyword that could break the regex, or give unwanted results.
-		// leaves the - since this is replaced later on in the function
-		var keyword = sanitizeString( this.paper.getKeyword() );
-
-		// Creates new regex from keyword with global and caseinsensitive option,
-		this.keywordRegex = stringToRegex( replaceDiacritics( keyword.replace( /[-_]/g, " " ) ) );
-
-		// Creates new regex from keyword with global and caseinsensitive option,
-		// replaces space with -. Used for URL matching
-		this.keywordRegexInverse = stringToRegex( replaceDiacritics( keyword.replace( /\s/g, "-" ) ), "\\-" );
-	}
-};
-
-/**
- * initializes required objects.
- * For the analyzeScorer a new object is always defined, to make sure there are no duplicate scores
- */
-Analyzer.prototype.initDependencies = function() {
-
-	//init scorer
-	this.analyzeScorer = new AnalyzeScorer( this );
-};
-
-/**
- * initializes the function queue. Uses slice for assignment so it duplicates array in stead of
- * referencing it.
- */
-Analyzer.prototype.initQueue = function() {
-	var fleschReadingIndex;
-
-	//if custom queue available load queue, otherwise load default queue.
-	if ( typeof this.config.queue !== "undefined" && this.config.queue.length !== 0 ) {
-		this.queue = this.config.queue.slice();
-	} else {
-		this.queue = analyzerConfig.queue.slice();
-	}
-
-	// Exclude the flesh easy reading score for non-english languages
-	if ( 0 !== this.config.locale.indexOf( "en_" ) && ( fleschReadingIndex = this.queue.indexOf( "fleschReading" ) ) ) {
-		this.queue.splice( fleschReadingIndex, 1 );
-	}
-};
-
-/**
- * load wordlists.
- */
-Analyzer.prototype.loadWordlists = function() {
-
-	//if no available keywords, load default array
-	if ( typeof this.config.wordsToRemove === "undefined" ) {
-		this.config.wordsToRemove = analyzerConfig.wordsToRemove;
-	}
-	if ( typeof this.config.stopWords === "undefined" ) {
-		this.config.stopWords = analyzerConfig.stopWords;
-	}
-};
-
-/**
- * starts queue of functions executing the analyzer functions untill queue is empty.
- */
-Analyzer.prototype.runQueue = function() {
-	var output, score;
-
-	// Remove the first item from the queue and execute it.
-	if ( this.queue.length > 0 ) {
-		var currentQueueItem = this.queue.shift();
-
-		if ( "undefined" !== typeof this[ currentQueueItem ] ) {
-			output = this[ currentQueueItem ]();
-		} else if ( this.analyses.hasOwnProperty( currentQueueItem ) ) {
-			score = this.analyses[ currentQueueItem ].callable();
-
-			/*
-			 * This is because the analyzerScorer requires this format and we want users that add plugins to just return
-			 * a score because that makes the API easier. So this is a translation while our internal format isn't
-			 * perfect.
-			 */
-			output = {
-				"test": this.analyses[ currentQueueItem ].name,
-				"result": score
-			};
-		}
-
-		this.__output = this.__output.concat( output );
-
-		this.runQueue();
-	} else {
-		this.score();
-	}
-};
-
-/**
- * Adds an analysis to the analyzer
- *
- * @param {Object}   analysis The analysis object.
- * @param {string}   analysis.name The name of this analysis.
- * @param {function} analysis.callable The function to call to calculate this the score.
- */
-Analyzer.prototype.addAnalysis = function( analysis ) {
-	this.analyses[ analysis.name ] = analysis;
-	this.queue.push( analysis.name );
-};
-
-/**
- * returns wordcount from this.paper.getText()
- * @returns {{test: string, result: Number)}}
- */
-Analyzer.prototype.wordCount = function() {
-	return [ { test: "wordCount", result: countWords( this.paper.getText() ) } ];
-};
-
-/**
- * Checks if keyword is present, if not returns 0
- * @returns {{test: string, result: number}[]}
- */
-Analyzer.prototype.keyphraseSizeCheck = function() {
-	return [ { test: "keyphraseSizeCheck", result: getKeyphraseLength( this.paper.getKeyword() ) } ];
-};
-
-/**
- * checks the keyword density of given keyword against the cleantext stored in __store.
- * @returns resultObject
- */
-Analyzer.prototype.keywordDensity = function() {
-	var keywordCount = countWords( this.paper.getText() );
-
-	if ( keywordCount >= 100 ) {
-		var density = getKeywordDensity( this.paper );
-
-		// Present for backwards compatibility with the .refObj.__store.keywordCount option in scoring.js
-		this.__store.keywordCount = matchTextWithWord( this.paper.getText(), this.paper.getKeyword() );
-
-		return [ { test: "keywordDensity", result: density } ];
-	}
-};
-
-/**
- * counts the number of keyword occurrences of the keyword. Saves this in the __store and returns
- * it.
- * @returns keywordCount
- */
-Analyzer.prototype.keywordCount = function() {
-	var keywordCount = matchTextWithWord( this.paper.getText(), this.paper.getKeyword() );
-
-	return keywordCount;
-};
-
-/**
- * checks if keywords appear in subheaders of stored cleanTextSomeTags text.
- * @returns resultObject
- */
-Analyzer.prototype.subHeadings = function() {
-	return [ { test: "subHeadings", result: getSubheadings( this.paper ) } ];
-};
-
-/**
- * check if the keyword contains stopwords.
- * @returns {result object}
- */
-Analyzer.prototype.stopwords = function() {
-	var matches = checkStringForStopwords( this.paper.getKeyword() );
-
-	/* Matchestext is used for scoring, we should move this to the scoring */
-	var matchesText = matches.join( ", " );
-
-	return [ {
-		test: "stopwordKeywordCount",
-		result: {
-			count: matches.length,
-			matches: matchesText
-		}
-	} ];
-};
-
-/**
- * calculate Flesch Reading score
- * formula: 206.835 - 1.015 (total words / total sentences) - 84.6 ( total syllables / total words);
- * @returns {result object}
- */
-Analyzer.prototype.fleschReading = function() {
-	var score = calculateFleschReading( this.paper );
-
-	if ( score < 0 ) {
-		score = 0;
-	}
-
-	if ( score > 100 ) {
-		score = 100;
-	}
-
-	return [ { test: "fleschReading", result: score } ];
-};
-
-/**
- * counts the links in a given text. Also checks if a link is internal of external.
- * @returns {
- * 		{
- * 			total: number, internal: {
- * 				total: number,
- * 				totalNaKeyword: number,
- * 				totalKeyword: number,
- * 				dofollow: number,
- * 				nofollow: number
- * 			}, external: {
- * 				total: number,
- * 				dofollow: number,
- * 				nofollow: number
- * 			}, other: {
- * 				total: number,
- * 				dofollow: number,
- * 				nofollow: number
- * 			}
- * 		}
- * 	}
- */
-Analyzer.prototype.linkCount = function() {
-	var keyword = this.paper.getKeyword();
-
-	if ( typeof keyword === "undefined" ) {
-		keyword = "";
-	}
-
-	return [ { test: "linkCount", result: countLinks( this.paper ) } ];
-};
-
-/**
- * counts the number of images found in a given textstring, based on the <img>-tag and returns a
- * result object
- *
- * @todo update function so it will also check on picture elements/make it configurable.
- *
- * @returns {{name: string, result: {total: number, alt: number, noAlt: number}}}
- */
-Analyzer.prototype.imageCount = function() {
-	return [ { test: "imageCount", result: 0 } ];
-};
-
-/**
- * counts the number of characters in the pagetitle, returns 0 if empty or not set.
- * @returns {{name: string, count: *}}
- */
-Analyzer.prototype.pageTitleLength = function() {
-	var result =  [ { test: "pageTitleLength", result:  0 } ];
-	if ( this.paper.hasTitle() ) {
-		result[ 0 ].result = this.paper.getTitle().length;
-	}
-	return result;
-};
-
-/**
- * counts the occurrences of the keyword in the pagetitle, returns 0 if pagetitle is empty or not
- * set.
- *
- * @returns {{name: string, count: number}}
- */
-Analyzer.prototype.pageTitleKeyword = function() {
-	var result = [ { test: "pageTitleKeyword", result: { position: -1, matches: 0 } } ];
-	if ( typeof this.paper.hasTitle() && this.paper.hasKeyword() ) {
-		result[0].result = findKeywordInPageTitle( this.paper );
-	}
-	return result;
-};
-
-/**
- * counts the occurrences of the keyword in the first paragraph, returns 0 if it is not found,
- * if there is no paragraph tag or 0 hits, it checks for 2 newlines
- * @returns {{name: string, count: number}}
- */
-Analyzer.prototype.firstParagraph = function() {
-	return [ { test: "firstParagraph", result: findKeywordInFirstParagraph( this.paper ) } ];
-};
-
-/**
- * counts the occurrences of the keyword in the metadescription, returns 0 if metadescription is
- * empty or not set. Default is -1, if the meta is empty, this way we can score for empty meta.
- * @returns {{name: string, count: number}}
- */
-Analyzer.prototype.metaDescriptionKeyword = function() {
-	var result = [ { test: "metaDescriptionKeyword", result: -1 } ];
-
-	if ( this.paper.hasDescription() && this.paper.hasKeyword() ) {
-		result[ 0 ].result = matchTextWithWord( this.paper.getDescription(), this.paper.getKeyword() );
-	}
-
-	return result;
-};
-
-/**
- * returns the length of the metadescription
- * @returns {{test: string, result: Number}[]}
- */
-Analyzer.prototype.metaDescriptionLength = function() {
-	return [ { test: "metaDescriptionLength", result: this.paper.getDescription().length } ];
-};
-
-/**
- * counts the occurences of the keyword in the URL, returns 0 if no URL is set or is empty.
- * @returns {{name: string, count: number}}
- */
-Analyzer.prototype.urlKeyword = function() {
-	var score = 0;
-
-	if ( this.paper.hasKeyword() && this.paper.hasUrl() ) {
-		score = checkForKeywordInUrl( this.paper.getUrl(), this.paper.getKeyword() );
-	}
-
-	var result = [ { test: "urlKeyword", result: score } ];
-	return result;
-};
-
-/**
- * returns the length of the URL
- * @returns {{test: string, result: number}[]}
- */
-Analyzer.prototype.urlLength = function() {
-	var result = [ { test: "urlLength", result: { urlTooLong: isUrlTooLong( this.paper ) } } ];
-	return result;
-};
-
-/**
- * checks if there are stopwords used in the URL.
- * @returns {{test: string, result: number}[]}
- */
-Analyzer.prototype.urlStopwords = function() {
-	return [ { test: "urlStopwords", result: checkUrlForStopwords( this.paper.getUrl() ) } ];
-};
-
-/**
- * checks if the keyword has been used before. Uses usedkeywords array. If empty, returns 0.
- * @returns {{test: string, result: number}[]}
- */
-Analyzer.prototype.keywordDoubles = function() {
-	var result = [ { test: "keywordDoubles", result: { count: 0, id: 0 } } ];
-	if ( this.paper.hasKeyword() && typeof this.config.usedKeywords !== "undefined" ) {
-		result[0].result = checkForKeywordDoubles( this.paper.getKeyword(), this.config.usedKeywords );
-	}
-	return result;
-};
-
-/**
- * runs the scorefunction of the analyzeScorer with the generated output that is used as a queue.
- */
-Analyzer.prototype.score = function() {
-	this.analyzeScorer.score( this.__output );
-};
-
-module.exports = Analyzer;
-
-},{"../js/stringProcessing/replaceDiacritics.js":78,"../js/stringProcessing/sanitizeString.js":80,"../js/stringProcessing/stringToRegex.js":81,"./analyses/checkForKeywordDoubles.js":9,"./analyses/checkStringForStopwords.js":10,"./analyses/checkUrlForStopwords.js":11,"./analyses/countKeywordInUrl.js":12,"./analyses/getWordCount.js":13,"./analyzescorer.js":15,"./config/config.js":34,"./researches/calculateFleschReading.js":44,"./researches/findKeywordInFirstParagraph.js":45,"./researches/findKeywordInPageTitle.js":46,"./researches/getKeywordDensity.js":47,"./researches/getLinkStatistics.js":48,"./researches/matchKeywordInSubheadings.js":53,"./researches/urlIsTooLong.js":60,"./stringProcessing/countWords.js":69,"./stringProcessing/matchTextWithWord.js":77,"./values/Paper.js":90,"lodash/isUndefined":244}],15:[function(require,module,exports){
-/* global YoastSEO: true */
-
-var escapeHTML = require( "lodash/escape" );
-var Score = require( "./values/Score.js" );
-var AnalyzerScoring = require( "./config/scoring.js" ).AnalyzerScoring;
-var analyzerScoreRating = require( "./config/scoring.js" ).analyzerScoreRating;
-
-var isUndefined = require( "lodash/isUndefined" );
-
-var assessments = {};
-assessments.wordCount = require( "./assessments/countWords.js" );
-assessments.urlLength = require( "./assessments/urlIsTooLong.js" );
-assessments.fleschReading = require( "./assessments/calculateFleschReading.js" );
-assessments.linkCount = require( "./assessments/getLinkStatistics.js" );
-assessments.pageTitleKeyword = require( "./assessments/pageTitleKeyword.js" );
-assessments.subHeadings = require( "./assessments/matchKeywordInSubheading.js" );
-assessments.keywordDensity = require( "./assessments/keywordDensity.js" );
-assessments.stopwordKeywordCount = require( "./assessments/stopWordsInKeyword.js" );
-assessments.urlStopwords = require( "./assessments/stopWordsInUrl.js" );
-assessments.metaDescriptionLength = require( "./assessments/metaDescriptionLength.js" );
-assessments.keyphraseSizeCheck = require( "./assessments/keyphraseLength.js" );
-assessments.metaDescriptionKeyword = require ( "./assessments/metaDescriptionKeyword.js" );
-assessments.imageCount = require( "./assessments/imageCount.js" );
-assessments.urlKeyword = require( "./assessments/keywordInUrl.js" );
-assessments.firstParagraph = require( "./assessments/firstParagraph.js" );
-assessments.pageTitleLength = require( "./assessments/pageTitleLength.js" );
-
-/**
- * inits the analyzerscorer used for scoring of the output from the textanalyzer
- *
- * @param {YoastSEO.Analyzer} refObj
- * @constructor
- */
-var AnalyzeScorer = function( refObj ) {
-	this.__score = [];
-	this.refObj = refObj;
-	this.i18n = refObj.config.i18n;
-	this.paper = refObj.paper;
-	this.init();
-};
-
-/**
- * loads the analyzerScoring from the config file.
- */
-AnalyzeScorer.prototype.init = function() {
-	var scoringConfig = new AnalyzerScoring( this.i18n );
-	this.scoring = scoringConfig.analyzerScoring;
-};
-
-/**
- * Starts the scoring by taking the resultObject from the analyzer. Then runs the scorequeue.
- * @param resultObj
- */
-AnalyzeScorer.prototype.score = function( resultObj ) {
-	this.resultObj = resultObj;
-	this.runQueue();
-};
-
-/**
- * runs the queue and saves the result in the __score-object.
- */
-AnalyzeScorer.prototype.runQueue = function() {
-	for ( var i = 0; i < this.resultObj.length; i++ ) {
-		var subScore = this.genericScore( this.resultObj[ i ] );
-		if ( typeof subScore !== "undefined" && subScore !== "" ) {
-			this.__score = this.__score.concat( subScore );
-		}
-	}
-	this.__totalScore = this.totalScore();
-};
-
-/**
- * Looks up the score based on the scorename in the object and calls calculate score
- * if a scoreObject is found.
- * @param {object} obj The resultobject from the resultarray.
- * @returns {{name: (analyzerScoring.scoreName), score: number, text: string}}
- */
-AnalyzeScorer.prototype.genericScore = function( obj ) {
-	if ( isUndefined( obj ) ) {
-		return "";
-	}
-
-	var scoreObj = this.scoreLookup( obj.test );
-
-	if ( isUndefined( scoreObj ) ) {
-		return assessments[ obj.test ].getResult( this.paper, YoastSEO.app.researcher,  this.i18n );
-	}
-
-	return this.calculateScore( obj, scoreObj, scoreObj.scoreName );
-};
-
-/**
- * calculates score based on the scoreObject
- *
- * @param {object} obj The object with the testresult.
- * @param {object} scoreObj The object containing all scores.
- * @param {string} scoreName The name of the score
- * @returns {*} The score from the analysis.
- */
-AnalyzeScorer.prototype.calculateScore = function( obj, scoreObj, scoreName ) {
-	var score = { name: scoreName, score: 0, text: "" };
-
-	for ( var i = 0; i < scoreObj.scoreArray.length; i++ ) {
-		this.setMatcher( obj, scoreObj, i );
-		switch ( true ) {
-
-			// if a type is given, the scorer looks for that object in the resultObject to use
-			// for scoring
-			case (
-				typeof scoreObj.scoreArray[i].type === "string" &&
-				this.result[ scoreObj.scoreArray[i].type ]
-			):
-				return this.returnScore( scoreObj, i );
-
-			// looks if the value from the score is below the maximum value
-			case (
-				typeof scoreObj.scoreArray[i].min === "undefined" &&
-				this.matcher <= scoreObj.scoreArray[i].max
-			):
-				return this.returnScore( scoreObj, i );
-
-			// looks if the value from the score is above the minimum value
-			case (
-				typeof scoreObj.scoreArray[i].max === "undefined" &&
-				this.matcher >= scoreObj.scoreArray[i].min
-			):
-				return this.returnScore( scoreObj, i );
-
-			// looks if the value from the score is between the minimum and maximum value
-			case (
-				this.matcher >= scoreObj.scoreArray[i].min &&
-				this.matcher <= scoreObj.scoreArray[i].max
-			):
-				return this.returnScore( scoreObj, i );
-			default:
-				break;
-		}
-	}
-	return score;
-};
-
-/**
- * sets matcher and resultvariables so the scorefunction can use this.
- * @param obj
- * @param scoreObj
- * @param i
- */
-AnalyzeScorer.prototype.setMatcher = function( obj, scoreObj, i ) {
-	this.matcher = parseFloat( obj.result );
-	this.result = obj.result;
-	if ( typeof scoreObj.scoreArray[ i ].matcher !== "undefined" ) {
-		this.matcher = parseFloat( this.result[ scoreObj.scoreArray[ i ].matcher ] );
-	}
-};
-
-/**
- * finds the scoringobject by scorename for the current result.
- * @param name
- * @returns scoringObject
- */
-AnalyzeScorer.prototype.scoreLookup = function( name ) {
-	for ( var ii = 0; ii < this.scoring.length; ii++ ) {
-		if ( name === this.scoring[ ii ].scoreName ) {
-			return this.scoring[ ii ];
-		}
-	}
-};
-
-/**
- * fills the score with score and text from the scoreArray and runs the textformatter.
- * @param {Object} scoreObj
- * @param {number} i
- * @returns {Score}
- */
-AnalyzeScorer.prototype.returnScore = function( scoreObj, i ) {
-
-	return new Score( scoreObj.scoreArray[ i ].score, this.scoreTextFormat( scoreObj.scoreArray[ i ], scoreObj.replaceArray ) );
-};
-
-/**
- * Formats the resulttexts with variables. Uses a value, source, sourceObj or scoreObj for the
- * replacement source replaces the position from the replaceArray with the replacement source.
- * @param scoreObj
- * @param replaceArray
- * @returns formatted resultText
- */
-AnalyzeScorer.prototype.scoreTextFormat = function( scoreObj, replaceArray ) {
-	var replaceWord;
-	var resultText = scoreObj.text;
-	resultText = escapeHTML( resultText );
-	if ( typeof replaceArray !== "undefined" ) {
-		for ( var i = 0; i < replaceArray.length; i++ ) {
-			switch ( true ) {
-				case ( typeof replaceArray[ i ].value !== "undefined" ):
-
-					// gets the value from the replaceArray and replaces it on the given position
-					resultText = resultText.replace(
-						replaceArray[ i ].position,
-						replaceArray[ i ].value
-					);
-					break;
-				case ( typeof replaceArray[ i ].source !== "undefined" ):
-
-					// gets the source (which is a value of the analyzer) and replaces it on the
-					// given position
-					resultText = resultText.replace(
-						replaceArray[ i ].position,
-						escapeHTML( this[ replaceArray[ i ].source ] )
-					);
-					break;
-				case ( typeof replaceArray[ i ].sourceObj !== "undefined" ):
-
-					// gets the replaceword (which is a reference to an object in the analyzer) and
-					// replaces is on the given position
-					replaceWord = this.parseReplaceWord( replaceArray[ i ].sourceObj );
-					if ( typeof replaceArray[ i ].rawOutput === "undefined" || replaceArray[ i ].rawOutput !== true ) {
-						replaceWord = escapeHTML( replaceWord );
-					}
-
-					resultText = resultText.replace( replaceArray[ i ].position, replaceWord );
-					break;
-				case ( typeof replaceArray[ i ].scoreObj !== "undefined" ):
-
-					// gets the replaceword from the scoreObject, to use values from the score in
-					// the textString.
-					resultText = resultText.replace(
-						replaceArray[ i ].position,
-						escapeHTML( scoreObj[ replaceArray[ i ].scoreObj ] )
-					);
-					break;
-				default:
-					break;
-			}
-		}
-	}
-	return resultText;
-};
-
-/**
- * converts the string to the correct object and returns the string to be used in the text.
- * @param replaceWord
- * @returns {YoastSEO.AnalyzeScorer}
- */
-AnalyzeScorer.prototype.parseReplaceWord = function( replaceWord ) {
-	var parts = replaceWord.split( "." );
-	var source = this;
-	for ( var i = 1; i < parts.length; i++ ) {
-		source = source[ parts[ i ] ];
-	}
-	return source;
-};
-
-/**
- * calculates the totalscore, by adding all scores and dividing them by the amount in the score
- * array. Removes unused results that have no score
- * @returns score
- */
-AnalyzeScorer.prototype.totalScore = function() {
-	var scoreAmount = this.__score.length;
-	var totalScore = 0;
-	for ( var i = 0; i < this.__score.length; i++ ) {
-		if (
-			typeof this.__score[ i ] !== "undefined" &&
-			this.__score[ i ].text !== "" &&
-		    typeof this.__score[ i ].score !== "undefined"
-		) {
-			totalScore += this.__score[ i ].score;
-		} else {
-			scoreAmount--;
-		}
-	}
-	var totalAmount = scoreAmount * analyzerScoreRating;
-	return Math.round( ( totalScore / totalAmount ) * 100 );
-};
-
-/**
- * Returns total score as calculated.
- *
- * @returns {number}
- */
-AnalyzeScorer.prototype.getTotalScore = function() {
-	return this.__totalScore;
-};
-
-/**
- * Adds a custom scoring to the analyzer scoring
- *
- * @param {Object} scoring
- * @param {string} scoring.name
- * @param {Object} scoring.scoring
- */
-AnalyzeScorer.prototype.addScoring = function( scoring ) {
-	var scoringObject = scoring.scoring;
-
-	scoringObject.scoreName = scoring.name;
-
-	this.scoring.push( scoringObject );
-};
-
-module.exports = AnalyzeScorer;
-
-},{"./assessments/calculateFleschReading.js":17,"./assessments/countWords.js":18,"./assessments/firstParagraph.js":19,"./assessments/getLinkStatistics.js":20,"./assessments/imageCount.js":21,"./assessments/keyphraseLength.js":22,"./assessments/keywordDensity.js":23,"./assessments/keywordInUrl.js":24,"./assessments/matchKeywordInSubheading.js":25,"./assessments/metaDescriptionKeyword.js":26,"./assessments/metaDescriptionLength.js":27,"./assessments/pageTitleKeyword.js":28,"./assessments/pageTitleLength.js":29,"./assessments/stopWordsInKeyword.js":30,"./assessments/stopWordsInUrl.js":31,"./assessments/urlIsTooLong.js":32,"./config/scoring.js":37,"./values/Score.js":91,"lodash/escape":221,"lodash/isUndefined":244}],16:[function(require,module,exports){
-/* jshint browser: true */
-
-require( "./config/config.js" );
-var sanitizeString = require( "../js/stringProcessing/sanitizeString.js" );
-var SnippetPreview = require( "./snippetPreview.js" );
-
-var defaultsDeep = require( "lodash/defaultsDeep" );
-var isObject = require( "lodash/isObject" );
-var isString = require( "lodash/isString" );
-var MissingArgument = require( "./errors/missingArgument" );
-var isUndefined = require( "lodash/isUndefined" );
-var forEach = require( "lodash/forEach" );
-
-var Jed = require( "jed" );
-
-var Assessor = require( "./assessor.js" );
-var Analyzer = require( "./analyzer.js" );
-var Researcher = require( "./researcher.js" );
-var ScoreFormatter = require( "./scoreFormatter.js" );
-var Pluggable = require( "./pluggable.js" );
-var analyzerConfig = require( "./config/config.js" );
-var Paper = require( "./values/Paper.js" );
-
-/**
- * Default config for YoastSEO.js
- *
- * @type {Object}
- */
-var defaults = {
-	callbacks: {
-		bindElementEvents: function( ) { },
-		updateSnippetValues: function( ) { },
-		saveScores: function( ) { }
-	},
-	sampleText: {
-		baseUrl: "example.org/",
-		snippetCite: "example-post/",
-		title: "This is an example title - edit by clicking here",
-		keyword: "Choose a focus keyword",
-		meta: "Modify your meta description by editing it right here",
-		text: "Start writing your text!"
-	},
-	queue: [ "wordCount",
-		"keywordDensity",
-		"subHeadings",
-		"stopwords",
-		"fleschReading",
-		"linkCount",
-		"imageCount",
-		"urlKeyword",
-		"urlLength",
-		"metaDescription",
-		"pageTitleKeyword",
-		"pageTitleLength",
-		"firstParagraph",
-		"'keywordDoubles" ],
-	typeDelay: 300,
-	typeDelayStep: 100,
-	maxTypeDelay: 1500,
-	dynamicDelay: true,
-	locale: "en_US",
-	translations: {
-		"domain": "js-text-analysis",
-		"locale_data": {
-			"js-text-analysis": {
-				"": {}
-			}
-		}
-	},
-	replaceTarget: [],
-	resetTarget: [],
-	elementTarget: []
-};
-
-/**
- * Creates a default snippet preview, this can be used if no snippet preview has been passed.
- *
- * @private
- * @this App
- *
- * @returns {SnippetPreview} The SnippetPreview object.
- */
-function createDefaultSnippetPreview() {
-	var targetElement = document.getElementById( this.config.targets.snippet );
-
-	return new SnippetPreview( {
-		analyzerApp: this,
-		targetElement: targetElement,
-		callbacks: {
-			saveSnippetData: this.config.callbacks.saveSnippetData
-		}
-	} );
-}
-
-/**
- * Returns whether or not the given argument is a valid SnippetPreview object.
- *
- * @param   {*}         snippetPreview  The 'object' to check against.
- * @returns {boolean}                   Whether or not it's a valid SnippetPreview object.
- */
-function isValidSnippetPreview( snippetPreview ) {
-	return !isUndefined( snippetPreview ) && SnippetPreview.prototype.isPrototypeOf( snippetPreview );
-}
-
-/**
- * Check arguments passed to the App to check if all necessary arguments are set.
- *
- * @private
- * @param {Object}      args            The arguments object passed to the App.
- * @returns {void}
- */
-function verifyArguments( args ) {
-
-	if ( !isObject( args.callbacks.getData ) ) {
-		throw new MissingArgument( "The app requires an object with a getdata callback." );
-	}
-
-	if ( !isObject( args.targets ) ) {
-		throw new MissingArgument( "`targets` is a required App argument, `targets` is not an object." );
-	}
-
-	if ( !isString( args.targets.output ) ) {
-		throw new MissingArgument( "`targets.output` is a required App argument, `targets.output` is not a string." );
-	}
-
-	// The args.targets.snippet argument is only required if not SnippetPreview object has been passed.
-	if ( !isValidSnippetPreview( args.snippetPreview ) && !isString( args.targets.snippet ) ) {
-		throw new MissingArgument( "A snippet preview is required. When no SnippetPreview object isn't passed to " +
-			"the App, the `targets.snippet` is a required App argument. `targets.snippet` is not a string." );
-	}
-}
-
-/**
- * This should return an object with the given properties
- *
- * @callback YoastSEO.App~getData
- * @returns {Object} data
- * @returns {String} data.keyword The keyword that should be used
- * @returns {String} data.meta
- * @returns {String} data.text The text to analyze
- * @returns {String} data.pageTitle The text in the HTML title tag
- * @returns {String} data.title The title to analyze
- * @returns {String} data.url The URL for the given page
- * @returns {String} data.excerpt Excerpt for the pages
- */
-
-/**
- * @callback YoastSEO.App~getAnalyzerInput
- *
- * @returns {Array} An array containing the analyzer queue
- */
-
-/**
- * @callback YoastSEO.App~bindElementEvents
- *
- * @param {YoastSEO.App} app A reference to the YoastSEO.App from where this is called.
- */
-
-/**
- * @callback YoastSEO.App~updateSnippetValues
- *
- * @param {Object} ev The event emitted from the DOM
- */
-
-/**
- * @callback YoastSEO.App~saveScores
- *
- * @param {int} overalScore The overal score as determined by the analyzer.
- */
-
-/**
- * Loader for the analyzer, loads the eventbinder and the elementdefiner
- *
- * @param {Object} args The arguments oassed to the loader.
- * @param {Object} args.translations Jed compatible translations.
- * @param {Object} args.targets Targets to retrieve or set on.
- * @param {String} args.targets.snippet ID for the snippet preview element.
- * @param {String} args.targets.output ID for the element to put the output of the analyzer in.
- * @param {int} args.typeDelay Number of milliseconds to wait between typing to refresh the analyzer output.
- * @param {boolean} args.dynamicDelay   Whether to enable dynamic delay, will ignore type delay if the analyzer takes a long time.
- *                                      Applicable on slow devices.
- * @param {int} args.maxTypeDelay The maximum amount of type delay even if dynamic delay is on.
- * @param {int} args.typeDelayStep The amount with which to increase the typeDelay on each step when dynamic delay is enabled.
- * @param {Object} args.callbacks The callbacks that the app requires.
- * @param {YoastSEO.App~getData} args.callbacks.getData Called to retrieve input data
- * @param {YoastSEO.App~getAnalyzerInput} args.callbacks.getAnalyzerInput Called to retrieve input for the analyzer.
- * @param {YoastSEO.App~bindElementEvents} args.callbacks.bindElementEvents Called to bind events to the DOM elements.
- * @param {YoastSEO.App~updateSnippetValues} args.callbacks.updateSnippetValues Called when the snippet values need to be updated.
- * @param {YoastSEO.App~saveScores} args.callbacks.saveScores Called when the score has been determined by the analyzer.
- * @param {Function} args.callbacks.saveSnippetData Function called when the snippet data is changed.
- *
- * @param {SnippetPreview} args.snippetPreview The SnippetPreview object to be used.
- *
- * @constructor
- */
-var App = function( args ) {
-	if ( !isObject( args ) ) {
-		args = {};
-	}
-	defaultsDeep( args, defaults );
-
-	verifyArguments( args );
-
-	this.config = args;
-
-	this.callbacks = this.config.callbacks;
-
-	this.i18n = this.constructI18n( this.config.translations );
-	this.pluggable = new Pluggable( this );
-
-	this.getData();
-	this.showLoadingDialog();
-
-	if ( isValidSnippetPreview( args.snippetPreview ) ) {
-		this.snippetPreview = args.snippetPreview;
-
-		// Hack to make sure the snippet preview always has a reference to this App. This way we solve the circular
-		// dependency issue. In the future this should be solved by the snippet preview not having a reference to the
-		// app.
-		if ( this.snippetPreview.refObj !== this ) {
-			this.snippetPreview.refObj = this;
-			this.snippetPreview.i18n = this.i18n;
-		}
-	} else {
-		this.snippetPreview = createDefaultSnippetPreview.call( this );
-	}
-	this.initSnippetPreview();
-
-	this.runAnalyzer();
-};
-
-/**
- * Extend the config with defaults.
- *
- * @param   {Object}    args    The arguments to be extended.
- * @returns {Object}    args    The extended arguments.
- */
-App.prototype.extendConfig = function( args ) {
-	args.sampleText = this.extendSampleText( args.sampleText );
-	args.queue = args.queue || analyzerConfig.queue;
-	args.locale = args.locale || "en_US";
-
-	return args;
-};
-
-/**
- * Extend sample text config with defaults.
- *
- * @param   {Object}    sampleText  The sample text to be extended.
- * @returns {Object}    sampleText  The extended sample text.
- */
-App.prototype.extendSampleText = function( sampleText ) {
-	var defaultSampleText = defaults.sampleText;
-
-	if ( isUndefined( sampleText ) ) {
-		sampleText = defaultSampleText;
-	} else {
-		for ( var key in sampleText ) {
-			if ( isUndefined( sampleText[ key ] ) ) {
-				sampleText[ key ] = defaultSampleText[ key ];
-			}
-		}
-	}
-
-	return sampleText;
-};
-
-/**
- * Initializes i18n object based on passed configuration
- *
- * @param {Object}  translations    The translations to be used in the current instance.
- * @returns {void}
- */
-App.prototype.constructI18n = function( translations ) {
-	var defaultTranslations = {
-		"domain": "js-text-analysis",
-		"locale_data": {
-			"js-text-analysis": {
-				"": {}
-			}
-		}
-	};
-
-	// Use default object to prevent Jed from erroring out.
-	translations = translations || defaultTranslations;
-
-	return new Jed( translations );
-};
-
-/**
- * Retrieves data from the callbacks.getData and applies modification to store these in this.rawData.
- * @returns {void}
- */
-App.prototype.getData = function() {
-	this.rawData = this.callbacks.getData();
-
-	if ( !isUndefined( this.snippetPreview ) ) {
-
-		// Gets the data FOR the analyzer
-		var data = this.snippetPreview.getAnalyzerData();
-
-		this.rawData.pageTitle = data.title;
-		this.rawData.url = data.url;
-		this.rawData.meta = data.metaDesc;
-	}
-
-	if ( this.pluggable.loaded ) {
-		this.rawData.pageTitle = this.pluggable._applyModifications( "data_page_title", this.rawData.pageTitle );
-		this.rawData.meta = this.pluggable._applyModifications( "data_meta_desc", this.rawData.meta );
-	}
-	this.rawData.locale = this.config.locale;
-};
-
-/**
- * Refreshes the analyzer and output of the analyzer
- * @returns {void}
- */
-App.prototype.refresh = function() {
-	this.getData();
-	this.runAnalyzer();
-};
-
-/**
- * Creates the elements for the snippetPreview
- *
- * @deprecated Don't create a snippet preview using this method, create it directly using the prototype and pass it as
- * an argument instead.
- * @returns {void}
- */
-App.prototype.createSnippetPreview = function() {
-	this.snippetPreview = createDefaultSnippetPreview.call( this );
-	this.initSnippetPreview();
-};
-
-/**
- * Initializes the snippet preview for this App.
- * @returns {void}
- */
-App.prototype.initSnippetPreview = function() {
-	this.snippetPreview.renderTemplate();
-	this.snippetPreview.callRegisteredEventBinder();
-	this.snippetPreview.bindEvents();
-	this.snippetPreview.init();
-};
-
-/**
- * binds the analyzeTimer function to the input of the targetElement on the page.
- * @returns {void}
- */
-App.prototype.bindInputEvent = function() {
-	for ( var i = 0; i < this.config.elementTarget.length; i++ ) {
-		var elem = document.getElementById( this.config.elementTarget[ i ] );
-		elem.addEventListener( "input", this.analyzeTimer.bind( this ) );
-	}
-};
-
-/**
- * runs the rerender function of the snippetPreview if that object is defined.
- * @returns {void}
- */
-App.prototype.reloadSnippetText = function() {
-	if ( isUndefined( this.snippetPreview ) ) {
-		this.snippetPreview.reRender();
-	}
-};
-
-/**
- * the analyzeTimer calls the checkInputs function with a delay, so the function won't be executed
- * at every keystroke checks the reference object, so this function can be called from anywhere,
- * without problems with different scopes.
- * @returns {void}
- */
-App.prototype.analyzeTimer = function() {
-	clearTimeout( window.timer );
-	window.timer = setTimeout( this.refresh.bind( this ), this.config.typeDelay );
-};
-
-/**
- * sets the startTime timestamp
- * @returns {void}
- */
-App.prototype.startTime = function() {
-	this.startTimestamp = new Date().getTime();
-};
-
-/**
- * sets the endTime timestamp and compares with startTime to determine typeDelayincrease.
- * @returns {void}
- */
-App.prototype.endTime = function() {
-	this.endTimestamp = new Date().getTime();
-	if ( this.endTimestamp - this.startTimestamp > this.config.typeDelay ) {
-		if ( this.config.typeDelay < ( this.config.maxTypeDelay - this.config.typeDelayStep ) ) {
-			this.config.typeDelay += this.config.typeDelayStep;
-		}
-	}
-};
-
-/**
- * inits a new pageAnalyzer with the inputs from the getInput function and calls the scoreFormatter
- * to format outputs.
- * @returns {void}
- */
-App.prototype.runAnalyzer = function() {
-	if ( this.pluggable.loaded === false ) {
-		return;
-	}
-
-	if ( this.config.dynamicDelay ) {
-		this.startTime();
-	}
-
-	this.analyzerData = this.modifyData( this.rawData );
-	this.analyzerData.i18n = this.i18n;
-
-	// Create a paper object for the Researcher
-	this.paper = new Paper( this.analyzerData.text, {
-		keyword:  this.analyzerData.keyword,
-		description: this.analyzerData.meta,
-		url: this.analyzerData.url,
-		title: this.analyzerData.pageTitle
-	} );
-
-	var keyword = sanitizeString( this.rawData.keyword );
-
-	if ( keyword === "" ) {
-		this.analyzerData.queue = [ "keyphraseSizeCheck", "wordCount", "fleschReading", "pageTitleLength", "urlStopwords", "metaDescriptionLength" ];
-	}
-
-	this.analyzerData.keyword = keyword;
-
-	// The new researcher
-	if ( isUndefined( this.researcher ) ) {
-		this.researcher = new Researcher( this.paper );
-	} else {
-		this.researcher.setPaper( this.paper );
-	}
-
-	if ( isUndefined( this.pageAnalyzer ) ) {
-		this.pageAnalyzer = new Analyzer( this.analyzerData );
-
-		this.pluggable._addPluginTests( this.pageAnalyzer );
-	} else {
-		this.pageAnalyzer.init( this.analyzerData );
-
-		this.pluggable._addPluginTests( this.pageAnalyzer );
-	}
-
-	this.pageAnalyzer.runQueue();
-
-	// Set the assessor
-	if ( isUndefined( this.assessor ) ) {
-		this.assessor = new Assessor( this.i18n );
-	}
-
-	this.assessor.assess( this.paper );
-
-	this.scoreFormatter = new ScoreFormatter( {
-		scores: this.pageAnalyzer.analyzeScorer.__score,
-		overallScore: this.pageAnalyzer.analyzeScorer.__totalScore,
-		outputTarget: this.config.targets.output,
-		overallTarget: this.config.targets.overall,
-		keyword: this.rawData.keyword,
-		saveScores: this.callbacks.saveScores,
-		i18n: this.i18n
-	} );
-	this.scoreFormatter.renderScore();
-
-	if ( this.config.dynamicDelay ) {
-		this.endTime();
-	}
-
-	this.snippetPreview.reRender();
-};
-
-/**
- * Modifies the data with plugins before it is sent to the analyzer.
- * @param   {Object}  data      The data to be modified.
- * @returns {Object}            The data with the applied modifications.
- */
-App.prototype.modifyData = function( data ) {
-
-	// Copy rawdata to lose object reference.
-	data = JSON.parse( JSON.stringify( data ) );
-
-	data.text = this.pluggable._applyModifications( "content", data.text );
-	data.title = this.pluggable._applyModifications( "title", data.title );
-
-	return data;
-};
-
-/**
- * Function to fire the analyzer when all plugins are loaded, removes the loading dialog.
- * @returns {void}
- */
-App.prototype.pluginsLoaded = function() {
-	this.getData();
-	this.removeLoadingDialog();
-	this.runAnalyzer();
-};
-
-/**
- * Shows the loading dialog which shows the loading of the plugins.
- * @returns {void}
- */
-App.prototype.showLoadingDialog = function() {
-	var dialogDiv = document.createElement( "div" );
-	dialogDiv.className = "YoastSEO_msg";
-	dialogDiv.id = "YoastSEO-plugin-loading";
-	document.getElementById( this.config.targets.output ).appendChild( dialogDiv );
-};
-
-/**
- * Updates the loading plugins. Uses the plugins as arguments to show which plugins are loading
- * @param   {Object}  plugins   The plugins to be parsed into the dialog.
- * @returns {void}
- */
-App.prototype.updateLoadingDialog = function( plugins ) {
-	var dialog = document.getElementById( "YoastSEO-plugin-loading" );
-	dialog.textContent = "";
-	forEach ( plugins, function( plugin, pluginName ) {
-		dialog.innerHTML += "<span class=left>" + pluginName + "</span><span class=right " +
-							plugin.status + ">" + plugin.status + "</span><br />";
-	} );
-	dialog.innerHTML += "<span class=bufferbar></span>";
-};
-
-/**
- * Removes the pluging load dialog.
- * @returns {void}
- */
-App.prototype.removeLoadingDialog = function() {
-	document.getElementById( this.config.targets.output ).removeChild( document.getElementById( "YoastSEO-plugin-loading" ) );
-};
-
-// ***** PLUGGABLE PUBLIC DSL ***** //
-
-/**
- * Delegates to `YoastSEO.app.pluggable.registerPlugin`
- *
- * @param {string}  pluginName      The name of the plugin to be registered.
- * @param {object}  options         The options object.
- * @param {string}  options.status  The status of the plugin being registered. Can either be "loading" or "ready".
- * @returns {boolean}               Whether or not it was successfully registered.
- */
-App.prototype.registerPlugin = function( pluginName, options ) {
-	return this.pluggable._registerPlugin( pluginName, options );
-};
-
-/**
- * Delegates to `YoastSEO.app.pluggable.ready`
- *
- * @param {string}  pluginName  The name of the plugin to check.
- * @returns {boolean}           Whether or not the plugin is ready.
- */
-App.prototype.pluginReady = function( pluginName ) {
-	return this.pluggable._ready( pluginName );
-};
-
-/**
- * Delegates to `YoastSEO.app.pluggable.reloaded`
- *
- * @param {string} pluginName   The name of the plugin to reload
- * @returns {boolean}           Whether or not the plugin was reloaded.
- */
-App.prototype.pluginReloaded = function( pluginName ) {
-	return this.pluggable._reloaded( pluginName );
-};
-
-/**
- * Delegates to `YoastSEO.app.pluggable.registerModification`
- *
- * @param {string}      modification 		The name of the filter
- * @param {function}    callable 		 	The callable function
- * @param {string}      pluginName 		    The plugin that is registering the modification.
- * @param {number}      priority 		 	(optional) Used to specify the order in which the callables associated with a particular filter are
-                                            called.
- * 									        Lower numbers correspond with earlier execution.
- * @returns 			{boolean}           Whether or not the modification was successfully registered.
- */
-App.prototype.registerModification = function( modification, callable, pluginName, priority ) {
-	return this.pluggable._registerModification( modification, callable, pluginName, priority );
-};
-
-/**
- * Registers a custom test for use in the analyzer, this will result in a new line in the analyzer results. The function
- * has to return a result based on the contents of the page/posts.
- *
- * The scoring object is a special object with definitions about how to translate a result from your analysis function
- * to a SEO score.
- *
- * Negative scores result in a red circle
- * Scores 1, 2, 3, 4 and 5 result in a orange circle
- * Scores 6 and 7 result in a yellow circle
- * Scores 8, 9 and 10 result in a red circle
- *
- * @param {string}   name       Name of the test.
- * @param {function} analysis   A function that analyzes the content and determines a score for a certain trait.
- * @param {Object}   scoring    A scoring object that defines how the analysis translates to a certain SEO score.
- * @param {string}   pluginName The plugin that is registering the test.
- * @param {number}   priority   (optional) Determines when this test is run in the analyzer queue. Is currently ignored,
- *                              tests are added to the end of the queue.
- * @returns {boolean}           Whether or not the test was successfully registered.
- */
-App.prototype.registerTest = function( name, analysis, scoring, pluginName, priority ) {
-	return this.pluggable._registerTest( name, analysis, scoring, pluginName, priority );
-};
-
-module.exports = App;
-
-},{"../js/stringProcessing/sanitizeString.js":80,"./analyzer.js":14,"./assessor.js":33,"./config/config.js":34,"./errors/missingArgument":41,"./pluggable.js":42,"./researcher.js":43,"./scoreFormatter.js":62,"./snippetPreview.js":63,"./values/Paper.js":90,"jed":4,"lodash/defaultsDeep":218,"lodash/forEach":222,"lodash/isObject":238,"lodash/isString":241,"lodash/isUndefined":244}],17:[function(require,module,exports){
-var AssessmentResult = require( "../values/AssessmentResult.js" );
-var inRange = require( "lodash/inRange" );
-
-/**
- * Calculates the assessment result based on the fleschReadingScore
- * @param {int} fleschReadingScore The score from the fleschReadingtest
- * @param {object} i18n The i18n-object used for parsing translations
- * @returns {object} object with score, resultText and note
- */
-var calculateFleschReadingResult = function( fleschReadingScore, i18n ) {
-	if ( fleschReadingScore > 90 ) {
-		return {
-			score: 9,
-			resultText: i18n.dgettext( "js-text-analysis", "very easy" ),
-			note: ""
-		};
-	}
-
-	if ( inRange( fleschReadingScore, 80, 90 ) ) {
-		return {
-			score: 9,
-			resultText:  i18n.dgettext( "js-text-analysis", "easy" ),
-			note: ""
-		};
-	}
-
-	if ( inRange( fleschReadingScore, 70, 80 ) ) {
-		return {
-			score: 8,
-			resultText: i18n.dgettext( "js-text-analysis", "fairly easy" ),
-			note: ""
-		};
-	}
-
-	if ( inRange( fleschReadingScore, 60, 70 ) ) {
-		return {
-			score: 8,
-			resultText: i18n.dgettext( "js-text-analysis", "ok" ),
-			note: ""
-		};
-	}
-
-	if ( inRange( fleschReadingScore, 50, 60 ) ) {
-		return {
-			score: 6,
-			resultText: i18n.dgettext( "js-text-analysis", "fairly difficult" ),
-			note: i18n.dgettext( "js-text-analysis", "Try to make shorter sentences to improve readability." )
-		};
-	}
-
-	if ( inRange( fleschReadingScore, 30, 50 ) ) {
-		return {
-			score: 5,
-			resultText: i18n.dgettext( "js-text-analysis", "difficult" ),
-			note: i18n.dgettext( "js-text-analysis", "Try to make shorter sentences, using less difficult words to improve readability." )
-		};
-	}
-
-	if ( fleschReadingScore < 30 ) {
-		return {
-			score: 4,
-			resultText: i18n.dgettext( "js-text-analysis", "very difficult" ),
-			note: i18n.dgettext( "js-text-analysis", "Try to make shorter sentences, using less difficult words to improve readability." )
-		};
-	}
-};
-
-/**
- * The assessment that runs the FleschReading on the paper.
- *
- * @param {object} paper The paper to run this assessment on
- * @param {object} researcher The researcher used for the assessment
- * @param {object} i18n The i18n-object used for parsing translations
- * @returns {object} an assessmentresult with the score and formatted text.
- */
-var fleschReadingAssessment = function( paper, researcher, i18n ) {
-
-	var fleschReadingScore = researcher.getResearch( "calculateFleschReading" );
-
-	/* translators: %1$s expands to the numeric flesch reading ease score, %2$s to a link to a Yoast.com article about Flesch ease reading score,
-	 %3$s to the easyness of reading, %4$s expands to a note about the flesch reading score. */
-	var text = i18n.dgettext( "js-text-analysis", "The copy scores %1$s in the %2$s test, which is considered %3$s to read. %4$s" );
-	var url = "<a href='https://yoast.com/flesch-reading-ease-score/' target='new'>Flesch Reading Ease</a>";
-
-	// scores must be between 0 and 100;
-	if ( fleschReadingScore < 0 ) {
-		fleschReadingScore = 0;
-	}
-	if ( fleschReadingScore > 100 ) {
-		fleschReadingScore = 100;
-	}
-
-	var fleschReadingResult = calculateFleschReadingResult( fleschReadingScore, i18n );
-
-	text = i18n.sprintf( text, fleschReadingScore, url, fleschReadingResult.resultText, fleschReadingResult.note );
-
-	var assessmentResult =  new AssessmentResult();
-	assessmentResult.setScore( fleschReadingResult.score );
-	assessmentResult.setText( text );
-
-	return assessmentResult;
-};
-
-module.exports = { getResult: fleschReadingAssessment };
-
-},{"../values/AssessmentResult.js":89,"lodash/inRange":226}],18:[function(require,module,exports){
-var AssessmentResult = require( "../values/AssessmentResult.js" );
-var inRange = require( "lodash/inRange" );
-
-/**
- * Calculate the score based on the current word count.
- * @param {number} wordCount The amount of words to be checked against.
- * @param {object} i18n The locale object.
- * @returns {object} The resulting score object.
- */
-var calculateWordCountResult = function( wordCount, i18n ) {
-	if ( wordCount > 300 ) {
-		return {
-			score: 9,
-			/* translators: %1$d expands to the number of words in the text, %2$s to the recommended minimum of words */
-			text: i18n.dngettext(
-				"js-text-analysis",
-				"The text contains %1$d word, this is more than the %2$d word recommended minimum.",
-				"The text contains %1$d words, this is more than the %2$d word recommended minimum.",
-				wordCount
-			)
-		};
-	}
-
-	if ( inRange( wordCount, 250, 300 ) ) {
-		return {
-			score: 7,
-			/* translators: %1$d expands to the number of words in the text, %2$s to the recommended minimum of words */
-			text: i18n.dngettext(
-				"js-text-analysis",
-				"The text contains %1$d word, this is slightly below the %2$d word recommended minimum. Add a bit more copy.",
-				"The text contains %1$d words, this is slightly below the %2$d word recommended minimum. Add a bit more copy.",
-				wordCount
-			)
-		};
-	}
-
-	if ( inRange( wordCount, 200, 250 ) ) {
-		return {
-			score: 5,
-			/* translators: %1$d expands to the number of words in the text, %2$d to the recommended minimum of words */
-			text: i18n.dngettext(
-				"js-text-analysis",
-				"The text contains %1$d word, this is below the %2$d word recommended minimum. Add more useful content on this topic for readers.",
-				"The text contains %1$d words, this is below the %2$d word recommended minimum. Add more useful content on this topic for readers.",
-				wordCount
-			)
-		};
-	}
-
-	if ( inRange( wordCount, 100, 200 ) ) {
-		return {
-			score: -10,
-			/* translators: %1$d expands to the number of words in the text, %2$d to the recommended minimum of words */
-			text: i18n.dngettext(
-				"js-text-analysis",
-				"The text contains %1$d word, this is below the %2$d word recommended minimum. Add more useful content on this topic for readers.",
-				"The text contains %1$d words, this is below the %2$d word recommended minimum. Add more useful content on this topic for readers.",
-				wordCount
-			)
-		};
-	}
-
-	if ( inRange( wordCount, 0, 100 ) ) {
-		return {
-			score: -20,
-			/* translators: %1$d expands to the number of words in the text */
-			text: i18n.dngettext(
-				"js-text-analysis",
-				"The text contains %1$d word, this is far too low and should be increased.",
-				"The text contains %1$d words, this is far too low and should be increased.",
-				wordCount
-			)
-		};
-	}
-};
-
-/**
- * Execute the Assessment and return a result.
- * @param {Paper} paper The Paper object to assess.
- * @param {Researcher} researcher The Researcher object containing all available researches.
- * @param {object} i18n The locale object.
- * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
- */
-var countWordsAssessment = function( paper, researcher, i18n ) {
-	var wordCount = researcher.getResearch( "wordCountInText" );
-	var wordCountResult = calculateWordCountResult( wordCount, i18n );
-	var assessmentResult = new AssessmentResult();
-
-	assessmentResult.setScore( wordCountResult.score );
-	assessmentResult.setText( i18n.sprintf( wordCountResult.text, wordCount, 300 ) );
-
-	return assessmentResult;
-};
-
-module.exports = { getResult: countWordsAssessment };
-
-},{"../values/AssessmentResult.js":89,"lodash/inRange":226}],19:[function(require,module,exports){
-var AssessmentResult = require( "../values/AssessmentResult.js" );
-
-/**
- * Returns a score and text based on the firstParagraph object.
- *
- * @param {object} firstParagraphMatches The object with all firstParagraphMatches.
- * @param {object} i18n The object used for translations
- * @returns {object} resultObject with score and text
- */
-var calculateFirstParagraphResult = function( firstParagraphMatches, i18n ) {
-	if ( firstParagraphMatches > 0 ) {
-		return {
-			score: 9,
-			text: i18n.dgettext( "js-text-analysis", "The focus keyword appears in the first paragraph of the copy." )
-		};
-	}
-
-	return {
-		score: 3,
-		text: i18n.dgettext( "js-text-analysis", "The focus keyword doesn\'t appear in the first paragraph of the copy. " +
-			"Make sure the topic is clear immediately." )
-	};
-};
-
-/**
- * Runs the findKeywordInFirstParagraph module, based on this returns an assessment result with score.
- *
- * @param {Paper} paper The paper to use for the assessment.
- * @param {object} researcher The researcher used for calling research.
- * @param {object} i18n The object used for translations
- * @returns {object} the Assessmentresult
- */
-var getFirstParagraphAssessment = function( paper,  researcher, i18n ) {
-	var firstParagraphMatches = researcher.getResearch( "firstParagraph" );
-	var firstParagraphResult = calculateFirstParagraphResult( firstParagraphMatches, i18n );
-	var assessmentResult = new AssessmentResult();
-
-	assessmentResult.setScore( firstParagraphResult.score );
-	assessmentResult.setText( firstParagraphResult.text );
-
-	return assessmentResult;
-};
-
-module.exports = {
-	getResult: getFirstParagraphAssessment,
-	isApplicable: function( paper ) {
-		return paper.hasKeyword();
-	}
-};
-
-},{"../values/AssessmentResult.js":89}],20:[function(require,module,exports){
-var AssessmentResult = require( "../values/AssessmentResult.js" );
-
-/**
- * Returns a score and text based on the linkStatistics object.
- *
- * @param {object} linkStatistics The object with all linkstatistics.
- * @param {object} i18n The object used for translations
- * @returns {object} resultObject with score and text
- */
-var calculateLinkStatisticsResult = function( linkStatistics, i18n ) {
-	if ( linkStatistics.total === 0 ) {
-		return {
-			score: 6,
-			text: i18n.dgettext( "js-text-analysis", "No outbound links appear in this page, consider adding some as appropriate." )
-
-		};
-	}
-	if ( linkStatistics.externalTotal === 0 ) {
-		return {
-			score: 6,
-			text: i18n.dgettext( "js-text-analysis", "No outbound links appear in this page, consider adding some as appropriate." )
-		};
-	}
-	if ( linkStatistics.totalNaKeyword > 0 ) {
-		return {
-			score: 2,
-			text: i18n.dgettext( "js-text-analysis", "Outbound links appear in this page" )
-		};
-	}
-	if ( linkStatistics.totalKeyword > 0 ) {
-		return {
-			score: 2,
-			text: i18n.dgettext( "js-text-analysis", "You\'re linking to another page with the focus keyword you want this page to rank for. " +
-				"Consider changing that if you truly want this page to rank." )
-		};
-	}
-	if ( linkStatistics.externalNofollow === linkStatistics.total ) {
-		return {
-			score: 7,
-			/* translators: %1$s expands the number of outbound links */
-			text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "This page has %1$s outbound link(s), all nofollowed." ),
-				linkStatistics.externalNofollow )
-		};
-	}
-
-	if ( linkStatistics.externalNofollow < linkStatistics.total ) {
-		return {
-			score: 8,
-			/* translators: %1$s expands to the number of nofollow links, %2$s to the number of outbound links */
-			text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "This page has %1$s nofollowed link(s) and %2$s normal outbound link(s)." ),
-				linkStatistics.externalNofollow, linkStatistics.externalDofollow )
-		};
-	}
-
-	if ( linkStatistics.externalDofollow === linkStatistics.total ) {
-		return {
-			score: 9,
-			/* translators: %1$s expands to the number of outbound links */
-			text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "This page has %1$s outbound link(s)." ), linkStatistics.externalTotal )
-		};
-	}
-};
-
-/**
- * Runs the getLinkStatistics module, based on this returns an assessment result with score.
- *
- * @param {object} paper The paper to use for the assessment.
- * @param {object} researcher The researcher used for calling research.
- * @param {object} i18n The object used for translations
- * @returns {object} the Assessmentresult
- */
-var getLinkStatisticsAssessment = function( paper,  researcher, i18n ) {
-	var linkStatistics = researcher.getResearch( "getLinkStatistics" );
-	var linkStatisticsResult = calculateLinkStatisticsResult( linkStatistics, i18n );
-	var assessmentResult = new AssessmentResult();
-
-	assessmentResult.setScore( linkStatisticsResult.score );
-	assessmentResult.setText( linkStatisticsResult.text );
-
-	return assessmentResult;
-};
-
-module.exports = { getResult: getLinkStatisticsAssessment };
-
-},{"../values/AssessmentResult.js":89}],21:[function(require,module,exports){
-var AssessmentResult = require( "../values/AssessmentResult.js" );
-var isEmpty = require( "lodash/isEmpty" );
-
-/**
- * Calculate the score based on the current image count.
- * @param {number} imageCount The amount of images to be checked against.
- * @param {object} i18n The locale object.
- * @returns {object} The resulting score object.
- */
-var calculateImageCountResult = function( imageCount, i18n ) {
-	if ( imageCount === 0 ) {
-		return {
-			score: 3,
-			text: i18n.dgettext( "js-text-analysis", "No images appear in this page, consider adding some as appropriate." )
-		};
-	}
-
-	return {};
-};
-
-/**
- * Calculate the score based on the current image alt-tag count.
- * @param {object} altProperties An object containing the various alt-tags.
- * @param {object} i18n The locale object.
- * @returns {object} The resulting score object.
- */
-var assessImages = function( altProperties, i18n ) {
-	if ( altProperties.noAlt > 0 ) {
-		return {
-			score: 5,
-			text: i18n.dgettext( "js-text-analysis", "The images on this page are missing alt tags." )
-		};
-	}
-
-	// Has alt-tag, but no keyword is set
-	if ( altProperties.withAlt > 0 ) {
-		return {
-			score: 5,
-			text: i18n.dgettext( "js-text-analysis", "The images on this page contain alt tags." )
-		};
-	}
-
-	// Has alt-tag, but no keywords and it's not okay
-	if ( altProperties.withAltNonKeyword > 0 ) {
-		return {
-			score: 5,
-			text: i18n.dgettext( "js-text-analysis", "The images on this page do not have alt tags containing your focus keyword." )
-		};
-	}
-
-	// Has alt-tag and keywords
-	if ( altProperties.withAltKeyword > 0 ) {
-		return {
-			score: 9,
-			text: i18n.dgettext( "js-text-analysis", "The images on this page contain alt tags with the focus keyword." )
-		};
-	}
-
-	return {};
-};
-
-/**
- * Execute the Assessment and return a result.
- * @param {Paper} paper The Paper object to assess.
- * @param {Researcher} researcher The Researcher object containing all available researches.
- * @param {object} i18n The locale object.
- * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
- */
-var imageAssessment = function( paper, researcher, i18n ) {
-	var assessmentResult = new AssessmentResult();
-
-	var imageCount = researcher.getResearch( "imageCount" );
-	var imageCountResult = calculateImageCountResult( imageCount, i18n );
-
-	if ( isEmpty( imageCountResult ) ) {
-		var altTagCount = researcher.getResearch( "altTagCount" );
-		var altTagCountResult = assessImages( altTagCount, i18n );
-
-		assessmentResult.setScore( altTagCountResult.score );
-		assessmentResult.setText( altTagCountResult.text );
-
-		return assessmentResult;
-	}
-
-	assessmentResult.setScore( imageCountResult.score );
-	assessmentResult.setText( imageCountResult.text );
-
-	return assessmentResult;
-};
-
-module.exports = {
-	getResult: imageAssessment,
-	isApplicable: function ( paper ) {
-		return paper.hasText();
-	}
-};
-
-},{"../values/AssessmentResult.js":89,"lodash/isEmpty":233}],22:[function(require,module,exports){
-var AssessmentResult = require( "../values/AssessmentResult.js" );
-
-/**
- * Assesses the keyphrase presence and length
- *
- * @param {Paper} paper The paper to use for the assessment.
- * @param {Researcher} researcher The researcher used for calling research.
- * @param {Jed} i18n The object used for translations
- * @returns {AssessmentResult} The result of this assessment
-*/
-function keyphraseAssessment( paper, researcher, i18n ) {
-	var keyphraseLength = researcher.getResearch( "keyphraseLength" );
-
-	var assessmentResult = new AssessmentResult();
-
-	if ( !paper.hasKeyword() ) {
-		assessmentResult.setScore( -999 );
-		assessmentResult.setText( i18n.dgettext( "js-text-analysis", "No focus keyword was set for this page. " +
-			"If you do not set a focus keyword, no score can be calculated." ) );
-	} else if ( keyphraseLength > 10 ) {
-		assessmentResult.setScore( 0 );
-		assessmentResult.setText( i18n.dgettext( "js-text-analysis", "Your keyphrase is over 10 words, a keyphrase should be shorter." ) );
-	}
-
-	return assessmentResult;
-}
-
-module.exports = { getResult: keyphraseAssessment };
-
-},{"../values/AssessmentResult.js":89}],23:[function(require,module,exports){
-var AssessmentResult = require( "../values/AssessmentResult.js" );
-var matchWords = require( "../stringProcessing/matchTextWithWord.js" );
-var inRange = require( "lodash/inRange" );
-
-/**
- * Returns the scores and text for keyword density
- * @param {string} keywordDensity The keyword density
- * @param {object} i18n The i18n object used for translations
- * @returns {{score: number, text: *}} the assessmentresult
- */
-var calculateKeywordDensityResult = function( keywordDensity, i18n ) {
-	if ( keywordDensity > 3.5 ) {
-		return {
-			score: -50,
-			text: i18n.dgettext( "js-text-analysis", "The keyword density is %1$s%%, which is way over the advised 2.5%% maximum;" +
-				" the focus keyword was found %2$d times." )
-		};
-	}
-	if ( inRange( keywordDensity, 2.5, 3.5 ) ) {
-		return {
-			score: -10,
-			text: i18n.dgettext( "js-text-analysis", "The keyword density is %1$s%%, which is over the advised 2.5%% maximum;" +
-				" the focus keyword was found %2$d times." )
-		};
-	}
-	if ( inRange( keywordDensity, 0.5, 2.5 ) ) {
-		return {
-			score: 9,
-			text: i18n.dgettext( "js-text-analysis", "The keyword density is %1$s%%, which is great; the focus keyword was found %2$d times." )
-		};
-	}
-	if ( inRange( keywordDensity, 0, 0.5 ) ) {
-		return {
-			score: 4,
-			text: i18n.dgettext( "js-text-analysis", "The keyword density is %1$s%%, which is a bit low; the focus keyword was found %2$d times." )
-		};
-	}
-};
-
-/**
- * Runs the getkeywordDensity module, based on this returns an assessment result with score.
- *
- * @param {object} paper The paper to use for the assessment.
- * @param {object} researcher The researcher used for calling research.
- * @param {object} i18n The object used for translations
- * @returns {object} the Assessmentresult
- */
-var getKeyworDensityAssessment = function( paper,  researcher, i18n ) {
-
-	var keywordDensity = researcher.getResearch( "getKeywordDensity" );
-	var keywordCount = matchWords( paper.getText(), paper.getKeyword() );
-	var keywordDensityResult = calculateKeywordDensityResult( keywordDensity, i18n );
-
-	var assessmentResult = new AssessmentResult();
-
-	var text = i18n.sprintf( keywordDensityResult.text, keywordDensity, keywordCount );
-
-	assessmentResult.setScore( keywordDensityResult.score );
-	assessmentResult.setText( text );
-
-	return assessmentResult;
-};
-
-module.exports = {
-	getResult: getKeyworDensityAssessment,
-	isApplicable: function( paper ) {
-		return paper.hasText() && paper.hasKeyword();
-	}
-};
-
-},{"../stringProcessing/matchTextWithWord.js":77,"../values/AssessmentResult.js":89,"lodash/inRange":226}],24:[function(require,module,exports){
-var AssessmentResult = require( "../values/AssessmentResult.js" );
-
-/**
- * Calculate the score based on whether or not there's a keyword in the url.
- * @param {number} keywordsResult The amount of keywords to be checked against.
- * @param {object} i18n The locale object.
- * @returns {object} The resulting score object.
- */
-var calculateUrlKeywordCountResult = function( keywordsResult, i18n ) {
-
-	if ( keywordsResult > 0 ) {
-		return {
-			score: 9,
-			text: i18n.dgettext( "js-text-analysis", "The focus keyword appears in the URL for this page." )
-		};
-	}
-
-	return {
-		score: 6,
-		text: i18n.dgettext( "js-text-analysis", "The focus keyword does not appear in the URL for this page. " +
-		                                         "If you decide to rename the URL be sure to check the old URL 301 redirects to the new one!" )
-	};
-};
-
-/**
- * Execute the Assessment and return a result.
- * @param {Paper} paper The Paper object to assess.
- * @param {Researcher} researcher The Researcher object containing all available researches.
- * @param {object} i18n The locale object.
- * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
- */
-var keywordInUrlAssessment = function( paper, researcher, i18n ) {
-	var keywords = researcher.getResearch( "keywordCountInUrl" );
-	var keywordsResult = calculateUrlKeywordCountResult( keywords, i18n );
-
-	var assessmentResult = new AssessmentResult();
-	assessmentResult.setScore( keywordsResult.score );
-	assessmentResult.setText( keywordsResult.text );
-
-	return assessmentResult;
-};
-
-module.exports = {
-	getResult: keywordInUrlAssessment,
-	isApplicable: function( paper ) {
-		return paper.hasKeyword() && paper.hasUrl();
-	}
-};
-
-},{"../values/AssessmentResult.js":89}],25:[function(require,module,exports){
-var AssessmentResult = require( "../values/AssessmentResult.js" );
-
-/**
- * Returns a score and text based on the keyword matches object.
- *
- * @param {object} subHeadings The object with all subHeadings matches.
- * @param {object} i18n The object used for translations.
- * @returns {object} resultObject with score and text.
- */
-var calculateKeywordMatchesResult = function( subHeadings, i18n ) {
-	if ( subHeadings.count === 0 ) {
-		return {
-			score: 7,
-			text: i18n.dgettext( "js-text-analysis", "No subheading tags (like an H2) appear in the copy." )
-		};
-	}
-	if ( subHeadings.matches === 0 ) {
-		return {
-			score: 3,
-			text: i18n.dgettext( "js-text-analysis", "You have not used your focus keyword in any subheading (such as an H2) in your copy." )
-		};
-	}
-	if ( subHeadings.matches >= 1 ) {
-		return {
-			score: 9,
-			text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "The focus keyword appears in %2$d (out of %1$d) subheadings in the copy. " +
-				"While not a major ranking factor, this is beneficial." ), subHeadings.count, subHeadings.matches )
-		};
-	}
-};
-
-/**
- * Runs the match keyword in subheadings module, based on this returns an assessment result with score.
- *
- * @param {object} paper The paper to use for the assessment.
- * @param {object} researcher The researcher used for calling research.
- * @param {object} i18n The object used for translations.
- * @returns {object} the Assessmentresult
- */
-var matchKeywordinSubHeadingAssessment = function( paper, researcher, i18n ) {
-	var subHeadings = researcher.getResearch( "matchKeywordInSubheadings" );
-	var subHeadingsResult = calculateKeywordMatchesResult( subHeadings, i18n );
-	var assessmentResult = new AssessmentResult();
-
-	assessmentResult.setScore( subHeadingsResult.score );
-	assessmentResult.setText( subHeadingsResult.text );
-
-	return assessmentResult;
-};
-
-module.exports = {
-	getResult: matchKeywordinSubHeadingAssessment,
-	isApplicable: function( paper ) {
-		return paper.hasText() && paper.hasKeyword();
-	}
-};
-
-},{"../values/AssessmentResult.js":89}],26:[function(require,module,exports){
-var AssessmentResult = require( "../values/AssessmentResult.js" );
-
-/**
- * Returns the score and text for the description keyword match.
- * @param {number} keywordMatches The number of keyword matches in the description.
- * @param {object} i18n The i18n object used for translations.
- */
-var calculateKeywordMatchesResult = function( keywordMatches, i18n ) {
-	if ( keywordMatches > 0 ) {
-		return {
-			score: 9,
-			text: i18n.dgettext( "js-text-analysis", "The meta description contains the focus keyword." )
-		};
-	}
-	if ( keywordMatches === 0 ) {
-		return {
-			score: 3,
-			text: i18n.dgettext( "js-text-analysis", "A meta description has been specified, but it does not contain the focus keyword." )
-		};
-	}
-	return {};
-};
-
-/**
- * Runs the metaDescription keyword module, based on this returns an assessment result with score.
- *
- * @param {object} paper The paper to use for the assessment.
- * @param {object} researcher The researcher used for calling research.
- * @param {object} i18n The object used for translations
- * @returns {object} the Assessmentresult
- */
-var getMetadescriptionKeywordAssessment = function( paper,  researcher, i18n ) {
-	var keywordMatches = researcher.getResearch( "metaDescriptionKeyword" );
-	var descriptionLengthResult = calculateKeywordMatchesResult( keywordMatches, i18n );
-	var assessmentResult = new AssessmentResult();
-
-	assessmentResult.setScore( descriptionLengthResult.score );
-	assessmentResult.setText( descriptionLengthResult.text );
-
-	return assessmentResult;
-};
-
-module.exports = {
-	getResult: getMetadescriptionKeywordAssessment,
-	isApplicable: function ( paper ) {
-		return paper.hasKeyword();
-	}
-};
-
-},{"../values/AssessmentResult.js":89}],27:[function(require,module,exports){
-var AssessmentResult = require( "../values/AssessmentResult.js" );
-
-/**
- * Returns the score and text for the descriptionLength
- * @param {number} descriptionLength The length of the metadescription.
- * @param {object} i18n The i18n object used for translations.
- */
-var calculateDescriptionLengthResult = function( descriptionLength, i18n ) {
-	var recommendedValue = 120;
-	var maximumValue = 156;
-	if ( descriptionLength === 0 ) {
-		return {
-			score: 1,
-			text: i18n.dgettext( "js-text-analysis", "No meta description has been specified, " +
-				"search engines will display copy from the page instead." )
-		};
-	}
-	if ( descriptionLength <= recommendedValue ) {
-		return {
-			score: 6,
-			text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "The meta description is under %1$d characters, " +
-				"however up to %2$d characters are available." ), recommendedValue, maximumValue )
-		};
-	}
-	if ( descriptionLength > maximumValue ) {
-		return {
-			score: 6,
-			text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "The specified meta description is over %1$d characters. " +
-				"Reducing it will ensure the entire description is visible." ), maximumValue )
-		};
-	}
-	if ( descriptionLength >= recommendedValue && descriptionLength <= maximumValue ) {
-		return {
-			score: 9,
-			text: i18n.dgettext( "js-text-analysis", "In the specified meta description, consider: " +
-				"How does it compare to the competition? Could it be made more appealing?" )
-		};
-	}
-};
-
-/**
- * Runs the metaDescriptionLength module, based on this returns an assessment result with score.
- *
- * @param {object} paper The paper to use for the assessment.
- * @param {object} researcher The researcher used for calling research.
- * @param {object} i18n The object used for translations
- * @returns {object} the Assessmentresult
- */
-var getMetadescriptionLengthAssessment = function( paper,  researcher, i18n ) {
-	var descriptionLength = researcher.getResearch( "metaDescriptionLength" );
-	var descriptionLengthResult = calculateDescriptionLengthResult( descriptionLength, i18n );
-	var assessmentResult = new AssessmentResult();
-
-	assessmentResult.setScore( descriptionLengthResult.score );
-	assessmentResult.setText( descriptionLengthResult.text );
-
-	return assessmentResult;
-};
-
-module.exports = { getResult: getMetadescriptionLengthAssessment };
-
-},{"../values/AssessmentResult.js":89}],28:[function(require,module,exports){
-var AssessmentResult = require( "../values/AssessmentResult.js" );
-
-/**
- * Executes the pagetitle keyword assessment and returns an assessment result.
- * @param {Paper} paper The Paper object to assess.
- * @param {Researcher} researcher The Researcher object containing all available researches.
- * @param {object} i18n The locale object.
- * @returns {AssessmentResult} The result of the assessment with text and score
- */
-var pageTitleKeywordAssessment = function( paper, researcher, i18n ) {
-	var keywordMatches = researcher.getResearch( "findKeywordInPageTitle" );
-	var score, text;
-
-	if ( keywordMatches.matches === 0 ) {
-		score = 2;
-		text = i18n.sprintf( i18n.dgettext( "js-text-analysis", "The focus keyword '%1$s' does not appear in the page title." ), paper.getKeyword() );
-	}
-
-	if ( keywordMatches.matches > 0 && keywordMatches.position === 0 ) {
-		score = 9;
-		text = i18n.dgettext( "js-text-analysis", "The page title contains the focus keyword, at the beginning which is considered " +
-			"to improve rankings." );
-	}
-
-	if ( keywordMatches.matches > 0 && keywordMatches.position > 0 ) {
-		score = 6;
-		text = i18n.dgettext( "js-text-analysis", "The page title contains the focus keyword, but it does not appear at the beginning;" +
-			" try and move it to the beginning." );
-	}
-	var assessmentResult = new AssessmentResult();
-
-	assessmentResult.setScore( score );
-	assessmentResult.setText( text );
-
-	return assessmentResult;
-};
-
-module.exports = {
-	getResult: pageTitleKeywordAssessment,
-	isApplicable: function ( paper ) {
-		return paper.hasKeyword();
-	}
-};
-
-},{"../values/AssessmentResult.js":89}],29:[function(require,module,exports){
-var AssessmentResult = require( "../values/AssessmentResult.js" );
-var inRange = require( "lodash/inRange" );
-
-/**
- * Returns the score and text for the pageTitleLength
- * @param {number} pageTitleLength The length of the pageTitle.
- * @param {object} i18n The i18n object used for translations.
- * @returns {object} The result object.
- */
-var calculatePageTitleLengthResult = function( pageTitleLength, i18n ) {
-	var minLength = 35;
-	var maxLength = 65;
-
-	if ( inRange( pageTitleLength, 1, 35 ) ) {
-		return {
-			score: 6,
-			text: i18n.sprintf(
-				i18n.dngettext(
-					"js-text-analysis",
-					/* translators: %1$d expands to the number of characters in the page title,
-					%2$d to the minimum number of characters for the title */
-					"The page title contains %1$d character, which is less than the recommended minimum of %2$d characters. " +
-					"Use the space to add keyword variations or create compelling call-to-action copy.",
-					"The page title contains %1$d characters, which is less than the recommended minimum of %2$d characters. " +
-					"Use the space to add keyword variations or create compelling call-to-action copy.",
-				pageTitleLength ),
-				pageTitleLength, minLength )
-		};
-	}
-
-	if ( inRange( pageTitleLength, 35, 66 ) ) {
-		return {
-			score: 9,
-			text: i18n.sprintf(
-				i18n.dgettext(
-					"js-text-analysis",
-					/* translators: %1$d expands to the minimum number of characters in the page title, %2$d to the maximum number of characters */
-					"The page title is between the %1$d character minimum and the recommended %2$d character maximum." ),
-				minLength, maxLength )
-		};
-	}
-
-	if ( pageTitleLength > maxLength ) {
-		return {
-			score: 6,
-			text: i18n.sprintf(
-				i18n.dngettext(
-					"js-text-analysis",
-					/* translators: %1$d expands to the number of characters in the page title, %2$d to the maximum number
-					of characters for the title */
-					"The page title contains %1$d character, which is more than the viewable limit of %2$d characters; " +
-					"some words will not be visible to users in your listing.",
-					"The page title contains %1$d characters, which is more than the viewable limit of %2$d characters; " +
-					"some words will not be visible to users in your listing.",
-					pageTitleLength ),
-				pageTitleLength, maxLength )
-		};
-	}
-
-	return {
-		score: 1,
-		text: i18n.dgettext( "js-text-analysis", "Please create a page title." )
-	};
-};
-
-/**
- * Runs the pageTitleLength module, based on this returns an assessment result with score.
- *
- * @param {object} paper The paper to use for the assessment.
- * @param {object} researcher The researcher used for calling research.
- * @param {object} i18n The object used for translations
- * @returns {object} the Assessmentresult
- */
-var pageTitleLengthAssessment = function( paper,  researcher, i18n ) {
-	var pageTitleLength = researcher.getResearch( "pageTitleLength" );
-	var pageTitleLengthResult = calculatePageTitleLengthResult( pageTitleLength, i18n );
-	var assessmentResult = new AssessmentResult();
-
-	assessmentResult.setScore( pageTitleLengthResult.score );
-	assessmentResult.setText( pageTitleLengthResult.text );
-
-	return assessmentResult;
-};
-
-module.exports = { getResult: pageTitleLengthAssessment };
-
-},{"../values/AssessmentResult.js":89,"lodash/inRange":226}],30:[function(require,module,exports){
-var AssessmentResult = require( "../values/AssessmentResult.js" );
-
-/**
- * Calculate the score based on the amount of stop words in the keyword.
- * @param {number} stopWordCount The amount of stop words to be checked against.
- * @param {object} i18n The locale object.
- * @returns {object} The resulting score object.
- */
-var calculateStopWordsCountResult = function( stopWordCount, i18n ) {
-
-	if ( stopWordCount > 0 ) {
-		return {
-			score: "na",
-			/* translators: %1$s opens a link to a Yoast article about stop words, %2$s closes the link */
-			text: i18n.dngettext(
-				"js-text-analysis",
-				"Your focus keyword contains a stop word. This may or may not be wise depending on the circumstances. " +
-				"Read %1$sthis article%2$s for more info.",
-				"Your focus keyword contains %3$d stop words. This may or may not be wise depending on the circumstances. " +
-				"Read %1$sthis article%2$s for more info.",
-				stopWordCount
-			)
-		};
-	}
-
-	return {};
-};
-
-/**
- * Execute the Assessment and return a result.
- * @param {Paper} paper The Paper object to assess.
- * @param {Researcher} researcher The Researcher object containing all available researches.
- * @param {object} i18n The locale object.
- * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
- */
-var stopWordsInKeywordAssessment = function( paper, researcher, i18n ) {
-	var stopWords = researcher.getResearch( "stopWordsInKeyword" );
-	var stopWordsResult = calculateStopWordsCountResult( stopWords.length, i18n );
-
-	var assessmentResult = new AssessmentResult();
-	assessmentResult.setScore( stopWordsResult.score );
-	assessmentResult.setText( i18n.sprintf(
-		stopWordsResult.text,
-		"<a href='https://yoast.com/handling-stopwords/' target='new'>",
-		"</a>",
-		stopWords.length
-	) );
-
-	return assessmentResult;
-};
-
-module.exports = {
-	getResult: stopWordsInKeywordAssessment,
-	isApplicable: function ( paper ) {
-		return paper.hasKeyword();
-	}
-};
-
-},{"../values/AssessmentResult.js":89}],31:[function(require,module,exports){
-var AssessmentResult = require( "../values/AssessmentResult.js" );
-
-/**
- * Calculate the score based on the amount of stop words in the url.
- * @param {number} stopWordCount The amount of stop words to be checked against.
- * @param {object} i18n The locale object.
- * @returns {object} The resulting score object.
- */
-var calculateUrlStopWordsCountResult = function( stopWordCount, i18n ) {
-
-	if ( stopWordCount > 0 ) {
-		return {
-			score: 5,
-			/* translators: %1$s opens a link to a wikipedia article about stop words, %2$s closes the link */
-			text: i18n.dngettext(
-				"js-text-analysis",
-				"The slug for this page contains a %1$sstop word%2$s, consider removing it.",
-				"The slug for this page contains %1$sstop words%2$s, consider removing them.",
-				stopWordCount
-			)
-		};
-	}
-
-	return {};
-};
-
-/**
- * Execute the Assessment and return a result.
- * @param {Paper} paper The Paper object to assess.
- * @param {Researcher} researcher The Researcher object containing all available researches.
- * @param {object} i18n The locale object.
- * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
- */
-var stopWordsInUrlAssessment = function( paper, researcher, i18n ) {
-	var stopWords = researcher.getResearch( "stopWordsInUrl" );
-	var stopWordsResult = calculateUrlStopWordsCountResult( stopWords.length, i18n );
-
-	var assessmentResult = new AssessmentResult();
-	assessmentResult.setScore( stopWordsResult.score );
-	assessmentResult.setText( i18n.sprintf(
-		stopWordsResult.text,
-		/* translators: this link is referred to in the content analysis when a slug contains one or more stop words */
-		"<a href='" + i18n.dgettext( "js-text-analysis", "http://en.wikipedia.org/wiki/Stop_words" ) + "' target='new'>",
-		"</a>"
-	) );
-
-	return assessmentResult;
-};
-
-module.exports = { getResult: stopWordsInUrlAssessment };
-
-},{"../values/AssessmentResult.js":89}],32:[function(require,module,exports){
-var AssessmentResult = require( "../values/AssessmentResult.js" );
-
-/**
- * The assessment that checks the url length
- *
- * @param {Paper} paper The paper to run this assessment on.
- * @param {object} researcher The researcher used for the assessment.
- * @param {object} i18n The i18n-object used for parsing translations.
- * @returns {object} an AssessmentResult with the score and the formatted text.
- */
-var urlLengthAssessment = function( paper, researcher, i18n ) {
-	var urlIsTooLong = researcher.getResearch( "urlLength" );
-	var assessmentResult = new AssessmentResult();
-	if ( urlIsTooLong ) {
-		var score = 5;
-		var text = i18n.dgettext( "js-text-analysis", "The slug for this page is a bit long, consider shortening it." );
-		assessmentResult.setScore( score );
-		assessmentResult.setText( text );
-	}
-	return assessmentResult;
-};
-
-module.exports = {
-	getResult: urlLengthAssessment,
-	isApplicable: function ( paper ) {
-		return paper.hasUrl();
-	}
-};
-
-},{"../values/AssessmentResult.js":89}],33:[function(require,module,exports){
-var Researcher = require( "./researcher.js" );
-var Paper = require( "./values/Paper.js" );
-
-var InvalidTypeError = require( "./errors/invalidType" );
-
-var MissingArgument = require( "./errors/missingArgument" );
-var isUndefined = require( "lodash/isUndefined" );
-var forEach = require( "lodash/forEach" );
-
-var ScoreRating = 9;
-
-// Assessments
-var assessments = {};
-assessments.wordCount = require( "./assessments/countWords.js" );
-assessments.urlLength = require( "./assessments/urlIsTooLong.js" );
-assessments.fleschReading = require( "./assessments/calculateFleschReading.js" );
-assessments.linkCount = require( "./assessments/getLinkStatistics.js" );
-assessments.pageTitleKeyword = require( "./assessments/pageTitleKeyword.js" );
-assessments.subHeadings = require( "./assessments/matchKeywordInSubheading.js" );
-assessments.keywordDensity = require( "./assessments/keywordDensity.js" );
-assessments.stopwordKeywordCount = require( "./assessments/stopWordsInKeyword.js" );
-assessments.urlStopwords = require( "./assessments/stopWordsInUrl.js" );
-assessments.metaDescriptionLength = require( "./assessments/metaDescriptionLength.js" );
-assessments.keyphraseSizeCheck = require( "./assessments/keyphraseLength.js" );
-assessments.metaDescriptionKeyword = require ( "./assessments/metaDescriptionKeyword.js" );
-assessments.imageCount = require( "./assessments/imageCount.js" );
-assessments.urlKeyword = require( "./assessments/keywordInUrl.js" );
-assessments.firstParagraph = require( "./assessments/firstParagraph.js" );
-assessments.pageTitleLength = require( "./assessments/pageTitleLength.js" );
-
-/**
- * Creates the Assessor
- *
- * @param {object} i18n The i18n object used for translations.
- * @constructor
- */
-var Assessor = function( i18n ) {
-	this.setI18n( i18n );
-	this.taskList = [];
-};
-
-/**
- * Checks if the argument is a valid paper.
- * @param {Paper} paper The paper to be used for the assessments
- * @throws {InvalidTypeError} Parameter needs to be an instance of the Paper object.
- */
-Assessor.prototype.verifyPaper = function( paper ) {
-	if ( !( paper instanceof Paper ) ) {
-		throw new InvalidTypeError( "The assessor requires an Paper object." );
-	}
-};
-
-/**
- * Checks if the i18n object is defined and sets it.
- * @param {Object} i18n The i18n object used for translations.
- * @throws {MissingArgument} Parameter needs to be a valid i18n object.
- */
-Assessor.prototype.setI18n = function( i18n ) {
-	if ( isUndefined( i18n ) ) {
-		throw new MissingArgument( "The assessor requires an i18n object." );
-	}
-	this.i18n = i18n;
-};
-
-/**
- * Gets all available assessments.
- * @returns {object} assessment
- */
-Assessor.prototype.getAvailableAssessments = function() {
-	return assessments;
-};
-
-/**
- * Checks whether or not the Assessment is applicable.
- * @param {Object} assessment The Assessment object that needs to be checked.
- * @param {Paper} paper The Paper object to check against.
- * @param {Researcher} [researcher] The Researcher object containing additional information.
- * @returns {boolean} Whether or not the Assessment is applicable.
- */
-Assessor.prototype.isApplicable = function( assessment, paper, researcher ) {
-	if ( assessment.hasOwnProperty( "isApplicable" ) ) {
-		return assessment.isApplicable( paper, researcher );
-	}
-
-	return true;
-};
-
-/**
- * Runs the researches defined in the tasklist or the default researches.
- * @param {Paper} paper The paper to run assessments on.
- */
-Assessor.prototype.assess = function( paper ) {
-	this.verifyPaper( paper );
-
-	var researcher = new Researcher( paper );
-	var assessments = this.getAvailableAssessments();
-	this.results = [];
-
-	forEach( assessments, function( assessment, name ) {
-		if ( !this.isApplicable( assessment, paper, researcher ) ) {
-			return;
-		}
-
-		this.results.push( {
-			name: name,
-			result: assessment.getResult( paper, researcher, this.i18n )
-		} );
-
-	}.bind( this ) );
-};
-
-/**
- * Filters out all assessmentresults that have no score and no text.
- * @returns {Array} The array with all the valid assessments.
- */
-Assessor.prototype.getValidResults = function() {
-	var validResults = [];
-
-	forEach( this.results, function( assessmentResults ) {
-		if ( !this.isValidResult( assessmentResults.result ) ) {
-			return;
-		}
-
-		validResults.push( assessmentResults );
-	}.bind( this ) );
-	return validResults;
-};
-
-/**
- * Returns if an assessmentResult is valid.
- * @param {object} assessmentResult The assessmentResult to validate.
- * @returns {boolean} whether or not the result is valid.
- */
-Assessor.prototype.isValidResult = function( assessmentResult ) {
-	return assessmentResult.hasScore() && assessmentResult.hasText();
-};
-
-/**
- * Returns the overallscore. Calculates the totalscore by adding all scores and dividing these
- * by the number of results times the ScoreRating.
- *
- * @returns {number} The overallscore
- */
-Assessor.prototype.calculateOverallScore  = function() {
-	var results = this.getValidResults();
-	var totalScore = 0;
-
-	forEach( results, function( assessmentResult ) {
-		totalScore += assessmentResult.result.getScore();
-	} );
-
-	return Math.round( totalScore / ( results.length * ScoreRating ) * 100 );
-};
-
-module.exports = Assessor;
-
-},{"./assessments/calculateFleschReading.js":17,"./assessments/countWords.js":18,"./assessments/firstParagraph.js":19,"./assessments/getLinkStatistics.js":20,"./assessments/imageCount.js":21,"./assessments/keyphraseLength.js":22,"./assessments/keywordDensity.js":23,"./assessments/keywordInUrl.js":24,"./assessments/matchKeywordInSubheading.js":25,"./assessments/metaDescriptionKeyword.js":26,"./assessments/metaDescriptionLength.js":27,"./assessments/pageTitleKeyword.js":28,"./assessments/pageTitleLength.js":29,"./assessments/stopWordsInKeyword.js":30,"./assessments/stopWordsInUrl.js":31,"./assessments/urlIsTooLong.js":32,"./errors/invalidType":40,"./errors/missingArgument":41,"./researcher.js":43,"./values/Paper.js":90,"lodash/forEach":222,"lodash/isUndefined":244}],34:[function(require,module,exports){
-var analyzerConfig = {
-	queue: [ "wordCount", "keywordDensity", "subHeadings", "stopwords", "fleschReading", "linkCount", "imageCount", "urlKeyword", "urlLength", "metaDescriptionLength", "metaDescriptionKeyword", "pageTitleKeyword", "pageTitleLength", "firstParagraph", "urlStopwords", "keywordDoubles", "keyphraseSizeCheck" ],
-	stopWords: [ "a", "about", "above", "after", "again", "against", "all", "am", "an", "and", "any", "are", "as", "at", "be", "because", "been", "before", "being", "below", "between", "both", "but", "by", "could", "did", "do", "does", "doing", "down", "during", "each", "few", "for", "from", "further", "had", "has", "have", "having", "he", "he'd", "he'll", "he's", "her", "here", "here's", "hers", "herself", "him", "himself", "his", "how", "how's", "i", "i'd", "i'll", "i'm", "i've", "if", "in", "into", "is", "it", "it's", "its", "itself", "let's", "me", "more", "most", "my", "myself", "nor", "of", "on", "once", "only", "or", "other", "ought", "our", "ours", "ourselves", "out", "over", "own", "same", "she", "she'd", "she'll", "she's", "should", "so", "some", "such", "than", "that", "that's", "the", "their", "theirs", "them", "themselves", "then", "there", "there's", "these", "they", "they'd", "they'll", "they're", "they've", "this", "those", "through", "to", "too", "under", "until", "up", "very", "was", "we", "we'd", "we'll", "we're", "we've", "were", "what", "what's", "when", "when's", "where", "where's", "which", "while", "who", "who's", "whom", "why", "why's", "with", "would", "you", "you'd", "you'll", "you're", "you've", "your", "yours", "yourself", "yourselves" ],
-	wordsToRemove: [ " a", " in", " an", " on", " for", " the", " and" ],
-	maxSlugLength: 20,
-	maxUrlLength: 40,
-	maxMeta: 156
-};
-
-module.exports = analyzerConfig;
-
-},{}],35:[function(require,module,exports){
-/** @module config/diacritics */
-
-/**
- * Returns the diacritics map
- *
- * @returns {array} diacritics map
- */
-module.exports = function(){
-	return [
-		{
-			base: "a",
-			letters: /[\u0061\u24D0\uFF41\u1E9A\u00E0\u00E1\u00E2\u1EA7\u1EA5\u1EAB\u1EA9\u00E3\u0101\u0103\u1EB1\u1EAF\u1EB5\u1EB3\u0227\u01E1\u00E4\u01DF\u1EA3\u00E5\u01FB\u01CE\u0201\u0203\u1EA1\u1EAD\u1EB7\u1E01\u0105\u2C65\u0250]/g
-		},
-		{ base: "aa", letters: /[\uA733]/g },
-		{ base: "ae", letters: /[\u00E6\u01FD\u01E3]/g },
-		{ base: "ao", letters: /[\uA735]/g },
-		{ base: "au", letters: /[\uA737]/g },
-		{ base: "av", letters: /[\uA739\uA73B]/g },
-		{ base: "ay", letters: /[\uA73D]/g },
-		{ base: "b", letters: /[\u0062\u24D1\uFF42\u1E03\u1E05\u1E07\u0180\u0183\u0253]/g },
-		{
-			base: "c",
-			letters: /[\u0063\u24D2\uFF43\u0107\u0109\u010B\u010D\u00E7\u1E09\u0188\u023C\uA73F\u2184]/g
-		},
-		{
-			base: "d",
-			letters: /[\u0064\u24D3\uFF44\u1E0B\u010F\u1E0D\u1E11\u1E13\u1E0F\u0111\u018C\u0256\u0257\uA77A]/g
-		},
-		{ base: "dz", letters: /[\u01F3\u01C6]/g },
-		{
-			base: "e",
-			letters: /[\u0065\u24D4\uFF45\u00E8\u00E9\u00EA\u1EC1\u1EBF\u1EC5\u1EC3\u1EBD\u0113\u1E15\u1E17\u0115\u0117\u00EB\u1EBB\u011B\u0205\u0207\u1EB9\u1EC7\u0229\u1E1D\u0119\u1E19\u1E1B\u0247\u025B\u01DD]/g
-		},
-		{ base: "f", letters: /[\u0066\u24D5\uFF46\u1E1F\u0192\uA77C]/g },
-		{
-			base: "g",
-			letters: /[\u0067\u24D6\uFF47\u01F5\u011D\u1E21\u011F\u0121\u01E7\u0123\u01E5\u0260\uA7A1\u1D79\uA77F]/g
-		},
-		{
-			base: "h",
-			letters: /[\u0068\u24D7\uFF48\u0125\u1E23\u1E27\u021F\u1E25\u1E29\u1E2B\u1E96\u0127\u2C68\u2C76\u0265]/g
-		},
-		{ base: "hv", letters: /[\u0195]/g },
-		{
-			base: "i",
-			letters: /[\u0069\u24D8\uFF49\u00EC\u00ED\u00EE\u0129\u012B\u012D\u00EF\u1E2F\u1EC9\u01D0\u0209\u020B\u1ECB\u012F\u1E2D\u0268\u0131]/g
-		},
-		{ base: "j", letters: /[\u006A\u24D9\uFF4A\u0135\u01F0\u0249]/g },
-		{
-			base: "k",
-			letters: /[\u006B\u24DA\uFF4B\u1E31\u01E9\u1E33\u0137\u1E35\u0199\u2C6A\uA741\uA743\uA745\uA7A3]/g
-		},
-		{
-			base: "l",
-			letters: /[\u006C\u24DB\uFF4C\u0140\u013A\u013E\u1E37\u1E39\u013C\u1E3D\u1E3B\u017F\u0142\u019A\u026B\u2C61\uA749\uA781\uA747]/g
-		},
-		{ base: "lj", letters: /[\u01C9]/g },
-		{ base: "m", letters: /[\u006D\u24DC\uFF4D\u1E3F\u1E41\u1E43\u0271\u026F]/g },
-		{
-			base: "n",
-			letters: /[\u006E\u24DD\uFF4E\u01F9\u0144\u00F1\u1E45\u0148\u1E47\u0146\u1E4B\u1E49\u019E\u0272\u0149\uA791\uA7A5]/g
-		},
-		{ base: "nj", letters: /[\u01CC]/g },
-		{
-			base: "o",
-			letters: /[\u006F\u24DE\uFF4F\u00F2\u00F3\u00F4\u1ED3\u1ED1\u1ED7\u1ED5\u00F5\u1E4D\u022D\u1E4F\u014D\u1E51\u1E53\u014F\u022F\u0231\u00F6\u022B\u1ECF\u0151\u01D2\u020D\u020F\u01A1\u1EDD\u1EDB\u1EE1\u1EDF\u1EE3\u1ECD\u1ED9\u01EB\u01ED\u00F8\u01FF\u0254\uA74B\uA74D\u0275]/g
-		},
-		{ base: "oi", letters: /[\u01A3]/g },
-		{ base: "ou", letters: /[\u0223]/g },
-		{ base: "oo", letters: /[\uA74F]/g },
-		{ base: "p", letters: /[\u0070\u24DF\uFF50\u1E55\u1E57\u01A5\u1D7D\uA751\uA753\uA755]/g },
-		{ base: "q", letters: /[\u0071\u24E0\uFF51\u024B\uA757\uA759]/g },
-		{
-			base: "r",
-			letters: /[\u0072\u24E1\uFF52\u0155\u1E59\u0159\u0211\u0213\u1E5B\u1E5D\u0157\u1E5F\u024D\u027D\uA75B\uA7A7\uA783]/g
-		},
-		{
-			base: "s",
-			letters: /[\u0073\u24E2\uFF53\u00DF\u015B\u1E65\u015D\u1E61\u0161\u1E67\u1E63\u1E69\u0219\u015F\u023F\uA7A9\uA785\u1E9B]/g
-		},
-		{
-			base: "t",
-			letters: /[\u0074\u24E3\uFF54\u1E6B\u1E97\u0165\u1E6D\u021B\u0163\u1E71\u1E6F\u0167\u01AD\u0288\u2C66\uA787]/g
-		},
-		{ base: "tz", letters: /[\uA729]/g },
-		{
-			base: "u",
-			letters: /[\u0075\u24E4\uFF55\u00F9\u00FA\u00FB\u0169\u1E79\u016B\u1E7B\u016D\u00FC\u01DC\u01D8\u01D6\u01DA\u1EE7\u016F\u0171\u01D4\u0215\u0217\u01B0\u1EEB\u1EE9\u1EEF\u1EED\u1EF1\u1EE5\u1E73\u0173\u1E77\u1E75\u0289]/g
-		},
-		{ base: "v", letters: /[\u0076\u24E5\uFF56\u1E7D\u1E7F\u028B\uA75F\u028C]/g },
-		{ base: "vy", letters: /[\uA761]/g },
-		{
-			base: "w",
-			letters: /[\u0077\u24E6\uFF57\u1E81\u1E83\u0175\u1E87\u1E85\u1E98\u1E89\u2C73]/g
-		},
-		{ base: "x", letters: /[\u0078\u24E7\uFF58\u1E8B\u1E8D]/g },
-		{
-			base: "y",
-			letters: /[\u0079\u24E8\uFF59\u1EF3\u00FD\u0177\u1EF9\u0233\u1E8F\u00FF\u1EF7\u1E99\u1EF5\u01B4\u024F\u1EFF]/g
-		},
-		{
-			base: "z",
-			letters: /[\u007A\u24E9\uFF5A\u017A\u1E91\u017C\u017E\u1E93\u1E95\u01B6\u0225\u0240\u2C6C\uA763]/g
-		}
-	];
-};
-
-},{}],36:[function(require,module,exports){
-/** @module config/removalWords */
-
-/**
- * Returns an array with words that need to be removed
- *
- * @returns {array} removalWords Returns an array with words.
- */
-module.exports = function(){
-	return [ " a", " in", " an", " on", " for", " the", " and" ];
-};
-
-},{}],37:[function(require,module,exports){
-/**
- *
- * @param {Jed} i18n
- * @constructor
- */
-var AnalyzerScoring = function( i18n ) {
-    this.analyzerScoring = [
-        {
-            scoreName: "keywordDoubles",
-            scoreArray: [
-                {matcher: "count", max: 0, score: 9, text: i18n.dgettext( "js-text-analysis", "You've never used this focus keyword before, very good." ) },
-                {
-                    matcher: "count",
-                    max: 1,
-                    score: 6,
-
-                    /* translators: %1$s and %2$s expand to an admin link where the focus keyword is already used */
-                    text: i18n.dgettext( "js-text-analysis", "You've used this focus keyword %1$sonce before%2$s, be sure to make very clear which URL on your site is the most important for this keyword." )
-                },
-                {
-                    matcher: "count",
-                    min: 1,
-                    score: 1,
-
-                    /* translators: %3$s and $2$s expand to the admin search page for the focus keyword, %4$d expands to the number of times this focus keyword has been used before, %5$s and %6$s expand to a link to an article on yoast.com about cornerstone content */
-                    text: i18n.dgettext( "js-text-analysis", "You've used this focus keyword %3$s%4$d times before%2$s, it's probably a good idea to read %6$sthis post on cornerstone content%5$s and improve your keyword strategy." )
-                }
-            ],
-            replaceArray: [
-                { name: "singleUrl", position: "%1$s", sourceObj: ".refObj.config.postUrl", rawOutput: true },
-                { name: "endTag", position: "%2$s", value: "</a>" },
-                { name: "multiUrl", position: "%3$s", sourceObj: ".refObj.config.searchUrl", rawOutput: true },
-                { name: "occurrences", position: "%4$d", sourceObj: ".result.count" },
-                { name: "endTag", position: "%5$s", value: "</a>" },
-                {
-                    name: "cornerstone",
-                    position: "%6$s",
-                    value: "<a href='https://yoast.com/cornerstone-content-rank/' target='new'>"
-                },
-                { name: "id", position: "{id}", sourceObj: ".result.id" },
-                { name: "keyword", position: "{keyword}", sourceObj: ".refObj.config.keyword" }
-            ]
-        }
-    ];
-};
-
-module.exports = {
-    AnalyzerScoring: AnalyzerScoring,
-    analyzerScoreRating: 9
-};
-
-},{}],38:[function(require,module,exports){
-/** @module config/stopwords */
-
-/**
- * Returns an array with stopwords to be used by the analyzer.
- *
- * @returns {Array} stopwords The array filled with stopwords.
- */
-module.exports = function(){
-	return [ "a", "about", "above", "after", "again", "against", "all", "am", "an", "and", "any", "are", "as", "at", "be", "because", "been", "before", "being", "below", "between", "both", "but", "by", "could", "did", "do", "does", "doing", "down", "during", "each", "few", "for", "from", "further", "had", "has", "have", "having", "he", "he'd", "he'll", "he's", "her", "here", "here's", "hers", "herself", "him", "himself", "his", "how", "how's", "i", "i'd", "i'll", "i'm", "i've", "if", "in", "into", "is", "it", "it's", "its", "itself", "let's", "me", "more", "most", "my", "myself", "nor", "of", "on", "once", "only", "or", "other", "ought", "our", "ours", "ourselves", "out", "over", "own", "same", "she", "she'd", "she'll", "she's", "should", "so", "some", "such", "than", "that", "that's", "the", "their", "theirs", "them", "themselves", "then", "there", "there's", "these", "they", "they'd", "they'll", "they're", "they've", "this", "those", "through", "to", "too", "under", "until", "up", "very", "was", "we", "we'd", "we'll", "we're", "we've", "were", "what", "what's", "when", "when's", "where", "where's", "which", "while", "who", "who's", "whom", "why", "why's", "with", "would", "you", "you'd", "you'll", "you're", "you've", "your", "yours", "yourself", "yourselves" ];
-};
-
-},{}],39:[function(require,module,exports){
-/** @module config/syllables */
-
-/**
- * Returns an array with syllables.
- * Subtractsyllables are counted as two and need to be counted as one.
- * Addsyllables are counted as one but need to be counted as two.
- * Exclusionwords are removed from the text to be counted seperatly.
- *
- * @returns {object}
- */
-module.exports = function(){
-	return {
-		subtractSyllables: [ "cial", "tia", "cius", "cious", "giu", "ion", "iou", "sia$", "[^aeiuoyt]{2,}ed$", "[aeiouy][^aeiuoyts]{1,}e\\b", ".ely$", "[cg]h?e[sd]", "rved$", "rved", "[aeiouy][dt]es?$", "[aeiouy][^aeiouydt]e[sd]?$", "^[dr]e[aeiou][^aeiou]+$", "[aeiouy]rse$" ],
-		addSyllables: [ "ia", "riet", "dien", "iu", "io", "ii", "[aeiouym][bdp]l", "[aeiou]{3}", "^mc", "ism$", "([^aeiouy])\1l$", "[^l]lien", "^coa[dglx].", "[^gq]ua[^auieo]", "dnt$", "uity$", "ie(r|st)", "[aeiouy]ing", "[aeiouw]y[aeiou]" ],
-		exclusionWords: [
-			{ word: "shoreline", syllables: 2 },
-			{ word: "simile", syllables: 3 }
-		]
-	};
-};
-
-},{}],40:[function(require,module,exports){
-/**
- * Throws an invalid type error
- * @param {string} message The message to show when the error is thrown
- * @returns {void}
- */
-module.exports = function InvalidTypeError( message ) {
-	Error.captureStackTrace( this, this.constructor );
-	this.name = this.constructor.name;
-	this.message = message;
-};
-
-require( "util" ).inherits( module.exports, Error );
-
-},{"util":7}],41:[function(require,module,exports){
-module.exports = function MissingArgumentError( message ) {
-	Error.captureStackTrace( this, this.constructor );
-	this.name = this.constructor.name;
-	this.message = message;
-};
-
-require( "util" ).inherits( module.exports, Error );
-
-},{"util":7}],42:[function(require,module,exports){
-/* global console: true */
-/* global setTimeout: true */
-var isUndefined = require( "lodash/isUndefined" );
-var forEach = require( "lodash/forEach" );
-var reduce = require( "lodash/reduce" );
-
-/**
- * The plugins object takes care of plugin registrations, preloading and managing data modifications.
- *
- * A plugin for YoastSEO.js is basically a piece of JavaScript that hooks into YoastSEO.js by registering modifications.
- * In order to do so, it must first register itself as a plugin with YoastSEO.js. To keep our content analysis fast, we
- * don't allow asynchronous modifications. That's why we require plugins to preload all data they need in order to modify
- * the content. If plugins need to preload data, they can first register, then preload using AJAX and call `ready` once
- * preloaded.
- *
- * To minimize client side memory usage, we request plugins to preload as little data as possible. If you need to dynamically
- * fetch more data in the process of content creation, you can reload your data set and let YoastSEO.js know you've reloaded
- * by calling `reloaded`.
- *
- * @todo: add list of supported modifications and compare on registration of modification
- */
-
-/**
- * Setup Pluggable and set its default values.
- *
- * @constructor
- * @param       {App}       app                 The App object to attach to.
- * @property    {number}    preloadThreshold	The maximum time plugins are allowed to preload before we load our content analysis.
- * @property    {object}    plugins             The plugins that have been registered.
- * @property    {object}    modifications 	    The modifications that have been registered. Every modification contains an array with callables.
- * @property    {Array}     customTests         All tests added by plugins.
- */
-var Pluggable = function( app ) {
-	this.app = app;
-	this.loaded = false;
-	this.preloadThreshold = 3000;
-	this.plugins = {};
-	this.modifications = {};
-	this.customTests = [];
-
-	// Allow plugins 1500 ms to register before we start polling their
-	setTimeout( this._pollLoadingPlugins.bind( this ), 1500 );
-};
-
-//  ***** DSL IMPLEMENTATION ***** //
-
-/**
- * Register a plugin with YoastSEO. A plugin can be declared "ready" right at registration or later using `this.ready`.
- *
- * @param {string}  pluginName      The name of the plugin to be registered.
- * @param {object}  options         The options passed by the plugin.
- * @param {string}  options.status  The status of the plugin being registered. Can either be "loading" or "ready".
- * @returns {boolean}               Whether or not the plugin was successfully registered.
- */
-Pluggable.prototype._registerPlugin = function( pluginName, options ) {
-	if ( typeof pluginName !== "string" ) {
-		console.error( "Failed to register plugin. Expected parameter `pluginName` to be a string." );
-		return false;
-	}
-
-	if ( !isUndefined( options ) && typeof options !== "object" ) {
-		console.error( "Failed to register plugin " + pluginName + ". Expected parameters `options` to be a object." );
-		return false;
-	}
-
-	if ( this._validateUniqueness( pluginName ) === false ) {
-		console.error( "Failed to register plugin. Plugin with name " + pluginName + " already exists" );
-		return false;
-	}
-
-	this.plugins[pluginName] = options;
-	this.app.updateLoadingDialog( this.plugins );
-	return true;
-};
-
-/**
- * Declare a plugin "ready". Use this if you need to preload data with AJAX.
- *
- * @param {string} pluginName	The name of the plugin to be declared as ready.
- * @returns {boolean}           Whether or not the plugin was successfully declared ready.
- */
-Pluggable.prototype._ready = function( pluginName ) {
-	if ( typeof pluginName !== "string" ) {
-		console.error( "Failed to modify status for plugin " + pluginName + ". Expected parameter `pluginName` to be a string." );
-		return false;
-	}
-
-	if ( isUndefined( this.plugins[pluginName] ) ) {
-		console.error( "Failed to modify status for plugin " + pluginName + ". The plugin was not properly registered." );
-		return false;
-	}
-
-	this.plugins[pluginName].status = "ready";
-	this.app.updateLoadingDialog( this.plugins );
-	return true;
-};
-
-/**
- * Used to declare a plugin has been reloaded. If an analysis is currently running. We will reset it to ensure running the latest modifications.
- *
- * @param {string} pluginName   The name of the plugin to be declared as reloaded.
- * @returns {boolean}           Whether or not the plugin was successfully declared as reloaded.
- */
-Pluggable.prototype._reloaded = function( pluginName ) {
-	if ( typeof pluginName !== "string" ) {
-		console.error( "Failed to reload Content Analysis for " + pluginName + ". Expected parameter `pluginName` to be a string." );
-		return false;
-	}
-
-	if ( isUndefined( this.plugins[pluginName] ) ) {
-		console.error( "Failed to reload Content Analysis for plugin " + pluginName + ". The plugin was not properly registered." );
-		return false;
-	}
-
-	this.app.analyzeTimer();
-	return true;
-};
-
-/**
- * Enables hooking a callable to a specific data filter supported by YoastSEO. Can only be performed for plugins that have finished loading.
- *
- * @param {string}      modification	The name of the filter
- * @param {function}    callable 	    The callable
- * @param {string}      pluginName 	    The plugin that is registering the modification.
- * @param {number}      priority	    (optional) Used to specify the order in which the callables associated with a particular filter are called.
- * 									    Lower numbers correspond with earlier execution.
- * @returns {boolean}                   Whether or not applying the hook was successfull.
- */
-Pluggable.prototype._registerModification = function( modification, callable, pluginName, priority ) {
-	if ( typeof modification !== "string" ) {
-		console.error( "Failed to register modification for plugin " + pluginName + ". Expected parameter `modification` to be a string." );
-		return false;
-	}
-
-	if ( typeof callable !== "function" ) {
-		console.error( "Failed to register modification for plugin " + pluginName + ". Expected parameter `callable` to be a function." );
-		return false;
-	}
-
-	if ( typeof pluginName !== "string" ) {
-		console.error( "Failed to register modification for plugin " + pluginName + ". Expected parameter `pluginName` to be a string." );
-		return false;
-	}
-
-	// Validate origin
-	if ( this._validateOrigin( pluginName ) === false ) {
-		console.error( "Failed to register modification for plugin " + pluginName + ". The integration has not finished loading yet." );
-		return false;
-	}
-
-	// Default priority to 10
-	var prio = typeof priority === "number" ?  priority : 10;
-
-	var callableObject = {
-		callable: callable,
-		origin: pluginName,
-		priority: prio
-	};
-
-	// Make sure modification is defined on modifications object
-	if ( isUndefined( this.modifications[modification] ) ) {
-		this.modifications[modification] = [];
-	}
-
-	this.modifications[modification].push( callableObject );
-
-	return true;
-};
-
-/**
- * Register test for a specific plugin
- *
- * @param   {string}      name          The name of the test.
- * @param   {function}    analysis      The function to be run within the test.
- * @param   {object}      scoring       The scoring associated with the test.
- * @param   {string}      pluginName    The name of the plugin associated with the test.
- * @param   {number}      priority      The priority that this test has.
- * @returns {boolean}                   Whether or not the test was successfully registered.
- * @private
- */
-Pluggable.prototype._registerTest = function( name, analysis, scoring, pluginName, priority ) {
-	if ( typeof name !== "string" ) {
-		console.error( "Failed to register test for plugin " + pluginName + ". Expected parameter `name` to be a string." );
-		return false;
-	}
-
-	if ( typeof analysis !== "function" ) {
-		console.error( "Failed to register test for plugin " + pluginName + ". Expected parameter `analyzer` to be a function." );
-		return false;
-	}
-
-	if ( typeof pluginName !== "string" ) {
-		console.error( "Failed to register test for plugin " + pluginName + ". Expected parameter `pluginName` to be a string." );
-		return false;
-	}
-
-	// Validate origin
-	if ( this._validateOrigin( pluginName ) === false ) {
-		console.error( "Failed to register test for plugin " + pluginName + ". The integration has not finished loading yet." );
-		return false;
-	}
-
-	// Default priority to 10
-	var prio = typeof priority === "number" ? priority : 10;
-
-	// Prefix the name with the pluginName so the test name is always unique.
-	name = pluginName + "-" + name;
-
-	this.customTests.push( {
-		"name": name,
-		"analysis": analysis,
-		"scoring": scoring,
-		"prio": prio
-	} );
-
-	return true;
-};
-
-// ***** PRIVATE HANDLERS *****//
-
-/**
- * Poller to handle loading of plugins. Plugins can register with our app to let us know they are going to hook into our Javascript. They are allowed
- * 5 seconds of pre-loading time to fetch all the data they need to be able to perform their data modifications. We will only apply data modifications
- * from plugins that have declared ready within the pre-loading time in order to safeguard UX and data integrity.
- *
- * @param   {number} pollTime (optional) The accumulated time to compare with the pre-load threshold.
- * @returns {void}
- * @private
- */
-Pluggable.prototype._pollLoadingPlugins = function( pollTime ) {
-	pollTime = isUndefined( pollTime ) ? 0 : pollTime;
-	if ( this._allReady() === true ) {
-		this.loaded = true;
-		this.app.pluginsLoaded();
-	} else if ( pollTime >= this.preloadThreshold ) {
-		this._pollTimeExceeded();
-	} else {
-		pollTime += 50;
-		setTimeout( this._pollLoadingPlugins.bind( this, pollTime ), 50 );
-	}
-};
-
-/**
- * Checks if all registered plugins have finished loading
- *
- * @returns {boolean} Whether or not all registered plugins are loaded.
- * @private
- */
-Pluggable.prototype._allReady = function() {
-	return reduce( this.plugins, function( allReady, plugin ) {
-		return allReady && plugin.status === "ready";
-	}, true );
-};
-
-/**
- * Removes the plugins that were not loaded within time and calls `pluginsLoaded` on the app.
- *
- * @returns {void}
- * @private
- */
-Pluggable.prototype._pollTimeExceeded = function() {
-	forEach ( this.plugins, function( plugin, pluginName ) {
-		if ( !isUndefined( plugin.options ) && plugin.options.status !== "ready" ) {
-			console.error( "Error: Plugin " + pluginName + ". did not finish loading in time." );
-			delete this.plugins[pluginName];
-		}
-	} );
-	this.loaded = true;
-	this.app.pluginsLoaded();
-};
-
-/**
- * Calls the callables added to a modification hook. See the YoastSEO.js Readme for a list of supported modification hooks.
- *
- * @param	{string}    modification	The name of the filter
- * @param   {*}         data 		    The data to filter
- * @param   {*}         context		    (optional) Object for passing context parameters to the callable.
- * @returns {*} 		                The filtered data
- * @private
- */
-Pluggable.prototype._applyModifications = function( modification, data, context ) {
-	var callChain = this.modifications[modification];
-
-	if ( callChain instanceof Array && callChain.length > 0 ) {
-		callChain = this._stripIllegalModifications( callChain );
-
-		callChain.sort( function( a, b ) {
-			return a.priority - b.priority;
-		} );
-		forEach( callChain, function( callableObject ) {
-			var callable = callableObject.callable;
-			var newData = callable( data, context );
-			if ( typeof newData === typeof data ) {
-				data = newData;
-			} else {
-				console.error( "Modification with name " + modification + " performed by plugin with name " +
-				callableObject.origin +
-				" was ignored because the data that was returned by it was of a different type than the data we had passed it." );
-			}
-		} );
-	}
-	return data;
-
-};
-
-/**
- * Adds new tests to the analyzer and it's scoring object.
- *
- * @param {YoastSEO.Analyzer} analyzer The analyzer object to add the tests to
- * @returns {void}
- * @private
- */
-Pluggable.prototype._addPluginTests = function( analyzer ) {
-	this.customTests.map( function( customTest ) {
-		this._addPluginTest( analyzer, customTest );
-	}, this );
-};
-
-/**
- * Adds one new test to the analyzer and it's scoring object.
- *
- * @param {YoastSEO.Analyzer} analyzer              The analyzer that the test will be added to.
- * @param {Object}            pluginTest            The test to be added.
- * @param {string}            pluginTest.name       The name of the test.
- * @param {function}          pluginTest.callable   The function associated with the test.
- * @param {function}          pluginTest.analysis   The function associated with the analyzer.
- * @param {Object}            pluginTest.scoring    The scoring object to be used.
- * @returns {void}
- * @private
- */
-Pluggable.prototype._addPluginTest = function( analyzer, pluginTest ) {
-	analyzer.addAnalysis( {
-		"name": pluginTest.name,
-		"callable": pluginTest.analysis
-	} );
-
-	analyzer.analyzeScorer.addScoring( {
-		"name": pluginTest.name,
-		"scoring": pluginTest.scoring
-	} );
-};
-
-/**
- * Strips modifications from a callChain if they were not added with a valid origin.
- *
- * @param   {Array} callChain	 The callChain that contains items with possible invalid origins.
- * @returns {Array} callChain 	 The stripped version of the callChain.
- * @private
- */
-Pluggable.prototype._stripIllegalModifications = function( callChain ) {
-	forEach ( callChain, function( callableObject, index ) {
-		if ( this._validateOrigin( callableObject.origin ) === false ) {
-			delete callChain[index];
-		}
-	}.bind( this ) );
-
-	return callChain;
-};
-
-/**
- * Validates if origin of a modification has been registered and finished preloading.
- *
- * @param 	{string}    pluginName      The name of the plugin that needs to be validated.
- * @returns {boolean}                   Whether or not the origin is valid.
- * @private
- */
-Pluggable.prototype._validateOrigin = function( pluginName ) {
-	if ( this.plugins[pluginName].status !== "ready" ) {
-		return false;
-	}
-	return true;
-};
-
-/**
- * Validates if registered plugin has a unique name.
- *
- * @param 	{string}    pluginName      The name of the plugin that needs to be validated for uniqueness.
- * @returns {boolean}                   Whether or not the plugin has a unique name.
- * @private
- */
-Pluggable.prototype._validateUniqueness = function( pluginName ) {
-	if ( !isUndefined( this.plugins[pluginName] ) ) {
-		return false;
-	}
-	return true;
-};
-
-module.exports = Pluggable;
-
-},{"lodash/forEach":222,"lodash/isUndefined":244,"lodash/reduce":252}],43:[function(require,module,exports){
-var Paper = require( "./values/Paper.js" );
-var merge = require( "lodash/merge" );
-var InvalidTypeError = require( "./errors/invalidType" );
-var MissingArgument = require( "./errors/missingArgument" );
-var isUndefined = require( "lodash/isUndefined" );
-var isEmpty = require( "lodash/isEmpty" );
-
-// assessments
-var wordCountInText = require( "./researches/wordCountInText.js" );
-var getLinkStatistics = require( "./researches/getLinkStatistics.js" );
-var urlLength = require( "./researches/urlIsTooLong.js" );
-var findKeywordInPageTitle = require( "./researches/findKeywordInPageTitle.js" );
-var matchKeywordInSubheadings = require( "./researches/matchKeywordInSubheadings.js" );
-var getKeywordDensity = require( "./researches/getKeywordDensity.js" );
-var stopWordsInKeyword = require( "./researches/stopWordsInKeyword" );
-var stopWordsInUrl = require( "./researches/stopWordsInUrl" );
-var calculateFleschReading = require( "./researches/calculateFleschReading.js" );
-var metaDescriptionLength = require( "./researches/metaDescriptionLength.js" );
-var imageCount = require( "./researches/imageCountInText.js" );
-var altTagCount = require( "./researches/imageAltTags.js" );
-var keyphraseLength = require( "./researches/keyphraseLength" );
-var metaDescriptionKeyword = require( "./researches/metaDescriptionKeyword.js" );
-var keywordCountInUrl = require( "./researches/keywordCountInUrl" );
-var findKeywordInFirstParagraph = require( "./researches/findKeywordInFirstParagraph.js" );
-var pageTitleLength = require( "./researches/pageTitleLength.js" );
-
-/**
- * This contains all possible, default researches.
- * @param {Paper} paper The Paper object that is needed within the researches.
- * @constructor
- * @throws {InvalidTypeError} Parameter needs to be an instance of the Paper object.
- */
-var Researcher = function( paper ) {
-	this.setPaper( paper );
-
-	this.defaultResearches = {
-		"urlLength": urlLength,
-		"wordCountInText": wordCountInText,
-		"findKeywordInPageTitle": findKeywordInPageTitle,
-		"calculateFleschReading": calculateFleschReading,
-		"getLinkStatistics": getLinkStatistics,
-		"imageCount": imageCount,
-		"altTagCount": altTagCount,
-		"matchKeywordInSubheadings": matchKeywordInSubheadings,
-		"getKeywordDensity": getKeywordDensity,
-		"stopWordsInKeyword": stopWordsInKeyword,
-		"stopWordsInUrl": stopWordsInUrl,
-		"metaDescriptionLength": metaDescriptionLength,
-		"keyphraseLength": keyphraseLength,
-		"keywordCountInUrl": keywordCountInUrl,
-		"firstParagraph": findKeywordInFirstParagraph,
-		"metaDescriptionKeyword": metaDescriptionKeyword,
-		"pageTitleLength": pageTitleLength
-	};
-
-	this.customResearches = {};
-};
-
-/**
- * Set the Paper associated with the Researcher.
- * @param {Paper} paper The Paper to use within the Researcher
- * @throws {InvalidTypeError} Parameter needs to be an instance of the Paper object.
- * @returns {void}
- */
-Researcher.prototype.setPaper = function( paper ) {
-	if ( !( paper instanceof Paper ) ) {
-		throw new InvalidTypeError( "The researcher requires an Paper object." );
-	}
-
-	this.paper = paper;
-};
-
-/**
- * Add a custom research that will be available within the Researcher.
- * @param {string} name A name to reference the research by.
- * @param {function} research The function to be added to the Researcher.
- * @throws {MissingArgument} Research name cannot be empty.
- * @throws {InvalidTypeError} The research requires a valid Function callback.
- * @returns {void}
- */
-Researcher.prototype.addResearch = function( name, research ) {
-	if ( isUndefined( name ) || isEmpty( name ) ) {
-		throw new MissingArgument( "Research name cannot be empty" );
-	}
-
-	if ( !( research instanceof Function ) ) {
-		throw new InvalidTypeError( "The research requires a Function callback." );
-	}
-
-	this.customResearches[name] = research;
-};
-
-/**
- * Check wheter or not the research is known by the Researcher.
- * @param {string} name The name to reference the research by.
- * @returns {boolean} Whether or not the research is known by the Researcher
- */
-Researcher.prototype.hasResearch = function( name ) {
-	return Object.keys( this.getAvailableResearches() ).filter(
-	function( research ) {
-		return research === name;
-	} ).length > 0;
-};
-
-/**
- * Return all available researches.
- * @returns {Object} An object containing all available researches.
- */
-Researcher.prototype.getAvailableResearches = function() {
-	return merge( this.defaultResearches, this.customResearches );
-};
-
-/**
- * Return the Research by name.
- * @param {string} name The name to reference the research by.
- * @returns {*} Returns the result of the research or false if research does not exist.
- * @throws {MissingArgument} Research name cannot be empty.
- */
-Researcher.prototype.getResearch = function( name ) {
-	if ( isUndefined( name ) || isEmpty( name ) ) {
-		throw new MissingArgument( "Research name cannot be empty" );
-	}
-
-	if ( !this.hasResearch( name ) ) {
-		return false;
-	}
-
-	return this.getAvailableResearches()[ name ]( this.paper );
-};
-
-module.exports = Researcher;
-
-},{"./errors/invalidType":40,"./errors/missingArgument":41,"./researches/calculateFleschReading.js":44,"./researches/findKeywordInFirstParagraph.js":45,"./researches/findKeywordInPageTitle.js":46,"./researches/getKeywordDensity.js":47,"./researches/getLinkStatistics.js":48,"./researches/imageAltTags.js":49,"./researches/imageCountInText.js":50,"./researches/keyphraseLength":51,"./researches/keywordCountInUrl":52,"./researches/matchKeywordInSubheadings.js":53,"./researches/metaDescriptionKeyword.js":54,"./researches/metaDescriptionLength.js":55,"./researches/pageTitleLength.js":56,"./researches/stopWordsInKeyword":57,"./researches/stopWordsInUrl":59,"./researches/urlIsTooLong.js":60,"./researches/wordCountInText.js":61,"./values/Paper.js":90,"lodash/isEmpty":233,"lodash/isUndefined":244,"lodash/merge":248}],44:[function(require,module,exports){
-/** @module analyses/calculateFleschReading */
-
-var cleanText = require( "../stringProcessing/cleanText.js" );
-var stripNumbers = require( "../stringProcessing/stripNumbers.js" );
-var stripHTMLTags = require( "../stringProcessing/stripHTMLTags.js" );
-var countSentences = require( "../stringProcessing/countSentences.js" );
-var countWords = require( "../stringProcessing/countWords.js" );
-var countSyllables = require( "../stringProcessing/countSyllables.js" );
-
-/**
- * This calculates the fleschreadingscore for a given text
- * The formula used:
- * 206.835 - 1.015 (total words / total sentences) - 84.6 ( total syllables / total words);
- *
- * @param {object} paper The paper containing the text
- * @returns {number} the score of the fleschreading test
- */
-module.exports = function( paper ) {
-	var text = paper.getText();
-	if ( text === "" ) {
-		return 0;
-	}
-
-	text = cleanText ( text );
-	text = stripHTMLTags( text );
-	var wordCount = countWords( text );
-
-	text = stripNumbers ( text );
-	var sentenceCount = countSentences( text );
-	var syllableCount = countSyllables( text );
-	var score = 206.835 - ( 1.015 * ( wordCount / sentenceCount ) ) - ( 84.6 * ( syllableCount / wordCount ) );
-
-	return score.toFixed( 1 );
-};
-
-},{"../stringProcessing/cleanText.js":66,"../stringProcessing/countSentences.js":67,"../stringProcessing/countSyllables.js":68,"../stringProcessing/countWords.js":69,"../stringProcessing/stripHTMLTags.js":82,"../stringProcessing/stripNumbers.js":84}],45:[function(require,module,exports){
-/** @module analyses/findKeywordInFirstParagraph */
-
-var regexMatch = require( "../stringProcessing/matchStringWithRegex.js" );
-var wordMatch = require( "../stringProcessing/matchTextWithWord.js" );
-
-/**
- * Counts the occurrences of the keyword in the first paragraph, returns 0 if it is not found,
- * if there is no paragraph tag or 0 hits, it checks for 2 newlines, otherwise returns the keyword
- * count of the complete text.
- *
- * @param {Paper} paper The text to check for paragraphs.
- * @returns {number} The number of occurences of the keyword in the first paragraph.
- */
-module.exports = function( paper ) {
-	var text = paper.getText();
-	var keyword = paper.getKeyword();
-	var paragraph;
-
-	// matches everything between the <p> and </p> tags.
-	paragraph = regexMatch( text, "<p(?:[^>]+)?>(.*?)<\/p>" );
-	if ( paragraph.length > 0 ) {
-		return wordMatch( paragraph[0], keyword );
-	}
-
-	/* if no <p> tags found, use a regex that matches [^], not nothing, so any character,
-	including linebreaks untill it finds double linebreaks.
-	*/
-	paragraph = regexMatch( text, "[^]*?\n\n" );
-	if ( paragraph.length > 0 ) {
-		return wordMatch( paragraph[0], keyword );
-	}
-
-	// if no double linebreaks found, return the keyword count of the entire text
-	return wordMatch( text, keyword );
-};
-
-},{"../stringProcessing/matchStringWithRegex.js":76,"../stringProcessing/matchTextWithWord.js":77}],46:[function(require,module,exports){
-/** @module analyses/findKeywordInPageTitle */
-
-var wordMatch = require( "../stringProcessing/matchTextWithWord.js" );
-
-/**
- * Counts the occurrences of the keyword in the pagetitle. Returns the number of matches
- * and the position of the keyword.
- *
- * @param {object} paper The paper containing title and keyword.
- * @returns {object} result with the matches and position.
- */
-
-module.exports = function( paper ) {
-	var title = paper.getTitle();
-	var keyword = paper.getKeyword();
-	var result = { matches: 0, position: -1 };
-	result.matches = wordMatch( title, keyword );
-	result.position = title.toLocaleLowerCase().indexOf( keyword );
-
-	return result;
-};
-
-},{"../stringProcessing/matchTextWithWord.js":77}],47:[function(require,module,exports){
-/** @module analyses/getKeywordDensity */
-
-var countWords = require( "../stringProcessing/countWords.js" );
-var matchWords = require( "../stringProcessing/matchTextWithWord.js" );
-
-/**
- * Calculates the keyword density .
- *
- * @param {object} paper The paper containing keyword and text.
-  * @returns {number} The keyword density.
- */
-module.exports = function( paper ) {
-	var keyword = paper.getKeyword();
-	var text = paper.getText();
-	var wordCount = countWords( text );
-	var keywordCount = matchWords ( text, keyword );
-	var keywordDensity = ( keywordCount / wordCount ) * 100;
-	return keywordDensity.toFixed( 1 );
-};
-
-},{"../stringProcessing/countWords.js":69,"../stringProcessing/matchTextWithWord.js":77}],48:[function(require,module,exports){
-/** @module analyses/getLinkStatistics */
-
-var getAnchors = require( "../stringProcessing/getAnchorsFromText.js" );
-var findKeywordInUrl = require( "../stringProcessing/findKeywordInUrl.js" );
-var getLinkType = require( "../stringProcessing/getLinkType.js" );
-var checkNofollow = require( "../stringProcessing/checkNofollow.js" );
-
-/**
- * Checks a text for anchors and returns an object with all linktypes found.
- *
- * @param {object} paper The paper object containing text, keyword and url.
- * @returns {object} The object containing all linktypes.
- * total: the total number of links found
- * totalNaKeyword: the total number of links if keyword is not available
- * totalKeyword: the total number of links with the keyword
- * internalTotal: the total number of links that are internal
- * internalDofollow: the internal links without a nofollow attribute
- * internalNofollow: the internal links with a nofollow attribute
- * externalTotal: the total number of links that are external
- * externalDofollow: the external links without a nofollow attribute
- * externalNofollow: the internal links with a dofollow attribute
- * otherTotal: all links that are not HTTP or HTTPS
- * otherDofollow: other links without a nofollow attribute
- * otherNofollow: other links with a nofollow attribute
- */
-module.exports = function( paper ) {
-	var text = paper.getText();
-	var keyword = paper.getKeyword();
-	var url = paper.getUrl();
-	var anchors = getAnchors( text );
-
-	var linkCount = {
-		total: anchors.length,
-		totalNaKeyword: 0,
-		totalKeyword: 0,
-		internalTotal: 0,
-		internalDofollow: 0,
-		internalNofollow: 0,
-		externalTotal: 0,
-		externalDofollow: 0,
-		externalNofollow: 0,
-		otherTotal: 0,
-		otherDofollow: 0,
-		otherNofollow: 0
-	};
-	var linkKeyword;
-	for ( var i = 0; i < anchors.length; i++ ) {
-		linkKeyword = findKeywordInUrl( anchors[i], keyword );
-
-		if ( linkKeyword ) {
-			if ( keyword === "" ) {
-				linkCount.totalNaKeyword++;
-			} else {
-				linkCount.totalKeyword++;
-			}
-		}
-
-		var linkType = getLinkType( anchors[i], url );
-		linkCount[linkType + "Total"]++;
-
-		var linkFollow = checkNofollow( anchors[i] );
-		linkCount[linkType + linkFollow]++;
-	}
-	return linkCount;
-};
-
-},{"../stringProcessing/checkNofollow.js":65,"../stringProcessing/findKeywordInUrl.js":71,"../stringProcessing/getAnchorsFromText.js":73,"../stringProcessing/getLinkType.js":74}],49:[function(require,module,exports){
-/** @module researches/imageAltTags */
-
-var imageInText = require( "../stringProcessing/imageInText" );
-var imageAlttag = require( "../stringProcessing/getAlttagContent" );
-var wordMatch = require( "../stringProcessing/matchTextWithWord" );
-
-/**
- * Matches the alt-tags in the images found in the text.
- * Returns an object with the totals and different alt-tags.
- *
- * @param {Array} imageMatches Array with all the matched images in the text
- * @param {string} keyword the keyword to check for.
- * @returns {object} altProperties Object with all alt-tags that were found.
- */
-var matchAltProperties = function( imageMatches, keyword ) {
-	var altProperties = {
-		noAlt: 0,
-		withAlt: 0,
-		withAltKeyword: 0,
-		withAltNonKeyword: 0
-	};
-
-	for ( var i = 0; i < imageMatches.length; i++ ) {
-		var alttag = imageAlttag( imageMatches[i] );
-
-		// If no alt-tag is set
-		if ( alttag === "" ) {
-			altProperties.noAlt++;
-			continue;
-		}
-
-		// If no keyword is set, but the alt-tag is
-		if ( keyword === "" && alttag !== "" ) {
-			altProperties.withAlt++;
-			continue;
-		}
-
-		if ( wordMatch( alttag, keyword ) === 0 && alttag !== "" ) {
-
-			// Match for keywords?
-			altProperties.withAltNonKeyword++;
-			continue;
-		}
-
-		if ( wordMatch( alttag, keyword ) > 0 ) {
-			altProperties.withAltKeyword++;
-			continue;
-		}
-	}
-
-	return altProperties;
-};
-
-/**
- * Checks the text for images, checks the type of each image and alttags for containing keywords
- *
- * @param {Paper} paper The paper to check for images
- * @returns {object} Object containing all types of found images
- */
-module.exports = function( paper ) {
-	return matchAltProperties( imageInText( paper.getText() ), paper.getKeyword() );
-};
-
-},{"../stringProcessing/getAlttagContent":72,"../stringProcessing/imageInText":75,"../stringProcessing/matchTextWithWord":77}],50:[function(require,module,exports){
-/** @module researches/imageInText */
-
-var imageInText = require( "./../stringProcessing/imageInText" );
-
-/**
- * Checks the amount of images in the text.
- *
- * @param {Paper} paper The paper to check for images
- * @returns {number} The amount of found images
- */
-module.exports = function( paper ) {
-	return imageInText( paper.getText() ).length;
-};
-
-},{"./../stringProcessing/imageInText":75}],51:[function(require,module,exports){
-var countWords = require( "../stringProcessing/countWords" );
-var sanitizeString = require( "../stringProcessing/sanitizeString" );
-
-/**
- * Determines the length in words of a the keyphrase, the keyword is a keyphrase if it is more than one word.
- *
- * @param {Paper} paper The paper to research
- * @returns {number} The length of the keyphrase
- */
-function keyphraseLengthResearch( paper ) {
-	var keyphrase = sanitizeString( paper.getKeyword() );
-
-	return countWords( keyphrase );
-}
-
-module.exports = keyphraseLengthResearch;
-
-},{"../stringProcessing/countWords":69,"../stringProcessing/sanitizeString":80}],52:[function(require,module,exports){
-/** @module researches/countKeywordInUrl */
-
-var wordMatch = require( "../stringProcessing/matchTextWithWord.js" );
-/**
- * Matches the keyword in the URL. Replaces whitespaces with dashes and uses dash as wordboundary.
- *
- * @param {Paper} paper the Paper object to use in this count.
- * @returns {int} Number of times the keyword is found.
- */
-module.exports = function( paper ) {
-	var keyword = paper.getKeyword().replace( "'", "" ).replace( /\s/ig, "-" );
-
-	return wordMatch( paper.getUrl(), keyword );
-};
-
-},{"../stringProcessing/matchTextWithWord.js":77}],53:[function(require,module,exports){
-/* @module analyses/matchKeywordInSubheadings */
-
-var stripSomeTags = require( "../stringProcessing/stripNonTextTags.js" );
-var subheadingMatch = require( "../stringProcessing/subheadingsMatch.js" );
-
-/**
- * Checks if there are any subheadings like h2 in the text
- * and if they have the keyword in them.
- *
- * @param {object} paper The paper object containt the texta nd keyword
- * @returns {object} the result object.
- * count: the number of matches
- * matches:the number of ocurrences of the keyword for each match
- */
-module.exports = function( paper ) {
-	var text = paper.getText();
-	var keyword = paper.getKeyword();
-	var matches;
-	var result = { count: 0 };
-	text = stripSomeTags( text );
-	matches = text.match( /<h([1-6])(?:[^>]+)?>(.*?)<\/h\1>/ig );
-
-	if ( matches !== null ) {
-		result.count = matches.length;
-		result.matches = subheadingMatch( matches, keyword );
-	}
-	return result;
-};
-
-
-},{"../stringProcessing/stripNonTextTags.js":83,"../stringProcessing/subheadingsMatch.js":86}],54:[function(require,module,exports){
-var matchTextWithWord = require( "../stringProcessing/matchTextWithWord.js" );
-
-/**
- * Matches the keyword in the description if a description and keyword are available.
- * default is -1 if no description and/or keyword is specified
- *
- * @param {Paper} paper The paper object containing the description.
- * @returns {number} The number of matches with the keyword
- */
-module.exports = function( paper ) {
-	if ( paper.getDescription() === "" ) {
-		return -1;
-	}
-	return matchTextWithWord( paper.getDescription(), paper.getKeyword() );
-};
-
-
-},{"../stringProcessing/matchTextWithWord.js":77}],55:[function(require,module,exports){
-/**
- * Check the length of the description.
- * @param {Paper} paper The paper object containing the description.
- * @returns {number} The length of the description.
- */
-module.exports = function( paper ) {
-	return paper.getDescription().length;
-};
-
-},{}],56:[function(require,module,exports){
-/**
- * Check the length of the title.
- * @param {Paper} paper The paper object containing the title.
- * @returns {number} The length of the title.
- */
-module.exports = function( paper ) {
-	return paper.getTitle().length;
-};
-
-},{}],57:[function(require,module,exports){
-/** @module researches/stopWordsInKeyword */
-
-var stopWordsInText = require( "./stopWordsInText.js" );
-
-/**
- * Checks for the amount of stop words in the keyword.
- * @param {Paper} paper The Paper object to be checked against.
- * @returns {Array} All the stopwords that were found in the keyword.
- */
-module.exports = function( paper ) {
-	return stopWordsInText( paper.getKeyword() );
-};
-
-},{"./stopWordsInText.js":58}],58:[function(require,module,exports){
-var stopwords = require( "../config/stopwords.js" )();
-var toRegex = require( "../stringProcessing/stringToRegex.js" );
-
-/**
- * Checks a text to see if there are any stopwords, that are defined in the stopwords config.
- *
- * @param {string} text The input text to match stopwords.
- * @returns {Array} An array with all stopwords found in the text.
- */
-module.exports = function( text ) {
-	var i, matches = [];
-
-	for ( i = 0; i < stopwords.length; i++ ) {
-		if ( text.match( toRegex( stopwords[i] ) ) !== null ) {
-			matches.push( stopwords[i] );
-		}
-	}
-
-	return matches;
-};
-
-},{"../config/stopwords.js":38,"../stringProcessing/stringToRegex.js":81}],59:[function(require,module,exports){
-/** @module researches/stopWordsInUrl */
-
-var stopWordsInText = require( "./stopWordsInText.js" );
-
-/**
- * Matches stopwords in the URL. Replaces - and _ with whitespace.
- * @param {Paper} paper The Paper object to get the url from.
- * @returns {Array} stopwords found in URL
- */
-module.exports = function( paper ) {
-	return stopWordsInText( paper.getUrl().replace( /[-_]/g, " " ) );
-};
-
-},{"./stopWordsInText.js":58}],60:[function(require,module,exports){
-/** @module analyses/isUrlTooLong */
-
-/**
- * Checks if an URL is too long, based on slug and relative to keyword length.
- *
- * @param {object} paper the paper to run this assessment on
- * @returns {boolean} true if the URL is too long, false if it isn't
- */
-module.exports = function( paper ) {
-	var urlLength = paper.getUrl().length;
-	var keywordLength = paper.getKeyword().length;
-	var maxUrlLength = 40;
-	var maxSlugLength = 20;
-
-	if ( urlLength > maxUrlLength	&& urlLength > keywordLength + maxSlugLength ) {
-		return true;
-	}
-	return false;
-};
-
-},{}],61:[function(require,module,exports){
-var wordCount = require( "../stringProcessing/countWords.js" );
-
-/**
- * Count the words in the text
- * @param {Paper} paper The Paper object who's
- * @returns {number} The amount of words found in the text.
- */
-module.exports = function( paper ) {
-	return wordCount( paper.getText() );
-};
-
-},{"../stringProcessing/countWords.js":69}],62:[function(require,module,exports){
-/* jshint browser: true */
-
-var isUndefined = require( "lodash/isUndefined" );
-var difference = require( "lodash/difference" );
-
-/**
- * defines the variables used for the scoreformatter, runs the outputScore en overallScore
- * functions.
- *
- * @param {App} args
- * @constructor
- */
-var ScoreFormatter = function( args ) {
-	this.scores = args.scores;
-	this.overallScore = args.overallScore;
-	this.outputTarget = args.outputTarget;
-	this.overallTarget = args.overallTarget;
-	this.totalScore = 0;
-	this.keyword = args.keyword;
-	this.i18n = args.i18n;
-	this.saveScores = args.saveScores;
-};
-
-/**
- * Renders the score in the HTML.
- */
-ScoreFormatter.prototype.renderScore = function() {
-	this.outputScore();
-	this.outputOverallScore();
-};
-
-/**
- * creates the list for showing the results from the analyzerscorer
- */
-ScoreFormatter.prototype.outputScore = function() {
-	var seoScoreText, scoreRating;
-
-	this.sortScores();
-
-	var outputTarget = document.getElementById( this.outputTarget );
-	outputTarget.innerHTML = "";
-	var newList = document.createElement( "ul" );
-	newList.className = "wpseoanalysis";
-	for ( var i = 0; i < this.scores.length; i++ ) {
-		if ( this.scores[ i ].text !== "" ) {
-			scoreRating = this.scoreRating( this.scores[ i ].score );
-
-			var newLI = document.createElement( "li" );
-			newLI.className = "score";
-			var scoreSpan = document.createElement( "span" );
-			scoreSpan.className = "wpseo-score-icon " + scoreRating;
-			newLI.appendChild( scoreSpan );
-
-			seoScoreText = this.getSEOScoreText( scoreRating );
-
-			var screenReaderDiv = document.createElement( "span" );
-			screenReaderDiv.className = "screen-reader-text";
-			screenReaderDiv.textContent = seoScoreText;
-
-			newLI.appendChild( screenReaderDiv );
-			var textSpan = document.createElement( "span" );
-			textSpan.className = "wpseo-score-text";
-			textSpan.innerHTML = this.scores[ i ].text;
-			newLI.appendChild( textSpan );
-			newList.appendChild( newLI );
-		}
-	}
-	outputTarget.appendChild( newList );
-};
-
-/**
- * sorts the scores array on ascending scores
- */
-ScoreFormatter.prototype.sortScores = function() {
-	var unsortables = this.getUndefinedScores( this.scores );
-	var sortables = difference( this.scores, unsortables );
-
-	sortables.sort( function( a, b ) {
-		return a.score - b.score;
-	} );
-
-	this.scores = unsortables.concat( sortables );
-};
-
-/**
- * Extracts scorers with a score of undefined
- *
- * @param {Array} scorers The scorers that are being sorted
- * @returns {Array} The scorers that cannot be sorted
- */
-ScoreFormatter.prototype.getUndefinedScores = function( scorers ) {
-	var filtered = scorers.filter( function( scorer ) {
-		return isUndefined( scorer.score ) || scorer.score === "na";
-	} );
-
-	return filtered;
-};
-
-/**
- * outputs the overallScore in the overallTarget element.
- */
-ScoreFormatter.prototype.outputOverallScore = function() {
-	var overallTarget = document.getElementById( this.overallTarget );
-
-	if ( overallTarget ) {
-		overallTarget.className = "overallScore " + this.overallScoreRating( Math.round( this.overallScore ) );
-		if ( this.keyword === "" ) {
-			overallTarget.className = "overallScore " + this.overallScoreRating( "na" );
-		}
-	}
-
-	this.saveScores( this.overallScore );
-};
-
-/**
- * Retuns a string that is used as a CSSclass, based on the numeric score or the NA string.
- *
- * @param {number|string} score
- * @returns {string} scoreRate
- */
-ScoreFormatter.prototype.scoreRating = function( score ) {
-	var scoreRate;
-	switch ( true ) {
-		case score <= 4:
-			scoreRate = "bad";
-			break;
-		case score > 4 && score <= 7:
-			scoreRate = "ok";
-			break;
-		case score > 7:
-			scoreRate = "good";
-			break;
-		default:
-		case score === "na":
-			scoreRate = "na";
-			break;
-	}
-	return scoreRate;
-};
-
-/**
- * Divides the total score by ten and calls the scoreRating function.
- *
- * @param {number|string} score
- * @returns {string} scoreRate
- */
-ScoreFormatter.prototype.overallScoreRating = function( score ) {
-	if ( typeof score === "number" ) {
-		score = ( score / 10 );
-	}
-	return this.scoreRating( score );
-};
-
-/**
- * Returns a translated score description based on the textual score rating
- *
- * @param {string} scoreRating Textual score rating, can be retrieved with scoreRating from the actual score.
- *
- * @return {string}
- */
-ScoreFormatter.prototype.getSEOScoreText = function( scoreRating ) {
-	var scoreText = "";
-
-	switch ( scoreRating ) {
-		case "na":
-			scoreText = this.i18n.dgettext( "js-text-analysis", "No keyword" );
-			break;
-
-		case "bad":
-			scoreText = this.i18n.dgettext( "js-text-analysis", "Bad SEO score" );
-			break;
-
-		case "ok":
-			scoreText = this.i18n.dgettext( "js-text-analysis", "Ok SEO score" );
-			break;
-
-		case "good":
-			scoreText = this.i18n.dgettext( "js-text-analysis", "Good SEO score" );
-			break;
-	}
-
-	return scoreText;
-};
-
-module.exports = ScoreFormatter;
-
-},{"lodash/difference":219,"lodash/isUndefined":244}],63:[function(require,module,exports){
-/* jshint browser: true */
-
-var isEmpty = require( "lodash/isEmpty" );
-var isElement = require( "lodash/isElement" );
-var isUndefined = require( "lodash/isUndefined" );
-var clone = require( "lodash/clone" );
-var defaultsDeep = require( "lodash/defaultsDeep" );
-var forEach = require( "lodash/forEach" );
-var debounce = require( "lodash/debounce" );
-
-var stringToRegex = require( "../js/stringProcessing/stringToRegex.js" );
-var stripHTMLTags = require( "../js/stringProcessing/stripHTMLTags.js" );
-var sanitizeString = require( "../js/stringProcessing/sanitizeString.js" );
-var stripSpaces = require( "../js/stringProcessing/stripSpaces.js" );
-var analyzerConfig = require( "./config/config.js" );
-
-var snippetEditorTemplate = require( "./templates.js" ).snippetEditor;
-
-var defaults = {
-	data: {
-		title: "",
-		metaDesc: "",
-		urlPath: ""
-	},
-	placeholder: {
-		title:    "This is an example title - edit by clicking here",
-		metaDesc: "Modify your meta description by editing it right here",
-		urlPath:  "example-post/"
-	},
-	defaultValue: {
-		title: "",
-		metaDesc: ""
-	},
-	baseURL: "http://example.com/",
-	callbacks: {
-		saveSnippetData: function() {}
-	},
-	addTrailingSlash: true,
-	metaDescriptionDate: ""
-};
-
-var titleMaxLength = 65;
-
-var inputPreviewBindings = [
-	{
-		"preview": "title_container",
-		"inputField": "title"
-	},
-	{
-		"preview": "url_container",
-		"inputField": "urlPath"
-	},
-	{
-		"preview": "meta_container",
-		"inputField": "metaDesc"
-	}
-];
-
-/**
- * Get's the base URL for this instance of the snippet preview.
- *
- * @private
- * @this SnippetPreview
- *
- * @returns {string} The base URL.
- */
-var getBaseURL = function() {
-	var baseURL = this.opts.baseURL;
-
-	/*
-	 * For backwards compatibility, if no URL was passed to the snippet editor we try to retrieve the base URL from the
-	 * rawData in the App. This is because the scrapers used to be responsible for retrieving the baseURL, but the base
-	 * URL is static so we can just pass it to the snippet editor.
-	 */
-	if ( !isEmpty( this.refObj.rawData.baseUrl ) && this.opts.baseURL === defaults.baseURL ) {
-		baseURL = this.refObj.rawData.baseUrl;
-	}
-
-	return baseURL;
-};
-
-/**
- * Retrieves unformatted text from the data object
- *
- * @private
- * @this SnippetPreview
- *
- * @param {string} key The key to retrieve.
- * @returns {string} The unformatted text.
- */
-function retrieveUnformattedText( key ) {
-	return this.data[ key ];
-}
-
-/**
- * Update data and DOM objects when the unformatted text is updated, here for backwards compatibility
- *
- * @private
- * @this SnippetPreview
- *
- * @param {string} key The data key to update.
- * @param {string} value The value to update.
- * @return {void}
- */
-function updateUnformattedText( key, value ) {
-	this.element.input[ key ].value = value;
-
-	this.data[ key ] = value;
-}
-
-/**
- * Adds a class to an element
- *
- * @param {HTMLElement} element The element to add the class to.
- * @param {string} className The class to add.
- * @return {void}
- */
-function addClass( element, className ) {
-	var classes = element.className.split( " " );
-
-	if ( -1 === classes.indexOf( className ) ) {
-		classes.push( className );
-	}
-
-	element.className = classes.join( " " );
-}
-
-/**
- * Removes a class from an element
- *
- * @param {HTMLElement} element The element to remove the class from.
- * @param {string} className The class to remove.
- * @return {void}
- */
-function removeClass( element, className ) {
-	var classes = element.className.split( " " );
-	var foundClass = classes.indexOf( className );
-
-	if ( -1 !== foundClass ) {
-		classes.splice( foundClass, 1 );
-	}
-
-	element.className = classes.join( " " );
-}
-
-/**
- * Removes multiple classes from an element
- *
- * @param {HTMLElement} element The element to remove the classes from.
- * @param {Array} classes A list of classes to remove
- * @return {void}
- */
-function removeClasses( element, classes ) {
-	forEach( classes, removeClass.bind( null, element ) );
-}
-
-/**
- * Returns if a url has a trailing slash or not.
- *
- * @param {string} url The url to check for a trailing slash.
- * @returns {boolean} Whether or not the url contains a trailing slash.
- */
-function hasTrailingSlash( url ) {
-	return url.indexOf( "/" ) === ( url.length - 1 );
-}
-
-/**
- * Detects if this browser has <progress> support. Also serves as a poor man's HTML5shiv.
- *
- * @private
- *
- * @returns {boolean} Whether or not the browser supports a <progress> element
- */
-function hasProgressSupport() {
-	var progressElement = document.createElement( "progress" );
-
-	return !isUndefined( progressElement.max );
-}
-
-/**
- * Returns a rating based on the length of the title
- *
- * @param {number} titleLength the length of the title.
- * @returns {string} The rating given based on the title length.
- */
-function rateTitleLength( titleLength ) {
-	var rating;
-
-	switch ( true ) {
-		case titleLength > 0 && titleLength <= 34:
-		case titleLength >= 66:
-			rating = "ok";
-			break;
-
-		case titleLength >= 35 && titleLength <= 65:
-			rating = "good";
-			break;
-
-		default:
-			rating = "bad";
-			break;
-	}
-
-	return rating;
-}
-
-/**
- * Returns a rating based on the length of the meta description
- *
- * @param {number} metaDescLength the length of the meta description.
- * @returns {string} The rating given based on the description length.
- */
-function rateMetaDescLength( metaDescLength ) {
-	var rating;
-
-	switch ( true ) {
-		case metaDescLength > 0 && metaDescLength <= 120:
-		case metaDescLength >= 157:
-			rating = "ok";
-			break;
-
-		case metaDescLength >= 120 && metaDescLength <= 157:
-			rating = "good";
-			break;
-
-		default:
-			rating = "bad";
-			break;
-	}
-
-	return rating;
-}
-
-/**
- * Updates a progress bar
- *
- * @private
- * @this SnippetPreview
- *
- * @param {HTMLElement} element The progress element that's rendered.
- * @param {number} value The current value.
- * @param {number} maximum The maximum allowed value.
- * @param {string} rating The SEO score rating for this value.
- * @returns {void}
- */
-function updateProgressBar( element, value, maximum, rating ) {
-	var barElement, progress,
-		allClasses = [
-			"snippet-editor__progress--bad",
-			"snippet-editor__progress--ok",
-			"snippet-editor__progress--good"
-		];
-
-	element.value = value;
-	removeClasses( element, allClasses );
-	addClass( element, "snippet-editor__progress--" + rating );
-
-	if ( !this.hasProgressSupport ) {
-		barElement = element.getElementsByClassName( "snippet-editor__progress-bar" )[ 0 ];
-		progress = ( value / maximum ) * 100;
-
-		barElement.style.width = progress + "%";
-	}
-}
-
-/**
- * @module snippetPreview
- */
-
-/**
- * defines the config and outputTarget for the SnippetPreview
- *
- * @param {Object}         opts                           - Snippet preview options.
- * @param {App}            opts.analyzerApp               - The app object the snippet preview is part of.
- * @param {Object}         opts.placeholder               - The placeholder values for the fields, will be shown as
- * actual placeholders in the inputs and as a fallback for the preview.
- * @param {string}         opts.placeholder.title         - The placeholder title.
- * @param {string}         opts.placeholder.metaDesc      - The placeholder meta description.
- * @param {string}         opts.placeholder.urlPath       - The placeholder url.
- *
- * @param {Object}         opts.defaultValue              - The default value for the fields, if the user has not
- * changed a field, this value will be used for the analyzer, preview and the progress bars.
- * @param {string}         opts.defaultValue.title        - The default title.
- * @param {string}         opts.defaultValue.metaDesc     - The default meta description.
- * it.
- *
- * @param {string}         opts.baseURL                   - The basic URL as it will be displayed in google.
- * @param {HTMLElement}    opts.targetElement             - The target element that contains this snippet editor.
- *
- * @param {Object}         opts.callbacks                 - Functions that are called on specific instances.
- * @param {Function}       opts.callbacks.saveSnippetData - Function called when the snippet data is changed.
- *
- * @param {boolean}        opts.addTrailingSlash          - Whether or not to add a trailing slash to the URL.
- * @param {string}         opts.metaDescriptionDate       - The date to display before the meta description.
- *
- * @property {App}         refObj                         - The connected app object.
- * @property {Jed}         i18n                           - The translation object.
- *
- * @property {HTMLElement} targetElement                  - The target element that contains this snippet editor.
- *
- * @property {Object}      element                        - The elements for this snippet editor.
- * @property {Object}      element.rendered               - The rendered elements.
- * @property {HTMLElement} element.rendered.title         - The rendered title element.
- * @property {HTMLElement} element.rendered.urlPath       - The rendered url path element.
- * @property {HTMLElement} element.rendered.urlBase       - The rendered url base element.
- * @property {HTMLElement} element.rendered.metaDesc      - The rendered meta description element.
- *
- * @property {Object}      element.input                  - The input elements.
- * @property {HTMLElement} element.input.title            - The title input element.
- * @property {HTMLElement} element.input.urlPath          - The url path input element.
- * @property {HTMLElement} element.input.metaDesc         - The meta description input element.
- *
- * @property {HTMLElement} element.container              - The main container element.
- * @property {HTMLElement} element.formContainer          - The form container element.
- * @property {HTMLElement} element.editToggle             - The button that toggles the editor form.
- *
- * @property {Object}      data                           - The data for this snippet editor.
- * @property {string}      data.title                     - The title.
- * @property {string}      data.urlPath                   - The url path.
- * @property {string}      data.metaDesc                  - The meta description.
- *
- * @property {string}      baseURL                        - The basic URL as it will be displayed in google.
- *
- * @property {boolean}     hasProgressSupport             - Whether this browser supports the <progress> element.
- *
- * @constructor
- */
-var SnippetPreview = function( opts ) {
-	defaultsDeep( opts, defaults );
-
-	this.data = opts.data;
-
-	if ( !isUndefined( opts.analyzerApp ) ) {
-		this.refObj = opts.analyzerApp;
-		this.i18n = this.refObj.i18n;
-
-		this.data = {
-			title: this.refObj.rawData.snippetTitle || "",
-			urlPath: this.refObj.rawData.snippetCite || "",
-			metaDesc: this.refObj.rawData.snippetMeta || ""
-		};
-
-		// For backwards compatibility set the pageTitle as placeholder.
-		if ( !isEmpty( this.refObj.rawData.pageTitle ) ) {
-			opts.placeholder.title = this.refObj.rawData.pageTitle;
-		}
-	}
-
-	if ( !isElement( opts.targetElement ) ) {
-		throw new Error( "The snippet preview requires a valid target element" );
-	}
-
-	this.opts = opts;
-	this._currentFocus = null;
-	this._currentHover = null;
-
-	// For backwards compatibility monitor the unformatted text for changes and reflect them in the preview
-	this.unformattedText = {};
-	Object.defineProperty( this.unformattedText, "snippet_cite", {
-		get: retrieveUnformattedText.bind( this, "urlPath" ),
-		set: updateUnformattedText.bind( this, "urlPath" )
-	} );
-	Object.defineProperty( this.unformattedText, "snippet_meta", {
-		get: retrieveUnformattedText.bind( this, "metaDesc" ),
-		set: updateUnformattedText.bind( this, "metaDesc" )
-	} );
-	Object.defineProperty( this.unformattedText, "snippet_title", {
-		get: retrieveUnformattedText.bind( this, "title" ),
-		set: updateUnformattedText.bind( this, "title" )
-	} );
-};
-
-/**
- * Renders snippet editor and adds it to the targetElement
- * @returns {void}
- */
-SnippetPreview.prototype.renderTemplate = function() {
-	var targetElement = this.opts.targetElement;
-
-	targetElement.innerHTML = snippetEditorTemplate( {
-		raw: {
-			title: this.data.title,
-			snippetCite: this.data.urlPath,
-			meta: this.data.metaDesc
-		},
-		rendered: {
-			title: this.formatTitle(),
-			baseUrl: this.formatUrl(),
-			snippetCite: this.formatCite(),
-			meta: this.formatMeta()
-		},
-		metaDescriptionDate: this.opts.metaDescriptionDate,
-		placeholder: this.opts.placeholder,
-		i18n: {
-			edit: this.i18n.dgettext( "js-text-analysis", "Edit snippet" ),
-			title: this.i18n.dgettext( "js-text-analysis", "SEO title" ),
-			slug:  this.i18n.dgettext( "js-text-analysis", "Slug" ),
-			metaDescription: this.i18n.dgettext( "js-text-analysis", "Meta description" ),
-			save: this.i18n.dgettext( "js-text-analysis", "Close snippet editor" ),
-			snippetPreview: this.i18n.dgettext( "js-text-analysis", "Snippet preview" ),
-			snippetEditor: this.i18n.dgettext( "js-text-analysis", "Snippet editor" )
-		}
-	} );
-
-	this.element = {
-		rendered: {
-			title: document.getElementById( "snippet_title" ),
-			urlBase: document.getElementById( "snippet_citeBase" ),
-			urlPath: document.getElementById( "snippet_cite" ),
-			metaDesc: document.getElementById( "snippet_meta" )
-		},
-		input: {
-			title: targetElement.getElementsByClassName( "js-snippet-editor-title" )[0],
-			urlPath: targetElement.getElementsByClassName( "js-snippet-editor-slug" )[0],
-			metaDesc: targetElement.getElementsByClassName( "js-snippet-editor-meta-description" )[0]
-		},
-		progress: {
-			title: targetElement.getElementsByClassName( "snippet-editor__progress-title" )[0],
-			metaDesc: targetElement.getElementsByClassName( "snippet-editor__progress-meta-description" )[0]
-		},
-		container: document.getElementById( "snippet_preview" ),
-		formContainer: targetElement.getElementsByClassName( "snippet-editor__form" )[0],
-		editToggle: targetElement.getElementsByClassName( "snippet-editor__edit-button" )[0],
-		closeEditor: targetElement.getElementsByClassName( "snippet-editor__submit" )[0],
-		formFields: targetElement.getElementsByClassName( "snippet-editor__form-field" ),
-		headingEditor: targetElement.getElementsByClassName( "snippet-editor__heading-editor" )[0]
-	};
-
-	this.element.label = {
-		title: this.element.input.title.parentNode,
-		urlPath: this.element.input.urlPath.parentNode,
-		metaDesc: this.element.input.metaDesc.parentNode
-	};
-
-	this.element.preview = {
-		title: this.element.rendered.title.parentNode,
-		urlPath: this.element.rendered.urlPath.parentNode,
-		metaDesc: this.element.rendered.metaDesc.parentNode
-	};
-
-	this.hasProgressSupport = hasProgressSupport();
-
-	if ( this.hasProgressSupport ) {
-		this.element.progress.title.max = titleMaxLength;
-		this.element.progress.metaDesc.max = analyzerConfig.maxMeta;
-	} else {
-		forEach( this.element.progress, function( progressElement ) {
-			addClass( progressElement, "snippet-editor__progress--fallback" );
-		} );
-	}
-
-	this.opened = false;
-	this.updateProgressBars();
-};
-
-/**
- * Refreshes the snippet editor rendered HTML
- * @returns {void}
- */
-SnippetPreview.prototype.refresh = function() {
-	this.output = this.htmlOutput();
-	this.renderOutput();
-	this.renderSnippetStyle();
-	this.updateProgressBars();
-};
-
-/**
- * Returns the title as meant for the analyzer
- *
- * @private
- * @this SnippetPreview
- *
- * @returns {string} The title that is meant for the analyzer.
- */
-function getAnalyzerTitle() {
-	var title = this.data.title;
-
-	if ( isEmpty( title ) ) {
-		title = this.opts.defaultValue.title;
-	}
-
-	title = this.refObj.pluggable._applyModifications( "data_page_title", title );
-
-	return stripSpaces( title );
-}
-
-/**
- * Returns the metaDescription, includes the date if it is set.
- *
- * @private
- * @this SnippetPreview
- *
- * @returns {string} The meta data for the analyzer.
- */
-var getAnalyzerMetaDesc = function() {
-	var metaDesc = this.data.metaDesc;
-
-	if ( isEmpty( metaDesc ) ) {
-		metaDesc = this.opts.defaultValue.metaDesc;
-	}
-
-	metaDesc = this.refObj.pluggable._applyModifications( "data_meta_desc", metaDesc );
-
-	if ( !isEmpty( this.opts.metaDescriptionDate ) && !isEmpty( metaDesc ) ) {
-		metaDesc = this.opts.metaDescriptionDate + " - " + this.data.metaDesc;
-	}
-
-	return stripSpaces( metaDesc );
-};
-
-/**
- * Returns the data from the snippet preview.
- *
- * @returns {Object} The collected data for the analyzer.
- */
-SnippetPreview.prototype.getAnalyzerData = function() {
-	return {
-		title:    getAnalyzerTitle.call( this ),
-		url:      this.data.urlPath,
-		metaDesc: getAnalyzerMetaDesc.call( this )
-	};
-};
-
-/**
- * Calls the event binder that has been registered using the callbacks option in the arguments of the App.
- * @returns {void}
- */
-SnippetPreview.prototype.callRegisteredEventBinder = function() {
-	this.refObj.callbacks.bindElementEvents( this.refObj );
-};
-
-/**
- *  checks if title and url are set so they can be rendered in the snippetPreview
- *  @returns {void}
- */
-SnippetPreview.prototype.init = function() {
-	if (
-		this.refObj.rawData.pageTitle !== null &&
-		this.refObj.rawData.cite !== null
-	) {
-		this.refresh();
-	}
-};
-
-/**
- * creates html object to contain the strings for the snippetpreview
- *
- * @returns {Object} The HTML output of the collected data.
- */
-SnippetPreview.prototype.htmlOutput = function() {
-	var html = {};
-	html.title = this.formatTitle();
-	html.cite = this.formatCite();
-	html.meta = this.formatMeta();
-	html.url = this.formatUrl();
-	return html;
-};
-
-/**
- * Formats the title for the snippet preview. If title and pageTitle are empty, sampletext is used
- *
- * @returns {string} The correctly formatted title.
- */
-SnippetPreview.prototype.formatTitle = function() {
-	var title = this.data.title;
-
-	// Fallback to the default if the title is empty.
-	if ( isEmpty( title ) ) {
-		title = this.opts.defaultValue.title;
-	}
-
-	// For rendering we can fallback to the placeholder as well.
-	if ( isEmpty( title ) ) {
-		title = this.opts.placeholder.title;
-	}
-
-	// Apply modification to the title before showing it.
-	if ( this.refObj.pluggable.loaded ) {
-		title = this.refObj.pluggable._applyModifications( "data_page_title", title );
-	}
-
-	title = stripHTMLTags( title );
-
-	// If a keyword is set we want to highlight it in the title.
-	if ( !isEmpty( this.refObj.rawData.keyword ) ) {
-		title = this.formatKeyword( title );
-	}
-
-	// As an ultimate fallback provide the user with a helpful message.
-	if ( isEmpty( title ) ) {
-		title = this.i18n.dgettext( "js-text-analysis", "Please provide an SEO title by editing the snippet below." );
-	}
-
-	return title;
-};
-
-/**
- * Formats the base url for the snippet preview. Removes the protocol name from the URL.
- *
- * @returns {string} Formatted base url for the snippet preview.
- */
-SnippetPreview.prototype.formatUrl = function() {
-	var url = getBaseURL.call( this );
-
-	// Removes the http part of the url, google displays https:// if the website supports it.
-	return url.replace( /http:\/\//ig, "" );
-};
-
-/**
- * Formats the url for the snippet preview
- *
- * @returns {string} Formatted URL for the snippet preview.
- */
-SnippetPreview.prototype.formatCite = function() {
-	var cite = this.data.urlPath;
-
-	cite = stripHTMLTags( cite );
-
-	// Fallback to the default if the cite is empty.
-	if ( isEmpty( cite ) ) {
-		cite = this.opts.placeholder.urlPath;
-	}
-
-	if ( !isEmpty( this.refObj.rawData.keyword ) ) {
-		cite = this.formatKeywordUrl( cite );
-	}
-
-	if ( this.opts.addTrailingSlash && !hasTrailingSlash( cite ) ) {
-		cite = cite + "/";
-	}
-
-	// URL's cannot contain whitespace so replace it by dashes.
-	cite = cite.replace( /\s/g, "-" );
-
-	return cite;
-};
-
-/**
- * Formats the meta description for the snippet preview, if it's empty retrieves it using getMetaText.
- *
- * @returns {string} Formatted meta description.
- */
-SnippetPreview.prototype.formatMeta = function() {
-	var meta = this.data.metaDesc;
-
-	// If no meta has been set, generate one.
-	if ( isEmpty( meta ) ) {
-		meta = this.getMetaText();
-	}
-
-	// Apply modification to the desc before showing it.
-	if ( this.refObj.pluggable.loaded ) {
-		meta = this.refObj.pluggable._applyModifications( "data_meta_desc", meta );
-	}
-
-	meta = stripHTMLTags( meta );
-
-	// Cut-off the meta description according to the maximum length
-	meta = meta.substring( 0, analyzerConfig.maxMeta );
-
-	if ( !isEmpty( this.refObj.rawData.keyword ) ) {
-		meta = this.formatKeyword( meta );
-	}
-
-	// As an ultimate fallback provide the user with a helpful message.
-	if ( isEmpty( meta ) ) {
-		meta = this.i18n.dgettext( "js-text-analysis", "Please provide a meta description by editing the snippet below." );
-	}
-
-	return meta;
-};
-
-/**
- * Generates a meta description with an educated guess based on the passed text and excerpt. It uses the keyword to
- * select an appropriate part of the text. If the keyword isn't present it takes the first 156 characters of the text.
- * If both the keyword, text and excerpt are empty this function returns the sample text.
- *
- * @returns {string} A generated meta description.
- */
-SnippetPreview.prototype.getMetaText = function() {
-	var metaText = this.opts.defaultValue.metaDesc;
-
-	if ( !isUndefined( this.refObj.rawData.excerpt ) && isEmpty( metaText ) ) {
-		metaText = this.refObj.rawData.excerpt;
-	}
-
-	if ( !isUndefined( this.refObj.rawData.text ) && isEmpty( metaText ) ) {
-		metaText = this.refObj.rawData.text;
-
-		if ( this.refObj.pluggable.loaded ) {
-			metaText = this.refObj.pluggable._applyModifications( "content", metaText );
-		}
-	}
-
-	metaText = stripHTMLTags( metaText );
-
-	return metaText.substring( 0, analyzerConfig.maxMeta );
-};
-
-/**
- * Builds an array with all indexes of the keyword
- * @returns {Array} Array with matches
- */
-SnippetPreview.prototype.getIndexMatches = function() {
-	var indexMatches = [];
-	var i = 0;
-
-	// Starts at 0, locates first match of the keyword.
-	var match = this.refObj.rawData.text.indexOf(
-		this.refObj.rawData.keyword,
-		i
-	);
-
-	// Runs the loop untill no more indexes are found, and match returns -1.
-	while ( match > -1 ) {
-		indexMatches.push( match );
-
-		// Pushes location to indexMatches and increase i with the length of keyword.
-		i = match + this.refObj.rawData.keyword.length;
-		match = this.refObj.rawData.text.indexOf(
-			this.refObj.rawData.keyword,
-			i
-		);
-	}
-	return indexMatches;
-};
-
-/**
- * Builds an array with indexes of all sentence ends (select on .)
- * @returns {Array} Array with sentences.
- */
-SnippetPreview.prototype.getPeriodMatches = function() {
-	var periodMatches = [ 0 ];
-	var match;
-	var i = 0;
-	while ( ( match = this.refObj.rawData.text.indexOf( ".", i ) ) > -1 ) {
-		periodMatches.push( match );
-		i = match + 1;
-	}
-	return periodMatches;
-};
-
-/**
- * Formats the keyword for use in the snippetPreview by adding <strong>-tags
- * strips unwanted characters that could break the regex or give unwanted results.
- *
- * @param {string} textString The keyword string that needs to be formatted.
- * @returns {string} The formatted keyword.
- */
-SnippetPreview.prototype.formatKeyword = function( textString ) {
-
-	// removes characters from the keyword that could break the regex, or give unwanted results
-	var keyword = this.refObj.rawData.keyword.replace( /[\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, " " );
-
-	// Match keyword case-insensitively
-	var keywordRegex = stringToRegex( keyword, "", false );
-	return textString.replace( keywordRegex, function( str ) {
-		return "<strong>" + str + "</strong>";
-	} );
-};
-
-/**
- * formats the keyword for use in the URL by accepting - and _ in stead of space and by adding
- * <strong>-tags
- * strips unwanted characters that could break the regex or give unwanted results
- *
- * @param {string} textString The keyword string that needs to be formatted.
- * @returns {XML|string|void} The formatted keyword string to be used in the URL.
- */
-SnippetPreview.prototype.formatKeywordUrl = function( textString ) {
-	var keyword = sanitizeString( this.refObj.rawData.keyword );
-	keyword = keyword.replace( /'/, "" );
-
-	var dashedKeyword = keyword.replace( /\s/g, "-" );
-
-	// Match keyword case-insensitively.
-	var keywordRegex = stringToRegex( dashedKeyword, "\\-" );
-
-	// Make the keyword bold in the textString.
-	return textString.replace( keywordRegex, function( str ) {
-		return "<strong>" + str + "</strong>";
-	} );
-};
-
-/**
- * Renders the outputs to the elements on the page.
- * @returns {void}
- */
-SnippetPreview.prototype.renderOutput = function() {
-	this.element.rendered.title.innerHTML = this.output.title;
-	this.element.rendered.urlPath.innerHTML = this.output.cite;
-	this.element.rendered.urlBase.innerHTML = this.output.url;
-	this.element.rendered.metaDesc.innerHTML = this.output.meta;
-};
-
-/**
- * Makes the rendered meta description gray if no meta description has been set by the user.
- * @returns {void}
- */
-SnippetPreview.prototype.renderSnippetStyle = function() {
-	var metaDescElement = this.element.rendered.metaDesc;
-	var metaDesc = getAnalyzerMetaDesc.call( this );
-
-	if ( isEmpty( metaDesc ) ) {
-		addClass( metaDescElement, "desc-render" );
-		removeClass( metaDescElement, "desc-default" );
-	} else {
-		addClass( metaDescElement, "desc-default" );
-		removeClass( metaDescElement, "desc-render" );
-	}
-};
-
-/**
- * Function to call init, to rerender the snippetpreview
- * @returns {void}
- */
-SnippetPreview.prototype.reRender = function() {
-	this.init();
-};
-
-/**
- * Checks text length of the snippetmeta and snippet title, shortens it if it is too long.
- * @param {Object} event The event to check the text length from.
- * @returns {void}
- */
-SnippetPreview.prototype.checkTextLength = function( event ) {
-	var text = event.currentTarget.textContent;
-	switch ( event.currentTarget.id ) {
-		case "snippet_meta":
-			event.currentTarget.className = "desc";
-			if ( text.length > analyzerConfig.maxMeta ) {
-				/* eslint-disable */
-				YoastSEO.app.snippetPreview.unformattedText.snippet_meta = event.currentTarget.textContent;
-				/* eslint-enable */
-				event.currentTarget.textContent = text.substring(
-					0,
-					analyzerConfig.maxMeta
-				);
-
-			}
-			break;
-		case "snippet_title":
-			event.currentTarget.className = "title";
-			if ( text.length > titleMaxLength ) {
-				/* eslint-disable */
-				YoastSEO.app.snippetPreview.unformattedText.snippet_title = event.currentTarget.textContent;
-				/* eslint-enable */
-				event.currentTarget.textContent = text.substring( 0, titleMaxLength );
-			}
-			break;
-		default:
-			break;
-	}
-};
-
-/**
- * When clicked on an element in the snippet, checks fills the textContent with the data from the unformatted text.
- * This removes the keyword highlighting and modified data so the original content can be editted.
- * @param {Object} event The event to get the unformatted text from.
- * @returns {void}
- */
-SnippetPreview.prototype.getUnformattedText = function( event ) {
-	var currentElement = event.currentTarget.id;
-	if ( typeof this.unformattedText[ currentElement ] !== "undefined" ) {
-		event.currentTarget.textContent = this.unformattedText[currentElement];
-	}
-};
-
-/**
- * When text is entered into the snippetPreview elements, the text is set in the unformattedText object.
- * This allows the visible data to be editted in the snippetPreview.
- * @param {Object} event The event to set the unformatted text from.
- * @returns {void}
- */
-SnippetPreview.prototype.setUnformattedText = function( event ) {
-	var elem =  event.currentTarget.id;
-	this.unformattedText[ elem ] = document.getElementById( elem ).textContent;
-};
-
-/**
- * Validates all fields and highlights errors.
- * @returns {void}
- */
-SnippetPreview.prototype.validateFields = function() {
-	var metaDescription = getAnalyzerMetaDesc.call( this );
-	var title = getAnalyzerTitle.call( this );
-
-	if ( metaDescription.length > analyzerConfig.maxMeta ) {
-		addClass( this.element.input.metaDesc, "snippet-editor__field--invalid" );
-	} else {
-		removeClass( this.element.input.metaDesc, "snippet-editor__field--invalid" );
-	}
-
-	if ( title.length > titleMaxLength ) {
-		addClass( this.element.input.title, "snippet-editor__field--invalid" );
-	} else {
-		removeClass( this.element.input.title, "snippet-editor__field--invalid" );
-	}
-};
-
-/**
- * Updates progress bars based on the data
- * @returns {void}
- */
-SnippetPreview.prototype.updateProgressBars = function() {
-	var metaDescriptionRating, titleRating, metaDescription, title;
-
-	metaDescription = getAnalyzerMetaDesc.call( this );
-	title = getAnalyzerTitle.call( this );
-
-	titleRating = rateTitleLength( title.length );
-	metaDescriptionRating = rateMetaDescLength( metaDescription.length );
-
-	updateProgressBar(
-		this.element.progress.title,
-		title.length,
-		titleMaxLength,
-		titleRating
-	);
-
-	updateProgressBar(
-		this.element.progress.metaDesc,
-		metaDescription.length,
-		analyzerConfig.maxMeta,
-		metaDescriptionRating
-	);
-};
-
-/**
- * Binds the reloadSnippetText function to the blur of the snippet inputs.
- * @returns {void}
- */
-SnippetPreview.prototype.bindEvents = function() {
-	var targetElement,
-		elems = [ "title", "slug", "meta-description" ];
-
-	forEach( elems, function( elem ) {
-		targetElement = document.getElementsByClassName( "js-snippet-editor-" + elem )[0];
-
-		targetElement.addEventListener( "keydown", this.changedInput.bind( this ) );
-		targetElement.addEventListener( "keyup", this.changedInput.bind( this ) );
-
-		targetElement.addEventListener( "input", this.changedInput.bind( this ) );
-		targetElement.addEventListener( "focus", this.changedInput.bind( this ) );
-		targetElement.addEventListener( "blur", this.changedInput.bind( this ) );
-	}.bind( this ) );
-
-	this.element.editToggle.addEventListener( "click", this.toggleEditor.bind( this ) );
-	this.element.closeEditor.addEventListener( "click", this.closeEditor.bind( this ) );
-
-	// Loop through the bindings and bind a click handler to the click to focus the focus element.
-	forEach( inputPreviewBindings, function( binding ) {
-		var previewElement = document.getElementById( binding.preview );
-		var inputElement = this.element.input[ binding.inputField ];
-
-		// Make the preview element click open the editor and focus the correct input.
-		previewElement.addEventListener( "click", function() {
-			this.openEditor();
-			inputElement.focus();
-		}.bind( this ) );
-
-		// Make focusing an input, update the carets.
-		inputElement.addEventListener( "focus", function() {
-			this._currentFocus = binding.inputField;
-
-			this._updateFocusCarets();
-		}.bind( this ) );
-
-		// Make removing focus from an element, update the carets.
-		inputElement.addEventListener( "blur", function() {
-			this._currentFocus = null;
-
-			this._updateFocusCarets();
-		}.bind( this ) );
-
-		previewElement.addEventListener( "mouseover", function() {
-			this._currentHover = binding.inputField;
-
-			this._updateHoverCarets();
-		}.bind( this ) );
-
-		previewElement.addEventListener( "mouseout", function() {
-			this._currentHover = null;
-
-			this._updateHoverCarets();
-		}.bind( this ) );
-
-	}.bind( this ) );
-};
-
-/**
- * Updates snippet preview on changed input. It's debounced so that we can call this function as much as we want.
- * @returns {void}
- */
-SnippetPreview.prototype.changedInput = debounce( function() {
-	this.updateDataFromDOM();
-	this.validateFields();
-	this.updateProgressBars();
-
-	this.refresh();
-
-	this.refObj.refresh();
-}, 25 );
-
-/**
- * Updates our data object from the DOM
- * @returns {void}
- */
-SnippetPreview.prototype.updateDataFromDOM = function() {
-	this.data.title = this.element.input.title.value;
-	this.data.urlPath = this.element.input.urlPath.value;
-	this.data.metaDesc = this.element.input.metaDesc.value;
-
-	// Clone so the data isn't changeable.
-	this.opts.callbacks.saveSnippetData( clone( this.data ) );
-};
-
-/**
- * Opens the snippet editor.
- * @returns {void}
- */
-SnippetPreview.prototype.openEditor = function() {
-
-	// Hide these elements.
-	addClass( this.element.editToggle,       "snippet-editor--hidden" );
-
-	// Show these elements.
-	removeClass( this.element.formContainer, "snippet-editor--hidden" );
-	removeClass( this.element.headingEditor, "snippet-editor--hidden" );
-
-	this.opened = true;
-};
-
-/**
- * Closes the snippet editor.
- * @returns {void}
- */
-SnippetPreview.prototype.closeEditor = function() {
-
-	// Hide these elements.
-	addClass( this.element.formContainer,     "snippet-editor--hidden" );
-	addClass( this.element.headingEditor,     "snippet-editor--hidden" );
-
-	// Show these elements.
-	removeClass( this.element.editToggle,     "snippet-editor--hidden" );
-
-	this.opened = false;
-};
-
-/**
- * Toggles the snippet editor.
- * @returns {void}
- */
-SnippetPreview.prototype.toggleEditor = function() {
-	if ( this.opened ) {
-		this.closeEditor();
-	} else {
-		this.openEditor();
-	}
-};
-
-/**
- * Updates carets before the preview and input fields.
- *
- * @private
- * @returns {void}
- */
-SnippetPreview.prototype._updateFocusCarets = function() {
-	var focusedLabel, focusedPreview;
-
-	// Disable all carets on the labels.
-	forEach( this.element.label, function( element ) {
-		removeClass( element, "snippet-editor__label--focus" );
-	} );
-
-	// Disable all carets on the previews.
-	forEach( this.element.preview, function( element ) {
-		removeClass( element, "snippet-editor__container--focus" );
-	} );
-
-	if ( null !== this._currentFocus ) {
-		focusedLabel = this.element.label[ this._currentFocus ];
-		focusedPreview = this.element.preview[ this._currentFocus ];
-
-		addClass( focusedLabel, "snippet-editor__label--focus" );
-		addClass( focusedPreview, "snippet-editor__container--focus" );
-	}
-};
-
-/**
- * Updates hover carets before the input fields.
- *
- * @private
- * @returns {void}
- */
-SnippetPreview.prototype._updateHoverCarets = function() {
-	var hoveredLabel;
-
-	forEach( this.element.label, function( element ) {
-		removeClass( element, "snippet-editor__label--hover" );
-	} );
-
-	if ( null !== this._currentHover ) {
-		hoveredLabel = this.element.label[ this._currentHover ];
-
-		addClass( hoveredLabel, "snippet-editor__label--hover" );
-	}
-};
-
-/**
- * Updates the title data and the the title input field. This also means the snippet editor view is updated.
- *
- * @param {string} title The title to use in the input field.
- * @returns {void}
- */
-SnippetPreview.prototype.setTitle = function( title ) {
-	this.element.input.title.value = title;
-
-	this.changedInput();
-};
-
-/**
- * Updates the url path data and the the url path input field. This also means the snippet editor view is updated.
- *
- * @param {string} urlPath the URL path to use in the input field.
- * @returns {void}
- */
-SnippetPreview.prototype.setUrlPath = function( urlPath ) {
-	this.element.input.urlPath.value = urlPath;
-
-	this.changedInput();
-};
-
-/**
- * Updates the meta description data and the the meta description input field. This also means the snippet editor view is updated.
- *
- * @param {string} metaDesc the meta description to use in the input field.
- * @returns {void}
- */
-SnippetPreview.prototype.setTitle = function( metaDesc ) {
-	this.element.input.metaDesc.value = metaDesc;
-
-	this.changedInput();
-};
-
-/* jshint ignore:start */
-/* eslint-disable */
-
-/**
- * Used to disable enter as input. Returns false to prevent enter, and preventDefault and
- * cancelBubble to prevent
- * other elements from capturing this event.
- *
- * @deprecated
- * @param {KeyboardEvent} ev
- */
-SnippetPreview.prototype.disableEnter = function( ev ) {};
-
-/**
- * Adds and remove the tooLong class when a text is too long.
- *
- * @deprecated
- * @param ev
- */
-SnippetPreview.prototype.textFeedback = function( ev ) {};
-
-/**
- * shows the edit icon corresponding to the hovered element
- *
- * @deprecated
- *
- * @param ev
- */
-SnippetPreview.prototype.showEditIcon = function( ev ) {
-
-};
-
-/**
- * removes all editIcon-classes, sets to snippet_container
- *
- * @deprecated
- */
-SnippetPreview.prototype.hideEditIcon = function() {};
-
-/**
- * sets focus on child element of the snippet_container that is clicked. Hides the editicon.
- *
- * @deprecated
- * @param ev
- */
-SnippetPreview.prototype.setFocus = function( ev ) {};
-/* jshint ignore:end */
-/* eslint-disable */
-module.exports = SnippetPreview;
-
-},{"../js/stringProcessing/sanitizeString.js":80,"../js/stringProcessing/stringToRegex.js":81,"../js/stringProcessing/stripHTMLTags.js":82,"../js/stringProcessing/stripSpaces.js":85,"./config/config.js":34,"./templates.js":88,"lodash/clone":214,"lodash/debounce":216,"lodash/defaultsDeep":218,"lodash/forEach":222,"lodash/isElement":232,"lodash/isEmpty":233,"lodash/isUndefined":244}],64:[function(require,module,exports){
-/** @module stringProcessing/addWordboundary */
-
-/**
- * Returns a string that can be used in a regex to match a matchString with word boundaries.
- *
- * @param {string} matchString The string to generate a regex string for.
- * @param {string} extraWordBoundary Extra characters to match a word boundary on.
- * @return {string} A regex string that matches the matchString with word boundaries
- */
-module.exports = function( matchString, extraWordBoundary ) {
-	var wordBoundary, wordBoundaryStart, wordBoundaryEnd;
-
-	if ( typeof extraWordBoundary === "undefined" ) {
-		extraWordBoundary = "";
-	}
-
-	wordBoundary = "[ \n\r\t\.,'\(\)\"\+\-;!?:\/»«‹›" + extraWordBoundary + "<>]";
-	wordBoundaryStart = "(^|" + wordBoundary + ")";
-	wordBoundaryEnd = "($|" + wordBoundary + ")";
-
-	return wordBoundaryStart + matchString + wordBoundaryEnd;
-};
-
-},{}],65:[function(require,module,exports){
-/** @module stringProcessing/checkNofollow */
-
-/**
- * Checks if a links has a nofollow attribute. If it has, returns Nofollow, otherwise Dofollow.
- *
- * @param {string} text The text to check against.
- * @returns {string} Returns Dofollow or Nofollow.
- */
-module.exports = function( text ) {
-	var linkFollow = "Dofollow";
-
-	// Matches all nofollow links, case insensitive and global
-	if ( text.match( /rel=([\'\"])nofollow\1/ig ) !== null ) {
-		linkFollow = "Nofollow";
-	}
-	return linkFollow;
-};
-
-},{}],66:[function(require,module,exports){
-/** @module stringProcessing/cleanText */
-
-var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
-var replaceDiacritics = require( "../stringProcessing/replaceDiacritics.js" );
-var unifyWhitespace = require( "../stringProcessing/unifyWhitespace.js" );
-
-/**
- * Removes words, duplicate spaces and sentence terminators, and words consisting of only digits
- * from the text. This is used for the flesh reading ease test.
- *
- * @param {String} text The cleaned text
- * @returns {String} The text
- */
-module.exports = function( text ) {
-	if ( text === "" ) {
-		return text;
-	}
-
-	text = replaceDiacritics( text );
-	text = text.toLocaleLowerCase();
-
-	text = unifyWhitespace( text );
-
-	// replace comma', hyphens etc with spaces
-	text = text.replace( /[\-\;\:\,\(\)\"\'\|\“\”]/g, " " );
-
-	// remove apostrophe
-	text = text.replace( /[\’]/g, "" );
-
-	// unify all terminators
-	text = text.replace( /[.?!]/g, "." );
-
-	// Remove double spaces
-	text = stripSpaces( text );
-
-	// add period in case it is missing
-	text += ".";
-
-	// replace newlines with spaces
-	text = text.replace( /[ ]*(\n|\r\n|\r)[ ]*/g, " " );
-
-	// remove duplicate terminators
-	text = text.replace( /([\.])[\. ]+/g, "$1" );
-
-	// pad sentence terminators
-	text = text.replace( /[ ]*([\.])+/g, "$1 " );
-
-	// Remove double spaces
-	text = stripSpaces( text );
-
-	if ( text === "." ) {
-		return "";
-	}
-
-	return text;
-};
-
-},{"../stringProcessing/replaceDiacritics.js":78,"../stringProcessing/stripSpaces.js":85,"../stringProcessing/unifyWhitespace.js":87}],67:[function(require,module,exports){
-/** @module stringProcessing/countSentences */
-
-var cleanText = require( "../stringProcessing/cleanText.js" );
-
-/**
- * Counts the number of sentences in a given string.
- *
- * @param {string} text The text used to count sentences.
- * @returns {number} The number of sentences in the text.
- */
-module.exports = function( text ) {
-	var sentences = cleanText( text ).split( "." );
-	var sentenceCount = 0;
-	for ( var i = 0; i < sentences.length; i++ ) {
-		if ( sentences[ i ] !== "" && sentences[ i ] !== " " ) {
-			sentenceCount++;
-		}
-	}
-	return sentenceCount;
-};
-
-},{"../stringProcessing/cleanText.js":66}],68:[function(require,module,exports){
-/** @module stringProcessing/countSyllables */
-
-var cleanText = require( "../stringProcessing/cleanText.js" );
-var syllableArray = require( "../config/syllables.js" );
-var arrayToRegex = require( "../stringProcessing/createRegexFromArray.js" );
-
-/**
- * Checks the textstring for exclusion words. If they are found, returns the number of syllables these have, since
- * they are incorrectly detected with the syllablecounters based on regexes.
- *
- * @param {string} text The text to look for exclusionwords
- * @returns {number} The number of syllables found in the exclusionwords
- */
-var countExclusionSyllables = function( text ) {
-	var count = 0, wordArray, regex, matches;
-	wordArray = syllableArray().exclusionWords;
-	for ( var i = 0; i < wordArray.length; i++ ) {
-		regex = new RegExp ( wordArray[i].word, "ig" );
-		matches = text.match ( regex );
-		if ( matches !== null ) {
-			count += ( matches.length * wordArray[i].syllables );
-		}
-	}
-	return count;
-};
-
-/**
- * Removes words from the text that are in the exclusion array. These words are counted
- * incorrectly in the syllable counters, so they are removed and checked sperately.
- *
- * @param {string} text The text to remove words from
- * @returns {string} The text with the exclusionwords removed
- */
-var removeExclusionWords = function( text ) {
-	var exclusionWords = syllableArray().exclusionWords;
-	var wordArray = [];
-	for ( var i = 0; i < exclusionWords.length; i++ ) {
-		wordArray.push( exclusionWords[i].word );
-	}
-	return text.replace( arrayToRegex( wordArray ), "" );
-};
-
-/**
- * Counts the syllables by splitting on consonants.
- *
- * @param {string} text A text with words to count syllables.
- * @returns {number} the syllable count
- */
-var countBasicSyllables = function( text ) {
-	var array = text.split( " " );
-	var i, j, splitWord, count = 0;
-
-	// split textstring to individual words
-	for ( i = 0; i < array.length; i++ ) {
-
-		// split on consonants
-		splitWord = array[ i ].split( /[^aeiouy]/g );
-
-		// if the string isn't empty, a consonant was found, up the counter
-		for ( j = 0; j < splitWord.length; j++ ) {
-			if ( splitWord[ j ] !== "" ) {
-				count++;
-			}
-		}
-	}
-
-	return count;
-};
-
-/**
- * Advanced syllable counter to match texstring with regexes.
- *
- * @param {String} text The text to count the syllables.
- * @param {String} operator The operator to determine which regex to use.
- * @returns {number} the amount of syllables found in string.
- */
-var countAdvancedSyllables = function( text, operator ) {
-	var matches, count = 0, words = text.split( " " );
-	var regex = "";
-	switch ( operator ) {
-		case "add":
-			regex = arrayToRegex( syllableArray().addSyllables, true );
-			break;
-		case "subtract":
-			regex = arrayToRegex( syllableArray().subtractSyllables, true );
-			break;
-		default:
-			break;
-	}
-	for ( var i = 0; i < words.length; i++ ) {
-		matches = words[i].match ( regex );
-		if ( matches !== null ) {
-			count += matches.length;
-		}
-	}
-	return count;
-};
-
-/**
- * Counts the number of syllables in a textstring, calls exclusionwordsfunction, basic syllable
- * counter and advanced syllable counter.
- *
- * @param {String} text The text to count the syllables from.
- * @returns {int} syllable count
- */
-module.exports = function( text ) {
-	var count = 0;
-	count += countExclusionSyllables( text );
-
-	text = removeExclusionWords( text );
-	text = cleanText( text );
-	text.replace( /[.]/g, " " );
-
-	count += countBasicSyllables( text );
-	count += countAdvancedSyllables( text, "add" );
-	count -= countAdvancedSyllables( text, "subtract" );
-
-	return count;
-};
-
-
-},{"../config/syllables.js":39,"../stringProcessing/cleanText.js":66,"../stringProcessing/createRegexFromArray.js":70}],69:[function(require,module,exports){
-/** @module stringProcessing/countWords */
-
-var stripTags = require( "../stringProcessing/stripHTMLTags.js" );
-var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
-
-/**
- * Calculates the wordcount of a certain text.
- *
- * @param {string} text The text to be counted.
- * @returns {int} The word count of the given text.
- */
-module.exports = function( text ) {
-	text = stripSpaces( stripTags( text ) );
-	if ( text === "" ) {
-		return 0;
-	}
-
-	return text.split( /\s/g ).length;
-};
-
-},{"../stringProcessing/stripHTMLTags.js":82,"../stringProcessing/stripSpaces.js":85}],70:[function(require,module,exports){
-/** @module stringProcessing/createRegexFromArray */
-
-var addWordBoundary = require( "../stringProcessing/addWordboundary.js" );
-
-/**
- * Creates a regex of combined strings from the input array.
- *
- * @param {array} array The array with strings
- * @param {boolean} disableWordBoundary Boolean indicating whether or not to disable word boundaries
- * @returns {RegExp} regex The regex created from the array.
- */
-module.exports = function( array, disableWordBoundary ) {
-	var regexString;
-
-	array = array.map( function( string ) {
-		if ( disableWordBoundary ) {
-			return string;
-		}
-		return addWordBoundary( string );
-	} );
-
-	regexString = "(" + array.join( ")|(" ) + ")";
-
-	return new RegExp( regexString, "ig" );
-};
-
-},{"../stringProcessing/addWordboundary.js":64}],71:[function(require,module,exports){
-/** @module stringProcessing/findKeywordInUrl */
-
-var keywordRegex = require( "../stringProcessing/stringToRegex.js" );
-/**
- *
- * @param {string} url The url to check for keyword
- * @param {string} keyword The keyword to check if it is in the URL
- * @returns {boolean} If a keyword is found, returns true
- */
-module.exports = function( url, keyword ) {
-	var keywordFound = false;
-	var formatUrl = url.match( />(.*)/ig );
-
-	if ( formatUrl !== null ) {
-		formatUrl = formatUrl[0].replace( /<.*?>\s?/ig, "" );
-		if ( formatUrl.match( keywordRegex( keyword ) ) !== null ) {
-			keywordFound = true;
-		}
-	}
-
-	return keywordFound;
-};
-
-},{"../stringProcessing/stringToRegex.js":81}],72:[function(require,module,exports){
-/** @module stringProcessing/getAlttagContent */
-
-var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
-
-var regexAltTag = /alt=(['"])(.*?)\1/i;
-
-/**
- * Checks for an alttag in the image and returns its content
- *
- * @param {String} text Textstring to match alt
- * @returns {String} the contents of the alttag, empty if none is set.
- */
-module.exports = function( text ) {
-	var alt = "";
-
-	var matches = text.match( regexAltTag );
-
-	if ( matches !== null ) {
-		alt = stripSpaces( matches[ 2 ] );
-
-		alt = alt.replace( /&quot;/g, "\"" );
-		alt = alt.replace( /&#039;/g, "'" );
-	}
-	return alt;
-};
-
-},{"../stringProcessing/stripSpaces.js":85}],73:[function(require,module,exports){
-/** @module stringProcessing/getAnchorsFromText */
-
-/**
- * Check for anchors in the textstring and returns them in an array.
- *
- * @param {String} text The text to check for matches.
- * @returns {Array} The matched links in text.
- */
-module.exports = function( text ) {
-	var matches;
-
-	// regex matches everything between <a> and </a>
-	matches = text.match( /<a(?:[^>]+)?>(.*?)<\/a>/ig );
-	if ( matches === null ) {
-		matches = [];
-	}
-
-	return matches;
-};
-
-},{}],74:[function(require,module,exports){
-/** @module stringProcess/getLinkType */
-
-/**
- * Determines the type of link.
- *
- * @param {string} text String with anchor tag.
- * @param {string} url Url to match against.
- * @returns {string} The link type (other, external or internal).
- */
-
-module.exports = function( text, url ) {
-	var linkType = "other";
-
-	// Matches all links that start with http:// and https://, case insensitive and global
-	if ( text.match( /https?:\/\//ig ) !== null ) {
-		linkType = "external";
-		var urlMatch = text.match( url );
-		if ( urlMatch !== null && urlMatch[ 0 ].length !== 0 ) {
-			linkType = "internal";
-		}
-	}
-	return linkType;
-};
-
-},{}],75:[function(require,module,exports){
-/** @module stringProcessing/imageInText */
-
-var matchStringWithRegex = require( "./matchStringWithRegex.js" );
-
-/**
- * Checks the text for images.
- *
- * @param {string} text The textstring to check for images
- * @returns {Array} Array containing all types of found images
- */
-module.exports = function( text ) {
-	return matchStringWithRegex( text, "<img(?:[^>]+)?>" );
-};
-
-},{"./matchStringWithRegex.js":76}],76:[function(require,module,exports){
-/** @module stringProcessing/matchStringWithRegex */
-
-/**
- * Checks a string with a regex, return all matches found with that regex.
- *
- * @param {String} text The text to match the
- * @param {String} regexString A string to use as regex.
- * @returns {Array} Array with matches, empty array if no matches found.
- */
-module.exports = function( text, regexString ) {
-	var regex = new RegExp( regexString, "ig" );
-	var matches = text.match( regex );
-
-	if ( matches === null ) {
-		matches = [];
-	}
-
-	return matches;
-};
-
-},{}],77:[function(require,module,exports){
-/** @module stringProcessing/matchTextWithWord */
-
-var stringToRegex = require( "../stringProcessing/stringToRegex.js" );
-var stripSomeTags = require( "../stringProcessing/stripNonTextTags.js" );
-var unifyWhitespace = require( "../stringProcessing/unifyWhitespace.js" );
-var replaceDiacritics = require( "../stringProcessing/replaceDiacritics.js" );
-
-/**
- * Returns the number of matches in a given string
- *
- * @param {string} text The text to use for matching the wordToMatch.
- * @param {string} wordToMatch The word to match in the text
- * @param {string} [extraBoundary] An extra string that can be added to the wordboundary regex
- * @returns {number} The amount of matches found.
- */
-module.exports = function( text, wordToMatch, extraBoundary ) {
-	text = stripSomeTags ( text );
-	text = unifyWhitespace( text );
-	text = replaceDiacritics( text );
-
-	var matches = text.match( stringToRegex( wordToMatch, extraBoundary ) );
-
-	if ( matches === null ) {
-		return 0;
-	}
-
-	return matches.length;
-};
-
-},{"../stringProcessing/replaceDiacritics.js":78,"../stringProcessing/stringToRegex.js":81,"../stringProcessing/stripNonTextTags.js":83,"../stringProcessing/unifyWhitespace.js":87}],78:[function(require,module,exports){
-/** @module stringProcessing/replaceDiacritics */
-
-var diacritisRemovalMap = require( "../config/diacritics.js" );
-
-/**
- * Replaces all diacritics from the text based on the diacritics removal map.
- *
- * @param {string} text The text to remove diacritics from.
- * @returns {string} The text with all diacritics replaced.
- */
-module.exports = function( text ) {
-	var map = diacritisRemovalMap();
-
-	for ( var i = 0; i < map.length; i++ ) {
-		text = text.replace(
-			map[ i ].letters,
-			map[ i ].base
-		);
-	}
-	return text;
-};
-
-},{"../config/diacritics.js":35}],79:[function(require,module,exports){
-/** @module stringProcessing/replaceString */
-
-/**
- * Replaces string with a replacement in text
- *
- * @param {string} text The textstring to remove
- * @param {string} stringToReplace The string to replace
- * @param {string} replacement The replacement of the string
- * @returns {string} The text with the string replaced
- */
-module.exports = function( text, stringToReplace, replacement ) {
-	text = text.replace( stringToReplace, replacement );
-
-	return text;
-};
-
-},{}],80:[function(require,module,exports){
-/** @module stringProcessing/sanitizeString */
-
-var stripTags = require( "../stringProcessing/stripHTMLTags.js" );
-var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
-
-/**
- * Strip HTMLtags characters from string that break regex
- *
- * @param {String} text The text to strip the characters from.
- * @returns {String} The text without characters.
- */
-module.exports = function( text ) {
-	text = text.replace( /[\[\]\/\{\}\(\)\*\+\?\\\^\$\|]/g, "" );
-	text = stripTags( text );
-	text = stripSpaces( text );
-
-	return text;
-};
-
-},{"../stringProcessing/stripHTMLTags.js":82,"../stringProcessing/stripSpaces.js":85}],81:[function(require,module,exports){
-/** @module stringProcessing/stringToRegex */
-var isUndefined = require( "lodash/isUndefined" );
-var replaceDiacritics = require( "../stringProcessing/replaceDiacritics.js" );
-var sanitizeString = require( "../stringProcessing/sanitizeString.js" );
-var addWordBoundary = require( "../stringProcessing/addWordboundary.js" );
-
-/**
- * Creates a regex from a string so it can be matched everywhere in the same way.
- *
- * @param {string} string The string to make a regex from.
- * @param {string} [extraBoundary=""] A string that is used as extra boundary for the regex.
- * @param {boolean} [doReplaceDiacritics=true] If set to false, it doesn't replace diacritics. Defaults to true.
- * @returns {RegExp} regex The regex made from the keyword
- */
-module.exports = function( string, extraBoundary, doReplaceDiacritics ) {
-	if ( isUndefined( extraBoundary ) ) {
-		extraBoundary = "";
-	}
-
-	if ( isUndefined( doReplaceDiacritics ) || doReplaceDiacritics === true ) {
-		string = replaceDiacritics( string );
-	}
-
-	string = sanitizeString( string );
-	string = addWordBoundary( string, extraBoundary );
-	return new RegExp ( string, "ig" );
-};
-
-},{"../stringProcessing/addWordboundary.js":64,"../stringProcessing/replaceDiacritics.js":78,"../stringProcessing/sanitizeString.js":80,"lodash/isUndefined":244}],82:[function(require,module,exports){
-/** @module stringProcessing/stripHTMLTags */
-
-var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
-
-/**
- * Strip HTML-tags from text
- *
- * @param {String} text The text to strip the HTML-tags from.
- * @returns {String} The text without HTML-tags.
- */
-module.exports = function( text ) {
-	text = text.replace( /(<([^>]+)>)/ig, " " );
-	text = stripSpaces( text );
-	return text;
-};
-
-},{"../stringProcessing/stripSpaces.js":85}],83:[function(require,module,exports){
-/** @module stringProcessing/stripNonTextTags */
-
-var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
-
-/**
- * Strips all tags from the text, except li, p, dd and h1-h6 tags from the text that contain content to check.
- *
- * @param {string} text The text to strip tags from
- * @returns {string} The text stripped of tags, except for li, p, dd and h1-h6 tags.
- */
-module.exports = function( text ) {
-	text = text.replace( /<(?!li|\/li|p|\/p|h1|\/h1|h2|\/h2|h3|\/h3|h4|\/h4|h5|\/h5|h6|\/h6|dd).*?\>/g, "" );
-	text = stripSpaces( text );
-	return text;
-};
-
-},{"../stringProcessing/stripSpaces.js":85}],84:[function(require,module,exports){
-/** @module stringProcessing/stripNumbers */
-
-var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
-
-/**
- * Removes all words comprised only of numbers.
- *
- * @param {string} text to remove words
- * @returns {string} The text with numberonly words removed.
- */
-
-module.exports = function( text ) {
-
-	// Remove "words" comprised only of numbers
-	text = text.replace( /\b[0-9]+\b/g, "" );
-
-	text = stripSpaces( text );
-
-	if ( text === "." ) {
-		text = "";
-	}
-	return text;
-};
-
-},{"../stringProcessing/stripSpaces.js":85}],85:[function(require,module,exports){
-/** @module stringProcessing/stripSpaces */
-
-/**
- * Strip double spaces from text
- *
- * @param {String} text The text to strip spaces from.
- * @returns {String} The text without double spaces
- */
-module.exports = function( text ) {
-
-	// Replace multiple spaces with single space
-	text = text.replace( /\s{2,}/g, " " );
-
-	// Replace spaces followed by periods with only the period.
-	text = text.replace( /\s\./g, "." );
-
-	// Remove first/last character if space
-	text = text.replace( /^\s+|\s+$/g, "" );
-
-	return text;
-};
-
-},{}],86:[function(require,module,exports){
-var stringToRegex = require( "../stringProcessing/stringToRegex.js" );
-var replaceString = require( "../stringProcessing/replaceString.js" );
-var removalWords = require( "../config/removalWords.js" );
-var replaceDiacritics = require( "../stringProcessing/replaceDiacritics.js" );
-
-/**
- * Matches the keyword in an array of strings
- *
- * @param {Array} matches The array with the matched headings.
- * @param {String} keyword The keyword to match
- * @returns {number} The number of occurrences of the keyword in the headings.
- */
-module.exports = function( matches, keyword ) {
-	var foundInHeader;
-	if ( matches === null ) {
-		foundInHeader = -1;
-	} else {
-		foundInHeader = 0;
-		for ( var i = 0; i < matches.length; i++ ) {
-
-			// TODO: This replaceString call seemingly doesn't work, as no replacement value is being sent to the .replace method in replaceString
-			var formattedHeaders = replaceString(
-				matches[ i ], removalWords
-			);
-			if (
-				replaceDiacritics( formattedHeaders ).match( stringToRegex( keyword ) ) ||
-				replaceDiacritics( matches[ i ] ).match( stringToRegex( keyword ) )
-			) {
-				foundInHeader++;
-			}
-		}
-	}
-	return foundInHeader;
-};
-
-},{"../config/removalWords.js":36,"../stringProcessing/replaceDiacritics.js":78,"../stringProcessing/replaceString.js":79,"../stringProcessing/stringToRegex.js":81}],87:[function(require,module,exports){
-/** @module stringProcessing/unifyWhitespace */
-
-/**
- * Converts all whitespace to spaces.
- *
- * @param {string} text The text to replace spaces.
- * @returns {string} The text with unified spaces.
- */
-
-module.exports = function( text ) {
-
-	// Replace &nbsp with space
-	text = text.replace( "&nbsp;", " " );
-
-	// Replace whitespaces with space
-	text = text.replace( /\s/g, " " );
-
-	return text;
-};
-
-
-},{}],88:[function(require,module,exports){
-(function (global){
-;(function() {
-  var undefined;
-
-  var objectTypes = {
-    'function': true,
-    'object': true
-  };
-
-  var freeExports = (objectTypes[typeof exports] && exports && !exports.nodeType)
-    ? exports
-    : undefined;
-
-  var freeModule = (objectTypes[typeof module] && module && !module.nodeType)
-    ? module
-    : undefined;
-
-  var moduleExports = (freeModule && freeModule.exports === freeExports)
-    ? freeExports
-    : undefined;
-
-  var freeGlobal = checkGlobal(freeExports && freeModule && typeof global == 'object' && global);
-
-  var freeSelf = checkGlobal(objectTypes[typeof self] && self);
-
-  var freeWindow = checkGlobal(objectTypes[typeof window] && window);
-
-  var thisGlobal = checkGlobal(objectTypes[typeof this] && this);
-
-  var root = freeGlobal ||
-    ((freeWindow !== (thisGlobal && thisGlobal.window)) && freeWindow) ||
-      freeSelf || thisGlobal || Function('return this')();
-
-  function checkGlobal(value) {
-    return (value && value.Object === Object) ? value : null;
-  }
-
-  /** Used as a safe reference for `undefined` in pre-ES5 environments. */
-  var undefined;
-
-  /** Used as the semantic version number. */
-  var VERSION = '4.6.1';
-
-  /** Used as references for various `Number` constants. */
-  var INFINITY = 1 / 0;
-
-  /** `Object#toString` result references. */
-  var symbolTag = '[object Symbol]';
-
-  /** Used to match HTML entities and HTML characters. */
-  var reUnescapedHtml = /[&<>"'`]/g,
-      reHasUnescapedHtml = RegExp(reUnescapedHtml.source);
-
-  /** Used to map characters to HTML entities. */
-  var htmlEscapes = {
-    '&': '&amp;',
-    '<': '&lt;',
-    '>': '&gt;',
-    '"': '&quot;',
-    "'": '&#39;',
-    '`': '&#96;'
-  };
-
-  /** Used to determine if values are of the language type `Object`. */
-  var objectTypes = {
-    'function': true,
-    'object': true
-  };
-
-  /** Detect free variable `exports`. */
-  var freeExports = (objectTypes[typeof exports] && exports && !exports.nodeType)
-    ? exports
-    : undefined;
-
-  /** Detect free variable `module`. */
-  var freeModule = (objectTypes[typeof module] && module && !module.nodeType)
-    ? module
-    : undefined;
-
-  /** Detect free variable `global` from Node.js. */
-  var freeGlobal = checkGlobal(freeExports && freeModule && typeof global == 'object' && global);
-
-  /** Detect free variable `self`. */
-  var freeSelf = checkGlobal(objectTypes[typeof self] && self);
-
-  /** Detect free variable `window`. */
-  var freeWindow = checkGlobal(objectTypes[typeof window] && window);
-
-  /** Detect `this` as the global object. */
-  var thisGlobal = checkGlobal(objectTypes[typeof this] && this);
-
-  /**
-   * Used as a reference to the global object.
-   *
-   * The `this` value is used if it's the global object to avoid Greasemonkey's
-   * restricted `window` object, otherwise the `window` object is used.
-   */
-  var root = freeGlobal ||
-    ((freeWindow !== (thisGlobal && thisGlobal.window)) && freeWindow) ||
-      freeSelf || thisGlobal || Function('return this')();
-
-  /*--------------------------------------------------------------------------*/
-
-  /**
-   * Checks if `value` is a global object.
-   *
-   * @private
-   * @param {*} value The value to check.
-   * @returns {null|Object} Returns `value` if it's a global object, else `null`.
-   */
-  function checkGlobal(value) {
-    return (value && value.Object === Object) ? value : null;
-  }
-
-  /**
-   * Used by `_.escape` to convert characters to HTML entities.
-   *
-   * @private
-   * @param {string} chr The matched character to escape.
-   * @returns {string} Returns the escaped character.
-   */
-  function escapeHtmlChar(chr) {
-    return htmlEscapes[chr];
-  }
-
-  /*--------------------------------------------------------------------------*/
-
-  /** Used for built-in method references. */
-  var objectProto = Object.prototype;
-
-  /**
-   * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
-   * of values.
-   */
-  var objectToString = objectProto.toString;
-
-  /** Built-in value references. */
-  var Symbol = root.Symbol;
-
-  /** Used to lookup unminified function names. */
-  var realNames = {};
-
-  /** Used to convert symbols to primitives and strings. */
-  var symbolProto = Symbol ? Symbol.prototype : undefined,
-      symbolToString = symbolProto ? symbolProto.toString : undefined;
-
-  /*------------------------------------------------------------------------*/
-
-  /**
-   * Checks if `value` is object-like. A value is object-like if it's not `null`
-   * and has a `typeof` result of "object".
-   *
-   * @static
-   * @memberOf _
-   * @category Lang
-   * @param {*} value The value to check.
-   * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
-   * @example
-   *
-   * _.isObjectLike({});
-   * // => true
-   *
-   * _.isObjectLike([1, 2, 3]);
-   * // => true
-   *
-   * _.isObjectLike(_.noop);
-   * // => false
-   *
-   * _.isObjectLike(null);
-   * // => false
-   */
-  function isObjectLike(value) {
-    return !!value && typeof value == 'object';
-  }
-
-  /**
-   * Checks if `value` is classified as a `Symbol` primitive or object.
-   *
-   * @static
-   * @memberOf _
-   * @category Lang
-   * @param {*} value The value to check.
-   * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
-   * @example
-   *
-   * _.isSymbol(Symbol.iterator);
-   * // => true
-   *
-   * _.isSymbol('abc');
-   * // => false
-   */
-  function isSymbol(value) {
-    return typeof value == 'symbol' ||
-      (isObjectLike(value) && objectToString.call(value) == symbolTag);
-  }
-
-  /**
-   * Converts `value` to a string if it's not one. An empty string is returned
-   * for `null` and `undefined` values. The sign of `-0` is preserved.
-   *
-   * @static
-   * @memberOf _
-   * @category Lang
-   * @param {*} value The value to process.
-   * @returns {string} Returns the string.
-   * @example
-   *
-   * _.toString(null);
-   * // => ''
-   *
-   * _.toString(-0);
-   * // => '-0'
-   *
-   * _.toString([1, 2, 3]);
-   * // => '1,2,3'
-   */
-  function toString(value) {
-    // Exit early for strings to avoid a performance hit in some environments.
-    if (typeof value == 'string') {
-      return value;
-    }
-    if (value == null) {
-      return '';
-    }
-    if (isSymbol(value)) {
-      return symbolToString ? symbolToString.call(value) : '';
-    }
-    var result = (value + '');
-    return (result == '0' && (1 / value) == -INFINITY) ? '-0' : result;
-  }
-
-  /*------------------------------------------------------------------------*/
-
-  /**
-   * Converts the characters "&", "<", ">", '"', "'", and "\`" in `string` to
-   * their corresponding HTML entities.
-   *
-   * **Note:** No other characters are escaped. To escape additional
-   * characters use a third-party library like [_he_](https://mths.be/he).
-   *
-   * Though the ">" character is escaped for symmetry, characters like
-   * ">" and "/" don't need escaping in HTML and have no special meaning
-   * unless they're part of a tag or unquoted attribute value.
-   * See [Mathias Bynens's article](https://mathiasbynens.be/notes/ambiguous-ampersands)
-   * (under "semi-related fun fact") for more details.
-   *
-   * Backticks are escaped because in IE < 9, they can break out of
-   * attribute values or HTML comments. See [#59](https://html5sec.org/#59),
-   * [#102](https://html5sec.org/#102), [#108](https://html5sec.org/#108), and
-   * [#133](https://html5sec.org/#133) of the [HTML5 Security Cheatsheet](https://html5sec.org/)
-   * for more details.
-   *
-   * When working with HTML you should always [quote attribute values](http://wonko.com/post/html-escaping)
-   * to reduce XSS vectors.
-   *
-   * @static
-   * @memberOf _
-   * @category String
-   * @param {string} [string=''] The string to escape.
-   * @returns {string} Returns the escaped string.
-   * @example
-   *
-   * _.escape('fred, barney, & pebbles');
-   * // => 'fred, barney, &amp; pebbles'
-   */
-  function escape(string) {
-    string = toString(string);
-    return (string && reHasUnescapedHtml.test(string))
-      ? string.replace(reUnescapedHtml, escapeHtmlChar)
-      : string;
-  }
-
-  /*--------------------------------------------------------------------------*/
-
-  var _ = { 'escape': escape };
-
-  /*----------------------------------------------------------------------------*/
-
-  var templates = {
-    'snippetEditor': {}
-  };
-
-  templates['snippetEditor'] =   function(obj) {
-    obj || (obj = {});
-    var __t, __p = '', __e = _.escape, __j = Array.prototype.join;
-    function print() { __p += __j.call(arguments, '') }
-    with (obj) {
-    __p += '<div id="snippet_preview">\n    <h3 class="snippet-editor__heading snippet-editor__heading-icon-eye">' +
-    __e( i18n.snippetPreview ) +
-    '</h3>\n\n    <section class="snippet-editor__preview">\n        <div class="snippet_container snippet-editor__container" id="title_container">\n            <span class="title" id="snippet_title">\n                ' +
-    __e( rendered.title ) +
-    '\n            </span>\n            <span class="title" id="snippet_sitename"></span>\n        </div>\n        <div class="snippet_container snippet-editor__container" id="url_container">\n            <cite class="url urlBase" id="snippet_citeBase">\n                ' +
-    __e( rendered.baseUrl ) +
-    '\n            </cite>\n            <cite class="url" id="snippet_cite">\n                ' +
-    __e( rendered.snippetCite ) +
-    '\n            </cite>\n        </div>\n        <div class="snippet_container snippet-editor__container" id="meta_container">\n            ';
-     if ( "" !== metaDescriptionDate ) {
-    __p += '\n                <span class="snippet-editor__date">\n                    ' +
-    __e( metaDescriptionDate ) +
-    ' -\n                </span>\n            ';
-     }
-    __p += '\n            <span class="desc" id="snippet_meta">\n                ' +
-    __e( rendered.meta ) +
-    '\n            </span>\n        </div>\n\n        <button class="snippet-editor__button snippet-editor__edit-button" type="button">\n            ' +
-    __e( i18n.edit ) +
-    '\n        </button>\n    </section>\n\n    <h3 class="snippet-editor__heading snippet-editor__heading-editor snippet-editor__heading-icon-edit snippet-editor--hidden">' +
-    __e( i18n.snippetEditor ) +
-    '</h3>\n\n    <div class="snippet-editor__form snippet-editor--hidden">\n        <label for="snippet-editor-title" class="snippet-editor__label">\n            ' +
-    __e( i18n.title ) +
-    '\n            <input type="text" class="snippet-editor__input snippet-editor__title js-snippet-editor-title" id="snippet-editor-title" value="' +
-    __e( raw.title ) +
-    '" placeholder="' +
-    __e( placeholder.title ) +
-    '" />\n            <progress value="0.0" class="snippet-editor__progress snippet-editor__progress-title">\n                <div class="snippet-editor__progress-bar"></div>\n            </progress>\n        </label>\n        <label for="snippet-editor-slug" class="snippet-editor__label">\n            ' +
-    __e( i18n.slug ) +
-    '\n            <input type="text" class="snippet-editor__input snippet-editor__slug js-snippet-editor-slug" id="snippet-editor-slug" value="' +
-    __e( raw.snippetCite ) +
-    '" placeholder="' +
-    __e( placeholder.urlPath ) +
-    '" />\n        </label>\n        <label for="snippet-editor-meta-description" class="snippet-editor__label">\n            ' +
-    __e( i18n.metaDescription ) +
-    '\n            <textarea class="snippet-editor__input snippet-editor__meta-description js-snippet-editor-meta-description" id="snippet-editor-meta-description" placeholder="' +
-    __e( placeholder.metaDesc ) +
-    '">' +
-    __e( raw.meta ) +
-    '</textarea>\n            <progress value="0.0" class="snippet-editor__progress snippet-editor__progress-meta-description">\n                <div class="snippet-editor__progress-bar"></div>\n            </progress>\n        </label>\n\n        <button class="snippet-editor__submit snippet-editor__button" type="button">' +
-    __e( i18n.save ) +
-    '</button>\n    </div>\n</div>\n';
-
-    }
-    return __p
-  };
-
-  /*----------------------------------------------------------------------------*/
-
-  if (freeExports && freeModule) {
-    if (moduleExports) {
-      (freeModule.exports = templates).templates = templates;
-    }
-    freeExports.templates = templates;
-  }
-  else {
-    root.templates = templates;
-  }
-}.call(this));
-
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],89:[function(require,module,exports){
-var isUndefined = require( "lodash/isUndefined" );
-var isNumber = require( "lodash/isNumber" );
-
-/**
- * Construct the AssessmentResult value object.
- * @constructor
- */
-var AssessmentResult = function() {
-	this._hasScore = false;
-	this.score = 0;
-	this.text = "";
-};
-
-/**
- * Check if a score is available.
- * @returns {boolean} Whether or not a score is available.
- */
-AssessmentResult.prototype.hasScore = function() {
-	return this._hasScore;
-};
-
-/**
- * Get the available score
- * @returns {number} The score associated with the AssessmentResult.
- */
-AssessmentResult.prototype.getScore = function() {
-	return this.score;
-};
-
-/**
- * Set the score for the assessment.
- * @param {number} score The score to be used for the score property
- * @returns {void}
- */
-AssessmentResult.prototype.setScore = function( score ) {
-	if ( isNumber( score ) ) {
-		this.score = score;
-		this._hasScore = true;
-	}
-};
-
-/**
- * Check if a text is available.
- * @returns {boolean} Whether or not a text is available.
- */
-AssessmentResult.prototype.hasText = function() {
-	return this.text !== "";
-};
-
-/**
- * Get the available text
- * @returns {string} The text associated with the AssessmentResult.
- */
-AssessmentResult.prototype.getText = function() {
-	return this.text;
-};
-
-/**
- * Set the text for the assessment.
- * @param {string} text The text to be used for the text property
- * @returns {void}
- */
-AssessmentResult.prototype.setText = function( text ) {
-	if ( isUndefined( text ) ) {
-		text = "";
-	}
-
-	this.text = text;
-};
-
-module.exports = AssessmentResult;
-
-},{"lodash/isNumber":237,"lodash/isUndefined":244}],90:[function(require,module,exports){
-var defaults = require( "lodash/defaults" );
-
-var defaultAttributes = {
-	keyword: "",
-	description: "",
-	title: "",
-	url: "",
-	locale: "en"
-};
-
-/**
- * Construct the Paper object and set the keyword property.
- * @param {string} text The text to use in the analysis.
- * @param {object} attributes The object containing all attributes.
- * @constructor
- */
-var Paper = function( text, attributes ) {
-	this._text = text || "";
-
-	this._attributes = attributes || {};
-
-	defaults( this._attributes, defaultAttributes );
-};
-
-/**
- * Check whether a keyword is available.
- * @returns {boolean} Returns true if the Paper has a keyword.
- */
-Paper.prototype.hasKeyword = function() {
-	return this._attributes.keyword !== "";
-};
-
-/**
- * Return the associated keyword or an empty string if no keyword is available.
- * @returns {string} Returns Keyword
- */
-Paper.prototype.getKeyword = function() {
-	return this._attributes.keyword;
-};
-
-/**
- * Check whether the text is available.
- * @returns {boolean} Returns true if the paper has a text.
- */
-Paper.prototype.hasText = function() {
-	return this._text !== "";
-};
-
-/**
- * Return the associated text or am empty string if no text is available.
- * @returns {string} Returns text
- */
-Paper.prototype.getText = function() {
-	return this._text;
-};
-
-/**
- * Check whether a description is available.
- * @returns {boolean} Returns true if the paper has a description.
- */
-Paper.prototype.hasDescription = function() {
-	return this._attributes.description !== "";
-};
-
-/**
- * Return the description or an empty string if no description is available.
- * @returns {string} Returns the description.
- */
-Paper.prototype.getDescription = function() {
-	return this._attributes.description;
-};
-
-/**
- * Check whether an title is available
- * @returns {boolean} Returns true if the Paper has a title.
- */
-Paper.prototype.hasTitle = function() {
-	return this._attributes.title !== "";
-};
-
-/**
- * Return the title, or an empty string of no title is available.
- * @returns {string} Returns the title
- */
-Paper.prototype.getTitle = function() {
-	return this._attributes.title;
-};
-
-/**
- * Check whether an url is available
- * @returns {boolean} Returns true if the Paper has an Url.
- */
-Paper.prototype.hasUrl = function() {
-	return this._attributes.url !== "";
-};
-
-/**
- * Return the url, or an empty string of no url is available.
- * @returns {string} Returns the url
- */
-Paper.prototype.getUrl = function() {
-	return this._attributes.url;
-};
-
-/**
- * Check whether a locale is available
- * @returns {boolean} Returns true if the paper has a locale
- */
-Paper.prototype.hasLocale = function() {
-	return this._attributes.locale !== "";
-};
-
-/**
- * Return the locale or an empty string if no locale is available
- * @returns {string} Returns the locale
- */
-Paper.prototype.getLocale = function() {
-	return this._attributes.locale;
-};
-
-module.exports = Paper;
-
-},{"lodash/defaults":217}],91:[function(require,module,exports){
-module.exports = function( value, description ) {
-	this.value = value;
-	this.description = description;
-
-	// Added to not break BC
-	this.score = this.value;
-	this.text = this.description;
-
-};
-
-},{}],92:[function(require,module,exports){
-var nativeCreate = require('./_nativeCreate');
-
-/** Used for built-in method references. */
-var objectProto = Object.prototype;
-
-/**
- * Creates an hash object.
- *
- * @private
- * @constructor
- * @returns {Object} Returns the new hash object.
- */
-function Hash() {}
-
-// Avoid inheriting from `Object.prototype` when possible.
-Hash.prototype = nativeCreate ? nativeCreate(null) : objectProto;
-
-module.exports = Hash;
-
-},{"./_nativeCreate":203}],93:[function(require,module,exports){
-var getNative = require('./_getNative'),
-    root = require('./_root');
-
-/* Built-in method references that are verified to be native. */
-var Map = getNative(root, 'Map');
-
-module.exports = Map;
-
-},{"./_getNative":175,"./_root":205}],94:[function(require,module,exports){
-var mapClear = require('./_mapClear'),
-    mapDelete = require('./_mapDelete'),
-    mapGet = require('./_mapGet'),
-    mapHas = require('./_mapHas'),
-    mapSet = require('./_mapSet');
-
-/**
- * Creates a map cache object to store key-value pairs.
- *
- * @private
- * @constructor
- * @param {Array} [values] The values to cache.
- */
-function MapCache(values) {
-  var index = -1,
-      length = values ? values.length : 0;
-
-  this.clear();
-  while (++index < length) {
-    var entry = values[index];
-    this.set(entry[0], entry[1]);
-  }
-}
-
-// Add functions to the `MapCache`.
-MapCache.prototype.clear = mapClear;
-MapCache.prototype['delete'] = mapDelete;
-MapCache.prototype.get = mapGet;
-MapCache.prototype.has = mapHas;
-MapCache.prototype.set = mapSet;
-
-module.exports = MapCache;
-
-},{"./_mapClear":196,"./_mapDelete":197,"./_mapGet":198,"./_mapHas":199,"./_mapSet":200}],95:[function(require,module,exports){
-var root = require('./_root');
-
-/** Built-in value references. */
-var Reflect = root.Reflect;
-
-module.exports = Reflect;
-
-},{"./_root":205}],96:[function(require,module,exports){
-var getNative = require('./_getNative'),
-    root = require('./_root');
-
-/* Built-in method references that are verified to be native. */
-var Set = getNative(root, 'Set');
-
-module.exports = Set;
-
-},{"./_getNative":175,"./_root":205}],97:[function(require,module,exports){
-var MapCache = require('./_MapCache'),
-    cachePush = require('./_cachePush');
-
-/**
- *
- * Creates a set cache object to store unique values.
- *
- * @private
- * @constructor
- * @param {Array} [values] The values to cache.
- */
-function SetCache(values) {
-  var index = -1,
-      length = values ? values.length : 0;
-
-  this.__data__ = new MapCache;
-  while (++index < length) {
-    this.push(values[index]);
-  }
-}
-
-// Add functions to the `SetCache`.
-SetCache.prototype.push = cachePush;
-
-module.exports = SetCache;
-
-},{"./_MapCache":94,"./_cachePush":153}],98:[function(require,module,exports){
-var stackClear = require('./_stackClear'),
-    stackDelete = require('./_stackDelete'),
-    stackGet = require('./_stackGet'),
-    stackHas = require('./_stackHas'),
-    stackSet = require('./_stackSet');
-
-/**
- * Creates a stack cache object to store key-value pairs.
- *
- * @private
- * @constructor
- * @param {Array} [values] The values to cache.
- */
-function Stack(values) {
-  var index = -1,
-      length = values ? values.length : 0;
-
-  this.clear();
-  while (++index < length) {
-    var entry = values[index];
-    this.set(entry[0], entry[1]);
-  }
-}
-
-// Add functions to the `Stack` cache.
-Stack.prototype.clear = stackClear;
-Stack.prototype['delete'] = stackDelete;
-Stack.prototype.get = stackGet;
-Stack.prototype.has = stackHas;
-Stack.prototype.set = stackSet;
-
-module.exports = Stack;
-
-},{"./_stackClear":207,"./_stackDelete":208,"./_stackGet":209,"./_stackHas":210,"./_stackSet":211}],99:[function(require,module,exports){
-var root = require('./_root');
-
-/** Built-in value references. */
-var Symbol = root.Symbol;
-
-module.exports = Symbol;
-
-},{"./_root":205}],100:[function(require,module,exports){
-var root = require('./_root');
-
-/** Built-in value references. */
-var Uint8Array = root.Uint8Array;
-
-module.exports = Uint8Array;
-
-},{"./_root":205}],101:[function(require,module,exports){
-var getNative = require('./_getNative'),
-    root = require('./_root');
-
-/* Built-in method references that are verified to be native. */
-var WeakMap = getNative(root, 'WeakMap');
-
-module.exports = WeakMap;
-
-},{"./_getNative":175,"./_root":205}],102:[function(require,module,exports){
-/**
- * Adds the key-value `pair` to `map`.
- *
- * @private
- * @param {Object} map The map to modify.
- * @param {Array} pair The key-value pair to add.
- * @returns {Object} Returns `map`.
- */
-function addMapEntry(map, pair) {
-  // Don't return `Map#set` because it doesn't return the map instance in IE 11.
-  map.set(pair[0], pair[1]);
-  return map;
-}
-
-module.exports = addMapEntry;
-
-},{}],103:[function(require,module,exports){
-/**
- * Adds `value` to `set`.
- *
- * @private
- * @param {Object} set The set to modify.
- * @param {*} value The value to add.
- * @returns {Object} Returns `set`.
- */
-function addSetEntry(set, value) {
-  set.add(value);
-  return set;
-}
-
-module.exports = addSetEntry;
-
-},{}],104:[function(require,module,exports){
-/**
- * A faster alternative to `Function#apply`, this function invokes `func`
- * with the `this` binding of `thisArg` and the arguments of `args`.
- *
- * @private
- * @param {Function} func The function to invoke.
- * @param {*} thisArg The `this` binding of `func`.
- * @param {...*} args The arguments to invoke `func` with.
- * @returns {*} Returns the result of `func`.
- */
-function apply(func, thisArg, args) {
-  var length = args.length;
-  switch (length) {
-    case 0: return func.call(thisArg);
-    case 1: return func.call(thisArg, args[0]);
-    case 2: return func.call(thisArg, args[0], args[1]);
-    case 3: return func.call(thisArg, args[0], args[1], args[2]);
-  }
-  return func.apply(thisArg, args);
-}
-
-module.exports = apply;
-
-},{}],105:[function(require,module,exports){
-/**
- * A specialized version of `_.forEach` for arrays without support for
- * iteratee shorthands.
- *
- * @private
- * @param {Array} array The array to iterate over.
- * @param {Function} iteratee The function invoked per iteration.
- * @returns {Array} Returns `array`.
- */
-function arrayEach(array, iteratee) {
-  var index = -1,
-      length = array.length;
-
-  while (++index < length) {
-    if (iteratee(array[index], index, array) === false) {
-      break;
-    }
-  }
-  return array;
-}
-
-module.exports = arrayEach;
-
-},{}],106:[function(require,module,exports){
-var baseIndexOf = require('./_baseIndexOf');
-
-/**
- * A specialized version of `_.includes` for arrays without support for
- * specifying an index to search from.
- *
- * @private
- * @param {Array} array The array to search.
- * @param {*} target The value to search for.
- * @returns {boolean} Returns `true` if `target` is found, else `false`.
- */
-function arrayIncludes(array, value) {
-  return !!array.length && baseIndexOf(array, value, 0) > -1;
-}
-
-module.exports = arrayIncludes;
-
-},{"./_baseIndexOf":134}],107:[function(require,module,exports){
-/**
- * This function is like `arrayIncludes` except that it accepts a comparator.
- *
- * @private
- * @param {Array} array The array to search.
- * @param {*} target The value to search for.
- * @param {Function} comparator The comparator invoked per element.
- * @returns {boolean} Returns `true` if `target` is found, else `false`.
- */
-function arrayIncludesWith(array, value, comparator) {
-  var index = -1,
-      length = array.length;
-
-  while (++index < length) {
-    if (comparator(value, array[index])) {
-      return true;
-    }
-  }
-  return false;
-}
-
-module.exports = arrayIncludesWith;
-
-},{}],108:[function(require,module,exports){
-/**
- * A specialized version of `_.map` for arrays without support for iteratee
- * shorthands.
- *
- * @private
- * @param {Array} array The array to iterate over.
- * @param {Function} iteratee The function invoked per iteration.
- * @returns {Array} Returns the new mapped array.
- */
-function arrayMap(array, iteratee) {
-  var index = -1,
-      length = array.length,
-      result = Array(length);
-
-  while (++index < length) {
-    result[index] = iteratee(array[index], index, array);
-  }
-  return result;
-}
-
-module.exports = arrayMap;
-
-},{}],109:[function(require,module,exports){
-/**
- * Appends the elements of `values` to `array`.
- *
- * @private
- * @param {Array} array The array to modify.
- * @param {Array} values The values to append.
- * @returns {Array} Returns `array`.
- */
-function arrayPush(array, values) {
-  var index = -1,
-      length = values.length,
-      offset = array.length;
-
-  while (++index < length) {
-    array[offset + index] = values[index];
-  }
-  return array;
-}
-
-module.exports = arrayPush;
-
-},{}],110:[function(require,module,exports){
-/**
- * A specialized version of `_.reduce` for arrays without support for
- * iteratee shorthands.
- *
- * @private
- * @param {Array} array The array to iterate over.
- * @param {Function} iteratee The function invoked per iteration.
- * @param {*} [accumulator] The initial value.
- * @param {boolean} [initAccum] Specify using the first element of `array` as the initial value.
- * @returns {*} Returns the accumulated value.
- */
-function arrayReduce(array, iteratee, accumulator, initAccum) {
-  var index = -1,
-      length = array.length;
-
-  if (initAccum && length) {
-    accumulator = array[++index];
-  }
-  while (++index < length) {
-    accumulator = iteratee(accumulator, array[index], index, array);
-  }
-  return accumulator;
-}
-
-module.exports = arrayReduce;
-
-},{}],111:[function(require,module,exports){
-/**
- * A specialized version of `_.some` for arrays without support for iteratee
- * shorthands.
- *
- * @private
- * @param {Array} array The array to iterate over.
- * @param {Function} predicate The function invoked per iteration.
- * @returns {boolean} Returns `true` if any element passes the predicate check, else `false`.
- */
-function arraySome(array, predicate) {
-  var index = -1,
-      length = array.length;
-
-  while (++index < length) {
-    if (predicate(array[index], index, array)) {
-      return true;
-    }
-  }
-  return false;
-}
-
-module.exports = arraySome;
-
-},{}],112:[function(require,module,exports){
-var eq = require('./eq');
-
-/** Used for built-in method references. */
-var objectProto = Object.prototype;
-
-/** Used to check objects for own properties. */
-var hasOwnProperty = objectProto.hasOwnProperty;
-
-/**
- * Used by `_.defaults` to customize its `_.assignIn` use.
- *
- * @private
- * @param {*} objValue The destination value.
- * @param {*} srcValue The source value.
- * @param {string} key The key of the property to assign.
- * @param {Object} object The parent object of `objValue`.
- * @returns {*} Returns the value to assign.
- */
-function assignInDefaults(objValue, srcValue, key, object) {
-  if (objValue === undefined ||
-      (eq(objValue, objectProto[key]) && !hasOwnProperty.call(object, key))) {
-    return srcValue;
-  }
-  return objValue;
-}
-
-module.exports = assignInDefaults;
-
-},{"./eq":220}],113:[function(require,module,exports){
-var eq = require('./eq');
-
-/**
- * This function is like `assignValue` except that it doesn't assign
- * `undefined` values.
- *
- * @private
- * @param {Object} object The object to modify.
- * @param {string} key The key of the property to assign.
- * @param {*} value The value to assign.
- */
-function assignMergeValue(object, key, value) {
-  if ((value !== undefined && !eq(object[key], value)) ||
-      (typeof key == 'number' && value === undefined && !(key in object))) {
-    object[key] = value;
-  }
-}
-
-module.exports = assignMergeValue;
-
-},{"./eq":220}],114:[function(require,module,exports){
-var eq = require('./eq');
-
-/** Used for built-in method references. */
-var objectProto = Object.prototype;
-
-/** Used to check objects for own properties. */
-var hasOwnProperty = objectProto.hasOwnProperty;
-
-/**
- * Assigns `value` to `key` of `object` if the existing value is not equivalent
- * using [`SameValueZero`](http://ecma-international.org/ecma-262/6.0/#sec-samevaluezero)
- * for equality comparisons.
- *
- * @private
- * @param {Object} object The object to modify.
- * @param {string} key The key of the property to assign.
- * @param {*} value The value to assign.
- */
-function assignValue(object, key, value) {
-  var objValue = object[key];
-  if (!(hasOwnProperty.call(object, key) && eq(objValue, value)) ||
-      (value === undefined && !(key in object))) {
-    object[key] = value;
-  }
-}
-
-module.exports = assignValue;
-
-},{"./eq":220}],115:[function(require,module,exports){
-var assocIndexOf = require('./_assocIndexOf');
-
-/** Used for built-in method references. */
-var arrayProto = Array.prototype;
-
-/** Built-in value references. */
-var splice = arrayProto.splice;
-
-/**
- * Removes `key` and its value from the associative array.
- *
- * @private
- * @param {Array} array The array to query.
- * @param {string} key The key of the value to remove.
- * @returns {boolean} Returns `true` if the entry was removed, else `false`.
- */
-function assocDelete(array, key) {
-  var index = assocIndexOf(array, key);
-  if (index < 0) {
-    return false;
-  }
-  var lastIndex = array.length - 1;
-  if (index == lastIndex) {
-    array.pop();
-  } else {
-    splice.call(array, index, 1);
-  }
-  return true;
-}
-
-module.exports = assocDelete;
-
-},{"./_assocIndexOf":118}],116:[function(require,module,exports){
-var assocIndexOf = require('./_assocIndexOf');
-
-/**
- * Gets the associative array value for `key`.
- *
- * @private
- * @param {Array} array The array to query.
- * @param {string} key The key of the value to get.
- * @returns {*} Returns the entry value.
- */
-function assocGet(array, key) {
-  var index = assocIndexOf(array, key);
-  return index < 0 ? undefined : array[index][1];
-}
-
-module.exports = assocGet;
-
-},{"./_assocIndexOf":118}],117:[function(require,module,exports){
-var assocIndexOf = require('./_assocIndexOf');
-
-/**
- * Checks if an associative array value for `key` exists.
- *
- * @private
- * @param {Array} array The array to query.
- * @param {string} key The key of the entry to check.
- * @returns {boolean} Returns `true` if an entry for `key` exists, else `false`.
- */
-function assocHas(array, key) {
-  return assocIndexOf(array, key) > -1;
-}
-
-module.exports = assocHas;
-
-},{"./_assocIndexOf":118}],118:[function(require,module,exports){
-var eq = require('./eq');
-
-/**
- * Gets the index at which the first occurrence of `key` is found in `array`
- * of key-value pairs.
- *
- * @private
- * @param {Array} array The array to search.
- * @param {*} key The key to search for.
- * @returns {number} Returns the index of the matched value, else `-1`.
- */
-function assocIndexOf(array, key) {
-  var length = array.length;
-  while (length--) {
-    if (eq(array[length][0], key)) {
-      return length;
-    }
-  }
-  return -1;
-}
-
-module.exports = assocIndexOf;
-
-},{"./eq":220}],119:[function(require,module,exports){
-var assocIndexOf = require('./_assocIndexOf');
-
-/**
- * Sets the associative array `key` to `value`.
- *
- * @private
- * @param {Array} array The array to modify.
- * @param {string} key The key of the value to set.
- * @param {*} value The value to set.
- */
-function assocSet(array, key, value) {
-  var index = assocIndexOf(array, key);
-  if (index < 0) {
-    array.push([key, value]);
-  } else {
-    array[index][1] = value;
-  }
-}
-
-module.exports = assocSet;
-
-},{"./_assocIndexOf":118}],120:[function(require,module,exports){
-var copyObject = require('./_copyObject'),
-    keys = require('./keys');
-
-/**
- * The base implementation of `_.assign` without support for multiple sources
- * or `customizer` functions.
- *
- * @private
- * @param {Object} object The destination object.
- * @param {Object} source The source object.
- * @returns {Object} Returns `object`.
- */
-function baseAssign(object, source) {
-  return object && copyObject(source, keys(source), object);
-}
-
-module.exports = baseAssign;
-
-},{"./_copyObject":163,"./keys":245}],121:[function(require,module,exports){
-var identity = require('./identity');
-
-/**
- * Casts `value` to `identity` if it's not a function.
- *
- * @private
- * @param {*} value The value to inspect.
- * @returns {Array} Returns the array-like object.
- */
-function baseCastFunction(value) {
-  return typeof value == 'function' ? value : identity;
-}
-
-module.exports = baseCastFunction;
-
-},{"./identity":225}],122:[function(require,module,exports){
-var isArray = require('./isArray'),
-    stringToPath = require('./_stringToPath');
-
-/**
- * Casts `value` to a path array if it's not one.
- *
- * @private
- * @param {*} value The value to inspect.
- * @returns {Array} Returns the cast property path array.
- */
-function baseCastPath(value) {
-  return isArray(value) ? value : stringToPath(value);
-}
-
-module.exports = baseCastPath;
-
-},{"./_stringToPath":212,"./isArray":228}],123:[function(require,module,exports){
-var Stack = require('./_Stack'),
-    arrayEach = require('./_arrayEach'),
-    assignValue = require('./_assignValue'),
-    baseAssign = require('./_baseAssign'),
-    baseForOwn = require('./_baseForOwn'),
-    cloneBuffer = require('./_cloneBuffer'),
-    copyArray = require('./_copyArray'),
-    copySymbols = require('./_copySymbols'),
-    getTag = require('./_getTag'),
-    initCloneArray = require('./_initCloneArray'),
-    initCloneByTag = require('./_initCloneByTag'),
-    initCloneObject = require('./_initCloneObject'),
-    isArray = require('./isArray'),
-    isBuffer = require('./isBuffer'),
-    isHostObject = require('./_isHostObject'),
-    isObject = require('./isObject');
-
-/** `Object#toString` result references. */
-var argsTag = '[object Arguments]',
-    arrayTag = '[object Array]',
-    boolTag = '[object Boolean]',
-    dateTag = '[object Date]',
-    errorTag = '[object Error]',
-    funcTag = '[object Function]',
-    genTag = '[object GeneratorFunction]',
-    mapTag = '[object Map]',
-    numberTag = '[object Number]',
-    objectTag = '[object Object]',
-    regexpTag = '[object RegExp]',
-    setTag = '[object Set]',
-    stringTag = '[object String]',
-    symbolTag = '[object Symbol]',
-    weakMapTag = '[object WeakMap]';
-
-var arrayBufferTag = '[object ArrayBuffer]',
-    float32Tag = '[object Float32Array]',
-    float64Tag = '[object Float64Array]',
-    int8Tag = '[object Int8Array]',
-    int16Tag = '[object Int16Array]',
-    int32Tag = '[object Int32Array]',
-    uint8Tag = '[object Uint8Array]',
-    uint8ClampedTag = '[object Uint8ClampedArray]',
-    uint16Tag = '[object Uint16Array]',
-    uint32Tag = '[object Uint32Array]';
-
-/** Used to identify `toStringTag` values supported by `_.clone`. */
-var cloneableTags = {};
-cloneableTags[argsTag] = cloneableTags[arrayTag] =
-cloneableTags[arrayBufferTag] = cloneableTags[boolTag] =
-cloneableTags[dateTag] = cloneableTags[float32Tag] =
-cloneableTags[float64Tag] = cloneableTags[int8Tag] =
-cloneableTags[int16Tag] = cloneableTags[int32Tag] =
-cloneableTags[mapTag] = cloneableTags[numberTag] =
-cloneableTags[objectTag] = cloneableTags[regexpTag] =
-cloneableTags[setTag] = cloneableTags[stringTag] =
-cloneableTags[symbolTag] = cloneableTags[uint8Tag] =
-cloneableTags[uint8ClampedTag] = cloneableTags[uint16Tag] =
-cloneableTags[uint32Tag] = true;
-cloneableTags[errorTag] = cloneableTags[funcTag] =
-cloneableTags[weakMapTag] = false;
-
-/**
- * The base implementation of `_.clone` and `_.cloneDeep` which tracks
- * traversed objects.
- *
- * @private
- * @param {*} value The value to clone.
- * @param {boolean} [isDeep] Specify a deep clone.
- * @param {boolean} [isFull] Specify a clone including symbols.
- * @param {Function} [customizer] The function to customize cloning.
- * @param {string} [key] The key of `value`.
- * @param {Object} [object] The parent object of `value`.
- * @param {Object} [stack] Tracks traversed objects and their clone counterparts.
- * @returns {*} Returns the cloned value.
- */
-function baseClone(value, isDeep, isFull, customizer, key, object, stack) {
-  var result;
-  if (customizer) {
-    result = object ? customizer(value, key, object, stack) : customizer(value);
-  }
-  if (result !== undefined) {
-    return result;
-  }
-  if (!isObject(value)) {
-    return value;
-  }
-  var isArr = isArray(value);
-  if (isArr) {
-    result = initCloneArray(value);
-    if (!isDeep) {
-      return copyArray(value, result);
-    }
-  } else {
-    var tag = getTag(value),
-        isFunc = tag == funcTag || tag == genTag;
-
-    if (isBuffer(value)) {
-      return cloneBuffer(value, isDeep);
-    }
-    if (tag == objectTag || tag == argsTag || (isFunc && !object)) {
-      if (isHostObject(value)) {
-        return object ? value : {};
-      }
-      result = initCloneObject(isFunc ? {} : value);
-      if (!isDeep) {
-        result = baseAssign(result, value);
-        return isFull ? copySymbols(value, result) : result;
-      }
-    } else {
-      if (!cloneableTags[tag]) {
-        return object ? value : {};
-      }
-      result = initCloneByTag(value, tag, isDeep);
-    }
-  }
-  // Check for circular references and return its corresponding clone.
-  stack || (stack = new Stack);
-  var stacked = stack.get(value);
-  if (stacked) {
-    return stacked;
-  }
-  stack.set(value, result);
-
-  // Recursively populate clone (susceptible to call stack limits).
-  (isArr ? arrayEach : baseForOwn)(value, function(subValue, key) {
-    assignValue(result, key, baseClone(subValue, isDeep, isFull, customizer, key, value, stack));
-  });
-  return (isFull && !isArr) ? copySymbols(value, result) : result;
-}
-
-module.exports = baseClone;
-
-},{"./_Stack":98,"./_arrayEach":105,"./_assignValue":114,"./_baseAssign":120,"./_baseForOwn":129,"./_cloneBuffer":156,"./_copyArray":162,"./_copySymbols":165,"./_getTag":177,"./_initCloneArray":185,"./_initCloneByTag":186,"./_initCloneObject":187,"./_isHostObject":188,"./isArray":228,"./isBuffer":231,"./isObject":238}],124:[function(require,module,exports){
-var isObject = require('./isObject');
-
-/** Built-in value references. */
-var objectCreate = Object.create;
-
-/**
- * The base implementation of `_.create` without support for assigning
- * properties to the created object.
- *
- * @private
- * @param {Object} prototype The object to inherit from.
- * @returns {Object} Returns the new object.
- */
-function baseCreate(proto) {
-  return isObject(proto) ? objectCreate(proto) : {};
-}
-
-module.exports = baseCreate;
-
-},{"./isObject":238}],125:[function(require,module,exports){
-var SetCache = require('./_SetCache'),
-    arrayIncludes = require('./_arrayIncludes'),
-    arrayIncludesWith = require('./_arrayIncludesWith'),
-    arrayMap = require('./_arrayMap'),
-    baseUnary = require('./_baseUnary'),
-    cacheHas = require('./_cacheHas');
-
-/** Used as the size to enable large array optimizations. */
-var LARGE_ARRAY_SIZE = 200;
-
-/**
- * The base implementation of methods like `_.difference` without support for
- * excluding multiple arrays or iteratee shorthands.
- *
- * @private
- * @param {Array} array The array to inspect.
- * @param {Array} values The values to exclude.
- * @param {Function} [iteratee] The iteratee invoked per element.
- * @param {Function} [comparator] The comparator invoked per element.
- * @returns {Array} Returns the new array of filtered values.
- */
-function baseDifference(array, values, iteratee, comparator) {
-  var index = -1,
-      includes = arrayIncludes,
-      isCommon = true,
-      length = array.length,
-      result = [],
-      valuesLength = values.length;
-
-  if (!length) {
-    return result;
-  }
-  if (iteratee) {
-    values = arrayMap(values, baseUnary(iteratee));
-  }
-  if (comparator) {
-    includes = arrayIncludesWith;
-    isCommon = false;
-  }
-  else if (values.length >= LARGE_ARRAY_SIZE) {
-    includes = cacheHas;
-    isCommon = false;
-    values = new SetCache(values);
-  }
-  outer:
-  while (++index < length) {
-    var value = array[index],
-        computed = iteratee ? iteratee(value) : value;
-
-    if (isCommon && computed === computed) {
-      var valuesIndex = valuesLength;
-      while (valuesIndex--) {
-        if (values[valuesIndex] === computed) {
-          continue outer;
-        }
-      }
-      result.push(value);
-    }
-    else if (!includes(values, computed, comparator)) {
-      result.push(value);
-    }
-  }
-  return result;
-}
-
-module.exports = baseDifference;
-
-},{"./_SetCache":97,"./_arrayIncludes":106,"./_arrayIncludesWith":107,"./_arrayMap":108,"./_baseUnary":151,"./_cacheHas":152}],126:[function(require,module,exports){
-var baseForOwn = require('./_baseForOwn'),
-    createBaseEach = require('./_createBaseEach');
-
-/**
- * The base implementation of `_.forEach` without support for iteratee shorthands.
- *
- * @private
- * @param {Array|Object} collection The collection to iterate over.
- * @param {Function} iteratee The function invoked per iteration.
- * @returns {Array|Object} Returns `collection`.
- */
-var baseEach = createBaseEach(baseForOwn);
-
-module.exports = baseEach;
-
-},{"./_baseForOwn":129,"./_createBaseEach":167}],127:[function(require,module,exports){
-var arrayPush = require('./_arrayPush'),
-    isArguments = require('./isArguments'),
-    isArray = require('./isArray'),
-    isArrayLikeObject = require('./isArrayLikeObject');
-
-/**
- * The base implementation of `_.flatten` with support for restricting flattening.
- *
- * @private
- * @param {Array} array The array to flatten.
- * @param {number} depth The maximum recursion depth.
- * @param {boolean} [isStrict] Restrict flattening to arrays-like objects.
- * @param {Array} [result=[]] The initial result value.
- * @returns {Array} Returns the new flattened array.
- */
-function baseFlatten(array, depth, isStrict, result) {
-  result || (result = []);
-
-  var index = -1,
-      length = array.length;
-
-  while (++index < length) {
-    var value = array[index];
-    if (depth > 0 && isArrayLikeObject(value) &&
-        (isStrict || isArray(value) || isArguments(value))) {
-      if (depth > 1) {
-        // Recursively flatten arrays (susceptible to call stack limits).
-        baseFlatten(value, depth - 1, isStrict, result);
-      } else {
-        arrayPush(result, value);
-      }
-    } else if (!isStrict) {
-      result[result.length] = value;
-    }
-  }
-  return result;
-}
-
-module.exports = baseFlatten;
-
-},{"./_arrayPush":109,"./isArguments":227,"./isArray":228,"./isArrayLikeObject":230}],128:[function(require,module,exports){
-var createBaseFor = require('./_createBaseFor');
-
-/**
- * The base implementation of `baseForIn` and `baseForOwn` which iterates
- * over `object` properties returned by `keysFunc` invoking `iteratee` for
- * each property. Iteratee functions may exit iteration early by explicitly
- * returning `false`.
- *
- * @private
- * @param {Object} object The object to iterate over.
- * @param {Function} iteratee The function invoked per iteration.
- * @param {Function} keysFunc The function to get the keys of `object`.
- * @returns {Object} Returns `object`.
- */
-var baseFor = createBaseFor();
-
-module.exports = baseFor;
-
-},{"./_createBaseFor":168}],129:[function(require,module,exports){
-var baseFor = require('./_baseFor'),
-    keys = require('./keys');
-
-/**
- * The base implementation of `_.forOwn` without support for iteratee shorthands.
- *
- * @private
- * @param {Object} object The object to iterate over.
- * @param {Function} iteratee The function invoked per iteration.
- * @returns {Object} Returns `object`.
- */
-function baseForOwn(object, iteratee) {
-  return object && baseFor(object, iteratee, keys);
-}
-
-module.exports = baseForOwn;
-
-},{"./_baseFor":128,"./keys":245}],130:[function(require,module,exports){
-var baseCastPath = require('./_baseCastPath'),
-    isKey = require('./_isKey');
-
-/**
- * The base implementation of `_.get` without support for default values.
- *
- * @private
- * @param {Object} object The object to query.
- * @param {Array|string} path The path of the property to get.
- * @returns {*} Returns the resolved value.
- */
-function baseGet(object, path) {
-  path = isKey(path, object) ? [path + ''] : baseCastPath(path);
-
-  var index = 0,
-      length = path.length;
-
-  while (object != null && index < length) {
-    object = object[path[index++]];
-  }
-  return (index && index == length) ? object : undefined;
-}
-
-module.exports = baseGet;
-
-},{"./_baseCastPath":122,"./_isKey":191}],131:[function(require,module,exports){
-/** Used for built-in method references. */
-var objectProto = Object.prototype;
-
-/** Used to check objects for own properties. */
-var hasOwnProperty = objectProto.hasOwnProperty;
-
-/** Built-in value references. */
-var getPrototypeOf = Object.getPrototypeOf;
-
-/**
- * The base implementation of `_.has` without support for deep paths.
- *
- * @private
- * @param {Object} object The object to query.
- * @param {Array|string} key The key to check.
- * @returns {boolean} Returns `true` if `key` exists, else `false`.
- */
-function baseHas(object, key) {
-  // Avoid a bug in IE 10-11 where objects with a [[Prototype]] of `null`,
-  // that are composed entirely of index properties, return `false` for
-  // `hasOwnProperty` checks of them.
-  return hasOwnProperty.call(object, key) ||
-    (typeof object == 'object' && key in object && getPrototypeOf(object) === null);
-}
-
-module.exports = baseHas;
-
-},{}],132:[function(require,module,exports){
-/**
- * The base implementation of `_.hasIn` without support for deep paths.
- *
- * @private
- * @param {Object} object The object to query.
- * @param {Array|string} key The key to check.
- * @returns {boolean} Returns `true` if `key` exists, else `false`.
- */
-function baseHasIn(object, key) {
-  return key in Object(object);
-}
-
-module.exports = baseHasIn;
-
-},{}],133:[function(require,module,exports){
-/* Built-in method references for those with the same name as other `lodash` methods. */
-var nativeMax = Math.max,
-    nativeMin = Math.min;
-
-/**
- * The base implementation of `_.inRange` which doesn't coerce arguments to numbers.
- *
- * @private
- * @param {number} number The number to check.
- * @param {number} start The start of the range.
- * @param {number} end The end of the range.
- * @returns {boolean} Returns `true` if `number` is in the range, else `false`.
- */
-function baseInRange(number, start, end) {
-  return number >= nativeMin(start, end) && number < nativeMax(start, end);
-}
-
-module.exports = baseInRange;
-
-},{}],134:[function(require,module,exports){
-var indexOfNaN = require('./_indexOfNaN');
-
-/**
- * The base implementation of `_.indexOf` without `fromIndex` bounds checks.
- *
- * @private
- * @param {Array} array The array to search.
- * @param {*} value The value to search for.
- * @param {number} fromIndex The index to search from.
- * @returns {number} Returns the index of the matched value, else `-1`.
- */
-function baseIndexOf(array, value, fromIndex) {
-  if (value !== value) {
-    return indexOfNaN(array, fromIndex);
-  }
-  var index = fromIndex - 1,
-      length = array.length;
-
-  while (++index < length) {
-    if (array[index] === value) {
-      return index;
-    }
-  }
-  return -1;
-}
-
-module.exports = baseIndexOf;
-
-},{"./_indexOfNaN":184}],135:[function(require,module,exports){
-var baseIsEqualDeep = require('./_baseIsEqualDeep'),
-    isObject = require('./isObject'),
-    isObjectLike = require('./isObjectLike');
-
-/**
- * The base implementation of `_.isEqual` which supports partial comparisons
- * and tracks traversed objects.
- *
- * @private
- * @param {*} value The value to compare.
- * @param {*} other The other value to compare.
- * @param {Function} [customizer] The function to customize comparisons.
- * @param {boolean} [bitmask] The bitmask of comparison flags.
- *  The bitmask may be composed of the following flags:
- *     1 - Unordered comparison
- *     2 - Partial comparison
- * @param {Object} [stack] Tracks traversed `value` and `other` objects.
- * @returns {boolean} Returns `true` if the values are equivalent, else `false`.
- */
-function baseIsEqual(value, other, customizer, bitmask, stack) {
-  if (value === other) {
-    return true;
-  }
-  if (value == null || other == null || (!isObject(value) && !isObjectLike(other))) {
-    return value !== value && other !== other;
-  }
-  return baseIsEqualDeep(value, other, baseIsEqual, customizer, bitmask, stack);
-}
-
-module.exports = baseIsEqual;
-
-},{"./_baseIsEqualDeep":136,"./isObject":238,"./isObjectLike":239}],136:[function(require,module,exports){
-var Stack = require('./_Stack'),
-    equalArrays = require('./_equalArrays'),
-    equalByTag = require('./_equalByTag'),
-    equalObjects = require('./_equalObjects'),
-    getTag = require('./_getTag'),
-    isArray = require('./isArray'),
-    isHostObject = require('./_isHostObject'),
-    isTypedArray = require('./isTypedArray');
-
-/** Used to compose bitmasks for comparison styles. */
-var PARTIAL_COMPARE_FLAG = 2;
-
-/** `Object#toString` result references. */
-var argsTag = '[object Arguments]',
-    arrayTag = '[object Array]',
-    objectTag = '[object Object]';
-
-/** Used for built-in method references. */
-var objectProto = Object.prototype;
-
-/** Used to check objects for own properties. */
-var hasOwnProperty = objectProto.hasOwnProperty;
-
-/**
- * A specialized version of `baseIsEqual` for arrays and objects which performs
- * deep comparisons and tracks traversed objects enabling objects with circular
- * references to be compared.
- *
- * @private
- * @param {Object} object The object to compare.
- * @param {Object} other The other object to compare.
- * @param {Function} equalFunc The function to determine equivalents of values.
- * @param {Function} [customizer] The function to customize comparisons.
- * @param {number} [bitmask] The bitmask of comparison flags. See `baseIsEqual` for more details.
- * @param {Object} [stack] Tracks traversed `object` and `other` objects.
- * @returns {boolean} Returns `true` if the objects are equivalent, else `false`.
- */
-function baseIsEqualDeep(object, other, equalFunc, customizer, bitmask, stack) {
-  var objIsArr = isArray(object),
-      othIsArr = isArray(other),
-      objTag = arrayTag,
-      othTag = arrayTag;
-
-  if (!objIsArr) {
-    objTag = getTag(object);
-    objTag = objTag == argsTag ? objectTag : objTag;
-  }
-  if (!othIsArr) {
-    othTag = getTag(other);
-    othTag = othTag == argsTag ? objectTag : othTag;
-  }
-  var objIsObj = objTag == objectTag && !isHostObject(object),
-      othIsObj = othTag == objectTag && !isHostObject(other),
-      isSameTag = objTag == othTag;
-
-  if (isSameTag && !objIsObj) {
-    stack || (stack = new Stack);
-    return (objIsArr || isTypedArray(object))
-      ? equalArrays(object, other, equalFunc, customizer, bitmask, stack)
-      : equalByTag(object, other, objTag, equalFunc, customizer, bitmask, stack);
-  }
-  if (!(bitmask & PARTIAL_COMPARE_FLAG)) {
-    var objIsWrapped = objIsObj && hasOwnProperty.call(object, '__wrapped__'),
-        othIsWrapped = othIsObj && hasOwnProperty.call(other, '__wrapped__');
-
-    if (objIsWrapped || othIsWrapped) {
-      stack || (stack = new Stack);
-      return equalFunc(objIsWrapped ? object.value() : object, othIsWrapped ? other.value() : other, customizer, bitmask, stack);
-    }
-  }
-  if (!isSameTag) {
-    return false;
-  }
-  stack || (stack = new Stack);
-  return equalObjects(object, other, equalFunc, customizer, bitmask, stack);
-}
-
-module.exports = baseIsEqualDeep;
-
-},{"./_Stack":98,"./_equalArrays":169,"./_equalByTag":170,"./_equalObjects":171,"./_getTag":177,"./_isHostObject":188,"./isArray":228,"./isTypedArray":243}],137:[function(require,module,exports){
-var Stack = require('./_Stack'),
-    baseIsEqual = require('./_baseIsEqual');
-
-/** Used to compose bitmasks for comparison styles. */
-var UNORDERED_COMPARE_FLAG = 1,
-    PARTIAL_COMPARE_FLAG = 2;
-
-/**
- * The base implementation of `_.isMatch` without support for iteratee shorthands.
- *
- * @private
- * @param {Object} object The object to inspect.
- * @param {Object} source The object of property values to match.
- * @param {Array} matchData The property names, values, and compare flags to match.
- * @param {Function} [customizer] The function to customize comparisons.
- * @returns {boolean} Returns `true` if `object` is a match, else `false`.
- */
-function baseIsMatch(object, source, matchData, customizer) {
-  var index = matchData.length,
-      length = index,
-      noCustomizer = !customizer;
-
-  if (object == null) {
-    return !length;
-  }
-  object = Object(object);
-  while (index--) {
-    var data = matchData[index];
-    if ((noCustomizer && data[2])
-          ? data[1] !== object[data[0]]
-          : !(data[0] in object)
-        ) {
-      return false;
-    }
-  }
-  while (++index < length) {
-    data = matchData[index];
-    var key = data[0],
-        objValue = object[key],
-        srcValue = data[1];
-
-    if (noCustomizer && data[2]) {
-      if (objValue === undefined && !(key in object)) {
-        return false;
-      }
-    } else {
-      var stack = new Stack,
-          result = customizer ? customizer(objValue, srcValue, key, object, source, stack) : undefined;
-
-      if (!(result === undefined
-            ? baseIsEqual(srcValue, objValue, customizer, UNORDERED_COMPARE_FLAG | PARTIAL_COMPARE_FLAG, stack)
-            : result
-          )) {
-        return false;
-      }
-    }
-  }
-  return true;
-}
-
-module.exports = baseIsMatch;
-
-},{"./_Stack":98,"./_baseIsEqual":135}],138:[function(require,module,exports){
-var baseMatches = require('./_baseMatches'),
-    baseMatchesProperty = require('./_baseMatchesProperty'),
-    identity = require('./identity'),
-    isArray = require('./isArray'),
-    property = require('./property');
-
-/**
- * The base implementation of `_.iteratee`.
- *
- * @private
- * @param {*} [value=_.identity] The value to convert to an iteratee.
- * @returns {Function} Returns the iteratee.
- */
-function baseIteratee(value) {
-  var type = typeof value;
-  if (type == 'function') {
-    return value;
-  }
-  if (value == null) {
-    return identity;
-  }
-  if (type == 'object') {
-    return isArray(value)
-      ? baseMatchesProperty(value[0], value[1])
-      : baseMatches(value);
-  }
-  return property(value);
-}
-
-module.exports = baseIteratee;
-
-},{"./_baseMatches":141,"./_baseMatchesProperty":142,"./identity":225,"./isArray":228,"./property":251}],139:[function(require,module,exports){
-/* Built-in method references for those with the same name as other `lodash` methods. */
-var nativeKeys = Object.keys;
-
-/**
- * The base implementation of `_.keys` which doesn't skip the constructor
- * property of prototypes or treat sparse arrays as dense.
- *
- * @private
- * @param {Object} object The object to query.
- * @returns {Array} Returns the array of property names.
- */
-function baseKeys(object) {
-  return nativeKeys(Object(object));
-}
-
-module.exports = baseKeys;
-
-},{}],140:[function(require,module,exports){
-var Reflect = require('./_Reflect'),
-    iteratorToArray = require('./_iteratorToArray');
-
-/** Used for built-in method references. */
-var objectProto = Object.prototype;
-
-/** Built-in value references. */
-var enumerate = Reflect ? Reflect.enumerate : undefined,
-    propertyIsEnumerable = objectProto.propertyIsEnumerable;
-
-/**
- * The base implementation of `_.keysIn` which doesn't skip the constructor
- * property of prototypes or treat sparse arrays as dense.
- *
- * @private
- * @param {Object} object The object to query.
- * @returns {Array} Returns the array of property names.
- */
-function baseKeysIn(object) {
-  object = object == null ? object : Object(object);
-
-  var result = [];
-  for (var key in object) {
-    result.push(key);
-  }
-  return result;
-}
-
-// Fallback for IE < 9 with es6-shim.
-if (enumerate && !propertyIsEnumerable.call({ 'valueOf': 1 }, 'valueOf')) {
-  baseKeysIn = function(object) {
-    return iteratorToArray(enumerate(object));
-  };
-}
-
-module.exports = baseKeysIn;
-
-},{"./_Reflect":95,"./_iteratorToArray":195}],141:[function(require,module,exports){
-var baseIsMatch = require('./_baseIsMatch'),
-    getMatchData = require('./_getMatchData');
-
-/**
- * The base implementation of `_.matches` which doesn't clone `source`.
- *
- * @private
- * @param {Object} source The object of property values to match.
- * @returns {Function} Returns the new function.
- */
-function baseMatches(source) {
-  var matchData = getMatchData(source);
-  if (matchData.length == 1 && matchData[0][2]) {
-    var key = matchData[0][0],
-        value = matchData[0][1];
-
-    return function(object) {
-      if (object == null) {
-        return false;
-      }
-      return object[key] === value &&
-        (value !== undefined || (key in Object(object)));
-    };
-  }
-  return function(object) {
-    return object === source || baseIsMatch(object, source, matchData);
-  };
-}
-
-module.exports = baseMatches;
-
-},{"./_baseIsMatch":137,"./_getMatchData":174}],142:[function(require,module,exports){
-var baseIsEqual = require('./_baseIsEqual'),
-    get = require('./get'),
-    hasIn = require('./hasIn');
-
-/** Used to compose bitmasks for comparison styles. */
-var UNORDERED_COMPARE_FLAG = 1,
-    PARTIAL_COMPARE_FLAG = 2;
-
-/**
- * The base implementation of `_.matchesProperty` which doesn't clone `srcValue`.
- *
- * @private
- * @param {string} path The path of the property to get.
- * @param {*} srcValue The value to match.
- * @returns {Function} Returns the new function.
- */
-function baseMatchesProperty(path, srcValue) {
-  return function(object) {
-    var objValue = get(object, path);
-    return (objValue === undefined && objValue === srcValue)
-      ? hasIn(object, path)
-      : baseIsEqual(srcValue, objValue, undefined, UNORDERED_COMPARE_FLAG | PARTIAL_COMPARE_FLAG);
-  };
-}
-
-module.exports = baseMatchesProperty;
-
-},{"./_baseIsEqual":135,"./get":223,"./hasIn":224}],143:[function(require,module,exports){
-var Stack = require('./_Stack'),
-    arrayEach = require('./_arrayEach'),
-    assignMergeValue = require('./_assignMergeValue'),
-    baseMergeDeep = require('./_baseMergeDeep'),
-    isArray = require('./isArray'),
-    isObject = require('./isObject'),
-    isTypedArray = require('./isTypedArray'),
-    keysIn = require('./keysIn');
-
-/**
- * The base implementation of `_.merge` without support for multiple sources.
- *
- * @private
- * @param {Object} object The destination object.
- * @param {Object} source The source object.
- * @param {number} srcIndex The index of `source`.
- * @param {Function} [customizer] The function to customize merged values.
- * @param {Object} [stack] Tracks traversed source values and their merged counterparts.
- */
-function baseMerge(object, source, srcIndex, customizer, stack) {
-  if (object === source) {
-    return;
-  }
-  var props = (isArray(source) || isTypedArray(source))
-    ? undefined
-    : keysIn(source);
-
-  arrayEach(props || source, function(srcValue, key) {
-    if (props) {
-      key = srcValue;
-      srcValue = source[key];
-    }
-    if (isObject(srcValue)) {
-      stack || (stack = new Stack);
-      baseMergeDeep(object, source, key, srcIndex, baseMerge, customizer, stack);
-    }
-    else {
-      var newValue = customizer
-        ? customizer(object[key], srcValue, (key + ''), object, source, stack)
-        : undefined;
-
-      if (newValue === undefined) {
-        newValue = srcValue;
-      }
-      assignMergeValue(object, key, newValue);
-    }
-  });
-}
-
-module.exports = baseMerge;
-
-},{"./_Stack":98,"./_arrayEach":105,"./_assignMergeValue":113,"./_baseMergeDeep":144,"./isArray":228,"./isObject":238,"./isTypedArray":243,"./keysIn":246}],144:[function(require,module,exports){
-var assignMergeValue = require('./_assignMergeValue'),
-    baseClone = require('./_baseClone'),
-    copyArray = require('./_copyArray'),
-    isArguments = require('./isArguments'),
-    isArray = require('./isArray'),
-    isArrayLikeObject = require('./isArrayLikeObject'),
-    isFunction = require('./isFunction'),
-    isObject = require('./isObject'),
-    isPlainObject = require('./isPlainObject'),
-    isTypedArray = require('./isTypedArray'),
-    toPlainObject = require('./toPlainObject');
-
-/**
- * A specialized version of `baseMerge` for arrays and objects which performs
- * deep merges and tracks traversed objects enabling objects with circular
- * references to be merged.
- *
- * @private
- * @param {Object} object The destination object.
- * @param {Object} source The source object.
- * @param {string} key The key of the value to merge.
- * @param {number} srcIndex The index of `source`.
- * @param {Function} mergeFunc The function to merge values.
- * @param {Function} [customizer] The function to customize assigned values.
- * @param {Object} [stack] Tracks traversed source values and their merged counterparts.
- */
-function baseMergeDeep(object, source, key, srcIndex, mergeFunc, customizer, stack) {
-  var objValue = object[key],
-      srcValue = source[key],
-      stacked = stack.get(srcValue);
-
-  if (stacked) {
-    assignMergeValue(object, key, stacked);
-    return;
-  }
-  var newValue = customizer
-    ? customizer(objValue, srcValue, (key + ''), object, source, stack)
-    : undefined;
-
-  var isCommon = newValue === undefined;
-
-  if (isCommon) {
-    newValue = srcValue;
-    if (isArray(srcValue) || isTypedArray(srcValue)) {
-      if (isArray(objValue)) {
-        newValue = objValue;
-      }
-      else if (isArrayLikeObject(objValue)) {
-        newValue = copyArray(objValue);
-      }
-      else {
-        isCommon = false;
-        newValue = baseClone(srcValue, !customizer);
-      }
-    }
-    else if (isPlainObject(srcValue) || isArguments(srcValue)) {
-      if (isArguments(objValue)) {
-        newValue = toPlainObject(objValue);
-      }
-      else if (!isObject(objValue) || (srcIndex && isFunction(objValue))) {
-        isCommon = false;
-        newValue = baseClone(srcValue, !customizer);
-      }
-      else {
-        newValue = objValue;
-      }
-    }
-    else {
-      isCommon = false;
-    }
-  }
-  stack.set(srcValue, newValue);
-
-  if (isCommon) {
-    // Recursively merge objects and arrays (susceptible to call stack limits).
-    mergeFunc(newValue, srcValue, srcIndex, customizer, stack);
-  }
-  stack['delete'](srcValue);
-  assignMergeValue(object, key, newValue);
-}
-
-module.exports = baseMergeDeep;
-
-},{"./_assignMergeValue":113,"./_baseClone":123,"./_copyArray":162,"./isArguments":227,"./isArray":228,"./isArrayLikeObject":230,"./isFunction":234,"./isObject":238,"./isPlainObject":240,"./isTypedArray":243,"./toPlainObject":257}],145:[function(require,module,exports){
-/**
- * The base implementation of `_.property` without support for deep paths.
- *
- * @private
- * @param {string} key The key of the property to get.
- * @returns {Function} Returns the new function.
- */
-function baseProperty(key) {
-  return function(object) {
-    return object == null ? undefined : object[key];
-  };
-}
-
-module.exports = baseProperty;
-
-},{}],146:[function(require,module,exports){
-var baseGet = require('./_baseGet');
-
-/**
- * A specialized version of `baseProperty` which supports deep paths.
- *
- * @private
- * @param {Array|string} path The path of the property to get.
- * @returns {Function} Returns the new function.
- */
-function basePropertyDeep(path) {
-  return function(object) {
-    return baseGet(object, path);
-  };
-}
-
-module.exports = basePropertyDeep;
-
-},{"./_baseGet":130}],147:[function(require,module,exports){
-/**
- * The base implementation of `_.reduce` and `_.reduceRight`, without support
- * for iteratee shorthands, which iterates over `collection` using `eachFunc`.
- *
- * @private
- * @param {Array|Object} collection The collection to iterate over.
- * @param {Function} iteratee The function invoked per iteration.
- * @param {*} accumulator The initial value.
- * @param {boolean} initAccum Specify using the first or last element of `collection` as the initial value.
- * @param {Function} eachFunc The function to iterate over `collection`.
- * @returns {*} Returns the accumulated value.
- */
-function baseReduce(collection, iteratee, accumulator, initAccum, eachFunc) {
-  eachFunc(collection, function(value, index, collection) {
-    accumulator = initAccum
-      ? (initAccum = false, value)
-      : iteratee(accumulator, value, index, collection);
-  });
-  return accumulator;
-}
-
-module.exports = baseReduce;
-
-},{}],148:[function(require,module,exports){
-/**
- * The base implementation of `_.slice` without an iteratee call guard.
- *
- * @private
- * @param {Array} array The array to slice.
- * @param {number} [start=0] The start position.
- * @param {number} [end=array.length] The end position.
- * @returns {Array} Returns the slice of `array`.
- */
-function baseSlice(array, start, end) {
-  var index = -1,
-      length = array.length;
-
-  if (start < 0) {
-    start = -start > length ? 0 : (length + start);
-  }
-  end = end > length ? length : end;
-  if (end < 0) {
-    end += length;
-  }
-  length = start > end ? 0 : ((end - start) >>> 0);
-  start >>>= 0;
-
-  var result = Array(length);
-  while (++index < length) {
-    result[index] = array[index + start];
-  }
-  return result;
-}
-
-module.exports = baseSlice;
-
-},{}],149:[function(require,module,exports){
-/**
- * The base implementation of `_.times` without support for iteratee shorthands
- * or max array length checks.
- *
- * @private
- * @param {number} n The number of times to invoke `iteratee`.
- * @param {Function} iteratee The function invoked per iteration.
- * @returns {Array} Returns the array of results.
- */
-function baseTimes(n, iteratee) {
-  var index = -1,
-      result = Array(n);
-
-  while (++index < n) {
-    result[index] = iteratee(index);
-  }
-  return result;
-}
-
-module.exports = baseTimes;
-
-},{}],150:[function(require,module,exports){
-var arrayMap = require('./_arrayMap');
-
-/**
- * The base implementation of `_.toPairs` and `_.toPairsIn` which creates an array
- * of key-value pairs for `object` corresponding to the property names of `props`.
- *
- * @private
- * @param {Object} object The object to query.
- * @param {Array} props The property names to get values for.
- * @returns {Object} Returns the new array of key-value pairs.
- */
-function baseToPairs(object, props) {
-  return arrayMap(props, function(key) {
-    return [key, object[key]];
-  });
-}
-
-module.exports = baseToPairs;
-
-},{"./_arrayMap":108}],151:[function(require,module,exports){
-/**
- * The base implementation of `_.unary` without support for storing wrapper metadata.
- *
- * @private
- * @param {Function} func The function to cap arguments for.
- * @returns {Function} Returns the new function.
- */
-function baseUnary(func) {
-  return function(value) {
-    return func(value);
-  };
-}
-
-module.exports = baseUnary;
-
-},{}],152:[function(require,module,exports){
-var isKeyable = require('./_isKeyable');
-
-/** Used to stand-in for `undefined` hash values. */
-var HASH_UNDEFINED = '__lodash_hash_undefined__';
-
-/**
- * Checks if `value` is in `cache`.
- *
- * @private
- * @param {Object} cache The set cache to search.
- * @param {*} value The value to search for.
- * @returns {number} Returns `true` if `value` is found, else `false`.
- */
-function cacheHas(cache, value) {
-  var map = cache.__data__;
-  if (isKeyable(value)) {
-    var data = map.__data__,
-        hash = typeof value == 'string' ? data.string : data.hash;
-
-    return hash[value] === HASH_UNDEFINED;
-  }
-  return map.has(value);
-}
-
-module.exports = cacheHas;
-
-},{"./_isKeyable":192}],153:[function(require,module,exports){
-var isKeyable = require('./_isKeyable');
-
-/** Used to stand-in for `undefined` hash values. */
-var HASH_UNDEFINED = '__lodash_hash_undefined__';
-
-/**
- * Adds `value` to the set cache.
- *
- * @private
- * @name push
- * @memberOf SetCache
- * @param {*} value The value to cache.
- */
-function cachePush(value) {
-  var map = this.__data__;
-  if (isKeyable(value)) {
-    var data = map.__data__,
-        hash = typeof value == 'string' ? data.string : data.hash;
-
-    hash[value] = HASH_UNDEFINED;
-  }
-  else {
-    map.set(value, HASH_UNDEFINED);
-  }
-}
-
-module.exports = cachePush;
-
-},{"./_isKeyable":192}],154:[function(require,module,exports){
-/**
- * Checks if `value` is a global object.
- *
- * @private
- * @param {*} value The value to check.
- * @returns {null|Object} Returns `value` if it's a global object, else `null`.
- */
-function checkGlobal(value) {
-  return (value && value.Object === Object) ? value : null;
-}
-
-module.exports = checkGlobal;
-
-},{}],155:[function(require,module,exports){
-var Uint8Array = require('./_Uint8Array');
-
-/**
- * Creates a clone of `arrayBuffer`.
- *
- * @private
- * @param {ArrayBuffer} arrayBuffer The array buffer to clone.
- * @returns {ArrayBuffer} Returns the cloned array buffer.
- */
-function cloneArrayBuffer(arrayBuffer) {
-  var result = new arrayBuffer.constructor(arrayBuffer.byteLength);
-  new Uint8Array(result).set(new Uint8Array(arrayBuffer));
-  return result;
-}
-
-module.exports = cloneArrayBuffer;
-
-},{"./_Uint8Array":100}],156:[function(require,module,exports){
-/**
- * Creates a clone of  `buffer`.
- *
- * @private
- * @param {Buffer} buffer The buffer to clone.
- * @param {boolean} [isDeep] Specify a deep clone.
- * @returns {Buffer} Returns the cloned buffer.
- */
-function cloneBuffer(buffer, isDeep) {
-  if (isDeep) {
-    return buffer.slice();
-  }
-  var result = new buffer.constructor(buffer.length);
-  buffer.copy(result);
-  return result;
-}
-
-module.exports = cloneBuffer;
-
-},{}],157:[function(require,module,exports){
-var addMapEntry = require('./_addMapEntry'),
-    arrayReduce = require('./_arrayReduce'),
-    mapToArray = require('./_mapToArray');
-
-/**
- * Creates a clone of `map`.
- *
- * @private
- * @param {Object} map The map to clone.
- * @returns {Object} Returns the cloned map.
- */
-function cloneMap(map) {
-  return arrayReduce(mapToArray(map), addMapEntry, new map.constructor);
-}
-
-module.exports = cloneMap;
-
-},{"./_addMapEntry":102,"./_arrayReduce":110,"./_mapToArray":201}],158:[function(require,module,exports){
-/** Used to match `RegExp` flags from their coerced string values. */
-var reFlags = /\w*$/;
-
-/**
- * Creates a clone of `regexp`.
- *
- * @private
- * @param {Object} regexp The regexp to clone.
- * @returns {Object} Returns the cloned regexp.
- */
-function cloneRegExp(regexp) {
-  var result = new regexp.constructor(regexp.source, reFlags.exec(regexp));
-  result.lastIndex = regexp.lastIndex;
-  return result;
-}
-
-module.exports = cloneRegExp;
-
-},{}],159:[function(require,module,exports){
-var addSetEntry = require('./_addSetEntry'),
-    arrayReduce = require('./_arrayReduce'),
-    setToArray = require('./_setToArray');
-
-/**
- * Creates a clone of `set`.
- *
- * @private
- * @param {Object} set The set to clone.
- * @returns {Object} Returns the cloned set.
- */
-function cloneSet(set) {
-  return arrayReduce(setToArray(set), addSetEntry, new set.constructor);
-}
-
-module.exports = cloneSet;
-
-},{"./_addSetEntry":103,"./_arrayReduce":110,"./_setToArray":206}],160:[function(require,module,exports){
-var Symbol = require('./_Symbol');
-
-/** Used to convert symbols to primitives and strings. */
-var symbolProto = Symbol ? Symbol.prototype : undefined,
-    symbolValueOf = symbolProto ? symbolProto.valueOf : undefined;
-
-/**
- * Creates a clone of the `symbol` object.
- *
- * @private
- * @param {Object} symbol The symbol object to clone.
- * @returns {Object} Returns the cloned symbol object.
- */
-function cloneSymbol(symbol) {
-  return symbolValueOf ? Object(symbolValueOf.call(symbol)) : {};
-}
-
-module.exports = cloneSymbol;
-
-},{"./_Symbol":99}],161:[function(require,module,exports){
-var cloneArrayBuffer = require('./_cloneArrayBuffer');
-
-/**
- * Creates a clone of `typedArray`.
- *
- * @private
- * @param {Object} typedArray The typed array to clone.
- * @param {boolean} [isDeep] Specify a deep clone.
- * @returns {Object} Returns the cloned typed array.
- */
-function cloneTypedArray(typedArray, isDeep) {
-  var buffer = isDeep ? cloneArrayBuffer(typedArray.buffer) : typedArray.buffer;
-  return new typedArray.constructor(buffer, typedArray.byteOffset, typedArray.length);
-}
-
-module.exports = cloneTypedArray;
-
-},{"./_cloneArrayBuffer":155}],162:[function(require,module,exports){
-/**
- * Copies the values of `source` to `array`.
- *
- * @private
- * @param {Array} source The array to copy values from.
- * @param {Array} [array=[]] The array to copy values to.
- * @returns {Array} Returns `array`.
- */
-function copyArray(source, array) {
-  var index = -1,
-      length = source.length;
-
-  array || (array = Array(length));
-  while (++index < length) {
-    array[index] = source[index];
-  }
-  return array;
-}
-
-module.exports = copyArray;
-
-},{}],163:[function(require,module,exports){
-var copyObjectWith = require('./_copyObjectWith');
-
-/**
- * Copies properties of `source` to `object`.
- *
- * @private
- * @param {Object} source The object to copy properties from.
- * @param {Array} props The property names to copy.
- * @param {Object} [object={}] The object to copy properties to.
- * @returns {Object} Returns `object`.
- */
-function copyObject(source, props, object) {
-  return copyObjectWith(source, props, object);
-}
-
-module.exports = copyObject;
-
-},{"./_copyObjectWith":164}],164:[function(require,module,exports){
-var assignValue = require('./_assignValue');
-
-/**
- * This function is like `copyObject` except that it accepts a function to
- * customize copied values.
- *
- * @private
- * @param {Object} source The object to copy properties from.
- * @param {Array} props The property names to copy.
- * @param {Object} [object={}] The object to copy properties to.
- * @param {Function} [customizer] The function to customize copied values.
- * @returns {Object} Returns `object`.
- */
-function copyObjectWith(source, props, object, customizer) {
-  object || (object = {});
-
-  var index = -1,
-      length = props.length;
-
-  while (++index < length) {
-    var key = props[index];
-
-    var newValue = customizer
-      ? customizer(object[key], source[key], key, object, source)
-      : source[key];
-
-    assignValue(object, key, newValue);
-  }
-  return object;
-}
-
-module.exports = copyObjectWith;
-
-},{"./_assignValue":114}],165:[function(require,module,exports){
-var copyObject = require('./_copyObject'),
-    getSymbols = require('./_getSymbols');
-
-/**
- * Copies own symbol properties of `source` to `object`.
- *
- * @private
- * @param {Object} source The object to copy symbols from.
- * @param {Object} [object={}] The object to copy symbols to.
- * @returns {Object} Returns `object`.
- */
-function copySymbols(source, object) {
-  return copyObject(source, getSymbols(source), object);
-}
-
-module.exports = copySymbols;
-
-},{"./_copyObject":163,"./_getSymbols":176}],166:[function(require,module,exports){
-var isIterateeCall = require('./_isIterateeCall'),
-    rest = require('./rest');
-
-/**
- * Creates a function like `_.assign`.
- *
- * @private
- * @param {Function} assigner The function to assign values.
- * @returns {Function} Returns the new assigner function.
- */
-function createAssigner(assigner) {
-  return rest(function(object, sources) {
-    var index = -1,
-        length = sources.length,
-        customizer = length > 1 ? sources[length - 1] : undefined,
-        guard = length > 2 ? sources[2] : undefined;
-
-    customizer = typeof customizer == 'function'
-      ? (length--, customizer)
-      : undefined;
-
-    if (guard && isIterateeCall(sources[0], sources[1], guard)) {
-      customizer = length < 3 ? undefined : customizer;
-      length = 1;
-    }
-    object = Object(object);
-    while (++index < length) {
-      var source = sources[index];
-      if (source) {
-        assigner(object, source, index, customizer);
-      }
-    }
-    return object;
-  });
-}
-
-module.exports = createAssigner;
-
-},{"./_isIterateeCall":190,"./rest":253}],167:[function(require,module,exports){
-var isArrayLike = require('./isArrayLike');
-
-/**
- * Creates a `baseEach` or `baseEachRight` function.
- *
- * @private
- * @param {Function} eachFunc The function to iterate over a collection.
- * @param {boolean} [fromRight] Specify iterating from right to left.
- * @returns {Function} Returns the new base function.
- */
-function createBaseEach(eachFunc, fromRight) {
-  return function(collection, iteratee) {
-    if (collection == null) {
-      return collection;
-    }
-    if (!isArrayLike(collection)) {
-      return eachFunc(collection, iteratee);
-    }
-    var length = collection.length,
-        index = fromRight ? length : -1,
-        iterable = Object(collection);
-
-    while ((fromRight ? index-- : ++index < length)) {
-      if (iteratee(iterable[index], index, iterable) === false) {
-        break;
-      }
-    }
-    return collection;
-  };
-}
-
-module.exports = createBaseEach;
-
-},{"./isArrayLike":229}],168:[function(require,module,exports){
-/**
- * Creates a base function for methods like `_.forIn`.
- *
- * @private
- * @param {boolean} [fromRight] Specify iterating from right to left.
- * @returns {Function} Returns the new base function.
- */
-function createBaseFor(fromRight) {
-  return function(object, iteratee, keysFunc) {
-    var index = -1,
-        iterable = Object(object),
-        props = keysFunc(object),
-        length = props.length;
-
-    while (length--) {
-      var key = props[fromRight ? length : ++index];
-      if (iteratee(iterable[key], key, iterable) === false) {
-        break;
-      }
-    }
-    return object;
-  };
-}
-
-module.exports = createBaseFor;
-
-},{}],169:[function(require,module,exports){
-var arraySome = require('./_arraySome');
-
-/** Used to compose bitmasks for comparison styles. */
-var UNORDERED_COMPARE_FLAG = 1,
-    PARTIAL_COMPARE_FLAG = 2;
-
-/**
- * A specialized version of `baseIsEqualDeep` for arrays with support for
- * partial deep comparisons.
- *
- * @private
- * @param {Array} array The array to compare.
- * @param {Array} other The other array to compare.
- * @param {Function} equalFunc The function to determine equivalents of values.
- * @param {Function} customizer The function to customize comparisons.
- * @param {number} bitmask The bitmask of comparison flags. See `baseIsEqual` for more details.
- * @param {Object} stack Tracks traversed `array` and `other` objects.
- * @returns {boolean} Returns `true` if the arrays are equivalent, else `false`.
- */
-function equalArrays(array, other, equalFunc, customizer, bitmask, stack) {
-  var index = -1,
-      isPartial = bitmask & PARTIAL_COMPARE_FLAG,
-      isUnordered = bitmask & UNORDERED_COMPARE_FLAG,
-      arrLength = array.length,
-      othLength = other.length;
-
-  if (arrLength != othLength && !(isPartial && othLength > arrLength)) {
-    return false;
-  }
-  // Assume cyclic values are equal.
-  var stacked = stack.get(array);
-  if (stacked) {
-    return stacked == other;
-  }
-  var result = true;
-  stack.set(array, other);
-
-  // Ignore non-index properties.
-  while (++index < arrLength) {
-    var arrValue = array[index],
-        othValue = other[index];
-
-    if (customizer) {
-      var compared = isPartial
-        ? customizer(othValue, arrValue, index, other, array, stack)
-        : customizer(arrValue, othValue, index, array, other, stack);
-    }
-    if (compared !== undefined) {
-      if (compared) {
-        continue;
-      }
-      result = false;
-      break;
-    }
-    // Recursively compare arrays (susceptible to call stack limits).
-    if (isUnordered) {
-      if (!arraySome(other, function(othValue) {
-            return arrValue === othValue || equalFunc(arrValue, othValue, customizer, bitmask, stack);
-          })) {
-        result = false;
-        break;
-      }
-    } else if (!(arrValue === othValue || equalFunc(arrValue, othValue, customizer, bitmask, stack))) {
-      result = false;
-      break;
-    }
-  }
-  stack['delete'](array);
-  return result;
-}
-
-module.exports = equalArrays;
-
-},{"./_arraySome":111}],170:[function(require,module,exports){
-var Symbol = require('./_Symbol'),
-    Uint8Array = require('./_Uint8Array'),
-    equalArrays = require('./_equalArrays'),
-    mapToArray = require('./_mapToArray'),
-    setToArray = require('./_setToArray');
-
-/** Used to compose bitmasks for comparison styles. */
-var UNORDERED_COMPARE_FLAG = 1,
-    PARTIAL_COMPARE_FLAG = 2;
-
-/** `Object#toString` result references. */
-var boolTag = '[object Boolean]',
-    dateTag = '[object Date]',
-    errorTag = '[object Error]',
-    mapTag = '[object Map]',
-    numberTag = '[object Number]',
-    regexpTag = '[object RegExp]',
-    setTag = '[object Set]',
-    stringTag = '[object String]',
-    symbolTag = '[object Symbol]';
-
-var arrayBufferTag = '[object ArrayBuffer]';
-
-/** Used to convert symbols to primitives and strings. */
-var symbolProto = Symbol ? Symbol.prototype : undefined,
-    symbolValueOf = symbolProto ? symbolProto.valueOf : undefined;
-
-/**
- * A specialized version of `baseIsEqualDeep` for comparing objects of
- * the same `toStringTag`.
- *
- * **Note:** This function only supports comparing values with tags of
- * `Boolean`, `Date`, `Error`, `Number`, `RegExp`, or `String`.
- *
- * @private
- * @param {Object} object The object to compare.
- * @param {Object} other The other object to compare.
- * @param {string} tag The `toStringTag` of the objects to compare.
- * @param {Function} equalFunc The function to determine equivalents of values.
- * @param {Function} customizer The function to customize comparisons.
- * @param {number} bitmask The bitmask of comparison flags. See `baseIsEqual` for more details.
- * @param {Object} stack Tracks traversed `object` and `other` objects.
- * @returns {boolean} Returns `true` if the objects are equivalent, else `false`.
- */
-function equalByTag(object, other, tag, equalFunc, customizer, bitmask, stack) {
-  switch (tag) {
-    case arrayBufferTag:
-      if ((object.byteLength != other.byteLength) ||
-          !equalFunc(new Uint8Array(object), new Uint8Array(other))) {
-        return false;
-      }
-      return true;
-
-    case boolTag:
-    case dateTag:
-      // Coerce dates and booleans to numbers, dates to milliseconds and booleans
-      // to `1` or `0` treating invalid dates coerced to `NaN` as not equal.
-      return +object == +other;
-
-    case errorTag:
-      return object.name == other.name && object.message == other.message;
-
-    case numberTag:
-      // Treat `NaN` vs. `NaN` as equal.
-      return (object != +object) ? other != +other : object == +other;
-
-    case regexpTag:
-    case stringTag:
-      // Coerce regexes to strings and treat strings primitives and string
-      // objects as equal. See https://es5.github.io/#x15.10.6.4 for more details.
-      return object == (other + '');
-
-    case mapTag:
-      var convert = mapToArray;
-
-    case setTag:
-      var isPartial = bitmask & PARTIAL_COMPARE_FLAG;
-      convert || (convert = setToArray);
-
-      if (object.size != other.size && !isPartial) {
-        return false;
-      }
-      // Assume cyclic values are equal.
-      var stacked = stack.get(object);
-      if (stacked) {
-        return stacked == other;
-      }
-      // Recursively compare objects (susceptible to call stack limits).
-      return equalArrays(convert(object), convert(other), equalFunc, customizer, bitmask | UNORDERED_COMPARE_FLAG, stack.set(object, other));
-
-    case symbolTag:
-      if (symbolValueOf) {
-        return symbolValueOf.call(object) == symbolValueOf.call(other);
-      }
-  }
-  return false;
-}
-
-module.exports = equalByTag;
-
-},{"./_Symbol":99,"./_Uint8Array":100,"./_equalArrays":169,"./_mapToArray":201,"./_setToArray":206}],171:[function(require,module,exports){
-var baseHas = require('./_baseHas'),
-    keys = require('./keys');
-
-/** Used to compose bitmasks for comparison styles. */
-var PARTIAL_COMPARE_FLAG = 2;
-
-/**
- * A specialized version of `baseIsEqualDeep` for objects with support for
- * partial deep comparisons.
- *
- * @private
- * @param {Object} object The object to compare.
- * @param {Object} other The other object to compare.
- * @param {Function} equalFunc The function to determine equivalents of values.
- * @param {Function} customizer The function to customize comparisons.
- * @param {number} bitmask The bitmask of comparison flags. See `baseIsEqual` for more details.
- * @param {Object} stack Tracks traversed `object` and `other` objects.
- * @returns {boolean} Returns `true` if the objects are equivalent, else `false`.
- */
-function equalObjects(object, other, equalFunc, customizer, bitmask, stack) {
-  var isPartial = bitmask & PARTIAL_COMPARE_FLAG,
-      objProps = keys(object),
-      objLength = objProps.length,
-      othProps = keys(other),
-      othLength = othProps.length;
-
-  if (objLength != othLength && !isPartial) {
-    return false;
-  }
-  var index = objLength;
-  while (index--) {
-    var key = objProps[index];
-    if (!(isPartial ? key in other : baseHas(other, key))) {
-      return false;
-    }
-  }
-  // Assume cyclic values are equal.
-  var stacked = stack.get(object);
-  if (stacked) {
-    return stacked == other;
-  }
-  var result = true;
-  stack.set(object, other);
-
-  var skipCtor = isPartial;
-  while (++index < objLength) {
-    key = objProps[index];
-    var objValue = object[key],
-        othValue = other[key];
-
-    if (customizer) {
-      var compared = isPartial
-        ? customizer(othValue, objValue, key, other, object, stack)
-        : customizer(objValue, othValue, key, object, other, stack);
-    }
-    // Recursively compare objects (susceptible to call stack limits).
-    if (!(compared === undefined
-          ? (objValue === othValue || equalFunc(objValue, othValue, customizer, bitmask, stack))
-          : compared
-        )) {
-      result = false;
-      break;
-    }
-    skipCtor || (skipCtor = key == 'constructor');
-  }
-  if (result && !skipCtor) {
-    var objCtor = object.constructor,
-        othCtor = other.constructor;
-
-    // Non `Object` object instances with different constructors are not equal.
-    if (objCtor != othCtor &&
-        ('constructor' in object && 'constructor' in other) &&
-        !(typeof objCtor == 'function' && objCtor instanceof objCtor &&
-          typeof othCtor == 'function' && othCtor instanceof othCtor)) {
-      result = false;
-    }
-  }
-  stack['delete'](object);
-  return result;
-}
-
-module.exports = equalObjects;
-
-},{"./_baseHas":131,"./keys":245}],172:[function(require,module,exports){
-/** Used to map characters to HTML entities. */
-var htmlEscapes = {
-  '&': '&amp;',
-  '<': '&lt;',
-  '>': '&gt;',
-  '"': '&quot;',
-  "'": '&#39;',
-  '`': '&#96;'
-};
-
-/**
- * Used by `_.escape` to convert characters to HTML entities.
- *
- * @private
- * @param {string} chr The matched character to escape.
- * @returns {string} Returns the escaped character.
- */
-function escapeHtmlChar(chr) {
-  return htmlEscapes[chr];
-}
-
-module.exports = escapeHtmlChar;
-
-},{}],173:[function(require,module,exports){
-var baseProperty = require('./_baseProperty');
-
-/**
- * Gets the "length" property value of `object`.
- *
- * **Note:** This function is used to avoid a [JIT bug](https://bugs.webkit.org/show_bug.cgi?id=142792)
- * that affects Safari on at least iOS 8.1-8.3 ARM64.
- *
- * @private
- * @param {Object} object The object to query.
- * @returns {*} Returns the "length" value.
- */
-var getLength = baseProperty('length');
-
-module.exports = getLength;
-
-},{"./_baseProperty":145}],174:[function(require,module,exports){
-var isStrictComparable = require('./_isStrictComparable'),
-    toPairs = require('./toPairs');
-
-/**
- * Gets the property names, values, and compare flags of `object`.
- *
- * @private
- * @param {Object} object The object to query.
- * @returns {Array} Returns the match data of `object`.
- */
-function getMatchData(object) {
-  var result = toPairs(object),
-      length = result.length;
-
-  while (length--) {
-    result[length][2] = isStrictComparable(result[length][1]);
-  }
-  return result;
-}
-
-module.exports = getMatchData;
-
-},{"./_isStrictComparable":194,"./toPairs":256}],175:[function(require,module,exports){
-var isNative = require('./isNative');
-
-/**
- * Gets the native function at `key` of `object`.
- *
- * @private
- * @param {Object} object The object to query.
- * @param {string} key The key of the method to get.
- * @returns {*} Returns the function if it's native, else `undefined`.
- */
-function getNative(object, key) {
-  var value = object[key];
-  return isNative(value) ? value : undefined;
-}
-
-module.exports = getNative;
-
-},{"./isNative":236}],176:[function(require,module,exports){
-/** Built-in value references. */
-var getOwnPropertySymbols = Object.getOwnPropertySymbols;
-
-/**
- * Creates an array of the own symbol properties of `object`.
- *
- * @private
- * @param {Object} object The object to query.
- * @returns {Array} Returns the array of symbols.
- */
-var getSymbols = getOwnPropertySymbols || function() {
-  return [];
-};
-
-module.exports = getSymbols;
-
-},{}],177:[function(require,module,exports){
-var Map = require('./_Map'),
-    Set = require('./_Set'),
-    WeakMap = require('./_WeakMap');
-
-/** `Object#toString` result references. */
-var mapTag = '[object Map]',
-    objectTag = '[object Object]',
-    setTag = '[object Set]',
-    weakMapTag = '[object WeakMap]';
-
-/** Used for built-in method references. */
-var objectProto = Object.prototype;
-
-/** Used to resolve the decompiled source of functions. */
-var funcToString = Function.prototype.toString;
-
-/**
- * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
- * of values.
- */
-var objectToString = objectProto.toString;
-
-/** Used to detect maps, sets, and weakmaps. */
-var mapCtorString = Map ? funcToString.call(Map) : '',
-    setCtorString = Set ? funcToString.call(Set) : '',
-    weakMapCtorString = WeakMap ? funcToString.call(WeakMap) : '';
-
-/**
- * Gets the `toStringTag` of `value`.
- *
- * @private
- * @param {*} value The value to query.
- * @returns {string} Returns the `toStringTag`.
- */
-function getTag(value) {
-  return objectToString.call(value);
-}
-
-// Fallback for IE 11 providing `toStringTag` values for maps, sets, and weakmaps.
-if ((Map && getTag(new Map) != mapTag) ||
-    (Set && getTag(new Set) != setTag) ||
-    (WeakMap && getTag(new WeakMap) != weakMapTag)) {
-  getTag = function(value) {
-    var result = objectToString.call(value),
-        Ctor = result == objectTag ? value.constructor : null,
-        ctorString = typeof Ctor == 'function' ? funcToString.call(Ctor) : '';
-
-    if (ctorString) {
-      switch (ctorString) {
-        case mapCtorString: return mapTag;
-        case setCtorString: return setTag;
-        case weakMapCtorString: return weakMapTag;
-      }
-    }
-    return result;
-  };
-}
-
-module.exports = getTag;
-
-},{"./_Map":93,"./_Set":96,"./_WeakMap":101}],178:[function(require,module,exports){
-var baseCastPath = require('./_baseCastPath'),
-    isArguments = require('./isArguments'),
-    isArray = require('./isArray'),
-    isIndex = require('./_isIndex'),
-    isKey = require('./_isKey'),
-    isLength = require('./isLength'),
-    isString = require('./isString'),
-    last = require('./last'),
-    parent = require('./_parent');
-
-/**
- * Checks if `path` exists on `object`.
- *
- * @private
- * @param {Object} object The object to query.
- * @param {Array|string} path The path to check.
- * @param {Function} hasFunc The function to check properties.
- * @returns {boolean} Returns `true` if `path` exists, else `false`.
- */
-function hasPath(object, path, hasFunc) {
-  if (object == null) {
-    return false;
-  }
-  var result = hasFunc(object, path);
-  if (!result && !isKey(path)) {
-    path = baseCastPath(path);
-    object = parent(object, path);
-    if (object != null) {
-      path = last(path);
-      result = hasFunc(object, path);
-    }
-  }
-  var length = object ? object.length : undefined;
-  return result || (
-    !!length && isLength(length) && isIndex(path, length) &&
-    (isArray(object) || isString(object) || isArguments(object))
-  );
-}
-
-module.exports = hasPath;
-
-},{"./_baseCastPath":122,"./_isIndex":189,"./_isKey":191,"./_parent":204,"./isArguments":227,"./isArray":228,"./isLength":235,"./isString":241,"./last":247}],179:[function(require,module,exports){
-var hashHas = require('./_hashHas');
-
-/**
- * Removes `key` and its value from the hash.
- *
- * @private
- * @param {Object} hash The hash to modify.
- * @param {string} key The key of the value to remove.
- * @returns {boolean} Returns `true` if the entry was removed, else `false`.
- */
-function hashDelete(hash, key) {
-  return hashHas(hash, key) && delete hash[key];
-}
-
-module.exports = hashDelete;
-
-},{"./_hashHas":181}],180:[function(require,module,exports){
-var nativeCreate = require('./_nativeCreate');
-
-/** Used to stand-in for `undefined` hash values. */
-var HASH_UNDEFINED = '__lodash_hash_undefined__';
-
-/** Used for built-in method references. */
-var objectProto = Object.prototype;
-
-/** Used to check objects for own properties. */
-var hasOwnProperty = objectProto.hasOwnProperty;
-
-/**
- * Gets the hash value for `key`.
- *
- * @private
- * @param {Object} hash The hash to query.
- * @param {string} key The key of the value to get.
- * @returns {*} Returns the entry value.
- */
-function hashGet(hash, key) {
-  if (nativeCreate) {
-    var result = hash[key];
-    return result === HASH_UNDEFINED ? undefined : result;
-  }
-  return hasOwnProperty.call(hash, key) ? hash[key] : undefined;
-}
-
-module.exports = hashGet;
-
-},{"./_nativeCreate":203}],181:[function(require,module,exports){
-var nativeCreate = require('./_nativeCreate');
-
-/** Used for built-in method references. */
-var objectProto = Object.prototype;
-
-/** Used to check objects for own properties. */
-var hasOwnProperty = objectProto.hasOwnProperty;
-
-/**
- * Checks if a hash value for `key` exists.
- *
- * @private
- * @param {Object} hash The hash to query.
- * @param {string} key The key of the entry to check.
- * @returns {boolean} Returns `true` if an entry for `key` exists, else `false`.
- */
-function hashHas(hash, key) {
-  return nativeCreate ? hash[key] !== undefined : hasOwnProperty.call(hash, key);
-}
-
-module.exports = hashHas;
-
-},{"./_nativeCreate":203}],182:[function(require,module,exports){
-var nativeCreate = require('./_nativeCreate');
-
-/** Used to stand-in for `undefined` hash values. */
-var HASH_UNDEFINED = '__lodash_hash_undefined__';
-
-/**
- * Sets the hash `key` to `value`.
- *
- * @private
- * @param {Object} hash The hash to modify.
- * @param {string} key The key of the value to set.
- * @param {*} value The value to set.
- */
-function hashSet(hash, key, value) {
-  hash[key] = (nativeCreate && value === undefined) ? HASH_UNDEFINED : value;
-}
-
-module.exports = hashSet;
-
-},{"./_nativeCreate":203}],183:[function(require,module,exports){
-var baseTimes = require('./_baseTimes'),
-    isArguments = require('./isArguments'),
-    isArray = require('./isArray'),
-    isLength = require('./isLength'),
-    isString = require('./isString');
-
-/**
- * Creates an array of index keys for `object` values of arrays,
- * `arguments` objects, and strings, otherwise `null` is returned.
- *
- * @private
- * @param {Object} object The object to query.
- * @returns {Array|null} Returns index keys, else `null`.
- */
-function indexKeys(object) {
-  var length = object ? object.length : undefined;
-  if (isLength(length) &&
-      (isArray(object) || isString(object) || isArguments(object))) {
-    return baseTimes(length, String);
-  }
-  return null;
-}
-
-module.exports = indexKeys;
-
-},{"./_baseTimes":149,"./isArguments":227,"./isArray":228,"./isLength":235,"./isString":241}],184:[function(require,module,exports){
-/**
- * Gets the index at which the first occurrence of `NaN` is found in `array`.
- *
- * @private
- * @param {Array} array The array to search.
- * @param {number} fromIndex The index to search from.
- * @param {boolean} [fromRight] Specify iterating from right to left.
- * @returns {number} Returns the index of the matched `NaN`, else `-1`.
- */
-function indexOfNaN(array, fromIndex, fromRight) {
-  var length = array.length,
-      index = fromIndex + (fromRight ? 0 : -1);
-
-  while ((fromRight ? index-- : ++index < length)) {
-    var other = array[index];
-    if (other !== other) {
-      return index;
-    }
-  }
-  return -1;
-}
-
-module.exports = indexOfNaN;
-
-},{}],185:[function(require,module,exports){
-/** Used for built-in method references. */
-var objectProto = Object.prototype;
-
-/** Used to check objects for own properties. */
-var hasOwnProperty = objectProto.hasOwnProperty;
-
-/**
- * Initializes an array clone.
- *
- * @private
- * @param {Array} array The array to clone.
- * @returns {Array} Returns the initialized clone.
- */
-function initCloneArray(array) {
-  var length = array.length,
-      result = array.constructor(length);
-
-  // Add properties assigned by `RegExp#exec`.
-  if (length && typeof array[0] == 'string' && hasOwnProperty.call(array, 'index')) {
-    result.index = array.index;
-    result.input = array.input;
-  }
-  return result;
-}
-
-module.exports = initCloneArray;
-
-},{}],186:[function(require,module,exports){
-var cloneArrayBuffer = require('./_cloneArrayBuffer'),
-    cloneMap = require('./_cloneMap'),
-    cloneRegExp = require('./_cloneRegExp'),
-    cloneSet = require('./_cloneSet'),
-    cloneSymbol = require('./_cloneSymbol'),
-    cloneTypedArray = require('./_cloneTypedArray');
-
-/** `Object#toString` result references. */
-var boolTag = '[object Boolean]',
-    dateTag = '[object Date]',
-    mapTag = '[object Map]',
-    numberTag = '[object Number]',
-    regexpTag = '[object RegExp]',
-    setTag = '[object Set]',
-    stringTag = '[object String]',
-    symbolTag = '[object Symbol]';
-
-var arrayBufferTag = '[object ArrayBuffer]',
-    float32Tag = '[object Float32Array]',
-    float64Tag = '[object Float64Array]',
-    int8Tag = '[object Int8Array]',
-    int16Tag = '[object Int16Array]',
-    int32Tag = '[object Int32Array]',
-    uint8Tag = '[object Uint8Array]',
-    uint8ClampedTag = '[object Uint8ClampedArray]',
-    uint16Tag = '[object Uint16Array]',
-    uint32Tag = '[object Uint32Array]';
-
-/**
- * Initializes an object clone based on its `toStringTag`.
- *
- * **Note:** This function only supports cloning values with tags of
- * `Boolean`, `Date`, `Error`, `Number`, `RegExp`, or `String`.
- *
- * @private
- * @param {Object} object The object to clone.
- * @param {string} tag The `toStringTag` of the object to clone.
- * @param {boolean} [isDeep] Specify a deep clone.
- * @returns {Object} Returns the initialized clone.
- */
-function initCloneByTag(object, tag, isDeep) {
-  var Ctor = object.constructor;
-  switch (tag) {
-    case arrayBufferTag:
-      return cloneArrayBuffer(object);
-
-    case boolTag:
-    case dateTag:
-      return new Ctor(+object);
-
-    case float32Tag: case float64Tag:
-    case int8Tag: case int16Tag: case int32Tag:
-    case uint8Tag: case uint8ClampedTag: case uint16Tag: case uint32Tag:
-      return cloneTypedArray(object, isDeep);
-
-    case mapTag:
-      return cloneMap(object);
-
-    case numberTag:
-    case stringTag:
-      return new Ctor(object);
-
-    case regexpTag:
-      return cloneRegExp(object);
-
-    case setTag:
-      return cloneSet(object);
-
-    case symbolTag:
-      return cloneSymbol(object);
-  }
-}
-
-module.exports = initCloneByTag;
-
-},{"./_cloneArrayBuffer":155,"./_cloneMap":157,"./_cloneRegExp":158,"./_cloneSet":159,"./_cloneSymbol":160,"./_cloneTypedArray":161}],187:[function(require,module,exports){
-var baseCreate = require('./_baseCreate'),
-    isPrototype = require('./_isPrototype');
-
-/** Built-in value references. */
-var getPrototypeOf = Object.getPrototypeOf;
-
-/**
- * Initializes an object clone.
- *
- * @private
- * @param {Object} object The object to clone.
- * @returns {Object} Returns the initialized clone.
- */
-function initCloneObject(object) {
-  return (typeof object.constructor == 'function' && !isPrototype(object))
-    ? baseCreate(getPrototypeOf(object))
-    : {};
-}
-
-module.exports = initCloneObject;
-
-},{"./_baseCreate":124,"./_isPrototype":193}],188:[function(require,module,exports){
-/**
- * Checks if `value` is a host object in IE < 9.
- *
- * @private
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a host object, else `false`.
- */
-function isHostObject(value) {
-  // Many host objects are `Object` objects that can coerce to strings
-  // despite having improperly defined `toString` methods.
-  var result = false;
-  if (value != null && typeof value.toString != 'function') {
-    try {
-      result = !!(value + '');
-    } catch (e) {}
-  }
-  return result;
-}
-
-module.exports = isHostObject;
-
-},{}],189:[function(require,module,exports){
-/** Used as references for various `Number` constants. */
-var MAX_SAFE_INTEGER = 9007199254740991;
-
-/** Used to detect unsigned integer values. */
-var reIsUint = /^(?:0|[1-9]\d*)$/;
-
-/**
- * Checks if `value` is a valid array-like index.
- *
- * @private
- * @param {*} value The value to check.
- * @param {number} [length=MAX_SAFE_INTEGER] The upper bounds of a valid index.
- * @returns {boolean} Returns `true` if `value` is a valid index, else `false`.
- */
-function isIndex(value, length) {
-  value = (typeof value == 'number' || reIsUint.test(value)) ? +value : -1;
-  length = length == null ? MAX_SAFE_INTEGER : length;
-  return value > -1 && value % 1 == 0 && value < length;
-}
-
-module.exports = isIndex;
-
-},{}],190:[function(require,module,exports){
-var eq = require('./eq'),
-    isArrayLike = require('./isArrayLike'),
-    isIndex = require('./_isIndex'),
-    isObject = require('./isObject');
-
-/**
- * Checks if the given arguments are from an iteratee call.
- *
- * @private
- * @param {*} value The potential iteratee value argument.
- * @param {*} index The potential iteratee index or key argument.
- * @param {*} object The potential iteratee object argument.
- * @returns {boolean} Returns `true` if the arguments are from an iteratee call, else `false`.
- */
-function isIterateeCall(value, index, object) {
-  if (!isObject(object)) {
-    return false;
-  }
-  var type = typeof index;
-  if (type == 'number'
-      ? (isArrayLike(object) && isIndex(index, object.length))
-      : (type == 'string' && index in object)) {
-    return eq(object[index], value);
-  }
-  return false;
-}
-
-module.exports = isIterateeCall;
-
-},{"./_isIndex":189,"./eq":220,"./isArrayLike":229,"./isObject":238}],191:[function(require,module,exports){
-var isArray = require('./isArray');
-
-/** Used to match property names within property paths. */
-var reIsDeepProp = /\.|\[(?:[^[\]]*|(["'])(?:(?!\1)[^\\]|\\.)*?\1)\]/,
-    reIsPlainProp = /^\w*$/;
-
-/**
- * Checks if `value` is a property name and not a property path.
- *
- * @private
- * @param {*} value The value to check.
- * @param {Object} [object] The object to query keys on.
- * @returns {boolean} Returns `true` if `value` is a property name, else `false`.
- */
-function isKey(value, object) {
-  if (typeof value == 'number') {
-    return true;
-  }
-  return !isArray(value) &&
-    (reIsPlainProp.test(value) || !reIsDeepProp.test(value) ||
-      (object != null && value in Object(object)));
-}
-
-module.exports = isKey;
-
-},{"./isArray":228}],192:[function(require,module,exports){
-/**
- * Checks if `value` is suitable for use as unique object key.
- *
- * @private
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is suitable, else `false`.
- */
-function isKeyable(value) {
-  var type = typeof value;
-  return type == 'number' || type == 'boolean' ||
-    (type == 'string' && value != '__proto__') || value == null;
-}
-
-module.exports = isKeyable;
-
-},{}],193:[function(require,module,exports){
-/** Used for built-in method references. */
-var objectProto = Object.prototype;
-
-/**
- * Checks if `value` is likely a prototype object.
- *
- * @private
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a prototype, else `false`.
- */
-function isPrototype(value) {
-  var Ctor = value && value.constructor,
-      proto = (typeof Ctor == 'function' && Ctor.prototype) || objectProto;
-
-  return value === proto;
-}
-
-module.exports = isPrototype;
-
-},{}],194:[function(require,module,exports){
-var isObject = require('./isObject');
-
-/**
- * Checks if `value` is suitable for strict equality comparisons, i.e. `===`.
- *
- * @private
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` if suitable for strict
- *  equality comparisons, else `false`.
- */
-function isStrictComparable(value) {
-  return value === value && !isObject(value);
-}
-
-module.exports = isStrictComparable;
-
-},{"./isObject":238}],195:[function(require,module,exports){
-/**
- * Converts `iterator` to an array.
- *
- * @private
- * @param {Object} iterator The iterator to convert.
- * @returns {Array} Returns the converted array.
- */
-function iteratorToArray(iterator) {
-  var data,
-      result = [];
-
-  while (!(data = iterator.next()).done) {
-    result.push(data.value);
-  }
-  return result;
-}
-
-module.exports = iteratorToArray;
-
-},{}],196:[function(require,module,exports){
-var Hash = require('./_Hash'),
-    Map = require('./_Map');
-
-/**
- * Removes all key-value entries from the map.
- *
- * @private
- * @name clear
- * @memberOf MapCache
- */
-function mapClear() {
-  this.__data__ = {
-    'hash': new Hash,
-    'map': Map ? new Map : [],
-    'string': new Hash
-  };
-}
-
-module.exports = mapClear;
-
-},{"./_Hash":92,"./_Map":93}],197:[function(require,module,exports){
-var Map = require('./_Map'),
-    assocDelete = require('./_assocDelete'),
-    hashDelete = require('./_hashDelete'),
-    isKeyable = require('./_isKeyable');
-
-/**
- * Removes `key` and its value from the map.
- *
- * @private
- * @name delete
- * @memberOf MapCache
- * @param {string} key The key of the value to remove.
- * @returns {boolean} Returns `true` if the entry was removed, else `false`.
- */
-function mapDelete(key) {
-  var data = this.__data__;
-  if (isKeyable(key)) {
-    return hashDelete(typeof key == 'string' ? data.string : data.hash, key);
-  }
-  return Map ? data.map['delete'](key) : assocDelete(data.map, key);
-}
-
-module.exports = mapDelete;
-
-},{"./_Map":93,"./_assocDelete":115,"./_hashDelete":179,"./_isKeyable":192}],198:[function(require,module,exports){
-var Map = require('./_Map'),
-    assocGet = require('./_assocGet'),
-    hashGet = require('./_hashGet'),
-    isKeyable = require('./_isKeyable');
-
-/**
- * Gets the map value for `key`.
- *
- * @private
- * @name get
- * @memberOf MapCache
- * @param {string} key The key of the value to get.
- * @returns {*} Returns the entry value.
- */
-function mapGet(key) {
-  var data = this.__data__;
-  if (isKeyable(key)) {
-    return hashGet(typeof key == 'string' ? data.string : data.hash, key);
-  }
-  return Map ? data.map.get(key) : assocGet(data.map, key);
-}
-
-module.exports = mapGet;
-
-},{"./_Map":93,"./_assocGet":116,"./_hashGet":180,"./_isKeyable":192}],199:[function(require,module,exports){
-var Map = require('./_Map'),
-    assocHas = require('./_assocHas'),
-    hashHas = require('./_hashHas'),
-    isKeyable = require('./_isKeyable');
-
-/**
- * Checks if a map value for `key` exists.
- *
- * @private
- * @name has
- * @memberOf MapCache
- * @param {string} key The key of the entry to check.
- * @returns {boolean} Returns `true` if an entry for `key` exists, else `false`.
- */
-function mapHas(key) {
-  var data = this.__data__;
-  if (isKeyable(key)) {
-    return hashHas(typeof key == 'string' ? data.string : data.hash, key);
-  }
-  return Map ? data.map.has(key) : assocHas(data.map, key);
-}
-
-module.exports = mapHas;
-
-},{"./_Map":93,"./_assocHas":117,"./_hashHas":181,"./_isKeyable":192}],200:[function(require,module,exports){
-var Map = require('./_Map'),
-    assocSet = require('./_assocSet'),
-    hashSet = require('./_hashSet'),
-    isKeyable = require('./_isKeyable');
-
-/**
- * Sets the map `key` to `value`.
- *
- * @private
- * @name set
- * @memberOf MapCache
- * @param {string} key The key of the value to set.
- * @param {*} value The value to set.
- * @returns {Object} Returns the map cache object.
- */
-function mapSet(key, value) {
-  var data = this.__data__;
-  if (isKeyable(key)) {
-    hashSet(typeof key == 'string' ? data.string : data.hash, key, value);
-  } else if (Map) {
-    data.map.set(key, value);
-  } else {
-    assocSet(data.map, key, value);
-  }
-  return this;
-}
-
-module.exports = mapSet;
-
-},{"./_Map":93,"./_assocSet":119,"./_hashSet":182,"./_isKeyable":192}],201:[function(require,module,exports){
-/**
- * Converts `map` to an array.
- *
- * @private
- * @param {Object} map The map to convert.
- * @returns {Array} Returns the converted array.
- */
-function mapToArray(map) {
-  var index = -1,
-      result = Array(map.size);
-
-  map.forEach(function(value, key) {
-    result[++index] = [key, value];
-  });
-  return result;
-}
-
-module.exports = mapToArray;
-
-},{}],202:[function(require,module,exports){
-var baseMerge = require('./_baseMerge'),
-    isObject = require('./isObject');
-
-/**
- * Used by `_.defaultsDeep` to customize its `_.merge` use.
- *
- * @private
- * @param {*} objValue The destination value.
- * @param {*} srcValue The source value.
- * @param {string} key The key of the property to merge.
- * @param {Object} object The parent object of `objValue`.
- * @param {Object} source The parent object of `srcValue`.
- * @param {Object} [stack] Tracks traversed source values and their merged counterparts.
- * @returns {*} Returns the value to assign.
- */
-function mergeDefaults(objValue, srcValue, key, object, source, stack) {
-  if (isObject(objValue) && isObject(srcValue)) {
-    baseMerge(objValue, srcValue, undefined, mergeDefaults, stack.set(srcValue, objValue));
-  }
-  return objValue;
-}
-
-module.exports = mergeDefaults;
-
-},{"./_baseMerge":143,"./isObject":238}],203:[function(require,module,exports){
-var getNative = require('./_getNative');
-
-/* Built-in method references that are verified to be native. */
-var nativeCreate = getNative(Object, 'create');
-
-module.exports = nativeCreate;
-
-},{"./_getNative":175}],204:[function(require,module,exports){
-var baseSlice = require('./_baseSlice'),
-    get = require('./get');
-
-/**
- * Gets the parent value at `path` of `object`.
- *
- * @private
- * @param {Object} object The object to query.
- * @param {Array} path The path to get the parent value of.
- * @returns {*} Returns the parent value.
- */
-function parent(object, path) {
-  return path.length == 1 ? object : get(object, baseSlice(path, 0, -1));
-}
-
-module.exports = parent;
-
-},{"./_baseSlice":148,"./get":223}],205:[function(require,module,exports){
-(function (global){
-var checkGlobal = require('./_checkGlobal');
-
-/** Used to determine if values are of the language type `Object`. */
-var objectTypes = {
-  'function': true,
-  'object': true
-};
-
-/** Detect free variable `exports`. */
-var freeExports = (objectTypes[typeof exports] && exports && !exports.nodeType)
-  ? exports
-  : undefined;
-
-/** Detect free variable `module`. */
-var freeModule = (objectTypes[typeof module] && module && !module.nodeType)
-  ? module
-  : undefined;
-
-/** Detect free variable `global` from Node.js. */
-var freeGlobal = checkGlobal(freeExports && freeModule && typeof global == 'object' && global);
-
-/** Detect free variable `self`. */
-var freeSelf = checkGlobal(objectTypes[typeof self] && self);
-
-/** Detect free variable `window`. */
-var freeWindow = checkGlobal(objectTypes[typeof window] && window);
-
-/** Detect `this` as the global object. */
-var thisGlobal = checkGlobal(objectTypes[typeof this] && this);
-
-/**
- * Used as a reference to the global object.
- *
- * The `this` value is used if it's the global object to avoid Greasemonkey's
- * restricted `window` object, otherwise the `window` object is used.
- */
-var root = freeGlobal ||
-  ((freeWindow !== (thisGlobal && thisGlobal.window)) && freeWindow) ||
-    freeSelf || thisGlobal || Function('return this')();
-
-module.exports = root;
-
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./_checkGlobal":154}],206:[function(require,module,exports){
-/**
- * Converts `set` to an array.
- *
- * @private
- * @param {Object} set The set to convert.
- * @returns {Array} Returns the converted array.
- */
-function setToArray(set) {
-  var index = -1,
-      result = Array(set.size);
-
-  set.forEach(function(value) {
-    result[++index] = value;
-  });
-  return result;
-}
-
-module.exports = setToArray;
-
-},{}],207:[function(require,module,exports){
-/**
- * Removes all key-value entries from the stack.
- *
- * @private
- * @name clear
- * @memberOf Stack
- */
-function stackClear() {
-  this.__data__ = { 'array': [], 'map': null };
-}
-
-module.exports = stackClear;
-
-},{}],208:[function(require,module,exports){
-var assocDelete = require('./_assocDelete');
-
-/**
- * Removes `key` and its value from the stack.
- *
- * @private
- * @name delete
- * @memberOf Stack
- * @param {string} key The key of the value to remove.
- * @returns {boolean} Returns `true` if the entry was removed, else `false`.
- */
-function stackDelete(key) {
-  var data = this.__data__,
-      array = data.array;
-
-  return array ? assocDelete(array, key) : data.map['delete'](key);
-}
-
-module.exports = stackDelete;
-
-},{"./_assocDelete":115}],209:[function(require,module,exports){
-var assocGet = require('./_assocGet');
-
-/**
- * Gets the stack value for `key`.
- *
- * @private
- * @name get
- * @memberOf Stack
- * @param {string} key The key of the value to get.
- * @returns {*} Returns the entry value.
- */
-function stackGet(key) {
-  var data = this.__data__,
-      array = data.array;
-
-  return array ? assocGet(array, key) : data.map.get(key);
-}
-
-module.exports = stackGet;
-
-},{"./_assocGet":116}],210:[function(require,module,exports){
-var assocHas = require('./_assocHas');
-
-/**
- * Checks if a stack value for `key` exists.
- *
- * @private
- * @name has
- * @memberOf Stack
- * @param {string} key The key of the entry to check.
- * @returns {boolean} Returns `true` if an entry for `key` exists, else `false`.
- */
-function stackHas(key) {
-  var data = this.__data__,
-      array = data.array;
-
-  return array ? assocHas(array, key) : data.map.has(key);
-}
-
-module.exports = stackHas;
-
-},{"./_assocHas":117}],211:[function(require,module,exports){
-var MapCache = require('./_MapCache'),
-    assocSet = require('./_assocSet');
-
-/** Used as the size to enable large array optimizations. */
-var LARGE_ARRAY_SIZE = 200;
-
-/**
- * Sets the stack `key` to `value`.
- *
- * @private
- * @name set
- * @memberOf Stack
- * @param {string} key The key of the value to set.
- * @param {*} value The value to set.
- * @returns {Object} Returns the stack cache object.
- */
-function stackSet(key, value) {
-  var data = this.__data__,
-      array = data.array;
-
-  if (array) {
-    if (array.length < (LARGE_ARRAY_SIZE - 1)) {
-      assocSet(array, key, value);
-    } else {
-      data.array = null;
-      data.map = new MapCache(array);
-    }
-  }
-  var map = data.map;
-  if (map) {
-    map.set(key, value);
-  }
-  return this;
-}
-
-module.exports = stackSet;
-
-},{"./_MapCache":94,"./_assocSet":119}],212:[function(require,module,exports){
-var toString = require('./toString');
-
-/** Used to match property names within property paths. */
-var rePropName = /[^.[\]]+|\[(?:(-?\d+(?:\.\d+)?)|(["'])((?:(?!\2)[^\\]|\\.)*?)\2)\]/g;
-
-/** Used to match backslashes in property paths. */
-var reEscapeChar = /\\(\\)?/g;
-
-/**
- * Converts `string` to a property path array.
- *
- * @private
- * @param {string} string The string to convert.
- * @returns {Array} Returns the property path array.
- */
-function stringToPath(string) {
-  var result = [];
-  toString(string).replace(rePropName, function(match, number, quote, string) {
-    result.push(quote ? string.replace(reEscapeChar, '$1') : (number || match));
-  });
-  return result;
-}
-
-module.exports = stringToPath;
-
-},{"./toString":258}],213:[function(require,module,exports){
-var copyObjectWith = require('./_copyObjectWith'),
-    createAssigner = require('./_createAssigner'),
-    keysIn = require('./keysIn');
-
-/**
- * This method is like `_.assignIn` except that it accepts `customizer` which
- * is invoked to produce the assigned values. If `customizer` returns `undefined`
- * assignment is handled by the method instead. The `customizer` is invoked
- * with five arguments: (objValue, srcValue, key, object, source).
- *
- * **Note:** This method mutates `object`.
- *
- * @static
- * @memberOf _
- * @alias extendWith
- * @category Object
- * @param {Object} object The destination object.
- * @param {...Object} sources The source objects.
- * @param {Function} [customizer] The function to customize assigned values.
- * @returns {Object} Returns `object`.
- * @example
- *
- * function customizer(objValue, srcValue) {
- *   return _.isUndefined(objValue) ? srcValue : objValue;
- * }
- *
- * var defaults = _.partialRight(_.assignInWith, customizer);
- *
- * defaults({ 'a': 1 }, { 'b': 2 }, { 'a': 3 });
- * // => { 'a': 1, 'b': 2 }
- */
-var assignInWith = createAssigner(function(object, source, srcIndex, customizer) {
-  copyObjectWith(source, keysIn(source), object, customizer);
-});
-
-module.exports = assignInWith;
-
-},{"./_copyObjectWith":164,"./_createAssigner":166,"./keysIn":246}],214:[function(require,module,exports){
-var baseClone = require('./_baseClone');
-
-/**
- * Creates a shallow clone of `value`.
- *
- * **Note:** This method is loosely based on the
- * [structured clone algorithm](https://mdn.io/Structured_clone_algorithm)
- * and supports cloning arrays, array buffers, booleans, date objects, maps,
- * numbers, `Object` objects, regexes, sets, strings, symbols, and typed
- * arrays. The own enumerable properties of `arguments` objects are cloned
- * as plain objects. An empty object is returned for uncloneable values such
- * as error objects, functions, DOM nodes, and WeakMaps.
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to clone.
- * @returns {*} Returns the cloned value.
- * @example
- *
- * var objects = [{ 'a': 1 }, { 'b': 2 }];
- *
- * var shallow = _.clone(objects);
- * console.log(shallow[0] === objects[0]);
- * // => true
- */
-function clone(value) {
-  return baseClone(value, false, true);
-}
-
-module.exports = clone;
-
-},{"./_baseClone":123}],215:[function(require,module,exports){
-/**
- * Creates a function that returns `value`.
- *
- * @static
- * @memberOf _
- * @category Util
- * @param {*} value The value to return from the new function.
- * @returns {Function} Returns the new function.
- * @example
- *
- * var object = { 'user': 'fred' };
- * var getter = _.constant(object);
- *
- * getter() === object;
- * // => true
- */
-function constant(value) {
-  return function() {
-    return value;
-  };
-}
-
-module.exports = constant;
-
-},{}],216:[function(require,module,exports){
-var isObject = require('./isObject'),
-    now = require('./now'),
-    toNumber = require('./toNumber');
-
-/** Used as the `TypeError` message for "Functions" methods. */
-var FUNC_ERROR_TEXT = 'Expected a function';
-
-/* Built-in method references for those with the same name as other `lodash` methods. */
-var nativeMax = Math.max;
-
-/**
- * Creates a debounced function that delays invoking `func` until after `wait`
- * milliseconds have elapsed since the last time the debounced function was
- * invoked. The debounced function comes with a `cancel` method to cancel
- * delayed `func` invocations and a `flush` method to immediately invoke them.
- * Provide an options object to indicate whether `func` should be invoked on
- * the leading and/or trailing edge of the `wait` timeout. The `func` is invoked
- * with the last arguments provided to the debounced function. Subsequent calls
- * to the debounced function return the result of the last `func` invocation.
- *
- * **Note:** If `leading` and `trailing` options are `true`, `func` is invoked
- * on the trailing edge of the timeout only if the debounced function is
- * invoked more than once during the `wait` timeout.
- *
- * See [David Corbacho's article](http://drupalmotion.com/article/debounce-and-throttle-visual-explanation)
- * for details over the differences between `_.debounce` and `_.throttle`.
- *
- * @static
- * @memberOf _
- * @category Function
- * @param {Function} func The function to debounce.
- * @param {number} [wait=0] The number of milliseconds to delay.
- * @param {Object} [options] The options object.
- * @param {boolean} [options.leading=false] Specify invoking on the leading
- *  edge of the timeout.
- * @param {number} [options.maxWait] The maximum time `func` is allowed to be
- *  delayed before it's invoked.
- * @param {boolean} [options.trailing=true] Specify invoking on the trailing
- *  edge of the timeout.
- * @returns {Function} Returns the new debounced function.
- * @example
- *
- * // Avoid costly calculations while the window size is in flux.
- * jQuery(window).on('resize', _.debounce(calculateLayout, 150));
- *
- * // Invoke `sendMail` when clicked, debouncing subsequent calls.
- * jQuery(element).on('click', _.debounce(sendMail, 300, {
- *   'leading': true,
- *   'trailing': false
- * }));
- *
- * // Ensure `batchLog` is invoked once after 1 second of debounced calls.
- * var debounced = _.debounce(batchLog, 250, { 'maxWait': 1000 });
- * var source = new EventSource('/stream');
- * jQuery(source).on('message', debounced);
- *
- * // Cancel the trailing debounced invocation.
- * jQuery(window).on('popstate', debounced.cancel);
- */
-function debounce(func, wait, options) {
-  var args,
-      maxTimeoutId,
-      result,
-      stamp,
-      thisArg,
-      timeoutId,
-      trailingCall,
-      lastCalled = 0,
-      leading = false,
-      maxWait = false,
-      trailing = true;
-
-  if (typeof func != 'function') {
-    throw new TypeError(FUNC_ERROR_TEXT);
-  }
-  wait = toNumber(wait) || 0;
-  if (isObject(options)) {
-    leading = !!options.leading;
-    maxWait = 'maxWait' in options && nativeMax(toNumber(options.maxWait) || 0, wait);
-    trailing = 'trailing' in options ? !!options.trailing : trailing;
-  }
-
-  function cancel() {
-    if (timeoutId) {
-      clearTimeout(timeoutId);
-    }
-    if (maxTimeoutId) {
-      clearTimeout(maxTimeoutId);
-    }
-    lastCalled = 0;
-    args = maxTimeoutId = thisArg = timeoutId = trailingCall = undefined;
-  }
-
-  function complete(isCalled, id) {
-    if (id) {
-      clearTimeout(id);
-    }
-    maxTimeoutId = timeoutId = trailingCall = undefined;
-    if (isCalled) {
-      lastCalled = now();
-      result = func.apply(thisArg, args);
-      if (!timeoutId && !maxTimeoutId) {
-        args = thisArg = undefined;
-      }
-    }
-  }
-
-  function delayed() {
-    var remaining = wait - (now() - stamp);
-    if (remaining <= 0 || remaining > wait) {
-      complete(trailingCall, maxTimeoutId);
-    } else {
-      timeoutId = setTimeout(delayed, remaining);
-    }
-  }
-
-  function flush() {
-    if ((timeoutId && trailingCall) || (maxTimeoutId && trailing)) {
-      result = func.apply(thisArg, args);
-    }
-    cancel();
-    return result;
-  }
-
-  function maxDelayed() {
-    complete(trailing, timeoutId);
-  }
-
-  function debounced() {
-    args = arguments;
-    stamp = now();
-    thisArg = this;
-    trailingCall = trailing && (timeoutId || !leading);
-
-    if (maxWait === false) {
-      var leadingCall = leading && !timeoutId;
-    } else {
-      if (!lastCalled && !maxTimeoutId && !leading) {
-        lastCalled = stamp;
-      }
-      var remaining = maxWait - (stamp - lastCalled);
-
-      var isCalled = (remaining <= 0 || remaining > maxWait) &&
-        (leading || maxTimeoutId);
-
-      if (isCalled) {
-        if (maxTimeoutId) {
-          maxTimeoutId = clearTimeout(maxTimeoutId);
-        }
-        lastCalled = stamp;
-        result = func.apply(thisArg, args);
-      }
-      else if (!maxTimeoutId) {
-        maxTimeoutId = setTimeout(maxDelayed, remaining);
-      }
-    }
-    if (isCalled && timeoutId) {
-      timeoutId = clearTimeout(timeoutId);
-    }
-    else if (!timeoutId && wait !== maxWait) {
-      timeoutId = setTimeout(delayed, wait);
-    }
-    if (leadingCall) {
-      isCalled = true;
-      result = func.apply(thisArg, args);
-    }
-    if (isCalled && !timeoutId && !maxTimeoutId) {
-      args = thisArg = undefined;
-    }
-    return result;
-  }
-  debounced.cancel = cancel;
-  debounced.flush = flush;
-  return debounced;
-}
-
-module.exports = debounce;
-
-},{"./isObject":238,"./now":250,"./toNumber":255}],217:[function(require,module,exports){
-var apply = require('./_apply'),
-    assignInDefaults = require('./_assignInDefaults'),
-    assignInWith = require('./assignInWith'),
-    rest = require('./rest');
-
-/**
- * Assigns own and inherited enumerable properties of source objects to the
- * destination object for all destination properties that resolve to `undefined`.
- * Source objects are applied from left to right. Once a property is set,
- * additional values of the same property are ignored.
- *
- * **Note:** This method mutates `object`.
- *
- * @static
- * @memberOf _
- * @category Object
- * @param {Object} object The destination object.
- * @param {...Object} [sources] The source objects.
- * @returns {Object} Returns `object`.
- * @example
- *
- * _.defaults({ 'user': 'barney' }, { 'age': 36 }, { 'user': 'fred' });
- * // => { 'user': 'barney', 'age': 36 }
- */
-var defaults = rest(function(args) {
-  args.push(undefined, assignInDefaults);
-  return apply(assignInWith, undefined, args);
-});
-
-module.exports = defaults;
-
-},{"./_apply":104,"./_assignInDefaults":112,"./assignInWith":213,"./rest":253}],218:[function(require,module,exports){
-var apply = require('./_apply'),
-    mergeDefaults = require('./_mergeDefaults'),
-    mergeWith = require('./mergeWith'),
-    rest = require('./rest');
-
-/**
- * This method is like `_.defaults` except that it recursively assigns
- * default properties.
- *
- * **Note:** This method mutates `object`.
- *
- * @static
- * @memberOf _
- * @category Object
- * @param {Object} object The destination object.
- * @param {...Object} [sources] The source objects.
- * @returns {Object} Returns `object`.
- * @example
- *
- * _.defaultsDeep({ 'user': { 'name': 'barney' } }, { 'user': { 'name': 'fred', 'age': 36 } });
- * // => { 'user': { 'name': 'barney', 'age': 36 } }
- *
- */
-var defaultsDeep = rest(function(args) {
-  args.push(undefined, mergeDefaults);
-  return apply(mergeWith, undefined, args);
-});
-
-module.exports = defaultsDeep;
-
-},{"./_apply":104,"./_mergeDefaults":202,"./mergeWith":249,"./rest":253}],219:[function(require,module,exports){
-var baseDifference = require('./_baseDifference'),
-    baseFlatten = require('./_baseFlatten'),
-    isArrayLikeObject = require('./isArrayLikeObject'),
-    rest = require('./rest');
-
-/**
- * Creates an array of unique `array` values not included in the other
- * given arrays using [`SameValueZero`](http://ecma-international.org/ecma-262/6.0/#sec-samevaluezero)
- * for equality comparisons. The order of result values is determined by the
- * order they occur in the first array.
- *
- * @static
- * @memberOf _
- * @category Array
- * @param {Array} array The array to inspect.
- * @param {...Array} [values] The values to exclude.
- * @returns {Array} Returns the new array of filtered values.
- * @example
- *
- * _.difference([3, 2, 1], [4, 2]);
- * // => [3, 1]
- */
-var difference = rest(function(array, values) {
-  return isArrayLikeObject(array)
-    ? baseDifference(array, baseFlatten(values, 1, true))
-    : [];
-});
-
-module.exports = difference;
-
-},{"./_baseDifference":125,"./_baseFlatten":127,"./isArrayLikeObject":230,"./rest":253}],220:[function(require,module,exports){
-/**
- * Performs a [`SameValueZero`](http://ecma-international.org/ecma-262/6.0/#sec-samevaluezero)
- * comparison between two values to determine if they are equivalent.
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to compare.
- * @param {*} other The other value to compare.
- * @returns {boolean} Returns `true` if the values are equivalent, else `false`.
- * @example
- *
- * var object = { 'user': 'fred' };
- * var other = { 'user': 'fred' };
- *
- * _.eq(object, object);
- * // => true
- *
- * _.eq(object, other);
- * // => false
- *
- * _.eq('a', 'a');
- * // => true
- *
- * _.eq('a', Object('a'));
- * // => false
- *
- * _.eq(NaN, NaN);
- * // => true
- */
-function eq(value, other) {
-  return value === other || (value !== value && other !== other);
-}
-
-module.exports = eq;
-
-},{}],221:[function(require,module,exports){
-var escapeHtmlChar = require('./_escapeHtmlChar'),
-    toString = require('./toString');
-
-/** Used to match HTML entities and HTML characters. */
-var reUnescapedHtml = /[&<>"'`]/g,
-    reHasUnescapedHtml = RegExp(reUnescapedHtml.source);
-
-/**
- * Converts the characters "&", "<", ">", '"', "'", and "\`" in `string` to
- * their corresponding HTML entities.
- *
- * **Note:** No other characters are escaped. To escape additional
- * characters use a third-party library like [_he_](https://mths.be/he).
- *
- * Though the ">" character is escaped for symmetry, characters like
- * ">" and "/" don't need escaping in HTML and have no special meaning
- * unless they're part of a tag or unquoted attribute value.
- * See [Mathias Bynens's article](https://mathiasbynens.be/notes/ambiguous-ampersands)
- * (under "semi-related fun fact") for more details.
- *
- * Backticks are escaped because in IE < 9, they can break out of
- * attribute values or HTML comments. See [#59](https://html5sec.org/#59),
- * [#102](https://html5sec.org/#102), [#108](https://html5sec.org/#108), and
- * [#133](https://html5sec.org/#133) of the [HTML5 Security Cheatsheet](https://html5sec.org/)
- * for more details.
- *
- * When working with HTML you should always [quote attribute values](http://wonko.com/post/html-escaping)
- * to reduce XSS vectors.
- *
- * @static
- * @memberOf _
- * @category String
- * @param {string} [string=''] The string to escape.
- * @returns {string} Returns the escaped string.
- * @example
- *
- * _.escape('fred, barney, & pebbles');
- * // => 'fred, barney, &amp; pebbles'
- */
-function escape(string) {
-  string = toString(string);
-  return (string && reHasUnescapedHtml.test(string))
-    ? string.replace(reUnescapedHtml, escapeHtmlChar)
-    : string;
-}
-
-module.exports = escape;
-
-},{"./_escapeHtmlChar":172,"./toString":258}],222:[function(require,module,exports){
-var arrayEach = require('./_arrayEach'),
-    baseCastFunction = require('./_baseCastFunction'),
-    baseEach = require('./_baseEach'),
-    isArray = require('./isArray');
-
-/**
- * Iterates over elements of `collection` invoking `iteratee` for each element.
- * The iteratee is invoked with three arguments: (value, index|key, collection).
- * Iteratee functions may exit iteration early by explicitly returning `false`.
- *
- * **Note:** As with other "Collections" methods, objects with a "length" property
- * are iterated like arrays. To avoid this behavior use `_.forIn` or `_.forOwn`
- * for object iteration.
- *
- * @static
- * @memberOf _
- * @alias each
- * @category Collection
- * @param {Array|Object} collection The collection to iterate over.
- * @param {Function} [iteratee=_.identity] The function invoked per iteration.
- * @returns {Array|Object} Returns `collection`.
- * @example
- *
- * _([1, 2]).forEach(function(value) {
- *   console.log(value);
- * });
- * // => logs `1` then `2`
- *
- * _.forEach({ 'a': 1, 'b': 2 }, function(value, key) {
- *   console.log(key);
- * });
- * // => logs 'a' then 'b' (iteration order is not guaranteed)
- */
-function forEach(collection, iteratee) {
-  return (typeof iteratee == 'function' && isArray(collection))
-    ? arrayEach(collection, iteratee)
-    : baseEach(collection, baseCastFunction(iteratee));
-}
-
-module.exports = forEach;
-
-},{"./_arrayEach":105,"./_baseCastFunction":121,"./_baseEach":126,"./isArray":228}],223:[function(require,module,exports){
-var baseGet = require('./_baseGet');
-
-/**
- * Gets the value at `path` of `object`. If the resolved value is
- * `undefined` the `defaultValue` is used in its place.
- *
- * @static
- * @memberOf _
- * @category Object
- * @param {Object} object The object to query.
- * @param {Array|string} path The path of the property to get.
- * @param {*} [defaultValue] The value returned if the resolved value is `undefined`.
- * @returns {*} Returns the resolved value.
- * @example
- *
- * var object = { 'a': [{ 'b': { 'c': 3 } }] };
- *
- * _.get(object, 'a[0].b.c');
- * // => 3
- *
- * _.get(object, ['a', '0', 'b', 'c']);
- * // => 3
- *
- * _.get(object, 'a.b.c', 'default');
- * // => 'default'
- */
-function get(object, path, defaultValue) {
-  var result = object == null ? undefined : baseGet(object, path);
-  return result === undefined ? defaultValue : result;
-}
-
-module.exports = get;
-
-},{"./_baseGet":130}],224:[function(require,module,exports){
-var baseHasIn = require('./_baseHasIn'),
-    hasPath = require('./_hasPath');
-
-/**
- * Checks if `path` is a direct or inherited property of `object`.
- *
- * @static
- * @memberOf _
- * @category Object
- * @param {Object} object The object to query.
- * @param {Array|string} path The path to check.
- * @returns {boolean} Returns `true` if `path` exists, else `false`.
- * @example
- *
- * var object = _.create({ 'a': _.create({ 'b': _.create({ 'c': 3 }) }) });
- *
- * _.hasIn(object, 'a');
- * // => true
- *
- * _.hasIn(object, 'a.b.c');
- * // => true
- *
- * _.hasIn(object, ['a', 'b', 'c']);
- * // => true
- *
- * _.hasIn(object, 'b');
- * // => false
- */
-function hasIn(object, path) {
-  return hasPath(object, path, baseHasIn);
-}
-
-module.exports = hasIn;
-
-},{"./_baseHasIn":132,"./_hasPath":178}],225:[function(require,module,exports){
-/**
- * This method returns the first argument given to it.
- *
- * @static
- * @memberOf _
- * @category Util
- * @param {*} value Any value.
- * @returns {*} Returns `value`.
- * @example
- *
- * var object = { 'user': 'fred' };
- *
- * _.identity(object) === object;
- * // => true
- */
-function identity(value) {
-  return value;
-}
-
-module.exports = identity;
-
-},{}],226:[function(require,module,exports){
-var baseInRange = require('./_baseInRange'),
-    toNumber = require('./toNumber');
-
-/**
- * Checks if `n` is between `start` and up to but not including, `end`. If
- * `end` is not specified it's set to `start` with `start` then set to `0`.
- * If `start` is greater than `end` the params are swapped to support
- * negative ranges.
- *
- * @static
- * @memberOf _
- * @category Number
- * @param {number} number The number to check.
- * @param {number} [start=0] The start of the range.
- * @param {number} end The end of the range.
- * @returns {boolean} Returns `true` if `number` is in the range, else `false`.
- * @example
- *
- * _.inRange(3, 2, 4);
- * // => true
- *
- * _.inRange(4, 8);
- * // => true
- *
- * _.inRange(4, 2);
- * // => false
- *
- * _.inRange(2, 2);
- * // => false
- *
- * _.inRange(1.2, 2);
- * // => true
- *
- * _.inRange(5.2, 4);
- * // => false
- *
- * _.inRange(-3, -2, -6);
- * // => true
- */
-function inRange(number, start, end) {
-  start = toNumber(start) || 0;
-  if (end === undefined) {
-    end = start;
-    start = 0;
-  } else {
-    end = toNumber(end) || 0;
-  }
-  number = toNumber(number);
-  return baseInRange(number, start, end);
-}
-
-module.exports = inRange;
-
-},{"./_baseInRange":133,"./toNumber":255}],227:[function(require,module,exports){
-var isArrayLikeObject = require('./isArrayLikeObject');
-
-/** `Object#toString` result references. */
-var argsTag = '[object Arguments]';
-
-/** Used for built-in method references. */
-var objectProto = Object.prototype;
-
-/** Used to check objects for own properties. */
-var hasOwnProperty = objectProto.hasOwnProperty;
-
-/**
- * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
- * of values.
- */
-var objectToString = objectProto.toString;
-
-/** Built-in value references. */
-var propertyIsEnumerable = objectProto.propertyIsEnumerable;
-
-/**
- * Checks if `value` is likely an `arguments` object.
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
- * @example
- *
- * _.isArguments(function() { return arguments; }());
- * // => true
- *
- * _.isArguments([1, 2, 3]);
- * // => false
- */
-function isArguments(value) {
-  // Safari 8.1 incorrectly makes `arguments.callee` enumerable in strict mode.
-  return isArrayLikeObject(value) && hasOwnProperty.call(value, 'callee') &&
-    (!propertyIsEnumerable.call(value, 'callee') || objectToString.call(value) == argsTag);
-}
-
-module.exports = isArguments;
-
-},{"./isArrayLikeObject":230}],228:[function(require,module,exports){
-/**
- * Checks if `value` is classified as an `Array` object.
- *
- * @static
- * @memberOf _
- * @type {Function}
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
- * @example
- *
- * _.isArray([1, 2, 3]);
- * // => true
- *
- * _.isArray(document.body.children);
- * // => false
- *
- * _.isArray('abc');
- * // => false
- *
- * _.isArray(_.noop);
- * // => false
- */
-var isArray = Array.isArray;
-
-module.exports = isArray;
-
-},{}],229:[function(require,module,exports){
-var getLength = require('./_getLength'),
-    isFunction = require('./isFunction'),
-    isLength = require('./isLength');
-
-/**
- * Checks if `value` is array-like. A value is considered array-like if it's
- * not a function and has a `value.length` that's an integer greater than or
- * equal to `0` and less than or equal to `Number.MAX_SAFE_INTEGER`.
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is array-like, else `false`.
- * @example
- *
- * _.isArrayLike([1, 2, 3]);
- * // => true
- *
- * _.isArrayLike(document.body.children);
- * // => true
- *
- * _.isArrayLike('abc');
- * // => true
- *
- * _.isArrayLike(_.noop);
- * // => false
- */
-function isArrayLike(value) {
-  return value != null && isLength(getLength(value)) && !isFunction(value);
-}
-
-module.exports = isArrayLike;
-
-},{"./_getLength":173,"./isFunction":234,"./isLength":235}],230:[function(require,module,exports){
-var isArrayLike = require('./isArrayLike'),
-    isObjectLike = require('./isObjectLike');
-
-/**
- * This method is like `_.isArrayLike` except that it also checks if `value`
- * is an object.
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is an array-like object, else `false`.
- * @example
- *
- * _.isArrayLikeObject([1, 2, 3]);
- * // => true
- *
- * _.isArrayLikeObject(document.body.children);
- * // => true
- *
- * _.isArrayLikeObject('abc');
- * // => false
- *
- * _.isArrayLikeObject(_.noop);
- * // => false
- */
-function isArrayLikeObject(value) {
-  return isObjectLike(value) && isArrayLike(value);
-}
-
-module.exports = isArrayLikeObject;
-
-},{"./isArrayLike":229,"./isObjectLike":239}],231:[function(require,module,exports){
-var constant = require('./constant'),
-    root = require('./_root');
-
-/** Used to determine if values are of the language type `Object`. */
-var objectTypes = {
-  'function': true,
-  'object': true
-};
-
-/** Detect free variable `exports`. */
-var freeExports = (objectTypes[typeof exports] && exports && !exports.nodeType)
-  ? exports
-  : undefined;
-
-/** Detect free variable `module`. */
-var freeModule = (objectTypes[typeof module] && module && !module.nodeType)
-  ? module
-  : undefined;
-
-/** Detect the popular CommonJS extension `module.exports`. */
-var moduleExports = (freeModule && freeModule.exports === freeExports)
-  ? freeExports
-  : undefined;
-
-/** Built-in value references. */
-var Buffer = moduleExports ? root.Buffer : undefined;
-
-/**
- * Checks if `value` is a buffer.
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a buffer, else `false`.
- * @example
- *
- * _.isBuffer(new Buffer(2));
- * // => true
- *
- * _.isBuffer(new Uint8Array(2));
- * // => false
- */
-var isBuffer = !Buffer ? constant(false) : function(value) {
-  return value instanceof Buffer;
-};
-
-module.exports = isBuffer;
-
-},{"./_root":205,"./constant":215}],232:[function(require,module,exports){
-var isObjectLike = require('./isObjectLike'),
-    isPlainObject = require('./isPlainObject');
-
-/**
- * Checks if `value` is likely a DOM element.
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a DOM element, else `false`.
- * @example
- *
- * _.isElement(document.body);
- * // => true
- *
- * _.isElement('<body>');
- * // => false
- */
-function isElement(value) {
-  return !!value && value.nodeType === 1 && isObjectLike(value) && !isPlainObject(value);
-}
-
-module.exports = isElement;
-
-},{"./isObjectLike":239,"./isPlainObject":240}],233:[function(require,module,exports){
-var isArguments = require('./isArguments'),
-    isArray = require('./isArray'),
-    isArrayLike = require('./isArrayLike'),
-    isFunction = require('./isFunction'),
-    isString = require('./isString');
-
-/** Used for built-in method references. */
-var objectProto = Object.prototype;
-
-/** Used to check objects for own properties. */
-var hasOwnProperty = objectProto.hasOwnProperty;
-
-/**
- * Checks if `value` is an empty collection or object. A value is considered
- * empty if it's an `arguments` object, array, string, or jQuery-like collection
- * with a length of `0` or has no own enumerable properties.
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is empty, else `false`.
- * @example
- *
- * _.isEmpty(null);
- * // => true
- *
- * _.isEmpty(true);
- * // => true
- *
- * _.isEmpty(1);
- * // => true
- *
- * _.isEmpty([1, 2, 3]);
- * // => false
- *
- * _.isEmpty({ 'a': 1 });
- * // => false
- */
-function isEmpty(value) {
-  if (isArrayLike(value) &&
-      (isArray(value) || isString(value) ||
-        isFunction(value.splice) || isArguments(value))) {
-    return !value.length;
-  }
-  for (var key in value) {
-    if (hasOwnProperty.call(value, key)) {
-      return false;
-    }
-  }
-  return true;
-}
-
-module.exports = isEmpty;
-
-},{"./isArguments":227,"./isArray":228,"./isArrayLike":229,"./isFunction":234,"./isString":241}],234:[function(require,module,exports){
-var isObject = require('./isObject');
-
-/** `Object#toString` result references. */
-var funcTag = '[object Function]',
-    genTag = '[object GeneratorFunction]';
-
-/** Used for built-in method references. */
-var objectProto = Object.prototype;
-
-/**
- * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
- * of values.
- */
-var objectToString = objectProto.toString;
-
-/**
- * Checks if `value` is classified as a `Function` object.
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
- * @example
- *
- * _.isFunction(_);
- * // => true
- *
- * _.isFunction(/abc/);
- * // => false
- */
-function isFunction(value) {
-  // The use of `Object#toString` avoids issues with the `typeof` operator
-  // in Safari 8 which returns 'object' for typed array and weak map constructors,
-  // and PhantomJS 1.9 which returns 'function' for `NodeList` instances.
-  var tag = isObject(value) ? objectToString.call(value) : '';
-  return tag == funcTag || tag == genTag;
-}
-
-module.exports = isFunction;
-
-},{"./isObject":238}],235:[function(require,module,exports){
-/** Used as references for various `Number` constants. */
-var MAX_SAFE_INTEGER = 9007199254740991;
-
-/**
- * Checks if `value` is a valid array-like length.
- *
- * **Note:** This function is loosely based on [`ToLength`](http://ecma-international.org/ecma-262/6.0/#sec-tolength).
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a valid length, else `false`.
- * @example
- *
- * _.isLength(3);
- * // => true
- *
- * _.isLength(Number.MIN_VALUE);
- * // => false
- *
- * _.isLength(Infinity);
- * // => false
- *
- * _.isLength('3');
- * // => false
- */
-function isLength(value) {
-  return typeof value == 'number' &&
-    value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
-}
-
-module.exports = isLength;
-
-},{}],236:[function(require,module,exports){
-var isFunction = require('./isFunction'),
-    isHostObject = require('./_isHostObject'),
-    isObjectLike = require('./isObjectLike');
-
-/** Used to match `RegExp` [syntax characters](http://ecma-international.org/ecma-262/6.0/#sec-patterns). */
-var reRegExpChar = /[\\^$.*+?()[\]{}|]/g;
-
-/** Used to detect host constructors (Safari > 5). */
-var reIsHostCtor = /^\[object .+?Constructor\]$/;
-
-/** Used for built-in method references. */
-var objectProto = Object.prototype;
-
-/** Used to resolve the decompiled source of functions. */
-var funcToString = Function.prototype.toString;
-
-/** Used to check objects for own properties. */
-var hasOwnProperty = objectProto.hasOwnProperty;
-
-/** Used to detect if a method is native. */
-var reIsNative = RegExp('^' +
-  funcToString.call(hasOwnProperty).replace(reRegExpChar, '\\$&')
-  .replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, '$1.*?') + '$'
-);
-
-/**
- * Checks if `value` is a native function.
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a native function, else `false`.
- * @example
- *
- * _.isNative(Array.prototype.push);
- * // => true
- *
- * _.isNative(_);
- * // => false
- */
-function isNative(value) {
-  if (value == null) {
-    return false;
-  }
-  if (isFunction(value)) {
-    return reIsNative.test(funcToString.call(value));
-  }
-  return isObjectLike(value) &&
-    (isHostObject(value) ? reIsNative : reIsHostCtor).test(value);
-}
-
-module.exports = isNative;
-
-},{"./_isHostObject":188,"./isFunction":234,"./isObjectLike":239}],237:[function(require,module,exports){
-var isObjectLike = require('./isObjectLike');
-
-/** `Object#toString` result references. */
-var numberTag = '[object Number]';
-
-/** Used for built-in method references. */
-var objectProto = Object.prototype;
-
-/**
- * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
- * of values.
- */
-var objectToString = objectProto.toString;
-
-/**
- * Checks if `value` is classified as a `Number` primitive or object.
- *
- * **Note:** To exclude `Infinity`, `-Infinity`, and `NaN`, which are classified
- * as numbers, use the `_.isFinite` method.
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
- * @example
- *
- * _.isNumber(3);
- * // => true
- *
- * _.isNumber(Number.MIN_VALUE);
- * // => true
- *
- * _.isNumber(Infinity);
- * // => true
- *
- * _.isNumber('3');
- * // => false
- */
-function isNumber(value) {
-  return typeof value == 'number' ||
-    (isObjectLike(value) && objectToString.call(value) == numberTag);
-}
-
-module.exports = isNumber;
-
-},{"./isObjectLike":239}],238:[function(require,module,exports){
-/**
- * Checks if `value` is the [language type](https://es5.github.io/#x8) of `Object`.
- * (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is an object, else `false`.
- * @example
- *
- * _.isObject({});
- * // => true
- *
- * _.isObject([1, 2, 3]);
- * // => true
- *
- * _.isObject(_.noop);
- * // => true
- *
- * _.isObject(null);
- * // => false
- */
-function isObject(value) {
-  var type = typeof value;
-  return !!value && (type == 'object' || type == 'function');
-}
-
-module.exports = isObject;
-
-},{}],239:[function(require,module,exports){
-/**
- * Checks if `value` is object-like. A value is object-like if it's not `null`
- * and has a `typeof` result of "object".
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
- * @example
- *
- * _.isObjectLike({});
- * // => true
- *
- * _.isObjectLike([1, 2, 3]);
- * // => true
- *
- * _.isObjectLike(_.noop);
- * // => false
- *
- * _.isObjectLike(null);
- * // => false
- */
-function isObjectLike(value) {
-  return !!value && typeof value == 'object';
-}
-
-module.exports = isObjectLike;
-
-},{}],240:[function(require,module,exports){
-var isHostObject = require('./_isHostObject'),
-    isObjectLike = require('./isObjectLike');
-
-/** `Object#toString` result references. */
-var objectTag = '[object Object]';
-
-/** Used for built-in method references. */
-var objectProto = Object.prototype;
-
-/** Used to resolve the decompiled source of functions. */
-var funcToString = Function.prototype.toString;
-
-/** Used to infer the `Object` constructor. */
-var objectCtorString = funcToString.call(Object);
-
-/**
- * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
- * of values.
- */
-var objectToString = objectProto.toString;
-
-/** Built-in value references. */
-var getPrototypeOf = Object.getPrototypeOf;
-
-/**
- * Checks if `value` is a plain object, that is, an object created by the
- * `Object` constructor or one with a `[[Prototype]]` of `null`.
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a plain object, else `false`.
- * @example
- *
- * function Foo() {
- *   this.a = 1;
- * }
- *
- * _.isPlainObject(new Foo);
- * // => false
- *
- * _.isPlainObject([1, 2, 3]);
- * // => false
- *
- * _.isPlainObject({ 'x': 0, 'y': 0 });
- * // => true
- *
- * _.isPlainObject(Object.create(null));
- * // => true
- */
-function isPlainObject(value) {
-  if (!isObjectLike(value) ||
-      objectToString.call(value) != objectTag || isHostObject(value)) {
-    return false;
-  }
-  var proto = getPrototypeOf(value);
-  if (proto === null) {
-    return true;
-  }
-  var Ctor = proto.constructor;
-  return (typeof Ctor == 'function' &&
-    Ctor instanceof Ctor && funcToString.call(Ctor) == objectCtorString);
-}
-
-module.exports = isPlainObject;
-
-},{"./_isHostObject":188,"./isObjectLike":239}],241:[function(require,module,exports){
-var isArray = require('./isArray'),
-    isObjectLike = require('./isObjectLike');
-
-/** `Object#toString` result references. */
-var stringTag = '[object String]';
-
-/** Used for built-in method references. */
-var objectProto = Object.prototype;
-
-/**
- * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
- * of values.
- */
-var objectToString = objectProto.toString;
-
-/**
- * Checks if `value` is classified as a `String` primitive or object.
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
- * @example
- *
- * _.isString('abc');
- * // => true
- *
- * _.isString(1);
- * // => false
- */
-function isString(value) {
-  return typeof value == 'string' ||
-    (!isArray(value) && isObjectLike(value) && objectToString.call(value) == stringTag);
-}
-
-module.exports = isString;
-
-},{"./isArray":228,"./isObjectLike":239}],242:[function(require,module,exports){
-var isObjectLike = require('./isObjectLike');
-
-/** `Object#toString` result references. */
-var symbolTag = '[object Symbol]';
-
-/** Used for built-in method references. */
-var objectProto = Object.prototype;
-
-/**
- * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
- * of values.
- */
-var objectToString = objectProto.toString;
-
-/**
- * Checks if `value` is classified as a `Symbol` primitive or object.
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
- * @example
- *
- * _.isSymbol(Symbol.iterator);
- * // => true
- *
- * _.isSymbol('abc');
- * // => false
- */
-function isSymbol(value) {
-  return typeof value == 'symbol' ||
-    (isObjectLike(value) && objectToString.call(value) == symbolTag);
-}
-
-module.exports = isSymbol;
-
-},{"./isObjectLike":239}],243:[function(require,module,exports){
-var isLength = require('./isLength'),
-    isObjectLike = require('./isObjectLike');
-
-/** `Object#toString` result references. */
-var argsTag = '[object Arguments]',
-    arrayTag = '[object Array]',
-    boolTag = '[object Boolean]',
-    dateTag = '[object Date]',
-    errorTag = '[object Error]',
-    funcTag = '[object Function]',
-    mapTag = '[object Map]',
-    numberTag = '[object Number]',
-    objectTag = '[object Object]',
-    regexpTag = '[object RegExp]',
-    setTag = '[object Set]',
-    stringTag = '[object String]',
-    weakMapTag = '[object WeakMap]';
-
-var arrayBufferTag = '[object ArrayBuffer]',
-    float32Tag = '[object Float32Array]',
-    float64Tag = '[object Float64Array]',
-    int8Tag = '[object Int8Array]',
-    int16Tag = '[object Int16Array]',
-    int32Tag = '[object Int32Array]',
-    uint8Tag = '[object Uint8Array]',
-    uint8ClampedTag = '[object Uint8ClampedArray]',
-    uint16Tag = '[object Uint16Array]',
-    uint32Tag = '[object Uint32Array]';
-
-/** Used to identify `toStringTag` values of typed arrays. */
-var typedArrayTags = {};
-typedArrayTags[float32Tag] = typedArrayTags[float64Tag] =
-typedArrayTags[int8Tag] = typedArrayTags[int16Tag] =
-typedArrayTags[int32Tag] = typedArrayTags[uint8Tag] =
-typedArrayTags[uint8ClampedTag] = typedArrayTags[uint16Tag] =
-typedArrayTags[uint32Tag] = true;
-typedArrayTags[argsTag] = typedArrayTags[arrayTag] =
-typedArrayTags[arrayBufferTag] = typedArrayTags[boolTag] =
-typedArrayTags[dateTag] = typedArrayTags[errorTag] =
-typedArrayTags[funcTag] = typedArrayTags[mapTag] =
-typedArrayTags[numberTag] = typedArrayTags[objectTag] =
-typedArrayTags[regexpTag] = typedArrayTags[setTag] =
-typedArrayTags[stringTag] = typedArrayTags[weakMapTag] = false;
-
-/** Used for built-in method references. */
-var objectProto = Object.prototype;
-
-/**
- * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
- * of values.
- */
-var objectToString = objectProto.toString;
-
-/**
- * Checks if `value` is classified as a typed array.
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
- * @example
- *
- * _.isTypedArray(new Uint8Array);
- * // => true
- *
- * _.isTypedArray([]);
- * // => false
- */
-function isTypedArray(value) {
-  return isObjectLike(value) &&
-    isLength(value.length) && !!typedArrayTags[objectToString.call(value)];
-}
-
-module.exports = isTypedArray;
-
-},{"./isLength":235,"./isObjectLike":239}],244:[function(require,module,exports){
-/**
- * Checks if `value` is `undefined`.
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is `undefined`, else `false`.
- * @example
- *
- * _.isUndefined(void 0);
- * // => true
- *
- * _.isUndefined(null);
- * // => false
- */
-function isUndefined(value) {
-  return value === undefined;
-}
-
-module.exports = isUndefined;
-
-},{}],245:[function(require,module,exports){
-var baseHas = require('./_baseHas'),
-    baseKeys = require('./_baseKeys'),
-    indexKeys = require('./_indexKeys'),
-    isArrayLike = require('./isArrayLike'),
-    isIndex = require('./_isIndex'),
-    isPrototype = require('./_isPrototype');
-
-/**
- * Creates an array of the own enumerable property names of `object`.
- *
- * **Note:** Non-object values are coerced to objects. See the
- * [ES spec](http://ecma-international.org/ecma-262/6.0/#sec-object.keys)
- * for more details.
- *
- * @static
- * @memberOf _
- * @category Object
- * @param {Object} object The object to query.
- * @returns {Array} Returns the array of property names.
- * @example
- *
- * function Foo() {
- *   this.a = 1;
- *   this.b = 2;
- * }
- *
- * Foo.prototype.c = 3;
- *
- * _.keys(new Foo);
- * // => ['a', 'b'] (iteration order is not guaranteed)
- *
- * _.keys('hi');
- * // => ['0', '1']
- */
-function keys(object) {
-  var isProto = isPrototype(object);
-  if (!(isProto || isArrayLike(object))) {
-    return baseKeys(object);
-  }
-  var indexes = indexKeys(object),
-      skipIndexes = !!indexes,
-      result = indexes || [],
-      length = result.length;
-
-  for (var key in object) {
-    if (baseHas(object, key) &&
-        !(skipIndexes && (key == 'length' || isIndex(key, length))) &&
-        !(isProto && key == 'constructor')) {
-      result.push(key);
-    }
-  }
-  return result;
-}
-
-module.exports = keys;
-
-},{"./_baseHas":131,"./_baseKeys":139,"./_indexKeys":183,"./_isIndex":189,"./_isPrototype":193,"./isArrayLike":229}],246:[function(require,module,exports){
-var baseKeysIn = require('./_baseKeysIn'),
-    indexKeys = require('./_indexKeys'),
-    isIndex = require('./_isIndex'),
-    isPrototype = require('./_isPrototype');
-
-/** Used for built-in method references. */
-var objectProto = Object.prototype;
-
-/** Used to check objects for own properties. */
-var hasOwnProperty = objectProto.hasOwnProperty;
-
-/**
- * Creates an array of the own and inherited enumerable property names of `object`.
- *
- * **Note:** Non-object values are coerced to objects.
- *
- * @static
- * @memberOf _
- * @category Object
- * @param {Object} object The object to query.
- * @returns {Array} Returns the array of property names.
- * @example
- *
- * function Foo() {
- *   this.a = 1;
- *   this.b = 2;
- * }
- *
- * Foo.prototype.c = 3;
- *
- * _.keysIn(new Foo);
- * // => ['a', 'b', 'c'] (iteration order is not guaranteed)
- */
-function keysIn(object) {
-  var index = -1,
-      isProto = isPrototype(object),
-      props = baseKeysIn(object),
-      propsLength = props.length,
-      indexes = indexKeys(object),
-      skipIndexes = !!indexes,
-      result = indexes || [],
-      length = result.length;
-
-  while (++index < propsLength) {
-    var key = props[index];
-    if (!(skipIndexes && (key == 'length' || isIndex(key, length))) &&
-        !(key == 'constructor' && (isProto || !hasOwnProperty.call(object, key)))) {
-      result.push(key);
-    }
-  }
-  return result;
-}
-
-module.exports = keysIn;
-
-},{"./_baseKeysIn":140,"./_indexKeys":183,"./_isIndex":189,"./_isPrototype":193}],247:[function(require,module,exports){
-/**
- * Gets the last element of `array`.
- *
- * @static
- * @memberOf _
- * @category Array
- * @param {Array} array The array to query.
- * @returns {*} Returns the last element of `array`.
- * @example
- *
- * _.last([1, 2, 3]);
- * // => 3
- */
-function last(array) {
-  var length = array ? array.length : 0;
-  return length ? array[length - 1] : undefined;
-}
-
-module.exports = last;
-
-},{}],248:[function(require,module,exports){
-var baseMerge = require('./_baseMerge'),
-    createAssigner = require('./_createAssigner');
-
-/**
- * This method is like `_.assign` except that it recursively merges own and
- * inherited enumerable properties of source objects into the destination
- * object. Source properties that resolve to `undefined` are skipped if a
- * destination value exists. Array and plain object properties are merged
- * recursively.Other objects and value types are overridden by assignment.
- * Source objects are applied from left to right. Subsequent sources
- * overwrite property assignments of previous sources.
- *
- * **Note:** This method mutates `object`.
- *
- * @static
- * @memberOf _
- * @category Object
- * @param {Object} object The destination object.
- * @param {...Object} [sources] The source objects.
- * @returns {Object} Returns `object`.
- * @example
- *
- * var users = {
- *   'data': [{ 'user': 'barney' }, { 'user': 'fred' }]
- * };
- *
- * var ages = {
- *   'data': [{ 'age': 36 }, { 'age': 40 }]
- * };
- *
- * _.merge(users, ages);
- * // => { 'data': [{ 'user': 'barney', 'age': 36 }, { 'user': 'fred', 'age': 40 }] }
- */
-var merge = createAssigner(function(object, source, srcIndex) {
-  baseMerge(object, source, srcIndex);
-});
-
-module.exports = merge;
-
-},{"./_baseMerge":143,"./_createAssigner":166}],249:[function(require,module,exports){
-var baseMerge = require('./_baseMerge'),
-    createAssigner = require('./_createAssigner');
-
-/**
- * This method is like `_.merge` except that it accepts `customizer` which
- * is invoked to produce the merged values of the destination and source
- * properties. If `customizer` returns `undefined` merging is handled by the
- * method instead. The `customizer` is invoked with seven arguments:
- * (objValue, srcValue, key, object, source, stack).
- *
- * **Note:** This method mutates `object`.
- *
- * @static
- * @memberOf _
- * @category Object
- * @param {Object} object The destination object.
- * @param {...Object} sources The source objects.
- * @param {Function} customizer The function to customize assigned values.
- * @returns {Object} Returns `object`.
- * @example
- *
- * function customizer(objValue, srcValue) {
- *   if (_.isArray(objValue)) {
- *     return objValue.concat(srcValue);
- *   }
- * }
- *
- * var object = {
- *   'fruits': ['apple'],
- *   'vegetables': ['beet']
- * };
- *
- * var other = {
- *   'fruits': ['banana'],
- *   'vegetables': ['carrot']
- * };
- *
- * _.mergeWith(object, other, customizer);
- * // => { 'fruits': ['apple', 'banana'], 'vegetables': ['beet', 'carrot'] }
- */
-var mergeWith = createAssigner(function(object, source, srcIndex, customizer) {
-  baseMerge(object, source, srcIndex, customizer);
-});
-
-module.exports = mergeWith;
-
-},{"./_baseMerge":143,"./_createAssigner":166}],250:[function(require,module,exports){
-/**
- * Gets the timestamp of the number of milliseconds that have elapsed since
- * the Unix epoch (1 January 1970 00:00:00 UTC).
- *
- * @static
- * @memberOf _
- * @type {Function}
- * @category Date
- * @returns {number} Returns the timestamp.
- * @example
- *
- * _.defer(function(stamp) {
- *   console.log(_.now() - stamp);
- * }, _.now());
- * // => logs the number of milliseconds it took for the deferred function to be invoked
- */
-var now = Date.now;
-
-module.exports = now;
-
-},{}],251:[function(require,module,exports){
-var baseProperty = require('./_baseProperty'),
-    basePropertyDeep = require('./_basePropertyDeep'),
-    isKey = require('./_isKey');
-
-/**
- * Creates a function that returns the value at `path` of a given object.
- *
- * @static
- * @memberOf _
- * @category Util
- * @param {Array|string} path The path of the property to get.
- * @returns {Function} Returns the new function.
- * @example
- *
- * var objects = [
- *   { 'a': { 'b': { 'c': 2 } } },
- *   { 'a': { 'b': { 'c': 1 } } }
- * ];
- *
- * _.map(objects, _.property('a.b.c'));
- * // => [2, 1]
- *
- * _.map(_.sortBy(objects, _.property(['a', 'b', 'c'])), 'a.b.c');
- * // => [1, 2]
- */
-function property(path) {
-  return isKey(path) ? baseProperty(path) : basePropertyDeep(path);
-}
-
-module.exports = property;
-
-},{"./_baseProperty":145,"./_basePropertyDeep":146,"./_isKey":191}],252:[function(require,module,exports){
-var arrayReduce = require('./_arrayReduce'),
-    baseEach = require('./_baseEach'),
-    baseIteratee = require('./_baseIteratee'),
-    baseReduce = require('./_baseReduce'),
-    isArray = require('./isArray');
-
-/**
- * Reduces `collection` to a value which is the accumulated result of running
- * each element in `collection` through `iteratee`, where each successive
- * invocation is supplied the return value of the previous. If `accumulator`
- * is not given the first element of `collection` is used as the initial
- * value. The iteratee is invoked with four arguments:
- * (accumulator, value, index|key, collection).
- *
- * Many lodash methods are guarded to work as iteratees for methods like
- * `_.reduce`, `_.reduceRight`, and `_.transform`.
- *
- * The guarded methods are:
- * `assign`, `defaults`, `defaultsDeep`, `includes`, `merge`, `orderBy`,
- * and `sortBy`
- *
- * @static
- * @memberOf _
- * @category Collection
- * @param {Array|Object} collection The collection to iterate over.
- * @param {Function} [iteratee=_.identity] The function invoked per iteration.
- * @param {*} [accumulator] The initial value.
- * @returns {*} Returns the accumulated value.
- * @example
- *
- * _.reduce([1, 2], function(sum, n) {
- *   return sum + n;
- * }, 0);
- * // => 3
- *
- * _.reduce({ 'a': 1, 'b': 2, 'c': 1 }, function(result, value, key) {
- *   (result[value] || (result[value] = [])).push(key);
- *   return result;
- * }, {});
- * // => { '1': ['a', 'c'], '2': ['b'] } (iteration order is not guaranteed)
- */
-function reduce(collection, iteratee, accumulator) {
-  var func = isArray(collection) ? arrayReduce : baseReduce,
-      initAccum = arguments.length < 3;
-
-  return func(collection, baseIteratee(iteratee, 4), accumulator, initAccum, baseEach);
-}
-
-module.exports = reduce;
-
-},{"./_arrayReduce":110,"./_baseEach":126,"./_baseIteratee":138,"./_baseReduce":147,"./isArray":228}],253:[function(require,module,exports){
-var apply = require('./_apply'),
-    toInteger = require('./toInteger');
-
-/** Used as the `TypeError` message for "Functions" methods. */
-var FUNC_ERROR_TEXT = 'Expected a function';
-
-/* Built-in method references for those with the same name as other `lodash` methods. */
-var nativeMax = Math.max;
-
-/**
- * Creates a function that invokes `func` with the `this` binding of the
- * created function and arguments from `start` and beyond provided as an array.
- *
- * **Note:** This method is based on the [rest parameter](https://mdn.io/rest_parameters).
- *
- * @static
- * @memberOf _
- * @category Function
- * @param {Function} func The function to apply a rest parameter to.
- * @param {number} [start=func.length-1] The start position of the rest parameter.
- * @returns {Function} Returns the new function.
- * @example
- *
- * var say = _.rest(function(what, names) {
- *   return what + ' ' + _.initial(names).join(', ') +
- *     (_.size(names) > 1 ? ', & ' : '') + _.last(names);
- * });
- *
- * say('hello', 'fred', 'barney', 'pebbles');
- * // => 'hello fred, barney, & pebbles'
- */
-function rest(func, start) {
-  if (typeof func != 'function') {
-    throw new TypeError(FUNC_ERROR_TEXT);
-  }
-  start = nativeMax(start === undefined ? (func.length - 1) : toInteger(start), 0);
-  return function() {
-    var args = arguments,
-        index = -1,
-        length = nativeMax(args.length - start, 0),
-        array = Array(length);
-
-    while (++index < length) {
-      array[index] = args[start + index];
-    }
-    switch (start) {
-      case 0: return func.call(this, array);
-      case 1: return func.call(this, args[0], array);
-      case 2: return func.call(this, args[0], args[1], array);
-    }
-    var otherArgs = Array(start + 1);
-    index = -1;
-    while (++index < start) {
-      otherArgs[index] = args[index];
-    }
-    otherArgs[start] = array;
-    return apply(func, this, otherArgs);
-  };
-}
-
-module.exports = rest;
-
-},{"./_apply":104,"./toInteger":254}],254:[function(require,module,exports){
-var toNumber = require('./toNumber');
-
-/** Used as references for various `Number` constants. */
-var INFINITY = 1 / 0,
-    MAX_INTEGER = 1.7976931348623157e+308;
-
-/**
- * Converts `value` to an integer.
- *
- * **Note:** This function is loosely based on [`ToInteger`](http://www.ecma-international.org/ecma-262/6.0/#sec-tointeger).
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to convert.
- * @returns {number} Returns the converted integer.
- * @example
- *
- * _.toInteger(3);
- * // => 3
- *
- * _.toInteger(Number.MIN_VALUE);
- * // => 0
- *
- * _.toInteger(Infinity);
- * // => 1.7976931348623157e+308
- *
- * _.toInteger('3');
- * // => 3
- */
-function toInteger(value) {
-  if (!value) {
-    return value === 0 ? value : 0;
-  }
-  value = toNumber(value);
-  if (value === INFINITY || value === -INFINITY) {
-    var sign = (value < 0 ? -1 : 1);
-    return sign * MAX_INTEGER;
-  }
-  var remainder = value % 1;
-  return value === value ? (remainder ? value - remainder : value) : 0;
-}
-
-module.exports = toInteger;
-
-},{"./toNumber":255}],255:[function(require,module,exports){
-var isFunction = require('./isFunction'),
-    isObject = require('./isObject');
-
-/** Used as references for various `Number` constants. */
-var NAN = 0 / 0;
-
-/** Used to match leading and trailing whitespace. */
-var reTrim = /^\s+|\s+$/g;
-
-/** Used to detect bad signed hexadecimal string values. */
-var reIsBadHex = /^[-+]0x[0-9a-f]+$/i;
-
-/** Used to detect binary string values. */
-var reIsBinary = /^0b[01]+$/i;
-
-/** Used to detect octal string values. */
-var reIsOctal = /^0o[0-7]+$/i;
-
-/** Built-in method references without a dependency on `root`. */
-var freeParseInt = parseInt;
-
-/**
- * Converts `value` to a number.
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to process.
- * @returns {number} Returns the number.
- * @example
- *
- * _.toNumber(3);
- * // => 3
- *
- * _.toNumber(Number.MIN_VALUE);
- * // => 5e-324
- *
- * _.toNumber(Infinity);
- * // => Infinity
- *
- * _.toNumber('3');
- * // => 3
- */
-function toNumber(value) {
-  if (isObject(value)) {
-    var other = isFunction(value.valueOf) ? value.valueOf() : value;
-    value = isObject(other) ? (other + '') : other;
-  }
-  if (typeof value != 'string') {
-    return value === 0 ? value : +value;
-  }
-  value = value.replace(reTrim, '');
-  var isBinary = reIsBinary.test(value);
-  return (isBinary || reIsOctal.test(value))
-    ? freeParseInt(value.slice(2), isBinary ? 2 : 8)
-    : (reIsBadHex.test(value) ? NAN : +value);
-}
-
-module.exports = toNumber;
-
-},{"./isFunction":234,"./isObject":238}],256:[function(require,module,exports){
-var baseToPairs = require('./_baseToPairs'),
-    keys = require('./keys');
-
-/**
- * Creates an array of own enumerable key-value pairs for `object` which
- * can be consumed by `_.fromPairs`.
- *
- * @static
- * @memberOf _
- * @category Object
- * @param {Object} object The object to query.
- * @returns {Array} Returns the new array of key-value pairs.
- * @example
- *
- * function Foo() {
- *   this.a = 1;
- *   this.b = 2;
- * }
- *
- * Foo.prototype.c = 3;
- *
- * _.toPairs(new Foo);
- * // => [['a', 1], ['b', 2]] (iteration order is not guaranteed)
- */
-function toPairs(object) {
-  return baseToPairs(object, keys(object));
-}
-
-module.exports = toPairs;
-
-},{"./_baseToPairs":150,"./keys":245}],257:[function(require,module,exports){
-var copyObject = require('./_copyObject'),
-    keysIn = require('./keysIn');
-
-/**
- * Converts `value` to a plain object flattening inherited enumerable
- * properties of `value` to own properties of the plain object.
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to convert.
- * @returns {Object} Returns the converted plain object.
- * @example
- *
- * function Foo() {
- *   this.b = 2;
- * }
- *
- * Foo.prototype.c = 3;
- *
- * _.assign({ 'a': 1 }, new Foo);
- * // => { 'a': 1, 'b': 2 }
- *
- * _.assign({ 'a': 1 }, _.toPlainObject(new Foo));
- * // => { 'a': 1, 'b': 2, 'c': 3 }
- */
-function toPlainObject(value) {
-  return copyObject(value, keysIn(value));
-}
-
-module.exports = toPlainObject;
-
-},{"./_copyObject":163,"./keysIn":246}],258:[function(require,module,exports){
-var Symbol = require('./_Symbol'),
-    isSymbol = require('./isSymbol');
-
-/** Used as references for various `Number` constants. */
-var INFINITY = 1 / 0;
-
-/** Used to convert symbols to primitives and strings. */
-var symbolProto = Symbol ? Symbol.prototype : undefined,
-    symbolToString = symbolProto ? symbolProto.toString : undefined;
-
-/**
- * Converts `value` to a string if it's not one. An empty string is returned
- * for `null` and `undefined` values. The sign of `-0` is preserved.
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to process.
- * @returns {string} Returns the string.
- * @example
- *
- * _.toString(null);
- * // => ''
- *
- * _.toString(-0);
- * // => '-0'
- *
- * _.toString([1, 2, 3]);
- * // => '1,2,3'
- */
-function toString(value) {
-  // Exit early for strings to avoid a performance hit in some environments.
-  if (typeof value == 'string') {
-    return value;
-  }
-  if (value == null) {
-    return '';
-  }
-  if (isSymbol(value)) {
-    return symbolToString ? symbolToString.call(value) : '';
-  }
-  var result = (value + '');
-  return (result == '0' && (1 / value) == -INFINITY) ? '-0' : result;
-}
-
-module.exports = toString;
-
-},{"./_Symbol":99,"./isSymbol":242}]},{},[2]);
+},{"./support/isBuffer":302,"_process":301,"inherits":249}]},{},[248]);

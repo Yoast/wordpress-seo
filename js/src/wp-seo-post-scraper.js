@@ -1,9 +1,11 @@
-/* global YoastSEO: true, tinyMCE, ajaxurl, wpseoPostScraperL10n, YoastShortcodePlugin, YoastReplaceVarPlugin, console, require */
+/* global YoastSEO: true, tinyMCE, wpseoPostScraperL10n, YoastShortcodePlugin, YoastReplaceVarPlugin, console, require */
 (function( $ ) {
 	'use strict';
 
 	var SnippetPreview = require( 'yoastseo' ).SnippetPreview;
 	var App = require( 'yoastseo' ).App;
+
+	var UsedKeywords = require( './analysis/usedKeywords' );
 
 	var currentKeyword = '';
 	var app, snippetPreview;
@@ -94,7 +96,6 @@
 			snippetTitle: this.getDataFromInput( 'snippetTitle' ),
 			snippetMeta: this.getDataFromInput( 'snippetMeta' ),
 			snippetCite: this.getDataFromInput( 'cite' ),
-			usedKeywords: wpseoPostScraperL10n.keyword_usage,
 			searchUrl: '<a target="_blank" href=' + wpseoPostScraperL10n.search_url + '>',
 			postUrl: '<a target="_blank" href=' + wpseoPostScraperL10n.post_edit_url + '>'
 		};
@@ -233,7 +234,6 @@
 	PostScraper.prototype.bindElementEvents = function( app ) {
 		this.inputElementEventBinder( app );
 		document.getElementById( 'yoast_wpseo_focuskw_text_input' ).addEventListener( 'keydown', app.snippetPreview.disableEnter );
-		document.getElementById( 'yoast_wpseo_focuskw_text_input' ).addEventListener( 'keyup', this.updateKeywordUsage );
 	};
 
 	/**
@@ -286,9 +286,9 @@
 			if ( '' === currentKeyword ) {
 				cssClass = 'na';
 			} else {
-				cssClass = app.scoreFormatter.overallScoreRating( parseInt( score, 10 ) );
+				// cssClass = app.scoreFormatter.overallScoreRating( parseInt( score, 10 ) );
 			}
-			alt = app.scoreFormatter.getSEOScoreText( cssClass );
+			// alt = app.scoreFormatter.getSEOScoreText( cssClass );
 
 			$( '.yst-traffic-light' )
 				.attr( 'class', 'yst-traffic-light ' + cssClass )
@@ -348,26 +348,6 @@
 
 		// Updates
 		mainKeywordTab.update( score, keyword );
-	};
-
-	/**
-	 * updates the focus keyword usage if it is not in the array yet.
-	 */
-	PostScraper.prototype.updateKeywordUsage = function() {
-		var keyword = this.value;
-		if ( typeof( wpseoPostScraperL10n.keyword_usage[ keyword ] === null ) ) {
-			jQuery.post(ajaxurl, {
-					action: 'get_focus_keyword_usage',
-					post_id: jQuery('#post_ID').val(),
-					keyword: keyword
-				}, function( data ) {
-					if ( data ) {
-						wpseoPostScraperL10n.keyword_usage[ keyword ] = data;
-						app.analyzeTimer();
-					}
-				}, 'json'
-			);
-		}
 	};
 
 	/**
@@ -463,9 +443,6 @@
 			targets: {
 				output: 'wpseo-pageanalysis'
 			},
-			usedKeywords: wpseoPostScraperL10n.keyword_usage,
-			searchUrl: '<a target="_blank" href=' + wpseoPostScraperL10n.search_url + '>',
-			postUrl: '<a target="_blank" href=' + wpseoPostScraperL10n.post_edit_url + '>',
 			callbacks: {
 				getData: postScraper.getData.bind( postScraper ),
 				bindElementEvents: postScraper.bindElementEvents.bind( postScraper ),
@@ -490,12 +467,16 @@
 		args.snippetPreview = snippetPreview;
 
 		app = new App( args );
+		window.YoastSEO = {};
 		window.YoastSEO.app = app;
 		jQuery( window ).trigger( 'YoastSEO:ready' );
 
 		// Init Plugins
 		new YoastReplaceVarPlugin( app );
 		new YoastShortcodePlugin( app );
+
+		var usedKeywords = new UsedKeywords( '#yoast_wpseo_focuskw_text_input', 'get_focus_keyword_usage', wpseoPostScraperL10n, app );
+		usedKeywords.init();
 
 		postScraper.initKeywordTabTemplate();
 
