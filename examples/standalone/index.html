@@ -37,6 +37,14 @@
 
             YoastSEO.app.refresh();
         };
+
+        function allGreen() {
+            document.getElementById( "content" ).innerHTML = document.getElementById( "example-all-green-text" ).innerHTML;
+            document.getElementById( "focusKeyword" ).value = "focus keyword";
+            document.getElementById( "snippet-editor-title" ).value = "Focus keyword is a very important word when you are optimizing";
+            document.getElementById( "snippet-editor-slug" ).value = "focus-keyword-importance";
+            document.getElementById( "snippet-editor-meta-description" ).value = "Focus keyword is a very important word when you are optimizing, that's because it is the thing you are focusing on. You want to rank very high in Google.";
+        }
     </script>
 </head>
 <body class="purple seo">
@@ -47,6 +55,9 @@
         <div class="wrap">
             <div class="content-sidebar-wrap">
                 <div id="input" class="form-container">
+                    <h2>Example data</h2>
+                    <button type="button" onclick="allGreen();">All green</button>
+
                     <div id="inputForm" class="inputForm">
                         <label for="content">Text</label>
                         <textarea id="content" name="content" placeholder="Start writing your text!"></textarea>
@@ -108,6 +119,19 @@
             </div>
         </div>
 
+        <div id="example-all-green" style="display: none;">
+            <div id="example-all-green-text">No focus keyword has been set for this page.  Good SEO score The page title contains the focus keyword, at the beginning which is considered to improve rankings. Good SEO score In the specified meta description, consider: How does it compare to the competition? Could it be made more appealing? The focus keyword appears in the first paragraph of the copy. The copy scores 66.9 in the Flesch Reading Ease test, which is considered ok to read.
+                Good SEO score The page title is between the 35 character minimum and the recommended 65 character maximum. No focus keyword has been set for this page.  Good SEO score The page title contains the focus keyword, at the beginning which is considered to improve rankings. Good SEO score In the specified meta description, consider: How does it compare to the competition? Could it be made more appealing? The focus keyword appears in the first paragraph of the copy. The copy scores 66.9 in the Flesch Reading Ease test, which is considered ok to read.
+
+                <img src="/path/to/image" alt="The images on this page do not have alt tags containing your focus keyword." />
+
+                <h2>Is there more reason for the focus keyword?</h2>
+                Good SEO score The page title is between the 35 character minimum and the recommended 65 character maximum. No focus keyword has been set for this page.  Good SEO score The page title contains the focus keyword, at the beginning which is considered to improve rankings. Good SEO score In the specified meta description, consider: How does it compare to the competition? Could it be made more appealing? The focus keyword appears in the first paragraph of the copy. The copy scores 66.9 in the Flesch Reading Ease test, which is considered ok to read.
+                Good SEO score The page title is between the 35 character minimum and the recommended 65 character maximum. No focus keyword has been set for this page.  Good SEO score The page title contains the focus keyword, at the beginning which is considered to improve rankings. Good SEO score In the specified meta description, consider: How does it compare to the competition? Could it be made more appealing? The focus keyword appears in the first paragraph of the copy. The copy scores 66.9 in the Flesch Reading Ease test, which is considered ok to read.
+                Good SEO score The page title is between the 35 character minimum and the recommended 65 character maximum. The page title is between the 35 character minimum and the recommended 65 character maximum. The page title is between the 35 character minimum and the recommended 65 character maximum. The page title is between the 35 character minimum and the recommended 65 character maximum. The page title is between the 35 character minimum and the recommended 65 character maximum. The page title is between the 35 character minimum and the recommended 65 character maximum. The page title is between the 35 character minimum and the recommended 65 character maximum. The page title is between the 35 character minimum and the recommended 65 character maximum. The page title is between the 35 character minimum and the recommended 65 character maximum. The page title is between the 35 character minimum and the recommended 65 character maximum. The page title is between the 35 character minimum and the recommended 65 character maximum.
+
+                <a href="http://example.org">This is an outbound link</a></div>
+        </div>
     </div>
 </div>
 

@@ -4,6 +4,7 @@ var AssessmentResult = require( "../values/AssessmentResult.js" );
  * Returns the score and text for the descriptionLength
  * @param {number} descriptionLength The length of the metadescription.
  * @param {object} i18n The i18n object used for translations.
+ * @returns {Object} An object with values for the assessment result.
  */
 var calculateDescriptionLengthResult = function( descriptionLength, i18n ) {
 	var recommendedValue = 120;

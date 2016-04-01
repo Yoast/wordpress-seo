@@ -100,7 +100,7 @@ function retrieveUnformattedText( key ) {
  *
  * @param {string} key The data key to update.
  * @param {string} value The value to update.
- * @return {void}
+ * @returns {void}
  */
 function updateUnformattedText( key, value ) {
 	this.element.input[ key ].value = value;
@@ -113,7 +113,7 @@ function updateUnformattedText( key, value ) {
  *
  * @param {HTMLElement} element The element to add the class to.
  * @param {string} className The class to add.
- * @return {void}
+ * @returns {void}
  */
 function addClass( element, className ) {
 	var classes = element.className.split( " " );
@@ -130,7 +130,7 @@ function addClass( element, className ) {
  *
  * @param {HTMLElement} element The element to remove the class from.
  * @param {string} className The class to remove.
- * @return {void}
+ * @returns {void}
  */
 function removeClass( element, className ) {
 	var classes = element.className.split( " " );
@@ -148,7 +148,7 @@ function removeClass( element, className ) {
  *
  * @param {HTMLElement} element The element to remove the classes from.
  * @param {Array} classes A list of classes to remove
- * @return {void}
+ * @returns {void}
  */
 function removeClasses( element, classes ) {
 	forEach( classes, removeClass.bind( null, element ) );

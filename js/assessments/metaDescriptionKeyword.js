@@ -4,6 +4,7 @@ var AssessmentResult = require( "../values/AssessmentResult.js" );
  * Returns the score and text for the description keyword match.
  * @param {number} keywordMatches The number of keyword matches in the description.
  * @param {object} i18n The i18n object used for translations.
+ * @returns {Object} An object with values for the assessment result.
  */
 var calculateKeywordMatchesResult = function( keywordMatches, i18n ) {
 	if ( keywordMatches > 0 ) {
