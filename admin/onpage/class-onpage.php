@@ -226,5 +226,4 @@ class WPSEO_OnPage {
 
 		return (bool) wfConfig::get( 'blockFakeBots' );
 	}
-
 }

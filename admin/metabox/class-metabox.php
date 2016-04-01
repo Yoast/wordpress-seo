@@ -47,14 +47,17 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * the main meta box definition array in the class WPSEO_Meta() as well!!!!
 	 */
 	public static function translate_meta_boxes() {
-		self::$meta_fields['general']['snippetpreview']['title'] = __( 'Snippet Editor', 'wordpress-seo' );
-		self::$meta_fields['general']['snippetpreview']['help']  = sprintf( __( 'This is a rendering of what this post might look like in Google\'s search results.<br/><br/>Read %sthis post%s for more info.', 'wordpress-seo' ), '<a target="_blank" href="https://yoast.com/snippet-preview/#utm_source=wordpress-seo-metabox&amp;utm_medium=inline-help&amp;utm_campaign=snippet-preview">', '</a>' );
+		self::$meta_fields['general']['snippetpreview']['title']       = __( 'Snippet Editor', 'wordpress-seo' );
+		self::$meta_fields['general']['snippetpreview']['help']        = sprintf( __( 'This is a rendering of what this post might look like in Google\'s search results. Read %sthis post%s for more info.', 'wordpress-seo' ), '<a target="_blank" href="https://yoast.com/snippet-preview/#utm_source=wordpress-seo-metabox&amp;utm_medium=inline-help&amp;utm_campaign=snippet-preview">', '</a>' );
+		self::$meta_fields['general']['snippetpreview']['help-button'] = __( 'Snippet Editor Help', 'wordpress-seo' );
 
-		self::$meta_fields['general']['pageanalysis']['title'] = __( 'Content Analysis', 'wordpress-seo' );
-		self::$meta_fields['general']['pageanalysis']['help']  = sprintf( __( 'This is the content analysis, a collection of content checks that analyze the content of your page. Read %sthis post%s for more info.', 'wordpress-seo' ), '<a target="_blank" href="https://yoast.com/real-time-content-analysis/#utm_source=wordpress-seo-metabox&amp;utm_medium=inline-help&amp;utm_campaign=snippet-preview">', '</a>' );
+		self::$meta_fields['general']['pageanalysis']['title']       = __( 'Content Analysis', 'wordpress-seo' );
+		self::$meta_fields['general']['pageanalysis']['help']        = sprintf( __( 'This is the content analysis, a collection of content checks that analyze the content of your page. Read %sthis post%s for more info.', 'wordpress-seo' ), '<a target="_blank" href="https://yoast.com/real-time-content-analysis/#utm_source=wordpress-seo-metabox&amp;utm_medium=inline-help&amp;utm_campaign=snippet-preview">', '</a>' );
+		self::$meta_fields['general']['pageanalysis']['help-button'] = __( 'Content Analysis Help', 'wordpress-seo' );
 
-		self::$meta_fields['general']['focuskw_text_input']['title'] = __( 'Focus Keyword', 'wordpress-seo' );
-		self::$meta_fields['general']['focuskw_text_input']['help']  = sprintf( __( 'Pick the main keyword or keyphrase that this post/page is about.<br/><br/>Read %sthis post%s for more info.', 'wordpress-seo' ), '<a target="_blank" href="https://yoast.com/focus-keyword/#utm_source=wordpress-seo-metabox&amp;utm_medium=inline-help&amp;utm_campaign=focus-keyword">', '</a>' );
+		self::$meta_fields['general']['focuskw_text_input']['title']       = __( 'Focus Keyword', 'wordpress-seo' );
+		self::$meta_fields['general']['focuskw_text_input']['help']        = sprintf( __( 'Pick the main keyword or keyphrase that this post/page is about. Read %sthis post%s for more info.', 'wordpress-seo' ), '<a target="_blank" href="https://yoast.com/focus-keyword/#utm_source=wordpress-seo-metabox&amp;utm_medium=inline-help&amp;utm_campaign=focus-keyword">', '</a>' );
+		self::$meta_fields['general']['focuskw_text_input']['help-button'] = __( 'Focus Keyword Help', 'wordpress-seo' );
 
 		self::$meta_fields['general']['title']['title']       = __( 'SEO Title', 'wordpress-seo' );
 
@@ -528,9 +531,11 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				$label = '<label for="' . $esc_form_key . '">' . $label . '</label>';
 			}
 
-			$help = '';
+			$help_button = $help_panel = '';
 			if ( isset( $meta_field_def['help'] ) && $meta_field_def['help'] !== '' ) {
-				$help = '<img src="' . plugins_url( 'images/question-mark.png', WPSEO_FILE ) . '" class="alignright yoast_help" id="' . esc_attr( $key . 'help' ) . '" alt="' . esc_attr( $meta_field_def['help'] ) . '" />';
+				$help = new WPSEO_Admin_Help_Panel( $key, $meta_field_def['help-button'], $meta_field_def['help'] );
+				$help_button = $help->get_button_html();
+				$help_panel  = $help->get_panel_html();
 			}
 
 			if ( $meta_field_def['type'] === 'hidden' ) {
@@ -539,8 +544,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			else {
 				$html = '
 					<tr>
-						<th scope="row">' . $label . $help . '</th>
-						<td>';
+						<th scope="row">' . $label . $help_button . '</th>
+						<td>' . $help_panel;
 
 				$html .= $content;
 
@@ -608,6 +613,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 	/**
 	 * Enqueues all the needed JS and CSS.
+	 *
 	 * @todo [JRF => whomever] create css/metabox-mp6.css file and add it to the below allowed colors array when done
 	 */
 	public function enqueue() {
@@ -637,7 +643,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$asset_manager->enqueue_style( 'metabox-css' );
 			$asset_manager->enqueue_style( 'scoring' );
 			$asset_manager->enqueue_style( 'snippet' );
-			$asset_manager->enqueue_style( 'jquery-qtip.js' );
+			$asset_manager->enqueue_style( 'select2' );
 
 			$asset_manager->enqueue_script( 'metabox' );
 			$asset_manager->enqueue_script( 'admin-media' );
@@ -652,6 +658,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'post-scraper', 'wpseoPostScraperL10n', $this->localize_post_scraper_script() );
 			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'replacevar-plugin', 'wpseoReplaceVarsL10n', $this->localize_replace_vars_script() );
 			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'shortcode-plugin', 'wpseoShortcodePluginL10n', $this->localize_shortcode_plugin_script() );
+
+			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'metabox', 'wpseoSelect2Locale', substr( get_locale(), 0, 2 ) );
 
 			if ( post_type_supports( get_post_type(), 'thumbnail' ) ) {
 				$asset_manager->enqueue_style( 'featured-image' );
@@ -798,8 +806,8 @@ SVG;
 	 * Keyword tab for enabling analysis of multiple keywords.
 	 */
 	public function template_keyword_tab() {
-		// Only do this on the edit post pages.
-		if ( 'post' !== get_current_screen()->base && 'post-new' !== get_current_screen()->base ) {
+		// This template belongs to the post scraper so don't echo it if it isn't enqueued.
+		if ( ! wp_script_is( WPSEO_Admin_Asset_Manager::PREFIX . 'post-scraper' ) ) {
 			return;
 		}
 
@@ -1315,5 +1323,4 @@ SVG;
 
 		return '';
 	}
-
-} /* End of class */
+}

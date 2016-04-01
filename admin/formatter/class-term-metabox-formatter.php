@@ -138,5 +138,4 @@ class WPSEO_Term_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 
 		return '';
 	}
-
 }

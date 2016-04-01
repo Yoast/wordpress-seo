@@ -29,7 +29,7 @@ echo '<p>' . __( 'Attachments to posts are stored in the database as posts, this
 
 echo '<h3>', __( 'Clean up permalinks', 'wordpress-seo' ), '</h3>';
 $yform->light_switch( 'cleanslugs', __( 'Remove stop words from slugs.', 'wordpress-seo' ), $remove_buttons, false );
-echo '<p>' . __( 'This helps you to create cleaner URLs by automatically removing the stopwords from them.', 'wordpress-seo' ) .'</p>';
+echo '<p>' . __( 'This helps you to create cleaner URLs by automatically removing the stopwords from them.', 'wordpress-seo' ) . '</p>';
 
 /* translators: %s expands to <code>?replytocom</code> */
 $yform->light_switch( 'cleanreplytocom', sprintf( __( 'Remove the %s variables.', 'wordpress-seo' ), '<code>?replytocom</code>' ), $remove_buttons, false );
