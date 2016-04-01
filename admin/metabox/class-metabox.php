@@ -613,6 +613,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 	/**
 	 * Enqueues all the needed JS and CSS.
+	 *
 	 * @todo [JRF => whomever] create css/metabox-mp6.css file and add it to the below allowed colors array when done
 	 */
 	public function enqueue() {

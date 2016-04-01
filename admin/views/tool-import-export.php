@@ -65,6 +65,7 @@ if ( isset( $_FILES['settings_import_file'] ) ) {
 if ( isset( $import ) ) {
 	/**
 	 * Allow customization of import&export message
+	 *
 	 * @api  string  $msg  The message.
 	 */
 	$msg = apply_filters( 'wpseo_import_message', $import->msg );

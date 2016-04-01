@@ -412,6 +412,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 		/**
 		 * Do not include external URLs.
+		 *
 		 * @see https://wordpress.org/plugins/page-links-to/ can rewrite permalinks to external URLs.
 		 */
 		if ( false === strpos( $url['loc'], $this->home_url ) ) {
