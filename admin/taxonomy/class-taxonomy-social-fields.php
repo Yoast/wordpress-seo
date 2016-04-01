@@ -132,5 +132,4 @@ class WPSEO_Taxonomy_Social_Fields extends WPSEO_Taxonomy_Fields {
 
 		return $social_networks;
 	}
-
 }
