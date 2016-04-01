@@ -52,8 +52,8 @@ window.onload = function() {
 
 	app.refresh();
 	
-	focusKeywordField.on( 'change', app.refresh.bind( app ) );
-	contentField.on( 'change', app.refresh.bind( app ) );
+	focusKeywordField.addEventListener( 'change', app.analyzeTimer.bind( app ) );
+	contentField.addEventListener( 'change', app.analyzeTimer.bind( app ) );
 };
 ```
 
