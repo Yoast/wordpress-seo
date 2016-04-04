@@ -915,7 +915,7 @@ class WPSEO_Frontend {
 				$canonical = get_search_link();
 			}
 			elseif ( is_front_page() ) {
-				$canonical = home_url();
+				$canonical = home_url( user_trailingslashit( '' ) );
 			}
 			elseif ( $this->is_posts_page() ) {
 				$canonical = get_permalink( get_option( 'page_for_posts' ) );
@@ -951,7 +951,7 @@ class WPSEO_Frontend {
 				}
 			}
 
-			$this->canonical_unpaged = user_trailingslashit( $canonical );
+			$this->canonical_unpaged = $canonical;
 
 			if ( $canonical && get_query_var( 'paged' ) > 1 ) {
 				global $wp_rewrite;
@@ -988,7 +988,7 @@ class WPSEO_Frontend {
 		 *
 		 * @api string $canonical The canonical URL
 		 */
-		$this->canonical = apply_filters( 'wpseo_canonical', user_trailingslashit( $canonical ) );
+		$this->canonical = apply_filters( 'wpseo_canonical', $canonical );
 	}
 
 	/**
