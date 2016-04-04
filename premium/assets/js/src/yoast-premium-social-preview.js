@@ -485,6 +485,17 @@ var forEach = require( 'lodash/forEach' );
 				helpPanel.helpText( panel.descriptionText, panel.id )
 			);
 		});
+
+		$( '.snippet-editor__form').on('click', '.yoast-help-button', function() {
+			var $button = $( this ),
+				helpPanel = $( '#' + $button.attr( 'aria-controls' ) ),
+				isPanelVisible = helpPanel.is( ':visible' );
+
+			$( helpPanel ).slideToggle( 200, function() {
+				$button.attr( 'aria-expanded', ! isPanelVisible );
+			});
+		});
+
 	}
 
 	/**
