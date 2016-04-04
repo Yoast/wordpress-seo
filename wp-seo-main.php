@@ -147,7 +147,7 @@ function _wpseo_activate() {
 		delete_option( 'rewrite_rules' );
 	}
 	else {
-		add_action( 'shutdown', 'flush_rewrite_rules' );
+		add_action( 'activated_plugin', 'flush_rewrite_rules' );
 	}
 
 	wpseo_add_capabilities();
@@ -168,7 +168,7 @@ function _wpseo_deactivate() {
 		delete_option( 'rewrite_rules' );
 	}
 	else {
-		add_action( 'shutdown', 'flush_rewrite_rules' );
+		add_action( 'deactivated_plugin', 'flush_rewrite_rules' );
 	}
 
 	wpseo_remove_capabilities();
