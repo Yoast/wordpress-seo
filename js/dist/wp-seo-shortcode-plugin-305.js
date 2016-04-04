@@ -3,6 +3,8 @@
 /* global wpseoShortcodePluginL10n */
 /* global ajaxurl */
 /* global YoastSEO */
+/* global _ */
+/* global console */
 
 (function() {
 	'use strict';
@@ -93,26 +95,22 @@
 	/**
 	 * Bind elements to be able to reload the dataset if shortcodes get added.
 	 */
-	YoastShortcodePlugin.prototype.bindElementEvents = _.debounce( function() {
+	YoastShortcodePlugin.prototype.bindElementEvents = function() {
 		var contentElement = document.getElementById( 'content' ) || false;
-		var that = this;
+		var callback =  _.debounce(	this.loadShortcodes.bind( this, this.declareReloaded.bind( this ) ), 500 );
 
 		if (contentElement) {
-			contentElement.addEventListener( 'keydown', this.loadShortcodes.bind( this, this.declareReloaded.bind( this ) ) );
-			contentElement.addEventListener( 'change', this.loadShortcodes.bind( this, this.declareReloaded.bind( this ) ) );
+			contentElement.addEventListener( 'keyup', callback );
+			contentElement.addEventListener( 'change', callback );
 		}
 
 		if( typeof tinyMCE !== 'undefined' && typeof tinyMCE.on === 'function' ) {
 			tinyMCE.on( 'addEditor', function( e ) {
-				e.editor.on( 'change', function() {
-					that.loadShortcodes.bind( that, that.declareReloaded.bind( that ) )();
-				});
-				e.editor.on('keydown', function() {
-					that.loadShortcodes.bind( that, that.declareReloaded.bind( that ) )();
-				});
+				e.editor.on( 'change', callback );
+				e.editor.on( 'keyup', callback );
 			});
 		}
-	}, 25);
+	};
 
 	/**
 	 * gets content from the content field, if tinyMCE is initialized, use the getContent function to get the data from tinyMCE
