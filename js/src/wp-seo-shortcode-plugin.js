@@ -2,6 +2,7 @@
 /* global wpseoShortcodePluginL10n */
 /* global ajaxurl */
 /* global YoastSEO */
+
 (function() {
 	'use strict';
 
@@ -91,7 +92,7 @@
 	/**
 	 * Bind elements to be able to reload the dataset if shortcodes get added.
 	 */
-	YoastShortcodePlugin.prototype.bindElementEvents = function() {
+	YoastShortcodePlugin.prototype.bindElementEvents = _.debounce( function() {
 		var contentElement = document.getElementById( 'content' ) || false;
 		var that = this;
 
@@ -110,7 +111,7 @@
 				});
 			});
 		}
-	};
+	}, 25);
 
 	/**
 	 * gets content from the content field, if tinyMCE is initialized, use the getContent function to get the data from tinyMCE
