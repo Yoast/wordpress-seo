@@ -82,4 +82,5 @@ function wpseo_mark_as_fixed(url) {
 		}
 	);
 }
+
 },{}]},{},[1]);

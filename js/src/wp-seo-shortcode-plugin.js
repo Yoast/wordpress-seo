@@ -64,7 +64,7 @@
 		var parsedShortcodes = this.parsedShortcodes;
 
 		if ( typeof data === 'string' && parsedShortcodes.length > 0 ) {
-			for ( var i in parsedShortcodes ) {
+			for ( var i = 0; i < parsedShortcodes.length; i++ ) {
 				data = data.replace( parsedShortcodes[ i ].shortcode, parsedShortcodes[ i ].output );
 			}
 		}
@@ -141,7 +141,7 @@
 
 		var unparsedShortcodes = [];
 
-		for ( var i in shortcodes ) {
+		for ( var i = 0; i < shortcodes.length; i++ ) {
 			var shortcode = shortcodes[ i ];
 			if ( unparsedShortcodes.indexOf( shortcode ) === -1 && this.isUnparsedShortcode( shortcode ) ) {
 				unparsedShortcodes.push( shortcode );
@@ -160,7 +160,7 @@
 	YoastShortcodePlugin.prototype.isUnparsedShortcode = function( shortcode ) {
 		var already_exists = false;
 
-		for ( var i in this.parsedShortcodes ) {
+		for ( var i = 0; i < this.parsedShortcodes.length; i++ ) {
 			if ( this.parsedShortcodes[ i ].shortcode === shortcode ) {
 				already_exists = true;
 			}
@@ -184,7 +184,7 @@
 		var captures = this.matchCapturingShortcodes( text );
 
 		// Remove the capturing shortcodes from the text before trying to match the capturing shortcodes.
-		for ( var i in captures ) {
+		for ( var i = 0; i < captures.length; i++ ) {
 			text = text.replace(captures[ i ], '');
 		}
 
@@ -206,13 +206,14 @@
 		var captureKeywords = ( text.match( this.closingTagRegex ) || [] ).join(' ').match( this.keywordRegex ) || [];
 
 		// Fetch the capturing shortcodes and strip them from the text so we can easily match the non capturing shortcodes.
-		for ( var i in captureKeywords ) {
+		for ( var i = 0; i < captureKeywords.length; i++ ) {
 			var captureKeyword = captureKeywords[i];
 			var captureRegex = '\\[' + captureKeyword + '[^\\]]*?\\].*?\\[\\/' + captureKeyword + '\\]';
 			var matches = text.match( new RegExp(captureRegex, 'g') ) || [];
 
 			captures = captures.concat( matches );
 		}
+
 		return captures;
 	};
 
@@ -262,7 +263,7 @@
 	 */
 	YoastShortcodePlugin.prototype.saveParsedShortcodes = function( shortcodeResults, callback ) {
 		shortcodeResults = JSON.parse( shortcodeResults);
-		for ( var i in shortcodeResults ) {
+		for ( var i = 0; i < shortcodeResults.length; i++ ) {
 			this.parsedShortcodes.push( shortcodeResults[ i ] );
 		}
 
