@@ -11,6 +11,9 @@ $padding_preview: 20px;
 $width_facebook_image_small: 158px;
 $height_facebook_image_small: 158px;
 
+$width_twitter_image_small: 125px;
+$height_twitter_image_small: 125px;
+
 $border_radius_twitter: .42857em;
 
 .social-preview__inner {
@@ -29,6 +32,21 @@ $border_radius_twitter: .42857em;
 	&--twitter {
 		border-radius: $border_radius_twitter;
 		border:  1px solid #E1E8ED;
+
+		&:hover {
+			border-color: #8899A6;
+			background: #F5F8FA;
+		}
+
+		&-small {
+			@include clearfix;
+
+			&:hover {
+				.editable-preview__image--twitter {
+					border-right: 1px solid #8899A6;
+				}
+			}
+		}
 	}
 }
 
@@ -60,6 +78,7 @@ $border_radius_twitter: .42857em;
 			font-size:   14px;
 			color:       #292F33;
 			line-height: 1.3em;
+
 		}
 	}
 
@@ -86,6 +105,15 @@ $border_radius_twitter: .42857em;
 			&-small {
 				float: left;
 				width: calc( 100% - #{$width_facebook_image_small} );
+			}
+		}
+
+		&--twitter {
+			max-width: 506px;
+
+			&-small {
+				float: left;
+				width: calc( 100% - #{$width_twitter_image_small} );
 			}
 		}
 	}
@@ -146,15 +174,30 @@ $border_radius_twitter: .42857em;
 				float: left;
 			}
 		}
+
 		&--twitter {
 			width:      $width_twitter;
 			max-height: 506px;
 
 			img {
-				max-height: 506px;
+				max-height: 100%;
+				max-width: 100%;
 				// Reduce max-width with 2 pixels because the image will overlap the bordered container.
-				max-width:  $width_twitter - 2;
+				//max-width:  $width_twitter - 2;
 				border-radius: $border_radius_twitter $border_radius_twitter 0 0;
+			}
+
+			&-small {
+				background: #E1E8ED;
+				border-right: 1px solid #E1E8ED;
+				width: $width_twitter_image_small;
+				height: $height_twitter_image_small - 1px; // Reduce with 1 px because of border.
+				float: left;
+				border-radius: $border_radius_twitter 0 0 $border_radius_twitter;
+
+				img {
+					border-radius: $border_radius_twitter 0 0 $border_radius_twitter;
+				}
 			}
 		}
 	}
