@@ -382,7 +382,7 @@ class WPSEO_Meta {
 				global $post;
 
 				$options = WPSEO_Options::get_options( array( 'wpseo', 'wpseo_titles', 'wpseo_internallinks' ) );
-				
+
 				if ( ! current_user_can( 'manage_options' ) && $options['disableadvanced_meta'] ) {
 					return array();
 				}
