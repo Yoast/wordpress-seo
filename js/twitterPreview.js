@@ -27,7 +27,7 @@ var twitterDefaults = {
 	data: {
 		title: "",
 		description: "",
-		imageUrl: "http://www.filmtotaal.nl/images/newscontent/j76kpfrclkou_200.jpg"
+		imageUrl: ""
 	},
 	placeholder: {
 		title:    "This is an example title - edit by clicking here",
