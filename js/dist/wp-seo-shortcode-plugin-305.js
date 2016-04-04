@@ -207,9 +207,7 @@
 		var captureKeywords = ( text.match( this.closingTagRegex ) || [] ).join(' ').match( this.keywordRegex ) || [];
 
 		// Fetch the capturing shortcodes and strip them from the text so we can easily match the non capturing shortcodes.
-		var captureKeywordsLength = captureKeywords.length;
-
-		for ( var i = 0; i < captureKeywordsLength; i++ ) {
+		for ( var i = 0; i < captureKeywords.length; i++ ) {
 			var captureKeyword = captureKeywords[i];
 			var captureRegex = '\\[' + captureKeyword + '[^\\]]*?\\].*?\\[\\/' + captureKeyword + '\\]';
 			var matches = text.match( new RegExp(captureRegex, 'g') ) || [];
