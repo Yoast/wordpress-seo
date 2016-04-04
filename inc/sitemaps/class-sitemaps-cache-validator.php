@@ -42,8 +42,7 @@ class WPSEO_Sitemaps_Cache_Validator {
 
 		try {
 			$type = self::truncate_type( $type, $prefix, $postfix );
-		}
-		catch ( OutOfBoundsException $exception ) {
+		} catch ( OutOfBoundsException $exception ) {
 			// Maybe do something with the exception, for now just mark as invalid.
 			return false;
 		}
@@ -240,7 +239,7 @@ class WPSEO_Sitemaps_Cache_Validator {
 
 		// Transients are purged every 24h.
 		$seconds      = ( $seconds % DAY_IN_SECONDS );
-		$milliseconds = substr( $milliseconds, 2, 5 );
+		$milliseconds = intval( substr( $milliseconds, 2, 3 ), 10 );
 
 		// Combine seconds and milliseconds and convert to integer.
 		$validator = intval( $seconds . '' . $milliseconds, 10 );
