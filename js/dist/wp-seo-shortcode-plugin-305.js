@@ -65,8 +65,6 @@
 		var parsedShortcodes = this.parsedShortcodes;
 
 		if ( typeof data === 'string' && parsedShortcodes.length > 0 ) {
-
-
 			for ( var i = 0; i < parsedShortcodes.length; i++ ) {
 				data = data.replace( parsedShortcodes[ i ].shortcode, parsedShortcodes[ i ].output );
 			}
