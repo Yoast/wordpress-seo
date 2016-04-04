@@ -155,6 +155,9 @@ function _wpseo_activate() {
 	// Clear cache so the changes are obvious.
 	WPSEO_Utils::clear_cache();
 
+	// Add rewrite rules so they can be flushed.
+	new WPSEO_Sitemaps_Router();
+
 	do_action( 'wpseo_activate' );
 }
 
