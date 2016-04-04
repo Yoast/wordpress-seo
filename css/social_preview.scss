@@ -182,8 +182,6 @@ $border_radius_twitter: .42857em;
 			img {
 				max-height: 100%;
 				max-width: 100%;
-				// Reduce max-width with 2 pixels because the image will overlap the bordered container.
-				//max-width:  $width_twitter - 2;
 				border-radius: $border_radius_twitter $border_radius_twitter 0 0;
 			}
 
