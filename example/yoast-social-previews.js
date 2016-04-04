@@ -1497,6 +1497,8 @@ var renderDescription = require( "./helpers/renderDescription" );
 var imagePlaceholder  = require( "./element/imagePlaceholder" )
 var bemAddModifier = require( "./helpers/bem/addModifier" );
 var bemRemoveModifier = require( "./helpers/bem/removeModifier" );
+var addClass = require( "./helpers/addClass" );
+var removeClass = require( "./helpers/removeClass" );
 
 var TextField = require( "./inputs/textInput" );
 var TextArea = require( "./inputs/textarea" );
@@ -1546,7 +1548,7 @@ var inputTwitterPreviewBindings = [
 	}
 ];
 
-var WIDTH_TWITTER_IMAGE_SMALL = 125;
+var WIDTH_TWITTER_IMAGE_SMALL = 120;
 var WIDTH_TWITTER_IMAGE_LARGE = 506;
 var TWITTER_IMAGE_THRESHOLD_WIDTH = 280;
 var TWITTER_IMAGE_THRESHOLD_HEIGHT = 150;
@@ -1853,14 +1855,9 @@ TwitterPreview.prototype.setDescription = function( description ) {
 TwitterPreview.prototype.setImageUrl = function( imageUrl ) {
 	var maxWidth;
 
-	var imageContainer = this.element.preview.imageUrl;
+	var imageContainer = this.element.preview.imageUrl ;
 	if ( imageUrl === '' && this.data.imageUrl === "" ) {
-		imagePlaceholder(
-			imageContainer,
-			this.i18n.dgettext( "yoast-social-previews", "Please enter an image url by clicking here" ),
-			false,
-			"twitter"
-		);
+		this.setPlaceHolder();
 
 		return;
 	}
@@ -1868,6 +1865,12 @@ TwitterPreview.prototype.setImageUrl = function( imageUrl ) {
 	var img = new Image();
 	img.onload = function() {
 		imageContainer.innerHTML = "<img src='" + imageUrl + "' />";
+
+		if( this.isTooSmallImage( img )  ) {
+			this.setPlaceHolder();
+
+			return;
+		}
 
 		if ( this.isSmallImage( img ) ) {
 			maxWidth = WIDTH_TWITTER_IMAGE_SMALL;
@@ -1881,16 +1884,29 @@ TwitterPreview.prototype.setImageUrl = function( imageUrl ) {
 		imageRatio( imageContainer.childNodes[0], maxWidth );
 	}.bind( this );
 
-	img.onerror = imagePlaceholder.bind(
-		null,
-		imageContainer,
-		this.i18n.dgettext( "yoast-social-previews", "The given image url cannot be loaded" ),
-		true,
-		"twitter"
-	);
+	img.onerror = this.setPlaceHolder.bind( this, true );
 
 	// Load image to trigger load or error event.
 	img.src = imageUrl;
+};
+
+/**
+ * Sets the default twitter placeholder
+ */
+TwitterPreview.prototype.setPlaceHolder = function(hasError) {
+	this.setSmallImageClasses();
+
+	if( hasError === undefined ) {
+		hasError = false;
+	}
+
+	imagePlaceholder(
+		this.element.preview.imageUrl,
+		"",
+		false,
+		"twitter"
+	);
+
 };
 
 /**
@@ -1904,6 +1920,20 @@ TwitterPreview.prototype.isSmallImage = function( image ) {
 	return (
 		image.width < TWITTER_IMAGE_THRESHOLD_WIDTH ||
 		image.height < TWITTER_IMAGE_THRESHOLD_HEIGHT
+	);
+};
+
+/**
+ * Detects if the twitter preview image is too small
+ *
+ * @param {HTMLImageElement} image The image in question.
+ *
+ * @returns {boolean} Whether the image is too small.
+ */
+TwitterPreview.prototype.isTooSmallImage = function( image ) {
+	return (
+		image.width < WIDTH_TWITTER_IMAGE_SMALL ||
+		image.height < WIDTH_TWITTER_IMAGE_SMALL
 	);
 };
 
@@ -1936,7 +1966,7 @@ TwitterPreview.prototype.bindEvents = function() {
 
 module.exports = TwitterPreview;
 
-},{"./element/imagePlaceholder":4,"./element/input":5,"./helpers/bem/addModifier":8,"./helpers/bem/removeModifier":10,"./helpers/imageRatio":11,"./helpers/renderDescription":14,"./inputs/button.js":15,"./inputs/textInput":17,"./inputs/textarea":18,"./preview/events":19,"./templates":20,"jed":22,"lodash/lang/clone":61,"lodash/lang/isElement":64,"lodash/object/defaultsDeep":75}],22:[function(require,module,exports){
+},{"./element/imagePlaceholder":4,"./element/input":5,"./helpers/addClass":7,"./helpers/bem/addModifier":8,"./helpers/bem/removeModifier":10,"./helpers/imageRatio":11,"./helpers/removeClass":13,"./helpers/renderDescription":14,"./inputs/button.js":15,"./inputs/textInput":17,"./inputs/textarea":18,"./preview/events":19,"./templates":20,"jed":22,"lodash/lang/clone":61,"lodash/lang/isElement":64,"lodash/object/defaultsDeep":75}],22:[function(require,module,exports){
 /**
  * @preserve jed.js https://github.com/SlexAxton/Jed
  */

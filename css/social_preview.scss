@@ -11,8 +11,8 @@ $padding_preview: 20px;
 $width_facebook_image_small: 158px;
 $height_facebook_image_small: 158px;
 
-$width_twitter_image_small: 125px;
-$height_twitter_image_small: 125px;
+$width_twitter_image_small: 120px;
+$height_twitter_image_small: 120px;
 
 $border_radius_twitter: .42857em;
 
@@ -37,7 +37,7 @@ $border_radius_twitter: .42857em;
 			border-color: #8899A6;
 			background: #F5F8FA;
 		}
-		
+
 		&:hover {
 			.editable-preview__image--twitter {
 				border-color: #8899A6;
@@ -232,6 +232,10 @@ $border_radius_twitter: .42857em;
 				border-radius: $border_radius_twitter $border_radius_twitter 0 0;
 			}
 
+			&-placeholder {
+				background: url('./twitter-placeholder.svg') no-repeat center center;
+			}
+
 			&-small {
 				background: #E1E8ED;
 				border-right: 1px solid #E1E8ED;
@@ -292,9 +296,12 @@ $border_radius_twitter: .42857em;
 	}
 
 	&--twitter {
+		background: url( './twitter-placeholder.svg' ) no-repeat center center;
+	  height: 100%;
+		padding: 0;
 		// Reduce width with 2 pixels because element overlaps the bordered container.
-		width: $width_twitter - 2;
-		border-radius: $border_radius_twitter $border_radius_twitter 0 0;
+		width: 100%;
+		border-radius: $border_radius_twitter 0 0 $border_radius_twitter;
 	}
 }
 
