@@ -37,15 +37,15 @@ $border_radius_twitter: .42857em;
 			border-color: #8899A6;
 			background: #F5F8FA;
 		}
+		
+		&:hover {
+			.editable-preview__image--twitter {
+				border-color: #8899A6;
+			}
+		}
 
 		&-small {
 			@include clearfix;
-
-			&:hover {
-				.editable-preview__image--twitter {
-					border-right: 1px solid #8899A6;
-				}
-			}
 		}
 	}
 }
@@ -105,7 +105,6 @@ $border_radius_twitter: .42857em;
 			&-small {
 				float: left;
 				width: calc( 100% - #{$width_facebook_image_small} );
-
 
 				.snippet-editor__container {
 					&:hover, &--hover, &--focus {
@@ -220,24 +219,30 @@ $border_radius_twitter: .42857em;
 		}
 
 		&--twitter {
-			width:      $width_twitter;
-			max-height: 506px;
+			// Reduce max-width with 2 pixels because the image will overlap the bordered container.
+			width:      $width_twitter - 2;
+			max-height: 506px - 2;
+			line-height: 0;
+			border-bottom: 1px solid #E1E8ED;
 
 			img {
+				// Reduce max-width with 2 pixels because the image will overlap the bordered container.
+				max-width:  $width_twitter - 2;
 				max-height: 100%;
-				max-width: 100%;
 				border-radius: $border_radius_twitter $border_radius_twitter 0 0;
 			}
 
 			&-small {
 				background: #E1E8ED;
 				border-right: 1px solid #E1E8ED;
+				border-bottom: 0;
 				width: $width_twitter_image_small;
 				height: $height_twitter_image_small - 1px; // Reduce with 1 px because of border.
 				float: left;
 				border-radius: $border_radius_twitter 0 0 $border_radius_twitter;
 
 				img {
+					max-width: 100%;
 					border-radius: $border_radius_twitter 0 0 $border_radius_twitter;
 				}
 			}
