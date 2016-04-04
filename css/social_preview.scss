@@ -108,7 +108,6 @@ $border_radius_twitter: .42857em;
 
 
 				.snippet-editor__container {
-
 					&:hover, &--hover, &--focus {
 						&:before {
 							right: -32px;
@@ -138,6 +137,27 @@ $border_radius_twitter: .42857em;
 			&-small {
 				float: left;
 				width: calc( 100% - #{$width_twitter_image_small} );
+
+				.snippet-editor__container {
+					&:hover, &--hover, &--focus {
+						&:before {
+							right: -32px;
+							left:  inherit;
+						}
+					}
+
+					&:hover, &--hover {
+						&:before {
+							background-image: url(svg-icon-caret-left($color_caret_hover));
+						}
+					}
+
+					&--focus {
+						&:before {
+							background-image: url(svg-icon-caret-left($color_caret));
+						}
+					}
+				}
 			}
 		}
 	}
