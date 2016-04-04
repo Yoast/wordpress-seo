@@ -6,6 +6,7 @@
 
 	var mainKeywordTab;
 	var KeywordTab = require( './analysis/keywordTab' );
+	var debounce = require( 'lodash/debounce' );
 
 	/**
 	 * wordpress scraper to gather inputfields.
@@ -229,7 +230,7 @@
 	PostScraper.prototype.bindElementEvents = function( app ) {
 		this.inputElementEventBinder( app );
 		document.getElementById( 'yoast_wpseo_focuskw_text_input' ).addEventListener( 'keydown', app.snippetPreview.disableEnter );
-		document.getElementById( 'yoast_wpseo_focuskw_text_input' ).addEventListener( 'keyup', this.updateKeywordUsage );
+		document.getElementById( 'yoast_wpseo_focuskw_text_input' ).addEventListener( 'keyup', debounce( this.updateKeywordUsage , 500 ) );
 	};
 
 	/**
