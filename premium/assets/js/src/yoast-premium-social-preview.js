@@ -27,9 +27,10 @@ var forEach = require( 'lodash/forEach' );
 	 *
 	 * @param {Object} imageUrl The image url object.
 	 * @param {string} imageButton ID name for the image button.
+	 * @param {string} removeButton ID name for the remove button.
 	 * @param {function} onMediaSelect The event that will be ran when image is chosen.
 	 */
-	function bindUploadButtonEvents( imageUrl, imageButton, onMediaSelect ) {
+	function bindUploadButtonEvents( imageUrl, imageButton, removeButton, onMediaSelect ) {
 		var social_preview_uploader = wp.media.frames.file_frame = wp.media({
 			title: yoastSocialPreview.choose_image,
 			button: { text: yoastSocialPreview.choose_image },
@@ -43,9 +44,22 @@ var forEach = require( 'lodash/forEach' );
 			imageUrl.val( attachment.url );
 
 			onMediaSelect();
+
+			$( removeButton ).show();
 		});
 
-		$( '#' + imageButton ).click( function( e ) {
+		$( removeButton ).click( function( evt ) {
+			evt.preventDefault();
+
+			// Clear the image url
+			imageUrl.val( '' );
+
+			onMediaSelect();
+
+			$( removeButton ).hide();
+		} );
+
+		$( imageButton ).click( function( e ) {
 			e.preventDefault();
 			social_preview_uploader.open();
 		} );
@@ -62,12 +76,25 @@ var forEach = require( 'lodash/forEach' );
 			return;
 		}
 
-		var imageButtonId = jQuery( imageUrl ).attr( 'id' ) + '_button';
-		var imageButton   = $( '<input id="' + imageButtonId + '" class="button wpseo_preview_image_upload_button" type="button" value="' + yoastSocialPreview.upload_image + '" />' );
-		$( imageButton ).insertAfter( imageUrl );
-		imageUrl.hide();
+		var buttonDiv = $( '<div></div>' );
+		buttonDiv.insertAfter( imageUrl );
 
-		bindUploadButtonEvents( imageUrl, imageButtonId, onMediaSelect );
+		var imageFieldId    = jQuery( imageUrl ).attr( 'id' );
+		var imageButtonId   = imageFieldId + '_button';
+		var imageButtonHtml = '<button id="' + imageButtonId + '" class="button button-primary wpseo_preview_image_upload_button" type="button">' + yoastSocialPreview.uploadImage + '</button>';
+
+		var removeButtonId   = imageFieldId + '_remove_button';
+		var removeButtonHtml = "<button id='" + removeButtonId + "' type='button' class='button wpseo_preview_image_upload_button'>" + yoastSocialPreview.removeImageButton + "</button>";
+
+		$( buttonDiv ).append( imageButtonHtml );
+		$( buttonDiv ).append( removeButtonHtml );
+
+		imageUrl.hide();
+		if ( imageUrl.val() === '' ) {
+			$( "#" + removeButtonId ).hide();
+		}
+
+		bindUploadButtonEvents( imageUrl, "#" + imageButtonId, "#" + removeButtonId, onMediaSelect );
 	}
 
 	/**
@@ -147,7 +174,7 @@ var forEach = require( 'lodash/forEach' );
 			data: {
 				title: $( '#' + fieldPrefix + '-title' ).val(),
 				description: $( '#' + fieldPrefix + '-description' ).val(),
-				imageUrl: $( '#' + fieldPrefix + '-imageUrl' ).val()
+				imageUrl: $( '#' + fieldPrefix + '-image' ).val()
 			},
 			baseURL: yoastSocialPreview.website,
 			callbacks: {
