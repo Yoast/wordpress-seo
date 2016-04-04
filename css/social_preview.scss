@@ -89,18 +89,22 @@ $border_radius_twitter: .42857em;
 
 
 				.snippet-editor__container {
-					&:hover, &--hover {
+
+					&:hover, &--hover, &--focus {
 						&:before {
 							right: -32px;
-							left: inherit;
+							left:  inherit;
+						}
+					}
+
+					&:hover, &--hover {
+						&:before {
 							background-image: url(svg-icon-caret-left($color_caret_hover));
 						}
 					}
 
 					&--focus {
 						&:before {
-							right: -32px;
-							left: inherit;
 							background-image: url(svg-icon-caret-left($color_caret));
 						}
 					}
