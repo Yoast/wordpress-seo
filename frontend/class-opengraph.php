@@ -233,7 +233,7 @@ class WPSEO_OpenGraph {
 		elseif ( is_category() || is_tax() || is_tag() ) {
 			$title = WPSEO_Taxonomy_Meta::get_meta_without_term( 'opengraph-title' );
 			if ( $title === '' ) {
-				$title = $frontend->get_taxonomy_title( '' );
+				$title = $frontend->title( '' );
 			}
 			else {
 				// Replace Yoast SEO Variables.
