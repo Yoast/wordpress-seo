@@ -58,7 +58,6 @@ if ( ! function_exists( 'yoast_get_primary_term_id' ) ) {
 }
 
 if ( ! function_exists( 'yoast_get_primary_term' ) ) {
-
 	/**
 	 * Get the primary term name
 	 *
@@ -76,7 +75,6 @@ if ( ! function_exists( 'yoast_get_primary_term' ) ) {
 
 		return '';
 	}
-
 }
 
 /**
