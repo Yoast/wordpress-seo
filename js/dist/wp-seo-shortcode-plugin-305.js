@@ -2,10 +2,8 @@
 /* global tinyMCE */
 /* global wpseoShortcodePluginL10n */
 /* global ajaxurl */
-/* global YoastSEO */
 /* global _ */
 /* global console */
-
 (function() {
 	'use strict';
 
@@ -18,8 +16,10 @@
 	 * @property {RegExp} nonCaptureRegex Used to match a given string for non capturing shortcodes.
 	 * @property {Array} parsedShortcodes Used to store parsed shortcodes.
 	 */
-	var YoastShortcodePlugin = function() {
-		YoastSEO.app.registerPlugin( 'YoastShortcodePlugin', { status: 'loading' } );
+	var YoastShortcodePlugin = function( app ) {
+		this._app = app;
+
+		this._app.registerPlugin( 'YoastShortcodePlugin', { status: 'loading' } );
 		this.bindElementEvents();
 
 		var keywordRegexString = '(' + wpseoShortcodePluginL10n.wpseo_shortcode_tags.join('|') + ')';
@@ -40,7 +40,7 @@
 	 * Declares ready with YoastSEO.
 	 */
 	YoastShortcodePlugin.prototype.declareReady = function() {
-		YoastSEO.app.pluginReady( 'YoastShortcodePlugin' );
+		this._app.pluginReady( 'YoastShortcodePlugin' );
 		this.registerModifications();
 	};
 
@@ -48,14 +48,14 @@
 	 * Declares reloaded with YoastSEO.
 	 */
 	YoastShortcodePlugin.prototype.declareReloaded = function() {
-		YoastSEO.app.pluginReloaded( 'YoastShortcodePlugin' );
+		this._app.pluginReloaded( 'YoastShortcodePlugin' );
 	};
 
 	/**
 	 * Registers the modifications for the content in which we want to replace shortcodes.
 	 */
 	YoastShortcodePlugin.prototype.registerModifications = function() {
-		YoastSEO.app.registerModification( 'content', this.replaceShortcodes.bind( this ), 'YoastShortcodePlugin' );
+		this._app.registerModification( 'content', this.replaceShortcodes.bind( this ), 'YoastShortcodePlugin' );
 	};
 
 	/**
@@ -72,6 +72,7 @@
 				data = data.replace( parsedShortcodes[ i ].shortcode, parsedShortcodes[ i ].output );
 			}
 		}
+
 		return data;
 	};
 

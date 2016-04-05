@@ -1,14 +1,16 @@
-/* global wpseoReplaceVarsL10n, YoastSEO */
+/* global wpseoReplaceVarsL10n */
 (function() {
 	'use strict';
 
 	/**
 	 * variable replacement plugin for wordpress.
 	 */
-	var YoastReplaceVarPlugin = function() {
+	var YoastReplaceVarPlugin = function( app ) {
+		this._app = app;
+
 		this.replaceVars = wpseoReplaceVarsL10n.replace_vars;
 
-		YoastSEO.app.registerPlugin( 'replaceVariablePlugin', { status: 'ready' } );
+		this._app.registerPlugin( 'replaceVariablePlugin', { status: 'ready' } );
 
 		this.registerModifications();
 	};
@@ -19,14 +21,14 @@
 	YoastReplaceVarPlugin.prototype.registerModifications = function() {
 		var callback = this.replaceVariablesPlugin.bind( this );
 
-		YoastSEO.app.registerModification( 'content', callback, 'replaceVariablePlugin', 10 );
-		YoastSEO.app.registerModification( 'title', callback, 'replaceVariablePlugin', 10 );
-		YoastSEO.app.registerModification( 'snippet_title', callback, 'replaceVariablePlugin', 10 );
-		YoastSEO.app.registerModification( 'snippet_meta', callback, 'replaceVariablePlugin', 10 );
+		this._app.registerModification( 'content', callback, 'replaceVariablePlugin', 10 );
+		this._app.registerModification( 'title', callback, 'replaceVariablePlugin', 10 );
+		this._app.registerModification( 'snippet_title', callback, 'replaceVariablePlugin', 10 );
+		this._app.registerModification( 'snippet_meta', callback, 'replaceVariablePlugin', 10 );
 
 		//modifications applied on the getData from the scrapers to use templates
-		YoastSEO.app.registerModification( 'data_page_title', callback, 'replaceVariablePlugin', 10);
-		YoastSEO.app.registerModification( 'data_meta_desc', callback, 'replaceVariablePlugin', 10);
+		this._app.registerModification( 'data_page_title', callback, 'replaceVariablePlugin', 10);
+		this._app.registerModification( 'data_meta_desc', callback, 'replaceVariablePlugin', 10);
 	};
 
 	/**
@@ -52,7 +54,7 @@
 	 * @returns {string}
 	 */
 	YoastReplaceVarPlugin.prototype.titleReplace = function( data ) {
-		var title = YoastSEO.app.rawData.title;
+		var title = this._app.rawData.title;
 
 		data = data.replace( /%%title%%/g, title );
 
@@ -65,7 +67,7 @@
 	 * @returns {String} the data with the replaced variables
 	 */
 	YoastReplaceVarPlugin.prototype.termtitleReplace = function( data ) {
-		var term_title = YoastSEO.app.rawData.name;
+		var term_title = this._app.rawData.name;
 
 		data = data.replace( /%%term_title%%/g, term_title);
 
@@ -104,9 +106,9 @@
 	 * @returns {String}
 	 */
 	YoastReplaceVarPlugin.prototype.excerptReplace = function( data ) {
-		if ( typeof YoastSEO.app.rawData.excerpt !== 'undefined' ) {
-			data = data.replace( /%%excerpt_only%%/g, YoastSEO.app.rawData.excerpt );
-			data = data.replace( /%%excerpt%%/g, YoastSEO.app.rawData.excerpt );
+		if ( typeof this._app.rawData.excerpt !== 'undefined' ) {
+			data = data.replace( /%%excerpt_only%%/g, this._app.rawData.excerpt );
+			data = data.replace( /%%excerpt%%/g, this._app.rawData.excerpt );
 		}
 		return data;
 	};
@@ -118,7 +120,7 @@
 	 * @return {String}
 	 */
 	YoastReplaceVarPlugin.prototype.defaultReplace = function( textString ) {
-		var focusKeyword = YoastSEO.app.rawData.keyword;
+		var focusKeyword = this._app.rawData.keyword;
 
 		return textString.replace( /%%sitedesc%%/g, this.replaceVars.sitedesc )
 			.replace( /%%sitename%%/g, this.replaceVars.sitename )

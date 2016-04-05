@@ -18,6 +18,7 @@ module.exports = function(grunt) {
 			logs: 'logs/'
 		},
 		files: {
+			sass: [ 'css/src/*.scss' ],
 			css: [
 				'css/*.css',
 				'!css/*.min.css'

@@ -168,15 +168,9 @@ class WPSEO_Admin_Asset_Manager {
 				'in_footer' => false,
 			),
 			array(
-				'name'   => 'yoast-seo',
-				'src'    => 'yoast-seo/yoast-seo-310',
-				'suffix' => '.min',
-			),
-			array(
 				'name' => 'post-scraper',
 				'src'  => 'wp-seo-post-scraper-311',
 				'deps' => array(
-					self::PREFIX . 'yoast-seo',
 					self::PREFIX . 'replacevar-plugin',
 					self::PREFIX . 'shortcode-plugin',
 					'wp-util',
@@ -186,23 +180,16 @@ class WPSEO_Admin_Asset_Manager {
 				'name' => 'term-scraper',
 				'src'  => 'wp-seo-term-scraper-310',
 				'deps' => array(
-					self::PREFIX . 'yoast-seo',
 					self::PREFIX . 'replacevar-plugin',
 				),
 			),
 			array(
 				'name' => 'replacevar-plugin',
 				'src'  => 'wp-seo-replacevar-plugin-310',
-				'deps' => array(
-					self::PREFIX . 'yoast-seo',
-				),
 			),
 			array(
 				'name' => 'shortcode-plugin',
 				'src'  => 'wp-seo-shortcode-plugin-305',
-				'deps' => array(
-					self::PREFIX . 'yoast-seo',
-				),
 			),
 			array(
 				'name' => 'recalculate',
@@ -304,11 +291,6 @@ class WPSEO_Admin_Asset_Manager {
 			array(
 				'name' => 'snippet',
 				'src'  => 'snippet-310',
-			),
-			array(
-				'name'   => 'yoast-seo',
-				'src'    => 'dist/yoast-seo/yoast-seo-310',
-				'suffix' => '.min',
 			),
 			array(
 				'name' => 'adminbar',

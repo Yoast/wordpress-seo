@@ -643,13 +643,11 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$asset_manager->enqueue_style( 'metabox-css' );
 			$asset_manager->enqueue_style( 'scoring' );
 			$asset_manager->enqueue_style( 'snippet' );
-			$asset_manager->enqueue_style( 'yoast-seo' );
 			$asset_manager->enqueue_style( 'select2' );
 
 			$asset_manager->enqueue_script( 'metabox' );
 			$asset_manager->enqueue_script( 'admin-media' );
 
-			$asset_manager->enqueue_script( 'yoast-seo' );
 			$asset_manager->enqueue_script( 'post-scraper' );
 			$asset_manager->enqueue_script( 'replacevar-plugin' );
 			$asset_manager->enqueue_script( 'shortcode-plugin' );
@@ -662,7 +660,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'shortcode-plugin', 'wpseoShortcodePluginL10n', $this->localize_shortcode_plugin_script() );
 
 			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'metabox', 'wpseoSelect2Locale', substr( get_locale(), 0, 2 ) );
-
 
 			if ( post_type_supports( get_post_type(), 'thumbnail' ) ) {
 				$asset_manager->enqueue_style( 'featured-image' );
