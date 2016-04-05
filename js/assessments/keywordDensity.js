@@ -1,5 +1,6 @@
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 var matchWords = require( "../stringProcessing/matchTextWithWord.js" );
+var countWords = require( "../stringProcessing/countWords.js" );
 var inRange = require( "lodash/inRange" );
 
 /**
@@ -63,6 +64,6 @@ var getKeyworDensityAssessment = function( paper,  researcher, i18n ) {
 module.exports = {
 	getResult: getKeyworDensityAssessment,
 	isApplicable: function( paper ) {
-		return paper.hasText() && paper.hasKeyword();
+		return paper.hasText() && paper.hasKeyword() && countWords( paper.getText() ) >= 100;
 	}
 };
