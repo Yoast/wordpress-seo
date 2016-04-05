@@ -352,16 +352,7 @@ class WPSEO_Premium {
 			'wpseo_redirects',
 			array( $this->redirects, 'display' ),
 		);
-
-		$submenu_pages[] = array(
-			'wpseo_dashboard',
-			'',
-			__( 'Video Tutorials', 'wordpress-seo-premium' ),
-			'edit_posts',
-			'wpseo_tutorial_videos',
-			array( 'WPSEO_Tutorial_Videos', 'display' ),
-		);
-
+		
 		return $submenu_pages;
 	}
 
