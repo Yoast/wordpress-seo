@@ -380,7 +380,7 @@ TwitterPreview.prototype.setImageUrl = function( imageUrl ) {
 	img.onload = function() {
 		imageContainer.innerHTML = "<img src='" + imageUrl + "' />";
 
-		if( this.isTooSmallImage( img )  ) {
+		if ( this.isTooSmallImage( img ) ) {
 			this.setPlaceHolder();
 
 			return;
@@ -407,12 +407,8 @@ TwitterPreview.prototype.setImageUrl = function( imageUrl ) {
 /**
  * Sets the default twitter placeholder
  */
-TwitterPreview.prototype.setPlaceHolder = function(hasError) {
+TwitterPreview.prototype.setPlaceHolder = function() {
 	this.setSmallImageClasses();
-
-	if( hasError === undefined ) {
-		hasError = false;
-	}
 
 	imagePlaceholder(
 		this.element.preview.imageUrl,
