@@ -1,4 +1,4 @@
-var linkStatisticAssessment = require( "../../js/assessments/countLinks.js" );
+var linkStatisticAssessment = require( "../../js/assessments/textCompetingLinksAssessment.js" );
 var Paper = require( "../../js/values/Paper.js" );
 
 var factory = require( "../helpers/factory.js" );

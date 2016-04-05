@@ -46,7 +46,7 @@ var calculateKeywordDensityResult = function( keywordDensity, i18n ) {
  * @param {object} i18n The object used for translations
  * @returns {object} the Assessmentresult
  */
-var getKeyworDensityAssessment = function( paper,  researcher, i18n ) {
+var keywordDensityAssessment = function( paper, researcher, i18n ) {
 
 	var keywordDensity = researcher.getResearch( "getKeywordDensity" );
 	var keywordCount = matchWords( paper.getText(), paper.getKeyword() );
@@ -62,7 +62,7 @@ var getKeyworDensityAssessment = function( paper,  researcher, i18n ) {
 };
 
 module.exports = {
-	getResult: getKeyworDensityAssessment,
+	getResult: keywordDensityAssessment,
 	isApplicable: function( paper ) {
 		return paper.hasText() && paper.hasKeyword() && countWords( paper.getText() ) >= 100;
 	}

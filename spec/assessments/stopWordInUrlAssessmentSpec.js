@@ -1,4 +1,4 @@
-var stopWordsInUrlAssessment = require( "../../js/assessments/stopWordsInUrl.js" );
+var stopWordsInUrlAssessment = require( "../../js/assessments/urlStopWordsAssessment.js" );
 var Paper = require( "../../js/values/Paper.js" );
 var Factory = require( "../helpers/factory.js" );
 var i18n = Factory.buildJed();

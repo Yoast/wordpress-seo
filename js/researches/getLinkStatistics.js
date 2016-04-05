@@ -47,16 +47,12 @@ if ( getLinkCount( paper ) === 0 ) {
 		otherDofollow: 0,
 		otherNofollow: 0
 	};
-	var linkKeyword;
+	var foundKeyword;
 	for ( var i = 0; i < anchors.length; i++ ) {
-		linkKeyword = findKeywordInUrl( anchors[i], keyword );
+		foundKeyword = keyword ? findKeywordInUrl( anchors[i], keyword ) : false;
 
-		if ( linkKeyword ) {
-			if ( !paper.hasKeyword() ) {
-				linkCount.totalNaKeyword++;
-			} else {
-				linkCount.totalKeyword++;
-			}
+		if ( foundKeyword ) {
+			linkCount.totalKeyword++;
 		}
 
 		var linkType = getLinkType( anchors[i], url );

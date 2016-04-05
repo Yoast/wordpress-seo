@@ -1,4 +1,4 @@
-var matchKeywordAssessment = require( "../../js/assessments/matchSubheadings.js" );
+var matchKeywordAssessment = require( "../../js/assessments/textSubheadingsAssessment.js" );
 var Paper = require( "../../js/values/Paper.js" );
 var Factory = require( "../helpers/factory.js" );
 var i18n = Factory.buildJed();

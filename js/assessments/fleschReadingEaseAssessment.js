@@ -73,7 +73,7 @@ var calculateFleschReadingResult = function( fleschReadingScore, i18n ) {
  * @param {object} i18n The i18n-object used for parsing translations
  * @returns {object} an assessmentresult with the score and formatted text.
  */
-var fleschReadingAssessment = function( paper, researcher, i18n ) {
+var fleschReadingEaseAssessment = function( paper, researcher, i18n ) {
 	var fleschReadingScore = researcher.getResearch( "calculateFleschReading" );
 
 	/* translators: %1$s expands to the numeric flesch reading ease score, %2$s to a link to a Yoast.com article about Flesch ease reading score,
@@ -101,7 +101,7 @@ var fleschReadingAssessment = function( paper, researcher, i18n ) {
 };
 
 module.exports = {
-	getResult: fleschReadingAssessment,
+	getResult: fleschReadingEaseAssessment,
 	isApplicable: function( paper ) {
 		return ( paper.getLocale().indexOf( "en_" ) > -1 );
 	}

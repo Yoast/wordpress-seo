@@ -47,7 +47,7 @@ var calculateDescriptionLengthResult = function( descriptionLength, i18n ) {
  * @param {object} i18n The object used for translations
  * @returns {object} the Assessmentresult
  */
-var getMetadescriptionLengthAssessment = function( paper,  researcher, i18n ) {
+var metaDescriptionLengthAssessment = function( paper, researcher, i18n ) {
 	var descriptionLength = researcher.getResearch( "metaDescriptionLength" );
 	var descriptionLengthResult = calculateDescriptionLengthResult( descriptionLength, i18n );
 	var assessmentResult = new AssessmentResult();
@@ -58,4 +58,4 @@ var getMetadescriptionLengthAssessment = function( paper,  researcher, i18n ) {
 	return assessmentResult;
 };
 
-module.exports = { getResult: getMetadescriptionLengthAssessment };
+module.exports = { getResult: metaDescriptionLengthAssessment };

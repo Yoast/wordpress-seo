@@ -71,7 +71,7 @@ var calculatePageTitleLengthResult = function( pageTitleLength, i18n ) {
  * @param {object} i18n The object used for translations
  * @returns {object} the Assessmentresult
  */
-var pageTitleLengthAssessment = function( paper,  researcher, i18n ) {
+var titleLengthAssessment = function( paper, researcher, i18n ) {
 	var pageTitleLength = researcher.getResearch( "pageTitleLength" );
 	var pageTitleLengthResult = calculatePageTitleLengthResult( pageTitleLength, i18n );
 	var assessmentResult = new AssessmentResult();
@@ -82,4 +82,4 @@ var pageTitleLengthAssessment = function( paper,  researcher, i18n ) {
 	return assessmentResult;
 };
 
-module.exports = { getResult: pageTitleLengthAssessment };
+module.exports = { getResult: titleLengthAssessment };

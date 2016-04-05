@@ -1,4 +1,4 @@
-var stopWordsInKeywordAssessment = require( "../../js/assessments/stopWordsInKeyword.js" );
+var stopWordsInKeywordAssessment = require( "../../js/assessments/keywordStopWordsAssessment.js" );
 var Paper = require( "../../js/values/Paper.js" );
 var Factory = require( "../helpers/factory.js" );
 var i18n = Factory.buildJed();

@@ -33,7 +33,7 @@ var calculateStopWordsCountResult = function( stopWordCount, i18n ) {
  * @param {object} i18n The locale object.
  * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
  */
-var stopWordsInKeywordAssessment = function( paper, researcher, i18n ) {
+var keywordHasStopWordsAssessment = function( paper, researcher, i18n ) {
 	var stopWords = researcher.getResearch( "stopWordsInKeyword" );
 	var stopWordsResult = calculateStopWordsCountResult( stopWords.length, i18n );
 
@@ -50,7 +50,7 @@ var stopWordsInKeywordAssessment = function( paper, researcher, i18n ) {
 };
 
 module.exports = {
-	getResult: stopWordsInKeywordAssessment,
+	getResult: keywordHasStopWordsAssessment,
 	isApplicable: function ( paper ) {
 		return paper.hasKeyword();
 	}

@@ -9,19 +9,14 @@ var isEmpty = require( "lodash/isEmpty" );
  * @returns {object} resultObject with score and text
  */
 var calculateLinkStatisticsResult = function( linkStatistics, i18n ) {
-	if ( linkStatistics.totalNaKeyword  > 0 ) {
+	// Check of we uberhaubt links
+	if ( linkStatistics.total === 0 ) {
 		return {
-			score: 2,
-			text: i18n.dgettext( "js-text-analysis", "Outbound links appear in this page" )
+			score: 6,
+			text: i18n.dgettext( "js-text-analysis", "No links appear in this page, consider adding some as appropriate." )
 		};
 	}
-	if ( linkStatistics.totalKeyword > 0 ) {
-		return {
-			score: 2,
-			text: i18n.dgettext( "js-text-analysis", "You\'re linking to another page with the focus keyword you want this page to rank for. " +
-				"Consider changing that if you truly want this page to rank." )
-		};
-	}
+
 	if ( linkStatistics.externalNofollow === linkStatistics.total ) {
 		return {
 			score: 7,
@@ -57,7 +52,7 @@ var calculateLinkStatisticsResult = function( linkStatistics, i18n ) {
  * @param {object} i18n The object used for translations
  * @returns {object} the Assessmentresult
  */
-var getLinkStatisticsAssessment = function( paper,  researcher, i18n ) {
+var textHasLinksAssessment = function( paper, researcher, i18n ) {
 	var linkStatistics = researcher.getResearch( "getLinkStatistics" );
 	var assessmentResult = new AssessmentResult();
 	if ( !isEmpty( linkStatistics ) ) {
@@ -69,7 +64,7 @@ var getLinkStatisticsAssessment = function( paper,  researcher, i18n ) {
 };
 
 module.exports = {
-	getResult: getLinkStatisticsAssessment,
+	getResult: textHasLinksAssessment,
 	isApplicable: function ( paper ) {
 		return paper.hasText() && paper.hasKeyword();
 	}

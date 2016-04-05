@@ -30,7 +30,7 @@ var calculateKeywordMatchesResult = function( keywordMatches, i18n ) {
  * @param {object} i18n The object used for translations
  * @returns {object} the Assessmentresult
  */
-var getMetadescriptionKeywordAssessment = function( paper,  researcher, i18n ) {
+var metaDescriptionHasKeywordAssessment = function( paper, researcher, i18n ) {
 	var keywordMatches = researcher.getResearch( "metaDescriptionKeyword" );
 	var descriptionLengthResult = calculateKeywordMatchesResult( keywordMatches, i18n );
 	var assessmentResult = new AssessmentResult();
@@ -42,7 +42,7 @@ var getMetadescriptionKeywordAssessment = function( paper,  researcher, i18n ) {
 };
 
 module.exports = {
-	getResult: getMetadescriptionKeywordAssessment,
+	getResult: metaDescriptionHasKeywordAssessment,
 	isApplicable: function ( paper ) {
 		return paper.hasKeyword();
 	}

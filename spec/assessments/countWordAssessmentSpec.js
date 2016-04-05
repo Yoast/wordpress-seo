@@ -1,4 +1,4 @@
-var wordCountAssessment = require( "../../js/assessments/countWords.js" );
+var wordCountAssessment = require( "../../js/assessments/textLengthAssessment.js" );
 var Paper = require( "../../js/values/Paper.js" );
 var Factory = require( "../helpers/factory.js" );
 var i18n = Factory.buildJed();

@@ -81,7 +81,7 @@ var calculateWordCountResult = function( wordCount, i18n ) {
  * @param {object} i18n The locale object.
  * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
  */
-var countWordsAssessment = function( paper, researcher, i18n ) {
+var textLengthAssessment = function( paper, researcher, i18n ) {
 	var wordCount = researcher.getResearch( "wordCountInText" );
 	var wordCountResult = calculateWordCountResult( wordCount, i18n );
 	var assessmentResult = new AssessmentResult();
@@ -92,4 +92,4 @@ var countWordsAssessment = function( paper, researcher, i18n ) {
 	return assessmentResult;
 };
 
-module.exports = { getResult: countWordsAssessment };
+module.exports = { getResult: textLengthAssessment };

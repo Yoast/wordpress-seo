@@ -7,7 +7,7 @@ var AssessmentResult = require( "../values/AssessmentResult.js" );
  * @param {object} i18n The locale object.
  * @returns {AssessmentResult} The result of the assessment with text and score
  */
-var pageTitleKeywordAssessment = function( paper, researcher, i18n ) {
+var titleHasKeywordAssessment = function( paper, researcher, i18n ) {
 	var keywordMatches = researcher.getResearch( "findKeywordInPageTitle" );
 	var score, text;
 
@@ -36,7 +36,7 @@ var pageTitleKeywordAssessment = function( paper, researcher, i18n ) {
 };
 
 module.exports = {
-	getResult: pageTitleKeywordAssessment,
+	getResult: titleHasKeywordAssessment,
 	isApplicable: function ( paper ) {
 		return paper.hasKeyword();
 	}

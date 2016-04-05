@@ -1,4 +1,4 @@
-var keywordInUrl = require( "../../js/assessments/keywordInUrl.js" );
+var keywordInUrl = require( "../../js/assessments/urlKeywordAssessment.js" );
 var Paper = require( "../../js/values/Paper.js" );
 var Factory = require( "../helpers/factory.js" );
 var i18n = Factory.buildJed();

@@ -29,7 +29,7 @@ var calculateUrlKeywordCountResult = function( keywordsResult, i18n ) {
  * @param {object} i18n The locale object.
  * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
  */
-var keywordInUrlAssessment = function( paper, researcher, i18n ) {
+var urlHasKeywordAssessment = function( paper, researcher, i18n ) {
 	var keywords = researcher.getResearch( "keywordCountInUrl" );
 	var keywordsResult = calculateUrlKeywordCountResult( keywords, i18n );
 
@@ -41,7 +41,7 @@ var keywordInUrlAssessment = function( paper, researcher, i18n ) {
 };
 
 module.exports = {
-	getResult: keywordInUrlAssessment,
+	getResult: urlHasKeywordAssessment,
 	isApplicable: function( paper ) {
 		return paper.hasKeyword() && paper.hasUrl();
 	}

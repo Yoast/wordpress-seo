@@ -30,7 +30,7 @@ var calculateFirstParagraphResult = function( firstParagraphMatches, i18n ) {
  * @param {object} i18n The object used for translations
  * @returns {object} the Assessmentresult
  */
-var getFirstParagraphAssessment = function( paper,  researcher, i18n ) {
+var introductionHasKeywordAssessment = function( paper, researcher, i18n ) {
 	var firstParagraphMatches = researcher.getResearch( "firstParagraph" );
 	var firstParagraphResult = calculateFirstParagraphResult( firstParagraphMatches, i18n );
 	var assessmentResult = new AssessmentResult();
@@ -42,7 +42,7 @@ var getFirstParagraphAssessment = function( paper,  researcher, i18n ) {
 };
 
 module.exports = {
-	getResult: getFirstParagraphAssessment,
+	getResult: introductionHasKeywordAssessment,
 	isApplicable: function( paper ) {
 		return paper.hasKeyword();
 	}

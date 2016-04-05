@@ -66,7 +66,7 @@ var assessImages = function( altProperties, i18n ) {
  * @param {object} i18n The locale object.
  * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
  */
-var imageAssessment = function( paper, researcher, i18n ) {
+var textHasImagesAssessment = function( paper, researcher, i18n ) {
 	var assessmentResult = new AssessmentResult();
 
 	var imageCount = researcher.getResearch( "imageCount" );
@@ -89,7 +89,7 @@ var imageAssessment = function( paper, researcher, i18n ) {
 };
 
 module.exports = {
-	getResult: imageAssessment,
+	getResult: textHasImagesAssessment,
 	isApplicable: function ( paper ) {
 		return paper.hasText();
 	}

@@ -32,7 +32,7 @@ var calculateKeywordMatchesResult = function( subHeadings, i18n ) {
  * @param {object} i18n The object used for translations.
  * @returns {object} the Assessmentresult
  */
-var matchKeywordinSubHeadingAssessment = function( paper, researcher, i18n ) {
+var subheadingsHaveKeywordAssessment = function( paper, researcher, i18n ) {
 	var subHeadings = researcher.getResearch( "matchKeywordInSubheadings" );
 	var subHeadingsResult = calculateKeywordMatchesResult( subHeadings, i18n );
 	var assessmentResult = new AssessmentResult();
@@ -44,7 +44,7 @@ var matchKeywordinSubHeadingAssessment = function( paper, researcher, i18n ) {
 };
 
 module.exports = {
-	getResult: matchKeywordinSubHeadingAssessment,
+	getResult: subheadingsHaveKeywordAssessment,
 	isApplicable: function( paper ) {
 		return paper.hasText() && paper.hasKeyword();
 	}

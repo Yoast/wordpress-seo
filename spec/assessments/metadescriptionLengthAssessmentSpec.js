@@ -1,4 +1,4 @@
-var descriptionLengthAssessment = require( "../../js/assessments/metaDescriptionLength.js" );
+var descriptionLengthAssessment = require( "../../js/assessments/metaDescriptionLengthAssessment.js" );
 var Paper = require( "../../js/values/Paper.js" );
 var Factory = require( "../helpers/factory.js" );
 var i18n = Factory.buildJed();

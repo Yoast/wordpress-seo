@@ -1,4 +1,4 @@
-var imageCountAssessment = require( "../../js/assessments/imageCount" );
+var imageCountAssessment = require( "../../js/assessments/textImagesAssessment" );
 var Paper = require( "../../js/values/Paper.js" );
 var Factory = require( "../helpers/factory.js" );
 var i18n = Factory.buildJed();
