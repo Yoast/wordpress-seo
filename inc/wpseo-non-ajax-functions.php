@@ -247,7 +247,8 @@ function wpseo_admin_bar_menu() {
 		$perc_score = WPSEO_Meta::get_value( 'linkdex', $post->ID );
 		$txtscore   = WPSEO_Utils::translate_score( $perc_score );
 		$title      = WPSEO_Utils::translate_score( $perc_score, false );
-		$score      = '<div title="' . esc_attr( $title ) . '" class="' . esc_attr( 'wpseo-score-icon ' . $txtscore . ' ' . $perc_score ) . '"></div>';
+		$score      = '<div title="' . esc_attr( $title ) . '" class="' . esc_attr( 'wpseo-score-icon ' . $txtscore . ' ' . $perc_score ) .
+		              ' adminbar-seo-score' . '"></div>';
 
 		$seo_url = get_edit_post_link( $post->ID );
 	}
@@ -385,7 +386,7 @@ function wpseo_admin_bar_menu() {
 	$admin_menu = current_user_can( 'manage_options' );
 
 	if ( ! $admin_menu && is_multisite() ) {
-		$options = get_site_option( 'wpseo_ms' );
+		$options    = get_site_option( 'wpseo_ms' );
 		$admin_menu = ( $options['access'] === 'superadmin' && is_super_admin() );
 	}
 
@@ -427,16 +428,16 @@ function wpseo_admin_bar_menu() {
 			'href'   => admin_url( 'admin.php?page=wpseo_advanced' ),
 		) );
 		$wp_admin_bar->add_menu( array(
-				'parent' => 'wpseo-settings',
-				'id'     => 'wpseo-tools',
-				'title'  => __( 'Tools', 'wordpress-seo' ),
-				'href'   => admin_url( 'admin.php?page=wpseo_tools' ),
+			'parent' => 'wpseo-settings',
+			'id'     => 'wpseo-tools',
+			'title'  => __( 'Tools', 'wordpress-seo' ),
+			'href'   => admin_url( 'admin.php?page=wpseo_tools' ),
 		) );
 		$wp_admin_bar->add_menu( array(
-				'parent' => 'wpseo-settings',
-				'id'     => 'wpseo-search-console',
-				'title'  => __( 'Search Console', 'wordpress-seo' ),
-				'href'   => admin_url( 'admin.php?page=wpseo_search_console' ),
+			'parent' => 'wpseo-settings',
+			'id'     => 'wpseo-search-console',
+			'title'  => __( 'Search Console', 'wordpress-seo' ),
+			'href'   => admin_url( 'admin.php?page=wpseo_search_console' ),
 		) );
 		$wp_admin_bar->add_menu( array(
 			'parent' => 'wpseo-settings',
@@ -452,14 +453,36 @@ add_action( 'admin_bar_menu', 'wpseo_admin_bar_menu', 95 );
 /**
  * Enqueue a tiny bit of CSS to show so the adminbar shows right.
  */
-function wpseo_admin_bar_css() {
-	if ( is_admin_bar_showing() && is_singular() ) {
+function wpseo_admin_bar_style() {
+
+	$enqueue_style = false;
+
+	// Single post in the frontend.
+	if ( ! is_admin() && is_admin_bar_showing() ) {
+		$enqueue_style = ( is_singular() || is_category() );
+	}
+
+	// Single post in the backend.
+	if ( is_admin() ) {
+		$screen = get_current_screen();
+
+		// Post (every post_type) or category page.
+		if ( 'post' === $screen->base || 'edit-tags' === $screen->base ) {
+			$enqueue_style = true;
+		}
+	}
+
+	if ( $enqueue_style ) {
+
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
+		$asset_manager->register_assets();
+
 		$asset_manager->enqueue_style( 'adminbar' );
 	}
 }
 
-add_action( 'wp_enqueue_scripts', 'wpseo_admin_bar_css' );
+add_action( 'wp_enqueue_scripts', 'wpseo_admin_bar_style' );
+add_action( 'admin_enqueue_scripts', 'wpseo_admin_bar_style' );
 
 /**
  * Allows editing of the meta fields through weblog editors like Marsedit.

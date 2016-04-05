@@ -7,10 +7,14 @@
 	background-color: #fff;
 }
 
-.snippet_container:after {
+.snippet_container:after:before,
+.snippet_container:after:after {
 	display: table;
-	clear: both;
 	content: " ";
+}
+
+.snippet_container:after:after {
+	clear: both;
 }
 
 .snippet-editor__container {

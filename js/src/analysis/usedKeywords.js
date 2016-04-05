@@ -21,8 +21,6 @@ function UsedKeywords( focusKeywordElement, ajaxAction, options, app ) {
 	this._keywordUsage = options.keyword_usage;
 	this._focusKeywordElement = $( focusKeywordElement );
 
-	console.log( options.keyword_usage );
-
 	this._plugin = new UsedKeywordsPlugin( app, {
 		usedKeywords: options.keyword_usage,
 		searchUrl: '<a target="_blank" href=' + options.search_url + '>',
@@ -50,8 +48,6 @@ UsedKeywords.prototype.init = function() {
 UsedKeywords.prototype.keywordChangeHandler = function() {
 	var keyword = this._focusKeywordElement.val();
 
-	console.log( keyword );
-
 	if ( ! _has( this._keywordUsage, keyword ) ) {
 		this.requestKeywordUsage( keyword );
 	}
@@ -78,8 +74,6 @@ UsedKeywords.prototype.requestKeywordUsage = function( keyword ) {
  */
 UsedKeywords.prototype.updateKeywordUsage = function( keyword, response ) {
 	if ( response ) {
-		console.log( keyword, response );
-
 		this._keywordUsage[ keyword ] = response;
 
 		this._plugin.updateKeywordUsage( this._keywordUsage );
