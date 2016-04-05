@@ -276,7 +276,7 @@ var forEach = require( 'lodash/forEach' );
 		);
 
 		facebookPreviewContainer.on(
-			'setFallbackImage',
+			'imageUpdate',
 			function() {
 				facebookPreview.setImageUrl( getFallbackImage( yoastSocialPreview.facebookDefaultImage ) );
 			}
@@ -316,8 +316,8 @@ var forEach = require( 'lodash/forEach' );
 	 * Refresh the image url by triggering the setFallBackImage event
 	 */
 	function refreshImageUrl( ) {
-		$( '#facebookPreview' ).trigger( 'setFallbackImage' );
-		$( '#twitterPreview' ).trigger( 'setFallbackImage' );
+		$( '#facebookPreview' ).trigger( 'imageUpdate' );
+		$( '#twitterPreview' ).trigger( 'imageUpdate' );
 	}
 
 	/**
@@ -378,12 +378,10 @@ var forEach = require( 'lodash/forEach' );
 	function setImageFallback() {
 		// In case of a post: we want to have the featured image.
 		if( getCurrentType() === 'post' ) {
-			var featuredImage = getFeaturedImage();
-			setFeaturedImage( featuredImage );
+			setFeaturedImage( getFeaturedImage() );
 		}
 
-		var contentImage = getContentImage();
-		setContentImage( contentImage );
+		setContentImage( getContentImage() );
 	}
 
 	/**
@@ -429,12 +427,16 @@ var forEach = require( 'lodash/forEach' );
 		var images = getImages( content );
 		var image  = '';
 
+		if( images.length === 0 ) {
+			return image;
+		}
+
 		do {
 			image = images.shift();
 			image = $( image );
 
 			image = image.prop( 'src' );
-		} while ( '' === image && images.length > 0 );
+		} while ( '' === image );
 
 		return image;
 	}
@@ -502,7 +504,11 @@ var forEach = require( 'lodash/forEach' );
 			return imageFallBack.content;
 		}
 
-		return defaultImage;
+		if ( defaultImage !== undefined ) {
+			return defaultImage;
+		}
+
+		return '';
 	}
 
 	/**
