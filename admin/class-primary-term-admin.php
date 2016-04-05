@@ -215,15 +215,4 @@ class WPSEO_Primary_Term_Admin {
 	private function filter_hierarchical_taxonomies( $taxonomy ) {
 		return (bool) $taxonomy->hierarchical;
 	}
-
-	/**
-	 * Returns whether or not the taxonomy is the category taxonomy
-	 *
-	 * @param stdClass $taxonomy Taxonomy object.
-	 *
-	 * @return bool
-	 */
-	private function filter_category_taxonomy( $taxonomy ) {
-		return 'category' === $taxonomy->name;
-	}
 }
