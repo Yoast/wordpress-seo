@@ -60,9 +60,9 @@ class WPSEO_Social_Previews {
 
 		return array(
 			'website'              => $this->get_website(),
-			'uploadImage'          => __( 'Upload Image', 'wordpress-seo' ),
-			'useOtherImage'      => __( 'Use other image' ),
-			'removeImageButton'    => __( 'Remove Image', 'wordpress-seo' ),
+			'uploadImage'          => __( 'Upload Image', 'wordpress-seo-premium' ),
+			'useOtherImage'      => __( 'Use other image', 'wordpress-seo-premium' ),
+			'removeImageButton'    => __( 'Remove Image', 'wordpress-seo-premium' ),
 			'facebookDefaultImage' => $options['og_default_image'],
 			'i18n'                 => array(
 				'help'       => array(

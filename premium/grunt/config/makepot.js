@@ -4,7 +4,7 @@ module.exports = {
 		options: {
 			mainFile: '<%= files.main %>',
 			domainPath: '<%= paths.languages %>',
-			potFilename: '<%= pkg.plugin.textdomain %>.pot',
+			potFilename: '<%= pkg.plugin.textdomain %>-temp.pot',
 			potHeaders: {
 				poedit: true,
 				'report-msgid-bugs-to': '<%= pkg.pot.reportmsgidbugsto %>',
