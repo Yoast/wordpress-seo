@@ -5,3 +5,4 @@ instrumentation:
   include-all-sources: true
   excludes:
     - templates.js
+    - js/bc/*.js
