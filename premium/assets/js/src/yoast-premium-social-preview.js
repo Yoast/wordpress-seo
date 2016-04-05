@@ -16,6 +16,8 @@ var forEach = require( 'lodash/forEach' );
 		featured: ''
 	};
 
+	var canReadFeaturedImage = true;
+
 	var socialPreviews = require( 'yoast-social-previews' );
 	var FacebookPreview = socialPreviews.FacebookPreview;
 	var TwitterPreview = socialPreviews.TwitterPreview;
@@ -36,7 +38,7 @@ var forEach = require( 'lodash/forEach' );
 			button: { text: yoastSocialPreview.choose_image },
 			multiple: false
 		});
-
+		
 		social_preview_uploader.on( 'select', function() {
 			var attachment = social_preview_uploader.state().get( 'selection' ).first().toJSON();
 
@@ -169,6 +171,7 @@ var forEach = require( 'lodash/forEach' );
 	 * @returns {{targetElement: Element, data: {title: *, description: *, imageUrl: *}, baseURL: *, callbacks: {updateSocialPreview: callbacks.updateSocialPreview}}}
 	 */
 	function getSocialPreviewArgs( targetElement, fieldPrefix ) {
+
 		return {
 			targetElement: $( targetElement ).get(0),
 			data: {
@@ -184,7 +187,7 @@ var forEach = require( 'lodash/forEach' );
 					$( '#' + fieldPrefix + '-image' ).val( data.imageUrl );
 
 					if (data.imageUrl === '') {
-						jQuery( targetElement ).trigger( 'setFallbackImage' );
+						jQuery( targetElement ).find( '.editable-preview' ).trigger( 'imageUpdate' );
 					}
 				}
 			}
@@ -206,6 +209,7 @@ var forEach = require( 'lodash/forEach' );
 
 		facebookPreviewContainer.on(
 			'imageUpdate',
+			'.editable-preview',
 			function() {
 				facebookPreview.setImageUrl( getFallbackImage( yoastSocialPreview.facebookDefaultImage ) );
 			}
@@ -230,7 +234,8 @@ var forEach = require( 'lodash/forEach' );
 		);
 
 		twitterPreviewContainer.on(
-			'setFallbackImage',
+			'imageUpdate',
+			'.editable-preview',
 			function() {
 				twitterPreview.setImageUrl( getFallbackImage( '' ) );
 			}
@@ -239,14 +244,6 @@ var forEach = require( 'lodash/forEach' );
 		twitterPreview.init();
 
 		addUploadButton( jQuery( '#twitter-editor-imageUrl' ), twitterPreview.updatePreview.bind( twitterPreview ) );
-	}
-
-	/**
-	 * Refresh the image url by triggering the setFallBackImage event
-	 */
-	function refreshImageUrl( ) {
-		$( '#facebookPreview' ).trigger( 'imageUpdate' );
-		$( '#twitterPreview' ).trigger( 'imageUpdate' );
 	}
 
 	/**
@@ -270,13 +267,15 @@ var forEach = require( 'lodash/forEach' );
 		featuredImage.on( 'select', function() {
 			var imageDetails = featuredImage.state().get( 'selection' ).first().attributes;
 
+			canReadFeaturedImage = true;
+
 			setFeaturedImage( imageDetails.url );
-			refreshImageUrl();
 		} );
 
 		$( '#postimagediv' ).on( 'click', '#remove-post-thumbnail', function() {
-			setFeaturedImage( '' );
-			refreshImageUrl();
+			canReadFeaturedImage = false;
+
+			clearFeaturedImage();
 		} );
 	}
 
@@ -287,7 +286,7 @@ var forEach = require( 'lodash/forEach' );
 		// Bind the event when something changed in the text editor.
 		var contentElement = $( '#' + contentTextName() );
 		if( contentElement.length > 0 ) {
-			contentElement.on( 'input', refreshContentImage );
+			contentElement.on( 'input', detectImageFallback );
 		}
 
 		//Bind the events when something changed in the tinyMCE editor.
@@ -295,19 +294,32 @@ var forEach = require( 'lodash/forEach' );
 			var events = [ 'input', 'change', 'cut', 'paste' ];
 			tinyMCE.on( 'addEditor', function( e ) {
 				for ( var i = 0; i < events.length; i++ ) {
-					e.editor.on( events[i], refreshContentImage );
+					e.editor.on( events[i], detectImageFallback );
 				}
 			});
 		}
 	}
 
 	/**
+	 * Sets the featured image fallback value as an empty value and runs the fallback method.
+	 */
+	function clearFeaturedImage() {
+		setFeaturedImage( '' );
+		detectImageFallback( );
+	}
+
+	/**
 	 * Sets the image fallbacks like the featured image (in case of a post) and the content image.
 	 */
-	function setImageFallback() {
+	function detectImageFallback() {
 		// In case of a post: we want to have the featured image.
 		if( getCurrentType() === 'post' ) {
-			setFeaturedImage( getFeaturedImage() );
+			var featuredImage = getFeaturedImage();
+			setFeaturedImage( featuredImage );
+
+			if( featuredImage !== '' ) {
+				return;
+			}
 		}
 
 		setContentImage( getContentImage() );
@@ -319,7 +331,12 @@ var forEach = require( 'lodash/forEach' );
 	 * @param {string} featuredImage The image we want to set.
 	 */
 	function setFeaturedImage( featuredImage ) {
-		imageFallBack.featured = featuredImage;
+		if ( imageFallBack.featured !== featuredImage ) {
+			imageFallBack.featured = featuredImage;
+
+			// Just refresh the image url
+			$( '.editable-preview' ).trigger( 'imageUpdate' );
+		}
 	}
 
 	/**
@@ -328,7 +345,12 @@ var forEach = require( 'lodash/forEach' );
 	 * @param {string} contentImage The image we want to set.
 	 */
 	function setContentImage( contentImage ) {
-		imageFallBack.content = contentImage;
+		if ( imageFallBack.content !== contentImage ) {
+			imageFallBack.content = contentImage;
+
+			// Just refresh the image url
+			$( '.editable-preview' ).trigger( 'imageUpdate' );
+		}
 	}
 
 	/**
@@ -337,9 +359,13 @@ var forEach = require( 'lodash/forEach' );
 	 * @returns {string}
 	 */
 	function getFeaturedImage() {
+		if( canReadFeaturedImage === false ) {
+			return '';
+		}
+
 		var postThumbnail = $( '.attachment-post-thumbnail' );
-		if( postThumbnail.length > 0 ) {
-			return $( postThumbnail.get(0) ).attr( 'src' );
+		if (postThumbnail.length > 0) {
+			return $( postThumbnail.get( 0 ) ).attr( 'src' );
 		}
 
 		return '';
@@ -361,11 +387,15 @@ var forEach = require( 'lodash/forEach' );
 		}
 
 		do {
-			image = images.shift();
-			image = $( image );
+			var currentImage = images.shift();
+			currentImage = $( currentImage );
 
-			image = image.prop( 'src' );
-		} while ( '' === image );
+			var imageSource = currentImage.prop( 'src' );
+
+			if( imageSource ) {
+				image = imageSource;
+			}
+		} while ( '' === image && images.length > 0 );
 
 		return image;
 	}
@@ -404,14 +434,6 @@ var forEach = require( 'lodash/forEach' );
 		}
 
 		return true;
-	}
-
-	/**
-	 * Sets the content image value and refreshes the image urls for the previews.
-	 */
-	function refreshContentImage() {
-		setContentImage( getContentImage() );
-		refreshImageUrl();
 	}
 
 	/**
@@ -511,7 +533,7 @@ var forEach = require( 'lodash/forEach' );
 
 		if ( facebookHolder.length > 0 || twitterHolder.length > 0 ) {
 			jQuery( window ).on( 'YoastSEO:ready', function() {
-				setImageFallback();
+				detectImageFallback();
 
 				if (facebookHolder.length > 0) {
 					initFacebook( facebookHolder );
