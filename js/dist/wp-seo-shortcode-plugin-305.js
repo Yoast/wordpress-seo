@@ -3,6 +3,9 @@
 /* global wpseoShortcodePluginL10n */
 /* global ajaxurl */
 /* global YoastSEO */
+/* global _ */
+/* global console */
+
 (function() {
 	'use strict';
 
@@ -94,21 +97,17 @@
 	 */
 	YoastShortcodePlugin.prototype.bindElementEvents = function() {
 		var contentElement = document.getElementById( 'content' ) || false;
-		var that = this;
+		var callback =  _.debounce(	this.loadShortcodes.bind( this, this.declareReloaded.bind( this ) ), 500 );
 
 		if (contentElement) {
-			contentElement.addEventListener( 'keydown', this.loadShortcodes.bind( this, this.declareReloaded.bind( this ) ) );
-			contentElement.addEventListener( 'change', this.loadShortcodes.bind( this, this.declareReloaded.bind( this ) ) );
+			contentElement.addEventListener( 'keyup', callback );
+			contentElement.addEventListener( 'change', callback );
 		}
 
 		if( typeof tinyMCE !== 'undefined' && typeof tinyMCE.on === 'function' ) {
 			tinyMCE.on( 'addEditor', function( e ) {
-				e.editor.on( 'change', function() {
-					that.loadShortcodes.bind( that, that.declareReloaded.bind( that ) )();
-				});
-				e.editor.on('keydown', function() {
-					that.loadShortcodes.bind( that, that.declareReloaded.bind( that ) )();
-				});
+				e.editor.on( 'change', callback );
+				e.editor.on( 'keyup', callback );
 			});
 		}
 	};
