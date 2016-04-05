@@ -46,6 +46,7 @@ class WPSEO_Primary_Term_Admin {
 		}
 
 		$taxonomies = $this->get_primary_term_taxonomies();
+		print_r($taxonomies);
 
 		// Only enqueue if there are taxonomies that need a primary term.
 		if ( empty( $taxonomies ) ) {
@@ -212,7 +213,7 @@ class WPSEO_Primary_Term_Admin {
 	 * @return bool
 	 */
 	private function filter_hierarchical_taxonomies( $taxonomy ) {
-		return true === $taxonomy->hierarchical;
+		return (bool) $taxonomy->hierarchical;
 	}
 
 	/**
