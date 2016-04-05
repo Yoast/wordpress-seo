@@ -63,10 +63,6 @@ var Researcher = function( paper ) {
  * @returns {void}
  */
 Researcher.prototype.setPaper = function( paper ) {
-	if ( !( paper instanceof Paper ) ) {
-		throw new InvalidTypeError( "The researcher requires an Paper object." );
-	}
-
 	this.paper = paper;
 };
 

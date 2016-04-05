@@ -40,17 +40,6 @@ var Assessor = function( i18n ) {
 };
 
 /**
- * Checks if the argument is a valid paper.
- * @param {Paper} paper The paper to be used for the assessments
- * @throws {InvalidTypeError} Parameter needs to be an instance of the Paper object.
- */
-Assessor.prototype.verifyPaper = function( paper ) {
-	if ( !( paper instanceof Paper ) ) {
-		throw new InvalidTypeError( "The assessor requires an Paper object." );
-	}
-};
-
-/**
  * Checks if the i18n object is defined and sets it.
  * @param {Object} i18n The i18n object used for translations.
  * @throws {MissingArgument} Parameter needs to be a valid i18n object.
@@ -90,8 +79,6 @@ Assessor.prototype.isApplicable = function( assessment, paper, researcher ) {
  * @param {Paper} paper The paper to run assessments on.
  */
 Assessor.prototype.assess = function( paper ) {
-	this.verifyPaper( paper );
-
 	var researcher = new Researcher( paper );
 	var assessments = this.getAvailableAssessments();
 	this.results = [];
