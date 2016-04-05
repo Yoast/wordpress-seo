@@ -109,7 +109,7 @@ var forEach = require( 'lodash/forEach' );
 			button: { text: yoastSocialPreview.choose_image },
 			multiple: false
 		});
-		
+
 		social_preview_uploader.on( 'select', function() {
 			var attachment = social_preview_uploader.state().get( 'selection' ).first().toJSON();
 
@@ -132,8 +132,8 @@ var forEach = require( 'lodash/forEach' );
 			$( removeButton ).hide();
 		} );
 
-		$( imageButton ).click( function( e ) {
-			e.preventDefault();
+		$( imageButton ).click( function( evt ) {
+			evt.preventDefault();
 			social_preview_uploader.open();
 		} );
 	}
@@ -201,9 +201,9 @@ var forEach = require( 'lodash/forEach' );
 				return 'yoast_wpseo';
 			case 'term' :
 				return 'wpseo';
+			default :
+				return '';
 		}
-
-		return '';
 	}
 
 	/**
@@ -217,9 +217,9 @@ var forEach = require( 'lodash/forEach' );
 				return 'content';
 			case 'term' :
 				return 'description';
+			default :
+				return '';
 		}
-
-		return '';
 	}
 
 	/**
@@ -4100,8 +4100,6 @@ FacebookPreview.prototype.setDescription = function( description ) {
  * @param {string} imageUrl The image path.
  */
 FacebookPreview.prototype.setImageUrl = function( imageUrl ) {
-	var maxWidth;
-
 	var imageContainer = this.element.preview.imageUrl;
 	if ( imageUrl === '' && this.data.imageUrl === "" ) {
 		this.removeSmallImageClasses();
@@ -4119,16 +4117,7 @@ FacebookPreview.prototype.setImageUrl = function( imageUrl ) {
 	img.onload = function() {
 		imageContainer.innerHTML = "<img src='" + imageUrl + "' />";
 
-		if ( this.isSmallImage( img ) ) {
-			maxWidth = WIDTH_FACEBOOK_IMAGE_SMALL;
-			this.setSmallImageClasses();
-		} else {
-			maxWidth = WIDTH_FACEBOOK_IMAGE_LARGE;
-
-			this.removeSmallImageClasses();
-		}
-
-		imageRatio( imageContainer.childNodes[0], maxWidth );
+		imageRatio( imageContainer.childNodes[0], this.getMaxImageWidth( img ) );
 	}.bind( this );
 
 	img.onerror = function() {
@@ -4144,6 +4133,24 @@ FacebookPreview.prototype.setImageUrl = function( imageUrl ) {
 
 	// Load image to trigger load or error event.
 	img.src = imageUrl;
+};
+
+/**
+ * Returns the max image width
+ *
+ * @param {Image} img The image object to use.
+ * @returns {int} The calculated maxwidth
+ */
+FacebookPreview.prototype.getMaxImageWidth = function( img ) {
+	if ( this.isSmallImage( img ) ) {
+		this.setSmallImageClasses();
+
+		return WIDTH_FACEBOOK_IMAGE_SMALL;
+	}
+
+	this.removeSmallImageClasses();
+
+	return WIDTH_FACEBOOK_IMAGE_LARGE;
 };
 
 /**
@@ -5027,7 +5034,7 @@ var Jed = require( "jed" );
 
 var imageRatio = require( "./helpers/imageRatio" );
 var renderDescription = require( "./helpers/renderDescription" );
-var imagePlaceholder  = require( "./element/imagePlaceholder" )
+var imagePlaceholder  = require( "./element/imagePlaceholder" );
 var bemAddModifier = require( "./helpers/bem/addModifier" );
 var bemRemoveModifier = require( "./helpers/bem/removeModifier" );
 var addClass = require( "./helpers/addClass" );
@@ -5386,9 +5393,7 @@ TwitterPreview.prototype.setDescription = function( description ) {
  * @param {string} imageUrl The image path.
  */
 TwitterPreview.prototype.setImageUrl = function( imageUrl ) {
-	var maxWidth;
-
-	var imageContainer = this.element.preview.imageUrl ;
+	var imageContainer = this.element.preview.imageUrl;
 	if ( imageUrl === '' && this.data.imageUrl === "" ) {
 		this.setPlaceHolder();
 
@@ -5399,22 +5404,14 @@ TwitterPreview.prototype.setImageUrl = function( imageUrl ) {
 	img.onload = function() {
 		imageContainer.innerHTML = "<img src='" + imageUrl + "' />";
 
-		if( this.isTooSmallImage( img )  ) {
+		if ( this.isTooSmallImage( img ) ) {
 			this.setPlaceHolder();
 
 			return;
 		}
 
-		if ( this.isSmallImage( img ) ) {
-			maxWidth = WIDTH_TWITTER_IMAGE_SMALL;
-			this.setSmallImageClasses();
-		} else {
-			maxWidth = WIDTH_TWITTER_IMAGE_LARGE;
+		imageRatio( imageContainer.childNodes[0], this.getMaxImageWidth( img ) );
 
-			this.removeSmallImageClasses();
-		}
-
-		imageRatio( imageContainer.childNodes[0], maxWidth );
 	}.bind( this );
 
 	img.onerror = this.setPlaceHolder.bind( this, true );
@@ -5423,15 +5420,29 @@ TwitterPreview.prototype.setImageUrl = function( imageUrl ) {
 	img.src = imageUrl;
 };
 
+
+/**
+ * Returns the max image width
+ *
+ * @param {Image} img The image object to use.
+ * @returns {int} The calculated max width.
+ */
+TwitterPreview.prototype.getMaxImageWidth = function( img ) {
+	if ( this.isSmallImage( img ) ) {
+		this.setSmallImageClasses();
+
+		return WIDTH_TWITTER_IMAGE_SMALL
+	}
+
+	this.removeSmallImageClasses();
+
+	return WIDTH_TWITTER_IMAGE_LARGE;
+};
 /**
  * Sets the default twitter placeholder
  */
-TwitterPreview.prototype.setPlaceHolder = function(hasError) {
+TwitterPreview.prototype.setPlaceHolder = function() {
 	this.setSmallImageClasses();
-
-	if( hasError === undefined ) {
-		hasError = false;
-	}
 
 	imagePlaceholder(
 		this.element.preview.imageUrl,

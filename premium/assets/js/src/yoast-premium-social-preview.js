@@ -38,7 +38,7 @@ var forEach = require( 'lodash/forEach' );
 			button: { text: yoastSocialPreview.choose_image },
 			multiple: false
 		});
-		
+
 		social_preview_uploader.on( 'select', function() {
 			var attachment = social_preview_uploader.state().get( 'selection' ).first().toJSON();
 
@@ -61,8 +61,8 @@ var forEach = require( 'lodash/forEach' );
 			$( removeButton ).hide();
 		} );
 
-		$( imageButton ).click( function( e ) {
-			e.preventDefault();
+		$( imageButton ).click( function( evt ) {
+			evt.preventDefault();
 			social_preview_uploader.open();
 		} );
 	}
@@ -130,9 +130,9 @@ var forEach = require( 'lodash/forEach' );
 				return 'yoast_wpseo';
 			case 'term' :
 				return 'wpseo';
+			default :
+				return '';
 		}
-
-		return '';
 	}
 
 	/**
@@ -146,9 +146,9 @@ var forEach = require( 'lodash/forEach' );
 				return 'content';
 			case 'term' :
 				return 'description';
+			default :
+				return '';
 		}
-
-		return '';
 	}
 
 	/**
