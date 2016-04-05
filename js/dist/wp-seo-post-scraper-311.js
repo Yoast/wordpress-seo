@@ -279,6 +279,7 @@ module.exports = UsedKeywords;
 			snippetTitle: this.getDataFromInput( 'snippetTitle' ),
 			snippetMeta: this.getDataFromInput( 'snippetMeta' ),
 			snippetCite: this.getDataFromInput( 'cite' ),
+			primaryCategory: this.getDataFromInput( 'primaryCategory' ),
 			searchUrl: '<a target="_blank" href=' + wpseoPostScraperL10n.search_url + '>',
 			postUrl: '<a target="_blank" href=' + wpseoPostScraperL10n.post_edit_url + '>'
 		};
@@ -324,13 +325,40 @@ module.exports = UsedKeywords;
 				break;
 			case 'excerpt':
 				if ( document.getElementById( 'excerpt' ) !== null ) {
-					val = document.getElementById('excerpt') && document.getElementById('excerpt').value || '';
+					val = document.getElementById( 'excerpt' ) && document.getElementById( 'excerpt' ).value || '';
+				}
+				break;
+			case 'primaryCategory':
+				var categoryBase = $( '#category-all' ).find( 'ul.categorychecklist' );
+
+				// If only one is visible than that item is the primary category.
+				var checked = categoryBase.find( 'li input:checked' );
+				if ( checked.length === 1 ) {
+					val = this.getCategoryName( checked.parent() );
+					break;
+				}
+
+				var primaryTerm = categoryBase.find( '.wpseo-primary-term > label' );
+				if ( primaryTerm.length ) {
+					val = this.getCategoryName( primaryTerm );
+					break;
 				}
 				break;
 			default:
 				break;
 		}
 		return val;
+	};
+
+	/**
+	 * Get the category name from the list item
+	 * @param {jQuery Object} li Item which contains the category
+	 * @returns {String} Name of the category
+     */
+	PostScraper.prototype.getCategoryName = function( li ) {
+		var clone = li.clone();
+		clone.children().remove();
+		return $.trim(clone.text());
 	};
 
 	/**
@@ -416,7 +444,18 @@ module.exports = UsedKeywords;
 	 */
 	PostScraper.prototype.bindElementEvents = function( app ) {
 		this.inputElementEventBinder( app );
+		this.changeElementEventBinder( app );
 		document.getElementById( 'yoast_wpseo_focuskw_text_input' ).addEventListener( 'keydown', app.snippetPreview.disableEnter );
+	};
+
+	/**
+	 * binds the reanalyze timer on change of dom element.
+     */
+	PostScraper.prototype.changeElementEventBinder = function( app ) {
+		var elems = [ '#yoast-wpseo-primary-category', '.categorychecklist input[name="post_category[]"]' ];
+		for( var i = 0; i < elems.length; i++ ) {
+			$( elems[i] ).on('change', app.analyzeTimer.bind( app ) );
+		}
 	};
 
 	/**

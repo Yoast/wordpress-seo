@@ -1,6 +1,6 @@
 <?php
 /**
- * @package WPSEO\Internals
+ * @package    WPSEO\Internals
  * @since      1.5.4
  */
 
@@ -299,18 +299,18 @@ class WPSEO_Replace_Vars {
 	private function retrieve_date() {
 		$replacement = null;
 
-		if ( $this->args->post_date != '' ) {
+		if ( $this->args->post_date !== '' ) {
 			$replacement = mysql2date( get_option( 'date_format' ), $this->args->post_date, true );
 		}
 		else {
-			if ( get_query_var( 'day' ) && get_query_var( 'day' ) != '' ) {
+			if ( get_query_var( 'day' ) && get_query_var( 'day' ) !== '' ) {
 				$replacement = get_the_date();
 			}
 			else {
-				if ( single_month_title( ' ', false ) && single_month_title( ' ', false ) != '' ) {
+				if ( single_month_title( ' ', false ) && single_month_title( ' ', false ) !== '' ) {
 					$replacement = single_month_title( ' ', false );
 				}
-				elseif ( get_query_var( 'year' ) != '' ) {
+				elseif ( get_query_var( 'year' ) !== '' ) {
 					$replacement = get_query_var( 'year' );
 				}
 			}
@@ -367,7 +367,7 @@ class WPSEO_Replace_Vars {
 		$replacement = null;
 
 		if ( ! isset( $replacement ) && ( ( is_singular() || is_admin() ) && isset( $GLOBALS['post'] ) ) ) {
-			if ( isset( $GLOBALS['post']->post_parent ) && 0 != $GLOBALS['post']->post_parent ) {
+			if ( isset( $GLOBALS['post']->post_parent ) && 0 !== $GLOBALS['post']->post_parent ) {
 				$replacement = get_the_title( $GLOBALS['post']->post_parent );
 			}
 		}
@@ -514,6 +514,27 @@ class WPSEO_Replace_Vars {
 		return $replacement;
 	}
 
+	/**
+	 * Retrieve primary category for use as replacement string.
+	 *
+	 * @return bool|int|null
+	 */
+	private function retrieve_primary_category() {
+		$primary_category = null;
+
+		if ( ! empty( $this->args->ID ) ) {
+			$wpseo_primary_category = new WPSEO_Primary_Term( 'category', $this->args->ID );
+
+			$term_id = $wpseo_primary_category->get_primary_term();
+			$term    = get_term( $term_id );
+
+			if ( ! is_wp_error( $term ) && ! empty( $term ) ) {
+				$primary_category = $term->name;
+			}
+		}
+
+		return $primary_category;
+	}
 
 
 	/* *********************** ADVANCED VARIABLES ************************** */
@@ -1073,6 +1094,7 @@ class WPSEO_Replace_Vars {
 			'excerpt_only'         => __( 'Replaced with the post/page excerpt (without auto-generation)', 'wordpress-seo' ),
 			'tag'                  => __( 'Replaced with the current tag/tags', 'wordpress-seo' ),
 			'category'             => __( 'Replaced with the post categories (comma separated)', 'wordpress-seo' ),
+			'primary_category'     => __( 'Replaced with the primary category of the post/page', 'wordpress-seo' ),
 			'category_description' => __( 'Replaced with the category description', 'wordpress-seo' ),
 			'tag_description'      => __( 'Replaced with the tag description', 'wordpress-seo' ),
 			'term_description'     => __( 'Replaced with the term description', 'wordpress-seo' ),
