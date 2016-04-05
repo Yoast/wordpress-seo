@@ -14,7 +14,6 @@ class WPSEO_Sitemaps_Router {
 	public function __construct() {
 
 		add_action( 'init', array( $this, 'init' ), 1 );
-		add_action( 'wpseo_activate', array( $this, 'init' ), 1 );
 
 		add_filter( 'redirect_canonical', array( $this, 'redirect_canonical' ) );
 		add_action( 'template_redirect', array( $this, 'template_redirect' ), 0 );
