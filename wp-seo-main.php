@@ -147,16 +147,14 @@ function _wpseo_activate() {
 		delete_option( 'rewrite_rules' );
 	}
 	else {
-		add_action( 'activated_plugin', 'flush_rewrite_rules' );
+		$wpseo_rewrite = new WPSEO_Rewrite();
+		$wpseo_rewrite->schedule_flush();
 	}
 
 	wpseo_add_capabilities();
 
 	// Clear cache so the changes are obvious.
 	WPSEO_Utils::clear_cache();
-
-	// Add rewrite rules so they can be flushed.
-	new WPSEO_Sitemaps_Router();
 
 	do_action( 'wpseo_activate' );
 }
