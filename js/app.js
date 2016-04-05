@@ -438,7 +438,7 @@ App.prototype.runAnalyzer = function() {
 	} );
 
 	this.assessorPresenter.render();
-	this.callbacks.saveScores( this.assessor.calculateOverallScore() );
+	this.callbacks.saveScores( this.assessor.calculateOverallScore(), this.assessorPresenter );
 
 	if ( this.config.dynamicDelay ) {
 		this.endTime();
