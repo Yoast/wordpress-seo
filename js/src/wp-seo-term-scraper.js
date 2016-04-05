@@ -179,7 +179,6 @@
 	 * @param {AssessorPresenter} assessorPresenter
 	 */
 	TermScraper.prototype.saveScores = function( score, assessorPresenter ) {
-		var cssClass, alt;
 		var indicator = assessorPresenter.getIndicator( scoreToRating( score / 10 ) );
 		var keyword = this.getDataFromInput( 'keyword' );
 

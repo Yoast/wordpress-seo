@@ -280,7 +280,6 @@
 	 * @param {AssessorPresenter} assessorPresenter
 	 */
 	PostScraper.prototype.saveScores = function( score, assessorPresenter ) {
-		var alt;
 		var indicator = assessorPresenter.getIndicator( scoreToRating( score / 10 ) );
 
 		if ( this.isMainKeyword( currentKeyword ) ) {
