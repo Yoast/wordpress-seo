@@ -2,7 +2,6 @@
 /* global tinyMCE */
 /* global wpseoShortcodePluginL10n */
 /* global ajaxurl */
-/* global YoastSEO */
 /* global _ */
 /* global console */
 (function() {
