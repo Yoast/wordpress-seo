@@ -1,4 +1,4 @@
-/* global YoastSEO: true, wpseoTermScraperL10n, ajaxurl, tinyMCE, YoastReplaceVarPlugin, console, require */
+/* global YoastSEO: true, wpseoTermScraperL10n, tinyMCE, YoastReplaceVarPlugin, console, require */
 (function( $ ) {
 	'use strict';
 
@@ -6,6 +6,8 @@
 	var SnippetPreview = require( 'yoastseo' ).SnippetPreview;
 
 	var UsedKeywords = require( './analysis/usedKeywords' );
+
+	var scoreToRating = require( 'yoastseo' ).helpers.scoreToRating;
 
 	var app, snippetPreview;
 
@@ -172,21 +174,23 @@
 
 	/**
 	 * creates SVG for the overall score.
+	 *
+	 * @param {string} score
+	 * @param {AssessorPresenter} assessorPresenter
 	 */
-	TermScraper.prototype.saveScores = function( score ) {
+	TermScraper.prototype.saveScores = function( score, assessorPresenter ) {
 		var cssClass, alt;
+		var indicator = assessorPresenter.getIndicator( scoreToRating( score / 10 ) );
+		var keyword = this.getDataFromInput( 'keyword' );
 
 		document.getElementById( 'hidden_wpseo_linkdex' ).value = score;
 		jQuery( window ).trigger( 'YoastSEO:numericScore', score );
 
-		mainKeywordTab.update( score, this.getDataFromInput( 'keyword' ) );
-
-		// cssClass = app.scoreFormatter.overallScoreRating( parseInt( score, 10 ) );
-		// alt = app.scoreFormatter.getSEOScoreText( cssClass );
+		mainKeywordTab.update( indicator.class, keyword );
 
 		$( '.yst-traffic-light' )
-			.attr( 'class', 'yst-traffic-light ' + cssClass )
-			.attr( 'alt', alt );
+			.attr( 'class', 'yst-traffic-light ' + indicator.class )
+			.attr( 'alt', indicator.screenReaderText );
 	};
 
 	/**

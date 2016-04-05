@@ -5,18 +5,19 @@ module.exports = (function() {
 	/**
 	 * Renders a keyword tab as a jQuery HTML object.
 	 *
-	 * @param {int}    score
+	 * @param {string} scoreClass
 	 * @param {string} keyword
 	 * @param {string} prefix
 	 *
 	 * @returns {HTMLElement}
 	 */
-	function renderKeywordTab( score, keyword, prefix ) {
+	function renderKeywordTab( scoreClass, keyword, prefix ) {
+		console.log( scoreClass );
 		var placeholder = keyword.length > 0 ? keyword : '...';
 		var html = wp.template( 'keyword_tab' )({
 			keyword: keyword,
 			placeholder: placeholder,
-			score: score,
+			score: scoreClass,
 			hideRemove: true,
 			prefix: prefix + ' ',
 			active: true
@@ -34,7 +35,7 @@ module.exports = (function() {
 		this.keyword = '';
 		this.prefix  = args.prefix || '';
 
-		this.setScore( 0 );
+		this.setScoreClass( 0 );
 	}
 
 	/**
@@ -43,7 +44,7 @@ module.exports = (function() {
 	 * @param {HTMLElement} parent
 	 */
 	KeywordTab.prototype.init = function( parent ) {
-		this.setElement( renderKeywordTab( this.score, this.keyword, this.prefix ) );
+		this.setElement( renderKeywordTab( this.scoreClass, this.keyword, this.prefix ) );
 
 		jQuery( parent ).append( this.element );
 	};
@@ -51,12 +52,12 @@ module.exports = (function() {
 	/**
 	 * Updates the keyword tabs with new values.
 	 *
-	 * @param {integer} score
-	 * @param {string}  keyword
+	 * @param {string} scoreClass
+	 * @param {string} keyword
 	 */
-	KeywordTab.prototype.update = function( score, keyword ) {
+	KeywordTab.prototype.update = function( scoreClass, keyword ) {
 		this.keyword = keyword;
-		this.setScore( score );
+		this.setScoreClass( scoreClass );
 		this.refresh();
 	};
 
@@ -64,7 +65,7 @@ module.exports = (function() {
 	 * Renders a new keyword tab with the current values and replaces the old tab with this one.
 	 */
 	KeywordTab.prototype.refresh = function() {
-		var newElem = renderKeywordTab( this.score, this.keyword, this.prefix );
+		var newElem = renderKeywordTab( this.scoreClass, this.keyword, this.prefix );
 
 		this.element.replaceWith( newElem );
 		this.setElement( newElem );
@@ -82,18 +83,10 @@ module.exports = (function() {
 	/**
 	 * Formats the given score and store it in the attribute.
 	 *
-	 * @param {number} score
+	 * @param {string} scoreClass
 	 */
-	KeywordTab.prototype.setScore = function( score ) {
-		score = parseInt( score, 10 );
-
-		if ( this.keyword === '' ) {
-			score = 'na';
-		}
-
-		//score = YoastSEO.ScoreFormatter.prototype.overallScoreRating( score );
-
-		this.score = score;
+	KeywordTab.prototype.setScoreClass = function( scoreClass ) {
+		this.scoreClass = scoreClass;
 	};
 
 	return KeywordTab;

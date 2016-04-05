@@ -5,6 +5,8 @@
 	var SnippetPreview = require( 'yoastseo' ).SnippetPreview;
 	var App = require( 'yoastseo' ).App;
 
+	var scoreToRating = require( 'yoastseo' ).helpers.scoreToRating;
+
 	var UsedKeywords = require( './analysis/usedKeywords' );
 
 	var currentKeyword = '';
@@ -275,29 +277,27 @@
 	 * Outputs the score in the overall target.
 	 *
 	 * @param {string} score
+	 * @param {AssessorPresenter} assessorPresenter
 	 */
-	PostScraper.prototype.saveScores = function( score ) {
+	PostScraper.prototype.saveScores = function( score, assessorPresenter ) {
 		var alt;
-		var cssClass;
+		var indicator = assessorPresenter.getIndicator( scoreToRating( score / 10 ) );
 
 		if ( this.isMainKeyword( currentKeyword ) ) {
 			document.getElementById( 'yoast_wpseo_linkdex' ).value = score;
 
 			if ( '' === currentKeyword ) {
-				cssClass = 'na';
-			} else {
-				// cssClass = app.scoreFormatter.overallScoreRating( parseInt( score, 10 ) );
+				indicator.class = 'na';
 			}
-			// alt = app.scoreFormatter.getSEOScoreText( cssClass );
 
 			$( '.yst-traffic-light' )
-				.attr( 'class', 'yst-traffic-light ' + cssClass )
-				.attr( 'alt', alt );
+				.attr( 'class', 'yst-traffic-light ' + indicator.class )
+				.attr( 'alt', indicator.screenReaderText );
 		}
 
 		// If multi keyword isn't available we need to update the first tab (content)
 		if ( ! YoastSEO.multiKeyword ) {
-			mainKeywordTab.update( score, currentKeyword );
+			mainKeywordTab.update( indicator.class, currentKeyword );
 
 			// Updates the input with the currentKeyword value
 			$( '#yoast_wpseo_focuskw' ).val( currentKeyword );

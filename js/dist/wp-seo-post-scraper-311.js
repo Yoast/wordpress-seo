@@ -3,16 +3,23 @@ var plugins = {
 	usedKeywords: require( "./js/bundledPlugins/previouslyUsedKeywords" )
 };
 
+var helpers = {
+	scoreToRating: require( "./js/interpreters/scoreToRating" ),
+	ratingToPresenter: require( "./js/config/presenter" )
+};
+
 module.exports = {
 	Assessor: require( "./js/assessor" ),
 	App: require( "./js/app.js" ),
 	Pluggable: require( "./js/app" ),
 	Researcher: require( "./js/researcher" ),
 	SnippetPreview: require( "./js/snippetPreview.js" ),
-	bundledPlugins: plugins
+
+	bundledPlugins: plugins,
+	helpers: helpers
 };
 
-},{"./js/app":2,"./js/app.js":2,"./js/assessor":20,"./js/bundledPlugins/previouslyUsedKeywords":21,"./js/researcher":33,"./js/snippetPreview.js":52}],2:[function(require,module,exports){
+},{"./js/app":2,"./js/app.js":2,"./js/assessor":20,"./js/bundledPlugins/previouslyUsedKeywords":21,"./js/config/presenter":24,"./js/interpreters/scoreToRating":30,"./js/researcher":33,"./js/snippetPreview.js":52}],2:[function(require,module,exports){
 /* jshint browser: true */
 
 require( "./config/config.js" );
@@ -453,7 +460,7 @@ App.prototype.runAnalyzer = function() {
 	} );
 
 	this.assessorPresenter.render();
-	this.callbacks.saveScores( this.assessor.calculateOverallScore() );
+	this.callbacks.saveScores( this.assessor.calculateOverallScore(), this.assessorPresenter );
 
 	if ( this.config.dynamicDelay ) {
 		this.endTime();
@@ -12210,18 +12217,19 @@ module.exports = (function() {
 	/**
 	 * Renders a keyword tab as a jQuery HTML object.
 	 *
-	 * @param {int}    score
+	 * @param {string} scoreClass
 	 * @param {string} keyword
 	 * @param {string} prefix
 	 *
 	 * @returns {HTMLElement}
 	 */
-	function renderKeywordTab( score, keyword, prefix ) {
+	function renderKeywordTab( scoreClass, keyword, prefix ) {
+		console.log( scoreClass );
 		var placeholder = keyword.length > 0 ? keyword : '...';
 		var html = wp.template( 'keyword_tab' )({
 			keyword: keyword,
 			placeholder: placeholder,
-			score: score,
+			score: scoreClass,
 			hideRemove: true,
 			prefix: prefix + ' ',
 			active: true
@@ -12239,7 +12247,7 @@ module.exports = (function() {
 		this.keyword = '';
 		this.prefix  = args.prefix || '';
 
-		this.setScore( 0 );
+		this.setScoreClass( 0 );
 	}
 
 	/**
@@ -12248,7 +12256,7 @@ module.exports = (function() {
 	 * @param {HTMLElement} parent
 	 */
 	KeywordTab.prototype.init = function( parent ) {
-		this.setElement( renderKeywordTab( this.score, this.keyword, this.prefix ) );
+		this.setElement( renderKeywordTab( this.scoreClass, this.keyword, this.prefix ) );
 
 		jQuery( parent ).append( this.element );
 	};
@@ -12256,12 +12264,12 @@ module.exports = (function() {
 	/**
 	 * Updates the keyword tabs with new values.
 	 *
-	 * @param {integer} score
-	 * @param {string}  keyword
+	 * @param {string} scoreClass
+	 * @param {string} keyword
 	 */
-	KeywordTab.prototype.update = function( score, keyword ) {
+	KeywordTab.prototype.update = function( scoreClass, keyword ) {
 		this.keyword = keyword;
-		this.setScore( score );
+		this.setScoreClass( scoreClass );
 		this.refresh();
 	};
 
@@ -12269,7 +12277,7 @@ module.exports = (function() {
 	 * Renders a new keyword tab with the current values and replaces the old tab with this one.
 	 */
 	KeywordTab.prototype.refresh = function() {
-		var newElem = renderKeywordTab( this.score, this.keyword, this.prefix );
+		var newElem = renderKeywordTab( this.scoreClass, this.keyword, this.prefix );
 
 		this.element.replaceWith( newElem );
 		this.setElement( newElem );
@@ -12287,18 +12295,10 @@ module.exports = (function() {
 	/**
 	 * Formats the given score and store it in the attribute.
 	 *
-	 * @param {number} score
+	 * @param {string} scoreClass
 	 */
-	KeywordTab.prototype.setScore = function( score ) {
-		score = parseInt( score, 10 );
-
-		if ( this.keyword === '' ) {
-			score = 'na';
-		}
-
-		//score = YoastSEO.ScoreFormatter.prototype.overallScoreRating( score );
-
-		this.score = score;
+	KeywordTab.prototype.setScoreClass = function( scoreClass ) {
+		this.scoreClass = scoreClass;
 	};
 
 	return KeywordTab;
@@ -12341,7 +12341,10 @@ function UsedKeywords( focusKeywordElement, ajaxAction, options, app ) {
 	this._app = app;
 }
 
-UsedKeywords.prototype.init = function( app ) {
+/**
+ * Initializes everything necessary for used keywords
+ */
+UsedKeywords.prototype.init = function() {
 	var eventHandler = _debounce( this.keywordChangeHandler.bind( this ), 500 );
 
 	this._plugin.registerPlugin();
@@ -12361,6 +12364,11 @@ UsedKeywords.prototype.keywordChangeHandler = function() {
 	}
 };
 
+/**
+ * Request keyword usage from the server
+ *
+ * @param {string} keyword The keyword to request the usage for.
+ */
 UsedKeywords.prototype.requestKeywordUsage = function( keyword ) {
 	$.post( ajaxurl, {
 		action: this._ajaxAction,
@@ -12395,6 +12403,8 @@ module.exports = UsedKeywords;
 
 	var SnippetPreview = require( 'yoastseo' ).SnippetPreview;
 	var App = require( 'yoastseo' ).App;
+
+	var scoreToRating = require( 'yoastseo' ).helpers.scoreToRating;
 
 	var UsedKeywords = require( './analysis/usedKeywords' );
 
@@ -12666,29 +12676,27 @@ module.exports = UsedKeywords;
 	 * Outputs the score in the overall target.
 	 *
 	 * @param {string} score
+	 * @param {AssessorPresenter} assessorPresenter
 	 */
-	PostScraper.prototype.saveScores = function( score ) {
+	PostScraper.prototype.saveScores = function( score, assessorPresenter ) {
 		var alt;
-		var cssClass;
+		var indicator = assessorPresenter.getIndicator( scoreToRating( score / 10 ) );
 
 		if ( this.isMainKeyword( currentKeyword ) ) {
 			document.getElementById( 'yoast_wpseo_linkdex' ).value = score;
 
 			if ( '' === currentKeyword ) {
-				cssClass = 'na';
-			} else {
-				// cssClass = app.scoreFormatter.overallScoreRating( parseInt( score, 10 ) );
+				indicator.class = 'na';
 			}
-			// alt = app.scoreFormatter.getSEOScoreText( cssClass );
 
 			$( '.yst-traffic-light' )
-				.attr( 'class', 'yst-traffic-light ' + cssClass )
-				.attr( 'alt', alt );
+				.attr( 'class', 'yst-traffic-light ' + indicator.class )
+				.attr( 'alt', indicator.screenReaderText );
 		}
 
 		// If multi keyword isn't available we need to update the first tab (content)
 		if ( ! YoastSEO.multiKeyword ) {
-			mainKeywordTab.update( score, currentKeyword );
+			mainKeywordTab.update( indicator.class, currentKeyword );
 
 			// Updates the input with the currentKeyword value
 			$( '#yoast_wpseo_focuskw' ).val( currentKeyword );
