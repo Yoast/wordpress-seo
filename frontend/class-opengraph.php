@@ -152,7 +152,7 @@ class WPSEO_OpenGraph {
 	 * @link https://developers.facebook.com/blog/post/2013/06/19/platform-updates--new-open-graph-tags-for-media-publishers-and-more/
 	 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
 	 * @return boolean
-	 */
+	 */ge
 	public function website_facebook() {
 
 		if ( 'article' === $this->type( false ) && ! empty( $this->options['facebook_site'] ) ) {
@@ -233,7 +233,7 @@ class WPSEO_OpenGraph {
 		elseif ( is_category() || is_tax() || is_tag() ) {
 			$title = WPSEO_Taxonomy_Meta::get_meta_without_term( 'opengraph-title' );
 			if ( $title === '' ) {
-				$title = $frontend->get_taxonomy_title( '' );
+				$title = $frontend->title( '' );
 			}
 			else {
 				// Replace Yoast SEO Variables.
