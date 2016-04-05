@@ -24,5 +24,5 @@ Yoast_Form::get_instance()->admin_header( true );
         frameborder="0" allowfullscreen></iframe>
 
 <p>
-	<?php echo sprintf( __( 'Do you want to put your knowledge to the test? Get an <a href="%s" target="_blank">Yoast Academy account</a>, test yourself and earn an official Yoast SEO Badge!', 'wordpress-seo' ), 'https://yoast.com/academy/courses/' ); ?>
+	<?php echo sprintf( __( 'Do you want to put your knowledge to the test? Get a <a href="%s" target="_blank">Yoast Academy account</a>, test yourself and earn an official Yoast SEO Badge!', 'wordpress-seo' ), 'https://yoast.com/academy/courses/' ); ?>
 </p>
