@@ -10,7 +10,7 @@ Yoast_Form::get_instance()->admin_header( true );
 
 ?>
 
-<h2><?php echo esc_html( __( 'Listen and learn', 'wordpress-seo' ) ) ?></h2>
+<h2><?php echo esc_html( __( 'Listen and learn', 'wordpress-seo' ) ); ?></h2>
 
 <p>
 	<?php echo esc_html( __( 'In these videos, Joost guides you through all the important features and options of the Yoast SEO for WordPress plugin.', 'wordpress-seo' ) ); ?>
