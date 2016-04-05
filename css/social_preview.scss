@@ -6,10 +6,14 @@
 
 $width_facebook: 470px;
 $width_twitter: 506px;
+$height_twitter: 506px;
 $padding_preview: 20px;
 
 $width_facebook_image_small: 158px;
 $height_facebook_image_small: 158px;
+
+$width_twitter_image_small: 120px;
+$height_twitter_image_small: 120px;
 
 $border_radius_twitter: .42857em;
 
@@ -29,6 +33,21 @@ $border_radius_twitter: .42857em;
 	&--twitter {
 		border-radius: $border_radius_twitter;
 		border:  1px solid #E1E8ED;
+
+		&:hover {
+			border-color: #8899A6;
+			background: #F5F8FA;
+		}
+
+		&:hover {
+			.editable-preview__image--twitter {
+				border-color: #8899A6;
+			}
+		}
+
+		&-small {
+			@include clearfix;
+		}
 	}
 }
 
@@ -60,6 +79,7 @@ $border_radius_twitter: .42857em;
 			font-size:   14px;
 			color:       #292F33;
 			line-height: 1.3em;
+
 		}
 	}
 
@@ -87,9 +107,7 @@ $border_radius_twitter: .42857em;
 				float: left;
 				width: calc( 100% - #{$width_facebook_image_small} );
 
-
 				.snippet-editor__container {
-
 					&:hover, &--hover, &--focus {
 						&:before {
 							right: -32px;
@@ -110,6 +128,36 @@ $border_radius_twitter: .42857em;
 					}
 				}
 
+			}
+		}
+
+		&--twitter {
+			max-width: $width_twitter;
+
+			&-small {
+				float: left;
+				width: calc( 100% - #{$width_twitter_image_small} );
+
+				.snippet-editor__container {
+					&:hover, &--hover, &--focus {
+						&:before {
+							right: -32px;
+							left:  inherit;
+						}
+					}
+
+					&:hover, &--hover {
+						&:before {
+							background-image: url(svg-icon-caret-left($color_caret_hover));
+						}
+					}
+
+					&--focus {
+						&:before {
+							background-image: url(svg-icon-caret-left($color_caret));
+						}
+					}
+				}
 			}
 		}
 	}
@@ -170,15 +218,41 @@ $border_radius_twitter: .42857em;
 				float: left;
 			}
 		}
-		&--twitter {
-			width:      $width_twitter;
-			max-height: 506px;
 
-			img {
-				max-height: 506px;
+		&--twitter {
+			max-height: $height_twitter - 2;
+			line-height: 0;
+			border-bottom: 1px solid #E1E8ED;
+
+			&, img {
 				// Reduce max-width with 2 pixels because the image will overlap the bordered container.
 				max-width:  $width_twitter - 2;
+			}
+
+			img {
+				max-height: 100%;
 				border-radius: $border_radius_twitter $border_radius_twitter 0 0;
+			}
+
+			&-placeholder {
+				background: url('./twitter-placeholder.svg') no-repeat center center;
+			}
+
+			&-small {
+				background: #E1E8ED;
+				border-right: 1px solid #E1E8ED;
+				border-bottom: 0;
+				width: $width_twitter_image_small;
+				height: $height_twitter_image_small - 1px; // Reduce with 1 px because of overlapping the border.
+				float: left;
+
+				&, img {
+					border-radius: $border_radius_twitter 0 0 $border_radius_twitter;
+				}
+
+				img {
+					max-width: 100%;
+				}
 			}
 		}
 	}
@@ -226,9 +300,12 @@ $border_radius_twitter: .42857em;
 	}
 
 	&--twitter {
+		background: url( './twitter-placeholder.svg' ) no-repeat center center;
+	  height: 100%;
+		padding: 0;
 		// Reduce width with 2 pixels because element overlaps the bordered container.
-		width: $width_twitter - 2;
-		border-radius: $border_radius_twitter $border_radius_twitter 0 0;
+		width: 100%;
+		border-radius: $border_radius_twitter 0 0 $border_radius_twitter;
 	}
 }
 

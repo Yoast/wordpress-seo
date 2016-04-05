@@ -9,6 +9,10 @@ var Jed = require( "jed" );
 var imageRatio = require( "./helpers/imageRatio" );
 var renderDescription = require( "./helpers/renderDescription" );
 var imagePlaceholder  = require( "./element/imagePlaceholder" );
+var bemAddModifier = require( "./helpers/bem/addModifier" );
+var bemRemoveModifier = require( "./helpers/bem/removeModifier" );
+var addClass = require( "./helpers/addClass" );
+var removeClass = require( "./helpers/removeClass" );
 
 var TextField = require( "./inputs/textInput" );
 var TextArea = require( "./inputs/textarea" );
@@ -57,6 +61,11 @@ var inputTwitterPreviewBindings = [
 		"inputField": "description"
 	}
 ];
+
+var WIDTH_TWITTER_IMAGE_SMALL = 120;
+var WIDTH_TWITTER_IMAGE_LARGE = 506;
+var TWITTER_IMAGE_THRESHOLD_WIDTH = 280;
+var TWITTER_IMAGE_THRESHOLD_HEIGHT = 150;
 
 /**
  * @module snippetPreview
@@ -360,36 +369,110 @@ TwitterPreview.prototype.setDescription = function( description ) {
 TwitterPreview.prototype.setImageUrl = function( imageUrl ) {
 	var imageContainer = this.element.preview.imageUrl;
 	if ( imageUrl === '' && this.data.imageUrl === "" ) {
-		imagePlaceholder(
-			imageContainer,
-			this.i18n.dgettext( "yoast-social-previews", "Please enter an image url by clicking here" ),
-			false,
-			"twitter"
-		);
+		this.setPlaceHolder();
 
 		return;
 	}
 
 	var img = new Image();
 	img.onload = function() {
-
 		imageContainer.innerHTML = "<img src='" + imageUrl + "' />";
 
-		imageRatio( imageContainer.childNodes[0], 506 );
-	};
+		if ( this.isTooSmallImage( img ) ) {
+			this.setPlaceHolder();
 
-	img.onerror = imagePlaceholder.bind(
-		null,
-		imageContainer,
-		this.i18n.dgettext( "yoast-social-previews", "The given image url cannot be loaded" ),
-		true,
-		"twitter"
-	);
+			return;
+		}
+
+		imageRatio( imageContainer.childNodes[0], this.getMaxImageWidth( img ) );
+
+	}.bind( this );
+
+	img.onerror = this.setPlaceHolder.bind( this, true );
 
 	// Load image to trigger load or error event.
 	img.src = imageUrl;
 };
 
+
+/**
+ * Returns the max image width
+ *
+ * @param {Image} img The image object to use.
+ * @returns {int} The calculated max width.
+ */
+TwitterPreview.prototype.getMaxImageWidth = function( img ) {
+	if ( this.isSmallImage( img ) ) {
+		this.setSmallImageClasses();
+
+		return WIDTH_TWITTER_IMAGE_SMALL
+	}
+
+	this.removeSmallImageClasses();
+
+	return WIDTH_TWITTER_IMAGE_LARGE;
+};
+/**
+ * Sets the default twitter placeholder
+ */
+TwitterPreview.prototype.setPlaceHolder = function() {
+	this.setSmallImageClasses();
+
+	imagePlaceholder(
+		this.element.preview.imageUrl,
+		"",
+		false,
+		"twitter"
+	);
+
+};
+
+/**
+ * Detects if the twitter preview should switch to small image mode
+ *
+ * @param {HTMLImageElement} image The image in question.
+ *
+ * @returns {boolean} Whether the image is small.
+ */
+TwitterPreview.prototype.isSmallImage = function( image ) {
+	return (
+		image.width < TWITTER_IMAGE_THRESHOLD_WIDTH ||
+		image.height < TWITTER_IMAGE_THRESHOLD_HEIGHT
+	);
+};
+
+/**
+ * Detects if the twitter preview image is too small
+ *
+ * @param {HTMLImageElement} image The image in question.
+ *
+ * @returns {boolean} Whether the image is too small.
+ */
+TwitterPreview.prototype.isTooSmallImage = function( image ) {
+	return (
+		image.width < WIDTH_TWITTER_IMAGE_SMALL ||
+		image.height < WIDTH_TWITTER_IMAGE_SMALL
+	);
+};
+
+/**
+ * Sets the classes on the facebook preview so that it will display a small facebook image preview
+ */
+TwitterPreview.prototype.setSmallImageClasses = function() {
+	var targetElement = this.opts.targetElement;
+
+	bemAddModifier( "twitter-small", "social-preview__inner", targetElement );
+	bemAddModifier( "twitter-small", "editable-preview__image--twitter", targetElement );
+	bemAddModifier( "twitter-small", "editable-preview__text-keeper--twitter", targetElement );
+};
+
+TwitterPreview.prototype.removeSmallImageClasses = function() {
+	var targetElement = this.opts.targetElement;
+
+	bemRemoveModifier( "twitter-small", "social-preview__inner", targetElement );
+	bemRemoveModifier( "twitter-small", "editable-preview__image--twitter", targetElement );
+	bemRemoveModifier( "twitter-small", "editable-preview__text-keeper--twitter", targetElement );
+};
 
 /**
  * Binds the reloadSnippetText function to the blur of the snippet inputs.

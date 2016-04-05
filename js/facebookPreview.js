@@ -363,8 +363,6 @@ FacebookPreview.prototype.setDescription = function( description ) {
  * @param {string} imageUrl The image path.
  */
 FacebookPreview.prototype.setImageUrl = function( imageUrl ) {
-	var maxWidth;
-
 	var imageContainer = this.element.preview.imageUrl;
 	if ( imageUrl === '' && this.data.imageUrl === "" ) {
 		this.removeSmallImageClasses();
@@ -382,16 +380,7 @@ FacebookPreview.prototype.setImageUrl = function( imageUrl ) {
 	img.onload = function() {
 		imageContainer.innerHTML = "<img src='" + imageUrl + "' />";
 
-		if ( this.isSmallImage( img ) ) {
-			maxWidth = WIDTH_FACEBOOK_IMAGE_SMALL;
-			this.setSmallImageClasses();
-		} else {
-			maxWidth = WIDTH_FACEBOOK_IMAGE_LARGE;
-
-			this.removeSmallImageClasses();
-		}
-
-		imageRatio( imageContainer.childNodes[0], maxWidth );
+		imageRatio( imageContainer.childNodes[0], this.getMaxImageWidth( img ) );
 	}.bind( this );
 
 	img.onerror = function() {
@@ -407,6 +396,24 @@ FacebookPreview.prototype.setImageUrl = function( imageUrl ) {
 
 	// Load image to trigger load or error event.
 	img.src = imageUrl;
+};
+
+/**
+ * Returns the max image width
+ *
+ * @param {Image} img The image object to use.
+ * @returns {int} The calculated maxwidth
+ */
+FacebookPreview.prototype.getMaxImageWidth = function( img ) {
+	if ( this.isSmallImage( img ) ) {
+		this.setSmallImageClasses();
+
+		return WIDTH_FACEBOOK_IMAGE_SMALL;
+	}
+
+	this.removeSmallImageClasses();
+
+	return WIDTH_FACEBOOK_IMAGE_LARGE;
 };
 
 /**
