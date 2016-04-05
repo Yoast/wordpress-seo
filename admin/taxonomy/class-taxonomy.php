@@ -78,7 +78,6 @@ class WPSEO_Taxonomy {
 		) {
 			wp_enqueue_media(); // Enqueue files needed for upload functionality.
 
-			$asset_manager->enqueue_style( 'yoast-seo' );
 			$asset_manager->enqueue_style( 'metabox-css' );
 			$asset_manager->enqueue_style( 'snippet' );
 			$asset_manager->enqueue_style( 'scoring' );
@@ -86,7 +85,6 @@ class WPSEO_Taxonomy {
 			wp_editor( '', 'description' );
 
 			$asset_manager->enqueue_script( 'metabox' );
-			$asset_manager->enqueue_script( 'yoast-seo' );
 			$asset_manager->enqueue_script( 'term-scraper' );
 
 			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'term-scraper', 'wpseoTermScraperL10n', $this->localize_term_scraper_script() );
@@ -303,5 +301,4 @@ class WPSEO_Taxonomy {
 	public function translate_meta_options() {
 		_deprecated_function( 'WPSEO_Taxonomy::translate_meta_options', 'WPSEO 3.2', 'WPSEO_Taxonomy_Settings_Fields::translate_meta_options' );
 	}
-
-} /* End of class */
+}

@@ -54,6 +54,7 @@ class Yoast_Form {
 		/**
 		 * Display the updated/error messages
 		 * Only needed as our settings page is not under options, otherwise it will automatically be included
+		 *
 		 * @see settings_errors()
 		 */
 		require_once( ABSPATH . 'wp-admin/options-head.php' );

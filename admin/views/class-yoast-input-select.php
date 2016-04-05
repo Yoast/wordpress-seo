@@ -110,7 +110,7 @@ class Yoast_Input_Select {
 		if ( ! empty( $attributes ) ) {
 			array_walk( $attributes, array( $this, 'parse_attribute' ) );
 
-			return implode( ' ', $attributes ). ' ';
+			return implode( ' ', $attributes ) . ' ';
 		}
 
 		return '';
@@ -125,5 +125,4 @@ class Yoast_Input_Select {
 	private function parse_attribute( & $value, $attribute ) {
 		$value = sprintf( '%s="%s"', esc_html( $attribute ), esc_attr( $value ) );
 	}
-
 }

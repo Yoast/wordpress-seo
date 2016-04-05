@@ -46,5 +46,11 @@ module.exports = {
 		tasks: [
 			'build:css'
 		]
+	},
+	sass: {
+		files: '<%= files.sass %>',
+		tasks: [
+			'build:sass'
+		]
 	}
 };

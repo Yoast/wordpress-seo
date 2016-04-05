@@ -1,8 +1,16 @@
-/* global YoastSEO, wpseoTermScraperL10n, ajaxurl, tinyMCE, YoastReplaceVarPlugin, console, require */
+/* global YoastSEO: true, wpseoTermScraperL10n, tinyMCE, YoastReplaceVarPlugin, console, require */
 (function( $ ) {
 	'use strict';
 
-	var snippetPreview;
+	var App = require( 'yoastseo' ).App;
+	var SnippetPreview = require( 'yoastseo' ).SnippetPreview;
+
+	var UsedKeywords = require( './analysis/usedKeywords' );
+
+	var scoreToRating = require( 'yoastseo' ).helpers.scoreToRating;
+
+	var app, snippetPreview;
+
 	var termSlugInput;
 
 	var mainKeywordTab;
@@ -166,21 +174,22 @@
 
 	/**
 	 * creates SVG for the overall score.
+	 *
+	 * @param {string} score
+	 * @param {AssessorPresenter} assessorPresenter
 	 */
-	TermScraper.prototype.saveScores = function( score ) {
-		var cssClass, alt;
+	TermScraper.prototype.saveScores = function( score, assessorPresenter ) {
+		var indicator = assessorPresenter.getIndicator( scoreToRating( score / 10 ) );
+		var keyword = this.getDataFromInput( 'keyword' );
 
 		document.getElementById( 'hidden_wpseo_linkdex' ).value = score;
 		jQuery( window ).trigger( 'YoastSEO:numericScore', score );
 
-		mainKeywordTab.update( score, this.getDataFromInput( 'keyword' ) );
-
-		cssClass = YoastSEO.app.scoreFormatter.overallScoreRating( parseInt( score, 10 ) );
-		alt = YoastSEO.app.scoreFormatter.getSEOScoreText( cssClass );
+		mainKeywordTab.update( indicator.className, keyword );
 
 		$( '.yst-traffic-light' )
-			.attr( 'class', 'yst-traffic-light ' + cssClass )
-			.attr( 'alt', alt );
+			.attr( 'class', 'yst-traffic-light ' + indicator.className )
+			.attr( 'alt', indicator.screenReaderText );
 	};
 
 	/**
@@ -198,27 +207,6 @@
 		score   = $( '#hidden_wpseo_linkdex' ).val();
 
 		mainKeywordTab.update( score, keyword );
-	};
-
-	/**
-	 * updates the focus keyword usage if it is not in the array yet.
-	 */
-	TermScraper.prototype.updateKeywordUsage = function() {
-		var keyword = this.value;
-		if ( typeof( wpseoTermScraperL10n.keyword_usage[ keyword ] === null ) ) {
-			jQuery.post(ajaxurl, {
-					action: 'get_term_keyword_usage',
-					post_id: jQuery('#post_ID').val(),
-					keyword: keyword,
-					taxonomy: wpseoTermScraperL10n.taxonomy
-				}, function( data ) {
-					if ( data ) {
-						wpseoTermScraperL10n.keyword_usage[ keyword ] = data;
-						YoastSEO.app.analyzeTimer();
-					}
-				}, 'json'
-			);
-		}
 	};
 
 	/**
@@ -280,7 +268,7 @@
 			snippetPreviewArgs.defaultValue.metaDesc = metaPlaceholder;
 		}
 
-		return new YoastSEO.SnippetPreview( snippetPreviewArgs );
+		return new SnippetPreview( snippetPreviewArgs );
 	}
 
 	/**
@@ -314,18 +302,12 @@
 		termScraper = new TermScraper();
 
 		args = {
-
 			// ID's of elements that need to trigger updating the analyzer.
 			elementTarget: [ 'content', 'yoast_wpseo_focuskw', 'yoast_wpseo_metadesc', 'excerpt', 'editable-post-name', 'editable-post-name-full' ],
-
 			targets: {
 				output: 'wpseo_analysis',
 				snippet: 'wpseo_snippet'
 			},
-
-			usedKeywords: wpseoTermScraperL10n.keyword_usage,
-			searchUrl: '<a target="new" href=' + wpseoTermScraperL10n.search_url + '>',
-			postUrl: '<a target="new" href=' + wpseoTermScraperL10n.post_edit_url + '>',
 			callbacks: {
 				getData: termScraper.getData.bind( termScraper ),
 				bindElementEvents: termScraper.bindElementEvents.bind( termScraper ),
@@ -347,13 +329,18 @@
 		snippetPreview = initSnippetPreview( termScraper );
 		args.snippetPreview = snippetPreview;
 
-		window.YoastSEO.app = new YoastSEO.App( args );
+		app = new App( args );
+		window.YoastSEO = {};
+		window.YoastSEO.app = app;
 		jQuery( window ).trigger( 'YoastSEO:ready' );
 
 		termScraper.initKeywordTabTemplate();
 
 		// Init Plugins.
-		new YoastReplaceVarPlugin();
+		new YoastReplaceVarPlugin( app );
+
+		var usedKeywords = new UsedKeywords( '#wpseo_focuskw', 'get_term_keyword_usage', wpseoTermScraperL10n, app );
+		usedKeywords.init();
 
 		// For backwards compatibility.
 		YoastSEO.analyzerArgs = args;

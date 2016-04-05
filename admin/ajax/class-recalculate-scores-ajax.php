@@ -116,5 +116,4 @@ class WPSEO_Recalculate_Scores_Ajax {
 
 		return $total;
 	}
-
 }

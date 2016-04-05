@@ -42,6 +42,7 @@ class WPSEO_Admin_Stop_Words {
 		 * Allows filtering of the stop words list
 		 * Especially useful for users on a language in which WPSEO is not available yet
 		 * and/or users who want to turn off stop word filtering
+		 *
 		 * @api  array  $stopwords  Array of all lowercase stop words to check and/or remove from slug
 		 */
 		$stopwords = apply_filters( 'wpseo_stopwords', $stopwords );

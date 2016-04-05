@@ -13,7 +13,7 @@ module.exports = {
 			format: 'jed1.x',
 			domain: 'wordpress-seo'
 		},
-		src: ['bower_components/yoast-seo/languages/yoast-seo.pot'],
+		src: ['node_modules/yoastseo/languages/yoast-seo.pot'],
 		dest: 'languages'
 	}
 };

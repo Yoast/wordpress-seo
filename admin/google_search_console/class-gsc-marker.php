@@ -47,6 +47,7 @@ class WPSEO_GSC_Marker {
 
 	/**
 	 * Getting the response for the AJAX request
+	 *
 	 * @return string
 	 */
 	public function get_response() {

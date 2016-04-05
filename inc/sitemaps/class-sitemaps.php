@@ -10,6 +10,9 @@
  */
 class WPSEO_Sitemaps {
 
+	/** Sitemap index identifier. */
+	const SITEMAP_INDEX_TYPE = '1';
+
 	/** @var string $sitemap Content of the sitemap to output. */
 	protected $sitemap = '';
 

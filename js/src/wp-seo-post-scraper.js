@@ -1,8 +1,16 @@
-/* global YoastSEO, tinyMCE, ajaxurl, wpseoPostScraperL10n, YoastShortcodePlugin, YoastReplaceVarPlugin, console, require */
+/* global YoastSEO: true, tinyMCE, wpseoPostScraperL10n, YoastShortcodePlugin, YoastReplaceVarPlugin, console, require */
 (function( $ ) {
 	'use strict';
 
+	var SnippetPreview = require( 'yoastseo' ).SnippetPreview;
+	var App = require( 'yoastseo' ).App;
+
+	var scoreToRating = require( 'yoastseo' ).helpers.scoreToRating;
+
+	var UsedKeywords = require( './analysis/usedKeywords' );
+
 	var currentKeyword = '';
+	var app, snippetPreview;
 
 	var mainKeywordTab;
 	var KeywordTab = require( './analysis/keywordTab' );
@@ -56,8 +64,8 @@
 			// Always set the post name element.
 			postNameElem.value = document.getElementById('editable-post-name-full').textContent;
 
-			YoastSEO.app.snippetPreview.unformattedText.snippet_cite = document.getElementById('editable-post-name-full').textContent;
-			YoastSEO.app.analyzeTimer();
+			snippetPreview.unformattedText.snippet_cite = document.getElementById('editable-post-name-full').textContent;
+			app.analyzeTimer();
 		} else if ( time < 5000 ) {
 			time += 200;
 			setTimeout( this.bindSnippetCiteEvents.bind( this, time ), 200 );
@@ -70,8 +78,8 @@
 	 */
 	PostScraper.prototype.bindSlugEditor = function() {
 		$( '#titlediv' ).on( 'change', '#new-post-slug', function() {
-			YoastSEO.app.snippetPreview.unformattedText.snippet_cite = $( '#new-post-slug' ).val();
-			YoastSEO.app.refresh();
+			snippetPreview.unformattedText.snippet_cite = $( '#new-post-slug' ).val();
+			app.refresh();
 		});
 	};
 
@@ -90,7 +98,6 @@
 			snippetTitle: this.getDataFromInput( 'snippetTitle' ),
 			snippetMeta: this.getDataFromInput( 'snippetMeta' ),
 			snippetCite: this.getDataFromInput( 'cite' ),
-			usedKeywords: wpseoPostScraperL10n.keyword_usage,
 			searchUrl: '<a target="_blank" href=' + wpseoPostScraperL10n.search_url + '>',
 			postUrl: '<a target="_blank" href=' + wpseoPostScraperL10n.post_edit_url + '>'
 		};
@@ -229,7 +236,6 @@
 	PostScraper.prototype.bindElementEvents = function( app ) {
 		this.inputElementEventBinder( app );
 		document.getElementById( 'yoast_wpseo_focuskw_text_input' ).addEventListener( 'keydown', app.snippetPreview.disableEnter );
-		document.getElementById( 'yoast_wpseo_focuskw_text_input' ).addEventListener( 'keyup', this.updateKeywordUsage );
 	};
 
 	/**
@@ -261,8 +267,8 @@
 	 * Resets the current queue if focus keyword is changed and not empty.
 	 */
 	PostScraper.prototype.resetQueue = function() {
-		if ( YoastSEO.app.rawData.keyword !== '' ) {
-			YoastSEO.app.runAnalyzer( this.rawData );
+		if ( app.rawData.keyword !== '' ) {
+			app.runAnalyzer( this.rawData );
 		}
 	};
 
@@ -271,29 +277,26 @@
 	 * Outputs the score in the overall target.
 	 *
 	 * @param {string} score
+	 * @param {AssessorPresenter} assessorPresenter
 	 */
-	PostScraper.prototype.saveScores = function( score ) {
-		var alt;
-		var cssClass;
+	PostScraper.prototype.saveScores = function( score, assessorPresenter ) {
+		var indicator = assessorPresenter.getIndicator( scoreToRating( score / 10 ) );
 
 		if ( this.isMainKeyword( currentKeyword ) ) {
 			document.getElementById( 'yoast_wpseo_linkdex' ).value = score;
 
 			if ( '' === currentKeyword ) {
-				cssClass = 'na';
-			} else {
-				cssClass = YoastSEO.app.scoreFormatter.overallScoreRating( parseInt( score, 10 ) );
+				indicator.className = 'na';
 			}
-			alt = YoastSEO.app.scoreFormatter.getSEOScoreText( cssClass );
 
 			$( '.yst-traffic-light' )
-				.attr( 'class', 'yst-traffic-light ' + cssClass )
-				.attr( 'alt', alt );
+				.attr( 'class', 'yst-traffic-light ' + indicator.className )
+				.attr( 'alt', indicator.screenReaderText );
 		}
 
 		// If multi keyword isn't available we need to update the first tab (content)
 		if ( ! YoastSEO.multiKeyword ) {
-			mainKeywordTab.update( score, currentKeyword );
+			mainKeywordTab.update( indicator.className, currentKeyword );
 
 			// Updates the input with the currentKeyword value
 			$( '#yoast_wpseo_focuskw' ).val( currentKeyword );
@@ -347,26 +350,6 @@
 	};
 
 	/**
-	 * updates the focus keyword usage if it is not in the array yet.
-	 */
-	PostScraper.prototype.updateKeywordUsage = function() {
-		var keyword = this.value;
-		if ( typeof( wpseoPostScraperL10n.keyword_usage[ keyword ] === null ) ) {
-			jQuery.post(ajaxurl, {
-					action: 'get_focus_keyword_usage',
-					post_id: jQuery('#post_ID').val(),
-					keyword: keyword
-				}, function( data ) {
-					if ( data ) {
-						wpseoPostScraperL10n.keyword_usage[ keyword ] = data;
-						YoastSEO.app.analyzeTimer();
-					}
-				}, 'json'
-			);
-		}
-	};
-
-	/**
 	 * Retrieves either a generated slug or the page title as slug for the preview
 	 * @param {Object} response The AJAX response object
 	 * @returns {string}
@@ -392,7 +375,7 @@
 		}
 
 		if ( 'string' === typeof ajaxOptions.data && -1 !== ajaxOptions.data.indexOf( 'action=sample-permalink' ) ) {
-			YoastSEO.app.snippetPreview.setUrlPath( getUrlPath( response ) );
+			app.snippetPreview.setUrlPath( getUrlPath( response ) );
 		}
 	} );
 
@@ -436,7 +419,7 @@
 			snippetPreviewArgs.defaultValue.metaDesc = metaPlaceholder;
 		}
 
-		return new YoastSEO.SnippetPreview( snippetPreviewArgs );
+		return new SnippetPreview( snippetPreviewArgs );
 	}
 
 	jQuery( document ).ready(function() {
@@ -459,9 +442,6 @@
 			targets: {
 				output: 'wpseo-pageanalysis'
 			},
-			usedKeywords: wpseoPostScraperL10n.keyword_usage,
-			searchUrl: '<a target="_blank" href=' + wpseoPostScraperL10n.search_url + '>',
-			postUrl: '<a target="_blank" href=' + wpseoPostScraperL10n.post_edit_url + '>',
 			callbacks: {
 				getData: postScraper.getData.bind( postScraper ),
 				bindElementEvents: postScraper.bindElementEvents.bind( postScraper ),
@@ -482,14 +462,20 @@
 			args.translations = translations;
 		}
 
-		args.snippetPreview = initSnippetPreview( postScraper );
+		snippetPreview = initSnippetPreview( postScraper );
+		args.snippetPreview = snippetPreview;
 
-		window.YoastSEO.app = new YoastSEO.App( args );
-		jQuery( window).trigger( 'YoastSEO:ready' );
+		app = new App( args );
+		window.YoastSEO = {};
+		window.YoastSEO.app = app;
+		jQuery( window ).trigger( 'YoastSEO:ready' );
 
 		// Init Plugins
-		new YoastReplaceVarPlugin();
-		new YoastShortcodePlugin();
+		new YoastReplaceVarPlugin( app );
+		new YoastShortcodePlugin( app );
+
+		var usedKeywords = new UsedKeywords( '#yoast_wpseo_focuskw_text_input', 'get_focus_keyword_usage', wpseoPostScraperL10n, app );
+		usedKeywords.init();
 
 		postScraper.initKeywordTabTemplate();
 
