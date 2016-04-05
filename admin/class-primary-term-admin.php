@@ -153,10 +153,9 @@ class WPSEO_Primary_Term_Admin {
 		$post_type      = get_post_type( $post_ID );
 		$all_taxonomies = get_object_taxonomies( $post_type, 'objects' );
 		$all_taxonomies = array_filter( $all_taxonomies, array( $this, 'filter_hierarchical_taxonomies' ) );
-		$taxonomies     = array_filter( $all_taxonomies, array( $this, 'filter_category_taxonomy' ) );
 
 		/**
-		 * Filters which taxonomies for which the user can choose the primary term. Only category is enabled by default.
+		 * Filters which taxonomies for which the user can choose the primary term.
 		 *
 		 * @api array    $taxonomies An array of taxonomy objects that are primary_term enabled.
 		 *
@@ -164,7 +163,7 @@ class WPSEO_Primary_Term_Admin {
 		 * @param array  $all_taxonomies All taxonomies for this post types, even ones that don't have primary term
 		 *                               enabled.
 		 */
-		$taxonomies = (array) apply_filters( 'wpseo_primary_term_taxonomies', $taxonomies, $post_type, $all_taxonomies );
+		$taxonomies = (array) apply_filters( 'wpseo_primary_term_taxonomies', $all_taxonomies, $post_type, $all_taxonomies );
 
 		return $taxonomies;
 	}
