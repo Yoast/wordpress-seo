@@ -1,7 +1,4 @@
 var Researcher = require( "./researcher.js" );
-var Paper = require( "./values/Paper.js" );
-
-var InvalidTypeError = require( "./errors/invalidType" );
 
 var MissingArgument = require( "./errors/missingArgument" );
 var isUndefined = require( "lodash/isUndefined" );
@@ -38,17 +35,6 @@ assessments.pageTitleLength = require( "./assessments/pageTitleLength.js" );
  */
 var Assessor = function( i18n ) {
 	this.setI18n( i18n );
-};
-
-/**
- * Checks if the argument is a valid paper.
- * @param {Paper} paper The paper to be used for the assessments
- * @throws {InvalidTypeError} Parameter needs to be an instance of the Paper object.
- */
-Assessor.prototype.verifyPaper = function( paper ) {
-	if ( !( paper instanceof Paper ) ) {
-		throw new InvalidTypeError( "The assessor requires an Paper object." );
-	}
 };
 
 /**
@@ -91,8 +77,6 @@ Assessor.prototype.isApplicable = function( assessment, paper, researcher ) {
  * @param {Paper} paper The paper to run assessments on.
  */
 Assessor.prototype.assess = function( paper ) {
-	this.verifyPaper( paper );
-
 	var researcher = new Researcher( paper );
 	var assessments = this.getAvailableAssessments();
 	this.results = [];

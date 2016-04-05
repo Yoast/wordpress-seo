@@ -1,4 +1,3 @@
-var Paper = require( "./values/Paper.js" );
 var merge = require( "lodash/merge" );
 var InvalidTypeError = require( "./errors/invalidType" );
 var MissingArgument = require( "./errors/missingArgument" );
@@ -65,10 +64,6 @@ var Researcher = function( paper ) {
  * @returns {void}
  */
 Researcher.prototype.setPaper = function( paper ) {
-	if ( !( paper instanceof Paper ) ) {
-		throw new InvalidTypeError( "The researcher requires an Paper object." );
-	}
-
 	this.paper = paper;
 };
 

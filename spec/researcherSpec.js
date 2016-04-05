@@ -5,14 +5,6 @@ var MissingArgument = require( "../js/errors/missingArgument" );
 
 
 describe( "Creating a Researcher", function() {
-	it( "throws an error when no args are given", function(){
-		expect( function() { new Researcher } ).toThrowError( InvalidTypeError );
-	});
-
-	it( "throws an error on an empty args object", function() {
-		expect( function() { new Researcher( {} ); } ).toThrowError( InvalidTypeError );
-	});
-
 	it( "returns an instantiation", function() {
 		var researcher = new Researcher( new Paper( "This is a paper!" ) );
 
