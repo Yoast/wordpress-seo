@@ -7,6 +7,7 @@ build:
   - 'build:i18n'
 # Build JavaScript from assets to production
 'build:js':
+  - 'browserify'
   - 'uglify'
 'build:css':
   - 'autoprefixer'

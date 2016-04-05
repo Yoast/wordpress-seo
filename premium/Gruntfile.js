@@ -20,7 +20,8 @@ module.exports = function(grunt) {
 			main: '../wp-seo-premium.php',
 			js: [
 				'assets/js/**/*.js',
-				'!assets/js/**/*.min.js'
+				'!assets/js/**/*.min.js',
+				'!assets/js/yoast-premium-social-preview.js'
 			],
 			css: [
 				'assets/css/*.css',

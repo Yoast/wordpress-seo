@@ -6,11 +6,15 @@ module.exports = {
 			report: 'gzip'
 		},
 		files: [ {
-					 expand: true,
-					 src: '<%= files.js %>',
-					 ext: '.min.js',
-					 extDot: 'first',
-					 isFile: true
-				 } ]
+					expand: true,
+					src: [
+						'<%= files.js %>',
+						'!assets/js/src/**/*.js',
+						'assets/js/yoast-premium-social-preview.js'
+					],
+					ext: '.min.js',
+					extDot: 'first',
+					isFile: true
+				} ]
 	}
 };

@@ -199,10 +199,10 @@
 	 * @returns {String}
 	 */
 	PostScraper.prototype.getContentTinyMCE = function() {
-		if ( this.isTinyMCEAvailable() === false ) {
-			return this.getTinyMCEElementContent();
+		if (this.isTinyMCEAvailable() ) {
+			return tinyMCE.get( 'content' ).getContent();
 		}
-		return tinyMCE.get( 'content' ).getContent();
+		return this.getTinyMCEElementContent();
 	};
 
 	/**
