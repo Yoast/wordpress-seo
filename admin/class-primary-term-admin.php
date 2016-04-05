@@ -46,7 +46,6 @@ class WPSEO_Primary_Term_Admin {
 		}
 
 		$taxonomies = $this->get_primary_term_taxonomies();
-		print_r($taxonomies);
 
 		// Only enqueue if there are taxonomies that need a primary term.
 		if ( empty( $taxonomies ) ) {
