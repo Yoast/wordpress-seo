@@ -61,5 +61,4 @@ class WPSEO_Redirect_Apache_Exporter extends WPSEO_Redirect_File_Exporter {
 
 		return $url;
 	}
-
 }

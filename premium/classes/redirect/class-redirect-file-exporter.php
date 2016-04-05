@@ -87,5 +87,4 @@ abstract class WPSEO_Redirect_File_Exporter implements WPSEO_Redirect_Exporter {
 
 		return true;
 	}
-
 }

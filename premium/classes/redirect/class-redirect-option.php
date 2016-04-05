@@ -206,5 +206,4 @@ class WPSEO_Redirect_Option {
 			'format' => $redirect->get_format(),
 		);
 	}
-
 }

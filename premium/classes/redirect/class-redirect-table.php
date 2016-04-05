@@ -316,5 +316,4 @@ class WPSEO_Redirect_Table extends WP_List_Table {
 
 		return '';
 	}
-
 }

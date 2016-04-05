@@ -105,5 +105,4 @@ class WPSEO_Redirect_Endpoint_Validation implements WPSEO_Redirect_Validation {
 
 		return false;
 	}
-
 }

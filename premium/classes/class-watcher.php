@@ -226,5 +226,4 @@ abstract class WPSEO_Watcher {
 			'<li><a href=\'' . $this->javascript_create_redirect( $url, $id, WPSEO_Redirect::DELETED ) . '\'>' . __( 'Make it serve a 410 Content Deleted header.', 'wordpress-seo-premium' ) . '</a></li>'
 		);
 	}
-
 }

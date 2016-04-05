@@ -99,5 +99,4 @@ class WPSEO_Redirect_File_Util {
 
 		return null;
 	}
-
 }

@@ -56,5 +56,4 @@ class WPSEO_Redirect_Htaccess_Exporter extends WPSEO_Redirect_Apache_Exporter {
 
 		return $htaccess;
 	}
-
 }

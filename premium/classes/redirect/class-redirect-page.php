@@ -253,5 +253,4 @@ class WPSEO_Redirect_Page {
 			}
 		}
 	}
-
 }

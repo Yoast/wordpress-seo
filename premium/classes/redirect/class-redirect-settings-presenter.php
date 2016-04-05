@@ -57,5 +57,4 @@ class WPSEO_Redirect_Settings_Presenter extends WPSEO_Redirect_Tab_Presenter {
 
 		return 'cannot_write_file';
 	}
-
 }

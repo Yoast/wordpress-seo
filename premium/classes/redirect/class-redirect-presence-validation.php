@@ -61,5 +61,4 @@ class WPSEO_Redirect_Presence_Validation implements WPSEO_Redirect_Validation {
 		return in_array( $redirect_type, $allowed_redirect_types );
 
 	}
-
 }

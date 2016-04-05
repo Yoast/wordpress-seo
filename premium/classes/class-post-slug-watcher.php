@@ -91,5 +91,4 @@ class WPSEO_Post_Slug_Watcher {
 
 		return $post->post_name . '/';
 	}
-
 }

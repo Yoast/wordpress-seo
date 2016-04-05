@@ -111,5 +111,4 @@ class WPSEO_Redirect_Accessible_Validation implements WPSEO_Redirect_Validation 
 		// Parse the URL based on the home url.
 		return trailingslashit( get_home_url( null, $target ) );
 	}
-
 }

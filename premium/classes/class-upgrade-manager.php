@@ -150,5 +150,4 @@ class WPSEO_Upgrade_Manager {
 	private function update_current_version_code() {
 		update_site_option( WPSEO_Premium::OPTION_CURRENT_VERSION, WPSEO_Premium::PLUGIN_VERSION_CODE );
 	}
-
 }

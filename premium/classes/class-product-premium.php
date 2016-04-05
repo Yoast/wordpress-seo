@@ -25,7 +25,6 @@ if ( class_exists( 'Yoast_Product' ) && ! class_exists( 'WPSEO_Product_Premium',
 				WPSEO_Premium::PLUGIN_AUTHOR
 			);
 		}
-
 	}
 
 }

@@ -46,5 +46,4 @@ class WPSEO_Tutorial_Videos {
 		// Admin footer.
 		Yoast_Form::get_instance()->admin_footer( false );
 	}
-
 }

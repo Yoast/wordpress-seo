@@ -49,5 +49,4 @@ class WPSEO_Redirect_Uniqueness_Validation implements WPSEO_Redirect_Validation 
 	public function get_error() {
 		return $this->error;
 	}
-
 }

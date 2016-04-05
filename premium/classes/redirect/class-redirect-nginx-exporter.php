@@ -63,5 +63,4 @@ class WPSEO_Redirect_Nginx_Exporter extends WPSEO_Redirect_File_Exporter {
 
 		return '';
 	}
-
 }

@@ -73,5 +73,4 @@ class WPSEO_Redirect_Presenter {
 			'nonce' => wp_create_nonce( 'wpseo-redirects-ajax-security' ),
 		);
 	}
-
 }

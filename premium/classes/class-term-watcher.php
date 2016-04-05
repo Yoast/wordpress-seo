@@ -204,5 +204,4 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 			'wordpress-seo-premium'
 		);
 	}
-
 }

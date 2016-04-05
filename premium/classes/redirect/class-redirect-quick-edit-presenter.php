@@ -21,5 +21,4 @@ class WPSEO_Redirect_Quick_Edit_Presenter {
 
 		require( WPSEO_PATH . 'premium/classes/redirect/views/redirects-quick-edit.php' );
 	}
-
 }

@@ -104,5 +104,4 @@ class WPSEO_Premium_Autoloader {
 	private function get_file_name( $class ) {
 		return 'class-' . str_ireplace( '_', '-', str_ireplace( $this->file_replace, '', $class ) ) . '.php';
 	}
-
 }

@@ -415,5 +415,4 @@ class WPSEO_Redirect_Handler {
 
 		return rawurldecode( $request_uri );
 	}
-
 }

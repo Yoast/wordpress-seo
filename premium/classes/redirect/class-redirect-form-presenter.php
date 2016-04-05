@@ -55,5 +55,4 @@ class WPSEO_Redirect_Form_Presenter {
 
 		return apply_filters( 'wpseo_premium_redirect_types', $redirect_types );
 	}
-
 }

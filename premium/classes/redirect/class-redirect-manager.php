@@ -175,5 +175,4 @@ class WPSEO_Redirect_Manager {
 	private function filter_redirects_by_format( WPSEO_Redirect $redirect ) {
 		return $redirect->get_format() === $this->redirect_format;
 	}
-
 }
