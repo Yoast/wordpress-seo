@@ -41,7 +41,7 @@
 
 		primaryTermInput = $( '#yoast-wpseo-primary-' + taxonomyName );
 
-		primaryTermInput.val( termId );
+		primaryTermInput.val( termId ).trigger('change');
 	}
 
 	/**
