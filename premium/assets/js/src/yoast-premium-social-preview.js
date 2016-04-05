@@ -286,7 +286,7 @@ var forEach = require( 'lodash/forEach' );
 	function bindContentEvents() {
 		// Bind the event when something changed in the text editor.
 		var contentElement = $( '#' + contentTextName() );
-		if( typeof contentElement !== 'undefined' ) {
+		if( contentElement.length > 0 ) {
 			contentElement.on( 'input', refreshContentImage );
 		}
 
@@ -356,9 +356,7 @@ var forEach = require( 'lodash/forEach' );
 		var content = getContent();
 
 		var images = getImages( content );
-		images.unshift( '<img alt="hoi" />' );
-
-		var image = '';
+		var image  = '';
 
 		do {
 			image = images.shift();
