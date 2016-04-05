@@ -158,7 +158,7 @@ Assessor.prototype.calculateOverallScore  = function() {
  *
  * @param {string} name The name of the assessment.
  * @param {object} assessment The object containing function to run as an assessment and it's requirements.
- * @return {boolean} Whether registering the assessment was successful.
+ * @returns {boolean} Whether registering the assessment was successful.
  * @private
  */
 Assessor.prototype.addAssessment = function( name, assessment ) {

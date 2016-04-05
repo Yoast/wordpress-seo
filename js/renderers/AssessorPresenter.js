@@ -46,7 +46,7 @@ AssessorPresenter.prototype.configHasProperty = function( property ) {
  */
 AssessorPresenter.prototype.getIndicator = function( rating ) {
 	return {
-		class: this.getIndicatorColorClass( rating ),
+		className: this.getIndicatorColorClass( rating ),
 		screenReaderText: this.getIndicatorScreenReaderText( rating )
 	};
 };
@@ -61,7 +61,7 @@ AssessorPresenter.prototype.getIndicatorColorClass = function( rating ) {
 		return "";
 	}
 
-	return this.presenterConfig[ rating ].class;
+	return this.presenterConfig[ rating ].className;
 };
 
 /**

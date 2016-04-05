@@ -6,19 +6,19 @@
 module.exports = function ( i18n ) {
 	return {
 		feedback: {
-			class: "na",
+			className: "na",
 			screenReaderText: i18n.dgettext( "js-text-analysis", "Feedback")
 		},
 		bad: {
-			class: "bad",
+			className: "bad",
 			screenReaderText: i18n.dgettext( "js-text-analysis", "Bad SEO score")
 		},
 		ok: {
-			class: "ok",
+			className: "ok",
 			screenReaderText: i18n.dgettext( "js-text-analysis", "Ok SEO score")
 		},
 		good: {
-			class: "good",
+			className: "good",
 			screenReaderText: i18n.dgettext( "js-text-analysis", "Good SEO score")
 		}
 	};

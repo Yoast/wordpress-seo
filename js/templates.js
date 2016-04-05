@@ -288,7 +288,7 @@
     __p += '<ul class="wpseoanalysis">\n    ';
      for (var i in scores) {
     __p += '\n        <li class="score">\n            <span class="wpseo-score-icon ' +
-    __e( scores[ i ].class ) +
+    __e( scores[ i ].className ) +
     '"></span>\n            <span class="screen-reader-text">' +
     ((__t = ( scores[ i ].screenReaderText )) == null ? '' : __t) +
     '</span>\n            <span class="wpseo-score-text">' +

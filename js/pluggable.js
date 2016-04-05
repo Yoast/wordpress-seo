@@ -186,7 +186,7 @@ Pluggable.prototype._registerTest = function() {
  * @param {string} name The name of the assessment.
  * @param {function} assessment The function to run as an assessment.
  * @param {string} pluginName The name of the plugin associated with the assessment.
- * @return {boolean} Whether registering the assessment was successful.
+ * @returns {boolean} Whether registering the assessment was successful.
  * @private
  */
 Pluggable.prototype._registerAssessment = function( assessor, name, assessment, pluginName ) {
