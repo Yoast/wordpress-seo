@@ -20,7 +20,7 @@ $yform->admin_header( true, 'wpseo_social' );
 		<a class="nav-tab" id="accounts-tab" href="#top#accounts"><?php _e( 'Accounts', 'wordpress-seo' ); ?></a>
 		<a class="nav-tab" id="facebook-tab" href="#top#facebook"><span class="dashicons dashicons-facebook-alt"></span> <?php _e( 'Facebook', 'wordpress-seo' ); ?></a>
 		<a class="nav-tab" id="twitterbox-tab" href="#top#twitterbox"><span class="dashicons dashicons-twitter"></span> <?php _e( 'Twitter', 'wordpress-seo' ); ?></a>
-		<a class="nav-tab" id="pinterest-tab" href="#top#pinterest"><?php _e( 'Pinterest', 'wordpress-seo' ); ?></a>
+		<a class="nav-tab" id="pinterest-tab" href="#top#pinterest"><span class="dashicons pinteresticon"></span> <?php _e( 'Pinterest', 'wordpress-seo' ); ?></a>
 		<a class="nav-tab" id="google-tab" href="#top#google"><span class="dashicons dashicons-googleplus"></span> <?php _e( 'Google+', 'wordpress-seo' ); ?></a>
 	</h2>
 
