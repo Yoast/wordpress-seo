@@ -5,7 +5,6 @@ var plugins = {
 
 var helpers = {
 	scoreToRating: require( "./js/interpreters/scoreToRating" ),
-	ratingToPresenter: require( "./js/config/presenter" )
 };
 
 module.exports = {
@@ -19,7 +18,7 @@ module.exports = {
 	helpers: helpers
 };
 
-},{"./js/app":2,"./js/app.js":2,"./js/assessor":20,"./js/bundledPlugins/previouslyUsedKeywords":21,"./js/config/presenter":24,"./js/interpreters/scoreToRating":30,"./js/researcher":33,"./js/snippetPreview.js":52}],2:[function(require,module,exports){
+},{"./js/app":2,"./js/app.js":2,"./js/assessor":20,"./js/bundledPlugins/previouslyUsedKeywords":21,"./js/interpreters/scoreToRating":30,"./js/researcher":33,"./js/snippetPreview.js":52}],2:[function(require,module,exports){
 /* jshint browser: true */
 
 require( "./config/config.js" );
@@ -1860,7 +1859,7 @@ Assessor.prototype.calculateOverallScore  = function() {
  *
  * @param {string} name The name of the assessment.
  * @param {object} assessment The object containing function to run as an assessment and it's requirements.
- * @return {boolean} Whether registering the assessment was successful.
+ * @returns {boolean} Whether registering the assessment was successful.
  * @private
  */
 Assessor.prototype.addAssessment = function( name, assessment ) {
@@ -2125,19 +2124,19 @@ module.exports = function(){
 module.exports = function ( i18n ) {
 	return {
 		feedback: {
-			class: "na",
+			className: "na",
 			screenReaderText: i18n.dgettext( "js-text-analysis", "Feedback")
 		},
 		bad: {
-			class: "bad",
+			className: "bad",
 			screenReaderText: i18n.dgettext( "js-text-analysis", "Bad SEO score")
 		},
 		ok: {
-			class: "ok",
+			className: "ok",
 			screenReaderText: i18n.dgettext( "js-text-analysis", "Ok SEO score")
 		},
 		good: {
-			class: "good",
+			className: "good",
 			screenReaderText: i18n.dgettext( "js-text-analysis", "Good SEO score")
 		}
 	};
@@ -2431,7 +2430,7 @@ Pluggable.prototype._registerTest = function() {
  * @param {string} name The name of the assessment.
  * @param {function} assessment The function to run as an assessment.
  * @param {string} pluginName The name of the plugin associated with the assessment.
- * @return {boolean} Whether registering the assessment was successful.
+ * @returns {boolean} Whether registering the assessment was successful.
  * @private
  */
 Pluggable.prototype._registerAssessment = function( assessor, name, assessment, pluginName ) {
@@ -2677,7 +2676,7 @@ AssessorPresenter.prototype.configHasProperty = function( property ) {
  */
 AssessorPresenter.prototype.getIndicator = function( rating ) {
 	return {
-		class: this.getIndicatorColorClass( rating ),
+		className: this.getIndicatorColorClass( rating ),
 		screenReaderText: this.getIndicatorScreenReaderText( rating )
 	};
 };
@@ -2692,7 +2691,7 @@ AssessorPresenter.prototype.getIndicatorColorClass = function( rating ) {
 		return "";
 	}
 
-	return this.presenterConfig[ rating ].class;
+	return this.presenterConfig[ rating ].className;
 };
 
 /**
@@ -5594,7 +5593,7 @@ module.exports = function( text ) {
     __p += '<ul class="wpseoanalysis">\n    ';
      for (var i in scores) {
     __p += '\n        <li class="score">\n            <span class="wpseo-score-icon ' +
-    __e( scores[ i ].class ) +
+    __e( scores[ i ].className ) +
     '"></span>\n            <span class="screen-reader-text">' +
     ((__t = ( scores[ i ].screenReaderText )) == null ? '' : __t) +
     '</span>\n            <span class="wpseo-score-text">' +
@@ -12579,10 +12578,10 @@ module.exports = UsedKeywords;
 		document.getElementById( 'hidden_wpseo_linkdex' ).value = score;
 		jQuery( window ).trigger( 'YoastSEO:numericScore', score );
 
-		mainKeywordTab.update( indicator.class, keyword );
+		mainKeywordTab.update( indicator.className, keyword );
 
 		$( '.yst-traffic-light' )
-			.attr( 'class', 'yst-traffic-light ' + indicator.class )
+			.attr( 'class', 'yst-traffic-light ' + indicator.className )
 			.attr( 'alt', indicator.screenReaderText );
 	};
 

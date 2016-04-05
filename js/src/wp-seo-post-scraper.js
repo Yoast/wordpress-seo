@@ -287,17 +287,17 @@
 			document.getElementById( 'yoast_wpseo_linkdex' ).value = score;
 
 			if ( '' === currentKeyword ) {
-				indicator.class = 'na';
+				indicator.className = 'na';
 			}
 
 			$( '.yst-traffic-light' )
-				.attr( 'class', 'yst-traffic-light ' + indicator.class )
+				.attr( 'class', 'yst-traffic-light ' + indicator.className )
 				.attr( 'alt', indicator.screenReaderText );
 		}
 
 		// If multi keyword isn't available we need to update the first tab (content)
 		if ( ! YoastSEO.multiKeyword ) {
-			mainKeywordTab.update( indicator.class, currentKeyword );
+			mainKeywordTab.update( indicator.className, currentKeyword );
 
 			// Updates the input with the currentKeyword value
 			$( '#yoast_wpseo_focuskw' ).val( currentKeyword );

@@ -186,10 +186,10 @@
 		document.getElementById( 'hidden_wpseo_linkdex' ).value = score;
 		jQuery( window ).trigger( 'YoastSEO:numericScore', score );
 
-		mainKeywordTab.update( indicator.class, keyword );
+		mainKeywordTab.update( indicator.className, keyword );
 
 		$( '.yst-traffic-light' )
-			.attr( 'class', 'yst-traffic-light ' + indicator.class )
+			.attr( 'class', 'yst-traffic-light ' + indicator.className )
 			.attr( 'alt', indicator.screenReaderText );
 	};
 
