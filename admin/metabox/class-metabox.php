@@ -328,7 +328,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'<span class="yst-traffic-light-container">' . $this->traffic_light_svg() . '</span>',
 			$tabs,
 			array(
-				'link_title' => __( 'Content', 'wordpress-seo' ),
+				'link_title' => __( 'Content:', 'wordpress-seo' ),
 			)
 		);
 	}

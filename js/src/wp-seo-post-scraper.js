@@ -319,7 +319,10 @@
 	 * @param {AssessorPresenter} assessorPresenter
 	 */
 	PostScraper.prototype.saveScores = function( score, assessorPresenter ) {
-		var indicator = assessorPresenter.getIndicator( scoreToRating( score / 10 ) );
+		var indicator = assessorPresenter.getIndicator( scoreToRating( score / 10 ) ),
+			$trafficLight = $( '.yst-traffic-light' ),
+			$trafficLightLink = $trafficLight.closest( '.wpseo-meta-section-link' ),
+			initialTitle = $trafficLightLink.data( 'initial-title' );
 
 		if ( this.isMainKeyword( currentKeyword ) ) {
 			document.getElementById( 'yoast_wpseo_linkdex' ).value = score;
@@ -328,9 +331,11 @@
 				indicator.className = 'na';
 			}
 
-			$( '.yst-traffic-light' )
-				.attr( 'class', 'yst-traffic-light ' + indicator.className )
-				.attr( 'alt', indicator.screenReaderText );
+			$trafficLight.attr({
+				'class': 'yst-traffic-light ' + indicator.className,
+				'alt': ''
+			});
+			$trafficLightLink.attr( 'title', initialTitle + ' ' + indicator.screenReaderText );
 		}
 
 		// If multi keyword isn't available we need to update the first tab (content)
