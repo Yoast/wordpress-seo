@@ -101,7 +101,7 @@ module.exports = (function() {
 })();
 
 },{}],2:[function(require,module,exports){
-/* global YoastSEO, tinyMCE, ajaxurl, wpseoPostScraperL10n, YoastShortcodePlugin, YoastReplaceVarPlugin, console, require */
+/* global YoastSEO, tinyMCE, ajaxurl, wpseoPostScraperL10n, YoastShortcodePlugin, YoastReplaceVarPlugin, console, _, require */
 (function( $ ) {
 	'use strict';
 
