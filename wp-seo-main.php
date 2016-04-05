@@ -168,9 +168,6 @@ function _wpseo_deactivate() {
 	if ( is_multisite() && ms_is_switched() ) {
 		delete_option( 'rewrite_rules' );
 	}
-	else {
-		add_action( 'deactivated_plugin', 'flush_rewrite_rules' );
-	}
 
 	wpseo_remove_capabilities();
 
