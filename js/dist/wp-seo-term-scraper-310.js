@@ -12223,7 +12223,6 @@ module.exports = (function() {
 	 * @returns {HTMLElement}
 	 */
 	function renderKeywordTab( scoreClass, keyword, prefix ) {
-		console.log( scoreClass );
 		var placeholder = keyword.length > 0 ? keyword : '...';
 		var html = wp.template( 'keyword_tab' )({
 			keyword: keyword,
