@@ -39,8 +39,7 @@
 		var primaryTermInput;
 
 		primaryTermInput = $( '#yoast-wpseo-primary-' + taxonomyName );
-
-		primaryTermInput.val( termId ).trigger('change');
+		primaryTermInput.val( termId ).trigger( 'change' );
 	}
 
 	/**

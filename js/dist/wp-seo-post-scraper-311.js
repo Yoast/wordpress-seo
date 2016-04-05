@@ -325,11 +325,11 @@ module.exports = UsedKeywords;
 				break;
 			case 'excerpt':
 				if ( document.getElementById( 'excerpt' ) !== null ) {
-					val = document.getElementById('excerpt') && document.getElementById('excerpt').value || '';
+					val = document.getElementById( 'excerpt' ) && document.getElementById( 'excerpt' ).value || '';
 				}
 				break;
 			case 'primaryCategory':
-				var categoryBase = $( '#category-all').find( 'ul.categorychecklist' );
+				var categoryBase = $( '#category-all' ).find( 'ul.categorychecklist' );
 
 				// If only one is visible than that item is the primary category.
 				var checked = categoryBase.find( 'li input:checked' );
