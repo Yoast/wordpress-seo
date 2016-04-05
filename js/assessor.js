@@ -1,7 +1,4 @@
 var Researcher = require( "./researcher.js" );
-var Paper = require( "./values/Paper.js" );
-
-var InvalidTypeError = require( "./errors/invalidType" );
 
 var MissingArgument = require( "./errors/missingArgument" );
 var isUndefined = require( "lodash/isUndefined" );

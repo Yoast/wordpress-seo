@@ -1,4 +1,3 @@
-var Paper = require( "./values/Paper.js" );
 var merge = require( "lodash/merge" );
 var InvalidTypeError = require( "./errors/invalidType" );
 var MissingArgument = require( "./errors/missingArgument" );
