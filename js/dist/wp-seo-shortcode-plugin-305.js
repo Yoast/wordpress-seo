@@ -98,7 +98,7 @@
 	 */
 	YoastShortcodePlugin.prototype.bindElementEvents = function() {
 		var contentElement = document.getElementById( 'content' ) || false;
-		var callback =  _.debounce(	this.loadShortcodes.bind( this, this.declareReloaded.bind( this ) ), 500 );
+		var callback =  _.debounce(	this.loadShortcodes.bind( this, this.declareReloaded.bind( this ) ), 5000 );
 
 		if (contentElement) {
 			contentElement.addEventListener( 'keyup', callback );
