@@ -76,7 +76,9 @@ class WPSEO_Term_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	 */
 	private function edit_url() {
 		global $wp_version;
+		var_export($wp_version);
 		$script_filename = version_compare( $wp_version, '4.5', '<' ) ? 'edit-tags' : 'term';
+		var_export($script_filename);
 		return admin_url( $script_filename . '.php?action=edit&taxonomy=' . $this->term->taxonomy . '&tag_ID={id}' );
 	}
 
