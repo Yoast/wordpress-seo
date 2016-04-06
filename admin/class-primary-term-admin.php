@@ -105,7 +105,7 @@ class WPSEO_Primary_Term_Admin {
 	protected function get_primary_term_taxonomies( $post_ID = null ) {
 
 		if ( null === $post_ID ) {
-			$post_ID = (int) $_GET['post'];
+			$post_ID = filter_input( INPUT_GET, 'post', FILTER_SANITIZE_NUMBER_INT );
 		}
 
 		if ( false !== ( $taxonomies = wp_cache_get( 'primary_term_taxonomies_' . $post_ID, 'wpseo' ) ) ) {
