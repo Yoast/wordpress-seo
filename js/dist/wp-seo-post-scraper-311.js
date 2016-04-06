@@ -118,8 +118,8 @@ function UsedKeywords( focusKeywordElement, ajaxAction, options, app ) {
 
 	this._plugin = new UsedKeywordsPlugin( app, {
 		usedKeywords: options.keyword_usage,
-		searchUrl: '<a target="_blank" href=' + options.search_url + '>',
-		postUrl: '<a target="_blank" href=' + options.post_edit_url + '>'
+		searchUrl: options.search_url,
+		postUrl: options.post_edit_url
 	}, app.i18n );
 
 	this._postID = $( '#post_ID' ).val();
@@ -280,8 +280,8 @@ module.exports = UsedKeywords;
 			snippetMeta: this.getDataFromInput( 'snippetMeta' ),
 			snippetCite: this.getDataFromInput( 'cite' ),
 			primaryCategory: this.getDataFromInput( 'primaryCategory' ),
-			searchUrl: '<a target="_blank" href=' + wpseoPostScraperL10n.search_url + '>',
-			postUrl: '<a target="_blank" href=' + wpseoPostScraperL10n.post_edit_url + '>'
+			searchUrl: wpseoPostScraperL10n.search_url,
+			postUrl: wpseoPostScraperL10n.post_edit_url
 		};
 	};
 

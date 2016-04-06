@@ -1,8 +1,8 @@
 <?php
+
 /**
  * @package WPSEO\Unittests\Formatter
  */
-
 class WPSEO_Term_Metabox_Formatter_Test extends WPSEO_UnitTestCase {
 
 	/**
@@ -54,14 +54,42 @@ class WPSEO_Term_Metabox_Formatter_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_with_taxonomy_and_term_and_without_options() {
 		$instance = new WPSEO_Term_Metabox_Formatter( $this->taxonomy, $this->term, array() );
-		$result   = $instance->get_values();
 
-		$this->assertEquals( $result['search_url'],    admin_url( 'edit-tags.php?taxonomy=' . $this->term->taxonomy . '&seo_kw_filter={keyword}' ) );
-		$this->assertEquals( $result['post_edit_url'], admin_url( 'term.php?action=edit&taxonomy=' . $this->term->taxonomy . '&tag_ID={id}' ) );
+		global $wp_version;
+		$_wp_version = $wp_version;
+		$wp_version  = '4.4.2';
+
+		$result = $instance->get_values();
+
+		$wp_version = $_wp_version;
+
+		$this->assertEquals( $result['search_url'], admin_url( 'edit-tags.php?taxonomy=' . $this->term->taxonomy . '&seo_kw_filter={keyword}' ) );
+		$this->assertEquals( $result['post_edit_url'], admin_url( 'edit-tags.php?action=edit&taxonomy=' . $this->term->taxonomy . '&tag_ID={id}' ) );
+
 		$this->assertEquals( $result['base_url'], trailingslashit( home_url( 'tag' ) ) );
 		$this->assertEquals( $result['keyword_usage'], array( '' => array() ) );
 		$this->assertEquals( $result['title_template'], '' );
 		$this->assertEquals( $result['metadesc_template'], '' );
+	}
+
+	/**
+	 * Get the correct post_edit_url for WP 4.5 and higher
+	 *
+	 * @covers WPSEO_Term_Metabox_Formatter::edit_url
+	 */
+	public function test_post_edit_url_4_5_and_higher() {
+		global $wp_version;
+
+		$instance = new WPSEO_Term_Metabox_Formatter( $this->taxonomy, $this->term, array() );
+
+		$_wp_version = $wp_version;
+		$wp_version  = '4.5.0';
+
+		$result = $instance->get_values();
+
+		$wp_version = $_wp_version;
+
+		$this->assertEquals( $result['post_edit_url'], admin_url( 'term.php?action=edit&taxonomy=' . $this->term->taxonomy . '&tag_ID={id}' ) );
 	}
 
 	/**
@@ -72,7 +100,10 @@ class WPSEO_Term_Metabox_Formatter_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Term_Metabox_Formatter::get_template
 	 */
 	public function test_with_taxonomy_term_and_options() {
-		$options  = array( 'title-tax-post_tag' => 'This is a title', 'metadesc-tax-post_tag' => 'This is a meta description' );
+		$options  = array(
+			'title-tax-post_tag'    => 'This is a title',
+			'metadesc-tax-post_tag' => 'This is a meta description'
+		);
 		$instance = new WPSEO_Term_Metabox_Formatter( $this->taxonomy, $this->term, $options );
 		$result   = $instance->get_values();
 
