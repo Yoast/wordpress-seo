@@ -31,7 +31,7 @@
 	},
 	"require-dev": {
 		"yoast/yoastcs": "0.2",
-		"codeclimate/php-test-reporter": "dev-master"
+		"codeclimate/php-test-reporter": "^0.3.0"
 	},
 	"minimum-stability": "dev",
 	"prefer-stable": true,
