@@ -22,6 +22,10 @@ class WPSEO_Primary_Term_Admin {
 		$primary_term->register_hooks();
 	}
 
+	protected function get_current_id() {
+		return filter_input( INPUT_GET, 'post', FILTER_SANITIZE_NUMBER_INT );
+	}
+
 	/**
 	 * Add primary term templates
 	 */
@@ -91,7 +95,7 @@ class WPSEO_Primary_Term_Admin {
 	 * @return int primary term id
 	 */
 	protected function get_primary_term( $taxonomy_name ) {
-		$primary_term = new WPSEO_Primary_Term( $taxonomy_name, get_the_ID() );
+		$primary_term = new WPSEO_Primary_Term( $taxonomy_name, $this->get_current_id() );
 
 		return $primary_term->get_primary_term();
 	}
@@ -105,7 +109,7 @@ class WPSEO_Primary_Term_Admin {
 	protected function get_primary_term_taxonomies( $post_ID = null ) {
 
 		if ( null === $post_ID ) {
-			$post_ID = filter_input( INPUT_GET, 'post', FILTER_SANITIZE_NUMBER_INT );
+			$post_ID = $this->get_current_id();
 		}
 
 		if ( false !== ( $taxonomies = wp_cache_get( 'primary_term_taxonomies_' . $post_ID, 'wpseo' ) ) ) {
