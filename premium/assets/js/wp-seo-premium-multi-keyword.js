@@ -1639,12 +1639,12 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 
 		placeholder = keyword.length > 0 ? keyword : '...';
 
-		var indicators = this.getIndicator( score, keyword );
+		var indicator = this.getIndicator( score, keyword );
 
 		templateArgs = {
 			keyword: keyword,
 			placeholder: placeholder,
-			score: indicators.className
+			score: indicator.className
 		};
 
 		// The first tab isn't deletable
