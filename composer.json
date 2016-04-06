@@ -30,8 +30,8 @@
 		"yoast/wp-helpscout": "^1.0"
 	},
 	"require-dev": {
-		"yoast/yoastcs": "0.2",
-		"codeclimate/php-test-reporter": "^0.3.0"
+		"yoast/yoastcs": "0.2"
+//		"codeclimate/php-test-reporter": "dev-master"
 	},
 	"minimum-stability": "dev",
 	"prefer-stable": true,

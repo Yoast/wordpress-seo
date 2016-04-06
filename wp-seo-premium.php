@@ -37,11 +37,11 @@ if ( ! defined( 'WPSEO_FILE' ) ) {
 	define( 'WPSEO_FILE', __FILE__ );
 }
 
-if ( ! defined( 'WPSEO_PREMIUM_FILE' ) ) {
-	define( 'WPSEO_PREMIUM_FILE', __FILE__ );
+if ( ! defined( 'WPSEO_PREMIUM_PLUGIN_FILE' ) ) {
+	define( 'WPSEO_PREMIUM_PLUGIN_FILE', __FILE__ );
 }
 
-$wpseo_premium_dir = plugin_dir_path( WPSEO_PREMIUM_FILE ) . 'premium/';
+$wpseo_premium_dir = plugin_dir_path( WPSEO_PREMIUM_PLUGIN_FILE ) . 'premium/';
 
 // Run the redirects when frontend is being opened.
 if ( ! is_admin() ) {
@@ -53,7 +53,7 @@ if ( ! is_admin() ) {
 
 // Load the WordPress SEO plugin.
 require_once( dirname( WPSEO_FILE ) . '/wp-seo-main.php' );
-require_once( dirname( WPSEO_PREMIUM_FILE ) . '/premium/class-premium.php' );
+require_once( dirname( WPSEO_PREMIUM_PLUGIN_FILE ) . '/premium/class-premium.php' );
 
 WPSEO_Premium::autoloader();
 
