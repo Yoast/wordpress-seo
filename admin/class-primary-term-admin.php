@@ -22,6 +22,10 @@ class WPSEO_Primary_Term_Admin {
 		$primary_term->register_hooks();
 	}
 
+	/**
+	 * Get the current post ID.
+	 * @return integer The post ID.
+	 */
 	protected function get_current_id() {
 		return filter_input( INPUT_GET, 'post', FILTER_SANITIZE_NUMBER_INT );
 	}
