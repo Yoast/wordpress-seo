@@ -290,3 +290,19 @@ function wpseo_split_shared_term( $old_term_id, $new_term_id, $term_taxonomy_id,
 }
 
 add_action( 'split_shared_term', 'wpseo_split_shared_term', 10, 4 );
+
+/**
+ * Load translations
+ */
+function wpseo_load_textdomain() {
+	$wpseo_path = str_replace( '\\', '/', WPSEO_PATH );
+	$mu_path    = str_replace( '\\', '/', WPMU_PLUGIN_DIR );
+
+	if ( false !== stripos( $wpseo_path, $mu_path ) ) {
+		load_muplugin_textdomain( 'wordpress-seo', dirname( WPSEO_BASENAME ) . '/languages/' );
+	}
+	else {
+		load_plugin_textdomain( 'wordpress-seo', false, dirname( WPSEO_BASENAME ) . '/languages/' );
+	}
+}
+

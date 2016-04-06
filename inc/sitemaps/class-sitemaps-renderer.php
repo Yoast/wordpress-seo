@@ -21,6 +21,7 @@ class WPSEO_Sitemaps_Renderer {
 	 * Set up object properties.
 	 */
 	public function __construct() {
+		wpseo_load_textdomain();
 
 		$stylesheet_url   = preg_replace( '/(^http[s]?:)/', '', esc_url( home_url( 'main-sitemap.xsl' ) ) );
 		$this->stylesheet = '<?xml-stylesheet type="text/xsl" href="' . $stylesheet_url . '"?>';

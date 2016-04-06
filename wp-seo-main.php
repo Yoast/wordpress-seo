@@ -207,24 +207,6 @@ function wpseo_on_activate_blog( $blog_id ) {
 /* ***************************** PLUGIN LOADING *************************** */
 
 /**
- * Load translations
- */
-function wpseo_load_textdomain() {
-	$wpseo_path = str_replace( '\\', '/', WPSEO_PATH );
-	$mu_path    = str_replace( '\\', '/', WPMU_PLUGIN_DIR );
-
-	if ( false !== stripos( $wpseo_path, $mu_path ) ) {
-		load_muplugin_textdomain( 'wordpress-seo', dirname( WPSEO_BASENAME ) . '/languages/' );
-	}
-	else {
-		load_plugin_textdomain( 'wordpress-seo', false, dirname( WPSEO_BASENAME ) . '/languages/' );
-	}
-}
-
-add_action( 'plugins_loaded', 'wpseo_load_textdomain' );
-
-
-/**
  * On plugins_loaded: load the minimum amount of essential files for this plugin
  */
 function wpseo_init() {
@@ -277,6 +259,10 @@ function wpseo_frontend_init() {
 	}
 
 	add_action( 'template_redirect', 'wpseo_frontend_head_init', 999 );
+
+	if ( is_admin_bar_showing() ) {
+		wpseo_load_textdomain();
+	}
 }
 
 /**
@@ -470,5 +456,3 @@ function yoast_wpseo_self_deactivate() {
 		}
 	}
 }
-
-
