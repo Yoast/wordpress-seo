@@ -85,6 +85,8 @@ class WPSEO_Admin {
 		add_action( 'admin_init', array( $this, 'import_plugin_hooks' ) );
 
 		WPSEO_Sitemaps_Cache::register_clear_on_option_update( 'wpseo' );
+
+		add_action( 'admin_init', 'wpseo_load_textdomain' );
 	}
 
 	/**
