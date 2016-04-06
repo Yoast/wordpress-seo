@@ -116,23 +116,23 @@ label.radio {
 div.wpseo_variable_warning {
 	margin: 5px 0 0 0;
 	padding: 5px;
-	color: #c62d2d;
+	color: #dc3232;
 }
 
 input.wpseo_variable_warning,
 textarea.wpseo_variable_warning {
-	border: 1px solid #c62d2d;
+	border: 1px solid #dc3232;
 }
 
 .wpseo_variable_warning a {
-	color: #c62d2d;
+	color: #dc3232;
 }
 
 .wpseo_content_wrapper div.wpseo-warning {
 	margin: 2em 0 0 0;
 	padding-right: 10px;
 	padding-left: 10px;
-	border: 2px solid #c62d2d;
+	border: 2px solid #dc3232;
 	background-color: #dedede;
 }
 
@@ -230,7 +230,7 @@ table.yoast_help tr:hover {
 .wrong {
 	padding: 5px;
 	color: white;
-	background-color: #c62d2d;
+	background-color: #dc3232;
 }
 
 .wrong code {
