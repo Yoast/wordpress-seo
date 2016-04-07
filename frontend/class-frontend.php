@@ -902,7 +902,10 @@ class WPSEO_Frontend {
 		else {
 			if ( is_search() ) {
 				$search_query = get_search_query();
-				$canonical    = empty( $search_query ) ? '' : get_search_link();
+
+				if ( ! empty( $search_query ) ) {
+					$canonical = get_search_link();
+				}
 			}
 			elseif ( is_front_page() ) {
 				$canonical = home_url();
