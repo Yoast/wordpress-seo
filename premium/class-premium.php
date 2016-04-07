@@ -352,7 +352,7 @@ class WPSEO_Premium {
 			'wpseo_redirects',
 			array( $this->redirects, 'display' ),
 		);
-		
+
 		return $submenu_pages;
 	}
 
