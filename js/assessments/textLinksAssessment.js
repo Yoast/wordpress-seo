@@ -9,7 +9,6 @@ var isEmpty = require( "lodash/isEmpty" );
  * @returns {object} resultObject with score and text
  */
 var calculateLinkStatisticsResult = function( linkStatistics, i18n ) {
-	// Check of we uberhaubt links
 	if ( linkStatistics.total === 0 ) {
 		return {
 			score: 6,
