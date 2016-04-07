@@ -37,12 +37,19 @@ describe ( "returning the overallscore", function() {
 } );
 
 var mockAssessment = {
-	callback: function(){return true}
+	callback: function(){ return true }
 };
 
 describe ( "adding an assessment", function() {
 	it( "adds an assessment", function(){
 		assessor.addAssessment( "testname", mockAssessment );
 		expect( assessor.getAvailableAssessments()[ "testname" ] ).toEqual(jasmine.objectContaining( mockAssessment ) );
+	});
+} );
+
+describe ( "removing an assessment", function() {
+	it( "removes an assessment", function(){
+		assessor.removeAssessment( "testname" );
+		expect( assessor.getAvailableAssessments()[ "testname" ] ).toEqual( undefined );
 	});
 } );

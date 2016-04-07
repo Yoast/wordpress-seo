@@ -130,4 +130,12 @@ Assessor.prototype.addAssessment = function( name, assessment ) {
 	return true;
 };
 
+/**
+ * Remove a specific Assessment from the list of Assessments.
+ * @param {string} name The Assessment to remove from the list of assessments.
+ */
+Assessor.prototype.removeAssessment = function( name ) {
+	delete this._assessments[ name ];
+};
+
 module.exports = Assessor;

@@ -179,6 +179,7 @@ function verifyArguments( args ) {
  * @param {int} args.maxTypeDelay The maximum amount of type delay even if dynamic delay is on.
  * @param {int} args.typeDelayStep The amount with which to increase the typeDelay on each step when dynamic delay is enabled.
  * @param {Object} args.callbacks The callbacks that the app requires.
+ * @param {Object} args.assessor The Assessor to use instead of the default assessor.
  * @param {YoastSEO.App~getData} args.callbacks.getData Called to retrieve input data
  * @param {YoastSEO.App~getAnalyzerInput} args.callbacks.getAnalyzerInput Called to retrieve input for the analyzer.
  * @param {YoastSEO.App~bindElementEvents} args.callbacks.bindElementEvents Called to bind events to the DOM elements.
@@ -205,7 +206,11 @@ var App = function( args ) {
 	this.i18n = this.constructI18n( this.config.translations );
 
 	// Set the assessor
-	this.SEOAssessor = new SEOAssessor( this.i18n );
+	if ( isUndefined( args.assessor ) ) {
+		this.assessor = new SEOAssessor( this.i18n )
+	} else {
+		this.assessor = args.assessor;
+	}
 
 	this.pluggable = new Pluggable( this );
 
@@ -427,18 +432,18 @@ App.prototype.runAnalyzer = function() {
 		this.researcher.setPaper( this.paper );
 	}
 
-	this.SEOAssessor.assess( this.paper );
+	this.assessor.assess( this.paper );
 
 	// Pass the assessor result through to the formatter
 	this.assessorPresenter = new AssessorPresenter( {
 		targets: this.config.targets,
 		keyword: this.paper.getKeyword(),
-		assessor: this.SEOAssessor,
+		assessor: this.assessor,
 		i18n: this.i18n
 	} );
 
 	this.assessorPresenter.render();
-	this.callbacks.saveScores( this.SEOAssessor.calculateOverallScore(), this.assessorPresenter );
+	this.callbacks.saveScores( this.assessor.calculateOverallScore(), this.assessorPresenter );
 
 	if ( this.config.dynamicDelay ) {
 		this.endTime();
@@ -589,7 +594,7 @@ App.prototype.registerTest = function() {
  * @returns {boolean} Whether or not the test was successfully registered.
  */
 App.prototype.registerAssessment = function( name, assessment, pluginName ) {
-	return this.pluggable._registerAssessment( this.SEOAssessor, name, assessment, pluginName );
+	return this.pluggable._registerAssessment( this.assessor, name, assessment, pluginName );
 };
 
 module.exports = App;
