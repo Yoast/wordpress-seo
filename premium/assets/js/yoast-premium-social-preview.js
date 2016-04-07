@@ -137,33 +137,36 @@ var forEach = require( 'lodash/forEach' );
 	/**
 	 * Adds the choose image button and hides the input field.
 	 *
-	 * @param {Object}  imageUrl The image url object.
-	 * @param {function} onMediaSelect Event to be ran when image is chosen.
+	 * @param {Object} preview The preview to add the upload button to.
 	 */
-	function addUploadButton( imageUrl, onMediaSelect ) {
-		if( typeof wp.media === 'undefined' ) {
+	function addUploadButton( preview ) {
+		if ( typeof wp.media === 'undefined' ) {
 			return;
 		}
+
+		var imageUrl = $(preview.element.formContainer).find('.js-snippet-editor-imageUrl');
 
 		var buttonDiv = $( '<div></div>' );
 		buttonDiv.insertAfter( imageUrl );
 
+		var uploadButtonText = getUploadButtonText( preview );
+
 		var imageFieldId    = jQuery( imageUrl ).attr( 'id' );
 		var imageButtonId   = imageFieldId + '_button';
-		var imageButtonHtml = '<button id="' + imageButtonId + '" class="button button-primary wpseo_preview_image_upload_button" type="button">' + yoastSocialPreview.uploadImage + '</button>';
+		var imageButtonHtml = '<button id="' + imageButtonId + '" class="button button-primary wpseo_preview_image_upload_button" type="button">' + uploadButtonText + '</button>';
 
 		var removeButtonId   = imageFieldId + '_remove_button';
-		var removeButtonHtml = "<button id='" + removeButtonId + "' type='button' class='button wpseo_preview_image_upload_button'>" + yoastSocialPreview.removeImageButton + "</button>";
+		var removeButtonHtml = '<button id="' + removeButtonId + '" type="button" class="button wpseo_preview_image_upload_button">' + yoastSocialPreview.removeImageButton + '</button>';
 
 		$( buttonDiv ).append( imageButtonHtml );
 		$( buttonDiv ).append( removeButtonHtml );
 
 		imageUrl.hide();
 		if ( imageUrl.val() === '' ) {
-			$( "#" + removeButtonId ).hide();
+			$( '#' + removeButtonId ).hide();
 		}
 
-		bindUploadButtonEvents( imageUrl, "#" + imageButtonId, "#" + removeButtonId, onMediaSelect );
+		bindUploadButtonEvents( imageUrl, '#' + imageButtonId, '#' + removeButtonId, preview.updatePreview.bind( preview ) );
 	}
 
 	/**
@@ -238,7 +241,6 @@ var forEach = require( 'lodash/forEach' );
 	 * @returns {{targetElement: Element, data: {title: *, description: *, imageUrl: *}, baseURL: *, callbacks: {updateSocialPreview: callbacks.updateSocialPreview}}}
 	 */
 	function getSocialPreviewArgs( targetElement, fieldPrefix ) {
-
 		return {
 			targetElement: $( targetElement ).get(0),
 			data: {
@@ -255,6 +257,9 @@ var forEach = require( 'lodash/forEach' );
 
 					if (data.imageUrl === '') {
 						jQuery( targetElement ).find( '.editable-preview' ).trigger( 'imageUpdate' );
+					} else {
+						var buttonPrefix = targetElement.attr( 'id' ).replace( 'Preview', '' );
+						setUploadButtonValue( buttonPrefix, yoastSocialPreview.useOtherImage );
 					}
 				}
 			}
@@ -278,13 +283,14 @@ var forEach = require( 'lodash/forEach' );
 			'imageUpdate',
 			'.editable-preview',
 			function() {
-				facebookPreview.setImageUrl( getFallbackImage( yoastSocialPreview.facebookDefaultImage ) );
+				setUploadButtonValue( 'facebook', getUploadButtonText( facebookPreview ) );
+				setFallbackImage( facebookPreview );
 			}
 		);
 
 		facebookPreview.init();
 
-		addUploadButton( jQuery( '#facebook-editor-imageUrl' ), facebookPreview.updatePreview.bind( facebookPreview ) );
+		addUploadButton( facebookPreview );
 	}
 
 	/**
@@ -304,13 +310,35 @@ var forEach = require( 'lodash/forEach' );
 			'imageUpdate',
 			'.editable-preview',
 			function() {
-				twitterPreview.setImageUrl( getFallbackImage( '' ) );
+				setUploadButtonValue( 'twitter', getUploadButtonText( twitterPreview ) );
+				setFallbackImage( twitterPreview );
 			}
 		);
 
 		twitterPreview.init();
 
-		addUploadButton( jQuery( '#twitter-editor-imageUrl' ), twitterPreview.updatePreview.bind( twitterPreview ) );
+		addUploadButton( twitterPreview );
+	}
+
+	/**
+	 * Set the fallback image for the preview if no image has been set
+	 *
+	 * @param {Object} preview Preview to set fallback image on.
+     */
+	function setFallbackImage( preview ) {
+		if ( preview.data.imageUrl === '' ) {
+			preview.setImageUrl( getFallbackImage( '' ) );
+		}
+	}
+
+	/**
+	 * Changes the upload button value when there are fallback images present.
+	 *
+	 * @param {string} buttonPrefix The value before the id name.
+	 * @param {string} text The text on the button.
+	 */
+	function setUploadButtonValue( buttonPrefix, text ) {
+		$( '#'  + buttonPrefix + '-editor-imageUrl_button' ).html( text );
 	}
 
 	/**
@@ -322,6 +350,16 @@ var forEach = require( 'lodash/forEach' );
 		}
 
 		bindContentEvents();
+	}
+
+	/**
+	 * Get the text that the upload button needs to display
+	 *
+	 * @param {Object} preview Preview to read image from.
+	 * @returns {*}
+     */
+	function getUploadButtonText( preview ) {
+		return preview.data.imageUrl === '' ? yoastSocialPreview.uploadImage : yoastSocialPreview.useOtherImage;
 	}
 
 	/**
@@ -352,12 +390,12 @@ var forEach = require( 'lodash/forEach' );
 	function bindContentEvents() {
 		// Bind the event when something changed in the text editor.
 		var contentElement = $( '#' + contentTextName() );
-		if( contentElement.length > 0 ) {
+		if ( contentElement.length > 0 ) {
 			contentElement.on( 'input', detectImageFallback );
 		}
 
 		//Bind the events when something changed in the tinyMCE editor.
-		if( typeof tinyMCE !== 'undefined' && typeof tinyMCE.on === 'function' ) {
+		if ( typeof tinyMCE !== 'undefined' && typeof tinyMCE.on === 'function' ) {
 			var events = [ 'input', 'change', 'cut', 'paste' ];
 			tinyMCE.on( 'addEditor', function( e ) {
 				for ( var i = 0; i < events.length; i++ ) {
@@ -380,11 +418,11 @@ var forEach = require( 'lodash/forEach' );
 	 */
 	function detectImageFallback() {
 		// In case of a post: we want to have the featured image.
-		if( getCurrentType() === 'post' ) {
+		if ( getCurrentType() === 'post' ) {
 			var featuredImage = getFeaturedImage();
 			setFeaturedImage( featuredImage );
 
-			if( featuredImage !== '' ) {
+			if ( featuredImage !== '' ) {
 				return;
 			}
 		}
@@ -426,7 +464,7 @@ var forEach = require( 'lodash/forEach' );
 	 * @returns {string}
 	 */
 	function getFeaturedImage() {
-		if( canReadFeaturedImage === false ) {
+		if ( canReadFeaturedImage === false ) {
 			return '';
 		}
 
@@ -449,7 +487,7 @@ var forEach = require( 'lodash/forEach' );
 		var images = getImages( content );
 		var image  = '';
 
-		if( images.length === 0 ) {
+		if ( images.length === 0 ) {
 			return image;
 		}
 
@@ -459,7 +497,7 @@ var forEach = require( 'lodash/forEach' );
 
 			var imageSource = currentImage.prop( 'src' );
 
-			if( imageSource ) {
+			if ( imageSource ) {
 				image = imageSource;
 			}
 		} while ( '' === image && images.length > 0 );
@@ -478,7 +516,7 @@ var forEach = require( 'lodash/forEach' );
 		}
 
 		var contentElement = $( '#' + contentTextName() );
-		if( contentElement.length > 0 ) {
+		if ( contentElement.length > 0 ) {
 			return contentElement.val();
 		}
 
@@ -511,14 +549,14 @@ var forEach = require( 'lodash/forEach' );
 	 */
 	function getFallbackImage( defaultImage ) {
 		// In case of an post: we want to have the featured image.
-		if( getCurrentType() === 'post' ) {
-			if( imageFallBack.featured !== '' ) {
+		if ( getCurrentType() === 'post' ) {
+			if ( imageFallBack.featured !== '' ) {
 				return imageFallBack.featured;
 			}
 		}
 
 		// When the featured image is empty, try an image in the content
-		if( imageFallBack.content !== '') {
+		if ( imageFallBack.content !== '') {
 			return imageFallBack.content;
 		}
 
@@ -588,7 +626,6 @@ var forEach = require( 'lodash/forEach' );
 				$button.attr( 'aria-expanded', ! isPanelVisible );
 			});
 		});
-
 	}
 
 	/**
