@@ -207,7 +207,7 @@ var App = function( args ) {
 
 	// Set the assessor
 	if ( isUndefined( args.assessor ) ) {
-		this.assessor = new SEOAssessor( this.i18n )
+		this.assessor = new SEOAssessor( this.i18n );
 	} else {
 		this.assessor = args.assessor;
 	}

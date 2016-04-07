@@ -48,8 +48,8 @@ describe ( "adding an assessment", function() {
 } );
 
 describe ( "removing an assessment", function() {
-	it( "removes an assessment", function(){
+	it( "removes an assessment", function() {
 		assessor.removeAssessment( "testname" );
 		expect( assessor.getAvailableAssessments()[ "testname" ] ).toEqual( undefined );
-	});
+	} );
 } );
