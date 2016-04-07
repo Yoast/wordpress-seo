@@ -12,7 +12,7 @@ var forEach = require( "lodash/forEach" );
 
 var Jed = require( "jed" );
 
-var Assessor = require( "./assessor.js" );
+var SEOAssessor = require( "./seoAssessor.js" );
 var Researcher = require( "./researcher.js" );
 var AssessorPresenter = require( "./renderers/AssessorPresenter.js" );
 var Pluggable = require( "./pluggable.js" );
@@ -179,6 +179,7 @@ function verifyArguments( args ) {
  * @param {int} args.maxTypeDelay The maximum amount of type delay even if dynamic delay is on.
  * @param {int} args.typeDelayStep The amount with which to increase the typeDelay on each step when dynamic delay is enabled.
  * @param {Object} args.callbacks The callbacks that the app requires.
+ * @param {Object} args.assessor The Assessor to use instead of the default assessor.
  * @param {YoastSEO.App~getData} args.callbacks.getData Called to retrieve input data
  * @param {YoastSEO.App~getAnalyzerInput} args.callbacks.getAnalyzerInput Called to retrieve input for the analyzer.
  * @param {YoastSEO.App~bindElementEvents} args.callbacks.bindElementEvents Called to bind events to the DOM elements.
@@ -205,7 +206,11 @@ var App = function( args ) {
 	this.i18n = this.constructI18n( this.config.translations );
 
 	// Set the assessor
-	this.assessor = new Assessor( this.i18n );
+	if ( isUndefined( args.assessor ) ) {
+		this.assessor = new SEOAssessor( this.i18n );
+	} else {
+		this.assessor = args.assessor;
+	}
 
 	this.pluggable = new Pluggable( this );
 

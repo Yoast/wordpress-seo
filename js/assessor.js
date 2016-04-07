@@ -1,31 +1,9 @@
 var Researcher = require( "./researcher.js" );
-
 var MissingArgument = require( "./errors/missingArgument" );
 var isUndefined = require( "lodash/isUndefined" );
 var forEach = require( "lodash/forEach" );
 
 var ScoreRating = 9;
-
-// Assessments
-var assessments = {};
-assessments.fleschReadingEase = require( "./assessments/fleschReadingEaseAssessment.js" );
-assessments.introductionKeyword = require( "./assessments/introductionKeywordAssessment.js" );
-assessments.keyphraseLength = require( "./assessments/keyphraseLengthAssessment.js" );
-assessments.keywordDensity = require( "./assessments/keywordDensityAssessment.js" );
-assessments.keywordStopWords = require( "./assessments/keywordStopWordsAssessment.js" );
-assessments.metaDescriptionKeyword = require ( "./assessments/metaDescriptionKeywordAssessment.js" );
-assessments.metaDescriptionLength = require( "./assessments/metaDescriptionLengthAssessment.js" );
-assessments.subheadingsKeyword = require( "./assessments/subheadingsKeywordAssessment.js" );
-assessments.textCompetingLinks = require( "./assessments/textCompetingLinksAssessment.js" );
-assessments.textImages = require( "./assessments/textImagesAssessment.js" );
-assessments.textLength = require( "./assessments/textLengthAssessment.js" );
-assessments.textLinks = require( "./assessments/textLinksAssessment.js" );
-assessments.textSubheadings = require( "./assessments/textSubheadingsAssessment.js" );
-assessments.titleKeyword = require( "./assessments/titleKeywordAssessment.js" );
-assessments.titleLength = require( "./assessments/titleLengthAssessment.js" );
-assessments.urlKeyword = require( "./assessments/urlKeywordAssessment.js" );
-assessments.urlLength = require( "./assessments/urlLengthAssessment.js" );
-assessments.urlStopWords = require( "./assessments/urlStopWordsAssessment.js" );
 
 /**
  * Creates the Assessor
@@ -35,6 +13,7 @@ assessments.urlStopWords = require( "./assessments/urlStopWordsAssessment.js" );
  */
 var Assessor = function( i18n ) {
 	this.setI18n( i18n );
+	this._assessments = {};
 };
 
 /**
@@ -54,7 +33,7 @@ Assessor.prototype.setI18n = function( i18n ) {
  * @returns {object} assessment
  */
 Assessor.prototype.getAvailableAssessments = function() {
-	return assessments;
+	return this._assessments;
 };
 
 /**
@@ -147,8 +126,16 @@ Assessor.prototype.calculateOverallScore  = function() {
  * @private
  */
 Assessor.prototype.addAssessment = function( name, assessment ) {
-	assessments[ name ] = assessment;
+	this._assessments[ name ] = assessment;
 	return true;
+};
+
+/**
+ * Remove a specific Assessment from the list of Assessments.
+ * @param {string} name The Assessment to remove from the list of assessments.
+ */
+Assessor.prototype.removeAssessment = function( name ) {
+	delete this._assessments[ name ];
 };
 
 module.exports = Assessor;
