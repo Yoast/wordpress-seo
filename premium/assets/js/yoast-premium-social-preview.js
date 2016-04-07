@@ -1,4 +1,156 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+/** @module stringProcessing/imageInText */
+
+var matchStringWithRegex = require( "./matchStringWithRegex.js" );
+
+/**
+ * Checks the text for images.
+ *
+ * @param {string} text The textstring to check for images
+ * @returns {Array} Array containing all types of found images
+ */
+module.exports = function( text ) {
+	return matchStringWithRegex( text, "<img(?:[^>]+)?>" );
+};
+
+},{"./matchStringWithRegex.js":2}],2:[function(require,module,exports){
+/** @module stringProcessing/matchStringWithRegex */
+
+/**
+ * Checks a string with a regex, return all matches found with that regex.
+ *
+ * @param {String} text The text to match the
+ * @param {String} regexString A string to use as regex.
+ * @returns {Array} Array with matches, empty array if no matches found.
+ */
+module.exports = function( text, regexString ) {
+	var regex = new RegExp( regexString, "ig" );
+	var matches = text.match( regex );
+
+	if ( matches === null ) {
+		matches = [];
+	}
+
+	return matches;
+};
+
+},{}],3:[function(require,module,exports){
+/** @module stringProcessing/stripHTMLTags */
+
+var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
+
+/**
+ * Strip HTML-tags from text
+ *
+ * @param {String} text The text to strip the HTML-tags from.
+ * @returns {String} The text without HTML-tags.
+ */
+module.exports = function( text ) {
+	text = text.replace( /(<([^>]+)>)/ig, " " );
+	text = stripSpaces( text );
+	return text;
+};
+
+},{"../stringProcessing/stripSpaces.js":4}],4:[function(require,module,exports){
+/** @module stringProcessing/stripSpaces */
+
+/**
+ * Strip double spaces from text
+ *
+ * @param {String} text The text to strip spaces from.
+ * @returns {String} The text without double spaces
+ */
+module.exports = function( text ) {
+
+	// Replace multiple spaces with single space
+	text = text.replace( /\s{2,}/g, " " );
+
+	// Replace spaces followed by periods with only the period.
+	text = text.replace( /\s\./g, "." );
+
+	// Remove first/last character if space
+	text = text.replace( /^\s+|\s+$/g, "" );
+
+	return text;
+};
+
+},{}],5:[function(require,module,exports){
+/* global wpseoPostScraperL10n */
+
+var isUndefined = require( 'lodash/isUndefined' );
+
+/**
+ * Returns the description placeholder for use in the description forms.
+ *
+ * @returns {string}
+ */
+function getDescriptionPlaceholder( l10n ) {
+	var descriptionPlaceholder = '';
+
+	if ( ! isUndefined( window.wpseoPostScraperL10n ) ) {
+		descriptionPlaceholder = window.wpseoPostScraperL10n.metadesc_template;
+	} else if ( ! isUndefined( window.wpseoTermScraperL10n ) ) {
+		descriptionPlaceholder = window.wpseoTermScraperL10n.metadesc_template;
+	}
+
+	return descriptionPlaceholder;
+}
+
+module.exports = getDescriptionPlaceholder;
+
+},{"lodash/isUndefined":7}],6:[function(require,module,exports){
+/* global wpseoPostScraperL10n, wpseoTermScraperL10n */
+
+var isUndefined = require( 'lodash/isUndefined' );
+
+/**
+ * Returns the title placeholder for use in the title forms.
+ *
+ * @returns {string}
+ */
+function getTitlePlaceholder() {
+	var titlePlaceholder = '';
+
+	if ( ! isUndefined( window.wpseoPostScraperL10n ) ) {
+		titlePlaceholder = window.wpseoPostScraperL10n.title_template;
+	} else if ( ! isUndefined( window.wpseoTermScraperL10n ) ) {
+		titlePlaceholder = window.wpseoTermScraperL10n.title_template;
+	}
+
+	if ( titlePlaceholder === '' ) {
+		titlePlaceholder = '%%title%% - %%sitename%%';
+	}
+
+	return titlePlaceholder;
+}
+
+module.exports = getTitlePlaceholder;
+
+},{"lodash/isUndefined":7}],7:[function(require,module,exports){
+/**
+ * Checks if `value` is `undefined`.
+ *
+ * @static
+ * @since 0.1.0
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is `undefined`, else `false`.
+ * @example
+ *
+ * _.isUndefined(void 0);
+ * // => true
+ *
+ * _.isUndefined(null);
+ * // => false
+ */
+function isUndefined(value) {
+  return value === undefined;
+}
+
+module.exports = isUndefined;
+
+},{}],8:[function(require,module,exports){
 /* jshint -W097 */
 
 'use strict';
@@ -28,14 +180,18 @@ module.exports = {
 	helpText: helpText
 };
 
-},{}],2:[function(require,module,exports){
-/* global yoastSocialPreview, tinyMCE, require, wp  */
+},{}],9:[function(require,module,exports){
+/* global yoastSocialPreview, tinyMCE, require, wp, YoastSEO  */
 /* jshint -W097 */
 'use strict';
 
 var getImages = require( 'yoastseo/js/stringProcessing/imageInText' );
 var helpPanel = require( './helpPanel' );
+var getTitlePlaceholder = require( '../../../../js/src/analysis/getTitlePlaceholder' );
+var getDescriptionPlaceholder = require( '../../../../js/src/analysis/getDescriptionPlaceholder' );
+
 var forEach = require( 'lodash/forEach' );
+var isUndefined = require( 'lodash/isUndefined' );
 
 (function($) {
 	/**
@@ -197,6 +353,23 @@ var forEach = require( 'lodash/forEach' );
 	}
 
 	/**
+	 * Gets the meta description from the snippet editor
+	 */
+	function getMetaDescription() {
+		return $( '#yoast_wpseo_metadesc' ).val();
+	}
+
+	function getSocialDescriptionPlaceholder() {
+		var description = getMetaDescription();
+
+		if ( '' === description ) {
+			description = getDescriptionPlaceholder();
+		}
+
+		return description;
+	}
+
+	/**
 	 * Returns the arguments for the social preview prototypes.
 	 *
 	 * @param {string} targetElement The element where the preview is loaded.
@@ -205,7 +378,10 @@ var forEach = require( 'lodash/forEach' );
 	 * @returns {{targetElement: Element, data: {title: *, description: *, imageUrl: *}, baseURL: *, callbacks: {updateSocialPreview: callbacks.updateSocialPreview}}}
 	 */
 	function getSocialPreviewArgs( targetElement, fieldPrefix ) {
-		return {
+		var titlePlaceholder = getTitlePlaceholder();
+		var descriptionPlaceholder = getSocialDescriptionPlaceholder();
+
+		var args = {
 			targetElement: $( targetElement ).get(0),
 			data: {
 				title: $( '#' + fieldPrefix + '-title' ).val(),
@@ -225,9 +401,28 @@ var forEach = require( 'lodash/forEach' );
 						var buttonPrefix = targetElement.attr( 'id' ).replace( 'Preview', '' );
 						setUploadButtonValue( buttonPrefix, yoastSocialPreview.useOtherImage );
 					}
+				},
+				modifyTitle: function( title ) {
+					return YoastSEO.wp.replaceVarsPlugin.replaceVariablesPlugin( title );
+				},
+				modifyDescription: function( description ) {
+					return YoastSEO.wp.replaceVarsPlugin.replaceVariablesPlugin( description );
 				}
+			},
+			placeholder: {
+				title: titlePlaceholder
+			},
+			defaultValue: {
+				title: titlePlaceholder
 			}
 		};
+
+		if ( '' !== descriptionPlaceholder ) {
+			args.placeholder.description = descriptionPlaceholder;
+			args.defaultValue.description = descriptionPlaceholder;
+		}
+
+		return args;
 	}
 
 	/**
@@ -620,7 +815,4880 @@ var forEach = require( 'lodash/forEach' );
 	$( initYoastSocialPreviews );
 }( jQuery ) );
 
-},{"./helpPanel":1,"lodash/forEach":81,"yoast-social-previews":102,"yoastseo/js/stringProcessing/imageInText":180}],3:[function(require,module,exports){
+},{"../../../../js/src/analysis/getDescriptionPlaceholder":5,"../../../../js/src/analysis/getTitlePlaceholder":6,"./helpPanel":8,"lodash/forEach":85,"lodash/isUndefined":101,"yoast-social-previews":107,"yoastseo/js/stringProcessing/imageInText":1}],10:[function(require,module,exports){
+var getNative = require('./_getNative'),
+    root = require('./_root');
+
+/* Built-in method references that are verified to be native. */
+var DataView = getNative(root, 'DataView');
+
+module.exports = DataView;
+
+},{"./_getNative":54,"./_root":76}],11:[function(require,module,exports){
+var nativeCreate = require('./_nativeCreate');
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/**
+ * Creates an hash object.
+ *
+ * @private
+ * @constructor
+ * @returns {Object} Returns the new hash object.
+ */
+function Hash() {}
+
+// Avoid inheriting from `Object.prototype` when possible.
+Hash.prototype = nativeCreate ? nativeCreate(null) : objectProto;
+
+module.exports = Hash;
+
+},{"./_nativeCreate":75}],12:[function(require,module,exports){
+var getNative = require('./_getNative'),
+    root = require('./_root');
+
+/* Built-in method references that are verified to be native. */
+var Map = getNative(root, 'Map');
+
+module.exports = Map;
+
+},{"./_getNative":54,"./_root":76}],13:[function(require,module,exports){
+var mapClear = require('./_mapClear'),
+    mapDelete = require('./_mapDelete'),
+    mapGet = require('./_mapGet'),
+    mapHas = require('./_mapHas'),
+    mapSet = require('./_mapSet');
+
+/**
+ * Creates a map cache object to store key-value pairs.
+ *
+ * @private
+ * @constructor
+ * @param {Array} [values] The values to cache.
+ */
+function MapCache(values) {
+  var index = -1,
+      length = values ? values.length : 0;
+
+  this.clear();
+  while (++index < length) {
+    var entry = values[index];
+    this.set(entry[0], entry[1]);
+  }
+}
+
+// Add methods to `MapCache`.
+MapCache.prototype.clear = mapClear;
+MapCache.prototype['delete'] = mapDelete;
+MapCache.prototype.get = mapGet;
+MapCache.prototype.has = mapHas;
+MapCache.prototype.set = mapSet;
+
+module.exports = MapCache;
+
+},{"./_mapClear":69,"./_mapDelete":70,"./_mapGet":71,"./_mapHas":72,"./_mapSet":73}],14:[function(require,module,exports){
+var getNative = require('./_getNative'),
+    root = require('./_root');
+
+/* Built-in method references that are verified to be native. */
+var Promise = getNative(root, 'Promise');
+
+module.exports = Promise;
+
+},{"./_getNative":54,"./_root":76}],15:[function(require,module,exports){
+var getNative = require('./_getNative'),
+    root = require('./_root');
+
+/* Built-in method references that are verified to be native. */
+var Set = getNative(root, 'Set');
+
+module.exports = Set;
+
+},{"./_getNative":54,"./_root":76}],16:[function(require,module,exports){
+var stackClear = require('./_stackClear'),
+    stackDelete = require('./_stackDelete'),
+    stackGet = require('./_stackGet'),
+    stackHas = require('./_stackHas'),
+    stackSet = require('./_stackSet');
+
+/**
+ * Creates a stack cache object to store key-value pairs.
+ *
+ * @private
+ * @constructor
+ * @param {Array} [values] The values to cache.
+ */
+function Stack(values) {
+  var index = -1,
+      length = values ? values.length : 0;
+
+  this.clear();
+  while (++index < length) {
+    var entry = values[index];
+    this.set(entry[0], entry[1]);
+  }
+}
+
+// Add methods to `Stack`.
+Stack.prototype.clear = stackClear;
+Stack.prototype['delete'] = stackDelete;
+Stack.prototype.get = stackGet;
+Stack.prototype.has = stackHas;
+Stack.prototype.set = stackSet;
+
+module.exports = Stack;
+
+},{"./_stackClear":78,"./_stackDelete":79,"./_stackGet":80,"./_stackHas":81,"./_stackSet":82}],17:[function(require,module,exports){
+var root = require('./_root');
+
+/** Built-in value references. */
+var Symbol = root.Symbol;
+
+module.exports = Symbol;
+
+},{"./_root":76}],18:[function(require,module,exports){
+var root = require('./_root');
+
+/** Built-in value references. */
+var Uint8Array = root.Uint8Array;
+
+module.exports = Uint8Array;
+
+},{"./_root":76}],19:[function(require,module,exports){
+var getNative = require('./_getNative'),
+    root = require('./_root');
+
+/* Built-in method references that are verified to be native. */
+var WeakMap = getNative(root, 'WeakMap');
+
+module.exports = WeakMap;
+
+},{"./_getNative":54,"./_root":76}],20:[function(require,module,exports){
+/**
+ * A specialized version of `_.forEach` for arrays without support for
+ * iteratee shorthands.
+ *
+ * @private
+ * @param {Array} array The array to iterate over.
+ * @param {Function} iteratee The function invoked per iteration.
+ * @returns {Array} Returns `array`.
+ */
+function arrayEach(array, iteratee) {
+  var index = -1,
+      length = array.length;
+
+  while (++index < length) {
+    if (iteratee(array[index], index, array) === false) {
+      break;
+    }
+  }
+  return array;
+}
+
+module.exports = arrayEach;
+
+},{}],21:[function(require,module,exports){
+/**
+ * A specialized version of `_.map` for arrays without support for iteratee
+ * shorthands.
+ *
+ * @private
+ * @param {Array} array The array to iterate over.
+ * @param {Function} iteratee The function invoked per iteration.
+ * @returns {Array} Returns the new mapped array.
+ */
+function arrayMap(array, iteratee) {
+  var index = -1,
+      length = array.length,
+      result = Array(length);
+
+  while (++index < length) {
+    result[index] = iteratee(array[index], index, array);
+  }
+  return result;
+}
+
+module.exports = arrayMap;
+
+},{}],22:[function(require,module,exports){
+/**
+ * A specialized version of `_.some` for arrays without support for iteratee
+ * shorthands.
+ *
+ * @private
+ * @param {Array} array The array to iterate over.
+ * @param {Function} predicate The function invoked per iteration.
+ * @returns {boolean} Returns `true` if any element passes the predicate check,
+ *  else `false`.
+ */
+function arraySome(array, predicate) {
+  var index = -1,
+      length = array.length;
+
+  while (++index < length) {
+    if (predicate(array[index], index, array)) {
+      return true;
+    }
+  }
+  return false;
+}
+
+module.exports = arraySome;
+
+},{}],23:[function(require,module,exports){
+var assocIndexOf = require('./_assocIndexOf');
+
+/** Used for built-in method references. */
+var arrayProto = Array.prototype;
+
+/** Built-in value references. */
+var splice = arrayProto.splice;
+
+/**
+ * Removes `key` and its value from the associative array.
+ *
+ * @private
+ * @param {Array} array The array to modify.
+ * @param {string} key The key of the value to remove.
+ * @returns {boolean} Returns `true` if the entry was removed, else `false`.
+ */
+function assocDelete(array, key) {
+  var index = assocIndexOf(array, key);
+  if (index < 0) {
+    return false;
+  }
+  var lastIndex = array.length - 1;
+  if (index == lastIndex) {
+    array.pop();
+  } else {
+    splice.call(array, index, 1);
+  }
+  return true;
+}
+
+module.exports = assocDelete;
+
+},{"./_assocIndexOf":26}],24:[function(require,module,exports){
+var assocIndexOf = require('./_assocIndexOf');
+
+/**
+ * Gets the associative array value for `key`.
+ *
+ * @private
+ * @param {Array} array The array to query.
+ * @param {string} key The key of the value to get.
+ * @returns {*} Returns the entry value.
+ */
+function assocGet(array, key) {
+  var index = assocIndexOf(array, key);
+  return index < 0 ? undefined : array[index][1];
+}
+
+module.exports = assocGet;
+
+},{"./_assocIndexOf":26}],25:[function(require,module,exports){
+var assocIndexOf = require('./_assocIndexOf');
+
+/**
+ * Checks if an associative array value for `key` exists.
+ *
+ * @private
+ * @param {Array} array The array to query.
+ * @param {string} key The key of the entry to check.
+ * @returns {boolean} Returns `true` if an entry for `key` exists, else `false`.
+ */
+function assocHas(array, key) {
+  return assocIndexOf(array, key) > -1;
+}
+
+module.exports = assocHas;
+
+},{"./_assocIndexOf":26}],26:[function(require,module,exports){
+var eq = require('./eq');
+
+/**
+ * Gets the index at which the `key` is found in `array` of key-value pairs.
+ *
+ * @private
+ * @param {Array} array The array to search.
+ * @param {*} key The key to search for.
+ * @returns {number} Returns the index of the matched value, else `-1`.
+ */
+function assocIndexOf(array, key) {
+  var length = array.length;
+  while (length--) {
+    if (eq(array[length][0], key)) {
+      return length;
+    }
+  }
+  return -1;
+}
+
+module.exports = assocIndexOf;
+
+},{"./eq":84}],27:[function(require,module,exports){
+var assocIndexOf = require('./_assocIndexOf');
+
+/**
+ * Sets the associative array `key` to `value`.
+ *
+ * @private
+ * @param {Array} array The array to modify.
+ * @param {string} key The key of the value to set.
+ * @param {*} value The value to set.
+ */
+function assocSet(array, key, value) {
+  var index = assocIndexOf(array, key);
+  if (index < 0) {
+    array.push([key, value]);
+  } else {
+    array[index][1] = value;
+  }
+}
+
+module.exports = assocSet;
+
+},{"./_assocIndexOf":26}],28:[function(require,module,exports){
+var isArray = require('./isArray'),
+    stringToPath = require('./_stringToPath');
+
+/**
+ * Casts `value` to a path array if it's not one.
+ *
+ * @private
+ * @param {*} value The value to inspect.
+ * @returns {Array} Returns the cast property path array.
+ */
+function baseCastPath(value) {
+  return isArray(value) ? value : stringToPath(value);
+}
+
+module.exports = baseCastPath;
+
+},{"./_stringToPath":83,"./isArray":90}],29:[function(require,module,exports){
+var baseForOwn = require('./_baseForOwn'),
+    createBaseEach = require('./_createBaseEach');
+
+/**
+ * The base implementation of `_.forEach` without support for iteratee shorthands.
+ *
+ * @private
+ * @param {Array|Object} collection The collection to iterate over.
+ * @param {Function} iteratee The function invoked per iteration.
+ * @returns {Array|Object} Returns `collection`.
+ */
+var baseEach = createBaseEach(baseForOwn);
+
+module.exports = baseEach;
+
+},{"./_baseForOwn":31,"./_createBaseEach":47}],30:[function(require,module,exports){
+var createBaseFor = require('./_createBaseFor');
+
+/**
+ * The base implementation of `baseForOwn` which iterates over `object`
+ * properties returned by `keysFunc` invoking `iteratee` for each property.
+ * Iteratee functions may exit iteration early by explicitly returning `false`.
+ *
+ * @private
+ * @param {Object} object The object to iterate over.
+ * @param {Function} iteratee The function invoked per iteration.
+ * @param {Function} keysFunc The function to get the keys of `object`.
+ * @returns {Object} Returns `object`.
+ */
+var baseFor = createBaseFor();
+
+module.exports = baseFor;
+
+},{"./_createBaseFor":48}],31:[function(require,module,exports){
+var baseFor = require('./_baseFor'),
+    keys = require('./keys');
+
+/**
+ * The base implementation of `_.forOwn` without support for iteratee shorthands.
+ *
+ * @private
+ * @param {Object} object The object to iterate over.
+ * @param {Function} iteratee The function invoked per iteration.
+ * @returns {Object} Returns `object`.
+ */
+function baseForOwn(object, iteratee) {
+  return object && baseFor(object, iteratee, keys);
+}
+
+module.exports = baseForOwn;
+
+},{"./_baseFor":30,"./keys":102}],32:[function(require,module,exports){
+var baseCastPath = require('./_baseCastPath'),
+    isKey = require('./_isKey');
+
+/**
+ * The base implementation of `_.get` without support for default values.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @param {Array|string} path The path of the property to get.
+ * @returns {*} Returns the resolved value.
+ */
+function baseGet(object, path) {
+  path = isKey(path, object) ? [path] : baseCastPath(path);
+
+  var index = 0,
+      length = path.length;
+
+  while (object != null && index < length) {
+    object = object[path[index++]];
+  }
+  return (index && index == length) ? object : undefined;
+}
+
+module.exports = baseGet;
+
+},{"./_baseCastPath":28,"./_isKey":65}],33:[function(require,module,exports){
+var getPrototype = require('./_getPrototype');
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+/**
+ * The base implementation of `_.has` without support for deep paths.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @param {Array|string} key The key to check.
+ * @returns {boolean} Returns `true` if `key` exists, else `false`.
+ */
+function baseHas(object, key) {
+  // Avoid a bug in IE 10-11 where objects with a [[Prototype]] of `null`,
+  // that are composed entirely of index properties, return `false` for
+  // `hasOwnProperty` checks of them.
+  return hasOwnProperty.call(object, key) ||
+    (typeof object == 'object' && key in object && getPrototype(object) === null);
+}
+
+module.exports = baseHas;
+
+},{"./_getPrototype":55}],34:[function(require,module,exports){
+/**
+ * The base implementation of `_.hasIn` without support for deep paths.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @param {Array|string} key The key to check.
+ * @returns {boolean} Returns `true` if `key` exists, else `false`.
+ */
+function baseHasIn(object, key) {
+  return key in Object(object);
+}
+
+module.exports = baseHasIn;
+
+},{}],35:[function(require,module,exports){
+var baseIsEqualDeep = require('./_baseIsEqualDeep'),
+    isObject = require('./isObject'),
+    isObjectLike = require('./isObjectLike');
+
+/**
+ * The base implementation of `_.isEqual` which supports partial comparisons
+ * and tracks traversed objects.
+ *
+ * @private
+ * @param {*} value The value to compare.
+ * @param {*} other The other value to compare.
+ * @param {Function} [customizer] The function to customize comparisons.
+ * @param {boolean} [bitmask] The bitmask of comparison flags.
+ *  The bitmask may be composed of the following flags:
+ *     1 - Unordered comparison
+ *     2 - Partial comparison
+ * @param {Object} [stack] Tracks traversed `value` and `other` objects.
+ * @returns {boolean} Returns `true` if the values are equivalent, else `false`.
+ */
+function baseIsEqual(value, other, customizer, bitmask, stack) {
+  if (value === other) {
+    return true;
+  }
+  if (value == null || other == null || (!isObject(value) && !isObjectLike(other))) {
+    return value !== value && other !== other;
+  }
+  return baseIsEqualDeep(value, other, baseIsEqual, customizer, bitmask, stack);
+}
+
+module.exports = baseIsEqual;
+
+},{"./_baseIsEqualDeep":36,"./isObject":96,"./isObjectLike":97}],36:[function(require,module,exports){
+var Stack = require('./_Stack'),
+    equalArrays = require('./_equalArrays'),
+    equalByTag = require('./_equalByTag'),
+    equalObjects = require('./_equalObjects'),
+    getTag = require('./_getTag'),
+    isArray = require('./isArray'),
+    isHostObject = require('./_isHostObject'),
+    isTypedArray = require('./isTypedArray');
+
+/** Used to compose bitmasks for comparison styles. */
+var PARTIAL_COMPARE_FLAG = 2;
+
+/** `Object#toString` result references. */
+var argsTag = '[object Arguments]',
+    arrayTag = '[object Array]',
+    objectTag = '[object Object]';
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+/**
+ * A specialized version of `baseIsEqual` for arrays and objects which performs
+ * deep comparisons and tracks traversed objects enabling objects with circular
+ * references to be compared.
+ *
+ * @private
+ * @param {Object} object The object to compare.
+ * @param {Object} other The other object to compare.
+ * @param {Function} equalFunc The function to determine equivalents of values.
+ * @param {Function} [customizer] The function to customize comparisons.
+ * @param {number} [bitmask] The bitmask of comparison flags. See `baseIsEqual`
+ *  for more details.
+ * @param {Object} [stack] Tracks traversed `object` and `other` objects.
+ * @returns {boolean} Returns `true` if the objects are equivalent, else `false`.
+ */
+function baseIsEqualDeep(object, other, equalFunc, customizer, bitmask, stack) {
+  var objIsArr = isArray(object),
+      othIsArr = isArray(other),
+      objTag = arrayTag,
+      othTag = arrayTag;
+
+  if (!objIsArr) {
+    objTag = getTag(object);
+    objTag = objTag == argsTag ? objectTag : objTag;
+  }
+  if (!othIsArr) {
+    othTag = getTag(other);
+    othTag = othTag == argsTag ? objectTag : othTag;
+  }
+  var objIsObj = objTag == objectTag && !isHostObject(object),
+      othIsObj = othTag == objectTag && !isHostObject(other),
+      isSameTag = objTag == othTag;
+
+  if (isSameTag && !objIsObj) {
+    stack || (stack = new Stack);
+    return (objIsArr || isTypedArray(object))
+      ? equalArrays(object, other, equalFunc, customizer, bitmask, stack)
+      : equalByTag(object, other, objTag, equalFunc, customizer, bitmask, stack);
+  }
+  if (!(bitmask & PARTIAL_COMPARE_FLAG)) {
+    var objIsWrapped = objIsObj && hasOwnProperty.call(object, '__wrapped__'),
+        othIsWrapped = othIsObj && hasOwnProperty.call(other, '__wrapped__');
+
+    if (objIsWrapped || othIsWrapped) {
+      var objUnwrapped = objIsWrapped ? object.value() : object,
+          othUnwrapped = othIsWrapped ? other.value() : other;
+
+      stack || (stack = new Stack);
+      return equalFunc(objUnwrapped, othUnwrapped, customizer, bitmask, stack);
+    }
+  }
+  if (!isSameTag) {
+    return false;
+  }
+  stack || (stack = new Stack);
+  return equalObjects(object, other, equalFunc, customizer, bitmask, stack);
+}
+
+module.exports = baseIsEqualDeep;
+
+},{"./_Stack":16,"./_equalArrays":49,"./_equalByTag":50,"./_equalObjects":51,"./_getTag":56,"./_isHostObject":63,"./isArray":90,"./isTypedArray":100}],37:[function(require,module,exports){
+var Stack = require('./_Stack'),
+    baseIsEqual = require('./_baseIsEqual');
+
+/** Used to compose bitmasks for comparison styles. */
+var UNORDERED_COMPARE_FLAG = 1,
+    PARTIAL_COMPARE_FLAG = 2;
+
+/**
+ * The base implementation of `_.isMatch` without support for iteratee shorthands.
+ *
+ * @private
+ * @param {Object} object The object to inspect.
+ * @param {Object} source The object of property values to match.
+ * @param {Array} matchData The property names, values, and compare flags to match.
+ * @param {Function} [customizer] The function to customize comparisons.
+ * @returns {boolean} Returns `true` if `object` is a match, else `false`.
+ */
+function baseIsMatch(object, source, matchData, customizer) {
+  var index = matchData.length,
+      length = index,
+      noCustomizer = !customizer;
+
+  if (object == null) {
+    return !length;
+  }
+  object = Object(object);
+  while (index--) {
+    var data = matchData[index];
+    if ((noCustomizer && data[2])
+          ? data[1] !== object[data[0]]
+          : !(data[0] in object)
+        ) {
+      return false;
+    }
+  }
+  while (++index < length) {
+    data = matchData[index];
+    var key = data[0],
+        objValue = object[key],
+        srcValue = data[1];
+
+    if (noCustomizer && data[2]) {
+      if (objValue === undefined && !(key in object)) {
+        return false;
+      }
+    } else {
+      var stack = new Stack;
+      if (customizer) {
+        var result = customizer(objValue, srcValue, key, object, source, stack);
+      }
+      if (!(result === undefined
+            ? baseIsEqual(srcValue, objValue, customizer, UNORDERED_COMPARE_FLAG | PARTIAL_COMPARE_FLAG, stack)
+            : result
+          )) {
+        return false;
+      }
+    }
+  }
+  return true;
+}
+
+module.exports = baseIsMatch;
+
+},{"./_Stack":16,"./_baseIsEqual":35}],38:[function(require,module,exports){
+var baseMatches = require('./_baseMatches'),
+    baseMatchesProperty = require('./_baseMatchesProperty'),
+    identity = require('./identity'),
+    isArray = require('./isArray'),
+    property = require('./property');
+
+/**
+ * The base implementation of `_.iteratee`.
+ *
+ * @private
+ * @param {*} [value=_.identity] The value to convert to an iteratee.
+ * @returns {Function} Returns the iteratee.
+ */
+function baseIteratee(value) {
+  // Don't store the `typeof` result in a variable to avoid a JIT bug in Safari 9.
+  // See https://bugs.webkit.org/show_bug.cgi?id=156034 for more details.
+  if (typeof value == 'function') {
+    return value;
+  }
+  if (value == null) {
+    return identity;
+  }
+  if (typeof value == 'object') {
+    return isArray(value)
+      ? baseMatchesProperty(value[0], value[1])
+      : baseMatches(value);
+  }
+  return property(value);
+}
+
+module.exports = baseIteratee;
+
+},{"./_baseMatches":40,"./_baseMatchesProperty":41,"./identity":88,"./isArray":90,"./property":104}],39:[function(require,module,exports){
+/* Built-in method references for those with the same name as other `lodash` methods. */
+var nativeKeys = Object.keys;
+
+/**
+ * The base implementation of `_.keys` which doesn't skip the constructor
+ * property of prototypes or treat sparse arrays as dense.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @returns {Array} Returns the array of property names.
+ */
+function baseKeys(object) {
+  return nativeKeys(Object(object));
+}
+
+module.exports = baseKeys;
+
+},{}],40:[function(require,module,exports){
+var baseIsMatch = require('./_baseIsMatch'),
+    getMatchData = require('./_getMatchData');
+
+/**
+ * The base implementation of `_.matches` which doesn't clone `source`.
+ *
+ * @private
+ * @param {Object} source The object of property values to match.
+ * @returns {Function} Returns the new function.
+ */
+function baseMatches(source) {
+  var matchData = getMatchData(source);
+  if (matchData.length == 1 && matchData[0][2]) {
+    var key = matchData[0][0],
+        value = matchData[0][1];
+
+    return function(object) {
+      if (object == null) {
+        return false;
+      }
+      return object[key] === value &&
+        (value !== undefined || (key in Object(object)));
+    };
+  }
+  return function(object) {
+    return object === source || baseIsMatch(object, source, matchData);
+  };
+}
+
+module.exports = baseMatches;
+
+},{"./_baseIsMatch":37,"./_getMatchData":53}],41:[function(require,module,exports){
+var baseIsEqual = require('./_baseIsEqual'),
+    get = require('./get'),
+    hasIn = require('./hasIn');
+
+/** Used to compose bitmasks for comparison styles. */
+var UNORDERED_COMPARE_FLAG = 1,
+    PARTIAL_COMPARE_FLAG = 2;
+
+/**
+ * The base implementation of `_.matchesProperty` which doesn't clone `srcValue`.
+ *
+ * @private
+ * @param {string} path The path of the property to get.
+ * @param {*} srcValue The value to match.
+ * @returns {Function} Returns the new function.
+ */
+function baseMatchesProperty(path, srcValue) {
+  return function(object) {
+    var objValue = get(object, path);
+    return (objValue === undefined && objValue === srcValue)
+      ? hasIn(object, path)
+      : baseIsEqual(srcValue, objValue, undefined, UNORDERED_COMPARE_FLAG | PARTIAL_COMPARE_FLAG);
+  };
+}
+
+module.exports = baseMatchesProperty;
+
+},{"./_baseIsEqual":35,"./get":86,"./hasIn":87}],42:[function(require,module,exports){
+/**
+ * The base implementation of `_.property` without support for deep paths.
+ *
+ * @private
+ * @param {string} key The key of the property to get.
+ * @returns {Function} Returns the new function.
+ */
+function baseProperty(key) {
+  return function(object) {
+    return object == null ? undefined : object[key];
+  };
+}
+
+module.exports = baseProperty;
+
+},{}],43:[function(require,module,exports){
+var baseGet = require('./_baseGet');
+
+/**
+ * A specialized version of `baseProperty` which supports deep paths.
+ *
+ * @private
+ * @param {Array|string} path The path of the property to get.
+ * @returns {Function} Returns the new function.
+ */
+function basePropertyDeep(path) {
+  return function(object) {
+    return baseGet(object, path);
+  };
+}
+
+module.exports = basePropertyDeep;
+
+},{"./_baseGet":32}],44:[function(require,module,exports){
+/**
+ * The base implementation of `_.times` without support for iteratee shorthands
+ * or max array length checks.
+ *
+ * @private
+ * @param {number} n The number of times to invoke `iteratee`.
+ * @param {Function} iteratee The function invoked per iteration.
+ * @returns {Array} Returns the array of results.
+ */
+function baseTimes(n, iteratee) {
+  var index = -1,
+      result = Array(n);
+
+  while (++index < n) {
+    result[index] = iteratee(index);
+  }
+  return result;
+}
+
+module.exports = baseTimes;
+
+},{}],45:[function(require,module,exports){
+var arrayMap = require('./_arrayMap');
+
+/**
+ * The base implementation of `_.toPairs` and `_.toPairsIn` which creates an array
+ * of key-value pairs for `object` corresponding to the property names of `props`.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @param {Array} props The property names to get values for.
+ * @returns {Object} Returns the new array of key-value pairs.
+ */
+function baseToPairs(object, props) {
+  return arrayMap(props, function(key) {
+    return [key, object[key]];
+  });
+}
+
+module.exports = baseToPairs;
+
+},{"./_arrayMap":21}],46:[function(require,module,exports){
+/**
+ * Checks if `value` is a global object.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {null|Object} Returns `value` if it's a global object, else `null`.
+ */
+function checkGlobal(value) {
+  return (value && value.Object === Object) ? value : null;
+}
+
+module.exports = checkGlobal;
+
+},{}],47:[function(require,module,exports){
+var isArrayLike = require('./isArrayLike');
+
+/**
+ * Creates a `baseEach` or `baseEachRight` function.
+ *
+ * @private
+ * @param {Function} eachFunc The function to iterate over a collection.
+ * @param {boolean} [fromRight] Specify iterating from right to left.
+ * @returns {Function} Returns the new base function.
+ */
+function createBaseEach(eachFunc, fromRight) {
+  return function(collection, iteratee) {
+    if (collection == null) {
+      return collection;
+    }
+    if (!isArrayLike(collection)) {
+      return eachFunc(collection, iteratee);
+    }
+    var length = collection.length,
+        index = fromRight ? length : -1,
+        iterable = Object(collection);
+
+    while ((fromRight ? index-- : ++index < length)) {
+      if (iteratee(iterable[index], index, iterable) === false) {
+        break;
+      }
+    }
+    return collection;
+  };
+}
+
+module.exports = createBaseEach;
+
+},{"./isArrayLike":91}],48:[function(require,module,exports){
+/**
+ * Creates a base function for methods like `_.forIn` and `_.forOwn`.
+ *
+ * @private
+ * @param {boolean} [fromRight] Specify iterating from right to left.
+ * @returns {Function} Returns the new base function.
+ */
+function createBaseFor(fromRight) {
+  return function(object, iteratee, keysFunc) {
+    var index = -1,
+        iterable = Object(object),
+        props = keysFunc(object),
+        length = props.length;
+
+    while (length--) {
+      var key = props[fromRight ? length : ++index];
+      if (iteratee(iterable[key], key, iterable) === false) {
+        break;
+      }
+    }
+    return object;
+  };
+}
+
+module.exports = createBaseFor;
+
+},{}],49:[function(require,module,exports){
+var arraySome = require('./_arraySome');
+
+/** Used to compose bitmasks for comparison styles. */
+var UNORDERED_COMPARE_FLAG = 1,
+    PARTIAL_COMPARE_FLAG = 2;
+
+/**
+ * A specialized version of `baseIsEqualDeep` for arrays with support for
+ * partial deep comparisons.
+ *
+ * @private
+ * @param {Array} array The array to compare.
+ * @param {Array} other The other array to compare.
+ * @param {Function} equalFunc The function to determine equivalents of values.
+ * @param {Function} customizer The function to customize comparisons.
+ * @param {number} bitmask The bitmask of comparison flags. See `baseIsEqual`
+ *  for more details.
+ * @param {Object} stack Tracks traversed `array` and `other` objects.
+ * @returns {boolean} Returns `true` if the arrays are equivalent, else `false`.
+ */
+function equalArrays(array, other, equalFunc, customizer, bitmask, stack) {
+  var index = -1,
+      isPartial = bitmask & PARTIAL_COMPARE_FLAG,
+      isUnordered = bitmask & UNORDERED_COMPARE_FLAG,
+      arrLength = array.length,
+      othLength = other.length;
+
+  if (arrLength != othLength && !(isPartial && othLength > arrLength)) {
+    return false;
+  }
+  // Assume cyclic values are equal.
+  var stacked = stack.get(array);
+  if (stacked) {
+    return stacked == other;
+  }
+  var result = true;
+  stack.set(array, other);
+
+  // Ignore non-index properties.
+  while (++index < arrLength) {
+    var arrValue = array[index],
+        othValue = other[index];
+
+    if (customizer) {
+      var compared = isPartial
+        ? customizer(othValue, arrValue, index, other, array, stack)
+        : customizer(arrValue, othValue, index, array, other, stack);
+    }
+    if (compared !== undefined) {
+      if (compared) {
+        continue;
+      }
+      result = false;
+      break;
+    }
+    // Recursively compare arrays (susceptible to call stack limits).
+    if (isUnordered) {
+      if (!arraySome(other, function(othValue) {
+            return arrValue === othValue ||
+              equalFunc(arrValue, othValue, customizer, bitmask, stack);
+          })) {
+        result = false;
+        break;
+      }
+    } else if (!(
+          arrValue === othValue ||
+            equalFunc(arrValue, othValue, customizer, bitmask, stack)
+        )) {
+      result = false;
+      break;
+    }
+  }
+  stack['delete'](array);
+  return result;
+}
+
+module.exports = equalArrays;
+
+},{"./_arraySome":22}],50:[function(require,module,exports){
+var Symbol = require('./_Symbol'),
+    Uint8Array = require('./_Uint8Array'),
+    equalArrays = require('./_equalArrays'),
+    mapToArray = require('./_mapToArray'),
+    setToArray = require('./_setToArray');
+
+/** Used to compose bitmasks for comparison styles. */
+var UNORDERED_COMPARE_FLAG = 1,
+    PARTIAL_COMPARE_FLAG = 2;
+
+/** `Object#toString` result references. */
+var boolTag = '[object Boolean]',
+    dateTag = '[object Date]',
+    errorTag = '[object Error]',
+    mapTag = '[object Map]',
+    numberTag = '[object Number]',
+    regexpTag = '[object RegExp]',
+    setTag = '[object Set]',
+    stringTag = '[object String]',
+    symbolTag = '[object Symbol]';
+
+var arrayBufferTag = '[object ArrayBuffer]',
+    dataViewTag = '[object DataView]';
+
+/** Used to convert symbols to primitives and strings. */
+var symbolProto = Symbol ? Symbol.prototype : undefined,
+    symbolValueOf = symbolProto ? symbolProto.valueOf : undefined;
+
+/**
+ * A specialized version of `baseIsEqualDeep` for comparing objects of
+ * the same `toStringTag`.
+ *
+ * **Note:** This function only supports comparing values with tags of
+ * `Boolean`, `Date`, `Error`, `Number`, `RegExp`, or `String`.
+ *
+ * @private
+ * @param {Object} object The object to compare.
+ * @param {Object} other The other object to compare.
+ * @param {string} tag The `toStringTag` of the objects to compare.
+ * @param {Function} equalFunc The function to determine equivalents of values.
+ * @param {Function} customizer The function to customize comparisons.
+ * @param {number} bitmask The bitmask of comparison flags. See `baseIsEqual`
+ *  for more details.
+ * @param {Object} stack Tracks traversed `object` and `other` objects.
+ * @returns {boolean} Returns `true` if the objects are equivalent, else `false`.
+ */
+function equalByTag(object, other, tag, equalFunc, customizer, bitmask, stack) {
+  switch (tag) {
+    case dataViewTag:
+      if ((object.byteLength != other.byteLength) ||
+          (object.byteOffset != other.byteOffset)) {
+        return false;
+      }
+      object = object.buffer;
+      other = other.buffer;
+
+    case arrayBufferTag:
+      if ((object.byteLength != other.byteLength) ||
+          !equalFunc(new Uint8Array(object), new Uint8Array(other))) {
+        return false;
+      }
+      return true;
+
+    case boolTag:
+    case dateTag:
+      // Coerce dates and booleans to numbers, dates to milliseconds and
+      // booleans to `1` or `0` treating invalid dates coerced to `NaN` as
+      // not equal.
+      return +object == +other;
+
+    case errorTag:
+      return object.name == other.name && object.message == other.message;
+
+    case numberTag:
+      // Treat `NaN` vs. `NaN` as equal.
+      return (object != +object) ? other != +other : object == +other;
+
+    case regexpTag:
+    case stringTag:
+      // Coerce regexes to strings and treat strings, primitives and objects,
+      // as equal. See https://es5.github.io/#x15.10.6.4 for more details.
+      return object == (other + '');
+
+    case mapTag:
+      var convert = mapToArray;
+
+    case setTag:
+      var isPartial = bitmask & PARTIAL_COMPARE_FLAG;
+      convert || (convert = setToArray);
+
+      if (object.size != other.size && !isPartial) {
+        return false;
+      }
+      // Assume cyclic values are equal.
+      var stacked = stack.get(object);
+      if (stacked) {
+        return stacked == other;
+      }
+      bitmask |= UNORDERED_COMPARE_FLAG;
+      stack.set(object, other);
+
+      // Recursively compare objects (susceptible to call stack limits).
+      return equalArrays(convert(object), convert(other), equalFunc, customizer, bitmask, stack);
+
+    case symbolTag:
+      if (symbolValueOf) {
+        return symbolValueOf.call(object) == symbolValueOf.call(other);
+      }
+  }
+  return false;
+}
+
+module.exports = equalByTag;
+
+},{"./_Symbol":17,"./_Uint8Array":18,"./_equalArrays":49,"./_mapToArray":74,"./_setToArray":77}],51:[function(require,module,exports){
+var baseHas = require('./_baseHas'),
+    keys = require('./keys');
+
+/** Used to compose bitmasks for comparison styles. */
+var PARTIAL_COMPARE_FLAG = 2;
+
+/**
+ * A specialized version of `baseIsEqualDeep` for objects with support for
+ * partial deep comparisons.
+ *
+ * @private
+ * @param {Object} object The object to compare.
+ * @param {Object} other The other object to compare.
+ * @param {Function} equalFunc The function to determine equivalents of values.
+ * @param {Function} customizer The function to customize comparisons.
+ * @param {number} bitmask The bitmask of comparison flags. See `baseIsEqual`
+ *  for more details.
+ * @param {Object} stack Tracks traversed `object` and `other` objects.
+ * @returns {boolean} Returns `true` if the objects are equivalent, else `false`.
+ */
+function equalObjects(object, other, equalFunc, customizer, bitmask, stack) {
+  var isPartial = bitmask & PARTIAL_COMPARE_FLAG,
+      objProps = keys(object),
+      objLength = objProps.length,
+      othProps = keys(other),
+      othLength = othProps.length;
+
+  if (objLength != othLength && !isPartial) {
+    return false;
+  }
+  var index = objLength;
+  while (index--) {
+    var key = objProps[index];
+    if (!(isPartial ? key in other : baseHas(other, key))) {
+      return false;
+    }
+  }
+  // Assume cyclic values are equal.
+  var stacked = stack.get(object);
+  if (stacked) {
+    return stacked == other;
+  }
+  var result = true;
+  stack.set(object, other);
+
+  var skipCtor = isPartial;
+  while (++index < objLength) {
+    key = objProps[index];
+    var objValue = object[key],
+        othValue = other[key];
+
+    if (customizer) {
+      var compared = isPartial
+        ? customizer(othValue, objValue, key, other, object, stack)
+        : customizer(objValue, othValue, key, object, other, stack);
+    }
+    // Recursively compare objects (susceptible to call stack limits).
+    if (!(compared === undefined
+          ? (objValue === othValue || equalFunc(objValue, othValue, customizer, bitmask, stack))
+          : compared
+        )) {
+      result = false;
+      break;
+    }
+    skipCtor || (skipCtor = key == 'constructor');
+  }
+  if (result && !skipCtor) {
+    var objCtor = object.constructor,
+        othCtor = other.constructor;
+
+    // Non `Object` object instances with different constructors are not equal.
+    if (objCtor != othCtor &&
+        ('constructor' in object && 'constructor' in other) &&
+        !(typeof objCtor == 'function' && objCtor instanceof objCtor &&
+          typeof othCtor == 'function' && othCtor instanceof othCtor)) {
+      result = false;
+    }
+  }
+  stack['delete'](object);
+  return result;
+}
+
+module.exports = equalObjects;
+
+},{"./_baseHas":33,"./keys":102}],52:[function(require,module,exports){
+var baseProperty = require('./_baseProperty');
+
+/**
+ * Gets the "length" property value of `object`.
+ *
+ * **Note:** This function is used to avoid a
+ * [JIT bug](https://bugs.webkit.org/show_bug.cgi?id=142792) that affects
+ * Safari on at least iOS 8.1-8.3 ARM64.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @returns {*} Returns the "length" value.
+ */
+var getLength = baseProperty('length');
+
+module.exports = getLength;
+
+},{"./_baseProperty":42}],53:[function(require,module,exports){
+var isStrictComparable = require('./_isStrictComparable'),
+    toPairs = require('./toPairs');
+
+/**
+ * Gets the property names, values, and compare flags of `object`.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @returns {Array} Returns the match data of `object`.
+ */
+function getMatchData(object) {
+  var result = toPairs(object),
+      length = result.length;
+
+  while (length--) {
+    result[length][2] = isStrictComparable(result[length][1]);
+  }
+  return result;
+}
+
+module.exports = getMatchData;
+
+},{"./_isStrictComparable":68,"./toPairs":105}],54:[function(require,module,exports){
+var isNative = require('./isNative');
+
+/**
+ * Gets the native function at `key` of `object`.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @param {string} key The key of the method to get.
+ * @returns {*} Returns the function if it's native, else `undefined`.
+ */
+function getNative(object, key) {
+  var value = object[key];
+  return isNative(value) ? value : undefined;
+}
+
+module.exports = getNative;
+
+},{"./isNative":95}],55:[function(require,module,exports){
+/* Built-in method references for those with the same name as other `lodash` methods. */
+var nativeGetPrototype = Object.getPrototypeOf;
+
+/**
+ * Gets the `[[Prototype]]` of `value`.
+ *
+ * @private
+ * @param {*} value The value to query.
+ * @returns {null|Object} Returns the `[[Prototype]]`.
+ */
+function getPrototype(value) {
+  return nativeGetPrototype(Object(value));
+}
+
+module.exports = getPrototype;
+
+},{}],56:[function(require,module,exports){
+var DataView = require('./_DataView'),
+    Map = require('./_Map'),
+    Promise = require('./_Promise'),
+    Set = require('./_Set'),
+    WeakMap = require('./_WeakMap');
+
+/** `Object#toString` result references. */
+var mapTag = '[object Map]',
+    objectTag = '[object Object]',
+    promiseTag = '[object Promise]',
+    setTag = '[object Set]',
+    weakMapTag = '[object WeakMap]';
+
+var dataViewTag = '[object DataView]';
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/** Used to resolve the decompiled source of functions. */
+var funcToString = Function.prototype.toString;
+
+/**
+ * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
+ * of values.
+ */
+var objectToString = objectProto.toString;
+
+/** Used to detect maps, sets, and weakmaps. */
+var dataViewCtorString = DataView ? (DataView + '') : '',
+    mapCtorString = Map ? funcToString.call(Map) : '',
+    promiseCtorString = Promise ? funcToString.call(Promise) : '',
+    setCtorString = Set ? funcToString.call(Set) : '',
+    weakMapCtorString = WeakMap ? funcToString.call(WeakMap) : '';
+
+/**
+ * Gets the `toStringTag` of `value`.
+ *
+ * @private
+ * @param {*} value The value to query.
+ * @returns {string} Returns the `toStringTag`.
+ */
+function getTag(value) {
+  return objectToString.call(value);
+}
+
+// Fallback for data views, maps, sets, and weak maps in IE 11,
+// for data views in Edge, and promises in Node.js.
+if ((DataView && getTag(new DataView(new ArrayBuffer(1))) != dataViewTag) ||
+    (Map && getTag(new Map) != mapTag) ||
+    (Promise && getTag(Promise.resolve()) != promiseTag) ||
+    (Set && getTag(new Set) != setTag) ||
+    (WeakMap && getTag(new WeakMap) != weakMapTag)) {
+  getTag = function(value) {
+    var result = objectToString.call(value),
+        Ctor = result == objectTag ? value.constructor : null,
+        ctorString = typeof Ctor == 'function' ? funcToString.call(Ctor) : '';
+
+    if (ctorString) {
+      switch (ctorString) {
+        case dataViewCtorString: return dataViewTag;
+        case mapCtorString: return mapTag;
+        case promiseCtorString: return promiseTag;
+        case setCtorString: return setTag;
+        case weakMapCtorString: return weakMapTag;
+      }
+    }
+    return result;
+  };
+}
+
+module.exports = getTag;
+
+},{"./_DataView":10,"./_Map":12,"./_Promise":14,"./_Set":15,"./_WeakMap":19}],57:[function(require,module,exports){
+var baseCastPath = require('./_baseCastPath'),
+    isArguments = require('./isArguments'),
+    isArray = require('./isArray'),
+    isIndex = require('./_isIndex'),
+    isKey = require('./_isKey'),
+    isLength = require('./isLength'),
+    isString = require('./isString');
+
+/**
+ * Checks if `path` exists on `object`.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @param {Array|string} path The path to check.
+ * @param {Function} hasFunc The function to check properties.
+ * @returns {boolean} Returns `true` if `path` exists, else `false`.
+ */
+function hasPath(object, path, hasFunc) {
+  if (object == null) {
+    return false;
+  }
+  var result = hasFunc(object, path);
+  if (!result && !isKey(path)) {
+    path = baseCastPath(path);
+
+    var index = -1,
+        length = path.length;
+
+    while (object != null && ++index < length) {
+      var key = path[index];
+      if (!(result = hasFunc(object, key))) {
+        break;
+      }
+      object = object[key];
+    }
+  }
+  var length = object ? object.length : undefined;
+  return result || (
+    !!length && isLength(length) && isIndex(path, length) &&
+    (isArray(object) || isString(object) || isArguments(object))
+  );
+}
+
+module.exports = hasPath;
+
+},{"./_baseCastPath":28,"./_isIndex":64,"./_isKey":65,"./isArguments":89,"./isArray":90,"./isLength":94,"./isString":98}],58:[function(require,module,exports){
+var hashHas = require('./_hashHas');
+
+/**
+ * Removes `key` and its value from the hash.
+ *
+ * @private
+ * @param {Object} hash The hash to modify.
+ * @param {string} key The key of the value to remove.
+ * @returns {boolean} Returns `true` if the entry was removed, else `false`.
+ */
+function hashDelete(hash, key) {
+  return hashHas(hash, key) && delete hash[key];
+}
+
+module.exports = hashDelete;
+
+},{"./_hashHas":60}],59:[function(require,module,exports){
+var nativeCreate = require('./_nativeCreate');
+
+/** Used to stand-in for `undefined` hash values. */
+var HASH_UNDEFINED = '__lodash_hash_undefined__';
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+/**
+ * Gets the hash value for `key`.
+ *
+ * @private
+ * @param {Object} hash The hash to query.
+ * @param {string} key The key of the value to get.
+ * @returns {*} Returns the entry value.
+ */
+function hashGet(hash, key) {
+  if (nativeCreate) {
+    var result = hash[key];
+    return result === HASH_UNDEFINED ? undefined : result;
+  }
+  return hasOwnProperty.call(hash, key) ? hash[key] : undefined;
+}
+
+module.exports = hashGet;
+
+},{"./_nativeCreate":75}],60:[function(require,module,exports){
+var nativeCreate = require('./_nativeCreate');
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+/**
+ * Checks if a hash value for `key` exists.
+ *
+ * @private
+ * @param {Object} hash The hash to query.
+ * @param {string} key The key of the entry to check.
+ * @returns {boolean} Returns `true` if an entry for `key` exists, else `false`.
+ */
+function hashHas(hash, key) {
+  return nativeCreate ? hash[key] !== undefined : hasOwnProperty.call(hash, key);
+}
+
+module.exports = hashHas;
+
+},{"./_nativeCreate":75}],61:[function(require,module,exports){
+var nativeCreate = require('./_nativeCreate');
+
+/** Used to stand-in for `undefined` hash values. */
+var HASH_UNDEFINED = '__lodash_hash_undefined__';
+
+/**
+ * Sets the hash `key` to `value`.
+ *
+ * @private
+ * @param {Object} hash The hash to modify.
+ * @param {string} key The key of the value to set.
+ * @param {*} value The value to set.
+ */
+function hashSet(hash, key, value) {
+  hash[key] = (nativeCreate && value === undefined) ? HASH_UNDEFINED : value;
+}
+
+module.exports = hashSet;
+
+},{"./_nativeCreate":75}],62:[function(require,module,exports){
+var baseTimes = require('./_baseTimes'),
+    isArguments = require('./isArguments'),
+    isArray = require('./isArray'),
+    isLength = require('./isLength'),
+    isString = require('./isString');
+
+/**
+ * Creates an array of index keys for `object` values of arrays,
+ * `arguments` objects, and strings, otherwise `null` is returned.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @returns {Array|null} Returns index keys, else `null`.
+ */
+function indexKeys(object) {
+  var length = object ? object.length : undefined;
+  if (isLength(length) &&
+      (isArray(object) || isString(object) || isArguments(object))) {
+    return baseTimes(length, String);
+  }
+  return null;
+}
+
+module.exports = indexKeys;
+
+},{"./_baseTimes":44,"./isArguments":89,"./isArray":90,"./isLength":94,"./isString":98}],63:[function(require,module,exports){
+/**
+ * Checks if `value` is a host object in IE < 9.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a host object, else `false`.
+ */
+function isHostObject(value) {
+  // Many host objects are `Object` objects that can coerce to strings
+  // despite having improperly defined `toString` methods.
+  var result = false;
+  if (value != null && typeof value.toString != 'function') {
+    try {
+      result = !!(value + '');
+    } catch (e) {}
+  }
+  return result;
+}
+
+module.exports = isHostObject;
+
+},{}],64:[function(require,module,exports){
+/** Used as references for various `Number` constants. */
+var MAX_SAFE_INTEGER = 9007199254740991;
+
+/** Used to detect unsigned integer values. */
+var reIsUint = /^(?:0|[1-9]\d*)$/;
+
+/**
+ * Checks if `value` is a valid array-like index.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @param {number} [length=MAX_SAFE_INTEGER] The upper bounds of a valid index.
+ * @returns {boolean} Returns `true` if `value` is a valid index, else `false`.
+ */
+function isIndex(value, length) {
+  value = (typeof value == 'number' || reIsUint.test(value)) ? +value : -1;
+  length = length == null ? MAX_SAFE_INTEGER : length;
+  return value > -1 && value % 1 == 0 && value < length;
+}
+
+module.exports = isIndex;
+
+},{}],65:[function(require,module,exports){
+var isArray = require('./isArray'),
+    isSymbol = require('./isSymbol');
+
+/** Used to match property names within property paths. */
+var reIsDeepProp = /\.|\[(?:[^[\]]*|(["'])(?:(?!\1)[^\\]|\\.)*?\1)\]/,
+    reIsPlainProp = /^\w*$/;
+
+/**
+ * Checks if `value` is a property name and not a property path.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @param {Object} [object] The object to query keys on.
+ * @returns {boolean} Returns `true` if `value` is a property name, else `false`.
+ */
+function isKey(value, object) {
+  var type = typeof value;
+  if (type == 'number' || type == 'symbol') {
+    return true;
+  }
+  return !isArray(value) &&
+    (isSymbol(value) || reIsPlainProp.test(value) || !reIsDeepProp.test(value) ||
+      (object != null && value in Object(object)));
+}
+
+module.exports = isKey;
+
+},{"./isArray":90,"./isSymbol":99}],66:[function(require,module,exports){
+/**
+ * Checks if `value` is suitable for use as unique object key.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is suitable, else `false`.
+ */
+function isKeyable(value) {
+  var type = typeof value;
+  return type == 'number' || type == 'boolean' ||
+    (type == 'string' && value != '__proto__') || value == null;
+}
+
+module.exports = isKeyable;
+
+},{}],67:[function(require,module,exports){
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/**
+ * Checks if `value` is likely a prototype object.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a prototype, else `false`.
+ */
+function isPrototype(value) {
+  var Ctor = value && value.constructor,
+      proto = (typeof Ctor == 'function' && Ctor.prototype) || objectProto;
+
+  return value === proto;
+}
+
+module.exports = isPrototype;
+
+},{}],68:[function(require,module,exports){
+var isObject = require('./isObject');
+
+/**
+ * Checks if `value` is suitable for strict equality comparisons, i.e. `===`.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` if suitable for strict
+ *  equality comparisons, else `false`.
+ */
+function isStrictComparable(value) {
+  return value === value && !isObject(value);
+}
+
+module.exports = isStrictComparable;
+
+},{"./isObject":96}],69:[function(require,module,exports){
+var Hash = require('./_Hash'),
+    Map = require('./_Map');
+
+/**
+ * Removes all key-value entries from the map.
+ *
+ * @private
+ * @name clear
+ * @memberOf MapCache
+ */
+function mapClear() {
+  this.__data__ = {
+    'hash': new Hash,
+    'map': Map ? new Map : [],
+    'string': new Hash
+  };
+}
+
+module.exports = mapClear;
+
+},{"./_Hash":11,"./_Map":12}],70:[function(require,module,exports){
+var Map = require('./_Map'),
+    assocDelete = require('./_assocDelete'),
+    hashDelete = require('./_hashDelete'),
+    isKeyable = require('./_isKeyable');
+
+/**
+ * Removes `key` and its value from the map.
+ *
+ * @private
+ * @name delete
+ * @memberOf MapCache
+ * @param {string} key The key of the value to remove.
+ * @returns {boolean} Returns `true` if the entry was removed, else `false`.
+ */
+function mapDelete(key) {
+  var data = this.__data__;
+  if (isKeyable(key)) {
+    return hashDelete(typeof key == 'string' ? data.string : data.hash, key);
+  }
+  return Map ? data.map['delete'](key) : assocDelete(data.map, key);
+}
+
+module.exports = mapDelete;
+
+},{"./_Map":12,"./_assocDelete":23,"./_hashDelete":58,"./_isKeyable":66}],71:[function(require,module,exports){
+var Map = require('./_Map'),
+    assocGet = require('./_assocGet'),
+    hashGet = require('./_hashGet'),
+    isKeyable = require('./_isKeyable');
+
+/**
+ * Gets the map value for `key`.
+ *
+ * @private
+ * @name get
+ * @memberOf MapCache
+ * @param {string} key The key of the value to get.
+ * @returns {*} Returns the entry value.
+ */
+function mapGet(key) {
+  var data = this.__data__;
+  if (isKeyable(key)) {
+    return hashGet(typeof key == 'string' ? data.string : data.hash, key);
+  }
+  return Map ? data.map.get(key) : assocGet(data.map, key);
+}
+
+module.exports = mapGet;
+
+},{"./_Map":12,"./_assocGet":24,"./_hashGet":59,"./_isKeyable":66}],72:[function(require,module,exports){
+var Map = require('./_Map'),
+    assocHas = require('./_assocHas'),
+    hashHas = require('./_hashHas'),
+    isKeyable = require('./_isKeyable');
+
+/**
+ * Checks if a map value for `key` exists.
+ *
+ * @private
+ * @name has
+ * @memberOf MapCache
+ * @param {string} key The key of the entry to check.
+ * @returns {boolean} Returns `true` if an entry for `key` exists, else `false`.
+ */
+function mapHas(key) {
+  var data = this.__data__;
+  if (isKeyable(key)) {
+    return hashHas(typeof key == 'string' ? data.string : data.hash, key);
+  }
+  return Map ? data.map.has(key) : assocHas(data.map, key);
+}
+
+module.exports = mapHas;
+
+},{"./_Map":12,"./_assocHas":25,"./_hashHas":60,"./_isKeyable":66}],73:[function(require,module,exports){
+var Map = require('./_Map'),
+    assocSet = require('./_assocSet'),
+    hashSet = require('./_hashSet'),
+    isKeyable = require('./_isKeyable');
+
+/**
+ * Sets the map `key` to `value`.
+ *
+ * @private
+ * @name set
+ * @memberOf MapCache
+ * @param {string} key The key of the value to set.
+ * @param {*} value The value to set.
+ * @returns {Object} Returns the map cache instance.
+ */
+function mapSet(key, value) {
+  var data = this.__data__;
+  if (isKeyable(key)) {
+    hashSet(typeof key == 'string' ? data.string : data.hash, key, value);
+  } else if (Map) {
+    data.map.set(key, value);
+  } else {
+    assocSet(data.map, key, value);
+  }
+  return this;
+}
+
+module.exports = mapSet;
+
+},{"./_Map":12,"./_assocSet":27,"./_hashSet":61,"./_isKeyable":66}],74:[function(require,module,exports){
+/**
+ * Converts `map` to an array.
+ *
+ * @private
+ * @param {Object} map The map to convert.
+ * @returns {Array} Returns the converted array.
+ */
+function mapToArray(map) {
+  var index = -1,
+      result = Array(map.size);
+
+  map.forEach(function(value, key) {
+    result[++index] = [key, value];
+  });
+  return result;
+}
+
+module.exports = mapToArray;
+
+},{}],75:[function(require,module,exports){
+var getNative = require('./_getNative');
+
+/* Built-in method references that are verified to be native. */
+var nativeCreate = getNative(Object, 'create');
+
+module.exports = nativeCreate;
+
+},{"./_getNative":54}],76:[function(require,module,exports){
+(function (global){
+var checkGlobal = require('./_checkGlobal');
+
+/** Used to determine if values are of the language type `Object`. */
+var objectTypes = {
+  'function': true,
+  'object': true
+};
+
+/** Detect free variable `exports`. */
+var freeExports = (objectTypes[typeof exports] && exports && !exports.nodeType)
+  ? exports
+  : undefined;
+
+/** Detect free variable `module`. */
+var freeModule = (objectTypes[typeof module] && module && !module.nodeType)
+  ? module
+  : undefined;
+
+/** Detect free variable `global` from Node.js. */
+var freeGlobal = checkGlobal(freeExports && freeModule && typeof global == 'object' && global);
+
+/** Detect free variable `self`. */
+var freeSelf = checkGlobal(objectTypes[typeof self] && self);
+
+/** Detect free variable `window`. */
+var freeWindow = checkGlobal(objectTypes[typeof window] && window);
+
+/** Detect `this` as the global object. */
+var thisGlobal = checkGlobal(objectTypes[typeof this] && this);
+
+/**
+ * Used as a reference to the global object.
+ *
+ * The `this` value is used if it's the global object to avoid Greasemonkey's
+ * restricted `window` object, otherwise the `window` object is used.
+ */
+var root = freeGlobal ||
+  ((freeWindow !== (thisGlobal && thisGlobal.window)) && freeWindow) ||
+    freeSelf || thisGlobal || Function('return this')();
+
+module.exports = root;
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"./_checkGlobal":46}],77:[function(require,module,exports){
+/**
+ * Converts `set` to an array.
+ *
+ * @private
+ * @param {Object} set The set to convert.
+ * @returns {Array} Returns the converted array.
+ */
+function setToArray(set) {
+  var index = -1,
+      result = Array(set.size);
+
+  set.forEach(function(value) {
+    result[++index] = value;
+  });
+  return result;
+}
+
+module.exports = setToArray;
+
+},{}],78:[function(require,module,exports){
+/**
+ * Removes all key-value entries from the stack.
+ *
+ * @private
+ * @name clear
+ * @memberOf Stack
+ */
+function stackClear() {
+  this.__data__ = { 'array': [], 'map': null };
+}
+
+module.exports = stackClear;
+
+},{}],79:[function(require,module,exports){
+var assocDelete = require('./_assocDelete');
+
+/**
+ * Removes `key` and its value from the stack.
+ *
+ * @private
+ * @name delete
+ * @memberOf Stack
+ * @param {string} key The key of the value to remove.
+ * @returns {boolean} Returns `true` if the entry was removed, else `false`.
+ */
+function stackDelete(key) {
+  var data = this.__data__,
+      array = data.array;
+
+  return array ? assocDelete(array, key) : data.map['delete'](key);
+}
+
+module.exports = stackDelete;
+
+},{"./_assocDelete":23}],80:[function(require,module,exports){
+var assocGet = require('./_assocGet');
+
+/**
+ * Gets the stack value for `key`.
+ *
+ * @private
+ * @name get
+ * @memberOf Stack
+ * @param {string} key The key of the value to get.
+ * @returns {*} Returns the entry value.
+ */
+function stackGet(key) {
+  var data = this.__data__,
+      array = data.array;
+
+  return array ? assocGet(array, key) : data.map.get(key);
+}
+
+module.exports = stackGet;
+
+},{"./_assocGet":24}],81:[function(require,module,exports){
+var assocHas = require('./_assocHas');
+
+/**
+ * Checks if a stack value for `key` exists.
+ *
+ * @private
+ * @name has
+ * @memberOf Stack
+ * @param {string} key The key of the entry to check.
+ * @returns {boolean} Returns `true` if an entry for `key` exists, else `false`.
+ */
+function stackHas(key) {
+  var data = this.__data__,
+      array = data.array;
+
+  return array ? assocHas(array, key) : data.map.has(key);
+}
+
+module.exports = stackHas;
+
+},{"./_assocHas":25}],82:[function(require,module,exports){
+var MapCache = require('./_MapCache'),
+    assocSet = require('./_assocSet');
+
+/** Used as the size to enable large array optimizations. */
+var LARGE_ARRAY_SIZE = 200;
+
+/**
+ * Sets the stack `key` to `value`.
+ *
+ * @private
+ * @name set
+ * @memberOf Stack
+ * @param {string} key The key of the value to set.
+ * @param {*} value The value to set.
+ * @returns {Object} Returns the stack cache instance.
+ */
+function stackSet(key, value) {
+  var data = this.__data__,
+      array = data.array;
+
+  if (array) {
+    if (array.length < (LARGE_ARRAY_SIZE - 1)) {
+      assocSet(array, key, value);
+    } else {
+      data.array = null;
+      data.map = new MapCache(array);
+    }
+  }
+  var map = data.map;
+  if (map) {
+    map.set(key, value);
+  }
+  return this;
+}
+
+module.exports = stackSet;
+
+},{"./_MapCache":13,"./_assocSet":27}],83:[function(require,module,exports){
+var memoize = require('./memoize'),
+    toString = require('./toString');
+
+/** Used to match property names within property paths. */
+var rePropName = /[^.[\]]+|\[(?:(-?\d+(?:\.\d+)?)|(["'])((?:(?!\2)[^\\]|\\.)*?)\2)\]/g;
+
+/** Used to match backslashes in property paths. */
+var reEscapeChar = /\\(\\)?/g;
+
+/**
+ * Converts `string` to a property path array.
+ *
+ * @private
+ * @param {string} string The string to convert.
+ * @returns {Array} Returns the property path array.
+ */
+var stringToPath = memoize(function(string) {
+  var result = [];
+  toString(string).replace(rePropName, function(match, number, quote, string) {
+    result.push(quote ? string.replace(reEscapeChar, '$1') : (number || match));
+  });
+  return result;
+});
+
+module.exports = stringToPath;
+
+},{"./memoize":103,"./toString":106}],84:[function(require,module,exports){
+/**
+ * Performs a
+ * [`SameValueZero`](http://ecma-international.org/ecma-262/6.0/#sec-samevaluezero)
+ * comparison between two values to determine if they are equivalent.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to compare.
+ * @param {*} other The other value to compare.
+ * @returns {boolean} Returns `true` if the values are equivalent, else `false`.
+ * @example
+ *
+ * var object = { 'user': 'fred' };
+ * var other = { 'user': 'fred' };
+ *
+ * _.eq(object, object);
+ * // => true
+ *
+ * _.eq(object, other);
+ * // => false
+ *
+ * _.eq('a', 'a');
+ * // => true
+ *
+ * _.eq('a', Object('a'));
+ * // => false
+ *
+ * _.eq(NaN, NaN);
+ * // => true
+ */
+function eq(value, other) {
+  return value === other || (value !== value && other !== other);
+}
+
+module.exports = eq;
+
+},{}],85:[function(require,module,exports){
+var arrayEach = require('./_arrayEach'),
+    baseEach = require('./_baseEach'),
+    baseIteratee = require('./_baseIteratee'),
+    isArray = require('./isArray');
+
+/**
+ * Iterates over elements of `collection` invoking `iteratee` for each element.
+ * The iteratee is invoked with three arguments: (value, index|key, collection).
+ * Iteratee functions may exit iteration early by explicitly returning `false`.
+ *
+ * **Note:** As with other "Collections" methods, objects with a "length"
+ * property are iterated like arrays. To avoid this behavior use `_.forIn`
+ * or `_.forOwn` for object iteration.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @alias each
+ * @category Collection
+ * @param {Array|Object} collection The collection to iterate over.
+ * @param {Function} [iteratee=_.identity] The function invoked per iteration.
+ * @returns {Array|Object} Returns `collection`.
+ * @example
+ *
+ * _([1, 2]).forEach(function(value) {
+ *   console.log(value);
+ * });
+ * // => Logs `1` then `2`.
+ *
+ * _.forEach({ 'a': 1, 'b': 2 }, function(value, key) {
+ *   console.log(key);
+ * });
+ * // => Logs 'a' then 'b' (iteration order is not guaranteed).
+ */
+function forEach(collection, iteratee) {
+  return (typeof iteratee == 'function' && isArray(collection))
+    ? arrayEach(collection, iteratee)
+    : baseEach(collection, baseIteratee(iteratee));
+}
+
+module.exports = forEach;
+
+},{"./_arrayEach":20,"./_baseEach":29,"./_baseIteratee":38,"./isArray":90}],86:[function(require,module,exports){
+var baseGet = require('./_baseGet');
+
+/**
+ * Gets the value at `path` of `object`. If the resolved value is
+ * `undefined` the `defaultValue` is used in its place.
+ *
+ * @static
+ * @memberOf _
+ * @since 3.7.0
+ * @category Object
+ * @param {Object} object The object to query.
+ * @param {Array|string} path The path of the property to get.
+ * @param {*} [defaultValue] The value returned for `undefined` resolved values.
+ * @returns {*} Returns the resolved value.
+ * @example
+ *
+ * var object = { 'a': [{ 'b': { 'c': 3 } }] };
+ *
+ * _.get(object, 'a[0].b.c');
+ * // => 3
+ *
+ * _.get(object, ['a', '0', 'b', 'c']);
+ * // => 3
+ *
+ * _.get(object, 'a.b.c', 'default');
+ * // => 'default'
+ */
+function get(object, path, defaultValue) {
+  var result = object == null ? undefined : baseGet(object, path);
+  return result === undefined ? defaultValue : result;
+}
+
+module.exports = get;
+
+},{"./_baseGet":32}],87:[function(require,module,exports){
+var baseHasIn = require('./_baseHasIn'),
+    hasPath = require('./_hasPath');
+
+/**
+ * Checks if `path` is a direct or inherited property of `object`.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Object
+ * @param {Object} object The object to query.
+ * @param {Array|string} path The path to check.
+ * @returns {boolean} Returns `true` if `path` exists, else `false`.
+ * @example
+ *
+ * var object = _.create({ 'a': _.create({ 'b': _.create({ 'c': 3 }) }) });
+ *
+ * _.hasIn(object, 'a');
+ * // => true
+ *
+ * _.hasIn(object, 'a.b.c');
+ * // => true
+ *
+ * _.hasIn(object, ['a', 'b', 'c']);
+ * // => true
+ *
+ * _.hasIn(object, 'b');
+ * // => false
+ */
+function hasIn(object, path) {
+  return hasPath(object, path, baseHasIn);
+}
+
+module.exports = hasIn;
+
+},{"./_baseHasIn":34,"./_hasPath":57}],88:[function(require,module,exports){
+/**
+ * This method returns the first argument given to it.
+ *
+ * @static
+ * @since 0.1.0
+ * @memberOf _
+ * @category Util
+ * @param {*} value Any value.
+ * @returns {*} Returns `value`.
+ * @example
+ *
+ * var object = { 'user': 'fred' };
+ *
+ * _.identity(object) === object;
+ * // => true
+ */
+function identity(value) {
+  return value;
+}
+
+module.exports = identity;
+
+},{}],89:[function(require,module,exports){
+var isArrayLikeObject = require('./isArrayLikeObject');
+
+/** `Object#toString` result references. */
+var argsTag = '[object Arguments]';
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+/**
+ * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
+ * of values.
+ */
+var objectToString = objectProto.toString;
+
+/** Built-in value references. */
+var propertyIsEnumerable = objectProto.propertyIsEnumerable;
+
+/**
+ * Checks if `value` is likely an `arguments` object.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is correctly classified,
+ *  else `false`.
+ * @example
+ *
+ * _.isArguments(function() { return arguments; }());
+ * // => true
+ *
+ * _.isArguments([1, 2, 3]);
+ * // => false
+ */
+function isArguments(value) {
+  // Safari 8.1 incorrectly makes `arguments.callee` enumerable in strict mode.
+  return isArrayLikeObject(value) && hasOwnProperty.call(value, 'callee') &&
+    (!propertyIsEnumerable.call(value, 'callee') || objectToString.call(value) == argsTag);
+}
+
+module.exports = isArguments;
+
+},{"./isArrayLikeObject":92}],90:[function(require,module,exports){
+/**
+ * Checks if `value` is classified as an `Array` object.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @type {Function}
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is correctly classified,
+ *  else `false`.
+ * @example
+ *
+ * _.isArray([1, 2, 3]);
+ * // => true
+ *
+ * _.isArray(document.body.children);
+ * // => false
+ *
+ * _.isArray('abc');
+ * // => false
+ *
+ * _.isArray(_.noop);
+ * // => false
+ */
+var isArray = Array.isArray;
+
+module.exports = isArray;
+
+},{}],91:[function(require,module,exports){
+var getLength = require('./_getLength'),
+    isFunction = require('./isFunction'),
+    isLength = require('./isLength');
+
+/**
+ * Checks if `value` is array-like. A value is considered array-like if it's
+ * not a function and has a `value.length` that's an integer greater than or
+ * equal to `0` and less than or equal to `Number.MAX_SAFE_INTEGER`.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is array-like, else `false`.
+ * @example
+ *
+ * _.isArrayLike([1, 2, 3]);
+ * // => true
+ *
+ * _.isArrayLike(document.body.children);
+ * // => true
+ *
+ * _.isArrayLike('abc');
+ * // => true
+ *
+ * _.isArrayLike(_.noop);
+ * // => false
+ */
+function isArrayLike(value) {
+  return value != null && isLength(getLength(value)) && !isFunction(value);
+}
+
+module.exports = isArrayLike;
+
+},{"./_getLength":52,"./isFunction":93,"./isLength":94}],92:[function(require,module,exports){
+var isArrayLike = require('./isArrayLike'),
+    isObjectLike = require('./isObjectLike');
+
+/**
+ * This method is like `_.isArrayLike` except that it also checks if `value`
+ * is an object.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an array-like object,
+ *  else `false`.
+ * @example
+ *
+ * _.isArrayLikeObject([1, 2, 3]);
+ * // => true
+ *
+ * _.isArrayLikeObject(document.body.children);
+ * // => true
+ *
+ * _.isArrayLikeObject('abc');
+ * // => false
+ *
+ * _.isArrayLikeObject(_.noop);
+ * // => false
+ */
+function isArrayLikeObject(value) {
+  return isObjectLike(value) && isArrayLike(value);
+}
+
+module.exports = isArrayLikeObject;
+
+},{"./isArrayLike":91,"./isObjectLike":97}],93:[function(require,module,exports){
+var isObject = require('./isObject');
+
+/** `Object#toString` result references. */
+var funcTag = '[object Function]',
+    genTag = '[object GeneratorFunction]';
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/**
+ * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
+ * of values.
+ */
+var objectToString = objectProto.toString;
+
+/**
+ * Checks if `value` is classified as a `Function` object.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is correctly classified,
+ *  else `false`.
+ * @example
+ *
+ * _.isFunction(_);
+ * // => true
+ *
+ * _.isFunction(/abc/);
+ * // => false
+ */
+function isFunction(value) {
+  // The use of `Object#toString` avoids issues with the `typeof` operator
+  // in Safari 8 which returns 'object' for typed array and weak map constructors,
+  // and PhantomJS 1.9 which returns 'function' for `NodeList` instances.
+  var tag = isObject(value) ? objectToString.call(value) : '';
+  return tag == funcTag || tag == genTag;
+}
+
+module.exports = isFunction;
+
+},{"./isObject":96}],94:[function(require,module,exports){
+/** Used as references for various `Number` constants. */
+var MAX_SAFE_INTEGER = 9007199254740991;
+
+/**
+ * Checks if `value` is a valid array-like length.
+ *
+ * **Note:** This function is loosely based on
+ * [`ToLength`](http://ecma-international.org/ecma-262/6.0/#sec-tolength).
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a valid length,
+ *  else `false`.
+ * @example
+ *
+ * _.isLength(3);
+ * // => true
+ *
+ * _.isLength(Number.MIN_VALUE);
+ * // => false
+ *
+ * _.isLength(Infinity);
+ * // => false
+ *
+ * _.isLength('3');
+ * // => false
+ */
+function isLength(value) {
+  return typeof value == 'number' &&
+    value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
+}
+
+module.exports = isLength;
+
+},{}],95:[function(require,module,exports){
+var isFunction = require('./isFunction'),
+    isHostObject = require('./_isHostObject'),
+    isObjectLike = require('./isObjectLike');
+
+/** Used to match `RegExp` [syntax characters](http://ecma-international.org/ecma-262/6.0/#sec-patterns). */
+var reRegExpChar = /[\\^$.*+?()[\]{}|]/g;
+
+/** Used to detect host constructors (Safari). */
+var reIsHostCtor = /^\[object .+?Constructor\]$/;
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/** Used to resolve the decompiled source of functions. */
+var funcToString = Function.prototype.toString;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+/** Used to detect if a method is native. */
+var reIsNative = RegExp('^' +
+  funcToString.call(hasOwnProperty).replace(reRegExpChar, '\\$&')
+  .replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, '$1.*?') + '$'
+);
+
+/**
+ * Checks if `value` is a native function.
+ *
+ * @static
+ * @memberOf _
+ * @since 3.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a native function,
+ *  else `false`.
+ * @example
+ *
+ * _.isNative(Array.prototype.push);
+ * // => true
+ *
+ * _.isNative(_);
+ * // => false
+ */
+function isNative(value) {
+  if (value == null) {
+    return false;
+  }
+  if (isFunction(value)) {
+    return reIsNative.test(funcToString.call(value));
+  }
+  return isObjectLike(value) &&
+    (isHostObject(value) ? reIsNative : reIsHostCtor).test(value);
+}
+
+module.exports = isNative;
+
+},{"./_isHostObject":63,"./isFunction":93,"./isObjectLike":97}],96:[function(require,module,exports){
+/**
+ * Checks if `value` is the [language type](https://es5.github.io/#x8) of `Object`.
+ * (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an object, else `false`.
+ * @example
+ *
+ * _.isObject({});
+ * // => true
+ *
+ * _.isObject([1, 2, 3]);
+ * // => true
+ *
+ * _.isObject(_.noop);
+ * // => true
+ *
+ * _.isObject(null);
+ * // => false
+ */
+function isObject(value) {
+  var type = typeof value;
+  return !!value && (type == 'object' || type == 'function');
+}
+
+module.exports = isObject;
+
+},{}],97:[function(require,module,exports){
+/**
+ * Checks if `value` is object-like. A value is object-like if it's not `null`
+ * and has a `typeof` result of "object".
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+ * @example
+ *
+ * _.isObjectLike({});
+ * // => true
+ *
+ * _.isObjectLike([1, 2, 3]);
+ * // => true
+ *
+ * _.isObjectLike(_.noop);
+ * // => false
+ *
+ * _.isObjectLike(null);
+ * // => false
+ */
+function isObjectLike(value) {
+  return !!value && typeof value == 'object';
+}
+
+module.exports = isObjectLike;
+
+},{}],98:[function(require,module,exports){
+var isArray = require('./isArray'),
+    isObjectLike = require('./isObjectLike');
+
+/** `Object#toString` result references. */
+var stringTag = '[object String]';
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/**
+ * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
+ * of values.
+ */
+var objectToString = objectProto.toString;
+
+/**
+ * Checks if `value` is classified as a `String` primitive or object.
+ *
+ * @static
+ * @since 0.1.0
+ * @memberOf _
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is correctly classified,
+ *  else `false`.
+ * @example
+ *
+ * _.isString('abc');
+ * // => true
+ *
+ * _.isString(1);
+ * // => false
+ */
+function isString(value) {
+  return typeof value == 'string' ||
+    (!isArray(value) && isObjectLike(value) && objectToString.call(value) == stringTag);
+}
+
+module.exports = isString;
+
+},{"./isArray":90,"./isObjectLike":97}],99:[function(require,module,exports){
+var isObjectLike = require('./isObjectLike');
+
+/** `Object#toString` result references. */
+var symbolTag = '[object Symbol]';
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/**
+ * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
+ * of values.
+ */
+var objectToString = objectProto.toString;
+
+/**
+ * Checks if `value` is classified as a `Symbol` primitive or object.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is correctly classified,
+ *  else `false`.
+ * @example
+ *
+ * _.isSymbol(Symbol.iterator);
+ * // => true
+ *
+ * _.isSymbol('abc');
+ * // => false
+ */
+function isSymbol(value) {
+  return typeof value == 'symbol' ||
+    (isObjectLike(value) && objectToString.call(value) == symbolTag);
+}
+
+module.exports = isSymbol;
+
+},{"./isObjectLike":97}],100:[function(require,module,exports){
+var isLength = require('./isLength'),
+    isObjectLike = require('./isObjectLike');
+
+/** `Object#toString` result references. */
+var argsTag = '[object Arguments]',
+    arrayTag = '[object Array]',
+    boolTag = '[object Boolean]',
+    dateTag = '[object Date]',
+    errorTag = '[object Error]',
+    funcTag = '[object Function]',
+    mapTag = '[object Map]',
+    numberTag = '[object Number]',
+    objectTag = '[object Object]',
+    regexpTag = '[object RegExp]',
+    setTag = '[object Set]',
+    stringTag = '[object String]',
+    weakMapTag = '[object WeakMap]';
+
+var arrayBufferTag = '[object ArrayBuffer]',
+    dataViewTag = '[object DataView]',
+    float32Tag = '[object Float32Array]',
+    float64Tag = '[object Float64Array]',
+    int8Tag = '[object Int8Array]',
+    int16Tag = '[object Int16Array]',
+    int32Tag = '[object Int32Array]',
+    uint8Tag = '[object Uint8Array]',
+    uint8ClampedTag = '[object Uint8ClampedArray]',
+    uint16Tag = '[object Uint16Array]',
+    uint32Tag = '[object Uint32Array]';
+
+/** Used to identify `toStringTag` values of typed arrays. */
+var typedArrayTags = {};
+typedArrayTags[float32Tag] = typedArrayTags[float64Tag] =
+typedArrayTags[int8Tag] = typedArrayTags[int16Tag] =
+typedArrayTags[int32Tag] = typedArrayTags[uint8Tag] =
+typedArrayTags[uint8ClampedTag] = typedArrayTags[uint16Tag] =
+typedArrayTags[uint32Tag] = true;
+typedArrayTags[argsTag] = typedArrayTags[arrayTag] =
+typedArrayTags[arrayBufferTag] = typedArrayTags[boolTag] =
+typedArrayTags[dataViewTag] = typedArrayTags[dateTag] =
+typedArrayTags[errorTag] = typedArrayTags[funcTag] =
+typedArrayTags[mapTag] = typedArrayTags[numberTag] =
+typedArrayTags[objectTag] = typedArrayTags[regexpTag] =
+typedArrayTags[setTag] = typedArrayTags[stringTag] =
+typedArrayTags[weakMapTag] = false;
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/**
+ * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
+ * of values.
+ */
+var objectToString = objectProto.toString;
+
+/**
+ * Checks if `value` is classified as a typed array.
+ *
+ * @static
+ * @memberOf _
+ * @since 3.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is correctly classified,
+ *  else `false`.
+ * @example
+ *
+ * _.isTypedArray(new Uint8Array);
+ * // => true
+ *
+ * _.isTypedArray([]);
+ * // => false
+ */
+function isTypedArray(value) {
+  return isObjectLike(value) &&
+    isLength(value.length) && !!typedArrayTags[objectToString.call(value)];
+}
+
+module.exports = isTypedArray;
+
+},{"./isLength":94,"./isObjectLike":97}],101:[function(require,module,exports){
+arguments[4][7][0].apply(exports,arguments)
+},{"dup":7}],102:[function(require,module,exports){
+var baseHas = require('./_baseHas'),
+    baseKeys = require('./_baseKeys'),
+    indexKeys = require('./_indexKeys'),
+    isArrayLike = require('./isArrayLike'),
+    isIndex = require('./_isIndex'),
+    isPrototype = require('./_isPrototype');
+
+/**
+ * Creates an array of the own enumerable property names of `object`.
+ *
+ * **Note:** Non-object values are coerced to objects. See the
+ * [ES spec](http://ecma-international.org/ecma-262/6.0/#sec-object.keys)
+ * for more details.
+ *
+ * @static
+ * @since 0.1.0
+ * @memberOf _
+ * @category Object
+ * @param {Object} object The object to query.
+ * @returns {Array} Returns the array of property names.
+ * @example
+ *
+ * function Foo() {
+ *   this.a = 1;
+ *   this.b = 2;
+ * }
+ *
+ * Foo.prototype.c = 3;
+ *
+ * _.keys(new Foo);
+ * // => ['a', 'b'] (iteration order is not guaranteed)
+ *
+ * _.keys('hi');
+ * // => ['0', '1']
+ */
+function keys(object) {
+  var isProto = isPrototype(object);
+  if (!(isProto || isArrayLike(object))) {
+    return baseKeys(object);
+  }
+  var indexes = indexKeys(object),
+      skipIndexes = !!indexes,
+      result = indexes || [],
+      length = result.length;
+
+  for (var key in object) {
+    if (baseHas(object, key) &&
+        !(skipIndexes && (key == 'length' || isIndex(key, length))) &&
+        !(isProto && key == 'constructor')) {
+      result.push(key);
+    }
+  }
+  return result;
+}
+
+module.exports = keys;
+
+},{"./_baseHas":33,"./_baseKeys":39,"./_indexKeys":62,"./_isIndex":64,"./_isPrototype":67,"./isArrayLike":91}],103:[function(require,module,exports){
+var MapCache = require('./_MapCache');
+
+/** Used as the `TypeError` message for "Functions" methods. */
+var FUNC_ERROR_TEXT = 'Expected a function';
+
+/**
+ * Creates a function that memoizes the result of `func`. If `resolver` is
+ * provided it determines the cache key for storing the result based on the
+ * arguments provided to the memoized function. By default, the first argument
+ * provided to the memoized function is used as the map cache key. The `func`
+ * is invoked with the `this` binding of the memoized function.
+ *
+ * **Note:** The cache is exposed as the `cache` property on the memoized
+ * function. Its creation may be customized by replacing the `_.memoize.Cache`
+ * constructor with one whose instances implement the
+ * [`Map`](http://ecma-international.org/ecma-262/6.0/#sec-properties-of-the-map-prototype-object)
+ * method interface of `delete`, `get`, `has`, and `set`.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Function
+ * @param {Function} func The function to have its output memoized.
+ * @param {Function} [resolver] The function to resolve the cache key.
+ * @returns {Function} Returns the new memoizing function.
+ * @example
+ *
+ * var object = { 'a': 1, 'b': 2 };
+ * var other = { 'c': 3, 'd': 4 };
+ *
+ * var values = _.memoize(_.values);
+ * values(object);
+ * // => [1, 2]
+ *
+ * values(other);
+ * // => [3, 4]
+ *
+ * object.a = 2;
+ * values(object);
+ * // => [1, 2]
+ *
+ * // Modify the result cache.
+ * values.cache.set(object, ['a', 'b']);
+ * values(object);
+ * // => ['a', 'b']
+ *
+ * // Replace `_.memoize.Cache`.
+ * _.memoize.Cache = WeakMap;
+ */
+function memoize(func, resolver) {
+  if (typeof func != 'function' || (resolver && typeof resolver != 'function')) {
+    throw new TypeError(FUNC_ERROR_TEXT);
+  }
+  var memoized = function() {
+    var args = arguments,
+        key = resolver ? resolver.apply(this, args) : args[0],
+        cache = memoized.cache;
+
+    if (cache.has(key)) {
+      return cache.get(key);
+    }
+    var result = func.apply(this, args);
+    memoized.cache = cache.set(key, result);
+    return result;
+  };
+  memoized.cache = new (memoize.Cache || MapCache);
+  return memoized;
+}
+
+// Assign cache to `_.memoize`.
+memoize.Cache = MapCache;
+
+module.exports = memoize;
+
+},{"./_MapCache":13}],104:[function(require,module,exports){
+var baseProperty = require('./_baseProperty'),
+    basePropertyDeep = require('./_basePropertyDeep'),
+    isKey = require('./_isKey');
+
+/**
+ * Creates a function that returns the value at `path` of a given object.
+ *
+ * @static
+ * @memberOf _
+ * @since 2.4.0
+ * @category Util
+ * @param {Array|string} path The path of the property to get.
+ * @returns {Function} Returns the new function.
+ * @example
+ *
+ * var objects = [
+ *   { 'a': { 'b': { 'c': 2 } } },
+ *   { 'a': { 'b': { 'c': 1 } } }
+ * ];
+ *
+ * _.map(objects, _.property('a.b.c'));
+ * // => [2, 1]
+ *
+ * _.map(_.sortBy(objects, _.property(['a', 'b', 'c'])), 'a.b.c');
+ * // => [1, 2]
+ */
+function property(path) {
+  return isKey(path) ? baseProperty(path) : basePropertyDeep(path);
+}
+
+module.exports = property;
+
+},{"./_baseProperty":42,"./_basePropertyDeep":43,"./_isKey":65}],105:[function(require,module,exports){
+var baseToPairs = require('./_baseToPairs'),
+    keys = require('./keys');
+
+/**
+ * Creates an array of own enumerable string keyed-value pairs for `object`
+ * which can be consumed by `_.fromPairs`.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @alias entries
+ * @category Object
+ * @param {Object} object The object to query.
+ * @returns {Array} Returns the new array of key-value pairs.
+ * @example
+ *
+ * function Foo() {
+ *   this.a = 1;
+ *   this.b = 2;
+ * }
+ *
+ * Foo.prototype.c = 3;
+ *
+ * _.toPairs(new Foo);
+ * // => [['a', 1], ['b', 2]] (iteration order is not guaranteed)
+ */
+function toPairs(object) {
+  return baseToPairs(object, keys(object));
+}
+
+module.exports = toPairs;
+
+},{"./_baseToPairs":45,"./keys":102}],106:[function(require,module,exports){
+var Symbol = require('./_Symbol'),
+    isSymbol = require('./isSymbol');
+
+/** Used as references for various `Number` constants. */
+var INFINITY = 1 / 0;
+
+/** Used to convert symbols to primitives and strings. */
+var symbolProto = Symbol ? Symbol.prototype : undefined,
+    symbolToString = symbolProto ? symbolProto.toString : undefined;
+
+/**
+ * Converts `value` to a string if it's not one. An empty string is returned
+ * for `null` and `undefined` values. The sign of `-0` is preserved.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to process.
+ * @returns {string} Returns the string.
+ * @example
+ *
+ * _.toString(null);
+ * // => ''
+ *
+ * _.toString(-0);
+ * // => '-0'
+ *
+ * _.toString([1, 2, 3]);
+ * // => '1,2,3'
+ */
+function toString(value) {
+  // Exit early for strings to avoid a performance hit in some environments.
+  if (typeof value == 'string') {
+    return value;
+  }
+  if (value == null) {
+    return '';
+  }
+  if (isSymbol(value)) {
+    return symbolToString ? symbolToString.call(value) : '';
+  }
+  var result = (value + '');
+  return (result == '0' && (1 / value) == -INFINITY) ? '-0' : result;
+}
+
+module.exports = toString;
+
+},{"./_Symbol":17,"./isSymbol":99}],107:[function(require,module,exports){
+module.exports = {
+	FacebookPreview: require( "./js/facebookPreview" ),
+	TwitterPreview: require( "./js/twitterPreview" )
+};
+
+},{"./js/facebookPreview":110,"./js/twitterPreview":125}],108:[function(require,module,exports){
+var placeholderTemplate = require( "../templates" ).imagePlaceholder;
+
+/**
+ * Sets the placeholder with a given value.
+ *
+ * @param {Object} imageContainer The location to put the placeholder in.
+ * @param {string} placeholder The value for the placeholder.
+ * @param {bool} isError When the placeholder should an error.
+ * @param {string} modifier A css class modifier to change the styling.
+ */
+function setImagePlaceholder( imageContainer, placeholder, isError, modifier ) {
+	var classNames = [ "social-image-placeholder" ];
+	isError = isError || false;
+	modifier = modifier || "";
+
+	if ( isError ) {
+		classNames.push( "social-image-placeholder--error" );
+	}
+
+	if ( "" !== modifier ) {
+		classNames.push( "social-image-placeholder--" + modifier );
+	}
+
+	imageContainer.innerHTML = placeholderTemplate( {
+		className : classNames.join( " " ),
+		placeholder : placeholder
+	} );
+}
+
+module.exports= setImagePlaceholder;
+
+},{"../templates":124}],109:[function(require,module,exports){
+var isEmpty = require( "lodash/lang/isEmpty" );
+var debounce = require( "lodash/function/debounce" );
+
+var stripHTMLTags = require( "yoastseo/js/stringProcessing/stripHTMLTags.js" );
+var stripSpaces = require( "yoastseo/js/stringProcessing/stripSpaces.js" );
+
+/**
+ * Represents a field and sets the events for that field.
+ *
+ * @param {Object} inputField The field to represent.
+ * @param {Object} values The values to use.
+ * @param {Object|undefined} callback The callback to executed after field change.
+ * @constructor
+ */
+function InputElement( inputField, values, callback ) {
+	this.inputField = inputField;
+	this.values = values;
+	this._callback = callback;
+
+	this.setValue( this.getInputValue() );
+
+	this.bindEvents();
+}
+
+/**
+ * Binds the events
+ */
+InputElement.prototype.bindEvents = function() {
+	// Set the events.
+	this.inputField.addEventListener( "keydown", this.changeEvent.bind( this ) );
+	this.inputField.addEventListener( "keyup", this.changeEvent.bind( this ) );
+
+	this.inputField.addEventListener( "input", this.changeEvent.bind( this ) );
+	this.inputField.addEventListener( "focus", this.changeEvent.bind( this ) );
+	this.inputField.addEventListener( "blur", this.changeEvent.bind( this ) );
+};
+
+/**
+ * Do the change event
+ *
+ * @type {Function}
+ */
+InputElement.prototype.changeEvent = debounce( function() {
+	// When there is a callback run it.
+	if ( typeof this._callback !== "undefined" ) {
+		this._callback();
+	}
+
+	this.setValue( this.getInputValue() );
+}, 25 );
+
+/**
+ *
+ * @returns {string} The current field value
+ */
+InputElement.prototype.getInputValue = function() {
+	return this.inputField.value;
+};
+
+/**
+ * Formats the a value for the preview. If value is empty a sample value is used
+ *
+ * @returns {string} The formatted title, without html tags.
+ */
+InputElement.prototype.formatValue = function() {
+	var value = this.getValue();
+
+	value = stripHTMLTags( value );
+
+	// As an ultimate fallback provide the user with a helpful message.
+	if ( isEmpty( value ) ) {
+		value = this.values.fallback;
+	}
+
+	return stripSpaces( value );
+};
+
+/**
+ * Get the value
+ *
+ * @returns {string} Return the value or get a fallback one.
+ */
+InputElement.prototype.getValue = function() {
+	var value = this.values.currentValue;
+
+	// Fallback to the default if value is empty.
+	if ( isEmpty( value ) ) {
+		value = this.values.defaultValue;
+	}
+
+	// For rendering we can fallback to the placeholder as well.
+	if ( isEmpty( value ) ) {
+		value = this.values.placeholder;
+	}
+
+	return value;
+};
+
+/**
+ * Set the current value
+ *
+ * @param {string} value The value to set
+ */
+InputElement.prototype.setValue = function( value ) {
+	this.values.currentValue = value;
+};
+
+module.exports = InputElement;
+
+
+},{"lodash/function/debounce":129,"lodash/lang/isEmpty":169,"yoastseo/js/stringProcessing/stripHTMLTags.js":3,"yoastseo/js/stringProcessing/stripSpaces.js":4}],110:[function(require,module,exports){
+/* jshint browser: true */
+
+var isElement = require( "lodash/lang/isElement" );
+var clone = require( "lodash/lang/clone" );
+var defaultsDeep = require( "lodash/object/defaultsDeep" );
+
+var Jed = require( "jed" );
+
+var imageRatio = require( "./helpers/imageRatio" );
+var renderDescription = require( "./helpers/renderDescription" );
+var imagePlaceholder  = require( "./element/imagePlaceholder" );
+var bemAddModifier = require( "./helpers/bem/addModifier" );
+var bemRemoveModifier = require( "./helpers/bem/removeModifier" );
+
+var TextField = require( "./inputs/textInput" );
+var TextArea = require( "./inputs/textarea" );
+var Button = require( "./inputs/button.js" );
+
+var FieldElement = require( "./element/input" );
+var PreviewEvents = require( "./preview/events" );
+
+var facebookEditorTemplate = require( "./templates.js" ).facebookPreview;
+
+var facebookDefaults = {
+	data: {
+		title: "",
+		description: "",
+		imageUrl: ""
+	},
+	placeholder: {
+		title:    "This is an example title - edit by clicking here",
+		description: "Modify your facebook description by editing it right here",
+		imageUrl: ""
+	},
+	defaultValue: {
+		title: "",
+		description: "",
+		imageUrl: ""
+	},
+	baseURL: "example.com",
+	callbacks: {
+		updateSocialPreview: function() {},
+		modifyTitle: function( title ) {
+			return title;
+		},
+		modifyDescription: function( description ) {
+			return description;
+		}
+	}
+};
+
+var inputFacebookPreviewBindings = [
+	{
+		"preview": "editable-preview__title--facebook",
+		"inputField": "title"
+	},
+	{
+		"preview": "editable-preview__image--facebook",
+		"inputField": "imageUrl"
+	},
+	{
+		"preview": "editable-preview__description--facebook",
+		"inputField": "description"
+	}
+];
+
+var WIDTH_FACEBOOK_IMAGE_SMALL = 158;
+var WIDTH_FACEBOOK_IMAGE_LARGE = 470;
+var FACEBOOK_IMAGE_THRESHOLD_WIDTH = 600;
+var FACEBOOK_IMAGE_THRESHOLD_HEIGHT = 315;
+
+/**
+ * @module snippetPreview
+ */
+
+/**
+ * Defines the config and outputTarget for the SnippetPreview
+ *
+ * @param {Object}         opts                           - Snippet preview options.
+ * @param {Object}         opts.placeholder               - The placeholder values for the fields, will be shown as
+ * actual placeholders in the inputs and as a fallback for the preview.
+ * @param {string}         opts.placeholder.title         - Placeholder for the title field.
+ * @param {string}         opts.placeholder.description   - Placeholder for the description field.
+ * @param {string}         opts.placeholder.imageUrl      - Placeholder for the image url field.
+ *
+ * @param {Object}         opts.defaultValue              - The default value for the fields, if the user has not
+ * changed a field, this value will be used for the analyzer, preview and the progress bars.
+ * @param {string}         opts.defaultValue.title        - Default title.
+ * @param {string}         opts.defaultValue.description  - Default description.
+ * @param {string}         opts.defaultValue.imageUrl     - Default image url.
+ * it.
+ *
+ * @param {string}         opts.baseURL                   - The basic URL as it will be displayed in facebook.
+ * @param {HTMLElement}    opts.targetElement             - The target element that contains this snippet editor.
+ *
+ * @param {Object}         opts.callbacks                 - Functions that are called on specific instances.
+ * @param {Function}       opts.callbacks.updateSocialPreview - Function called when the social preview is updated.
+ *
+ * @param {Object}         i18n                           - The i18n object.
+ *
+ * @property {Object}      i18n                           - The translation object.
+ *
+ * @property {HTMLElement} targetElement                  - The target element that contains this snippet editor.
+ *
+ * @property {Object}      element                        - The elements for this snippet editor.
+ * @property {Object}      element.rendered               - The rendered elements.
+ * @property {HTMLElement} element.rendered.title         - The rendered title element.
+ * @property {HTMLElement} element.rendered.imageUrl      - The rendered url path element.
+ * @property {HTMLElement} element.rendered.description   - The rendered facebook description element.
+ *
+ * @property {Object}      element.input                  - The input elements.
+ * @property {HTMLElement} element.input.title            - The title input element.
+ * @property {HTMLElement} element.input.imageUrl         - The url path input element.
+ * @property {HTMLElement} element.input.description      - The meta description input element.
+ *
+ * @property {HTMLElement} element.container              - The main container element.
+ * @property {HTMLElement} element.formContainer          - The form container element.
+ * @property {HTMLElement} element.editToggle             - The button that toggles the editor form.
+ *
+ * @property {Object}      data                           - The data for this snippet editor.
+ * @property {string}      data.title                     - The title.
+ * @property {string}      data.imageUrl                  - The url path.
+ * @property {string}      data.description               - The meta description.
+ *
+ * @property {string}      baseURL                        - The basic URL as it will be displayed in google.
+ *
+ * @constructor
+ */
+var FacebookPreview = function( opts, i18n ) {
+	defaultsDeep( opts, facebookDefaults );
+
+	if ( !isElement( opts.targetElement ) ) {
+		throw new Error( "The facebook preview requires a valid target element" );
+	}
+
+	this.data = opts.data;
+	this.i18n = i18n || this.constructI18n();
+	this.opts = opts;
+
+	this._currentFocus = null;
+	this._currentHover = null;
+};
+
+/**
+ * Initializes i18n object based on passed configuration
+ *
+ * @param {Object} translations - The values to translate.
+ *
+ * @returns {Jed} - The Jed translation object.
+ */
+FacebookPreview.prototype.constructI18n = function( translations ) {
+	var defaultTranslations = {
+		"domain": "yoast-social-previews",
+		"locale_data": {
+			"yoast-social-previews": {
+				"": {}
+			}
+		}
+	};
+
+	// Use default object to prevent Jed from erroring out.
+	translations = translations || defaultTranslations;
+
+	return new Jed( translations );
+};
+
+/**
+ * Renders the template and bind the events.
+ *
+ * @returns {void}
+ */
+FacebookPreview.prototype.init = function() {
+	this.renderTemplate();
+	this.bindEvents();
+	this.updatePreview();
+};
+
+/**
+ * Renders snippet editor and adds it to the targetElement.
+ *
+ * @returns {void}
+ */
+FacebookPreview.prototype.renderTemplate = function() {
+	var targetElement = this.opts.targetElement;
+
+	targetElement.innerHTML = facebookEditorTemplate( {
+		rendered: {
+			title: "",
+			description: "",
+			imageUrl: "",
+			baseUrl: this.opts.baseURL
+		},
+		placeholder: this.opts.placeholder,
+		i18n: {
+			edit: this.i18n.dgettext( "yoast-social-previews", "Edit Facebook preview" ),
+			snippetPreview: this.i18n.dgettext( "yoast-social-previews", "Facebook preview" ),
+			snippetEditor: this.i18n.dgettext( "yoast-social-previews", "Facebook editor" )
+		}
+	} );
+
+	this.element = {
+		rendered: {
+			title: targetElement.getElementsByClassName( "editable-preview__value--facebook-title" )[0],
+			description: targetElement.getElementsByClassName( "editable-preview__value--facebook-description" )[0]
+		},
+		fields: this.getFields(),
+		container: targetElement.getElementsByClassName( "editable-preview--facebook" )[0],
+		formContainer: targetElement.getElementsByClassName( "snippet-editor__form" )[0],
+		editToggle: targetElement.getElementsByClassName( "snippet-editor__edit-button" )[0],
+		formFields: targetElement.getElementsByClassName( "snippet-editor__form-field" ),
+		headingEditor: targetElement.getElementsByClassName( "snippet-editor__heading-editor" )[0]
+	};
+
+	this.element.formContainer.innerHTML = this.element.fields.imageUrl.render()
+	    + this.element.fields.title.render()
+		+ this.element.fields.description.render()
+		+ this.element.fields.button.render();
+
+	this.element.input = {
+		title: targetElement.getElementsByClassName( "js-snippet-editor-title" )[0],
+		imageUrl: targetElement.getElementsByClassName( "js-snippet-editor-imageUrl" )[0],
+		description: targetElement.getElementsByClassName( "js-snippet-editor-description" )[0]
+	};
+
+	this.element.fieldElements = this.getFieldElements();
+	this.element.closeEditor = targetElement.getElementsByClassName( "snippet-editor__submit" )[0];
+
+	this.element.label = {
+		title: this.element.input.title.parentNode,
+		imageUrl: this.element.input.imageUrl.parentNode,
+		description: this.element.input.description.parentNode
+	};
+
+	this.element.preview = {
+		title: this.element.rendered.title.parentNode,
+		imageUrl: targetElement.getElementsByClassName( "editable-preview__image--facebook" )[0],
+		description: this.element.rendered.description.parentNode
+	};
+
+};
+
+/**
+ * Returns the form fields.
+ *
+ * @returns {{title: *, description: *, imageUrl: *, button: Button}} Object with the fields.
+ */
+FacebookPreview.prototype.getFields = function() {
+	return {
+		title: new TextField( {
+			className: "snippet-editor__input snippet-editor__title js-snippet-editor-title",
+			id: "facebook-editor-title",
+			value: this.data.title,
+			placeholder: this.opts.placeholder.title,
+			title: this.i18n.dgettext( "yoast-social-previews", "Facebook title" ),
+			labelClassName: "snippet-editor__label"
+		} ),
+		description: new TextArea( {
+			className: "snippet-editor__input snippet-editor__description js-snippet-editor-description",
+			id: "facebook-editor-description",
+			value: this.data.description,
+			placeholder: this.opts.placeholder.description,
+			title: this.i18n.dgettext( "yoast-social-previews", "Facebook description" ),
+			labelClassName: "snippet-editor__label"
+		} ),
+		imageUrl: new TextField( {
+			className: "snippet-editor__input snippet-editor__imageUrl js-snippet-editor-imageUrl",
+			id: "facebook-editor-imageUrl",
+			value: this.data.imageUrl,
+			placeholder: this.opts.placeholder.imageUrl,
+			title: this.i18n.dgettext( "yoast-social-previews", "Facebook image" ),
+			labelClassName: "snippet-editor__label"
+		} ),
+		button : new Button(
+			{
+				className : "snippet-editor__submit snippet-editor__button",
+				value: this.i18n.dgettext( "yoast-social-previews", "Close facebook editor" )
+			}
+		)
+	};
+};
+
+/**
+ * Returns all field elements.
+ *
+ * @returns {{title: InputElement, description: InputElement, imageUrl: InputElement}} The field elements.
+ */
+FacebookPreview.prototype.getFieldElements = function() {
+	var targetElement = this.opts.targetElement;
+
+	return {
+		title: new FieldElement(
+			targetElement.getElementsByClassName( "js-snippet-editor-title" )[0],
+			{
+				currentValue: this.data.title,
+				defaultValue: this.opts.defaultValue.title,
+				placeholder: this.opts.placeholder.title,
+				fallback: this.i18n.dgettext( "yoast-social-previews", "Please provide a Facebook title by editing the snippet below." )
+			},
+			this.updatePreview.bind( this )
+		),
+		description: new FieldElement(
+			targetElement.getElementsByClassName( "js-snippet-editor-description" )[0],
+			{
+				currentValue: this.data.description,
+				defaultValue: this.opts.defaultValue.description,
+				placeholder: this.opts.placeholder.description,
+				fallback: this.i18n.dgettext( "yoast-social-previews", "Please provide a Facebook by editing the snippet below." )
+			},
+			this.updatePreview.bind( this )
+		),
+		imageUrl: new FieldElement(
+			targetElement.getElementsByClassName( "js-snippet-editor-imageUrl" )[0],
+			{
+				currentValue: this.data.imageUrl,
+				defaultValue: this.opts.defaultValue.imageUrl,
+				placeholder: this.opts.placeholder.imageUrl,
+				fallback: ""
+			},
+			this.updatePreview.bind( this )
+		)
+	};
+};
+
+
+/**
+ * Updates the twitter preview.
+ */
+FacebookPreview.prototype.updatePreview = function() {
+	// Update the data.
+	this.data.title = this.element.fieldElements.title.getInputValue();
+	this.data.description = this.element.fieldElements.description.getInputValue();
+	this.data.imageUrl = this.element.fieldElements.imageUrl.getInputValue();
+
+	// Sets the title field
+	this.setTitle( this.element.fieldElements.title.getValue() );
+
+	// Set the description field and parse the styling of it.
+	this.setDescription( this.element.fieldElements.description.getValue() );
+
+	// Sets the Image URL
+	this.setImageUrl( this.data.imageUrl );
+
+	// Clone so the data isn't changeable.
+	this.opts.callbacks.updateSocialPreview( clone( this.data ) );
+};
+
+/**
+ * Sets the preview title.
+ *
+ * @param {string} title The title to set
+ */
+FacebookPreview.prototype.setTitle = function( title ) {
+	title = this.opts.callbacks.modifyTitle( title );
+
+	this.element.rendered.title.innerHTML = title;
+};
+
+/**
+ * Set the preview description.
+ *
+ * @param {string} description The description to set
+ */
+FacebookPreview.prototype.setDescription = function( description ) {
+	description = this.opts.callbacks.modifyDescription( description );
+
+	this.element.rendered.description.innerHTML = description;
+	renderDescription( this.element.rendered.description, this.element.fieldElements.description.getInputValue() );
+};
+
+/**
+ * Updates the image object with the new URL.
+ *
+ * @param {string} imageUrl The image path.
+ */
+FacebookPreview.prototype.setImageUrl = function( imageUrl ) {
+	var imageContainer = this.element.preview.imageUrl;
+	if ( imageUrl === '' && this.data.imageUrl === "" ) {
+		this.removeSmallImageClasses();
+
+		imagePlaceholder( imageContainer,
+			this.i18n.dgettext( "yoast-social-previews", "Please enter an image url by clicking here" ),
+			false,
+			"facebook"
+		);
+
+		return;
+	}
+
+	var img   = new Image();
+	img.onload = function() {
+		imageContainer.innerHTML = "<img src='" + imageUrl + "' />";
+
+		imageRatio( imageContainer.childNodes[0], this.getMaxImageWidth( img ) );
+	}.bind( this );
+
+	img.onerror = function() {
+		this.removeSmallImageClasses();
+
+		imagePlaceholder(
+			imageContainer,
+			this.i18n.dgettext( "yoast-social-previews", "The given image url cannot be loaded" ),
+			true,
+			"facebook"
+		);
+	}.bind( this );
+
+	// Load image to trigger load or error event.
+	img.src = imageUrl;
+};
+
+/**
+ * Returns the max image width
+ *
+ * @param {Image} img The image object to use.
+ * @returns {int} The calculated maxwidth
+ */
+FacebookPreview.prototype.getMaxImageWidth = function( img ) {
+	if ( this.isSmallImage( img ) ) {
+		this.setSmallImageClasses();
+
+		return WIDTH_FACEBOOK_IMAGE_SMALL;
+	}
+
+	this.removeSmallImageClasses();
+
+	return WIDTH_FACEBOOK_IMAGE_LARGE;
+};
+
+/**
+ * Detects if the facebook preview should switch to small image mode
+ *
+ * @param {HTMLImageElement} image The image in question.
+ *
+ * @returns {boolean} Whether the image is small.
+ */
+FacebookPreview.prototype.isSmallImage = function( image ) {
+	return (
+		image.width < FACEBOOK_IMAGE_THRESHOLD_WIDTH ||
+		image.height < FACEBOOK_IMAGE_THRESHOLD_HEIGHT
+	);
+};
+
+/**
+ * Sets the classes on the facebook preview so that it will display a small facebook image preview
+ */
+FacebookPreview.prototype.setSmallImageClasses = function() {
+	var targetElement = this.opts.targetElement;
+
+	bemAddModifier( "facebook-small", "social-preview__inner", targetElement );
+	bemAddModifier( "facebook-small", "editable-preview__image--facebook", targetElement );
+	bemAddModifier( "facebook-small", "editable-preview__text-keeper--facebook", targetElement );
+};
+
+FacebookPreview.prototype.removeSmallImageClasses = function() {
+	var targetElement = this.opts.targetElement;
+
+	bemRemoveModifier( "facebook-small", "social-preview__inner", targetElement );
+	bemRemoveModifier( "facebook-small", "editable-preview__image--facebook", targetElement );
+	bemRemoveModifier( "facebook-small", "editable-preview__text-keeper--facebook", targetElement );
+};
+
+/**
+ * Binds the reloadSnippetText function to the blur of the snippet inputs.
+ *
+ * @returns {void}
+ */
+FacebookPreview.prototype.bindEvents = function() {
+	var previewEvents = new PreviewEvents( inputFacebookPreviewBindings, this.element );
+	previewEvents.bindEvents( this.element.editToggle, this.element.closeEditor );
+};
+
+module.exports = FacebookPreview;
+
+},{"./element/imagePlaceholder":108,"./element/input":109,"./helpers/bem/addModifier":112,"./helpers/bem/removeModifier":114,"./helpers/imageRatio":115,"./helpers/renderDescription":118,"./inputs/button.js":119,"./inputs/textInput":121,"./inputs/textarea":122,"./preview/events":123,"./templates.js":124,"jed":126,"lodash/lang/clone":165,"lodash/lang/isElement":168,"lodash/object/defaultsDeep":179}],111:[function(require,module,exports){
+/**
+ * Adds a class to an element
+ *
+ * @param {HTMLElement} element The element to add the class to.
+ * @param {string} className The class to add.
+ */
+module.exports = function( element, className ) {
+	var classes = element.className.split( " " );
+
+	if ( -1 === classes.indexOf( className ) ) {
+		classes.push( className );
+	}
+
+	element.className = classes.join( " " );
+};
+
+},{}],112:[function(require,module,exports){
+var addClass = require( "./../addClass" );
+var addModifierToClass = require( "./addModifierToClass" );
+
+/**
+ * Adds a BEM modifier to an element
+ *
+ * @param {string} modifier Modifier to add to the target
+ * @param {string} targetClass The target to add the modifier to
+ * @param {HTMLElement} targetParent The parent in which the target should be
+ */
+function addModifier( modifier, targetClass, targetParent ) {
+	var element = targetParent.getElementsByClassName( targetClass )[0];
+	var newClass = addModifierToClass( modifier, targetClass );
+
+	addClass( element, newClass );
+}
+
+module.exports = addModifier;
+
+},{"./../addClass":111,"./addModifierToClass":113}],113:[function(require,module,exports){
+/**
+ * Adds a modifier to a class name, makes sure
+ *
+ * @param {string} modifier The modifier to add to the class name.
+ * @param {string} className The class name to add the modifier to.
+ *
+ * @returns {string} The new class with the modifier.
+ */
+function addModifierToClass( modifier, className ) {
+	var baseClass = className.replace( /--.+/, "" );
+
+	return baseClass + "--" + modifier;
+}
+
+module.exports = addModifierToClass;
+
+},{}],114:[function(require,module,exports){
+var removeClass = require( "./../removeClass" );
+var addModifierToClass = require( "./addModifierToClass" );
+
+/**
+ * Removes a BEM modifier from an element
+ *
+ * @param {string} modifier Modifier to add to the target
+ * @param {string} targetClass The target to add the modifier to
+ * @param {HTMLElement} targetParent The parent in which the target should be
+ */
+function removeModifier( modifier, targetClass, targetParent ) {
+	var element = targetParent.getElementsByClassName( targetClass )[0];
+	var newClass = addModifierToClass( modifier, targetClass );
+
+	removeClass( element, newClass );
+}
+
+module.exports = removeModifier;
+
+},{"./../removeClass":117,"./addModifierToClass":113}],115:[function(require,module,exports){
+/**
+ * Sets the images ratio.
+ *
+ * @param {Object} image The image object.
+ * @param {int|undefined} maxWidth The max width in pixels.
+ * @param {int|undefined} maxHeight The max height in pixels.
+ */
+function imageRatio( image, maxWidth, maxHeight ) {
+	var width = image.width;
+	var height = image.height;
+
+	if ( typeof maxWidth !== "undefined" && width >= maxWidth ) {
+		image.width = maxWidth;
+		image.height = height * ( maxWidth / width );
+	}
+
+	if ( typeof maxHeight !== "undefined" && height >= maxHeight ) {
+		image.height = maxHeight;
+		image.width = width * ( maxHeight / height );
+	}
+}
+
+module.exports = imageRatio;
+
+},{}],116:[function(require,module,exports){
+/**
+ * Cleans spaces from the html.
+ *
+ * @param  {string} html The html to minimize.
+ *
+ * @returns {string} The minimized html string.
+ */
+function minimizeHtml( html ) {
+	html = html.replace( /(\s+)/g, " " );
+	html = html.replace( /> </g, "><" );
+	html = html.replace( / >/g, ">" );
+	html = html.replace( /> /g, ">" );
+	html = html.replace( / </g, "<" );
+	html = html.replace( / $/, "" );
+
+	return html;
+}
+
+module.exports = minimizeHtml;
+
+},{}],117:[function(require,module,exports){
+/**
+ * Removes a class from an element
+ *
+ * @param {HTMLElement} element The element to remove the class from.
+ * @param {string} className The class to remove.
+ */
+module.exports = function( element, className ) {
+	var classes = element.className.split( " " );
+	var foundClass = classes.indexOf( className );
+
+	if ( -1 !== foundClass ) {
+		classes.splice( foundClass, 1 );
+	}
+
+	element.className = classes.join( " " );
+};
+
+},{}],118:[function(require,module,exports){
+var isEmpty = require( "lodash/lang/isEmpty" );
+
+var addClass = require( "./addClass" );
+var removeClass = require( "./removeClass" );
+
+/**
+ * Makes the rendered description gray if no description has been set by the user.
+ *
+ * @param {string} descriptionElement Target description element
+ * @param {string} description Current description
+ */
+function renderDescription( descriptionElement, description ) {
+	if ( isEmpty( description ) ) {
+		addClass( descriptionElement, "desc-render" );
+		removeClass( descriptionElement, "desc-default" );
+	} else {
+		addClass( descriptionElement, "desc-default" );
+		removeClass( descriptionElement, "desc-render" );
+	}
+}
+
+module.exports = renderDescription;
+
+},{"./addClass":111,"./removeClass":117,"lodash/lang/isEmpty":169}],119:[function(require,module,exports){
+var defaults = require( "lodash/object/defaults" );
+var buttonTemplate = require( "../../js/templates" ).fields.button;
+var minimizeHtml = require( "../helpers/minimizeHtml" );
+
+var defaultAttributes = {
+	value: "",
+	className: ""
+};
+
+/**
+ * Represents an HTML button
+ *
+ * @param {Object} attributes The attributes to set on the HTML element
+ * @param {string} attributes.value The value for this text field
+ * @param {string} attributes.placeholder The placeholder for this text field
+ * @param {string} attributes.name The name for this text field
+ * @param {string} attributes.id The id for this text field
+ * @param {string} attributes.className The class for this text field
+ * @param {string} attributes.title The title that describes this text field
+ *
+ * @constructor
+ */
+function Button( attributes ) {
+	attributes = attributes || {};
+	attributes = defaults( attributes, defaultAttributes );
+
+	this._attributes = attributes;
+}
+
+/**
+ * Returns the HTML attributes set for this text field
+ *
+ * @returns {Object} The HTML attributes
+ */
+Button.prototype.getAttributes = function() {
+	return this._attributes;
+};
+
+/**
+ * Renders the text field to HTML
+ *
+ * @returns {string} The rendered HTML
+ */
+Button.prototype.render = function() {
+	var html = buttonTemplate( this.getAttributes() );
+	html = minimizeHtml( html );
+
+	return html;
+};
+
+/**
+ * Set the value of the input field
+ *
+ * @param {string} value The value to set on this input field
+ */
+Button.prototype.setValue = function( value ) {
+	this._attributes.value = value;
+};
+
+/**
+ * Set the value of the input field
+ *
+ * @param {string} className The class to set on this input field
+ */
+Button.prototype.setClassName = function( className ) {
+	this._attributes.className = className;
+};
+
+module.exports = Button;
+
+},{"../../js/templates":124,"../helpers/minimizeHtml":116,"lodash/object/defaults":178}],120:[function(require,module,exports){
+var defaults = require( "lodash/object/defaults" );
+var minimizeHtml = require( "../helpers/minimizeHtml" );
+
+/**
+ * Factory for the inputfield.
+ *
+ * @param {Object} template Template object to use.
+ * @returns {TextField} The textfield object.
+ */
+function inputFieldFactory( template ) {
+
+	var defaultAttributes = {
+		value         : "",
+		className     : "",
+		id            : "",
+		placeholder   : "",
+		name          : "",
+		title         : "",
+		labelClassName: ""
+	};
+
+	/**
+	 * Represents an HTML text field
+	 *
+	 * @param {Object} attributes The attributes to set on the HTML element
+	 * @param {string} attributes.value The value for this text field
+	 * @param {string} attributes.placeholder The placeholder for this text field
+	 * @param {string} attributes.name The name for this text field
+	 * @param {string} attributes.id The id for this text field
+	 * @param {string} attributes.className The class for this text field
+	 * @param {string} attributes.title The title that describes this text field
+	 *
+	 * @constructor
+	 */
+	function TextField( attributes ) {
+		attributes = attributes || {};
+		attributes = defaults( attributes, defaultAttributes );
+
+		this._attributes = attributes;
+	}
+
+	/**
+	 * Returns the HTML attributes set for this text field
+	 *
+	 * @returns {Object} The HTML attributes
+	 */
+	TextField.prototype.getAttributes = function() {
+		return this._attributes;
+	};
+
+	/**
+	 * Renders the text field to HTML
+	 *
+	 * @returns {string} The rendered HTML
+	 */
+	TextField.prototype.render = function() {
+		var html = template( this.getAttributes() );
+
+		html = minimizeHtml( html );
+
+		return html;
+	};
+
+	/**
+	 * Set the value of the input field
+	 *
+	 * @param {string} value The value to set on this input field
+	 */
+	TextField.prototype.setValue = function( value ) {
+		this._attributes.value = value;
+	};
+
+	/**
+	 * Set the value of the input field
+	 *
+	 * @param {string} className The class to set on this input field
+	 */
+	TextField.prototype.setClassName = function( className ) {
+		this._attributes.className = className;
+	};
+
+	return TextField;
+}
+
+module.exports = inputFieldFactory;
+
+},{"../helpers/minimizeHtml":116,"lodash/object/defaults":178}],121:[function(require,module,exports){
+var inputFieldFactory = require( "./inputField" );
+
+module.exports = inputFieldFactory( require( "../templates" ).fields.text );
+
+},{"../templates":124,"./inputField":120}],122:[function(require,module,exports){
+var inputFieldFactory = require( "./inputField" );
+
+module.exports = inputFieldFactory( require( "../templates" ).fields.textarea );
+
+},{"../templates":124,"./inputField":120}],123:[function(require,module,exports){
+var forEach = require( "lodash/collection/forEach" );
+
+var addClass = require( "../helpers/addClass.js" );
+var removeClass = require( "../helpers/removeClass.js" );
+
+/**
+ *
+ * @param {Object} bindings The fields to bind.
+ * @param {Object} element The element to bind the events to.
+ * @constructor
+ */
+function PreviewEvents( bindings, element ) {
+	this._bindings = bindings;
+	this.element = element;
+}
+
+/**
+ * Bind the events.
+ *
+ * @param {Object} editToggle - The edit toggle element
+ * @param {Object} closeEditor - The button to close the editor
+ */
+PreviewEvents.prototype.bindEvents = function( editToggle, closeEditor ) {
+	editToggle.addEventListener( "click", this.toggleEditor.bind( this ) );
+	closeEditor.addEventListener( "click", this.closeEditor.bind( this ) );
+
+	// Loop through the bindings and bind a click handler to the click to focus the focus element.
+	forEach( this._bindings, this.bindInputEvent.bind( this ) );
+};
+
+/**
+ * Binds the event for the input
+ *
+ * @param {Object} binding The field to bind.
+ */
+PreviewEvents.prototype.bindInputEvent = function( binding ) {
+	var previewElement = document.getElementsByClassName( binding.preview )[0];
+	var inputElement = this.element.input[ binding.inputField ];
+
+	// Make the preview element click open the editor and focus the correct input.
+	previewElement.addEventListener( "click", function() {
+		this.openEditor();
+		inputElement.focus();
+	}.bind( this ) );
+
+	// Make focusing an input, update the carets.
+	inputElement.addEventListener( "focus", function() {
+		this._currentFocus = binding.inputField;
+
+		this._updateFocusCarets();
+	}.bind( this ) );
+
+	// Make removing focus from an element, update the carets.
+	inputElement.addEventListener( "blur", function() {
+		this._currentFocus = null;
+
+		this._updateFocusCarets();
+	}.bind( this ) );
+
+	previewElement.addEventListener( "mouseover", function() {
+		this._currentHover = binding.inputField;
+
+		this._updateHoverCarets();
+	}.bind( this ) );
+
+	previewElement.addEventListener( "mouseout", function() {
+		this._currentHover = null;
+
+		this._updateHoverCarets();
+	}.bind( this ) );
+};
+
+/**
+ * Opens the snippet editor.
+ *
+ * @returns {void}
+ */
+PreviewEvents.prototype.openEditor = function() {
+
+	// Hide these elements.
+	addClass( this.element.editToggle,       "snippet-editor--hidden" );
+
+	// Show these elements.
+	removeClass( this.element.formContainer, "snippet-editor--hidden" );
+	removeClass( this.element.headingEditor, "snippet-editor--hidden" );
+
+	this.opened = true;
+};
+
+/**
+ * Closes the snippet editor.
+ *
+ * @returns {void}
+ */
+PreviewEvents.prototype.closeEditor = function() {
+
+	// Hide these elements.
+	addClass( this.element.formContainer,     "snippet-editor--hidden" );
+	addClass( this.element.headingEditor,     "snippet-editor--hidden" );
+
+	// Show these elements.
+	removeClass( this.element.editToggle,     "snippet-editor--hidden" );
+
+	this.opened = false;
+};
+
+/**
+ * Toggles the snippet editor.
+ *
+ * @returns {void}
+ */
+PreviewEvents.prototype.toggleEditor = function() {
+	if ( this.opened ) {
+		this.closeEditor();
+	} else {
+		this.openEditor();
+	}
+};
+
+/**
+ * Updates carets before the preview and input fields.
+ *
+ * @private
+ *
+ * @returns {void}
+ */
+PreviewEvents.prototype._updateFocusCarets = function() {
+	var focusedLabel, focusedPreview;
+
+	// Disable all carets on the labels.
+	forEach( this.element.label, function( element ) {
+		removeClass( element, "snippet-editor__label--focus" );
+	} );
+
+	// Disable all carets on the previews.
+	forEach( this.element.preview, function( element ) {
+		removeClass( element, "snippet-editor__container--focus" );
+	} );
+
+	if ( null !== this._currentFocus ) {
+		focusedLabel = this.element.label[ this._currentFocus ];
+		focusedPreview = this.element.preview[ this._currentFocus ];
+
+		addClass( focusedLabel, "snippet-editor__label--focus" );
+		addClass( focusedPreview, "snippet-editor__container--focus" );
+	}
+};
+
+/**
+ * Updates hover carets before the input fields.
+ *
+ * @private
+ *
+ * @returns {void}
+ */
+PreviewEvents.prototype._updateHoverCarets = function() {
+	var hoveredLabel;
+
+	forEach( this.element.label, function( element ) {
+		removeClass( element, "snippet-editor__label--hover" );
+	} );
+
+	if ( null !== this._currentHover ) {
+		hoveredLabel = this.element.label[ this._currentHover ];
+
+		addClass( hoveredLabel, "snippet-editor__label--hover" );
+	}
+};
+
+module.exports = PreviewEvents;
+
+},{"../helpers/addClass.js":111,"../helpers/removeClass.js":117,"lodash/collection/forEach":127}],124:[function(require,module,exports){
+(function (global){
+;(function() {
+  var undefined;
+
+  var objectTypes = {
+    'function': true,
+    'object': true
+  };
+
+  var freeExports = objectTypes[typeof exports] && exports && !exports.nodeType && exports;
+
+  var freeModule = objectTypes[typeof module] && module && !module.nodeType && module;
+
+  var freeGlobal = freeExports && freeModule && typeof global == 'object' && global && global.Object && global;
+
+  var freeSelf = objectTypes[typeof self] && self && self.Object && self;
+
+  var freeWindow = objectTypes[typeof window] && window && window.Object && window;
+
+  var moduleExports = freeModule && freeModule.exports === freeExports && freeExports;
+
+  var root = freeGlobal || ((freeWindow !== (this && this.window)) && freeWindow) || freeSelf || this;
+
+  var VERSION = '3.10.1';
+
+  /** Used to match HTML entities and HTML characters. */
+  var reUnescapedHtml = /[&<>"'`]/g,
+      reHasUnescapedHtml = RegExp(reUnescapedHtml.source);
+
+  /** Used to map characters to HTML entities. */
+  var htmlEscapes = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;',
+    '`': '&#96;'
+  };
+
+  /*--------------------------------------------------------------------------*/
+
+  /**
+   * Converts `value` to a string if it's not one. An empty string is returned
+   * for `null` or `undefined` values.
+   *
+   * @private
+   * @param {*} value The value to process.
+   * @returns {string} Returns the string.
+   */
+  function baseToString(value) {
+    return value == null ? '' : (value + '');
+  }
+
+  /**
+   * Used by `_.escape` to convert characters to HTML entities.
+   *
+   * @private
+   * @param {string} chr The matched character to escape.
+   * @returns {string} Returns the escaped character.
+   */
+  function escapeHtmlChar(chr) {
+    return htmlEscapes[chr];
+  }
+
+  /*------------------------------------------------------------------------*/
+
+  /**
+   * Converts the characters "&", "<", ">", '"', "'", and "\`", in `string` to
+   * their corresponding HTML entities.
+   *
+   * **Note:** No other characters are escaped. To escape additional characters
+   * use a third-party library like [_he_](https://mths.be/he).
+   *
+   * Though the ">" character is escaped for symmetry, characters like
+   * ">" and "/" don't need escaping in HTML and have no special meaning
+   * unless they're part of a tag or unquoted attribute value.
+   * See [Mathias Bynens's article](https://mathiasbynens.be/notes/ambiguous-ampersands)
+   * (under "semi-related fun fact") for more details.
+   *
+   * Backticks are escaped because in Internet Explorer < 9, they can break out
+   * of attribute values or HTML comments. See [#59](https://html5sec.org/#59),
+   * [#102](https://html5sec.org/#102), [#108](https://html5sec.org/#108), and
+   * [#133](https://html5sec.org/#133) of the [HTML5 Security Cheatsheet](https://html5sec.org/)
+   * for more details.
+   *
+   * When working with HTML you should always [quote attribute values](http://wonko.com/post/html-escaping)
+   * to reduce XSS vectors.
+   *
+   * @static
+   * @memberOf _
+   * @category String
+   * @param {string} [string=''] The string to escape.
+   * @returns {string} Returns the escaped string.
+   * @example
+   *
+   * _.escape('fred, barney, & pebbles');
+   * // => 'fred, barney, &amp; pebbles'
+   */
+  function escape(string) {
+    // Reset `lastIndex` because in IE < 9 `String#replace` does not.
+    string = baseToString(string);
+    return (string && reHasUnescapedHtml.test(string))
+      ? string.replace(reUnescapedHtml, escapeHtmlChar)
+      : string;
+  }
+
+  var _ = { 'escape': escape };
+
+  /*----------------------------------------------------------------------------*/
+
+  var templates = {
+    'facebookPreview': {},
+    'fields': {
+        'button': {},
+        'text': {},
+        'textarea': {}
+    },
+    'imagePlaceholder': {},
+    'twitterPreview': {}
+  };
+
+  templates['facebookPreview'] =   function(obj) {
+    obj || (obj = {});
+    var __t, __p = '', __e = _.escape;
+    with (obj) {
+    __p += '<div class="editable-preview editable-preview--facebook">\n	<h4 class="snippet-editor__heading snippet-editor__heading-icon-eye">' +
+    __e( i18n.snippetPreview ) +
+    '</h4>\n\n	<section class="editable-preview__inner editable-preview__inner--facebook">\n		<div class="social-preview__inner social-preview__inner--facebook">\n			<div class="snippet-editor__container editable-preview__image--facebook snippet_container">\n\n			</div>\n			<div class="editable-preview__text-keeper editable-preview__text-keeper--facebook">\n				<div class="snippet-editor__container editable-preview__container--facebook editable-preview__title--facebook snippet_container">\n					<div class="editable-preview__value editable-preview__value--facebook-title">\n						' +
+    __e( rendered.title ) +
+    '\n					</div>\n				</div>\n				<div class="snippet-editor__container editable-preview__container--facebook editable-preview__description--facebook snippet_container">\n					<div class="editable-preview__value editable-preview__value--facebook-description">\n						' +
+    __e( rendered.description ) +
+    '\n					</div>\n				</div>\n				<div class="snippet-editor__container editable-preview__container--no-caret editable-preview__website--facebook snippet_container">\n					<div class="editable-preview__value editable-preview__value--facebook-url">\n						' +
+    __e( rendered.baseUrl ) +
+    '\n					</div>\n				</div>\n			</div>\n		</div>\n\n		<button class="snippet-editor__button snippet-editor__edit-button" type="button">\n			' +
+    __e( i18n.edit ) +
+    '\n		</button>\n	</section>\n\n	<h4 class="snippet-editor__heading snippet-editor__heading-editor snippet-editor__heading-icon-edit snippet-editor--hidden">' +
+    __e( i18n.snippetEditor ) +
+    '</h4>\n\n	<div class="snippet-editor__form snippet-editor--hidden">\n\n	</div>\n</div>\n';
+
+    }
+    return __p
+  };
+
+  templates['fields']['button'] =   function(obj) {
+    obj || (obj = {});
+    var __t, __p = '', __e = _.escape, __j = Array.prototype.join;
+    function print() { __p += __j.call(arguments, '') }
+    with (obj) {
+    __p += '<button\n	type="button"\n	';
+     if (className) {
+    __p += 'class="' +
+    __e( className ) +
+    '"';
+     }
+    __p += '\n>\n	' +
+    __e( value ) +
+    '\n</button>';
+
+    }
+    return __p
+  };
+
+  templates['fields']['text'] =   function(obj) {
+    obj || (obj = {});
+    var __t, __p = '', __e = _.escape, __j = Array.prototype.join;
+    function print() { __p += __j.call(arguments, '') }
+    with (obj) {
+    __p += '<label';
+     if (id) {
+    __p += ' for="' +
+    __e( id ) +
+    '"';
+     }
+
+     if (labelClassName) {
+    __p += ' class="' +
+    __e( labelClassName ) +
+    '"';
+     }
+    __p += '>\n	' +
+    __e( title ) +
+    '\n	<input type="text"\n		';
+     if (value) {
+    __p += 'value="' +
+    __e( value ) +
+    '"';
+     }
+    __p += '\n		';
+     if (placeholder) {
+    __p += 'placeholder="' +
+    __e( placeholder ) +
+    '"';
+     }
+    __p += '\n		';
+     if (className) {
+    __p += 'class="' +
+    __e( className ) +
+    '"';
+     }
+    __p += '\n		';
+     if (id) {
+    __p += 'id="' +
+    __e( id ) +
+    '"';
+     }
+    __p += '\n		';
+     if (name) {
+    __p += 'name="' +
+    __e( name ) +
+    '"';
+     }
+    __p += '\n	/>\n</label>\n';
+
+    }
+    return __p
+  };
+
+  templates['fields']['textarea'] =   function(obj) {
+    obj || (obj = {});
+    var __t, __p = '', __e = _.escape, __j = Array.prototype.join;
+    function print() { __p += __j.call(arguments, '') }
+    with (obj) {
+    __p += '<label';
+     if (id) {
+    __p += ' for="' +
+    __e( id ) +
+    '"';
+     }
+
+     if (labelClassName) {
+    __p += ' class="' +
+    __e( labelClassName ) +
+    '"';
+     }
+    __p += '>\n	' +
+    __e( title ) +
+    '\n	<textarea\n\n		   ';
+     if (placeholder) {
+    __p += 'placeholder="' +
+    __e( placeholder ) +
+    '"';
+     }
+    __p += '\n		   ';
+     if (className) {
+    __p += 'class="' +
+    __e( className ) +
+    '"';
+     }
+    __p += '\n		   ';
+     if (id) {
+    __p += 'id="' +
+    __e( id ) +
+    '"';
+     }
+    __p += '\n		   ';
+     if (name) {
+    __p += 'name="' +
+    __e( name ) +
+    '"';
+     }
+    __p += '\n	>\n		';
+     if (value) {
+    __p +=
+    __e( value );
+     }
+    __p += '\n	</textarea>\n</label>\n';
+
+    }
+    return __p
+  };
+
+  templates['imagePlaceholder'] =   function(obj) {
+    obj || (obj = {});
+    var __t, __p = '', __e = _.escape;
+    with (obj) {
+    __p += '<div class=\'' +
+    __e( className ) +
+    '\'>' +
+    __e( placeholder ) +
+    '</div>';
+
+    }
+    return __p
+  };
+
+  templates['twitterPreview'] =   function(obj) {
+    obj || (obj = {});
+    var __t, __p = '', __e = _.escape;
+    with (obj) {
+    __p += '<div class="editable-preview editable-preview--twitter">\n	<h4 class="snippet-editor__heading snippet-editor__heading-icon-eye">' +
+    __e( i18n.snippetPreview ) +
+    '</h4>\n\n	<section class="editable-preview__inner editable-preview__inner--twitter">\n		<div class="social-preview__inner social-preview__inner--twitter">\n			<div class="snippet-editor__container editable-preview__image--twitter snippet_container">\n\n			</div>\n			<div class="editable-preview__text-keeper editable-preview__text-keeper--twitter">\n				<div class="snippet-editor__container editable-preview__container--twitter editable-preview__title--twitter snippet_container" >\n					<div class="editable-preview__value editable-preview__value--twitter-title ">\n						' +
+    __e( rendered.title ) +
+    '\n					</div>\n				</div>\n				<div class="snippet-editor__container editable-preview__container--twitter editable-preview__description--twitter twitter-preview__description snippet_container">\n					<div class="editable-preview__value editable-preview__value--twitter-description">\n						' +
+    __e( rendered.description ) +
+    '\n					</div>\n				</div>\n				<div class="snippet-editor__container editable-preview__container--no-caret editable-preview__website--twitter snippet_container">\n					<div class="editable-preview__value ">\n						' +
+    __e( rendered.baseUrl ) +
+    '\n					</div>\n				</div>\n			</div>\n		</div>\n\n		<button class="snippet-editor__button snippet-editor__edit-button" type="button">\n			' +
+    __e( i18n.edit ) +
+    '\n		</button>\n	</section>\n\n	<h4 class="snippet-editor__heading snippet-editor__heading-editor snippet-editor__heading-icon-edit snippet-editor--hidden">' +
+    __e( i18n.snippetEditor ) +
+    '</h4>\n\n	<div class="snippet-editor__form snippet-editor--hidden">\n\n	</div>\n</div>\n';
+
+    }
+    return __p
+  };
+
+  /*----------------------------------------------------------------------------*/
+
+  if (freeExports && freeModule) {
+    if (moduleExports) {
+      (freeModule.exports = templates).templates = templates;
+    } else {
+      freeExports.templates = templates;
+    }
+  }
+  else {
+    root.templates = templates;
+  }
+}.call(this));
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{}],125:[function(require,module,exports){
+/* jshint browser: true */
+
+var isElement = require( "lodash/lang/isElement" );
+var clone = require( "lodash/lang/clone" );
+var defaultsDeep = require( "lodash/object/defaultsDeep" );
+
+var Jed = require( "jed" );
+
+var imageRatio = require( "./helpers/imageRatio" );
+var renderDescription = require( "./helpers/renderDescription" );
+var imagePlaceholder  = require( "./element/imagePlaceholder" );
+var bemAddModifier = require( "./helpers/bem/addModifier" );
+var bemRemoveModifier = require( "./helpers/bem/removeModifier" );
+var addClass = require( "./helpers/addClass" );
+var removeClass = require( "./helpers/removeClass" );
+
+var TextField = require( "./inputs/textInput" );
+var TextArea = require( "./inputs/textarea" );
+var Button = require( "./inputs/button.js" );
+
+var InputElement = require( "./element/input" );
+var PreviewEvents = require( "./preview/events" );
+
+var templates = require( "./templates" );
+
+var twitterEditorTemplate = templates.twitterPreview;
+
+var twitterDefaults = {
+	data: {
+		title: "",
+		description: "",
+		imageUrl: ""
+	},
+	placeholder: {
+		title:    "This is an example title - edit by clicking here",
+		description: "Modify your twitter description by editing it right here",
+		imageUrl: "Edit the image by clicking here"
+	},
+	defaultValue: {
+		title: "",
+		description: "",
+		imageUrl: ""
+	},
+	baseURL: "example.com",
+	callbacks: {
+		updateSocialPreview: function() {},
+		modifyTitle: function( title ) {
+			return title;
+		},
+		modifyDescription: function( description ) {
+			return description;
+		}
+	}
+};
+
+var inputTwitterPreviewBindings = [
+	{
+		"preview": "editable-preview__title--twitter",
+		"inputField": "title"
+	},
+	{
+		"preview": "editable-preview__image--twitter",
+		"inputField": "imageUrl"
+	},
+	{
+		"preview": "editable-preview__description--twitter",
+		"inputField": "description"
+	}
+];
+
+var WIDTH_TWITTER_IMAGE_SMALL = 120;
+var WIDTH_TWITTER_IMAGE_LARGE = 506;
+var TWITTER_IMAGE_THRESHOLD_WIDTH = 280;
+var TWITTER_IMAGE_THRESHOLD_HEIGHT = 150;
+
+/**
+ * @module snippetPreview
+ */
+
+/**
+ * Defines the config and outputTarget for the SnippetPreview
+ *
+ * @param {Object}         opts                           - Snippet preview options.
+ * @param {Object}         opts.placeholder               - The placeholder values for the fields, will be shown as
+ * actual placeholders in the inputs and as a fallback for the preview.
+ * @param {string}         opts.placeholder.title         - Placeholder for the title field.
+ * @param {string}         opts.placeholder.description   - Placeholder for the description field.
+ * @param {string}         opts.placeholder.imageUrl      - Placeholder for the image url field.
+ *
+ * @param {Object}         opts.defaultValue              - The default value for the fields, if the user has not
+ * changed a field, this value will be used for the analyzer, preview and the progress bars.
+ * @param {string}         opts.defaultValue.title        - Default title.
+ * @param {string}         opts.defaultValue.description  - Default description.
+ * @param {string}         opts.defaultValue.imageUrl     - Default image url.
+ * it.
+ *
+ * @param {string}         opts.baseURL                   - The basic URL as it will be displayed in twitter.
+ * @param {HTMLElement}    opts.targetElement             - The target element that contains this snippet editor.
+ *
+ * @param {Object}         opts.callbacks                 - Functions that are called on specific instances.
+ * @param {Function}       opts.callbacks.updateSocialPreview - Function called when the social preview is updated.
+ *
+ * @param {Object}         i18n                           - The i18n object.
+ *
+ * @property {Object}      i18n                           - The translation object.
+ *
+ * @property {HTMLElement} targetElement                  - The target element that contains this snippet editor.
+ *
+ * @property {Object}      element                        - The elements for this snippet editor.
+ * @property {Object}      element.rendered               - The rendered elements.
+ * @property {HTMLElement} element.rendered.title         - The rendered title element.
+ * @property {HTMLElement} element.rendered.imageUrl      - The rendered url path element.
+ * @property {HTMLElement} element.rendered.description   - The rendered twitter description element.
+ *
+ * @property {Object}      element.input                  - The input elements.
+ * @property {HTMLElement} element.input.title            - The title input element.
+ * @property {HTMLElement} element.input.imageUrl         - The url path input element.
+ * @property {HTMLElement} element.input.description      - The meta description input element.
+ *
+ * @property {HTMLElement} element.container              - The main container element.
+ * @property {HTMLElement} element.formContainer          - The form container element.
+ * @property {HTMLElement} element.editToggle             - The button that toggles the editor form.
+ *
+ * @property {Object}      data                           - The data for this snippet editor.
+ * @property {string}      data.title                     - The title.
+ * @property {string}      data.imageUrl                  - The url path.
+ * @property {string}      data.description               - The meta description.
+ *
+ * @property {string}      baseURL                        - The basic URL as it will be displayed in google.
+ *
+ * @constructor
+ */
+var TwitterPreview = function( opts, i18n ) {
+	defaultsDeep( opts, twitterDefaults );
+
+	if ( !isElement( opts.targetElement ) ) {
+		throw new Error( "The twitter preview requires a valid target element" );
+	}
+
+	this.data = opts.data;
+	this.i18n = i18n || this.constructI18n();
+	this.opts = opts;
+
+	this._currentFocus = null;
+	this._currentHover = null;
+};
+
+/**
+ * Initializes i18n object based on passed configuration
+ *
+ * @param {Object} translations - The values to translate.
+ *
+ * @returns {Jed} - The Jed translation object.
+ */
+TwitterPreview.prototype.constructI18n = function( translations ) {
+	var defaultTranslations = {
+		"domain": "yoast-social-previews",
+		"locale_data": {
+			"yoast-social-previews": {
+				"": {}
+			}
+		}
+	};
+
+	// Use default object to prevent Jed from erroring out.
+	translations = translations || defaultTranslations;
+
+	return new Jed( translations );
+};
+
+/**
+ * Renders the template and bind the events.
+ *
+ * @returns {void}
+ */
+TwitterPreview.prototype.init = function() {
+	this.renderTemplate();
+	this.bindEvents();
+	this.updatePreview();
+};
+
+/**
+ * Renders snippet editor and adds it to the targetElement.
+ *
+ * @returns {void}
+ */
+TwitterPreview.prototype.renderTemplate = function() {
+	var targetElement = this.opts.targetElement;
+
+	targetElement.innerHTML = twitterEditorTemplate( {
+		rendered: {
+			title: "",
+			description: "",
+			imageUrl: "",
+			baseUrl: this.opts.baseURL
+		},
+		placeholder: this.opts.placeholder,
+		i18n: {
+			edit: this.i18n.dgettext( "yoast-social-previews", "Edit Twitter preview" ),
+			snippetPreview: this.i18n.dgettext( "yoast-social-previews", "Twitter preview" ),
+			snippetEditor: this.i18n.dgettext( "yoast-social-previews", "Twitter editor" )
+		}
+	} );
+
+	this.element = {
+		rendered: {
+			title: targetElement.getElementsByClassName( "editable-preview__value--twitter-title" )[0],
+			description: targetElement.getElementsByClassName( "editable-preview__value--twitter-description" )[0]
+		},
+		fields: this.getFields(),
+		container: targetElement.getElementsByClassName( "editable-preview--twitter" )[0],
+		formContainer: targetElement.getElementsByClassName( "snippet-editor__form" )[0],
+		editToggle: targetElement.getElementsByClassName( "snippet-editor__edit-button" )[0],
+		closeEditor: targetElement.getElementsByClassName( "snippet-editor__submit" )[0],
+		formFields: targetElement.getElementsByClassName( "snippet-editor__form-field" ),
+		headingEditor: targetElement.getElementsByClassName( "snippet-editor__heading-editor" )[0]
+	};
+
+	this.element.formContainer.innerHTML = this.element.fields.imageUrl.render()
+		+ this.element.fields.title.render()
+		+ this.element.fields.description.render()
+		+ this.element.fields.button.render();
+
+	this.element.input = {
+		title: targetElement.getElementsByClassName( "js-snippet-editor-title" )[0],
+		imageUrl: targetElement.getElementsByClassName( "js-snippet-editor-imageUrl" )[0],
+		description: targetElement.getElementsByClassName( "js-snippet-editor-description" )[0]
+	};
+
+	this.element.fieldElements = this.getFieldElements();
+	this.element.closeEditor = targetElement.getElementsByClassName( "snippet-editor__submit" )[0];
+
+	this.element.label = {
+		title: this.element.input.title.parentNode,
+		imageUrl: this.element.input.imageUrl.parentNode,
+		description: this.element.input.description.parentNode
+	};
+
+	this.element.preview = {
+		title: this.element.rendered.title.parentNode,
+		imageUrl: targetElement.getElementsByClassName( "editable-preview__image--twitter" )[0],
+		description: this.element.rendered.description.parentNode
+	};
+
+};
+
+/**
+ * Returns the form fields.
+ *
+ * @returns {{title: *, description: *, imageUrl: *, button: Button}} Object with the fields.
+ */
+TwitterPreview.prototype.getFields = function() {
+	return {
+		title: new TextField( {
+			className: "snippet-editor__input snippet-editor__title js-snippet-editor-title",
+			id: "twitter-editor-title",
+			value: this.data.title,
+			placeholder: this.opts.placeholder.title,
+			title: this.i18n.dgettext( "yoast-social-previews", "Twitter title" ),
+			labelClassName: "snippet-editor__label"
+		} ),
+		description: new TextArea( {
+			className: "snippet-editor__input snippet-editor__description js-snippet-editor-description",
+			id: "twitter-editor-description",
+			value: this.data.description,
+			placeholder: this.opts.placeholder.description,
+			title: this.i18n.dgettext( "yoast-social-previews", "Twitter description" ),
+			labelClassName: "snippet-editor__label"
+		} ),
+		imageUrl: new TextField( {
+			className: "snippet-editor__input snippet-editor__imageUrl js-snippet-editor-imageUrl",
+			id: "twitter-editor-imageUrl",
+			value: this.data.imageUrl,
+			placeholder: this.opts.placeholder.imageUrl,
+			title: this.i18n.dgettext( "yoast-social-previews", "Twitter image" ),
+			labelClassName: "snippet-editor__label"
+		} ),
+		button : new Button(
+			{
+				className : "snippet-editor__submit snippet-editor__button",
+				value: this.i18n.dgettext( "yoast-social-previews", "Close Twitter editor" )
+			}
+		)
+	};
+};
+
+/**
+ * Returns all field elements.
+ *
+ * @returns {{title: InputElement, description: InputElement, imageUrl: InputElement}} The field element.
+ */
+TwitterPreview.prototype.getFieldElements = function() {
+	var targetElement = this.opts.targetElement;
+
+	return {
+		title: new InputElement(
+			targetElement.getElementsByClassName( "js-snippet-editor-title" )[0],
+			{
+				currentValue: this.data.title,
+				defaultValue: this.opts.defaultValue.title,
+				placeholder: this.opts.placeholder.title,
+				fallback: this.i18n.dgettext( "yoast-social-previews", "Please provide a Twitter title by editing the snippet below." )
+			},
+			this.updatePreview.bind( this )
+		),
+		 description: new InputElement(
+			 targetElement.getElementsByClassName( "js-snippet-editor-description" )[0],
+			 {
+				 currentValue: this.data.description,
+				 defaultValue: this.opts.defaultValue.description,
+				 placeholder: this.opts.placeholder.description,
+				 fallback: this.i18n.dgettext( "yoast-social-previews", "Please provide a description by editing the snippet below." )
+			 },
+			 this.updatePreview.bind( this )
+		 ),
+		imageUrl: new InputElement(
+			targetElement.getElementsByClassName( "js-snippet-editor-imageUrl" )[0],
+			{
+				currentValue: this.data.imageUrl,
+				defaultValue: this.opts.defaultValue.imageUrl,
+				placeholder: this.opts.placeholder.imageUrl,
+				fallback: ""
+			},
+			this.updatePreview.bind( this )
+		)
+	};
+};
+
+/**
+ * Updates the twitter preview.
+ */
+TwitterPreview.prototype.updatePreview = function() {
+// Update the data.
+	this.data.title = this.element.fieldElements.title.getInputValue();
+	this.data.description = this.element.fieldElements.description.getInputValue();
+	this.data.imageUrl = this.element.fieldElements.imageUrl.getInputValue();
+
+	// Sets the title field
+	this.setTitle( this.element.fieldElements.title.getValue() );
+
+	// Set the description field and parse the styling of it.
+	this.setDescription( this.element.fieldElements.description.getValue() );
+
+	// Sets the Image URL
+	this.setImageUrl( this.data.imageUrl );
+
+	// Clone so the data isn't changeable.
+	this.opts.callbacks.updateSocialPreview( clone( this.data ) );
+};
+
+/**
+ * Sets the preview title.
+ *
+ * @param {string} title The new title.
+ */
+TwitterPreview.prototype.setTitle = function( title ) {
+	title = this.opts.callbacks.modifyTitle( title );
+
+	this.element.rendered.title.innerHTML = title;
+};
+
+/**
+ * Set the preview description.
+ *
+ * @param {string} description The description to set.
+ */
+TwitterPreview.prototype.setDescription = function( description ) {
+	description = this.opts.callbacks.modifyTitle( description );
+
+	this.element.rendered.description.innerHTML = description;
+	renderDescription( this.element.rendered.description, this.element.fieldElements.description.getInputValue() );
+};
+
+/**
+ * Updates the image object with the new URL.
+ *
+ * @param {string} imageUrl The image path.
+ */
+TwitterPreview.prototype.setImageUrl = function( imageUrl ) {
+	var imageContainer = this.element.preview.imageUrl;
+	if ( imageUrl === '' && this.data.imageUrl === "" ) {
+		this.setPlaceHolder();
+
+		return;
+	}
+
+	var img = new Image();
+	img.onload = function() {
+		imageContainer.innerHTML = "<img src='" + imageUrl + "' />";
+
+		if ( this.isTooSmallImage( img ) ) {
+			this.setPlaceHolder();
+
+			return;
+		}
+
+		imageRatio( imageContainer.childNodes[0], this.getMaxImageWidth( img ) );
+
+	}.bind( this );
+
+	img.onerror = this.setPlaceHolder.bind( this, true );
+
+	// Load image to trigger load or error event.
+	img.src = imageUrl;
+};
+
+
+/**
+ * Returns the max image width
+ *
+ * @param {Image} img The image object to use.
+ * @returns {int} The calculated max width.
+ */
+TwitterPreview.prototype.getMaxImageWidth = function( img ) {
+	if ( this.isSmallImage( img ) ) {
+		this.setSmallImageClasses();
+
+		return WIDTH_TWITTER_IMAGE_SMALL
+	}
+
+	this.removeSmallImageClasses();
+
+	return WIDTH_TWITTER_IMAGE_LARGE;
+};
+/**
+ * Sets the default twitter placeholder
+ */
+TwitterPreview.prototype.setPlaceHolder = function() {
+	this.setSmallImageClasses();
+
+	imagePlaceholder(
+		this.element.preview.imageUrl,
+		"",
+		false,
+		"twitter"
+	);
+
+};
+
+/**
+ * Detects if the twitter preview should switch to small image mode
+ *
+ * @param {HTMLImageElement} image The image in question.
+ *
+ * @returns {boolean} Whether the image is small.
+ */
+TwitterPreview.prototype.isSmallImage = function( image ) {
+	return (
+		image.width < TWITTER_IMAGE_THRESHOLD_WIDTH ||
+		image.height < TWITTER_IMAGE_THRESHOLD_HEIGHT
+	);
+};
+
+/**
+ * Detects if the twitter preview image is too small
+ *
+ * @param {HTMLImageElement} image The image in question.
+ *
+ * @returns {boolean} Whether the image is too small.
+ */
+TwitterPreview.prototype.isTooSmallImage = function( image ) {
+	return (
+		image.width < WIDTH_TWITTER_IMAGE_SMALL ||
+		image.height < WIDTH_TWITTER_IMAGE_SMALL
+	);
+};
+
+/**
+ * Sets the classes on the facebook preview so that it will display a small facebook image preview
+ */
+TwitterPreview.prototype.setSmallImageClasses = function() {
+	var targetElement = this.opts.targetElement;
+
+	bemAddModifier( "twitter-small", "social-preview__inner", targetElement );
+	bemAddModifier( "twitter-small", "editable-preview__image--twitter", targetElement );
+	bemAddModifier( "twitter-small", "editable-preview__text-keeper--twitter", targetElement );
+};
+
+TwitterPreview.prototype.removeSmallImageClasses = function() {
+	var targetElement = this.opts.targetElement;
+
+	bemRemoveModifier( "twitter-small", "social-preview__inner", targetElement );
+	bemRemoveModifier( "twitter-small", "editable-preview__image--twitter", targetElement );
+	bemRemoveModifier( "twitter-small", "editable-preview__text-keeper--twitter", targetElement );
+};
+
+/**
+ * Binds the reloadSnippetText function to the blur of the snippet inputs.
+ */
+TwitterPreview.prototype.bindEvents = function() {
+	var previewEvents = new PreviewEvents( inputTwitterPreviewBindings, this.element );
+	previewEvents.bindEvents( this.element.editToggle, this.element.closeEditor );
+};
+
+module.exports = TwitterPreview;
+
+},{"./element/imagePlaceholder":108,"./element/input":109,"./helpers/addClass":111,"./helpers/bem/addModifier":112,"./helpers/bem/removeModifier":114,"./helpers/imageRatio":115,"./helpers/removeClass":117,"./helpers/renderDescription":118,"./inputs/button.js":119,"./inputs/textInput":121,"./inputs/textarea":122,"./preview/events":123,"./templates":124,"jed":126,"lodash/lang/clone":165,"lodash/lang/isElement":168,"lodash/object/defaultsDeep":179}],126:[function(require,module,exports){
 /**
  * @preserve jed.js https://github.com/SlexAxton/Jed
  */
@@ -1644,4906 +6712,7 @@ return parser;
 
 })(this);
 
-},{}],4:[function(require,module,exports){
-var getNative = require('./_getNative'),
-    root = require('./_root');
-
-/* Built-in method references that are verified to be native. */
-var DataView = getNative(root, 'DataView');
-
-module.exports = DataView;
-
-},{"./_getNative":48,"./_root":71}],5:[function(require,module,exports){
-var nativeCreate = require('./_nativeCreate');
-
-/** Used for built-in method references. */
-var objectProto = Object.prototype;
-
-/**
- * Creates an hash object.
- *
- * @private
- * @constructor
- * @returns {Object} Returns the new hash object.
- */
-function Hash() {}
-
-// Avoid inheriting from `Object.prototype` when possible.
-Hash.prototype = nativeCreate ? nativeCreate(null) : objectProto;
-
-module.exports = Hash;
-
-},{"./_nativeCreate":70}],6:[function(require,module,exports){
-var getNative = require('./_getNative'),
-    root = require('./_root');
-
-/* Built-in method references that are verified to be native. */
-var Map = getNative(root, 'Map');
-
-module.exports = Map;
-
-},{"./_getNative":48,"./_root":71}],7:[function(require,module,exports){
-var mapClear = require('./_mapClear'),
-    mapDelete = require('./_mapDelete'),
-    mapGet = require('./_mapGet'),
-    mapHas = require('./_mapHas'),
-    mapSet = require('./_mapSet');
-
-/**
- * Creates a map cache object to store key-value pairs.
- *
- * @private
- * @constructor
- * @param {Array} [values] The values to cache.
- */
-function MapCache(values) {
-  var index = -1,
-      length = values ? values.length : 0;
-
-  this.clear();
-  while (++index < length) {
-    var entry = values[index];
-    this.set(entry[0], entry[1]);
-  }
-}
-
-// Add methods to `MapCache`.
-MapCache.prototype.clear = mapClear;
-MapCache.prototype['delete'] = mapDelete;
-MapCache.prototype.get = mapGet;
-MapCache.prototype.has = mapHas;
-MapCache.prototype.set = mapSet;
-
-module.exports = MapCache;
-
-},{"./_mapClear":63,"./_mapDelete":64,"./_mapGet":65,"./_mapHas":66,"./_mapSet":67}],8:[function(require,module,exports){
-var getNative = require('./_getNative'),
-    root = require('./_root');
-
-/* Built-in method references that are verified to be native. */
-var Promise = getNative(root, 'Promise');
-
-module.exports = Promise;
-
-},{"./_getNative":48,"./_root":71}],9:[function(require,module,exports){
-var getNative = require('./_getNative'),
-    root = require('./_root');
-
-/* Built-in method references that are verified to be native. */
-var Set = getNative(root, 'Set');
-
-module.exports = Set;
-
-},{"./_getNative":48,"./_root":71}],10:[function(require,module,exports){
-var stackClear = require('./_stackClear'),
-    stackDelete = require('./_stackDelete'),
-    stackGet = require('./_stackGet'),
-    stackHas = require('./_stackHas'),
-    stackSet = require('./_stackSet');
-
-/**
- * Creates a stack cache object to store key-value pairs.
- *
- * @private
- * @constructor
- * @param {Array} [values] The values to cache.
- */
-function Stack(values) {
-  var index = -1,
-      length = values ? values.length : 0;
-
-  this.clear();
-  while (++index < length) {
-    var entry = values[index];
-    this.set(entry[0], entry[1]);
-  }
-}
-
-// Add methods to `Stack`.
-Stack.prototype.clear = stackClear;
-Stack.prototype['delete'] = stackDelete;
-Stack.prototype.get = stackGet;
-Stack.prototype.has = stackHas;
-Stack.prototype.set = stackSet;
-
-module.exports = Stack;
-
-},{"./_stackClear":73,"./_stackDelete":74,"./_stackGet":75,"./_stackHas":76,"./_stackSet":77}],11:[function(require,module,exports){
-var root = require('./_root');
-
-/** Built-in value references. */
-var Symbol = root.Symbol;
-
-module.exports = Symbol;
-
-},{"./_root":71}],12:[function(require,module,exports){
-var root = require('./_root');
-
-/** Built-in value references. */
-var Uint8Array = root.Uint8Array;
-
-module.exports = Uint8Array;
-
-},{"./_root":71}],13:[function(require,module,exports){
-var getNative = require('./_getNative'),
-    root = require('./_root');
-
-/* Built-in method references that are verified to be native. */
-var WeakMap = getNative(root, 'WeakMap');
-
-module.exports = WeakMap;
-
-},{"./_getNative":48,"./_root":71}],14:[function(require,module,exports){
-/**
- * A specialized version of `_.forEach` for arrays without support for
- * iteratee shorthands.
- *
- * @private
- * @param {Array} array The array to iterate over.
- * @param {Function} iteratee The function invoked per iteration.
- * @returns {Array} Returns `array`.
- */
-function arrayEach(array, iteratee) {
-  var index = -1,
-      length = array.length;
-
-  while (++index < length) {
-    if (iteratee(array[index], index, array) === false) {
-      break;
-    }
-  }
-  return array;
-}
-
-module.exports = arrayEach;
-
-},{}],15:[function(require,module,exports){
-/**
- * A specialized version of `_.map` for arrays without support for iteratee
- * shorthands.
- *
- * @private
- * @param {Array} array The array to iterate over.
- * @param {Function} iteratee The function invoked per iteration.
- * @returns {Array} Returns the new mapped array.
- */
-function arrayMap(array, iteratee) {
-  var index = -1,
-      length = array.length,
-      result = Array(length);
-
-  while (++index < length) {
-    result[index] = iteratee(array[index], index, array);
-  }
-  return result;
-}
-
-module.exports = arrayMap;
-
-},{}],16:[function(require,module,exports){
-/**
- * A specialized version of `_.some` for arrays without support for iteratee
- * shorthands.
- *
- * @private
- * @param {Array} array The array to iterate over.
- * @param {Function} predicate The function invoked per iteration.
- * @returns {boolean} Returns `true` if any element passes the predicate check,
- *  else `false`.
- */
-function arraySome(array, predicate) {
-  var index = -1,
-      length = array.length;
-
-  while (++index < length) {
-    if (predicate(array[index], index, array)) {
-      return true;
-    }
-  }
-  return false;
-}
-
-module.exports = arraySome;
-
-},{}],17:[function(require,module,exports){
-var assocIndexOf = require('./_assocIndexOf');
-
-/** Used for built-in method references. */
-var arrayProto = Array.prototype;
-
-/** Built-in value references. */
-var splice = arrayProto.splice;
-
-/**
- * Removes `key` and its value from the associative array.
- *
- * @private
- * @param {Array} array The array to modify.
- * @param {string} key The key of the value to remove.
- * @returns {boolean} Returns `true` if the entry was removed, else `false`.
- */
-function assocDelete(array, key) {
-  var index = assocIndexOf(array, key);
-  if (index < 0) {
-    return false;
-  }
-  var lastIndex = array.length - 1;
-  if (index == lastIndex) {
-    array.pop();
-  } else {
-    splice.call(array, index, 1);
-  }
-  return true;
-}
-
-module.exports = assocDelete;
-
-},{"./_assocIndexOf":20}],18:[function(require,module,exports){
-var assocIndexOf = require('./_assocIndexOf');
-
-/**
- * Gets the associative array value for `key`.
- *
- * @private
- * @param {Array} array The array to query.
- * @param {string} key The key of the value to get.
- * @returns {*} Returns the entry value.
- */
-function assocGet(array, key) {
-  var index = assocIndexOf(array, key);
-  return index < 0 ? undefined : array[index][1];
-}
-
-module.exports = assocGet;
-
-},{"./_assocIndexOf":20}],19:[function(require,module,exports){
-var assocIndexOf = require('./_assocIndexOf');
-
-/**
- * Checks if an associative array value for `key` exists.
- *
- * @private
- * @param {Array} array The array to query.
- * @param {string} key The key of the entry to check.
- * @returns {boolean} Returns `true` if an entry for `key` exists, else `false`.
- */
-function assocHas(array, key) {
-  return assocIndexOf(array, key) > -1;
-}
-
-module.exports = assocHas;
-
-},{"./_assocIndexOf":20}],20:[function(require,module,exports){
-var eq = require('./eq');
-
-/**
- * Gets the index at which the `key` is found in `array` of key-value pairs.
- *
- * @private
- * @param {Array} array The array to search.
- * @param {*} key The key to search for.
- * @returns {number} Returns the index of the matched value, else `-1`.
- */
-function assocIndexOf(array, key) {
-  var length = array.length;
-  while (length--) {
-    if (eq(array[length][0], key)) {
-      return length;
-    }
-  }
-  return -1;
-}
-
-module.exports = assocIndexOf;
-
-},{"./eq":80}],21:[function(require,module,exports){
-var assocIndexOf = require('./_assocIndexOf');
-
-/**
- * Sets the associative array `key` to `value`.
- *
- * @private
- * @param {Array} array The array to modify.
- * @param {string} key The key of the value to set.
- * @param {*} value The value to set.
- */
-function assocSet(array, key, value) {
-  var index = assocIndexOf(array, key);
-  if (index < 0) {
-    array.push([key, value]);
-  } else {
-    array[index][1] = value;
-  }
-}
-
-module.exports = assocSet;
-
-},{"./_assocIndexOf":20}],22:[function(require,module,exports){
-var isArray = require('./isArray'),
-    stringToPath = require('./_stringToPath');
-
-/**
- * Casts `value` to a path array if it's not one.
- *
- * @private
- * @param {*} value The value to inspect.
- * @returns {Array} Returns the cast property path array.
- */
-function baseCastPath(value) {
-  return isArray(value) ? value : stringToPath(value);
-}
-
-module.exports = baseCastPath;
-
-},{"./_stringToPath":78,"./isArray":86}],23:[function(require,module,exports){
-var baseForOwn = require('./_baseForOwn'),
-    createBaseEach = require('./_createBaseEach');
-
-/**
- * The base implementation of `_.forEach` without support for iteratee shorthands.
- *
- * @private
- * @param {Array|Object} collection The collection to iterate over.
- * @param {Function} iteratee The function invoked per iteration.
- * @returns {Array|Object} Returns `collection`.
- */
-var baseEach = createBaseEach(baseForOwn);
-
-module.exports = baseEach;
-
-},{"./_baseForOwn":25,"./_createBaseEach":41}],24:[function(require,module,exports){
-var createBaseFor = require('./_createBaseFor');
-
-/**
- * The base implementation of `baseForOwn` which iterates over `object`
- * properties returned by `keysFunc` invoking `iteratee` for each property.
- * Iteratee functions may exit iteration early by explicitly returning `false`.
- *
- * @private
- * @param {Object} object The object to iterate over.
- * @param {Function} iteratee The function invoked per iteration.
- * @param {Function} keysFunc The function to get the keys of `object`.
- * @returns {Object} Returns `object`.
- */
-var baseFor = createBaseFor();
-
-module.exports = baseFor;
-
-},{"./_createBaseFor":42}],25:[function(require,module,exports){
-var baseFor = require('./_baseFor'),
-    keys = require('./keys');
-
-/**
- * The base implementation of `_.forOwn` without support for iteratee shorthands.
- *
- * @private
- * @param {Object} object The object to iterate over.
- * @param {Function} iteratee The function invoked per iteration.
- * @returns {Object} Returns `object`.
- */
-function baseForOwn(object, iteratee) {
-  return object && baseFor(object, iteratee, keys);
-}
-
-module.exports = baseForOwn;
-
-},{"./_baseFor":24,"./keys":97}],26:[function(require,module,exports){
-var baseCastPath = require('./_baseCastPath'),
-    isKey = require('./_isKey');
-
-/**
- * The base implementation of `_.get` without support for default values.
- *
- * @private
- * @param {Object} object The object to query.
- * @param {Array|string} path The path of the property to get.
- * @returns {*} Returns the resolved value.
- */
-function baseGet(object, path) {
-  path = isKey(path, object) ? [path] : baseCastPath(path);
-
-  var index = 0,
-      length = path.length;
-
-  while (object != null && index < length) {
-    object = object[path[index++]];
-  }
-  return (index && index == length) ? object : undefined;
-}
-
-module.exports = baseGet;
-
-},{"./_baseCastPath":22,"./_isKey":59}],27:[function(require,module,exports){
-var getPrototype = require('./_getPrototype');
-
-/** Used for built-in method references. */
-var objectProto = Object.prototype;
-
-/** Used to check objects for own properties. */
-var hasOwnProperty = objectProto.hasOwnProperty;
-
-/**
- * The base implementation of `_.has` without support for deep paths.
- *
- * @private
- * @param {Object} object The object to query.
- * @param {Array|string} key The key to check.
- * @returns {boolean} Returns `true` if `key` exists, else `false`.
- */
-function baseHas(object, key) {
-  // Avoid a bug in IE 10-11 where objects with a [[Prototype]] of `null`,
-  // that are composed entirely of index properties, return `false` for
-  // `hasOwnProperty` checks of them.
-  return hasOwnProperty.call(object, key) ||
-    (typeof object == 'object' && key in object && getPrototype(object) === null);
-}
-
-module.exports = baseHas;
-
-},{"./_getPrototype":49}],28:[function(require,module,exports){
-/**
- * The base implementation of `_.hasIn` without support for deep paths.
- *
- * @private
- * @param {Object} object The object to query.
- * @param {Array|string} key The key to check.
- * @returns {boolean} Returns `true` if `key` exists, else `false`.
- */
-function baseHasIn(object, key) {
-  return key in Object(object);
-}
-
-module.exports = baseHasIn;
-
-},{}],29:[function(require,module,exports){
-var baseIsEqualDeep = require('./_baseIsEqualDeep'),
-    isObject = require('./isObject'),
-    isObjectLike = require('./isObjectLike');
-
-/**
- * The base implementation of `_.isEqual` which supports partial comparisons
- * and tracks traversed objects.
- *
- * @private
- * @param {*} value The value to compare.
- * @param {*} other The other value to compare.
- * @param {Function} [customizer] The function to customize comparisons.
- * @param {boolean} [bitmask] The bitmask of comparison flags.
- *  The bitmask may be composed of the following flags:
- *     1 - Unordered comparison
- *     2 - Partial comparison
- * @param {Object} [stack] Tracks traversed `value` and `other` objects.
- * @returns {boolean} Returns `true` if the values are equivalent, else `false`.
- */
-function baseIsEqual(value, other, customizer, bitmask, stack) {
-  if (value === other) {
-    return true;
-  }
-  if (value == null || other == null || (!isObject(value) && !isObjectLike(other))) {
-    return value !== value && other !== other;
-  }
-  return baseIsEqualDeep(value, other, baseIsEqual, customizer, bitmask, stack);
-}
-
-module.exports = baseIsEqual;
-
-},{"./_baseIsEqualDeep":30,"./isObject":92,"./isObjectLike":93}],30:[function(require,module,exports){
-var Stack = require('./_Stack'),
-    equalArrays = require('./_equalArrays'),
-    equalByTag = require('./_equalByTag'),
-    equalObjects = require('./_equalObjects'),
-    getTag = require('./_getTag'),
-    isArray = require('./isArray'),
-    isHostObject = require('./_isHostObject'),
-    isTypedArray = require('./isTypedArray');
-
-/** Used to compose bitmasks for comparison styles. */
-var PARTIAL_COMPARE_FLAG = 2;
-
-/** `Object#toString` result references. */
-var argsTag = '[object Arguments]',
-    arrayTag = '[object Array]',
-    objectTag = '[object Object]';
-
-/** Used for built-in method references. */
-var objectProto = Object.prototype;
-
-/** Used to check objects for own properties. */
-var hasOwnProperty = objectProto.hasOwnProperty;
-
-/**
- * A specialized version of `baseIsEqual` for arrays and objects which performs
- * deep comparisons and tracks traversed objects enabling objects with circular
- * references to be compared.
- *
- * @private
- * @param {Object} object The object to compare.
- * @param {Object} other The other object to compare.
- * @param {Function} equalFunc The function to determine equivalents of values.
- * @param {Function} [customizer] The function to customize comparisons.
- * @param {number} [bitmask] The bitmask of comparison flags. See `baseIsEqual`
- *  for more details.
- * @param {Object} [stack] Tracks traversed `object` and `other` objects.
- * @returns {boolean} Returns `true` if the objects are equivalent, else `false`.
- */
-function baseIsEqualDeep(object, other, equalFunc, customizer, bitmask, stack) {
-  var objIsArr = isArray(object),
-      othIsArr = isArray(other),
-      objTag = arrayTag,
-      othTag = arrayTag;
-
-  if (!objIsArr) {
-    objTag = getTag(object);
-    objTag = objTag == argsTag ? objectTag : objTag;
-  }
-  if (!othIsArr) {
-    othTag = getTag(other);
-    othTag = othTag == argsTag ? objectTag : othTag;
-  }
-  var objIsObj = objTag == objectTag && !isHostObject(object),
-      othIsObj = othTag == objectTag && !isHostObject(other),
-      isSameTag = objTag == othTag;
-
-  if (isSameTag && !objIsObj) {
-    stack || (stack = new Stack);
-    return (objIsArr || isTypedArray(object))
-      ? equalArrays(object, other, equalFunc, customizer, bitmask, stack)
-      : equalByTag(object, other, objTag, equalFunc, customizer, bitmask, stack);
-  }
-  if (!(bitmask & PARTIAL_COMPARE_FLAG)) {
-    var objIsWrapped = objIsObj && hasOwnProperty.call(object, '__wrapped__'),
-        othIsWrapped = othIsObj && hasOwnProperty.call(other, '__wrapped__');
-
-    if (objIsWrapped || othIsWrapped) {
-      var objUnwrapped = objIsWrapped ? object.value() : object,
-          othUnwrapped = othIsWrapped ? other.value() : other;
-
-      stack || (stack = new Stack);
-      return equalFunc(objUnwrapped, othUnwrapped, customizer, bitmask, stack);
-    }
-  }
-  if (!isSameTag) {
-    return false;
-  }
-  stack || (stack = new Stack);
-  return equalObjects(object, other, equalFunc, customizer, bitmask, stack);
-}
-
-module.exports = baseIsEqualDeep;
-
-},{"./_Stack":10,"./_equalArrays":43,"./_equalByTag":44,"./_equalObjects":45,"./_getTag":50,"./_isHostObject":57,"./isArray":86,"./isTypedArray":96}],31:[function(require,module,exports){
-var Stack = require('./_Stack'),
-    baseIsEqual = require('./_baseIsEqual');
-
-/** Used to compose bitmasks for comparison styles. */
-var UNORDERED_COMPARE_FLAG = 1,
-    PARTIAL_COMPARE_FLAG = 2;
-
-/**
- * The base implementation of `_.isMatch` without support for iteratee shorthands.
- *
- * @private
- * @param {Object} object The object to inspect.
- * @param {Object} source The object of property values to match.
- * @param {Array} matchData The property names, values, and compare flags to match.
- * @param {Function} [customizer] The function to customize comparisons.
- * @returns {boolean} Returns `true` if `object` is a match, else `false`.
- */
-function baseIsMatch(object, source, matchData, customizer) {
-  var index = matchData.length,
-      length = index,
-      noCustomizer = !customizer;
-
-  if (object == null) {
-    return !length;
-  }
-  object = Object(object);
-  while (index--) {
-    var data = matchData[index];
-    if ((noCustomizer && data[2])
-          ? data[1] !== object[data[0]]
-          : !(data[0] in object)
-        ) {
-      return false;
-    }
-  }
-  while (++index < length) {
-    data = matchData[index];
-    var key = data[0],
-        objValue = object[key],
-        srcValue = data[1];
-
-    if (noCustomizer && data[2]) {
-      if (objValue === undefined && !(key in object)) {
-        return false;
-      }
-    } else {
-      var stack = new Stack;
-      if (customizer) {
-        var result = customizer(objValue, srcValue, key, object, source, stack);
-      }
-      if (!(result === undefined
-            ? baseIsEqual(srcValue, objValue, customizer, UNORDERED_COMPARE_FLAG | PARTIAL_COMPARE_FLAG, stack)
-            : result
-          )) {
-        return false;
-      }
-    }
-  }
-  return true;
-}
-
-module.exports = baseIsMatch;
-
-},{"./_Stack":10,"./_baseIsEqual":29}],32:[function(require,module,exports){
-var baseMatches = require('./_baseMatches'),
-    baseMatchesProperty = require('./_baseMatchesProperty'),
-    identity = require('./identity'),
-    isArray = require('./isArray'),
-    property = require('./property');
-
-/**
- * The base implementation of `_.iteratee`.
- *
- * @private
- * @param {*} [value=_.identity] The value to convert to an iteratee.
- * @returns {Function} Returns the iteratee.
- */
-function baseIteratee(value) {
-  // Don't store the `typeof` result in a variable to avoid a JIT bug in Safari 9.
-  // See https://bugs.webkit.org/show_bug.cgi?id=156034 for more details.
-  if (typeof value == 'function') {
-    return value;
-  }
-  if (value == null) {
-    return identity;
-  }
-  if (typeof value == 'object') {
-    return isArray(value)
-      ? baseMatchesProperty(value[0], value[1])
-      : baseMatches(value);
-  }
-  return property(value);
-}
-
-module.exports = baseIteratee;
-
-},{"./_baseMatches":34,"./_baseMatchesProperty":35,"./identity":84,"./isArray":86,"./property":99}],33:[function(require,module,exports){
-/* Built-in method references for those with the same name as other `lodash` methods. */
-var nativeKeys = Object.keys;
-
-/**
- * The base implementation of `_.keys` which doesn't skip the constructor
- * property of prototypes or treat sparse arrays as dense.
- *
- * @private
- * @param {Object} object The object to query.
- * @returns {Array} Returns the array of property names.
- */
-function baseKeys(object) {
-  return nativeKeys(Object(object));
-}
-
-module.exports = baseKeys;
-
-},{}],34:[function(require,module,exports){
-var baseIsMatch = require('./_baseIsMatch'),
-    getMatchData = require('./_getMatchData'),
-    matchesStrictComparable = require('./_matchesStrictComparable');
-
-/**
- * The base implementation of `_.matches` which doesn't clone `source`.
- *
- * @private
- * @param {Object} source The object of property values to match.
- * @returns {Function} Returns the new function.
- */
-function baseMatches(source) {
-  var matchData = getMatchData(source);
-  if (matchData.length == 1 && matchData[0][2]) {
-    return matchesStrictComparable(matchData[0][0], matchData[0][1]);
-  }
-  return function(object) {
-    return object === source || baseIsMatch(object, source, matchData);
-  };
-}
-
-module.exports = baseMatches;
-
-},{"./_baseIsMatch":31,"./_getMatchData":47,"./_matchesStrictComparable":69}],35:[function(require,module,exports){
-var baseIsEqual = require('./_baseIsEqual'),
-    get = require('./get'),
-    hasIn = require('./hasIn'),
-    isKey = require('./_isKey'),
-    isStrictComparable = require('./_isStrictComparable'),
-    matchesStrictComparable = require('./_matchesStrictComparable');
-
-/** Used to compose bitmasks for comparison styles. */
-var UNORDERED_COMPARE_FLAG = 1,
-    PARTIAL_COMPARE_FLAG = 2;
-
-/**
- * The base implementation of `_.matchesProperty` which doesn't clone `srcValue`.
- *
- * @private
- * @param {string} path The path of the property to get.
- * @param {*} srcValue The value to match.
- * @returns {Function} Returns the new function.
- */
-function baseMatchesProperty(path, srcValue) {
-  if (isKey(path) && isStrictComparable(srcValue)) {
-    return matchesStrictComparable(path, srcValue);
-  }
-  return function(object) {
-    var objValue = get(object, path);
-    return (objValue === undefined && objValue === srcValue)
-      ? hasIn(object, path)
-      : baseIsEqual(srcValue, objValue, undefined, UNORDERED_COMPARE_FLAG | PARTIAL_COMPARE_FLAG);
-  };
-}
-
-module.exports = baseMatchesProperty;
-
-},{"./_baseIsEqual":29,"./_isKey":59,"./_isStrictComparable":62,"./_matchesStrictComparable":69,"./get":82,"./hasIn":83}],36:[function(require,module,exports){
-/**
- * The base implementation of `_.property` without support for deep paths.
- *
- * @private
- * @param {string} key The key of the property to get.
- * @returns {Function} Returns the new function.
- */
-function baseProperty(key) {
-  return function(object) {
-    return object == null ? undefined : object[key];
-  };
-}
-
-module.exports = baseProperty;
-
-},{}],37:[function(require,module,exports){
-var baseGet = require('./_baseGet');
-
-/**
- * A specialized version of `baseProperty` which supports deep paths.
- *
- * @private
- * @param {Array|string} path The path of the property to get.
- * @returns {Function} Returns the new function.
- */
-function basePropertyDeep(path) {
-  return function(object) {
-    return baseGet(object, path);
-  };
-}
-
-module.exports = basePropertyDeep;
-
-},{"./_baseGet":26}],38:[function(require,module,exports){
-/**
- * The base implementation of `_.times` without support for iteratee shorthands
- * or max array length checks.
- *
- * @private
- * @param {number} n The number of times to invoke `iteratee`.
- * @param {Function} iteratee The function invoked per iteration.
- * @returns {Array} Returns the array of results.
- */
-function baseTimes(n, iteratee) {
-  var index = -1,
-      result = Array(n);
-
-  while (++index < n) {
-    result[index] = iteratee(index);
-  }
-  return result;
-}
-
-module.exports = baseTimes;
-
-},{}],39:[function(require,module,exports){
-var arrayMap = require('./_arrayMap');
-
-/**
- * The base implementation of `_.toPairs` and `_.toPairsIn` which creates an array
- * of key-value pairs for `object` corresponding to the property names of `props`.
- *
- * @private
- * @param {Object} object The object to query.
- * @param {Array} props The property names to get values for.
- * @returns {Object} Returns the new array of key-value pairs.
- */
-function baseToPairs(object, props) {
-  return arrayMap(props, function(key) {
-    return [key, object[key]];
-  });
-}
-
-module.exports = baseToPairs;
-
-},{"./_arrayMap":15}],40:[function(require,module,exports){
-/**
- * Checks if `value` is a global object.
- *
- * @private
- * @param {*} value The value to check.
- * @returns {null|Object} Returns `value` if it's a global object, else `null`.
- */
-function checkGlobal(value) {
-  return (value && value.Object === Object) ? value : null;
-}
-
-module.exports = checkGlobal;
-
-},{}],41:[function(require,module,exports){
-var isArrayLike = require('./isArrayLike');
-
-/**
- * Creates a `baseEach` or `baseEachRight` function.
- *
- * @private
- * @param {Function} eachFunc The function to iterate over a collection.
- * @param {boolean} [fromRight] Specify iterating from right to left.
- * @returns {Function} Returns the new base function.
- */
-function createBaseEach(eachFunc, fromRight) {
-  return function(collection, iteratee) {
-    if (collection == null) {
-      return collection;
-    }
-    if (!isArrayLike(collection)) {
-      return eachFunc(collection, iteratee);
-    }
-    var length = collection.length,
-        index = fromRight ? length : -1,
-        iterable = Object(collection);
-
-    while ((fromRight ? index-- : ++index < length)) {
-      if (iteratee(iterable[index], index, iterable) === false) {
-        break;
-      }
-    }
-    return collection;
-  };
-}
-
-module.exports = createBaseEach;
-
-},{"./isArrayLike":87}],42:[function(require,module,exports){
-/**
- * Creates a base function for methods like `_.forIn` and `_.forOwn`.
- *
- * @private
- * @param {boolean} [fromRight] Specify iterating from right to left.
- * @returns {Function} Returns the new base function.
- */
-function createBaseFor(fromRight) {
-  return function(object, iteratee, keysFunc) {
-    var index = -1,
-        iterable = Object(object),
-        props = keysFunc(object),
-        length = props.length;
-
-    while (length--) {
-      var key = props[fromRight ? length : ++index];
-      if (iteratee(iterable[key], key, iterable) === false) {
-        break;
-      }
-    }
-    return object;
-  };
-}
-
-module.exports = createBaseFor;
-
-},{}],43:[function(require,module,exports){
-var arraySome = require('./_arraySome');
-
-/** Used to compose bitmasks for comparison styles. */
-var UNORDERED_COMPARE_FLAG = 1,
-    PARTIAL_COMPARE_FLAG = 2;
-
-/**
- * A specialized version of `baseIsEqualDeep` for arrays with support for
- * partial deep comparisons.
- *
- * @private
- * @param {Array} array The array to compare.
- * @param {Array} other The other array to compare.
- * @param {Function} equalFunc The function to determine equivalents of values.
- * @param {Function} customizer The function to customize comparisons.
- * @param {number} bitmask The bitmask of comparison flags. See `baseIsEqual`
- *  for more details.
- * @param {Object} stack Tracks traversed `array` and `other` objects.
- * @returns {boolean} Returns `true` if the arrays are equivalent, else `false`.
- */
-function equalArrays(array, other, equalFunc, customizer, bitmask, stack) {
-  var index = -1,
-      isPartial = bitmask & PARTIAL_COMPARE_FLAG,
-      isUnordered = bitmask & UNORDERED_COMPARE_FLAG,
-      arrLength = array.length,
-      othLength = other.length;
-
-  if (arrLength != othLength && !(isPartial && othLength > arrLength)) {
-    return false;
-  }
-  // Assume cyclic values are equal.
-  var stacked = stack.get(array);
-  if (stacked) {
-    return stacked == other;
-  }
-  var result = true;
-  stack.set(array, other);
-
-  // Ignore non-index properties.
-  while (++index < arrLength) {
-    var arrValue = array[index],
-        othValue = other[index];
-
-    if (customizer) {
-      var compared = isPartial
-        ? customizer(othValue, arrValue, index, other, array, stack)
-        : customizer(arrValue, othValue, index, array, other, stack);
-    }
-    if (compared !== undefined) {
-      if (compared) {
-        continue;
-      }
-      result = false;
-      break;
-    }
-    // Recursively compare arrays (susceptible to call stack limits).
-    if (isUnordered) {
-      if (!arraySome(other, function(othValue) {
-            return arrValue === othValue ||
-              equalFunc(arrValue, othValue, customizer, bitmask, stack);
-          })) {
-        result = false;
-        break;
-      }
-    } else if (!(
-          arrValue === othValue ||
-            equalFunc(arrValue, othValue, customizer, bitmask, stack)
-        )) {
-      result = false;
-      break;
-    }
-  }
-  stack['delete'](array);
-  return result;
-}
-
-module.exports = equalArrays;
-
-},{"./_arraySome":16}],44:[function(require,module,exports){
-var Symbol = require('./_Symbol'),
-    Uint8Array = require('./_Uint8Array'),
-    equalArrays = require('./_equalArrays'),
-    mapToArray = require('./_mapToArray'),
-    setToArray = require('./_setToArray');
-
-/** Used to compose bitmasks for comparison styles. */
-var UNORDERED_COMPARE_FLAG = 1,
-    PARTIAL_COMPARE_FLAG = 2;
-
-/** `Object#toString` result references. */
-var boolTag = '[object Boolean]',
-    dateTag = '[object Date]',
-    errorTag = '[object Error]',
-    mapTag = '[object Map]',
-    numberTag = '[object Number]',
-    regexpTag = '[object RegExp]',
-    setTag = '[object Set]',
-    stringTag = '[object String]',
-    symbolTag = '[object Symbol]';
-
-var arrayBufferTag = '[object ArrayBuffer]',
-    dataViewTag = '[object DataView]';
-
-/** Used to convert symbols to primitives and strings. */
-var symbolProto = Symbol ? Symbol.prototype : undefined,
-    symbolValueOf = symbolProto ? symbolProto.valueOf : undefined;
-
-/**
- * A specialized version of `baseIsEqualDeep` for comparing objects of
- * the same `toStringTag`.
- *
- * **Note:** This function only supports comparing values with tags of
- * `Boolean`, `Date`, `Error`, `Number`, `RegExp`, or `String`.
- *
- * @private
- * @param {Object} object The object to compare.
- * @param {Object} other The other object to compare.
- * @param {string} tag The `toStringTag` of the objects to compare.
- * @param {Function} equalFunc The function to determine equivalents of values.
- * @param {Function} customizer The function to customize comparisons.
- * @param {number} bitmask The bitmask of comparison flags. See `baseIsEqual`
- *  for more details.
- * @param {Object} stack Tracks traversed `object` and `other` objects.
- * @returns {boolean} Returns `true` if the objects are equivalent, else `false`.
- */
-function equalByTag(object, other, tag, equalFunc, customizer, bitmask, stack) {
-  switch (tag) {
-    case dataViewTag:
-      if ((object.byteLength != other.byteLength) ||
-          (object.byteOffset != other.byteOffset)) {
-        return false;
-      }
-      object = object.buffer;
-      other = other.buffer;
-
-    case arrayBufferTag:
-      if ((object.byteLength != other.byteLength) ||
-          !equalFunc(new Uint8Array(object), new Uint8Array(other))) {
-        return false;
-      }
-      return true;
-
-    case boolTag:
-    case dateTag:
-      // Coerce dates and booleans to numbers, dates to milliseconds and
-      // booleans to `1` or `0` treating invalid dates coerced to `NaN` as
-      // not equal.
-      return +object == +other;
-
-    case errorTag:
-      return object.name == other.name && object.message == other.message;
-
-    case numberTag:
-      // Treat `NaN` vs. `NaN` as equal.
-      return (object != +object) ? other != +other : object == +other;
-
-    case regexpTag:
-    case stringTag:
-      // Coerce regexes to strings and treat strings, primitives and objects,
-      // as equal. See http://www.ecma-international.org/ecma-262/6.0/#sec-regexp.prototype.tostring
-      // for more details.
-      return object == (other + '');
-
-    case mapTag:
-      var convert = mapToArray;
-
-    case setTag:
-      var isPartial = bitmask & PARTIAL_COMPARE_FLAG;
-      convert || (convert = setToArray);
-
-      if (object.size != other.size && !isPartial) {
-        return false;
-      }
-      // Assume cyclic values are equal.
-      var stacked = stack.get(object);
-      if (stacked) {
-        return stacked == other;
-      }
-      bitmask |= UNORDERED_COMPARE_FLAG;
-      stack.set(object, other);
-
-      // Recursively compare objects (susceptible to call stack limits).
-      return equalArrays(convert(object), convert(other), equalFunc, customizer, bitmask, stack);
-
-    case symbolTag:
-      if (symbolValueOf) {
-        return symbolValueOf.call(object) == symbolValueOf.call(other);
-      }
-  }
-  return false;
-}
-
-module.exports = equalByTag;
-
-},{"./_Symbol":11,"./_Uint8Array":12,"./_equalArrays":43,"./_mapToArray":68,"./_setToArray":72}],45:[function(require,module,exports){
-var baseHas = require('./_baseHas'),
-    keys = require('./keys');
-
-/** Used to compose bitmasks for comparison styles. */
-var PARTIAL_COMPARE_FLAG = 2;
-
-/**
- * A specialized version of `baseIsEqualDeep` for objects with support for
- * partial deep comparisons.
- *
- * @private
- * @param {Object} object The object to compare.
- * @param {Object} other The other object to compare.
- * @param {Function} equalFunc The function to determine equivalents of values.
- * @param {Function} customizer The function to customize comparisons.
- * @param {number} bitmask The bitmask of comparison flags. See `baseIsEqual`
- *  for more details.
- * @param {Object} stack Tracks traversed `object` and `other` objects.
- * @returns {boolean} Returns `true` if the objects are equivalent, else `false`.
- */
-function equalObjects(object, other, equalFunc, customizer, bitmask, stack) {
-  var isPartial = bitmask & PARTIAL_COMPARE_FLAG,
-      objProps = keys(object),
-      objLength = objProps.length,
-      othProps = keys(other),
-      othLength = othProps.length;
-
-  if (objLength != othLength && !isPartial) {
-    return false;
-  }
-  var index = objLength;
-  while (index--) {
-    var key = objProps[index];
-    if (!(isPartial ? key in other : baseHas(other, key))) {
-      return false;
-    }
-  }
-  // Assume cyclic values are equal.
-  var stacked = stack.get(object);
-  if (stacked) {
-    return stacked == other;
-  }
-  var result = true;
-  stack.set(object, other);
-
-  var skipCtor = isPartial;
-  while (++index < objLength) {
-    key = objProps[index];
-    var objValue = object[key],
-        othValue = other[key];
-
-    if (customizer) {
-      var compared = isPartial
-        ? customizer(othValue, objValue, key, other, object, stack)
-        : customizer(objValue, othValue, key, object, other, stack);
-    }
-    // Recursively compare objects (susceptible to call stack limits).
-    if (!(compared === undefined
-          ? (objValue === othValue || equalFunc(objValue, othValue, customizer, bitmask, stack))
-          : compared
-        )) {
-      result = false;
-      break;
-    }
-    skipCtor || (skipCtor = key == 'constructor');
-  }
-  if (result && !skipCtor) {
-    var objCtor = object.constructor,
-        othCtor = other.constructor;
-
-    // Non `Object` object instances with different constructors are not equal.
-    if (objCtor != othCtor &&
-        ('constructor' in object && 'constructor' in other) &&
-        !(typeof objCtor == 'function' && objCtor instanceof objCtor &&
-          typeof othCtor == 'function' && othCtor instanceof othCtor)) {
-      result = false;
-    }
-  }
-  stack['delete'](object);
-  return result;
-}
-
-module.exports = equalObjects;
-
-},{"./_baseHas":27,"./keys":97}],46:[function(require,module,exports){
-var baseProperty = require('./_baseProperty');
-
-/**
- * Gets the "length" property value of `object`.
- *
- * **Note:** This function is used to avoid a
- * [JIT bug](https://bugs.webkit.org/show_bug.cgi?id=142792) that affects
- * Safari on at least iOS 8.1-8.3 ARM64.
- *
- * @private
- * @param {Object} object The object to query.
- * @returns {*} Returns the "length" value.
- */
-var getLength = baseProperty('length');
-
-module.exports = getLength;
-
-},{"./_baseProperty":36}],47:[function(require,module,exports){
-var isStrictComparable = require('./_isStrictComparable'),
-    toPairs = require('./toPairs');
-
-/**
- * Gets the property names, values, and compare flags of `object`.
- *
- * @private
- * @param {Object} object The object to query.
- * @returns {Array} Returns the match data of `object`.
- */
-function getMatchData(object) {
-  var result = toPairs(object),
-      length = result.length;
-
-  while (length--) {
-    result[length][2] = isStrictComparable(result[length][1]);
-  }
-  return result;
-}
-
-module.exports = getMatchData;
-
-},{"./_isStrictComparable":62,"./toPairs":100}],48:[function(require,module,exports){
-var isNative = require('./isNative');
-
-/**
- * Gets the native function at `key` of `object`.
- *
- * @private
- * @param {Object} object The object to query.
- * @param {string} key The key of the method to get.
- * @returns {*} Returns the function if it's native, else `undefined`.
- */
-function getNative(object, key) {
-  var value = object[key];
-  return isNative(value) ? value : undefined;
-}
-
-module.exports = getNative;
-
-},{"./isNative":91}],49:[function(require,module,exports){
-/* Built-in method references for those with the same name as other `lodash` methods. */
-var nativeGetPrototype = Object.getPrototypeOf;
-
-/**
- * Gets the `[[Prototype]]` of `value`.
- *
- * @private
- * @param {*} value The value to query.
- * @returns {null|Object} Returns the `[[Prototype]]`.
- */
-function getPrototype(value) {
-  return nativeGetPrototype(Object(value));
-}
-
-module.exports = getPrototype;
-
-},{}],50:[function(require,module,exports){
-var DataView = require('./_DataView'),
-    Map = require('./_Map'),
-    Promise = require('./_Promise'),
-    Set = require('./_Set'),
-    WeakMap = require('./_WeakMap'),
-    toSource = require('./_toSource');
-
-/** `Object#toString` result references. */
-var mapTag = '[object Map]',
-    objectTag = '[object Object]',
-    promiseTag = '[object Promise]',
-    setTag = '[object Set]',
-    weakMapTag = '[object WeakMap]';
-
-var dataViewTag = '[object DataView]';
-
-/** Used for built-in method references. */
-var objectProto = Object.prototype;
-
-/**
- * Used to resolve the
- * [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
- * of values.
- */
-var objectToString = objectProto.toString;
-
-/** Used to detect maps, sets, and weakmaps. */
-var dataViewCtorString = toSource(DataView),
-    mapCtorString = toSource(Map),
-    promiseCtorString = toSource(Promise),
-    setCtorString = toSource(Set),
-    weakMapCtorString = toSource(WeakMap);
-
-/**
- * Gets the `toStringTag` of `value`.
- *
- * @private
- * @param {*} value The value to query.
- * @returns {string} Returns the `toStringTag`.
- */
-function getTag(value) {
-  return objectToString.call(value);
-}
-
-// Fallback for data views, maps, sets, and weak maps in IE 11,
-// for data views in Edge, and promises in Node.js.
-if ((DataView && getTag(new DataView(new ArrayBuffer(1))) != dataViewTag) ||
-    (Map && getTag(new Map) != mapTag) ||
-    (Promise && getTag(Promise.resolve()) != promiseTag) ||
-    (Set && getTag(new Set) != setTag) ||
-    (WeakMap && getTag(new WeakMap) != weakMapTag)) {
-  getTag = function(value) {
-    var result = objectToString.call(value),
-        Ctor = result == objectTag ? value.constructor : null,
-        ctorString = toSource(Ctor);
-
-    if (ctorString) {
-      switch (ctorString) {
-        case dataViewCtorString: return dataViewTag;
-        case mapCtorString: return mapTag;
-        case promiseCtorString: return promiseTag;
-        case setCtorString: return setTag;
-        case weakMapCtorString: return weakMapTag;
-      }
-    }
-    return result;
-  };
-}
-
-module.exports = getTag;
-
-},{"./_DataView":4,"./_Map":6,"./_Promise":8,"./_Set":9,"./_WeakMap":13,"./_toSource":79}],51:[function(require,module,exports){
-var baseCastPath = require('./_baseCastPath'),
-    isArguments = require('./isArguments'),
-    isArray = require('./isArray'),
-    isIndex = require('./_isIndex'),
-    isKey = require('./_isKey'),
-    isLength = require('./isLength'),
-    isString = require('./isString');
-
-/**
- * Checks if `path` exists on `object`.
- *
- * @private
- * @param {Object} object The object to query.
- * @param {Array|string} path The path to check.
- * @param {Function} hasFunc The function to check properties.
- * @returns {boolean} Returns `true` if `path` exists, else `false`.
- */
-function hasPath(object, path, hasFunc) {
-  path = isKey(path, object) ? [path] : baseCastPath(path);
-
-  var result,
-      index = -1,
-      length = path.length;
-
-  while (++index < length) {
-    var key = path[index];
-    if (!(result = object != null && hasFunc(object, key))) {
-      break;
-    }
-    object = object[key];
-  }
-  if (result) {
-    return result;
-  }
-  var length = object ? object.length : 0;
-  return !!length && isLength(length) && isIndex(key, length) &&
-    (isArray(object) || isString(object) || isArguments(object));
-}
-
-module.exports = hasPath;
-
-},{"./_baseCastPath":22,"./_isIndex":58,"./_isKey":59,"./isArguments":85,"./isArray":86,"./isLength":90,"./isString":94}],52:[function(require,module,exports){
-var hashHas = require('./_hashHas');
-
-/**
- * Removes `key` and its value from the hash.
- *
- * @private
- * @param {Object} hash The hash to modify.
- * @param {string} key The key of the value to remove.
- * @returns {boolean} Returns `true` if the entry was removed, else `false`.
- */
-function hashDelete(hash, key) {
-  return hashHas(hash, key) && delete hash[key];
-}
-
-module.exports = hashDelete;
-
-},{"./_hashHas":54}],53:[function(require,module,exports){
-var nativeCreate = require('./_nativeCreate');
-
-/** Used to stand-in for `undefined` hash values. */
-var HASH_UNDEFINED = '__lodash_hash_undefined__';
-
-/** Used for built-in method references. */
-var objectProto = Object.prototype;
-
-/** Used to check objects for own properties. */
-var hasOwnProperty = objectProto.hasOwnProperty;
-
-/**
- * Gets the hash value for `key`.
- *
- * @private
- * @param {Object} hash The hash to query.
- * @param {string} key The key of the value to get.
- * @returns {*} Returns the entry value.
- */
-function hashGet(hash, key) {
-  if (nativeCreate) {
-    var result = hash[key];
-    return result === HASH_UNDEFINED ? undefined : result;
-  }
-  return hasOwnProperty.call(hash, key) ? hash[key] : undefined;
-}
-
-module.exports = hashGet;
-
-},{"./_nativeCreate":70}],54:[function(require,module,exports){
-var nativeCreate = require('./_nativeCreate');
-
-/** Used for built-in method references. */
-var objectProto = Object.prototype;
-
-/** Used to check objects for own properties. */
-var hasOwnProperty = objectProto.hasOwnProperty;
-
-/**
- * Checks if a hash value for `key` exists.
- *
- * @private
- * @param {Object} hash The hash to query.
- * @param {string} key The key of the entry to check.
- * @returns {boolean} Returns `true` if an entry for `key` exists, else `false`.
- */
-function hashHas(hash, key) {
-  return nativeCreate ? hash[key] !== undefined : hasOwnProperty.call(hash, key);
-}
-
-module.exports = hashHas;
-
-},{"./_nativeCreate":70}],55:[function(require,module,exports){
-var nativeCreate = require('./_nativeCreate');
-
-/** Used to stand-in for `undefined` hash values. */
-var HASH_UNDEFINED = '__lodash_hash_undefined__';
-
-/**
- * Sets the hash `key` to `value`.
- *
- * @private
- * @param {Object} hash The hash to modify.
- * @param {string} key The key of the value to set.
- * @param {*} value The value to set.
- */
-function hashSet(hash, key, value) {
-  hash[key] = (nativeCreate && value === undefined) ? HASH_UNDEFINED : value;
-}
-
-module.exports = hashSet;
-
-},{"./_nativeCreate":70}],56:[function(require,module,exports){
-var baseTimes = require('./_baseTimes'),
-    isArguments = require('./isArguments'),
-    isArray = require('./isArray'),
-    isLength = require('./isLength'),
-    isString = require('./isString');
-
-/**
- * Creates an array of index keys for `object` values of arrays,
- * `arguments` objects, and strings, otherwise `null` is returned.
- *
- * @private
- * @param {Object} object The object to query.
- * @returns {Array|null} Returns index keys, else `null`.
- */
-function indexKeys(object) {
-  var length = object ? object.length : undefined;
-  if (isLength(length) &&
-      (isArray(object) || isString(object) || isArguments(object))) {
-    return baseTimes(length, String);
-  }
-  return null;
-}
-
-module.exports = indexKeys;
-
-},{"./_baseTimes":38,"./isArguments":85,"./isArray":86,"./isLength":90,"./isString":94}],57:[function(require,module,exports){
-/**
- * Checks if `value` is a host object in IE < 9.
- *
- * @private
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a host object, else `false`.
- */
-function isHostObject(value) {
-  // Many host objects are `Object` objects that can coerce to strings
-  // despite having improperly defined `toString` methods.
-  var result = false;
-  if (value != null && typeof value.toString != 'function') {
-    try {
-      result = !!(value + '');
-    } catch (e) {}
-  }
-  return result;
-}
-
-module.exports = isHostObject;
-
-},{}],58:[function(require,module,exports){
-/** Used as references for various `Number` constants. */
-var MAX_SAFE_INTEGER = 9007199254740991;
-
-/** Used to detect unsigned integer values. */
-var reIsUint = /^(?:0|[1-9]\d*)$/;
-
-/**
- * Checks if `value` is a valid array-like index.
- *
- * @private
- * @param {*} value The value to check.
- * @param {number} [length=MAX_SAFE_INTEGER] The upper bounds of a valid index.
- * @returns {boolean} Returns `true` if `value` is a valid index, else `false`.
- */
-function isIndex(value, length) {
-  value = (typeof value == 'number' || reIsUint.test(value)) ? +value : -1;
-  length = length == null ? MAX_SAFE_INTEGER : length;
-  return value > -1 && value % 1 == 0 && value < length;
-}
-
-module.exports = isIndex;
-
-},{}],59:[function(require,module,exports){
-var isArray = require('./isArray'),
-    isSymbol = require('./isSymbol');
-
-/** Used to match property names within property paths. */
-var reIsDeepProp = /\.|\[(?:[^[\]]*|(["'])(?:(?!\1)[^\\]|\\.)*?\1)\]/,
-    reIsPlainProp = /^\w*$/;
-
-/**
- * Checks if `value` is a property name and not a property path.
- *
- * @private
- * @param {*} value The value to check.
- * @param {Object} [object] The object to query keys on.
- * @returns {boolean} Returns `true` if `value` is a property name, else `false`.
- */
-function isKey(value, object) {
-  var type = typeof value;
-  if (type == 'number' || type == 'symbol') {
-    return true;
-  }
-  return !isArray(value) &&
-    (isSymbol(value) || reIsPlainProp.test(value) || !reIsDeepProp.test(value) ||
-      (object != null && value in Object(object)));
-}
-
-module.exports = isKey;
-
-},{"./isArray":86,"./isSymbol":95}],60:[function(require,module,exports){
-/**
- * Checks if `value` is suitable for use as unique object key.
- *
- * @private
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is suitable, else `false`.
- */
-function isKeyable(value) {
-  var type = typeof value;
-  return type == 'number' || type == 'boolean' ||
-    (type == 'string' && value != '__proto__') || value == null;
-}
-
-module.exports = isKeyable;
-
-},{}],61:[function(require,module,exports){
-/** Used for built-in method references. */
-var objectProto = Object.prototype;
-
-/**
- * Checks if `value` is likely a prototype object.
- *
- * @private
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a prototype, else `false`.
- */
-function isPrototype(value) {
-  var Ctor = value && value.constructor,
-      proto = (typeof Ctor == 'function' && Ctor.prototype) || objectProto;
-
-  return value === proto;
-}
-
-module.exports = isPrototype;
-
-},{}],62:[function(require,module,exports){
-var isObject = require('./isObject');
-
-/**
- * Checks if `value` is suitable for strict equality comparisons, i.e. `===`.
- *
- * @private
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` if suitable for strict
- *  equality comparisons, else `false`.
- */
-function isStrictComparable(value) {
-  return value === value && !isObject(value);
-}
-
-module.exports = isStrictComparable;
-
-},{"./isObject":92}],63:[function(require,module,exports){
-var Hash = require('./_Hash'),
-    Map = require('./_Map');
-
-/**
- * Removes all key-value entries from the map.
- *
- * @private
- * @name clear
- * @memberOf MapCache
- */
-function mapClear() {
-  this.__data__ = {
-    'hash': new Hash,
-    'map': Map ? new Map : [],
-    'string': new Hash
-  };
-}
-
-module.exports = mapClear;
-
-},{"./_Hash":5,"./_Map":6}],64:[function(require,module,exports){
-var Map = require('./_Map'),
-    assocDelete = require('./_assocDelete'),
-    hashDelete = require('./_hashDelete'),
-    isKeyable = require('./_isKeyable');
-
-/**
- * Removes `key` and its value from the map.
- *
- * @private
- * @name delete
- * @memberOf MapCache
- * @param {string} key The key of the value to remove.
- * @returns {boolean} Returns `true` if the entry was removed, else `false`.
- */
-function mapDelete(key) {
-  var data = this.__data__;
-  if (isKeyable(key)) {
-    return hashDelete(typeof key == 'string' ? data.string : data.hash, key);
-  }
-  return Map ? data.map['delete'](key) : assocDelete(data.map, key);
-}
-
-module.exports = mapDelete;
-
-},{"./_Map":6,"./_assocDelete":17,"./_hashDelete":52,"./_isKeyable":60}],65:[function(require,module,exports){
-var Map = require('./_Map'),
-    assocGet = require('./_assocGet'),
-    hashGet = require('./_hashGet'),
-    isKeyable = require('./_isKeyable');
-
-/**
- * Gets the map value for `key`.
- *
- * @private
- * @name get
- * @memberOf MapCache
- * @param {string} key The key of the value to get.
- * @returns {*} Returns the entry value.
- */
-function mapGet(key) {
-  var data = this.__data__;
-  if (isKeyable(key)) {
-    return hashGet(typeof key == 'string' ? data.string : data.hash, key);
-  }
-  return Map ? data.map.get(key) : assocGet(data.map, key);
-}
-
-module.exports = mapGet;
-
-},{"./_Map":6,"./_assocGet":18,"./_hashGet":53,"./_isKeyable":60}],66:[function(require,module,exports){
-var Map = require('./_Map'),
-    assocHas = require('./_assocHas'),
-    hashHas = require('./_hashHas'),
-    isKeyable = require('./_isKeyable');
-
-/**
- * Checks if a map value for `key` exists.
- *
- * @private
- * @name has
- * @memberOf MapCache
- * @param {string} key The key of the entry to check.
- * @returns {boolean} Returns `true` if an entry for `key` exists, else `false`.
- */
-function mapHas(key) {
-  var data = this.__data__;
-  if (isKeyable(key)) {
-    return hashHas(typeof key == 'string' ? data.string : data.hash, key);
-  }
-  return Map ? data.map.has(key) : assocHas(data.map, key);
-}
-
-module.exports = mapHas;
-
-},{"./_Map":6,"./_assocHas":19,"./_hashHas":54,"./_isKeyable":60}],67:[function(require,module,exports){
-var Map = require('./_Map'),
-    assocSet = require('./_assocSet'),
-    hashSet = require('./_hashSet'),
-    isKeyable = require('./_isKeyable');
-
-/**
- * Sets the map `key` to `value`.
- *
- * @private
- * @name set
- * @memberOf MapCache
- * @param {string} key The key of the value to set.
- * @param {*} value The value to set.
- * @returns {Object} Returns the map cache instance.
- */
-function mapSet(key, value) {
-  var data = this.__data__;
-  if (isKeyable(key)) {
-    hashSet(typeof key == 'string' ? data.string : data.hash, key, value);
-  } else if (Map) {
-    data.map.set(key, value);
-  } else {
-    assocSet(data.map, key, value);
-  }
-  return this;
-}
-
-module.exports = mapSet;
-
-},{"./_Map":6,"./_assocSet":21,"./_hashSet":55,"./_isKeyable":60}],68:[function(require,module,exports){
-/**
- * Converts `map` to an array.
- *
- * @private
- * @param {Object} map The map to convert.
- * @returns {Array} Returns the converted array.
- */
-function mapToArray(map) {
-  var index = -1,
-      result = Array(map.size);
-
-  map.forEach(function(value, key) {
-    result[++index] = [key, value];
-  });
-  return result;
-}
-
-module.exports = mapToArray;
-
-},{}],69:[function(require,module,exports){
-/**
- * A specialized version of `matchesProperty` for source values suitable
- * for strict equality comparisons, i.e. `===`.
- *
- * @private
- * @param {string} key The key of the property to get.
- * @param {*} srcValue The value to match.
- * @returns {Function} Returns the new function.
- */
-function matchesStrictComparable(key, srcValue) {
-  return function(object) {
-    if (object == null) {
-      return false;
-    }
-    return object[key] === srcValue &&
-      (srcValue !== undefined || (key in Object(object)));
-  };
-}
-
-module.exports = matchesStrictComparable;
-
-},{}],70:[function(require,module,exports){
-var getNative = require('./_getNative');
-
-/* Built-in method references that are verified to be native. */
-var nativeCreate = getNative(Object, 'create');
-
-module.exports = nativeCreate;
-
-},{"./_getNative":48}],71:[function(require,module,exports){
-(function (global){
-var checkGlobal = require('./_checkGlobal');
-
-/** Used to determine if values are of the language type `Object`. */
-var objectTypes = {
-  'function': true,
-  'object': true
-};
-
-/** Detect free variable `exports`. */
-var freeExports = (objectTypes[typeof exports] && exports && !exports.nodeType)
-  ? exports
-  : undefined;
-
-/** Detect free variable `module`. */
-var freeModule = (objectTypes[typeof module] && module && !module.nodeType)
-  ? module
-  : undefined;
-
-/** Detect free variable `global` from Node.js. */
-var freeGlobal = checkGlobal(freeExports && freeModule && typeof global == 'object' && global);
-
-/** Detect free variable `self`. */
-var freeSelf = checkGlobal(objectTypes[typeof self] && self);
-
-/** Detect free variable `window`. */
-var freeWindow = checkGlobal(objectTypes[typeof window] && window);
-
-/** Detect `this` as the global object. */
-var thisGlobal = checkGlobal(objectTypes[typeof this] && this);
-
-/**
- * Used as a reference to the global object.
- *
- * The `this` value is used if it's the global object to avoid Greasemonkey's
- * restricted `window` object, otherwise the `window` object is used.
- */
-var root = freeGlobal ||
-  ((freeWindow !== (thisGlobal && thisGlobal.window)) && freeWindow) ||
-    freeSelf || thisGlobal || Function('return this')();
-
-module.exports = root;
-
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./_checkGlobal":40}],72:[function(require,module,exports){
-/**
- * Converts `set` to an array.
- *
- * @private
- * @param {Object} set The set to convert.
- * @returns {Array} Returns the converted array.
- */
-function setToArray(set) {
-  var index = -1,
-      result = Array(set.size);
-
-  set.forEach(function(value) {
-    result[++index] = value;
-  });
-  return result;
-}
-
-module.exports = setToArray;
-
-},{}],73:[function(require,module,exports){
-/**
- * Removes all key-value entries from the stack.
- *
- * @private
- * @name clear
- * @memberOf Stack
- */
-function stackClear() {
-  this.__data__ = { 'array': [], 'map': null };
-}
-
-module.exports = stackClear;
-
-},{}],74:[function(require,module,exports){
-var assocDelete = require('./_assocDelete');
-
-/**
- * Removes `key` and its value from the stack.
- *
- * @private
- * @name delete
- * @memberOf Stack
- * @param {string} key The key of the value to remove.
- * @returns {boolean} Returns `true` if the entry was removed, else `false`.
- */
-function stackDelete(key) {
-  var data = this.__data__,
-      array = data.array;
-
-  return array ? assocDelete(array, key) : data.map['delete'](key);
-}
-
-module.exports = stackDelete;
-
-},{"./_assocDelete":17}],75:[function(require,module,exports){
-var assocGet = require('./_assocGet');
-
-/**
- * Gets the stack value for `key`.
- *
- * @private
- * @name get
- * @memberOf Stack
- * @param {string} key The key of the value to get.
- * @returns {*} Returns the entry value.
- */
-function stackGet(key) {
-  var data = this.__data__,
-      array = data.array;
-
-  return array ? assocGet(array, key) : data.map.get(key);
-}
-
-module.exports = stackGet;
-
-},{"./_assocGet":18}],76:[function(require,module,exports){
-var assocHas = require('./_assocHas');
-
-/**
- * Checks if a stack value for `key` exists.
- *
- * @private
- * @name has
- * @memberOf Stack
- * @param {string} key The key of the entry to check.
- * @returns {boolean} Returns `true` if an entry for `key` exists, else `false`.
- */
-function stackHas(key) {
-  var data = this.__data__,
-      array = data.array;
-
-  return array ? assocHas(array, key) : data.map.has(key);
-}
-
-module.exports = stackHas;
-
-},{"./_assocHas":19}],77:[function(require,module,exports){
-var MapCache = require('./_MapCache'),
-    assocSet = require('./_assocSet');
-
-/** Used as the size to enable large array optimizations. */
-var LARGE_ARRAY_SIZE = 200;
-
-/**
- * Sets the stack `key` to `value`.
- *
- * @private
- * @name set
- * @memberOf Stack
- * @param {string} key The key of the value to set.
- * @param {*} value The value to set.
- * @returns {Object} Returns the stack cache instance.
- */
-function stackSet(key, value) {
-  var data = this.__data__,
-      array = data.array;
-
-  if (array) {
-    if (array.length < (LARGE_ARRAY_SIZE - 1)) {
-      assocSet(array, key, value);
-    } else {
-      data.array = null;
-      data.map = new MapCache(array);
-    }
-  }
-  var map = data.map;
-  if (map) {
-    map.set(key, value);
-  }
-  return this;
-}
-
-module.exports = stackSet;
-
-},{"./_MapCache":7,"./_assocSet":21}],78:[function(require,module,exports){
-var memoize = require('./memoize'),
-    toString = require('./toString');
-
-/** Used to match property names within property paths. */
-var rePropName = /[^.[\]]+|\[(?:(-?\d+(?:\.\d+)?)|(["'])((?:(?!\2)[^\\]|\\.)*?)\2)\]/g;
-
-/** Used to match backslashes in property paths. */
-var reEscapeChar = /\\(\\)?/g;
-
-/**
- * Converts `string` to a property path array.
- *
- * @private
- * @param {string} string The string to convert.
- * @returns {Array} Returns the property path array.
- */
-var stringToPath = memoize(function(string) {
-  var result = [];
-  toString(string).replace(rePropName, function(match, number, quote, string) {
-    result.push(quote ? string.replace(reEscapeChar, '$1') : (number || match));
-  });
-  return result;
-});
-
-module.exports = stringToPath;
-
-},{"./memoize":98,"./toString":101}],79:[function(require,module,exports){
-var isFunction = require('./isFunction'),
-    toString = require('./toString');
-
-/** Used to resolve the decompiled source of functions. */
-var funcToString = Function.prototype.toString;
-
-/**
- * Converts `func` to its source code.
- *
- * @private
- * @param {Function} func The function to process.
- * @returns {string} Returns the source code.
- */
-function toSource(func) {
-  if (isFunction(func)) {
-    try {
-      return funcToString.call(func);
-    } catch (e) {}
-  }
-  return toString(func);
-}
-
-module.exports = toSource;
-
-},{"./isFunction":89,"./toString":101}],80:[function(require,module,exports){
-/**
- * Performs a
- * [`SameValueZero`](http://ecma-international.org/ecma-262/6.0/#sec-samevaluezero)
- * comparison between two values to determine if they are equivalent.
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Lang
- * @param {*} value The value to compare.
- * @param {*} other The other value to compare.
- * @returns {boolean} Returns `true` if the values are equivalent, else `false`.
- * @example
- *
- * var object = { 'user': 'fred' };
- * var other = { 'user': 'fred' };
- *
- * _.eq(object, object);
- * // => true
- *
- * _.eq(object, other);
- * // => false
- *
- * _.eq('a', 'a');
- * // => true
- *
- * _.eq('a', Object('a'));
- * // => false
- *
- * _.eq(NaN, NaN);
- * // => true
- */
-function eq(value, other) {
-  return value === other || (value !== value && other !== other);
-}
-
-module.exports = eq;
-
-},{}],81:[function(require,module,exports){
-var arrayEach = require('./_arrayEach'),
-    baseEach = require('./_baseEach'),
-    baseIteratee = require('./_baseIteratee'),
-    isArray = require('./isArray');
-
-/**
- * Iterates over elements of `collection` invoking `iteratee` for each element.
- * The iteratee is invoked with three arguments: (value, index|key, collection).
- * Iteratee functions may exit iteration early by explicitly returning `false`.
- *
- * **Note:** As with other "Collections" methods, objects with a "length"
- * property are iterated like arrays. To avoid this behavior use `_.forIn`
- * or `_.forOwn` for object iteration.
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @alias each
- * @category Collection
- * @param {Array|Object} collection The collection to iterate over.
- * @param {Function} [iteratee=_.identity] The function invoked per iteration.
- * @returns {Array|Object} Returns `collection`.
- * @example
- *
- * _([1, 2]).forEach(function(value) {
- *   console.log(value);
- * });
- * // => Logs `1` then `2`.
- *
- * _.forEach({ 'a': 1, 'b': 2 }, function(value, key) {
- *   console.log(key);
- * });
- * // => Logs 'a' then 'b' (iteration order is not guaranteed).
- */
-function forEach(collection, iteratee) {
-  return (typeof iteratee == 'function' && isArray(collection))
-    ? arrayEach(collection, iteratee)
-    : baseEach(collection, baseIteratee(iteratee));
-}
-
-module.exports = forEach;
-
-},{"./_arrayEach":14,"./_baseEach":23,"./_baseIteratee":32,"./isArray":86}],82:[function(require,module,exports){
-var baseGet = require('./_baseGet');
-
-/**
- * Gets the value at `path` of `object`. If the resolved value is
- * `undefined` the `defaultValue` is used in its place.
- *
- * @static
- * @memberOf _
- * @since 3.7.0
- * @category Object
- * @param {Object} object The object to query.
- * @param {Array|string} path The path of the property to get.
- * @param {*} [defaultValue] The value returned for `undefined` resolved values.
- * @returns {*} Returns the resolved value.
- * @example
- *
- * var object = { 'a': [{ 'b': { 'c': 3 } }] };
- *
- * _.get(object, 'a[0].b.c');
- * // => 3
- *
- * _.get(object, ['a', '0', 'b', 'c']);
- * // => 3
- *
- * _.get(object, 'a.b.c', 'default');
- * // => 'default'
- */
-function get(object, path, defaultValue) {
-  var result = object == null ? undefined : baseGet(object, path);
-  return result === undefined ? defaultValue : result;
-}
-
-module.exports = get;
-
-},{"./_baseGet":26}],83:[function(require,module,exports){
-var baseHasIn = require('./_baseHasIn'),
-    hasPath = require('./_hasPath');
-
-/**
- * Checks if `path` is a direct or inherited property of `object`.
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Object
- * @param {Object} object The object to query.
- * @param {Array|string} path The path to check.
- * @returns {boolean} Returns `true` if `path` exists, else `false`.
- * @example
- *
- * var object = _.create({ 'a': _.create({ 'b': _.create({ 'c': 3 }) }) });
- *
- * _.hasIn(object, 'a');
- * // => true
- *
- * _.hasIn(object, 'a.b.c');
- * // => true
- *
- * _.hasIn(object, ['a', 'b', 'c']);
- * // => true
- *
- * _.hasIn(object, 'b');
- * // => false
- */
-function hasIn(object, path) {
-  return object != null && hasPath(object, path, baseHasIn);
-}
-
-module.exports = hasIn;
-
-},{"./_baseHasIn":28,"./_hasPath":51}],84:[function(require,module,exports){
-/**
- * This method returns the first argument given to it.
- *
- * @static
- * @since 0.1.0
- * @memberOf _
- * @category Util
- * @param {*} value Any value.
- * @returns {*} Returns `value`.
- * @example
- *
- * var object = { 'user': 'fred' };
- *
- * _.identity(object) === object;
- * // => true
- */
-function identity(value) {
-  return value;
-}
-
-module.exports = identity;
-
-},{}],85:[function(require,module,exports){
-var isArrayLikeObject = require('./isArrayLikeObject');
-
-/** `Object#toString` result references. */
-var argsTag = '[object Arguments]';
-
-/** Used for built-in method references. */
-var objectProto = Object.prototype;
-
-/** Used to check objects for own properties. */
-var hasOwnProperty = objectProto.hasOwnProperty;
-
-/**
- * Used to resolve the
- * [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
- * of values.
- */
-var objectToString = objectProto.toString;
-
-/** Built-in value references. */
-var propertyIsEnumerable = objectProto.propertyIsEnumerable;
-
-/**
- * Checks if `value` is likely an `arguments` object.
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is correctly classified,
- *  else `false`.
- * @example
- *
- * _.isArguments(function() { return arguments; }());
- * // => true
- *
- * _.isArguments([1, 2, 3]);
- * // => false
- */
-function isArguments(value) {
-  // Safari 8.1 incorrectly makes `arguments.callee` enumerable in strict mode.
-  return isArrayLikeObject(value) && hasOwnProperty.call(value, 'callee') &&
-    (!propertyIsEnumerable.call(value, 'callee') || objectToString.call(value) == argsTag);
-}
-
-module.exports = isArguments;
-
-},{"./isArrayLikeObject":88}],86:[function(require,module,exports){
-/**
- * Checks if `value` is classified as an `Array` object.
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @type {Function}
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is correctly classified,
- *  else `false`.
- * @example
- *
- * _.isArray([1, 2, 3]);
- * // => true
- *
- * _.isArray(document.body.children);
- * // => false
- *
- * _.isArray('abc');
- * // => false
- *
- * _.isArray(_.noop);
- * // => false
- */
-var isArray = Array.isArray;
-
-module.exports = isArray;
-
-},{}],87:[function(require,module,exports){
-var getLength = require('./_getLength'),
-    isFunction = require('./isFunction'),
-    isLength = require('./isLength');
-
-/**
- * Checks if `value` is array-like. A value is considered array-like if it's
- * not a function and has a `value.length` that's an integer greater than or
- * equal to `0` and less than or equal to `Number.MAX_SAFE_INTEGER`.
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is array-like, else `false`.
- * @example
- *
- * _.isArrayLike([1, 2, 3]);
- * // => true
- *
- * _.isArrayLike(document.body.children);
- * // => true
- *
- * _.isArrayLike('abc');
- * // => true
- *
- * _.isArrayLike(_.noop);
- * // => false
- */
-function isArrayLike(value) {
-  return value != null && isLength(getLength(value)) && !isFunction(value);
-}
-
-module.exports = isArrayLike;
-
-},{"./_getLength":46,"./isFunction":89,"./isLength":90}],88:[function(require,module,exports){
-var isArrayLike = require('./isArrayLike'),
-    isObjectLike = require('./isObjectLike');
-
-/**
- * This method is like `_.isArrayLike` except that it also checks if `value`
- * is an object.
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is an array-like object,
- *  else `false`.
- * @example
- *
- * _.isArrayLikeObject([1, 2, 3]);
- * // => true
- *
- * _.isArrayLikeObject(document.body.children);
- * // => true
- *
- * _.isArrayLikeObject('abc');
- * // => false
- *
- * _.isArrayLikeObject(_.noop);
- * // => false
- */
-function isArrayLikeObject(value) {
-  return isObjectLike(value) && isArrayLike(value);
-}
-
-module.exports = isArrayLikeObject;
-
-},{"./isArrayLike":87,"./isObjectLike":93}],89:[function(require,module,exports){
-var isObject = require('./isObject');
-
-/** `Object#toString` result references. */
-var funcTag = '[object Function]',
-    genTag = '[object GeneratorFunction]';
-
-/** Used for built-in method references. */
-var objectProto = Object.prototype;
-
-/**
- * Used to resolve the
- * [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
- * of values.
- */
-var objectToString = objectProto.toString;
-
-/**
- * Checks if `value` is classified as a `Function` object.
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is correctly classified,
- *  else `false`.
- * @example
- *
- * _.isFunction(_);
- * // => true
- *
- * _.isFunction(/abc/);
- * // => false
- */
-function isFunction(value) {
-  // The use of `Object#toString` avoids issues with the `typeof` operator
-  // in Safari 8 which returns 'object' for typed array and weak map constructors,
-  // and PhantomJS 1.9 which returns 'function' for `NodeList` instances.
-  var tag = isObject(value) ? objectToString.call(value) : '';
-  return tag == funcTag || tag == genTag;
-}
-
-module.exports = isFunction;
-
-},{"./isObject":92}],90:[function(require,module,exports){
-/** Used as references for various `Number` constants. */
-var MAX_SAFE_INTEGER = 9007199254740991;
-
-/**
- * Checks if `value` is a valid array-like length.
- *
- * **Note:** This function is loosely based on
- * [`ToLength`](http://ecma-international.org/ecma-262/6.0/#sec-tolength).
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a valid length,
- *  else `false`.
- * @example
- *
- * _.isLength(3);
- * // => true
- *
- * _.isLength(Number.MIN_VALUE);
- * // => false
- *
- * _.isLength(Infinity);
- * // => false
- *
- * _.isLength('3');
- * // => false
- */
-function isLength(value) {
-  return typeof value == 'number' &&
-    value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
-}
-
-module.exports = isLength;
-
-},{}],91:[function(require,module,exports){
-var isFunction = require('./isFunction'),
-    isHostObject = require('./_isHostObject'),
-    isObject = require('./isObject'),
-    toSource = require('./_toSource');
-
-/**
- * Used to match `RegExp`
- * [syntax characters](http://ecma-international.org/ecma-262/6.0/#sec-patterns).
- */
-var reRegExpChar = /[\\^$.*+?()[\]{}|]/g;
-
-/** Used to detect host constructors (Safari). */
-var reIsHostCtor = /^\[object .+?Constructor\]$/;
-
-/** Used for built-in method references. */
-var objectProto = Object.prototype;
-
-/** Used to resolve the decompiled source of functions. */
-var funcToString = Function.prototype.toString;
-
-/** Used to check objects for own properties. */
-var hasOwnProperty = objectProto.hasOwnProperty;
-
-/** Used to detect if a method is native. */
-var reIsNative = RegExp('^' +
-  funcToString.call(hasOwnProperty).replace(reRegExpChar, '\\$&')
-  .replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, '$1.*?') + '$'
-);
-
-/**
- * Checks if `value` is a native function.
- *
- * @static
- * @memberOf _
- * @since 3.0.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a native function,
- *  else `false`.
- * @example
- *
- * _.isNative(Array.prototype.push);
- * // => true
- *
- * _.isNative(_);
- * // => false
- */
-function isNative(value) {
-  if (!isObject(value)) {
-    return false;
-  }
-  var pattern = (isFunction(value) || isHostObject(value)) ? reIsNative : reIsHostCtor;
-  return pattern.test(toSource(value));
-}
-
-module.exports = isNative;
-
-},{"./_isHostObject":57,"./_toSource":79,"./isFunction":89,"./isObject":92}],92:[function(require,module,exports){
-/**
- * Checks if `value` is the
- * [language type](http://www.ecma-international.org/ecma-262/6.0/#sec-ecmascript-language-types)
- * of `Object`. (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is an object, else `false`.
- * @example
- *
- * _.isObject({});
- * // => true
- *
- * _.isObject([1, 2, 3]);
- * // => true
- *
- * _.isObject(_.noop);
- * // => true
- *
- * _.isObject(null);
- * // => false
- */
-function isObject(value) {
-  var type = typeof value;
-  return !!value && (type == 'object' || type == 'function');
-}
-
-module.exports = isObject;
-
-},{}],93:[function(require,module,exports){
-/**
- * Checks if `value` is object-like. A value is object-like if it's not `null`
- * and has a `typeof` result of "object".
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
- * @example
- *
- * _.isObjectLike({});
- * // => true
- *
- * _.isObjectLike([1, 2, 3]);
- * // => true
- *
- * _.isObjectLike(_.noop);
- * // => false
- *
- * _.isObjectLike(null);
- * // => false
- */
-function isObjectLike(value) {
-  return !!value && typeof value == 'object';
-}
-
-module.exports = isObjectLike;
-
-},{}],94:[function(require,module,exports){
-var isArray = require('./isArray'),
-    isObjectLike = require('./isObjectLike');
-
-/** `Object#toString` result references. */
-var stringTag = '[object String]';
-
-/** Used for built-in method references. */
-var objectProto = Object.prototype;
-
-/**
- * Used to resolve the
- * [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
- * of values.
- */
-var objectToString = objectProto.toString;
-
-/**
- * Checks if `value` is classified as a `String` primitive or object.
- *
- * @static
- * @since 0.1.0
- * @memberOf _
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is correctly classified,
- *  else `false`.
- * @example
- *
- * _.isString('abc');
- * // => true
- *
- * _.isString(1);
- * // => false
- */
-function isString(value) {
-  return typeof value == 'string' ||
-    (!isArray(value) && isObjectLike(value) && objectToString.call(value) == stringTag);
-}
-
-module.exports = isString;
-
-},{"./isArray":86,"./isObjectLike":93}],95:[function(require,module,exports){
-var isObjectLike = require('./isObjectLike');
-
-/** `Object#toString` result references. */
-var symbolTag = '[object Symbol]';
-
-/** Used for built-in method references. */
-var objectProto = Object.prototype;
-
-/**
- * Used to resolve the
- * [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
- * of values.
- */
-var objectToString = objectProto.toString;
-
-/**
- * Checks if `value` is classified as a `Symbol` primitive or object.
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is correctly classified,
- *  else `false`.
- * @example
- *
- * _.isSymbol(Symbol.iterator);
- * // => true
- *
- * _.isSymbol('abc');
- * // => false
- */
-function isSymbol(value) {
-  return typeof value == 'symbol' ||
-    (isObjectLike(value) && objectToString.call(value) == symbolTag);
-}
-
-module.exports = isSymbol;
-
-},{"./isObjectLike":93}],96:[function(require,module,exports){
-var isLength = require('./isLength'),
-    isObjectLike = require('./isObjectLike');
-
-/** `Object#toString` result references. */
-var argsTag = '[object Arguments]',
-    arrayTag = '[object Array]',
-    boolTag = '[object Boolean]',
-    dateTag = '[object Date]',
-    errorTag = '[object Error]',
-    funcTag = '[object Function]',
-    mapTag = '[object Map]',
-    numberTag = '[object Number]',
-    objectTag = '[object Object]',
-    regexpTag = '[object RegExp]',
-    setTag = '[object Set]',
-    stringTag = '[object String]',
-    weakMapTag = '[object WeakMap]';
-
-var arrayBufferTag = '[object ArrayBuffer]',
-    dataViewTag = '[object DataView]',
-    float32Tag = '[object Float32Array]',
-    float64Tag = '[object Float64Array]',
-    int8Tag = '[object Int8Array]',
-    int16Tag = '[object Int16Array]',
-    int32Tag = '[object Int32Array]',
-    uint8Tag = '[object Uint8Array]',
-    uint8ClampedTag = '[object Uint8ClampedArray]',
-    uint16Tag = '[object Uint16Array]',
-    uint32Tag = '[object Uint32Array]';
-
-/** Used to identify `toStringTag` values of typed arrays. */
-var typedArrayTags = {};
-typedArrayTags[float32Tag] = typedArrayTags[float64Tag] =
-typedArrayTags[int8Tag] = typedArrayTags[int16Tag] =
-typedArrayTags[int32Tag] = typedArrayTags[uint8Tag] =
-typedArrayTags[uint8ClampedTag] = typedArrayTags[uint16Tag] =
-typedArrayTags[uint32Tag] = true;
-typedArrayTags[argsTag] = typedArrayTags[arrayTag] =
-typedArrayTags[arrayBufferTag] = typedArrayTags[boolTag] =
-typedArrayTags[dataViewTag] = typedArrayTags[dateTag] =
-typedArrayTags[errorTag] = typedArrayTags[funcTag] =
-typedArrayTags[mapTag] = typedArrayTags[numberTag] =
-typedArrayTags[objectTag] = typedArrayTags[regexpTag] =
-typedArrayTags[setTag] = typedArrayTags[stringTag] =
-typedArrayTags[weakMapTag] = false;
-
-/** Used for built-in method references. */
-var objectProto = Object.prototype;
-
-/**
- * Used to resolve the
- * [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
- * of values.
- */
-var objectToString = objectProto.toString;
-
-/**
- * Checks if `value` is classified as a typed array.
- *
- * @static
- * @memberOf _
- * @since 3.0.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is correctly classified,
- *  else `false`.
- * @example
- *
- * _.isTypedArray(new Uint8Array);
- * // => true
- *
- * _.isTypedArray([]);
- * // => false
- */
-function isTypedArray(value) {
-  return isObjectLike(value) &&
-    isLength(value.length) && !!typedArrayTags[objectToString.call(value)];
-}
-
-module.exports = isTypedArray;
-
-},{"./isLength":90,"./isObjectLike":93}],97:[function(require,module,exports){
-var baseHas = require('./_baseHas'),
-    baseKeys = require('./_baseKeys'),
-    indexKeys = require('./_indexKeys'),
-    isArrayLike = require('./isArrayLike'),
-    isIndex = require('./_isIndex'),
-    isPrototype = require('./_isPrototype');
-
-/**
- * Creates an array of the own enumerable property names of `object`.
- *
- * **Note:** Non-object values are coerced to objects. See the
- * [ES spec](http://ecma-international.org/ecma-262/6.0/#sec-object.keys)
- * for more details.
- *
- * @static
- * @since 0.1.0
- * @memberOf _
- * @category Object
- * @param {Object} object The object to query.
- * @returns {Array} Returns the array of property names.
- * @example
- *
- * function Foo() {
- *   this.a = 1;
- *   this.b = 2;
- * }
- *
- * Foo.prototype.c = 3;
- *
- * _.keys(new Foo);
- * // => ['a', 'b'] (iteration order is not guaranteed)
- *
- * _.keys('hi');
- * // => ['0', '1']
- */
-function keys(object) {
-  var isProto = isPrototype(object);
-  if (!(isProto || isArrayLike(object))) {
-    return baseKeys(object);
-  }
-  var indexes = indexKeys(object),
-      skipIndexes = !!indexes,
-      result = indexes || [],
-      length = result.length;
-
-  for (var key in object) {
-    if (baseHas(object, key) &&
-        !(skipIndexes && (key == 'length' || isIndex(key, length))) &&
-        !(isProto && key == 'constructor')) {
-      result.push(key);
-    }
-  }
-  return result;
-}
-
-module.exports = keys;
-
-},{"./_baseHas":27,"./_baseKeys":33,"./_indexKeys":56,"./_isIndex":58,"./_isPrototype":61,"./isArrayLike":87}],98:[function(require,module,exports){
-var MapCache = require('./_MapCache');
-
-/** Used as the `TypeError` message for "Functions" methods. */
-var FUNC_ERROR_TEXT = 'Expected a function';
-
-/**
- * Creates a function that memoizes the result of `func`. If `resolver` is
- * provided it determines the cache key for storing the result based on the
- * arguments provided to the memoized function. By default, the first argument
- * provided to the memoized function is used as the map cache key. The `func`
- * is invoked with the `this` binding of the memoized function.
- *
- * **Note:** The cache is exposed as the `cache` property on the memoized
- * function. Its creation may be customized by replacing the `_.memoize.Cache`
- * constructor with one whose instances implement the
- * [`Map`](http://ecma-international.org/ecma-262/6.0/#sec-properties-of-the-map-prototype-object)
- * method interface of `delete`, `get`, `has`, and `set`.
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Function
- * @param {Function} func The function to have its output memoized.
- * @param {Function} [resolver] The function to resolve the cache key.
- * @returns {Function} Returns the new memoizing function.
- * @example
- *
- * var object = { 'a': 1, 'b': 2 };
- * var other = { 'c': 3, 'd': 4 };
- *
- * var values = _.memoize(_.values);
- * values(object);
- * // => [1, 2]
- *
- * values(other);
- * // => [3, 4]
- *
- * object.a = 2;
- * values(object);
- * // => [1, 2]
- *
- * // Modify the result cache.
- * values.cache.set(object, ['a', 'b']);
- * values(object);
- * // => ['a', 'b']
- *
- * // Replace `_.memoize.Cache`.
- * _.memoize.Cache = WeakMap;
- */
-function memoize(func, resolver) {
-  if (typeof func != 'function' || (resolver && typeof resolver != 'function')) {
-    throw new TypeError(FUNC_ERROR_TEXT);
-  }
-  var memoized = function() {
-    var args = arguments,
-        key = resolver ? resolver.apply(this, args) : args[0],
-        cache = memoized.cache;
-
-    if (cache.has(key)) {
-      return cache.get(key);
-    }
-    var result = func.apply(this, args);
-    memoized.cache = cache.set(key, result);
-    return result;
-  };
-  memoized.cache = new (memoize.Cache || MapCache);
-  return memoized;
-}
-
-// Assign cache to `_.memoize`.
-memoize.Cache = MapCache;
-
-module.exports = memoize;
-
-},{"./_MapCache":7}],99:[function(require,module,exports){
-var baseProperty = require('./_baseProperty'),
-    basePropertyDeep = require('./_basePropertyDeep'),
-    isKey = require('./_isKey');
-
-/**
- * Creates a function that returns the value at `path` of a given object.
- *
- * @static
- * @memberOf _
- * @since 2.4.0
- * @category Util
- * @param {Array|string} path The path of the property to get.
- * @returns {Function} Returns the new function.
- * @example
- *
- * var objects = [
- *   { 'a': { 'b': { 'c': 2 } } },
- *   { 'a': { 'b': { 'c': 1 } } }
- * ];
- *
- * _.map(objects, _.property('a.b.c'));
- * // => [2, 1]
- *
- * _.map(_.sortBy(objects, _.property(['a', 'b', 'c'])), 'a.b.c');
- * // => [1, 2]
- */
-function property(path) {
-  return isKey(path) ? baseProperty(path) : basePropertyDeep(path);
-}
-
-module.exports = property;
-
-},{"./_baseProperty":36,"./_basePropertyDeep":37,"./_isKey":59}],100:[function(require,module,exports){
-var baseToPairs = require('./_baseToPairs'),
-    keys = require('./keys');
-
-/**
- * Creates an array of own enumerable string keyed-value pairs for `object`
- * which can be consumed by `_.fromPairs`.
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @alias entries
- * @category Object
- * @param {Object} object The object to query.
- * @returns {Array} Returns the new array of key-value pairs.
- * @example
- *
- * function Foo() {
- *   this.a = 1;
- *   this.b = 2;
- * }
- *
- * Foo.prototype.c = 3;
- *
- * _.toPairs(new Foo);
- * // => [['a', 1], ['b', 2]] (iteration order is not guaranteed)
- */
-function toPairs(object) {
-  return baseToPairs(object, keys(object));
-}
-
-module.exports = toPairs;
-
-},{"./_baseToPairs":39,"./keys":97}],101:[function(require,module,exports){
-var Symbol = require('./_Symbol'),
-    isSymbol = require('./isSymbol');
-
-/** Used as references for various `Number` constants. */
-var INFINITY = 1 / 0;
-
-/** Used to convert symbols to primitives and strings. */
-var symbolProto = Symbol ? Symbol.prototype : undefined,
-    symbolToString = symbolProto ? symbolProto.toString : undefined;
-
-/**
- * Converts `value` to a string if it's not one. An empty string is returned
- * for `null` and `undefined` values. The sign of `-0` is preserved.
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Lang
- * @param {*} value The value to process.
- * @returns {string} Returns the string.
- * @example
- *
- * _.toString(null);
- * // => ''
- *
- * _.toString(-0);
- * // => '-0'
- *
- * _.toString([1, 2, 3]);
- * // => '1,2,3'
- */
-function toString(value) {
-  // Exit early for strings to avoid a performance hit in some environments.
-  if (typeof value == 'string') {
-    return value;
-  }
-  if (value == null) {
-    return '';
-  }
-  if (isSymbol(value)) {
-    return symbolToString ? symbolToString.call(value) : '';
-  }
-  var result = (value + '');
-  return (result == '0' && (1 / value) == -INFINITY) ? '-0' : result;
-}
-
-module.exports = toString;
-
-},{"./_Symbol":11,"./isSymbol":95}],102:[function(require,module,exports){
-module.exports = {
-	FacebookPreview: require( "./js/facebookPreview" ),
-	TwitterPreview: require( "./js/twitterPreview" )
-};
-
-},{"./js/facebookPreview":105,"./js/twitterPreview":120}],103:[function(require,module,exports){
-var placeholderTemplate = require( "../templates" ).imagePlaceholder;
-
-/**
- * Sets the placeholder with a given value.
- *
- * @param {Object} imageContainer The location to put the placeholder in.
- * @param {string} placeholder The value for the placeholder.
- * @param {bool} isError When the placeholder should an error.
- * @param {string} modifier A css class modifier to change the styling.
- */
-function setImagePlaceholder( imageContainer, placeholder, isError, modifier ) {
-	var classNames = [ "social-image-placeholder" ];
-	isError = isError || false;
-	modifier = modifier || "";
-
-	if ( isError ) {
-		classNames.push( "social-image-placeholder--error" );
-	}
-
-	if ( "" !== modifier ) {
-		classNames.push( "social-image-placeholder--" + modifier );
-	}
-
-	imageContainer.innerHTML = placeholderTemplate( {
-		className : classNames.join( " " ),
-		placeholder : placeholder
-	} );
-}
-
-module.exports= setImagePlaceholder;
-
-},{"../templates":119}],104:[function(require,module,exports){
-var isEmpty = require( "lodash/lang/isEmpty" );
-var debounce = require( "lodash/function/debounce" );
-
-var stripHTMLTags = require( "yoastseo/js/stringProcessing/stripHTMLTags.js" );
-var stripSpaces = require( "yoastseo/js/stringProcessing/stripSpaces.js" );
-
-/**
- * Represents a field and sets the events for that field.
- *
- * @param {Object} inputField The field to represent.
- * @param {Object} values The values to use.
- * @param {Object|undefined} callback The callback to executed after field change.
- * @constructor
- */
-function InputElement( inputField, values, callback ) {
-	this.inputField = inputField;
-	this.values = values;
-	this._callback = callback;
-
-	this.setValue( this.getInputValue() );
-
-	this.bindEvents();
-}
-
-/**
- * Binds the events
- */
-InputElement.prototype.bindEvents = function() {
-	// Set the events.
-	this.inputField.addEventListener( "keydown", this.changeEvent.bind( this ) );
-	this.inputField.addEventListener( "keyup", this.changeEvent.bind( this ) );
-
-	this.inputField.addEventListener( "input", this.changeEvent.bind( this ) );
-	this.inputField.addEventListener( "focus", this.changeEvent.bind( this ) );
-	this.inputField.addEventListener( "blur", this.changeEvent.bind( this ) );
-};
-
-/**
- * Do the change event
- *
- * @type {Function}
- */
-InputElement.prototype.changeEvent = debounce( function() {
-	// When there is a callback run it.
-	if ( typeof this._callback !== "undefined" ) {
-		this._callback();
-	}
-
-	this.setValue( this.getInputValue() );
-}, 25 );
-
-/**
- *
- * @returns {string} The current field value
- */
-InputElement.prototype.getInputValue = function() {
-	return this.inputField.value;
-};
-
-/**
- * Formats the a value for the preview. If value is empty a sample value is used
- *
- * @returns {string} The formatted title, without html tags.
- */
-InputElement.prototype.formatValue = function() {
-	var value = this.getValue();
-
-	value = stripHTMLTags( value );
-
-	// As an ultimate fallback provide the user with a helpful message.
-	if ( isEmpty( value ) ) {
-		value = this.values.fallback;
-	}
-
-	return stripSpaces( value );
-};
-
-/**
- * Get the value
- *
- * @returns {string} Return the value or get a fallback one.
- */
-InputElement.prototype.getValue = function() {
-	var value = this.values.currentValue;
-
-	// Fallback to the default if value is empty.
-	if ( isEmpty( value ) ) {
-		value = this.values.defaultValue;
-	}
-
-	// For rendering we can fallback to the placeholder as well.
-	if ( isEmpty( value ) ) {
-		value = this.values.placeholder;
-	}
-
-	return value;
-};
-
-/**
- * Set the current value
- *
- * @param {string} value The value to set
- */
-InputElement.prototype.setValue = function( value ) {
-	this.values.currentValue = value;
-};
-
-module.exports = InputElement;
-
-
-},{"lodash/function/debounce":123,"lodash/lang/isEmpty":163,"yoastseo/js/stringProcessing/stripHTMLTags.js":178,"yoastseo/js/stringProcessing/stripSpaces.js":179}],105:[function(require,module,exports){
-/* jshint browser: true */
-
-var isElement = require( "lodash/lang/isElement" );
-var clone = require( "lodash/lang/clone" );
-var defaultsDeep = require( "lodash/object/defaultsDeep" );
-
-var Jed = require( "jed" );
-
-var imageRatio = require( "./helpers/imageRatio" );
-var renderDescription = require( "./helpers/renderDescription" );
-var imagePlaceholder  = require( "./element/imagePlaceholder" );
-var bemAddModifier = require( "./helpers/bem/addModifier" );
-var bemRemoveModifier = require( "./helpers/bem/removeModifier" );
-
-var TextField = require( "./inputs/textInput" );
-var TextArea = require( "./inputs/textarea" );
-var Button = require( "./inputs/button.js" );
-
-var FieldElement = require( "./element/input" );
-var PreviewEvents = require( "./preview/events" );
-
-var facebookEditorTemplate = require( "./templates.js" ).facebookPreview;
-
-var facebookDefaults = {
-	data: {
-		title: "",
-		description: "",
-		imageUrl: ""
-	},
-	placeholder: {
-		title:    "This is an example title - edit by clicking here",
-		description: "Modify your facebook description by editing it right here",
-		imageUrl: ""
-	},
-	defaultValue: {
-		title: "",
-		description: "",
-		imageUrl: ""
-	},
-	baseURL: "example.com",
-	callbacks: {
-		updateSocialPreview: function() {}
-	}
-};
-
-var inputFacebookPreviewBindings = [
-	{
-		"preview": "editable-preview__title--facebook",
-		"inputField": "title"
-	},
-	{
-		"preview": "editable-preview__image--facebook",
-		"inputField": "imageUrl"
-	},
-	{
-		"preview": "editable-preview__description--facebook",
-		"inputField": "description"
-	}
-];
-
-var WIDTH_FACEBOOK_IMAGE_SMALL = 158;
-var WIDTH_FACEBOOK_IMAGE_LARGE = 470;
-var FACEBOOK_IMAGE_THRESHOLD_WIDTH = 600;
-var FACEBOOK_IMAGE_THRESHOLD_HEIGHT = 315;
-
-/**
- * @module snippetPreview
- */
-
-/**
- * Defines the config and outputTarget for the SnippetPreview
- *
- * @param {Object}         opts                           - Snippet preview options.
- * @param {Object}         opts.placeholder               - The placeholder values for the fields, will be shown as
- * actual placeholders in the inputs and as a fallback for the preview.
- * @param {string}         opts.placeholder.title         - Placeholder for the title field.
- * @param {string}         opts.placeholder.description   - Placeholder for the description field.
- * @param {string}         opts.placeholder.imageUrl      - Placeholder for the image url field.
- *
- * @param {Object}         opts.defaultValue              - The default value for the fields, if the user has not
- * changed a field, this value will be used for the analyzer, preview and the progress bars.
- * @param {string}         opts.defaultValue.title        - Default title.
- * @param {string}         opts.defaultValue.description  - Default description.
- * @param {string}         opts.defaultValue.imageUrl     - Default image url.
- * it.
- *
- * @param {string}         opts.baseURL                   - The basic URL as it will be displayed in facebook.
- * @param {HTMLElement}    opts.targetElement             - The target element that contains this snippet editor.
- *
- * @param {Object}         opts.callbacks                 - Functions that are called on specific instances.
- * @param {Function}       opts.callbacks.updateSocialPreview - Function called when the social preview is updated.
- *
- * @param {Object}         i18n                           - The i18n object.
- *
- * @property {Object}      i18n                           - The translation object.
- *
- * @property {HTMLElement} targetElement                  - The target element that contains this snippet editor.
- *
- * @property {Object}      element                        - The elements for this snippet editor.
- * @property {Object}      element.rendered               - The rendered elements.
- * @property {HTMLElement} element.rendered.title         - The rendered title element.
- * @property {HTMLElement} element.rendered.imageUrl      - The rendered url path element.
- * @property {HTMLElement} element.rendered.description   - The rendered facebook description element.
- *
- * @property {Object}      element.input                  - The input elements.
- * @property {HTMLElement} element.input.title            - The title input element.
- * @property {HTMLElement} element.input.imageUrl         - The url path input element.
- * @property {HTMLElement} element.input.description      - The meta description input element.
- *
- * @property {HTMLElement} element.container              - The main container element.
- * @property {HTMLElement} element.formContainer          - The form container element.
- * @property {HTMLElement} element.editToggle             - The button that toggles the editor form.
- *
- * @property {Object}      data                           - The data for this snippet editor.
- * @property {string}      data.title                     - The title.
- * @property {string}      data.imageUrl                  - The url path.
- * @property {string}      data.description               - The meta description.
- *
- * @property {string}      baseURL                        - The basic URL as it will be displayed in google.
- *
- * @constructor
- */
-var FacebookPreview = function( opts, i18n ) {
-	defaultsDeep( opts, facebookDefaults );
-
-	if ( !isElement( opts.targetElement ) ) {
-		throw new Error( "The facebook preview requires a valid target element" );
-	}
-
-	this.data = opts.data;
-	this.i18n = i18n || this.constructI18n();
-	this.opts = opts;
-
-	this._currentFocus = null;
-	this._currentHover = null;
-};
-
-/**
- * Initializes i18n object based on passed configuration
- *
- * @param {Object} translations - The values to translate.
- *
- * @returns {Jed} - The Jed translation object.
- */
-FacebookPreview.prototype.constructI18n = function( translations ) {
-	var defaultTranslations = {
-		"domain": "yoast-social-previews",
-		"locale_data": {
-			"yoast-social-previews": {
-				"": {}
-			}
-		}
-	};
-
-	// Use default object to prevent Jed from erroring out.
-	translations = translations || defaultTranslations;
-
-	return new Jed( translations );
-};
-
-/**
- * Renders the template and bind the events.
- *
- * @returns {void}
- */
-FacebookPreview.prototype.init = function() {
-	this.renderTemplate();
-	this.bindEvents();
-	this.updatePreview();
-};
-
-/**
- * Renders snippet editor and adds it to the targetElement.
- *
- * @returns {void}
- */
-FacebookPreview.prototype.renderTemplate = function() {
-	var targetElement = this.opts.targetElement;
-
-	targetElement.innerHTML = facebookEditorTemplate( {
-		rendered: {
-			title: "",
-			description: "",
-			imageUrl: "",
-			baseUrl: this.opts.baseURL
-		},
-		placeholder: this.opts.placeholder,
-		i18n: {
-			edit: this.i18n.dgettext( "yoast-social-previews", "Edit Facebook preview" ),
-			snippetPreview: this.i18n.dgettext( "yoast-social-previews", "Facebook preview" ),
-			snippetEditor: this.i18n.dgettext( "yoast-social-previews", "Facebook editor" )
-		}
-	} );
-
-	this.element = {
-		rendered: {
-			title: targetElement.getElementsByClassName( "editable-preview__value--facebook-title" )[0],
-			description: targetElement.getElementsByClassName( "editable-preview__value--facebook-description" )[0]
-		},
-		fields: this.getFields(),
-		container: targetElement.getElementsByClassName( "editable-preview--facebook" )[0],
-		formContainer: targetElement.getElementsByClassName( "snippet-editor__form" )[0],
-		editToggle: targetElement.getElementsByClassName( "snippet-editor__edit-button" )[0],
-		formFields: targetElement.getElementsByClassName( "snippet-editor__form-field" ),
-		headingEditor: targetElement.getElementsByClassName( "snippet-editor__heading-editor" )[0]
-	};
-
-	this.element.formContainer.innerHTML = this.element.fields.imageUrl.render()
-	    + this.element.fields.title.render()
-		+ this.element.fields.description.render()
-		+ this.element.fields.button.render();
-
-	this.element.input = {
-		title: targetElement.getElementsByClassName( "js-snippet-editor-title" )[0],
-		imageUrl: targetElement.getElementsByClassName( "js-snippet-editor-imageUrl" )[0],
-		description: targetElement.getElementsByClassName( "js-snippet-editor-description" )[0]
-	};
-
-	this.element.fieldElements = this.getFieldElements();
-	this.element.closeEditor = targetElement.getElementsByClassName( "snippet-editor__submit" )[0];
-
-	this.element.label = {
-		title: this.element.input.title.parentNode,
-		imageUrl: this.element.input.imageUrl.parentNode,
-		description: this.element.input.description.parentNode
-	};
-
-	this.element.preview = {
-		title: this.element.rendered.title.parentNode,
-		imageUrl: targetElement.getElementsByClassName( "editable-preview__image--facebook" )[0],
-		description: this.element.rendered.description.parentNode
-	};
-
-};
-
-/**
- * Returns the form fields.
- *
- * @returns {{title: *, description: *, imageUrl: *, button: Button}} Object with the fields.
- */
-FacebookPreview.prototype.getFields = function() {
-	return {
-		title: new TextField( {
-			className: "snippet-editor__input snippet-editor__title js-snippet-editor-title",
-			id: "facebook-editor-title",
-			value: this.data.title,
-			placeholder: this.opts.placeholder.title,
-			title: this.i18n.dgettext( "yoast-social-previews", "Facebook title" ),
-			labelClassName: "snippet-editor__label"
-		} ),
-		description: new TextArea( {
-			className: "snippet-editor__input snippet-editor__description js-snippet-editor-description",
-			id: "facebook-editor-description",
-			value: this.data.description,
-			placeholder: this.opts.placeholder.description,
-			title: this.i18n.dgettext( "yoast-social-previews", "Facebook description" ),
-			labelClassName: "snippet-editor__label"
-		} ),
-		imageUrl: new TextField( {
-			className: "snippet-editor__input snippet-editor__imageUrl js-snippet-editor-imageUrl",
-			id: "facebook-editor-imageUrl",
-			value: this.data.imageUrl,
-			placeholder: this.opts.placeholder.imageUrl,
-			title: this.i18n.dgettext( "yoast-social-previews", "Facebook image" ),
-			labelClassName: "snippet-editor__label"
-		} ),
-		button : new Button(
-			{
-				className : "snippet-editor__submit snippet-editor__button",
-				value: this.i18n.dgettext( "yoast-social-previews", "Close facebook editor" )
-			}
-		)
-	};
-};
-
-/**
- * Returns all field elements.
- *
- * @returns {{title: InputElement, description: InputElement, imageUrl: InputElement}} The field elements.
- */
-FacebookPreview.prototype.getFieldElements = function() {
-	var targetElement = this.opts.targetElement;
-
-	return {
-		title: new FieldElement(
-			targetElement.getElementsByClassName( "js-snippet-editor-title" )[0],
-			{
-				currentValue: this.data.title,
-				defaultValue: this.opts.defaultValue.title,
-				placeholder: this.opts.placeholder.title,
-				fallback: this.i18n.dgettext( "yoast-social-previews", "Please provide a Facebook title by editing the snippet below." )
-			},
-			this.updatePreview.bind( this )
-		),
-		description: new FieldElement(
-			targetElement.getElementsByClassName( "js-snippet-editor-description" )[0],
-			{
-				currentValue: this.data.description,
-				defaultValue: this.opts.defaultValue.description,
-				placeholder: this.opts.placeholder.description,
-				fallback: this.i18n.dgettext( "yoast-social-previews", "Please provide a Facebook by editing the snippet below." )
-			},
-			this.updatePreview.bind( this )
-		),
-		imageUrl: new FieldElement(
-			targetElement.getElementsByClassName( "js-snippet-editor-imageUrl" )[0],
-			{
-				currentValue: this.data.imageUrl,
-				defaultValue: this.opts.defaultValue.imageUrl,
-				placeholder: this.opts.placeholder.imageUrl,
-				fallback: ""
-			},
-			this.updatePreview.bind( this )
-		)
-	};
-};
-
-
-/**
- * Updates the twitter preview.
- */
-FacebookPreview.prototype.updatePreview = function() {
-	// Update the data.
-	this.data.title = this.element.fieldElements.title.getInputValue();
-	this.data.description = this.element.fieldElements.description.getInputValue();
-	this.data.imageUrl = this.element.fieldElements.imageUrl.getInputValue();
-
-	// Sets the title field
-	this.setTitle( this.element.fieldElements.title.getValue() );
-
-	// Set the description field and parse the styling of it.
-	this.setDescription( this.element.fieldElements.description.getValue() );
-
-	// Sets the Image URL
-	this.setImageUrl( this.data.imageUrl );
-
-	// Clone so the data isn't changeable.
-	this.opts.callbacks.updateSocialPreview( clone( this.data ) );
-};
-
-/**
- * Sets the preview title.
- *
- * @param {string} title The title to set
- */
-FacebookPreview.prototype.setTitle = function( title ) {
-	this.element.rendered.title.innerHTML = title;
-};
-
-/**
- * Set the preview description.
- *
- * @param {string} description The description to set
- */
-FacebookPreview.prototype.setDescription = function( description ) {
-	this.element.rendered.description.innerHTML = description;
-	renderDescription( this.element.rendered.description, this.element.fieldElements.description.getInputValue() );
-};
-
-/**
- * Updates the image object with the new URL.
- *
- * @param {string} imageUrl The image path.
- */
-FacebookPreview.prototype.setImageUrl = function( imageUrl ) {
-	var imageContainer = this.element.preview.imageUrl;
-	if ( imageUrl === '' && this.data.imageUrl === "" ) {
-		this.removeSmallImageClasses();
-
-		imagePlaceholder( imageContainer,
-			this.i18n.dgettext( "yoast-social-previews", "Please enter an image url by clicking here" ),
-			false,
-			"facebook"
-		);
-
-		return;
-	}
-
-	var img   = new Image();
-	img.onload = function() {
-		imageContainer.innerHTML = "<img src='" + imageUrl + "' />";
-
-		imageRatio( imageContainer.childNodes[0], this.getMaxImageWidth( img ) );
-	}.bind( this );
-
-	img.onerror = function() {
-		this.removeSmallImageClasses();
-
-		imagePlaceholder(
-			imageContainer,
-			this.i18n.dgettext( "yoast-social-previews", "The given image url cannot be loaded" ),
-			true,
-			"facebook"
-		);
-	}.bind( this );
-
-	// Load image to trigger load or error event.
-	img.src = imageUrl;
-};
-
-/**
- * Returns the max image width
- *
- * @param {Image} img The image object to use.
- * @returns {int} The calculated maxwidth
- */
-FacebookPreview.prototype.getMaxImageWidth = function( img ) {
-	if ( this.isSmallImage( img ) ) {
-		this.setSmallImageClasses();
-
-		return WIDTH_FACEBOOK_IMAGE_SMALL;
-	}
-
-	this.removeSmallImageClasses();
-
-	return WIDTH_FACEBOOK_IMAGE_LARGE;
-};
-
-/**
- * Detects if the facebook preview should switch to small image mode
- *
- * @param {HTMLImageElement} image The image in question.
- *
- * @returns {boolean} Whether the image is small.
- */
-FacebookPreview.prototype.isSmallImage = function( image ) {
-	return (
-		image.width < FACEBOOK_IMAGE_THRESHOLD_WIDTH ||
-		image.height < FACEBOOK_IMAGE_THRESHOLD_HEIGHT
-	);
-};
-
-/**
- * Sets the classes on the facebook preview so that it will display a small facebook image preview
- */
-FacebookPreview.prototype.setSmallImageClasses = function() {
-	var targetElement = this.opts.targetElement;
-
-	bemAddModifier( "facebook-small", "social-preview__inner", targetElement );
-	bemAddModifier( "facebook-small", "editable-preview__image--facebook", targetElement );
-	bemAddModifier( "facebook-small", "editable-preview__text-keeper--facebook", targetElement );
-};
-
-FacebookPreview.prototype.removeSmallImageClasses = function() {
-	var targetElement = this.opts.targetElement;
-
-	bemRemoveModifier( "facebook-small", "social-preview__inner", targetElement );
-	bemRemoveModifier( "facebook-small", "editable-preview__image--facebook", targetElement );
-	bemRemoveModifier( "facebook-small", "editable-preview__text-keeper--facebook", targetElement );
-};
-
-/**
- * Binds the reloadSnippetText function to the blur of the snippet inputs.
- *
- * @returns {void}
- */
-FacebookPreview.prototype.bindEvents = function() {
-	var previewEvents = new PreviewEvents( inputFacebookPreviewBindings, this.element );
-	previewEvents.bindEvents( this.element.editToggle, this.element.closeEditor );
-};
-
-module.exports = FacebookPreview;
-
-},{"./element/imagePlaceholder":103,"./element/input":104,"./helpers/bem/addModifier":107,"./helpers/bem/removeModifier":109,"./helpers/imageRatio":110,"./helpers/renderDescription":113,"./inputs/button.js":114,"./inputs/textInput":116,"./inputs/textarea":117,"./preview/events":118,"./templates.js":119,"jed":3,"lodash/lang/clone":159,"lodash/lang/isElement":162,"lodash/object/defaultsDeep":173}],106:[function(require,module,exports){
-/**
- * Adds a class to an element
- *
- * @param {HTMLElement} element The element to add the class to.
- * @param {string} className The class to add.
- */
-module.exports = function( element, className ) {
-	var classes = element.className.split( " " );
-
-	if ( -1 === classes.indexOf( className ) ) {
-		classes.push( className );
-	}
-
-	element.className = classes.join( " " );
-};
-
-},{}],107:[function(require,module,exports){
-var addClass = require( "./../addClass" );
-var addModifierToClass = require( "./addModifierToClass" );
-
-/**
- * Adds a BEM modifier to an element
- *
- * @param {string} modifier Modifier to add to the target
- * @param {string} targetClass The target to add the modifier to
- * @param {HTMLElement} targetParent The parent in which the target should be
- */
-function addModifier( modifier, targetClass, targetParent ) {
-	var element = targetParent.getElementsByClassName( targetClass )[0];
-	var newClass = addModifierToClass( modifier, targetClass );
-
-	addClass( element, newClass );
-}
-
-module.exports = addModifier;
-
-},{"./../addClass":106,"./addModifierToClass":108}],108:[function(require,module,exports){
-/**
- * Adds a modifier to a class name, makes sure
- *
- * @param {string} modifier The modifier to add to the class name.
- * @param {string} className The class name to add the modifier to.
- *
- * @returns {string} The new class with the modifier.
- */
-function addModifierToClass( modifier, className ) {
-	var baseClass = className.replace( /--.+/, "" );
-
-	return baseClass + "--" + modifier;
-}
-
-module.exports = addModifierToClass;
-
-},{}],109:[function(require,module,exports){
-var removeClass = require( "./../removeClass" );
-var addModifierToClass = require( "./addModifierToClass" );
-
-/**
- * Removes a BEM modifier from an element
- *
- * @param {string} modifier Modifier to add to the target
- * @param {string} targetClass The target to add the modifier to
- * @param {HTMLElement} targetParent The parent in which the target should be
- */
-function removeModifier( modifier, targetClass, targetParent ) {
-	var element = targetParent.getElementsByClassName( targetClass )[0];
-	var newClass = addModifierToClass( modifier, targetClass );
-
-	removeClass( element, newClass );
-}
-
-module.exports = removeModifier;
-
-},{"./../removeClass":112,"./addModifierToClass":108}],110:[function(require,module,exports){
-/**
- * Sets the images ratio.
- *
- * @param {Object} image The image object.
- * @param {int|undefined} maxWidth The max width in pixels.
- * @param {int|undefined} maxHeight The max height in pixels.
- */
-function imageRatio( image, maxWidth, maxHeight ) {
-	var width = image.width;
-	var height = image.height;
-
-	if ( typeof maxWidth !== "undefined" && width >= maxWidth ) {
-		image.width = maxWidth;
-		image.height = height * ( maxWidth / width );
-	}
-
-	if ( typeof maxHeight !== "undefined" && height >= maxHeight ) {
-		image.height = maxHeight;
-		image.width = width * ( maxHeight / height );
-	}
-}
-
-module.exports = imageRatio;
-
-},{}],111:[function(require,module,exports){
-/**
- * Cleans spaces from the html.
- *
- * @param  {string} html The html to minimize.
- *
- * @returns {string} The minimized html string.
- */
-function minimizeHtml( html ) {
-	html = html.replace( /(\s+)/g, " " );
-	html = html.replace( /> </g, "><" );
-	html = html.replace( / >/g, ">" );
-	html = html.replace( /> /g, ">" );
-	html = html.replace( / </g, "<" );
-	html = html.replace( / $/, "" );
-
-	return html;
-}
-
-module.exports = minimizeHtml;
-
-},{}],112:[function(require,module,exports){
-/**
- * Removes a class from an element
- *
- * @param {HTMLElement} element The element to remove the class from.
- * @param {string} className The class to remove.
- */
-module.exports = function( element, className ) {
-	var classes = element.className.split( " " );
-	var foundClass = classes.indexOf( className );
-
-	if ( -1 !== foundClass ) {
-		classes.splice( foundClass, 1 );
-	}
-
-	element.className = classes.join( " " );
-};
-
-},{}],113:[function(require,module,exports){
-var isEmpty = require( "lodash/lang/isEmpty" );
-
-var addClass = require( "./addClass" );
-var removeClass = require( "./removeClass" );
-
-/**
- * Makes the rendered description gray if no description has been set by the user.
- *
- * @param {string} descriptionElement Target description element
- * @param {string} description Current description
- */
-function renderDescription( descriptionElement, description ) {
-	if ( isEmpty( description ) ) {
-		addClass( descriptionElement, "desc-render" );
-		removeClass( descriptionElement, "desc-default" );
-	} else {
-		addClass( descriptionElement, "desc-default" );
-		removeClass( descriptionElement, "desc-render" );
-	}
-}
-
-module.exports = renderDescription;
-
-},{"./addClass":106,"./removeClass":112,"lodash/lang/isEmpty":163}],114:[function(require,module,exports){
-var defaults = require( "lodash/object/defaults" );
-var buttonTemplate = require( "../../js/templates" ).fields.button;
-var minimizeHtml = require( "../helpers/minimizeHtml" );
-
-var defaultAttributes = {
-	value: "",
-	className: ""
-};
-
-/**
- * Represents an HTML button
- *
- * @param {Object} attributes The attributes to set on the HTML element
- * @param {string} attributes.value The value for this text field
- * @param {string} attributes.placeholder The placeholder for this text field
- * @param {string} attributes.name The name for this text field
- * @param {string} attributes.id The id for this text field
- * @param {string} attributes.className The class for this text field
- * @param {string} attributes.title The title that describes this text field
- *
- * @constructor
- */
-function Button( attributes ) {
-	attributes = attributes || {};
-	attributes = defaults( attributes, defaultAttributes );
-
-	this._attributes = attributes;
-}
-
-/**
- * Returns the HTML attributes set for this text field
- *
- * @returns {Object} The HTML attributes
- */
-Button.prototype.getAttributes = function() {
-	return this._attributes;
-};
-
-/**
- * Renders the text field to HTML
- *
- * @returns {string} The rendered HTML
- */
-Button.prototype.render = function() {
-	var html = buttonTemplate( this.getAttributes() );
-	html = minimizeHtml( html );
-
-	return html;
-};
-
-/**
- * Set the value of the input field
- *
- * @param {string} value The value to set on this input field
- */
-Button.prototype.setValue = function( value ) {
-	this._attributes.value = value;
-};
-
-/**
- * Set the value of the input field
- *
- * @param {string} className The class to set on this input field
- */
-Button.prototype.setClassName = function( className ) {
-	this._attributes.className = className;
-};
-
-module.exports = Button;
-
-},{"../../js/templates":119,"../helpers/minimizeHtml":111,"lodash/object/defaults":172}],115:[function(require,module,exports){
-var defaults = require( "lodash/object/defaults" );
-var minimizeHtml = require( "../helpers/minimizeHtml" );
-
-/**
- * Factory for the inputfield.
- *
- * @param {Object} template Template object to use.
- * @returns {TextField} The textfield object.
- */
-function inputFieldFactory( template ) {
-
-	var defaultAttributes = {
-		value         : "",
-		className     : "",
-		id            : "",
-		placeholder   : "",
-		name          : "",
-		title         : "",
-		labelClassName: ""
-	};
-
-	/**
-	 * Represents an HTML text field
-	 *
-	 * @param {Object} attributes The attributes to set on the HTML element
-	 * @param {string} attributes.value The value for this text field
-	 * @param {string} attributes.placeholder The placeholder for this text field
-	 * @param {string} attributes.name The name for this text field
-	 * @param {string} attributes.id The id for this text field
-	 * @param {string} attributes.className The class for this text field
-	 * @param {string} attributes.title The title that describes this text field
-	 *
-	 * @constructor
-	 */
-	function TextField( attributes ) {
-		attributes = attributes || {};
-		attributes = defaults( attributes, defaultAttributes );
-
-		this._attributes = attributes;
-	}
-
-	/**
-	 * Returns the HTML attributes set for this text field
-	 *
-	 * @returns {Object} The HTML attributes
-	 */
-	TextField.prototype.getAttributes = function() {
-		return this._attributes;
-	};
-
-	/**
-	 * Renders the text field to HTML
-	 *
-	 * @returns {string} The rendered HTML
-	 */
-	TextField.prototype.render = function() {
-		var html = template( this.getAttributes() );
-
-		html = minimizeHtml( html );
-
-		return html;
-	};
-
-	/**
-	 * Set the value of the input field
-	 *
-	 * @param {string} value The value to set on this input field
-	 */
-	TextField.prototype.setValue = function( value ) {
-		this._attributes.value = value;
-	};
-
-	/**
-	 * Set the value of the input field
-	 *
-	 * @param {string} className The class to set on this input field
-	 */
-	TextField.prototype.setClassName = function( className ) {
-		this._attributes.className = className;
-	};
-
-	return TextField;
-}
-
-module.exports = inputFieldFactory;
-
-},{"../helpers/minimizeHtml":111,"lodash/object/defaults":172}],116:[function(require,module,exports){
-var inputFieldFactory = require( "./inputField" );
-
-module.exports = inputFieldFactory( require( "../templates" ).fields.text );
-
-},{"../templates":119,"./inputField":115}],117:[function(require,module,exports){
-var inputFieldFactory = require( "./inputField" );
-
-module.exports = inputFieldFactory( require( "../templates" ).fields.textarea );
-
-},{"../templates":119,"./inputField":115}],118:[function(require,module,exports){
-var forEach = require( "lodash/collection/forEach" );
-
-var addClass = require( "../helpers/addClass.js" );
-var removeClass = require( "../helpers/removeClass.js" );
-
-/**
- *
- * @param {Object} bindings The fields to bind.
- * @param {Object} element The element to bind the events to.
- * @constructor
- */
-function PreviewEvents( bindings, element ) {
-	this._bindings = bindings;
-	this.element = element;
-}
-
-/**
- * Bind the events.
- *
- * @param {Object} editToggle - The edit toggle element
- * @param {Object} closeEditor - The button to close the editor
- */
-PreviewEvents.prototype.bindEvents = function( editToggle, closeEditor ) {
-	editToggle.addEventListener( "click", this.toggleEditor.bind( this ) );
-	closeEditor.addEventListener( "click", this.closeEditor.bind( this ) );
-
-	// Loop through the bindings and bind a click handler to the click to focus the focus element.
-	forEach( this._bindings, this.bindInputEvent.bind( this ) );
-};
-
-/**
- * Binds the event for the input
- *
- * @param {Object} binding The field to bind.
- */
-PreviewEvents.prototype.bindInputEvent = function( binding ) {
-	var previewElement = document.getElementsByClassName( binding.preview )[0];
-	var inputElement = this.element.input[ binding.inputField ];
-
-	// Make the preview element click open the editor and focus the correct input.
-	previewElement.addEventListener( "click", function() {
-		this.openEditor();
-		inputElement.focus();
-	}.bind( this ) );
-
-	// Make focusing an input, update the carets.
-	inputElement.addEventListener( "focus", function() {
-		this._currentFocus = binding.inputField;
-
-		this._updateFocusCarets();
-	}.bind( this ) );
-
-	// Make removing focus from an element, update the carets.
-	inputElement.addEventListener( "blur", function() {
-		this._currentFocus = null;
-
-		this._updateFocusCarets();
-	}.bind( this ) );
-
-	previewElement.addEventListener( "mouseover", function() {
-		this._currentHover = binding.inputField;
-
-		this._updateHoverCarets();
-	}.bind( this ) );
-
-	previewElement.addEventListener( "mouseout", function() {
-		this._currentHover = null;
-
-		this._updateHoverCarets();
-	}.bind( this ) );
-};
-
-/**
- * Opens the snippet editor.
- *
- * @returns {void}
- */
-PreviewEvents.prototype.openEditor = function() {
-
-	// Hide these elements.
-	addClass( this.element.editToggle,       "snippet-editor--hidden" );
-
-	// Show these elements.
-	removeClass( this.element.formContainer, "snippet-editor--hidden" );
-	removeClass( this.element.headingEditor, "snippet-editor--hidden" );
-
-	this.opened = true;
-};
-
-/**
- * Closes the snippet editor.
- *
- * @returns {void}
- */
-PreviewEvents.prototype.closeEditor = function() {
-
-	// Hide these elements.
-	addClass( this.element.formContainer,     "snippet-editor--hidden" );
-	addClass( this.element.headingEditor,     "snippet-editor--hidden" );
-
-	// Show these elements.
-	removeClass( this.element.editToggle,     "snippet-editor--hidden" );
-
-	this.opened = false;
-};
-
-/**
- * Toggles the snippet editor.
- *
- * @returns {void}
- */
-PreviewEvents.prototype.toggleEditor = function() {
-	if ( this.opened ) {
-		this.closeEditor();
-	} else {
-		this.openEditor();
-	}
-};
-
-/**
- * Updates carets before the preview and input fields.
- *
- * @private
- *
- * @returns {void}
- */
-PreviewEvents.prototype._updateFocusCarets = function() {
-	var focusedLabel, focusedPreview;
-
-	// Disable all carets on the labels.
-	forEach( this.element.label, function( element ) {
-		removeClass( element, "snippet-editor__label--focus" );
-	} );
-
-	// Disable all carets on the previews.
-	forEach( this.element.preview, function( element ) {
-		removeClass( element, "snippet-editor__container--focus" );
-	} );
-
-	if ( null !== this._currentFocus ) {
-		focusedLabel = this.element.label[ this._currentFocus ];
-		focusedPreview = this.element.preview[ this._currentFocus ];
-
-		addClass( focusedLabel, "snippet-editor__label--focus" );
-		addClass( focusedPreview, "snippet-editor__container--focus" );
-	}
-};
-
-/**
- * Updates hover carets before the input fields.
- *
- * @private
- *
- * @returns {void}
- */
-PreviewEvents.prototype._updateHoverCarets = function() {
-	var hoveredLabel;
-
-	forEach( this.element.label, function( element ) {
-		removeClass( element, "snippet-editor__label--hover" );
-	} );
-
-	if ( null !== this._currentHover ) {
-		hoveredLabel = this.element.label[ this._currentHover ];
-
-		addClass( hoveredLabel, "snippet-editor__label--hover" );
-	}
-};
-
-module.exports = PreviewEvents;
-
-},{"../helpers/addClass.js":106,"../helpers/removeClass.js":112,"lodash/collection/forEach":121}],119:[function(require,module,exports){
-(function (global){
-;(function() {
-  var undefined;
-
-  var objectTypes = {
-    'function': true,
-    'object': true
-  };
-
-  var freeExports = objectTypes[typeof exports] && exports && !exports.nodeType && exports;
-
-  var freeModule = objectTypes[typeof module] && module && !module.nodeType && module;
-
-  var freeGlobal = freeExports && freeModule && typeof global == 'object' && global && global.Object && global;
-
-  var freeSelf = objectTypes[typeof self] && self && self.Object && self;
-
-  var freeWindow = objectTypes[typeof window] && window && window.Object && window;
-
-  var moduleExports = freeModule && freeModule.exports === freeExports && freeExports;
-
-  var root = freeGlobal || ((freeWindow !== (this && this.window)) && freeWindow) || freeSelf || this;
-
-  var VERSION = '3.10.1';
-
-  /** Used to match HTML entities and HTML characters. */
-  var reUnescapedHtml = /[&<>"'`]/g,
-      reHasUnescapedHtml = RegExp(reUnescapedHtml.source);
-
-  /** Used to map characters to HTML entities. */
-  var htmlEscapes = {
-    '&': '&amp;',
-    '<': '&lt;',
-    '>': '&gt;',
-    '"': '&quot;',
-    "'": '&#39;',
-    '`': '&#96;'
-  };
-
-  /*--------------------------------------------------------------------------*/
-
-  /**
-   * Converts `value` to a string if it's not one. An empty string is returned
-   * for `null` or `undefined` values.
-   *
-   * @private
-   * @param {*} value The value to process.
-   * @returns {string} Returns the string.
-   */
-  function baseToString(value) {
-    return value == null ? '' : (value + '');
-  }
-
-  /**
-   * Used by `_.escape` to convert characters to HTML entities.
-   *
-   * @private
-   * @param {string} chr The matched character to escape.
-   * @returns {string} Returns the escaped character.
-   */
-  function escapeHtmlChar(chr) {
-    return htmlEscapes[chr];
-  }
-
-  /*------------------------------------------------------------------------*/
-
-  /**
-   * Converts the characters "&", "<", ">", '"', "'", and "\`", in `string` to
-   * their corresponding HTML entities.
-   *
-   * **Note:** No other characters are escaped. To escape additional characters
-   * use a third-party library like [_he_](https://mths.be/he).
-   *
-   * Though the ">" character is escaped for symmetry, characters like
-   * ">" and "/" don't need escaping in HTML and have no special meaning
-   * unless they're part of a tag or unquoted attribute value.
-   * See [Mathias Bynens's article](https://mathiasbynens.be/notes/ambiguous-ampersands)
-   * (under "semi-related fun fact") for more details.
-   *
-   * Backticks are escaped because in Internet Explorer < 9, they can break out
-   * of attribute values or HTML comments. See [#59](https://html5sec.org/#59),
-   * [#102](https://html5sec.org/#102), [#108](https://html5sec.org/#108), and
-   * [#133](https://html5sec.org/#133) of the [HTML5 Security Cheatsheet](https://html5sec.org/)
-   * for more details.
-   *
-   * When working with HTML you should always [quote attribute values](http://wonko.com/post/html-escaping)
-   * to reduce XSS vectors.
-   *
-   * @static
-   * @memberOf _
-   * @category String
-   * @param {string} [string=''] The string to escape.
-   * @returns {string} Returns the escaped string.
-   * @example
-   *
-   * _.escape('fred, barney, & pebbles');
-   * // => 'fred, barney, &amp; pebbles'
-   */
-  function escape(string) {
-    // Reset `lastIndex` because in IE < 9 `String#replace` does not.
-    string = baseToString(string);
-    return (string && reHasUnescapedHtml.test(string))
-      ? string.replace(reUnescapedHtml, escapeHtmlChar)
-      : string;
-  }
-
-  var _ = { 'escape': escape };
-
-  /*----------------------------------------------------------------------------*/
-
-  var templates = {
-    'facebookPreview': {},
-    'fields': {
-        'button': {},
-        'text': {},
-        'textarea': {}
-    },
-    'imagePlaceholder': {},
-    'twitterPreview': {}
-  };
-
-  templates['facebookPreview'] =   function(obj) {
-    obj || (obj = {});
-    var __t, __p = '', __e = _.escape;
-    with (obj) {
-    __p += '<div class="editable-preview editable-preview--facebook">\n	<h4 class="snippet-editor__heading snippet-editor__heading-icon-eye">' +
-    __e( i18n.snippetPreview ) +
-    '</h4>\n\n	<section class="editable-preview__inner editable-preview__inner--facebook">\n		<div class="social-preview__inner social-preview__inner--facebook">\n			<div class="snippet-editor__container editable-preview__image--facebook snippet_container">\n\n			</div>\n			<div class="editable-preview__text-keeper editable-preview__text-keeper--facebook">\n				<div class="snippet-editor__container editable-preview__container--facebook editable-preview__title--facebook snippet_container">\n					<div class="editable-preview__value editable-preview__value--facebook-title">\n						' +
-    __e( rendered.title ) +
-    '\n					</div>\n				</div>\n				<div class="snippet-editor__container editable-preview__container--facebook editable-preview__description--facebook snippet_container">\n					<div class="editable-preview__value editable-preview__value--facebook-description">\n						' +
-    __e( rendered.description ) +
-    '\n					</div>\n				</div>\n				<div class="snippet-editor__container editable-preview__container--no-caret editable-preview__website--facebook snippet_container">\n					<div class="editable-preview__value editable-preview__value--facebook-url">\n						' +
-    __e( rendered.baseUrl ) +
-    '\n					</div>\n				</div>\n			</div>\n		</div>\n\n		<button class="snippet-editor__button snippet-editor__edit-button" type="button">\n			' +
-    __e( i18n.edit ) +
-    '\n		</button>\n	</section>\n\n	<h4 class="snippet-editor__heading snippet-editor__heading-editor snippet-editor__heading-icon-edit snippet-editor--hidden">' +
-    __e( i18n.snippetEditor ) +
-    '</h4>\n\n	<div class="snippet-editor__form snippet-editor--hidden">\n\n	</div>\n</div>\n';
-
-    }
-    return __p
-  };
-
-  templates['fields']['button'] =   function(obj) {
-    obj || (obj = {});
-    var __t, __p = '', __e = _.escape, __j = Array.prototype.join;
-    function print() { __p += __j.call(arguments, '') }
-    with (obj) {
-    __p += '<button\n	type="button"\n	';
-     if (className) {
-    __p += 'class="' +
-    __e( className ) +
-    '"';
-     }
-    __p += '\n>\n	' +
-    __e( value ) +
-    '\n</button>';
-
-    }
-    return __p
-  };
-
-  templates['fields']['text'] =   function(obj) {
-    obj || (obj = {});
-    var __t, __p = '', __e = _.escape, __j = Array.prototype.join;
-    function print() { __p += __j.call(arguments, '') }
-    with (obj) {
-    __p += '<label';
-     if (id) {
-    __p += ' for="' +
-    __e( id ) +
-    '"';
-     }
-
-     if (labelClassName) {
-    __p += ' class="' +
-    __e( labelClassName ) +
-    '"';
-     }
-    __p += '>\n	' +
-    __e( title ) +
-    '\n	<input type="text"\n		';
-     if (value) {
-    __p += 'value="' +
-    __e( value ) +
-    '"';
-     }
-    __p += '\n		';
-     if (placeholder) {
-    __p += 'placeholder="' +
-    __e( placeholder ) +
-    '"';
-     }
-    __p += '\n		';
-     if (className) {
-    __p += 'class="' +
-    __e( className ) +
-    '"';
-     }
-    __p += '\n		';
-     if (id) {
-    __p += 'id="' +
-    __e( id ) +
-    '"';
-     }
-    __p += '\n		';
-     if (name) {
-    __p += 'name="' +
-    __e( name ) +
-    '"';
-     }
-    __p += '\n	/>\n</label>\n';
-
-    }
-    return __p
-  };
-
-  templates['fields']['textarea'] =   function(obj) {
-    obj || (obj = {});
-    var __t, __p = '', __e = _.escape, __j = Array.prototype.join;
-    function print() { __p += __j.call(arguments, '') }
-    with (obj) {
-    __p += '<label';
-     if (id) {
-    __p += ' for="' +
-    __e( id ) +
-    '"';
-     }
-
-     if (labelClassName) {
-    __p += ' class="' +
-    __e( labelClassName ) +
-    '"';
-     }
-    __p += '>\n	' +
-    __e( title ) +
-    '\n	<textarea\n\n		   ';
-     if (placeholder) {
-    __p += 'placeholder="' +
-    __e( placeholder ) +
-    '"';
-     }
-    __p += '\n		   ';
-     if (className) {
-    __p += 'class="' +
-    __e( className ) +
-    '"';
-     }
-    __p += '\n		   ';
-     if (id) {
-    __p += 'id="' +
-    __e( id ) +
-    '"';
-     }
-    __p += '\n		   ';
-     if (name) {
-    __p += 'name="' +
-    __e( name ) +
-    '"';
-     }
-    __p += '\n	>\n		';
-     if (value) {
-    __p +=
-    __e( value );
-     }
-    __p += '\n	</textarea>\n</label>\n';
-
-    }
-    return __p
-  };
-
-  templates['imagePlaceholder'] =   function(obj) {
-    obj || (obj = {});
-    var __t, __p = '', __e = _.escape;
-    with (obj) {
-    __p += '<div class=\'' +
-    __e( className ) +
-    '\'>' +
-    __e( placeholder ) +
-    '</div>';
-
-    }
-    return __p
-  };
-
-  templates['twitterPreview'] =   function(obj) {
-    obj || (obj = {});
-    var __t, __p = '', __e = _.escape;
-    with (obj) {
-    __p += '<div class="editable-preview editable-preview--twitter">\n	<h4 class="snippet-editor__heading snippet-editor__heading-icon-eye">' +
-    __e( i18n.snippetPreview ) +
-    '</h4>\n\n	<section class="editable-preview__inner editable-preview__inner--twitter">\n		<div class="social-preview__inner social-preview__inner--twitter">\n			<div class="snippet-editor__container editable-preview__image--twitter snippet_container">\n\n			</div>\n			<div class="editable-preview__text-keeper editable-preview__text-keeper--twitter">\n				<div class="snippet-editor__container editable-preview__container--twitter editable-preview__title--twitter snippet_container" >\n					<div class="editable-preview__value editable-preview__value--twitter-title ">\n						' +
-    __e( rendered.title ) +
-    '\n					</div>\n				</div>\n				<div class="snippet-editor__container editable-preview__container--twitter editable-preview__description--twitter twitter-preview__description snippet_container">\n					<div class="editable-preview__value editable-preview__value--twitter-description">\n						' +
-    __e( rendered.description ) +
-    '\n					</div>\n				</div>\n				<div class="snippet-editor__container editable-preview__container--no-caret editable-preview__website--twitter snippet_container">\n					<div class="editable-preview__value ">\n						' +
-    __e( rendered.baseUrl ) +
-    '\n					</div>\n				</div>\n			</div>\n		</div>\n\n		<button class="snippet-editor__button snippet-editor__edit-button" type="button">\n			' +
-    __e( i18n.edit ) +
-    '\n		</button>\n	</section>\n\n	<h4 class="snippet-editor__heading snippet-editor__heading-editor snippet-editor__heading-icon-edit snippet-editor--hidden">' +
-    __e( i18n.snippetEditor ) +
-    '</h4>\n\n	<div class="snippet-editor__form snippet-editor--hidden">\n\n	</div>\n</div>\n';
-
-    }
-    return __p
-  };
-
-  /*----------------------------------------------------------------------------*/
-
-  if (freeExports && freeModule) {
-    if (moduleExports) {
-      (freeModule.exports = templates).templates = templates;
-    } else {
-      freeExports.templates = templates;
-    }
-  }
-  else {
-    root.templates = templates;
-  }
-}.call(this));
-
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],120:[function(require,module,exports){
-/* jshint browser: true */
-
-var isElement = require( "lodash/lang/isElement" );
-var clone = require( "lodash/lang/clone" );
-var defaultsDeep = require( "lodash/object/defaultsDeep" );
-
-var Jed = require( "jed" );
-
-var imageRatio = require( "./helpers/imageRatio" );
-var renderDescription = require( "./helpers/renderDescription" );
-var imagePlaceholder  = require( "./element/imagePlaceholder" );
-var bemAddModifier = require( "./helpers/bem/addModifier" );
-var bemRemoveModifier = require( "./helpers/bem/removeModifier" );
-var addClass = require( "./helpers/addClass" );
-var removeClass = require( "./helpers/removeClass" );
-
-var TextField = require( "./inputs/textInput" );
-var TextArea = require( "./inputs/textarea" );
-var Button = require( "./inputs/button.js" );
-
-var InputElement = require( "./element/input" );
-var PreviewEvents = require( "./preview/events" );
-
-var templates = require( "./templates" );
-
-var twitterEditorTemplate = templates.twitterPreview;
-
-var twitterDefaults = {
-	data: {
-		title: "",
-		description: "",
-		imageUrl: ""
-	},
-	placeholder: {
-		title:    "This is an example title - edit by clicking here",
-		description: "Modify your twitter description by editing it right here",
-		imageUrl: "Edit the image by clicking here"
-	},
-	defaultValue: {
-		title: "",
-		description: "",
-		imageUrl: ""
-	},
-	baseURL: "example.com",
-	callbacks: {
-		updateSocialPreview: function() {}
-	}
-};
-
-var inputTwitterPreviewBindings = [
-	{
-		"preview": "editable-preview__title--twitter",
-		"inputField": "title"
-	},
-	{
-		"preview": "editable-preview__image--twitter",
-		"inputField": "imageUrl"
-	},
-	{
-		"preview": "editable-preview__description--twitter",
-		"inputField": "description"
-	}
-];
-
-var WIDTH_TWITTER_IMAGE_SMALL = 120;
-var WIDTH_TWITTER_IMAGE_LARGE = 506;
-var TWITTER_IMAGE_THRESHOLD_WIDTH = 280;
-var TWITTER_IMAGE_THRESHOLD_HEIGHT = 150;
-
-/**
- * @module snippetPreview
- */
-
-/**
- * Defines the config and outputTarget for the SnippetPreview
- *
- * @param {Object}         opts                           - Snippet preview options.
- * @param {Object}         opts.placeholder               - The placeholder values for the fields, will be shown as
- * actual placeholders in the inputs and as a fallback for the preview.
- * @param {string}         opts.placeholder.title         - Placeholder for the title field.
- * @param {string}         opts.placeholder.description   - Placeholder for the description field.
- * @param {string}         opts.placeholder.imageUrl      - Placeholder for the image url field.
- *
- * @param {Object}         opts.defaultValue              - The default value for the fields, if the user has not
- * changed a field, this value will be used for the analyzer, preview and the progress bars.
- * @param {string}         opts.defaultValue.title        - Default title.
- * @param {string}         opts.defaultValue.description  - Default description.
- * @param {string}         opts.defaultValue.imageUrl     - Default image url.
- * it.
- *
- * @param {string}         opts.baseURL                   - The basic URL as it will be displayed in twitter.
- * @param {HTMLElement}    opts.targetElement             - The target element that contains this snippet editor.
- *
- * @param {Object}         opts.callbacks                 - Functions that are called on specific instances.
- * @param {Function}       opts.callbacks.updateSocialPreview - Function called when the social preview is updated.
- *
- * @param {Object}         i18n                           - The i18n object.
- *
- * @property {Object}      i18n                           - The translation object.
- *
- * @property {HTMLElement} targetElement                  - The target element that contains this snippet editor.
- *
- * @property {Object}      element                        - The elements for this snippet editor.
- * @property {Object}      element.rendered               - The rendered elements.
- * @property {HTMLElement} element.rendered.title         - The rendered title element.
- * @property {HTMLElement} element.rendered.imageUrl      - The rendered url path element.
- * @property {HTMLElement} element.rendered.description   - The rendered twitter description element.
- *
- * @property {Object}      element.input                  - The input elements.
- * @property {HTMLElement} element.input.title            - The title input element.
- * @property {HTMLElement} element.input.imageUrl         - The url path input element.
- * @property {HTMLElement} element.input.description      - The meta description input element.
- *
- * @property {HTMLElement} element.container              - The main container element.
- * @property {HTMLElement} element.formContainer          - The form container element.
- * @property {HTMLElement} element.editToggle             - The button that toggles the editor form.
- *
- * @property {Object}      data                           - The data for this snippet editor.
- * @property {string}      data.title                     - The title.
- * @property {string}      data.imageUrl                  - The url path.
- * @property {string}      data.description               - The meta description.
- *
- * @property {string}      baseURL                        - The basic URL as it will be displayed in google.
- *
- * @constructor
- */
-var TwitterPreview = function( opts, i18n ) {
-	defaultsDeep( opts, twitterDefaults );
-
-	if ( !isElement( opts.targetElement ) ) {
-		throw new Error( "The twitter preview requires a valid target element" );
-	}
-
-	this.data = opts.data;
-	this.i18n = i18n || this.constructI18n();
-	this.opts = opts;
-
-	this._currentFocus = null;
-	this._currentHover = null;
-};
-
-/**
- * Initializes i18n object based on passed configuration
- *
- * @param {Object} translations - The values to translate.
- *
- * @returns {Jed} - The Jed translation object.
- */
-TwitterPreview.prototype.constructI18n = function( translations ) {
-	var defaultTranslations = {
-		"domain": "yoast-social-previews",
-		"locale_data": {
-			"yoast-social-previews": {
-				"": {}
-			}
-		}
-	};
-
-	// Use default object to prevent Jed from erroring out.
-	translations = translations || defaultTranslations;
-
-	return new Jed( translations );
-};
-
-/**
- * Renders the template and bind the events.
- *
- * @returns {void}
- */
-TwitterPreview.prototype.init = function() {
-	this.renderTemplate();
-	this.bindEvents();
-	this.updatePreview();
-};
-
-/**
- * Renders snippet editor and adds it to the targetElement.
- *
- * @returns {void}
- */
-TwitterPreview.prototype.renderTemplate = function() {
-	var targetElement = this.opts.targetElement;
-
-	targetElement.innerHTML = twitterEditorTemplate( {
-		rendered: {
-			title: "",
-			description: "",
-			imageUrl: "",
-			baseUrl: this.opts.baseURL
-		},
-		placeholder: this.opts.placeholder,
-		i18n: {
-			edit: this.i18n.dgettext( "yoast-social-previews", "Edit Twitter preview" ),
-			snippetPreview: this.i18n.dgettext( "yoast-social-previews", "Twitter preview" ),
-			snippetEditor: this.i18n.dgettext( "yoast-social-previews", "Twitter editor" )
-		}
-	} );
-
-	this.element = {
-		rendered: {
-			title: targetElement.getElementsByClassName( "editable-preview__value--twitter-title" )[0],
-			description: targetElement.getElementsByClassName( "editable-preview__value--twitter-description" )[0]
-		},
-		fields: this.getFields(),
-		container: targetElement.getElementsByClassName( "editable-preview--twitter" )[0],
-		formContainer: targetElement.getElementsByClassName( "snippet-editor__form" )[0],
-		editToggle: targetElement.getElementsByClassName( "snippet-editor__edit-button" )[0],
-		closeEditor: targetElement.getElementsByClassName( "snippet-editor__submit" )[0],
-		formFields: targetElement.getElementsByClassName( "snippet-editor__form-field" ),
-		headingEditor: targetElement.getElementsByClassName( "snippet-editor__heading-editor" )[0]
-	};
-
-	this.element.formContainer.innerHTML = this.element.fields.imageUrl.render()
-		+ this.element.fields.title.render()
-		+ this.element.fields.description.render()
-		+ this.element.fields.button.render();
-
-	this.element.input = {
-		title: targetElement.getElementsByClassName( "js-snippet-editor-title" )[0],
-		imageUrl: targetElement.getElementsByClassName( "js-snippet-editor-imageUrl" )[0],
-		description: targetElement.getElementsByClassName( "js-snippet-editor-description" )[0]
-	};
-
-	this.element.fieldElements = this.getFieldElements();
-	this.element.closeEditor = targetElement.getElementsByClassName( "snippet-editor__submit" )[0];
-
-	this.element.label = {
-		title: this.element.input.title.parentNode,
-		imageUrl: this.element.input.imageUrl.parentNode,
-		description: this.element.input.description.parentNode
-	};
-
-	this.element.preview = {
-		title: this.element.rendered.title.parentNode,
-		imageUrl: targetElement.getElementsByClassName( "editable-preview__image--twitter" )[0],
-		description: this.element.rendered.description.parentNode
-	};
-
-};
-
-/**
- * Returns the form fields.
- *
- * @returns {{title: *, description: *, imageUrl: *, button: Button}} Object with the fields.
- */
-TwitterPreview.prototype.getFields = function() {
-	return {
-		title: new TextField( {
-			className: "snippet-editor__input snippet-editor__title js-snippet-editor-title",
-			id: "twitter-editor-title",
-			value: this.data.title,
-			placeholder: this.opts.placeholder.title,
-			title: this.i18n.dgettext( "yoast-social-previews", "Twitter title" ),
-			labelClassName: "snippet-editor__label"
-		} ),
-		description: new TextArea( {
-			className: "snippet-editor__input snippet-editor__description js-snippet-editor-description",
-			id: "twitter-editor-description",
-			value: this.data.description,
-			placeholder: this.opts.placeholder.description,
-			title: this.i18n.dgettext( "yoast-social-previews", "Twitter description" ),
-			labelClassName: "snippet-editor__label"
-		} ),
-		imageUrl: new TextField( {
-			className: "snippet-editor__input snippet-editor__imageUrl js-snippet-editor-imageUrl",
-			id: "twitter-editor-imageUrl",
-			value: this.data.imageUrl,
-			placeholder: this.opts.placeholder.imageUrl,
-			title: this.i18n.dgettext( "yoast-social-previews", "Twitter image" ),
-			labelClassName: "snippet-editor__label"
-		} ),
-		button : new Button(
-			{
-				className : "snippet-editor__submit snippet-editor__button",
-				value: this.i18n.dgettext( "yoast-social-previews", "Close Twitter editor" )
-			}
-		)
-	};
-};
-
-/**
- * Returns all field elements.
- *
- * @returns {{title: InputElement, description: InputElement, imageUrl: InputElement}} The field element.
- */
-TwitterPreview.prototype.getFieldElements = function() {
-	var targetElement = this.opts.targetElement;
-
-	return {
-		title: new InputElement(
-			targetElement.getElementsByClassName( "js-snippet-editor-title" )[0],
-			{
-				currentValue: this.data.title,
-				defaultValue: this.opts.defaultValue.title,
-				placeholder: this.opts.placeholder.title,
-				fallback: this.i18n.dgettext( "yoast-social-previews", "Please provide a Twitter title by editing the snippet below." )
-			},
-			this.updatePreview.bind( this )
-		),
-		 description: new InputElement(
-			 targetElement.getElementsByClassName( "js-snippet-editor-description" )[0],
-			 {
-				 currentValue: this.data.description,
-				 defaultValue: this.opts.defaultValue.description,
-				 placeholder: this.opts.placeholder.description,
-				 fallback: this.i18n.dgettext( "yoast-social-previews", "Please provide a description by editing the snippet below." )
-			 },
-			 this.updatePreview.bind( this )
-		 ),
-		imageUrl: new InputElement(
-			targetElement.getElementsByClassName( "js-snippet-editor-imageUrl" )[0],
-			{
-				currentValue: this.data.imageUrl,
-				defaultValue: this.opts.defaultValue.imageUrl,
-				placeholder: this.opts.placeholder.imageUrl,
-				fallback: ""
-			},
-			this.updatePreview.bind( this )
-		)
-	};
-};
-
-/**
- * Updates the twitter preview.
- */
-TwitterPreview.prototype.updatePreview = function() {
-// Update the data.
-	this.data.title = this.element.fieldElements.title.getInputValue();
-	this.data.description = this.element.fieldElements.description.getInputValue();
-	this.data.imageUrl = this.element.fieldElements.imageUrl.getInputValue();
-
-	// Sets the title field
-	this.setTitle( this.element.fieldElements.title.getValue() );
-
-	// Set the description field and parse the styling of it.
-	this.setDescription( this.element.fieldElements.description.getValue() );
-
-	// Sets the Image URL
-	this.setImageUrl( this.data.imageUrl );
-
-	// Clone so the data isn't changeable.
-	this.opts.callbacks.updateSocialPreview( clone( this.data ) );
-};
-
-/**
- * Sets the preview title.
- *
- * @param {string} title The new title.
- */
-TwitterPreview.prototype.setTitle = function( title ) {
-	this.element.rendered.title.innerHTML = title;
-};
-
-/**
- * Set the preview description.
- *
- * @param {string} description The description to set.
- */
-TwitterPreview.prototype.setDescription = function( description ) {
-	this.element.rendered.description.innerHTML = description;
-	renderDescription( this.element.rendered.description, this.element.fieldElements.description.getInputValue() );
-};
-
-/**
- * Updates the image object with the new URL.
- *
- * @param {string} imageUrl The image path.
- */
-TwitterPreview.prototype.setImageUrl = function( imageUrl ) {
-	var imageContainer = this.element.preview.imageUrl;
-	if ( imageUrl === '' && this.data.imageUrl === "" ) {
-		this.setPlaceHolder();
-
-		return;
-	}
-
-	var img = new Image();
-	img.onload = function() {
-		imageContainer.innerHTML = "<img src='" + imageUrl + "' />";
-
-		if ( this.isTooSmallImage( img ) ) {
-			this.setPlaceHolder();
-
-			return;
-		}
-
-		imageRatio( imageContainer.childNodes[0], this.getMaxImageWidth( img ) );
-
-	}.bind( this );
-
-	img.onerror = this.setPlaceHolder.bind( this, true );
-
-	// Load image to trigger load or error event.
-	img.src = imageUrl;
-};
-
-
-/**
- * Returns the max image width
- *
- * @param {Image} img The image object to use.
- * @returns {int} The calculated max width.
- */
-TwitterPreview.prototype.getMaxImageWidth = function( img ) {
-	if ( this.isSmallImage( img ) ) {
-		this.setSmallImageClasses();
-
-		return WIDTH_TWITTER_IMAGE_SMALL
-	}
-
-	this.removeSmallImageClasses();
-
-	return WIDTH_TWITTER_IMAGE_LARGE;
-};
-/**
- * Sets the default twitter placeholder
- */
-TwitterPreview.prototype.setPlaceHolder = function() {
-	this.setSmallImageClasses();
-
-	imagePlaceholder(
-		this.element.preview.imageUrl,
-		"",
-		false,
-		"twitter"
-	);
-
-};
-
-/**
- * Detects if the twitter preview should switch to small image mode
- *
- * @param {HTMLImageElement} image The image in question.
- *
- * @returns {boolean} Whether the image is small.
- */
-TwitterPreview.prototype.isSmallImage = function( image ) {
-	return (
-		image.width < TWITTER_IMAGE_THRESHOLD_WIDTH ||
-		image.height < TWITTER_IMAGE_THRESHOLD_HEIGHT
-	);
-};
-
-/**
- * Detects if the twitter preview image is too small
- *
- * @param {HTMLImageElement} image The image in question.
- *
- * @returns {boolean} Whether the image is too small.
- */
-TwitterPreview.prototype.isTooSmallImage = function( image ) {
-	return (
-		image.width < WIDTH_TWITTER_IMAGE_SMALL ||
-		image.height < WIDTH_TWITTER_IMAGE_SMALL
-	);
-};
-
-/**
- * Sets the classes on the facebook preview so that it will display a small facebook image preview
- */
-TwitterPreview.prototype.setSmallImageClasses = function() {
-	var targetElement = this.opts.targetElement;
-
-	bemAddModifier( "twitter-small", "social-preview__inner", targetElement );
-	bemAddModifier( "twitter-small", "editable-preview__image--twitter", targetElement );
-	bemAddModifier( "twitter-small", "editable-preview__text-keeper--twitter", targetElement );
-};
-
-TwitterPreview.prototype.removeSmallImageClasses = function() {
-	var targetElement = this.opts.targetElement;
-
-	bemRemoveModifier( "twitter-small", "social-preview__inner", targetElement );
-	bemRemoveModifier( "twitter-small", "editable-preview__image--twitter", targetElement );
-	bemRemoveModifier( "twitter-small", "editable-preview__text-keeper--twitter", targetElement );
-};
-
-/**
- * Binds the reloadSnippetText function to the blur of the snippet inputs.
- */
-TwitterPreview.prototype.bindEvents = function() {
-	var previewEvents = new PreviewEvents( inputTwitterPreviewBindings, this.element );
-	previewEvents.bindEvents( this.element.editToggle, this.element.closeEditor );
-};
-
-module.exports = TwitterPreview;
-
-},{"./element/imagePlaceholder":103,"./element/input":104,"./helpers/addClass":106,"./helpers/bem/addModifier":107,"./helpers/bem/removeModifier":109,"./helpers/imageRatio":110,"./helpers/removeClass":112,"./helpers/renderDescription":113,"./inputs/button.js":114,"./inputs/textInput":116,"./inputs/textarea":117,"./preview/events":118,"./templates":119,"jed":3,"lodash/lang/clone":159,"lodash/lang/isElement":162,"lodash/object/defaultsDeep":173}],121:[function(require,module,exports){
+},{}],127:[function(require,module,exports){
 var arrayEach = require('../internal/arrayEach'),
     baseEach = require('../internal/baseEach'),
     createForEach = require('../internal/createForEach');
@@ -6582,7 +6751,7 @@ var forEach = createForEach(arrayEach, baseEach);
 
 module.exports = forEach;
 
-},{"../internal/arrayEach":126,"../internal/baseEach":132,"../internal/createForEach":145}],122:[function(require,module,exports){
+},{"../internal/arrayEach":132,"../internal/baseEach":138,"../internal/createForEach":151}],128:[function(require,module,exports){
 var getNative = require('../internal/getNative');
 
 /* Native method references for those with the same name as other `lodash` methods. */
@@ -6608,7 +6777,7 @@ var now = nativeNow || function() {
 
 module.exports = now;
 
-},{"../internal/getNative":147}],123:[function(require,module,exports){
+},{"../internal/getNative":153}],129:[function(require,module,exports){
 var isObject = require('../lang/isObject'),
     now = require('../date/now');
 
@@ -6791,7 +6960,7 @@ function debounce(func, wait, options) {
 
 module.exports = debounce;
 
-},{"../date/now":122,"../lang/isObject":166}],124:[function(require,module,exports){
+},{"../date/now":128,"../lang/isObject":172}],130:[function(require,module,exports){
 /** Used as the `TypeError` message for "Functions" methods. */
 var FUNC_ERROR_TEXT = 'Expected a function';
 
@@ -6851,7 +7020,7 @@ function restParam(func, start) {
 
 module.exports = restParam;
 
-},{}],125:[function(require,module,exports){
+},{}],131:[function(require,module,exports){
 /**
  * Copies the values of `source` to `array`.
  *
@@ -6873,7 +7042,7 @@ function arrayCopy(source, array) {
 
 module.exports = arrayCopy;
 
-},{}],126:[function(require,module,exports){
+},{}],132:[function(require,module,exports){
 /**
  * A specialized version of `_.forEach` for arrays without support for callback
  * shorthands and `this` binding.
@@ -6897,7 +7066,7 @@ function arrayEach(array, iteratee) {
 
 module.exports = arrayEach;
 
-},{}],127:[function(require,module,exports){
+},{}],133:[function(require,module,exports){
 /**
  * Used by `_.defaults` to customize its `_.assign` use.
  *
@@ -6912,7 +7081,7 @@ function assignDefaults(objectValue, sourceValue) {
 
 module.exports = assignDefaults;
 
-},{}],128:[function(require,module,exports){
+},{}],134:[function(require,module,exports){
 var keys = require('../object/keys');
 
 /**
@@ -6946,7 +7115,7 @@ function assignWith(object, source, customizer) {
 
 module.exports = assignWith;
 
-},{"../object/keys":174}],129:[function(require,module,exports){
+},{"../object/keys":180}],135:[function(require,module,exports){
 var baseCopy = require('./baseCopy'),
     keys = require('../object/keys');
 
@@ -6967,7 +7136,7 @@ function baseAssign(object, source) {
 
 module.exports = baseAssign;
 
-},{"../object/keys":174,"./baseCopy":131}],130:[function(require,module,exports){
+},{"../object/keys":180,"./baseCopy":137}],136:[function(require,module,exports){
 var arrayCopy = require('./arrayCopy'),
     arrayEach = require('./arrayEach'),
     baseAssign = require('./baseAssign'),
@@ -7097,7 +7266,7 @@ function baseClone(value, isDeep, customizer, key, object, stackA, stackB) {
 
 module.exports = baseClone;
 
-},{"../lang/isArray":161,"../lang/isObject":166,"./arrayCopy":125,"./arrayEach":126,"./baseAssign":129,"./baseForOwn":135,"./initCloneArray":148,"./initCloneByTag":149,"./initCloneObject":150}],131:[function(require,module,exports){
+},{"../lang/isArray":167,"../lang/isObject":172,"./arrayCopy":131,"./arrayEach":132,"./baseAssign":135,"./baseForOwn":141,"./initCloneArray":154,"./initCloneByTag":155,"./initCloneObject":156}],137:[function(require,module,exports){
 /**
  * Copies properties of `source` to `object`.
  *
@@ -7122,7 +7291,7 @@ function baseCopy(source, props, object) {
 
 module.exports = baseCopy;
 
-},{}],132:[function(require,module,exports){
+},{}],138:[function(require,module,exports){
 var baseForOwn = require('./baseForOwn'),
     createBaseEach = require('./createBaseEach');
 
@@ -7139,7 +7308,7 @@ var baseEach = createBaseEach(baseForOwn);
 
 module.exports = baseEach;
 
-},{"./baseForOwn":135,"./createBaseEach":142}],133:[function(require,module,exports){
+},{"./baseForOwn":141,"./createBaseEach":148}],139:[function(require,module,exports){
 var createBaseFor = require('./createBaseFor');
 
 /**
@@ -7158,7 +7327,7 @@ var baseFor = createBaseFor();
 
 module.exports = baseFor;
 
-},{"./createBaseFor":143}],134:[function(require,module,exports){
+},{"./createBaseFor":149}],140:[function(require,module,exports){
 var baseFor = require('./baseFor'),
     keysIn = require('../object/keysIn');
 
@@ -7177,7 +7346,7 @@ function baseForIn(object, iteratee) {
 
 module.exports = baseForIn;
 
-},{"../object/keysIn":175,"./baseFor":133}],135:[function(require,module,exports){
+},{"../object/keysIn":181,"./baseFor":139}],141:[function(require,module,exports){
 var baseFor = require('./baseFor'),
     keys = require('../object/keys');
 
@@ -7196,7 +7365,7 @@ function baseForOwn(object, iteratee) {
 
 module.exports = baseForOwn;
 
-},{"../object/keys":174,"./baseFor":133}],136:[function(require,module,exports){
+},{"../object/keys":180,"./baseFor":139}],142:[function(require,module,exports){
 var arrayEach = require('./arrayEach'),
     baseMergeDeep = require('./baseMergeDeep'),
     isArray = require('../lang/isArray'),
@@ -7254,7 +7423,7 @@ function baseMerge(object, source, customizer, stackA, stackB) {
 
 module.exports = baseMerge;
 
-},{"../lang/isArray":161,"../lang/isObject":166,"../lang/isTypedArray":169,"../object/keys":174,"./arrayEach":126,"./baseMergeDeep":137,"./isArrayLike":151,"./isObjectLike":155}],137:[function(require,module,exports){
+},{"../lang/isArray":167,"../lang/isObject":172,"../lang/isTypedArray":175,"../object/keys":180,"./arrayEach":132,"./baseMergeDeep":143,"./isArrayLike":157,"./isObjectLike":161}],143:[function(require,module,exports){
 var arrayCopy = require('./arrayCopy'),
     isArguments = require('../lang/isArguments'),
     isArray = require('../lang/isArray'),
@@ -7323,9 +7492,9 @@ function baseMergeDeep(object, source, key, mergeFunc, customizer, stackA, stack
 
 module.exports = baseMergeDeep;
 
-},{"../lang/isArguments":160,"../lang/isArray":161,"../lang/isPlainObject":167,"../lang/isTypedArray":169,"../lang/toPlainObject":170,"./arrayCopy":125,"./isArrayLike":151}],138:[function(require,module,exports){
-arguments[4][36][0].apply(exports,arguments)
-},{"dup":36}],139:[function(require,module,exports){
+},{"../lang/isArguments":166,"../lang/isArray":167,"../lang/isPlainObject":173,"../lang/isTypedArray":175,"../lang/toPlainObject":176,"./arrayCopy":131,"./isArrayLike":157}],144:[function(require,module,exports){
+arguments[4][42][0].apply(exports,arguments)
+},{"dup":42}],145:[function(require,module,exports){
 var identity = require('../utility/identity');
 
 /**
@@ -7366,7 +7535,7 @@ function bindCallback(func, thisArg, argCount) {
 
 module.exports = bindCallback;
 
-},{"../utility/identity":177}],140:[function(require,module,exports){
+},{"../utility/identity":183}],146:[function(require,module,exports){
 (function (global){
 /** Native method references. */
 var ArrayBuffer = global.ArrayBuffer,
@@ -7390,7 +7559,7 @@ function bufferClone(buffer) {
 module.exports = bufferClone;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],141:[function(require,module,exports){
+},{}],147:[function(require,module,exports){
 var bindCallback = require('./bindCallback'),
     isIterateeCall = require('./isIterateeCall'),
     restParam = require('../function/restParam');
@@ -7433,7 +7602,7 @@ function createAssigner(assigner) {
 
 module.exports = createAssigner;
 
-},{"../function/restParam":124,"./bindCallback":139,"./isIterateeCall":153}],142:[function(require,module,exports){
+},{"../function/restParam":130,"./bindCallback":145,"./isIterateeCall":159}],148:[function(require,module,exports){
 var getLength = require('./getLength'),
     isLength = require('./isLength'),
     toObject = require('./toObject');
@@ -7466,7 +7635,7 @@ function createBaseEach(eachFunc, fromRight) {
 
 module.exports = createBaseEach;
 
-},{"./getLength":146,"./isLength":154,"./toObject":158}],143:[function(require,module,exports){
+},{"./getLength":152,"./isLength":160,"./toObject":164}],149:[function(require,module,exports){
 var toObject = require('./toObject');
 
 /**
@@ -7495,7 +7664,7 @@ function createBaseFor(fromRight) {
 
 module.exports = createBaseFor;
 
-},{"./toObject":158}],144:[function(require,module,exports){
+},{"./toObject":164}],150:[function(require,module,exports){
 var restParam = require('../function/restParam');
 
 /**
@@ -7519,7 +7688,7 @@ function createDefaults(assigner, customizer) {
 
 module.exports = createDefaults;
 
-},{"../function/restParam":124}],145:[function(require,module,exports){
+},{"../function/restParam":130}],151:[function(require,module,exports){
 var bindCallback = require('./bindCallback'),
     isArray = require('../lang/isArray');
 
@@ -7541,7 +7710,7 @@ function createForEach(arrayFunc, eachFunc) {
 
 module.exports = createForEach;
 
-},{"../lang/isArray":161,"./bindCallback":139}],146:[function(require,module,exports){
+},{"../lang/isArray":167,"./bindCallback":145}],152:[function(require,module,exports){
 var baseProperty = require('./baseProperty');
 
 /**
@@ -7558,7 +7727,7 @@ var getLength = baseProperty('length');
 
 module.exports = getLength;
 
-},{"./baseProperty":138}],147:[function(require,module,exports){
+},{"./baseProperty":144}],153:[function(require,module,exports){
 var isNative = require('../lang/isNative');
 
 /**
@@ -7576,7 +7745,7 @@ function getNative(object, key) {
 
 module.exports = getNative;
 
-},{"../lang/isNative":165}],148:[function(require,module,exports){
+},{"../lang/isNative":171}],154:[function(require,module,exports){
 /** Used for native method references. */
 var objectProto = Object.prototype;
 
@@ -7604,7 +7773,7 @@ function initCloneArray(array) {
 
 module.exports = initCloneArray;
 
-},{}],149:[function(require,module,exports){
+},{}],155:[function(require,module,exports){
 var bufferClone = require('./bufferClone');
 
 /** `Object#toString` result references. */
@@ -7669,7 +7838,7 @@ function initCloneByTag(object, tag, isDeep) {
 
 module.exports = initCloneByTag;
 
-},{"./bufferClone":140}],150:[function(require,module,exports){
+},{"./bufferClone":146}],156:[function(require,module,exports){
 /**
  * Initializes an object clone.
  *
@@ -7687,7 +7856,7 @@ function initCloneObject(object) {
 
 module.exports = initCloneObject;
 
-},{}],151:[function(require,module,exports){
+},{}],157:[function(require,module,exports){
 var getLength = require('./getLength'),
     isLength = require('./isLength');
 
@@ -7704,7 +7873,7 @@ function isArrayLike(value) {
 
 module.exports = isArrayLike;
 
-},{"./getLength":146,"./isLength":154}],152:[function(require,module,exports){
+},{"./getLength":152,"./isLength":160}],158:[function(require,module,exports){
 /** Used to detect unsigned integer values. */
 var reIsUint = /^\d+$/;
 
@@ -7730,7 +7899,7 @@ function isIndex(value, length) {
 
 module.exports = isIndex;
 
-},{}],153:[function(require,module,exports){
+},{}],159:[function(require,module,exports){
 var isArrayLike = require('./isArrayLike'),
     isIndex = require('./isIndex'),
     isObject = require('../lang/isObject');
@@ -7760,7 +7929,7 @@ function isIterateeCall(value, index, object) {
 
 module.exports = isIterateeCall;
 
-},{"../lang/isObject":166,"./isArrayLike":151,"./isIndex":152}],154:[function(require,module,exports){
+},{"../lang/isObject":172,"./isArrayLike":157,"./isIndex":158}],160:[function(require,module,exports){
 /**
  * Used as the [maximum length](http://ecma-international.org/ecma-262/6.0/#sec-number.max_safe_integer)
  * of an array-like value.
@@ -7782,7 +7951,7 @@ function isLength(value) {
 
 module.exports = isLength;
 
-},{}],155:[function(require,module,exports){
+},{}],161:[function(require,module,exports){
 /**
  * Checks if `value` is object-like.
  *
@@ -7796,7 +7965,7 @@ function isObjectLike(value) {
 
 module.exports = isObjectLike;
 
-},{}],156:[function(require,module,exports){
+},{}],162:[function(require,module,exports){
 var merge = require('../object/merge');
 
 /**
@@ -7813,7 +7982,7 @@ function mergeDefaults(objectValue, sourceValue) {
 
 module.exports = mergeDefaults;
 
-},{"../object/merge":176}],157:[function(require,module,exports){
+},{"../object/merge":182}],163:[function(require,module,exports){
 var isArguments = require('../lang/isArguments'),
     isArray = require('../lang/isArray'),
     isIndex = require('./isIndex'),
@@ -7856,7 +8025,7 @@ function shimKeys(object) {
 
 module.exports = shimKeys;
 
-},{"../lang/isArguments":160,"../lang/isArray":161,"../object/keysIn":175,"./isIndex":152,"./isLength":154}],158:[function(require,module,exports){
+},{"../lang/isArguments":166,"../lang/isArray":167,"../object/keysIn":181,"./isIndex":158,"./isLength":160}],164:[function(require,module,exports){
 var isObject = require('../lang/isObject');
 
 /**
@@ -7872,7 +8041,7 @@ function toObject(value) {
 
 module.exports = toObject;
 
-},{"../lang/isObject":166}],159:[function(require,module,exports){
+},{"../lang/isObject":172}],165:[function(require,module,exports){
 var baseClone = require('../internal/baseClone'),
     bindCallback = require('../internal/bindCallback'),
     isIterateeCall = require('../internal/isIterateeCall');
@@ -7944,7 +8113,7 @@ function clone(value, isDeep, customizer, thisArg) {
 
 module.exports = clone;
 
-},{"../internal/baseClone":130,"../internal/bindCallback":139,"../internal/isIterateeCall":153}],160:[function(require,module,exports){
+},{"../internal/baseClone":136,"../internal/bindCallback":145,"../internal/isIterateeCall":159}],166:[function(require,module,exports){
 var isArrayLike = require('../internal/isArrayLike'),
     isObjectLike = require('../internal/isObjectLike');
 
@@ -7980,7 +8149,7 @@ function isArguments(value) {
 
 module.exports = isArguments;
 
-},{"../internal/isArrayLike":151,"../internal/isObjectLike":155}],161:[function(require,module,exports){
+},{"../internal/isArrayLike":157,"../internal/isObjectLike":161}],167:[function(require,module,exports){
 var getNative = require('../internal/getNative'),
     isLength = require('../internal/isLength'),
     isObjectLike = require('../internal/isObjectLike');
@@ -8022,7 +8191,7 @@ var isArray = nativeIsArray || function(value) {
 
 module.exports = isArray;
 
-},{"../internal/getNative":147,"../internal/isLength":154,"../internal/isObjectLike":155}],162:[function(require,module,exports){
+},{"../internal/getNative":153,"../internal/isLength":160,"../internal/isObjectLike":161}],168:[function(require,module,exports){
 var isObjectLike = require('../internal/isObjectLike'),
     isPlainObject = require('./isPlainObject');
 
@@ -8048,7 +8217,7 @@ function isElement(value) {
 
 module.exports = isElement;
 
-},{"../internal/isObjectLike":155,"./isPlainObject":167}],163:[function(require,module,exports){
+},{"../internal/isObjectLike":161,"./isPlainObject":173}],169:[function(require,module,exports){
 var isArguments = require('./isArguments'),
     isArray = require('./isArray'),
     isArrayLike = require('../internal/isArrayLike'),
@@ -8097,7 +8266,7 @@ function isEmpty(value) {
 
 module.exports = isEmpty;
 
-},{"../internal/isArrayLike":151,"../internal/isObjectLike":155,"../object/keys":174,"./isArguments":160,"./isArray":161,"./isFunction":164,"./isString":168}],164:[function(require,module,exports){
+},{"../internal/isArrayLike":157,"../internal/isObjectLike":161,"../object/keys":180,"./isArguments":166,"./isArray":167,"./isFunction":170,"./isString":174}],170:[function(require,module,exports){
 var isObject = require('./isObject');
 
 /** `Object#toString` result references. */
@@ -8137,7 +8306,7 @@ function isFunction(value) {
 
 module.exports = isFunction;
 
-},{"./isObject":166}],165:[function(require,module,exports){
+},{"./isObject":172}],171:[function(require,module,exports){
 var isFunction = require('./isFunction'),
     isObjectLike = require('../internal/isObjectLike');
 
@@ -8187,7 +8356,7 @@ function isNative(value) {
 
 module.exports = isNative;
 
-},{"../internal/isObjectLike":155,"./isFunction":164}],166:[function(require,module,exports){
+},{"../internal/isObjectLike":161,"./isFunction":170}],172:[function(require,module,exports){
 /**
  * Checks if `value` is the [language type](https://es5.github.io/#x8) of `Object`.
  * (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
@@ -8217,7 +8386,7 @@ function isObject(value) {
 
 module.exports = isObject;
 
-},{}],167:[function(require,module,exports){
+},{}],173:[function(require,module,exports){
 var baseForIn = require('../internal/baseForIn'),
     isArguments = require('./isArguments'),
     isObjectLike = require('../internal/isObjectLike');
@@ -8290,7 +8459,7 @@ function isPlainObject(value) {
 
 module.exports = isPlainObject;
 
-},{"../internal/baseForIn":134,"../internal/isObjectLike":155,"./isArguments":160}],168:[function(require,module,exports){
+},{"../internal/baseForIn":140,"../internal/isObjectLike":161,"./isArguments":166}],174:[function(require,module,exports){
 var isObjectLike = require('../internal/isObjectLike');
 
 /** `Object#toString` result references. */
@@ -8327,7 +8496,7 @@ function isString(value) {
 
 module.exports = isString;
 
-},{"../internal/isObjectLike":155}],169:[function(require,module,exports){
+},{"../internal/isObjectLike":161}],175:[function(require,module,exports){
 var isLength = require('../internal/isLength'),
     isObjectLike = require('../internal/isObjectLike');
 
@@ -8403,7 +8572,7 @@ function isTypedArray(value) {
 
 module.exports = isTypedArray;
 
-},{"../internal/isLength":154,"../internal/isObjectLike":155}],170:[function(require,module,exports){
+},{"../internal/isLength":160,"../internal/isObjectLike":161}],176:[function(require,module,exports){
 var baseCopy = require('../internal/baseCopy'),
     keysIn = require('../object/keysIn');
 
@@ -8436,7 +8605,7 @@ function toPlainObject(value) {
 
 module.exports = toPlainObject;
 
-},{"../internal/baseCopy":131,"../object/keysIn":175}],171:[function(require,module,exports){
+},{"../internal/baseCopy":137,"../object/keysIn":181}],177:[function(require,module,exports){
 var assignWith = require('../internal/assignWith'),
     baseAssign = require('../internal/baseAssign'),
     createAssigner = require('../internal/createAssigner');
@@ -8481,7 +8650,7 @@ var assign = createAssigner(function(object, source, customizer) {
 
 module.exports = assign;
 
-},{"../internal/assignWith":128,"../internal/baseAssign":129,"../internal/createAssigner":141}],172:[function(require,module,exports){
+},{"../internal/assignWith":134,"../internal/baseAssign":135,"../internal/createAssigner":147}],178:[function(require,module,exports){
 var assign = require('./assign'),
     assignDefaults = require('../internal/assignDefaults'),
     createDefaults = require('../internal/createDefaults');
@@ -8508,7 +8677,7 @@ var defaults = createDefaults(assign, assignDefaults);
 
 module.exports = defaults;
 
-},{"../internal/assignDefaults":127,"../internal/createDefaults":144,"./assign":171}],173:[function(require,module,exports){
+},{"../internal/assignDefaults":133,"../internal/createDefaults":150,"./assign":177}],179:[function(require,module,exports){
 var createDefaults = require('../internal/createDefaults'),
     merge = require('./merge'),
     mergeDefaults = require('../internal/mergeDefaults');
@@ -8535,7 +8704,7 @@ var defaultsDeep = createDefaults(merge, mergeDefaults);
 
 module.exports = defaultsDeep;
 
-},{"../internal/createDefaults":144,"../internal/mergeDefaults":156,"./merge":176}],174:[function(require,module,exports){
+},{"../internal/createDefaults":150,"../internal/mergeDefaults":162,"./merge":182}],180:[function(require,module,exports){
 var getNative = require('../internal/getNative'),
     isArrayLike = require('../internal/isArrayLike'),
     isObject = require('../lang/isObject'),
@@ -8582,7 +8751,7 @@ var keys = !nativeKeys ? shimKeys : function(object) {
 
 module.exports = keys;
 
-},{"../internal/getNative":147,"../internal/isArrayLike":151,"../internal/shimKeys":157,"../lang/isObject":166}],175:[function(require,module,exports){
+},{"../internal/getNative":153,"../internal/isArrayLike":157,"../internal/shimKeys":163,"../lang/isObject":172}],181:[function(require,module,exports){
 var isArguments = require('../lang/isArguments'),
     isArray = require('../lang/isArray'),
     isIndex = require('../internal/isIndex'),
@@ -8648,7 +8817,7 @@ function keysIn(object) {
 
 module.exports = keysIn;
 
-},{"../internal/isIndex":152,"../internal/isLength":154,"../lang/isArguments":160,"../lang/isArray":161,"../lang/isObject":166}],176:[function(require,module,exports){
+},{"../internal/isIndex":158,"../internal/isLength":160,"../lang/isArguments":166,"../lang/isArray":167,"../lang/isObject":172}],182:[function(require,module,exports){
 var baseMerge = require('../internal/baseMerge'),
     createAssigner = require('../internal/createAssigner');
 
@@ -8704,7 +8873,7 @@ var merge = createAssigner(baseMerge);
 
 module.exports = merge;
 
-},{"../internal/baseMerge":136,"../internal/createAssigner":141}],177:[function(require,module,exports){
+},{"../internal/baseMerge":142,"../internal/createAssigner":147}],183:[function(require,module,exports){
 /**
  * This method returns the first argument provided to it.
  *
@@ -8726,80 +8895,4 @@ function identity(value) {
 
 module.exports = identity;
 
-},{}],178:[function(require,module,exports){
-/** @module stringProcessing/stripHTMLTags */
-
-var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
-
-/**
- * Strip HTML-tags from text
- *
- * @param {String} text The text to strip the HTML-tags from.
- * @returns {String} The text without HTML-tags.
- */
-module.exports = function( text ) {
-	text = text.replace( /(<([^>]+)>)/ig, " " );
-	text = stripSpaces( text );
-	return text;
-};
-
-},{"../stringProcessing/stripSpaces.js":179}],179:[function(require,module,exports){
-/** @module stringProcessing/stripSpaces */
-
-/**
- * Strip double spaces from text
- *
- * @param {String} text The text to strip spaces from.
- * @returns {String} The text without double spaces
- */
-module.exports = function( text ) {
-
-	// Replace multiple spaces with single space
-	text = text.replace( /\s{2,}/g, " " );
-
-	// Replace spaces followed by periods with only the period.
-	text = text.replace( /\s\./g, "." );
-
-	// Remove first/last character if space
-	text = text.replace( /^\s+|\s+$/g, "" );
-
-	return text;
-};
-
-},{}],180:[function(require,module,exports){
-/** @module stringProcessing/imageInText */
-
-var matchStringWithRegex = require( "./matchStringWithRegex.js" );
-
-/**
- * Checks the text for images.
- *
- * @param {string} text The textstring to check for images
- * @returns {Array} Array containing all types of found images
- */
-module.exports = function( text ) {
-	return matchStringWithRegex( text, "<img(?:[^>]+)?>" );
-};
-
-},{"./matchStringWithRegex.js":181}],181:[function(require,module,exports){
-/** @module stringProcessing/matchStringWithRegex */
-
-/**
- * Checks a string with a regex, return all matches found with that regex.
- *
- * @param {String} text The text to match the
- * @param {String} regexString A string to use as regex.
- * @returns {Array} Array with matches, empty array if no matches found.
- */
-module.exports = function( text, regexString ) {
-	var regex = new RegExp( regexString, "ig" );
-	var matches = text.match( regex );
-
-	if ( matches === null ) {
-		matches = [];
-	}
-
-	return matches;
-};
-
-},{}]},{},[2]);
+},{}]},{},[9]);
