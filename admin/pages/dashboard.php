@@ -11,6 +11,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 
 if ( filter_input( INPUT_GET, 'intro' ) ) {
 	require WPSEO_PATH . 'admin/views/about.php';
+
 	return;
 }
 
@@ -140,20 +141,20 @@ if ( get_option( 'page_comments' ) && $options['ignore_page_comments'] === false
 }
 
 $tabs = array(
-	'general' => array(
-		'label' => __( 'General', 'wordpress-seo' ),
+	'general'         => array(
+		'label'                => __( 'General', 'wordpress-seo' ),
 		'screencast_video_url' => 'https://yoa.st/screencast-general',
 	),
 	'knowledge-graph' => array(
-		'label' => ( 'company' === $options['company_or_person'] ) ? __( 'Company Info', 'wordpress-seo' ) : __( 'Your Info', 'wordpress-seo' ),
+		'label'                => ( 'company' === $options['company_or_person'] ) ? __( 'Company Info', 'wordpress-seo' ) : __( 'Your Info', 'wordpress-seo' ),
 		'screencast_video_url' => 'https://yoa.st/screencast-knowledge-graph',
 	),
 	'webmaster-tools' => array(
-		'label' => __( 'Webmaster Tools', 'wordpress-seo' ),
+		'label'                => __( 'Webmaster Tools', 'wordpress-seo' ),
 		'screencast_video_url' => 'https://yoa.st/screencast-general-search-console',
 	),
-	'security' => array(
-		'label' => __( 'Security', 'wordpress-seo' ),
+	'security'        => array(
+		'label'                => __( 'Security', 'wordpress-seo' ),
 		'screencast_video_url' => 'https://yoa.st/screencast-security',
 	),
 );
@@ -161,11 +162,12 @@ $tabs = array(
 ?>
 	<h2 class="nav-tab-wrapper" id="wpseo-tabs">
 		<?php
-		foreach ( $tabs as $identifier => $tab ):
+		foreach ( $tabs as $identifier => $tab ) :
 			$class = ( 'general' === $identifier ) ? ' nav-tab-active' : '';
 			?>
-			<a class="nav-tab<?php echo $class; ?>" id="<?php echo $identifier; ?>-tab" href="#top#<?php echo $identifier; ?>"><?php echo $tab['label']; ?></a>
-		<?php
+			<a class="nav-tab<?php echo $class; ?>" id="<?php echo $identifier; ?>-tab"
+			   href="#top#<?php echo $identifier; ?>"><?php echo $tab['label']; ?></a>
+			<?php
 		endforeach;
 		?>
 	</h2>
@@ -176,11 +178,11 @@ foreach ( $tabs as $identifier => $tab ) {
 
 	printf( '<div id="%s" class="wpseotab">', $identifier );
 
-	if ( ! empty($tab['screencast_video_url']) ) {
+	if ( ! empty( $tab['screencast_video_url'] ) ) {
 		$tab_video_url = $tab['screencast_video_url'];
 		include WPSEO_PATH . 'admin/views/partial-settings-tab-video.php';
 	}
-	
+
 	require_once WPSEO_PATH . 'admin/views/tabs/general/' . $identifier . '.php';
 
 	echo '</div>';

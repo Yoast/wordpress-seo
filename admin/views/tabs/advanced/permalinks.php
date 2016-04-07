@@ -9,7 +9,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-if ( ! empty($tabs[ $active_tab ]['screencast_video_url']) ) {
+if ( ! empty( $tabs[ $active_tab ]['screencast_video_url'] ) ) {
 	$tab_video_url = $tabs[ $active_tab ]['screencast_video_url'];
 	include WPSEO_PATH . 'admin/views/partial-settings-tab-video.php';
 }
@@ -41,7 +41,7 @@ $yform->light_switch( 'cleanreplytocom', sprintf( __( 'Remove the %s variables.'
 echo '<p>' . __( 'This prevents threaded replies from working when the user has JavaScript disabled, but on a large site can mean a <em>huge</em> improvement in crawl efficiency for search engines when you have a lot of comments.', 'wordpress-seo' ) . '</p>';
 
 $options = WPSEO_Options::get_all();
-if ( substr( get_option( 'permalink_structure' ), -1 ) !== '/' && $options['trailingslash'] ) {
+if ( substr( get_option( 'permalink_structure' ), - 1 ) !== '/' && $options['trailingslash'] ) {
 	$yform->light_switch( 'trailingslash', __( 'Enforce a trailing slash on all category and tag URL\'s', 'wordpress-seo' ) );
 	echo '<p><strong>' . __( 'Note: this feature has been deprecated, as the SEO value is close to 0 these days. If you disable it you will not be able to put it back on.', 'wordpress-seo' ) . '</strong></p>';
 	/* translators: %1$s expands to <code>.html</code>, %2$s expands to <code>/</code> */

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @package WPSEO\Admin\Views
  */
@@ -10,7 +9,8 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-if ( get_user_meta( get_current_user_id(), 'wpseo_ignore_tour' ) ): ?>
+if ( get_user_meta( get_current_user_id(), 'wpseo_ignore_tour' ) ) :
+	?>
 	<p>
 		<strong><?php _e( 'Introduction Tour', 'wordpress-seo' ); ?></strong><br/>
 		<?php _e( 'Take this tour to quickly learn about the use of this plugin.', 'wordpress-seo' ); ?>
@@ -21,7 +21,7 @@ if ( get_user_meta( get_current_user_id(), 'wpseo_ignore_tour' ) ): ?>
 	</p>
 
 	<br/>
-<?php
+	<?php
 endif;
 ?>
 

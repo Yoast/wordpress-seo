@@ -30,30 +30,30 @@ $yform->light_switch( 'enablexmlsitemap', __( 'XML sitemap functionality', 'word
 $tabs = array(
 	'general'      => array(
 		'label'                => __( 'General', 'wordpress-seo' ),
-		'screencast_video_url' => 'https://yoa.st/screencast-sitemaps'
+		'screencast_video_url' => 'https://yoa.st/screencast-sitemaps',
 	),
 	'user-sitemap' => array(
 		'label'                => __( 'User sitemap', 'wordpress-seo' ),
-		'screencast_video_url' => 'https://yoa.st/screencast-sitemaps-user-sitemap'
+		'screencast_video_url' => 'https://yoa.st/screencast-sitemaps-user-sitemap',
 	),
 	'post-types'   => array(
 		'label'                => __( 'Post Types', 'wordpress-seo' ),
-		'screencast_video_url' => 'https://yoa.st/screencast-sitemaps-post-types'
+		'screencast_video_url' => 'https://yoa.st/screencast-sitemaps-post-types',
 	),
 	'exclude-post' => array(
 		'label'                => __( 'Excluded Posts', 'wordpress-seo' ),
-		'screencast_video_url' => 'https://yoa.st/screencast-sitemaps-exclude-post'
+		'screencast_video_url' => 'https://yoa.st/screencast-sitemaps-exclude-post',
 	),
 	'taxonomies'   => array(
 		'label'                => __( 'Taxonomies', 'wordpress-seo' ),
-		'screencast_video_url' => 'https://yoa.st/screencast-sitemaps-taxonomies'
+		'screencast_video_url' => 'https://yoa.st/screencast-sitemaps-taxonomies',
 	),
 );
 
 ?>
 	<div id="sitemapinfo">
 		<h2 class="nav-tab-wrapper" id="wpseo-tabs">
-			<?php foreach ( $tabs as $identifer => $tab ): ?>
+			<?php foreach ( $tabs as $identifer => $tab ) : ?>
 				<a class="nav-tab" id="<?php echo $identifer; ?>-tab"
 				   href="#top#<?php echo $identifer; ?>"><?php echo $tab['label']; ?></a>
 			<?php endforeach; ?>

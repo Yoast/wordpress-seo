@@ -9,7 +9,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-$post_types = get_post_types( array( 'public' => true ), 'objects' );
+$post_types          = get_post_types( array( 'public' => true ), 'objects' );
 $index_switch_values = array(
 	'off' => '<code>index</code>',
 	'on'  => '<code>noindex</code>',

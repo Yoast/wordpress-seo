@@ -9,12 +9,13 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-if ( ! empty( $tab_video_url ) ):
+if ( ! empty( $tab_video_url ) ) :
 
 	?>
 	<div class="wpseo-tab-video-container">
 		<div class="wpseo-tab-video-container__handle">
-			<span class="dashicons-before dashicons-format-video"><?php _e( 'Watch Joost explain all the settings on this tab.', 'wordpress-seo' ) ?></span>
+			<span
+				class="dashicons-before dashicons-format-video"><?php _e( 'Watch Joost explain all the settings on this tab.', 'wordpress-seo' ) ?></span>
 		</div>
 		<div class="wpseo-tab-video-slideout">
 			<div class="wpseo-tab-video__panel wpseo-tab-video__panel--video">
@@ -24,12 +25,15 @@ if ( ! empty( $tab_video_url ) ):
 				<div class="wpseo-tab-video__panel__textarea">
 					<h3><?php _e( 'Need more help?', 'wordpress-seo' ); ?></h3>
 					<p><?php _e( 'If you buy Yoast SEO Premium you\'ll get access to our support team and bonus features!', 'wordpress-seo' ); ?></p>
-					<p><a href="https://yoa.st/seo-premium-vt" target="_blank"><?php _e( 'Get Yoast SEO Premium &raquo;', 'wordpress-seo' ); ?></a></p>
+					<p><a href="https://yoa.st/seo-premium-vt"
+					      target="_blank"><?php _e( 'Get Yoast SEO Premium &raquo;', 'wordpress-seo' ); ?></a></p>
 				</div>
 				<div class="wpseo-tab-video__panel__textarea">
 					<h3><?php _e( 'Want to be a Yoast SEO Expert?', 'wordpress-seo' ); ?></h3>
 					<p><?php _e( 'Follow our Yoast SEO for WordPress training and become a certified Yoast SEO Expert!', 'wordpress-seo' ); ?></p>
-					<p><a href="https://yoa.st/wordpress-training-vt" target="_blank"><?php _e( 'Enroll in the Yoast SEO for WordPress training &raquo;', 'wordpress-seo' ); ?></a></p>
+					<p><a href="https://yoa.st/wordpress-training-vt"
+					      target="_blank"><?php _e( 'Enroll in the Yoast SEO for WordPress training &raquo;', 'wordpress-seo' ); ?></a>
+					</p>
 				</div>
 			</div>
 		</div>

@@ -13,38 +13,39 @@ $yform = Yoast_Form::get_instance();
 $yform->admin_header( true, 'wpseo_social' );
 
 $tabs = array(
-	'accounts' => array(
-		'label' => __( 'Accounts', 'wordpress-seo' ),
-		'screencast_video_url' => 'https://yoa.st/screencast-social-accounts'
+	'accounts'   => array(
+		'label'                => __( 'Accounts', 'wordpress-seo' ),
+		'screencast_video_url' => 'https://yoa.st/screencast-social-accounts',
 	),
-	'facebook' => array(
-		'label' => __( 'Facebook', 'wordpress-seo' ),
-		'screencast_video_url' => 'https://yoa.st/screencast-social-facebook'
+	'facebook'   => array(
+		'label'                => __( 'Facebook', 'wordpress-seo' ),
+		'screencast_video_url' => 'https://yoa.st/screencast-social-facebook',
 	),
 	'twitterbox' => array(
-		'label' => __( 'Twitter', 'wordpress-seo' ),
-		'screencast_video_url' => 'https://yoa.st/screencast-social-twitter'
+		'label'                => __( 'Twitter', 'wordpress-seo' ),
+		'screencast_video_url' => 'https://yoa.st/screencast-social-twitter',
 	),
-	'pinterest' => array(
-		'label' => __( 'Pinterest', 'wordpress-seo' ),
-		'screencast_video_url' => 'https://yoa.st/screencast-social-pinterest'
+	'pinterest'  => array(
+		'label'                => __( 'Pinterest', 'wordpress-seo' ),
+		'screencast_video_url' => 'https://yoa.st/screencast-social-pinterest',
 	),
-	'google' => array(
-		'label' => __( 'Google+', 'wordpress-seo' ),
-		'screencast_video_url' => 'https://yoa.st/screencast-social-google'
+	'google'     => array(
+		'label'                => __( 'Google+', 'wordpress-seo' ),
+		'screencast_video_url' => 'https://yoa.st/screencast-social-google',
 	),
 );
 
-$social_facebook = new Yoast_Social_Facebook( );
+$social_facebook = new Yoast_Social_Facebook();
 
 ?>
 
 	<h2 class="nav-tab-wrapper" id="wpseo-tabs">
 		<?php
-		foreach ( $tabs as $identifier => $tab ):
-		?>
-			<a class="nav-tab" id="<?php echo $identifier; ?>-tab" href="#top#<?php echo $identifier; ?>"><?php echo $tab['label']; ?></a>	
-		<?php
+		foreach ( $tabs as $identifier => $tab ) :
+			?>
+			<a class="nav-tab" id="<?php echo $identifier; ?>-tab"
+			   href="#top#<?php echo $identifier; ?>"><?php echo $tab['label']; ?></a>
+			<?php
 		endforeach;
 		?>
 	</h2>
@@ -55,7 +56,7 @@ foreach ( $tabs as $identifier => $tab ) {
 
 	printf( '<div id="%s" class="wpseotab">', $identifier );
 
-	if ( ! empty($tab['screencast_video_url']) ) {
+	if ( ! empty( $tab['screencast_video_url'] ) ) {
 		$tab_video_url = $tab['screencast_video_url'];
 		include WPSEO_PATH . 'admin/views/partial-settings-tab-video.php';
 	}

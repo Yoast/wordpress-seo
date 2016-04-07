@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @package WPSEO\Admin\Views
  */

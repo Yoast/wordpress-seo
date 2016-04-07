@@ -10,9 +10,9 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 }
 
 ?><p>
-	<?php _e( 'To inform Google about your social profiles, we need to know their URLs.', 'wordpress-seo' ); ?>
-	<?php _e( 'For each, pick the main account associated with this site and please enter them below:', 'wordpress-seo' ); ?>
-</p>
+<?php _e( 'To inform Google about your social profiles, we need to know their URLs.', 'wordpress-seo' ); ?>
+<?php _e( 'For each, pick the main account associated with this site and please enter them below:', 'wordpress-seo' ); ?>
+	</p>
 <?php
 $yform->textinput( 'facebook_site', __( 'Facebook Page URL', 'wordpress-seo' ) );
 $yform->textinput( 'twitter_site', __( 'Twitter Username', 'wordpress-seo' ) );

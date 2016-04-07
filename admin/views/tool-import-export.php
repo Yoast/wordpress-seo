@@ -38,7 +38,7 @@ if ( filter_input( INPUT_POST, 'import' ) || filter_input( INPUT_GET, 'import' )
 		$import = new WPSEO_Import_WooThemes_SEO( $replace );
 	}
 
-	if ( ! empty( $post_wpseo['importaioseo'] )  || filter_input( INPUT_GET, 'importaioseo' ) ) {
+	if ( ! empty( $post_wpseo['importaioseo'] ) || filter_input( INPUT_GET, 'importaioseo' ) ) {
 		$import = new WPSEO_Import_AIOSEO( $replace );
 	}
 
@@ -47,7 +47,7 @@ if ( filter_input( INPUT_POST, 'import' ) || filter_input( INPUT_GET, 'import' )
 		$import->import_headspace();
 	}
 
-	if ( ! empty( $post_wpseo['importwpseo'] )  || filter_input( INPUT_GET, 'importwpseo' )  ) {
+	if ( ! empty( $post_wpseo['importwpseo'] ) || filter_input( INPUT_GET, 'importwpseo' ) ) {
 		$import = new WPSEO_Import_WPSEO( $replace );
 	}
 
@@ -82,34 +82,35 @@ if ( isset( $import ) ) {
 
 $tabs = array(
 	'wpseo-import' => array(
-		'label' => __( 'Import', 'wordpress-seo' ),
-		'screencast_video_url' => 'https://yoa.st/screencast-tools-import-export'
+		'label'                => __( 'Import', 'wordpress-seo' ),
+		'screencast_video_url' => 'https://yoa.st/screencast-tools-import-export',
 	),
 	'wpseo-export' => array(
-		'label' => __( 'Export', 'wordpress-seo' ),
-		'screencast_video_url' => 'https://yoa.st/screencast-tools-import-export'
+		'label'                => __( 'Export', 'wordpress-seo' ),
+		'screencast_video_url' => 'https://yoa.st/screencast-tools-import-export',
 	),
-	'import-seo' => array(
-		'label' => __( 'Import from other SEO plugins', 'wordpress-seo' ),
-		'screencast_video_url' => 'https://yoa.st/screencast-tools-import-export'
+	'import-seo'   => array(
+		'label'                => __( 'Import from other SEO plugins', 'wordpress-seo' ),
+		'screencast_video_url' => 'https://yoa.st/screencast-tools-import-export',
 	),
 );
 
 ?>
-<br/><br/>
+	<br/><br/>
 
-<h2 class="nav-tab-wrapper" id="wpseo-tabs">
-	<?php foreach ( $tabs as $identifier => $tab ): ?>
-		<a class="nav-tab" id="<?php echo $identifier; ?>-tab" href="#top#<?php echo $identifier; ?>"><?php echo $tab['label']; ?></a>
-	<?php
-	endforeach;
-	
-	/**
-	 * Allow adding a custom import tab header
-	 */
-	do_action( 'wpseo_import_tab_header' );
-	?>
-</h2>
+	<h2 class="nav-tab-wrapper" id="wpseo-tabs">
+		<?php foreach ( $tabs as $identifier => $tab ) : ?>
+			<a class="nav-tab" id="<?php echo $identifier; ?>-tab"
+			   href="#top#<?php echo $identifier; ?>"><?php echo $tab['label']; ?></a>
+			<?php
+		endforeach;
+
+		/**
+		 * Allow adding a custom import tab header
+		 */
+		do_action( 'wpseo_import_tab_header' );
+		?>
+	</h2>
 
 <?php
 
@@ -117,7 +118,7 @@ foreach ( $tabs as $identifier => $tab ) {
 
 	printf( '<div id="%s" class="wpseotab">', $identifier );
 
-	if ( ! empty($tab['screencast_video_url']) ) {
+	if ( ! empty( $tab['screencast_video_url'] ) ) {
 		$tab_video_url = $tab['screencast_video_url'];
 		include WPSEO_PATH . 'admin/views/partial-settings-tab-video.php';
 	}
