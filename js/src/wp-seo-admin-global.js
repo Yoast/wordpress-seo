@@ -147,6 +147,12 @@
 		return false;
 	} );
 
+	/**
+	 * Open Video Slideout
+	 *
+	 * @param {object} $target Tab to open video slider of.
+	 * @param {int} duration Duration of the slider.
+	 */
 	function openVideoSlideout( $target, duration ) {
 		var $data = $target.find( '.wpseo-tab-video__data' );
 		var videoUrl = $data.data( 'url' );
@@ -154,6 +160,11 @@
 		$target.slideDown( duration );
 	}
 
+	/**
+	 * Close Video Slideout
+	 * 
+	 * @param duration Duration of the slider.
+	 */
 	function closeVideoSlideout( duration ) {
 		var $target = $( '#wpbody-content' ).find( '.wpseo-tab-video-slideout' );
 		$target.slideUp( duration, function() {

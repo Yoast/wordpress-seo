@@ -114,7 +114,6 @@ if ( is_array( $options['blocking_files'] ) && count( $options['blocking_files']
 		</p>';
 }
 
-
 if ( $options['theme_description_found'] !== '' ) {
 	echo '<p id="metadesc_found notice" class="wrong settings_error">';
 	echo '<a href="', esc_url( add_query_arg( array( 'nonce' => wp_create_nonce( 'wpseo-fix-metadesc' ) ), admin_url( 'admin.php?page=wpseo_dashboard&fixmetadesc' ) ) ), '" class="button fixit">', __( 'Fix it.', 'wordpress-seo' ), '</a>';
@@ -161,15 +160,9 @@ $tabs = array(
 
 ?>
 	<h2 class="nav-tab-wrapper" id="wpseo-tabs">
-		<?php
-		foreach ( $tabs as $identifier => $tab ) :
-			$class = ( 'general' === $identifier ) ? ' nav-tab-active' : '';
-			?>
-			<a class="nav-tab<?php echo $class; ?>" id="<?php echo $identifier; ?>-tab"
-			   href="#top#<?php echo $identifier; ?>"><?php echo $tab['label']; ?></a>
-			<?php
-		endforeach;
-		?>
+		<?php foreach ( $tabs as $identifier => $tab ) : ?>
+		<a class="nav-tab" id="<?php echo $identifier; ?>-tab" href="#top#<?php echo $identifier; ?>"><?php echo $tab['label']; ?></a>
+		<?php endforeach; ?>
 	</h2>
 
 <?php

@@ -45,14 +45,9 @@ $tabs = array(
 ?>
 
 	<h2 class="nav-tab-wrapper" id="wpseo-tabs">
-		<?php
-		foreach ( $tabs as $identifier => $tab ) :
-			?>
-			<a class="nav-tab" id="<?php echo $identifier; ?>-tab"
-			   href="#top#<?php echo $identifier; ?>"><?php echo $tab['label']; ?></a>
-			<?php
-		endforeach;
-		?>
+		<?php foreach ( $tabs as $identifier => $tab ) : ?>
+		<a class="nav-tab" id="<?php echo $identifier; ?>-tab" href="#top#<?php echo $identifier; ?>"><?php echo $tab['label']; ?></a>
+		<?php endforeach; ?>
 	</h2>
 
 	<div class="tabwrapper">
