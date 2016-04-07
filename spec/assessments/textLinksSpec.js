@@ -50,4 +50,12 @@ describe( "An assessor running the linkStatistics", function(){
 		expect( assessment.getScore() ).toEqual( 7 );
 		expect( assessment.getText() ).toEqual ( 'This page has 1 outbound link(s), all nofollowed.' );
 	} );
+
+	it( "Accepts a paper and i18nobject  ", function(){
+		var mockPaper = new Paper( "" );
+		var assessment = linkStatisticAssessment.getResult( mockPaper, Factory.buildMockResearcher( 0 ), i18n );
+
+		expect( assessment.getScore() ).toEqual( 6 );
+		expect( assessment.getText() ).toEqual ( 'No outbound links appear in this page, consider adding some as appropriate.' );
+	} );
 } );
