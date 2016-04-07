@@ -272,9 +272,9 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		if ( ! $front_id && ( $post_type == 'post' || $post_type == 'page' ) ) {
 
 			$links[] = array(
-				'loc' => $this->home_url,
+				'loc' => user_trailingslashit( $this->home_url ),
 				'pri' => 1,
-				'chf' => WPSEO_Sitemaps::filter_frequency( 'homepage', 'daily', $this->home_url ),
+				'chf' => WPSEO_Sitemaps::filter_frequency( 'homepage', 'daily', user_trailingslashit( $this->home_url ) ),
 			);
 		}
 		elseif ( $front_id && $post_type === 'post' && $page_for_posts ) {

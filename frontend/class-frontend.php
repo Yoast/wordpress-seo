@@ -904,7 +904,7 @@ class WPSEO_Frontend {
 				$canonical = get_search_link();
 			}
 			elseif ( is_front_page() ) {
-				$canonical = home_url();
+				$canonical = home_url( user_trailingslashit( '' ) );
 			}
 			elseif ( $this->is_posts_page() ) {
 				$canonical = get_permalink( get_option( 'page_for_posts' ) );
