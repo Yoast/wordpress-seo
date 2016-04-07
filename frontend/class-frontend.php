@@ -917,7 +917,7 @@ class WPSEO_Frontend {
 
 				$term = get_queried_object();
 
-				if ( ! $this->is_multiple_terms_query() ) {
+				if ( ! empty( $term ) && ! $this->is_multiple_terms_query() ) {
 					$canonical_override = WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'canonical' );
 					$canonical          = get_term_link( $term, $term->taxonomy );
 				}
