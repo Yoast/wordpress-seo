@@ -1,7 +1,6 @@
 /** @module analyses/getLinkStatistics */
 
 var getLinks = require( "./getLinks.js" );
-var getLinkCount = require( "./countLinks.js" );
 var findKeywordInUrl = require( "../stringProcessing/findKeywordInUrl.js" );
 var getLinkType = require( "../stringProcessing/getLinkType.js" );
 var checkNofollow = require( "../stringProcessing/checkNofollow.js" );
