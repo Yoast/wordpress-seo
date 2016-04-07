@@ -12,7 +12,7 @@ class WPSEO_Frontend_Primary_Category {
 	 * Registers the hooks necessary for correct primary category behaviour.
 	 */
 	public function register_hooks() {
-		add_filter( 'post_link_category', array( $this, 'post_link_category' ) );
+		add_filter( 'post_link_category', array( $this, 'post_link_category' ) ,10, 3);
 	}
 
 	/**
@@ -22,8 +22,8 @@ class WPSEO_Frontend_Primary_Category {
 	 *
 	 * @return array|null|object|WP_Error The category we want to use for the post link.
 	 */
-	public function post_link_category( $category ) {
-		$primary_category = $this->get_primary_category();
+	public function post_link_category( $category, $categories, $post ) {
+		$primary_category = $this->get_primary_category( $post );
 
 		if ( false !== $primary_category && $primary_category !== $category->cat_ID ) {
 			$category = $this->get_category( $primary_category );
@@ -38,8 +38,8 @@ class WPSEO_Frontend_Primary_Category {
 	 *
 	 * @return int primary category id
 	 */
-	protected function get_primary_category() {
-		$primary_term = new WPSEO_Primary_Term( 'category', get_the_ID() );
+	protected function get_primary_category( $post ) {
+		$primary_term = new WPSEO_Primary_Term( 'category', $post->ID );
 
 		return $primary_term->get_primary_term();
 	}
