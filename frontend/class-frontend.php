@@ -722,6 +722,10 @@ class WPSEO_Frontend {
 				if ( is_string( $term_meta ) && 'default' !== $term_meta ) {
 					$robots['index'] = $term_meta;
 				}
+
+				if ( $this->is_multiple_terms_query() ) {
+					$robots['index'] = 'noindex';
+				}
 			}
 			elseif (
 				( is_author() && $this->options['noindex-author-wpseo'] === true ) ||
