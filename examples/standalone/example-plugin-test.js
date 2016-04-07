@@ -2,7 +2,7 @@
 	addEventListener( "load", function() {
 		// Wait for YoastSEO to be loaded
 		setTimeout(function() {
-			addPlugin();
+//			addPlugin();
 		}, 0);
 	});
 

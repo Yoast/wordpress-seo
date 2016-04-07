@@ -12,7 +12,7 @@ var forEach = require( "lodash/forEach" );
 
 var Jed = require( "jed" );
 
-var Assessor = require( "./assessor.js" );
+var SEOAssessor = require( "./seoAssessor.js" );
 var Researcher = require( "./researcher.js" );
 var AssessorPresenter = require( "./renderers/AssessorPresenter.js" );
 var Pluggable = require( "./pluggable.js" );
@@ -205,7 +205,7 @@ var App = function( args ) {
 	this.i18n = this.constructI18n( this.config.translations );
 
 	// Set the assessor
-	this.assessor = new Assessor( this.i18n );
+	this.SEOAssessor = new SEOAssessor( this.i18n );
 
 	this.pluggable = new Pluggable( this );
 
@@ -427,18 +427,18 @@ App.prototype.runAnalyzer = function() {
 		this.researcher.setPaper( this.paper );
 	}
 
-	this.assessor.assess( this.paper );
+	this.SEOAssessor.assess( this.paper );
 
 	// Pass the assessor result through to the formatter
 	this.assessorPresenter = new AssessorPresenter( {
 		targets: this.config.targets,
 		keyword: this.paper.getKeyword(),
-		assessor: this.assessor,
+		assessor: this.SEOAssessor,
 		i18n: this.i18n
 	} );
 
 	this.assessorPresenter.render();
-	this.callbacks.saveScores( this.assessor.calculateOverallScore(), this.assessorPresenter );
+	this.callbacks.saveScores( this.SEOAssessor.calculateOverallScore(), this.assessorPresenter );
 
 	if ( this.config.dynamicDelay ) {
 		this.endTime();
@@ -589,7 +589,7 @@ App.prototype.registerTest = function() {
  * @returns {boolean} Whether or not the test was successfully registered.
  */
 App.prototype.registerAssessment = function( name, assessment, pluginName ) {
-	return this.pluggable._registerAssessment( this.assessor, name, assessment, pluginName );
+	return this.pluggable._registerAssessment( this.SEOAssessor, name, assessment, pluginName );
 };
 
 module.exports = App;
