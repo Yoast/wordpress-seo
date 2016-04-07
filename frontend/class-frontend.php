@@ -910,11 +910,16 @@ class WPSEO_Frontend {
 				$canonical = get_permalink( get_option( 'page_for_posts' ) );
 			}
 			elseif ( is_tax() || is_tag() || is_category() ) {
-				$term = get_queried_object();
 
-				$canonical_override = WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'canonical' );
+				global $wp_query;
+				$term          = get_queried_object();
+				$queried_terms = $wp_query->tax_query->queried_terms[ $term->taxonomy ]['terms'];
 
-				$canonical = get_term_link( $term, $term->taxonomy );
+				// We might have combined term-1,term2 or term-1+term-2 query.
+				if ( 1 === count( $queried_terms ) ) {
+					$canonical_override = WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'canonical' );
+					$canonical          = get_term_link( $term, $term->taxonomy );
+				}
 			}
 			elseif ( is_post_type_archive() ) {
 				$post_type = get_query_var( 'post_type' );
