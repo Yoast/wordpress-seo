@@ -43,7 +43,13 @@ var twitterDefaults = {
 	},
 	baseURL: "example.com",
 	callbacks: {
-		updateSocialPreview: function() {}
+		updateSocialPreview: function() {},
+		modifyTitle: function( title ) {
+			return title;
+		},
+		modifyDescription: function( description ) {
+			return description;
+		}
 	}
 };
 
@@ -348,6 +354,8 @@ TwitterPreview.prototype.updatePreview = function() {
  * @param {string} title The new title.
  */
 TwitterPreview.prototype.setTitle = function( title ) {
+	title = this.opts.callbacks.modifyTitle( title );
+
 	this.element.rendered.title.innerHTML = title;
 };
 
@@ -357,6 +365,8 @@ TwitterPreview.prototype.setTitle = function( title ) {
  * @param {string} description The description to set.
  */
 TwitterPreview.prototype.setDescription = function( description ) {
+	description = this.opts.callbacks.modifyTitle( description );
+
 	this.element.rendered.description.innerHTML = description;
 	renderDescription( this.element.rendered.description, this.element.fieldElements.description.getInputValue() );
 };
