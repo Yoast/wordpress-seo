@@ -10,24 +10,24 @@ var SEOAssessor = function( i18n ) {
 	Assessor.call(this, i18n);
 
 	this._assessments = {
-		wordCount: require( "./assessments/countWords.js" ),
-		urlLength: require( "./assessments/urlIsTooLong.js" ),
-		fleschReading: require( "./assessments/calculateFleschReading.js" ),
-		linkCount: require( "./assessments/countLinks.js" ),
-		getLinkStatistics: require( "./assessments/getLinkStatistics.js" ),
-		pageTitleKeyword: require( "./assessments/pageTitleKeyword.js" ),
-		subHeadings: require( "./assessments/matchKeywordInSubheading.js" ),
-		matchSubheadings: require( "./assessments/matchSubheadings.js" ),
-		keywordDensity: require( "./assessments/keywordDensity.js" ),
-		stopwordKeywordCount: require( "./assessments/stopWordsInKeyword.js" ),
-		urlStopwords: require( "./assessments/stopWordsInUrl.js" ),
-		metaDescriptionLength: require( "./assessments/metaDescriptionLength.js" ),
-		keyphraseSizeCheck: require( "./assessments/keyphraseLength.js" ),
-		metaDescriptionKeyword: require ( "./assessments/metaDescriptionKeyword.js" ),
-		imageCount: require( "./assessments/imageCount.js" ),
-		urlKeyword: require( "./assessments/keywordInUrl.js" ),
-		firstParagraph: require( "./assessments/firstParagraph.js" ),
-		pageTitleLength: require( "./assessments/pageTitleLength.js" )
+		fleschReadingEase: require( "./assessments/fleschReadingEaseAssessment.js" ),
+		introductionKeyword: require( "./assessments/introductionKeywordAssessment.js" ),
+		keyphraseLength: require( "./assessments/keyphraseLengthAssessment.js" ),
+		keywordDensity: require( "./assessments/keywordDensityAssessment.js" ),
+		keywordStopWords: require( "./assessments/keywordStopWordsAssessment.js" ),
+		metaDescriptionKeyword: require ( "./assessments/metaDescriptionKeywordAssessment.js" ),
+		metaDescriptionLength: require( "./assessments/metaDescriptionLengthAssessment.js" ),
+		subheadingsKeyword: require( "./assessments/subheadingsKeywordAssessment.js" ),
+		textCompetingLinks: require( "./assessments/textCompetingLinksAssessment.js" ),
+		textImages: require( "./assessments/textImagesAssessment.js" ),
+		textLength: require( "./assessments/textLengthAssessment.js" ),
+		textLinks: require( "./assessments/textLinksAssessment.js" ),
+		textSubheadings: require( "./assessments/textSubheadingsAssessment.js" ),
+		titleKeyword: require( "./assessments/titleKeywordAssessment.js" ),
+		titleLength: require( "./assessments/titleLengthAssessment.js" ),
+		urlKeyword: require( "./assessments/urlKeywordAssessment.js" ),
+		urlLength: require( "./assessments/urlLengthAssessment.js" ),
+		urlStopWords: require( "./assessments/urlStopWordsAssessment.js" )
 	};
 };
 

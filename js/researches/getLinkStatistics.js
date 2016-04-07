@@ -1,7 +1,6 @@
 /** @module analyses/getLinkStatistics */
 
 var getLinks = require( "./getLinks.js" );
-var getLinkCount = require( "./countLinks.js" );
 var findKeywordInUrl = require( "../stringProcessing/findKeywordInUrl.js" );
 var getLinkType = require( "../stringProcessing/getLinkType.js" );
 var checkNofollow = require( "../stringProcessing/checkNofollow.js" );
@@ -30,9 +29,6 @@ module.exports = function( paper ) {
 	var url = paper.getUrl();
 	var anchors = getLinks( text );
 
-if ( getLinkCount( paper ) === 0 ) {
-	return {};
-}
 	var linkCount = {
 		total: anchors.length,
 		totalNaKeyword: 0,
@@ -47,16 +43,13 @@ if ( getLinkCount( paper ) === 0 ) {
 		otherDofollow: 0,
 		otherNofollow: 0
 	};
-	var linkKeyword;
-	for ( var i = 0; i < anchors.length; i++ ) {
-		linkKeyword = findKeywordInUrl( anchors[i], keyword );
 
-		if ( linkKeyword ) {
-			if ( !paper.hasKeyword() ) {
-				linkCount.totalNaKeyword++;
-			} else {
-				linkCount.totalKeyword++;
-			}
+	var foundKeyword;
+	for ( var i = 0; i < anchors.length; i++ ) {
+		foundKeyword = keyword ? findKeywordInUrl( anchors[i], keyword ) : false;
+
+		if ( foundKeyword ) {
+			linkCount.totalKeyword++;
 		}
 
 		var linkType = getLinkType( anchors[i], url );
