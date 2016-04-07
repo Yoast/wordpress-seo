@@ -14,6 +14,7 @@ module.exports = {
 	SnippetPreview: require( "./js/snippetPreview.js" ),
 
 	Paper: require( "./js/values/paper" ),
+	AssessmentResult: require( "./js/values/AssessmentResult" ),
 
 	bundledPlugins: plugins,
 	helpers: helpers
