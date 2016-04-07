@@ -130,6 +130,8 @@
 }());
 
 (function ($) {
+	'use strict';
+
 	$('.nav-tab').click(function () {
 		closeVideoSlideout(0);
 	});
