@@ -901,7 +901,8 @@ class WPSEO_Frontend {
 		}
 		else {
 			if ( is_search() ) {
-				$canonical = get_search_link();
+				$search_query = get_search_query();
+				$canonical    = empty( $search_query ) ? '' : get_search_link();
 			}
 			elseif ( is_front_page() ) {
 				$canonical = home_url();
