@@ -1,4 +1,4 @@
-var keyphraseLengthAssessment = require( "../../js/assessments/keyphraseLength.js" );
+var keyphraseLengthAssessment = require( "../../js/assessments/keyphraseLengthAssessment.js" );
 var Paper = require( "../../js/values/Paper.js" );
 
 var factory = require( "../helpers/factory.js" );

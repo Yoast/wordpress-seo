@@ -8,24 +8,24 @@ var ScoreRating = 9;
 
 // Assessments
 var assessments = {};
-assessments.wordCount = require( "./assessments/countWords.js" );
-assessments.urlLength = require( "./assessments/urlIsTooLong.js" );
-assessments.fleschReading = require( "./assessments/calculateFleschReading.js" );
-assessments.linkCount = require( "./assessments/countLinks.js" );
-assessments.getLinkStatistics = require( "./assessments/getLinkStatistics.js" );
-assessments.pageTitleKeyword = require( "./assessments/pageTitleKeyword.js" );
-assessments.subHeadings = require( "./assessments/matchKeywordInSubheading.js" );
-assessments.matchSubheadings = require( "./assessments/matchSubheadings.js" );
-assessments.keywordDensity = require( "./assessments/keywordDensity.js" );
-assessments.stopwordKeywordCount = require( "./assessments/stopWordsInKeyword.js" );
-assessments.urlStopwords = require( "./assessments/stopWordsInUrl.js" );
-assessments.metaDescriptionLength = require( "./assessments/metaDescriptionLength.js" );
-assessments.keyphraseSizeCheck = require( "./assessments/keyphraseLength.js" );
-assessments.metaDescriptionKeyword = require ( "./assessments/metaDescriptionKeyword.js" );
-assessments.imageCount = require( "./assessments/imageCount.js" );
-assessments.urlKeyword = require( "./assessments/keywordInUrl.js" );
-assessments.firstParagraph = require( "./assessments/firstParagraph.js" );
-assessments.pageTitleLength = require( "./assessments/pageTitleLength.js" );
+assessments.fleschReadingEase = require( "./assessments/fleschReadingEaseAssessment.js" );
+assessments.introductionKeyword = require( "./assessments/introductionKeywordAssessment.js" );
+assessments.keyphraseLength = require( "./assessments/keyphraseLengthAssessment.js" );
+assessments.keywordDensity = require( "./assessments/keywordDensityAssessment.js" );
+assessments.keywordStopWords = require( "./assessments/keywordStopWordsAssessment.js" );
+assessments.metaDescriptionKeyword = require ( "./assessments/metaDescriptionKeywordAssessment.js" );
+assessments.metaDescriptionLength = require( "./assessments/metaDescriptionLengthAssessment.js" );
+assessments.subheadingsKeyword = require( "./assessments/subheadingsKeywordAssessment.js" );
+assessments.textCompetingLinks = require( "./assessments/textCompetingLinksAssessment.js" );
+assessments.textImages = require( "./assessments/textImagesAssessment.js" );
+assessments.textLength = require( "./assessments/textLengthAssessment.js" );
+assessments.textLinks = require( "./assessments/textLinksAssessment.js" );
+assessments.textSubheadings = require( "./assessments/textSubheadingsAssessment.js" );
+assessments.titleKeyword = require( "./assessments/titleKeywordAssessment.js" );
+assessments.titleLength = require( "./assessments/titleLengthAssessment.js" );
+assessments.urlKeyword = require( "./assessments/urlKeywordAssessment.js" );
+assessments.urlLength = require( "./assessments/urlLengthAssessment.js" );
+assessments.urlStopWords = require( "./assessments/urlStopWordsAssessment.js" );
 
 /**
  * Creates the Assessor
