@@ -23,6 +23,10 @@ $border_radius_twitter: .42857em;
 
 		&:hover {
 			box-shadow: 0 0 0 1.5px rgba(0, 0, 0, .15) inset, 0 1px 1px rgba(0, 0, 0, .05);
+
+			.editable-preview__image--facebook::after {
+				border-color: rgba(0, 0, 0, .15);
+			}
 		}
 
 		&-small {
@@ -206,6 +210,7 @@ $border_radius_twitter: .42857em;
 		&--facebook {
 			width:      $width_facebook;
 			max-height: 470px;
+			position: relative;
 
 			img {
 				max-height: 100%;
@@ -216,6 +221,17 @@ $border_radius_twitter: .42857em;
 				width: $width_facebook_image_small;
 				height: $height_facebook_image_small;
 				float: left;
+			}
+
+			&::after {
+				content: ' ';
+				position: absolute;
+				width: 100%;
+				top: 0;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				border: 1px solid rgba(0, 0, 0, .1);
 			}
 		}
 
