@@ -30,9 +30,6 @@ module.exports = function( paper ) {
 	var url = paper.getUrl();
 	var anchors = getLinks( text );
 
-if ( getLinkCount( paper ) === 0 ) {
-	return {};
-}
 	var linkCount = {
 		total: anchors.length,
 		totalNaKeyword: 0,
@@ -47,6 +44,7 @@ if ( getLinkCount( paper ) === 0 ) {
 		otherDofollow: 0,
 		otherNofollow: 0
 	};
+
 	var foundKeyword;
 	for ( var i = 0; i < anchors.length; i++ ) {
 		foundKeyword = keyword ? findKeywordInUrl( anchors[i], keyword ) : false;

@@ -14,8 +14,8 @@ describe( "create an assessor", function() {
 	it( "creates an assessor", function() {
 		var mockPaper = new Paper( "text" );
 		expect( new Assessor( i18n ) ).toBeDefined();
-		expect( Object.keys( new Assessor( i18n ).getAvailableAssessments() ) ).toContain("wordCount");
-		expect( Object.keys( new Assessor( i18n ).getAvailableAssessments() ) ).toContain("fleschReading");
+		expect( Object.keys( new Assessor( i18n ).getAvailableAssessments() ) ).toContain("textLength");
+		expect( Object.keys( new Assessor( i18n ).getAvailableAssessments() ) ).toContain("fleschReadingEase");
 	});
 });
 
@@ -35,7 +35,7 @@ describe ( "running assessments in the assessor", function() {
 	it( "additionally runs assessments that only require a keyword", function() {
 		assessor.assess( new Paper( "text", { keyword: "keyword" } ) );
 		expect( assessor.getValidResults().length ).toBe( 9 );
-	})
+	});
 
 	it( "additionally runs assessments that require text and a keyword", function() {
 		assessor.assess( new Paper( "text", { keyword: "keyword" } ) );

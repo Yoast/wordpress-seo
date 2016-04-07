@@ -44,7 +44,20 @@ describe("Tests a string for anchors and analyzes these", function(){
 		var mockPaper = new Paper( "hello", attributes );
 
 		foundLinks = linkCount( mockPaper );
-		expect( foundLinks ).toEqual({});
+		expect( foundLinks ).toEqual({
+			total: 0,
+			totalNaKeyword: 0,
+			totalKeyword: 0,
+			internalTotal: 0,
+			internalDofollow: 0,
+			internalNofollow: 0,
+			externalTotal: 0,
+			externalDofollow: 0,
+			externalNofollow: 0,
+			otherTotal: 0,
+			otherDofollow: 0,
+			otherNofollow: 0
+		});
 
 		mockPaper = new Paper("<a href='http://example.org/test123'>test123</a>" +
 			"<a href='http://example.org/test123' rel='nofollow'>test123</a>" +

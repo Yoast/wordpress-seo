@@ -27,8 +27,8 @@ describe( "An assessor running the linkStatistics", function(){
 
 		var assessment = linkStatisticAssessment.getResult( mockPaper, Factory.buildMockResearcher( mockResult ), i18n );
 
-		expect( assessment.getScore() ).toEqual( 2 );
-		expect( assessment.getText() ).toEqual ( 'Outbound links appear in this page' );
+		expect( assessment.getScore() ).toEqual( 8 );
+		expect( assessment.getText() ).toEqual ( 'This page has 0 nofollowed link(s) and 1 normal outbound link(s).' );
 
 		mockPaper = new Paper( "a test with a <a href='http://yoast.com' alt='' rel='nofollow'> link </a>", attributes );
 
@@ -53,9 +53,9 @@ describe( "An assessor running the linkStatistics", function(){
 
 	it( "Accepts a paper and i18nobject  ", function(){
 		var mockPaper = new Paper( "" );
-		var assessment = linkStatisticAssessment.getResult( mockPaper, Factory.buildMockResearcher( 0 ), i18n );
+		var assessment = linkStatisticAssessment.getResult( mockPaper, Factory.buildMockResearcher({ total: 0 }), i18n );
 
 		expect( assessment.getScore() ).toEqual( 6 );
-		expect( assessment.getText() ).toEqual ( 'No outbound links appear in this page, consider adding some as appropriate.' );
+		expect( assessment.getText() ).toEqual ( 'No links appear in this page, consider adding some as appropriate.' );
 	} );
 } );
