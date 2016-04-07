@@ -1,4 +1,8 @@
 /* global YoastSEO: true, wpseoTermScraperL10n, tinyMCE, YoastReplaceVarPlugin, console, require */
+
+var getTitlePlaceholder = require( './analysis/getTitlePlaceholder' );
+var getDescriptionPlaceholder = require( './analysis/getDescriptionPlaceholder' );
+
 (function( $ ) {
 	'use strict';
 
@@ -237,12 +241,18 @@
 	function initSnippetPreview( termScraper ) {
 		var data = termScraper.getData();
 
+		var titlePlaceholder = getTitlePlaceholder();
+		var descriptionPlaceholder = getDescriptionPlaceholder();
+
 		var snippetPreviewArgs = {
 			targetElement: document.getElementById( 'wpseo_snippet' ),
 			placeholder: {
+				title: titlePlaceholder,
 				urlPath: ''
 			},
-			defaultValue: {},
+			defaultValue: {
+				title: titlePlaceholder
+			},
 			baseURL: wpseoTermScraperL10n.base_url,
 			callbacks: {
 				saveSnippetData: termScraper.saveSnippetData.bind( termScraper )
@@ -255,14 +265,7 @@
 			}
 		};
 
-		var titlePlaceholder = wpseoTermScraperL10n.title_template;
-		if ( titlePlaceholder === '' ) {
-			titlePlaceholder = '%%title%% - %%sitename%%';
-		}
-		snippetPreviewArgs.placeholder.title = titlePlaceholder;
-		snippetPreviewArgs.defaultValue.title = titlePlaceholder;
-
-		var metaPlaceholder = wpseoTermScraperL10n.metadesc_template;
+		var metaPlaceholder = descriptionPlaceholder;
 		if ( metaPlaceholder !== '' ) {
 			snippetPreviewArgs.placeholder.metaDesc = metaPlaceholder;
 			snippetPreviewArgs.defaultValue.metaDesc = metaPlaceholder;
@@ -332,12 +335,12 @@
 		app = new App( args );
 		window.YoastSEO = {};
 		window.YoastSEO.app = app;
-		jQuery( window ).trigger( 'YoastSEO:ready' );
 
 		termScraper.initKeywordTabTemplate();
 
 		// Init Plugins.
-		new YoastReplaceVarPlugin( app );
+		YoastSEO.wp = {};
+		YoastSEO.wp.replaceVarsPlugin = new YoastReplaceVarPlugin( app );
 
 		var usedKeywords = new UsedKeywords( '#wpseo_focuskw', 'get_term_keyword_usage', wpseoTermScraperL10n, app );
 		usedKeywords.init();
@@ -346,5 +349,7 @@
 		YoastSEO.analyzerArgs = args;
 
 		initTermSlugWatcher();
+
+		jQuery( window ).trigger( 'YoastSEO:ready' );
 	} );
 }( jQuery ));
