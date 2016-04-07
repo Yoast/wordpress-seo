@@ -139,124 +139,53 @@ if ( get_option( 'page_comments' ) && $options['ignore_page_comments'] === false
 	echo __( 'Paging comments is enabled, this is not needed in 999 out of 1000 cases, so the suggestion is to disable it, to do that, simply uncheck the box before "Break comments into pages..."', 'wordpress-seo' ), '</p>';
 }
 
+$tabs = array(
+	'general' => array(
+		'label' => __( 'General', 'wordpress-seo' ),
+		'screencast_video_url' => 'https://yoa.st/screencast-general',
+	),
+	'knowledge-graph' => array(
+		'label' => ( 'company' === $options['company_or_person'] ) ? __( 'Company Info', 'wordpress-seo' ) : __( 'Your Info', 'wordpress-seo' ),
+		'screencast_video_url' => 'https://yoa.st/screencast-knowledge-graph',
+	),
+	'webmaster-tools' => array(
+		'label' => __( 'Webmaster Tools', 'wordpress-seo' ),
+		'screencast_video_url' => 'https://yoa.st/screencast-search-console',
+	),
+	'security' => array(
+		'label' => __( 'Security', 'wordpress-seo' ),
+		'screencast_video_url' => 'https://yoa.st/screencast-security',
+	),
+);
+
 ?>
 	<h2 class="nav-tab-wrapper" id="wpseo-tabs">
-		<a class="nav-tab nav-tab-active" id="general-tab"
-		   href="#top#general"><?php _e( 'General', 'wordpress-seo' ); ?></a>
-		<a class="nav-tab" id="knowledge-graph-tab"
-		   href="#top#knowledge-graph"><?php echo ( 'company' === $options['company_or_person'] ) ? __( 'Company Info', 'wordpress-seo' ) : __( 'Your Info', 'wordpress-seo' ); ?></a>
-		<a class="nav-tab" id="webmaster-tools-tab"
-		   href="#top#webmaster-tools"><?php _e( 'Webmaster Tools', 'wordpress-seo' ); ?></a>
-		<a class="nav-tab" id="security-tab" href="#top#security"><?php _e( 'Security', 'wordpress-seo' ); ?></a>
+		<?php
+		foreach ( $tabs as $identifier => $tab ):
+			$class = ( 'general' === $identifier ) ? ' nav-tab-active' : '';
+			?>
+			<a class="nav-tab<?php echo $class; ?>" id="<?php echo $identifier; ?>-tab" href="#top#<?php echo $identifier; ?>"><?php echo $tab['label']; ?></a>
+		<?php
+		endforeach;
+		?>
 	</h2>
 
-	<div id="general" class="wpseotab">
-		<?php if ( get_user_meta( get_current_user_id(), 'wpseo_ignore_tour' ) ) { ?>
-			<p>
-				<strong><?php _e( 'Introduction Tour', 'wordpress-seo' ); ?></strong><br/>
-				<?php _e( 'Take this tour to quickly learn about the use of this plugin.', 'wordpress-seo' ); ?>
-			</p>
-			<p>
-				<a class="button-secondary"
-				   href="<?php echo esc_url( admin_url( 'admin.php?page=wpseo_dashboard&wpseo_restart_tour=1' ) ); ?>"><?php _e( 'Start Tour', 'wordpress-seo' ); ?></a>
-			</p>
-
-			<br/>
-		<?php } ?>
-
-		<p>
-			<strong><?php _e( 'Latest Changes', 'wordpress-seo' ); ?></strong><br/>
-			<?php
-			/* translators: %s expands to Yoast SEO */
-			printf( __( 'We\'ve summarized the most recent changes in %s.', 'wordpress-seo' ), 'Yoast SEO' );
-			?>
-		</p>
-		<p>
-			<a class="button-secondary"
-			   href="<?php echo esc_url( admin_url( 'admin.php?page=wpseo_dashboard&intro=1' ) ); ?>"><?php _e( 'View Changes', 'wordpress-seo' ); ?></a>
-		</p>
-
-		<br/>
-
-		<p>
-			<strong><?php _e( 'Restore Default Settings', 'wordpress-seo' ); ?></strong><br/>
-			<?php
-			/* translators: %s expands to Yoast SEO */
-			printf( __( 'If you want to restore a site to the default %s settings, press this button.', 'wordpress-seo' ), 'Yoast SEO' );
-			?>
-		</p>
-
-		<p>
-			<a onclick="if( !confirm('<?php _e( 'Are you sure you want to reset your SEO settings?', 'wordpress-seo' ); ?>') ) return false;" class="button" href="<?php echo esc_url( add_query_arg( array( 'nonce' => wp_create_nonce( 'wpseo_reset_defaults' ) ), admin_url( 'admin.php?page=wpseo_dashboard&wpseo_reset_defaults=1' ) ) ); ?>"><?php _e( 'Restore Default Settings', 'wordpress-seo' ); ?></a>
-		</p>
-
-	</div>
-	<div id="knowledge-graph" class="wpseotab">
-		<h3><?php _e( 'Website name', 'wordpress-seo' ); ?></h3>
-		<p>
-			<?php
-			_e( 'Google shows your website\'s name in the search results, we will default to your site name but you can adapt it here. You can also provide an alternate website name you want Google to consider.', 'wordpress-seo' );
-			?>
-		</p>
-		<?php
-		$yform->textinput( 'website_name', __( 'Website name', 'wordpress-seo' ), array( 'placeholder' => get_bloginfo( 'name' ) ) );
-		$yform->textinput( 'alternate_website_name', __( 'Alternate name', 'wordpress-seo' ) );
-		?>
-		<h3><?php _e( 'Company or person', 'wordpress-seo' ); ?></h3>
-		<p>
-			<?php
-			// @todo add KB link - JdV.
-			_e( 'This data is shown as metadata in your site. It is intended to appear in Google\'s Knowledge Graph. You can be either a company, or a person, choose either:', 'wordpress-seo' );
-			?>
-		</p>
-		<?php
-		$yform->select( 'company_or_person', __( 'Company or person', 'wordpress-seo' ), array(
-			''        => __( 'Choose whether you\'re a company or person', 'wordpress-seo' ),
-			'company' => __( 'Company', 'wordpress-seo' ),
-			'person'  => __( 'Person', 'wordpress-seo' ),
-		) );
-		?>
-		<div id="knowledge-graph-company">
-			<h2><?php _e( 'Company', 'wordpress-seo' ); ?></h2>
-			<?php
-			$yform->textinput( 'company_name', __( 'Company Name', 'wordpress-seo' ) );
-			$yform->media_input( 'company_logo', __( 'Company Logo', 'wordpress-seo' ) );
-			?>
-		</div>
-		<div id="knowledge-graph-person">
-			<h2><?php _e( 'Person', 'wordpress-seo' ); ?></h2>
-			<?php $yform->textinput( 'person_name', __( 'Your name', 'wordpress-seo' ) ); ?>
-		</div>
-	</div>
-	<div id="webmaster-tools" class="wpseotab">
-		<h3><?php _e( 'Webmaster Tools verification', 'wordpress-seo' ); ?></h3>
-		<?php
-		echo '<p>', __( 'You can use the boxes below to verify with the different Webmaster Tools, if your site is already verified, you can just forget about these. Enter the verify meta values for:', 'wordpress-seo' ), '</p>';
-		$yform->textinput( 'alexaverify', '<a target="_blank" href="http://www.alexa.com/siteowners/claim">' . __( 'Alexa Verification ID', 'wordpress-seo' ) . '</a>' );
-		$yform->textinput( 'msverify', '<a target="_blank" href="' . esc_url( 'http://www.bing.com/webmaster/?rfp=1#/Dashboard/?url=' . urlencode( str_replace( 'http://', '', get_bloginfo( 'url' ) ) ) ) . '">' . __( 'Bing Webmaster Tools', 'wordpress-seo' ) . '</a>' );
-		$yform->textinput( 'googleverify', '<a target="_blank" href="' . esc_url( 'https://www.google.com/webmasters/verification/verification?hl=en&siteUrl=' . urlencode( get_bloginfo( 'url' ) ) . '/' ) . '">Google Search Console</a>' );
-		$yform->textinput( 'yandexverify', '<a target="_blank" href="http://help.yandex.com/webmaster/service/rights.xml#how-to">' . __( 'Yandex Webmaster Tools', 'wordpress-seo' ) . '</a>' );
-		?>
-		<h3><?php _e( 'OnPage.org', 'wordpress-seo' ); ?></h3>
-		<?php
-		/* translators: %1$s expands to OnPage.org */
-		$yform->light_switch( 'onpage_indexability', sprintf( __( '%1$s indexability check', 'wordpress-seo' ), 'OnPage.org' ) );
-		?>
-	</div>
-	<div id="security" class="wpseotab">
-		<?php
-		$yform->toggle_switch(
-			'disableadvanced_meta',
-			array( 'off' => __( 'Enabled', 'wordpress-seo' ), 'on' => __( 'Disabled', 'wordpress-seo' ) ),
-			/* translators: %1$s expands to Yoast SEO */
-			sprintf( __( 'Advanced part of the %1$s meta box', 'wordpress-seo' ), 'Yoast SEO' )
-		);
-
-		/* translators: %1$s expands to Yoast SEO */
-		echo '<p>', sprintf( __( 'The advanced section of the %1$s meta box allows a user to noindex posts or change the canonical. These are things you might not want if you don\'t trust your authors, so by default, only administrators can do this. Enabling the advanced box allows all users to change these settings.', 'wordpress-seo' ), 'Yoast SEO' ), '</p>';
-		?>
-	</div>
 <?php
+
+foreach ( $tabs as $identifier => $tab ) {
+
+	printf( '<div id="%s" class="wpseotab">', $identifier );
+
+	if ( ! empty($tab['screencast_video_url']) ) {
+		$tab_video_url = $tab['screencast_video_url'];
+		include WPSEO_PATH . 'admin/views/partial-settings-tab-video.php';
+	}
+	
+	require_once WPSEO_PATH . 'admin/views/tabs/general/' . $identifier . '.php';
+
+	echo '</div>';
+}
+
 do_action( 'wpseo_dashboard' );
 
 $yform->admin_footer();

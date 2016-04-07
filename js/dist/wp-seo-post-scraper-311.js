@@ -8096,21 +8096,24 @@ var plugins = {
 };
 
 var helpers = {
-	scoreToRating: require( "./js/interpreters/scoreToRating" ),
+	scoreToRating: require( "./js/interpreters/scoreToRating" )
 };
 
 module.exports = {
 	Assessor: require( "./js/assessor" ),
-	App: require( "./js/app.js" ),
-	Pluggable: require( "./js/app" ),
+	App: require( "./js/app" ),
+	Pluggable: require( "./js/pluggable" ),
 	Researcher: require( "./js/researcher" ),
 	SnippetPreview: require( "./js/snippetPreview.js" ),
+
+	Paper: require( "./js/values/paper" ),
+	AssessmentResult: require( "./js/values/AssessmentResult" ),
 
 	bundledPlugins: plugins,
 	helpers: helpers
 };
 
-},{"./js/app":181,"./js/app.js":181,"./js/assessor":199,"./js/bundledPlugins/previouslyUsedKeywords":200,"./js/interpreters/scoreToRating":209,"./js/researcher":212,"./js/snippetPreview.js":231}],181:[function(require,module,exports){
+},{"./js/app":181,"./js/assessor":200,"./js/bundledPlugins/previouslyUsedKeywords":201,"./js/interpreters/scoreToRating":210,"./js/pluggable":211,"./js/researcher":213,"./js/snippetPreview.js":234,"./js/values/AssessmentResult":260,"./js/values/paper":262}],181:[function(require,module,exports){
 /* jshint browser: true */
 
 require( "./config/config.js" );
@@ -8707,7 +8710,7 @@ App.prototype.registerAssessment = function( name, assessment, pluginName ) {
 
 module.exports = App;
 
-},{"./assessor.js":199,"./config/config.js":201,"./errors/missingArgument":208,"./pluggable.js":210,"./renderers/AssessorPresenter.js":211,"./researcher.js":212,"./snippetPreview.js":231,"./values/Paper.js":258,"jed":5,"lodash/defaultsDeep":136,"lodash/forEach":139,"lodash/isObject":156,"lodash/isString":159,"lodash/isUndefined":162}],182:[function(require,module,exports){
+},{"./assessor.js":200,"./config/config.js":202,"./errors/missingArgument":209,"./pluggable.js":211,"./renderers/AssessorPresenter.js":212,"./researcher.js":213,"./snippetPreview.js":234,"./values/Paper.js":261,"jed":5,"lodash/defaultsDeep":136,"lodash/forEach":139,"lodash/isObject":156,"lodash/isString":159,"lodash/isUndefined":162}],182:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 var inRange = require( "lodash/inRange" );
 
@@ -8783,7 +8786,7 @@ var calculateFleschReadingResult = function( fleschReadingScore, i18n ) {
  * @param {object} i18n The i18n-object used for parsing translations
  * @returns {object} an assessmentresult with the score and formatted text.
  */
-var fleschReadingAssessment = function( paper, researcher, i18n ) {
+var fleschReadingEaseAssessment = function( paper, researcher, i18n ) {
 	var fleschReadingScore = researcher.getResearch( "calculateFleschReading" );
 
 	/* translators: %1$s expands to the numeric flesch reading ease score, %2$s to a link to a Yoast.com article about Flesch ease reading score,
@@ -8811,13 +8814,537 @@ var fleschReadingAssessment = function( paper, researcher, i18n ) {
 };
 
 module.exports = {
-	getResult: fleschReadingAssessment,
+	getResult: fleschReadingEaseAssessment,
 	isApplicable: function( paper ) {
 		return ( paper.getLocale().indexOf( "en_" ) > -1 );
 	}
 };
 
-},{"../values/AssessmentResult.js":257,"lodash/inRange":144}],183:[function(require,module,exports){
+},{"../values/AssessmentResult.js":260,"lodash/inRange":144}],183:[function(require,module,exports){
+var AssessmentResult = require( "../values/AssessmentResult.js" );
+
+/**
+ * Returns a score and text based on the firstParagraph object.
+ *
+ * @param {object} firstParagraphMatches The object with all firstParagraphMatches.
+ * @param {object} i18n The object used for translations
+ * @returns {object} resultObject with score and text
+ */
+var calculateFirstParagraphResult = function( firstParagraphMatches, i18n ) {
+	if ( firstParagraphMatches > 0 ) {
+		return {
+			score: 9,
+			text: i18n.dgettext( "js-text-analysis", "The focus keyword appears in the first paragraph of the copy." )
+		};
+	}
+
+	return {
+		score: 3,
+		text: i18n.dgettext( "js-text-analysis", "The focus keyword doesn\'t appear in the first paragraph of the copy. " +
+			"Make sure the topic is clear immediately." )
+	};
+};
+
+/**
+ * Runs the findKeywordInFirstParagraph module, based on this returns an assessment result with score.
+ *
+ * @param {Paper} paper The paper to use for the assessment.
+ * @param {object} researcher The researcher used for calling research.
+ * @param {object} i18n The object used for translations
+ * @returns {object} the Assessmentresult
+ */
+var introductionHasKeywordAssessment = function( paper, researcher, i18n ) {
+	var firstParagraphMatches = researcher.getResearch( "firstParagraph" );
+	var firstParagraphResult = calculateFirstParagraphResult( firstParagraphMatches, i18n );
+	var assessmentResult = new AssessmentResult();
+
+	assessmentResult.setScore( firstParagraphResult.score );
+	assessmentResult.setText( firstParagraphResult.text );
+
+	return assessmentResult;
+};
+
+module.exports = {
+	getResult: introductionHasKeywordAssessment,
+	isApplicable: function( paper ) {
+		return paper.hasKeyword();
+	}
+};
+
+},{"../values/AssessmentResult.js":260}],184:[function(require,module,exports){
+var AssessmentResult = require( "../values/AssessmentResult.js" );
+
+/**
+ * Assesses the keyphrase presence and length
+ *
+ * @param {Paper} paper The paper to use for the assessment.
+ * @param {Researcher} researcher The researcher used for calling research.
+ * @param {Jed} i18n The object used for translations
+ * @returns {AssessmentResult} The result of this assessment
+*/
+function keyphraseAssessment( paper, researcher, i18n ) {
+	var keyphraseLength = researcher.getResearch( "keyphraseLength" );
+
+	var assessmentResult = new AssessmentResult();
+
+	if ( !paper.hasKeyword() ) {
+		assessmentResult.setScore( -999 );
+		assessmentResult.setText( i18n.dgettext( "js-text-analysis", "No focus keyword was set for this page. " +
+			"If you do not set a focus keyword, no score can be calculated." ) );
+	} else if ( keyphraseLength > 10 ) {
+		assessmentResult.setScore( 0 );
+		assessmentResult.setText( i18n.dgettext( "js-text-analysis", "Your keyphrase is over 10 words, a keyphrase should be shorter." ) );
+	}
+
+	return assessmentResult;
+}
+
+module.exports = { getResult: keyphraseAssessment };
+
+},{"../values/AssessmentResult.js":260}],185:[function(require,module,exports){
+var AssessmentResult = require( "../values/AssessmentResult.js" );
+var matchWords = require( "../stringProcessing/matchTextWithWord.js" );
+var countWords = require( "../stringProcessing/countWords.js" );
+var inRange = require( "lodash/inRange" );
+
+/**
+ * Returns the scores and text for keyword density
+ * @param {string} keywordDensity The keyword density
+ * @param {object} i18n The i18n object used for translations
+ * @returns {{score: number, text: *}} the assessmentresult
+ */
+var calculateKeywordDensityResult = function( keywordDensity, i18n ) {
+	if ( keywordDensity > 3.5 ) {
+		return {
+			score: -50,
+			text: i18n.dgettext( "js-text-analysis", "The keyword density is %1$s%%, which is way over the advised 2.5%% maximum;" +
+				" the focus keyword was found %2$d times." )
+		};
+	}
+	if ( inRange( keywordDensity, 2.5, 3.5 ) ) {
+		return {
+			score: -10,
+			text: i18n.dgettext( "js-text-analysis", "The keyword density is %1$s%%, which is over the advised 2.5%% maximum;" +
+				" the focus keyword was found %2$d times." )
+		};
+	}
+	if ( inRange( keywordDensity, 0.5, 2.5 ) ) {
+		return {
+			score: 9,
+			text: i18n.dgettext( "js-text-analysis", "The keyword density is %1$s%%, which is great; the focus keyword was found %2$d times." )
+		};
+	}
+	if ( inRange( keywordDensity, 0, 0.5 ) ) {
+		return {
+			score: 4,
+			text: i18n.dgettext( "js-text-analysis", "The keyword density is %1$s%%, which is a bit low; the focus keyword was found %2$d times." )
+		};
+	}
+};
+
+/**
+ * Runs the getkeywordDensity module, based on this returns an assessment result with score.
+ *
+ * @param {object} paper The paper to use for the assessment.
+ * @param {object} researcher The researcher used for calling research.
+ * @param {object} i18n The object used for translations
+ * @returns {object} the Assessmentresult
+ */
+var keywordDensityAssessment = function( paper, researcher, i18n ) {
+
+	var keywordDensity = researcher.getResearch( "getKeywordDensity" );
+	var keywordCount = matchWords( paper.getText(), paper.getKeyword() );
+	var keywordDensityResult = calculateKeywordDensityResult( keywordDensity, i18n );
+	var assessmentResult = new AssessmentResult();
+
+	var text = i18n.sprintf( keywordDensityResult.text, keywordDensity.toFixed( 1 ), keywordCount );
+
+	assessmentResult.setScore( keywordDensityResult.score );
+	assessmentResult.setText( text );
+
+	return assessmentResult;
+};
+
+module.exports = {
+	getResult: keywordDensityAssessment,
+	isApplicable: function( paper ) {
+		return paper.hasText() && paper.hasKeyword() && countWords( paper.getText() ) >= 100;
+	}
+};
+
+},{"../stringProcessing/countWords.js":240,"../stringProcessing/matchTextWithWord.js":248,"../values/AssessmentResult.js":260,"lodash/inRange":144}],186:[function(require,module,exports){
+var AssessmentResult = require( "../values/AssessmentResult.js" );
+
+/**
+ * Calculate the score based on the amount of stop words in the keyword.
+ * @param {number} stopWordCount The amount of stop words to be checked against.
+ * @param {object} i18n The locale object.
+ * @returns {object} The resulting score object.
+ */
+var calculateStopWordsCountResult = function( stopWordCount, i18n ) {
+
+	if ( stopWordCount > 0 ) {
+		return {
+			score: 0,
+			/* translators: %1$s opens a link to a Yoast article about stop words, %2$s closes the link */
+			text: i18n.dngettext(
+				"js-text-analysis",
+				"Your focus keyword contains a stop word. This may or may not be wise depending on the circumstances. " +
+				"Read %1$sthis article%2$s for more info.",
+				"Your focus keyword contains %3$d stop words. This may or may not be wise depending on the circumstances. " +
+				"Read %1$sthis article%2$s for more info.",
+				stopWordCount
+			)
+		};
+	}
+
+	return {};
+};
+
+/**
+ * Execute the Assessment and return a result.
+ * @param {Paper} paper The Paper object to assess.
+ * @param {Researcher} researcher The Researcher object containing all available researches.
+ * @param {object} i18n The locale object.
+ * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
+ */
+var keywordHasStopWordsAssessment = function( paper, researcher, i18n ) {
+	var stopWords = researcher.getResearch( "stopWordsInKeyword" );
+	var stopWordsResult = calculateStopWordsCountResult( stopWords.length, i18n );
+
+	var assessmentResult = new AssessmentResult();
+	assessmentResult.setScore( stopWordsResult.score );
+	assessmentResult.setText( i18n.sprintf(
+		stopWordsResult.text,
+		"<a href='https://yoast.com/handling-stopwords/' target='new'>",
+		"</a>",
+		stopWords.length
+	) );
+
+	return assessmentResult;
+};
+
+module.exports = {
+	getResult: keywordHasStopWordsAssessment,
+	isApplicable: function ( paper ) {
+		return paper.hasKeyword();
+	}
+};
+
+},{"../values/AssessmentResult.js":260}],187:[function(require,module,exports){
+var AssessmentResult = require( "../values/AssessmentResult.js" );
+
+/**
+ * Returns the score and text for the description keyword match.
+ * @param {number} keywordMatches The number of keyword matches in the description.
+ * @param {object} i18n The i18n object used for translations.
+ * @returns {Object} An object with values for the assessment result.
+ */
+var calculateKeywordMatchesResult = function( keywordMatches, i18n ) {
+	if ( keywordMatches > 0 ) {
+		return {
+			score: 9,
+			text: i18n.dgettext( "js-text-analysis", "The meta description contains the focus keyword." )
+		};
+	}
+	if ( keywordMatches === 0 ) {
+		return {
+			score: 3,
+			text: i18n.dgettext( "js-text-analysis", "A meta description has been specified, but it does not contain the focus keyword." )
+		};
+	}
+	return {};
+};
+
+/**
+ * Runs the metaDescription keyword module, based on this returns an assessment result with score.
+ *
+ * @param {object} paper The paper to use for the assessment.
+ * @param {object} researcher The researcher used for calling research.
+ * @param {object} i18n The object used for translations
+ * @returns {object} the Assessmentresult
+ */
+var metaDescriptionHasKeywordAssessment = function( paper, researcher, i18n ) {
+	var keywordMatches = researcher.getResearch( "metaDescriptionKeyword" );
+	var descriptionLengthResult = calculateKeywordMatchesResult( keywordMatches, i18n );
+	var assessmentResult = new AssessmentResult();
+
+	assessmentResult.setScore( descriptionLengthResult.score );
+	assessmentResult.setText( descriptionLengthResult.text );
+
+	return assessmentResult;
+};
+
+module.exports = {
+	getResult: metaDescriptionHasKeywordAssessment,
+	isApplicable: function ( paper ) {
+		return paper.hasKeyword();
+	}
+};
+
+},{"../values/AssessmentResult.js":260}],188:[function(require,module,exports){
+var AssessmentResult = require( "../values/AssessmentResult.js" );
+
+/**
+ * Returns the score and text for the descriptionLength
+ * @param {number} descriptionLength The length of the metadescription.
+ * @param {object} i18n The i18n object used for translations.
+ * @returns {Object} An object with values for the assessment result.
+ */
+var calculateDescriptionLengthResult = function( descriptionLength, i18n ) {
+	var recommendedValue = 120;
+	var maximumValue = 156;
+	if ( descriptionLength === 0 ) {
+		return {
+			score: 1,
+			text: i18n.dgettext( "js-text-analysis", "No meta description has been specified, " +
+				"search engines will display copy from the page instead." )
+		};
+	}
+	if ( descriptionLength <= recommendedValue ) {
+		return {
+			score: 6,
+			text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "The meta description is under %1$d characters, " +
+				"however up to %2$d characters are available." ), recommendedValue, maximumValue )
+		};
+	}
+	if ( descriptionLength > maximumValue ) {
+		return {
+			score: 6,
+			text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "The specified meta description is over %1$d characters. " +
+				"Reducing it will ensure the entire description is visible." ), maximumValue )
+		};
+	}
+	if ( descriptionLength >= recommendedValue && descriptionLength <= maximumValue ) {
+		return {
+			score: 9,
+			text: i18n.dgettext( "js-text-analysis", "In the specified meta description, consider: " +
+				"How does it compare to the competition? Could it be made more appealing?" )
+		};
+	}
+};
+
+/**
+ * Runs the metaDescriptionLength module, based on this returns an assessment result with score.
+ *
+ * @param {object} paper The paper to use for the assessment.
+ * @param {object} researcher The researcher used for calling research.
+ * @param {object} i18n The object used for translations
+ * @returns {object} the Assessmentresult
+ */
+var metaDescriptionLengthAssessment = function( paper, researcher, i18n ) {
+	var descriptionLength = researcher.getResearch( "metaDescriptionLength" );
+	var descriptionLengthResult = calculateDescriptionLengthResult( descriptionLength, i18n );
+	var assessmentResult = new AssessmentResult();
+
+	assessmentResult.setScore( descriptionLengthResult.score );
+	assessmentResult.setText( descriptionLengthResult.text );
+
+	return assessmentResult;
+};
+
+module.exports = { getResult: metaDescriptionLengthAssessment };
+
+},{"../values/AssessmentResult.js":260}],189:[function(require,module,exports){
+var AssessmentResult = require( "../values/AssessmentResult.js" );
+
+/**
+ * Returns a score and text based on the keyword matches object.
+ *
+ * @param {object} subHeadings The object with all subHeadings matches.
+ * @param {object} i18n The object used for translations.
+ * @returns {object} resultObject with score and text.
+ */
+var calculateKeywordMatchesResult = function( subHeadings, i18n ) {
+	if ( subHeadings.matches === 0 ) {
+		return {
+			score: 3,
+			text: i18n.dgettext( "js-text-analysis", "You have not used your focus keyword in any subheading (such as an H2) in your copy." )
+		};
+	}
+	if ( subHeadings.matches >= 1 ) {
+		return {
+			score: 9,
+			text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "The focus keyword appears in %2$d (out of %1$d) subheadings in the copy. " +
+				"While not a major ranking factor, this is beneficial." ), subHeadings.count, subHeadings.matches )
+		};
+	}
+	return {};
+};
+
+/**
+ * Runs the match keyword in subheadings module, based on this returns an assessment result with score.
+ *
+ * @param {object} paper The paper to use for the assessment.
+ * @param {object} researcher The researcher used for calling research.
+ * @param {object} i18n The object used for translations.
+ * @returns {object} the Assessmentresult
+ */
+var subheadingsHaveKeywordAssessment = function( paper, researcher, i18n ) {
+	var subHeadings = researcher.getResearch( "matchKeywordInSubheadings" );
+	var subHeadingsResult = calculateKeywordMatchesResult( subHeadings, i18n );
+	var assessmentResult = new AssessmentResult();
+
+	assessmentResult.setScore( subHeadingsResult.score );
+	assessmentResult.setText( subHeadingsResult.text );
+
+	return assessmentResult;
+};
+
+module.exports = {
+	getResult: subheadingsHaveKeywordAssessment,
+	isApplicable: function( paper ) {
+		return paper.hasText() && paper.hasKeyword();
+	}
+};
+
+},{"../values/AssessmentResult.js":260}],190:[function(require,module,exports){
+var AssessmentResult = require( "../values/AssessmentResult.js" );
+
+/**
+ * Returns a score and text based on the number of links.
+ *
+ * @param {object} linkStatistics The object with all linkstatistics.
+ * @param {object} i18n The object used for translations
+ * @returns {object} resultObject with score and text
+ */
+var calculateLinkCountResult = function( linkStatistics, i18n ) {
+	if ( linkStatistics.totalKeyword > 0 ) {
+		return {
+			score: 2,
+			text: i18n.dgettext( "js-text-analysis", "You\'re linking to another page with the focus keyword you want this page to rank for. " +
+				"Consider changing that if you truly want this page to rank." )
+		};
+	}
+	return {};
+};
+
+/**
+ * Runs the linkCount module, based on this returns an assessment result with score.
+ *
+ * @param {object} paper The paper to use for the assessment.
+ * @param {object} researcher The researcher used for calling research.
+ * @param {object} i18n The object used for translations
+ * @returns {object} the Assessmentresult
+ */
+var textHasCompetingLinksAssessment = function( paper, researcher, i18n ) {
+	var linkCount = researcher.getResearch( "getLinkStatistics" );
+
+	var linkCountResult = calculateLinkCountResult( linkCount, i18n );
+	var assessmentResult = new AssessmentResult();
+
+	assessmentResult.setScore( linkCountResult.score );
+	assessmentResult.setText( linkCountResult.text );
+
+	return assessmentResult;
+};
+
+module.exports = {
+	getResult: textHasCompetingLinksAssessment,
+	isApplicable: function ( paper ) {
+		return paper.hasText() && paper.hasKeyword();
+	}
+};
+
+},{"../values/AssessmentResult.js":260}],191:[function(require,module,exports){
+var AssessmentResult = require( "../values/AssessmentResult.js" );
+var isEmpty = require( "lodash/isEmpty" );
+
+/**
+ * Calculate the score based on the current image count.
+ * @param {number} imageCount The amount of images to be checked against.
+ * @param {object} i18n The locale object.
+ * @returns {object} The resulting score object.
+ */
+var calculateImageCountResult = function( imageCount, i18n ) {
+	if ( imageCount === 0 ) {
+		return {
+			score: 3,
+			text: i18n.dgettext( "js-text-analysis", "No images appear in this page, consider adding some as appropriate." )
+		};
+	}
+
+	return {};
+};
+
+/**
+ * Calculate the score based on the current image alt-tag count.
+ * @param {object} altProperties An object containing the various alt-tags.
+ * @param {object} i18n The locale object.
+ * @returns {object} The resulting score object.
+ */
+var assessImages = function( altProperties, i18n ) {
+	if ( altProperties.noAlt > 0 ) {
+		return {
+			score: 5,
+			text: i18n.dgettext( "js-text-analysis", "The images on this page are missing alt tags." )
+		};
+	}
+
+	// Has alt-tag, but no keyword is set
+	if ( altProperties.withAlt > 0 ) {
+		return {
+			score: 5,
+			text: i18n.dgettext( "js-text-analysis", "The images on this page contain alt tags." )
+		};
+	}
+
+	// Has alt-tag, but no keywords and it's not okay
+	if ( altProperties.withAltNonKeyword > 0 ) {
+		return {
+			score: 5,
+			text: i18n.dgettext( "js-text-analysis", "The images on this page do not have alt tags containing your focus keyword." )
+		};
+	}
+
+	// Has alt-tag and keywords
+	if ( altProperties.withAltKeyword > 0 ) {
+		return {
+			score: 9,
+			text: i18n.dgettext( "js-text-analysis", "The images on this page contain alt tags with the focus keyword." )
+		};
+	}
+
+	return {};
+};
+
+/**
+ * Execute the Assessment and return a result.
+ * @param {Paper} paper The Paper object to assess.
+ * @param {Researcher} researcher The Researcher object containing all available researches.
+ * @param {object} i18n The locale object.
+ * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
+ */
+var textHasImagesAssessment = function( paper, researcher, i18n ) {
+	var assessmentResult = new AssessmentResult();
+
+	var imageCount = researcher.getResearch( "imageCount" );
+	var imageCountResult = calculateImageCountResult( imageCount, i18n );
+
+	if ( isEmpty( imageCountResult ) ) {
+		var altTagCount = researcher.getResearch( "altTagCount" );
+		var altTagCountResult = assessImages( altTagCount, i18n );
+
+		assessmentResult.setScore( altTagCountResult.score );
+		assessmentResult.setText( altTagCountResult.text );
+
+		return assessmentResult;
+	}
+
+	assessmentResult.setScore( imageCountResult.score );
+	assessmentResult.setText( imageCountResult.text );
+
+	return assessmentResult;
+};
+
+module.exports = {
+	getResult: textHasImagesAssessment,
+	isApplicable: function ( paper ) {
+		return paper.hasText();
+	}
+};
+
+},{"../values/AssessmentResult.js":260,"lodash/isEmpty":151}],192:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 var inRange = require( "lodash/inRange" );
 
@@ -8901,7 +9428,7 @@ var calculateWordCountResult = function( wordCount, i18n ) {
  * @param {object} i18n The locale object.
  * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
  */
-var countWordsAssessment = function( paper, researcher, i18n ) {
+var textLengthAssessment = function( paper, researcher, i18n ) {
 	var wordCount = researcher.getResearch( "wordCountInText" );
 	var wordCountResult = calculateWordCountResult( wordCount, i18n );
 	var assessmentResult = new AssessmentResult();
@@ -8912,61 +9439,11 @@ var countWordsAssessment = function( paper, researcher, i18n ) {
 	return assessmentResult;
 };
 
-module.exports = { getResult: countWordsAssessment };
+module.exports = { getResult: textLengthAssessment };
 
-},{"../values/AssessmentResult.js":257,"lodash/inRange":144}],184:[function(require,module,exports){
+},{"../values/AssessmentResult.js":260,"lodash/inRange":144}],193:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
-
-/**
- * Returns a score and text based on the firstParagraph object.
- *
- * @param {object} firstParagraphMatches The object with all firstParagraphMatches.
- * @param {object} i18n The object used for translations
- * @returns {object} resultObject with score and text
- */
-var calculateFirstParagraphResult = function( firstParagraphMatches, i18n ) {
-	if ( firstParagraphMatches > 0 ) {
-		return {
-			score: 9,
-			text: i18n.dgettext( "js-text-analysis", "The focus keyword appears in the first paragraph of the copy." )
-		};
-	}
-
-	return {
-		score: 3,
-		text: i18n.dgettext( "js-text-analysis", "The focus keyword doesn\'t appear in the first paragraph of the copy. " +
-			"Make sure the topic is clear immediately." )
-	};
-};
-
-/**
- * Runs the findKeywordInFirstParagraph module, based on this returns an assessment result with score.
- *
- * @param {Paper} paper The paper to use for the assessment.
- * @param {object} researcher The researcher used for calling research.
- * @param {object} i18n The object used for translations
- * @returns {object} the Assessmentresult
- */
-var getFirstParagraphAssessment = function( paper,  researcher, i18n ) {
-	var firstParagraphMatches = researcher.getResearch( "firstParagraph" );
-	var firstParagraphResult = calculateFirstParagraphResult( firstParagraphMatches, i18n );
-	var assessmentResult = new AssessmentResult();
-
-	assessmentResult.setScore( firstParagraphResult.score );
-	assessmentResult.setText( firstParagraphResult.text );
-
-	return assessmentResult;
-};
-
-module.exports = {
-	getResult: getFirstParagraphAssessment,
-	isApplicable: function( paper ) {
-		return paper.hasKeyword();
-	}
-};
-
-},{"../values/AssessmentResult.js":257}],185:[function(require,module,exports){
-var AssessmentResult = require( "../values/AssessmentResult.js" );
+var isEmpty = require( "lodash/isEmpty" );
 
 /**
  * Returns a score and text based on the linkStatistics object.
@@ -8979,29 +9456,10 @@ var calculateLinkStatisticsResult = function( linkStatistics, i18n ) {
 	if ( linkStatistics.total === 0 ) {
 		return {
 			score: 6,
-			text: i18n.dgettext( "js-text-analysis", "No outbound links appear in this page, consider adding some as appropriate." )
+			text: i18n.dgettext( "js-text-analysis", "No links appear in this page, consider adding some as appropriate." )
+		};
+	}
 
-		};
-	}
-	if ( linkStatistics.externalTotal === 0 ) {
-		return {
-			score: 6,
-			text: i18n.dgettext( "js-text-analysis", "No outbound links appear in this page, consider adding some as appropriate." )
-		};
-	}
-	if ( linkStatistics.totalNaKeyword > 0 ) {
-		return {
-			score: 2,
-			text: i18n.dgettext( "js-text-analysis", "Outbound links appear in this page" )
-		};
-	}
-	if ( linkStatistics.totalKeyword > 0 ) {
-		return {
-			score: 2,
-			text: i18n.dgettext( "js-text-analysis", "You\'re linking to another page with the focus keyword you want this page to rank for. " +
-				"Consider changing that if you truly want this page to rank." )
-		};
-	}
 	if ( linkStatistics.externalNofollow === linkStatistics.total ) {
 		return {
 			score: 7,
@@ -9037,326 +9495,25 @@ var calculateLinkStatisticsResult = function( linkStatistics, i18n ) {
  * @param {object} i18n The object used for translations
  * @returns {object} the Assessmentresult
  */
-var getLinkStatisticsAssessment = function( paper,  researcher, i18n ) {
+var textHasLinksAssessment = function( paper, researcher, i18n ) {
 	var linkStatistics = researcher.getResearch( "getLinkStatistics" );
-	var linkStatisticsResult = calculateLinkStatisticsResult( linkStatistics, i18n );
 	var assessmentResult = new AssessmentResult();
-
-	assessmentResult.setScore( linkStatisticsResult.score );
-	assessmentResult.setText( linkStatisticsResult.text );
-
+	if ( !isEmpty( linkStatistics ) ) {
+		var linkStatisticsResult = calculateLinkStatisticsResult( linkStatistics, i18n );
+		assessmentResult.setScore( linkStatisticsResult.score );
+		assessmentResult.setText( linkStatisticsResult.text );
+	}
 	return assessmentResult;
 };
 
 module.exports = {
-	getResult: getLinkStatisticsAssessment,
+	getResult: textHasLinksAssessment,
 	isApplicable: function ( paper ) {
 		return paper.hasText();
 	}
 };
 
-},{"../values/AssessmentResult.js":257}],186:[function(require,module,exports){
-var AssessmentResult = require( "../values/AssessmentResult.js" );
-var isEmpty = require( "lodash/isEmpty" );
-
-/**
- * Calculate the score based on the current image count.
- * @param {number} imageCount The amount of images to be checked against.
- * @param {object} i18n The locale object.
- * @returns {object} The resulting score object.
- */
-var calculateImageCountResult = function( imageCount, i18n ) {
-	if ( imageCount === 0 ) {
-		return {
-			score: 3,
-			text: i18n.dgettext( "js-text-analysis", "No images appear in this page, consider adding some as appropriate." )
-		};
-	}
-
-	return {};
-};
-
-/**
- * Calculate the score based on the current image alt-tag count.
- * @param {object} altProperties An object containing the various alt-tags.
- * @param {object} i18n The locale object.
- * @returns {object} The resulting score object.
- */
-var assessImages = function( altProperties, i18n ) {
-	if ( altProperties.noAlt > 0 ) {
-		return {
-			score: 5,
-			text: i18n.dgettext( "js-text-analysis", "The images on this page are missing alt tags." )
-		};
-	}
-
-	// Has alt-tag, but no keyword is set
-	if ( altProperties.withAlt > 0 ) {
-		return {
-			score: 5,
-			text: i18n.dgettext( "js-text-analysis", "The images on this page contain alt tags." )
-		};
-	}
-
-	// Has alt-tag, but no keywords and it's not okay
-	if ( altProperties.withAltNonKeyword > 0 ) {
-		return {
-			score: 5,
-			text: i18n.dgettext( "js-text-analysis", "The images on this page do not have alt tags containing your focus keyword." )
-		};
-	}
-
-	// Has alt-tag and keywords
-	if ( altProperties.withAltKeyword > 0 ) {
-		return {
-			score: 9,
-			text: i18n.dgettext( "js-text-analysis", "The images on this page contain alt tags with the focus keyword." )
-		};
-	}
-
-	return {};
-};
-
-/**
- * Execute the Assessment and return a result.
- * @param {Paper} paper The Paper object to assess.
- * @param {Researcher} researcher The Researcher object containing all available researches.
- * @param {object} i18n The locale object.
- * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
- */
-var imageAssessment = function( paper, researcher, i18n ) {
-	var assessmentResult = new AssessmentResult();
-
-	var imageCount = researcher.getResearch( "imageCount" );
-	var imageCountResult = calculateImageCountResult( imageCount, i18n );
-
-	if ( isEmpty( imageCountResult ) ) {
-		var altTagCount = researcher.getResearch( "altTagCount" );
-		var altTagCountResult = assessImages( altTagCount, i18n );
-
-		assessmentResult.setScore( altTagCountResult.score );
-		assessmentResult.setText( altTagCountResult.text );
-
-		return assessmentResult;
-	}
-
-	assessmentResult.setScore( imageCountResult.score );
-	assessmentResult.setText( imageCountResult.text );
-
-	return assessmentResult;
-};
-
-module.exports = {
-	getResult: imageAssessment,
-	isApplicable: function ( paper ) {
-		return paper.hasText();
-	}
-};
-
-},{"../values/AssessmentResult.js":257,"lodash/isEmpty":151}],187:[function(require,module,exports){
-var AssessmentResult = require( "../values/AssessmentResult.js" );
-
-/**
- * Assesses the keyphrase presence and length
- *
- * @param {Paper} paper The paper to use for the assessment.
- * @param {Researcher} researcher The researcher used for calling research.
- * @param {Jed} i18n The object used for translations
- * @returns {AssessmentResult} The result of this assessment
-*/
-function keyphraseAssessment( paper, researcher, i18n ) {
-	var keyphraseLength = researcher.getResearch( "keyphraseLength" );
-
-	var assessmentResult = new AssessmentResult();
-
-	if ( !paper.hasKeyword() ) {
-		assessmentResult.setScore( -999 );
-		assessmentResult.setText( i18n.dgettext( "js-text-analysis", "No focus keyword was set for this page. " +
-			"If you do not set a focus keyword, no score can be calculated." ) );
-	} else if ( keyphraseLength > 10 ) {
-		assessmentResult.setScore( 0 );
-		assessmentResult.setText( i18n.dgettext( "js-text-analysis", "Your keyphrase is over 10 words, a keyphrase should be shorter." ) );
-	}
-
-	return assessmentResult;
-}
-
-module.exports = { getResult: keyphraseAssessment };
-
-},{"../values/AssessmentResult.js":257}],188:[function(require,module,exports){
-var AssessmentResult = require( "../values/AssessmentResult.js" );
-var matchWords = require( "../stringProcessing/matchTextWithWord.js" );
-var inRange = require( "lodash/inRange" );
-
-/**
- * Returns the scores and text for keyword density
- * @param {string} keywordDensity The keyword density
- * @param {object} i18n The i18n object used for translations
- * @returns {{score: number, text: *}} the assessmentresult
- */
-var calculateKeywordDensityResult = function( keywordDensity, i18n ) {
-	if ( keywordDensity > 3.5 ) {
-		return {
-			score: -50,
-			text: i18n.dgettext( "js-text-analysis", "The keyword density is %1$s%%, which is way over the advised 2.5%% maximum;" +
-				" the focus keyword was found %2$d times." )
-		};
-	}
-	if ( inRange( keywordDensity, 2.5, 3.5 ) ) {
-		return {
-			score: -10,
-			text: i18n.dgettext( "js-text-analysis", "The keyword density is %1$s%%, which is over the advised 2.5%% maximum;" +
-				" the focus keyword was found %2$d times." )
-		};
-	}
-	if ( inRange( keywordDensity, 0.5, 2.5 ) ) {
-		return {
-			score: 9,
-			text: i18n.dgettext( "js-text-analysis", "The keyword density is %1$s%%, which is great; the focus keyword was found %2$d times." )
-		};
-	}
-	if ( inRange( keywordDensity, 0, 0.5 ) ) {
-		return {
-			score: 4,
-			text: i18n.dgettext( "js-text-analysis", "The keyword density is %1$s%%, which is a bit low; the focus keyword was found %2$d times." )
-		};
-	}
-};
-
-/**
- * Runs the getkeywordDensity module, based on this returns an assessment result with score.
- *
- * @param {object} paper The paper to use for the assessment.
- * @param {object} researcher The researcher used for calling research.
- * @param {object} i18n The object used for translations
- * @returns {object} the Assessmentresult
- */
-var getKeyworDensityAssessment = function( paper,  researcher, i18n ) {
-
-	var keywordDensity = researcher.getResearch( "getKeywordDensity" );
-	var keywordCount = matchWords( paper.getText(), paper.getKeyword() );
-	var keywordDensityResult = calculateKeywordDensityResult( keywordDensity, i18n );
-	var assessmentResult = new AssessmentResult();
-
-	var text = i18n.sprintf( keywordDensityResult.text, keywordDensity.toFixed( 1 ), keywordCount );
-
-	assessmentResult.setScore( keywordDensityResult.score );
-	assessmentResult.setText( text );
-
-	return assessmentResult;
-};
-
-module.exports = {
-	getResult: getKeyworDensityAssessment,
-	isApplicable: function( paper ) {
-		return paper.hasText() && paper.hasKeyword();
-	}
-};
-
-},{"../stringProcessing/matchTextWithWord.js":245,"../values/AssessmentResult.js":257,"lodash/inRange":144}],189:[function(require,module,exports){
-var AssessmentResult = require( "../values/AssessmentResult.js" );
-
-/**
- * Calculate the score based on whether or not there's a keyword in the url.
- * @param {number} keywordsResult The amount of keywords to be checked against.
- * @param {object} i18n The locale object.
- * @returns {object} The resulting score object.
- */
-var calculateUrlKeywordCountResult = function( keywordsResult, i18n ) {
-
-	if ( keywordsResult > 0 ) {
-		return {
-			score: 9,
-			text: i18n.dgettext( "js-text-analysis", "The focus keyword appears in the URL for this page." )
-		};
-	}
-
-	return {
-		score: 6,
-		text: i18n.dgettext( "js-text-analysis", "The focus keyword does not appear in the URL for this page. " +
-		                                         "If you decide to rename the URL be sure to check the old URL 301 redirects to the new one!" )
-	};
-};
-
-/**
- * Execute the Assessment and return a result.
- * @param {Paper} paper The Paper object to assess.
- * @param {Researcher} researcher The Researcher object containing all available researches.
- * @param {object} i18n The locale object.
- * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
- */
-var keywordInUrlAssessment = function( paper, researcher, i18n ) {
-	var keywords = researcher.getResearch( "keywordCountInUrl" );
-	var keywordsResult = calculateUrlKeywordCountResult( keywords, i18n );
-
-	var assessmentResult = new AssessmentResult();
-	assessmentResult.setScore( keywordsResult.score );
-	assessmentResult.setText( keywordsResult.text );
-
-	return assessmentResult;
-};
-
-module.exports = {
-	getResult: keywordInUrlAssessment,
-	isApplicable: function( paper ) {
-		return paper.hasKeyword() && paper.hasUrl();
-	}
-};
-
-},{"../values/AssessmentResult.js":257}],190:[function(require,module,exports){
-var AssessmentResult = require( "../values/AssessmentResult.js" );
-
-/**
- * Returns a score and text based on the keyword matches object.
- *
- * @param {object} subHeadings The object with all subHeadings matches.
- * @param {object} i18n The object used for translations.
- * @returns {object} resultObject with score and text.
- */
-var calculateKeywordMatchesResult = function( subHeadings, i18n ) {
-	if ( subHeadings.matches === 0 ) {
-		return {
-			score: 3,
-			text: i18n.dgettext( "js-text-analysis", "You have not used your focus keyword in any subheading (such as an H2) in your copy." )
-		};
-	}
-	if ( subHeadings.matches >= 1 ) {
-		return {
-			score: 9,
-			text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "The focus keyword appears in %2$d (out of %1$d) subheadings in the copy. " +
-				"While not a major ranking factor, this is beneficial." ), subHeadings.count, subHeadings.matches )
-		};
-	}
-	return {};
-};
-
-/**
- * Runs the match keyword in subheadings module, based on this returns an assessment result with score.
- *
- * @param {object} paper The paper to use for the assessment.
- * @param {object} researcher The researcher used for calling research.
- * @param {object} i18n The object used for translations.
- * @returns {object} the Assessmentresult
- */
-var matchKeywordinSubHeadingAssessment = function( paper, researcher, i18n ) {
-	var subHeadings = researcher.getResearch( "matchKeywordInSubheadings" );
-	var subHeadingsResult = calculateKeywordMatchesResult( subHeadings, i18n );
-	var assessmentResult = new AssessmentResult();
-
-	assessmentResult.setScore( subHeadingsResult.score );
-	assessmentResult.setText( subHeadingsResult.text );
-
-	return assessmentResult;
-};
-
-module.exports = {
-	getResult: matchKeywordinSubHeadingAssessment,
-	isApplicable: function( paper ) {
-		return paper.hasText() && paper.hasKeyword();
-	}
-};
-
-},{"../values/AssessmentResult.js":257}],191:[function(require,module,exports){
+},{"../values/AssessmentResult.js":260,"lodash/isEmpty":151}],194:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 
 /**
@@ -9384,7 +9541,7 @@ var calculateSubheadingMatchesResult = function( subHeadings, i18n ) {
  * @param {object} i18n The object used for translations.
  * @returns {object} the Assessmentresult
  */
-var matchKeywordinSubHeadingAssessment = function( paper, researcher, i18n ) {
+var textHasSubheadingsAssessment = function( paper, researcher, i18n ) {
 	var subHeadings = researcher.getResearch( "matchKeywordInSubheadings" );
 	var subHeadingsResult = calculateSubheadingMatchesResult( subHeadings, i18n );
 	var assessmentResult = new AssessmentResult();
@@ -9396,128 +9553,14 @@ var matchKeywordinSubHeadingAssessment = function( paper, researcher, i18n ) {
 };
 
 module.exports = {
-	getResult: matchKeywordinSubHeadingAssessment,
+	getResult: textHasSubheadingsAssessment,
 	isApplicable: function( paper ) {
 		return paper.hasText();
 	}
 };
 
 
-},{"../values/AssessmentResult.js":257}],192:[function(require,module,exports){
-var AssessmentResult = require( "../values/AssessmentResult.js" );
-
-/**
- * Returns the score and text for the description keyword match.
- * @param {number} keywordMatches The number of keyword matches in the description.
- * @param {object} i18n The i18n object used for translations.
- * @returns {Object} An object with values for the assessment result.
- */
-var calculateKeywordMatchesResult = function( keywordMatches, i18n ) {
-	if ( keywordMatches > 0 ) {
-		return {
-			score: 9,
-			text: i18n.dgettext( "js-text-analysis", "The meta description contains the focus keyword." )
-		};
-	}
-	if ( keywordMatches === 0 ) {
-		return {
-			score: 3,
-			text: i18n.dgettext( "js-text-analysis", "A meta description has been specified, but it does not contain the focus keyword." )
-		};
-	}
-	return {};
-};
-
-/**
- * Runs the metaDescription keyword module, based on this returns an assessment result with score.
- *
- * @param {object} paper The paper to use for the assessment.
- * @param {object} researcher The researcher used for calling research.
- * @param {object} i18n The object used for translations
- * @returns {object} the Assessmentresult
- */
-var getMetadescriptionKeywordAssessment = function( paper,  researcher, i18n ) {
-	var keywordMatches = researcher.getResearch( "metaDescriptionKeyword" );
-	var descriptionLengthResult = calculateKeywordMatchesResult( keywordMatches, i18n );
-	var assessmentResult = new AssessmentResult();
-
-	assessmentResult.setScore( descriptionLengthResult.score );
-	assessmentResult.setText( descriptionLengthResult.text );
-
-	return assessmentResult;
-};
-
-module.exports = {
-	getResult: getMetadescriptionKeywordAssessment,
-	isApplicable: function ( paper ) {
-		return paper.hasKeyword();
-	}
-};
-
-},{"../values/AssessmentResult.js":257}],193:[function(require,module,exports){
-var AssessmentResult = require( "../values/AssessmentResult.js" );
-
-/**
- * Returns the score and text for the descriptionLength
- * @param {number} descriptionLength The length of the metadescription.
- * @param {object} i18n The i18n object used for translations.
- * @returns {Object} An object with values for the assessment result.
- */
-var calculateDescriptionLengthResult = function( descriptionLength, i18n ) {
-	var recommendedValue = 120;
-	var maximumValue = 156;
-	if ( descriptionLength === 0 ) {
-		return {
-			score: 1,
-			text: i18n.dgettext( "js-text-analysis", "No meta description has been specified, " +
-				"search engines will display copy from the page instead." )
-		};
-	}
-	if ( descriptionLength <= recommendedValue ) {
-		return {
-			score: 6,
-			text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "The meta description is under %1$d characters, " +
-				"however up to %2$d characters are available." ), recommendedValue, maximumValue )
-		};
-	}
-	if ( descriptionLength > maximumValue ) {
-		return {
-			score: 6,
-			text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "The specified meta description is over %1$d characters. " +
-				"Reducing it will ensure the entire description is visible." ), maximumValue )
-		};
-	}
-	if ( descriptionLength >= recommendedValue && descriptionLength <= maximumValue ) {
-		return {
-			score: 9,
-			text: i18n.dgettext( "js-text-analysis", "In the specified meta description, consider: " +
-				"How does it compare to the competition? Could it be made more appealing?" )
-		};
-	}
-};
-
-/**
- * Runs the metaDescriptionLength module, based on this returns an assessment result with score.
- *
- * @param {object} paper The paper to use for the assessment.
- * @param {object} researcher The researcher used for calling research.
- * @param {object} i18n The object used for translations
- * @returns {object} the Assessmentresult
- */
-var getMetadescriptionLengthAssessment = function( paper,  researcher, i18n ) {
-	var descriptionLength = researcher.getResearch( "metaDescriptionLength" );
-	var descriptionLengthResult = calculateDescriptionLengthResult( descriptionLength, i18n );
-	var assessmentResult = new AssessmentResult();
-
-	assessmentResult.setScore( descriptionLengthResult.score );
-	assessmentResult.setText( descriptionLengthResult.text );
-
-	return assessmentResult;
-};
-
-module.exports = { getResult: getMetadescriptionLengthAssessment };
-
-},{"../values/AssessmentResult.js":257}],194:[function(require,module,exports){
+},{"../values/AssessmentResult.js":260}],195:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 
 /**
@@ -9527,7 +9570,7 @@ var AssessmentResult = require( "../values/AssessmentResult.js" );
  * @param {object} i18n The locale object.
  * @returns {AssessmentResult} The result of the assessment with text and score
  */
-var pageTitleKeywordAssessment = function( paper, researcher, i18n ) {
+var titleHasKeywordAssessment = function( paper, researcher, i18n ) {
 	var keywordMatches = researcher.getResearch( "findKeywordInPageTitle" );
 	var score, text;
 
@@ -9556,13 +9599,13 @@ var pageTitleKeywordAssessment = function( paper, researcher, i18n ) {
 };
 
 module.exports = {
-	getResult: pageTitleKeywordAssessment,
+	getResult: titleHasKeywordAssessment,
 	isApplicable: function ( paper ) {
 		return paper.hasKeyword();
 	}
 };
 
-},{"../values/AssessmentResult.js":257}],195:[function(require,module,exports){
+},{"../values/AssessmentResult.js":260}],196:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 var inRange = require( "lodash/inRange" );
 
@@ -9636,7 +9679,7 @@ var calculatePageTitleLengthResult = function( pageTitleLength, i18n ) {
  * @param {object} i18n The object used for translations
  * @returns {object} the Assessmentresult
  */
-var pageTitleLengthAssessment = function( paper,  researcher, i18n ) {
+var titleLengthAssessment = function( paper, researcher, i18n ) {
 	var pageTitleLength = researcher.getResearch( "pageTitleLength" );
 	var pageTitleLengthResult = calculatePageTitleLengthResult( pageTitleLength, i18n );
 	var assessmentResult = new AssessmentResult();
@@ -9647,35 +9690,31 @@ var pageTitleLengthAssessment = function( paper,  researcher, i18n ) {
 	return assessmentResult;
 };
 
-module.exports = { getResult: pageTitleLengthAssessment };
+module.exports = { getResult: titleLengthAssessment };
 
-},{"../values/AssessmentResult.js":257,"lodash/inRange":144}],196:[function(require,module,exports){
+},{"../values/AssessmentResult.js":260,"lodash/inRange":144}],197:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 
 /**
- * Calculate the score based on the amount of stop words in the keyword.
- * @param {number} stopWordCount The amount of stop words to be checked against.
+ * Calculate the score based on whether or not there's a keyword in the url.
+ * @param {number} keywordsResult The amount of keywords to be checked against.
  * @param {object} i18n The locale object.
  * @returns {object} The resulting score object.
  */
-var calculateStopWordsCountResult = function( stopWordCount, i18n ) {
+var calculateUrlKeywordCountResult = function( keywordsResult, i18n ) {
 
-	if ( stopWordCount > 0 ) {
+	if ( keywordsResult > 0 ) {
 		return {
-			score: 0,
-			/* translators: %1$s opens a link to a Yoast article about stop words, %2$s closes the link */
-			text: i18n.dngettext(
-				"js-text-analysis",
-				"Your focus keyword contains a stop word. This may or may not be wise depending on the circumstances. " +
-				"Read %1$sthis article%2$s for more info.",
-				"Your focus keyword contains %3$d stop words. This may or may not be wise depending on the circumstances. " +
-				"Read %1$sthis article%2$s for more info.",
-				stopWordCount
-			)
+			score: 9,
+			text: i18n.dgettext( "js-text-analysis", "The focus keyword appears in the URL for this page." )
 		};
 	}
 
-	return {};
+	return {
+		score: 6,
+		text: i18n.dgettext( "js-text-analysis", "The focus keyword does not appear in the URL for this page. " +
+		                                         "If you decide to rename the URL be sure to check the old URL 301 redirects to the new one!" )
+	};
 };
 
 /**
@@ -9685,30 +9724,55 @@ var calculateStopWordsCountResult = function( stopWordCount, i18n ) {
  * @param {object} i18n The locale object.
  * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
  */
-var stopWordsInKeywordAssessment = function( paper, researcher, i18n ) {
-	var stopWords = researcher.getResearch( "stopWordsInKeyword" );
-	var stopWordsResult = calculateStopWordsCountResult( stopWords.length, i18n );
+var urlHasKeywordAssessment = function( paper, researcher, i18n ) {
+	var keywords = researcher.getResearch( "keywordCountInUrl" );
+	var keywordsResult = calculateUrlKeywordCountResult( keywords, i18n );
 
 	var assessmentResult = new AssessmentResult();
-	assessmentResult.setScore( stopWordsResult.score );
-	assessmentResult.setText( i18n.sprintf(
-		stopWordsResult.text,
-		"<a href='https://yoast.com/handling-stopwords/' target='new'>",
-		"</a>",
-		stopWords.length
-	) );
+	assessmentResult.setScore( keywordsResult.score );
+	assessmentResult.setText( keywordsResult.text );
 
 	return assessmentResult;
 };
 
 module.exports = {
-	getResult: stopWordsInKeywordAssessment,
-	isApplicable: function ( paper ) {
-		return paper.hasKeyword();
+	getResult: urlHasKeywordAssessment,
+	isApplicable: function( paper ) {
+		return paper.hasKeyword() && paper.hasUrl();
 	}
 };
 
-},{"../values/AssessmentResult.js":257}],197:[function(require,module,exports){
+},{"../values/AssessmentResult.js":260}],198:[function(require,module,exports){
+var AssessmentResult = require( "../values/AssessmentResult.js" );
+
+/**
+ * The assessment that checks the url length
+ *
+ * @param {Paper} paper The paper to run this assessment on.
+ * @param {object} researcher The researcher used for the assessment.
+ * @param {object} i18n The i18n-object used for parsing translations.
+ * @returns {object} an AssessmentResult with the score and the formatted text.
+ */
+var urlLengthAssessment = function( paper, researcher, i18n ) {
+	var urlIsTooLong = researcher.getResearch( "urlLength" );
+	var assessmentResult = new AssessmentResult();
+	if ( urlIsTooLong ) {
+		var score = 5;
+		var text = i18n.dgettext( "js-text-analysis", "The slug for this page is a bit long, consider shortening it." );
+		assessmentResult.setScore( score );
+		assessmentResult.setText( text );
+	}
+	return assessmentResult;
+};
+
+module.exports = {
+	getResult: urlLengthAssessment,
+	isApplicable: function ( paper ) {
+		return paper.hasUrl();
+	}
+};
+
+},{"../values/AssessmentResult.js":260}],199:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 
 /**
@@ -9742,7 +9806,7 @@ var calculateUrlStopWordsCountResult = function( stopWordCount, i18n ) {
  * @param {object} i18n The locale object.
  * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
  */
-var stopWordsInUrlAssessment = function( paper, researcher, i18n ) {
+var urlHasStopWordsAssessment = function( paper, researcher, i18n ) {
 	var stopWords = researcher.getResearch( "stopWordsInUrl" );
 	var stopWordsResult = calculateUrlStopWordsCountResult( stopWords.length, i18n );
 
@@ -9758,43 +9822,10 @@ var stopWordsInUrlAssessment = function( paper, researcher, i18n ) {
 	return assessmentResult;
 };
 
-module.exports = { getResult: stopWordsInUrlAssessment };
+module.exports = { getResult: urlHasStopWordsAssessment };
 
-},{"../values/AssessmentResult.js":257}],198:[function(require,module,exports){
-var AssessmentResult = require( "../values/AssessmentResult.js" );
-
-/**
- * The assessment that checks the url length
- *
- * @param {Paper} paper The paper to run this assessment on.
- * @param {object} researcher The researcher used for the assessment.
- * @param {object} i18n The i18n-object used for parsing translations.
- * @returns {object} an AssessmentResult with the score and the formatted text.
- */
-var urlLengthAssessment = function( paper, researcher, i18n ) {
-	var urlIsTooLong = researcher.getResearch( "urlLength" );
-	var assessmentResult = new AssessmentResult();
-	if ( urlIsTooLong ) {
-		var score = 5;
-		var text = i18n.dgettext( "js-text-analysis", "The slug for this page is a bit long, consider shortening it." );
-		assessmentResult.setScore( score );
-		assessmentResult.setText( text );
-	}
-	return assessmentResult;
-};
-
-module.exports = {
-	getResult: urlLengthAssessment,
-	isApplicable: function ( paper ) {
-		return paper.hasUrl();
-	}
-};
-
-},{"../values/AssessmentResult.js":257}],199:[function(require,module,exports){
+},{"../values/AssessmentResult.js":260}],200:[function(require,module,exports){
 var Researcher = require( "./researcher.js" );
-var Paper = require( "./values/Paper.js" );
-
-var InvalidTypeError = require( "./errors/invalidType" );
 
 var MissingArgument = require( "./errors/missingArgument" );
 var isUndefined = require( "lodash/isUndefined" );
@@ -9804,23 +9835,24 @@ var ScoreRating = 9;
 
 // Assessments
 var assessments = {};
-assessments.wordCount = require( "./assessments/countWords.js" );
-assessments.urlLength = require( "./assessments/urlIsTooLong.js" );
-assessments.fleschReading = require( "./assessments/calculateFleschReading.js" );
-assessments.linkCount = require( "./assessments/getLinkStatistics.js" );
-assessments.pageTitleKeyword = require( "./assessments/pageTitleKeyword.js" );
-assessments.subHeadings = require( "./assessments/matchKeywordInSubheading.js" );
-assessments.matchSubheadings = require( "./assessments/matchSubheadings.js" );
-assessments.keywordDensity = require( "./assessments/keywordDensity.js" );
-assessments.stopwordKeywordCount = require( "./assessments/stopWordsInKeyword.js" );
-assessments.urlStopwords = require( "./assessments/stopWordsInUrl.js" );
-assessments.metaDescriptionLength = require( "./assessments/metaDescriptionLength.js" );
-assessments.keyphraseSizeCheck = require( "./assessments/keyphraseLength.js" );
-assessments.metaDescriptionKeyword = require ( "./assessments/metaDescriptionKeyword.js" );
-assessments.imageCount = require( "./assessments/imageCount.js" );
-assessments.urlKeyword = require( "./assessments/keywordInUrl.js" );
-assessments.firstParagraph = require( "./assessments/firstParagraph.js" );
-assessments.pageTitleLength = require( "./assessments/pageTitleLength.js" );
+assessments.fleschReadingEase = require( "./assessments/fleschReadingEaseAssessment.js" );
+assessments.introductionKeyword = require( "./assessments/introductionKeywordAssessment.js" );
+assessments.keyphraseLength = require( "./assessments/keyphraseLengthAssessment.js" );
+assessments.keywordDensity = require( "./assessments/keywordDensityAssessment.js" );
+assessments.keywordStopWords = require( "./assessments/keywordStopWordsAssessment.js" );
+assessments.metaDescriptionKeyword = require ( "./assessments/metaDescriptionKeywordAssessment.js" );
+assessments.metaDescriptionLength = require( "./assessments/metaDescriptionLengthAssessment.js" );
+assessments.subheadingsKeyword = require( "./assessments/subheadingsKeywordAssessment.js" );
+assessments.textCompetingLinks = require( "./assessments/textCompetingLinksAssessment.js" );
+assessments.textImages = require( "./assessments/textImagesAssessment.js" );
+assessments.textLength = require( "./assessments/textLengthAssessment.js" );
+assessments.textLinks = require( "./assessments/textLinksAssessment.js" );
+assessments.textSubheadings = require( "./assessments/textSubheadingsAssessment.js" );
+assessments.titleKeyword = require( "./assessments/titleKeywordAssessment.js" );
+assessments.titleLength = require( "./assessments/titleLengthAssessment.js" );
+assessments.urlKeyword = require( "./assessments/urlKeywordAssessment.js" );
+assessments.urlLength = require( "./assessments/urlLengthAssessment.js" );
+assessments.urlStopWords = require( "./assessments/urlStopWordsAssessment.js" );
 
 /**
  * Creates the Assessor
@@ -9830,17 +9862,6 @@ assessments.pageTitleLength = require( "./assessments/pageTitleLength.js" );
  */
 var Assessor = function( i18n ) {
 	this.setI18n( i18n );
-};
-
-/**
- * Checks if the argument is a valid paper.
- * @param {Paper} paper The paper to be used for the assessments
- * @throws {InvalidTypeError} Parameter needs to be an instance of the Paper object.
- */
-Assessor.prototype.verifyPaper = function( paper ) {
-	if ( !( paper instanceof Paper ) ) {
-		throw new InvalidTypeError( "The assessor requires an Paper object." );
-	}
 };
 
 /**
@@ -9883,8 +9904,6 @@ Assessor.prototype.isApplicable = function( assessment, paper, researcher ) {
  * @param {Paper} paper The paper to run assessments on.
  */
 Assessor.prototype.assess = function( paper ) {
-	this.verifyPaper( paper );
-
 	var researcher = new Researcher( paper );
 	var assessments = this.getAvailableAssessments();
 	this.results = [];
@@ -9961,7 +9980,7 @@ Assessor.prototype.addAssessment = function( name, assessment ) {
 
 module.exports = Assessor;
 
-},{"./assessments/calculateFleschReading.js":182,"./assessments/countWords.js":183,"./assessments/firstParagraph.js":184,"./assessments/getLinkStatistics.js":185,"./assessments/imageCount.js":186,"./assessments/keyphraseLength.js":187,"./assessments/keywordDensity.js":188,"./assessments/keywordInUrl.js":189,"./assessments/matchKeywordInSubheading.js":190,"./assessments/matchSubheadings.js":191,"./assessments/metaDescriptionKeyword.js":192,"./assessments/metaDescriptionLength.js":193,"./assessments/pageTitleKeyword.js":194,"./assessments/pageTitleLength.js":195,"./assessments/stopWordsInKeyword.js":196,"./assessments/stopWordsInUrl.js":197,"./assessments/urlIsTooLong.js":198,"./errors/invalidType":207,"./errors/missingArgument":208,"./researcher.js":212,"./values/Paper.js":258,"lodash/forEach":139,"lodash/isUndefined":162}],200:[function(require,module,exports){
+},{"./assessments/fleschReadingEaseAssessment.js":182,"./assessments/introductionKeywordAssessment.js":183,"./assessments/keyphraseLengthAssessment.js":184,"./assessments/keywordDensityAssessment.js":185,"./assessments/keywordStopWordsAssessment.js":186,"./assessments/metaDescriptionKeywordAssessment.js":187,"./assessments/metaDescriptionLengthAssessment.js":188,"./assessments/subheadingsKeywordAssessment.js":189,"./assessments/textCompetingLinksAssessment.js":190,"./assessments/textImagesAssessment.js":191,"./assessments/textLengthAssessment.js":192,"./assessments/textLinksAssessment.js":193,"./assessments/textSubheadingsAssessment.js":194,"./assessments/titleKeywordAssessment.js":195,"./assessments/titleLengthAssessment.js":196,"./assessments/urlKeywordAssessment.js":197,"./assessments/urlLengthAssessment.js":198,"./assessments/urlStopWordsAssessment.js":199,"./errors/missingArgument":209,"./researcher.js":213,"lodash/forEach":139,"lodash/isUndefined":162}],201:[function(require,module,exports){
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 var isUndefined = require( "lodash/isUndefined" );
 
@@ -9972,16 +9991,11 @@ var MissingArgument = require( "../../js/errors/missingArgument" );
  * @param {object} args.usedKeywords An object with keywords and ids where they are used.
  * @param {string} args.searchUrl The url used to link to a search page when multiple usages of the keyword are found.
  * @param {string} args.postUrl The url used to link to a post when 1 usage of the keyword is found.
- * @param {object} i18n The i18n object used for translations
  * @constructor
  */
-var PreviouslyUsedKeyword = function( app, args, i18n ) {
+var PreviouslyUsedKeyword = function( app, args ) {
 	if ( isUndefined( app ) ) {
 		throw new MissingArgument( "The previously keyword plugin requires the YoastSEO app" );
-	}
-
-	if ( isUndefined( i18n ) ) {
-		throw new MissingArgument( "The previously keyword plugin requires an i18n object." );
 	}
 
 	if ( isUndefined( args ) ) {
@@ -9996,7 +10010,6 @@ var PreviouslyUsedKeyword = function( app, args, i18n ) {
 	this.usedKeywords = args.usedKeywords;
 	this.searchUrl = args.searchUrl;
 	this.postUrl = args.postUrl;
-	this.i18n = i18n;
 };
 
 /**
@@ -10016,35 +10029,38 @@ PreviouslyUsedKeyword.prototype.updateKeywordUsage = function( usedKeywords ) {
 
 /**
  * Scores the previously used keyword assessment based on the count.
+ *
  * @param {object} previouslyUsedKeywords The result of the previously used keywords research
+ * @param {Paper} paper The paper object to research.
+ * @param {Jed} i18n The i18n object.
  * @returns {object} the scoreobject with text and score.
  */
-PreviouslyUsedKeyword.prototype.scoreAssessment = function( previouslyUsedKeywords ) {
+PreviouslyUsedKeyword.prototype.scoreAssessment = function( previouslyUsedKeywords, paper, i18n ) {
 	var count = previouslyUsedKeywords.count;
 	var id = previouslyUsedKeywords.id;
 	if( count === 0 ) {
 		return {
-			text: this.i18n.dgettext( "js-text-analysis", "You've never used this focus keyword before, very good." ),
+			text: i18n.dgettext( "js-text-analysis", "You've never used this focus keyword before, very good." ),
 			score: 9
 		};
 	}
 	if( count === 1 ) {
-		var url = "<a href='" + this.postUrl.replace( "{id}", id ) + "'>";
+		var url = "<a href='" + this.postUrl.replace( "{id}", id ) + "' target='_blank'>";
 		return {
 			/* translators: %1$s and %2$s expand to an admin link where the focus keyword is already used */
-			text:  this.i18n.sprintf( this.i18n.dgettext( "js-text-analysis", "You've used this focus keyword %1$sonce before%2$s, " +
+			text:  i18n.sprintf( i18n.dgettext( "js-text-analysis", "You've used this focus keyword %1$sonce before%2$s, " +
 				"be sure to make very clear which URL on your site is the most important for this keyword." ), url, "</a>" ),
 			score: 6
 		};
 	}
 	if ( count > 1 ) {
-		url = "<a href='" + this.searchUrl.replace( "{keyword}", this.app.paper.getKeyword() )+ "'>";
+		url = "<a href='" + this.searchUrl.replace( "{keyword}", paper.getKeyword() )+ "' target='_blank'>";
 		return {
 			/* translators: %1$s and $3$s expand to the admin search page for the focus keyword, %2$d expands to the number of times this focus
 			 keyword has been used before, %4$s and %5$s expand to a link to an article on yoast.com about cornerstone content */
-			text:  this.i18n.sprintf( this.i18n.dgettext( "js-text-analysis", "You've used this focus keyword %1$s%2$d times before%3$s, " +
+			text:  i18n.sprintf( i18n.dgettext( "js-text-analysis", "You've used this focus keyword %1$s%2$d times before%3$s, " +
 				"it's probably a good idea to read %4$sthis post on cornerstone content%5$s and improve your keyword strategy." ),
-				url, count, "</a>", "<a href='https://yoast.com/cornerstone-content-rank/' target='new'>", "</a>" ),
+				url, count, "</a>", "<a href='https://yoast.com/cornerstone-content-rank/' target='_blank'>", "</a>" ),
 			score: 1
 		};
 	}
@@ -10052,10 +10068,12 @@ PreviouslyUsedKeyword.prototype.scoreAssessment = function( previouslyUsedKeywor
 
 /**
  * Researches the previously used keywords, based on the used keywords and the keyword in the paper.
+ *
+ * @param {Paper} paper The paper object to research.
  * @returns {{id: number, count: number}} The object with the count and the id of the previously used keyword
  */
-PreviouslyUsedKeyword.prototype.researchPreviouslyUsedKeywords = function() {
-	var keyword = this.app.paper.getKeyword();
+PreviouslyUsedKeyword.prototype.researchPreviouslyUsedKeywords = function( paper ) {
+	var keyword = paper.getKeyword();
 	var count = 0;
 	var id = 0;
 
@@ -10072,11 +10090,15 @@ PreviouslyUsedKeyword.prototype.researchPreviouslyUsedKeywords = function() {
 
 /**
  * The assessment for the previously used keywords.
+ *
+ * @param {Paper} paper The Paper object to assess.
+ * @param {Researcher} researcher The Researcher object containing all available researches.
+ * @param {object} i18n The locale object.
  * @returns {AssessmentResult} The assessment result of the assessment
  */
-PreviouslyUsedKeyword.prototype.assess = function() {
-	var previouslyUsedKeywords = this.researchPreviouslyUsedKeywords();
-	var previouslyUsedKeywordsResult = this.scoreAssessment( previouslyUsedKeywords );
+PreviouslyUsedKeyword.prototype.assess = function( paper, researcher, i18n ) {
+	var previouslyUsedKeywords = this.researchPreviouslyUsedKeywords( paper );
+	var previouslyUsedKeywordsResult = this.scoreAssessment( previouslyUsedKeywords, paper, i18n );
 
 	var assessmentResult =  new AssessmentResult();
 	assessmentResult.setScore( previouslyUsedKeywordsResult.score );
@@ -10087,7 +10109,7 @@ PreviouslyUsedKeyword.prototype.assess = function() {
 
 module.exports = PreviouslyUsedKeyword;
 
-},{"../../js/errors/missingArgument":208,"../values/AssessmentResult.js":257,"lodash/isUndefined":162}],201:[function(require,module,exports){
+},{"../../js/errors/missingArgument":209,"../values/AssessmentResult.js":260,"lodash/isUndefined":162}],202:[function(require,module,exports){
 var analyzerConfig = {
 	queue: [ "wordCount", "keywordDensity", "subHeadings", "stopwords", "fleschReading", "linkCount", "imageCount", "urlKeyword", "urlLength", "metaDescriptionLength", "metaDescriptionKeyword", "pageTitleKeyword", "pageTitleLength", "firstParagraph", "urlStopwords", "keywordDoubles", "keyphraseSizeCheck" ],
 	stopWords: [ "a", "about", "above", "after", "again", "against", "all", "am", "an", "and", "any", "are", "as", "at", "be", "because", "been", "before", "being", "below", "between", "both", "but", "by", "could", "did", "do", "does", "doing", "down", "during", "each", "few", "for", "from", "further", "had", "has", "have", "having", "he", "he'd", "he'll", "he's", "her", "here", "here's", "hers", "herself", "him", "himself", "his", "how", "how's", "i", "i'd", "i'll", "i'm", "i've", "if", "in", "into", "is", "it", "it's", "its", "itself", "let's", "me", "more", "most", "my", "myself", "nor", "of", "on", "once", "only", "or", "other", "ought", "our", "ours", "ourselves", "out", "over", "own", "same", "she", "she'd", "she'll", "she's", "should", "so", "some", "such", "than", "that", "that's", "the", "their", "theirs", "them", "themselves", "then", "there", "there's", "these", "they", "they'd", "they'll", "they're", "they've", "this", "those", "through", "to", "too", "under", "until", "up", "very", "was", "we", "we'd", "we'll", "we're", "we've", "were", "what", "what's", "when", "when's", "where", "where's", "which", "while", "who", "who's", "whom", "why", "why's", "with", "would", "you", "you'd", "you'll", "you're", "you've", "your", "yours", "yourself", "yourselves" ],
@@ -10099,7 +10121,7 @@ var analyzerConfig = {
 
 module.exports = analyzerConfig;
 
-},{}],202:[function(require,module,exports){
+},{}],203:[function(require,module,exports){
 /** @module config/diacritics */
 
 /**
@@ -10207,7 +10229,7 @@ module.exports = function(){
 	];
 };
 
-},{}],203:[function(require,module,exports){
+},{}],204:[function(require,module,exports){
 /**
  * Returns the configuration used for score ratings and the AssessorPresenter.
  * @param {Jed} i18n The translator object.
@@ -10234,7 +10256,7 @@ module.exports = function ( i18n ) {
 	};
 };
 
-},{}],204:[function(require,module,exports){
+},{}],205:[function(require,module,exports){
 /** @module config/removalWords */
 
 /**
@@ -10246,7 +10268,7 @@ module.exports = function(){
 	return [ " a", " in", " an", " on", " for", " the", " and" ];
 };
 
-},{}],205:[function(require,module,exports){
+},{}],206:[function(require,module,exports){
 /** @module config/stopwords */
 
 /**
@@ -10258,7 +10280,7 @@ module.exports = function(){
 	return [ "a", "about", "above", "after", "again", "against", "all", "am", "an", "and", "any", "are", "as", "at", "be", "because", "been", "before", "being", "below", "between", "both", "but", "by", "could", "did", "do", "does", "doing", "down", "during", "each", "few", "for", "from", "further", "had", "has", "have", "having", "he", "he'd", "he'll", "he's", "her", "here", "here's", "hers", "herself", "him", "himself", "his", "how", "how's", "i", "i'd", "i'll", "i'm", "i've", "if", "in", "into", "is", "it", "it's", "its", "itself", "let's", "me", "more", "most", "my", "myself", "nor", "of", "on", "once", "only", "or", "other", "ought", "our", "ours", "ourselves", "out", "over", "own", "same", "she", "she'd", "she'll", "she's", "should", "so", "some", "such", "than", "that", "that's", "the", "their", "theirs", "them", "themselves", "then", "there", "there's", "these", "they", "they'd", "they'll", "they're", "they've", "this", "those", "through", "to", "too", "under", "until", "up", "very", "was", "we", "we'd", "we'll", "we're", "we've", "were", "what", "what's", "when", "when's", "where", "where's", "which", "while", "who", "who's", "whom", "why", "why's", "with", "would", "you", "you'd", "you'll", "you're", "you've", "your", "yours", "yourself", "yourselves" ];
 };
 
-},{}],206:[function(require,module,exports){
+},{}],207:[function(require,module,exports){
 /** @module config/syllables */
 
 /**
@@ -10280,7 +10302,7 @@ module.exports = function(){
 	};
 };
 
-},{}],207:[function(require,module,exports){
+},{}],208:[function(require,module,exports){
 /**
  * Throws an invalid type error
  * @param {string} message The message to show when the error is thrown
@@ -10294,7 +10316,7 @@ module.exports = function InvalidTypeError( message ) {
 
 require( "util" ).inherits( module.exports, Error );
 
-},{"util":179}],208:[function(require,module,exports){
+},{"util":179}],209:[function(require,module,exports){
 module.exports = function MissingArgumentError( message ) {
 	Error.captureStackTrace( this, this.constructor );
 	this.name = this.constructor.name;
@@ -10303,7 +10325,7 @@ module.exports = function MissingArgumentError( message ) {
 
 require( "util" ).inherits( module.exports, Error );
 
-},{"util":179}],209:[function(require,module,exports){
+},{"util":179}],210:[function(require,module,exports){
 /**
  * Interpreters a score and gives it a particular rating.
  *
@@ -10333,7 +10355,7 @@ var ScoreToRating = function( score ) {
 
 module.exports = ScoreToRating;
 
-},{}],210:[function(require,module,exports){
+},{}],211:[function(require,module,exports){
 /* global console: true */
 /* global setTimeout: true */
 var isUndefined = require( "lodash/isUndefined" );
@@ -10719,7 +10741,7 @@ Pluggable.prototype._validateUniqueness = function( pluginName ) {
 
 module.exports = Pluggable;
 
-},{"./errors/invalidType":207,"lodash/forEach":139,"lodash/isObject":156,"lodash/isString":159,"lodash/isUndefined":162,"lodash/reduce":170}],211:[function(require,module,exports){
+},{"./errors/invalidType":208,"lodash/forEach":139,"lodash/isObject":156,"lodash/isString":159,"lodash/isUndefined":162,"lodash/reduce":170}],212:[function(require,module,exports){
 /* jshint browser: true */
 
 var forEach = require( "lodash/forEach" );
@@ -10933,8 +10955,7 @@ AssessorPresenter.prototype.renderOverallRating = function() {
 
 module.exports = AssessorPresenter;
 
-},{"../config/presenter.js":203,"../interpreters/scoreToRating.js":209,"../templates.js":256,"lodash/difference":137,"lodash/forEach":139,"lodash/isNumber":155,"lodash/isObject":156,"lodash/isUndefined":162}],212:[function(require,module,exports){
-var Paper = require( "./values/Paper.js" );
+},{"../config/presenter.js":204,"../interpreters/scoreToRating.js":210,"../templates.js":259,"lodash/difference":137,"lodash/forEach":139,"lodash/isNumber":155,"lodash/isObject":156,"lodash/isUndefined":162}],213:[function(require,module,exports){
 var merge = require( "lodash/merge" );
 var InvalidTypeError = require( "./errors/invalidType" );
 var MissingArgument = require( "./errors/missingArgument" );
@@ -10944,6 +10965,7 @@ var isEmpty = require( "lodash/isEmpty" );
 // assessments
 var wordCountInText = require( "./researches/wordCountInText.js" );
 var getLinkStatistics = require( "./researches/getLinkStatistics.js" );
+var linkCount = require( "./researches/countLinks.js" );
 var urlLength = require( "./researches/urlIsTooLong.js" );
 var findKeywordInPageTitle = require( "./researches/findKeywordInPageTitle.js" );
 var matchKeywordInSubheadings = require( "./researches/matchKeywordInSubheadings.js" );
@@ -10975,6 +10997,7 @@ var Researcher = function( paper ) {
 		"findKeywordInPageTitle": findKeywordInPageTitle,
 		"calculateFleschReading": calculateFleschReading,
 		"getLinkStatistics": getLinkStatistics,
+		"linkCount": linkCount,
 		"imageCount": imageCount,
 		"altTagCount": altTagCount,
 		"matchKeywordInSubheadings": matchKeywordInSubheadings,
@@ -10999,10 +11022,6 @@ var Researcher = function( paper ) {
  * @returns {void}
  */
 Researcher.prototype.setPaper = function( paper ) {
-	if ( !( paper instanceof Paper ) ) {
-		throw new InvalidTypeError( "The researcher requires an Paper object." );
-	}
-
 	this.paper = paper;
 };
 
@@ -11066,7 +11085,7 @@ Researcher.prototype.getResearch = function( name ) {
 
 module.exports = Researcher;
 
-},{"./errors/invalidType":207,"./errors/missingArgument":208,"./researches/calculateFleschReading.js":213,"./researches/findKeywordInFirstParagraph.js":214,"./researches/findKeywordInPageTitle.js":215,"./researches/getKeywordDensity.js":216,"./researches/getLinkStatistics.js":217,"./researches/imageAltTags.js":218,"./researches/imageCountInText.js":219,"./researches/keyphraseLength":220,"./researches/keywordCountInUrl":221,"./researches/matchKeywordInSubheadings.js":222,"./researches/metaDescriptionKeyword.js":223,"./researches/metaDescriptionLength.js":224,"./researches/pageTitleLength.js":225,"./researches/stopWordsInKeyword":226,"./researches/stopWordsInUrl":228,"./researches/urlIsTooLong.js":229,"./researches/wordCountInText.js":230,"./values/Paper.js":258,"lodash/isEmpty":151,"lodash/isUndefined":162,"lodash/merge":166}],213:[function(require,module,exports){
+},{"./errors/invalidType":208,"./errors/missingArgument":209,"./researches/calculateFleschReading.js":214,"./researches/countLinks.js":215,"./researches/findKeywordInFirstParagraph.js":216,"./researches/findKeywordInPageTitle.js":217,"./researches/getKeywordDensity.js":218,"./researches/getLinkStatistics.js":219,"./researches/imageAltTags.js":221,"./researches/imageCountInText.js":222,"./researches/keyphraseLength":223,"./researches/keywordCountInUrl":224,"./researches/matchKeywordInSubheadings.js":225,"./researches/metaDescriptionKeyword.js":226,"./researches/metaDescriptionLength.js":227,"./researches/pageTitleLength.js":228,"./researches/stopWordsInKeyword":229,"./researches/stopWordsInUrl":231,"./researches/urlIsTooLong.js":232,"./researches/wordCountInText.js":233,"lodash/isEmpty":151,"lodash/isUndefined":162,"lodash/merge":166}],214:[function(require,module,exports){
 /** @module analyses/calculateFleschReading */
 
 var cleanText = require( "../stringProcessing/cleanText.js" );
@@ -11102,7 +11121,25 @@ module.exports = function( paper ) {
 	return score.toFixed( 1 );
 };
 
-},{"../stringProcessing/cleanText.js":234,"../stringProcessing/countSentences.js":235,"../stringProcessing/countSyllables.js":236,"../stringProcessing/countWords.js":237,"../stringProcessing/stripHTMLTags.js":250,"../stringProcessing/stripNumbers.js":252}],214:[function(require,module,exports){
+},{"../stringProcessing/cleanText.js":237,"../stringProcessing/countSentences.js":238,"../stringProcessing/countSyllables.js":239,"../stringProcessing/countWords.js":240,"../stringProcessing/stripHTMLTags.js":253,"../stringProcessing/stripNumbers.js":255}],215:[function(require,module,exports){
+/** @module analyses/getLinkStatistics */
+
+var getLinks = require( "./getLinks" );
+
+/**
+ * Checks a text for anchors and returns the number found.
+ *
+ * @param {object} paper The paper object containing text, keyword and url.
+ * @returns {number} The number of links found in the text.
+ */
+module.exports = function( paper ) {
+	var text = paper.getText();
+	var anchors = getLinks( text );
+
+	return anchors.length;
+};
+
+},{"./getLinks":220}],216:[function(require,module,exports){
 /** @module analyses/findKeywordInFirstParagraph */
 
 var regexMatch = require( "../stringProcessing/matchStringWithRegex.js" );
@@ -11139,7 +11176,7 @@ module.exports = function( paper ) {
 	return wordMatch( text, keyword );
 };
 
-},{"../stringProcessing/matchStringWithRegex.js":244,"../stringProcessing/matchTextWithWord.js":245}],215:[function(require,module,exports){
+},{"../stringProcessing/matchStringWithRegex.js":247,"../stringProcessing/matchTextWithWord.js":248}],217:[function(require,module,exports){
 /** @module analyses/findKeywordInPageTitle */
 
 var wordMatch = require( "../stringProcessing/matchTextWithWord.js" );
@@ -11162,7 +11199,7 @@ module.exports = function( paper ) {
 	return result;
 };
 
-},{"../stringProcessing/matchTextWithWord.js":245}],216:[function(require,module,exports){
+},{"../stringProcessing/matchTextWithWord.js":248}],218:[function(require,module,exports){
 /** @module analyses/getKeywordDensity */
 
 var countWords = require( "../stringProcessing/countWords.js" );
@@ -11185,10 +11222,10 @@ module.exports = function( paper ) {
 	return ( keywordCount / wordCount ) * 100;
 };
 
-},{"../stringProcessing/countWords.js":237,"../stringProcessing/matchTextWithWord.js":245}],217:[function(require,module,exports){
+},{"../stringProcessing/countWords.js":240,"../stringProcessing/matchTextWithWord.js":248}],219:[function(require,module,exports){
 /** @module analyses/getLinkStatistics */
 
-var getAnchors = require( "../stringProcessing/getAnchorsFromText.js" );
+var getLinks = require( "./getLinks.js" );
 var findKeywordInUrl = require( "../stringProcessing/findKeywordInUrl.js" );
 var getLinkType = require( "../stringProcessing/getLinkType.js" );
 var checkNofollow = require( "../stringProcessing/checkNofollow.js" );
@@ -11215,7 +11252,7 @@ module.exports = function( paper ) {
 	var text = paper.getText();
 	var keyword = paper.getKeyword();
 	var url = paper.getUrl();
-	var anchors = getAnchors( text );
+	var anchors = getLinks( text );
 
 	var linkCount = {
 		total: anchors.length,
@@ -11231,16 +11268,13 @@ module.exports = function( paper ) {
 		otherDofollow: 0,
 		otherNofollow: 0
 	};
-	var linkKeyword;
-	for ( var i = 0; i < anchors.length; i++ ) {
-		linkKeyword = findKeywordInUrl( anchors[i], keyword );
 
-		if ( linkKeyword ) {
-			if ( keyword === "" ) {
-				linkCount.totalNaKeyword++;
-			} else {
-				linkCount.totalKeyword++;
-			}
+	var foundKeyword;
+	for ( var i = 0; i < anchors.length; i++ ) {
+		foundKeyword = keyword ? findKeywordInUrl( anchors[i], keyword ) : false;
+
+		if ( foundKeyword ) {
+			linkCount.totalKeyword++;
 		}
 
 		var linkType = getLinkType( anchors[i], url );
@@ -11252,7 +11286,22 @@ module.exports = function( paper ) {
 	return linkCount;
 };
 
-},{"../stringProcessing/checkNofollow.js":233,"../stringProcessing/findKeywordInUrl.js":239,"../stringProcessing/getAnchorsFromText.js":241,"../stringProcessing/getLinkType.js":242}],218:[function(require,module,exports){
+},{"../stringProcessing/checkNofollow.js":236,"../stringProcessing/findKeywordInUrl.js":242,"../stringProcessing/getLinkType.js":245,"./getLinks.js":220}],220:[function(require,module,exports){
+/** @module analyses/getLinkStatistics */
+
+var getAnchors = require( "../stringProcessing/getAnchorsFromText.js" );
+
+/**
+ * Checks a text for anchors and returns the number found.
+ *
+ * @param {object} text The text
+ * @returns {array} An array with the anchors
+ */
+module.exports = function( text ) {
+	return getAnchors( text );
+};
+
+},{"../stringProcessing/getAnchorsFromText.js":244}],221:[function(require,module,exports){
 /** @module researches/imageAltTags */
 
 var imageInText = require( "../stringProcessing/imageInText" );
@@ -11316,7 +11365,7 @@ module.exports = function( paper ) {
 	return matchAltProperties( imageInText( paper.getText() ), paper.getKeyword() );
 };
 
-},{"../stringProcessing/getAlttagContent":240,"../stringProcessing/imageInText":243,"../stringProcessing/matchTextWithWord":245}],219:[function(require,module,exports){
+},{"../stringProcessing/getAlttagContent":243,"../stringProcessing/imageInText":246,"../stringProcessing/matchTextWithWord":248}],222:[function(require,module,exports){
 /** @module researches/imageInText */
 
 var imageInText = require( "./../stringProcessing/imageInText" );
@@ -11331,7 +11380,7 @@ module.exports = function( paper ) {
 	return imageInText( paper.getText() ).length;
 };
 
-},{"./../stringProcessing/imageInText":243}],220:[function(require,module,exports){
+},{"./../stringProcessing/imageInText":246}],223:[function(require,module,exports){
 var countWords = require( "../stringProcessing/countWords" );
 var sanitizeString = require( "../stringProcessing/sanitizeString" );
 
@@ -11349,7 +11398,7 @@ function keyphraseLengthResearch( paper ) {
 
 module.exports = keyphraseLengthResearch;
 
-},{"../stringProcessing/countWords":237,"../stringProcessing/sanitizeString":248}],221:[function(require,module,exports){
+},{"../stringProcessing/countWords":240,"../stringProcessing/sanitizeString":251}],224:[function(require,module,exports){
 /** @module researches/countKeywordInUrl */
 
 var wordMatch = require( "../stringProcessing/matchTextWithWord.js" );
@@ -11365,7 +11414,7 @@ module.exports = function( paper ) {
 	return wordMatch( paper.getUrl(), keyword );
 };
 
-},{"../stringProcessing/matchTextWithWord.js":245}],222:[function(require,module,exports){
+},{"../stringProcessing/matchTextWithWord.js":248}],225:[function(require,module,exports){
 /* @module analyses/matchKeywordInSubheadings */
 
 var stripSomeTags = require( "../stringProcessing/stripNonTextTags.js" );
@@ -11396,7 +11445,7 @@ module.exports = function( paper ) {
 };
 
 
-},{"../stringProcessing/stripNonTextTags.js":251,"../stringProcessing/subheadingsMatch.js":254}],223:[function(require,module,exports){
+},{"../stringProcessing/stripNonTextTags.js":254,"../stringProcessing/subheadingsMatch.js":257}],226:[function(require,module,exports){
 var matchTextWithWord = require( "../stringProcessing/matchTextWithWord.js" );
 
 /**
@@ -11414,7 +11463,7 @@ module.exports = function( paper ) {
 };
 
 
-},{"../stringProcessing/matchTextWithWord.js":245}],224:[function(require,module,exports){
+},{"../stringProcessing/matchTextWithWord.js":248}],227:[function(require,module,exports){
 /**
  * Check the length of the description.
  * @param {Paper} paper The paper object containing the description.
@@ -11424,7 +11473,7 @@ module.exports = function( paper ) {
 	return paper.getDescription().length;
 };
 
-},{}],225:[function(require,module,exports){
+},{}],228:[function(require,module,exports){
 /**
  * Check the length of the title.
  * @param {Paper} paper The paper object containing the title.
@@ -11434,7 +11483,7 @@ module.exports = function( paper ) {
 	return paper.getTitle().length;
 };
 
-},{}],226:[function(require,module,exports){
+},{}],229:[function(require,module,exports){
 /** @module researches/stopWordsInKeyword */
 
 var stopWordsInText = require( "./stopWordsInText.js" );
@@ -11448,7 +11497,7 @@ module.exports = function( paper ) {
 	return stopWordsInText( paper.getKeyword() );
 };
 
-},{"./stopWordsInText.js":227}],227:[function(require,module,exports){
+},{"./stopWordsInText.js":230}],230:[function(require,module,exports){
 var stopwords = require( "../config/stopwords.js" )();
 var toRegex = require( "../stringProcessing/stringToRegex.js" );
 
@@ -11470,7 +11519,7 @@ module.exports = function( text ) {
 	return matches;
 };
 
-},{"../config/stopwords.js":205,"../stringProcessing/stringToRegex.js":249}],228:[function(require,module,exports){
+},{"../config/stopwords.js":206,"../stringProcessing/stringToRegex.js":252}],231:[function(require,module,exports){
 /** @module researches/stopWordsInUrl */
 
 var stopWordsInText = require( "./stopWordsInText.js" );
@@ -11484,7 +11533,7 @@ module.exports = function( paper ) {
 	return stopWordsInText( paper.getUrl().replace( /[-_]/g, " " ) );
 };
 
-},{"./stopWordsInText.js":227}],229:[function(require,module,exports){
+},{"./stopWordsInText.js":230}],232:[function(require,module,exports){
 /** @module analyses/isUrlTooLong */
 
 /**
@@ -11505,7 +11554,7 @@ module.exports = function( paper ) {
 	return false;
 };
 
-},{}],230:[function(require,module,exports){
+},{}],233:[function(require,module,exports){
 var wordCount = require( "../stringProcessing/countWords.js" );
 
 /**
@@ -11517,7 +11566,7 @@ module.exports = function( paper ) {
 	return wordCount( paper.getText() );
 };
 
-},{"../stringProcessing/countWords.js":237}],231:[function(require,module,exports){
+},{"../stringProcessing/countWords.js":240}],234:[function(require,module,exports){
 /* jshint browser: true */
 
 var isEmpty = require( "lodash/isEmpty" );
@@ -11532,6 +11581,7 @@ var stringToRegex = require( "../js/stringProcessing/stringToRegex.js" );
 var stripHTMLTags = require( "../js/stringProcessing/stripHTMLTags.js" );
 var sanitizeString = require( "../js/stringProcessing/sanitizeString.js" );
 var stripSpaces = require( "../js/stringProcessing/stripSpaces.js" );
+var replaceDiacritics = require( "../js/stringProcessing/replaceDiacritics.js" );
 var analyzerConfig = require( "./config/config.js" );
 
 var snippetEditorTemplate = require( "./templates.js" ).snippetEditor;
@@ -12132,7 +12182,7 @@ SnippetPreview.prototype.formatUrl = function() {
 SnippetPreview.prototype.formatCite = function() {
 	var cite = this.data.urlPath;
 
-	cite = stripHTMLTags( cite );
+	cite = replaceDiacritics( stripHTMLTags( cite ) );
 
 	// Fallback to the default if the cite is empty.
 	if ( isEmpty( cite ) ) {
@@ -12708,7 +12758,7 @@ SnippetPreview.prototype.setFocus = function( ev ) {};
 /* eslint-disable */
 module.exports = SnippetPreview;
 
-},{"../js/stringProcessing/sanitizeString.js":248,"../js/stringProcessing/stringToRegex.js":249,"../js/stringProcessing/stripHTMLTags.js":250,"../js/stringProcessing/stripSpaces.js":253,"./config/config.js":201,"./templates.js":256,"lodash/clone":132,"lodash/debounce":134,"lodash/defaultsDeep":136,"lodash/forEach":139,"lodash/isElement":150,"lodash/isEmpty":151,"lodash/isUndefined":162}],232:[function(require,module,exports){
+},{"../js/stringProcessing/replaceDiacritics.js":249,"../js/stringProcessing/sanitizeString.js":251,"../js/stringProcessing/stringToRegex.js":252,"../js/stringProcessing/stripHTMLTags.js":253,"../js/stringProcessing/stripSpaces.js":256,"./config/config.js":202,"./templates.js":259,"lodash/clone":132,"lodash/debounce":134,"lodash/defaultsDeep":136,"lodash/forEach":139,"lodash/isElement":150,"lodash/isEmpty":151,"lodash/isUndefined":162}],235:[function(require,module,exports){
 /** @module stringProcessing/addWordboundary */
 
 /**
@@ -12732,7 +12782,7 @@ module.exports = function( matchString, extraWordBoundary ) {
 	return wordBoundaryStart + matchString + wordBoundaryEnd;
 };
 
-},{}],233:[function(require,module,exports){
+},{}],236:[function(require,module,exports){
 /** @module stringProcessing/checkNofollow */
 
 /**
@@ -12751,7 +12801,7 @@ module.exports = function( text ) {
 	return linkFollow;
 };
 
-},{}],234:[function(require,module,exports){
+},{}],237:[function(require,module,exports){
 /** @module stringProcessing/cleanText */
 
 var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
@@ -12809,7 +12859,7 @@ module.exports = function( text ) {
 	return text;
 };
 
-},{"../stringProcessing/replaceDiacritics.js":246,"../stringProcessing/stripSpaces.js":253,"../stringProcessing/unifyWhitespace.js":255}],235:[function(require,module,exports){
+},{"../stringProcessing/replaceDiacritics.js":249,"../stringProcessing/stripSpaces.js":256,"../stringProcessing/unifyWhitespace.js":258}],238:[function(require,module,exports){
 /** @module stringProcessing/countSentences */
 
 var cleanText = require( "../stringProcessing/cleanText.js" );
@@ -12831,7 +12881,7 @@ module.exports = function( text ) {
 	return sentenceCount;
 };
 
-},{"../stringProcessing/cleanText.js":234}],236:[function(require,module,exports){
+},{"../stringProcessing/cleanText.js":237}],239:[function(require,module,exports){
 /** @module stringProcessing/countSyllables */
 
 var cleanText = require( "../stringProcessing/cleanText.js" );
@@ -12953,7 +13003,7 @@ module.exports = function( text ) {
 };
 
 
-},{"../config/syllables.js":206,"../stringProcessing/cleanText.js":234,"../stringProcessing/createRegexFromArray.js":238}],237:[function(require,module,exports){
+},{"../config/syllables.js":207,"../stringProcessing/cleanText.js":237,"../stringProcessing/createRegexFromArray.js":241}],240:[function(require,module,exports){
 /** @module stringProcessing/countWords */
 
 var stripTags = require( "../stringProcessing/stripHTMLTags.js" );
@@ -12974,7 +13024,7 @@ module.exports = function( text ) {
 	return text.split( /\s/g ).length;
 };
 
-},{"../stringProcessing/stripHTMLTags.js":250,"../stringProcessing/stripSpaces.js":253}],238:[function(require,module,exports){
+},{"../stringProcessing/stripHTMLTags.js":253,"../stringProcessing/stripSpaces.js":256}],241:[function(require,module,exports){
 /** @module stringProcessing/createRegexFromArray */
 
 var addWordBoundary = require( "../stringProcessing/addWordboundary.js" );
@@ -13001,7 +13051,7 @@ module.exports = function( array, disableWordBoundary ) {
 	return new RegExp( regexString, "ig" );
 };
 
-},{"../stringProcessing/addWordboundary.js":232}],239:[function(require,module,exports){
+},{"../stringProcessing/addWordboundary.js":235}],242:[function(require,module,exports){
 /** @module stringProcessing/findKeywordInUrl */
 
 var keywordRegex = require( "../stringProcessing/stringToRegex.js" );
@@ -13025,7 +13075,7 @@ module.exports = function( url, keyword ) {
 	return keywordFound;
 };
 
-},{"../stringProcessing/stringToRegex.js":249}],240:[function(require,module,exports){
+},{"../stringProcessing/stringToRegex.js":252}],243:[function(require,module,exports){
 /** @module stringProcessing/getAlttagContent */
 
 var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
@@ -13052,7 +13102,7 @@ module.exports = function( text ) {
 	return alt;
 };
 
-},{"../stringProcessing/stripSpaces.js":253}],241:[function(require,module,exports){
+},{"../stringProcessing/stripSpaces.js":256}],244:[function(require,module,exports){
 /** @module stringProcessing/getAnchorsFromText */
 
 /**
@@ -13073,7 +13123,7 @@ module.exports = function( text ) {
 	return matches;
 };
 
-},{}],242:[function(require,module,exports){
+},{}],245:[function(require,module,exports){
 /** @module stringProcess/getLinkType */
 
 /**
@@ -13098,7 +13148,7 @@ module.exports = function( text, url ) {
 	return linkType;
 };
 
-},{}],243:[function(require,module,exports){
+},{}],246:[function(require,module,exports){
 /** @module stringProcessing/imageInText */
 
 var matchStringWithRegex = require( "./matchStringWithRegex.js" );
@@ -13113,7 +13163,7 @@ module.exports = function( text ) {
 	return matchStringWithRegex( text, "<img(?:[^>]+)?>" );
 };
 
-},{"./matchStringWithRegex.js":244}],244:[function(require,module,exports){
+},{"./matchStringWithRegex.js":247}],247:[function(require,module,exports){
 /** @module stringProcessing/matchStringWithRegex */
 
 /**
@@ -13134,7 +13184,7 @@ module.exports = function( text, regexString ) {
 	return matches;
 };
 
-},{}],245:[function(require,module,exports){
+},{}],248:[function(require,module,exports){
 /** @module stringProcessing/matchTextWithWord */
 
 var stringToRegex = require( "../stringProcessing/stringToRegex.js" );
@@ -13164,7 +13214,7 @@ module.exports = function( text, wordToMatch, extraBoundary ) {
 	return matches.length;
 };
 
-},{"../stringProcessing/replaceDiacritics.js":246,"../stringProcessing/stringToRegex.js":249,"../stringProcessing/stripNonTextTags.js":251,"../stringProcessing/unifyWhitespace.js":255}],246:[function(require,module,exports){
+},{"../stringProcessing/replaceDiacritics.js":249,"../stringProcessing/stringToRegex.js":252,"../stringProcessing/stripNonTextTags.js":254,"../stringProcessing/unifyWhitespace.js":258}],249:[function(require,module,exports){
 /** @module stringProcessing/replaceDiacritics */
 
 var diacritisRemovalMap = require( "../config/diacritics.js" );
@@ -13187,7 +13237,7 @@ module.exports = function( text ) {
 	return text;
 };
 
-},{"../config/diacritics.js":202}],247:[function(require,module,exports){
+},{"../config/diacritics.js":203}],250:[function(require,module,exports){
 /** @module stringProcessing/replaceString */
 
 /**
@@ -13204,7 +13254,7 @@ module.exports = function( text, stringToReplace, replacement ) {
 	return text;
 };
 
-},{}],248:[function(require,module,exports){
+},{}],251:[function(require,module,exports){
 /** @module stringProcessing/sanitizeString */
 
 var stripTags = require( "../stringProcessing/stripHTMLTags.js" );
@@ -13224,7 +13274,7 @@ module.exports = function( text ) {
 	return text;
 };
 
-},{"../stringProcessing/stripHTMLTags.js":250,"../stringProcessing/stripSpaces.js":253}],249:[function(require,module,exports){
+},{"../stringProcessing/stripHTMLTags.js":253,"../stringProcessing/stripSpaces.js":256}],252:[function(require,module,exports){
 /** @module stringProcessing/stringToRegex */
 var isUndefined = require( "lodash/isUndefined" );
 var replaceDiacritics = require( "../stringProcessing/replaceDiacritics.js" );
@@ -13253,7 +13303,7 @@ module.exports = function( string, extraBoundary, doReplaceDiacritics ) {
 	return new RegExp ( string, "ig" );
 };
 
-},{"../stringProcessing/addWordboundary.js":232,"../stringProcessing/replaceDiacritics.js":246,"../stringProcessing/sanitizeString.js":248,"lodash/isUndefined":162}],250:[function(require,module,exports){
+},{"../stringProcessing/addWordboundary.js":235,"../stringProcessing/replaceDiacritics.js":249,"../stringProcessing/sanitizeString.js":251,"lodash/isUndefined":162}],253:[function(require,module,exports){
 /** @module stringProcessing/stripHTMLTags */
 
 var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
@@ -13270,7 +13320,7 @@ module.exports = function( text ) {
 	return text;
 };
 
-},{"../stringProcessing/stripSpaces.js":253}],251:[function(require,module,exports){
+},{"../stringProcessing/stripSpaces.js":256}],254:[function(require,module,exports){
 /** @module stringProcessing/stripNonTextTags */
 
 var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
@@ -13287,7 +13337,7 @@ module.exports = function( text ) {
 	return text;
 };
 
-},{"../stringProcessing/stripSpaces.js":253}],252:[function(require,module,exports){
+},{"../stringProcessing/stripSpaces.js":256}],255:[function(require,module,exports){
 /** @module stringProcessing/stripNumbers */
 
 var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
@@ -13312,7 +13362,7 @@ module.exports = function( text ) {
 	return text;
 };
 
-},{"../stringProcessing/stripSpaces.js":253}],253:[function(require,module,exports){
+},{"../stringProcessing/stripSpaces.js":256}],256:[function(require,module,exports){
 /** @module stringProcessing/stripSpaces */
 
 /**
@@ -13335,7 +13385,7 @@ module.exports = function( text ) {
 	return text;
 };
 
-},{}],254:[function(require,module,exports){
+},{}],257:[function(require,module,exports){
 var stringToRegex = require( "../stringProcessing/stringToRegex.js" );
 var replaceString = require( "../stringProcessing/replaceString.js" );
 var removalWords = require( "../config/removalWords.js" );
@@ -13371,7 +13421,7 @@ module.exports = function( matches, keyword ) {
 	return foundInHeader;
 };
 
-},{"../config/removalWords.js":204,"../stringProcessing/replaceDiacritics.js":246,"../stringProcessing/replaceString.js":247,"../stringProcessing/stringToRegex.js":249}],255:[function(require,module,exports){
+},{"../config/removalWords.js":205,"../stringProcessing/replaceDiacritics.js":249,"../stringProcessing/replaceString.js":250,"../stringProcessing/stringToRegex.js":252}],258:[function(require,module,exports){
 /** @module stringProcessing/unifyWhitespace */
 
 /**
@@ -13393,7 +13443,7 @@ module.exports = function( text ) {
 };
 
 
-},{}],256:[function(require,module,exports){
+},{}],259:[function(require,module,exports){
 (function (global){
 ;(function() {
   var undefined;
@@ -13761,7 +13811,7 @@ module.exports = function( text ) {
 }.call(this));
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],257:[function(require,module,exports){
+},{}],260:[function(require,module,exports){
 var isUndefined = require( "lodash/isUndefined" );
 var isNumber = require( "lodash/isNumber" );
 
@@ -13834,7 +13884,7 @@ AssessmentResult.prototype.setText = function( text ) {
 
 module.exports = AssessmentResult;
 
-},{"lodash/isNumber":155,"lodash/isUndefined":162}],258:[function(require,module,exports){
+},{"lodash/isNumber":155,"lodash/isUndefined":162}],261:[function(require,module,exports){
 var defaults = require( "lodash/defaults" );
 var sanitizeString = require( "../stringProcessing/sanitizeString.js" );
 
@@ -13973,4 +14023,6 @@ Paper.prototype.getLocale = function() {
 
 module.exports = Paper;
 
-},{"../stringProcessing/sanitizeString.js":248,"lodash/defaults":135}]},{},[3]);
+},{"../stringProcessing/sanitizeString.js":251,"lodash/defaults":135}],262:[function(require,module,exports){
+arguments[4][261][0].apply(exports,arguments)
+},{"../stringProcessing/sanitizeString.js":251,"dup":261,"lodash/defaults":135}]},{},[3]);

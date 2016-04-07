@@ -9,6 +9,11 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
+if ( ! empty($tabs[ $active_tab ]['screencast_video_url']) ) {
+	$tab_video_url = $tabs[ $active_tab ]['screencast_video_url'];
+	include WPSEO_PATH . 'admin/views/partial-settings-tab-video.php';
+}
+
 $yform = Yoast_Form::get_instance();
 
 $yform->currentoption = 'wpseo_internallinks';

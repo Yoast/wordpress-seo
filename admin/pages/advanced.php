@@ -15,14 +15,17 @@ $tabs = array(
 	'breadcrumbs' => array(
 		'label'     => __( 'Breadcrumbs', 'wordpress-seo' ),
 		'opt_group' => 'wpseo_internallinks',
+		'screencast_video_url' => 'https://yoa.st/screencast-breadcrumbs',
 	),
 	'permalinks'  => array(
 		'label'     => __( 'Permalinks', 'wordpress-seo' ),
 		'opt_group' => 'wpseo_permalinks',
+		'screencast_video_url' => 'https://yoa.st/screencast-permalinks',
 	),
 	'rss'         => array(
 		'label'     => __( 'RSS', 'wordpress-seo' ),
 		'opt_group' => 'wpseo_rss',
+		'screencast_video_url' => 'https://yoa.st/screencast-rss',
 	),
 );
 
@@ -47,6 +50,6 @@ Yoast_Form::get_instance()->admin_header( true, $tabs[ $active_tab ]['opt_group'
 	<br/>
 <?php
 
-require_once WPSEO_PATH . 'admin/views/tab-' . $active_tab . '.php';
+require_once WPSEO_PATH . 'admin/views/tabs/advanced/' . $active_tab . '.php';
 
 Yoast_Form::get_instance()->admin_footer();

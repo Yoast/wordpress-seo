@@ -130,4 +130,34 @@
 	window.wpseoDismissLink = wpseoDismissLink;
 }());
 
+(function ($) {
+	$('.nav-tab').click(function () {
+		closeVideoSlideout(0);
+	});
+
+	$('.wpseo-tab-video-container').on('click', '.wpseo-tab-video-container__handle', function (e) {
+		var $target = $(e.delegateTarget).find('.wpseo-tab-video-slideout');
+		if ($target.is(':hidden')) {
+			openVideoSlideout($target, 400);
+		} else {
+			closeVideoSlideout(400);
+		}
+		return false;
+	});
+
+	function openVideoSlideout($target, duration) {
+		var $data = $target.find('.wpseo-tab-video__data');
+		var videoUrl = $data.data('url');
+		$data.append('<iframe width="560" height="315" src="' + videoUrl + '" frameborder="0" allowfullscreen></iframe>');
+		$target.slideDown(duration);
+	}
+
+	function closeVideoSlideout(duration) {
+		var $target = $('#wpbody-content').find('.wpseo-tab-video-slideout');
+		$target.slideUp(duration, function () {
+			$('#wpbody-content').find('.wpseo-tab-video__data').children().remove();
+		});
+	}
+})(jQuery);
+
 },{}]},{},[1]);
