@@ -410,9 +410,8 @@ FacebookPreview.prototype.renderTemplate = function() {
 	};
 
 	this.element.formContainer.innerHTML = this.element.fields.imageUrl.render()
-	    + this.element.fields.title.render()
-		+ this.element.fields.description.render()
-		+ this.element.fields.button.render();
+		+ this.element.fields.title.render()
+		+ this.element.fields.description.render();
 
 	this.element.input = {
 		title: targetElement.getElementsByClassName( "js-snippet-editor-title" )[0],
@@ -467,13 +466,7 @@ FacebookPreview.prototype.getFields = function() {
 			placeholder: this.opts.placeholder.imageUrl,
 			title: this.i18n.dgettext( "yoast-social-previews", "Facebook image" ),
 			labelClassName: "snippet-editor__label"
-		} ),
-		button : new Button(
-			{
-				className : "snippet-editor__submit snippet-editor__button",
-				value: this.i18n.dgettext( "yoast-social-previews", "Close facebook editor" )
-			}
-		)
+		} )
 	};
 };
 
@@ -659,7 +652,7 @@ FacebookPreview.prototype.removeSmallImageClasses = function() {
  * @returns {void}
  */
 FacebookPreview.prototype.bindEvents = function() {
-	var previewEvents = new PreviewEvents( inputFacebookPreviewBindings, this.element );
+	var previewEvents = new PreviewEvents( inputFacebookPreviewBindings, this.element, true );
 	previewEvents.bindEvents( this.element.editToggle, this.element.closeEditor );
 };
 
@@ -1005,11 +998,13 @@ var removeClass = require( "../helpers/removeClass.js" );
  *
  * @param {Object} bindings The fields to bind.
  * @param {Object} element The element to bind the events to.
+ * @param {boolean} alwaysOpen Whether the input form should always be open.
  * @constructor
  */
-function PreviewEvents( bindings, element ) {
+function PreviewEvents( bindings, element, alwaysOpen ) {
 	this._bindings = bindings;
 	this.element = element;
+	this._alwaysOpen = alwaysOpen;
 }
 
 /**
@@ -1019,8 +1014,10 @@ function PreviewEvents( bindings, element ) {
  * @param {Object} closeEditor - The button to close the editor
  */
 PreviewEvents.prototype.bindEvents = function( editToggle, closeEditor ) {
-	editToggle.addEventListener( "click", this.toggleEditor.bind( this ) );
-	closeEditor.addEventListener( "click", this.closeEditor.bind( this ) );
+	if ( ! this._alwaysOpen ) {
+		editToggle.addEventListener( "click", this.toggleEditor.bind( this ) );
+		closeEditor.addEventListener( "click", this.closeEditor.bind( this ) );
+	}
 
 	// Loop through the bindings and bind a click handler to the click to focus the focus element.
 	forEach( this._bindings, this.bindInputEvent.bind( this ) );
@@ -1075,6 +1072,10 @@ PreviewEvents.prototype.bindInputEvent = function( binding ) {
  */
 PreviewEvents.prototype.openEditor = function() {
 
+	if ( this._alwaysOpen ) {
+		return;
+	}
+
 	// Hide these elements.
 	addClass( this.element.editToggle,       "snippet-editor--hidden" );
 
@@ -1091,6 +1092,10 @@ PreviewEvents.prototype.openEditor = function() {
  * @returns {void}
  */
 PreviewEvents.prototype.closeEditor = function() {
+
+	if ( this._alwaysOpen ) {
+		return;
+	}
 
 	// Hide these elements.
 	addClass( this.element.formContainer,     "snippet-editor--hidden" );
@@ -1301,11 +1306,9 @@ module.exports = PreviewEvents;
     __e( rendered.description ) +
     '\n					</div>\n				</div>\n				<div class="snippet-editor__container editable-preview__container--no-caret editable-preview__website--facebook snippet_container">\n					<div class="editable-preview__value editable-preview__value--facebook-url">\n						' +
     __e( rendered.baseUrl ) +
-    '\n					</div>\n				</div>\n			</div>\n		</div>\n\n		<button class="snippet-editor__button snippet-editor__edit-button" type="button">\n			' +
-    __e( i18n.edit ) +
-    '\n		</button>\n	</section>\n\n	<h4 class="snippet-editor__heading snippet-editor__heading-editor snippet-editor__heading-icon-edit snippet-editor--hidden">' +
+    '\n					</div>\n				</div>\n			</div>\n		</div>\n	</section>\n\n	<h4 class="snippet-editor__heading snippet-editor__heading-editor snippet-editor__heading-icon-edit">' +
     __e( i18n.snippetEditor ) +
-    '</h4>\n\n	<div class="snippet-editor__form snippet-editor--hidden">\n\n	</div>\n</div>\n';
+    '</h4>\n\n	<div class="snippet-editor__form">\n\n	</div>\n</div>\n';
 
     }
     return __p
@@ -1465,11 +1468,9 @@ module.exports = PreviewEvents;
     __e( rendered.description ) +
     '\n					</div>\n				</div>\n				<div class="snippet-editor__container editable-preview__container--no-caret editable-preview__website--twitter snippet_container">\n					<div class="editable-preview__value ">\n						' +
     __e( rendered.baseUrl ) +
-    '\n					</div>\n				</div>\n			</div>\n		</div>\n\n		<button class="snippet-editor__button snippet-editor__edit-button" type="button">\n			' +
-    __e( i18n.edit ) +
-    '\n		</button>\n	</section>\n\n	<h4 class="snippet-editor__heading snippet-editor__heading-editor snippet-editor__heading-icon-edit snippet-editor--hidden">' +
+    '\n					</div>\n				</div>\n			</div>\n		</div>\n	</section>\n\n	<h4 class="snippet-editor__heading snippet-editor__heading-editor snippet-editor__heading-icon-edit">' +
     __e( i18n.snippetEditor ) +
-    '</h4>\n\n	<div class="snippet-editor__form snippet-editor--hidden">\n\n	</div>\n</div>\n';
+    '</h4>\n\n	<div class="snippet-editor__form">\n\n	</div>\n</div>\n';
 
     }
     return __p
@@ -1705,8 +1706,7 @@ TwitterPreview.prototype.renderTemplate = function() {
 
 	this.element.formContainer.innerHTML = this.element.fields.imageUrl.render()
 		+ this.element.fields.title.render()
-		+ this.element.fields.description.render()
-		+ this.element.fields.button.render();
+		+ this.element.fields.description.render();
 
 	this.element.input = {
 		title: targetElement.getElementsByClassName( "js-snippet-editor-title" )[0],
@@ -1761,13 +1761,7 @@ TwitterPreview.prototype.getFields = function() {
 			placeholder: this.opts.placeholder.imageUrl,
 			title: this.i18n.dgettext( "yoast-social-previews", "Twitter image" ),
 			labelClassName: "snippet-editor__label"
-		} ),
-		button : new Button(
-			{
-				className : "snippet-editor__submit snippet-editor__button",
-				value: this.i18n.dgettext( "yoast-social-previews", "Close Twitter editor" )
-			}
-		)
+		} )
 	};
 };
 
@@ -1971,7 +1965,7 @@ TwitterPreview.prototype.removeSmallImageClasses = function() {
  * Binds the reloadSnippetText function to the blur of the snippet inputs.
  */
 TwitterPreview.prototype.bindEvents = function() {
-	var previewEvents = new PreviewEvents( inputTwitterPreviewBindings, this.element );
+	var previewEvents = new PreviewEvents( inputTwitterPreviewBindings, this.element, true );
 	previewEvents.bindEvents( this.element.editToggle, this.element.closeEditor );
 };
 

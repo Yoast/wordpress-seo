@@ -130,11 +130,9 @@
     __e( rendered.description ) +
     '\n					</div>\n				</div>\n				<div class="snippet-editor__container editable-preview__container--no-caret editable-preview__website--facebook snippet_container">\n					<div class="editable-preview__value editable-preview__value--facebook-url">\n						' +
     __e( rendered.baseUrl ) +
-    '\n					</div>\n				</div>\n			</div>\n		</div>\n\n		<button class="snippet-editor__button snippet-editor__edit-button" type="button">\n			' +
-    __e( i18n.edit ) +
-    '\n		</button>\n	</section>\n\n	<h4 class="snippet-editor__heading snippet-editor__heading-editor snippet-editor__heading-icon-edit snippet-editor--hidden">' +
+    '\n					</div>\n				</div>\n			</div>\n		</div>\n	</section>\n\n	<h4 class="snippet-editor__heading snippet-editor__heading-editor snippet-editor__heading-icon-edit">' +
     __e( i18n.snippetEditor ) +
-    '</h4>\n\n	<div class="snippet-editor__form snippet-editor--hidden">\n\n	</div>\n</div>\n';
+    '</h4>\n\n	<div class="snippet-editor__form">\n\n	</div>\n</div>\n';
 
     }
     return __p
@@ -294,11 +292,9 @@
     __e( rendered.description ) +
     '\n					</div>\n				</div>\n				<div class="snippet-editor__container editable-preview__container--no-caret editable-preview__website--twitter snippet_container">\n					<div class="editable-preview__value ">\n						' +
     __e( rendered.baseUrl ) +
-    '\n					</div>\n				</div>\n			</div>\n		</div>\n\n		<button class="snippet-editor__button snippet-editor__edit-button" type="button">\n			' +
-    __e( i18n.edit ) +
-    '\n		</button>\n	</section>\n\n	<h4 class="snippet-editor__heading snippet-editor__heading-editor snippet-editor__heading-icon-edit snippet-editor--hidden">' +
+    '\n					</div>\n				</div>\n			</div>\n		</div>\n	</section>\n\n	<h4 class="snippet-editor__heading snippet-editor__heading-editor snippet-editor__heading-icon-edit">' +
     __e( i18n.snippetEditor ) +
-    '</h4>\n\n	<div class="snippet-editor__form snippet-editor--hidden">\n\n	</div>\n</div>\n';
+    '</h4>\n\n	<div class="snippet-editor__form">\n\n	</div>\n</div>\n';
 
     }
     return __p

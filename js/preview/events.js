@@ -7,11 +7,13 @@ var removeClass = require( "../helpers/removeClass.js" );
  *
  * @param {Object} bindings The fields to bind.
  * @param {Object} element The element to bind the events to.
+ * @param {boolean} alwaysOpen Whether the input form should always be open.
  * @constructor
  */
-function PreviewEvents( bindings, element ) {
+function PreviewEvents( bindings, element, alwaysOpen ) {
 	this._bindings = bindings;
 	this.element = element;
+	this._alwaysOpen = alwaysOpen;
 }
 
 /**
@@ -21,8 +23,10 @@ function PreviewEvents( bindings, element ) {
  * @param {Object} closeEditor - The button to close the editor
  */
 PreviewEvents.prototype.bindEvents = function( editToggle, closeEditor ) {
-	editToggle.addEventListener( "click", this.toggleEditor.bind( this ) );
-	closeEditor.addEventListener( "click", this.closeEditor.bind( this ) );
+	if ( ! this._alwaysOpen ) {
+		editToggle.addEventListener( "click", this.toggleEditor.bind( this ) );
+		closeEditor.addEventListener( "click", this.closeEditor.bind( this ) );
+	}
 
 	// Loop through the bindings and bind a click handler to the click to focus the focus element.
 	forEach( this._bindings, this.bindInputEvent.bind( this ) );
@@ -77,6 +81,10 @@ PreviewEvents.prototype.bindInputEvent = function( binding ) {
  */
 PreviewEvents.prototype.openEditor = function() {
 
+	if ( this._alwaysOpen ) {
+		return;
+	}
+
 	// Hide these elements.
 	addClass( this.element.editToggle,       "snippet-editor--hidden" );
 
@@ -93,6 +101,10 @@ PreviewEvents.prototype.openEditor = function() {
  * @returns {void}
  */
 PreviewEvents.prototype.closeEditor = function() {
+
+	if ( this._alwaysOpen ) {
+		return;
+	}
 
 	// Hide these elements.
 	addClass( this.element.formContainer,     "snippet-editor--hidden" );
