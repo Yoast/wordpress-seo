@@ -74,7 +74,14 @@ else {
 	$action_url = admin_url( 'admin.php?page=wpseo_tools&tool=file-editor' );
 }
 
+echo '<br><br>';
+
+$tab_video_url = 'https://yoa.st/screencast-tools-file-editor';
+include WPSEO_PATH . 'admin/views/partial-settings-tab-video.php';
+
+
 echo '<h2>', __( 'Robots.txt', 'wordpress-seo' ), '</h2>';
+
 
 if ( ! file_exists( $robots_file ) ) {
 	if ( is_writable( get_home_path() ) ) {

@@ -195,15 +195,6 @@ class WPSEO_Admin {
 			array(
 				'wpseo_dashboard',
 				'',
-				__( 'Video Tutorials', 'wordpress-seo' ),
-				'edit_posts',
-				'wpseo_tutorial_videos',
-				array( $this, 'load_page' ),
-				null,
-			),
-			array(
-				'wpseo_dashboard',
-				'',
 				'<span style="color:#f18500">' . __( 'Extensions', 'wordpress-seo' ) . '</span>',
 				$manage_options_cap,
 				'wpseo_licenses',

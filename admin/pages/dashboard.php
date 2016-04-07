@@ -150,7 +150,7 @@ $tabs = array(
 	),
 	'webmaster-tools' => array(
 		'label' => __( 'Webmaster Tools', 'wordpress-seo' ),
-		'screencast_video_url' => 'https://yoa.st/screencast-search-console',
+		'screencast_video_url' => 'https://yoa.st/screencast-general-search-console',
 	),
 	'security' => array(
 		'label' => __( 'Security', 'wordpress-seo' ),

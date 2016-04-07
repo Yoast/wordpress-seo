@@ -8,6 +8,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	header( 'HTTP/1.1 403 Forbidden' );
 	exit();
 }
+
 printf( '<h3>%s</h3>', __( 'Webmaster Tools verification', 'wordpress-seo' ) );
 printf( '<p>%s</p>', __( 'You can use the boxes below to verify with the different Webmaster Tools, if your site is already verified, you can just forget about these. Enter the verify meta values for:', 'wordpress-seo' ) );
 
