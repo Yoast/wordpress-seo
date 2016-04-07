@@ -911,12 +911,9 @@ class WPSEO_Frontend {
 			}
 			elseif ( is_tax() || is_tag() || is_category() ) {
 
-				global $wp_query;
-				$term          = get_queried_object();
-				$queried_terms = $wp_query->tax_query->queried_terms[ $term->taxonomy ]['terms'];
+				$term = get_queried_object();
 
-				// We might have combined term-1,term2 or term-1+term-2 query.
-				if ( 1 === count( $queried_terms ) ) {
+				if ( ! $this->is_multiple_terms_query() ) {
 					$canonical_override = WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'canonical' );
 					$canonical          = get_term_link( $term, $term->taxonomy );
 				}
@@ -1897,4 +1894,27 @@ class WPSEO_Frontend {
 
 		return $keywords;
 	}
-} /* End of class */
+
+	/**
+	 * Check if term archive query is for multiple terms (/term-1,term2/ or /term-1+term-2/).
+	 *
+	 * @return bool
+	 */
+	protected function is_multiple_terms_query() {
+
+		global $wp_query;
+
+		if ( ! is_tax() && ! is_tag() && ! is_category() ) {
+			return false;
+		}
+
+		$term          = get_queried_object();
+		$queried_terms = $wp_query->tax_query->queried_terms;
+
+		if ( empty( $queried_terms[ $term->taxonomy ]['terms'] ) ) {
+			return false;
+		}
+
+		return count( $queried_terms[ $term->taxonomy ]['terms'] ) > 1;
+	}
+}
