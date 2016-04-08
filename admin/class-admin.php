@@ -60,7 +60,7 @@ class WPSEO_Admin {
 
 		add_action( 'admin_enqueue_scripts', array( $this, 'config_page_scripts' ) );
 
-		if ( '0' == get_option( 'blog_public' ) ) {
+		if ( '0' === get_option( 'blog_public' ) ) {
 			add_action( 'admin_footer', array( $this, 'blog_public_warning' ) );
 		}
 
@@ -195,6 +195,15 @@ class WPSEO_Admin {
 			array(
 				'wpseo_dashboard',
 				'',
+				__( 'Video Tutorials', 'wordpress-seo' ),
+				'edit_posts',
+				'wpseo_tutorial_videos',
+				array( $this, 'load_page' ),
+				null,
+			),
+			array(
+				'wpseo_dashboard',
+				'',
 				'<span style="color:#f18500">' . __( 'Extensions', 'wordpress-seo' ) . '</span>',
 				$manage_options_cap,
 				'wpseo_licenses',
@@ -202,7 +211,6 @@ class WPSEO_Admin {
 				null,
 			),
 		);
-
 
 		// Allow submenu pages manipulation.
 		$submenu_pages = apply_filters( 'wpseo_submenu_pages', $submenu_pages );
@@ -344,6 +352,10 @@ class WPSEO_Admin {
 
 			case 'wpseo_files':
 				require_once( WPSEO_PATH . 'admin/views/tool-file-editor.php' );
+				break;
+
+			case 'wpseo_tutorial_videos':
+				require_once( WPSEO_PATH . 'admin/pages/tutorial-videos.php' );
 				break;
 
 			case 'wpseo_dashboard':
