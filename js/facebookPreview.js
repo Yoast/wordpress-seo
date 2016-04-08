@@ -312,7 +312,7 @@ FacebookPreview.prototype.getFieldElements = function() {
 
 
 /**
- * Updates the twitter preview.
+ * Updates the facebook preview.
  */
 FacebookPreview.prototype.updatePreview = function() {
 	// Update the data.
@@ -437,7 +437,7 @@ FacebookPreview.prototype.isSmallImage = function( image ) {
 };
 
 /**
- * Detects if the twitter preview image is too small
+ * Detects if the facebook preview image is too small
  *
  * @param {HTMLImageElement} image The image in question.
  *
