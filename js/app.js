@@ -422,7 +422,8 @@ App.prototype.runAnalyzer = function() {
 		keyword:  this.analyzerData.keyword,
 		description: this.analyzerData.meta,
 		url: this.analyzerData.url,
-		title: this.analyzerData.pageTitle
+		title: this.analyzerData.pageTitle,
+		locale: this.config.locale
 	} );
 
 	// The new researcher
