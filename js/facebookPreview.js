@@ -39,7 +39,13 @@ var facebookDefaults = {
 	},
 	baseURL: "example.com",
 	callbacks: {
-		updateSocialPreview: function() {}
+		updateSocialPreview: function() {},
+		modifyTitle: function( title ) {
+			return title;
+		},
+		modifyDescription: function( description ) {
+			return description;
+		}
 	}
 };
 
@@ -337,6 +343,8 @@ FacebookPreview.prototype.updatePreview = function() {
  * @param {string} title The title to set
  */
 FacebookPreview.prototype.setTitle = function( title ) {
+	title = this.opts.callbacks.modifyTitle( title );
+
 	this.element.rendered.title.innerHTML = title;
 };
 
@@ -346,6 +354,8 @@ FacebookPreview.prototype.setTitle = function( title ) {
  * @param {string} description The description to set
  */
 FacebookPreview.prototype.setDescription = function( description ) {
+	description = this.opts.callbacks.modifyDescription( description );
+
 	this.element.rendered.description.innerHTML = description;
 	renderDescription( this.element.rendered.description, this.element.fieldElements.description.getInputValue() );
 };
