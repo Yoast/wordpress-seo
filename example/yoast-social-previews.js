@@ -264,6 +264,8 @@ var inputFacebookPreviewBindings = [
 
 var WIDTH_FACEBOOK_IMAGE_SMALL = 158;
 var WIDTH_FACEBOOK_IMAGE_LARGE = 470;
+var FACEBOOK_IMAGE_TOO_SMALL_WIDTH = 200;
+var FACEBOOK_IMAGE_TOO_SMALL_HEIGHT = 200;
 var FACEBOOK_IMAGE_THRESHOLD_WIDTH = 600;
 var FACEBOOK_IMAGE_THRESHOLD_HEIGHT = 315;
 
@@ -575,6 +577,17 @@ FacebookPreview.prototype.setImageUrl = function( imageUrl ) {
 
 	var img   = new Image();
 	img.onload = function() {
+		if ( this.isTooSmallImage( img ) ) {
+			this.removeSmallImageClasses();
+			imagePlaceholder( imageContainer,
+				this.i18n.dgettext( "yoast-social-previews", "The image you selected is too small for Facebook" ),
+				true,
+				"facebook"
+			);
+
+			return;
+		}
+
 		imageContainer.innerHTML = "<img src='" + imageUrl + "' />";
 
 		imageRatio( imageContainer.childNodes[0], this.getMaxImageWidth( img ) );
@@ -624,6 +637,20 @@ FacebookPreview.prototype.isSmallImage = function( image ) {
 	return (
 		image.width < FACEBOOK_IMAGE_THRESHOLD_WIDTH ||
 		image.height < FACEBOOK_IMAGE_THRESHOLD_HEIGHT
+	);
+};
+
+/**
+ * Detects if the twitter preview image is too small
+ *
+ * @param {HTMLImageElement} image The image in question.
+ *
+ * @returns {boolean} Whether the image is too small.
+ */
+FacebookPreview.prototype.isTooSmallImage = function( image ) {
+	return (
+		image.width < FACEBOOK_IMAGE_TOO_SMALL_WIDTH ||
+		image.height < FACEBOOK_IMAGE_TOO_SMALL_HEIGHT
 	);
 };
 

@@ -3,11 +3,13 @@ $color_placeholder_error: #ff4e47;
 
 .social-image-placeholder {
 	height: 100%;
-	padding: 7.5em 0;
+	padding: 6em 0;
 	text-align: center;
 	background: $color_placeholder;
+	font-size: 1rem;
 
 	&--error {
 		background: $color_placeholder_error;
+		color: white;
 	}
 }
