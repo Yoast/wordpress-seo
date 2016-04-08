@@ -11,12 +11,9 @@ var renderDescription = require( "./helpers/renderDescription" );
 var imagePlaceholder  = require( "./element/imagePlaceholder" );
 var bemAddModifier = require( "./helpers/bem/addModifier" );
 var bemRemoveModifier = require( "./helpers/bem/removeModifier" );
-var addClass = require( "./helpers/addClass" );
-var removeClass = require( "./helpers/removeClass" );
 
 var TextField = require( "./inputs/textInput" );
 var TextArea = require( "./inputs/textarea" );
-var Button = require( "./inputs/button.js" );
 
 var InputElement = require( "./element/input" );
 var PreviewEvents = require( "./preview/events" );
@@ -361,7 +358,7 @@ TwitterPreview.prototype.setDescription = function( description ) {
  */
 TwitterPreview.prototype.setImageUrl = function( imageUrl ) {
 	var imageContainer = this.element.preview.imageUrl;
-	if ( imageUrl === '' && this.data.imageUrl === "" ) {
+	if ( imageUrl === "" && this.data.imageUrl === "" ) {
 		this.setPlaceHolder();
 
 		return;
@@ -398,7 +395,7 @@ TwitterPreview.prototype.getMaxImageWidth = function( img ) {
 	if ( this.isSmallImage( img ) ) {
 		this.setSmallImageClasses();
 
-		return WIDTH_TWITTER_IMAGE_SMALL
+		return WIDTH_TWITTER_IMAGE_SMALL;
 	}
 
 	this.removeSmallImageClasses();
