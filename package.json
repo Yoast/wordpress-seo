@@ -36,7 +36,6 @@
     "grunt-postcss": "^0.7.1",
     "grunt-sass": "^1.1.0",
     "grunt-shell": "^1.1.2",
-    "io.js": "0.0.0",
     "istanbul": "^0.4.0",
     "jasmine": "~2.2.1",
     "jsdom": "^5.4.3",
