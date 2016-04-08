@@ -506,6 +506,14 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 }
 
 .wpseo-tab-video-container__handle {
+	width: 100%;
+	margin: 0;
+	padding: 0.5em;
+	border: none;
+	outline: none;
+	color: white;
+	background-color: #a4286a;
+	text-align: left;
 	cursor: pointer;
 }
 
@@ -515,12 +523,6 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 
 .wpseo-tab-video-container__handle .dashicons-before:before {
 	margin-right: 5px;
-}
-
-.wpseo-tab-video-container__handle {
-	margin: 0;
-	padding: 0.5em;
-	color: white;
 }
 
 .wpseo-tab-video-slideout .wpseo-tab-video__panel__textarea {

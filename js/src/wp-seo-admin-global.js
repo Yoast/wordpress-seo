@@ -129,8 +129,10 @@
 	window.wpseoDismissLink = wpseoDismissLink;
 }());
 
-(function( $ ) {
+(function() {
 	'use strict';
+
+	var $ = jQuery;
 
 	$( '.nav-tab' ).click( function() {
 		closeVideoSlideout( 0 );
@@ -144,7 +146,6 @@
 		else {
 			closeVideoSlideout( 400 );
 		}
-		return false;
 	} );
 
 	/**
@@ -164,7 +165,7 @@
 	/**
 	 * Close Video Slideout
 	 * 
-	 * @param duration Duration of the slider.
+	 * @param {int} duration Duration of the slider.
 	 */
 	function closeVideoSlideout( duration ) {
 		var $target = $( '#wpbody-content' ).find( '.wpseo-tab-video-slideout' );
@@ -172,4 +173,4 @@
 			$( '#wpbody-content' ).find( '.wpseo-tab-video__data' ).children().remove();
 		} );
 	}
-})( jQuery );
+})();
