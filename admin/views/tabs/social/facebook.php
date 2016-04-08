@@ -43,6 +43,7 @@ if ( 'posts' == get_option( 'show_on_front' ) ) {
 
 <?php
 
+$social_facebook = new Yoast_Social_Facebook();
 $social_facebook->show_form();
 
 do_action( 'wpseo_admin_opengraph_section' );

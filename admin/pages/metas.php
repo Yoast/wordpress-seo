@@ -66,8 +66,9 @@ $tabs = array(
 
 			echo '</div>';
 		}
-
+		
 		?>
 	</div>
 <?php
+
 $yform->admin_footer();

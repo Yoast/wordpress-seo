@@ -35,16 +35,14 @@ $tabs = array(
 	),
 );
 
-$social_facebook = new Yoast_Social_Facebook();
+
 
 ?>
-
 	<h2 class="nav-tab-wrapper" id="wpseo-tabs">
 		<?php foreach ( $tabs as $identifier => $tab ) : ?>
 		<a class="nav-tab" id="<?php echo $identifier; ?>-tab" href="#top#<?php echo $identifier; ?>"><?php echo $tab['label']; ?></a>
 		<?php endforeach; ?>
 	</h2>
-
 <?php
 
 foreach ( $tabs as $identifier => $tab ) {
@@ -61,10 +59,4 @@ foreach ( $tabs as $identifier => $tab ) {
 	echo '</div>';
 }
 
-?>
-	<div id="google" class="wpseotab">
-
-	</div>
-
-<?php
 $yform->admin_footer();

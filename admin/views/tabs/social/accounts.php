@@ -9,11 +9,11 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-?><p>
-<?php _e( 'To inform Google about your social profiles, we need to know their URLs.', 'wordpress-seo' ); ?>
-<?php _e( 'For each, pick the main account associated with this site and please enter them below:', 'wordpress-seo' ); ?>
-	</p>
-<?php
+echo '<p>';
+_e( 'To inform Google about your social profiles, we need to know their URLs.', 'wordpress-seo' );
+_e( 'For each, pick the main account associated with this site and please enter them below:', 'wordpress-seo' );
+echo '</p>';
+
 $yform->textinput( 'facebook_site', __( 'Facebook Page URL', 'wordpress-seo' ) );
 $yform->textinput( 'twitter_site', __( 'Twitter Username', 'wordpress-seo' ) );
 $yform->textinput( 'instagram_url', __( 'Instagram URL', 'wordpress-seo' ) );

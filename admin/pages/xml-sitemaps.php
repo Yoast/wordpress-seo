@@ -54,8 +54,7 @@ $tabs = array(
 	<div id="sitemapinfo">
 		<h2 class="nav-tab-wrapper" id="wpseo-tabs">
 			<?php foreach ( $tabs as $identifer => $tab ) : ?>
-				<a class="nav-tab" id="<?php echo $identifer; ?>-tab"
-				   href="#top#<?php echo $identifer; ?>"><?php echo $tab['label']; ?></a>
+				<a class="nav-tab" id="<?php echo $identifer; ?>-tab" href="#top#<?php echo $identifer; ?>"><?php echo $tab['label']; ?></a>
 			<?php endforeach; ?>
 		</h2>
 

@@ -11,14 +11,12 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 
 $yform->light_switch( 'twitter', __( 'Add Twitter card meta data', 'wordpress-seo' ) );
 
-?>
-	<p>
-		<?php
-		/* translators: %s expands to <code>&lt;head&gt;</code> */
-		printf( __( 'Add Twitter card meta data to your site\'s %s section.', 'wordpress-seo' ), '<code>&lt;head&gt;</code>' );
-		?>
-	</p>
-	<br/>
-<?php
+/* translators: %s expands to <code>&lt;head&gt;</code> */
+$p = sprintf( __( 'Add Twitter card meta data to your site\'s %s section.', 'wordpress-seo' ), '<code>&lt;head&gt;</code>' );
+printf( '<p>%s</p>', $p );
+
+echo '<br />';
+
 $yform->select( 'twitter_card_type', __( 'The default card type to use', 'wordpress-seo' ), WPSEO_Option_Social::$twitter_card_types );
+
 do_action( 'wpseo_admin_twitter_section' );
