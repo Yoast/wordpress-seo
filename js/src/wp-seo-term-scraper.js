@@ -289,12 +289,18 @@
 	function createTermScraperAssessor( i18n ) {
 		var assessor = new SEOAssessor( i18n );
 
-		assessor.removeAssessment( 'textLength' );
-		assessor.removeAssessment( 'textSubheadings' );
-		assessor.removeAssessment( 'subheadingsKeyword' );
-		assessor.removeAssessment( 'textImages' );
-		assessor.removeAssessment( 'textLinks' );
-		assessor.removeAssessment( 'textCompetingLinks' );
+		var removeableAssessments = [
+			'textLength',
+			'textSubheadings',
+			'subheadingsKeyword',
+			'textImages',
+			'textLinks',
+			'textCompetingLinks'
+		];
+
+		for ( var i = 0; i < removeableAssessments.length; i++ ) {
+			assessor.removeAssessment( removeableAssessments[ i ] );
+		}
 
 		assessor.addAssessment( 'taxonomyTextLength', taxonomyTextLengthAssessment );
 
