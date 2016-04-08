@@ -218,8 +218,7 @@ TwitterPreview.prototype.renderTemplate = function() {
 
 	this.element.formContainer.innerHTML = this.element.fields.imageUrl.render()
 		+ this.element.fields.title.render()
-		+ this.element.fields.description.render()
-		+ this.element.fields.button.render();
+		+ this.element.fields.description.render();
 
 	this.element.input = {
 		title: targetElement.getElementsByClassName( "js-snippet-editor-title" )[0],
@@ -274,13 +273,7 @@ TwitterPreview.prototype.getFields = function() {
 			placeholder: this.opts.placeholder.imageUrl,
 			title: this.i18n.dgettext( "yoast-social-previews", "Twitter image" ),
 			labelClassName: "snippet-editor__label"
-		} ),
-		button : new Button(
-			{
-				className : "snippet-editor__submit snippet-editor__button",
-				value: this.i18n.dgettext( "yoast-social-previews", "Close Twitter editor" )
-			}
-		)
+		} )
 	};
 };
 
@@ -488,7 +481,7 @@ TwitterPreview.prototype.removeSmallImageClasses = function() {
  * Binds the reloadSnippetText function to the blur of the snippet inputs.
  */
 TwitterPreview.prototype.bindEvents = function() {
-	var previewEvents = new PreviewEvents( inputTwitterPreviewBindings, this.element );
+	var previewEvents = new PreviewEvents( inputTwitterPreviewBindings, this.element, true );
 	previewEvents.bindEvents( this.element.editToggle, this.element.closeEditor );
 };
 
