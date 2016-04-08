@@ -22,8 +22,8 @@ function setImagePlaceholder( imageContainer, placeholder, isError, modifier ) {
 	}
 
 	imageContainer.innerHTML = placeholderTemplate( {
-		className : classNames.join( " " ),
-		placeholder : placeholder
+		className: classNames.join( " " ),
+		placeholder: placeholder
 	} );
 }
 
