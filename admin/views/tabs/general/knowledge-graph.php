@@ -33,6 +33,7 @@ $yform->select( 'company_or_person', __( 'Company or person', 'wordpress-seo' ),
 	'person'  => __( 'Person', 'wordpress-seo' ),
 ) );
 ?>
+
 <div id="knowledge-graph-company">
 	<h2><?php _e( 'Company', 'wordpress-seo' ); ?></h2>
 	<?php
@@ -40,6 +41,7 @@ $yform->select( 'company_or_person', __( 'Company or person', 'wordpress-seo' ),
 	$yform->media_input( 'company_logo', __( 'Company Logo', 'wordpress-seo' ) );
 	?>
 </div>
+
 <div id="knowledge-graph-person">
 	<h2><?php _e( 'Person', 'wordpress-seo' ); ?></h2>
 	<?php $yform->textinput( 'person_name', __( 'Your name', 'wordpress-seo' ) ); ?>

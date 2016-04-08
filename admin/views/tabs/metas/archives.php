@@ -17,12 +17,15 @@ if ( $options['usemetakeywords'] === true ) {
 	$yform->textinput( 'metakey-author-wpseo', __( 'Meta keywords template', 'wordpress-seo' ) );
 }
 echo '</div>';
+
 echo "<div id='date-archives-titles-metas'>";
 echo '<h3>' . __( 'Date archives', 'wordpress-seo' ) . '</h3>';
 $yform->textinput( 'title-archive-wpseo', __( 'Title template', 'wordpress-seo' ), 'template date-template' );
 $yform->textarea( 'metadesc-archive-wpseo', __( 'Meta description template', 'wordpress-seo' ), array( 'class' => 'template date-template' ) );
 echo '</div>';
+
 echo '<br/>';
+
 echo '<div id="duplicate-content-prevention">';
 echo '<h3>' . __( 'Author archives', 'wordpress-seo' ) . '</h3>';
 $yform->toggle_switch( 'disable-author', array(
@@ -47,7 +50,9 @@ echo '<p>';
 _e( 'Date-based archives could in some cases also be seen as duplicate content.', 'wordpress-seo' );
 echo '</p>';
 echo '</div>';
+
 echo '<br/>';
+
 echo '<div id="special-pages-titles-metas">';
 echo '<h2>' . __( 'Special Pages', 'wordpress-seo' ) . '</h2>';
 /* translators: %s expands to <code>noindex, follow</code> */
@@ -59,4 +64,5 @@ echo '<p><strong>' . __( '404 pages', 'wordpress-seo' ) . '</strong><br/>';
 $yform->textinput( 'title-404-wpseo', __( 'Title template', 'wordpress-seo' ), 'template error404-template' );
 echo '</p>';
 echo '</div>';
+
 echo '<br class="clear"/>';

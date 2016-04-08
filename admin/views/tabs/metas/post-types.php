@@ -14,6 +14,7 @@ $index_switch_values = array(
 	'off' => '<code>index</code>',
 	'on'  => '<code>noindex</code>',
 );
+
 if ( is_array( $post_types ) && $post_types !== array() ) {
 	foreach ( $post_types as $pt ) {
 		$warn = false;
@@ -61,6 +62,7 @@ if ( is_array( $post_types ) && $post_types !== array() ) {
 	unset( $pt );
 }
 unset( $post_types );
+
 $post_types = get_post_types( array( '_builtin' => false, 'has_archive' => true ), 'objects' );
 if ( is_array( $post_types ) && $post_types !== array() ) {
 	echo '<h2>' . __( 'Custom Post Type Archives', 'wordpress-seo' ) . '</h2>';
