@@ -513,7 +513,7 @@ var getDescriptionPlaceholder = require( './analysis/getDescriptionPlaceholder' 
 		// Init Plugins
 		YoastSEO.wp = {};
 		YoastSEO.wp.replaceVarsPlugin = new YoastReplaceVarPlugin( app );
-		new YoastShortcodePlugin( app );
+		YoastSEO.wp.shortcodePlugin = new YoastShortcodePlugin( app );
 
 		var usedKeywords = new UsedKeywords( '#yoast_wpseo_focuskw_text_input', 'get_focus_keyword_usage', wpseoPostScraperL10n, app );
 		usedKeywords.init();
