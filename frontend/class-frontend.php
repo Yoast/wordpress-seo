@@ -918,8 +918,13 @@ class WPSEO_Frontend {
 				$term = get_queried_object();
 
 				if ( ! empty( $term ) && ! $this->is_multiple_terms_query() ) {
+
 					$canonical_override = WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'canonical' );
-					$canonical          = get_term_link( $term, $term->taxonomy );
+					$term_link          = get_term_link( $term, $term->taxonomy );
+
+					if ( ! is_wp_error( $term_link ) ) {
+						$canonical = $term_link;
+					}
 				}
 			}
 			elseif ( is_post_type_archive() ) {
