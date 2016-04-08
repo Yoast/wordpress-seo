@@ -17,7 +17,7 @@ if ( ! empty( $tab_video_url ) ) :
 			<span
 				class="dashicons-before dashicons-format-video"><?php _e( 'Watch Joost explain all the settings on this tab.', 'wordpress-seo' ) ?></span>
 		</div>
-		<div class="wpseo-tab-video-slideout">
+		<div class="wpseo-tab-video-slideout" aria-hidden="true">
 			<div class="wpseo-tab-video__panel wpseo-tab-video__panel--video">
 				<div class="wpseo-tab-video__data" data-url="<?php echo $tab_video_url ?>"></div>
 			</div>
