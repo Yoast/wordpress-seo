@@ -332,8 +332,8 @@
 			}
 
 			$trafficLight.attr({
-				'class': 'yst-traffic-light ' + indicator.className,
-				'alt': ''
+				class: 'yst-traffic-light ' + indicator.className,
+				alt: ''
 			});
 			$trafficLightLink.attr( 'title', initialTitle + ' ' + indicator.screenReaderText );
 		}
