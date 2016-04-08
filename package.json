@@ -19,7 +19,7 @@
   "dependencies": {
     "jed": "^1.1.0",
     "lodash": "^3.10.1",
-    "yoastseo": "github:yoast/YoastSEO.js#develop"
+    "yoastseo": "git://git@github.com:Yoast/YoastSEO.js.git#develop"
   },
   "devDependencies": {
     "autoprefixer": "^6.3.1",
