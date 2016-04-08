@@ -66,7 +66,6 @@ $tabs = array(
 
 			echo '</div>';
 		}
-		
 		?>
 	</div>
 <?php
