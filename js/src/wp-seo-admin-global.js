@@ -164,7 +164,7 @@
 
 	/**
 	 * Close Video Slideout
-	 * 
+	 *
 	 * @param {int} duration Duration of the slider.
 	 */
 	function closeVideoSlideout( duration ) {
