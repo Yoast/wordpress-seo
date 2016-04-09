@@ -151,6 +151,7 @@
 	/**
 	 * Open Video Slideout
 	 *
+	 *
 	 * @param {object} $target Tab to open video slider of.
 	 * @param {int} duration Duration of the slider.
 	 */
