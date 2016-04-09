@@ -165,8 +165,8 @@
 
 	/**
 	 * Close Video Slideout
-	 * 
-	 * @param duration Duration of the slider.
+	 *
+	 * @param {int} duration Duration of the slider.
 	 */
 	function closeVideoSlideout( duration ) {
 		var $target = $( '#wpbody-content' ).find( '.wpseo-tab-video-slideout' );
