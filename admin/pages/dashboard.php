@@ -176,7 +176,7 @@ foreach ( $tabs as $identifier => $tab ) {
 		include WPSEO_PATH . 'admin/views/partial-settings-tab-video.php';
 	}
 
-	require_once WPSEO_PATH . 'admin/views/tabs/general/' . $identifier . '.php';
+	require_once WPSEO_PATH . 'admin/views/tabs/dashboard/' . $identifier . '.php';
 
 	echo '</div>';
 }

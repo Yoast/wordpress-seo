@@ -24,59 +24,19 @@ $yform->admin_header( true, 'wpseo_xml' );
 $options = get_option( 'wpseo_xml' );
 
 echo '<br/>';
-
 $yform->light_switch( 'enablexmlsitemap', __( 'XML sitemap functionality', 'wordpress-seo' ) );
 
-$tabs = array(
-	'general'      => array(
-		'label'                => __( 'General', 'wordpress-seo' ),
-		'screencast_video_url' => 'https://yoa.st/screencast-sitemaps',
-	),
-	'user-sitemap' => array(
-		'label'                => __( 'User sitemap', 'wordpress-seo' ),
-		'screencast_video_url' => 'https://yoa.st/screencast-sitemaps-user-sitemap',
-	),
-	'post-types'   => array(
-		'label'                => __( 'Post Types', 'wordpress-seo' ),
-		'screencast_video_url' => 'https://yoa.st/screencast-sitemaps-post-types',
-	),
-	'exclude-post' => array(
-		'label'                => __( 'Excluded Posts', 'wordpress-seo' ),
-		'screencast_video_url' => 'https://yoa.st/screencast-sitemaps-exclude-post',
-	),
-	'taxonomies'   => array(
-		'label'                => __( 'Taxonomies', 'wordpress-seo' ),
-		'screencast_video_url' => 'https://yoa.st/screencast-sitemaps-taxonomies',
-	),
-);
+$tabs = new WPSEO_Option_Tabs( 'sitemaps' );
+$tabs->add_tab( new WPSEO_Option_Tab( 'general', __( 'General', 'wordpress-seo' ), array( 'video_url' => 'https://yoa.st/screencast-sitemaps' ) ) );
+$tabs->add_tab( new WPSEO_Option_Tab( 'user-sitemap', __( 'User sitemap', 'wordpress-seo' ), array( 'video_url' => 'https://yoa.st/screencast-sitemaps-user-sitemap' ) ) );
+$tabs->add_tab( new WPSEO_Option_Tab( 'post-types', __( 'Post Types', 'wordpress-seo' ), array( 'video_url' => 'https://yoa.st/screencast-sitemaps-post-types' ) ) );
+$tabs->add_tab( new WPSEO_Option_Tab( 'exclude-post', __( 'Excluded Posts', 'wordpress-seo' ), array( 'video_url' => 'https://yoa.st/screencast-sitemaps-exclude-post' ) ) );
+$tabs->add_tab( new WPSEO_Option_Tab( 'taxonomies', __( 'Taxonomies', 'wordpress-seo' ), array( 'video_url' => 'https://yoa.st/screencast-sitemaps-taxonomies' ) ) );
 
-?>
-	<div id="sitemapinfo">
-		<h2 class="nav-tab-wrapper" id="wpseo-tabs">
-			<?php foreach ( $tabs as $identifer => $tab ) : ?>
-				<a class="nav-tab" id="<?php echo $identifer; ?>-tab" href="#top#<?php echo $identifer; ?>"><?php echo $tab['label']; ?></a>
-			<?php endforeach; ?>
-		</h2>
+echo '<div id="sitemapinfo">';
+$tabs->display( $yform, $options );
+echo '</div>';
 
-		<?php
-
-		foreach ( $tabs as $identifier => $tab ) {
-
-			printf( '<div id="%s" class="wpseotab">', $identifier );
-
-			if ( ! empty( $tab['screencast_video_url'] ) ) {
-				$tab_video_url = $tab['screencast_video_url'];
-				include WPSEO_PATH . 'admin/views/partial-settings-tab-video.php';
-			}
-
-			require_once WPSEO_PATH . 'admin/views/tabs/sitemaps/' . $identifier . '.php';
-
-			echo '</div>';
-		}
-
-		?>
-	</div>
-<?php
 
 /**
  * Fires at the end of XML Sitemaps configuration form.

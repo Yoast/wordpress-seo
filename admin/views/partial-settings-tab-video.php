@@ -11,7 +11,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 
 if ( ! empty( $tab_video_url ) ) :
 
-	$id = uniqid('video-tab-');
+	$id = uniqid( 'video-tab-' );
 
 	?>
 	<div class="wpseo-tab-video-container">
