@@ -98,5 +98,4 @@ class WPSEO_Social_Previews {
 
 		return $website;
 	}
-
 }
