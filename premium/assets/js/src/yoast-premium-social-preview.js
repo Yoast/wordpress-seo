@@ -194,6 +194,13 @@ var forEach = require( 'lodash/forEach' );
 						var buttonPrefix = targetElement.attr( 'id' ).replace( 'Preview', '' );
 						setUploadButtonValue( buttonPrefix, yoastSocialPreview.useOtherImage );
 					}
+				},
+				modifyImageUrl: function( imageUrl ) {
+					if ( imageUrl === '' ) {
+						imageUrl = getFallbackImage( '' );
+					}
+
+					return imageUrl;
 				}
 			}
 		};
