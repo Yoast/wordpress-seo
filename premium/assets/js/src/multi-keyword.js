@@ -1,9 +1,10 @@
 /* global YoastSEO: true, wp, wpseoPostScraperL10n, _ */
 var scoreToRating = require( "yoastseo/js/interpreters/scoreToRating" );
 var indicatorsFactory = require( "yoastseo/js/config/presenter" );
-var indicators;
 var Paper = require( "yoastseo/js/values/paper" );
 var _isUndefined = require( "lodash/isUndefined" );
+
+var indicators;
 
 YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 (function( $ ) {
@@ -79,10 +80,16 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 		$( '#yoast_wpseo_focuskeywords' ).val( JSON.stringify( keywords ) );
 	};
 
+	/**
+	 * Inserts multi keyword elements into the DOM
+	 */
 	YoastMultiKeyword.prototype.insertElements = function() {
 		this.addKeywordTabs();
 	};
 
+	/**
+	 * Adds an event handler when the score updates
+	 */
 	YoastMultiKeyword.prototype.bindScore = function() {
 		$( window ).on( 'YoastSEO:numericScore', this.handleUpdatedScore.bind( this ) );
 	};
@@ -97,6 +104,9 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 		this.updateKeywords( score );
 	};
 
+	/**
+	 * Adds event handler to keyword tabs to change current keyword
+	 */
 	YoastMultiKeyword.prototype.bindKeywordTab = function() {
 		$( '.wpseo-metabox-tabs' ).on( 'click', '.wpseo_keyword_tab > .wpseo_tablink', function() {
 			// Convert to string to prevent errors if the keyword is "null".
@@ -106,6 +116,9 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 		} );
 	};
 
+	/**
+	 * Adds event handler to tab removal links
+	 */
 	YoastMultiKeyword.prototype.bindKeywordRemove = function() {
 		$( '.wpseo-metabox-tabs' ).on( 'click', '.remove-keyword', function( ev ) {
 			var previousTab, currentTab;
@@ -124,6 +137,9 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 		}.bind( this ) );
 	};
 
+	/**
+	 * Adds event handler to updates of the keyword field
+	 */
 	YoastMultiKeyword.prototype.bindKeywordField = function() {
 		$( '#yoast_wpseo_focuskw_text_input' ).on( 'input', function( ev ) {
 			var currentTabLink, focusKeyword;
@@ -135,6 +151,9 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 		}.bind( this ) );
 	};
 
+	/**
+	 * Adds event handler to the keyword add button
+	 */
 	YoastMultiKeyword.prototype.bindKeywordAdd = function() {
 		$( '.wpseo-add-keyword' ).click( function() {
 			if ( ! this.canAddTab() ) {
@@ -145,6 +164,9 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 		}.bind( this ) );
 	};
 
+	/**
+	 * Adds keyword tabs to the DOM
+	 */
 	YoastMultiKeyword.prototype.addKeywordTabs = function() {
 		var keywords = JSON.parse( $( '#yoast_wpseo_focuskeywords' ).val() || '[]' );
 
@@ -168,6 +190,13 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 		$( '.wpseo_keyword_tab' ).first().addClass( 'active' );
 	};
 
+	/**
+	 * Adds a single keyword to the DOM
+	 *
+	 * @param {string} keyword The keyword for this tab.
+	 * @param {string} score The score class for this tab.
+	 * @param {boolean} focus Whether this tab should be currently focused.
+	 */
 	YoastMultiKeyword.prototype.addKeywordTab = function( keyword, score, focus ) {
 		var placeholder, html, templateArgs;
 

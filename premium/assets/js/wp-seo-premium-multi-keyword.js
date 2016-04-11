@@ -270,7 +270,7 @@ module.exports = Reflect;
  * @private
  * @param {Function} func The function to invoke.
  * @param {*} thisArg The `this` binding of `func`.
- * @param {...*} args The arguments to invoke `func` with.
+ * @param {Array} args The arguments to invoke `func` with.
  * @returns {*} Returns the result of `func`.
  */
 function apply(func, thisArg, args) {
@@ -443,7 +443,7 @@ var assignValue = require('./_assignValue');
  *
  * @private
  * @param {Object} source The object to copy properties from.
- * @param {Array} props The property names to copy.
+ * @param {Array} props The property identifiers to copy.
  * @param {Object} [object={}] The object to copy properties to.
  * @param {Function} [customizer] The function to customize copied values.
  * @returns {Object} Returns `object`.
@@ -507,14 +507,15 @@ function createAssigner(assigner) {
 
 module.exports = createAssigner;
 
-},{"./_isIterateeCall":20,"./rest":37}],17:[function(require,module,exports){
+},{"./_isIterateeCall":20,"./rest":38}],17:[function(require,module,exports){
 var baseProperty = require('./_baseProperty');
 
 /**
  * Gets the "length" property value of `object`.
  *
- * **Note:** This function is used to avoid a [JIT bug](https://bugs.webkit.org/show_bug.cgi?id=142792)
- * that affects Safari on at least iOS 8.1-8.3 ARM64.
+ * **Note:** This function is used to avoid a
+ * [JIT bug](https://bugs.webkit.org/show_bug.cgi?id=142792) that affects
+ * Safari on at least iOS 8.1-8.3 ARM64.
  *
  * @private
  * @param {Object} object The object to query.
@@ -586,7 +587,8 @@ var eq = require('./eq'),
  * @param {*} value The potential iteratee value argument.
  * @param {*} index The potential iteratee index or key argument.
  * @param {*} object The potential iteratee object argument.
- * @returns {boolean} Returns `true` if the arguments are from an iteratee call, else `false`.
+ * @returns {boolean} Returns `true` if the arguments are from an iteratee call,
+ *  else `false`.
  */
 function isIterateeCall(value, index, object) {
   if (!isObject(object)) {
@@ -594,8 +596,9 @@ function isIterateeCall(value, index, object) {
   }
   var type = typeof index;
   if (type == 'number'
-      ? (isArrayLike(object) && isIndex(index, object.length))
-      : (type == 'string' && index in object)) {
+        ? (isArrayLike(object) && isIndex(index, object.length))
+        : (type == 'string' && index in object)
+      ) {
     return eq(object[index], value);
   }
   return false;
@@ -694,15 +697,16 @@ var copyObjectWith = require('./_copyObjectWith'),
     keysIn = require('./keysIn');
 
 /**
- * This method is like `_.assignIn` except that it accepts `customizer` which
- * is invoked to produce the assigned values. If `customizer` returns `undefined`
- * assignment is handled by the method instead. The `customizer` is invoked
- * with five arguments: (objValue, srcValue, key, object, source).
+ * This method is like `_.assignIn` except that it accepts `customizer`
+ * which is invoked to produce the assigned values. If `customizer` returns
+ * `undefined` assignment is handled by the method instead. The `customizer`
+ * is invoked with five arguments: (objValue, srcValue, key, object, source).
  *
  * **Note:** This method mutates `object`.
  *
  * @static
  * @memberOf _
+ * @since 4.0.0
  * @alias extendWith
  * @category Object
  * @param {Object} object The destination object.
@@ -726,21 +730,22 @@ var assignInWith = createAssigner(function(object, source, srcIndex, customizer)
 
 module.exports = assignInWith;
 
-},{"./_copyObjectWith":15,"./_createAssigner":16,"./keysIn":36}],25:[function(require,module,exports){
+},{"./_copyObjectWith":15,"./_createAssigner":16,"./keysIn":37}],25:[function(require,module,exports){
 var apply = require('./_apply'),
     assignInDefaults = require('./_assignInDefaults'),
     assignInWith = require('./assignInWith'),
     rest = require('./rest');
 
 /**
- * Assigns own and inherited enumerable properties of source objects to the
- * destination object for all destination properties that resolve to `undefined`.
- * Source objects are applied from left to right. Once a property is set,
- * additional values of the same property are ignored.
+ * Assigns own and inherited enumerable string keyed properties of source
+ * objects to the destination object for all destination properties that
+ * resolve to `undefined`. Source objects are applied from left to right.
+ * Once a property is set, additional values of the same property are ignored.
  *
  * **Note:** This method mutates `object`.
  *
  * @static
+ * @since 0.1.0
  * @memberOf _
  * @category Object
  * @param {Object} object The destination object.
@@ -758,13 +763,15 @@ var defaults = rest(function(args) {
 
 module.exports = defaults;
 
-},{"./_apply":8,"./_assignInDefaults":9,"./assignInWith":24,"./rest":37}],26:[function(require,module,exports){
+},{"./_apply":8,"./_assignInDefaults":9,"./assignInWith":24,"./rest":38}],26:[function(require,module,exports){
 /**
- * Performs a [`SameValueZero`](http://ecma-international.org/ecma-262/6.0/#sec-samevaluezero)
+ * Performs a
+ * [`SameValueZero`](http://ecma-international.org/ecma-262/6.0/#sec-samevaluezero)
  * comparison between two values to determine if they are equivalent.
  *
  * @static
  * @memberOf _
+ * @since 4.0.0
  * @category Lang
  * @param {*} value The value to compare.
  * @param {*} other The other value to compare.
@@ -808,7 +815,8 @@ var objectProto = Object.prototype;
 var hasOwnProperty = objectProto.hasOwnProperty;
 
 /**
- * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
+ * Used to resolve the
+ * [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
  * of values.
  */
 var objectToString = objectProto.toString;
@@ -821,9 +829,11 @@ var propertyIsEnumerable = objectProto.propertyIsEnumerable;
  *
  * @static
  * @memberOf _
+ * @since 0.1.0
  * @category Lang
  * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
+ * @returns {boolean} Returns `true` if `value` is correctly classified,
+ *  else `false`.
  * @example
  *
  * _.isArguments(function() { return arguments; }());
@@ -846,10 +856,12 @@ module.exports = isArguments;
  *
  * @static
  * @memberOf _
+ * @since 0.1.0
  * @type {Function}
  * @category Lang
  * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
+ * @returns {boolean} Returns `true` if `value` is correctly classified,
+ *  else `false`.
  * @example
  *
  * _.isArray([1, 2, 3]);
@@ -880,6 +892,7 @@ var getLength = require('./_getLength'),
  *
  * @static
  * @memberOf _
+ * @since 4.0.0
  * @category Lang
  * @param {*} value The value to check.
  * @returns {boolean} Returns `true` if `value` is array-like, else `false`.
@@ -913,9 +926,11 @@ var isArrayLike = require('./isArrayLike'),
  *
  * @static
  * @memberOf _
+ * @since 4.0.0
  * @category Lang
  * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is an array-like object, else `false`.
+ * @returns {boolean} Returns `true` if `value` is an array-like object,
+ *  else `false`.
  * @example
  *
  * _.isArrayLikeObject([1, 2, 3]);
@@ -947,7 +962,8 @@ var funcTag = '[object Function]',
 var objectProto = Object.prototype;
 
 /**
- * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
+ * Used to resolve the
+ * [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
  * of values.
  */
 var objectToString = objectProto.toString;
@@ -957,9 +973,11 @@ var objectToString = objectProto.toString;
  *
  * @static
  * @memberOf _
+ * @since 0.1.0
  * @category Lang
  * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
+ * @returns {boolean} Returns `true` if `value` is correctly classified,
+ *  else `false`.
  * @example
  *
  * _.isFunction(_);
@@ -985,13 +1003,16 @@ var MAX_SAFE_INTEGER = 9007199254740991;
 /**
  * Checks if `value` is a valid array-like length.
  *
- * **Note:** This function is loosely based on [`ToLength`](http://ecma-international.org/ecma-262/6.0/#sec-tolength).
+ * **Note:** This function is loosely based on
+ * [`ToLength`](http://ecma-international.org/ecma-262/6.0/#sec-tolength).
  *
  * @static
  * @memberOf _
+ * @since 4.0.0
  * @category Lang
  * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a valid length, else `false`.
+ * @returns {boolean} Returns `true` if `value` is a valid length,
+ *  else `false`.
  * @example
  *
  * _.isLength(3);
@@ -1015,11 +1036,13 @@ module.exports = isLength;
 
 },{}],33:[function(require,module,exports){
 /**
- * Checks if `value` is the [language type](https://es5.github.io/#x8) of `Object`.
- * (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+ * Checks if `value` is the
+ * [language type](http://www.ecma-international.org/ecma-262/6.0/#sec-ecmascript-language-types)
+ * of `Object`. (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
  *
  * @static
  * @memberOf _
+ * @since 0.1.0
  * @category Lang
  * @param {*} value The value to check.
  * @returns {boolean} Returns `true` if `value` is an object, else `false`.
@@ -1051,6 +1074,7 @@ module.exports = isObject;
  *
  * @static
  * @memberOf _
+ * @since 4.0.0
  * @category Lang
  * @param {*} value The value to check.
  * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
@@ -1085,7 +1109,8 @@ var stringTag = '[object String]';
 var objectProto = Object.prototype;
 
 /**
- * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
+ * Used to resolve the
+ * [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
  * of values.
  */
 var objectToString = objectProto.toString;
@@ -1094,10 +1119,12 @@ var objectToString = objectProto.toString;
  * Checks if `value` is classified as a `String` primitive or object.
  *
  * @static
+ * @since 0.1.0
  * @memberOf _
  * @category Lang
  * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
+ * @returns {boolean} Returns `true` if `value` is correctly classified,
+ *  else `false`.
  * @example
  *
  * _.isString('abc');
@@ -1114,6 +1141,47 @@ function isString(value) {
 module.exports = isString;
 
 },{"./isArray":28,"./isObjectLike":34}],36:[function(require,module,exports){
+var isObjectLike = require('./isObjectLike');
+
+/** `Object#toString` result references. */
+var symbolTag = '[object Symbol]';
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/**
+ * Used to resolve the
+ * [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
+ * of values.
+ */
+var objectToString = objectProto.toString;
+
+/**
+ * Checks if `value` is classified as a `Symbol` primitive or object.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is correctly classified,
+ *  else `false`.
+ * @example
+ *
+ * _.isSymbol(Symbol.iterator);
+ * // => true
+ *
+ * _.isSymbol('abc');
+ * // => false
+ */
+function isSymbol(value) {
+  return typeof value == 'symbol' ||
+    (isObjectLike(value) && objectToString.call(value) == symbolTag);
+}
+
+module.exports = isSymbol;
+
+},{"./isObjectLike":34}],37:[function(require,module,exports){
 var baseKeysIn = require('./_baseKeysIn'),
     indexKeys = require('./_indexKeys'),
     isIndex = require('./_isIndex'),
@@ -1132,6 +1200,7 @@ var hasOwnProperty = objectProto.hasOwnProperty;
  *
  * @static
  * @memberOf _
+ * @since 3.0.0
  * @category Object
  * @param {Object} object The object to query.
  * @returns {Array} Returns the array of property names.
@@ -1169,7 +1238,7 @@ function keysIn(object) {
 
 module.exports = keysIn;
 
-},{"./_baseKeysIn":11,"./_indexKeys":18,"./_isIndex":19,"./_isPrototype":21}],37:[function(require,module,exports){
+},{"./_baseKeysIn":11,"./_indexKeys":18,"./_isIndex":19,"./_isPrototype":21}],38:[function(require,module,exports){
 var apply = require('./_apply'),
     toInteger = require('./toInteger');
 
@@ -1181,12 +1250,15 @@ var nativeMax = Math.max;
 
 /**
  * Creates a function that invokes `func` with the `this` binding of the
- * created function and arguments from `start` and beyond provided as an array.
+ * created function and arguments from `start` and beyond provided as
+ * an array.
  *
- * **Note:** This method is based on the [rest parameter](https://mdn.io/rest_parameters).
+ * **Note:** This method is based on the
+ * [rest parameter](https://mdn.io/rest_parameters).
  *
  * @static
  * @memberOf _
+ * @since 4.0.0
  * @category Function
  * @param {Function} func The function to apply a rest parameter to.
  * @param {number} [start=func.length-1] The start position of the rest parameter.
@@ -1232,7 +1304,7 @@ function rest(func, start) {
 
 module.exports = rest;
 
-},{"./_apply":8,"./toInteger":38}],38:[function(require,module,exports){
+},{"./_apply":8,"./toInteger":39}],39:[function(require,module,exports){
 var toNumber = require('./toNumber');
 
 /** Used as references for various `Number` constants. */
@@ -1242,10 +1314,12 @@ var INFINITY = 1 / 0,
 /**
  * Converts `value` to an integer.
  *
- * **Note:** This function is loosely based on [`ToInteger`](http://www.ecma-international.org/ecma-262/6.0/#sec-tointeger).
+ * **Note:** This function is loosely based on
+ * [`ToInteger`](http://www.ecma-international.org/ecma-262/6.0/#sec-tointeger).
  *
  * @static
  * @memberOf _
+ * @since 4.0.0
  * @category Lang
  * @param {*} value The value to convert.
  * @returns {number} Returns the converted integer.
@@ -1278,9 +1352,10 @@ function toInteger(value) {
 
 module.exports = toInteger;
 
-},{"./toNumber":39}],39:[function(require,module,exports){
+},{"./toNumber":40}],40:[function(require,module,exports){
 var isFunction = require('./isFunction'),
-    isObject = require('./isObject');
+    isObject = require('./isObject'),
+    isSymbol = require('./isSymbol');
 
 /** Used as references for various `Number` constants. */
 var NAN = 0 / 0;
@@ -1305,6 +1380,7 @@ var freeParseInt = parseInt;
  *
  * @static
  * @memberOf _
+ * @since 4.0.0
  * @category Lang
  * @param {*} value The value to process.
  * @returns {number} Returns the number.
@@ -1323,6 +1399,12 @@ var freeParseInt = parseInt;
  * // => 3
  */
 function toNumber(value) {
+  if (typeof value == 'number') {
+    return value;
+  }
+  if (isSymbol(value)) {
+    return NAN;
+  }
   if (isObject(value)) {
     var other = isFunction(value.valueOf) ? value.valueOf() : value;
     value = isObject(other) ? (other + '') : other;
@@ -1339,13 +1421,14 @@ function toNumber(value) {
 
 module.exports = toNumber;
 
-},{"./isFunction":31,"./isObject":33}],40:[function(require,module,exports){
+},{"./isFunction":31,"./isObject":33,"./isSymbol":36}],41:[function(require,module,exports){
 /* global YoastSEO: true, wp, wpseoPostScraperL10n, _ */
 var scoreToRating = require( "yoastseo/js/interpreters/scoreToRating" );
 var indicatorsFactory = require( "yoastseo/js/config/presenter" );
-var indicators;
 var Paper = require( "yoastseo/js/values/paper" );
 var _isUndefined = require( "lodash/isUndefined" );
+
+var indicators;
 
 YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 (function( $ ) {
@@ -1421,10 +1504,16 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 		$( '#yoast_wpseo_focuskeywords' ).val( JSON.stringify( keywords ) );
 	};
 
+	/**
+	 * Inserts multi keyword elements into the DOM
+	 */
 	YoastMultiKeyword.prototype.insertElements = function() {
 		this.addKeywordTabs();
 	};
 
+	/**
+	 * Adds an event handler when the score updates
+	 */
 	YoastMultiKeyword.prototype.bindScore = function() {
 		$( window ).on( 'YoastSEO:numericScore', this.handleUpdatedScore.bind( this ) );
 	};
@@ -1439,6 +1528,9 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 		this.updateKeywords( score );
 	};
 
+	/**
+	 * Adds event handler to keyword tabs to change current keyword
+	 */
 	YoastMultiKeyword.prototype.bindKeywordTab = function() {
 		$( '.wpseo-metabox-tabs' ).on( 'click', '.wpseo_keyword_tab > .wpseo_tablink', function() {
 			// Convert to string to prevent errors if the keyword is "null".
@@ -1448,6 +1540,9 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 		} );
 	};
 
+	/**
+	 * Adds event handler to tab removal links
+	 */
 	YoastMultiKeyword.prototype.bindKeywordRemove = function() {
 		$( '.wpseo-metabox-tabs' ).on( 'click', '.remove-keyword', function( ev ) {
 			var previousTab, currentTab;
@@ -1466,6 +1561,9 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 		}.bind( this ) );
 	};
 
+	/**
+	 * Adds event handler to updates of the keyword field
+	 */
 	YoastMultiKeyword.prototype.bindKeywordField = function() {
 		$( '#yoast_wpseo_focuskw_text_input' ).on( 'input', function( ev ) {
 			var currentTabLink, focusKeyword;
@@ -1477,6 +1575,9 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 		}.bind( this ) );
 	};
 
+	/**
+	 * Adds event handler to the keyword add button
+	 */
 	YoastMultiKeyword.prototype.bindKeywordAdd = function() {
 		$( '.wpseo-add-keyword' ).click( function() {
 			if ( ! this.canAddTab() ) {
@@ -1487,6 +1588,9 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 		}.bind( this ) );
 	};
 
+	/**
+	 * Adds keyword tabs to the DOM
+	 */
 	YoastMultiKeyword.prototype.addKeywordTabs = function() {
 		var keywords = JSON.parse( $( '#yoast_wpseo_focuskeywords' ).val() || '[]' );
 
@@ -1510,6 +1614,13 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 		$( '.wpseo_keyword_tab' ).first().addClass( 'active' );
 	};
 
+	/**
+	 * Adds a single keyword to the DOM
+	 *
+	 * @param {string} keyword The keyword for this tab.
+	 * @param {string} score The score class for this tab.
+	 * @param {boolean} focus Whether this tab should be currently focused.
+	 */
 	YoastMultiKeyword.prototype.addKeywordTab = function( keyword, score, focus ) {
 		var placeholder, html, templateArgs;
 
@@ -1744,7 +1855,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 	YoastSEO.multiKeyword = true;
 }( jQuery ));
 
-},{"lodash/isUndefined":41,"yoastseo/js/config/presenter":1,"yoastseo/js/interpreters/scoreToRating":2,"yoastseo/js/values/paper":6}],41:[function(require,module,exports){
+},{"lodash/isUndefined":42,"yoastseo/js/config/presenter":1,"yoastseo/js/interpreters/scoreToRating":2,"yoastseo/js/values/paper":6}],42:[function(require,module,exports){
 /**
  * Checks if `value` is `undefined`.
  *
@@ -1768,4 +1879,4 @@ function isUndefined(value) {
 
 module.exports = isUndefined;
 
-},{}]},{},[40]);
+},{}]},{},[41]);
