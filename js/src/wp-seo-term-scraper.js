@@ -8,8 +8,10 @@ var getDescriptionPlaceholder = require( './analysis/getDescriptionPlaceholder' 
 
 	var App = require( 'yoastseo' ).App;
 	var SnippetPreview = require( 'yoastseo' ).SnippetPreview;
+	var SEOAssessor = require( 'yoastseo' ).SEOAssessor;
 
 	var UsedKeywords = require( './analysis/usedKeywords' );
+	var taxonomyTextLengthAssessment = require( 'yoastseo/js/assessments/taxonomyTextLengthAssessment' );
 
 	var scoreToRating = require( 'yoastseo' ).helpers.scoreToRating;
 
@@ -283,6 +285,32 @@ var getDescriptionPlaceholder = require( './analysis/getDescriptionPlaceholder' 
 	}
 
 	/**
+	 * Create a term specific Assessor object
+	 * @param {object} i18n The i18n object to use in the assessor.
+	 * @returns {SEOAssessor} The modified Assessor object.
+	 */
+	function createTermScraperAssessor( i18n ) {
+		var assessor = new SEOAssessor( i18n );
+
+		var removeableAssessments = [
+			'textLength',
+			'textSubheadings',
+			'subheadingsKeyword',
+			'textImages',
+			'textLinks',
+			'textCompetingLinks'
+		];
+
+		for ( var i = 0; i < removeableAssessments.length; i++ ) {
+			assessor.removeAssessment( removeableAssessments[ i ] );
+		}
+
+		assessor.addAssessment( 'taxonomyTextLength', taxonomyTextLengthAssessment );
+
+		return assessor;
+	}
+
+	/**
 	 * Function to handle when the user updates the term slug
 	 */
 	function updatedTermSlug() {
@@ -321,6 +349,7 @@ var getDescriptionPlaceholder = require( './analysis/getDescriptionPlaceholder' 
 		};
 
 		translations = wpseoTermScraperL10n.translations;
+
 		if ( translations.length > 0 ) {
 			translations.domain = 'js-text-analysis';
 			translations.locale_data['js-text-analysis'] = translations.locale_data['wordpress-seo'];
@@ -333,6 +362,9 @@ var getDescriptionPlaceholder = require( './analysis/getDescriptionPlaceholder' 
 		args.snippetPreview = snippetPreview;
 
 		app = new App( args );
+
+		app.assessor = createTermScraperAssessor( app.i18n );
+
 		window.YoastSEO = {};
 		window.YoastSEO.app = app;
 
