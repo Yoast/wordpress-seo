@@ -139,9 +139,10 @@
 	} );
 
 	$( '.wpseo-tab-video-container' ).on( 'click', '.wpseo-tab-video-container__handle', function( e ) {
-		var $target = $( e.delegateTarget ).find( '.wpseo-tab-video-slideout' );
-		if ( $target.is( ':hidden' ) ) {
-			openVideoSlideout( $target, 400 );
+		var $container = $( e.delegateTarget );
+		var $slideout = $container.find('.wpseo-tab-video-slideout');
+		if ( $slideout.is( ':hidden' ) ) {
+			openVideoSlideout( $container, 400 );
 		}
 		else {
 			closeVideoSlideout( 400 );
@@ -151,17 +152,17 @@
 	/**
 	 * Open Video Slideout
 	 *
-	 * @param {object} $target Tab to open video slider of.
+	 * @param {object} $container Tab to open video slider of.
 	 * @param {int} duration Duration of the slider.
 	 */
-	function openVideoSlideout( $target, duration ) {
-		var $data = $target.find( '.wpseo-tab-video__data' );
+	function openVideoSlideout( $container, duration ) {
+		var $data = $container.find( '.wpseo-tab-video__data' );
 		var videoUrl = $data.data( 'url' );
 		$data.append( '<iframe width="560" height="315" src="' + videoUrl + '" frameborder="0" allowfullscreen></iframe>' );
 
-		$target.parent().find('.toggle__arrow').removeClass('dashicons-arrow-down').addClass('dashicons-arrow-up');
-
-		$target.attr( 'aria-hidden', 'false' ).slideDown( duration );
+		$container.find('.toggle__arrow').removeClass('dashicons-arrow-down').addClass('dashicons-arrow-up');
+		$container.find('.wpseo-tab-video-container__handle').attr( 'aria-expanded', 'true' );
+		$container.find('.wpseo-tab-video-slideout').slideDown( duration );
 	}
 
 	/**
@@ -170,11 +171,12 @@
 	 * @param {int} duration Duration of the slider.
 	 */
 	function closeVideoSlideout( duration ) {
-		var $target = $( '#wpbody-content' ).find( '.wpseo-tab-video-slideout' );
-		$target.attr( 'aria-hidden', 'true' ).slideUp( duration, function() {
+		var $container = $( '#wpbody-content' ).find( '.wpseo-tab-video-container' );
+		$container.find('.wpseo-tab-video-slideout').slideUp( duration, function() {
 			$( '#wpbody-content' ).find( '.wpseo-tab-video__data' ).children().remove();
 		} );
 
-		$target.parent().find('.toggle__arrow').removeClass('dashicons-arrow-up').addClass('dashicons-arrow-down');
+		$container.find('.toggle__arrow').removeClass('dashicons-arrow-up').addClass('dashicons-arrow-down');
+		$container.find('.wpseo-tab-video-container__handle').attr('aria-expanded', 'false');
 	}
 })();

@@ -523,7 +523,8 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 	text-decoration: none;
 }
 
-.wpseo-tab-video-container__handle:hover {
+.wpseo-tab-video-container__handle:hover,
+.wpseo-tab-video-container__handle:focus {
 	text-decoration: underline;
 }
 
