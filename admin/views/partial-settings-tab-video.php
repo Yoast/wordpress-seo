@@ -14,7 +14,7 @@ if ( ! empty( $tab_video_url ) ) :
 	?>
 	<div class="wpseo-tab-video-container">
 		<button type="button" class="wpseo-tab-video-container__handle">
-			<span class="dashicons-before dashicons-format-video"><?php _e( 'Watch Joost explain all the settings on this tab.', 'wordpress-seo' ) ?></span>
+			<span class="dashicons-before dashicons-format-video"><?php _e( 'Watch Joost explain all the settings on this tab.', 'wordpress-seo' ) ?></span> <span class="dashicons dashicons-arrow-down toggle__arrow"></span>
 		</button>
 		<div class="wpseo-tab-video-slideout" aria-hidden="true">
 			<div class="wpseo-tab-video__panel wpseo-tab-video__panel--video">

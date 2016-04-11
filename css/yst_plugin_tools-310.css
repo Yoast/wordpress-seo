@@ -495,6 +495,8 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 .wpseo-tab-video-container {
 	overflow: hidden;
 	margin-bottom: 1em;
+	border-radius: 10px;
+	border-bottom-right-radius: 0;
 	background-color: #a4286a;
 }
 
@@ -515,6 +517,10 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 	background-color: #a4286a;
 	text-align: left;
 	cursor: pointer;
+}
+
+.wpseo-tab-video-container__handle .toggle__arrow {
+	text-decoration: none;
 }
 
 .wpseo-tab-video-container__handle:hover {

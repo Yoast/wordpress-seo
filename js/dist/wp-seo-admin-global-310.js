@@ -160,6 +160,8 @@
 		var videoUrl = $data.data( 'url' );
 		$data.append( '<iframe width="560" height="315" src="' + videoUrl + '" frameborder="0" allowfullscreen></iframe>' );
 
+		$target.parent().find('.toggle__arrow').removeClass('dashicons-arrow-down').addClass('dashicons-arrow-up');
+
 		$target.attr( 'aria-hidden', 'false' ).slideDown( duration );
 	}
 
@@ -173,6 +175,8 @@
 		$target.attr( 'aria-hidden', 'true' ).slideUp( duration, function() {
 			$( '#wpbody-content' ).find( '.wpseo-tab-video__data' ).children().remove();
 		} );
+
+		$target.parent().find('.toggle__arrow').removeClass('dashicons-arrow-up').addClass('dashicons-arrow-down');
 	}
 })();
 
