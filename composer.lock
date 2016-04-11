@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "2e4f332a71f16850f19601c36dfcdcb9",
-    "content-hash": "90efef271a44c21dc6f3df63fba03fce",
+    "hash": "9649ef877cbb5178b692a16841f9e5a3",
+    "content-hash": "4c3be0cbaed2c85b3b9f07140491dbcd",
     "packages": [
         {
             "name": "composer/installers",
@@ -299,16 +299,16 @@
     "packages-dev": [
         {
             "name": "codeclimate/php-test-reporter",
-            "version": "dev-master",
+            "version": "v0.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/codeclimate/php-test-reporter.git",
-                "reference": "a026a4bc86867129e760b95dca44b8cd10819333"
+                "reference": "770e5a274608505e9c59f4699ca26f6840acbfa4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/codeclimate/php-test-reporter/zipball/a026a4bc86867129e760b95dca44b8cd10819333",
-                "reference": "a026a4bc86867129e760b95dca44b8cd10819333",
+                "url": "https://api.github.com/repos/codeclimate/php-test-reporter/zipball/770e5a274608505e9c59f4699ca26f6840acbfa4",
+                "reference": "770e5a274608505e9c59f4699ca26f6840acbfa4",
                 "shasum": ""
             },
             "require": {
@@ -327,7 +327,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "0.3.x-dev"
+                    "dev-master": "0.2.x-dev"
                 }
             },
             "autoload": {
@@ -353,7 +353,7 @@
                 "codeclimate",
                 "coverage"
             ],
-            "time": "2016-03-11 15:58:25"
+            "time": "2016-02-16 14:55:26"
         },
         {
             "name": "guzzle/guzzle",
@@ -1247,9 +1247,7 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": {
-        "codeclimate/php-test-reporter": 20
-    },
+    "stability-flags": [],
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": [],
