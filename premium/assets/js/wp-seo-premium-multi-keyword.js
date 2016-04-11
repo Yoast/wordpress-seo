@@ -1430,7 +1430,7 @@ var _isUndefined = require( "lodash/isUndefined" );
 
 var indicators;
 
-YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
+window.YoastSEO = ( 'undefined' === typeof window.YoastSEO ) ? {} : window.YoastSEO;
 (function( $ ) {
 	'use strict';
 
@@ -1440,6 +1440,8 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 	var YoastMultiKeyword = function() {};
 
 	YoastMultiKeyword.prototype.initDOM = function() {
+		window.YoastSEO.multiKeyword = true;
+
 		keywordTabTemplate = wp.template( 'keyword_tab' );
 
 		indicators = indicatorsFactory( YoastSEO.app.i18n );
@@ -1824,7 +1826,8 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 			score = $( '#yoast_wpseo_linkdex' ).val();
 			score = parseInt( score, 10 );
 
-			score = YoastSEO.app.scoreFormatter.overallScoreRating( score );
+			score = indicators[ scoreToRating( score ) ];
+			score = score.className;
 
 			if ( '' === mainKeywordField.val() ) {
 				score = 'na';
@@ -1852,7 +1855,7 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 	var multiKeyword = new YoastMultiKeyword();
 	$( window ).on( 'YoastSEO:ready', multiKeyword.initDOM.bind( multiKeyword ) );
 
-	YoastSEO.multiKeyword = true;
+	window.YoastSEO.multiKeyword = true;
 }( jQuery ));
 
 },{"lodash/isUndefined":42,"yoastseo/js/config/presenter":1,"yoastseo/js/interpreters/scoreToRating":2,"yoastseo/js/values/paper":6}],42:[function(require,module,exports){
