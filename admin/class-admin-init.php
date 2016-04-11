@@ -324,10 +324,10 @@ class WPSEO_Admin_Init {
 				'project_slug'   => 'wordpress-seo',
 				'plugin_name'    => 'Yoast SEO',
 				'hook'           => 'wpseo_admin_footer',
-				'glotpress_url'  => 'http://translate.yoast.com/gp/',
+				'glotpress_url'  => 'https://translate.yoast.com/gp/',
 				'glotpress_name' => 'Yoast Translate',
-				'glotpress_logo' => 'http://translate.yoast.com/gp-templates/images/Yoast_Translate.svg',
-				'register_url'   => 'http://translate.yoast.com/gp/projects#utm_source=plugin&utm_medium=promo-box&utm_campaign=wpseo-i18n-promo',
+				'glotpress_logo' => 'https://translate.yoast.com/gp-templates/images/Yoast_Translate.svg',
+				'register_url'   => 'https://translate.yoast.com/gp/projects#utm_source=plugin&utm_medium=promo-box&utm_campaign=wpseo-i18n-promo',
 			)
 		);
 	}
