@@ -14,7 +14,6 @@ var bemRemoveModifier = require( "./helpers/bem/removeModifier" );
 
 var TextField = require( "./inputs/textInput" );
 var TextArea = require( "./inputs/textarea" );
-var Button = require( "./inputs/button.js" );
 
 var FieldElement = require( "./element/input" );
 var PreviewEvents = require( "./preview/events" );
@@ -369,7 +368,7 @@ FacebookPreview.prototype.setDescription = function( description ) {
  */
 FacebookPreview.prototype.setImageUrl = function( imageUrl ) {
 	var imageContainer = this.element.preview.imageUrl;
-	if ( imageUrl === '' && this.data.imageUrl === "" ) {
+	if ( imageUrl === "" && this.data.imageUrl === "" ) {
 		this.removeSmallImageClasses();
 
 		imagePlaceholder( imageContainer,

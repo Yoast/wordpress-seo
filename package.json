@@ -19,7 +19,7 @@
   "dependencies": {
     "jed": "^1.1.0",
     "lodash": "^3.10.1",
-    "yoastseo": "github:yoast/YoastSEO.js#develop"
+    "yoastseo": "git+https://github.com/Yoast/YoastSEO.js.git#develop"
   },
   "devDependencies": {
     "autoprefixer": "^6.3.1",
@@ -31,15 +31,11 @@
     "grunt-contrib-uglify": "^0.9.1",
     "grunt-contrib-watch": "^0.6.1",
     "grunt-eslint": "^18.0.0",
-    "grunt-jscs": "^1.6.0",
-    "grunt-jsonlint": "^1.0.4",
-    "grunt-jsvalidate": "^0.2.2",
     "grunt-lodash": "^0.5.0",
     "grunt-po2json": "^0.3.0",
     "grunt-postcss": "^0.7.1",
     "grunt-sass": "^1.1.0",
     "grunt-shell": "^1.1.2",
-    "io.js": "0.0.0",
     "istanbul": "^0.4.0",
     "jasmine": "~2.2.1",
     "jsdom": "^5.4.3",

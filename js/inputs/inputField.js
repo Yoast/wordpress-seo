@@ -10,12 +10,12 @@ var minimizeHtml = require( "../helpers/minimizeHtml" );
 function inputFieldFactory( template ) {
 
 	var defaultAttributes = {
-		value         : "",
-		className     : "",
-		id            : "",
-		placeholder   : "",
-		name          : "",
-		title         : "",
+		value: "",
+		className: "",
+		id: "",
+		placeholder: "",
+		name: "",
+		title: "",
 		labelClassName: ""
 	};
 

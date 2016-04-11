@@ -23,7 +23,7 @@ function PreviewEvents( bindings, element, alwaysOpen ) {
  * @param {Object} closeEditor - The button to close the editor
  */
 PreviewEvents.prototype.bindEvents = function( editToggle, closeEditor ) {
-	if ( ! this._alwaysOpen ) {
+	if ( !this._alwaysOpen ) {
 		editToggle.addEventListener( "click", this.toggleEditor.bind( this ) );
 		closeEditor.addEventListener( "click", this.closeEditor.bind( this ) );
 	}

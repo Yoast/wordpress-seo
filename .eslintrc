@@ -146,11 +146,11 @@ rules:
   id-match: 0
   indent: [1, tab, {"SwitchCase": 1}]
   jsx-quotes: 0
-  key-spacing: 0
+  key-spacing: [2, {"mode": "minimum"}]
   linebreak-style: [2, unix]
   lines-around-comment: 0
   max-depth: 1
-  max-len: 0
+  max-len: [2, 150, 4]
   max-nested-callbacks: 2
   max-params: 0
   max-statements: [2, 30]
@@ -176,7 +176,7 @@ rules:
   no-underscore-dangle: 0
   no-unneeded-ternary: 2
   no-whitespace-before-property: 2
-  object-curly-spacing: 0
+  object-curly-spacing: [2, "always"]
   one-var: 0
   operator-assignment: 0
   operator-linebreak: 0
@@ -184,7 +184,7 @@ rules:
   quote-props: 0
   quotes: [2, double, avoid-escape]
   require-jsdoc: 2
-  semi-spacing: 0
+  semi-spacing: 2
   semi: [2, always]
   sort-vars: 0
   space-after-keywords: 0
@@ -194,7 +194,7 @@ rules:
   space-in-parens: [2, "always"]
   space-infix-ops: 0
   space-return-throw-case: 0
-  space-unary-ops: 0
+  space-unary-ops: [2, {}]
   spaced-comment: [1, "always"]
   wrap-regex: 0
 
