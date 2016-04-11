@@ -1,696 +1,5995 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-/* global wp, jQuery */
-module.exports = (function() {
-	'use strict';
+var plugins = {
+	usedKeywords: require( "./js/bundledPlugins/previouslyUsedKeywords" )
+};
 
-	/**
-	 * Renders a keyword tab as a jQuery HTML object.
-	 *
-	 * @param {string} scoreClass
-	 * @param {string} keyword
-	 * @param {string} prefix
-	 *
-	 * @returns {HTMLElement}
-	 */
-	function renderKeywordTab( scoreClass, keyword, prefix ) {
-		var placeholder = keyword.length > 0 ? keyword : '...';
-		var html = wp.template( 'keyword_tab' )({
-			keyword: keyword,
-			placeholder: placeholder,
-			score: scoreClass,
-			hideRemove: true,
-			prefix: prefix + ' ',
-			active: true
-		});
+var helpers = {
+	scoreToRating: require( "./js/interpreters/scoreToRating" )
+};
 
-		return jQuery( html );
-	}
+module.exports = {
+	Assessor: require( "./js/assessor" ),
+	SEOAssessor: require( "./js/seoAssessor" ),
+	App: require( "./js/app" ),
+	Pluggable: require( "./js/pluggable" ),
+	Researcher: require( "./js/researcher" ),
+	SnippetPreview: require( "./js/snippetPreview.js" ),
 
-	/**
-	 * Constructor for a keyword tab object
-	 * @param {Object} args
-	 * @constructor
-	 */
-	function KeywordTab( args ) {
-		this.keyword = '';
-		this.prefix  = args.prefix || '';
+	Paper: require( "./js/values/paper" ),
+	AssessmentResult: require( "./js/values/AssessmentResult" ),
 
-		this.setScoreClass( 0 );
-	}
+	bundledPlugins: plugins,
+	helpers: helpers
+};
 
-	/**
-	 * Initialize a keyword tab.
-	 *
-	 * @param {HTMLElement} parent
-	 */
-	KeywordTab.prototype.init = function( parent ) {
-		this.setElement( renderKeywordTab( this.scoreClass, this.keyword, this.prefix ) );
+},{"./js/app":2,"./js/assessor":21,"./js/bundledPlugins/previouslyUsedKeywords":22,"./js/interpreters/scoreToRating":31,"./js/pluggable":32,"./js/researcher":34,"./js/seoAssessor":55,"./js/snippetPreview.js":56,"./js/values/AssessmentResult":82,"./js/values/paper":84}],2:[function(require,module,exports){
+/* jshint browser: true */
 
-		jQuery( parent ).append( this.element );
-	};
+require( "./config/config.js" );
+var SnippetPreview = require( "./snippetPreview.js" );
 
-	/**
-	 * Updates the keyword tabs with new values.
-	 *
-	 * @param {string} scoreClass
-	 * @param {string} keyword
-	 */
-	KeywordTab.prototype.update = function( scoreClass, keyword ) {
-		this.keyword = keyword;
-		this.setScoreClass( scoreClass );
-		this.refresh();
-	};
+var defaultsDeep = require( "lodash/defaultsDeep" );
+var isObject = require( "lodash/isObject" );
+var isString = require( "lodash/isString" );
+var MissingArgument = require( "./errors/missingArgument" );
+var isUndefined = require( "lodash/isUndefined" );
+var forEach = require( "lodash/forEach" );
 
-	/**
-	 * Renders a new keyword tab with the current values and replaces the old tab with this one.
-	 */
-	KeywordTab.prototype.refresh = function() {
-		var newElem = renderKeywordTab( this.scoreClass, this.keyword, this.prefix );
+var Jed = require( "jed" );
 
-		this.element.replaceWith( newElem );
-		this.setElement( newElem );
-	};
-
-	/**
-	 * Sets the current element
-	 *
-	 * @param {HTMLElement} element
-	 */
-	KeywordTab.prototype.setElement = function( element ) {
-		this.element = jQuery( element );
-	};
-
-	/**
-	 * Formats the given score and store it in the attribute.
-	 *
-	 * @param {string} scoreClass
-	 */
-	KeywordTab.prototype.setScoreClass = function( scoreClass ) {
-		this.scoreClass = scoreClass;
-	};
-
-	return KeywordTab;
-})();
-
-},{}],2:[function(require,module,exports){
-/* global jQuery, ajaxurl */
-
-var UsedKeywordsPlugin = require( 'yoastseo' ).bundledPlugins.usedKeywords;
-var _has = require( 'lodash/has' );
-var _debounce = require( 'lodash/debounce' );
-var $ = jQuery;
+var SEOAssessor = require( "./seoAssessor.js" );
+var Researcher = require( "./researcher.js" );
+var AssessorPresenter = require( "./renderers/AssessorPresenter.js" );
+var Pluggable = require( "./pluggable.js" );
+var Paper = require( "./values/Paper.js" );
 
 /**
- * Object that handles keeping track if the current keyword has been used before and retrieves this usage from the
- * server.
+ * Default config for YoastSEO.js
  *
- * @param {string} focusKeywordElement A jQuery selector for the focus keyword input element.
- * @param {string} ajaxAction The ajax action to use when retrieving the used keywords data.
- * @param {Object} options The options for the used keywords assessment plugin.
- * @param {Object} options.keyword_usage An object that contains the keyword usage when instantiating.
- * @param {Object} options.search_url The URL to link the user to if the keyword has been used multiple times.
- * @param {Object} options.post_edit_url The URL to link the user to if the keyword has been used a single time.
- * @param {App} app The app for which to keep track of the used keywords.
+ * @type {Object}
  */
-function UsedKeywords( focusKeywordElement, ajaxAction, options, app ) {
-	this._keywordUsage = options.keyword_usage;
-	this._focusKeywordElement = $( focusKeywordElement );
+var defaults = {
+	callbacks: {
+		bindElementEvents: function( ) { },
+		updateSnippetValues: function( ) { },
+		saveScores: function( ) { }
+	},
+	sampleText: {
+		baseUrl: "example.org/",
+		snippetCite: "example-post/",
+		title: "This is an example title - edit by clicking here",
+		keyword: "Choose a focus keyword",
+		meta: "Modify your meta description by editing it right here",
+		text: "Start writing your text!"
+	},
+	queue: [ "wordCount",
+		"keywordDensity",
+		"subHeadings",
+		"stopwords",
+		"fleschReading",
+		"linkCount",
+		"imageCount",
+		"urlKeyword",
+		"urlLength",
+		"metaDescription",
+		"pageTitleKeyword",
+		"pageTitleLength",
+		"firstParagraph",
+		"'keywordDoubles" ],
+	typeDelay: 300,
+	typeDelayStep: 100,
+	maxTypeDelay: 1500,
+	dynamicDelay: true,
+	locale: "en_US",
+	translations: {
+		"domain": "js-text-analysis",
+		"locale_data": {
+			"js-text-analysis": {
+				"": {}
+			}
+		}
+	},
+	replaceTarget: [],
+	resetTarget: [],
+	elementTarget: []
+};
 
-	this._plugin = new UsedKeywordsPlugin( app, {
-		usedKeywords: options.keyword_usage,
-		searchUrl: '<a target="_blank" href=' + options.search_url + '>',
-		postUrl: '<a target="_blank" href=' + options.post_edit_url + '>'
-	}, app.i18n );
+/**
+ * Creates a default snippet preview, this can be used if no snippet preview has been passed.
+ *
+ * @private
+ * @this App
+ *
+ * @returns {SnippetPreview} The SnippetPreview object.
+ */
+function createDefaultSnippetPreview() {
+	var targetElement = document.getElementById( this.config.targets.snippet );
 
-	this._postID = $( '#post_ID' ).val();
-	this._ajaxAction = ajaxAction;
-	this._app = app;
+	return new SnippetPreview( {
+		analyzerApp: this,
+		targetElement: targetElement,
+		callbacks: {
+			saveSnippetData: this.config.callbacks.saveSnippetData
+		}
+	} );
 }
 
 /**
- * Initializes everything necessary for used keywords
+ * Returns whether or not the given argument is a valid SnippetPreview object.
+ *
+ * @param   {*}         snippetPreview  The 'object' to check against.
+ * @returns {boolean}                   Whether or not it's a valid SnippetPreview object.
  */
-UsedKeywords.prototype.init = function() {
-	var eventHandler = _debounce( this.keywordChangeHandler.bind( this ), 500 );
+function isValidSnippetPreview( snippetPreview ) {
+	return !isUndefined( snippetPreview ) && SnippetPreview.prototype.isPrototypeOf( snippetPreview );
+}
 
-	this._plugin.registerPlugin();
-	this._focusKeywordElement.on( 'keyup', eventHandler );
+/**
+ * Check arguments passed to the App to check if all necessary arguments are set.
+ *
+ * @private
+ * @param {Object}      args            The arguments object passed to the App.
+ * @returns {void}
+ */
+function verifyArguments( args ) {
+
+	if ( !isObject( args.callbacks.getData ) ) {
+		throw new MissingArgument( "The app requires an object with a getdata callback." );
+	}
+
+	if ( !isObject( args.targets ) ) {
+		throw new MissingArgument( "`targets` is a required App argument, `targets` is not an object." );
+	}
+
+	if ( !isString( args.targets.output ) ) {
+		throw new MissingArgument( "`targets.output` is a required App argument, `targets.output` is not a string." );
+	}
+
+	// The args.targets.snippet argument is only required if not SnippetPreview object has been passed.
+	if ( !isValidSnippetPreview( args.snippetPreview ) && !isString( args.targets.snippet ) ) {
+		throw new MissingArgument( "A snippet preview is required. When no SnippetPreview object isn't passed to " +
+			"the App, the `targets.snippet` is a required App argument. `targets.snippet` is not a string." );
+	}
+}
+
+/**
+ * This should return an object with the given properties
+ *
+ * @callback YoastSEO.App~getData
+ * @returns {Object} data
+ * @returns {String} data.keyword The keyword that should be used
+ * @returns {String} data.meta
+ * @returns {String} data.text The text to analyze
+ * @returns {String} data.pageTitle The text in the HTML title tag
+ * @returns {String} data.title The title to analyze
+ * @returns {String} data.url The URL for the given page
+ * @returns {String} data.excerpt Excerpt for the pages
+ */
+
+/**
+ * @callback YoastSEO.App~getAnalyzerInput
+ *
+ * @returns {Array} An array containing the analyzer queue
+ */
+
+/**
+ * @callback YoastSEO.App~bindElementEvents
+ *
+ * @param {YoastSEO.App} app A reference to the YoastSEO.App from where this is called.
+ */
+
+/**
+ * @callback YoastSEO.App~updateSnippetValues
+ *
+ * @param {Object} ev The event emitted from the DOM
+ */
+
+/**
+ * @callback YoastSEO.App~saveScores
+ *
+ * @param {int} overalScore The overal score as determined by the analyzer.
+ */
+
+/**
+ * Loader for the analyzer, loads the eventbinder and the elementdefiner
+ *
+ * @param {Object} args The arguments oassed to the loader.
+ * @param {Object} args.translations Jed compatible translations.
+ * @param {Object} args.targets Targets to retrieve or set on.
+ * @param {String} args.targets.snippet ID for the snippet preview element.
+ * @param {String} args.targets.output ID for the element to put the output of the analyzer in.
+ * @param {int} args.typeDelay Number of milliseconds to wait between typing to refresh the analyzer output.
+ * @param {boolean} args.dynamicDelay   Whether to enable dynamic delay, will ignore type delay if the analyzer takes a long time.
+ *                                      Applicable on slow devices.
+ * @param {int} args.maxTypeDelay The maximum amount of type delay even if dynamic delay is on.
+ * @param {int} args.typeDelayStep The amount with which to increase the typeDelay on each step when dynamic delay is enabled.
+ * @param {Object} args.callbacks The callbacks that the app requires.
+ * @param {Object} args.assessor The Assessor to use instead of the default assessor.
+ * @param {YoastSEO.App~getData} args.callbacks.getData Called to retrieve input data
+ * @param {YoastSEO.App~getAnalyzerInput} args.callbacks.getAnalyzerInput Called to retrieve input for the analyzer.
+ * @param {YoastSEO.App~bindElementEvents} args.callbacks.bindElementEvents Called to bind events to the DOM elements.
+ * @param {YoastSEO.App~updateSnippetValues} args.callbacks.updateSnippetValues Called when the snippet values need to be updated.
+ * @param {YoastSEO.App~saveScores} args.callbacks.saveScores Called when the score has been determined by the analyzer.
+ * @param {Function} args.callbacks.saveSnippetData Function called when the snippet data is changed.
+ *
+ * @param {SnippetPreview} args.snippetPreview The SnippetPreview object to be used.
+ *
+ * @constructor
+ */
+var App = function( args ) {
+	if ( !isObject( args ) ) {
+		args = {};
+	}
+
+	defaultsDeep( args, defaults );
+
+	verifyArguments( args );
+
+	this.config = args;
+
+	this.callbacks = this.config.callbacks;
+	this.i18n = this.constructI18n( this.config.translations );
+
+	// Set the assessor
+	if ( isUndefined( args.assessor ) ) {
+		this.assessor = new SEOAssessor( this.i18n );
+	} else {
+		this.assessor = args.assessor;
+	}
+
+	this.pluggable = new Pluggable( this );
+
+	this.getData();
+	this.showLoadingDialog();
+
+	if ( isValidSnippetPreview( args.snippetPreview ) ) {
+		this.snippetPreview = args.snippetPreview;
+
+		// Hack to make sure the snippet preview always has a reference to this App. This way we solve the circular
+		// dependency issue. In the future this should be solved by the snippet preview not having a reference to the
+		// app.
+		if ( this.snippetPreview.refObj !== this ) {
+			this.snippetPreview.refObj = this;
+			this.snippetPreview.i18n = this.i18n;
+		}
+	} else {
+		this.snippetPreview = createDefaultSnippetPreview.call( this );
+	}
+	this.initSnippetPreview();
+
+	this.runAnalyzer();
 };
 
 /**
- * Handles an event of the keyword input field
+ * Extend the config with defaults.
+ *
+ * @param   {Object}    args    The arguments to be extended.
+ * @returns {Object}    args    The extended arguments.
  */
-UsedKeywords.prototype.keywordChangeHandler = function() {
-	var keyword = this._focusKeywordElement.val();
+App.prototype.extendConfig = function( args ) {
+	args.sampleText = this.extendSampleText( args.sampleText );
+	args.locale = args.locale || "en_US";
 
-	if ( ! _has( this._keywordUsage, keyword ) ) {
-		this.requestKeywordUsage( keyword );
+	return args;
+};
+
+/**
+ * Extend sample text config with defaults.
+ *
+ * @param   {Object}    sampleText  The sample text to be extended.
+ * @returns {Object}    sampleText  The extended sample text.
+ */
+App.prototype.extendSampleText = function( sampleText ) {
+	var defaultSampleText = defaults.sampleText;
+
+	if ( isUndefined( sampleText ) ) {
+		sampleText = defaultSampleText;
+	} else {
+		for ( var key in sampleText ) {
+			if ( isUndefined( sampleText[ key ] ) ) {
+				sampleText[ key ] = defaultSampleText[ key ];
+			}
+		}
+	}
+
+	return sampleText;
+};
+
+/**
+ * Initializes i18n object based on passed configuration
+ *
+ * @param {Object}  translations    The translations to be used in the current instance.
+ * @returns {void}
+ */
+App.prototype.constructI18n = function( translations ) {
+	var defaultTranslations = {
+		"domain": "js-text-analysis",
+		"locale_data": {
+			"js-text-analysis": {
+				"": {}
+			}
+		}
+	};
+
+	// Use default object to prevent Jed from erroring out.
+	translations = translations || defaultTranslations;
+
+	return new Jed( translations );
+};
+
+/**
+ * Retrieves data from the callbacks.getData and applies modification to store these in this.rawData.
+ * @returns {void}
+ */
+App.prototype.getData = function() {
+	this.rawData = this.callbacks.getData();
+
+	if ( !isUndefined( this.snippetPreview ) ) {
+
+		// Gets the data FOR the analyzer
+		var data = this.snippetPreview.getAnalyzerData();
+
+		this.rawData.pageTitle = data.title;
+		this.rawData.url = data.url;
+		this.rawData.meta = data.metaDesc;
+	}
+
+	if ( this.pluggable.loaded ) {
+		this.rawData.pageTitle = this.pluggable._applyModifications( "data_page_title", this.rawData.pageTitle );
+		this.rawData.meta = this.pluggable._applyModifications( "data_meta_desc", this.rawData.meta );
+	}
+	this.rawData.locale = this.config.locale;
+};
+
+/**
+ * Refreshes the analyzer and output of the analyzer
+ * @returns {void}
+ */
+App.prototype.refresh = function() {
+	this.getData();
+	this.runAnalyzer();
+};
+
+/**
+ * Creates the elements for the snippetPreview
+ *
+ * @deprecated Don't create a snippet preview using this method, create it directly using the prototype and pass it as
+ * an argument instead.
+ * @returns {void}
+ */
+App.prototype.createSnippetPreview = function() {
+	this.snippetPreview = createDefaultSnippetPreview.call( this );
+	this.initSnippetPreview();
+};
+
+/**
+ * Initializes the snippet preview for this App.
+ * @returns {void}
+ */
+App.prototype.initSnippetPreview = function() {
+	this.snippetPreview.renderTemplate();
+	this.snippetPreview.callRegisteredEventBinder();
+	this.snippetPreview.bindEvents();
+	this.snippetPreview.init();
+};
+
+/**
+ * binds the analyzeTimer function to the input of the targetElement on the page.
+ * @returns {void}
+ */
+App.prototype.bindInputEvent = function() {
+	for ( var i = 0; i < this.config.elementTarget.length; i++ ) {
+		var elem = document.getElementById( this.config.elementTarget[ i ] );
+		elem.addEventListener( "input", this.analyzeTimer.bind( this ) );
 	}
 };
 
 /**
- * Request keyword usage from the server
- *
- * @param {string} keyword The keyword to request the usage for.
+ * runs the rerender function of the snippetPreview if that object is defined.
+ * @returns {void}
  */
-UsedKeywords.prototype.requestKeywordUsage = function( keyword ) {
-	$.post( ajaxurl, {
-		action: this._ajaxAction,
-		post_id: this._postID,
-		keyword: keyword
-	}, this.updateKeywordUsage.bind( this, keyword ), 'json' );
-};
-
-/**
- * Updates the keyword usage based on the response of the ajax request
- *
- * @param {string} keyword The keyword for which the usage was requested.
- * @param {*} response The response retrieved from the server.
- */
-UsedKeywords.prototype.updateKeywordUsage = function( keyword, response ) {
-	if ( response ) {
-		this._keywordUsage[ keyword ] = response;
-
-		this._plugin.updateKeywordUsage( this._keywordUsage );
-		this._app.analyzeTimer();
+App.prototype.reloadSnippetText = function() {
+	if ( isUndefined( this.snippetPreview ) ) {
+		this.snippetPreview.reRender();
 	}
 };
 
-module.exports = UsedKeywords;
+/**
+ * the analyzeTimer calls the checkInputs function with a delay, so the function won't be executed
+ * at every keystroke checks the reference object, so this function can be called from anywhere,
+ * without problems with different scopes.
+ * @returns {void}
+ */
+App.prototype.analyzeTimer = function() {
+	clearTimeout( window.timer );
+	window.timer = setTimeout( this.refresh.bind( this ), this.config.typeDelay );
+};
 
-},{"lodash/debounce":134,"lodash/has":141,"yoastseo":180}],3:[function(require,module,exports){
-/* global YoastSEO: true, tinyMCE, wpseoPostScraperL10n, YoastShortcodePlugin, YoastReplaceVarPlugin, console, require */
-(function( $ ) {
-	'use strict';
+/**
+ * sets the startTime timestamp
+ * @returns {void}
+ */
+App.prototype.startTime = function() {
+	this.startTimestamp = new Date().getTime();
+};
 
-	var SnippetPreview = require( 'yoastseo' ).SnippetPreview;
-	var App = require( 'yoastseo' ).App;
-
-	var scoreToRating = require( 'yoastseo' ).helpers.scoreToRating;
-
-	var UsedKeywords = require( './analysis/usedKeywords' );
-
-	var currentKeyword = '';
-	var app, snippetPreview;
-
-	var mainKeywordTab;
-	var KeywordTab = require( './analysis/keywordTab' );
-
-	/**
-	 * wordpress scraper to gather inputfields.
-	 * @constructor
-	 */
-	var PostScraper = function() {
-		if ( typeof CKEDITOR === 'object' ) {
-			console.warn( 'YoastSEO currently doesn\'t support ckEditor. The content analysis currently only works with the HTML editor or TinyMCE.' );
+/**
+ * sets the endTime timestamp and compares with startTime to determine typeDelayincrease.
+ * @returns {void}
+ */
+App.prototype.endTime = function() {
+	this.endTimestamp = new Date().getTime();
+	if ( this.endTimestamp - this.startTimestamp > this.config.typeDelay ) {
+		if ( this.config.typeDelay < ( this.config.maxTypeDelay - this.config.typeDelayStep ) ) {
+			this.config.typeDelay += this.config.typeDelayStep;
 		}
+	}
+};
 
-		this.prepareSlugBinding();
-	};
+/**
+ * inits a new pageAnalyzer with the inputs from the getInput function and calls the scoreFormatter
+ * to format outputs.
+ * @returns {void}
+ */
+App.prototype.runAnalyzer = function() {
+	if ( this.pluggable.loaded === false ) {
+		return;
+	}
 
-	/**
-	 * On a new post, WordPress doesn't include the slug editor, since a post has not been given a slug yet.
-	 * As soon as a title is chosen, an `after-autosave.update-post-slug` event fires that triggers an AJAX request
-	 * to the server to generate a slug. On the response callback a slug editor is inserted into the page on which
-	 * we can bind our Snippet Preview.
-	 *
-	 * On existing posts, the slug editor is already there and we can bind immediately.
-	 */
-	PostScraper.prototype.prepareSlugBinding = function() {
-		if ( document.getElementById( 'editable-post-name' ) === null ) {
-			var that = this;
-			jQuery( document ).on( 'after-autosave.update-post-slug', function() {
-				that.bindSnippetCiteEvents( 0 );
-			});
-		} else {
-			this.bindSlugEditor();
-		}
-	};
+	if ( this.config.dynamicDelay ) {
+		this.startTime();
+	}
 
-	/**
-	 * When the `after-autosave.update-post-slug` event is triggered, this function checks to see if the slug editor has
-	 * been inserted yet. If so, it does all of the necessary event binding. If not, it retries for a maximum of 5 seconds.
-	 *
-	 * @param {int} time
-	 */
-	PostScraper.prototype.bindSnippetCiteEvents = function( time ) {
-		time = time || 0;
-		var slugElem = document.getElementById( 'editable-post-name' );
-		var titleElem = document.getElementById( 'title' );
-		var postNameElem = document.getElementById('post_name');
+	this.analyzerData = this.modifyData( this.rawData );
 
-		if ( slugElem !== null && titleElem.value !== '' ) {
-			this.bindSlugEditor();
+	// Create a paper object for the Researcher
+	this.paper = new Paper( this.analyzerData.text, {
+		keyword:  this.analyzerData.keyword,
+		description: this.analyzerData.meta,
+		url: this.analyzerData.url,
+		title: this.analyzerData.pageTitle,
+		locale: this.config.locale
+	} );
 
-			// Always set the post name element.
-			postNameElem.value = document.getElementById('editable-post-name-full').textContent;
+	// The new researcher
+	if ( isUndefined( this.researcher ) ) {
+		this.researcher = new Researcher( this.paper );
+	} else {
+		this.researcher.setPaper( this.paper );
+	}
 
-			snippetPreview.unformattedText.snippet_cite = document.getElementById('editable-post-name-full').textContent;
-			app.analyzeTimer();
-		} else if ( time < 5000 ) {
-			time += 200;
-			setTimeout( this.bindSnippetCiteEvents.bind( this, time ), 200 );
-		}
-	};
+	this.assessor.assess( this.paper );
 
-	/**
-	 * We want to trigger an update of the snippetPreview on a slug update. Because the save button is not available yet, we need to
-	 * bind an event within the scope of a clickevent of the edit button.
-	 */
-	PostScraper.prototype.bindSlugEditor = function() {
-		$( '#titlediv' ).on( 'change', '#new-post-slug', function() {
-			snippetPreview.unformattedText.snippet_cite = $( '#new-post-slug' ).val();
-			app.refresh();
-		});
-	};
+	// Pass the assessor result through to the formatter
+	this.assessorPresenter = new AssessorPresenter( {
+		targets: this.config.targets,
+		keyword: this.paper.getKeyword(),
+		assessor: this.assessor,
+		i18n: this.i18n
+	} );
 
-	/**
-	 * Get data from inputfields and store them in an analyzerData object. This object will be used to fill
-	 * the analyzer and the snippetpreview
-	 */
-	PostScraper.prototype.getData = function() {
+	this.assessorPresenter.render();
+	this.callbacks.saveScores( this.assessor.calculateOverallScore(), this.assessorPresenter );
+
+	if ( this.config.dynamicDelay ) {
+		this.endTime();
+	}
+
+	this.snippetPreview.reRender();
+};
+
+/**
+ * Modifies the data with plugins before it is sent to the analyzer.
+ * @param   {Object}  data      The data to be modified.
+ * @returns {Object}            The data with the applied modifications.
+ */
+App.prototype.modifyData = function( data ) {
+
+	// Copy rawdata to lose object reference.
+	data = JSON.parse( JSON.stringify( data ) );
+
+	data.text = this.pluggable._applyModifications( "content", data.text );
+	data.title = this.pluggable._applyModifications( "title", data.title );
+
+	return data;
+};
+
+/**
+ * Function to fire the analyzer when all plugins are loaded, removes the loading dialog.
+ * @returns {void}
+ */
+App.prototype.pluginsLoaded = function() {
+	this.getData();
+	this.removeLoadingDialog();
+	this.runAnalyzer();
+};
+
+/**
+ * Shows the loading dialog which shows the loading of the plugins.
+ * @returns {void}
+ */
+App.prototype.showLoadingDialog = function() {
+	var dialogDiv = document.createElement( "div" );
+	dialogDiv.className = "YoastSEO_msg";
+	dialogDiv.id = "YoastSEO-plugin-loading";
+	document.getElementById( this.config.targets.output ).appendChild( dialogDiv );
+};
+
+/**
+ * Updates the loading plugins. Uses the plugins as arguments to show which plugins are loading
+ * @param   {Object}  plugins   The plugins to be parsed into the dialog.
+ * @returns {void}
+ */
+App.prototype.updateLoadingDialog = function( plugins ) {
+	var dialog = document.getElementById( "YoastSEO-plugin-loading" );
+	dialog.textContent = "";
+	forEach ( plugins, function( plugin, pluginName ) {
+		dialog.innerHTML += "<span class=left>" + pluginName + "</span><span class=right " +
+							plugin.status + ">" + plugin.status + "</span><br />";
+	} );
+	dialog.innerHTML += "<span class=bufferbar></span>";
+};
+
+/**
+ * Removes the pluging load dialog.
+ * @returns {void}
+ */
+App.prototype.removeLoadingDialog = function() {
+	document.getElementById( this.config.targets.output ).removeChild( document.getElementById( "YoastSEO-plugin-loading" ) );
+};
+
+// ***** PLUGGABLE PUBLIC DSL ***** //
+
+/**
+ * Delegates to `YoastSEO.app.pluggable.registerPlugin`
+ *
+ * @param {string}  pluginName      The name of the plugin to be registered.
+ * @param {object}  options         The options object.
+ * @param {string}  options.status  The status of the plugin being registered. Can either be "loading" or "ready".
+ * @returns {boolean}               Whether or not it was successfully registered.
+ */
+App.prototype.registerPlugin = function( pluginName, options ) {
+	return this.pluggable._registerPlugin( pluginName, options );
+};
+
+/**
+ * Delegates to `YoastSEO.app.pluggable.ready`
+ *
+ * @param {string}  pluginName  The name of the plugin to check.
+ * @returns {boolean}           Whether or not the plugin is ready.
+ */
+App.prototype.pluginReady = function( pluginName ) {
+	return this.pluggable._ready( pluginName );
+};
+
+/**
+ * Delegates to `YoastSEO.app.pluggable.reloaded`
+ *
+ * @param {string} pluginName   The name of the plugin to reload
+ * @returns {boolean}           Whether or not the plugin was reloaded.
+ */
+App.prototype.pluginReloaded = function( pluginName ) {
+	return this.pluggable._reloaded( pluginName );
+};
+
+/**
+ * Delegates to `YoastSEO.app.pluggable.registerModification`
+ *
+ * @param {string}      modification 		The name of the filter
+ * @param {function}    callable 		 	The callable function
+ * @param {string}      pluginName 		    The plugin that is registering the modification.
+ * @param {number}      priority 		 	(optional) Used to specify the order in which the callables associated with a particular filter are
+                                            called.
+ * 									        Lower numbers correspond with earlier execution.
+ * @returns 			{boolean}           Whether or not the modification was successfully registered.
+ */
+App.prototype.registerModification = function( modification, callable, pluginName, priority ) {
+	return this.pluggable._registerModification( modification, callable, pluginName, priority );
+};
+
+/**
+ * Registers a custom test for use in the analyzer, this will result in a new line in the analyzer results. The function
+ * has to return a result based on the contents of the page/posts.
+ *
+ * The scoring object is a special object with definitions about how to translate a result from your analysis function
+ * to a SEO score.
+ *
+ * Negative scores result in a red circle
+ * Scores 1, 2, 3, 4 and 5 result in a orange circle
+ * Scores 6 and 7 result in a yellow circle
+ * Scores 8, 9 and 10 result in a red circle
+ *
+ * @deprecated since version 1.2
+ */
+App.prototype.registerTest = function() {
+	console.error( "This function is deprecated, please use registerAssessment" );
+};
+
+/**
+ * Registers a custom assessment for use in the analyzer, this will result in a new line in the analyzer results.
+ * The function needs to use the assessmentresult to return an result  based on the contents of the page/posts.
+ *
+ * Score 0 results in a grey circle if it is not explicitly set by using setscore
+ * Scores 0, 1, 2, 3 and 4 result in a red circle
+ * Scores 6 and 7 result in a yellow circle
+ * Scores 8, 9 and 10 result in a green circle
+ *
+ * @param {string} name Name of the test.
+ * @param {function} assessment The assessment to run
+ * @param {string}   pluginName The plugin that is registering the test.
+ * @returns {boolean} Whether or not the test was successfully registered.
+ */
+App.prototype.registerAssessment = function( name, assessment, pluginName ) {
+	return this.pluggable._registerAssessment( this.assessor, name, assessment, pluginName );
+};
+
+module.exports = App;
+
+},{"./config/config.js":23,"./errors/missingArgument":30,"./pluggable.js":32,"./renderers/AssessorPresenter.js":33,"./researcher.js":34,"./seoAssessor.js":55,"./snippetPreview.js":56,"./values/Paper.js":83,"jed":85,"lodash/defaultsDeep":216,"lodash/forEach":219,"lodash/isObject":235,"lodash/isString":238,"lodash/isUndefined":241}],3:[function(require,module,exports){
+var AssessmentResult = require( "../values/AssessmentResult.js" );
+var inRange = require( "lodash/inRange" );
+
+/**
+ * Calculates the assessment result based on the fleschReadingScore
+ * @param {int} fleschReadingScore The score from the fleschReadingtest
+ * @param {object} i18n The i18n-object used for parsing translations
+ * @returns {object} object with score, resultText and note
+ */
+var calculateFleschReadingResult = function( fleschReadingScore, i18n ) {
+	if ( fleschReadingScore > 90 ) {
 		return {
-			keyword: this.getDataFromInput( 'keyword' ),
-			meta: this.getDataFromInput( 'meta' ),
-			text: this.getDataFromInput( 'text' ),
-			title: this.getDataFromInput( 'title' ),
-			url: this.getDataFromInput( 'url' ),
-			excerpt: this.getDataFromInput( 'excerpt' ),
-			snippetTitle: this.getDataFromInput( 'snippetTitle' ),
-			snippetMeta: this.getDataFromInput( 'snippetMeta' ),
-			snippetCite: this.getDataFromInput( 'cite' ),
-			searchUrl: '<a target="_blank" href=' + wpseoPostScraperL10n.search_url + '>',
-			postUrl: '<a target="_blank" href=' + wpseoPostScraperL10n.post_edit_url + '>'
+			score: 9,
+			resultText: i18n.dgettext( "js-text-analysis", "very easy" ),
+			note: ""
 		};
-	};
-
-	/**
-	 * gets the values from the given input. Returns this value
-	 * @param {String} inputType
-	 * @returns {String}
-	 */
-	PostScraper.prototype.getDataFromInput = function( inputType ) {
-		var newPostSlug, val = '';
-		switch ( inputType ) {
-			case 'text':
-			case 'content':
-				val = this.getContentTinyMCE();
-				break;
-			case 'cite':
-			case 'url':
-				newPostSlug = $( '#new-post-slug' );
-				if ( 0 < newPostSlug.length ) {
-					val = newPostSlug.val();
-				}
-				else if ( document.getElementById( 'editable-post-name-full' ) !== null ) {
-					val = document.getElementById( 'editable-post-name-full' ).textContent;
-				}
-				break;
-			case 'meta':
-				val = document.getElementById( 'yoast_wpseo_metadesc' ) && document.getElementById( 'yoast_wpseo_metadesc' ).value || '';
-				break;
-			case 'snippetMeta':
-				val = document.getElementById( 'yoast_wpseo_metadesc' ) && document.getElementById( 'yoast_wpseo_metadesc' ).value || '';
-				break;
-			case 'keyword':
-				val = document.getElementById( 'yoast_wpseo_focuskw_text_input' ) && document.getElementById( 'yoast_wpseo_focuskw_text_input' ).value || '';
-				currentKeyword = val;
-				break;
-			case 'title':
-				val = document.getElementById( 'title' ) && document.getElementById( 'title' ).value || '';
-				break;
-			case 'snippetTitle':
-				val = document.getElementById( 'yoast_wpseo_title' ) && document.getElementById( 'yoast_wpseo_title' ).value || '';
-				break;
-			case 'excerpt':
-				if ( document.getElementById( 'excerpt' ) !== null ) {
-					val = document.getElementById('excerpt') && document.getElementById('excerpt').value || '';
-				}
-				break;
-			default:
-				break;
-		}
-		return val;
-	};
-
-	/**
-	 * When the snippet is updated, update the (hidden) fields on the page
-	 * @param {Object} value
-	 * @param {String} type
-	 */
-	PostScraper.prototype.setDataFromSnippet = function( value, type ) {
-		switch ( type ) {
-			case 'snippet_meta':
-				document.getElementById( 'yoast_wpseo_metadesc' ).value = value;
-				break;
-			case 'snippet_cite':
-				document.getElementById( 'post_name' ).value = value;
-				if (
-					document.getElementById( 'editable-post-name' ) !== null &&
-					document.getElementById( 'editable-post-name-full' ) !== null ) {
-					document.getElementById( 'editable-post-name' ).textContent = value;
-					document.getElementById( 'editable-post-name-full' ).textContent = value;
-				}
-				break;
-			case 'snippet_title':
-				document.getElementById( 'yoast_wpseo_title' ).value = value;
-				break;
-			default:
-				break;
-		}
-	};
-
-	/**
-	 * The data passed from the snippet editor.
-	 *
-	 * @param {Object} data
-	 * @param {string} data.title
-	 * @param {string} data.urlPath
-	 * @param {string} data.metaDesc
-	 */
-	PostScraper.prototype.saveSnippetData = function( data ) {
-		this.setDataFromSnippet( data.title, 'snippet_title' );
-		this.setDataFromSnippet( data.urlPath, 'snippet_cite' );
-		this.setDataFromSnippet( data.metaDesc, 'snippet_meta' );
-	};
-
-	/**
-	 * Returns the value of the contentfield. If tinyMCE isn't initialized, or has no editors
-	 * or is hidden it gets it's contents from getTinyMCEElementContent.
-	 * @returns {String}
-	 */
-	PostScraper.prototype.getContentTinyMCE = function() {
-		if ( this.isTinyMCEAvailable() === false ) {
-			return this.getTinyMCEElementContent();
-		}
-		return tinyMCE.get( 'content' ).getContent();
-	};
-
-	/**
-	 * Returns whether or not TinyMCE is available.
-	 * @returns {boolean}
-	 */
-	PostScraper.prototype.isTinyMCEAvailable = function() {
-		if ( typeof tinyMCE === 'undefined' ||
-			typeof tinyMCE.editors === 'undefined' ||
-			tinyMCE.editors.length === 0 ||
-			tinyMCE.get( 'content' ) === null ||
-			tinyMCE.get( 'content' ).isHidden() ) {
-			return false;
-		}
-
-		return true;
-	};
-
-	/**
-	 * Gets content from the contentfield.
-	 *
-	 * @returns {String}
-	 */
-	PostScraper.prototype.getTinyMCEElementContent = function() {
-		return document.getElementById( 'content' ) && document.getElementById( 'content' ).value || '';
-	};
-
-	/**
-	 * Calls the eventbinders.
-	 */
-	PostScraper.prototype.bindElementEvents = function( app ) {
-		this.inputElementEventBinder( app );
-		document.getElementById( 'yoast_wpseo_focuskw_text_input' ).addEventListener( 'keydown', app.snippetPreview.disableEnter );
-	};
-
-	/**
-	 * binds the renewData function on the change of inputelements.
-	 */
-	PostScraper.prototype.inputElementEventBinder = function( app ) {
-		var elems = [ 'excerpt', 'content', 'yoast_wpseo_focuskw_text_input', 'title' ];
-		for ( var i = 0; i < elems.length; i++ ) {
-			var elem = document.getElementById( elems[ i ] );
-			if ( elem !== null ) {
-				document.getElementById( elems[ i ] ).addEventListener( 'input', app.analyzeTimer.bind( app ) );
-			}
-		}
-
-		if( typeof tinyMCE !== 'undefined' && typeof tinyMCE.on === 'function' ) {
-			//binds the input, change, cut and paste event to tinyMCE. All events are needed, because sometimes tinyMCE doesn'
-			//trigger them, or takes up to ten seconds to fire an event.
-			var events = [ 'input', 'change', 'cut', 'paste' ];
-			tinyMCE.on( 'addEditor', function( e ) {
-				for ( var i = 0; i < events.length; i++ ) {
-					e.editor.on( events[i], app.analyzeTimer.bind( app ) );
-				}
-			});
-		}
-		document.getElementById( 'yoast_wpseo_focuskw_text_input' ).addEventListener( 'blur', this.resetQueue );
-	};
-
-	/**
-	 * Resets the current queue if focus keyword is changed and not empty.
-	 */
-	PostScraper.prototype.resetQueue = function() {
-		if ( app.rawData.keyword !== '' ) {
-			app.runAnalyzer( this.rawData );
-		}
-	};
-
-	/**
-	 * Saves the score to the linkdex.
-	 * Outputs the score in the overall target.
-	 *
-	 * @param {string} score
-	 * @param {AssessorPresenter} assessorPresenter
-	 */
-	PostScraper.prototype.saveScores = function( score, assessorPresenter ) {
-		var indicator = assessorPresenter.getIndicator( scoreToRating( score / 10 ) );
-
-		if ( this.isMainKeyword( currentKeyword ) ) {
-			document.getElementById( 'yoast_wpseo_linkdex' ).value = score;
-
-			if ( '' === currentKeyword ) {
-				indicator.className = 'na';
-			}
-
-			$( '.yst-traffic-light' )
-				.attr( 'class', 'yst-traffic-light ' + indicator.className )
-				.attr( 'alt', indicator.screenReaderText );
-		}
-
-		// If multi keyword isn't available we need to update the first tab (content)
-		if ( ! YoastSEO.multiKeyword ) {
-			mainKeywordTab.update( indicator.className, currentKeyword );
-
-			// Updates the input with the currentKeyword value
-			$( '#yoast_wpseo_focuskw' ).val( currentKeyword );
-		}
-
-		jQuery( window ).trigger( 'YoastSEO:numericScore', score );
-	};
-
-	/**
-	 * Returns whether or not the keyword is the main keyword
-	 *
-	 * @param {string} keyword The keyword to check
-	 *
-	 * @returns {boolean}
-	 */
-	PostScraper.prototype.isMainKeyword = function( keyword ) {
-		var firstTab, mainKeyword;
-
-		firstTab = $( '.wpseo_keyword_tab' )
-			.first()
-			.find( '.wpseo_tablink' );
-
-		mainKeyword = firstTab.data( 'keyword' );
-
-		return keyword === mainKeyword;
-	};
-
-	/**
-	 * Initializes keyword tab with the correct template if multi keyword isn't available
-	 */
-	PostScraper.prototype.initKeywordTabTemplate = function() {
-		var keyword, score;
-
-		// If multi keyword is available we don't have to initialize this as multi keyword does this for us.
-		if ( YoastSEO.multiKeyword ) {
-			return;
-		}
-
-		// Remove default functionality to prevent scrolling to top.
-		$( '.wpseo-metabox-tabs' ).on( 'click', '.wpseo_tablink', function( ev ) {
-			ev.preventDefault();
-		});
-
-		keyword = $( '#yoast_wpseo_focuskw' ).val();
-		score   = $( '#yoast_wpseo_linkdex' ).val();
-
-		$( '#yoast_wpseo_focuskw_text_input' ).val( keyword );
-
-		// Updates
-		mainKeywordTab.update( score, keyword );
-	};
-
-	/**
-	 * Retrieves either a generated slug or the page title as slug for the preview
-	 * @param {Object} response The AJAX response object
-	 * @returns {string}
-	 */
-	function getUrlPath( response ) {
-		if ( response.responseText === '' ) {
-			return jQuery( '#title' ).val();
-		}
-		// Added divs to the response text, otherwise jQuery won't parse to HTML, but an array.
-		return jQuery( '<div>' + response.responseText + '</div>' )
-			.find( '#editable-post-name-full' )
-			.text();
 	}
 
-	/**
-	 * binds to the WordPress jQuery function to put the permalink on the page.
-	 * If the response matches with permalinkstring, the snippet can be rerendered.
-	 */
-	jQuery( document ).on( 'ajaxComplete', function( ev, response, ajaxOptions ) {
-		var ajax_end_point = '/admin-ajax.php';
-		if ( ajax_end_point !== ajaxOptions.url.substr( 0 - ajax_end_point.length ) ) {
-			return;
-		}
-
-		if ( 'string' === typeof ajaxOptions.data && -1 !== ajaxOptions.data.indexOf( 'action=sample-permalink' ) ) {
-			app.snippetPreview.setUrlPath( getUrlPath( response ) );
-		}
-	} );
-
-	/**
-	 * Initializes the snippet preview
-	 *
-	 * @param {PostScraper} postScraper
-	 * @returns {YoastSEO.SnippetPreview}
-	 */
-	function initSnippetPreview( postScraper ) {
-		var data = postScraper.getData();
-
-		var snippetPreviewArgs = {
-			targetElement: document.getElementById( 'wpseosnippet' ),
-			placeholder: {
-				urlPath: ''
-			},
-			defaultValue: {},
-			baseURL: wpseoPostScraperL10n.base_url,
-			callbacks: {
-				saveSnippetData: postScraper.saveSnippetData.bind( postScraper )
-			},
-			metaDescriptionDate: wpseoPostScraperL10n.metaDescriptionDate,
-			data: {
-				title: data.snippetTitle,
-				urlPath: data.snippetCite,
-				metaDesc: data.snippetMeta
-			}
+	if ( inRange( fleschReadingScore, 80, 90 ) ) {
+		return {
+			score: 9,
+			resultText:  i18n.dgettext( "js-text-analysis", "easy" ),
+			note: ""
 		};
-
-		var titlePlaceholder = wpseoPostScraperL10n.title_template;
-		if ( titlePlaceholder === '' ) {
-			titlePlaceholder = '%%title%% - %%sitename%%';
-		}
-		snippetPreviewArgs.placeholder.title = titlePlaceholder;
-		snippetPreviewArgs.defaultValue.title = titlePlaceholder;
-
-		var metaPlaceholder = wpseoPostScraperL10n.metadesc_template;
-		if ( metaPlaceholder !== '' ) {
-			snippetPreviewArgs.placeholder.metaDesc = metaPlaceholder;
-			snippetPreviewArgs.defaultValue.metaDesc = metaPlaceholder;
-		}
-
-		return new SnippetPreview( snippetPreviewArgs );
 	}
 
-	jQuery( document ).ready(function() {
-		var translations;
-
-		// Initialize an instance of the keywordword tab.
-		mainKeywordTab = new KeywordTab(
-			{
-				prefix: wpseoPostScraperL10n.contentTab
-			}
-		);
-		mainKeywordTab.setElement( $('.wpseo_keyword_tab') );
-
-		var postScraper = new PostScraper();
-
-		var args = {
-
-			// ID's of elements that need to trigger updating the analyzer.
-			elementTarget: ['content', 'yoast_wpseo_focuskw_text_input', 'yoast_wpseo_metadesc', 'excerpt', 'editable-post-name', 'editable-post-name-full'],
-			targets: {
-				output: 'wpseo-pageanalysis'
-			},
-			callbacks: {
-				getData: postScraper.getData.bind( postScraper ),
-				bindElementEvents: postScraper.bindElementEvents.bind( postScraper ),
-				saveScores: postScraper.saveScores.bind( postScraper ),
-				saveSnippetData: postScraper.saveSnippetData.bind( postScraper )
-			},
-			locale: wpseoPostScraperL10n.locale
+	if ( inRange( fleschReadingScore, 70, 80 ) ) {
+		return {
+			score: 8,
+			resultText: i18n.dgettext( "js-text-analysis", "fairly easy" ),
+			note: ""
 		};
+	}
 
-		translations = wpseoPostScraperL10n.translations;
+	if ( inRange( fleschReadingScore, 60, 70 ) ) {
+		return {
+			score: 8,
+			resultText: i18n.dgettext( "js-text-analysis", "ok" ),
+			note: ""
+		};
+	}
 
-		if ( typeof translations !== 'undefined' && typeof translations.domain !== 'undefined' ) {
-			translations.domain = 'js-text-analysis';
-			translations.locale_data['js-text-analysis'] = translations.locale_data['wordpress-seo'];
+	if ( inRange( fleschReadingScore, 50, 60 ) ) {
+		return {
+			score: 6,
+			resultText: i18n.dgettext( "js-text-analysis", "fairly difficult" ),
+			note: i18n.dgettext( "js-text-analysis", "Try to make shorter sentences to improve readability." )
+		};
+	}
 
-			delete( translations.locale_data['wordpress-seo'] );
+	if ( inRange( fleschReadingScore, 30, 50 ) ) {
+		return {
+			score: 5,
+			resultText: i18n.dgettext( "js-text-analysis", "difficult" ),
+			note: i18n.dgettext( "js-text-analysis", "Try to make shorter sentences, using less difficult words to improve readability." )
+		};
+	}
 
-			args.translations = translations;
-		}
+	if ( fleschReadingScore < 30 ) {
+		return {
+			score: 4,
+			resultText: i18n.dgettext( "js-text-analysis", "very difficult" ),
+			note: i18n.dgettext( "js-text-analysis", "Try to make shorter sentences, using less difficult words to improve readability." )
+		};
+	}
+};
 
-		snippetPreview = initSnippetPreview( postScraper );
-		args.snippetPreview = snippetPreview;
+/**
+ * The assessment that runs the FleschReading on the paper.
+ *
+ * @param {object} paper The paper to run this assessment on
+ * @param {object} researcher The researcher used for the assessment
+ * @param {object} i18n The i18n-object used for parsing translations
+ * @returns {object} an assessmentresult with the score and formatted text.
+ */
+var fleschReadingEaseAssessment = function( paper, researcher, i18n ) {
+	var fleschReadingScore = researcher.getResearch( "calculateFleschReading" );
 
-		app = new App( args );
-		window.YoastSEO = {};
-		window.YoastSEO.app = app;
-		jQuery( window ).trigger( 'YoastSEO:ready' );
+	/* translators: %1$s expands to the numeric flesch reading ease score, %2$s to a link to a Yoast.com article about Flesch ease reading score,
+	 %3$s to the easyness of reading, %4$s expands to a note about the flesch reading score. */
+	var text = i18n.dgettext( "js-text-analysis", "The copy scores %1$s in the %2$s test, which is considered %3$s to read. %4$s" );
+	var url = "<a href='https://yoast.com/flesch-reading-ease-score/' target='new'>Flesch Reading Ease</a>";
 
-		// Init Plugins
-		new YoastReplaceVarPlugin( app );
-		new YoastShortcodePlugin( app );
+	// scores must be between 0 and 100;
+	if ( fleschReadingScore < 0 ) {
+		fleschReadingScore = 0;
+	}
+	if ( fleschReadingScore > 100 ) {
+		fleschReadingScore = 100;
+	}
 
-		var usedKeywords = new UsedKeywords( '#yoast_wpseo_focuskw_text_input', 'get_focus_keyword_usage', wpseoPostScraperL10n, app );
-		usedKeywords.init();
+	var fleschReadingResult = calculateFleschReadingResult( fleschReadingScore, i18n );
 
-		postScraper.initKeywordTabTemplate();
+	text = i18n.sprintf( text, fleschReadingScore, url, fleschReadingResult.resultText, fleschReadingResult.note );
 
-		// Backwards compatibility.
-		YoastSEO.analyzerArgs = args;
-	} );
-}( jQuery ));
+	var assessmentResult =  new AssessmentResult();
+	assessmentResult.setScore( fleschReadingResult.score );
+	assessmentResult.setText( text );
 
-},{"./analysis/keywordTab":1,"./analysis/usedKeywords":2,"yoastseo":180}],4:[function(require,module,exports){
-if (typeof Object.create === 'function') {
-  // implementation from standard node.js 'util' module
-  module.exports = function inherits(ctor, superCtor) {
-    ctor.super_ = superCtor
-    ctor.prototype = Object.create(superCtor.prototype, {
-      constructor: {
-        value: ctor,
-        enumerable: false,
-        writable: true,
-        configurable: true
-      }
-    });
-  };
-} else {
-  // old school shim for old browsers
-  module.exports = function inherits(ctor, superCtor) {
-    ctor.super_ = superCtor
-    var TempCtor = function () {}
-    TempCtor.prototype = superCtor.prototype
-    ctor.prototype = new TempCtor()
-    ctor.prototype.constructor = ctor
-  }
+	return assessmentResult;
+};
+
+module.exports = {
+	getResult: fleschReadingEaseAssessment,
+	isApplicable: function( paper ) {
+		return ( paper.getLocale().indexOf( "en_" ) > -1 );
+	}
+};
+
+},{"../values/AssessmentResult.js":82,"lodash/inRange":223}],4:[function(require,module,exports){
+var AssessmentResult = require( "../values/AssessmentResult.js" );
+
+/**
+ * Returns a score and text based on the firstParagraph object.
+ *
+ * @param {object} firstParagraphMatches The object with all firstParagraphMatches.
+ * @param {object} i18n The object used for translations
+ * @returns {object} resultObject with score and text
+ */
+var calculateFirstParagraphResult = function( firstParagraphMatches, i18n ) {
+	if ( firstParagraphMatches > 0 ) {
+		return {
+			score: 9,
+			text: i18n.dgettext( "js-text-analysis", "The focus keyword appears in the first paragraph of the copy." )
+		};
+	}
+
+	return {
+		score: 3,
+		text: i18n.dgettext( "js-text-analysis", "The focus keyword doesn\'t appear in the first paragraph of the copy. " +
+			"Make sure the topic is clear immediately." )
+	};
+};
+
+/**
+ * Runs the findKeywordInFirstParagraph module, based on this returns an assessment result with score.
+ *
+ * @param {Paper} paper The paper to use for the assessment.
+ * @param {object} researcher The researcher used for calling research.
+ * @param {object} i18n The object used for translations
+ * @returns {object} the Assessmentresult
+ */
+var introductionHasKeywordAssessment = function( paper, researcher, i18n ) {
+	var firstParagraphMatches = researcher.getResearch( "firstParagraph" );
+	var firstParagraphResult = calculateFirstParagraphResult( firstParagraphMatches, i18n );
+	var assessmentResult = new AssessmentResult();
+
+	assessmentResult.setScore( firstParagraphResult.score );
+	assessmentResult.setText( firstParagraphResult.text );
+
+	return assessmentResult;
+};
+
+module.exports = {
+	getResult: introductionHasKeywordAssessment,
+	isApplicable: function( paper ) {
+		return paper.hasKeyword();
+	}
+};
+
+},{"../values/AssessmentResult.js":82}],5:[function(require,module,exports){
+var AssessmentResult = require( "../values/AssessmentResult.js" );
+
+/**
+ * Assesses the keyphrase presence and length
+ *
+ * @param {Paper} paper The paper to use for the assessment.
+ * @param {Researcher} researcher The researcher used for calling research.
+ * @param {Jed} i18n The object used for translations
+ * @returns {AssessmentResult} The result of this assessment
+*/
+function keyphraseAssessment( paper, researcher, i18n ) {
+	var keyphraseLength = researcher.getResearch( "keyphraseLength" );
+
+	var assessmentResult = new AssessmentResult();
+
+	if ( !paper.hasKeyword() ) {
+		assessmentResult.setScore( -999 );
+		assessmentResult.setText( i18n.dgettext( "js-text-analysis", "No focus keyword was set for this page. " +
+			"If you do not set a focus keyword, no score can be calculated." ) );
+	} else if ( keyphraseLength > 10 ) {
+		assessmentResult.setScore( 0 );
+		assessmentResult.setText( i18n.dgettext( "js-text-analysis", "Your keyphrase is over 10 words, a keyphrase should be shorter." ) );
+	}
+
+	return assessmentResult;
 }
 
-},{}],5:[function(require,module,exports){
+module.exports = { getResult: keyphraseAssessment };
+
+},{"../values/AssessmentResult.js":82}],6:[function(require,module,exports){
+var AssessmentResult = require( "../values/AssessmentResult.js" );
+var matchWords = require( "../stringProcessing/matchTextWithWord.js" );
+var countWords = require( "../stringProcessing/countWords.js" );
+var inRange = require( "lodash/inRange" );
+
+/**
+ * Returns the scores and text for keyword density
+ * @param {string} keywordDensity The keyword density
+ * @param {object} i18n The i18n object used for translations
+ * @returns {{score: number, text: *}} the assessmentresult
+ */
+var calculateKeywordDensityResult = function( keywordDensity, i18n ) {
+	if ( keywordDensity > 3.5 ) {
+		return {
+			score: -50,
+			text: i18n.dgettext( "js-text-analysis", "The keyword density is %1$s%%, which is way over the advised 2.5%% maximum;" +
+				" the focus keyword was found %2$d times." )
+		};
+	}
+	if ( inRange( keywordDensity, 2.5, 3.5 ) ) {
+		return {
+			score: -10,
+			text: i18n.dgettext( "js-text-analysis", "The keyword density is %1$s%%, which is over the advised 2.5%% maximum;" +
+				" the focus keyword was found %2$d times." )
+		};
+	}
+	if ( inRange( keywordDensity, 0.5, 2.5 ) ) {
+		return {
+			score: 9,
+			text: i18n.dgettext( "js-text-analysis", "The keyword density is %1$s%%, which is great; the focus keyword was found %2$d times." )
+		};
+	}
+	if ( inRange( keywordDensity, 0, 0.5 ) ) {
+		return {
+			score: 4,
+			text: i18n.dgettext( "js-text-analysis", "The keyword density is %1$s%%, which is a bit low; the focus keyword was found %2$d times." )
+		};
+	}
+};
+
+/**
+ * Runs the getkeywordDensity module, based on this returns an assessment result with score.
+ *
+ * @param {object} paper The paper to use for the assessment.
+ * @param {object} researcher The researcher used for calling research.
+ * @param {object} i18n The object used for translations
+ * @returns {object} the Assessmentresult
+ */
+var keywordDensityAssessment = function( paper, researcher, i18n ) {
+
+	var keywordDensity = researcher.getResearch( "getKeywordDensity" );
+	var keywordCount = matchWords( paper.getText(), paper.getKeyword() );
+	var keywordDensityResult = calculateKeywordDensityResult( keywordDensity, i18n );
+	var assessmentResult = new AssessmentResult();
+
+	var text = i18n.sprintf( keywordDensityResult.text, keywordDensity.toFixed( 1 ), keywordCount );
+
+	assessmentResult.setScore( keywordDensityResult.score );
+	assessmentResult.setText( text );
+
+	return assessmentResult;
+};
+
+module.exports = {
+	getResult: keywordDensityAssessment,
+	isApplicable: function( paper ) {
+		return paper.hasText() && paper.hasKeyword() && countWords( paper.getText() ) >= 100;
+	}
+};
+
+},{"../stringProcessing/countWords.js":62,"../stringProcessing/matchTextWithWord.js":70,"../values/AssessmentResult.js":82,"lodash/inRange":223}],7:[function(require,module,exports){
+var AssessmentResult = require( "../values/AssessmentResult.js" );
+
+/**
+ * Calculate the score based on the amount of stop words in the keyword.
+ * @param {number} stopWordCount The amount of stop words to be checked against.
+ * @param {object} i18n The locale object.
+ * @returns {object} The resulting score object.
+ */
+var calculateStopWordsCountResult = function( stopWordCount, i18n ) {
+
+	if ( stopWordCount > 0 ) {
+		return {
+			score: 0,
+			/* translators: %1$s opens a link to a Yoast article about stop words, %2$s closes the link */
+			text: i18n.dngettext(
+				"js-text-analysis",
+				"Your focus keyword contains a stop word. This may or may not be wise depending on the circumstances. " +
+				"Read %1$sthis article%2$s for more info.",
+				"Your focus keyword contains %3$d stop words. This may or may not be wise depending on the circumstances. " +
+				"Read %1$sthis article%2$s for more info.",
+				stopWordCount
+			)
+		};
+	}
+
+	return {};
+};
+
+/**
+ * Execute the Assessment and return a result.
+ * @param {Paper} paper The Paper object to assess.
+ * @param {Researcher} researcher The Researcher object containing all available researches.
+ * @param {object} i18n The locale object.
+ * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
+ */
+var keywordHasStopWordsAssessment = function( paper, researcher, i18n ) {
+	var stopWords = researcher.getResearch( "stopWordsInKeyword" );
+	var stopWordsResult = calculateStopWordsCountResult( stopWords.length, i18n );
+
+	var assessmentResult = new AssessmentResult();
+	assessmentResult.setScore( stopWordsResult.score );
+	assessmentResult.setText( i18n.sprintf(
+		stopWordsResult.text,
+		"<a href='https://yoast.com/handling-stopwords/' target='new'>",
+		"</a>",
+		stopWords.length
+	) );
+
+	return assessmentResult;
+};
+
+module.exports = {
+	getResult: keywordHasStopWordsAssessment,
+	isApplicable: function ( paper ) {
+		return paper.hasKeyword();
+	}
+};
+
+},{"../values/AssessmentResult.js":82}],8:[function(require,module,exports){
+var AssessmentResult = require( "../values/AssessmentResult.js" );
+
+/**
+ * Returns the score and text for the description keyword match.
+ * @param {number} keywordMatches The number of keyword matches in the description.
+ * @param {object} i18n The i18n object used for translations.
+ * @returns {Object} An object with values for the assessment result.
+ */
+var calculateKeywordMatchesResult = function( keywordMatches, i18n ) {
+	if ( keywordMatches > 0 ) {
+		return {
+			score: 9,
+			text: i18n.dgettext( "js-text-analysis", "The meta description contains the focus keyword." )
+		};
+	}
+	if ( keywordMatches === 0 ) {
+		return {
+			score: 3,
+			text: i18n.dgettext( "js-text-analysis", "A meta description has been specified, but it does not contain the focus keyword." )
+		};
+	}
+	return {};
+};
+
+/**
+ * Runs the metaDescription keyword module, based on this returns an assessment result with score.
+ *
+ * @param {object} paper The paper to use for the assessment.
+ * @param {object} researcher The researcher used for calling research.
+ * @param {object} i18n The object used for translations
+ * @returns {object} the Assessmentresult
+ */
+var metaDescriptionHasKeywordAssessment = function( paper, researcher, i18n ) {
+	var keywordMatches = researcher.getResearch( "metaDescriptionKeyword" );
+	var descriptionLengthResult = calculateKeywordMatchesResult( keywordMatches, i18n );
+	var assessmentResult = new AssessmentResult();
+
+	assessmentResult.setScore( descriptionLengthResult.score );
+	assessmentResult.setText( descriptionLengthResult.text );
+
+	return assessmentResult;
+};
+
+module.exports = {
+	getResult: metaDescriptionHasKeywordAssessment,
+	isApplicable: function ( paper ) {
+		return paper.hasKeyword();
+	}
+};
+
+},{"../values/AssessmentResult.js":82}],9:[function(require,module,exports){
+var AssessmentResult = require( "../values/AssessmentResult.js" );
+
+/**
+ * Returns the score and text for the descriptionLength
+ * @param {number} descriptionLength The length of the metadescription.
+ * @param {object} i18n The i18n object used for translations.
+ * @returns {Object} An object with values for the assessment result.
+ */
+var calculateDescriptionLengthResult = function( descriptionLength, i18n ) {
+	var recommendedValue = 120;
+	var maximumValue = 156;
+	if ( descriptionLength === 0 ) {
+		return {
+			score: 1,
+			text: i18n.dgettext( "js-text-analysis", "No meta description has been specified, " +
+				"search engines will display copy from the page instead." )
+		};
+	}
+	if ( descriptionLength <= recommendedValue ) {
+		return {
+			score: 6,
+			text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "The meta description is under %1$d characters, " +
+				"however up to %2$d characters are available." ), recommendedValue, maximumValue )
+		};
+	}
+	if ( descriptionLength > maximumValue ) {
+		return {
+			score: 6,
+			text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "The specified meta description is over %1$d characters. " +
+				"Reducing it will ensure the entire description is visible." ), maximumValue )
+		};
+	}
+	if ( descriptionLength >= recommendedValue && descriptionLength <= maximumValue ) {
+		return {
+			score: 9,
+			text: i18n.dgettext( "js-text-analysis", "In the specified meta description, consider: " +
+				"How does it compare to the competition? Could it be made more appealing?" )
+		};
+	}
+};
+
+/**
+ * Runs the metaDescriptionLength module, based on this returns an assessment result with score.
+ *
+ * @param {object} paper The paper to use for the assessment.
+ * @param {object} researcher The researcher used for calling research.
+ * @param {object} i18n The object used for translations
+ * @returns {object} the Assessmentresult
+ */
+var metaDescriptionLengthAssessment = function( paper, researcher, i18n ) {
+	var descriptionLength = researcher.getResearch( "metaDescriptionLength" );
+	var descriptionLengthResult = calculateDescriptionLengthResult( descriptionLength, i18n );
+	var assessmentResult = new AssessmentResult();
+
+	assessmentResult.setScore( descriptionLengthResult.score );
+	assessmentResult.setText( descriptionLengthResult.text );
+
+	return assessmentResult;
+};
+
+module.exports = { getResult: metaDescriptionLengthAssessment };
+
+},{"../values/AssessmentResult.js":82}],10:[function(require,module,exports){
+var AssessmentResult = require( "../values/AssessmentResult.js" );
+
+/**
+ * Returns a score and text based on the keyword matches object.
+ *
+ * @param {object} subHeadings The object with all subHeadings matches.
+ * @param {object} i18n The object used for translations.
+ * @returns {object} resultObject with score and text.
+ */
+var calculateKeywordMatchesResult = function( subHeadings, i18n ) {
+	if ( subHeadings.matches === 0 ) {
+		return {
+			score: 3,
+			text: i18n.dgettext( "js-text-analysis", "You have not used your focus keyword in any subheading (such as an H2) in your copy." )
+		};
+	}
+	if ( subHeadings.matches >= 1 ) {
+		return {
+			score: 9,
+			text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "The focus keyword appears in %2$d (out of %1$d) subheadings in the copy. " +
+				"While not a major ranking factor, this is beneficial." ), subHeadings.count, subHeadings.matches )
+		};
+	}
+	return {};
+};
+
+/**
+ * Runs the match keyword in subheadings module, based on this returns an assessment result with score.
+ *
+ * @param {object} paper The paper to use for the assessment.
+ * @param {object} researcher The researcher used for calling research.
+ * @param {object} i18n The object used for translations.
+ * @returns {object} the Assessmentresult
+ */
+var subheadingsHaveKeywordAssessment = function( paper, researcher, i18n ) {
+	var subHeadings = researcher.getResearch( "matchKeywordInSubheadings" );
+	var subHeadingsResult = calculateKeywordMatchesResult( subHeadings, i18n );
+	var assessmentResult = new AssessmentResult();
+
+	assessmentResult.setScore( subHeadingsResult.score );
+	assessmentResult.setText( subHeadingsResult.text );
+
+	return assessmentResult;
+};
+
+module.exports = {
+	getResult: subheadingsHaveKeywordAssessment,
+	isApplicable: function( paper ) {
+		return paper.hasText() && paper.hasKeyword();
+	}
+};
+
+},{"../values/AssessmentResult.js":82}],11:[function(require,module,exports){
+var AssessmentResult = require( "../values/AssessmentResult.js" );
+
+/**
+ * Returns a score and text based on the number of links.
+ *
+ * @param {object} linkStatistics The object with all linkstatistics.
+ * @param {object} i18n The object used for translations
+ * @returns {object} resultObject with score and text
+ */
+var calculateLinkCountResult = function( linkStatistics, i18n ) {
+	if ( linkStatistics.totalKeyword > 0 ) {
+		return {
+			score: 2,
+			text: i18n.dgettext( "js-text-analysis", "You\'re linking to another page with the focus keyword you want this page to rank for. " +
+				"Consider changing that if you truly want this page to rank." )
+		};
+	}
+	return {};
+};
+
+/**
+ * Runs the linkCount module, based on this returns an assessment result with score.
+ *
+ * @param {object} paper The paper to use for the assessment.
+ * @param {object} researcher The researcher used for calling research.
+ * @param {object} i18n The object used for translations
+ * @returns {object} the Assessmentresult
+ */
+var textHasCompetingLinksAssessment = function( paper, researcher, i18n ) {
+	var linkCount = researcher.getResearch( "getLinkStatistics" );
+
+	var linkCountResult = calculateLinkCountResult( linkCount, i18n );
+	var assessmentResult = new AssessmentResult();
+
+	assessmentResult.setScore( linkCountResult.score );
+	assessmentResult.setText( linkCountResult.text );
+
+	return assessmentResult;
+};
+
+module.exports = {
+	getResult: textHasCompetingLinksAssessment,
+	isApplicable: function ( paper ) {
+		return paper.hasText() && paper.hasKeyword();
+	}
+};
+
+},{"../values/AssessmentResult.js":82}],12:[function(require,module,exports){
+var AssessmentResult = require( "../values/AssessmentResult.js" );
+var isEmpty = require( "lodash/isEmpty" );
+
+/**
+ * Calculate the score based on the current image count.
+ * @param {number} imageCount The amount of images to be checked against.
+ * @param {object} i18n The locale object.
+ * @returns {object} The resulting score object.
+ */
+var calculateImageCountResult = function( imageCount, i18n ) {
+	if ( imageCount === 0 ) {
+		return {
+			score: 3,
+			text: i18n.dgettext( "js-text-analysis", "No images appear in this page, consider adding some as appropriate." )
+		};
+	}
+
+	return {};
+};
+
+/**
+ * Calculate the score based on the current image alt-tag count.
+ * @param {object} altProperties An object containing the various alt-tags.
+ * @param {object} i18n The locale object.
+ * @returns {object} The resulting score object.
+ */
+var assessImages = function( altProperties, i18n ) {
+	if ( altProperties.noAlt > 0 ) {
+		return {
+			score: 5,
+			text: i18n.dgettext( "js-text-analysis", "The images on this page are missing alt tags." )
+		};
+	}
+
+	// Has alt-tag, but no keyword is set
+	if ( altProperties.withAlt > 0 ) {
+		return {
+			score: 5,
+			text: i18n.dgettext( "js-text-analysis", "The images on this page contain alt tags." )
+		};
+	}
+
+	// Has alt-tag, but no keywords and it's not okay
+	if ( altProperties.withAltNonKeyword > 0 ) {
+		return {
+			score: 5,
+			text: i18n.dgettext( "js-text-analysis", "The images on this page do not have alt tags containing your focus keyword." )
+		};
+	}
+
+	// Has alt-tag and keywords
+	if ( altProperties.withAltKeyword > 0 ) {
+		return {
+			score: 9,
+			text: i18n.dgettext( "js-text-analysis", "The images on this page contain alt tags with the focus keyword." )
+		};
+	}
+
+	return {};
+};
+
+/**
+ * Execute the Assessment and return a result.
+ * @param {Paper} paper The Paper object to assess.
+ * @param {Researcher} researcher The Researcher object containing all available researches.
+ * @param {object} i18n The locale object.
+ * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
+ */
+var textHasImagesAssessment = function( paper, researcher, i18n ) {
+	var assessmentResult = new AssessmentResult();
+
+	var imageCount = researcher.getResearch( "imageCount" );
+	var imageCountResult = calculateImageCountResult( imageCount, i18n );
+
+	if ( isEmpty( imageCountResult ) ) {
+		var altTagCount = researcher.getResearch( "altTagCount" );
+		var altTagCountResult = assessImages( altTagCount, i18n );
+
+		assessmentResult.setScore( altTagCountResult.score );
+		assessmentResult.setText( altTagCountResult.text );
+
+		return assessmentResult;
+	}
+
+	assessmentResult.setScore( imageCountResult.score );
+	assessmentResult.setText( imageCountResult.text );
+
+	return assessmentResult;
+};
+
+module.exports = {
+	getResult: textHasImagesAssessment,
+	isApplicable: function ( paper ) {
+		return paper.hasText();
+	}
+};
+
+},{"../values/AssessmentResult.js":82,"lodash/isEmpty":230}],13:[function(require,module,exports){
+var AssessmentResult = require( "../values/AssessmentResult.js" );
+var inRange = require( "lodash/inRange" );
+
+/**
+ * Calculate the score based on the current word count.
+ * @param {number} wordCount The amount of words to be checked against.
+ * @param {object} i18n The locale object.
+ * @returns {object} The resulting score object.
+ */
+var calculateWordCountResult = function( wordCount, i18n ) {
+	if ( wordCount > 300 ) {
+		return {
+			score: 9,
+			/* translators: %1$d expands to the number of words in the text, %2$s to the recommended minimum of words */
+			text: i18n.dngettext(
+				"js-text-analysis",
+				"The text contains %1$d word, this is more than the %2$d word recommended minimum.",
+				"The text contains %1$d words, this is more than the %2$d word recommended minimum.",
+				wordCount
+			)
+		};
+	}
+
+	if ( inRange( wordCount, 250, 300 ) ) {
+		return {
+			score: 7,
+			/* translators: %1$d expands to the number of words in the text, %2$s to the recommended minimum of words */
+			text: i18n.dngettext(
+				"js-text-analysis",
+				"The text contains %1$d word, this is slightly below the %2$d word recommended minimum. Add a bit more copy.",
+				"The text contains %1$d words, this is slightly below the %2$d word recommended minimum. Add a bit more copy.",
+				wordCount
+			)
+		};
+	}
+
+	if ( inRange( wordCount, 200, 250 ) ) {
+		return {
+			score: 5,
+			/* translators: %1$d expands to the number of words in the text, %2$d to the recommended minimum of words */
+			text: i18n.dngettext(
+				"js-text-analysis",
+				"The text contains %1$d word, this is below the %2$d word recommended minimum. Add more useful content on this topic for readers.",
+				"The text contains %1$d words, this is below the %2$d word recommended minimum. Add more useful content on this topic for readers.",
+				wordCount
+			)
+		};
+	}
+
+	if ( inRange( wordCount, 100, 200 ) ) {
+		return {
+			score: -10,
+			/* translators: %1$d expands to the number of words in the text, %2$d to the recommended minimum of words */
+			text: i18n.dngettext(
+				"js-text-analysis",
+				"The text contains %1$d word, this is below the %2$d word recommended minimum. Add more useful content on this topic for readers.",
+				"The text contains %1$d words, this is below the %2$d word recommended minimum. Add more useful content on this topic for readers.",
+				wordCount
+			)
+		};
+	}
+
+	if ( inRange( wordCount, 0, 100 ) ) {
+		return {
+			score: -20,
+			/* translators: %1$d expands to the number of words in the text */
+			text: i18n.dngettext(
+				"js-text-analysis",
+				"The text contains %1$d word, this is far too low and should be increased.",
+				"The text contains %1$d words, this is far too low and should be increased.",
+				wordCount
+			)
+		};
+	}
+};
+
+/**
+ * Execute the Assessment and return a result.
+ * @param {Paper} paper The Paper object to assess.
+ * @param {Researcher} researcher The Researcher object containing all available researches.
+ * @param {object} i18n The locale object.
+ * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
+ */
+var textLengthAssessment = function( paper, researcher, i18n ) {
+	var wordCount = researcher.getResearch( "wordCountInText" );
+	var wordCountResult = calculateWordCountResult( wordCount, i18n );
+	var assessmentResult = new AssessmentResult();
+
+	assessmentResult.setScore( wordCountResult.score );
+	assessmentResult.setText( i18n.sprintf( wordCountResult.text, wordCount, 300 ) );
+
+	return assessmentResult;
+};
+
+module.exports = { getResult: textLengthAssessment };
+
+},{"../values/AssessmentResult.js":82,"lodash/inRange":223}],14:[function(require,module,exports){
+var AssessmentResult = require( "../values/AssessmentResult.js" );
+var isEmpty = require( "lodash/isEmpty" );
+
+/**
+ * Returns a score and text based on the linkStatistics object.
+ *
+ * @param {object} linkStatistics The object with all linkstatistics.
+ * @param {object} i18n The object used for translations
+ * @returns {object} resultObject with score and text
+ */
+var calculateLinkStatisticsResult = function( linkStatistics, i18n ) {
+	if ( linkStatistics.total === 0 ) {
+		return {
+			score: 6,
+			text: i18n.dgettext( "js-text-analysis", "No links appear in this page, consider adding some as appropriate." )
+		};
+	}
+
+	if ( linkStatistics.externalNofollow === linkStatistics.total ) {
+		return {
+			score: 7,
+			/* translators: %1$s expands the number of outbound links */
+			text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "This page has %1$s outbound link(s), all nofollowed." ),
+				linkStatistics.externalNofollow )
+		};
+	}
+
+	if ( linkStatistics.externalNofollow < linkStatistics.total ) {
+		return {
+			score: 8,
+			/* translators: %1$s expands to the number of nofollow links, %2$s to the number of outbound links */
+			text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "This page has %1$s nofollowed link(s) and %2$s normal outbound link(s)." ),
+				linkStatistics.externalNofollow, linkStatistics.externalDofollow )
+		};
+	}
+
+	if ( linkStatistics.externalDofollow === linkStatistics.total ) {
+		return {
+			score: 9,
+			/* translators: %1$s expands to the number of outbound links */
+			text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "This page has %1$s outbound link(s)." ), linkStatistics.externalTotal )
+		};
+	}
+};
+
+/**
+ * Runs the getLinkStatistics module, based on this returns an assessment result with score.
+ *
+ * @param {object} paper The paper to use for the assessment.
+ * @param {object} researcher The researcher used for calling research.
+ * @param {object} i18n The object used for translations
+ * @returns {object} the Assessmentresult
+ */
+var textHasLinksAssessment = function( paper, researcher, i18n ) {
+	var linkStatistics = researcher.getResearch( "getLinkStatistics" );
+	var assessmentResult = new AssessmentResult();
+	if ( !isEmpty( linkStatistics ) ) {
+		var linkStatisticsResult = calculateLinkStatisticsResult( linkStatistics, i18n );
+		assessmentResult.setScore( linkStatisticsResult.score );
+		assessmentResult.setText( linkStatisticsResult.text );
+	}
+	return assessmentResult;
+};
+
+module.exports = {
+	getResult: textHasLinksAssessment,
+	isApplicable: function ( paper ) {
+		return paper.hasText();
+	}
+};
+
+},{"../values/AssessmentResult.js":82,"lodash/isEmpty":230}],15:[function(require,module,exports){
+var AssessmentResult = require( "../values/AssessmentResult.js" );
+
+/**
+ * Returns a score and text based on the subheading matches object.
+ *
+ * @param {object} subHeadings The object with all subHeadings matches.
+ * @param {object} i18n The object used for translations.
+ * @returns {object} resultObject with score and text.
+ */
+var calculateSubheadingMatchesResult = function( subHeadings, i18n ) {
+	if ( subHeadings.count === 0 ) {
+		return {
+			score: 7,
+			text: i18n.dgettext( "js-text-analysis", "No subheading tags (like an H2) appear in the copy." )
+		};
+	}
+	return {};
+};
+
+/**
+ * Runs the match subheadings module, based on this returns an assessment result with score.
+ *
+ * @param {object} paper The paper to use for the assessment.
+ * @param {object} researcher The researcher used for calling research.
+ * @param {object} i18n The object used for translations.
+ * @returns {object} the Assessmentresult
+ */
+var textHasSubheadingsAssessment = function( paper, researcher, i18n ) {
+	var subHeadings = researcher.getResearch( "matchKeywordInSubheadings" );
+	var subHeadingsResult = calculateSubheadingMatchesResult( subHeadings, i18n );
+	var assessmentResult = new AssessmentResult();
+
+	assessmentResult.setScore( subHeadingsResult.score );
+	assessmentResult.setText( subHeadingsResult.text );
+
+	return assessmentResult;
+};
+
+module.exports = {
+	getResult: textHasSubheadingsAssessment,
+	isApplicable: function( paper ) {
+		return paper.hasText();
+	}
+};
+
+
+},{"../values/AssessmentResult.js":82}],16:[function(require,module,exports){
+var AssessmentResult = require( "../values/AssessmentResult.js" );
+
+/**
+ * Executes the pagetitle keyword assessment and returns an assessment result.
+ * @param {Paper} paper The Paper object to assess.
+ * @param {Researcher} researcher The Researcher object containing all available researches.
+ * @param {object} i18n The locale object.
+ * @returns {AssessmentResult} The result of the assessment with text and score
+ */
+var titleHasKeywordAssessment = function( paper, researcher, i18n ) {
+	var keywordMatches = researcher.getResearch( "findKeywordInPageTitle" );
+	var score, text;
+
+	if ( keywordMatches.matches === 0 ) {
+		score = 2;
+		text = i18n.sprintf( i18n.dgettext( "js-text-analysis", "The focus keyword '%1$s' does not appear in the page title." ), paper.getKeyword() );
+	}
+
+	if ( keywordMatches.matches > 0 && keywordMatches.position === 0 ) {
+		score = 9;
+		text = i18n.dgettext( "js-text-analysis", "The page title contains the focus keyword, at the beginning which is considered " +
+			"to improve rankings." );
+	}
+
+	if ( keywordMatches.matches > 0 && keywordMatches.position > 0 ) {
+		score = 6;
+		text = i18n.dgettext( "js-text-analysis", "The page title contains the focus keyword, but it does not appear at the beginning;" +
+			" try and move it to the beginning." );
+	}
+	var assessmentResult = new AssessmentResult();
+
+	assessmentResult.setScore( score );
+	assessmentResult.setText( text );
+
+	return assessmentResult;
+};
+
+module.exports = {
+	getResult: titleHasKeywordAssessment,
+	isApplicable: function ( paper ) {
+		return paper.hasKeyword();
+	}
+};
+
+},{"../values/AssessmentResult.js":82}],17:[function(require,module,exports){
+var AssessmentResult = require( "../values/AssessmentResult.js" );
+var inRange = require( "lodash/inRange" );
+
+/**
+ * Returns the score and text for the pageTitleLength
+ * @param {number} pageTitleLength The length of the pageTitle.
+ * @param {object} i18n The i18n object used for translations.
+ * @returns {object} The result object.
+ */
+var calculatePageTitleLengthResult = function( pageTitleLength, i18n ) {
+	var minLength = 35;
+	var maxLength = 65;
+
+	if ( inRange( pageTitleLength, 1, 35 ) ) {
+		return {
+			score: 6,
+			text: i18n.sprintf(
+				i18n.dngettext(
+					"js-text-analysis",
+					/* translators: %1$d expands to the number of characters in the page title,
+					%2$d to the minimum number of characters for the title */
+					"The page title contains %1$d character, which is less than the recommended minimum of %2$d characters. " +
+					"Use the space to add keyword variations or create compelling call-to-action copy.",
+					"The page title contains %1$d characters, which is less than the recommended minimum of %2$d characters. " +
+					"Use the space to add keyword variations or create compelling call-to-action copy.",
+				pageTitleLength ),
+				pageTitleLength, minLength )
+		};
+	}
+
+	if ( inRange( pageTitleLength, 35, 66 ) ) {
+		return {
+			score: 9,
+			text: i18n.sprintf(
+				i18n.dgettext(
+					"js-text-analysis",
+					/* translators: %1$d expands to the minimum number of characters in the page title, %2$d to the maximum number of characters */
+					"The page title is between the %1$d character minimum and the recommended %2$d character maximum." ),
+				minLength, maxLength )
+		};
+	}
+
+	if ( pageTitleLength > maxLength ) {
+		return {
+			score: 6,
+			text: i18n.sprintf(
+				i18n.dngettext(
+					"js-text-analysis",
+					/* translators: %1$d expands to the number of characters in the page title, %2$d to the maximum number
+					of characters for the title */
+					"The page title contains %1$d character, which is more than the viewable limit of %2$d characters; " +
+					"some words will not be visible to users in your listing.",
+					"The page title contains %1$d characters, which is more than the viewable limit of %2$d characters; " +
+					"some words will not be visible to users in your listing.",
+					pageTitleLength ),
+				pageTitleLength, maxLength )
+		};
+	}
+
+	return {
+		score: 1,
+		text: i18n.dgettext( "js-text-analysis", "Please create a page title." )
+	};
+};
+
+/**
+ * Runs the pageTitleLength module, based on this returns an assessment result with score.
+ *
+ * @param {object} paper The paper to use for the assessment.
+ * @param {object} researcher The researcher used for calling research.
+ * @param {object} i18n The object used for translations
+ * @returns {object} the Assessmentresult
+ */
+var titleLengthAssessment = function( paper, researcher, i18n ) {
+	var pageTitleLength = researcher.getResearch( "pageTitleLength" );
+	var pageTitleLengthResult = calculatePageTitleLengthResult( pageTitleLength, i18n );
+	var assessmentResult = new AssessmentResult();
+
+	assessmentResult.setScore( pageTitleLengthResult.score );
+	assessmentResult.setText( pageTitleLengthResult.text );
+
+	return assessmentResult;
+};
+
+module.exports = { getResult: titleLengthAssessment };
+
+},{"../values/AssessmentResult.js":82,"lodash/inRange":223}],18:[function(require,module,exports){
+var AssessmentResult = require( "../values/AssessmentResult.js" );
+
+/**
+ * Calculate the score based on whether or not there's a keyword in the url.
+ * @param {number} keywordsResult The amount of keywords to be checked against.
+ * @param {object} i18n The locale object.
+ * @returns {object} The resulting score object.
+ */
+var calculateUrlKeywordCountResult = function( keywordsResult, i18n ) {
+
+	if ( keywordsResult > 0 ) {
+		return {
+			score: 9,
+			text: i18n.dgettext( "js-text-analysis", "The focus keyword appears in the URL for this page." )
+		};
+	}
+
+	return {
+		score: 6,
+		text: i18n.dgettext( "js-text-analysis", "The focus keyword does not appear in the URL for this page. " +
+		                                         "If you decide to rename the URL be sure to check the old URL 301 redirects to the new one!" )
+	};
+};
+
+/**
+ * Execute the Assessment and return a result.
+ * @param {Paper} paper The Paper object to assess.
+ * @param {Researcher} researcher The Researcher object containing all available researches.
+ * @param {object} i18n The locale object.
+ * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
+ */
+var urlHasKeywordAssessment = function( paper, researcher, i18n ) {
+	var keywords = researcher.getResearch( "keywordCountInUrl" );
+	var keywordsResult = calculateUrlKeywordCountResult( keywords, i18n );
+
+	var assessmentResult = new AssessmentResult();
+	assessmentResult.setScore( keywordsResult.score );
+	assessmentResult.setText( keywordsResult.text );
+
+	return assessmentResult;
+};
+
+module.exports = {
+	getResult: urlHasKeywordAssessment,
+	isApplicable: function( paper ) {
+		return paper.hasKeyword() && paper.hasUrl();
+	}
+};
+
+},{"../values/AssessmentResult.js":82}],19:[function(require,module,exports){
+var AssessmentResult = require( "../values/AssessmentResult.js" );
+
+/**
+ * The assessment that checks the url length
+ *
+ * @param {Paper} paper The paper to run this assessment on.
+ * @param {object} researcher The researcher used for the assessment.
+ * @param {object} i18n The i18n-object used for parsing translations.
+ * @returns {object} an AssessmentResult with the score and the formatted text.
+ */
+var urlLengthAssessment = function( paper, researcher, i18n ) {
+	var urlIsTooLong = researcher.getResearch( "urlLength" );
+	var assessmentResult = new AssessmentResult();
+	if ( urlIsTooLong ) {
+		var score = 5;
+		var text = i18n.dgettext( "js-text-analysis", "The slug for this page is a bit long, consider shortening it." );
+		assessmentResult.setScore( score );
+		assessmentResult.setText( text );
+	}
+	return assessmentResult;
+};
+
+module.exports = {
+	getResult: urlLengthAssessment,
+	isApplicable: function ( paper ) {
+		return paper.hasUrl();
+	}
+};
+
+},{"../values/AssessmentResult.js":82}],20:[function(require,module,exports){
+var AssessmentResult = require( "../values/AssessmentResult.js" );
+
+/**
+ * Calculate the score based on the amount of stop words in the url.
+ * @param {number} stopWordCount The amount of stop words to be checked against.
+ * @param {object} i18n The locale object.
+ * @returns {object} The resulting score object.
+ */
+var calculateUrlStopWordsCountResult = function( stopWordCount, i18n ) {
+
+	if ( stopWordCount > 0 ) {
+		return {
+			score: 5,
+			/* translators: %1$s opens a link to a wikipedia article about stop words, %2$s closes the link */
+			text: i18n.dngettext(
+				"js-text-analysis",
+				"The slug for this page contains a %1$sstop word%2$s, consider removing it.",
+				"The slug for this page contains %1$sstop words%2$s, consider removing them.",
+				stopWordCount
+			)
+		};
+	}
+
+	return {};
+};
+
+/**
+ * Execute the Assessment and return a result.
+ * @param {Paper} paper The Paper object to assess.
+ * @param {Researcher} researcher The Researcher object containing all available researches.
+ * @param {object} i18n The locale object.
+ * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
+ */
+var urlHasStopWordsAssessment = function( paper, researcher, i18n ) {
+	var stopWords = researcher.getResearch( "stopWordsInUrl" );
+	var stopWordsResult = calculateUrlStopWordsCountResult( stopWords.length, i18n );
+
+	var assessmentResult = new AssessmentResult();
+	assessmentResult.setScore( stopWordsResult.score );
+	assessmentResult.setText( i18n.sprintf(
+		stopWordsResult.text,
+		/* translators: this link is referred to in the content analysis when a slug contains one or more stop words */
+		"<a href='" + i18n.dgettext( "js-text-analysis", "http://en.wikipedia.org/wiki/Stop_words" ) + "' target='new'>",
+		"</a>"
+	) );
+
+	return assessmentResult;
+};
+
+module.exports = { getResult: urlHasStopWordsAssessment };
+
+},{"../values/AssessmentResult.js":82}],21:[function(require,module,exports){
+var Researcher = require( "./researcher.js" );
+var MissingArgument = require( "./errors/missingArgument" );
+var isUndefined = require( "lodash/isUndefined" );
+var forEach = require( "lodash/forEach" );
+
+var ScoreRating = 9;
+
+/**
+ * Creates the Assessor
+ *
+ * @param {object} i18n The i18n object used for translations.
+ * @constructor
+ */
+var Assessor = function( i18n ) {
+	this.setI18n( i18n );
+	this._assessments = {};
+};
+
+/**
+ * Checks if the i18n object is defined and sets it.
+ * @param {Object} i18n The i18n object used for translations.
+ * @throws {MissingArgument} Parameter needs to be a valid i18n object.
+ */
+Assessor.prototype.setI18n = function( i18n ) {
+	if ( isUndefined( i18n ) ) {
+		throw new MissingArgument( "The assessor requires an i18n object." );
+	}
+	this.i18n = i18n;
+};
+
+/**
+ * Gets all available assessments.
+ * @returns {object} assessment
+ */
+Assessor.prototype.getAvailableAssessments = function() {
+	return this._assessments;
+};
+
+/**
+ * Checks whether or not the Assessment is applicable.
+ * @param {Object} assessment The Assessment object that needs to be checked.
+ * @param {Paper} paper The Paper object to check against.
+ * @param {Researcher} [researcher] The Researcher object containing additional information.
+ * @returns {boolean} Whether or not the Assessment is applicable.
+ */
+Assessor.prototype.isApplicable = function( assessment, paper, researcher ) {
+	if ( assessment.hasOwnProperty( "isApplicable" ) ) {
+		return assessment.isApplicable( paper, researcher );
+	}
+
+	return true;
+};
+
+/**
+ * Runs the researches defined in the tasklist or the default researches.
+ * @param {Paper} paper The paper to run assessments on.
+ */
+Assessor.prototype.assess = function( paper ) {
+	var researcher = new Researcher( paper );
+	var assessments = this.getAvailableAssessments();
+	this.results = [];
+
+	forEach( assessments, function( assessment, name ) {
+		if ( !this.isApplicable( assessment, paper, researcher ) ) {
+			return;
+		}
+
+		this.results.push( {
+			name: name,
+			result: assessment.getResult( paper, researcher, this.i18n )
+		} );
+
+	}.bind( this ) );
+};
+
+/**
+ * Filters out all assessmentresults that have no score and no text.
+ * @returns {Array<AssessmentResult>} The array with all the valid assessments.
+ */
+Assessor.prototype.getValidResults = function() {
+	var validResults = [];
+
+	forEach( this.results, function( assessmentResults ) {
+		if ( !this.isValidResult( assessmentResults.result ) ) {
+			return;
+		}
+
+		validResults.push( assessmentResults.result );
+	}.bind( this ) );
+
+	return validResults;
+};
+
+/**
+ * Returns if an assessmentResult is valid.
+ * @param {object} assessmentResult The assessmentResult to validate.
+ * @returns {boolean} whether or not the result is valid.
+ */
+Assessor.prototype.isValidResult = function( assessmentResult ) {
+	return assessmentResult.hasScore() && assessmentResult.hasText();
+};
+
+/**
+ * Returns the overallscore. Calculates the totalscore by adding all scores and dividing these
+ * by the number of results times the ScoreRating.
+ *
+ * @returns {number} The overallscore
+ */
+Assessor.prototype.calculateOverallScore  = function() {
+	var results = this.getValidResults();
+	var totalScore = 0;
+
+	forEach( results, function( assessmentResult ) {
+		totalScore += assessmentResult.getScore();
+	} );
+
+	return Math.round( totalScore / ( results.length * ScoreRating ) * 100 );
+};
+
+/**
+ * Register an assessment to add it to the internal assessments object.
+ *
+ * @param {string} name The name of the assessment.
+ * @param {object} assessment The object containing function to run as an assessment and it's requirements.
+ * @returns {boolean} Whether registering the assessment was successful.
+ * @private
+ */
+Assessor.prototype.addAssessment = function( name, assessment ) {
+	this._assessments[ name ] = assessment;
+	return true;
+};
+
+/**
+ * Remove a specific Assessment from the list of Assessments.
+ * @param {string} name The Assessment to remove from the list of assessments.
+ */
+Assessor.prototype.removeAssessment = function( name ) {
+	delete this._assessments[ name ];
+};
+
+module.exports = Assessor;
+
+},{"./errors/missingArgument":30,"./researcher.js":34,"lodash/forEach":219,"lodash/isUndefined":241}],22:[function(require,module,exports){
+var AssessmentResult = require( "../values/AssessmentResult.js" );
+var isUndefined = require( "lodash/isUndefined" );
+
+var MissingArgument = require( "../../js/errors/missingArgument" );
+/**
+ * @param {object} app The app
+ * @param {object} args An arguments object with usedKeywords, searchUrl, postUrl,
+ * @param {object} args.usedKeywords An object with keywords and ids where they are used.
+ * @param {string} args.searchUrl The url used to link to a search page when multiple usages of the keyword are found.
+ * @param {string} args.postUrl The url used to link to a post when 1 usage of the keyword is found.
+ * @constructor
+ */
+var PreviouslyUsedKeyword = function( app, args ) {
+	if ( isUndefined( app ) ) {
+		throw new MissingArgument( "The previously keyword plugin requires the YoastSEO app" );
+	}
+
+	if ( isUndefined( args ) ) {
+		args = {
+			usedKeywords: {},
+			searchUrl: "",
+			postUrl: ""
+		};
+	}
+
+	this.app = app;
+	this.usedKeywords = args.usedKeywords;
+	this.searchUrl = args.searchUrl;
+	this.postUrl = args.postUrl;
+};
+
+/**
+ * Registers the assessment with the assessor.
+ */
+PreviouslyUsedKeyword.prototype.registerPlugin = function() {
+	this.app.registerAssessment( "usedKeywords", {
+		getResult: this.assess.bind( this ),
+		isApplicable: function( paper ) {
+			return paper.hasKeyword();
+		}
+	}, "previouslyUsedKeywords" );
+};
+
+/**
+ * Updates the usedKeywords
+ * @param {object} usedKeywords An object with keywords and ids where they are used.
+ */
+PreviouslyUsedKeyword.prototype.updateKeywordUsage = function( usedKeywords ) {
+	this.usedKeywords = usedKeywords;
+};
+
+/**
+ * Scores the previously used keyword assessment based on the count.
+ *
+ * @param {object} previouslyUsedKeywords The result of the previously used keywords research
+ * @param {Paper} paper The paper object to research.
+ * @param {Jed} i18n The i18n object.
+ * @returns {object} the scoreobject with text and score.
+ */
+PreviouslyUsedKeyword.prototype.scoreAssessment = function( previouslyUsedKeywords, paper, i18n ) {
+	var count = previouslyUsedKeywords.count;
+	var id = previouslyUsedKeywords.id;
+	if( count === 0 ) {
+		return {
+			text: i18n.dgettext( "js-text-analysis", "You've never used this focus keyword before, very good." ),
+			score: 9
+		};
+	}
+	if( count === 1 ) {
+		var url = "<a href='" + this.postUrl.replace( "{id}", id ) + "' target='_blank'>";
+		return {
+			/* translators: %1$s and %2$s expand to an admin link where the focus keyword is already used */
+			text:  i18n.sprintf( i18n.dgettext( "js-text-analysis", "You've used this focus keyword %1$sonce before%2$s, " +
+				"be sure to make very clear which URL on your site is the most important for this keyword." ), url, "</a>" ),
+			score: 6
+		};
+	}
+	if ( count > 1 ) {
+		url = "<a href='" + this.searchUrl.replace( "{keyword}", paper.getKeyword() )+ "' target='_blank'>";
+		return {
+			/* translators: %1$s and $3$s expand to the admin search page for the focus keyword, %2$d expands to the number of times this focus
+			 keyword has been used before, %4$s and %5$s expand to a link to an article on yoast.com about cornerstone content */
+			text:  i18n.sprintf( i18n.dgettext( "js-text-analysis", "You've used this focus keyword %1$s%2$d times before%3$s, " +
+				"it's probably a good idea to read %4$sthis post on cornerstone content%5$s and improve your keyword strategy." ),
+				url, count, "</a>", "<a href='https://yoast.com/cornerstone-content-rank/' target='_blank'>", "</a>" ),
+			score: 1
+		};
+	}
+};
+
+/**
+ * Researches the previously used keywords, based on the used keywords and the keyword in the paper.
+ *
+ * @param {Paper} paper The paper object to research.
+ * @returns {{id: number, count: number}} The object with the count and the id of the previously used keyword
+ */
+PreviouslyUsedKeyword.prototype.researchPreviouslyUsedKeywords = function( paper ) {
+	var keyword = paper.getKeyword();
+	var count = 0;
+	var id = 0;
+
+	if ( !isUndefined( this.usedKeywords[ keyword ] ) ) {
+		count = this.usedKeywords[ keyword ].length;
+		id = this.usedKeywords[ keyword ][ 0 ];
+	}
+
+	return {
+		id: id,
+		count: count
+	};
+};
+
+/**
+ * The assessment for the previously used keywords.
+ *
+ * @param {Paper} paper The Paper object to assess.
+ * @param {Researcher} researcher The Researcher object containing all available researches.
+ * @param {object} i18n The locale object.
+ * @returns {AssessmentResult} The assessment result of the assessment
+ */
+PreviouslyUsedKeyword.prototype.assess = function( paper, researcher, i18n ) {
+	var previouslyUsedKeywords = this.researchPreviouslyUsedKeywords( paper );
+	var previouslyUsedKeywordsResult = this.scoreAssessment( previouslyUsedKeywords, paper, i18n );
+
+	var assessmentResult =  new AssessmentResult();
+	assessmentResult.setScore( previouslyUsedKeywordsResult.score );
+	assessmentResult.setText( previouslyUsedKeywordsResult.text );
+
+	return assessmentResult;
+};
+
+module.exports = PreviouslyUsedKeyword;
+
+},{"../../js/errors/missingArgument":30,"../values/AssessmentResult.js":82,"lodash/isUndefined":241}],23:[function(require,module,exports){
+var analyzerConfig = {
+	queue: [ "wordCount", "keywordDensity", "subHeadings", "stopwords", "fleschReading", "linkCount", "imageCount", "urlKeyword", "urlLength", "metaDescriptionLength", "metaDescriptionKeyword", "pageTitleKeyword", "pageTitleLength", "firstParagraph", "urlStopwords", "keywordDoubles", "keyphraseSizeCheck" ],
+	stopWords: [ "a", "about", "above", "after", "again", "against", "all", "am", "an", "and", "any", "are", "as", "at", "be", "because", "been", "before", "being", "below", "between", "both", "but", "by", "could", "did", "do", "does", "doing", "down", "during", "each", "few", "for", "from", "further", "had", "has", "have", "having", "he", "he'd", "he'll", "he's", "her", "here", "here's", "hers", "herself", "him", "himself", "his", "how", "how's", "i", "i'd", "i'll", "i'm", "i've", "if", "in", "into", "is", "it", "it's", "its", "itself", "let's", "me", "more", "most", "my", "myself", "nor", "of", "on", "once", "only", "or", "other", "ought", "our", "ours", "ourselves", "out", "over", "own", "same", "she", "she'd", "she'll", "she's", "should", "so", "some", "such", "than", "that", "that's", "the", "their", "theirs", "them", "themselves", "then", "there", "there's", "these", "they", "they'd", "they'll", "they're", "they've", "this", "those", "through", "to", "too", "under", "until", "up", "very", "was", "we", "we'd", "we'll", "we're", "we've", "were", "what", "what's", "when", "when's", "where", "where's", "which", "while", "who", "who's", "whom", "why", "why's", "with", "would", "you", "you'd", "you'll", "you're", "you've", "your", "yours", "yourself", "yourselves" ],
+	wordsToRemove: [ " a", " in", " an", " on", " for", " the", " and" ],
+	maxSlugLength: 20,
+	maxUrlLength: 40,
+	maxMeta: 156
+};
+
+module.exports = analyzerConfig;
+
+},{}],24:[function(require,module,exports){
+/** @module config/diacritics */
+
+/**
+ * Returns the diacritics map
+ *
+ * @returns {array} diacritics map
+ */
+module.exports = function(){
+	return [
+		{
+			base: "a",
+			letters: /[\u0061\u24D0\uFF41\u1E9A\u00E0\u00E1\u00E2\u1EA7\u1EA5\u1EAB\u1EA9\u00E3\u0101\u0103\u1EB1\u1EAF\u1EB5\u1EB3\u0227\u01E1\u00E4\u01DF\u1EA3\u00E5\u01FB\u01CE\u0201\u0203\u1EA1\u1EAD\u1EB7\u1E01\u0105\u2C65\u0250]/g
+		},
+		{ base: "aa", letters: /[\uA733]/g },
+		{ base: "ae", letters: /[\u00E6\u01FD\u01E3]/g },
+		{ base: "ao", letters: /[\uA735]/g },
+		{ base: "au", letters: /[\uA737]/g },
+		{ base: "av", letters: /[\uA739\uA73B]/g },
+		{ base: "ay", letters: /[\uA73D]/g },
+		{ base: "b", letters: /[\u0062\u24D1\uFF42\u1E03\u1E05\u1E07\u0180\u0183\u0253]/g },
+		{
+			base: "c",
+			letters: /[\u0063\u24D2\uFF43\u0107\u0109\u010B\u010D\u00E7\u1E09\u0188\u023C\uA73F\u2184]/g
+		},
+		{
+			base: "d",
+			letters: /[\u0064\u24D3\uFF44\u1E0B\u010F\u1E0D\u1E11\u1E13\u1E0F\u0111\u018C\u0256\u0257\uA77A]/g
+		},
+		{ base: "dz", letters: /[\u01F3\u01C6]/g },
+		{
+			base: "e",
+			letters: /[\u0065\u24D4\uFF45\u00E8\u00E9\u00EA\u1EC1\u1EBF\u1EC5\u1EC3\u1EBD\u0113\u1E15\u1E17\u0115\u0117\u00EB\u1EBB\u011B\u0205\u0207\u1EB9\u1EC7\u0229\u1E1D\u0119\u1E19\u1E1B\u0247\u025B\u01DD]/g
+		},
+		{ base: "f", letters: /[\u0066\u24D5\uFF46\u1E1F\u0192\uA77C]/g },
+		{
+			base: "g",
+			letters: /[\u0067\u24D6\uFF47\u01F5\u011D\u1E21\u011F\u0121\u01E7\u0123\u01E5\u0260\uA7A1\u1D79\uA77F]/g
+		},
+		{
+			base: "h",
+			letters: /[\u0068\u24D7\uFF48\u0125\u1E23\u1E27\u021F\u1E25\u1E29\u1E2B\u1E96\u0127\u2C68\u2C76\u0265]/g
+		},
+		{ base: "hv", letters: /[\u0195]/g },
+		{
+			base: "i",
+			letters: /[\u0069\u24D8\uFF49\u00EC\u00ED\u00EE\u0129\u012B\u012D\u00EF\u1E2F\u1EC9\u01D0\u0209\u020B\u1ECB\u012F\u1E2D\u0268\u0131]/g
+		},
+		{ base: "j", letters: /[\u006A\u24D9\uFF4A\u0135\u01F0\u0249]/g },
+		{
+			base: "k",
+			letters: /[\u006B\u24DA\uFF4B\u1E31\u01E9\u1E33\u0137\u1E35\u0199\u2C6A\uA741\uA743\uA745\uA7A3]/g
+		},
+		{
+			base: "l",
+			letters: /[\u006C\u24DB\uFF4C\u0140\u013A\u013E\u1E37\u1E39\u013C\u1E3D\u1E3B\u017F\u0142\u019A\u026B\u2C61\uA749\uA781\uA747]/g
+		},
+		{ base: "lj", letters: /[\u01C9]/g },
+		{ base: "m", letters: /[\u006D\u24DC\uFF4D\u1E3F\u1E41\u1E43\u0271\u026F]/g },
+		{
+			base: "n",
+			letters: /[\u006E\u24DD\uFF4E\u01F9\u0144\u00F1\u1E45\u0148\u1E47\u0146\u1E4B\u1E49\u019E\u0272\u0149\uA791\uA7A5]/g
+		},
+		{ base: "nj", letters: /[\u01CC]/g },
+		{
+			base: "o",
+			letters: /[\u006F\u24DE\uFF4F\u00F2\u00F3\u00F4\u1ED3\u1ED1\u1ED7\u1ED5\u00F5\u1E4D\u022D\u1E4F\u014D\u1E51\u1E53\u014F\u022F\u0231\u00F6\u022B\u1ECF\u0151\u01D2\u020D\u020F\u01A1\u1EDD\u1EDB\u1EE1\u1EDF\u1EE3\u1ECD\u1ED9\u01EB\u01ED\u00F8\u01FF\u0254\uA74B\uA74D\u0275]/g
+		},
+		{ base: "oi", letters: /[\u01A3]/g },
+		{ base: "ou", letters: /[\u0223]/g },
+		{ base: "oo", letters: /[\uA74F]/g },
+		{ base: "p", letters: /[\u0070\u24DF\uFF50\u1E55\u1E57\u01A5\u1D7D\uA751\uA753\uA755]/g },
+		{ base: "q", letters: /[\u0071\u24E0\uFF51\u024B\uA757\uA759]/g },
+		{
+			base: "r",
+			letters: /[\u0072\u24E1\uFF52\u0155\u1E59\u0159\u0211\u0213\u1E5B\u1E5D\u0157\u1E5F\u024D\u027D\uA75B\uA7A7\uA783]/g
+		},
+		{
+			base: "s",
+			letters: /[\u0073\u24E2\uFF53\u00DF\u015B\u1E65\u015D\u1E61\u0161\u1E67\u1E63\u1E69\u0219\u015F\u023F\uA7A9\uA785\u1E9B]/g
+		},
+		{
+			base: "t",
+			letters: /[\u0074\u24E3\uFF54\u1E6B\u1E97\u0165\u1E6D\u021B\u0163\u1E71\u1E6F\u0167\u01AD\u0288\u2C66\uA787]/g
+		},
+		{ base: "tz", letters: /[\uA729]/g },
+		{
+			base: "u",
+			letters: /[\u0075\u24E4\uFF55\u00F9\u00FA\u00FB\u0169\u1E79\u016B\u1E7B\u016D\u00FC\u01DC\u01D8\u01D6\u01DA\u1EE7\u016F\u0171\u01D4\u0215\u0217\u01B0\u1EEB\u1EE9\u1EEF\u1EED\u1EF1\u1EE5\u1E73\u0173\u1E77\u1E75\u0289]/g
+		},
+		{ base: "v", letters: /[\u0076\u24E5\uFF56\u1E7D\u1E7F\u028B\uA75F\u028C]/g },
+		{ base: "vy", letters: /[\uA761]/g },
+		{
+			base: "w",
+			letters: /[\u0077\u24E6\uFF57\u1E81\u1E83\u0175\u1E87\u1E85\u1E98\u1E89\u2C73]/g
+		},
+		{ base: "x", letters: /[\u0078\u24E7\uFF58\u1E8B\u1E8D]/g },
+		{
+			base: "y",
+			letters: /[\u0079\u24E8\uFF59\u1EF3\u00FD\u0177\u1EF9\u0233\u1E8F\u00FF\u1EF7\u1E99\u1EF5\u01B4\u024F\u1EFF]/g
+		},
+		{
+			base: "z",
+			letters: /[\u007A\u24E9\uFF5A\u017A\u1E91\u017C\u017E\u1E93\u1E95\u01B6\u0225\u0240\u2C6C\uA763]/g
+		}
+	];
+};
+
+},{}],25:[function(require,module,exports){
+/**
+ * Returns the configuration used for score ratings and the AssessorPresenter.
+ * @param {Jed} i18n The translator object.
+ * @returns {Object} The config object.
+ */
+module.exports = function ( i18n ) {
+	return {
+		feedback: {
+			className: "na",
+			screenReaderText: i18n.dgettext( "js-text-analysis", "Feedback")
+		},
+		bad: {
+			className: "bad",
+			screenReaderText: i18n.dgettext( "js-text-analysis", "Bad SEO score")
+		},
+		ok: {
+			className: "ok",
+			screenReaderText: i18n.dgettext( "js-text-analysis", "Ok SEO score")
+		},
+		good: {
+			className: "good",
+			screenReaderText: i18n.dgettext( "js-text-analysis", "Good SEO score")
+		}
+	};
+};
+
+},{}],26:[function(require,module,exports){
+/** @module config/removalWords */
+
+/**
+ * Returns an array with words that need to be removed
+ *
+ * @returns {array} removalWords Returns an array with words.
+ */
+module.exports = function(){
+	return [ " a", " in", " an", " on", " for", " the", " and" ];
+};
+
+},{}],27:[function(require,module,exports){
+/** @module config/stopwords */
+
+/**
+ * Returns an array with stopwords to be used by the analyzer.
+ *
+ * @returns {Array} stopwords The array filled with stopwords.
+ */
+module.exports = function(){
+	return [ "a", "about", "above", "after", "again", "against", "all", "am", "an", "and", "any", "are", "as", "at", "be", "because", "been", "before", "being", "below", "between", "both", "but", "by", "could", "did", "do", "does", "doing", "down", "during", "each", "few", "for", "from", "further", "had", "has", "have", "having", "he", "he'd", "he'll", "he's", "her", "here", "here's", "hers", "herself", "him", "himself", "his", "how", "how's", "i", "i'd", "i'll", "i'm", "i've", "if", "in", "into", "is", "it", "it's", "its", "itself", "let's", "me", "more", "most", "my", "myself", "nor", "of", "on", "once", "only", "or", "other", "ought", "our", "ours", "ourselves", "out", "over", "own", "same", "she", "she'd", "she'll", "she's", "should", "so", "some", "such", "than", "that", "that's", "the", "their", "theirs", "them", "themselves", "then", "there", "there's", "these", "they", "they'd", "they'll", "they're", "they've", "this", "those", "through", "to", "too", "under", "until", "up", "very", "was", "we", "we'd", "we'll", "we're", "we've", "were", "what", "what's", "when", "when's", "where", "where's", "which", "while", "who", "who's", "whom", "why", "why's", "with", "would", "you", "you'd", "you'll", "you're", "you've", "your", "yours", "yourself", "yourselves" ];
+};
+
+},{}],28:[function(require,module,exports){
+/** @module config/syllables */
+
+/**
+ * Returns an array with syllables.
+ * Subtractsyllables are counted as two and need to be counted as one.
+ * Addsyllables are counted as one but need to be counted as two.
+ * Exclusionwords are removed from the text to be counted seperatly.
+ *
+ * @returns {object}
+ */
+module.exports = function(){
+	return {
+		subtractSyllables: [ "cial", "tia", "cius", "cious", "giu", "ion", "iou", "sia$", "[^aeiuoyt]{2,}ed$", "[aeiouy][^aeiuoyts]{1,}e\\b", ".ely$", "[cg]h?e[sd]", "rved$", "rved", "[aeiouy][dt]es?$", "[aeiouy][^aeiouydt]e[sd]?$", "^[dr]e[aeiou][^aeiou]+$", "[aeiouy]rse$" ],
+		addSyllables: [ "ia", "riet", "dien", "iu", "io", "ii", "[aeiouym][bdp]l", "[aeiou]{3}", "^mc", "ism$", "([^aeiouy])\1l$", "[^l]lien", "^coa[dglx].", "[^gq]ua[^auieo]", "dnt$", "uity$", "ie(r|st)", "[aeiouy]ing", "[aeiouw]y[aeiou]" ],
+		exclusionWords: [
+			{ word: "shoreline", syllables: 2 },
+			{ word: "simile", syllables: 3 }
+		]
+	};
+};
+
+},{}],29:[function(require,module,exports){
+/**
+ * Throws an invalid type error
+ * @param {string} message The message to show when the error is thrown
+ * @returns {void}
+ */
+module.exports = function InvalidTypeError( message ) {
+	Error.captureStackTrace( this, this.constructor );
+	this.name = this.constructor.name;
+	this.message = message;
+};
+
+require( "util" ).inherits( module.exports, Error );
+
+},{"util":317}],30:[function(require,module,exports){
+module.exports = function MissingArgumentError( message ) {
+	Error.captureStackTrace( this, this.constructor );
+	this.name = this.constructor.name;
+	this.message = message;
+};
+
+require( "util" ).inherits( module.exports, Error );
+
+},{"util":317}],31:[function(require,module,exports){
+/**
+ * Interpreters a score and gives it a particular rating.
+ *
+ * @param {Number} score The score to interpreter.
+ * @returns {string} The rating, given based on the score.
+ */
+var ScoreToRating = function( score ) {
+
+	if ( score === 0 ) {
+		return "feedback";
+	}
+
+	if ( score <= 4 ) {
+		return "bad";
+	}
+
+	if ( score > 4 && score <= 7 ) {
+		return "ok";
+	}
+
+	if ( score > 7 ) {
+		return "good";
+	}
+
+	return "";
+};
+
+module.exports = ScoreToRating;
+
+},{}],32:[function(require,module,exports){
+/* global console: true */
+/* global setTimeout: true */
+var isUndefined = require( "lodash/isUndefined" );
+var forEach = require( "lodash/forEach" );
+var reduce = require( "lodash/reduce" );
+var isString = require( "lodash/isString" );
+var isObject = require( "lodash/isObject" );
+var InvalidTypeError = require( "./errors/invalidType" );
+
+/**
+ * The plugins object takes care of plugin registrations, preloading and managing data modifications.
+ *
+ * A plugin for YoastSEO.js is basically a piece of JavaScript that hooks into YoastSEO.js by registering modifications.
+ * In order to do so, it must first register itself as a plugin with YoastSEO.js. To keep our content analysis fast, we
+ * don't allow asynchronous modifications. That's why we require plugins to preload all data they need in order to modify
+ * the content. If plugins need to preload data, they can first register, then preload using AJAX and call `ready` once
+ * preloaded.
+ *
+ * To minimize client side memory usage, we request plugins to preload as little data as possible. If you need to dynamically
+ * fetch more data in the process of content creation, you can reload your data set and let YoastSEO.js know you've reloaded
+ * by calling `reloaded`.
+ *
+ * @todo: add list of supported modifications and compare on registration of modification
+ */
+
+/**
+ * Setup Pluggable and set its default values.
+ *
+ * @constructor
+ * @param       {App}       app                 The App object to attach to.
+ * @property    {number}    preloadThreshold	The maximum time plugins are allowed to preload before we load our content analysis.
+ * @property    {object}    plugins             The plugins that have been registered.
+ * @property    {object}    modifications 	    The modifications that have been registered. Every modification contains an array with callables.
+ * @property    {Array}     customTests         All tests added by plugins.
+ */
+var Pluggable = function( app ) {
+	this.app = app;
+	this.loaded = false;
+	this.preloadThreshold = 3000;
+	this.plugins = {};
+	this.modifications = {};
+	this.customTests = [];
+
+	// Allow plugins 1500 ms to register before we start polling their
+	setTimeout( this._pollLoadingPlugins.bind( this ), 1500 );
+};
+
+//  ***** DSL IMPLEMENTATION ***** //
+
+/**
+ * Register a plugin with YoastSEO. A plugin can be declared "ready" right at registration or later using `this.ready`.
+ *
+ * @param {string}  pluginName      The name of the plugin to be registered.
+ * @param {object}  options         The options passed by the plugin.
+ * @param {string}  options.status  The status of the plugin being registered. Can either be "loading" or "ready".
+ * @returns {boolean}               Whether or not the plugin was successfully registered.
+ */
+Pluggable.prototype._registerPlugin = function( pluginName, options ) {
+	if ( typeof pluginName !== "string" ) {
+		console.error( "Failed to register plugin. Expected parameter `pluginName` to be a string." );
+		return false;
+	}
+
+	if ( !isUndefined( options ) && typeof options !== "object" ) {
+		console.error( "Failed to register plugin " + pluginName + ". Expected parameters `options` to be a object." );
+		return false;
+	}
+
+	if ( this._validateUniqueness( pluginName ) === false ) {
+		console.error( "Failed to register plugin. Plugin with name " + pluginName + " already exists" );
+		return false;
+	}
+
+	this.plugins[pluginName] = options;
+	this.app.updateLoadingDialog( this.plugins );
+	return true;
+};
+
+/**
+ * Declare a plugin "ready". Use this if you need to preload data with AJAX.
+ *
+ * @param {string} pluginName	The name of the plugin to be declared as ready.
+ * @returns {boolean}           Whether or not the plugin was successfully declared ready.
+ */
+Pluggable.prototype._ready = function( pluginName ) {
+	if ( typeof pluginName !== "string" ) {
+		console.error( "Failed to modify status for plugin " + pluginName + ". Expected parameter `pluginName` to be a string." );
+		return false;
+	}
+
+	if ( isUndefined( this.plugins[pluginName] ) ) {
+		console.error( "Failed to modify status for plugin " + pluginName + ". The plugin was not properly registered." );
+		return false;
+	}
+
+	this.plugins[pluginName].status = "ready";
+	this.app.updateLoadingDialog( this.plugins );
+	return true;
+};
+
+/**
+ * Used to declare a plugin has been reloaded. If an analysis is currently running. We will reset it to ensure running the latest modifications.
+ *
+ * @param {string} pluginName   The name of the plugin to be declared as reloaded.
+ * @returns {boolean}           Whether or not the plugin was successfully declared as reloaded.
+ */
+Pluggable.prototype._reloaded = function( pluginName ) {
+	if ( typeof pluginName !== "string" ) {
+		console.error( "Failed to reload Content Analysis for " + pluginName + ". Expected parameter `pluginName` to be a string." );
+		return false;
+	}
+
+	if ( isUndefined( this.plugins[pluginName] ) ) {
+		console.error( "Failed to reload Content Analysis for plugin " + pluginName + ". The plugin was not properly registered." );
+		return false;
+	}
+
+	this.app.analyzeTimer();
+	return true;
+};
+
+/**
+ * Enables hooking a callable to a specific data filter supported by YoastSEO. Can only be performed for plugins that have finished loading.
+ *
+ * @param {string}      modification	The name of the filter
+ * @param {function}    callable 	    The callable
+ * @param {string}      pluginName 	    The plugin that is registering the modification.
+ * @param {number}      priority	    (optional) Used to specify the order in which the callables associated with a particular filter are called.
+ * 									    Lower numbers correspond with earlier execution.
+ * @returns {boolean}                   Whether or not applying the hook was successfull.
+ */
+Pluggable.prototype._registerModification = function( modification, callable, pluginName, priority ) {
+	if ( typeof modification !== "string" ) {
+		console.error( "Failed to register modification for plugin " + pluginName + ". Expected parameter `modification` to be a string." );
+		return false;
+	}
+
+	if ( typeof callable !== "function" ) {
+		console.error( "Failed to register modification for plugin " + pluginName + ". Expected parameter `callable` to be a function." );
+		return false;
+	}
+
+	if ( typeof pluginName !== "string" ) {
+		console.error( "Failed to register modification for plugin " + pluginName + ". Expected parameter `pluginName` to be a string." );
+		return false;
+	}
+
+	// Validate origin
+	if ( this._validateOrigin( pluginName ) === false ) {
+		console.error( "Failed to register modification for plugin " + pluginName + ". The integration has not finished loading yet." );
+		return false;
+	}
+
+	// Default priority to 10
+	var prio = typeof priority === "number" ?  priority : 10;
+
+	var callableObject = {
+		callable: callable,
+		origin: pluginName,
+		priority: prio
+	};
+
+	// Make sure modification is defined on modifications object
+	if ( isUndefined( this.modifications[modification] ) ) {
+		this.modifications[modification] = [];
+	}
+
+	this.modifications[modification].push( callableObject );
+
+	return true;
+};
+
+/**
+ * Register test for a specific plugin
+ *
+ * @deprecated
+ */
+Pluggable.prototype._registerTest = function() {
+	console.error ( "This function is deprecated, please use _registerAssessment" );
+};
+
+/**
+ * Register an assessment for a specific plugin
+ *
+ * @param {object} assessor The assessor object where the assessments needs to be added.
+ * @param {string} name The name of the assessment.
+ * @param {function} assessment The function to run as an assessment.
+ * @param {string} pluginName The name of the plugin associated with the assessment.
+ * @returns {boolean} Whether registering the assessment was successful.
+ * @private
+ */
+Pluggable.prototype._registerAssessment = function( assessor, name, assessment, pluginName ) {
+	if ( !isString( name ) ) {
+		throw new InvalidTypeError( "Failed to register test for plugin " + pluginName + ". Expected parameter `name` to be a string." );
+	}
+
+	if ( !isObject( assessment ) ) {
+		throw new InvalidTypeError( "Failed to register assessment for plugin " + pluginName +
+			". Expected parameter `assessment` to be a function." );
+	}
+
+	if ( !isString( pluginName ) ) {
+		throw new InvalidTypeError( "Failed to register assessment for plugin " + pluginName +
+			". Expected parameter `pluginName` to be a string." );
+	}
+
+	// Prefix the name with the pluginName so the test name is always unique.
+	name = pluginName + "-" + name;
+
+	assessor.addAssessment( name, assessment );
+
+	return true;
+};
+
+// ***** PRIVATE HANDLERS *****//
+
+/**
+ * Poller to handle loading of plugins. Plugins can register with our app to let us know they are going to hook into our Javascript. They are allowed
+ * 5 seconds of pre-loading time to fetch all the data they need to be able to perform their data modifications. We will only apply data modifications
+ * from plugins that have declared ready within the pre-loading time in order to safeguard UX and data integrity.
+ *
+ * @param   {number} pollTime (optional) The accumulated time to compare with the pre-load threshold.
+ * @returns {void}
+ * @private
+ */
+Pluggable.prototype._pollLoadingPlugins = function( pollTime ) {
+	pollTime = isUndefined( pollTime ) ? 0 : pollTime;
+	if ( this._allReady() === true ) {
+		this.loaded = true;
+		this.app.pluginsLoaded();
+	} else if ( pollTime >= this.preloadThreshold ) {
+		this._pollTimeExceeded();
+	} else {
+		pollTime += 50;
+		setTimeout( this._pollLoadingPlugins.bind( this, pollTime ), 50 );
+	}
+};
+
+/**
+ * Checks if all registered plugins have finished loading
+ *
+ * @returns {boolean} Whether or not all registered plugins are loaded.
+ * @private
+ */
+Pluggable.prototype._allReady = function() {
+	return reduce( this.plugins, function( allReady, plugin ) {
+		return allReady && plugin.status === "ready";
+	}, true );
+};
+
+/**
+ * Removes the plugins that were not loaded within time and calls `pluginsLoaded` on the app.
+ *
+ * @returns {void}
+ * @private
+ */
+Pluggable.prototype._pollTimeExceeded = function() {
+	forEach ( this.plugins, function( plugin, pluginName ) {
+		if ( !isUndefined( plugin.options ) && plugin.options.status !== "ready" ) {
+			console.error( "Error: Plugin " + pluginName + ". did not finish loading in time." );
+			delete this.plugins[pluginName];
+		}
+	} );
+	this.loaded = true;
+	this.app.pluginsLoaded();
+};
+
+/**
+ * Calls the callables added to a modification hook. See the YoastSEO.js Readme for a list of supported modification hooks.
+ *
+ * @param	{string}    modification	The name of the filter
+ * @param   {*}         data 		    The data to filter
+ * @param   {*}         context		    (optional) Object for passing context parameters to the callable.
+ * @returns {*} 		                The filtered data
+ * @private
+ */
+Pluggable.prototype._applyModifications = function( modification, data, context ) {
+	var callChain = this.modifications[modification];
+
+	if ( callChain instanceof Array && callChain.length > 0 ) {
+		callChain = this._stripIllegalModifications( callChain );
+
+		callChain.sort( function( a, b ) {
+			return a.priority - b.priority;
+		} );
+		forEach( callChain, function( callableObject ) {
+			var callable = callableObject.callable;
+			var newData = callable( data, context );
+			if ( typeof newData === typeof data ) {
+				data = newData;
+			} else {
+				console.error( "Modification with name " + modification + " performed by plugin with name " +
+				callableObject.origin +
+				" was ignored because the data that was returned by it was of a different type than the data we had passed it." );
+			}
+		} );
+	}
+	return data;
+
+};
+
+/**
+ * Adds new tests to the analyzer and it's scoring object.
+ *
+ * @param {YoastSEO.Analyzer} analyzer The analyzer object to add the tests to
+ * @returns {void}
+ * @private
+ */
+Pluggable.prototype._addPluginTests = function( analyzer ) {
+	this.customTests.map( function( customTest ) {
+		this._addPluginTest( analyzer, customTest );
+	}, this );
+};
+
+/**
+ * Adds one new test to the analyzer and it's scoring object.
+ *
+ * @param {YoastSEO.Analyzer} analyzer              The analyzer that the test will be added to.
+ * @param {Object}            pluginTest            The test to be added.
+ * @param {string}            pluginTest.name       The name of the test.
+ * @param {function}          pluginTest.callable   The function associated with the test.
+ * @param {function}          pluginTest.analysis   The function associated with the analyzer.
+ * @param {Object}            pluginTest.scoring    The scoring object to be used.
+ * @returns {void}
+ * @private
+ */
+Pluggable.prototype._addPluginTest = function( analyzer, pluginTest ) {
+	analyzer.addAnalysis( {
+		"name": pluginTest.name,
+		"callable": pluginTest.analysis
+	} );
+
+	analyzer.analyzeScorer.addScoring( {
+		"name": pluginTest.name,
+		"scoring": pluginTest.scoring
+	} );
+};
+
+/**
+ * Strips modifications from a callChain if they were not added with a valid origin.
+ *
+ * @param   {Array} callChain	 The callChain that contains items with possible invalid origins.
+ * @returns {Array} callChain 	 The stripped version of the callChain.
+ * @private
+ */
+Pluggable.prototype._stripIllegalModifications = function( callChain ) {
+	forEach ( callChain, function( callableObject, index ) {
+		if ( this._validateOrigin( callableObject.origin ) === false ) {
+			delete callChain[index];
+		}
+	}.bind( this ) );
+
+	return callChain;
+};
+
+/**
+ * Validates if origin of a modification has been registered and finished preloading.
+ *
+ * @param 	{string}    pluginName      The name of the plugin that needs to be validated.
+ * @returns {boolean}                   Whether or not the origin is valid.
+ * @private
+ */
+Pluggable.prototype._validateOrigin = function( pluginName ) {
+	if ( this.plugins[pluginName].status !== "ready" ) {
+		return false;
+	}
+	return true;
+};
+
+/**
+ * Validates if registered plugin has a unique name.
+ *
+ * @param 	{string}    pluginName      The name of the plugin that needs to be validated for uniqueness.
+ * @returns {boolean}                   Whether or not the plugin has a unique name.
+ * @private
+ */
+Pluggable.prototype._validateUniqueness = function( pluginName ) {
+	if ( !isUndefined( this.plugins[pluginName] ) ) {
+		return false;
+	}
+	return true;
+};
+
+module.exports = Pluggable;
+
+},{"./errors/invalidType":29,"lodash/forEach":219,"lodash/isObject":235,"lodash/isString":238,"lodash/isUndefined":241,"lodash/reduce":249}],33:[function(require,module,exports){
+/* jshint browser: true */
+
+var forEach = require( "lodash/forEach" );
+var isNumber = require( "lodash/isNumber" );
+var isObject = require( "lodash/isObject" );
+var isUndefined = require( "lodash/isUndefined" );
+var difference = require( "lodash/difference" );
+var template = require( "../templates.js" ).assessmentPresenterResult;
+var scoreToRating = require( "../interpreters/scoreToRating.js" );
+var createConfig = require( "../config/presenter.js" );
+
+/**
+ * Constructs the AssessorPresenter.
+ *
+ * @param {Object} args A list of arguments to use in the presenter.
+ * @param {object} args.targets The HTML elements to render the output to.
+ * @param {string} args.targets.output The HTML element to render the individual ratings out to.
+ * @param {string} args.targets.overall The HTML element to render the overall rating out to.
+ * @param {string} args.keyword The keyword to use for checking, when calculating the overall rating.
+ * @param {SEOAssessor} args.assessor The Assessor object to retrieve assessment results from.
+ * @param {Jed} args.i18n The translation object.
+ * @constructor
+ */
+var AssessorPresenter = function( args ) {
+	this.keyword = args.keyword;
+	this.assessor = args.assessor;
+	this.i18n = args.i18n;
+	this.output = args.targets.output;
+	this.overall = args.targets.overall || "overallScore";
+	this.presenterConfig = createConfig( args.i18n );
+};
+
+/**
+ * Checks whether or not a specific property exists in the presenter configuration.
+ * @param {string} property The property name to search for.
+ * @returns {boolean} Whether or not the property exists.
+ */
+AssessorPresenter.prototype.configHasProperty = function( property ) {
+	return this.presenterConfig.hasOwnProperty( property );
+};
+
+/**
+ * Gets a fully formatted indicator object that can be used.
+ * @param {string} rating The rating to use.
+ * @returns {Object} An object containing the class and screen reader text.
+ */
+AssessorPresenter.prototype.getIndicator = function( rating ) {
+	return {
+		className: this.getIndicatorColorClass( rating ),
+		screenReaderText: this.getIndicatorScreenReaderText( rating )
+	};
+};
+
+/**
+ * Gets the indicator color class from the presenter configuration, if it exists.
+ * @param {string} rating The rating to check against the config.
+ * @returns {string} String containing the CSS class to be used.
+ */
+AssessorPresenter.prototype.getIndicatorColorClass = function( rating ) {
+	if ( !this.configHasProperty( rating ) ) {
+		return "";
+	}
+
+	return this.presenterConfig[ rating ].className;
+};
+
+/**
+ * Get the indicator screen reader text from the presenter configuration, if it exists.
+ * @param {string} rating The rating to check against the config.
+ * @returns {string} Translated string containing the screen reader text to be used.
+ */
+AssessorPresenter.prototype.getIndicatorScreenReaderText = function( rating ) {
+	if ( !this.configHasProperty( rating ) ) {
+		return "";
+	}
+
+	return this.presenterConfig[ rating ].screenReaderText;
+};
+
+/**
+ * Adds a rating based on the numeric score.
+ * @param {Object} result Object based on the Assessment result. Requires a score property to work.
+ * @returns {Object} The Assessment result object with the rating added.
+ */
+AssessorPresenter.prototype.resultToRating = function( result ) {
+	if ( !isObject( result ) ) {
+		return "";
+	}
+
+	result.rating = scoreToRating( result.score );
+
+	return result;
+};
+
+/**
+ * Takes the individual assessment results, sorts and rates them.
+ * @returns {Object} Object containing all the individual ratings.
+ */
+AssessorPresenter.prototype.getIndividualRatings = function() {
+	var ratings = {};
+	var validResults = this.sort( this.assessor.getValidResults() );
+	var mappedResults = validResults.map( this.resultToRating );
+
+	forEach( mappedResults, function( item, key ) {
+		ratings[ key ] = this.addRating( item );
+	}.bind( this ) );
+
+	return ratings;
+};
+
+/**
+ * Excludes items from the results that are present in the exclude array.
+ * @param {Array} results Array containing the items to filter through.
+ * @param {Array} exclude Array of results to exclude.
+ * @returns {Array} Array containing items that remain after exclusion.
+ */
+AssessorPresenter.prototype.excludeFromResults = function( results, exclude ) {
+	return difference( results, exclude );
+};
+
+/**
+ * Sorts results based on their score property and always places items considered to be unsortable, at the top.
+ * @param {Array} results Array containing the results that need to be sorted.
+ * @returns {Array} Array containing the sorted results.
+ */
+AssessorPresenter.prototype.sort = function ( results ) {
+	var unsortables = this.getUndefinedScores( results );
+	var sortables = this.excludeFromResults( results, unsortables );
+
+	sortables.sort( function( a, b ) {
+		return a.score - b.score;
+	} );
+
+	return unsortables.concat( sortables );
+};
+
+/**
+ * Returns a subset of results that have an undefined score or a score set to zero.
+ * @param {Array} results The results to filter through.
+ * @returns {Array} A subset of results containing items with an undefined score or where the score is zero.
+ */
+AssessorPresenter.prototype.getUndefinedScores = function ( results ) {
+	return results.filter( function( result ) {
+		return isUndefined( result.score ) || result.score === 0;
+	} );
+};
+
+/**
+ * Creates a rating object based on the item that is being passed.
+ * @param {Object} item The item to check and create a rating object from.
+ * @returns {Object} Object containing a parsed item, including a colored indicator.
+ */
+AssessorPresenter.prototype.addRating = function( item ) {
+	var indicator = this.getIndicator( item.rating );
+	indicator.text = item.text;
+
+	return indicator;
+};
+
+/**
+ * Calculates the overall rating score based on the overall score.
+ * @param {Number} overallScore The overall score to use in the calculation.
+ * @returns {Object} The rating based on the score.
+ */
+AssessorPresenter.prototype.getOverallRating = function( overallScore ) {
+	var rating = 0;
+
+	if ( this.keyword === "" ) {
+		return this.resultToRating( { score: rating } );
+	}
+
+	if ( isNumber( overallScore ) ) {
+		rating = ( overallScore / 10 );
+	}
+
+	return this.resultToRating( { score: rating } );
+};
+
+/**
+ * Renders out both the individual and the overall ratings.
+ */
+AssessorPresenter.prototype.render = function() {
+	this.renderIndividualRatings();
+	this.renderOverallRating();
+};
+
+/**
+ * Renders out the individual ratings.
+ */
+AssessorPresenter.prototype.renderIndividualRatings = function() {
+	var outputTarget = document.getElementById( this.output );
+
+	outputTarget.innerHTML = template( {
+		scores: this.getIndividualRatings()
+	} );
+};
+
+/**
+ * Renders out the overall rating.
+ */
+AssessorPresenter.prototype.renderOverallRating = function() {
+	var overallRating = this.getOverallRating( this.assessor.calculateOverallScore() );
+	var overallRatingElement = document.getElementById( this.overall );
+
+	if ( !overallRatingElement ) {
+		return;
+	}
+
+	overallRatingElement.className = "overallScore " + this.getIndicatorColorClass( overallRating.rating );
+};
+
+module.exports = AssessorPresenter;
+
+},{"../config/presenter.js":25,"../interpreters/scoreToRating.js":31,"../templates.js":81,"lodash/difference":217,"lodash/forEach":219,"lodash/isNumber":234,"lodash/isObject":235,"lodash/isUndefined":241}],34:[function(require,module,exports){
+var merge = require( "lodash/merge" );
+var InvalidTypeError = require( "./errors/invalidType" );
+var MissingArgument = require( "./errors/missingArgument" );
+var isUndefined = require( "lodash/isUndefined" );
+var isEmpty = require( "lodash/isEmpty" );
+
+// assessments
+var wordCountInText = require( "./researches/wordCountInText.js" );
+var getLinkStatistics = require( "./researches/getLinkStatistics.js" );
+var linkCount = require( "./researches/countLinks.js" );
+var urlLength = require( "./researches/urlIsTooLong.js" );
+var findKeywordInPageTitle = require( "./researches/findKeywordInPageTitle.js" );
+var matchKeywordInSubheadings = require( "./researches/matchKeywordInSubheadings.js" );
+var getKeywordDensity = require( "./researches/getKeywordDensity.js" );
+var stopWordsInKeyword = require( "./researches/stopWordsInKeyword" );
+var stopWordsInUrl = require( "./researches/stopWordsInUrl" );
+var calculateFleschReading = require( "./researches/calculateFleschReading.js" );
+var metaDescriptionLength = require( "./researches/metaDescriptionLength.js" );
+var imageCount = require( "./researches/imageCountInText.js" );
+var altTagCount = require( "./researches/imageAltTags.js" );
+var keyphraseLength = require( "./researches/keyphraseLength" );
+var metaDescriptionKeyword = require( "./researches/metaDescriptionKeyword.js" );
+var keywordCountInUrl = require( "./researches/keywordCountInUrl" );
+var findKeywordInFirstParagraph = require( "./researches/findKeywordInFirstParagraph.js" );
+var pageTitleLength = require( "./researches/pageTitleLength.js" );
+
+/**
+ * This contains all possible, default researches.
+ * @param {Paper} paper The Paper object that is needed within the researches.
+ * @constructor
+ * @throws {InvalidTypeError} Parameter needs to be an instance of the Paper object.
+ */
+var Researcher = function( paper ) {
+	this.setPaper( paper );
+
+	this.defaultResearches = {
+		"urlLength": urlLength,
+		"wordCountInText": wordCountInText,
+		"findKeywordInPageTitle": findKeywordInPageTitle,
+		"calculateFleschReading": calculateFleschReading,
+		"getLinkStatistics": getLinkStatistics,
+		"linkCount": linkCount,
+		"imageCount": imageCount,
+		"altTagCount": altTagCount,
+		"matchKeywordInSubheadings": matchKeywordInSubheadings,
+		"getKeywordDensity": getKeywordDensity,
+		"stopWordsInKeyword": stopWordsInKeyword,
+		"stopWordsInUrl": stopWordsInUrl,
+		"metaDescriptionLength": metaDescriptionLength,
+		"keyphraseLength": keyphraseLength,
+		"keywordCountInUrl": keywordCountInUrl,
+		"firstParagraph": findKeywordInFirstParagraph,
+		"metaDescriptionKeyword": metaDescriptionKeyword,
+		"pageTitleLength": pageTitleLength
+	};
+
+	this.customResearches = {};
+};
+
+/**
+ * Set the Paper associated with the Researcher.
+ * @param {Paper} paper The Paper to use within the Researcher
+ * @throws {InvalidTypeError} Parameter needs to be an instance of the Paper object.
+ * @returns {void}
+ */
+Researcher.prototype.setPaper = function( paper ) {
+	this.paper = paper;
+};
+
+/**
+ * Add a custom research that will be available within the Researcher.
+ * @param {string} name A name to reference the research by.
+ * @param {function} research The function to be added to the Researcher.
+ * @throws {MissingArgument} Research name cannot be empty.
+ * @throws {InvalidTypeError} The research requires a valid Function callback.
+ * @returns {void}
+ */
+Researcher.prototype.addResearch = function( name, research ) {
+	if ( isUndefined( name ) || isEmpty( name ) ) {
+		throw new MissingArgument( "Research name cannot be empty" );
+	}
+
+	if ( !( research instanceof Function ) ) {
+		throw new InvalidTypeError( "The research requires a Function callback." );
+	}
+
+	this.customResearches[name] = research;
+};
+
+/**
+ * Check wheter or not the research is known by the Researcher.
+ * @param {string} name The name to reference the research by.
+ * @returns {boolean} Whether or not the research is known by the Researcher
+ */
+Researcher.prototype.hasResearch = function( name ) {
+	return Object.keys( this.getAvailableResearches() ).filter(
+	function( research ) {
+		return research === name;
+	} ).length > 0;
+};
+
+/**
+ * Return all available researches.
+ * @returns {Object} An object containing all available researches.
+ */
+Researcher.prototype.getAvailableResearches = function() {
+	return merge( this.defaultResearches, this.customResearches );
+};
+
+/**
+ * Return the Research by name.
+ * @param {string} name The name to reference the research by.
+ * @returns {*} Returns the result of the research or false if research does not exist.
+ * @throws {MissingArgument} Research name cannot be empty.
+ */
+Researcher.prototype.getResearch = function( name ) {
+	if ( isUndefined( name ) || isEmpty( name ) ) {
+		throw new MissingArgument( "Research name cannot be empty" );
+	}
+
+	if ( !this.hasResearch( name ) ) {
+		return false;
+	}
+
+	return this.getAvailableResearches()[ name ]( this.paper );
+};
+
+module.exports = Researcher;
+
+},{"./errors/invalidType":29,"./errors/missingArgument":30,"./researches/calculateFleschReading.js":35,"./researches/countLinks.js":36,"./researches/findKeywordInFirstParagraph.js":37,"./researches/findKeywordInPageTitle.js":38,"./researches/getKeywordDensity.js":39,"./researches/getLinkStatistics.js":40,"./researches/imageAltTags.js":42,"./researches/imageCountInText.js":43,"./researches/keyphraseLength":44,"./researches/keywordCountInUrl":45,"./researches/matchKeywordInSubheadings.js":46,"./researches/metaDescriptionKeyword.js":47,"./researches/metaDescriptionLength.js":48,"./researches/pageTitleLength.js":49,"./researches/stopWordsInKeyword":50,"./researches/stopWordsInUrl":52,"./researches/urlIsTooLong.js":53,"./researches/wordCountInText.js":54,"lodash/isEmpty":230,"lodash/isUndefined":241,"lodash/merge":245}],35:[function(require,module,exports){
+/** @module analyses/calculateFleschReading */
+
+var cleanText = require( "../stringProcessing/cleanText.js" );
+var stripNumbers = require( "../stringProcessing/stripNumbers.js" );
+var stripHTMLTags = require( "../stringProcessing/stripHTMLTags.js" );
+var countSentences = require( "../stringProcessing/countSentences.js" );
+var countWords = require( "../stringProcessing/countWords.js" );
+var countSyllables = require( "../stringProcessing/countSyllables.js" );
+
+/**
+ * This calculates the fleschreadingscore for a given text
+ * The formula used:
+ * 206.835 - 1.015 (total words / total sentences) - 84.6 ( total syllables / total words);
+ *
+ * @param {object} paper The paper containing the text
+ * @returns {number} the score of the fleschreading test
+ */
+module.exports = function( paper ) {
+	var text = paper.getText();
+	if ( text === "" ) {
+		return 0;
+	}
+
+	text = cleanText ( text );
+	text = stripHTMLTags( text );
+	var wordCount = countWords( text );
+
+	text = stripNumbers ( text );
+	var sentenceCount = countSentences( text );
+	var syllableCount = countSyllables( text );
+	var score = 206.835 - ( 1.015 * ( wordCount / sentenceCount ) ) - ( 84.6 * ( syllableCount / wordCount ) );
+
+	return score.toFixed( 1 );
+};
+
+},{"../stringProcessing/cleanText.js":59,"../stringProcessing/countSentences.js":60,"../stringProcessing/countSyllables.js":61,"../stringProcessing/countWords.js":62,"../stringProcessing/stripHTMLTags.js":75,"../stringProcessing/stripNumbers.js":77}],36:[function(require,module,exports){
+/** @module analyses/getLinkStatistics */
+
+var getLinks = require( "./getLinks" );
+
+/**
+ * Checks a text for anchors and returns the number found.
+ *
+ * @param {object} paper The paper object containing text, keyword and url.
+ * @returns {number} The number of links found in the text.
+ */
+module.exports = function( paper ) {
+	var text = paper.getText();
+	var anchors = getLinks( text );
+
+	return anchors.length;
+};
+
+},{"./getLinks":41}],37:[function(require,module,exports){
+/** @module analyses/findKeywordInFirstParagraph */
+
+var regexMatch = require( "../stringProcessing/matchStringWithRegex.js" );
+var wordMatch = require( "../stringProcessing/matchTextWithWord.js" );
+
+/**
+ * Counts the occurrences of the keyword in the first paragraph, returns 0 if it is not found,
+ * if there is no paragraph tag or 0 hits, it checks for 2 newlines, otherwise returns the keyword
+ * count of the complete text.
+ *
+ * @param {Paper} paper The text to check for paragraphs.
+ * @returns {number} The number of occurences of the keyword in the first paragraph.
+ */
+module.exports = function( paper ) {
+	var text = paper.getText();
+	var keyword = paper.getKeyword();
+	var paragraph;
+
+	// matches everything between the <p> and </p> tags.
+	paragraph = regexMatch( text, "<p(?:[^>]+)?>(.*?)<\/p>" );
+	if ( paragraph.length > 0 ) {
+		return wordMatch( paragraph[0], keyword );
+	}
+
+	/* if no <p> tags found, use a regex that matches [^], not nothing, so any character,
+	including linebreaks untill it finds double linebreaks.
+	*/
+	paragraph = regexMatch( text, "[^]*?\n\n" );
+	if ( paragraph.length > 0 ) {
+		return wordMatch( paragraph[0], keyword );
+	}
+
+	// if no double linebreaks found, return the keyword count of the entire text
+	return wordMatch( text, keyword );
+};
+
+},{"../stringProcessing/matchStringWithRegex.js":69,"../stringProcessing/matchTextWithWord.js":70}],38:[function(require,module,exports){
+/** @module analyses/findKeywordInPageTitle */
+
+var wordMatch = require( "../stringProcessing/matchTextWithWord.js" );
+
+/**
+ * Counts the occurrences of the keyword in the pagetitle. Returns the number of matches
+ * and the position of the keyword.
+ *
+ * @param {object} paper The paper containing title and keyword.
+ * @returns {object} result with the matches and position.
+ */
+
+module.exports = function( paper ) {
+	var title = paper.getTitle();
+	var keyword = paper.getKeyword();
+	var result = { matches: 0, position: -1 };
+	result.matches = wordMatch( title, keyword );
+	result.position = title.toLocaleLowerCase().indexOf( keyword );
+
+	return result;
+};
+
+},{"../stringProcessing/matchTextWithWord.js":70}],39:[function(require,module,exports){
+/** @module analyses/getKeywordDensity */
+
+var countWords = require( "../stringProcessing/countWords.js" );
+var matchWords = require( "../stringProcessing/matchTextWithWord.js" );
+
+/**
+ * Calculates the keyword density .
+ *
+ * @param {object} paper The paper containing keyword and text.
+  * @returns {number} The keyword density.
+ */
+module.exports = function( paper ) {
+	var keyword = paper.getKeyword();
+	var text = paper.getText();
+	var wordCount = countWords( text );
+	if ( wordCount === 0 ) {
+		return 0;
+	}
+	var keywordCount = matchWords ( text, keyword );
+	return ( keywordCount / wordCount ) * 100;
+};
+
+},{"../stringProcessing/countWords.js":62,"../stringProcessing/matchTextWithWord.js":70}],40:[function(require,module,exports){
+/** @module analyses/getLinkStatistics */
+
+var getLinks = require( "./getLinks.js" );
+var findKeywordInUrl = require( "../stringProcessing/findKeywordInUrl.js" );
+var getLinkType = require( "../stringProcessing/getLinkType.js" );
+var checkNofollow = require( "../stringProcessing/checkNofollow.js" );
+
+/**
+ * Checks a text for anchors and returns an object with all linktypes found.
+ *
+ * @param {object} paper The paper object containing text, keyword and url.
+ * @returns {object} The object containing all linktypes.
+ * total: the total number of links found
+ * totalNaKeyword: the total number of links if keyword is not available
+ * totalKeyword: the total number of links with the keyword
+ * internalTotal: the total number of links that are internal
+ * internalDofollow: the internal links without a nofollow attribute
+ * internalNofollow: the internal links with a nofollow attribute
+ * externalTotal: the total number of links that are external
+ * externalDofollow: the external links without a nofollow attribute
+ * externalNofollow: the internal links with a dofollow attribute
+ * otherTotal: all links that are not HTTP or HTTPS
+ * otherDofollow: other links without a nofollow attribute
+ * otherNofollow: other links with a nofollow attribute
+ */
+module.exports = function( paper ) {
+	var text = paper.getText();
+	var keyword = paper.getKeyword();
+	var url = paper.getUrl();
+	var anchors = getLinks( text );
+
+	var linkCount = {
+		total: anchors.length,
+		totalNaKeyword: 0,
+		totalKeyword: 0,
+		internalTotal: 0,
+		internalDofollow: 0,
+		internalNofollow: 0,
+		externalTotal: 0,
+		externalDofollow: 0,
+		externalNofollow: 0,
+		otherTotal: 0,
+		otherDofollow: 0,
+		otherNofollow: 0
+	};
+
+	var foundKeyword;
+	for ( var i = 0; i < anchors.length; i++ ) {
+		foundKeyword = keyword ? findKeywordInUrl( anchors[i], keyword ) : false;
+
+		if ( foundKeyword ) {
+			linkCount.totalKeyword++;
+		}
+
+		var linkType = getLinkType( anchors[i], url );
+		linkCount[linkType + "Total"]++;
+
+		var linkFollow = checkNofollow( anchors[i] );
+		linkCount[linkType + linkFollow]++;
+	}
+	return linkCount;
+};
+
+},{"../stringProcessing/checkNofollow.js":58,"../stringProcessing/findKeywordInUrl.js":64,"../stringProcessing/getLinkType.js":67,"./getLinks.js":41}],41:[function(require,module,exports){
+/** @module analyses/getLinkStatistics */
+
+var getAnchors = require( "../stringProcessing/getAnchorsFromText.js" );
+
+/**
+ * Checks a text for anchors and returns the number found.
+ *
+ * @param {object} text The text
+ * @returns {array} An array with the anchors
+ */
+module.exports = function( text ) {
+	return getAnchors( text );
+};
+
+},{"../stringProcessing/getAnchorsFromText.js":66}],42:[function(require,module,exports){
+/** @module researches/imageAltTags */
+
+var imageInText = require( "../stringProcessing/imageInText" );
+var imageAlttag = require( "../stringProcessing/getAlttagContent" );
+var wordMatch = require( "../stringProcessing/matchTextWithWord" );
+
+/**
+ * Matches the alt-tags in the images found in the text.
+ * Returns an object with the totals and different alt-tags.
+ *
+ * @param {Array} imageMatches Array with all the matched images in the text
+ * @param {string} keyword the keyword to check for.
+ * @returns {object} altProperties Object with all alt-tags that were found.
+ */
+var matchAltProperties = function( imageMatches, keyword ) {
+	var altProperties = {
+		noAlt: 0,
+		withAlt: 0,
+		withAltKeyword: 0,
+		withAltNonKeyword: 0
+	};
+
+	for ( var i = 0; i < imageMatches.length; i++ ) {
+		var alttag = imageAlttag( imageMatches[i] );
+
+		// If no alt-tag is set
+		if ( alttag === "" ) {
+			altProperties.noAlt++;
+			continue;
+		}
+
+		// If no keyword is set, but the alt-tag is
+		if ( keyword === "" && alttag !== "" ) {
+			altProperties.withAlt++;
+			continue;
+		}
+
+		if ( wordMatch( alttag, keyword ) === 0 && alttag !== "" ) {
+
+			// Match for keywords?
+			altProperties.withAltNonKeyword++;
+			continue;
+		}
+
+		if ( wordMatch( alttag, keyword ) > 0 ) {
+			altProperties.withAltKeyword++;
+			continue;
+		}
+	}
+
+	return altProperties;
+};
+
+/**
+ * Checks the text for images, checks the type of each image and alttags for containing keywords
+ *
+ * @param {Paper} paper The paper to check for images
+ * @returns {object} Object containing all types of found images
+ */
+module.exports = function( paper ) {
+	return matchAltProperties( imageInText( paper.getText() ), paper.getKeyword() );
+};
+
+},{"../stringProcessing/getAlttagContent":65,"../stringProcessing/imageInText":68,"../stringProcessing/matchTextWithWord":70}],43:[function(require,module,exports){
+/** @module researches/imageInText */
+
+var imageInText = require( "./../stringProcessing/imageInText" );
+
+/**
+ * Checks the amount of images in the text.
+ *
+ * @param {Paper} paper The paper to check for images
+ * @returns {number} The amount of found images
+ */
+module.exports = function( paper ) {
+	return imageInText( paper.getText() ).length;
+};
+
+},{"./../stringProcessing/imageInText":68}],44:[function(require,module,exports){
+var countWords = require( "../stringProcessing/countWords" );
+var sanitizeString = require( "../stringProcessing/sanitizeString" );
+
+/**
+ * Determines the length in words of a the keyphrase, the keyword is a keyphrase if it is more than one word.
+ *
+ * @param {Paper} paper The paper to research
+ * @returns {number} The length of the keyphrase
+ */
+function keyphraseLengthResearch( paper ) {
+	var keyphrase = sanitizeString( paper.getKeyword() );
+
+	return countWords( keyphrase );
+}
+
+module.exports = keyphraseLengthResearch;
+
+},{"../stringProcessing/countWords":62,"../stringProcessing/sanitizeString":73}],45:[function(require,module,exports){
+/** @module researches/countKeywordInUrl */
+
+var wordMatch = require( "../stringProcessing/matchTextWithWord.js" );
+/**
+ * Matches the keyword in the URL. Replaces whitespaces with dashes and uses dash as wordboundary.
+ *
+ * @param {Paper} paper the Paper object to use in this count.
+ * @returns {int} Number of times the keyword is found.
+ */
+module.exports = function( paper ) {
+	var keyword = paper.getKeyword().replace( "'", "" ).replace( /\s/ig, "-" );
+
+	return wordMatch( paper.getUrl(), keyword );
+};
+
+},{"../stringProcessing/matchTextWithWord.js":70}],46:[function(require,module,exports){
+/* @module analyses/matchKeywordInSubheadings */
+
+var stripSomeTags = require( "../stringProcessing/stripNonTextTags.js" );
+var subheadingMatch = require( "../stringProcessing/subheadingsMatch.js" );
+
+/**
+ * Checks if there are any subheadings like h2 in the text
+ * and if they have the keyword in them.
+ *
+ * @param {object} paper The paper object containt the texta nd keyword
+ * @returns {object} the result object.
+ * count: the number of matches
+ * matches:the number of ocurrences of the keyword for each match
+ */
+module.exports = function( paper ) {
+	var text = paper.getText();
+	var keyword = paper.getKeyword();
+	var matches;
+	var result = { count: 0 };
+	text = stripSomeTags( text );
+	matches = text.match( /<h([1-6])(?:[^>]+)?>(.*?)<\/h\1>/ig );
+
+	if ( matches !== null ) {
+		result.count = matches.length;
+		result.matches = subheadingMatch( matches, keyword );
+	}
+	return result;
+};
+
+
+},{"../stringProcessing/stripNonTextTags.js":76,"../stringProcessing/subheadingsMatch.js":79}],47:[function(require,module,exports){
+var matchTextWithWord = require( "../stringProcessing/matchTextWithWord.js" );
+
+/**
+ * Matches the keyword in the description if a description and keyword are available.
+ * default is -1 if no description and/or keyword is specified
+ *
+ * @param {Paper} paper The paper object containing the description.
+ * @returns {number} The number of matches with the keyword
+ */
+module.exports = function( paper ) {
+	if ( paper.getDescription() === "" ) {
+		return -1;
+	}
+	return matchTextWithWord( paper.getDescription(), paper.getKeyword() );
+};
+
+
+},{"../stringProcessing/matchTextWithWord.js":70}],48:[function(require,module,exports){
+/**
+ * Check the length of the description.
+ * @param {Paper} paper The paper object containing the description.
+ * @returns {number} The length of the description.
+ */
+module.exports = function( paper ) {
+	return paper.getDescription().length;
+};
+
+},{}],49:[function(require,module,exports){
+/**
+ * Check the length of the title.
+ * @param {Paper} paper The paper object containing the title.
+ * @returns {number} The length of the title.
+ */
+module.exports = function( paper ) {
+	return paper.getTitle().length;
+};
+
+},{}],50:[function(require,module,exports){
+/** @module researches/stopWordsInKeyword */
+
+var stopWordsInText = require( "./stopWordsInText.js" );
+
+/**
+ * Checks for the amount of stop words in the keyword.
+ * @param {Paper} paper The Paper object to be checked against.
+ * @returns {Array} All the stopwords that were found in the keyword.
+ */
+module.exports = function( paper ) {
+	return stopWordsInText( paper.getKeyword() );
+};
+
+},{"./stopWordsInText.js":51}],51:[function(require,module,exports){
+var stopwords = require( "../config/stopwords.js" )();
+var toRegex = require( "../stringProcessing/stringToRegex.js" );
+
+/**
+ * Checks a text to see if there are any stopwords, that are defined in the stopwords config.
+ *
+ * @param {string} text The input text to match stopwords.
+ * @returns {Array} An array with all stopwords found in the text.
+ */
+module.exports = function( text ) {
+	var i, matches = [];
+
+	for ( i = 0; i < stopwords.length; i++ ) {
+		if ( text.match( toRegex( stopwords[i] ) ) !== null ) {
+			matches.push( stopwords[i] );
+		}
+	}
+
+	return matches;
+};
+
+},{"../config/stopwords.js":27,"../stringProcessing/stringToRegex.js":74}],52:[function(require,module,exports){
+/** @module researches/stopWordsInUrl */
+
+var stopWordsInText = require( "./stopWordsInText.js" );
+
+/**
+ * Matches stopwords in the URL. Replaces - and _ with whitespace.
+ * @param {Paper} paper The Paper object to get the url from.
+ * @returns {Array} stopwords found in URL
+ */
+module.exports = function( paper ) {
+	return stopWordsInText( paper.getUrl().replace( /[-_]/g, " " ) );
+};
+
+},{"./stopWordsInText.js":51}],53:[function(require,module,exports){
+/** @module analyses/isUrlTooLong */
+
+/**
+ * Checks if an URL is too long, based on slug and relative to keyword length.
+ *
+ * @param {object} paper the paper to run this assessment on
+ * @returns {boolean} true if the URL is too long, false if it isn't
+ */
+module.exports = function( paper ) {
+	var urlLength = paper.getUrl().length;
+	var keywordLength = paper.getKeyword().length;
+	var maxUrlLength = 40;
+	var maxSlugLength = 20;
+
+	if ( urlLength > maxUrlLength	&& urlLength > keywordLength + maxSlugLength ) {
+		return true;
+	}
+	return false;
+};
+
+},{}],54:[function(require,module,exports){
+var wordCount = require( "../stringProcessing/countWords.js" );
+
+/**
+ * Count the words in the text
+ * @param {Paper} paper The Paper object who's
+ * @returns {number} The amount of words found in the text.
+ */
+module.exports = function( paper ) {
+	return wordCount( paper.getText() );
+};
+
+},{"../stringProcessing/countWords.js":62}],55:[function(require,module,exports){
+var Assessor = require( "./assessor.js" );
+
+var fleschReadingEase = require( "./assessments/fleschReadingEaseAssessment.js" );
+var introductionKeyword = require( "./assessments/introductionKeywordAssessment.js" );
+var keyphraseLength = require( "./assessments/keyphraseLengthAssessment.js" );
+var keywordDensity = require( "./assessments/keywordDensityAssessment.js" );
+var keywordStopWords = require( "./assessments/keywordStopWordsAssessment.js" );
+var metaDescriptionKeyword = require ( "./assessments/metaDescriptionKeywordAssessment.js" );
+var metaDescriptionLength = require( "./assessments/metaDescriptionLengthAssessment.js" );
+var subheadingsKeyword = require( "./assessments/subheadingsKeywordAssessment.js" );
+var textCompetingLinks = require( "./assessments/textCompetingLinksAssessment.js" );
+var textImages = require( "./assessments/textImagesAssessment.js" );
+var textLength = require( "./assessments/textLengthAssessment.js" );
+var textLinks = require( "./assessments/textLinksAssessment.js" );
+var textSubheadings = require( "./assessments/textSubheadingsAssessment.js" );
+var titleKeyword = require( "./assessments/titleKeywordAssessment.js" );
+var titleLength = require( "./assessments/titleLengthAssessment.js" );
+var urlKeyword = require( "./assessments/urlKeywordAssessment.js" );
+var urlLength = require( "./assessments/urlLengthAssessment.js" );
+var urlStopWords = require( "./assessments/urlStopWordsAssessment.js" );
+/**
+ * Creates the Assessor
+ *
+ * @param {object} i18n The i18n object used for translations.
+ * @constructor
+ */
+var SEOAssessor = function( i18n ) {
+	Assessor.call( this, i18n );
+
+	this._assessments = {
+		fleschReadingEase:      fleschReadingEase,
+		introductionKeyword:    introductionKeyword,
+		keyphraseLength:        keyphraseLength,
+		keywordDensity:         keywordDensity,
+		keywordStopWords:       keywordStopWords,
+		metaDescriptionKeyword: metaDescriptionKeyword,
+		metaDescriptionLength:  metaDescriptionLength,
+		subheadingsKeyword:     subheadingsKeyword,
+		textCompetingLinks:     textCompetingLinks,
+		textImages:             textImages,
+		textLength:             textLength,
+		textLinks:              textLinks,
+		textSubheadings:        textSubheadings,
+		titleKeyword:           titleKeyword,
+		titleLength:            titleLength,
+		urlKeyword:             urlKeyword,
+		urlLength:              urlLength,
+		urlStopWords:           urlStopWords
+	};
+};
+
+module.exports = SEOAssessor;
+
+require( "util" ).inherits( module.exports, Assessor );
+
+
+},{"./assessments/fleschReadingEaseAssessment.js":3,"./assessments/introductionKeywordAssessment.js":4,"./assessments/keyphraseLengthAssessment.js":5,"./assessments/keywordDensityAssessment.js":6,"./assessments/keywordStopWordsAssessment.js":7,"./assessments/metaDescriptionKeywordAssessment.js":8,"./assessments/metaDescriptionLengthAssessment.js":9,"./assessments/subheadingsKeywordAssessment.js":10,"./assessments/textCompetingLinksAssessment.js":11,"./assessments/textImagesAssessment.js":12,"./assessments/textLengthAssessment.js":13,"./assessments/textLinksAssessment.js":14,"./assessments/textSubheadingsAssessment.js":15,"./assessments/titleKeywordAssessment.js":16,"./assessments/titleLengthAssessment.js":17,"./assessments/urlKeywordAssessment.js":18,"./assessments/urlLengthAssessment.js":19,"./assessments/urlStopWordsAssessment.js":20,"./assessor.js":21,"util":317}],56:[function(require,module,exports){
+/* jshint browser: true */
+
+var isEmpty = require( "lodash/isEmpty" );
+var isElement = require( "lodash/isElement" );
+var isUndefined = require( "lodash/isUndefined" );
+var clone = require( "lodash/clone" );
+var defaultsDeep = require( "lodash/defaultsDeep" );
+var forEach = require( "lodash/forEach" );
+var debounce = require( "lodash/debounce" );
+
+var stringToRegex = require( "../js/stringProcessing/stringToRegex.js" );
+var stripHTMLTags = require( "../js/stringProcessing/stripHTMLTags.js" );
+var sanitizeString = require( "../js/stringProcessing/sanitizeString.js" );
+var stripSpaces = require( "../js/stringProcessing/stripSpaces.js" );
+var replaceDiacritics = require( "../js/stringProcessing/replaceDiacritics.js" );
+var analyzerConfig = require( "./config/config.js" );
+
+var snippetEditorTemplate = require( "./templates.js" ).snippetEditor;
+
+var defaults = {
+	data: {
+		title: "",
+		metaDesc: "",
+		urlPath: ""
+	},
+	placeholder: {
+		title:    "This is an example title - edit by clicking here",
+		metaDesc: "Modify your meta description by editing it right here",
+		urlPath:  "example-post/"
+	},
+	defaultValue: {
+		title: "",
+		metaDesc: ""
+	},
+	baseURL: "http://example.com/",
+	callbacks: {
+		saveSnippetData: function() {}
+	},
+	addTrailingSlash: true,
+	metaDescriptionDate: ""
+};
+
+var titleMaxLength = 65;
+
+var inputPreviewBindings = [
+	{
+		"preview": "title_container",
+		"inputField": "title"
+	},
+	{
+		"preview": "url_container",
+		"inputField": "urlPath"
+	},
+	{
+		"preview": "meta_container",
+		"inputField": "metaDesc"
+	}
+];
+
+/**
+ * Get's the base URL for this instance of the snippet preview.
+ *
+ * @private
+ * @this SnippetPreview
+ *
+ * @returns {string} The base URL.
+ */
+var getBaseURL = function() {
+	var baseURL = this.opts.baseURL;
+
+	/*
+	 * For backwards compatibility, if no URL was passed to the snippet editor we try to retrieve the base URL from the
+	 * rawData in the App. This is because the scrapers used to be responsible for retrieving the baseURL, but the base
+	 * URL is static so we can just pass it to the snippet editor.
+	 */
+	if ( !isEmpty( this.refObj.rawData.baseUrl ) && this.opts.baseURL === defaults.baseURL ) {
+		baseURL = this.refObj.rawData.baseUrl;
+	}
+
+	return baseURL;
+};
+
+/**
+ * Retrieves unformatted text from the data object
+ *
+ * @private
+ * @this SnippetPreview
+ *
+ * @param {string} key The key to retrieve.
+ * @returns {string} The unformatted text.
+ */
+function retrieveUnformattedText( key ) {
+	return this.data[ key ];
+}
+
+/**
+ * Update data and DOM objects when the unformatted text is updated, here for backwards compatibility
+ *
+ * @private
+ * @this SnippetPreview
+ *
+ * @param {string} key The data key to update.
+ * @param {string} value The value to update.
+ * @returns {void}
+ */
+function updateUnformattedText( key, value ) {
+	this.element.input[ key ].value = value;
+
+	this.data[ key ] = value;
+}
+
+/**
+ * Adds a class to an element
+ *
+ * @param {HTMLElement} element The element to add the class to.
+ * @param {string} className The class to add.
+ * @returns {void}
+ */
+function addClass( element, className ) {
+	var classes = element.className.split( " " );
+
+	if ( -1 === classes.indexOf( className ) ) {
+		classes.push( className );
+	}
+
+	element.className = classes.join( " " );
+}
+
+/**
+ * Removes a class from an element
+ *
+ * @param {HTMLElement} element The element to remove the class from.
+ * @param {string} className The class to remove.
+ * @returns {void}
+ */
+function removeClass( element, className ) {
+	var classes = element.className.split( " " );
+	var foundClass = classes.indexOf( className );
+
+	if ( -1 !== foundClass ) {
+		classes.splice( foundClass, 1 );
+	}
+
+	element.className = classes.join( " " );
+}
+
+/**
+ * Removes multiple classes from an element
+ *
+ * @param {HTMLElement} element The element to remove the classes from.
+ * @param {Array} classes A list of classes to remove
+ * @returns {void}
+ */
+function removeClasses( element, classes ) {
+	forEach( classes, removeClass.bind( null, element ) );
+}
+
+/**
+ * Returns if a url has a trailing slash or not.
+ *
+ * @param {string} url The url to check for a trailing slash.
+ * @returns {boolean} Whether or not the url contains a trailing slash.
+ */
+function hasTrailingSlash( url ) {
+	return url.indexOf( "/" ) === ( url.length - 1 );
+}
+
+/**
+ * Detects if this browser has <progress> support. Also serves as a poor man's HTML5shiv.
+ *
+ * @private
+ *
+ * @returns {boolean} Whether or not the browser supports a <progress> element
+ */
+function hasProgressSupport() {
+	var progressElement = document.createElement( "progress" );
+
+	return !isUndefined( progressElement.max );
+}
+
+/**
+ * Returns a rating based on the length of the title
+ *
+ * @param {number} titleLength the length of the title.
+ * @returns {string} The rating given based on the title length.
+ */
+function rateTitleLength( titleLength ) {
+	var rating;
+
+	switch ( true ) {
+		case titleLength > 0 && titleLength <= 34:
+		case titleLength >= 66:
+			rating = "ok";
+			break;
+
+		case titleLength >= 35 && titleLength <= 65:
+			rating = "good";
+			break;
+
+		default:
+			rating = "bad";
+			break;
+	}
+
+	return rating;
+}
+
+/**
+ * Returns a rating based on the length of the meta description
+ *
+ * @param {number} metaDescLength the length of the meta description.
+ * @returns {string} The rating given based on the description length.
+ */
+function rateMetaDescLength( metaDescLength ) {
+	var rating;
+
+	switch ( true ) {
+		case metaDescLength > 0 && metaDescLength <= 120:
+		case metaDescLength >= 157:
+			rating = "ok";
+			break;
+
+		case metaDescLength >= 120 && metaDescLength <= 157:
+			rating = "good";
+			break;
+
+		default:
+			rating = "bad";
+			break;
+	}
+
+	return rating;
+}
+
+/**
+ * Updates a progress bar
+ *
+ * @private
+ * @this SnippetPreview
+ *
+ * @param {HTMLElement} element The progress element that's rendered.
+ * @param {number} value The current value.
+ * @param {number} maximum The maximum allowed value.
+ * @param {string} rating The SEO score rating for this value.
+ * @returns {void}
+ */
+function updateProgressBar( element, value, maximum, rating ) {
+	var barElement, progress,
+		allClasses = [
+			"snippet-editor__progress--bad",
+			"snippet-editor__progress--ok",
+			"snippet-editor__progress--good"
+		];
+
+	element.value = value;
+	removeClasses( element, allClasses );
+	addClass( element, "snippet-editor__progress--" + rating );
+
+	if ( !this.hasProgressSupport ) {
+		barElement = element.getElementsByClassName( "snippet-editor__progress-bar" )[ 0 ];
+		progress = ( value / maximum ) * 100;
+
+		barElement.style.width = progress + "%";
+	}
+}
+
+/**
+ * @module snippetPreview
+ */
+
+/**
+ * defines the config and outputTarget for the SnippetPreview
+ *
+ * @param {Object}         opts                           - Snippet preview options.
+ * @param {App}            opts.analyzerApp               - The app object the snippet preview is part of.
+ * @param {Object}         opts.placeholder               - The placeholder values for the fields, will be shown as
+ * actual placeholders in the inputs and as a fallback for the preview.
+ * @param {string}         opts.placeholder.title         - The placeholder title.
+ * @param {string}         opts.placeholder.metaDesc      - The placeholder meta description.
+ * @param {string}         opts.placeholder.urlPath       - The placeholder url.
+ *
+ * @param {Object}         opts.defaultValue              - The default value for the fields, if the user has not
+ * changed a field, this value will be used for the analyzer, preview and the progress bars.
+ * @param {string}         opts.defaultValue.title        - The default title.
+ * @param {string}         opts.defaultValue.metaDesc     - The default meta description.
+ * it.
+ *
+ * @param {string}         opts.baseURL                   - The basic URL as it will be displayed in google.
+ * @param {HTMLElement}    opts.targetElement             - The target element that contains this snippet editor.
+ *
+ * @param {Object}         opts.callbacks                 - Functions that are called on specific instances.
+ * @param {Function}       opts.callbacks.saveSnippetData - Function called when the snippet data is changed.
+ *
+ * @param {boolean}        opts.addTrailingSlash          - Whether or not to add a trailing slash to the URL.
+ * @param {string}         opts.metaDescriptionDate       - The date to display before the meta description.
+ *
+ * @property {App}         refObj                         - The connected app object.
+ * @property {Jed}         i18n                           - The translation object.
+ *
+ * @property {HTMLElement} targetElement                  - The target element that contains this snippet editor.
+ *
+ * @property {Object}      element                        - The elements for this snippet editor.
+ * @property {Object}      element.rendered               - The rendered elements.
+ * @property {HTMLElement} element.rendered.title         - The rendered title element.
+ * @property {HTMLElement} element.rendered.urlPath       - The rendered url path element.
+ * @property {HTMLElement} element.rendered.urlBase       - The rendered url base element.
+ * @property {HTMLElement} element.rendered.metaDesc      - The rendered meta description element.
+ *
+ * @property {Object}      element.input                  - The input elements.
+ * @property {HTMLElement} element.input.title            - The title input element.
+ * @property {HTMLElement} element.input.urlPath          - The url path input element.
+ * @property {HTMLElement} element.input.metaDesc         - The meta description input element.
+ *
+ * @property {HTMLElement} element.container              - The main container element.
+ * @property {HTMLElement} element.formContainer          - The form container element.
+ * @property {HTMLElement} element.editToggle             - The button that toggles the editor form.
+ *
+ * @property {Object}      data                           - The data for this snippet editor.
+ * @property {string}      data.title                     - The title.
+ * @property {string}      data.urlPath                   - The url path.
+ * @property {string}      data.metaDesc                  - The meta description.
+ *
+ * @property {string}      baseURL                        - The basic URL as it will be displayed in google.
+ *
+ * @property {boolean}     hasProgressSupport             - Whether this browser supports the <progress> element.
+ *
+ * @constructor
+ */
+var SnippetPreview = function( opts ) {
+	defaultsDeep( opts, defaults );
+
+	this.data = opts.data;
+
+	if ( !isUndefined( opts.analyzerApp ) ) {
+		this.refObj = opts.analyzerApp;
+		this.i18n = this.refObj.i18n;
+
+		this.data = {
+			title: this.refObj.rawData.snippetTitle || "",
+			urlPath: this.refObj.rawData.snippetCite || "",
+			metaDesc: this.refObj.rawData.snippetMeta || ""
+		};
+
+		// For backwards compatibility set the pageTitle as placeholder.
+		if ( !isEmpty( this.refObj.rawData.pageTitle ) ) {
+			opts.placeholder.title = this.refObj.rawData.pageTitle;
+		}
+	}
+
+	if ( !isElement( opts.targetElement ) ) {
+		throw new Error( "The snippet preview requires a valid target element" );
+	}
+
+	this.opts = opts;
+	this._currentFocus = null;
+	this._currentHover = null;
+
+	// For backwards compatibility monitor the unformatted text for changes and reflect them in the preview
+	this.unformattedText = {};
+	Object.defineProperty( this.unformattedText, "snippet_cite", {
+		get: retrieveUnformattedText.bind( this, "urlPath" ),
+		set: updateUnformattedText.bind( this, "urlPath" )
+	} );
+	Object.defineProperty( this.unformattedText, "snippet_meta", {
+		get: retrieveUnformattedText.bind( this, "metaDesc" ),
+		set: updateUnformattedText.bind( this, "metaDesc" )
+	} );
+	Object.defineProperty( this.unformattedText, "snippet_title", {
+		get: retrieveUnformattedText.bind( this, "title" ),
+		set: updateUnformattedText.bind( this, "title" )
+	} );
+};
+
+/**
+ * Renders snippet editor and adds it to the targetElement
+ * @returns {void}
+ */
+SnippetPreview.prototype.renderTemplate = function() {
+	var targetElement = this.opts.targetElement;
+
+	targetElement.innerHTML = snippetEditorTemplate( {
+		raw: {
+			title: this.data.title,
+			snippetCite: this.data.urlPath,
+			meta: this.data.metaDesc
+		},
+		rendered: {
+			title: this.formatTitle(),
+			baseUrl: this.formatUrl(),
+			snippetCite: this.formatCite(),
+			meta: this.formatMeta()
+		},
+		metaDescriptionDate: this.opts.metaDescriptionDate,
+		placeholder: this.opts.placeholder,
+		i18n: {
+			edit: this.i18n.dgettext( "js-text-analysis", "Edit snippet" ),
+			title: this.i18n.dgettext( "js-text-analysis", "SEO title" ),
+			slug:  this.i18n.dgettext( "js-text-analysis", "Slug" ),
+			metaDescription: this.i18n.dgettext( "js-text-analysis", "Meta description" ),
+			save: this.i18n.dgettext( "js-text-analysis", "Close snippet editor" ),
+			snippetPreview: this.i18n.dgettext( "js-text-analysis", "Snippet preview" )
+		}
+	} );
+
+	this.element = {
+		rendered: {
+			title: document.getElementById( "snippet_title" ),
+			urlBase: document.getElementById( "snippet_citeBase" ),
+			urlPath: document.getElementById( "snippet_cite" ),
+			metaDesc: document.getElementById( "snippet_meta" )
+		},
+		input: {
+			title: targetElement.getElementsByClassName( "js-snippet-editor-title" )[0],
+			urlPath: targetElement.getElementsByClassName( "js-snippet-editor-slug" )[0],
+			metaDesc: targetElement.getElementsByClassName( "js-snippet-editor-meta-description" )[0]
+		},
+		progress: {
+			title: targetElement.getElementsByClassName( "snippet-editor__progress-title" )[0],
+			metaDesc: targetElement.getElementsByClassName( "snippet-editor__progress-meta-description" )[0]
+		},
+		container: document.getElementById( "snippet_preview" ),
+		formContainer: targetElement.getElementsByClassName( "snippet-editor__form" )[0],
+		editToggle: targetElement.getElementsByClassName( "snippet-editor__edit-button" )[0],
+		closeEditor: targetElement.getElementsByClassName( "snippet-editor__submit" )[0],
+		formFields: targetElement.getElementsByClassName( "snippet-editor__form-field" )
+	};
+
+	this.element.label = {
+		title: this.element.input.title.parentNode,
+		urlPath: this.element.input.urlPath.parentNode,
+		metaDesc: this.element.input.metaDesc.parentNode
+	};
+
+	this.element.preview = {
+		title: this.element.rendered.title.parentNode,
+		urlPath: this.element.rendered.urlPath.parentNode,
+		metaDesc: this.element.rendered.metaDesc.parentNode
+	};
+
+	this.hasProgressSupport = hasProgressSupport();
+
+	if ( this.hasProgressSupport ) {
+		this.element.progress.title.max = titleMaxLength;
+		this.element.progress.metaDesc.max = analyzerConfig.maxMeta;
+	} else {
+		forEach( this.element.progress, function( progressElement ) {
+			addClass( progressElement, "snippet-editor__progress--fallback" );
+		} );
+	}
+
+	this.opened = false;
+	this.updateProgressBars();
+};
+
+/**
+ * Refreshes the snippet editor rendered HTML
+ * @returns {void}
+ */
+SnippetPreview.prototype.refresh = function() {
+	this.output = this.htmlOutput();
+	this.renderOutput();
+	this.renderSnippetStyle();
+	this.updateProgressBars();
+};
+
+/**
+ * Returns the title as meant for the analyzer
+ *
+ * @private
+ * @this SnippetPreview
+ *
+ * @returns {string} The title that is meant for the analyzer.
+ */
+function getAnalyzerTitle() {
+	var title = this.data.title;
+
+	if ( isEmpty( title ) ) {
+		title = this.opts.defaultValue.title;
+	}
+
+	title = this.refObj.pluggable._applyModifications( "data_page_title", title );
+
+	return stripSpaces( title );
+}
+
+/**
+ * Returns the metaDescription, includes the date if it is set.
+ *
+ * @private
+ * @this SnippetPreview
+ *
+ * @returns {string} The meta data for the analyzer.
+ */
+var getAnalyzerMetaDesc = function() {
+	var metaDesc = this.data.metaDesc;
+
+	if ( isEmpty( metaDesc ) ) {
+		metaDesc = this.opts.defaultValue.metaDesc;
+	}
+
+	metaDesc = this.refObj.pluggable._applyModifications( "data_meta_desc", metaDesc );
+
+	if ( !isEmpty( this.opts.metaDescriptionDate ) && !isEmpty( metaDesc ) ) {
+		metaDesc = this.opts.metaDescriptionDate + " - " + this.data.metaDesc;
+	}
+
+	return stripSpaces( metaDesc );
+};
+
+/**
+ * Returns the data from the snippet preview.
+ *
+ * @returns {Object} The collected data for the analyzer.
+ */
+SnippetPreview.prototype.getAnalyzerData = function() {
+	return {
+		title:    getAnalyzerTitle.call( this ),
+		url:      this.data.urlPath,
+		metaDesc: getAnalyzerMetaDesc.call( this )
+	};
+};
+
+/**
+ * Calls the event binder that has been registered using the callbacks option in the arguments of the App.
+ * @returns {void}
+ */
+SnippetPreview.prototype.callRegisteredEventBinder = function() {
+	this.refObj.callbacks.bindElementEvents( this.refObj );
+};
+
+/**
+ *  checks if title and url are set so they can be rendered in the snippetPreview
+ *  @returns {void}
+ */
+SnippetPreview.prototype.init = function() {
+	if (
+		this.refObj.rawData.pageTitle !== null &&
+		this.refObj.rawData.cite !== null
+	) {
+		this.refresh();
+	}
+};
+
+/**
+ * creates html object to contain the strings for the snippetpreview
+ *
+ * @returns {Object} The HTML output of the collected data.
+ */
+SnippetPreview.prototype.htmlOutput = function() {
+	var html = {};
+	html.title = this.formatTitle();
+	html.cite = this.formatCite();
+	html.meta = this.formatMeta();
+	html.url = this.formatUrl();
+	return html;
+};
+
+/**
+ * Formats the title for the snippet preview. If title and pageTitle are empty, sampletext is used
+ *
+ * @returns {string} The correctly formatted title.
+ */
+SnippetPreview.prototype.formatTitle = function() {
+	var title = this.data.title;
+
+	// Fallback to the default if the title is empty.
+	if ( isEmpty( title ) ) {
+		title = this.opts.defaultValue.title;
+	}
+
+	// For rendering we can fallback to the placeholder as well.
+	if ( isEmpty( title ) ) {
+		title = this.opts.placeholder.title;
+	}
+
+	// Apply modification to the title before showing it.
+	if ( this.refObj.pluggable.loaded ) {
+		title = this.refObj.pluggable._applyModifications( "data_page_title", title );
+	}
+
+	title = stripHTMLTags( title );
+
+	// If a keyword is set we want to highlight it in the title.
+	if ( !isEmpty( this.refObj.rawData.keyword ) ) {
+		title = this.formatKeyword( title );
+	}
+
+	// As an ultimate fallback provide the user with a helpful message.
+	if ( isEmpty( title ) ) {
+		title = this.i18n.dgettext( "js-text-analysis", "Please provide an SEO title by editing the snippet below." );
+	}
+
+	return title;
+};
+
+/**
+ * Formats the base url for the snippet preview. Removes the protocol name from the URL.
+ *
+ * @returns {string} Formatted base url for the snippet preview.
+ */
+SnippetPreview.prototype.formatUrl = function() {
+	var url = getBaseURL.call( this );
+
+	// Removes the http part of the url, google displays https:// if the website supports it.
+	return url.replace( /http:\/\//ig, "" );
+};
+
+/**
+ * Formats the url for the snippet preview
+ *
+ * @returns {string} Formatted URL for the snippet preview.
+ */
+SnippetPreview.prototype.formatCite = function() {
+	var cite = this.data.urlPath;
+
+	cite = replaceDiacritics( stripHTMLTags( cite ) );
+
+	// Fallback to the default if the cite is empty.
+	if ( isEmpty( cite ) ) {
+		cite = this.opts.placeholder.urlPath;
+	}
+
+	if ( !isEmpty( this.refObj.rawData.keyword ) ) {
+		cite = this.formatKeywordUrl( cite );
+	}
+
+	if ( this.opts.addTrailingSlash && !hasTrailingSlash( cite ) ) {
+		cite = cite + "/";
+	}
+
+	// URL's cannot contain whitespace so replace it by dashes.
+	cite = cite.replace( /\s/g, "-" );
+
+	return cite;
+};
+
+/**
+ * Formats the meta description for the snippet preview, if it's empty retrieves it using getMetaText.
+ *
+ * @returns {string} Formatted meta description.
+ */
+SnippetPreview.prototype.formatMeta = function() {
+	var meta = this.data.metaDesc;
+
+	// If no meta has been set, generate one.
+	if ( isEmpty( meta ) ) {
+		meta = this.getMetaText();
+	}
+
+	// Apply modification to the desc before showing it.
+	if ( this.refObj.pluggable.loaded ) {
+		meta = this.refObj.pluggable._applyModifications( "data_meta_desc", meta );
+	}
+
+	meta = stripHTMLTags( meta );
+
+	// Cut-off the meta description according to the maximum length
+	meta = meta.substring( 0, analyzerConfig.maxMeta );
+
+	if ( !isEmpty( this.refObj.rawData.keyword ) ) {
+		meta = this.formatKeyword( meta );
+	}
+
+	// As an ultimate fallback provide the user with a helpful message.
+	if ( isEmpty( meta ) ) {
+		meta = this.i18n.dgettext( "js-text-analysis", "Please provide a meta description by editing the snippet below." );
+	}
+
+	return meta;
+};
+
+/**
+ * Generates a meta description with an educated guess based on the passed text and excerpt. It uses the keyword to
+ * select an appropriate part of the text. If the keyword isn't present it takes the first 156 characters of the text.
+ * If both the keyword, text and excerpt are empty this function returns the sample text.
+ *
+ * @returns {string} A generated meta description.
+ */
+SnippetPreview.prototype.getMetaText = function() {
+	var metaText = this.opts.defaultValue.metaDesc;
+
+	if ( !isUndefined( this.refObj.rawData.excerpt ) && isEmpty( metaText ) ) {
+		metaText = this.refObj.rawData.excerpt;
+	}
+
+	if ( !isUndefined( this.refObj.rawData.text ) && isEmpty( metaText ) ) {
+		metaText = this.refObj.rawData.text;
+
+		if ( this.refObj.pluggable.loaded ) {
+			metaText = this.refObj.pluggable._applyModifications( "content", metaText );
+		}
+	}
+
+	metaText = stripHTMLTags( metaText );
+
+	return metaText.substring( 0, analyzerConfig.maxMeta );
+};
+
+/**
+ * Builds an array with all indexes of the keyword
+ * @returns {Array} Array with matches
+ */
+SnippetPreview.prototype.getIndexMatches = function() {
+	var indexMatches = [];
+	var i = 0;
+
+	// Starts at 0, locates first match of the keyword.
+	var match = this.refObj.rawData.text.indexOf(
+		this.refObj.rawData.keyword,
+		i
+	);
+
+	// Runs the loop untill no more indexes are found, and match returns -1.
+	while ( match > -1 ) {
+		indexMatches.push( match );
+
+		// Pushes location to indexMatches and increase i with the length of keyword.
+		i = match + this.refObj.rawData.keyword.length;
+		match = this.refObj.rawData.text.indexOf(
+			this.refObj.rawData.keyword,
+			i
+		);
+	}
+	return indexMatches;
+};
+
+/**
+ * Builds an array with indexes of all sentence ends (select on .)
+ * @returns {Array} Array with sentences.
+ */
+SnippetPreview.prototype.getPeriodMatches = function() {
+	var periodMatches = [ 0 ];
+	var match;
+	var i = 0;
+	while ( ( match = this.refObj.rawData.text.indexOf( ".", i ) ) > -1 ) {
+		periodMatches.push( match );
+		i = match + 1;
+	}
+	return periodMatches;
+};
+
+/**
+ * Formats the keyword for use in the snippetPreview by adding <strong>-tags
+ * strips unwanted characters that could break the regex or give unwanted results.
+ *
+ * @param {string} textString The keyword string that needs to be formatted.
+ * @returns {string} The formatted keyword.
+ */
+SnippetPreview.prototype.formatKeyword = function( textString ) {
+
+	// removes characters from the keyword that could break the regex, or give unwanted results
+	var keyword = this.refObj.rawData.keyword.replace( /[\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, " " );
+
+	// Match keyword case-insensitively
+	var keywordRegex = stringToRegex( keyword, "", false );
+	return textString.replace( keywordRegex, function( str ) {
+		return "<strong>" + str + "</strong>";
+	} );
+};
+
+/**
+ * formats the keyword for use in the URL by accepting - and _ in stead of space and by adding
+ * <strong>-tags
+ * strips unwanted characters that could break the regex or give unwanted results
+ *
+ * @param {string} textString The keyword string that needs to be formatted.
+ * @returns {XML|string|void} The formatted keyword string to be used in the URL.
+ */
+SnippetPreview.prototype.formatKeywordUrl = function( textString ) {
+	var keyword = sanitizeString( this.refObj.rawData.keyword );
+	keyword = keyword.replace( /'/, "" );
+
+	var dashedKeyword = keyword.replace( /\s/g, "-" );
+
+	// Match keyword case-insensitively.
+	var keywordRegex = stringToRegex( dashedKeyword, "\\-" );
+
+	// Make the keyword bold in the textString.
+	return textString.replace( keywordRegex, function( str ) {
+		return "<strong>" + str + "</strong>";
+	} );
+};
+
+/**
+ * Renders the outputs to the elements on the page.
+ * @returns {void}
+ */
+SnippetPreview.prototype.renderOutput = function() {
+	this.element.rendered.title.innerHTML = this.output.title;
+	this.element.rendered.urlPath.innerHTML = this.output.cite;
+	this.element.rendered.urlBase.innerHTML = this.output.url;
+	this.element.rendered.metaDesc.innerHTML = this.output.meta;
+};
+
+/**
+ * Makes the rendered meta description gray if no meta description has been set by the user.
+ * @returns {void}
+ */
+SnippetPreview.prototype.renderSnippetStyle = function() {
+	var metaDescElement = this.element.rendered.metaDesc;
+	var metaDesc = getAnalyzerMetaDesc.call( this );
+
+	if ( isEmpty( metaDesc ) ) {
+		addClass( metaDescElement, "desc-render" );
+		removeClass( metaDescElement, "desc-default" );
+	} else {
+		addClass( metaDescElement, "desc-default" );
+		removeClass( metaDescElement, "desc-render" );
+	}
+};
+
+/**
+ * Function to call init, to rerender the snippetpreview
+ * @returns {void}
+ */
+SnippetPreview.prototype.reRender = function() {
+	this.init();
+};
+
+/**
+ * Checks text length of the snippetmeta and snippet title, shortens it if it is too long.
+ * @param {Object} event The event to check the text length from.
+ * @returns {void}
+ */
+SnippetPreview.prototype.checkTextLength = function( event ) {
+	var text = event.currentTarget.textContent;
+	switch ( event.currentTarget.id ) {
+		case "snippet_meta":
+			event.currentTarget.className = "desc";
+			if ( text.length > analyzerConfig.maxMeta ) {
+				/* eslint-disable */
+				YoastSEO.app.snippetPreview.unformattedText.snippet_meta = event.currentTarget.textContent;
+				/* eslint-enable */
+				event.currentTarget.textContent = text.substring(
+					0,
+					analyzerConfig.maxMeta
+				);
+
+			}
+			break;
+		case "snippet_title":
+			event.currentTarget.className = "title";
+			if ( text.length > titleMaxLength ) {
+				/* eslint-disable */
+				YoastSEO.app.snippetPreview.unformattedText.snippet_title = event.currentTarget.textContent;
+				/* eslint-enable */
+				event.currentTarget.textContent = text.substring( 0, titleMaxLength );
+			}
+			break;
+		default:
+			break;
+	}
+};
+
+/**
+ * When clicked on an element in the snippet, checks fills the textContent with the data from the unformatted text.
+ * This removes the keyword highlighting and modified data so the original content can be editted.
+ * @param {Object} event The event to get the unformatted text from.
+ * @returns {void}
+ */
+SnippetPreview.prototype.getUnformattedText = function( event ) {
+	var currentElement = event.currentTarget.id;
+	if ( typeof this.unformattedText[ currentElement ] !== "undefined" ) {
+		event.currentTarget.textContent = this.unformattedText[currentElement];
+	}
+};
+
+/**
+ * When text is entered into the snippetPreview elements, the text is set in the unformattedText object.
+ * This allows the visible data to be editted in the snippetPreview.
+ * @param {Object} event The event to set the unformatted text from.
+ * @returns {void}
+ */
+SnippetPreview.prototype.setUnformattedText = function( event ) {
+	var elem =  event.currentTarget.id;
+	this.unformattedText[ elem ] = document.getElementById( elem ).textContent;
+};
+
+/**
+ * Validates all fields and highlights errors.
+ * @returns {void}
+ */
+SnippetPreview.prototype.validateFields = function() {
+	var metaDescription = getAnalyzerMetaDesc.call( this );
+	var title = getAnalyzerTitle.call( this );
+
+	if ( metaDescription.length > analyzerConfig.maxMeta ) {
+		addClass( this.element.input.metaDesc, "snippet-editor__field--invalid" );
+	} else {
+		removeClass( this.element.input.metaDesc, "snippet-editor__field--invalid" );
+	}
+
+	if ( title.length > titleMaxLength ) {
+		addClass( this.element.input.title, "snippet-editor__field--invalid" );
+	} else {
+		removeClass( this.element.input.title, "snippet-editor__field--invalid" );
+	}
+};
+
+/**
+ * Updates progress bars based on the data
+ * @returns {void}
+ */
+SnippetPreview.prototype.updateProgressBars = function() {
+	var metaDescriptionRating, titleRating, metaDescription, title;
+
+	metaDescription = getAnalyzerMetaDesc.call( this );
+	title = getAnalyzerTitle.call( this );
+
+	titleRating = rateTitleLength( title.length );
+	metaDescriptionRating = rateMetaDescLength( metaDescription.length );
+
+	updateProgressBar(
+		this.element.progress.title,
+		title.length,
+		titleMaxLength,
+		titleRating
+	);
+
+	updateProgressBar(
+		this.element.progress.metaDesc,
+		metaDescription.length,
+		analyzerConfig.maxMeta,
+		metaDescriptionRating
+	);
+};
+
+/**
+ * Binds the reloadSnippetText function to the blur of the snippet inputs.
+ * @returns {void}
+ */
+SnippetPreview.prototype.bindEvents = function() {
+	var targetElement,
+		elems = [ "title", "slug", "meta-description" ];
+
+	forEach( elems, function( elem ) {
+		targetElement = document.getElementsByClassName( "js-snippet-editor-" + elem )[0];
+
+		targetElement.addEventListener( "keydown", this.changedInput.bind( this ) );
+		targetElement.addEventListener( "keyup", this.changedInput.bind( this ) );
+
+		targetElement.addEventListener( "input", this.changedInput.bind( this ) );
+		targetElement.addEventListener( "focus", this.changedInput.bind( this ) );
+		targetElement.addEventListener( "blur", this.changedInput.bind( this ) );
+	}.bind( this ) );
+
+	this.element.editToggle.addEventListener( "click", this.toggleEditor.bind( this ) );
+	this.element.closeEditor.addEventListener( "click", this.closeEditor.bind( this ) );
+
+	// Loop through the bindings and bind a click handler to the click to focus the focus element.
+	forEach( inputPreviewBindings, function( binding ) {
+		var previewElement = document.getElementById( binding.preview );
+		var inputElement = this.element.input[ binding.inputField ];
+
+		// Make the preview element click open the editor and focus the correct input.
+		previewElement.addEventListener( "click", function() {
+			this.openEditor();
+			inputElement.focus();
+		}.bind( this ) );
+
+		// Make focusing an input, update the carets.
+		inputElement.addEventListener( "focus", function() {
+			this._currentFocus = binding.inputField;
+
+			this._updateFocusCarets();
+		}.bind( this ) );
+
+		// Make removing focus from an element, update the carets.
+		inputElement.addEventListener( "blur", function() {
+			this._currentFocus = null;
+
+			this._updateFocusCarets();
+		}.bind( this ) );
+
+		previewElement.addEventListener( "mouseover", function() {
+			this._currentHover = binding.inputField;
+
+			this._updateHoverCarets();
+		}.bind( this ) );
+
+		previewElement.addEventListener( "mouseout", function() {
+			this._currentHover = null;
+
+			this._updateHoverCarets();
+		}.bind( this ) );
+
+	}.bind( this ) );
+};
+
+/**
+ * Updates snippet preview on changed input. It's debounced so that we can call this function as much as we want.
+ * @returns {void}
+ */
+SnippetPreview.prototype.changedInput = debounce( function() {
+	this.updateDataFromDOM();
+	this.validateFields();
+	this.updateProgressBars();
+
+	this.refresh();
+
+	this.refObj.refresh();
+}, 25 );
+
+/**
+ * Updates our data object from the DOM
+ * @returns {void}
+ */
+SnippetPreview.prototype.updateDataFromDOM = function() {
+	this.data.title = this.element.input.title.value;
+	this.data.urlPath = this.element.input.urlPath.value;
+	this.data.metaDesc = this.element.input.metaDesc.value;
+
+	// Clone so the data isn't changeable.
+	this.opts.callbacks.saveSnippetData( clone( this.data ) );
+};
+
+/**
+ * Opens the snippet editor.
+ * @returns {void}
+ */
+SnippetPreview.prototype.openEditor = function() {
+
+	this.element.editToggle.setAttribute( "aria-expanded", "true" );
+
+	// Show these elements.
+	removeClass( this.element.formContainer, "snippet-editor--hidden" );
+
+	this.opened = true;
+};
+
+/**
+ * Closes the snippet editor.
+ * @returns {void}
+ */
+SnippetPreview.prototype.closeEditor = function() {
+
+	// Hide these elements.
+	addClass( this.element.formContainer,     "snippet-editor--hidden" );
+
+	this.element.editToggle.setAttribute( "aria-expanded", "false" );
+	this.element.editToggle.focus();
+
+	this.opened = false;
+};
+
+/**
+ * Toggles the snippet editor.
+ * @returns {void}
+ */
+SnippetPreview.prototype.toggleEditor = function() {
+	if ( this.opened ) {
+		this.closeEditor();
+	} else {
+		this.openEditor();
+	}
+};
+
+/**
+ * Updates carets before the preview and input fields.
+ *
+ * @private
+ * @returns {void}
+ */
+SnippetPreview.prototype._updateFocusCarets = function() {
+	var focusedLabel, focusedPreview;
+
+	// Disable all carets on the labels.
+	forEach( this.element.label, function( element ) {
+		removeClass( element, "snippet-editor__label--focus" );
+	} );
+
+	// Disable all carets on the previews.
+	forEach( this.element.preview, function( element ) {
+		removeClass( element, "snippet-editor__container--focus" );
+	} );
+
+	if ( null !== this._currentFocus ) {
+		focusedLabel = this.element.label[ this._currentFocus ];
+		focusedPreview = this.element.preview[ this._currentFocus ];
+
+		addClass( focusedLabel, "snippet-editor__label--focus" );
+		addClass( focusedPreview, "snippet-editor__container--focus" );
+	}
+};
+
+/**
+ * Updates hover carets before the input fields.
+ *
+ * @private
+ * @returns {void}
+ */
+SnippetPreview.prototype._updateHoverCarets = function() {
+	var hoveredLabel;
+
+	forEach( this.element.label, function( element ) {
+		removeClass( element, "snippet-editor__label--hover" );
+	} );
+
+	if ( null !== this._currentHover ) {
+		hoveredLabel = this.element.label[ this._currentHover ];
+
+		addClass( hoveredLabel, "snippet-editor__label--hover" );
+	}
+};
+
+/**
+ * Updates the title data and the the title input field. This also means the snippet editor view is updated.
+ *
+ * @param {string} title The title to use in the input field.
+ * @returns {void}
+ */
+SnippetPreview.prototype.setTitle = function( title ) {
+	this.element.input.title.value = title;
+
+	this.changedInput();
+};
+
+/**
+ * Updates the url path data and the the url path input field. This also means the snippet editor view is updated.
+ *
+ * @param {string} urlPath the URL path to use in the input field.
+ * @returns {void}
+ */
+SnippetPreview.prototype.setUrlPath = function( urlPath ) {
+	this.element.input.urlPath.value = urlPath;
+
+	this.changedInput();
+};
+
+/**
+ * Updates the meta description data and the the meta description input field. This also means the snippet editor view is updated.
+ *
+ * @param {string} metaDesc the meta description to use in the input field.
+ * @returns {void}
+ */
+SnippetPreview.prototype.setTitle = function( metaDesc ) {
+	this.element.input.metaDesc.value = metaDesc;
+
+	this.changedInput();
+};
+
+/* jshint ignore:start */
+/* eslint-disable */
+
+/**
+ * Used to disable enter as input. Returns false to prevent enter, and preventDefault and
+ * cancelBubble to prevent
+ * other elements from capturing this event.
+ *
+ * @deprecated
+ * @param {KeyboardEvent} ev
+ */
+SnippetPreview.prototype.disableEnter = function( ev ) {};
+
+/**
+ * Adds and remove the tooLong class when a text is too long.
+ *
+ * @deprecated
+ * @param ev
+ */
+SnippetPreview.prototype.textFeedback = function( ev ) {};
+
+/**
+ * shows the edit icon corresponding to the hovered element
+ *
+ * @deprecated
+ *
+ * @param ev
+ */
+SnippetPreview.prototype.showEditIcon = function( ev ) {
+
+};
+
+/**
+ * removes all editIcon-classes, sets to snippet_container
+ *
+ * @deprecated
+ */
+SnippetPreview.prototype.hideEditIcon = function() {};
+
+/**
+ * sets focus on child element of the snippet_container that is clicked. Hides the editicon.
+ *
+ * @deprecated
+ * @param ev
+ */
+SnippetPreview.prototype.setFocus = function( ev ) {};
+/* jshint ignore:end */
+/* eslint-disable */
+module.exports = SnippetPreview;
+
+},{"../js/stringProcessing/replaceDiacritics.js":71,"../js/stringProcessing/sanitizeString.js":73,"../js/stringProcessing/stringToRegex.js":74,"../js/stringProcessing/stripHTMLTags.js":75,"../js/stringProcessing/stripSpaces.js":78,"./config/config.js":23,"./templates.js":81,"lodash/clone":212,"lodash/debounce":214,"lodash/defaultsDeep":216,"lodash/forEach":219,"lodash/isElement":229,"lodash/isEmpty":230,"lodash/isUndefined":241}],57:[function(require,module,exports){
+/** @module stringProcessing/addWordboundary */
+
+/**
+ * Returns a string that can be used in a regex to match a matchString with word boundaries.
+ *
+ * @param {string} matchString The string to generate a regex string for.
+ * @param {string} extraWordBoundary Extra characters to match a word boundary on.
+ * @returns {string} A regex string that matches the matchString with word boundaries
+ */
+module.exports = function( matchString, extraWordBoundary ) {
+	var wordBoundary, wordBoundaryStart, wordBoundaryEnd;
+
+	if ( typeof extraWordBoundary === "undefined" ) {
+		extraWordBoundary = "";
+	}
+
+	wordBoundary = "[ \n\r\t\.,'\(\)\"\+\-;!?:\/»«‹›" + extraWordBoundary + "<>]";
+	wordBoundaryStart = "(^|" + wordBoundary + ")";
+	wordBoundaryEnd = "($|" + wordBoundary + ")";
+
+	return wordBoundaryStart + matchString + wordBoundaryEnd;
+};
+
+},{}],58:[function(require,module,exports){
+/** @module stringProcessing/checkNofollow */
+
+/**
+ * Checks if a links has a nofollow attribute. If it has, returns Nofollow, otherwise Dofollow.
+ *
+ * @param {string} text The text to check against.
+ * @returns {string} Returns Dofollow or Nofollow.
+ */
+module.exports = function( text ) {
+	var linkFollow = "Dofollow";
+
+	// Matches all nofollow links, case insensitive and global
+	if ( text.match( /rel=([\'\"])nofollow\1/ig ) !== null ) {
+		linkFollow = "Nofollow";
+	}
+	return linkFollow;
+};
+
+},{}],59:[function(require,module,exports){
+/** @module stringProcessing/cleanText */
+
+var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
+var replaceDiacritics = require( "../stringProcessing/replaceDiacritics.js" );
+var unifyWhitespace = require( "../stringProcessing/unifyWhitespace.js" );
+
+/**
+ * Removes words, duplicate spaces and sentence terminators, and words consisting of only digits
+ * from the text. This is used for the flesh reading ease test.
+ *
+ * @param {String} text The cleaned text
+ * @returns {String} The text
+ */
+module.exports = function( text ) {
+	if ( text === "" ) {
+		return text;
+	}
+
+	text = replaceDiacritics( text );
+	text = text.toLocaleLowerCase();
+
+	text = unifyWhitespace( text );
+
+	// replace comma', hyphens etc with spaces
+	text = text.replace( /[\-\;\:\,\(\)\"\'\|\“\”]/g, " " );
+
+	// remove apostrophe
+	text = text.replace( /[\’]/g, "" );
+
+	// unify all terminators
+	text = text.replace( /[.?!]/g, "." );
+
+	// Remove double spaces
+	text = stripSpaces( text );
+
+	// add period in case it is missing
+	text += ".";
+
+	// replace newlines with spaces
+	text = text.replace( /[ ]*(\n|\r\n|\r)[ ]*/g, " " );
+
+	// remove duplicate terminators
+	text = text.replace( /([\.])[\. ]+/g, "$1" );
+
+	// pad sentence terminators
+	text = text.replace( /[ ]*([\.])+/g, "$1 " );
+
+	// Remove double spaces
+	text = stripSpaces( text );
+
+	if ( text === "." ) {
+		return "";
+	}
+
+	return text;
+};
+
+},{"../stringProcessing/replaceDiacritics.js":71,"../stringProcessing/stripSpaces.js":78,"../stringProcessing/unifyWhitespace.js":80}],60:[function(require,module,exports){
+/** @module stringProcessing/countSentences */
+
+var cleanText = require( "../stringProcessing/cleanText.js" );
+
+/**
+ * Counts the number of sentences in a given string.
+ *
+ * @param {string} text The text used to count sentences.
+ * @returns {number} The number of sentences in the text.
+ */
+module.exports = function( text ) {
+	var sentences = cleanText( text ).split( "." );
+	var sentenceCount = 0;
+	for ( var i = 0; i < sentences.length; i++ ) {
+		if ( sentences[ i ] !== "" && sentences[ i ] !== " " ) {
+			sentenceCount++;
+		}
+	}
+	return sentenceCount;
+};
+
+},{"../stringProcessing/cleanText.js":59}],61:[function(require,module,exports){
+/** @module stringProcessing/countSyllables */
+
+var cleanText = require( "../stringProcessing/cleanText.js" );
+var syllableArray = require( "../config/syllables.js" );
+var arrayToRegex = require( "../stringProcessing/createRegexFromArray.js" );
+
+/**
+ * Checks the textstring for exclusion words. If they are found, returns the number of syllables these have, since
+ * they are incorrectly detected with the syllablecounters based on regexes.
+ *
+ * @param {string} text The text to look for exclusionwords
+ * @returns {number} The number of syllables found in the exclusionwords
+ */
+var countExclusionSyllables = function( text ) {
+	var count = 0, wordArray, regex, matches;
+	wordArray = syllableArray().exclusionWords;
+	for ( var i = 0; i < wordArray.length; i++ ) {
+		regex = new RegExp ( wordArray[i].word, "ig" );
+		matches = text.match ( regex );
+		if ( matches !== null ) {
+			count += ( matches.length * wordArray[i].syllables );
+		}
+	}
+	return count;
+};
+
+/**
+ * Removes words from the text that are in the exclusion array. These words are counted
+ * incorrectly in the syllable counters, so they are removed and checked sperately.
+ *
+ * @param {string} text The text to remove words from
+ * @returns {string} The text with the exclusionwords removed
+ */
+var removeExclusionWords = function( text ) {
+	var exclusionWords = syllableArray().exclusionWords;
+	var wordArray = [];
+	for ( var i = 0; i < exclusionWords.length; i++ ) {
+		wordArray.push( exclusionWords[i].word );
+	}
+	return text.replace( arrayToRegex( wordArray ), "" );
+};
+
+/**
+ * Counts the syllables by splitting on consonants.
+ *
+ * @param {string} text A text with words to count syllables.
+ * @returns {number} the syllable count
+ */
+var countBasicSyllables = function( text ) {
+	var array = text.split( " " );
+	var i, j, splitWord, count = 0;
+
+	// split textstring to individual words
+	for ( i = 0; i < array.length; i++ ) {
+
+		// split on consonants
+		splitWord = array[ i ].split( /[^aeiouy]/g );
+
+		// if the string isn't empty, a consonant was found, up the counter
+		for ( j = 0; j < splitWord.length; j++ ) {
+			if ( splitWord[ j ] !== "" ) {
+				count++;
+			}
+		}
+	}
+
+	return count;
+};
+
+/**
+ * Advanced syllable counter to match texstring with regexes.
+ *
+ * @param {String} text The text to count the syllables.
+ * @param {String} operator The operator to determine which regex to use.
+ * @returns {number} the amount of syllables found in string.
+ */
+var countAdvancedSyllables = function( text, operator ) {
+	var matches, count = 0, words = text.split( " " );
+	var regex = "";
+	switch ( operator ) {
+		case "add":
+			regex = arrayToRegex( syllableArray().addSyllables, true );
+			break;
+		case "subtract":
+			regex = arrayToRegex( syllableArray().subtractSyllables, true );
+			break;
+		default:
+			break;
+	}
+	for ( var i = 0; i < words.length; i++ ) {
+		matches = words[i].match ( regex );
+		if ( matches !== null ) {
+			count += matches.length;
+		}
+	}
+	return count;
+};
+
+/**
+ * Counts the number of syllables in a textstring, calls exclusionwordsfunction, basic syllable
+ * counter and advanced syllable counter.
+ *
+ * @param {String} text The text to count the syllables from.
+ * @returns {int} syllable count
+ */
+module.exports = function( text ) {
+	var count = 0;
+	count += countExclusionSyllables( text );
+
+	text = removeExclusionWords( text );
+	text = cleanText( text );
+	text.replace( /[.]/g, " " );
+
+	count += countBasicSyllables( text );
+	count += countAdvancedSyllables( text, "add" );
+	count -= countAdvancedSyllables( text, "subtract" );
+
+	return count;
+};
+
+
+},{"../config/syllables.js":28,"../stringProcessing/cleanText.js":59,"../stringProcessing/createRegexFromArray.js":63}],62:[function(require,module,exports){
+/** @module stringProcessing/countWords */
+
+var stripTags = require( "../stringProcessing/stripHTMLTags.js" );
+var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
+
+/**
+ * Calculates the wordcount of a certain text.
+ *
+ * @param {string} text The text to be counted.
+ * @returns {int} The word count of the given text.
+ */
+module.exports = function( text ) {
+	text = stripSpaces( stripTags( text ) );
+	if ( text === "" ) {
+		return 0;
+	}
+
+	return text.split( /\s/g ).length;
+};
+
+},{"../stringProcessing/stripHTMLTags.js":75,"../stringProcessing/stripSpaces.js":78}],63:[function(require,module,exports){
+/** @module stringProcessing/createRegexFromArray */
+
+var addWordBoundary = require( "../stringProcessing/addWordboundary.js" );
+
+/**
+ * Creates a regex of combined strings from the input array.
+ *
+ * @param {array} array The array with strings
+ * @param {boolean} disableWordBoundary Boolean indicating whether or not to disable word boundaries
+ * @returns {RegExp} regex The regex created from the array.
+ */
+module.exports = function( array, disableWordBoundary ) {
+	var regexString;
+
+	array = array.map( function( string ) {
+		if ( disableWordBoundary ) {
+			return string;
+		}
+		return addWordBoundary( string );
+	} );
+
+	regexString = "(" + array.join( ")|(" ) + ")";
+
+	return new RegExp( regexString, "ig" );
+};
+
+},{"../stringProcessing/addWordboundary.js":57}],64:[function(require,module,exports){
+/** @module stringProcessing/findKeywordInUrl */
+
+var keywordRegex = require( "../stringProcessing/stringToRegex.js" );
+/**
+ *
+ * @param {string} url The url to check for keyword
+ * @param {string} keyword The keyword to check if it is in the URL
+ * @returns {boolean} If a keyword is found, returns true
+ */
+module.exports = function( url, keyword ) {
+	var keywordFound = false;
+	var formatUrl = url.match( />(.*)/ig );
+
+	if ( formatUrl !== null ) {
+		formatUrl = formatUrl[0].replace( /<.*?>\s?/ig, "" );
+		if ( formatUrl.match( keywordRegex( keyword ) ) !== null ) {
+			keywordFound = true;
+		}
+	}
+
+	return keywordFound;
+};
+
+},{"../stringProcessing/stringToRegex.js":74}],65:[function(require,module,exports){
+/** @module stringProcessing/getAlttagContent */
+
+var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
+
+var regexAltTag = /alt=(['"])(.*?)\1/i;
+
+/**
+ * Checks for an alttag in the image and returns its content
+ *
+ * @param {String} text Textstring to match alt
+ * @returns {String} the contents of the alttag, empty if none is set.
+ */
+module.exports = function( text ) {
+	var alt = "";
+
+	var matches = text.match( regexAltTag );
+
+	if ( matches !== null ) {
+		alt = stripSpaces( matches[ 2 ] );
+
+		alt = alt.replace( /&quot;/g, "\"" );
+		alt = alt.replace( /&#039;/g, "'" );
+	}
+	return alt;
+};
+
+},{"../stringProcessing/stripSpaces.js":78}],66:[function(require,module,exports){
+/** @module stringProcessing/getAnchorsFromText */
+
+/**
+ * Check for anchors in the textstring and returns them in an array.
+ *
+ * @param {String} text The text to check for matches.
+ * @returns {Array} The matched links in text.
+ */
+module.exports = function( text ) {
+	var matches;
+
+	// regex matches everything between <a> and </a>
+	matches = text.match( /<a(?:[^>]+)?>(.*?)<\/a>/ig );
+	if ( matches === null ) {
+		matches = [];
+	}
+
+	return matches;
+};
+
+},{}],67:[function(require,module,exports){
+/** @module stringProcess/getLinkType */
+
+/**
+ * Determines the type of link.
+ *
+ * @param {string} text String with anchor tag.
+ * @param {string} url Url to match against.
+ * @returns {string} The link type (other, external or internal).
+ */
+
+module.exports = function( text, url ) {
+	var linkType = "other";
+
+	// Matches all links that start with http:// and https://, case insensitive and global
+	if ( text.match( /https?:\/\//ig ) !== null ) {
+		linkType = "external";
+		var urlMatch = text.match( url );
+		if ( urlMatch !== null && urlMatch[ 0 ].length !== 0 ) {
+			linkType = "internal";
+		}
+	}
+	return linkType;
+};
+
+},{}],68:[function(require,module,exports){
+/** @module stringProcessing/imageInText */
+
+var matchStringWithRegex = require( "./matchStringWithRegex.js" );
+
+/**
+ * Checks the text for images.
+ *
+ * @param {string} text The textstring to check for images
+ * @returns {Array} Array containing all types of found images
+ */
+module.exports = function( text ) {
+	return matchStringWithRegex( text, "<img(?:[^>]+)?>" );
+};
+
+},{"./matchStringWithRegex.js":69}],69:[function(require,module,exports){
+/** @module stringProcessing/matchStringWithRegex */
+
+/**
+ * Checks a string with a regex, return all matches found with that regex.
+ *
+ * @param {String} text The text to match the
+ * @param {String} regexString A string to use as regex.
+ * @returns {Array} Array with matches, empty array if no matches found.
+ */
+module.exports = function( text, regexString ) {
+	var regex = new RegExp( regexString, "ig" );
+	var matches = text.match( regex );
+
+	if ( matches === null ) {
+		matches = [];
+	}
+
+	return matches;
+};
+
+},{}],70:[function(require,module,exports){
+/** @module stringProcessing/matchTextWithWord */
+
+var stringToRegex = require( "../stringProcessing/stringToRegex.js" );
+var stripSomeTags = require( "../stringProcessing/stripNonTextTags.js" );
+var unifyWhitespace = require( "../stringProcessing/unifyWhitespace.js" );
+var replaceDiacritics = require( "../stringProcessing/replaceDiacritics.js" );
+
+/**
+ * Returns the number of matches in a given string
+ *
+ * @param {string} text The text to use for matching the wordToMatch.
+ * @param {string} wordToMatch The word to match in the text
+ * @param {string} [extraBoundary] An extra string that can be added to the wordboundary regex
+ * @returns {number} The amount of matches found.
+ */
+module.exports = function( text, wordToMatch, extraBoundary ) {
+	text = stripSomeTags ( text );
+	text = unifyWhitespace( text );
+	text = replaceDiacritics( text );
+
+	var matches = text.match( stringToRegex( wordToMatch, extraBoundary ) );
+
+	if ( matches === null ) {
+		return 0;
+	}
+
+	return matches.length;
+};
+
+},{"../stringProcessing/replaceDiacritics.js":71,"../stringProcessing/stringToRegex.js":74,"../stringProcessing/stripNonTextTags.js":76,"../stringProcessing/unifyWhitespace.js":80}],71:[function(require,module,exports){
+/** @module stringProcessing/replaceDiacritics */
+
+var diacritisRemovalMap = require( "../config/diacritics.js" );
+
+/**
+ * Replaces all diacritics from the text based on the diacritics removal map.
+ *
+ * @param {string} text The text to remove diacritics from.
+ * @returns {string} The text with all diacritics replaced.
+ */
+module.exports = function( text ) {
+	var map = diacritisRemovalMap();
+
+	for ( var i = 0; i < map.length; i++ ) {
+		text = text.replace(
+			map[ i ].letters,
+			map[ i ].base
+		);
+	}
+	return text;
+};
+
+},{"../config/diacritics.js":24}],72:[function(require,module,exports){
+/** @module stringProcessing/replaceString */
+
+/**
+ * Replaces string with a replacement in text
+ *
+ * @param {string} text The textstring to remove
+ * @param {string} stringToReplace The string to replace
+ * @param {string} replacement The replacement of the string
+ * @returns {string} The text with the string replaced
+ */
+module.exports = function( text, stringToReplace, replacement ) {
+	text = text.replace( stringToReplace, replacement );
+
+	return text;
+};
+
+},{}],73:[function(require,module,exports){
+/** @module stringProcessing/sanitizeString */
+
+var stripTags = require( "../stringProcessing/stripHTMLTags.js" );
+var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
+
+/**
+ * Strip HTMLtags characters from string that break regex
+ *
+ * @param {String} text The text to strip the characters from.
+ * @returns {String} The text without characters.
+ */
+module.exports = function( text ) {
+	text = text.replace( /[\[\]\/\{\}\(\)\*\+\?\\\^\$\|]/g, "" );
+	text = stripTags( text );
+	text = stripSpaces( text );
+
+	return text;
+};
+
+},{"../stringProcessing/stripHTMLTags.js":75,"../stringProcessing/stripSpaces.js":78}],74:[function(require,module,exports){
+/** @module stringProcessing/stringToRegex */
+var isUndefined = require( "lodash/isUndefined" );
+var replaceDiacritics = require( "../stringProcessing/replaceDiacritics.js" );
+var sanitizeString = require( "../stringProcessing/sanitizeString.js" );
+var addWordBoundary = require( "../stringProcessing/addWordboundary.js" );
+
+/**
+ * Creates a regex from a string so it can be matched everywhere in the same way.
+ *
+ * @param {string} string The string to make a regex from.
+ * @param {string} [extraBoundary=""] A string that is used as extra boundary for the regex.
+ * @param {boolean} [doReplaceDiacritics=true] If set to false, it doesn't replace diacritics. Defaults to true.
+ * @returns {RegExp} regex The regex made from the keyword
+ */
+module.exports = function( string, extraBoundary, doReplaceDiacritics ) {
+	if ( isUndefined( extraBoundary ) ) {
+		extraBoundary = "";
+	}
+
+	if ( isUndefined( doReplaceDiacritics ) || doReplaceDiacritics === true ) {
+		string = replaceDiacritics( string );
+	}
+
+	string = sanitizeString( string );
+	string = addWordBoundary( string, extraBoundary );
+	return new RegExp ( string, "ig" );
+};
+
+},{"../stringProcessing/addWordboundary.js":57,"../stringProcessing/replaceDiacritics.js":71,"../stringProcessing/sanitizeString.js":73,"lodash/isUndefined":241}],75:[function(require,module,exports){
+/** @module stringProcessing/stripHTMLTags */
+
+var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
+
+/**
+ * Strip HTML-tags from text
+ *
+ * @param {String} text The text to strip the HTML-tags from.
+ * @returns {String} The text without HTML-tags.
+ */
+module.exports = function( text ) {
+	text = text.replace( /(<([^>]+)>)/ig, " " );
+	text = stripSpaces( text );
+	return text;
+};
+
+},{"../stringProcessing/stripSpaces.js":78}],76:[function(require,module,exports){
+/** @module stringProcessing/stripNonTextTags */
+
+var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
+
+/**
+ * Strips all tags from the text, except li, p, dd and h1-h6 tags from the text that contain content to check.
+ *
+ * @param {string} text The text to strip tags from
+ * @returns {string} The text stripped of tags, except for li, p, dd and h1-h6 tags.
+ */
+module.exports = function( text ) {
+	text = text.replace( /<(?!li|\/li|p|\/p|h1|\/h1|h2|\/h2|h3|\/h3|h4|\/h4|h5|\/h5|h6|\/h6|dd).*?\>/g, "" );
+	text = stripSpaces( text );
+	return text;
+};
+
+},{"../stringProcessing/stripSpaces.js":78}],77:[function(require,module,exports){
+/** @module stringProcessing/stripNumbers */
+
+var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
+
+/**
+ * Removes all words comprised only of numbers.
+ *
+ * @param {string} text to remove words
+ * @returns {string} The text with numberonly words removed.
+ */
+
+module.exports = function( text ) {
+
+	// Remove "words" comprised only of numbers
+	text = text.replace( /\b[0-9]+\b/g, "" );
+
+	text = stripSpaces( text );
+
+	if ( text === "." ) {
+		text = "";
+	}
+	return text;
+};
+
+},{"../stringProcessing/stripSpaces.js":78}],78:[function(require,module,exports){
+/** @module stringProcessing/stripSpaces */
+
+/**
+ * Strip double spaces from text
+ *
+ * @param {String} text The text to strip spaces from.
+ * @returns {String} The text without double spaces
+ */
+module.exports = function( text ) {
+
+	// Replace multiple spaces with single space
+	text = text.replace( /\s{2,}/g, " " );
+
+	// Replace spaces followed by periods with only the period.
+	text = text.replace( /\s\./g, "." );
+
+	// Remove first/last character if space
+	text = text.replace( /^\s+|\s+$/g, "" );
+
+	return text;
+};
+
+},{}],79:[function(require,module,exports){
+var stringToRegex = require( "../stringProcessing/stringToRegex.js" );
+var replaceString = require( "../stringProcessing/replaceString.js" );
+var removalWords = require( "../config/removalWords.js" );
+var replaceDiacritics = require( "../stringProcessing/replaceDiacritics.js" );
+
+/**
+ * Matches the keyword in an array of strings
+ *
+ * @param {Array} matches The array with the matched headings.
+ * @param {String} keyword The keyword to match
+ * @returns {number} The number of occurrences of the keyword in the headings.
+ */
+module.exports = function( matches, keyword ) {
+	var foundInHeader;
+	if ( matches === null ) {
+		foundInHeader = -1;
+	} else {
+		foundInHeader = 0;
+		for ( var i = 0; i < matches.length; i++ ) {
+
+			// TODO: This replaceString call seemingly doesn't work, as no replacement value is being sent to the .replace method in replaceString
+			var formattedHeaders = replaceString(
+				matches[ i ], removalWords
+			);
+			if (
+				replaceDiacritics( formattedHeaders ).match( stringToRegex( keyword ) ) ||
+				replaceDiacritics( matches[ i ] ).match( stringToRegex( keyword ) )
+			) {
+				foundInHeader++;
+			}
+		}
+	}
+	return foundInHeader;
+};
+
+},{"../config/removalWords.js":26,"../stringProcessing/replaceDiacritics.js":71,"../stringProcessing/replaceString.js":72,"../stringProcessing/stringToRegex.js":74}],80:[function(require,module,exports){
+/** @module stringProcessing/unifyWhitespace */
+
+/**
+ * Converts all whitespace to spaces.
+ *
+ * @param {string} text The text to replace spaces.
+ * @returns {string} The text with unified spaces.
+ */
+
+module.exports = function( text ) {
+
+	// Replace &nbsp with space
+	text = text.replace( "&nbsp;", " " );
+
+	// Replace whitespaces with space
+	text = text.replace( /\s/g, " " );
+
+	return text;
+};
+
+
+},{}],81:[function(require,module,exports){
+(function (global){
+;(function() {
+  var undefined;
+
+  var objectTypes = {
+    'function': true,
+    'object': true
+  };
+
+  var freeExports = (objectTypes[typeof exports] && exports && !exports.nodeType)
+    ? exports
+    : undefined;
+
+  var freeModule = (objectTypes[typeof module] && module && !module.nodeType)
+    ? module
+    : undefined;
+
+  var moduleExports = (freeModule && freeModule.exports === freeExports)
+    ? freeExports
+    : undefined;
+
+  var freeGlobal = checkGlobal(freeExports && freeModule && typeof global == 'object' && global);
+
+  var freeSelf = checkGlobal(objectTypes[typeof self] && self);
+
+  var freeWindow = checkGlobal(objectTypes[typeof window] && window);
+
+  var thisGlobal = checkGlobal(objectTypes[typeof this] && this);
+
+  var root = freeGlobal ||
+    ((freeWindow !== (thisGlobal && thisGlobal.window)) && freeWindow) ||
+      freeSelf || thisGlobal || Function('return this')();
+
+  function checkGlobal(value) {
+    return (value && value.Object === Object) ? value : null;
+  }
+
+  /** Used as a safe reference for `undefined` in pre-ES5 environments. */
+  var undefined;
+
+  /** Used as the semantic version number. */
+  var VERSION = '4.6.1';
+
+  /** Used as references for various `Number` constants. */
+  var INFINITY = 1 / 0;
+
+  /** `Object#toString` result references. */
+  var symbolTag = '[object Symbol]';
+
+  /** Used to match HTML entities and HTML characters. */
+  var reUnescapedHtml = /[&<>"'`]/g,
+      reHasUnescapedHtml = RegExp(reUnescapedHtml.source);
+
+  /** Used to map characters to HTML entities. */
+  var htmlEscapes = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;',
+    '`': '&#96;'
+  };
+
+  /** Used to determine if values are of the language type `Object`. */
+  var objectTypes = {
+    'function': true,
+    'object': true
+  };
+
+  /** Detect free variable `exports`. */
+  var freeExports = (objectTypes[typeof exports] && exports && !exports.nodeType)
+    ? exports
+    : undefined;
+
+  /** Detect free variable `module`. */
+  var freeModule = (objectTypes[typeof module] && module && !module.nodeType)
+    ? module
+    : undefined;
+
+  /** Detect free variable `global` from Node.js. */
+  var freeGlobal = checkGlobal(freeExports && freeModule && typeof global == 'object' && global);
+
+  /** Detect free variable `self`. */
+  var freeSelf = checkGlobal(objectTypes[typeof self] && self);
+
+  /** Detect free variable `window`. */
+  var freeWindow = checkGlobal(objectTypes[typeof window] && window);
+
+  /** Detect `this` as the global object. */
+  var thisGlobal = checkGlobal(objectTypes[typeof this] && this);
+
+  /**
+   * Used as a reference to the global object.
+   *
+   * The `this` value is used if it's the global object to avoid Greasemonkey's
+   * restricted `window` object, otherwise the `window` object is used.
+   */
+  var root = freeGlobal ||
+    ((freeWindow !== (thisGlobal && thisGlobal.window)) && freeWindow) ||
+      freeSelf || thisGlobal || Function('return this')();
+
+  /*--------------------------------------------------------------------------*/
+
+  /**
+   * Checks if `value` is a global object.
+   *
+   * @private
+   * @param {*} value The value to check.
+   * @returns {null|Object} Returns `value` if it's a global object, else `null`.
+   */
+  function checkGlobal(value) {
+    return (value && value.Object === Object) ? value : null;
+  }
+
+  /**
+   * Used by `_.escape` to convert characters to HTML entities.
+   *
+   * @private
+   * @param {string} chr The matched character to escape.
+   * @returns {string} Returns the escaped character.
+   */
+  function escapeHtmlChar(chr) {
+    return htmlEscapes[chr];
+  }
+
+  /*--------------------------------------------------------------------------*/
+
+  /** Used for built-in method references. */
+  var objectProto = Object.prototype;
+
+  /**
+   * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
+   * of values.
+   */
+  var objectToString = objectProto.toString;
+
+  /** Built-in value references. */
+  var Symbol = root.Symbol;
+
+  /** Used to lookup unminified function names. */
+  var realNames = {};
+
+  /** Used to convert symbols to primitives and strings. */
+  var symbolProto = Symbol ? Symbol.prototype : undefined,
+      symbolToString = symbolProto ? symbolProto.toString : undefined;
+
+  /*------------------------------------------------------------------------*/
+
+  /**
+   * Checks if `value` is object-like. A value is object-like if it's not `null`
+   * and has a `typeof` result of "object".
+   *
+   * @static
+   * @memberOf _
+   * @category Lang
+   * @param {*} value The value to check.
+   * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+   * @example
+   *
+   * _.isObjectLike({});
+   * // => true
+   *
+   * _.isObjectLike([1, 2, 3]);
+   * // => true
+   *
+   * _.isObjectLike(_.noop);
+   * // => false
+   *
+   * _.isObjectLike(null);
+   * // => false
+   */
+  function isObjectLike(value) {
+    return !!value && typeof value == 'object';
+  }
+
+  /**
+   * Checks if `value` is classified as a `Symbol` primitive or object.
+   *
+   * @static
+   * @memberOf _
+   * @category Lang
+   * @param {*} value The value to check.
+   * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
+   * @example
+   *
+   * _.isSymbol(Symbol.iterator);
+   * // => true
+   *
+   * _.isSymbol('abc');
+   * // => false
+   */
+  function isSymbol(value) {
+    return typeof value == 'symbol' ||
+      (isObjectLike(value) && objectToString.call(value) == symbolTag);
+  }
+
+  /**
+   * Converts `value` to a string if it's not one. An empty string is returned
+   * for `null` and `undefined` values. The sign of `-0` is preserved.
+   *
+   * @static
+   * @memberOf _
+   * @category Lang
+   * @param {*} value The value to process.
+   * @returns {string} Returns the string.
+   * @example
+   *
+   * _.toString(null);
+   * // => ''
+   *
+   * _.toString(-0);
+   * // => '-0'
+   *
+   * _.toString([1, 2, 3]);
+   * // => '1,2,3'
+   */
+  function toString(value) {
+    // Exit early for strings to avoid a performance hit in some environments.
+    if (typeof value == 'string') {
+      return value;
+    }
+    if (value == null) {
+      return '';
+    }
+    if (isSymbol(value)) {
+      return symbolToString ? symbolToString.call(value) : '';
+    }
+    var result = (value + '');
+    return (result == '0' && (1 / value) == -INFINITY) ? '-0' : result;
+  }
+
+  /*------------------------------------------------------------------------*/
+
+  /**
+   * Converts the characters "&", "<", ">", '"', "'", and "\`" in `string` to
+   * their corresponding HTML entities.
+   *
+   * **Note:** No other characters are escaped. To escape additional
+   * characters use a third-party library like [_he_](https://mths.be/he).
+   *
+   * Though the ">" character is escaped for symmetry, characters like
+   * ">" and "/" don't need escaping in HTML and have no special meaning
+   * unless they're part of a tag or unquoted attribute value.
+   * See [Mathias Bynens's article](https://mathiasbynens.be/notes/ambiguous-ampersands)
+   * (under "semi-related fun fact") for more details.
+   *
+   * Backticks are escaped because in IE < 9, they can break out of
+   * attribute values or HTML comments. See [#59](https://html5sec.org/#59),
+   * [#102](https://html5sec.org/#102), [#108](https://html5sec.org/#108), and
+   * [#133](https://html5sec.org/#133) of the [HTML5 Security Cheatsheet](https://html5sec.org/)
+   * for more details.
+   *
+   * When working with HTML you should always [quote attribute values](http://wonko.com/post/html-escaping)
+   * to reduce XSS vectors.
+   *
+   * @static
+   * @memberOf _
+   * @category String
+   * @param {string} [string=''] The string to escape.
+   * @returns {string} Returns the escaped string.
+   * @example
+   *
+   * _.escape('fred, barney, & pebbles');
+   * // => 'fred, barney, &amp; pebbles'
+   */
+  function escape(string) {
+    string = toString(string);
+    return (string && reHasUnescapedHtml.test(string))
+      ? string.replace(reUnescapedHtml, escapeHtmlChar)
+      : string;
+  }
+
+  /*--------------------------------------------------------------------------*/
+
+  var _ = { 'escape': escape };
+
+  /*----------------------------------------------------------------------------*/
+
+  var templates = {
+    'assessmentPresenterResult': {},
+    'snippetEditor': {}
+  };
+
+  templates['assessmentPresenterResult'] =   function(obj) {
+    obj || (obj = {});
+    var __t, __p = '', __e = _.escape, __j = Array.prototype.join;
+    function print() { __p += __j.call(arguments, '') }
+    with (obj) {
+    __p += '<ul class="wpseoanalysis">\n    ';
+     for (var i in scores) {
+    __p += '\n        <li class="score">\n            <span class="wpseo-score-icon ' +
+    __e( scores[ i ].className ) +
+    '"></span>\n            <span class="screen-reader-text">' +
+    ((__t = ( scores[ i ].screenReaderText )) == null ? '' : __t) +
+    '</span>\n            <span class="wpseo-score-text">' +
+    ((__t = ( scores[ i ].text )) == null ? '' : __t) +
+    '</span>\n        </li>\n    ';
+     }
+    __p += '\n</ul>\n';
+
+    }
+    return __p
+  };
+
+  templates['snippetEditor'] =   function(obj) {
+    obj || (obj = {});
+    var __t, __p = '', __e = _.escape, __j = Array.prototype.join;
+    function print() { __p += __j.call(arguments, '') }
+    with (obj) {
+    __p += '<div id="snippet_preview">\n    <h3 class="snippet-editor__heading snippet-editor__heading-icon-eye">' +
+    __e( i18n.snippetPreview ) +
+    '</h3>\n\n    <section class="snippet-editor__preview">\n        <div class="snippet_container snippet-editor__container" id="title_container">\n            <span class="title" id="snippet_title">\n                ' +
+    __e( rendered.title ) +
+    '\n            </span>\n            <span class="title" id="snippet_sitename"></span>\n        </div>\n        <div class="snippet_container snippet-editor__container" id="url_container">\n            <cite class="url urlBase" id="snippet_citeBase">\n                ' +
+    __e( rendered.baseUrl ) +
+    '\n            </cite>\n            <cite class="url" id="snippet_cite">\n                ' +
+    __e( rendered.snippetCite ) +
+    '\n            </cite>\n        </div>\n        <div class="snippet_container snippet-editor__container" id="meta_container">\n            ';
+     if ( "" !== metaDescriptionDate ) {
+    __p += '\n                <span class="snippet-editor__date">\n                    ' +
+    __e( metaDescriptionDate ) +
+    ' -\n                </span>\n            ';
+     }
+    __p += '\n            <span class="desc" id="snippet_meta">\n                ' +
+    __e( rendered.meta ) +
+    '\n            </span>\n        </div>\n\n        <button class="snippet-editor__button snippet-editor__edit-button" type="button" aria-expanded="false">\n            ' +
+    __e( i18n.edit ) +
+    '\n        </button>\n    </section>\n\n    <div class="snippet-editor__form snippet-editor--hidden">\n        <label for="snippet-editor-title" class="snippet-editor__label">\n            ' +
+    __e( i18n.title ) +
+    '\n            <input type="text" class="snippet-editor__input snippet-editor__title js-snippet-editor-title" id="snippet-editor-title" value="' +
+    __e( raw.title ) +
+    '" placeholder="' +
+    __e( placeholder.title ) +
+    '" />\n            <progress value="0.0" class="snippet-editor__progress snippet-editor__progress-title">\n                <div class="snippet-editor__progress-bar"></div>\n            </progress>\n        </label>\n        <label for="snippet-editor-slug" class="snippet-editor__label">\n            ' +
+    __e( i18n.slug ) +
+    '\n            <input type="text" class="snippet-editor__input snippet-editor__slug js-snippet-editor-slug" id="snippet-editor-slug" value="' +
+    __e( raw.snippetCite ) +
+    '" placeholder="' +
+    __e( placeholder.urlPath ) +
+    '" />\n        </label>\n        <label for="snippet-editor-meta-description" class="snippet-editor__label">\n            ' +
+    __e( i18n.metaDescription ) +
+    '\n            <textarea class="snippet-editor__input snippet-editor__meta-description js-snippet-editor-meta-description" id="snippet-editor-meta-description" placeholder="' +
+    __e( placeholder.metaDesc ) +
+    '">' +
+    __e( raw.meta ) +
+    '</textarea>\n            <progress value="0.0" class="snippet-editor__progress snippet-editor__progress-meta-description">\n                <div class="snippet-editor__progress-bar"></div>\n            </progress>\n        </label>\n\n        <button class="snippet-editor__submit snippet-editor__button" type="button">' +
+    __e( i18n.save ) +
+    '</button>\n    </div>\n</div>\n';
+
+    }
+    return __p
+  };
+
+  /*----------------------------------------------------------------------------*/
+
+  if (freeExports && freeModule) {
+    if (moduleExports) {
+      (freeModule.exports = templates).templates = templates;
+    }
+    freeExports.templates = templates;
+  }
+  else {
+    root.templates = templates;
+  }
+}.call(this));
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{}],82:[function(require,module,exports){
+var isUndefined = require( "lodash/isUndefined" );
+var isNumber = require( "lodash/isNumber" );
+
+/**
+ * Construct the AssessmentResult value object.
+ * @constructor
+ */
+var AssessmentResult = function() {
+	this._hasScore = false;
+	this.score = 0;
+	this.text = "";
+};
+
+/**
+ * Check if a score is available.
+ * @returns {boolean} Whether or not a score is available.
+ */
+AssessmentResult.prototype.hasScore = function() {
+	return this._hasScore;
+};
+
+/**
+ * Get the available score
+ * @returns {number} The score associated with the AssessmentResult.
+ */
+AssessmentResult.prototype.getScore = function() {
+	return this.score;
+};
+
+/**
+ * Set the score for the assessment.
+ * @param {number} score The score to be used for the score property
+ * @returns {void}
+ */
+AssessmentResult.prototype.setScore = function( score ) {
+	if ( isNumber( score ) ) {
+		this.score = score;
+		this._hasScore = true;
+	}
+};
+
+/**
+ * Check if a text is available.
+ * @returns {boolean} Whether or not a text is available.
+ */
+AssessmentResult.prototype.hasText = function() {
+	return this.text !== "";
+};
+
+/**
+ * Get the available text
+ * @returns {string} The text associated with the AssessmentResult.
+ */
+AssessmentResult.prototype.getText = function() {
+	return this.text;
+};
+
+/**
+ * Set the text for the assessment.
+ * @param {string} text The text to be used for the text property
+ * @returns {void}
+ */
+AssessmentResult.prototype.setText = function( text ) {
+	if ( isUndefined( text ) ) {
+		text = "";
+	}
+
+	this.text = text;
+};
+
+module.exports = AssessmentResult;
+
+},{"lodash/isNumber":234,"lodash/isUndefined":241}],83:[function(require,module,exports){
+var defaults = require( "lodash/defaults" );
+var sanitizeString = require( "../stringProcessing/sanitizeString.js" );
+
+/**
+ * Default attributes to be used by the Paper if they are left undefined.
+ * @type {{keyword: string, description: string, title: string, url: string}}
+ */
+var defaultAttributes = {
+	keyword: "",
+	description: "",
+	title: "",
+	url: "",
+	locale: "en_US"
+};
+
+/**
+ * Sanitize attributes before they are assigned to the Paper.
+ * @param {object} attributes The attributes that need sanitizing.
+ * @returns {object} The attributes passed to the Paper.
+ */
+var sanitizeAttributes = function( attributes ) {
+	attributes.keyword = sanitizeString( attributes.keyword );
+
+	return attributes;
+};
+
+/**
+ * Construct the Paper object and set the keyword property.
+ * @param {string} text The text to use in the analysis.
+ * @param {object} attributes The object containing all attributes.
+ * @constructor
+ */
+var Paper = function( text, attributes ) {
+	this._text = text || "";
+
+	attributes = attributes || {};
+	defaults( attributes, defaultAttributes );
+	this._attributes = sanitizeAttributes( attributes );
+};
+
+/**
+ * Check whether a keyword is available.
+ * @returns {boolean} Returns true if the Paper has a keyword.
+ */
+Paper.prototype.hasKeyword = function() {
+	return this._attributes.keyword !== "";
+};
+
+/**
+ * Return the associated keyword or an empty string if no keyword is available.
+ * @returns {string} Returns Keyword
+ */
+Paper.prototype.getKeyword = function() {
+	return this._attributes.keyword;
+};
+
+/**
+ * Check whether the text is available.
+ * @returns {boolean} Returns true if the paper has a text.
+ */
+Paper.prototype.hasText = function() {
+	return this._text !== "";
+};
+
+/**
+ * Return the associated text or am empty string if no text is available.
+ * @returns {string} Returns text
+ */
+Paper.prototype.getText = function() {
+	return this._text;
+};
+
+/**
+ * Check whether a description is available.
+ * @returns {boolean} Returns true if the paper has a description.
+ */
+Paper.prototype.hasDescription = function() {
+	return this._attributes.description !== "";
+};
+
+/**
+ * Return the description or an empty string if no description is available.
+ * @returns {string} Returns the description.
+ */
+Paper.prototype.getDescription = function() {
+	return this._attributes.description;
+};
+
+/**
+ * Check whether an title is available
+ * @returns {boolean} Returns true if the Paper has a title.
+ */
+Paper.prototype.hasTitle = function() {
+	return this._attributes.title !== "";
+};
+
+/**
+ * Return the title, or an empty string of no title is available.
+ * @returns {string} Returns the title
+ */
+Paper.prototype.getTitle = function() {
+	return this._attributes.title;
+};
+
+/**
+ * Check whether an url is available
+ * @returns {boolean} Returns true if the Paper has an Url.
+ */
+Paper.prototype.hasUrl = function() {
+	return this._attributes.url !== "";
+};
+
+/**
+ * Return the url, or an empty string of no url is available.
+ * @returns {string} Returns the url
+ */
+Paper.prototype.getUrl = function() {
+	return this._attributes.url;
+};
+
+/**
+ * Check whether a locale is available
+ * @returns {boolean} Returns true if the paper has a locale
+ */
+Paper.prototype.hasLocale = function() {
+	return this._attributes.locale !== "";
+};
+
+/**
+ * Return the locale or an empty string if no locale is available
+ * @returns {string} Returns the locale
+ */
+Paper.prototype.getLocale = function() {
+	return this._attributes.locale;
+};
+
+module.exports = Paper;
+
+},{"../stringProcessing/sanitizeString.js":73,"lodash/defaults":215}],84:[function(require,module,exports){
+arguments[4][83][0].apply(exports,arguments)
+},{"../stringProcessing/sanitizeString.js":73,"dup":83,"lodash/defaults":215}],85:[function(require,module,exports){
 /**
  * @preserve jed.js https://github.com/SlexAxton/Jed
  */
@@ -1714,7 +7013,7 @@ return parser;
 
 })(this);
 
-},{}],6:[function(require,module,exports){
+},{}],86:[function(require,module,exports){
 var getNative = require('./_getNative'),
     root = require('./_root');
 
@@ -1723,7 +7022,7 @@ var DataView = getNative(root, 'DataView');
 
 module.exports = DataView;
 
-},{"./_getNative":91,"./_root":122}],7:[function(require,module,exports){
+},{"./_getNative":171,"./_root":202}],87:[function(require,module,exports){
 var nativeCreate = require('./_nativeCreate');
 
 /** Used for built-in method references. */
@@ -1743,7 +7042,7 @@ Hash.prototype = nativeCreate ? nativeCreate(null) : objectProto;
 
 module.exports = Hash;
 
-},{"./_nativeCreate":121}],8:[function(require,module,exports){
+},{"./_nativeCreate":201}],88:[function(require,module,exports){
 var getNative = require('./_getNative'),
     root = require('./_root');
 
@@ -1752,7 +7051,7 @@ var Map = getNative(root, 'Map');
 
 module.exports = Map;
 
-},{"./_getNative":91,"./_root":122}],9:[function(require,module,exports){
+},{"./_getNative":171,"./_root":202}],89:[function(require,module,exports){
 var mapClear = require('./_mapClear'),
     mapDelete = require('./_mapDelete'),
     mapGet = require('./_mapGet'),
@@ -1786,7 +7085,7 @@ MapCache.prototype.set = mapSet;
 
 module.exports = MapCache;
 
-},{"./_mapClear":113,"./_mapDelete":114,"./_mapGet":115,"./_mapHas":116,"./_mapSet":117}],10:[function(require,module,exports){
+},{"./_mapClear":193,"./_mapDelete":194,"./_mapGet":195,"./_mapHas":196,"./_mapSet":197}],90:[function(require,module,exports){
 var getNative = require('./_getNative'),
     root = require('./_root');
 
@@ -1795,7 +7094,7 @@ var Promise = getNative(root, 'Promise');
 
 module.exports = Promise;
 
-},{"./_getNative":91,"./_root":122}],11:[function(require,module,exports){
+},{"./_getNative":171,"./_root":202}],91:[function(require,module,exports){
 var root = require('./_root');
 
 /** Built-in value references. */
@@ -1803,7 +7102,7 @@ var Reflect = root.Reflect;
 
 module.exports = Reflect;
 
-},{"./_root":122}],12:[function(require,module,exports){
+},{"./_root":202}],92:[function(require,module,exports){
 var getNative = require('./_getNative'),
     root = require('./_root');
 
@@ -1812,7 +7111,7 @@ var Set = getNative(root, 'Set');
 
 module.exports = Set;
 
-},{"./_getNative":91,"./_root":122}],13:[function(require,module,exports){
+},{"./_getNative":171,"./_root":202}],93:[function(require,module,exports){
 var MapCache = require('./_MapCache'),
     cachePush = require('./_cachePush');
 
@@ -1839,7 +7138,7 @@ SetCache.prototype.push = cachePush;
 
 module.exports = SetCache;
 
-},{"./_MapCache":9,"./_cachePush":68}],14:[function(require,module,exports){
+},{"./_MapCache":89,"./_cachePush":148}],94:[function(require,module,exports){
 var stackClear = require('./_stackClear'),
     stackDelete = require('./_stackDelete'),
     stackGet = require('./_stackGet'),
@@ -1873,7 +7172,7 @@ Stack.prototype.set = stackSet;
 
 module.exports = Stack;
 
-},{"./_stackClear":124,"./_stackDelete":125,"./_stackGet":126,"./_stackHas":127,"./_stackSet":128}],15:[function(require,module,exports){
+},{"./_stackClear":204,"./_stackDelete":205,"./_stackGet":206,"./_stackHas":207,"./_stackSet":208}],95:[function(require,module,exports){
 var root = require('./_root');
 
 /** Built-in value references. */
@@ -1881,7 +7180,7 @@ var Symbol = root.Symbol;
 
 module.exports = Symbol;
 
-},{"./_root":122}],16:[function(require,module,exports){
+},{"./_root":202}],96:[function(require,module,exports){
 var root = require('./_root');
 
 /** Built-in value references. */
@@ -1889,7 +7188,7 @@ var Uint8Array = root.Uint8Array;
 
 module.exports = Uint8Array;
 
-},{"./_root":122}],17:[function(require,module,exports){
+},{"./_root":202}],97:[function(require,module,exports){
 var getNative = require('./_getNative'),
     root = require('./_root');
 
@@ -1898,7 +7197,7 @@ var WeakMap = getNative(root, 'WeakMap');
 
 module.exports = WeakMap;
 
-},{"./_getNative":91,"./_root":122}],18:[function(require,module,exports){
+},{"./_getNative":171,"./_root":202}],98:[function(require,module,exports){
 /**
  * Adds the key-value `pair` to `map`.
  *
@@ -1915,7 +7214,7 @@ function addMapEntry(map, pair) {
 
 module.exports = addMapEntry;
 
-},{}],19:[function(require,module,exports){
+},{}],99:[function(require,module,exports){
 /**
  * Adds `value` to `set`.
  *
@@ -1931,7 +7230,7 @@ function addSetEntry(set, value) {
 
 module.exports = addSetEntry;
 
-},{}],20:[function(require,module,exports){
+},{}],100:[function(require,module,exports){
 /**
  * A faster alternative to `Function#apply`, this function invokes `func`
  * with the `this` binding of `thisArg` and the arguments of `args`.
@@ -1955,7 +7254,7 @@ function apply(func, thisArg, args) {
 
 module.exports = apply;
 
-},{}],21:[function(require,module,exports){
+},{}],101:[function(require,module,exports){
 /**
  * A specialized version of `_.forEach` for arrays without support for
  * iteratee shorthands.
@@ -1979,7 +7278,7 @@ function arrayEach(array, iteratee) {
 
 module.exports = arrayEach;
 
-},{}],22:[function(require,module,exports){
+},{}],102:[function(require,module,exports){
 var baseIndexOf = require('./_baseIndexOf');
 
 /**
@@ -1997,7 +7296,7 @@ function arrayIncludes(array, value) {
 
 module.exports = arrayIncludes;
 
-},{"./_baseIndexOf":50}],23:[function(require,module,exports){
+},{"./_baseIndexOf":130}],103:[function(require,module,exports){
 /**
  * This function is like `arrayIncludes` except that it accepts a comparator.
  *
@@ -2021,7 +7320,7 @@ function arrayIncludesWith(array, value, comparator) {
 
 module.exports = arrayIncludesWith;
 
-},{}],24:[function(require,module,exports){
+},{}],104:[function(require,module,exports){
 /**
  * A specialized version of `_.map` for arrays without support for iteratee
  * shorthands.
@@ -2044,7 +7343,7 @@ function arrayMap(array, iteratee) {
 
 module.exports = arrayMap;
 
-},{}],25:[function(require,module,exports){
+},{}],105:[function(require,module,exports){
 /**
  * Appends the elements of `values` to `array`.
  *
@@ -2066,7 +7365,7 @@ function arrayPush(array, values) {
 
 module.exports = arrayPush;
 
-},{}],26:[function(require,module,exports){
+},{}],106:[function(require,module,exports){
 /**
  * A specialized version of `_.reduce` for arrays without support for
  * iteratee shorthands.
@@ -2094,7 +7393,7 @@ function arrayReduce(array, iteratee, accumulator, initAccum) {
 
 module.exports = arrayReduce;
 
-},{}],27:[function(require,module,exports){
+},{}],107:[function(require,module,exports){
 /**
  * A specialized version of `_.some` for arrays without support for iteratee
  * shorthands.
@@ -2119,7 +7418,7 @@ function arraySome(array, predicate) {
 
 module.exports = arraySome;
 
-},{}],28:[function(require,module,exports){
+},{}],108:[function(require,module,exports){
 var eq = require('./eq');
 
 /** Used for built-in method references. */
@@ -2148,7 +7447,7 @@ function assignInDefaults(objValue, srcValue, key, object) {
 
 module.exports = assignInDefaults;
 
-},{"./eq":138}],29:[function(require,module,exports){
+},{"./eq":218}],109:[function(require,module,exports){
 var eq = require('./eq');
 
 /**
@@ -2169,7 +7468,7 @@ function assignMergeValue(object, key, value) {
 
 module.exports = assignMergeValue;
 
-},{"./eq":138}],30:[function(require,module,exports){
+},{"./eq":218}],110:[function(require,module,exports){
 var eq = require('./eq');
 
 /** Used for built-in method references. */
@@ -2198,7 +7497,7 @@ function assignValue(object, key, value) {
 
 module.exports = assignValue;
 
-},{"./eq":138}],31:[function(require,module,exports){
+},{"./eq":218}],111:[function(require,module,exports){
 var assocIndexOf = require('./_assocIndexOf');
 
 /** Used for built-in method references. */
@@ -2231,7 +7530,7 @@ function assocDelete(array, key) {
 
 module.exports = assocDelete;
 
-},{"./_assocIndexOf":34}],32:[function(require,module,exports){
+},{"./_assocIndexOf":114}],112:[function(require,module,exports){
 var assocIndexOf = require('./_assocIndexOf');
 
 /**
@@ -2249,7 +7548,7 @@ function assocGet(array, key) {
 
 module.exports = assocGet;
 
-},{"./_assocIndexOf":34}],33:[function(require,module,exports){
+},{"./_assocIndexOf":114}],113:[function(require,module,exports){
 var assocIndexOf = require('./_assocIndexOf');
 
 /**
@@ -2266,7 +7565,7 @@ function assocHas(array, key) {
 
 module.exports = assocHas;
 
-},{"./_assocIndexOf":34}],34:[function(require,module,exports){
+},{"./_assocIndexOf":114}],114:[function(require,module,exports){
 var eq = require('./eq');
 
 /**
@@ -2289,7 +7588,7 @@ function assocIndexOf(array, key) {
 
 module.exports = assocIndexOf;
 
-},{"./eq":138}],35:[function(require,module,exports){
+},{"./eq":218}],115:[function(require,module,exports){
 var assocIndexOf = require('./_assocIndexOf');
 
 /**
@@ -2311,7 +7610,7 @@ function assocSet(array, key, value) {
 
 module.exports = assocSet;
 
-},{"./_assocIndexOf":34}],36:[function(require,module,exports){
+},{"./_assocIndexOf":114}],116:[function(require,module,exports){
 var copyObject = require('./_copyObject'),
     keys = require('./keys');
 
@@ -2330,7 +7629,7 @@ function baseAssign(object, source) {
 
 module.exports = baseAssign;
 
-},{"./_copyObject":79,"./keys":163}],37:[function(require,module,exports){
+},{"./_copyObject":159,"./keys":242}],117:[function(require,module,exports){
 var isArray = require('./isArray'),
     stringToPath = require('./_stringToPath');
 
@@ -2347,7 +7646,7 @@ function baseCastPath(value) {
 
 module.exports = baseCastPath;
 
-},{"./_stringToPath":129,"./isArray":146}],38:[function(require,module,exports){
+},{"./_stringToPath":209,"./isArray":225}],118:[function(require,module,exports){
 var Stack = require('./_Stack'),
     arrayEach = require('./_arrayEach'),
     assignValue = require('./_assignValue'),
@@ -2488,7 +7787,7 @@ function baseClone(value, isDeep, isFull, customizer, key, object, stack) {
 
 module.exports = baseClone;
 
-},{"./_Stack":14,"./_arrayEach":21,"./_assignValue":30,"./_baseAssign":36,"./_cloneBuffer":71,"./_copyArray":78,"./_copySymbols":81,"./_getAllKeys":88,"./_getTag":94,"./_initCloneArray":102,"./_initCloneByTag":103,"./_initCloneObject":104,"./_isHostObject":105,"./isArray":146,"./isBuffer":149,"./isObject":156,"./keys":163}],39:[function(require,module,exports){
+},{"./_Stack":94,"./_arrayEach":101,"./_assignValue":110,"./_baseAssign":116,"./_cloneBuffer":151,"./_copyArray":158,"./_copySymbols":161,"./_getAllKeys":168,"./_getTag":174,"./_initCloneArray":182,"./_initCloneByTag":183,"./_initCloneObject":184,"./_isHostObject":185,"./isArray":225,"./isBuffer":228,"./isObject":235,"./keys":242}],119:[function(require,module,exports){
 var isObject = require('./isObject');
 
 /** Built-in value references. */
@@ -2508,7 +7807,7 @@ function baseCreate(proto) {
 
 module.exports = baseCreate;
 
-},{"./isObject":156}],40:[function(require,module,exports){
+},{"./isObject":235}],120:[function(require,module,exports){
 var SetCache = require('./_SetCache'),
     arrayIncludes = require('./_arrayIncludes'),
     arrayIncludesWith = require('./_arrayIncludesWith'),
@@ -2576,7 +7875,7 @@ function baseDifference(array, values, iteratee, comparator) {
 
 module.exports = baseDifference;
 
-},{"./_SetCache":13,"./_arrayIncludes":22,"./_arrayIncludesWith":23,"./_arrayMap":24,"./_baseUnary":66,"./_cacheHas":67}],41:[function(require,module,exports){
+},{"./_SetCache":93,"./_arrayIncludes":102,"./_arrayIncludesWith":103,"./_arrayMap":104,"./_baseUnary":146,"./_cacheHas":147}],121:[function(require,module,exports){
 var baseForOwn = require('./_baseForOwn'),
     createBaseEach = require('./_createBaseEach');
 
@@ -2592,7 +7891,7 @@ var baseEach = createBaseEach(baseForOwn);
 
 module.exports = baseEach;
 
-},{"./_baseForOwn":44,"./_createBaseEach":83}],42:[function(require,module,exports){
+},{"./_baseForOwn":124,"./_createBaseEach":163}],122:[function(require,module,exports){
 var arrayPush = require('./_arrayPush'),
     isArguments = require('./isArguments'),
     isArray = require('./isArray'),
@@ -2633,7 +7932,7 @@ function baseFlatten(array, depth, isStrict, result) {
 
 module.exports = baseFlatten;
 
-},{"./_arrayPush":25,"./isArguments":145,"./isArray":146,"./isArrayLikeObject":148}],43:[function(require,module,exports){
+},{"./_arrayPush":105,"./isArguments":224,"./isArray":225,"./isArrayLikeObject":227}],123:[function(require,module,exports){
 var createBaseFor = require('./_createBaseFor');
 
 /**
@@ -2651,7 +7950,7 @@ var baseFor = createBaseFor();
 
 module.exports = baseFor;
 
-},{"./_createBaseFor":84}],44:[function(require,module,exports){
+},{"./_createBaseFor":164}],124:[function(require,module,exports){
 var baseFor = require('./_baseFor'),
     keys = require('./keys');
 
@@ -2669,7 +7968,7 @@ function baseForOwn(object, iteratee) {
 
 module.exports = baseForOwn;
 
-},{"./_baseFor":43,"./keys":163}],45:[function(require,module,exports){
+},{"./_baseFor":123,"./keys":242}],125:[function(require,module,exports){
 var baseCastPath = require('./_baseCastPath'),
     isKey = require('./_isKey');
 
@@ -2695,7 +7994,7 @@ function baseGet(object, path) {
 
 module.exports = baseGet;
 
-},{"./_baseCastPath":37,"./_isKey":108}],46:[function(require,module,exports){
+},{"./_baseCastPath":117,"./_isKey":188}],126:[function(require,module,exports){
 var arrayPush = require('./_arrayPush'),
     isArray = require('./isArray');
 
@@ -2719,7 +8018,7 @@ function baseGetAllKeys(object, keysFunc, symbolsFunc) {
 
 module.exports = baseGetAllKeys;
 
-},{"./_arrayPush":25,"./isArray":146}],47:[function(require,module,exports){
+},{"./_arrayPush":105,"./isArray":225}],127:[function(require,module,exports){
 var getPrototype = require('./_getPrototype');
 
 /** Used for built-in method references. */
@@ -2746,7 +8045,7 @@ function baseHas(object, key) {
 
 module.exports = baseHas;
 
-},{"./_getPrototype":92}],48:[function(require,module,exports){
+},{"./_getPrototype":172}],128:[function(require,module,exports){
 /**
  * The base implementation of `_.hasIn` without support for deep paths.
  *
@@ -2761,7 +8060,7 @@ function baseHasIn(object, key) {
 
 module.exports = baseHasIn;
 
-},{}],49:[function(require,module,exports){
+},{}],129:[function(require,module,exports){
 /* Built-in method references for those with the same name as other `lodash` methods. */
 var nativeMax = Math.max,
     nativeMin = Math.min;
@@ -2781,7 +8080,7 @@ function baseInRange(number, start, end) {
 
 module.exports = baseInRange;
 
-},{}],50:[function(require,module,exports){
+},{}],130:[function(require,module,exports){
 var indexOfNaN = require('./_indexOfNaN');
 
 /**
@@ -2810,7 +8109,7 @@ function baseIndexOf(array, value, fromIndex) {
 
 module.exports = baseIndexOf;
 
-},{"./_indexOfNaN":101}],51:[function(require,module,exports){
+},{"./_indexOfNaN":181}],131:[function(require,module,exports){
 var baseIsEqualDeep = require('./_baseIsEqualDeep'),
     isObject = require('./isObject'),
     isObjectLike = require('./isObjectLike');
@@ -2842,7 +8141,7 @@ function baseIsEqual(value, other, customizer, bitmask, stack) {
 
 module.exports = baseIsEqual;
 
-},{"./_baseIsEqualDeep":52,"./isObject":156,"./isObjectLike":157}],52:[function(require,module,exports){
+},{"./_baseIsEqualDeep":132,"./isObject":235,"./isObjectLike":236}],132:[function(require,module,exports){
 var Stack = require('./_Stack'),
     equalArrays = require('./_equalArrays'),
     equalByTag = require('./_equalByTag'),
@@ -2926,7 +8225,7 @@ function baseIsEqualDeep(object, other, equalFunc, customizer, bitmask, stack) {
 
 module.exports = baseIsEqualDeep;
 
-},{"./_Stack":14,"./_equalArrays":85,"./_equalByTag":86,"./_equalObjects":87,"./_getTag":94,"./_isHostObject":105,"./isArray":146,"./isTypedArray":161}],53:[function(require,module,exports){
+},{"./_Stack":94,"./_equalArrays":165,"./_equalByTag":166,"./_equalObjects":167,"./_getTag":174,"./_isHostObject":185,"./isArray":225,"./isTypedArray":240}],133:[function(require,module,exports){
 var Stack = require('./_Stack'),
     baseIsEqual = require('./_baseIsEqual');
 
@@ -2990,7 +8289,7 @@ function baseIsMatch(object, source, matchData, customizer) {
 
 module.exports = baseIsMatch;
 
-},{"./_Stack":14,"./_baseIsEqual":51}],54:[function(require,module,exports){
+},{"./_Stack":94,"./_baseIsEqual":131}],134:[function(require,module,exports){
 var baseMatches = require('./_baseMatches'),
     baseMatchesProperty = require('./_baseMatchesProperty'),
     identity = require('./identity'),
@@ -3023,7 +8322,7 @@ function baseIteratee(value) {
 
 module.exports = baseIteratee;
 
-},{"./_baseMatches":57,"./_baseMatchesProperty":58,"./identity":143,"./isArray":146,"./property":169}],55:[function(require,module,exports){
+},{"./_baseMatches":137,"./_baseMatchesProperty":138,"./identity":222,"./isArray":225,"./property":248}],135:[function(require,module,exports){
 /* Built-in method references for those with the same name as other `lodash` methods. */
 var nativeKeys = Object.keys;
 
@@ -3041,7 +8340,7 @@ function baseKeys(object) {
 
 module.exports = baseKeys;
 
-},{}],56:[function(require,module,exports){
+},{}],136:[function(require,module,exports){
 var Reflect = require('./_Reflect'),
     iteratorToArray = require('./_iteratorToArray');
 
@@ -3079,7 +8378,7 @@ if (enumerate && !propertyIsEnumerable.call({ 'valueOf': 1 }, 'valueOf')) {
 
 module.exports = baseKeysIn;
 
-},{"./_Reflect":11,"./_iteratorToArray":112}],57:[function(require,module,exports){
+},{"./_Reflect":91,"./_iteratorToArray":192}],137:[function(require,module,exports){
 var baseIsMatch = require('./_baseIsMatch'),
     getMatchData = require('./_getMatchData'),
     matchesStrictComparable = require('./_matchesStrictComparable');
@@ -3103,7 +8402,7 @@ function baseMatches(source) {
 
 module.exports = baseMatches;
 
-},{"./_baseIsMatch":53,"./_getMatchData":90,"./_matchesStrictComparable":119}],58:[function(require,module,exports){
+},{"./_baseIsMatch":133,"./_getMatchData":170,"./_matchesStrictComparable":199}],138:[function(require,module,exports){
 var baseIsEqual = require('./_baseIsEqual'),
     get = require('./get'),
     hasIn = require('./hasIn'),
@@ -3137,7 +8436,7 @@ function baseMatchesProperty(path, srcValue) {
 
 module.exports = baseMatchesProperty;
 
-},{"./_baseIsEqual":51,"./_isKey":108,"./_isStrictComparable":111,"./_matchesStrictComparable":119,"./get":140,"./hasIn":142}],59:[function(require,module,exports){
+},{"./_baseIsEqual":131,"./_isKey":188,"./_isStrictComparable":191,"./_matchesStrictComparable":199,"./get":220,"./hasIn":221}],139:[function(require,module,exports){
 var Stack = require('./_Stack'),
     arrayEach = require('./_arrayEach'),
     assignMergeValue = require('./_assignMergeValue'),
@@ -3189,7 +8488,7 @@ function baseMerge(object, source, srcIndex, customizer, stack) {
 
 module.exports = baseMerge;
 
-},{"./_Stack":14,"./_arrayEach":21,"./_assignMergeValue":29,"./_baseMergeDeep":60,"./isArray":146,"./isObject":156,"./isTypedArray":161,"./keysIn":164}],60:[function(require,module,exports){
+},{"./_Stack":94,"./_arrayEach":101,"./_assignMergeValue":109,"./_baseMergeDeep":140,"./isArray":225,"./isObject":235,"./isTypedArray":240,"./keysIn":243}],140:[function(require,module,exports){
 var assignMergeValue = require('./_assignMergeValue'),
     baseClone = require('./_baseClone'),
     copyArray = require('./_copyArray'),
@@ -3274,7 +8573,7 @@ function baseMergeDeep(object, source, key, srcIndex, mergeFunc, customizer, sta
 
 module.exports = baseMergeDeep;
 
-},{"./_assignMergeValue":29,"./_baseClone":38,"./_copyArray":78,"./isArguments":145,"./isArray":146,"./isArrayLikeObject":148,"./isFunction":152,"./isObject":156,"./isPlainObject":158,"./isTypedArray":161,"./toPlainObject":175}],61:[function(require,module,exports){
+},{"./_assignMergeValue":109,"./_baseClone":118,"./_copyArray":158,"./isArguments":224,"./isArray":225,"./isArrayLikeObject":227,"./isFunction":231,"./isObject":235,"./isPlainObject":237,"./isTypedArray":240,"./toPlainObject":254}],141:[function(require,module,exports){
 /**
  * The base implementation of `_.property` without support for deep paths.
  *
@@ -3290,7 +8589,7 @@ function baseProperty(key) {
 
 module.exports = baseProperty;
 
-},{}],62:[function(require,module,exports){
+},{}],142:[function(require,module,exports){
 var baseGet = require('./_baseGet');
 
 /**
@@ -3308,7 +8607,7 @@ function basePropertyDeep(path) {
 
 module.exports = basePropertyDeep;
 
-},{"./_baseGet":45}],63:[function(require,module,exports){
+},{"./_baseGet":125}],143:[function(require,module,exports){
 /**
  * The base implementation of `_.reduce` and `_.reduceRight`, without support
  * for iteratee shorthands, which iterates over `collection` using `eachFunc`.
@@ -3333,7 +8632,7 @@ function baseReduce(collection, iteratee, accumulator, initAccum, eachFunc) {
 
 module.exports = baseReduce;
 
-},{}],64:[function(require,module,exports){
+},{}],144:[function(require,module,exports){
 /**
  * The base implementation of `_.times` without support for iteratee shorthands
  * or max array length checks.
@@ -3355,7 +8654,7 @@ function baseTimes(n, iteratee) {
 
 module.exports = baseTimes;
 
-},{}],65:[function(require,module,exports){
+},{}],145:[function(require,module,exports){
 var arrayMap = require('./_arrayMap');
 
 /**
@@ -3375,7 +8674,7 @@ function baseToPairs(object, props) {
 
 module.exports = baseToPairs;
 
-},{"./_arrayMap":24}],66:[function(require,module,exports){
+},{"./_arrayMap":104}],146:[function(require,module,exports){
 /**
  * The base implementation of `_.unary` without support for storing wrapper metadata.
  *
@@ -3391,7 +8690,7 @@ function baseUnary(func) {
 
 module.exports = baseUnary;
 
-},{}],67:[function(require,module,exports){
+},{}],147:[function(require,module,exports){
 var isKeyable = require('./_isKeyable');
 
 /** Used to stand-in for `undefined` hash values. */
@@ -3418,7 +8717,7 @@ function cacheHas(cache, value) {
 
 module.exports = cacheHas;
 
-},{"./_isKeyable":109}],68:[function(require,module,exports){
+},{"./_isKeyable":189}],148:[function(require,module,exports){
 var isKeyable = require('./_isKeyable');
 
 /** Used to stand-in for `undefined` hash values. */
@@ -3447,7 +8746,7 @@ function cachePush(value) {
 
 module.exports = cachePush;
 
-},{"./_isKeyable":109}],69:[function(require,module,exports){
+},{"./_isKeyable":189}],149:[function(require,module,exports){
 /**
  * Checks if `value` is a global object.
  *
@@ -3461,7 +8760,7 @@ function checkGlobal(value) {
 
 module.exports = checkGlobal;
 
-},{}],70:[function(require,module,exports){
+},{}],150:[function(require,module,exports){
 var Uint8Array = require('./_Uint8Array');
 
 /**
@@ -3479,7 +8778,7 @@ function cloneArrayBuffer(arrayBuffer) {
 
 module.exports = cloneArrayBuffer;
 
-},{"./_Uint8Array":16}],71:[function(require,module,exports){
+},{"./_Uint8Array":96}],151:[function(require,module,exports){
 /**
  * Creates a clone of  `buffer`.
  *
@@ -3499,7 +8798,7 @@ function cloneBuffer(buffer, isDeep) {
 
 module.exports = cloneBuffer;
 
-},{}],72:[function(require,module,exports){
+},{}],152:[function(require,module,exports){
 var cloneArrayBuffer = require('./_cloneArrayBuffer');
 
 /**
@@ -3517,7 +8816,7 @@ function cloneDataView(dataView, isDeep) {
 
 module.exports = cloneDataView;
 
-},{"./_cloneArrayBuffer":70}],73:[function(require,module,exports){
+},{"./_cloneArrayBuffer":150}],153:[function(require,module,exports){
 var addMapEntry = require('./_addMapEntry'),
     arrayReduce = require('./_arrayReduce'),
     mapToArray = require('./_mapToArray');
@@ -3538,7 +8837,7 @@ function cloneMap(map, isDeep, cloneFunc) {
 
 module.exports = cloneMap;
 
-},{"./_addMapEntry":18,"./_arrayReduce":26,"./_mapToArray":118}],74:[function(require,module,exports){
+},{"./_addMapEntry":98,"./_arrayReduce":106,"./_mapToArray":198}],154:[function(require,module,exports){
 /** Used to match `RegExp` flags from their coerced string values. */
 var reFlags = /\w*$/;
 
@@ -3557,7 +8856,7 @@ function cloneRegExp(regexp) {
 
 module.exports = cloneRegExp;
 
-},{}],75:[function(require,module,exports){
+},{}],155:[function(require,module,exports){
 var addSetEntry = require('./_addSetEntry'),
     arrayReduce = require('./_arrayReduce'),
     setToArray = require('./_setToArray');
@@ -3578,7 +8877,7 @@ function cloneSet(set, isDeep, cloneFunc) {
 
 module.exports = cloneSet;
 
-},{"./_addSetEntry":19,"./_arrayReduce":26,"./_setToArray":123}],76:[function(require,module,exports){
+},{"./_addSetEntry":99,"./_arrayReduce":106,"./_setToArray":203}],156:[function(require,module,exports){
 var Symbol = require('./_Symbol');
 
 /** Used to convert symbols to primitives and strings. */
@@ -3598,7 +8897,7 @@ function cloneSymbol(symbol) {
 
 module.exports = cloneSymbol;
 
-},{"./_Symbol":15}],77:[function(require,module,exports){
+},{"./_Symbol":95}],157:[function(require,module,exports){
 var cloneArrayBuffer = require('./_cloneArrayBuffer');
 
 /**
@@ -3616,7 +8915,7 @@ function cloneTypedArray(typedArray, isDeep) {
 
 module.exports = cloneTypedArray;
 
-},{"./_cloneArrayBuffer":70}],78:[function(require,module,exports){
+},{"./_cloneArrayBuffer":150}],158:[function(require,module,exports){
 /**
  * Copies the values of `source` to `array`.
  *
@@ -3638,7 +8937,7 @@ function copyArray(source, array) {
 
 module.exports = copyArray;
 
-},{}],79:[function(require,module,exports){
+},{}],159:[function(require,module,exports){
 var copyObjectWith = require('./_copyObjectWith');
 
 /**
@@ -3656,7 +8955,7 @@ function copyObject(source, props, object) {
 
 module.exports = copyObject;
 
-},{"./_copyObjectWith":80}],80:[function(require,module,exports){
+},{"./_copyObjectWith":160}],160:[function(require,module,exports){
 var assignValue = require('./_assignValue');
 
 /**
@@ -3690,7 +8989,7 @@ function copyObjectWith(source, props, object, customizer) {
 
 module.exports = copyObjectWith;
 
-},{"./_assignValue":30}],81:[function(require,module,exports){
+},{"./_assignValue":110}],161:[function(require,module,exports){
 var copyObject = require('./_copyObject'),
     getSymbols = require('./_getSymbols');
 
@@ -3708,7 +9007,7 @@ function copySymbols(source, object) {
 
 module.exports = copySymbols;
 
-},{"./_copyObject":79,"./_getSymbols":93}],82:[function(require,module,exports){
+},{"./_copyObject":159,"./_getSymbols":173}],162:[function(require,module,exports){
 var isIterateeCall = require('./_isIterateeCall'),
     rest = require('./rest');
 
@@ -3747,7 +9046,7 @@ function createAssigner(assigner) {
 
 module.exports = createAssigner;
 
-},{"./_isIterateeCall":107,"./rest":171}],83:[function(require,module,exports){
+},{"./_isIterateeCall":187,"./rest":250}],163:[function(require,module,exports){
 var isArrayLike = require('./isArrayLike');
 
 /**
@@ -3781,7 +9080,7 @@ function createBaseEach(eachFunc, fromRight) {
 
 module.exports = createBaseEach;
 
-},{"./isArrayLike":147}],84:[function(require,module,exports){
+},{"./isArrayLike":226}],164:[function(require,module,exports){
 /**
  * Creates a base function for methods like `_.forIn` and `_.forOwn`.
  *
@@ -3808,7 +9107,7 @@ function createBaseFor(fromRight) {
 
 module.exports = createBaseFor;
 
-},{}],85:[function(require,module,exports){
+},{}],165:[function(require,module,exports){
 var arraySome = require('./_arraySome');
 
 /** Used to compose bitmasks for comparison styles. */
@@ -3887,7 +9186,7 @@ function equalArrays(array, other, equalFunc, customizer, bitmask, stack) {
 
 module.exports = equalArrays;
 
-},{"./_arraySome":27}],86:[function(require,module,exports){
+},{"./_arraySome":107}],166:[function(require,module,exports){
 var Symbol = require('./_Symbol'),
     Uint8Array = require('./_Uint8Array'),
     equalArrays = require('./_equalArrays'),
@@ -4003,7 +9302,7 @@ function equalByTag(object, other, tag, equalFunc, customizer, bitmask, stack) {
 
 module.exports = equalByTag;
 
-},{"./_Symbol":15,"./_Uint8Array":16,"./_equalArrays":85,"./_mapToArray":118,"./_setToArray":123}],87:[function(require,module,exports){
+},{"./_Symbol":95,"./_Uint8Array":96,"./_equalArrays":165,"./_mapToArray":198,"./_setToArray":203}],167:[function(require,module,exports){
 var baseHas = require('./_baseHas'),
     keys = require('./keys');
 
@@ -4088,7 +9387,7 @@ function equalObjects(object, other, equalFunc, customizer, bitmask, stack) {
 
 module.exports = equalObjects;
 
-},{"./_baseHas":47,"./keys":163}],88:[function(require,module,exports){
+},{"./_baseHas":127,"./keys":242}],168:[function(require,module,exports){
 var baseGetAllKeys = require('./_baseGetAllKeys'),
     getSymbols = require('./_getSymbols'),
     keys = require('./keys');
@@ -4106,7 +9405,7 @@ function getAllKeys(object) {
 
 module.exports = getAllKeys;
 
-},{"./_baseGetAllKeys":46,"./_getSymbols":93,"./keys":163}],89:[function(require,module,exports){
+},{"./_baseGetAllKeys":126,"./_getSymbols":173,"./keys":242}],169:[function(require,module,exports){
 var baseProperty = require('./_baseProperty');
 
 /**
@@ -4124,7 +9423,7 @@ var getLength = baseProperty('length');
 
 module.exports = getLength;
 
-},{"./_baseProperty":61}],90:[function(require,module,exports){
+},{"./_baseProperty":141}],170:[function(require,module,exports){
 var isStrictComparable = require('./_isStrictComparable'),
     toPairs = require('./toPairs');
 
@@ -4147,7 +9446,7 @@ function getMatchData(object) {
 
 module.exports = getMatchData;
 
-},{"./_isStrictComparable":111,"./toPairs":174}],91:[function(require,module,exports){
+},{"./_isStrictComparable":191,"./toPairs":253}],171:[function(require,module,exports){
 var isNative = require('./isNative');
 
 /**
@@ -4165,7 +9464,7 @@ function getNative(object, key) {
 
 module.exports = getNative;
 
-},{"./isNative":154}],92:[function(require,module,exports){
+},{"./isNative":233}],172:[function(require,module,exports){
 /* Built-in method references for those with the same name as other `lodash` methods. */
 var nativeGetPrototype = Object.getPrototypeOf;
 
@@ -4182,7 +9481,7 @@ function getPrototype(value) {
 
 module.exports = getPrototype;
 
-},{}],93:[function(require,module,exports){
+},{}],173:[function(require,module,exports){
 /** Built-in value references. */
 var getOwnPropertySymbols = Object.getOwnPropertySymbols;
 
@@ -4208,7 +9507,7 @@ if (!getOwnPropertySymbols) {
 
 module.exports = getSymbols;
 
-},{}],94:[function(require,module,exports){
+},{}],174:[function(require,module,exports){
 var DataView = require('./_DataView'),
     Map = require('./_Map'),
     Promise = require('./_Promise'),
@@ -4280,7 +9579,7 @@ if ((DataView && getTag(new DataView(new ArrayBuffer(1))) != dataViewTag) ||
 
 module.exports = getTag;
 
-},{"./_DataView":6,"./_Map":8,"./_Promise":10,"./_Set":12,"./_WeakMap":17,"./_toSource":130}],95:[function(require,module,exports){
+},{"./_DataView":86,"./_Map":88,"./_Promise":90,"./_Set":92,"./_WeakMap":97,"./_toSource":210}],175:[function(require,module,exports){
 var baseCastPath = require('./_baseCastPath'),
     isArguments = require('./isArguments'),
     isArray = require('./isArray'),
@@ -4322,7 +9621,7 @@ function hasPath(object, path, hasFunc) {
 
 module.exports = hasPath;
 
-},{"./_baseCastPath":37,"./_isIndex":106,"./_isKey":108,"./isArguments":145,"./isArray":146,"./isLength":153,"./isString":159}],96:[function(require,module,exports){
+},{"./_baseCastPath":117,"./_isIndex":186,"./_isKey":188,"./isArguments":224,"./isArray":225,"./isLength":232,"./isString":238}],176:[function(require,module,exports){
 var hashHas = require('./_hashHas');
 
 /**
@@ -4339,7 +9638,7 @@ function hashDelete(hash, key) {
 
 module.exports = hashDelete;
 
-},{"./_hashHas":98}],97:[function(require,module,exports){
+},{"./_hashHas":178}],177:[function(require,module,exports){
 var nativeCreate = require('./_nativeCreate');
 
 /** Used to stand-in for `undefined` hash values. */
@@ -4369,7 +9668,7 @@ function hashGet(hash, key) {
 
 module.exports = hashGet;
 
-},{"./_nativeCreate":121}],98:[function(require,module,exports){
+},{"./_nativeCreate":201}],178:[function(require,module,exports){
 var nativeCreate = require('./_nativeCreate');
 
 /** Used for built-in method references. */
@@ -4392,7 +9691,7 @@ function hashHas(hash, key) {
 
 module.exports = hashHas;
 
-},{"./_nativeCreate":121}],99:[function(require,module,exports){
+},{"./_nativeCreate":201}],179:[function(require,module,exports){
 var nativeCreate = require('./_nativeCreate');
 
 /** Used to stand-in for `undefined` hash values. */
@@ -4412,7 +9711,7 @@ function hashSet(hash, key, value) {
 
 module.exports = hashSet;
 
-},{"./_nativeCreate":121}],100:[function(require,module,exports){
+},{"./_nativeCreate":201}],180:[function(require,module,exports){
 var baseTimes = require('./_baseTimes'),
     isArguments = require('./isArguments'),
     isArray = require('./isArray'),
@@ -4438,7 +9737,7 @@ function indexKeys(object) {
 
 module.exports = indexKeys;
 
-},{"./_baseTimes":64,"./isArguments":145,"./isArray":146,"./isLength":153,"./isString":159}],101:[function(require,module,exports){
+},{"./_baseTimes":144,"./isArguments":224,"./isArray":225,"./isLength":232,"./isString":238}],181:[function(require,module,exports){
 /**
  * Gets the index at which the first occurrence of `NaN` is found in `array`.
  *
@@ -4463,7 +9762,7 @@ function indexOfNaN(array, fromIndex, fromRight) {
 
 module.exports = indexOfNaN;
 
-},{}],102:[function(require,module,exports){
+},{}],182:[function(require,module,exports){
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
 
@@ -4491,7 +9790,7 @@ function initCloneArray(array) {
 
 module.exports = initCloneArray;
 
-},{}],103:[function(require,module,exports){
+},{}],183:[function(require,module,exports){
 var cloneArrayBuffer = require('./_cloneArrayBuffer'),
     cloneDataView = require('./_cloneDataView'),
     cloneMap = require('./_cloneMap'),
@@ -4573,7 +9872,7 @@ function initCloneByTag(object, tag, cloneFunc, isDeep) {
 
 module.exports = initCloneByTag;
 
-},{"./_cloneArrayBuffer":70,"./_cloneDataView":72,"./_cloneMap":73,"./_cloneRegExp":74,"./_cloneSet":75,"./_cloneSymbol":76,"./_cloneTypedArray":77}],104:[function(require,module,exports){
+},{"./_cloneArrayBuffer":150,"./_cloneDataView":152,"./_cloneMap":153,"./_cloneRegExp":154,"./_cloneSet":155,"./_cloneSymbol":156,"./_cloneTypedArray":157}],184:[function(require,module,exports){
 var baseCreate = require('./_baseCreate'),
     getPrototype = require('./_getPrototype'),
     isPrototype = require('./_isPrototype');
@@ -4593,7 +9892,7 @@ function initCloneObject(object) {
 
 module.exports = initCloneObject;
 
-},{"./_baseCreate":39,"./_getPrototype":92,"./_isPrototype":110}],105:[function(require,module,exports){
+},{"./_baseCreate":119,"./_getPrototype":172,"./_isPrototype":190}],185:[function(require,module,exports){
 /**
  * Checks if `value` is a host object in IE < 9.
  *
@@ -4615,7 +9914,7 @@ function isHostObject(value) {
 
 module.exports = isHostObject;
 
-},{}],106:[function(require,module,exports){
+},{}],186:[function(require,module,exports){
 /** Used as references for various `Number` constants. */
 var MAX_SAFE_INTEGER = 9007199254740991;
 
@@ -4638,7 +9937,7 @@ function isIndex(value, length) {
 
 module.exports = isIndex;
 
-},{}],107:[function(require,module,exports){
+},{}],187:[function(require,module,exports){
 var eq = require('./eq'),
     isArrayLike = require('./isArrayLike'),
     isIndex = require('./_isIndex'),
@@ -4670,7 +9969,7 @@ function isIterateeCall(value, index, object) {
 
 module.exports = isIterateeCall;
 
-},{"./_isIndex":106,"./eq":138,"./isArrayLike":147,"./isObject":156}],108:[function(require,module,exports){
+},{"./_isIndex":186,"./eq":218,"./isArrayLike":226,"./isObject":235}],188:[function(require,module,exports){
 var isArray = require('./isArray'),
     isSymbol = require('./isSymbol');
 
@@ -4698,7 +9997,7 @@ function isKey(value, object) {
 
 module.exports = isKey;
 
-},{"./isArray":146,"./isSymbol":160}],109:[function(require,module,exports){
+},{"./isArray":225,"./isSymbol":239}],189:[function(require,module,exports){
 /**
  * Checks if `value` is suitable for use as unique object key.
  *
@@ -4714,7 +10013,7 @@ function isKeyable(value) {
 
 module.exports = isKeyable;
 
-},{}],110:[function(require,module,exports){
+},{}],190:[function(require,module,exports){
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
 
@@ -4734,7 +10033,7 @@ function isPrototype(value) {
 
 module.exports = isPrototype;
 
-},{}],111:[function(require,module,exports){
+},{}],191:[function(require,module,exports){
 var isObject = require('./isObject');
 
 /**
@@ -4751,7 +10050,7 @@ function isStrictComparable(value) {
 
 module.exports = isStrictComparable;
 
-},{"./isObject":156}],112:[function(require,module,exports){
+},{"./isObject":235}],192:[function(require,module,exports){
 /**
  * Converts `iterator` to an array.
  *
@@ -4771,7 +10070,7 @@ function iteratorToArray(iterator) {
 
 module.exports = iteratorToArray;
 
-},{}],113:[function(require,module,exports){
+},{}],193:[function(require,module,exports){
 var Hash = require('./_Hash'),
     Map = require('./_Map');
 
@@ -4792,7 +10091,7 @@ function mapClear() {
 
 module.exports = mapClear;
 
-},{"./_Hash":7,"./_Map":8}],114:[function(require,module,exports){
+},{"./_Hash":87,"./_Map":88}],194:[function(require,module,exports){
 var Map = require('./_Map'),
     assocDelete = require('./_assocDelete'),
     hashDelete = require('./_hashDelete'),
@@ -4817,7 +10116,7 @@ function mapDelete(key) {
 
 module.exports = mapDelete;
 
-},{"./_Map":8,"./_assocDelete":31,"./_hashDelete":96,"./_isKeyable":109}],115:[function(require,module,exports){
+},{"./_Map":88,"./_assocDelete":111,"./_hashDelete":176,"./_isKeyable":189}],195:[function(require,module,exports){
 var Map = require('./_Map'),
     assocGet = require('./_assocGet'),
     hashGet = require('./_hashGet'),
@@ -4842,7 +10141,7 @@ function mapGet(key) {
 
 module.exports = mapGet;
 
-},{"./_Map":8,"./_assocGet":32,"./_hashGet":97,"./_isKeyable":109}],116:[function(require,module,exports){
+},{"./_Map":88,"./_assocGet":112,"./_hashGet":177,"./_isKeyable":189}],196:[function(require,module,exports){
 var Map = require('./_Map'),
     assocHas = require('./_assocHas'),
     hashHas = require('./_hashHas'),
@@ -4867,7 +10166,7 @@ function mapHas(key) {
 
 module.exports = mapHas;
 
-},{"./_Map":8,"./_assocHas":33,"./_hashHas":98,"./_isKeyable":109}],117:[function(require,module,exports){
+},{"./_Map":88,"./_assocHas":113,"./_hashHas":178,"./_isKeyable":189}],197:[function(require,module,exports){
 var Map = require('./_Map'),
     assocSet = require('./_assocSet'),
     hashSet = require('./_hashSet'),
@@ -4897,7 +10196,7 @@ function mapSet(key, value) {
 
 module.exports = mapSet;
 
-},{"./_Map":8,"./_assocSet":35,"./_hashSet":99,"./_isKeyable":109}],118:[function(require,module,exports){
+},{"./_Map":88,"./_assocSet":115,"./_hashSet":179,"./_isKeyable":189}],198:[function(require,module,exports){
 /**
  * Converts `map` to an array.
  *
@@ -4917,7 +10216,7 @@ function mapToArray(map) {
 
 module.exports = mapToArray;
 
-},{}],119:[function(require,module,exports){
+},{}],199:[function(require,module,exports){
 /**
  * A specialized version of `matchesProperty` for source values suitable
  * for strict equality comparisons, i.e. `===`.
@@ -4939,7 +10238,7 @@ function matchesStrictComparable(key, srcValue) {
 
 module.exports = matchesStrictComparable;
 
-},{}],120:[function(require,module,exports){
+},{}],200:[function(require,module,exports){
 var baseMerge = require('./_baseMerge'),
     isObject = require('./isObject');
 
@@ -4965,7 +10264,7 @@ function mergeDefaults(objValue, srcValue, key, object, source, stack) {
 
 module.exports = mergeDefaults;
 
-},{"./_baseMerge":59,"./isObject":156}],121:[function(require,module,exports){
+},{"./_baseMerge":139,"./isObject":235}],201:[function(require,module,exports){
 var getNative = require('./_getNative');
 
 /* Built-in method references that are verified to be native. */
@@ -4973,7 +10272,7 @@ var nativeCreate = getNative(Object, 'create');
 
 module.exports = nativeCreate;
 
-},{"./_getNative":91}],122:[function(require,module,exports){
+},{"./_getNative":171}],202:[function(require,module,exports){
 (function (global){
 var checkGlobal = require('./_checkGlobal');
 
@@ -5018,7 +10317,7 @@ var root = freeGlobal ||
 module.exports = root;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./_checkGlobal":69}],123:[function(require,module,exports){
+},{"./_checkGlobal":149}],203:[function(require,module,exports){
 /**
  * Converts `set` to an array.
  *
@@ -5038,7 +10337,7 @@ function setToArray(set) {
 
 module.exports = setToArray;
 
-},{}],124:[function(require,module,exports){
+},{}],204:[function(require,module,exports){
 /**
  * Removes all key-value entries from the stack.
  *
@@ -5052,7 +10351,7 @@ function stackClear() {
 
 module.exports = stackClear;
 
-},{}],125:[function(require,module,exports){
+},{}],205:[function(require,module,exports){
 var assocDelete = require('./_assocDelete');
 
 /**
@@ -5073,7 +10372,7 @@ function stackDelete(key) {
 
 module.exports = stackDelete;
 
-},{"./_assocDelete":31}],126:[function(require,module,exports){
+},{"./_assocDelete":111}],206:[function(require,module,exports){
 var assocGet = require('./_assocGet');
 
 /**
@@ -5094,7 +10393,7 @@ function stackGet(key) {
 
 module.exports = stackGet;
 
-},{"./_assocGet":32}],127:[function(require,module,exports){
+},{"./_assocGet":112}],207:[function(require,module,exports){
 var assocHas = require('./_assocHas');
 
 /**
@@ -5115,7 +10414,7 @@ function stackHas(key) {
 
 module.exports = stackHas;
 
-},{"./_assocHas":33}],128:[function(require,module,exports){
+},{"./_assocHas":113}],208:[function(require,module,exports){
 var MapCache = require('./_MapCache'),
     assocSet = require('./_assocSet');
 
@@ -5153,7 +10452,7 @@ function stackSet(key, value) {
 
 module.exports = stackSet;
 
-},{"./_MapCache":9,"./_assocSet":35}],129:[function(require,module,exports){
+},{"./_MapCache":89,"./_assocSet":115}],209:[function(require,module,exports){
 var memoize = require('./memoize'),
     toString = require('./toString');
 
@@ -5180,7 +10479,7 @@ var stringToPath = memoize(function(string) {
 
 module.exports = stringToPath;
 
-},{"./memoize":165,"./toString":176}],130:[function(require,module,exports){
+},{"./memoize":244,"./toString":255}],210:[function(require,module,exports){
 var isFunction = require('./isFunction'),
     toString = require('./toString');
 
@@ -5205,7 +10504,7 @@ function toSource(func) {
 
 module.exports = toSource;
 
-},{"./isFunction":152,"./toString":176}],131:[function(require,module,exports){
+},{"./isFunction":231,"./toString":255}],211:[function(require,module,exports){
 var copyObjectWith = require('./_copyObjectWith'),
     createAssigner = require('./_createAssigner'),
     keysIn = require('./keysIn');
@@ -5244,7 +10543,7 @@ var assignInWith = createAssigner(function(object, source, srcIndex, customizer)
 
 module.exports = assignInWith;
 
-},{"./_copyObjectWith":80,"./_createAssigner":82,"./keysIn":164}],132:[function(require,module,exports){
+},{"./_copyObjectWith":160,"./_createAssigner":162,"./keysIn":243}],212:[function(require,module,exports){
 var baseClone = require('./_baseClone');
 
 /**
@@ -5278,7 +10577,7 @@ function clone(value) {
 
 module.exports = clone;
 
-},{"./_baseClone":38}],133:[function(require,module,exports){
+},{"./_baseClone":118}],213:[function(require,module,exports){
 /**
  * Creates a function that returns `value`.
  *
@@ -5304,7 +10603,7 @@ function constant(value) {
 
 module.exports = constant;
 
-},{}],134:[function(require,module,exports){
+},{}],214:[function(require,module,exports){
 var isObject = require('./isObject'),
     now = require('./now'),
     toNumber = require('./toNumber');
@@ -5485,7 +10784,7 @@ function debounce(func, wait, options) {
 
 module.exports = debounce;
 
-},{"./isObject":156,"./now":168,"./toNumber":173}],135:[function(require,module,exports){
+},{"./isObject":235,"./now":247,"./toNumber":252}],215:[function(require,module,exports){
 var apply = require('./_apply'),
     assignInDefaults = require('./_assignInDefaults'),
     assignInWith = require('./assignInWith'),
@@ -5518,7 +10817,7 @@ var defaults = rest(function(args) {
 
 module.exports = defaults;
 
-},{"./_apply":20,"./_assignInDefaults":28,"./assignInWith":131,"./rest":171}],136:[function(require,module,exports){
+},{"./_apply":100,"./_assignInDefaults":108,"./assignInWith":211,"./rest":250}],216:[function(require,module,exports){
 var apply = require('./_apply'),
     mergeDefaults = require('./_mergeDefaults'),
     mergeWith = require('./mergeWith'),
@@ -5550,7 +10849,7 @@ var defaultsDeep = rest(function(args) {
 
 module.exports = defaultsDeep;
 
-},{"./_apply":20,"./_mergeDefaults":120,"./mergeWith":167,"./rest":171}],137:[function(require,module,exports){
+},{"./_apply":100,"./_mergeDefaults":200,"./mergeWith":246,"./rest":250}],217:[function(require,module,exports){
 var baseDifference = require('./_baseDifference'),
     baseFlatten = require('./_baseFlatten'),
     isArrayLikeObject = require('./isArrayLikeObject'),
@@ -5582,7 +10881,7 @@ var difference = rest(function(array, values) {
 
 module.exports = difference;
 
-},{"./_baseDifference":40,"./_baseFlatten":42,"./isArrayLikeObject":148,"./rest":171}],138:[function(require,module,exports){
+},{"./_baseDifference":120,"./_baseFlatten":122,"./isArrayLikeObject":227,"./rest":250}],218:[function(require,module,exports){
 /**
  * Performs a
  * [`SameValueZero`](http://ecma-international.org/ecma-262/6.0/#sec-samevaluezero)
@@ -5621,7 +10920,7 @@ function eq(value, other) {
 
 module.exports = eq;
 
-},{}],139:[function(require,module,exports){
+},{}],219:[function(require,module,exports){
 var arrayEach = require('./_arrayEach'),
     baseEach = require('./_baseEach'),
     baseIteratee = require('./_baseIteratee'),
@@ -5664,7 +10963,7 @@ function forEach(collection, iteratee) {
 
 module.exports = forEach;
 
-},{"./_arrayEach":21,"./_baseEach":41,"./_baseIteratee":54,"./isArray":146}],140:[function(require,module,exports){
+},{"./_arrayEach":101,"./_baseEach":121,"./_baseIteratee":134,"./isArray":225}],220:[function(require,module,exports){
 var baseGet = require('./_baseGet');
 
 /**
@@ -5699,44 +10998,7 @@ function get(object, path, defaultValue) {
 
 module.exports = get;
 
-},{"./_baseGet":45}],141:[function(require,module,exports){
-var baseHas = require('./_baseHas'),
-    hasPath = require('./_hasPath');
-
-/**
- * Checks if `path` is a direct property of `object`.
- *
- * @static
- * @since 0.1.0
- * @memberOf _
- * @category Object
- * @param {Object} object The object to query.
- * @param {Array|string} path The path to check.
- * @returns {boolean} Returns `true` if `path` exists, else `false`.
- * @example
- *
- * var object = { 'a': { 'b': { 'c': 3 } } };
- * var other = _.create({ 'a': _.create({ 'b': _.create({ 'c': 3 }) }) });
- *
- * _.has(object, 'a');
- * // => true
- *
- * _.has(object, 'a.b.c');
- * // => true
- *
- * _.has(object, ['a', 'b', 'c']);
- * // => true
- *
- * _.has(other, 'a');
- * // => false
- */
-function has(object, path) {
-  return object != null && hasPath(object, path, baseHas);
-}
-
-module.exports = has;
-
-},{"./_baseHas":47,"./_hasPath":95}],142:[function(require,module,exports){
+},{"./_baseGet":125}],221:[function(require,module,exports){
 var baseHasIn = require('./_baseHasIn'),
     hasPath = require('./_hasPath');
 
@@ -5772,7 +11034,7 @@ function hasIn(object, path) {
 
 module.exports = hasIn;
 
-},{"./_baseHasIn":48,"./_hasPath":95}],143:[function(require,module,exports){
+},{"./_baseHasIn":128,"./_hasPath":175}],222:[function(require,module,exports){
 /**
  * This method returns the first argument given to it.
  *
@@ -5795,7 +11057,7 @@ function identity(value) {
 
 module.exports = identity;
 
-},{}],144:[function(require,module,exports){
+},{}],223:[function(require,module,exports){
 var baseInRange = require('./_baseInRange'),
     toNumber = require('./toNumber');
 
@@ -5850,7 +11112,7 @@ function inRange(number, start, end) {
 
 module.exports = inRange;
 
-},{"./_baseInRange":49,"./toNumber":173}],145:[function(require,module,exports){
+},{"./_baseInRange":129,"./toNumber":252}],224:[function(require,module,exports){
 var isArrayLikeObject = require('./isArrayLikeObject');
 
 /** `Object#toString` result references. */
@@ -5898,7 +11160,7 @@ function isArguments(value) {
 
 module.exports = isArguments;
 
-},{"./isArrayLikeObject":148}],146:[function(require,module,exports){
+},{"./isArrayLikeObject":227}],225:[function(require,module,exports){
 /**
  * Checks if `value` is classified as an `Array` object.
  *
@@ -5928,7 +11190,7 @@ var isArray = Array.isArray;
 
 module.exports = isArray;
 
-},{}],147:[function(require,module,exports){
+},{}],226:[function(require,module,exports){
 var getLength = require('./_getLength'),
     isFunction = require('./isFunction'),
     isLength = require('./isLength');
@@ -5964,7 +11226,7 @@ function isArrayLike(value) {
 
 module.exports = isArrayLike;
 
-},{"./_getLength":89,"./isFunction":152,"./isLength":153}],148:[function(require,module,exports){
+},{"./_getLength":169,"./isFunction":231,"./isLength":232}],227:[function(require,module,exports){
 var isArrayLike = require('./isArrayLike'),
     isObjectLike = require('./isObjectLike');
 
@@ -5999,7 +11261,7 @@ function isArrayLikeObject(value) {
 
 module.exports = isArrayLikeObject;
 
-},{"./isArrayLike":147,"./isObjectLike":157}],149:[function(require,module,exports){
+},{"./isArrayLike":226,"./isObjectLike":236}],228:[function(require,module,exports){
 var constant = require('./constant'),
     root = require('./_root');
 
@@ -6050,7 +11312,7 @@ var isBuffer = !Buffer ? constant(false) : function(value) {
 
 module.exports = isBuffer;
 
-},{"./_root":122,"./constant":133}],150:[function(require,module,exports){
+},{"./_root":202,"./constant":213}],229:[function(require,module,exports){
 var isObjectLike = require('./isObjectLike'),
     isPlainObject = require('./isPlainObject');
 
@@ -6078,7 +11340,7 @@ function isElement(value) {
 
 module.exports = isElement;
 
-},{"./isObjectLike":157,"./isPlainObject":158}],151:[function(require,module,exports){
+},{"./isObjectLike":236,"./isPlainObject":237}],230:[function(require,module,exports){
 var getTag = require('./_getTag'),
     isArguments = require('./isArguments'),
     isArray = require('./isArray'),
@@ -6160,7 +11422,7 @@ function isEmpty(value) {
 
 module.exports = isEmpty;
 
-},{"./_getTag":94,"./isArguments":145,"./isArray":146,"./isArrayLike":147,"./isBuffer":149,"./isFunction":152,"./isObjectLike":157,"./isString":159,"./keys":163}],152:[function(require,module,exports){
+},{"./_getTag":174,"./isArguments":224,"./isArray":225,"./isArrayLike":226,"./isBuffer":228,"./isFunction":231,"./isObjectLike":236,"./isString":238,"./keys":242}],231:[function(require,module,exports){
 var isObject = require('./isObject');
 
 /** `Object#toString` result references. */
@@ -6205,7 +11467,7 @@ function isFunction(value) {
 
 module.exports = isFunction;
 
-},{"./isObject":156}],153:[function(require,module,exports){
+},{"./isObject":235}],232:[function(require,module,exports){
 /** Used as references for various `Number` constants. */
 var MAX_SAFE_INTEGER = 9007199254740991;
 
@@ -6243,7 +11505,7 @@ function isLength(value) {
 
 module.exports = isLength;
 
-},{}],154:[function(require,module,exports){
+},{}],233:[function(require,module,exports){
 var isFunction = require('./isFunction'),
     isHostObject = require('./_isHostObject'),
     isObject = require('./isObject'),
@@ -6301,7 +11563,7 @@ function isNative(value) {
 
 module.exports = isNative;
 
-},{"./_isHostObject":105,"./_toSource":130,"./isFunction":152,"./isObject":156}],155:[function(require,module,exports){
+},{"./_isHostObject":185,"./_toSource":210,"./isFunction":231,"./isObject":235}],234:[function(require,module,exports){
 var isObjectLike = require('./isObjectLike');
 
 /** `Object#toString` result references. */
@@ -6351,7 +11613,7 @@ function isNumber(value) {
 
 module.exports = isNumber;
 
-},{"./isObjectLike":157}],156:[function(require,module,exports){
+},{"./isObjectLike":236}],235:[function(require,module,exports){
 /**
  * Checks if `value` is the
  * [language type](http://www.ecma-international.org/ecma-262/6.0/#sec-ecmascript-language-types)
@@ -6384,7 +11646,7 @@ function isObject(value) {
 
 module.exports = isObject;
 
-},{}],157:[function(require,module,exports){
+},{}],236:[function(require,module,exports){
 /**
  * Checks if `value` is object-like. A value is object-like if it's not `null`
  * and has a `typeof` result of "object".
@@ -6415,7 +11677,7 @@ function isObjectLike(value) {
 
 module.exports = isObjectLike;
 
-},{}],158:[function(require,module,exports){
+},{}],237:[function(require,module,exports){
 var getPrototype = require('./_getPrototype'),
     isHostObject = require('./_isHostObject'),
     isObjectLike = require('./isObjectLike');
@@ -6487,7 +11749,7 @@ function isPlainObject(value) {
 
 module.exports = isPlainObject;
 
-},{"./_getPrototype":92,"./_isHostObject":105,"./isObjectLike":157}],159:[function(require,module,exports){
+},{"./_getPrototype":172,"./_isHostObject":185,"./isObjectLike":236}],238:[function(require,module,exports){
 var isArray = require('./isArray'),
     isObjectLike = require('./isObjectLike');
 
@@ -6529,7 +11791,7 @@ function isString(value) {
 
 module.exports = isString;
 
-},{"./isArray":146,"./isObjectLike":157}],160:[function(require,module,exports){
+},{"./isArray":225,"./isObjectLike":236}],239:[function(require,module,exports){
 var isObjectLike = require('./isObjectLike');
 
 /** `Object#toString` result references. */
@@ -6570,7 +11832,7 @@ function isSymbol(value) {
 
 module.exports = isSymbol;
 
-},{"./isObjectLike":157}],161:[function(require,module,exports){
+},{"./isObjectLike":236}],240:[function(require,module,exports){
 var isLength = require('./isLength'),
     isObjectLike = require('./isObjectLike');
 
@@ -6652,7 +11914,7 @@ function isTypedArray(value) {
 
 module.exports = isTypedArray;
 
-},{"./isLength":153,"./isObjectLike":157}],162:[function(require,module,exports){
+},{"./isLength":232,"./isObjectLike":236}],241:[function(require,module,exports){
 /**
  * Checks if `value` is `undefined`.
  *
@@ -6676,7 +11938,7 @@ function isUndefined(value) {
 
 module.exports = isUndefined;
 
-},{}],163:[function(require,module,exports){
+},{}],242:[function(require,module,exports){
 var baseHas = require('./_baseHas'),
     baseKeys = require('./_baseKeys'),
     indexKeys = require('./_indexKeys'),
@@ -6734,7 +11996,7 @@ function keys(object) {
 
 module.exports = keys;
 
-},{"./_baseHas":47,"./_baseKeys":55,"./_indexKeys":100,"./_isIndex":106,"./_isPrototype":110,"./isArrayLike":147}],164:[function(require,module,exports){
+},{"./_baseHas":127,"./_baseKeys":135,"./_indexKeys":180,"./_isIndex":186,"./_isPrototype":190,"./isArrayLike":226}],243:[function(require,module,exports){
 var baseKeysIn = require('./_baseKeysIn'),
     indexKeys = require('./_indexKeys'),
     isIndex = require('./_isIndex'),
@@ -6791,7 +12053,7 @@ function keysIn(object) {
 
 module.exports = keysIn;
 
-},{"./_baseKeysIn":56,"./_indexKeys":100,"./_isIndex":106,"./_isPrototype":110}],165:[function(require,module,exports){
+},{"./_baseKeysIn":136,"./_indexKeys":180,"./_isIndex":186,"./_isPrototype":190}],244:[function(require,module,exports){
 var MapCache = require('./_MapCache');
 
 /** Used as the `TypeError` message for "Functions" methods. */
@@ -6866,7 +12128,7 @@ memoize.Cache = MapCache;
 
 module.exports = memoize;
 
-},{"./_MapCache":9}],166:[function(require,module,exports){
+},{"./_MapCache":89}],245:[function(require,module,exports){
 var baseMerge = require('./_baseMerge'),
     createAssigner = require('./_createAssigner');
 
@@ -6907,7 +12169,7 @@ var merge = createAssigner(function(object, source, srcIndex) {
 
 module.exports = merge;
 
-},{"./_baseMerge":59,"./_createAssigner":82}],167:[function(require,module,exports){
+},{"./_baseMerge":139,"./_createAssigner":162}],246:[function(require,module,exports){
 var baseMerge = require('./_baseMerge'),
     createAssigner = require('./_createAssigner');
 
@@ -6955,7 +12217,7 @@ var mergeWith = createAssigner(function(object, source, srcIndex, customizer) {
 
 module.exports = mergeWith;
 
-},{"./_baseMerge":59,"./_createAssigner":82}],168:[function(require,module,exports){
+},{"./_baseMerge":139,"./_createAssigner":162}],247:[function(require,module,exports){
 /**
  * Gets the timestamp of the number of milliseconds that have elapsed since
  * the Unix epoch (1 January 1970 00:00:00 UTC).
@@ -6977,7 +12239,7 @@ var now = Date.now;
 
 module.exports = now;
 
-},{}],169:[function(require,module,exports){
+},{}],248:[function(require,module,exports){
 var baseProperty = require('./_baseProperty'),
     basePropertyDeep = require('./_basePropertyDeep'),
     isKey = require('./_isKey');
@@ -7010,7 +12272,7 @@ function property(path) {
 
 module.exports = property;
 
-},{"./_baseProperty":61,"./_basePropertyDeep":62,"./_isKey":108}],170:[function(require,module,exports){
+},{"./_baseProperty":141,"./_basePropertyDeep":142,"./_isKey":188}],249:[function(require,module,exports){
 var arrayReduce = require('./_arrayReduce'),
     baseEach = require('./_baseEach'),
     baseIteratee = require('./_baseIteratee'),
@@ -7062,7 +12324,7 @@ function reduce(collection, iteratee, accumulator) {
 
 module.exports = reduce;
 
-},{"./_arrayReduce":26,"./_baseEach":41,"./_baseIteratee":54,"./_baseReduce":63,"./isArray":146}],171:[function(require,module,exports){
+},{"./_arrayReduce":106,"./_baseEach":121,"./_baseIteratee":134,"./_baseReduce":143,"./isArray":225}],250:[function(require,module,exports){
 var apply = require('./_apply'),
     toInteger = require('./toInteger');
 
@@ -7128,7 +12390,7 @@ function rest(func, start) {
 
 module.exports = rest;
 
-},{"./_apply":20,"./toInteger":172}],172:[function(require,module,exports){
+},{"./_apply":100,"./toInteger":251}],251:[function(require,module,exports){
 var toNumber = require('./toNumber');
 
 /** Used as references for various `Number` constants. */
@@ -7176,7 +12438,7 @@ function toInteger(value) {
 
 module.exports = toInteger;
 
-},{"./toNumber":173}],173:[function(require,module,exports){
+},{"./toNumber":252}],252:[function(require,module,exports){
 var isFunction = require('./isFunction'),
     isObject = require('./isObject'),
     isSymbol = require('./isSymbol');
@@ -7245,7 +12507,7 @@ function toNumber(value) {
 
 module.exports = toNumber;
 
-},{"./isFunction":152,"./isObject":156,"./isSymbol":160}],174:[function(require,module,exports){
+},{"./isFunction":231,"./isObject":235,"./isSymbol":239}],253:[function(require,module,exports){
 var baseToPairs = require('./_baseToPairs'),
     keys = require('./keys');
 
@@ -7278,7 +12540,7 @@ function toPairs(object) {
 
 module.exports = toPairs;
 
-},{"./_baseToPairs":65,"./keys":163}],175:[function(require,module,exports){
+},{"./_baseToPairs":145,"./keys":242}],254:[function(require,module,exports){
 var copyObject = require('./_copyObject'),
     keysIn = require('./keysIn');
 
@@ -7312,7 +12574,7 @@ function toPlainObject(value) {
 
 module.exports = toPlainObject;
 
-},{"./_copyObject":79,"./keysIn":164}],176:[function(require,module,exports){
+},{"./_copyObject":159,"./keysIn":243}],255:[function(require,module,exports){
 var Symbol = require('./_Symbol'),
     isSymbol = require('./isSymbol');
 
@@ -7361,7 +12623,935 @@ function toString(value) {
 
 module.exports = toString;
 
-},{"./_Symbol":15,"./isSymbol":160}],177:[function(require,module,exports){
+},{"./_Symbol":95,"./isSymbol":239}],256:[function(require,module,exports){
+/* global wpseoPostScraperL10n */
+
+var isUndefined = require( 'lodash/isUndefined' );
+
+/**
+ * Returns the description placeholder for use in the description forms.
+ *
+ * @returns {string}
+ */
+function getDescriptionPlaceholder( l10n ) {
+	var descriptionPlaceholder = '';
+
+	if ( ! isUndefined( window.wpseoPostScraperL10n ) ) {
+		descriptionPlaceholder = window.wpseoPostScraperL10n.metadesc_template;
+	} else if ( ! isUndefined( window.wpseoTermScraperL10n ) ) {
+		descriptionPlaceholder = window.wpseoTermScraperL10n.metadesc_template;
+	}
+
+	return descriptionPlaceholder;
+}
+
+module.exports = getDescriptionPlaceholder;
+
+},{"lodash/isUndefined":310}],257:[function(require,module,exports){
+/* global wpseoPostScraperL10n, wpseoTermScraperL10n */
+
+var isUndefined = require( 'lodash/isUndefined' );
+
+/**
+ * Returns the title placeholder for use in the title forms.
+ *
+ * @returns {string}
+ */
+function getTitlePlaceholder() {
+	var titlePlaceholder = '';
+
+	if ( ! isUndefined( window.wpseoPostScraperL10n ) ) {
+		titlePlaceholder = window.wpseoPostScraperL10n.title_template;
+	} else if ( ! isUndefined( window.wpseoTermScraperL10n ) ) {
+		titlePlaceholder = window.wpseoTermScraperL10n.title_template;
+	}
+
+	if ( titlePlaceholder === '' ) {
+		titlePlaceholder = '%%title%% - %%sitename%%';
+	}
+
+	return titlePlaceholder;
+}
+
+module.exports = getTitlePlaceholder;
+
+},{"lodash/isUndefined":310}],258:[function(require,module,exports){
+/* global wp, jQuery */
+module.exports = (function() {
+	'use strict';
+
+	/**
+	 * Renders a keyword tab as a jQuery HTML object.
+	 *
+	 * @param {string} scoreClass
+	 * @param {string} keyword
+	 * @param {string} prefix
+	 *
+	 * @returns {HTMLElement}
+	 */
+	function renderKeywordTab( scoreClass, keyword, prefix ) {
+		var placeholder = keyword.length > 0 ? keyword : '...';
+		var html = wp.template( 'keyword_tab' )({
+			keyword: keyword,
+			placeholder: placeholder,
+			score: scoreClass,
+			hideRemove: true,
+			prefix: prefix + ' ',
+			active: true
+		});
+
+		return jQuery( html );
+	}
+
+	/**
+	 * Constructor for a keyword tab object
+	 * @param {Object} args
+	 * @constructor
+	 */
+	function KeywordTab( args ) {
+		this.keyword = '';
+		this.prefix  = args.prefix || '';
+
+		this.setScoreClass( 0 );
+	}
+
+	/**
+	 * Initialize a keyword tab.
+	 *
+	 * @param {HTMLElement} parent
+	 */
+	KeywordTab.prototype.init = function( parent ) {
+		this.setElement( renderKeywordTab( this.scoreClass, this.keyword, this.prefix ) );
+
+		jQuery( parent ).append( this.element );
+	};
+
+	/**
+	 * Updates the keyword tabs with new values.
+	 *
+	 * @param {string} scoreClass
+	 * @param {string} keyword
+	 */
+	KeywordTab.prototype.update = function( scoreClass, keyword ) {
+		this.keyword = keyword;
+		this.setScoreClass( scoreClass );
+		this.refresh();
+	};
+
+	/**
+	 * Renders a new keyword tab with the current values and replaces the old tab with this one.
+	 */
+	KeywordTab.prototype.refresh = function() {
+		var newElem = renderKeywordTab( this.scoreClass, this.keyword, this.prefix );
+
+		this.element.replaceWith( newElem );
+		this.setElement( newElem );
+	};
+
+	/**
+	 * Sets the current element
+	 *
+	 * @param {HTMLElement} element
+	 */
+	KeywordTab.prototype.setElement = function( element ) {
+		this.element = jQuery( element );
+	};
+
+	/**
+	 * Formats the given score and store it in the attribute.
+	 *
+	 * @param {string} scoreClass
+	 */
+	KeywordTab.prototype.setScoreClass = function( scoreClass ) {
+		this.scoreClass = scoreClass;
+	};
+
+	return KeywordTab;
+})();
+
+},{}],259:[function(require,module,exports){
+/* global jQuery, ajaxurl */
+
+var UsedKeywordsPlugin = require( 'yoastseo' ).bundledPlugins.usedKeywords;
+var _has = require( 'lodash/has' );
+var _debounce = require( 'lodash/debounce' );
+var $ = jQuery;
+
+/**
+ * Object that handles keeping track if the current keyword has been used before and retrieves this usage from the
+ * server.
+ *
+ * @param {string} focusKeywordElement A jQuery selector for the focus keyword input element.
+ * @param {string} ajaxAction The ajax action to use when retrieving the used keywords data.
+ * @param {Object} options The options for the used keywords assessment plugin.
+ * @param {Object} options.keyword_usage An object that contains the keyword usage when instantiating.
+ * @param {Object} options.search_url The URL to link the user to if the keyword has been used multiple times.
+ * @param {Object} options.post_edit_url The URL to link the user to if the keyword has been used a single time.
+ * @param {App} app The app for which to keep track of the used keywords.
+ */
+function UsedKeywords( focusKeywordElement, ajaxAction, options, app ) {
+	this._keywordUsage = options.keyword_usage;
+	this._focusKeywordElement = $( focusKeywordElement );
+
+	this._plugin = new UsedKeywordsPlugin( app, {
+		usedKeywords: options.keyword_usage,
+		searchUrl: options.search_url,
+		postUrl: options.post_edit_url
+	}, app.i18n );
+
+	this._postID = $( '#post_ID' ).val();
+	this._ajaxAction = ajaxAction;
+	this._app = app;
+}
+
+/**
+ * Initializes everything necessary for used keywords
+ */
+UsedKeywords.prototype.init = function() {
+	var eventHandler = _debounce( this.keywordChangeHandler.bind( this ), 500 );
+
+	this._plugin.registerPlugin();
+	this._focusKeywordElement.on( 'keyup', eventHandler );
+};
+
+/**
+ * Handles an event of the keyword input field
+ */
+UsedKeywords.prototype.keywordChangeHandler = function() {
+	var keyword = this._focusKeywordElement.val();
+
+	if ( ! _has( this._keywordUsage, keyword ) ) {
+		this.requestKeywordUsage( keyword );
+	}
+};
+
+/**
+ * Request keyword usage from the server
+ *
+ * @param {string} keyword The keyword to request the usage for.
+ */
+UsedKeywords.prototype.requestKeywordUsage = function( keyword ) {
+	$.post( ajaxurl, {
+		action: this._ajaxAction,
+		post_id: this._postID,
+		keyword: keyword
+	}, this.updateKeywordUsage.bind( this, keyword ), 'json' );
+};
+
+/**
+ * Updates the keyword usage based on the response of the ajax request
+ *
+ * @param {string} keyword The keyword for which the usage was requested.
+ * @param {*} response The response retrieved from the server.
+ */
+UsedKeywords.prototype.updateKeywordUsage = function( keyword, response ) {
+	if ( response ) {
+		this._keywordUsage[ keyword ] = response;
+
+		this._plugin.updateKeywordUsage( this._keywordUsage );
+		this._app.analyzeTimer();
+	}
+};
+
+module.exports = UsedKeywords;
+
+},{"lodash/debounce":296,"lodash/has":298,"yoastseo":1}],260:[function(require,module,exports){
+/* global YoastSEO: true, tinyMCE, wpseoPostScraperL10n, YoastShortcodePlugin, YoastReplaceVarPlugin, console, require */
+
+var getTitlePlaceholder = require( './analysis/getTitlePlaceholder' );
+var getDescriptionPlaceholder = require( './analysis/getDescriptionPlaceholder' );
+
+(function( $ ) {
+	'use strict';
+
+	var SnippetPreview = require( 'yoastseo' ).SnippetPreview;
+	var App = require( 'yoastseo' ).App;
+
+	var scoreToRating = require( 'yoastseo' ).helpers.scoreToRating;
+
+	var UsedKeywords = require( './analysis/usedKeywords' );
+
+	var currentKeyword = '';
+	var app, snippetPreview;
+
+	var mainKeywordTab;
+	var KeywordTab = require( './analysis/keywordTab' );
+
+	/**
+	 * wordpress scraper to gather inputfields.
+	 * @constructor
+	 */
+	var PostScraper = function() {
+		if ( typeof CKEDITOR === 'object' ) {
+			console.warn( 'YoastSEO currently doesn\'t support ckEditor. The content analysis currently only works with the HTML editor or TinyMCE.' );
+		}
+
+		this.prepareSlugBinding();
+	};
+
+	/**
+	 * On a new post, WordPress doesn't include the slug editor, since a post has not been given a slug yet.
+	 * As soon as a title is chosen, an `after-autosave.update-post-slug` event fires that triggers an AJAX request
+	 * to the server to generate a slug. On the response callback a slug editor is inserted into the page on which
+	 * we can bind our Snippet Preview.
+	 *
+	 * On existing posts, the slug editor is already there and we can bind immediately.
+	 */
+	PostScraper.prototype.prepareSlugBinding = function() {
+		if ( document.getElementById( 'editable-post-name' ) === null ) {
+			var that = this;
+			jQuery( document ).on( 'after-autosave.update-post-slug', function() {
+				that.bindSnippetCiteEvents( 0 );
+			});
+		} else {
+			this.bindSlugEditor();
+		}
+	};
+
+	/**
+	 * When the `after-autosave.update-post-slug` event is triggered, this function checks to see if the slug editor has
+	 * been inserted yet. If so, it does all of the necessary event binding. If not, it retries for a maximum of 5 seconds.
+	 *
+	 * @param {int} time
+	 */
+	PostScraper.prototype.bindSnippetCiteEvents = function( time ) {
+		time = time || 0;
+		var slugElem = document.getElementById( 'editable-post-name' );
+		var titleElem = document.getElementById( 'title' );
+		var postNameElem = document.getElementById('post_name');
+
+		if ( slugElem !== null && titleElem.value !== '' ) {
+			this.bindSlugEditor();
+
+			// Always set the post name element.
+			postNameElem.value = document.getElementById('editable-post-name-full').textContent;
+
+			snippetPreview.unformattedText.snippet_cite = document.getElementById('editable-post-name-full').textContent;
+			app.analyzeTimer();
+		} else if ( time < 5000 ) {
+			time += 200;
+			setTimeout( this.bindSnippetCiteEvents.bind( this, time ), 200 );
+		}
+	};
+
+	/**
+	 * We want to trigger an update of the snippetPreview on a slug update. Because the save button is not available yet, we need to
+	 * bind an event within the scope of a clickevent of the edit button.
+	 */
+	PostScraper.prototype.bindSlugEditor = function() {
+		$( '#titlediv' ).on( 'change', '#new-post-slug', function() {
+			snippetPreview.unformattedText.snippet_cite = $( '#new-post-slug' ).val();
+			app.refresh();
+		});
+	};
+
+	/**
+	 * Get data from inputfields and store them in an analyzerData object. This object will be used to fill
+	 * the analyzer and the snippetpreview
+	 */
+	PostScraper.prototype.getData = function() {
+		return {
+			keyword: this.getDataFromInput( 'keyword' ),
+			meta: this.getDataFromInput( 'meta' ),
+			text: this.getDataFromInput( 'text' ),
+			title: this.getDataFromInput( 'title' ),
+			url: this.getDataFromInput( 'url' ),
+			excerpt: this.getDataFromInput( 'excerpt' ),
+			snippetTitle: this.getDataFromInput( 'snippetTitle' ),
+			snippetMeta: this.getDataFromInput( 'snippetMeta' ),
+			snippetCite: this.getDataFromInput( 'cite' ),
+			primaryCategory: this.getDataFromInput( 'primaryCategory' ),
+			searchUrl: wpseoPostScraperL10n.search_url,
+			postUrl: wpseoPostScraperL10n.post_edit_url
+		};
+	};
+
+	/**
+	 * gets the values from the given input. Returns this value
+	 * @param {String} inputType
+	 * @returns {String}
+	 */
+	PostScraper.prototype.getDataFromInput = function( inputType ) {
+		var newPostSlug, val = '';
+		switch ( inputType ) {
+			case 'text':
+			case 'content':
+				val = this.getContentTinyMCE();
+				break;
+			case 'cite':
+			case 'url':
+				newPostSlug = $( '#new-post-slug' );
+				if ( 0 < newPostSlug.length ) {
+					val = newPostSlug.val();
+				}
+				else if ( document.getElementById( 'editable-post-name-full' ) !== null ) {
+					val = document.getElementById( 'editable-post-name-full' ).textContent;
+				}
+				break;
+			case 'meta':
+				val = document.getElementById( 'yoast_wpseo_metadesc' ) && document.getElementById( 'yoast_wpseo_metadesc' ).value || '';
+				break;
+			case 'snippetMeta':
+				val = document.getElementById( 'yoast_wpseo_metadesc' ) && document.getElementById( 'yoast_wpseo_metadesc' ).value || '';
+				break;
+			case 'keyword':
+				val = document.getElementById( 'yoast_wpseo_focuskw_text_input' ) && document.getElementById( 'yoast_wpseo_focuskw_text_input' ).value || '';
+				currentKeyword = val;
+				break;
+			case 'title':
+				val = document.getElementById( 'title' ) && document.getElementById( 'title' ).value || '';
+				break;
+			case 'snippetTitle':
+				val = document.getElementById( 'yoast_wpseo_title' ) && document.getElementById( 'yoast_wpseo_title' ).value || '';
+				break;
+			case 'excerpt':
+				if ( document.getElementById( 'excerpt' ) !== null ) {
+					val = document.getElementById( 'excerpt' ) && document.getElementById( 'excerpt' ).value || '';
+				}
+				break;
+			case 'primaryCategory':
+				var categoryBase = $( '#category-all' ).find( 'ul.categorychecklist' );
+
+				// If only one is visible than that item is the primary category.
+				var checked = categoryBase.find( 'li input:checked' );
+				if ( checked.length === 1 ) {
+					val = this.getCategoryName( checked.parent() );
+					break;
+				}
+
+				var primaryTerm = categoryBase.find( '.wpseo-primary-term > label' );
+				if ( primaryTerm.length ) {
+					val = this.getCategoryName( primaryTerm );
+					break;
+				}
+				break;
+			default:
+				break;
+		}
+		return val;
+	};
+
+	/**
+	 * Get the category name from the list item
+	 * @param {jQuery Object} li Item which contains the category
+	 * @returns {String} Name of the category
+     */
+	PostScraper.prototype.getCategoryName = function( li ) {
+		var clone = li.clone();
+		clone.children().remove();
+		return $.trim(clone.text());
+	};
+
+	/**
+	 * When the snippet is updated, update the (hidden) fields on the page
+	 * @param {Object} value
+	 * @param {String} type
+	 */
+	PostScraper.prototype.setDataFromSnippet = function( value, type ) {
+		switch ( type ) {
+			case 'snippet_meta':
+				document.getElementById( 'yoast_wpseo_metadesc' ).value = value;
+				break;
+			case 'snippet_cite':
+				document.getElementById( 'post_name' ).value = value;
+				if (
+					document.getElementById( 'editable-post-name' ) !== null &&
+					document.getElementById( 'editable-post-name-full' ) !== null ) {
+					document.getElementById( 'editable-post-name' ).textContent = value;
+					document.getElementById( 'editable-post-name-full' ).textContent = value;
+				}
+				break;
+			case 'snippet_title':
+				document.getElementById( 'yoast_wpseo_title' ).value = value;
+				break;
+			default:
+				break;
+		}
+	};
+
+	/**
+	 * The data passed from the snippet editor.
+	 *
+	 * @param {Object} data
+	 * @param {string} data.title
+	 * @param {string} data.urlPath
+	 * @param {string} data.metaDesc
+	 */
+	PostScraper.prototype.saveSnippetData = function( data ) {
+		this.setDataFromSnippet( data.title, 'snippet_title' );
+		this.setDataFromSnippet( data.urlPath, 'snippet_cite' );
+		this.setDataFromSnippet( data.metaDesc, 'snippet_meta' );
+	};
+
+	/**
+	 * Returns the value of the contentfield. If tinyMCE isn't initialized, or has no editors
+	 * or is hidden it gets it's contents from getTinyMCEElementContent.
+	 * @returns {String}
+	 */
+	PostScraper.prototype.getContentTinyMCE = function() {
+		if (this.isTinyMCEAvailable() ) {
+			return tinyMCE.get( 'content' ).getContent();
+		}
+		return this.getTinyMCEElementContent();
+	};
+
+	/**
+	 * Returns whether or not TinyMCE is available.
+	 * @returns {boolean}
+	 */
+	PostScraper.prototype.isTinyMCEAvailable = function() {
+		if ( typeof tinyMCE === 'undefined' ||
+			typeof tinyMCE.editors === 'undefined' ||
+			tinyMCE.editors.length === 0 ||
+			tinyMCE.get( 'content' ) === null ||
+			tinyMCE.get( 'content' ).isHidden() ) {
+			return false;
+		}
+
+		return true;
+	};
+
+	/**
+	 * Gets content from the contentfield.
+	 *
+	 * @returns {String}
+	 */
+	PostScraper.prototype.getTinyMCEElementContent = function() {
+		return document.getElementById( 'content' ) && document.getElementById( 'content' ).value || '';
+	};
+
+	/**
+	 * Calls the eventbinders.
+	 */
+	PostScraper.prototype.bindElementEvents = function( app ) {
+		this.inputElementEventBinder( app );
+		this.changeElementEventBinder( app );
+		document.getElementById( 'yoast_wpseo_focuskw_text_input' ).addEventListener( 'keydown', app.snippetPreview.disableEnter );
+	};
+
+	/**
+	 * binds the reanalyze timer on change of dom element.
+     */
+	PostScraper.prototype.changeElementEventBinder = function( app ) {
+		var elems = [ '#yoast-wpseo-primary-category', '.categorychecklist input[name="post_category[]"]' ];
+		for( var i = 0; i < elems.length; i++ ) {
+			$( elems[i] ).on('change', app.analyzeTimer.bind( app ) );
+		}
+	};
+
+	/**
+	 * binds the renewData function on the change of inputelements.
+	 */
+	PostScraper.prototype.inputElementEventBinder = function( app ) {
+		var elems = [ 'excerpt', 'content', 'yoast_wpseo_focuskw_text_input', 'title' ];
+		for ( var i = 0; i < elems.length; i++ ) {
+			var elem = document.getElementById( elems[ i ] );
+			if ( elem !== null ) {
+				document.getElementById( elems[ i ] ).addEventListener( 'input', app.analyzeTimer.bind( app ) );
+			}
+		}
+
+		if( typeof tinyMCE !== 'undefined' && typeof tinyMCE.on === 'function' ) {
+			//binds the input, change, cut and paste event to tinyMCE. All events are needed, because sometimes tinyMCE doesn'
+			//trigger them, or takes up to ten seconds to fire an event.
+			var events = [ 'input', 'change', 'cut', 'paste' ];
+			tinyMCE.on( 'addEditor', function( e ) {
+				for ( var i = 0; i < events.length; i++ ) {
+					e.editor.on( events[i], app.analyzeTimer.bind( app ) );
+				}
+			});
+		}
+		document.getElementById( 'yoast_wpseo_focuskw_text_input' ).addEventListener( 'blur', this.resetQueue );
+	};
+
+	/**
+	 * Resets the current queue if focus keyword is changed and not empty.
+	 */
+	PostScraper.prototype.resetQueue = function() {
+		if ( app.rawData.keyword !== '' ) {
+			app.runAnalyzer( this.rawData );
+		}
+	};
+
+	/**
+	 * Saves the score to the linkdex.
+	 * Outputs the score in the overall target.
+	 *
+	 * @param {string} score
+	 * @param {AssessorPresenter} assessorPresenter
+	 */
+	PostScraper.prototype.saveScores = function( score, assessorPresenter ) {
+		var indicator = assessorPresenter.getIndicator( scoreToRating( score / 10 ) );
+
+		if ( this.isMainKeyword( currentKeyword ) ) {
+			document.getElementById( 'yoast_wpseo_linkdex' ).value = score;
+
+			if ( '' === currentKeyword ) {
+				indicator.className = 'na';
+			}
+
+			$( '.yst-traffic-light' )
+				.attr( 'class', 'yst-traffic-light ' + indicator.className )
+				.attr( 'alt', indicator.screenReaderText );
+		}
+
+		// If multi keyword isn't available we need to update the first tab (content)
+		if ( ! YoastSEO.multiKeyword ) {
+			mainKeywordTab.update( indicator.className, currentKeyword );
+
+			// Updates the input with the currentKeyword value
+			$( '#yoast_wpseo_focuskw' ).val( currentKeyword );
+		}
+
+		jQuery( window ).trigger( 'YoastSEO:numericScore', score );
+	};
+
+	/**
+	 * Returns whether or not the keyword is the main keyword
+	 *
+	 * @param {string} keyword The keyword to check
+	 *
+	 * @returns {boolean}
+	 */
+	PostScraper.prototype.isMainKeyword = function( keyword ) {
+		var firstTab, mainKeyword;
+
+		firstTab = $( '.wpseo_keyword_tab' )
+			.first()
+			.find( '.wpseo_tablink' );
+
+		mainKeyword = firstTab.data( 'keyword' );
+
+		return keyword === mainKeyword;
+	};
+
+	/**
+	 * Initializes keyword tab with the correct template if multi keyword isn't available
+	 */
+	PostScraper.prototype.initKeywordTabTemplate = function() {
+		var keyword, score;
+
+		// If multi keyword is available we don't have to initialize this as multi keyword does this for us.
+		if ( YoastSEO.multiKeyword ) {
+			return;
+		}
+
+		// Remove default functionality to prevent scrolling to top.
+		$( '.wpseo-metabox-tabs' ).on( 'click', '.wpseo_tablink', function( ev ) {
+			ev.preventDefault();
+		});
+
+		keyword = $( '#yoast_wpseo_focuskw' ).val();
+		score   = $( '#yoast_wpseo_linkdex' ).val();
+
+		$( '#yoast_wpseo_focuskw_text_input' ).val( keyword );
+
+		// Updates
+		mainKeywordTab.update( score, keyword );
+	};
+
+	/**
+	 * Retrieves either a generated slug or the page title as slug for the preview
+	 * @param {Object} response The AJAX response object
+	 * @returns {string}
+	 */
+	function getUrlPath( response ) {
+		if ( response.responseText === '' ) {
+			return jQuery( '#title' ).val();
+		}
+		// Added divs to the response text, otherwise jQuery won't parse to HTML, but an array.
+		return jQuery( '<div>' + response.responseText + '</div>' )
+			.find( '#editable-post-name-full' )
+			.text();
+	}
+
+	/**
+	 * binds to the WordPress jQuery function to put the permalink on the page.
+	 * If the response matches with permalinkstring, the snippet can be rerendered.
+	 */
+	jQuery( document ).on( 'ajaxComplete', function( ev, response, ajaxOptions ) {
+		var ajax_end_point = '/admin-ajax.php';
+		if ( ajax_end_point !== ajaxOptions.url.substr( 0 - ajax_end_point.length ) ) {
+			return;
+		}
+
+		if ( 'string' === typeof ajaxOptions.data && -1 !== ajaxOptions.data.indexOf( 'action=sample-permalink' ) ) {
+			app.snippetPreview.setUrlPath( getUrlPath( response ) );
+		}
+	} );
+
+	/**
+	 * Initializes the snippet preview
+	 *
+	 * @param {PostScraper} postScraper
+	 * @returns {YoastSEO.SnippetPreview}
+	 */
+	function initSnippetPreview( postScraper ) {
+		var data = postScraper.getData();
+
+		var titlePlaceholder = getTitlePlaceholder();
+		var descriptionPlaceholder = getDescriptionPlaceholder();
+
+		var snippetPreviewArgs = {
+			targetElement: document.getElementById( 'wpseosnippet' ),
+			placeholder: {
+				title: titlePlaceholder,
+				urlPath: ''
+			},
+			defaultValue: {
+				title: titlePlaceholder
+			},
+			baseURL: wpseoPostScraperL10n.base_url,
+			callbacks: {
+				saveSnippetData: postScraper.saveSnippetData.bind( postScraper )
+			},
+			metaDescriptionDate: wpseoPostScraperL10n.metaDescriptionDate,
+			data: {
+				title: data.snippetTitle,
+				urlPath: data.snippetCite,
+				metaDesc: data.snippetMeta
+			}
+		};
+
+		if ( descriptionPlaceholder !== '' ) {
+			snippetPreviewArgs.placeholder.metaDesc = descriptionPlaceholder;
+			snippetPreviewArgs.defaultValue.metaDesc = descriptionPlaceholder;
+		}
+
+		return new SnippetPreview( snippetPreviewArgs );
+	}
+
+	jQuery( document ).ready(function() {
+		var translations;
+
+		// Initialize an instance of the keywordword tab.
+		mainKeywordTab = new KeywordTab(
+			{
+				prefix: wpseoPostScraperL10n.contentTab
+			}
+		);
+		mainKeywordTab.setElement( $('.wpseo_keyword_tab') );
+
+		var postScraper = new PostScraper();
+
+		var args = {
+
+			// ID's of elements that need to trigger updating the analyzer.
+			elementTarget: ['content', 'yoast_wpseo_focuskw_text_input', 'yoast_wpseo_metadesc', 'excerpt', 'editable-post-name', 'editable-post-name-full'],
+			targets: {
+				output: 'wpseo-pageanalysis'
+			},
+			callbacks: {
+				getData: postScraper.getData.bind( postScraper ),
+				bindElementEvents: postScraper.bindElementEvents.bind( postScraper ),
+				saveScores: postScraper.saveScores.bind( postScraper ),
+				saveSnippetData: postScraper.saveSnippetData.bind( postScraper )
+			},
+			locale: wpseoPostScraperL10n.locale
+		};
+
+		translations = wpseoPostScraperL10n.translations;
+
+		if ( typeof translations !== 'undefined' && typeof translations.domain !== 'undefined' ) {
+			translations.domain = 'js-text-analysis';
+			translations.locale_data['js-text-analysis'] = translations.locale_data['wordpress-seo'];
+
+			delete( translations.locale_data['wordpress-seo'] );
+
+			args.translations = translations;
+		}
+
+		snippetPreview = initSnippetPreview( postScraper );
+		args.snippetPreview = snippetPreview;
+
+		app = new App( args );
+		window.YoastSEO = {};
+		window.YoastSEO.app = app;
+
+		// Init Plugins
+		YoastSEO.wp = {};
+		YoastSEO.wp.replaceVarsPlugin = new YoastReplaceVarPlugin( app );
+		YoastSEO.wp.shortcodePlugin = new YoastShortcodePlugin( app );
+
+		var usedKeywords = new UsedKeywords( '#yoast_wpseo_focuskw_text_input', 'get_focus_keyword_usage', wpseoPostScraperL10n, app );
+		usedKeywords.init();
+
+		postScraper.initKeywordTabTemplate();
+
+		jQuery( window ).trigger( 'YoastSEO:ready' );
+
+		// Backwards compatibility.
+		YoastSEO.analyzerArgs = args;
+	} );
+}( jQuery ));
+
+},{"./analysis/getDescriptionPlaceholder":256,"./analysis/getTitlePlaceholder":257,"./analysis/keywordTab":258,"./analysis/usedKeywords":259,"yoastseo":1}],261:[function(require,module,exports){
+if (typeof Object.create === 'function') {
+  // implementation from standard node.js 'util' module
+  module.exports = function inherits(ctor, superCtor) {
+    ctor.super_ = superCtor
+    ctor.prototype = Object.create(superCtor.prototype, {
+      constructor: {
+        value: ctor,
+        enumerable: false,
+        writable: true,
+        configurable: true
+      }
+    });
+  };
+} else {
+  // old school shim for old browsers
+  module.exports = function inherits(ctor, superCtor) {
+    ctor.super_ = superCtor
+    var TempCtor = function () {}
+    TempCtor.prototype = superCtor.prototype
+    ctor.prototype = new TempCtor()
+    ctor.prototype.constructor = ctor
+  }
+}
+
+},{}],262:[function(require,module,exports){
+arguments[4][87][0].apply(exports,arguments)
+},{"./_nativeCreate":292,"dup":87}],263:[function(require,module,exports){
+arguments[4][88][0].apply(exports,arguments)
+},{"./_getNative":276,"./_root":293,"dup":88}],264:[function(require,module,exports){
+arguments[4][89][0].apply(exports,arguments)
+},{"./_mapClear":287,"./_mapDelete":288,"./_mapGet":289,"./_mapHas":290,"./_mapSet":291,"dup":89}],265:[function(require,module,exports){
+arguments[4][95][0].apply(exports,arguments)
+},{"./_root":293,"dup":95}],266:[function(require,module,exports){
+arguments[4][111][0].apply(exports,arguments)
+},{"./_assocIndexOf":269,"dup":111}],267:[function(require,module,exports){
+arguments[4][112][0].apply(exports,arguments)
+},{"./_assocIndexOf":269,"dup":112}],268:[function(require,module,exports){
+arguments[4][113][0].apply(exports,arguments)
+},{"./_assocIndexOf":269,"dup":113}],269:[function(require,module,exports){
+arguments[4][114][0].apply(exports,arguments)
+},{"./eq":297,"dup":114}],270:[function(require,module,exports){
+arguments[4][115][0].apply(exports,arguments)
+},{"./_assocIndexOf":269,"dup":115}],271:[function(require,module,exports){
+arguments[4][117][0].apply(exports,arguments)
+},{"./_stringToPath":294,"./isArray":300,"dup":117}],272:[function(require,module,exports){
+arguments[4][127][0].apply(exports,arguments)
+},{"./_getPrototype":277,"dup":127}],273:[function(require,module,exports){
+arguments[4][141][0].apply(exports,arguments)
+},{"dup":141}],274:[function(require,module,exports){
+arguments[4][149][0].apply(exports,arguments)
+},{"dup":149}],275:[function(require,module,exports){
+arguments[4][169][0].apply(exports,arguments)
+},{"./_baseProperty":273,"dup":169}],276:[function(require,module,exports){
+arguments[4][171][0].apply(exports,arguments)
+},{"./isNative":305,"dup":171}],277:[function(require,module,exports){
+arguments[4][172][0].apply(exports,arguments)
+},{"dup":172}],278:[function(require,module,exports){
+arguments[4][175][0].apply(exports,arguments)
+},{"./_baseCastPath":271,"./_isIndex":284,"./_isKey":285,"./isArguments":299,"./isArray":300,"./isLength":304,"./isString":308,"dup":175}],279:[function(require,module,exports){
+arguments[4][176][0].apply(exports,arguments)
+},{"./_hashHas":281,"dup":176}],280:[function(require,module,exports){
+arguments[4][177][0].apply(exports,arguments)
+},{"./_nativeCreate":292,"dup":177}],281:[function(require,module,exports){
+arguments[4][178][0].apply(exports,arguments)
+},{"./_nativeCreate":292,"dup":178}],282:[function(require,module,exports){
+arguments[4][179][0].apply(exports,arguments)
+},{"./_nativeCreate":292,"dup":179}],283:[function(require,module,exports){
+arguments[4][185][0].apply(exports,arguments)
+},{"dup":185}],284:[function(require,module,exports){
+arguments[4][186][0].apply(exports,arguments)
+},{"dup":186}],285:[function(require,module,exports){
+arguments[4][188][0].apply(exports,arguments)
+},{"./isArray":300,"./isSymbol":309,"dup":188}],286:[function(require,module,exports){
+arguments[4][189][0].apply(exports,arguments)
+},{"dup":189}],287:[function(require,module,exports){
+arguments[4][193][0].apply(exports,arguments)
+},{"./_Hash":262,"./_Map":263,"dup":193}],288:[function(require,module,exports){
+arguments[4][194][0].apply(exports,arguments)
+},{"./_Map":263,"./_assocDelete":266,"./_hashDelete":279,"./_isKeyable":286,"dup":194}],289:[function(require,module,exports){
+arguments[4][195][0].apply(exports,arguments)
+},{"./_Map":263,"./_assocGet":267,"./_hashGet":280,"./_isKeyable":286,"dup":195}],290:[function(require,module,exports){
+arguments[4][196][0].apply(exports,arguments)
+},{"./_Map":263,"./_assocHas":268,"./_hashHas":281,"./_isKeyable":286,"dup":196}],291:[function(require,module,exports){
+arguments[4][197][0].apply(exports,arguments)
+},{"./_Map":263,"./_assocSet":270,"./_hashSet":282,"./_isKeyable":286,"dup":197}],292:[function(require,module,exports){
+arguments[4][201][0].apply(exports,arguments)
+},{"./_getNative":276,"dup":201}],293:[function(require,module,exports){
+arguments[4][202][0].apply(exports,arguments)
+},{"./_checkGlobal":274,"dup":202}],294:[function(require,module,exports){
+arguments[4][209][0].apply(exports,arguments)
+},{"./memoize":311,"./toString":314,"dup":209}],295:[function(require,module,exports){
+arguments[4][210][0].apply(exports,arguments)
+},{"./isFunction":303,"./toString":314,"dup":210}],296:[function(require,module,exports){
+arguments[4][214][0].apply(exports,arguments)
+},{"./isObject":306,"./now":312,"./toNumber":313,"dup":214}],297:[function(require,module,exports){
+arguments[4][218][0].apply(exports,arguments)
+},{"dup":218}],298:[function(require,module,exports){
+var baseHas = require('./_baseHas'),
+    hasPath = require('./_hasPath');
+
+/**
+ * Checks if `path` is a direct property of `object`.
+ *
+ * @static
+ * @since 0.1.0
+ * @memberOf _
+ * @category Object
+ * @param {Object} object The object to query.
+ * @param {Array|string} path The path to check.
+ * @returns {boolean} Returns `true` if `path` exists, else `false`.
+ * @example
+ *
+ * var object = { 'a': { 'b': { 'c': 3 } } };
+ * var other = _.create({ 'a': _.create({ 'b': _.create({ 'c': 3 }) }) });
+ *
+ * _.has(object, 'a');
+ * // => true
+ *
+ * _.has(object, 'a.b.c');
+ * // => true
+ *
+ * _.has(object, ['a', 'b', 'c']);
+ * // => true
+ *
+ * _.has(other, 'a');
+ * // => false
+ */
+function has(object, path) {
+  return object != null && hasPath(object, path, baseHas);
+}
+
+module.exports = has;
+
+},{"./_baseHas":272,"./_hasPath":278}],299:[function(require,module,exports){
+arguments[4][224][0].apply(exports,arguments)
+},{"./isArrayLikeObject":302,"dup":224}],300:[function(require,module,exports){
+arguments[4][225][0].apply(exports,arguments)
+},{"dup":225}],301:[function(require,module,exports){
+arguments[4][226][0].apply(exports,arguments)
+},{"./_getLength":275,"./isFunction":303,"./isLength":304,"dup":226}],302:[function(require,module,exports){
+arguments[4][227][0].apply(exports,arguments)
+},{"./isArrayLike":301,"./isObjectLike":307,"dup":227}],303:[function(require,module,exports){
+arguments[4][231][0].apply(exports,arguments)
+},{"./isObject":306,"dup":231}],304:[function(require,module,exports){
+arguments[4][232][0].apply(exports,arguments)
+},{"dup":232}],305:[function(require,module,exports){
+arguments[4][233][0].apply(exports,arguments)
+},{"./_isHostObject":283,"./_toSource":295,"./isFunction":303,"./isObject":306,"dup":233}],306:[function(require,module,exports){
+arguments[4][235][0].apply(exports,arguments)
+},{"dup":235}],307:[function(require,module,exports){
+arguments[4][236][0].apply(exports,arguments)
+},{"dup":236}],308:[function(require,module,exports){
+arguments[4][238][0].apply(exports,arguments)
+},{"./isArray":300,"./isObjectLike":307,"dup":238}],309:[function(require,module,exports){
+arguments[4][239][0].apply(exports,arguments)
+},{"./isObjectLike":307,"dup":239}],310:[function(require,module,exports){
+arguments[4][241][0].apply(exports,arguments)
+},{"dup":241}],311:[function(require,module,exports){
+arguments[4][244][0].apply(exports,arguments)
+},{"./_MapCache":264,"dup":244}],312:[function(require,module,exports){
+arguments[4][247][0].apply(exports,arguments)
+},{"dup":247}],313:[function(require,module,exports){
+arguments[4][252][0].apply(exports,arguments)
+},{"./isFunction":303,"./isObject":306,"./isSymbol":309,"dup":252}],314:[function(require,module,exports){
+arguments[4][255][0].apply(exports,arguments)
+},{"./_Symbol":265,"./isSymbol":309,"dup":255}],315:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -7454,14 +13644,14 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],178:[function(require,module,exports){
+},{}],316:[function(require,module,exports){
 module.exports = function isBuffer(arg) {
   return arg && typeof arg === 'object'
     && typeof arg.copy === 'function'
     && typeof arg.fill === 'function'
     && typeof arg.readUInt8 === 'function';
 }
-},{}],179:[function(require,module,exports){
+},{}],317:[function(require,module,exports){
 (function (process,global){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -8051,5887 +14241,4 @@ function hasOwnProperty(obj, prop) {
 }
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./support/isBuffer":178,"_process":177,"inherits":4}],180:[function(require,module,exports){
-var plugins = {
-	usedKeywords: require( "./js/bundledPlugins/previouslyUsedKeywords" )
-};
-
-var helpers = {
-	scoreToRating: require( "./js/interpreters/scoreToRating" ),
-};
-
-module.exports = {
-	Assessor: require( "./js/assessor" ),
-	App: require( "./js/app.js" ),
-	Pluggable: require( "./js/app" ),
-	Researcher: require( "./js/researcher" ),
-	SnippetPreview: require( "./js/snippetPreview.js" ),
-
-	bundledPlugins: plugins,
-	helpers: helpers
-};
-
-},{"./js/app":181,"./js/app.js":181,"./js/assessor":199,"./js/bundledPlugins/previouslyUsedKeywords":200,"./js/interpreters/scoreToRating":209,"./js/researcher":212,"./js/snippetPreview.js":231}],181:[function(require,module,exports){
-/* jshint browser: true */
-
-require( "./config/config.js" );
-var SnippetPreview = require( "./snippetPreview.js" );
-
-var defaultsDeep = require( "lodash/defaultsDeep" );
-var isObject = require( "lodash/isObject" );
-var isString = require( "lodash/isString" );
-var MissingArgument = require( "./errors/missingArgument" );
-var isUndefined = require( "lodash/isUndefined" );
-var forEach = require( "lodash/forEach" );
-
-var Jed = require( "jed" );
-
-var Assessor = require( "./assessor.js" );
-var Researcher = require( "./researcher.js" );
-var AssessorPresenter = require( "./renderers/AssessorPresenter.js" );
-var Pluggable = require( "./pluggable.js" );
-var Paper = require( "./values/Paper.js" );
-
-/**
- * Default config for YoastSEO.js
- *
- * @type {Object}
- */
-var defaults = {
-	callbacks: {
-		bindElementEvents: function( ) { },
-		updateSnippetValues: function( ) { },
-		saveScores: function( ) { }
-	},
-	sampleText: {
-		baseUrl: "example.org/",
-		snippetCite: "example-post/",
-		title: "This is an example title - edit by clicking here",
-		keyword: "Choose a focus keyword",
-		meta: "Modify your meta description by editing it right here",
-		text: "Start writing your text!"
-	},
-	queue: [ "wordCount",
-		"keywordDensity",
-		"subHeadings",
-		"stopwords",
-		"fleschReading",
-		"linkCount",
-		"imageCount",
-		"urlKeyword",
-		"urlLength",
-		"metaDescription",
-		"pageTitleKeyword",
-		"pageTitleLength",
-		"firstParagraph",
-		"'keywordDoubles" ],
-	typeDelay: 300,
-	typeDelayStep: 100,
-	maxTypeDelay: 1500,
-	dynamicDelay: true,
-	locale: "en_US",
-	translations: {
-		"domain": "js-text-analysis",
-		"locale_data": {
-			"js-text-analysis": {
-				"": {}
-			}
-		}
-	},
-	replaceTarget: [],
-	resetTarget: [],
-	elementTarget: []
-};
-
-/**
- * Creates a default snippet preview, this can be used if no snippet preview has been passed.
- *
- * @private
- * @this App
- *
- * @returns {SnippetPreview} The SnippetPreview object.
- */
-function createDefaultSnippetPreview() {
-	var targetElement = document.getElementById( this.config.targets.snippet );
-
-	return new SnippetPreview( {
-		analyzerApp: this,
-		targetElement: targetElement,
-		callbacks: {
-			saveSnippetData: this.config.callbacks.saveSnippetData
-		}
-	} );
-}
-
-/**
- * Returns whether or not the given argument is a valid SnippetPreview object.
- *
- * @param   {*}         snippetPreview  The 'object' to check against.
- * @returns {boolean}                   Whether or not it's a valid SnippetPreview object.
- */
-function isValidSnippetPreview( snippetPreview ) {
-	return !isUndefined( snippetPreview ) && SnippetPreview.prototype.isPrototypeOf( snippetPreview );
-}
-
-/**
- * Check arguments passed to the App to check if all necessary arguments are set.
- *
- * @private
- * @param {Object}      args            The arguments object passed to the App.
- * @returns {void}
- */
-function verifyArguments( args ) {
-
-	if ( !isObject( args.callbacks.getData ) ) {
-		throw new MissingArgument( "The app requires an object with a getdata callback." );
-	}
-
-	if ( !isObject( args.targets ) ) {
-		throw new MissingArgument( "`targets` is a required App argument, `targets` is not an object." );
-	}
-
-	if ( !isString( args.targets.output ) ) {
-		throw new MissingArgument( "`targets.output` is a required App argument, `targets.output` is not a string." );
-	}
-
-	// The args.targets.snippet argument is only required if not SnippetPreview object has been passed.
-	if ( !isValidSnippetPreview( args.snippetPreview ) && !isString( args.targets.snippet ) ) {
-		throw new MissingArgument( "A snippet preview is required. When no SnippetPreview object isn't passed to " +
-			"the App, the `targets.snippet` is a required App argument. `targets.snippet` is not a string." );
-	}
-}
-
-/**
- * This should return an object with the given properties
- *
- * @callback YoastSEO.App~getData
- * @returns {Object} data
- * @returns {String} data.keyword The keyword that should be used
- * @returns {String} data.meta
- * @returns {String} data.text The text to analyze
- * @returns {String} data.pageTitle The text in the HTML title tag
- * @returns {String} data.title The title to analyze
- * @returns {String} data.url The URL for the given page
- * @returns {String} data.excerpt Excerpt for the pages
- */
-
-/**
- * @callback YoastSEO.App~getAnalyzerInput
- *
- * @returns {Array} An array containing the analyzer queue
- */
-
-/**
- * @callback YoastSEO.App~bindElementEvents
- *
- * @param {YoastSEO.App} app A reference to the YoastSEO.App from where this is called.
- */
-
-/**
- * @callback YoastSEO.App~updateSnippetValues
- *
- * @param {Object} ev The event emitted from the DOM
- */
-
-/**
- * @callback YoastSEO.App~saveScores
- *
- * @param {int} overalScore The overal score as determined by the analyzer.
- */
-
-/**
- * Loader for the analyzer, loads the eventbinder and the elementdefiner
- *
- * @param {Object} args The arguments oassed to the loader.
- * @param {Object} args.translations Jed compatible translations.
- * @param {Object} args.targets Targets to retrieve or set on.
- * @param {String} args.targets.snippet ID for the snippet preview element.
- * @param {String} args.targets.output ID for the element to put the output of the analyzer in.
- * @param {int} args.typeDelay Number of milliseconds to wait between typing to refresh the analyzer output.
- * @param {boolean} args.dynamicDelay   Whether to enable dynamic delay, will ignore type delay if the analyzer takes a long time.
- *                                      Applicable on slow devices.
- * @param {int} args.maxTypeDelay The maximum amount of type delay even if dynamic delay is on.
- * @param {int} args.typeDelayStep The amount with which to increase the typeDelay on each step when dynamic delay is enabled.
- * @param {Object} args.callbacks The callbacks that the app requires.
- * @param {YoastSEO.App~getData} args.callbacks.getData Called to retrieve input data
- * @param {YoastSEO.App~getAnalyzerInput} args.callbacks.getAnalyzerInput Called to retrieve input for the analyzer.
- * @param {YoastSEO.App~bindElementEvents} args.callbacks.bindElementEvents Called to bind events to the DOM elements.
- * @param {YoastSEO.App~updateSnippetValues} args.callbacks.updateSnippetValues Called when the snippet values need to be updated.
- * @param {YoastSEO.App~saveScores} args.callbacks.saveScores Called when the score has been determined by the analyzer.
- * @param {Function} args.callbacks.saveSnippetData Function called when the snippet data is changed.
- *
- * @param {SnippetPreview} args.snippetPreview The SnippetPreview object to be used.
- *
- * @constructor
- */
-var App = function( args ) {
-	if ( !isObject( args ) ) {
-		args = {};
-	}
-
-	defaultsDeep( args, defaults );
-
-	verifyArguments( args );
-
-	this.config = args;
-
-	this.callbacks = this.config.callbacks;
-	this.i18n = this.constructI18n( this.config.translations );
-
-	// Set the assessor
-	this.assessor = new Assessor( this.i18n );
-
-	this.pluggable = new Pluggable( this );
-
-	this.getData();
-	this.showLoadingDialog();
-
-	if ( isValidSnippetPreview( args.snippetPreview ) ) {
-		this.snippetPreview = args.snippetPreview;
-
-		// Hack to make sure the snippet preview always has a reference to this App. This way we solve the circular
-		// dependency issue. In the future this should be solved by the snippet preview not having a reference to the
-		// app.
-		if ( this.snippetPreview.refObj !== this ) {
-			this.snippetPreview.refObj = this;
-			this.snippetPreview.i18n = this.i18n;
-		}
-	} else {
-		this.snippetPreview = createDefaultSnippetPreview.call( this );
-	}
-	this.initSnippetPreview();
-
-	this.runAnalyzer();
-};
-
-/**
- * Extend the config with defaults.
- *
- * @param   {Object}    args    The arguments to be extended.
- * @returns {Object}    args    The extended arguments.
- */
-App.prototype.extendConfig = function( args ) {
-	args.sampleText = this.extendSampleText( args.sampleText );
-	args.locale = args.locale || "en_US";
-
-	return args;
-};
-
-/**
- * Extend sample text config with defaults.
- *
- * @param   {Object}    sampleText  The sample text to be extended.
- * @returns {Object}    sampleText  The extended sample text.
- */
-App.prototype.extendSampleText = function( sampleText ) {
-	var defaultSampleText = defaults.sampleText;
-
-	if ( isUndefined( sampleText ) ) {
-		sampleText = defaultSampleText;
-	} else {
-		for ( var key in sampleText ) {
-			if ( isUndefined( sampleText[ key ] ) ) {
-				sampleText[ key ] = defaultSampleText[ key ];
-			}
-		}
-	}
-
-	return sampleText;
-};
-
-/**
- * Initializes i18n object based on passed configuration
- *
- * @param {Object}  translations    The translations to be used in the current instance.
- * @returns {void}
- */
-App.prototype.constructI18n = function( translations ) {
-	var defaultTranslations = {
-		"domain": "js-text-analysis",
-		"locale_data": {
-			"js-text-analysis": {
-				"": {}
-			}
-		}
-	};
-
-	// Use default object to prevent Jed from erroring out.
-	translations = translations || defaultTranslations;
-
-	return new Jed( translations );
-};
-
-/**
- * Retrieves data from the callbacks.getData and applies modification to store these in this.rawData.
- * @returns {void}
- */
-App.prototype.getData = function() {
-	this.rawData = this.callbacks.getData();
-
-	if ( !isUndefined( this.snippetPreview ) ) {
-
-		// Gets the data FOR the analyzer
-		var data = this.snippetPreview.getAnalyzerData();
-
-		this.rawData.pageTitle = data.title;
-		this.rawData.url = data.url;
-		this.rawData.meta = data.metaDesc;
-	}
-
-	if ( this.pluggable.loaded ) {
-		this.rawData.pageTitle = this.pluggable._applyModifications( "data_page_title", this.rawData.pageTitle );
-		this.rawData.meta = this.pluggable._applyModifications( "data_meta_desc", this.rawData.meta );
-	}
-	this.rawData.locale = this.config.locale;
-};
-
-/**
- * Refreshes the analyzer and output of the analyzer
- * @returns {void}
- */
-App.prototype.refresh = function() {
-	this.getData();
-	this.runAnalyzer();
-};
-
-/**
- * Creates the elements for the snippetPreview
- *
- * @deprecated Don't create a snippet preview using this method, create it directly using the prototype and pass it as
- * an argument instead.
- * @returns {void}
- */
-App.prototype.createSnippetPreview = function() {
-	this.snippetPreview = createDefaultSnippetPreview.call( this );
-	this.initSnippetPreview();
-};
-
-/**
- * Initializes the snippet preview for this App.
- * @returns {void}
- */
-App.prototype.initSnippetPreview = function() {
-	this.snippetPreview.renderTemplate();
-	this.snippetPreview.callRegisteredEventBinder();
-	this.snippetPreview.bindEvents();
-	this.snippetPreview.init();
-};
-
-/**
- * binds the analyzeTimer function to the input of the targetElement on the page.
- * @returns {void}
- */
-App.prototype.bindInputEvent = function() {
-	for ( var i = 0; i < this.config.elementTarget.length; i++ ) {
-		var elem = document.getElementById( this.config.elementTarget[ i ] );
-		elem.addEventListener( "input", this.analyzeTimer.bind( this ) );
-	}
-};
-
-/**
- * runs the rerender function of the snippetPreview if that object is defined.
- * @returns {void}
- */
-App.prototype.reloadSnippetText = function() {
-	if ( isUndefined( this.snippetPreview ) ) {
-		this.snippetPreview.reRender();
-	}
-};
-
-/**
- * the analyzeTimer calls the checkInputs function with a delay, so the function won't be executed
- * at every keystroke checks the reference object, so this function can be called from anywhere,
- * without problems with different scopes.
- * @returns {void}
- */
-App.prototype.analyzeTimer = function() {
-	clearTimeout( window.timer );
-	window.timer = setTimeout( this.refresh.bind( this ), this.config.typeDelay );
-};
-
-/**
- * sets the startTime timestamp
- * @returns {void}
- */
-App.prototype.startTime = function() {
-	this.startTimestamp = new Date().getTime();
-};
-
-/**
- * sets the endTime timestamp and compares with startTime to determine typeDelayincrease.
- * @returns {void}
- */
-App.prototype.endTime = function() {
-	this.endTimestamp = new Date().getTime();
-	if ( this.endTimestamp - this.startTimestamp > this.config.typeDelay ) {
-		if ( this.config.typeDelay < ( this.config.maxTypeDelay - this.config.typeDelayStep ) ) {
-			this.config.typeDelay += this.config.typeDelayStep;
-		}
-	}
-};
-
-/**
- * inits a new pageAnalyzer with the inputs from the getInput function and calls the scoreFormatter
- * to format outputs.
- * @returns {void}
- */
-App.prototype.runAnalyzer = function() {
-	if ( this.pluggable.loaded === false ) {
-		return;
-	}
-
-	if ( this.config.dynamicDelay ) {
-		this.startTime();
-	}
-
-	this.analyzerData = this.modifyData( this.rawData );
-
-	// Create a paper object for the Researcher
-	this.paper = new Paper( this.analyzerData.text, {
-		keyword:  this.analyzerData.keyword,
-		description: this.analyzerData.meta,
-		url: this.analyzerData.url,
-		title: this.analyzerData.pageTitle
-	} );
-
-	// The new researcher
-	if ( isUndefined( this.researcher ) ) {
-		this.researcher = new Researcher( this.paper );
-	} else {
-		this.researcher.setPaper( this.paper );
-	}
-
-	this.assessor.assess( this.paper );
-
-	// Pass the assessor result through to the formatter
-	this.assessorPresenter = new AssessorPresenter( {
-		targets: this.config.targets,
-		keyword: this.paper.getKeyword(),
-		assessor: this.assessor,
-		i18n: this.i18n
-	} );
-
-	this.assessorPresenter.render();
-	this.callbacks.saveScores( this.assessor.calculateOverallScore(), this.assessorPresenter );
-
-	if ( this.config.dynamicDelay ) {
-		this.endTime();
-	}
-
-	this.snippetPreview.reRender();
-};
-
-/**
- * Modifies the data with plugins before it is sent to the analyzer.
- * @param   {Object}  data      The data to be modified.
- * @returns {Object}            The data with the applied modifications.
- */
-App.prototype.modifyData = function( data ) {
-
-	// Copy rawdata to lose object reference.
-	data = JSON.parse( JSON.stringify( data ) );
-
-	data.text = this.pluggable._applyModifications( "content", data.text );
-	data.title = this.pluggable._applyModifications( "title", data.title );
-
-	return data;
-};
-
-/**
- * Function to fire the analyzer when all plugins are loaded, removes the loading dialog.
- * @returns {void}
- */
-App.prototype.pluginsLoaded = function() {
-	this.getData();
-	this.removeLoadingDialog();
-	this.runAnalyzer();
-};
-
-/**
- * Shows the loading dialog which shows the loading of the plugins.
- * @returns {void}
- */
-App.prototype.showLoadingDialog = function() {
-	var dialogDiv = document.createElement( "div" );
-	dialogDiv.className = "YoastSEO_msg";
-	dialogDiv.id = "YoastSEO-plugin-loading";
-	document.getElementById( this.config.targets.output ).appendChild( dialogDiv );
-};
-
-/**
- * Updates the loading plugins. Uses the plugins as arguments to show which plugins are loading
- * @param   {Object}  plugins   The plugins to be parsed into the dialog.
- * @returns {void}
- */
-App.prototype.updateLoadingDialog = function( plugins ) {
-	var dialog = document.getElementById( "YoastSEO-plugin-loading" );
-	dialog.textContent = "";
-	forEach ( plugins, function( plugin, pluginName ) {
-		dialog.innerHTML += "<span class=left>" + pluginName + "</span><span class=right " +
-							plugin.status + ">" + plugin.status + "</span><br />";
-	} );
-	dialog.innerHTML += "<span class=bufferbar></span>";
-};
-
-/**
- * Removes the pluging load dialog.
- * @returns {void}
- */
-App.prototype.removeLoadingDialog = function() {
-	document.getElementById( this.config.targets.output ).removeChild( document.getElementById( "YoastSEO-plugin-loading" ) );
-};
-
-// ***** PLUGGABLE PUBLIC DSL ***** //
-
-/**
- * Delegates to `YoastSEO.app.pluggable.registerPlugin`
- *
- * @param {string}  pluginName      The name of the plugin to be registered.
- * @param {object}  options         The options object.
- * @param {string}  options.status  The status of the plugin being registered. Can either be "loading" or "ready".
- * @returns {boolean}               Whether or not it was successfully registered.
- */
-App.prototype.registerPlugin = function( pluginName, options ) {
-	return this.pluggable._registerPlugin( pluginName, options );
-};
-
-/**
- * Delegates to `YoastSEO.app.pluggable.ready`
- *
- * @param {string}  pluginName  The name of the plugin to check.
- * @returns {boolean}           Whether or not the plugin is ready.
- */
-App.prototype.pluginReady = function( pluginName ) {
-	return this.pluggable._ready( pluginName );
-};
-
-/**
- * Delegates to `YoastSEO.app.pluggable.reloaded`
- *
- * @param {string} pluginName   The name of the plugin to reload
- * @returns {boolean}           Whether or not the plugin was reloaded.
- */
-App.prototype.pluginReloaded = function( pluginName ) {
-	return this.pluggable._reloaded( pluginName );
-};
-
-/**
- * Delegates to `YoastSEO.app.pluggable.registerModification`
- *
- * @param {string}      modification 		The name of the filter
- * @param {function}    callable 		 	The callable function
- * @param {string}      pluginName 		    The plugin that is registering the modification.
- * @param {number}      priority 		 	(optional) Used to specify the order in which the callables associated with a particular filter are
-                                            called.
- * 									        Lower numbers correspond with earlier execution.
- * @returns 			{boolean}           Whether or not the modification was successfully registered.
- */
-App.prototype.registerModification = function( modification, callable, pluginName, priority ) {
-	return this.pluggable._registerModification( modification, callable, pluginName, priority );
-};
-
-/**
- * Registers a custom test for use in the analyzer, this will result in a new line in the analyzer results. The function
- * has to return a result based on the contents of the page/posts.
- *
- * The scoring object is a special object with definitions about how to translate a result from your analysis function
- * to a SEO score.
- *
- * Negative scores result in a red circle
- * Scores 1, 2, 3, 4 and 5 result in a orange circle
- * Scores 6 and 7 result in a yellow circle
- * Scores 8, 9 and 10 result in a red circle
- *
- * @deprecated since version 1.2
- */
-App.prototype.registerTest = function() {
-	console.error( "This function is deprecated, please use registerAssessment" );
-};
-
-/**
- * Registers a custom assessment for use in the analyzer, this will result in a new line in the analyzer results.
- * The function needs to use the assessmentresult to return an result  based on the contents of the page/posts.
- *
- * Score 0 results in a grey circle if it is not explicitly set by using setscore
- * Scores 0, 1, 2, 3 and 4 result in a red circle
- * Scores 6 and 7 result in a yellow circle
- * Scores 8, 9 and 10 result in a green circle
- *
- * @param {string} name Name of the test.
- * @param {function} assessment The assessment to run
- * @param {string}   pluginName The plugin that is registering the test.
- * @returns {boolean} Whether or not the test was successfully registered.
- */
-App.prototype.registerAssessment = function( name, assessment, pluginName ) {
-	return this.pluggable._registerAssessment( this.assessor, name, assessment, pluginName );
-};
-
-module.exports = App;
-
-},{"./assessor.js":199,"./config/config.js":201,"./errors/missingArgument":208,"./pluggable.js":210,"./renderers/AssessorPresenter.js":211,"./researcher.js":212,"./snippetPreview.js":231,"./values/Paper.js":258,"jed":5,"lodash/defaultsDeep":136,"lodash/forEach":139,"lodash/isObject":156,"lodash/isString":159,"lodash/isUndefined":162}],182:[function(require,module,exports){
-var AssessmentResult = require( "../values/AssessmentResult.js" );
-var inRange = require( "lodash/inRange" );
-
-/**
- * Calculates the assessment result based on the fleschReadingScore
- * @param {int} fleschReadingScore The score from the fleschReadingtest
- * @param {object} i18n The i18n-object used for parsing translations
- * @returns {object} object with score, resultText and note
- */
-var calculateFleschReadingResult = function( fleschReadingScore, i18n ) {
-	if ( fleschReadingScore > 90 ) {
-		return {
-			score: 9,
-			resultText: i18n.dgettext( "js-text-analysis", "very easy" ),
-			note: ""
-		};
-	}
-
-	if ( inRange( fleschReadingScore, 80, 90 ) ) {
-		return {
-			score: 9,
-			resultText:  i18n.dgettext( "js-text-analysis", "easy" ),
-			note: ""
-		};
-	}
-
-	if ( inRange( fleschReadingScore, 70, 80 ) ) {
-		return {
-			score: 8,
-			resultText: i18n.dgettext( "js-text-analysis", "fairly easy" ),
-			note: ""
-		};
-	}
-
-	if ( inRange( fleschReadingScore, 60, 70 ) ) {
-		return {
-			score: 8,
-			resultText: i18n.dgettext( "js-text-analysis", "ok" ),
-			note: ""
-		};
-	}
-
-	if ( inRange( fleschReadingScore, 50, 60 ) ) {
-		return {
-			score: 6,
-			resultText: i18n.dgettext( "js-text-analysis", "fairly difficult" ),
-			note: i18n.dgettext( "js-text-analysis", "Try to make shorter sentences to improve readability." )
-		};
-	}
-
-	if ( inRange( fleschReadingScore, 30, 50 ) ) {
-		return {
-			score: 5,
-			resultText: i18n.dgettext( "js-text-analysis", "difficult" ),
-			note: i18n.dgettext( "js-text-analysis", "Try to make shorter sentences, using less difficult words to improve readability." )
-		};
-	}
-
-	if ( fleschReadingScore < 30 ) {
-		return {
-			score: 4,
-			resultText: i18n.dgettext( "js-text-analysis", "very difficult" ),
-			note: i18n.dgettext( "js-text-analysis", "Try to make shorter sentences, using less difficult words to improve readability." )
-		};
-	}
-};
-
-/**
- * The assessment that runs the FleschReading on the paper.
- *
- * @param {object} paper The paper to run this assessment on
- * @param {object} researcher The researcher used for the assessment
- * @param {object} i18n The i18n-object used for parsing translations
- * @returns {object} an assessmentresult with the score and formatted text.
- */
-var fleschReadingAssessment = function( paper, researcher, i18n ) {
-	var fleschReadingScore = researcher.getResearch( "calculateFleschReading" );
-
-	/* translators: %1$s expands to the numeric flesch reading ease score, %2$s to a link to a Yoast.com article about Flesch ease reading score,
-	 %3$s to the easyness of reading, %4$s expands to a note about the flesch reading score. */
-	var text = i18n.dgettext( "js-text-analysis", "The copy scores %1$s in the %2$s test, which is considered %3$s to read. %4$s" );
-	var url = "<a href='https://yoast.com/flesch-reading-ease-score/' target='new'>Flesch Reading Ease</a>";
-
-	// scores must be between 0 and 100;
-	if ( fleschReadingScore < 0 ) {
-		fleschReadingScore = 0;
-	}
-	if ( fleschReadingScore > 100 ) {
-		fleschReadingScore = 100;
-	}
-
-	var fleschReadingResult = calculateFleschReadingResult( fleschReadingScore, i18n );
-
-	text = i18n.sprintf( text, fleschReadingScore, url, fleschReadingResult.resultText, fleschReadingResult.note );
-
-	var assessmentResult =  new AssessmentResult();
-	assessmentResult.setScore( fleschReadingResult.score );
-	assessmentResult.setText( text );
-
-	return assessmentResult;
-};
-
-module.exports = {
-	getResult: fleschReadingAssessment,
-	isApplicable: function( paper ) {
-		return ( paper.getLocale().indexOf( "en_" ) > -1 );
-	}
-};
-
-},{"../values/AssessmentResult.js":257,"lodash/inRange":144}],183:[function(require,module,exports){
-var AssessmentResult = require( "../values/AssessmentResult.js" );
-var inRange = require( "lodash/inRange" );
-
-/**
- * Calculate the score based on the current word count.
- * @param {number} wordCount The amount of words to be checked against.
- * @param {object} i18n The locale object.
- * @returns {object} The resulting score object.
- */
-var calculateWordCountResult = function( wordCount, i18n ) {
-	if ( wordCount > 300 ) {
-		return {
-			score: 9,
-			/* translators: %1$d expands to the number of words in the text, %2$s to the recommended minimum of words */
-			text: i18n.dngettext(
-				"js-text-analysis",
-				"The text contains %1$d word, this is more than the %2$d word recommended minimum.",
-				"The text contains %1$d words, this is more than the %2$d word recommended minimum.",
-				wordCount
-			)
-		};
-	}
-
-	if ( inRange( wordCount, 250, 300 ) ) {
-		return {
-			score: 7,
-			/* translators: %1$d expands to the number of words in the text, %2$s to the recommended minimum of words */
-			text: i18n.dngettext(
-				"js-text-analysis",
-				"The text contains %1$d word, this is slightly below the %2$d word recommended minimum. Add a bit more copy.",
-				"The text contains %1$d words, this is slightly below the %2$d word recommended minimum. Add a bit more copy.",
-				wordCount
-			)
-		};
-	}
-
-	if ( inRange( wordCount, 200, 250 ) ) {
-		return {
-			score: 5,
-			/* translators: %1$d expands to the number of words in the text, %2$d to the recommended minimum of words */
-			text: i18n.dngettext(
-				"js-text-analysis",
-				"The text contains %1$d word, this is below the %2$d word recommended minimum. Add more useful content on this topic for readers.",
-				"The text contains %1$d words, this is below the %2$d word recommended minimum. Add more useful content on this topic for readers.",
-				wordCount
-			)
-		};
-	}
-
-	if ( inRange( wordCount, 100, 200 ) ) {
-		return {
-			score: -10,
-			/* translators: %1$d expands to the number of words in the text, %2$d to the recommended minimum of words */
-			text: i18n.dngettext(
-				"js-text-analysis",
-				"The text contains %1$d word, this is below the %2$d word recommended minimum. Add more useful content on this topic for readers.",
-				"The text contains %1$d words, this is below the %2$d word recommended minimum. Add more useful content on this topic for readers.",
-				wordCount
-			)
-		};
-	}
-
-	if ( inRange( wordCount, 0, 100 ) ) {
-		return {
-			score: -20,
-			/* translators: %1$d expands to the number of words in the text */
-			text: i18n.dngettext(
-				"js-text-analysis",
-				"The text contains %1$d word, this is far too low and should be increased.",
-				"The text contains %1$d words, this is far too low and should be increased.",
-				wordCount
-			)
-		};
-	}
-};
-
-/**
- * Execute the Assessment and return a result.
- * @param {Paper} paper The Paper object to assess.
- * @param {Researcher} researcher The Researcher object containing all available researches.
- * @param {object} i18n The locale object.
- * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
- */
-var countWordsAssessment = function( paper, researcher, i18n ) {
-	var wordCount = researcher.getResearch( "wordCountInText" );
-	var wordCountResult = calculateWordCountResult( wordCount, i18n );
-	var assessmentResult = new AssessmentResult();
-
-	assessmentResult.setScore( wordCountResult.score );
-	assessmentResult.setText( i18n.sprintf( wordCountResult.text, wordCount, 300 ) );
-
-	return assessmentResult;
-};
-
-module.exports = { getResult: countWordsAssessment };
-
-},{"../values/AssessmentResult.js":257,"lodash/inRange":144}],184:[function(require,module,exports){
-var AssessmentResult = require( "../values/AssessmentResult.js" );
-
-/**
- * Returns a score and text based on the firstParagraph object.
- *
- * @param {object} firstParagraphMatches The object with all firstParagraphMatches.
- * @param {object} i18n The object used for translations
- * @returns {object} resultObject with score and text
- */
-var calculateFirstParagraphResult = function( firstParagraphMatches, i18n ) {
-	if ( firstParagraphMatches > 0 ) {
-		return {
-			score: 9,
-			text: i18n.dgettext( "js-text-analysis", "The focus keyword appears in the first paragraph of the copy." )
-		};
-	}
-
-	return {
-		score: 3,
-		text: i18n.dgettext( "js-text-analysis", "The focus keyword doesn\'t appear in the first paragraph of the copy. " +
-			"Make sure the topic is clear immediately." )
-	};
-};
-
-/**
- * Runs the findKeywordInFirstParagraph module, based on this returns an assessment result with score.
- *
- * @param {Paper} paper The paper to use for the assessment.
- * @param {object} researcher The researcher used for calling research.
- * @param {object} i18n The object used for translations
- * @returns {object} the Assessmentresult
- */
-var getFirstParagraphAssessment = function( paper,  researcher, i18n ) {
-	var firstParagraphMatches = researcher.getResearch( "firstParagraph" );
-	var firstParagraphResult = calculateFirstParagraphResult( firstParagraphMatches, i18n );
-	var assessmentResult = new AssessmentResult();
-
-	assessmentResult.setScore( firstParagraphResult.score );
-	assessmentResult.setText( firstParagraphResult.text );
-
-	return assessmentResult;
-};
-
-module.exports = {
-	getResult: getFirstParagraphAssessment,
-	isApplicable: function( paper ) {
-		return paper.hasKeyword();
-	}
-};
-
-},{"../values/AssessmentResult.js":257}],185:[function(require,module,exports){
-var AssessmentResult = require( "../values/AssessmentResult.js" );
-
-/**
- * Returns a score and text based on the linkStatistics object.
- *
- * @param {object} linkStatistics The object with all linkstatistics.
- * @param {object} i18n The object used for translations
- * @returns {object} resultObject with score and text
- */
-var calculateLinkStatisticsResult = function( linkStatistics, i18n ) {
-	if ( linkStatistics.total === 0 ) {
-		return {
-			score: 6,
-			text: i18n.dgettext( "js-text-analysis", "No outbound links appear in this page, consider adding some as appropriate." )
-
-		};
-	}
-	if ( linkStatistics.externalTotal === 0 ) {
-		return {
-			score: 6,
-			text: i18n.dgettext( "js-text-analysis", "No outbound links appear in this page, consider adding some as appropriate." )
-		};
-	}
-	if ( linkStatistics.totalNaKeyword > 0 ) {
-		return {
-			score: 2,
-			text: i18n.dgettext( "js-text-analysis", "Outbound links appear in this page" )
-		};
-	}
-	if ( linkStatistics.totalKeyword > 0 ) {
-		return {
-			score: 2,
-			text: i18n.dgettext( "js-text-analysis", "You\'re linking to another page with the focus keyword you want this page to rank for. " +
-				"Consider changing that if you truly want this page to rank." )
-		};
-	}
-	if ( linkStatistics.externalNofollow === linkStatistics.total ) {
-		return {
-			score: 7,
-			/* translators: %1$s expands the number of outbound links */
-			text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "This page has %1$s outbound link(s), all nofollowed." ),
-				linkStatistics.externalNofollow )
-		};
-	}
-
-	if ( linkStatistics.externalNofollow < linkStatistics.total ) {
-		return {
-			score: 8,
-			/* translators: %1$s expands to the number of nofollow links, %2$s to the number of outbound links */
-			text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "This page has %1$s nofollowed link(s) and %2$s normal outbound link(s)." ),
-				linkStatistics.externalNofollow, linkStatistics.externalDofollow )
-		};
-	}
-
-	if ( linkStatistics.externalDofollow === linkStatistics.total ) {
-		return {
-			score: 9,
-			/* translators: %1$s expands to the number of outbound links */
-			text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "This page has %1$s outbound link(s)." ), linkStatistics.externalTotal )
-		};
-	}
-};
-
-/**
- * Runs the getLinkStatistics module, based on this returns an assessment result with score.
- *
- * @param {object} paper The paper to use for the assessment.
- * @param {object} researcher The researcher used for calling research.
- * @param {object} i18n The object used for translations
- * @returns {object} the Assessmentresult
- */
-var getLinkStatisticsAssessment = function( paper,  researcher, i18n ) {
-	var linkStatistics = researcher.getResearch( "getLinkStatistics" );
-	var linkStatisticsResult = calculateLinkStatisticsResult( linkStatistics, i18n );
-	var assessmentResult = new AssessmentResult();
-
-	assessmentResult.setScore( linkStatisticsResult.score );
-	assessmentResult.setText( linkStatisticsResult.text );
-
-	return assessmentResult;
-};
-
-module.exports = {
-	getResult: getLinkStatisticsAssessment,
-	isApplicable: function ( paper ) {
-		return paper.hasText();
-	}
-};
-
-},{"../values/AssessmentResult.js":257}],186:[function(require,module,exports){
-var AssessmentResult = require( "../values/AssessmentResult.js" );
-var isEmpty = require( "lodash/isEmpty" );
-
-/**
- * Calculate the score based on the current image count.
- * @param {number} imageCount The amount of images to be checked against.
- * @param {object} i18n The locale object.
- * @returns {object} The resulting score object.
- */
-var calculateImageCountResult = function( imageCount, i18n ) {
-	if ( imageCount === 0 ) {
-		return {
-			score: 3,
-			text: i18n.dgettext( "js-text-analysis", "No images appear in this page, consider adding some as appropriate." )
-		};
-	}
-
-	return {};
-};
-
-/**
- * Calculate the score based on the current image alt-tag count.
- * @param {object} altProperties An object containing the various alt-tags.
- * @param {object} i18n The locale object.
- * @returns {object} The resulting score object.
- */
-var assessImages = function( altProperties, i18n ) {
-	if ( altProperties.noAlt > 0 ) {
-		return {
-			score: 5,
-			text: i18n.dgettext( "js-text-analysis", "The images on this page are missing alt tags." )
-		};
-	}
-
-	// Has alt-tag, but no keyword is set
-	if ( altProperties.withAlt > 0 ) {
-		return {
-			score: 5,
-			text: i18n.dgettext( "js-text-analysis", "The images on this page contain alt tags." )
-		};
-	}
-
-	// Has alt-tag, but no keywords and it's not okay
-	if ( altProperties.withAltNonKeyword > 0 ) {
-		return {
-			score: 5,
-			text: i18n.dgettext( "js-text-analysis", "The images on this page do not have alt tags containing your focus keyword." )
-		};
-	}
-
-	// Has alt-tag and keywords
-	if ( altProperties.withAltKeyword > 0 ) {
-		return {
-			score: 9,
-			text: i18n.dgettext( "js-text-analysis", "The images on this page contain alt tags with the focus keyword." )
-		};
-	}
-
-	return {};
-};
-
-/**
- * Execute the Assessment and return a result.
- * @param {Paper} paper The Paper object to assess.
- * @param {Researcher} researcher The Researcher object containing all available researches.
- * @param {object} i18n The locale object.
- * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
- */
-var imageAssessment = function( paper, researcher, i18n ) {
-	var assessmentResult = new AssessmentResult();
-
-	var imageCount = researcher.getResearch( "imageCount" );
-	var imageCountResult = calculateImageCountResult( imageCount, i18n );
-
-	if ( isEmpty( imageCountResult ) ) {
-		var altTagCount = researcher.getResearch( "altTagCount" );
-		var altTagCountResult = assessImages( altTagCount, i18n );
-
-		assessmentResult.setScore( altTagCountResult.score );
-		assessmentResult.setText( altTagCountResult.text );
-
-		return assessmentResult;
-	}
-
-	assessmentResult.setScore( imageCountResult.score );
-	assessmentResult.setText( imageCountResult.text );
-
-	return assessmentResult;
-};
-
-module.exports = {
-	getResult: imageAssessment,
-	isApplicable: function ( paper ) {
-		return paper.hasText();
-	}
-};
-
-},{"../values/AssessmentResult.js":257,"lodash/isEmpty":151}],187:[function(require,module,exports){
-var AssessmentResult = require( "../values/AssessmentResult.js" );
-
-/**
- * Assesses the keyphrase presence and length
- *
- * @param {Paper} paper The paper to use for the assessment.
- * @param {Researcher} researcher The researcher used for calling research.
- * @param {Jed} i18n The object used for translations
- * @returns {AssessmentResult} The result of this assessment
-*/
-function keyphraseAssessment( paper, researcher, i18n ) {
-	var keyphraseLength = researcher.getResearch( "keyphraseLength" );
-
-	var assessmentResult = new AssessmentResult();
-
-	if ( !paper.hasKeyword() ) {
-		assessmentResult.setScore( -999 );
-		assessmentResult.setText( i18n.dgettext( "js-text-analysis", "No focus keyword was set for this page. " +
-			"If you do not set a focus keyword, no score can be calculated." ) );
-	} else if ( keyphraseLength > 10 ) {
-		assessmentResult.setScore( 0 );
-		assessmentResult.setText( i18n.dgettext( "js-text-analysis", "Your keyphrase is over 10 words, a keyphrase should be shorter." ) );
-	}
-
-	return assessmentResult;
-}
-
-module.exports = { getResult: keyphraseAssessment };
-
-},{"../values/AssessmentResult.js":257}],188:[function(require,module,exports){
-var AssessmentResult = require( "../values/AssessmentResult.js" );
-var matchWords = require( "../stringProcessing/matchTextWithWord.js" );
-var inRange = require( "lodash/inRange" );
-
-/**
- * Returns the scores and text for keyword density
- * @param {string} keywordDensity The keyword density
- * @param {object} i18n The i18n object used for translations
- * @returns {{score: number, text: *}} the assessmentresult
- */
-var calculateKeywordDensityResult = function( keywordDensity, i18n ) {
-	if ( keywordDensity > 3.5 ) {
-		return {
-			score: -50,
-			text: i18n.dgettext( "js-text-analysis", "The keyword density is %1$s%%, which is way over the advised 2.5%% maximum;" +
-				" the focus keyword was found %2$d times." )
-		};
-	}
-	if ( inRange( keywordDensity, 2.5, 3.5 ) ) {
-		return {
-			score: -10,
-			text: i18n.dgettext( "js-text-analysis", "The keyword density is %1$s%%, which is over the advised 2.5%% maximum;" +
-				" the focus keyword was found %2$d times." )
-		};
-	}
-	if ( inRange( keywordDensity, 0.5, 2.5 ) ) {
-		return {
-			score: 9,
-			text: i18n.dgettext( "js-text-analysis", "The keyword density is %1$s%%, which is great; the focus keyword was found %2$d times." )
-		};
-	}
-	if ( inRange( keywordDensity, 0, 0.5 ) ) {
-		return {
-			score: 4,
-			text: i18n.dgettext( "js-text-analysis", "The keyword density is %1$s%%, which is a bit low; the focus keyword was found %2$d times." )
-		};
-	}
-};
-
-/**
- * Runs the getkeywordDensity module, based on this returns an assessment result with score.
- *
- * @param {object} paper The paper to use for the assessment.
- * @param {object} researcher The researcher used for calling research.
- * @param {object} i18n The object used for translations
- * @returns {object} the Assessmentresult
- */
-var getKeyworDensityAssessment = function( paper,  researcher, i18n ) {
-
-	var keywordDensity = researcher.getResearch( "getKeywordDensity" );
-	var keywordCount = matchWords( paper.getText(), paper.getKeyword() );
-	var keywordDensityResult = calculateKeywordDensityResult( keywordDensity, i18n );
-	var assessmentResult = new AssessmentResult();
-
-	var text = i18n.sprintf( keywordDensityResult.text, keywordDensity.toFixed( 1 ), keywordCount );
-
-	assessmentResult.setScore( keywordDensityResult.score );
-	assessmentResult.setText( text );
-
-	return assessmentResult;
-};
-
-module.exports = {
-	getResult: getKeyworDensityAssessment,
-	isApplicable: function( paper ) {
-		return paper.hasText() && paper.hasKeyword();
-	}
-};
-
-},{"../stringProcessing/matchTextWithWord.js":245,"../values/AssessmentResult.js":257,"lodash/inRange":144}],189:[function(require,module,exports){
-var AssessmentResult = require( "../values/AssessmentResult.js" );
-
-/**
- * Calculate the score based on whether or not there's a keyword in the url.
- * @param {number} keywordsResult The amount of keywords to be checked against.
- * @param {object} i18n The locale object.
- * @returns {object} The resulting score object.
- */
-var calculateUrlKeywordCountResult = function( keywordsResult, i18n ) {
-
-	if ( keywordsResult > 0 ) {
-		return {
-			score: 9,
-			text: i18n.dgettext( "js-text-analysis", "The focus keyword appears in the URL for this page." )
-		};
-	}
-
-	return {
-		score: 6,
-		text: i18n.dgettext( "js-text-analysis", "The focus keyword does not appear in the URL for this page. " +
-		                                         "If you decide to rename the URL be sure to check the old URL 301 redirects to the new one!" )
-	};
-};
-
-/**
- * Execute the Assessment and return a result.
- * @param {Paper} paper The Paper object to assess.
- * @param {Researcher} researcher The Researcher object containing all available researches.
- * @param {object} i18n The locale object.
- * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
- */
-var keywordInUrlAssessment = function( paper, researcher, i18n ) {
-	var keywords = researcher.getResearch( "keywordCountInUrl" );
-	var keywordsResult = calculateUrlKeywordCountResult( keywords, i18n );
-
-	var assessmentResult = new AssessmentResult();
-	assessmentResult.setScore( keywordsResult.score );
-	assessmentResult.setText( keywordsResult.text );
-
-	return assessmentResult;
-};
-
-module.exports = {
-	getResult: keywordInUrlAssessment,
-	isApplicable: function( paper ) {
-		return paper.hasKeyword() && paper.hasUrl();
-	}
-};
-
-},{"../values/AssessmentResult.js":257}],190:[function(require,module,exports){
-var AssessmentResult = require( "../values/AssessmentResult.js" );
-
-/**
- * Returns a score and text based on the keyword matches object.
- *
- * @param {object} subHeadings The object with all subHeadings matches.
- * @param {object} i18n The object used for translations.
- * @returns {object} resultObject with score and text.
- */
-var calculateKeywordMatchesResult = function( subHeadings, i18n ) {
-	if ( subHeadings.matches === 0 ) {
-		return {
-			score: 3,
-			text: i18n.dgettext( "js-text-analysis", "You have not used your focus keyword in any subheading (such as an H2) in your copy." )
-		};
-	}
-	if ( subHeadings.matches >= 1 ) {
-		return {
-			score: 9,
-			text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "The focus keyword appears in %2$d (out of %1$d) subheadings in the copy. " +
-				"While not a major ranking factor, this is beneficial." ), subHeadings.count, subHeadings.matches )
-		};
-	}
-	return {};
-};
-
-/**
- * Runs the match keyword in subheadings module, based on this returns an assessment result with score.
- *
- * @param {object} paper The paper to use for the assessment.
- * @param {object} researcher The researcher used for calling research.
- * @param {object} i18n The object used for translations.
- * @returns {object} the Assessmentresult
- */
-var matchKeywordinSubHeadingAssessment = function( paper, researcher, i18n ) {
-	var subHeadings = researcher.getResearch( "matchKeywordInSubheadings" );
-	var subHeadingsResult = calculateKeywordMatchesResult( subHeadings, i18n );
-	var assessmentResult = new AssessmentResult();
-
-	assessmentResult.setScore( subHeadingsResult.score );
-	assessmentResult.setText( subHeadingsResult.text );
-
-	return assessmentResult;
-};
-
-module.exports = {
-	getResult: matchKeywordinSubHeadingAssessment,
-	isApplicable: function( paper ) {
-		return paper.hasText() && paper.hasKeyword();
-	}
-};
-
-},{"../values/AssessmentResult.js":257}],191:[function(require,module,exports){
-var AssessmentResult = require( "../values/AssessmentResult.js" );
-
-/**
- * Returns a score and text based on the subheading matches object.
- *
- * @param {object} subHeadings The object with all subHeadings matches.
- * @param {object} i18n The object used for translations.
- * @returns {object} resultObject with score and text.
- */
-var calculateSubheadingMatchesResult = function( subHeadings, i18n ) {
-	if ( subHeadings.count === 0 ) {
-		return {
-			score: 7,
-			text: i18n.dgettext( "js-text-analysis", "No subheading tags (like an H2) appear in the copy." )
-		};
-	}
-	return {};
-};
-
-/**
- * Runs the match subheadings module, based on this returns an assessment result with score.
- *
- * @param {object} paper The paper to use for the assessment.
- * @param {object} researcher The researcher used for calling research.
- * @param {object} i18n The object used for translations.
- * @returns {object} the Assessmentresult
- */
-var matchKeywordinSubHeadingAssessment = function( paper, researcher, i18n ) {
-	var subHeadings = researcher.getResearch( "matchKeywordInSubheadings" );
-	var subHeadingsResult = calculateSubheadingMatchesResult( subHeadings, i18n );
-	var assessmentResult = new AssessmentResult();
-
-	assessmentResult.setScore( subHeadingsResult.score );
-	assessmentResult.setText( subHeadingsResult.text );
-
-	return assessmentResult;
-};
-
-module.exports = {
-	getResult: matchKeywordinSubHeadingAssessment,
-	isApplicable: function( paper ) {
-		return paper.hasText();
-	}
-};
-
-
-},{"../values/AssessmentResult.js":257}],192:[function(require,module,exports){
-var AssessmentResult = require( "../values/AssessmentResult.js" );
-
-/**
- * Returns the score and text for the description keyword match.
- * @param {number} keywordMatches The number of keyword matches in the description.
- * @param {object} i18n The i18n object used for translations.
- * @returns {Object} An object with values for the assessment result.
- */
-var calculateKeywordMatchesResult = function( keywordMatches, i18n ) {
-	if ( keywordMatches > 0 ) {
-		return {
-			score: 9,
-			text: i18n.dgettext( "js-text-analysis", "The meta description contains the focus keyword." )
-		};
-	}
-	if ( keywordMatches === 0 ) {
-		return {
-			score: 3,
-			text: i18n.dgettext( "js-text-analysis", "A meta description has been specified, but it does not contain the focus keyword." )
-		};
-	}
-	return {};
-};
-
-/**
- * Runs the metaDescription keyword module, based on this returns an assessment result with score.
- *
- * @param {object} paper The paper to use for the assessment.
- * @param {object} researcher The researcher used for calling research.
- * @param {object} i18n The object used for translations
- * @returns {object} the Assessmentresult
- */
-var getMetadescriptionKeywordAssessment = function( paper,  researcher, i18n ) {
-	var keywordMatches = researcher.getResearch( "metaDescriptionKeyword" );
-	var descriptionLengthResult = calculateKeywordMatchesResult( keywordMatches, i18n );
-	var assessmentResult = new AssessmentResult();
-
-	assessmentResult.setScore( descriptionLengthResult.score );
-	assessmentResult.setText( descriptionLengthResult.text );
-
-	return assessmentResult;
-};
-
-module.exports = {
-	getResult: getMetadescriptionKeywordAssessment,
-	isApplicable: function ( paper ) {
-		return paper.hasKeyword();
-	}
-};
-
-},{"../values/AssessmentResult.js":257}],193:[function(require,module,exports){
-var AssessmentResult = require( "../values/AssessmentResult.js" );
-
-/**
- * Returns the score and text for the descriptionLength
- * @param {number} descriptionLength The length of the metadescription.
- * @param {object} i18n The i18n object used for translations.
- * @returns {Object} An object with values for the assessment result.
- */
-var calculateDescriptionLengthResult = function( descriptionLength, i18n ) {
-	var recommendedValue = 120;
-	var maximumValue = 156;
-	if ( descriptionLength === 0 ) {
-		return {
-			score: 1,
-			text: i18n.dgettext( "js-text-analysis", "No meta description has been specified, " +
-				"search engines will display copy from the page instead." )
-		};
-	}
-	if ( descriptionLength <= recommendedValue ) {
-		return {
-			score: 6,
-			text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "The meta description is under %1$d characters, " +
-				"however up to %2$d characters are available." ), recommendedValue, maximumValue )
-		};
-	}
-	if ( descriptionLength > maximumValue ) {
-		return {
-			score: 6,
-			text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "The specified meta description is over %1$d characters. " +
-				"Reducing it will ensure the entire description is visible." ), maximumValue )
-		};
-	}
-	if ( descriptionLength >= recommendedValue && descriptionLength <= maximumValue ) {
-		return {
-			score: 9,
-			text: i18n.dgettext( "js-text-analysis", "In the specified meta description, consider: " +
-				"How does it compare to the competition? Could it be made more appealing?" )
-		};
-	}
-};
-
-/**
- * Runs the metaDescriptionLength module, based on this returns an assessment result with score.
- *
- * @param {object} paper The paper to use for the assessment.
- * @param {object} researcher The researcher used for calling research.
- * @param {object} i18n The object used for translations
- * @returns {object} the Assessmentresult
- */
-var getMetadescriptionLengthAssessment = function( paper,  researcher, i18n ) {
-	var descriptionLength = researcher.getResearch( "metaDescriptionLength" );
-	var descriptionLengthResult = calculateDescriptionLengthResult( descriptionLength, i18n );
-	var assessmentResult = new AssessmentResult();
-
-	assessmentResult.setScore( descriptionLengthResult.score );
-	assessmentResult.setText( descriptionLengthResult.text );
-
-	return assessmentResult;
-};
-
-module.exports = { getResult: getMetadescriptionLengthAssessment };
-
-},{"../values/AssessmentResult.js":257}],194:[function(require,module,exports){
-var AssessmentResult = require( "../values/AssessmentResult.js" );
-
-/**
- * Executes the pagetitle keyword assessment and returns an assessment result.
- * @param {Paper} paper The Paper object to assess.
- * @param {Researcher} researcher The Researcher object containing all available researches.
- * @param {object} i18n The locale object.
- * @returns {AssessmentResult} The result of the assessment with text and score
- */
-var pageTitleKeywordAssessment = function( paper, researcher, i18n ) {
-	var keywordMatches = researcher.getResearch( "findKeywordInPageTitle" );
-	var score, text;
-
-	if ( keywordMatches.matches === 0 ) {
-		score = 2;
-		text = i18n.sprintf( i18n.dgettext( "js-text-analysis", "The focus keyword '%1$s' does not appear in the page title." ), paper.getKeyword() );
-	}
-
-	if ( keywordMatches.matches > 0 && keywordMatches.position === 0 ) {
-		score = 9;
-		text = i18n.dgettext( "js-text-analysis", "The page title contains the focus keyword, at the beginning which is considered " +
-			"to improve rankings." );
-	}
-
-	if ( keywordMatches.matches > 0 && keywordMatches.position > 0 ) {
-		score = 6;
-		text = i18n.dgettext( "js-text-analysis", "The page title contains the focus keyword, but it does not appear at the beginning;" +
-			" try and move it to the beginning." );
-	}
-	var assessmentResult = new AssessmentResult();
-
-	assessmentResult.setScore( score );
-	assessmentResult.setText( text );
-
-	return assessmentResult;
-};
-
-module.exports = {
-	getResult: pageTitleKeywordAssessment,
-	isApplicable: function ( paper ) {
-		return paper.hasKeyword();
-	}
-};
-
-},{"../values/AssessmentResult.js":257}],195:[function(require,module,exports){
-var AssessmentResult = require( "../values/AssessmentResult.js" );
-var inRange = require( "lodash/inRange" );
-
-/**
- * Returns the score and text for the pageTitleLength
- * @param {number} pageTitleLength The length of the pageTitle.
- * @param {object} i18n The i18n object used for translations.
- * @returns {object} The result object.
- */
-var calculatePageTitleLengthResult = function( pageTitleLength, i18n ) {
-	var minLength = 35;
-	var maxLength = 65;
-
-	if ( inRange( pageTitleLength, 1, 35 ) ) {
-		return {
-			score: 6,
-			text: i18n.sprintf(
-				i18n.dngettext(
-					"js-text-analysis",
-					/* translators: %1$d expands to the number of characters in the page title,
-					%2$d to the minimum number of characters for the title */
-					"The page title contains %1$d character, which is less than the recommended minimum of %2$d characters. " +
-					"Use the space to add keyword variations or create compelling call-to-action copy.",
-					"The page title contains %1$d characters, which is less than the recommended minimum of %2$d characters. " +
-					"Use the space to add keyword variations or create compelling call-to-action copy.",
-				pageTitleLength ),
-				pageTitleLength, minLength )
-		};
-	}
-
-	if ( inRange( pageTitleLength, 35, 66 ) ) {
-		return {
-			score: 9,
-			text: i18n.sprintf(
-				i18n.dgettext(
-					"js-text-analysis",
-					/* translators: %1$d expands to the minimum number of characters in the page title, %2$d to the maximum number of characters */
-					"The page title is between the %1$d character minimum and the recommended %2$d character maximum." ),
-				minLength, maxLength )
-		};
-	}
-
-	if ( pageTitleLength > maxLength ) {
-		return {
-			score: 6,
-			text: i18n.sprintf(
-				i18n.dngettext(
-					"js-text-analysis",
-					/* translators: %1$d expands to the number of characters in the page title, %2$d to the maximum number
-					of characters for the title */
-					"The page title contains %1$d character, which is more than the viewable limit of %2$d characters; " +
-					"some words will not be visible to users in your listing.",
-					"The page title contains %1$d characters, which is more than the viewable limit of %2$d characters; " +
-					"some words will not be visible to users in your listing.",
-					pageTitleLength ),
-				pageTitleLength, maxLength )
-		};
-	}
-
-	return {
-		score: 1,
-		text: i18n.dgettext( "js-text-analysis", "Please create a page title." )
-	};
-};
-
-/**
- * Runs the pageTitleLength module, based on this returns an assessment result with score.
- *
- * @param {object} paper The paper to use for the assessment.
- * @param {object} researcher The researcher used for calling research.
- * @param {object} i18n The object used for translations
- * @returns {object} the Assessmentresult
- */
-var pageTitleLengthAssessment = function( paper,  researcher, i18n ) {
-	var pageTitleLength = researcher.getResearch( "pageTitleLength" );
-	var pageTitleLengthResult = calculatePageTitleLengthResult( pageTitleLength, i18n );
-	var assessmentResult = new AssessmentResult();
-
-	assessmentResult.setScore( pageTitleLengthResult.score );
-	assessmentResult.setText( pageTitleLengthResult.text );
-
-	return assessmentResult;
-};
-
-module.exports = { getResult: pageTitleLengthAssessment };
-
-},{"../values/AssessmentResult.js":257,"lodash/inRange":144}],196:[function(require,module,exports){
-var AssessmentResult = require( "../values/AssessmentResult.js" );
-
-/**
- * Calculate the score based on the amount of stop words in the keyword.
- * @param {number} stopWordCount The amount of stop words to be checked against.
- * @param {object} i18n The locale object.
- * @returns {object} The resulting score object.
- */
-var calculateStopWordsCountResult = function( stopWordCount, i18n ) {
-
-	if ( stopWordCount > 0 ) {
-		return {
-			score: 0,
-			/* translators: %1$s opens a link to a Yoast article about stop words, %2$s closes the link */
-			text: i18n.dngettext(
-				"js-text-analysis",
-				"Your focus keyword contains a stop word. This may or may not be wise depending on the circumstances. " +
-				"Read %1$sthis article%2$s for more info.",
-				"Your focus keyword contains %3$d stop words. This may or may not be wise depending on the circumstances. " +
-				"Read %1$sthis article%2$s for more info.",
-				stopWordCount
-			)
-		};
-	}
-
-	return {};
-};
-
-/**
- * Execute the Assessment and return a result.
- * @param {Paper} paper The Paper object to assess.
- * @param {Researcher} researcher The Researcher object containing all available researches.
- * @param {object} i18n The locale object.
- * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
- */
-var stopWordsInKeywordAssessment = function( paper, researcher, i18n ) {
-	var stopWords = researcher.getResearch( "stopWordsInKeyword" );
-	var stopWordsResult = calculateStopWordsCountResult( stopWords.length, i18n );
-
-	var assessmentResult = new AssessmentResult();
-	assessmentResult.setScore( stopWordsResult.score );
-	assessmentResult.setText( i18n.sprintf(
-		stopWordsResult.text,
-		"<a href='https://yoast.com/handling-stopwords/' target='new'>",
-		"</a>",
-		stopWords.length
-	) );
-
-	return assessmentResult;
-};
-
-module.exports = {
-	getResult: stopWordsInKeywordAssessment,
-	isApplicable: function ( paper ) {
-		return paper.hasKeyword();
-	}
-};
-
-},{"../values/AssessmentResult.js":257}],197:[function(require,module,exports){
-var AssessmentResult = require( "../values/AssessmentResult.js" );
-
-/**
- * Calculate the score based on the amount of stop words in the url.
- * @param {number} stopWordCount The amount of stop words to be checked against.
- * @param {object} i18n The locale object.
- * @returns {object} The resulting score object.
- */
-var calculateUrlStopWordsCountResult = function( stopWordCount, i18n ) {
-
-	if ( stopWordCount > 0 ) {
-		return {
-			score: 5,
-			/* translators: %1$s opens a link to a wikipedia article about stop words, %2$s closes the link */
-			text: i18n.dngettext(
-				"js-text-analysis",
-				"The slug for this page contains a %1$sstop word%2$s, consider removing it.",
-				"The slug for this page contains %1$sstop words%2$s, consider removing them.",
-				stopWordCount
-			)
-		};
-	}
-
-	return {};
-};
-
-/**
- * Execute the Assessment and return a result.
- * @param {Paper} paper The Paper object to assess.
- * @param {Researcher} researcher The Researcher object containing all available researches.
- * @param {object} i18n The locale object.
- * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
- */
-var stopWordsInUrlAssessment = function( paper, researcher, i18n ) {
-	var stopWords = researcher.getResearch( "stopWordsInUrl" );
-	var stopWordsResult = calculateUrlStopWordsCountResult( stopWords.length, i18n );
-
-	var assessmentResult = new AssessmentResult();
-	assessmentResult.setScore( stopWordsResult.score );
-	assessmentResult.setText( i18n.sprintf(
-		stopWordsResult.text,
-		/* translators: this link is referred to in the content analysis when a slug contains one or more stop words */
-		"<a href='" + i18n.dgettext( "js-text-analysis", "http://en.wikipedia.org/wiki/Stop_words" ) + "' target='new'>",
-		"</a>"
-	) );
-
-	return assessmentResult;
-};
-
-module.exports = { getResult: stopWordsInUrlAssessment };
-
-},{"../values/AssessmentResult.js":257}],198:[function(require,module,exports){
-var AssessmentResult = require( "../values/AssessmentResult.js" );
-
-/**
- * The assessment that checks the url length
- *
- * @param {Paper} paper The paper to run this assessment on.
- * @param {object} researcher The researcher used for the assessment.
- * @param {object} i18n The i18n-object used for parsing translations.
- * @returns {object} an AssessmentResult with the score and the formatted text.
- */
-var urlLengthAssessment = function( paper, researcher, i18n ) {
-	var urlIsTooLong = researcher.getResearch( "urlLength" );
-	var assessmentResult = new AssessmentResult();
-	if ( urlIsTooLong ) {
-		var score = 5;
-		var text = i18n.dgettext( "js-text-analysis", "The slug for this page is a bit long, consider shortening it." );
-		assessmentResult.setScore( score );
-		assessmentResult.setText( text );
-	}
-	return assessmentResult;
-};
-
-module.exports = {
-	getResult: urlLengthAssessment,
-	isApplicable: function ( paper ) {
-		return paper.hasUrl();
-	}
-};
-
-},{"../values/AssessmentResult.js":257}],199:[function(require,module,exports){
-var Researcher = require( "./researcher.js" );
-var Paper = require( "./values/Paper.js" );
-
-var InvalidTypeError = require( "./errors/invalidType" );
-
-var MissingArgument = require( "./errors/missingArgument" );
-var isUndefined = require( "lodash/isUndefined" );
-var forEach = require( "lodash/forEach" );
-
-var ScoreRating = 9;
-
-// Assessments
-var assessments = {};
-assessments.wordCount = require( "./assessments/countWords.js" );
-assessments.urlLength = require( "./assessments/urlIsTooLong.js" );
-assessments.fleschReading = require( "./assessments/calculateFleschReading.js" );
-assessments.linkCount = require( "./assessments/getLinkStatistics.js" );
-assessments.pageTitleKeyword = require( "./assessments/pageTitleKeyword.js" );
-assessments.subHeadings = require( "./assessments/matchKeywordInSubheading.js" );
-assessments.matchSubheadings = require( "./assessments/matchSubheadings.js" );
-assessments.keywordDensity = require( "./assessments/keywordDensity.js" );
-assessments.stopwordKeywordCount = require( "./assessments/stopWordsInKeyword.js" );
-assessments.urlStopwords = require( "./assessments/stopWordsInUrl.js" );
-assessments.metaDescriptionLength = require( "./assessments/metaDescriptionLength.js" );
-assessments.keyphraseSizeCheck = require( "./assessments/keyphraseLength.js" );
-assessments.metaDescriptionKeyword = require ( "./assessments/metaDescriptionKeyword.js" );
-assessments.imageCount = require( "./assessments/imageCount.js" );
-assessments.urlKeyword = require( "./assessments/keywordInUrl.js" );
-assessments.firstParagraph = require( "./assessments/firstParagraph.js" );
-assessments.pageTitleLength = require( "./assessments/pageTitleLength.js" );
-
-/**
- * Creates the Assessor
- *
- * @param {object} i18n The i18n object used for translations.
- * @constructor
- */
-var Assessor = function( i18n ) {
-	this.setI18n( i18n );
-};
-
-/**
- * Checks if the argument is a valid paper.
- * @param {Paper} paper The paper to be used for the assessments
- * @throws {InvalidTypeError} Parameter needs to be an instance of the Paper object.
- */
-Assessor.prototype.verifyPaper = function( paper ) {
-	if ( !( paper instanceof Paper ) ) {
-		throw new InvalidTypeError( "The assessor requires an Paper object." );
-	}
-};
-
-/**
- * Checks if the i18n object is defined and sets it.
- * @param {Object} i18n The i18n object used for translations.
- * @throws {MissingArgument} Parameter needs to be a valid i18n object.
- */
-Assessor.prototype.setI18n = function( i18n ) {
-	if ( isUndefined( i18n ) ) {
-		throw new MissingArgument( "The assessor requires an i18n object." );
-	}
-	this.i18n = i18n;
-};
-
-/**
- * Gets all available assessments.
- * @returns {object} assessment
- */
-Assessor.prototype.getAvailableAssessments = function() {
-	return assessments;
-};
-
-/**
- * Checks whether or not the Assessment is applicable.
- * @param {Object} assessment The Assessment object that needs to be checked.
- * @param {Paper} paper The Paper object to check against.
- * @param {Researcher} [researcher] The Researcher object containing additional information.
- * @returns {boolean} Whether or not the Assessment is applicable.
- */
-Assessor.prototype.isApplicable = function( assessment, paper, researcher ) {
-	if ( assessment.hasOwnProperty( "isApplicable" ) ) {
-		return assessment.isApplicable( paper, researcher );
-	}
-
-	return true;
-};
-
-/**
- * Runs the researches defined in the tasklist or the default researches.
- * @param {Paper} paper The paper to run assessments on.
- */
-Assessor.prototype.assess = function( paper ) {
-	this.verifyPaper( paper );
-
-	var researcher = new Researcher( paper );
-	var assessments = this.getAvailableAssessments();
-	this.results = [];
-
-	forEach( assessments, function( assessment, name ) {
-		if ( !this.isApplicable( assessment, paper, researcher ) ) {
-			return;
-		}
-
-		this.results.push( {
-			name: name,
-			result: assessment.getResult( paper, researcher, this.i18n )
-		} );
-
-	}.bind( this ) );
-};
-
-/**
- * Filters out all assessmentresults that have no score and no text.
- * @returns {Array<AssessmentResult>} The array with all the valid assessments.
- */
-Assessor.prototype.getValidResults = function() {
-	var validResults = [];
-
-	forEach( this.results, function( assessmentResults ) {
-		if ( !this.isValidResult( assessmentResults.result ) ) {
-			return;
-		}
-
-		validResults.push( assessmentResults.result );
-	}.bind( this ) );
-
-	return validResults;
-};
-
-/**
- * Returns if an assessmentResult is valid.
- * @param {object} assessmentResult The assessmentResult to validate.
- * @returns {boolean} whether or not the result is valid.
- */
-Assessor.prototype.isValidResult = function( assessmentResult ) {
-	return assessmentResult.hasScore() && assessmentResult.hasText();
-};
-
-/**
- * Returns the overallscore. Calculates the totalscore by adding all scores and dividing these
- * by the number of results times the ScoreRating.
- *
- * @returns {number} The overallscore
- */
-Assessor.prototype.calculateOverallScore  = function() {
-	var results = this.getValidResults();
-	var totalScore = 0;
-
-	forEach( results, function( assessmentResult ) {
-		totalScore += assessmentResult.getScore();
-	} );
-
-	return Math.round( totalScore / ( results.length * ScoreRating ) * 100 );
-};
-
-/**
- * Register an assessment to add it to the internal assessments object.
- *
- * @param {string} name The name of the assessment.
- * @param {object} assessment The object containing function to run as an assessment and it's requirements.
- * @returns {boolean} Whether registering the assessment was successful.
- * @private
- */
-Assessor.prototype.addAssessment = function( name, assessment ) {
-	assessments[ name ] = assessment;
-	return true;
-};
-
-module.exports = Assessor;
-
-},{"./assessments/calculateFleschReading.js":182,"./assessments/countWords.js":183,"./assessments/firstParagraph.js":184,"./assessments/getLinkStatistics.js":185,"./assessments/imageCount.js":186,"./assessments/keyphraseLength.js":187,"./assessments/keywordDensity.js":188,"./assessments/keywordInUrl.js":189,"./assessments/matchKeywordInSubheading.js":190,"./assessments/matchSubheadings.js":191,"./assessments/metaDescriptionKeyword.js":192,"./assessments/metaDescriptionLength.js":193,"./assessments/pageTitleKeyword.js":194,"./assessments/pageTitleLength.js":195,"./assessments/stopWordsInKeyword.js":196,"./assessments/stopWordsInUrl.js":197,"./assessments/urlIsTooLong.js":198,"./errors/invalidType":207,"./errors/missingArgument":208,"./researcher.js":212,"./values/Paper.js":258,"lodash/forEach":139,"lodash/isUndefined":162}],200:[function(require,module,exports){
-var AssessmentResult = require( "../values/AssessmentResult.js" );
-var isUndefined = require( "lodash/isUndefined" );
-
-var MissingArgument = require( "../../js/errors/missingArgument" );
-/**
- * @param {object} app The app
- * @param {object} args An arguments object with usedKeywords, searchUrl, postUrl,
- * @param {object} args.usedKeywords An object with keywords and ids where they are used.
- * @param {string} args.searchUrl The url used to link to a search page when multiple usages of the keyword are found.
- * @param {string} args.postUrl The url used to link to a post when 1 usage of the keyword is found.
- * @param {object} i18n The i18n object used for translations
- * @constructor
- */
-var PreviouslyUsedKeyword = function( app, args, i18n ) {
-	if ( isUndefined( app ) ) {
-		throw new MissingArgument( "The previously keyword plugin requires the YoastSEO app" );
-	}
-
-	if ( isUndefined( i18n ) ) {
-		throw new MissingArgument( "The previously keyword plugin requires an i18n object." );
-	}
-
-	if ( isUndefined( args ) ) {
-		args = {
-			usedKeywords: {},
-			searchUrl: "",
-			postUrl: ""
-		};
-	}
-
-	this.app = app;
-	this.usedKeywords = args.usedKeywords;
-	this.searchUrl = args.searchUrl;
-	this.postUrl = args.postUrl;
-	this.i18n = i18n;
-};
-
-/**
- * Registers the assessment with the assessor.
- */
-PreviouslyUsedKeyword.prototype.registerPlugin = function() {
-	this.app.registerAssessment( "usedKeywords", { getResult: this.assess.bind( this ) }, "previouslyUsedKeywords" );
-};
-
-/**
- * Updates the usedKeywords
- * @param {object} usedKeywords An object with keywords and ids where they are used.
- */
-PreviouslyUsedKeyword.prototype.updateKeywordUsage = function( usedKeywords ) {
-	this.usedKeywords = usedKeywords;
-};
-
-/**
- * Scores the previously used keyword assessment based on the count.
- * @param {object} previouslyUsedKeywords The result of the previously used keywords research
- * @returns {object} the scoreobject with text and score.
- */
-PreviouslyUsedKeyword.prototype.scoreAssessment = function( previouslyUsedKeywords ) {
-	var count = previouslyUsedKeywords.count;
-	var id = previouslyUsedKeywords.id;
-	if( count === 0 ) {
-		return {
-			text: this.i18n.dgettext( "js-text-analysis", "You've never used this focus keyword before, very good." ),
-			score: 9
-		};
-	}
-	if( count === 1 ) {
-		var url = "<a href='" + this.postUrl.replace( "{id}", id ) + "'>";
-		return {
-			/* translators: %1$s and %2$s expand to an admin link where the focus keyword is already used */
-			text:  this.i18n.sprintf( this.i18n.dgettext( "js-text-analysis", "You've used this focus keyword %1$sonce before%2$s, " +
-				"be sure to make very clear which URL on your site is the most important for this keyword." ), url, "</a>" ),
-			score: 6
-		};
-	}
-	if ( count > 1 ) {
-		url = "<a href='" + this.searchUrl.replace( "{keyword}", this.app.paper.getKeyword() )+ "'>";
-		return {
-			/* translators: %1$s and $3$s expand to the admin search page for the focus keyword, %2$d expands to the number of times this focus
-			 keyword has been used before, %4$s and %5$s expand to a link to an article on yoast.com about cornerstone content */
-			text:  this.i18n.sprintf( this.i18n.dgettext( "js-text-analysis", "You've used this focus keyword %1$s%2$d times before%3$s, " +
-				"it's probably a good idea to read %4$sthis post on cornerstone content%5$s and improve your keyword strategy." ),
-				url, count, "</a>", "<a href='https://yoast.com/cornerstone-content-rank/' target='new'>", "</a>" ),
-			score: 1
-		};
-	}
-};
-
-/**
- * Researches the previously used keywords, based on the used keywords and the keyword in the paper.
- * @returns {{id: number, count: number}} The object with the count and the id of the previously used keyword
- */
-PreviouslyUsedKeyword.prototype.researchPreviouslyUsedKeywords = function() {
-	var keyword = this.app.paper.getKeyword();
-	var count = 0;
-	var id = 0;
-
-	if ( !isUndefined( this.usedKeywords[ keyword ] ) ) {
-		count = this.usedKeywords[ keyword ].length;
-		id = this.usedKeywords[ keyword ][ 0 ];
-	}
-
-	return {
-		id: id,
-		count: count
-	};
-};
-
-/**
- * The assessment for the previously used keywords.
- * @returns {AssessmentResult} The assessment result of the assessment
- */
-PreviouslyUsedKeyword.prototype.assess = function() {
-	var previouslyUsedKeywords = this.researchPreviouslyUsedKeywords();
-	var previouslyUsedKeywordsResult = this.scoreAssessment( previouslyUsedKeywords );
-
-	var assessmentResult =  new AssessmentResult();
-	assessmentResult.setScore( previouslyUsedKeywordsResult.score );
-	assessmentResult.setText( previouslyUsedKeywordsResult.text );
-
-	return assessmentResult;
-};
-
-module.exports = PreviouslyUsedKeyword;
-
-},{"../../js/errors/missingArgument":208,"../values/AssessmentResult.js":257,"lodash/isUndefined":162}],201:[function(require,module,exports){
-var analyzerConfig = {
-	queue: [ "wordCount", "keywordDensity", "subHeadings", "stopwords", "fleschReading", "linkCount", "imageCount", "urlKeyword", "urlLength", "metaDescriptionLength", "metaDescriptionKeyword", "pageTitleKeyword", "pageTitleLength", "firstParagraph", "urlStopwords", "keywordDoubles", "keyphraseSizeCheck" ],
-	stopWords: [ "a", "about", "above", "after", "again", "against", "all", "am", "an", "and", "any", "are", "as", "at", "be", "because", "been", "before", "being", "below", "between", "both", "but", "by", "could", "did", "do", "does", "doing", "down", "during", "each", "few", "for", "from", "further", "had", "has", "have", "having", "he", "he'd", "he'll", "he's", "her", "here", "here's", "hers", "herself", "him", "himself", "his", "how", "how's", "i", "i'd", "i'll", "i'm", "i've", "if", "in", "into", "is", "it", "it's", "its", "itself", "let's", "me", "more", "most", "my", "myself", "nor", "of", "on", "once", "only", "or", "other", "ought", "our", "ours", "ourselves", "out", "over", "own", "same", "she", "she'd", "she'll", "she's", "should", "so", "some", "such", "than", "that", "that's", "the", "their", "theirs", "them", "themselves", "then", "there", "there's", "these", "they", "they'd", "they'll", "they're", "they've", "this", "those", "through", "to", "too", "under", "until", "up", "very", "was", "we", "we'd", "we'll", "we're", "we've", "were", "what", "what's", "when", "when's", "where", "where's", "which", "while", "who", "who's", "whom", "why", "why's", "with", "would", "you", "you'd", "you'll", "you're", "you've", "your", "yours", "yourself", "yourselves" ],
-	wordsToRemove: [ " a", " in", " an", " on", " for", " the", " and" ],
-	maxSlugLength: 20,
-	maxUrlLength: 40,
-	maxMeta: 156
-};
-
-module.exports = analyzerConfig;
-
-},{}],202:[function(require,module,exports){
-/** @module config/diacritics */
-
-/**
- * Returns the diacritics map
- *
- * @returns {array} diacritics map
- */
-module.exports = function(){
-	return [
-		{
-			base: "a",
-			letters: /[\u0061\u24D0\uFF41\u1E9A\u00E0\u00E1\u00E2\u1EA7\u1EA5\u1EAB\u1EA9\u00E3\u0101\u0103\u1EB1\u1EAF\u1EB5\u1EB3\u0227\u01E1\u00E4\u01DF\u1EA3\u00E5\u01FB\u01CE\u0201\u0203\u1EA1\u1EAD\u1EB7\u1E01\u0105\u2C65\u0250]/g
-		},
-		{ base: "aa", letters: /[\uA733]/g },
-		{ base: "ae", letters: /[\u00E6\u01FD\u01E3]/g },
-		{ base: "ao", letters: /[\uA735]/g },
-		{ base: "au", letters: /[\uA737]/g },
-		{ base: "av", letters: /[\uA739\uA73B]/g },
-		{ base: "ay", letters: /[\uA73D]/g },
-		{ base: "b", letters: /[\u0062\u24D1\uFF42\u1E03\u1E05\u1E07\u0180\u0183\u0253]/g },
-		{
-			base: "c",
-			letters: /[\u0063\u24D2\uFF43\u0107\u0109\u010B\u010D\u00E7\u1E09\u0188\u023C\uA73F\u2184]/g
-		},
-		{
-			base: "d",
-			letters: /[\u0064\u24D3\uFF44\u1E0B\u010F\u1E0D\u1E11\u1E13\u1E0F\u0111\u018C\u0256\u0257\uA77A]/g
-		},
-		{ base: "dz", letters: /[\u01F3\u01C6]/g },
-		{
-			base: "e",
-			letters: /[\u0065\u24D4\uFF45\u00E8\u00E9\u00EA\u1EC1\u1EBF\u1EC5\u1EC3\u1EBD\u0113\u1E15\u1E17\u0115\u0117\u00EB\u1EBB\u011B\u0205\u0207\u1EB9\u1EC7\u0229\u1E1D\u0119\u1E19\u1E1B\u0247\u025B\u01DD]/g
-		},
-		{ base: "f", letters: /[\u0066\u24D5\uFF46\u1E1F\u0192\uA77C]/g },
-		{
-			base: "g",
-			letters: /[\u0067\u24D6\uFF47\u01F5\u011D\u1E21\u011F\u0121\u01E7\u0123\u01E5\u0260\uA7A1\u1D79\uA77F]/g
-		},
-		{
-			base: "h",
-			letters: /[\u0068\u24D7\uFF48\u0125\u1E23\u1E27\u021F\u1E25\u1E29\u1E2B\u1E96\u0127\u2C68\u2C76\u0265]/g
-		},
-		{ base: "hv", letters: /[\u0195]/g },
-		{
-			base: "i",
-			letters: /[\u0069\u24D8\uFF49\u00EC\u00ED\u00EE\u0129\u012B\u012D\u00EF\u1E2F\u1EC9\u01D0\u0209\u020B\u1ECB\u012F\u1E2D\u0268\u0131]/g
-		},
-		{ base: "j", letters: /[\u006A\u24D9\uFF4A\u0135\u01F0\u0249]/g },
-		{
-			base: "k",
-			letters: /[\u006B\u24DA\uFF4B\u1E31\u01E9\u1E33\u0137\u1E35\u0199\u2C6A\uA741\uA743\uA745\uA7A3]/g
-		},
-		{
-			base: "l",
-			letters: /[\u006C\u24DB\uFF4C\u0140\u013A\u013E\u1E37\u1E39\u013C\u1E3D\u1E3B\u017F\u0142\u019A\u026B\u2C61\uA749\uA781\uA747]/g
-		},
-		{ base: "lj", letters: /[\u01C9]/g },
-		{ base: "m", letters: /[\u006D\u24DC\uFF4D\u1E3F\u1E41\u1E43\u0271\u026F]/g },
-		{
-			base: "n",
-			letters: /[\u006E\u24DD\uFF4E\u01F9\u0144\u00F1\u1E45\u0148\u1E47\u0146\u1E4B\u1E49\u019E\u0272\u0149\uA791\uA7A5]/g
-		},
-		{ base: "nj", letters: /[\u01CC]/g },
-		{
-			base: "o",
-			letters: /[\u006F\u24DE\uFF4F\u00F2\u00F3\u00F4\u1ED3\u1ED1\u1ED7\u1ED5\u00F5\u1E4D\u022D\u1E4F\u014D\u1E51\u1E53\u014F\u022F\u0231\u00F6\u022B\u1ECF\u0151\u01D2\u020D\u020F\u01A1\u1EDD\u1EDB\u1EE1\u1EDF\u1EE3\u1ECD\u1ED9\u01EB\u01ED\u00F8\u01FF\u0254\uA74B\uA74D\u0275]/g
-		},
-		{ base: "oi", letters: /[\u01A3]/g },
-		{ base: "ou", letters: /[\u0223]/g },
-		{ base: "oo", letters: /[\uA74F]/g },
-		{ base: "p", letters: /[\u0070\u24DF\uFF50\u1E55\u1E57\u01A5\u1D7D\uA751\uA753\uA755]/g },
-		{ base: "q", letters: /[\u0071\u24E0\uFF51\u024B\uA757\uA759]/g },
-		{
-			base: "r",
-			letters: /[\u0072\u24E1\uFF52\u0155\u1E59\u0159\u0211\u0213\u1E5B\u1E5D\u0157\u1E5F\u024D\u027D\uA75B\uA7A7\uA783]/g
-		},
-		{
-			base: "s",
-			letters: /[\u0073\u24E2\uFF53\u00DF\u015B\u1E65\u015D\u1E61\u0161\u1E67\u1E63\u1E69\u0219\u015F\u023F\uA7A9\uA785\u1E9B]/g
-		},
-		{
-			base: "t",
-			letters: /[\u0074\u24E3\uFF54\u1E6B\u1E97\u0165\u1E6D\u021B\u0163\u1E71\u1E6F\u0167\u01AD\u0288\u2C66\uA787]/g
-		},
-		{ base: "tz", letters: /[\uA729]/g },
-		{
-			base: "u",
-			letters: /[\u0075\u24E4\uFF55\u00F9\u00FA\u00FB\u0169\u1E79\u016B\u1E7B\u016D\u00FC\u01DC\u01D8\u01D6\u01DA\u1EE7\u016F\u0171\u01D4\u0215\u0217\u01B0\u1EEB\u1EE9\u1EEF\u1EED\u1EF1\u1EE5\u1E73\u0173\u1E77\u1E75\u0289]/g
-		},
-		{ base: "v", letters: /[\u0076\u24E5\uFF56\u1E7D\u1E7F\u028B\uA75F\u028C]/g },
-		{ base: "vy", letters: /[\uA761]/g },
-		{
-			base: "w",
-			letters: /[\u0077\u24E6\uFF57\u1E81\u1E83\u0175\u1E87\u1E85\u1E98\u1E89\u2C73]/g
-		},
-		{ base: "x", letters: /[\u0078\u24E7\uFF58\u1E8B\u1E8D]/g },
-		{
-			base: "y",
-			letters: /[\u0079\u24E8\uFF59\u1EF3\u00FD\u0177\u1EF9\u0233\u1E8F\u00FF\u1EF7\u1E99\u1EF5\u01B4\u024F\u1EFF]/g
-		},
-		{
-			base: "z",
-			letters: /[\u007A\u24E9\uFF5A\u017A\u1E91\u017C\u017E\u1E93\u1E95\u01B6\u0225\u0240\u2C6C\uA763]/g
-		}
-	];
-};
-
-},{}],203:[function(require,module,exports){
-/**
- * Returns the configuration used for score ratings and the AssessorPresenter.
- * @param {Jed} i18n The translator object.
- * @returns {Object} The config object.
- */
-module.exports = function ( i18n ) {
-	return {
-		feedback: {
-			className: "na",
-			screenReaderText: i18n.dgettext( "js-text-analysis", "Feedback")
-		},
-		bad: {
-			className: "bad",
-			screenReaderText: i18n.dgettext( "js-text-analysis", "Bad SEO score")
-		},
-		ok: {
-			className: "ok",
-			screenReaderText: i18n.dgettext( "js-text-analysis", "Ok SEO score")
-		},
-		good: {
-			className: "good",
-			screenReaderText: i18n.dgettext( "js-text-analysis", "Good SEO score")
-		}
-	};
-};
-
-},{}],204:[function(require,module,exports){
-/** @module config/removalWords */
-
-/**
- * Returns an array with words that need to be removed
- *
- * @returns {array} removalWords Returns an array with words.
- */
-module.exports = function(){
-	return [ " a", " in", " an", " on", " for", " the", " and" ];
-};
-
-},{}],205:[function(require,module,exports){
-/** @module config/stopwords */
-
-/**
- * Returns an array with stopwords to be used by the analyzer.
- *
- * @returns {Array} stopwords The array filled with stopwords.
- */
-module.exports = function(){
-	return [ "a", "about", "above", "after", "again", "against", "all", "am", "an", "and", "any", "are", "as", "at", "be", "because", "been", "before", "being", "below", "between", "both", "but", "by", "could", "did", "do", "does", "doing", "down", "during", "each", "few", "for", "from", "further", "had", "has", "have", "having", "he", "he'd", "he'll", "he's", "her", "here", "here's", "hers", "herself", "him", "himself", "his", "how", "how's", "i", "i'd", "i'll", "i'm", "i've", "if", "in", "into", "is", "it", "it's", "its", "itself", "let's", "me", "more", "most", "my", "myself", "nor", "of", "on", "once", "only", "or", "other", "ought", "our", "ours", "ourselves", "out", "over", "own", "same", "she", "she'd", "she'll", "she's", "should", "so", "some", "such", "than", "that", "that's", "the", "their", "theirs", "them", "themselves", "then", "there", "there's", "these", "they", "they'd", "they'll", "they're", "they've", "this", "those", "through", "to", "too", "under", "until", "up", "very", "was", "we", "we'd", "we'll", "we're", "we've", "were", "what", "what's", "when", "when's", "where", "where's", "which", "while", "who", "who's", "whom", "why", "why's", "with", "would", "you", "you'd", "you'll", "you're", "you've", "your", "yours", "yourself", "yourselves" ];
-};
-
-},{}],206:[function(require,module,exports){
-/** @module config/syllables */
-
-/**
- * Returns an array with syllables.
- * Subtractsyllables are counted as two and need to be counted as one.
- * Addsyllables are counted as one but need to be counted as two.
- * Exclusionwords are removed from the text to be counted seperatly.
- *
- * @returns {object}
- */
-module.exports = function(){
-	return {
-		subtractSyllables: [ "cial", "tia", "cius", "cious", "giu", "ion", "iou", "sia$", "[^aeiuoyt]{2,}ed$", "[aeiouy][^aeiuoyts]{1,}e\\b", ".ely$", "[cg]h?e[sd]", "rved$", "rved", "[aeiouy][dt]es?$", "[aeiouy][^aeiouydt]e[sd]?$", "^[dr]e[aeiou][^aeiou]+$", "[aeiouy]rse$" ],
-		addSyllables: [ "ia", "riet", "dien", "iu", "io", "ii", "[aeiouym][bdp]l", "[aeiou]{3}", "^mc", "ism$", "([^aeiouy])\1l$", "[^l]lien", "^coa[dglx].", "[^gq]ua[^auieo]", "dnt$", "uity$", "ie(r|st)", "[aeiouy]ing", "[aeiouw]y[aeiou]" ],
-		exclusionWords: [
-			{ word: "shoreline", syllables: 2 },
-			{ word: "simile", syllables: 3 }
-		]
-	};
-};
-
-},{}],207:[function(require,module,exports){
-/**
- * Throws an invalid type error
- * @param {string} message The message to show when the error is thrown
- * @returns {void}
- */
-module.exports = function InvalidTypeError( message ) {
-	Error.captureStackTrace( this, this.constructor );
-	this.name = this.constructor.name;
-	this.message = message;
-};
-
-require( "util" ).inherits( module.exports, Error );
-
-},{"util":179}],208:[function(require,module,exports){
-module.exports = function MissingArgumentError( message ) {
-	Error.captureStackTrace( this, this.constructor );
-	this.name = this.constructor.name;
-	this.message = message;
-};
-
-require( "util" ).inherits( module.exports, Error );
-
-},{"util":179}],209:[function(require,module,exports){
-/**
- * Interpreters a score and gives it a particular rating.
- *
- * @param {Number} score The score to interpreter.
- * @returns {string} The rating, given based on the score.
- */
-var ScoreToRating = function( score ) {
-
-	if ( score === 0 ) {
-		return "feedback";
-	}
-
-	if ( score <= 4 ) {
-		return "bad";
-	}
-
-	if ( score > 4 && score <= 7 ) {
-		return "ok";
-	}
-
-	if ( score > 7 ) {
-		return "good";
-	}
-
-	return "";
-};
-
-module.exports = ScoreToRating;
-
-},{}],210:[function(require,module,exports){
-/* global console: true */
-/* global setTimeout: true */
-var isUndefined = require( "lodash/isUndefined" );
-var forEach = require( "lodash/forEach" );
-var reduce = require( "lodash/reduce" );
-var isString = require( "lodash/isString" );
-var isObject = require( "lodash/isObject" );
-var InvalidTypeError = require( "./errors/invalidType" );
-
-/**
- * The plugins object takes care of plugin registrations, preloading and managing data modifications.
- *
- * A plugin for YoastSEO.js is basically a piece of JavaScript that hooks into YoastSEO.js by registering modifications.
- * In order to do so, it must first register itself as a plugin with YoastSEO.js. To keep our content analysis fast, we
- * don't allow asynchronous modifications. That's why we require plugins to preload all data they need in order to modify
- * the content. If plugins need to preload data, they can first register, then preload using AJAX and call `ready` once
- * preloaded.
- *
- * To minimize client side memory usage, we request plugins to preload as little data as possible. If you need to dynamically
- * fetch more data in the process of content creation, you can reload your data set and let YoastSEO.js know you've reloaded
- * by calling `reloaded`.
- *
- * @todo: add list of supported modifications and compare on registration of modification
- */
-
-/**
- * Setup Pluggable and set its default values.
- *
- * @constructor
- * @param       {App}       app                 The App object to attach to.
- * @property    {number}    preloadThreshold	The maximum time plugins are allowed to preload before we load our content analysis.
- * @property    {object}    plugins             The plugins that have been registered.
- * @property    {object}    modifications 	    The modifications that have been registered. Every modification contains an array with callables.
- * @property    {Array}     customTests         All tests added by plugins.
- */
-var Pluggable = function( app ) {
-	this.app = app;
-	this.loaded = false;
-	this.preloadThreshold = 3000;
-	this.plugins = {};
-	this.modifications = {};
-	this.customTests = [];
-
-	// Allow plugins 1500 ms to register before we start polling their
-	setTimeout( this._pollLoadingPlugins.bind( this ), 1500 );
-};
-
-//  ***** DSL IMPLEMENTATION ***** //
-
-/**
- * Register a plugin with YoastSEO. A plugin can be declared "ready" right at registration or later using `this.ready`.
- *
- * @param {string}  pluginName      The name of the plugin to be registered.
- * @param {object}  options         The options passed by the plugin.
- * @param {string}  options.status  The status of the plugin being registered. Can either be "loading" or "ready".
- * @returns {boolean}               Whether or not the plugin was successfully registered.
- */
-Pluggable.prototype._registerPlugin = function( pluginName, options ) {
-	if ( typeof pluginName !== "string" ) {
-		console.error( "Failed to register plugin. Expected parameter `pluginName` to be a string." );
-		return false;
-	}
-
-	if ( !isUndefined( options ) && typeof options !== "object" ) {
-		console.error( "Failed to register plugin " + pluginName + ". Expected parameters `options` to be a object." );
-		return false;
-	}
-
-	if ( this._validateUniqueness( pluginName ) === false ) {
-		console.error( "Failed to register plugin. Plugin with name " + pluginName + " already exists" );
-		return false;
-	}
-
-	this.plugins[pluginName] = options;
-	this.app.updateLoadingDialog( this.plugins );
-	return true;
-};
-
-/**
- * Declare a plugin "ready". Use this if you need to preload data with AJAX.
- *
- * @param {string} pluginName	The name of the plugin to be declared as ready.
- * @returns {boolean}           Whether or not the plugin was successfully declared ready.
- */
-Pluggable.prototype._ready = function( pluginName ) {
-	if ( typeof pluginName !== "string" ) {
-		console.error( "Failed to modify status for plugin " + pluginName + ". Expected parameter `pluginName` to be a string." );
-		return false;
-	}
-
-	if ( isUndefined( this.plugins[pluginName] ) ) {
-		console.error( "Failed to modify status for plugin " + pluginName + ". The plugin was not properly registered." );
-		return false;
-	}
-
-	this.plugins[pluginName].status = "ready";
-	this.app.updateLoadingDialog( this.plugins );
-	return true;
-};
-
-/**
- * Used to declare a plugin has been reloaded. If an analysis is currently running. We will reset it to ensure running the latest modifications.
- *
- * @param {string} pluginName   The name of the plugin to be declared as reloaded.
- * @returns {boolean}           Whether or not the plugin was successfully declared as reloaded.
- */
-Pluggable.prototype._reloaded = function( pluginName ) {
-	if ( typeof pluginName !== "string" ) {
-		console.error( "Failed to reload Content Analysis for " + pluginName + ". Expected parameter `pluginName` to be a string." );
-		return false;
-	}
-
-	if ( isUndefined( this.plugins[pluginName] ) ) {
-		console.error( "Failed to reload Content Analysis for plugin " + pluginName + ". The plugin was not properly registered." );
-		return false;
-	}
-
-	this.app.analyzeTimer();
-	return true;
-};
-
-/**
- * Enables hooking a callable to a specific data filter supported by YoastSEO. Can only be performed for plugins that have finished loading.
- *
- * @param {string}      modification	The name of the filter
- * @param {function}    callable 	    The callable
- * @param {string}      pluginName 	    The plugin that is registering the modification.
- * @param {number}      priority	    (optional) Used to specify the order in which the callables associated with a particular filter are called.
- * 									    Lower numbers correspond with earlier execution.
- * @returns {boolean}                   Whether or not applying the hook was successfull.
- */
-Pluggable.prototype._registerModification = function( modification, callable, pluginName, priority ) {
-	if ( typeof modification !== "string" ) {
-		console.error( "Failed to register modification for plugin " + pluginName + ". Expected parameter `modification` to be a string." );
-		return false;
-	}
-
-	if ( typeof callable !== "function" ) {
-		console.error( "Failed to register modification for plugin " + pluginName + ". Expected parameter `callable` to be a function." );
-		return false;
-	}
-
-	if ( typeof pluginName !== "string" ) {
-		console.error( "Failed to register modification for plugin " + pluginName + ". Expected parameter `pluginName` to be a string." );
-		return false;
-	}
-
-	// Validate origin
-	if ( this._validateOrigin( pluginName ) === false ) {
-		console.error( "Failed to register modification for plugin " + pluginName + ". The integration has not finished loading yet." );
-		return false;
-	}
-
-	// Default priority to 10
-	var prio = typeof priority === "number" ?  priority : 10;
-
-	var callableObject = {
-		callable: callable,
-		origin: pluginName,
-		priority: prio
-	};
-
-	// Make sure modification is defined on modifications object
-	if ( isUndefined( this.modifications[modification] ) ) {
-		this.modifications[modification] = [];
-	}
-
-	this.modifications[modification].push( callableObject );
-
-	return true;
-};
-
-/**
- * Register test for a specific plugin
- *
- * @deprecated
- */
-Pluggable.prototype._registerTest = function() {
-	console.error ( "This function is deprecated, please use _registerAssessment" );
-};
-
-/**
- * Register an assessment for a specific plugin
- *
- * @param {object} assessor The assessor object where the assessments needs to be added.
- * @param {string} name The name of the assessment.
- * @param {function} assessment The function to run as an assessment.
- * @param {string} pluginName The name of the plugin associated with the assessment.
- * @returns {boolean} Whether registering the assessment was successful.
- * @private
- */
-Pluggable.prototype._registerAssessment = function( assessor, name, assessment, pluginName ) {
-	if ( !isString( name ) ) {
-		throw new InvalidTypeError( "Failed to register test for plugin " + pluginName + ". Expected parameter `name` to be a string." );
-	}
-
-	if ( !isObject( assessment ) ) {
-		throw new InvalidTypeError( "Failed to register assessment for plugin " + pluginName +
-			". Expected parameter `assessment` to be a function." );
-	}
-
-	if ( !isString( pluginName ) ) {
-		throw new InvalidTypeError( "Failed to register assessment for plugin " + pluginName +
-			". Expected parameter `pluginName` to be a string." );
-	}
-
-	// Prefix the name with the pluginName so the test name is always unique.
-	name = pluginName + "-" + name;
-
-	assessor.addAssessment( name, assessment );
-
-	return true;
-};
-
-// ***** PRIVATE HANDLERS *****//
-
-/**
- * Poller to handle loading of plugins. Plugins can register with our app to let us know they are going to hook into our Javascript. They are allowed
- * 5 seconds of pre-loading time to fetch all the data they need to be able to perform their data modifications. We will only apply data modifications
- * from plugins that have declared ready within the pre-loading time in order to safeguard UX and data integrity.
- *
- * @param   {number} pollTime (optional) The accumulated time to compare with the pre-load threshold.
- * @returns {void}
- * @private
- */
-Pluggable.prototype._pollLoadingPlugins = function( pollTime ) {
-	pollTime = isUndefined( pollTime ) ? 0 : pollTime;
-	if ( this._allReady() === true ) {
-		this.loaded = true;
-		this.app.pluginsLoaded();
-	} else if ( pollTime >= this.preloadThreshold ) {
-		this._pollTimeExceeded();
-	} else {
-		pollTime += 50;
-		setTimeout( this._pollLoadingPlugins.bind( this, pollTime ), 50 );
-	}
-};
-
-/**
- * Checks if all registered plugins have finished loading
- *
- * @returns {boolean} Whether or not all registered plugins are loaded.
- * @private
- */
-Pluggable.prototype._allReady = function() {
-	return reduce( this.plugins, function( allReady, plugin ) {
-		return allReady && plugin.status === "ready";
-	}, true );
-};
-
-/**
- * Removes the plugins that were not loaded within time and calls `pluginsLoaded` on the app.
- *
- * @returns {void}
- * @private
- */
-Pluggable.prototype._pollTimeExceeded = function() {
-	forEach ( this.plugins, function( plugin, pluginName ) {
-		if ( !isUndefined( plugin.options ) && plugin.options.status !== "ready" ) {
-			console.error( "Error: Plugin " + pluginName + ". did not finish loading in time." );
-			delete this.plugins[pluginName];
-		}
-	} );
-	this.loaded = true;
-	this.app.pluginsLoaded();
-};
-
-/**
- * Calls the callables added to a modification hook. See the YoastSEO.js Readme for a list of supported modification hooks.
- *
- * @param	{string}    modification	The name of the filter
- * @param   {*}         data 		    The data to filter
- * @param   {*}         context		    (optional) Object for passing context parameters to the callable.
- * @returns {*} 		                The filtered data
- * @private
- */
-Pluggable.prototype._applyModifications = function( modification, data, context ) {
-	var callChain = this.modifications[modification];
-
-	if ( callChain instanceof Array && callChain.length > 0 ) {
-		callChain = this._stripIllegalModifications( callChain );
-
-		callChain.sort( function( a, b ) {
-			return a.priority - b.priority;
-		} );
-		forEach( callChain, function( callableObject ) {
-			var callable = callableObject.callable;
-			var newData = callable( data, context );
-			if ( typeof newData === typeof data ) {
-				data = newData;
-			} else {
-				console.error( "Modification with name " + modification + " performed by plugin with name " +
-				callableObject.origin +
-				" was ignored because the data that was returned by it was of a different type than the data we had passed it." );
-			}
-		} );
-	}
-	return data;
-
-};
-
-/**
- * Adds new tests to the analyzer and it's scoring object.
- *
- * @param {YoastSEO.Analyzer} analyzer The analyzer object to add the tests to
- * @returns {void}
- * @private
- */
-Pluggable.prototype._addPluginTests = function( analyzer ) {
-	this.customTests.map( function( customTest ) {
-		this._addPluginTest( analyzer, customTest );
-	}, this );
-};
-
-/**
- * Adds one new test to the analyzer and it's scoring object.
- *
- * @param {YoastSEO.Analyzer} analyzer              The analyzer that the test will be added to.
- * @param {Object}            pluginTest            The test to be added.
- * @param {string}            pluginTest.name       The name of the test.
- * @param {function}          pluginTest.callable   The function associated with the test.
- * @param {function}          pluginTest.analysis   The function associated with the analyzer.
- * @param {Object}            pluginTest.scoring    The scoring object to be used.
- * @returns {void}
- * @private
- */
-Pluggable.prototype._addPluginTest = function( analyzer, pluginTest ) {
-	analyzer.addAnalysis( {
-		"name": pluginTest.name,
-		"callable": pluginTest.analysis
-	} );
-
-	analyzer.analyzeScorer.addScoring( {
-		"name": pluginTest.name,
-		"scoring": pluginTest.scoring
-	} );
-};
-
-/**
- * Strips modifications from a callChain if they were not added with a valid origin.
- *
- * @param   {Array} callChain	 The callChain that contains items with possible invalid origins.
- * @returns {Array} callChain 	 The stripped version of the callChain.
- * @private
- */
-Pluggable.prototype._stripIllegalModifications = function( callChain ) {
-	forEach ( callChain, function( callableObject, index ) {
-		if ( this._validateOrigin( callableObject.origin ) === false ) {
-			delete callChain[index];
-		}
-	}.bind( this ) );
-
-	return callChain;
-};
-
-/**
- * Validates if origin of a modification has been registered and finished preloading.
- *
- * @param 	{string}    pluginName      The name of the plugin that needs to be validated.
- * @returns {boolean}                   Whether or not the origin is valid.
- * @private
- */
-Pluggable.prototype._validateOrigin = function( pluginName ) {
-	if ( this.plugins[pluginName].status !== "ready" ) {
-		return false;
-	}
-	return true;
-};
-
-/**
- * Validates if registered plugin has a unique name.
- *
- * @param 	{string}    pluginName      The name of the plugin that needs to be validated for uniqueness.
- * @returns {boolean}                   Whether or not the plugin has a unique name.
- * @private
- */
-Pluggable.prototype._validateUniqueness = function( pluginName ) {
-	if ( !isUndefined( this.plugins[pluginName] ) ) {
-		return false;
-	}
-	return true;
-};
-
-module.exports = Pluggable;
-
-},{"./errors/invalidType":207,"lodash/forEach":139,"lodash/isObject":156,"lodash/isString":159,"lodash/isUndefined":162,"lodash/reduce":170}],211:[function(require,module,exports){
-/* jshint browser: true */
-
-var forEach = require( "lodash/forEach" );
-var isNumber = require( "lodash/isNumber" );
-var isObject = require( "lodash/isObject" );
-var isUndefined = require( "lodash/isUndefined" );
-var difference = require( "lodash/difference" );
-var template = require( "../templates.js" ).assessmentPresenterResult;
-var scoreToRating = require( "../interpreters/scoreToRating.js" );
-var createConfig = require( "../config/presenter.js" );
-
-/**
- * Constructs the AssessorPresenter.
- *
- * @param {Object} args A list of arguments to use in the presenter.
- * @param {object} args.targets The HTML elements to render the output to.
- * @param {string} args.targets.output The HTML element to render the individual ratings out to.
- * @param {string} args.targets.overall The HTML element to render the overall rating out to.
- * @param {string} args.keyword The keyword to use for checking, when calculating the overall rating.
- * @param {Assessor} args.assessor The Assessor object to retrieve assessment results from.
- * @param {Jed} args.i18n The translation object.
- * @constructor
- */
-var AssessorPresenter = function( args ) {
-	this.keyword = args.keyword;
-	this.assessor = args.assessor;
-	this.i18n = args.i18n;
-	this.output = args.targets.output;
-	this.overall = args.targets.overall || "overallScore";
-	this.presenterConfig = createConfig( args.i18n );
-};
-
-/**
- * Checks whether or not a specific property exists in the presenter configuration.
- * @param {string} property The property name to search for.
- * @returns {boolean} Whether or not the property exists.
- */
-AssessorPresenter.prototype.configHasProperty = function( property ) {
-	return this.presenterConfig.hasOwnProperty( property );
-};
-
-/**
- * Gets a fully formatted indicator object that can be used.
- * @param {string} rating The rating to use.
- * @returns {Object} An object containing the class and screen reader text.
- */
-AssessorPresenter.prototype.getIndicator = function( rating ) {
-	return {
-		className: this.getIndicatorColorClass( rating ),
-		screenReaderText: this.getIndicatorScreenReaderText( rating )
-	};
-};
-
-/**
- * Gets the indicator color class from the presenter configuration, if it exists.
- * @param {string} rating The rating to check against the config.
- * @returns {string} String containing the CSS class to be used.
- */
-AssessorPresenter.prototype.getIndicatorColorClass = function( rating ) {
-	if ( !this.configHasProperty( rating ) ) {
-		return "";
-	}
-
-	return this.presenterConfig[ rating ].className;
-};
-
-/**
- * Get the indicator screen reader text from the presenter configuration, if it exists.
- * @param {string} rating The rating to check against the config.
- * @returns {string} Translated string containing the screen reader text to be used.
- */
-AssessorPresenter.prototype.getIndicatorScreenReaderText = function( rating ) {
-	if ( !this.configHasProperty( rating ) ) {
-		return "";
-	}
-
-	return this.presenterConfig[ rating ].screenReaderText;
-};
-
-/**
- * Adds a rating based on the numeric score.
- * @param {Object} result Object based on the Assessment result. Requires a score property to work.
- * @returns {Object} The Assessment result object with the rating added.
- */
-AssessorPresenter.prototype.resultToRating = function( result ) {
-	if ( !isObject( result ) ) {
-		return "";
-	}
-
-	result.rating = scoreToRating( result.score );
-
-	return result;
-};
-
-/**
- * Takes the individual assessment results, sorts and rates them.
- * @returns {Object} Object containing all the individual ratings.
- */
-AssessorPresenter.prototype.getIndividualRatings = function() {
-	var ratings = {};
-	var validResults = this.sort( this.assessor.getValidResults() );
-	var mappedResults = validResults.map( this.resultToRating );
-
-	forEach( mappedResults, function( item, key ) {
-		ratings[ key ] = this.addRating( item );
-	}.bind( this ) );
-
-	return ratings;
-};
-
-/**
- * Excludes items from the results that are present in the exclude array.
- * @param {Array} results Array containing the items to filter through.
- * @param {Array} exclude Array of results to exclude.
- * @returns {Array} Array containing items that remain after exclusion.
- */
-AssessorPresenter.prototype.excludeFromResults = function( results, exclude ) {
-	return difference( results, exclude );
-};
-
-/**
- * Sorts results based on their score property and always places items considered to be unsortable, at the top.
- * @param {Array} results Array containing the results that need to be sorted.
- * @returns {Array} Array containing the sorted results.
- */
-AssessorPresenter.prototype.sort = function ( results ) {
-	var unsortables = this.getUndefinedScores( results );
-	var sortables = this.excludeFromResults( results, unsortables );
-
-	sortables.sort( function( a, b ) {
-		return a.score - b.score;
-	} );
-
-	return unsortables.concat( sortables );
-};
-
-/**
- * Returns a subset of results that have an undefined score or a score set to zero.
- * @param {Array} results The results to filter through.
- * @returns {Array} A subset of results containing items with an undefined score or where the score is zero.
- */
-AssessorPresenter.prototype.getUndefinedScores = function ( results ) {
-	return results.filter( function( result ) {
-		return isUndefined( result.score ) || result.score === 0;
-	} );
-};
-
-/**
- * Creates a rating object based on the item that is being passed.
- * @param {Object} item The item to check and create a rating object from.
- * @returns {Object} Object containing a parsed item, including a colored indicator.
- */
-AssessorPresenter.prototype.addRating = function( item ) {
-	var indicator = this.getIndicator( item.rating );
-	indicator.text = item.text;
-
-	return indicator;
-};
-
-/**
- * Calculates the overall rating score based on the overall score.
- * @param {Number} overallScore The overall score to use in the calculation.
- * @returns {Object} The rating based on the score.
- */
-AssessorPresenter.prototype.getOverallRating = function( overallScore ) {
-	var rating = 0;
-
-	if ( this.keyword === "" ) {
-		return this.resultToRating( { score: rating } );
-	}
-
-	if ( isNumber( overallScore ) ) {
-		rating = ( overallScore / 10 );
-	}
-
-	return this.resultToRating( { score: rating } );
-};
-
-/**
- * Renders out both the individual and the overall ratings.
- */
-AssessorPresenter.prototype.render = function() {
-	this.renderIndividualRatings();
-	this.renderOverallRating();
-};
-
-/**
- * Renders out the individual ratings.
- */
-AssessorPresenter.prototype.renderIndividualRatings = function() {
-	var outputTarget = document.getElementById( this.output );
-
-	outputTarget.innerHTML = template( {
-		scores: this.getIndividualRatings()
-	} );
-};
-
-/**
- * Renders out the overall rating.
- */
-AssessorPresenter.prototype.renderOverallRating = function() {
-	var overallRating = this.getOverallRating( this.assessor.calculateOverallScore() );
-	var overallRatingElement = document.getElementById( this.overall );
-
-	if ( !overallRatingElement ) {
-		return;
-	}
-
-	overallRatingElement.className = "overallScore " + this.getIndicatorColorClass( overallRating.rating );
-};
-
-module.exports = AssessorPresenter;
-
-},{"../config/presenter.js":203,"../interpreters/scoreToRating.js":209,"../templates.js":256,"lodash/difference":137,"lodash/forEach":139,"lodash/isNumber":155,"lodash/isObject":156,"lodash/isUndefined":162}],212:[function(require,module,exports){
-var Paper = require( "./values/Paper.js" );
-var merge = require( "lodash/merge" );
-var InvalidTypeError = require( "./errors/invalidType" );
-var MissingArgument = require( "./errors/missingArgument" );
-var isUndefined = require( "lodash/isUndefined" );
-var isEmpty = require( "lodash/isEmpty" );
-
-// assessments
-var wordCountInText = require( "./researches/wordCountInText.js" );
-var getLinkStatistics = require( "./researches/getLinkStatistics.js" );
-var urlLength = require( "./researches/urlIsTooLong.js" );
-var findKeywordInPageTitle = require( "./researches/findKeywordInPageTitle.js" );
-var matchKeywordInSubheadings = require( "./researches/matchKeywordInSubheadings.js" );
-var getKeywordDensity = require( "./researches/getKeywordDensity.js" );
-var stopWordsInKeyword = require( "./researches/stopWordsInKeyword" );
-var stopWordsInUrl = require( "./researches/stopWordsInUrl" );
-var calculateFleschReading = require( "./researches/calculateFleschReading.js" );
-var metaDescriptionLength = require( "./researches/metaDescriptionLength.js" );
-var imageCount = require( "./researches/imageCountInText.js" );
-var altTagCount = require( "./researches/imageAltTags.js" );
-var keyphraseLength = require( "./researches/keyphraseLength" );
-var metaDescriptionKeyword = require( "./researches/metaDescriptionKeyword.js" );
-var keywordCountInUrl = require( "./researches/keywordCountInUrl" );
-var findKeywordInFirstParagraph = require( "./researches/findKeywordInFirstParagraph.js" );
-var pageTitleLength = require( "./researches/pageTitleLength.js" );
-
-/**
- * This contains all possible, default researches.
- * @param {Paper} paper The Paper object that is needed within the researches.
- * @constructor
- * @throws {InvalidTypeError} Parameter needs to be an instance of the Paper object.
- */
-var Researcher = function( paper ) {
-	this.setPaper( paper );
-
-	this.defaultResearches = {
-		"urlLength": urlLength,
-		"wordCountInText": wordCountInText,
-		"findKeywordInPageTitle": findKeywordInPageTitle,
-		"calculateFleschReading": calculateFleschReading,
-		"getLinkStatistics": getLinkStatistics,
-		"imageCount": imageCount,
-		"altTagCount": altTagCount,
-		"matchKeywordInSubheadings": matchKeywordInSubheadings,
-		"getKeywordDensity": getKeywordDensity,
-		"stopWordsInKeyword": stopWordsInKeyword,
-		"stopWordsInUrl": stopWordsInUrl,
-		"metaDescriptionLength": metaDescriptionLength,
-		"keyphraseLength": keyphraseLength,
-		"keywordCountInUrl": keywordCountInUrl,
-		"firstParagraph": findKeywordInFirstParagraph,
-		"metaDescriptionKeyword": metaDescriptionKeyword,
-		"pageTitleLength": pageTitleLength
-	};
-
-	this.customResearches = {};
-};
-
-/**
- * Set the Paper associated with the Researcher.
- * @param {Paper} paper The Paper to use within the Researcher
- * @throws {InvalidTypeError} Parameter needs to be an instance of the Paper object.
- * @returns {void}
- */
-Researcher.prototype.setPaper = function( paper ) {
-	if ( !( paper instanceof Paper ) ) {
-		throw new InvalidTypeError( "The researcher requires an Paper object." );
-	}
-
-	this.paper = paper;
-};
-
-/**
- * Add a custom research that will be available within the Researcher.
- * @param {string} name A name to reference the research by.
- * @param {function} research The function to be added to the Researcher.
- * @throws {MissingArgument} Research name cannot be empty.
- * @throws {InvalidTypeError} The research requires a valid Function callback.
- * @returns {void}
- */
-Researcher.prototype.addResearch = function( name, research ) {
-	if ( isUndefined( name ) || isEmpty( name ) ) {
-		throw new MissingArgument( "Research name cannot be empty" );
-	}
-
-	if ( !( research instanceof Function ) ) {
-		throw new InvalidTypeError( "The research requires a Function callback." );
-	}
-
-	this.customResearches[name] = research;
-};
-
-/**
- * Check wheter or not the research is known by the Researcher.
- * @param {string} name The name to reference the research by.
- * @returns {boolean} Whether or not the research is known by the Researcher
- */
-Researcher.prototype.hasResearch = function( name ) {
-	return Object.keys( this.getAvailableResearches() ).filter(
-	function( research ) {
-		return research === name;
-	} ).length > 0;
-};
-
-/**
- * Return all available researches.
- * @returns {Object} An object containing all available researches.
- */
-Researcher.prototype.getAvailableResearches = function() {
-	return merge( this.defaultResearches, this.customResearches );
-};
-
-/**
- * Return the Research by name.
- * @param {string} name The name to reference the research by.
- * @returns {*} Returns the result of the research or false if research does not exist.
- * @throws {MissingArgument} Research name cannot be empty.
- */
-Researcher.prototype.getResearch = function( name ) {
-	if ( isUndefined( name ) || isEmpty( name ) ) {
-		throw new MissingArgument( "Research name cannot be empty" );
-	}
-
-	if ( !this.hasResearch( name ) ) {
-		return false;
-	}
-
-	return this.getAvailableResearches()[ name ]( this.paper );
-};
-
-module.exports = Researcher;
-
-},{"./errors/invalidType":207,"./errors/missingArgument":208,"./researches/calculateFleschReading.js":213,"./researches/findKeywordInFirstParagraph.js":214,"./researches/findKeywordInPageTitle.js":215,"./researches/getKeywordDensity.js":216,"./researches/getLinkStatistics.js":217,"./researches/imageAltTags.js":218,"./researches/imageCountInText.js":219,"./researches/keyphraseLength":220,"./researches/keywordCountInUrl":221,"./researches/matchKeywordInSubheadings.js":222,"./researches/metaDescriptionKeyword.js":223,"./researches/metaDescriptionLength.js":224,"./researches/pageTitleLength.js":225,"./researches/stopWordsInKeyword":226,"./researches/stopWordsInUrl":228,"./researches/urlIsTooLong.js":229,"./researches/wordCountInText.js":230,"./values/Paper.js":258,"lodash/isEmpty":151,"lodash/isUndefined":162,"lodash/merge":166}],213:[function(require,module,exports){
-/** @module analyses/calculateFleschReading */
-
-var cleanText = require( "../stringProcessing/cleanText.js" );
-var stripNumbers = require( "../stringProcessing/stripNumbers.js" );
-var stripHTMLTags = require( "../stringProcessing/stripHTMLTags.js" );
-var countSentences = require( "../stringProcessing/countSentences.js" );
-var countWords = require( "../stringProcessing/countWords.js" );
-var countSyllables = require( "../stringProcessing/countSyllables.js" );
-
-/**
- * This calculates the fleschreadingscore for a given text
- * The formula used:
- * 206.835 - 1.015 (total words / total sentences) - 84.6 ( total syllables / total words);
- *
- * @param {object} paper The paper containing the text
- * @returns {number} the score of the fleschreading test
- */
-module.exports = function( paper ) {
-	var text = paper.getText();
-	if ( text === "" ) {
-		return 0;
-	}
-
-	text = cleanText ( text );
-	text = stripHTMLTags( text );
-	var wordCount = countWords( text );
-
-	text = stripNumbers ( text );
-	var sentenceCount = countSentences( text );
-	var syllableCount = countSyllables( text );
-	var score = 206.835 - ( 1.015 * ( wordCount / sentenceCount ) ) - ( 84.6 * ( syllableCount / wordCount ) );
-
-	return score.toFixed( 1 );
-};
-
-},{"../stringProcessing/cleanText.js":234,"../stringProcessing/countSentences.js":235,"../stringProcessing/countSyllables.js":236,"../stringProcessing/countWords.js":237,"../stringProcessing/stripHTMLTags.js":250,"../stringProcessing/stripNumbers.js":252}],214:[function(require,module,exports){
-/** @module analyses/findKeywordInFirstParagraph */
-
-var regexMatch = require( "../stringProcessing/matchStringWithRegex.js" );
-var wordMatch = require( "../stringProcessing/matchTextWithWord.js" );
-
-/**
- * Counts the occurrences of the keyword in the first paragraph, returns 0 if it is not found,
- * if there is no paragraph tag or 0 hits, it checks for 2 newlines, otherwise returns the keyword
- * count of the complete text.
- *
- * @param {Paper} paper The text to check for paragraphs.
- * @returns {number} The number of occurences of the keyword in the first paragraph.
- */
-module.exports = function( paper ) {
-	var text = paper.getText();
-	var keyword = paper.getKeyword();
-	var paragraph;
-
-	// matches everything between the <p> and </p> tags.
-	paragraph = regexMatch( text, "<p(?:[^>]+)?>(.*?)<\/p>" );
-	if ( paragraph.length > 0 ) {
-		return wordMatch( paragraph[0], keyword );
-	}
-
-	/* if no <p> tags found, use a regex that matches [^], not nothing, so any character,
-	including linebreaks untill it finds double linebreaks.
-	*/
-	paragraph = regexMatch( text, "[^]*?\n\n" );
-	if ( paragraph.length > 0 ) {
-		return wordMatch( paragraph[0], keyword );
-	}
-
-	// if no double linebreaks found, return the keyword count of the entire text
-	return wordMatch( text, keyword );
-};
-
-},{"../stringProcessing/matchStringWithRegex.js":244,"../stringProcessing/matchTextWithWord.js":245}],215:[function(require,module,exports){
-/** @module analyses/findKeywordInPageTitle */
-
-var wordMatch = require( "../stringProcessing/matchTextWithWord.js" );
-
-/**
- * Counts the occurrences of the keyword in the pagetitle. Returns the number of matches
- * and the position of the keyword.
- *
- * @param {object} paper The paper containing title and keyword.
- * @returns {object} result with the matches and position.
- */
-
-module.exports = function( paper ) {
-	var title = paper.getTitle();
-	var keyword = paper.getKeyword();
-	var result = { matches: 0, position: -1 };
-	result.matches = wordMatch( title, keyword );
-	result.position = title.toLocaleLowerCase().indexOf( keyword );
-
-	return result;
-};
-
-},{"../stringProcessing/matchTextWithWord.js":245}],216:[function(require,module,exports){
-/** @module analyses/getKeywordDensity */
-
-var countWords = require( "../stringProcessing/countWords.js" );
-var matchWords = require( "../stringProcessing/matchTextWithWord.js" );
-
-/**
- * Calculates the keyword density .
- *
- * @param {object} paper The paper containing keyword and text.
-  * @returns {number} The keyword density.
- */
-module.exports = function( paper ) {
-	var keyword = paper.getKeyword();
-	var text = paper.getText();
-	var wordCount = countWords( text );
-	if ( wordCount === 0 ) {
-		return 0;
-	}
-	var keywordCount = matchWords ( text, keyword );
-	return ( keywordCount / wordCount ) * 100;
-};
-
-},{"../stringProcessing/countWords.js":237,"../stringProcessing/matchTextWithWord.js":245}],217:[function(require,module,exports){
-/** @module analyses/getLinkStatistics */
-
-var getAnchors = require( "../stringProcessing/getAnchorsFromText.js" );
-var findKeywordInUrl = require( "../stringProcessing/findKeywordInUrl.js" );
-var getLinkType = require( "../stringProcessing/getLinkType.js" );
-var checkNofollow = require( "../stringProcessing/checkNofollow.js" );
-
-/**
- * Checks a text for anchors and returns an object with all linktypes found.
- *
- * @param {object} paper The paper object containing text, keyword and url.
- * @returns {object} The object containing all linktypes.
- * total: the total number of links found
- * totalNaKeyword: the total number of links if keyword is not available
- * totalKeyword: the total number of links with the keyword
- * internalTotal: the total number of links that are internal
- * internalDofollow: the internal links without a nofollow attribute
- * internalNofollow: the internal links with a nofollow attribute
- * externalTotal: the total number of links that are external
- * externalDofollow: the external links without a nofollow attribute
- * externalNofollow: the internal links with a dofollow attribute
- * otherTotal: all links that are not HTTP or HTTPS
- * otherDofollow: other links without a nofollow attribute
- * otherNofollow: other links with a nofollow attribute
- */
-module.exports = function( paper ) {
-	var text = paper.getText();
-	var keyword = paper.getKeyword();
-	var url = paper.getUrl();
-	var anchors = getAnchors( text );
-
-	var linkCount = {
-		total: anchors.length,
-		totalNaKeyword: 0,
-		totalKeyword: 0,
-		internalTotal: 0,
-		internalDofollow: 0,
-		internalNofollow: 0,
-		externalTotal: 0,
-		externalDofollow: 0,
-		externalNofollow: 0,
-		otherTotal: 0,
-		otherDofollow: 0,
-		otherNofollow: 0
-	};
-	var linkKeyword;
-	for ( var i = 0; i < anchors.length; i++ ) {
-		linkKeyword = findKeywordInUrl( anchors[i], keyword );
-
-		if ( linkKeyword ) {
-			if ( keyword === "" ) {
-				linkCount.totalNaKeyword++;
-			} else {
-				linkCount.totalKeyword++;
-			}
-		}
-
-		var linkType = getLinkType( anchors[i], url );
-		linkCount[linkType + "Total"]++;
-
-		var linkFollow = checkNofollow( anchors[i] );
-		linkCount[linkType + linkFollow]++;
-	}
-	return linkCount;
-};
-
-},{"../stringProcessing/checkNofollow.js":233,"../stringProcessing/findKeywordInUrl.js":239,"../stringProcessing/getAnchorsFromText.js":241,"../stringProcessing/getLinkType.js":242}],218:[function(require,module,exports){
-/** @module researches/imageAltTags */
-
-var imageInText = require( "../stringProcessing/imageInText" );
-var imageAlttag = require( "../stringProcessing/getAlttagContent" );
-var wordMatch = require( "../stringProcessing/matchTextWithWord" );
-
-/**
- * Matches the alt-tags in the images found in the text.
- * Returns an object with the totals and different alt-tags.
- *
- * @param {Array} imageMatches Array with all the matched images in the text
- * @param {string} keyword the keyword to check for.
- * @returns {object} altProperties Object with all alt-tags that were found.
- */
-var matchAltProperties = function( imageMatches, keyword ) {
-	var altProperties = {
-		noAlt: 0,
-		withAlt: 0,
-		withAltKeyword: 0,
-		withAltNonKeyword: 0
-	};
-
-	for ( var i = 0; i < imageMatches.length; i++ ) {
-		var alttag = imageAlttag( imageMatches[i] );
-
-		// If no alt-tag is set
-		if ( alttag === "" ) {
-			altProperties.noAlt++;
-			continue;
-		}
-
-		// If no keyword is set, but the alt-tag is
-		if ( keyword === "" && alttag !== "" ) {
-			altProperties.withAlt++;
-			continue;
-		}
-
-		if ( wordMatch( alttag, keyword ) === 0 && alttag !== "" ) {
-
-			// Match for keywords?
-			altProperties.withAltNonKeyword++;
-			continue;
-		}
-
-		if ( wordMatch( alttag, keyword ) > 0 ) {
-			altProperties.withAltKeyword++;
-			continue;
-		}
-	}
-
-	return altProperties;
-};
-
-/**
- * Checks the text for images, checks the type of each image and alttags for containing keywords
- *
- * @param {Paper} paper The paper to check for images
- * @returns {object} Object containing all types of found images
- */
-module.exports = function( paper ) {
-	return matchAltProperties( imageInText( paper.getText() ), paper.getKeyword() );
-};
-
-},{"../stringProcessing/getAlttagContent":240,"../stringProcessing/imageInText":243,"../stringProcessing/matchTextWithWord":245}],219:[function(require,module,exports){
-/** @module researches/imageInText */
-
-var imageInText = require( "./../stringProcessing/imageInText" );
-
-/**
- * Checks the amount of images in the text.
- *
- * @param {Paper} paper The paper to check for images
- * @returns {number} The amount of found images
- */
-module.exports = function( paper ) {
-	return imageInText( paper.getText() ).length;
-};
-
-},{"./../stringProcessing/imageInText":243}],220:[function(require,module,exports){
-var countWords = require( "../stringProcessing/countWords" );
-var sanitizeString = require( "../stringProcessing/sanitizeString" );
-
-/**
- * Determines the length in words of a the keyphrase, the keyword is a keyphrase if it is more than one word.
- *
- * @param {Paper} paper The paper to research
- * @returns {number} The length of the keyphrase
- */
-function keyphraseLengthResearch( paper ) {
-	var keyphrase = sanitizeString( paper.getKeyword() );
-
-	return countWords( keyphrase );
-}
-
-module.exports = keyphraseLengthResearch;
-
-},{"../stringProcessing/countWords":237,"../stringProcessing/sanitizeString":248}],221:[function(require,module,exports){
-/** @module researches/countKeywordInUrl */
-
-var wordMatch = require( "../stringProcessing/matchTextWithWord.js" );
-/**
- * Matches the keyword in the URL. Replaces whitespaces with dashes and uses dash as wordboundary.
- *
- * @param {Paper} paper the Paper object to use in this count.
- * @returns {int} Number of times the keyword is found.
- */
-module.exports = function( paper ) {
-	var keyword = paper.getKeyword().replace( "'", "" ).replace( /\s/ig, "-" );
-
-	return wordMatch( paper.getUrl(), keyword );
-};
-
-},{"../stringProcessing/matchTextWithWord.js":245}],222:[function(require,module,exports){
-/* @module analyses/matchKeywordInSubheadings */
-
-var stripSomeTags = require( "../stringProcessing/stripNonTextTags.js" );
-var subheadingMatch = require( "../stringProcessing/subheadingsMatch.js" );
-
-/**
- * Checks if there are any subheadings like h2 in the text
- * and if they have the keyword in them.
- *
- * @param {object} paper The paper object containt the texta nd keyword
- * @returns {object} the result object.
- * count: the number of matches
- * matches:the number of ocurrences of the keyword for each match
- */
-module.exports = function( paper ) {
-	var text = paper.getText();
-	var keyword = paper.getKeyword();
-	var matches;
-	var result = { count: 0 };
-	text = stripSomeTags( text );
-	matches = text.match( /<h([1-6])(?:[^>]+)?>(.*?)<\/h\1>/ig );
-
-	if ( matches !== null ) {
-		result.count = matches.length;
-		result.matches = subheadingMatch( matches, keyword );
-	}
-	return result;
-};
-
-
-},{"../stringProcessing/stripNonTextTags.js":251,"../stringProcessing/subheadingsMatch.js":254}],223:[function(require,module,exports){
-var matchTextWithWord = require( "../stringProcessing/matchTextWithWord.js" );
-
-/**
- * Matches the keyword in the description if a description and keyword are available.
- * default is -1 if no description and/or keyword is specified
- *
- * @param {Paper} paper The paper object containing the description.
- * @returns {number} The number of matches with the keyword
- */
-module.exports = function( paper ) {
-	if ( paper.getDescription() === "" ) {
-		return -1;
-	}
-	return matchTextWithWord( paper.getDescription(), paper.getKeyword() );
-};
-
-
-},{"../stringProcessing/matchTextWithWord.js":245}],224:[function(require,module,exports){
-/**
- * Check the length of the description.
- * @param {Paper} paper The paper object containing the description.
- * @returns {number} The length of the description.
- */
-module.exports = function( paper ) {
-	return paper.getDescription().length;
-};
-
-},{}],225:[function(require,module,exports){
-/**
- * Check the length of the title.
- * @param {Paper} paper The paper object containing the title.
- * @returns {number} The length of the title.
- */
-module.exports = function( paper ) {
-	return paper.getTitle().length;
-};
-
-},{}],226:[function(require,module,exports){
-/** @module researches/stopWordsInKeyword */
-
-var stopWordsInText = require( "./stopWordsInText.js" );
-
-/**
- * Checks for the amount of stop words in the keyword.
- * @param {Paper} paper The Paper object to be checked against.
- * @returns {Array} All the stopwords that were found in the keyword.
- */
-module.exports = function( paper ) {
-	return stopWordsInText( paper.getKeyword() );
-};
-
-},{"./stopWordsInText.js":227}],227:[function(require,module,exports){
-var stopwords = require( "../config/stopwords.js" )();
-var toRegex = require( "../stringProcessing/stringToRegex.js" );
-
-/**
- * Checks a text to see if there are any stopwords, that are defined in the stopwords config.
- *
- * @param {string} text The input text to match stopwords.
- * @returns {Array} An array with all stopwords found in the text.
- */
-module.exports = function( text ) {
-	var i, matches = [];
-
-	for ( i = 0; i < stopwords.length; i++ ) {
-		if ( text.match( toRegex( stopwords[i] ) ) !== null ) {
-			matches.push( stopwords[i] );
-		}
-	}
-
-	return matches;
-};
-
-},{"../config/stopwords.js":205,"../stringProcessing/stringToRegex.js":249}],228:[function(require,module,exports){
-/** @module researches/stopWordsInUrl */
-
-var stopWordsInText = require( "./stopWordsInText.js" );
-
-/**
- * Matches stopwords in the URL. Replaces - and _ with whitespace.
- * @param {Paper} paper The Paper object to get the url from.
- * @returns {Array} stopwords found in URL
- */
-module.exports = function( paper ) {
-	return stopWordsInText( paper.getUrl().replace( /[-_]/g, " " ) );
-};
-
-},{"./stopWordsInText.js":227}],229:[function(require,module,exports){
-/** @module analyses/isUrlTooLong */
-
-/**
- * Checks if an URL is too long, based on slug and relative to keyword length.
- *
- * @param {object} paper the paper to run this assessment on
- * @returns {boolean} true if the URL is too long, false if it isn't
- */
-module.exports = function( paper ) {
-	var urlLength = paper.getUrl().length;
-	var keywordLength = paper.getKeyword().length;
-	var maxUrlLength = 40;
-	var maxSlugLength = 20;
-
-	if ( urlLength > maxUrlLength	&& urlLength > keywordLength + maxSlugLength ) {
-		return true;
-	}
-	return false;
-};
-
-},{}],230:[function(require,module,exports){
-var wordCount = require( "../stringProcessing/countWords.js" );
-
-/**
- * Count the words in the text
- * @param {Paper} paper The Paper object who's
- * @returns {number} The amount of words found in the text.
- */
-module.exports = function( paper ) {
-	return wordCount( paper.getText() );
-};
-
-},{"../stringProcessing/countWords.js":237}],231:[function(require,module,exports){
-/* jshint browser: true */
-
-var isEmpty = require( "lodash/isEmpty" );
-var isElement = require( "lodash/isElement" );
-var isUndefined = require( "lodash/isUndefined" );
-var clone = require( "lodash/clone" );
-var defaultsDeep = require( "lodash/defaultsDeep" );
-var forEach = require( "lodash/forEach" );
-var debounce = require( "lodash/debounce" );
-
-var stringToRegex = require( "../js/stringProcessing/stringToRegex.js" );
-var stripHTMLTags = require( "../js/stringProcessing/stripHTMLTags.js" );
-var sanitizeString = require( "../js/stringProcessing/sanitizeString.js" );
-var stripSpaces = require( "../js/stringProcessing/stripSpaces.js" );
-var analyzerConfig = require( "./config/config.js" );
-
-var snippetEditorTemplate = require( "./templates.js" ).snippetEditor;
-
-var defaults = {
-	data: {
-		title: "",
-		metaDesc: "",
-		urlPath: ""
-	},
-	placeholder: {
-		title:    "This is an example title - edit by clicking here",
-		metaDesc: "Modify your meta description by editing it right here",
-		urlPath:  "example-post/"
-	},
-	defaultValue: {
-		title: "",
-		metaDesc: ""
-	},
-	baseURL: "http://example.com/",
-	callbacks: {
-		saveSnippetData: function() {}
-	},
-	addTrailingSlash: true,
-	metaDescriptionDate: ""
-};
-
-var titleMaxLength = 65;
-
-var inputPreviewBindings = [
-	{
-		"preview": "title_container",
-		"inputField": "title"
-	},
-	{
-		"preview": "url_container",
-		"inputField": "urlPath"
-	},
-	{
-		"preview": "meta_container",
-		"inputField": "metaDesc"
-	}
-];
-
-/**
- * Get's the base URL for this instance of the snippet preview.
- *
- * @private
- * @this SnippetPreview
- *
- * @returns {string} The base URL.
- */
-var getBaseURL = function() {
-	var baseURL = this.opts.baseURL;
-
-	/*
-	 * For backwards compatibility, if no URL was passed to the snippet editor we try to retrieve the base URL from the
-	 * rawData in the App. This is because the scrapers used to be responsible for retrieving the baseURL, but the base
-	 * URL is static so we can just pass it to the snippet editor.
-	 */
-	if ( !isEmpty( this.refObj.rawData.baseUrl ) && this.opts.baseURL === defaults.baseURL ) {
-		baseURL = this.refObj.rawData.baseUrl;
-	}
-
-	return baseURL;
-};
-
-/**
- * Retrieves unformatted text from the data object
- *
- * @private
- * @this SnippetPreview
- *
- * @param {string} key The key to retrieve.
- * @returns {string} The unformatted text.
- */
-function retrieveUnformattedText( key ) {
-	return this.data[ key ];
-}
-
-/**
- * Update data and DOM objects when the unformatted text is updated, here for backwards compatibility
- *
- * @private
- * @this SnippetPreview
- *
- * @param {string} key The data key to update.
- * @param {string} value The value to update.
- * @returns {void}
- */
-function updateUnformattedText( key, value ) {
-	this.element.input[ key ].value = value;
-
-	this.data[ key ] = value;
-}
-
-/**
- * Adds a class to an element
- *
- * @param {HTMLElement} element The element to add the class to.
- * @param {string} className The class to add.
- * @returns {void}
- */
-function addClass( element, className ) {
-	var classes = element.className.split( " " );
-
-	if ( -1 === classes.indexOf( className ) ) {
-		classes.push( className );
-	}
-
-	element.className = classes.join( " " );
-}
-
-/**
- * Removes a class from an element
- *
- * @param {HTMLElement} element The element to remove the class from.
- * @param {string} className The class to remove.
- * @returns {void}
- */
-function removeClass( element, className ) {
-	var classes = element.className.split( " " );
-	var foundClass = classes.indexOf( className );
-
-	if ( -1 !== foundClass ) {
-		classes.splice( foundClass, 1 );
-	}
-
-	element.className = classes.join( " " );
-}
-
-/**
- * Removes multiple classes from an element
- *
- * @param {HTMLElement} element The element to remove the classes from.
- * @param {Array} classes A list of classes to remove
- * @returns {void}
- */
-function removeClasses( element, classes ) {
-	forEach( classes, removeClass.bind( null, element ) );
-}
-
-/**
- * Returns if a url has a trailing slash or not.
- *
- * @param {string} url The url to check for a trailing slash.
- * @returns {boolean} Whether or not the url contains a trailing slash.
- */
-function hasTrailingSlash( url ) {
-	return url.indexOf( "/" ) === ( url.length - 1 );
-}
-
-/**
- * Detects if this browser has <progress> support. Also serves as a poor man's HTML5shiv.
- *
- * @private
- *
- * @returns {boolean} Whether or not the browser supports a <progress> element
- */
-function hasProgressSupport() {
-	var progressElement = document.createElement( "progress" );
-
-	return !isUndefined( progressElement.max );
-}
-
-/**
- * Returns a rating based on the length of the title
- *
- * @param {number} titleLength the length of the title.
- * @returns {string} The rating given based on the title length.
- */
-function rateTitleLength( titleLength ) {
-	var rating;
-
-	switch ( true ) {
-		case titleLength > 0 && titleLength <= 34:
-		case titleLength >= 66:
-			rating = "ok";
-			break;
-
-		case titleLength >= 35 && titleLength <= 65:
-			rating = "good";
-			break;
-
-		default:
-			rating = "bad";
-			break;
-	}
-
-	return rating;
-}
-
-/**
- * Returns a rating based on the length of the meta description
- *
- * @param {number} metaDescLength the length of the meta description.
- * @returns {string} The rating given based on the description length.
- */
-function rateMetaDescLength( metaDescLength ) {
-	var rating;
-
-	switch ( true ) {
-		case metaDescLength > 0 && metaDescLength <= 120:
-		case metaDescLength >= 157:
-			rating = "ok";
-			break;
-
-		case metaDescLength >= 120 && metaDescLength <= 157:
-			rating = "good";
-			break;
-
-		default:
-			rating = "bad";
-			break;
-	}
-
-	return rating;
-}
-
-/**
- * Updates a progress bar
- *
- * @private
- * @this SnippetPreview
- *
- * @param {HTMLElement} element The progress element that's rendered.
- * @param {number} value The current value.
- * @param {number} maximum The maximum allowed value.
- * @param {string} rating The SEO score rating for this value.
- * @returns {void}
- */
-function updateProgressBar( element, value, maximum, rating ) {
-	var barElement, progress,
-		allClasses = [
-			"snippet-editor__progress--bad",
-			"snippet-editor__progress--ok",
-			"snippet-editor__progress--good"
-		];
-
-	element.value = value;
-	removeClasses( element, allClasses );
-	addClass( element, "snippet-editor__progress--" + rating );
-
-	if ( !this.hasProgressSupport ) {
-		barElement = element.getElementsByClassName( "snippet-editor__progress-bar" )[ 0 ];
-		progress = ( value / maximum ) * 100;
-
-		barElement.style.width = progress + "%";
-	}
-}
-
-/**
- * @module snippetPreview
- */
-
-/**
- * defines the config and outputTarget for the SnippetPreview
- *
- * @param {Object}         opts                           - Snippet preview options.
- * @param {App}            opts.analyzerApp               - The app object the snippet preview is part of.
- * @param {Object}         opts.placeholder               - The placeholder values for the fields, will be shown as
- * actual placeholders in the inputs and as a fallback for the preview.
- * @param {string}         opts.placeholder.title         - The placeholder title.
- * @param {string}         opts.placeholder.metaDesc      - The placeholder meta description.
- * @param {string}         opts.placeholder.urlPath       - The placeholder url.
- *
- * @param {Object}         opts.defaultValue              - The default value for the fields, if the user has not
- * changed a field, this value will be used for the analyzer, preview and the progress bars.
- * @param {string}         opts.defaultValue.title        - The default title.
- * @param {string}         opts.defaultValue.metaDesc     - The default meta description.
- * it.
- *
- * @param {string}         opts.baseURL                   - The basic URL as it will be displayed in google.
- * @param {HTMLElement}    opts.targetElement             - The target element that contains this snippet editor.
- *
- * @param {Object}         opts.callbacks                 - Functions that are called on specific instances.
- * @param {Function}       opts.callbacks.saveSnippetData - Function called when the snippet data is changed.
- *
- * @param {boolean}        opts.addTrailingSlash          - Whether or not to add a trailing slash to the URL.
- * @param {string}         opts.metaDescriptionDate       - The date to display before the meta description.
- *
- * @property {App}         refObj                         - The connected app object.
- * @property {Jed}         i18n                           - The translation object.
- *
- * @property {HTMLElement} targetElement                  - The target element that contains this snippet editor.
- *
- * @property {Object}      element                        - The elements for this snippet editor.
- * @property {Object}      element.rendered               - The rendered elements.
- * @property {HTMLElement} element.rendered.title         - The rendered title element.
- * @property {HTMLElement} element.rendered.urlPath       - The rendered url path element.
- * @property {HTMLElement} element.rendered.urlBase       - The rendered url base element.
- * @property {HTMLElement} element.rendered.metaDesc      - The rendered meta description element.
- *
- * @property {Object}      element.input                  - The input elements.
- * @property {HTMLElement} element.input.title            - The title input element.
- * @property {HTMLElement} element.input.urlPath          - The url path input element.
- * @property {HTMLElement} element.input.metaDesc         - The meta description input element.
- *
- * @property {HTMLElement} element.container              - The main container element.
- * @property {HTMLElement} element.formContainer          - The form container element.
- * @property {HTMLElement} element.editToggle             - The button that toggles the editor form.
- *
- * @property {Object}      data                           - The data for this snippet editor.
- * @property {string}      data.title                     - The title.
- * @property {string}      data.urlPath                   - The url path.
- * @property {string}      data.metaDesc                  - The meta description.
- *
- * @property {string}      baseURL                        - The basic URL as it will be displayed in google.
- *
- * @property {boolean}     hasProgressSupport             - Whether this browser supports the <progress> element.
- *
- * @constructor
- */
-var SnippetPreview = function( opts ) {
-	defaultsDeep( opts, defaults );
-
-	this.data = opts.data;
-
-	if ( !isUndefined( opts.analyzerApp ) ) {
-		this.refObj = opts.analyzerApp;
-		this.i18n = this.refObj.i18n;
-
-		this.data = {
-			title: this.refObj.rawData.snippetTitle || "",
-			urlPath: this.refObj.rawData.snippetCite || "",
-			metaDesc: this.refObj.rawData.snippetMeta || ""
-		};
-
-		// For backwards compatibility set the pageTitle as placeholder.
-		if ( !isEmpty( this.refObj.rawData.pageTitle ) ) {
-			opts.placeholder.title = this.refObj.rawData.pageTitle;
-		}
-	}
-
-	if ( !isElement( opts.targetElement ) ) {
-		throw new Error( "The snippet preview requires a valid target element" );
-	}
-
-	this.opts = opts;
-	this._currentFocus = null;
-	this._currentHover = null;
-
-	// For backwards compatibility monitor the unformatted text for changes and reflect them in the preview
-	this.unformattedText = {};
-	Object.defineProperty( this.unformattedText, "snippet_cite", {
-		get: retrieveUnformattedText.bind( this, "urlPath" ),
-		set: updateUnformattedText.bind( this, "urlPath" )
-	} );
-	Object.defineProperty( this.unformattedText, "snippet_meta", {
-		get: retrieveUnformattedText.bind( this, "metaDesc" ),
-		set: updateUnformattedText.bind( this, "metaDesc" )
-	} );
-	Object.defineProperty( this.unformattedText, "snippet_title", {
-		get: retrieveUnformattedText.bind( this, "title" ),
-		set: updateUnformattedText.bind( this, "title" )
-	} );
-};
-
-/**
- * Renders snippet editor and adds it to the targetElement
- * @returns {void}
- */
-SnippetPreview.prototype.renderTemplate = function() {
-	var targetElement = this.opts.targetElement;
-
-	targetElement.innerHTML = snippetEditorTemplate( {
-		raw: {
-			title: this.data.title,
-			snippetCite: this.data.urlPath,
-			meta: this.data.metaDesc
-		},
-		rendered: {
-			title: this.formatTitle(),
-			baseUrl: this.formatUrl(),
-			snippetCite: this.formatCite(),
-			meta: this.formatMeta()
-		},
-		metaDescriptionDate: this.opts.metaDescriptionDate,
-		placeholder: this.opts.placeholder,
-		i18n: {
-			edit: this.i18n.dgettext( "js-text-analysis", "Edit snippet" ),
-			title: this.i18n.dgettext( "js-text-analysis", "SEO title" ),
-			slug:  this.i18n.dgettext( "js-text-analysis", "Slug" ),
-			metaDescription: this.i18n.dgettext( "js-text-analysis", "Meta description" ),
-			save: this.i18n.dgettext( "js-text-analysis", "Close snippet editor" ),
-			snippetPreview: this.i18n.dgettext( "js-text-analysis", "Snippet preview" )
-		}
-	} );
-
-	this.element = {
-		rendered: {
-			title: document.getElementById( "snippet_title" ),
-			urlBase: document.getElementById( "snippet_citeBase" ),
-			urlPath: document.getElementById( "snippet_cite" ),
-			metaDesc: document.getElementById( "snippet_meta" )
-		},
-		input: {
-			title: targetElement.getElementsByClassName( "js-snippet-editor-title" )[0],
-			urlPath: targetElement.getElementsByClassName( "js-snippet-editor-slug" )[0],
-			metaDesc: targetElement.getElementsByClassName( "js-snippet-editor-meta-description" )[0]
-		},
-		progress: {
-			title: targetElement.getElementsByClassName( "snippet-editor__progress-title" )[0],
-			metaDesc: targetElement.getElementsByClassName( "snippet-editor__progress-meta-description" )[0]
-		},
-		container: document.getElementById( "snippet_preview" ),
-		formContainer: targetElement.getElementsByClassName( "snippet-editor__form" )[0],
-		editToggle: targetElement.getElementsByClassName( "snippet-editor__edit-button" )[0],
-		closeEditor: targetElement.getElementsByClassName( "snippet-editor__submit" )[0],
-		formFields: targetElement.getElementsByClassName( "snippet-editor__form-field" )
-	};
-
-	this.element.label = {
-		title: this.element.input.title.parentNode,
-		urlPath: this.element.input.urlPath.parentNode,
-		metaDesc: this.element.input.metaDesc.parentNode
-	};
-
-	this.element.preview = {
-		title: this.element.rendered.title.parentNode,
-		urlPath: this.element.rendered.urlPath.parentNode,
-		metaDesc: this.element.rendered.metaDesc.parentNode
-	};
-
-	this.hasProgressSupport = hasProgressSupport();
-
-	if ( this.hasProgressSupport ) {
-		this.element.progress.title.max = titleMaxLength;
-		this.element.progress.metaDesc.max = analyzerConfig.maxMeta;
-	} else {
-		forEach( this.element.progress, function( progressElement ) {
-			addClass( progressElement, "snippet-editor__progress--fallback" );
-		} );
-	}
-
-	this.opened = false;
-	this.updateProgressBars();
-};
-
-/**
- * Refreshes the snippet editor rendered HTML
- * @returns {void}
- */
-SnippetPreview.prototype.refresh = function() {
-	this.output = this.htmlOutput();
-	this.renderOutput();
-	this.renderSnippetStyle();
-	this.updateProgressBars();
-};
-
-/**
- * Returns the title as meant for the analyzer
- *
- * @private
- * @this SnippetPreview
- *
- * @returns {string} The title that is meant for the analyzer.
- */
-function getAnalyzerTitle() {
-	var title = this.data.title;
-
-	if ( isEmpty( title ) ) {
-		title = this.opts.defaultValue.title;
-	}
-
-	title = this.refObj.pluggable._applyModifications( "data_page_title", title );
-
-	return stripSpaces( title );
-}
-
-/**
- * Returns the metaDescription, includes the date if it is set.
- *
- * @private
- * @this SnippetPreview
- *
- * @returns {string} The meta data for the analyzer.
- */
-var getAnalyzerMetaDesc = function() {
-	var metaDesc = this.data.metaDesc;
-
-	if ( isEmpty( metaDesc ) ) {
-		metaDesc = this.opts.defaultValue.metaDesc;
-	}
-
-	metaDesc = this.refObj.pluggable._applyModifications( "data_meta_desc", metaDesc );
-
-	if ( !isEmpty( this.opts.metaDescriptionDate ) && !isEmpty( metaDesc ) ) {
-		metaDesc = this.opts.metaDescriptionDate + " - " + this.data.metaDesc;
-	}
-
-	return stripSpaces( metaDesc );
-};
-
-/**
- * Returns the data from the snippet preview.
- *
- * @returns {Object} The collected data for the analyzer.
- */
-SnippetPreview.prototype.getAnalyzerData = function() {
-	return {
-		title:    getAnalyzerTitle.call( this ),
-		url:      this.data.urlPath,
-		metaDesc: getAnalyzerMetaDesc.call( this )
-	};
-};
-
-/**
- * Calls the event binder that has been registered using the callbacks option in the arguments of the App.
- * @returns {void}
- */
-SnippetPreview.prototype.callRegisteredEventBinder = function() {
-	this.refObj.callbacks.bindElementEvents( this.refObj );
-};
-
-/**
- *  checks if title and url are set so they can be rendered in the snippetPreview
- *  @returns {void}
- */
-SnippetPreview.prototype.init = function() {
-	if (
-		this.refObj.rawData.pageTitle !== null &&
-		this.refObj.rawData.cite !== null
-	) {
-		this.refresh();
-	}
-};
-
-/**
- * creates html object to contain the strings for the snippetpreview
- *
- * @returns {Object} The HTML output of the collected data.
- */
-SnippetPreview.prototype.htmlOutput = function() {
-	var html = {};
-	html.title = this.formatTitle();
-	html.cite = this.formatCite();
-	html.meta = this.formatMeta();
-	html.url = this.formatUrl();
-	return html;
-};
-
-/**
- * Formats the title for the snippet preview. If title and pageTitle are empty, sampletext is used
- *
- * @returns {string} The correctly formatted title.
- */
-SnippetPreview.prototype.formatTitle = function() {
-	var title = this.data.title;
-
-	// Fallback to the default if the title is empty.
-	if ( isEmpty( title ) ) {
-		title = this.opts.defaultValue.title;
-	}
-
-	// For rendering we can fallback to the placeholder as well.
-	if ( isEmpty( title ) ) {
-		title = this.opts.placeholder.title;
-	}
-
-	// Apply modification to the title before showing it.
-	if ( this.refObj.pluggable.loaded ) {
-		title = this.refObj.pluggable._applyModifications( "data_page_title", title );
-	}
-
-	title = stripHTMLTags( title );
-
-	// If a keyword is set we want to highlight it in the title.
-	if ( !isEmpty( this.refObj.rawData.keyword ) ) {
-		title = this.formatKeyword( title );
-	}
-
-	// As an ultimate fallback provide the user with a helpful message.
-	if ( isEmpty( title ) ) {
-		title = this.i18n.dgettext( "js-text-analysis", "Please provide an SEO title by editing the snippet below." );
-	}
-
-	return title;
-};
-
-/**
- * Formats the base url for the snippet preview. Removes the protocol name from the URL.
- *
- * @returns {string} Formatted base url for the snippet preview.
- */
-SnippetPreview.prototype.formatUrl = function() {
-	var url = getBaseURL.call( this );
-
-	// Removes the http part of the url, google displays https:// if the website supports it.
-	return url.replace( /http:\/\//ig, "" );
-};
-
-/**
- * Formats the url for the snippet preview
- *
- * @returns {string} Formatted URL for the snippet preview.
- */
-SnippetPreview.prototype.formatCite = function() {
-	var cite = this.data.urlPath;
-
-	cite = stripHTMLTags( cite );
-
-	// Fallback to the default if the cite is empty.
-	if ( isEmpty( cite ) ) {
-		cite = this.opts.placeholder.urlPath;
-	}
-
-	if ( !isEmpty( this.refObj.rawData.keyword ) ) {
-		cite = this.formatKeywordUrl( cite );
-	}
-
-	if ( this.opts.addTrailingSlash && !hasTrailingSlash( cite ) ) {
-		cite = cite + "/";
-	}
-
-	// URL's cannot contain whitespace so replace it by dashes.
-	cite = cite.replace( /\s/g, "-" );
-
-	return cite;
-};
-
-/**
- * Formats the meta description for the snippet preview, if it's empty retrieves it using getMetaText.
- *
- * @returns {string} Formatted meta description.
- */
-SnippetPreview.prototype.formatMeta = function() {
-	var meta = this.data.metaDesc;
-
-	// If no meta has been set, generate one.
-	if ( isEmpty( meta ) ) {
-		meta = this.getMetaText();
-	}
-
-	// Apply modification to the desc before showing it.
-	if ( this.refObj.pluggable.loaded ) {
-		meta = this.refObj.pluggable._applyModifications( "data_meta_desc", meta );
-	}
-
-	meta = stripHTMLTags( meta );
-
-	// Cut-off the meta description according to the maximum length
-	meta = meta.substring( 0, analyzerConfig.maxMeta );
-
-	if ( !isEmpty( this.refObj.rawData.keyword ) ) {
-		meta = this.formatKeyword( meta );
-	}
-
-	// As an ultimate fallback provide the user with a helpful message.
-	if ( isEmpty( meta ) ) {
-		meta = this.i18n.dgettext( "js-text-analysis", "Please provide a meta description by editing the snippet below." );
-	}
-
-	return meta;
-};
-
-/**
- * Generates a meta description with an educated guess based on the passed text and excerpt. It uses the keyword to
- * select an appropriate part of the text. If the keyword isn't present it takes the first 156 characters of the text.
- * If both the keyword, text and excerpt are empty this function returns the sample text.
- *
- * @returns {string} A generated meta description.
- */
-SnippetPreview.prototype.getMetaText = function() {
-	var metaText = this.opts.defaultValue.metaDesc;
-
-	if ( !isUndefined( this.refObj.rawData.excerpt ) && isEmpty( metaText ) ) {
-		metaText = this.refObj.rawData.excerpt;
-	}
-
-	if ( !isUndefined( this.refObj.rawData.text ) && isEmpty( metaText ) ) {
-		metaText = this.refObj.rawData.text;
-
-		if ( this.refObj.pluggable.loaded ) {
-			metaText = this.refObj.pluggable._applyModifications( "content", metaText );
-		}
-	}
-
-	metaText = stripHTMLTags( metaText );
-
-	return metaText.substring( 0, analyzerConfig.maxMeta );
-};
-
-/**
- * Builds an array with all indexes of the keyword
- * @returns {Array} Array with matches
- */
-SnippetPreview.prototype.getIndexMatches = function() {
-	var indexMatches = [];
-	var i = 0;
-
-	// Starts at 0, locates first match of the keyword.
-	var match = this.refObj.rawData.text.indexOf(
-		this.refObj.rawData.keyword,
-		i
-	);
-
-	// Runs the loop untill no more indexes are found, and match returns -1.
-	while ( match > -1 ) {
-		indexMatches.push( match );
-
-		// Pushes location to indexMatches and increase i with the length of keyword.
-		i = match + this.refObj.rawData.keyword.length;
-		match = this.refObj.rawData.text.indexOf(
-			this.refObj.rawData.keyword,
-			i
-		);
-	}
-	return indexMatches;
-};
-
-/**
- * Builds an array with indexes of all sentence ends (select on .)
- * @returns {Array} Array with sentences.
- */
-SnippetPreview.prototype.getPeriodMatches = function() {
-	var periodMatches = [ 0 ];
-	var match;
-	var i = 0;
-	while ( ( match = this.refObj.rawData.text.indexOf( ".", i ) ) > -1 ) {
-		periodMatches.push( match );
-		i = match + 1;
-	}
-	return periodMatches;
-};
-
-/**
- * Formats the keyword for use in the snippetPreview by adding <strong>-tags
- * strips unwanted characters that could break the regex or give unwanted results.
- *
- * @param {string} textString The keyword string that needs to be formatted.
- * @returns {string} The formatted keyword.
- */
-SnippetPreview.prototype.formatKeyword = function( textString ) {
-
-	// removes characters from the keyword that could break the regex, or give unwanted results
-	var keyword = this.refObj.rawData.keyword.replace( /[\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, " " );
-
-	// Match keyword case-insensitively
-	var keywordRegex = stringToRegex( keyword, "", false );
-	return textString.replace( keywordRegex, function( str ) {
-		return "<strong>" + str + "</strong>";
-	} );
-};
-
-/**
- * formats the keyword for use in the URL by accepting - and _ in stead of space and by adding
- * <strong>-tags
- * strips unwanted characters that could break the regex or give unwanted results
- *
- * @param {string} textString The keyword string that needs to be formatted.
- * @returns {XML|string|void} The formatted keyword string to be used in the URL.
- */
-SnippetPreview.prototype.formatKeywordUrl = function( textString ) {
-	var keyword = sanitizeString( this.refObj.rawData.keyword );
-	keyword = keyword.replace( /'/, "" );
-
-	var dashedKeyword = keyword.replace( /\s/g, "-" );
-
-	// Match keyword case-insensitively.
-	var keywordRegex = stringToRegex( dashedKeyword, "\\-" );
-
-	// Make the keyword bold in the textString.
-	return textString.replace( keywordRegex, function( str ) {
-		return "<strong>" + str + "</strong>";
-	} );
-};
-
-/**
- * Renders the outputs to the elements on the page.
- * @returns {void}
- */
-SnippetPreview.prototype.renderOutput = function() {
-	this.element.rendered.title.innerHTML = this.output.title;
-	this.element.rendered.urlPath.innerHTML = this.output.cite;
-	this.element.rendered.urlBase.innerHTML = this.output.url;
-	this.element.rendered.metaDesc.innerHTML = this.output.meta;
-};
-
-/**
- * Makes the rendered meta description gray if no meta description has been set by the user.
- * @returns {void}
- */
-SnippetPreview.prototype.renderSnippetStyle = function() {
-	var metaDescElement = this.element.rendered.metaDesc;
-	var metaDesc = getAnalyzerMetaDesc.call( this );
-
-	if ( isEmpty( metaDesc ) ) {
-		addClass( metaDescElement, "desc-render" );
-		removeClass( metaDescElement, "desc-default" );
-	} else {
-		addClass( metaDescElement, "desc-default" );
-		removeClass( metaDescElement, "desc-render" );
-	}
-};
-
-/**
- * Function to call init, to rerender the snippetpreview
- * @returns {void}
- */
-SnippetPreview.prototype.reRender = function() {
-	this.init();
-};
-
-/**
- * Checks text length of the snippetmeta and snippet title, shortens it if it is too long.
- * @param {Object} event The event to check the text length from.
- * @returns {void}
- */
-SnippetPreview.prototype.checkTextLength = function( event ) {
-	var text = event.currentTarget.textContent;
-	switch ( event.currentTarget.id ) {
-		case "snippet_meta":
-			event.currentTarget.className = "desc";
-			if ( text.length > analyzerConfig.maxMeta ) {
-				/* eslint-disable */
-				YoastSEO.app.snippetPreview.unformattedText.snippet_meta = event.currentTarget.textContent;
-				/* eslint-enable */
-				event.currentTarget.textContent = text.substring(
-					0,
-					analyzerConfig.maxMeta
-				);
-
-			}
-			break;
-		case "snippet_title":
-			event.currentTarget.className = "title";
-			if ( text.length > titleMaxLength ) {
-				/* eslint-disable */
-				YoastSEO.app.snippetPreview.unformattedText.snippet_title = event.currentTarget.textContent;
-				/* eslint-enable */
-				event.currentTarget.textContent = text.substring( 0, titleMaxLength );
-			}
-			break;
-		default:
-			break;
-	}
-};
-
-/**
- * When clicked on an element in the snippet, checks fills the textContent with the data from the unformatted text.
- * This removes the keyword highlighting and modified data so the original content can be editted.
- * @param {Object} event The event to get the unformatted text from.
- * @returns {void}
- */
-SnippetPreview.prototype.getUnformattedText = function( event ) {
-	var currentElement = event.currentTarget.id;
-	if ( typeof this.unformattedText[ currentElement ] !== "undefined" ) {
-		event.currentTarget.textContent = this.unformattedText[currentElement];
-	}
-};
-
-/**
- * When text is entered into the snippetPreview elements, the text is set in the unformattedText object.
- * This allows the visible data to be editted in the snippetPreview.
- * @param {Object} event The event to set the unformatted text from.
- * @returns {void}
- */
-SnippetPreview.prototype.setUnformattedText = function( event ) {
-	var elem =  event.currentTarget.id;
-	this.unformattedText[ elem ] = document.getElementById( elem ).textContent;
-};
-
-/**
- * Validates all fields and highlights errors.
- * @returns {void}
- */
-SnippetPreview.prototype.validateFields = function() {
-	var metaDescription = getAnalyzerMetaDesc.call( this );
-	var title = getAnalyzerTitle.call( this );
-
-	if ( metaDescription.length > analyzerConfig.maxMeta ) {
-		addClass( this.element.input.metaDesc, "snippet-editor__field--invalid" );
-	} else {
-		removeClass( this.element.input.metaDesc, "snippet-editor__field--invalid" );
-	}
-
-	if ( title.length > titleMaxLength ) {
-		addClass( this.element.input.title, "snippet-editor__field--invalid" );
-	} else {
-		removeClass( this.element.input.title, "snippet-editor__field--invalid" );
-	}
-};
-
-/**
- * Updates progress bars based on the data
- * @returns {void}
- */
-SnippetPreview.prototype.updateProgressBars = function() {
-	var metaDescriptionRating, titleRating, metaDescription, title;
-
-	metaDescription = getAnalyzerMetaDesc.call( this );
-	title = getAnalyzerTitle.call( this );
-
-	titleRating = rateTitleLength( title.length );
-	metaDescriptionRating = rateMetaDescLength( metaDescription.length );
-
-	updateProgressBar(
-		this.element.progress.title,
-		title.length,
-		titleMaxLength,
-		titleRating
-	);
-
-	updateProgressBar(
-		this.element.progress.metaDesc,
-		metaDescription.length,
-		analyzerConfig.maxMeta,
-		metaDescriptionRating
-	);
-};
-
-/**
- * Binds the reloadSnippetText function to the blur of the snippet inputs.
- * @returns {void}
- */
-SnippetPreview.prototype.bindEvents = function() {
-	var targetElement,
-		elems = [ "title", "slug", "meta-description" ];
-
-	forEach( elems, function( elem ) {
-		targetElement = document.getElementsByClassName( "js-snippet-editor-" + elem )[0];
-
-		targetElement.addEventListener( "keydown", this.changedInput.bind( this ) );
-		targetElement.addEventListener( "keyup", this.changedInput.bind( this ) );
-
-		targetElement.addEventListener( "input", this.changedInput.bind( this ) );
-		targetElement.addEventListener( "focus", this.changedInput.bind( this ) );
-		targetElement.addEventListener( "blur", this.changedInput.bind( this ) );
-	}.bind( this ) );
-
-	this.element.editToggle.addEventListener( "click", this.toggleEditor.bind( this ) );
-	this.element.closeEditor.addEventListener( "click", this.closeEditor.bind( this ) );
-
-	// Loop through the bindings and bind a click handler to the click to focus the focus element.
-	forEach( inputPreviewBindings, function( binding ) {
-		var previewElement = document.getElementById( binding.preview );
-		var inputElement = this.element.input[ binding.inputField ];
-
-		// Make the preview element click open the editor and focus the correct input.
-		previewElement.addEventListener( "click", function() {
-			this.openEditor();
-			inputElement.focus();
-		}.bind( this ) );
-
-		// Make focusing an input, update the carets.
-		inputElement.addEventListener( "focus", function() {
-			this._currentFocus = binding.inputField;
-
-			this._updateFocusCarets();
-		}.bind( this ) );
-
-		// Make removing focus from an element, update the carets.
-		inputElement.addEventListener( "blur", function() {
-			this._currentFocus = null;
-
-			this._updateFocusCarets();
-		}.bind( this ) );
-
-		previewElement.addEventListener( "mouseover", function() {
-			this._currentHover = binding.inputField;
-
-			this._updateHoverCarets();
-		}.bind( this ) );
-
-		previewElement.addEventListener( "mouseout", function() {
-			this._currentHover = null;
-
-			this._updateHoverCarets();
-		}.bind( this ) );
-
-	}.bind( this ) );
-};
-
-/**
- * Updates snippet preview on changed input. It's debounced so that we can call this function as much as we want.
- * @returns {void}
- */
-SnippetPreview.prototype.changedInput = debounce( function() {
-	this.updateDataFromDOM();
-	this.validateFields();
-	this.updateProgressBars();
-
-	this.refresh();
-
-	this.refObj.refresh();
-}, 25 );
-
-/**
- * Updates our data object from the DOM
- * @returns {void}
- */
-SnippetPreview.prototype.updateDataFromDOM = function() {
-	this.data.title = this.element.input.title.value;
-	this.data.urlPath = this.element.input.urlPath.value;
-	this.data.metaDesc = this.element.input.metaDesc.value;
-
-	// Clone so the data isn't changeable.
-	this.opts.callbacks.saveSnippetData( clone( this.data ) );
-};
-
-/**
- * Opens the snippet editor.
- * @returns {void}
- */
-SnippetPreview.prototype.openEditor = function() {
-
-	this.element.editToggle.setAttribute( "aria-expanded", "true" );
-
-	// Show these elements.
-	removeClass( this.element.formContainer, "snippet-editor--hidden" );
-
-	this.opened = true;
-};
-
-/**
- * Closes the snippet editor.
- * @returns {void}
- */
-SnippetPreview.prototype.closeEditor = function() {
-
-	// Hide these elements.
-	addClass( this.element.formContainer,     "snippet-editor--hidden" );
-
-	this.element.editToggle.setAttribute( "aria-expanded", "false" );
-	this.element.editToggle.focus();
-
-	this.opened = false;
-};
-
-/**
- * Toggles the snippet editor.
- * @returns {void}
- */
-SnippetPreview.prototype.toggleEditor = function() {
-	if ( this.opened ) {
-		this.closeEditor();
-	} else {
-		this.openEditor();
-	}
-};
-
-/**
- * Updates carets before the preview and input fields.
- *
- * @private
- * @returns {void}
- */
-SnippetPreview.prototype._updateFocusCarets = function() {
-	var focusedLabel, focusedPreview;
-
-	// Disable all carets on the labels.
-	forEach( this.element.label, function( element ) {
-		removeClass( element, "snippet-editor__label--focus" );
-	} );
-
-	// Disable all carets on the previews.
-	forEach( this.element.preview, function( element ) {
-		removeClass( element, "snippet-editor__container--focus" );
-	} );
-
-	if ( null !== this._currentFocus ) {
-		focusedLabel = this.element.label[ this._currentFocus ];
-		focusedPreview = this.element.preview[ this._currentFocus ];
-
-		addClass( focusedLabel, "snippet-editor__label--focus" );
-		addClass( focusedPreview, "snippet-editor__container--focus" );
-	}
-};
-
-/**
- * Updates hover carets before the input fields.
- *
- * @private
- * @returns {void}
- */
-SnippetPreview.prototype._updateHoverCarets = function() {
-	var hoveredLabel;
-
-	forEach( this.element.label, function( element ) {
-		removeClass( element, "snippet-editor__label--hover" );
-	} );
-
-	if ( null !== this._currentHover ) {
-		hoveredLabel = this.element.label[ this._currentHover ];
-
-		addClass( hoveredLabel, "snippet-editor__label--hover" );
-	}
-};
-
-/**
- * Updates the title data and the the title input field. This also means the snippet editor view is updated.
- *
- * @param {string} title The title to use in the input field.
- * @returns {void}
- */
-SnippetPreview.prototype.setTitle = function( title ) {
-	this.element.input.title.value = title;
-
-	this.changedInput();
-};
-
-/**
- * Updates the url path data and the the url path input field. This also means the snippet editor view is updated.
- *
- * @param {string} urlPath the URL path to use in the input field.
- * @returns {void}
- */
-SnippetPreview.prototype.setUrlPath = function( urlPath ) {
-	this.element.input.urlPath.value = urlPath;
-
-	this.changedInput();
-};
-
-/**
- * Updates the meta description data and the the meta description input field. This also means the snippet editor view is updated.
- *
- * @param {string} metaDesc the meta description to use in the input field.
- * @returns {void}
- */
-SnippetPreview.prototype.setTitle = function( metaDesc ) {
-	this.element.input.metaDesc.value = metaDesc;
-
-	this.changedInput();
-};
-
-/* jshint ignore:start */
-/* eslint-disable */
-
-/**
- * Used to disable enter as input. Returns false to prevent enter, and preventDefault and
- * cancelBubble to prevent
- * other elements from capturing this event.
- *
- * @deprecated
- * @param {KeyboardEvent} ev
- */
-SnippetPreview.prototype.disableEnter = function( ev ) {};
-
-/**
- * Adds and remove the tooLong class when a text is too long.
- *
- * @deprecated
- * @param ev
- */
-SnippetPreview.prototype.textFeedback = function( ev ) {};
-
-/**
- * shows the edit icon corresponding to the hovered element
- *
- * @deprecated
- *
- * @param ev
- */
-SnippetPreview.prototype.showEditIcon = function( ev ) {
-
-};
-
-/**
- * removes all editIcon-classes, sets to snippet_container
- *
- * @deprecated
- */
-SnippetPreview.prototype.hideEditIcon = function() {};
-
-/**
- * sets focus on child element of the snippet_container that is clicked. Hides the editicon.
- *
- * @deprecated
- * @param ev
- */
-SnippetPreview.prototype.setFocus = function( ev ) {};
-/* jshint ignore:end */
-/* eslint-disable */
-module.exports = SnippetPreview;
-
-},{"../js/stringProcessing/sanitizeString.js":248,"../js/stringProcessing/stringToRegex.js":249,"../js/stringProcessing/stripHTMLTags.js":250,"../js/stringProcessing/stripSpaces.js":253,"./config/config.js":201,"./templates.js":256,"lodash/clone":132,"lodash/debounce":134,"lodash/defaultsDeep":136,"lodash/forEach":139,"lodash/isElement":150,"lodash/isEmpty":151,"lodash/isUndefined":162}],232:[function(require,module,exports){
-/** @module stringProcessing/addWordboundary */
-
-/**
- * Returns a string that can be used in a regex to match a matchString with word boundaries.
- *
- * @param {string} matchString The string to generate a regex string for.
- * @param {string} extraWordBoundary Extra characters to match a word boundary on.
- * @returns {string} A regex string that matches the matchString with word boundaries
- */
-module.exports = function( matchString, extraWordBoundary ) {
-	var wordBoundary, wordBoundaryStart, wordBoundaryEnd;
-
-	if ( typeof extraWordBoundary === "undefined" ) {
-		extraWordBoundary = "";
-	}
-
-	wordBoundary = "[ \n\r\t\.,'\(\)\"\+\-;!?:\/»«‹›" + extraWordBoundary + "<>]";
-	wordBoundaryStart = "(^|" + wordBoundary + ")";
-	wordBoundaryEnd = "($|" + wordBoundary + ")";
-
-	return wordBoundaryStart + matchString + wordBoundaryEnd;
-};
-
-},{}],233:[function(require,module,exports){
-/** @module stringProcessing/checkNofollow */
-
-/**
- * Checks if a links has a nofollow attribute. If it has, returns Nofollow, otherwise Dofollow.
- *
- * @param {string} text The text to check against.
- * @returns {string} Returns Dofollow or Nofollow.
- */
-module.exports = function( text ) {
-	var linkFollow = "Dofollow";
-
-	// Matches all nofollow links, case insensitive and global
-	if ( text.match( /rel=([\'\"])nofollow\1/ig ) !== null ) {
-		linkFollow = "Nofollow";
-	}
-	return linkFollow;
-};
-
-},{}],234:[function(require,module,exports){
-/** @module stringProcessing/cleanText */
-
-var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
-var replaceDiacritics = require( "../stringProcessing/replaceDiacritics.js" );
-var unifyWhitespace = require( "../stringProcessing/unifyWhitespace.js" );
-
-/**
- * Removes words, duplicate spaces and sentence terminators, and words consisting of only digits
- * from the text. This is used for the flesh reading ease test.
- *
- * @param {String} text The cleaned text
- * @returns {String} The text
- */
-module.exports = function( text ) {
-	if ( text === "" ) {
-		return text;
-	}
-
-	text = replaceDiacritics( text );
-	text = text.toLocaleLowerCase();
-
-	text = unifyWhitespace( text );
-
-	// replace comma', hyphens etc with spaces
-	text = text.replace( /[\-\;\:\,\(\)\"\'\|\“\”]/g, " " );
-
-	// remove apostrophe
-	text = text.replace( /[\’]/g, "" );
-
-	// unify all terminators
-	text = text.replace( /[.?!]/g, "." );
-
-	// Remove double spaces
-	text = stripSpaces( text );
-
-	// add period in case it is missing
-	text += ".";
-
-	// replace newlines with spaces
-	text = text.replace( /[ ]*(\n|\r\n|\r)[ ]*/g, " " );
-
-	// remove duplicate terminators
-	text = text.replace( /([\.])[\. ]+/g, "$1" );
-
-	// pad sentence terminators
-	text = text.replace( /[ ]*([\.])+/g, "$1 " );
-
-	// Remove double spaces
-	text = stripSpaces( text );
-
-	if ( text === "." ) {
-		return "";
-	}
-
-	return text;
-};
-
-},{"../stringProcessing/replaceDiacritics.js":246,"../stringProcessing/stripSpaces.js":253,"../stringProcessing/unifyWhitespace.js":255}],235:[function(require,module,exports){
-/** @module stringProcessing/countSentences */
-
-var cleanText = require( "../stringProcessing/cleanText.js" );
-
-/**
- * Counts the number of sentences in a given string.
- *
- * @param {string} text The text used to count sentences.
- * @returns {number} The number of sentences in the text.
- */
-module.exports = function( text ) {
-	var sentences = cleanText( text ).split( "." );
-	var sentenceCount = 0;
-	for ( var i = 0; i < sentences.length; i++ ) {
-		if ( sentences[ i ] !== "" && sentences[ i ] !== " " ) {
-			sentenceCount++;
-		}
-	}
-	return sentenceCount;
-};
-
-},{"../stringProcessing/cleanText.js":234}],236:[function(require,module,exports){
-/** @module stringProcessing/countSyllables */
-
-var cleanText = require( "../stringProcessing/cleanText.js" );
-var syllableArray = require( "../config/syllables.js" );
-var arrayToRegex = require( "../stringProcessing/createRegexFromArray.js" );
-
-/**
- * Checks the textstring for exclusion words. If they are found, returns the number of syllables these have, since
- * they are incorrectly detected with the syllablecounters based on regexes.
- *
- * @param {string} text The text to look for exclusionwords
- * @returns {number} The number of syllables found in the exclusionwords
- */
-var countExclusionSyllables = function( text ) {
-	var count = 0, wordArray, regex, matches;
-	wordArray = syllableArray().exclusionWords;
-	for ( var i = 0; i < wordArray.length; i++ ) {
-		regex = new RegExp ( wordArray[i].word, "ig" );
-		matches = text.match ( regex );
-		if ( matches !== null ) {
-			count += ( matches.length * wordArray[i].syllables );
-		}
-	}
-	return count;
-};
-
-/**
- * Removes words from the text that are in the exclusion array. These words are counted
- * incorrectly in the syllable counters, so they are removed and checked sperately.
- *
- * @param {string} text The text to remove words from
- * @returns {string} The text with the exclusionwords removed
- */
-var removeExclusionWords = function( text ) {
-	var exclusionWords = syllableArray().exclusionWords;
-	var wordArray = [];
-	for ( var i = 0; i < exclusionWords.length; i++ ) {
-		wordArray.push( exclusionWords[i].word );
-	}
-	return text.replace( arrayToRegex( wordArray ), "" );
-};
-
-/**
- * Counts the syllables by splitting on consonants.
- *
- * @param {string} text A text with words to count syllables.
- * @returns {number} the syllable count
- */
-var countBasicSyllables = function( text ) {
-	var array = text.split( " " );
-	var i, j, splitWord, count = 0;
-
-	// split textstring to individual words
-	for ( i = 0; i < array.length; i++ ) {
-
-		// split on consonants
-		splitWord = array[ i ].split( /[^aeiouy]/g );
-
-		// if the string isn't empty, a consonant was found, up the counter
-		for ( j = 0; j < splitWord.length; j++ ) {
-			if ( splitWord[ j ] !== "" ) {
-				count++;
-			}
-		}
-	}
-
-	return count;
-};
-
-/**
- * Advanced syllable counter to match texstring with regexes.
- *
- * @param {String} text The text to count the syllables.
- * @param {String} operator The operator to determine which regex to use.
- * @returns {number} the amount of syllables found in string.
- */
-var countAdvancedSyllables = function( text, operator ) {
-	var matches, count = 0, words = text.split( " " );
-	var regex = "";
-	switch ( operator ) {
-		case "add":
-			regex = arrayToRegex( syllableArray().addSyllables, true );
-			break;
-		case "subtract":
-			regex = arrayToRegex( syllableArray().subtractSyllables, true );
-			break;
-		default:
-			break;
-	}
-	for ( var i = 0; i < words.length; i++ ) {
-		matches = words[i].match ( regex );
-		if ( matches !== null ) {
-			count += matches.length;
-		}
-	}
-	return count;
-};
-
-/**
- * Counts the number of syllables in a textstring, calls exclusionwordsfunction, basic syllable
- * counter and advanced syllable counter.
- *
- * @param {String} text The text to count the syllables from.
- * @returns {int} syllable count
- */
-module.exports = function( text ) {
-	var count = 0;
-	count += countExclusionSyllables( text );
-
-	text = removeExclusionWords( text );
-	text = cleanText( text );
-	text.replace( /[.]/g, " " );
-
-	count += countBasicSyllables( text );
-	count += countAdvancedSyllables( text, "add" );
-	count -= countAdvancedSyllables( text, "subtract" );
-
-	return count;
-};
-
-
-},{"../config/syllables.js":206,"../stringProcessing/cleanText.js":234,"../stringProcessing/createRegexFromArray.js":238}],237:[function(require,module,exports){
-/** @module stringProcessing/countWords */
-
-var stripTags = require( "../stringProcessing/stripHTMLTags.js" );
-var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
-
-/**
- * Calculates the wordcount of a certain text.
- *
- * @param {string} text The text to be counted.
- * @returns {int} The word count of the given text.
- */
-module.exports = function( text ) {
-	text = stripSpaces( stripTags( text ) );
-	if ( text === "" ) {
-		return 0;
-	}
-
-	return text.split( /\s/g ).length;
-};
-
-},{"../stringProcessing/stripHTMLTags.js":250,"../stringProcessing/stripSpaces.js":253}],238:[function(require,module,exports){
-/** @module stringProcessing/createRegexFromArray */
-
-var addWordBoundary = require( "../stringProcessing/addWordboundary.js" );
-
-/**
- * Creates a regex of combined strings from the input array.
- *
- * @param {array} array The array with strings
- * @param {boolean} disableWordBoundary Boolean indicating whether or not to disable word boundaries
- * @returns {RegExp} regex The regex created from the array.
- */
-module.exports = function( array, disableWordBoundary ) {
-	var regexString;
-
-	array = array.map( function( string ) {
-		if ( disableWordBoundary ) {
-			return string;
-		}
-		return addWordBoundary( string );
-	} );
-
-	regexString = "(" + array.join( ")|(" ) + ")";
-
-	return new RegExp( regexString, "ig" );
-};
-
-},{"../stringProcessing/addWordboundary.js":232}],239:[function(require,module,exports){
-/** @module stringProcessing/findKeywordInUrl */
-
-var keywordRegex = require( "../stringProcessing/stringToRegex.js" );
-/**
- *
- * @param {string} url The url to check for keyword
- * @param {string} keyword The keyword to check if it is in the URL
- * @returns {boolean} If a keyword is found, returns true
- */
-module.exports = function( url, keyword ) {
-	var keywordFound = false;
-	var formatUrl = url.match( />(.*)/ig );
-
-	if ( formatUrl !== null ) {
-		formatUrl = formatUrl[0].replace( /<.*?>\s?/ig, "" );
-		if ( formatUrl.match( keywordRegex( keyword ) ) !== null ) {
-			keywordFound = true;
-		}
-	}
-
-	return keywordFound;
-};
-
-},{"../stringProcessing/stringToRegex.js":249}],240:[function(require,module,exports){
-/** @module stringProcessing/getAlttagContent */
-
-var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
-
-var regexAltTag = /alt=(['"])(.*?)\1/i;
-
-/**
- * Checks for an alttag in the image and returns its content
- *
- * @param {String} text Textstring to match alt
- * @returns {String} the contents of the alttag, empty if none is set.
- */
-module.exports = function( text ) {
-	var alt = "";
-
-	var matches = text.match( regexAltTag );
-
-	if ( matches !== null ) {
-		alt = stripSpaces( matches[ 2 ] );
-
-		alt = alt.replace( /&quot;/g, "\"" );
-		alt = alt.replace( /&#039;/g, "'" );
-	}
-	return alt;
-};
-
-},{"../stringProcessing/stripSpaces.js":253}],241:[function(require,module,exports){
-/** @module stringProcessing/getAnchorsFromText */
-
-/**
- * Check for anchors in the textstring and returns them in an array.
- *
- * @param {String} text The text to check for matches.
- * @returns {Array} The matched links in text.
- */
-module.exports = function( text ) {
-	var matches;
-
-	// regex matches everything between <a> and </a>
-	matches = text.match( /<a(?:[^>]+)?>(.*?)<\/a>/ig );
-	if ( matches === null ) {
-		matches = [];
-	}
-
-	return matches;
-};
-
-},{}],242:[function(require,module,exports){
-/** @module stringProcess/getLinkType */
-
-/**
- * Determines the type of link.
- *
- * @param {string} text String with anchor tag.
- * @param {string} url Url to match against.
- * @returns {string} The link type (other, external or internal).
- */
-
-module.exports = function( text, url ) {
-	var linkType = "other";
-
-	// Matches all links that start with http:// and https://, case insensitive and global
-	if ( text.match( /https?:\/\//ig ) !== null ) {
-		linkType = "external";
-		var urlMatch = text.match( url );
-		if ( urlMatch !== null && urlMatch[ 0 ].length !== 0 ) {
-			linkType = "internal";
-		}
-	}
-	return linkType;
-};
-
-},{}],243:[function(require,module,exports){
-/** @module stringProcessing/imageInText */
-
-var matchStringWithRegex = require( "./matchStringWithRegex.js" );
-
-/**
- * Checks the text for images.
- *
- * @param {string} text The textstring to check for images
- * @returns {Array} Array containing all types of found images
- */
-module.exports = function( text ) {
-	return matchStringWithRegex( text, "<img(?:[^>]+)?>" );
-};
-
-},{"./matchStringWithRegex.js":244}],244:[function(require,module,exports){
-/** @module stringProcessing/matchStringWithRegex */
-
-/**
- * Checks a string with a regex, return all matches found with that regex.
- *
- * @param {String} text The text to match the
- * @param {String} regexString A string to use as regex.
- * @returns {Array} Array with matches, empty array if no matches found.
- */
-module.exports = function( text, regexString ) {
-	var regex = new RegExp( regexString, "ig" );
-	var matches = text.match( regex );
-
-	if ( matches === null ) {
-		matches = [];
-	}
-
-	return matches;
-};
-
-},{}],245:[function(require,module,exports){
-/** @module stringProcessing/matchTextWithWord */
-
-var stringToRegex = require( "../stringProcessing/stringToRegex.js" );
-var stripSomeTags = require( "../stringProcessing/stripNonTextTags.js" );
-var unifyWhitespace = require( "../stringProcessing/unifyWhitespace.js" );
-var replaceDiacritics = require( "../stringProcessing/replaceDiacritics.js" );
-
-/**
- * Returns the number of matches in a given string
- *
- * @param {string} text The text to use for matching the wordToMatch.
- * @param {string} wordToMatch The word to match in the text
- * @param {string} [extraBoundary] An extra string that can be added to the wordboundary regex
- * @returns {number} The amount of matches found.
- */
-module.exports = function( text, wordToMatch, extraBoundary ) {
-	text = stripSomeTags ( text );
-	text = unifyWhitespace( text );
-	text = replaceDiacritics( text );
-
-	var matches = text.match( stringToRegex( wordToMatch, extraBoundary ) );
-
-	if ( matches === null ) {
-		return 0;
-	}
-
-	return matches.length;
-};
-
-},{"../stringProcessing/replaceDiacritics.js":246,"../stringProcessing/stringToRegex.js":249,"../stringProcessing/stripNonTextTags.js":251,"../stringProcessing/unifyWhitespace.js":255}],246:[function(require,module,exports){
-/** @module stringProcessing/replaceDiacritics */
-
-var diacritisRemovalMap = require( "../config/diacritics.js" );
-
-/**
- * Replaces all diacritics from the text based on the diacritics removal map.
- *
- * @param {string} text The text to remove diacritics from.
- * @returns {string} The text with all diacritics replaced.
- */
-module.exports = function( text ) {
-	var map = diacritisRemovalMap();
-
-	for ( var i = 0; i < map.length; i++ ) {
-		text = text.replace(
-			map[ i ].letters,
-			map[ i ].base
-		);
-	}
-	return text;
-};
-
-},{"../config/diacritics.js":202}],247:[function(require,module,exports){
-/** @module stringProcessing/replaceString */
-
-/**
- * Replaces string with a replacement in text
- *
- * @param {string} text The textstring to remove
- * @param {string} stringToReplace The string to replace
- * @param {string} replacement The replacement of the string
- * @returns {string} The text with the string replaced
- */
-module.exports = function( text, stringToReplace, replacement ) {
-	text = text.replace( stringToReplace, replacement );
-
-	return text;
-};
-
-},{}],248:[function(require,module,exports){
-/** @module stringProcessing/sanitizeString */
-
-var stripTags = require( "../stringProcessing/stripHTMLTags.js" );
-var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
-
-/**
- * Strip HTMLtags characters from string that break regex
- *
- * @param {String} text The text to strip the characters from.
- * @returns {String} The text without characters.
- */
-module.exports = function( text ) {
-	text = text.replace( /[\[\]\/\{\}\(\)\*\+\?\\\^\$\|]/g, "" );
-	text = stripTags( text );
-	text = stripSpaces( text );
-
-	return text;
-};
-
-},{"../stringProcessing/stripHTMLTags.js":250,"../stringProcessing/stripSpaces.js":253}],249:[function(require,module,exports){
-/** @module stringProcessing/stringToRegex */
-var isUndefined = require( "lodash/isUndefined" );
-var replaceDiacritics = require( "../stringProcessing/replaceDiacritics.js" );
-var sanitizeString = require( "../stringProcessing/sanitizeString.js" );
-var addWordBoundary = require( "../stringProcessing/addWordboundary.js" );
-
-/**
- * Creates a regex from a string so it can be matched everywhere in the same way.
- *
- * @param {string} string The string to make a regex from.
- * @param {string} [extraBoundary=""] A string that is used as extra boundary for the regex.
- * @param {boolean} [doReplaceDiacritics=true] If set to false, it doesn't replace diacritics. Defaults to true.
- * @returns {RegExp} regex The regex made from the keyword
- */
-module.exports = function( string, extraBoundary, doReplaceDiacritics ) {
-	if ( isUndefined( extraBoundary ) ) {
-		extraBoundary = "";
-	}
-
-	if ( isUndefined( doReplaceDiacritics ) || doReplaceDiacritics === true ) {
-		string = replaceDiacritics( string );
-	}
-
-	string = sanitizeString( string );
-	string = addWordBoundary( string, extraBoundary );
-	return new RegExp ( string, "ig" );
-};
-
-},{"../stringProcessing/addWordboundary.js":232,"../stringProcessing/replaceDiacritics.js":246,"../stringProcessing/sanitizeString.js":248,"lodash/isUndefined":162}],250:[function(require,module,exports){
-/** @module stringProcessing/stripHTMLTags */
-
-var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
-
-/**
- * Strip HTML-tags from text
- *
- * @param {String} text The text to strip the HTML-tags from.
- * @returns {String} The text without HTML-tags.
- */
-module.exports = function( text ) {
-	text = text.replace( /(<([^>]+)>)/ig, " " );
-	text = stripSpaces( text );
-	return text;
-};
-
-},{"../stringProcessing/stripSpaces.js":253}],251:[function(require,module,exports){
-/** @module stringProcessing/stripNonTextTags */
-
-var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
-
-/**
- * Strips all tags from the text, except li, p, dd and h1-h6 tags from the text that contain content to check.
- *
- * @param {string} text The text to strip tags from
- * @returns {string} The text stripped of tags, except for li, p, dd and h1-h6 tags.
- */
-module.exports = function( text ) {
-	text = text.replace( /<(?!li|\/li|p|\/p|h1|\/h1|h2|\/h2|h3|\/h3|h4|\/h4|h5|\/h5|h6|\/h6|dd).*?\>/g, "" );
-	text = stripSpaces( text );
-	return text;
-};
-
-},{"../stringProcessing/stripSpaces.js":253}],252:[function(require,module,exports){
-/** @module stringProcessing/stripNumbers */
-
-var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
-
-/**
- * Removes all words comprised only of numbers.
- *
- * @param {string} text to remove words
- * @returns {string} The text with numberonly words removed.
- */
-
-module.exports = function( text ) {
-
-	// Remove "words" comprised only of numbers
-	text = text.replace( /\b[0-9]+\b/g, "" );
-
-	text = stripSpaces( text );
-
-	if ( text === "." ) {
-		text = "";
-	}
-	return text;
-};
-
-},{"../stringProcessing/stripSpaces.js":253}],253:[function(require,module,exports){
-/** @module stringProcessing/stripSpaces */
-
-/**
- * Strip double spaces from text
- *
- * @param {String} text The text to strip spaces from.
- * @returns {String} The text without double spaces
- */
-module.exports = function( text ) {
-
-	// Replace multiple spaces with single space
-	text = text.replace( /\s{2,}/g, " " );
-
-	// Replace spaces followed by periods with only the period.
-	text = text.replace( /\s\./g, "." );
-
-	// Remove first/last character if space
-	text = text.replace( /^\s+|\s+$/g, "" );
-
-	return text;
-};
-
-},{}],254:[function(require,module,exports){
-var stringToRegex = require( "../stringProcessing/stringToRegex.js" );
-var replaceString = require( "../stringProcessing/replaceString.js" );
-var removalWords = require( "../config/removalWords.js" );
-var replaceDiacritics = require( "../stringProcessing/replaceDiacritics.js" );
-
-/**
- * Matches the keyword in an array of strings
- *
- * @param {Array} matches The array with the matched headings.
- * @param {String} keyword The keyword to match
- * @returns {number} The number of occurrences of the keyword in the headings.
- */
-module.exports = function( matches, keyword ) {
-	var foundInHeader;
-	if ( matches === null ) {
-		foundInHeader = -1;
-	} else {
-		foundInHeader = 0;
-		for ( var i = 0; i < matches.length; i++ ) {
-
-			// TODO: This replaceString call seemingly doesn't work, as no replacement value is being sent to the .replace method in replaceString
-			var formattedHeaders = replaceString(
-				matches[ i ], removalWords
-			);
-			if (
-				replaceDiacritics( formattedHeaders ).match( stringToRegex( keyword ) ) ||
-				replaceDiacritics( matches[ i ] ).match( stringToRegex( keyword ) )
-			) {
-				foundInHeader++;
-			}
-		}
-	}
-	return foundInHeader;
-};
-
-},{"../config/removalWords.js":204,"../stringProcessing/replaceDiacritics.js":246,"../stringProcessing/replaceString.js":247,"../stringProcessing/stringToRegex.js":249}],255:[function(require,module,exports){
-/** @module stringProcessing/unifyWhitespace */
-
-/**
- * Converts all whitespace to spaces.
- *
- * @param {string} text The text to replace spaces.
- * @returns {string} The text with unified spaces.
- */
-
-module.exports = function( text ) {
-
-	// Replace &nbsp with space
-	text = text.replace( "&nbsp;", " " );
-
-	// Replace whitespaces with space
-	text = text.replace( /\s/g, " " );
-
-	return text;
-};
-
-
-},{}],256:[function(require,module,exports){
-(function (global){
-;(function() {
-  var undefined;
-
-  var objectTypes = {
-    'function': true,
-    'object': true
-  };
-
-  var freeExports = (objectTypes[typeof exports] && exports && !exports.nodeType)
-    ? exports
-    : undefined;
-
-  var freeModule = (objectTypes[typeof module] && module && !module.nodeType)
-    ? module
-    : undefined;
-
-  var moduleExports = (freeModule && freeModule.exports === freeExports)
-    ? freeExports
-    : undefined;
-
-  var freeGlobal = checkGlobal(freeExports && freeModule && typeof global == 'object' && global);
-
-  var freeSelf = checkGlobal(objectTypes[typeof self] && self);
-
-  var freeWindow = checkGlobal(objectTypes[typeof window] && window);
-
-  var thisGlobal = checkGlobal(objectTypes[typeof this] && this);
-
-  var root = freeGlobal ||
-    ((freeWindow !== (thisGlobal && thisGlobal.window)) && freeWindow) ||
-      freeSelf || thisGlobal || Function('return this')();
-
-  function checkGlobal(value) {
-    return (value && value.Object === Object) ? value : null;
-  }
-
-  /** Used as a safe reference for `undefined` in pre-ES5 environments. */
-  var undefined;
-
-  /** Used as the semantic version number. */
-  var VERSION = '4.6.1';
-
-  /** Used as references for various `Number` constants. */
-  var INFINITY = 1 / 0;
-
-  /** `Object#toString` result references. */
-  var symbolTag = '[object Symbol]';
-
-  /** Used to match HTML entities and HTML characters. */
-  var reUnescapedHtml = /[&<>"'`]/g,
-      reHasUnescapedHtml = RegExp(reUnescapedHtml.source);
-
-  /** Used to map characters to HTML entities. */
-  var htmlEscapes = {
-    '&': '&amp;',
-    '<': '&lt;',
-    '>': '&gt;',
-    '"': '&quot;',
-    "'": '&#39;',
-    '`': '&#96;'
-  };
-
-  /** Used to determine if values are of the language type `Object`. */
-  var objectTypes = {
-    'function': true,
-    'object': true
-  };
-
-  /** Detect free variable `exports`. */
-  var freeExports = (objectTypes[typeof exports] && exports && !exports.nodeType)
-    ? exports
-    : undefined;
-
-  /** Detect free variable `module`. */
-  var freeModule = (objectTypes[typeof module] && module && !module.nodeType)
-    ? module
-    : undefined;
-
-  /** Detect free variable `global` from Node.js. */
-  var freeGlobal = checkGlobal(freeExports && freeModule && typeof global == 'object' && global);
-
-  /** Detect free variable `self`. */
-  var freeSelf = checkGlobal(objectTypes[typeof self] && self);
-
-  /** Detect free variable `window`. */
-  var freeWindow = checkGlobal(objectTypes[typeof window] && window);
-
-  /** Detect `this` as the global object. */
-  var thisGlobal = checkGlobal(objectTypes[typeof this] && this);
-
-  /**
-   * Used as a reference to the global object.
-   *
-   * The `this` value is used if it's the global object to avoid Greasemonkey's
-   * restricted `window` object, otherwise the `window` object is used.
-   */
-  var root = freeGlobal ||
-    ((freeWindow !== (thisGlobal && thisGlobal.window)) && freeWindow) ||
-      freeSelf || thisGlobal || Function('return this')();
-
-  /*--------------------------------------------------------------------------*/
-
-  /**
-   * Checks if `value` is a global object.
-   *
-   * @private
-   * @param {*} value The value to check.
-   * @returns {null|Object} Returns `value` if it's a global object, else `null`.
-   */
-  function checkGlobal(value) {
-    return (value && value.Object === Object) ? value : null;
-  }
-
-  /**
-   * Used by `_.escape` to convert characters to HTML entities.
-   *
-   * @private
-   * @param {string} chr The matched character to escape.
-   * @returns {string} Returns the escaped character.
-   */
-  function escapeHtmlChar(chr) {
-    return htmlEscapes[chr];
-  }
-
-  /*--------------------------------------------------------------------------*/
-
-  /** Used for built-in method references. */
-  var objectProto = Object.prototype;
-
-  /**
-   * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
-   * of values.
-   */
-  var objectToString = objectProto.toString;
-
-  /** Built-in value references. */
-  var Symbol = root.Symbol;
-
-  /** Used to lookup unminified function names. */
-  var realNames = {};
-
-  /** Used to convert symbols to primitives and strings. */
-  var symbolProto = Symbol ? Symbol.prototype : undefined,
-      symbolToString = symbolProto ? symbolProto.toString : undefined;
-
-  /*------------------------------------------------------------------------*/
-
-  /**
-   * Checks if `value` is object-like. A value is object-like if it's not `null`
-   * and has a `typeof` result of "object".
-   *
-   * @static
-   * @memberOf _
-   * @category Lang
-   * @param {*} value The value to check.
-   * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
-   * @example
-   *
-   * _.isObjectLike({});
-   * // => true
-   *
-   * _.isObjectLike([1, 2, 3]);
-   * // => true
-   *
-   * _.isObjectLike(_.noop);
-   * // => false
-   *
-   * _.isObjectLike(null);
-   * // => false
-   */
-  function isObjectLike(value) {
-    return !!value && typeof value == 'object';
-  }
-
-  /**
-   * Checks if `value` is classified as a `Symbol` primitive or object.
-   *
-   * @static
-   * @memberOf _
-   * @category Lang
-   * @param {*} value The value to check.
-   * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
-   * @example
-   *
-   * _.isSymbol(Symbol.iterator);
-   * // => true
-   *
-   * _.isSymbol('abc');
-   * // => false
-   */
-  function isSymbol(value) {
-    return typeof value == 'symbol' ||
-      (isObjectLike(value) && objectToString.call(value) == symbolTag);
-  }
-
-  /**
-   * Converts `value` to a string if it's not one. An empty string is returned
-   * for `null` and `undefined` values. The sign of `-0` is preserved.
-   *
-   * @static
-   * @memberOf _
-   * @category Lang
-   * @param {*} value The value to process.
-   * @returns {string} Returns the string.
-   * @example
-   *
-   * _.toString(null);
-   * // => ''
-   *
-   * _.toString(-0);
-   * // => '-0'
-   *
-   * _.toString([1, 2, 3]);
-   * // => '1,2,3'
-   */
-  function toString(value) {
-    // Exit early for strings to avoid a performance hit in some environments.
-    if (typeof value == 'string') {
-      return value;
-    }
-    if (value == null) {
-      return '';
-    }
-    if (isSymbol(value)) {
-      return symbolToString ? symbolToString.call(value) : '';
-    }
-    var result = (value + '');
-    return (result == '0' && (1 / value) == -INFINITY) ? '-0' : result;
-  }
-
-  /*------------------------------------------------------------------------*/
-
-  /**
-   * Converts the characters "&", "<", ">", '"', "'", and "\`" in `string` to
-   * their corresponding HTML entities.
-   *
-   * **Note:** No other characters are escaped. To escape additional
-   * characters use a third-party library like [_he_](https://mths.be/he).
-   *
-   * Though the ">" character is escaped for symmetry, characters like
-   * ">" and "/" don't need escaping in HTML and have no special meaning
-   * unless they're part of a tag or unquoted attribute value.
-   * See [Mathias Bynens's article](https://mathiasbynens.be/notes/ambiguous-ampersands)
-   * (under "semi-related fun fact") for more details.
-   *
-   * Backticks are escaped because in IE < 9, they can break out of
-   * attribute values or HTML comments. See [#59](https://html5sec.org/#59),
-   * [#102](https://html5sec.org/#102), [#108](https://html5sec.org/#108), and
-   * [#133](https://html5sec.org/#133) of the [HTML5 Security Cheatsheet](https://html5sec.org/)
-   * for more details.
-   *
-   * When working with HTML you should always [quote attribute values](http://wonko.com/post/html-escaping)
-   * to reduce XSS vectors.
-   *
-   * @static
-   * @memberOf _
-   * @category String
-   * @param {string} [string=''] The string to escape.
-   * @returns {string} Returns the escaped string.
-   * @example
-   *
-   * _.escape('fred, barney, & pebbles');
-   * // => 'fred, barney, &amp; pebbles'
-   */
-  function escape(string) {
-    string = toString(string);
-    return (string && reHasUnescapedHtml.test(string))
-      ? string.replace(reUnescapedHtml, escapeHtmlChar)
-      : string;
-  }
-
-  /*--------------------------------------------------------------------------*/
-
-  var _ = { 'escape': escape };
-
-  /*----------------------------------------------------------------------------*/
-
-  var templates = {
-    'assessmentPresenterResult': {},
-    'snippetEditor': {}
-  };
-
-  templates['assessmentPresenterResult'] =   function(obj) {
-    obj || (obj = {});
-    var __t, __p = '', __e = _.escape, __j = Array.prototype.join;
-    function print() { __p += __j.call(arguments, '') }
-    with (obj) {
-    __p += '<ul class="wpseoanalysis">\n    ';
-     for (var i in scores) {
-    __p += '\n        <li class="score">\n            <span class="wpseo-score-icon ' +
-    __e( scores[ i ].className ) +
-    '"></span>\n            <span class="screen-reader-text">' +
-    ((__t = ( scores[ i ].screenReaderText )) == null ? '' : __t) +
-    '</span>\n            <span class="wpseo-score-text">' +
-    ((__t = ( scores[ i ].text )) == null ? '' : __t) +
-    '</span>\n        </li>\n    ';
-     }
-    __p += '\n</ul>\n';
-
-    }
-    return __p
-  };
-
-  templates['snippetEditor'] =   function(obj) {
-    obj || (obj = {});
-    var __t, __p = '', __e = _.escape, __j = Array.prototype.join;
-    function print() { __p += __j.call(arguments, '') }
-    with (obj) {
-    __p += '<div id="snippet_preview">\n    <h3 class="snippet-editor__heading snippet-editor__heading-icon-eye">' +
-    __e( i18n.snippetPreview ) +
-    '</h3>\n\n    <section class="snippet-editor__preview">\n        <div class="snippet_container snippet-editor__container" id="title_container">\n            <span class="title" id="snippet_title">\n                ' +
-    __e( rendered.title ) +
-    '\n            </span>\n            <span class="title" id="snippet_sitename"></span>\n        </div>\n        <div class="snippet_container snippet-editor__container" id="url_container">\n            <cite class="url urlBase" id="snippet_citeBase">\n                ' +
-    __e( rendered.baseUrl ) +
-    '\n            </cite>\n            <cite class="url" id="snippet_cite">\n                ' +
-    __e( rendered.snippetCite ) +
-    '\n            </cite>\n        </div>\n        <div class="snippet_container snippet-editor__container" id="meta_container">\n            ';
-     if ( "" !== metaDescriptionDate ) {
-    __p += '\n                <span class="snippet-editor__date">\n                    ' +
-    __e( metaDescriptionDate ) +
-    ' -\n                </span>\n            ';
-     }
-    __p += '\n            <span class="desc" id="snippet_meta">\n                ' +
-    __e( rendered.meta ) +
-    '\n            </span>\n        </div>\n\n        <button class="snippet-editor__button snippet-editor__edit-button" type="button" aria-expanded="false">\n            ' +
-    __e( i18n.edit ) +
-    '\n        </button>\n    </section>\n\n    <div class="snippet-editor__form snippet-editor--hidden">\n        <label for="snippet-editor-title" class="snippet-editor__label">\n            ' +
-    __e( i18n.title ) +
-    '\n            <input type="text" class="snippet-editor__input snippet-editor__title js-snippet-editor-title" id="snippet-editor-title" value="' +
-    __e( raw.title ) +
-    '" placeholder="' +
-    __e( placeholder.title ) +
-    '" />\n            <progress value="0.0" class="snippet-editor__progress snippet-editor__progress-title">\n                <div class="snippet-editor__progress-bar"></div>\n            </progress>\n        </label>\n        <label for="snippet-editor-slug" class="snippet-editor__label">\n            ' +
-    __e( i18n.slug ) +
-    '\n            <input type="text" class="snippet-editor__input snippet-editor__slug js-snippet-editor-slug" id="snippet-editor-slug" value="' +
-    __e( raw.snippetCite ) +
-    '" placeholder="' +
-    __e( placeholder.urlPath ) +
-    '" />\n        </label>\n        <label for="snippet-editor-meta-description" class="snippet-editor__label">\n            ' +
-    __e( i18n.metaDescription ) +
-    '\n            <textarea class="snippet-editor__input snippet-editor__meta-description js-snippet-editor-meta-description" id="snippet-editor-meta-description" placeholder="' +
-    __e( placeholder.metaDesc ) +
-    '">' +
-    __e( raw.meta ) +
-    '</textarea>\n            <progress value="0.0" class="snippet-editor__progress snippet-editor__progress-meta-description">\n                <div class="snippet-editor__progress-bar"></div>\n            </progress>\n        </label>\n\n        <button class="snippet-editor__submit snippet-editor__button" type="button">' +
-    __e( i18n.save ) +
-    '</button>\n    </div>\n</div>\n';
-
-    }
-    return __p
-  };
-
-  /*----------------------------------------------------------------------------*/
-
-  if (freeExports && freeModule) {
-    if (moduleExports) {
-      (freeModule.exports = templates).templates = templates;
-    }
-    freeExports.templates = templates;
-  }
-  else {
-    root.templates = templates;
-  }
-}.call(this));
-
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],257:[function(require,module,exports){
-var isUndefined = require( "lodash/isUndefined" );
-var isNumber = require( "lodash/isNumber" );
-
-/**
- * Construct the AssessmentResult value object.
- * @constructor
- */
-var AssessmentResult = function() {
-	this._hasScore = false;
-	this.score = 0;
-	this.text = "";
-};
-
-/**
- * Check if a score is available.
- * @returns {boolean} Whether or not a score is available.
- */
-AssessmentResult.prototype.hasScore = function() {
-	return this._hasScore;
-};
-
-/**
- * Get the available score
- * @returns {number} The score associated with the AssessmentResult.
- */
-AssessmentResult.prototype.getScore = function() {
-	return this.score;
-};
-
-/**
- * Set the score for the assessment.
- * @param {number} score The score to be used for the score property
- * @returns {void}
- */
-AssessmentResult.prototype.setScore = function( score ) {
-	if ( isNumber( score ) ) {
-		this.score = score;
-		this._hasScore = true;
-	}
-};
-
-/**
- * Check if a text is available.
- * @returns {boolean} Whether or not a text is available.
- */
-AssessmentResult.prototype.hasText = function() {
-	return this.text !== "";
-};
-
-/**
- * Get the available text
- * @returns {string} The text associated with the AssessmentResult.
- */
-AssessmentResult.prototype.getText = function() {
-	return this.text;
-};
-
-/**
- * Set the text for the assessment.
- * @param {string} text The text to be used for the text property
- * @returns {void}
- */
-AssessmentResult.prototype.setText = function( text ) {
-	if ( isUndefined( text ) ) {
-		text = "";
-	}
-
-	this.text = text;
-};
-
-module.exports = AssessmentResult;
-
-},{"lodash/isNumber":155,"lodash/isUndefined":162}],258:[function(require,module,exports){
-var defaults = require( "lodash/defaults" );
-var sanitizeString = require( "../stringProcessing/sanitizeString.js" );
-
-/**
- * Default attributes to be used by the Paper if they are left undefined.
- * @type {{keyword: string, description: string, title: string, url: string}}
- */
-var defaultAttributes = {
-	keyword: "",
-	description: "",
-	title: "",
-	url: "",
-	locale: "en_US"
-};
-
-/**
- * Sanitize attributes before they are assigned to the Paper.
- * @param {object} attributes The attributes that need sanitizing.
- * @returns {object} The attributes passed to the Paper.
- */
-var sanitizeAttributes = function( attributes ) {
-	attributes.keyword = sanitizeString( attributes.keyword );
-
-	return attributes;
-};
-
-/**
- * Construct the Paper object and set the keyword property.
- * @param {string} text The text to use in the analysis.
- * @param {object} attributes The object containing all attributes.
- * @constructor
- */
-var Paper = function( text, attributes ) {
-	this._text = text || "";
-
-	attributes = attributes || {};
-	defaults( attributes, defaultAttributes );
-	this._attributes = sanitizeAttributes( attributes );
-};
-
-/**
- * Check whether a keyword is available.
- * @returns {boolean} Returns true if the Paper has a keyword.
- */
-Paper.prototype.hasKeyword = function() {
-	return this._attributes.keyword !== "";
-};
-
-/**
- * Return the associated keyword or an empty string if no keyword is available.
- * @returns {string} Returns Keyword
- */
-Paper.prototype.getKeyword = function() {
-	return this._attributes.keyword;
-};
-
-/**
- * Check whether the text is available.
- * @returns {boolean} Returns true if the paper has a text.
- */
-Paper.prototype.hasText = function() {
-	return this._text !== "";
-};
-
-/**
- * Return the associated text or am empty string if no text is available.
- * @returns {string} Returns text
- */
-Paper.prototype.getText = function() {
-	return this._text;
-};
-
-/**
- * Check whether a description is available.
- * @returns {boolean} Returns true if the paper has a description.
- */
-Paper.prototype.hasDescription = function() {
-	return this._attributes.description !== "";
-};
-
-/**
- * Return the description or an empty string if no description is available.
- * @returns {string} Returns the description.
- */
-Paper.prototype.getDescription = function() {
-	return this._attributes.description;
-};
-
-/**
- * Check whether an title is available
- * @returns {boolean} Returns true if the Paper has a title.
- */
-Paper.prototype.hasTitle = function() {
-	return this._attributes.title !== "";
-};
-
-/**
- * Return the title, or an empty string of no title is available.
- * @returns {string} Returns the title
- */
-Paper.prototype.getTitle = function() {
-	return this._attributes.title;
-};
-
-/**
- * Check whether an url is available
- * @returns {boolean} Returns true if the Paper has an Url.
- */
-Paper.prototype.hasUrl = function() {
-	return this._attributes.url !== "";
-};
-
-/**
- * Return the url, or an empty string of no url is available.
- * @returns {string} Returns the url
- */
-Paper.prototype.getUrl = function() {
-	return this._attributes.url;
-};
-
-/**
- * Check whether a locale is available
- * @returns {boolean} Returns true if the paper has a locale
- */
-Paper.prototype.hasLocale = function() {
-	return this._attributes.locale !== "";
-};
-
-/**
- * Return the locale or an empty string if no locale is available
- * @returns {string} Returns the locale
- */
-Paper.prototype.getLocale = function() {
-	return this._attributes.locale;
-};
-
-module.exports = Paper;
-
-},{"../stringProcessing/sanitizeString.js":248,"lodash/defaults":135}]},{},[3]);
+},{"./support/isBuffer":316,"_process":315,"inherits":261}]},{},[260]);
