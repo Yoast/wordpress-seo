@@ -46,6 +46,9 @@ var twitterDefaults = {
 		},
 		modifyDescription: function( description ) {
 			return description;
+		},
+		modifyImageUrl: function( imageUrl ) {
+			return imageUrl;
 		}
 	}
 };
@@ -368,6 +371,9 @@ TwitterPreview.prototype.setDescription = function( description ) {
  */
 TwitterPreview.prototype.setImageUrl = function( imageUrl ) {
 	var imageContainer = this.element.preview.imageUrl;
+
+	imageUrl = this.opts.callbacks.modifyImageUrl( imageUrl );
+
 	if ( imageUrl === "" && this.data.imageUrl === "" ) {
 		this.setPlaceHolder();
 
