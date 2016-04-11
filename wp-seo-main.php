@@ -147,7 +147,8 @@ function _wpseo_activate() {
 		delete_option( 'rewrite_rules' );
 	}
 	else {
-		add_action( 'shutdown', 'flush_rewrite_rules' );
+		$wpseo_rewrite = new WPSEO_Rewrite();
+		$wpseo_rewrite->schedule_flush();
 	}
 
 	wpseo_add_capabilities();

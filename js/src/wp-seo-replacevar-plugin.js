@@ -25,6 +25,7 @@
 		this._app.registerModification( 'title', callback, 'replaceVariablePlugin', 10 );
 		this._app.registerModification( 'snippet_title', callback, 'replaceVariablePlugin', 10 );
 		this._app.registerModification( 'snippet_meta', callback, 'replaceVariablePlugin', 10 );
+		this._app.registerModification( 'primary_category', callback, 'replaceVariablePlugin', 10 );
 
 		//modifications applied on the getData from the scrapers to use templates
 		this._app.registerModification( 'data_page_title', callback, 'replaceVariablePlugin', 10);
@@ -44,6 +45,7 @@
 			data = this.parentReplace( data );
 			data = this.replaceSeparators( data );
 			data = this.excerptReplace( data );
+			data = this.primaryCategoryReplace( data );
 		}
 		return data;
 	};
@@ -111,6 +113,11 @@
 			data = data.replace( /%%excerpt%%/g, this._app.rawData.excerpt );
 		}
 		return data;
+	};
+
+	YoastReplaceVarPlugin.prototype.primaryCategoryReplace = function( data ) {
+		var primary_category = ( typeof this._app.rawData.primaryCategory !== 'undefined' ) ? this._app.rawData.primaryCategory : '';
+		return data.replace( /%%primary_category%%/g, primary_category );
 	};
 
 	/**
