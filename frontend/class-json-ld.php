@@ -197,7 +197,7 @@ class WPSEO_JSON_LD {
 		 *
 		 * @api unsigned string
 		 */
-		return apply_filters( 'wpseo_json_home_url', trailingslashit( home_url() ) );
+		return apply_filters( 'wpseo_json_home_url', WPSEO_Utils::home_url() );
 	}
 
 	/**

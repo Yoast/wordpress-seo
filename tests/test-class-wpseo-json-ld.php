@@ -26,7 +26,7 @@ class WPSEO_JSON_LD_Test extends WPSEO_UnitTestCase {
 	public function test_website() {
 		$this->go_to_home();
 
-		$home_url   = trailingslashit( home_url() );
+		$home_url   = WPSEO_Utils::home_url();
 		$search_url = $home_url . '?s={search_term_string}';
 		$json       = WPSEO_Utils::json_encode( array(
 			'@context'        => 'http://schema.org',
@@ -57,7 +57,7 @@ class WPSEO_JSON_LD_Test extends WPSEO_UnitTestCase {
 
 		$this->go_to_home();
 
-		$home_url = home_url();
+		$home_url = WPSEO_Utils::home_url();
 		$json     = WPSEO_Utils::json_encode( array(
 			'@context' => 'http://schema.org',
 			'@type'    => 'Person',
@@ -85,7 +85,7 @@ class WPSEO_JSON_LD_Test extends WPSEO_UnitTestCase {
 
 		$this->go_to_home();
 
-		$home_url = home_url();
+		$home_url = WPSEO_Utils::home_url();
 		$json     = WPSEO_Utils::json_encode( array(
 			'@context' => 'http://schema.org',
 			'@type'    => 'Organization',
