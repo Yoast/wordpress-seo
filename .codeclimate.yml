@@ -19,6 +19,7 @@ exclude_paths:
 - spec/**/*
 - dist/*
 - examples/*
+- example/*
 - grunt/**/*
 - templates/*
 - languages/*
