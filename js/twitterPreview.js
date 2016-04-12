@@ -373,6 +373,8 @@ TwitterPreview.prototype.getImageContainer = function() {
  */
 TwitterPreview.prototype.setImage = function( imageUrl ) {
 	if ( imageUrl === "" && this.data.imageUrl === "" ) {
+		this.removeImageFromContainer();
+		this.removeImageClasses();
 		this.setPlaceHolder();
 
 		return;
@@ -382,6 +384,8 @@ TwitterPreview.prototype.setImage = function( imageUrl ) {
 
 	img.onload = function() {
 		if ( this.isTooSmallImage( img ) ) {
+			this.removeImageFromContainer();
+			this.removeImageClasses();
 			this.setPlaceHolder();
 
 			return;
@@ -391,7 +395,11 @@ TwitterPreview.prototype.setImage = function( imageUrl ) {
 		this.addImageToContainer( imageUrl );
 	}.bind( this );
 
-	img.onerror = this.setPlaceHolder.bind( this, true );
+	img.onerror = function() {
+		this.removeImageFromContainer();
+		this.removeImageClasses();
+		this.setPlaceHolder();
+	}.bind(this)
 
 	// Load image to trigger load or error event.
 	img.src = imageUrl;
@@ -406,6 +414,15 @@ TwitterPreview.prototype.addImageToContainer = function( image ) {
 
 	container.innerHTML = "";
 	container.style.backgroundImage = "url(" + image + ")";
+};
+
+/**
+ * Removes the image from the container.
+ */
+TwitterPreview.prototype.removeImageFromContainer = function() {
+	var container = this.getImageContainer();
+
+	container.style.backgroundImage = "";
 };
 
 /**
@@ -425,7 +442,6 @@ TwitterPreview.prototype.setSizingClass = function( img ) {
 
 	return;
 };
-
 
 /**
  * Returns the max image width

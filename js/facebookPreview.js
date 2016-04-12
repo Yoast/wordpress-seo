@@ -379,6 +379,7 @@ FacebookPreview.prototype.getImageContainer = function() {
  */
 FacebookPreview.prototype.setImage = function ( imageUrl ) {
 	if ( imageUrl === "" && this.data.imageUrl === "" ) {
+		this.removeImageFromContainer();
 		return this.noUrlSet();
 	}
 
@@ -386,6 +387,7 @@ FacebookPreview.prototype.setImage = function ( imageUrl ) {
 
 	img.onload = function() {
 		if ( this.isTooSmallImage( img ) ) {
+			this.removeImageFromContainer();
 			return this.imageTooSmall();
 		}
 
@@ -394,6 +396,7 @@ FacebookPreview.prototype.setImage = function ( imageUrl ) {
 	}.bind( this );
 
 	img.onerror = function() {
+		this.removeImageFromContainer();
 		return this.imageError();
 	}.bind( this );
 
@@ -456,6 +459,15 @@ FacebookPreview.prototype.addImageToContainer = function( image ) {
 
 	container.innerHTML = "";
 	container.style.backgroundImage = "url(" + image + ")";
+};
+
+/**
+ * Removes the image from the container.
+ */
+FacebookPreview.prototype.removeImageFromContainer = function() {
+	var container = this.getImageContainer();
+
+	container.style.backgroundImage = "";
 };
 
 /**
