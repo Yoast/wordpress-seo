@@ -203,13 +203,14 @@ class WPSEO_Sitemap_Image_Parser {
 				'src' => apply_filters( 'wpseo_xml_sitemap_img_src', $src, $post ),
 			);
 
-			if ( preg_match( '`title=["\']([^"\']+)["\']`', $img, $title_match ) ) {
-				$image['title'] = str_replace( array( '-', '_' ), ' ', $title_match[1] );
+			// Opening quote, named group, matching closing quote (if not escaped).
+			if ( preg_match( '`title=(["\'])(?<title>.+?)([^\\\]\1)`', $img, $title_match ) ) {
+				$image['title'] = str_replace( array( '-', '_' ), ' ', $title_match['title'] );
 			}
 			unset( $title_match );
 
-			if ( preg_match( '`alt=["\']([^"\']+)["\']`', $img, $alt_match ) ) {
-				$image['alt'] = str_replace( array( '-', '_' ), ' ', $alt_match[1] );
+			if ( preg_match( '`alt=(["\'])(?<alt>.+?)([^\\\]\1)`', $img, $alt_match ) ) {
+				$image['alt'] = str_replace( array( '-', '_' ), ' ', $alt_match['alt'] );
 			}
 			unset( $alt_match );
 
