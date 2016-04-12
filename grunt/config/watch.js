@@ -6,7 +6,7 @@ module.exports = {
 	},
 	checks: {
 		files: [ "<%= files.js %>", "<%= files.jsDontLint %>" ],
-		tasks: [ "eslint", "jshint", "jscs" ]
+		tasks: [ "check" ]
 	},
 	sass: {
 		files: "<%= files.scss %>",

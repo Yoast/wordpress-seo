@@ -18,7 +18,7 @@ var twitterPreview = new TwitterPreview(
 
 twitterPreview.init();
 
-},{"../js/facebookPreview.js":4,"../js/twitterPreview.js":19}],2:[function(require,module,exports){
+},{"../js/facebookPreview.js":4,"../js/twitterPreview.js":18}],2:[function(require,module,exports){
 var placeholderTemplate = require( "../templates" ).imagePlaceholder;
 
 /**
@@ -26,7 +26,7 @@ var placeholderTemplate = require( "../templates" ).imagePlaceholder;
  *
  * @param {Object} imageContainer The location to put the placeholder in.
  * @param {string} placeholder The value for the placeholder.
- * @param {bool} isError When the placeholder should an error.
+ * @param {boolean} isError When the placeholder should an error.
  * @param {string} modifier A css class modifier to change the styling.
  */
 function setImagePlaceholder( imageContainer, placeholder, isError, modifier ) {
@@ -43,14 +43,14 @@ function setImagePlaceholder( imageContainer, placeholder, isError, modifier ) {
 	}
 
 	imageContainer.innerHTML = placeholderTemplate( {
-		className : classNames.join( " " ),
-		placeholder : placeholder
+		className: classNames.join( " " ),
+		placeholder: placeholder
 	} );
 }
 
 module.exports= setImagePlaceholder;
 
-},{"../templates":18}],3:[function(require,module,exports){
+},{"../templates":17}],3:[function(require,module,exports){
 var isEmpty = require( "lodash/lang/isEmpty" );
 var debounce = require( "lodash/function/debounce" );
 
@@ -161,7 +161,7 @@ InputElement.prototype.setValue = function( value ) {
 module.exports = InputElement;
 
 
-},{"lodash/function/debounce":23,"lodash/lang/isEmpty":63,"yoastseo/js/stringProcessing/stripHTMLTags.js":78,"yoastseo/js/stringProcessing/stripSpaces.js":79}],4:[function(require,module,exports){
+},{"lodash/function/debounce":22,"lodash/lang/isEmpty":62,"yoastseo/js/stringProcessing/stripHTMLTags.js":77,"yoastseo/js/stringProcessing/stripSpaces.js":78}],4:[function(require,module,exports){
 /* jshint browser: true */
 
 var isElement = require( "lodash/lang/isElement" );
@@ -170,7 +170,7 @@ var defaultsDeep = require( "lodash/object/defaultsDeep" );
 
 var Jed = require( "jed" );
 
-var imageRatio = require( "./helpers/imageRatio" );
+var imageDisplayMode = require( "./helpers/imageDisplayMode" );
 var renderDescription = require( "./helpers/renderDescription" );
 var imagePlaceholder  = require( "./element/imagePlaceholder" );
 var bemAddModifier = require( "./helpers/bem/addModifier" );
@@ -178,9 +178,8 @@ var bemRemoveModifier = require( "./helpers/bem/removeModifier" );
 
 var TextField = require( "./inputs/textInput" );
 var TextArea = require( "./inputs/textarea" );
-var Button = require( "./inputs/button.js" );
 
-var FieldElement = require( "./element/input" );
+var InputElement = require( "./element/input" );
 var PreviewEvents = require( "./preview/events" );
 
 var facebookEditorTemplate = require( "./templates.js" ).facebookPreview;
@@ -230,8 +229,10 @@ var inputFacebookPreviewBindings = [
 
 var WIDTH_FACEBOOK_IMAGE_SMALL = 158;
 var WIDTH_FACEBOOK_IMAGE_LARGE = 470;
+
 var FACEBOOK_IMAGE_TOO_SMALL_WIDTH = 200;
 var FACEBOOK_IMAGE_TOO_SMALL_HEIGHT = 200;
+
 var FACEBOOK_IMAGE_THRESHOLD_WIDTH = 600;
 var FACEBOOK_IMAGE_THRESHOLD_HEIGHT = 315;
 
@@ -447,7 +448,7 @@ FacebookPreview.prototype.getFieldElements = function() {
 	var targetElement = this.opts.targetElement;
 
 	return {
-		title: new FieldElement(
+		title: new InputElement(
 			targetElement.getElementsByClassName( "js-snippet-editor-title" )[0],
 			{
 				currentValue: this.data.title,
@@ -457,7 +458,7 @@ FacebookPreview.prototype.getFieldElements = function() {
 			},
 			this.updatePreview.bind( this )
 		),
-		description: new FieldElement(
+		description: new InputElement(
 			targetElement.getElementsByClassName( "js-snippet-editor-description" )[0],
 			{
 				currentValue: this.data.description,
@@ -467,7 +468,7 @@ FacebookPreview.prototype.getFieldElements = function() {
 			},
 			this.updatePreview.bind( this )
 		),
-		imageUrl: new FieldElement(
+		imageUrl: new InputElement(
 			targetElement.getElementsByClassName( "js-snippet-editor-imageUrl" )[0],
 			{
 				currentValue: this.data.imageUrl,
@@ -496,8 +497,8 @@ FacebookPreview.prototype.updatePreview = function() {
 	// Set the description field and parse the styling of it.
 	this.setDescription( this.element.fieldElements.description.getValue() );
 
-	// Sets the Image URL
-	this.setImageUrl( this.data.imageUrl );
+	// Sets the Image
+	this.setImage( this.data.imageUrl );
 
 	// Clone so the data isn't changeable.
 	this.opts.callbacks.updateSocialPreview( clone( this.data ) );
@@ -515,7 +516,7 @@ FacebookPreview.prototype.setTitle = function( title ) {
 };
 
 /**
- * Set the preview description.
+ * Sets the preview description.
  *
  * @param {string} description The description to set
  */
@@ -527,55 +528,122 @@ FacebookPreview.prototype.setDescription = function( description ) {
 };
 
 /**
+ * Gets the image container.
+ * @returns {string} The container that will hold the image.
+ */
+FacebookPreview.prototype.getImageContainer = function() {
+	return this.element.preview.imageUrl;
+};
+
+/**
  * Updates the image object with the new URL.
  *
  * @param {string} imageUrl The image path.
+ * @returns {void}
  */
-FacebookPreview.prototype.setImageUrl = function( imageUrl ) {
-	var imageContainer = this.element.preview.imageUrl;
-	if ( imageUrl === '' && this.data.imageUrl === "" ) {
-		this.removeSmallImageClasses();
-
-		imagePlaceholder( imageContainer,
-			this.i18n.dgettext( "yoast-social-previews", "Please enter an image url by clicking here" ),
-			false,
-			"facebook"
-		);
-
-		return;
+FacebookPreview.prototype.setImage = function ( imageUrl ) {
+	if ( imageUrl === "" && this.data.imageUrl === "" ) {
+		return this.noUrlSet();
 	}
 
-	var img   = new Image();
+	var img = new Image();
+
 	img.onload = function() {
 		if ( this.isTooSmallImage( img ) ) {
-			this.removeSmallImageClasses();
-			imagePlaceholder( imageContainer,
-				this.i18n.dgettext( "yoast-social-previews", "The image you selected is too small for Facebook" ),
-				true,
-				"facebook"
-			);
-
-			return;
+			return this.imageTooSmall();
 		}
 
-		imageContainer.innerHTML = "<img src='" + imageUrl + "' />";
-
-		imageRatio( imageContainer.childNodes[0], this.getMaxImageWidth( img ) );
+		this.setSizingClass( img );
+		this.addImageToContainer( imageUrl );
 	}.bind( this );
 
 	img.onerror = function() {
-		this.removeSmallImageClasses();
-
-		imagePlaceholder(
-			imageContainer,
-			this.i18n.dgettext( "yoast-social-previews", "The given image url cannot be loaded" ),
-			true,
-			"facebook"
-		);
+		return this.imageError();
 	}.bind( this );
 
 	// Load image to trigger load or error event.
 	img.src = imageUrl;
+};
+
+/**
+ * Displays the No URL Set warning.
+ * @returns {void}
+ */
+FacebookPreview.prototype.noUrlSet = function() {
+	this.removeImageClasses();
+
+	imagePlaceholder( this.getImageContainer(),
+		this.i18n.dgettext( "yoast-social-previews", "Please enter an image url by clicking here" ),
+		false,
+		"facebook"
+	);
+
+	return;
+};
+
+/**
+ * Displays the Image Too Small error.
+ * @returns {void}
+ */
+FacebookPreview.prototype.imageTooSmall = function() {
+	this.removeImageClasses();
+	imagePlaceholder( this.getImageContainer(),
+		this.i18n.dgettext( "yoast-social-previews", "The image you selected is too small for Facebook" ),
+		true,
+		"facebook"
+	);
+
+	return;
+};
+
+/**
+ * Displays the Url Cannot Be Loaded error.
+ * @returns {void}
+ */
+FacebookPreview.prototype.imageError = function() {
+	this.removeImageClasses();
+
+	imagePlaceholder(
+		this.getImageContainer(),
+		this.i18n.dgettext( "yoast-social-previews", "The given image url cannot be loaded" ),
+		true,
+		"facebook"
+	);
+};
+
+/**
+ * Sets the image of the image container.
+ * @param {string} image The image to use.
+ */
+FacebookPreview.prototype.addImageToContainer = function( image ) {
+	var container = this.getImageContainer();
+
+	container.innerHTML = "";
+	container.style.backgroundImage = "url(" + image + ")";
+};
+
+/**
+ * Sets the proper CSS class for the current image.
+ * @param {Image} img The image to base the sizing class on.
+ */
+FacebookPreview.prototype.setSizingClass = function ( img ) {
+	this.removeImageClasses();
+
+	if ( imageDisplayMode( img ) === "portrait" ) {
+		this.setPortraitImageClasses();
+
+		return;
+	}
+
+	if ( this.isSmallImage( img ) ) {
+		this.setSmallImageClasses();
+
+		return;
+	}
+
+	this.setLargeImageClasses();
+
+	return;
 };
 
 /**
@@ -586,12 +654,8 @@ FacebookPreview.prototype.setImageUrl = function( imageUrl ) {
  */
 FacebookPreview.prototype.getMaxImageWidth = function( img ) {
 	if ( this.isSmallImage( img ) ) {
-		this.setSmallImageClasses();
-
 		return WIDTH_FACEBOOK_IMAGE_SMALL;
 	}
-
-	this.removeSmallImageClasses();
 
 	return WIDTH_FACEBOOK_IMAGE_LARGE;
 };
@@ -635,12 +699,70 @@ FacebookPreview.prototype.setSmallImageClasses = function() {
 	bemAddModifier( "facebook-small", "editable-preview__text-keeper--facebook", targetElement );
 };
 
+/**
+ * Removes the small image classes.
+ */
 FacebookPreview.prototype.removeSmallImageClasses = function() {
 	var targetElement = this.opts.targetElement;
 
 	bemRemoveModifier( "facebook-small", "social-preview__inner", targetElement );
 	bemRemoveModifier( "facebook-small", "editable-preview__image--facebook", targetElement );
 	bemRemoveModifier( "facebook-small", "editable-preview__text-keeper--facebook", targetElement );
+};
+
+/**
+ * Sets the classes on the facebook preview so that it will display a large facebook image preview
+ */
+FacebookPreview.prototype.setLargeImageClasses = function() {
+	var targetElement = this.opts.targetElement;
+
+	bemAddModifier( "facebook-large", "social-preview__inner", targetElement );
+	bemAddModifier( "facebook-large", "editable-preview__image--facebook", targetElement );
+	bemAddModifier( "facebook-large", "editable-preview__text-keeper--facebook", targetElement );
+};
+
+/**
+ * Removes the large image classes.
+ */
+FacebookPreview.prototype.removeLargeImageClasses = function() {
+	var targetElement = this.opts.targetElement;
+
+	bemRemoveModifier( "facebook-large", "social-preview__inner", targetElement );
+	bemRemoveModifier( "facebook-large", "editable-preview__image--facebook", targetElement );
+	bemRemoveModifier( "facebook-large", "editable-preview__text-keeper--facebook", targetElement );
+};
+
+/**
+ * Sets the classes on the facebook preview so that it will display a portrait facebook image preview
+ */
+FacebookPreview.prototype.setPortraitImageClasses = function() {
+	var targetElement = this.opts.targetElement;
+
+	bemAddModifier( "facebook-portrait", "social-preview__inner", targetElement );
+	bemAddModifier( "facebook-portrait", "editable-preview__image--facebook", targetElement );
+	bemAddModifier( "facebook-portrait", "editable-preview__text-keeper--facebook", targetElement );
+	bemAddModifier( "facebook-bottom", "editable-preview__website--facebook", targetElement );
+};
+
+/**
+ * Removes the portrait image classes.
+ */
+FacebookPreview.prototype.removePortraitImageClasses = function() {
+	var targetElement = this.opts.targetElement;
+
+	bemRemoveModifier( "facebook-portrait", "social-preview__inner", targetElement );
+	bemRemoveModifier( "facebook-portrait", "editable-preview__image--facebook", targetElement );
+	bemRemoveModifier( "facebook-portrait", "editable-preview__text-keeper--facebook", targetElement );
+	bemRemoveModifier( "facebook-bottom", "editable-preview__website--facebook", targetElement );
+};
+
+/**
+ * Removes all image classes.
+ */
+FacebookPreview.prototype.removeImageClasses = function() {
+	this.removeSmallImageClasses();
+	this.removeLargeImageClasses();
+	this.removePortraitImageClasses();
 };
 
 /**
@@ -655,7 +777,7 @@ FacebookPreview.prototype.bindEvents = function() {
 
 module.exports = FacebookPreview;
 
-},{"./element/imagePlaceholder":2,"./element/input":3,"./helpers/bem/addModifier":6,"./helpers/bem/removeModifier":8,"./helpers/imageRatio":9,"./helpers/renderDescription":12,"./inputs/button.js":13,"./inputs/textInput":15,"./inputs/textarea":16,"./preview/events":17,"./templates.js":18,"jed":20,"lodash/lang/clone":59,"lodash/lang/isElement":62,"lodash/object/defaultsDeep":73}],5:[function(require,module,exports){
+},{"./element/imagePlaceholder":2,"./element/input":3,"./helpers/bem/addModifier":6,"./helpers/bem/removeModifier":8,"./helpers/imageDisplayMode":9,"./helpers/renderDescription":12,"./inputs/textInput":14,"./inputs/textarea":15,"./preview/events":16,"./templates.js":17,"jed":19,"lodash/lang/clone":58,"lodash/lang/isElement":61,"lodash/object/defaultsDeep":72}],5:[function(require,module,exports){
 /**
  * Adds a class to an element
  *
@@ -731,28 +853,20 @@ module.exports = removeModifier;
 
 },{"./../removeClass":11,"./addModifierToClass":7}],9:[function(require,module,exports){
 /**
- * Sets the images ratio.
+ * Retrieves the image display mode
  *
  * @param {Object} image The image object.
- * @param {int|undefined} maxWidth The max width in pixels.
- * @param {int|undefined} maxHeight The max height in pixels.
+ * @returns {string} The display mode of the image.
  */
-function imageRatio( image, maxWidth, maxHeight ) {
-	var width = image.width;
-	var height = image.height;
-
-	if ( typeof maxWidth !== "undefined" && width >= maxWidth ) {
-		image.width = maxWidth;
-		image.height = height * ( maxWidth / width );
+function imageDisplayMode( image ) {
+	if ( image.height > image.width ) {
+		return "portrait";
 	}
 
-	if ( typeof maxHeight !== "undefined" && height >= maxHeight ) {
-		image.height = maxHeight;
-		image.width = width * ( maxHeight / height );
-	}
+	return "landscape";
 }
 
-module.exports = imageRatio;
+module.exports = imageDisplayMode;
 
 },{}],10:[function(require,module,exports){
 /**
@@ -817,78 +931,7 @@ function renderDescription( descriptionElement, description ) {
 
 module.exports = renderDescription;
 
-},{"./addClass":5,"./removeClass":11,"lodash/lang/isEmpty":63}],13:[function(require,module,exports){
-var defaults = require( "lodash/object/defaults" );
-var buttonTemplate = require( "../../js/templates" ).fields.button;
-var minimizeHtml = require( "../helpers/minimizeHtml" );
-
-var defaultAttributes = {
-	value: "",
-	className: ""
-};
-
-/**
- * Represents an HTML button
- *
- * @param {Object} attributes The attributes to set on the HTML element
- * @param {string} attributes.value The value for this text field
- * @param {string} attributes.placeholder The placeholder for this text field
- * @param {string} attributes.name The name for this text field
- * @param {string} attributes.id The id for this text field
- * @param {string} attributes.className The class for this text field
- * @param {string} attributes.title The title that describes this text field
- *
- * @constructor
- */
-function Button( attributes ) {
-	attributes = attributes || {};
-	attributes = defaults( attributes, defaultAttributes );
-
-	this._attributes = attributes;
-}
-
-/**
- * Returns the HTML attributes set for this text field
- *
- * @returns {Object} The HTML attributes
- */
-Button.prototype.getAttributes = function() {
-	return this._attributes;
-};
-
-/**
- * Renders the text field to HTML
- *
- * @returns {string} The rendered HTML
- */
-Button.prototype.render = function() {
-	var html = buttonTemplate( this.getAttributes() );
-	html = minimizeHtml( html );
-
-	return html;
-};
-
-/**
- * Set the value of the input field
- *
- * @param {string} value The value to set on this input field
- */
-Button.prototype.setValue = function( value ) {
-	this._attributes.value = value;
-};
-
-/**
- * Set the value of the input field
- *
- * @param {string} className The class to set on this input field
- */
-Button.prototype.setClassName = function( className ) {
-	this._attributes.className = className;
-};
-
-module.exports = Button;
-
-},{"../../js/templates":18,"../helpers/minimizeHtml":10,"lodash/object/defaults":72}],14:[function(require,module,exports){
+},{"./addClass":5,"./removeClass":11,"lodash/lang/isEmpty":62}],13:[function(require,module,exports){
 var defaults = require( "lodash/object/defaults" );
 var minimizeHtml = require( "../helpers/minimizeHtml" );
 
@@ -901,12 +944,12 @@ var minimizeHtml = require( "../helpers/minimizeHtml" );
 function inputFieldFactory( template ) {
 
 	var defaultAttributes = {
-		value         : "",
-		className     : "",
-		id            : "",
-		placeholder   : "",
-		name          : "",
-		title         : "",
+		value: "",
+		className: "",
+		id: "",
+		placeholder: "",
+		name: "",
+		title: "",
 		labelClassName: ""
 	};
 
@@ -975,17 +1018,17 @@ function inputFieldFactory( template ) {
 
 module.exports = inputFieldFactory;
 
-},{"../helpers/minimizeHtml":10,"lodash/object/defaults":72}],15:[function(require,module,exports){
+},{"../helpers/minimizeHtml":10,"lodash/object/defaults":71}],14:[function(require,module,exports){
 var inputFieldFactory = require( "./inputField" );
 
 module.exports = inputFieldFactory( require( "../templates" ).fields.text );
 
-},{"../templates":18,"./inputField":14}],16:[function(require,module,exports){
+},{"../templates":17,"./inputField":13}],15:[function(require,module,exports){
 var inputFieldFactory = require( "./inputField" );
 
 module.exports = inputFieldFactory( require( "../templates" ).fields.textarea );
 
-},{"../templates":18,"./inputField":14}],17:[function(require,module,exports){
+},{"../templates":17,"./inputField":13}],16:[function(require,module,exports){
 var forEach = require( "lodash/collection/forEach" );
 
 var addClass = require( "../helpers/addClass.js" );
@@ -1011,7 +1054,7 @@ function PreviewEvents( bindings, element, alwaysOpen ) {
  * @param {Object} closeEditor - The button to close the editor
  */
 PreviewEvents.prototype.bindEvents = function( editToggle, closeEditor ) {
-	if ( ! this._alwaysOpen ) {
+	if ( !this._alwaysOpen ) {
 		editToggle.addEventListener( "click", this.toggleEditor.bind( this ) );
 		closeEditor.addEventListener( "click", this.closeEditor.bind( this ) );
 	}
@@ -1169,7 +1212,7 @@ PreviewEvents.prototype._updateHoverCarets = function() {
 
 module.exports = PreviewEvents;
 
-},{"../helpers/addClass.js":5,"../helpers/removeClass.js":11,"lodash/collection/forEach":21}],18:[function(require,module,exports){
+},{"../helpers/addClass.js":5,"../helpers/removeClass.js":11,"lodash/collection/forEach":20}],17:[function(require,module,exports){
 (function (global){
 ;(function() {
   var undefined;
@@ -1488,7 +1531,7 @@ module.exports = PreviewEvents;
 }.call(this));
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],19:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 /* jshint browser: true */
 
 var isElement = require( "lodash/lang/isElement" );
@@ -1497,24 +1540,18 @@ var defaultsDeep = require( "lodash/object/defaultsDeep" );
 
 var Jed = require( "jed" );
 
-var imageRatio = require( "./helpers/imageRatio" );
 var renderDescription = require( "./helpers/renderDescription" );
 var imagePlaceholder  = require( "./element/imagePlaceholder" );
 var bemAddModifier = require( "./helpers/bem/addModifier" );
 var bemRemoveModifier = require( "./helpers/bem/removeModifier" );
-var addClass = require( "./helpers/addClass" );
-var removeClass = require( "./helpers/removeClass" );
 
 var TextField = require( "./inputs/textInput" );
 var TextArea = require( "./inputs/textarea" );
-var Button = require( "./inputs/button.js" );
 
 var InputElement = require( "./element/input" );
 var PreviewEvents = require( "./preview/events" );
 
-var templates = require( "./templates" );
-
-var twitterEditorTemplate = templates.twitterPreview;
+var twitterEditorTemplate = require( "./templates" ).twitterPreview;
 
 var twitterDefaults = {
 	data: {
@@ -1826,7 +1863,7 @@ TwitterPreview.prototype.updatePreview = function() {
 	this.setDescription( this.element.fieldElements.description.getValue() );
 
 	// Sets the Image URL
-	this.setImageUrl( this.data.imageUrl );
+	this.setImage( this.data.imageUrl );
 
 	// Clone so the data isn't changeable.
 	this.opts.callbacks.updateSocialPreview( clone( this.data ) );
@@ -1856,36 +1893,71 @@ TwitterPreview.prototype.setDescription = function( description ) {
 };
 
 /**
+ * Gets the image container.
+ * @returns {string} The container that will hold the image.
+ */
+TwitterPreview.prototype.getImageContainer = function() {
+	return this.element.preview.imageUrl;
+};
+
+/**
  * Updates the image object with the new URL.
  *
  * @param {string} imageUrl The image path.
  */
-TwitterPreview.prototype.setImageUrl = function( imageUrl ) {
-	var imageContainer = this.element.preview.imageUrl;
-	if ( imageUrl === '' && this.data.imageUrl === "" ) {
+TwitterPreview.prototype.setImage = function( imageUrl ) {
+	if ( imageUrl === "" && this.data.imageUrl === "" ) {
 		this.setPlaceHolder();
 
 		return;
 	}
 
 	var img = new Image();
-	img.onload = function() {
-		imageContainer.innerHTML = "<img src='" + imageUrl + "' />";
 
+	img.onload = function() {
 		if ( this.isTooSmallImage( img ) ) {
 			this.setPlaceHolder();
 
 			return;
 		}
 
-		imageRatio( imageContainer.childNodes[0], this.getMaxImageWidth( img ) );
-
+		this.setSizingClass( img );
+		this.addImageToContainer( imageUrl );
 	}.bind( this );
 
 	img.onerror = this.setPlaceHolder.bind( this, true );
 
 	// Load image to trigger load or error event.
 	img.src = imageUrl;
+};
+
+/**
+ * Sets the image of the image container.
+ * @param {string} image The image to use.
+ */
+TwitterPreview.prototype.addImageToContainer = function( image ) {
+	var container = this.getImageContainer();
+
+	container.innerHTML = "";
+	container.style.backgroundImage = "url(" + image + ")";
+};
+
+/**
+ * Sets the proper CSS class for the current image.
+ * @param {Image} img The image to base the sizing class on.
+ */
+TwitterPreview.prototype.setSizingClass = function( img ) {
+	this.removeImageClasses();
+
+	if ( this.isSmallImage( img ) ) {
+		this.setSmallImageClasses();
+
+		return;
+	}
+
+	this.setLargeImageClasses();
+
+	return;
 };
 
 
@@ -1897,12 +1969,8 @@ TwitterPreview.prototype.setImageUrl = function( imageUrl ) {
  */
 TwitterPreview.prototype.getMaxImageWidth = function( img ) {
 	if ( this.isSmallImage( img ) ) {
-		this.setSmallImageClasses();
-
-		return WIDTH_TWITTER_IMAGE_SMALL
+		return WIDTH_TWITTER_IMAGE_SMALL;
 	}
-
-	this.removeSmallImageClasses();
 
 	return WIDTH_TWITTER_IMAGE_LARGE;
 };
@@ -1969,6 +2037,33 @@ TwitterPreview.prototype.removeSmallImageClasses = function() {
 };
 
 /**
+ * Sets the classes on the facebook preview so that it will display a large facebook image preview
+ */
+TwitterPreview.prototype.setLargeImageClasses = function() {
+	var targetElement = this.opts.targetElement;
+
+	bemAddModifier( "twitter-large", "social-preview__inner", targetElement );
+	bemAddModifier( "twitter-large", "editable-preview__image--twitter", targetElement );
+	bemAddModifier( "twitter-large", "editable-preview__text-keeper--twitter", targetElement );
+};
+
+TwitterPreview.prototype.removeLargeImageClasses = function() {
+	var targetElement = this.opts.targetElement;
+
+	bemRemoveModifier( "twitter-large", "social-preview__inner", targetElement );
+	bemRemoveModifier( "twitter-large", "editable-preview__image--twitter", targetElement );
+	bemRemoveModifier( "twitter-large", "editable-preview__text-keeper--twitter", targetElement );
+};
+
+/**
+ * Removes all image classes.
+ */
+TwitterPreview.prototype.removeImageClasses = function() {
+	this.removeSmallImageClasses();
+	this.removeLargeImageClasses();
+};
+
+/**
  * Binds the reloadSnippetText function to the blur of the snippet inputs.
  */
 TwitterPreview.prototype.bindEvents = function() {
@@ -1978,7 +2073,7 @@ TwitterPreview.prototype.bindEvents = function() {
 
 module.exports = TwitterPreview;
 
-},{"./element/imagePlaceholder":2,"./element/input":3,"./helpers/addClass":5,"./helpers/bem/addModifier":6,"./helpers/bem/removeModifier":8,"./helpers/imageRatio":9,"./helpers/removeClass":11,"./helpers/renderDescription":12,"./inputs/button.js":13,"./inputs/textInput":15,"./inputs/textarea":16,"./preview/events":17,"./templates":18,"jed":20,"lodash/lang/clone":59,"lodash/lang/isElement":62,"lodash/object/defaultsDeep":73}],20:[function(require,module,exports){
+},{"./element/imagePlaceholder":2,"./element/input":3,"./helpers/bem/addModifier":6,"./helpers/bem/removeModifier":8,"./helpers/renderDescription":12,"./inputs/textInput":14,"./inputs/textarea":15,"./preview/events":16,"./templates":17,"jed":19,"lodash/lang/clone":58,"lodash/lang/isElement":61,"lodash/object/defaultsDeep":72}],19:[function(require,module,exports){
 /**
  * @preserve jed.js https://github.com/SlexAxton/Jed
  */
@@ -3002,7 +3097,7 @@ return parser;
 
 })(this);
 
-},{}],21:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 var arrayEach = require('../internal/arrayEach'),
     baseEach = require('../internal/baseEach'),
     createForEach = require('../internal/createForEach');
@@ -3041,7 +3136,7 @@ var forEach = createForEach(arrayEach, baseEach);
 
 module.exports = forEach;
 
-},{"../internal/arrayEach":26,"../internal/baseEach":32,"../internal/createForEach":45}],22:[function(require,module,exports){
+},{"../internal/arrayEach":25,"../internal/baseEach":31,"../internal/createForEach":44}],21:[function(require,module,exports){
 var getNative = require('../internal/getNative');
 
 /* Native method references for those with the same name as other `lodash` methods. */
@@ -3067,7 +3162,7 @@ var now = nativeNow || function() {
 
 module.exports = now;
 
-},{"../internal/getNative":47}],23:[function(require,module,exports){
+},{"../internal/getNative":46}],22:[function(require,module,exports){
 var isObject = require('../lang/isObject'),
     now = require('../date/now');
 
@@ -3250,7 +3345,7 @@ function debounce(func, wait, options) {
 
 module.exports = debounce;
 
-},{"../date/now":22,"../lang/isObject":66}],24:[function(require,module,exports){
+},{"../date/now":21,"../lang/isObject":65}],23:[function(require,module,exports){
 /** Used as the `TypeError` message for "Functions" methods. */
 var FUNC_ERROR_TEXT = 'Expected a function';
 
@@ -3310,7 +3405,7 @@ function restParam(func, start) {
 
 module.exports = restParam;
 
-},{}],25:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 /**
  * Copies the values of `source` to `array`.
  *
@@ -3332,7 +3427,7 @@ function arrayCopy(source, array) {
 
 module.exports = arrayCopy;
 
-},{}],26:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 /**
  * A specialized version of `_.forEach` for arrays without support for callback
  * shorthands and `this` binding.
@@ -3356,7 +3451,7 @@ function arrayEach(array, iteratee) {
 
 module.exports = arrayEach;
 
-},{}],27:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 /**
  * Used by `_.defaults` to customize its `_.assign` use.
  *
@@ -3371,7 +3466,7 @@ function assignDefaults(objectValue, sourceValue) {
 
 module.exports = assignDefaults;
 
-},{}],28:[function(require,module,exports){
+},{}],27:[function(require,module,exports){
 var keys = require('../object/keys');
 
 /**
@@ -3405,7 +3500,7 @@ function assignWith(object, source, customizer) {
 
 module.exports = assignWith;
 
-},{"../object/keys":74}],29:[function(require,module,exports){
+},{"../object/keys":73}],28:[function(require,module,exports){
 var baseCopy = require('./baseCopy'),
     keys = require('../object/keys');
 
@@ -3426,7 +3521,7 @@ function baseAssign(object, source) {
 
 module.exports = baseAssign;
 
-},{"../object/keys":74,"./baseCopy":31}],30:[function(require,module,exports){
+},{"../object/keys":73,"./baseCopy":30}],29:[function(require,module,exports){
 var arrayCopy = require('./arrayCopy'),
     arrayEach = require('./arrayEach'),
     baseAssign = require('./baseAssign'),
@@ -3556,7 +3651,7 @@ function baseClone(value, isDeep, customizer, key, object, stackA, stackB) {
 
 module.exports = baseClone;
 
-},{"../lang/isArray":61,"../lang/isObject":66,"./arrayCopy":25,"./arrayEach":26,"./baseAssign":29,"./baseForOwn":35,"./initCloneArray":48,"./initCloneByTag":49,"./initCloneObject":50}],31:[function(require,module,exports){
+},{"../lang/isArray":60,"../lang/isObject":65,"./arrayCopy":24,"./arrayEach":25,"./baseAssign":28,"./baseForOwn":34,"./initCloneArray":47,"./initCloneByTag":48,"./initCloneObject":49}],30:[function(require,module,exports){
 /**
  * Copies properties of `source` to `object`.
  *
@@ -3581,7 +3676,7 @@ function baseCopy(source, props, object) {
 
 module.exports = baseCopy;
 
-},{}],32:[function(require,module,exports){
+},{}],31:[function(require,module,exports){
 var baseForOwn = require('./baseForOwn'),
     createBaseEach = require('./createBaseEach');
 
@@ -3598,7 +3693,7 @@ var baseEach = createBaseEach(baseForOwn);
 
 module.exports = baseEach;
 
-},{"./baseForOwn":35,"./createBaseEach":42}],33:[function(require,module,exports){
+},{"./baseForOwn":34,"./createBaseEach":41}],32:[function(require,module,exports){
 var createBaseFor = require('./createBaseFor');
 
 /**
@@ -3617,7 +3712,7 @@ var baseFor = createBaseFor();
 
 module.exports = baseFor;
 
-},{"./createBaseFor":43}],34:[function(require,module,exports){
+},{"./createBaseFor":42}],33:[function(require,module,exports){
 var baseFor = require('./baseFor'),
     keysIn = require('../object/keysIn');
 
@@ -3636,7 +3731,7 @@ function baseForIn(object, iteratee) {
 
 module.exports = baseForIn;
 
-},{"../object/keysIn":75,"./baseFor":33}],35:[function(require,module,exports){
+},{"../object/keysIn":74,"./baseFor":32}],34:[function(require,module,exports){
 var baseFor = require('./baseFor'),
     keys = require('../object/keys');
 
@@ -3655,7 +3750,7 @@ function baseForOwn(object, iteratee) {
 
 module.exports = baseForOwn;
 
-},{"../object/keys":74,"./baseFor":33}],36:[function(require,module,exports){
+},{"../object/keys":73,"./baseFor":32}],35:[function(require,module,exports){
 var arrayEach = require('./arrayEach'),
     baseMergeDeep = require('./baseMergeDeep'),
     isArray = require('../lang/isArray'),
@@ -3713,7 +3808,7 @@ function baseMerge(object, source, customizer, stackA, stackB) {
 
 module.exports = baseMerge;
 
-},{"../lang/isArray":61,"../lang/isObject":66,"../lang/isTypedArray":69,"../object/keys":74,"./arrayEach":26,"./baseMergeDeep":37,"./isArrayLike":51,"./isObjectLike":55}],37:[function(require,module,exports){
+},{"../lang/isArray":60,"../lang/isObject":65,"../lang/isTypedArray":68,"../object/keys":73,"./arrayEach":25,"./baseMergeDeep":36,"./isArrayLike":50,"./isObjectLike":54}],36:[function(require,module,exports){
 var arrayCopy = require('./arrayCopy'),
     isArguments = require('../lang/isArguments'),
     isArray = require('../lang/isArray'),
@@ -3782,7 +3877,7 @@ function baseMergeDeep(object, source, key, mergeFunc, customizer, stackA, stack
 
 module.exports = baseMergeDeep;
 
-},{"../lang/isArguments":60,"../lang/isArray":61,"../lang/isPlainObject":67,"../lang/isTypedArray":69,"../lang/toPlainObject":70,"./arrayCopy":25,"./isArrayLike":51}],38:[function(require,module,exports){
+},{"../lang/isArguments":59,"../lang/isArray":60,"../lang/isPlainObject":66,"../lang/isTypedArray":68,"../lang/toPlainObject":69,"./arrayCopy":24,"./isArrayLike":50}],37:[function(require,module,exports){
 /**
  * The base implementation of `_.property` without support for deep paths.
  *
@@ -3798,7 +3893,7 @@ function baseProperty(key) {
 
 module.exports = baseProperty;
 
-},{}],39:[function(require,module,exports){
+},{}],38:[function(require,module,exports){
 var identity = require('../utility/identity');
 
 /**
@@ -3839,7 +3934,7 @@ function bindCallback(func, thisArg, argCount) {
 
 module.exports = bindCallback;
 
-},{"../utility/identity":77}],40:[function(require,module,exports){
+},{"../utility/identity":76}],39:[function(require,module,exports){
 (function (global){
 /** Native method references. */
 var ArrayBuffer = global.ArrayBuffer,
@@ -3863,7 +3958,7 @@ function bufferClone(buffer) {
 module.exports = bufferClone;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],41:[function(require,module,exports){
+},{}],40:[function(require,module,exports){
 var bindCallback = require('./bindCallback'),
     isIterateeCall = require('./isIterateeCall'),
     restParam = require('../function/restParam');
@@ -3906,7 +4001,7 @@ function createAssigner(assigner) {
 
 module.exports = createAssigner;
 
-},{"../function/restParam":24,"./bindCallback":39,"./isIterateeCall":53}],42:[function(require,module,exports){
+},{"../function/restParam":23,"./bindCallback":38,"./isIterateeCall":52}],41:[function(require,module,exports){
 var getLength = require('./getLength'),
     isLength = require('./isLength'),
     toObject = require('./toObject');
@@ -3939,7 +4034,7 @@ function createBaseEach(eachFunc, fromRight) {
 
 module.exports = createBaseEach;
 
-},{"./getLength":46,"./isLength":54,"./toObject":58}],43:[function(require,module,exports){
+},{"./getLength":45,"./isLength":53,"./toObject":57}],42:[function(require,module,exports){
 var toObject = require('./toObject');
 
 /**
@@ -3968,7 +4063,7 @@ function createBaseFor(fromRight) {
 
 module.exports = createBaseFor;
 
-},{"./toObject":58}],44:[function(require,module,exports){
+},{"./toObject":57}],43:[function(require,module,exports){
 var restParam = require('../function/restParam');
 
 /**
@@ -3992,7 +4087,7 @@ function createDefaults(assigner, customizer) {
 
 module.exports = createDefaults;
 
-},{"../function/restParam":24}],45:[function(require,module,exports){
+},{"../function/restParam":23}],44:[function(require,module,exports){
 var bindCallback = require('./bindCallback'),
     isArray = require('../lang/isArray');
 
@@ -4014,7 +4109,7 @@ function createForEach(arrayFunc, eachFunc) {
 
 module.exports = createForEach;
 
-},{"../lang/isArray":61,"./bindCallback":39}],46:[function(require,module,exports){
+},{"../lang/isArray":60,"./bindCallback":38}],45:[function(require,module,exports){
 var baseProperty = require('./baseProperty');
 
 /**
@@ -4031,7 +4126,7 @@ var getLength = baseProperty('length');
 
 module.exports = getLength;
 
-},{"./baseProperty":38}],47:[function(require,module,exports){
+},{"./baseProperty":37}],46:[function(require,module,exports){
 var isNative = require('../lang/isNative');
 
 /**
@@ -4049,7 +4144,7 @@ function getNative(object, key) {
 
 module.exports = getNative;
 
-},{"../lang/isNative":65}],48:[function(require,module,exports){
+},{"../lang/isNative":64}],47:[function(require,module,exports){
 /** Used for native method references. */
 var objectProto = Object.prototype;
 
@@ -4077,7 +4172,7 @@ function initCloneArray(array) {
 
 module.exports = initCloneArray;
 
-},{}],49:[function(require,module,exports){
+},{}],48:[function(require,module,exports){
 var bufferClone = require('./bufferClone');
 
 /** `Object#toString` result references. */
@@ -4142,7 +4237,7 @@ function initCloneByTag(object, tag, isDeep) {
 
 module.exports = initCloneByTag;
 
-},{"./bufferClone":40}],50:[function(require,module,exports){
+},{"./bufferClone":39}],49:[function(require,module,exports){
 /**
  * Initializes an object clone.
  *
@@ -4160,7 +4255,7 @@ function initCloneObject(object) {
 
 module.exports = initCloneObject;
 
-},{}],51:[function(require,module,exports){
+},{}],50:[function(require,module,exports){
 var getLength = require('./getLength'),
     isLength = require('./isLength');
 
@@ -4177,7 +4272,7 @@ function isArrayLike(value) {
 
 module.exports = isArrayLike;
 
-},{"./getLength":46,"./isLength":54}],52:[function(require,module,exports){
+},{"./getLength":45,"./isLength":53}],51:[function(require,module,exports){
 /** Used to detect unsigned integer values. */
 var reIsUint = /^\d+$/;
 
@@ -4203,7 +4298,7 @@ function isIndex(value, length) {
 
 module.exports = isIndex;
 
-},{}],53:[function(require,module,exports){
+},{}],52:[function(require,module,exports){
 var isArrayLike = require('./isArrayLike'),
     isIndex = require('./isIndex'),
     isObject = require('../lang/isObject');
@@ -4233,7 +4328,7 @@ function isIterateeCall(value, index, object) {
 
 module.exports = isIterateeCall;
 
-},{"../lang/isObject":66,"./isArrayLike":51,"./isIndex":52}],54:[function(require,module,exports){
+},{"../lang/isObject":65,"./isArrayLike":50,"./isIndex":51}],53:[function(require,module,exports){
 /**
  * Used as the [maximum length](http://ecma-international.org/ecma-262/6.0/#sec-number.max_safe_integer)
  * of an array-like value.
@@ -4255,7 +4350,7 @@ function isLength(value) {
 
 module.exports = isLength;
 
-},{}],55:[function(require,module,exports){
+},{}],54:[function(require,module,exports){
 /**
  * Checks if `value` is object-like.
  *
@@ -4269,7 +4364,7 @@ function isObjectLike(value) {
 
 module.exports = isObjectLike;
 
-},{}],56:[function(require,module,exports){
+},{}],55:[function(require,module,exports){
 var merge = require('../object/merge');
 
 /**
@@ -4286,7 +4381,7 @@ function mergeDefaults(objectValue, sourceValue) {
 
 module.exports = mergeDefaults;
 
-},{"../object/merge":76}],57:[function(require,module,exports){
+},{"../object/merge":75}],56:[function(require,module,exports){
 var isArguments = require('../lang/isArguments'),
     isArray = require('../lang/isArray'),
     isIndex = require('./isIndex'),
@@ -4329,7 +4424,7 @@ function shimKeys(object) {
 
 module.exports = shimKeys;
 
-},{"../lang/isArguments":60,"../lang/isArray":61,"../object/keysIn":75,"./isIndex":52,"./isLength":54}],58:[function(require,module,exports){
+},{"../lang/isArguments":59,"../lang/isArray":60,"../object/keysIn":74,"./isIndex":51,"./isLength":53}],57:[function(require,module,exports){
 var isObject = require('../lang/isObject');
 
 /**
@@ -4345,7 +4440,7 @@ function toObject(value) {
 
 module.exports = toObject;
 
-},{"../lang/isObject":66}],59:[function(require,module,exports){
+},{"../lang/isObject":65}],58:[function(require,module,exports){
 var baseClone = require('../internal/baseClone'),
     bindCallback = require('../internal/bindCallback'),
     isIterateeCall = require('../internal/isIterateeCall');
@@ -4417,7 +4512,7 @@ function clone(value, isDeep, customizer, thisArg) {
 
 module.exports = clone;
 
-},{"../internal/baseClone":30,"../internal/bindCallback":39,"../internal/isIterateeCall":53}],60:[function(require,module,exports){
+},{"../internal/baseClone":29,"../internal/bindCallback":38,"../internal/isIterateeCall":52}],59:[function(require,module,exports){
 var isArrayLike = require('../internal/isArrayLike'),
     isObjectLike = require('../internal/isObjectLike');
 
@@ -4453,7 +4548,7 @@ function isArguments(value) {
 
 module.exports = isArguments;
 
-},{"../internal/isArrayLike":51,"../internal/isObjectLike":55}],61:[function(require,module,exports){
+},{"../internal/isArrayLike":50,"../internal/isObjectLike":54}],60:[function(require,module,exports){
 var getNative = require('../internal/getNative'),
     isLength = require('../internal/isLength'),
     isObjectLike = require('../internal/isObjectLike');
@@ -4495,7 +4590,7 @@ var isArray = nativeIsArray || function(value) {
 
 module.exports = isArray;
 
-},{"../internal/getNative":47,"../internal/isLength":54,"../internal/isObjectLike":55}],62:[function(require,module,exports){
+},{"../internal/getNative":46,"../internal/isLength":53,"../internal/isObjectLike":54}],61:[function(require,module,exports){
 var isObjectLike = require('../internal/isObjectLike'),
     isPlainObject = require('./isPlainObject');
 
@@ -4521,7 +4616,7 @@ function isElement(value) {
 
 module.exports = isElement;
 
-},{"../internal/isObjectLike":55,"./isPlainObject":67}],63:[function(require,module,exports){
+},{"../internal/isObjectLike":54,"./isPlainObject":66}],62:[function(require,module,exports){
 var isArguments = require('./isArguments'),
     isArray = require('./isArray'),
     isArrayLike = require('../internal/isArrayLike'),
@@ -4570,7 +4665,7 @@ function isEmpty(value) {
 
 module.exports = isEmpty;
 
-},{"../internal/isArrayLike":51,"../internal/isObjectLike":55,"../object/keys":74,"./isArguments":60,"./isArray":61,"./isFunction":64,"./isString":68}],64:[function(require,module,exports){
+},{"../internal/isArrayLike":50,"../internal/isObjectLike":54,"../object/keys":73,"./isArguments":59,"./isArray":60,"./isFunction":63,"./isString":67}],63:[function(require,module,exports){
 var isObject = require('./isObject');
 
 /** `Object#toString` result references. */
@@ -4610,7 +4705,7 @@ function isFunction(value) {
 
 module.exports = isFunction;
 
-},{"./isObject":66}],65:[function(require,module,exports){
+},{"./isObject":65}],64:[function(require,module,exports){
 var isFunction = require('./isFunction'),
     isObjectLike = require('../internal/isObjectLike');
 
@@ -4660,7 +4755,7 @@ function isNative(value) {
 
 module.exports = isNative;
 
-},{"../internal/isObjectLike":55,"./isFunction":64}],66:[function(require,module,exports){
+},{"../internal/isObjectLike":54,"./isFunction":63}],65:[function(require,module,exports){
 /**
  * Checks if `value` is the [language type](https://es5.github.io/#x8) of `Object`.
  * (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
@@ -4690,7 +4785,7 @@ function isObject(value) {
 
 module.exports = isObject;
 
-},{}],67:[function(require,module,exports){
+},{}],66:[function(require,module,exports){
 var baseForIn = require('../internal/baseForIn'),
     isArguments = require('./isArguments'),
     isObjectLike = require('../internal/isObjectLike');
@@ -4763,7 +4858,7 @@ function isPlainObject(value) {
 
 module.exports = isPlainObject;
 
-},{"../internal/baseForIn":34,"../internal/isObjectLike":55,"./isArguments":60}],68:[function(require,module,exports){
+},{"../internal/baseForIn":33,"../internal/isObjectLike":54,"./isArguments":59}],67:[function(require,module,exports){
 var isObjectLike = require('../internal/isObjectLike');
 
 /** `Object#toString` result references. */
@@ -4800,7 +4895,7 @@ function isString(value) {
 
 module.exports = isString;
 
-},{"../internal/isObjectLike":55}],69:[function(require,module,exports){
+},{"../internal/isObjectLike":54}],68:[function(require,module,exports){
 var isLength = require('../internal/isLength'),
     isObjectLike = require('../internal/isObjectLike');
 
@@ -4876,7 +4971,7 @@ function isTypedArray(value) {
 
 module.exports = isTypedArray;
 
-},{"../internal/isLength":54,"../internal/isObjectLike":55}],70:[function(require,module,exports){
+},{"../internal/isLength":53,"../internal/isObjectLike":54}],69:[function(require,module,exports){
 var baseCopy = require('../internal/baseCopy'),
     keysIn = require('../object/keysIn');
 
@@ -4909,7 +5004,7 @@ function toPlainObject(value) {
 
 module.exports = toPlainObject;
 
-},{"../internal/baseCopy":31,"../object/keysIn":75}],71:[function(require,module,exports){
+},{"../internal/baseCopy":30,"../object/keysIn":74}],70:[function(require,module,exports){
 var assignWith = require('../internal/assignWith'),
     baseAssign = require('../internal/baseAssign'),
     createAssigner = require('../internal/createAssigner');
@@ -4954,7 +5049,7 @@ var assign = createAssigner(function(object, source, customizer) {
 
 module.exports = assign;
 
-},{"../internal/assignWith":28,"../internal/baseAssign":29,"../internal/createAssigner":41}],72:[function(require,module,exports){
+},{"../internal/assignWith":27,"../internal/baseAssign":28,"../internal/createAssigner":40}],71:[function(require,module,exports){
 var assign = require('./assign'),
     assignDefaults = require('../internal/assignDefaults'),
     createDefaults = require('../internal/createDefaults');
@@ -4981,7 +5076,7 @@ var defaults = createDefaults(assign, assignDefaults);
 
 module.exports = defaults;
 
-},{"../internal/assignDefaults":27,"../internal/createDefaults":44,"./assign":71}],73:[function(require,module,exports){
+},{"../internal/assignDefaults":26,"../internal/createDefaults":43,"./assign":70}],72:[function(require,module,exports){
 var createDefaults = require('../internal/createDefaults'),
     merge = require('./merge'),
     mergeDefaults = require('../internal/mergeDefaults');
@@ -5008,7 +5103,7 @@ var defaultsDeep = createDefaults(merge, mergeDefaults);
 
 module.exports = defaultsDeep;
 
-},{"../internal/createDefaults":44,"../internal/mergeDefaults":56,"./merge":76}],74:[function(require,module,exports){
+},{"../internal/createDefaults":43,"../internal/mergeDefaults":55,"./merge":75}],73:[function(require,module,exports){
 var getNative = require('../internal/getNative'),
     isArrayLike = require('../internal/isArrayLike'),
     isObject = require('../lang/isObject'),
@@ -5055,7 +5150,7 @@ var keys = !nativeKeys ? shimKeys : function(object) {
 
 module.exports = keys;
 
-},{"../internal/getNative":47,"../internal/isArrayLike":51,"../internal/shimKeys":57,"../lang/isObject":66}],75:[function(require,module,exports){
+},{"../internal/getNative":46,"../internal/isArrayLike":50,"../internal/shimKeys":56,"../lang/isObject":65}],74:[function(require,module,exports){
 var isArguments = require('../lang/isArguments'),
     isArray = require('../lang/isArray'),
     isIndex = require('../internal/isIndex'),
@@ -5121,7 +5216,7 @@ function keysIn(object) {
 
 module.exports = keysIn;
 
-},{"../internal/isIndex":52,"../internal/isLength":54,"../lang/isArguments":60,"../lang/isArray":61,"../lang/isObject":66}],76:[function(require,module,exports){
+},{"../internal/isIndex":51,"../internal/isLength":53,"../lang/isArguments":59,"../lang/isArray":60,"../lang/isObject":65}],75:[function(require,module,exports){
 var baseMerge = require('../internal/baseMerge'),
     createAssigner = require('../internal/createAssigner');
 
@@ -5177,7 +5272,7 @@ var merge = createAssigner(baseMerge);
 
 module.exports = merge;
 
-},{"../internal/baseMerge":36,"../internal/createAssigner":41}],77:[function(require,module,exports){
+},{"../internal/baseMerge":35,"../internal/createAssigner":40}],76:[function(require,module,exports){
 /**
  * This method returns the first argument provided to it.
  *
@@ -5199,7 +5294,7 @@ function identity(value) {
 
 module.exports = identity;
 
-},{}],78:[function(require,module,exports){
+},{}],77:[function(require,module,exports){
 /** @module stringProcessing/stripHTMLTags */
 
 var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
@@ -5216,7 +5311,7 @@ module.exports = function( text ) {
 	return text;
 };
 
-},{"../stringProcessing/stripSpaces.js":79}],79:[function(require,module,exports){
+},{"../stringProcessing/stripSpaces.js":78}],78:[function(require,module,exports){
 /** @module stringProcessing/stripSpaces */
 
 /**

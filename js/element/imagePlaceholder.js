@@ -5,7 +5,7 @@ var placeholderTemplate = require( "../templates" ).imagePlaceholder;
  *
  * @param {Object} imageContainer The location to put the placeholder in.
  * @param {string} placeholder The value for the placeholder.
- * @param {bool} isError When the placeholder should an error.
+ * @param {boolean} isError When the placeholder should an error.
  * @param {string} modifier A css class modifier to change the styling.
  */
 function setImagePlaceholder( imageContainer, placeholder, isError, modifier ) {
