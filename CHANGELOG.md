@@ -83,11 +83,14 @@ We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwa
 * Switches to a custom grunt script to build the lodash templates, `grunt-lodash` is deprecated.
 * Adds an argument to `stringToRegex` to specify whether to replace diacritics before building the regex.
 * Massively improves test coverage.
-* Update `lodash` from version 3 to version 4.
+* Updates `lodash` from version 3 to version 4.
+* Pluralizes certain translations, this makes it possible to correctly translate these strings.
+* Adds a sass function for a caret point to the left.
 
 ### Bugfixes
 
 * Removes several `for..in` calls that errored when build in prototypes had added methods or properties.
+* Fixes a bug where accented characters were not correctly matched in subheadings and the snippet editor.
 
 ## 1.1: March 1st, 2016
 
