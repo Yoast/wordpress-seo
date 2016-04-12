@@ -764,7 +764,7 @@ class WPSEO_Utils {
 	 * @param string      $path   Path relative to home URL.
 	 * @param string|null $scheme Scheme to apply.
 	 *
-	 * @return string Home URL with optional path, appropriately slahed if not.
+	 * @return string Home URL with optional path, appropriately slashed if not.
 	 */
 	public static function home_url( $path = '', $scheme = null ) {
 
