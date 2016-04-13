@@ -10,7 +10,7 @@
 	 *
 	 * @param {Object} checkbox
 	 *
-	 * @return {bool}
+	 * @return {boolean}
 	 */
 	function hasPrimaryTermElements( checkbox ) {
 		return 1 === $( checkbox ).closest( 'li' ).children( '.wpseo-make-primary-term' ).length;
@@ -39,8 +39,7 @@
 		var primaryTermInput;
 
 		primaryTermInput = $( '#yoast-wpseo-primary-' + taxonomyName );
-
-		primaryTermInput.val( termId );
+		primaryTermInput.val( termId ).trigger( 'change' );
 	}
 
 	/**

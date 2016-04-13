@@ -1,9 +1,12 @@
-/* global yoastSocialPreview, tinyMCE, require, wp  */
+/* global yoastSocialPreview, tinyMCE, require, wp, YoastSEO  */
 /* jshint -W097 */
 'use strict';
 
 var getImages = require( 'yoastseo/js/stringProcessing/imageInText' );
 var helpPanel = require( './helpPanel' );
+var getTitlePlaceholder = require( '../../../../js/src/analysis/getTitlePlaceholder' );
+var getDescriptionPlaceholder = require( '../../../../js/src/analysis/getDescriptionPlaceholder' );
+
 var forEach = require( 'lodash/forEach' );
 
 (function($) {
@@ -166,6 +169,23 @@ var forEach = require( 'lodash/forEach' );
 	}
 
 	/**
+	 * Gets the meta description from the snippet editor
+	 */
+	function getMetaDescription() {
+		return $( '#yoast_wpseo_metadesc' ).val();
+	}
+
+	function getSocialDescriptionPlaceholder() {
+		var description = getMetaDescription();
+
+		if ( '' === description ) {
+			description = getDescriptionPlaceholder();
+		}
+
+		return description;
+	}
+
+	/**
 	 * Returns the arguments for the social preview prototypes.
 	 *
 	 * @param {string} targetElement The element where the preview is loaded.
@@ -174,7 +194,10 @@ var forEach = require( 'lodash/forEach' );
 	 * @returns {{targetElement: Element, data: {title: *, description: *, imageUrl: *}, baseURL: *, callbacks: {updateSocialPreview: callbacks.updateSocialPreview}}}
 	 */
 	function getSocialPreviewArgs( targetElement, fieldPrefix ) {
-		return {
+		var titlePlaceholder = getTitlePlaceholder();
+		var descriptionPlaceholder = getSocialDescriptionPlaceholder();
+
+		var args = {
 			targetElement: $( targetElement ).get(0),
 			data: {
 				title: $( '#' + fieldPrefix + '-title' ).val(),
@@ -196,14 +219,33 @@ var forEach = require( 'lodash/forEach' );
 					}
 				},
 				modifyImageUrl: function( imageUrl ) {
-					if ( imageUrl === '' ) {
+					if (imageUrl === '') {
 						imageUrl = getFallbackImage( '' );
 					}
 
 					return imageUrl;
+				},
+				modifyTitle: function( title ) {
+					return YoastSEO.wp.replaceVarsPlugin.replaceVariablesPlugin( title );
+				},
+				modifyDescription: function( description ) {
+					return YoastSEO.wp.replaceVarsPlugin.replaceVariablesPlugin( description );
 				}
+			},
+			placeholder: {
+				title: titlePlaceholder
+			},
+			defaultValue: {
+				title: titlePlaceholder
 			}
 		};
+
+		if ( '' !== descriptionPlaceholder ) {
+			args.placeholder.description = descriptionPlaceholder;
+			args.defaultValue.description = descriptionPlaceholder;
+		}
+
+		return args;
 	}
 
 	/**
