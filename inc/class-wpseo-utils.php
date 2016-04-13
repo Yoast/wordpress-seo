@@ -696,25 +696,6 @@ class WPSEO_Utils {
 	}
 
 	/**
-	 * Wrapper for encoding the array as a json string. Includes a fallback if wp_json_encode doesn't exists
-	 *
-	 * @param array $array_to_encode The array which will be encoded.
-	 * @param int   $options		 Optional. Array with options which will be passed in to the encoding methods.
-	 * @param int   $depth    		 Optional. Maximum depth to walk through $data. Must be greater than 0. Default 512.
-	 *
-	 * @return false|string
-	 */
-	public static function json_encode( array $array_to_encode, $options = 0, $depth = 512 ) {
-		if ( function_exists( 'wp_json_encode' ) ) {
-			return wp_json_encode( $array_to_encode, $options, $depth );
-		}
-
-		// @codingStandardsIgnoreStart
-		return json_encode( $array_to_encode );
-		// @codingStandardsIgnoreEnd
-	}
-
-	/**
 	 * Check if the current opened page is a Yoast SEO page.
 	 *
 	 * @return bool
@@ -811,4 +792,19 @@ class WPSEO_Utils {
 	public static function clear_sitemap_cache( $types = array() ) {
 		WPSEO_Sitemaps_Cache::clear( $types );
 	}
-} /* End of class WPSEO_Utils */
+
+	/**
+	 * Wrapper for encoding the array as a json string. Includes a fallback if wp_json_encode doesn't exists
+	 *
+	 * @deprecated 3.3 Core versions without wp_json_encode() no longer supported, fallback unnecessary.
+	 *
+	 * @param array $array_to_encode The array which will be encoded.
+	 * @param int   $options		 Optional. Array with options which will be passed in to the encoding methods.
+	 * @param int   $depth    		 Optional. Maximum depth to walk through $data. Must be greater than 0. Default 512.
+	 *
+	 * @return false|string
+	 */
+	public static function json_encode( array $array_to_encode, $options = 0, $depth = 512 ) {
+		return wp_json_encode( $array_to_encode, $options, $depth );
+	}
+}
