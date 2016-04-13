@@ -17,7 +17,9 @@ class WPSEO_Primary_Term_Admin {
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets' ) );
 
 		add_action( 'save_post', array( $this, 'save_primary_terms' ) );
-		add_filter( 'post_link_category', array( $this, 'post_link_category' ) );
+
+		$primary_term = new WPSEO_Frontend_Primary_Category();
+		$primary_term->register_hooks();
 	}
 
 	/**
@@ -68,28 +70,16 @@ class WPSEO_Primary_Term_Admin {
 	 * @param int $post_ID Post ID to save primary terms for.
 	 */
 	public function save_primary_terms( $post_ID ) {
+		// Bail if this is a multisite installation and the site has been switched.
+		if ( is_multisite() && ms_is_switched() ) {
+			return;
+		}
+
 		$taxonomies = $this->get_primary_term_taxonomies( $post_ID );
 
 		foreach ( $taxonomies as $taxonomy ) {
 			$this->save_primary_term( $post_ID, $taxonomy );
 		}
-	}
-
-	/**
-	 * Filters post_link_category to change the category to the chosen category by the user
-	 *
-	 * @param stdClass $category The category that is now used for the post link.
-	 *
-	 * @return array|null|object|WP_Error The category we want to use for the post link.
-	 */
-	public function post_link_category( $category ) {
-		$primary_category = $this->get_primary_term( 'category' );
-
-		if ( false !== $primary_category && $primary_category !== $category->cat_ID ) {
-			$category = $this->get_category( $primary_category );
-		}
-
-		return $category;
 	}
 
 	/**
@@ -153,19 +143,6 @@ class WPSEO_Primary_Term_Admin {
 	}
 
 	/**
-	 * Wrapper for get category to make mocking easier
-	 *
-	 * @param int $primary_category id of primary category.
-	 *
-	 * @return array|null|object|WP_Error
-	 */
-	protected function get_category( $primary_category ) {
-		$category = get_category( $primary_category );
-
-		return $category;
-	}
-
-	/**
 	 * Generate the primary term taxonomies.
 	 *
 	 * @param int $post_ID ID of the post.
@@ -176,10 +153,9 @@ class WPSEO_Primary_Term_Admin {
 		$post_type      = get_post_type( $post_ID );
 		$all_taxonomies = get_object_taxonomies( $post_type, 'objects' );
 		$all_taxonomies = array_filter( $all_taxonomies, array( $this, 'filter_hierarchical_taxonomies' ) );
-		$taxonomies     = array_filter( $all_taxonomies, array( $this, 'filter_category_taxonomy' ) );
 
 		/**
-		 * Filters which taxonomies for which the user can choose the primary term. Only category is enabled by default.
+		 * Filters which taxonomies for which the user can choose the primary term.
 		 *
 		 * @api array    $taxonomies An array of taxonomy objects that are primary_term enabled.
 		 *
@@ -187,7 +163,7 @@ class WPSEO_Primary_Term_Admin {
 		 * @param array  $all_taxonomies All taxonomies for this post types, even ones that don't have primary term
 		 *                               enabled.
 		 */
-		$taxonomies = (array) apply_filters( 'wpseo_primary_term_taxonomies', $taxonomies, $post_type, $all_taxonomies );
+		$taxonomies = (array) apply_filters( 'wpseo_primary_term_taxonomies', $all_taxonomies, $post_type, $all_taxonomies );
 
 		return $taxonomies;
 	}
@@ -236,17 +212,6 @@ class WPSEO_Primary_Term_Admin {
 	 * @return bool
 	 */
 	private function filter_hierarchical_taxonomies( $taxonomy ) {
-		return true === $taxonomy->hierarchical;
-	}
-
-	/**
-	 * Returns whether or not the taxonomy is the category taxonomy
-	 *
-	 * @param stdClass $taxonomy Taxonomy object.
-	 *
-	 * @return bool
-	 */
-	private function filter_category_taxonomy( $taxonomy ) {
-		return 'category' === $taxonomy->name;
+		return (bool) $taxonomy->hierarchical;
 	}
 }

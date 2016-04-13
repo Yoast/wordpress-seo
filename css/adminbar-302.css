@@ -3,7 +3,6 @@
 	float: left;
 	width: 12px !important;
 	height: 12px !important;
-	margin: 10px 10px 0 4px !important;
 	border-radius: 50% !important;
 	background-color: #999;
 }
@@ -30,4 +29,8 @@
 
 #wp-admin-bar-wpseo-menu:hover .wpseo-score-icon {
 	background-color: #2ea2cc;
+}
+
+.adminbar-seo-score {
+	margin: 10px 10px 0 4px !important;
 }

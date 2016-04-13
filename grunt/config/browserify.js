@@ -11,7 +11,7 @@ module.exports = {
 			'js/dist/wp-seo-featured-image-310.js': ['js/src/wp-seo-featured-image.js'],
 			'js/dist/wp-seo-metabox-302.js': ['js/src/wp-seo-metabox.js'],
 			'js/dist/wp-seo-metabox-category.js': ['js/src/wp-seo-metabox-category.js'],
-			'js/dist/wp-seo-post-scraper-310.js': ['js/src/wp-seo-post-scraper.js'],
+			'js/dist/wp-seo-post-scraper-311.js': ['js/src/wp-seo-post-scraper.js'],
 			'js/dist/wp-seo-recalculate-310.js': ['js/src/wp-seo-recalculate.js'],
 			'js/dist/wp-seo-replacevar-plugin-310.js': ['js/src/wp-seo-replacevar-plugin.js'],
 			'js/dist/wp-seo-shortcode-plugin-305.js': ['js/src/wp-seo-shortcode-plugin.js'],

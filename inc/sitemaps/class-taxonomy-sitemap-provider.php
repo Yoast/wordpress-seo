@@ -14,7 +14,7 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	/**
 	 * Set up object properties for data reuse.
 	 */
-	public function __construct(  ) {
+	public function __construct() {
 
 		$this->options = WPSEO_Options::get_all();
 	}
@@ -36,7 +36,7 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 *
 	 * @return array
 	 */
-	public function get_index_links( $max_entries) {
+	public function get_index_links( $max_entries ) {
 
 		global $wpdb;
 
@@ -150,7 +150,7 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		$links    = array();
 		$taxonomy = get_taxonomy( $type );
 
-		if ( $taxonomy === false || ! $this->is_valid_taxonomy( $taxonomy->name ) ) {
+		if ( $taxonomy === false || ! $this->is_valid_taxonomy( $taxonomy->name ) || ! $taxonomy->public ) {
 			return $links;
 		}
 

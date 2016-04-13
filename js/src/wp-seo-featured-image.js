@@ -9,7 +9,9 @@
 	var featuredImagePlugin;
 	var featuredImageElement;
 
-	var FeaturedImagePlugin = function() {
+	var FeaturedImagePlugin = function( app ) {
+		this._app = app;
+
 		this.featuredImage = null;
 		this.pluginName = 'addFeaturedImagePlugin';
 	};
@@ -22,7 +24,7 @@
 	FeaturedImagePlugin.prototype.setFeaturedImage = function( featuredImage ) {
 		this.featuredImage = featuredImage;
 
-		YoastSEO.app.pluginReloaded( this.pluginName );
+		this._app.pluginReloaded( this.pluginName );
 	};
 
 	/**
@@ -36,14 +38,14 @@
 	 * Registers this plugin to YoastSEO
 	 */
 	FeaturedImagePlugin.prototype.registerPlugin = function() {
-		YoastSEO.app.registerPlugin( this.pluginName, { status: 'ready' } );
+		this._app.registerPlugin( this.pluginName, { status: 'ready' } );
 	};
 
 	/**
 	 * Registers modifications to YoastSEO
 	 */
 	FeaturedImagePlugin.prototype.registerModifications = function() {
-		YoastSEO.app.registerModification( 'content', this.addImageToContent.bind( this ), this.pluginName, 10 );
+		this._app.registerModification( 'content', this.addImageToContent.bind( this ), this.pluginName, 10 );
 	};
 
 	/**
@@ -94,7 +96,7 @@
 	$( document ).ready( function() {
 		var featuredImage = wp.media.featuredImage.frame();
 
-		featuredImagePlugin = new FeaturedImagePlugin();
+		featuredImagePlugin = new FeaturedImagePlugin( YoastSEO.app );
 		featuredImagePlugin.registerPlugin();
 		featuredImagePlugin.registerModifications();
 

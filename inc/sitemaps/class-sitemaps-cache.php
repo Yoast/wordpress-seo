@@ -18,6 +18,8 @@ class WPSEO_Sitemaps_Cache {
 
 		add_action( 'deleted_term_relationships', array( __CLASS__, 'invalidate' ) );
 
+		add_action( 'update_option', array( __CLASS__, 'clear_on_option_update' ) );
+
 		add_action( 'edited_terms', array( __CLASS__, 'invalidate_helper' ), 10, 2 );
 		add_action( 'clean_term_cache', array( __CLASS__, 'invalidate_helper' ), 10, 2 );
 		add_action( 'clean_object_term_cache', array( __CLASS__, 'invalidate_helper' ), 10, 2 );
@@ -40,6 +42,7 @@ class WPSEO_Sitemaps_Cache {
 		return apply_filters( 'wpseo_enable_xml_sitemap_transient_caching', true );
 	}
 
+
 	/**
 	 * Retrieve the sitemap page from cache.
 	 *
@@ -50,7 +53,42 @@ class WPSEO_Sitemaps_Cache {
 	 */
 	public function get_sitemap( $type, $page ) {
 
-		return get_transient( 'wpseo_sitemap_cache_' . $type . '_' . $page );
+		$transient_key = WPSEO_Sitemaps_Cache_Validator::get_storage_key( $type, $page );
+		if ( false === $transient_key ) {
+			return false;
+		}
+
+		return get_transient( $transient_key );
+	}
+
+	/**
+	 * Get the sitemap that is cached
+	 *
+	 * @param string $type Sitemap type.
+	 * @param int    $page Page number to retrieve.
+	 *
+	 * @return null|WPSEO_Sitemap_Cache_Data Null on no cache found otherwise object containing sitemap and meta data.
+	 */
+	public function get_sitemap_data( $type, $page ) {
+
+		$sitemap = $this->get_sitemap( $type, $page );
+
+		if ( empty( $sitemap ) ) {
+			return null;
+		}
+
+		// Unserialize Cache Data object (is_serialized doesn't recognize classes).
+		if ( is_string( $sitemap ) && 0 === strpos( $sitemap, 'C:24:"WPSEO_Sitemap_Cache_Data"' ) ) {
+
+			$sitemap = unserialize( $sitemap );
+		}
+
+		// What we expect it to be if it is set.
+		if ( $sitemap instanceof WPSEO_Sitemap_Cache_Data_Interface ) {
+			return $sitemap;
+		}
+
+		return null;
 	}
 
 	/**
@@ -59,12 +97,25 @@ class WPSEO_Sitemaps_Cache {
 	 * @param string $type    Sitemap type.
 	 * @param int    $page    Page number to store.
 	 * @param string $sitemap Sitemap body to store.
+	 * @param bool   $usable  Is this a valid sitemap or a cache of an invalid sitemap.
 	 *
 	 * @return bool
 	 */
-	public function store_sitemap( $type, $page, $sitemap ) {
+	public function store_sitemap( $type, $page, $sitemap, $usable = true ) {
 
-		return set_transient( 'wpseo_sitemap_cache_' . $type . '_' . $page, $sitemap, DAY_IN_SECONDS );
+		$transient_key = WPSEO_Sitemaps_Cache_Validator::get_storage_key( $type, $page );
+
+		if ( false === $transient_key ) {
+			return false;
+		}
+
+		$status = ( $usable ) ? WPSEO_Sitemap_Cache_Data::OK : WPSEO_Sitemap_Cache_Data::ERROR;
+
+		$sitemap_data = new WPSEO_Sitemap_Cache_Data();
+		$sitemap_data->set_sitemap( $sitemap );
+		$sitemap_data->set_status( $status );
+
+		return set_transient( $transient_key, $sitemap_data, DAY_IN_SECONDS );
 	}
 
 	/**
@@ -74,14 +125,11 @@ class WPSEO_Sitemaps_Cache {
 	 *
 	 * @param string $type Sitemap type to invalidate.
 	 *
-	 * @return string|boolean Query result.
+	 * @return void
 	 */
 	public static function invalidate( $type ) {
 
-		delete_transient( 'wpseo_sitemap_cache_1_1' );
-		delete_transient( 'wpseo_sitemap_cache_' . $type . '_1' );
-
-		return self::clear( array( $type ) );
+		self::clear( array( $type ) );
 	}
 
 	/**
@@ -90,10 +138,11 @@ class WPSEO_Sitemaps_Cache {
 	 * @param int    $unused Unused term ID value.
 	 * @param string $type   Taxonomy to invalidate.
 	 *
-	 * @return bool|string Query result.
+	 * @return void
 	 */
 	public static function invalidate_helper( $unused, $type ) {
-		return self::invalidate( $type );
+
+		self::invalidate( $type );
 	}
 
 	/**
@@ -103,15 +152,15 @@ class WPSEO_Sitemaps_Cache {
 	 *
 	 * @param int $post_id Post ID to invalidate type for.
 	 *
-	 * @return int|boolean Query result.
+	 * @return void
 	 */
 	public static function invalidate_post( $post_id ) {
 
 		if ( wp_is_post_revision( $post_id ) ) {
-			return false;
+			return;
 		}
 
-		return self::invalidate( get_post_type( $post_id ) );
+		self::invalidate( get_post_type( $post_id ) );
 	}
 
 	/**
@@ -119,50 +168,25 @@ class WPSEO_Sitemaps_Cache {
 	 *
 	 * @param array $types Set of sitemap types to delete cache transients for.
 	 *
-	 * @return int|boolean Query result.
+	 * @return void
 	 */
 	public static function clear( $types = array() ) {
 
-		global $wpdb;
+		// No types provided, clear all.
+		if ( empty( $types ) ) {
+			WPSEO_Sitemaps_Cache_Validator::invalidate_storage();
 
-		if ( wp_using_ext_object_cache() ) {
-			return false;
+			return;
 		}
 
-		/** This filter is documented in inc/sitemaps/class-sitemaps-cache.php */
-		if ( ! apply_filters( 'wpseo_enable_xml_sitemap_transient_caching', true ) ) {
-			return false;
+		// Always invalidate the index sitemap as well.
+		if ( ! in_array( WPSEO_Sitemaps::SITEMAP_INDEX_TYPE, $types ) ) {
+			array_unshift( $types, WPSEO_Sitemaps::SITEMAP_INDEX_TYPE );
 		}
 
-		// Not sure about efficiency, but that's what code elsewhere does R.
-		$options = WPSEO_Options::get_option( 'wpseo_xml' );
-
-		if ( true !== $options['enablexmlsitemap'] ) {
-			return false;
+		foreach ( $types as $type ) {
+			WPSEO_Sitemaps_Cache_Validator::invalidate_storage( $type );
 		}
-
-		$query = "DELETE FROM $wpdb->options WHERE";
-
-		if ( ! empty( $types ) ) {
-
-			$first = true;
-
-			foreach ( $types as $sitemap_type ) {
-
-				if ( ! $first ) {
-					$query .= ' OR ';
-				}
-
-				$query .= " option_name LIKE '_transient_wpseo_sitemap_cache_" . $sitemap_type . "_%' OR option_name LIKE '_transient_timeout_wpseo_sitemap_cache_" . $sitemap_type . "_%'";
-
-				$first = false;
-			}
-		}
-		else {
-			$query .= " option_name LIKE '_transient_wpseo_sitemap_%' OR option_name LIKE '_transient_timeout_wpseo_sitemap_%'";
-		}
-
-		return $wpdb->query( $query );
 	}
 
 	/**
@@ -174,7 +198,6 @@ class WPSEO_Sitemaps_Cache {
 	public static function register_clear_on_option_update( $option, $type = '' ) {
 
 		self::$cache_clear[ $option ] = $type;
-		add_action( 'update_option', array( __CLASS__, 'clear_on_option_update' ) );
 	}
 
 	/**
@@ -182,14 +205,21 @@ class WPSEO_Sitemaps_Cache {
 	 *
 	 * @param string $option The option name that's being updated.
 	 *
-	 * @return string|bool Query result.
+	 * @return void
 	 */
 	public static function clear_on_option_update( $option ) {
 
-		if ( ! empty( self::$cache_clear[ $option ] ) ) {
-			return WPSEO_Sitemaps_Cache::invalidate( self::$cache_clear[ $option ] );
-		}
+		if ( array_key_exists( $option, self::$cache_clear ) ) {
 
-		return WPSEO_Sitemaps_Cache::clear();
+			if ( empty( self::$cache_clear[ $option ] ) ) {
+				// Clear all caches.
+				self::clear();
+			}
+			else {
+				// Clear specific provided type(s).
+				$types = (array) self::$cache_clear[ $option ];
+				self::clear( $types );
+			}
+		}
 	}
 }

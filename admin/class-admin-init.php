@@ -279,7 +279,10 @@ class WPSEO_Admin_Init {
 	 * Determine if we should load our taxonomy edit class and if so, load it.
 	 */
 	private function load_taxonomy_class() {
-		if ( 'edit-tags.php' === $this->pagenow ) {
+		if (
+			WPSEO_Taxonomy::is_term_edit( $this->pagenow )
+			|| WPSEO_Taxonomy::is_term_overview( $this->pagenow )
+		) {
 			new WPSEO_Taxonomy;
 		}
 	}
@@ -323,8 +326,8 @@ class WPSEO_Admin_Init {
 				'hook'           => 'wpseo_admin_footer',
 				'glotpress_url'  => 'http://translate.yoast.com/gp/',
 				'glotpress_name' => 'Yoast Translate',
-				'glotpress_logo' => 'http://translate.yoast.com/gp-templates/images/Yoast_Translate.svg',
-				'register_url'   => 'http://translate.yoast.com/gp/projects#utm_source=plugin&utm_medium=promo-box&utm_campaign=wpseo-i18n-promo',
+				'glotpress_logo' => 'https://translate.yoast.com/gp-templates/images/Yoast_Translate.svg',
+				'register_url'   => 'https://translate.yoast.com/gp/projects#utm_source=plugin&utm_medium=promo-box&utm_campaign=wpseo-i18n-promo',
 			)
 		);
 	}
@@ -417,6 +420,4 @@ class WPSEO_Admin_Init {
 	private function dismiss_notice( $notice_name ) {
 		return filter_input( INPUT_GET, $notice_name ) === '1' && wp_verify_nonce( filter_input( INPUT_GET, 'nonce' ), $notice_name );
 	}
-
-
 }

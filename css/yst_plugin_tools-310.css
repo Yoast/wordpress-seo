@@ -461,6 +461,16 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 	line-height: 24px;
 }
 
+.nav-tab .pinteresticon {
+	width: 12px;
+	height: 24px;
+	margin-right: 2px;
+	background-image: url(../images/pinterest-23x30.png);
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-size: contain;
+}
+
 #wpseo_progressbar {
 	height: 25px;
 	border: 1px solid #006691;

@@ -66,6 +66,10 @@ class WPSEO_Frontend {
 	 */
 	private $required_options = array( 'wpseo', 'wpseo_rss', 'wpseo_social', 'wpseo_permalinks', 'wpseo_titles' );
 
+	/**
+	 * @var array
+	 */
+	private $hooks;
 
 	/**
 	 * Class constructor
@@ -147,6 +151,11 @@ class WPSEO_Frontend {
 		if ( $this->options['title_test'] > 0 ) {
 			add_filter( 'wpseo_title', array( $this, 'title_test_helper' ) );
 		}
+
+		$primary_category = new WPSEO_Frontend_Primary_Category();
+		$primary_category->register_hooks();
+
+		$this->hooks = array( $primary_category );
 	}
 
 	/**
@@ -527,33 +536,13 @@ class WPSEO_Frontend {
 		}
 		elseif ( is_404() ) {
 
-			if ( 0 !== get_query_var( 'year' ) || ( 0 !== get_query_var( 'monthnum' ) || 0 !== get_query_var( 'day' ) ) ) {
-				// @todo [JRF => Yoast] Should these not use the archive default if no title found ?
-				if ( 0 !== get_query_var( 'day' ) ) {
-					$date       = sprintf( '%04d-%02d-%02d 00:00:00', get_query_var( 'year' ), get_query_var( 'monthnum' ), get_query_var( 'day' ) );
-					$date       = mysql2date( get_option( 'date_format' ), $date, true );
-					$date       = apply_filters( 'get_the_date', $date, '' );
-					$title_part = sprintf( __( '%s Archives', 'wordpress-seo' ), $date );
-				}
-				elseif ( 0 !== get_query_var( 'monthnum' ) ) {
-					$title_part = sprintf( __( '%s Archives', 'wordpress-seo' ), single_month_title( ' ', false ) );
-				}
-				elseif ( 0 !== get_query_var( 'year' ) ) {
-					$title_part = sprintf( __( '%s Archives', 'wordpress-seo' ), get_query_var( 'year' ) );
-				}
-				else {
-					$title_part = __( 'Archives', 'wordpress-seo' );
-				}
-			}
-			else {
-				$title = $this->get_title_from_options( 'title-404-wpseo' );
+			$title = $this->get_title_from_options( 'title-404-wpseo' );
 
-				// @todo [JRF => Yoast] Should these not use the 404 default if no title found ?
-				// WPSEO_Options::get_default( 'wpseo_titles', 'title-404-wpseo' )
-				// Replacement would be needed!
-				if ( empty( $title ) ) {
-					$title_part = __( 'Page not found', 'wordpress-seo' );
-				}
+			// @todo [JRF => Yoast] Should these not use the 404 default if no title found ?
+			// WPSEO_Options::get_default( 'wpseo_titles', 'title-404-wpseo' )
+			// Replacement would be needed!
+			if ( empty( $title ) ) {
+				$title_part = __( 'Page not found', 'wordpress-seo' );
 			}
 		}
 		else {
@@ -732,6 +721,10 @@ class WPSEO_Frontend {
 				$term_meta = WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'noindex' );
 				if ( is_string( $term_meta ) && 'default' !== $term_meta ) {
 					$robots['index'] = $term_meta;
+				}
+
+				if ( $this->is_multiple_terms_query() ) {
+					$robots['index'] = 'noindex';
 				}
 			}
 			elseif (
@@ -921,11 +914,18 @@ class WPSEO_Frontend {
 				$canonical = get_permalink( get_option( 'page_for_posts' ) );
 			}
 			elseif ( is_tax() || is_tag() || is_category() ) {
+
 				$term = get_queried_object();
 
-				$canonical_override = WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'canonical' );
+				if ( ! empty( $term ) && ! $this->is_multiple_terms_query() ) {
 
-				$canonical = get_term_link( $term, $term->taxonomy );
+					$canonical_override = WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'canonical' );
+					$term_link          = get_term_link( $term, $term->taxonomy );
+
+					if ( ! is_wp_error( $term_link ) ) {
+						$canonical = $term_link;
+					}
+				}
 			}
 			elseif ( is_post_type_archive() ) {
 				$post_type = get_query_var( 'post_type' );
@@ -1417,6 +1417,7 @@ class WPSEO_Frontend {
 
 	/**
 	 * When certain archives are disabled, this redirects those to the homepage.
+	 *
 	 * @return boolean False when no redirect was triggered
 	 */
 	function archive_redirect() {
@@ -1508,6 +1509,7 @@ class WPSEO_Frontend {
 
 	/**
 	 * Removes unneeded query variables from the URL.
+	 *
 	 * @return boolean
 	 */
 	public function clean_permalink() {
@@ -1901,4 +1903,27 @@ class WPSEO_Frontend {
 
 		return $keywords;
 	}
-} /* End of class */
+
+	/**
+	 * Check if term archive query is for multiple terms (/term-1,term2/ or /term-1+term-2/).
+	 *
+	 * @return bool
+	 */
+	protected function is_multiple_terms_query() {
+
+		global $wp_query;
+
+		if ( ! is_tax() && ! is_tag() && ! is_category() ) {
+			return false;
+		}
+
+		$term          = get_queried_object();
+		$queried_terms = $wp_query->tax_query->queried_terms;
+
+		if ( empty( $queried_terms[ $term->taxonomy ]['terms'] ) ) {
+			return false;
+		}
+
+		return count( $queried_terms[ $term->taxonomy ]['terms'] ) > 1;
+	}
+}

@@ -5,7 +5,7 @@
 
 /**
  * Plugin Name: Yoast SEO
- * Version: 3.1
+ * Version: 3.1.2
  * Plugin URI: https://yoast.com/wordpress/plugins/seo/#utm_source=wpadmin&utm_medium=plugin&utm_campaign=wpseoplugin
  * Description: The first true all-in-one SEO solution for WordPress, including on-page content analysis, XML sitemaps and much more.
  * Author: Team Yoast
@@ -44,4 +44,4 @@ if ( ! defined( 'WPSEO_FILE' ) ) {
 }
 
 // Load the Yoast SEO plugin.
-require_once( dirname( __FILE__ ) . '/wp-seo-main.php' );
+require_once( dirname( WPSEO_FILE ) . '/wp-seo-main.php' );

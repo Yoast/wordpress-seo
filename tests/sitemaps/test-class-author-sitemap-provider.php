@@ -1,6 +1,16 @@
 <?php
 
 /**
+ * Exposes protected defaults from WPSEO_Option_XML class
+ */
+class WPSEO_Option_XML_Double extends WPSEO_Option_XML {
+	public function get_defaults() {
+		return $this->defaults;
+	}
+}
+
+
+/**
  * Class Test_WPSEO_Author_Sitemap_Provider
  */
 class Test_WPSEO_Author_Sitemap_Provider extends WPSEO_UnitTestCase {

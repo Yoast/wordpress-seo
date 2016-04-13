@@ -68,7 +68,7 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	 *
 	 * @return string
 	 */
-	private function search_url(  ) {
+	private function search_url() {
 		return admin_url( 'edit.php?seo_kw_filter={keyword}' );
 	}
 
@@ -178,5 +178,4 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 
 		return isset( $this->options[ $key ] ) && true === $this->options[ $key ];
 	}
-
 }

@@ -29,10 +29,11 @@ echo '<p>' . __( 'Attachments to posts are stored in the database as posts, this
 
 echo '<h3>', __( 'Clean up permalinks', 'wordpress-seo' ), '</h3>';
 $yform->light_switch( 'cleanslugs', __( 'Remove stop words from slugs.', 'wordpress-seo' ), $remove_buttons, false );
-echo '<p>' . __( 'This helps you to create cleaner URLs by automatically removing the stopwords from them.', 'wordpress-seo' ) . ' ' . __( 'This prevents threaded replies from working when the user has JavaScript disabled, but on a large site can mean a <em>huge</em> improvement in crawl efficiency for search engines when you have a lot of comments.', 'wordpress-seo' ) . '</p>';
+echo '<p>' . __( 'This helps you to create cleaner URLs by automatically removing the stopwords from them.', 'wordpress-seo' ) . '</p>';
 
 /* translators: %s expands to <code>?replytocom</code> */
 $yform->light_switch( 'cleanreplytocom', sprintf( __( 'Remove the %s variables.', 'wordpress-seo' ), '<code>?replytocom</code>' ), $remove_buttons, false );
+echo '<p>' . __( 'This prevents threaded replies from working when the user has JavaScript disabled, but on a large site can mean a <em>huge</em> improvement in crawl efficiency for search engines when you have a lot of comments.', 'wordpress-seo' ) . '</p>';
 
 $options = WPSEO_Options::get_all();
 if ( substr( get_option( 'permalink_structure' ), -1 ) !== '/' && $options['trailingslash'] ) {

@@ -3,7 +3,7 @@
  * @package WPSEO\admin|ajax
  */
 
-/** *
+/**
  * This class will catch the request to dismiss the target notice (set by notice_name) and will store the dismiss status as an user meta
  * in the database
  */

@@ -29,6 +29,7 @@ class WPSEO_Bulk_Description_List_Table extends WPSEO_Bulk_List_Table {
 
 	/**
 	 * The field in the database where meta field is saved.
+	 *
 	 * @var string
 	 */
 	protected $target_db_field = 'metadesc';

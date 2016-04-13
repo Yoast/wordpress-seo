@@ -7,7 +7,7 @@ class WPSEO_Primary_Term_Admin_Test extends WPSEO_UnitTestCase {
     public function setUp() {
         parent::setUp();
 
-        $this->class_instance = $this->getMock( 'WPSEO_Primary_Term_Admin', array( 'get_category', 'get_primary_term_taxonomies', 'include_js_templates', 'save_primary_term', 'get_primary_term' ) );
+        $this->class_instance = $this->getMock( 'WPSEO_Primary_Term_Admin', array( 'get_primary_term_taxonomies', 'include_js_templates', 'save_primary_term', 'get_primary_term' ) );
     }
 
     /**
@@ -52,7 +52,7 @@ class WPSEO_Primary_Term_Admin_Test extends WPSEO_UnitTestCase {
 
     /**
      * When there are no taxonomies, make sure the following files are not registered:
-     * css/metabox-primary-category.css, js/w-seo-metabox-category.js
+     * css/metabox-primary-category.css, js/dist/wp-seo-metabox-category.js
      *
      * @covers WPSEO_Primary_Term_Admin::enqueue_assets()
      */
@@ -65,7 +65,7 @@ class WPSEO_Primary_Term_Admin_Test extends WPSEO_UnitTestCase {
 
     /**
      * Do not enqueue the following scripts when the page is not post edit
-     * css/metabox-primary-category.css, js/w-seo-metabox-category.js
+     * css/metabox-primary-category.css, js/dist/wp-seo-metabox-category.js
      *
      * @covers WPSEO_Primary_Term_Admin::enqueue_assets()
      */
@@ -82,7 +82,7 @@ class WPSEO_Primary_Term_Admin_Test extends WPSEO_UnitTestCase {
 
     /**
      * When there are taxonomies and the page is post-new, make sure the following files are registered:
-     * css/metabox-primary-category.css, js/w-seo-metabox-category.js
+     * css/metabox-primary-category.css, js/dist/wp-seo-metabox-category.js
      *
      * @covers WPSEO_Primary_Term_Admin::enqueue_assets()
      */
@@ -182,60 +182,4 @@ class WPSEO_Primary_Term_Admin_Test extends WPSEO_UnitTestCase {
 
         $this->class_instance->save_primary_terms( 1 );
     }
-
-    /**
-     * When the primary term id is not equal to the category id, the id should get updated.
-     *
-     * @covers WPSEO_Primary_Term_Admin::post_link_category
-     */
-    public function test_post_link_category_primary_term_IS_NOT_category_id() {
-        $this->class_instance
-            ->expects ( $this->once() )
-            ->method( 'get_primary_term' )
-            ->will ( $this->returnValue( '54' ) );
-
-        $get_category = ( object ) array(
-            'term_id' => 54
-        );
-
-        $this->class_instance
-            ->expects( $this->once() )
-            ->method( 'get_category' )
-            ->will( $this->returnValue( $get_category ) );
-
-        $category = ( object ) array(
-            'term_id' => 52,
-            'name' => 'test',
-            'term_taxonomy_id' => 52,
-            'cat_ID' => 52,
-        );
-
-        $this->assertEquals( $get_category, $this->class_instance->post_link_category( $category ) );
-    }
-
-    /**
-     * When the primary term is equal to the category id, return the category
-     *
-     * @covers WPSEO_Primary_Term_Admin::post_link_category
-     */
-    public function test_post_link_category_primary_term_IS_category_id() {
-        $this->class_instance
-            ->expects ( $this->once() )
-            ->method( 'get_primary_term' )
-            ->will ( $this->returnValue( 1 ) );
-
-        $this->class_instance
-            ->expects( $this->never() )
-            ->method( 'get_category' );
-
-        $category = ( object ) array(
-            'term_id' => 1,
-            'name' => 'test',
-            'term_taxonomy_id' => 1,
-            'cat_ID' => 1,
-        );
-
-        $this->assertEquals( $category, $this->class_instance->post_link_category( $category ) );
-    }
-
 }

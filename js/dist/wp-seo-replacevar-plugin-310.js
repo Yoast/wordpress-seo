@@ -1,15 +1,17 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-/* global wpseoReplaceVarsL10n, YoastSEO */
+/* global wpseoReplaceVarsL10n */
 (function() {
 	'use strict';
 
 	/**
 	 * variable replacement plugin for wordpress.
 	 */
-	var YoastReplaceVarPlugin = function() {
+	var YoastReplaceVarPlugin = function( app ) {
+		this._app = app;
+
 		this.replaceVars = wpseoReplaceVarsL10n.replace_vars;
 
-		YoastSEO.app.registerPlugin( 'replaceVariablePlugin', { status: 'ready' } );
+		this._app.registerPlugin( 'replaceVariablePlugin', { status: 'ready' } );
 
 		this.registerModifications();
 	};
@@ -20,14 +22,15 @@
 	YoastReplaceVarPlugin.prototype.registerModifications = function() {
 		var callback = this.replaceVariablesPlugin.bind( this );
 
-		YoastSEO.app.registerModification( 'content', callback, 'replaceVariablePlugin', 10 );
-		YoastSEO.app.registerModification( 'title', callback, 'replaceVariablePlugin', 10 );
-		YoastSEO.app.registerModification( 'snippet_title', callback, 'replaceVariablePlugin', 10 );
-		YoastSEO.app.registerModification( 'snippet_meta', callback, 'replaceVariablePlugin', 10 );
+		this._app.registerModification( 'content', callback, 'replaceVariablePlugin', 10 );
+		this._app.registerModification( 'title', callback, 'replaceVariablePlugin', 10 );
+		this._app.registerModification( 'snippet_title', callback, 'replaceVariablePlugin', 10 );
+		this._app.registerModification( 'snippet_meta', callback, 'replaceVariablePlugin', 10 );
+		this._app.registerModification( 'primary_category', callback, 'replaceVariablePlugin', 10 );
 
 		//modifications applied on the getData from the scrapers to use templates
-		YoastSEO.app.registerModification( 'data_page_title', callback, 'replaceVariablePlugin', 10);
-		YoastSEO.app.registerModification( 'data_meta_desc', callback, 'replaceVariablePlugin', 10);
+		this._app.registerModification( 'data_page_title', callback, 'replaceVariablePlugin', 10);
+		this._app.registerModification( 'data_meta_desc', callback, 'replaceVariablePlugin', 10);
 	};
 
 	/**
@@ -43,6 +46,7 @@
 			data = this.parentReplace( data );
 			data = this.replaceSeparators( data );
 			data = this.excerptReplace( data );
+			data = this.primaryCategoryReplace( data );
 		}
 		return data;
 	};
@@ -53,7 +57,7 @@
 	 * @returns {string}
 	 */
 	YoastReplaceVarPlugin.prototype.titleReplace = function( data ) {
-		var title = YoastSEO.app.rawData.title;
+		var title = this._app.rawData.title;
 
 		data = data.replace( /%%title%%/g, title );
 
@@ -66,7 +70,7 @@
 	 * @returns {String} the data with the replaced variables
 	 */
 	YoastReplaceVarPlugin.prototype.termtitleReplace = function( data ) {
-		var term_title = YoastSEO.app.rawData.name;
+		var term_title = this._app.rawData.name;
 
 		data = data.replace( /%%term_title%%/g, term_title);
 
@@ -105,11 +109,16 @@
 	 * @returns {String}
 	 */
 	YoastReplaceVarPlugin.prototype.excerptReplace = function( data ) {
-		if ( typeof YoastSEO.app.rawData.excerpt !== 'undefined' ) {
-			data = data.replace( /%%excerpt_only%%/g, YoastSEO.app.rawData.excerpt );
-			data = data.replace( /%%excerpt%%/g, YoastSEO.app.rawData.excerpt );
+		if ( typeof this._app.rawData.excerpt !== 'undefined' ) {
+			data = data.replace( /%%excerpt_only%%/g, this._app.rawData.excerpt );
+			data = data.replace( /%%excerpt%%/g, this._app.rawData.excerpt );
 		}
 		return data;
+	};
+
+	YoastReplaceVarPlugin.prototype.primaryCategoryReplace = function( data ) {
+		var primary_category = ( typeof this._app.rawData.primaryCategory !== 'undefined' ) ? this._app.rawData.primaryCategory : '';
+		return data.replace( /%%primary_category%%/g, primary_category );
 	};
 
 	/**
@@ -119,7 +128,7 @@
 	 * @return {String}
 	 */
 	YoastReplaceVarPlugin.prototype.defaultReplace = function( textString ) {
-		var focusKeyword = YoastSEO.app.rawData.keyword;
+		var focusKeyword = this._app.rawData.keyword;
 
 		return textString.replace( /%%sitedesc%%/g, this.replaceVars.sitedesc )
 			.replace( /%%sitename%%/g, this.replaceVars.sitename )

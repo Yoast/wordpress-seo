@@ -71,7 +71,13 @@ if ( '' === $tool_page ) {
 else {
 	echo '<a href="', admin_url( 'admin.php?page=wpseo_tools' ), '">', __( '&laquo; Back to Tools page', 'wordpress-seo' ), '</a>';
 
-	if ( in_array( $tool_page, array( 'bulk-editor', 'import-export', 'file-editor' ) ) ) {
+	$tool_pages = array( 'bulk-editor', 'import-export' );
+
+	if ( WPSEO_Utils::allow_system_file_edit() === true && ! is_multisite() ) {
+		$tool_pages[] = 'file-editor';
+	}
+
+	if ( in_array( $tool_page, $tool_pages ) ) {
 		require_once WPSEO_PATH . 'admin/views/tool-' . $tool_page . '.php';
 	}
 }

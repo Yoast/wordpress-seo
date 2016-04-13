@@ -213,5 +213,4 @@ class WPSEO_Taxonomy_Columns {
 
 		return false;
 	}
-
 }

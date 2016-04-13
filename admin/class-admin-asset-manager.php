@@ -96,6 +96,8 @@ class WPSEO_Admin_Asset_Manager {
 	/**
 	 * Returns the scripts that need to be registered.
 	 *
+	 * @TODO data format is not self-documenting. Needs explanation inline. R.
+	 *
 	 * @return array scripts that need to be registered.
 	 */
 	private function scripts_to_be_registered() {
@@ -107,6 +109,8 @@ class WPSEO_Admin_Asset_Manager {
 					'jquery',
 					'jquery-ui-core',
 					'jquery-ui-progressbar',
+					self::PREFIX . 'select2',
+					self::PREFIX . 'select2-translations',
 				),
 			),
 			array(
@@ -138,20 +142,14 @@ class WPSEO_Admin_Asset_Manager {
 				'deps' => array( 'jquery' ),
 			),
 			array(
-				'name'    => 'jquery-qtip',
-				'src'     => 'jquery.qtip',
-				'deps'    => array( 'jquery' ),
-				'version' => '2.2.1',
-				'suffix'  => '.min',
-			),
-			array(
 				'name' => 'metabox',
 				'src'  => 'wp-seo-metabox-302',
 				'deps' => array(
 					'jquery',
 					'jquery-ui-core',
 					'jquery-ui-autocomplete',
-					self::PREFIX . 'jquery-qtip',
+					self::PREFIX . 'select2',
+					self::PREFIX . 'select2-translations',
 				),
 				'in_footer' => false,
 			),
@@ -166,19 +164,13 @@ class WPSEO_Admin_Asset_Manager {
 			array(
 				'name'      => 'admin-gsc',
 				'src'       => 'wp-seo-admin-gsc-302',
-				'deps'      => array( 'jquery' ),
+				'deps'      => array(),
 				'in_footer' => false,
 			),
 			array(
-				'name'   => 'yoast-seo',
-				'src'    => 'yoast-seo/yoast-seo-310',
-				'suffix' => '.min',
-			),
-			array(
 				'name' => 'post-scraper',
-				'src'  => 'wp-seo-post-scraper-310',
+				'src'  => 'wp-seo-post-scraper-311',
 				'deps' => array(
-					self::PREFIX . 'yoast-seo',
 					self::PREFIX . 'replacevar-plugin',
 					self::PREFIX . 'shortcode-plugin',
 					'wp-util',
@@ -188,23 +180,16 @@ class WPSEO_Admin_Asset_Manager {
 				'name' => 'term-scraper',
 				'src'  => 'wp-seo-term-scraper-310',
 				'deps' => array(
-					self::PREFIX . 'yoast-seo',
 					self::PREFIX . 'replacevar-plugin',
 				),
 			),
 			array(
 				'name' => 'replacevar-plugin',
 				'src'  => 'wp-seo-replacevar-plugin-310',
-				'deps' => array(
-					self::PREFIX . 'yoast-seo',
-				),
 			),
 			array(
 				'name' => 'shortcode-plugin',
 				'src'  => 'wp-seo-shortcode-plugin-305',
-				'deps' => array(
-					self::PREFIX . 'yoast-seo',
-				),
 			),
 			array(
 				'name' => 'recalculate',
@@ -224,11 +209,32 @@ class WPSEO_Admin_Asset_Manager {
 					'wp-util',
 				),
 			),
+			array(
+				'name'   => 'select2',
+				'src'    => 'select2/select2',
+				'suffix' => '.min',
+				'deps'   => array(
+					'jquery',
+				),
+				'version' => '4.0.1',
+			),
+			array(
+				'name' => 'select2-translations',
+				'src'  => 'select2/i18n/' . substr( get_locale(), 0, 2 ),
+				'deps' => array(
+					'jquery',
+					self::PREFIX . 'select2',
+				),
+				'version' => '4.0.1',
+				'suffix' => '',
+			),
 		);
 	}
 
 	/**
 	 * Returns the styles that need to be registered.
+	 *
+	 * @TODO data format is not self-documenting. Needs explanation inline. R.
 	 *
 	 * @return array styles that need to be registered.
 	 */
@@ -268,14 +274,11 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'featured-image',
 			),
 			array(
-				'name'    => 'jquery-qtip.js',
-				'src'     => 'jquery.qtip',
-				'version' => '2.2.1',
-			),
-			array(
 				'name' => 'metabox-css',
 				'src'  => 'metabox-310',
-				'deps' => array( self::PREFIX . 'jquery-qtip.js' ),
+				'deps' => array(
+					self::PREFIX . 'select2',
+				),
 			),
 			array(
 				'name' => 'wp-dashboard',
@@ -290,17 +293,18 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'snippet-310',
 			),
 			array(
-				'name'   => 'yoast-seo',
-				'src'    => 'dist/yoast-seo/yoast-seo-310',
-				'suffix' => '.min',
-			),
-			array(
 				'name' => 'adminbar',
 				'src'  => 'adminbar-302',
 			),
 			array(
 				'name' => 'primary-category',
 				'src'  => 'metabox-primary-category',
+			),
+			array(
+				'name' => 'select2',
+				'src'  => 'dist/select2/select2',
+				'suffix' => '.min',
+				'version' => '4.0.1',
 			),
 		);
 	}

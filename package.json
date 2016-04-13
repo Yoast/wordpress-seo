@@ -20,6 +20,7 @@
     "grunt-browserify": "^4.0.1",
     "grunt-checktextdomain": "^1.0.0",
     "grunt-contrib-clean": "~0.6.0",
+    "grunt-contrib-copy": "^0.8.2",
     "grunt-contrib-cssmin": "^0.10.0",
     "grunt-contrib-jshint": "^0.10.0",
     "grunt-contrib-uglify": "^0.6.0",
@@ -32,13 +33,20 @@
     "grunt-phplint": "0.0.5",
     "grunt-po2json": "^0.3.0",
     "grunt-replace": "^0.8.0",
+    "grunt-sass": "^1.1.0",
     "grunt-shell": "^1.1.2",
     "grunt-wp-css": "cedaro/grunt-wp-css#develop",
     "grunt-wp-i18n": "^0.4.8",
     "load-grunt-config": "^0.16.0",
+    "sassdash": "^0.8.1",
     "time-grunt": "^1.0.0"
   },
   "optionalDependencies": {
     "grunt-contrib-imagemin": "^1.0.0"
+  },
+  "dependencies": {
+    "lodash": "^4.7.0",
+    "select2": "^4.0.1",
+    "yoastseo": "git+https://github.com/Yoast/YoastSEO.js.git#develop"
   }
 }

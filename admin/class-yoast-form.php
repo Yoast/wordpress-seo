@@ -54,6 +54,7 @@ class Yoast_Form {
 		/**
 		 * Display the updated/error messages
 		 * Only needed as our settings page is not under options, otherwise it will automatically be included
+		 *
 		 * @see settings_errors()
 		 */
 		require_once( ABSPATH . 'wp-admin/options-head.php' );
@@ -162,14 +163,19 @@ class Yoast_Form {
 				'img' => 'banner-website-review.png',
 				'alt' => 'Website Review banner',
 			),
+			array(
+				'url' => 'https://yoast.com/academy/course/basic-seo-training/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=basic-seo-training-banner',
+				'img' => 'banner-basic-seo-training.png',
+				'alt' => 'Basic SEO Training banner',
+			),
+			array(
+				'url' => 'https://yoast.com/academy/course/yoast-seo-wordpress-training/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=yoast-seo-plugin-training-banner',
+				'img' => 'banner-yoast-seo-for-wordpress-training.png',
+				'alt' => 'Yoast SEO for WordPress Training banner',
+			),
 		);
 
 		$plugin_banners = array(
-			array(
-				'url' => 'https://yoast.com/academy/course/basic-seo-training/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=basic-seo-training-banner',
-				'img' => 'banner-seo-training.png',
-				'alt' => 'Basic SEO Training banner',
-			),
 			array(
 				'url' => 'https://yoast.com/wordpress/plugins/seo-premium/#utm_source=wordpress-seo-config&utm_medium=banner&utm_campaign=premium-seo-banner',
 				'img' => 'banner-premium-seo.png',
@@ -405,25 +411,24 @@ class Yoast_Form {
 	/**
 	 * Create a Select Box.
 	 *
-	 * @param string $var    The variable within the option to create the select for.
-	 * @param string $label  The label to show for the variable.
-	 * @param array  $values The select options to choose from.
+	 * @param string $field_name     The variable within the option to create the select for.
+	 * @param string $label          The label to show for the variable.
+	 * @param array  $select_options The select options to choose from.
 	 */
-	public function select( $var, $label, $values ) {
-		if ( ! is_array( $values ) || $values === array() ) {
+	public function select( $field_name, $label, array $select_options ) {
+
+		if ( empty( $select_options ) ) {
 			return;
 		}
-		$val = ( isset( $this->options[ $var ] ) ) ? $this->options[ $var ] : '';
 
-		$this->label( $label . ':', array( 'for' => $var, 'class' => 'select' ) );
-		echo '<select class="select" name="', esc_attr( $this->option_name ), '[', esc_attr( $var ), ']" id="', esc_attr( $var ), '">';
+		$this->label( $label . ':', array( 'for' => $field_name, 'class' => 'select' ) );
 
-		foreach ( $values as $value => $label ) {
-			if ( ! empty( $label ) ) {
-				echo '<option value="', esc_attr( $value ), '"', selected( $val, $value, false ), '>', $label, '</option>';
-			}
-		}
-		echo '</select>';
+		$select_name   = esc_attr( $this->option_name ) . '[' . esc_attr( $field_name ) . ']';
+		$active_option = ( isset( $this->options[ $field_name ] ) ) ? $this->options[ $field_name ] : '';
+
+		$select = new Yoast_Input_Select( $field_name, $select_name, $select_options, $active_option );
+		$select->add_attribute( 'class', 'select' );
+		$select->output_html();
 
 		echo '<br class="clear"/>';
 	}

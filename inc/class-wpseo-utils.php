@@ -137,7 +137,8 @@ class WPSEO_Utils {
 	}
 
 	/**
-	 * Strip out the shortcodes with a filthy regex, because people don't properly register their shortcodes.
+	 * First strip out registered and enclosing shortcodes using native WordPress strip_shortcodes function.
+	 * Then strip out the shortcodes with a filthy regex, because people don't properly register their shortcodes.
 	 *
 	 * @static
 	 *
@@ -146,7 +147,7 @@ class WPSEO_Utils {
 	 * @return string $text string without shortcodes
 	 */
 	public static function strip_shortcode( $text ) {
-		return preg_replace( '`\[[^\]]+\]`s', '', $text );
+		return preg_replace( '`\[[^\]]+\]`s', '', strip_shortcodes( $text ) );
 	}
 
 	/**
@@ -695,25 +696,6 @@ class WPSEO_Utils {
 	}
 
 	/**
-	 * Wrapper for encoding the array as a json string. Includes a fallback if wp_json_encode doesn't exists
-	 *
-	 * @param array $array_to_encode The array which will be encoded.
-	 * @param int   $options		 Optional. Array with options which will be passed in to the encoding methods.
-	 * @param int   $depth    		 Optional. Maximum depth to walk through $data. Must be greater than 0. Default 512.
-	 *
-	 * @return false|string
-	 */
-	public static function json_encode( array $array_to_encode, $options = 0, $depth = 512 ) {
-		if ( function_exists( 'wp_json_encode' ) ) {
-			return wp_json_encode( $array_to_encode, $options, $depth );
-		}
-
-		// @codingStandardsIgnoreStart
-		return json_encode( $array_to_encode );
-		// @codingStandardsIgnoreEnd
-	}
-
-	/**
 	 * Check if the current opened page is a Yoast SEO page.
 	 *
 	 * @return bool
@@ -810,4 +792,19 @@ class WPSEO_Utils {
 	public static function clear_sitemap_cache( $types = array() ) {
 		WPSEO_Sitemaps_Cache::clear( $types );
 	}
-} /* End of class WPSEO_Utils */
+
+	/**
+	 * Wrapper for encoding the array as a json string. Includes a fallback if wp_json_encode doesn't exist.
+	 *
+	 * @deprecated 3.3 Core versions without wp_json_encode() no longer supported, fallback unnecessary.
+	 *
+	 * @param array $array_to_encode The array which will be encoded.
+	 * @param int   $options		 Optional. Array with options which will be passed in to the encoding methods.
+	 * @param int   $depth    		 Optional. Maximum depth to walk through $data. Must be greater than 0. Default 512.
+	 *
+	 * @return false|string
+	 */
+	public static function json_encode( array $array_to_encode, $options = 0, $depth = 512 ) {
+		return wp_json_encode( $array_to_encode, $options, $depth );
+	}
+}

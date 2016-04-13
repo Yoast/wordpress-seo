@@ -63,7 +63,7 @@
 				echo sprintf(
 					__( 'To be able to create a redirect and fix this issue, you need %1$s. You can buy the plugin, including one year of support and updates, on %2$s.', 'wordpress-seo' ),
 					'Yoast SEO Premium',
-					'<a href="http://yoa.st/redirects" target="_blank">yoast.com</a>'
+					'<a href="https://yoa.st/redirects" target="_blank">yoast.com</a>'
 				);
 				echo '</p>';
 				break;

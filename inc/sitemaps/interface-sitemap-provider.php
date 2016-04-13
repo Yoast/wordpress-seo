@@ -21,7 +21,7 @@ interface WPSEO_Sitemap_Provider {
 	 *
 	 * @return array
 	 */
-	public function get_index_links( $max_entries);
+	public function get_index_links( $max_entries );
 
 	/**
 	 * Get set of sitemap link data.

@@ -20,7 +20,7 @@ $yform->admin_header( true, 'wpseo_social' );
 		<a class="nav-tab" id="accounts-tab" href="#top#accounts"><?php _e( 'Accounts', 'wordpress-seo' ); ?></a>
 		<a class="nav-tab" id="facebook-tab" href="#top#facebook"><span class="dashicons dashicons-facebook-alt"></span> <?php _e( 'Facebook', 'wordpress-seo' ); ?></a>
 		<a class="nav-tab" id="twitterbox-tab" href="#top#twitterbox"><span class="dashicons dashicons-twitter"></span> <?php _e( 'Twitter', 'wordpress-seo' ); ?></a>
-		<a class="nav-tab" id="pinterest-tab" href="#top#pinterest"><?php _e( 'Pinterest', 'wordpress-seo' ); ?></a>
+		<a class="nav-tab" id="pinterest-tab" href="#top#pinterest"><span class="dashicons pinteresticon"></span> <?php _e( 'Pinterest', 'wordpress-seo' ); ?></a>
 		<a class="nav-tab" id="google-tab" href="#top#google"><span class="dashicons dashicons-googleplus"></span> <?php _e( 'Google+', 'wordpress-seo' ); ?></a>
 	</h2>
 
@@ -99,13 +99,16 @@ $yform->admin_header( true, 'wpseo_social' );
 			<?php _e( 'Pinterest uses Open Graph metadata just like Facebook, so be sure to keep the Open Graph checkbox on the Facebook tab checked if you want to optimize your site for Pinterest.', 'wordpress-seo' ); ?>
 		</p>
 		<p>
+			<?php _e( 'If you have already confirmed your website with Pinterest, you can skip the step below.', 'wordpress-seo' ); ?>
+		</p>
+		<p>
 			<?php
 				/* translators: %1$s / %2$s expands to a link to pinterest.com's help page. */
-				printf( __( 'To %1$sverify your site with Pinterest%2$s, add the meta tag here:', 'wordpress-seo' ), '<a target="_blank" href="https://help.pinterest.com/en/articles/verify-your-website#meta_tag">', '</a>' );
+				printf( __( 'To %1$sconfirm your site with Pinterest%2$s, add the meta tag here:', 'wordpress-seo' ), '<a target="_blank" href="https://help.pinterest.com/en/articles/confirm-your-website#meta_tag">', '</a>' );
 			?>
 		</p>
 
-		<?php $yform->textinput( 'pinterestverify', __( 'Pinterest verification', 'wordpress-seo' ) ); ?>
+		<?php $yform->textinput( 'pinterestverify', __( 'Pinterest confirmation', 'wordpress-seo' ) ); ?>
 
 		<?php
 		do_action( 'wpseo_admin_pinterest_section' );
