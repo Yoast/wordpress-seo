@@ -140,7 +140,7 @@
 
 	$( '.wpseo-tab-video-container' ).on( 'click', '.wpseo-tab-video-container__handle', function( e ) {
 		var $container = $( e.delegateTarget );
-		var $slideout = $container.find('.wpseo-tab-video-slideout');
+		var $slideout = $container.find( '.wpseo-tab-video-slideout' );
 		if ( $slideout.is( ':hidden' ) ) {
 			openVideoSlideout( $container, 400 );
 		}
@@ -160,9 +160,9 @@
 		var videoUrl = $data.data( 'url' );
 		$data.append( '<iframe width="560" height="315" src="' + videoUrl + '" frameborder="0" allowfullscreen></iframe>' );
 
-		$container.find('.toggle__arrow').removeClass('dashicons-arrow-down').addClass('dashicons-arrow-up');
-		$container.find('.wpseo-tab-video-container__handle').attr( 'aria-expanded', 'true' );
-		$container.find('.wpseo-tab-video-slideout').slideDown( duration );
+		$container.find( '.toggle__arrow' ).removeClass( 'dashicons-arrow-down' ).addClass( 'dashicons-arrow-up' );
+		$container.find( '.wpseo-tab-video-container__handle' ).attr( 'aria-expanded', 'true' );
+		$container.find( '.wpseo-tab-video-slideout' ).slideDown( duration );
 	}
 
 	/**
@@ -172,11 +172,11 @@
 	 */
 	function closeVideoSlideout( duration ) {
 		var $container = $( '#wpbody-content' ).find( '.wpseo-tab-video-container' );
-		$container.find('.wpseo-tab-video-slideout').slideUp( duration, function() {
+		$container.find( '.wpseo-tab-video-slideout' ).slideUp( duration, function() {
 			$( '#wpbody-content' ).find( '.wpseo-tab-video__data' ).children().remove();
 		} );
 
-		$container.find('.toggle__arrow').removeClass('dashicons-arrow-up').addClass('dashicons-arrow-down');
-		$container.find('.wpseo-tab-video-container__handle').attr('aria-expanded', 'false');
+		$container.find( '.toggle__arrow' ).removeClass( 'dashicons-arrow-up' ).addClass( 'dashicons-arrow-down' );
+		$container.find( '.wpseo-tab-video-container__handle' ).attr( 'aria-expanded', 'false' );
 	}
 })();

@@ -14,8 +14,8 @@ class WPSEO_Option_Tabs {
 	/** @var array The tabs in this group */
 	private $tabs = array();
 
-	/** @var bool|string Name of the active tab */
-	private $active_tab = false;
+	/** @var string Name of the active tab */
+	private $active_tab = '';
 
 	/**
 	 * WPSEO_Option_Tabs constructor.
