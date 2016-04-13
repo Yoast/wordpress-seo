@@ -43,6 +43,9 @@ var twitterDefaults = {
 		},
 		modifyDescription: function( description ) {
 			return description;
+		},
+		modifyImageUrl: function( imageUrl ) {
+			return imageUrl;
 		}
 	}
 };
@@ -372,6 +375,8 @@ TwitterPreview.prototype.getImageContainer = function() {
  * @param {string} imageUrl The image path.
  */
 TwitterPreview.prototype.setImage = function( imageUrl ) {
+	imageUrl = this.opts.callbacks.modifyImageUrl( imageUrl );
+
 	if ( imageUrl === "" && this.data.imageUrl === "" ) {
 		this.removeImageFromContainer();
 		this.removeImageClasses();

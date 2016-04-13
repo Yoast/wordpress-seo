@@ -44,6 +44,9 @@ var facebookDefaults = {
 		},
 		modifyDescription: function( description ) {
 			return description;
+		},
+		modifyImageUrl: function( imageUrl ) {
+			return imageUrl;
 		}
 	}
 };
@@ -378,6 +381,8 @@ FacebookPreview.prototype.getImageContainer = function() {
  * @returns {void}
  */
 FacebookPreview.prototype.setImage = function ( imageUrl ) {
+	imageUrl = this.opts.callbacks.modifyImageUrl( imageUrl );
+
 	if ( imageUrl === "" && this.data.imageUrl === "" ) {
 		this.removeImageFromContainer();
 		return this.noUrlSet();
