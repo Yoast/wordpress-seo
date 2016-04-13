@@ -34,7 +34,7 @@ describe( "An assessment for sentence length", function(){
 	} );
 	it( "returns the score for 25% long sentences", function(){
 		mockPaper = new Paper();
-		assessment = sentenceLengthInTextAssessment.getResult( mockPaper, Factory.buildMockResearcher( [ 30, 1, 1, 1] ), i18n );
+		assessment = sentenceLengthInTextAssessment.getResult( mockPaper, Factory.buildMockResearcher( [ 30, 1, 1, 1 ] ), i18n );
 
 		expect( assessment.hasScore()).toBe( true );
 		expect( assessment.getScore() ).toEqual( 7.02 );

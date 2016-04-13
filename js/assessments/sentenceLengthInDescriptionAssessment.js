@@ -16,14 +16,17 @@ var calculateSentenceLengthResult = function( sentences, i18n ) {
 	if ( score >= 7 ) {
 		return{
 			score: score,
-			text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "%1$d%% of the sentences contain more than 20 words, " +
-				"which is within the recommended range." ), percentage )
+			text:  i18n.dgettext( "js-text-analysis", "The meta description contains no sentences over 20 words." )
 		};
 	}
 	return{
 		score: score,
-		text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "%1$d%% of the sentences contain more than 20 words, " +
-			"which is more than the recommended maximum of %2$d%%. Try to shorten your sentences." ), percentage, maximumPercentage )
+		text: i18n.sprintf( i18n.dngettext( 
+			"js-text-analysis", 
+			"The meta description contains %1$d sentence over 20 words. Try to shorten this sentence.",
+			"The meta description contains %1$d sentences over 20 words. Try to shorten these sentences.",
+			tooLong ), tooLong
+		)
 	};
 };
 /**
@@ -34,8 +37,8 @@ var calculateSentenceLengthResult = function( sentences, i18n ) {
  * @param {object} i18n The object used for translations.
  * @returns {object} the Assessmentresult
  */
-var sentenceLengthInTextAssessment = function( paper, researcher, i18n ) {
-	var sentences = researcher.getResearch( "countSentenceFromText" );
+var sentenceLengthInDescriptionAssessment = function( paper, researcher, i18n ) {
+	var sentences = researcher.getResearch( "getSentencesFromDescription" );
 	var sentenceResult = calculateSentenceLengthResult( sentences, i18n );
 	var assessmentResult = new AssessmentResult();
 
@@ -46,9 +49,8 @@ var sentenceLengthInTextAssessment = function( paper, researcher, i18n ) {
 };
 
 module.exports = {
-	getResult: sentenceLengthInTextAssessment,
+	getResult: sentenceLengthInDescriptionAssessment,
 	isApplicable: function( paper ) {
-		return paper.hasText();
+		return paper.hasDescription();
 	}
 };
-
