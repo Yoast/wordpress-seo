@@ -433,6 +433,8 @@ TwitterPreview.prototype.removeImageFromContainer = function() {
 /**
  * Sets the proper CSS class for the current image.
  * @param {Image} img The image to base the sizing class on.
+ *
+ * @returns {void}
  */
 TwitterPreview.prototype.setSizingClass = function( img ) {
 	this.removeImageClasses();

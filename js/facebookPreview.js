@@ -416,7 +416,8 @@ FacebookPreview.prototype.setImage = function ( imageUrl ) {
 FacebookPreview.prototype.noUrlSet = function() {
 	this.removeImageClasses();
 
-	imagePlaceholder( this.getImageContainer(),
+	imagePlaceholder(
+		this.getImageContainer(),
 		this.i18n.dgettext( "yoast-social-previews", "Please enter an image url by clicking here" ),
 		false,
 		"facebook"
@@ -431,7 +432,8 @@ FacebookPreview.prototype.noUrlSet = function() {
  */
 FacebookPreview.prototype.imageTooSmall = function() {
 	this.removeImageClasses();
-	imagePlaceholder( this.getImageContainer(),
+	imagePlaceholder(
+		this.getImageContainer(),
 		this.i18n.dgettext( "yoast-social-previews", "The image you selected is too small for Facebook" ),
 		true,
 		"facebook"
@@ -478,6 +480,7 @@ FacebookPreview.prototype.removeImageFromContainer = function() {
 /**
  * Sets the proper CSS class for the current image.
  * @param {Image} img The image to base the sizing class on.
+ * @returns {void}
  */
 FacebookPreview.prototype.setSizingClass = function ( img ) {
 	this.removeImageClasses();
