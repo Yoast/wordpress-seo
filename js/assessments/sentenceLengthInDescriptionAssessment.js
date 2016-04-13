@@ -10,7 +10,6 @@ var countTooLongSentences = require( "./checkForTooLongSentences.js" );
 var calculateSentenceLengthResult = function( sentences, i18n ) {
 	var totalSentences = sentences.length;
 	var tooLong = countTooLongSentences( sentences );
-	var maximumPercentage = 25;
 	var percentage = ( tooLong / totalSentences ) * 100;
 	var score = 9 - Math.max( Math.min( ( 6 / 10 ) * ( percentage - 21.7 ), 6 ), 0 );
 	if ( score >= 7 ) {
@@ -21,8 +20,8 @@ var calculateSentenceLengthResult = function( sentences, i18n ) {
 	}
 	return{
 		score: score,
-		text: i18n.sprintf( i18n.dngettext( 
-			"js-text-analysis", 
+		text: i18n.sprintf( i18n.dngettext(
+			"js-text-analysis",
 			"The meta description contains %1$d sentence over 20 words. Try to shorten this sentence.",
 			"The meta description contains %1$d sentences over 20 words. Try to shorten these sentences.",
 			tooLong ), tooLong
