@@ -222,9 +222,7 @@ var TextArea = require( "./inputs/textarea" );
 var InputElement = require( "./element/input" );
 var PreviewEvents = require( "./preview/events" );
 
-var templates = require( "./templates.js" );
-var facebookEditorTemplate = templates.facebookPreview;
-var facebookAuthorTemplate = templates.facebookAuthor;
+var facebookEditorTemplate = require( "./templates.js" ).facebookPreview;
 
 var facebookDefaults = {
 	data: {
@@ -420,8 +418,7 @@ FacebookPreview.prototype.renderTemplate = function() {
 		formContainer: targetElement.getElementsByClassName( "snippet-editor__form" )[0],
 		editToggle: targetElement.getElementsByClassName( "snippet-editor__edit-button" )[0],
 		formFields: targetElement.getElementsByClassName( "snippet-editor__form-field" ),
-		headingEditor: targetElement.getElementsByClassName( "snippet-editor__heading-editor" )[0],
-		authorContainer: targetElement.getElementsByClassName( "editable-preview__value--facebook-author" )[0]
+		headingEditor: targetElement.getElementsByClassName( "snippet-editor__heading-editor" )[0]
 	};
 
 	this.element.formContainer.innerHTML = this.element.fields.imageUrl.render()
@@ -836,25 +833,6 @@ FacebookPreview.prototype.removeImageClasses = function() {
 FacebookPreview.prototype.bindEvents = function() {
 	var previewEvents = new PreviewEvents( inputFacebookPreviewBindings, this.element, true );
 	previewEvents.bindEvents( this.element.editToggle, this.element.closeEditor );
-};
-
-/**
- * Sets the value of the facebook author name.
- *
- * @param {string} authorName The name of the author to show.
- */
-FacebookPreview.prototype.setAuthor = function( authorName ) {
-	var authorHtml = "";
-	if( authorName !== "" ) {
-		authorHtml = facebookAuthorTemplate(
-			{
-				authorName: authorName,
-				authorBy: this.i18n.dgettext( "yoast-social-previews", "By" )
-			}
-		);
-	}
-
-	this.element.authorContainer.innerHTML = authorHtml;
 };
 
 module.exports = FacebookPreview;
@@ -1406,7 +1384,6 @@ module.exports = PreviewEvents;
   /*----------------------------------------------------------------------------*/
 
   var templates = {
-    'facebookAuthor': {},
     'facebookPreview': {},
     'fields': {
         'button': {},
@@ -1415,19 +1392,6 @@ module.exports = PreviewEvents;
     },
     'imagePlaceholder': {},
     'twitterPreview': {}
-  };
-
-  templates['facebookAuthor'] =   function(obj) {
-    obj || (obj = {});
-    var __t, __p = '', __e = _.escape;
-    with (obj) {
-    __p += '<span class="editable-preview__website--facebook-pipe">|</span> ' +
-    __e( authorBy ) +
-    ' ' +
-    __e( authorName );
-
-    }
-    return __p
   };
 
   templates['facebookPreview'] =   function(obj) {
@@ -1442,7 +1406,7 @@ module.exports = PreviewEvents;
     __e( rendered.description ) +
     '\n					</div>\n				</div>\n				<div class="snippet-editor__container editable-preview__container--no-caret editable-preview__website--facebook snippet_container">\n					<div class="editable-preview__value editable-preview__value--facebook-url">\n						' +
     __e( rendered.baseUrl ) +
-    '\n						<span class="editable-preview__value--facebook-author"></span>\n					</div>\n				</div>\n			</div>\n		</div>\n	</section>\n\n	<h4 class="snippet-editor__heading snippet-editor__heading-editor snippet-editor__heading-icon-edit">' +
+    '\n					</div>\n				</div>\n			</div>\n		</div>\n	</section>\n\n	<h4 class="snippet-editor__heading snippet-editor__heading-editor snippet-editor__heading-icon-edit">' +
     __e( i18n.snippetEditor ) +
     '</h4>\n\n	<div class="snippet-editor__form">\n\n	</div>\n</div>\n';
 

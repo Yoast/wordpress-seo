@@ -108,7 +108,6 @@
   /*----------------------------------------------------------------------------*/
 
   var templates = {
-    'facebookAuthor': {},
     'facebookPreview': {},
     'fields': {
         'button': {},
@@ -117,19 +116,6 @@
     },
     'imagePlaceholder': {},
     'twitterPreview': {}
-  };
-
-  templates['facebookAuthor'] =   function(obj) {
-    obj || (obj = {});
-    var __t, __p = '', __e = _.escape;
-    with (obj) {
-    __p += '<span class="editable-preview__website--facebook-pipe">|</span> ' +
-    __e( authorBy ) +
-    ' ' +
-    __e( authorName );
-
-    }
-    return __p
   };
 
   templates['facebookPreview'] =   function(obj) {
@@ -144,7 +130,7 @@
     __e( rendered.description ) +
     '\n					</div>\n				</div>\n				<div class="snippet-editor__container editable-preview__container--no-caret editable-preview__website--facebook snippet_container">\n					<div class="editable-preview__value editable-preview__value--facebook-url">\n						' +
     __e( rendered.baseUrl ) +
-    '\n						<span class="editable-preview__value--facebook-author"></span>\n					</div>\n				</div>\n			</div>\n		</div>\n	</section>\n\n	<h4 class="snippet-editor__heading snippet-editor__heading-editor snippet-editor__heading-icon-edit">' +
+    '\n					</div>\n				</div>\n			</div>\n		</div>\n	</section>\n\n	<h4 class="snippet-editor__heading snippet-editor__heading-editor snippet-editor__heading-icon-edit">' +
     __e( i18n.snippetEditor ) +
     '</h4>\n\n	<div class="snippet-editor__form">\n\n	</div>\n</div>\n';
 
