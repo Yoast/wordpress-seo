@@ -49,7 +49,6 @@ var facebookPreview = new FacebookPreview(
 );
 
 facebookPreview.init();
-facebookPreview.setAuthor( 123 );
 
 var twitterPreview = new TwitterPreview(
 	{
@@ -840,10 +839,10 @@ FacebookPreview.prototype.bindEvents = function() {
 };
 
 /**
-  * Sets the value of the facebook author name.
-  *
-  * @param {string} authorName The name of the author to show.
-  */
+ * Sets the value of the facebook author name.
+ *
+ * @param {string} authorName The name of the author to show.
+ */
 FacebookPreview.prototype.setAuthor = function( authorName ) {
 	var authorHtml = "";
 	if (authorName !== "") {
