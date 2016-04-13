@@ -794,7 +794,7 @@ class WPSEO_Utils {
 	}
 
 	/**
-	 * Wrapper for encoding the array as a json string. Includes a fallback if wp_json_encode doesn't exists
+	 * Wrapper for encoding the array as a json string. Includes a fallback if wp_json_encode doesn't exist.
 	 *
 	 * @deprecated 3.3 Core versions without wp_json_encode() no longer supported, fallback unnecessary.
 	 *
