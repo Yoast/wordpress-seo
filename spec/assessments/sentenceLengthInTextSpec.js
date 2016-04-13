@@ -1,0 +1,55 @@
+var sentenceLengthInTextAssessment = require( "../../js/assessments/sentenceLenghtInTextAssessment" );
+var Paper = require( "../../js/values/Paper.js" );
+var Factory = require( "../helpers/factory.js" );
+var i18n = Factory.buildJed();
+
+var longString = "hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello";
+var shortString = "hello";
+
+describe( "An assessment for sentence length", function(){
+	it( "returns the score for all short sentences", function(){
+		var mockPaper = new Paper();
+		var assessment = sentenceLengthInTextAssessment.getResult( mockPaper, Factory.buildMockResearcher( [ shortString, shortString, shortString, "" ] ), i18n );
+
+		expect( assessment.hasScore()).toBe( true );
+		expect( assessment.getScore() ).toEqual( 9 );
+		expect( assessment.getText() ).toEqual ( "0% of the sentences contain more than 20 words, which is within the recommended range." );
+	} );
+	it( "returns the score for 50% long sentences", function(){
+		mockPaper = new Paper();
+		assessment = sentenceLengthInTextAssessment.getResult( mockPaper, Factory.buildMockResearcher( [ longString, shortString, ""] ), i18n );
+
+		expect( assessment.hasScore()).toBe( true );
+		expect( assessment.getScore() ).toEqual( 3 );
+		expect( assessment.getText() ).toEqual ( "50% of the sentences contain more than 20 words, " +
+			"which is more than the recommended maximum of 25%. Try to shorten your sentences." );
+	} );
+	it( "returns the score for 100% long sentences", function(){
+		mockPaper = new Paper();
+		assessment = sentenceLengthInTextAssessment.getResult( mockPaper, Factory.buildMockResearcher( [ longString, ""] ), i18n );
+
+		expect( assessment.hasScore()).toBe( true );
+		expect( assessment.getScore() ).toEqual( 3 );
+		expect( assessment.getText() ).toEqual ( "100% of the sentences contain more than 20 words, " +
+			"which is more than the recommended maximum of 25%. Try to shorten your sentences." );
+	} );
+	it( "returns the score for 25% long sentences", function(){
+		mockPaper = new Paper();
+		assessment = sentenceLengthInTextAssessment.getResult( mockPaper, Factory.buildMockResearcher( [ longString, shortString, shortString, shortString, ""] ), i18n );
+
+		expect( assessment.hasScore()).toBe( true );
+		expect( assessment.getScore() ).toEqual( 7.02 );
+		expect( assessment.getText() ).toEqual ( "25% of the sentences contain more than 20 words, " +
+			"which is within the recommended range." );
+	} );
+	it( "returns the score for 30% long sentences", function(){
+		mockPaper = new Paper();
+		assessment = sentenceLengthInTextAssessment.getResult( mockPaper, Factory.buildMockResearcher( [ longString, longString, longString, shortString, shortString, shortString, shortString, shortString, shortString, shortString, ""] ), i18n );
+
+		expect( assessment.hasScore()).toBe( true );
+		expect( assessment.getScore() ).toEqual( 4.02 );
+		expect( assessment.getText() ).toEqual ( "30% of the sentences contain more than 20 words, " +
+			"which is more than the recommended maximum of 25%. Try to shorten your sentences." );
+	} );
+} );
+
