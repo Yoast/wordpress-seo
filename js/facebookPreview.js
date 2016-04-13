@@ -18,7 +18,9 @@ var TextArea = require( "./inputs/textarea" );
 var InputElement = require( "./element/input" );
 var PreviewEvents = require( "./preview/events" );
 
-var facebookEditorTemplate = require( "./templates.js" ).facebookPreview;
+var templates = require( "./templates.js" );
+var facebookEditorTemplate = templates.facebookPreview;
+var facebookAuthorTemplate = templates.facebookAuthor;;
 
 var facebookDefaults = {
 	data: {
@@ -214,7 +216,8 @@ FacebookPreview.prototype.renderTemplate = function() {
 		formContainer: targetElement.getElementsByClassName( "snippet-editor__form" )[0],
 		editToggle: targetElement.getElementsByClassName( "snippet-editor__edit-button" )[0],
 		formFields: targetElement.getElementsByClassName( "snippet-editor__form-field" ),
-		headingEditor: targetElement.getElementsByClassName( "snippet-editor__heading-editor" )[0]
+		headingEditor: targetElement.getElementsByClassName( "snippet-editor__heading-editor" )[0],
+		authorContainer: targetElement.getElementsByClassName( "editable-preview__value--facebook-author" )[0]
 	};
 
 	this.element.formContainer.innerHTML = this.element.fields.imageUrl.render()
@@ -629,6 +632,25 @@ FacebookPreview.prototype.removeImageClasses = function() {
 FacebookPreview.prototype.bindEvents = function() {
 	var previewEvents = new PreviewEvents( inputFacebookPreviewBindings, this.element, true );
 	previewEvents.bindEvents( this.element.editToggle, this.element.closeEditor );
+};
+
+/**
+  * Sets the value of the facebook author name.
+  *
+  * @param {string} authorName The name of the author to show.
+  */
+FacebookPreview.prototype.setAuthor = function( authorName ) {
+	var authorHtml = "";
+	if (authorName !== "") {
+		authorHtml = facebookAuthorTemplate(
+			{
+				authorName: authorName,
+				authorBy  : this.i18n.dgettext( "yoast-social-previews", "By" )
+			}
+		);
+	}
+
+	this.element.authorContainer.innerHTML = authorHtml;
 };
 
 module.exports = FacebookPreview;
