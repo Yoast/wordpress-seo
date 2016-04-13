@@ -12,12 +12,23 @@ $padding_preview: 20px;
 $width_facebook_image_small: 158px;
 $height_facebook_image_small: 158px;
 
+$width_facebook_image_large: 470px;
+$height_facebook_image_large: 246px;
+
+$width_facebook_image_portrait: 158px;
+$height_facebook_image_portrait: 235px;
+
 $width_twitter_image_small: 120px;
 $height_twitter_image_small: 120px;
+
+$width_twitter_image_large: 506px;
+$height_twitter_image_large: 254px;
 
 $border_radius_twitter: .42857em;
 
 .social-preview__inner {
+	overflow: hidden;
+
 	&--facebook {
 		box-shadow:       0 0 0 1.5px rgba(0, 0, 0, .1) inset, 0 1px 1px rgba(0, 0, 0, .05);
 
@@ -29,7 +40,8 @@ $border_radius_twitter: .42857em;
 			}
 		}
 
-		&-small {
+		&-small,
+		&-portrait {
 			@include clearfix;
 		}
 	}
@@ -106,8 +118,10 @@ $border_radius_twitter: .42857em;
 		&--facebook {
 			max-height: 470px;
 			font-size:  12px;
+			position: relative;
 
-			&-small {
+			&-small,
+			&-portrait {
 				float: left;
 				width: calc( 100% - #{$width_facebook_image_small} );
 
@@ -131,7 +145,10 @@ $border_radius_twitter: .42857em;
 						}
 					}
 				}
+			}
 
+			&-portrait {
+				height: $height_facebook_image_portrait;
 			}
 		}
 
@@ -207,7 +224,12 @@ $border_radius_twitter: .42857em;
 	}
 
 	&__image {
+
 		&--facebook {
+
+			background-size: cover;
+			background-position: center center;
+
 			width:      $width_facebook;
 			max-height: 470px;
 			position: relative;
@@ -224,6 +246,17 @@ $border_radius_twitter: .42857em;
 				float: left;
 			}
 
+			&-large {
+				width: $width_facebook_image_large;
+				height: $height_facebook_image_large;
+			}
+
+			&-portrait {
+				width: $width_facebook_image_portrait;
+				height: $height_facebook_image_portrait;
+				float: left;
+			}
+
 			&:after {
 				content: ' ';
 				position: absolute;
@@ -232,18 +265,21 @@ $border_radius_twitter: .42857em;
 				left: 0;
 				right: 0;
 				bottom: 0;
-				border: 1px solid rgba(0, 0, 0, .1);
+				border-right: 1px solid rgba(0, 0, 0, .1);
 			}
 		}
 
 		&--twitter {
+
+			background-size: cover;
+			background-position: top center;
+
 			max-height: $height_twitter - 2;
 			line-height: 0;
 			border-bottom: 1px solid #E1E8ED;
 
 			&, img {
-				// Reduce max-width with 2 pixels because the image will overlap the bordered container.
-				max-width:  $width_twitter - 2;
+				max-width:  ≠$width_twitter - 2;
 			}
 
 			img {
@@ -256,20 +292,20 @@ $border_radius_twitter: .42857em;
 			}
 
 			&-small {
-				background: #E1E8ED;
+				background-color: #E1E8ED;
 				border-right: 1px solid #E1E8ED;
 				border-bottom: 0;
 				width: $width_twitter_image_small;
 				height: $height_twitter_image_small - 1px; // Reduce with 1 px because of overlapping the border.
 				float: left;
+				border-radius: $border_radius_twitter 0 0 $border_radius_twitter;
+				max-width: 100%;
 
-				&, img {
-					border-radius: $border_radius_twitter 0 0 $border_radius_twitter;
-				}
+			}
 
-				img {
-					max-width: 100%;
-				}
+			&-large {
+				width: $width_twitter_image_large;
+				height: $height_twitter_image_large - 1px; // Reduce with 1 px because of overlapping the border.
 			}
 		}
 	}
@@ -284,6 +320,11 @@ $border_radius_twitter: .42857em;
 			position:       relative;
 			text-transform: uppercase;
 			color:          #9197a3;
+
+			&-bottom {
+				position: absolute;
+				bottom: 16px;
+			}
 		}
 
 		&--twitter {

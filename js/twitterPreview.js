@@ -6,7 +6,6 @@ var defaultsDeep = require( "lodash/object/defaultsDeep" );
 
 var Jed = require( "jed" );
 
-var imageRatio = require( "./helpers/imageRatio" );
 var renderDescription = require( "./helpers/renderDescription" );
 var imagePlaceholder  = require( "./element/imagePlaceholder" );
 var bemAddModifier = require( "./helpers/bem/addModifier" );
@@ -18,9 +17,7 @@ var TextArea = require( "./inputs/textarea" );
 var InputElement = require( "./element/input" );
 var PreviewEvents = require( "./preview/events" );
 
-var templates = require( "./templates" );
-
-var twitterEditorTemplate = templates.twitterPreview;
+var twitterEditorTemplate = require( "./templates" ).twitterPreview;
 
 var twitterDefaults = {
 	data: {
@@ -335,7 +332,7 @@ TwitterPreview.prototype.updatePreview = function() {
 	this.setDescription( this.element.fieldElements.description.getValue() );
 
 	// Sets the Image URL
-	this.setImageUrl( this.data.imageUrl );
+	this.setImage( this.data.imageUrl );
 
 	// Clone so the data isn't changeable.
 	this.opts.callbacks.updateSocialPreview( clone( this.data ) );
@@ -365,41 +362,93 @@ TwitterPreview.prototype.setDescription = function( description ) {
 };
 
 /**
+ * Gets the image container.
+ * @returns {string} The container that will hold the image.
+ */
+TwitterPreview.prototype.getImageContainer = function() {
+	return this.element.preview.imageUrl;
+};
+
+/**
  * Updates the image object with the new URL.
  *
  * @param {string} imageUrl The image path.
  */
-TwitterPreview.prototype.setImageUrl = function( imageUrl ) {
-	var imageContainer = this.element.preview.imageUrl;
-
+TwitterPreview.prototype.setImage = function( imageUrl ) {
 	imageUrl = this.opts.callbacks.modifyImageUrl( imageUrl );
 
 	if ( imageUrl === "" && this.data.imageUrl === "" ) {
+		this.removeImageFromContainer();
+		this.removeImageClasses();
 		this.setPlaceHolder();
 
 		return;
 	}
 
 	var img = new Image();
-	img.onload = function() {
-		imageContainer.innerHTML = "<img src='" + imageUrl + "' />";
 
+	img.onload = function() {
 		if ( this.isTooSmallImage( img ) ) {
+			this.removeImageFromContainer();
+			this.removeImageClasses();
 			this.setPlaceHolder();
 
 			return;
 		}
 
-		imageRatio( imageContainer.childNodes[0], this.getMaxImageWidth( img ) );
-
+		this.setSizingClass( img );
+		this.addImageToContainer( imageUrl );
 	}.bind( this );
 
-	img.onerror = this.setPlaceHolder.bind( this, true );
+	img.onerror = function() {
+		this.removeImageFromContainer();
+		this.removeImageClasses();
+		this.setPlaceHolder();
+	}.bind( this );
 
 	// Load image to trigger load or error event.
 	img.src = imageUrl;
 };
 
+/**
+ * Sets the image of the image container.
+ * @param {string} image The image to use.
+ */
+TwitterPreview.prototype.addImageToContainer = function( image ) {
+	var container = this.getImageContainer();
+
+	container.innerHTML = "";
+	container.style.backgroundImage = "url(" + image + ")";
+};
+
+/**
+ * Removes the image from the container.
+ */
+TwitterPreview.prototype.removeImageFromContainer = function() {
+	var container = this.getImageContainer();
+
+	container.style.backgroundImage = "";
+};
+
+/**
+ * Sets the proper CSS class for the current image.
+ * @param {Image} img The image to base the sizing class on.
+ *
+ * @returns {void}
+ */
+TwitterPreview.prototype.setSizingClass = function( img ) {
+	this.removeImageClasses();
+
+	if ( this.isSmallImage( img ) ) {
+		this.setSmallImageClasses();
+
+		return;
+	}
+
+	this.setLargeImageClasses();
+
+	return;
+};
 
 /**
  * Returns the max image width
@@ -409,12 +458,8 @@ TwitterPreview.prototype.setImageUrl = function( imageUrl ) {
  */
 TwitterPreview.prototype.getMaxImageWidth = function( img ) {
 	if ( this.isSmallImage( img ) ) {
-		this.setSmallImageClasses();
-
 		return WIDTH_TWITTER_IMAGE_SMALL;
 	}
-
-	this.removeSmallImageClasses();
 
 	return WIDTH_TWITTER_IMAGE_LARGE;
 };
@@ -478,6 +523,33 @@ TwitterPreview.prototype.removeSmallImageClasses = function() {
 	bemRemoveModifier( "twitter-small", "social-preview__inner", targetElement );
 	bemRemoveModifier( "twitter-small", "editable-preview__image--twitter", targetElement );
 	bemRemoveModifier( "twitter-small", "editable-preview__text-keeper--twitter", targetElement );
+};
+
+/**
+ * Sets the classes on the facebook preview so that it will display a large facebook image preview
+ */
+TwitterPreview.prototype.setLargeImageClasses = function() {
+	var targetElement = this.opts.targetElement;
+
+	bemAddModifier( "twitter-large", "social-preview__inner", targetElement );
+	bemAddModifier( "twitter-large", "editable-preview__image--twitter", targetElement );
+	bemAddModifier( "twitter-large", "editable-preview__text-keeper--twitter", targetElement );
+};
+
+TwitterPreview.prototype.removeLargeImageClasses = function() {
+	var targetElement = this.opts.targetElement;
+
+	bemRemoveModifier( "twitter-large", "social-preview__inner", targetElement );
+	bemRemoveModifier( "twitter-large", "editable-preview__image--twitter", targetElement );
+	bemRemoveModifier( "twitter-large", "editable-preview__text-keeper--twitter", targetElement );
+};
+
+/**
+ * Removes all image classes.
+ */
+TwitterPreview.prototype.removeImageClasses = function() {
+	this.removeSmallImageClasses();
+	this.removeLargeImageClasses();
 };
 
 /**

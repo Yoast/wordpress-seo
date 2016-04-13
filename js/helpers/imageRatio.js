@@ -2,8 +2,8 @@
  * Sets the images ratio.
  *
  * @param {Object} image The image object.
- * @param {int|undefined} maxWidth The max width in pixels.
- * @param {int|undefined} maxHeight The max height in pixels.
+ * @param {int} [maxWidth] The max width in pixels.
+ * @param {int} [maxHeight] The max height in pixels.
  */
 function imageRatio( image, maxWidth, maxHeight ) {
 	var width = image.width;
