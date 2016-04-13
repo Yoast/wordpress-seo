@@ -399,7 +399,7 @@ TwitterPreview.prototype.setImage = function( imageUrl ) {
 		this.removeImageFromContainer();
 		this.removeImageClasses();
 		this.setPlaceHolder();
-	}.bind(this)
+	}.bind( this );
 
 	// Load image to trigger load or error event.
 	img.src = imageUrl;
