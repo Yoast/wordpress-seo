@@ -8,7 +8,6 @@ var getTitlePlaceholder = require( '../../../../js/src/analysis/getTitlePlacehol
 var getDescriptionPlaceholder = require( '../../../../js/src/analysis/getDescriptionPlaceholder' );
 
 var forEach = require( 'lodash/forEach' );
-var isUndefined = require( 'lodash/isUndefined' );
 
 (function($) {
 	/**
@@ -218,6 +217,13 @@ var isUndefined = require( 'lodash/isUndefined' );
 						var buttonPrefix = targetElement.attr( 'id' ).replace( 'Preview', '' );
 						setUploadButtonValue( buttonPrefix, yoastSocialPreview.useOtherImage );
 					}
+				},
+				modifyImageUrl: function( imageUrl ) {
+					if (imageUrl === '') {
+						imageUrl = getFallbackImage( '' );
+					}
+
+					return imageUrl;
 				},
 				modifyTitle: function( title ) {
 					return YoastSEO.wp.replaceVarsPlugin.replaceVariablesPlugin( title );
