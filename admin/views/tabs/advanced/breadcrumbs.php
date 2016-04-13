@@ -9,8 +9,12 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-$yform = Yoast_Form::get_instance();
+$tab_video_url = $active_tab->get_video_url();
+if ( ! empty( $tab_video_url ) ) {
+	include WPSEO_PATH . 'admin/views/partial-settings-tab-video.php';
+}
 
+$yform = Yoast_Form::get_instance();
 $yform->currentoption = 'wpseo_internallinks';
 
 if ( ! current_theme_supports( 'yoast-seo-breadcrumbs' ) ) {
@@ -28,7 +32,7 @@ echo '<br/>';
 if ( get_option( 'show_on_front' ) == 'page' && get_option( 'page_for_posts' ) > 0 ) {
 	$yform->toggle_switch( 'breadcrumbs-blog-remove', array(
 		'off' => __( 'Show', 'wordpress-seo' ),
-		'on' => __( 'Hide', 'wordpress-seo' ),
+		'on'  => __( 'Hide', 'wordpress-seo' ),
 	), __( 'Show Blog page', 'wordpress-seo' ) );
 }
 $yform->toggle_switch( 'breadcrumbs-boldlast', array(
@@ -85,7 +89,7 @@ unset( $taxonomies, $post_types );
 <h3><?php _e( 'How to insert breadcrumbs in your theme', 'wordpress-seo' ); ?></h3>
 <p>
 	<?php
-		/* translators: %1$s / %2$s: links to the breadcrumbs implementation page on the Yoast knowledgebase */
-		printf( __( 'Usage of this breadcrumbs feature is explained in %1$sour knowledge-base article on breadcrumbs implementation%2$s.', 'wordpress-seo' ), '<a href="http://yoa.st/breadcrumbs" target="_blank">', '</a>' );
+	/* translators: %1$s / %2$s: links to the breadcrumbs implementation page on the Yoast knowledgebase */
+	printf( __( 'Usage of this breadcrumbs feature is explained in %1$sour knowledge-base article on breadcrumbs implementation%2$s.', 'wordpress-seo' ), '<a href="http://yoa.st/breadcrumbs" target="_blank">', '</a>' );
 	?>
 </p>

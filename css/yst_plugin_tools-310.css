@@ -491,3 +491,74 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 	font-size: 14px;
 	font-weight: bold;
 }
+
+.wpseo-tab-video-container {
+	overflow: hidden;
+	margin-bottom: 1em;
+	border-radius: 10px;
+	border-bottom-right-radius: 0;
+	background-color: #a4286a;
+}
+
+.wpseo-tab-video-slideout {
+	display: none;
+	overflow: hidden;
+	padding: 0.5em 0.5em 0.5em;
+	border-top: 1px solid white;
+}
+
+.wpseo-tab-video-container__handle {
+	width: 100%;
+	margin: 0;
+	padding: 0.5em;
+	border: none;
+	outline: none;
+	color: white;
+	background-color: #a4286a;
+	text-align: left;
+	cursor: pointer;
+}
+
+.wpseo-tab-video-container__handle .toggle__arrow {
+	text-decoration: none;
+}
+
+.wpseo-tab-video-container__handle:hover,
+.wpseo-tab-video-container__handle:focus {
+	text-decoration: underline;
+}
+
+.wpseo-tab-video-container__handle .dashicons-before:before {
+	margin-right: 5px;
+}
+
+.wpseo-tab-video-slideout .wpseo-tab-video__panel__textarea {
+	width: 100%;
+	min-width: 150px;
+	max-width: 300px;
+	min-height: 100px;
+	margin: 0.5em 0;
+	padding: 15px;
+	border: 1px solid;
+	border-color: white;
+	border-radius: 30px;
+	border-bottom-right-radius: 0;
+	color: white;
+}
+
+.wpseo-tab-video-slideout .wpseo-tab-video__panel__textarea h3 {
+	margin: 0;
+	color: white;
+}
+
+.wpseo-tab-video__panel__textarea a,
+.wpseo-tab-video__panel__textarea a:hover,
+.wpseo-tab-video__panel__textarea a:focus {
+	color: white;
+	font-weight: bold;
+}
+
+.wpseo-tab-video-slideout .wpseo-tab-video__panel {
+	float: left;
+	margin-right: 1em;
+}
