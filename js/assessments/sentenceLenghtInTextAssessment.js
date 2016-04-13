@@ -1,6 +1,5 @@
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 var forEach = require( "lodash/forEach" );
-var wordCount = require( "../stringProcessing/countWords.js" );
 
 /**
  * Counts number of too long sentences.
@@ -11,7 +10,7 @@ var countTooLongSentences = function ( sentences ) {
 	var tooLong = 0;
 	var recommendedValue = 20;
 	forEach( sentences, function( sentence ) {
-		if ( wordCount( sentence ) > recommendedValue ) {
+		if ( sentence  > recommendedValue ) {
 			tooLong++;
 		}
 	} );
@@ -25,9 +24,7 @@ var countTooLongSentences = function ( sentences ) {
  * @returns {object} Object containing score and text.
  */
 var calculateSentenceLengthResult = function( sentences, i18n ) {
-
-	// Since .split adds an empty item to the array, the length is -1
-	var totalSentences = sentences.length -1;
+	var totalSentences = sentences.length;
 	var tooLong = countTooLongSentences( sentences );
 	var maximumPercentage = 25;
 	var percentage = ( tooLong / totalSentences ) * 100;

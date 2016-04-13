@@ -1,4 +1,5 @@
 var getSentences = require( "../stringProcessing/getSentences" );
+var sentencesLength = require( "./sentencesLength.js" );
 
 /**
  * Get sentences from the text.
@@ -6,5 +7,6 @@ var getSentences = require( "../stringProcessing/getSentences" );
  * @returns {Array} The sentences from the text.
  */
 module.exports = function( paper ) {
-	return getSentences( paper.getText() );
+	var sentences = getSentences( paper.getText() );
+	return sentencesLength( sentences );
 };

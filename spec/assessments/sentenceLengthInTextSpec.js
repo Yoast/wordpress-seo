@@ -3,13 +3,12 @@ var Paper = require( "../../js/values/Paper.js" );
 var Factory = require( "../helpers/factory.js" );
 var i18n = Factory.buildJed();
 
-var longString = "hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello hello";
-var shortString = "hello";
+
 
 describe( "An assessment for sentence length", function(){
 	it( "returns the score for all short sentences", function(){
 		var mockPaper = new Paper();
-		var assessment = sentenceLengthInTextAssessment.getResult( mockPaper, Factory.buildMockResearcher( [ shortString, shortString, shortString, "" ] ), i18n );
+		var assessment = sentenceLengthInTextAssessment.getResult( mockPaper, Factory.buildMockResearcher( [ 1,1,1,1 ] ), i18n );
 
 		expect( assessment.hasScore()).toBe( true );
 		expect( assessment.getScore() ).toEqual( 9 );
@@ -17,7 +16,7 @@ describe( "An assessment for sentence length", function(){
 	} );
 	it( "returns the score for 50% long sentences", function(){
 		mockPaper = new Paper();
-		assessment = sentenceLengthInTextAssessment.getResult( mockPaper, Factory.buildMockResearcher( [ longString, shortString, ""] ), i18n );
+		assessment = sentenceLengthInTextAssessment.getResult( mockPaper, Factory.buildMockResearcher( [ 30, 1 ] ), i18n );
 
 		expect( assessment.hasScore()).toBe( true );
 		expect( assessment.getScore() ).toEqual( 3 );
@@ -26,7 +25,7 @@ describe( "An assessment for sentence length", function(){
 	} );
 	it( "returns the score for 100% long sentences", function(){
 		mockPaper = new Paper();
-		assessment = sentenceLengthInTextAssessment.getResult( mockPaper, Factory.buildMockResearcher( [ longString, ""] ), i18n );
+		assessment = sentenceLengthInTextAssessment.getResult( mockPaper, Factory.buildMockResearcher( [ 30 ] ), i18n );
 
 		expect( assessment.hasScore()).toBe( true );
 		expect( assessment.getScore() ).toEqual( 3 );
@@ -35,7 +34,7 @@ describe( "An assessment for sentence length", function(){
 	} );
 	it( "returns the score for 25% long sentences", function(){
 		mockPaper = new Paper();
-		assessment = sentenceLengthInTextAssessment.getResult( mockPaper, Factory.buildMockResearcher( [ longString, shortString, shortString, shortString, ""] ), i18n );
+		assessment = sentenceLengthInTextAssessment.getResult( mockPaper, Factory.buildMockResearcher( [ 30, 1, 1, 1] ), i18n );
 
 		expect( assessment.hasScore()).toBe( true );
 		expect( assessment.getScore() ).toEqual( 7.02 );
@@ -44,7 +43,7 @@ describe( "An assessment for sentence length", function(){
 	} );
 	it( "returns the score for 30% long sentences", function(){
 		mockPaper = new Paper();
-		assessment = sentenceLengthInTextAssessment.getResult( mockPaper, Factory.buildMockResearcher( [ longString, longString, longString, shortString, shortString, shortString, shortString, shortString, shortString, shortString, ""] ), i18n );
+		assessment = sentenceLengthInTextAssessment.getResult( mockPaper, Factory.buildMockResearcher( [ 30, 30, 30, 1, 1, 1, 1, 1, 1, 1 ] ), i18n );
 
 		expect( assessment.hasScore()).toBe( true );
 		expect( assessment.getScore() ).toEqual( 4.02 );
