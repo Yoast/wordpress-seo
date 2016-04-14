@@ -74,12 +74,12 @@ class WPSEO_Social_Previews {
 					'twitterImage'        => $social['twitter-image']['description'],
 				),
 				'helpButton' => array(
-					'facebookTitle'       => __( 'Facebook title help', 'wordpress-seo-premium' ),
-					'facebookDescription' => __( 'Facebook description help', 'wordpress-seo-premium' ),
-					'facebookImage'       => __( 'Facebook image help', 'wordpress-seo-premium' ),
-					'twitterTitle'        => __( 'Twitter title help', 'wordpress-seo-premium' ),
-					'twitterDescription'  => __( 'Twitter description help', 'wordpress-seo-premium' ),
-					'twitterImage'        => __( 'Twitter image help', 'wordpress-seo-premium' ),
+					'facebookTitle'       => __( 'Show information about Facebook title', 'wordpress-seo-premium' ),
+					'facebookDescription' => __( 'Show information about Facebook description', 'wordpress-seo-premium' ),
+					'facebookImage'       => __( 'Show information about Facebook image', 'wordpress-seo-premium' ),
+					'twitterTitle'        => __( 'Show information about Twitter title', 'wordpress-seo-premium' ),
+					'twitterDescription'  => __( 'Show information about Twitter description', 'wordpress-seo-premium' ),
+					'twitterImage'        => __( 'Show information about Twitter image', 'wordpress-seo-premium' ),
 				),
 			),
 		);
