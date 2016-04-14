@@ -13,6 +13,7 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 */
 	public function __construct() {
 
+		// TODO Remove after plugin requirements raised to WP 4.4. R.
 		add_filter( 'wpseo_sitemap_exclude_author', array( $this, 'user_sitemap_remove_excluded_authors' ), 8 );
 	}
 
@@ -108,6 +109,17 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			$arguments['has_published_posts'] = true;
 		}
 
+		// TODO Remove version condition after plugin requirements raised to WP 4.3. R.
+		if ( version_compare( $wp_version, '4.4', '>=' ) ) {
+
+			$excluded_roles = $this->get_excluded_roles();
+
+			if ( ! empty( $excluded_roles ) ) {
+				$arguments['who']          = ''; // Otherwise it cancels out next argument.
+				$arguments['role__not_in'] = $excluded_roles;
+			}
+		}
+
 		return array_merge( $arguments, $add );
 	}
 
@@ -133,6 +145,32 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		$user = array_pop( $users );
 
 		return $user->_yoast_wpseo_profile_updated;
+	}
+
+	/**
+	 * Retrieve array of roles, excluded in settings.
+	 *
+	 * @return array
+	 */
+	protected function get_excluded_roles() {
+
+		static $excluded_roles;
+
+		if ( isset( $excluded_roles ) ) {
+			return $excluded_roles;
+		}
+
+		$options = WPSEO_Options::get_all();
+		$roles   = WPSEO_Utils::get_roles();
+
+		foreach ( $roles as $role_slug => $role_name ) {
+
+			if ( ! empty( $options[ "user_role-{$role_slug}-not_in_sitemap" ] ) ) {
+				$excluded_roles[] = $role_name;
+			}
+		}
+
+		return $excluded_roles;
 	}
 
 	/**
@@ -248,6 +286,8 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 *
 	 * Also filtering users that should be exclude by excluded role.
 	 *
+	 * @deprecated The checks are problematic legacy code and don't run on WP core above 4.4.
+	 *
 	 * @param array $users Set of users to filter.
 	 *
 	 * @return array all the user that aren't excluded from the sitemap
@@ -262,14 +302,16 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 		$options = get_option( 'wpseo_xml' );
 
-		// TODO there are still bugs in this logic, issues on tracker. R.
 		foreach ( $users as $user_key => $user ) {
+
 			$exclude_user = false;
 
 			/**
 			 * Cheapest condition first; we have all information already.
+			 *
+			 * @TODO Remove after plugin requirements raised to WP 4.4. R.
 			 */
-			if ( ! $exclude_user ) {
+			if ( ! $exclude_user && version_compare( $wp_version, '4.4', '<' ) ) {
 				$user_role    = $user->roles[0];
 				$target_key   = "user_role-{$user_role}-not_in_sitemap";
 				$exclude_user = isset( $options[ $target_key ] ) && true === $options[ $target_key ];
