@@ -11,42 +11,50 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 
 $active_tab = filter_input( INPUT_GET, 'tab' );
 
-$tabs = array(
-	'breadcrumbs' => array(
-		'label'     => __( 'Breadcrumbs', 'wordpress-seo' ),
-		'opt_group' => 'wpseo_internallinks',
-	),
-	'permalinks'  => array(
-		'label'     => __( 'Permalinks', 'wordpress-seo' ),
-		'opt_group' => 'wpseo_permalinks',
-	),
-	'rss'         => array(
-		'label'     => __( 'RSS', 'wordpress-seo' ),
-		'opt_group' => 'wpseo_rss',
-	),
+$tabs = new WPSEO_Option_Tabs( 'advanced', 'breadcrumbs' );
+$tabs->add_tab(
+	new WPSEO_Option_Tab(
+		'breadcrumbs',
+		__( 'Breadcrumbs', 'wordpress-seo' ),
+		array(
+			'video_url' => 'https://yoa.st/screencast-breadcrumbs',
+			'opt_group' => 'wpseo_internallinks',
+		)
+	)
+);
+$tabs->add_tab(
+	new WPSEO_Option_Tab(
+		'permalinks',
+		__( 'Permalinks', 'wordpress-seo' ),
+		array(
+			'video_url' => 'https://yoa.st/screencast-permalinks',
+			'opt_group' => 'wpseo_internallinks',
+		)
+	)
+);
+$tabs->add_tab(
+	new WPSEO_Option_Tab(
+		'rss',
+		__( 'RSS', 'wordpress-seo' ),
+		array(
+			'video_url' => 'https://yoa.st/screencast-rss',
+			'opt_group' => 'wpseo_internallinks',
+		)
+	)
 );
 
-if ( '' === $active_tab || ! in_array( $active_tab, array_keys( $tabs ) ) ) {
-	$active_tab = 'breadcrumbs';
+$active_tab = $tabs->get_active_tab();
+Yoast_Form::get_instance()->admin_header( true, $active_tab->get_opt_group() );
+
+echo '<h2 class="nav-tab-wrapper">';
+foreach ( $tabs->get_tabs() as $tab ) {
+	$active = ( $tabs->is_active_tab( $tab ) ) ? ' nav-tab-active' : '';
+	echo '<a class="nav-tab' . $active . '" id="' . $tab->get_name() . '-tab" href="' . admin_url( 'admin.php?page=wpseo_advanced&tab=' . $tab->get_name() ) . '">' . $tab->get_label() . '</a>';
 }
+echo '</h2>';
 
-Yoast_Form::get_instance()->admin_header( true, $tabs[ $active_tab ]['opt_group'] );
+echo '<br/>';
 
-?>
-	<h2 class="nav-tab-wrapper">
-		<?php
-		foreach ( $tabs as $tab_key => $tab_opt ) {
-			$active = '';
-			if ( $active_tab == $tab_key ) {
-				$active = ' nav-tab-active';
-			}
-			echo '<a class="nav-tab' . $active . '" id="' . $tab_key . '-tab" href="' . admin_url( 'admin.php?page=wpseo_advanced&tab=' . $tab_key ) . '">' . $tab_opt['label'] . '</a>';
-		}
-		?>
-	</h2>
-	<br/>
-<?php
-
-require_once WPSEO_PATH . 'admin/views/tab-' . $active_tab . '.php';
+require_once WPSEO_PATH . 'admin/views/tabs/advanced/' . $active_tab->get_name() . '.php';
 
 Yoast_Form::get_instance()->admin_footer();

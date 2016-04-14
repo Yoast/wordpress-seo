@@ -128,3 +128,55 @@
 	window.wpseoMakeDismissible = wpseoMakeDismissible;
 	window.wpseoDismissLink = wpseoDismissLink;
 }());
+
+(function() {
+	'use strict';
+
+	var $ = jQuery;
+
+	$( '.nav-tab' ).click( function() {
+		closeVideoSlideout( 0 );
+	} );
+
+	$( '.wpseo-tab-video-container' ).on( 'click', '.wpseo-tab-video-container__handle', function( e ) {
+		var $container = $( e.delegateTarget );
+		var $slideout = $container.find( '.wpseo-tab-video-slideout' );
+		if ( $slideout.is( ':hidden' ) ) {
+			openVideoSlideout( $container, 400 );
+		}
+		else {
+			closeVideoSlideout( 400 );
+		}
+	} );
+
+	/**
+	 * Open Video Slideout
+	 *
+	 * @param {object} $container Tab to open video slider of.
+	 * @param {int} duration Duration of the slider.
+	 */
+	function openVideoSlideout( $container, duration ) {
+		var $data = $container.find( '.wpseo-tab-video__data' );
+		var videoUrl = $data.data( 'url' );
+		$data.append( '<iframe width="560" height="315" src="' + videoUrl + '" frameborder="0" allowfullscreen></iframe>' );
+
+		$container.find( '.toggle__arrow' ).removeClass( 'dashicons-arrow-down' ).addClass( 'dashicons-arrow-up' );
+		$container.find( '.wpseo-tab-video-container__handle' ).attr( 'aria-expanded', 'true' );
+		$container.find( '.wpseo-tab-video-slideout' ).slideDown( duration );
+	}
+
+	/**
+	 * Close Video Slideout
+	 *
+	 * @param {int} duration Duration of the slider.
+	 */
+	function closeVideoSlideout( duration ) {
+		var $container = $( '#wpbody-content' ).find( '.wpseo-tab-video-container' );
+		$container.find( '.wpseo-tab-video-slideout' ).slideUp( duration, function() {
+			$( '#wpbody-content' ).find( '.wpseo-tab-video__data' ).children().remove();
+		} );
+
+		$container.find( '.toggle__arrow' ).removeClass( 'dashicons-arrow-up' ).addClass( 'dashicons-arrow-down' );
+		$container.find( '.wpseo-tab-video-container__handle' ).attr( 'aria-expanded', 'false' );
+	}
+})();
