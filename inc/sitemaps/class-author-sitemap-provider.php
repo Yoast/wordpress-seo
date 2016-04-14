@@ -79,6 +79,10 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 */
 	protected function get_query_arguments( $add = array() ) {
 
+		global $wp_version;
+
+		$options = WPSEO_Options::get_all();
+
 		$arguments = array(
 			'who'        => 'authors',
 			'meta_key'   => '_yoast_wpseo_profile_updated',
@@ -97,6 +101,12 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 				),
 			),
 		);
+
+		// TODO Remove version condition after plugin requirements raised to WP 4.3. R.
+		if ( $options['disable_author_noposts'] === true && version_compare( $wp_version, '4.3', '>=' ) ) {
+			$arguments['who']                 = ''; // Otherwise it cancels out next argument.
+			$arguments['has_published_posts'] = true;
+		}
 
 		return array_merge( $arguments, $add );
 	}
@@ -248,6 +258,8 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			return $users;
 		}
 
+		global $wp_version;
+
 		$options = get_option( 'wpseo_xml' );
 
 		// TODO there are still bugs in this logic, issues on tracker. R.
@@ -266,8 +278,10 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 			/**
 			 * If the author has been excluded by general settings because there are no posts.
+			 *
+			 * @TODO Remove after plugin requirements raised to WP 4.3. R.
 			 */
-			if ( ! $exclude_user && $options['disable_author_noposts'] === true ) {
+			if ( ! $exclude_user && $options['disable_author_noposts'] === true && version_compare( $wp_version, '4.3', '<' ) ) {
 				$count_posts  = (int) count_user_posts( $user->ID );
 				$exclude_user = ( $count_posts === 0 );
 				unset( $count_posts );
