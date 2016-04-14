@@ -20,7 +20,7 @@ var PreviewEvents = require( "./preview/events" );
 
 var templates = require( "./templates.js" );
 var facebookEditorTemplate = templates.facebookPreview;
-var facebookAuthorTemplate = templates.facebookAuthor;;
+var facebookAuthorTemplate = templates.facebookAuthor;
 
 var facebookDefaults = {
 	data: {
@@ -641,11 +641,11 @@ FacebookPreview.prototype.bindEvents = function() {
  */
 FacebookPreview.prototype.setAuthor = function( authorName ) {
 	var authorHtml = "";
-	if (authorName !== "") {
+	if ( authorName !== "" ) {
 		authorHtml = facebookAuthorTemplate(
 			{
 				authorName: authorName,
-				authorBy  : this.i18n.dgettext( "yoast-social-previews", "By" )
+				authorBy: this.i18n.dgettext( "yoast-social-previews", "By" )
 			}
 		);
 	}
