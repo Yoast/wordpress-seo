@@ -2,6 +2,7 @@
 
 var stripSomeTags = require( "../stringProcessing/stripNonTextTags.js" );
 var subheadingMatch = require( "../stringProcessing/subheadingsMatch.js" );
+var getSubheadings = require( "../stringProcessing/getSubheadings.js" );
 
 /**
  * Checks if there are any subheadings like h2 in the text
@@ -18,7 +19,7 @@ module.exports = function( paper ) {
 	var matches;
 	var result = { count: 0 };
 	text = stripSomeTags( text );
-	matches = text.match( /<h([1-6])(?:[^>]+)?>(.*?)<\/h\1>/ig );
+	matches = getSubheadings( text );
 
 	if ( matches !== null ) {
 		result.count = matches.length;
