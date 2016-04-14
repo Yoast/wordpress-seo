@@ -124,14 +124,17 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			return $links;
 		}
 
-		$steps  = $max_entries;
-		$offset = ( $current_page > 1 ) ? ( ( $current_page - 1 ) * $max_entries ) : 0;
+		$offset = 0;
+
+		if ( $current_page > 1 ) {
+			$offset = ( ( $current_page - 1 ) * $max_entries );
+		}
 
 		// Query for users with this meta.
 		$users = get_users( array(
 			'who'      => 'authors',
 			'offset'   => $offset,
-			'number'   => $steps,
+			'number'   => $max_entries,
 			'meta_key' => '_yoast_wpseo_profile_updated',
 			'orderby'  => 'meta_value_num',
 			'order'    => 'ASC',
@@ -146,6 +149,8 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		// Ascending sort.
 		usort( $users, array( $this, 'user_map_sorter' ) );
 
+		$time = time();
+
 		foreach ( $users as $user ) {
 
 			$author_link = get_author_posts_url( $user->ID );
@@ -154,11 +159,17 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 				continue;
 			}
 
+			$mod = $time;
+
+			if ( isset( $user->_yoast_wpseo_profile_updated ) ) {
+				$mod = $user->_yoast_wpseo_profile_updated;
+			}
+
 			$url = array(
 				'loc' => $author_link,
 				'pri' => 0.8,
 				'chf' => WPSEO_Sitemaps::filter_frequency( 'author_archive', 'daily', $author_link ),
-				'mod' => date( 'c', isset( $user->_yoast_wpseo_profile_updated ) ? $user->_yoast_wpseo_profile_updated : time() ),
+				'mod' => date( DATE_W3C, $mod ),
 			);
 
 			/** This filter is documented at inc/sitemaps/class-post-type-sitemap-provider.php */
@@ -168,7 +179,6 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 				$links[] = $url;
 			}
 		}
-		unset( $user, $author_link, $url );
 
 		return $links;
 	}
