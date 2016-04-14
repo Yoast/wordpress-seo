@@ -4757,7 +4757,7 @@ var placeholderTemplate = require( "../templates" ).imagePlaceholder;
  *
  * @param {Object} imageContainer The location to put the placeholder in.
  * @param {string} placeholder The value for the placeholder.
- * @param {bool} isError When the placeholder should an error.
+ * @param {boolean} isError When the placeholder should an error.
  * @param {string} modifier A css class modifier to change the styling.
  */
 function setImagePlaceholder( imageContainer, placeholder, isError, modifier ) {
@@ -4901,7 +4901,7 @@ var defaultsDeep = require( "lodash/object/defaultsDeep" );
 
 var Jed = require( "jed" );
 
-var imageRatio = require( "./helpers/imageRatio" );
+var imageDisplayMode = require( "./helpers/imageDisplayMode" );
 var renderDescription = require( "./helpers/renderDescription" );
 var imagePlaceholder  = require( "./element/imagePlaceholder" );
 var bemAddModifier = require( "./helpers/bem/addModifier" );
@@ -4910,7 +4910,7 @@ var bemRemoveModifier = require( "./helpers/bem/removeModifier" );
 var TextField = require( "./inputs/textInput" );
 var TextArea = require( "./inputs/textarea" );
 
-var FieldElement = require( "./element/input" );
+var InputElement = require( "./element/input" );
 var PreviewEvents = require( "./preview/events" );
 
 var facebookEditorTemplate = require( "./templates.js" ).facebookPreview;
@@ -4939,6 +4939,9 @@ var facebookDefaults = {
 		},
 		modifyDescription: function( description ) {
 			return description;
+		},
+		modifyImageUrl: function( imageUrl ) {
+			return imageUrl;
 		}
 	}
 };
@@ -4960,8 +4963,10 @@ var inputFacebookPreviewBindings = [
 
 var WIDTH_FACEBOOK_IMAGE_SMALL = 158;
 var WIDTH_FACEBOOK_IMAGE_LARGE = 470;
+
 var FACEBOOK_IMAGE_TOO_SMALL_WIDTH = 200;
 var FACEBOOK_IMAGE_TOO_SMALL_HEIGHT = 200;
+
 var FACEBOOK_IMAGE_THRESHOLD_WIDTH = 600;
 var FACEBOOK_IMAGE_THRESHOLD_HEIGHT = 315;
 
@@ -5177,7 +5182,7 @@ FacebookPreview.prototype.getFieldElements = function() {
 	var targetElement = this.opts.targetElement;
 
 	return {
-		title: new FieldElement(
+		title: new InputElement(
 			targetElement.getElementsByClassName( "js-snippet-editor-title" )[0],
 			{
 				currentValue: this.data.title,
@@ -5187,7 +5192,7 @@ FacebookPreview.prototype.getFieldElements = function() {
 			},
 			this.updatePreview.bind( this )
 		),
-		description: new FieldElement(
+		description: new InputElement(
 			targetElement.getElementsByClassName( "js-snippet-editor-description" )[0],
 			{
 				currentValue: this.data.description,
@@ -5197,7 +5202,7 @@ FacebookPreview.prototype.getFieldElements = function() {
 			},
 			this.updatePreview.bind( this )
 		),
-		imageUrl: new FieldElement(
+		imageUrl: new InputElement(
 			targetElement.getElementsByClassName( "js-snippet-editor-imageUrl" )[0],
 			{
 				currentValue: this.data.imageUrl,
@@ -5226,8 +5231,8 @@ FacebookPreview.prototype.updatePreview = function() {
 	// Set the description field and parse the styling of it.
 	this.setDescription( this.element.fieldElements.description.getValue() );
 
-	// Sets the Image URL
-	this.setImageUrl( this.data.imageUrl );
+	// Sets the Image
+	this.setImage( this.data.imageUrl );
 
 	// Clone so the data isn't changeable.
 	this.opts.callbacks.updateSocialPreview( clone( this.data ) );
@@ -5245,7 +5250,7 @@ FacebookPreview.prototype.setTitle = function( title ) {
 };
 
 /**
- * Set the preview description.
+ * Sets the preview description.
  *
  * @param {string} description The description to set
  */
@@ -5257,55 +5262,139 @@ FacebookPreview.prototype.setDescription = function( description ) {
 };
 
 /**
+ * Gets the image container.
+ * @returns {string} The container that will hold the image.
+ */
+FacebookPreview.prototype.getImageContainer = function() {
+	return this.element.preview.imageUrl;
+};
+
+/**
  * Updates the image object with the new URL.
  *
  * @param {string} imageUrl The image path.
+ * @returns {void}
  */
-FacebookPreview.prototype.setImageUrl = function( imageUrl ) {
-	var imageContainer = this.element.preview.imageUrl;
+FacebookPreview.prototype.setImage = function ( imageUrl ) {
+	imageUrl = this.opts.callbacks.modifyImageUrl( imageUrl );
+
 	if ( imageUrl === "" && this.data.imageUrl === "" ) {
-		this.removeSmallImageClasses();
-
-		imagePlaceholder( imageContainer,
-			this.i18n.dgettext( "yoast-social-previews", "Please enter an image url by clicking here" ),
-			false,
-			"facebook"
-		);
-
-		return;
+		this.removeImageFromContainer();
+		return this.noUrlSet();
 	}
 
-	var img   = new Image();
+	var img = new Image();
+
 	img.onload = function() {
 		if ( this.isTooSmallImage( img ) ) {
-			this.removeSmallImageClasses();
-			imagePlaceholder( imageContainer,
-				this.i18n.dgettext( "yoast-social-previews", "The image you selected is too small for Facebook" ),
-				true,
-				"facebook"
-			);
-
-			return;
+			this.removeImageFromContainer();
+			return this.imageTooSmall();
 		}
 
-		imageContainer.innerHTML = "<img src='" + imageUrl + "' />";
-
-		imageRatio( imageContainer.childNodes[0], this.getMaxImageWidth( img ) );
+		this.setSizingClass( img );
+		this.addImageToContainer( imageUrl );
 	}.bind( this );
 
 	img.onerror = function() {
-		this.removeSmallImageClasses();
-
-		imagePlaceholder(
-			imageContainer,
-			this.i18n.dgettext( "yoast-social-previews", "The given image url cannot be loaded" ),
-			true,
-			"facebook"
-		);
+		this.removeImageFromContainer();
+		return this.imageError();
 	}.bind( this );
 
 	// Load image to trigger load or error event.
 	img.src = imageUrl;
+};
+
+/**
+ * Displays the No URL Set warning.
+ * @returns {void}
+ */
+FacebookPreview.prototype.noUrlSet = function() {
+	this.removeImageClasses();
+
+	imagePlaceholder(
+		this.getImageContainer(),
+		this.i18n.dgettext( "yoast-social-previews", "Please enter an image url by clicking here" ),
+		false,
+		"facebook"
+	);
+
+	return;
+};
+
+/**
+ * Displays the Image Too Small error.
+ * @returns {void}
+ */
+FacebookPreview.prototype.imageTooSmall = function() {
+	this.removeImageClasses();
+	imagePlaceholder(
+		this.getImageContainer(),
+		this.i18n.dgettext( "yoast-social-previews", "The image you selected is too small for Facebook" ),
+		true,
+		"facebook"
+	);
+
+	return;
+};
+
+/**
+ * Displays the Url Cannot Be Loaded error.
+ * @returns {void}
+ */
+FacebookPreview.prototype.imageError = function() {
+	this.removeImageClasses();
+
+	imagePlaceholder(
+		this.getImageContainer(),
+		this.i18n.dgettext( "yoast-social-previews", "The given image url cannot be loaded" ),
+		true,
+		"facebook"
+	);
+};
+
+/**
+ * Sets the image of the image container.
+ * @param {string} image The image to use.
+ */
+FacebookPreview.prototype.addImageToContainer = function( image ) {
+	var container = this.getImageContainer();
+
+	container.innerHTML = "";
+	container.style.backgroundImage = "url(" + image + ")";
+};
+
+/**
+ * Removes the image from the container.
+ */
+FacebookPreview.prototype.removeImageFromContainer = function() {
+	var container = this.getImageContainer();
+
+	container.style.backgroundImage = "";
+};
+
+/**
+ * Sets the proper CSS class for the current image.
+ * @param {Image} img The image to base the sizing class on.
+ * @returns {void}
+ */
+FacebookPreview.prototype.setSizingClass = function ( img ) {
+	this.removeImageClasses();
+
+	if ( imageDisplayMode( img ) === "portrait" ) {
+		this.setPortraitImageClasses();
+
+		return;
+	}
+
+	if ( this.isSmallImage( img ) ) {
+		this.setSmallImageClasses();
+
+		return;
+	}
+
+	this.setLargeImageClasses();
+
+	return;
 };
 
 /**
@@ -5316,12 +5405,8 @@ FacebookPreview.prototype.setImageUrl = function( imageUrl ) {
  */
 FacebookPreview.prototype.getMaxImageWidth = function( img ) {
 	if ( this.isSmallImage( img ) ) {
-		this.setSmallImageClasses();
-
 		return WIDTH_FACEBOOK_IMAGE_SMALL;
 	}
-
-	this.removeSmallImageClasses();
 
 	return WIDTH_FACEBOOK_IMAGE_LARGE;
 };
@@ -5365,12 +5450,70 @@ FacebookPreview.prototype.setSmallImageClasses = function() {
 	bemAddModifier( "facebook-small", "editable-preview__text-keeper--facebook", targetElement );
 };
 
+/**
+ * Removes the small image classes.
+ */
 FacebookPreview.prototype.removeSmallImageClasses = function() {
 	var targetElement = this.opts.targetElement;
 
 	bemRemoveModifier( "facebook-small", "social-preview__inner", targetElement );
 	bemRemoveModifier( "facebook-small", "editable-preview__image--facebook", targetElement );
 	bemRemoveModifier( "facebook-small", "editable-preview__text-keeper--facebook", targetElement );
+};
+
+/**
+ * Sets the classes on the facebook preview so that it will display a large facebook image preview
+ */
+FacebookPreview.prototype.setLargeImageClasses = function() {
+	var targetElement = this.opts.targetElement;
+
+	bemAddModifier( "facebook-large", "social-preview__inner", targetElement );
+	bemAddModifier( "facebook-large", "editable-preview__image--facebook", targetElement );
+	bemAddModifier( "facebook-large", "editable-preview__text-keeper--facebook", targetElement );
+};
+
+/**
+ * Removes the large image classes.
+ */
+FacebookPreview.prototype.removeLargeImageClasses = function() {
+	var targetElement = this.opts.targetElement;
+
+	bemRemoveModifier( "facebook-large", "social-preview__inner", targetElement );
+	bemRemoveModifier( "facebook-large", "editable-preview__image--facebook", targetElement );
+	bemRemoveModifier( "facebook-large", "editable-preview__text-keeper--facebook", targetElement );
+};
+
+/**
+ * Sets the classes on the facebook preview so that it will display a portrait facebook image preview
+ */
+FacebookPreview.prototype.setPortraitImageClasses = function() {
+	var targetElement = this.opts.targetElement;
+
+	bemAddModifier( "facebook-portrait", "social-preview__inner", targetElement );
+	bemAddModifier( "facebook-portrait", "editable-preview__image--facebook", targetElement );
+	bemAddModifier( "facebook-portrait", "editable-preview__text-keeper--facebook", targetElement );
+	bemAddModifier( "facebook-bottom", "editable-preview__website--facebook", targetElement );
+};
+
+/**
+ * Removes the portrait image classes.
+ */
+FacebookPreview.prototype.removePortraitImageClasses = function() {
+	var targetElement = this.opts.targetElement;
+
+	bemRemoveModifier( "facebook-portrait", "social-preview__inner", targetElement );
+	bemRemoveModifier( "facebook-portrait", "editable-preview__image--facebook", targetElement );
+	bemRemoveModifier( "facebook-portrait", "editable-preview__text-keeper--facebook", targetElement );
+	bemRemoveModifier( "facebook-bottom", "editable-preview__website--facebook", targetElement );
+};
+
+/**
+ * Removes all image classes.
+ */
+FacebookPreview.prototype.removeImageClasses = function() {
+	this.removeSmallImageClasses();
+	this.removeLargeImageClasses();
+	this.removePortraitImageClasses();
 };
 
 /**
@@ -5385,7 +5528,7 @@ FacebookPreview.prototype.bindEvents = function() {
 
 module.exports = FacebookPreview;
 
-},{"./element/imagePlaceholder":106,"./element/input":107,"./helpers/bem/addModifier":110,"./helpers/bem/removeModifier":112,"./helpers/imageRatio":113,"./helpers/renderDescription":116,"./inputs/textInput":118,"./inputs/textarea":119,"./preview/events":120,"./templates.js":121,"jed":6,"lodash/lang/clone":161,"lodash/lang/isElement":164,"lodash/object/defaultsDeep":175}],109:[function(require,module,exports){
+},{"./element/imagePlaceholder":106,"./element/input":107,"./helpers/bem/addModifier":110,"./helpers/bem/removeModifier":112,"./helpers/imageDisplayMode":113,"./helpers/renderDescription":116,"./inputs/textInput":118,"./inputs/textarea":119,"./preview/events":120,"./templates.js":121,"jed":6,"lodash/lang/clone":161,"lodash/lang/isElement":164,"lodash/object/defaultsDeep":175}],109:[function(require,module,exports){
 /**
  * Adds a class to an element
  *
@@ -5461,28 +5604,20 @@ module.exports = removeModifier;
 
 },{"./../removeClass":115,"./addModifierToClass":111}],113:[function(require,module,exports){
 /**
- * Sets the images ratio.
+ * Retrieves the image display mode
  *
  * @param {Object} image The image object.
- * @param {int|undefined} maxWidth The max width in pixels.
- * @param {int|undefined} maxHeight The max height in pixels.
+ * @returns {string} The display mode of the image.
  */
-function imageRatio( image, maxWidth, maxHeight ) {
-	var width = image.width;
-	var height = image.height;
-
-	if ( typeof maxWidth !== "undefined" && width >= maxWidth ) {
-		image.width = maxWidth;
-		image.height = height * ( maxWidth / width );
+function imageDisplayMode( image ) {
+	if ( image.height > image.width ) {
+		return "portrait";
 	}
 
-	if ( typeof maxHeight !== "undefined" && height >= maxHeight ) {
-		image.height = maxHeight;
-		image.width = width * ( maxHeight / height );
-	}
+	return "landscape";
 }
 
-module.exports = imageRatio;
+module.exports = imageDisplayMode;
 
 },{}],114:[function(require,module,exports){
 /**
@@ -6156,7 +6291,6 @@ var defaultsDeep = require( "lodash/object/defaultsDeep" );
 
 var Jed = require( "jed" );
 
-var imageRatio = require( "./helpers/imageRatio" );
 var renderDescription = require( "./helpers/renderDescription" );
 var imagePlaceholder  = require( "./element/imagePlaceholder" );
 var bemAddModifier = require( "./helpers/bem/addModifier" );
@@ -6168,9 +6302,7 @@ var TextArea = require( "./inputs/textarea" );
 var InputElement = require( "./element/input" );
 var PreviewEvents = require( "./preview/events" );
 
-var templates = require( "./templates" );
-
-var twitterEditorTemplate = templates.twitterPreview;
+var twitterEditorTemplate = require( "./templates" ).twitterPreview;
 
 var twitterDefaults = {
 	data: {
@@ -6196,6 +6328,9 @@ var twitterDefaults = {
 		},
 		modifyDescription: function( description ) {
 			return description;
+		},
+		modifyImageUrl: function( imageUrl ) {
+			return imageUrl;
 		}
 	}
 };
@@ -6482,7 +6617,7 @@ TwitterPreview.prototype.updatePreview = function() {
 	this.setDescription( this.element.fieldElements.description.getValue() );
 
 	// Sets the Image URL
-	this.setImageUrl( this.data.imageUrl );
+	this.setImage( this.data.imageUrl );
 
 	// Clone so the data isn't changeable.
 	this.opts.callbacks.updateSocialPreview( clone( this.data ) );
@@ -6512,38 +6647,93 @@ TwitterPreview.prototype.setDescription = function( description ) {
 };
 
 /**
+ * Gets the image container.
+ * @returns {string} The container that will hold the image.
+ */
+TwitterPreview.prototype.getImageContainer = function() {
+	return this.element.preview.imageUrl;
+};
+
+/**
  * Updates the image object with the new URL.
  *
  * @param {string} imageUrl The image path.
  */
-TwitterPreview.prototype.setImageUrl = function( imageUrl ) {
-	var imageContainer = this.element.preview.imageUrl;
+TwitterPreview.prototype.setImage = function( imageUrl ) {
+	imageUrl = this.opts.callbacks.modifyImageUrl( imageUrl );
+
 	if ( imageUrl === "" && this.data.imageUrl === "" ) {
+		this.removeImageFromContainer();
+		this.removeImageClasses();
 		this.setPlaceHolder();
 
 		return;
 	}
 
 	var img = new Image();
-	img.onload = function() {
-		imageContainer.innerHTML = "<img src='" + imageUrl + "' />";
 
+	img.onload = function() {
 		if ( this.isTooSmallImage( img ) ) {
+			this.removeImageFromContainer();
+			this.removeImageClasses();
 			this.setPlaceHolder();
 
 			return;
 		}
 
-		imageRatio( imageContainer.childNodes[0], this.getMaxImageWidth( img ) );
-
+		this.setSizingClass( img );
+		this.addImageToContainer( imageUrl );
 	}.bind( this );
 
-	img.onerror = this.setPlaceHolder.bind( this, true );
+	img.onerror = function() {
+		this.removeImageFromContainer();
+		this.removeImageClasses();
+		this.setPlaceHolder();
+	}.bind( this );
 
 	// Load image to trigger load or error event.
 	img.src = imageUrl;
 };
 
+/**
+ * Sets the image of the image container.
+ * @param {string} image The image to use.
+ */
+TwitterPreview.prototype.addImageToContainer = function( image ) {
+	var container = this.getImageContainer();
+
+	container.innerHTML = "";
+	container.style.backgroundImage = "url(" + image + ")";
+};
+
+/**
+ * Removes the image from the container.
+ */
+TwitterPreview.prototype.removeImageFromContainer = function() {
+	var container = this.getImageContainer();
+
+	container.style.backgroundImage = "";
+};
+
+/**
+ * Sets the proper CSS class for the current image.
+ * @param {Image} img The image to base the sizing class on.
+ *
+ * @returns {void}
+ */
+TwitterPreview.prototype.setSizingClass = function( img ) {
+	this.removeImageClasses();
+
+	if ( this.isSmallImage( img ) ) {
+		this.setSmallImageClasses();
+
+		return;
+	}
+
+	this.setLargeImageClasses();
+
+	return;
+};
 
 /**
  * Returns the max image width
@@ -6553,12 +6743,8 @@ TwitterPreview.prototype.setImageUrl = function( imageUrl ) {
  */
 TwitterPreview.prototype.getMaxImageWidth = function( img ) {
 	if ( this.isSmallImage( img ) ) {
-		this.setSmallImageClasses();
-
 		return WIDTH_TWITTER_IMAGE_SMALL;
 	}
-
-	this.removeSmallImageClasses();
 
 	return WIDTH_TWITTER_IMAGE_LARGE;
 };
@@ -6625,6 +6811,33 @@ TwitterPreview.prototype.removeSmallImageClasses = function() {
 };
 
 /**
+ * Sets the classes on the facebook preview so that it will display a large facebook image preview
+ */
+TwitterPreview.prototype.setLargeImageClasses = function() {
+	var targetElement = this.opts.targetElement;
+
+	bemAddModifier( "twitter-large", "social-preview__inner", targetElement );
+	bemAddModifier( "twitter-large", "editable-preview__image--twitter", targetElement );
+	bemAddModifier( "twitter-large", "editable-preview__text-keeper--twitter", targetElement );
+};
+
+TwitterPreview.prototype.removeLargeImageClasses = function() {
+	var targetElement = this.opts.targetElement;
+
+	bemRemoveModifier( "twitter-large", "social-preview__inner", targetElement );
+	bemRemoveModifier( "twitter-large", "editable-preview__image--twitter", targetElement );
+	bemRemoveModifier( "twitter-large", "editable-preview__text-keeper--twitter", targetElement );
+};
+
+/**
+ * Removes all image classes.
+ */
+TwitterPreview.prototype.removeImageClasses = function() {
+	this.removeSmallImageClasses();
+	this.removeLargeImageClasses();
+};
+
+/**
  * Binds the reloadSnippetText function to the blur of the snippet inputs.
  */
 TwitterPreview.prototype.bindEvents = function() {
@@ -6634,7 +6847,7 @@ TwitterPreview.prototype.bindEvents = function() {
 
 module.exports = TwitterPreview;
 
-},{"./element/imagePlaceholder":106,"./element/input":107,"./helpers/bem/addModifier":110,"./helpers/bem/removeModifier":112,"./helpers/imageRatio":113,"./helpers/renderDescription":116,"./inputs/textInput":118,"./inputs/textarea":119,"./preview/events":120,"./templates":121,"jed":6,"lodash/lang/clone":161,"lodash/lang/isElement":164,"lodash/object/defaultsDeep":175}],123:[function(require,module,exports){
+},{"./element/imagePlaceholder":106,"./element/input":107,"./helpers/bem/addModifier":110,"./helpers/bem/removeModifier":112,"./helpers/renderDescription":116,"./inputs/textInput":118,"./inputs/textarea":119,"./preview/events":120,"./templates":121,"jed":6,"lodash/lang/clone":161,"lodash/lang/isElement":164,"lodash/object/defaultsDeep":175}],123:[function(require,module,exports){
 var arrayEach = require('../internal/arrayEach'),
     baseEach = require('../internal/baseEach'),
     createForEach = require('../internal/createForEach');
