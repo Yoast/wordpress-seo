@@ -335,7 +335,7 @@
 
 		// If multi keyword isn't available we need to update the first tab (content)
 		if ( ! YoastSEO.multiKeyword ) {
-			mainKeywordTab.update( indicator.className, currentKeyword );
+			mainKeywordTab.update( indicator.className, indicator.screenReaderText, currentKeyword );
 
 			// Updates the input with the currentKeyword value
 			$( '#yoast_wpseo_focuskw' ).val( currentKeyword );
@@ -367,7 +367,7 @@
 	 * Initializes keyword tab with the correct template if multi keyword isn't available
 	 */
 	PostScraper.prototype.initKeywordTabTemplate = function() {
-		var keyword, score;
+		var keyword, score, scoreText;
 
 		// If multi keyword is available we don't have to initialize this as multi keyword does this for us.
 		if ( YoastSEO.multiKeyword ) {
@@ -379,13 +379,14 @@
 			ev.preventDefault();
 		});
 
-		keyword = $( '#yoast_wpseo_focuskw' ).val();
-		score   = $( '#yoast_wpseo_linkdex' ).val();
+		keyword   = $( '#yoast_wpseo_focuskw' ).val();
+		score     = $( '#yoast_wpseo_linkdex' ).val();
+		scoreText = '';
 
 		$( '#yoast_wpseo_focuskw_text_input' ).val( keyword );
 
 		// Updates
-		mainKeywordTab.update( score, keyword );
+		mainKeywordTab.update( score, scoreText, keyword );
 	};
 
 	/**
@@ -467,7 +468,8 @@
 		// Initialize an instance of the keywordword tab.
 		mainKeywordTab = new KeywordTab(
 			{
-				prefix: wpseoPostScraperL10n.contentTab
+				prefix: wpseoPostScraperL10n.contentTab,
+				basedOn: wpseoPostScraperL10n.basedOn
 			}
 		);
 		mainKeywordTab.setElement( $('.wpseo_keyword_tab') );

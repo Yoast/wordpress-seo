@@ -47,9 +47,10 @@ class WPSEO_Metabox_Formatter {
 			'contentTab'        => __( 'Content:', 'wordpress-seo' ),
 			'locale'            => get_locale(),
 			'translations'      => $this->get_translations(),
-			'keyword_usage'       => array(),
-			'title_template'      => '',
-			'metadesc_template'   => '',
+			'keyword_usage'     => array(),
+			'title_template'    => '',
+			'metadesc_template' => '',
+			'basedOn'           => __( 'Based on keyword:', 'wordpress-seo' ),
 		);
 	}
 

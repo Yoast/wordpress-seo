@@ -11,7 +11,7 @@ module.exports = (function() {
 	 *
 	 * @returns {HTMLElement}
 	 */
-	function renderKeywordTab( scoreClass, keyword, prefix ) {
+	function renderKeywordTab( scoreClass, scoreText, keyword, prefix, basedOn ) {
 		var placeholder = keyword.length > 0 ? keyword : '...';
 		var html = wp.template( 'keyword_tab' )({
 			keyword: keyword,
@@ -19,7 +19,9 @@ module.exports = (function() {
 			score: scoreClass,
 			hideRemove: true,
 			prefix: prefix + ' ',
-			active: true
+			active: true,
+			basedOn: basedOn,
+			text: scoreText
 		});
 
 		return jQuery( html );
@@ -33,8 +35,10 @@ module.exports = (function() {
 	function KeywordTab( args ) {
 		this.keyword = '';
 		this.prefix  = args.prefix || '';
+		this.basedOn = args.basedOn || '';
 
 		this.setScoreClass( 0 );
+		this.setScoreText( '' );
 	}
 
 	/**
@@ -43,7 +47,7 @@ module.exports = (function() {
 	 * @param {HTMLElement} parent
 	 */
 	KeywordTab.prototype.init = function( parent ) {
-		this.setElement( renderKeywordTab( this.scoreClass, this.keyword, this.prefix ) );
+		this.setElement( renderKeywordTab( this.scoreClass, this.scoreText, this.keyword, this.prefix, this.basedOn ) );
 
 		jQuery( parent ).append( this.element );
 	};
@@ -52,11 +56,13 @@ module.exports = (function() {
 	 * Updates the keyword tabs with new values.
 	 *
 	 * @param {string} scoreClass
+	 * @param {string} scoreText
 	 * @param {string} keyword
 	 */
-	KeywordTab.prototype.update = function( scoreClass, keyword ) {
+	KeywordTab.prototype.update = function( scoreClass, scoreText, keyword ) {
 		this.keyword = keyword;
 		this.setScoreClass( scoreClass );
+		this.setScoreText( scoreText );
 		this.refresh();
 	};
 
@@ -64,7 +70,7 @@ module.exports = (function() {
 	 * Renders a new keyword tab with the current values and replaces the old tab with this one.
 	 */
 	KeywordTab.prototype.refresh = function() {
-		var newElem = renderKeywordTab( this.scoreClass, this.keyword, this.prefix );
+		var newElem = renderKeywordTab( this.scoreClass, this.scoreText, this.keyword, this.prefix, this.basedOn );
 
 		this.element.replaceWith( newElem );
 		this.setElement( newElem );
@@ -86,6 +92,15 @@ module.exports = (function() {
 	 */
 	KeywordTab.prototype.setScoreClass = function( scoreClass ) {
 		this.scoreClass = scoreClass;
+	};
+
+	/**
+	 * Formats the given score text and store it in the attribute.
+	 *
+	 * @param {string} scoreText
+	 */
+	KeywordTab.prototype.setScoreText = function( scoreText ) {
+		this.scoreText = scoreText;
 	};
 
 	return KeywordTab;
