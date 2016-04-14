@@ -170,6 +170,10 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			}
 		}
 
+		if ( ! empty( $excluded_roles ) ) { // Otherwise it's handled by who=>authors query.
+			$excluded_roles[] = 'Subscriber';
+		}
+
 		return $excluded_roles;
 	}
 

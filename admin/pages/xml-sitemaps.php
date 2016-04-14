@@ -84,6 +84,7 @@ $yform->light_switch( 'enablexmlsitemap', __( 'XML sitemap functionality', 'word
 					echo '<p class="expl">' . __( 'You can choose to not include users without posts.', 'wordpress-seo' ) . '</p>';
 
 					$roles = WPSEO_Utils::get_roles();
+					unset( $roles['subscriber'] );
 					if ( is_array( $roles ) && $roles !== array() ) {
 						echo '<p class="expl"><strong>' . __( 'Filter specific user roles', 'wordpress-seo' ) . '</strong></p>';
 						foreach ( $roles as $role_key => $role_name ) {
