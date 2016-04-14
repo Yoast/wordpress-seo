@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Yoast SEO 3.1.2\n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo/issues\n"
-"POT-Creation-Date: 2016-04-14 10:12:04+00:00\n"
+"POT-Creation-Date: 2016-04-14 11:32:07+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -2126,7 +2126,8 @@ msgid "Want to be a %s Expert?"
 msgstr ""
 
 #: admin/views/partial-settings-tab-video.php:38
-msgid "Follow our %s for WordPress training and become a certified %s Expert!"
+msgid ""
+"Follow our %1$s for WordPress training and become a certified %1$s Expert!"
 msgstr ""
 
 #: admin/views/partial-settings-tab-video.php:41
