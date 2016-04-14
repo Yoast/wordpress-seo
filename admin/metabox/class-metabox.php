@@ -49,15 +49,15 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	public static function translate_meta_boxes() {
 		self::$meta_fields['general']['snippetpreview']['title']       = __( 'Snippet Editor', 'wordpress-seo' );
 		self::$meta_fields['general']['snippetpreview']['help']        = sprintf( __( 'This is a rendering of what this post might look like in Google\'s search results. Read %sthis post%s for more info.', 'wordpress-seo' ), '<a target="_blank" href="https://yoast.com/snippet-preview/#utm_source=wordpress-seo-metabox&amp;utm_medium=inline-help&amp;utm_campaign=snippet-preview">', '</a>' );
-		self::$meta_fields['general']['snippetpreview']['help-button'] = __( 'Snippet Editor Help', 'wordpress-seo' );
+		self::$meta_fields['general']['snippetpreview']['help-button'] = __( 'Show information about the snippet editor', 'wordpress-seo' );
 
 		self::$meta_fields['general']['pageanalysis']['title']       = __( 'Content Analysis', 'wordpress-seo' );
 		self::$meta_fields['general']['pageanalysis']['help']        = sprintf( __( 'This is the content analysis, a collection of content checks that analyze the content of your page. Read %sthis post%s for more info.', 'wordpress-seo' ), '<a target="_blank" href="https://yoast.com/real-time-content-analysis/#utm_source=wordpress-seo-metabox&amp;utm_medium=inline-help&amp;utm_campaign=snippet-preview">', '</a>' );
-		self::$meta_fields['general']['pageanalysis']['help-button'] = __( 'Content Analysis Help', 'wordpress-seo' );
+		self::$meta_fields['general']['pageanalysis']['help-button'] = __( 'Show information about the content analysis', 'wordpress-seo' );
 
 		self::$meta_fields['general']['focuskw_text_input']['title']       = __( 'Focus Keyword', 'wordpress-seo' );
 		self::$meta_fields['general']['focuskw_text_input']['help']        = sprintf( __( 'Pick the main keyword or keyphrase that this post/page is about. Read %sthis post%s for more info.', 'wordpress-seo' ), '<a target="_blank" href="https://yoast.com/focus-keyword/#utm_source=wordpress-seo-metabox&amp;utm_medium=inline-help&amp;utm_campaign=focus-keyword">', '</a>' );
-		self::$meta_fields['general']['focuskw_text_input']['help-button'] = __( 'Focus Keyword Help', 'wordpress-seo' );
+		self::$meta_fields['general']['focuskw_text_input']['help-button'] = __( 'Show information about the focus keyword', 'wordpress-seo' );
 
 		self::$meta_fields['general']['title']['title']       = __( 'SEO Title', 'wordpress-seo' );
 

@@ -25,15 +25,20 @@ if ( ! empty( $tab_video_url ) ) :
 			<div class="wpseo-tab-video__panel wpseo-tab-video__panel--text">
 				<div class="wpseo-tab-video__panel__textarea">
 					<h3><?php _e( 'Need more help?', 'wordpress-seo' ); ?></h3>
-					<p><?php _e( 'If you buy Yoast SEO Premium you\'ll get access to our support team and bonus features!', 'wordpress-seo' ); ?></p>
+					<?php /* %s expands to Yoast SEO Premium */ ?>
+					<p><?php printf( __( 'If you buy %s you\'ll get access to our support team and bonus features!', 'wordpress-seo' ), 'Yoast SEO Premium' ); ?></p>
+					<?php /* %s expands to Yoast SEO Premium */ ?>
 					<p><a href="https://yoa.st/seo-premium-vt"
-					      target="_blank"><?php _e( 'Get Yoast SEO Premium &raquo;', 'wordpress-seo' ); ?></a></p>
+					      target="_blank"><?php printf( __( 'Get %s &raquo;', 'wordpress-seo' ), 'Yoast SEO Premium' ); ?></a></p>
 				</div>
 				<div class="wpseo-tab-video__panel__textarea">
-					<h3><?php _e( 'Want to be a Yoast SEO Expert?', 'wordpress-seo' ); ?></h3>
-					<p><?php _e( 'Follow our Yoast SEO for WordPress training and become a certified Yoast SEO Expert!', 'wordpress-seo' ); ?></p>
+					<?php /* %s expands to Yoast SEO */ ?>
+					<h3><?php printf( __( 'Want to be a %s Expert?', 'wordpress-seo' ), 'Yoast SEO' ); ?></h3>
+					<?php /* %$1s expands to Yoast SEO */ ?>
+					<p><?php printf( __( 'Follow our %1$s for WordPress training and become a certified %1$s Expert!', 'wordpress-seo' ), 'Yoast SEO' ); ?></p>
+					<?php /* %s expands to Yoast SEO for WordPress */ ?>
 					<p><a href="https://yoa.st/wordpress-training-vt"
-					      target="_blank"><?php _e( 'Enroll in the Yoast SEO for WordPress training &raquo;', 'wordpress-seo' ); ?></a>
+					      target="_blank"><?php printf( __( 'Enroll in the %s training &raquo;', 'wordpress-seo' ), 'Yoast SEO for WordPress' ); ?></a>
 					</p>
 				</div>
 			</div>

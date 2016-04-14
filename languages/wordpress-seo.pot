@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Yoast SEO 3.1.2\n"
 "Report-Msgid-Bugs-To: https://github.com/yoast/wordpress-seo/issues\n"
-"POT-Creation-Date: 2016-04-14 07:58:28+00:00\n"
+"POT-Creation-Date: 2016-04-14 11:32:07+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1063,7 +1063,7 @@ msgid ""
 msgstr ""
 
 #: admin/google_search_console/class-gsc-category-filters.php:113
-msgid "Access denied Error Help"
+msgid "Show information about errors in category 'Access Denied'"
 msgstr ""
 
 #: admin/google_search_console/class-gsc-category-filters.php:114
@@ -1083,7 +1083,7 @@ msgid "URL points to a non-existent page."
 msgstr ""
 
 #: admin/google_search_console/class-gsc-category-filters.php:116
-msgid "Not found Error Help"
+msgid "Show information about errors in category 'Not Found'"
 msgstr ""
 
 #: admin/google_search_console/class-gsc-category-filters.php:117
@@ -1091,7 +1091,7 @@ msgid "Google was unable to crawl this URL due to an undetermined issue."
 msgstr ""
 
 #: admin/google_search_console/class-gsc-category-filters.php:117
-msgid "Other Error Help"
+msgid "Show information about errors in category 'Other'"
 msgstr ""
 
 #. Translators: %1$s: expands to '<code>robots.txt</code>'.
@@ -1107,7 +1107,7 @@ msgid ""
 msgstr ""
 
 #: admin/google_search_console/class-gsc-category-filters.php:119
-msgid "Blocked Error Help"
+msgid "Show information about errors in category 'Blocked'"
 msgstr ""
 
 #: admin/google_search_console/class-gsc-category-filters.php:120
@@ -1119,7 +1119,7 @@ msgid "Request timed out or site is blocking Google."
 msgstr ""
 
 #: admin/google_search_console/class-gsc-category-filters.php:120
-msgid "Server Error Help"
+msgid "Show information about errors in category 'Server'"
 msgstr ""
 
 #: admin/google_search_console/class-gsc-category-filters.php:121
@@ -1133,7 +1133,7 @@ msgid ""
 msgstr ""
 
 #: admin/google_search_console/class-gsc-category-filters.php:121
-msgid "Soft 404 Error Help"
+msgid "Show information about errors in category 'Soft 404'"
 msgstr ""
 
 #: admin/google_search_console/class-gsc-platform-tabs.php:43
@@ -1382,7 +1382,8 @@ msgid ""
 "upgrades, on %2$s."
 msgstr ""
 
-#: admin/metabox/class-metabox-add-keyword-tab.php:40
+#. translators: %s expands to Yoast SEO Premium
+#: admin/metabox/class-metabox-add-keyword-tab.php:41
 msgid "Buy %s"
 msgstr ""
 
@@ -1400,8 +1401,7 @@ msgid ""
 msgstr ""
 
 #: admin/metabox/class-metabox.php:52
-#: admin/taxonomy/class-taxonomy-content-fields.php:23
-msgid "Snippet Editor Help"
+msgid "Show information about the snippet editor"
 msgstr ""
 
 #: admin/metabox/class-metabox.php:54
@@ -1417,8 +1417,7 @@ msgid ""
 msgstr ""
 
 #: admin/metabox/class-metabox.php:56
-#: admin/taxonomy/class-taxonomy-content-fields.php:39
-msgid "Content Analysis Help"
+msgid "Show information about the content analysis"
 msgstr ""
 
 #: admin/metabox/class-metabox.php:58
@@ -1434,8 +1433,7 @@ msgid ""
 msgstr ""
 
 #: admin/metabox/class-metabox.php:60
-#: admin/taxonomy/class-taxonomy-content-fields.php:31
-msgid "Focus Keyword Help"
+msgid "Show information about the focus keyword"
 msgstr ""
 
 #: admin/metabox/class-metabox.php:64 admin/views/tabs/metas/post-types.php:74
@@ -1883,6 +1881,18 @@ msgstr ""
 msgid "Term is set to noindex."
 msgstr ""
 
+#: admin/taxonomy/class-taxonomy-content-fields.php:23
+msgid "Snippet Editor Help"
+msgstr ""
+
+#: admin/taxonomy/class-taxonomy-content-fields.php:31
+msgid "Focus Keyword Help"
+msgstr ""
+
+#: admin/taxonomy/class-taxonomy-content-fields.php:39
+msgid "Content Analysis Help"
+msgstr ""
+
 #: admin/taxonomy/class-taxonomy-metabox.php:153
 msgid "Facebook / Opengraph metadata"
 msgstr ""
@@ -2103,28 +2113,25 @@ msgstr ""
 msgid "Need more help?"
 msgstr ""
 
-#: admin/views/partial-settings-tab-video.php:28
-msgid ""
-"If you buy Yoast SEO Premium you'll get access to our support team and bonus "
-"features!"
+#: admin/views/partial-settings-tab-video.php:29
+msgid "If you buy %s you'll get access to our support team and bonus features!"
 msgstr ""
 
-#: admin/views/partial-settings-tab-video.php:30
-msgid "Get Yoast SEO Premium &raquo;"
-msgstr ""
-
-#: admin/views/partial-settings-tab-video.php:33
-msgid "Want to be a Yoast SEO Expert?"
-msgstr ""
-
-#: admin/views/partial-settings-tab-video.php:34
-msgid ""
-"Follow our Yoast SEO for WordPress training and become a certified Yoast SEO "
-"Expert!"
+#: admin/views/partial-settings-tab-video.php:32
+msgid "Get %s &raquo;"
 msgstr ""
 
 #: admin/views/partial-settings-tab-video.php:36
-msgid "Enroll in the Yoast SEO for WordPress training &raquo;"
+msgid "Want to be a %s Expert?"
+msgstr ""
+
+#: admin/views/partial-settings-tab-video.php:38
+msgid ""
+"Follow our %1$s for WordPress training and become a certified %1$s Expert!"
+msgstr ""
+
+#: admin/views/partial-settings-tab-video.php:41
+msgid "Enroll in the %s training &raquo;"
 msgstr ""
 
 #: admin/views/tabs/advanced/breadcrumbs.php:21
@@ -2505,10 +2512,6 @@ msgstr ""
 
 #: admin/views/tabs/dashboard/webmaster-tools.php:18
 msgid "Yandex Webmaster Tools"
-msgstr ""
-
-#: admin/views/tabs/dashboard/webmaster-tools.php:20
-msgid "OnPage.org"
 msgstr ""
 
 #. translators: %1$s expands to OnPage.org
