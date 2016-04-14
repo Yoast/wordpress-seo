@@ -124,7 +124,9 @@ Release Date: April 19th, 2016
 	* Adds an option to disable post format archives.
 	* Adds template function to retrieve the primary term. The functions are yoast_get_primary_term_id and yoast_get_primary_term.
 	* Enables primary term for every taxonomy by default.
-	* Add a primary category replacement variable: `%%primary_category%%`.
+	* Adds a primary category replacement variable: `%%primary_category%%`.
+	* Adds free screencasts to every settings page explaining that specific page.
+	* Introduces new help buttons in place of qtip, which makes these descriptions much more accessible.
 
 * Enhancements:
 	* Adds pinterest icon to the pinterest settings tab.
@@ -147,6 +149,7 @@ Release Date: April 19th, 2016
 	* Removes all settings to hide specific tags inside the head.
 	* Improves accessibility of add keyword modal.
 	* Improves accessibility of metabox.
+	* Switches all yoa.st links to be HTTPS.
 
 * Bugfixes:
 	* Fixes a bug where the breadcrumbs title field was hidden even though the theme supported breadcrumbs.
@@ -163,7 +166,14 @@ Release Date: April 19th, 2016
 	* Fixes a compatibility issue with Easing Slider.
 	* Fixes a bug where a JavaScript template wasn't included when the dependant JavaScript was, props [Darren Ethier](https://github.com/nerrad).
 	* Fixes a bug where the descriptions for removing the stopwords and the ?replytocom were merged.
-	* Fixes a bug where
+	* Fixes a bug where the recommended Facebook image dimensions weren't the same as the Facebook documentation.
+	* Fixes a bug where the dashboard widget wasn't cached correctly, props [Marko Heijnen](https://github.com/markoheijnen)
+	* Fixes a bug where the sitemaps weren't cached correctly on 32 bit systems.
+	* Fixes an issue where multi term archives didn't have a noindex set.
+	* Fixes a bug where we would do an AJAX request on every keystroke in the focus keyword field.
+	* Fixes a bug where we would check for shortcodes on every keystroke in the content field.
+	* Fixes a bug where rewrite rules wouldn't be flushed correctly on plugin activation.
+	* Fixes a bug where the GlotPress banner wouldn't load on HTTPS sites.
 
 = 3.1.2 =
 
