@@ -4,7 +4,8 @@
 
 var Jed = require( 'jed' );
 var Paper = require( 'yoastseo/js/values/Paper' );
-var Assessor = require( 'yoastseo/js/SEOAssessor' );
+var SEOAssessor = require( 'yoastseo/js/SEOAssessor' );
+var TaxonomyAssessor = require( './assessors/taxonomyAssessor' );
 
 ( function($) {
 	'use strict';
@@ -28,9 +29,24 @@ var Assessor = require( 'yoastseo/js/SEOAssessor' );
 		this.total_count = total_count;
 		this.oncomplete  = false;
 
+		this.setupAssessors();
+
 		$( '#wpseo_count_total' ).html( total_count );
 
 		jQuery( '#wpseo_progressbar' ).progressbar( { value: 0 } );
+	};
+
+	/**
+	 * Sets up the Assessors needed for the recalculation.
+	 */
+	YoastRecalculateScore.prototype.setupAssessors = function() {
+		var postAssessor = new SEOAssessor( i18n );
+		var taxonomyAssessor = new TaxonomyAssessor( i18n );
+
+		this.validAssessors = {
+			post: postAssessor,
+			term: taxonomyAssessor
+		};
 	};
 
 	/**
@@ -42,10 +58,17 @@ var Assessor = require( 'yoastseo/js/SEOAssessor' );
 	 * @param {Function|bool} callback
 	 */
 	YoastRecalculateScore.prototype.start = function( items_to_fetch, fetch_type, id_field, callback ) {
+		if ( ! this.validAssessors.hasOwnProperty( fetch_type ) ) {
+			console.error( 'Unknown fetch type of ' + fetch_type + ' given.' );
+			return;
+		}
+
 		this.fetch_type     = fetch_type;
 		this.items_to_fetch = items_to_fetch;
 		this.id_field       = id_field;
 		this.oncomplete     = callback;
+
+		this.assessor       = this.validAssessors[ fetch_type ];
 
 		this.getItemsToRecalculate( 1 );
 	};
@@ -129,7 +152,8 @@ var Assessor = require( 'yoastseo/js/SEOAssessor' );
 			title: item.pageTitle
 		} );
 
-		var tempAssessor = new Assessor( i18n );
+		var tempAssessor = this.assessor;
+
 		tempAssessor.assess( tempPaper );
 
 		return tempAssessor.calculateOverallScore();
@@ -220,6 +244,7 @@ var Assessor = require( 'yoastseo/js/SEOAssessor' );
 		var TermsToFetch = parseInt( response.terms, 10 );
 
 		var RecalculateScore = new YoastRecalculateScore( PostsToFetch + TermsToFetch );
+
 		RecalculateScore.start(PostsToFetch, 'post', 'post_id', function() {
 			RecalculateScore.start(TermsToFetch, 'term', 'term_id', false );
 		});
@@ -228,6 +253,7 @@ var Assessor = require( 'yoastseo/js/SEOAssessor' );
 	// Initialize the recalculate.
 	function init() {
 		var recalculate_link = jQuery('#wpseo_recalculate_link');
+
 		if (recalculate_link !== undefined) {
 			recalculate_link.click(
 				function() {
