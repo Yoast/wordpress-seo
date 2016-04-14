@@ -104,16 +104,16 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	/**
 	 * Retrieve profile update time for most recently updated user on a sitemap page.
 	 *
-	 * @param int $max_entries Entries per page of sitemap.
-	 * @param int $page        Current page.
+	 * @param int $max_entries  Entries per page of sitemap.
+	 * @param int $current_page Current page.
 	 *
 	 * @return int|false Timestamp of last profile update or false on failure.
 	 */
-	protected function get_last_modified( $max_entries, $page ) {
+	protected function get_last_modified( $max_entries, $current_page ) {
 
 		$users = get_users( $this->get_query_arguments( array(
 			'number' => 1, // We sort time descending, so first on the page is most recent.
-			'offset' => ( $page - 1 ) * $max_entries,
+			'offset' => ( $current_page - 1 ) * $max_entries,
 		) ) );
 
 		if ( empty( $users ) ) {
@@ -144,14 +144,8 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			return $links;
 		}
 
-		$offset = 0;
-
-		if ( $current_page > 1 ) {
-			$offset = ( ( $current_page - 1 ) * $max_entries );
-		}
-
 		$users = get_users( $this->get_query_arguments( array(
-			'offset' => $offset,
+			'offset' => ( $current_page - 1 ) * $max_entries,
 			'number' => $max_entries,
 		) ) );
 
