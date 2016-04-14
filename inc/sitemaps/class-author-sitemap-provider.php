@@ -43,6 +43,9 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			return array();
 		}
 
+		// TODO Consider doing this less often / when necessary. R.
+		$this->update_user_meta();
+
 		$users = get_users( array( 'who' => 'authors' ) );
 		/**
 		 * Filter the authors, included in XML sitemap.
@@ -129,23 +132,6 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		$steps  = $max_entries;
 		$offset = ( $current_page > 1 ) ? ( ( $current_page - 1 ) * $max_entries ) : 0;
 
-		// Initial query to fill in missing usermeta with the current timestamp.
-		$users = get_users( array(
-			'who'        => 'authors',
-			'meta_query' => array(
-				array(
-					'key'     => '_yoast_wpseo_profile_updated',
-					'value'   => 'needs-a-value-anyway', // This is ignored, but is necessary...
-					'compare' => 'NOT EXISTS',
-				),
-			),
-		) );
-
-		foreach ( $users as $user ) {
-			update_user_meta( $user->ID, '_yoast_wpseo_profile_updated', time() );
-		}
-		unset( $users, $user );
-
 		// Query for users with this meta.
 		$users = get_users( array(
 			'who'      => 'authors',
@@ -195,6 +181,33 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		unset( $user, $author_link, $url );
 
 		return $links;
+	}
+
+	/**
+	 * Update any users that don't have last profile update timestamp.
+	 *
+	 * @return int Count of users updated.
+	 */
+	protected function update_user_meta() {
+
+		$users = get_users( array(
+			'who'        => 'authors',
+			'meta_query' => array(
+				array(
+					'key'     => '_yoast_wpseo_profile_updated',
+					'value'   => 'needs-a-value-anyway', // This is ignored, but is necessary...
+					'compare' => 'NOT EXISTS',
+				),
+			),
+		) );
+
+		$time = time();
+
+		foreach ( $users as $user ) {
+			update_user_meta( $user->ID, '_yoast_wpseo_profile_updated', $time );
+		}
+
+		return count( $users );
 	}
 
 	/**
