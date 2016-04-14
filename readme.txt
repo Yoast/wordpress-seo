@@ -116,6 +116,55 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 
 == Changelog ==
 
+= 3.2.0 =
+
+Release Date: April 19th, 2016
+
+* Features:
+	* Adds an option to disable post format archives.
+	* Adds template function to retrieve the primary term. The functions are yoast_get_primary_term_id and yoast_get_primary_term.
+	* Enables primary term for every taxonomy by default.
+	* Add a primary category replacement variable: `%%primary_category%%`.
+
+* Enhancements:
+	* Adds pinterest icon to the pinterest settings tab.
+	* Clarifies the text on the pinterest settings tab.
+	* Improves searchability of select inputs by using select2.
+	* Adds filters to customize sitemaps' <urlset>, props [Mark Walker](https://github.com/mnwalker).
+	* Uses wp_register_script and wp_register_style on init so other plugins can customize our assets.
+	* Changes text length for terms to 150 words.
+	* Removes analyses from the term analysis that weren't applicable to terms.
+	* Improves code architecture of sitemaps.
+	* Moves the onpage.org settings to the webmaster tab.
+	* Improves performance when importing or migrating posts, thanks [sun](https://github.com/sun).
+	* Adds caching to empty sitemaps.
+	* Adds parsing of shortcodes before recalculating all posts.
+	* Improves detection of static xml sitemaps
+	* Add target=_blank to external links inside the metabox help information, props [Borja Abad](https://github.com/mines).
+	* Clarifies the subpage of archives text.
+	* Removes noydir setting.
+	* Removes other tab from the import screen, these plugins have all been deprecated.
+	* Removes all settings to hide specific tags inside the head.
+	* Improves accessibility of add keyword modal.
+	* Improves accessibility of metabox.
+
+* Bugfixes:
+	* Fixes a bug where the breadcrumbs title field was hidden even though the theme supported breadcrumbs.
+	* Fixes a bug where underscores in like queries weren't correctly escaped, thanks [Konstantin Kovshenin](https://github.com/kovshenin) and [Damian Hodgkiss](https://github.com/damianhodgkiss)
+	* Fixes a bug where text inside a [caption] shortcode wouldn't be removed correctly in auto generated meta descriptions, props [Kevin Lisota](https://github.com/kevinlisota)
+	* Fixes a bug where a message to add headings to the text would only be shown if a keyword was set.
+	* Fixes a bug where a message to add links to the text would only be shown if a keyword was set.
+	* Fixes a compatibility issues with plugins that included mootools or prototypejs.
+	* Fixes a bug where the 404 page didn't correctly have a noindex and a nofollow set.
+	* Fixes a bug where internal taxonomies would be shown in the sitemap exlusion settings.
+	* Fixes a bug in the activation and deactivation where we would execute our code for every network, props [Felix Arntz](https://github.com/felixarntz).
+	* Fixes a bug where the primary category wasn't taken into account when calling `get_permalink` on the frontend.
+	* Fixes a compatibility issue with MultilingualPress, props [Thorsten Frommen](https://github.com/tfrommen).
+	* Fixes a compatibility issue with Easing Slider.
+	* Fixes a bug where a JavaScript template wasn't included when the dependant JavaScript was, props [Darren Ethier](https://github.com/nerrad).
+	* Fixes a bug where the descriptions for removing the stopwords and the ?replytocom were merged.
+	* Fixes a bug where
+
 = 3.1.2 =
 
 Release Date: March 23rd, 2016
