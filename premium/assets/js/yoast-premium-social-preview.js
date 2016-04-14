@@ -416,7 +416,7 @@ var forEach = require( 'lodash/forEach' );
      */
 	function setFallbackImage( preview ) {
 		if ( preview.data.imageUrl === '' ) {
-			preview.setImageUrl( getFallbackImage( '' ) );
+			preview.setImage( getFallbackImage( '' ) );
 		}
 	}
 
