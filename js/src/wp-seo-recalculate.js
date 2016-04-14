@@ -1,11 +1,15 @@
 /* global wpseoAdminL10n */
 /* global ajaxurl */
-/* global YoastSEO */
+
+var YoastSEO = require( 'yoastseo' );
+var Jed = require( 'jed' );
+var Paper = require( 'yoastseo/js/values/Paper' );
+var Assessor = require( 'yoastseo/js/Assessor' );
 
 ( function($) {
 	'use strict';
 
-	var i18n = new YoastSEO.Jed( {
+	var i18n = new Jed( {
 		domain: 'js-text-analysis',
 		locale_data: {
 			'js-text-analysis': {
@@ -51,7 +55,7 @@
 	 *
 	 * @param {int} total_posts
 	 */
-	YoastRecalculateScore.prototype.updateProgressBar = function(total_posts) {
+	YoastRecalculateScore.prototype.updateProgressBar = function( total_posts ) {
 		var current_value = jQuery( '#wpseo_count' ).text();
 		var new_value = parseInt( current_value, 10 ) + total_posts;
 		var new_width = new_value * (100 / this.total_count);
@@ -117,12 +121,18 @@
 	 * @param {Object} item
 	 */
 	YoastRecalculateScore.prototype.calculateItemScore = function( item ) {
-		item.i18n   = i18n;
-		item.locale = wpseoAdminL10n.locale;
-		var tmpAnalyzer = new YoastSEO.Analyzer( item );
-		tmpAnalyzer.runQueue();
+		var tempPaper = new Paper( item.text, {
+			keyword: item.keyword,
+			url: item.url,
+			locale: wpseoAdminL10n.locale,
+			description: item.meta,
+			title: item.pageTitle
+		} );
 
-		return tmpAnalyzer.analyzeScorer.__totalScore;
+		var tempAssessor = new Assessor( i18n );
+		tempAssessor.assess( tempPaper );
+
+		return tempAssessor.calculateOverallScore();
 	};
 
 	/**
