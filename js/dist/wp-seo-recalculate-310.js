@@ -1,11 +1,11 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 /* global wpseoAdminL10n */
 /* global ajaxurl */
+/* global require */
 
-var YoastSEO = require( 'yoastseo' );
 var Jed = require( 'jed' );
 var Paper = require( 'yoastseo/js/values/Paper' );
-var Assessor = require( 'yoastseo/js/Assessor' );
+var Assessor = require( 'yoastseo/js/SeoAssessor' );
 
 ( function($) {
 	'use strict';
@@ -131,6 +131,8 @@ var Assessor = require( 'yoastseo/js/Assessor' );
 		} );
 
 		var tempAssessor = new Assessor( i18n );
+
+		console.log( tempAssessor.getAvailableAssessments() );
 		tempAssessor.assess( tempPaper );
 
 		return tempAssessor.calculateOverallScore();
@@ -256,7 +258,7 @@ var Assessor = require( 'yoastseo/js/Assessor' );
 	$(init);
 }(jQuery));
 
-},{"jed":3,"yoastseo":7,"yoastseo/js/Assessor":8,"yoastseo/js/values/Paper":90}],2:[function(require,module,exports){
+},{"jed":3,"yoastseo/js/SeoAssessor":7,"yoastseo/js/values/Paper":79}],2:[function(require,module,exports){
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
   module.exports = function inherits(ctor, superCtor) {
@@ -1996,30 +1998,1177 @@ function hasOwnProperty(obj, prop) {
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{"./support/isBuffer":5,"_process":4,"inherits":2}],7:[function(require,module,exports){
-var plugins = {
-	usedKeywords: require( "./js/bundledPlugins/previouslyUsedKeywords" )
+var Assessor = require( "./assessor.js" );
+
+var fleschReadingEase = require( "./assessments/fleschReadingEaseAssessment.js" );
+var introductionKeyword = require( "./assessments/introductionKeywordAssessment.js" );
+var keyphraseLength = require( "./assessments/keyphraseLengthAssessment.js" );
+var keywordDensity = require( "./assessments/keywordDensityAssessment.js" );
+var keywordStopWords = require( "./assessments/keywordStopWordsAssessment.js" );
+var metaDescriptionKeyword = require ( "./assessments/metaDescriptionKeywordAssessment.js" );
+var metaDescriptionLength = require( "./assessments/metaDescriptionLengthAssessment.js" );
+var subheadingsKeyword = require( "./assessments/subheadingsKeywordAssessment.js" );
+var textCompetingLinks = require( "./assessments/textCompetingLinksAssessment.js" );
+var textImages = require( "./assessments/textImagesAssessment.js" );
+var textLength = require( "./assessments/textLengthAssessment.js" );
+var textLinks = require( "./assessments/textLinksAssessment.js" );
+var textSubheadings = require( "./assessments/textSubheadingsAssessment.js" );
+var titleKeyword = require( "./assessments/titleKeywordAssessment.js" );
+var titleLength = require( "./assessments/titleLengthAssessment.js" );
+var urlKeyword = require( "./assessments/urlKeywordAssessment.js" );
+var urlLength = require( "./assessments/urlLengthAssessment.js" );
+var urlStopWords = require( "./assessments/urlStopWordsAssessment.js" );
+/**
+ * Creates the Assessor
+ *
+ * @param {object} i18n The i18n object used for translations.
+ * @constructor
+ */
+var SEOAssessor = function( i18n ) {
+	Assessor.call( this, i18n );
+
+	this._assessments = {
+		fleschReadingEase:      fleschReadingEase,
+		introductionKeyword:    introductionKeyword,
+		keyphraseLength:        keyphraseLength,
+		keywordDensity:         keywordDensity,
+		keywordStopWords:       keywordStopWords,
+		metaDescriptionKeyword: metaDescriptionKeyword,
+		metaDescriptionLength:  metaDescriptionLength,
+		subheadingsKeyword:     subheadingsKeyword,
+		textCompetingLinks:     textCompetingLinks,
+		textImages:             textImages,
+		textLength:             textLength,
+		textLinks:              textLinks,
+		textSubheadings:        textSubheadings,
+		titleKeyword:           titleKeyword,
+		titleLength:            titleLength,
+		urlKeyword:             urlKeyword,
+		urlLength:              urlLength,
+		urlStopWords:           urlStopWords
+	};
 };
 
-var helpers = {
-	scoreToRating: require( "./js/interpreters/scoreToRating" )
+module.exports = SEOAssessor;
+
+require( "util" ).inherits( module.exports, Assessor );
+
+
+},{"./assessments/fleschReadingEaseAssessment.js":8,"./assessments/introductionKeywordAssessment.js":9,"./assessments/keyphraseLengthAssessment.js":10,"./assessments/keywordDensityAssessment.js":11,"./assessments/keywordStopWordsAssessment.js":12,"./assessments/metaDescriptionKeywordAssessment.js":13,"./assessments/metaDescriptionLengthAssessment.js":14,"./assessments/subheadingsKeywordAssessment.js":15,"./assessments/textCompetingLinksAssessment.js":16,"./assessments/textImagesAssessment.js":17,"./assessments/textLengthAssessment.js":18,"./assessments/textLinksAssessment.js":19,"./assessments/textSubheadingsAssessment.js":20,"./assessments/titleKeywordAssessment.js":21,"./assessments/titleLengthAssessment.js":22,"./assessments/urlKeywordAssessment.js":23,"./assessments/urlLengthAssessment.js":24,"./assessments/urlStopWordsAssessment.js":25,"./assessor.js":26,"util":6}],8:[function(require,module,exports){
+var AssessmentResult = require( "../values/AssessmentResult.js" );
+var inRange = require( "lodash/inRange" );
+
+/**
+ * Calculates the assessment result based on the fleschReadingScore
+ * @param {int} fleschReadingScore The score from the fleschReadingtest
+ * @param {object} i18n The i18n-object used for parsing translations
+ * @returns {object} object with score, resultText and note
+ */
+var calculateFleschReadingResult = function( fleschReadingScore, i18n ) {
+	if ( fleschReadingScore > 90 ) {
+		return {
+			score: 9,
+			resultText: i18n.dgettext( "js-text-analysis", "very easy" ),
+			note: ""
+		};
+	}
+
+	if ( inRange( fleschReadingScore, 80, 90 ) ) {
+		return {
+			score: 9,
+			resultText:  i18n.dgettext( "js-text-analysis", "easy" ),
+			note: ""
+		};
+	}
+
+	if ( inRange( fleschReadingScore, 70, 80 ) ) {
+		return {
+			score: 8,
+			resultText: i18n.dgettext( "js-text-analysis", "fairly easy" ),
+			note: ""
+		};
+	}
+
+	if ( inRange( fleschReadingScore, 60, 70 ) ) {
+		return {
+			score: 8,
+			resultText: i18n.dgettext( "js-text-analysis", "ok" ),
+			note: ""
+		};
+	}
+
+	if ( inRange( fleschReadingScore, 50, 60 ) ) {
+		return {
+			score: 6,
+			resultText: i18n.dgettext( "js-text-analysis", "fairly difficult" ),
+			note: i18n.dgettext( "js-text-analysis", "Try to make shorter sentences to improve readability." )
+		};
+	}
+
+	if ( inRange( fleschReadingScore, 30, 50 ) ) {
+		return {
+			score: 5,
+			resultText: i18n.dgettext( "js-text-analysis", "difficult" ),
+			note: i18n.dgettext( "js-text-analysis", "Try to make shorter sentences, using less difficult words to improve readability." )
+		};
+	}
+
+	if ( fleschReadingScore < 30 ) {
+		return {
+			score: 4,
+			resultText: i18n.dgettext( "js-text-analysis", "very difficult" ),
+			note: i18n.dgettext( "js-text-analysis", "Try to make shorter sentences, using less difficult words to improve readability." )
+		};
+	}
+};
+
+/**
+ * The assessment that runs the FleschReading on the paper.
+ *
+ * @param {object} paper The paper to run this assessment on
+ * @param {object} researcher The researcher used for the assessment
+ * @param {object} i18n The i18n-object used for parsing translations
+ * @returns {object} an assessmentresult with the score and formatted text.
+ */
+var fleschReadingEaseAssessment = function( paper, researcher, i18n ) {
+	var fleschReadingScore = researcher.getResearch( "calculateFleschReading" );
+
+	/* translators: %1$s expands to the numeric flesch reading ease score, %2$s to a link to a Yoast.com article about Flesch ease reading score,
+	 %3$s to the easyness of reading, %4$s expands to a note about the flesch reading score. */
+	var text = i18n.dgettext( "js-text-analysis", "The copy scores %1$s in the %2$s test, which is considered %3$s to read. %4$s" );
+	var url = "<a href='https://yoast.com/flesch-reading-ease-score/' target='new'>Flesch Reading Ease</a>";
+
+	// scores must be between 0 and 100;
+	if ( fleschReadingScore < 0 ) {
+		fleschReadingScore = 0;
+	}
+	if ( fleschReadingScore > 100 ) {
+		fleschReadingScore = 100;
+	}
+
+	var fleschReadingResult = calculateFleschReadingResult( fleschReadingScore, i18n );
+
+	text = i18n.sprintf( text, fleschReadingScore, url, fleschReadingResult.resultText, fleschReadingResult.note );
+
+	var assessmentResult =  new AssessmentResult();
+	assessmentResult.setScore( fleschReadingResult.score );
+	assessmentResult.setText( text );
+
+	return assessmentResult;
 };
 
 module.exports = {
-	Assessor: require( "./js/assessor" ),
-	SEOAssessor: require( "./js/seoAssessor" ),
-	App: require( "./js/app" ),
-	Pluggable: require( "./js/pluggable" ),
-	Researcher: require( "./js/researcher" ),
-	SnippetPreview: require( "./js/snippetPreview.js" ),
-
-	Paper: require( "./js/values/paper" ),
-	AssessmentResult: require( "./js/values/AssessmentResult" ),
-
-	bundledPlugins: plugins,
-	helpers: helpers
+	getResult: fleschReadingEaseAssessment,
+	isApplicable: function( paper ) {
+		return ( paper.getLocale().indexOf( "en_" ) > -1 );
+	}
 };
 
-},{"./js/app":9,"./js/assessor":28,"./js/bundledPlugins/previouslyUsedKeywords":29,"./js/interpreters/scoreToRating":38,"./js/pluggable":39,"./js/researcher":41,"./js/seoAssessor":62,"./js/snippetPreview.js":63,"./js/values/AssessmentResult":89,"./js/values/paper":91}],8:[function(require,module,exports){
+},{"../values/AssessmentResult.js":78,"lodash/inRange":170}],9:[function(require,module,exports){
+var AssessmentResult = require( "../values/AssessmentResult.js" );
+
+/**
+ * Returns a score and text based on the firstParagraph object.
+ *
+ * @param {object} firstParagraphMatches The object with all firstParagraphMatches.
+ * @param {object} i18n The object used for translations
+ * @returns {object} resultObject with score and text
+ */
+var calculateFirstParagraphResult = function( firstParagraphMatches, i18n ) {
+	if ( firstParagraphMatches > 0 ) {
+		return {
+			score: 9,
+			text: i18n.dgettext( "js-text-analysis", "The focus keyword appears in the first paragraph of the copy." )
+		};
+	}
+
+	return {
+		score: 3,
+		text: i18n.dgettext( "js-text-analysis", "The focus keyword doesn\'t appear in the first paragraph of the copy. " +
+			"Make sure the topic is clear immediately." )
+	};
+};
+
+/**
+ * Runs the findKeywordInFirstParagraph module, based on this returns an assessment result with score.
+ *
+ * @param {Paper} paper The paper to use for the assessment.
+ * @param {object} researcher The researcher used for calling research.
+ * @param {object} i18n The object used for translations
+ * @returns {object} the Assessmentresult
+ */
+var introductionHasKeywordAssessment = function( paper, researcher, i18n ) {
+	var firstParagraphMatches = researcher.getResearch( "firstParagraph" );
+	var firstParagraphResult = calculateFirstParagraphResult( firstParagraphMatches, i18n );
+	var assessmentResult = new AssessmentResult();
+
+	assessmentResult.setScore( firstParagraphResult.score );
+	assessmentResult.setText( firstParagraphResult.text );
+
+	return assessmentResult;
+};
+
+module.exports = {
+	getResult: introductionHasKeywordAssessment,
+	isApplicable: function( paper ) {
+		return paper.hasKeyword();
+	}
+};
+
+},{"../values/AssessmentResult.js":78}],10:[function(require,module,exports){
+var AssessmentResult = require( "../values/AssessmentResult.js" );
+
+/**
+ * Assesses the keyphrase presence and length
+ *
+ * @param {Paper} paper The paper to use for the assessment.
+ * @param {Researcher} researcher The researcher used for calling research.
+ * @param {Jed} i18n The object used for translations
+ * @returns {AssessmentResult} The result of this assessment
+*/
+function keyphraseAssessment( paper, researcher, i18n ) {
+	var keyphraseLength = researcher.getResearch( "keyphraseLength" );
+
+	var assessmentResult = new AssessmentResult();
+
+	if ( !paper.hasKeyword() ) {
+		assessmentResult.setScore( -999 );
+		assessmentResult.setText( i18n.dgettext( "js-text-analysis", "No focus keyword was set for this page. " +
+			"If you do not set a focus keyword, no score can be calculated." ) );
+	} else if ( keyphraseLength > 10 ) {
+		assessmentResult.setScore( 0 );
+		assessmentResult.setText( i18n.dgettext( "js-text-analysis", "Your keyphrase is over 10 words, a keyphrase should be shorter." ) );
+	}
+
+	return assessmentResult;
+}
+
+module.exports = { getResult: keyphraseAssessment };
+
+},{"../values/AssessmentResult.js":78}],11:[function(require,module,exports){
+var AssessmentResult = require( "../values/AssessmentResult.js" );
+var matchWords = require( "../stringProcessing/matchTextWithWord.js" );
+var countWords = require( "../stringProcessing/countWords.js" );
+var inRange = require( "lodash/inRange" );
+
+/**
+ * Returns the scores and text for keyword density
+ * @param {string} keywordDensity The keyword density
+ * @param {object} i18n The i18n object used for translations
+ * @returns {{score: number, text: *}} the assessmentresult
+ */
+var calculateKeywordDensityResult = function( keywordDensity, i18n ) {
+	if ( keywordDensity > 3.5 ) {
+		return {
+			score: -50,
+			text: i18n.dgettext( "js-text-analysis", "The keyword density is %1$s%%, which is way over the advised 2.5%% maximum;" +
+				" the focus keyword was found %2$d times." )
+		};
+	}
+	if ( inRange( keywordDensity, 2.5, 3.5 ) ) {
+		return {
+			score: -10,
+			text: i18n.dgettext( "js-text-analysis", "The keyword density is %1$s%%, which is over the advised 2.5%% maximum;" +
+				" the focus keyword was found %2$d times." )
+		};
+	}
+	if ( inRange( keywordDensity, 0.5, 2.5 ) ) {
+		return {
+			score: 9,
+			text: i18n.dgettext( "js-text-analysis", "The keyword density is %1$s%%, which is great; the focus keyword was found %2$d times." )
+		};
+	}
+	if ( inRange( keywordDensity, 0, 0.5 ) ) {
+		return {
+			score: 4,
+			text: i18n.dgettext( "js-text-analysis", "The keyword density is %1$s%%, which is a bit low; the focus keyword was found %2$d times." )
+		};
+	}
+};
+
+/**
+ * Runs the getkeywordDensity module, based on this returns an assessment result with score.
+ *
+ * @param {object} paper The paper to use for the assessment.
+ * @param {object} researcher The researcher used for calling research.
+ * @param {object} i18n The object used for translations
+ * @returns {object} the Assessmentresult
+ */
+var keywordDensityAssessment = function( paper, researcher, i18n ) {
+
+	var keywordDensity = researcher.getResearch( "getKeywordDensity" );
+	var keywordCount = matchWords( paper.getText(), paper.getKeyword() );
+	var keywordDensityResult = calculateKeywordDensityResult( keywordDensity, i18n );
+	var assessmentResult = new AssessmentResult();
+
+	var text = i18n.sprintf( keywordDensityResult.text, keywordDensity.toFixed( 1 ), keywordCount );
+
+	assessmentResult.setScore( keywordDensityResult.score );
+	assessmentResult.setText( text );
+
+	return assessmentResult;
+};
+
+module.exports = {
+	getResult: keywordDensityAssessment,
+	isApplicable: function( paper ) {
+		return paper.hasText() && paper.hasKeyword() && countWords( paper.getText() ) >= 100;
+	}
+};
+
+},{"../stringProcessing/countWords.js":59,"../stringProcessing/matchTextWithWord.js":67,"../values/AssessmentResult.js":78,"lodash/inRange":170}],12:[function(require,module,exports){
+var AssessmentResult = require( "../values/AssessmentResult.js" );
+
+/**
+ * Calculate the score based on the amount of stop words in the keyword.
+ * @param {number} stopWordCount The amount of stop words to be checked against.
+ * @param {object} i18n The locale object.
+ * @returns {object} The resulting score object.
+ */
+var calculateStopWordsCountResult = function( stopWordCount, i18n ) {
+
+	if ( stopWordCount > 0 ) {
+		return {
+			score: 0,
+			/* translators: %1$s opens a link to a Yoast article about stop words, %2$s closes the link */
+			text: i18n.dngettext(
+				"js-text-analysis",
+				"Your focus keyword contains a stop word. This may or may not be wise depending on the circumstances. " +
+				"Read %1$sthis article%2$s for more info.",
+				"Your focus keyword contains %3$d stop words. This may or may not be wise depending on the circumstances. " +
+				"Read %1$sthis article%2$s for more info.",
+				stopWordCount
+			)
+		};
+	}
+
+	return {};
+};
+
+/**
+ * Execute the Assessment and return a result.
+ * @param {Paper} paper The Paper object to assess.
+ * @param {Researcher} researcher The Researcher object containing all available researches.
+ * @param {object} i18n The locale object.
+ * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
+ */
+var keywordHasStopWordsAssessment = function( paper, researcher, i18n ) {
+	var stopWords = researcher.getResearch( "stopWordsInKeyword" );
+	var stopWordsResult = calculateStopWordsCountResult( stopWords.length, i18n );
+
+	var assessmentResult = new AssessmentResult();
+	assessmentResult.setScore( stopWordsResult.score );
+	assessmentResult.setText( i18n.sprintf(
+		stopWordsResult.text,
+		"<a href='https://yoast.com/handling-stopwords/' target='new'>",
+		"</a>",
+		stopWords.length
+	) );
+
+	return assessmentResult;
+};
+
+module.exports = {
+	getResult: keywordHasStopWordsAssessment,
+	isApplicable: function ( paper ) {
+		return paper.hasKeyword();
+	}
+};
+
+},{"../values/AssessmentResult.js":78}],13:[function(require,module,exports){
+var AssessmentResult = require( "../values/AssessmentResult.js" );
+
+/**
+ * Returns the score and text for the description keyword match.
+ * @param {number} keywordMatches The number of keyword matches in the description.
+ * @param {object} i18n The i18n object used for translations.
+ * @returns {Object} An object with values for the assessment result.
+ */
+var calculateKeywordMatchesResult = function( keywordMatches, i18n ) {
+	if ( keywordMatches > 0 ) {
+		return {
+			score: 9,
+			text: i18n.dgettext( "js-text-analysis", "The meta description contains the focus keyword." )
+		};
+	}
+	if ( keywordMatches === 0 ) {
+		return {
+			score: 3,
+			text: i18n.dgettext( "js-text-analysis", "A meta description has been specified, but it does not contain the focus keyword." )
+		};
+	}
+	return {};
+};
+
+/**
+ * Runs the metaDescription keyword module, based on this returns an assessment result with score.
+ *
+ * @param {object} paper The paper to use for the assessment.
+ * @param {object} researcher The researcher used for calling research.
+ * @param {object} i18n The object used for translations
+ * @returns {object} the Assessmentresult
+ */
+var metaDescriptionHasKeywordAssessment = function( paper, researcher, i18n ) {
+	var keywordMatches = researcher.getResearch( "metaDescriptionKeyword" );
+	var descriptionLengthResult = calculateKeywordMatchesResult( keywordMatches, i18n );
+	var assessmentResult = new AssessmentResult();
+
+	assessmentResult.setScore( descriptionLengthResult.score );
+	assessmentResult.setText( descriptionLengthResult.text );
+
+	return assessmentResult;
+};
+
+module.exports = {
+	getResult: metaDescriptionHasKeywordAssessment,
+	isApplicable: function ( paper ) {
+		return paper.hasKeyword();
+	}
+};
+
+},{"../values/AssessmentResult.js":78}],14:[function(require,module,exports){
+var AssessmentResult = require( "../values/AssessmentResult.js" );
+
+/**
+ * Returns the score and text for the descriptionLength
+ * @param {number} descriptionLength The length of the metadescription.
+ * @param {object} i18n The i18n object used for translations.
+ * @returns {Object} An object with values for the assessment result.
+ */
+var calculateDescriptionLengthResult = function( descriptionLength, i18n ) {
+	var recommendedValue = 120;
+	var maximumValue = 156;
+	if ( descriptionLength === 0 ) {
+		return {
+			score: 1,
+			text: i18n.dgettext( "js-text-analysis", "No meta description has been specified, " +
+				"search engines will display copy from the page instead." )
+		};
+	}
+	if ( descriptionLength <= recommendedValue ) {
+		return {
+			score: 6,
+			text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "The meta description is under %1$d characters, " +
+				"however up to %2$d characters are available." ), recommendedValue, maximumValue )
+		};
+	}
+	if ( descriptionLength > maximumValue ) {
+		return {
+			score: 6,
+			text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "The specified meta description is over %1$d characters. " +
+				"Reducing it will ensure the entire description is visible." ), maximumValue )
+		};
+	}
+	if ( descriptionLength >= recommendedValue && descriptionLength <= maximumValue ) {
+		return {
+			score: 9,
+			text: i18n.dgettext( "js-text-analysis", "In the specified meta description, consider: " +
+				"How does it compare to the competition? Could it be made more appealing?" )
+		};
+	}
+};
+
+/**
+ * Runs the metaDescriptionLength module, based on this returns an assessment result with score.
+ *
+ * @param {object} paper The paper to use for the assessment.
+ * @param {object} researcher The researcher used for calling research.
+ * @param {object} i18n The object used for translations
+ * @returns {object} the Assessmentresult
+ */
+var metaDescriptionLengthAssessment = function( paper, researcher, i18n ) {
+	var descriptionLength = researcher.getResearch( "metaDescriptionLength" );
+	var descriptionLengthResult = calculateDescriptionLengthResult( descriptionLength, i18n );
+	var assessmentResult = new AssessmentResult();
+
+	assessmentResult.setScore( descriptionLengthResult.score );
+	assessmentResult.setText( descriptionLengthResult.text );
+
+	return assessmentResult;
+};
+
+module.exports = { getResult: metaDescriptionLengthAssessment };
+
+},{"../values/AssessmentResult.js":78}],15:[function(require,module,exports){
+var AssessmentResult = require( "../values/AssessmentResult.js" );
+
+/**
+ * Returns a score and text based on the keyword matches object.
+ *
+ * @param {object} subHeadings The object with all subHeadings matches.
+ * @param {object} i18n The object used for translations.
+ * @returns {object} resultObject with score and text.
+ */
+var calculateKeywordMatchesResult = function( subHeadings, i18n ) {
+	if ( subHeadings.matches === 0 ) {
+		return {
+			score: 3,
+			text: i18n.dgettext( "js-text-analysis", "You have not used your focus keyword in any subheading (such as an H2) in your copy." )
+		};
+	}
+	if ( subHeadings.matches >= 1 ) {
+		return {
+			score: 9,
+			text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "The focus keyword appears in %2$d (out of %1$d) subheadings in the copy. " +
+				"While not a major ranking factor, this is beneficial." ), subHeadings.count, subHeadings.matches )
+		};
+	}
+	return {};
+};
+
+/**
+ * Runs the match keyword in subheadings module, based on this returns an assessment result with score.
+ *
+ * @param {object} paper The paper to use for the assessment.
+ * @param {object} researcher The researcher used for calling research.
+ * @param {object} i18n The object used for translations.
+ * @returns {object} the Assessmentresult
+ */
+var subheadingsHaveKeywordAssessment = function( paper, researcher, i18n ) {
+	var subHeadings = researcher.getResearch( "matchKeywordInSubheadings" );
+	var subHeadingsResult = calculateKeywordMatchesResult( subHeadings, i18n );
+	var assessmentResult = new AssessmentResult();
+
+	assessmentResult.setScore( subHeadingsResult.score );
+	assessmentResult.setText( subHeadingsResult.text );
+
+	return assessmentResult;
+};
+
+module.exports = {
+	getResult: subheadingsHaveKeywordAssessment,
+	isApplicable: function( paper ) {
+		return paper.hasText() && paper.hasKeyword();
+	}
+};
+
+},{"../values/AssessmentResult.js":78}],16:[function(require,module,exports){
+var AssessmentResult = require( "../values/AssessmentResult.js" );
+
+/**
+ * Returns a score and text based on the number of links.
+ *
+ * @param {object} linkStatistics The object with all linkstatistics.
+ * @param {object} i18n The object used for translations
+ * @returns {object} resultObject with score and text
+ */
+var calculateLinkCountResult = function( linkStatistics, i18n ) {
+	if ( linkStatistics.totalKeyword > 0 ) {
+		return {
+			score: 2,
+			text: i18n.dgettext( "js-text-analysis", "You\'re linking to another page with the focus keyword you want this page to rank for. " +
+				"Consider changing that if you truly want this page to rank." )
+		};
+	}
+	return {};
+};
+
+/**
+ * Runs the linkCount module, based on this returns an assessment result with score.
+ *
+ * @param {object} paper The paper to use for the assessment.
+ * @param {object} researcher The researcher used for calling research.
+ * @param {object} i18n The object used for translations
+ * @returns {object} the Assessmentresult
+ */
+var textHasCompetingLinksAssessment = function( paper, researcher, i18n ) {
+	var linkCount = researcher.getResearch( "getLinkStatistics" );
+
+	var linkCountResult = calculateLinkCountResult( linkCount, i18n );
+	var assessmentResult = new AssessmentResult();
+
+	assessmentResult.setScore( linkCountResult.score );
+	assessmentResult.setText( linkCountResult.text );
+
+	return assessmentResult;
+};
+
+module.exports = {
+	getResult: textHasCompetingLinksAssessment,
+	isApplicable: function ( paper ) {
+		return paper.hasText() && paper.hasKeyword();
+	}
+};
+
+},{"../values/AssessmentResult.js":78}],17:[function(require,module,exports){
+var AssessmentResult = require( "../values/AssessmentResult.js" );
+var isEmpty = require( "lodash/isEmpty" );
+
+/**
+ * Calculate the score based on the current image count.
+ * @param {number} imageCount The amount of images to be checked against.
+ * @param {object} i18n The locale object.
+ * @returns {object} The resulting score object.
+ */
+var calculateImageCountResult = function( imageCount, i18n ) {
+	if ( imageCount === 0 ) {
+		return {
+			score: 3,
+			text: i18n.dgettext( "js-text-analysis", "No images appear in this page, consider adding some as appropriate." )
+		};
+	}
+
+	return {};
+};
+
+/**
+ * Calculate the score based on the current image alt-tag count.
+ * @param {object} altProperties An object containing the various alt-tags.
+ * @param {object} i18n The locale object.
+ * @returns {object} The resulting score object.
+ */
+var assessImages = function( altProperties, i18n ) {
+	if ( altProperties.noAlt > 0 ) {
+		return {
+			score: 5,
+			text: i18n.dgettext( "js-text-analysis", "The images on this page are missing alt tags." )
+		};
+	}
+
+	// Has alt-tag, but no keyword is set
+	if ( altProperties.withAlt > 0 ) {
+		return {
+			score: 5,
+			text: i18n.dgettext( "js-text-analysis", "The images on this page contain alt tags." )
+		};
+	}
+
+	// Has alt-tag, but no keywords and it's not okay
+	if ( altProperties.withAltNonKeyword > 0 ) {
+		return {
+			score: 5,
+			text: i18n.dgettext( "js-text-analysis", "The images on this page do not have alt tags containing your focus keyword." )
+		};
+	}
+
+	// Has alt-tag and keywords
+	if ( altProperties.withAltKeyword > 0 ) {
+		return {
+			score: 9,
+			text: i18n.dgettext( "js-text-analysis", "The images on this page contain alt tags with the focus keyword." )
+		};
+	}
+
+	return {};
+};
+
+/**
+ * Execute the Assessment and return a result.
+ * @param {Paper} paper The Paper object to assess.
+ * @param {Researcher} researcher The Researcher object containing all available researches.
+ * @param {object} i18n The locale object.
+ * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
+ */
+var textHasImagesAssessment = function( paper, researcher, i18n ) {
+	var assessmentResult = new AssessmentResult();
+
+	var imageCount = researcher.getResearch( "imageCount" );
+	var imageCountResult = calculateImageCountResult( imageCount, i18n );
+
+	if ( isEmpty( imageCountResult ) ) {
+		var altTagCount = researcher.getResearch( "altTagCount" );
+		var altTagCountResult = assessImages( altTagCount, i18n );
+
+		assessmentResult.setScore( altTagCountResult.score );
+		assessmentResult.setText( altTagCountResult.text );
+
+		return assessmentResult;
+	}
+
+	assessmentResult.setScore( imageCountResult.score );
+	assessmentResult.setText( imageCountResult.text );
+
+	return assessmentResult;
+};
+
+module.exports = {
+	getResult: textHasImagesAssessment,
+	isApplicable: function ( paper ) {
+		return paper.hasText();
+	}
+};
+
+},{"../values/AssessmentResult.js":78,"lodash/isEmpty":176}],18:[function(require,module,exports){
+var AssessmentResult = require( "../values/AssessmentResult.js" );
+var inRange = require( "lodash/inRange" );
+
+/**
+ * Calculate the score based on the current word count.
+ * @param {number} wordCount The amount of words to be checked against.
+ * @param {object} i18n The locale object.
+ * @returns {object} The resulting score object.
+ */
+var calculateWordCountResult = function( wordCount, i18n ) {
+	if ( wordCount > 300 ) {
+		return {
+			score: 9,
+			/* translators: %1$d expands to the number of words in the text, %2$s to the recommended minimum of words */
+			text: i18n.dngettext(
+				"js-text-analysis",
+				"The text contains %1$d word, this is more than the %2$d word recommended minimum.",
+				"The text contains %1$d words, this is more than the %2$d word recommended minimum.",
+				wordCount
+			)
+		};
+	}
+
+	if ( inRange( wordCount, 250, 300 ) ) {
+		return {
+			score: 7,
+			/* translators: %1$d expands to the number of words in the text, %2$s to the recommended minimum of words */
+			text: i18n.dngettext(
+				"js-text-analysis",
+				"The text contains %1$d word, this is slightly below the %2$d word recommended minimum. Add a bit more copy.",
+				"The text contains %1$d words, this is slightly below the %2$d word recommended minimum. Add a bit more copy.",
+				wordCount
+			)
+		};
+	}
+
+	if ( inRange( wordCount, 200, 250 ) ) {
+		return {
+			score: 5,
+			/* translators: %1$d expands to the number of words in the text, %2$d to the recommended minimum of words */
+			text: i18n.dngettext(
+				"js-text-analysis",
+				"The text contains %1$d word, this is below the %2$d word recommended minimum. Add more useful content on this topic for readers.",
+				"The text contains %1$d words, this is below the %2$d word recommended minimum. Add more useful content on this topic for readers.",
+				wordCount
+			)
+		};
+	}
+
+	if ( inRange( wordCount, 100, 200 ) ) {
+		return {
+			score: -10,
+			/* translators: %1$d expands to the number of words in the text, %2$d to the recommended minimum of words */
+			text: i18n.dngettext(
+				"js-text-analysis",
+				"The text contains %1$d word, this is below the %2$d word recommended minimum. Add more useful content on this topic for readers.",
+				"The text contains %1$d words, this is below the %2$d word recommended minimum. Add more useful content on this topic for readers.",
+				wordCount
+			)
+		};
+	}
+
+	if ( inRange( wordCount, 0, 100 ) ) {
+		return {
+			score: -20,
+			/* translators: %1$d expands to the number of words in the text */
+			text: i18n.dngettext(
+				"js-text-analysis",
+				"The text contains %1$d word, this is far too low and should be increased.",
+				"The text contains %1$d words, this is far too low and should be increased.",
+				wordCount
+			)
+		};
+	}
+};
+
+/**
+ * Execute the Assessment and return a result.
+ * @param {Paper} paper The Paper object to assess.
+ * @param {Researcher} researcher The Researcher object containing all available researches.
+ * @param {object} i18n The locale object.
+ * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
+ */
+var textLengthAssessment = function( paper, researcher, i18n ) {
+	var wordCount = researcher.getResearch( "wordCountInText" );
+	var wordCountResult = calculateWordCountResult( wordCount, i18n );
+	var assessmentResult = new AssessmentResult();
+
+	assessmentResult.setScore( wordCountResult.score );
+	assessmentResult.setText( i18n.sprintf( wordCountResult.text, wordCount, 300 ) );
+
+	return assessmentResult;
+};
+
+module.exports = { getResult: textLengthAssessment };
+
+},{"../values/AssessmentResult.js":78,"lodash/inRange":170}],19:[function(require,module,exports){
+var AssessmentResult = require( "../values/AssessmentResult.js" );
+var isEmpty = require( "lodash/isEmpty" );
+
+/**
+ * Returns a score and text based on the linkStatistics object.
+ *
+ * @param {object} linkStatistics The object with all linkstatistics.
+ * @param {object} i18n The object used for translations
+ * @returns {object} resultObject with score and text
+ */
+var calculateLinkStatisticsResult = function( linkStatistics, i18n ) {
+	if ( linkStatistics.total === 0 ) {
+		return {
+			score: 6,
+			text: i18n.dgettext( "js-text-analysis", "No links appear in this page, consider adding some as appropriate." )
+		};
+	}
+
+	if ( linkStatistics.externalNofollow === linkStatistics.total ) {
+		return {
+			score: 7,
+			/* translators: %1$s expands the number of outbound links */
+			text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "This page has %1$s outbound link(s), all nofollowed." ),
+				linkStatistics.externalNofollow )
+		};
+	}
+
+	if ( linkStatistics.externalNofollow < linkStatistics.total ) {
+		return {
+			score: 8,
+			/* translators: %1$s expands to the number of nofollow links, %2$s to the number of outbound links */
+			text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "This page has %1$s nofollowed link(s) and %2$s normal outbound link(s)." ),
+				linkStatistics.externalNofollow, linkStatistics.externalDofollow )
+		};
+	}
+
+	if ( linkStatistics.externalDofollow === linkStatistics.total ) {
+		return {
+			score: 9,
+			/* translators: %1$s expands to the number of outbound links */
+			text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "This page has %1$s outbound link(s)." ), linkStatistics.externalTotal )
+		};
+	}
+};
+
+/**
+ * Runs the getLinkStatistics module, based on this returns an assessment result with score.
+ *
+ * @param {object} paper The paper to use for the assessment.
+ * @param {object} researcher The researcher used for calling research.
+ * @param {object} i18n The object used for translations
+ * @returns {object} the Assessmentresult
+ */
+var textHasLinksAssessment = function( paper, researcher, i18n ) {
+	var linkStatistics = researcher.getResearch( "getLinkStatistics" );
+	var assessmentResult = new AssessmentResult();
+	if ( !isEmpty( linkStatistics ) ) {
+		var linkStatisticsResult = calculateLinkStatisticsResult( linkStatistics, i18n );
+		assessmentResult.setScore( linkStatisticsResult.score );
+		assessmentResult.setText( linkStatisticsResult.text );
+	}
+	return assessmentResult;
+};
+
+module.exports = {
+	getResult: textHasLinksAssessment,
+	isApplicable: function ( paper ) {
+		return paper.hasText();
+	}
+};
+
+},{"../values/AssessmentResult.js":78,"lodash/isEmpty":176}],20:[function(require,module,exports){
+var AssessmentResult = require( "../values/AssessmentResult.js" );
+
+/**
+ * Returns a score and text based on the subheading matches object.
+ *
+ * @param {object} subHeadings The object with all subHeadings matches.
+ * @param {object} i18n The object used for translations.
+ * @returns {object} resultObject with score and text.
+ */
+var calculateSubheadingMatchesResult = function( subHeadings, i18n ) {
+	if ( subHeadings.count === 0 ) {
+		return {
+			score: 7,
+			text: i18n.dgettext( "js-text-analysis", "No subheading tags (like an H2) appear in the copy." )
+		};
+	}
+	return {};
+};
+
+/**
+ * Runs the match subheadings module, based on this returns an assessment result with score.
+ *
+ * @param {object} paper The paper to use for the assessment.
+ * @param {object} researcher The researcher used for calling research.
+ * @param {object} i18n The object used for translations.
+ * @returns {object} the Assessmentresult
+ */
+var textHasSubheadingsAssessment = function( paper, researcher, i18n ) {
+	var subHeadings = researcher.getResearch( "matchKeywordInSubheadings" );
+	var subHeadingsResult = calculateSubheadingMatchesResult( subHeadings, i18n );
+	var assessmentResult = new AssessmentResult();
+
+	assessmentResult.setScore( subHeadingsResult.score );
+	assessmentResult.setText( subHeadingsResult.text );
+
+	return assessmentResult;
+};
+
+module.exports = {
+	getResult: textHasSubheadingsAssessment,
+	isApplicable: function( paper ) {
+		return paper.hasText();
+	}
+};
+
+
+},{"../values/AssessmentResult.js":78}],21:[function(require,module,exports){
+var AssessmentResult = require( "../values/AssessmentResult.js" );
+
+/**
+ * Executes the pagetitle keyword assessment and returns an assessment result.
+ * @param {Paper} paper The Paper object to assess.
+ * @param {Researcher} researcher The Researcher object containing all available researches.
+ * @param {object} i18n The locale object.
+ * @returns {AssessmentResult} The result of the assessment with text and score
+ */
+var titleHasKeywordAssessment = function( paper, researcher, i18n ) {
+	var keywordMatches = researcher.getResearch( "findKeywordInPageTitle" );
+	var score, text;
+
+	if ( keywordMatches.matches === 0 ) {
+		score = 2;
+		text = i18n.sprintf( i18n.dgettext( "js-text-analysis", "The focus keyword '%1$s' does not appear in the page title." ), paper.getKeyword() );
+	}
+
+	if ( keywordMatches.matches > 0 && keywordMatches.position === 0 ) {
+		score = 9;
+		text = i18n.dgettext( "js-text-analysis", "The page title contains the focus keyword, at the beginning which is considered " +
+			"to improve rankings." );
+	}
+
+	if ( keywordMatches.matches > 0 && keywordMatches.position > 0 ) {
+		score = 6;
+		text = i18n.dgettext( "js-text-analysis", "The page title contains the focus keyword, but it does not appear at the beginning;" +
+			" try and move it to the beginning." );
+	}
+	var assessmentResult = new AssessmentResult();
+
+	assessmentResult.setScore( score );
+	assessmentResult.setText( text );
+
+	return assessmentResult;
+};
+
+module.exports = {
+	getResult: titleHasKeywordAssessment,
+	isApplicable: function ( paper ) {
+		return paper.hasKeyword();
+	}
+};
+
+},{"../values/AssessmentResult.js":78}],22:[function(require,module,exports){
+var AssessmentResult = require( "../values/AssessmentResult.js" );
+var inRange = require( "lodash/inRange" );
+
+/**
+ * Returns the score and text for the pageTitleLength
+ * @param {number} pageTitleLength The length of the pageTitle.
+ * @param {object} i18n The i18n object used for translations.
+ * @returns {object} The result object.
+ */
+var calculatePageTitleLengthResult = function( pageTitleLength, i18n ) {
+	var minLength = 35;
+	var maxLength = 65;
+
+	if ( inRange( pageTitleLength, 1, 35 ) ) {
+		return {
+			score: 6,
+			text: i18n.sprintf(
+				i18n.dngettext(
+					"js-text-analysis",
+					/* translators: %1$d expands to the number of characters in the page title,
+					%2$d to the minimum number of characters for the title */
+					"The page title contains %1$d character, which is less than the recommended minimum of %2$d characters. " +
+					"Use the space to add keyword variations or create compelling call-to-action copy.",
+					"The page title contains %1$d characters, which is less than the recommended minimum of %2$d characters. " +
+					"Use the space to add keyword variations or create compelling call-to-action copy.",
+				pageTitleLength ),
+				pageTitleLength, minLength )
+		};
+	}
+
+	if ( inRange( pageTitleLength, 35, 66 ) ) {
+		return {
+			score: 9,
+			text: i18n.sprintf(
+				i18n.dgettext(
+					"js-text-analysis",
+					/* translators: %1$d expands to the minimum number of characters in the page title, %2$d to the maximum number of characters */
+					"The page title is between the %1$d character minimum and the recommended %2$d character maximum." ),
+				minLength, maxLength )
+		};
+	}
+
+	if ( pageTitleLength > maxLength ) {
+		return {
+			score: 6,
+			text: i18n.sprintf(
+				i18n.dngettext(
+					"js-text-analysis",
+					/* translators: %1$d expands to the number of characters in the page title, %2$d to the maximum number
+					of characters for the title */
+					"The page title contains %1$d character, which is more than the viewable limit of %2$d characters; " +
+					"some words will not be visible to users in your listing.",
+					"The page title contains %1$d characters, which is more than the viewable limit of %2$d characters; " +
+					"some words will not be visible to users in your listing.",
+					pageTitleLength ),
+				pageTitleLength, maxLength )
+		};
+	}
+
+	return {
+		score: 1,
+		text: i18n.dgettext( "js-text-analysis", "Please create a page title." )
+	};
+};
+
+/**
+ * Runs the pageTitleLength module, based on this returns an assessment result with score.
+ *
+ * @param {object} paper The paper to use for the assessment.
+ * @param {object} researcher The researcher used for calling research.
+ * @param {object} i18n The object used for translations
+ * @returns {object} the Assessmentresult
+ */
+var titleLengthAssessment = function( paper, researcher, i18n ) {
+	var pageTitleLength = researcher.getResearch( "pageTitleLength" );
+	var pageTitleLengthResult = calculatePageTitleLengthResult( pageTitleLength, i18n );
+	var assessmentResult = new AssessmentResult();
+
+	assessmentResult.setScore( pageTitleLengthResult.score );
+	assessmentResult.setText( pageTitleLengthResult.text );
+
+	return assessmentResult;
+};
+
+module.exports = { getResult: titleLengthAssessment };
+
+},{"../values/AssessmentResult.js":78,"lodash/inRange":170}],23:[function(require,module,exports){
+var AssessmentResult = require( "../values/AssessmentResult.js" );
+
+/**
+ * Calculate the score based on whether or not there's a keyword in the url.
+ * @param {number} keywordsResult The amount of keywords to be checked against.
+ * @param {object} i18n The locale object.
+ * @returns {object} The resulting score object.
+ */
+var calculateUrlKeywordCountResult = function( keywordsResult, i18n ) {
+
+	if ( keywordsResult > 0 ) {
+		return {
+			score: 9,
+			text: i18n.dgettext( "js-text-analysis", "The focus keyword appears in the URL for this page." )
+		};
+	}
+
+	return {
+		score: 6,
+		text: i18n.dgettext( "js-text-analysis", "The focus keyword does not appear in the URL for this page. " +
+		                                         "If you decide to rename the URL be sure to check the old URL 301 redirects to the new one!" )
+	};
+};
+
+/**
+ * Execute the Assessment and return a result.
+ * @param {Paper} paper The Paper object to assess.
+ * @param {Researcher} researcher The Researcher object containing all available researches.
+ * @param {object} i18n The locale object.
+ * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
+ */
+var urlHasKeywordAssessment = function( paper, researcher, i18n ) {
+	var keywords = researcher.getResearch( "keywordCountInUrl" );
+	var keywordsResult = calculateUrlKeywordCountResult( keywords, i18n );
+
+	var assessmentResult = new AssessmentResult();
+	assessmentResult.setScore( keywordsResult.score );
+	assessmentResult.setText( keywordsResult.text );
+
+	return assessmentResult;
+};
+
+module.exports = {
+	getResult: urlHasKeywordAssessment,
+	isApplicable: function( paper ) {
+		return paper.hasKeyword() && paper.hasUrl();
+	}
+};
+
+},{"../values/AssessmentResult.js":78}],24:[function(require,module,exports){
+var AssessmentResult = require( "../values/AssessmentResult.js" );
+
+/**
+ * The assessment that checks the url length
+ *
+ * @param {Paper} paper The paper to run this assessment on.
+ * @param {object} researcher The researcher used for the assessment.
+ * @param {object} i18n The i18n-object used for parsing translations.
+ * @returns {object} an AssessmentResult with the score and the formatted text.
+ */
+var urlLengthAssessment = function( paper, researcher, i18n ) {
+	var urlIsTooLong = researcher.getResearch( "urlLength" );
+	var assessmentResult = new AssessmentResult();
+	if ( urlIsTooLong ) {
+		var score = 5;
+		var text = i18n.dgettext( "js-text-analysis", "The slug for this page is a bit long, consider shortening it." );
+		assessmentResult.setScore( score );
+		assessmentResult.setText( text );
+	}
+	return assessmentResult;
+};
+
+module.exports = {
+	getResult: urlLengthAssessment,
+	isApplicable: function ( paper ) {
+		return paper.hasUrl();
+	}
+};
+
+},{"../values/AssessmentResult.js":78}],25:[function(require,module,exports){
+var AssessmentResult = require( "../values/AssessmentResult.js" );
+
+/**
+ * Calculate the score based on the amount of stop words in the url.
+ * @param {number} stopWordCount The amount of stop words to be checked against.
+ * @param {object} i18n The locale object.
+ * @returns {object} The resulting score object.
+ */
+var calculateUrlStopWordsCountResult = function( stopWordCount, i18n ) {
+
+	if ( stopWordCount > 0 ) {
+		return {
+			score: 5,
+			/* translators: %1$s opens a link to a wikipedia article about stop words, %2$s closes the link */
+			text: i18n.dngettext(
+				"js-text-analysis",
+				"The slug for this page contains a %1$sstop word%2$s, consider removing it.",
+				"The slug for this page contains %1$sstop words%2$s, consider removing them.",
+				stopWordCount
+			)
+		};
+	}
+
+	return {};
+};
+
+/**
+ * Execute the Assessment and return a result.
+ * @param {Paper} paper The Paper object to assess.
+ * @param {Researcher} researcher The Researcher object containing all available researches.
+ * @param {object} i18n The locale object.
+ * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
+ */
+var urlHasStopWordsAssessment = function( paper, researcher, i18n ) {
+	var stopWords = researcher.getResearch( "stopWordsInUrl" );
+	var stopWordsResult = calculateUrlStopWordsCountResult( stopWords.length, i18n );
+
+	var assessmentResult = new AssessmentResult();
+	assessmentResult.setScore( stopWordsResult.score );
+	assessmentResult.setText( i18n.sprintf(
+		stopWordsResult.text,
+		/* translators: this link is referred to in the content analysis when a slug contains one or more stop words */
+		"<a href='" + i18n.dgettext( "js-text-analysis", "http://en.wikipedia.org/wiki/Stop_words" ) + "' target='new'>",
+		"</a>"
+	) );
+
+	return assessmentResult;
+};
+
+module.exports = { getResult: urlHasStopWordsAssessment };
+
+},{"../values/AssessmentResult.js":78}],26:[function(require,module,exports){
 var Researcher = require( "./researcher.js" );
 var MissingArgument = require( "./errors/missingArgument" );
 var isUndefined = require( "lodash/isUndefined" );
@@ -2162,1872 +3311,7 @@ Assessor.prototype.removeAssessment = function( name ) {
 
 module.exports = Assessor;
 
-},{"./errors/missingArgument":37,"./researcher.js":41,"lodash/forEach":221,"lodash/isUndefined":243}],9:[function(require,module,exports){
-/* jshint browser: true */
-
-require( "./config/config.js" );
-var SnippetPreview = require( "./snippetPreview.js" );
-
-var defaultsDeep = require( "lodash/defaultsDeep" );
-var isObject = require( "lodash/isObject" );
-var isString = require( "lodash/isString" );
-var MissingArgument = require( "./errors/missingArgument" );
-var isUndefined = require( "lodash/isUndefined" );
-var forEach = require( "lodash/forEach" );
-
-var Jed = require( "jed" );
-
-var SEOAssessor = require( "./seoAssessor.js" );
-var Researcher = require( "./researcher.js" );
-var AssessorPresenter = require( "./renderers/AssessorPresenter.js" );
-var Pluggable = require( "./pluggable.js" );
-var Paper = require( "./values/Paper.js" );
-
-/**
- * Default config for YoastSEO.js
- *
- * @type {Object}
- */
-var defaults = {
-	callbacks: {
-		bindElementEvents: function( ) { },
-		updateSnippetValues: function( ) { },
-		saveScores: function( ) { }
-	},
-	sampleText: {
-		baseUrl: "example.org/",
-		snippetCite: "example-post/",
-		title: "This is an example title - edit by clicking here",
-		keyword: "Choose a focus keyword",
-		meta: "Modify your meta description by editing it right here",
-		text: "Start writing your text!"
-	},
-	queue: [ "wordCount",
-		"keywordDensity",
-		"subHeadings",
-		"stopwords",
-		"fleschReading",
-		"linkCount",
-		"imageCount",
-		"urlKeyword",
-		"urlLength",
-		"metaDescription",
-		"pageTitleKeyword",
-		"pageTitleLength",
-		"firstParagraph",
-		"'keywordDoubles" ],
-	typeDelay: 300,
-	typeDelayStep: 100,
-	maxTypeDelay: 1500,
-	dynamicDelay: true,
-	locale: "en_US",
-	translations: {
-		"domain": "js-text-analysis",
-		"locale_data": {
-			"js-text-analysis": {
-				"": {}
-			}
-		}
-	},
-	replaceTarget: [],
-	resetTarget: [],
-	elementTarget: []
-};
-
-/**
- * Creates a default snippet preview, this can be used if no snippet preview has been passed.
- *
- * @private
- * @this App
- *
- * @returns {SnippetPreview} The SnippetPreview object.
- */
-function createDefaultSnippetPreview() {
-	var targetElement = document.getElementById( this.config.targets.snippet );
-
-	return new SnippetPreview( {
-		analyzerApp: this,
-		targetElement: targetElement,
-		callbacks: {
-			saveSnippetData: this.config.callbacks.saveSnippetData
-		}
-	} );
-}
-
-/**
- * Returns whether or not the given argument is a valid SnippetPreview object.
- *
- * @param   {*}         snippetPreview  The 'object' to check against.
- * @returns {boolean}                   Whether or not it's a valid SnippetPreview object.
- */
-function isValidSnippetPreview( snippetPreview ) {
-	return !isUndefined( snippetPreview ) && SnippetPreview.prototype.isPrototypeOf( snippetPreview );
-}
-
-/**
- * Check arguments passed to the App to check if all necessary arguments are set.
- *
- * @private
- * @param {Object}      args            The arguments object passed to the App.
- * @returns {void}
- */
-function verifyArguments( args ) {
-
-	if ( !isObject( args.callbacks.getData ) ) {
-		throw new MissingArgument( "The app requires an object with a getdata callback." );
-	}
-
-	if ( !isObject( args.targets ) ) {
-		throw new MissingArgument( "`targets` is a required App argument, `targets` is not an object." );
-	}
-
-	if ( !isString( args.targets.output ) ) {
-		throw new MissingArgument( "`targets.output` is a required App argument, `targets.output` is not a string." );
-	}
-
-	// The args.targets.snippet argument is only required if not SnippetPreview object has been passed.
-	if ( !isValidSnippetPreview( args.snippetPreview ) && !isString( args.targets.snippet ) ) {
-		throw new MissingArgument( "A snippet preview is required. When no SnippetPreview object isn't passed to " +
-			"the App, the `targets.snippet` is a required App argument. `targets.snippet` is not a string." );
-	}
-}
-
-/**
- * This should return an object with the given properties
- *
- * @callback YoastSEO.App~getData
- * @returns {Object} data
- * @returns {String} data.keyword The keyword that should be used
- * @returns {String} data.meta
- * @returns {String} data.text The text to analyze
- * @returns {String} data.pageTitle The text in the HTML title tag
- * @returns {String} data.title The title to analyze
- * @returns {String} data.url The URL for the given page
- * @returns {String} data.excerpt Excerpt for the pages
- */
-
-/**
- * @callback YoastSEO.App~getAnalyzerInput
- *
- * @returns {Array} An array containing the analyzer queue
- */
-
-/**
- * @callback YoastSEO.App~bindElementEvents
- *
- * @param {YoastSEO.App} app A reference to the YoastSEO.App from where this is called.
- */
-
-/**
- * @callback YoastSEO.App~updateSnippetValues
- *
- * @param {Object} ev The event emitted from the DOM
- */
-
-/**
- * @callback YoastSEO.App~saveScores
- *
- * @param {int} overalScore The overal score as determined by the analyzer.
- */
-
-/**
- * Loader for the analyzer, loads the eventbinder and the elementdefiner
- *
- * @param {Object} args The arguments oassed to the loader.
- * @param {Object} args.translations Jed compatible translations.
- * @param {Object} args.targets Targets to retrieve or set on.
- * @param {String} args.targets.snippet ID for the snippet preview element.
- * @param {String} args.targets.output ID for the element to put the output of the analyzer in.
- * @param {int} args.typeDelay Number of milliseconds to wait between typing to refresh the analyzer output.
- * @param {boolean} args.dynamicDelay   Whether to enable dynamic delay, will ignore type delay if the analyzer takes a long time.
- *                                      Applicable on slow devices.
- * @param {int} args.maxTypeDelay The maximum amount of type delay even if dynamic delay is on.
- * @param {int} args.typeDelayStep The amount with which to increase the typeDelay on each step when dynamic delay is enabled.
- * @param {Object} args.callbacks The callbacks that the app requires.
- * @param {Object} args.assessor The Assessor to use instead of the default assessor.
- * @param {YoastSEO.App~getData} args.callbacks.getData Called to retrieve input data
- * @param {YoastSEO.App~getAnalyzerInput} args.callbacks.getAnalyzerInput Called to retrieve input for the analyzer.
- * @param {YoastSEO.App~bindElementEvents} args.callbacks.bindElementEvents Called to bind events to the DOM elements.
- * @param {YoastSEO.App~updateSnippetValues} args.callbacks.updateSnippetValues Called when the snippet values need to be updated.
- * @param {YoastSEO.App~saveScores} args.callbacks.saveScores Called when the score has been determined by the analyzer.
- * @param {Function} args.callbacks.saveSnippetData Function called when the snippet data is changed.
- *
- * @param {SnippetPreview} args.snippetPreview The SnippetPreview object to be used.
- *
- * @constructor
- */
-var App = function( args ) {
-	if ( !isObject( args ) ) {
-		args = {};
-	}
-
-	defaultsDeep( args, defaults );
-
-	verifyArguments( args );
-
-	this.config = args;
-
-	this.callbacks = this.config.callbacks;
-	this.i18n = this.constructI18n( this.config.translations );
-
-	// Set the assessor
-	if ( isUndefined( args.assessor ) ) {
-		this.assessor = new SEOAssessor( this.i18n );
-	} else {
-		this.assessor = args.assessor;
-	}
-
-	this.pluggable = new Pluggable( this );
-
-	this.getData();
-	this.showLoadingDialog();
-
-	if ( isValidSnippetPreview( args.snippetPreview ) ) {
-		this.snippetPreview = args.snippetPreview;
-
-		// Hack to make sure the snippet preview always has a reference to this App. This way we solve the circular
-		// dependency issue. In the future this should be solved by the snippet preview not having a reference to the
-		// app.
-		if ( this.snippetPreview.refObj !== this ) {
-			this.snippetPreview.refObj = this;
-			this.snippetPreview.i18n = this.i18n;
-		}
-	} else {
-		this.snippetPreview = createDefaultSnippetPreview.call( this );
-	}
-	this.initSnippetPreview();
-
-	this.runAnalyzer();
-};
-
-/**
- * Extend the config with defaults.
- *
- * @param   {Object}    args    The arguments to be extended.
- * @returns {Object}    args    The extended arguments.
- */
-App.prototype.extendConfig = function( args ) {
-	args.sampleText = this.extendSampleText( args.sampleText );
-	args.locale = args.locale || "en_US";
-
-	return args;
-};
-
-/**
- * Extend sample text config with defaults.
- *
- * @param   {Object}    sampleText  The sample text to be extended.
- * @returns {Object}    sampleText  The extended sample text.
- */
-App.prototype.extendSampleText = function( sampleText ) {
-	var defaultSampleText = defaults.sampleText;
-
-	if ( isUndefined( sampleText ) ) {
-		sampleText = defaultSampleText;
-	} else {
-		for ( var key in sampleText ) {
-			if ( isUndefined( sampleText[ key ] ) ) {
-				sampleText[ key ] = defaultSampleText[ key ];
-			}
-		}
-	}
-
-	return sampleText;
-};
-
-/**
- * Initializes i18n object based on passed configuration
- *
- * @param {Object}  translations    The translations to be used in the current instance.
- * @returns {void}
- */
-App.prototype.constructI18n = function( translations ) {
-	var defaultTranslations = {
-		"domain": "js-text-analysis",
-		"locale_data": {
-			"js-text-analysis": {
-				"": {}
-			}
-		}
-	};
-
-	// Use default object to prevent Jed from erroring out.
-	translations = translations || defaultTranslations;
-
-	return new Jed( translations );
-};
-
-/**
- * Retrieves data from the callbacks.getData and applies modification to store these in this.rawData.
- * @returns {void}
- */
-App.prototype.getData = function() {
-	this.rawData = this.callbacks.getData();
-
-	if ( !isUndefined( this.snippetPreview ) ) {
-
-		// Gets the data FOR the analyzer
-		var data = this.snippetPreview.getAnalyzerData();
-
-		this.rawData.pageTitle = data.title;
-		this.rawData.url = data.url;
-		this.rawData.meta = data.metaDesc;
-	}
-
-	if ( this.pluggable.loaded ) {
-		this.rawData.pageTitle = this.pluggable._applyModifications( "data_page_title", this.rawData.pageTitle );
-		this.rawData.meta = this.pluggable._applyModifications( "data_meta_desc", this.rawData.meta );
-	}
-	this.rawData.locale = this.config.locale;
-};
-
-/**
- * Refreshes the analyzer and output of the analyzer
- * @returns {void}
- */
-App.prototype.refresh = function() {
-	this.getData();
-	this.runAnalyzer();
-};
-
-/**
- * Creates the elements for the snippetPreview
- *
- * @deprecated Don't create a snippet preview using this method, create it directly using the prototype and pass it as
- * an argument instead.
- * @returns {void}
- */
-App.prototype.createSnippetPreview = function() {
-	this.snippetPreview = createDefaultSnippetPreview.call( this );
-	this.initSnippetPreview();
-};
-
-/**
- * Initializes the snippet preview for this App.
- * @returns {void}
- */
-App.prototype.initSnippetPreview = function() {
-	this.snippetPreview.renderTemplate();
-	this.snippetPreview.callRegisteredEventBinder();
-	this.snippetPreview.bindEvents();
-	this.snippetPreview.init();
-};
-
-/**
- * binds the analyzeTimer function to the input of the targetElement on the page.
- * @returns {void}
- */
-App.prototype.bindInputEvent = function() {
-	for ( var i = 0; i < this.config.elementTarget.length; i++ ) {
-		var elem = document.getElementById( this.config.elementTarget[ i ] );
-		elem.addEventListener( "input", this.analyzeTimer.bind( this ) );
-	}
-};
-
-/**
- * runs the rerender function of the snippetPreview if that object is defined.
- * @returns {void}
- */
-App.prototype.reloadSnippetText = function() {
-	if ( isUndefined( this.snippetPreview ) ) {
-		this.snippetPreview.reRender();
-	}
-};
-
-/**
- * the analyzeTimer calls the checkInputs function with a delay, so the function won't be executed
- * at every keystroke checks the reference object, so this function can be called from anywhere,
- * without problems with different scopes.
- * @returns {void}
- */
-App.prototype.analyzeTimer = function() {
-	clearTimeout( window.timer );
-	window.timer = setTimeout( this.refresh.bind( this ), this.config.typeDelay );
-};
-
-/**
- * sets the startTime timestamp
- * @returns {void}
- */
-App.prototype.startTime = function() {
-	this.startTimestamp = new Date().getTime();
-};
-
-/**
- * sets the endTime timestamp and compares with startTime to determine typeDelayincrease.
- * @returns {void}
- */
-App.prototype.endTime = function() {
-	this.endTimestamp = new Date().getTime();
-	if ( this.endTimestamp - this.startTimestamp > this.config.typeDelay ) {
-		if ( this.config.typeDelay < ( this.config.maxTypeDelay - this.config.typeDelayStep ) ) {
-			this.config.typeDelay += this.config.typeDelayStep;
-		}
-	}
-};
-
-/**
- * inits a new pageAnalyzer with the inputs from the getInput function and calls the scoreFormatter
- * to format outputs.
- * @returns {void}
- */
-App.prototype.runAnalyzer = function() {
-	if ( this.pluggable.loaded === false ) {
-		return;
-	}
-
-	if ( this.config.dynamicDelay ) {
-		this.startTime();
-	}
-
-	this.analyzerData = this.modifyData( this.rawData );
-
-	// Create a paper object for the Researcher
-	this.paper = new Paper( this.analyzerData.text, {
-		keyword:  this.analyzerData.keyword,
-		description: this.analyzerData.meta,
-		url: this.analyzerData.url,
-		title: this.analyzerData.pageTitle,
-		locale: this.config.locale
-	} );
-
-	// The new researcher
-	if ( isUndefined( this.researcher ) ) {
-		this.researcher = new Researcher( this.paper );
-	} else {
-		this.researcher.setPaper( this.paper );
-	}
-
-	this.assessor.assess( this.paper );
-
-	// Pass the assessor result through to the formatter
-	this.assessorPresenter = new AssessorPresenter( {
-		targets: this.config.targets,
-		keyword: this.paper.getKeyword(),
-		assessor: this.assessor,
-		i18n: this.i18n
-	} );
-
-	this.assessorPresenter.render();
-	this.callbacks.saveScores( this.assessor.calculateOverallScore(), this.assessorPresenter );
-
-	if ( this.config.dynamicDelay ) {
-		this.endTime();
-	}
-
-	this.snippetPreview.reRender();
-};
-
-/**
- * Modifies the data with plugins before it is sent to the analyzer.
- * @param   {Object}  data      The data to be modified.
- * @returns {Object}            The data with the applied modifications.
- */
-App.prototype.modifyData = function( data ) {
-
-	// Copy rawdata to lose object reference.
-	data = JSON.parse( JSON.stringify( data ) );
-
-	data.text = this.pluggable._applyModifications( "content", data.text );
-	data.title = this.pluggable._applyModifications( "title", data.title );
-
-	return data;
-};
-
-/**
- * Function to fire the analyzer when all plugins are loaded, removes the loading dialog.
- * @returns {void}
- */
-App.prototype.pluginsLoaded = function() {
-	this.getData();
-	this.removeLoadingDialog();
-	this.runAnalyzer();
-};
-
-/**
- * Shows the loading dialog which shows the loading of the plugins.
- * @returns {void}
- */
-App.prototype.showLoadingDialog = function() {
-	var dialogDiv = document.createElement( "div" );
-	dialogDiv.className = "YoastSEO_msg";
-	dialogDiv.id = "YoastSEO-plugin-loading";
-	document.getElementById( this.config.targets.output ).appendChild( dialogDiv );
-};
-
-/**
- * Updates the loading plugins. Uses the plugins as arguments to show which plugins are loading
- * @param   {Object}  plugins   The plugins to be parsed into the dialog.
- * @returns {void}
- */
-App.prototype.updateLoadingDialog = function( plugins ) {
-	var dialog = document.getElementById( "YoastSEO-plugin-loading" );
-	dialog.textContent = "";
-	forEach ( plugins, function( plugin, pluginName ) {
-		dialog.innerHTML += "<span class=left>" + pluginName + "</span><span class=right " +
-							plugin.status + ">" + plugin.status + "</span><br />";
-	} );
-	dialog.innerHTML += "<span class=bufferbar></span>";
-};
-
-/**
- * Removes the pluging load dialog.
- * @returns {void}
- */
-App.prototype.removeLoadingDialog = function() {
-	document.getElementById( this.config.targets.output ).removeChild( document.getElementById( "YoastSEO-plugin-loading" ) );
-};
-
-// ***** PLUGGABLE PUBLIC DSL ***** //
-
-/**
- * Delegates to `YoastSEO.app.pluggable.registerPlugin`
- *
- * @param {string}  pluginName      The name of the plugin to be registered.
- * @param {object}  options         The options object.
- * @param {string}  options.status  The status of the plugin being registered. Can either be "loading" or "ready".
- * @returns {boolean}               Whether or not it was successfully registered.
- */
-App.prototype.registerPlugin = function( pluginName, options ) {
-	return this.pluggable._registerPlugin( pluginName, options );
-};
-
-/**
- * Delegates to `YoastSEO.app.pluggable.ready`
- *
- * @param {string}  pluginName  The name of the plugin to check.
- * @returns {boolean}           Whether or not the plugin is ready.
- */
-App.prototype.pluginReady = function( pluginName ) {
-	return this.pluggable._ready( pluginName );
-};
-
-/**
- * Delegates to `YoastSEO.app.pluggable.reloaded`
- *
- * @param {string} pluginName   The name of the plugin to reload
- * @returns {boolean}           Whether or not the plugin was reloaded.
- */
-App.prototype.pluginReloaded = function( pluginName ) {
-	return this.pluggable._reloaded( pluginName );
-};
-
-/**
- * Delegates to `YoastSEO.app.pluggable.registerModification`
- *
- * @param {string}      modification 		The name of the filter
- * @param {function}    callable 		 	The callable function
- * @param {string}      pluginName 		    The plugin that is registering the modification.
- * @param {number}      priority 		 	(optional) Used to specify the order in which the callables associated with a particular filter are
-                                            called.
- * 									        Lower numbers correspond with earlier execution.
- * @returns 			{boolean}           Whether or not the modification was successfully registered.
- */
-App.prototype.registerModification = function( modification, callable, pluginName, priority ) {
-	return this.pluggable._registerModification( modification, callable, pluginName, priority );
-};
-
-/**
- * Registers a custom test for use in the analyzer, this will result in a new line in the analyzer results. The function
- * has to return a result based on the contents of the page/posts.
- *
- * The scoring object is a special object with definitions about how to translate a result from your analysis function
- * to a SEO score.
- *
- * Negative scores result in a red circle
- * Scores 1, 2, 3, 4 and 5 result in a orange circle
- * Scores 6 and 7 result in a yellow circle
- * Scores 8, 9 and 10 result in a red circle
- *
- * @deprecated since version 1.2
- */
-App.prototype.registerTest = function() {
-	console.error( "This function is deprecated, please use registerAssessment" );
-};
-
-/**
- * Registers a custom assessment for use in the analyzer, this will result in a new line in the analyzer results.
- * The function needs to use the assessmentresult to return an result  based on the contents of the page/posts.
- *
- * Score 0 results in a grey circle if it is not explicitly set by using setscore
- * Scores 0, 1, 2, 3 and 4 result in a red circle
- * Scores 6 and 7 result in a yellow circle
- * Scores 8, 9 and 10 result in a green circle
- *
- * @param {string} name Name of the test.
- * @param {function} assessment The assessment to run
- * @param {string}   pluginName The plugin that is registering the test.
- * @returns {boolean} Whether or not the test was successfully registered.
- */
-App.prototype.registerAssessment = function( name, assessment, pluginName ) {
-	return this.pluggable._registerAssessment( this.assessor, name, assessment, pluginName );
-};
-
-module.exports = App;
-
-},{"./config/config.js":30,"./errors/missingArgument":37,"./pluggable.js":39,"./renderers/AssessorPresenter.js":40,"./researcher.js":41,"./seoAssessor.js":62,"./snippetPreview.js":63,"./values/Paper.js":90,"jed":92,"lodash/defaultsDeep":218,"lodash/forEach":221,"lodash/isObject":237,"lodash/isString":240,"lodash/isUndefined":243}],10:[function(require,module,exports){
-var AssessmentResult = require( "../values/AssessmentResult.js" );
-var inRange = require( "lodash/inRange" );
-
-/**
- * Calculates the assessment result based on the fleschReadingScore
- * @param {int} fleschReadingScore The score from the fleschReadingtest
- * @param {object} i18n The i18n-object used for parsing translations
- * @returns {object} object with score, resultText and note
- */
-var calculateFleschReadingResult = function( fleschReadingScore, i18n ) {
-	if ( fleschReadingScore > 90 ) {
-		return {
-			score: 9,
-			resultText: i18n.dgettext( "js-text-analysis", "very easy" ),
-			note: ""
-		};
-	}
-
-	if ( inRange( fleschReadingScore, 80, 90 ) ) {
-		return {
-			score: 9,
-			resultText:  i18n.dgettext( "js-text-analysis", "easy" ),
-			note: ""
-		};
-	}
-
-	if ( inRange( fleschReadingScore, 70, 80 ) ) {
-		return {
-			score: 8,
-			resultText: i18n.dgettext( "js-text-analysis", "fairly easy" ),
-			note: ""
-		};
-	}
-
-	if ( inRange( fleschReadingScore, 60, 70 ) ) {
-		return {
-			score: 8,
-			resultText: i18n.dgettext( "js-text-analysis", "ok" ),
-			note: ""
-		};
-	}
-
-	if ( inRange( fleschReadingScore, 50, 60 ) ) {
-		return {
-			score: 6,
-			resultText: i18n.dgettext( "js-text-analysis", "fairly difficult" ),
-			note: i18n.dgettext( "js-text-analysis", "Try to make shorter sentences to improve readability." )
-		};
-	}
-
-	if ( inRange( fleschReadingScore, 30, 50 ) ) {
-		return {
-			score: 5,
-			resultText: i18n.dgettext( "js-text-analysis", "difficult" ),
-			note: i18n.dgettext( "js-text-analysis", "Try to make shorter sentences, using less difficult words to improve readability." )
-		};
-	}
-
-	if ( fleschReadingScore < 30 ) {
-		return {
-			score: 4,
-			resultText: i18n.dgettext( "js-text-analysis", "very difficult" ),
-			note: i18n.dgettext( "js-text-analysis", "Try to make shorter sentences, using less difficult words to improve readability." )
-		};
-	}
-};
-
-/**
- * The assessment that runs the FleschReading on the paper.
- *
- * @param {object} paper The paper to run this assessment on
- * @param {object} researcher The researcher used for the assessment
- * @param {object} i18n The i18n-object used for parsing translations
- * @returns {object} an assessmentresult with the score and formatted text.
- */
-var fleschReadingEaseAssessment = function( paper, researcher, i18n ) {
-	var fleschReadingScore = researcher.getResearch( "calculateFleschReading" );
-
-	/* translators: %1$s expands to the numeric flesch reading ease score, %2$s to a link to a Yoast.com article about Flesch ease reading score,
-	 %3$s to the easyness of reading, %4$s expands to a note about the flesch reading score. */
-	var text = i18n.dgettext( "js-text-analysis", "The copy scores %1$s in the %2$s test, which is considered %3$s to read. %4$s" );
-	var url = "<a href='https://yoast.com/flesch-reading-ease-score/' target='new'>Flesch Reading Ease</a>";
-
-	// scores must be between 0 and 100;
-	if ( fleschReadingScore < 0 ) {
-		fleschReadingScore = 0;
-	}
-	if ( fleschReadingScore > 100 ) {
-		fleschReadingScore = 100;
-	}
-
-	var fleschReadingResult = calculateFleschReadingResult( fleschReadingScore, i18n );
-
-	text = i18n.sprintf( text, fleschReadingScore, url, fleschReadingResult.resultText, fleschReadingResult.note );
-
-	var assessmentResult =  new AssessmentResult();
-	assessmentResult.setScore( fleschReadingResult.score );
-	assessmentResult.setText( text );
-
-	return assessmentResult;
-};
-
-module.exports = {
-	getResult: fleschReadingEaseAssessment,
-	isApplicable: function( paper ) {
-		return ( paper.getLocale().indexOf( "en_" ) > -1 );
-	}
-};
-
-},{"../values/AssessmentResult.js":89,"lodash/inRange":225}],11:[function(require,module,exports){
-var AssessmentResult = require( "../values/AssessmentResult.js" );
-
-/**
- * Returns a score and text based on the firstParagraph object.
- *
- * @param {object} firstParagraphMatches The object with all firstParagraphMatches.
- * @param {object} i18n The object used for translations
- * @returns {object} resultObject with score and text
- */
-var calculateFirstParagraphResult = function( firstParagraphMatches, i18n ) {
-	if ( firstParagraphMatches > 0 ) {
-		return {
-			score: 9,
-			text: i18n.dgettext( "js-text-analysis", "The focus keyword appears in the first paragraph of the copy." )
-		};
-	}
-
-	return {
-		score: 3,
-		text: i18n.dgettext( "js-text-analysis", "The focus keyword doesn\'t appear in the first paragraph of the copy. " +
-			"Make sure the topic is clear immediately." )
-	};
-};
-
-/**
- * Runs the findKeywordInFirstParagraph module, based on this returns an assessment result with score.
- *
- * @param {Paper} paper The paper to use for the assessment.
- * @param {object} researcher The researcher used for calling research.
- * @param {object} i18n The object used for translations
- * @returns {object} the Assessmentresult
- */
-var introductionHasKeywordAssessment = function( paper, researcher, i18n ) {
-	var firstParagraphMatches = researcher.getResearch( "firstParagraph" );
-	var firstParagraphResult = calculateFirstParagraphResult( firstParagraphMatches, i18n );
-	var assessmentResult = new AssessmentResult();
-
-	assessmentResult.setScore( firstParagraphResult.score );
-	assessmentResult.setText( firstParagraphResult.text );
-
-	return assessmentResult;
-};
-
-module.exports = {
-	getResult: introductionHasKeywordAssessment,
-	isApplicable: function( paper ) {
-		return paper.hasKeyword();
-	}
-};
-
-},{"../values/AssessmentResult.js":89}],12:[function(require,module,exports){
-var AssessmentResult = require( "../values/AssessmentResult.js" );
-
-/**
- * Assesses the keyphrase presence and length
- *
- * @param {Paper} paper The paper to use for the assessment.
- * @param {Researcher} researcher The researcher used for calling research.
- * @param {Jed} i18n The object used for translations
- * @returns {AssessmentResult} The result of this assessment
-*/
-function keyphraseAssessment( paper, researcher, i18n ) {
-	var keyphraseLength = researcher.getResearch( "keyphraseLength" );
-
-	var assessmentResult = new AssessmentResult();
-
-	if ( !paper.hasKeyword() ) {
-		assessmentResult.setScore( -999 );
-		assessmentResult.setText( i18n.dgettext( "js-text-analysis", "No focus keyword was set for this page. " +
-			"If you do not set a focus keyword, no score can be calculated." ) );
-	} else if ( keyphraseLength > 10 ) {
-		assessmentResult.setScore( 0 );
-		assessmentResult.setText( i18n.dgettext( "js-text-analysis", "Your keyphrase is over 10 words, a keyphrase should be shorter." ) );
-	}
-
-	return assessmentResult;
-}
-
-module.exports = { getResult: keyphraseAssessment };
-
-},{"../values/AssessmentResult.js":89}],13:[function(require,module,exports){
-var AssessmentResult = require( "../values/AssessmentResult.js" );
-var matchWords = require( "../stringProcessing/matchTextWithWord.js" );
-var countWords = require( "../stringProcessing/countWords.js" );
-var inRange = require( "lodash/inRange" );
-
-/**
- * Returns the scores and text for keyword density
- * @param {string} keywordDensity The keyword density
- * @param {object} i18n The i18n object used for translations
- * @returns {{score: number, text: *}} the assessmentresult
- */
-var calculateKeywordDensityResult = function( keywordDensity, i18n ) {
-	if ( keywordDensity > 3.5 ) {
-		return {
-			score: -50,
-			text: i18n.dgettext( "js-text-analysis", "The keyword density is %1$s%%, which is way over the advised 2.5%% maximum;" +
-				" the focus keyword was found %2$d times." )
-		};
-	}
-	if ( inRange( keywordDensity, 2.5, 3.5 ) ) {
-		return {
-			score: -10,
-			text: i18n.dgettext( "js-text-analysis", "The keyword density is %1$s%%, which is over the advised 2.5%% maximum;" +
-				" the focus keyword was found %2$d times." )
-		};
-	}
-	if ( inRange( keywordDensity, 0.5, 2.5 ) ) {
-		return {
-			score: 9,
-			text: i18n.dgettext( "js-text-analysis", "The keyword density is %1$s%%, which is great; the focus keyword was found %2$d times." )
-		};
-	}
-	if ( inRange( keywordDensity, 0, 0.5 ) ) {
-		return {
-			score: 4,
-			text: i18n.dgettext( "js-text-analysis", "The keyword density is %1$s%%, which is a bit low; the focus keyword was found %2$d times." )
-		};
-	}
-};
-
-/**
- * Runs the getkeywordDensity module, based on this returns an assessment result with score.
- *
- * @param {object} paper The paper to use for the assessment.
- * @param {object} researcher The researcher used for calling research.
- * @param {object} i18n The object used for translations
- * @returns {object} the Assessmentresult
- */
-var keywordDensityAssessment = function( paper, researcher, i18n ) {
-
-	var keywordDensity = researcher.getResearch( "getKeywordDensity" );
-	var keywordCount = matchWords( paper.getText(), paper.getKeyword() );
-	var keywordDensityResult = calculateKeywordDensityResult( keywordDensity, i18n );
-	var assessmentResult = new AssessmentResult();
-
-	var text = i18n.sprintf( keywordDensityResult.text, keywordDensity.toFixed( 1 ), keywordCount );
-
-	assessmentResult.setScore( keywordDensityResult.score );
-	assessmentResult.setText( text );
-
-	return assessmentResult;
-};
-
-module.exports = {
-	getResult: keywordDensityAssessment,
-	isApplicable: function( paper ) {
-		return paper.hasText() && paper.hasKeyword() && countWords( paper.getText() ) >= 100;
-	}
-};
-
-},{"../stringProcessing/countWords.js":69,"../stringProcessing/matchTextWithWord.js":77,"../values/AssessmentResult.js":89,"lodash/inRange":225}],14:[function(require,module,exports){
-var AssessmentResult = require( "../values/AssessmentResult.js" );
-
-/**
- * Calculate the score based on the amount of stop words in the keyword.
- * @param {number} stopWordCount The amount of stop words to be checked against.
- * @param {object} i18n The locale object.
- * @returns {object} The resulting score object.
- */
-var calculateStopWordsCountResult = function( stopWordCount, i18n ) {
-
-	if ( stopWordCount > 0 ) {
-		return {
-			score: 0,
-			/* translators: %1$s opens a link to a Yoast article about stop words, %2$s closes the link */
-			text: i18n.dngettext(
-				"js-text-analysis",
-				"Your focus keyword contains a stop word. This may or may not be wise depending on the circumstances. " +
-				"Read %1$sthis article%2$s for more info.",
-				"Your focus keyword contains %3$d stop words. This may or may not be wise depending on the circumstances. " +
-				"Read %1$sthis article%2$s for more info.",
-				stopWordCount
-			)
-		};
-	}
-
-	return {};
-};
-
-/**
- * Execute the Assessment and return a result.
- * @param {Paper} paper The Paper object to assess.
- * @param {Researcher} researcher The Researcher object containing all available researches.
- * @param {object} i18n The locale object.
- * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
- */
-var keywordHasStopWordsAssessment = function( paper, researcher, i18n ) {
-	var stopWords = researcher.getResearch( "stopWordsInKeyword" );
-	var stopWordsResult = calculateStopWordsCountResult( stopWords.length, i18n );
-
-	var assessmentResult = new AssessmentResult();
-	assessmentResult.setScore( stopWordsResult.score );
-	assessmentResult.setText( i18n.sprintf(
-		stopWordsResult.text,
-		"<a href='https://yoast.com/handling-stopwords/' target='new'>",
-		"</a>",
-		stopWords.length
-	) );
-
-	return assessmentResult;
-};
-
-module.exports = {
-	getResult: keywordHasStopWordsAssessment,
-	isApplicable: function ( paper ) {
-		return paper.hasKeyword();
-	}
-};
-
-},{"../values/AssessmentResult.js":89}],15:[function(require,module,exports){
-var AssessmentResult = require( "../values/AssessmentResult.js" );
-
-/**
- * Returns the score and text for the description keyword match.
- * @param {number} keywordMatches The number of keyword matches in the description.
- * @param {object} i18n The i18n object used for translations.
- * @returns {Object} An object with values for the assessment result.
- */
-var calculateKeywordMatchesResult = function( keywordMatches, i18n ) {
-	if ( keywordMatches > 0 ) {
-		return {
-			score: 9,
-			text: i18n.dgettext( "js-text-analysis", "The meta description contains the focus keyword." )
-		};
-	}
-	if ( keywordMatches === 0 ) {
-		return {
-			score: 3,
-			text: i18n.dgettext( "js-text-analysis", "A meta description has been specified, but it does not contain the focus keyword." )
-		};
-	}
-	return {};
-};
-
-/**
- * Runs the metaDescription keyword module, based on this returns an assessment result with score.
- *
- * @param {object} paper The paper to use for the assessment.
- * @param {object} researcher The researcher used for calling research.
- * @param {object} i18n The object used for translations
- * @returns {object} the Assessmentresult
- */
-var metaDescriptionHasKeywordAssessment = function( paper, researcher, i18n ) {
-	var keywordMatches = researcher.getResearch( "metaDescriptionKeyword" );
-	var descriptionLengthResult = calculateKeywordMatchesResult( keywordMatches, i18n );
-	var assessmentResult = new AssessmentResult();
-
-	assessmentResult.setScore( descriptionLengthResult.score );
-	assessmentResult.setText( descriptionLengthResult.text );
-
-	return assessmentResult;
-};
-
-module.exports = {
-	getResult: metaDescriptionHasKeywordAssessment,
-	isApplicable: function ( paper ) {
-		return paper.hasKeyword();
-	}
-};
-
-},{"../values/AssessmentResult.js":89}],16:[function(require,module,exports){
-var AssessmentResult = require( "../values/AssessmentResult.js" );
-
-/**
- * Returns the score and text for the descriptionLength
- * @param {number} descriptionLength The length of the metadescription.
- * @param {object} i18n The i18n object used for translations.
- * @returns {Object} An object with values for the assessment result.
- */
-var calculateDescriptionLengthResult = function( descriptionLength, i18n ) {
-	var recommendedValue = 120;
-	var maximumValue = 156;
-	if ( descriptionLength === 0 ) {
-		return {
-			score: 1,
-			text: i18n.dgettext( "js-text-analysis", "No meta description has been specified, " +
-				"search engines will display copy from the page instead." )
-		};
-	}
-	if ( descriptionLength <= recommendedValue ) {
-		return {
-			score: 6,
-			text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "The meta description is under %1$d characters, " +
-				"however up to %2$d characters are available." ), recommendedValue, maximumValue )
-		};
-	}
-	if ( descriptionLength > maximumValue ) {
-		return {
-			score: 6,
-			text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "The specified meta description is over %1$d characters. " +
-				"Reducing it will ensure the entire description is visible." ), maximumValue )
-		};
-	}
-	if ( descriptionLength >= recommendedValue && descriptionLength <= maximumValue ) {
-		return {
-			score: 9,
-			text: i18n.dgettext( "js-text-analysis", "In the specified meta description, consider: " +
-				"How does it compare to the competition? Could it be made more appealing?" )
-		};
-	}
-};
-
-/**
- * Runs the metaDescriptionLength module, based on this returns an assessment result with score.
- *
- * @param {object} paper The paper to use for the assessment.
- * @param {object} researcher The researcher used for calling research.
- * @param {object} i18n The object used for translations
- * @returns {object} the Assessmentresult
- */
-var metaDescriptionLengthAssessment = function( paper, researcher, i18n ) {
-	var descriptionLength = researcher.getResearch( "metaDescriptionLength" );
-	var descriptionLengthResult = calculateDescriptionLengthResult( descriptionLength, i18n );
-	var assessmentResult = new AssessmentResult();
-
-	assessmentResult.setScore( descriptionLengthResult.score );
-	assessmentResult.setText( descriptionLengthResult.text );
-
-	return assessmentResult;
-};
-
-module.exports = { getResult: metaDescriptionLengthAssessment };
-
-},{"../values/AssessmentResult.js":89}],17:[function(require,module,exports){
-var AssessmentResult = require( "../values/AssessmentResult.js" );
-
-/**
- * Returns a score and text based on the keyword matches object.
- *
- * @param {object} subHeadings The object with all subHeadings matches.
- * @param {object} i18n The object used for translations.
- * @returns {object} resultObject with score and text.
- */
-var calculateKeywordMatchesResult = function( subHeadings, i18n ) {
-	if ( subHeadings.matches === 0 ) {
-		return {
-			score: 3,
-			text: i18n.dgettext( "js-text-analysis", "You have not used your focus keyword in any subheading (such as an H2) in your copy." )
-		};
-	}
-	if ( subHeadings.matches >= 1 ) {
-		return {
-			score: 9,
-			text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "The focus keyword appears in %2$d (out of %1$d) subheadings in the copy. " +
-				"While not a major ranking factor, this is beneficial." ), subHeadings.count, subHeadings.matches )
-		};
-	}
-	return {};
-};
-
-/**
- * Runs the match keyword in subheadings module, based on this returns an assessment result with score.
- *
- * @param {object} paper The paper to use for the assessment.
- * @param {object} researcher The researcher used for calling research.
- * @param {object} i18n The object used for translations.
- * @returns {object} the Assessmentresult
- */
-var subheadingsHaveKeywordAssessment = function( paper, researcher, i18n ) {
-	var subHeadings = researcher.getResearch( "matchKeywordInSubheadings" );
-	var subHeadingsResult = calculateKeywordMatchesResult( subHeadings, i18n );
-	var assessmentResult = new AssessmentResult();
-
-	assessmentResult.setScore( subHeadingsResult.score );
-	assessmentResult.setText( subHeadingsResult.text );
-
-	return assessmentResult;
-};
-
-module.exports = {
-	getResult: subheadingsHaveKeywordAssessment,
-	isApplicable: function( paper ) {
-		return paper.hasText() && paper.hasKeyword();
-	}
-};
-
-},{"../values/AssessmentResult.js":89}],18:[function(require,module,exports){
-var AssessmentResult = require( "../values/AssessmentResult.js" );
-
-/**
- * Returns a score and text based on the number of links.
- *
- * @param {object} linkStatistics The object with all linkstatistics.
- * @param {object} i18n The object used for translations
- * @returns {object} resultObject with score and text
- */
-var calculateLinkCountResult = function( linkStatistics, i18n ) {
-	if ( linkStatistics.totalKeyword > 0 ) {
-		return {
-			score: 2,
-			text: i18n.dgettext( "js-text-analysis", "You\'re linking to another page with the focus keyword you want this page to rank for. " +
-				"Consider changing that if you truly want this page to rank." )
-		};
-	}
-	return {};
-};
-
-/**
- * Runs the linkCount module, based on this returns an assessment result with score.
- *
- * @param {object} paper The paper to use for the assessment.
- * @param {object} researcher The researcher used for calling research.
- * @param {object} i18n The object used for translations
- * @returns {object} the Assessmentresult
- */
-var textHasCompetingLinksAssessment = function( paper, researcher, i18n ) {
-	var linkCount = researcher.getResearch( "getLinkStatistics" );
-
-	var linkCountResult = calculateLinkCountResult( linkCount, i18n );
-	var assessmentResult = new AssessmentResult();
-
-	assessmentResult.setScore( linkCountResult.score );
-	assessmentResult.setText( linkCountResult.text );
-
-	return assessmentResult;
-};
-
-module.exports = {
-	getResult: textHasCompetingLinksAssessment,
-	isApplicable: function ( paper ) {
-		return paper.hasText() && paper.hasKeyword();
-	}
-};
-
-},{"../values/AssessmentResult.js":89}],19:[function(require,module,exports){
-var AssessmentResult = require( "../values/AssessmentResult.js" );
-var isEmpty = require( "lodash/isEmpty" );
-
-/**
- * Calculate the score based on the current image count.
- * @param {number} imageCount The amount of images to be checked against.
- * @param {object} i18n The locale object.
- * @returns {object} The resulting score object.
- */
-var calculateImageCountResult = function( imageCount, i18n ) {
-	if ( imageCount === 0 ) {
-		return {
-			score: 3,
-			text: i18n.dgettext( "js-text-analysis", "No images appear in this page, consider adding some as appropriate." )
-		};
-	}
-
-	return {};
-};
-
-/**
- * Calculate the score based on the current image alt-tag count.
- * @param {object} altProperties An object containing the various alt-tags.
- * @param {object} i18n The locale object.
- * @returns {object} The resulting score object.
- */
-var assessImages = function( altProperties, i18n ) {
-	if ( altProperties.noAlt > 0 ) {
-		return {
-			score: 5,
-			text: i18n.dgettext( "js-text-analysis", "The images on this page are missing alt tags." )
-		};
-	}
-
-	// Has alt-tag, but no keyword is set
-	if ( altProperties.withAlt > 0 ) {
-		return {
-			score: 5,
-			text: i18n.dgettext( "js-text-analysis", "The images on this page contain alt tags." )
-		};
-	}
-
-	// Has alt-tag, but no keywords and it's not okay
-	if ( altProperties.withAltNonKeyword > 0 ) {
-		return {
-			score: 5,
-			text: i18n.dgettext( "js-text-analysis", "The images on this page do not have alt tags containing your focus keyword." )
-		};
-	}
-
-	// Has alt-tag and keywords
-	if ( altProperties.withAltKeyword > 0 ) {
-		return {
-			score: 9,
-			text: i18n.dgettext( "js-text-analysis", "The images on this page contain alt tags with the focus keyword." )
-		};
-	}
-
-	return {};
-};
-
-/**
- * Execute the Assessment and return a result.
- * @param {Paper} paper The Paper object to assess.
- * @param {Researcher} researcher The Researcher object containing all available researches.
- * @param {object} i18n The locale object.
- * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
- */
-var textHasImagesAssessment = function( paper, researcher, i18n ) {
-	var assessmentResult = new AssessmentResult();
-
-	var imageCount = researcher.getResearch( "imageCount" );
-	var imageCountResult = calculateImageCountResult( imageCount, i18n );
-
-	if ( isEmpty( imageCountResult ) ) {
-		var altTagCount = researcher.getResearch( "altTagCount" );
-		var altTagCountResult = assessImages( altTagCount, i18n );
-
-		assessmentResult.setScore( altTagCountResult.score );
-		assessmentResult.setText( altTagCountResult.text );
-
-		return assessmentResult;
-	}
-
-	assessmentResult.setScore( imageCountResult.score );
-	assessmentResult.setText( imageCountResult.text );
-
-	return assessmentResult;
-};
-
-module.exports = {
-	getResult: textHasImagesAssessment,
-	isApplicable: function ( paper ) {
-		return paper.hasText();
-	}
-};
-
-},{"../values/AssessmentResult.js":89,"lodash/isEmpty":232}],20:[function(require,module,exports){
-var AssessmentResult = require( "../values/AssessmentResult.js" );
-var inRange = require( "lodash/inRange" );
-
-/**
- * Calculate the score based on the current word count.
- * @param {number} wordCount The amount of words to be checked against.
- * @param {object} i18n The locale object.
- * @returns {object} The resulting score object.
- */
-var calculateWordCountResult = function( wordCount, i18n ) {
-	if ( wordCount > 300 ) {
-		return {
-			score: 9,
-			/* translators: %1$d expands to the number of words in the text, %2$s to the recommended minimum of words */
-			text: i18n.dngettext(
-				"js-text-analysis",
-				"The text contains %1$d word, this is more than the %2$d word recommended minimum.",
-				"The text contains %1$d words, this is more than the %2$d word recommended minimum.",
-				wordCount
-			)
-		};
-	}
-
-	if ( inRange( wordCount, 250, 300 ) ) {
-		return {
-			score: 7,
-			/* translators: %1$d expands to the number of words in the text, %2$s to the recommended minimum of words */
-			text: i18n.dngettext(
-				"js-text-analysis",
-				"The text contains %1$d word, this is slightly below the %2$d word recommended minimum. Add a bit more copy.",
-				"The text contains %1$d words, this is slightly below the %2$d word recommended minimum. Add a bit more copy.",
-				wordCount
-			)
-		};
-	}
-
-	if ( inRange( wordCount, 200, 250 ) ) {
-		return {
-			score: 5,
-			/* translators: %1$d expands to the number of words in the text, %2$d to the recommended minimum of words */
-			text: i18n.dngettext(
-				"js-text-analysis",
-				"The text contains %1$d word, this is below the %2$d word recommended minimum. Add more useful content on this topic for readers.",
-				"The text contains %1$d words, this is below the %2$d word recommended minimum. Add more useful content on this topic for readers.",
-				wordCount
-			)
-		};
-	}
-
-	if ( inRange( wordCount, 100, 200 ) ) {
-		return {
-			score: -10,
-			/* translators: %1$d expands to the number of words in the text, %2$d to the recommended minimum of words */
-			text: i18n.dngettext(
-				"js-text-analysis",
-				"The text contains %1$d word, this is below the %2$d word recommended minimum. Add more useful content on this topic for readers.",
-				"The text contains %1$d words, this is below the %2$d word recommended minimum. Add more useful content on this topic for readers.",
-				wordCount
-			)
-		};
-	}
-
-	if ( inRange( wordCount, 0, 100 ) ) {
-		return {
-			score: -20,
-			/* translators: %1$d expands to the number of words in the text */
-			text: i18n.dngettext(
-				"js-text-analysis",
-				"The text contains %1$d word, this is far too low and should be increased.",
-				"The text contains %1$d words, this is far too low and should be increased.",
-				wordCount
-			)
-		};
-	}
-};
-
-/**
- * Execute the Assessment and return a result.
- * @param {Paper} paper The Paper object to assess.
- * @param {Researcher} researcher The Researcher object containing all available researches.
- * @param {object} i18n The locale object.
- * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
- */
-var textLengthAssessment = function( paper, researcher, i18n ) {
-	var wordCount = researcher.getResearch( "wordCountInText" );
-	var wordCountResult = calculateWordCountResult( wordCount, i18n );
-	var assessmentResult = new AssessmentResult();
-
-	assessmentResult.setScore( wordCountResult.score );
-	assessmentResult.setText( i18n.sprintf( wordCountResult.text, wordCount, 300 ) );
-
-	return assessmentResult;
-};
-
-module.exports = { getResult: textLengthAssessment };
-
-},{"../values/AssessmentResult.js":89,"lodash/inRange":225}],21:[function(require,module,exports){
-var AssessmentResult = require( "../values/AssessmentResult.js" );
-var isEmpty = require( "lodash/isEmpty" );
-
-/**
- * Returns a score and text based on the linkStatistics object.
- *
- * @param {object} linkStatistics The object with all linkstatistics.
- * @param {object} i18n The object used for translations
- * @returns {object} resultObject with score and text
- */
-var calculateLinkStatisticsResult = function( linkStatistics, i18n ) {
-	if ( linkStatistics.total === 0 ) {
-		return {
-			score: 6,
-			text: i18n.dgettext( "js-text-analysis", "No links appear in this page, consider adding some as appropriate." )
-		};
-	}
-
-	if ( linkStatistics.externalNofollow === linkStatistics.total ) {
-		return {
-			score: 7,
-			/* translators: %1$s expands the number of outbound links */
-			text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "This page has %1$s outbound link(s), all nofollowed." ),
-				linkStatistics.externalNofollow )
-		};
-	}
-
-	if ( linkStatistics.externalNofollow < linkStatistics.total ) {
-		return {
-			score: 8,
-			/* translators: %1$s expands to the number of nofollow links, %2$s to the number of outbound links */
-			text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "This page has %1$s nofollowed link(s) and %2$s normal outbound link(s)." ),
-				linkStatistics.externalNofollow, linkStatistics.externalDofollow )
-		};
-	}
-
-	if ( linkStatistics.externalDofollow === linkStatistics.total ) {
-		return {
-			score: 9,
-			/* translators: %1$s expands to the number of outbound links */
-			text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "This page has %1$s outbound link(s)." ), linkStatistics.externalTotal )
-		};
-	}
-};
-
-/**
- * Runs the getLinkStatistics module, based on this returns an assessment result with score.
- *
- * @param {object} paper The paper to use for the assessment.
- * @param {object} researcher The researcher used for calling research.
- * @param {object} i18n The object used for translations
- * @returns {object} the Assessmentresult
- */
-var textHasLinksAssessment = function( paper, researcher, i18n ) {
-	var linkStatistics = researcher.getResearch( "getLinkStatistics" );
-	var assessmentResult = new AssessmentResult();
-	if ( !isEmpty( linkStatistics ) ) {
-		var linkStatisticsResult = calculateLinkStatisticsResult( linkStatistics, i18n );
-		assessmentResult.setScore( linkStatisticsResult.score );
-		assessmentResult.setText( linkStatisticsResult.text );
-	}
-	return assessmentResult;
-};
-
-module.exports = {
-	getResult: textHasLinksAssessment,
-	isApplicable: function ( paper ) {
-		return paper.hasText();
-	}
-};
-
-},{"../values/AssessmentResult.js":89,"lodash/isEmpty":232}],22:[function(require,module,exports){
-var AssessmentResult = require( "../values/AssessmentResult.js" );
-
-/**
- * Returns a score and text based on the subheading matches object.
- *
- * @param {object} subHeadings The object with all subHeadings matches.
- * @param {object} i18n The object used for translations.
- * @returns {object} resultObject with score and text.
- */
-var calculateSubheadingMatchesResult = function( subHeadings, i18n ) {
-	if ( subHeadings.count === 0 ) {
-		return {
-			score: 7,
-			text: i18n.dgettext( "js-text-analysis", "No subheading tags (like an H2) appear in the copy." )
-		};
-	}
-	return {};
-};
-
-/**
- * Runs the match subheadings module, based on this returns an assessment result with score.
- *
- * @param {object} paper The paper to use for the assessment.
- * @param {object} researcher The researcher used for calling research.
- * @param {object} i18n The object used for translations.
- * @returns {object} the Assessmentresult
- */
-var textHasSubheadingsAssessment = function( paper, researcher, i18n ) {
-	var subHeadings = researcher.getResearch( "matchKeywordInSubheadings" );
-	var subHeadingsResult = calculateSubheadingMatchesResult( subHeadings, i18n );
-	var assessmentResult = new AssessmentResult();
-
-	assessmentResult.setScore( subHeadingsResult.score );
-	assessmentResult.setText( subHeadingsResult.text );
-
-	return assessmentResult;
-};
-
-module.exports = {
-	getResult: textHasSubheadingsAssessment,
-	isApplicable: function( paper ) {
-		return paper.hasText();
-	}
-};
-
-
-},{"../values/AssessmentResult.js":89}],23:[function(require,module,exports){
-var AssessmentResult = require( "../values/AssessmentResult.js" );
-
-/**
- * Executes the pagetitle keyword assessment and returns an assessment result.
- * @param {Paper} paper The Paper object to assess.
- * @param {Researcher} researcher The Researcher object containing all available researches.
- * @param {object} i18n The locale object.
- * @returns {AssessmentResult} The result of the assessment with text and score
- */
-var titleHasKeywordAssessment = function( paper, researcher, i18n ) {
-	var keywordMatches = researcher.getResearch( "findKeywordInPageTitle" );
-	var score, text;
-
-	if ( keywordMatches.matches === 0 ) {
-		score = 2;
-		text = i18n.sprintf( i18n.dgettext( "js-text-analysis", "The focus keyword '%1$s' does not appear in the page title." ), paper.getKeyword() );
-	}
-
-	if ( keywordMatches.matches > 0 && keywordMatches.position === 0 ) {
-		score = 9;
-		text = i18n.dgettext( "js-text-analysis", "The page title contains the focus keyword, at the beginning which is considered " +
-			"to improve rankings." );
-	}
-
-	if ( keywordMatches.matches > 0 && keywordMatches.position > 0 ) {
-		score = 6;
-		text = i18n.dgettext( "js-text-analysis", "The page title contains the focus keyword, but it does not appear at the beginning;" +
-			" try and move it to the beginning." );
-	}
-	var assessmentResult = new AssessmentResult();
-
-	assessmentResult.setScore( score );
-	assessmentResult.setText( text );
-
-	return assessmentResult;
-};
-
-module.exports = {
-	getResult: titleHasKeywordAssessment,
-	isApplicable: function ( paper ) {
-		return paper.hasKeyword();
-	}
-};
-
-},{"../values/AssessmentResult.js":89}],24:[function(require,module,exports){
-var AssessmentResult = require( "../values/AssessmentResult.js" );
-var inRange = require( "lodash/inRange" );
-
-/**
- * Returns the score and text for the pageTitleLength
- * @param {number} pageTitleLength The length of the pageTitle.
- * @param {object} i18n The i18n object used for translations.
- * @returns {object} The result object.
- */
-var calculatePageTitleLengthResult = function( pageTitleLength, i18n ) {
-	var minLength = 35;
-	var maxLength = 65;
-
-	if ( inRange( pageTitleLength, 1, 35 ) ) {
-		return {
-			score: 6,
-			text: i18n.sprintf(
-				i18n.dngettext(
-					"js-text-analysis",
-					/* translators: %1$d expands to the number of characters in the page title,
-					%2$d to the minimum number of characters for the title */
-					"The page title contains %1$d character, which is less than the recommended minimum of %2$d characters. " +
-					"Use the space to add keyword variations or create compelling call-to-action copy.",
-					"The page title contains %1$d characters, which is less than the recommended minimum of %2$d characters. " +
-					"Use the space to add keyword variations or create compelling call-to-action copy.",
-				pageTitleLength ),
-				pageTitleLength, minLength )
-		};
-	}
-
-	if ( inRange( pageTitleLength, 35, 66 ) ) {
-		return {
-			score: 9,
-			text: i18n.sprintf(
-				i18n.dgettext(
-					"js-text-analysis",
-					/* translators: %1$d expands to the minimum number of characters in the page title, %2$d to the maximum number of characters */
-					"The page title is between the %1$d character minimum and the recommended %2$d character maximum." ),
-				minLength, maxLength )
-		};
-	}
-
-	if ( pageTitleLength > maxLength ) {
-		return {
-			score: 6,
-			text: i18n.sprintf(
-				i18n.dngettext(
-					"js-text-analysis",
-					/* translators: %1$d expands to the number of characters in the page title, %2$d to the maximum number
-					of characters for the title */
-					"The page title contains %1$d character, which is more than the viewable limit of %2$d characters; " +
-					"some words will not be visible to users in your listing.",
-					"The page title contains %1$d characters, which is more than the viewable limit of %2$d characters; " +
-					"some words will not be visible to users in your listing.",
-					pageTitleLength ),
-				pageTitleLength, maxLength )
-		};
-	}
-
-	return {
-		score: 1,
-		text: i18n.dgettext( "js-text-analysis", "Please create a page title." )
-	};
-};
-
-/**
- * Runs the pageTitleLength module, based on this returns an assessment result with score.
- *
- * @param {object} paper The paper to use for the assessment.
- * @param {object} researcher The researcher used for calling research.
- * @param {object} i18n The object used for translations
- * @returns {object} the Assessmentresult
- */
-var titleLengthAssessment = function( paper, researcher, i18n ) {
-	var pageTitleLength = researcher.getResearch( "pageTitleLength" );
-	var pageTitleLengthResult = calculatePageTitleLengthResult( pageTitleLength, i18n );
-	var assessmentResult = new AssessmentResult();
-
-	assessmentResult.setScore( pageTitleLengthResult.score );
-	assessmentResult.setText( pageTitleLengthResult.text );
-
-	return assessmentResult;
-};
-
-module.exports = { getResult: titleLengthAssessment };
-
-},{"../values/AssessmentResult.js":89,"lodash/inRange":225}],25:[function(require,module,exports){
-var AssessmentResult = require( "../values/AssessmentResult.js" );
-
-/**
- * Calculate the score based on whether or not there's a keyword in the url.
- * @param {number} keywordsResult The amount of keywords to be checked against.
- * @param {object} i18n The locale object.
- * @returns {object} The resulting score object.
- */
-var calculateUrlKeywordCountResult = function( keywordsResult, i18n ) {
-
-	if ( keywordsResult > 0 ) {
-		return {
-			score: 9,
-			text: i18n.dgettext( "js-text-analysis", "The focus keyword appears in the URL for this page." )
-		};
-	}
-
-	return {
-		score: 6,
-		text: i18n.dgettext( "js-text-analysis", "The focus keyword does not appear in the URL for this page. " +
-		                                         "If you decide to rename the URL be sure to check the old URL 301 redirects to the new one!" )
-	};
-};
-
-/**
- * Execute the Assessment and return a result.
- * @param {Paper} paper The Paper object to assess.
- * @param {Researcher} researcher The Researcher object containing all available researches.
- * @param {object} i18n The locale object.
- * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
- */
-var urlHasKeywordAssessment = function( paper, researcher, i18n ) {
-	var keywords = researcher.getResearch( "keywordCountInUrl" );
-	var keywordsResult = calculateUrlKeywordCountResult( keywords, i18n );
-
-	var assessmentResult = new AssessmentResult();
-	assessmentResult.setScore( keywordsResult.score );
-	assessmentResult.setText( keywordsResult.text );
-
-	return assessmentResult;
-};
-
-module.exports = {
-	getResult: urlHasKeywordAssessment,
-	isApplicable: function( paper ) {
-		return paper.hasKeyword() && paper.hasUrl();
-	}
-};
-
-},{"../values/AssessmentResult.js":89}],26:[function(require,module,exports){
-var AssessmentResult = require( "../values/AssessmentResult.js" );
-
-/**
- * The assessment that checks the url length
- *
- * @param {Paper} paper The paper to run this assessment on.
- * @param {object} researcher The researcher used for the assessment.
- * @param {object} i18n The i18n-object used for parsing translations.
- * @returns {object} an AssessmentResult with the score and the formatted text.
- */
-var urlLengthAssessment = function( paper, researcher, i18n ) {
-	var urlIsTooLong = researcher.getResearch( "urlLength" );
-	var assessmentResult = new AssessmentResult();
-	if ( urlIsTooLong ) {
-		var score = 5;
-		var text = i18n.dgettext( "js-text-analysis", "The slug for this page is a bit long, consider shortening it." );
-		assessmentResult.setScore( score );
-		assessmentResult.setText( text );
-	}
-	return assessmentResult;
-};
-
-module.exports = {
-	getResult: urlLengthAssessment,
-	isApplicable: function ( paper ) {
-		return paper.hasUrl();
-	}
-};
-
-},{"../values/AssessmentResult.js":89}],27:[function(require,module,exports){
-var AssessmentResult = require( "../values/AssessmentResult.js" );
-
-/**
- * Calculate the score based on the amount of stop words in the url.
- * @param {number} stopWordCount The amount of stop words to be checked against.
- * @param {object} i18n The locale object.
- * @returns {object} The resulting score object.
- */
-var calculateUrlStopWordsCountResult = function( stopWordCount, i18n ) {
-
-	if ( stopWordCount > 0 ) {
-		return {
-			score: 5,
-			/* translators: %1$s opens a link to a wikipedia article about stop words, %2$s closes the link */
-			text: i18n.dngettext(
-				"js-text-analysis",
-				"The slug for this page contains a %1$sstop word%2$s, consider removing it.",
-				"The slug for this page contains %1$sstop words%2$s, consider removing them.",
-				stopWordCount
-			)
-		};
-	}
-
-	return {};
-};
-
-/**
- * Execute the Assessment and return a result.
- * @param {Paper} paper The Paper object to assess.
- * @param {Researcher} researcher The Researcher object containing all available researches.
- * @param {object} i18n The locale object.
- * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
- */
-var urlHasStopWordsAssessment = function( paper, researcher, i18n ) {
-	var stopWords = researcher.getResearch( "stopWordsInUrl" );
-	var stopWordsResult = calculateUrlStopWordsCountResult( stopWords.length, i18n );
-
-	var assessmentResult = new AssessmentResult();
-	assessmentResult.setScore( stopWordsResult.score );
-	assessmentResult.setText( i18n.sprintf(
-		stopWordsResult.text,
-		/* translators: this link is referred to in the content analysis when a slug contains one or more stop words */
-		"<a href='" + i18n.dgettext( "js-text-analysis", "http://en.wikipedia.org/wiki/Stop_words" ) + "' target='new'>",
-		"</a>"
-	) );
-
-	return assessmentResult;
-};
-
-module.exports = { getResult: urlHasStopWordsAssessment };
-
-},{"../values/AssessmentResult.js":89}],28:[function(require,module,exports){
-arguments[4][8][0].apply(exports,arguments)
-},{"./errors/missingArgument":37,"./researcher.js":41,"dup":8,"lodash/forEach":221,"lodash/isUndefined":243}],29:[function(require,module,exports){
-var AssessmentResult = require( "../values/AssessmentResult.js" );
-var isUndefined = require( "lodash/isUndefined" );
-
-var MissingArgument = require( "../../js/errors/missingArgument" );
-/**
- * @param {object} app The app
- * @param {object} args An arguments object with usedKeywords, searchUrl, postUrl,
- * @param {object} args.usedKeywords An object with keywords and ids where they are used.
- * @param {string} args.searchUrl The url used to link to a search page when multiple usages of the keyword are found.
- * @param {string} args.postUrl The url used to link to a post when 1 usage of the keyword is found.
- * @constructor
- */
-var PreviouslyUsedKeyword = function( app, args ) {
-	if ( isUndefined( app ) ) {
-		throw new MissingArgument( "The previously keyword plugin requires the YoastSEO app" );
-	}
-
-	if ( isUndefined( args ) ) {
-		args = {
-			usedKeywords: {},
-			searchUrl: "",
-			postUrl: ""
-		};
-	}
-
-	this.app = app;
-	this.usedKeywords = args.usedKeywords;
-	this.searchUrl = args.searchUrl;
-	this.postUrl = args.postUrl;
-};
-
-/**
- * Registers the assessment with the assessor.
- */
-PreviouslyUsedKeyword.prototype.registerPlugin = function() {
-	this.app.registerAssessment( "usedKeywords", {
-		getResult: this.assess.bind( this ),
-		isApplicable: function( paper ) {
-			return paper.hasKeyword();
-		}
-	}, "previouslyUsedKeywords" );
-};
-
-/**
- * Updates the usedKeywords
- * @param {object} usedKeywords An object with keywords and ids where they are used.
- */
-PreviouslyUsedKeyword.prototype.updateKeywordUsage = function( usedKeywords ) {
-	this.usedKeywords = usedKeywords;
-};
-
-/**
- * Scores the previously used keyword assessment based on the count.
- *
- * @param {object} previouslyUsedKeywords The result of the previously used keywords research
- * @param {Paper} paper The paper object to research.
- * @param {Jed} i18n The i18n object.
- * @returns {object} the scoreobject with text and score.
- */
-PreviouslyUsedKeyword.prototype.scoreAssessment = function( previouslyUsedKeywords, paper, i18n ) {
-	var count = previouslyUsedKeywords.count;
-	var id = previouslyUsedKeywords.id;
-	if( count === 0 ) {
-		return {
-			text: i18n.dgettext( "js-text-analysis", "You've never used this focus keyword before, very good." ),
-			score: 9
-		};
-	}
-	if( count === 1 ) {
-		var url = "<a href='" + this.postUrl.replace( "{id}", id ) + "' target='_blank'>";
-		return {
-			/* translators: %1$s and %2$s expand to an admin link where the focus keyword is already used */
-			text:  i18n.sprintf( i18n.dgettext( "js-text-analysis", "You've used this focus keyword %1$sonce before%2$s, " +
-				"be sure to make very clear which URL on your site is the most important for this keyword." ), url, "</a>" ),
-			score: 6
-		};
-	}
-	if ( count > 1 ) {
-		url = "<a href='" + this.searchUrl.replace( "{keyword}", paper.getKeyword() )+ "' target='_blank'>";
-		return {
-			/* translators: %1$s and $3$s expand to the admin search page for the focus keyword, %2$d expands to the number of times this focus
-			 keyword has been used before, %4$s and %5$s expand to a link to an article on yoast.com about cornerstone content */
-			text:  i18n.sprintf( i18n.dgettext( "js-text-analysis", "You've used this focus keyword %1$s%2$d times before%3$s, " +
-				"it's probably a good idea to read %4$sthis post on cornerstone content%5$s and improve your keyword strategy." ),
-				url, count, "</a>", "<a href='https://yoast.com/cornerstone-content-rank/' target='_blank'>", "</a>" ),
-			score: 1
-		};
-	}
-};
-
-/**
- * Researches the previously used keywords, based on the used keywords and the keyword in the paper.
- *
- * @param {Paper} paper The paper object to research.
- * @returns {{id: number, count: number}} The object with the count and the id of the previously used keyword
- */
-PreviouslyUsedKeyword.prototype.researchPreviouslyUsedKeywords = function( paper ) {
-	var keyword = paper.getKeyword();
-	var count = 0;
-	var id = 0;
-
-	if ( !isUndefined( this.usedKeywords[ keyword ] ) ) {
-		count = this.usedKeywords[ keyword ].length;
-		id = this.usedKeywords[ keyword ][ 0 ];
-	}
-
-	return {
-		id: id,
-		count: count
-	};
-};
-
-/**
- * The assessment for the previously used keywords.
- *
- * @param {Paper} paper The Paper object to assess.
- * @param {Researcher} researcher The Researcher object containing all available researches.
- * @param {object} i18n The locale object.
- * @returns {AssessmentResult} The assessment result of the assessment
- */
-PreviouslyUsedKeyword.prototype.assess = function( paper, researcher, i18n ) {
-	var previouslyUsedKeywords = this.researchPreviouslyUsedKeywords( paper );
-	var previouslyUsedKeywordsResult = this.scoreAssessment( previouslyUsedKeywords, paper, i18n );
-
-	var assessmentResult =  new AssessmentResult();
-	assessmentResult.setScore( previouslyUsedKeywordsResult.score );
-	assessmentResult.setText( previouslyUsedKeywordsResult.text );
-
-	return assessmentResult;
-};
-
-module.exports = PreviouslyUsedKeyword;
-
-},{"../../js/errors/missingArgument":37,"../values/AssessmentResult.js":89,"lodash/isUndefined":243}],30:[function(require,module,exports){
-var analyzerConfig = {
-	queue: [ "wordCount", "keywordDensity", "subHeadings", "stopwords", "fleschReading", "linkCount", "imageCount", "urlKeyword", "urlLength", "metaDescriptionLength", "metaDescriptionKeyword", "pageTitleKeyword", "pageTitleLength", "firstParagraph", "urlStopwords", "keywordDoubles", "keyphraseSizeCheck" ],
-	stopWords: [ "a", "about", "above", "after", "again", "against", "all", "am", "an", "and", "any", "are", "as", "at", "be", "because", "been", "before", "being", "below", "between", "both", "but", "by", "could", "did", "do", "does", "doing", "down", "during", "each", "few", "for", "from", "further", "had", "has", "have", "having", "he", "he'd", "he'll", "he's", "her", "here", "here's", "hers", "herself", "him", "himself", "his", "how", "how's", "i", "i'd", "i'll", "i'm", "i've", "if", "in", "into", "is", "it", "it's", "its", "itself", "let's", "me", "more", "most", "my", "myself", "nor", "of", "on", "once", "only", "or", "other", "ought", "our", "ours", "ourselves", "out", "over", "own", "same", "she", "she'd", "she'll", "she's", "should", "so", "some", "such", "than", "that", "that's", "the", "their", "theirs", "them", "themselves", "then", "there", "there's", "these", "they", "they'd", "they'll", "they're", "they've", "this", "those", "through", "to", "too", "under", "until", "up", "very", "was", "we", "we'd", "we'll", "we're", "we've", "were", "what", "what's", "when", "when's", "where", "where's", "which", "while", "who", "who's", "whom", "why", "why's", "with", "would", "you", "you'd", "you'll", "you're", "you've", "your", "yours", "yourself", "yourselves" ],
-	wordsToRemove: [ " a", " in", " an", " on", " for", " the", " and" ],
-	maxSlugLength: 20,
-	maxUrlLength: 40,
-	maxMeta: 156
-};
-
-module.exports = analyzerConfig;
-
-},{}],31:[function(require,module,exports){
+},{"./errors/missingArgument":32,"./researcher.js":33,"lodash/forEach":168,"lodash/isUndefined":186}],27:[function(require,module,exports){
 /** @module config/diacritics */
 
 /**
@@ -4135,34 +3419,7 @@ module.exports = function(){
 	];
 };
 
-},{}],32:[function(require,module,exports){
-/**
- * Returns the configuration used for score ratings and the AssessorPresenter.
- * @param {Jed} i18n The translator object.
- * @returns {Object} The config object.
- */
-module.exports = function ( i18n ) {
-	return {
-		feedback: {
-			className: "na",
-			screenReaderText: i18n.dgettext( "js-text-analysis", "Feedback")
-		},
-		bad: {
-			className: "bad",
-			screenReaderText: i18n.dgettext( "js-text-analysis", "Bad SEO score")
-		},
-		ok: {
-			className: "ok",
-			screenReaderText: i18n.dgettext( "js-text-analysis", "Ok SEO score")
-		},
-		good: {
-			className: "good",
-			screenReaderText: i18n.dgettext( "js-text-analysis", "Good SEO score")
-		}
-	};
-};
-
-},{}],33:[function(require,module,exports){
+},{}],28:[function(require,module,exports){
 /** @module config/removalWords */
 
 /**
@@ -4174,7 +3431,7 @@ module.exports = function(){
 	return [ " a", " in", " an", " on", " for", " the", " and" ];
 };
 
-},{}],34:[function(require,module,exports){
+},{}],29:[function(require,module,exports){
 /** @module config/stopwords */
 
 /**
@@ -4186,7 +3443,7 @@ module.exports = function(){
 	return [ "a", "about", "above", "after", "again", "against", "all", "am", "an", "and", "any", "are", "as", "at", "be", "because", "been", "before", "being", "below", "between", "both", "but", "by", "could", "did", "do", "does", "doing", "down", "during", "each", "few", "for", "from", "further", "had", "has", "have", "having", "he", "he'd", "he'll", "he's", "her", "here", "here's", "hers", "herself", "him", "himself", "his", "how", "how's", "i", "i'd", "i'll", "i'm", "i've", "if", "in", "into", "is", "it", "it's", "its", "itself", "let's", "me", "more", "most", "my", "myself", "nor", "of", "on", "once", "only", "or", "other", "ought", "our", "ours", "ourselves", "out", "over", "own", "same", "she", "she'd", "she'll", "she's", "should", "so", "some", "such", "than", "that", "that's", "the", "their", "theirs", "them", "themselves", "then", "there", "there's", "these", "they", "they'd", "they'll", "they're", "they've", "this", "those", "through", "to", "too", "under", "until", "up", "very", "was", "we", "we'd", "we'll", "we're", "we've", "were", "what", "what's", "when", "when's", "where", "where's", "which", "while", "who", "who's", "whom", "why", "why's", "with", "would", "you", "you'd", "you'll", "you're", "you've", "your", "yours", "yourself", "yourselves" ];
 };
 
-},{}],35:[function(require,module,exports){
+},{}],30:[function(require,module,exports){
 /** @module config/syllables */
 
 /**
@@ -4208,7 +3465,7 @@ module.exports = function(){
 	};
 };
 
-},{}],36:[function(require,module,exports){
+},{}],31:[function(require,module,exports){
 /**
  * Throws an invalid type error
  * @param {string} message The message to show when the error is thrown
@@ -4222,7 +3479,7 @@ module.exports = function InvalidTypeError( message ) {
 
 require( "util" ).inherits( module.exports, Error );
 
-},{"util":6}],37:[function(require,module,exports){
+},{"util":6}],32:[function(require,module,exports){
 module.exports = function MissingArgumentError( message ) {
 	Error.captureStackTrace( this, this.constructor );
 	this.name = this.constructor.name;
@@ -4231,637 +3488,7 @@ module.exports = function MissingArgumentError( message ) {
 
 require( "util" ).inherits( module.exports, Error );
 
-},{"util":6}],38:[function(require,module,exports){
-/**
- * Interpreters a score and gives it a particular rating.
- *
- * @param {Number} score The score to interpreter.
- * @returns {string} The rating, given based on the score.
- */
-var ScoreToRating = function( score ) {
-
-	if ( score === 0 ) {
-		return "feedback";
-	}
-
-	if ( score <= 4 ) {
-		return "bad";
-	}
-
-	if ( score > 4 && score <= 7 ) {
-		return "ok";
-	}
-
-	if ( score > 7 ) {
-		return "good";
-	}
-
-	return "";
-};
-
-module.exports = ScoreToRating;
-
-},{}],39:[function(require,module,exports){
-/* global console: true */
-/* global setTimeout: true */
-var isUndefined = require( "lodash/isUndefined" );
-var forEach = require( "lodash/forEach" );
-var reduce = require( "lodash/reduce" );
-var isString = require( "lodash/isString" );
-var isObject = require( "lodash/isObject" );
-var InvalidTypeError = require( "./errors/invalidType" );
-
-/**
- * The plugins object takes care of plugin registrations, preloading and managing data modifications.
- *
- * A plugin for YoastSEO.js is basically a piece of JavaScript that hooks into YoastSEO.js by registering modifications.
- * In order to do so, it must first register itself as a plugin with YoastSEO.js. To keep our content analysis fast, we
- * don't allow asynchronous modifications. That's why we require plugins to preload all data they need in order to modify
- * the content. If plugins need to preload data, they can first register, then preload using AJAX and call `ready` once
- * preloaded.
- *
- * To minimize client side memory usage, we request plugins to preload as little data as possible. If you need to dynamically
- * fetch more data in the process of content creation, you can reload your data set and let YoastSEO.js know you've reloaded
- * by calling `reloaded`.
- *
- * @todo: add list of supported modifications and compare on registration of modification
- */
-
-/**
- * Setup Pluggable and set its default values.
- *
- * @constructor
- * @param       {App}       app                 The App object to attach to.
- * @property    {number}    preloadThreshold	The maximum time plugins are allowed to preload before we load our content analysis.
- * @property    {object}    plugins             The plugins that have been registered.
- * @property    {object}    modifications 	    The modifications that have been registered. Every modification contains an array with callables.
- * @property    {Array}     customTests         All tests added by plugins.
- */
-var Pluggable = function( app ) {
-	this.app = app;
-	this.loaded = false;
-	this.preloadThreshold = 3000;
-	this.plugins = {};
-	this.modifications = {};
-	this.customTests = [];
-
-	// Allow plugins 1500 ms to register before we start polling their
-	setTimeout( this._pollLoadingPlugins.bind( this ), 1500 );
-};
-
-//  ***** DSL IMPLEMENTATION ***** //
-
-/**
- * Register a plugin with YoastSEO. A plugin can be declared "ready" right at registration or later using `this.ready`.
- *
- * @param {string}  pluginName      The name of the plugin to be registered.
- * @param {object}  options         The options passed by the plugin.
- * @param {string}  options.status  The status of the plugin being registered. Can either be "loading" or "ready".
- * @returns {boolean}               Whether or not the plugin was successfully registered.
- */
-Pluggable.prototype._registerPlugin = function( pluginName, options ) {
-	if ( typeof pluginName !== "string" ) {
-		console.error( "Failed to register plugin. Expected parameter `pluginName` to be a string." );
-		return false;
-	}
-
-	if ( !isUndefined( options ) && typeof options !== "object" ) {
-		console.error( "Failed to register plugin " + pluginName + ". Expected parameters `options` to be a object." );
-		return false;
-	}
-
-	if ( this._validateUniqueness( pluginName ) === false ) {
-		console.error( "Failed to register plugin. Plugin with name " + pluginName + " already exists" );
-		return false;
-	}
-
-	this.plugins[pluginName] = options;
-	this.app.updateLoadingDialog( this.plugins );
-	return true;
-};
-
-/**
- * Declare a plugin "ready". Use this if you need to preload data with AJAX.
- *
- * @param {string} pluginName	The name of the plugin to be declared as ready.
- * @returns {boolean}           Whether or not the plugin was successfully declared ready.
- */
-Pluggable.prototype._ready = function( pluginName ) {
-	if ( typeof pluginName !== "string" ) {
-		console.error( "Failed to modify status for plugin " + pluginName + ". Expected parameter `pluginName` to be a string." );
-		return false;
-	}
-
-	if ( isUndefined( this.plugins[pluginName] ) ) {
-		console.error( "Failed to modify status for plugin " + pluginName + ". The plugin was not properly registered." );
-		return false;
-	}
-
-	this.plugins[pluginName].status = "ready";
-	this.app.updateLoadingDialog( this.plugins );
-	return true;
-};
-
-/**
- * Used to declare a plugin has been reloaded. If an analysis is currently running. We will reset it to ensure running the latest modifications.
- *
- * @param {string} pluginName   The name of the plugin to be declared as reloaded.
- * @returns {boolean}           Whether or not the plugin was successfully declared as reloaded.
- */
-Pluggable.prototype._reloaded = function( pluginName ) {
-	if ( typeof pluginName !== "string" ) {
-		console.error( "Failed to reload Content Analysis for " + pluginName + ". Expected parameter `pluginName` to be a string." );
-		return false;
-	}
-
-	if ( isUndefined( this.plugins[pluginName] ) ) {
-		console.error( "Failed to reload Content Analysis for plugin " + pluginName + ". The plugin was not properly registered." );
-		return false;
-	}
-
-	this.app.analyzeTimer();
-	return true;
-};
-
-/**
- * Enables hooking a callable to a specific data filter supported by YoastSEO. Can only be performed for plugins that have finished loading.
- *
- * @param {string}      modification	The name of the filter
- * @param {function}    callable 	    The callable
- * @param {string}      pluginName 	    The plugin that is registering the modification.
- * @param {number}      priority	    (optional) Used to specify the order in which the callables associated with a particular filter are called.
- * 									    Lower numbers correspond with earlier execution.
- * @returns {boolean}                   Whether or not applying the hook was successfull.
- */
-Pluggable.prototype._registerModification = function( modification, callable, pluginName, priority ) {
-	if ( typeof modification !== "string" ) {
-		console.error( "Failed to register modification for plugin " + pluginName + ". Expected parameter `modification` to be a string." );
-		return false;
-	}
-
-	if ( typeof callable !== "function" ) {
-		console.error( "Failed to register modification for plugin " + pluginName + ". Expected parameter `callable` to be a function." );
-		return false;
-	}
-
-	if ( typeof pluginName !== "string" ) {
-		console.error( "Failed to register modification for plugin " + pluginName + ". Expected parameter `pluginName` to be a string." );
-		return false;
-	}
-
-	// Validate origin
-	if ( this._validateOrigin( pluginName ) === false ) {
-		console.error( "Failed to register modification for plugin " + pluginName + ". The integration has not finished loading yet." );
-		return false;
-	}
-
-	// Default priority to 10
-	var prio = typeof priority === "number" ?  priority : 10;
-
-	var callableObject = {
-		callable: callable,
-		origin: pluginName,
-		priority: prio
-	};
-
-	// Make sure modification is defined on modifications object
-	if ( isUndefined( this.modifications[modification] ) ) {
-		this.modifications[modification] = [];
-	}
-
-	this.modifications[modification].push( callableObject );
-
-	return true;
-};
-
-/**
- * Register test for a specific plugin
- *
- * @deprecated
- */
-Pluggable.prototype._registerTest = function() {
-	console.error ( "This function is deprecated, please use _registerAssessment" );
-};
-
-/**
- * Register an assessment for a specific plugin
- *
- * @param {object} assessor The assessor object where the assessments needs to be added.
- * @param {string} name The name of the assessment.
- * @param {function} assessment The function to run as an assessment.
- * @param {string} pluginName The name of the plugin associated with the assessment.
- * @returns {boolean} Whether registering the assessment was successful.
- * @private
- */
-Pluggable.prototype._registerAssessment = function( assessor, name, assessment, pluginName ) {
-	if ( !isString( name ) ) {
-		throw new InvalidTypeError( "Failed to register test for plugin " + pluginName + ". Expected parameter `name` to be a string." );
-	}
-
-	if ( !isObject( assessment ) ) {
-		throw new InvalidTypeError( "Failed to register assessment for plugin " + pluginName +
-			". Expected parameter `assessment` to be a function." );
-	}
-
-	if ( !isString( pluginName ) ) {
-		throw new InvalidTypeError( "Failed to register assessment for plugin " + pluginName +
-			". Expected parameter `pluginName` to be a string." );
-	}
-
-	// Prefix the name with the pluginName so the test name is always unique.
-	name = pluginName + "-" + name;
-
-	assessor.addAssessment( name, assessment );
-
-	return true;
-};
-
-// ***** PRIVATE HANDLERS *****//
-
-/**
- * Poller to handle loading of plugins. Plugins can register with our app to let us know they are going to hook into our Javascript. They are allowed
- * 5 seconds of pre-loading time to fetch all the data they need to be able to perform their data modifications. We will only apply data modifications
- * from plugins that have declared ready within the pre-loading time in order to safeguard UX and data integrity.
- *
- * @param   {number} pollTime (optional) The accumulated time to compare with the pre-load threshold.
- * @returns {void}
- * @private
- */
-Pluggable.prototype._pollLoadingPlugins = function( pollTime ) {
-	pollTime = isUndefined( pollTime ) ? 0 : pollTime;
-	if ( this._allReady() === true ) {
-		this.loaded = true;
-		this.app.pluginsLoaded();
-	} else if ( pollTime >= this.preloadThreshold ) {
-		this._pollTimeExceeded();
-	} else {
-		pollTime += 50;
-		setTimeout( this._pollLoadingPlugins.bind( this, pollTime ), 50 );
-	}
-};
-
-/**
- * Checks if all registered plugins have finished loading
- *
- * @returns {boolean} Whether or not all registered plugins are loaded.
- * @private
- */
-Pluggable.prototype._allReady = function() {
-	return reduce( this.plugins, function( allReady, plugin ) {
-		return allReady && plugin.status === "ready";
-	}, true );
-};
-
-/**
- * Removes the plugins that were not loaded within time and calls `pluginsLoaded` on the app.
- *
- * @returns {void}
- * @private
- */
-Pluggable.prototype._pollTimeExceeded = function() {
-	forEach ( this.plugins, function( plugin, pluginName ) {
-		if ( !isUndefined( plugin.options ) && plugin.options.status !== "ready" ) {
-			console.error( "Error: Plugin " + pluginName + ". did not finish loading in time." );
-			delete this.plugins[pluginName];
-		}
-	} );
-	this.loaded = true;
-	this.app.pluginsLoaded();
-};
-
-/**
- * Calls the callables added to a modification hook. See the YoastSEO.js Readme for a list of supported modification hooks.
- *
- * @param	{string}    modification	The name of the filter
- * @param   {*}         data 		    The data to filter
- * @param   {*}         context		    (optional) Object for passing context parameters to the callable.
- * @returns {*} 		                The filtered data
- * @private
- */
-Pluggable.prototype._applyModifications = function( modification, data, context ) {
-	var callChain = this.modifications[modification];
-
-	if ( callChain instanceof Array && callChain.length > 0 ) {
-		callChain = this._stripIllegalModifications( callChain );
-
-		callChain.sort( function( a, b ) {
-			return a.priority - b.priority;
-		} );
-		forEach( callChain, function( callableObject ) {
-			var callable = callableObject.callable;
-			var newData = callable( data, context );
-			if ( typeof newData === typeof data ) {
-				data = newData;
-			} else {
-				console.error( "Modification with name " + modification + " performed by plugin with name " +
-				callableObject.origin +
-				" was ignored because the data that was returned by it was of a different type than the data we had passed it." );
-			}
-		} );
-	}
-	return data;
-
-};
-
-/**
- * Adds new tests to the analyzer and it's scoring object.
- *
- * @param {YoastSEO.Analyzer} analyzer The analyzer object to add the tests to
- * @returns {void}
- * @private
- */
-Pluggable.prototype._addPluginTests = function( analyzer ) {
-	this.customTests.map( function( customTest ) {
-		this._addPluginTest( analyzer, customTest );
-	}, this );
-};
-
-/**
- * Adds one new test to the analyzer and it's scoring object.
- *
- * @param {YoastSEO.Analyzer} analyzer              The analyzer that the test will be added to.
- * @param {Object}            pluginTest            The test to be added.
- * @param {string}            pluginTest.name       The name of the test.
- * @param {function}          pluginTest.callable   The function associated with the test.
- * @param {function}          pluginTest.analysis   The function associated with the analyzer.
- * @param {Object}            pluginTest.scoring    The scoring object to be used.
- * @returns {void}
- * @private
- */
-Pluggable.prototype._addPluginTest = function( analyzer, pluginTest ) {
-	analyzer.addAnalysis( {
-		"name": pluginTest.name,
-		"callable": pluginTest.analysis
-	} );
-
-	analyzer.analyzeScorer.addScoring( {
-		"name": pluginTest.name,
-		"scoring": pluginTest.scoring
-	} );
-};
-
-/**
- * Strips modifications from a callChain if they were not added with a valid origin.
- *
- * @param   {Array} callChain	 The callChain that contains items with possible invalid origins.
- * @returns {Array} callChain 	 The stripped version of the callChain.
- * @private
- */
-Pluggable.prototype._stripIllegalModifications = function( callChain ) {
-	forEach ( callChain, function( callableObject, index ) {
-		if ( this._validateOrigin( callableObject.origin ) === false ) {
-			delete callChain[index];
-		}
-	}.bind( this ) );
-
-	return callChain;
-};
-
-/**
- * Validates if origin of a modification has been registered and finished preloading.
- *
- * @param 	{string}    pluginName      The name of the plugin that needs to be validated.
- * @returns {boolean}                   Whether or not the origin is valid.
- * @private
- */
-Pluggable.prototype._validateOrigin = function( pluginName ) {
-	if ( this.plugins[pluginName].status !== "ready" ) {
-		return false;
-	}
-	return true;
-};
-
-/**
- * Validates if registered plugin has a unique name.
- *
- * @param 	{string}    pluginName      The name of the plugin that needs to be validated for uniqueness.
- * @returns {boolean}                   Whether or not the plugin has a unique name.
- * @private
- */
-Pluggable.prototype._validateUniqueness = function( pluginName ) {
-	if ( !isUndefined( this.plugins[pluginName] ) ) {
-		return false;
-	}
-	return true;
-};
-
-module.exports = Pluggable;
-
-},{"./errors/invalidType":36,"lodash/forEach":221,"lodash/isObject":237,"lodash/isString":240,"lodash/isUndefined":243,"lodash/reduce":251}],40:[function(require,module,exports){
-/* jshint browser: true */
-
-var forEach = require( "lodash/forEach" );
-var isNumber = require( "lodash/isNumber" );
-var isObject = require( "lodash/isObject" );
-var isUndefined = require( "lodash/isUndefined" );
-var difference = require( "lodash/difference" );
-var template = require( "../templates.js" ).assessmentPresenterResult;
-var scoreToRating = require( "../interpreters/scoreToRating.js" );
-var createConfig = require( "../config/presenter.js" );
-
-/**
- * Constructs the AssessorPresenter.
- *
- * @param {Object} args A list of arguments to use in the presenter.
- * @param {object} args.targets The HTML elements to render the output to.
- * @param {string} args.targets.output The HTML element to render the individual ratings out to.
- * @param {string} args.targets.overall The HTML element to render the overall rating out to.
- * @param {string} args.keyword The keyword to use for checking, when calculating the overall rating.
- * @param {SEOAssessor} args.assessor The Assessor object to retrieve assessment results from.
- * @param {Jed} args.i18n The translation object.
- * @constructor
- */
-var AssessorPresenter = function( args ) {
-	this.keyword = args.keyword;
-	this.assessor = args.assessor;
-	this.i18n = args.i18n;
-	this.output = args.targets.output;
-	this.overall = args.targets.overall || "overallScore";
-	this.presenterConfig = createConfig( args.i18n );
-};
-
-/**
- * Checks whether or not a specific property exists in the presenter configuration.
- * @param {string} property The property name to search for.
- * @returns {boolean} Whether or not the property exists.
- */
-AssessorPresenter.prototype.configHasProperty = function( property ) {
-	return this.presenterConfig.hasOwnProperty( property );
-};
-
-/**
- * Gets a fully formatted indicator object that can be used.
- * @param {string} rating The rating to use.
- * @returns {Object} An object containing the class and screen reader text.
- */
-AssessorPresenter.prototype.getIndicator = function( rating ) {
-	return {
-		className: this.getIndicatorColorClass( rating ),
-		screenReaderText: this.getIndicatorScreenReaderText( rating )
-	};
-};
-
-/**
- * Gets the indicator color class from the presenter configuration, if it exists.
- * @param {string} rating The rating to check against the config.
- * @returns {string} String containing the CSS class to be used.
- */
-AssessorPresenter.prototype.getIndicatorColorClass = function( rating ) {
-	if ( !this.configHasProperty( rating ) ) {
-		return "";
-	}
-
-	return this.presenterConfig[ rating ].className;
-};
-
-/**
- * Get the indicator screen reader text from the presenter configuration, if it exists.
- * @param {string} rating The rating to check against the config.
- * @returns {string} Translated string containing the screen reader text to be used.
- */
-AssessorPresenter.prototype.getIndicatorScreenReaderText = function( rating ) {
-	if ( !this.configHasProperty( rating ) ) {
-		return "";
-	}
-
-	return this.presenterConfig[ rating ].screenReaderText;
-};
-
-/**
- * Adds a rating based on the numeric score.
- * @param {Object} result Object based on the Assessment result. Requires a score property to work.
- * @returns {Object} The Assessment result object with the rating added.
- */
-AssessorPresenter.prototype.resultToRating = function( result ) {
-	if ( !isObject( result ) ) {
-		return "";
-	}
-
-	result.rating = scoreToRating( result.score );
-
-	return result;
-};
-
-/**
- * Takes the individual assessment results, sorts and rates them.
- * @returns {Object} Object containing all the individual ratings.
- */
-AssessorPresenter.prototype.getIndividualRatings = function() {
-	var ratings = {};
-	var validResults = this.sort( this.assessor.getValidResults() );
-	var mappedResults = validResults.map( this.resultToRating );
-
-	forEach( mappedResults, function( item, key ) {
-		ratings[ key ] = this.addRating( item );
-	}.bind( this ) );
-
-	return ratings;
-};
-
-/**
- * Excludes items from the results that are present in the exclude array.
- * @param {Array} results Array containing the items to filter through.
- * @param {Array} exclude Array of results to exclude.
- * @returns {Array} Array containing items that remain after exclusion.
- */
-AssessorPresenter.prototype.excludeFromResults = function( results, exclude ) {
-	return difference( results, exclude );
-};
-
-/**
- * Sorts results based on their score property and always places items considered to be unsortable, at the top.
- * @param {Array} results Array containing the results that need to be sorted.
- * @returns {Array} Array containing the sorted results.
- */
-AssessorPresenter.prototype.sort = function ( results ) {
-	var unsortables = this.getUndefinedScores( results );
-	var sortables = this.excludeFromResults( results, unsortables );
-
-	sortables.sort( function( a, b ) {
-		return a.score - b.score;
-	} );
-
-	return unsortables.concat( sortables );
-};
-
-/**
- * Returns a subset of results that have an undefined score or a score set to zero.
- * @param {Array} results The results to filter through.
- * @returns {Array} A subset of results containing items with an undefined score or where the score is zero.
- */
-AssessorPresenter.prototype.getUndefinedScores = function ( results ) {
-	return results.filter( function( result ) {
-		return isUndefined( result.score ) || result.score === 0;
-	} );
-};
-
-/**
- * Creates a rating object based on the item that is being passed.
- * @param {Object} item The item to check and create a rating object from.
- * @returns {Object} Object containing a parsed item, including a colored indicator.
- */
-AssessorPresenter.prototype.addRating = function( item ) {
-	var indicator = this.getIndicator( item.rating );
-	indicator.text = item.text;
-
-	return indicator;
-};
-
-/**
- * Calculates the overall rating score based on the overall score.
- * @param {Number} overallScore The overall score to use in the calculation.
- * @returns {Object} The rating based on the score.
- */
-AssessorPresenter.prototype.getOverallRating = function( overallScore ) {
-	var rating = 0;
-
-	if ( this.keyword === "" ) {
-		return this.resultToRating( { score: rating } );
-	}
-
-	if ( isNumber( overallScore ) ) {
-		rating = ( overallScore / 10 );
-	}
-
-	return this.resultToRating( { score: rating } );
-};
-
-/**
- * Renders out both the individual and the overall ratings.
- */
-AssessorPresenter.prototype.render = function() {
-	this.renderIndividualRatings();
-	this.renderOverallRating();
-};
-
-/**
- * Renders out the individual ratings.
- */
-AssessorPresenter.prototype.renderIndividualRatings = function() {
-	var outputTarget = document.getElementById( this.output );
-
-	outputTarget.innerHTML = template( {
-		scores: this.getIndividualRatings()
-	} );
-};
-
-/**
- * Renders out the overall rating.
- */
-AssessorPresenter.prototype.renderOverallRating = function() {
-	var overallRating = this.getOverallRating( this.assessor.calculateOverallScore() );
-	var overallRatingElement = document.getElementById( this.overall );
-
-	if ( !overallRatingElement ) {
-		return;
-	}
-
-	overallRatingElement.className = "overallScore " + this.getIndicatorColorClass( overallRating.rating );
-};
-
-module.exports = AssessorPresenter;
-
-},{"../config/presenter.js":32,"../interpreters/scoreToRating.js":38,"../templates.js":88,"lodash/difference":219,"lodash/forEach":221,"lodash/isNumber":236,"lodash/isObject":237,"lodash/isUndefined":243}],41:[function(require,module,exports){
+},{"util":6}],33:[function(require,module,exports){
 var merge = require( "lodash/merge" );
 var InvalidTypeError = require( "./errors/invalidType" );
 var MissingArgument = require( "./errors/missingArgument" );
@@ -4991,7 +3618,7 @@ Researcher.prototype.getResearch = function( name ) {
 
 module.exports = Researcher;
 
-},{"./errors/invalidType":36,"./errors/missingArgument":37,"./researches/calculateFleschReading.js":42,"./researches/countLinks.js":43,"./researches/findKeywordInFirstParagraph.js":44,"./researches/findKeywordInPageTitle.js":45,"./researches/getKeywordDensity.js":46,"./researches/getLinkStatistics.js":47,"./researches/imageAltTags.js":49,"./researches/imageCountInText.js":50,"./researches/keyphraseLength":51,"./researches/keywordCountInUrl":52,"./researches/matchKeywordInSubheadings.js":53,"./researches/metaDescriptionKeyword.js":54,"./researches/metaDescriptionLength.js":55,"./researches/pageTitleLength.js":56,"./researches/stopWordsInKeyword":57,"./researches/stopWordsInUrl":59,"./researches/urlIsTooLong.js":60,"./researches/wordCountInText.js":61,"lodash/isEmpty":232,"lodash/isUndefined":243,"lodash/merge":247}],42:[function(require,module,exports){
+},{"./errors/invalidType":31,"./errors/missingArgument":32,"./researches/calculateFleschReading.js":34,"./researches/countLinks.js":35,"./researches/findKeywordInFirstParagraph.js":36,"./researches/findKeywordInPageTitle.js":37,"./researches/getKeywordDensity.js":38,"./researches/getLinkStatistics.js":39,"./researches/imageAltTags.js":41,"./researches/imageCountInText.js":42,"./researches/keyphraseLength":43,"./researches/keywordCountInUrl":44,"./researches/matchKeywordInSubheadings.js":45,"./researches/metaDescriptionKeyword.js":46,"./researches/metaDescriptionLength.js":47,"./researches/pageTitleLength.js":48,"./researches/stopWordsInKeyword":49,"./researches/stopWordsInUrl":51,"./researches/urlIsTooLong.js":52,"./researches/wordCountInText.js":53,"lodash/isEmpty":176,"lodash/isUndefined":186,"lodash/merge":189}],34:[function(require,module,exports){
 /** @module analyses/calculateFleschReading */
 
 var cleanText = require( "../stringProcessing/cleanText.js" );
@@ -5027,7 +3654,7 @@ module.exports = function( paper ) {
 	return score.toFixed( 1 );
 };
 
-},{"../stringProcessing/cleanText.js":66,"../stringProcessing/countSentences.js":67,"../stringProcessing/countSyllables.js":68,"../stringProcessing/countWords.js":69,"../stringProcessing/stripHTMLTags.js":82,"../stringProcessing/stripNumbers.js":84}],43:[function(require,module,exports){
+},{"../stringProcessing/cleanText.js":56,"../stringProcessing/countSentences.js":57,"../stringProcessing/countSyllables.js":58,"../stringProcessing/countWords.js":59,"../stringProcessing/stripHTMLTags.js":72,"../stringProcessing/stripNumbers.js":74}],35:[function(require,module,exports){
 /** @module analyses/getLinkStatistics */
 
 var getLinks = require( "./getLinks" );
@@ -5045,7 +3672,7 @@ module.exports = function( paper ) {
 	return anchors.length;
 };
 
-},{"./getLinks":48}],44:[function(require,module,exports){
+},{"./getLinks":40}],36:[function(require,module,exports){
 /** @module analyses/findKeywordInFirstParagraph */
 
 var regexMatch = require( "../stringProcessing/matchStringWithRegex.js" );
@@ -5082,7 +3709,7 @@ module.exports = function( paper ) {
 	return wordMatch( text, keyword );
 };
 
-},{"../stringProcessing/matchStringWithRegex.js":76,"../stringProcessing/matchTextWithWord.js":77}],45:[function(require,module,exports){
+},{"../stringProcessing/matchStringWithRegex.js":66,"../stringProcessing/matchTextWithWord.js":67}],37:[function(require,module,exports){
 /** @module analyses/findKeywordInPageTitle */
 
 var wordMatch = require( "../stringProcessing/matchTextWithWord.js" );
@@ -5105,7 +3732,7 @@ module.exports = function( paper ) {
 	return result;
 };
 
-},{"../stringProcessing/matchTextWithWord.js":77}],46:[function(require,module,exports){
+},{"../stringProcessing/matchTextWithWord.js":67}],38:[function(require,module,exports){
 /** @module analyses/getKeywordDensity */
 
 var countWords = require( "../stringProcessing/countWords.js" );
@@ -5128,7 +3755,7 @@ module.exports = function( paper ) {
 	return ( keywordCount / wordCount ) * 100;
 };
 
-},{"../stringProcessing/countWords.js":69,"../stringProcessing/matchTextWithWord.js":77}],47:[function(require,module,exports){
+},{"../stringProcessing/countWords.js":59,"../stringProcessing/matchTextWithWord.js":67}],39:[function(require,module,exports){
 /** @module analyses/getLinkStatistics */
 
 var getLinks = require( "./getLinks.js" );
@@ -5192,7 +3819,7 @@ module.exports = function( paper ) {
 	return linkCount;
 };
 
-},{"../stringProcessing/checkNofollow.js":65,"../stringProcessing/findKeywordInUrl.js":71,"../stringProcessing/getLinkType.js":74,"./getLinks.js":48}],48:[function(require,module,exports){
+},{"../stringProcessing/checkNofollow.js":55,"../stringProcessing/findKeywordInUrl.js":61,"../stringProcessing/getLinkType.js":64,"./getLinks.js":40}],40:[function(require,module,exports){
 /** @module analyses/getLinkStatistics */
 
 var getAnchors = require( "../stringProcessing/getAnchorsFromText.js" );
@@ -5207,7 +3834,7 @@ module.exports = function( text ) {
 	return getAnchors( text );
 };
 
-},{"../stringProcessing/getAnchorsFromText.js":73}],49:[function(require,module,exports){
+},{"../stringProcessing/getAnchorsFromText.js":63}],41:[function(require,module,exports){
 /** @module researches/imageAltTags */
 
 var imageInText = require( "../stringProcessing/imageInText" );
@@ -5271,7 +3898,7 @@ module.exports = function( paper ) {
 	return matchAltProperties( imageInText( paper.getText() ), paper.getKeyword() );
 };
 
-},{"../stringProcessing/getAlttagContent":72,"../stringProcessing/imageInText":75,"../stringProcessing/matchTextWithWord":77}],50:[function(require,module,exports){
+},{"../stringProcessing/getAlttagContent":62,"../stringProcessing/imageInText":65,"../stringProcessing/matchTextWithWord":67}],42:[function(require,module,exports){
 /** @module researches/imageInText */
 
 var imageInText = require( "./../stringProcessing/imageInText" );
@@ -5286,7 +3913,7 @@ module.exports = function( paper ) {
 	return imageInText( paper.getText() ).length;
 };
 
-},{"./../stringProcessing/imageInText":75}],51:[function(require,module,exports){
+},{"./../stringProcessing/imageInText":65}],43:[function(require,module,exports){
 var countWords = require( "../stringProcessing/countWords" );
 var sanitizeString = require( "../stringProcessing/sanitizeString" );
 
@@ -5304,7 +3931,7 @@ function keyphraseLengthResearch( paper ) {
 
 module.exports = keyphraseLengthResearch;
 
-},{"../stringProcessing/countWords":69,"../stringProcessing/sanitizeString":80}],52:[function(require,module,exports){
+},{"../stringProcessing/countWords":59,"../stringProcessing/sanitizeString":70}],44:[function(require,module,exports){
 /** @module researches/countKeywordInUrl */
 
 var wordMatch = require( "../stringProcessing/matchTextWithWord.js" );
@@ -5320,7 +3947,7 @@ module.exports = function( paper ) {
 	return wordMatch( paper.getUrl(), keyword );
 };
 
-},{"../stringProcessing/matchTextWithWord.js":77}],53:[function(require,module,exports){
+},{"../stringProcessing/matchTextWithWord.js":67}],45:[function(require,module,exports){
 /* @module analyses/matchKeywordInSubheadings */
 
 var stripSomeTags = require( "../stringProcessing/stripNonTextTags.js" );
@@ -5351,7 +3978,7 @@ module.exports = function( paper ) {
 };
 
 
-},{"../stringProcessing/stripNonTextTags.js":83,"../stringProcessing/subheadingsMatch.js":86}],54:[function(require,module,exports){
+},{"../stringProcessing/stripNonTextTags.js":73,"../stringProcessing/subheadingsMatch.js":76}],46:[function(require,module,exports){
 var matchTextWithWord = require( "../stringProcessing/matchTextWithWord.js" );
 
 /**
@@ -5369,7 +3996,7 @@ module.exports = function( paper ) {
 };
 
 
-},{"../stringProcessing/matchTextWithWord.js":77}],55:[function(require,module,exports){
+},{"../stringProcessing/matchTextWithWord.js":67}],47:[function(require,module,exports){
 /**
  * Check the length of the description.
  * @param {Paper} paper The paper object containing the description.
@@ -5379,7 +4006,7 @@ module.exports = function( paper ) {
 	return paper.getDescription().length;
 };
 
-},{}],56:[function(require,module,exports){
+},{}],48:[function(require,module,exports){
 /**
  * Check the length of the title.
  * @param {Paper} paper The paper object containing the title.
@@ -5389,7 +4016,7 @@ module.exports = function( paper ) {
 	return paper.getTitle().length;
 };
 
-},{}],57:[function(require,module,exports){
+},{}],49:[function(require,module,exports){
 /** @module researches/stopWordsInKeyword */
 
 var stopWordsInText = require( "./stopWordsInText.js" );
@@ -5403,7 +4030,7 @@ module.exports = function( paper ) {
 	return stopWordsInText( paper.getKeyword() );
 };
 
-},{"./stopWordsInText.js":58}],58:[function(require,module,exports){
+},{"./stopWordsInText.js":50}],50:[function(require,module,exports){
 var stopwords = require( "../config/stopwords.js" )();
 var toRegex = require( "../stringProcessing/stringToRegex.js" );
 
@@ -5425,7 +4052,7 @@ module.exports = function( text ) {
 	return matches;
 };
 
-},{"../config/stopwords.js":34,"../stringProcessing/stringToRegex.js":81}],59:[function(require,module,exports){
+},{"../config/stopwords.js":29,"../stringProcessing/stringToRegex.js":71}],51:[function(require,module,exports){
 /** @module researches/stopWordsInUrl */
 
 var stopWordsInText = require( "./stopWordsInText.js" );
@@ -5439,7 +4066,7 @@ module.exports = function( paper ) {
 	return stopWordsInText( paper.getUrl().replace( /[-_]/g, " " ) );
 };
 
-},{"./stopWordsInText.js":58}],60:[function(require,module,exports){
+},{"./stopWordsInText.js":50}],52:[function(require,module,exports){
 /** @module analyses/isUrlTooLong */
 
 /**
@@ -5460,7 +4087,7 @@ module.exports = function( paper ) {
 	return false;
 };
 
-},{}],61:[function(require,module,exports){
+},{}],53:[function(require,module,exports){
 var wordCount = require( "../stringProcessing/countWords.js" );
 
 /**
@@ -5472,1256 +4099,7 @@ module.exports = function( paper ) {
 	return wordCount( paper.getText() );
 };
 
-},{"../stringProcessing/countWords.js":69}],62:[function(require,module,exports){
-var Assessor = require( "./assessor.js" );
-
-var fleschReadingEase = require( "./assessments/fleschReadingEaseAssessment.js" );
-var introductionKeyword = require( "./assessments/introductionKeywordAssessment.js" );
-var keyphraseLength = require( "./assessments/keyphraseLengthAssessment.js" );
-var keywordDensity = require( "./assessments/keywordDensityAssessment.js" );
-var keywordStopWords = require( "./assessments/keywordStopWordsAssessment.js" );
-var metaDescriptionKeyword = require ( "./assessments/metaDescriptionKeywordAssessment.js" );
-var metaDescriptionLength = require( "./assessments/metaDescriptionLengthAssessment.js" );
-var subheadingsKeyword = require( "./assessments/subheadingsKeywordAssessment.js" );
-var textCompetingLinks = require( "./assessments/textCompetingLinksAssessment.js" );
-var textImages = require( "./assessments/textImagesAssessment.js" );
-var textLength = require( "./assessments/textLengthAssessment.js" );
-var textLinks = require( "./assessments/textLinksAssessment.js" );
-var textSubheadings = require( "./assessments/textSubheadingsAssessment.js" );
-var titleKeyword = require( "./assessments/titleKeywordAssessment.js" );
-var titleLength = require( "./assessments/titleLengthAssessment.js" );
-var urlKeyword = require( "./assessments/urlKeywordAssessment.js" );
-var urlLength = require( "./assessments/urlLengthAssessment.js" );
-var urlStopWords = require( "./assessments/urlStopWordsAssessment.js" );
-/**
- * Creates the Assessor
- *
- * @param {object} i18n The i18n object used for translations.
- * @constructor
- */
-var SEOAssessor = function( i18n ) {
-	Assessor.call( this, i18n );
-
-	this._assessments = {
-		fleschReadingEase:      fleschReadingEase,
-		introductionKeyword:    introductionKeyword,
-		keyphraseLength:        keyphraseLength,
-		keywordDensity:         keywordDensity,
-		keywordStopWords:       keywordStopWords,
-		metaDescriptionKeyword: metaDescriptionKeyword,
-		metaDescriptionLength:  metaDescriptionLength,
-		subheadingsKeyword:     subheadingsKeyword,
-		textCompetingLinks:     textCompetingLinks,
-		textImages:             textImages,
-		textLength:             textLength,
-		textLinks:              textLinks,
-		textSubheadings:        textSubheadings,
-		titleKeyword:           titleKeyword,
-		titleLength:            titleLength,
-		urlKeyword:             urlKeyword,
-		urlLength:              urlLength,
-		urlStopWords:           urlStopWords
-	};
-};
-
-module.exports = SEOAssessor;
-
-require( "util" ).inherits( module.exports, Assessor );
-
-
-},{"./assessments/fleschReadingEaseAssessment.js":10,"./assessments/introductionKeywordAssessment.js":11,"./assessments/keyphraseLengthAssessment.js":12,"./assessments/keywordDensityAssessment.js":13,"./assessments/keywordStopWordsAssessment.js":14,"./assessments/metaDescriptionKeywordAssessment.js":15,"./assessments/metaDescriptionLengthAssessment.js":16,"./assessments/subheadingsKeywordAssessment.js":17,"./assessments/textCompetingLinksAssessment.js":18,"./assessments/textImagesAssessment.js":19,"./assessments/textLengthAssessment.js":20,"./assessments/textLinksAssessment.js":21,"./assessments/textSubheadingsAssessment.js":22,"./assessments/titleKeywordAssessment.js":23,"./assessments/titleLengthAssessment.js":24,"./assessments/urlKeywordAssessment.js":25,"./assessments/urlLengthAssessment.js":26,"./assessments/urlStopWordsAssessment.js":27,"./assessor.js":28,"util":6}],63:[function(require,module,exports){
-/* jshint browser: true */
-
-var isEmpty = require( "lodash/isEmpty" );
-var isElement = require( "lodash/isElement" );
-var isUndefined = require( "lodash/isUndefined" );
-var clone = require( "lodash/clone" );
-var defaultsDeep = require( "lodash/defaultsDeep" );
-var forEach = require( "lodash/forEach" );
-var debounce = require( "lodash/debounce" );
-
-var stringToRegex = require( "../js/stringProcessing/stringToRegex.js" );
-var stripHTMLTags = require( "../js/stringProcessing/stripHTMLTags.js" );
-var sanitizeString = require( "../js/stringProcessing/sanitizeString.js" );
-var stripSpaces = require( "../js/stringProcessing/stripSpaces.js" );
-var replaceDiacritics = require( "../js/stringProcessing/replaceDiacritics.js" );
-var analyzerConfig = require( "./config/config.js" );
-
-var snippetEditorTemplate = require( "./templates.js" ).snippetEditor;
-
-var defaults = {
-	data: {
-		title: "",
-		metaDesc: "",
-		urlPath: ""
-	},
-	placeholder: {
-		title:    "This is an example title - edit by clicking here",
-		metaDesc: "Modify your meta description by editing it right here",
-		urlPath:  "example-post/"
-	},
-	defaultValue: {
-		title: "",
-		metaDesc: ""
-	},
-	baseURL: "http://example.com/",
-	callbacks: {
-		saveSnippetData: function() {}
-	},
-	addTrailingSlash: true,
-	metaDescriptionDate: ""
-};
-
-var titleMaxLength = 65;
-
-var inputPreviewBindings = [
-	{
-		"preview": "title_container",
-		"inputField": "title"
-	},
-	{
-		"preview": "url_container",
-		"inputField": "urlPath"
-	},
-	{
-		"preview": "meta_container",
-		"inputField": "metaDesc"
-	}
-];
-
-/**
- * Get's the base URL for this instance of the snippet preview.
- *
- * @private
- * @this SnippetPreview
- *
- * @returns {string} The base URL.
- */
-var getBaseURL = function() {
-	var baseURL = this.opts.baseURL;
-
-	/*
-	 * For backwards compatibility, if no URL was passed to the snippet editor we try to retrieve the base URL from the
-	 * rawData in the App. This is because the scrapers used to be responsible for retrieving the baseURL, but the base
-	 * URL is static so we can just pass it to the snippet editor.
-	 */
-	if ( !isEmpty( this.refObj.rawData.baseUrl ) && this.opts.baseURL === defaults.baseURL ) {
-		baseURL = this.refObj.rawData.baseUrl;
-	}
-
-	return baseURL;
-};
-
-/**
- * Retrieves unformatted text from the data object
- *
- * @private
- * @this SnippetPreview
- *
- * @param {string} key The key to retrieve.
- * @returns {string} The unformatted text.
- */
-function retrieveUnformattedText( key ) {
-	return this.data[ key ];
-}
-
-/**
- * Update data and DOM objects when the unformatted text is updated, here for backwards compatibility
- *
- * @private
- * @this SnippetPreview
- *
- * @param {string} key The data key to update.
- * @param {string} value The value to update.
- * @returns {void}
- */
-function updateUnformattedText( key, value ) {
-	this.element.input[ key ].value = value;
-
-	this.data[ key ] = value;
-}
-
-/**
- * Adds a class to an element
- *
- * @param {HTMLElement} element The element to add the class to.
- * @param {string} className The class to add.
- * @returns {void}
- */
-function addClass( element, className ) {
-	var classes = element.className.split( " " );
-
-	if ( -1 === classes.indexOf( className ) ) {
-		classes.push( className );
-	}
-
-	element.className = classes.join( " " );
-}
-
-/**
- * Removes a class from an element
- *
- * @param {HTMLElement} element The element to remove the class from.
- * @param {string} className The class to remove.
- * @returns {void}
- */
-function removeClass( element, className ) {
-	var classes = element.className.split( " " );
-	var foundClass = classes.indexOf( className );
-
-	if ( -1 !== foundClass ) {
-		classes.splice( foundClass, 1 );
-	}
-
-	element.className = classes.join( " " );
-}
-
-/**
- * Removes multiple classes from an element
- *
- * @param {HTMLElement} element The element to remove the classes from.
- * @param {Array} classes A list of classes to remove
- * @returns {void}
- */
-function removeClasses( element, classes ) {
-	forEach( classes, removeClass.bind( null, element ) );
-}
-
-/**
- * Returns if a url has a trailing slash or not.
- *
- * @param {string} url The url to check for a trailing slash.
- * @returns {boolean} Whether or not the url contains a trailing slash.
- */
-function hasTrailingSlash( url ) {
-	return url.indexOf( "/" ) === ( url.length - 1 );
-}
-
-/**
- * Detects if this browser has <progress> support. Also serves as a poor man's HTML5shiv.
- *
- * @private
- *
- * @returns {boolean} Whether or not the browser supports a <progress> element
- */
-function hasProgressSupport() {
-	var progressElement = document.createElement( "progress" );
-
-	return !isUndefined( progressElement.max );
-}
-
-/**
- * Returns a rating based on the length of the title
- *
- * @param {number} titleLength the length of the title.
- * @returns {string} The rating given based on the title length.
- */
-function rateTitleLength( titleLength ) {
-	var rating;
-
-	switch ( true ) {
-		case titleLength > 0 && titleLength <= 34:
-		case titleLength >= 66:
-			rating = "ok";
-			break;
-
-		case titleLength >= 35 && titleLength <= 65:
-			rating = "good";
-			break;
-
-		default:
-			rating = "bad";
-			break;
-	}
-
-	return rating;
-}
-
-/**
- * Returns a rating based on the length of the meta description
- *
- * @param {number} metaDescLength the length of the meta description.
- * @returns {string} The rating given based on the description length.
- */
-function rateMetaDescLength( metaDescLength ) {
-	var rating;
-
-	switch ( true ) {
-		case metaDescLength > 0 && metaDescLength <= 120:
-		case metaDescLength >= 157:
-			rating = "ok";
-			break;
-
-		case metaDescLength >= 120 && metaDescLength <= 157:
-			rating = "good";
-			break;
-
-		default:
-			rating = "bad";
-			break;
-	}
-
-	return rating;
-}
-
-/**
- * Updates a progress bar
- *
- * @private
- * @this SnippetPreview
- *
- * @param {HTMLElement} element The progress element that's rendered.
- * @param {number} value The current value.
- * @param {number} maximum The maximum allowed value.
- * @param {string} rating The SEO score rating for this value.
- * @returns {void}
- */
-function updateProgressBar( element, value, maximum, rating ) {
-	var barElement, progress,
-		allClasses = [
-			"snippet-editor__progress--bad",
-			"snippet-editor__progress--ok",
-			"snippet-editor__progress--good"
-		];
-
-	element.value = value;
-	removeClasses( element, allClasses );
-	addClass( element, "snippet-editor__progress--" + rating );
-
-	if ( !this.hasProgressSupport ) {
-		barElement = element.getElementsByClassName( "snippet-editor__progress-bar" )[ 0 ];
-		progress = ( value / maximum ) * 100;
-
-		barElement.style.width = progress + "%";
-	}
-}
-
-/**
- * @module snippetPreview
- */
-
-/**
- * defines the config and outputTarget for the SnippetPreview
- *
- * @param {Object}         opts                           - Snippet preview options.
- * @param {App}            opts.analyzerApp               - The app object the snippet preview is part of.
- * @param {Object}         opts.placeholder               - The placeholder values for the fields, will be shown as
- * actual placeholders in the inputs and as a fallback for the preview.
- * @param {string}         opts.placeholder.title         - The placeholder title.
- * @param {string}         opts.placeholder.metaDesc      - The placeholder meta description.
- * @param {string}         opts.placeholder.urlPath       - The placeholder url.
- *
- * @param {Object}         opts.defaultValue              - The default value for the fields, if the user has not
- * changed a field, this value will be used for the analyzer, preview and the progress bars.
- * @param {string}         opts.defaultValue.title        - The default title.
- * @param {string}         opts.defaultValue.metaDesc     - The default meta description.
- * it.
- *
- * @param {string}         opts.baseURL                   - The basic URL as it will be displayed in google.
- * @param {HTMLElement}    opts.targetElement             - The target element that contains this snippet editor.
- *
- * @param {Object}         opts.callbacks                 - Functions that are called on specific instances.
- * @param {Function}       opts.callbacks.saveSnippetData - Function called when the snippet data is changed.
- *
- * @param {boolean}        opts.addTrailingSlash          - Whether or not to add a trailing slash to the URL.
- * @param {string}         opts.metaDescriptionDate       - The date to display before the meta description.
- *
- * @property {App}         refObj                         - The connected app object.
- * @property {Jed}         i18n                           - The translation object.
- *
- * @property {HTMLElement} targetElement                  - The target element that contains this snippet editor.
- *
- * @property {Object}      element                        - The elements for this snippet editor.
- * @property {Object}      element.rendered               - The rendered elements.
- * @property {HTMLElement} element.rendered.title         - The rendered title element.
- * @property {HTMLElement} element.rendered.urlPath       - The rendered url path element.
- * @property {HTMLElement} element.rendered.urlBase       - The rendered url base element.
- * @property {HTMLElement} element.rendered.metaDesc      - The rendered meta description element.
- *
- * @property {Object}      element.input                  - The input elements.
- * @property {HTMLElement} element.input.title            - The title input element.
- * @property {HTMLElement} element.input.urlPath          - The url path input element.
- * @property {HTMLElement} element.input.metaDesc         - The meta description input element.
- *
- * @property {HTMLElement} element.container              - The main container element.
- * @property {HTMLElement} element.formContainer          - The form container element.
- * @property {HTMLElement} element.editToggle             - The button that toggles the editor form.
- *
- * @property {Object}      data                           - The data for this snippet editor.
- * @property {string}      data.title                     - The title.
- * @property {string}      data.urlPath                   - The url path.
- * @property {string}      data.metaDesc                  - The meta description.
- *
- * @property {string}      baseURL                        - The basic URL as it will be displayed in google.
- *
- * @property {boolean}     hasProgressSupport             - Whether this browser supports the <progress> element.
- *
- * @constructor
- */
-var SnippetPreview = function( opts ) {
-	defaultsDeep( opts, defaults );
-
-	this.data = opts.data;
-
-	if ( !isUndefined( opts.analyzerApp ) ) {
-		this.refObj = opts.analyzerApp;
-		this.i18n = this.refObj.i18n;
-
-		this.data = {
-			title: this.refObj.rawData.snippetTitle || "",
-			urlPath: this.refObj.rawData.snippetCite || "",
-			metaDesc: this.refObj.rawData.snippetMeta || ""
-		};
-
-		// For backwards compatibility set the pageTitle as placeholder.
-		if ( !isEmpty( this.refObj.rawData.pageTitle ) ) {
-			opts.placeholder.title = this.refObj.rawData.pageTitle;
-		}
-	}
-
-	if ( !isElement( opts.targetElement ) ) {
-		throw new Error( "The snippet preview requires a valid target element" );
-	}
-
-	this.opts = opts;
-	this._currentFocus = null;
-	this._currentHover = null;
-
-	// For backwards compatibility monitor the unformatted text for changes and reflect them in the preview
-	this.unformattedText = {};
-	Object.defineProperty( this.unformattedText, "snippet_cite", {
-		get: retrieveUnformattedText.bind( this, "urlPath" ),
-		set: updateUnformattedText.bind( this, "urlPath" )
-	} );
-	Object.defineProperty( this.unformattedText, "snippet_meta", {
-		get: retrieveUnformattedText.bind( this, "metaDesc" ),
-		set: updateUnformattedText.bind( this, "metaDesc" )
-	} );
-	Object.defineProperty( this.unformattedText, "snippet_title", {
-		get: retrieveUnformattedText.bind( this, "title" ),
-		set: updateUnformattedText.bind( this, "title" )
-	} );
-};
-
-/**
- * Renders snippet editor and adds it to the targetElement
- * @returns {void}
- */
-SnippetPreview.prototype.renderTemplate = function() {
-	var targetElement = this.opts.targetElement;
-
-	targetElement.innerHTML = snippetEditorTemplate( {
-		raw: {
-			title: this.data.title,
-			snippetCite: this.data.urlPath,
-			meta: this.data.metaDesc
-		},
-		rendered: {
-			title: this.formatTitle(),
-			baseUrl: this.formatUrl(),
-			snippetCite: this.formatCite(),
-			meta: this.formatMeta()
-		},
-		metaDescriptionDate: this.opts.metaDescriptionDate,
-		placeholder: this.opts.placeholder,
-		i18n: {
-			edit: this.i18n.dgettext( "js-text-analysis", "Edit snippet" ),
-			title: this.i18n.dgettext( "js-text-analysis", "SEO title" ),
-			slug:  this.i18n.dgettext( "js-text-analysis", "Slug" ),
-			metaDescription: this.i18n.dgettext( "js-text-analysis", "Meta description" ),
-			save: this.i18n.dgettext( "js-text-analysis", "Close snippet editor" ),
-			snippetPreview: this.i18n.dgettext( "js-text-analysis", "Snippet preview" )
-		}
-	} );
-
-	this.element = {
-		rendered: {
-			title: document.getElementById( "snippet_title" ),
-			urlBase: document.getElementById( "snippet_citeBase" ),
-			urlPath: document.getElementById( "snippet_cite" ),
-			metaDesc: document.getElementById( "snippet_meta" )
-		},
-		input: {
-			title: targetElement.getElementsByClassName( "js-snippet-editor-title" )[0],
-			urlPath: targetElement.getElementsByClassName( "js-snippet-editor-slug" )[0],
-			metaDesc: targetElement.getElementsByClassName( "js-snippet-editor-meta-description" )[0]
-		},
-		progress: {
-			title: targetElement.getElementsByClassName( "snippet-editor__progress-title" )[0],
-			metaDesc: targetElement.getElementsByClassName( "snippet-editor__progress-meta-description" )[0]
-		},
-		container: document.getElementById( "snippet_preview" ),
-		formContainer: targetElement.getElementsByClassName( "snippet-editor__form" )[0],
-		editToggle: targetElement.getElementsByClassName( "snippet-editor__edit-button" )[0],
-		closeEditor: targetElement.getElementsByClassName( "snippet-editor__submit" )[0],
-		formFields: targetElement.getElementsByClassName( "snippet-editor__form-field" )
-	};
-
-	this.element.label = {
-		title: this.element.input.title.parentNode,
-		urlPath: this.element.input.urlPath.parentNode,
-		metaDesc: this.element.input.metaDesc.parentNode
-	};
-
-	this.element.preview = {
-		title: this.element.rendered.title.parentNode,
-		urlPath: this.element.rendered.urlPath.parentNode,
-		metaDesc: this.element.rendered.metaDesc.parentNode
-	};
-
-	this.hasProgressSupport = hasProgressSupport();
-
-	if ( this.hasProgressSupport ) {
-		this.element.progress.title.max = titleMaxLength;
-		this.element.progress.metaDesc.max = analyzerConfig.maxMeta;
-	} else {
-		forEach( this.element.progress, function( progressElement ) {
-			addClass( progressElement, "snippet-editor__progress--fallback" );
-		} );
-	}
-
-	this.opened = false;
-	this.updateProgressBars();
-};
-
-/**
- * Refreshes the snippet editor rendered HTML
- * @returns {void}
- */
-SnippetPreview.prototype.refresh = function() {
-	this.output = this.htmlOutput();
-	this.renderOutput();
-	this.renderSnippetStyle();
-	this.updateProgressBars();
-};
-
-/**
- * Returns the title as meant for the analyzer
- *
- * @private
- * @this SnippetPreview
- *
- * @returns {string} The title that is meant for the analyzer.
- */
-function getAnalyzerTitle() {
-	var title = this.data.title;
-
-	if ( isEmpty( title ) ) {
-		title = this.opts.defaultValue.title;
-	}
-
-	title = this.refObj.pluggable._applyModifications( "data_page_title", title );
-
-	return stripSpaces( title );
-}
-
-/**
- * Returns the metaDescription, includes the date if it is set.
- *
- * @private
- * @this SnippetPreview
- *
- * @returns {string} The meta data for the analyzer.
- */
-var getAnalyzerMetaDesc = function() {
-	var metaDesc = this.data.metaDesc;
-
-	if ( isEmpty( metaDesc ) ) {
-		metaDesc = this.opts.defaultValue.metaDesc;
-	}
-
-	metaDesc = this.refObj.pluggable._applyModifications( "data_meta_desc", metaDesc );
-
-	if ( !isEmpty( this.opts.metaDescriptionDate ) && !isEmpty( metaDesc ) ) {
-		metaDesc = this.opts.metaDescriptionDate + " - " + this.data.metaDesc;
-	}
-
-	return stripSpaces( metaDesc );
-};
-
-/**
- * Returns the data from the snippet preview.
- *
- * @returns {Object} The collected data for the analyzer.
- */
-SnippetPreview.prototype.getAnalyzerData = function() {
-	return {
-		title:    getAnalyzerTitle.call( this ),
-		url:      this.data.urlPath,
-		metaDesc: getAnalyzerMetaDesc.call( this )
-	};
-};
-
-/**
- * Calls the event binder that has been registered using the callbacks option in the arguments of the App.
- * @returns {void}
- */
-SnippetPreview.prototype.callRegisteredEventBinder = function() {
-	this.refObj.callbacks.bindElementEvents( this.refObj );
-};
-
-/**
- *  checks if title and url are set so they can be rendered in the snippetPreview
- *  @returns {void}
- */
-SnippetPreview.prototype.init = function() {
-	if (
-		this.refObj.rawData.pageTitle !== null &&
-		this.refObj.rawData.cite !== null
-	) {
-		this.refresh();
-	}
-};
-
-/**
- * creates html object to contain the strings for the snippetpreview
- *
- * @returns {Object} The HTML output of the collected data.
- */
-SnippetPreview.prototype.htmlOutput = function() {
-	var html = {};
-	html.title = this.formatTitle();
-	html.cite = this.formatCite();
-	html.meta = this.formatMeta();
-	html.url = this.formatUrl();
-	return html;
-};
-
-/**
- * Formats the title for the snippet preview. If title and pageTitle are empty, sampletext is used
- *
- * @returns {string} The correctly formatted title.
- */
-SnippetPreview.prototype.formatTitle = function() {
-	var title = this.data.title;
-
-	// Fallback to the default if the title is empty.
-	if ( isEmpty( title ) ) {
-		title = this.opts.defaultValue.title;
-	}
-
-	// For rendering we can fallback to the placeholder as well.
-	if ( isEmpty( title ) ) {
-		title = this.opts.placeholder.title;
-	}
-
-	// Apply modification to the title before showing it.
-	if ( this.refObj.pluggable.loaded ) {
-		title = this.refObj.pluggable._applyModifications( "data_page_title", title );
-	}
-
-	title = stripHTMLTags( title );
-
-	// If a keyword is set we want to highlight it in the title.
-	if ( !isEmpty( this.refObj.rawData.keyword ) ) {
-		title = this.formatKeyword( title );
-	}
-
-	// As an ultimate fallback provide the user with a helpful message.
-	if ( isEmpty( title ) ) {
-		title = this.i18n.dgettext( "js-text-analysis", "Please provide an SEO title by editing the snippet below." );
-	}
-
-	return title;
-};
-
-/**
- * Formats the base url for the snippet preview. Removes the protocol name from the URL.
- *
- * @returns {string} Formatted base url for the snippet preview.
- */
-SnippetPreview.prototype.formatUrl = function() {
-	var url = getBaseURL.call( this );
-
-	// Removes the http part of the url, google displays https:// if the website supports it.
-	return url.replace( /http:\/\//ig, "" );
-};
-
-/**
- * Formats the url for the snippet preview
- *
- * @returns {string} Formatted URL for the snippet preview.
- */
-SnippetPreview.prototype.formatCite = function() {
-	var cite = this.data.urlPath;
-
-	cite = replaceDiacritics( stripHTMLTags( cite ) );
-
-	// Fallback to the default if the cite is empty.
-	if ( isEmpty( cite ) ) {
-		cite = this.opts.placeholder.urlPath;
-	}
-
-	if ( !isEmpty( this.refObj.rawData.keyword ) ) {
-		cite = this.formatKeywordUrl( cite );
-	}
-
-	if ( this.opts.addTrailingSlash && !hasTrailingSlash( cite ) ) {
-		cite = cite + "/";
-	}
-
-	// URL's cannot contain whitespace so replace it by dashes.
-	cite = cite.replace( /\s/g, "-" );
-
-	return cite;
-};
-
-/**
- * Formats the meta description for the snippet preview, if it's empty retrieves it using getMetaText.
- *
- * @returns {string} Formatted meta description.
- */
-SnippetPreview.prototype.formatMeta = function() {
-	var meta = this.data.metaDesc;
-
-	// If no meta has been set, generate one.
-	if ( isEmpty( meta ) ) {
-		meta = this.getMetaText();
-	}
-
-	// Apply modification to the desc before showing it.
-	if ( this.refObj.pluggable.loaded ) {
-		meta = this.refObj.pluggable._applyModifications( "data_meta_desc", meta );
-	}
-
-	meta = stripHTMLTags( meta );
-
-	// Cut-off the meta description according to the maximum length
-	meta = meta.substring( 0, analyzerConfig.maxMeta );
-
-	if ( !isEmpty( this.refObj.rawData.keyword ) ) {
-		meta = this.formatKeyword( meta );
-	}
-
-	// As an ultimate fallback provide the user with a helpful message.
-	if ( isEmpty( meta ) ) {
-		meta = this.i18n.dgettext( "js-text-analysis", "Please provide a meta description by editing the snippet below." );
-	}
-
-	return meta;
-};
-
-/**
- * Generates a meta description with an educated guess based on the passed text and excerpt. It uses the keyword to
- * select an appropriate part of the text. If the keyword isn't present it takes the first 156 characters of the text.
- * If both the keyword, text and excerpt are empty this function returns the sample text.
- *
- * @returns {string} A generated meta description.
- */
-SnippetPreview.prototype.getMetaText = function() {
-	var metaText = this.opts.defaultValue.metaDesc;
-
-	if ( !isUndefined( this.refObj.rawData.excerpt ) && isEmpty( metaText ) ) {
-		metaText = this.refObj.rawData.excerpt;
-	}
-
-	if ( !isUndefined( this.refObj.rawData.text ) && isEmpty( metaText ) ) {
-		metaText = this.refObj.rawData.text;
-
-		if ( this.refObj.pluggable.loaded ) {
-			metaText = this.refObj.pluggable._applyModifications( "content", metaText );
-		}
-	}
-
-	metaText = stripHTMLTags( metaText );
-
-	return metaText.substring( 0, analyzerConfig.maxMeta );
-};
-
-/**
- * Builds an array with all indexes of the keyword
- * @returns {Array} Array with matches
- */
-SnippetPreview.prototype.getIndexMatches = function() {
-	var indexMatches = [];
-	var i = 0;
-
-	// Starts at 0, locates first match of the keyword.
-	var match = this.refObj.rawData.text.indexOf(
-		this.refObj.rawData.keyword,
-		i
-	);
-
-	// Runs the loop untill no more indexes are found, and match returns -1.
-	while ( match > -1 ) {
-		indexMatches.push( match );
-
-		// Pushes location to indexMatches and increase i with the length of keyword.
-		i = match + this.refObj.rawData.keyword.length;
-		match = this.refObj.rawData.text.indexOf(
-			this.refObj.rawData.keyword,
-			i
-		);
-	}
-	return indexMatches;
-};
-
-/**
- * Builds an array with indexes of all sentence ends (select on .)
- * @returns {Array} Array with sentences.
- */
-SnippetPreview.prototype.getPeriodMatches = function() {
-	var periodMatches = [ 0 ];
-	var match;
-	var i = 0;
-	while ( ( match = this.refObj.rawData.text.indexOf( ".", i ) ) > -1 ) {
-		periodMatches.push( match );
-		i = match + 1;
-	}
-	return periodMatches;
-};
-
-/**
- * Formats the keyword for use in the snippetPreview by adding <strong>-tags
- * strips unwanted characters that could break the regex or give unwanted results.
- *
- * @param {string} textString The keyword string that needs to be formatted.
- * @returns {string} The formatted keyword.
- */
-SnippetPreview.prototype.formatKeyword = function( textString ) {
-
-	// removes characters from the keyword that could break the regex, or give unwanted results
-	var keyword = this.refObj.rawData.keyword.replace( /[\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, " " );
-
-	// Match keyword case-insensitively
-	var keywordRegex = stringToRegex( keyword, "", false );
-	return textString.replace( keywordRegex, function( str ) {
-		return "<strong>" + str + "</strong>";
-	} );
-};
-
-/**
- * formats the keyword for use in the URL by accepting - and _ in stead of space and by adding
- * <strong>-tags
- * strips unwanted characters that could break the regex or give unwanted results
- *
- * @param {string} textString The keyword string that needs to be formatted.
- * @returns {XML|string|void} The formatted keyword string to be used in the URL.
- */
-SnippetPreview.prototype.formatKeywordUrl = function( textString ) {
-	var keyword = sanitizeString( this.refObj.rawData.keyword );
-	keyword = keyword.replace( /'/, "" );
-
-	var dashedKeyword = keyword.replace( /\s/g, "-" );
-
-	// Match keyword case-insensitively.
-	var keywordRegex = stringToRegex( dashedKeyword, "\\-" );
-
-	// Make the keyword bold in the textString.
-	return textString.replace( keywordRegex, function( str ) {
-		return "<strong>" + str + "</strong>";
-	} );
-};
-
-/**
- * Renders the outputs to the elements on the page.
- * @returns {void}
- */
-SnippetPreview.prototype.renderOutput = function() {
-	this.element.rendered.title.innerHTML = this.output.title;
-	this.element.rendered.urlPath.innerHTML = this.output.cite;
-	this.element.rendered.urlBase.innerHTML = this.output.url;
-	this.element.rendered.metaDesc.innerHTML = this.output.meta;
-};
-
-/**
- * Makes the rendered meta description gray if no meta description has been set by the user.
- * @returns {void}
- */
-SnippetPreview.prototype.renderSnippetStyle = function() {
-	var metaDescElement = this.element.rendered.metaDesc;
-	var metaDesc = getAnalyzerMetaDesc.call( this );
-
-	if ( isEmpty( metaDesc ) ) {
-		addClass( metaDescElement, "desc-render" );
-		removeClass( metaDescElement, "desc-default" );
-	} else {
-		addClass( metaDescElement, "desc-default" );
-		removeClass( metaDescElement, "desc-render" );
-	}
-};
-
-/**
- * Function to call init, to rerender the snippetpreview
- * @returns {void}
- */
-SnippetPreview.prototype.reRender = function() {
-	this.init();
-};
-
-/**
- * Checks text length of the snippetmeta and snippet title, shortens it if it is too long.
- * @param {Object} event The event to check the text length from.
- * @returns {void}
- */
-SnippetPreview.prototype.checkTextLength = function( event ) {
-	var text = event.currentTarget.textContent;
-	switch ( event.currentTarget.id ) {
-		case "snippet_meta":
-			event.currentTarget.className = "desc";
-			if ( text.length > analyzerConfig.maxMeta ) {
-				/* eslint-disable */
-				YoastSEO.app.snippetPreview.unformattedText.snippet_meta = event.currentTarget.textContent;
-				/* eslint-enable */
-				event.currentTarget.textContent = text.substring(
-					0,
-					analyzerConfig.maxMeta
-				);
-
-			}
-			break;
-		case "snippet_title":
-			event.currentTarget.className = "title";
-			if ( text.length > titleMaxLength ) {
-				/* eslint-disable */
-				YoastSEO.app.snippetPreview.unformattedText.snippet_title = event.currentTarget.textContent;
-				/* eslint-enable */
-				event.currentTarget.textContent = text.substring( 0, titleMaxLength );
-			}
-			break;
-		default:
-			break;
-	}
-};
-
-/**
- * When clicked on an element in the snippet, checks fills the textContent with the data from the unformatted text.
- * This removes the keyword highlighting and modified data so the original content can be editted.
- * @param {Object} event The event to get the unformatted text from.
- * @returns {void}
- */
-SnippetPreview.prototype.getUnformattedText = function( event ) {
-	var currentElement = event.currentTarget.id;
-	if ( typeof this.unformattedText[ currentElement ] !== "undefined" ) {
-		event.currentTarget.textContent = this.unformattedText[currentElement];
-	}
-};
-
-/**
- * When text is entered into the snippetPreview elements, the text is set in the unformattedText object.
- * This allows the visible data to be editted in the snippetPreview.
- * @param {Object} event The event to set the unformatted text from.
- * @returns {void}
- */
-SnippetPreview.prototype.setUnformattedText = function( event ) {
-	var elem =  event.currentTarget.id;
-	this.unformattedText[ elem ] = document.getElementById( elem ).textContent;
-};
-
-/**
- * Validates all fields and highlights errors.
- * @returns {void}
- */
-SnippetPreview.prototype.validateFields = function() {
-	var metaDescription = getAnalyzerMetaDesc.call( this );
-	var title = getAnalyzerTitle.call( this );
-
-	if ( metaDescription.length > analyzerConfig.maxMeta ) {
-		addClass( this.element.input.metaDesc, "snippet-editor__field--invalid" );
-	} else {
-		removeClass( this.element.input.metaDesc, "snippet-editor__field--invalid" );
-	}
-
-	if ( title.length > titleMaxLength ) {
-		addClass( this.element.input.title, "snippet-editor__field--invalid" );
-	} else {
-		removeClass( this.element.input.title, "snippet-editor__field--invalid" );
-	}
-};
-
-/**
- * Updates progress bars based on the data
- * @returns {void}
- */
-SnippetPreview.prototype.updateProgressBars = function() {
-	var metaDescriptionRating, titleRating, metaDescription, title;
-
-	metaDescription = getAnalyzerMetaDesc.call( this );
-	title = getAnalyzerTitle.call( this );
-
-	titleRating = rateTitleLength( title.length );
-	metaDescriptionRating = rateMetaDescLength( metaDescription.length );
-
-	updateProgressBar(
-		this.element.progress.title,
-		title.length,
-		titleMaxLength,
-		titleRating
-	);
-
-	updateProgressBar(
-		this.element.progress.metaDesc,
-		metaDescription.length,
-		analyzerConfig.maxMeta,
-		metaDescriptionRating
-	);
-};
-
-/**
- * Binds the reloadSnippetText function to the blur of the snippet inputs.
- * @returns {void}
- */
-SnippetPreview.prototype.bindEvents = function() {
-	var targetElement,
-		elems = [ "title", "slug", "meta-description" ];
-
-	forEach( elems, function( elem ) {
-		targetElement = document.getElementsByClassName( "js-snippet-editor-" + elem )[0];
-
-		targetElement.addEventListener( "keydown", this.changedInput.bind( this ) );
-		targetElement.addEventListener( "keyup", this.changedInput.bind( this ) );
-
-		targetElement.addEventListener( "input", this.changedInput.bind( this ) );
-		targetElement.addEventListener( "focus", this.changedInput.bind( this ) );
-		targetElement.addEventListener( "blur", this.changedInput.bind( this ) );
-	}.bind( this ) );
-
-	this.element.editToggle.addEventListener( "click", this.toggleEditor.bind( this ) );
-	this.element.closeEditor.addEventListener( "click", this.closeEditor.bind( this ) );
-
-	// Loop through the bindings and bind a click handler to the click to focus the focus element.
-	forEach( inputPreviewBindings, function( binding ) {
-		var previewElement = document.getElementById( binding.preview );
-		var inputElement = this.element.input[ binding.inputField ];
-
-		// Make the preview element click open the editor and focus the correct input.
-		previewElement.addEventListener( "click", function() {
-			this.openEditor();
-			inputElement.focus();
-		}.bind( this ) );
-
-		// Make focusing an input, update the carets.
-		inputElement.addEventListener( "focus", function() {
-			this._currentFocus = binding.inputField;
-
-			this._updateFocusCarets();
-		}.bind( this ) );
-
-		// Make removing focus from an element, update the carets.
-		inputElement.addEventListener( "blur", function() {
-			this._currentFocus = null;
-
-			this._updateFocusCarets();
-		}.bind( this ) );
-
-		previewElement.addEventListener( "mouseover", function() {
-			this._currentHover = binding.inputField;
-
-			this._updateHoverCarets();
-		}.bind( this ) );
-
-		previewElement.addEventListener( "mouseout", function() {
-			this._currentHover = null;
-
-			this._updateHoverCarets();
-		}.bind( this ) );
-
-	}.bind( this ) );
-};
-
-/**
- * Updates snippet preview on changed input. It's debounced so that we can call this function as much as we want.
- * @returns {void}
- */
-SnippetPreview.prototype.changedInput = debounce( function() {
-	this.updateDataFromDOM();
-	this.validateFields();
-	this.updateProgressBars();
-
-	this.refresh();
-
-	this.refObj.refresh();
-}, 25 );
-
-/**
- * Updates our data object from the DOM
- * @returns {void}
- */
-SnippetPreview.prototype.updateDataFromDOM = function() {
-	this.data.title = this.element.input.title.value;
-	this.data.urlPath = this.element.input.urlPath.value;
-	this.data.metaDesc = this.element.input.metaDesc.value;
-
-	// Clone so the data isn't changeable.
-	this.opts.callbacks.saveSnippetData( clone( this.data ) );
-};
-
-/**
- * Opens the snippet editor.
- * @returns {void}
- */
-SnippetPreview.prototype.openEditor = function() {
-
-	this.element.editToggle.setAttribute( "aria-expanded", "true" );
-
-	// Show these elements.
-	removeClass( this.element.formContainer, "snippet-editor--hidden" );
-
-	this.opened = true;
-};
-
-/**
- * Closes the snippet editor.
- * @returns {void}
- */
-SnippetPreview.prototype.closeEditor = function() {
-
-	// Hide these elements.
-	addClass( this.element.formContainer,     "snippet-editor--hidden" );
-
-	this.element.editToggle.setAttribute( "aria-expanded", "false" );
-	this.element.editToggle.focus();
-
-	this.opened = false;
-};
-
-/**
- * Toggles the snippet editor.
- * @returns {void}
- */
-SnippetPreview.prototype.toggleEditor = function() {
-	if ( this.opened ) {
-		this.closeEditor();
-	} else {
-		this.openEditor();
-	}
-};
-
-/**
- * Updates carets before the preview and input fields.
- *
- * @private
- * @returns {void}
- */
-SnippetPreview.prototype._updateFocusCarets = function() {
-	var focusedLabel, focusedPreview;
-
-	// Disable all carets on the labels.
-	forEach( this.element.label, function( element ) {
-		removeClass( element, "snippet-editor__label--focus" );
-	} );
-
-	// Disable all carets on the previews.
-	forEach( this.element.preview, function( element ) {
-		removeClass( element, "snippet-editor__container--focus" );
-	} );
-
-	if ( null !== this._currentFocus ) {
-		focusedLabel = this.element.label[ this._currentFocus ];
-		focusedPreview = this.element.preview[ this._currentFocus ];
-
-		addClass( focusedLabel, "snippet-editor__label--focus" );
-		addClass( focusedPreview, "snippet-editor__container--focus" );
-	}
-};
-
-/**
- * Updates hover carets before the input fields.
- *
- * @private
- * @returns {void}
- */
-SnippetPreview.prototype._updateHoverCarets = function() {
-	var hoveredLabel;
-
-	forEach( this.element.label, function( element ) {
-		removeClass( element, "snippet-editor__label--hover" );
-	} );
-
-	if ( null !== this._currentHover ) {
-		hoveredLabel = this.element.label[ this._currentHover ];
-
-		addClass( hoveredLabel, "snippet-editor__label--hover" );
-	}
-};
-
-/**
- * Updates the title data and the the title input field. This also means the snippet editor view is updated.
- *
- * @param {string} title The title to use in the input field.
- * @returns {void}
- */
-SnippetPreview.prototype.setTitle = function( title ) {
-	this.element.input.title.value = title;
-
-	this.changedInput();
-};
-
-/**
- * Updates the url path data and the the url path input field. This also means the snippet editor view is updated.
- *
- * @param {string} urlPath the URL path to use in the input field.
- * @returns {void}
- */
-SnippetPreview.prototype.setUrlPath = function( urlPath ) {
-	this.element.input.urlPath.value = urlPath;
-
-	this.changedInput();
-};
-
-/**
- * Updates the meta description data and the the meta description input field. This also means the snippet editor view is updated.
- *
- * @param {string} metaDesc the meta description to use in the input field.
- * @returns {void}
- */
-SnippetPreview.prototype.setTitle = function( metaDesc ) {
-	this.element.input.metaDesc.value = metaDesc;
-
-	this.changedInput();
-};
-
-/* jshint ignore:start */
-/* eslint-disable */
-
-/**
- * Used to disable enter as input. Returns false to prevent enter, and preventDefault and
- * cancelBubble to prevent
- * other elements from capturing this event.
- *
- * @deprecated
- * @param {KeyboardEvent} ev
- */
-SnippetPreview.prototype.disableEnter = function( ev ) {};
-
-/**
- * Adds and remove the tooLong class when a text is too long.
- *
- * @deprecated
- * @param ev
- */
-SnippetPreview.prototype.textFeedback = function( ev ) {};
-
-/**
- * shows the edit icon corresponding to the hovered element
- *
- * @deprecated
- *
- * @param ev
- */
-SnippetPreview.prototype.showEditIcon = function( ev ) {
-
-};
-
-/**
- * removes all editIcon-classes, sets to snippet_container
- *
- * @deprecated
- */
-SnippetPreview.prototype.hideEditIcon = function() {};
-
-/**
- * sets focus on child element of the snippet_container that is clicked. Hides the editicon.
- *
- * @deprecated
- * @param ev
- */
-SnippetPreview.prototype.setFocus = function( ev ) {};
-/* jshint ignore:end */
-/* eslint-disable */
-module.exports = SnippetPreview;
-
-},{"../js/stringProcessing/replaceDiacritics.js":78,"../js/stringProcessing/sanitizeString.js":80,"../js/stringProcessing/stringToRegex.js":81,"../js/stringProcessing/stripHTMLTags.js":82,"../js/stringProcessing/stripSpaces.js":85,"./config/config.js":30,"./templates.js":88,"lodash/clone":214,"lodash/debounce":216,"lodash/defaultsDeep":218,"lodash/forEach":221,"lodash/isElement":231,"lodash/isEmpty":232,"lodash/isUndefined":243}],64:[function(require,module,exports){
+},{"../stringProcessing/countWords.js":59}],54:[function(require,module,exports){
 /** @module stringProcessing/addWordboundary */
 
 /**
@@ -6745,7 +4123,7 @@ module.exports = function( matchString, extraWordBoundary ) {
 	return wordBoundaryStart + matchString + wordBoundaryEnd;
 };
 
-},{}],65:[function(require,module,exports){
+},{}],55:[function(require,module,exports){
 /** @module stringProcessing/checkNofollow */
 
 /**
@@ -6764,7 +4142,7 @@ module.exports = function( text ) {
 	return linkFollow;
 };
 
-},{}],66:[function(require,module,exports){
+},{}],56:[function(require,module,exports){
 /** @module stringProcessing/cleanText */
 
 var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
@@ -6822,7 +4200,7 @@ module.exports = function( text ) {
 	return text;
 };
 
-},{"../stringProcessing/replaceDiacritics.js":78,"../stringProcessing/stripSpaces.js":85,"../stringProcessing/unifyWhitespace.js":87}],67:[function(require,module,exports){
+},{"../stringProcessing/replaceDiacritics.js":68,"../stringProcessing/stripSpaces.js":75,"../stringProcessing/unifyWhitespace.js":77}],57:[function(require,module,exports){
 /** @module stringProcessing/countSentences */
 
 var cleanText = require( "../stringProcessing/cleanText.js" );
@@ -6844,7 +4222,7 @@ module.exports = function( text ) {
 	return sentenceCount;
 };
 
-},{"../stringProcessing/cleanText.js":66}],68:[function(require,module,exports){
+},{"../stringProcessing/cleanText.js":56}],58:[function(require,module,exports){
 /** @module stringProcessing/countSyllables */
 
 var cleanText = require( "../stringProcessing/cleanText.js" );
@@ -6966,7 +4344,7 @@ module.exports = function( text ) {
 };
 
 
-},{"../config/syllables.js":35,"../stringProcessing/cleanText.js":66,"../stringProcessing/createRegexFromArray.js":70}],69:[function(require,module,exports){
+},{"../config/syllables.js":30,"../stringProcessing/cleanText.js":56,"../stringProcessing/createRegexFromArray.js":60}],59:[function(require,module,exports){
 /** @module stringProcessing/countWords */
 
 var stripTags = require( "../stringProcessing/stripHTMLTags.js" );
@@ -6987,7 +4365,7 @@ module.exports = function( text ) {
 	return text.split( /\s/g ).length;
 };
 
-},{"../stringProcessing/stripHTMLTags.js":82,"../stringProcessing/stripSpaces.js":85}],70:[function(require,module,exports){
+},{"../stringProcessing/stripHTMLTags.js":72,"../stringProcessing/stripSpaces.js":75}],60:[function(require,module,exports){
 /** @module stringProcessing/createRegexFromArray */
 
 var addWordBoundary = require( "../stringProcessing/addWordboundary.js" );
@@ -7014,7 +4392,7 @@ module.exports = function( array, disableWordBoundary ) {
 	return new RegExp( regexString, "ig" );
 };
 
-},{"../stringProcessing/addWordboundary.js":64}],71:[function(require,module,exports){
+},{"../stringProcessing/addWordboundary.js":54}],61:[function(require,module,exports){
 /** @module stringProcessing/findKeywordInUrl */
 
 var keywordRegex = require( "../stringProcessing/stringToRegex.js" );
@@ -7038,7 +4416,7 @@ module.exports = function( url, keyword ) {
 	return keywordFound;
 };
 
-},{"../stringProcessing/stringToRegex.js":81}],72:[function(require,module,exports){
+},{"../stringProcessing/stringToRegex.js":71}],62:[function(require,module,exports){
 /** @module stringProcessing/getAlttagContent */
 
 var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
@@ -7065,7 +4443,7 @@ module.exports = function( text ) {
 	return alt;
 };
 
-},{"../stringProcessing/stripSpaces.js":85}],73:[function(require,module,exports){
+},{"../stringProcessing/stripSpaces.js":75}],63:[function(require,module,exports){
 /** @module stringProcessing/getAnchorsFromText */
 
 /**
@@ -7086,7 +4464,7 @@ module.exports = function( text ) {
 	return matches;
 };
 
-},{}],74:[function(require,module,exports){
+},{}],64:[function(require,module,exports){
 /** @module stringProcess/getLinkType */
 
 /**
@@ -7111,7 +4489,7 @@ module.exports = function( text, url ) {
 	return linkType;
 };
 
-},{}],75:[function(require,module,exports){
+},{}],65:[function(require,module,exports){
 /** @module stringProcessing/imageInText */
 
 var matchStringWithRegex = require( "./matchStringWithRegex.js" );
@@ -7126,7 +4504,7 @@ module.exports = function( text ) {
 	return matchStringWithRegex( text, "<img(?:[^>]+)?>" );
 };
 
-},{"./matchStringWithRegex.js":76}],76:[function(require,module,exports){
+},{"./matchStringWithRegex.js":66}],66:[function(require,module,exports){
 /** @module stringProcessing/matchStringWithRegex */
 
 /**
@@ -7147,7 +4525,7 @@ module.exports = function( text, regexString ) {
 	return matches;
 };
 
-},{}],77:[function(require,module,exports){
+},{}],67:[function(require,module,exports){
 /** @module stringProcessing/matchTextWithWord */
 
 var stringToRegex = require( "../stringProcessing/stringToRegex.js" );
@@ -7177,7 +4555,7 @@ module.exports = function( text, wordToMatch, extraBoundary ) {
 	return matches.length;
 };
 
-},{"../stringProcessing/replaceDiacritics.js":78,"../stringProcessing/stringToRegex.js":81,"../stringProcessing/stripNonTextTags.js":83,"../stringProcessing/unifyWhitespace.js":87}],78:[function(require,module,exports){
+},{"../stringProcessing/replaceDiacritics.js":68,"../stringProcessing/stringToRegex.js":71,"../stringProcessing/stripNonTextTags.js":73,"../stringProcessing/unifyWhitespace.js":77}],68:[function(require,module,exports){
 /** @module stringProcessing/replaceDiacritics */
 
 var diacritisRemovalMap = require( "../config/diacritics.js" );
@@ -7200,7 +4578,7 @@ module.exports = function( text ) {
 	return text;
 };
 
-},{"../config/diacritics.js":31}],79:[function(require,module,exports){
+},{"../config/diacritics.js":27}],69:[function(require,module,exports){
 /** @module stringProcessing/replaceString */
 
 /**
@@ -7217,7 +4595,7 @@ module.exports = function( text, stringToReplace, replacement ) {
 	return text;
 };
 
-},{}],80:[function(require,module,exports){
+},{}],70:[function(require,module,exports){
 /** @module stringProcessing/sanitizeString */
 
 var stripTags = require( "../stringProcessing/stripHTMLTags.js" );
@@ -7237,7 +4615,7 @@ module.exports = function( text ) {
 	return text;
 };
 
-},{"../stringProcessing/stripHTMLTags.js":82,"../stringProcessing/stripSpaces.js":85}],81:[function(require,module,exports){
+},{"../stringProcessing/stripHTMLTags.js":72,"../stringProcessing/stripSpaces.js":75}],71:[function(require,module,exports){
 /** @module stringProcessing/stringToRegex */
 var isUndefined = require( "lodash/isUndefined" );
 var replaceDiacritics = require( "../stringProcessing/replaceDiacritics.js" );
@@ -7266,7 +4644,7 @@ module.exports = function( string, extraBoundary, doReplaceDiacritics ) {
 	return new RegExp ( string, "ig" );
 };
 
-},{"../stringProcessing/addWordboundary.js":64,"../stringProcessing/replaceDiacritics.js":78,"../stringProcessing/sanitizeString.js":80,"lodash/isUndefined":243}],82:[function(require,module,exports){
+},{"../stringProcessing/addWordboundary.js":54,"../stringProcessing/replaceDiacritics.js":68,"../stringProcessing/sanitizeString.js":70,"lodash/isUndefined":186}],72:[function(require,module,exports){
 /** @module stringProcessing/stripHTMLTags */
 
 var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
@@ -7283,7 +4661,7 @@ module.exports = function( text ) {
 	return text;
 };
 
-},{"../stringProcessing/stripSpaces.js":85}],83:[function(require,module,exports){
+},{"../stringProcessing/stripSpaces.js":75}],73:[function(require,module,exports){
 /** @module stringProcessing/stripNonTextTags */
 
 var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
@@ -7300,7 +4678,7 @@ module.exports = function( text ) {
 	return text;
 };
 
-},{"../stringProcessing/stripSpaces.js":85}],84:[function(require,module,exports){
+},{"../stringProcessing/stripSpaces.js":75}],74:[function(require,module,exports){
 /** @module stringProcessing/stripNumbers */
 
 var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
@@ -7325,7 +4703,7 @@ module.exports = function( text ) {
 	return text;
 };
 
-},{"../stringProcessing/stripSpaces.js":85}],85:[function(require,module,exports){
+},{"../stringProcessing/stripSpaces.js":75}],75:[function(require,module,exports){
 /** @module stringProcessing/stripSpaces */
 
 /**
@@ -7348,7 +4726,7 @@ module.exports = function( text ) {
 	return text;
 };
 
-},{}],86:[function(require,module,exports){
+},{}],76:[function(require,module,exports){
 var stringToRegex = require( "../stringProcessing/stringToRegex.js" );
 var replaceString = require( "../stringProcessing/replaceString.js" );
 var removalWords = require( "../config/removalWords.js" );
@@ -7384,7 +4762,7 @@ module.exports = function( matches, keyword ) {
 	return foundInHeader;
 };
 
-},{"../config/removalWords.js":33,"../stringProcessing/replaceDiacritics.js":78,"../stringProcessing/replaceString.js":79,"../stringProcessing/stringToRegex.js":81}],87:[function(require,module,exports){
+},{"../config/removalWords.js":28,"../stringProcessing/replaceDiacritics.js":68,"../stringProcessing/replaceString.js":69,"../stringProcessing/stringToRegex.js":71}],77:[function(require,module,exports){
 /** @module stringProcessing/unifyWhitespace */
 
 /**
@@ -7406,375 +4784,7 @@ module.exports = function( text ) {
 };
 
 
-},{}],88:[function(require,module,exports){
-(function (global){
-;(function() {
-  var undefined;
-
-  var objectTypes = {
-    'function': true,
-    'object': true
-  };
-
-  var freeExports = (objectTypes[typeof exports] && exports && !exports.nodeType)
-    ? exports
-    : undefined;
-
-  var freeModule = (objectTypes[typeof module] && module && !module.nodeType)
-    ? module
-    : undefined;
-
-  var moduleExports = (freeModule && freeModule.exports === freeExports)
-    ? freeExports
-    : undefined;
-
-  var freeGlobal = checkGlobal(freeExports && freeModule && typeof global == 'object' && global);
-
-  var freeSelf = checkGlobal(objectTypes[typeof self] && self);
-
-  var freeWindow = checkGlobal(objectTypes[typeof window] && window);
-
-  var thisGlobal = checkGlobal(objectTypes[typeof this] && this);
-
-  var root = freeGlobal ||
-    ((freeWindow !== (thisGlobal && thisGlobal.window)) && freeWindow) ||
-      freeSelf || thisGlobal || Function('return this')();
-
-  function checkGlobal(value) {
-    return (value && value.Object === Object) ? value : null;
-  }
-
-  /** Used as a safe reference for `undefined` in pre-ES5 environments. */
-  var undefined;
-
-  /** Used as the semantic version number. */
-  var VERSION = '4.6.1';
-
-  /** Used as references for various `Number` constants. */
-  var INFINITY = 1 / 0;
-
-  /** `Object#toString` result references. */
-  var symbolTag = '[object Symbol]';
-
-  /** Used to match HTML entities and HTML characters. */
-  var reUnescapedHtml = /[&<>"'`]/g,
-      reHasUnescapedHtml = RegExp(reUnescapedHtml.source);
-
-  /** Used to map characters to HTML entities. */
-  var htmlEscapes = {
-    '&': '&amp;',
-    '<': '&lt;',
-    '>': '&gt;',
-    '"': '&quot;',
-    "'": '&#39;',
-    '`': '&#96;'
-  };
-
-  /** Used to determine if values are of the language type `Object`. */
-  var objectTypes = {
-    'function': true,
-    'object': true
-  };
-
-  /** Detect free variable `exports`. */
-  var freeExports = (objectTypes[typeof exports] && exports && !exports.nodeType)
-    ? exports
-    : undefined;
-
-  /** Detect free variable `module`. */
-  var freeModule = (objectTypes[typeof module] && module && !module.nodeType)
-    ? module
-    : undefined;
-
-  /** Detect free variable `global` from Node.js. */
-  var freeGlobal = checkGlobal(freeExports && freeModule && typeof global == 'object' && global);
-
-  /** Detect free variable `self`. */
-  var freeSelf = checkGlobal(objectTypes[typeof self] && self);
-
-  /** Detect free variable `window`. */
-  var freeWindow = checkGlobal(objectTypes[typeof window] && window);
-
-  /** Detect `this` as the global object. */
-  var thisGlobal = checkGlobal(objectTypes[typeof this] && this);
-
-  /**
-   * Used as a reference to the global object.
-   *
-   * The `this` value is used if it's the global object to avoid Greasemonkey's
-   * restricted `window` object, otherwise the `window` object is used.
-   */
-  var root = freeGlobal ||
-    ((freeWindow !== (thisGlobal && thisGlobal.window)) && freeWindow) ||
-      freeSelf || thisGlobal || Function('return this')();
-
-  /*--------------------------------------------------------------------------*/
-
-  /**
-   * Checks if `value` is a global object.
-   *
-   * @private
-   * @param {*} value The value to check.
-   * @returns {null|Object} Returns `value` if it's a global object, else `null`.
-   */
-  function checkGlobal(value) {
-    return (value && value.Object === Object) ? value : null;
-  }
-
-  /**
-   * Used by `_.escape` to convert characters to HTML entities.
-   *
-   * @private
-   * @param {string} chr The matched character to escape.
-   * @returns {string} Returns the escaped character.
-   */
-  function escapeHtmlChar(chr) {
-    return htmlEscapes[chr];
-  }
-
-  /*--------------------------------------------------------------------------*/
-
-  /** Used for built-in method references. */
-  var objectProto = Object.prototype;
-
-  /**
-   * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
-   * of values.
-   */
-  var objectToString = objectProto.toString;
-
-  /** Built-in value references. */
-  var Symbol = root.Symbol;
-
-  /** Used to lookup unminified function names. */
-  var realNames = {};
-
-  /** Used to convert symbols to primitives and strings. */
-  var symbolProto = Symbol ? Symbol.prototype : undefined,
-      symbolToString = symbolProto ? symbolProto.toString : undefined;
-
-  /*------------------------------------------------------------------------*/
-
-  /**
-   * Checks if `value` is object-like. A value is object-like if it's not `null`
-   * and has a `typeof` result of "object".
-   *
-   * @static
-   * @memberOf _
-   * @category Lang
-   * @param {*} value The value to check.
-   * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
-   * @example
-   *
-   * _.isObjectLike({});
-   * // => true
-   *
-   * _.isObjectLike([1, 2, 3]);
-   * // => true
-   *
-   * _.isObjectLike(_.noop);
-   * // => false
-   *
-   * _.isObjectLike(null);
-   * // => false
-   */
-  function isObjectLike(value) {
-    return !!value && typeof value == 'object';
-  }
-
-  /**
-   * Checks if `value` is classified as a `Symbol` primitive or object.
-   *
-   * @static
-   * @memberOf _
-   * @category Lang
-   * @param {*} value The value to check.
-   * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
-   * @example
-   *
-   * _.isSymbol(Symbol.iterator);
-   * // => true
-   *
-   * _.isSymbol('abc');
-   * // => false
-   */
-  function isSymbol(value) {
-    return typeof value == 'symbol' ||
-      (isObjectLike(value) && objectToString.call(value) == symbolTag);
-  }
-
-  /**
-   * Converts `value` to a string if it's not one. An empty string is returned
-   * for `null` and `undefined` values. The sign of `-0` is preserved.
-   *
-   * @static
-   * @memberOf _
-   * @category Lang
-   * @param {*} value The value to process.
-   * @returns {string} Returns the string.
-   * @example
-   *
-   * _.toString(null);
-   * // => ''
-   *
-   * _.toString(-0);
-   * // => '-0'
-   *
-   * _.toString([1, 2, 3]);
-   * // => '1,2,3'
-   */
-  function toString(value) {
-    // Exit early for strings to avoid a performance hit in some environments.
-    if (typeof value == 'string') {
-      return value;
-    }
-    if (value == null) {
-      return '';
-    }
-    if (isSymbol(value)) {
-      return symbolToString ? symbolToString.call(value) : '';
-    }
-    var result = (value + '');
-    return (result == '0' && (1 / value) == -INFINITY) ? '-0' : result;
-  }
-
-  /*------------------------------------------------------------------------*/
-
-  /**
-   * Converts the characters "&", "<", ">", '"', "'", and "\`" in `string` to
-   * their corresponding HTML entities.
-   *
-   * **Note:** No other characters are escaped. To escape additional
-   * characters use a third-party library like [_he_](https://mths.be/he).
-   *
-   * Though the ">" character is escaped for symmetry, characters like
-   * ">" and "/" don't need escaping in HTML and have no special meaning
-   * unless they're part of a tag or unquoted attribute value.
-   * See [Mathias Bynens's article](https://mathiasbynens.be/notes/ambiguous-ampersands)
-   * (under "semi-related fun fact") for more details.
-   *
-   * Backticks are escaped because in IE < 9, they can break out of
-   * attribute values or HTML comments. See [#59](https://html5sec.org/#59),
-   * [#102](https://html5sec.org/#102), [#108](https://html5sec.org/#108), and
-   * [#133](https://html5sec.org/#133) of the [HTML5 Security Cheatsheet](https://html5sec.org/)
-   * for more details.
-   *
-   * When working with HTML you should always [quote attribute values](http://wonko.com/post/html-escaping)
-   * to reduce XSS vectors.
-   *
-   * @static
-   * @memberOf _
-   * @category String
-   * @param {string} [string=''] The string to escape.
-   * @returns {string} Returns the escaped string.
-   * @example
-   *
-   * _.escape('fred, barney, & pebbles');
-   * // => 'fred, barney, &amp; pebbles'
-   */
-  function escape(string) {
-    string = toString(string);
-    return (string && reHasUnescapedHtml.test(string))
-      ? string.replace(reUnescapedHtml, escapeHtmlChar)
-      : string;
-  }
-
-  /*--------------------------------------------------------------------------*/
-
-  var _ = { 'escape': escape };
-
-  /*----------------------------------------------------------------------------*/
-
-  var templates = {
-    'assessmentPresenterResult': {},
-    'snippetEditor': {}
-  };
-
-  templates['assessmentPresenterResult'] =   function(obj) {
-    obj || (obj = {});
-    var __t, __p = '', __e = _.escape, __j = Array.prototype.join;
-    function print() { __p += __j.call(arguments, '') }
-    with (obj) {
-    __p += '<ul class="wpseoanalysis">\n    ';
-     for (var i in scores) {
-    __p += '\n        <li class="score">\n            <span class="wpseo-score-icon ' +
-    __e( scores[ i ].className ) +
-    '"></span>\n            <span class="screen-reader-text">' +
-    ((__t = ( scores[ i ].screenReaderText )) == null ? '' : __t) +
-    '</span>\n            <span class="wpseo-score-text">' +
-    ((__t = ( scores[ i ].text )) == null ? '' : __t) +
-    '</span>\n        </li>\n    ';
-     }
-    __p += '\n</ul>\n';
-
-    }
-    return __p
-  };
-
-  templates['snippetEditor'] =   function(obj) {
-    obj || (obj = {});
-    var __t, __p = '', __e = _.escape, __j = Array.prototype.join;
-    function print() { __p += __j.call(arguments, '') }
-    with (obj) {
-    __p += '<div id="snippet_preview">\n    <h3 class="snippet-editor__heading snippet-editor__heading-icon-eye">' +
-    __e( i18n.snippetPreview ) +
-    '</h3>\n\n    <section class="snippet-editor__preview">\n        <div class="snippet_container snippet-editor__container" id="title_container">\n            <span class="title" id="snippet_title">\n                ' +
-    __e( rendered.title ) +
-    '\n            </span>\n            <span class="title" id="snippet_sitename"></span>\n        </div>\n        <div class="snippet_container snippet-editor__container" id="url_container">\n            <cite class="url urlBase" id="snippet_citeBase">\n                ' +
-    __e( rendered.baseUrl ) +
-    '\n            </cite>\n            <cite class="url" id="snippet_cite">\n                ' +
-    __e( rendered.snippetCite ) +
-    '\n            </cite>\n        </div>\n        <div class="snippet_container snippet-editor__container" id="meta_container">\n            ';
-     if ( "" !== metaDescriptionDate ) {
-    __p += '\n                <span class="snippet-editor__date">\n                    ' +
-    __e( metaDescriptionDate ) +
-    ' -\n                </span>\n            ';
-     }
-    __p += '\n            <span class="desc" id="snippet_meta">\n                ' +
-    __e( rendered.meta ) +
-    '\n            </span>\n        </div>\n\n        <button class="snippet-editor__button snippet-editor__edit-button" type="button" aria-expanded="false">\n            ' +
-    __e( i18n.edit ) +
-    '\n        </button>\n    </section>\n\n    <div class="snippet-editor__form snippet-editor--hidden">\n        <label for="snippet-editor-title" class="snippet-editor__label">\n            ' +
-    __e( i18n.title ) +
-    '\n            <input type="text" class="snippet-editor__input snippet-editor__title js-snippet-editor-title" id="snippet-editor-title" value="' +
-    __e( raw.title ) +
-    '" placeholder="' +
-    __e( placeholder.title ) +
-    '" />\n            <progress value="0.0" class="snippet-editor__progress snippet-editor__progress-title">\n                <div class="snippet-editor__progress-bar"></div>\n            </progress>\n        </label>\n        <label for="snippet-editor-slug" class="snippet-editor__label">\n            ' +
-    __e( i18n.slug ) +
-    '\n            <input type="text" class="snippet-editor__input snippet-editor__slug js-snippet-editor-slug" id="snippet-editor-slug" value="' +
-    __e( raw.snippetCite ) +
-    '" placeholder="' +
-    __e( placeholder.urlPath ) +
-    '" />\n        </label>\n        <label for="snippet-editor-meta-description" class="snippet-editor__label">\n            ' +
-    __e( i18n.metaDescription ) +
-    '\n            <textarea class="snippet-editor__input snippet-editor__meta-description js-snippet-editor-meta-description" id="snippet-editor-meta-description" placeholder="' +
-    __e( placeholder.metaDesc ) +
-    '">' +
-    __e( raw.meta ) +
-    '</textarea>\n            <progress value="0.0" class="snippet-editor__progress snippet-editor__progress-meta-description">\n                <div class="snippet-editor__progress-bar"></div>\n            </progress>\n        </label>\n\n        <button class="snippet-editor__submit snippet-editor__button" type="button">' +
-    __e( i18n.save ) +
-    '</button>\n    </div>\n</div>\n';
-
-    }
-    return __p
-  };
-
-  /*----------------------------------------------------------------------------*/
-
-  if (freeExports && freeModule) {
-    if (moduleExports) {
-      (freeModule.exports = templates).templates = templates;
-    }
-    freeExports.templates = templates;
-  }
-  else {
-    root.templates = templates;
-  }
-}.call(this));
-
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],89:[function(require,module,exports){
+},{}],78:[function(require,module,exports){
 var isUndefined = require( "lodash/isUndefined" );
 var isNumber = require( "lodash/isNumber" );
 
@@ -7847,7 +4857,7 @@ AssessmentResult.prototype.setText = function( text ) {
 
 module.exports = AssessmentResult;
 
-},{"lodash/isNumber":236,"lodash/isUndefined":243}],90:[function(require,module,exports){
+},{"lodash/isNumber":180,"lodash/isUndefined":186}],79:[function(require,module,exports){
 var defaults = require( "lodash/defaults" );
 var sanitizeString = require( "../stringProcessing/sanitizeString.js" );
 
@@ -7986,11 +4996,7 @@ Paper.prototype.getLocale = function() {
 
 module.exports = Paper;
 
-},{"../stringProcessing/sanitizeString.js":80,"lodash/defaults":217}],91:[function(require,module,exports){
-arguments[4][90][0].apply(exports,arguments)
-},{"../stringProcessing/sanitizeString.js":80,"dup":90,"lodash/defaults":217}],92:[function(require,module,exports){
-arguments[4][3][0].apply(exports,arguments)
-},{"dup":3}],93:[function(require,module,exports){
+},{"../stringProcessing/sanitizeString.js":70,"lodash/defaults":166}],80:[function(require,module,exports){
 var nativeCreate = require('./_nativeCreate');
 
 /** Used for built-in method references. */
@@ -8010,7 +5016,7 @@ Hash.prototype = nativeCreate ? nativeCreate(null) : objectProto;
 
 module.exports = Hash;
 
-},{"./_nativeCreate":203}],94:[function(require,module,exports){
+},{"./_nativeCreate":156}],81:[function(require,module,exports){
 var getNative = require('./_getNative'),
     root = require('./_root');
 
@@ -8019,7 +5025,7 @@ var Map = getNative(root, 'Map');
 
 module.exports = Map;
 
-},{"./_getNative":175,"./_root":205}],95:[function(require,module,exports){
+},{"./_getNative":133,"./_root":157}],82:[function(require,module,exports){
 var mapClear = require('./_mapClear'),
     mapDelete = require('./_mapDelete'),
     mapGet = require('./_mapGet'),
@@ -8053,7 +5059,7 @@ MapCache.prototype.set = mapSet;
 
 module.exports = MapCache;
 
-},{"./_mapClear":196,"./_mapDelete":197,"./_mapGet":198,"./_mapHas":199,"./_mapSet":200}],96:[function(require,module,exports){
+},{"./_mapClear":150,"./_mapDelete":151,"./_mapGet":152,"./_mapHas":153,"./_mapSet":154}],83:[function(require,module,exports){
 var root = require('./_root');
 
 /** Built-in value references. */
@@ -8061,7 +5067,7 @@ var Reflect = root.Reflect;
 
 module.exports = Reflect;
 
-},{"./_root":205}],97:[function(require,module,exports){
+},{"./_root":157}],84:[function(require,module,exports){
 var getNative = require('./_getNative'),
     root = require('./_root');
 
@@ -8070,34 +5076,7 @@ var Set = getNative(root, 'Set');
 
 module.exports = Set;
 
-},{"./_getNative":175,"./_root":205}],98:[function(require,module,exports){
-var MapCache = require('./_MapCache'),
-    cachePush = require('./_cachePush');
-
-/**
- *
- * Creates a set cache object to store unique values.
- *
- * @private
- * @constructor
- * @param {Array} [values] The values to cache.
- */
-function SetCache(values) {
-  var index = -1,
-      length = values ? values.length : 0;
-
-  this.__data__ = new MapCache;
-  while (++index < length) {
-    this.push(values[index]);
-  }
-}
-
-// Add functions to the `SetCache`.
-SetCache.prototype.push = cachePush;
-
-module.exports = SetCache;
-
-},{"./_MapCache":95,"./_cachePush":154}],99:[function(require,module,exports){
+},{"./_getNative":133,"./_root":157}],85:[function(require,module,exports){
 var stackClear = require('./_stackClear'),
     stackDelete = require('./_stackDelete'),
     stackGet = require('./_stackGet'),
@@ -8131,7 +5110,7 @@ Stack.prototype.set = stackSet;
 
 module.exports = Stack;
 
-},{"./_stackClear":207,"./_stackDelete":208,"./_stackGet":209,"./_stackHas":210,"./_stackSet":211}],100:[function(require,module,exports){
+},{"./_stackClear":159,"./_stackDelete":160,"./_stackGet":161,"./_stackHas":162,"./_stackSet":163}],86:[function(require,module,exports){
 var root = require('./_root');
 
 /** Built-in value references. */
@@ -8139,7 +5118,7 @@ var Symbol = root.Symbol;
 
 module.exports = Symbol;
 
-},{"./_root":205}],101:[function(require,module,exports){
+},{"./_root":157}],87:[function(require,module,exports){
 var root = require('./_root');
 
 /** Built-in value references. */
@@ -8147,7 +5126,7 @@ var Uint8Array = root.Uint8Array;
 
 module.exports = Uint8Array;
 
-},{"./_root":205}],102:[function(require,module,exports){
+},{"./_root":157}],88:[function(require,module,exports){
 var getNative = require('./_getNative'),
     root = require('./_root');
 
@@ -8156,7 +5135,7 @@ var WeakMap = getNative(root, 'WeakMap');
 
 module.exports = WeakMap;
 
-},{"./_getNative":175,"./_root":205}],103:[function(require,module,exports){
+},{"./_getNative":133,"./_root":157}],89:[function(require,module,exports){
 /**
  * Adds the key-value `pair` to `map`.
  *
@@ -8173,7 +5152,7 @@ function addMapEntry(map, pair) {
 
 module.exports = addMapEntry;
 
-},{}],104:[function(require,module,exports){
+},{}],90:[function(require,module,exports){
 /**
  * Adds `value` to `set`.
  *
@@ -8189,7 +5168,7 @@ function addSetEntry(set, value) {
 
 module.exports = addSetEntry;
 
-},{}],105:[function(require,module,exports){
+},{}],91:[function(require,module,exports){
 /**
  * A faster alternative to `Function#apply`, this function invokes `func`
  * with the `this` binding of `thisArg` and the arguments of `args`.
@@ -8213,7 +5192,7 @@ function apply(func, thisArg, args) {
 
 module.exports = apply;
 
-},{}],106:[function(require,module,exports){
+},{}],92:[function(require,module,exports){
 /**
  * A specialized version of `_.forEach` for arrays without support for
  * iteratee shorthands.
@@ -8237,94 +5216,7 @@ function arrayEach(array, iteratee) {
 
 module.exports = arrayEach;
 
-},{}],107:[function(require,module,exports){
-var baseIndexOf = require('./_baseIndexOf');
-
-/**
- * A specialized version of `_.includes` for arrays without support for
- * specifying an index to search from.
- *
- * @private
- * @param {Array} array The array to search.
- * @param {*} target The value to search for.
- * @returns {boolean} Returns `true` if `target` is found, else `false`.
- */
-function arrayIncludes(array, value) {
-  return !!array.length && baseIndexOf(array, value, 0) > -1;
-}
-
-module.exports = arrayIncludes;
-
-},{"./_baseIndexOf":135}],108:[function(require,module,exports){
-/**
- * This function is like `arrayIncludes` except that it accepts a comparator.
- *
- * @private
- * @param {Array} array The array to search.
- * @param {*} target The value to search for.
- * @param {Function} comparator The comparator invoked per element.
- * @returns {boolean} Returns `true` if `target` is found, else `false`.
- */
-function arrayIncludesWith(array, value, comparator) {
-  var index = -1,
-      length = array.length;
-
-  while (++index < length) {
-    if (comparator(value, array[index])) {
-      return true;
-    }
-  }
-  return false;
-}
-
-module.exports = arrayIncludesWith;
-
-},{}],109:[function(require,module,exports){
-/**
- * A specialized version of `_.map` for arrays without support for iteratee
- * shorthands.
- *
- * @private
- * @param {Array} array The array to iterate over.
- * @param {Function} iteratee The function invoked per iteration.
- * @returns {Array} Returns the new mapped array.
- */
-function arrayMap(array, iteratee) {
-  var index = -1,
-      length = array.length,
-      result = Array(length);
-
-  while (++index < length) {
-    result[index] = iteratee(array[index], index, array);
-  }
-  return result;
-}
-
-module.exports = arrayMap;
-
-},{}],110:[function(require,module,exports){
-/**
- * Appends the elements of `values` to `array`.
- *
- * @private
- * @param {Array} array The array to modify.
- * @param {Array} values The values to append.
- * @returns {Array} Returns `array`.
- */
-function arrayPush(array, values) {
-  var index = -1,
-      length = values.length,
-      offset = array.length;
-
-  while (++index < length) {
-    array[offset + index] = values[index];
-  }
-  return array;
-}
-
-module.exports = arrayPush;
-
-},{}],111:[function(require,module,exports){
+},{}],93:[function(require,module,exports){
 /**
  * A specialized version of `_.reduce` for arrays without support for
  * iteratee shorthands.
@@ -8351,31 +5243,7 @@ function arrayReduce(array, iteratee, accumulator, initAccum) {
 
 module.exports = arrayReduce;
 
-},{}],112:[function(require,module,exports){
-/**
- * A specialized version of `_.some` for arrays without support for iteratee
- * shorthands.
- *
- * @private
- * @param {Array} array The array to iterate over.
- * @param {Function} predicate The function invoked per iteration.
- * @returns {boolean} Returns `true` if any element passes the predicate check, else `false`.
- */
-function arraySome(array, predicate) {
-  var index = -1,
-      length = array.length;
-
-  while (++index < length) {
-    if (predicate(array[index], index, array)) {
-      return true;
-    }
-  }
-  return false;
-}
-
-module.exports = arraySome;
-
-},{}],113:[function(require,module,exports){
+},{}],94:[function(require,module,exports){
 var eq = require('./eq');
 
 /** Used for built-in method references. */
@@ -8404,7 +5272,7 @@ function assignInDefaults(objValue, srcValue, key, object) {
 
 module.exports = assignInDefaults;
 
-},{"./eq":220}],114:[function(require,module,exports){
+},{"./eq":167}],95:[function(require,module,exports){
 var eq = require('./eq');
 
 /**
@@ -8425,7 +5293,7 @@ function assignMergeValue(object, key, value) {
 
 module.exports = assignMergeValue;
 
-},{"./eq":220}],115:[function(require,module,exports){
+},{"./eq":167}],96:[function(require,module,exports){
 var eq = require('./eq');
 
 /** Used for built-in method references. */
@@ -8454,7 +5322,7 @@ function assignValue(object, key, value) {
 
 module.exports = assignValue;
 
-},{"./eq":220}],116:[function(require,module,exports){
+},{"./eq":167}],97:[function(require,module,exports){
 var assocIndexOf = require('./_assocIndexOf');
 
 /** Used for built-in method references. */
@@ -8487,7 +5355,7 @@ function assocDelete(array, key) {
 
 module.exports = assocDelete;
 
-},{"./_assocIndexOf":119}],117:[function(require,module,exports){
+},{"./_assocIndexOf":100}],98:[function(require,module,exports){
 var assocIndexOf = require('./_assocIndexOf');
 
 /**
@@ -8505,7 +5373,7 @@ function assocGet(array, key) {
 
 module.exports = assocGet;
 
-},{"./_assocIndexOf":119}],118:[function(require,module,exports){
+},{"./_assocIndexOf":100}],99:[function(require,module,exports){
 var assocIndexOf = require('./_assocIndexOf');
 
 /**
@@ -8522,7 +5390,7 @@ function assocHas(array, key) {
 
 module.exports = assocHas;
 
-},{"./_assocIndexOf":119}],119:[function(require,module,exports){
+},{"./_assocIndexOf":100}],100:[function(require,module,exports){
 var eq = require('./eq');
 
 /**
@@ -8546,7 +5414,7 @@ function assocIndexOf(array, key) {
 
 module.exports = assocIndexOf;
 
-},{"./eq":220}],120:[function(require,module,exports){
+},{"./eq":167}],101:[function(require,module,exports){
 var assocIndexOf = require('./_assocIndexOf');
 
 /**
@@ -8568,7 +5436,7 @@ function assocSet(array, key, value) {
 
 module.exports = assocSet;
 
-},{"./_assocIndexOf":119}],121:[function(require,module,exports){
+},{"./_assocIndexOf":100}],102:[function(require,module,exports){
 var copyObject = require('./_copyObject'),
     keys = require('./keys');
 
@@ -8587,7 +5455,7 @@ function baseAssign(object, source) {
 
 module.exports = baseAssign;
 
-},{"./_copyObject":164,"./keys":244}],122:[function(require,module,exports){
+},{"./_copyObject":126,"./keys":187}],103:[function(require,module,exports){
 var identity = require('./identity');
 
 /**
@@ -8603,24 +5471,7 @@ function baseCastFunction(value) {
 
 module.exports = baseCastFunction;
 
-},{"./identity":224}],123:[function(require,module,exports){
-var isArray = require('./isArray'),
-    stringToPath = require('./_stringToPath');
-
-/**
- * Casts `value` to a path array if it's not one.
- *
- * @private
- * @param {*} value The value to inspect.
- * @returns {Array} Returns the cast property path array.
- */
-function baseCastPath(value) {
-  return isArray(value) ? value : stringToPath(value);
-}
-
-module.exports = baseCastPath;
-
-},{"./_stringToPath":212,"./isArray":227}],124:[function(require,module,exports){
+},{"./identity":169}],104:[function(require,module,exports){
 var Stack = require('./_Stack'),
     arrayEach = require('./_arrayEach'),
     assignValue = require('./_assignValue'),
@@ -8753,7 +5604,7 @@ function baseClone(value, isDeep, isFull, customizer, key, object, stack) {
 
 module.exports = baseClone;
 
-},{"./_Stack":99,"./_arrayEach":106,"./_assignValue":115,"./_baseAssign":121,"./_baseForOwn":130,"./_cloneBuffer":157,"./_copyArray":163,"./_copySymbols":166,"./_getTag":177,"./_initCloneArray":185,"./_initCloneByTag":186,"./_initCloneObject":187,"./_isHostObject":188,"./isArray":227,"./isBuffer":230,"./isObject":237}],125:[function(require,module,exports){
+},{"./_Stack":85,"./_arrayEach":92,"./_assignValue":96,"./_baseAssign":102,"./_baseForOwn":108,"./_cloneBuffer":119,"./_copyArray":125,"./_copySymbols":128,"./_getTag":135,"./_initCloneArray":141,"./_initCloneByTag":142,"./_initCloneObject":143,"./_isHostObject":144,"./isArray":172,"./isBuffer":175,"./isObject":181}],105:[function(require,module,exports){
 var isObject = require('./isObject');
 
 /** Built-in value references. */
@@ -8773,75 +5624,7 @@ function baseCreate(proto) {
 
 module.exports = baseCreate;
 
-},{"./isObject":237}],126:[function(require,module,exports){
-var SetCache = require('./_SetCache'),
-    arrayIncludes = require('./_arrayIncludes'),
-    arrayIncludesWith = require('./_arrayIncludesWith'),
-    arrayMap = require('./_arrayMap'),
-    baseUnary = require('./_baseUnary'),
-    cacheHas = require('./_cacheHas');
-
-/** Used as the size to enable large array optimizations. */
-var LARGE_ARRAY_SIZE = 200;
-
-/**
- * The base implementation of methods like `_.difference` without support for
- * excluding multiple arrays or iteratee shorthands.
- *
- * @private
- * @param {Array} array The array to inspect.
- * @param {Array} values The values to exclude.
- * @param {Function} [iteratee] The iteratee invoked per element.
- * @param {Function} [comparator] The comparator invoked per element.
- * @returns {Array} Returns the new array of filtered values.
- */
-function baseDifference(array, values, iteratee, comparator) {
-  var index = -1,
-      includes = arrayIncludes,
-      isCommon = true,
-      length = array.length,
-      result = [],
-      valuesLength = values.length;
-
-  if (!length) {
-    return result;
-  }
-  if (iteratee) {
-    values = arrayMap(values, baseUnary(iteratee));
-  }
-  if (comparator) {
-    includes = arrayIncludesWith;
-    isCommon = false;
-  }
-  else if (values.length >= LARGE_ARRAY_SIZE) {
-    includes = cacheHas;
-    isCommon = false;
-    values = new SetCache(values);
-  }
-  outer:
-  while (++index < length) {
-    var value = array[index],
-        computed = iteratee ? iteratee(value) : value;
-
-    if (isCommon && computed === computed) {
-      var valuesIndex = valuesLength;
-      while (valuesIndex--) {
-        if (values[valuesIndex] === computed) {
-          continue outer;
-        }
-      }
-      result.push(value);
-    }
-    else if (!includes(values, computed, comparator)) {
-      result.push(value);
-    }
-  }
-  return result;
-}
-
-module.exports = baseDifference;
-
-},{"./_SetCache":98,"./_arrayIncludes":107,"./_arrayIncludesWith":108,"./_arrayMap":109,"./_baseUnary":152,"./_cacheHas":153}],127:[function(require,module,exports){
+},{"./isObject":181}],106:[function(require,module,exports){
 var baseForOwn = require('./_baseForOwn'),
     createBaseEach = require('./_createBaseEach');
 
@@ -8857,48 +5640,7 @@ var baseEach = createBaseEach(baseForOwn);
 
 module.exports = baseEach;
 
-},{"./_baseForOwn":130,"./_createBaseEach":168}],128:[function(require,module,exports){
-var arrayPush = require('./_arrayPush'),
-    isArguments = require('./isArguments'),
-    isArray = require('./isArray'),
-    isArrayLikeObject = require('./isArrayLikeObject');
-
-/**
- * The base implementation of `_.flatten` with support for restricting flattening.
- *
- * @private
- * @param {Array} array The array to flatten.
- * @param {number} depth The maximum recursion depth.
- * @param {boolean} [isStrict] Restrict flattening to arrays-like objects.
- * @param {Array} [result=[]] The initial result value.
- * @returns {Array} Returns the new flattened array.
- */
-function baseFlatten(array, depth, isStrict, result) {
-  result || (result = []);
-
-  var index = -1,
-      length = array.length;
-
-  while (++index < length) {
-    var value = array[index];
-    if (depth > 0 && isArrayLikeObject(value) &&
-        (isStrict || isArray(value) || isArguments(value))) {
-      if (depth > 1) {
-        // Recursively flatten arrays (susceptible to call stack limits).
-        baseFlatten(value, depth - 1, isStrict, result);
-      } else {
-        arrayPush(result, value);
-      }
-    } else if (!isStrict) {
-      result[result.length] = value;
-    }
-  }
-  return result;
-}
-
-module.exports = baseFlatten;
-
-},{"./_arrayPush":110,"./isArguments":226,"./isArray":227,"./isArrayLikeObject":229}],129:[function(require,module,exports){
+},{"./_baseForOwn":108,"./_createBaseEach":130}],107:[function(require,module,exports){
 var createBaseFor = require('./_createBaseFor');
 
 /**
@@ -8917,7 +5659,7 @@ var baseFor = createBaseFor();
 
 module.exports = baseFor;
 
-},{"./_createBaseFor":169}],130:[function(require,module,exports){
+},{"./_createBaseFor":131}],108:[function(require,module,exports){
 var baseFor = require('./_baseFor'),
     keys = require('./keys');
 
@@ -8935,33 +5677,7 @@ function baseForOwn(object, iteratee) {
 
 module.exports = baseForOwn;
 
-},{"./_baseFor":129,"./keys":244}],131:[function(require,module,exports){
-var baseCastPath = require('./_baseCastPath'),
-    isKey = require('./_isKey');
-
-/**
- * The base implementation of `_.get` without support for default values.
- *
- * @private
- * @param {Object} object The object to query.
- * @param {Array|string} path The path of the property to get.
- * @returns {*} Returns the resolved value.
- */
-function baseGet(object, path) {
-  path = isKey(path, object) ? [path + ''] : baseCastPath(path);
-
-  var index = 0,
-      length = path.length;
-
-  while (object != null && index < length) {
-    object = object[path[index++]];
-  }
-  return (index && index == length) ? object : undefined;
-}
-
-module.exports = baseGet;
-
-},{"./_baseCastPath":123,"./_isKey":191}],132:[function(require,module,exports){
+},{"./_baseFor":107,"./keys":187}],109:[function(require,module,exports){
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
 
@@ -8989,22 +5705,7 @@ function baseHas(object, key) {
 
 module.exports = baseHas;
 
-},{}],133:[function(require,module,exports){
-/**
- * The base implementation of `_.hasIn` without support for deep paths.
- *
- * @private
- * @param {Object} object The object to query.
- * @param {Array|string} key The key to check.
- * @returns {boolean} Returns `true` if `key` exists, else `false`.
- */
-function baseHasIn(object, key) {
-  return key in Object(object);
-}
-
-module.exports = baseHasIn;
-
-},{}],134:[function(require,module,exports){
+},{}],110:[function(require,module,exports){
 /* Built-in method references for those with the same name as other `lodash` methods. */
 var nativeMax = Math.max,
     nativeMin = Math.min;
@@ -9024,243 +5725,7 @@ function baseInRange(number, start, end) {
 
 module.exports = baseInRange;
 
-},{}],135:[function(require,module,exports){
-var indexOfNaN = require('./_indexOfNaN');
-
-/**
- * The base implementation of `_.indexOf` without `fromIndex` bounds checks.
- *
- * @private
- * @param {Array} array The array to search.
- * @param {*} value The value to search for.
- * @param {number} fromIndex The index to search from.
- * @returns {number} Returns the index of the matched value, else `-1`.
- */
-function baseIndexOf(array, value, fromIndex) {
-  if (value !== value) {
-    return indexOfNaN(array, fromIndex);
-  }
-  var index = fromIndex - 1,
-      length = array.length;
-
-  while (++index < length) {
-    if (array[index] === value) {
-      return index;
-    }
-  }
-  return -1;
-}
-
-module.exports = baseIndexOf;
-
-},{"./_indexOfNaN":184}],136:[function(require,module,exports){
-var baseIsEqualDeep = require('./_baseIsEqualDeep'),
-    isObject = require('./isObject'),
-    isObjectLike = require('./isObjectLike');
-
-/**
- * The base implementation of `_.isEqual` which supports partial comparisons
- * and tracks traversed objects.
- *
- * @private
- * @param {*} value The value to compare.
- * @param {*} other The other value to compare.
- * @param {Function} [customizer] The function to customize comparisons.
- * @param {boolean} [bitmask] The bitmask of comparison flags.
- *  The bitmask may be composed of the following flags:
- *     1 - Unordered comparison
- *     2 - Partial comparison
- * @param {Object} [stack] Tracks traversed `value` and `other` objects.
- * @returns {boolean} Returns `true` if the values are equivalent, else `false`.
- */
-function baseIsEqual(value, other, customizer, bitmask, stack) {
-  if (value === other) {
-    return true;
-  }
-  if (value == null || other == null || (!isObject(value) && !isObjectLike(other))) {
-    return value !== value && other !== other;
-  }
-  return baseIsEqualDeep(value, other, baseIsEqual, customizer, bitmask, stack);
-}
-
-module.exports = baseIsEqual;
-
-},{"./_baseIsEqualDeep":137,"./isObject":237,"./isObjectLike":238}],137:[function(require,module,exports){
-var Stack = require('./_Stack'),
-    equalArrays = require('./_equalArrays'),
-    equalByTag = require('./_equalByTag'),
-    equalObjects = require('./_equalObjects'),
-    getTag = require('./_getTag'),
-    isArray = require('./isArray'),
-    isHostObject = require('./_isHostObject'),
-    isTypedArray = require('./isTypedArray');
-
-/** Used to compose bitmasks for comparison styles. */
-var PARTIAL_COMPARE_FLAG = 2;
-
-/** `Object#toString` result references. */
-var argsTag = '[object Arguments]',
-    arrayTag = '[object Array]',
-    objectTag = '[object Object]';
-
-/** Used for built-in method references. */
-var objectProto = Object.prototype;
-
-/** Used to check objects for own properties. */
-var hasOwnProperty = objectProto.hasOwnProperty;
-
-/**
- * A specialized version of `baseIsEqual` for arrays and objects which performs
- * deep comparisons and tracks traversed objects enabling objects with circular
- * references to be compared.
- *
- * @private
- * @param {Object} object The object to compare.
- * @param {Object} other The other object to compare.
- * @param {Function} equalFunc The function to determine equivalents of values.
- * @param {Function} [customizer] The function to customize comparisons.
- * @param {number} [bitmask] The bitmask of comparison flags. See `baseIsEqual` for more details.
- * @param {Object} [stack] Tracks traversed `object` and `other` objects.
- * @returns {boolean} Returns `true` if the objects are equivalent, else `false`.
- */
-function baseIsEqualDeep(object, other, equalFunc, customizer, bitmask, stack) {
-  var objIsArr = isArray(object),
-      othIsArr = isArray(other),
-      objTag = arrayTag,
-      othTag = arrayTag;
-
-  if (!objIsArr) {
-    objTag = getTag(object);
-    objTag = objTag == argsTag ? objectTag : objTag;
-  }
-  if (!othIsArr) {
-    othTag = getTag(other);
-    othTag = othTag == argsTag ? objectTag : othTag;
-  }
-  var objIsObj = objTag == objectTag && !isHostObject(object),
-      othIsObj = othTag == objectTag && !isHostObject(other),
-      isSameTag = objTag == othTag;
-
-  if (isSameTag && !objIsObj) {
-    stack || (stack = new Stack);
-    return (objIsArr || isTypedArray(object))
-      ? equalArrays(object, other, equalFunc, customizer, bitmask, stack)
-      : equalByTag(object, other, objTag, equalFunc, customizer, bitmask, stack);
-  }
-  if (!(bitmask & PARTIAL_COMPARE_FLAG)) {
-    var objIsWrapped = objIsObj && hasOwnProperty.call(object, '__wrapped__'),
-        othIsWrapped = othIsObj && hasOwnProperty.call(other, '__wrapped__');
-
-    if (objIsWrapped || othIsWrapped) {
-      stack || (stack = new Stack);
-      return equalFunc(objIsWrapped ? object.value() : object, othIsWrapped ? other.value() : other, customizer, bitmask, stack);
-    }
-  }
-  if (!isSameTag) {
-    return false;
-  }
-  stack || (stack = new Stack);
-  return equalObjects(object, other, equalFunc, customizer, bitmask, stack);
-}
-
-module.exports = baseIsEqualDeep;
-
-},{"./_Stack":99,"./_equalArrays":170,"./_equalByTag":171,"./_equalObjects":172,"./_getTag":177,"./_isHostObject":188,"./isArray":227,"./isTypedArray":242}],138:[function(require,module,exports){
-var Stack = require('./_Stack'),
-    baseIsEqual = require('./_baseIsEqual');
-
-/** Used to compose bitmasks for comparison styles. */
-var UNORDERED_COMPARE_FLAG = 1,
-    PARTIAL_COMPARE_FLAG = 2;
-
-/**
- * The base implementation of `_.isMatch` without support for iteratee shorthands.
- *
- * @private
- * @param {Object} object The object to inspect.
- * @param {Object} source The object of property values to match.
- * @param {Array} matchData The property names, values, and compare flags to match.
- * @param {Function} [customizer] The function to customize comparisons.
- * @returns {boolean} Returns `true` if `object` is a match, else `false`.
- */
-function baseIsMatch(object, source, matchData, customizer) {
-  var index = matchData.length,
-      length = index,
-      noCustomizer = !customizer;
-
-  if (object == null) {
-    return !length;
-  }
-  object = Object(object);
-  while (index--) {
-    var data = matchData[index];
-    if ((noCustomizer && data[2])
-          ? data[1] !== object[data[0]]
-          : !(data[0] in object)
-        ) {
-      return false;
-    }
-  }
-  while (++index < length) {
-    data = matchData[index];
-    var key = data[0],
-        objValue = object[key],
-        srcValue = data[1];
-
-    if (noCustomizer && data[2]) {
-      if (objValue === undefined && !(key in object)) {
-        return false;
-      }
-    } else {
-      var stack = new Stack,
-          result = customizer ? customizer(objValue, srcValue, key, object, source, stack) : undefined;
-
-      if (!(result === undefined
-            ? baseIsEqual(srcValue, objValue, customizer, UNORDERED_COMPARE_FLAG | PARTIAL_COMPARE_FLAG, stack)
-            : result
-          )) {
-        return false;
-      }
-    }
-  }
-  return true;
-}
-
-module.exports = baseIsMatch;
-
-},{"./_Stack":99,"./_baseIsEqual":136}],139:[function(require,module,exports){
-var baseMatches = require('./_baseMatches'),
-    baseMatchesProperty = require('./_baseMatchesProperty'),
-    identity = require('./identity'),
-    isArray = require('./isArray'),
-    property = require('./property');
-
-/**
- * The base implementation of `_.iteratee`.
- *
- * @private
- * @param {*} [value=_.identity] The value to convert to an iteratee.
- * @returns {Function} Returns the iteratee.
- */
-function baseIteratee(value) {
-  var type = typeof value;
-  if (type == 'function') {
-    return value;
-  }
-  if (value == null) {
-    return identity;
-  }
-  if (type == 'object') {
-    return isArray(value)
-      ? baseMatchesProperty(value[0], value[1])
-      : baseMatches(value);
-  }
-  return property(value);
-}
-
-module.exports = baseIteratee;
-
-},{"./_baseMatches":142,"./_baseMatchesProperty":143,"./identity":224,"./isArray":227,"./property":250}],140:[function(require,module,exports){
+},{}],111:[function(require,module,exports){
 /* Built-in method references for those with the same name as other `lodash` methods. */
 var nativeKeys = Object.keys;
 
@@ -9278,7 +5743,7 @@ function baseKeys(object) {
 
 module.exports = baseKeys;
 
-},{}],141:[function(require,module,exports){
+},{}],112:[function(require,module,exports){
 var Reflect = require('./_Reflect'),
     iteratorToArray = require('./_iteratorToArray');
 
@@ -9316,67 +5781,7 @@ if (enumerate && !propertyIsEnumerable.call({ 'valueOf': 1 }, 'valueOf')) {
 
 module.exports = baseKeysIn;
 
-},{"./_Reflect":96,"./_iteratorToArray":195}],142:[function(require,module,exports){
-var baseIsMatch = require('./_baseIsMatch'),
-    getMatchData = require('./_getMatchData');
-
-/**
- * The base implementation of `_.matches` which doesn't clone `source`.
- *
- * @private
- * @param {Object} source The object of property values to match.
- * @returns {Function} Returns the new function.
- */
-function baseMatches(source) {
-  var matchData = getMatchData(source);
-  if (matchData.length == 1 && matchData[0][2]) {
-    var key = matchData[0][0],
-        value = matchData[0][1];
-
-    return function(object) {
-      if (object == null) {
-        return false;
-      }
-      return object[key] === value &&
-        (value !== undefined || (key in Object(object)));
-    };
-  }
-  return function(object) {
-    return object === source || baseIsMatch(object, source, matchData);
-  };
-}
-
-module.exports = baseMatches;
-
-},{"./_baseIsMatch":138,"./_getMatchData":174}],143:[function(require,module,exports){
-var baseIsEqual = require('./_baseIsEqual'),
-    get = require('./get'),
-    hasIn = require('./hasIn');
-
-/** Used to compose bitmasks for comparison styles. */
-var UNORDERED_COMPARE_FLAG = 1,
-    PARTIAL_COMPARE_FLAG = 2;
-
-/**
- * The base implementation of `_.matchesProperty` which doesn't clone `srcValue`.
- *
- * @private
- * @param {string} path The path of the property to get.
- * @param {*} srcValue The value to match.
- * @returns {Function} Returns the new function.
- */
-function baseMatchesProperty(path, srcValue) {
-  return function(object) {
-    var objValue = get(object, path);
-    return (objValue === undefined && objValue === srcValue)
-      ? hasIn(object, path)
-      : baseIsEqual(srcValue, objValue, undefined, UNORDERED_COMPARE_FLAG | PARTIAL_COMPARE_FLAG);
-  };
-}
-
-module.exports = baseMatchesProperty;
-
-},{"./_baseIsEqual":136,"./get":222,"./hasIn":223}],144:[function(require,module,exports){
+},{"./_Reflect":83,"./_iteratorToArray":149}],113:[function(require,module,exports){
 var Stack = require('./_Stack'),
     arrayEach = require('./_arrayEach'),
     assignMergeValue = require('./_assignMergeValue'),
@@ -9428,7 +5833,7 @@ function baseMerge(object, source, srcIndex, customizer, stack) {
 
 module.exports = baseMerge;
 
-},{"./_Stack":99,"./_arrayEach":106,"./_assignMergeValue":114,"./_baseMergeDeep":145,"./isArray":227,"./isObject":237,"./isTypedArray":242,"./keysIn":245}],145:[function(require,module,exports){
+},{"./_Stack":85,"./_arrayEach":92,"./_assignMergeValue":95,"./_baseMergeDeep":114,"./isArray":172,"./isObject":181,"./isTypedArray":185,"./keysIn":188}],114:[function(require,module,exports){
 var assignMergeValue = require('./_assignMergeValue'),
     baseClone = require('./_baseClone'),
     copyArray = require('./_copyArray'),
@@ -9512,7 +5917,7 @@ function baseMergeDeep(object, source, key, srcIndex, mergeFunc, customizer, sta
 
 module.exports = baseMergeDeep;
 
-},{"./_assignMergeValue":114,"./_baseClone":124,"./_copyArray":163,"./isArguments":226,"./isArray":227,"./isArrayLikeObject":229,"./isFunction":233,"./isObject":237,"./isPlainObject":239,"./isTypedArray":242,"./toPlainObject":256}],146:[function(require,module,exports){
+},{"./_assignMergeValue":95,"./_baseClone":104,"./_copyArray":125,"./isArguments":171,"./isArray":172,"./isArrayLikeObject":174,"./isFunction":177,"./isObject":181,"./isPlainObject":183,"./isTypedArray":185,"./toPlainObject":193}],115:[function(require,module,exports){
 /**
  * The base implementation of `_.property` without support for deep paths.
  *
@@ -9528,82 +5933,7 @@ function baseProperty(key) {
 
 module.exports = baseProperty;
 
-},{}],147:[function(require,module,exports){
-var baseGet = require('./_baseGet');
-
-/**
- * A specialized version of `baseProperty` which supports deep paths.
- *
- * @private
- * @param {Array|string} path The path of the property to get.
- * @returns {Function} Returns the new function.
- */
-function basePropertyDeep(path) {
-  return function(object) {
-    return baseGet(object, path);
-  };
-}
-
-module.exports = basePropertyDeep;
-
-},{"./_baseGet":131}],148:[function(require,module,exports){
-/**
- * The base implementation of `_.reduce` and `_.reduceRight`, without support
- * for iteratee shorthands, which iterates over `collection` using `eachFunc`.
- *
- * @private
- * @param {Array|Object} collection The collection to iterate over.
- * @param {Function} iteratee The function invoked per iteration.
- * @param {*} accumulator The initial value.
- * @param {boolean} initAccum Specify using the first or last element of `collection` as the initial value.
- * @param {Function} eachFunc The function to iterate over `collection`.
- * @returns {*} Returns the accumulated value.
- */
-function baseReduce(collection, iteratee, accumulator, initAccum, eachFunc) {
-  eachFunc(collection, function(value, index, collection) {
-    accumulator = initAccum
-      ? (initAccum = false, value)
-      : iteratee(accumulator, value, index, collection);
-  });
-  return accumulator;
-}
-
-module.exports = baseReduce;
-
-},{}],149:[function(require,module,exports){
-/**
- * The base implementation of `_.slice` without an iteratee call guard.
- *
- * @private
- * @param {Array} array The array to slice.
- * @param {number} [start=0] The start position.
- * @param {number} [end=array.length] The end position.
- * @returns {Array} Returns the slice of `array`.
- */
-function baseSlice(array, start, end) {
-  var index = -1,
-      length = array.length;
-
-  if (start < 0) {
-    start = -start > length ? 0 : (length + start);
-  }
-  end = end > length ? length : end;
-  if (end < 0) {
-    end += length;
-  }
-  length = start > end ? 0 : ((end - start) >>> 0);
-  start >>>= 0;
-
-  var result = Array(length);
-  while (++index < length) {
-    result[index] = array[index + start];
-  }
-  return result;
-}
-
-module.exports = baseSlice;
-
-},{}],150:[function(require,module,exports){
+},{}],116:[function(require,module,exports){
 /**
  * The base implementation of `_.times` without support for iteratee shorthands
  * or max array length checks.
@@ -9625,99 +5955,7 @@ function baseTimes(n, iteratee) {
 
 module.exports = baseTimes;
 
-},{}],151:[function(require,module,exports){
-var arrayMap = require('./_arrayMap');
-
-/**
- * The base implementation of `_.toPairs` and `_.toPairsIn` which creates an array
- * of key-value pairs for `object` corresponding to the property names of `props`.
- *
- * @private
- * @param {Object} object The object to query.
- * @param {Array} props The property names to get values for.
- * @returns {Object} Returns the new array of key-value pairs.
- */
-function baseToPairs(object, props) {
-  return arrayMap(props, function(key) {
-    return [key, object[key]];
-  });
-}
-
-module.exports = baseToPairs;
-
-},{"./_arrayMap":109}],152:[function(require,module,exports){
-/**
- * The base implementation of `_.unary` without support for storing wrapper metadata.
- *
- * @private
- * @param {Function} func The function to cap arguments for.
- * @returns {Function} Returns the new function.
- */
-function baseUnary(func) {
-  return function(value) {
-    return func(value);
-  };
-}
-
-module.exports = baseUnary;
-
-},{}],153:[function(require,module,exports){
-var isKeyable = require('./_isKeyable');
-
-/** Used to stand-in for `undefined` hash values. */
-var HASH_UNDEFINED = '__lodash_hash_undefined__';
-
-/**
- * Checks if `value` is in `cache`.
- *
- * @private
- * @param {Object} cache The set cache to search.
- * @param {*} value The value to search for.
- * @returns {number} Returns `true` if `value` is found, else `false`.
- */
-function cacheHas(cache, value) {
-  var map = cache.__data__;
-  if (isKeyable(value)) {
-    var data = map.__data__,
-        hash = typeof value == 'string' ? data.string : data.hash;
-
-    return hash[value] === HASH_UNDEFINED;
-  }
-  return map.has(value);
-}
-
-module.exports = cacheHas;
-
-},{"./_isKeyable":192}],154:[function(require,module,exports){
-var isKeyable = require('./_isKeyable');
-
-/** Used to stand-in for `undefined` hash values. */
-var HASH_UNDEFINED = '__lodash_hash_undefined__';
-
-/**
- * Adds `value` to the set cache.
- *
- * @private
- * @name push
- * @memberOf SetCache
- * @param {*} value The value to cache.
- */
-function cachePush(value) {
-  var map = this.__data__;
-  if (isKeyable(value)) {
-    var data = map.__data__,
-        hash = typeof value == 'string' ? data.string : data.hash;
-
-    hash[value] = HASH_UNDEFINED;
-  }
-  else {
-    map.set(value, HASH_UNDEFINED);
-  }
-}
-
-module.exports = cachePush;
-
-},{"./_isKeyable":192}],155:[function(require,module,exports){
+},{}],117:[function(require,module,exports){
 /**
  * Checks if `value` is a global object.
  *
@@ -9731,7 +5969,7 @@ function checkGlobal(value) {
 
 module.exports = checkGlobal;
 
-},{}],156:[function(require,module,exports){
+},{}],118:[function(require,module,exports){
 var Uint8Array = require('./_Uint8Array');
 
 /**
@@ -9749,7 +5987,7 @@ function cloneArrayBuffer(arrayBuffer) {
 
 module.exports = cloneArrayBuffer;
 
-},{"./_Uint8Array":101}],157:[function(require,module,exports){
+},{"./_Uint8Array":87}],119:[function(require,module,exports){
 /**
  * Creates a clone of  `buffer`.
  *
@@ -9769,7 +6007,7 @@ function cloneBuffer(buffer, isDeep) {
 
 module.exports = cloneBuffer;
 
-},{}],158:[function(require,module,exports){
+},{}],120:[function(require,module,exports){
 var addMapEntry = require('./_addMapEntry'),
     arrayReduce = require('./_arrayReduce'),
     mapToArray = require('./_mapToArray');
@@ -9787,7 +6025,7 @@ function cloneMap(map) {
 
 module.exports = cloneMap;
 
-},{"./_addMapEntry":103,"./_arrayReduce":111,"./_mapToArray":201}],159:[function(require,module,exports){
+},{"./_addMapEntry":89,"./_arrayReduce":93,"./_mapToArray":155}],121:[function(require,module,exports){
 /** Used to match `RegExp` flags from their coerced string values. */
 var reFlags = /\w*$/;
 
@@ -9806,7 +6044,7 @@ function cloneRegExp(regexp) {
 
 module.exports = cloneRegExp;
 
-},{}],160:[function(require,module,exports){
+},{}],122:[function(require,module,exports){
 var addSetEntry = require('./_addSetEntry'),
     arrayReduce = require('./_arrayReduce'),
     setToArray = require('./_setToArray');
@@ -9824,7 +6062,7 @@ function cloneSet(set) {
 
 module.exports = cloneSet;
 
-},{"./_addSetEntry":104,"./_arrayReduce":111,"./_setToArray":206}],161:[function(require,module,exports){
+},{"./_addSetEntry":90,"./_arrayReduce":93,"./_setToArray":158}],123:[function(require,module,exports){
 var Symbol = require('./_Symbol');
 
 /** Used to convert symbols to primitives and strings. */
@@ -9844,7 +6082,7 @@ function cloneSymbol(symbol) {
 
 module.exports = cloneSymbol;
 
-},{"./_Symbol":100}],162:[function(require,module,exports){
+},{"./_Symbol":86}],124:[function(require,module,exports){
 var cloneArrayBuffer = require('./_cloneArrayBuffer');
 
 /**
@@ -9862,7 +6100,7 @@ function cloneTypedArray(typedArray, isDeep) {
 
 module.exports = cloneTypedArray;
 
-},{"./_cloneArrayBuffer":156}],163:[function(require,module,exports){
+},{"./_cloneArrayBuffer":118}],125:[function(require,module,exports){
 /**
  * Copies the values of `source` to `array`.
  *
@@ -9884,7 +6122,7 @@ function copyArray(source, array) {
 
 module.exports = copyArray;
 
-},{}],164:[function(require,module,exports){
+},{}],126:[function(require,module,exports){
 var copyObjectWith = require('./_copyObjectWith');
 
 /**
@@ -9902,7 +6140,7 @@ function copyObject(source, props, object) {
 
 module.exports = copyObject;
 
-},{"./_copyObjectWith":165}],165:[function(require,module,exports){
+},{"./_copyObjectWith":127}],127:[function(require,module,exports){
 var assignValue = require('./_assignValue');
 
 /**
@@ -9936,7 +6174,7 @@ function copyObjectWith(source, props, object, customizer) {
 
 module.exports = copyObjectWith;
 
-},{"./_assignValue":115}],166:[function(require,module,exports){
+},{"./_assignValue":96}],128:[function(require,module,exports){
 var copyObject = require('./_copyObject'),
     getSymbols = require('./_getSymbols');
 
@@ -9954,7 +6192,7 @@ function copySymbols(source, object) {
 
 module.exports = copySymbols;
 
-},{"./_copyObject":164,"./_getSymbols":176}],167:[function(require,module,exports){
+},{"./_copyObject":126,"./_getSymbols":134}],129:[function(require,module,exports){
 var isIterateeCall = require('./_isIterateeCall'),
     rest = require('./rest');
 
@@ -9993,7 +6231,7 @@ function createAssigner(assigner) {
 
 module.exports = createAssigner;
 
-},{"./_isIterateeCall":190,"./rest":252}],168:[function(require,module,exports){
+},{"./_isIterateeCall":146,"./rest":190}],130:[function(require,module,exports){
 var isArrayLike = require('./isArrayLike');
 
 /**
@@ -10027,7 +6265,7 @@ function createBaseEach(eachFunc, fromRight) {
 
 module.exports = createBaseEach;
 
-},{"./isArrayLike":228}],169:[function(require,module,exports){
+},{"./isArrayLike":173}],131:[function(require,module,exports){
 /**
  * Creates a base function for methods like `_.forIn`.
  *
@@ -10054,266 +6292,7 @@ function createBaseFor(fromRight) {
 
 module.exports = createBaseFor;
 
-},{}],170:[function(require,module,exports){
-var arraySome = require('./_arraySome');
-
-/** Used to compose bitmasks for comparison styles. */
-var UNORDERED_COMPARE_FLAG = 1,
-    PARTIAL_COMPARE_FLAG = 2;
-
-/**
- * A specialized version of `baseIsEqualDeep` for arrays with support for
- * partial deep comparisons.
- *
- * @private
- * @param {Array} array The array to compare.
- * @param {Array} other The other array to compare.
- * @param {Function} equalFunc The function to determine equivalents of values.
- * @param {Function} customizer The function to customize comparisons.
- * @param {number} bitmask The bitmask of comparison flags. See `baseIsEqual` for more details.
- * @param {Object} stack Tracks traversed `array` and `other` objects.
- * @returns {boolean} Returns `true` if the arrays are equivalent, else `false`.
- */
-function equalArrays(array, other, equalFunc, customizer, bitmask, stack) {
-  var index = -1,
-      isPartial = bitmask & PARTIAL_COMPARE_FLAG,
-      isUnordered = bitmask & UNORDERED_COMPARE_FLAG,
-      arrLength = array.length,
-      othLength = other.length;
-
-  if (arrLength != othLength && !(isPartial && othLength > arrLength)) {
-    return false;
-  }
-  // Assume cyclic values are equal.
-  var stacked = stack.get(array);
-  if (stacked) {
-    return stacked == other;
-  }
-  var result = true;
-  stack.set(array, other);
-
-  // Ignore non-index properties.
-  while (++index < arrLength) {
-    var arrValue = array[index],
-        othValue = other[index];
-
-    if (customizer) {
-      var compared = isPartial
-        ? customizer(othValue, arrValue, index, other, array, stack)
-        : customizer(arrValue, othValue, index, array, other, stack);
-    }
-    if (compared !== undefined) {
-      if (compared) {
-        continue;
-      }
-      result = false;
-      break;
-    }
-    // Recursively compare arrays (susceptible to call stack limits).
-    if (isUnordered) {
-      if (!arraySome(other, function(othValue) {
-            return arrValue === othValue || equalFunc(arrValue, othValue, customizer, bitmask, stack);
-          })) {
-        result = false;
-        break;
-      }
-    } else if (!(arrValue === othValue || equalFunc(arrValue, othValue, customizer, bitmask, stack))) {
-      result = false;
-      break;
-    }
-  }
-  stack['delete'](array);
-  return result;
-}
-
-module.exports = equalArrays;
-
-},{"./_arraySome":112}],171:[function(require,module,exports){
-var Symbol = require('./_Symbol'),
-    Uint8Array = require('./_Uint8Array'),
-    equalArrays = require('./_equalArrays'),
-    mapToArray = require('./_mapToArray'),
-    setToArray = require('./_setToArray');
-
-/** Used to compose bitmasks for comparison styles. */
-var UNORDERED_COMPARE_FLAG = 1,
-    PARTIAL_COMPARE_FLAG = 2;
-
-/** `Object#toString` result references. */
-var boolTag = '[object Boolean]',
-    dateTag = '[object Date]',
-    errorTag = '[object Error]',
-    mapTag = '[object Map]',
-    numberTag = '[object Number]',
-    regexpTag = '[object RegExp]',
-    setTag = '[object Set]',
-    stringTag = '[object String]',
-    symbolTag = '[object Symbol]';
-
-var arrayBufferTag = '[object ArrayBuffer]';
-
-/** Used to convert symbols to primitives and strings. */
-var symbolProto = Symbol ? Symbol.prototype : undefined,
-    symbolValueOf = symbolProto ? symbolProto.valueOf : undefined;
-
-/**
- * A specialized version of `baseIsEqualDeep` for comparing objects of
- * the same `toStringTag`.
- *
- * **Note:** This function only supports comparing values with tags of
- * `Boolean`, `Date`, `Error`, `Number`, `RegExp`, or `String`.
- *
- * @private
- * @param {Object} object The object to compare.
- * @param {Object} other The other object to compare.
- * @param {string} tag The `toStringTag` of the objects to compare.
- * @param {Function} equalFunc The function to determine equivalents of values.
- * @param {Function} customizer The function to customize comparisons.
- * @param {number} bitmask The bitmask of comparison flags. See `baseIsEqual` for more details.
- * @param {Object} stack Tracks traversed `object` and `other` objects.
- * @returns {boolean} Returns `true` if the objects are equivalent, else `false`.
- */
-function equalByTag(object, other, tag, equalFunc, customizer, bitmask, stack) {
-  switch (tag) {
-    case arrayBufferTag:
-      if ((object.byteLength != other.byteLength) ||
-          !equalFunc(new Uint8Array(object), new Uint8Array(other))) {
-        return false;
-      }
-      return true;
-
-    case boolTag:
-    case dateTag:
-      // Coerce dates and booleans to numbers, dates to milliseconds and booleans
-      // to `1` or `0` treating invalid dates coerced to `NaN` as not equal.
-      return +object == +other;
-
-    case errorTag:
-      return object.name == other.name && object.message == other.message;
-
-    case numberTag:
-      // Treat `NaN` vs. `NaN` as equal.
-      return (object != +object) ? other != +other : object == +other;
-
-    case regexpTag:
-    case stringTag:
-      // Coerce regexes to strings and treat strings primitives and string
-      // objects as equal. See https://es5.github.io/#x15.10.6.4 for more details.
-      return object == (other + '');
-
-    case mapTag:
-      var convert = mapToArray;
-
-    case setTag:
-      var isPartial = bitmask & PARTIAL_COMPARE_FLAG;
-      convert || (convert = setToArray);
-
-      if (object.size != other.size && !isPartial) {
-        return false;
-      }
-      // Assume cyclic values are equal.
-      var stacked = stack.get(object);
-      if (stacked) {
-        return stacked == other;
-      }
-      // Recursively compare objects (susceptible to call stack limits).
-      return equalArrays(convert(object), convert(other), equalFunc, customizer, bitmask | UNORDERED_COMPARE_FLAG, stack.set(object, other));
-
-    case symbolTag:
-      if (symbolValueOf) {
-        return symbolValueOf.call(object) == symbolValueOf.call(other);
-      }
-  }
-  return false;
-}
-
-module.exports = equalByTag;
-
-},{"./_Symbol":100,"./_Uint8Array":101,"./_equalArrays":170,"./_mapToArray":201,"./_setToArray":206}],172:[function(require,module,exports){
-var baseHas = require('./_baseHas'),
-    keys = require('./keys');
-
-/** Used to compose bitmasks for comparison styles. */
-var PARTIAL_COMPARE_FLAG = 2;
-
-/**
- * A specialized version of `baseIsEqualDeep` for objects with support for
- * partial deep comparisons.
- *
- * @private
- * @param {Object} object The object to compare.
- * @param {Object} other The other object to compare.
- * @param {Function} equalFunc The function to determine equivalents of values.
- * @param {Function} customizer The function to customize comparisons.
- * @param {number} bitmask The bitmask of comparison flags. See `baseIsEqual` for more details.
- * @param {Object} stack Tracks traversed `object` and `other` objects.
- * @returns {boolean} Returns `true` if the objects are equivalent, else `false`.
- */
-function equalObjects(object, other, equalFunc, customizer, bitmask, stack) {
-  var isPartial = bitmask & PARTIAL_COMPARE_FLAG,
-      objProps = keys(object),
-      objLength = objProps.length,
-      othProps = keys(other),
-      othLength = othProps.length;
-
-  if (objLength != othLength && !isPartial) {
-    return false;
-  }
-  var index = objLength;
-  while (index--) {
-    var key = objProps[index];
-    if (!(isPartial ? key in other : baseHas(other, key))) {
-      return false;
-    }
-  }
-  // Assume cyclic values are equal.
-  var stacked = stack.get(object);
-  if (stacked) {
-    return stacked == other;
-  }
-  var result = true;
-  stack.set(object, other);
-
-  var skipCtor = isPartial;
-  while (++index < objLength) {
-    key = objProps[index];
-    var objValue = object[key],
-        othValue = other[key];
-
-    if (customizer) {
-      var compared = isPartial
-        ? customizer(othValue, objValue, key, other, object, stack)
-        : customizer(objValue, othValue, key, object, other, stack);
-    }
-    // Recursively compare objects (susceptible to call stack limits).
-    if (!(compared === undefined
-          ? (objValue === othValue || equalFunc(objValue, othValue, customizer, bitmask, stack))
-          : compared
-        )) {
-      result = false;
-      break;
-    }
-    skipCtor || (skipCtor = key == 'constructor');
-  }
-  if (result && !skipCtor) {
-    var objCtor = object.constructor,
-        othCtor = other.constructor;
-
-    // Non `Object` object instances with different constructors are not equal.
-    if (objCtor != othCtor &&
-        ('constructor' in object && 'constructor' in other) &&
-        !(typeof objCtor == 'function' && objCtor instanceof objCtor &&
-          typeof othCtor == 'function' && othCtor instanceof othCtor)) {
-      result = false;
-    }
-  }
-  stack['delete'](object);
-  return result;
-}
-
-module.exports = equalObjects;
-
-},{"./_baseHas":132,"./keys":244}],173:[function(require,module,exports){
+},{}],132:[function(require,module,exports){
 var baseProperty = require('./_baseProperty');
 
 /**
@@ -10330,30 +6309,7 @@ var getLength = baseProperty('length');
 
 module.exports = getLength;
 
-},{"./_baseProperty":146}],174:[function(require,module,exports){
-var isStrictComparable = require('./_isStrictComparable'),
-    toPairs = require('./toPairs');
-
-/**
- * Gets the property names, values, and compare flags of `object`.
- *
- * @private
- * @param {Object} object The object to query.
- * @returns {Array} Returns the match data of `object`.
- */
-function getMatchData(object) {
-  var result = toPairs(object),
-      length = result.length;
-
-  while (length--) {
-    result[length][2] = isStrictComparable(result[length][1]);
-  }
-  return result;
-}
-
-module.exports = getMatchData;
-
-},{"./_isStrictComparable":194,"./toPairs":255}],175:[function(require,module,exports){
+},{"./_baseProperty":115}],133:[function(require,module,exports){
 var isNative = require('./isNative');
 
 /**
@@ -10371,7 +6327,7 @@ function getNative(object, key) {
 
 module.exports = getNative;
 
-},{"./isNative":235}],176:[function(require,module,exports){
+},{"./isNative":179}],134:[function(require,module,exports){
 /** Built-in value references. */
 var getOwnPropertySymbols = Object.getOwnPropertySymbols;
 
@@ -10388,7 +6344,7 @@ var getSymbols = getOwnPropertySymbols || function() {
 
 module.exports = getSymbols;
 
-},{}],177:[function(require,module,exports){
+},{}],135:[function(require,module,exports){
 var Map = require('./_Map'),
     Set = require('./_Set'),
     WeakMap = require('./_WeakMap');
@@ -10449,49 +6405,7 @@ if ((Map && getTag(new Map) != mapTag) ||
 
 module.exports = getTag;
 
-},{"./_Map":94,"./_Set":97,"./_WeakMap":102}],178:[function(require,module,exports){
-var baseCastPath = require('./_baseCastPath'),
-    isArguments = require('./isArguments'),
-    isArray = require('./isArray'),
-    isIndex = require('./_isIndex'),
-    isKey = require('./_isKey'),
-    isLength = require('./isLength'),
-    isString = require('./isString'),
-    last = require('./last'),
-    parent = require('./_parent');
-
-/**
- * Checks if `path` exists on `object`.
- *
- * @private
- * @param {Object} object The object to query.
- * @param {Array|string} path The path to check.
- * @param {Function} hasFunc The function to check properties.
- * @returns {boolean} Returns `true` if `path` exists, else `false`.
- */
-function hasPath(object, path, hasFunc) {
-  if (object == null) {
-    return false;
-  }
-  var result = hasFunc(object, path);
-  if (!result && !isKey(path)) {
-    path = baseCastPath(path);
-    object = parent(object, path);
-    if (object != null) {
-      path = last(path);
-      result = hasFunc(object, path);
-    }
-  }
-  var length = object ? object.length : undefined;
-  return result || (
-    !!length && isLength(length) && isIndex(path, length) &&
-    (isArray(object) || isString(object) || isArguments(object))
-  );
-}
-
-module.exports = hasPath;
-
-},{"./_baseCastPath":123,"./_isIndex":189,"./_isKey":191,"./_parent":204,"./isArguments":226,"./isArray":227,"./isLength":234,"./isString":240,"./last":246}],179:[function(require,module,exports){
+},{"./_Map":81,"./_Set":84,"./_WeakMap":88}],136:[function(require,module,exports){
 var hashHas = require('./_hashHas');
 
 /**
@@ -10508,7 +6422,7 @@ function hashDelete(hash, key) {
 
 module.exports = hashDelete;
 
-},{"./_hashHas":181}],180:[function(require,module,exports){
+},{"./_hashHas":138}],137:[function(require,module,exports){
 var nativeCreate = require('./_nativeCreate');
 
 /** Used to stand-in for `undefined` hash values. */
@@ -10538,7 +6452,7 @@ function hashGet(hash, key) {
 
 module.exports = hashGet;
 
-},{"./_nativeCreate":203}],181:[function(require,module,exports){
+},{"./_nativeCreate":156}],138:[function(require,module,exports){
 var nativeCreate = require('./_nativeCreate');
 
 /** Used for built-in method references. */
@@ -10561,7 +6475,7 @@ function hashHas(hash, key) {
 
 module.exports = hashHas;
 
-},{"./_nativeCreate":203}],182:[function(require,module,exports){
+},{"./_nativeCreate":156}],139:[function(require,module,exports){
 var nativeCreate = require('./_nativeCreate');
 
 /** Used to stand-in for `undefined` hash values. */
@@ -10581,7 +6495,7 @@ function hashSet(hash, key, value) {
 
 module.exports = hashSet;
 
-},{"./_nativeCreate":203}],183:[function(require,module,exports){
+},{"./_nativeCreate":156}],140:[function(require,module,exports){
 var baseTimes = require('./_baseTimes'),
     isArguments = require('./isArguments'),
     isArray = require('./isArray'),
@@ -10607,32 +6521,7 @@ function indexKeys(object) {
 
 module.exports = indexKeys;
 
-},{"./_baseTimes":150,"./isArguments":226,"./isArray":227,"./isLength":234,"./isString":240}],184:[function(require,module,exports){
-/**
- * Gets the index at which the first occurrence of `NaN` is found in `array`.
- *
- * @private
- * @param {Array} array The array to search.
- * @param {number} fromIndex The index to search from.
- * @param {boolean} [fromRight] Specify iterating from right to left.
- * @returns {number} Returns the index of the matched `NaN`, else `-1`.
- */
-function indexOfNaN(array, fromIndex, fromRight) {
-  var length = array.length,
-      index = fromIndex + (fromRight ? 0 : -1);
-
-  while ((fromRight ? index-- : ++index < length)) {
-    var other = array[index];
-    if (other !== other) {
-      return index;
-    }
-  }
-  return -1;
-}
-
-module.exports = indexOfNaN;
-
-},{}],185:[function(require,module,exports){
+},{"./_baseTimes":116,"./isArguments":171,"./isArray":172,"./isLength":178,"./isString":184}],141:[function(require,module,exports){
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
 
@@ -10660,7 +6549,7 @@ function initCloneArray(array) {
 
 module.exports = initCloneArray;
 
-},{}],186:[function(require,module,exports){
+},{}],142:[function(require,module,exports){
 var cloneArrayBuffer = require('./_cloneArrayBuffer'),
     cloneMap = require('./_cloneMap'),
     cloneRegExp = require('./_cloneRegExp'),
@@ -10736,7 +6625,7 @@ function initCloneByTag(object, tag, isDeep) {
 
 module.exports = initCloneByTag;
 
-},{"./_cloneArrayBuffer":156,"./_cloneMap":158,"./_cloneRegExp":159,"./_cloneSet":160,"./_cloneSymbol":161,"./_cloneTypedArray":162}],187:[function(require,module,exports){
+},{"./_cloneArrayBuffer":118,"./_cloneMap":120,"./_cloneRegExp":121,"./_cloneSet":122,"./_cloneSymbol":123,"./_cloneTypedArray":124}],143:[function(require,module,exports){
 var baseCreate = require('./_baseCreate'),
     isPrototype = require('./_isPrototype');
 
@@ -10758,7 +6647,7 @@ function initCloneObject(object) {
 
 module.exports = initCloneObject;
 
-},{"./_baseCreate":125,"./_isPrototype":193}],188:[function(require,module,exports){
+},{"./_baseCreate":105,"./_isPrototype":148}],144:[function(require,module,exports){
 /**
  * Checks if `value` is a host object in IE < 9.
  *
@@ -10780,7 +6669,7 @@ function isHostObject(value) {
 
 module.exports = isHostObject;
 
-},{}],189:[function(require,module,exports){
+},{}],145:[function(require,module,exports){
 /** Used as references for various `Number` constants. */
 var MAX_SAFE_INTEGER = 9007199254740991;
 
@@ -10803,7 +6692,7 @@ function isIndex(value, length) {
 
 module.exports = isIndex;
 
-},{}],190:[function(require,module,exports){
+},{}],146:[function(require,module,exports){
 var eq = require('./eq'),
     isArrayLike = require('./isArrayLike'),
     isIndex = require('./_isIndex'),
@@ -10833,33 +6722,7 @@ function isIterateeCall(value, index, object) {
 
 module.exports = isIterateeCall;
 
-},{"./_isIndex":189,"./eq":220,"./isArrayLike":228,"./isObject":237}],191:[function(require,module,exports){
-var isArray = require('./isArray');
-
-/** Used to match property names within property paths. */
-var reIsDeepProp = /\.|\[(?:[^[\]]*|(["'])(?:(?!\1)[^\\]|\\.)*?\1)\]/,
-    reIsPlainProp = /^\w*$/;
-
-/**
- * Checks if `value` is a property name and not a property path.
- *
- * @private
- * @param {*} value The value to check.
- * @param {Object} [object] The object to query keys on.
- * @returns {boolean} Returns `true` if `value` is a property name, else `false`.
- */
-function isKey(value, object) {
-  if (typeof value == 'number') {
-    return true;
-  }
-  return !isArray(value) &&
-    (reIsPlainProp.test(value) || !reIsDeepProp.test(value) ||
-      (object != null && value in Object(object)));
-}
-
-module.exports = isKey;
-
-},{"./isArray":227}],192:[function(require,module,exports){
+},{"./_isIndex":145,"./eq":167,"./isArrayLike":173,"./isObject":181}],147:[function(require,module,exports){
 /**
  * Checks if `value` is suitable for use as unique object key.
  *
@@ -10875,7 +6738,7 @@ function isKeyable(value) {
 
 module.exports = isKeyable;
 
-},{}],193:[function(require,module,exports){
+},{}],148:[function(require,module,exports){
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
 
@@ -10895,24 +6758,7 @@ function isPrototype(value) {
 
 module.exports = isPrototype;
 
-},{}],194:[function(require,module,exports){
-var isObject = require('./isObject');
-
-/**
- * Checks if `value` is suitable for strict equality comparisons, i.e. `===`.
- *
- * @private
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` if suitable for strict
- *  equality comparisons, else `false`.
- */
-function isStrictComparable(value) {
-  return value === value && !isObject(value);
-}
-
-module.exports = isStrictComparable;
-
-},{"./isObject":237}],195:[function(require,module,exports){
+},{}],149:[function(require,module,exports){
 /**
  * Converts `iterator` to an array.
  *
@@ -10932,7 +6778,7 @@ function iteratorToArray(iterator) {
 
 module.exports = iteratorToArray;
 
-},{}],196:[function(require,module,exports){
+},{}],150:[function(require,module,exports){
 var Hash = require('./_Hash'),
     Map = require('./_Map');
 
@@ -10953,7 +6799,7 @@ function mapClear() {
 
 module.exports = mapClear;
 
-},{"./_Hash":93,"./_Map":94}],197:[function(require,module,exports){
+},{"./_Hash":80,"./_Map":81}],151:[function(require,module,exports){
 var Map = require('./_Map'),
     assocDelete = require('./_assocDelete'),
     hashDelete = require('./_hashDelete'),
@@ -10978,7 +6824,7 @@ function mapDelete(key) {
 
 module.exports = mapDelete;
 
-},{"./_Map":94,"./_assocDelete":116,"./_hashDelete":179,"./_isKeyable":192}],198:[function(require,module,exports){
+},{"./_Map":81,"./_assocDelete":97,"./_hashDelete":136,"./_isKeyable":147}],152:[function(require,module,exports){
 var Map = require('./_Map'),
     assocGet = require('./_assocGet'),
     hashGet = require('./_hashGet'),
@@ -11003,7 +6849,7 @@ function mapGet(key) {
 
 module.exports = mapGet;
 
-},{"./_Map":94,"./_assocGet":117,"./_hashGet":180,"./_isKeyable":192}],199:[function(require,module,exports){
+},{"./_Map":81,"./_assocGet":98,"./_hashGet":137,"./_isKeyable":147}],153:[function(require,module,exports){
 var Map = require('./_Map'),
     assocHas = require('./_assocHas'),
     hashHas = require('./_hashHas'),
@@ -11028,7 +6874,7 @@ function mapHas(key) {
 
 module.exports = mapHas;
 
-},{"./_Map":94,"./_assocHas":118,"./_hashHas":181,"./_isKeyable":192}],200:[function(require,module,exports){
+},{"./_Map":81,"./_assocHas":99,"./_hashHas":138,"./_isKeyable":147}],154:[function(require,module,exports){
 var Map = require('./_Map'),
     assocSet = require('./_assocSet'),
     hashSet = require('./_hashSet'),
@@ -11058,7 +6904,7 @@ function mapSet(key, value) {
 
 module.exports = mapSet;
 
-},{"./_Map":94,"./_assocSet":120,"./_hashSet":182,"./_isKeyable":192}],201:[function(require,module,exports){
+},{"./_Map":81,"./_assocSet":101,"./_hashSet":139,"./_isKeyable":147}],155:[function(require,module,exports){
 /**
  * Converts `map` to an array.
  *
@@ -11078,32 +6924,7 @@ function mapToArray(map) {
 
 module.exports = mapToArray;
 
-},{}],202:[function(require,module,exports){
-var baseMerge = require('./_baseMerge'),
-    isObject = require('./isObject');
-
-/**
- * Used by `_.defaultsDeep` to customize its `_.merge` use.
- *
- * @private
- * @param {*} objValue The destination value.
- * @param {*} srcValue The source value.
- * @param {string} key The key of the property to merge.
- * @param {Object} object The parent object of `objValue`.
- * @param {Object} source The parent object of `srcValue`.
- * @param {Object} [stack] Tracks traversed source values and their merged counterparts.
- * @returns {*} Returns the value to assign.
- */
-function mergeDefaults(objValue, srcValue, key, object, source, stack) {
-  if (isObject(objValue) && isObject(srcValue)) {
-    baseMerge(objValue, srcValue, undefined, mergeDefaults, stack.set(srcValue, objValue));
-  }
-  return objValue;
-}
-
-module.exports = mergeDefaults;
-
-},{"./_baseMerge":144,"./isObject":237}],203:[function(require,module,exports){
+},{}],156:[function(require,module,exports){
 var getNative = require('./_getNative');
 
 /* Built-in method references that are verified to be native. */
@@ -11111,25 +6932,7 @@ var nativeCreate = getNative(Object, 'create');
 
 module.exports = nativeCreate;
 
-},{"./_getNative":175}],204:[function(require,module,exports){
-var baseSlice = require('./_baseSlice'),
-    get = require('./get');
-
-/**
- * Gets the parent value at `path` of `object`.
- *
- * @private
- * @param {Object} object The object to query.
- * @param {Array} path The path to get the parent value of.
- * @returns {*} Returns the parent value.
- */
-function parent(object, path) {
-  return path.length == 1 ? object : get(object, baseSlice(path, 0, -1));
-}
-
-module.exports = parent;
-
-},{"./_baseSlice":149,"./get":222}],205:[function(require,module,exports){
+},{"./_getNative":133}],157:[function(require,module,exports){
 (function (global){
 var checkGlobal = require('./_checkGlobal');
 
@@ -11174,7 +6977,7 @@ var root = freeGlobal ||
 module.exports = root;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./_checkGlobal":155}],206:[function(require,module,exports){
+},{"./_checkGlobal":117}],158:[function(require,module,exports){
 /**
  * Converts `set` to an array.
  *
@@ -11194,7 +6997,7 @@ function setToArray(set) {
 
 module.exports = setToArray;
 
-},{}],207:[function(require,module,exports){
+},{}],159:[function(require,module,exports){
 /**
  * Removes all key-value entries from the stack.
  *
@@ -11208,7 +7011,7 @@ function stackClear() {
 
 module.exports = stackClear;
 
-},{}],208:[function(require,module,exports){
+},{}],160:[function(require,module,exports){
 var assocDelete = require('./_assocDelete');
 
 /**
@@ -11229,7 +7032,7 @@ function stackDelete(key) {
 
 module.exports = stackDelete;
 
-},{"./_assocDelete":116}],209:[function(require,module,exports){
+},{"./_assocDelete":97}],161:[function(require,module,exports){
 var assocGet = require('./_assocGet');
 
 /**
@@ -11250,7 +7053,7 @@ function stackGet(key) {
 
 module.exports = stackGet;
 
-},{"./_assocGet":117}],210:[function(require,module,exports){
+},{"./_assocGet":98}],162:[function(require,module,exports){
 var assocHas = require('./_assocHas');
 
 /**
@@ -11271,7 +7074,7 @@ function stackHas(key) {
 
 module.exports = stackHas;
 
-},{"./_assocHas":118}],211:[function(require,module,exports){
+},{"./_assocHas":99}],163:[function(require,module,exports){
 var MapCache = require('./_MapCache'),
     assocSet = require('./_assocSet');
 
@@ -11309,33 +7112,7 @@ function stackSet(key, value) {
 
 module.exports = stackSet;
 
-},{"./_MapCache":95,"./_assocSet":120}],212:[function(require,module,exports){
-var toString = require('./toString');
-
-/** Used to match property names within property paths. */
-var rePropName = /[^.[\]]+|\[(?:(-?\d+(?:\.\d+)?)|(["'])((?:(?!\2)[^\\]|\\.)*?)\2)\]/g;
-
-/** Used to match backslashes in property paths. */
-var reEscapeChar = /\\(\\)?/g;
-
-/**
- * Converts `string` to a property path array.
- *
- * @private
- * @param {string} string The string to convert.
- * @returns {Array} Returns the property path array.
- */
-function stringToPath(string) {
-  var result = [];
-  toString(string).replace(rePropName, function(match, number, quote, string) {
-    result.push(quote ? string.replace(reEscapeChar, '$1') : (number || match));
-  });
-  return result;
-}
-
-module.exports = stringToPath;
-
-},{"./toString":257}],213:[function(require,module,exports){
+},{"./_MapCache":82,"./_assocSet":101}],164:[function(require,module,exports){
 var copyObjectWith = require('./_copyObjectWith'),
     createAssigner = require('./_createAssigner'),
     keysIn = require('./keysIn');
@@ -11373,40 +7150,7 @@ var assignInWith = createAssigner(function(object, source, srcIndex, customizer)
 
 module.exports = assignInWith;
 
-},{"./_copyObjectWith":165,"./_createAssigner":167,"./keysIn":245}],214:[function(require,module,exports){
-var baseClone = require('./_baseClone');
-
-/**
- * Creates a shallow clone of `value`.
- *
- * **Note:** This method is loosely based on the
- * [structured clone algorithm](https://mdn.io/Structured_clone_algorithm)
- * and supports cloning arrays, array buffers, booleans, date objects, maps,
- * numbers, `Object` objects, regexes, sets, strings, symbols, and typed
- * arrays. The own enumerable properties of `arguments` objects are cloned
- * as plain objects. An empty object is returned for uncloneable values such
- * as error objects, functions, DOM nodes, and WeakMaps.
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to clone.
- * @returns {*} Returns the cloned value.
- * @example
- *
- * var objects = [{ 'a': 1 }, { 'b': 2 }];
- *
- * var shallow = _.clone(objects);
- * console.log(shallow[0] === objects[0]);
- * // => true
- */
-function clone(value) {
-  return baseClone(value, false, true);
-}
-
-module.exports = clone;
-
-},{"./_baseClone":124}],215:[function(require,module,exports){
+},{"./_copyObjectWith":127,"./_createAssigner":129,"./keysIn":188}],165:[function(require,module,exports){
 /**
  * Creates a function that returns `value`.
  *
@@ -11431,186 +7175,7 @@ function constant(value) {
 
 module.exports = constant;
 
-},{}],216:[function(require,module,exports){
-var isObject = require('./isObject'),
-    now = require('./now'),
-    toNumber = require('./toNumber');
-
-/** Used as the `TypeError` message for "Functions" methods. */
-var FUNC_ERROR_TEXT = 'Expected a function';
-
-/* Built-in method references for those with the same name as other `lodash` methods. */
-var nativeMax = Math.max;
-
-/**
- * Creates a debounced function that delays invoking `func` until after `wait`
- * milliseconds have elapsed since the last time the debounced function was
- * invoked. The debounced function comes with a `cancel` method to cancel
- * delayed `func` invocations and a `flush` method to immediately invoke them.
- * Provide an options object to indicate whether `func` should be invoked on
- * the leading and/or trailing edge of the `wait` timeout. The `func` is invoked
- * with the last arguments provided to the debounced function. Subsequent calls
- * to the debounced function return the result of the last `func` invocation.
- *
- * **Note:** If `leading` and `trailing` options are `true`, `func` is invoked
- * on the trailing edge of the timeout only if the debounced function is
- * invoked more than once during the `wait` timeout.
- *
- * See [David Corbacho's article](http://drupalmotion.com/article/debounce-and-throttle-visual-explanation)
- * for details over the differences between `_.debounce` and `_.throttle`.
- *
- * @static
- * @memberOf _
- * @category Function
- * @param {Function} func The function to debounce.
- * @param {number} [wait=0] The number of milliseconds to delay.
- * @param {Object} [options] The options object.
- * @param {boolean} [options.leading=false] Specify invoking on the leading
- *  edge of the timeout.
- * @param {number} [options.maxWait] The maximum time `func` is allowed to be
- *  delayed before it's invoked.
- * @param {boolean} [options.trailing=true] Specify invoking on the trailing
- *  edge of the timeout.
- * @returns {Function} Returns the new debounced function.
- * @example
- *
- * // Avoid costly calculations while the window size is in flux.
- * jQuery(window).on('resize', _.debounce(calculateLayout, 150));
- *
- * // Invoke `sendMail` when clicked, debouncing subsequent calls.
- * jQuery(element).on('click', _.debounce(sendMail, 300, {
- *   'leading': true,
- *   'trailing': false
- * }));
- *
- * // Ensure `batchLog` is invoked once after 1 second of debounced calls.
- * var debounced = _.debounce(batchLog, 250, { 'maxWait': 1000 });
- * var source = new EventSource('/stream');
- * jQuery(source).on('message', debounced);
- *
- * // Cancel the trailing debounced invocation.
- * jQuery(window).on('popstate', debounced.cancel);
- */
-function debounce(func, wait, options) {
-  var args,
-      maxTimeoutId,
-      result,
-      stamp,
-      thisArg,
-      timeoutId,
-      trailingCall,
-      lastCalled = 0,
-      leading = false,
-      maxWait = false,
-      trailing = true;
-
-  if (typeof func != 'function') {
-    throw new TypeError(FUNC_ERROR_TEXT);
-  }
-  wait = toNumber(wait) || 0;
-  if (isObject(options)) {
-    leading = !!options.leading;
-    maxWait = 'maxWait' in options && nativeMax(toNumber(options.maxWait) || 0, wait);
-    trailing = 'trailing' in options ? !!options.trailing : trailing;
-  }
-
-  function cancel() {
-    if (timeoutId) {
-      clearTimeout(timeoutId);
-    }
-    if (maxTimeoutId) {
-      clearTimeout(maxTimeoutId);
-    }
-    lastCalled = 0;
-    args = maxTimeoutId = thisArg = timeoutId = trailingCall = undefined;
-  }
-
-  function complete(isCalled, id) {
-    if (id) {
-      clearTimeout(id);
-    }
-    maxTimeoutId = timeoutId = trailingCall = undefined;
-    if (isCalled) {
-      lastCalled = now();
-      result = func.apply(thisArg, args);
-      if (!timeoutId && !maxTimeoutId) {
-        args = thisArg = undefined;
-      }
-    }
-  }
-
-  function delayed() {
-    var remaining = wait - (now() - stamp);
-    if (remaining <= 0 || remaining > wait) {
-      complete(trailingCall, maxTimeoutId);
-    } else {
-      timeoutId = setTimeout(delayed, remaining);
-    }
-  }
-
-  function flush() {
-    if ((timeoutId && trailingCall) || (maxTimeoutId && trailing)) {
-      result = func.apply(thisArg, args);
-    }
-    cancel();
-    return result;
-  }
-
-  function maxDelayed() {
-    complete(trailing, timeoutId);
-  }
-
-  function debounced() {
-    args = arguments;
-    stamp = now();
-    thisArg = this;
-    trailingCall = trailing && (timeoutId || !leading);
-
-    if (maxWait === false) {
-      var leadingCall = leading && !timeoutId;
-    } else {
-      if (!lastCalled && !maxTimeoutId && !leading) {
-        lastCalled = stamp;
-      }
-      var remaining = maxWait - (stamp - lastCalled);
-
-      var isCalled = (remaining <= 0 || remaining > maxWait) &&
-        (leading || maxTimeoutId);
-
-      if (isCalled) {
-        if (maxTimeoutId) {
-          maxTimeoutId = clearTimeout(maxTimeoutId);
-        }
-        lastCalled = stamp;
-        result = func.apply(thisArg, args);
-      }
-      else if (!maxTimeoutId) {
-        maxTimeoutId = setTimeout(maxDelayed, remaining);
-      }
-    }
-    if (isCalled && timeoutId) {
-      timeoutId = clearTimeout(timeoutId);
-    }
-    else if (!timeoutId && wait !== maxWait) {
-      timeoutId = setTimeout(delayed, wait);
-    }
-    if (leadingCall) {
-      isCalled = true;
-      result = func.apply(thisArg, args);
-    }
-    if (isCalled && !timeoutId && !maxTimeoutId) {
-      args = thisArg = undefined;
-    }
-    return result;
-  }
-  debounced.cancel = cancel;
-  debounced.flush = flush;
-  return debounced;
-}
-
-module.exports = debounce;
-
-},{"./isObject":237,"./now":249,"./toNumber":254}],217:[function(require,module,exports){
+},{}],166:[function(require,module,exports){
 var apply = require('./_apply'),
     assignInDefaults = require('./_assignInDefaults'),
     assignInWith = require('./assignInWith'),
@@ -11642,69 +7207,7 @@ var defaults = rest(function(args) {
 
 module.exports = defaults;
 
-},{"./_apply":105,"./_assignInDefaults":113,"./assignInWith":213,"./rest":252}],218:[function(require,module,exports){
-var apply = require('./_apply'),
-    mergeDefaults = require('./_mergeDefaults'),
-    mergeWith = require('./mergeWith'),
-    rest = require('./rest');
-
-/**
- * This method is like `_.defaults` except that it recursively assigns
- * default properties.
- *
- * **Note:** This method mutates `object`.
- *
- * @static
- * @memberOf _
- * @category Object
- * @param {Object} object The destination object.
- * @param {...Object} [sources] The source objects.
- * @returns {Object} Returns `object`.
- * @example
- *
- * _.defaultsDeep({ 'user': { 'name': 'barney' } }, { 'user': { 'name': 'fred', 'age': 36 } });
- * // => { 'user': { 'name': 'barney', 'age': 36 } }
- *
- */
-var defaultsDeep = rest(function(args) {
-  args.push(undefined, mergeDefaults);
-  return apply(mergeWith, undefined, args);
-});
-
-module.exports = defaultsDeep;
-
-},{"./_apply":105,"./_mergeDefaults":202,"./mergeWith":248,"./rest":252}],219:[function(require,module,exports){
-var baseDifference = require('./_baseDifference'),
-    baseFlatten = require('./_baseFlatten'),
-    isArrayLikeObject = require('./isArrayLikeObject'),
-    rest = require('./rest');
-
-/**
- * Creates an array of unique `array` values not included in the other
- * given arrays using [`SameValueZero`](http://ecma-international.org/ecma-262/6.0/#sec-samevaluezero)
- * for equality comparisons. The order of result values is determined by the
- * order they occur in the first array.
- *
- * @static
- * @memberOf _
- * @category Array
- * @param {Array} array The array to inspect.
- * @param {...Array} [values] The values to exclude.
- * @returns {Array} Returns the new array of filtered values.
- * @example
- *
- * _.difference([3, 2, 1], [4, 2]);
- * // => [3, 1]
- */
-var difference = rest(function(array, values) {
-  return isArrayLikeObject(array)
-    ? baseDifference(array, baseFlatten(values, 1, true))
-    : [];
-});
-
-module.exports = difference;
-
-},{"./_baseDifference":126,"./_baseFlatten":128,"./isArrayLikeObject":229,"./rest":252}],220:[function(require,module,exports){
+},{"./_apply":91,"./_assignInDefaults":94,"./assignInWith":164,"./rest":190}],167:[function(require,module,exports){
 /**
  * Performs a [`SameValueZero`](http://ecma-international.org/ecma-262/6.0/#sec-samevaluezero)
  * comparison between two values to determine if they are equivalent.
@@ -11741,7 +7244,7 @@ function eq(value, other) {
 
 module.exports = eq;
 
-},{}],221:[function(require,module,exports){
+},{}],168:[function(require,module,exports){
 var arrayEach = require('./_arrayEach'),
     baseCastFunction = require('./_baseCastFunction'),
     baseEach = require('./_baseEach'),
@@ -11783,76 +7286,7 @@ function forEach(collection, iteratee) {
 
 module.exports = forEach;
 
-},{"./_arrayEach":106,"./_baseCastFunction":122,"./_baseEach":127,"./isArray":227}],222:[function(require,module,exports){
-var baseGet = require('./_baseGet');
-
-/**
- * Gets the value at `path` of `object`. If the resolved value is
- * `undefined` the `defaultValue` is used in its place.
- *
- * @static
- * @memberOf _
- * @category Object
- * @param {Object} object The object to query.
- * @param {Array|string} path The path of the property to get.
- * @param {*} [defaultValue] The value returned if the resolved value is `undefined`.
- * @returns {*} Returns the resolved value.
- * @example
- *
- * var object = { 'a': [{ 'b': { 'c': 3 } }] };
- *
- * _.get(object, 'a[0].b.c');
- * // => 3
- *
- * _.get(object, ['a', '0', 'b', 'c']);
- * // => 3
- *
- * _.get(object, 'a.b.c', 'default');
- * // => 'default'
- */
-function get(object, path, defaultValue) {
-  var result = object == null ? undefined : baseGet(object, path);
-  return result === undefined ? defaultValue : result;
-}
-
-module.exports = get;
-
-},{"./_baseGet":131}],223:[function(require,module,exports){
-var baseHasIn = require('./_baseHasIn'),
-    hasPath = require('./_hasPath');
-
-/**
- * Checks if `path` is a direct or inherited property of `object`.
- *
- * @static
- * @memberOf _
- * @category Object
- * @param {Object} object The object to query.
- * @param {Array|string} path The path to check.
- * @returns {boolean} Returns `true` if `path` exists, else `false`.
- * @example
- *
- * var object = _.create({ 'a': _.create({ 'b': _.create({ 'c': 3 }) }) });
- *
- * _.hasIn(object, 'a');
- * // => true
- *
- * _.hasIn(object, 'a.b.c');
- * // => true
- *
- * _.hasIn(object, ['a', 'b', 'c']);
- * // => true
- *
- * _.hasIn(object, 'b');
- * // => false
- */
-function hasIn(object, path) {
-  return hasPath(object, path, baseHasIn);
-}
-
-module.exports = hasIn;
-
-},{"./_baseHasIn":133,"./_hasPath":178}],224:[function(require,module,exports){
+},{"./_arrayEach":92,"./_baseCastFunction":103,"./_baseEach":106,"./isArray":172}],169:[function(require,module,exports){
 /**
  * This method returns the first argument given to it.
  *
@@ -11874,7 +7308,7 @@ function identity(value) {
 
 module.exports = identity;
 
-},{}],225:[function(require,module,exports){
+},{}],170:[function(require,module,exports){
 var baseInRange = require('./_baseInRange'),
     toNumber = require('./toNumber');
 
@@ -11928,7 +7362,7 @@ function inRange(number, start, end) {
 
 module.exports = inRange;
 
-},{"./_baseInRange":134,"./toNumber":254}],226:[function(require,module,exports){
+},{"./_baseInRange":110,"./toNumber":192}],171:[function(require,module,exports){
 var isArrayLikeObject = require('./isArrayLikeObject');
 
 /** `Object#toString` result references. */
@@ -11973,7 +7407,7 @@ function isArguments(value) {
 
 module.exports = isArguments;
 
-},{"./isArrayLikeObject":229}],227:[function(require,module,exports){
+},{"./isArrayLikeObject":174}],172:[function(require,module,exports){
 /**
  * Checks if `value` is classified as an `Array` object.
  *
@@ -12001,7 +7435,7 @@ var isArray = Array.isArray;
 
 module.exports = isArray;
 
-},{}],228:[function(require,module,exports){
+},{}],173:[function(require,module,exports){
 var getLength = require('./_getLength'),
     isFunction = require('./isFunction'),
     isLength = require('./isLength');
@@ -12036,7 +7470,7 @@ function isArrayLike(value) {
 
 module.exports = isArrayLike;
 
-},{"./_getLength":173,"./isFunction":233,"./isLength":234}],229:[function(require,module,exports){
+},{"./_getLength":132,"./isFunction":177,"./isLength":178}],174:[function(require,module,exports){
 var isArrayLike = require('./isArrayLike'),
     isObjectLike = require('./isObjectLike');
 
@@ -12069,7 +7503,7 @@ function isArrayLikeObject(value) {
 
 module.exports = isArrayLikeObject;
 
-},{"./isArrayLike":228,"./isObjectLike":238}],230:[function(require,module,exports){
+},{"./isArrayLike":173,"./isObjectLike":182}],175:[function(require,module,exports){
 var constant = require('./constant'),
     root = require('./_root');
 
@@ -12119,33 +7553,7 @@ var isBuffer = !Buffer ? constant(false) : function(value) {
 
 module.exports = isBuffer;
 
-},{"./_root":205,"./constant":215}],231:[function(require,module,exports){
-var isObjectLike = require('./isObjectLike'),
-    isPlainObject = require('./isPlainObject');
-
-/**
- * Checks if `value` is likely a DOM element.
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a DOM element, else `false`.
- * @example
- *
- * _.isElement(document.body);
- * // => true
- *
- * _.isElement('<body>');
- * // => false
- */
-function isElement(value) {
-  return !!value && value.nodeType === 1 && isObjectLike(value) && !isPlainObject(value);
-}
-
-module.exports = isElement;
-
-},{"./isObjectLike":238,"./isPlainObject":239}],232:[function(require,module,exports){
+},{"./_root":157,"./constant":165}],176:[function(require,module,exports){
 var isArguments = require('./isArguments'),
     isArray = require('./isArray'),
     isArrayLike = require('./isArrayLike'),
@@ -12201,7 +7609,7 @@ function isEmpty(value) {
 
 module.exports = isEmpty;
 
-},{"./isArguments":226,"./isArray":227,"./isArrayLike":228,"./isFunction":233,"./isString":240}],233:[function(require,module,exports){
+},{"./isArguments":171,"./isArray":172,"./isArrayLike":173,"./isFunction":177,"./isString":184}],177:[function(require,module,exports){
 var isObject = require('./isObject');
 
 /** `Object#toString` result references. */
@@ -12243,7 +7651,7 @@ function isFunction(value) {
 
 module.exports = isFunction;
 
-},{"./isObject":237}],234:[function(require,module,exports){
+},{"./isObject":181}],178:[function(require,module,exports){
 /** Used as references for various `Number` constants. */
 var MAX_SAFE_INTEGER = 9007199254740991;
 
@@ -12278,7 +7686,7 @@ function isLength(value) {
 
 module.exports = isLength;
 
-},{}],235:[function(require,module,exports){
+},{}],179:[function(require,module,exports){
 var isFunction = require('./isFunction'),
     isHostObject = require('./_isHostObject'),
     isObjectLike = require('./isObjectLike');
@@ -12333,7 +7741,7 @@ function isNative(value) {
 
 module.exports = isNative;
 
-},{"./_isHostObject":188,"./isFunction":233,"./isObjectLike":238}],236:[function(require,module,exports){
+},{"./_isHostObject":144,"./isFunction":177,"./isObjectLike":182}],180:[function(require,module,exports){
 var isObjectLike = require('./isObjectLike');
 
 /** `Object#toString` result references. */
@@ -12380,7 +7788,7 @@ function isNumber(value) {
 
 module.exports = isNumber;
 
-},{"./isObjectLike":238}],237:[function(require,module,exports){
+},{"./isObjectLike":182}],181:[function(require,module,exports){
 /**
  * Checks if `value` is the [language type](https://es5.github.io/#x8) of `Object`.
  * (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
@@ -12411,7 +7819,7 @@ function isObject(value) {
 
 module.exports = isObject;
 
-},{}],238:[function(require,module,exports){
+},{}],182:[function(require,module,exports){
 /**
  * Checks if `value` is object-like. A value is object-like if it's not `null`
  * and has a `typeof` result of "object".
@@ -12441,7 +7849,7 @@ function isObjectLike(value) {
 
 module.exports = isObjectLike;
 
-},{}],239:[function(require,module,exports){
+},{}],183:[function(require,module,exports){
 var isHostObject = require('./_isHostObject'),
     isObjectLike = require('./isObjectLike');
 
@@ -12509,7 +7917,7 @@ function isPlainObject(value) {
 
 module.exports = isPlainObject;
 
-},{"./_isHostObject":188,"./isObjectLike":238}],240:[function(require,module,exports){
+},{"./_isHostObject":144,"./isObjectLike":182}],184:[function(require,module,exports){
 var isArray = require('./isArray'),
     isObjectLike = require('./isObjectLike');
 
@@ -12548,45 +7956,7 @@ function isString(value) {
 
 module.exports = isString;
 
-},{"./isArray":227,"./isObjectLike":238}],241:[function(require,module,exports){
-var isObjectLike = require('./isObjectLike');
-
-/** `Object#toString` result references. */
-var symbolTag = '[object Symbol]';
-
-/** Used for built-in method references. */
-var objectProto = Object.prototype;
-
-/**
- * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
- * of values.
- */
-var objectToString = objectProto.toString;
-
-/**
- * Checks if `value` is classified as a `Symbol` primitive or object.
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
- * @example
- *
- * _.isSymbol(Symbol.iterator);
- * // => true
- *
- * _.isSymbol('abc');
- * // => false
- */
-function isSymbol(value) {
-  return typeof value == 'symbol' ||
-    (isObjectLike(value) && objectToString.call(value) == symbolTag);
-}
-
-module.exports = isSymbol;
-
-},{"./isObjectLike":238}],242:[function(require,module,exports){
+},{"./isArray":172,"./isObjectLike":182}],185:[function(require,module,exports){
 var isLength = require('./isLength'),
     isObjectLike = require('./isObjectLike');
 
@@ -12663,7 +8033,7 @@ function isTypedArray(value) {
 
 module.exports = isTypedArray;
 
-},{"./isLength":234,"./isObjectLike":238}],243:[function(require,module,exports){
+},{"./isLength":178,"./isObjectLike":182}],186:[function(require,module,exports){
 /**
  * Checks if `value` is `undefined`.
  *
@@ -12686,7 +8056,7 @@ function isUndefined(value) {
 
 module.exports = isUndefined;
 
-},{}],244:[function(require,module,exports){
+},{}],187:[function(require,module,exports){
 var baseHas = require('./_baseHas'),
     baseKeys = require('./_baseKeys'),
     indexKeys = require('./_indexKeys'),
@@ -12743,7 +8113,7 @@ function keys(object) {
 
 module.exports = keys;
 
-},{"./_baseHas":132,"./_baseKeys":140,"./_indexKeys":183,"./_isIndex":189,"./_isPrototype":193,"./isArrayLike":228}],245:[function(require,module,exports){
+},{"./_baseHas":109,"./_baseKeys":111,"./_indexKeys":140,"./_isIndex":145,"./_isPrototype":148,"./isArrayLike":173}],188:[function(require,module,exports){
 var baseKeysIn = require('./_baseKeysIn'),
     indexKeys = require('./_indexKeys'),
     isIndex = require('./_isIndex'),
@@ -12799,28 +8169,7 @@ function keysIn(object) {
 
 module.exports = keysIn;
 
-},{"./_baseKeysIn":141,"./_indexKeys":183,"./_isIndex":189,"./_isPrototype":193}],246:[function(require,module,exports){
-/**
- * Gets the last element of `array`.
- *
- * @static
- * @memberOf _
- * @category Array
- * @param {Array} array The array to query.
- * @returns {*} Returns the last element of `array`.
- * @example
- *
- * _.last([1, 2, 3]);
- * // => 3
- */
-function last(array) {
-  var length = array ? array.length : 0;
-  return length ? array[length - 1] : undefined;
-}
-
-module.exports = last;
-
-},{}],247:[function(require,module,exports){
+},{"./_baseKeysIn":112,"./_indexKeys":140,"./_isIndex":145,"./_isPrototype":148}],189:[function(require,module,exports){
 var baseMerge = require('./_baseMerge'),
     createAssigner = require('./_createAssigner');
 
@@ -12860,158 +8209,7 @@ var merge = createAssigner(function(object, source, srcIndex) {
 
 module.exports = merge;
 
-},{"./_baseMerge":144,"./_createAssigner":167}],248:[function(require,module,exports){
-var baseMerge = require('./_baseMerge'),
-    createAssigner = require('./_createAssigner');
-
-/**
- * This method is like `_.merge` except that it accepts `customizer` which
- * is invoked to produce the merged values of the destination and source
- * properties. If `customizer` returns `undefined` merging is handled by the
- * method instead. The `customizer` is invoked with seven arguments:
- * (objValue, srcValue, key, object, source, stack).
- *
- * **Note:** This method mutates `object`.
- *
- * @static
- * @memberOf _
- * @category Object
- * @param {Object} object The destination object.
- * @param {...Object} sources The source objects.
- * @param {Function} customizer The function to customize assigned values.
- * @returns {Object} Returns `object`.
- * @example
- *
- * function customizer(objValue, srcValue) {
- *   if (_.isArray(objValue)) {
- *     return objValue.concat(srcValue);
- *   }
- * }
- *
- * var object = {
- *   'fruits': ['apple'],
- *   'vegetables': ['beet']
- * };
- *
- * var other = {
- *   'fruits': ['banana'],
- *   'vegetables': ['carrot']
- * };
- *
- * _.mergeWith(object, other, customizer);
- * // => { 'fruits': ['apple', 'banana'], 'vegetables': ['beet', 'carrot'] }
- */
-var mergeWith = createAssigner(function(object, source, srcIndex, customizer) {
-  baseMerge(object, source, srcIndex, customizer);
-});
-
-module.exports = mergeWith;
-
-},{"./_baseMerge":144,"./_createAssigner":167}],249:[function(require,module,exports){
-/**
- * Gets the timestamp of the number of milliseconds that have elapsed since
- * the Unix epoch (1 January 1970 00:00:00 UTC).
- *
- * @static
- * @memberOf _
- * @type {Function}
- * @category Date
- * @returns {number} Returns the timestamp.
- * @example
- *
- * _.defer(function(stamp) {
- *   console.log(_.now() - stamp);
- * }, _.now());
- * // => logs the number of milliseconds it took for the deferred function to be invoked
- */
-var now = Date.now;
-
-module.exports = now;
-
-},{}],250:[function(require,module,exports){
-var baseProperty = require('./_baseProperty'),
-    basePropertyDeep = require('./_basePropertyDeep'),
-    isKey = require('./_isKey');
-
-/**
- * Creates a function that returns the value at `path` of a given object.
- *
- * @static
- * @memberOf _
- * @category Util
- * @param {Array|string} path The path of the property to get.
- * @returns {Function} Returns the new function.
- * @example
- *
- * var objects = [
- *   { 'a': { 'b': { 'c': 2 } } },
- *   { 'a': { 'b': { 'c': 1 } } }
- * ];
- *
- * _.map(objects, _.property('a.b.c'));
- * // => [2, 1]
- *
- * _.map(_.sortBy(objects, _.property(['a', 'b', 'c'])), 'a.b.c');
- * // => [1, 2]
- */
-function property(path) {
-  return isKey(path) ? baseProperty(path) : basePropertyDeep(path);
-}
-
-module.exports = property;
-
-},{"./_baseProperty":146,"./_basePropertyDeep":147,"./_isKey":191}],251:[function(require,module,exports){
-var arrayReduce = require('./_arrayReduce'),
-    baseEach = require('./_baseEach'),
-    baseIteratee = require('./_baseIteratee'),
-    baseReduce = require('./_baseReduce'),
-    isArray = require('./isArray');
-
-/**
- * Reduces `collection` to a value which is the accumulated result of running
- * each element in `collection` through `iteratee`, where each successive
- * invocation is supplied the return value of the previous. If `accumulator`
- * is not given the first element of `collection` is used as the initial
- * value. The iteratee is invoked with four arguments:
- * (accumulator, value, index|key, collection).
- *
- * Many lodash methods are guarded to work as iteratees for methods like
- * `_.reduce`, `_.reduceRight`, and `_.transform`.
- *
- * The guarded methods are:
- * `assign`, `defaults`, `defaultsDeep`, `includes`, `merge`, `orderBy`,
- * and `sortBy`
- *
- * @static
- * @memberOf _
- * @category Collection
- * @param {Array|Object} collection The collection to iterate over.
- * @param {Function} [iteratee=_.identity] The function invoked per iteration.
- * @param {*} [accumulator] The initial value.
- * @returns {*} Returns the accumulated value.
- * @example
- *
- * _.reduce([1, 2], function(sum, n) {
- *   return sum + n;
- * }, 0);
- * // => 3
- *
- * _.reduce({ 'a': 1, 'b': 2, 'c': 1 }, function(result, value, key) {
- *   (result[value] || (result[value] = [])).push(key);
- *   return result;
- * }, {});
- * // => { '1': ['a', 'c'], '2': ['b'] } (iteration order is not guaranteed)
- */
-function reduce(collection, iteratee, accumulator) {
-  var func = isArray(collection) ? arrayReduce : baseReduce,
-      initAccum = arguments.length < 3;
-
-  return func(collection, baseIteratee(iteratee, 4), accumulator, initAccum, baseEach);
-}
-
-module.exports = reduce;
-
-},{"./_arrayReduce":111,"./_baseEach":127,"./_baseIteratee":139,"./_baseReduce":148,"./isArray":227}],252:[function(require,module,exports){
+},{"./_baseMerge":113,"./_createAssigner":129}],190:[function(require,module,exports){
 var apply = require('./_apply'),
     toInteger = require('./toInteger');
 
@@ -13074,7 +8272,7 @@ function rest(func, start) {
 
 module.exports = rest;
 
-},{"./_apply":105,"./toInteger":253}],253:[function(require,module,exports){
+},{"./_apply":91,"./toInteger":191}],191:[function(require,module,exports){
 var toNumber = require('./toNumber');
 
 /** Used as references for various `Number` constants. */
@@ -13120,7 +8318,7 @@ function toInteger(value) {
 
 module.exports = toInteger;
 
-},{"./toNumber":254}],254:[function(require,module,exports){
+},{"./toNumber":192}],192:[function(require,module,exports){
 var isFunction = require('./isFunction'),
     isObject = require('./isObject');
 
@@ -13181,38 +8379,7 @@ function toNumber(value) {
 
 module.exports = toNumber;
 
-},{"./isFunction":233,"./isObject":237}],255:[function(require,module,exports){
-var baseToPairs = require('./_baseToPairs'),
-    keys = require('./keys');
-
-/**
- * Creates an array of own enumerable key-value pairs for `object` which
- * can be consumed by `_.fromPairs`.
- *
- * @static
- * @memberOf _
- * @category Object
- * @param {Object} object The object to query.
- * @returns {Array} Returns the new array of key-value pairs.
- * @example
- *
- * function Foo() {
- *   this.a = 1;
- *   this.b = 2;
- * }
- *
- * Foo.prototype.c = 3;
- *
- * _.toPairs(new Foo);
- * // => [['a', 1], ['b', 2]] (iteration order is not guaranteed)
- */
-function toPairs(object) {
-  return baseToPairs(object, keys(object));
-}
-
-module.exports = toPairs;
-
-},{"./_baseToPairs":151,"./keys":244}],256:[function(require,module,exports){
+},{"./isFunction":177,"./isObject":181}],193:[function(require,module,exports){
 var copyObject = require('./_copyObject'),
     keysIn = require('./keysIn');
 
@@ -13245,52 +8412,4 @@ function toPlainObject(value) {
 
 module.exports = toPlainObject;
 
-},{"./_copyObject":164,"./keysIn":245}],257:[function(require,module,exports){
-var Symbol = require('./_Symbol'),
-    isSymbol = require('./isSymbol');
-
-/** Used as references for various `Number` constants. */
-var INFINITY = 1 / 0;
-
-/** Used to convert symbols to primitives and strings. */
-var symbolProto = Symbol ? Symbol.prototype : undefined,
-    symbolToString = symbolProto ? symbolProto.toString : undefined;
-
-/**
- * Converts `value` to a string if it's not one. An empty string is returned
- * for `null` and `undefined` values. The sign of `-0` is preserved.
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to process.
- * @returns {string} Returns the string.
- * @example
- *
- * _.toString(null);
- * // => ''
- *
- * _.toString(-0);
- * // => '-0'
- *
- * _.toString([1, 2, 3]);
- * // => '1,2,3'
- */
-function toString(value) {
-  // Exit early for strings to avoid a performance hit in some environments.
-  if (typeof value == 'string') {
-    return value;
-  }
-  if (value == null) {
-    return '';
-  }
-  if (isSymbol(value)) {
-    return symbolToString ? symbolToString.call(value) : '';
-  }
-  var result = (value + '');
-  return (result == '0' && (1 / value) == -INFINITY) ? '-0' : result;
-}
-
-module.exports = toString;
-
-},{"./_Symbol":100,"./isSymbol":241}]},{},[1]);
+},{"./_copyObject":126,"./keysIn":188}]},{},[1]);

@@ -4,7 +4,7 @@
 
 var Jed = require( 'jed' );
 var Paper = require( 'yoastseo/js/values/Paper' );
-var Assessor = require( 'yoastseo/js/Assessor' );
+var Assessor = require( 'yoastseo/js/SEOAssessor' );
 
 ( function($) {
 	'use strict';
@@ -130,6 +130,8 @@ var Assessor = require( 'yoastseo/js/Assessor' );
 		} );
 
 		var tempAssessor = new Assessor( i18n );
+
+		console.log( tempAssessor.getAvailableAssessments() );
 		tempAssessor.assess( tempPaper );
 
 		return tempAssessor.calculateOverallScore();
