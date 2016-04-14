@@ -323,6 +323,16 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			}
 
 			/**
+			 * If the author has been excluded by preference on profile.
+			 *
+			 * @TODO Remove after plugin requirements raised to WP 4.3. R.
+			 */
+			if ( ! $exclude_user && version_compare( $wp_version, '4.3', '<' ) ) {
+				$is_exclude_on = get_the_author_meta( 'wpseo_excludeauthorsitemap', $user->ID );
+				$exclude_user  = ( $is_exclude_on === 'on' );
+			}
+
+			/**
 			 * If the author has been excluded by general settings because there are no posts.
 			 *
 			 * @TODO Remove after plugin requirements raised to WP 4.3. R.
