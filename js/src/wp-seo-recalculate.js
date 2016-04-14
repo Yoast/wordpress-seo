@@ -9,8 +9,6 @@ var Assessor = require( 'yoastseo/js/Assessor' );
 ( function($) {
 	'use strict';
 
-
-
 	var i18n = new Jed( {
 		domain: 'js-text-analysis',
 		locale_data: {
