@@ -84,6 +84,18 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			'meta_key'   => '_yoast_wpseo_profile_updated',
 			'orderby'    => 'meta_value_num',
 			'order'      => 'DESC',
+			'meta_query' => array(
+				'relation' => 'OR',
+				array(
+					'key'     => 'wpseo_excludeauthorsitemap',
+					'value'   => 'on',
+					'compare' => '!=',
+				),
+				array(
+					'key'     => 'wpseo_excludeauthorsitemap',
+					'compare' => 'NOT EXISTS',
+				),
+			),
 		);
 
 		return array_merge( $arguments, $add );
@@ -256,14 +268,6 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 				$target_key   = "user_role-{$user_role}-not_in_sitemap";
 				$exclude_user = isset( $options[ $target_key ] ) && true === $options[ $target_key ];
 				unset( $user_role, $target_key );
-			}
-
-			/**
-			 * If the author has been excluded by preference on profile.
-			 */
-			if ( ! $exclude_user ) {
-				$is_exclude_on = get_the_author_meta( 'wpseo_excludeauthorsitemap', $user->ID );
-				$exclude_user = ( $is_exclude_on === 'on' );
 			}
 
 			/**
