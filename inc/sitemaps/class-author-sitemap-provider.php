@@ -47,12 +47,7 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		$this->update_user_meta();
 
 		$users = get_users( array( 'who' => 'authors' ) );
-		/**
-		 * Filter the authors, included in XML sitemap.
-		 *
-		 * @param array $users Array of user objects to filter.
-		 */
-		$users = apply_filters( 'wpseo_sitemap_exclude_author', $users );
+		$users = $this->exclude_users( $users );
 		$users = wp_list_pluck( $users, 'ID' );
 
 		$count     = count( $users );
@@ -142,12 +137,7 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			'order'    => 'ASC',
 		) );
 
-		/**
-		 * Filter the authors, included in XML sitemap.
-		 *
-		 * @param array $users Array of user objects to filter.
-		 */
-		$users = apply_filters( 'wpseo_sitemap_exclude_author', $users ); // TODO deduplicate filter. R.
+		$users = $this->exclude_users( $users );
 
 		if ( empty( $users ) ) {
 			$users = array();
@@ -208,6 +198,23 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		}
 
 		return count( $users );
+	}
+
+	/**
+	 * Wrap legacy filter to deduplicate calls.
+	 *
+	 * @param array $users Array of user objects to filter.
+	 *
+	 * @return array
+	 */
+	protected function exclude_users( $users ) {
+
+		/**
+		 * Filter the authors, included in XML sitemap.
+		 *
+		 * @param array $users Array of user objects to filter.
+		 */
+		return apply_filters( 'wpseo_sitemap_exclude_author', $users );
 	}
 
 	/**
