@@ -130,8 +130,6 @@ var Assessor = require( 'yoastseo/js/SEOAssessor' );
 		} );
 
 		var tempAssessor = new Assessor( i18n );
-
-		console.log( tempAssessor.getAvailableAssessments() );
 		tempAssessor.assess( tempPaper );
 
 		return tempAssessor.calculateOverallScore();
