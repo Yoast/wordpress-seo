@@ -619,8 +619,7 @@ module.exports = checkGlobal;
 var assignValue = require('./_assignValue');
 
 /**
- * This function is like `copyObject` except that it accepts a function to
- * customize copied values.
+ * Copies properties of `source` to `object`.
  *
  * @private
  * @param {Object} source The object to copy properties from.
@@ -629,7 +628,7 @@ var assignValue = require('./_assignValue');
  * @param {Function} [customizer] The function to customize copied values.
  * @returns {Object} Returns `object`.
  */
-function copyObjectWith(source, props, object, customizer) {
+function copyObject(source, props, object, customizer) {
   object || (object = {});
 
   var index = -1,
@@ -647,7 +646,7 @@ function copyObjectWith(source, props, object, customizer) {
   return object;
 }
 
-module.exports = copyObjectWith;
+module.exports = copyObject;
 
 },{"./_assignValue":5}],11:[function(require,module,exports){
 var isIterateeCall = require('./_isIterateeCall'),
@@ -873,7 +872,7 @@ module.exports = root;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{"./_checkGlobal":9}],19:[function(require,module,exports){
-var copyObjectWith = require('./_copyObjectWith'),
+var copyObject = require('./_copyObject'),
     createAssigner = require('./_createAssigner'),
     keysIn = require('./keysIn');
 
@@ -906,12 +905,12 @@ var copyObjectWith = require('./_copyObjectWith'),
  * // => { 'a': 1, 'b': 2 }
  */
 var assignInWith = createAssigner(function(object, source, srcIndex, customizer) {
-  copyObjectWith(source, keysIn(source), object, customizer);
+  copyObject(source, keysIn(source), object, customizer);
 });
 
 module.exports = assignInWith;
 
-},{"./_copyObjectWith":10,"./_createAssigner":11,"./keysIn":33}],20:[function(require,module,exports){
+},{"./_copyObject":10,"./_createAssigner":11,"./keysIn":33}],20:[function(require,module,exports){
 var apply = require('./_apply'),
     assignInDefaults = require('./_assignInDefaults'),
     assignInWith = require('./assignInWith'),
