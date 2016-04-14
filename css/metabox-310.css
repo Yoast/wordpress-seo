@@ -255,20 +255,20 @@
 }
 
 .snippet-editor__progress--bad[value] {
-	color: #dc3232;
+	color: #dd3d36;
 }
 
 .snippet-editor__progress--bad[value]::-webkit-progress-value {
-	background-color: #dc3232;
+	background-color: #dd3d36;
 	transition: width 250ms;
 }
 
 .snippet-editor__progress--bad[value]::-moz-progress-bar {
-	background-color: #dc3232;
+	background-color: #dd3d36;
 }
 
 .snippet-editor__progress--bad[value] .snippet-editor__progress-bar {
-	background-color: #dc3232;
+	background-color: #dd3d36;
 }
 
 .snippet-editor__progress--ok[value] {
@@ -334,7 +334,7 @@
 }
 
 .wpseo-score-icon.bad {
-	background-color: #dc3232;
+	background-color: #dd3d36;
 }
 
 .wpseo-score-icon.na {

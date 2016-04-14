@@ -104,6 +104,7 @@
 
 /* IE11 and JAWS 17.0 need this hack */
 	.switch-yoast-seo .switch-yoast-seo-jaws-a11y {
+		display: block;
 		overflow: hidden;
 		height: 1px;
 		margin-bottom: -1px;
