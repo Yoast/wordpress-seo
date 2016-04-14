@@ -25,6 +25,9 @@ class WPSEO_Sitemaps_Cache {
 		add_action( 'clean_object_term_cache', array( __CLASS__, 'invalidate_helper' ), 10, 2 );
 
 		add_action( 'save_post', array( __CLASS__, 'invalidate_post' ) );
+
+		add_action( 'user_register', array( __CLASS__, 'invalidate_user' ) );
+		add_action( 'delete_user', array( __CLASS__, 'invalidate_user' ) );
 	}
 
 	/**
@@ -143,6 +146,20 @@ class WPSEO_Sitemaps_Cache {
 	public static function invalidate_helper( $unused, $type ) {
 
 		self::invalidate( $type );
+	}
+
+	/**
+	 * Invalidate sitemap cache for authors.
+	 *
+	 * @param int $user_id User ID.
+	 */
+	public static function invalidate_author( $user_id ) {
+
+		$user = get_user_by( 'id', $user_id );
+
+		if ( ! in_array( 'subscriber', $user->roles ) ) {
+			self::invalidate( 'author' );
+		}
 	}
 
 	/**
