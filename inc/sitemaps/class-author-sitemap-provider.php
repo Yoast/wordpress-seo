@@ -146,9 +146,6 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			$users = array();
 		}
 
-		// Ascending sort.
-		usort( $users, array( $this, 'user_map_sorter' ) );
-
 		$time = time();
 
 		foreach ( $users as $user ) {
@@ -290,6 +287,8 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 * Sorts an array of WP_User by the _yoast_wpseo_profile_updated meta field.
 	 *
 	 * @since 1.6
+	 *
+	 * @deprecated 3.3 User meta sort can now be done by queries.
 	 *
 	 * @param WP_User $first  The first WP user.
 	 * @param WP_User $second The second WP user.
