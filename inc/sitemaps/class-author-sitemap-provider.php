@@ -44,7 +44,10 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		// TODO Consider doing this less often / when necessary. R.
 		$this->update_user_meta();
 
-		$users = get_users( array( 'who' => 'authors' ) );
+		$users = get_users( $this->get_query_arguments( array(
+			'orderby' => 'login',
+			'order'   => 'ASC',
+		) ) );
 		$users = $this->exclude_users( $users );
 		$users = wp_list_pluck( $users, 'ID' );
 
@@ -69,6 +72,24 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	}
 
 	/**
+	 *
+	 * @param array $add Arguments to add.
+	 *
+	 * @return array
+	 */
+	protected function get_query_arguments( $add = array() ) {
+
+		$arguments = array(
+			'who'        => 'authors',
+			'meta_key'   => '_yoast_wpseo_profile_updated',
+			'orderby'    => 'meta_value_num',
+			'order'      => 'DESC',
+		);
+
+		return array_merge( $arguments, $add );
+	}
+
+	/**
 	 * Retrieve profile update time for most recently updated user on a sitemap page.
 	 *
 	 * @param int $max_entries Entries per page of sitemap.
@@ -78,14 +99,10 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 */
 	protected function get_last_modified( $max_entries, $page ) {
 
-		$users = get_users( array(
-			'who'      => 'authors',
-			'number'   => 1, // We sort time descending, so first on the page is most recent.
-			'offset'   => ( $page - 1 ) * $max_entries,
-			'meta_key' => '_yoast_wpseo_profile_updated',
-			'orderby'  => 'meta_value_num',
-			'order'    => 'DESC',
-		) );
+		$users = get_users( $this->get_query_arguments( array(
+			'number' => 1, // We sort time descending, so first on the page is most recent.
+			'offset' => ( $page - 1 ) * $max_entries,
+		) ) );
 
 		if ( empty( $users ) ) {
 			return false;
@@ -121,14 +138,10 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			$offset = ( ( $current_page - 1 ) * $max_entries );
 		}
 
-		$users = get_users( array(
-			'who'      => 'authors',
-			'offset'   => $offset,
-			'number'   => $max_entries,
-			'meta_key' => '_yoast_wpseo_profile_updated',
-			'orderby'  => 'meta_value_num',
-			'order'    => 'ASC',
-		) );
+		$users = get_users( $this->get_query_arguments( array(
+			'offset' => $offset,
+			'number' => $max_entries,
+		) ) );
 
 		$users = $this->exclude_users( $users );
 
