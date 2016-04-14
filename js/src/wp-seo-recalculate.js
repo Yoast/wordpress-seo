@@ -1,13 +1,15 @@
 /* global wpseoAdminL10n */
 /* global ajaxurl */
+/* global require */
 
-var YoastSEO = require( 'yoastseo' );
 var Jed = require( 'jed' );
 var Paper = require( 'yoastseo/js/values/Paper' );
 var Assessor = require( 'yoastseo/js/Assessor' );
 
 ( function($) {
 	'use strict';
+
+
 
 	var i18n = new Jed( {
 		domain: 'js-text-analysis',
