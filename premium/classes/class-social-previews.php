@@ -61,7 +61,7 @@ class WPSEO_Social_Previews {
 		return array(
 			'website'              => $this->get_website(),
 			'uploadImage'          => __( 'Upload image', 'wordpress-seo-premium' ),
-			'useOtherImage'      => __( 'Use other image', 'wordpress-seo-premium' ),
+			'useOtherImage'        => __( 'Use other image', 'wordpress-seo-premium' ),
 			'removeImageButton'    => __( 'Remove image', 'wordpress-seo-premium' ),
 			'facebookDefaultImage' => $options['og_default_image'],
 			'i18n'                 => array(
@@ -82,6 +82,7 @@ class WPSEO_Social_Previews {
 					'twitterImage'        => __( 'Twitter image help', 'wordpress-seo-premium' ),
 				),
 			),
+			'facebookNonce' => wp_create_nonce( 'get_facebook_name' ),
 		);
 	}
 

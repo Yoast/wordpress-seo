@@ -158,6 +158,10 @@ class WPSEO_Premium {
 
 		add_action( 'admin_init', array( $this, 'enqueue_multi_keyword' ) );
 		add_action( 'admin_init', array( $this, 'enqueue_social_previews' ) );
+
+		// Only initialize the ajax for all tabs except settings.
+		$facebook_name = new WPSEO_Facebook_Name();
+		$facebook_name->set_hooks();
 	}
 
 	/**
@@ -208,6 +212,19 @@ class WPSEO_Premium {
 	 * Adds multi keyword functionality if we are on the correct pages
 	 */
 	public function enqueue_social_previews() {
+
+		if ( $this->is_metabox_page() ) {
+			$social_previews = new WPSEO_Social_Previews();
+			$social_previews->set_hooks();
+		}
+	}
+
+	/**
+	 * Check if current page contains the metabox
+	 *
+	 * @return bool
+	 */
+	private function is_metabox_page() {
 		global $pagenow;
 
 		$metabox_pages = array(
@@ -216,10 +233,8 @@ class WPSEO_Premium {
 			'edit.php',
 		);
 
-		if ( in_array( $pagenow , $metabox_pages, true ) || WPSEO_Taxonomy::is_term_edit( $pagenow ) ) {
-			$social_previews = new WPSEO_Social_Previews();
-			$social_previews->set_hooks();
-		}
+		return in_array( $pagenow , $metabox_pages, true ) || WPSEO_Taxonomy::is_term_edit( $pagenow );
+
 	}
 
 	/**

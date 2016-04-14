@@ -1,4 +1,4 @@
-/* global yoastSocialPreview, tinyMCE, require, wp, YoastSEO  */
+/* global yoastSocialPreview, tinyMCE, require, wp, YoastSEO, ajaxurl  */
 /* jshint -W097 */
 'use strict';
 
@@ -249,6 +249,28 @@ var forEach = require( 'lodash/forEach' );
 	}
 
 	/**
+	 * Try to get the facebook author name via AJAX and put it to the facebook preview.
+	 *
+	 * @param {FacebookPreview} facebookPreview The facebook preview object
+	 */
+	function getFacebookAuthor( facebookPreview ) {
+		$.get(
+			ajaxurl,
+			{
+				action: 'wpseo_get_facebook_name',
+				_ajax_nonce: yoastSocialPreview.facebookNonce,
+				user_id: $( '#post_author_override' ).val()
+			},
+			function( author ) {
+				if ( author !== 0 ) {
+					facebookPreview.setAuthor( author );
+				}
+			}
+		);
+	}
+
+
+	/**
 	 * Initialize the facebook preview.
 	 *
 	 * @param {Object} facebookHolder Target element for adding the facebook preview.
@@ -273,6 +295,13 @@ var forEach = require( 'lodash/forEach' );
 		facebookPreview.init();
 
 		addUploadButton( facebookPreview );
+
+		var postAuthorDropdown = $( '#post_author_override' );
+		if( postAuthorDropdown.length > 0 ) {
+			postAuthorDropdown.on( 'change', getFacebookAuthor.bind( this, facebookPreview ) );
+			postAuthorDropdown.trigger( 'change' );
+		}
+
 	}
 
 	/**
@@ -309,7 +338,7 @@ var forEach = require( 'lodash/forEach' );
      */
 	function setFallbackImage( preview ) {
 		if ( preview.data.imageUrl === '' ) {
-			preview.setImageUrl( getFallbackImage( '' ) );
+			preview.setImage( getFallbackImage( '' ) );
 		}
 	}
 
