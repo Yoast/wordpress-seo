@@ -5,7 +5,7 @@
 
 var Jed = require( 'jed' );
 var Paper = require( 'yoastseo/js/values/Paper' );
-var Assessor = require( 'yoastseo/js/SeoAssessor' );
+var Assessor = require( 'yoastseo/js/SEOAssessor' );
 
 ( function($) {
 	'use strict';
@@ -131,8 +131,6 @@ var Assessor = require( 'yoastseo/js/SeoAssessor' );
 		} );
 
 		var tempAssessor = new Assessor( i18n );
-
-		console.log( tempAssessor.getAvailableAssessments() );
 		tempAssessor.assess( tempPaper );
 
 		return tempAssessor.calculateOverallScore();
@@ -258,7 +256,7 @@ var Assessor = require( 'yoastseo/js/SeoAssessor' );
 	$(init);
 }(jQuery));
 
-},{"jed":3,"yoastseo/js/SeoAssessor":7,"yoastseo/js/values/Paper":79}],2:[function(require,module,exports){
+},{"jed":3,"yoastseo/js/SEOAssessor":7,"yoastseo/js/values/Paper":79}],2:[function(require,module,exports){
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
   module.exports = function inherits(ctor, superCtor) {
