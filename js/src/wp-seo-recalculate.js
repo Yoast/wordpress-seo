@@ -1,7 +1,6 @@
 /* global wpseoAdminL10n */
 /* global ajaxurl */
 /* global require */
-/* global console */
 
 var Jed = require( 'jed' );
 var Paper = require( 'yoastseo/js/values/Paper' );
