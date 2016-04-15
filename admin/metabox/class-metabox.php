@@ -812,10 +812,10 @@ SVG;
 		}
 
 		echo '<script type="text/html" id="tmpl-keyword_tab">
-				<li class="wpseo_keyword_tab<# console.log(data); if ( data.active ) { #> active<# } #>">
+				<li class="wpseo_keyword_tab<# if ( data.active ) { #> active<# } #>">
 					<a class="wpseo_tablink" href="#wpseo_content" data-keyword="{{data.keyword}}" data-score="{{data.score}}">
 						{{data.prefix}}
-						<span class="screen-reader-text wpseo-keyword-tab-textual-score">{{data.text}}</span>
+						<span class="screen-reader-text wpseo-keyword-tab-textual-score">{{data.scoreText}}</span>
 						<span class="wpseo-score-icon {{data.score}}">
 							<span class="screen-reader-text wpseo-keyword-tab-based-on">{{data.basedOn}}</span>
 						</span>

@@ -21,7 +21,7 @@ module.exports = (function() {
 			prefix: prefix + ' ',
 			active: true,
 			basedOn: basedOn,
-			text: scoreText
+			scoreText: scoreText
 		});
 
 		return jQuery( html );
