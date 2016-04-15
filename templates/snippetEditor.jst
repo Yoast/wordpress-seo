@@ -1,14 +1,16 @@
 <div id="snippet_preview">
-    <h3 class="snippet-editor__heading snippet-editor__heading-icon-eye"><%- i18n.snippetPreview %></h3>
-
     <section class="snippet-editor__preview">
+		<h3 class="snippet-editor__heading snippet-editor__heading-icon-eye"><%- i18n.snippetPreview %></h3>
+
         <div class="snippet_container snippet-editor__container" id="title_container">
-            <span class="title" id="snippet_title">
+			<span class="screen-reader-text"><%- i18n.titleLabel %></span>
+			<span class="title" id="snippet_title">
                 <%- rendered.title %>
             </span>
             <span class="title" id="snippet_sitename"></span>
         </div>
         <div class="snippet_container snippet-editor__container" id="url_container">
+			<span class="screen-reader-text"><%- i18n.slugLabel %></span>
             <cite class="url urlBase" id="snippet_citeBase">
                 <%- rendered.baseUrl %>
             </cite>
@@ -17,6 +19,7 @@
             </cite>
         </div>
         <div class="snippet_container snippet-editor__container" id="meta_container">
+			<span class="screen-reader-text"><%- i18n.metaDescriptionLabel %></span>
             <% if ( "" !== metaDescriptionDate ) { %>
                 <span class="snippet-editor__date">
                     <%- metaDescriptionDate %> -
