@@ -91,7 +91,7 @@ class WPSEO_Social_Previews {
 	 * @return string
 	 */
 	private function get_website() {
-		// We only want the host part of the url.
+		// We only want the host part of the URL.
 		$website = parse_url( home_url(), PHP_URL_HOST );
 		$website = trim( $website, '/' );
 		$website = strtolower( $website );

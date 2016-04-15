@@ -32,7 +32,7 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	}
 
 	/**
-	 * Add an extra field to post edit screen so we know the old url in the 'post_updated' hook
+	 * Add an extra field to post edit screen so we know the old URL in the 'post_updated' hook
 	 *
 	 * @param WP_Post $post The post object to get the ID from.
 	 */
@@ -188,9 +188,9 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	}
 
 	/**
-	 * Look up if url does exists in the current redirects
+	 * Look up if URL does exists in the current redirects
 	 *
-	 * @param string $url Url to search for.
+	 * @param string $url URL to search for.
 	 *
 	 * @return bool
 	 */
@@ -203,10 +203,10 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	/**
 	 * This method checks if a redirect is needed.
 	 *
-	 * This method will check if url as redirect already exists
+	 * This method will check if URL as redirect already exists
 	 *
 	 * @param integer $post_id      The current post ID.
-	 * @param bool    $should_exist Boolean to determine if the url should be exist as a redirect.
+	 * @param bool    $should_exist Boolean to determine if the URL should be exist as a redirect.
 	 *
 	 * @return WPSEO_Redirect|string|void
 	 */
@@ -249,7 +249,7 @@ class WPSEO_Post_Watcher extends WPSEO_Watcher {
 	}
 
 	/**
-	 * Get the old url
+	 * Get the old URL
 	 *
 	 * @param object $post        The post object with the new values.
 	 * @param object $post_before The post object with the old values.

@@ -44,7 +44,7 @@ class WPSEO_Redirect_Accessible_Validation implements WPSEO_Redirect_Validation 
 		if ( $this->is_temporary( $response_code ) ) {
 			/* translators: %1$s expands to the returned http code  */
 			$this->error = new WPSEO_Validation_Warning( sprintf(
-				__( 'The url you are redirecting seems to return a %1$s status. You might want to check if the target can be reached manually before saving.', 'wordpress-seo-premium' ),
+				__( 'The URL you are redirecting seems to return a %1$s status. You might want to check if the target can be reached manually before saving.', 'wordpress-seo-premium' ),
 				$response_code
 			), 'target' );
 
@@ -95,7 +95,7 @@ class WPSEO_Redirect_Accessible_Validation implements WPSEO_Redirect_Validation 
 	}
 
 	/**
-	 * Check if the target is relative, if so just parse a full url.
+	 * Check if the target is relative, if so just parse a full URL.
 	 *
 	 * @param string $target The target to pars.
 	 *
@@ -108,7 +108,7 @@ class WPSEO_Redirect_Accessible_Validation implements WPSEO_Redirect_Validation 
 			return $target;
 		}
 
-		// Parse the URL based on the home url.
+		// Parse the URL based on the home URL.
 		return trailingslashit( get_home_url( null, $target ) );
 	}
 }

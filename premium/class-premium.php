@@ -225,8 +225,8 @@ class WPSEO_Premium {
 	/**
 	 * Hooks into the `redirect_canonical` filter to catch ongoing redirects and move them to the correct spot
 	 *
-	 * @param string $redirect_url  The target url where the requested url will be redirected to.
-	 * @param string $requested_url The current requested url.
+	 * @param string $redirect_url  The target url where the requested URL will be redirected to.
+	 * @param string $requested_url The current requested URL.
 	 *
 	 * @return string
 	 */

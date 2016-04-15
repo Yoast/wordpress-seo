@@ -28,7 +28,7 @@ abstract class WPSEO_Redirect_Tab_Presenter {
 	}
 
 	/**
-	 * Displaying the table url or regex. Depends on the current active tab.
+	 * Displaying the table URL or regex. Depends on the current active tab.
 	 */
 	public function display() {
 		// @codingStandardsIgnoreStart

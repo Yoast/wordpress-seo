@@ -40,7 +40,7 @@ class WPSEO_Redirect_Validator {
 	protected $validation_error = false;
 
 	/**
-	 * Validates the old and the new url
+	 * Validates the old and the new URL
 	 *
 	 * @param WPSEO_Redirect $redirect		   The redirect that will be saved.
 	 * @param WPSEO_Redirect $current_redirect Redirect that will be used for comparison.
