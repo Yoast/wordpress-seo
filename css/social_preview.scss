@@ -321,6 +321,11 @@ $border_radius_twitter: .42857em;
 			text-transform: uppercase;
 			color:          #9197a3;
 
+			&-pipe {
+				padding-left: 5px;
+				padding-right: 5px;
+			}
+
 			&-bottom {
 				position: absolute;
 				bottom: 16px;
