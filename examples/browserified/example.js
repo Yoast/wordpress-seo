@@ -1,7 +1,7 @@
 var SnippetPreview = require( "../../js/snippetPreview" );
 var App = require( "../../js/app" );
 var PreviouslyUsedKeywords = require( "../../js/bundledPlugins/previouslyUsedKeywords.js" );
-
+var TestPlugin = require( "./example-plugin-test.js" );
 /**
  * binds the renewData function on the change of inputelements.
  */
@@ -41,9 +41,13 @@ window.onload = function() {
 		searchUrl: "http://example.com/post?id={id}",
 		postUrl: "http://example.com/search?kw={keyword}"
 	};
+
+	var testPlugin = new TestPlugin( app, args, app.i18n );
+
+	testPlugin.addPlugin();
+
 	var previouslyUsedKeywordsPlugin = new PreviouslyUsedKeywords(
 		app, args, app.i18n
 	);
-
 	previouslyUsedKeywordsPlugin.registerPlugin();
 };
