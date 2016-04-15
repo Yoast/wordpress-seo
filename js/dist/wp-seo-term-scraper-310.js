@@ -292,7 +292,6 @@ var getDescriptionPlaceholder = require( './analysis/getDescriptionPlaceholder' 
 
 	var TaxonomyAssessor = require( './assessors/taxonomyAssessor' );
 	var UsedKeywords = require( './analysis/usedKeywords' );
-	var taxonomyTextLengthAssessment = require( 'yoastseo/js/assessments/taxonomyTextLengthAssessment' );
 
 	var scoreToRating = require( 'yoastseo' ).helpers.scoreToRating;
 
@@ -641,7 +640,7 @@ var getDescriptionPlaceholder = require( './analysis/getDescriptionPlaceholder' 
 	} );
 }( jQuery ));
 
-},{"./analysis/getDescriptionPlaceholder":1,"./analysis/getTitlePlaceholder":2,"./analysis/keywordTab":3,"./analysis/usedKeywords":4,"./assessors/taxonomyAssessor":5,"yoastseo":64,"yoastseo/js/assessments/taxonomyTextLengthAssessment":74}],7:[function(require,module,exports){
+},{"./analysis/getDescriptionPlaceholder":1,"./analysis/getTitlePlaceholder":2,"./analysis/keywordTab":3,"./analysis/usedKeywords":4,"./assessors/taxonomyAssessor":5,"yoastseo":64}],7:[function(require,module,exports){
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
   module.exports = function inherits(ctor, superCtor) {

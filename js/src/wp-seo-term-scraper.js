@@ -11,7 +11,6 @@ var getDescriptionPlaceholder = require( './analysis/getDescriptionPlaceholder' 
 
 	var TaxonomyAssessor = require( './assessors/taxonomyAssessor' );
 	var UsedKeywords = require( './analysis/usedKeywords' );
-	var taxonomyTextLengthAssessment = require( 'yoastseo/js/assessments/taxonomyTextLengthAssessment' );
 
 	var scoreToRating = require( 'yoastseo' ).helpers.scoreToRating;
 
