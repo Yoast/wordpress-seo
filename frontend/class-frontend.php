@@ -247,7 +247,7 @@ class WPSEO_Frontend {
 		if ( is_null( $object ) ) {
 			$object = $GLOBALS['wp_query']->get_queried_object();
 		}
-		if ( is_object($object) ) {
+		if ( is_object( $object ) ) {
 			$title = WPSEO_Meta::get_value( 'title', $object->ID );
 
 			if ( $title !== '' ) {
