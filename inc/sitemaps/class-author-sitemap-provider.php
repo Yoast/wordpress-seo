@@ -13,8 +13,12 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 */
 	public function __construct() {
 
+		global $wp_version;
+
 		// TODO Remove after plugin requirements raised to WP 4.4. R.
-		add_filter( 'wpseo_sitemap_exclude_author', array( $this, 'user_sitemap_remove_excluded_authors' ), 8 );
+		if ( version_compare( $wp_version, '4.4', '<' ) ) {
+			add_filter( 'wpseo_sitemap_exclude_author', array( $this, 'user_sitemap_remove_excluded_authors' ), 8 );
+		}
 	}
 
 	/**
@@ -45,15 +49,31 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		// TODO Consider doing this less often / when necessary. R.
 		$this->update_user_meta();
 
-		$users = get_users( $this->get_query_arguments( array(
-			'orderby' => 'login',
-			'order'   => 'ASC',
-		) ) );
-		$users = $this->exclude_users( $users );
-		$users = wp_list_pluck( $users, 'ID' );
+		$has_exclude_filter = has_filter( 'wpseo_sitemap_exclude_author' );
 
-		$count     = count( $users );
-		$max_pages = ( $count > 0 ) ? 1 : 0;
+		$query_arguments = $this->get_query_arguments( array(
+			'meta_key' => '',
+			'orderby'  => 'login',
+			'order'    => 'ASC',
+		) );
+
+		if ( ! $has_exclude_filter ) {
+			$query_arguments['fields'] = 'ID';
+		}
+
+		$users = get_users( $query_arguments );
+
+		if ( $has_exclude_filter ) {
+			$users = $this->exclude_users( $users );
+		}
+
+		$count = count( $users );
+
+		if ( $count === 0 ) {
+			return array();
+		}
+
+		$max_pages = 1;
 
 		if ( $count > $max_entries ) {
 			$max_pages = (int) ceil( $count / $max_entries );
