@@ -19,4 +19,5 @@ echo '<p>', __( 'I don\'t know why you\'d want to use meta keywords, but if you 
 
 /* translators: %s expands to <code>noodp</code> */
 $yform->light_switch( 'noodp', sprintf( __( 'Force %s meta robots tag sitewide', 'wordpress-seo' ), '<code>noodp</code>' ) );
+/* translators: %s expands to <code>noodp</code> */
 echo '<p>', sprintf( __( 'Prevents search engines from using the DMOZ description in the search results for all pages on this site. Note: If you set a custom description for a page or post, it will have the %s tag regardless of this setting.', 'wordpress-seo' ), '<code>noodp</code>' ), '</p>';
