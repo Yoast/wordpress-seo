@@ -39,6 +39,7 @@ class WPSEO_Social_Previews {
 			'jquery',
 			'jquery-ui-core',
 		), WPSEO_VERSION );
+
 		wp_localize_script( 'yoast-social-preview', 'yoastSocialPreview', $this->localize() );
 
 		wp_register_style( 'yoast-social-preview-css', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/dist/social_preview/yoast-social-preview.min.css', array(), WPSEO_VERSION );
@@ -56,6 +57,7 @@ class WPSEO_Social_Previews {
 		if ( empty( WPSEO_Social_Admin::$meta_fields['social']['opengraph-title']['description'] ) ) {
 			WPSEO_Social_Admin::translate_meta_boxes();
 		}
+
 		$social = WPSEO_Social_Admin::$meta_fields['social'];
 
 		return array(
@@ -81,6 +83,7 @@ class WPSEO_Social_Previews {
 					'twitterDescription'  => __( 'Show information about Twitter description', 'wordpress-seo-premium' ),
 					'twitterImage'        => __( 'Show information about Twitter image', 'wordpress-seo-premium' ),
 				),
+				'library' => $this->get_translations(),
 			),
 		);
 	}
@@ -97,5 +100,19 @@ class WPSEO_Social_Previews {
 		$website = strtolower( $website );
 
 		return $website;
+	}
+
+	/**
+	 * Returns Jed compatible YoastSEO.js translations.
+	 *
+	 * @return array
+	 */
+	private function get_translations() {
+		$file = plugin_dir_path( WPSEO_FILE ) . 'premium/languages/wordpress-seo-premium-' . get_locale() . '.json';
+		if ( file_exists( $file ) && $file = file_get_contents( $file ) ) {
+			return json_decode( $file, true );
+		}
+
+		return array();
 	}
 }

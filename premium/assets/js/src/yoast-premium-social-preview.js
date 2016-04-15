@@ -8,6 +8,7 @@ var getTitlePlaceholder = require( '../../../../js/src/analysis/getTitlePlacehol
 var getDescriptionPlaceholder = require( '../../../../js/src/analysis/getDescriptionPlaceholder' );
 
 var forEach = require( 'lodash/forEach' );
+var Jed = require( 'jed' );
 
 (function($) {
 	/**
@@ -26,6 +27,8 @@ var forEach = require( 'lodash/forEach' );
 	var TwitterPreview = socialPreviews.TwitterPreview;
 
 	var translations = yoastSocialPreview.i18n;
+
+	var i18n = new Jed( addLibraryTranslations( translations.library ) );
 
 	/**
 	 * Sets the events for opening the WP media library when pressing the button.
@@ -237,7 +240,7 @@ var forEach = require( 'lodash/forEach' );
 			},
 			defaultValue: {
 				title: titlePlaceholder
-			}
+			},
 		};
 
 		if ( '' !== descriptionPlaceholder ) {
@@ -258,7 +261,8 @@ var forEach = require( 'lodash/forEach' );
 
 		var facebookPreviewContainer = $( '#facebookPreview' );
 		var facebookPreview = new FacebookPreview(
-			getSocialPreviewArgs( facebookPreviewContainer, fieldPrefix() + '_opengraph' )
+			getSocialPreviewArgs( facebookPreviewContainer, fieldPrefix() + '_opengraph' ),
+			i18n
 		);
 
 		facebookPreviewContainer.on(
@@ -285,7 +289,8 @@ var forEach = require( 'lodash/forEach' );
 
 		var twitterPreviewContainer = $( '#twitterPreview' );
 		var twitterPreview = new TwitterPreview(
-			getSocialPreviewArgs( twitterPreviewContainer, fieldPrefix() + '_twitter' )
+			getSocialPreviewArgs( twitterPreviewContainer, fieldPrefix() + '_twitter' ),
+			i18n
 		);
 
 		twitterPreviewContainer.on(
@@ -611,6 +616,25 @@ var forEach = require( 'lodash/forEach' );
 	}
 
 	/**
+	 * Adds library translations
+	 * @param {Object} translations The translations to use.
+	 * @returns {Object} translations mapped to the proper domain.
+	 */
+	function addLibraryTranslations( translations ) {
+
+		if ( typeof translations !== 'undefined' && typeof translations.domain !== 'undefined' ) {
+			translations.domain = 'yoast-social-previews';
+			translations.locale_data['yoast-social-previews'] = _.clone(translations.locale_data['wordpress-seo-premium']);
+
+			delete( translations.locale_data['wordpress-seo-premium'] );
+
+			return translations;
+		}
+
+		return [];
+	}
+
+	/**
 	 * Initialize the social previews.
 	 */
 	function initYoastSocialPreviews() {
@@ -628,8 +652,8 @@ var forEach = require( 'lodash/forEach' );
 				if (twitterHolder.length > 0) {
 					initTwitter( twitterHolder );
 				}
-				addHelpPanels();
 
+				addHelpPanels();
 				bindImageEvents();
 			} );
 		}
