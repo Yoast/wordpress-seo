@@ -247,7 +247,7 @@ class WPSEO_Frontend {
 		if ( is_null( $object ) ) {
 			$object = $GLOBALS['wp_query']->get_queried_object();
 		}
-		if( is_object($object) ) {
+		if ( is_object($object) ) {
 			$title = WPSEO_Meta::get_value( 'title', $object->ID );
 
 			if ( $title !== '' ) {
@@ -257,8 +257,8 @@ class WPSEO_Frontend {
 			$post_type = ( isset( $object->post_type ) ? $object->post_type : $object->query_var );
 
 			return $this->get_title_from_options( 'title-' . $post_type, $object );
-        }
-        return $this->get_title_from_options('title-404-wpseo');
+		}
+		return $this->get_title_from_options( 'title-404-wpseo' );
 	}
 
 	/**
