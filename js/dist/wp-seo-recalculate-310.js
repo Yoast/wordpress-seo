@@ -109,7 +109,7 @@ var TaxonomyAssessor = require( './assessors/taxonomyAssessor' );
 	 */
 	YoastRecalculateScore.prototype.start = function( items_to_fetch, fetch_type, id_field, callback ) {
 		if ( ! this.validAssessors.hasOwnProperty( fetch_type ) ) {
-			console.error( 'Unknown fetch type of ' + fetch_type + ' given.' );
+			throw new Error( 'Unknown fetch type of ' + fetch_type + ' given.' );
 			return;
 		}
 
