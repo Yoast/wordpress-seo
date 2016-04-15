@@ -247,16 +247,18 @@ class WPSEO_Frontend {
 		if ( is_null( $object ) ) {
 			$object = $GLOBALS['wp_query']->get_queried_object();
 		}
+        if( is_object($object) ) {
+			$title = WPSEO_Meta::get_value( 'title', $object->ID );
 
-		$title = WPSEO_Meta::get_value( 'title', $object->ID );
+			if ( $title !== '' ) {
+				return wpseo_replace_vars( $title, $object );
+			}
 
-		if ( $title !== '' ) {
-			return wpseo_replace_vars( $title, $object );
-		}
+			$post_type = ( isset( $object->post_type ) ? $object->post_type : $object->query_var );
 
-		$post_type = ( isset( $object->post_type ) ? $object->post_type : $object->query_var );
-
-		return $this->get_title_from_options( 'title-' . $post_type, $object );
+			return $this->get_title_from_options( 'title-' . $post_type, $object );
+        }
+        return $this->get_title_from_options('title-404-wpseo');
 	}
 
 	/**
