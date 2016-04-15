@@ -50,7 +50,6 @@ require( "util" ).inherits( module.exports, Assessor );
 /* global wpseoAdminL10n */
 /* global ajaxurl */
 /* global require */
-/* global console */
 
 var Jed = require( 'jed' );
 var Paper = require( 'yoastseo/js/values/Paper' );
@@ -110,7 +109,6 @@ var TaxonomyAssessor = require( './assessors/taxonomyAssessor' );
 	YoastRecalculateScore.prototype.start = function( items_to_fetch, fetch_type, id_field, callback ) {
 		if ( ! this.validAssessors.hasOwnProperty( fetch_type ) ) {
 			throw new Error( 'Unknown fetch type of ' + fetch_type + ' given.' );
-			return;
 		}
 
 		this.fetch_type     = fetch_type;
