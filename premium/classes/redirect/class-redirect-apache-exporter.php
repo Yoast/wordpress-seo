@@ -9,8 +9,8 @@
 class WPSEO_Redirect_Apache_Exporter extends WPSEO_Redirect_File_Exporter {
 
 	/**
-	 * %1$s is the old url
-	 * %2$s is the new url
+	 * %1$s is the old URL
+	 * %2$s is the new URL
 	 * %3$s is the redirect type
 	 *
 	 * @var string
@@ -18,8 +18,8 @@ class WPSEO_Redirect_Apache_Exporter extends WPSEO_Redirect_File_Exporter {
 	protected $url_format   = 'Redirect %3$s "%1$s" "%2$s"';
 
 	/**
-	 * %1$s is the old url
-	 * %2$s is the new url
+	 * %1$s is the old URL
+	 * %2$s is the new URL
 	 * %3$s is the redirect type
 	 *
 	 * @var string
@@ -27,7 +27,7 @@ class WPSEO_Redirect_Apache_Exporter extends WPSEO_Redirect_File_Exporter {
 	protected $regex_format = 'RedirectMatch %3$s %1$s %2$s';
 
 	/**
-	 * Overrides the parent method. This method will in case of url redirects add slashes to the url.
+	 * Overrides the parent method. This method will in case of URL redirects add slashes to the URL.
 	 *
 	 * @param WPSEO_Redirect $redirect The redirect data.
 	 *
@@ -49,7 +49,7 @@ class WPSEO_Redirect_Apache_Exporter extends WPSEO_Redirect_File_Exporter {
 	/**
 	 * Check if first character is a slash, adds a slash if it ain't so
 	 *
-	 * @param string $url The url add the slashes to.
+	 * @param string $url The URL add the slashes to.
 	 *
 	 * @return string mixed
 	 */

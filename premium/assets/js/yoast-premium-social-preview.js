@@ -137,7 +137,7 @@ var forEach = require( 'lodash/forEach' );
 	/**
 	 * Sets the events for opening the WP media library when pressing the button.
 	 *
-	 * @param {Object} imageUrl The image url object.
+	 * @param {Object} imageUrl The image URL object.
 	 * @param {string} imageButton ID name for the image button.
 	 * @param {string} removeButton ID name for the remove button.
 	 * @param {function} onMediaSelect The event that will be ran when image is chosen.
@@ -152,7 +152,7 @@ var forEach = require( 'lodash/forEach' );
 		social_preview_uploader.on( 'select', function() {
 			var attachment = social_preview_uploader.state().get( 'selection' ).first().toJSON();
 
-			// Set the image url.
+			// Set the image URL.
 			imageUrl.val( attachment.url );
 
 			onMediaSelect();
@@ -163,7 +163,7 @@ var forEach = require( 'lodash/forEach' );
 		$( removeButton ).click( function( evt ) {
 			evt.preventDefault();
 
-			// Clear the image url
+			// Clear the image URL
 			imageUrl.val( '' );
 
 			onMediaSelect();
@@ -520,7 +520,7 @@ var forEach = require( 'lodash/forEach' );
 	}
 
 	/**
-	 * Sets the featured image based on the given image url.
+	 * Sets the featured image based on the given image URL.
 	 *
 	 * @param {string} featuredImage The image we want to set.
 	 */
@@ -528,13 +528,13 @@ var forEach = require( 'lodash/forEach' );
 		if ( imageFallBack.featured !== featuredImage ) {
 			imageFallBack.featured = featuredImage;
 
-			// Just refresh the image url
+			// Just refresh the image URL
 			$( '.editable-preview' ).trigger( 'imageUpdate' );
 		}
 	}
 
 	/**
-	 * Sets the content image base on the given image url
+	 * Sets the content image base on the given image URL
 	 *
 	 * @param {string} contentImage The image we want to set.
 	 */
@@ -542,7 +542,7 @@ var forEach = require( 'lodash/forEach' );
 		if ( imageFallBack.content !== contentImage ) {
 			imageFallBack.content = contentImage;
 
-			// Just refresh the image url
+			// Just refresh the image URL
 			$( '.editable-preview' ).trigger( 'imageUpdate' );
 		}
 	}
@@ -4982,13 +4982,13 @@ var FACEBOOK_IMAGE_THRESHOLD_HEIGHT = 315;
  * actual placeholders in the inputs and as a fallback for the preview.
  * @param {string}         opts.placeholder.title         - Placeholder for the title field.
  * @param {string}         opts.placeholder.description   - Placeholder for the description field.
- * @param {string}         opts.placeholder.imageUrl      - Placeholder for the image url field.
+ * @param {string}         opts.placeholder.imageUrl      - Placeholder for the image URL field.
  *
  * @param {Object}         opts.defaultValue              - The default value for the fields, if the user has not
  * changed a field, this value will be used for the analyzer, preview and the progress bars.
  * @param {string}         opts.defaultValue.title        - Default title.
  * @param {string}         opts.defaultValue.description  - Default description.
- * @param {string}         opts.defaultValue.imageUrl     - Default image url.
+ * @param {string}         opts.defaultValue.imageUrl     - Default image URL.
  * it.
  *
  * @param {string}         opts.baseURL                   - The basic URL as it will be displayed in facebook.
@@ -5006,12 +5006,12 @@ var FACEBOOK_IMAGE_THRESHOLD_HEIGHT = 315;
  * @property {Object}      element                        - The elements for this snippet editor.
  * @property {Object}      element.rendered               - The rendered elements.
  * @property {HTMLElement} element.rendered.title         - The rendered title element.
- * @property {HTMLElement} element.rendered.imageUrl      - The rendered url path element.
+ * @property {HTMLElement} element.rendered.imageUrl      - The rendered URL path element.
  * @property {HTMLElement} element.rendered.description   - The rendered facebook description element.
  *
  * @property {Object}      element.input                  - The input elements.
  * @property {HTMLElement} element.input.title            - The title input element.
- * @property {HTMLElement} element.input.imageUrl         - The url path input element.
+ * @property {HTMLElement} element.input.imageUrl         - The URL path input element.
  * @property {HTMLElement} element.input.description      - The meta description input element.
  *
  * @property {HTMLElement} element.container              - The main container element.
@@ -5020,7 +5020,7 @@ var FACEBOOK_IMAGE_THRESHOLD_HEIGHT = 315;
  *
  * @property {Object}      data                           - The data for this snippet editor.
  * @property {string}      data.title                     - The title.
- * @property {string}      data.imageUrl                  - The url path.
+ * @property {string}      data.imageUrl                  - The URL path.
  * @property {string}      data.description               - The meta description.
  *
  * @property {string}      baseURL                        - The basic URL as it will be displayed in google.
@@ -5313,7 +5313,7 @@ FacebookPreview.prototype.noUrlSet = function() {
 
 	imagePlaceholder(
 		this.getImageContainer(),
-		this.i18n.dgettext( "yoast-social-previews", "Please enter an image url by clicking here" ),
+		this.i18n.dgettext( "yoast-social-previews", "Please enter an image URL by clicking here" ),
 		false,
 		"facebook"
 	);
@@ -5346,7 +5346,7 @@ FacebookPreview.prototype.imageError = function() {
 
 	imagePlaceholder(
 		this.getImageContainer(),
-		this.i18n.dgettext( "yoast-social-previews", "The given image url cannot be loaded" ),
+		this.i18n.dgettext( "yoast-social-previews", "The given image URL cannot be loaded" ),
 		true,
 		"facebook"
 	);
@@ -6367,13 +6367,13 @@ var TWITTER_IMAGE_THRESHOLD_HEIGHT = 150;
  * actual placeholders in the inputs and as a fallback for the preview.
  * @param {string}         opts.placeholder.title         - Placeholder for the title field.
  * @param {string}         opts.placeholder.description   - Placeholder for the description field.
- * @param {string}         opts.placeholder.imageUrl      - Placeholder for the image url field.
+ * @param {string}         opts.placeholder.imageUrl      - Placeholder for the image URL field.
  *
  * @param {Object}         opts.defaultValue              - The default value for the fields, if the user has not
  * changed a field, this value will be used for the analyzer, preview and the progress bars.
  * @param {string}         opts.defaultValue.title        - Default title.
  * @param {string}         opts.defaultValue.description  - Default description.
- * @param {string}         opts.defaultValue.imageUrl     - Default image url.
+ * @param {string}         opts.defaultValue.imageUrl     - Default image URL.
  * it.
  *
  * @param {string}         opts.baseURL                   - The basic URL as it will be displayed in twitter.
@@ -6391,12 +6391,12 @@ var TWITTER_IMAGE_THRESHOLD_HEIGHT = 150;
  * @property {Object}      element                        - The elements for this snippet editor.
  * @property {Object}      element.rendered               - The rendered elements.
  * @property {HTMLElement} element.rendered.title         - The rendered title element.
- * @property {HTMLElement} element.rendered.imageUrl      - The rendered url path element.
+ * @property {HTMLElement} element.rendered.imageUrl      - The rendered URL path element.
  * @property {HTMLElement} element.rendered.description   - The rendered twitter description element.
  *
  * @property {Object}      element.input                  - The input elements.
  * @property {HTMLElement} element.input.title            - The title input element.
- * @property {HTMLElement} element.input.imageUrl         - The url path input element.
+ * @property {HTMLElement} element.input.imageUrl         - The URL path input element.
  * @property {HTMLElement} element.input.description      - The meta description input element.
  *
  * @property {HTMLElement} element.container              - The main container element.
@@ -6405,7 +6405,7 @@ var TWITTER_IMAGE_THRESHOLD_HEIGHT = 150;
  *
  * @property {Object}      data                           - The data for this snippet editor.
  * @property {string}      data.title                     - The title.
- * @property {string}      data.imageUrl                  - The url path.
+ * @property {string}      data.imageUrl                  - The URL path.
  * @property {string}      data.description               - The meta description.
  *
  * @property {string}      baseURL                        - The basic URL as it will be displayed in google.

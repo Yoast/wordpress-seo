@@ -1848,16 +1848,16 @@ Paper.prototype.getTitle = function() {
 };
 
 /**
- * Check whether an url is available
- * @returns {boolean} Returns true if the Paper has an Url.
+ * Check whether an URL is available
+ * @returns {boolean} Returns true if the Paper has an URL.
  */
 Paper.prototype.hasUrl = function() {
 	return this._attributes.url !== "";
 };
 
 /**
- * Return the url, or an empty string of no url is available.
- * @returns {string} Returns the url
+ * Return the URL, or an empty string of no URL is available.
+ * @returns {string} Returns the URL
  */
 Paper.prototype.getUrl = function() {
 	return this._attributes.url;

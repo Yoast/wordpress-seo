@@ -165,7 +165,7 @@ class WPSEO_Redirect implements ArrayAccess {
 	}
 
 	/**
-	 * Compares an url with the origin of the redirect.
+	 * Compares an URL with the origin of the redirect.
 	 *
 	 * @param string $url The URL to compare.
 	 *
@@ -183,7 +183,7 @@ class WPSEO_Redirect implements ArrayAccess {
 	/**
 	 * Strip the trailing slashes for relative URLs.
 	 *
-	 * @param string $url_to_sanitize The url to sanitize.
+	 * @param string $url_to_sanitize The URL to sanitize.
 	 *
 	 * @return string
 	 */

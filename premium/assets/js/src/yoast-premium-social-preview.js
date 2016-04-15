@@ -30,7 +30,7 @@ var forEach = require( 'lodash/forEach' );
 	/**
 	 * Sets the events for opening the WP media library when pressing the button.
 	 *
-	 * @param {Object} imageUrl The image url object.
+	 * @param {Object} imageUrl The image URL object.
 	 * @param {string} imageButton ID name for the image button.
 	 * @param {string} removeButton ID name for the remove button.
 	 * @param {function} onMediaSelect The event that will be ran when image is chosen.
@@ -45,7 +45,7 @@ var forEach = require( 'lodash/forEach' );
 		social_preview_uploader.on( 'select', function() {
 			var attachment = social_preview_uploader.state().get( 'selection' ).first().toJSON();
 
-			// Set the image url.
+			// Set the image URL.
 			imageUrl.val( attachment.url );
 
 			onMediaSelect();
@@ -56,7 +56,7 @@ var forEach = require( 'lodash/forEach' );
 		$( removeButton ).click( function( evt ) {
 			evt.preventDefault();
 
-			// Clear the image url
+			// Clear the image URL
 			imageUrl.val( '' );
 
 			onMediaSelect();
@@ -413,7 +413,7 @@ var forEach = require( 'lodash/forEach' );
 	}
 
 	/**
-	 * Sets the featured image based on the given image url.
+	 * Sets the featured image based on the given image URL.
 	 *
 	 * @param {string} featuredImage The image we want to set.
 	 */
@@ -421,13 +421,13 @@ var forEach = require( 'lodash/forEach' );
 		if ( imageFallBack.featured !== featuredImage ) {
 			imageFallBack.featured = featuredImage;
 
-			// Just refresh the image url
+			// Just refresh the image URL
 			$( '.editable-preview' ).trigger( 'imageUpdate' );
 		}
 	}
 
 	/**
-	 * Sets the content image base on the given image url
+	 * Sets the content image base on the given image URL
 	 *
 	 * @param {string} contentImage The image we want to set.
 	 */
@@ -435,7 +435,7 @@ var forEach = require( 'lodash/forEach' );
 		if ( imageFallBack.content !== contentImage ) {
 			imageFallBack.content = contentImage;
 
-			// Just refresh the image url
+			// Just refresh the image URL
 			$( '.editable-preview' ).trigger( 'imageUpdate' );
 		}
 	}
