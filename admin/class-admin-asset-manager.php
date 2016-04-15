@@ -157,8 +157,7 @@ class WPSEO_Admin_Asset_Manager {
 				'name' => 'featured-image',
 				'src'  => 'wp-seo-featured-image-310',
 				'deps' => array(
-					'jquery',
-					self::PREFIX . 'yoast-seo',
+					'jquery'
 				),
 			),
 			array(
