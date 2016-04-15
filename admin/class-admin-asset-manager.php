@@ -198,7 +198,6 @@ class WPSEO_Admin_Asset_Manager {
 					'jquery',
 					'jquery-ui-core',
 					'jquery-ui-progressbar',
-					self::PREFIX . 'yoast-seo',
 				),
 			),
 			array(
