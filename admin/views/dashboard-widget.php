@@ -13,15 +13,15 @@
  */
 
 ?>
-<p><?php _e( 'Below are your published posts&#8217; SEO scores. Now is as good a time as any to start improving some of your posts!', 'wordpress-seo' ); ?></p>
+<p><?php printf( __( 'Hey %s,', 'wordpress-seo' ), $user->user_firstname ); ?></p>
+<p><?php _e( 'Below are some posts that could use some work. Now is as good a time as any to start improving these posts:', 'wordpress-seo' ); ?></p>
 <table>
 	<?php foreach ( $statistics as $statistic ) :
-		if ( current_user_can( 'edit_others_posts' ) === false ) {
-			$url = esc_url( admin_url( 'edit.php?post_status=publish&post_type=post&seo_filter=' . $statistic['seo_rank'] . '&author=' . get_current_user_id() ) );
+		if ( in_array( $statistic['seo_rank'], array( 'good', 'na' ) ) ) {
+			$good_posts[ $statistic['seo_rank'] ] = $statistic['count'];
+			continue;
 		}
-		else {
-			$url = esc_url( admin_url( 'edit.php?post_status=publish&post_type=post&seo_filter=' . $statistic['seo_rank'] ) );
-		}
+		$url = esc_url( admin_url( 'edit.php?post_status=publish&post_type=post&seo_filter=' . $statistic['seo_rank'] . '&author=' . get_current_user_id() ) );
 		?>
 		<tr>
 			<th>
@@ -37,6 +37,9 @@
 		</tr>
 	<?php endforeach; ?>
 </table>
+<p><?php printf( _n( 'You have %d post that is already well optimized, well done!', 'You have %d posts that are already well optimized, well done!', $good_posts['good'], 'wordpress-seo' ), $good_posts['good'] ); ?></p>
+<p><?php printf( __( 'Don\'t know where or how to start optimizing your content? Read our %1$sContent SEO eBook%2$s!', 'wordpress-seo' ), '<a href="https://yoast.com/ebooks/content-seo/">', '</a>' ); ?></p>
+<br/>
 <?php if ( ! empty( $onpage ) && WPSEO_Utils::grant_access() ) : ?>
 <div class="onpage">
 	<h4 class="hide-if-no-js"><?php

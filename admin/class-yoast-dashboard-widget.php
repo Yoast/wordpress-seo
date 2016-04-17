@@ -58,6 +58,8 @@ class Yoast_Dashboard_Widget {
 			);
 		}
 
+		$user = wp_get_current_user();
+
 		include WPSEO_PATH . '/admin/views/dashboard-widget.php';
 	}
 
