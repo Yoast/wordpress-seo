@@ -9,6 +9,15 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
+add_filter( 'yoast_option_tab_help_center_metas', 'yoast_option_tab_help_center_metas' );
+add_filter( 'yoast_option_tab_help_center_metas_general', 'yoast_option_tab_help_center_metas_general' );
+add_filter( 'yoast_option_tab_help_center_metas_home', 'yoast_option_tab_help_center_metas_home' );
+add_filter( 'yoast_option_tab_help_center_metas_post-types', 'yoast_option_tab_help_center_metas_post_types' );
+add_filter( 'yoast_option_tab_help_center_metas_taxonomies', 'yoast_option_tab_help_center_metas_taxonomies' );
+add_filter( 'yoast_option_tab_help_center_metas_archives', 'yoast_option_tab_help_center_metas_archives' );
+add_filter( 'yoast_option_tab_help_center_metas_other', 'yoast_option_tab_help_center_metas_other' );
+
+
 $options = WPSEO_Options::get_options( array( 'wpseo_titles', 'wpseo_permalinks', 'wpseo_internallinks' ) );
 
 $yform = Yoast_Form::get_instance();
@@ -24,3 +33,80 @@ $tabs->add_tab( new WPSEO_Option_Tab( 'other', __( 'Other', 'wordpress-seo' ), a
 $tabs->display( $yform, $options );
 
 $yform->admin_footer();
+
+function yoast_option_tab_help_center_metas( $tabs ) {
+	$tabs[] = new WPSEO_Help_Center_Item(
+		'basic-help',
+		__( 'Template explanation', 'wordpress-seo' ),
+		array(
+			'content' => '<p>' . sprintf( __( 'The title &amp; metas settings for %1$s are made up of variables that are replaced by specific values from the page when the page is displayed. The tabs on the left explain the available variables.', 'wordpress-seo' ), 'Yoast SEO' ) . '</p>' . '<p>' . __( 'Note that not all variables can be used in every template.', 'wordpress-seo' ) . '</p>',
+		)
+	);
+
+	$tabs[] = new WPSEO_Help_Center_Item(
+		'title-vars',
+		__( 'Basic Variables', 'wordpress-seo' ),
+		array(
+			'content' => "<h2>" . __( 'Basic Variables', 'wordpress-seo' ) . "</h2>" . WPSEO_Replace_Vars::get_basic_help_texts(),
+		)
+	);
+
+	$tabs[] = new WPSEO_Help_Center_Item(
+		'title-vars-advanced',
+		__( 'Advanced Variables', 'wordpress-seo' ),
+		array(
+			'content' => "<h2>" . __( 'Advanced Variables', 'wordpress-seo' ) . "</h2>" . WPSEO_Replace_Vars::get_advanced_help_texts(),
+		)
+	);
+
+	return $tabs;
+}
+
+function yoast_option_tab_help_center_metas_home( $tabs ) {
+	array_unshift( $tabs, yoast_create_help_center_video( 'https://yoa.st/screencast-metas-homepage' ) );
+
+	return $tabs;
+}
+
+function yoast_option_tab_help_center_metas_general( $tabs ) {
+	array_unshift( $tabs, yoast_create_help_center_video( 'https://yoa.st/screencast-metas' ) );
+
+	return $tabs;
+}
+
+function yoast_option_tab_help_center_metas_post_types( $tabs ) {
+	array_unshift( $tabs, yoast_create_help_center_video( 'https://yoa.st/screencast-metas-post-types' ) );
+
+	return $tabs;
+}
+
+function yoast_option_tab_help_center_metas_taxonomies( $tabs ) {
+	array_unshift( $tabs, yoast_create_help_center_video( 'https://yoa.st/screencast-metas-taxonomies' ) );
+
+	return $tabs;
+}
+
+function yoast_option_tab_help_center_metas_archives( $tabs ) {
+	array_unshift( $tabs, yoast_create_help_center_video( 'https://yoa.st/screencast-metas-archives' ) );
+
+	return $tabs;
+}
+
+function yoast_option_tab_help_center_metas_other( $tabs ) {
+	array_unshift( $tabs, yoast_create_help_center_video( 'https://yoa.st/screencast-metas-other' ) );
+
+	return $tabs;
+}
+
+function yoast_create_help_center_video( $url ) {
+	return new WPSEO_Help_Center_Item(
+		'video',
+		'Video tutorial',
+		array(
+			'view'           => 'partial-help-center-video',
+			'view_arguments' => array(
+				'tab_video_url' => $url
+			)
+		)
+	);
+}

@@ -1,6 +1,7 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 /* global ajaxurl */
 /* global wpseoAdminGlobalL10n */
+/* global console */
 /* jshint -W097 */
 /* jshint unused:false */
 (function() {
@@ -143,10 +144,10 @@
 		var $container = $( e.delegateTarget );
 		var $slideout = $container.find( '.wpseo-tab-video-slideout' );
 		if ( $slideout.is( ':hidden' ) ) {
-			openVideoSlideout( $container, 400 );
+			openVideoSlideout( $container );
 		}
 		else {
-			closeVideoSlideout( 400 );
+			closeVideoSlideout();
 		}
 	} );
 
@@ -154,28 +155,65 @@
 	 * Open Video Slideout
 	 *
 	 * @param {object} $container Tab to open video slider of.
-	 * @param {int} duration Duration of the slider.
 	 */
-	function openVideoSlideout( $container, duration ) {
-		var $data = $container.find( '.wpseo-tab-video__data' );
-		var videoUrl = $data.data( 'url' );
-		$data.append( '<iframe width="560" height="315" src="' + videoUrl + '" frameborder="0" allowfullscreen></iframe>' );
-
+	function openVideoSlideout( $container ) {
 		$container.find( '.toggle__arrow' ).removeClass( 'dashicons-arrow-down' ).addClass( 'dashicons-arrow-up' );
 		$container.find( '.wpseo-tab-video-container__handle' ).attr( 'aria-expanded', 'true' );
-		$container.find( '.wpseo-tab-video-slideout' ).slideDown( duration );
+		$container.find( '.wpseo-tab-video-slideout' ).css( 'display', 'flex' );
+
+		var $activeTabLink = $container.find('.wpseo-help-center-item.active > a');
+		if ( $activeTabLink.length > 0 ) {
+			var activeTab = $activeTabLink.attr( 'aria-controls' );
+			activateVideo( $( '#' + activeTab ) );
+
+			$container.on( 'click', '.wpseo-help-center-item > a', function( e ) {
+				var $link = $( this );
+				var target = $link.attr( 'aria-controls' );
+
+				$container.find( '.wpseo-help-center-item' ).removeClass( 'active' );
+				$link.parent().addClass( 'active' );
+
+				openHelpCenterTab( $container, $( '#' + target ) );
+
+				e.preventDefault();
+			} );
+		}
+		else {
+			activateVideo( $container );
+		}
+	}
+
+	function openHelpCenterTab( $container, $tab ) {
+		$container.find('.contextual-help-tabs-wrap div').removeClass('active');
+		$tab.addClass('active');
+
+		stopVideos();
+
+		activateVideo( $tab );
+	}
+
+	function activateVideo( $tab ) {
+		var $data = $tab.find( '.wpseo-tab-video__data' );
+		if ( $data.length === 0 ) {
+			return;
+		}
+
+		var videoUrl = $data.data( 'url' );
+		$data.append( '<iframe width="560" height="315" src="' + videoUrl + '" frameborder="0" allowfullscreen></iframe>' );
+	}
+
+	function stopVideos() {
+		$( '#wpbody-content' ).find( '.wpseo-tab-video__data' ).children().remove();
 	}
 
 	/**
 	 * Close Video Slideout
-	 *
-	 * @param {int} duration Duration of the slider.
 	 */
-	function closeVideoSlideout( duration ) {
+	function closeVideoSlideout() {
 		var $container = $( '#wpbody-content' ).find( '.wpseo-tab-video-container' );
-		$container.find( '.wpseo-tab-video-slideout' ).slideUp( duration, function() {
-			$( '#wpbody-content' ).find( '.wpseo-tab-video__data' ).children().remove();
-		} );
+		$container.find( '.wpseo-tab-video-slideout' ).css( 'display', '' );
+
+		stopVideos();
 
 		$container.find( '.toggle__arrow' ).removeClass( 'dashicons-arrow-up' ).addClass( 'dashicons-arrow-down' );
 		$container.find( '.wpseo-tab-video-container__handle' ).attr( 'aria-expanded', 'false' );

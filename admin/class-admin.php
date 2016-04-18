@@ -145,7 +145,6 @@ class WPSEO_Admin {
 				$manage_options_cap,
 				'wpseo_titles',
 				array( $this, 'load_page' ),
-				array( array( $this, 'title_metas_help_tab' ) ),
 			),
 			array(
 				'wpseo_dashboard',
