@@ -25,11 +25,6 @@ var twitterDefaults = {
 		description: "",
 		imageUrl: ""
 	},
-	placeholder: {
-		title:    "This is an example title - edit by clicking here",
-		description: "Modify your twitter description by editing it right here",
-		imageUrl: "Edit the image by clicking here"
-	},
 	defaultValue: {
 		title: "",
 		description: "",
@@ -128,6 +123,14 @@ var TWITTER_IMAGE_THRESHOLD_HEIGHT = 150;
  * @constructor
  */
 var TwitterPreview = function( opts, i18n ) {
+	this.i18n = i18n || this.constructI18n();
+
+	twitterDefaults.placeholder = {
+		title: this.i18n.dgettext( "yoast-social-previews", "This is an example title - edit by clicking here" ),
+		description: this.i18n.sprintf( this.i18n.dgettext( "yoast-social-previews", "Modify your %1$s description by editing it right here" ), "Twitter" ),
+		imageUrl: ""
+	};
+
 	defaultsDeep( opts, twitterDefaults );
 
 	if ( !isElement( opts.targetElement ) ) {
