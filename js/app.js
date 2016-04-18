@@ -12,6 +12,7 @@ var forEach = require( "lodash/forEach" );
 
 var Jed = require( "jed" );
 
+var ContentAssessor = require( "./contentAssessor.js" );
 var SEOAssessor = require( "./seoAssessor.js" );
 var Researcher = require( "./researcher.js" );
 var AssessorPresenter = require( "./renderers/AssessorPresenter.js" );
@@ -205,11 +206,18 @@ var App = function( args ) {
 	this.callbacks = this.config.callbacks;
 	this.i18n = this.constructI18n( this.config.translations );
 
-	// Set the assessor
-	if ( isUndefined( args.assessor ) ) {
-		this.assessor = new SEOAssessor( this.i18n );
+	// Set the SEO assessor
+	if ( isUndefined( args.seoAssessor ) ) {
+		this.seoAssessor = new SEOAssessor( this.i18n );
 	} else {
-		this.assessor = args.assessor;
+		this.seoAssessor = args.seoAssessor;
+	}
+
+	// Set the content assessor
+	if ( isUndefined( args.contentAssessor ) ) {
+		this.contentAssessor = new ContentAssessor( this.i18n );
+	} else {
+		this.contentAssessor = args.contentAssessor;
 	}
 
 	this.pluggable = new Pluggable( this );
@@ -433,7 +441,7 @@ App.prototype.runAnalyzer = function() {
 		this.researcher.setPaper( this.paper );
 	}
 
-	this.assessor.assess( this.paper );
+	this.seoAssessor.assess( this.paper );
 
 	// Pass the assessor result through to the formatter
 	this.assessorPresenter = new AssessorPresenter( {
@@ -444,7 +452,7 @@ App.prototype.runAnalyzer = function() {
 	} );
 
 	this.assessorPresenter.render();
-	this.callbacks.saveScores( this.assessor.calculateOverallScore(), this.assessorPresenter );
+	this.callbacks.saveScores( this.seoAssessor.calculateOverallScore(), this.assessorPresenter );
 
 	if ( this.config.dynamicDelay ) {
 		this.endTime();
@@ -595,7 +603,7 @@ App.prototype.registerTest = function() {
  * @returns {boolean} Whether or not the test was successfully registered.
  */
 App.prototype.registerAssessment = function( name, assessment, pluginName ) {
-	return this.pluggable._registerAssessment( this.assessor, name, assessment, pluginName );
+	return this.pluggable._registerAssessment( this.seoAssessor, name, assessment, pluginName );
 };
 
 module.exports = App;
