@@ -51,11 +51,7 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 		$has_exclude_filter = has_filter( 'wpseo_sitemap_exclude_author' );
 
-		$query_arguments = $this->get_query_arguments( array(
-			'meta_key' => '',
-			'orderby'  => 'login',
-			'order'    => 'ASC',
-		) );
+		$query_arguments = $this->get_query_arguments();
 
 		if ( ! $has_exclude_filter ) {
 			$query_arguments['fields'] = 'ID';
@@ -65,28 +61,27 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 		if ( $has_exclude_filter ) {
 			$users = $this->exclude_users( $users );
+			$users = wp_list_pluck( $users, 'ID' );
 		}
 
-		$count = count( $users );
-
-		if ( $count === 0 ) {
+		if ( empty( $users ) ) {
 			return array();
 		}
 
-		$max_pages = 1;
-
-		if ( $count > $max_entries ) {
-			$max_pages = (int) ceil( $count / $max_entries );
-		};
-
 		$index = array();
+		$page  = 1;
+		$users = array_chunk( $users, $max_entries );
 
-		for ( $page = 1; $page <= $max_pages; $page++ ) {
+		foreach ( $users as $users_page ) {
 
+			$user_id = array_shift( $users_page ); // Time descending, first user on page is least recently updated.
+			$user    = get_user_by( 'id', $user_id );
 			$index[] = array(
 				'loc'     => WPSEO_Sitemaps_Router::get_base_url( 'author-sitemap' . $page . '.xml' ),
-				'lastmod' => '@' . $this->get_last_modified( $max_entries, $page ), // @ for explicit timestamp format
+				'lastmod' => '@' . $user->_yoast_wpseo_profile_updated, // @ for explicit timestamp format
 			);
+
+			$page++;
 		}
 
 		return $index;
@@ -141,30 +136,6 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		}
 
 		return array_merge( $arguments, $add );
-	}
-
-	/**
-	 * Retrieve profile update time for most recently updated user on a sitemap page.
-	 *
-	 * @param int $max_entries  Entries per page of sitemap.
-	 * @param int $current_page Current page.
-	 *
-	 * @return int|false Timestamp of last profile update or false on failure.
-	 */
-	protected function get_last_modified( $max_entries, $current_page ) {
-
-		$users = get_users( $this->get_query_arguments( array(
-			'number' => 1, // We sort time descending, so first on the page is most recent.
-			'offset' => ( $current_page - 1 ) * $max_entries,
-		) ) );
-
-		if ( empty( $users ) ) {
-			return false;
-		}
-
-		$user = array_pop( $users );
-
-		return $user->_yoast_wpseo_profile_updated;
 	}
 
 	/**
