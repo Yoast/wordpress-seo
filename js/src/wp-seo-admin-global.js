@@ -1,6 +1,5 @@
 /* global ajaxurl */
 /* global wpseoAdminGlobalL10n */
-/* global console */
 /* jshint -W097 */
 /* jshint unused:false */
 (function() {
@@ -136,7 +135,7 @@
 	var $ = jQuery;
 
 	$( '.nav-tab' ).click( function() {
-		closeVideoSlideout( 0 );
+		closeVideoSlideout();
 	} );
 
 	$( '.wpseo-tab-video-container' ).on( 'click', '.wpseo-tab-video-container__handle', function( e ) {
@@ -182,25 +181,37 @@
 		}
 	}
 
+	/**
+	 * Open tab
+	 *
+	 * @param {object} $container Container that contains the tab.
+	 * @param {object} $tab Tab that is activated.
+	 */
 	function openHelpCenterTab( $container, $tab ) {
 		$container.find('.contextual-help-tabs-wrap div').removeClass('active');
 		$tab.addClass('active');
 
 		stopVideos();
-
 		activateVideo( $tab );
 	}
 
+	/**
+	 * Start video if found on the tab
+	 *
+	 * @param {object} $tab Tab that is activated.
+	 */
 	function activateVideo( $tab ) {
 		var $data = $tab.find( '.wpseo-tab-video__data' );
 		if ( $data.length === 0 ) {
 			return;
 		}
 
-		var videoUrl = $data.data( 'url' );
-		$data.append( '<iframe width="560" height="315" src="' + videoUrl + '" frameborder="0" allowfullscreen></iframe>' );
+		$data.append( '<iframe width="560" height="315" src="' + $data.data( 'url' ) + '" frameborder="0" allowfullscreen></iframe>' );
 	}
 
+	/**
+	 * Stop playing any video.
+	 */
 	function stopVideos() {
 		$( '#wpbody-content' ).find( '.wpseo-tab-video__data' ).children().remove();
 	}

@@ -57,10 +57,6 @@ class WPSEO_Option_Tab {
 		return $this->get_argument( 'video_url' );
 	}
 
-	public function has_help_center() {
-		
-	}
-
 	/**
 	 * Get the option group
 	 *

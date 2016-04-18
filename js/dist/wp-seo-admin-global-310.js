@@ -1,7 +1,6 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 /* global ajaxurl */
 /* global wpseoAdminGlobalL10n */
-/* global console */
 /* jshint -W097 */
 /* jshint unused:false */
 (function() {
@@ -137,7 +136,7 @@
 	var $ = jQuery;
 
 	$( '.nav-tab' ).click( function() {
-		closeVideoSlideout( 0 );
+		closeVideoSlideout();
 	} );
 
 	$( '.wpseo-tab-video-container' ).on( 'click', '.wpseo-tab-video-container__handle', function( e ) {
@@ -183,25 +182,37 @@
 		}
 	}
 
+	/**
+	 * Open tab
+	 *
+	 * @param {object} $container Container that contains the tab.
+	 * @param {object} $tab Tab that is activated.
+	 */
 	function openHelpCenterTab( $container, $tab ) {
 		$container.find('.contextual-help-tabs-wrap div').removeClass('active');
 		$tab.addClass('active');
 
 		stopVideos();
-
 		activateVideo( $tab );
 	}
 
+	/**
+	 * Start video if found on the tab
+	 *
+	 * @param {object} $tab Tab that is activated.
+	 */
 	function activateVideo( $tab ) {
 		var $data = $tab.find( '.wpseo-tab-video__data' );
 		if ( $data.length === 0 ) {
 			return;
 		}
 
-		var videoUrl = $data.data( 'url' );
-		$data.append( '<iframe width="560" height="315" src="' + videoUrl + '" frameborder="0" allowfullscreen></iframe>' );
+		$data.append( '<iframe width="560" height="315" src="' + $data.data( 'url' ) + '" frameborder="0" allowfullscreen></iframe>' );
 	}
 
+	/**
+	 * Stop playing any video.
+	 */
 	function stopVideos() {
 		$( '#wpbody-content' ).find( '.wpseo-tab-video__data' ).children().remove();
 	}

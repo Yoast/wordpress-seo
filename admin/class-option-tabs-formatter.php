@@ -63,6 +63,13 @@ class WPSEO_Option_Tabs_Formatter {
 		}
 	}
 
+	/**
+	 * Build the help center
+	 *
+	 * @param string                   $base              The base where the tab belongs to.
+	 * @param string                   $tab               The tab containing these items.
+	 * @param WPSEO_Help_Center_Item[] $help_center_items List of helper items.
+	 */
 	private function create_help_center( $base, $tab, $help_center_items ) {
 
 		$id = sprintf( 'tab-help-center-%s-%s', $base, $tab );
@@ -115,7 +122,6 @@ class WPSEO_Option_Tabs_Formatter {
 
 						$panel_id = "tab-panel-{$base}_{$tab}__{$id}";
 						?>
-
 						<div id="<?php echo esc_attr( $panel_id ); ?>" class="<?php echo $classes; ?>">
 							<?php echo $help_center_item->get_content(); ?>
 						</div>
@@ -127,6 +133,5 @@ class WPSEO_Option_Tabs_Formatter {
 			</div>
 		</div>
 		<?php
-
 	}
 }
