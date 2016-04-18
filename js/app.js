@@ -117,7 +117,7 @@ function verifyArguments( args ) {
 		throw new MissingArgument( "`targets` is a required App argument, `targets` is not an object." );
 	}
 
-	if ( !isString( args.targets.seoOutput ) ) {
+	if ( !isString( args.targets.output ) ) {
 		throw new MissingArgument( "`targets.output` is a required App argument, `targets.output` is not a string." );
 	}
 
@@ -362,7 +362,7 @@ App.prototype.initSnippetPreview = function() {
  */
 App.prototype.initAssessorPresenters = function() {
 	var targets = {
-		output: this.config.targets.seoOutput
+		output: this.config.targets.output
 	};
 
 	// Pass the assessor result through to the formatter
@@ -519,7 +519,7 @@ App.prototype.showLoadingDialog = function() {
 	var dialogDiv = document.createElement( "div" );
 	dialogDiv.className = "YoastSEO_msg";
 	dialogDiv.id = "YoastSEO-plugin-loading";
-	document.getElementById( this.config.targets.seoOutput ).appendChild( dialogDiv );
+	document.getElementById( this.config.targets.output ).appendChild( dialogDiv );
 };
 
 /**
@@ -542,7 +542,7 @@ App.prototype.updateLoadingDialog = function( plugins ) {
  * @returns {void}
  */
 App.prototype.removeLoadingDialog = function() {
-	document.getElementById( this.config.targets.seoOutput ).removeChild( document.getElementById( "YoastSEO-plugin-loading" ) );
+	document.getElementById( this.config.targets.output ).removeChild( document.getElementById( "YoastSEO-plugin-loading" ) );
 };
 
 // ***** PLUGGABLE PUBLIC DSL ***** //
