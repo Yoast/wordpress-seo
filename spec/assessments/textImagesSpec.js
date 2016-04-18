@@ -24,7 +24,7 @@ describe( "An image count assessment", function() {
 		} ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 5 );
-		expect( assessment.getText() ).toEqual( "The images on this page are missing alt tags." );
+		expect( assessment.getText() ).toEqual( "The images on this page are missing alt attributes." );
 	} );
 
 	it( "assesses a single image, without a keyword, but with an alt-tag set", function() {
@@ -38,7 +38,7 @@ describe( "An image count assessment", function() {
 		} ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 5 );
-		expect( assessment.getText() ).toEqual( "The images on this page contain alt tags." );
+		expect( assessment.getText() ).toEqual( "The images on this page contain alt attributes." );
 	} );
 
 	it( "assesses a single image, with a keyword and alt-tag set, but with a non-keyword alt-tag", function() {
@@ -54,7 +54,7 @@ describe( "An image count assessment", function() {
 		} ), i18n );
 
 		expect( assessment.getScore() ).toEqual( 5 );
-		expect( assessment.getText() ).toEqual( "The images on this page do not have alt tags containing your focus keyword." );
+		expect( assessment.getText() ).toEqual( "The images on this page do not have alt attributes containing your focus keyword." );
 	} );
 
 	it( "assesses a single image, with a keyword and alt-tag set to keyword", function() {
