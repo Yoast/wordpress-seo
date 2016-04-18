@@ -240,7 +240,7 @@ var Jed = require( 'jed' );
 			},
 			defaultValue: {
 				title: titlePlaceholder
-			},
+			}
 		};
 
 		if ( '' !== descriptionPlaceholder ) {
@@ -624,14 +624,14 @@ var Jed = require( 'jed' );
 
 		if ( typeof translations !== 'undefined' && typeof translations.domain !== 'undefined' ) {
 			translations.domain = 'yoast-social-previews';
-			translations.locale_data['yoast-social-previews'] = _.clone(translations.locale_data['wordpress-seo-premium']);
+			translations.locale_data[ 'yoast-social-previews' ] = _.clone( translations.locale_data[ 'wordpress-seo-premium' ] );
 
-			delete( translations.locale_data['wordpress-seo-premium'] );
+			delete( translations.locale_data[ 'wordpress-seo-premium' ] );
 
 			return translations;
 		}
 
-		return [];
+		return {};
 	}
 
 	/**
