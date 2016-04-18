@@ -51,13 +51,13 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 		$has_exclude_filter = has_filter( 'wpseo_sitemap_exclude_author' );
 
-		$query_arguments = $this->get_query_arguments();
+		$query_arguments = array();
 
 		if ( ! $has_exclude_filter ) {
 			$query_arguments['fields'] = 'ID';
 		}
 
-		$users = get_users( $query_arguments );
+		$users = $this->get_users( $query_arguments );
 
 		if ( $has_exclude_filter ) {
 			$users = $this->exclude_users( $users );
@@ -88,18 +88,19 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	}
 
 	/**
+	 * Retrieve users, taking account of all necessary exclusions.
 	 *
-	 * @param array $add Arguments to add.
+	 * @param array $arguments Arguments to add.
 	 *
 	 * @return array
 	 */
-	protected function get_query_arguments( $add = array() ) {
+	protected function get_users( $arguments = array() ) {
 
 		global $wp_version;
 
 		$options = WPSEO_Options::get_all();
 
-		$arguments = array(
+		$defaults = array(
 			'who'        => 'authors',
 			'meta_key'   => '_yoast_wpseo_profile_updated',
 			'orderby'    => 'meta_value_num',
@@ -120,22 +121,22 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 		// TODO Remove version condition after plugin requirements raised to WP 4.3. R.
 		if ( $options['disable_author_noposts'] === true && version_compare( $wp_version, '4.3', '>=' ) ) {
-			$arguments['who']                 = ''; // Otherwise it cancels out next argument.
-			$arguments['has_published_posts'] = true;
+			$defaults['who']                 = ''; // Otherwise it cancels out next argument.
+			$defaults['has_published_posts'] = true;
 		}
 
-		// TODO Remove version condition after plugin requirements raised to WP 4.3. R.
+		// TODO Remove version condition after plugin requirements raised to WP 4.4. R.
 		if ( version_compare( $wp_version, '4.4', '>=' ) ) {
 
 			$excluded_roles = $this->get_excluded_roles();
 
 			if ( ! empty( $excluded_roles ) ) {
-				$arguments['who']          = ''; // Otherwise it cancels out next argument.
-				$arguments['role__not_in'] = $excluded_roles;
+				$defaults['who']          = ''; // Otherwise it cancels out next argument.
+				$defaults['role__not_in'] = $excluded_roles;
 			}
 		}
 
-		return array_merge( $arguments, $add );
+		return get_users( array_merge( $defaults, $arguments ) );
 	}
 
 	/**
@@ -187,10 +188,10 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			return $links;
 		}
 
-		$users = get_users( $this->get_query_arguments( array(
+		$users = $this->get_users( array(
 			'offset' => ( $current_page - 1 ) * $max_entries,
 			'number' => $max_entries,
-		) ) );
+		) );
 
 		$users = $this->exclude_users( $users );
 
