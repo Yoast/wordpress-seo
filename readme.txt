@@ -133,18 +133,18 @@ Release Date: April 19th, 2016
 	* Clarifies the text on the pinterest settings tab.
 	* Improves searchability of select inputs by using select2.
 	* Adds filters to customize sitemaps' <urlset>, props [Mark Walker](https://github.com/mnwalker).
-	* Uses wp_register_script and wp_register_style on init so other plugins can customize our assets.
-	* Changes text length for terms to 150 words.
+	* Uses `wp_register_script` and `wp_register_style` on init so other plugins can customize our assets.
+	* Changes minimum text length content analysis check for terms to require 150 words instead of 400.
 	* Removes analyses from the term analysis that weren't applicable to terms.
 	* Improves code architecture of sitemaps.
-	* Moves the onpage.org settings to the webmaster tab.
+	* Moves the OnPage.org settings to the webmaster tab.
 	* Improves performance when importing or migrating posts, thanks [sun](https://github.com/sun).
 	* Adds caching to empty sitemaps.
 	* Adds parsing of shortcodes before recalculating all posts.
 	* Improves detection of static xml sitemaps
-	* Add target=_blank to external links inside the metabox help information, props [Borja Abad](https://github.com/mines).
-	* Clarifies the subpage of archives text.
-	* Removes noydir setting.
+	* Makes sure external links in the metabox open in a new window, props [Borja Abad](https://github.com/mines).
+	* Makes the descriptions on the archives tab of the titles and meta's more clear.
+	* Removes noydir setting since Yahoo! directory doesn't exist anymore.
 	* Removes other tab from the import screen, these plugins have all been deprecated.
 	* Removes all settings to hide specific tags inside the head.
 	* Improves accessibility of add keyword modal.
