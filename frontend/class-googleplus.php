@@ -7,7 +7,6 @@
  * This code handles the Google+ specific output that's not covered by OpenGraph.
  *
  * @deprecated 3.2 - Google+ uses OpenGraph data when there is no specific Google+ data provided.
- *
  */
 class WPSEO_GooglePlus {
 
@@ -69,5 +68,4 @@ class WPSEO_GooglePlus {
 	public function google_plus_image() {
 		_deprecated_function( 'WPSEO_GooglePlus::google_plus_image', '3.2' );
 	}
-
 }

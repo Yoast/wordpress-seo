@@ -167,7 +167,7 @@ class WPSEO_Taxonomy_Metabox {
 				)
 			);
 		}
-		
+
 		return new WPSEO_Metabox_Tab_Section(
 			'social',
 			'<span class="dashicons dashicons-share"></span>',

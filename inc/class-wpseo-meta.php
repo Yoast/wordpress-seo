@@ -241,7 +241,7 @@ class WPSEO_Meta {
 	 */
 	private static $social_networks = array(
 		'opengraph'  => 'opengraph',
-		'twitter'    => 'twitter'
+		'twitter'    => 'twitter',
 	);
 
 	/**
