@@ -358,7 +358,7 @@ App.prototype.initSnippetPreview = function() {
 };
 
 /**
- *
+ * Initializes the assessorpresenters for content and SEO.
  */
 App.prototype.initAssessorPresenters = function() {
 	var targets = {
@@ -366,7 +366,7 @@ App.prototype.initAssessorPresenters = function() {
 	};
 
 	// Pass the assessor result through to the formatter
-	this.assessorPresenter = new AssessorPresenter( {
+	this.seoAssessorPresenter = new AssessorPresenter( {
 		targets: targets,
 		assessor: this.seoAssessor,
 		i18n: this.i18n
@@ -472,8 +472,8 @@ App.prototype.runAnalyzer = function() {
 	this.seoAssessor.assess( this.paper );
 	this.contentAssessor.assess( this.paper );
 
-	this.assessorPresenter.setKeyword( this.paper.getKeyword() );
-	this.assessorPresenter.render();
+	this.seoAssessorPresenter.setKeyword( this.paper.getKeyword() );
+	this.seoAssessorPresenter.render();
 	this.callbacks.saveScores( this.seoAssessor.calculateOverallScore(), this.assessorPresenter );
 
 	this.contentAssessorPresenter.render();
