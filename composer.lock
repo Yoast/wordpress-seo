@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "53613a02560fdcdf66f644c86098bc90",
-    "content-hash": "901f767061be9e6ed6e59df75c5eab5e",
+    "hash": "3fc20e5eafa8ad35fef01a5e57322aa5",
+    "content-hash": "e1951d393a852b97e4d86f8a072928c7",
     "packages": [
         {
             "name": "composer/installers",
@@ -104,16 +104,16 @@
         },
         {
             "name": "xrstf/composer-php52",
-            "version": "v1.0.19",
+            "version": "v1.0.20",
             "source": {
-                "type": "hg",
-                "url": "https://bitbucket.org/xrstf/composer-php52",
-                "reference": "9a4a9c46d0347b39bf9159815301dc66fc25324e"
+                "type": "git",
+                "url": "https://github.com/composer-php52/composer-php52.git",
+                "reference": "bd41459d5e27df8d33057842b32377c39e97a5a8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://bitbucket.org/xrstf/composer-php52/get/9a4a9c46d0347b39bf9159815301dc66fc25324e.zip",
-                "reference": "9a4a9c46d0347b39bf9159815301dc66fc25324e",
+                "url": "https://api.github.com/repos/composer-php52/composer-php52/zipball/bd41459d5e27df8d33057842b32377c39e97a5a8",
+                "reference": "bd41459d5e27df8d33057842b32377c39e97a5a8",
                 "shasum": ""
             },
             "type": "library",
@@ -131,8 +131,7 @@
             "license": [
                 "MIT"
             ],
-            "homepage": "http://www.xrstf.de/",
-            "time": "2015-10-01 14:11:58"
+            "time": "2016-04-16 21:52:24"
         },
         {
             "name": "yoast/api-libs",
