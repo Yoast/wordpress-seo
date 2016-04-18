@@ -68,11 +68,15 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			return array();
 		}
 
-		$index = array();
-		$page  = 1;
-		$users = array_chunk( $users, $max_entries );
+		$index      = array();
+		$page       = 1;
+		$user_pages = array_chunk( $users, $max_entries );
 
-		foreach ( $users as $users_page ) {
+		if ( count( $user_pages ) === 1 ) {
+			$page = '';
+		}
+
+		foreach ( $user_pages as $users_page ) {
 
 			$user_id = array_shift( $users_page ); // Time descending, first user on page is most recently updated.
 			$user    = get_user_by( 'id', $user_id );
