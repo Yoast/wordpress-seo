@@ -1,7 +1,3 @@
-require("../js/config/config.js");
-require("../js/config/scoring.js");
-require("../js/app.js");
-
 var MissingArgument = require( "../js/errors/missingArgument.js" );
 var SnippetPreview = require( "../js/snippetPreview.js" );
 
