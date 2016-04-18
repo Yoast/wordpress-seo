@@ -167,20 +167,7 @@ class WPSEO_Taxonomy_Metabox {
 				)
 			);
 		}
-
-		if ( $options['googleplus'] === true ) {
-			$googleplus_meta_fields = $taxonomy_social_fields->get_by_network( 'googleplus' );
-
-			$tabs[] = new WPSEO_Metabox_Form_Tab(
-				'googleplus',
-				$this->taxonomy_tab_content->html( $googleplus_meta_fields ),
-				'<span class="dashicons dashicons-googleplus"></span>',
-				array(
-					'link_title' => __( 'Google+ metadata', 'wordpress-seo' ),
-				)
-			);
-		}
-
+		
 		return new WPSEO_Metabox_Tab_Section(
 			'social',
 			'<span class="dashicons dashicons-share"></span>',
