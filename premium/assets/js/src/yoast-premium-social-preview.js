@@ -34,8 +34,9 @@ var forEach = require( 'lodash/forEach' );
 	 * @param {string} imageButton ID name for the image button.
 	 * @param {string} removeButton ID name for the remove button.
 	 * @param {function} onMediaSelect The event that will be ran when image is chosen.
+	 * @param {Object} imagePreviewElement The image preview element that can be clicked to update as well.
 	 */
-	function bindUploadButtonEvents( imageUrl, imageButton, removeButton, onMediaSelect ) {
+	function bindUploadButtonEvents( imageUrl, imageButton, removeButton, onMediaSelect, imagePreviewElement ) {
 		var social_preview_uploader = wp.media.frames.file_frame = wp.media({
 			title: yoastSocialPreview.choose_image,
 			button: { text: yoastSocialPreview.choose_image },
@@ -68,6 +69,10 @@ var forEach = require( 'lodash/forEach' );
 			evt.preventDefault();
 			social_preview_uploader.open();
 		} );
+
+		$( imagePreviewElement ).on( 'click', function( evt ) {
+			social_preview_uploader.open();
+		} );
 	}
 
 	/**
@@ -80,7 +85,7 @@ var forEach = require( 'lodash/forEach' );
 			return;
 		}
 
-		var imageUrl = $(preview.element.formContainer).find('.js-snippet-editor-imageUrl');
+		var imageUrl = $( preview.element.formContainer ).find('.js-snippet-editor-imageUrl');
 
 		var buttonDiv = $( '<div></div>' );
 		buttonDiv.insertAfter( imageUrl );
@@ -102,7 +107,13 @@ var forEach = require( 'lodash/forEach' );
 			$( '#' + removeButtonId ).hide();
 		}
 
-		bindUploadButtonEvents( imageUrl, '#' + imageButtonId, '#' + removeButtonId, preview.updatePreview.bind( preview ) );
+		bindUploadButtonEvents(
+			imageUrl,
+			'#' + imageButtonId,
+			'#' + removeButtonId,
+			preview.updatePreview.bind( preview ),
+			$( preview.element.container ).find( '.editable-preview__image' )
+		);
 	}
 
 	/**
