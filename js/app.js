@@ -12,8 +12,8 @@ var forEach = require( "lodash/forEach" );
 
 var Jed = require( "jed" );
 
-var ContentAssessor = require( "./contentAssessor.js" );
 var SEOAssessor = require( "./seoAssessor.js" );
+var ContentAssessor = require( "./contentAssessor.js" );
 var Researcher = require( "./researcher.js" );
 var AssessorPresenter = require( "./renderers/AssessorPresenter.js" );
 var Pluggable = require( "./pluggable.js" );
@@ -117,7 +117,7 @@ function verifyArguments( args ) {
 		throw new MissingArgument( "`targets` is a required App argument, `targets` is not an object." );
 	}
 
-	if ( !isString( args.targets.output ) ) {
+	if ( !isString( args.targets.seoOutput ) ) {
 		throw new MissingArgument( "`targets.output` is a required App argument, `targets.output` is not a string." );
 	}
 
@@ -206,14 +206,14 @@ var App = function( args ) {
 	this.callbacks = this.config.callbacks;
 	this.i18n = this.constructI18n( this.config.translations );
 
-	// Set the SEO assessor
-	if ( isUndefined( args.seoAssessor ) ) {
+	// Set the assessor
+	if ( isUndefined( args.assessor ) ) {
 		this.seoAssessor = new SEOAssessor( this.i18n );
 	} else {
-		this.seoAssessor = args.seoAssessor;
+		this.seoAssessor = args.assessor;
 	}
 
-	// Set the content assessor
+	//Set the content assessor
 	if ( isUndefined( args.contentAssessor ) ) {
 		this.contentAssessor = new ContentAssessor( this.i18n );
 	} else {
@@ -239,6 +239,7 @@ var App = function( args ) {
 		this.snippetPreview = createDefaultSnippetPreview.call( this );
 	}
 	this.initSnippetPreview();
+	this.initAssessorPresenters();
 
 	this.runAnalyzer();
 };
@@ -357,6 +358,33 @@ App.prototype.initSnippetPreview = function() {
 };
 
 /**
+ *
+ */
+App.prototype.initAssessorPresenters = function() {
+	var targets = {
+		output: this.config.targets.seoOutput
+	};
+
+	// Pass the assessor result through to the formatter
+	this.assessorPresenter = new AssessorPresenter( {
+		targets: targets,
+		assessor: this.seoAssessor,
+		i18n: this.i18n
+	} );
+
+	targets = {
+		output: this.config.targets.contentOutput
+	};
+
+	// Pass the assessor result through to the formatter
+	this.contentAssessorPresenter = new AssessorPresenter( {
+		targets: targets,
+		assessor: this.contentAssessor,
+		i18n: this.i18n
+	} );
+};
+
+/**
  * binds the analyzeTimer function to the input of the targetElement on the page.
  * @returns {void}
  */
@@ -442,17 +470,13 @@ App.prototype.runAnalyzer = function() {
 	}
 
 	this.seoAssessor.assess( this.paper );
+	this.contentAssessor.assess( this.paper );
 
-	// Pass the assessor result through to the formatter
-	this.assessorPresenter = new AssessorPresenter( {
-		targets: this.config.targets,
-		keyword: this.paper.getKeyword(),
-		assessor: this.assessor,
-		i18n: this.i18n
-	} );
-
+	this.assessorPresenter.setKeyword( this.paper.getKeyword() );
 	this.assessorPresenter.render();
 	this.callbacks.saveScores( this.seoAssessor.calculateOverallScore(), this.assessorPresenter );
+
+	this.contentAssessorPresenter.render();
 
 	if ( this.config.dynamicDelay ) {
 		this.endTime();
@@ -495,7 +519,7 @@ App.prototype.showLoadingDialog = function() {
 	var dialogDiv = document.createElement( "div" );
 	dialogDiv.className = "YoastSEO_msg";
 	dialogDiv.id = "YoastSEO-plugin-loading";
-	document.getElementById( this.config.targets.output ).appendChild( dialogDiv );
+	document.getElementById( this.config.targets.seoOutput ).appendChild( dialogDiv );
 };
 
 /**
@@ -518,7 +542,7 @@ App.prototype.updateLoadingDialog = function( plugins ) {
  * @returns {void}
  */
 App.prototype.removeLoadingDialog = function() {
-	document.getElementById( this.config.targets.output ).removeChild( document.getElementById( "YoastSEO-plugin-loading" ) );
+	document.getElementById( this.config.targets.seoOutput ).removeChild( document.getElementById( "YoastSEO-plugin-loading" ) );
 };
 
 // ***** PLUGGABLE PUBLIC DSL ***** //

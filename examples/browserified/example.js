@@ -20,7 +20,8 @@ window.onload = function() {
 	var app = new App({
 		snippetPreview: snippetPreview,
 		targets: {
-			output: "output"
+			seoOutput: "seoOutput",
+			contentOutput: "contentOutput"
 		},
 		callbacks: {
 			getData: function() {
