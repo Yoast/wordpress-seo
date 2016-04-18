@@ -2,7 +2,7 @@ var getSentences = require( "../stringProcessing/getSentences" );
 var sentencesLength = require( "./sentencesLength.js" );
 
 /**
- * Get sentences from the text.
+ * Count sentences in the text.
  * @param {Paper} paper The Paper object to get text from.
  * @returns {Array} The sentences from the text.
  */

@@ -8,9 +8,12 @@ var countTooLongSentences = require( "./checkForTooLongSentences.js" );
  * @returns {object} Object containing score and text.
  */
 var calculateSentenceLengthResult = function( sentences, i18n ) {
-	var totalSentences = sentences.length;
-	var tooLong = countTooLongSentences( sentences );
-	var percentage = ( tooLong / totalSentences ) * 100;
+	var recommendedValue = 20;
+	var tooLong = countTooLongSentences( sentences, recommendedValue );
+	var percentage = ( tooLong / sentences.length ) * 100;
+
+	// 6 is the number of scorepoints between 3, minscore and 9, maxscore. For scoring we use 10 steps
+	// up to 21.7 is for scoring a 9, lower percentages give lower scores.
 	var score = 9 - Math.max( Math.min( ( 6 / 10 ) * ( percentage - 21.7 ), 6 ), 0 );
 	if ( score >= 7 ) {
 		return{
@@ -37,8 +40,8 @@ var calculateSentenceLengthResult = function( sentences, i18n ) {
  * @returns {object} the Assessmentresult
  */
 var sentenceLengthInDescriptionAssessment = function( paper, researcher, i18n ) {
-	var sentences = researcher.getResearch( "getSentencesFromDescription" );
-	var sentenceResult = calculateSentenceLengthResult( sentences, i18n );
+	var sentenceCount = researcher.getResearch( "getSentencesFromDescription" );
+	var sentenceResult = calculateSentenceLengthResult( sentenceCount, i18n );
 	var assessmentResult = new AssessmentResult();
 
 	assessmentResult.setScore( sentenceResult.score );

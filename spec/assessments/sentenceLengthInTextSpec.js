@@ -1,4 +1,4 @@
-var sentenceLengthInTextAssessment = require( "../../js/assessments/sentenceLenghtInTextAssessment" );
+var sentenceLengthInTextAssessment = require( "../../js/assessments/sentenceLengthInTextAssessment" );
 var Paper = require( "../../js/values/Paper.js" );
 var Factory = require( "../helpers/factory.js" );
 var i18n = Factory.buildJed();
@@ -8,7 +8,7 @@ var i18n = Factory.buildJed();
 describe( "An assessment for sentence length", function(){
 	it( "returns the score for all short sentences", function(){
 		var mockPaper = new Paper();
-		var assessment = sentenceLengthInTextAssessment.getResult( mockPaper, Factory.buildMockResearcher( [ 1,1,1,1 ] ), i18n );
+		var assessment = sentenceLengthInTextAssessment.getResult( mockPaper, Factory.buildMockResearcher( [ 1, 1, 1, 1 ] ), i18n );
 
 		expect( assessment.hasScore()).toBe( true );
 		expect( assessment.getScore() ).toEqual( 9 );
@@ -51,4 +51,3 @@ describe( "An assessment for sentence length", function(){
 			"which is more than the recommended maximum of 25%. Try to shorten your sentences." );
 	} );
 } );
-
