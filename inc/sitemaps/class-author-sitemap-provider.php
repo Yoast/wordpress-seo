@@ -53,7 +53,7 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 		$query_arguments = array();
 
-		if ( ! $has_exclude_filter ) {
+		if ( ! $has_exclude_filter ) { // We only need full users if legacy filter(s) hooked to exclusion logic. R.
 			$query_arguments['fields'] = 'ID';
 		}
 
@@ -74,7 +74,7 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 		foreach ( $users as $users_page ) {
 
-			$user_id = array_shift( $users_page ); // Time descending, first user on page is least recently updated.
+			$user_id = array_shift( $users_page ); // Time descending, first user on page is most recently updated.
 			$user    = get_user_by( 'id', $user_id );
 			$index[] = array(
 				'loc'     => WPSEO_Sitemaps_Router::get_base_url( 'author-sitemap' . $page . '.xml' ),
@@ -283,6 +283,7 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 * Also filtering users that should be exclude by excluded role.
 	 *
 	 * @deprecated The checks are problematic legacy code and don't run on WP core above 4.4.
+	 * @TODO Remove after plugin requirements raised to WP 4.4. R.
 	 *
 	 * @param array $users Set of users to filter.
 	 *
@@ -302,42 +303,31 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 			$exclude_user = false;
 
-			/**
-			 * Cheapest condition first; we have all information already.
-			 *
-			 * @TODO Remove after plugin requirements raised to WP 4.4. R.
-			 */
-			if ( ! $exclude_user && version_compare( $wp_version, '4.4', '<' ) ) {
+			// Cheapest condition first; we have all information already.
+			if ( ! $exclude_user ) {
 				$user_role    = $user->roles[0];
 				$target_key   = "user_role-{$user_role}-not_in_sitemap";
 				$exclude_user = isset( $options[ $target_key ] ) && true === $options[ $target_key ];
 				unset( $user_role, $target_key );
 			}
 
-			/**
-			 * If the author has been excluded by preference on profile.
-			 *
-			 * @TODO Remove after plugin requirements raised to WP 4.3. R.
-			 */
-			if ( ! $exclude_user && version_compare( $wp_version, '4.3', '<' ) ) {
-				$is_exclude_on = get_the_author_meta( 'wpseo_excludeauthorsitemap', $user->ID );
-				$exclude_user  = ( $is_exclude_on === 'on' );
+			// @TODO Remove after plugin requirements raised to WP 4.3. R.
+			if ( version_compare( $wp_version, '4.3', '<' ) ) {
+
+				// If the author has been excluded by preference on profile.
+				if ( ! $exclude_user ) {
+					$is_exclude_on = get_the_author_meta( 'wpseo_excludeauthorsitemap', $user->ID );
+					$exclude_user  = ( $is_exclude_on === 'on' );
+				}
+
+				// If the author has been excluded by general settings because there are no posts.
+				if ( ! $exclude_user && $options['disable_author_noposts'] === true ) {
+					$count_posts  = (int) count_user_posts( $user->ID );
+					$exclude_user = ( $count_posts === 0 );
+					unset( $count_posts );
+				}
 			}
 
-			/**
-			 * If the author has been excluded by general settings because there are no posts.
-			 *
-			 * @TODO Remove after plugin requirements raised to WP 4.3. R.
-			 */
-			if ( ! $exclude_user && $options['disable_author_noposts'] === true && version_compare( $wp_version, '4.3', '<' ) ) {
-				$count_posts  = (int) count_user_posts( $user->ID );
-				$exclude_user = ( $count_posts === 0 );
-				unset( $count_posts );
-			}
-
-			/*
-			 * Remove the user from the list if excluded.
-			 */
 			if ( $exclude_user === true ) {
 				unset( $users[ $user_key ] );
 			}
