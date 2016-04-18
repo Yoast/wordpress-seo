@@ -340,7 +340,7 @@ var FacebookPreview = function( opts, i18n ) {
 	defaultsDeep( opts, facebookDefaults );
 
 	if ( !isElement( opts.targetElement ) ) {
-		throw new Error( "The facebook preview requires a valid target element" );
+		throw new Error( "The Facebook preview requires a valid target element" );
 	}
 
 	this.data = opts.data;
@@ -402,9 +402,12 @@ FacebookPreview.prototype.renderTemplate = function() {
 		},
 		placeholder: this.opts.placeholder,
 		i18n: {
-			edit: this.i18n.dgettext( "yoast-social-previews", "Edit Facebook preview" ),
-			snippetPreview: this.i18n.dgettext( "yoast-social-previews", "Facebook preview" ),
-			snippetEditor: this.i18n.dgettext( "yoast-social-previews", "Facebook editor" )
+			/** translators: %1$s expands to Facebook */
+			edit: this.i18n.sprintf( this.i18n.dgettext( "yoast-social-previews", "Edit %1$s preview" ), "Facebook" ),
+			/** translators: %1$s expands to Facebook */
+			snippetPreview: this.i18n.sprintf( this.i18n.dgettext( "yoast-social-previews", "%1$s preview" ), "Facebook" ),
+			/** translators: %1$s expands to Facebook */
+			snippetEditor: this.i18n.sprintf( this.i18n.dgettext( "yoast-social-previews", "%1$s editor" ), "Facebook" )
 		}
 	} );
 
@@ -460,7 +463,8 @@ FacebookPreview.prototype.getFields = function() {
 			id: "facebook-editor-title",
 			value: this.data.title,
 			placeholder: this.opts.placeholder.title,
-			title: this.i18n.dgettext( "yoast-social-previews", "Facebook title" ),
+			/** translators: %1$s expands to Facebook */
+			title: this.i18n.sprintf( this.i18n.dgettext( "yoast-social-previews", "%1$s title" ), "Facebook" ),
 			labelClassName: "snippet-editor__label"
 		} ),
 		description: new TextArea( {
@@ -468,7 +472,8 @@ FacebookPreview.prototype.getFields = function() {
 			id: "facebook-editor-description",
 			value: this.data.description,
 			placeholder: this.opts.placeholder.description,
-			title: this.i18n.dgettext( "yoast-social-previews", "Facebook description" ),
+			/** translators: %1$s expands to Facebook */
+			title: this.i18n.sprintf( this.i18n.dgettext( "yoast-social-previews", "%1$s description" ), "Facebook" ),
 			labelClassName: "snippet-editor__label"
 		} ),
 		imageUrl: new TextField( {
@@ -476,7 +481,8 @@ FacebookPreview.prototype.getFields = function() {
 			id: "facebook-editor-imageUrl",
 			value: this.data.imageUrl,
 			placeholder: this.opts.placeholder.imageUrl,
-			title: this.i18n.dgettext( "yoast-social-previews", "Facebook image" ),
+			/** translators: %1$s expands to Facebook */
+			title: this.i18n.sprintf( this.i18n.dgettext( "yoast-social-previews", "%1$s image" ), "Facebook" ),
 			labelClassName: "snippet-editor__label"
 		} )
 	};
@@ -497,7 +503,8 @@ FacebookPreview.prototype.getFieldElements = function() {
 				currentValue: this.data.title,
 				defaultValue: this.opts.defaultValue.title,
 				placeholder: this.opts.placeholder.title,
-				fallback: this.i18n.dgettext( "yoast-social-previews", "Please provide a Facebook title by editing the snippet below." )
+				/** translators: %1$s expands to Facebook */
+				fallback: this.i18n.sprintf( this.i18n.dgettext( "yoast-social-previews", "Please provide a %1$s title by editing the snippet below." ), "Facebook" )
 			},
 			this.updatePreview.bind( this )
 		),
@@ -507,7 +514,8 @@ FacebookPreview.prototype.getFieldElements = function() {
 				currentValue: this.data.description,
 				defaultValue: this.opts.defaultValue.description,
 				placeholder: this.opts.placeholder.description,
-				fallback: this.i18n.dgettext( "yoast-social-previews", "Please provide a Facebook by editing the snippet below." )
+				/** translators: %1$s expands to Facebook */
+				fallback: this.i18n.sprintf( this.i18n.dgettext( "yoast-social-previews", "Please provide a %1$s description by editing the snippet below." ), "Facebook" )
 			},
 			this.updatePreview.bind( this )
 		),
@@ -638,7 +646,8 @@ FacebookPreview.prototype.imageTooSmall = function() {
 	this.removeImageClasses();
 	imagePlaceholder(
 		this.getImageContainer(),
-		this.i18n.dgettext( "yoast-social-previews", "The image you selected is too small for Facebook" ),
+		/** translators: %1$s expands to Facebook */
+		this.i18n.sprintf( this.i18n.dgettext( "yoast-social-previews", "The image you selected is too small for %1$s" ), "Facebook" ),
 		true,
 		"facebook"
 	);
@@ -1725,7 +1734,7 @@ var TwitterPreview = function( opts, i18n ) {
 	defaultsDeep( opts, twitterDefaults );
 
 	if ( !isElement( opts.targetElement ) ) {
-		throw new Error( "The twitter preview requires a valid target element" );
+		throw new Error( "The Twitter preview requires a valid target element" );
 	}
 
 	this.data = opts.data;
@@ -1787,9 +1796,12 @@ TwitterPreview.prototype.renderTemplate = function() {
 		},
 		placeholder: this.opts.placeholder,
 		i18n: {
-			edit: this.i18n.dgettext( "yoast-social-previews", "Edit Twitter preview" ),
-			snippetPreview: this.i18n.dgettext( "yoast-social-previews", "Twitter preview" ),
-			snippetEditor: this.i18n.dgettext( "yoast-social-previews", "Twitter editor" )
+			/** translators: %1$s expands to Twitter */
+			edit: this.i18n.sprintf( this.i18n.dgettext( "yoast-social-previews", "Edit %1$s preview" ), "Twitter" ),
+			/** translators: %1$s expands to Twitter */
+			snippetPreview: this.i18n.sprintf( this.i18n.dgettext( "yoast-social-previews", "%1$s preview" ) , "Twitter" ),
+			/** translators: %1$s expands to Twitter */
+			snippetEditor: this.i18n.sprintf( this.i18n.dgettext( "yoast-social-previews", "%1$s editor" ), "Twitter" )
 		}
 	} );
 
@@ -1846,7 +1858,8 @@ TwitterPreview.prototype.getFields = function() {
 			id: "twitter-editor-title",
 			value: this.data.title,
 			placeholder: this.opts.placeholder.title,
-			title: this.i18n.dgettext( "yoast-social-previews", "Twitter title" ),
+			/** translators: %1$s expands to Twitter */
+			title: this.i18n.sprintf( this.i18n.dgettext( "yoast-social-previews", "%1$s title" ), "Twitter" ),
 			labelClassName: "snippet-editor__label"
 		} ),
 		description: new TextArea( {
@@ -1854,7 +1867,8 @@ TwitterPreview.prototype.getFields = function() {
 			id: "twitter-editor-description",
 			value: this.data.description,
 			placeholder: this.opts.placeholder.description,
-			title: this.i18n.dgettext( "yoast-social-previews", "Twitter description" ),
+			/** translators: %1$s expands to Twitter */
+			title: this.i18n.sprintf( this.i18n.dgettext( "yoast-social-previews", "%1$s description" ), "Twitter" ),
 			labelClassName: "snippet-editor__label"
 		} ),
 		imageUrl: new TextField( {
@@ -1862,7 +1876,8 @@ TwitterPreview.prototype.getFields = function() {
 			id: "twitter-editor-imageUrl",
 			value: this.data.imageUrl,
 			placeholder: this.opts.placeholder.imageUrl,
-			title: this.i18n.dgettext( "yoast-social-previews", "Twitter image" ),
+			/** translators: %1$s expands to Twitter */
+			title: this.i18n.sprintf( this.i18n.dgettext( "yoast-social-previews", "%1$s image" ), "Twitter" ),
 			labelClassName: "snippet-editor__label"
 		} )
 	};
@@ -1883,7 +1898,8 @@ TwitterPreview.prototype.getFieldElements = function() {
 				currentValue: this.data.title,
 				defaultValue: this.opts.defaultValue.title,
 				placeholder: this.opts.placeholder.title,
-				fallback: this.i18n.dgettext( "yoast-social-previews", "Please provide a Twitter title by editing the snippet below." )
+				/** translators: %1$s expands to Twitter */
+				fallback: this.i18n.sprintf( this.i18n.dgettext( "yoast-social-previews", "Please provide a %1$s title by editing the snippet below." ), "Twitter" )
 			},
 			this.updatePreview.bind( this )
 		),
@@ -1893,7 +1909,8 @@ TwitterPreview.prototype.getFieldElements = function() {
 				 currentValue: this.data.description,
 				 defaultValue: this.opts.defaultValue.description,
 				 placeholder: this.opts.placeholder.description,
-				 fallback: this.i18n.dgettext( "yoast-social-previews", "Please provide a description by editing the snippet below." )
+				 /** translators: %1$s expands to Twitter */
+				 fallback: this.i18n.sprintf( this.i18n.dgettext( "yoast-social-previews", "Please provide a %1$s description by editing the snippet below." ), "Twitter")
 			 },
 			 this.updatePreview.bind( this )
 		 ),
