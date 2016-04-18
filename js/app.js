@@ -476,7 +476,7 @@ App.prototype.runAnalyzer = function() {
 	this.seoAssessorPresenter.render();
 	this.callbacks.saveScores( this.seoAssessor.calculateOverallScore(), this.assessorPresenter );
 
-	this.contentAssessorPresenter.render();
+	this.contentAssessorPresenter.renderIndividualRatings();
 
 	if ( this.config.dynamicDelay ) {
 		this.endTime();
