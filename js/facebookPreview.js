@@ -1,7 +1,7 @@
 /* jshint browser: true */
 
 var isElement = require( "lodash/lang/isElement" );
-var isArray = require( "lodash/lang/isArray" );
+var isObject = require( "lodash/lang/isObject" );
 var clone = require( "lodash/lang/clone" );
 var defaultsDeep = require( "lodash/object/defaultsDeep" );
 
@@ -144,6 +144,7 @@ var FacebookPreview = function( opts, i18n ) {
 	this.i18n = i18n || this.constructI18n();
 	this.opts = opts;
 
+
 	this._currentFocus = null;
 	this._currentHover = null;
 };
@@ -165,11 +166,7 @@ FacebookPreview.prototype.constructI18n = function( translations ) {
 		}
 	};
 
-	// Use default object to prevent Jed from erroring out.
-	if ( isArray( translations ) && translations.length === 0 ) {
-		translations = defaultTranslations;
-	}
-
+	defaultsDeep( translations, defaultTranslations );
 
 	return new Jed( translations );
 };
