@@ -238,6 +238,10 @@ var Jed = require( 'jed' );
 						var buttonPrefix = targetElement.attr( 'id' ).replace( 'Preview', '' );
 						setUploadButtonValue( buttonPrefix, yoastSocialPreview.useOtherImage );
 					}
+					
+					jQuery( targetElement ).find( '.editable-preview' ).trigger( 'titleUpdate' );
+					jQuery( targetElement ).find( '.editable-preview' ).trigger( 'descriptionUpdate' );
+
 				},
 				modifyImageUrl: function( imageUrl ) {
 					if (imageUrl === '') {
@@ -247,9 +251,27 @@ var Jed = require( 'jed' );
 					return imageUrl;
 				},
 				modifyTitle: function( title ) {
+					if ( fieldPrefix.indexOf( 'twitter' ) > -1 ) {
+						if ( title === $( '#twitter-editor-title' ).attr( 'placeholder' ) ) {
+							var facebookTitle = $( '#facebook-editor-title' ).val();
+							if ( facebookTitle !== '' ) {
+								title = facebookTitle;
+							}
+						}
+					}
+
 					return YoastSEO.wp.replaceVarsPlugin.replaceVariablesPlugin( title );
 				},
 				modifyDescription: function( description ) {
+					if ( fieldPrefix.indexOf( 'twitter' ) > -1 ) {
+						if ( description === $( '#twitter-editor-description' ).attr( 'placeholder' ) ) {
+							var facebookDescription = $( '#facebook-editor-description' ).val();
+							if ( facebookDescription !== '' ) {
+								description = facebookDescription;
+							}
+						}
+					}
+
 					return YoastSEO.wp.replaceVarsPlugin.replaceVariablesPlugin( description );
 				}
 			},
@@ -320,9 +342,64 @@ var Jed = require( 'jed' );
 			}
 		);
 
+		var facebookPreviewContainer = $( '#facebookPreview' );
+		facebookPreviewContainer.on(
+			'titleUpdate',
+			'.editable-preview',
+			twitterTitleFallback.bind( this, twitterPreview )
+		);
+
+		facebookPreviewContainer.on(
+			'descriptionUpdate',
+			'.editable-preview',
+			twitterDescriptionFallback.bind( this, twitterPreview )
+		);
+
 		twitterPreview.init();
 
 		addUploadButton( twitterPreview );
+		twitterTitleFallback( twitterPreview );
+		twitterDescriptionFallback( twitterPreview );
+	}
+
+	/**
+	 * When twitter title is empty, use the facebook title
+	 *
+	 * @param {TwitterPreview} twitterPreview The twitter preview object
+	 */
+	function twitterTitleFallback( twitterPreview ) {
+		var $twitterTitle = $( '#twitter-editor-title' );
+		var twitterTitle = $twitterTitle.val();
+		if( twitterTitle !== '' ) {
+			return;
+		}
+
+		var facebookTitle = $( '#facebook-editor-title' ).val();
+		if ( facebookTitle !== '' ) {
+			twitterPreview.setTitle( facebookTitle );
+		} else {
+			twitterPreview.setTitle( $twitterTitle.attr( 'placeholder' ) );
+		}
+	}
+
+	/**
+	 * When twitter description is empty, use the description title
+	 *
+	 * @param {TwitterPreview} twitterPreview The twitter preview object
+	 */
+	function twitterDescriptionFallback( twitterPreview ) {
+		var $twitterDescription = $( '#twitter-editor-description' );
+		var twitterDescription = $twitterDescription.val();
+		if( twitterDescription !== '' ) {
+			return;
+		}
+
+		var facebookDescription = $( '#facebook-editor-description' ).val();
+		if ( facebookDescription !== '' ) {
+			twitterPreview.setDescription( facebookDescription );
+		} else {
+			twitterPreview.setDescription( $twitterDescription.attr( 'placeholder' ) );
+		}
 	}
 
 	/**
