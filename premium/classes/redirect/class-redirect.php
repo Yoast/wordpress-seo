@@ -204,7 +204,7 @@ class WPSEO_Redirect implements ArrayAccess {
 	 * @return string
 	 */
 	private function strip_protocol( $url ) {
-		return preg_replace( "(^https?://)", "", $url );
+		return preg_replace( '(^https?://)', '', $url );
 	}
 
 	/**
@@ -217,7 +217,7 @@ class WPSEO_Redirect implements ArrayAccess {
 	private function sanitize_blog_url( $url ) {
 		$blog_url = $this->strip_protocol( get_home_url() );
 
-		if ( !strpos( $url, $blog_url ) ) {
+		if ( ! strpos( $url, $blog_url ) ) {
 			return $url;
 		}
 
