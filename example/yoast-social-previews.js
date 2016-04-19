@@ -165,6 +165,7 @@ module.exports = InputElement;
 /* jshint browser: true */
 
 var isElement = require( "lodash/lang/isElement" );
+var isObject = require( "lodash/lang/isObject" );
 var clone = require( "lodash/lang/clone" );
 var defaultsDeep = require( "lodash/object/defaultsDeep" );
 
@@ -307,6 +308,7 @@ var FacebookPreview = function( opts, i18n ) {
 	this.i18n = i18n || this.constructI18n();
 	this.opts = opts;
 
+
 	this._currentFocus = null;
 	this._currentHover = null;
 };
@@ -328,8 +330,7 @@ FacebookPreview.prototype.constructI18n = function( translations ) {
 		}
 	};
 
-	// Use default object to prevent Jed from erroring out.
-	translations = translations || defaultTranslations;
+	defaultsDeep( translations, defaultTranslations );
 
 	return new Jed( translations );
 };
@@ -797,7 +798,7 @@ FacebookPreview.prototype.bindEvents = function() {
 
 module.exports = FacebookPreview;
 
-},{"./element/imagePlaceholder":2,"./element/input":3,"./helpers/bem/addModifier":6,"./helpers/bem/removeModifier":8,"./helpers/imageDisplayMode":9,"./helpers/renderDescription":12,"./inputs/textInput":14,"./inputs/textarea":15,"./preview/events":16,"./templates.js":17,"jed":19,"lodash/lang/clone":58,"lodash/lang/isElement":61,"lodash/object/defaultsDeep":72}],5:[function(require,module,exports){
+},{"./element/imagePlaceholder":2,"./element/input":3,"./helpers/bem/addModifier":6,"./helpers/bem/removeModifier":8,"./helpers/imageDisplayMode":9,"./helpers/renderDescription":12,"./inputs/textInput":14,"./inputs/textarea":15,"./preview/events":16,"./templates.js":17,"jed":19,"lodash/lang/clone":58,"lodash/lang/isElement":61,"lodash/lang/isObject":65,"lodash/object/defaultsDeep":72}],5:[function(require,module,exports){
 /**
  * Adds a class to an element
  *
@@ -1555,6 +1556,7 @@ module.exports = PreviewEvents;
 /* jshint browser: true */
 
 var isElement = require( "lodash/lang/isElement" );
+var isObject = require( "lodash/lang/isObject" );
 var clone = require( "lodash/lang/clone" );
 var defaultsDeep = require( "lodash/object/defaultsDeep" );
 
@@ -1713,8 +1715,7 @@ TwitterPreview.prototype.constructI18n = function( translations ) {
 		}
 	};
 
-	// Use default object to prevent Jed from erroring out.
-	translations = translations || defaultTranslations;
+	defaultsDeep( translations, defaultTranslations );
 
 	return new Jed( translations );
 };
@@ -2116,7 +2117,7 @@ TwitterPreview.prototype.bindEvents = function() {
 
 module.exports = TwitterPreview;
 
-},{"./element/imagePlaceholder":2,"./element/input":3,"./helpers/bem/addModifier":6,"./helpers/bem/removeModifier":8,"./helpers/renderDescription":12,"./inputs/textInput":14,"./inputs/textarea":15,"./preview/events":16,"./templates":17,"jed":19,"lodash/lang/clone":58,"lodash/lang/isElement":61,"lodash/object/defaultsDeep":72}],19:[function(require,module,exports){
+},{"./element/imagePlaceholder":2,"./element/input":3,"./helpers/bem/addModifier":6,"./helpers/bem/removeModifier":8,"./helpers/renderDescription":12,"./inputs/textInput":14,"./inputs/textarea":15,"./preview/events":16,"./templates":17,"jed":19,"lodash/lang/clone":58,"lodash/lang/isElement":61,"lodash/lang/isObject":65,"lodash/object/defaultsDeep":72}],19:[function(require,module,exports){
 /**
  * @preserve jed.js https://github.com/SlexAxton/Jed
  */
