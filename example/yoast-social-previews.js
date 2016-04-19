@@ -1,44 +1,4 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-/** @module stringProcessing/stripHTMLTags */
-
-var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
-
-/**
- * Strip HTML-tags from text
- *
- * @param {String} text The text to strip the HTML-tags from.
- * @returns {String} The text without HTML-tags.
- */
-module.exports = function( text ) {
-	text = text.replace( /(<([^>]+)>)/ig, " " );
-	text = stripSpaces( text );
-	return text;
-};
-
-},{"../stringProcessing/stripSpaces.js":2}],2:[function(require,module,exports){
-/** @module stringProcessing/stripSpaces */
-
-/**
- * Strip double spaces from text
- *
- * @param {String} text The text to strip spaces from.
- * @returns {String} The text without double spaces
- */
-module.exports = function( text ) {
-
-	// Replace multiple spaces with single space
-	text = text.replace( /\s{2,}/g, " " );
-
-	// Replace spaces followed by periods with only the period.
-	text = text.replace( /\s\./g, "." );
-
-	// Remove first/last character if space
-	text = text.replace( /^\s+|\s+$/g, "" );
-
-	return text;
-};
-
-},{}],3:[function(require,module,exports){
 var FacebookPreview = require( "../js/facebookPreview.js" );
 var TwitterPreview  = require( "../js/twitterPreview.js" );
 
@@ -58,7 +18,7 @@ var twitterPreview = new TwitterPreview(
 
 twitterPreview.init();
 
-},{"../js/facebookPreview.js":6,"../js/twitterPreview.js":20}],4:[function(require,module,exports){
+},{"../js/facebookPreview.js":4,"../js/twitterPreview.js":18}],2:[function(require,module,exports){
 var placeholderTemplate = require( "../templates" ).imagePlaceholder;
 
 /**
@@ -90,7 +50,7 @@ function setImagePlaceholder( imageContainer, placeholder, isError, modifier ) {
 
 module.exports= setImagePlaceholder;
 
-},{"../templates":19}],5:[function(require,module,exports){
+},{"../templates":17}],3:[function(require,module,exports){
 var isEmpty = require( "lodash/lang/isEmpty" );
 var debounce = require( "lodash/function/debounce" );
 
@@ -201,7 +161,7 @@ InputElement.prototype.setValue = function( value ) {
 module.exports = InputElement;
 
 
-},{"lodash/function/debounce":24,"lodash/lang/isEmpty":64,"yoastseo/js/stringProcessing/stripHTMLTags.js":1,"yoastseo/js/stringProcessing/stripSpaces.js":2}],6:[function(require,module,exports){
+},{"lodash/function/debounce":22,"lodash/lang/isEmpty":62,"yoastseo/js/stringProcessing/stripHTMLTags.js":77,"yoastseo/js/stringProcessing/stripSpaces.js":78}],4:[function(require,module,exports){
 /* jshint browser: true */
 
 var isElement = require( "lodash/lang/isElement" );
@@ -336,7 +296,10 @@ var FacebookPreview = function( opts, i18n ) {
 
 	facebookDefaults.placeholder = {
 		title: this.i18n.dgettext( "yoast-social-previews", "This is an example title - edit by clicking here" ),
-		description: this.i18n.sprintf( this.i18n.dgettext( "yoast-social-previews", "Modify your %1$s description by editing it right here" ), "Facebook" ),
+		description: this.i18n.sprintf(
+			this.i18n.dgettext( "yoast-social-previews", "Modify your %1$s description by editing it right here" ),
+			"Facebook"
+		),
 		imageUrl: ""
 	};
 
@@ -506,7 +469,10 @@ FacebookPreview.prototype.getFieldElements = function() {
 				defaultValue: this.opts.defaultValue.title,
 				placeholder: this.opts.placeholder.title,
 				/** translators: %1$s expands to Facebook */
-				fallback: this.i18n.sprintf( this.i18n.dgettext( "yoast-social-previews", "Please provide a %1$s title by editing the snippet below." ), "Facebook" )
+				fallback: this.i18n.sprintf(
+					this.i18n.dgettext( "yoast-social-previews", "Please provide a %1$s title by editing the snippet below." ),
+					"Facebook"
+				)
 			},
 			this.updatePreview.bind( this )
 		),
@@ -517,7 +483,10 @@ FacebookPreview.prototype.getFieldElements = function() {
 				defaultValue: this.opts.defaultValue.description,
 				placeholder: this.opts.placeholder.description,
 				/** translators: %1$s expands to Facebook */
-				fallback: this.i18n.sprintf( this.i18n.dgettext( "yoast-social-previews", "Please provide a %1$s description by editing the snippet below." ), "Facebook" )
+				fallback: this.i18n.sprintf(
+					this.i18n.dgettext( "yoast-social-previews", "Please provide a %1$s description by editing the snippet below." ),
+					"Facebook"
+				)
 			},
 			this.updatePreview.bind( this )
 		),
@@ -848,7 +817,7 @@ FacebookPreview.prototype.bindEvents = function() {
 
 module.exports = FacebookPreview;
 
-},{"./element/imagePlaceholder":4,"./element/input":5,"./helpers/bem/addModifier":8,"./helpers/bem/removeModifier":10,"./helpers/imageDisplayMode":11,"./helpers/renderDescription":14,"./inputs/textInput":16,"./inputs/textarea":17,"./preview/events":18,"./templates.js":19,"jed":21,"lodash/lang/clone":60,"lodash/lang/isElement":63,"lodash/object/defaultsDeep":74}],7:[function(require,module,exports){
+},{"./element/imagePlaceholder":2,"./element/input":3,"./helpers/bem/addModifier":6,"./helpers/bem/removeModifier":8,"./helpers/imageDisplayMode":9,"./helpers/renderDescription":12,"./inputs/textInput":14,"./inputs/textarea":15,"./preview/events":16,"./templates.js":17,"jed":19,"lodash/lang/clone":58,"lodash/lang/isElement":61,"lodash/object/defaultsDeep":72}],5:[function(require,module,exports){
 /**
  * Adds a class to an element
  *
@@ -865,7 +834,7 @@ module.exports = function( element, className ) {
 	element.className = classes.join( " " );
 };
 
-},{}],8:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 var addClass = require( "./../addClass" );
 var addModifierToClass = require( "./addModifierToClass" );
 
@@ -885,7 +854,7 @@ function addModifier( modifier, targetClass, targetParent ) {
 
 module.exports = addModifier;
 
-},{"./../addClass":7,"./addModifierToClass":9}],9:[function(require,module,exports){
+},{"./../addClass":5,"./addModifierToClass":7}],7:[function(require,module,exports){
 /**
  * Adds a modifier to a class name, makes sure
  *
@@ -902,7 +871,7 @@ function addModifierToClass( modifier, className ) {
 
 module.exports = addModifierToClass;
 
-},{}],10:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 var removeClass = require( "./../removeClass" );
 var addModifierToClass = require( "./addModifierToClass" );
 
@@ -922,7 +891,7 @@ function removeModifier( modifier, targetClass, targetParent ) {
 
 module.exports = removeModifier;
 
-},{"./../removeClass":13,"./addModifierToClass":9}],11:[function(require,module,exports){
+},{"./../removeClass":11,"./addModifierToClass":7}],9:[function(require,module,exports){
 /**
  * Retrieves the image display mode
  *
@@ -939,7 +908,7 @@ function imageDisplayMode( image ) {
 
 module.exports = imageDisplayMode;
 
-},{}],12:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 /**
  * Cleans spaces from the html.
  *
@@ -960,7 +929,7 @@ function minimizeHtml( html ) {
 
 module.exports = minimizeHtml;
 
-},{}],13:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 /**
  * Removes a class from an element
  *
@@ -978,7 +947,7 @@ module.exports = function( element, className ) {
 	element.className = classes.join( " " );
 };
 
-},{}],14:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 var isEmpty = require( "lodash/lang/isEmpty" );
 
 var addClass = require( "./addClass" );
@@ -1002,7 +971,7 @@ function renderDescription( descriptionElement, description ) {
 
 module.exports = renderDescription;
 
-},{"./addClass":7,"./removeClass":13,"lodash/lang/isEmpty":64}],15:[function(require,module,exports){
+},{"./addClass":5,"./removeClass":11,"lodash/lang/isEmpty":62}],13:[function(require,module,exports){
 var defaults = require( "lodash/object/defaults" );
 var minimizeHtml = require( "../helpers/minimizeHtml" );
 
@@ -1089,17 +1058,17 @@ function inputFieldFactory( template ) {
 
 module.exports = inputFieldFactory;
 
-},{"../helpers/minimizeHtml":12,"lodash/object/defaults":73}],16:[function(require,module,exports){
+},{"../helpers/minimizeHtml":10,"lodash/object/defaults":71}],14:[function(require,module,exports){
 var inputFieldFactory = require( "./inputField" );
 
 module.exports = inputFieldFactory( require( "../templates" ).fields.text );
 
-},{"../templates":19,"./inputField":15}],17:[function(require,module,exports){
+},{"../templates":17,"./inputField":13}],15:[function(require,module,exports){
 var inputFieldFactory = require( "./inputField" );
 
 module.exports = inputFieldFactory( require( "../templates" ).fields.textarea );
 
-},{"../templates":19,"./inputField":15}],18:[function(require,module,exports){
+},{"../templates":17,"./inputField":13}],16:[function(require,module,exports){
 var forEach = require( "lodash/collection/forEach" );
 
 var addClass = require( "../helpers/addClass.js" );
@@ -1283,7 +1252,7 @@ PreviewEvents.prototype._updateHoverCarets = function() {
 
 module.exports = PreviewEvents;
 
-},{"../helpers/addClass.js":7,"../helpers/removeClass.js":13,"lodash/collection/forEach":22}],19:[function(require,module,exports){
+},{"../helpers/addClass.js":5,"../helpers/removeClass.js":11,"lodash/collection/forEach":20}],17:[function(require,module,exports){
 (function (global){
 ;(function() {
   var undefined;
@@ -1602,7 +1571,7 @@ module.exports = PreviewEvents;
 }.call(this));
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],20:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 /* jshint browser: true */
 
 var isElement = require( "lodash/lang/isElement" );
@@ -1732,7 +1701,11 @@ var TwitterPreview = function( opts, i18n ) {
 
 	twitterDefaults.placeholder = {
 		title: this.i18n.dgettext( "yoast-social-previews", "This is an example title - edit by clicking here" ),
-		description: this.i18n.sprintf( this.i18n.dgettext( "yoast-social-previews", "Modify your %1$s description by editing it right here" ), "Twitter" ),
+		description: this.i18n.sprintf(
+			/** translators: %1$s expands to Twitter */
+			this.i18n.dgettext( "yoast-social-previews", "Modify your %1$s description by editing it right here" ),
+			"Twitter"
+		),
 		imageUrl: ""
 	};
 
@@ -1804,7 +1777,7 @@ TwitterPreview.prototype.renderTemplate = function() {
 			/** translators: %1$s expands to Twitter */
 			edit: this.i18n.sprintf( this.i18n.dgettext( "yoast-social-previews", "Edit %1$s preview" ), "Twitter" ),
 			/** translators: %1$s expands to Twitter */
-			snippetPreview: this.i18n.sprintf( this.i18n.dgettext( "yoast-social-previews", "%1$s preview" ) , "Twitter" ),
+			snippetPreview: this.i18n.sprintf( this.i18n.dgettext( "yoast-social-previews", "%1$s preview" ), "Twitter" ),
 			/** translators: %1$s expands to Twitter */
 			snippetEditor: this.i18n.sprintf( this.i18n.dgettext( "yoast-social-previews", "%1$s editor" ), "Twitter" )
 		}
@@ -1863,8 +1836,11 @@ TwitterPreview.prototype.getFields = function() {
 			id: "twitter-editor-title",
 			value: this.data.title,
 			placeholder: this.opts.placeholder.title,
-			/** translators: %1$s expands to Twitter */
-			title: this.i18n.sprintf( this.i18n.dgettext( "yoast-social-previews", "%1$s title" ), "Twitter" ),
+			title: this.i18n.sprintf(
+				/** translators: %1$s expands to Twitter */
+				this.i18n.dgettext( "yoast-social-previews", "%1$s title" ),
+				"Twitter"
+			),
 			labelClassName: "snippet-editor__label"
 		} ),
 		description: new TextArea( {
@@ -1872,8 +1848,11 @@ TwitterPreview.prototype.getFields = function() {
 			id: "twitter-editor-description",
 			value: this.data.description,
 			placeholder: this.opts.placeholder.description,
-			/** translators: %1$s expands to Twitter */
-			title: this.i18n.sprintf( this.i18n.dgettext( "yoast-social-previews", "%1$s description" ), "Twitter" ),
+			title: this.i18n.sprintf(
+				/** translators: %1$s expands to Twitter */
+				this.i18n.dgettext( "yoast-social-previews", "%1$s description" ),
+				"Twitter"
+			),
 			labelClassName: "snippet-editor__label"
 		} ),
 		imageUrl: new TextField( {
@@ -1881,8 +1860,11 @@ TwitterPreview.prototype.getFields = function() {
 			id: "twitter-editor-imageUrl",
 			value: this.data.imageUrl,
 			placeholder: this.opts.placeholder.imageUrl,
-			/** translators: %1$s expands to Twitter */
-			title: this.i18n.sprintf( this.i18n.dgettext( "yoast-social-previews", "%1$s image" ), "Twitter" ),
+			title: this.i18n.sprintf(
+				/** translators: %1$s expands to Twitter */
+				this.i18n.dgettext( "yoast-social-previews", "%1$s image" ),
+				"Twitter"
+			),
 			labelClassName: "snippet-editor__label"
 		} )
 	};
@@ -1903,8 +1885,11 @@ TwitterPreview.prototype.getFieldElements = function() {
 				currentValue: this.data.title,
 				defaultValue: this.opts.defaultValue.title,
 				placeholder: this.opts.placeholder.title,
-				/** translators: %1$s expands to Twitter */
-				fallback: this.i18n.sprintf( this.i18n.dgettext( "yoast-social-previews", "Please provide a %1$s title by editing the snippet below." ), "Twitter" )
+				fallback: this.i18n.sprintf(
+					/** translators: %1$s expands to Twitter */
+					this.i18n.dgettext( "yoast-social-previews", "Please provide a %1$s title by editing the snippet below." ),
+					"Twitter"
+				)
 			},
 			this.updatePreview.bind( this )
 		),
@@ -1914,8 +1899,11 @@ TwitterPreview.prototype.getFieldElements = function() {
 				 currentValue: this.data.description,
 				 defaultValue: this.opts.defaultValue.description,
 				 placeholder: this.opts.placeholder.description,
-				 /** translators: %1$s expands to Twitter */
-				 fallback: this.i18n.sprintf( this.i18n.dgettext( "yoast-social-previews", "Please provide a %1$s description by editing the snippet below." ), "Twitter")
+				 fallback: this.i18n.sprintf(
+				    /** translators: %1$s expands to Twitter */
+					 this.i18n.dgettext( "yoast-social-previews", "Please provide a %1$s description by editing the snippet below." ),
+					 "Twitter"
+				 )
 			 },
 			 this.updatePreview.bind( this )
 		 ),
@@ -2178,7 +2166,7 @@ TwitterPreview.prototype.bindEvents = function() {
 
 module.exports = TwitterPreview;
 
-},{"./element/imagePlaceholder":4,"./element/input":5,"./helpers/bem/addModifier":8,"./helpers/bem/removeModifier":10,"./helpers/renderDescription":14,"./inputs/textInput":16,"./inputs/textarea":17,"./preview/events":18,"./templates":19,"jed":21,"lodash/lang/clone":60,"lodash/lang/isElement":63,"lodash/object/defaultsDeep":74}],21:[function(require,module,exports){
+},{"./element/imagePlaceholder":2,"./element/input":3,"./helpers/bem/addModifier":6,"./helpers/bem/removeModifier":8,"./helpers/renderDescription":12,"./inputs/textInput":14,"./inputs/textarea":15,"./preview/events":16,"./templates":17,"jed":19,"lodash/lang/clone":58,"lodash/lang/isElement":61,"lodash/object/defaultsDeep":72}],19:[function(require,module,exports){
 /**
  * @preserve jed.js https://github.com/SlexAxton/Jed
  */
@@ -3202,7 +3190,7 @@ return parser;
 
 })(this);
 
-},{}],22:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 var arrayEach = require('../internal/arrayEach'),
     baseEach = require('../internal/baseEach'),
     createForEach = require('../internal/createForEach');
@@ -3241,7 +3229,7 @@ var forEach = createForEach(arrayEach, baseEach);
 
 module.exports = forEach;
 
-},{"../internal/arrayEach":27,"../internal/baseEach":33,"../internal/createForEach":46}],23:[function(require,module,exports){
+},{"../internal/arrayEach":25,"../internal/baseEach":31,"../internal/createForEach":44}],21:[function(require,module,exports){
 var getNative = require('../internal/getNative');
 
 /* Native method references for those with the same name as other `lodash` methods. */
@@ -3267,7 +3255,7 @@ var now = nativeNow || function() {
 
 module.exports = now;
 
-},{"../internal/getNative":48}],24:[function(require,module,exports){
+},{"../internal/getNative":46}],22:[function(require,module,exports){
 var isObject = require('../lang/isObject'),
     now = require('../date/now');
 
@@ -3450,7 +3438,7 @@ function debounce(func, wait, options) {
 
 module.exports = debounce;
 
-},{"../date/now":23,"../lang/isObject":67}],25:[function(require,module,exports){
+},{"../date/now":21,"../lang/isObject":65}],23:[function(require,module,exports){
 /** Used as the `TypeError` message for "Functions" methods. */
 var FUNC_ERROR_TEXT = 'Expected a function';
 
@@ -3510,7 +3498,7 @@ function restParam(func, start) {
 
 module.exports = restParam;
 
-},{}],26:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 /**
  * Copies the values of `source` to `array`.
  *
@@ -3532,7 +3520,7 @@ function arrayCopy(source, array) {
 
 module.exports = arrayCopy;
 
-},{}],27:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 /**
  * A specialized version of `_.forEach` for arrays without support for callback
  * shorthands and `this` binding.
@@ -3556,7 +3544,7 @@ function arrayEach(array, iteratee) {
 
 module.exports = arrayEach;
 
-},{}],28:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 /**
  * Used by `_.defaults` to customize its `_.assign` use.
  *
@@ -3571,7 +3559,7 @@ function assignDefaults(objectValue, sourceValue) {
 
 module.exports = assignDefaults;
 
-},{}],29:[function(require,module,exports){
+},{}],27:[function(require,module,exports){
 var keys = require('../object/keys');
 
 /**
@@ -3605,7 +3593,7 @@ function assignWith(object, source, customizer) {
 
 module.exports = assignWith;
 
-},{"../object/keys":75}],30:[function(require,module,exports){
+},{"../object/keys":73}],28:[function(require,module,exports){
 var baseCopy = require('./baseCopy'),
     keys = require('../object/keys');
 
@@ -3626,7 +3614,7 @@ function baseAssign(object, source) {
 
 module.exports = baseAssign;
 
-},{"../object/keys":75,"./baseCopy":32}],31:[function(require,module,exports){
+},{"../object/keys":73,"./baseCopy":30}],29:[function(require,module,exports){
 var arrayCopy = require('./arrayCopy'),
     arrayEach = require('./arrayEach'),
     baseAssign = require('./baseAssign'),
@@ -3756,7 +3744,7 @@ function baseClone(value, isDeep, customizer, key, object, stackA, stackB) {
 
 module.exports = baseClone;
 
-},{"../lang/isArray":62,"../lang/isObject":67,"./arrayCopy":26,"./arrayEach":27,"./baseAssign":30,"./baseForOwn":36,"./initCloneArray":49,"./initCloneByTag":50,"./initCloneObject":51}],32:[function(require,module,exports){
+},{"../lang/isArray":60,"../lang/isObject":65,"./arrayCopy":24,"./arrayEach":25,"./baseAssign":28,"./baseForOwn":34,"./initCloneArray":47,"./initCloneByTag":48,"./initCloneObject":49}],30:[function(require,module,exports){
 /**
  * Copies properties of `source` to `object`.
  *
@@ -3781,7 +3769,7 @@ function baseCopy(source, props, object) {
 
 module.exports = baseCopy;
 
-},{}],33:[function(require,module,exports){
+},{}],31:[function(require,module,exports){
 var baseForOwn = require('./baseForOwn'),
     createBaseEach = require('./createBaseEach');
 
@@ -3798,7 +3786,7 @@ var baseEach = createBaseEach(baseForOwn);
 
 module.exports = baseEach;
 
-},{"./baseForOwn":36,"./createBaseEach":43}],34:[function(require,module,exports){
+},{"./baseForOwn":34,"./createBaseEach":41}],32:[function(require,module,exports){
 var createBaseFor = require('./createBaseFor');
 
 /**
@@ -3817,7 +3805,7 @@ var baseFor = createBaseFor();
 
 module.exports = baseFor;
 
-},{"./createBaseFor":44}],35:[function(require,module,exports){
+},{"./createBaseFor":42}],33:[function(require,module,exports){
 var baseFor = require('./baseFor'),
     keysIn = require('../object/keysIn');
 
@@ -3836,7 +3824,7 @@ function baseForIn(object, iteratee) {
 
 module.exports = baseForIn;
 
-},{"../object/keysIn":76,"./baseFor":34}],36:[function(require,module,exports){
+},{"../object/keysIn":74,"./baseFor":32}],34:[function(require,module,exports){
 var baseFor = require('./baseFor'),
     keys = require('../object/keys');
 
@@ -3855,7 +3843,7 @@ function baseForOwn(object, iteratee) {
 
 module.exports = baseForOwn;
 
-},{"../object/keys":75,"./baseFor":34}],37:[function(require,module,exports){
+},{"../object/keys":73,"./baseFor":32}],35:[function(require,module,exports){
 var arrayEach = require('./arrayEach'),
     baseMergeDeep = require('./baseMergeDeep'),
     isArray = require('../lang/isArray'),
@@ -3913,7 +3901,7 @@ function baseMerge(object, source, customizer, stackA, stackB) {
 
 module.exports = baseMerge;
 
-},{"../lang/isArray":62,"../lang/isObject":67,"../lang/isTypedArray":70,"../object/keys":75,"./arrayEach":27,"./baseMergeDeep":38,"./isArrayLike":52,"./isObjectLike":56}],38:[function(require,module,exports){
+},{"../lang/isArray":60,"../lang/isObject":65,"../lang/isTypedArray":68,"../object/keys":73,"./arrayEach":25,"./baseMergeDeep":36,"./isArrayLike":50,"./isObjectLike":54}],36:[function(require,module,exports){
 var arrayCopy = require('./arrayCopy'),
     isArguments = require('../lang/isArguments'),
     isArray = require('../lang/isArray'),
@@ -3982,7 +3970,7 @@ function baseMergeDeep(object, source, key, mergeFunc, customizer, stackA, stack
 
 module.exports = baseMergeDeep;
 
-},{"../lang/isArguments":61,"../lang/isArray":62,"../lang/isPlainObject":68,"../lang/isTypedArray":70,"../lang/toPlainObject":71,"./arrayCopy":26,"./isArrayLike":52}],39:[function(require,module,exports){
+},{"../lang/isArguments":59,"../lang/isArray":60,"../lang/isPlainObject":66,"../lang/isTypedArray":68,"../lang/toPlainObject":69,"./arrayCopy":24,"./isArrayLike":50}],37:[function(require,module,exports){
 /**
  * The base implementation of `_.property` without support for deep paths.
  *
@@ -3998,7 +3986,7 @@ function baseProperty(key) {
 
 module.exports = baseProperty;
 
-},{}],40:[function(require,module,exports){
+},{}],38:[function(require,module,exports){
 var identity = require('../utility/identity');
 
 /**
@@ -4039,7 +4027,7 @@ function bindCallback(func, thisArg, argCount) {
 
 module.exports = bindCallback;
 
-},{"../utility/identity":78}],41:[function(require,module,exports){
+},{"../utility/identity":76}],39:[function(require,module,exports){
 (function (global){
 /** Native method references. */
 var ArrayBuffer = global.ArrayBuffer,
@@ -4063,7 +4051,7 @@ function bufferClone(buffer) {
 module.exports = bufferClone;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],42:[function(require,module,exports){
+},{}],40:[function(require,module,exports){
 var bindCallback = require('./bindCallback'),
     isIterateeCall = require('./isIterateeCall'),
     restParam = require('../function/restParam');
@@ -4106,7 +4094,7 @@ function createAssigner(assigner) {
 
 module.exports = createAssigner;
 
-},{"../function/restParam":25,"./bindCallback":40,"./isIterateeCall":54}],43:[function(require,module,exports){
+},{"../function/restParam":23,"./bindCallback":38,"./isIterateeCall":52}],41:[function(require,module,exports){
 var getLength = require('./getLength'),
     isLength = require('./isLength'),
     toObject = require('./toObject');
@@ -4139,7 +4127,7 @@ function createBaseEach(eachFunc, fromRight) {
 
 module.exports = createBaseEach;
 
-},{"./getLength":47,"./isLength":55,"./toObject":59}],44:[function(require,module,exports){
+},{"./getLength":45,"./isLength":53,"./toObject":57}],42:[function(require,module,exports){
 var toObject = require('./toObject');
 
 /**
@@ -4168,7 +4156,7 @@ function createBaseFor(fromRight) {
 
 module.exports = createBaseFor;
 
-},{"./toObject":59}],45:[function(require,module,exports){
+},{"./toObject":57}],43:[function(require,module,exports){
 var restParam = require('../function/restParam');
 
 /**
@@ -4192,7 +4180,7 @@ function createDefaults(assigner, customizer) {
 
 module.exports = createDefaults;
 
-},{"../function/restParam":25}],46:[function(require,module,exports){
+},{"../function/restParam":23}],44:[function(require,module,exports){
 var bindCallback = require('./bindCallback'),
     isArray = require('../lang/isArray');
 
@@ -4214,7 +4202,7 @@ function createForEach(arrayFunc, eachFunc) {
 
 module.exports = createForEach;
 
-},{"../lang/isArray":62,"./bindCallback":40}],47:[function(require,module,exports){
+},{"../lang/isArray":60,"./bindCallback":38}],45:[function(require,module,exports){
 var baseProperty = require('./baseProperty');
 
 /**
@@ -4231,7 +4219,7 @@ var getLength = baseProperty('length');
 
 module.exports = getLength;
 
-},{"./baseProperty":39}],48:[function(require,module,exports){
+},{"./baseProperty":37}],46:[function(require,module,exports){
 var isNative = require('../lang/isNative');
 
 /**
@@ -4249,7 +4237,7 @@ function getNative(object, key) {
 
 module.exports = getNative;
 
-},{"../lang/isNative":66}],49:[function(require,module,exports){
+},{"../lang/isNative":64}],47:[function(require,module,exports){
 /** Used for native method references. */
 var objectProto = Object.prototype;
 
@@ -4277,7 +4265,7 @@ function initCloneArray(array) {
 
 module.exports = initCloneArray;
 
-},{}],50:[function(require,module,exports){
+},{}],48:[function(require,module,exports){
 var bufferClone = require('./bufferClone');
 
 /** `Object#toString` result references. */
@@ -4342,7 +4330,7 @@ function initCloneByTag(object, tag, isDeep) {
 
 module.exports = initCloneByTag;
 
-},{"./bufferClone":41}],51:[function(require,module,exports){
+},{"./bufferClone":39}],49:[function(require,module,exports){
 /**
  * Initializes an object clone.
  *
@@ -4360,7 +4348,7 @@ function initCloneObject(object) {
 
 module.exports = initCloneObject;
 
-},{}],52:[function(require,module,exports){
+},{}],50:[function(require,module,exports){
 var getLength = require('./getLength'),
     isLength = require('./isLength');
 
@@ -4377,7 +4365,7 @@ function isArrayLike(value) {
 
 module.exports = isArrayLike;
 
-},{"./getLength":47,"./isLength":55}],53:[function(require,module,exports){
+},{"./getLength":45,"./isLength":53}],51:[function(require,module,exports){
 /** Used to detect unsigned integer values. */
 var reIsUint = /^\d+$/;
 
@@ -4403,7 +4391,7 @@ function isIndex(value, length) {
 
 module.exports = isIndex;
 
-},{}],54:[function(require,module,exports){
+},{}],52:[function(require,module,exports){
 var isArrayLike = require('./isArrayLike'),
     isIndex = require('./isIndex'),
     isObject = require('../lang/isObject');
@@ -4433,7 +4421,7 @@ function isIterateeCall(value, index, object) {
 
 module.exports = isIterateeCall;
 
-},{"../lang/isObject":67,"./isArrayLike":52,"./isIndex":53}],55:[function(require,module,exports){
+},{"../lang/isObject":65,"./isArrayLike":50,"./isIndex":51}],53:[function(require,module,exports){
 /**
  * Used as the [maximum length](http://ecma-international.org/ecma-262/6.0/#sec-number.max_safe_integer)
  * of an array-like value.
@@ -4455,7 +4443,7 @@ function isLength(value) {
 
 module.exports = isLength;
 
-},{}],56:[function(require,module,exports){
+},{}],54:[function(require,module,exports){
 /**
  * Checks if `value` is object-like.
  *
@@ -4469,7 +4457,7 @@ function isObjectLike(value) {
 
 module.exports = isObjectLike;
 
-},{}],57:[function(require,module,exports){
+},{}],55:[function(require,module,exports){
 var merge = require('../object/merge');
 
 /**
@@ -4486,7 +4474,7 @@ function mergeDefaults(objectValue, sourceValue) {
 
 module.exports = mergeDefaults;
 
-},{"../object/merge":77}],58:[function(require,module,exports){
+},{"../object/merge":75}],56:[function(require,module,exports){
 var isArguments = require('../lang/isArguments'),
     isArray = require('../lang/isArray'),
     isIndex = require('./isIndex'),
@@ -4529,7 +4517,7 @@ function shimKeys(object) {
 
 module.exports = shimKeys;
 
-},{"../lang/isArguments":61,"../lang/isArray":62,"../object/keysIn":76,"./isIndex":53,"./isLength":55}],59:[function(require,module,exports){
+},{"../lang/isArguments":59,"../lang/isArray":60,"../object/keysIn":74,"./isIndex":51,"./isLength":53}],57:[function(require,module,exports){
 var isObject = require('../lang/isObject');
 
 /**
@@ -4545,7 +4533,7 @@ function toObject(value) {
 
 module.exports = toObject;
 
-},{"../lang/isObject":67}],60:[function(require,module,exports){
+},{"../lang/isObject":65}],58:[function(require,module,exports){
 var baseClone = require('../internal/baseClone'),
     bindCallback = require('../internal/bindCallback'),
     isIterateeCall = require('../internal/isIterateeCall');
@@ -4617,7 +4605,7 @@ function clone(value, isDeep, customizer, thisArg) {
 
 module.exports = clone;
 
-},{"../internal/baseClone":31,"../internal/bindCallback":40,"../internal/isIterateeCall":54}],61:[function(require,module,exports){
+},{"../internal/baseClone":29,"../internal/bindCallback":38,"../internal/isIterateeCall":52}],59:[function(require,module,exports){
 var isArrayLike = require('../internal/isArrayLike'),
     isObjectLike = require('../internal/isObjectLike');
 
@@ -4653,7 +4641,7 @@ function isArguments(value) {
 
 module.exports = isArguments;
 
-},{"../internal/isArrayLike":52,"../internal/isObjectLike":56}],62:[function(require,module,exports){
+},{"../internal/isArrayLike":50,"../internal/isObjectLike":54}],60:[function(require,module,exports){
 var getNative = require('../internal/getNative'),
     isLength = require('../internal/isLength'),
     isObjectLike = require('../internal/isObjectLike');
@@ -4695,7 +4683,7 @@ var isArray = nativeIsArray || function(value) {
 
 module.exports = isArray;
 
-},{"../internal/getNative":48,"../internal/isLength":55,"../internal/isObjectLike":56}],63:[function(require,module,exports){
+},{"../internal/getNative":46,"../internal/isLength":53,"../internal/isObjectLike":54}],61:[function(require,module,exports){
 var isObjectLike = require('../internal/isObjectLike'),
     isPlainObject = require('./isPlainObject');
 
@@ -4721,7 +4709,7 @@ function isElement(value) {
 
 module.exports = isElement;
 
-},{"../internal/isObjectLike":56,"./isPlainObject":68}],64:[function(require,module,exports){
+},{"../internal/isObjectLike":54,"./isPlainObject":66}],62:[function(require,module,exports){
 var isArguments = require('./isArguments'),
     isArray = require('./isArray'),
     isArrayLike = require('../internal/isArrayLike'),
@@ -4770,7 +4758,7 @@ function isEmpty(value) {
 
 module.exports = isEmpty;
 
-},{"../internal/isArrayLike":52,"../internal/isObjectLike":56,"../object/keys":75,"./isArguments":61,"./isArray":62,"./isFunction":65,"./isString":69}],65:[function(require,module,exports){
+},{"../internal/isArrayLike":50,"../internal/isObjectLike":54,"../object/keys":73,"./isArguments":59,"./isArray":60,"./isFunction":63,"./isString":67}],63:[function(require,module,exports){
 var isObject = require('./isObject');
 
 /** `Object#toString` result references. */
@@ -4810,7 +4798,7 @@ function isFunction(value) {
 
 module.exports = isFunction;
 
-},{"./isObject":67}],66:[function(require,module,exports){
+},{"./isObject":65}],64:[function(require,module,exports){
 var isFunction = require('./isFunction'),
     isObjectLike = require('../internal/isObjectLike');
 
@@ -4860,7 +4848,7 @@ function isNative(value) {
 
 module.exports = isNative;
 
-},{"../internal/isObjectLike":56,"./isFunction":65}],67:[function(require,module,exports){
+},{"../internal/isObjectLike":54,"./isFunction":63}],65:[function(require,module,exports){
 /**
  * Checks if `value` is the [language type](https://es5.github.io/#x8) of `Object`.
  * (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
@@ -4890,7 +4878,7 @@ function isObject(value) {
 
 module.exports = isObject;
 
-},{}],68:[function(require,module,exports){
+},{}],66:[function(require,module,exports){
 var baseForIn = require('../internal/baseForIn'),
     isArguments = require('./isArguments'),
     isObjectLike = require('../internal/isObjectLike');
@@ -4963,7 +4951,7 @@ function isPlainObject(value) {
 
 module.exports = isPlainObject;
 
-},{"../internal/baseForIn":35,"../internal/isObjectLike":56,"./isArguments":61}],69:[function(require,module,exports){
+},{"../internal/baseForIn":33,"../internal/isObjectLike":54,"./isArguments":59}],67:[function(require,module,exports){
 var isObjectLike = require('../internal/isObjectLike');
 
 /** `Object#toString` result references. */
@@ -5000,7 +4988,7 @@ function isString(value) {
 
 module.exports = isString;
 
-},{"../internal/isObjectLike":56}],70:[function(require,module,exports){
+},{"../internal/isObjectLike":54}],68:[function(require,module,exports){
 var isLength = require('../internal/isLength'),
     isObjectLike = require('../internal/isObjectLike');
 
@@ -5076,7 +5064,7 @@ function isTypedArray(value) {
 
 module.exports = isTypedArray;
 
-},{"../internal/isLength":55,"../internal/isObjectLike":56}],71:[function(require,module,exports){
+},{"../internal/isLength":53,"../internal/isObjectLike":54}],69:[function(require,module,exports){
 var baseCopy = require('../internal/baseCopy'),
     keysIn = require('../object/keysIn');
 
@@ -5109,7 +5097,7 @@ function toPlainObject(value) {
 
 module.exports = toPlainObject;
 
-},{"../internal/baseCopy":32,"../object/keysIn":76}],72:[function(require,module,exports){
+},{"../internal/baseCopy":30,"../object/keysIn":74}],70:[function(require,module,exports){
 var assignWith = require('../internal/assignWith'),
     baseAssign = require('../internal/baseAssign'),
     createAssigner = require('../internal/createAssigner');
@@ -5154,7 +5142,7 @@ var assign = createAssigner(function(object, source, customizer) {
 
 module.exports = assign;
 
-},{"../internal/assignWith":29,"../internal/baseAssign":30,"../internal/createAssigner":42}],73:[function(require,module,exports){
+},{"../internal/assignWith":27,"../internal/baseAssign":28,"../internal/createAssigner":40}],71:[function(require,module,exports){
 var assign = require('./assign'),
     assignDefaults = require('../internal/assignDefaults'),
     createDefaults = require('../internal/createDefaults');
@@ -5181,7 +5169,7 @@ var defaults = createDefaults(assign, assignDefaults);
 
 module.exports = defaults;
 
-},{"../internal/assignDefaults":28,"../internal/createDefaults":45,"./assign":72}],74:[function(require,module,exports){
+},{"../internal/assignDefaults":26,"../internal/createDefaults":43,"./assign":70}],72:[function(require,module,exports){
 var createDefaults = require('../internal/createDefaults'),
     merge = require('./merge'),
     mergeDefaults = require('../internal/mergeDefaults');
@@ -5208,7 +5196,7 @@ var defaultsDeep = createDefaults(merge, mergeDefaults);
 
 module.exports = defaultsDeep;
 
-},{"../internal/createDefaults":45,"../internal/mergeDefaults":57,"./merge":77}],75:[function(require,module,exports){
+},{"../internal/createDefaults":43,"../internal/mergeDefaults":55,"./merge":75}],73:[function(require,module,exports){
 var getNative = require('../internal/getNative'),
     isArrayLike = require('../internal/isArrayLike'),
     isObject = require('../lang/isObject'),
@@ -5255,7 +5243,7 @@ var keys = !nativeKeys ? shimKeys : function(object) {
 
 module.exports = keys;
 
-},{"../internal/getNative":48,"../internal/isArrayLike":52,"../internal/shimKeys":58,"../lang/isObject":67}],76:[function(require,module,exports){
+},{"../internal/getNative":46,"../internal/isArrayLike":50,"../internal/shimKeys":56,"../lang/isObject":65}],74:[function(require,module,exports){
 var isArguments = require('../lang/isArguments'),
     isArray = require('../lang/isArray'),
     isIndex = require('../internal/isIndex'),
@@ -5321,7 +5309,7 @@ function keysIn(object) {
 
 module.exports = keysIn;
 
-},{"../internal/isIndex":53,"../internal/isLength":55,"../lang/isArguments":61,"../lang/isArray":62,"../lang/isObject":67}],77:[function(require,module,exports){
+},{"../internal/isIndex":51,"../internal/isLength":53,"../lang/isArguments":59,"../lang/isArray":60,"../lang/isObject":65}],75:[function(require,module,exports){
 var baseMerge = require('../internal/baseMerge'),
     createAssigner = require('../internal/createAssigner');
 
@@ -5377,7 +5365,7 @@ var merge = createAssigner(baseMerge);
 
 module.exports = merge;
 
-},{"../internal/baseMerge":37,"../internal/createAssigner":42}],78:[function(require,module,exports){
+},{"../internal/baseMerge":35,"../internal/createAssigner":40}],76:[function(require,module,exports){
 /**
  * This method returns the first argument provided to it.
  *
@@ -5399,4 +5387,44 @@ function identity(value) {
 
 module.exports = identity;
 
-},{}]},{},[3]);
+},{}],77:[function(require,module,exports){
+/** @module stringProcessing/stripHTMLTags */
+
+var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
+
+/**
+ * Strip HTML-tags from text
+ *
+ * @param {String} text The text to strip the HTML-tags from.
+ * @returns {String} The text without HTML-tags.
+ */
+module.exports = function( text ) {
+	text = text.replace( /(<([^>]+)>)/ig, " " );
+	text = stripSpaces( text );
+	return text;
+};
+
+},{"../stringProcessing/stripSpaces.js":78}],78:[function(require,module,exports){
+/** @module stringProcessing/stripSpaces */
+
+/**
+ * Strip double spaces from text
+ *
+ * @param {String} text The text to strip spaces from.
+ * @returns {String} The text without double spaces
+ */
+module.exports = function( text ) {
+
+	// Replace multiple spaces with single space
+	text = text.replace( /\s{2,}/g, " " );
+
+	// Replace spaces followed by periods with only the period.
+	text = text.replace( /\s\./g, "." );
+
+	// Remove first/last character if space
+	text = text.replace( /^\s+|\s+$/g, "" );
+
+	return text;
+};
+
+},{}]},{},[1]);
