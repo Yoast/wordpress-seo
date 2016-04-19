@@ -116,7 +116,7 @@ class WPSEO_Redirect_Validation_Test extends WPSEO_UnitTestCase {
 			array( 'current_page', '/', 301, '' ),
 			array( 'deleted-page', '', 410, '' ),
 			array( 'deleted-page', '', 451, '' ),
-			array( 'accessible_url', home_url(), 301, '' ),
+			array( 'accessible_url', home_url(), 410, '' ),
 			array( 'accessible_url', '', 410, '' ),
 			array( 'end_url', '', 410, '' ),
 			array( 'accessible_url', '', 451, '' ),
