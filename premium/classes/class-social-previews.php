@@ -104,8 +104,10 @@ class WPSEO_Social_Previews {
 
 		wp_localize_script( 'yoast-social-preview', 'yoastSocialPreview', $this->localize() );
 
-		wp_register_style( 'yoast-social-preview-css', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/dist/social_preview/yoast-social-preview.min.css', array(), WPSEO_VERSION );
-		wp_register_style( 'yoast-premium-social-preview', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/css/premium-social-preview.min.css', array(), WPSEO_VERSION );
+		$deps = array( WPSEO_Admin_Asset_Manager::PREFIX . 'metabox-css' );
+
+		wp_register_style( 'yoast-social-preview-css', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/dist/social_preview/yoast-social-preview.min.css', $deps, WPSEO_VERSION );
+		wp_register_style( 'yoast-premium-social-preview', plugin_dir_url( WPSEO_PREMIUM_FILE ) . 'assets/css/premium-social-preview.min.css', $deps, WPSEO_VERSION );
 	}
 
 	/**
