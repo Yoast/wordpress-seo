@@ -1,6 +1,7 @@
 /* jshint browser: true */
 
 var isElement = require( "lodash/lang/isElement" );
+var isObject = require( "lodash/lang/isObject" );
 var clone = require( "lodash/lang/clone" );
 var defaultsDeep = require( "lodash/object/defaultsDeep" );
 
@@ -149,6 +150,7 @@ var FacebookPreview = function( opts, i18n ) {
 	this.data = opts.data;
 	this.opts = opts;
 
+
 	this._currentFocus = null;
 	this._currentHover = null;
 };
@@ -170,8 +172,7 @@ FacebookPreview.prototype.constructI18n = function( translations ) {
 		}
 	};
 
-	// Use default object to prevent Jed from erroring out.
-	translations = translations || defaultTranslations;
+	defaultsDeep( translations, defaultTranslations );
 
 	return new Jed( translations );
 };
@@ -451,11 +452,26 @@ FacebookPreview.prototype.noUrlSet = function() {
  * @returns {void}
  */
 FacebookPreview.prototype.imageTooSmall = function() {
+	var message;
 	this.removeImageClasses();
+
+	if ( this.data.imageUrl === '' ) {
+		message = this.i18n.sprintf(
+			/* translators: %1$s expands to Facebook */
+			this.i18n.dgettext( "yoast-social-previews", "We are unable to detect an image in your post that is large enough to be displayed on Facebook. We advise you to select a %1$s image that fits the recommended image size." ),
+			"Facebook"
+		)
+	} else {
+		message = this.i18n.sprintf(
+			/* translators: %1$s expands to Facebook */
+			this.i18n.dgettext( "yoast-social-previews", "The image you selected is too small for %1$s" ),
+			"Facebook"
+		);
+	}
+
 	imagePlaceholder(
 		this.getImageContainer(),
-		/** translators: %1$s expands to Facebook */
-		this.i18n.sprintf( this.i18n.dgettext( "yoast-social-previews", "The image you selected is too small for %1$s" ), "Facebook" ),
+		message,
 		true,
 		"facebook"
 	);
