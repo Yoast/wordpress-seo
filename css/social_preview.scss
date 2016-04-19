@@ -355,6 +355,7 @@ $border_radius_twitter: .42857em;
 .social-image-placeholder {
 	&--facebook {
 		width: $width_facebook;
+		line-height: 1.4;
 	}
 
 	&--twitter {
