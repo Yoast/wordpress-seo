@@ -5,7 +5,7 @@ var forEach = require( "lodash/forEach" );
  * Calculates the result based on the score from the researcher.
  * @param {number} score The lowest score of the subheadings.
  * @param {number} tooLongHeaders The number of subheadings that are too long.
- * @param {number} recommendedValue The recommended value for subheadings.
+ * @param {number} recommendedValue The recommended maximum length for subheadings.
  * @param {object} i18n The object used for translations.
  * @returns {object} resultObject with text and score.
  */
@@ -21,8 +21,8 @@ var subheadingsLengthScore = function( score, tooLongHeaders, recommendedValue, 
 		text: i18n.sprintf(
 			i18n.dngettext(
 				"js-text-analysis",
-				"You have %1$d subheading which contain more than the recommended maximum of %2$d characters.",
-				"You have %1$d subheadings which contain more than the recommended maximum of %2$d characters.",
+				"You have %1$d subheading containing more than the recommended maximum of %2$d characters.",
+				"You have %1$d subheadings containing more than the recommended maximum of %2$d characters.",
 				tooLongHeaders
 			), tooLongHeaders, recommendedValue )
 	};
@@ -33,8 +33,8 @@ var subheadingsLengthScore = function( score, tooLongHeaders, recommendedValue, 
  *
  * @param {Paper} paper The paper to use for the assessment.
  * @param {object} researcher The researcher used for calling research.
- * @param {object} i18n The object used for translations
- * @returns {object} the Assessmentresult
+ * @param {object} i18n The object used for translations.
+ * @returns {object} The Assessmentresult
  */
 var getSubheadingLength = function( paper, researcher, i18n ) {
 	var subheadingsLength = researcher.getResearch( "getSubheadingLength" );
