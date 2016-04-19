@@ -9,17 +9,18 @@
 class WPSEO_Social_Previews {
 
 	/**
-	 * Register the script and localize it.
-	 */
-	public function __construct() {
-		$this->register_assets();
-	}
-
-	/**
 	 * Enqueues the assets.
 	 */
 	public function set_hooks() {
+		$this->register_assets();
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets' ) );
+	}
+
+	/**
+	 * Sets the hooks necessary for AJAX
+	 */
+	public function set_ajax_hooks() {
+		add_action( 'wp_ajax_retrieve_image_data_from_url', array( $this, 'ajax_retrieve_image_data_from_url' ) );
 	}
 
 	/**
@@ -32,6 +33,67 @@ class WPSEO_Social_Previews {
 	}
 
 	/**
+	 * Retrieves image data from an image URL
+	 */
+	public function ajax_retrieve_image_data_from_url() {
+		$url = filter_input( INPUT_GET, 'imageURL' );
+
+		$attachment_id = $this->retrieve_image_id_from_url( $url );
+
+		if ( $attachment_id ) {
+			$image = wp_get_attachment_image_src( $attachment_id, 'full' );
+
+			$result = array(
+				'status' => 'success',
+				'result' => $image[0],
+			);
+		}
+		else {
+			// Pass the original URL for consistency.
+			$result = array(
+				'status' => 'success',
+				'result' => $url,
+			);
+		}
+
+		wp_die( wp_json_encode( $result ) );
+	}
+
+	/**
+	 * Determines an attachment ID from a URL which might be an attachment URL
+	 *
+	 * @link https://philipnewcomer.net/2012/11/get-the-attachment-id-from-an-image-url-in-wordpress/
+	 *
+	 * @param string $url The URL to retrieve the attachment ID for.
+	 *
+	 * @return bool|int The attachment ID or false.
+	 */
+	public function retrieve_image_id_from_url( $url ) {
+		global $wpdb;
+
+		$attachment_id = false;
+
+		// Get the upload directory paths.
+		$upload_dir_paths = wp_upload_dir();
+
+		// Make sure the upload path base directory exists in the attachment URL, to verify that we're working with a media library image.
+		if ( false !== strpos( $url, $upload_dir_paths['baseurl'] ) ) {
+
+			// If this is the URL of an auto-generated thumbnail, get the URL of the original image.
+			$url = preg_replace( '/-\d+x\d+(?=\.(jpg|jpeg|png|gif)$)/i', '', $url );
+
+			// Remove the upload path base directory from the attachment URL.
+			$url = str_replace( $upload_dir_paths['baseurl'] . '/', '', $url );
+
+			// Finally, run a custom database query to get the attachment ID from the modified attachment URL.
+			$attachment_id = $wpdb->get_var( $wpdb->prepare( "SELECT wposts.ID FROM $wpdb->posts wposts, $wpdb->postmeta wpostmeta WHERE wposts.ID = wpostmeta.post_id AND wpostmeta.meta_key = '_wp_attached_file' AND wpostmeta.meta_value = '%s' AND wposts.post_type = 'attachment'", $url ) );
+
+		}
+
+		return (int) $attachment_id;
+	}
+
+	/*
 	 * Register the required assets.
 	 */
 	private function register_assets() {

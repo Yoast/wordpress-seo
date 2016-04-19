@@ -8,6 +8,8 @@ var getTitlePlaceholder = require( '../../../../js/src/analysis/getTitlePlacehol
 var getDescriptionPlaceholder = require( '../../../../js/src/analysis/getDescriptionPlaceholder' );
 
 var forEach = require( 'lodash/forEach' );
+var _has = require( 'lodash/has' );
+
 var Jed = require( 'jed' );
 
 (function($) {
@@ -29,6 +31,7 @@ var Jed = require( 'jed' );
 	var translations = yoastSocialPreview.i18n;
 
 	var i18n = new Jed( addLibraryTranslations( translations.library ) );
+	var biggerImages = {};
 
 	/**
 	 * Sets the events for opening the WP media library when pressing the button.
@@ -425,7 +428,9 @@ var Jed = require( 'jed' );
 			}
 		}
 
-		setContentImage( getContentImage() );
+		setContentImage( getContentImage( function( image ) {
+			setContentImage( image );
+		} ) );
 	}
 
 	/**
@@ -477,9 +482,11 @@ var Jed = require( 'jed' );
 	/**
 	 * Returns the image from the content.
 	 *
+	 * @param {Function} callback function to call if a bigger size is available.
+	 *
 	 * @returns {string}
 	 */
-	function getContentImage() {
+	function getContentImage( callback ) {
 		var content = getContent();
 
 		var images = getImages( content );
@@ -500,7 +507,46 @@ var Jed = require( 'jed' );
 			}
 		} while ( '' === image && images.length > 0 );
 
+		image = getBiggerImage( image, callback );
+
 		return image;
+	}
+
+	/**
+	 * Try to retrieve a bigger image for a certain image found in the content.
+	 *
+	 * @param url
+	 * @param {Function} callback The callback to call if there is a bigger image.
+	 */
+	function getBiggerImage( url, callback ) {
+		if ( _has( biggerImages, url ) ) {
+			return biggerImages[ url ];
+		}
+
+		retrieveImageDataFromURL( url, function( imageUrl ) {
+			biggerImages[ url ] = imageUrl;
+
+			callback( imageUrl );
+		} );
+
+		return url;
+	}
+
+	/**
+	 * Retrieves the image metadata from an image url and saves it to the image manager afterwards
+	 *
+	 * @param {string} url The image URL to retrieve the metadata from.
+	 * @param {Function} callback Callback to call with the image URL result.
+	 */
+	function retrieveImageDataFromURL( url, callback ) {
+		$.getJSON( ajaxurl, {
+			action: 'retrieve_image_data_from_url',
+			imageURL: url
+		}, function( response ) {
+			if ( 'success' === response.status ) {
+				callback( response.result );
+			}
+		});
 	}
 
 	/**
