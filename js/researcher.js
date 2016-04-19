@@ -23,6 +23,7 @@ var metaDescriptionKeyword = require( "./researches/metaDescriptionKeyword.js" )
 var keywordCountInUrl = require( "./researches/keywordCountInUrl" );
 var findKeywordInFirstParagraph = require( "./researches/findKeywordInFirstParagraph.js" );
 var pageTitleLength = require( "./researches/pageTitleLength.js" );
+var paragraphLength = require( "./researches/getParagraphLength.js" );
 
 /**
  * This contains all possible, default researches.
@@ -51,7 +52,8 @@ var Researcher = function( paper ) {
 		"keywordCountInUrl": keywordCountInUrl,
 		"firstParagraph": findKeywordInFirstParagraph,
 		"metaDescriptionKeyword": metaDescriptionKeyword,
-		"pageTitleLength": pageTitleLength
+		"pageTitleLength": pageTitleLength,
+		"paragraphLength": paragraphLength
 	};
 
 	this.customResearches = {};
