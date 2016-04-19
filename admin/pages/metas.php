@@ -1,4 +1,4 @@
-<?php
+git st<?php
 /**
  * @package WPSEO\Admin
  */
@@ -17,7 +17,6 @@ add_filter( 'yoast_option_tab_help_center_metas_taxonomies', 'yoast_option_tab_h
 add_filter( 'yoast_option_tab_help_center_metas_archives', 'yoast_option_tab_help_center_metas_archives' );
 add_filter( 'yoast_option_tab_help_center_metas_other', 'yoast_option_tab_help_center_metas_other' );
 
-
 $options = WPSEO_Options::get_options( array( 'wpseo_titles', 'wpseo_permalinks', 'wpseo_internallinks' ) );
 
 $yform = Yoast_Form::get_instance();
@@ -34,6 +33,13 @@ $tabs->display( $yform, $options );
 
 $yform->admin_footer();
 
+/**
+ * Add help tabs
+ *
+ * @param $tabs
+ *
+ * @return array
+ */
 function yoast_option_tab_help_center_metas( $tabs ) {
 	$tabs[] = new WPSEO_Help_Center_Item(
 		'basic-help',
@@ -62,42 +68,91 @@ function yoast_option_tab_help_center_metas( $tabs ) {
 	return $tabs;
 }
 
+/**
+ * Add video tab
+ *
+ * @param $tabs
+ *
+ * @return mixed
+ */
 function yoast_option_tab_help_center_metas_home( $tabs ) {
 	array_unshift( $tabs, yoast_create_help_center_video( 'https://yoa.st/screencast-metas-homepage' ) );
 
 	return $tabs;
 }
 
+/**
+ * Add video tab
+ *
+ * @param $tabs
+ *
+ * @return mixed
+ */
 function yoast_option_tab_help_center_metas_general( $tabs ) {
 	array_unshift( $tabs, yoast_create_help_center_video( 'https://yoa.st/screencast-metas' ) );
 
 	return $tabs;
 }
 
+/**
+ * Add video tab
+ *
+ * @param $tabs
+ *
+ * @return mixed
+ */
 function yoast_option_tab_help_center_metas_post_types( $tabs ) {
 	array_unshift( $tabs, yoast_create_help_center_video( 'https://yoa.st/screencast-metas-post-types' ) );
 
 	return $tabs;
 }
 
+/**
+ * Add video tab
+ *
+ * @param $tabs
+ *
+ * @return mixed
+ */
 function yoast_option_tab_help_center_metas_taxonomies( $tabs ) {
 	array_unshift( $tabs, yoast_create_help_center_video( 'https://yoa.st/screencast-metas-taxonomies' ) );
 
 	return $tabs;
 }
 
+/**
+ * Add video tab
+ *
+ * @param $tabs
+ *
+ * @return mixed
+ */
 function yoast_option_tab_help_center_metas_archives( $tabs ) {
 	array_unshift( $tabs, yoast_create_help_center_video( 'https://yoa.st/screencast-metas-archives' ) );
 
 	return $tabs;
 }
 
+/**
+ * Add video tab
+ *
+ * @param $tabs
+ *
+ * @return mixed
+ */
 function yoast_option_tab_help_center_metas_other( $tabs ) {
 	array_unshift( $tabs, yoast_create_help_center_video( 'https://yoa.st/screencast-metas-other' ) );
 
 	return $tabs;
 }
 
+/**
+ * Create video help center item
+ *
+ * @param $url
+ *
+ * @return WPSEO_Help_Center_Item
+ */
 function yoast_create_help_center_video( $url ) {
 	return new WPSEO_Help_Center_Item(
 		'video',
