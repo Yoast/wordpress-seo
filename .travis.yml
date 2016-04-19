@@ -36,7 +36,7 @@ cache:
 
 before_script:
 - phpenv local 5.6
-- composer selfupdate 1.0.0 --no-interaction
+- composer selfupdate --no-interaction
 - composer install --no-interaction
 - composer config-yoastcs
 - phpenv local --unset
