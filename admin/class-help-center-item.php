@@ -12,8 +12,8 @@ class WPSEO_Help_Center_Item {
 	 * WPSEO_Help_Center_Item constructor.
 	 *
 	 * @param string $identifier Unique identifier for this tab.
-	 * @param string $label Label to display.
-	 * @param array $args Optional. Settings for this tab.
+	 * @param string $label      Label to display.
+	 * @param array  $args       Optional. Settings for this tab.
 	 */
 	public function __construct( $identifier, $label, $args = array() ) {
 		$this->identifier = $identifier;
@@ -33,7 +33,7 @@ class WPSEO_Help_Center_Item {
 
 	/**
 	 * Get the identifier
-	 * 
+	 *
 	 * @return string
 	 */
 	public function get_identifier() {
@@ -42,7 +42,7 @@ class WPSEO_Help_Center_Item {
 
 	/**
 	 * Get the content of this tab
-	 * 
+	 *
 	 * @return mixed|string
 	 */
 	public function get_content() {
@@ -56,8 +56,8 @@ class WPSEO_Help_Center_Item {
 
 		if ( ! empty( $this->args['view'] ) ) {
 			$view = $this->args['view'];
-			if ( substr( $view, -4 ) === '.php' ) {
-				$view = substr( $view, 0, -4 );
+			if ( substr( $view, - 4 ) === '.php' ) {
+				$view = substr( $view, 0, - 4 );
 			}
 
 			if ( ! empty( $this->args['view_arguments'] ) ) {

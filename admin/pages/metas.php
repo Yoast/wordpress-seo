@@ -36,7 +36,7 @@ $yform->admin_footer();
 /**
  * Add help tabs
  *
- * @param $tabs
+ * @param array $tabs Current help center tabs.
  *
  * @return array
  */
@@ -53,7 +53,7 @@ function yoast_option_tab_help_center_metas( $tabs ) {
 		'title-vars',
 		__( 'Basic Variables', 'wordpress-seo' ),
 		array(
-			'content' => "<h2>" . __( 'Basic Variables', 'wordpress-seo' ) . "</h2>" . WPSEO_Replace_Vars::get_basic_help_texts(),
+			'content' => '<h2>' . __( 'Basic Variables', 'wordpress-seo' ) . '</h2>' . WPSEO_Replace_Vars::get_basic_help_texts(),
 		)
 	);
 
@@ -61,7 +61,7 @@ function yoast_option_tab_help_center_metas( $tabs ) {
 		'title-vars-advanced',
 		__( 'Advanced Variables', 'wordpress-seo' ),
 		array(
-			'content' => "<h2>" . __( 'Advanced Variables', 'wordpress-seo' ) . "</h2>" . WPSEO_Replace_Vars::get_advanced_help_texts(),
+			'content' => '<h2>' . __( 'Advanced Variables', 'wordpress-seo' ) . '</h2>' . WPSEO_Replace_Vars::get_advanced_help_texts(),
 		)
 	);
 
@@ -71,7 +71,7 @@ function yoast_option_tab_help_center_metas( $tabs ) {
 /**
  * Add video tab
  *
- * @param $tabs
+ * @param array $tabs Current help center tabs.
  *
  * @return mixed
  */
@@ -84,7 +84,7 @@ function yoast_option_tab_help_center_metas_home( $tabs ) {
 /**
  * Add video tab
  *
- * @param $tabs
+ * @param array $tabs Current help center tabs.
  *
  * @return mixed
  */
@@ -97,7 +97,7 @@ function yoast_option_tab_help_center_metas_general( $tabs ) {
 /**
  * Add video tab
  *
- * @param $tabs
+ * @param array $tabs Current help center tabs.
  *
  * @return mixed
  */
@@ -110,7 +110,7 @@ function yoast_option_tab_help_center_metas_post_types( $tabs ) {
 /**
  * Add video tab
  *
- * @param $tabs
+ * @param array $tabs Current help center tabs.
  *
  * @return mixed
  */
@@ -123,7 +123,7 @@ function yoast_option_tab_help_center_metas_taxonomies( $tabs ) {
 /**
  * Add video tab
  *
- * @param $tabs
+ * @param array $tabs Current help center tabs.
  *
  * @return mixed
  */
@@ -136,7 +136,7 @@ function yoast_option_tab_help_center_metas_archives( $tabs ) {
 /**
  * Add video tab
  *
- * @param $tabs
+ * @param array $tabs Current help center tabs.
  *
  * @return mixed
  */
@@ -149,7 +149,7 @@ function yoast_option_tab_help_center_metas_other( $tabs ) {
 /**
  * Create video help center item
  *
- * @param $url
+ * @param string $url Add video link.
  *
  * @return WPSEO_Help_Center_Item
  */
@@ -160,8 +160,8 @@ function yoast_create_help_center_video( $url ) {
 		array(
 			'view'           => 'partial-help-center-video',
 			'view_arguments' => array(
-				'tab_video_url' => $url
-			)
+				'tab_video_url' => $url,
+			),
 		)
 	);
 }
