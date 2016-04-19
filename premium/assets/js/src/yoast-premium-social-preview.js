@@ -9,6 +9,8 @@ var getDescriptionPlaceholder = require( '../../../../js/src/analysis/getDescrip
 
 var clone = require( 'lodash/clone' );
 var forEach = require( 'lodash/forEach' );
+var _has = require( 'lodash/has' );
+
 var Jed = require( 'jed' );
 
 (function($) {
@@ -27,9 +29,12 @@ var Jed = require( 'jed' );
 	var FacebookPreview = socialPreviews.FacebookPreview;
 	var TwitterPreview = socialPreviews.TwitterPreview;
 
+	var facebookPreview, twitterPreview;
+
 	var translations = yoastSocialPreview.i18n;
 
 	var i18n = new Jed( addLibraryTranslations( translations.library ) );
+	var biggerImages = {};
 
 	/**
 	 * Sets the events for opening the WP media library when pressing the button.
@@ -226,9 +231,10 @@ var Jed = require( 'jed' );
 					$( '#' + fieldPrefix + '-description' ).val( data.description );
 					$( '#' + fieldPrefix + '-image' ).val( data.imageUrl );
 
-					if (data.imageUrl === '') {
-						jQuery( targetElement ).find( '.editable-preview' ).trigger( 'imageUpdate' );
-					} else {
+					// Make sure Twitter is updated if a Facebook image is set
+					$( '.editable-preview' ).trigger( 'imageUpdate' );
+
+					if ( data.imageUrl !== '' ) {
 						var buttonPrefix = targetElement.attr( 'id' ).replace( 'Preview', '' );
 						setUploadButtonValue( buttonPrefix, yoastSocialPreview.useOtherImage );
 					}
@@ -297,7 +303,7 @@ var Jed = require( 'jed' );
 		createSocialPreviewContainer( facebookHolder, 'facebookPreview' );
 
 		var facebookPreviewContainer = $( '#facebookPreview' );
-		var facebookPreview = new FacebookPreview(
+		facebookPreview = new FacebookPreview(
 			getSocialPreviewArgs( facebookPreviewContainer, fieldPrefix() + '_opengraph' ),
 			i18n
 		);
@@ -325,7 +331,7 @@ var Jed = require( 'jed' );
 		createSocialPreviewContainer( twitterHolder, 'twitterPreview' );
 
 		var twitterPreviewContainer = $( '#twitterPreview' );
-		var twitterPreview = new TwitterPreview(
+		twitterPreview = new TwitterPreview(
 			getSocialPreviewArgs( twitterPreviewContainer, fieldPrefix() + '_twitter' ),
 			i18n
 		);
@@ -500,7 +506,9 @@ var Jed = require( 'jed' );
 			}
 		}
 
-		setContentImage( getContentImage() );
+		setContentImage( getContentImage( function( image ) {
+			setContentImage( image );
+		} ) );
 	}
 
 	/**
@@ -552,9 +560,11 @@ var Jed = require( 'jed' );
 	/**
 	 * Returns the image from the content.
 	 *
+	 * @param {Function} callback function to call if a bigger size is available.
+	 *
 	 * @returns {string}
 	 */
-	function getContentImage() {
+	function getContentImage( callback ) {
 		var content = getContent();
 
 		var images = getImages( content );
@@ -575,7 +585,46 @@ var Jed = require( 'jed' );
 			}
 		} while ( '' === image && images.length > 0 );
 
+		image = getBiggerImage( image, callback );
+
 		return image;
+	}
+
+	/**
+	 * Try to retrieve a bigger image for a certain image found in the content.
+	 *
+	 * @param url
+	 * @param {Function} callback The callback to call if there is a bigger image.
+	 */
+	function getBiggerImage( url, callback ) {
+		if ( _has( biggerImages, url ) ) {
+			return biggerImages[ url ];
+		}
+
+		retrieveImageDataFromURL( url, function( imageUrl ) {
+			biggerImages[ url ] = imageUrl;
+
+			callback( imageUrl );
+		} );
+
+		return url;
+	}
+
+	/**
+	 * Retrieves the image metadata from an image url and saves it to the image manager afterwards
+	 *
+	 * @param {string} url The image URL to retrieve the metadata from.
+	 * @param {Function} callback Callback to call with the image URL result.
+	 */
+	function retrieveImageDataFromURL( url, callback ) {
+		$.getJSON( ajaxurl, {
+			action: 'retrieve_image_data_from_url',
+			imageURL: url
+		}, function( response ) {
+			if ( 'success' === response.status ) {
+				callback( response.result );
+			}
+		});
 	}
 
 	/**
@@ -621,6 +670,11 @@ var Jed = require( 'jed' );
 	 * @returns {string}
 	 */
 	function getFallbackImage( defaultImage ) {
+		// Twitter always first falls back to Facebook
+		if ( facebookPreview.data.imageUrl !== '' ) {
+			return facebookPreview.data.imageUrl;
+		}
+
 		// In case of an post: we want to have the featured image.
 		if ( getCurrentType() === 'post' ) {
 			if ( imageFallBack.featured !== '' ) {

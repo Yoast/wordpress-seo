@@ -9345,7 +9345,7 @@ var assessImages = function( altProperties, i18n ) {
 	if ( altProperties.noAlt > 0 ) {
 		return {
 			score: 5,
-			text: i18n.dgettext( "js-text-analysis", "The images on this page are missing alt tags." )
+			text: i18n.dgettext( "js-text-analysis", "The images on this page are missing alt attributes." )
 		};
 	}
 
@@ -9353,7 +9353,7 @@ var assessImages = function( altProperties, i18n ) {
 	if ( altProperties.withAlt > 0 ) {
 		return {
 			score: 5,
-			text: i18n.dgettext( "js-text-analysis", "The images on this page contain alt tags." )
+			text: i18n.dgettext( "js-text-analysis", "The images on this page contain alt attributes." )
 		};
 	}
 
@@ -9361,7 +9361,7 @@ var assessImages = function( altProperties, i18n ) {
 	if ( altProperties.withAltNonKeyword > 0 ) {
 		return {
 			score: 5,
-			text: i18n.dgettext( "js-text-analysis", "The images on this page do not have alt tags containing your focus keyword." )
+			text: i18n.dgettext( "js-text-analysis", "The images on this page do not have alt attributes containing your focus keyword." )
 		};
 	}
 
@@ -9369,7 +9369,7 @@ var assessImages = function( altProperties, i18n ) {
 	if ( altProperties.withAltKeyword > 0 ) {
 		return {
 			score: 9,
-			text: i18n.dgettext( "js-text-analysis", "The images on this page contain alt tags with the focus keyword." )
+			text: i18n.dgettext( "js-text-analysis", "The images on this page contain alt attributes with the focus keyword." )
 		};
 	}
 
@@ -9429,8 +9429,8 @@ var calculateWordCountResult = function( wordCount, i18n ) {
 			/* translators: %1$d expands to the number of words in the text, %2$s to the recommended minimum of words */
 			text: i18n.dngettext(
 				"js-text-analysis",
-				"The text contains %1$d word, this is more than the %2$d word recommended minimum.",
-				"The text contains %1$d words, this is more than the %2$d word recommended minimum.",
+				"The text contains %1$d word. This is more than the %2$d word recommended minimum.",
+				"The text contains %1$d words. This is more than the %2$d word recommended minimum.",
 				wordCount
 			)
 		};
@@ -9442,8 +9442,8 @@ var calculateWordCountResult = function( wordCount, i18n ) {
 			/* translators: %1$d expands to the number of words in the text, %2$s to the recommended minimum of words */
 			text: i18n.dngettext(
 				"js-text-analysis",
-				"The text contains %1$d word, this is slightly below the %2$d word recommended minimum. Add a bit more copy.",
-				"The text contains %1$d words, this is slightly below the %2$d word recommended minimum. Add a bit more copy.",
+				"The text contains %1$d word. This is slightly below the %2$d word recommended minimum. Add a bit more copy.",
+				"The text contains %1$d words. This is slightly below the %2$d word recommended minimum. Add a bit more copy.",
 				wordCount
 			)
 		};
@@ -9455,8 +9455,8 @@ var calculateWordCountResult = function( wordCount, i18n ) {
 			/* translators: %1$d expands to the number of words in the text, %2$d to the recommended minimum of words */
 			text: i18n.dngettext(
 				"js-text-analysis",
-				"The text contains %1$d word, this is below the %2$d word recommended minimum. Add more useful content on this topic for readers.",
-				"The text contains %1$d words, this is below the %2$d word recommended minimum. Add more useful content on this topic for readers.",
+				"The text contains %1$d word. This is below the %2$d word recommended minimum. Add more useful content on this topic for readers.",
+				"The text contains %1$d words. This is below the %2$d word recommended minimum. Add more useful content on this topic for readers.",
 				wordCount
 			)
 		};
@@ -9468,8 +9468,8 @@ var calculateWordCountResult = function( wordCount, i18n ) {
 			/* translators: %1$d expands to the number of words in the text, %2$d to the recommended minimum of words */
 			text: i18n.dngettext(
 				"js-text-analysis",
-				"The text contains %1$d word, this is below the %2$d word recommended minimum. Add more useful content on this topic for readers.",
-				"The text contains %1$d words, this is below the %2$d word recommended minimum. Add more useful content on this topic for readers.",
+				"The text contains %1$d word. This is below the %2$d word recommended minimum. Add more useful content on this topic for readers.",
+				"The text contains %1$d words. This is below the %2$d word recommended minimum. Add more useful content on this topic for readers.",
 				wordCount
 			)
 		};
@@ -9481,8 +9481,8 @@ var calculateWordCountResult = function( wordCount, i18n ) {
 			/* translators: %1$d expands to the number of words in the text */
 			text: i18n.dngettext(
 				"js-text-analysis",
-				"The text contains %1$d word, this is far too low and should be increased.",
-				"The text contains %1$d words, this is far too low and should be increased.",
+				"The text contains %1$d word. This is far too low and should be increased.",
+				"The text contains %1$d words. This is far too low and should be increased.",
 				wordCount
 			)
 		};

@@ -9,8 +9,6 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-$yform->light_switch( 'googleplus', __( 'Add Google+ specific post meta data', 'wordpress-seo' ) );
-
 printf( '<p>%s</p>', __( 'If you have a Google+ page for your business, add that URL here and link it on your Google+ page\'s about page.', 'wordpress-seo' ) );
 
 $yform->textinput( 'plus-publisher', __( 'Google Publisher Page', 'wordpress-seo' ) );

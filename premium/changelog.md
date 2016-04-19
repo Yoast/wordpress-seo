@@ -1,3 +1,10 @@
+### 3.2.0: April 19th, 2016
+* Introduces social previews, you can now see what your posts will look like when they are shared on Facebook and Twitter.
+  * The previews will automatically show you when your image is too small.
+  * You can use all replace variables you are used to in the Facebook and Twitter previews.
+* Removes the tutorial video page, the videos are now available on every tab.
+* Includes every change in Yoast SEO core 3.2.0, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
+
 ### 3.1.3: March 23rd, 2016
 * Fixes a few bugs related to term slugs that were altered by our plugin after they were saved. This especially caused issues for terms with parents. We will simply not touch term slugs anymore until the way terms are saved is fixed in WordPress, see also https://core.trac.wordpress.org/ticket/22293.
 * Fixes a bug where we would create redirects if nav menu items were edited.
