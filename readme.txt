@@ -4,9 +4,9 @@ Donate link: https://yoast.com/
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, Google, xml sitemap, google search console, google webmaster tools, canonical, meta description, meta title, noindex, snippet preview, redirects, focus keyword, seo copywriting, content marketing
-Requires at least: 4.2
+Requires at least: 4.3
 Tested up to: 4.5
-Stable tag: 3.2-RC
+Stable tag: 3.2
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using Yoast SEO plugin.
 
@@ -125,7 +125,7 @@ Release Date: April 19th, 2016
 	* Adds template function to retrieve the primary term. The functions are yoast_get_primary_term_id and yoast_get_primary_term.
 	* Enables primary term for every taxonomy by default.
 	* Adds a primary category replacement variable: `%%primary_category%%`.
-	* Adds free screencasts to every settings page explaining that specific page.
+	* Adds a Yoast help center to every settings page with a screencast explaining that specific page.
 	* Introduces new help buttons in place of qtip, which makes these descriptions much more accessible.
 
 * Enhancements:
@@ -150,6 +150,8 @@ Release Date: April 19th, 2016
 	* Improves accessibility of add keyword modal.
 	* Improves accessibility of metabox.
 	* Switches all yoa.st links to be HTTPS.
+	* Removes Google+ specific post and term meta fields since Google+ relies on Opengraph as well.
+	* Moves the replace vars help docs to the help center module on the titles and meta's settings page.
 
 * Bugfixes:
 	* Fixes a bug where the breadcrumbs title field was hidden even though the theme supported breadcrumbs.
@@ -157,14 +159,14 @@ Release Date: April 19th, 2016
 	* Fixes a bug where text inside a [caption] shortcode wouldn't be removed correctly in auto generated meta descriptions, props [Kevin Lisota](https://github.com/kevinlisota)
 	* Fixes a bug where a message to add headings to the text would only be shown if a keyword was set.
 	* Fixes a bug where a message to add links to the text would only be shown if a keyword was set.
-	* Fixes a compatibility issues with plugins that included mootools or prototypejs.
+	* Fixes compatibility issues with plugins that included mootools or prototypejs.
 	* Fixes a bug where the 404 page didn't correctly have a noindex and a nofollow set.
 	* Fixes a bug where internal taxonomies would be shown in the sitemap exlusion settings.
 	* Fixes a bug in the activation and deactivation where we would execute our code for every network, props [Felix Arntz](https://github.com/felixarntz).
 	* Fixes a bug where the primary category wasn't taken into account when calling `get_permalink` on the frontend.
 	* Fixes a compatibility issue with MultilingualPress, props [Thorsten Frommen](https://github.com/tfrommen).
-	* Fixes a compatibility issue with Easing Slider.
-	* Fixes a bug where a JavaScript template wasn't included when the dependant JavaScript was, props [Darren Ethier](https://github.com/nerrad).
+	* Fixes compatibility issues with Easing Slider and WooCommerce Variation Swatches and Photos.
+	* Fixes a bug where a JavaScript template wasn't included when the dependent JavaScript was, props [Darren Ethier](https://github.com/nerrad).
 	* Fixes a bug where the descriptions for removing the stopwords and the ?replytocom were merged.
 	* Fixes a bug where the recommended Facebook image dimensions weren't the same as the Facebook documentation.
 	* Fixes a bug where the dashboard widget wasn't cached correctly, props [Marko Heijnen](https://github.com/markoheijnen)
