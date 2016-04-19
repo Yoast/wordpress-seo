@@ -232,6 +232,15 @@ var Jed = require( 'jed' );
 						var buttonPrefix = targetElement.attr( 'id' ).replace( 'Preview', '' );
 						setUploadButtonValue( buttonPrefix, yoastSocialPreview.useOtherImage );
 					}
+
+					if ( data.title !== '' ) {
+						jQuery( targetElement ).find( '.editable-preview' ).trigger( 'titleUpdate' );
+					}
+
+					if ( data.description !== '' ) {
+						jQuery( targetElement ).find( '.editable-preview' ).trigger( 'descriptionUpdate' );
+					}
+
 				},
 				modifyImageUrl: function( imageUrl ) {
 					if (imageUrl === '') {
@@ -241,9 +250,25 @@ var Jed = require( 'jed' );
 					return imageUrl;
 				},
 				modifyTitle: function( title ) {
+					if ( fieldPrefix.indexOf( 'twitter' ) > -1 && title === titlePlaceholder ) {
+						var facebookTitle = $( '#facebook-editor-title' ).val();
+						if ( facebookTitle !== '' ) {
+							title = facebookTitle;
+						}
+					}
+
 					return YoastSEO.wp.replaceVarsPlugin.replaceVariablesPlugin( title );
 				},
 				modifyDescription: function( description ) {
+					if ( fieldPrefix.indexOf( 'twitter' ) > -1 ) {
+						if ( description === $( '#twitter-editor-description' ).attr( 'placeholder' ) ) {
+							var facebookDescription = $( '#facebook-editor-description' ).val();
+							if ( facebookDescription !== '' ) {
+								description = facebookDescription;
+							}
+						}
+					}
+
 					return YoastSEO.wp.replaceVarsPlugin.replaceVariablesPlugin( description );
 				}
 			},
@@ -314,9 +339,58 @@ var Jed = require( 'jed' );
 			}
 		);
 
+		var facebookPreviewContainer = $( '#facebookPreview' );
+
+		facebookPreviewContainer.on(
+			'titleUpdate',
+			'.editable-preview',
+			twitterTitleFallback.bind( this, twitterPreview )
+		);
+
+		facebookPreviewContainer.on(
+			'descriptionUpdate',
+			'.editable-preview',
+			twitterDescriptionFallback.bind( this, twitterPreview )
+		);
+
 		twitterPreview.init();
 
+		twitterTitleFallback( twitterPreview );
+		twitterDescriptionFallback( twitterPreview );
+
 		addUploadButton( twitterPreview );
+	}
+
+	/**
+	 * When twitter title is empty, use the facebook title
+	 *
+	 * @param {TwitterPreview} twitterPreview The twitter preview object
+	 */
+	function twitterTitleFallback( twitterPreview ) {
+		var twitterTitle = $( '#twitter-editor-title' ).val();
+
+		if( twitterTitle !== '' ) {
+			return;
+		}
+
+		var facebookTitle = $( '#facebook-editor-title' ).val();
+		twitterPreview.setTitle( facebookTitle );
+	}
+
+	/**
+	 * When twitter description is empty, use the description title
+	 *
+	 * @param {TwitterPreview} twitterPreview The twitter preview object
+	 */
+	function twitterDescriptionFallback( twitterPreview ) {
+		var twitterDescription = $( '#twitter-editor-description' ).val();
+
+		if( twitterDescription !== '' ) {
+			return;
+		}
+
+		var facebookDescription = $( '#facebook-editor-description' ).val();
+		twitterPreview.setDescription( facebookDescription );
 	}
 
 	/**
