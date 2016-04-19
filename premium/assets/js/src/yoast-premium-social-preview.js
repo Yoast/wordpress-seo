@@ -228,14 +228,12 @@ var Jed = require( 'jed' );
 					$( '#' + fieldPrefix + '-description' ).val( data.description );
 					$( '#' + fieldPrefix + '-image' ).val( data.imageUrl );
 
-					if (data.imageUrl === '') {
-						jQuery( targetElement ).find( '.editable-preview' ).trigger( 'imageUpdate' );
-					} else {
+					// Make sure Twitter is updated if a Facebook image is set
+					$( '.editable-preview' ).trigger( 'imageUpdate' );
+
+					if ( data.imageUrl !== '' ) {
 						var buttonPrefix = targetElement.attr( 'id' ).replace( 'Preview', '' );
 						setUploadButtonValue( buttonPrefix, yoastSocialPreview.useOtherImage );
-
-						// Make sure Twitter is updated if a Facebook image is set
-						$( '.editable-preview' ).trigger( 'imageUpdate' );
 					}
 				},
 				modifyImageUrl: function( imageUrl ) {
