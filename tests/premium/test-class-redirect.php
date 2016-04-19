@@ -173,4 +173,18 @@ class WPSEO_Redirect_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( 'target', $redirect->get_target() );
 	}
 
+	/**
+	 * Tests the result of using absolute URLs that point to the home url.
+	 *
+	 * @covers WPSEO_Redirect::sanitize_url
+	 * @covers WPSEO_Redirect::sanitize_blog_url
+	 */
+	public function test_blog_url_to_relative_url() {
+		$blogUrl = get_home_url();
+		$redirect = new WPSEO_Redirect( $blogUrl . '/origin', $blogUrl . '/target', 301, 'plain' );
+
+		$this->assertEquals( 'origin', $redirect->get_origin() );
+		$this->assertEquals( 'target', $redirect->get_target() );
+	}
+
 }
