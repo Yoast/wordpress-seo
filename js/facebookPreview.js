@@ -133,6 +133,7 @@ var FacebookPreview = function( opts, i18n ) {
 	facebookDefaults.placeholder = {
 		title: this.i18n.dgettext( "yoast-social-previews", "This is an example title - edit by clicking here" ),
 		description: this.i18n.sprintf(
+			/** translators: %1$s expands to Facebook */
 			this.i18n.dgettext( "yoast-social-previews", "Modify your %1$s description by editing it right here" ),
 			"Facebook"
 		),
@@ -304,8 +305,8 @@ FacebookPreview.prototype.getFieldElements = function() {
 				currentValue: this.data.title,
 				defaultValue: this.opts.defaultValue.title,
 				placeholder: this.opts.placeholder.title,
-				/** translators: %1$s expands to Facebook */
 				fallback: this.i18n.sprintf(
+					/** translators: %1$s expands to Facebook */
 					this.i18n.dgettext( "yoast-social-previews", "Please provide a %1$s title by editing the snippet below." ),
 					"Facebook"
 				)
@@ -318,8 +319,8 @@ FacebookPreview.prototype.getFieldElements = function() {
 				currentValue: this.data.description,
 				defaultValue: this.opts.defaultValue.description,
 				placeholder: this.opts.placeholder.description,
-				/** translators: %1$s expands to Facebook */
 				fallback: this.i18n.sprintf(
+					/** translators: %1$s expands to Facebook */
 					this.i18n.dgettext( "yoast-social-previews", "Please provide a %1$s description by editing the snippet below." ),
 					"Facebook"
 				)
