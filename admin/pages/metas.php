@@ -1,4 +1,4 @@
-git st<?php
+<?php
 /**
  * @package WPSEO\Admin
  */

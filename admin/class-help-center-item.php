@@ -8,6 +8,15 @@
  */
 class WPSEO_Help_Center_Item {
 
+	/** @var string Identifier for this tab */
+	private $identifier;
+
+	/** @var string Label to display */
+	private $label;
+
+	/** @var array Optional arguments */
+	private $args = array();
+
 	/**
 	 * WPSEO_Help_Center_Item constructor.
 	 *
