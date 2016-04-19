@@ -599,9 +599,15 @@ FacebookPreview.prototype.imageTooSmall = function() {
 	this.removeImageClasses();
 
 	if ( this.data.imageUrl === '' ) {
-		message = this.i18n.dgettext( "yoast-social-previews", "We are unable to detect an image in your post that is large enough to be displayed on Facebook. We advise you to select a Facebook image that fits the recommended image size." )
+		message = this.i18n.sprintf(
+			this.i18n.dgettext( "yoast-social-previews", "We are unable to detect an image in your post that is large enough to be displayed on Facebook. We advise you to select a %1$s image that fits the recommended image size." ),
+			"Facebook"
+		)
 	} else {
-		message = this.i18n.dgettext( "yoast-social-previews", "The image you selected is too small for Facebook" );
+		message = this.i18n.sprintf(
+			this.i18n.dgettext( "yoast-social-previews", "The image you selected is too small for %1$s" ),
+			"Facebook"
+		);
 	}
 
 	imagePlaceholder(
