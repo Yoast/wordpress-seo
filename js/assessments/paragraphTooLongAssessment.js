@@ -1,11 +1,12 @@
 var AssessmentResult = require( "../values/AssessmentResult.js" );
+var fixFloatingPoint = require( "../helpers/fixFloatingPoint.js" );
 var filter = require( "lodash/filter" );
 
 /**
  * The function to use as a filter for too long paragraphs.
  * @param {number} recommendedValue The recommended maximum length of a paragraph.
  * @param {number} paragraphLength The number of words within a paragraph.
- * @returns {boolean} Returns true if paragraphLength exceeds paragraph length.
+ * @returns {boolean} Returns true if paragraphLength exceeds recommendedValue.
  */
 var isParagraphTooLong = function( recommendedValue, paragraphLength ) {
 	return paragraphLength > recommendedValue;
@@ -33,8 +34,9 @@ var getTooLongParagraphs = function( paragraphsLength, recommendedValue ) {
 var calculateParagraphLengthResult = function( paragraphsLength, tooLongParagraphs, recommendedValue, i18n ) {
 	// 6 is the number of scorepoints between 3, minscore and 9, maxscore. For scoring we use 100 steps.
 	// Up to 117 is for scoring a 9, higher numbers give lower scores.
-	// toFixed because of js rounding errors
-	var score = 9 - Math.max( Math.min( ( 6 / 100 ) * ( paragraphsLength[ 0 ] - 117 ), 6 ), 0 ).toFixed( 2 );
+	// floatingPointFix because of js rounding errors
+	var score = 9 - Math.max( Math.min( ( 6 / 100 ) * ( paragraphsLength[ 0 ] - 117 ), 6 ), 0 );
+	score = fixFloatingPoint( score );
 	if ( score >= 7 ) {
 		return {
 			score: score,
