@@ -642,7 +642,14 @@ var Jed = require( 'jed' );
 			return translations;
 		}
 
-		return {};
+		return {
+			"domain": "yoast-social-previews",
+			"locale_data": {
+				"yoast-social-previews": {
+					"": {}
+				}
+			}
+		};
 	}
 
 	/**
