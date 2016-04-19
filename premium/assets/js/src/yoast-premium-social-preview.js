@@ -238,14 +238,9 @@ var Jed = require( 'jed' );
 						var buttonPrefix = targetElement.attr( 'id' ).replace( 'Preview', '' );
 						setUploadButtonValue( buttonPrefix, yoastSocialPreview.useOtherImage );
 					}
-
-					if ( data.title !== '' ) {
-						jQuery( targetElement ).find( '.editable-preview' ).trigger( 'titleUpdate' );
-					}
-
-					if ( data.description !== '' ) {
-						jQuery( targetElement ).find( '.editable-preview' ).trigger( 'descriptionUpdate' );
-					}
+					
+					jQuery( targetElement ).find( '.editable-preview' ).trigger( 'titleUpdate' );
+					jQuery( targetElement ).find( '.editable-preview' ).trigger( 'descriptionUpdate' );
 
 				},
 				modifyImageUrl: function( imageUrl ) {
@@ -256,10 +251,12 @@ var Jed = require( 'jed' );
 					return imageUrl;
 				},
 				modifyTitle: function( title ) {
-					if ( fieldPrefix.indexOf( 'twitter' ) > -1 && title === titlePlaceholder ) {
-						var facebookTitle = $( '#facebook-editor-title' ).val();
-						if ( facebookTitle !== '' ) {
-							title = facebookTitle;
+					if ( fieldPrefix.indexOf( 'twitter' ) > -1 ) {
+						if ( title === $( '#twitter-editor-title' ).attr( 'placeholder' ) ) {
+							var facebookTitle = $( '#facebook-editor-title' ).val();
+							if ( facebookTitle !== '' ) {
+								title = facebookTitle;
+							}
 						}
 					}
 
@@ -346,7 +343,6 @@ var Jed = require( 'jed' );
 		);
 
 		var facebookPreviewContainer = $( '#facebookPreview' );
-
 		facebookPreviewContainer.on(
 			'titleUpdate',
 			'.editable-preview',
@@ -361,10 +357,9 @@ var Jed = require( 'jed' );
 
 		twitterPreview.init();
 
+		addUploadButton( twitterPreview );
 		twitterTitleFallback( twitterPreview );
 		twitterDescriptionFallback( twitterPreview );
-
-		addUploadButton( twitterPreview );
 	}
 
 	/**
@@ -373,14 +368,18 @@ var Jed = require( 'jed' );
 	 * @param {TwitterPreview} twitterPreview The twitter preview object
 	 */
 	function twitterTitleFallback( twitterPreview ) {
-		var twitterTitle = $( '#twitter-editor-title' ).val();
-
+		var $twitterTitle = $( '#twitter-editor-title' );
+		var twitterTitle = $twitterTitle.val();
 		if( twitterTitle !== '' ) {
 			return;
 		}
 
 		var facebookTitle = $( '#facebook-editor-title' ).val();
-		twitterPreview.setTitle( facebookTitle );
+		if ( facebookTitle !== '' ) {
+			twitterPreview.setTitle( facebookTitle );
+		} else {
+			twitterPreview.setTitle( $twitterTitle.attr( 'placeholder' ) );
+		}
 	}
 
 	/**
@@ -389,14 +388,18 @@ var Jed = require( 'jed' );
 	 * @param {TwitterPreview} twitterPreview The twitter preview object
 	 */
 	function twitterDescriptionFallback( twitterPreview ) {
-		var twitterDescription = $( '#twitter-editor-description' ).val();
-
+		var $twitterDescription = $( '#twitter-editor-description' );
+		var twitterDescription = $twitterDescription.val();
 		if( twitterDescription !== '' ) {
 			return;
 		}
 
 		var facebookDescription = $( '#facebook-editor-description' ).val();
-		twitterPreview.setDescription( facebookDescription );
+		if ( facebookDescription !== '' ) {
+			twitterPreview.setDescription( facebookDescription );
+		} else {
+			twitterPreview.setDescription( $twitterDescription.attr( 'placeholder' ) );
+		}
 	}
 
 	/**
