@@ -26,6 +26,8 @@ var Jed = require( 'jed' );
 	var FacebookPreview = socialPreviews.FacebookPreview;
 	var TwitterPreview = socialPreviews.TwitterPreview;
 
+	var facebookPreview, twitterPreview;
+
 	var translations = yoastSocialPreview.i18n;
 
 	var i18n = new Jed( addLibraryTranslations( translations.library ) );
