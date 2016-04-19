@@ -219,6 +219,9 @@ var Jed = require( 'jed' );
 					} else {
 						var buttonPrefix = targetElement.attr( 'id' ).replace( 'Preview', '' );
 						setUploadButtonValue( buttonPrefix, yoastSocialPreview.useOtherImage );
+
+						// Make sure Twitter is updated if a Facebook image is set
+						$( '.editable-preview' ).trigger( 'imageUpdate' );
 					}
 				},
 				modifyImageUrl: function( imageUrl ) {
@@ -260,7 +263,7 @@ var Jed = require( 'jed' );
 		createSocialPreviewContainer( facebookHolder, 'facebookPreview' );
 
 		var facebookPreviewContainer = $( '#facebookPreview' );
-		var facebookPreview = new FacebookPreview(
+		facebookPreview = new FacebookPreview(
 			getSocialPreviewArgs( facebookPreviewContainer, fieldPrefix() + '_opengraph' ),
 			i18n
 		);
@@ -288,7 +291,7 @@ var Jed = require( 'jed' );
 		createSocialPreviewContainer( twitterHolder, 'twitterPreview' );
 
 		var twitterPreviewContainer = $( '#twitterPreview' );
-		var twitterPreview = new TwitterPreview(
+		twitterPreview = new TwitterPreview(
 			getSocialPreviewArgs( twitterPreviewContainer, fieldPrefix() + '_twitter' ),
 			i18n
 		);
@@ -535,6 +538,11 @@ var Jed = require( 'jed' );
 	 * @returns {string}
 	 */
 	function getFallbackImage( defaultImage ) {
+		// Twitter always first falls back to Facebook
+		if ( facebookPreview.data.imageUrl !== '' ) {
+			return facebookPreview.data.imageUrl;
+		}
+
 		// In case of an post: we want to have the featured image.
 		if ( getCurrentType() === 'post' ) {
 			if ( imageFallBack.featured !== '' ) {
