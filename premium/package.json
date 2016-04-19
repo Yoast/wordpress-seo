@@ -43,7 +43,7 @@
   },
   "dependencies": {
     "lodash": "^4.7.0",
-    "yoast-social-previews": "git+ssh://git@github.com/Yoast/yoast-social-previews.git#develop",
+    "yoast-social-previews": "git+ssh://git@github.com/Yoast/yoast-social-previews.git#release/1.0",
     "yoastseo": "git+ssh://git@github.com/Yoast/YoastSEO.js.git#release/1.2"
   }
 }
