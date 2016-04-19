@@ -253,9 +253,3 @@ Release Date: March 1st, 2016
 = Earlier versions =
 
 For the changelog of earlier versions, please refer to the separate changelog.txt file.
-
-
-== Upgrade Notice ==
-
-= 1.5.0 =
-* Major overhaul of the way the plugin deals with option. Upgrade highly recommended. Please do verify your settings after the upgrade.
