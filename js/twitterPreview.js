@@ -1,6 +1,7 @@
 /* jshint browser: true */
 
 var isElement = require( "lodash/lang/isElement" );
+var isArray = require( "lodash/lang/isArray" );
 var clone = require( "lodash/lang/clone" );
 var defaultsDeep = require( "lodash/object/defaultsDeep" );
 
@@ -160,7 +161,10 @@ TwitterPreview.prototype.constructI18n = function( translations ) {
 	};
 
 	// Use default object to prevent Jed from erroring out.
-	translations = translations || defaultTranslations;
+	if ( isArray( translations ) && translations.length === 0 ) {
+		translations = defaultTranslations;
+	}
+
 
 	return new Jed( translations );
 };
