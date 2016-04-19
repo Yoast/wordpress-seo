@@ -93,7 +93,7 @@ class WPSEO_Social_Previews {
 		return (int) $attachment_id;
 	}
 
-	/*
+	/**
 	 * Register the required assets.
 	 */
 	private function register_assets() {
