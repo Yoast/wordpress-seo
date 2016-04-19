@@ -216,10 +216,11 @@ class WPSEO_Premium {
 			'edit.php',
 		);
 
+		$social_previews = new WPSEO_Social_Previews();
 		if ( in_array( $pagenow , $metabox_pages, true ) || WPSEO_Taxonomy::is_term_edit( $pagenow ) ) {
-			$social_previews = new WPSEO_Social_Previews();
 			$social_previews->set_hooks();
 		}
+		$social_previews->set_ajax_hooks();
 	}
 
 	/**
