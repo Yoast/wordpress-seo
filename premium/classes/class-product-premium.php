@@ -14,15 +14,19 @@ if ( class_exists( 'Yoast_Product' ) && ! class_exists( 'WPSEO_Product_Premium',
 		 * Construct the Product Premium class
 		 */
 		public function __construct() {
+			$file = plugin_basename( WPSEO_FILE );
+			$slug = dirname( $file );
+
 			parent::__construct(
 				trailingslashit( WPSEO_Premium::EDD_STORE_URL ) . 'edd-sl-api',
 				WPSEO_Premium::EDD_PLUGIN_NAME,
-				plugin_basename( WPSEO_FILE ),
+				$slug,
 				WPSEO_Premium::PLUGIN_VERSION_NAME,
 				'https://yoast.com/wordpress/plugins/seo-premium/',
 				'admin.php?page=wpseo_licenses#top#licenses',
 				'wordpress-seo',
-				WPSEO_Premium::PLUGIN_AUTHOR
+				WPSEO_Premium::PLUGIN_AUTHOR,
+				$file
 			);
 		}
 	}

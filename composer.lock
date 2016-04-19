@@ -109,16 +109,16 @@
         },
         {
             "name": "xrstf/composer-php52",
-            "version": "v1.0.19",
+            "version": "v1.0.20",
             "source": {
-                "type": "hg",
-                "url": "https://bitbucket.org/xrstf/composer-php52",
-                "reference": "9a4a9c46d0347b39bf9159815301dc66fc25324e"
+                "type": "git",
+                "url": "https://github.com/composer-php52/composer-php52.git",
+                "reference": "bd41459d5e27df8d33057842b32377c39e97a5a8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://bitbucket.org/xrstf/composer-php52/get/9a4a9c46d0347b39bf9159815301dc66fc25324e.zip",
-                "reference": "9a4a9c46d0347b39bf9159815301dc66fc25324e",
+                "url": "https://api.github.com/repos/composer-php52/composer-php52/zipball/bd41459d5e27df8d33057842b32377c39e97a5a8",
+                "reference": "bd41459d5e27df8d33057842b32377c39e97a5a8",
                 "shasum": ""
             },
             "type": "library",
@@ -136,8 +136,7 @@
             "license": [
                 "MIT"
             ],
-            "homepage": "http://www.xrstf.de/",
-            "time": "2015-10-01 14:11:58"
+            "time": "2016-04-16 21:52:24"
         },
         {
             "name": "yoast/api-libs",
@@ -217,16 +216,16 @@
         },
         {
             "name": "yoast/license-manager",
-            "version": "1.2",
+            "version": "1.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Yoast/License-Manager.git",
-                "reference": "8caf52202bf51011686e31c9a43b18731047f1be"
+                "reference": "f81420bd6a0d8fee2a6c3a82ae5f4c2fbfce66e0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Yoast/License-Manager/zipball/8caf52202bf51011686e31c9a43b18731047f1be",
-                "reference": "8caf52202bf51011686e31c9a43b18731047f1be",
+                "url": "https://api.github.com/repos/Yoast/License-Manager/zipball/f81420bd6a0d8fee2a6c3a82ae5f4c2fbfce66e0",
+                "reference": "f81420bd6a0d8fee2a6c3a82ae5f4c2fbfce66e0",
                 "shasum": ""
             },
             "type": "library",
@@ -258,7 +257,7 @@
             "keywords": [
                 "wordpress"
             ],
-            "time": "2015-03-16 11:51:33"
+            "time": "2016-04-19 09:38:26"
         },
         {
             "name": "yoast/wp-helpscout",
