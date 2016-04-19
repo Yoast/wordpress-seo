@@ -134,7 +134,7 @@ Release Date: April 19th, 2016
 	* Improves searchability of select inputs by using select2.
 	* Adds filters to customize sitemaps' <urlset>, props [Mark Walker](https://github.com/mnwalker).
 	* Uses `wp_register_script` and `wp_register_style` on init so other plugins can customize our assets.
-	* Changes minimum text length content analysis check for terms to require 150 words instead of 400.
+	* Changes minimum text length content analysis check for terms to require 150 words instead of 300.
 	* Removes analyses from the term analysis that weren't applicable to terms.
 	* Improves code architecture of sitemaps.
 	* Moves the OnPage.org settings to the webmaster tab.
