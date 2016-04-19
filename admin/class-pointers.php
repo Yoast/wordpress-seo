@@ -104,7 +104,7 @@ class WPSEO_Pointers {
 					return;
 				}
 
-				var wpseo_pointer_options = <?php echo WPSEO_Utils::json_encode( $options ); ?>, setup;
+				var wpseo_pointer_options = <?php echo wp_json_encode( $options ); ?>, setup;
 
 				wpseo_pointer_options = $.extend(wpseo_pointer_options, {
 					buttons: function (event, t) {

@@ -63,7 +63,7 @@
 				printf(
 					/* translators: 1: opens a link to a related knowledge base article. 2: closes the link */
 					__( '%1$sYour homepage cannot be indexed by search engines%2$s. This is very bad for SEO and should be fixed.', 'wordpress-seo' ),
-					'<a href="http://yoa.st/onpageindexerror" target="_blank">',
+					'<a href="https://yoa.st/onpageindexerror" target="_blank">',
 					'</a>'
 				);
 				break;
@@ -72,7 +72,7 @@
 				printf(
 					/* translators: 1: opens a link to a related knowledge base article. 2: closes the link */
 					__( 'Yoast SEO has %1$snot been able to fetch your site’s indexability status%2$s from OnPage.org', 'wordpress-seo' ),
-					'<a href="http://yoa.st/onpagerequestfailed" target="_blank">',
+					'<a href="https://yoa.st/onpagerequestfailed" target="_blank">',
 					'</a>'
 				);
 				break;
@@ -81,7 +81,7 @@
 				printf(
 					/* translators: 1: opens a link to a related knowledge base article. 2: closes the link */
 					__( 'Yoast SEO has %1$snot fetched your site’s indexability status%2$s yet from OnPage.org', 'wordpress-seo' ),
-					'<a href="http://yoa.st/onpagerequestfailed" target="_blank">',
+					'<a href="https://yoa.st/onpagerequestfailed" target="_blank">',
 					'</a>'
 				);
 				break;
