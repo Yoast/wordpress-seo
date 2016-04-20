@@ -11,7 +11,7 @@ build:
   - 'sass:build'
 'build:css':
   - 'build:sass'
-  - 'autoprefixer'
+  - 'postcss:build'
   - 'wpcss'
   - 'cssmin'
 # Optimise images from source to production

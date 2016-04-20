@@ -504,7 +504,9 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 	display: none;
 	overflow: hidden;
 	padding: 0.5em 0.5em 0.5em;
-	border-top: 1px solid white;
+	border: 1px solid #a4286a;
+	border-bottom-left-radius: 10px;
+	background-color: white;
 }
 
 .wpseo-tab-video-container__handle {
@@ -533,11 +535,9 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 }
 
 .wpseo-tab-video-slideout .wpseo-tab-video__panel__textarea {
-	width: 100%;
-	min-width: 150px;
-	max-width: 300px;
-	min-height: 100px;
-	margin: 0.5em 0;
+	float: left;
+	width: 260px;
+	margin: 0.5em 1em 0 0;
 	padding: 15px;
 	border: 1px solid;
 	border-color: white;
@@ -551,6 +551,36 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 	color: white;
 }
 
+.wpseo-tab-video-slideout .yoast-help-center-tabs {
+	width: 180px;
+	margin: -0.5em;
+	padding-left: 0.5em;
+	color: white;
+	background-color: #a4286a;
+}
+
+.wpseo-help-center-item a {
+	display: block;
+	padding: 0.5em;
+	color: white;
+}
+
+.wpseo-help-center-item.active a {
+	border: 1px solid white;
+	border-right-width: 0;
+	border-left: 2px solid rgb(97, 5, 54);
+	color: #a4286a;
+	background-color: white;
+}
+
+.wpseo-tab-video-slideout .help-tab-content {
+	overflow: hidden;
+}
+
+.wpseo-tab-video__panel__textarea {
+	background-color: #a4286a;
+}
+
 .wpseo-tab-video__panel__textarea a,
 .wpseo-tab-video__panel__textarea a:hover,
 .wpseo-tab-video__panel__textarea a:focus {
@@ -559,6 +589,6 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 }
 
 .wpseo-tab-video-slideout .wpseo-tab-video__panel {
-	float: left;
+	clear: both;
 	margin-right: 1em;
 }

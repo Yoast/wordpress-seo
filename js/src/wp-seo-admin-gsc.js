@@ -81,3 +81,7 @@ function wpseo_mark_as_fixed(url) {
 		}
 	);
 }
+
+window.wpseo_gsc_post_redirect = wpseo_gsc_post_redirect;
+window.wpseo_update_category_count = wpseo_update_category_count;
+window.wpseo_mark_as_fixed = wpseo_mark_as_fixed;

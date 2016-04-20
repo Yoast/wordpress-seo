@@ -342,6 +342,22 @@ function ystEscapeFocusKw( str ) {
 
 	return str;
 }
+
+window.ystClean = ystClean;
+window.ystFocusKwTest = ystFocusKwTest;
+window.ystRemoveLowerCaseDiacritics = ystRemoveLowerCaseDiacritics;
+window.ystTestFocusKw = ystTestFocusKw;
+window.ystReplaceVariables = ystReplaceVariables;
+window.ystAjaxReplaceVariables = ystAjaxReplaceVariables;
+window.ystUpdateTitle = ystUpdateTitle;
+window.ystSanitizeTitle = ystSanitizeTitle;
+window.ystUpdateDesc = ystUpdateDesc;
+window.ystSanitizeDesc = ystSanitizeDesc;
+window.ystTrimDesc = ystTrimDesc;
+window.ystUpdateURL = ystUpdateURL;
+window.ystBoldKeywords = ystBoldKeywords;
+window.ystUpdateSnippet = ystUpdateSnippet;
+window.ystEscapeFocusKw = ystEscapeFocusKw;
 /* jshint ignore:end */
 
 },{}]},{},[1]);
