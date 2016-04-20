@@ -4,7 +4,7 @@
 module.exports = {
 	build: {
 		files: {
-			'css/metabox-310.css': [ 'css/src/metabox.scss' ]
+			'css/metabox-320.css': [ 'css/src/metabox.scss' ]
 		}
 	}
 };

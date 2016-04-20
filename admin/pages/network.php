@@ -139,5 +139,4 @@ else {
 echo '<input type="submit" name="wpseo_restore_blog" value="' . __( 'Restore site to defaults', 'wordpress-seo' ) . '" class="button"/>';
 echo '</form>';
 
-
 $yform->admin_footer( false );
