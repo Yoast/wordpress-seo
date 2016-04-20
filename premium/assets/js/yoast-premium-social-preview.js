@@ -475,7 +475,8 @@ var Jed = require( 'jed' );
 	 * @param {TwitterPreview} twitterPreview The twitter preview object
 	 */
 	function twitterTitleFallback( twitterPreview ) {
-		var twitterTitle = $( '#twitter-editor-title' ).val();
+		var $twitterTitle = $( '#twitter-editor-title' );
+		var twitterTitle = $twitterTitle.val();
 		if( twitterTitle !== '' ) {
 			return;
 		}
@@ -484,7 +485,7 @@ var Jed = require( 'jed' );
 		if ( facebookTitle !== '' ) {
 			twitterPreview.setTitle( facebookTitle );
 		} else {
-			twitterPreview.setTitle( $( '#twitter-editor-title' ).attr( 'placeholder' ) );
+			twitterPreview.setTitle( $twitterTitle.attr( 'placeholder' ) );
 		}
 	}
 
@@ -494,7 +495,8 @@ var Jed = require( 'jed' );
 	 * @param {TwitterPreview} twitterPreview The twitter preview object
 	 */
 	function twitterDescriptionFallback( twitterPreview ) {
-		var twitterDescription = $( '#twitter-editor-description' ).val();
+		var $twitterDescription = $( '#twitter-editor-description' );
+		var twitterDescription = $twitterDescription.val();
 		if( twitterDescription !== '' ) {
 			return;
 		}
@@ -503,7 +505,7 @@ var Jed = require( 'jed' );
 		if ( facebookDescription !== '' ) {
 			twitterPreview.setDescription( facebookDescription );
 		} else {
-			twitterPreview.setDescription( $( '#twitter-editor-description' ).attr( 'placeholder' ) );
+			twitterPreview.setDescription( $twitterDescription.attr( 'placeholder' ) );
 		}
 	}
 
@@ -5934,6 +5936,7 @@ module.exports = InputElement;
 /* jshint browser: true */
 
 var isElement = require( "lodash/lang/isElement" );
+var isObject = require( "lodash/lang/isObject" );
 var clone = require( "lodash/lang/clone" );
 var defaultsDeep = require( "lodash/object/defaultsDeep" );
 
@@ -5951,19 +5954,12 @@ var TextArea = require( "./inputs/textarea" );
 var InputElement = require( "./element/input" );
 var PreviewEvents = require( "./preview/events" );
 
-var templates = require( "./templates.js" );
-var facebookEditorTemplate = templates.facebookPreview;
-var facebookAuthorTemplate = templates.facebookAuthor;
+var facebookEditorTemplate = require( "./templates.js" ).facebookPreview;
 
 var facebookDefaults = {
 	data: {
 		title: "",
 		description: "",
-		imageUrl: ""
-	},
-	placeholder: {
-		title:    "This is an example title - edit by clicking here",
-		description: "Modify your facebook description by editing it right here",
 		imageUrl: ""
 	},
 	defaultValue: {
@@ -6068,15 +6064,27 @@ var FACEBOOK_IMAGE_THRESHOLD_HEIGHT = 315;
  * @constructor
  */
 var FacebookPreview = function( opts, i18n ) {
+	this.i18n = i18n || this.constructI18n();
+
+	facebookDefaults.placeholder = {
+		title: this.i18n.dgettext( "yoast-social-previews", "This is an example title - edit by clicking here" ),
+		description: this.i18n.sprintf(
+			/** translators: %1$s expands to Facebook */
+			this.i18n.dgettext( "yoast-social-previews", "Modify your %1$s description by editing it right here" ),
+			"Facebook"
+		),
+		imageUrl: ""
+	};
+
 	defaultsDeep( opts, facebookDefaults );
 
 	if ( !isElement( opts.targetElement ) ) {
-		throw new Error( "The facebook preview requires a valid target element" );
+		throw new Error( "The Facebook preview requires a valid target element" );
 	}
 
 	this.data = opts.data;
-	this.i18n = i18n || this.constructI18n();
 	this.opts = opts;
+
 
 	this._currentFocus = null;
 	this._currentHover = null;
@@ -6098,9 +6106,10 @@ FacebookPreview.prototype.constructI18n = function( translations ) {
 			}
 		}
 	};
+	
+	translations = translations || {};
 
-	// Use default object to prevent Jed from erroring out.
-	translations = translations || defaultTranslations;
+	defaultsDeep( translations, defaultTranslations );
 
 	return new Jed( translations );
 };
@@ -6133,9 +6142,12 @@ FacebookPreview.prototype.renderTemplate = function() {
 		},
 		placeholder: this.opts.placeholder,
 		i18n: {
-			edit: this.i18n.dgettext( "yoast-social-previews", "Edit Facebook preview" ),
-			snippetPreview: this.i18n.dgettext( "yoast-social-previews", "Facebook preview" ),
-			snippetEditor: this.i18n.dgettext( "yoast-social-previews", "Facebook editor" )
+			/** translators: %1$s expands to Facebook */
+			edit: this.i18n.sprintf( this.i18n.dgettext( "yoast-social-previews", "Edit %1$s preview" ), "Facebook" ),
+			/** translators: %1$s expands to Facebook */
+			snippetPreview: this.i18n.sprintf( this.i18n.dgettext( "yoast-social-previews", "%1$s preview" ), "Facebook" ),
+			/** translators: %1$s expands to Facebook */
+			snippetEditor: this.i18n.sprintf( this.i18n.dgettext( "yoast-social-previews", "%1$s editor" ), "Facebook" )
 		}
 	} );
 
@@ -6149,8 +6161,7 @@ FacebookPreview.prototype.renderTemplate = function() {
 		formContainer: targetElement.getElementsByClassName( "snippet-editor__form" )[0],
 		editToggle: targetElement.getElementsByClassName( "snippet-editor__edit-button" )[0],
 		formFields: targetElement.getElementsByClassName( "snippet-editor__form-field" ),
-		headingEditor: targetElement.getElementsByClassName( "snippet-editor__heading-editor" )[0],
-		authorContainer: targetElement.getElementsByClassName( "editable-preview__value--facebook-author" )[0]
+		headingEditor: targetElement.getElementsByClassName( "snippet-editor__heading-editor" )[0]
 	};
 
 	this.element.formContainer.innerHTML = this.element.fields.imageUrl.render()
@@ -6192,7 +6203,8 @@ FacebookPreview.prototype.getFields = function() {
 			id: "facebook-editor-title",
 			value: this.data.title,
 			placeholder: this.opts.placeholder.title,
-			title: this.i18n.dgettext( "yoast-social-previews", "Facebook title" ),
+			/** translators: %1$s expands to Facebook */
+			title: this.i18n.sprintf( this.i18n.dgettext( "yoast-social-previews", "%1$s title" ), "Facebook" ),
 			labelClassName: "snippet-editor__label"
 		} ),
 		description: new TextArea( {
@@ -6200,7 +6212,8 @@ FacebookPreview.prototype.getFields = function() {
 			id: "facebook-editor-description",
 			value: this.data.description,
 			placeholder: this.opts.placeholder.description,
-			title: this.i18n.dgettext( "yoast-social-previews", "Facebook description" ),
+			/** translators: %1$s expands to Facebook */
+			title: this.i18n.sprintf( this.i18n.dgettext( "yoast-social-previews", "%1$s description" ), "Facebook" ),
 			labelClassName: "snippet-editor__label"
 		} ),
 		imageUrl: new TextField( {
@@ -6208,7 +6221,8 @@ FacebookPreview.prototype.getFields = function() {
 			id: "facebook-editor-imageUrl",
 			value: this.data.imageUrl,
 			placeholder: this.opts.placeholder.imageUrl,
-			title: this.i18n.dgettext( "yoast-social-previews", "Facebook image" ),
+			/** translators: %1$s expands to Facebook */
+			title: this.i18n.sprintf( this.i18n.dgettext( "yoast-social-previews", "%1$s image" ), "Facebook" ),
 			labelClassName: "snippet-editor__label"
 		} )
 	};
@@ -6229,7 +6243,11 @@ FacebookPreview.prototype.getFieldElements = function() {
 				currentValue: this.data.title,
 				defaultValue: this.opts.defaultValue.title,
 				placeholder: this.opts.placeholder.title,
-				fallback: this.i18n.dgettext( "yoast-social-previews", "Please provide a Facebook title by editing the snippet below." )
+				fallback: this.i18n.sprintf(
+					/** translators: %1$s expands to Facebook */
+					this.i18n.dgettext( "yoast-social-previews", "Please provide a %1$s title by editing the snippet below." ),
+					"Facebook"
+				)
 			},
 			this.updatePreview.bind( this )
 		),
@@ -6239,7 +6257,11 @@ FacebookPreview.prototype.getFieldElements = function() {
 				currentValue: this.data.description,
 				defaultValue: this.opts.defaultValue.description,
 				placeholder: this.opts.placeholder.description,
-				fallback: this.i18n.dgettext( "yoast-social-previews", "Please provide a Facebook description by editing the snippet below." )
+				fallback: this.i18n.sprintf(
+					/** translators: %1$s expands to Facebook */
+					this.i18n.dgettext( "yoast-social-previews", "Please provide a %1$s description by editing the snippet below." ),
+					"Facebook"
+				)
 			},
 			this.updatePreview.bind( this )
 		),
@@ -6354,7 +6376,7 @@ FacebookPreview.prototype.noUrlSet = function() {
 
 	imagePlaceholder(
 		this.getImageContainer(),
-		this.i18n.dgettext( "yoast-social-previews", "Please enter an image url by clicking here" ),
+		this.i18n.dgettext( "yoast-social-previews", "Please select an image by clicking here" ),
 		false,
 		"facebook"
 	);
@@ -6367,10 +6389,26 @@ FacebookPreview.prototype.noUrlSet = function() {
  * @returns {void}
  */
 FacebookPreview.prototype.imageTooSmall = function() {
+	var message;
 	this.removeImageClasses();
+
+	if ( this.data.imageUrl === '' ) {
+		message = this.i18n.sprintf(
+			/* translators: %1$s expands to Facebook */
+			this.i18n.dgettext( "yoast-social-previews", "We are unable to detect an image in your post that is large enough to be displayed on Facebook. We advise you to select a %1$s image that fits the recommended image size." ),
+			"Facebook"
+		)
+	} else {
+		message = this.i18n.sprintf(
+			/* translators: %1$s expands to Facebook */
+			this.i18n.dgettext( "yoast-social-previews", "The image you selected is too small for %1$s" ),
+			"Facebook"
+		);
+	}
+
 	imagePlaceholder(
 		this.getImageContainer(),
-		this.i18n.dgettext( "yoast-social-previews", "The image you selected is too small for Facebook" ),
+		message,
 		true,
 		"facebook"
 	);
@@ -6567,28 +6605,9 @@ FacebookPreview.prototype.bindEvents = function() {
 	previewEvents.bindEvents( this.element.editToggle, this.element.closeEditor );
 };
 
-/**
- * Sets the value of the facebook author name.
- *
- * @param {string} authorName The name of the author to show.
- */
-FacebookPreview.prototype.setAuthor = function( authorName ) {
-	var authorHtml = "";
-	if ( authorName !== "" ) {
-		authorHtml = facebookAuthorTemplate(
-			{
-				authorName: authorName,
-				authorBy: this.i18n.dgettext( "yoast-social-previews", "By" )
-			}
-		);
-	}
-
-	this.element.authorContainer.innerHTML = authorHtml;
-};
-
 module.exports = FacebookPreview;
 
-},{"./element/imagePlaceholder":135,"./element/input":136,"./helpers/bem/addModifier":139,"./helpers/bem/removeModifier":141,"./helpers/imageDisplayMode":142,"./helpers/renderDescription":145,"./inputs/textInput":147,"./inputs/textarea":148,"./preview/events":149,"./templates.js":150,"jed":6,"lodash/lang/clone":190,"lodash/lang/isElement":193,"lodash/object/defaultsDeep":204}],138:[function(require,module,exports){
+},{"./element/imagePlaceholder":135,"./element/input":136,"./helpers/bem/addModifier":139,"./helpers/bem/removeModifier":141,"./helpers/imageDisplayMode":142,"./helpers/renderDescription":145,"./inputs/textInput":147,"./inputs/textarea":148,"./preview/events":149,"./templates.js":150,"jed":6,"lodash/lang/clone":190,"lodash/lang/isElement":193,"lodash/lang/isObject":197,"lodash/object/defaultsDeep":204}],138:[function(require,module,exports){
 /**
  * Adds a class to an element
  *
@@ -7135,7 +7154,6 @@ module.exports = PreviewEvents;
   /*----------------------------------------------------------------------------*/
 
   var templates = {
-    'facebookAuthor': {},
     'facebookPreview': {},
     'fields': {
         'button': {},
@@ -7146,33 +7164,19 @@ module.exports = PreviewEvents;
     'twitterPreview': {}
   };
 
-  templates['facebookAuthor'] =   function(obj) {
-    obj || (obj = {});
-    var __t, __p = '', __e = _.escape;
-    with (obj) {
-    __p += '<span class="editable-preview__website--facebook-pipe">|</span> ' +
-    __e( authorBy ) +
-    ' ' +
-    __e( authorName ) +
-    '\n';
-
-    }
-    return __p
-  };
-
   templates['facebookPreview'] =   function(obj) {
     obj || (obj = {});
     var __t, __p = '', __e = _.escape;
     with (obj) {
     __p += '<div class="editable-preview editable-preview--facebook">\n	<h4 class="snippet-editor__heading snippet-editor__heading-icon-eye">' +
     __e( i18n.snippetPreview ) +
-    '</h4>\n\n	<section class="editable-preview__inner editable-preview__inner--facebook">\n		<div class="social-preview__inner social-preview__inner--facebook">\n			<div class="snippet-editor__container editable-preview__image--facebook snippet_container">\n\n			</div>\n			<div class="editable-preview__text-keeper editable-preview__text-keeper--facebook">\n				<div class="snippet-editor__container editable-preview__container--facebook editable-preview__title--facebook snippet_container">\n					<div class="editable-preview__value editable-preview__value--facebook-title">\n						' +
+    '</h4>\n\n	<section class="editable-preview__inner editable-preview__inner--facebook">\n		<div class="social-preview__inner social-preview__inner--facebook">\n			<div class="snippet-editor__container editable-preview__image editable-preview__image--facebook snippet_container">\n\n			</div>\n			<div class="editable-preview__text-keeper editable-preview__text-keeper--facebook">\n				<div class="snippet-editor__container editable-preview__container--facebook editable-preview__title--facebook snippet_container">\n					<div class="editable-preview__value editable-preview__value--facebook-title">\n						' +
     __e( rendered.title ) +
     '\n					</div>\n				</div>\n				<div class="snippet-editor__container editable-preview__container--facebook editable-preview__description--facebook snippet_container">\n					<div class="editable-preview__value editable-preview__value--facebook-description">\n						' +
     __e( rendered.description ) +
     '\n					</div>\n				</div>\n				<div class="snippet-editor__container editable-preview__container--no-caret editable-preview__website--facebook snippet_container">\n					<div class="editable-preview__value editable-preview__value--facebook-url">\n						' +
     __e( rendered.baseUrl ) +
-    '\n						<span class="editable-preview__value--facebook-author"></span>\n					</div>\n				</div>\n			</div>\n		</div>\n	</section>\n\n	<h4 class="snippet-editor__heading snippet-editor__heading-editor snippet-editor__heading-icon-edit">' +
+    '\n					</div>\n				</div>\n			</div>\n		</div>\n	</section>\n\n	<h4 class="snippet-editor__heading snippet-editor__heading-editor snippet-editor__heading-icon-edit">' +
     __e( i18n.snippetEditor ) +
     '</h4>\n\n	<div class="snippet-editor__form">\n\n	</div>\n</div>\n';
 
@@ -7328,7 +7332,7 @@ module.exports = PreviewEvents;
     with (obj) {
     __p += '<div class="editable-preview editable-preview--twitter">\n	<h4 class="snippet-editor__heading snippet-editor__heading-icon-eye">' +
     __e( i18n.snippetPreview ) +
-    '</h4>\n\n	<section class="editable-preview__inner editable-preview__inner--twitter">\n		<div class="social-preview__inner social-preview__inner--twitter">\n			<div class="snippet-editor__container editable-preview__image--twitter snippet_container">\n\n			</div>\n			<div class="editable-preview__text-keeper editable-preview__text-keeper--twitter">\n				<div class="snippet-editor__container editable-preview__container--twitter editable-preview__title--twitter snippet_container" >\n					<div class="editable-preview__value editable-preview__value--twitter-title ">\n						' +
+    '</h4>\n\n	<section class="editable-preview__inner editable-preview__inner--twitter">\n		<div class="social-preview__inner social-preview__inner--twitter">\n			<div class="snippet-editor__container editable-preview__image editable-preview__image--twitter snippet_container">\n\n			</div>\n			<div class="editable-preview__text-keeper editable-preview__text-keeper--twitter">\n				<div class="snippet-editor__container editable-preview__container--twitter editable-preview__title--twitter snippet_container" >\n					<div class="editable-preview__value editable-preview__value--twitter-title ">\n						' +
     __e( rendered.title ) +
     '\n					</div>\n				</div>\n				<div class="snippet-editor__container editable-preview__container--twitter editable-preview__description--twitter twitter-preview__description snippet_container">\n					<div class="editable-preview__value editable-preview__value--twitter-description">\n						' +
     __e( rendered.description ) +
@@ -7361,6 +7365,7 @@ module.exports = PreviewEvents;
 /* jshint browser: true */
 
 var isElement = require( "lodash/lang/isElement" );
+var isObject = require( "lodash/lang/isObject" );
 var clone = require( "lodash/lang/clone" );
 var defaultsDeep = require( "lodash/object/defaultsDeep" );
 
@@ -7384,11 +7389,6 @@ var twitterDefaults = {
 		title: "",
 		description: "",
 		imageUrl: ""
-	},
-	placeholder: {
-		title:    "This is an example title - edit by clicking here",
-		description: "Modify your twitter description by editing it right here",
-		imageUrl: "Edit the image by clicking here"
 	},
 	defaultValue: {
 		title: "",
@@ -7488,10 +7488,22 @@ var TWITTER_IMAGE_THRESHOLD_HEIGHT = 150;
  * @constructor
  */
 var TwitterPreview = function( opts, i18n ) {
+	this.i18n = i18n || this.constructI18n();
+
+	twitterDefaults.placeholder = {
+		title: this.i18n.dgettext( "yoast-social-previews", "This is an example title - edit by clicking here" ),
+		description: this.i18n.sprintf(
+			/** translators: %1$s expands to Twitter */
+			this.i18n.dgettext( "yoast-social-previews", "Modify your %1$s description by editing it right here" ),
+			"Twitter"
+		),
+		imageUrl: ""
+	};
+
 	defaultsDeep( opts, twitterDefaults );
 
 	if ( !isElement( opts.targetElement ) ) {
-		throw new Error( "The twitter preview requires a valid target element" );
+		throw new Error( "The Twitter preview requires a valid target element" );
 	}
 
 	this.data = opts.data;
@@ -7518,9 +7530,10 @@ TwitterPreview.prototype.constructI18n = function( translations ) {
 			}
 		}
 	};
+	
+	translations = translations || {};
 
-	// Use default object to prevent Jed from erroring out.
-	translations = translations || defaultTranslations;
+	defaultsDeep( translations, defaultTranslations );
 
 	return new Jed( translations );
 };
@@ -7553,9 +7566,12 @@ TwitterPreview.prototype.renderTemplate = function() {
 		},
 		placeholder: this.opts.placeholder,
 		i18n: {
-			edit: this.i18n.dgettext( "yoast-social-previews", "Edit Twitter preview" ),
-			snippetPreview: this.i18n.dgettext( "yoast-social-previews", "Twitter preview" ),
-			snippetEditor: this.i18n.dgettext( "yoast-social-previews", "Twitter editor" )
+			/** translators: %1$s expands to Twitter */
+			edit: this.i18n.sprintf( this.i18n.dgettext( "yoast-social-previews", "Edit %1$s preview" ), "Twitter" ),
+			/** translators: %1$s expands to Twitter */
+			snippetPreview: this.i18n.sprintf( this.i18n.dgettext( "yoast-social-previews", "%1$s preview" ), "Twitter" ),
+			/** translators: %1$s expands to Twitter */
+			snippetEditor: this.i18n.sprintf( this.i18n.dgettext( "yoast-social-previews", "%1$s editor" ), "Twitter" )
 		}
 	} );
 
@@ -7612,7 +7628,11 @@ TwitterPreview.prototype.getFields = function() {
 			id: "twitter-editor-title",
 			value: this.data.title,
 			placeholder: this.opts.placeholder.title,
-			title: this.i18n.dgettext( "yoast-social-previews", "Twitter title" ),
+			title: this.i18n.sprintf(
+				/** translators: %1$s expands to Twitter */
+				this.i18n.dgettext( "yoast-social-previews", "%1$s title" ),
+				"Twitter"
+			),
 			labelClassName: "snippet-editor__label"
 		} ),
 		description: new TextArea( {
@@ -7620,7 +7640,11 @@ TwitterPreview.prototype.getFields = function() {
 			id: "twitter-editor-description",
 			value: this.data.description,
 			placeholder: this.opts.placeholder.description,
-			title: this.i18n.dgettext( "yoast-social-previews", "Twitter description" ),
+			title: this.i18n.sprintf(
+				/** translators: %1$s expands to Twitter */
+				this.i18n.dgettext( "yoast-social-previews", "%1$s description" ),
+				"Twitter"
+			),
 			labelClassName: "snippet-editor__label"
 		} ),
 		imageUrl: new TextField( {
@@ -7628,7 +7652,11 @@ TwitterPreview.prototype.getFields = function() {
 			id: "twitter-editor-imageUrl",
 			value: this.data.imageUrl,
 			placeholder: this.opts.placeholder.imageUrl,
-			title: this.i18n.dgettext( "yoast-social-previews", "Twitter image" ),
+			title: this.i18n.sprintf(
+				/** translators: %1$s expands to Twitter */
+				this.i18n.dgettext( "yoast-social-previews", "%1$s image" ),
+				"Twitter"
+			),
 			labelClassName: "snippet-editor__label"
 		} )
 	};
@@ -7649,7 +7677,11 @@ TwitterPreview.prototype.getFieldElements = function() {
 				currentValue: this.data.title,
 				defaultValue: this.opts.defaultValue.title,
 				placeholder: this.opts.placeholder.title,
-				fallback: this.i18n.dgettext( "yoast-social-previews", "Please provide a Twitter title by editing the snippet below." )
+				fallback: this.i18n.sprintf(
+					/** translators: %1$s expands to Twitter */
+					this.i18n.dgettext( "yoast-social-previews", "Please provide a %1$s title by editing the snippet below." ),
+					"Twitter"
+				)
 			},
 			this.updatePreview.bind( this )
 		),
@@ -7659,7 +7691,11 @@ TwitterPreview.prototype.getFieldElements = function() {
 				 currentValue: this.data.description,
 				 defaultValue: this.opts.defaultValue.description,
 				 placeholder: this.opts.placeholder.description,
-				 fallback: this.i18n.dgettext( "yoast-social-previews", "Please provide a description by editing the snippet below." )
+				 fallback: this.i18n.sprintf(
+				    /** translators: %1$s expands to Twitter */
+					 this.i18n.dgettext( "yoast-social-previews", "Please provide a %1$s description by editing the snippet below." ),
+					 "Twitter"
+				 )
 			 },
 			 this.updatePreview.bind( this )
 		 ),
@@ -7922,7 +7958,7 @@ TwitterPreview.prototype.bindEvents = function() {
 
 module.exports = TwitterPreview;
 
-},{"./element/imagePlaceholder":135,"./element/input":136,"./helpers/bem/addModifier":139,"./helpers/bem/removeModifier":141,"./helpers/renderDescription":145,"./inputs/textInput":147,"./inputs/textarea":148,"./preview/events":149,"./templates":150,"jed":6,"lodash/lang/clone":190,"lodash/lang/isElement":193,"lodash/object/defaultsDeep":204}],152:[function(require,module,exports){
+},{"./element/imagePlaceholder":135,"./element/input":136,"./helpers/bem/addModifier":139,"./helpers/bem/removeModifier":141,"./helpers/renderDescription":145,"./inputs/textInput":147,"./inputs/textarea":148,"./preview/events":149,"./templates":150,"jed":6,"lodash/lang/clone":190,"lodash/lang/isElement":193,"lodash/lang/isObject":197,"lodash/object/defaultsDeep":204}],152:[function(require,module,exports){
 var arrayEach = require('../internal/arrayEach'),
     baseEach = require('../internal/baseEach'),
     createForEach = require('../internal/createForEach');
