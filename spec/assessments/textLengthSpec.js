@@ -9,7 +9,7 @@ describe( "A word count assessment", function(){
 		var assessment = wordCountAssessment.getResult( mockPaper, Factory.buildMockResearcher( 1 ), i18n );
 
 		expect( assessment.getScore() ).toEqual( -20 );
-		expect( assessment.getText() ).toEqual ( 'The text contains 1 word, this is far too low and should be increased.' );
+		expect( assessment.getText() ).toEqual ( 'The text contains 1 word. This is far too low and should be increased.' );
 	} );
 
 	it( "assesses a low word count", function(){
@@ -17,7 +17,7 @@ describe( "A word count assessment", function(){
 		var assessment = wordCountAssessment.getResult( mockPaper, Factory.buildMockResearcher( 5 ), i18n );
 
 		expect( assessment.getScore() ).toEqual( -20 );
-		expect( assessment.getText() ).toEqual ( 'The text contains 5 words, this is far too low and should be increased.' );
+		expect( assessment.getText() ).toEqual ( 'The text contains 5 words. This is far too low and should be increased.' );
 	} );
 
 	it( "assesses a medium word count", function(){
