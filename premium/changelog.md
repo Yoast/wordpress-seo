@@ -3,6 +3,9 @@
   * The previews will automatically show you when your image is too small.
   * You can use all replace variables you are used to in the Facebook and Twitter previews.
 * Removes the tutorial video page, the videos are now available on every tab.
+* Fixes a bug where Yoast SEO Premium would fatal when activating while Yoast SEO was active.
+* Fixes a bug where the home URL wasn't correctly stripped from the redirect old URL.
+* Fixes a bug where clicking the 'Update now' button on the plugin page didn't update correctly.
 * Includes every change in Yoast SEO core 3.2.0, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
 
 ### 3.1.3: March 23rd, 2016
