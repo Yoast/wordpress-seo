@@ -88,9 +88,8 @@ function wpseo_display_contributors( $contributors ) {
 			<div class="col">
 				<h3>Improved inline help</h3>
 
-				<p>We've improved our inline help feature everywhere, making it easier to use and getting rid of qTip, a
-					JavaScript library that caused a lot of issues,
-					in the process.</p>
+				<p>We've improved our inline help feature everywhere, making it easier to use. In the process we got rid
+					of qTip, a JavaScript library that caused a lot of issues.</p>
 				<div class="media-container">
 					<img style="margin: 0 0 10px 0;" src="https://yoast-30.s3.amazonaws.com/improved-help.png"
 					     alt="Improved inline help">
@@ -98,8 +97,9 @@ function wpseo_display_contributors( $contributors ) {
 			</div>
 			<div class="col">
 				<h3>Google-</h3>
-				<p>We've removed the Google+ functionality from the plugin. Google is slowly deprecating the network and
-				its metadata was now conflicting with Facebook metadata, which caused lots of issues.</p>
+				<p>We've removed the Google+ functionality from the plugin. Google is slowly deprecating the network. On
+					top of that, its metadata was giving conflichts with Facebook, which caused lots of issues. As
+					Google+ also uses Facebook metadata, optimizing for Facebook should do what you need for Google+ too.</p>
 			</div>
 		</div>
 
@@ -110,7 +110,8 @@ function wpseo_display_contributors( $contributors ) {
 			<div class="under-the-hood three-col">
 				<div class="col">
 					<h3>Accessibility improvements everywhere</h3>
-					<p>We're not done yet, but we've been busy making all parts of the plugin more accessible.</p>
+					<p>We're not done yet, but we've been busy making all parts of the plugin more accessible. Starting
+						with a more accessible metabox amongst other things.</p>
 				</div>
 				<div class="col">
 					<h3>XML Sitemap improvements</h3>
@@ -119,15 +120,15 @@ function wpseo_display_contributors( $contributors ) {
 				</div>
 				<div class="col">
 					<h3><code>NOYDIR</code> removed</h3>
-					<p>The Yahoo! directory has been dead for a year now and we're sure it's not coming back, so we've
-						removed all the <code>NOYDIR</code> options in the plugin.</p>
+					<p>The Yahoo! directory has been dead for a year now and we're sure it's not coming back. Because of
+						that we've removed all the <code>NOYDIR</code> options in the plugin.</p>
 				</div>
 			</div>
 			<div class="under-the-hood two-col">
 				<div class="col">
 					<h3>Remove clean up functionality</h3>
-					<p>We've removed the clean up functions we had for the <code>&lt;head&gt;</code>, because
-					the SEO benefit doesn't exist and WordPress kept adding more stuff to the head.</p>
+					<p>We've removed the clean up functions we had for the <code>&lt;head&gt;</code>. There simply is
+						no SEO benefit and WordPress kept adding more stuff to the <code>&lt;head&gt;</code> anyway.</p>
 				</div>
 				<div class="col">
 					<h3>Primary term functions</h3>
