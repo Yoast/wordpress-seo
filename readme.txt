@@ -121,7 +121,7 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 Release Date: April 20th, 2016
 
 * Bugfix:
-    * Fixes bug where settings of the Advanced tabs "permalinks" and "rss" were no longer saved.
+	* Fixes bug where settings of the Advanced tabs "permalinks" and "rss" were no longer saved.
 
 = 3.2.0 =
 
