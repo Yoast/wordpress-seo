@@ -118,7 +118,7 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 
 = 3.2.0 =
 
-Release Date: April 19th, 2016
+Release Date: April 20th, 2016
 
 * Features:
 	* Adds an option to disable post format archives.
