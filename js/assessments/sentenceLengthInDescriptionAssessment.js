@@ -12,9 +12,12 @@ var calculateSentenceLengthResult = function( sentences, i18n ) {
 	var tooLong = countTooLongSentences( sentences, recommendedValue );
 	var percentage = ( tooLong / sentences.length ) * 100;
 
-	// 6 is the number of scorepoints between 3, minscore and 9, maxscore. For scoring we use 10 steps
-	// up to 21.7 is for scoring a 9, higher percentages give lower scores.
-	var score = 9 - Math.max( Math.min( ( 6 / 10 ) * ( percentage - 21.7 ), 6 ), 0 );
+	// Scale percentages from 21.7 to 31.7 to a score. 21.7 scores 9, 31.7 score 3. 
+	var unboundedScore = 9 - ( 6 / 10 ) * ( percentage - 21.7 );
+
+	// Scores exceeding 9 are 9, scores below 3 are 3.
+	var score = Math.max( Math.min( unboundedScore, 9 ), 3 );
+
 	if ( score >= 7 ) {
 		return{
 			score: score,

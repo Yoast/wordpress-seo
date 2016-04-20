@@ -28,4 +28,9 @@ describe( "An assessment for sentence length", function(){
 		expect( assessment.getScore() ).toEqual( 3 );
 		expect( assessment.getText() ).toEqual ( "The meta description contains 2 sentences over 20 words. Try to shorten these sentences." );
 	} );
+	it( "returns the score for 100% long sentences", function(){
+		mockPaper = new Paper();
+		assessment = sentenceLengthInDescriptionAssessment.isApplicable( mockPaper );
+		expect( assessment ).toBe( false );
+	} );
 } );

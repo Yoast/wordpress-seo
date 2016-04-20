@@ -50,4 +50,9 @@ describe( "An assessment for sentence length", function(){
 		expect( assessment.getText() ).toEqual ( "30% of the sentences contain more than 20 words, " +
 			"which is more than the recommended maximum of 25%. Try to shorten your sentences." );
 	} );
+	it( "is not applicable for empty papers", function(){
+		mockPaper = new Paper();
+		assessment = sentenceLengthInTextAssessment.isApplicable( mockPaper );
+		expect( assessment ).toBe( false );
+	} );
 } );
