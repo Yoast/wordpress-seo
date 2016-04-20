@@ -1,9 +1,19 @@
 var AssessmentResult = require( "../values/AssessmentResult.js" );
 var filter = require( "lodash/filter" );
 
+/**
+ * Calculates the complexity of the text based on the syllables in words.
+ * @param {number} wordCount The number of words used.
+ * @param {number} tooComplexWords The number of words with 4 or more syllables.
+ * @param {number} recommendedValue The recommendedValue for amount of syllables.
+ * @param {object} i18n The object used for translations.
+ * @returns {{score: number, text}} resultobject with score and text.
+ */
 var calculateComplexity = function( wordCount, tooComplexWords, recommendedValue, i18n ) {
-	var percentage = ( tooComplexWords.length / wordCount ) * 100;
+	var percentage = ( tooComplexWords / wordCount ) * 100;
 	var recommendedMaximum = 10;
+	// 6 is the number of scorepoints between 3, minscore and 9, maxscore. For scoring we use 10 steps.
+	// Up to 6.7 percent is for scoring a 9, higher percentages give lower scores.
 	var score = 9 - Math.max( Math.min( ( 6 / 10 ) * ( percentage - 6.7 ), 6 ), 0 );
 	if ( score >= 7 ) {
 		return {
@@ -28,10 +38,10 @@ var calculateComplexity = function( wordCount, tooComplexWords, recommendedValue
 };
 
 /**
- * Execute the Assessment and return a result.
+ * Execute the word complexity assessment and return a result based on the syllables in words
  * @param {Paper} paper The Paper object to assess.
  * @param {Researcher} researcher The Researcher object containing all available researches.
- * @param {object} i18n The locale object.
+ * @param {object} i18n The object used for translations
  * @returns {AssessmentResult} The result of the assessment, containing both a score and a descriptive text.
  */
 var wordComplexityAssessment = function( paper, researcher, i18n ) {
@@ -40,7 +50,7 @@ var wordComplexityAssessment = function( paper, researcher, i18n ) {
 	var recommendedValue = 4;
 	var tooComplexWords = filter( wordComplexity, function( syllables ) {
 		return( syllables >= recommendedValue );
-	} );
+	} ).length;
 	var complexityResult = calculateComplexity( wordCount, tooComplexWords, recommendedValue, i18n );
 	var assessmentResult = new AssessmentResult();
 	assessmentResult.setScore( complexityResult.score );

@@ -4,7 +4,7 @@ var stripTags = require( "../stringProcessing/stripHTMLTags.js" );
 var stripSpaces = require( "../stringProcessing/stripSpaces.js" );
 
 /**
- * Calculates the wordcount of a certain text.
+ * Returns an array with words used in the text.
  *
  * @param {string} text The text to be counted.
  * @returns {Array} The array with all words.
