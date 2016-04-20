@@ -204,7 +204,7 @@ class WPSEO_Redirect_Ajax {
 	/**
 	 * Sanitize the URL for displaying on the window
 	 *
-	 * @param string $url The url to sanitize.
+	 * @param string $url The URL to sanitize.
 	 *
 	 * @return string
 	 */

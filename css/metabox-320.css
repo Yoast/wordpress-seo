@@ -485,7 +485,7 @@ ul.wpseo-metabox-tabs li.active {
 ul.wpseo-metabox-tabs li {
 	display: inline-block;
 	margin-right: 5px;
-	margin-bottom: -1px;
+	margin-bottom: -5px;
 	padding: 0;
 	border-width: 1px 1px 0;
 	border-style: solid solid none;
@@ -502,7 +502,8 @@ ul.wpseo-metabox-tabs li {
 
 .wpseo-metabox-tabs a {
 	display: block;
-	padding: 5px 12px;
+	float: left;
+	padding: 5px 6px;
 	text-decoration: none;
 }
 

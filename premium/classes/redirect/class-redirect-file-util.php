@@ -65,6 +65,7 @@ class WPSEO_Redirect_File_Util {
 		if ( $has_written === false ) {
 			Yoast_Notification_Center::get()->add_notification(
 				new Yoast_Notification(
+					/* translators: %s expands to the file path that we tried to write to */
 					sprintf( __( "We're unable to write data to the file %s", 'wordpress-seo-premium' ), $file_path ),
 					array( 'type' => 'error', 'id' => md5( $file_path ) )
 				)

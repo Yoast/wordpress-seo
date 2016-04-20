@@ -21,11 +21,12 @@
     "grunt-browserify": "^4.0.1",
     "grunt-checktextdomain": "^0.1.1",
     "grunt-contrib-clean": "~0.6.0",
+    "grunt-contrib-copy": "^1.0.0",
     "grunt-contrib-cssmin": "^0.10.0",
     "grunt-contrib-jshint": "^0.10.0",
     "grunt-contrib-uglify": "^0.6.0",
     "grunt-contrib-watch": "^0.6.1",
-    "grunt-glotpress": "^0.1.1",
+    "grunt-glotpress": "^0.2.1",
     "grunt-jsbeautifier": "~0.2.7",
     "grunt-jscs": "^0.8.1",
     "grunt-jsonlint": "^1.0.4",
@@ -42,7 +43,7 @@
   },
   "dependencies": {
     "lodash": "^4.7.0",
-    "yoast-social-previews": "git+https://github.com/Yoast/yoast-social-previews.git#develop",
-    "yoastseo": "git+ssh://git@github.com/Yoast/YoastSEO.js.git#develop"
+    "yoast-social-previews": "git+ssh://git@github.com/Yoast/yoast-social-previews.git#master",
+    "yoastseo": "git+ssh://git@github.com/Yoast/YoastSEO.js.git#master"
   }
 }

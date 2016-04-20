@@ -1,5 +1,12 @@
 /* global YoastSEO: true, wp, wpseoPostScraperL10n, _ */
-YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
+var scoreToRating = require( "yoastseo/js/interpreters/scoreToRating" );
+var indicatorsFactory = require( "yoastseo/js/config/presenter" );
+var Paper = require( "yoastseo/js/values/paper" );
+var _isUndefined = require( "lodash/isUndefined" );
+
+var indicators;
+
+window.YoastSEO = ( 'undefined' === typeof window.YoastSEO ) ? {} : window.YoastSEO;
 (function( $ ) {
 	'use strict';
 
@@ -9,7 +16,11 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 	var YoastMultiKeyword = function() {};
 
 	YoastMultiKeyword.prototype.initDOM = function() {
+		window.YoastSEO.multiKeyword = true;
+
 		keywordTabTemplate = wp.template( 'keyword_tab' );
+
+		indicators = indicatorsFactory( YoastSEO.app.i18n );
 
 		this.setTextInput();
 		this.insertElements();
@@ -71,10 +82,16 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 		$( '#yoast_wpseo_focuskeywords' ).val( JSON.stringify( keywords ) );
 	};
 
+	/**
+	 * Inserts multi keyword elements into the DOM
+	 */
 	YoastMultiKeyword.prototype.insertElements = function() {
 		this.addKeywordTabs();
 	};
 
+	/**
+	 * Adds an event handler when the score updates
+	 */
 	YoastMultiKeyword.prototype.bindScore = function() {
 		$( window ).on( 'YoastSEO:numericScore', this.handleUpdatedScore.bind( this ) );
 	};
@@ -89,6 +106,9 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 		this.updateKeywords( score );
 	};
 
+	/**
+	 * Adds event handler to keyword tabs to change current keyword
+	 */
 	YoastMultiKeyword.prototype.bindKeywordTab = function() {
 		$( '.wpseo-metabox-tabs' ).on( 'click', '.wpseo_keyword_tab > .wpseo_tablink', function() {
 			// Convert to string to prevent errors if the keyword is "null".
@@ -98,6 +118,9 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 		} );
 	};
 
+	/**
+	 * Adds event handler to tab removal links
+	 */
 	YoastMultiKeyword.prototype.bindKeywordRemove = function() {
 		$( '.wpseo-metabox-tabs' ).on( 'click', '.remove-keyword', function( ev ) {
 			var previousTab, currentTab;
@@ -116,6 +139,9 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 		}.bind( this ) );
 	};
 
+	/**
+	 * Adds event handler to updates of the keyword field
+	 */
 	YoastMultiKeyword.prototype.bindKeywordField = function() {
 		$( '#yoast_wpseo_focuskw_text_input' ).on( 'input', function( ev ) {
 			var currentTabLink, focusKeyword;
@@ -127,6 +153,9 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 		}.bind( this ) );
 	};
 
+	/**
+	 * Adds event handler to the keyword add button
+	 */
 	YoastMultiKeyword.prototype.bindKeywordAdd = function() {
 		$( '.wpseo-add-keyword' ).click( function() {
 			if ( ! this.canAddTab() ) {
@@ -137,6 +166,9 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 		}.bind( this ) );
 	};
 
+	/**
+	 * Adds keyword tabs to the DOM
+	 */
 	YoastMultiKeyword.prototype.addKeywordTabs = function() {
 		var keywords = JSON.parse( $( '#yoast_wpseo_focuskeywords' ).val() || '[]' );
 
@@ -160,6 +192,13 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 		$( '.wpseo_keyword_tab' ).first().addClass( 'active' );
 	};
 
+	/**
+	 * Adds a single keyword to the DOM
+	 *
+	 * @param {string} keyword The keyword for this tab.
+	 * @param {string} score The score class for this tab.
+	 * @param {boolean} focus Whether this tab should be currently focused.
+	 */
 	YoastMultiKeyword.prototype.addKeywordTab = function( keyword, score, focus ) {
 		var placeholder, html, templateArgs;
 
@@ -253,6 +292,26 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 	};
 
 	/**
+	 * Retrieves the indicators for a certain score and keyword
+	 *
+	 * @param {number} score
+	 * @param {string} keyword The keyword for this score.
+	 */
+	YoastMultiKeyword.prototype.getIndicator = function( score, keyword ) {
+		var rating;
+
+		score /= 10;
+
+		rating = scoreToRating( score );
+
+		if ( '' === keyword ) {
+			rating = 'feedback';
+		}
+
+		return indicators[ rating ];
+	};
+
+	/**
 	 * Renders a keyword tab
 	 *
 	 * @param {string}  keyword The keyword to render.
@@ -269,17 +328,12 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 
 		placeholder = keyword.length > 0 ? keyword : '...';
 
-		if ( '' === keyword ) {
-			score = 'na';
-		} else {
-			score = parseInt( score, 10 );
-			score = YoastSEO.ScoreFormatter.prototype.overallScoreRating( score );
-		}
+		var indicators = this.getIndicator( score, keyword );
 
 		templateArgs = {
 			keyword: keyword,
 			placeholder: placeholder,
-			score: score
+			score: indicators.className
 		};
 
 		// The first tab isn't deletable
@@ -310,34 +364,28 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 	 * @return {number} Total score.
 	 */
 	YoastMultiKeyword.prototype.analyzeKeyword = function( keyword ) {
-		var analyzerData, analyzer;
+		var paper;
+		var assessor = YoastSEO.app.assessor;
+		var currentPaper;
 
-		// Re-use the data already present in the page.
-		YoastSEO.app.getData();
-		analyzerData = YoastSEO.app.rawData;
-		analyzerData = YoastSEO.app.modifyData( analyzerData );
-		analyzerData.i18n = YoastSEO.app.i18n;
+		currentPaper = YoastSEO.app.paper;
 
-		// Sanitize keyword
-		keyword = YoastSEO.app._sanitizeKeyword( keyword );
-
-		// Set the keyword we want to analyze instead of the on-page one.
-		analyzerData.keyword = keyword;
-
-		if ( '' === keyword ) {
-			analyzerData.queue = [ 'keyWordCheck', 'wordCount', 'fleschReading', 'pageTitleLength', 'urlStopwords', 'metaDescriptionLength' ];
+		if ( _isUndefined( currentPaper ) ) {
+			return 0;
 		}
 
-		analyzer = new YoastSEO.Analyzer( analyzerData );
+		// Re-use the data already present in the page.
+		paper = new Paper( currentPaper.getText(), {
+			keyword: keyword,
+			description: currentPaper.getDescription(),
+			title: currentPaper.getTitle(),
+			url: currentPaper.getUrl(),
+			locale: currentPaper.getLocale()
+		} );
 
-		/* jscs:disable */
-		YoastSEO.app.pluggable._addPluginTests( analyzer );
-		/* jscs:enable */
+		assessor.assess( paper );
 
-		analyzer.runQueue();
-		analyzer.score();
-
-		return analyzer.analyzeScorer.getTotalScore();
+		return assessor.calculateOverallScore();
 	};
 
 	/**
@@ -354,7 +402,8 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 			score = $( '#yoast_wpseo_linkdex' ).val();
 			score = parseInt( score, 10 );
 
-			score = YoastSEO.app.scoreFormatter.overallScoreRating( score );
+			score = indicators[ scoreToRating( score ) ];
+			score = score.className;
 
 			if ( '' === mainKeywordField.val() ) {
 				score = 'na';
@@ -382,5 +431,5 @@ YoastSEO = ( 'undefined' === typeof YoastSEO ) ? {} : YoastSEO;
 	var multiKeyword = new YoastMultiKeyword();
 	$( window ).on( 'YoastSEO:ready', multiKeyword.initDOM.bind( multiKeyword ) );
 
-	YoastSEO.multiKeyword = true;
+	window.YoastSEO.multiKeyword = true;
 }( jQuery ));
