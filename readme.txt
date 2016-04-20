@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, Google, xml sitemap, google search console, google webmaster tools, canonical, meta description, meta title, noindex, snippet preview, redirects, focus keyword, seo copywriting, content marketing
 Requires at least: 4.3
 Tested up to: 4.5
-Stable tag: 3.2
+Stable tag: 3.2.1
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using Yoast SEO plugin.
 
@@ -115,6 +115,13 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 7. The advanced section of the Yoast SEO meta box.
 
 == Changelog ==
+
+= 3.2.1 =
+
+Release Date: April 20th, 2016
+
+* Bugfix:
+    * Fixes bug where settings of the Advanced tabs "permalinks" and "rss" were no longer saved.
 
 = 3.2.0 =
 
