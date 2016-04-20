@@ -10,7 +10,7 @@
 	 *
 	 * @param {Object} checkbox
 	 *
-	 * @return {bool}
+	 * @return {boolean}
 	 */
 	function hasPrimaryTermElements( checkbox ) {
 		return 1 === $( checkbox ).closest( 'li' ).children( '.wpseo-make-primary-term' ).length;

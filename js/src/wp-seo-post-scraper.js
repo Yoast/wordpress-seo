@@ -1,4 +1,8 @@
 /* global YoastSEO: true, tinyMCE, wpseoPostScraperL10n, YoastShortcodePlugin, YoastReplaceVarPlugin, console, require */
+
+var getTitlePlaceholder = require( './analysis/getTitlePlaceholder' );
+var getDescriptionPlaceholder = require( './analysis/getDescriptionPlaceholder' );
+
 (function( $ ) {
 	'use strict';
 
@@ -99,8 +103,8 @@
 			snippetMeta: this.getDataFromInput( 'snippetMeta' ),
 			snippetCite: this.getDataFromInput( 'cite' ),
 			primaryCategory: this.getDataFromInput( 'primaryCategory' ),
-			searchUrl: '<a target="_blank" href=' + wpseoPostScraperL10n.search_url + '>',
-			postUrl: '<a target="_blank" href=' + wpseoPostScraperL10n.post_edit_url + '>'
+			searchUrl: wpseoPostScraperL10n.search_url,
+			postUrl: wpseoPostScraperL10n.post_edit_url
 		};
 	};
 
@@ -429,12 +433,18 @@
 	function initSnippetPreview( postScraper ) {
 		var data = postScraper.getData();
 
+		var titlePlaceholder = getTitlePlaceholder();
+		var descriptionPlaceholder = getDescriptionPlaceholder();
+
 		var snippetPreviewArgs = {
 			targetElement: document.getElementById( 'wpseosnippet' ),
 			placeholder: {
+				title: titlePlaceholder,
 				urlPath: ''
 			},
-			defaultValue: {},
+			defaultValue: {
+				title: titlePlaceholder
+			},
 			baseURL: wpseoPostScraperL10n.base_url,
 			callbacks: {
 				saveSnippetData: postScraper.saveSnippetData.bind( postScraper )
@@ -447,17 +457,9 @@
 			}
 		};
 
-		var titlePlaceholder = wpseoPostScraperL10n.title_template;
-		if ( titlePlaceholder === '' ) {
-			titlePlaceholder = '%%title%% - %%sitename%%';
-		}
-		snippetPreviewArgs.placeholder.title = titlePlaceholder;
-		snippetPreviewArgs.defaultValue.title = titlePlaceholder;
-
-		var metaPlaceholder = wpseoPostScraperL10n.metadesc_template;
-		if ( metaPlaceholder !== '' ) {
-			snippetPreviewArgs.placeholder.metaDesc = metaPlaceholder;
-			snippetPreviewArgs.defaultValue.metaDesc = metaPlaceholder;
+		if ( descriptionPlaceholder !== '' ) {
+			snippetPreviewArgs.placeholder.metaDesc = descriptionPlaceholder;
+			snippetPreviewArgs.defaultValue.metaDesc = descriptionPlaceholder;
 		}
 
 		return new SnippetPreview( snippetPreviewArgs );
@@ -510,16 +512,18 @@
 		app = new App( args );
 		window.YoastSEO = {};
 		window.YoastSEO.app = app;
-		jQuery( window ).trigger( 'YoastSEO:ready' );
 
 		// Init Plugins
-		new YoastReplaceVarPlugin( app );
-		new YoastShortcodePlugin( app );
+		YoastSEO.wp = {};
+		YoastSEO.wp.replaceVarsPlugin = new YoastReplaceVarPlugin( app );
+		YoastSEO.wp.shortcodePlugin = new YoastShortcodePlugin( app );
 
 		var usedKeywords = new UsedKeywords( '#yoast_wpseo_focuskw_text_input', 'get_focus_keyword_usage', wpseoPostScraperL10n, app );
 		usedKeywords.init();
 
 		postScraper.initKeywordTabTemplate();
+
+		jQuery( window ).trigger( 'YoastSEO:ready' );
 
 		// Backwards compatibility.
 		YoastSEO.analyzerArgs = args;
