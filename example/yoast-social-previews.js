@@ -335,6 +335,8 @@ FacebookPreview.prototype.constructI18n = function( translations ) {
 			}
 		}
 	};
+	
+	translations = translations || {};
 
 	defaultsDeep( translations, defaultTranslations );
 
@@ -1757,6 +1759,8 @@ TwitterPreview.prototype.constructI18n = function( translations ) {
 			}
 		}
 	};
+	
+	translations = translations || {};
 
 	defaultsDeep( translations, defaultTranslations );
 

@@ -166,6 +166,8 @@ TwitterPreview.prototype.constructI18n = function( translations ) {
 			}
 		}
 	};
+	
+	translations = translations || {};
 
 	defaultsDeep( translations, defaultTranslations );
 
