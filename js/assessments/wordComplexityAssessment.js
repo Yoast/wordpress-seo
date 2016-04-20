@@ -1,8 +1,7 @@
 var AssessmentResult = require( "../values/AssessmentResult.js" );
-
 var filter = require( "lodash/filter" );
 
-var calculateComplexity = function( wordCount, tooComplexWords, recommendedValue, i18n ){
+var calculateComplexity = function( wordCount, tooComplexWords, recommendedValue, i18n ) {
 	var percentage = ( tooComplexWords.length / wordCount ) * 100;
 	var recommendedMaximum = 10;
 	var score = 9 - Math.max( Math.min( ( 6 / 10 ) * ( percentage - 6.7 ), 6 ), 0 );
@@ -10,14 +9,22 @@ var calculateComplexity = function( wordCount, tooComplexWords, recommendedValue
 		return {
 			score: score,
 			// translators: %1$d expands to the number of too complex words, %2$d expands to the recommended number of syllables
-			text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "%1$d%% of the words contain over %2$d syllables, which is within the recommended range." ), percentage, recommendedValue )
+			text: i18n.sprintf(
+				i18n.dgettext(
+					"js-text-analysis",
+					"%1$d%% of the words contain over %2$d syllables, which is within the recommended range." ),
+				percentage, recommendedValue )
 		};
 	}
 	return {
 		score: score,
 		// translators: %1$d expands to the number of too complex words, %2$d expands to the recommended number of syllables, %2$d
-		text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "%1$d%% of the words contain over %2$d syllables, which is more than the recommended maximum of %3$d%%" ), percentage, recommendedValue, recommendedMaximum )
-	}
+		text: i18n.sprintf(
+			i18n.dgettext(
+				"js-text-analysis",
+				"%1$d%% of the words contain over %2$d syllables, which is more than the recommended maximum of %3$d%%" ),
+			percentage, recommendedValue, recommendedMaximum )
+	};
 };
 
 /**
