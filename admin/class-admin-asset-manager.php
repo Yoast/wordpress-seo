@@ -240,7 +240,7 @@ class WPSEO_Admin_Asset_Manager {
 		return array(
 			array(
 				'name' => 'admin-css',
-				'src'  => 'yst_plugin_tools-310',
+				'src'  => 'yst_plugin_tools-320',
 				'deps' => array( self::PREFIX . 'toggle-switch' ),
 			),
 			// TODO minify toggle styles. R.
@@ -273,7 +273,7 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'metabox-css',
-				'src'  => 'metabox-310',
+				'src'  => 'metabox-320',
 				'deps' => array(
 					self::PREFIX . 'select2',
 				),
@@ -288,11 +288,11 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'snippet',
-				'src'  => 'snippet-310',
+				'src'  => 'snippet-320',
 			),
 			array(
 				'name' => 'adminbar',
-				'src'  => 'adminbar-302',
+				'src'  => 'adminbar-320',
 			),
 			array(
 				'name' => 'primary-category',
