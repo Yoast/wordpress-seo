@@ -141,7 +141,7 @@ Release Date: April 19th, 2016
 	* Improves performance when importing or migrating posts, thanks [sun](https://github.com/sun).
 	* Adds caching to empty sitemaps.
 	* Adds parsing of shortcodes before recalculating all posts.
-	* Improves detection of static xml sitemaps
+	* Improves detection of static xml sitemaps.
 	* Makes sure external links in the metabox open in a new window, props [Borja Abad](https://github.com/mines).
 	* Makes the descriptions on the archives tab of the titles and meta's more clear.
 	* Removes noydir setting since Yahoo! directory doesn't exist anymore.
@@ -150,7 +150,7 @@ Release Date: April 19th, 2016
 	* Improves accessibility of add keyword modal.
 	* Improves accessibility of metabox.
 	* Switches all yoa.st links to be HTTPS.
-	* Removes Google+ specific post and term meta fields since Google+ relies on Opengraph as well.
+	* Removes Google+ specific post and term meta fields since Facebook and Google+ metadata were conflicting.
 	* Moves the replace vars help docs to the help center module on the titles and meta's settings page.
 
 * Bugfixes:
