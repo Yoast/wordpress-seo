@@ -104,7 +104,7 @@ class WPSEO_Admin_Asset_Manager {
 		return array(
 			array(
 				'name' => 'admin-script',
-				'src'  => 'wp-seo-admin-310',
+				'src'  => 'wp-seo-admin-320',
 				'deps' => array(
 					'jquery',
 					'jquery-ui-core',
@@ -115,7 +115,7 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'admin-media',
-				'src'  => 'wp-seo-admin-media-310',
+				'src'  => 'wp-seo-admin-media-320',
 				'deps' => array(
 					'jquery',
 					'jquery-ui-core',
@@ -123,27 +123,27 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'bulk-editor',
-				'src'  => 'wp-seo-bulk-editor-310',
+				'src'  => 'wp-seo-bulk-editor-320',
 				'deps' => array( 'jquery' ),
 			),
 			array(
 				'name' => 'export',
-				'src'  => 'wp-seo-export-310',
+				'src'  => 'wp-seo-export-320',
 				'deps' => array( 'jquery' ),
 			),
 			array(
 				'name' => 'dismissible',
-				'src'  => 'wp-seo-dismissible-310',
+				'src'  => 'wp-seo-dismissible-320',
 				'deps' => array( 'jquery' ),
 			),
 			array(
 				'name' => 'admin-global-script',
-				'src'  => 'wp-seo-admin-global-310',
+				'src'  => 'wp-seo-admin-global-320',
 				'deps' => array( 'jquery' ),
 			),
 			array(
 				'name' => 'metabox',
-				'src'  => 'wp-seo-metabox-302',
+				'src'  => 'wp-seo-metabox-320',
 				'deps' => array(
 					'jquery',
 					'jquery-ui-core',
@@ -155,20 +155,20 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'featured-image',
-				'src'  => 'wp-seo-featured-image-310',
+				'src'  => 'wp-seo-featured-image-320',
 				'deps' => array(
 					'jquery'
 				),
 			),
 			array(
 				'name'      => 'admin-gsc',
-				'src'       => 'wp-seo-admin-gsc-302',
+				'src'       => 'wp-seo-admin-gsc-320',
 				'deps'      => array(),
 				'in_footer' => false,
 			),
 			array(
 				'name' => 'post-scraper',
-				'src'  => 'wp-seo-post-scraper-311',
+				'src'  => 'wp-seo-post-scraper-320',
 				'deps' => array(
 					self::PREFIX . 'replacevar-plugin',
 					self::PREFIX . 'shortcode-plugin',
@@ -177,22 +177,22 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'term-scraper',
-				'src'  => 'wp-seo-term-scraper-310',
+				'src'  => 'wp-seo-term-scraper-320',
 				'deps' => array(
 					self::PREFIX . 'replacevar-plugin',
 				),
 			),
 			array(
 				'name' => 'replacevar-plugin',
-				'src'  => 'wp-seo-replacevar-plugin-310',
+				'src'  => 'wp-seo-replacevar-plugin-320',
 			),
 			array(
 				'name' => 'shortcode-plugin',
-				'src'  => 'wp-seo-shortcode-plugin-305',
+				'src'  => 'wp-seo-shortcode-plugin-320',
 			),
 			array(
 				'name' => 'recalculate',
-				'src'  => 'wp-seo-recalculate-310',
+				'src'  => 'wp-seo-recalculate-320',
 				'deps' => array(
 					'jquery',
 					'jquery-ui-core',
@@ -201,7 +201,7 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'primary-category',
-				'src'  => 'wp-seo-metabox-category',
+				'src'  => 'wp-seo-metabox-category-320',
 				'deps' => array(
 					'jquery',
 					'wp-util',
@@ -240,7 +240,7 @@ class WPSEO_Admin_Asset_Manager {
 		return array(
 			array(
 				'name' => 'admin-css',
-				'src'  => 'yst_plugin_tools-310',
+				'src'  => 'yst_plugin_tools-320',
 				'deps' => array( self::PREFIX . 'toggle-switch' ),
 			),
 			// TODO minify toggle styles. R.
@@ -273,7 +273,7 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'metabox-css',
-				'src'  => 'metabox-310',
+				'src'  => 'metabox-320',
 				'deps' => array(
 					self::PREFIX . 'select2',
 				),
@@ -288,11 +288,11 @@ class WPSEO_Admin_Asset_Manager {
 			),
 			array(
 				'name' => 'snippet',
-				'src'  => 'snippet-310',
+				'src'  => 'snippet-320',
 			),
 			array(
 				'name' => 'adminbar',
-				'src'  => 'adminbar-302',
+				'src'  => 'adminbar-320',
 			),
 			array(
 				'name' => 'primary-category',
