@@ -326,6 +326,7 @@
 
 			if ( '' === currentKeyword ) {
 				indicator.className = 'na';
+				indicator.screenReaderText = app.i18n.dgettext( 'js-text-analysis', 'No score available' );
 			}
 
 			$( '.yst-traffic-light' )

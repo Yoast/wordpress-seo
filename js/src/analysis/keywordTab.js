@@ -13,6 +13,7 @@ module.exports = (function() {
 	 */
 	function renderKeywordTab( scoreClass, scoreText, keyword, prefix, basedOn ) {
 		var placeholder = keyword.length > 0 ? keyword : '...';
+
 		var html = wp.template( 'keyword_tab' )({
 			keyword: keyword,
 			placeholder: placeholder,

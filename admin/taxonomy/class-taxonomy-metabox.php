@@ -270,7 +270,9 @@ SVG;
 						{{data.prefix}}
 						<span class="screen-reader-text wpseo-keyword-tab-textual-score">{{data.scoreText}}</span>
 						<span class="wpseo-score-icon {{data.score}}">
-							<span class="screen-reader-text wpseo-keyword-tab-based-on">{{data.basedOn}}</span>
+							<# if ( data.keyword ) { #>
+								<span class="screen-reader-text wpseo-keyword-tab-based-on">{{data.basedOn}}</span>
+							<# } #>
 						</span>
 						<em><span class="wpseo_keyword">{{data.placeholder}}</span></em>
 					</a>
