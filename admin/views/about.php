@@ -172,6 +172,9 @@ function wpseo_display_contributors( $contributors ) {
 					AMP</a> - an integration between <a href="https://wordpress.org/plugins/amp/">the WordPress AMP
 					plugin</a> and Yoast SEO.
 			</li>
+			<li>
+				<a target="_blank" href="https://wordpress.org/plugins/fb-instant-articles/">Instant Articles for WP</a> - Enable Instant Articles for Facebook on your WordPress site and integrates with Yoast SEO.
+			</li>
 		</ol>
 
 
