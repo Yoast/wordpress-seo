@@ -336,7 +336,7 @@ class Yoast_Notification_Center {
 		$notifications = array_map( array( $this, 'notification_to_array' ), $notifications );
 
 		// Save the notifications to the storage.
-		update_option( self::STORAGE_KEY, WPSEO_Utils::json_encode( $notifications ), true );
+		update_option( self::STORAGE_KEY, wp_json_encode( $notifications ), true );
 	}
 
 	/**

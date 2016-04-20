@@ -178,4 +178,10 @@ function yst_overrideElemFunction() {
 function yst_removeOpengraphWarning() {
 	return;
 }
+
+window.yst_checkFeaturedImage = yst_checkFeaturedImage;
+window.thumbIdCounter = thumbIdCounter;
+window.removeThumb = removeThumb;
+window.yst_overrideElemFunction = yst_overrideElemFunction;
+window.yst_removeOpengraphWarning = yst_removeOpengraphWarning;
 /* jshint ignore:end */

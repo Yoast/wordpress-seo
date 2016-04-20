@@ -89,7 +89,7 @@ class WPSEO_Sitemaps_Cache_Validator {
 				 */
 				throw new OutOfRangeException(
 					__(
-						'Trying to build truncate the sitemap cache key, but the postfix and prefix combination leaves too little room to do this. You are probably requesting a page that is way out of the expected range.',
+						'Trying to build the sitemap cache key, but the postfix and prefix combination leaves too little room to do this. You are probably requesting a page that is way out of the expected range.',
 						'wordpress-seo'
 					)
 				);
