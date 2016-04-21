@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: yoastseo 1.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-19 16:54+0200\n"
+"POT-Creation-Date: 2016-04-21 13:22+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -84,28 +84,40 @@ msgstr ""
 msgid "Your keyphrase is over 10 words, a keyphrase should be shorter."
 msgstr ""
 
-#: js/assessments/keywordDensityAssessment.js:16
+#. translators: %1$s expands to the keyword density percentage, %2$d expands to the keyword count,
+#. %3$s expands to the maximum keyword density percentage.
+#: js/assessments/keywordDensityAssessment.js:24
 msgid ""
-"The keyword density is %1$s%%, which is way over the advised 2.5%% maximum; "
-"the focus keyword was found %2$d times."
-msgstr ""
-
-#: js/assessments/keywordDensityAssessment.js:23
-msgid ""
-"The keyword density is %1$s%%, which is over the advised 2.5%% maximum; the "
+"The keyword density is %1$s, which is way over the advised %3$s maximum; the "
 "focus keyword was found %2$d times."
 msgstr ""
 
-#: js/assessments/keywordDensityAssessment.js:30
+#. translators: This is the maximum keyword density, localize the number for your language (e.g. 2,5)
+#: js/assessments/keywordDensityAssessment.js:29
+#: js/assessments/keywordDensityAssessment.js:44
+msgid "2.5"
+msgstr ""
+
+#. translators: %1$s expands to the keyword density percentage, %2$d expands to the keyword count,
+#. %3$s expands to the maximum keyword density percentage.
+#: js/assessments/keywordDensityAssessment.js:39
 msgid ""
-"The keyword density is %1$s%%, which is great; the focus keyword was found "
+"The keyword density is %1$s, which is over the advised %3$s maximum; the "
+"focus keyword was found %2$d times."
+msgstr ""
+
+#. translators: %1$s expands to the keyword density percentage, %2$d expands to the keyword count.
+#: js/assessments/keywordDensityAssessment.js:53
+msgid ""
+"The keyword density is %1$s, which is great; the focus keyword was found "
 "%2$d times."
 msgstr ""
 
-#: js/assessments/keywordDensityAssessment.js:36
+#. translators: %1$s expands to the keyword density percentage, %2$d expands to the keyword count.
+#: js/assessments/keywordDensityAssessment.js:63
 msgid ""
-"The keyword density is %1$s%%, which is a bit low; the focus keyword was "
-"found %2$d times."
+"The keyword density is %1$s, which is a bit low; the focus keyword was found "
+"%2$d times."
 msgstr ""
 
 #: js/assessments/keywordStopWordsAssessment.js:17
