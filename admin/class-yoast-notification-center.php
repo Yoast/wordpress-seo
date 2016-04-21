@@ -28,10 +28,6 @@ class Yoast_Notification_Center {
 		// Load the notifications from storage.
 		$this->notifications = $this->get_notifications_from_storage();
 
-		if ( ! defined( 'DOING_AJAX' ) ) {
-			$this->clear_notifications();
-		}
-
 		add_action( 'admin_init', array( $this, 'register_notifications' ) );
 		add_action( 'all_admin_notices', array( $this, 'display_notifications' ) );
 
@@ -227,8 +223,14 @@ class Yoast_Notification_Center {
 	 */
 	public function add_notification( Yoast_Notification $notification ) {
 
-		if ( in_array( $notification, $this->notifications, true ) ) {
-			return;
+		$notification_id = $notification->get_id();
+
+		// Empty notifications are always added.
+		if ( $notification_id !== '' ) {
+			// If notification ID exists in notifications, don't add again.
+			if ( null !== $this->get_notification_by_id( $notification_id ) ) {
+				return;
+			}
 		}
 
 		// Add to list.
@@ -271,7 +273,9 @@ class Yoast_Notification_Center {
 		}
 
 		// Clear the local stored notifications.
-		$this->clear_notifications();
+		if ( ! defined( 'DOING_AJAX' ) ) {
+			$this->clear_notifications();
+		}
 	}
 
 	/**
