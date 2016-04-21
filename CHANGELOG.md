@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
+## 1.2.1: April 21th, 2016
+
+## Bugfixes
+
+* Fixes a bug where one wrong translation could crash all the JavaScript.
+
 ## 1.2: April 20th, 2016
 
 ### Backwards incompatible changes
