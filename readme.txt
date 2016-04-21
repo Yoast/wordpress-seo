@@ -119,6 +119,7 @@ You'll find the [FAQ on Yoast.com](https://yoast.com/wordpress/plugins/seo/faq/)
 = 3.2.3 =
 
 Release Date: April 21th, 2016
+	* Fixes a bug where the update notification cannot be dismissed
 	* Fixes a bug where the notifications can be shown multiple times
 
 = 3.2.2 =
