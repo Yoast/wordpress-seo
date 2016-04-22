@@ -28,7 +28,7 @@ $tabs->add_tab(
 		__( 'Permalinks', 'wordpress-seo' ),
 		array(
 			'video_url' => 'https://yoa.st/screencast-permalinks',
-			'opt_group' => 'wpseo_internallinks',
+			'opt_group' => 'wpseo_permalinks',
 		)
 	)
 );
@@ -38,7 +38,7 @@ $tabs->add_tab(
 		__( 'RSS', 'wordpress-seo' ),
 		array(
 			'video_url' => 'https://yoa.st/screencast-rss',
-			'opt_group' => 'wpseo_internallinks',
+			'opt_group' => 'wpseo_rss',
 		)
 	)
 );

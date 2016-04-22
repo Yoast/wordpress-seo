@@ -597,19 +597,17 @@ class WPSEO_Utils {
 	 * @return bool
 	 */
 	public static function is_valid_datetime( $datetime ) {
-		if ( substr( $datetime, 0, 1 ) != '-' ) {
-			try {
-				// Use the DateTime class ( PHP 5.2 > ) to check if the string is a valid datetime.
-				if ( new DateTime( $datetime ) !== false ) {
-					return true;
-				}
-			}
-			catch ( Exception $exc ) {
-				return false;
-			}
+
+		if ( substr( $datetime, 0, 1 ) === '-' ) {
+			return false;
 		}
 
-		return false;
+		try {
+			return new DateTime( $datetime ) !== false;
+		}
+		catch ( Exception $exc ) {
+			return false;
+		}
 	}
 
 	/**
