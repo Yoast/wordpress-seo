@@ -1,6 +1,5 @@
 var Assessor = require( "./assessor.js" );
 
-var fleschReadingEase = require( "./assessments/fleschReadingEaseAssessment.js" );
 var introductionKeyword = require( "./assessments/introductionKeywordAssessment.js" );
 var keyphraseLength = require( "./assessments/keyphraseLengthAssessment.js" );
 var keywordDensity = require( "./assessments/keywordDensityAssessment.js" );
@@ -28,7 +27,6 @@ var SEOAssessor = function( i18n ) {
 	Assessor.call( this, i18n );
 
 	this._assessments = {
-		fleschReadingEase:      fleschReadingEase,
 		introductionKeyword:    introductionKeyword,
 		keyphraseLength:        keyphraseLength,
 		keywordDensity:         keywordDensity,

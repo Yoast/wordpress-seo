@@ -5,7 +5,9 @@
 			addPlugin();
 		}, 0);
 	});
-
+	/*
+	deprecated since 3.2
+	 */
 	function addPlugin() {
 		YoastSEO.app.registerPlugin( "example-plugin", { "status": "ready" } );
 		YoastSEO.app.registerTest( "example-test", function() {
