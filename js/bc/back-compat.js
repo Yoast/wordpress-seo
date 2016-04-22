@@ -1,9 +1,6 @@
 /* global YoastSEO: true */
 YoastSEO = ( "undefined" === typeof YoastSEO ) ? {} : YoastSEO;
 
-YoastSEO.analyzerConfig = require( "./../config/config.js" );
-YoastSEO.AnalyzerScoring = require( "./../config/scoring.js" ).AnalyzerScoring;
-YoastSEO.analyzerScoreRating = require( "./../config/scoring.js" ).analyzerScoreRating;
 YoastSEO.SnippetPreview = require( "./../snippetPreview.js" );
 YoastSEO.Pluggable = require( "./../pluggable.js" );
 YoastSEO.App = require( "./../app.js" );

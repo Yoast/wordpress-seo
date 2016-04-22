@@ -11,9 +11,9 @@ var calculateUrlStopWordsCountResult = function( stopWordCount, i18n ) {
 	if ( stopWordCount > 0 ) {
 		return {
 			score: 5,
-			/* translators: %1$s opens a link to a wikipedia article about stop words, %2$s closes the link */
 			text: i18n.dngettext(
 				"js-text-analysis",
+				/* translators: %1$s opens a link to a wikipedia article about stop words, %2$s closes the link */
 				"The slug for this page contains a %1$sstop word%2$s, consider removing it.",
 				"The slug for this page contains %1$sstop words%2$s, consider removing them.",
 				stopWordCount
