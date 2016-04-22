@@ -1,4 +1,8 @@
-### 3.2.0: April 19th, 2016
+### 3.2.2: April 21th, 2016
+* Fixes a bug where notification for a deleted post wasn't shown.
+* Includes every change in Yoast SEO core 3.2.3, see the [core changelog](https://wordpress.org/plugins/wordpress-seo/changelog/).
+
+### 3.2.0: April 20th, 2016
 * Introduces social previews, you can now see what your posts will look like when they are shared on Facebook and Twitter.
   * The previews will automatically show you when your image is too small.
   * You can use all replace variables you are used to in the Facebook and Twitter previews.
