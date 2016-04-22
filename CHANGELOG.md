@@ -3,11 +3,94 @@
 All notable changes to this project will be documented in this file.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
-## Unreleased
+## 1.2: April 20th, 2016
 
 ### Backwards incompatible changes
 
+* Stopped loading sassdash, when importing the scss files you need to include sassdash yourself.
+* Removed all analyses in favor of researches.
+* Implement the used keywords assessment as a bundled plugin, this means that an implementation should call the plugin itself.
+* Removes `js/config/scoring.js`
+* Removes `js/analyzer.js`
+* Removes `js/analyzescorer.js`
+* Removes `browser.js` as we expect implementations to browserify themselves.
+* Removes `app.registerTest` in favor of `app.registerAssessment`.
+* Removes `js/scoreFormatter.js`
 
+### Features
+
+* Introduces several value objects to more easily work with content and results:
+	* `Paper` to represent the text that is about to be assessed.
+	* `AssessmentResult` to represent the result of a single assessment.
+* Implements all value judgements about content as assessments, we introduced the following assessments:
+	* FleschReadingEaseAssessment
+	* IntroductionKeywordAssessment
+	* KeyphraseLengthAssessment
+	* KeywordDensityAssessment
+	* KeywordStopWordsAssessment
+	* MetaDescriptionKeywordAssessment
+	* MetaDescriptionLengthAssessment
+	* SubheadingsKeywordAssessment
+	* TaxonomyTextLengthAssessment
+	* TextCompetingLinksAssessment
+	* TextImagesAssessment
+	* TextLengthAssessment
+	* TextLinksAssessment
+	* TextSubheadingsAssessment
+	* TitleKeywordAssessment
+	* TitleLengthAssessment
+	* UrlKeywordAssessment
+	* UrlLengthAssessment
+	* UrlStopWordsAssessment
+* Implements all statistics about a text as researches, we introduced the following researches. All researches expect a `Paper`.
+	* calculateFleschReading
+	* countLinks
+	* findKeywordInFirstParagraph
+	* findKeywordInPageTitle
+	* getKeywordDensity
+	* getLinks
+	* getLinkStatistics
+	* imageAltTags
+	* imageCountInText
+	* keyphraseLength
+	* keywordCountInUrl
+	* matchKeywordInSubheadings
+	* matchSubHeadings
+	* metaDescriptionKeyword
+	* metaDescriptionLength
+	* pageTitleLength
+	* stopWordsInKeyword
+	* stopWordsInText
+	* stopWordsInUrl
+	* urlIsTooLong
+	* wordCountInText
+* Introduces an `Assessor` that contains a number of assessments and is able to determine a total assessment.
+* Introduces an `SEOAssessor` that has all the assessments that are currently available.
+* Introduces an `AssessorPresenter` to output the results of an `Assessor` to the DOM.
+* Introduces a template to more easily render the assessment results.
+* Introduces an `Researches` that contains a number of researches and is you can retrieve a specific research from.
+* Rewrites the `App` to make use of the assessor setup.
+* Introduces `scoreToRating` to transform a score to a rating.
+* Introduces `InvalidTypeError` for passing invalid types to constructors or methods
+* Introduces `config/presenter.js` to transform a rating into a className or screenreader text.
+* Exports certain prototypes and functions in an `index.js`.
+
+### Enhancements
+
+* Improves the contrast between the background and the red circle by choosing a different color red.
+* Add a clearfix mixin.
+* Switches to ESLint in favor of JSHint, JSONLint, JSValidate and JSCS.
+* Switches to a custom grunt script to build the lodash templates, `grunt-lodash` is deprecated.
+* Adds an argument to `stringToRegex` to specify whether to replace diacritics before building the regex.
+* Massively improves test coverage.
+* Updates `lodash` from version 3 to version 4.
+* Pluralizes certain translations, this makes it possible to correctly translate these strings.
+* Adds a sass function for a caret point to the left.
+
+### Bugfixes
+
+* Removes several `for..in` calls that errored when build in prototypes had added methods or properties.
+* Fixes a bug where accented characters were not correctly matched in subheadings and the snippet editor.
 
 ## 1.1: March 1st, 2016
 
