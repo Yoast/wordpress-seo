@@ -40,7 +40,7 @@ class WPSEO_Redirect_Util {
 	}
 
 	/**
-	 * Returns whether or not the url has query variables
+	 * Returns whether or not the URL has query variables
 	 *
 	 * @param string $url The URL.
 	 * @return bool
@@ -68,7 +68,7 @@ class WPSEO_Redirect_Util {
 	}
 
 	/**
-	 * Returns whether or not a target url requires a trailing slash
+	 * Returns whether or not a target URL requires a trailing slash
 	 *
 	 * @param string $target_url The target URL to check.
 	 *

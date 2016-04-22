@@ -33,10 +33,10 @@ abstract class WPSEO_Watcher {
 	abstract protected function get_delete_notification();
 
 	/**
-	 * Parses the hidden field with the old url to show in the form
+	 * Parses the hidden field with the old URL to show in the form
 	 *
-	 * @param string $url  The old url.
-	 * @param string $type The type of the url.
+	 * @param string $url  The old URL.
+	 * @param string $type The type of the URL.
 	 *
 	 * @return string
 	 */
@@ -50,8 +50,8 @@ abstract class WPSEO_Watcher {
 	/**
 	 * This method checks if it's desirable to create a redirect
 	 *
-	 * @param string $old_url The old url.
-	 * @param string $new_url The entered new url.
+	 * @param string $old_url The old URL.
+	 * @param string $new_url The entered new URL.
 	 *
 	 * @return bool
 	 */
@@ -129,8 +129,8 @@ abstract class WPSEO_Watcher {
 	/**
 	 * Opens the redirect manager and create the redirect
 	 *
-	 * @param string $old_url     The url that will be redirected.
-	 * @param string $new_url     The url where the old_url redirects to.
+	 * @param string $old_url     The URL that will be redirected.
+	 * @param string $new_url     The URL where the old_url redirects to.
 	 * @param int    $header_code The redirect type.
 	 *
 	 * @return WPSEO_Redirect
@@ -165,7 +165,7 @@ abstract class WPSEO_Watcher {
 		);}
 
 	/**
-	 * Return the url to the admin page where the just added redirect can be found
+	 * Return the URL to the admin page where the just added redirect can be found
 	 *
 	 * @param string $old_url String that filters the wpseo_redirect table to the just added redirect.
 	 *
@@ -178,8 +178,8 @@ abstract class WPSEO_Watcher {
 	/**
 	 * There might be the possibility to undo the redirect, if it is so, we have to notify the user.
 	 *
-	 * @param string $old_url The origin url.
-	 * @param string $new_url The target url.
+	 * @param string $old_url The origin URL.
+	 * @param string $new_url The target URL.
 	 */
 	protected function notify_undo_slug_redirect( $old_url, $new_url ) {
 		// Check if we should create a redirect.
@@ -193,7 +193,7 @@ abstract class WPSEO_Watcher {
 	/**
 	 * Display the undo notification
 	 *
-	 * @param WPSEO_Redirect $redirect The old url to the post.
+	 * @param WPSEO_Redirect $redirect The old URL to the post.
 	 */
 	protected function set_undo_slug_notification( WPSEO_Redirect $redirect ) {
 		$id = 'wpseo_undo_redirect_' . md5( $redirect->get_origin() );
@@ -214,7 +214,7 @@ abstract class WPSEO_Watcher {
 	/**
 	 * Returns a list with the actions that the user can do on deleting a post/term
 	 *
-	 * @param string $url The url that will be redirected.
+	 * @param string $url The URL that will be redirected.
 	 * @param string $id  The ID of the element.
 	 *
 	 * @return string.

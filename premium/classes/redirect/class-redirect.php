@@ -51,8 +51,8 @@ class WPSEO_Redirect implements ArrayAccess {
 	 * @param string $format The format of the redirect.
 	 */
 	public function __construct( $origin, $target = '', $type = self::PERMANENT, $format = self::FORMAT_PLAIN ) {
-		$this->origin = ($format === WPSEO_Redirect::FORMAT_PLAIN) ? $this->sanitize_slash( $origin ) : $origin;
-		$this->target = $this->sanitize_slash( $target );
+		$this->origin = ($format === WPSEO_Redirect::FORMAT_PLAIN) ? $this->sanitize_url( $origin ) : $origin;
+		$this->target = $this->sanitize_url( $target );
 		$this->format = $format;
 		$this->type   = (int) $type;
 
@@ -165,7 +165,7 @@ class WPSEO_Redirect implements ArrayAccess {
 	}
 
 	/**
-	 * Compares an url with the origin of the redirect.
+	 * Compares an URL with the origin of the redirect.
 	 *
 	 * @param string $url The URL to compare.
 	 *
@@ -183,7 +183,7 @@ class WPSEO_Redirect implements ArrayAccess {
 	/**
 	 * Strip the trailing slashes for relative URLs.
 	 *
-	 * @param string $url_to_sanitize The url to sanitize.
+	 * @param string $url_to_sanitize The URL to sanitize.
 	 *
 	 * @return string
 	 */
@@ -194,5 +194,48 @@ class WPSEO_Redirect implements ArrayAccess {
 		}
 
 		return $url;
+	}
+
+	/**
+	 * Strip the protocol from the URL.
+	 *
+	 * @param string $url The URL to remove the protocol from.
+	 *
+	 * @return string
+	 */
+	private function strip_protocol( $url ) {
+		return preg_replace( '(^https?://)', '', $url );
+	}
+
+	/**
+	 * Remove the blog's base URL from the redirect to ensure that relative URLs are created.
+	 *
+	 * @param string $url The URL to sanitize.
+	 *
+	 * @return string
+	 */
+	private function sanitize_blog_url( $url ) {
+		$blog_url = $this->strip_protocol( get_home_url() );
+
+		if ( ! strpos( $url, $blog_url ) ) {
+			return $url;
+		}
+
+		$url = $this->strip_protocol( $url );
+
+		return str_replace( $blog_url, '', $url );
+	}
+
+	/**
+	 * Sanitize the URL to remove both the blog's base URL and potential trailing slashes.
+	 *
+	 * @param string $url The URL to sanitize.
+	 *
+	 * @return string
+	 */
+	private function sanitize_url( $url ) {
+		$url = $this->sanitize_blog_url( $url );
+
+		return $this->sanitize_slash( $url );
 	}
 }

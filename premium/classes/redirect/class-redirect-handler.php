@@ -9,7 +9,7 @@
 class WPSEO_Redirect_Handler {
 
 	/**
-	 * @var string The options where the url redirects are stored.
+	 * @var string The options where the URL redirects are stored.
 	 */
 	private $normal_option_name = 'wpseo-premium-redirects-export-plain';
 
@@ -19,7 +19,7 @@ class WPSEO_Redirect_Handler {
 	private $regex_option_name  = 'wpseo-premium-redirects-export-regex';
 
 	/**
-	 * @var string The url that is called at the moment.
+	 * @var string The URL that is called at the moment.
 	 */
 	private $request_url = '';
 
@@ -29,7 +29,7 @@ class WPSEO_Redirect_Handler {
 	private $redirects;
 
 	/**
-	 * @var array The matches parts of the url in case of a matched regex redirect.
+	 * @var array The matches parts of the URL in case of a matched regex redirect.
 	 */
 	private $url_matches = array();
 
@@ -49,7 +49,7 @@ class WPSEO_Redirect_Handler {
 	public function __construct() {
 		// Only handle the redirect when the option for php redirects is enabled.
 		if ( $this->load_php_redirects() ) {
-			// Set the requested url.
+			// Set the requested URL.
 			$this->set_request_url();
 
 			// Check the normal redirects.
@@ -128,20 +128,20 @@ class WPSEO_Redirect_Handler {
 	}
 
 	/**
-	 * Sets the request url and sanitize the slashes for it.
+	 * Sets the request URL and sanitize the slashes for it.
 	 */
 	private function set_request_url() {
 		$this->request_url = $this->get_request_uri();
 	}
 
 	/**
-	 * Checking if current url matches a normal redirect
+	 * Checking if current URL matches a normal redirect
 	 */
 	private function handle_normal_redirects() {
 		// Setting the redirects.
 		$this->redirects = $this->get_redirects( $this->normal_option_name );
 
-		// Trim the slashes, to match the variants of a request url (Like: url, /url, /url/, url/).
+		// Trim the slashes, to match the variants of a request URL (Like: url, /url, /url/, url/).
 		$request_url = $this->request_url;
 		if ( $request_url !== '/' ) {
 			$request_url = trim( $request_url, '/' );
@@ -154,7 +154,7 @@ class WPSEO_Redirect_Handler {
 	}
 
 	/**
-	 * Check if current url matches a regex redirect
+	 * Check if current URL matches a regex redirect
 	 */
 	private function handle_regex_redirects() {
 		// Setting the redirects.
@@ -167,7 +167,7 @@ class WPSEO_Redirect_Handler {
 	}
 
 	/**
-	 * Check if request url matches one of the regex redirects
+	 * Check if request URL matches one of the regex redirects
 	 *
 	 * @param string $regex    The reqular expression to match.
 	 * @param array  $redirect The URL that might be matched with the regex.
@@ -228,7 +228,7 @@ class WPSEO_Redirect_Handler {
 	}
 
 	/**
-	 * Search for the given url in the redirects array.
+	 * Search for the given URL in the redirects array.
 	 *
 	 * @param string $url The URL to search for.
 	 *
@@ -243,7 +243,7 @@ class WPSEO_Redirect_Handler {
 	}
 
 	/**
-	 * Fallback if requested url isn't found. This will add a slash if there isn't a slash or it will remove a
+	 * Fallback if requested URL isn't found. This will add a slash if there isn't a slash or it will remove a
 	 * trailing slash when there isn't one.
 	 *
 	 * @discuss: Maybe we should add slashes to all the values we handle instead of using a fallback
@@ -267,9 +267,9 @@ class WPSEO_Redirect_Handler {
 	}
 
 	/**
-	 * Getting the redirect url by given $url
+	 * Getting the redirect URL by given $url
 	 *
-	 * @param string $redirect_url The URL that have to be redirected.
+	 * @param string $redirect_url The URL that has to be redirected.
 	 *
 	 * @return string
 	 */
@@ -322,14 +322,14 @@ class WPSEO_Redirect_Handler {
 	/**
 	 * Parses the target URL.
 	 *
-	 * @param string $target_url The URL to parse. When there isn't found a scheme, just parse it based on the home url.
+	 * @param string $target_url The URL to parse. When there isn't found a scheme, just parse it based on the home URL.
 	 *
 	 * @return string
 	 */
 	private function parse_target_url( $target_url ) {
 		$scheme = parse_url( $target_url, PHP_URL_SCHEME );
 		if ( empty( $scheme ) ) {
-			// Add slash to target url when permalink structure ends with a slash.
+			// Add slash to target URL when permalink structure ends with a slash.
 			if ( WPSEO_Redirect_Util::requires_trailing_slash( $target_url ) ) {
 				$target_url = trailingslashit( $target_url );
 			}

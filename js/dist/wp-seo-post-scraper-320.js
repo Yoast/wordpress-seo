@@ -8977,37 +8977,71 @@ var inRange = require( "lodash/inRange" );
 
 /**
  * Returns the scores and text for keyword density
+ *
  * @param {string} keywordDensity The keyword density
  * @param {object} i18n The i18n object used for translations
- * @returns {{score: number, text: *}} the assessmentresult
+ * @param {number} keywordCount The number of times the keyword has been found in the text.
+ * @returns {{score: number, text: *}} The assessment result
  */
-var calculateKeywordDensityResult = function( keywordDensity, i18n ) {
+var calculateKeywordDensityResult = function( keywordDensity, i18n, keywordCount ) {
+	var score, text, max;
+
+	var keywordDensityPercentage = keywordDensity.toFixed( 1 ) + "%";
+
 	if ( keywordDensity > 3.5 ) {
-		return {
-			score: -50,
-			text: i18n.dgettext( "js-text-analysis", "The keyword density is %1$s%%, which is way over the advised 2.5%% maximum;" +
-				" the focus keyword was found %2$d times." )
-		};
+		score = -50;
+
+		/* translators: %1$s expands to the keyword density percentage, %2$d expands to the keyword count,
+		%3$s expands to the maximum keyword density percentage. */
+		text = i18n.dgettext( "js-text-analysis", "The keyword density is %1$s," +
+			" which is way over the advised %3$s maximum;" +
+			" the focus keyword was found %2$d times." );
+
+		/* translators: This is the maximum keyword density, localize the number for your language (e.g. 2,5) */
+		max = i18n.dgettext( "js-text-analysis", "2.5" ) + "%";
+
+		text = i18n.sprintf( text, keywordDensityPercentage, keywordCount, max );
 	}
+
 	if ( inRange( keywordDensity, 2.5, 3.5 ) ) {
-		return {
-			score: -10,
-			text: i18n.dgettext( "js-text-analysis", "The keyword density is %1$s%%, which is over the advised 2.5%% maximum;" +
-				" the focus keyword was found %2$d times." )
-		};
+		score = -10;
+
+		/* translators: %1$s expands to the keyword density percentage, %2$d expands to the keyword count,
+		%3$s expands to the maximum keyword density percentage. */
+		text = i18n.dgettext( "js-text-analysis", "The keyword density is %1$s," +
+			" which is over the advised %3$s maximum;" +
+			" the focus keyword was found %2$d times." );
+
+		/* translators: This is the maximum keyword density, localize the number for your language (e.g. 2,5) */
+		max = i18n.dgettext( "js-text-analysis", "2.5" ) + "%";
+
+		text = i18n.sprintf( text, keywordDensityPercentage, keywordCount, max );
 	}
+
 	if ( inRange( keywordDensity, 0.5, 2.5 ) ) {
-		return {
-			score: 9,
-			text: i18n.dgettext( "js-text-analysis", "The keyword density is %1$s%%, which is great; the focus keyword was found %2$d times." )
-		};
+		score = 9;
+
+		/* translators: %1$s expands to the keyword density percentage, %2$d expands to the keyword count. */
+		text = i18n.dgettext( "js-text-analysis", "The keyword density is %1$s, which is great;" +
+			" the focus keyword was found %2$d times." );
+
+		text = i18n.sprintf( text, keywordDensityPercentage, keywordCount );
 	}
+
 	if ( inRange( keywordDensity, 0, 0.5 ) ) {
-		return {
-			score: 4,
-			text: i18n.dgettext( "js-text-analysis", "The keyword density is %1$s%%, which is a bit low; the focus keyword was found %2$d times." )
-		};
+		score = 4;
+
+		/* translators: %1$s expands to the keyword density percentage, %2$d expands to the keyword count. */
+		text = i18n.dgettext( "js-text-analysis", "The keyword density is %1$s, which is a bit low;" +
+			" the focus keyword was found %2$d times." );
+
+		text = i18n.sprintf( text, keywordDensityPercentage, keywordCount );
 	}
+
+	return {
+		score: score,
+		text: text
+	};
 };
 
 /**
@@ -9022,13 +9056,12 @@ var keywordDensityAssessment = function( paper, researcher, i18n ) {
 
 	var keywordDensity = researcher.getResearch( "getKeywordDensity" );
 	var keywordCount = matchWords( paper.getText(), paper.getKeyword() );
-	var keywordDensityResult = calculateKeywordDensityResult( keywordDensity, i18n );
+
+	var keywordDensityResult = calculateKeywordDensityResult( keywordDensity, i18n, keywordCount );
 	var assessmentResult = new AssessmentResult();
 
-	var text = i18n.sprintf( keywordDensityResult.text, keywordDensity.toFixed( 1 ), keywordCount );
-
 	assessmentResult.setScore( keywordDensityResult.score );
-	assessmentResult.setText( text );
+	assessmentResult.setText( keywordDensityResult.text );
 
 	return assessmentResult;
 };
@@ -9345,7 +9378,7 @@ var assessImages = function( altProperties, i18n ) {
 	if ( altProperties.noAlt > 0 ) {
 		return {
 			score: 5,
-			text: i18n.dgettext( "js-text-analysis", "The images on this page are missing alt tags." )
+			text: i18n.dgettext( "js-text-analysis", "The images on this page are missing alt attributes." )
 		};
 	}
 
@@ -9353,7 +9386,7 @@ var assessImages = function( altProperties, i18n ) {
 	if ( altProperties.withAlt > 0 ) {
 		return {
 			score: 5,
-			text: i18n.dgettext( "js-text-analysis", "The images on this page contain alt tags." )
+			text: i18n.dgettext( "js-text-analysis", "The images on this page contain alt attributes." )
 		};
 	}
 
@@ -9361,7 +9394,7 @@ var assessImages = function( altProperties, i18n ) {
 	if ( altProperties.withAltNonKeyword > 0 ) {
 		return {
 			score: 5,
-			text: i18n.dgettext( "js-text-analysis", "The images on this page do not have alt tags containing your focus keyword." )
+			text: i18n.dgettext( "js-text-analysis", "The images on this page do not have alt attributes containing your focus keyword." )
 		};
 	}
 
@@ -9369,7 +9402,7 @@ var assessImages = function( altProperties, i18n ) {
 	if ( altProperties.withAltKeyword > 0 ) {
 		return {
 			score: 9,
-			text: i18n.dgettext( "js-text-analysis", "The images on this page contain alt tags with the focus keyword." )
+			text: i18n.dgettext( "js-text-analysis", "The images on this page contain alt attributes with the focus keyword." )
 		};
 	}
 
@@ -9429,8 +9462,8 @@ var calculateWordCountResult = function( wordCount, i18n ) {
 			/* translators: %1$d expands to the number of words in the text, %2$s to the recommended minimum of words */
 			text: i18n.dngettext(
 				"js-text-analysis",
-				"The text contains %1$d word, this is more than the %2$d word recommended minimum.",
-				"The text contains %1$d words, this is more than the %2$d word recommended minimum.",
+				"The text contains %1$d word. This is more than the %2$d word recommended minimum.",
+				"The text contains %1$d words. This is more than the %2$d word recommended minimum.",
 				wordCount
 			)
 		};
@@ -9442,8 +9475,8 @@ var calculateWordCountResult = function( wordCount, i18n ) {
 			/* translators: %1$d expands to the number of words in the text, %2$s to the recommended minimum of words */
 			text: i18n.dngettext(
 				"js-text-analysis",
-				"The text contains %1$d word, this is slightly below the %2$d word recommended minimum. Add a bit more copy.",
-				"The text contains %1$d words, this is slightly below the %2$d word recommended minimum. Add a bit more copy.",
+				"The text contains %1$d word. This is slightly below the %2$d word recommended minimum. Add a bit more copy.",
+				"The text contains %1$d words. This is slightly below the %2$d word recommended minimum. Add a bit more copy.",
 				wordCount
 			)
 		};
@@ -9455,8 +9488,8 @@ var calculateWordCountResult = function( wordCount, i18n ) {
 			/* translators: %1$d expands to the number of words in the text, %2$d to the recommended minimum of words */
 			text: i18n.dngettext(
 				"js-text-analysis",
-				"The text contains %1$d word, this is below the %2$d word recommended minimum. Add more useful content on this topic for readers.",
-				"The text contains %1$d words, this is below the %2$d word recommended minimum. Add more useful content on this topic for readers.",
+				"The text contains %1$d word. This is below the %2$d word recommended minimum. Add more useful content on this topic for readers.",
+				"The text contains %1$d words. This is below the %2$d word recommended minimum. Add more useful content on this topic for readers.",
 				wordCount
 			)
 		};
@@ -9468,8 +9501,8 @@ var calculateWordCountResult = function( wordCount, i18n ) {
 			/* translators: %1$d expands to the number of words in the text, %2$d to the recommended minimum of words */
 			text: i18n.dngettext(
 				"js-text-analysis",
-				"The text contains %1$d word, this is below the %2$d word recommended minimum. Add more useful content on this topic for readers.",
-				"The text contains %1$d words, this is below the %2$d word recommended minimum. Add more useful content on this topic for readers.",
+				"The text contains %1$d word. This is below the %2$d word recommended minimum. Add more useful content on this topic for readers.",
+				"The text contains %1$d words. This is below the %2$d word recommended minimum. Add more useful content on this topic for readers.",
 				wordCount
 			)
 		};
@@ -9481,8 +9514,8 @@ var calculateWordCountResult = function( wordCount, i18n ) {
 			/* translators: %1$d expands to the number of words in the text */
 			text: i18n.dngettext(
 				"js-text-analysis",
-				"The text contains %1$d word, this is far too low and should be increased.",
-				"The text contains %1$d words, this is far too low and should be increased.",
+				"The text contains %1$d word. This is far too low and should be increased.",
+				"The text contains %1$d words. This is far too low and should be increased.",
 				wordCount
 			)
 		};

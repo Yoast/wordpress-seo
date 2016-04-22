@@ -17,7 +17,7 @@ $yform->textinput( 'msverify', '<a target="_blank" href="' . esc_url( 'http://ww
 $yform->textinput( 'googleverify', '<a target="_blank" href="' . esc_url( 'https://www.google.com/webmasters/verification/verification?hl=en&siteUrl=' . urlencode( get_bloginfo( 'url' ) ) . '/' ) . '">Google Search Console</a>' );
 $yform->textinput( 'yandexverify', '<a target="_blank" href="http://help.yandex.com/webmaster/service/rights.xml#how-to">' . __( 'Yandex Webmaster Tools', 'wordpress-seo' ) . '</a>' );
 
-printf( '<h3>%s</h3>', __( 'OnPage.org', 'wordpress-seo' ) );
+printf( '<h3>%s</h3>', 'OnPage.org' );
 
 /* translators: %1$s expands to OnPage.org */
 $yform->light_switch( 'onpage_indexability', sprintf( __( '%1$s indexability check', 'wordpress-seo' ), 'OnPage.org' ) );

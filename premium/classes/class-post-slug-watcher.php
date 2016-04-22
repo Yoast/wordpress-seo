@@ -32,6 +32,11 @@ class WPSEO_Post_Slug_Watcher {
 		$parent_slug    = '';
 		$slug_to_verify = $slug;
 
+		$old_status = get_post_status( $post_ID );
+		if ( $post_status === 'trash' || $old_status === 'trash' ) {
+			return $slug;
+		}
+
 		// When there is a post_parent, get the slug from that one.
 		if ( $post_parent > 0 ) {
 			$parent_slug = $this->get_parent_slug( $post_parent );

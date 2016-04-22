@@ -7,7 +7,11 @@ var helpPanel = require( './helpPanel' );
 var getTitlePlaceholder = require( '../../../../js/src/analysis/getTitlePlaceholder' );
 var getDescriptionPlaceholder = require( '../../../../js/src/analysis/getDescriptionPlaceholder' );
 
+var clone = require( 'lodash/clone' );
 var forEach = require( 'lodash/forEach' );
+var _has = require( 'lodash/has' );
+
+var Jed = require( 'jed' );
 
 (function($) {
 	/**
@@ -25,27 +29,33 @@ var forEach = require( 'lodash/forEach' );
 	var FacebookPreview = socialPreviews.FacebookPreview;
 	var TwitterPreview = socialPreviews.TwitterPreview;
 
+	var facebookPreview, twitterPreview;
+
 	var translations = yoastSocialPreview.i18n;
+
+	var i18n = new Jed( addLibraryTranslations( translations.library ) );
+	var biggerImages = {};
 
 	/**
 	 * Sets the events for opening the WP media library when pressing the button.
 	 *
-	 * @param {Object} imageUrl The image url object.
+	 * @param {Object} imageUrl The image URL object.
 	 * @param {string} imageButton ID name for the image button.
 	 * @param {string} removeButton ID name for the remove button.
 	 * @param {function} onMediaSelect The event that will be ran when image is chosen.
+	 * @param {Object} imagePreviewElement The image preview element that can be clicked to update as well.
 	 */
-	function bindUploadButtonEvents( imageUrl, imageButton, removeButton, onMediaSelect ) {
-		var social_preview_uploader = wp.media.frames.file_frame = wp.media({
+	function bindUploadButtonEvents( imageUrl, imageButton, removeButton, onMediaSelect, imagePreviewElement ) {
+		var social_preview_uploader = wp.media.frames.file_frame = wp.media( {
 			title: yoastSocialPreview.choose_image,
 			button: { text: yoastSocialPreview.choose_image },
 			multiple: false
-		});
+		} );
 
 		social_preview_uploader.on( 'select', function() {
 			var attachment = social_preview_uploader.state().get( 'selection' ).first().toJSON();
 
-			// Set the image url.
+			// Set the image URL.
 			imageUrl.val( attachment.url );
 
 			onMediaSelect();
@@ -56,7 +66,7 @@ var forEach = require( 'lodash/forEach' );
 		$( removeButton ).click( function( evt ) {
 			evt.preventDefault();
 
-			// Clear the image url
+			// Clear the image URL
 			imageUrl.val( '' );
 
 			onMediaSelect();
@@ -66,6 +76,10 @@ var forEach = require( 'lodash/forEach' );
 
 		$( imageButton ).click( function( evt ) {
 			evt.preventDefault();
+			social_preview_uploader.open();
+		} );
+
+		$( imagePreviewElement ).on( 'click', function( eventObject ) {
 			social_preview_uploader.open();
 		} );
 	}
@@ -80,7 +94,7 @@ var forEach = require( 'lodash/forEach' );
 			return;
 		}
 
-		var imageUrl = $(preview.element.formContainer).find('.js-snippet-editor-imageUrl');
+		var imageUrl = $( preview.element.formContainer ).find( '.js-snippet-editor-imageUrl' );
 
 		var buttonDiv = $( '<div></div>' );
 		buttonDiv.insertAfter( imageUrl );
@@ -102,7 +116,13 @@ var forEach = require( 'lodash/forEach' );
 			$( '#' + removeButtonId ).hide();
 		}
 
-		bindUploadButtonEvents( imageUrl, '#' + imageButtonId, '#' + removeButtonId, preview.updatePreview.bind( preview ) );
+		bindUploadButtonEvents(
+			imageUrl,
+			'#' + imageButtonId,
+			'#' + removeButtonId,
+			preview.updatePreview.bind( preview ),
+			$( preview.element.container ).find( '.editable-preview__image' )
+		);
 	}
 
 	/**
@@ -211,12 +231,17 @@ var forEach = require( 'lodash/forEach' );
 					$( '#' + fieldPrefix + '-description' ).val( data.description );
 					$( '#' + fieldPrefix + '-image' ).val( data.imageUrl );
 
-					if (data.imageUrl === '') {
-						jQuery( targetElement ).find( '.editable-preview' ).trigger( 'imageUpdate' );
-					} else {
+					// Make sure Twitter is updated if a Facebook image is set
+					$( '.editable-preview' ).trigger( 'imageUpdate' );
+
+					if ( data.imageUrl !== '' ) {
 						var buttonPrefix = targetElement.attr( 'id' ).replace( 'Preview', '' );
 						setUploadButtonValue( buttonPrefix, yoastSocialPreview.useOtherImage );
 					}
+					
+					jQuery( targetElement ).find( '.editable-preview' ).trigger( 'titleUpdate' );
+					jQuery( targetElement ).find( '.editable-preview' ).trigger( 'descriptionUpdate' );
+
 				},
 				modifyImageUrl: function( imageUrl ) {
 					if (imageUrl === '') {
@@ -226,9 +251,27 @@ var forEach = require( 'lodash/forEach' );
 					return imageUrl;
 				},
 				modifyTitle: function( title ) {
+					if ( fieldPrefix.indexOf( 'twitter' ) > -1 ) {
+						if ( title === $( '#twitter-editor-title' ).attr( 'placeholder' ) ) {
+							var facebookTitle = $( '#facebook-editor-title' ).val();
+							if ( facebookTitle !== '' ) {
+								title = facebookTitle;
+							}
+						}
+					}
+
 					return YoastSEO.wp.replaceVarsPlugin.replaceVariablesPlugin( title );
 				},
 				modifyDescription: function( description ) {
+					if ( fieldPrefix.indexOf( 'twitter' ) > -1 ) {
+						if ( description === $( '#twitter-editor-description' ).attr( 'placeholder' ) ) {
+							var facebookDescription = $( '#facebook-editor-description' ).val();
+							if ( facebookDescription !== '' ) {
+								description = facebookDescription;
+							}
+						}
+					}
+
 					return YoastSEO.wp.replaceVarsPlugin.replaceVariablesPlugin( description );
 				}
 			},
@@ -279,8 +322,9 @@ var forEach = require( 'lodash/forEach' );
 		createSocialPreviewContainer( facebookHolder, 'facebookPreview' );
 
 		var facebookPreviewContainer = $( '#facebookPreview' );
-		var facebookPreview = new FacebookPreview(
-			getSocialPreviewArgs( facebookPreviewContainer, fieldPrefix() + '_opengraph' )
+		facebookPreview = new FacebookPreview(
+			getSocialPreviewArgs( facebookPreviewContainer, fieldPrefix() + '_opengraph' ),
+			i18n
 		);
 
 		facebookPreviewContainer.on(
@@ -313,8 +357,9 @@ var forEach = require( 'lodash/forEach' );
 		createSocialPreviewContainer( twitterHolder, 'twitterPreview' );
 
 		var twitterPreviewContainer = $( '#twitterPreview' );
-		var twitterPreview = new TwitterPreview(
-			getSocialPreviewArgs( twitterPreviewContainer, fieldPrefix() + '_twitter' )
+		twitterPreview = new TwitterPreview(
+			getSocialPreviewArgs( twitterPreviewContainer, fieldPrefix() + '_twitter' ),
+			i18n
 		);
 
 		twitterPreviewContainer.on(
@@ -326,9 +371,64 @@ var forEach = require( 'lodash/forEach' );
 			}
 		);
 
+		var facebookPreviewContainer = $( '#facebookPreview' );
+		facebookPreviewContainer.on(
+			'titleUpdate',
+			'.editable-preview',
+			twitterTitleFallback.bind( this, twitterPreview )
+		);
+
+		facebookPreviewContainer.on(
+			'descriptionUpdate',
+			'.editable-preview',
+			twitterDescriptionFallback.bind( this, twitterPreview )
+		);
+
 		twitterPreview.init();
 
 		addUploadButton( twitterPreview );
+		twitterTitleFallback( twitterPreview );
+		twitterDescriptionFallback( twitterPreview );
+	}
+
+	/**
+	 * When twitter title is empty, use the facebook title
+	 *
+	 * @param {TwitterPreview} twitterPreview The twitter preview object
+	 */
+	function twitterTitleFallback( twitterPreview ) {
+		var $twitterTitle = $( '#twitter-editor-title' );
+		var twitterTitle = $twitterTitle.val();
+		if( twitterTitle !== '' ) {
+			return;
+		}
+
+		var facebookTitle = $( '#facebook-editor-title' ).val();
+		if ( facebookTitle !== '' ) {
+			twitterPreview.setTitle( facebookTitle );
+		} else {
+			twitterPreview.setTitle( $twitterTitle.attr( 'placeholder' ) );
+		}
+	}
+
+	/**
+	 * When twitter description is empty, use the description title
+	 *
+	 * @param {TwitterPreview} twitterPreview The twitter preview object
+	 */
+	function twitterDescriptionFallback( twitterPreview ) {
+		var $twitterDescription = $( '#twitter-editor-description' );
+		var twitterDescription = $twitterDescription.val();
+		if( twitterDescription !== '' ) {
+			return;
+		}
+
+		var facebookDescription = $( '#facebook-editor-description' ).val();
+		if ( facebookDescription !== '' ) {
+			twitterPreview.setDescription( facebookDescription );
+		} else {
+			twitterPreview.setDescription( $twitterDescription.attr( 'placeholder' ) );
+		}
 	}
 
 	/**
@@ -438,11 +538,13 @@ var forEach = require( 'lodash/forEach' );
 			}
 		}
 
-		setContentImage( getContentImage() );
+		setContentImage( getContentImage( function( image ) {
+			setContentImage( image );
+		} ) );
 	}
 
 	/**
-	 * Sets the featured image based on the given image url.
+	 * Sets the featured image based on the given image URL.
 	 *
 	 * @param {string} featuredImage The image we want to set.
 	 */
@@ -450,13 +552,13 @@ var forEach = require( 'lodash/forEach' );
 		if ( imageFallBack.featured !== featuredImage ) {
 			imageFallBack.featured = featuredImage;
 
-			// Just refresh the image url
+			// Just refresh the image URL
 			$( '.editable-preview' ).trigger( 'imageUpdate' );
 		}
 	}
 
 	/**
-	 * Sets the content image base on the given image url
+	 * Sets the content image base on the given image URL
 	 *
 	 * @param {string} contentImage The image we want to set.
 	 */
@@ -464,7 +566,7 @@ var forEach = require( 'lodash/forEach' );
 		if ( imageFallBack.content !== contentImage ) {
 			imageFallBack.content = contentImage;
 
-			// Just refresh the image url
+			// Just refresh the image URL
 			$( '.editable-preview' ).trigger( 'imageUpdate' );
 		}
 	}
@@ -490,9 +592,11 @@ var forEach = require( 'lodash/forEach' );
 	/**
 	 * Returns the image from the content.
 	 *
+	 * @param {Function} callback function to call if a bigger size is available.
+	 *
 	 * @returns {string}
 	 */
-	function getContentImage() {
+	function getContentImage( callback ) {
 		var content = getContent();
 
 		var images = getImages( content );
@@ -513,7 +617,46 @@ var forEach = require( 'lodash/forEach' );
 			}
 		} while ( '' === image && images.length > 0 );
 
+		image = getBiggerImage( image, callback );
+
 		return image;
+	}
+
+	/**
+	 * Try to retrieve a bigger image for a certain image found in the content.
+	 *
+	 * @param url
+	 * @param {Function} callback The callback to call if there is a bigger image.
+	 */
+	function getBiggerImage( url, callback ) {
+		if ( _has( biggerImages, url ) ) {
+			return biggerImages[ url ];
+		}
+
+		retrieveImageDataFromURL( url, function( imageUrl ) {
+			biggerImages[ url ] = imageUrl;
+
+			callback( imageUrl );
+		} );
+
+		return url;
+	}
+
+	/**
+	 * Retrieves the image metadata from an image url and saves it to the image manager afterwards
+	 *
+	 * @param {string} url The image URL to retrieve the metadata from.
+	 * @param {Function} callback Callback to call with the image URL result.
+	 */
+	function retrieveImageDataFromURL( url, callback ) {
+		$.getJSON( ajaxurl, {
+			action: 'retrieve_image_data_from_url',
+			imageURL: url
+		}, function( response ) {
+			if ( 'success' === response.status ) {
+				callback( response.result );
+			}
+		});
 	}
 
 	/**
@@ -559,6 +702,11 @@ var forEach = require( 'lodash/forEach' );
 	 * @returns {string}
 	 */
 	function getFallbackImage( defaultImage ) {
+		// Twitter always first falls back to Facebook
+		if ( facebookPreview.data.imageUrl !== '' ) {
+			return facebookPreview.data.imageUrl;
+		}
+
 		// In case of an post: we want to have the featured image.
 		if ( getCurrentType() === 'post' ) {
 			if ( imageFallBack.featured !== '' ) {
@@ -640,6 +788,32 @@ var forEach = require( 'lodash/forEach' );
 	}
 
 	/**
+	 * Adds library translations
+	 * @param {Object} translations The translations to use.
+	 * @returns {Object} translations mapped to the proper domain.
+	 */
+	function addLibraryTranslations( translations ) {
+
+		if ( typeof translations !== 'undefined' && typeof translations.domain !== 'undefined' ) {
+			translations.domain = 'yoast-social-previews';
+			translations.locale_data[ 'yoast-social-previews' ] = clone( translations.locale_data[ 'wordpress-seo-premium' ] );
+
+			delete( translations.locale_data[ 'wordpress-seo-premium' ] );
+
+			return translations;
+		}
+
+		return {
+			"domain": "yoast-social-previews",
+			"locale_data": {
+				"yoast-social-previews": {
+					"": {}
+				}
+			}
+		};
+	}
+
+	/**
 	 * Initialize the social previews.
 	 */
 	function initYoastSocialPreviews() {
@@ -657,8 +831,8 @@ var forEach = require( 'lodash/forEach' );
 				if (twitterHolder.length > 0) {
 					initTwitter( twitterHolder );
 				}
-				addHelpPanels();
 
+				addHelpPanels();
 				bindImageEvents();
 			} );
 		}

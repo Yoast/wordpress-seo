@@ -138,7 +138,7 @@ class WPSEO_Term_Watcher extends WPSEO_Watcher {
 	}
 
 	/**
-	 * Get the old url
+	 * Get the old URL
 	 *
 	 * @return bool|string
 	 */

@@ -71,8 +71,8 @@ class WPSEO_Redirect_Endpoint_Validation implements WPSEO_Redirect_Validation {
 	/**
 	 * Will check if the $new_url is redirected also and follows the trace of this redirect
 	 *
-	 * @param string $new_url The new url to search for.
-	 * @param string $old_url The current url that is redirected.
+	 * @param string $new_url The new URL to search for.
+	 * @param string $old_url The current URL that is redirected.
 	 *
 	 * @return bool|string
 	 */
@@ -94,7 +94,7 @@ class WPSEO_Redirect_Endpoint_Validation implements WPSEO_Redirect_Validation {
 	/**
 	 * Search for the given $url and returns it target
 	 *
-	 * @param string $url The url to search for.
+	 * @param string $url The URL to search for.
 	 *
 	 * @return bool
 	 */

@@ -23,7 +23,7 @@ class WPSEO_Premium {
 
 	const OPTION_CURRENT_VERSION = 'wpseo_current_version';
 
-	const PLUGIN_VERSION_NAME = '3.1.3';
+	const PLUGIN_VERSION_NAME = '3.2.2';
 	const PLUGIN_VERSION_CODE = '16';
 	const PLUGIN_AUTHOR = 'Yoast';
 	const EDD_STORE_URL = 'http://yoast.com';
@@ -212,19 +212,6 @@ class WPSEO_Premium {
 	 * Adds multi keyword functionality if we are on the correct pages
 	 */
 	public function enqueue_social_previews() {
-
-		if ( $this->is_metabox_page() ) {
-			$social_previews = new WPSEO_Social_Previews();
-			$social_previews->set_hooks();
-		}
-	}
-
-	/**
-	 * Check if current page contains the metabox
-	 *
-	 * @return bool
-	 */
-	private function is_metabox_page() {
 		global $pagenow;
 
 		$metabox_pages = array(
@@ -232,16 +219,18 @@ class WPSEO_Premium {
 			'post.php',
 			'edit.php',
 		);
-
-		return in_array( $pagenow , $metabox_pages, true ) || WPSEO_Taxonomy::is_term_edit( $pagenow );
-
+		$social_previews = new WPSEO_Social_Previews();
+		if ( in_array( $pagenow , $metabox_pages, true ) || WPSEO_Taxonomy::is_term_edit( $pagenow ) ) {
+			$social_previews->set_hooks();
+		}
+		$social_previews->set_ajax_hooks();
 	}
 
 	/**
 	 * Hooks into the `redirect_canonical` filter to catch ongoing redirects and move them to the correct spot
 	 *
-	 * @param string $redirect_url  The target url where the requested url will be redirected to.
-	 * @param string $requested_url The current requested url.
+	 * @param string $redirect_url  The target url where the requested URL will be redirected to.
+	 * @param string $requested_url The current requested URL.
 	 *
 	 * @return string
 	 */
