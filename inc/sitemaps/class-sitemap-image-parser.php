@@ -140,7 +140,7 @@ class WPSEO_Sitemap_Image_Parser {
 	 */
 	private function parse_matched_images( $matches, $post ) {
 
-		$return = array();
+		$images = array();
 
 		foreach ( $matches as $img ) {
 
@@ -172,19 +172,8 @@ class WPSEO_Sitemap_Image_Parser {
 				continue;
 			}
 
-			if ( isset( $return[ $src ] ) ) {
-				continue;
-			}
-
-			$image = array(
-				/**
-				 * Filter image URL to be included in XML sitemap for the post.
-				 *
-				 * @param string $src  Image URL.
-				 * @param object $post Post object.
-				 */
-				'src' => apply_filters( 'wpseo_xml_sitemap_img_src', $src, $post ),
-			);
+			$title = false;
+			$alt   = false;
 
 			$img_dom = new DOMDocument();
 			$img_dom->loadHTML( $img );
@@ -196,37 +185,14 @@ class WPSEO_Sitemap_Image_Parser {
 				$img_element = $img_node->item( 0 );
 
 				$title = $img_element->getAttribute( 'title' );
-
-				if ( ! empty( $title ) ) {
-					$image['title'] = $title;
-				}
-
-				$alt = $img_element->getAttribute( 'alt' );
-
-				if ( ! empty( $alt ) ) {
-					$image['alt'] = $alt;
-				}
+				$alt   = $img_element->getAttribute( 'alt' );
 			}
 
-			/**
-			 * Filter image data to be included in XML sitemap for the post.
-			 *
-			 * @param array $image {
-			 *     Array of image data.
-			 *
-			 *     @type string $src Image URL.
-			 *     @type string $title Image title attribute (optional).
-			 *     @type string $alt Image alt attribute (optional).
-			 * }
-			 * @param object $post  Post object.
-			 */
-			$image    = apply_filters( 'wpseo_xml_sitemap_img', $image, $post );
-			$return[] = $image;
-
-			unset( $match, $src );
+			$image    = $this->get_image_item( $post, $src, $title, $alt );
+			$images[] = $image;
 		}
 
-		return $return;
+		return $images;
 	}
 
 	/**
@@ -238,38 +204,71 @@ class WPSEO_Sitemap_Image_Parser {
 	 */
 	private function parse_attachments( $post ) {
 
-		$return = array();
+		$images = array();
 
 		if ( empty( $this->attachments ) ) {
-			return $return;
+			return $images;
 		}
 
 		foreach ( $this->attachments as $attachment ) {
+
 			if ( $attachment->post_parent !== $post->ID ) {
 				continue;
 			}
 
-			$src   = $this->image_url( $attachment->ID );
-			$image = array(
-				/** This filter is documented in inc/sitemaps/class-sitemap-image-parser.php */
-				'src' => apply_filters( 'wpseo_xml_sitemap_img_src', $src, $post ),
-			);
-
+			$src = $this->image_url( $attachment->ID );
 			$alt = get_post_meta( $attachment->ID, '_wp_attachment_image_alt', true );
-			if ( $alt !== '' ) {
-				$image['alt'] = $alt;
-			}
-			unset( $alt );
 
-			$image['title'] = $attachment->post_title;
-
-			/** This filter is documented in inc/sitemaps/class-sitemap-image-parser.php */
-			$image = apply_filters( 'wpseo_xml_sitemap_img', $image, $post );
-
-			$return[] = $image;
+			$images[] = $this->get_image_item( $post, $src, $attachment->post_title, $alt );
 		}
 
-		return $return;
+		return $images;
+	}
+
+	/**
+	 * Get image item array with filters applied.
+	 *
+	 * @param WP_Post $post  Post object for the context.
+	 * @param string  $src   Image URL.
+	 * @param string  $title Optional image title.
+	 * @param string  $alt   Optional image alt text.
+	 *
+	 * @return array
+	 */
+	protected function get_image_item( $post, $src, $title = '', $alt = '' ) {
+
+		$image = array();
+
+		/**
+		 * Filter image URL to be included in XML sitemap for the post.
+		 *
+		 * @param string $src  Image URL.
+		 * @param object $post Post object.
+		 */
+		$image['src'] = apply_filters( 'wpseo_xml_sitemap_img_src', $src, $post );
+
+		if ( ! empty( $title ) ) {
+			$image['title'] = $title;
+		}
+
+		if ( ! empty( $alt ) ) {
+			$image['alt'] = $alt;
+		}
+
+		/**
+		 * Filter image data to be included in XML sitemap for the post.
+		 *
+		 * @param array  $image {
+		 *                      Array of image data.
+		 *
+		 * @type string  $src   Image URL.
+		 * @type string  $title Image title attribute (optional).
+		 * @type string  $alt   Image alt attribute (optional).
+		 * }
+		 *
+		 * @param object $post  Post object.
+		 */
+		return apply_filters( 'wpseo_xml_sitemap_img', $image, $post );
 	}
 
 	/**
