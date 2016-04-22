@@ -33,7 +33,7 @@ class WPSEO_Post_Slug_Watcher {
 		$slug_to_verify = $slug;
 
 		$old_status = get_post_status( $post_ID );
-		if( $post_status === 'trash' || $old_status === 'trash' ) {
+		if ( $post_status === 'trash' || $old_status === 'trash' ) {
 			return $slug;
 		}
 
