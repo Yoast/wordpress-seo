@@ -12,13 +12,15 @@ class WPSEO_Frontend_Primary_Category {
 	 * Registers the hooks necessary for correct primary category behaviour.
 	 */
 	public function register_hooks() {
-		add_filter( 'post_link_category', array( $this, 'post_link_category' ) ,10, 3);
+		add_filter( 'post_link_category', array( $this, 'post_link_category' ) , 10, 3 );
 	}
 
 	/**
 	 * Filters post_link_category to change the category to the chosen category by the user
 	 *
 	 * @param stdClass $category The category that is now used for the post link.
+	 * @param array    $categories The dummy.
+	 * @param WP_Post  $post The post in question.
 	 *
 	 * @return array|null|object|WP_Error The category we want to use for the post link.
 	 */
@@ -33,8 +35,9 @@ class WPSEO_Frontend_Primary_Category {
 	}
 
 	/**
-	 * /**
 	 * Get the id of the primary category
+	 *
+	 * @param WP_Post $post The post in question.
 	 *
 	 * @return int primary category id
 	 */

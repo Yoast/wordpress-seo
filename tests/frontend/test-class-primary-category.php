@@ -38,7 +38,7 @@ class WPSEO_Frontend_Primary_Category_Test extends PHPUnit_Framework_TestCase {
 			'cat_ID' => 52,
 		);
 
-		$this->assertEquals( $expect, $this->subject->post_link_category( $category ) );
+		$this->assertEquals( $expect, $this->subject->post_link_category( $category, null, null ) );
 	}
 
 	/**
@@ -63,7 +63,7 @@ class WPSEO_Frontend_Primary_Category_Test extends PHPUnit_Framework_TestCase {
 			'cat_ID' => 1,
 		);
 
-		$this->assertEquals( $category, $this->subject->post_link_category( $category ) );
+		$this->assertEquals( $category, $this->subject->post_link_category( $category, null, null ) );
 	}
 
 }
