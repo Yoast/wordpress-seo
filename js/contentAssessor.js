@@ -13,7 +13,7 @@ var ContentAssessor = function( i18n ) {
 	Assessor.call( this, i18n );
 
 	this._assessments = {
-		fleschReadingEase:      fleschReadingEase,
+		fleschReadingEase:		fleschReadingEase,
 		subHeadingLength:		subHeadingLength
 	};
 };
