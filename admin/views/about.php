@@ -98,7 +98,7 @@ function wpseo_display_contributors( $contributors ) {
 			<div class="col">
 				<h3>Google-</h3>
 				<p>We've removed the Google+ functionality from the plugin. Google is slowly deprecating the network. On
-					top of that, its metadata was giving conflichts with Facebook, which caused lots of issues. As
+					top of that, its metadata was giving conflicts with Facebook, which caused lots of issues. As
 					Google+ also uses Facebook metadata, optimizing for Facebook should do what you need for Google+ too.</p>
 			</div>
 		</div>
