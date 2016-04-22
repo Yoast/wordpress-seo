@@ -296,19 +296,17 @@ class WPSEO_Sitemap_Image_Parser {
 			return '';
 		}
 
-		// TODO check all this logic, looks messy. R.
-		if ( 0 === strpos( $file, $uploads['basedir'] ) ) { // Check that the upload base exists in the file location.
-			$url = str_replace( $uploads['basedir'], $uploads['baseurl'], $file );
-		}
-		// Replace file location with url location.
-		elseif ( false !== strpos( $file, 'wp-content/uploads' ) ) {
-			$url = $uploads['baseurl'] . substr( $file, ( strpos( $file, 'wp-content/uploads' ) + 18 ) );
-		}
-		// It's a newly uploaded file, therefore $file is relative to the baseurl.
-		else {
-			$url = $uploads['baseurl'] . "/$file";
+		// Check that the upload base exists in the file location.
+		if ( 0 === strpos( $file, $uploads['basedir'] ) ) {
+			return str_replace( $uploads['basedir'], $uploads['baseurl'], $file );
 		}
 
-		return $url;
+		// Replace file location with url location.
+		if ( false !== strpos( $file, 'wp-content/uploads' ) ) {
+			return $uploads['baseurl'] . substr( $file, ( strpos( $file, 'wp-content/uploads' ) + 18 ) );
+		}
+
+		// It's a newly uploaded file, therefore $file is relative to the baseurl.
+		return $uploads['baseurl'] . "/$file";
 	}
 }
