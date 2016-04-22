@@ -106,12 +106,17 @@ class WPSEO_Sitemap_Image_Parser {
 
 		$images = array();
 
-		$content = $post->post_content;
-		$content = '<p><img src="' . $this->image_url( get_post_thumbnail_id( $post->ID ) ) . '" alt="' . $post->post_title . '" /></p>' . $content;
+		$content      = $post->post_content;
+		$thumbnail_id = get_post_thumbnail_id( $post->ID );
+
+		if ( $thumbnail_id ) {
+			// Content of title and alt is legacy from previous logic. R.
+			$images[] = $this->get_image_item( $post, $this->image_url( $thumbnail_id ), '', $post->post_title );
+		}
 
 		if ( preg_match_all( '`<img [^>]+>`', $content, $matches ) ) {
 
-			$images = $this->parse_matched_images( $matches[0], $post );
+			$images = array_merge( $images, $this->parse_matched_images( $matches[0], $post ) );
 		}
 
 		if ( strpos( $content, '[gallery' ) !== false ) {
