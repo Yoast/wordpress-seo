@@ -207,10 +207,10 @@ var App = function( args ) {
 	this.i18n = this.constructI18n( this.config.translations );
 
 	// Set the assessor
-	if ( isUndefined( args.assessor ) ) {
+	if ( isUndefined( args.seoAssessor ) ) {
 		this.seoAssessor = new SEOAssessor( this.i18n );
 	} else {
-		this.seoAssessor = args.assessor;
+		this.seoAssessor = args.seoAssessor;
 	}
 
 	//Set the content assessor
@@ -361,24 +361,21 @@ App.prototype.initSnippetPreview = function() {
  * Initializes the assessorpresenters for content and SEO.
  */
 App.prototype.initAssessorPresenters = function() {
-	var targets = {
-		output: this.config.targets.output
-	};
 
 	// Pass the assessor result through to the formatter
 	this.seoAssessorPresenter = new AssessorPresenter( {
-		targets: targets,
+		targets: {
+			output: this.config.targets.output
+		},
 		assessor: this.seoAssessor,
 		i18n: this.i18n
 	} );
 
-	targets = {
-		output: this.config.targets.contentOutput
-	};
-
 	// Pass the assessor result through to the formatter
 	this.contentAssessorPresenter = new AssessorPresenter( {
-		targets: targets,
+		targets: {
+			output: this.config.targets.contentOutput
+		},
 		assessor: this.contentAssessor,
 		i18n: this.i18n
 	} );
