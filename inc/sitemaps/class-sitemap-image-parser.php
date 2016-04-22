@@ -38,16 +38,61 @@ class WPSEO_Sitemap_Image_Parser {
 	}
 
 	/**
+	 * Cache attached images and thumbnails for a set of posts.
+	 *
 	 * @param array $post_ids Set of post IDs to cache attachments for.
 	 */
 	public function cache_attachments( $post_ids ) {
 
 		$imploded_post_ids = implode( $post_ids, ',' );
-
 		$this->attachments = $this->get_attachments( $imploded_post_ids );
-		$thumbnails        = $this->get_thumbnails( $imploded_post_ids );
+		$attachment_ids    = wp_list_pluck( $this->attachments, 'ID' );
+		$thumbnail_ids     = $this->get_thumbnails( $imploded_post_ids );
+		$attachment_ids    = array_unique( array_merge( $thumbnail_ids, $attachment_ids ) );
 
-		$this->do_attachment_ids_caching( $this->attachments, $thumbnails );
+		_prime_post_caches( $attachment_ids );
+		update_meta_cache( 'post', $attachment_ids );
+	}
+
+	/**
+	 * Getting the attachments from database.
+	 *
+	 * @param string $post_ids Set of post IDs.
+	 *
+	 * @return array
+	 */
+	private function get_attachments( $post_ids ) {
+
+		global $wpdb;
+
+		$sql = "
+			SELECT ID, post_title, post_parent
+			FROM {$wpdb->posts}
+			WHERE post_status = 'inherit'
+				AND post_type = 'attachment'
+				AND post_parent IN (" . $post_ids . ')';
+
+		return $wpdb->get_results( $sql );
+	}
+
+	/**
+	 * Get thumbnail IDs for a set of posts.
+	 *
+	 * @param array $post_ids Set of post IDs.
+	 *
+	 * @return array
+	 */
+	private function get_thumbnails( $post_ids ) {
+
+		global $wpdb;
+
+		$sql = "
+			SELECT meta_value
+			FROM {$wpdb->postmeta}
+			WHERE meta_key = '_thumbnail_id'
+				AND post_id IN (" . $post_ids . ')';
+
+		return $wpdb->get_col( $sql );
 	}
 
 	/**
@@ -83,67 +128,6 @@ class WPSEO_Sitemap_Image_Parser {
 		$images = apply_filters( 'wpseo_sitemap_urlimages', $images, $post->ID );
 
 		return $images;
-	}
-
-	/**
-	 * Getting the attachments from database.
-	 *
-	 * @param string $post_ids Set of post IDs.
-	 *
-	 * @return mixed
-	 */
-	private function get_attachments( $post_ids ) {
-
-		global $wpdb;
-
-		$sql = "
-			SELECT ID, post_title, post_parent
-			FROM {$wpdb->posts}
-			WHERE post_status = 'inherit'
-				AND post_type = 'attachment'
-				AND post_parent IN (" . $post_ids . ')';
-
-		return $wpdb->get_results( $sql );
-	}
-
-	/**
-	 * Getting thumbnails.
-	 *
-	 * @param array $post_ids Set of post IDs.
-	 *
-	 * @return mixed
-	 */
-	private function get_thumbnails( $post_ids ) {
-
-		global $wpdb;
-
-		$sql = "
-			SELECT meta_value
-			FROM {$wpdb->postmeta}
-			WHERE meta_key = '_thumbnail_id'
-				AND post_id IN (" . $post_ids . ')';
-
-		return $wpdb->get_results( $sql );
-	}
-
-	/**
-	 * Parsing attachment_ids and do the caching.
-	 *
-	 * Function will pluck ID from attachments and meta_value from thumbnails and marge them into one array. This
-	 * array will be used to do the caching
-	 *
-	 * @param array $attachments Set of attachments data.
-	 * @param array $thumbnails  Set of thumbnail IDs.
-	 */
-	private function do_attachment_ids_caching( $attachments, $thumbnails ) {
-
-		$attachment_ids = wp_list_pluck( $attachments, 'ID' );
-		$thumbnail_ids  = wp_list_pluck( $thumbnails, 'meta_value' );
-
-		$attachment_ids = array_unique( array_merge( $thumbnail_ids, $attachment_ids ) );
-
-		_prime_post_caches( $attachment_ids );
-		update_meta_cache( 'post', $attachment_ids );
 	}
 
 	/**
