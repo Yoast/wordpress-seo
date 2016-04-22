@@ -56,4 +56,9 @@ describe( "An assessment for transition word percentage", function(){
 		expect( assessment.getText() ).toEqual ( "90.0% of the sentences contain a transition word or phrase, " +
 			"which is more than the recommended maximum of 30%." );
 	} );
+	it( "is not applicable for empty papers", function(){
+		mockPaper = new Paper();
+		assessment = transitionWordsAssessment.isApplicable( mockPaper );
+		expect( assessment ).toBe( false );
+	} );
 } );
