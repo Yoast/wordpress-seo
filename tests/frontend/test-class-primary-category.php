@@ -17,7 +17,7 @@ class WPSEO_Frontend_Primary_Category_Test extends PHPUnit_Framework_TestCase {
 	/**
 	 * When the primary term id is not equal to the category id, the id should get updated.
 	 *
-	 * @covers WPSEO_Primary_Term_Admin::post_link_category
+	 * @covers WPSEO_Frontend_Primary_Category::post_link_category
 	 */
 	public function test_post_link_category_primary_term_IS_NOT_category_id() {
 		$this->subject
@@ -44,7 +44,7 @@ class WPSEO_Frontend_Primary_Category_Test extends PHPUnit_Framework_TestCase {
 	/**
 	 * When the primary term is equal to the category id, return the category
 	 *
-	 * @covers WPSEO_Primary_Term_Admin::post_link_category
+	 * @covers WPSEO_Frontend_Primary_Category::post_link_category
 	 */
 	public function test_post_link_category_primary_term_IS_category_id() {
 		$this->subject
