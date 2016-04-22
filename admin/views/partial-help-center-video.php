@@ -20,7 +20,7 @@ if ( ! empty( $tab_video_url ) ) :
 	<?php
 
 	// Don't show for Premium.
-	if ( ! defined( 'WPSEO_PREMIUM_PLUGIN_FILE' ) ):
+	if ( ! defined( 'WPSEO_PREMIUM_PLUGIN_FILE' ) ) :
 		?>
 		<div class="wpseo-tab-video__panel wpseo-tab-video__panel--text">
 			<div class="wpseo-tab-video__panel__textarea">
