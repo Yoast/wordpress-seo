@@ -270,7 +270,12 @@ class WPSEO_Meta_Columns {
 					$vars,
 					array(
 						'meta_query' => array(
-							'relation' => 'OR',
+							'relation' => 'AND',
+							array(
+								'key'     => WPSEO_Meta::$meta_prefix . 'meta-robots-noindex',
+								'value'   => 'needs-a-value-anyway',
+								'compare' => 'NOT EXISTS',
+							),
 							array(
 								'key'     => WPSEO_Meta::$meta_prefix . 'linkdex',
 								'value'   => 'needs-a-value-anyway',

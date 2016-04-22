@@ -597,19 +597,17 @@ class WPSEO_Utils {
 	 * @return bool
 	 */
 	public static function is_valid_datetime( $datetime ) {
-		if ( substr( $datetime, 0, 1 ) != '-' ) {
-			try {
-				// Use the DateTime class ( PHP 5.2 > ) to check if the string is a valid datetime.
-				if ( new DateTime( $datetime ) !== false ) {
-					return true;
-				}
-			}
-			catch ( Exception $exc ) {
-				return false;
-			}
+
+		if ( substr( $datetime, 0, 1 ) === '-' ) {
+			return false;
 		}
 
-		return false;
+		try {
+			return new DateTime( $datetime ) !== false;
+		}
+		catch ( Exception $exc ) {
+			return false;
+		}
 	}
 
 	/**
@@ -693,25 +691,6 @@ class WPSEO_Utils {
 		 * @api string $replacement The current separator
 		 */
 		return apply_filters( 'wpseo_replacements_filter_sep', $replacement );
-	}
-
-	/**
-	 * Wrapper for encoding the array as a json string. Includes a fallback if wp_json_encode doesn't exists
-	 *
-	 * @param array $array_to_encode The array which will be encoded.
-	 * @param int   $options		 Optional. Array with options which will be passed in to the encoding methods.
-	 * @param int   $depth    		 Optional. Maximum depth to walk through $data. Must be greater than 0. Default 512.
-	 *
-	 * @return false|string
-	 */
-	public static function json_encode( array $array_to_encode, $options = 0, $depth = 512 ) {
-		if ( function_exists( 'wp_json_encode' ) ) {
-			return wp_json_encode( $array_to_encode, $options, $depth );
-		}
-
-		// @codingStandardsIgnoreStart
-		return json_encode( $array_to_encode );
-		// @codingStandardsIgnoreEnd
 	}
 
 	/**
@@ -844,4 +823,19 @@ class WPSEO_Utils {
 	public static function clear_sitemap_cache( $types = array() ) {
 		WPSEO_Sitemaps_Cache::clear( $types );
 	}
-} /* End of class WPSEO_Utils */
+
+	/**
+	 * Wrapper for encoding the array as a json string. Includes a fallback if wp_json_encode doesn't exist.
+	 *
+	 * @deprecated 3.3 Core versions without wp_json_encode() no longer supported, fallback unnecessary.
+	 *
+	 * @param array $array_to_encode The array which will be encoded.
+	 * @param int   $options		 Optional. Array with options which will be passed in to the encoding methods.
+	 * @param int   $depth    		 Optional. Maximum depth to walk through $data. Must be greater than 0. Default 512.
+	 *
+	 * @return false|string
+	 */
+	public static function json_encode( array $array_to_encode, $options = 0, $depth = 512 ) {
+		return wp_json_encode( $array_to_encode, $options, $depth );
+	}
+}

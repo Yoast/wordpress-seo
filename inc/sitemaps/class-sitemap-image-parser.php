@@ -203,15 +203,27 @@ class WPSEO_Sitemap_Image_Parser {
 				'src' => apply_filters( 'wpseo_xml_sitemap_img_src', $src, $post ),
 			);
 
-			if ( preg_match( '`title=["\']([^"\']+)["\']`', $img, $title_match ) ) {
-				$image['title'] = str_replace( array( '-', '_' ), ' ', $title_match[1] );
-			}
-			unset( $title_match );
+			$img_dom = new DOMDocument();
+			$img_dom->loadHTML( $img );
 
-			if ( preg_match( '`alt=["\']([^"\']+)["\']`', $img, $alt_match ) ) {
-				$image['alt'] = str_replace( array( '-', '_' ), ' ', $alt_match[1] );
+			if ( false !== $img_dom ) {
+
+				$img_node = $img_dom->getElementsByTagName( 'img' );
+				/** @var DOMElement $img_element */
+				$img_element = $img_node->item( 0 );
+
+				$title = $img_element->getAttribute( 'title' );
+
+				if ( ! empty( $title ) ) {
+					$image['title'] = $title;
+				}
+
+				$alt = $img_element->getAttribute( 'alt' );
+
+				if ( ! empty( $alt ) ) {
+					$image['alt'] = $alt;
+				}
 			}
-			unset( $alt_match );
 
 			/**
 			 * Filter image data to be included in XML sitemap for the post.

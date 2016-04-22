@@ -722,6 +722,10 @@ class WPSEO_Frontend {
 				if ( is_string( $term_meta ) && 'default' !== $term_meta ) {
 					$robots['index'] = $term_meta;
 				}
+
+				if ( $this->is_multiple_terms_query() ) {
+					$robots['index'] = 'noindex';
+				}
 			}
 			elseif (
 				( is_author() && $this->options['noindex-author-wpseo'] === true ) ||
@@ -901,7 +905,11 @@ class WPSEO_Frontend {
 		}
 		else {
 			if ( is_search() ) {
-				$canonical = get_search_link();
+				$search_query = get_search_query();
+
+				if ( ! empty( $search_query ) ) {
+					$canonical = get_search_link();
+				}
 			}
 			elseif ( is_front_page() ) {
 				$canonical = WPSEO_Utils::home_url();
@@ -910,11 +918,18 @@ class WPSEO_Frontend {
 				$canonical = get_permalink( get_option( 'page_for_posts' ) );
 			}
 			elseif ( is_tax() || is_tag() || is_category() ) {
+
 				$term = get_queried_object();
 
-				$canonical_override = WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'canonical' );
+				if ( ! empty( $term ) && ! $this->is_multiple_terms_query() ) {
 
-				$canonical = get_term_link( $term, $term->taxonomy );
+					$canonical_override = WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'canonical' );
+					$term_link          = get_term_link( $term, $term->taxonomy );
+
+					if ( ! is_wp_error( $term_link ) ) {
+						$canonical = $term_link;
+					}
+				}
 			}
 			elseif ( is_post_type_archive() ) {
 				$post_type = get_query_var( 'post_type' );
@@ -1892,4 +1907,27 @@ class WPSEO_Frontend {
 
 		return $keywords;
 	}
-} /* End of class */
+
+	/**
+	 * Check if term archive query is for multiple terms (/term-1,term2/ or /term-1+term-2/).
+	 *
+	 * @return bool
+	 */
+	protected function is_multiple_terms_query() {
+
+		global $wp_query;
+
+		if ( ! is_tax() && ! is_tag() && ! is_category() ) {
+			return false;
+		}
+
+		$term          = get_queried_object();
+		$queried_terms = $wp_query->tax_query->queried_terms;
+
+		if ( empty( $queried_terms[ $term->taxonomy ]['terms'] ) ) {
+			return false;
+		}
+
+		return count( $queried_terms[ $term->taxonomy ]['terms'] ) > 1;
+	}
+}

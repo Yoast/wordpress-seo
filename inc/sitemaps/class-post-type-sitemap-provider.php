@@ -25,6 +25,8 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		$this->home_url     = WPSEO_Utils::home_url();
 		$this->options      = WPSEO_Options::get_all();
 		$this->image_parser = new WPSEO_Sitemap_Image_Parser();
+
+		add_filter( 'save_post', array( $this, 'save_post' ) );
 	}
 
 	/**
@@ -182,6 +184,18 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		}
 
 		return $links;
+	}
+
+	/**
+	 * Check for relevant post type before invalidation.
+	 *
+	 * @param int $post_id Post ID to possibly invalidate for.
+	 */
+	public function save_post( $post_id ) {
+
+		if ( $this->is_valid_post_type( get_post_type( $post_id ) ) ) {
+			WPSEO_Sitemaps_Cache::invalidate_post( $post_id );
+		}
 	}
 
 	/**

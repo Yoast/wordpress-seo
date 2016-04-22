@@ -1,11 +1,16 @@
 /* global wpseoAdminL10n */
 /* global ajaxurl */
-/* global YoastSEO */
+/* global require */
+
+var Jed = require( 'jed' );
+var Paper = require( 'yoastseo/js/values/Paper' );
+var SEOAssessor = require( 'yoastseo/js/SEOAssessor' );
+var TaxonomyAssessor = require( './assessors/taxonomyAssessor' );
 
 ( function($) {
 	'use strict';
 
-	var i18n = new YoastSEO.Jed( {
+	var i18n = new Jed( {
 		domain: 'js-text-analysis',
 		locale_data: {
 			'js-text-analysis': {
@@ -24,9 +29,24 @@
 		this.total_count = total_count;
 		this.oncomplete  = false;
 
+		this.setupAssessors();
+
 		$( '#wpseo_count_total' ).html( total_count );
 
 		jQuery( '#wpseo_progressbar' ).progressbar( { value: 0 } );
+	};
+
+	/**
+	 * Sets up the Assessors needed for the recalculation.
+	 */
+	YoastRecalculateScore.prototype.setupAssessors = function() {
+		var postAssessor = new SEOAssessor( i18n );
+		var taxonomyAssessor = new TaxonomyAssessor( i18n );
+
+		this.validAssessors = {
+			post: postAssessor,
+			term: taxonomyAssessor
+		};
 	};
 
 	/**
@@ -38,10 +58,16 @@
 	 * @param {Function|bool} callback
 	 */
 	YoastRecalculateScore.prototype.start = function( items_to_fetch, fetch_type, id_field, callback ) {
+		if ( ! this.validAssessors.hasOwnProperty( fetch_type ) ) {
+			throw new Error( 'Unknown fetch type of ' + fetch_type + ' given.' );
+		}
+
 		this.fetch_type     = fetch_type;
 		this.items_to_fetch = items_to_fetch;
 		this.id_field       = id_field;
 		this.oncomplete     = callback;
+
+		this.assessor       = this.validAssessors[ fetch_type ];
 
 		this.getItemsToRecalculate( 1 );
 	};
@@ -51,7 +77,7 @@
 	 *
 	 * @param {int} total_posts
 	 */
-	YoastRecalculateScore.prototype.updateProgressBar = function(total_posts) {
+	YoastRecalculateScore.prototype.updateProgressBar = function( total_posts ) {
 		var current_value = jQuery( '#wpseo_count' ).text();
 		var new_value = parseInt( current_value, 10 ) + total_posts;
 		var new_width = new_value * (100 / this.total_count);
@@ -117,12 +143,19 @@
 	 * @param {Object} item
 	 */
 	YoastRecalculateScore.prototype.calculateItemScore = function( item ) {
-		item.i18n   = i18n;
-		item.locale = wpseoAdminL10n.locale;
-		var tmpAnalyzer = new YoastSEO.Analyzer( item );
-		tmpAnalyzer.runQueue();
+		var tempPaper = new Paper( item.text, {
+			keyword: item.keyword,
+			url: item.url,
+			locale: wpseoAdminL10n.locale,
+			description: item.meta,
+			title: item.pageTitle
+		} );
 
-		return tmpAnalyzer.analyzeScorer.__totalScore;
+		var tempAssessor = this.assessor;
+
+		tempAssessor.assess( tempPaper );
+
+		return tempAssessor.calculateOverallScore();
 	};
 
 	/**
@@ -210,6 +243,7 @@
 		var TermsToFetch = parseInt( response.terms, 10 );
 
 		var RecalculateScore = new YoastRecalculateScore( PostsToFetch + TermsToFetch );
+
 		RecalculateScore.start(PostsToFetch, 'post', 'post_id', function() {
 			RecalculateScore.start(TermsToFetch, 'term', 'term_id', false );
 		});
@@ -218,6 +252,7 @@
 	// Initialize the recalculate.
 	function init() {
 		var recalculate_link = jQuery('#wpseo_recalculate_link');
+
 		if (recalculate_link !== undefined) {
 			recalculate_link.click(
 				function() {
