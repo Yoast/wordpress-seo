@@ -603,7 +603,7 @@ class WPSEO_Utils {
 		}
 
 		try {
-			return new DateTime( $datetime ) !== false ;
+			return new DateTime( $datetime ) !== false;
 		}
 		catch ( Exception $exc ) {
 			return false;
