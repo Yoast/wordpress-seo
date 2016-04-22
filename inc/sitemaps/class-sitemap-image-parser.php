@@ -26,14 +26,13 @@ class WPSEO_Sitemap_Image_Parser {
 	public function __construct() {
 
 		$this->home_url = home_url();
+		$parsed_home    = parse_url( $this->home_url );
 
-		$parsed_home  = parse_url( $this->home_url );
-
-		if ( isset( $parsed_home['host'] ) && ! empty( $parsed_home['host'] ) ) {
+		if ( ! empty( $parsed_home['host'] ) ) {
 			$this->host = str_replace( 'www.', '', $parsed_home['host'] );
 		}
 
-		if ( isset( $parsed_home['scheme'] ) && ! empty( $parsed_home['scheme'] ) ) {
+		if ( ! empty( $parsed_home['scheme'] ) ) {
 			$this->scheme = $parsed_home['scheme'];
 		}
 	}
