@@ -12,12 +12,11 @@ var calculateSentenceLengthResult = function( sentences, i18n ) {
 	var tooLong = countTooLongSentences( sentences, recommendedValue );
 	var percentage = ( tooLong / sentences.length ) * 100;
 
-	// Scale percentages from 21.7 to 31.7 to a score. 21.7 scores 9, 31.7 score 3. 
+	// Scale percentages from 21.7 to 31.7 to a score. 21.7 scores 9, 31.7 score 3.
 	var unboundedScore = 9 - ( 6 / 10 ) * ( percentage - 21.7 );
 
 	// Scores exceeding 9 are 9, scores below 3 are 3.
 	var score = Math.max( Math.min( unboundedScore, 9 ), 3 );
-
 	if ( score >= 7 ) {
 		return{
 			score: score,
@@ -43,7 +42,7 @@ var calculateSentenceLengthResult = function( sentences, i18n ) {
  * @returns {object} the Assessmentresult
  */
 var sentenceLengthInDescriptionAssessment = function( paper, researcher, i18n ) {
-	var sentenceCount = researcher.getResearch( "getSentencesFromDescription" );
+	var sentenceCount = researcher.getResearch( "countSentencesFromDescription" );
 	var sentenceResult = calculateSentenceLengthResult( sentenceCount, i18n );
 	var assessmentResult = new AssessmentResult();
 

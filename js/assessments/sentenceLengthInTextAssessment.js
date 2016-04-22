@@ -12,7 +12,6 @@ var calculateSentenceLengthResult = function( sentences, i18n ) {
 	var tooLong = countTooLongSentences( sentences, recommendedValue );
 	var maximumPercentage = 25;
 	var percentage = ( tooLong / sentences.length ) * 100;
-
 	// Scale percentages from 21.7 to 31.7 to a score. 21.7 scores 9, 31.7 score 3.
 	var unboundedScore = 9 - ( 6 / 10 ) * ( percentage - 21.7 );
 
@@ -22,14 +21,14 @@ var calculateSentenceLengthResult = function( sentences, i18n ) {
 	if ( score >= 7 ) {
 		return{
 			score: score,
-			text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "%1$d%% of the sentences contain more than 20 words, " +
-				"which is within the recommended range." ), percentage )
+			text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "%1$s of the sentences contain more than 20 words, " +
+				"which is within the recommended range." ), percentage+"%" )
 		};
 	}
 	return{
 		score: score,
-		text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "%1$d%% of the sentences contain more than 20 words, " +
-			"which is more than the recommended maximum of %2$d%%. Try to shorten your sentences." ), percentage, maximumPercentage )
+		text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "%1$s of the sentences contain more than 20 words, " +
+			"which is more than the recommended maximum of %2$s. Try to shorten your sentences." ), percentage+"%", maximumPercentage+"%" )
 	};
 };
 /**
@@ -41,7 +40,7 @@ var calculateSentenceLengthResult = function( sentences, i18n ) {
  * @returns {object} the Assessmentresult
  */
 var sentenceLengthInTextAssessment = function( paper, researcher, i18n ) {
-	var sentenceCount= researcher.getResearch( "countSentenceFromText" );
+	var sentenceCount= researcher.getResearch( "countSentencesFromText" );
 	var sentenceResult = calculateSentenceLengthResult( sentenceCount, i18n );
 	var assessmentResult = new AssessmentResult();
 
