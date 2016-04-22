@@ -31,6 +31,14 @@ var AssessorPresenter = function( args ) {
 };
 
 /**
+ * Sets the keyword
+ * @param {string} keyword The keyword to use.
+ */
+AssessorPresenter.prototype.setKeyword = function( keyword ) {
+	this.keyword = keyword;
+};
+
+/**
  * Checks whether or not a specific property exists in the presenter configuration.
  * @param {string} property The property name to search for.
  * @returns {boolean} Whether or not the property exists.
