@@ -113,7 +113,7 @@ $xsl = '<?xml version="1.0" encoding="UTF-8"?>
 										<a href="{$sitemapURL}"><xsl:value-of select="sitemap:loc"/></a>
 									</td>
 									<td>
-										<xsl:value-of select="concat(substring(sitemap:lastmod,0,11),concat(\' \', substring(sitemap:lastmod,12,5)))"/>
+										<xsl:value-of select="concat(substring(sitemap:lastmod,0,11),concat(\' \', substring(sitemap:lastmod,12,5)),concat(\' \', substring(sitemap:lastmod,20,6)))"/>
 									</td>
 								</tr>
 							</xsl:for-each>
@@ -128,11 +128,11 @@ $xsl = '<?xml version="1.0" encoding="UTF-8"?>
 						<table id="sitemap" cellpadding="3">
 							<thead>
 								<tr>
-									<th width="75%">URL</th>
+									<th width="70%">URL</th>
 									<th title="Index Priority" width="5%">Prio</th>
 									<th width="5%">Images</th>
 									<th title="Change Frequency" width="5%">Ch. Freq.</th>
-									<th title="Last Modification Time" width="10%">Last Mod.</th>
+									<th title="Last Modification Time" width="15%">Last Mod.</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -158,7 +158,7 @@ $xsl = '<?xml version="1.0" encoding="UTF-8"?>
 											<xsl:value-of select="concat(translate(substring(sitemap:changefreq, 1, 1),concat($lower, $upper),concat($upper, $lower)),substring(sitemap:changefreq, 2))"/>
 										</td>
 										<td>
-											<xsl:value-of select="concat(substring(sitemap:lastmod,0,11),concat(\' \', substring(sitemap:lastmod,12,5)))"/>
+											<xsl:value-of select="concat(substring(sitemap:lastmod,0,11),concat(\' \', substring(sitemap:lastmod,12,5)),concat(\' \', substring(sitemap:lastmod,20,6)))"/>
 										</td>
 									</tr>
 								</xsl:for-each>
@@ -166,11 +166,11 @@ $xsl = '<?xml version="1.0" encoding="UTF-8"?>
 						</table>
 					</xsl:if>
 				</div>
-				<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+				<script type="text/javascript" src="' . includes_url( 'js/jquery/jquery.js' ) . '"></script>
 				<script type="text/javascript" src="' . plugins_url( 'js/dist/jquery.tablesorter.min.js', WPSEO_FILE ) . '"></script>
 				<script	type="text/javascript"><![CDATA[
-					$(document).ready(function() {
-				        $("#sitemap").tablesorter( { widgets: [\'zebra\'] } );
+					jQuery(document).ready(function() {
+				        jQuery("#sitemap").tablesorter( { widgets: [\'zebra\'] } );
 					});
 				]]></script>
 			</body>
