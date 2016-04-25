@@ -27,6 +27,7 @@ var calculateSentenceLengthResult = function( sentences, i18n ) {
 		score: score,
 		text: i18n.sprintf( i18n.dngettext(
 			"js-text-analysis",
+			// translators: %1$d expands to number of sentences
 			"The meta description contains %1$d sentence over 20 words. Try to shorten this sentence.",
 			"The meta description contains %1$d sentences over 20 words. Try to shorten these sentences.",
 			tooLong ), tooLong

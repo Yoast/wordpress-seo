@@ -21,12 +21,14 @@ var calculateSentenceLengthResult = function( sentences, i18n ) {
 	if ( score >= 7 ) {
 		return{
 			score: score,
+			// translators: %1$s expands to number of sentences.
 			text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "%1$s of the sentences contain more than 20 words, " +
 				"which is within the recommended range." ), percentage+"%" )
 		};
 	}
 	return{
 		score: score,
+		// translators: %1$s expands to number of sentences.
 		text: i18n.sprintf( i18n.dgettext( "js-text-analysis", "%1$s of the sentences contain more than 20 words, " +
 			"which is more than the recommended maximum of %2$s. Try to shorten your sentences." ), percentage+"%", maximumPercentage+"%" )
 	};
