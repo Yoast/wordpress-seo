@@ -38,7 +38,7 @@ var calculateSentenceLengthResult = function( sentences, i18n ) {
  * @param {object} paper The paper to use for the assessment.
  * @param {object} researcher The researcher used for calling research.
  * @param {object} i18n The object used for translations.
- * @returns {object} the Assessmentresult
+ * @returns {object} The Assessmentresult
  */
 var sentenceLengthInDescriptionAssessment = function( paper, researcher, i18n ) {
 	var sentenceCount = researcher.getResearch( "countSentencesFromDescription" );

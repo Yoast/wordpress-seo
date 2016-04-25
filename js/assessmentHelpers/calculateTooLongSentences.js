@@ -1,7 +1,7 @@
 /**
  * Calculates the score based on the percentage of too long sentences.
  * @param {number} percentage The percentage of too long sentences
- * @returns {number} the score
+ * @returns {number} The score
  */
 module.exports = function( percentage ) {
 
